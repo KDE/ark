@@ -36,6 +36,7 @@ public:
   virtual void createArch( const QString &);
 	
   virtual int addFile( QStringList *);
+  virtual int addDir(const QString &) {}
   virtual void deleteSelectedFiles();
   virtual void deleteFiles( const QString & );
   //	virtual void extractTo( const QString & );

@@ -1,3 +1,8 @@
+2000-02-16: Emily Ezust <emilye@corel.com>
+	* More consistent disabling/enabling of menu items and toolbar buttons.
+	* Added "add directory" - might need some more tweaking in zip so it
+	  doesn't flatten the files out.	
+	
 2000-02-15: Emily Ezust <emilye@corel.com>
 	* Added drop support. Doesn't seem to work with directories though.
 	* Toolbar icons stopped working briefly - renamed them to ensure no

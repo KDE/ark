@@ -51,6 +51,8 @@ public:
   virtual void create();
 	
   virtual int addFile( QStringList* );
+  virtual int addDir(const QString & _dirName);
+
   virtual void remove(QStringList *);
   virtual QString unarchFile(QStringList *);
 	

@@ -141,15 +141,11 @@ protected:
   void dropAction(QStringList *list);
 
   void createActionMenu( int );
+  void initialEnables();
 
 private: // methods
-  // do all the toolbar and menu enables that have to be done when opening 
-  // an archive
-  void openEnables(); 
-    
-  // when the number of files changes, see if we need to do some 
   // disabling/enabling of buttons and menu items
-  void onFileNumChangeSetEnables();
+  void fixEnables();
     
   void updateStatusSelection();
   void updateStatusTotals();
@@ -169,10 +165,12 @@ private:
 
   QString m_strArchName;
 
-  QPopupMenu *fileMenu, *editMenu, *actionMenu, *optionsMenu, *recentPopup;
-  int  idActionMenu, idEditMenu;
+  QPopupMenu *fileMenu, *editMenu, *actionMenu, *optionsMenu;
+  QPopupMenu *recentPopup;
+
+  //  int  idActionMenu, idEditMenu;
   int idExtract, idDelete, idAdd, idView;
-  int idSaveOnExit;
+  //  int idSaveOnExit;
 
   bool archiverMode;
 
@@ -181,8 +179,6 @@ private:
   void createEditMenu();
 	
 protected:	
-  void clearCurrentArchive();
-	
   void arkWarning(const QString& msg);
   void arkError(const QString& msg);
 	
@@ -217,12 +213,17 @@ private:
 
 };
 
+// menu ids
+enum { eMFile, eMAction, eMEdit, eMOptions, eMHelp } ;
+
 // toolbar buttons
 enum { eNew, eOpen, eAddFile, eAddDir, eExtract, eDelete,
        eSelectAll, eView, eOptions, eHelp };
 // popup menu items
-enum { eMNew, eMOpen, eMClose, eMWindow, eMExit, eMAddFile,
-       eMAddDir, eMDelete, eMExtract, eMView, eMSelectAll, eMRename };
+enum { eMNew, eMOpen, eMReload, eMClose, eMWindow, eMExit, eMAddFile,
+       eMAddDir, eMDelete, eMExtract, eMView, eMSelectAll, eMRename,
+       eMSaveOnExit, eMSelect, eMDeselectAll, eMInvertSel};
+
 
 // status item numbers
 

@@ -95,11 +95,21 @@ void ZipArch::slotOpenExited(KProcess* _p)
   kdebug(0, 1601, "normalExit = %d", _p->normalExit() );
   kdebug(0, 1601, "exitStatus = %d", _p->exitStatus() );
 
-  if( _p->normalExit() && !_p->exitStatus() )
-    emit sigOpen( true, m_filename, Arch::Extract | Arch::Delete | Arch::Add );
+  bool bNormalExit = _p->normalExit();
+
+  int exitStatus = 100; // arbitrary bad exit status
+  if (bNormalExit)
+    exitStatus = _p->exitStatus();
+
+  if (1 == exitStatus)
+    exitStatus = 0;    // because 1 is for empty - just a warning. XXX
+
+  if(!exitStatus) 
+    emit sigOpen( true, m_filename,
+		  Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
   else
     emit sigOpen( false, QString::null, 0 );
-
+  
   delete m_kp;
 }
 
@@ -177,14 +187,14 @@ void ZipArch::setHeaders()
   kdebug(0, 1601, "+ZipArch::setHeaders");
   QStringList list;
 
-  list.append(i18n("Name"));
-  list.append(i18n("Length"));
-  list.append(i18n("Method"));
-  list.append(i18n("Size"));
-  list.append(i18n("Ratio"));
-  list.append(i18n("Date"));
-  list.append(i18n("Time"));
-  list.append(i18n("CRC-32"));
+  list.append(i18n(" Name "));
+  list.append(i18n(" Length "));
+  list.append(i18n(" Method "));
+  list.append(i18n(" Size "));
+  list.append(i18n(" Ratio "));
+  list.append(i18n(" Date "));
+  list.append(i18n(" Time "));
+  list.append(i18n(" CRC-32 "));
 
   // which columns to align right
   int *alignRightCols = new int[4];
@@ -236,7 +246,27 @@ void ZipArch::open()
 
 void ZipArch::create()
 {
-  emit sigCreate( true, m_filename, Arch::Extract | Arch::Delete | Arch::Add );
+  emit sigCreate( true, m_filename, Arch::Extract | Arch::Delete | Arch::Add 
+		  | Arch::View);
+}
+
+int ZipArch::addDir(const QString & _dirName)
+{
+  int ret = FAILURE;
+  if (! _dirName.isEmpty())
+  {
+    bool bOldVal = m_settings->getZipAddRecurseDirs();
+    
+    // must be true for add directory - otherwise why would user try?
+    m_settings->setZipAddRecurseDirs(true);
+    
+    QStringList list;
+    list.append(_dirName);
+    ret = addFile(&list);
+    m_settings->setZipAddRecurseDirs(bOldVal); // reset to old val
+  }
+  return ret;
+
 }
 
 int ZipArch::addFile( QStringList *urls )

@@ -53,6 +53,7 @@ public:
   virtual void remove(QStringList *) = 0;
 
   virtual int addFile(QStringList *) = 0;
+  virtual int addDir(const QString &) = 0;
 
   // unarch the files in the list or all files if the list is empty
   virtual QString unarchFile(QStringList *) = 0;
