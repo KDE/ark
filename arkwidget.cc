@@ -1211,7 +1211,7 @@ void ArkWidget::updateStatusSelection()
   }
 
   QString strInfo;
-  if (m_nNumSelectedFiles != 0)
+  if (m_nNumSelectedFiles != 1)
     strInfo = i18n("%1 Files selected, %1 KB")
 	.arg(KGlobal::locale()->formatNumber(m_nNumSelectedFiles, 0))
 	.arg(KGlobal::locale()->formatNumber(m_nSizeOfSelectedFiles, 0));
