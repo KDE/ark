@@ -153,7 +153,7 @@ int ZipArch::addFile( QStrList *urls )
 			int pos;
 			pos = file.findRev( '/' );
 			base = file.left( ++pos );
-			chdir( base );
+			chdir( base.ascii() );
 			base = file.right( file.length()-pos );
 			file = base;
 		}
@@ -243,11 +243,11 @@ void ZipArch::extraction()
 	if( ld.exec() )
 	{
 		dir = ld.getDest();
-		if( dir.isNull() || dir=="" )
+		if( dir.isEmpty() )
 			return;
 		QDir dest( dir );
 		if( !dest.exists() ) {
-			if( mkdir( (const char *)dir, S_IWRITE | S_IREAD | S_IEXEC ) ) {
+			if( mkdir( dir.ascii(), S_IWRITE | S_IREAD | S_IEXEC ) ) {
 				//arkWarning( i18n("Unable to create destination directory") );
 				return;
 			}

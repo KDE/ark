@@ -148,7 +148,7 @@ void ExtractDlg::setMask( unsigned char mask )
     //cb1->setEnabled( FALSE );
 }
 
-const char *ExtractDlg::getDest()
+QString ExtractDlg::getDest()
 {
     return le->text();
 }
@@ -169,7 +169,7 @@ bool ExtractDlg::doLowerCase()
     return cb3->isChecked();
 }
 
-const char *ExtractDlg::getPattern()
+QString ExtractDlg::getPattern()
 {
     return le2->text();
 }

@@ -105,9 +105,9 @@ void ArkData::readRecentFiles()
 	{
 		name = QString("%1%2").arg(RECENT_KEY).arg(i);
 		s = kc->readEntry(name);
-		cerr << "key " << name << " is " << s << "\n";
+		cerr << "key " << name.ascii() << " is " << s.ascii() << "\n";
 		if (!s.isEmpty())
-			recentFiles.append(s);
+			recentFiles.append(s.ascii());
 	}
 
 }
@@ -124,7 +124,7 @@ void ArkData::writeRecentFiles()
 	{
 		name.sprintf("%s%d", RECENT_KEY, i);
 		kc->writeEntry(name, recentFiles.at(i));
-		cerr << "key " << name << " is " << recentFiles.at(i) << "\n";
+		cerr << "key " << name.ascii() << " is " << recentFiles.at(i) << "\n";
 	}
 	
 	cerr << "Exited writeRecentFiles\n";
@@ -149,14 +149,14 @@ void ArkData::readDirectories()
 	extractDirMode = kc->readNumEntry( EXTRACT_MODE_KEY, LAST_EXTRACT_DIR);
 	addDirMode = kc->readNumEntry( ADD_MODE_KEY, LAST_ADD_DIR);
 	
-	cerr << "last open dir is " << lastOpenDir << "\n";
-	cerr << "last xtr dir is " << lastExtractDir << "\n";
-	cerr << "last add dir is " << lastAddDir << "\n";
+	cerr << "last open dir is " << lastOpenDir.ascii() << "\n";
+	cerr << "last xtr dir is " << lastExtractDir.ascii() << "\n";
+	cerr << "last add dir is " << lastAddDir.ascii() << "\n";
 	
-	cerr << "start dir is " << startDir << "\n";
-	cerr << "open dir is " << openDir << "\n";
-	cerr << "xtr dir is " << extractDir << "\n";
-	cerr << "add dir is " << addDir << "\n";
+	cerr << "start dir is " << startDir.ascii() << "\n";
+	cerr << "open dir is " << openDir.ascii() << "\n";
+	cerr << "xtr dir is " << extractDir.ascii() << "\n";
+	cerr << "add dir is " << addDir.ascii() << "\n";
 
 	cerr << "start mode is " << startDirMode << "\n";		
 	cerr << "open mode is " << openDirMode << "\n";		
@@ -232,7 +232,7 @@ void ArkData::addRecentFile(const QString& filename)
 		}
         	i++;
 	}	
-	recentFiles.insert(0, filename);
+	recentFiles.insert(0, filename.ascii());
 	if (recentFiles.count() > MAX_RECENT_FILES)
 		recentFiles.removeLast();
 	
@@ -288,7 +288,7 @@ int ArkData::getOpenDirMode() const
 void ArkData::setLastOpenDir(const QString& dir)
 {
     lastOpenDir = dir;
-    cerr << "last open dir is " << dir << "\n";
+    cerr << "last open dir is " << dir.ascii() << "\n";
 }
 
 void ArkData::setOpenDirCfg(const QString& dir, int mode)

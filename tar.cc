@@ -57,7 +57,7 @@ int TarArch::updateArch()
 			return -1;
 		}
 
-		fd2 = fopen(archname, "w");
+		fd2 = fopen(archname.ascii(), "w");
 		
 		while((size = fread(buffer, 1, 4096, fd)))
 			fwrite(buffer, size, 1, fd2);
@@ -81,7 +81,7 @@ int TarArch::updateArch()
 QString TarArch::getCompressor() 
 {
 	QString extension = archname.right( archname.length()-archname.findRev('.') );
-	cout << extension;
+	cout << extension.ascii();
 	if( extension == ".tgz" || extension == ".gz" ) 
 		return QString( "gzip" );
 	if( extension == ".bz" )
@@ -98,7 +98,7 @@ QString TarArch::getCompressor()
 QString TarArch::getUnCompressor() 
 {
 	QString extension = archname.right( archname.length()-archname.findRev('.') );
-	cout << extension;
+	cout << extension.ascii();
 	if( extension == ".tgz" || extension == ".gz" ) 
 		return QString( "gunzip" );
 	if( extension == ".bz" )
@@ -213,7 +213,7 @@ void TarArch::createTmp()
 			return;
 		}
 
-		fd2 = fopen(tmpfile, "w");
+		fd2 = fopen(tmpfile.ascii(), "w");
 		
 		while((size = fread(buffer, 1, 4096, fd)))
 		{
@@ -263,11 +263,11 @@ int TarArch::addFile( QStrList* urls )
 		int pos;
 		pos = file.findRev( '/', -1, FALSE );
 		base = file.left( ++pos );
-		cout << "base is" << base << endl;
+		cout << "base is" << base.ascii() << endl;
 //		pos++;
 		tmp = file.right( file.length()-pos );
 		file = tmp;
-		chdir( base );
+		chdir( base.ascii() );
 	}
 	while(1)
 	{
@@ -329,11 +329,11 @@ void TarArch::extraction()
 	if( ld.exec() )
 	{
 		dir = ld.getDest();
-		if( dir.isNull() || dir=="" )
+		if( dir.isEmpty() )
 			return;
 		QDir dest( dir );
 		if( !dest.exists() ) {
-			if( mkdir( (const char *)dir, S_IWRITE | S_IREAD | S_IEXEC ) ) {
+			if( mkdir( dir.ascii(), S_IWRITE | S_IREAD | S_IEXEC ) ) {
 				//arkWarning( i18n("Unable to create destination directory") );
 				return;
 			}

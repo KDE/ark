@@ -69,7 +69,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 
 	// Creates a temp directory for this ark instance
 	QString ex( "mkdir " + tmpdir + " &>/dev/null" );
-	system( ex );
+	system( ex.ascii() );
 
 	arch=0;
 	listing=0;
@@ -302,7 +302,7 @@ void ArkWidget::file_open()
 	QString file = KFileDialog::getOpenFileName(data->getOpenDir(), data->getFilter(), this);
 	if( !file.isEmpty() )
 	{
-		cerr << "file selected: " << file << "\n";
+		cerr << "file selected: " << file.ascii() << "\n";
 
 		showZip( file );
 	}
@@ -322,7 +322,7 @@ void ArkWidget::showZip( QString name )
 
 	archiverMode = true;
 
-	cerr << "Chow Archive: " << name << "\n";
+	cerr << "Chow Archive: " << name.ascii() << "\n";
 	ret = openArchive( name );
 	cerr << "openArchive returned " << ret << "\n";
 	if( ret )
@@ -372,7 +372,7 @@ void ArkWidget::file_quit()
 	cerr << "configuration written\n";
 
 	QString ex( "rm -rf "+tmpdir );
-	system( ex );
+	system( ex.ascii() );
 	delete this;
 	kapp->quit();
 }
@@ -644,7 +644,7 @@ void ArkWidget::showFavorite()
 	archiveContent->setColumnWidth(0, archiveContent->columnWidth(0) + 10 );
 
 	QString caption;
-	caption.sprintf(i18n("ark - %s"), (data->getFavoriteDir()).data());
+	caption = i18n("ark - %1").arg(data->getFavoriteDir());
 	setCaption( caption );
 
 	listing = flisting;
@@ -703,7 +703,7 @@ void ArkWidget::timeout()
 void ArkWidget::newCaption(const QString& filename){
 
 	QString caption;
-	caption.sprintf(i18n("ark - %s"), filename.data());
+	caption = i18n("ark - %1").arg(filename);
 	setCaption(caption);
 
 //	editMenu->setItemEnabled( idAdd, true );
