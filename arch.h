@@ -145,7 +145,6 @@ public:
                 const QString &openAsMimeType = QString::null );
 
 protected slots:
-  void slotCancel();
   void slotOpenExited(KProcess*);
 
   void slotExtractExited(KProcess*);

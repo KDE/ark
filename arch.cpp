@@ -96,11 +96,6 @@ void Arch::verifyUtilityIsAvailable(const QString & _utility1,
   }
 }
 
-void Arch::slotCancel()
-{
-  //  m_kp->kill();
-}
-
 void Arch::slotOpenExited(KProcess* _kp)
 {
   kdDebug(1601) << "normalExit = " << _kp->normalExit() << endl;
