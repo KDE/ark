@@ -361,20 +361,20 @@ void ArkWidget::setupStatusBar()
     kDebugInfo( 1601, "+ArkWidget::setupStatusBar");
 
     KStatusBar *sb = statusBar();
-    sb->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    //sb->setFrameStyle(QFrame::Panel | QFrame::Sunken);
     sb->insertItem(i18n("                         0 Files Selected                      "), eSelectedStatusLabel);
-    QFrame *separator = new QFrame(sb, "separator");
-    separator->setFrameShape(QFrame::HLine);
-    separator->setFrameStyle(QFrame::Panel | QFrame::Raised);
-    sb->insertWidget(separator, 2, eStatusLabelSeparator);
+    //QFrame *separator = new QFrame(sb, "separator");
+    //separator->setFrameShape(QFrame::HLine);
+    //separator->setFrameStyle(QFrame::Panel | QFrame::Raised);
+    //sb->insertWidget(separator, 2, eStatusLabelSeparator);
     sb->insertItem(i18n("                         Total 0 Files, 0 KB                   "), eNumFilesStatusLabel);
 
-    QFrame *dummy = new QFrame(sb, "dummy");
-    sb->insertWidget(dummy, 0, eStatusDummy);
+    //QFrame *dummy = new QFrame(sb, "dummy");
+    //sb->insertWidget(dummy, 0, eStatusDummy);
 
-    sb->setAlignment(0, AlignCenter);
-    sb->setAlignment(2, AlignCenter);
-    sb->setBorderWidth(2);
+    //sb->setAlignment(0, AlignCenter);
+    //sb->setAlignment(2, AlignCenter);
+    //sb->setBorderWidth(2);
 
     kDebugInfo( 1601, "-ArkWidget::setupStatusBar");
 
