@@ -14,7 +14,6 @@
 
 // KDE includes
 #include <ktmainwindow.h>
-#include <kfm.h>
 #include <kpopmenu.h>
 #include <kaccel.h>
 
@@ -84,7 +83,6 @@ private:
 	FileListView *archiveContent;
 	QStrList *listing;
 	QString tmpdir;
-	KFM *kfm;
 	KDNDDropZone *dz;
 	bool contextRow;
 	KPopupMenu *pop;

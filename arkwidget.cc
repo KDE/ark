@@ -14,6 +14,7 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kmsgbox.h>
+#include <krun.h>
 #include <kstatusbar.h>
 #include <ktoolbar.h>
 #include <kwm.h>
@@ -25,6 +26,7 @@
 #include "dirDlg.h"
 #include "generalOptDlg.h"
 #include "zipExtractDlg.h"
+#include <kglobal.h>
 
 #define FILE_OPEN_XPM "fileopen.xpm"
 #define FILE_CLOSE_XPM "exit.xpm"
@@ -65,8 +67,6 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 
 	setMinimumSize( 300, 200 );  // someday this won't be hardcoded
 
-	kfm = new KFM;
-
 	// Creates a temp directory for this ark instance
 	QString ex( "mkdir " + tmpdir + " &>/dev/null" );
 	system( ex );
@@ -81,7 +81,6 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 ArkWidget::~ArkWidget()
 {
 	windowList->removeRef( this );
-	delete kfm;
 //	delete archiveContent;
 	delete recentPopup;
 	delete accelerators;
@@ -451,7 +450,7 @@ void ArkWidget::showFile( int /*index*/, int /*col*/ )
 	}else{
 		fullname = "file:";
 		fullname += arch->unarchFile( index, tmpdir );
-		kfm->exec( fullname, 0L );
+		(void) new KRun ( fullname );
 	}
 */
 }
