@@ -410,7 +410,7 @@ ArkTopLevelWindow::addToArchive( const KURL::List & filesToAdd, const QString & 
         cwdURL.setPath( filesToAdd.first().path() );
         QString dir = cwdURL.directory();
 
-        archiveFile = getOpenURL( true, i18n( "Select Archive to Add Files to" ), dir /*cwd*/ );
+        archiveFile = getOpenURL( true, i18n( "Select Archive to Add Files To" ), dir /*cwd*/ );
     }
     else
         archiveFile = archive;

@@ -132,13 +132,13 @@ DirDlg::DirDlg(ArkSettings *d, QWidget *parent, const char *name)
 
   QVBoxLayout *vbox = new QVBoxLayout( this, 0, KDialog::spacingHint() );
 
-  //setCaption( i18n("Directories Preferences - ark") );
+  //setCaption( i18n("Directories Preferences") );
   QLabel* l2 = new QLabel( this, "Label_2" );
   l2->setText( i18n("Directories:") );
   vbox->addWidget( l2 );
 
   pListBox = new QListBox( this, "ListBox_1" );
-  pListBox->insertItem(i18n("Start-up directory"), 0);
+  pListBox->insertItem(i18n("Start-Up Directory"), 0);
   pListBox->insertItem(i18n("directory for opening files","Open Directory"), 1);
   pListBox->insertItem(i18n("directory for extracting files","Extract Directory"), 2);
   pListBox->insertItem(i18n("directory for adding files","Add Directory"), 3);
