@@ -26,6 +26,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kdesktopfile.h>
+#include <kfilterdev.h>
 
 #include <qfile.h>
 
@@ -182,6 +183,29 @@ ArchType ArchiveFormatInfo::archTypeForURL( const KURL & url )
     }
 
     return archTypeForMimeType( mimeType );
+}
+
+
+QString ArchiveFormatInfo::findMimeType( const KURL & url )
+{
+    QString mimeType = KMimeType::findByURL( url )->name();
+    if ( mimeType != "application/x-bzip2" && mimeType != "application/x-gzip" )
+        return mimeType;
+
+    QIODevice * dev = KFilterDev::deviceForFile( url.path(), mimeType );
+    if ( !dev )
+        return mimeType;
+
+    char buffer[ 0x200 ];
+
+    dev->open(  IO_ReadOnly );
+    Q_LONG n = dev->readBlock( buffer, 0x200 );
+    delete dev;
+
+    if ( n == 0x200 && buffer[0] != 0 && !strncmp(buffer + 257, "ustar", 5) )
+        return "application/x-tar";
+
+    return mimeType;
 }
 
 QString ArchiveFormatInfo::mimeTypeForDescription( const QString & description )

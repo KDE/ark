@@ -2184,12 +2184,13 @@ ArkWidget::openArchive( const QString & _filename )
 {
     Arch *newArch = 0;
     ArchType archtype;
+    ArchiveFormatInfo * info = ArchiveFormatInfo::self();
     if ( m_openAsMimeType.isNull() )
     {
-        archtype = ArchiveFormatInfo::self()->archTypeForURL( m_url );
-        if ( ArchiveFormatInfo::self()->wasUnknownExtension() )
+        archtype = info->archTypeForURL( m_url );
+        if ( info->wasUnknownExtension() )
         {
-            ArchiveFormatDlg * dlg = new ArchiveFormatDlg( this, KMimeType::findByURL( m_url )->name() );
+            ArchiveFormatDlg * dlg = new ArchiveFormatDlg( this, info->findMimeType( m_url ) );
             if ( !dlg->exec() == QDialog::Accepted )
             {
                 emit setWindowCaption( QString::null );
@@ -2199,13 +2200,13 @@ ArkWidget::openArchive( const QString & _filename )
                 return;
             }
             m_openAsMimeType = dlg->mimeType();
-            archtype = ArchiveFormatInfo::self()->archTypeForMimeType( m_openAsMimeType );
+            archtype = info->archTypeForMimeType( m_openAsMimeType );
             delete dlg;
         }
     }
     else
     {
-       archtype = ArchiveFormatInfo::self()->archTypeForMimeType( m_openAsMimeType );
+       archtype = info->archTypeForMimeType( m_openAsMimeType );
     }
 
     kdDebug( 1601 ) << "m_openAsMimeType is: " << m_openAsMimeType << endl;

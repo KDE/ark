@@ -40,6 +40,7 @@ public:
     ArchType archTypeByExtension( const QString & archname );
     ArchType archTypeForURL( const KURL & url );
     QString mimeTypeForDescription( const QString & description );
+    QString findMimeType( const KURL & url );
     QString descriptionForMimeType( const QString & mimeType );
     QString defaultExtension( const QString & mimeType );
     bool wasUnknownExtension();
