@@ -635,83 +635,83 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
 {
   int choice=0;
   struct stat statbuffer;
-  KURL url = KFileDialog::getSaveURL(QString::null,
-				     _filter,
-				     0, _caption);
-  QString strFile = url.path();
-  
-  if (!strFile.isEmpty())
+  bool skip = false;
+  QString strFile;
+  KURL url;
+
+  while (true)
+    // keep asking for filenames as long as the user doesn't want to 
+    // overwrite existing ones; break if they agree to overwrite
+    // or if the file doesn't already exist. Return if they cancel.
+    // Also check for proper extensions.
     {
+      if (!skip)
+	{
+	  url = KFileDialog::getSaveURL(QString::null,
+					     _filter,
+					     0, _caption);
+	  strFile = url.path();
+	}
+      skip = false;
+      if (strFile.isEmpty())
+	return QString::null;
+      
       kdDebug(1601) << "Trying to create an archive named " <<
 	strFile.local8Bit() << endl;
-
-      while (true)
-	// keep asking for filenames as long as the user doesn't want to 
-	// overwrite existing ones; break if they agree to overwrite
-	// or if the file doesn't already exist. Return if they cancel.
-	// Also check for proper extensions.
+      if (stat(strFile.local8Bit(), &statbuffer) != -1)  // already exists!
 	{
-	  if (stat(strFile.local8Bit(), &statbuffer) != -1)  // already exists!
+	  choice =
+	    KMessageBox::warningYesNoCancel(0, i18n("Archive already exists. Do you wish to overwrite it?"), i18n("Archive already exists"));
+	  if (choice == KMessageBox::Yes)
 	    {
-	      choice =
-		KMessageBox::warningYesNoCancel(0, i18n("Archive already exists. Do you wish to overwrite it?"), i18n("Archive already exists"));
-	      if (choice == KMessageBox::Yes)
-		{
-		  unlink(strFile);
-		  break;
-		}
-	      else if (choice == KMessageBox::Cancel)
-		{
-		  return QString::null;
-		}
-	      else
-		{
-		  url = KFileDialog::getSaveURL(QString::null,
-						_filter,
-						0, _caption);
-		  strFile = url.path();
-		  if (!strFile.isEmpty())
-		    continue;
-		  else
-		    return QString::null;
-		}
+	      unlink(strFile);
+	      break;
 	    }
-	  // if we got here, the file does not already exist.
-	  if (!Utilities::haveDirPermissions(strFile))
-	    return QString::null;
-
-	  // if we made it here, it's a go.
-	  if (m_strArchName.contains('.') && !strFile.contains('.'))
+	  else if (choice == KMessageBox::Cancel)
 	    {
-	      // if the filename has no dot in it, ask to append extension
-	      QString extension = _extension;
-	      if (extension.isNull())
-		extension = ".zip";
-
-	      int nRet = KMessageBox::warningYesNo(0, i18n("Your file is missing an extension to indicate the archive type.\nIs it OK to create a file of the default type (%1)?").arg(extension), i18n("Error"));
-	      if (nRet == KMessageBox::Yes)
-		{
-		  strFile += extension;
-		  url = strFile;
-		  continue; // gotta check if it exists again
-		}
-	      else // no? well choose a different filename then.
-		{
-		  url = KFileDialog::getSaveURL(QString::null,
-						_filter,
-						0, _caption);
-		  strFile = url.path();
-		  if (!strFile.isEmpty())
-		    continue;
-		  else
-		    return QString::null;
-		}
+	      return QString::null;
 	    }
 	  else
-	    break; 
-	} // end of while loop
+	    {
+	      continue;
+	    }
+	}
+      // if we got here, the file does not already exist.
+      if (!Utilities::haveDirPermissions(strFile))
+	return QString::null;
       
-    }
+      QString temp;
+      if (m_bMakeCFIntoArchiveInProgress &&
+	  getArchType(strFile, temp) == COMPRESSED_FORMAT)
+	{
+	  KMessageBox::information(0, i18n("Sorry, you need to create an archive, not a new\ncompressed file. Please try again."));
+	  continue;	       
+	}
+      
+      // if we made it here, it's a go.
+      if (m_strArchName.contains('.') && !strFile.contains('.'))
+	{
+	  // if the filename has no dot in it, ask to append extension
+	  QString extension = _extension;
+	  if (extension.isNull())
+	    extension = ".zip";
+	  
+	  int nRet = KMessageBox::warningYesNo(0, i18n("Your file is missing an extension to indicate the archive type.\nIs it OK to create a file of the default type (%1)?").arg(extension), i18n("Error"));
+	  if (nRet == KMessageBox::Yes)
+	    {
+	      strFile += extension;
+	      url = strFile;
+	      skip = true; // skip the getSaveUrl part
+	      continue; // gotta check if it exists again
+	    }
+	  else // no? well choose a different filename then.
+	    {
+	      continue;
+	    }
+	}
+      else
+	break; 
+    } // end of while loop
   return url;
 }
 
@@ -753,7 +753,7 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
   else
     {
       QApplication::restoreOverrideCursor();
-      QMessageBox::warning(this, i18n("Error"), i18n("\nSorry - ark cannot create an archive of that type.\n\n  [Hint:  The filename should have an extension such as `.zip' to\n  indicate the type of the archive. Please see the help pages for\n  more information on supported archive formats.]"));
+      KMessageBox::information(this, i18n("Error"), i18n("\nSorry - ark cannot create an archive of that type.\n\n  [Hint:  The filename should have an extension such as `.zip' to\n  indicate the type of the archive. Please see the help pages for\n  more information on supported archive formats.]"));
     }
 }
 
