@@ -54,6 +54,7 @@
 #include "generalOptDlg.h"
 #include "zipExtractDlg.h"
 #include "selectDlg.h"
+#include <kmenubar.h>
 
 #define FILE_OPEN_XPM "fileopen.xpm"
 #define FILE_CLOSE_XPM "exit.xpm"
