@@ -177,6 +177,10 @@ void ArkPart::fixEnables()
     selectAllAction->setEnabled(bHaveFiles);
     deselectAllAction->setEnabled(bHaveFiles);
     invertSelectionAction->setEnabled(bHaveFiles);
+    if ( awidget->archive() )
+        shellOutputAction->setEnabled(true);
+    else
+        shellOutputAction->setEnabled(false);
 
     deleteAction->setEnabled(bHaveFiles && awidget->numSelectedFiles() > 0
                              && awidget->archive() && !bReadOnly);
@@ -209,6 +213,7 @@ void ArkPart::initialEnables()
     addDirAction->setEnabled(false);
     openWithAction->setEnabled(false);
     editAction->setEnabled(false);
+    shellOutputAction->setEnabled(false);
 }
 
 void ArkPart::disableActions()
@@ -226,6 +231,7 @@ void ArkPart::disableActions()
     addDirAction->setEnabled(false);
     openWithAction->setEnabled(false);
     editAction->setEnabled(false);
+    shellOutputAction->setEnabled(false);
 
 }
 
