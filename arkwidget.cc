@@ -65,7 +65,7 @@
 #include <errno.h>
 #include <sys/param.h>
 #include <sys/stat.h>
-
+#include <config.h>
 
 // for statfs:
 #ifdef BSD4_4
