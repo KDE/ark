@@ -74,14 +74,19 @@ void ArArch::processLine( char *_line )
 {
   char columns[9][80];
   char filename[4096];
-  sscanf(_line, "%[-dwrxl] %[0-9/] %[0-9] %3[A-Za-z] %2[0-9 ] %5[0-9:] %4[0-9]%1[ ]%[^\n]",
+  if (_line[0] == '\020') // hack hack
+    sscanf(_line, "\020%[-dwrxl] %[0-9/] %[0-9] %3[A-Za-z] %2[0-9 ] %5[0-9:] %4[0-9]%1[ ]%[^\n]",
+	   columns[0], columns[1], columns[2], columns[3], columns[4],
+	   columns[5], columns[6], columns[7], filename );
+  else
+    sscanf(_line, "%[-dwrxl] %[0-9/] %[0-9] %3[A-Za-z] %2[0-9 ] %5[0-9:] %4[0-9]%1[ ]%[^\n]",
+	   columns[0], columns[1], columns[2], columns[3], columns[4],
+	   columns[5], columns[6], columns[7], filename );
+    
+  
+  kDebugInfo(1601, "%s!%s!%s!%s!%s!%s!%s!%s!%s",
 	 columns[0], columns[1], columns[2], columns[3], columns[4],
 	 columns[5], columns[6], columns[7], filename );
-  
-  kDebugInfo(1601, "%s!%s!%s!%s!%s!%s!%s!%s",
-	 columns[0], columns[1], columns[2], columns[3], columns[4],
-	 columns[5], columns[6], columns[7],
-	 filename );
 
 
   // Put columns[3] - [6] into standard format

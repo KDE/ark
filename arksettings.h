@@ -34,10 +34,6 @@
 // KDE includes
 #include <kconfig.h>
 
-
-#define MAX_RECENT_FILES 5
-
-
 class ArkSettings
 {
 public:
@@ -93,9 +89,6 @@ public:
   int getAddDirMode() const { return addDirMode; }
   void setLastAddDir(const QString& dir) { lastAddDir = dir; }
   void setAddDirCfg(const QString& dir, int mode);
-
-  QStringList * getRecentFiles() { return &recentFiles;}
-  void addRecentFile(const QString& filename);
 
   void setSaveOnExitChecked( bool _b) { m_saveOnExit = _b; }
   bool isSaveOnExitChecked() { return m_saveOnExit; }
@@ -188,7 +181,6 @@ public:
   bool m_saveOnExit;
 
   bool contextRow;
-  QStringList recentFiles;
 	
   bool m_zipExtractOverwrite;
   bool m_zipExtractJunkPaths;
@@ -208,14 +200,8 @@ public:
   bool m_rarOverwrite;
 
   bool fullPath, replaceOnlyNewerFiles;
-
   QString m_regExp;
-
-  QString m_tmpDir;
-	
-  void readRecentFiles();
-  void writeRecentFiles();
-	
+  QString m_tmpDir;	
   void readDirectories();
   void writeDirectories();
 	

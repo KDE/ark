@@ -97,14 +97,14 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     kDebugInfo( 1601, "+ArkWidget::ArkWidget");
   
     m_viewer = new Viewer(this);
-    m_settings = new ArkSettings();
+    m_settings = new ArkSettings;
     // Creates a temp directory for this ark instance
     unsigned int pid = getpid();
     QString tmpdir;
     tmpdir.sprintf( "/tmp/ark.%d/", pid );
     QString ex( "mkdir " + tmpdir + " &>/dev/null" );
     system( ex.local8Bit() );
-	
+
     m_settings->setTmpDir( tmpdir );
     
     ArkApplication::getInstance()->addWindow();
@@ -126,6 +126,9 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 
 ArkWidget::~ArkWidget()
 {
+  KConfig *kc = m_settings->getKConfig();
+  kc->setGroup( "ark" );
+  recent->saveEntries(kc);
   ArkApplication::getInstance()->removeWindow();
   delete archiveContent;
   //  delete recentPopup;
@@ -165,6 +168,8 @@ void ArkWidget::setupActions()
   recent = KStdAction::openRecent(this,
 				  SLOT(file_openRecent(const KURL&)),
 				  actionCollection());
+  KConfig *kc = m_settings->getKConfig();
+  recent->loadEntries(kc);    // this doesn't seem to work!
 
   (void)KStdAction::keyBindings();
 
@@ -263,19 +268,6 @@ void ArkWidget::toggleStatusBar()
     statusBar()->show();
 }
 
-#if 0
-void ArkWidget::createRecentPopup()
-{
-  //  recentPopup->clear();
-
-  QStringList *recentFiles = m_settings->getRecentFiles();
-  for (uint i=0; i<recentFiles->count(); i++)
-    {
-      recentPopup->insertItem((*recentFiles)[i], -1, i);
-    }
-}
-
-#endif
 void ArkWidget::setupStatusBar()
 {
   kDebugInfo( 1601, "+ArkWidget::setupStatusBar");
@@ -474,6 +466,7 @@ void ArkWidget::saveProperties()
 
   KConfig *kc = m_settings->getKConfig();
   kc->setGroup( "ark" );
+  recent->saveEntries(kc);
 
 #if 0
   if ( m_settings->isSaveOnExitChecked() )
@@ -578,7 +571,7 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
     {
       file_close();
       m_strArchName = _filename;
-      newCaption( _filename );
+      setCaption( _filename );
       createFileListView();
       setCaption(_filename);
       m_bIsArchiveOpen = true;
@@ -627,6 +620,7 @@ void ArkWidget::file_open()
     {
       KIO::NetAccess::download(url, strFile); 
       m_settings->clearShellOutput();
+      recent->addURL(url);
       file_open(strFile);  // note: assumes it is local for now
     }
   kDebugInfo( 1601, "-ArkWidget::file_open");
@@ -639,23 +633,11 @@ void ArkWidget::file_openRecent(const KURL& url)
   {
     KIO::NetAccess::download(url, strFile); 
     m_settings->clearShellOutput();
+    recent->addURL(url);
     file_open(strFile);
     return;
   }
 }
-
-
-#if 0
-void ArkWidget::file_openRecent(int i)
-{
-
-  //	kDebugInfo( 1601, "+ArkWidget::file_openRecent");
-  QString filename = recentPopup->text(i);
-  file_open( filename );
-  m_settings->clearShellOutput();
-  kDebugInfo( 1601, "-ArkWidget::file_openRecent");
-}
-#endif
 
 void ArkWidget::showZip( QString _filename )
 {
@@ -685,7 +667,7 @@ void ArkWidget::slotOpen(Arch *_newarch, bool _success,
 	    _newarch->setReadOnly(true);
 	    KMessageBox::information(this, i18n("This archive is read-only."));
 	  }
-	newCaption(_filename );
+	setCaption( _filename );
 	//	createActionMenu( _flag );
 	arch = _newarch;
 	updateStatusTotals();
@@ -908,6 +890,7 @@ void ArkWidget::window_close()
     if (ArkApplication::getInstance()->windowCount() < 2  )
       {
 	saveProperties();
+	delete this;  // hack
 	kapp->quit();
       }
     else
@@ -1684,11 +1667,6 @@ void ArkWidget::slotStatusBarTimeout()
 }
 #endif
 
-void ArkWidget::newCaption(const QString& _filename)
-{
-  setCaption( _filename );
-  m_settings->addRecentFile( _filename );
-}
 
 void ArkWidget::createFileListView()
 {

@@ -76,7 +76,7 @@ class ArkWidget : public KTMainWindow
   Q_OBJECT
 public:
   ArkWidget( QWidget *parent=0, const char *name=0 );
-  ~ArkWidget();
+  virtual ~ArkWidget();
   bool isArchiveOpen() { return m_bIsArchiveOpen; }
   QString getArchName() { return m_strArchName; }
   void showZip( QString name );

@@ -1,3 +1,8 @@
+2000-04-03: Emily Ezust <emilye@corel.com>
+	* Struggling with the Recent Files popup
+	* Ar had a problem with some of my files; fixed
+        * ArkWidget destructor was never being called; fixed
+	
 2000-03-29: Emily Ezust <emilye@corel.com>
         * Extra GUI tweaks
 	* Fixed faulty drop/add into compressed file (if you chose to create a

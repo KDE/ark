@@ -102,7 +102,7 @@ ArkApplication::ArkApplication()
   : KUniqueApplication(), m_windowCount(0)
 {
   kDebugInfo( 1601, "+ArkApplication::ArkApplication");
-  m_mainwidget = new QWidget();
+  m_mainwidget = new QWidget;
   setMainWidget(m_mainwidget);
   kDebugInfo( 1601, "-ArkApplication::ArkApplication");
 }
@@ -153,7 +153,7 @@ void ArkApplication::addOpenArk(const QString & _arkname,
   kDebugInfo( 1601, "---------------Saved ptr %p", _ptr);
   kDebugInfo( 1601, "-ArkApplication::addOpenArk");
 }
- 
+
 void ArkApplication::removeOpenArk(const QString & _arkname)
 {
   kDebugInfo( 1601, "+ArkApplication::removeOpenArk");

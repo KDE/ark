@@ -47,7 +47,6 @@
 
 #define FAVORITE_KEY "ArchiveDirectory"
 #define TAR_KEY "TarExe"
-#define RECENT_KEY "Recent"
 
 #define START_DIR_KEY "startDir"
 #define OPEN_DIR_KEY "openDir"
@@ -118,33 +117,9 @@ void ArkSettings::readConfiguration()
   fullPath = kc->readBoolEntry(FULLPATHS, false);
   replaceOnlyNewerFiles = kc->readBoolEntry(REPLACEONLYNEWER, false);
 
-  readRecentFiles();
   readDirectories();
 
   kDebugInfo( 1601, "-ArkSettings::readConfiguration()");
-}
-
-
-
-void ArkSettings::readRecentFiles()
-{
-  kDebugInfo( 1601, "+readRecentFiles");
-	
-  QString s, name;
-  kc->setGroup( ARK_GROUP );
-  for (int i=0; i < MAX_RECENT_FILES; i++)
-    {
-      name = QString("%1%2").arg(RECENT_KEY).arg(i);
-      s = kc->readEntry(name);
-
-      kDebugInfo( 1601, "key %s is %s", name.ascii(), s.ascii());
-
-      if (!s.isEmpty())
-	recentFiles.append(s.local8Bit());
-    }
-	
-  kDebugInfo( 1601, "-readRecentFiles");
-
 }
 
 void ArkSettings::readDirectories()
@@ -248,8 +223,6 @@ void ArkSettings::writeConfiguration()
   if( !m_saveOnExit ){
     kDebugInfo( 1601, "Don't save the config (exit)");
 
-    writeRecentFiles();
-
     kc->setGroup( ARK_GROUP );
     kc->writeEntry( SAVE_ON_EXIT_KEY, m_saveOnExit );
   }
@@ -263,8 +236,7 @@ void ArkSettings::writeConfiguration()
 void ArkSettings::writeConfigurationNow()
 {
   kDebugInfo( 1601, "+writeConfigurationNow");
-	
-  writeRecentFiles();
+
   writeDirectories();
   writeZipProperties();
   writeTarProperties();
@@ -320,26 +292,6 @@ void ArkSettings::writeDirectories()
   kDebugInfo( 1601, "-writeDirectories");
 }
 
-void ArkSettings::writeRecentFiles()
-{
-  kDebugInfo( 1601, "+writeRecentFiles");
-	
-  QString s, name;
-  kc->setGroup( ARK_GROUP );
-  uint nb_recent = recentFiles.count();
-
-  for (uint i=0; i < nb_recent; i++)
-    {
-      // name.sprintf("%s%d", RECENT_KEY, i);
-      name = QString("%1%2").arg(RECENT_KEY).arg(i);
-      kc->writeEntry(name, recentFiles[i]);
-
-      kDebugInfo( 1601, "key %s is %s", name.ascii(), recentFiles[i].ascii());
-    }
-	
-  kDebugInfo( 1601, "-writeRecentFiles");
-}
-
 void ArkSettings::writeTarProperties()
 {
   kDebugInfo(1601, "+ArkSettings::writeTarProperties");
@@ -389,27 +341,6 @@ void ArkSettings::writeZipProperties()
 }
 
 //////////////////////////////////////////////////////////////////////////
-
-
-void ArkSettings::addRecentFile(const QString& _filename)
-{
-  uint nb = recentFiles.count();
-  uint i=0;
-
-  while (i<nb)
-    {
-      if( recentFiles[i] == _filename ){
-	recentFiles.remove(recentFiles.at(i));			
-	kDebugInfo( 1601, "found and removed");
-      }
-      i++;
-    }	
-  recentFiles.prepend(_filename.local8Bit());
-  if (recentFiles.count() > MAX_RECENT_FILES)
-    recentFiles.remove(recentFiles.last());
-	
-  kDebugInfo( 1601, "-addRecentFile");
-}
 
 QString ArkSettings::getStartDir() const
 {
