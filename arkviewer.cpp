@@ -31,7 +31,7 @@
 #include <kurl.h>
 
 ArkViewer::ArkViewer( QWidget * parent, const char * name )
-	: KDialogBase( parent, name, false, QString::null, Ok ), m_part( 0 )
+	: KDialogBase( parent, name, false, QString::null, Close ), m_part( 0 )
 {
 	m_widget = new QVBox( this );
 
