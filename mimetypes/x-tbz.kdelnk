@@ -2,15 +2,15 @@
 [KDE Desktop Entry]
 Comment=Bzipped Tar Archives
 Comment[de]=BZip2-Tar-Archive
-Comment[fr]=Archives bzip
 Comment[es]=Archivo BZIP
 Comment[fi]=Bzip pakattu tar paketti
-Comment[pt]=Arquivos Zip
-Comment[pl]=Archiwum Zip
-Comment[ro]=Arhivã bzip
+Comment[fr]=Archives bzip
 Comment[no]=BZip2-tar-arkiv
-Comment[sk]=Bzipované Tar archívy
+Comment[pl]=Archiwum Zip
+Comment[pt]=Arquivos Zip
 Comment[pt_BR]=Arquivos Zip
+Comment[ro]=Arhivã bzip
+Comment[sk]=Bzipované Tar archívy
 Mimetype=application/x-tbz
 DefaultApp=ark
 Icon=tgz.xpm
