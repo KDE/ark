@@ -39,6 +39,7 @@
 
 // ark includes
 #include "arkwidgetbase.h"
+#include "arksettings.h"
 #include "compressedfile.h"
 
 // encapsulates the idea of a compressed file
@@ -49,9 +50,7 @@ CompressedFile::CompressedFile( ArkSettings *_settings, ArkWidgetBase *_gui,
 {
   kdDebug(1601) << "CompressedFile constructor" << endl;
   QString directory;
-  directory.sprintf("ark.%d/", getpid());
-  m_tmpdir = locateLocal( "tmp", directory );
-  //m_tmpdir.sprintf("/tmp/ark.%d", getpid());
+  m_tmpdir = _settings->getTmpDir();
   m_archiver_program = getCompressor();
   m_unarchiver_program = getUnCompressor();
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
