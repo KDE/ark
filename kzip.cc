@@ -297,6 +297,8 @@ void KZipWidget::openZip()
 void KZipWidget::showZip( QString name )
 {
 	bool ret;
+
+	lb->clear();
 	delete arch;
 	arch = new KZipArch;
 
@@ -305,11 +307,11 @@ void KZipWidget::showZip( QString name )
 	{
 		setupHeaders();
 		listing = (QStrList *)arch->getListing();
-		lb->clear();
 		lb->appendStrList( listing );
 		sb->changeItem( name.data(), 0 );
 	}else{
 		sb->changeItem( (char *)klocale->translate( "Unknown archive format"), 0 );
+		lb->repaint();
 		delete arch;
 		arch = 0;
 	}

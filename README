@@ -1,5 +1,5 @@
 This is KZip v0.5.  Type 'configure', then 'make', and 'make install'. 
-Use the online help if some things are unclear to you.
+Use the online help if anything is unclear to you.
 
 
 There may be a few bugs, as well as missing features, but the program should
@@ -14,8 +14,6 @@ Changes:
 
 TODO:
 	o make things a little prettier
-	o multiple mainwidgets, ala kpaint..done
 	o network transparency
-	o I need a pretty icon for kzip
 
 any suggestions, etc send to 'robertp@macatawa.org'
