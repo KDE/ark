@@ -153,11 +153,11 @@ void TarArch::openArch( QString name )
 	kproc << tar_exe << "--use-compress-program="+getUnCompressor()
 	      <<	"-tvf" << m_filename;
 	
-	m_flw->addColumn( i18n("Name") );
-	m_flw->addColumn( i18n("Permissions") );
-	m_flw->addColumn( i18n("Owner/Group") );
-	m_flw->addColumn( i18n("Size") );
-	m_flw->addColumn( i18n("TimeStamp") );
+//	m_flw->addColumn( i18n("Name") );
+//	m_flw->addColumn( i18n("Permissions") );
+//	m_flw->addColumn( i18n("Owner/Group") );
+//	m_flw->addColumn( i18n("Size") );
+//	m_flw->addColumn( i18n("TimeStamp") );
 
 	disconnect( &kproc, 0, 0, 0 );
 	connect( &kproc, SIGNAL(processExited(KProcess *)), 
