@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+ServiceTypes=inode/directory
+Actions=create_targz;create_zip
+
+[Desktop Action create_targz]
+Name=Create gzipped tar archive
+Exec=ark -add-to %u %u.tar.gz
+
+[Desktop Action create_zip]
+Name=Create zip archive
+Exec=ark -add-to %u %u.zip
+
