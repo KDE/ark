@@ -12,6 +12,7 @@
  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
  2001-2002: Roberto Teixeira <maragato@kde.org>
+ 2002: Helio Chissini de Castro <helio@conectiva.com.br>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -89,7 +90,7 @@
 #include "selectDlg.h"
 
 #include "extractdlg.h"
-#include "adddlg.h"
+//#include "adddlg.h"
 #include "arch.h"
 #include "arkwidget.h"
 #include "filelistview.h"
@@ -134,7 +135,7 @@ bool Utilities::diskHasSpace(const QString &dir, long size)
       double nAvailable = (double)buf.f_bavail * buf.f_bsize;
       if (nAvailable < (double)size)
         {
-          KMessageBox::error(0, i18n("Sorry, you've run out of disk space."));
+          KMessageBox::error(0, i18n("You have run out of disk space."));
           return false;
         }
     }
@@ -168,7 +169,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     m_bViewInProgress(false), m_bOpenWithInProgress(false),
     m_bEditInProgress(false),
     m_bMakeCFIntoArchiveInProgress(false), m_extractOnly(false),
-    m_pTempAddList(NULL),
+    m_extractRemote(false), m_pTempAddList(NULL),
     m_bDropFilesInProgress(false), mpTempFile(NULL),
     mpDownloadedList(NULL), mpAddList(NULL)
 {
@@ -568,6 +569,8 @@ void ArkWidget::file_open(const QString & strFile)
 
 bool ArkWidget::download(const KURL &url, QString &strFile)
 {
+  kdDebug(1601) << "+ArkWidget::download(const KURL &url, QString &strFile)" << endl;
+  
   // downloads url into strFile, making sure strFile has the same extension
   // as url.
   if (!url.isLocalFile())
@@ -576,10 +579,11 @@ bool ArkWidget::download(const KURL &url, QString &strFile)
       Arch::getArchType(url.path(), extension);
       QString directory = locateLocal( "tmp", "ark" );
       mpTempFile = new KTempFile(directory , extension);
-      strFile = mpTempFile->name();
-      kdDebug(1601) << "Downloading " << url.path() << " as " <<
+      strFile = url.fileName();
+      kdDebug(1601) << "Downloading " << url.path() << " as $HOME/" <<
         strFile << endl;
     }
+  kdDebug(1601) << "-ArkWidget::download - return KIO::NetAccess::download(url, strFile)" << endl;
   return KIO::NetAccess::download(url, strFile);
 }
 
@@ -639,12 +643,18 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
       if (strFile.isEmpty())
         return QString::null;
 
+     //the user chose to save as the current archive
+     //or wanted to create a new one with the same name
+     //no need to do anything
+      if (strFile == m_strArchName && m_bIsArchiveOpen)
+	return QString::null;
+
       kdDebug(1601) << "Trying to create an archive named " <<
         strFile << endl;
       if (stat(strFile.local8Bit(), &statbuffer) != -1)  // already exists!
         {
           choice =
-            KMessageBox::warningYesNoCancel(0, i18n("Archive already exists. Do you wish to overwrite it?"), i18n("Archive already exists"));
+            KMessageBox::warningYesNoCancel(0, i18n("Archive already exists. Do you wish to overwrite it?"), i18n("Archive Already Exists"));
           if (choice == KMessageBox::Yes)
             {
               unlink(QFile::encodeName(strFile));
@@ -667,7 +677,7 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
       if (m_bMakeCFIntoArchiveInProgress &&
           Arch::getArchType(strFile, temp, url) == COMPRESSED_FORMAT)
         {
-          KMessageBox::information(0, i18n("Sorry, you need to create an archive, not a new\ncompressed file. Please try again."));
+          KMessageBox::information(0, i18n("You need to create an archive, not a new\ncompressed file. Please try again."));
           continue;
         }
 
@@ -740,7 +750,7 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
   else
     {
       QApplication::restoreOverrideCursor();
-      KMessageBox::error(this, i18n("Sorry, ark cannot create an archive of that type.\n\n  [Hint:  The filename should have an extension such as `.zip' to\n  indicate the type of the archive. Please see the help pages for\nmore information on supported archive formats.]"));
+      KMessageBox::error(this, i18n("ark cannot create an archive of that type.\n\n  [Hint: The filename should have an extension such as '.zip' to\n  indicate the archive type. Please see the help pages for\nmore information on supported archive formats.]"));
     }
 }
 
@@ -883,94 +893,131 @@ void ArkWidget::slotDeleteDone(bool _bSuccess)
   kdDebug(1601) << "-ArkWidget::slotDeleteDone" << endl;
 }
 
-void ArkWidget::slotExtractDone()
+void 
+ArkWidget::slotExtractDone()
 {
-  kdDebug(1601) << "+ArkWidget::slotExtractDone" << endl;
-  QApplication::restoreOverrideCursor();
-  // I don't need this any more??
-  //  if ( !KOpenWithHandler::exists() )
-  //    (void) new KFileOpenWithHandler();
-  if (m_bViewInProgress)
-    {
-      m_bViewInProgress = false;
-      if (m_bEditInProgress)
-        {
-          kdDebug(1601) << "Edit in progress..." << endl;
-          KURL::List list;
-          // edit will be in progress until the KProcess terminates.
-          KOpenWithDlg l( list, i18n("Edit With:"), QString::null,
-                          (QWidget*)0L);
-          if ( l.exec() )
-            {
-              KProcess *kp = new KProcess;
-              m_strFileToView =
-                m_strFileToView.right(m_strFileToView.length() - 5);
-              *kp << l.text() << m_strFileToView;
-              connect(kp, SIGNAL(processExited(KProcess *)),
-                      this, SLOT(slotEditFinished(KProcess *)));
-              if (kp->start(KProcess::NotifyOnExit,
-                            KProcess::AllOutput) == false)
-                {
-                  KMessageBox::error(0, i18n("Trouble editing the file..."));
-                }
-            }
-        }
-      else
-        {
-          m_pKRunPtr = new KRun (m_strFileToView);
-        }
-    }
-  else if (m_bOpenWithInProgress)
-    {
-      m_bOpenWithInProgress = false;
-      KURL::List list;
-      KURL url = m_strFileToView;
-      list.append(url);
-      KOpenWithDlg l( list, i18n("Open With:"), QString::null, (QWidget*)0L);
-      if ( l.exec() )
-        {
-          KService::Ptr service = l.service();
-          if ( !!service )
-            {
-              KRun::run( *service, list );
-            }
-          else
-            {
-              QString exec = l.text();
-              exec += " %f";
-              KRun::run( exec, list );
-            }
-        }
-    }
-  else if (m_bDragInProgress)
-    {
-      m_bDragInProgress = false;
-      QStrList list;
-      for (QStringList::Iterator it = mDragFiles.begin();
-           it != mDragFiles.end(); ++it)
-        {
-          QString URL;
-          URL = m_settings->getTmpDir();
-          URL += *it;
-          list.append( QUriDrag::localFileToUri(URL) );
-        }
-      QUriDrag *d = new QUriDrag(list, archiveContent->viewport());
-      //      d->setPixmap(QPixmap(QString("document.xpm")),
-      //                   QPoint(0,0));
+	kdDebug(1601) << "+ArkWidget::slotExtractDone" << endl;
+	QApplication::restoreOverrideCursor();
+	
+	if ( m_bViewInProgress )
+	{
+		m_bViewInProgress = false;
+		if ( m_bEditInProgress )
+		{
+			kdDebug(1601) << "Edit in progress..." << endl;
+			KURL::List list;
+			// edit will be in progress until the KProcess terminates.
+         KOpenWithDlg l( list, i18n("Edit With:"), QString::null, (QWidget*)0L );
+			if ( l.exec() )
+			{
+				KProcess *kp = new KProcess;
+				m_strFileToView = m_strFileToView.right(m_strFileToView.length() - 5 );
+				*kp << l.text() << m_strFileToView;
+				connect( kp, SIGNAL(processExited(KProcess *)), this, SLOT(slotEditFinished(KProcess *)) );
+				if ( kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false )
+				{
+					KMessageBox::error(0, i18n("Trouble editing the file..."));
+				}
+			}
+		}
+		else
+		{
+			m_pKRunPtr = new KRun (m_strFileToView);
+		}
+	}
+	else if (m_bOpenWithInProgress)
+	{
+		m_bOpenWithInProgress = false;
+		KURL::List list;
+		KURL url = m_strFileToView;
+		list.append(url);
+		KOpenWithDlg l( list, i18n("Open With:"), QString::null, (QWidget*)0L);
+		if ( l.exec() )
+		{
+			KService::Ptr service = l.service();
+			if ( !!service )
+			{
+				KRun::run( *service, list );
+			}
+			else
+			{
+				QString exec = l.text();
+				exec += " %f";
+				KRun::run( exec, list );
+			}
+		}
+	}
+	else if (m_bDragInProgress)
+	{
+		m_bDragInProgress = false;
+		QStrList list;
+		for (QStringList::Iterator it = mDragFiles.begin(); it != mDragFiles.end(); ++it)
+		{
+			QString URL;
+			URL = m_settings->getTmpDir();
+			URL += *it;
+			list.append( QUriDrag::localFileToUri(URL) );
+		}
+		
+		QUriDrag *d = new QUriDrag(list, archiveContent->viewport());
       m_bDropSourceIsSelf = true;
       d->dragCopy();
       m_bDropSourceIsSelf = false;
-    }
-  if(m_extractList != 0) delete m_extractList;
-  m_extractList = 0;
-  archiveContent->setUpdatesEnabled(true);
-  fixEnables();
+	}
+	if(m_extractList != 0) delete m_extractList;
+	m_extractList = 0;
+	if( archiveContent ) // avoid race condition, don't do updates if application is exiting
+	{
+		archiveContent->setUpdatesEnabled(true);
+		fixEnables();
+	}
+	
+        if ( m_extractRemote ) 
+	{
+		KURL srcDirURL( m_settings->getTmpDir() + "extrtmp/" );
+		KURL src;
+		QString srcDir( m_settings->getTmpDir() + "extrtmp/" ); 
+	   	QDir dir( srcDir );
+	       	QStringList lst( dir.entryList() );
+		lst.remove( "." );
+		lst.remove( ".." );
+		
+		KURL::List srcList;
+	       	for( QStringList::ConstIterator it = lst.begin(); it != lst.end() ; ++it)	  
+                {
+			src = srcDirURL;
+			src.addPath( *it );
+			srcList.append( src );
+		}
 
-  if(m_extractOnly)
-    file_quit();  // Close ark window if we are doing an Extract Here...
+		KURL extractURL( m_settings->getExtractDir() );
+		extractURL.adjustPath( 1 );
+
+		KIO::CopyJob *job = KIO::copy( srcList, extractURL );
+    		connect( job, SIGNAL(result(KIO::Job*)), 
+             		this, SLOT(slotExtractRemoteDone(KIO::Job*)) );
+
+		m_extractRemote = false;
+	}
+
+	if(m_extractOnly)
+	{
+		file_quit();  // Close ark window if we are doing an Extract Here...
+	}
 
   kdDebug(1601) << "-ArkWidget::slotExtractDone" << endl;
 }
+
+
+void ArkWidget::slotExtractRemoteDone(KIO::Job *job)
+{
+  QDir dir( m_settings->getTmpDir() + "extrtmp/" ); 
+  dir.rmdir( dir.absPath()  );
+
+  if ( job->error() )
+    job->showErrorDialog();
+}
+
 
 void ArkWidget::slotEditFinished(KProcess *kp)
 {
@@ -1024,16 +1071,9 @@ void ArkWidget::slotAddDone(bool _bSuccess)
     }
   if (mpDownloadedList)
     {
-      for (QStringList::Iterator it = mpDownloadedList->begin();
-           it != mpDownloadedList->end(); ++it)
-        {
-          QString str = *it;
-
-          // is this necessary? Maybe risky. The tmp/ark.### directory
-          // will be removed anyhow...
-          str = str.right(str.length() - 5);
-          unlink(str.local8Bit());
-        }
+      // is this necessary? Maybe risky. The tmp/ark.### directory
+      // will be removed anyhow...
+      KIO::del( *mpDownloadedList, false, false );
       delete mpDownloadedList;
       mpDownloadedList = NULL;
     }
@@ -1350,7 +1390,11 @@ void ArkWidget::action_add()
 
   if(fileDlg.exec())
   {
-    mpAddList = new QStringList(fileDlg.selectedFiles());
+    KURL::List addList;
+    addList = fileDlg.selectedURLs();
+    mpAddList = new QStringList();
+    for (KURL::List::ConstIterator it = addList.begin(); it != addList.end(); it++)
+       mpAddList->append( KURL::decode_string( (*it).url() ) );
 
     if (mpAddList->count() > 0)
     {
@@ -1403,43 +1447,54 @@ void ArkWidget::addFile(QStringList *list)
     }
   else
     {
-      bool bNotLocal = true;
       // if they are URLs, we have to download them, replace the URLs
       // with filenames, and remember to delete the temporaries later.
       for (QStringList::Iterator it = list->begin(); it != list->end(); ++it)
         {
           QString str = *it;
           kdDebug(1601) << "Want to add " << str<< endl;
-          if (str.left(5) == QString("file:"))
-            {
-              bNotLocal = false;
-              break;  // no need to continue
-            }
-          KURL url = str;
-          QString tempfile = m_settings->getTmpDir();
-          tempfile += str.right(str.length() - str.findRev("/") - 1);
-          KIO::NetAccess::download(url, tempfile); // TODO test return value
-          tempfile = "file:" + tempfile;
-          // replace the URL with the name of the temporary
-          *it = tempfile;
-        }
-      if (bNotLocal)
-        mpDownloadedList = new QStringList(*list);
-    }
+          KURL url( toLocalFile(str) );
+	  *it = url.prettyURL();
+
+	}
+      
+      }
   arch->addFile(list);
 }
 
 void ArkWidget::action_add_dir() {
-        QString dir =
-            KFileDialog::getExistingDirectory( m_settings->getAddDir(),
-                                               this, 
-                                               i18n( "Select a directory to add" ) );
+
+        KFileDialog addDirDlg( m_settings->getAddDir(), QString::null, this, "adddirdlg", true );
+        addDirDlg.setMode( KFile::Mode( KFile::Directory ) );
+        addDirDlg.setCaption(i18n("Select a Directory to Add"));
+        addDirDlg.exec();
+
+        KURL u( addDirDlg.selectedURL() );
+        QString dir = KURL::decode_string( u.url(-1) );
         if ( !dir.isEmpty() ) {
             disableAll();
-            KURL u( dir );
-            arch->addDir( u.url() );
+            u = toLocalFile(dir);
+            arch->addDir( u.prettyURL() );
         }
             
+}
+
+KURL ArkWidget::toLocalFile( QString & str)
+{
+    KURL url = str;
+
+    if(!url.isLocalFile())
+        {
+	    if(!mpDownloadedList)
+	        mpDownloadedList = new QStringList();
+	    QString tempfile = m_settings->getTmpDir();
+	    tempfile += str.right(str.length() - str.findRev("/") - 1);
+	    if( !KIO::NetAccess::dircopy(url, tempfile) )
+               return KURL();    
+	    mpDownloadedList->append(tempfile);        // remember for deletion
+            url = tempfile;
+	}
+    return url;
 }
 
 void ArkWidget::action_delete()
@@ -1650,6 +1705,35 @@ bool ArkWidget::action_extract()
       int extractOp = dlg->extractOp();
       kdDebug(1601) << "Extract op: " << extractOp << endl;
 
+      QString extractDir( m_settings->getExtractDir() );
+      kdDebug(1601) << "Extract dir: " << extractDir << endl;
+
+      //extractURL will always be the location the user chose to 
+      //extract to, whether local or remote
+      KURL extractURL( extractDir);
+
+      //extractDir will either be the real, local extract dir,
+      //or in case of a extract to remote location, a local tmp dir
+      if ( !extractURL.isLocalFile() )
+	{
+	  extractDir = m_settings->getTmpDir() + "extrtmp/";
+	  m_extractRemote = true;
+          //make sure it's empty since all of it's contents 
+          //will be copied to the remote extract location
+	  KIO::NetAccess::del( extractDir );
+          if ( !KIO::NetAccess::mkdir( extractDir ) )
+            {
+	       kdWarning(1601) << "Unable to create " << extractDir << endl;
+               m_extractRemote = false;
+               delete dlg;
+               return false;
+            }     
+	}
+      else
+  	{
+		  extractDir = extractURL.path();
+	}
+		
       // if overwrite is false, then we need to check for failure of
       // extractions.
       bool bOvwrt = m_settings->getExtractOverwrite();
@@ -1658,16 +1742,15 @@ bool ArkWidget::action_extract()
         {
         case ExtractDlg::All:
           if (!bOvwrt)  // send empty list to indicate we're extracting all
-            bRedoExtract = reportExtractFailures(m_settings->getExtractDir(),
-                                                 m_extractList);
+            bRedoExtract = reportExtractFailures(extractDir, m_extractList);
+
           if (!bRedoExtract) // if the user's OK with those failures, go ahead
             {
               // unless we have no space!
-              if (Utilities::diskHasSpace(m_settings->getExtractDir(),
-                                          m_nSizeOfFiles))
+              if (Utilities::diskHasSpace(extractDir, m_nSizeOfFiles))
                 {
                   disableAll();
-                  arch->unarchFile(0);
+                  arch->unarchFile(0, extractDir);
                 }
             }
           break;
@@ -1707,15 +1790,13 @@ bool ArkWidget::action_extract()
               }
             if (!bOvwrt)
               bRedoExtract =
-                reportExtractFailures(m_settings->getExtractDir(),
-                                      m_extractList);
+                reportExtractFailures(extractDir, m_extractList);
             if (!bRedoExtract)
               {
-                if (Utilities::diskHasSpace(m_settings->getExtractDir(),
-                                            nTotalSize))
+                if (Utilities::diskHasSpace(extractDir, nTotalSize))
                   {
                     disableAll();
-                    arch->unarchFile(m_extractList); // extract selected files
+                    arch->unarchFile(m_extractList, extractDir); // extract selected files
                   }
               }
             break;
@@ -2165,19 +2246,34 @@ void ArkWidget::createFileListView()
 //////////////////////// badBzipName /////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-bool ArkWidget::badBzipName(const QString & _filename)
+bool 
+ArkWidget::badBzipName(const QString & _filename)
 {
-  if (_filename.right(3) == ".BZ" || _filename.right(4) == ".TBZ")
-    KMessageBox::error(this, i18n("Sorry, bzip doesn't like filename extensions that use capital letters.") );
-  else if (_filename.right(4) == ".tbz")
-    KMessageBox::error(this, i18n("Sorry, bzip doesn't like filename extensions that aren't exactly \".bz\"."));
-  else if (_filename.right(4) == ".BZ2" ||  _filename.right(5) == ".TBZ2")
-    KMessageBox::error(this, i18n("Sorry, bzip2 doesn't like filename extensions that use capital letters."));
-  else if (_filename.right(5) == ".tbz2")
-    KMessageBox::error(this, i18n("Sorry, bzip2 doesn't like filename extensions that aren't exactly \".bz2\".") );
-  else
-    return false;
-  return true;
+	if ( _filename.right(3) == ".BZ" || _filename.right(4) == ".TBZ" )
+	{
+		KMessageBox::error( this, 
+				i18n("bzip does not support filename extensions that use capital letters.") );
+	}
+	else if ( _filename.right(4) == ".tbz" )
+	{
+		KMessageBox::error(this, i18n("bzip only supports filenames with the extension \".bz\"."));
+	}
+	else if (_filename.right(4) == ".BZ2" ||  _filename.right(5) == ".TBZ2")
+	{
+		KMessageBox::error(this, 
+				i18n("bzip2 does not support filename extensions that use capital letters."));
+	}
+	else if ( _filename.right(5) == ".tbz2" )
+	{
+		KMessageBox::error(this, 
+				i18n("bzip2 only supports filenames with the extension \".bz2\".") );
+	}
+	else
+	{
+		return false;
+	}
+	
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -2202,7 +2298,7 @@ void ArkWidget::createArchive( const QString & _filename )
 
   if (!newArch->utilityIsAvailable())
     {
-      KMessageBox::error(this, i18n("Sorry, the utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
+      KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
       return;
     }
 
@@ -2226,63 +2322,65 @@ void ArkWidget::createArchive( const QString & _filename )
 //////////////////////// openArchive /////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-void ArkWidget::openArchive(const QString & _filename )
+void 
+ArkWidget::openArchive( const QString & _filename )
 {
-  // figure out what kind of archive it is
-  Arch *newArch = 0;
-
-  QString extension;
-  ArchType archtype = Arch::getArchType(_filename, extension, m_url);
-  if(0 == (newArch = Arch::archFactory(archtype, m_settings, this,
-     _filename)))
-    {
-      if (!badBzipName(_filename))
-        {
-          // it's still a bad name, so let's try to figure out what it is.
-          // Maybe it just needs the proper extension!
-           KMimeMagic *mimePtr = KMimeMagic::self();
-           KMimeMagicResult * mimeResultPtr = mimePtr->findFileType(_filename);
-           QString mimetype = mimeResultPtr->mimeType();
-           if (mimetype == "application/x-gzip")
-             {
-               KMessageBox::error(this, i18n("Gzip archives need to have the extension `gz'."));
-               return;
-             }
-           else if (mimetype == "application/x-zoo")
-             {
-               KMessageBox::error(this, i18n("Zoo archives need to have the extension `zoo'."));
-               return;
-             }
-           else
-             {
-               KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
-               // and just leave the old archive displayed
-               return;
-             }
-        }
-    else
-        return;
-    }
-
-  if (!newArch->utilityIsAvailable())
-    {
-      KMessageBox::error(this, i18n("Sorry, the utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
-      return;
-    }
-
-  m_archType = archtype;
-
-  connect( newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
-           this, SLOT(slotOpen(Arch *, bool, const QString &,int)) );
-  connect( newArch, SIGNAL(sigDelete(bool)),
-           this, SLOT(slotDeleteDone(bool)));
-  connect( newArch, SIGNAL(sigAdd(bool)),
-           this, SLOT(slotAddDone(bool)));
-  connect( newArch, SIGNAL(sigExtract(bool)),
-           this, SLOT(slotExtractDone()));
-
-  disableAll();
-  newArch->open();
+	QString extension;
+	Arch *newArch = 0;
+	ArchType archtype = Arch::getArchType( _filename, extension, m_url );
+	
+	if( 0 == ( newArch = Arch::archFactory( archtype, m_settings, this, _filename ) ) )
+	{
+		kdDebug( 1601 ) << "BadBZip name test..." << endl;
+		if ( !badBzipName( _filename ) )
+		{
+			// it's still a bad name, so let's try to figure out what it is.
+			// Maybe it just needs the proper extension!
+			KMimeMagic *mimePtr = KMimeMagic::self();
+			KMimeMagicResult * mimeResultPtr = mimePtr->findFileType(_filename);
+			QString mimetype = mimeResultPtr->mimeType();
+			if (mimetype == "application/x-gzip")
+			{
+				KMessageBox::error(this, i18n("Gzip archives need to have the extension `gz'."));
+				return;
+			}
+			else if (mimetype == "application/x-zoo")
+			{
+				KMessageBox::error(this, i18n("Zoo archives need to have the extension `zoo'."));
+				return;
+			}
+			else
+			{
+				KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
+				// and just leave the old archive displayed
+				return;
+			}
+		}
+		else
+		{
+			return;
+		}
+	}
+	
+	if (!newArch->utilityIsAvailable())
+	{
+		KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
+		return;
+	}
+	
+	m_archType = archtype;
+	
+	connect( newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
+			this, SLOT(slotOpen(Arch *, bool, const QString &,int)) );
+	connect( newArch, SIGNAL(sigDelete(bool)),
+			this, SLOT(slotDeleteDone(bool)));
+	connect( newArch, SIGNAL(sigAdd(bool)),
+			this, SLOT(slotAddDone(bool)));
+	connect( newArch, SIGNAL(sigExtract(bool)),
+			this, SLOT(slotExtractDone()));
+	
+	disableAll();
+	newArch->open();
 }
 
 #include "arkwidget.moc"
