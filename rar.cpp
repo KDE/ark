@@ -54,13 +54,19 @@ RarArch::RarArch( ArkWidget *_gui, const QString & _fileName )
 {
   kdDebug(1601) << "RarArch constructor" << endl;
 
-  bool have_rar = !KGlobal::dirs()->findExe( "rar" ).isNull();
-  bool have_unrar = !KGlobal::dirs()->findExe( "unrar" ).isNull();
+  bool have_rar = !KGlobal::dirs()->findExe( "rar" ).isNull(); // Check if rar is available
 
-  m_archiver_program = have_rar ? "rar" : "unrar";
-  m_unarchiver_program = have_unrar ? "unrar" : "rar";
-
-  verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+  if ( have_rar ) 
+  {
+    m_archiver_program = m_unarchiver_program = "rar"; // If it is, then use it as archiver and unarchiver
+  }
+  else
+  {
+    m_archiver_program = m_unarchiver_program = "unrar"; // If rar is not available, try to use unrar to open the archive read-only
+    setReadOnly( true );
+  }
+  
+  verifyUtilityIsAvailable( m_archiver_program );
 
   m_headerString = "-------------------------------------------------------------------------------";
 

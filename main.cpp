@@ -66,7 +66,7 @@ static KCmdLineOptions option[] =
 extern "C" int kdemain( int argc, char *argv[]  )
 {
 	KAboutData aboutData( "ark", I18N_NOOP( "Ark" ),
-			"2.3.1", I18N_NOOP("KDE Archiving tool"), 
+			"2.4.0", I18N_NOOP("KDE Archiving tool"), 
 			KAboutData::License_GPL,
 			I18N_NOOP( "(c) 1997-2004, The Various Ark Developers" ) );
 	
