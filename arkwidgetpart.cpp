@@ -165,7 +165,7 @@ ArkWidgetPart::slotOpen(Arch *_newarch, bool _success, const QString & _filename
 		QString path = fi.dirPath( true );
 		m_settings->setLastOpenDir( path );
 		
-		if ( _filename.left(9) == QString("/tmp/ark.") || !fi.isWritable() )
+		if ( _filename.startsWith("/tmp/ark.") || !fi.isWritable() )
 		{
 			_newarch->setReadOnly(true);
 			QApplication::restoreOverrideCursor(); // no wait cursor during a msg box
