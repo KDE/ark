@@ -14,11 +14,10 @@
 
 # just set the variable
 APPSDIR = $(kde_appsdir)/Utilities
-MIMEAPPDIR = $(kde_mimedir)/application
 # set the include path for X, qt and KDE
 INCLUDES= $(all_includes)
 # claim, which subdirectories you want to install
-SUBDIRS = doc mimetypes
+SUBDIRS = doc
 
 # The binary name. Changed from kzip to ark
 bin_PROGRAMS = 	ark
