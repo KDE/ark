@@ -38,6 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // KDE includes
 #include <kdebug.h>
 #include <kfiledialog.h>
+#include <kstandarddirs.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kcombobox.h>
@@ -216,7 +217,7 @@ ExtractDlg::accept()
 			}
 			// create directory using filename, make sure it has trailing slash
 			p.adjustPath(1);
-			if( !QDir().mkdir( p.path(), TRUE ) )
+			if( !KStandardDirs::makeDir( p.path() ) )
 			{
 				KMessageBox::error( this, i18n( "Directory could not be created. Please check permissions." ) );
 				return;
