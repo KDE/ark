@@ -54,47 +54,47 @@
 #include "arkwidget.h"
 
 static const char *description =
-        I18N_NOOP("KDE Archiving tool");
+I18N_NOOP("KDE Archiving tool");
 
-static const char *version = "v.2.1";
+static const char *version = "v.2.2alpha2";
 
 static KCmdLineOptions option[] =
 {
-   { "extract", I18N_NOOP("Open extract dialog, quit when finished."), 0},
-   { "+[archive]", I18N_NOOP("Open 'archive'"), 0 },
-   { 0, 0, 0 }
+    { "extract", I18N_NOOP("Open extract dialog, quit when finished."), 0},
+    { "+[archive]", I18N_NOOP("Open 'archive'"), 0 },
+    { 0, 0, 0 }
 };
 
 int main( int argc, char *argv[]  )
 {
-  KAboutData aboutData("ark", I18N_NOOP("ark"),
-    version, description, KAboutData::License_GPL,
-    I18N_NOOP("(c) 1997-2001, The Various Ark Developers"));
-  aboutData.addAuthor("Robert Palmbos",0, "palm9744@kettering.edu");
-  aboutData.addAuthor("Francois-Xavier Duranceau",0, "duranceau@kde.org");
-  aboutData.addAuthor("Corel Corporation (author: Emily Ezust)",0, "emilye@corel.com");
-  aboutData.addAuthor("Corel Corporation (author: Michael Jarrett)", 0,
-                      "michaelj@corel.com");
-  aboutData.addAuthor("Roberto Selbach Teixeira", 0, "teixeira@conectiva.com" );
+    KAboutData aboutData( "ark", I18N_NOOP( "ark" ),
+                          version, description, KAboutData::License_GPL,
+                          I18N_NOOP( "(c) 1997-2001, The Various Ark Developers" ) );
+    aboutData.addAuthor( "Robert Palmbos", 0, "palm9744@kettering.edu" );
+    aboutData.addAuthor( "Francois-Xavier Duranceau", 0, "duranceau@kde.org" );
+    aboutData.addAuthor( "Corel Corporation (author: Emily Ezust)", 0, "emilye@corel.com" );
+    aboutData.addAuthor( "Corel Corporation (author: Michael Jarrett)", 0,
+                         "michaelj@corel.com" );
+    aboutData.addAuthor( "Roberto Selbach Teixeira", 0, "maragato@conectiva.com" );
 
-  KCmdLineArgs::init( argc, argv, &aboutData );
-  KCmdLineArgs::addCmdLineOptions( option );
+    KCmdLineArgs::init( argc, argv, &aboutData );
+    KCmdLineArgs::addCmdLineOptions( option );
 
-  kdDebug(1601) << "Starting ark. argc=" << argc << "  First arg: " << (argc == 2 ? argv[1] : 0) << endl;
-  if (!ArkApplication::start())
+    kdDebug( 1601 ) << "Starting ark. argc=" << argc << "  First arg: " << (argc == 2 ? argv[1] : 0) << endl;
+    if ( !ArkApplication::start() )
     {
-      // Already running!
-      kdDebug(1601) << "Already running" << endl;
-      exit(0);
+        // Already running!
+        kdDebug( 1601 ) << "Already running" << endl;
+        exit( 0 );
     }
 
-  if (ArkApplication::getInstance()->isRestored())
+    if ( ArkApplication::getInstance()->isRestored() )
     {
-      kdDebug(1601) << "In main: Restore..." << endl;
-      RESTORE(ArkWidget);
+        kdDebug( 1601 ) << "In main: Restore..." << endl;
+        RESTORE( ArkWidget );
     }
-  kdDebug(1601) << "Starting ark..." << endl;
+    kdDebug( 1601 ) << "Starting ark..." << endl;
 
-  return ArkApplication::getInstance()->exec();
+    return ArkApplication::getInstance()->exec();
 
 }
