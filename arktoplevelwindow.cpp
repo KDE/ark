@@ -36,6 +36,7 @@
 #include <kparts/browserextension.h>
 #include <kkeydialog.h>
 #include <kcombobox.h>
+#include <kio/netaccess.h>
 
 // ark includes
 #include "arkapp.h"
@@ -64,10 +65,10 @@ ArkTopLevelWindow::ArkTopLevelWindow( QWidget * /*parent*/, const char *name ) :
         connect( m_part->widget(), SIGNAL( signalArchivePopup( const QPoint & ) ), this,
                  SLOT( slotArchivePopup( const QPoint & ) ) );
 
-        connect( m_part, SIGNAL(  removeRecentURL( const QString & ) ), this,
-                 SLOT( slotRemoveRecentURL( const QString & ) ) );
-        connect( m_part, SIGNAL( addRecentURL( const QString & ) ), this,
-                 SLOT( slotAddRecentURL( const QString & ) ) );
+        connect( m_part, SIGNAL( removeRecentURL( const KURL & ) ), this,
+                 SLOT( slotRemoveRecentURL( const KURL & ) ) );
+        connect( m_part, SIGNAL( addRecentURL( const KURL & ) ), this,
+                 SLOT( slotAddRecentURL( const KURL & ) ) );
         connect( m_part, SIGNAL( fixActionState( const bool & ) ), this,
                  SLOT( slotFixActionState( const bool & ) ) );
         connect( m_widget, SIGNAL( disableAllActions() ), this,
@@ -269,8 +270,6 @@ ArkTopLevelWindow::getOpenURL( bool addOnly, const QString & caption,
     dlg.setOperationMode( addOnly ? KFileDialog::Saving
                                   : KFileDialog::Opening );
 
-	 kdDebug(1601) << "Caption to be set: " << caption << endl;
-	 
     dlg.setCaption( addOnly ? caption : i18n("Open") );
     dlg.setMode( addOnly ? ( KFile::File | KFile::ExistingOnly )
                                   :  KFile::File );
@@ -300,7 +299,7 @@ ArkTopLevelWindow::file_open()
 void
 ArkTopLevelWindow::file_close()
 {
-    m_widget->file_close();
+    m_part->closeURL();
 }
 
 void
@@ -353,16 +352,15 @@ ArkTopLevelWindow::readProperties( KConfig* config )
 }
 
 void
-ArkTopLevelWindow::slotAddRecentURL( const QString & url )
+ArkTopLevelWindow::slotAddRecentURL( const KURL & url )
 {
     recent->addURL( url );
     KConfig *kc = m_widget->settings()->getKConfig();
     recent->saveEntries(kc);
-    kdDebug( 1601 ) << "RecentURL: " << url << " added." << endl;
 }
 
 void
-ArkTopLevelWindow::slotRemoveRecentURL( const QString & url )
+ArkTopLevelWindow::slotRemoveRecentURL( const KURL & url )
 {
     recent->removeURL( url );
     KConfig *kc = m_widget->settings()->getKConfig();
@@ -391,6 +389,7 @@ void
 ArkTopLevelWindow::extractTo( const KURL & targetDirectory, const KURL & archive, bool guessName )
 {
     m_widget->extractTo( targetDirectory, archive, guessName );
+    m_part->openURL( archive );
 }
 
 void
@@ -422,7 +421,11 @@ ArkTopLevelWindow::addToArchive( const KURL::List & filesToAdd, const QString & 
         return;
     }
 
+    bool exists = KIO::NetAccess::exists( archiveFile );
+    kdDebug( 1601 ) << archiveFile << endl;
     m_widget->addToArchive( filesToAdd, archiveFile );
+    if ( exists )
+        m_part->openURL( archiveFile );
 }
 
 #include "arktoplevelwindow.moc"

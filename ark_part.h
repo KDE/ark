@@ -87,12 +87,15 @@ public slots:
     bool saveFile();
     bool openURL( const KURL & url );
     bool closeURL();
+
 signals:
     void fixActionState( const bool & bHaveFiles );
-    void removeRecentURL( const QString & url );
-    void addRecentURL(  const QString & url );
+    void removeRecentURL( const KURL & url );
+    void addRecentURL( const KURL & url );
+
 protected:
     virtual bool openFile();  //Opening an archive file
+    bool closeArchive();
     void setupActions();
     void initialEnables();
     void init();

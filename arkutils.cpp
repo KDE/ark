@@ -38,6 +38,7 @@
 #include <errno.h>
 #include <sys/param.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <config.h>
 
 // for statfs:
@@ -56,13 +57,13 @@
 #define STATFS statfs
 #endif
 
-// Qt includes
-#include <qfileinfo.h>
-
 // KDE includes
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <klocale.h>
+
+// Qt includes
+#include <qfile.h>
 
 #include "arkutils.h"
 
@@ -169,14 +170,7 @@ QString ArkUtils::fixYear(const char *strYear)
 bool
 ArkUtils::haveDirPermissions( const QString &strFile )
 {
-  QString dir = strFile.left(strFile.findRev('/'));
-  QFileInfo fileInfo(dir);
-  if ( /*!fileInfo.isReadable() ||*/ !fileInfo.isWritable() )
-  {
-    KMessageBox::error(0, i18n("You do not have permission to write to the directory %1").arg(dir));
-    return false;
-  }
-  return true;
+  return ( access( QFile::encodeName( strFile ), W_OK ) == 0 );
 }
 
 bool

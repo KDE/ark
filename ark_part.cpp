@@ -26,6 +26,7 @@
 
 #include <kdebug.h>
 #include <kpopupmenu.h>
+#include <kmessagebox.h>
 #include <kaboutdata.h>
 #include <kxmlguifactory.h>
 #include <kstatusbar.h>
@@ -67,8 +68,8 @@ ArkPart::ArkPart( QWidget *parentWidget, const char * /*widgetName*/, QObject *p
     connect( awidget, SIGNAL( disableAllActions() ), this, SLOT( disableActions() ) );
     connect( awidget, SIGNAL( signalFilePopup( const QPoint& ) ), this, SLOT( slotFilePopup( const QPoint& ) ) );
     connect( awidget, SIGNAL( setWindowCaption( const QString & ) ), this, SIGNAL( setWindowCaption( const QString & ) ) );
-    connect( awidget, SIGNAL( removeRecentURL( const QString & ) ), this, SIGNAL( removeRecentURL(  const QString & ) ) );
-    connect( awidget, SIGNAL( addRecentURL( const QString & ) ), this, SIGNAL( addRecentURL(  const QString & ) ) );
+    connect( awidget, SIGNAL( removeRecentURL( const KURL & ) ), this, SIGNAL( removeRecentURL( const KURL & ) ) );
+    connect( awidget, SIGNAL( addRecentURL( const KURL & ) ), this, SIGNAL( addRecentURL( const KURL & ) ) );
 
     if( readWrite )
         setXMLFile( "ark_part.rc" );
@@ -230,10 +231,11 @@ bool ArkPart::openFile()
     if( !QFile::exists( m_file ) )
     {
         emit setWindowCaption(  QString::null );
-        emit removeRecentURL( m_file );
+        emit removeRecentURL( awidget->realURL() );
         return false;
     }
-    emit addRecentURL( url.prettyURL() );
+    emit addRecentURL( awidget->realURL() );
+    awidget->setModified( false );
     awidget->file_open( url );
     return true;
 }
@@ -242,27 +244,51 @@ void ArkPart::file_save_as()
 {
     KURL u = awidget->getSaveAsFileName();
     if ( u.isEmpty() ) // user canceled
-    {
-        kdDebug( 1601 ) <<  "u is empty in ArkPart::file_save_as" << endl;
         return;
-    }
+
     if ( !awidget->allowedArchiveName( u ) )
         awidget->convertTo( u );
-    else if ( saveAs( u ) )
+    else if ( awidget->file_save_as( u ) )
         m_ext->slotOpenURLRequested( u );
+    else
+        kdWarning( 1601 ) <<  "Save As failed." << endl;
 }
 
 bool ArkPart::saveFile()
 {
-    KURL url;
-    url.setPath(  m_file );
-    return awidget->file_save_as( url );
+    return true;
+}
+
+bool ArkPart::closeArchive()
+{
+    awidget->file_close();
+    awidget->setModified( false );
+    return ReadWritePart::closeURL();
 }
 
 bool ArkPart::closeURL()
 {
-    awidget->file_close();
-    return ReadWritePart::closeURL();
+  if ( !isReadWrite() || !awidget->isModified() || url().isLocalFile() )
+    return closeArchive();
+
+  QString docName = url().prettyURL();
+
+  int res = KMessageBox::warningYesNoCancel( widget(),
+          i18n( "The archive \"%1\" has been modified.\n"
+                "Do you want to save it?" ).arg( docName ),
+          i18n( "Save Archive?" ), KStdGuiItem::save(), KStdGuiItem::discard() );
+
+  switch ( res )
+  {
+    case KMessageBox::Yes :
+        return awidget->file_save_as( url() ) && closeArchive();
+
+    case KMessageBox::No :
+        return closeArchive();
+
+    default : // case KMessageBox::Cancel
+        return false;
+  }
 }
 
 void ArkPart::slotFilePopup( const QPoint &pPoint )

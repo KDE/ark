@@ -46,10 +46,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <kurlrequester.h>
 
 // application includes
+#include "arkutils.h"
 #include "arksettings.h"
 #include "generalOptDlg.h"
 #include "extractdlg.h"
-
 #define FIRST_PAGE_WIDTH  390
 
 ExtractDlg::ExtractDlg( ArkSettings *_settings )
@@ -223,7 +223,7 @@ ExtractDlg::accept()
 				return;
 			}
 		}
-		if ( !fi.isWritable() )
+		if ( !ArkUtils::haveDirPermissions( p.path() ) )
 		{
 			KMessageBox::error( this, i18n( "You do not have write permission to this directory! Please provide another directory." ) );
 			return;

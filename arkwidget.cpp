@@ -74,7 +74,7 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
         m_pTempAddList(NULL), mpDownloadedList(NULL),
         m_bArchivePopupEnabled( false ), m_convert_tmpDir( NULL ),
         m_convertSuccess( false ), m_createRealArchTmpDir( NULL ),
-        m_extractRemoteTmpDir( NULL )
+        m_extractRemoteTmpDir( NULL ), m_modified( false )
 {
     kdDebug(1601) << "+ArkWidget::ArkWidget" << endl;
     QHBoxLayout * l = new QHBoxLayout( this );
@@ -88,7 +88,7 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
 ArkWidget::~ArkWidget()
 {
     cleanArkTmpDir();
-
+    ready();
     kdDebug(1601) << "-ArkWidget::~ArkWidget" << endl;
 }
 
@@ -188,7 +188,10 @@ KURL ArkWidget::getSaveAsFileName()
 
 bool ArkWidget::file_save_as( const KURL & u )
 {
-    return KIO::NetAccess::upload( m_strArchName, u );
+    bool success = KIO::NetAccess::upload( m_strArchName, u );
+    if ( m_modified && success )
+        m_modified = false;
+    return success;
 }
 
 void ArkWidget::convertTo( const KURL & u )
@@ -212,7 +215,13 @@ void ArkWidget::convertSlotCreate()
 {
     file_close();
     connect( this, SIGNAL( createDone( bool ) ), this, SLOT( convertSlotCreateDone( bool ) ) );
-    createArchive( m_convert_saveAsURL.path() );
+    QString archToCreate;
+    if ( m_convert_saveAsURL.isLocalFile() )
+        archToCreate = m_convert_saveAsURL.path();
+    else
+        archToCreate = m_settings->getTmpDir() + m_convert_saveAsURL.fileName();
+
+    createArchive( archToCreate );
 }
 
 
@@ -267,9 +276,23 @@ void ArkWidget::convertFinish()
 
     ready();
     if ( m_convertSuccess )
-        emit openURLRequest( m_convert_saveAsURL );
+    {
+        if ( m_convert_saveAsURL.isLocalFile() )
+        {
+            emit openURLRequest( m_convert_saveAsURL );
+        }
+        else
+        {
+            KIO::NetAccess::upload( m_settings->getTmpDir()
+                       + m_convert_saveAsURL.fileName(), m_convert_saveAsURL );
+            // TODO: save bandwidth - we already have a local tmp file ...
+            emit openURLRequest( m_convert_saveAsURL );
+        }
+    }
     else
+    {
         kdWarning( 1601 ) << "Error while converting (convertSlotAddDone)" << endl;
+    }
 }
 
 bool ArkWidget::allowedArchiveName( const KURL & u )
@@ -321,8 +344,6 @@ void ArkWidget::extractTo( const KURL & targetDirectory, const KURL & archive, b
     }
 
     connect( this, SIGNAL( openDone( bool ) ), this, SLOT( extractToSlotOpenDone( bool ) ) );
-    // TODO: better codepath, it is not necessary to populate the filelistview for an --extractTo
-    file_open( archive );
 }
 
 void ArkWidget::extractToSlotOpenDone( bool success )
@@ -412,17 +433,37 @@ void ArkWidget::extractToSlotExtractDone( bool success )
 
 void ArkWidget::addToArchive( const KURL::List & filesToAdd, const KURL & archive)
 {
-    kdDebug( 1601 ) << k_funcinfo << endl;
     m_addToArchive_filesToAdd = filesToAdd;
+    m_addToArchive_archive = archive;
     if ( !KIO::NetAccess::exists( archive ) )
     {
+        if ( !m_openAsMimeType.isEmpty() )
+        {
+            QStringList extensions = KMimeType::mimeType( m_openAsMimeType )->patterns();
+            QStringList::Iterator it = extensions.begin();
+            QString file = archive.path();
+            for ( ; it != extensions.end() && !file.endsWith( ( *it ).remove( '*' ) ); ++it )
+                ;
+
+            if ( it == extensions.end() )
+            {
+                file += ArchiveFormatInfo::self()->defaultExtension( m_openAsMimeType );
+                const_cast< KURL & >( archive ).setPath( file );
+            }
+        }
+
         connect( this, SIGNAL( createDone( bool ) ), this, SLOT( addToArchiveSlotCreateDone( bool ) ) );
-        // TODO: remote Archives
-        createArchive( archive.path() );
+
+        // TODO: remote Archives should be handled by createArchive
+        if ( archive.isLocalFile() )
+            createArchive( archive.path() );
+        else
+            createArchive( m_settings->getTmpDir() + archive.fileName() );
+
+
         return;
     }
     connect( this, SIGNAL( openDone( bool ) ), this, SLOT( addToArchiveSlotOpenDone( bool ) ) );
-    file_open( archive );
 }
 
 void ArkWidget::addToArchiveSlotCreateDone( bool success )
@@ -499,6 +540,8 @@ void ArkWidget::addToArchiveSlotAddDone( bool success )
     {
         KMessageBox::error( this, i18n( "An error occurred while adding the files to the archive." ) );
     }
+    if ( !m_addToArchive_archive.isLocalFile() )
+        KIO::NetAccess::upload( m_strArchName, m_addToArchive_archive );
     emit request_file_quit();
     return;
 }
@@ -536,13 +579,13 @@ ArkWidget::file_open(const KURL& url)
     if ( !fileInfo.exists() )
     {
         KMessageBox::error(this, i18n("The archive %1 does not exist.").arg(strFile));
-        emit removeRecentURL(strFile);
+        emit removeRecentURL( m_realURL );
         return;
     }
     else if ( !fileInfo.isReadable() )
     {
         KMessageBox::error(this, i18n("You do not have permission to access that archive.") );
-        emit removeRecentURL(strFile);
+        emit removeRecentURL( m_realURL );
         return;
     }
 
@@ -640,9 +683,11 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
             }
         }
         // if we got here, the file does not already exist.
-        if ( !ArkUtils::haveDirPermissions( strFile ) )
+        if ( !ArkUtils::haveDirPermissions( url.directory() ) )
         {
-            kdDebug( 1601 ) << k_funcinfo << ": haveDirPermissions is false" << endl;
+            KMessageBox::error( this,
+                i18n( "You do not have permission"
+                      " to write to the directory %1" ).arg(url.directory() ) );
             return QString::null;
         }
     } // end of while loop
@@ -684,7 +729,6 @@ ArkWidget::slotExtractDone()
 {
     disconnect( arch, SIGNAL( sigExtract( bool ) ),
                 this, SLOT( slotExtractDone() ) );
-    kdDebug(1601) << "+ArkWidget::slotExtractDone" << endl;
     ready();
 
     if(m_extractList != 0)
@@ -698,11 +742,12 @@ ArkWidget::slotExtractDone()
     }
 
     if ( m_extractRemote )
-        extractRemoteInitiateMoving( m_extractURL );
-
-    if(m_extractOnly)
     {
-        emit request_file_quit();  // Close ark window if we are doing an Extract Here, the toplevel window connects to this
+        extractRemoteInitiateMoving( m_extractURL );
+    }
+    else if( m_extractOnly )
+    {
+        emit request_file_quit();
     }
 
     kdDebug(1601) << "-ArkWidget::slotExtractDone" << endl;
@@ -718,6 +763,7 @@ void ArkWidget::extractRemoteInitiateMoving( const KURL & target )
     srcDirURL.setPath( srcDir );
 
     QDir dir( srcDir );
+    dir.setFilter( QDir::All | QDir::Hidden );
     QStringList lst( dir.entryList() );
     lst.remove( "." );
     lst.remove( ".." );
@@ -748,6 +794,9 @@ void ArkWidget::slotExtractRemoteDone(KIO::Job *job)
         job->showErrorDialog();
 
     emit extractRemoteMovingDone();
+
+    if ( m_extractOnly )
+        emit request_file_quit();
 }
 
 
@@ -921,7 +970,6 @@ void ArkWidget::createRealArchiveSlotCreate( Arch * newArch, bool success,
                                              const QString & fileName, int nbr )
 {
     slotCreate( newArch, success, fileName, nbr );
-    kdDebug( 1601 ) << "slotCreate called, success is: " << success << endl;
 
     if ( !success )
         return;
@@ -969,6 +1017,7 @@ void ArkWidget::createRealArchiveSlotAddDone( bool success )
 
 void ArkWidget::createRealArchiveSlotAddFilesDone( bool success )
 {
+    //kdDebug( 1601 ) << "createRealArchiveSlotAddFilesDone+, success:" << success << endl;
     disconnect( arch, SIGNAL( sigAdd( bool ) ), this,
                       SLOT( createRealArchiveSlotAddFilesDone( bool ) ) );
     delete m_pTempAddList;
@@ -1078,6 +1127,7 @@ void ArkWidget::slotAddDone(bool _bSuccess)
 
     if (_bSuccess)
     {
+        m_modified = true;
         //simulate reload
         KURL u;
         u.setPath( arch->fileName() );
@@ -1220,6 +1270,7 @@ void ArkWidget::slotDeleteDone(bool _bSuccess)
     archiveContent->triggerUpdate();
     if (_bSuccess)
     {
+        m_modified = true;
         updateStatusTotals();
         updateStatusSelection();
     }
@@ -2038,7 +2089,7 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
         setRealURL( u );
 
         emit setWindowCaption( _filename );
-        emit addRecentURL(_filename);
+        emit addRecentURL( u );
         createFileListView();
         m_bIsArchiveOpen = true;
         arch = _newarch;
@@ -2072,7 +2123,7 @@ ArkWidget::openArchive( const QString & _filename )
             if ( !dlg->exec() == QDialog::Accepted )
             {
                 emit setWindowCaption( QString::null );
-                emit removeRecentURL( _filename );
+                emit removeRecentURL( m_realURL );
                 delete dlg;
                 file_close();
                 return;
@@ -2092,7 +2143,7 @@ ArkWidget::openArchive( const QString & _filename )
                                             _filename, m_openAsMimeType) ) )
     {
         emit setWindowCaption( QString::null );
-        emit removeRecentURL( _filename );
+        emit removeRecentURL( m_realURL );
         KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
         return;
     }
@@ -2129,11 +2180,8 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
         QFileInfo fi( _filename );
         QString path = fi.dirPath( true );
         m_settings->setLastOpenDir( path );
-        QString dirtmp;
-        QString directory("tmp.");
-        dirtmp = locateLocal( "tmp", directory );
 
-        if ( _filename.left( dirtmp.length() ) == dirtmp || !fi.isWritable() )
+        if ( !fi.isWritable() )
         {
             arch->setReadOnly(true);
             KMessageBox::information(this, i18n("This archive is read-only. If you want to save it under a new name, go to the File menu and select Save As."), i18n("Information"), "ReadOnlyArchive");
@@ -2151,7 +2199,7 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
     }
     else
     {
-        emit removeRecentURL( _filename );
+        emit removeRecentURL( m_realURL );
         emit setWindowCaption( QString::null );
         KMessageBox::error( this, i18n( "An error occurred while trying to open the archive %1" ).arg( _filename ) );
 

@@ -78,6 +78,9 @@ public:
     virtual void addToArchive( const KURL::List & filesToAdd, const KURL & archive = KURL() );
     void convertTo( const KURL & u );
 
+    bool isModified() { return m_modified; }
+    void setModified( bool b ) { m_modified = b; }
+
 public slots:
     void file_open( const KURL& url);
     void edit_view_last_shell_output();
@@ -122,8 +125,8 @@ signals:
     void signalArchivePopup( const QPoint & pPoint );
     void setStatusBarText( const QString & text );
     void setStatusBarSelectedFiles( const QString & text );
-    void removeRecentURL( const QString & url );
-    void addRecentURL( const QString & url );
+    void removeRecentURL( const KURL & url );
+    void addRecentURL( const KURL & url );
     void setWindowCaption( const QString &caption );
     void removeOpenArk( const KURL & );
     void addOpenArk( const KURL & );
@@ -252,9 +255,12 @@ private: // data
     KURL m_extractTo_targetDirectory;
 
     KURL::List m_addToArchive_filesToAdd;
+    KURL m_addToArchive_archive;
 
     KTempDir * m_createRealArchTmpDir;
     KTempDir * m_extractRemoteTmpDir;
+
+    bool m_modified;
 };
 
 #endif /* ARKWIDGET_H*/

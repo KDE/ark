@@ -69,8 +69,8 @@ public slots:
     void slotSaveProperties();
     void slotSaveOptions();
     void slotArchivePopup( const QPoint &pPoint);
-    void slotRemoveRecentURL( const QString &url );
-    void slotAddRecentURL( const QString &url );
+    void slotRemoveRecentURL( const KURL &url );
+    void slotAddRecentURL( const KURL &url );
     void slotFixActionState( const bool & bHaveFiles );
     void slotDisableActions();
     void slotAddOpenArk( const KURL & _arkname );
