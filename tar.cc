@@ -56,7 +56,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-
+#include <ktempfile.h>
 // ark includes
 #include "viewer.h"
 #include "extractdlg.h"
@@ -73,6 +73,8 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
 {
   kdDebug(1601) << "+TarArch::TarArch" << endl;
   m_archiver_program = m_settings->getTarCommand();
+  m_unarchiver_program = QString::null;
+  verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
   if (_filename.right(4) == ".tar")
     {
@@ -89,9 +91,14 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
       base = base.left(base.findRev("."));
       
       // build the temp file name
-      tmpfile.sprintf("%s/temp_tar_%s.%d", (const char *)tmpdir,
-		      (const char *)base, getpid());
-      kdDebug(1601) << "Tmpfile will be " << (const char *)tmpfile.local8Bit() << "\n" << endl;
+      
+      KTempFile *pTempFile = new KTempFile(QString(tmpdir +
+						   QString("/temp_tar")),
+					   QString(".tar"));
+
+      tmpfile = pTempFile->name();
+      kdDebug(1601) << "Tmpfile will be " <<
+	(const char *)tmpfile.local8Bit() << "\n" << endl;
     }
   kdDebug(1601) << "-TarArch::TarArch" << endl;
 }

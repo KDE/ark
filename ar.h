@@ -57,7 +57,6 @@ protected slots:
   void slotReceivedTOC(KProcess *, char *, int);
 
 private:
-  QString m_archiver_program;
   void setHeaders();
   void processLine( char *_line );
 };

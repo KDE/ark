@@ -49,6 +49,8 @@ ArArch::ArArch( ArkSettings *_settings, Viewer *_gui,
   : Arch(_settings, _gui, _fileName )
 {
   m_archiver_program = "ar";
+  m_unarchiver_program = QString::null;
+  verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
   kdDebug(1601) << "ArArch constructor" << endl;
 }
 

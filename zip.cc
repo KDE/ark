@@ -48,6 +48,8 @@ ZipArch::ZipArch( ArkSettings *_settings, Viewer *_gui,
 {
   m_archiver_program = "zip";
   m_unarchiver_program = "unzip";
+  verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+
   kdDebug(1601) << "ZipArch constructor" << endl;
 }
 

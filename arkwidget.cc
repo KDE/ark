@@ -276,7 +276,6 @@ void ArkWidget::setupActions()
 		    actionCollection(),
 		    "directories");
 
-  KStdAction::showMenubar(this, SLOT(toggleMenuBar()), actionCollection());
   KStdAction::showToolbar(this, SLOT(toggleToolBar()), actionCollection());
   KStdAction::showStatusbar(this, SLOT(toggleStatusBar()), actionCollection());
   KStdAction::saveOptions(this, SLOT(options_saveNow()), actionCollection());
@@ -293,19 +292,6 @@ void ArkWidget::setHeader()
     setCaption(m_strArchName);
   else
     setCaption("");
-}
-
-void ArkWidget::toggleMenuBar()
-{
- if(menuBar()->isVisible())
-   {
-     menuBar()->hide();
-     setCaption(i18n("Use the right mouse button to bring back the menu"));
-     QTimer::singleShot(5000,this,SLOT(setHeader()));
-   }
-
- else
-   menuBar()->show();
 }
 
 void ArkWidget::toggleToolBar()
@@ -548,12 +534,15 @@ void ArkWidget::download(const KURL &url, QString &strFile)
 {
   // downloads url into strFile, making sure strFile has the same extension
   // as url.
-  QString extension;
-  getArchType(url.path(), extension);
-  mpTempFile = new KTempFile("/tmp/ark", extension);
-  strFile = mpTempFile->name();
-  kdDebug(1601) << "Downloading " << url.path().local8Bit() << " as " <<
-    strFile.local8Bit() << endl;
+  if (!url.isLocalFile())
+    {
+      QString extension;
+      getArchType(url.path(), extension);
+      mpTempFile = new KTempFile("/tmp/ark", extension);
+      strFile = mpTempFile->name();
+      kdDebug(1601) << "Downloading " << url.path().local8Bit() << " as " <<
+	strFile.local8Bit() << endl;
+    }
   KIO::NetAccess::download(url, strFile);
 }
 
@@ -778,6 +767,8 @@ void ArkWidget::file_open(const KURL& url)
   QString strFile;
   if (!url.isEmpty())
   {
+    if (isArchiveOpen())
+      file_close();  // close old arch. If we don't, our temp file is wrong!
     download(url, strFile);
     m_settings->clearShellOutput();
     kdDebug(1601) << "Recent open: " << strFile.local8Bit() << endl;
@@ -983,7 +974,11 @@ void ArkWidget::slotAddDone(bool _bSuccess)
 	   it != mpDownloadedList->end(); ++it)
 	{
 	  QString str = *it;
-	  KIO::NetAccess::removeTempFile(str);
+
+	  // is this necessary? Maybe risky. The tmp/ark.### directory
+	  // will be removed anyhow...
+	  str = str.right(str.length() - 5);
+	  unlink(str.local8Bit());
 	}
       delete mpDownloadedList;
       mpDownloadedList = NULL;
@@ -1111,7 +1106,7 @@ void ArkWidget::file_close()
       ArkApplication::getInstance()->removeOpenArk(m_strArchName);
       if (mpTempFile)
 	{      
-	  kdDebug(1601) << "Removing temp file" <<
+	  kdDebug(1601) << "Removing temp file " <<
 	    mpTempFile->name().local8Bit() << endl;
 	  mpTempFile->unlink();
 	  delete mpTempFile;
@@ -1968,7 +1963,7 @@ void ArkWidget::dropAction(QStringList *list)
 
       int nRet = QMessageBox::warning(this, i18n("Error"),
 				      (list->count() > 1) ?
-				      i18n("There is no archive currently open. Do you wish to open one now for these files?") : i18n("There is no archive currently open. Do you wish to open one now for this file?"),
+				      i18n("There is no archive currently open. Do you wish to create one now for these files?") : i18n("There is no archive currently open. Do you wish to create one now for this file?"),
 				      i18n("Yes"), i18n("No"), 0, 0, 1);
       if (0 == nRet) // yes
       {
@@ -1983,6 +1978,11 @@ void ArkWidget::dropAction(QStringList *list)
     }
   }
 }
+
+//////////////////////////////////////////////////////////////////////
+///////////////////////// showFavorite ///////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
 
 void ArkWidget::showFavorite()
 {
@@ -2095,6 +2095,10 @@ void ArkWidget::createFileListView()
 			     const QPoint &, int)));
 }
 
+//////////////////////////////////////////////////////////////////////
+//////////////////////// badBzipName /////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
 bool ArkWidget::badBzipName(const QString & _filename)
 {
   if (_filename.right(3) == ".BZ" || _filename.right(4) == ".TBZ")
@@ -2109,6 +2113,11 @@ bool ArkWidget::badBzipName(const QString & _filename)
     return false;
   return true;
 }
+
+//////////////////////////////////////////////////////////////////////
+////////////////////// createArchive /////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
 
 void ArkWidget::createArchive( const QString & _filename )
 {
@@ -2145,6 +2154,13 @@ void ArkWidget::createArchive( const QString & _filename )
 	KMessageBox::error(this, i18n("Unknown archive format or corrupted archive") );
       return;
     }
+
+  if (!newArch->utilityIsAvailable())
+    {
+      KMessageBox::error(this, i18n("Sorry, the utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
+      return;
+    }
+
   connect( newArch, SIGNAL(sigCreate(Arch *, bool, const QString &, int)),
 	   this, SLOT(slotCreate(Arch *, bool, const QString &, int)) );
   connect( newArch, SIGNAL(sigDelete(bool)), this, SLOT(slotDeleteDone(bool)));
@@ -2158,6 +2174,10 @@ void ArkWidget::createArchive( const QString & _filename )
   newArch->create();
   recent->addURL(_filename);
 }
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////// openArchive /////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 
 void ArkWidget::openArchive(const QString & _filename )
 {
@@ -2194,6 +2214,12 @@ void ArkWidget::openArchive(const QString & _filename )
       return;
     }
   
+  if (!newArch->utilityIsAvailable())
+    {
+      KMessageBox::error(this, i18n("Sorry, the utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
+      return;
+    }
+
   connect( newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
 	   this, SLOT(slotOpen(Arch *, bool, const QString &,int)) );
   connect( newArch, SIGNAL(sigDelete(bool)),
@@ -2208,6 +2234,10 @@ void ArkWidget::openArchive(const QString & _filename )
   QApplication::setOverrideCursor( waitCursor );
   newArch->open();
 }
+
+//////////////////////////////////////////////////////////////////////
+///////////////////////// listingAdd /////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 
 void ArkWidget::listingAdd(QStringList *_entries)
 {
@@ -2224,6 +2254,11 @@ void ArkWidget::listingAdd(QStringList *_entries)
     }
   archiveContent->insertItem(flvi);
 }
+
+//////////////////////////////////////////////////////////////////////
+///////////////////////// setHeaders /////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
 
 void ArkWidget::setHeaders(QStringList *_headers,
 			   int * _rightAlignCols, int _numColsToAlignRight)

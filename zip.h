@@ -59,7 +59,7 @@ public:
   virtual void unarchFile(QStringList *, const QString & _destDir="");
 	
   void testIntegrity();
-	
+
   enum AddMode { Update = 1, Freshen, Move };
 
 protected:
@@ -70,8 +70,6 @@ protected slots:
   void slotReceivedTOC(KProcess *, char *, int);
 	
 private:
-  QString m_archiver_program;
-  QString m_unarchiver_program;
   void processLine( char* );	
   void setHeaders();
 };

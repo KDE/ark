@@ -67,7 +67,6 @@
  <Action name="file_open"/>
  <Action name="close_arch"/>
  <Separator lineSeparator="true"/>
- <Action name="options_show_menubar"/>
  <Action name="options_show_toolbar"/>
  <Action name="options_show_statusbar"/>
  <Separator lineSeparator="true"/>

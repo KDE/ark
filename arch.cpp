@@ -52,6 +52,23 @@ Arch::~Arch()
 {
 }
 
+void Arch::verifyUtilityIsAvailable(const QString & _utility1,
+			      const QString & _utility2)
+{
+  // see if the utility is in the PATH of the user. If there is a
+  // second utility specified, it must also be present.
+  QString cmd = "which " + _utility1;
+  int ret1 = system(cmd.local8Bit());
+  int ret2 = 0;
+  if (!_utility2.isNull())
+    {
+      cmd = "which " + _utility2;
+      ret2 = system(cmd.local8Bit());
+    }
+
+  m_bUtilityIsAvailable = ((ret1 == 0) && (ret2 == 0));
+}
+
 void Arch::slotCancel()
 {
   //  m_kp->kill();

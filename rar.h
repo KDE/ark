@@ -57,9 +57,6 @@ protected slots:
   //  void slotExtractDone(KProcess *_);
 
 private: // data
-  QString m_archiver_program;
-  QString m_unarchiver_program;
-
   int m_linenumber;
   QString m_line1, m_line2; // for keeping till we have all three lines
 

@@ -96,7 +96,6 @@ private:  // methods
   QString getEntry(const QString & filename);
 
 private: // data
-  QString m_archiver_program;
  // if the tar is compressed, this is the temporary uncompressed tar.
   QString tmpfile;
   bool compressed;

@@ -48,6 +48,11 @@ CompressedFile::CompressedFile( ArkSettings *_settings, Viewer *_gui,
 {
   kdDebug(1601) << "CompressedFile constructor" << endl;
   m_tmpdir.sprintf("/tmp/ark.%d", getpid());
+  m_archiver_program = getCompressor();
+  m_unarchiver_program = getUnCompressor();
+  verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+
+
 }
 
 void CompressedFile::setHeaders()
@@ -125,7 +130,7 @@ void CompressedFile::open()
   kdDebug(1601) << "Temp file name is " << (const char *)m_tmpfile << endl;
 
   KProcess *kp = new KProcess;
-  QString uncompressor = getUnCompressor();
+  QString uncompressor = m_unarchiver_program;
   kp->clearArguments();
   *kp << uncompressor.local8Bit() << "-f" ;
   if (uncompressor == "lzop")
@@ -243,7 +248,7 @@ void CompressedFile::addFile( QStringList *urls )
 
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  QString compressor = getCompressor();
+  QString compressor = m_archiver_program;
 
   *kp << compressor << "-c" << file.local8Bit();
 

@@ -52,6 +52,8 @@ ZooArch::ZooArch( ArkSettings *_settings, Viewer *_gui,
 {
   kdDebug(1601) << "ZooArch constructor" << endl;
   m_archiver_program = "zoo";
+  m_unarchiver_program = QString::null;
+  verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 }
 
 void ZooArch::processLine( char *_line )

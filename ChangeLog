@@ -1,5 +1,12 @@
           $Id$
 
+2000-06-13:  Emily Ezust <emilye@corel.com>
+	* Fixed bug preventing you from opening a network file after having
+	  opened one before in the same session.
+	* Added a check for utilities (it will notify you e.g. that
+ 	  "The utility zip is not in your PATH. Please
+	  install it or contact your system administrator.").
+	
 2000-06-13: Emily Ezust <emilye@corel.com>
 	* Added support for drag/adding files or drag/opening archives
  	  from konqy. There are still some problems I need to track down:

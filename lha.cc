@@ -52,6 +52,8 @@ LhaArch::LhaArch( ArkSettings *_settings, Viewer *_gui,
 {
   kdDebug(1601) << "LhaArch constructor" << endl;
   m_archiver_program = "lha";
+  m_unarchiver_program = QString::null;
+  verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 }
 
 void LhaArch::processLine( char *_line )

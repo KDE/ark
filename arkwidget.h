@@ -107,6 +107,7 @@ public:
   void unarchFile(QStringList * _l) { arch->unarchFile(_l); }
 
   bool isEditInProgress() { return m_bEditInProgress; }
+
 public slots:    
   void file_newWindow();
   void file_open(const KURL& url);
@@ -114,7 +115,6 @@ public slots:
   void file_save_as();
   void toggleToolBar();
   void toggleStatusBar();
-  void toggleMenuBar();
   void edit_view_last_shell_output();
 protected slots:
   void file_new();

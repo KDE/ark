@@ -51,6 +51,7 @@ RarArch::RarArch( ArkSettings *_settings, Viewer *_gui,
   kdDebug(1601) << "RarArch constructor" << endl;
   m_archiver_program = "rar";
   m_unarchiver_program = "unrar";
+  verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 }
 
 void RarArch::processLine( char *_line )

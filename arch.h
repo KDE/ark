@@ -57,6 +57,10 @@ ArchType getArchType( const QString & archname, QString &extension);
 // appropriately. See LhaArch or ZipArch for a good model. Don't use
 // TarArch or CompressedFile as models - they're too complicated!
 //
+// Don't forget to set m_archiver_program and m_unarchiver_program
+// and add a call to 
+//     verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+// in the constructor of your class. It's OK to leave out the second argument.
 //
 // To add a new archive:
 // 1. Create a new header file and a source code module
@@ -90,7 +94,7 @@ public:
   virtual void unarchFile(QStringList *, const QString & _destDir="") = 0;
 
   QString fileName() const { return m_filename; };
-	
+
   enum EditProperties{ Add = 1, Delete = 2, Extract = 4,
     View = 8, Integrity = 16 };
 
@@ -100,6 +104,14 @@ public:
   bool isReadOnly() { return m_bReadOnly; }
 
   void setReadOnly(bool bVal) { m_bReadOnly = bVal; }
+
+  // check to see if the utility exists in the PATH of the user
+  void verifyUtilityIsAvailable(const QString &,
+				const QString & = QString::null);
+
+  bool utilityIsAvailable() { return m_bUtilityIsAvailable; }
+
+  QString getUtility() { return m_archiver_program; }
 
 protected slots:
   void slotCancel();
@@ -131,6 +143,11 @@ protected:  // data
   // lets tar delete unsuccessfully before adding without confusing the user
   bool m_bNotifyWhenDeleteFails; 
 
+  // set to whether the archiving utility/utilities is/are in the user's PATH
+  bool m_bUtilityIsAvailable;
+
+  QString m_archiver_program;
+  QString m_unarchiver_program;
 };
 
 // various functions for massaging timestamps
