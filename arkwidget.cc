@@ -68,7 +68,7 @@
 #include <sys/stat.h>
 #ifdef BSD4_4
 #include <sys/mount.h>
-#elif linux
+#elif defined(__linux)
 #include <sys/vfs.h>  // for statfs
 #endif
 
