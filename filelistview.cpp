@@ -34,6 +34,7 @@
 #include <qheader.h>
 #include <qpixmap.h>
 #include <qstringlist.h>
+#include <qwhatsthis.h>
 
 // KDE includes
 #include <klocale.h>
@@ -95,6 +96,8 @@ FileListView::FileListView(QWidget *parent, const char* name)
 {
   sortColumn = 0;
   increasing = TRUE;
+  QWhatsThis::add(this, i18n("This area is for displaying information about the files contained within an archive."));
+
   setMouseTracking(false);
 }
 

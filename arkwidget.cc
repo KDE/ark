@@ -34,7 +34,7 @@
 #include <qmessagebox.h>
 #include <qregexp.h>
 #include <qheader.h>
-
+#include <qwhatsthis.h>
 // KDE includes
 #include <kapp.h>
 #include <kconfig.h>
@@ -283,6 +283,7 @@ void ArkWidget::toggleToolBar()
    toolBar()->hide();
  else
    toolBar()->show();
+
 }
 
 void ArkWidget::toggleStatusBar()
@@ -298,6 +299,8 @@ void ArkWidget::setupStatusBar()
   kdDebug(1601) << "+ArkWidget::setupStatusBar" << endl;
 
   KStatusBar *sb = statusBar();
+
+  QWhatsThis::add(sb, i18n("The statusbar shows you how many files you have and how many you have selected. It also shows you total sizes for these groups of files."));
 
   m_pStatusLabelSelect = new QLabel(sb);
   m_pStatusLabelSelect->setFrameStyle(QFrame::Panel | QFrame::Sunken);
@@ -390,16 +393,9 @@ void ArkWidget::updateStatusTotals()
 //////////////////////////////////////////////////////////////////////
 
 
-void ArkWidget::file_open(const QString & _strFile)
+void ArkWidget::file_open(const QString & strFile)
 {
-  QString strFile = _strFile;
-  KURL url = strFile;
-  if (strFile.left(7) == "http://" ||
-      strFile.left(6) == "ftp://")
-    {
-      KIO::NetAccess::download(url, strFile); 
-      m_settings->clearShellOutput();
-    }
+  //strFile has no protocol by now - it's a path.
   struct stat statbuffer;
   
   if (stat(strFile.local8Bit(), &statbuffer) == -1)
@@ -407,10 +403,12 @@ void ArkWidget::file_open(const QString & _strFile)
       if (errno == ENOENT || errno == ENOTDIR || errno ==  EFAULT)
 	{
 	  KMessageBox::error(this, i18n("The archive %1 does not exist.").arg(strFile.local8Bit()));
+	  recent->removeURL(strFile);
 	}
       else if (errno == EACCES)
 	{
 	  KMessageBox::error(this, i18n("Can't access the archive %1").arg(strFile.local8Bit()));
+	  recent->removeURL(strFile);
 	}
       else
 	KMessageBox::error(this, i18n("Unknown error."));
@@ -643,7 +641,6 @@ QString ArkWidget::getCreateFilename()
 void ArkWidget::file_new()
 {
   QString strFile = getCreateFilename();
-  recent->addURL(strFile);
   m_settings->clearShellOutput();
   if (!strFile.isEmpty())
     createArchive( strFile );
@@ -715,9 +712,12 @@ void ArkWidget::file_openRecent(const KURL& url)
   {
     KIO::NetAccess::download(url, strFile); 
     m_settings->clearShellOutput();
+    kdDebug(1601) << "Recent open: " << strFile.local8Bit() << endl;
     file_open(strFile);
-    return;
   }
+  else
+    kdDebug(1601) << "Empty URL requested in file_openRecent()" << endl;
+      
 }
 
 void ArkWidget::showZip( QString _filename )
@@ -997,7 +997,7 @@ void ArkWidget::file_reload()
     {
       QString filename = arch->fileName();
       file_close();
-      file_open( filename );
+      file_open(filename);
     }
 }
 
@@ -1793,9 +1793,18 @@ void ArkWidget::dropAction(QStringList *list)
     {
       str = *it;
       kdDebug(1601) << (const char *)str << endl;
-      if (str.left(5) != QString("file:"))
+      if (str.left(5) != QString("file:") )
 	{
-	  str = "file:" + str;
+	  if (str.left(7) == "http://" ||
+	      str.left(6) == "ftp://")
+	    {
+	      KURL url = str;
+	      KIO::NetAccess::download(url, str); 
+	    }
+	  else
+	    {
+	      str = "file:" + str;
+	    }
 	}
       urls.append(str);
     }
@@ -1827,6 +1836,12 @@ void ArkWidget::dropAction(QStringList *list)
     str = urls.first();
     if (str.left(5) == "file:")
       str = str.right(str.length()-5);  // get rid of "file:" part of url
+    else if (str.left(7) == "http://" ||
+	     str.left(6) == "ftp://")
+      {
+	KURL url = str;
+	KIO::NetAccess::download(url, str); 
+      }
     file_open(str);
   }
   else
@@ -2076,6 +2091,7 @@ void ArkWidget::createArchive( const QString & _filename )
   archiveContent->setUpdatesEnabled(false);
   QApplication::setOverrideCursor( waitCursor );
   newArch->create();
+  recent->addURL(_filename);
 }
 
 void ArkWidget::openArchive(const QString & _filename )
