@@ -174,7 +174,7 @@ void Arch::slotDeleteExited(KProcess *_kp)
       if (m_bNotifyWhenDeleteFails)
 	{
 	  QApplication::restoreOverrideCursor();
-	  KMessageBox::sorry(m_gui->getArkWidget(), i18n("Deletion failed"),
+	  KMessageBox::sorry(m_gui->getArkWidget(), i18n("The deletion failed."),
 			     i18n("Error") );
 	}
       else bSuccess = true;
