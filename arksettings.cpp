@@ -524,6 +524,7 @@ const QString ArkSettings::getFilter()
   return i18n(
 	      "*.zip *.tar.gz *.tar.Z *.tar.lzo *.tgz *.taz *.tzo *.tar.bz2 *.tar.bz *.tar *.lzh *.gz *.lzo *.Z *.bz *.bz2 *.zoo *.rar *.a|All valid archives\n"
 	      " *.tar.gz *.tar.Z *.tgz *.taz *.tzo *.tar.bz2 *.tar.bz *.tar.lzo *.tar |Compressed or Plain Tar archives\n"
+	      "*.gz *.bz *.bz2 *.lzo *.Z|Compressed Files\n"
 	      "*.zip|Zip archives (*.zip)\n"
 	      "*.lzh|Lha archives (*.lzh)\n"
 	      "*.zoo|Zoo archives (*.zoo)\n"

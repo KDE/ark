@@ -91,9 +91,9 @@ SelectDlg::SelectDlg( ArkSettings *_data, QWidget *_parent, const char *_name )
 
 void SelectDlg::saveConfig()
 {
-	if( !m_regExp->text().isEmpty() )
-		m_settings->setSelectRegExp( m_regExp->text() );
-	accept();
+  if( !m_regExp->text().isEmpty() )
+    m_settings->setSelectRegExp( m_regExp->text() );
+  accept();
 }
 
 void SelectDlg::regExpChanged(const QString& _exp)

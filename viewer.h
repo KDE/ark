@@ -52,7 +52,7 @@ public:
     { return mGui->getCol(_columnHeader); }
   QString getColData(const QString & _filename, int _col)
     { return mGui->getColData(_filename, _col); }
-  
+  void viewShellOutput() { mGui->edit_view_last_shell_output(); }
 private:
   ArkWidget *mGui;
 };

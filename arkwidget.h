@@ -112,7 +112,7 @@ public slots:
   void toggleToolBar();
   void toggleStatusBar();
   void toggleMenuBar();
-
+  void edit_view_last_shell_output();
 protected slots:
   void file_new();
   void file_open();
@@ -125,7 +125,6 @@ protected slots:
   void edit_selectAll();
   void edit_deselectAll();
   void edit_invertSel();
-  void edit_view_last_shell_output();
     
   void action_add();
   void action_add_dir();
@@ -136,7 +135,6 @@ protected slots:
   void action_edit();
   void options_dirs();
   void options_keys();
-  void options_general();
   //  void options_saveOnExit();
   void options_saveNow();
   void setHeader();

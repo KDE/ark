@@ -65,7 +65,6 @@
 #include "arkapp.h"
 
 #include "dirDlg.h"
-#include "generalOptDlg.h"
 #include "selectDlg.h"
 #include "shellOutputDlg.h"
 
@@ -240,11 +239,6 @@ void ArkWidget::setupActions()
 					SLOT(edit_invertSel()),
 					actionCollection(),
 					"invert_selection");
-
-  (void)new KAction(i18n("&General..."), 0, this,
-		    SLOT(options_general()),
-		    actionCollection(),
-		    "general");
 
   (void)new KAction(i18n("&Directories..."), 0, this,
 		    SLOT(options_dirs()),
@@ -1057,25 +1051,30 @@ void ArkWidget::edit_select()
       if (!reg_exp.isValid())
 	kdError(1601) <<
 	  "ArkWidget::edit_select: regular expression is not valid." << endl;
-      
-      FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
-
-      // don't call the slot for each selection!
-      disconnect( archiveContent, SIGNAL( selectionChanged()),
-		  this, SLOT( slotSelectionChanged() ) );
-    
-      while (flvi)
+      else
 	{
-	  if ( reg_exp.match(flvi->text(0))==0 )
+	  // first deselect everything
+	  archiveContent->clearSelection();
+	  FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
+	  
+
+	  // don't call the slot for each selection!
+	  disconnect( archiveContent, SIGNAL( selectionChanged()),
+		      this, SLOT( slotSelectionChanged() ) );
+    
+	  while (flvi)
 	    {
-	      archiveContent->setSelected(flvi, true);
+	      if ( reg_exp.match(flvi->text(0))==0 )
+		{
+		  archiveContent->setSelected(flvi, true);
+		}
+	      flvi = (FileLVI*)flvi->itemBelow();
 	    }
-	  flvi = (FileLVI*)flvi->itemBelow();
+	  // restore the behavior
+	  connect( archiveContent, SIGNAL( selectionChanged()),
+		   this, SLOT( slotSelectionChanged() ) );
+	  updateStatusSelection();
 	}
-      // restore the behavior
-      connect( archiveContent, SIGNAL( selectionChanged()),
-	       this, SLOT( slotSelectionChanged() ) );
-      updateStatusSelection();	
     }
 }
 
@@ -1583,13 +1582,6 @@ void ArkWidget::showFile( FileLVI *_pItem )
 }
 
 // Options menu //////////////////////////////////////////////////////
-
-void ArkWidget::options_general()
-{
-  GeneralDlg *gd = new GeneralDlg( m_settings, this );
-  gd->exec();
-  delete gd;
-}
 
 void ArkWidget::options_dirs()
 {

@@ -29,7 +29,6 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <klocale.h>
-
 #include <time.h>
 
 #define ABS(x) (x) < 0? -(x) : (x)
@@ -152,18 +151,13 @@ void Arch::slotExtractExited(KProcess *_kp)
     {
       if(stderrIsError())
 	{
-	  KMessageBox::error( (QWidget *) 0, i18n("Error"), i18n("Something bad happened when trying to extract...") );
+	  int ret = KMessageBox::warningYesNo( (QWidget *) 0, i18n("Sorry, the extract operation failed.\nDo you wish to view the shell output?"), i18n("Error"));
+	  if (ret == KMessageBox::Yes)
+	    m_gui->viewShellOutput();
 	}
       else
 	bSuccess = true;
     }
-
-  // This is now taken care of by the code to notify user which file(s)
-  // can't be extracted due to Overwrite being set to false.
-#if 0
-    else
-      KMessageBox::sorry((QWidget *)0, i18n("Extraction failed"), i18n("Error"));
-#endif
 
   emit sigExtract(bSuccess);
   delete _kp;
@@ -194,8 +188,11 @@ void Arch::slotAddExited(KProcess *_kp)
 	bSuccess = true;
     }
   else
-    KMessageBox::sorry((QWidget *)0, i18n("Sorry, the add operation failed.\nPlease see the last shell output for more information"), i18n("Error"));
-  
+    {
+      int ret = KMessageBox::warningYesNo( (QWidget *) 0, i18n("Sorry, the add operation failed.\nDo you wish to view the shell output?"), i18n("Error"));
+	  if (ret == KMessageBox::Yes)
+	    m_gui->viewShellOutput();
+    }  
   emit sigAdd(bSuccess);
   delete _kp;
   _kp = NULL;
