@@ -238,7 +238,7 @@ void ExtractDlg::browse() // slot
 {
    KFileDialog extractDirDlg( m_settings->getExtractDir(), QString::null, this, "extractdirdlg", true );
    extractDirDlg.setMode( KFile::Mode( KFile::Directory ) );
-   extractDirDlg.setCaption(i18n("Select Extract Directory"));
+   extractDirDlg.setCaption(i18n("Select an Extract Directory"));
    extractDirDlg.exec();
 
    KURL u( extractDirDlg.selectedURL() );
