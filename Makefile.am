@@ -1,7 +1,7 @@
 # set the include path for X, qt and KDE
 AM_CPPFLAGS = $(all_includes)
 
-SUBDIRS = pics
+SUBDIRS = pics konqplugin
 
 # The binary name. Changed from kzip to ark
 bin_PROGRAMS = 
@@ -53,6 +53,6 @@ xdg_apps_DATA = ark.desktop
 parts_DATA = ark_part.desktop
 partsdir = $(kde_servicesdir)
 
-konqservice_DATA = arkservicemenu.desktop ark_directory_service.desktop
-konqservicedir = $(kde_datadir)/konqueror/servicemenus
+#konqservice_DATA = arkservicemenu.desktop ark_directory_service.desktop
+#konqservicedir = $(kde_datadir)/konqueror/servicemenus
 
