@@ -467,6 +467,7 @@ void TarArch::createTmp()
             if (kp->start(KProcess::NotifyOnExit, flag ) == false)
             {
                 KMessageBox::error(0, i18n("I can't fork a decompressor"));
+		emit sigOpen( this, false, QString::null, 0 );
             }
         }
         else
