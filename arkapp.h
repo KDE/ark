@@ -30,7 +30,7 @@
 #define __ARKAPP_H__
 
 #include <qdict.h>
-#include <kuniqueapp.h>
+#include <kuniqueapplication.h>
 
 class QString;
 class QStringList;

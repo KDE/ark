@@ -514,7 +514,7 @@ ArchType Arch::getArchType(const QString &archname, QString &extension,
 {
   // Get the non-temporary name. Since we don't actually open anything
   // with it, the path information is irrelevant
-  QString fileName = realURL.isEmpty() ? archname : realURL.filename();
+  QString fileName = realURL.isEmpty() ? archname : realURL.fileName();
 
   ArchType extType = getArchTypeByExtension(fileName, extension);
 
