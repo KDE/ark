@@ -371,9 +371,9 @@ ArchType getArchType( const QString & archname, QString &extension)
       extension = archname.right(4);
       return LHA_FORMAT;
     }
-  if (archname.right(4) == ".zip")
+  if ((archname.right(4) == ".zip") || (archname.right(4) == ".xpi"))
     {
-      extension = ".zip";
+      extension = archname.right(4);
       return ZIP_FORMAT;
     }
   if ((archname.right(3) == ".gz") || (archname.right(3) == ".bz"))
@@ -424,6 +424,8 @@ ArchType getArchType( const QString & archname, QString &extension)
     return AA_FORMAT;
   if (mimetype == "application/x-tar")
     return TAR_FORMAT;
+  if (mimetype == "application/x-zip")
+    return ZIP_FORMAT;
 
   return UNKNOWN_FORMAT;
 }

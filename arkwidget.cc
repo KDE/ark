@@ -57,6 +57,7 @@
 #include <kstdaction.h>
 #include <ktempfile.h>
 #include <progressbase.h>
+#include <kmimemagic.h>
 // c includes
 
 #include <sys/stat.h>
@@ -433,7 +434,7 @@ void ArkWidget::file_save_as()
       ArchType newArchType = getArchType(strFile, ext);
       if (newArchType == archtype)
 	break;
-      // these types don't mind having no extension
+      // these types don't mind having no extension. Zip will add one, ulp!
       if (newArchType == UNKNOWN_FORMAT && !strFile.contains('.')
 	  && (archtype == RAR_FORMAT || archtype == LHA_FORMAT ||
 	      archtype == AA_FORMAT))
@@ -2240,9 +2241,29 @@ void ArkWidget::openArchive(const QString & _filename )
       break;
     default:
       if (!badBzipName(_filename))
-	KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
-      // and just leave the old archive displayed
-      return;
+	{
+	  // it's still a bad name, so let's try to figure out what it is.
+	  // Maybe it just needs the proper extension!
+	   KMimeMagic *mimePtr = KMimeMagic::self();
+	   KMimeMagicResult * mimeResultPtr = mimePtr->findFileType(_filename);
+	   QString mimetype = mimeResultPtr->mimeType();
+	   if (mimetype == "application/x-gzip")
+	     {
+	       KMessageBox::error(this, i18n("Gzip archives need to have an extension `gz'."));
+	       return;
+	     }
+	   else if (mimetype == "application/x-zoo")
+	     {
+	       KMessageBox::error(this, i18n("Zoo archives need to have an extension `zoo'."));
+	       return;
+	     }
+	   else
+	     {
+	       KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
+	       // and just leave the old archive displayed
+	       return;
+	     }
+	}
     }
   
   if (!newArch->utilityIsAvailable())
