@@ -27,6 +27,8 @@
 
 */
 
+#include <config.h>
+
 // C includes
 #include <stdlib.h>
 #include <time.h>
