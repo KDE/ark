@@ -27,7 +27,8 @@
 #include <qfileinfo.h>
 
 Archive::Archive( const KURL& url, bool openReadOnly)
-  : QObject(), m_url( url ), m_readOnly( openReadOnly )
+  : QObject(), m_url( url ), m_readOnly( openReadOnly ),
+    m_totalSize( 0 ), m_totalCompressedSize( 0 )
 {
   // If url is a local file and the user hasn't specified that the archive should be opened in  read-only mode
   if ( m_url.isLocalFile() and ( openReadOnly != true ) )
@@ -58,6 +59,8 @@ void Archive::initActions()
 void Archive::addEntry( const ArchiveEntry & entry )
 {
   m_entries.append( entry );
+  m_totalSize += entry.size();
+  m_totalCompressedSize += entry.compressedSize();
   emit entryAdded( entry );
 }
 

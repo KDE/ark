@@ -40,7 +40,7 @@ KAboutData *ArkPart::createAboutData()
                                        "1.0",
                                        I18N_NOOP("Ark KParts Component"),
                                        KAboutData::License_GPL,
-                                       I18N_NOOP( "(c) 1997-2003, The Various Ark Developers" ));
+                                       I18N_NOOP( "(c) 1997-2005, The Various Ark Developers" ));
     about->addAuthor("Robert Palmbos",0, "palm9744@kettering.edu");
     about->addAuthor("Francois-Xavier Duranceau",0, "duranceau@kde.org");
     about->addAuthor("Corel Corporation (author: Emily Ezust)",0,
@@ -59,7 +59,6 @@ ArkPart::ArkPart( QWidget *parentWidget, const char * /*widgetName*/, QObject *p
                   const char *name, const QStringList &, bool readWrite )
         : KParts::ReadWritePart(parent, name)
 {
-    kdDebug(1601)<<"ArkPart::ArkPart"<<endl;
     setInstance(ArkFactory::instance());
     awidget = new  ArkWidget( parentWidget, "ArkWidget" );
 
@@ -102,9 +101,6 @@ ArkPart::~ArkPart()
 void
 ArkPart::setupActions()
 {
-    shellOutputAction  = new KAction(i18n("&View Shell Output"), 0, awidget,
-                                     SLOT(edit_view_last_shell_output()), actionCollection(), "shell_output");
-
     addFileAction = new KAction(i18n("Add &File..."), "ark_addfile", 0, awidget,
                                 SLOT(action_add()), actionCollection(), "addfile");
 
@@ -177,10 +173,6 @@ void ArkPart::fixEnables()
     selectAllAction->setEnabled(bHaveFiles);
     deselectAllAction->setEnabled(bHaveFiles);
     invertSelectionAction->setEnabled(bHaveFiles);
-    if ( awidget->archive() )
-        shellOutputAction->setEnabled(true);
-    else
-        shellOutputAction->setEnabled(false);
 
     deleteAction->setEnabled(bHaveFiles && awidget->numSelectedFiles() > 0
                              && awidget->archive() && !bReadOnly);
@@ -213,7 +205,6 @@ void ArkPart::initialEnables()
     addDirAction->setEnabled(false);
     openWithAction->setEnabled(false);
     editAction->setEnabled(false);
-    shellOutputAction->setEnabled(false);
 }
 
 void ArkPart::disableActions()
@@ -231,7 +222,6 @@ void ArkPart::disableActions()
     addDirAction->setEnabled(false);
     openWithAction->setEnabled(false);
     editAction->setEnabled(false);
-    shellOutputAction->setEnabled(false);
 
 }
 

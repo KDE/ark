@@ -26,7 +26,8 @@
 #include <kmimetype.h>
 
 ArchiveEntry::ArchiveEntry( const QString& path, Q_UINT64 size, const QDateTime& timeStamp )
-  : m_path( path ), m_size( size ), m_timeStamp( timeStamp )
+  : m_path( path ), m_size( size ), m_timeStamp( timeStamp ),
+    m_compressedSize( 0 ), m_crc( 0 )
 {
 }
 

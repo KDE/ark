@@ -69,6 +69,16 @@ class Archive : public QObject
      */
     EntryList entries() const { return m_entries; }
 
+    /**
+     * Sum of the sizes of all entries in the archive.
+     */
+    Q_UINT64 totalSize() const { return m_totalSize; }
+
+    /**
+     * Sum of the sizes of all entries in the archive after the compression.
+     */
+    Q_UINT64 totalCompressedSize() const { return m_totalCompressedSize; }
+
   signals:
     /**
      * Emmited when an entry is going to be removed from the archive.
@@ -100,6 +110,8 @@ class Archive : public QObject
     KURL m_url;
     bool m_readOnly;
     KActionCollection *m_actionCollection;
+    Q_UINT64 m_totalSize;
+    Q_UINT64 m_totalCompressedSize;
     EntryList m_entries;
 };
 

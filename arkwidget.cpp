@@ -192,21 +192,9 @@ void ArkWidget::closeArch()
 void
 ArkWidget::updateStatusTotals()
 {
-    m_nNumFiles = 0;
-    m_nSizeOfFiles = 0;
-    if ( m_view )
-    {
-        ArkListViewItem *pItem = (ArkListViewItem *)m_view->firstChild();
-        while (pItem)
-        {
-            ++m_nNumFiles;
-            m_nSizeOfFiles += pItem->size();
-            pItem = (ArkListViewItem *)pItem->nextSibling();
-        }
-    }
-
-    QString strInfo = i18n("%n file  %1", "%n files  %1", m_nNumFiles).arg(KIO::convertSize(m_nSizeOfFiles));
-    emit setStatusBarText(strInfo);
+    QString strInfo = i18n( "%n file,  %1", "%n files,  %1", arch->entries().count() )
+                      .arg( KIO::convertSize( arch->totalSize() ) );
+    emit setStatusBarText( strInfo );
 }
 
 void
