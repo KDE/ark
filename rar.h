@@ -1,7 +1,4 @@
-//  -*-C++-*-           emacs magic for .h files
 /*
-
- $Id$
 
  ark -- archiver for the KDE project
 
@@ -24,44 +21,49 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#ifndef __RAR_H__
-#define __RAR_H__ 
+#ifndef RAR_H
+#define RAR_H 
+
+#include "arch.h"
 
 class QString;
+class QCString;
 class QStringList;
 
-class Arch;
+class ArkWidget;
 
 class RarArch : public Arch
 {
   Q_OBJECT
-public:
-  RarArch( ArkWidget *_gui,
-	   const QString & _fileName );
-  virtual ~RarArch() {}
-  virtual void open();
-  virtual void create();
-	
-  virtual void addFile( const QStringList& );
-  virtual void addDir(const QString & _dirName);
+  public:
+    RarArch( ArkWidget *_gui, const QString & _fileName );
+    virtual ~RarArch() {}
+  
+    virtual void open();
+    virtual void create();
 
-  virtual void remove(QStringList *);
-  virtual void unarchFile(QStringList *, const QString & _destDir="",
-			  bool viewFriendly=false);
+    virtual void addFile( const QStringList & );
+    virtual void addDir( const QString & );
 
-protected:
-  bool m_split_line;
+    virtual void remove( QStringList * );
+    virtual void unarchFile( QStringList *, const QString & destDir = "",
+                             bool viewFriendly = false );
 
-protected slots:
-  //  void slotExtractDone(KProcess *_);
-  virtual bool processLine(const QCString &line);
+  protected slots:
+    virtual bool processLine( const QCString & );
 
-private: // data
-  bool m_isFirstLine;
-  QString m_fileName;
-
-  void initExtract( bool, bool, bool );
-  void setHeaders();
+  private:
+    void initExtract( bool, bool, bool );
+    void setHeaders();
+    
+    /*
+     * The output of the rar command uses more than one
+     * line for each entry, the first containing the filename
+     * for the entry, the second containing additional information.
+     * Therefore, the variables below are needed.
+     */
+    bool m_isFirstLine;
+    QString m_entryFilename;
 };
 
-#endif /*  __RAR_H__ */
+#endif // RAR_H
