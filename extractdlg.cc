@@ -36,7 +36,7 @@
 #include <qradiobutton.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
-#include <qapp.h>
+#include <qapplication.h>
 #include <qframe.h>
 
 #include <kdebug.h>
