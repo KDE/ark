@@ -24,8 +24,8 @@
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
-#ifndef LHAARCH_H
-#define LHAARCH_H
+#ifndef __ZOO_H__
+#define __ZOO_H__ 
 
 // Qt includes
 #include <qstring.h>
@@ -33,13 +33,13 @@
 
 #include "arch.h"
 
-class LhaArch : public Arch 
+class ZooArch : public Arch 
 {
   Q_OBJECT
 public:
-  LhaArch( ArkSettings *_settings, Viewer *_gui,
+  ZooArch( ArkSettings *_settings, Viewer *_gui,
 	   const QString & _fileName );
-  virtual ~LhaArch() { }
+  virtual ~ZooArch() { }
 	
   virtual void open();
   virtual void create();
@@ -63,4 +63,4 @@ private:
   void setHeaders();
 };
 
-#endif /* ARCH_H */
+#endif /*  __ZOO_H__ */

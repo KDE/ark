@@ -1,7 +1,5 @@
 /*
 
- $Id$
-
  ark -- archiver for the KDE project
 
  Copyright (C)
@@ -26,56 +24,129 @@
 
 */
 
-
-// Qt includes
-#include <qdir.h>
-#include <qstringlist.h>
+#include <iostream.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/errno.h>
+#include <string.h>
 
 // KDE includes
+#include <kurl.h>
+#include <qstringlist.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
 // ark includes
-#include "zip.h"
+#include "zoo.h"
 
 // the generic viewer to which to send header and column info.
 #include "viewer.h"
 
-ZipArch::ZipArch( ArkSettings *_settings, Viewer *_gui,
+QString fixYear(const char *strYear);
+QString fixTime(const QString &_strTime);
+
+ZooArch::ZooArch( ArkSettings *_settings, Viewer *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {
-  _settings->readZipProperties();
-  m_archiver_program = "zip";
-  m_unarchiver_program = "unzip";
-  kDebugInfo(1601, "ZipArch constructor");
+  kDebugInfo(1601, "ZooArch constructor");
+  _settings->readZooProperties();
+  m_archiver_program = "zoo";
 }
 
-void ZipArch::processLine( char *_line )
+void ZooArch::processLine( char *_line )
 {
-  char columns[8][80];
+  char columns[11][80];
   char filename[4096];
-	
-  sscanf(_line, " %[0-9] %[a-zA-Z:] %[0-9] %[0-9%] %[-0-9] %[0-9:] "
-	 "%[0-9a-z]%3[ ]%[^\n]",
-	 columns[0], columns[1], columns[2], columns[3],
-	 columns[4], columns[5], columns[6], columns[7],
-	 filename);
-  
+
+  // Note: I'm reversing the ratio and the length for better display
+
+  sscanf(_line, " %[0-9] %[0-9%] %[0-9] %[0-9] %[a-zA-Z] %[0-9]%[ ]%11[ 0-9:+-]%2[C ]%[^\n]",
+	 columns[1], columns[0], columns[2], columns[3], columns[7],
+	 columns[8], columns[9], columns[4], columns[10], filename);
+
+
+  kDebugInfo(1601, "The actual file is %s", (const char *)filename);
+
+  QString year = fixYear(columns[8]);
+
+  kDebugInfo(1601, "The year is %s", (const char *)year);
+
+  QString strDate;
+  strDate.sprintf("%s-%.2d-%.2d", (const char *)year,
+		    getMonth(columns[7]), atoi(columns[3]));
+
+  strcpy(columns[3], (const char *)strDate);
+  kDebugInfo(1601, "New timestamp is %s", columns[3]);
+
+  strcat(columns[3], " ");
+  strcat(columns[3], (const char *)fixTime(columns[4]));
+
   QStringList list;
   list.append(QString::fromLocal8Bit(filename));
-  for (int i = 0; i < 7; ++i)
+  for (int i=0; i<4; i++)
     {
       list.append(QString::fromLocal8Bit(columns[i]));
     }
-  m_gui->add(&list); // send the entry to the GUI
+  m_gui->add(&list); // send to GUI
+}
+
+void ZooArch::open()
+{
+  kDebugInfo( 1601, "+ZooArch::open");
+  setHeaders();
+
+  m_buffer[0] = '\0';
+  m_header_removed = false;
+  m_finished = false;
+
+
+  KProcess *kp = new KProcess;
+  *kp << m_archiver_program << "l" << m_filename.local8Bit();
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
+  connect( kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotOpenExited(KProcess*)));
+
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+    {
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      emit sigOpen(this, false, QString::null, 0 );
+    }
+
+  kDebugInfo( 1601, "-ZooArch::open");
+}
+
+void ZooArch::setHeaders()
+{
+  kDebugInfo( 1601, "+ZooArch::setHeaders");
+  QStringList list;
+  list.append(i18n(" Filename "));
+  list.append(i18n(" Ratio "));
+  list.append(i18n(" Length "));
+  list.append(i18n(" Size Now "));
+  list.append(i18n(" Timestamp "));
+
+  // which columns to align right
+  int *alignRightCols = new int[2];
+  alignRightCols[0] = 2;
+  alignRightCols[1] = 3;
+
+  m_gui->setHeaders(&list, alignRightCols, 2);
+  delete [] alignRightCols;
+
+  kDebugInfo( 1601, "-ZooArch::setHeaders");
 }
 
 
-void ZipArch::slotReceivedTOC(KProcess*, char* _data, int _length)
+void ZooArch::slotReceivedTOC(KProcess*, char* _data, int _length)
 {
-  kDebugInfo(1601, "+ZipArch::slotReceivedTOC");
+  kDebugInfo(1601, "+ZooArch::slotReceivedTOC");
   char c = _data[_length];
   _data[_length] = '\0';
 	
@@ -147,168 +218,67 @@ void ZipArch::slotReceivedTOC(KProcess*, char* _data, int _length)
     }
   
   _data[_length] = c;
-  kDebugInfo(1601, "-ZipArch::slotReceivedTOC");
+  kDebugInfo(1601, "-ZooArch::slotReceivedTOC");
 }
 
-void ZipArch::setHeaders()
-{
-  kDebugInfo( 1601, "+ZipArch::setHeaders");
-  QStringList list;
-
-  list.append(i18n(" Filename "));
-  list.append(i18n(" Length "));
-  list.append(i18n(" Method "));
-  list.append(i18n(" Size "));
-  list.append(i18n(" Ratio "));
-  list.append(i18n(" Date "));
-  list.append(i18n(" Time "));
-  list.append(i18n(" CRC-32 "));
-
-  // which columns to align right
-  int *alignRightCols = new int[4];
-  alignRightCols[0] = 1;
-  alignRightCols[1] = 3;
-  alignRightCols[2] = 4;
-  alignRightCols[3] = 7;
-  
-  m_gui->setHeaders(&list, alignRightCols, 4);
-  delete [] alignRightCols;
-
-  kDebugInfo( 1601, "-ZipArch::setHeaders");
-}
-
-void ZipArch::open()
-{
-  kDebugInfo( 1601, "+ZipArch::open");
-  setHeaders();
-
-  m_buffer[0] = '\0';
-  m_header_removed = false;
-  m_finished = false;
-	
-  KProcess *kp = new KProcess;
-
-  *kp << m_unarchiver_program << "-v" << m_filename.local8Bit();
-	
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotOpenExited(KProcess*)));
-
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
-    {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
-      emit sigOpen(this, false, QString::null, 0 );
-    }
-
-  kDebugInfo( 1601, "-ZipArch::open");
-}
-
-
-void ZipArch::create()
+void ZooArch::create()
 {
   emit sigCreate(this, true, m_filename,
 		 Arch::Extract | Arch::Delete | Arch::Add 
-		  | Arch::View);
+		 | Arch::View);
 }
 
-void ZipArch::addDir(const QString & _dirName)
+void ZooArch::addDir(const QString & _dirName)
 {
   if (! _dirName.isEmpty())
   {
-    bool bOldVal = m_settings->getZipAddRecurseDirs();
-    
-    // must be true for add directory - otherwise why would user try?
-    m_settings->setZipAddRecurseDirs(true);
-    
     QStringList list;
     list.append(_dirName);
     addFile(&list);
-    m_settings->setZipAddRecurseDirs(bOldVal); // reset to old val
   }
 }
 
-void ZipArch::addFile( QStringList *urls )
+void ZooArch::addFile( QStringList *urls )
 {
-  kDebugInfo( 1601, "+ZipArch::addFile");
+  kDebugInfo( 1601, "+ZooArch::addFile");
   KProcess *kp = new KProcess;
   kp->clearArguments();
-			
   *kp << m_archiver_program;
 	
-  if (m_settings->getZipAddRecurseDirs())
-    *kp << "-r";
-		
-  //	*kp << _compression.local8Bit();   // for later
-
-#if 0
-  if (m_settings->getZipAddJunkDirs())
-    *kp << "-j";
-#endif
-
-  if (m_settings->getZipAddMSDOS())
-    *kp << "-k";
-  if (m_settings->getZipAddConvertLF())
-    *kp << "-l";
-	
-#if 0
-  switch( _mode )
-    {
-    case Update:
-      *kp << "-u"; break;
-    case Freshen:
-      *kp << "-f"; break;
-    case Move:
-      *kp << "-m"; break;
-    }
-#endif
+  if (m_settings->getReplaceOnlyNew() )
+    *kp << "-update";
+  else
+    *kp << "-add";
 
   *kp << m_filename.local8Bit() ;
-  
+
   QString base;
   QString url;
   QString file;
 
+	
   QStringList::ConstIterator iter;
   for (iter = urls->begin(); iter != urls->end(); ++iter )
   {
     url = *iter;
+    // comment out for now until I figure out what happened to this function!
     //    KURL::decodeURL(url); // Because of special characters
     file = url.right(url.length()-5);
 
-    if (file[file.length()-1]=='/')
+    if( file[file.length()-1]=='/' )
       file[file.length()-1]='\0';
-    if (m_settings->getZipAddJunkDirs())
+    if( ! m_settings->getaddPath() )
     {
       int pos;
-      pos = file.findRev('/');
-      base = file.left(++pos);
-      chdir(base);
-      base = file.right(file.length()-pos);
+      pos = file.findRev( '/' );
+      base = file.left( pos );
+      pos++;
+      chdir( base );
+      base = file.right( file.length()-pos );
       file = base;
     }
     *kp << file;
   }
-
-#if 0
-  // iterate over QStringList and plunk onto command line
-
-  kDebugInfo( 1601, "Adding these files to the command line:");
-
-  for (QStringList::Iterator it = urls->begin();
-       it != urls->end(); ++it ) 
-    {
-      QString currFile = *it;
-      // remove "file:"
-      currFile = currFile.right( currFile.length()-5);
-      *kp << currFile;
-      kDebugInfo( 1601, "%s", (const char *)currFile );
-    }
-#endif
-
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
@@ -323,27 +293,41 @@ void ZipArch::addFile( QStringList *urls )
       emit sigAdd(false);
     }
 
-  kDebugInfo( 1601, "-ZipArch::addFile");
+  kDebugInfo( 1601, "+ZooArch::addFile");
 }
 
-void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
+void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir)
 {
   // if _fileList is empty, we extract all.
   // if _destDir is empty, look at settings for extract directory
 
-  kDebugInfo( 1601, "+ZipArch::unarchFile");
+  kDebugInfo( 1601, "+ZooArch::unarchFile");
   QString dest;
 
   if (_destDir.isEmpty() || _destDir.isNull())
     dest = m_settings->getExtractDir();
   else dest = _destDir;
 
+  // zoo has no option to specify the destination directory
+  // so I have to change to it.
+
+  int ret = chdir((const char *)dest);
+ // I already checked the validity of the dir before coming here
+  ASSERT(ret == 0); 
+
+
   QString tmp;
 	
   KProcess *kp = new KProcess;
   kp->clearArguments();
   
-  *kp << m_unarchiver_program << "-o" << m_filename;
+  *kp << m_archiver_program;
+
+  if (!m_settings->getZooOverwriteFiles())
+    *kp << "x";
+  else
+    *kp << "xOOS";
+  *kp << m_filename;
   
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
@@ -355,8 +339,7 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
 	  *kp << (*it).latin1() ;
 	}
     }
-  *kp << "-d" << dest;
-
+ 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
@@ -370,21 +353,20 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
       emit sigExtract(false);
     }
-  kDebugInfo( 1601, "-ZipArch::unarchFile");
 }
 
-void ZipArch::remove(QStringList *list)
+void ZooArch::remove(QStringList *list)
 {
-  kDebugInfo( 1601, "+ZipArch::remove");
+  kDebugInfo( 1601, "+ZooArch::remove");
 
   if (!list)
     return;
-  //  m_settings->clearShellOutput();
+
   m_shellErrorData = "";
   KProcess *kp = new KProcess;
   kp->clearArguments();
   
-  *kp << m_archiver_program << "-d" << m_filename.local8Bit();
+  *kp << m_archiver_program << "D" << m_filename.local8Bit();
   for ( QStringList::Iterator it = list->begin();
 	it != list->end(); ++it )
     {
@@ -406,58 +388,59 @@ void ZipArch::remove(QStringList *list)
       emit sigDelete(false);
     }
   
-  kDebugInfo( 1601, "-ZipArch::remove");
+  kDebugInfo( 1601, "-ZooArch::remove");
 }
 
-void ZipArch::slotIntegrityExited(KProcess *_kp)
-{
-  kDebugInfo( 1601, "+slotIntegrityExited");
 
-  kDebugInfo( 1601, "normalExit = %d", _kp->normalExit() );
-  kDebugInfo( 1601, "exitStatus = %d", _kp->exitStatus() );
-		
-  if( _kp->normalExit() && (_kp->exitStatus()==0) )
+QString fixYear(const char *strYear)
+{
+  // returns 4-digit year by guessing from two-char year string.
+  // Remember: this is used for file timestamps. There probably aren't any
+  // files that were created before 1970, so that's our cutoff. Of course,
+  // in 2070 we'll have some problems....
+
+  char fourDigits[5] = {0,0,0,0,0};
+  if (atoi(strYear) > 70)
     {
-      if(stderrIsError())
-	{
-	  KMessageBox::error( 0, i18n("You probably don't have sufficient permissions\n"
-				      "Please check the file owner and the integrity\n"
-				      "of the archive.") );
-	}
+      strcpy(fourDigits, "19");
     }
   else
-    KMessageBox::sorry( 0, i18n("Test of integrity failed") );
-
-  delete _kp;
-  _kp = NULL;
-
-  kDebugInfo( 1601, "-slotIntegrityExited");
-}
-
-void ZipArch::testIntegrity()
-{
-  //  m_settings->clearShellOutput();
-  m_shellErrorData = "";
-  KProcess *kp = new KProcess;
-  kp->clearArguments();
-		
-  *kp << m_unarchiver_program << "-t";
-		
-  *kp << m_filename;
-
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-
-  connect( kp, SIGNAL(processExited(KProcess *)), this,
-	   SLOT(slotIntegrityExited(KProcess *)));
- 		
-  if(kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      kDebugInfo( 1601, "Subprocess wouldn't start!");
-      return;
+      strcpy(fourDigits, "20");
     }
+  strcat(fourDigits, strYear);
+  return fourDigits;
 }
 
-#include "zip.moc"
+QString fixTime(const QString &_strTime)
+{
+  // it may have come from a different time zone... get rid of trailing
+  // +3 or -3 etc. 
+  QString strTime = _strTime;
+
+  if (strTime.contains("+") || strTime.contains("-"))
+    {
+      QCharRef c = strTime.at(8);
+      int offset = atoi(strTime.right(strTime.length() - 9));
+      kDebugInfo(1601, "Offset is %d\n", offset);
+      QString strHour = strTime.left(2);
+      int nHour = atoi(strHour);
+      if (c == '+' || c == '-')
+	{
+	  if (c == '+')
+	    nHour = (nHour + offset) % 24;
+	  else if (c == '-')
+	    {
+	      nHour -= offset;
+	      if (nHour < 0)
+		nHour += 24;
+	    }
+	  strTime = strTime.left(8);
+	  strTime.sprintf("%2.2d%s", nHour, (const char *)strTime.right(6));
+	  kDebugInfo(1601, "The new time is %s\n", (const char *) strTime);
+	}
+    }
+  return strTime;
+}
+
+#include "zoo.moc"

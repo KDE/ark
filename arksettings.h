@@ -50,6 +50,9 @@ public:
   void readTarProperties();
   void writeTarProperties();
 	
+  void readZooProperties();
+  void writeZooProperties();
+
   enum DirPolicy {
     FAVORITE_DIR=1, FIXED_START_DIR,
     LAST_OPEN_DIR, FIXED_OPEN_DIR,
@@ -140,6 +143,9 @@ public:
   void setTarToLower(bool _b) { m_tarToLower = _b; }
   bool getTarToLower() { return m_tarToLower; }
 
+
+  void setZooOverwriteFiles(bool _b) { m_zooOverwrite = _b; }
+  bool getZooOverwriteFiles() { return m_zooOverwrite; }
   
 
   void setTmpDir( QString _dir ) { m_tmpDir = _dir; }
@@ -192,6 +198,8 @@ public:
   bool m_tarPreservePerms;
   bool m_tarToLower;
   bool m_tarOverwrite;
+
+  bool m_zooOverwrite;
 
   bool fullPath, replaceOnlyNewerFiles;
 

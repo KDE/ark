@@ -487,20 +487,6 @@ void ArkData::setSelectRegExp(const QString& _exp)
 	m_regExp = _exp;
 }
 
-const QString ArkData::getFilter()
-{
-  return i18n(
-	      "*.zip *.tar.gz *.tar.Z *.tgz *.taz *.tzo *.tar.bz2 *.tbz2 *.tar.bz *.tar *.lzh *.gz *.lzo *.Z *.bz *.bz2|All valid archives\n"
-	      "*.zip|Zip archive (*.zip)\n"
-	      "*.tar.gz *.tgz |Tar compressed with gzip (*.tar.gz *.tgz)\n"
-	      "*.tbz2 *.tar.bz2|Tar compressed with bzip2 (*.tar.bz2 *.tbz2)\n"
-	      "*.lzh|Lha archive (*.lzh)\n"
-	      "*.gz *.lzo *.Z *.bz *.bz2|All compressed files"
-
-	      ); 
-}
-
-
 void ArkData::appendShellOutputData( const char *_data )
 {
 	m_lastShellOutput->append( _data );	

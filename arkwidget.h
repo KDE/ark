@@ -200,8 +200,8 @@ protected:
   void createFileListView();
 	
   ArchType getArchType(QString archname);
-  void createArchive(QString name);
-  void openArchive(QString name);
+  void createArchive(const QString & name);
+  void openArchive(const QString & name);
 
   void showFile(FileLVI *);
 

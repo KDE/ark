@@ -72,6 +72,8 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
     updateInProgress(false), fd(NULL)
 {
   kDebugInfo(1601, "+TarArch::TarArch");
+  m_archiver_program = m_settings->getTarCommand();
+
   _settings->readTarProperties();
   if (_filename.right(4) == ".tar")
     {
@@ -106,7 +108,7 @@ int TarArch::getEditFlag()
   return Arch::Extract;
 }
 
-int TarArch::updateArch()
+void TarArch::updateArch()
 {
   kDebugInfo(1601, "+TarArch::updateArch");
   if (compressed)
@@ -131,7 +133,6 @@ int TarArch::updateArch()
 	}
     }
   kDebugInfo(1601, "-TarArch::updateArch");
-  return SUCCESS;
 }
 
 void TarArch::updateProgress( KProcess *, char *_buffer, int _bufflen )
@@ -223,8 +224,9 @@ void TarArch::open()
 
   // might as well plunk the output of tar -tvf in the shell output window...
   KProcess *kp = new KProcess;
-  QString tar_exe = m_settings->getTarCommand();
-  *kp << tar_exe.local8Bit() << "--use-compress-program="+getUnCompressor() ;
+
+  *kp << m_archiver_program.local8Bit() <<
+    "--use-compress-program="+getUnCompressor() ;
   *kp << "-tvf" << m_filename.local8Bit();
   connect(kp, SIGNAL(processExited(KProcess *)),
 	  this, SLOT(slotListingDone(KProcess *)));
@@ -389,8 +391,7 @@ void TarArch::addFile( QStringList* urls )
 {
   kDebugInfo(1601, "+TarArch::addFile");
   QString file, url, tmp;
-  QString tar_exe = m_settings->getTarCommand();
-		
+
   createTmp();
   while (compressed && createTmpInProgress)
     qApp->processEvents(); // wait for temp to be created;
@@ -400,7 +401,7 @@ void TarArch::addFile( QStringList* urls )
 
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  *kp << tar_exe.local8Bit();
+  *kp << m_archiver_program.local8Bit();
 	
   if( m_settings->getReplaceOnlyNew())
     *kp << "uvf";
@@ -502,12 +503,12 @@ void TarArch::unarchFile( QStringList * _fileList, const QString & _destDir)
   else dest = _destDir;
 
   QString tmp;
-  QString tar_exe = m_settings->getTarCommand();	
 	
   KProcess *kp = new KProcess;
   kp->clearArguments();
   
-  *kp << tar_exe.local8Bit() << "--use-compress-program="+getUnCompressor() ;
+  *kp << m_archiver_program.local8Bit() <<
+    "--use-compress-program="+getUnCompressor() ;
   if (m_settings->getTarPreservePerms())
     *kp << "-xvpf";
   else
@@ -548,7 +549,6 @@ void TarArch::remove(QStringList *list)
   kDebugInfo( 1601, "+Tar::deleteFiles");
 
   QString name, tmp;
-  QString tar_exe = m_settings->getTarCommand();	
   
   createTmp();
   while (compressed && createTmpInProgress)
@@ -556,7 +556,7 @@ void TarArch::remove(QStringList *list)
 
   KProcess *kp = new KProcess;	
   kp->clearArguments();
-  *kp << tar_exe.local8Bit() << "--delete" << "-f" ;
+  *kp << m_archiver_program.local8Bit() << "--delete" << "-f" ;
   if (compressed)
     *kp << tmpfile.local8Bit();
   else

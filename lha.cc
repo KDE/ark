@@ -48,7 +48,8 @@ LhaArch::LhaArch( ArkSettings *_settings, Viewer *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {
-  kDebugInfo(1601, "ZipArch constructor");
+  kDebugInfo(1601, "LhaArch constructor");
+  m_archiver_program = "lha";
 }
 
 void LhaArch::processLine( char *_line )
@@ -101,7 +102,7 @@ void LhaArch::open()
 
 
   KProcess *kp = new KProcess;
-  *kp << "lha" << "v" << m_filename.local8Bit();
+  *kp << m_archiver_program << "v" << m_filename.local8Bit();
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
@@ -133,7 +134,7 @@ void LhaArch::setHeaders()
   list.append(i18n(" Timestamp "));
 
   // which columns to align right
-  int *alignRightCols = new int[2];
+  int *alignRightCols = new int[3];
   alignRightCols[0] = 3;
   alignRightCols[1] = 4;
   alignRightCols[2] = 5;
@@ -244,7 +245,7 @@ void LhaArch::addFile( QStringList *urls )
   kDebugInfo( 1601, "+LhaArch::addFile");
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  *kp << "lha";
+  *kp << m_archiver_program;
 	
   if (m_settings->getReplaceOnlyNew() )
     *kp << "u";
@@ -314,7 +315,7 @@ void LhaArch::unarchFile(QStringList *_fileList, const QString & _destDir)
   KProcess *kp = new KProcess;
   kp->clearArguments();
   
-  *kp << "lha" << "xfw="+dest << m_filename;
+  *kp << m_archiver_program << "xfw="+dest << m_filename;
   
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
@@ -353,7 +354,7 @@ void LhaArch::remove(QStringList *list)
   KProcess *kp = new KProcess;
   kp->clearArguments();
   
-  *kp << "lha" << "df" << m_filename.local8Bit();
+  *kp << m_archiver_program << "df" << m_filename.local8Bit();
   for ( QStringList::Iterator it = list->begin();
 	it != list->end(); ++it )
     {

@@ -5,9 +5,14 @@ This program is under renovation and does not work fully yet.
 
 What works so far:
   zip
-  tar and tar with compressors lzop, gzip, bzip2, bzip, compress
+  plain tar and tar with compressors lzop, gzip, bzip2, bzip, compress
   lha
+  zoo
+  single files compressed with compressors lzop, gzip, bzip2, bzip, compress
 
+To be added:
+  Better handling of options
+ 
 Emily Ezust <emilye@corel.com>
 
 --------------------------

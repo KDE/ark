@@ -36,39 +36,6 @@
 #include "arch.h"
 #include "viewer.h"
 
-namespace Utils 
-{
-  
-  int getMonth(const char *strMonth)
-    // returns numeric value for three-char month string
-  {
-    static char months[13][4] = { "", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-				  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-    int nIndex;
-    for (nIndex = 1; nIndex < 13; ++nIndex)
-      {
-	if (0 == strcmp(strMonth, months[nIndex]))
-	  return nIndex;
-      }
-    return 0;
-  }
-  
-  // This function gets the year from an LHA or ls -l timestamp.
-  // Note: LHA doesn't seem to display the year if the file is more
-  // than 6 months into the future, so this will fail to give the correct
-  // year (of course it is hoped that there are not too many files lying 
-  // around from the future).
-
-  int getYear(int theMonth, int thisYear, int thisMonth)
-  {
-    int monthDiff = ABS(thisMonth - theMonth);
-    if (monthDiff > 6)
-      return (thisYear - 1);
-    else
-      return thisYear;
-  }
-}; // namespace Utils
-
 Arch::Arch( ArkSettings *_settings, Viewer *_viewer,
 	    const QString & _fileName )
   : m_filename(_fileName), m_settings(_settings), m_gui(_viewer),
@@ -237,21 +204,21 @@ void Arch::slotReceivedOutput(KProcess*, char* _data, int _length)
   _data[_length] = c;
 }
 
-QString Arch::getTimeStamp(const QString &col1,
-			   const QString &col2,
-			   const QString &col3)
+QString Arch::getTimeStamp(const QString &_month,
+			   const QString &_day,
+			   const QString &_yearOrTime)
 {
   // Make the date format sortable.
-  // Month is in col1, day is in col2.
-  // In col3 is either a year or a time. 
+  // Month is in _month, day is in _day.
+  // In _yearOrTime is either a year or a time. 
   // If it's March, we'll see the year for all dates up to October 1999.
   // (five months' difference - e.g., if it's Apr, then get years up to Nov)
 
   char month[4];
-  strncpy(month, (const char *)col1, 3);
+  strncpy(month, (const char *)_month, 3);
   month[3] = '\0';
-  int nMonth = Utils::getMonth(month);
-  int nDay = atoi((const char *)col2);
+  int nMonth = getMonth(month);
+  int nDay = atoi((const char *)_day);
 
   kDebugInfo(1601, "Month is %d, Day is %d", nMonth, nDay);
 
@@ -264,15 +231,15 @@ QString Arch::getTimeStamp(const QString &col1,
 
   QString year, timestamp;
 
-  if (col3.contains(":"))
+  if (_yearOrTime.contains(":"))
     // it has a timestamp so we have to figure out the year
     {
-      year.sprintf("%d", Utils::getYear(nMonth, thisYear, thisMonth));
-      timestamp = col3;
+      year.sprintf("%d", getYear(nMonth, thisYear, thisMonth));
+      timestamp = _yearOrTime;
     }
   else
     {
-      year = col3;
+      year = _yearOrTime;
       if (year.right(1) == " ")
 	year = year.left(4);
       if (year.left(1) == " ")
@@ -286,6 +253,35 @@ QString Arch::getTimeStamp(const QString &col1,
 		 (const char *)year, nMonth, nDay, 
 		 (const char *)timestamp);
   return retval;
+}
+
+int getMonth(const char *strMonth)
+  // returns numeric value for three-char month string
+{
+  static char months[13][4] = { "", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+				"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+  int nIndex;
+  for (nIndex = 1; nIndex < 13; ++nIndex)
+    {
+      if (0 == strcmp(strMonth, months[nIndex]))
+	return nIndex;
+    }
+  return 0;
+}
+  
+// This function gets the year from an LHA or ls -l timestamp.
+// Note: LHA doesn't seem to display the year if the file is more
+// than 6 months into the future, so this will fail to give the correct
+// year (of course it is hoped that there are not too many files lying 
+// around from the future).
+
+int getYear(int theMonth, int thisYear, int thisMonth)
+{
+  int monthDiff = ABS(thisMonth - theMonth);
+  if (monthDiff > 6)
+    return (thisYear - 1);
+  else
+    return thisYear;
 }
 
 #include "arch.moc"

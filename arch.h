@@ -39,7 +39,6 @@
 #include "arksettings.h"
 #include "filelistview.h"
 class KProcess;
-
 class Viewer;
 
 // The following class is the base class for all of the archive types.
@@ -47,8 +46,19 @@ class Viewer;
 // connect the ProcessExited signal appropriately before spawning
 // the core operations. Then the signal that the process exited can
 // be intercepted by the viewer (in ark, ArkWidget) and dealt with
-// appropriately. See ZipArch for a good model. Don't use TarArch
-// as a model - it's too complicated!
+// appropriately. See LhaArch or ZipArch for a good model. Don't use
+// TarArch or CompressedFile as models - they're too complicated!
+//
+//
+// To add a new archive:
+// 1. Create a new header file and a source code module
+// 2. Add an entry to the ArchType enum in arkwidget.h.
+// 3. Include your new header file in arkwidget.cc.
+// 4. Add new cases for your format in createArchive(const QString &),
+//   openArchive(const QString &) and ArkWidget::getArchType().
+// 5. Add your extension to the list of valid archives in 
+//   ArkSettings::getFilter (you might also want to add a separate entry)
+//
 
 class Arch : public QObject
 {
@@ -100,9 +110,9 @@ signals:
   void sigAdd(bool);
 	
 protected:  // methods
-  QString getTimeStamp(const QString &col1,
-		       const QString &col2,
-		       const QString &col3);
+  QString getTimeStamp(const QString &month,
+		       const QString &day,
+		       const QString &year);
 protected:  // data
   QString m_filename;
   QString m_shellErrorData;
@@ -112,7 +122,7 @@ protected:  // data
   bool m_bReadOnly; // for readonly archives
 };
 
-
-enum AddRetCodes { SUCCESS, FAILURE, UNSUPDIR } ;
+int getYear(int theMonth, int thisYear, int thisMonth);
+int getMonth(const char *strMonth);
 
 #endif /* ARCH_H */

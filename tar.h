@@ -85,12 +85,13 @@ public slots:
   void slotListingDone(KProcess *);
 
 private:  // methods
-  int updateArch();
+  void updateArch();
   void createTmp();
   void setHeaders();
   void processDir(const KTarDirectory *tardir, const QString & root);
 
 private: // data
+  QString m_archiver_program;
  // if the tar is compressed, this is the temporary uncompressed tar.
   QString tmpfile;
   bool compressed;
@@ -99,6 +100,7 @@ private: // data
   bool createTmpInProgress;
   bool updateInProgress;
   FILE *fd;
+  
 };
 
 #endif /* TAR_H */

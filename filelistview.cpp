@@ -39,6 +39,7 @@ QString FileLVI::key(int column, bool ascending) const
 
     QString columnName = parent->columnText(column);
     if ( (columnName == i18n(" Size ")) ||
+	 (columnName == i18n(" Size Now ")) ||
 	 (columnName == i18n(" Length ")))       
     {
 	s.sprintf("%.10ld", atol(text(column)));

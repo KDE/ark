@@ -52,7 +52,7 @@ public:
 		LAST_ADD_DIR, FIXED_ADD_DIR
 	};
 
-	const QString getFilter();
+	//	const QString getFilter();
 	
 	QString getTarCommand() const;
 	void setTarCommand(const QString& cmd);

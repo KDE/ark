@@ -42,6 +42,7 @@
 #define ARK_GROUP "ark"
 #define TAR_GROUP "Tar"
 #define ZIP_GROUP "Zip"
+#define ZOO_GROUP "Zoo"
 
 #define FAVORITE_KEY "ArchiveDirectory"
 #define TAR_KEY "TarExe"
@@ -78,6 +79,7 @@
 #define REPLACEONLYNEWER "replaceOnlyNewer"
 #define FULLPATHS "fullPaths"
 #define TAR_OVERWRITE "tarOverwrite"
+#define ZOO_OVERWRITE "zooOverwrite"
 
 /**
  * Constructs an ArkSettings object by reading the ark config file
@@ -198,6 +200,14 @@ void ArkSettings::readTarProperties()
   kDebugInfo( 1601, "-readTarProperties");	
 }
 
+void ArkSettings::readZooProperties()
+{
+  kDebugInfo(1601, "+readZooProperties");
+  kc->setGroup(ZOO_GROUP);
+  m_zooOverwrite = kc->readBoolEntry(ZOO_OVERWRITE, false);
+  kDebugInfo(1601, "-readZooProperties");
+}
+
 void ArkSettings::readZipProperties()
 {
   kDebugInfo( 1601, "+readZipProperties");	
@@ -248,6 +258,7 @@ void ArkSettings::writeConfigurationNow()
   writeDirectories();
   writeZipProperties();
   writeTarProperties();
+  writeZooProperties();
 
   kc->setGroup( ARK_GROUP );
   kc->writeEntry( TAR_KEY, tar_exe );
@@ -329,6 +340,14 @@ void ArkSettings::writeTarProperties()
   kc->writeEntry(TAR_OVERWRITE, m_tarOverwrite);
 
   kDebugInfo(1601, "-ArkSettings::writeTarProperties");
+}
+
+void ArkSettings::writeZooProperties()
+{
+  kDebugInfo(1601, "+ArkSettings::writeZooProperties");
+  kc->setGroup(ZOO_GROUP);
+  kc->writeEntry(ZOO_OVERWRITE, m_zooOverwrite);
+  kDebugInfo(1601, "-ArkSettings::writeZooProperties");
 }
 
 void ArkSettings::writeZipProperties()
@@ -446,11 +465,12 @@ void ArkSettings::setAddDirCfg(const QString& dir, int mode)
 const QString ArkSettings::getFilter()
 {
   return i18n(
-	      "*.zip *.tar.gz *.tar.Z *.tgz *.taz *.tzo *.tar.bz2 *.tbz2 *.tar.bz *.tar *.lzh *.gz *.lzo *.Z *.bz *.bz2|All valid archives\n"
-	      "*.zip|Zip archive (*.zip)\n"
-	      "*.tar.gz *.tgz |Tar compressed with gzip (*.tar.gz *.tgz)\n"
-	      "*.tbz2 *.tar.bz2|Tar compressed with bzip2 (*.tar.bz2 *.tbz2)\n"
-	      "*.lzh|Lha archive (*.lzh)\n"
+	      "*.zip *.tar.gz *.tar.Z *.tgz *.taz *.tzo *.tar.bz2 *.tbz2 *.tar.bz *.tar *.lzh *.gz *.lzo *.Z *.bz *.bz2 *.zoo|All valid archives\n"
+	      "*.zip|Zip archives (*.zip)\n"
+	      "*.tar.gz *.tgz |Tars compressed with gzip (*.tar.gz *.tgz)\n"
+	      "*.tbz2 *.tar.bz2|Tars compressed with bzip2 (*.tar.bz2 *.tbz2)\n"
+	      "*.lzh|Lha archives (*.lzh)\n"
+	      "*.zoo|Zoo archives (*.zoo)\n"
 	      ); 
 }
 

@@ -71,10 +71,12 @@
 #include "arch.h"
 #include "arkwidget.h"
 
+// the archive types
 #include "tar.h"
 #include "zip.h"
 #include "lha.h"
 #include "compressedfile.h"
+#include "zoo.h"
 
 #include "viewer.h"
 
@@ -925,6 +927,10 @@ void ArkWidget::fixEnables() // private
 
   bool bHaveFiles = (m_nNumFiles > 0);
   bool bReadOnly = false;
+  bool bAddDirSupported = true;
+  enum ArchType archtype = getArchType(m_strArchName);
+  if (archtype == ZOO_FORMAT || archtype == AA_FORMAT)
+    bAddDirSupported = false;
 
   if (arch)
     bReadOnly = arch->isReadOnly();
@@ -942,7 +948,7 @@ void ArkWidget::fixEnables() // private
   actionMenu->setItemEnabled(eMAddFile, m_bIsArchiveOpen &&
 			     !bReadOnly);
   actionMenu->setItemEnabled(eMAddDir, m_bIsArchiveOpen &&
-			     !bReadOnly);
+			     !bReadOnly && bAddDirSupported);
   actionMenu->setItemEnabled(eMExtract, bHaveFiles);
   actionMenu->setItemEnabled(eMView, bHaveFiles && m_nNumSelectedFiles == 1);
   actionMenu->setItemEnabled(eMOpenWith,
@@ -963,7 +969,7 @@ void ArkWidget::fixEnables() // private
   tb->setItemEnabled(eAddFile, m_bIsArchiveOpen && arch &&
 		     !bReadOnly);
   tb->setItemEnabled(eAddDir, m_bIsArchiveOpen && arch &&
-		     !bReadOnly);
+		     !bReadOnly && bAddDirSupported);
 
   menuBar()->setItemEnabled(eMAction, m_bIsArchiveOpen);
 
@@ -1856,11 +1862,13 @@ ArchType ArkWidget::getArchType( QString archname )
     {
       return COMPRESSED_FORMAT;
     }
+  if (archname.right(4) == ".zoo")
+    return ZOO_FORMAT;
   return UNKNOWN_FORMAT;
 }
 
 
-void ArkWidget::createArchive( QString _filename )
+void ArkWidget::createArchive( const QString & _filename )
 {
   Arch * newArch = 0;
   switch( getArchType( _filename ) )
@@ -1876,6 +1884,9 @@ void ArkWidget::createArchive( QString _filename )
       break;
     case COMPRESSED_FORMAT:
       newArch = new CompressedFile( m_settings, m_viewer, _filename );
+      break;
+    case ZOO_FORMAT:
+      newArch = new ZooArch( m_settings, m_viewer, _filename );
       break;
 #if 0
     case AA_FORMAT:
@@ -1901,7 +1912,7 @@ void ArkWidget::createArchive( QString _filename )
   newArch->create();
 }
 
-void ArkWidget::openArchive( QString _filename )
+void ArkWidget::openArchive(const QString & _filename )
 {
   Arch *newArch = 0;
   
@@ -1918,6 +1929,9 @@ void ArkWidget::openArchive( QString _filename )
       break;
     case COMPRESSED_FORMAT:
       newArch = new CompressedFile( m_settings, m_viewer, _filename );
+      break;
+    case ZOO_FORMAT:
+      newArch = new ZooArch( m_settings, m_viewer, _filename );
       break;
 #if 0
     case AA_FORMAT:
