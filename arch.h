@@ -103,7 +103,7 @@ public:
   virtual void create() = 0;
   virtual void remove(QStringList *) = 0;
 
-  virtual void addFile(QStringList *) = 0;
+  virtual void addFile( const QStringList & ) = 0;
   virtual void addDir(const QString &) = 0;
 
   // unarch the files in the list or all files if the list is empty.

@@ -46,7 +46,7 @@ public:
   virtual void open();
   virtual void create();
 	
-  virtual void addFile( QStringList* );
+  virtual void addFile( const QStringList & );
   virtual void addDir(const QString & _dirName);
 
   virtual void remove(QStringList *);

@@ -267,7 +267,7 @@ void CompressedFile::create()
 		  | Arch::View);
 }
 
-void CompressedFile::addFile( QStringList *urls )
+void CompressedFile::addFile( const QStringList &urls )
 {
   // only used for adding ONE file to an EMPTY gzip file, i.e., one that
   // has just been created
@@ -275,9 +275,9 @@ void CompressedFile::addFile( QStringList *urls )
   kdDebug(1601) << "+CompressedFile::addFile" << endl;
 
   Q_ASSERT(m_gui->getNumFilesInArchive() == 0);
-  Q_ASSERT(urls->count() == 1);
+  Q_ASSERT(urls.count() == 1);
 
-  QString file = urls->first();
+  QString file = urls.first();
   if (file.left(5) == "file:")
     file = file.right(file.length() - 5);
 

@@ -63,12 +63,10 @@ ZipArch::ZipArch( ArkWidget *_gui,
   m_archCols.append(new ArchColumns(6, QRegExp("[a-fA-F0-9]+ {2}")));
   m_archCols.append(new ArchColumns(0, QRegExp("[^\\n]+"), 4096));
 
-  kdDebug(1601) << "ZipArch constructor" << endl;
 }
 
 void ZipArch::setHeaders()
 {
-  kdDebug(1601) << "+ZipArch::setHeaders" << endl;
   QStringList list;
 
   list.append(FILENAME_STRING);
@@ -91,12 +89,10 @@ void ZipArch::setHeaders()
   m_gui->setHeaders(&list, alignRightCols, 6);
   delete [] alignRightCols;
 
-  kdDebug(1601) << "-ZipArch::setHeaders" << endl;
 }
 
 void ZipArch::open()
 {
-  kdDebug(1601) << "+ZipArch::open" << endl;
   setHeaders();
 
   m_buffer = "";
@@ -121,7 +117,6 @@ void ZipArch::open()
       emit sigOpen(this, false, QString::null, 0 );
     }
 
-  kdDebug(1601) << "-ZipArch::open" << endl;
 }
 
 
@@ -142,14 +137,13 @@ void ZipArch::addDir(const QString & _dirName)
 
     QStringList list;
     list.append(_dirName);
-    addFile(&list);
+    addFile(list);
     Settings::setRarRecurseSubdirs(bOldRecVal); // reset to old val
   }
 }
 
-void ZipArch::addFile( QStringList *urls )
+void ZipArch::addFile( const QStringList &urls )
 {
-  kdDebug(1601) << "+ZipArch::addFile" << endl;
   KProcess *kp = new KProcess;
   kp->clearArguments();
 
@@ -157,8 +151,6 @@ void ZipArch::addFile( QStringList *urls )
 
   if (Settings::rarRecurseSubdirs())
     *kp << "-r";
-
-  //	*kp << _compression;   // for later
 
   if (Settings::rarStoreSymlinks())
     *kp << "-y";
@@ -174,21 +166,21 @@ void ZipArch::addFile( QStringList *urls )
   *kp << m_filename;
 
   QStringList::ConstIterator iter;
-  KURL url( urls->first() );
+  KURL url( urls.first() );
   QDir::setCurrent( url.directory() );
-  for (iter = urls->begin(); iter != urls->end(); ++iter )
+  for (iter = urls.begin(); iter != urls.end(); ++iter )
   {
     KURL fileURL( *iter );
     *kp << fileURL.fileName();
   }
 
   // debugging info
-  QValueList<QCString> list = kp->args();
-  QValueList<QCString>::Iterator strTemp;
-  for ( strTemp=list.begin(); strTemp != list.end(); ++strTemp )
-    {
-      kdDebug(1601) << *strTemp << " " << endl;
-    }
+  //QValueList<QCString> list = kp->args();
+  //QValueList<QCString>::Iterator strTemp;
+  //for ( strTemp=list.begin(); strTemp != list.end(); ++strTemp )
+  //  {
+  //    kdDebug(1601) << *strTemp << " " << endl;
+  //  }
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
@@ -204,7 +196,6 @@ void ZipArch::addFile( QStringList *urls )
       emit sigAdd(false);
     }
 
-  kdDebug(1601) << "-ZipArch::addFile" << endl;
 }
 
 void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir,
@@ -213,7 +204,6 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir,
   // if _fileList is empty, we extract all.
   // if _destDir is empty, abort with error.
 
-  kdDebug(1601) << "+ZipArch::unarchFile" << endl;
   QString dest;
 
   if (_destDir.isEmpty() || _destDir.isNull())
@@ -267,12 +257,10 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir,
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigExtract(false);
     }
-  kdDebug(1601) << "-ZipArch::unarchFile" << endl;
 }
 
 void ZipArch::remove(QStringList *list)
 {
-  kdDebug(1601) << "+ZipArch::remove" << endl;
 
   if (!list)
     return;
@@ -302,16 +290,10 @@ void ZipArch::remove(QStringList *list)
       emit sigDelete(false);
     }
 
-  kdDebug(1601) << "-ZipArch::remove" << endl;
 }
 
 void ZipArch::slotIntegrityExited(KProcess *_kp)
 {
-  kdDebug(1601) << "+slotIntegrityExited" << endl;
-
-  kdDebug(1601) << "normalExit = " << _kp->normalExit() << endl;
-  kdDebug(1601) << "exitStatus = " << _kp->exitStatus() << endl;
-
   if( _kp->normalExit() && (_kp->exitStatus()==0) )
     {
       if(stderrIsError())
@@ -327,7 +309,6 @@ void ZipArch::slotIntegrityExited(KProcess *_kp)
   delete _kp;
   _kp = NULL;
 
-  kdDebug(1601) << "-slotIntegrityExited" << endl;
 }
 
 void ZipArch::testIntegrity()

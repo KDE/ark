@@ -420,7 +420,7 @@ ArkWidget::convertSlotCreateDone( bool success )
     }
     bool bOldRecVal = Settings::rarRecurseSubdirs();
     connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( convertSlotAddDone( bool ) ) );
-    arch->addFile( &entries );
+    arch->addFile( entries );
     Settings::setRarRecurseSubdirs( bOldRecVal );
 }
 
@@ -689,29 +689,42 @@ ArkWidget::addToArchiveSlotOpenDone( bool success )
         }
     }
 
-    QStringList list = m_addToArchive_filesToAdd.toStringList();
+/*    QStringList list = m_addToArchive_filesToAdd.toStringList();
     if ( !ArkUtils::diskHasSpace( tmpDir(), ArkUtils::getSizes( &list ) ) )
     {
         KMessageBox::error( this, i18n( "Not enough free disc space to extract the archive." ) );
         emit request_file_quit();
         return;
-    }
+    }*/
 
     disableAll();
     // if they are URLs, we have to download them, replace the URLs
     // with filenames, and remember to delete the temporaries later.
-    for ( QStringList::Iterator it = list.begin();
+/*    for ( QStringList::Iterator it = list.begin();
          it != list.end(); ++it)
     {
         QString str = *it;
         KURL url( toLocalFile( str ) );
         *it = url.prettyURL();
     }
+*/
+    KURL::List list = m_addToArchive_filesToAdd;
+
+
+    // Remote URLs need to be downloaded.
+    KURL::List::Iterator end( list.end() );
+    for ( KURL::List::Iterator it = list.begin(); it != end; ++it )
+    {
+        if (!(*it).isLocalFile())
+        {
+            *it = toLocalFile( *it );
+        }
+    }
 
     kdDebug( 1601 ) << "Adding: " << list << endl;
 
     connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( addToArchiveSlotAddDone( bool ) ) );
-    arch->addFile( &list );
+    arch->addFile( list.toStringList() );
 }
 
 void
@@ -737,7 +750,6 @@ void ArkWidget::setOpenAsMimeType( const QString & mimeType )
 void
 ArkWidget::file_open(const KURL& url)
 {
-    kdDebug(1601) << "+ArkWidget::file_open(const KURL& url)" << endl;
     if ( url.isEmpty() )
     {
         kdDebug( 1601 ) << "file_open: url empty" << endl;
@@ -789,8 +801,6 @@ ArkWidget::file_open(const KURL& url)
     //arch->clearShellOutput();
 
     openArchive( strFile );
-
-    kdDebug(1601) << "-ArkWidget::file_open(const KURL& url)" << endl;
 }
 
 
@@ -810,10 +820,8 @@ ArkWidget::getCreateFilename(const QString & _caption,
     KFileDialog dlg( ":ArkSaveAsDialog", QString::null, this, "SaveAsDialog", true );
     dlg.setCaption( _caption );
     dlg.setOperationMode( KFileDialog::Saving );
-    dlg.setFilterMimeType( i18n( "Archive &format:" ),
-           ArchiveFormatInfo::self()->supportedMimeTypes( allowCompressed ),
-           _defaultMimeType.isNull() ? KMimeType::mimeType( "application/x-tgz" )
-                                     : KMimeType::mimeType( _defaultMimeType ) );
+    dlg.setMimeFilter( ArchiveFormatInfo::self()->supportedMimeTypes( allowCompressed ),
+                       _defaultMimeType.isNull() ?  "application/x-tgz" : _defaultMimeType );
     if ( !_suggestedName.isEmpty() )
         dlg.setSelection( _suggestedName );
 
@@ -1011,7 +1019,6 @@ ArkWidget::fixEnables() // private
 void
 ArkWidget::file_close()
 {
-    kdDebug(1601) << "+ArkWidget::file_close" << endl;
     if ( isArchiveOpen() )
     {
         closeArch();
@@ -1028,8 +1035,6 @@ ArkWidget::file_close()
 
     m_strArchName = QString::null;
     m_url = KURL();
-
-    kdDebug(1601) << "-ArkWidget::file_close" << endl;
 }
 
 
@@ -1183,7 +1188,7 @@ ArkWidget::createRealArchiveSlotCreate( Arch * newArch, bool success,
     connect( newArch, SIGNAL( sigAdd( bool ) ), this,
                       SLOT( createRealArchiveSlotAddDone( bool ) ) );
 
-    newArch->addFile(&listForCompressedFile);
+    newArch->addFile(listForCompressedFile);
 }
 
 void
@@ -1294,14 +1299,12 @@ ArkWidget::addFile(QStringList *list)
     for (QStringList::Iterator it = list->begin(); it != list->end(); ++it)
     {
         QString str = *it;
-        //kdDebug(1601) << "Want to add " << str<< endl;
-        KURL url( toLocalFile(str) );
-        *it = url.prettyURL();
+        *it = toLocalFile(KURL(str)).prettyURL();
 
     }
 
     connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( slotAddDone( bool ) ) );
-    arch->addFile(list);
+    arch->addFile( ( *list ) );
 }
 
 void
@@ -1316,7 +1319,7 @@ ArkWidget::action_add_dir()
     {
         busy( i18n( "Adding folder..." ) );
         disableAll();
-        u = toLocalFile(dir);
+        u = toLocalFile(u);
         connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( slotAddDone( bool ) ) );
         arch->addDir( u.prettyURL() );
     }
@@ -1327,7 +1330,6 @@ void
 ArkWidget::slotAddDone(bool _bSuccess)
 {
     disconnect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( slotAddDone( bool ) ) );
-    kdDebug(1601) << "+ArkWidget::slotAddDone" << endl;
     archiveContent->setUpdatesEnabled(true);
     archiveContent->triggerUpdate();
     ready();
@@ -1351,28 +1353,30 @@ ArkWidget::slotAddDone(bool _bSuccess)
         mpDownloadedList = NULL;
     }
     fixEnables();
-    kdDebug(1601) << "-ArkWidget::slotAddDone" << endl;
 }
 
 
 
 KURL
-ArkWidget::toLocalFile( QString & str )
+ArkWidget::toLocalFile( const KURL& url )
 {
-    KURL url = str;
-
+    KURL localURL = url;
+    
     if(!url.isLocalFile())
     {
         if(!mpDownloadedList)
             mpDownloadedList = new QStringList();
+
+	QString strURL = url.prettyURL();
+	
         QString tempfile = tmpDir();
-        tempfile += str.right(str.length() - str.findRev("/") - 1);
+        tempfile += strURL.right(strURL.length() - strURL.findRev("/") - 1);
         if( !KIO::NetAccess::dircopy(url, tempfile, this) )
             return KURL();
         mpDownloadedList->append(tempfile);        // remember for deletion
-        url = tempfile;
+        localURL = tempfile;
     }
-    return url;
+    return localURL;
 }
 
 void
@@ -1911,7 +1915,7 @@ ArkWidget::slotEditFinished(KProcess *kp)
     }
 
     busy( i18n( "Readding edited file..." ) );
-    arch->addFile( &list );
+    arch->addFile( list );
 
     kdDebug(1601) << "-ArkWidget::slotEditFinished" << endl;
 }
@@ -2449,7 +2453,6 @@ void
 ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _filename, int )
 {
     ready();
-    kdDebug(1601) << "+ArkWidget::slotOpen" << endl;
     archiveContent->setUpdatesEnabled(true);
     archiveContent->triggerUpdate();
 
@@ -2489,7 +2492,6 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
 
     fixEnables();
     emit openDone( _success );
-    kdDebug(1601) << "-ArkWidget::slotOpen" << endl;
 }
 
 

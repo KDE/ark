@@ -34,7 +34,7 @@ private:
 public:
     static ArchiveFormatInfo * self();
     QString filter();
-    const KMimeType::List supportedMimeTypes( bool includeCompressed = true );
+    const QStringList supportedMimeTypes( bool includeCompressed = true );
     QStringList allDescriptions();
     ArchType archTypeForMimeType( const QString & mimeType );
     ArchType archTypeByExtension( const QString & archname );

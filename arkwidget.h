@@ -211,7 +211,7 @@ private: // methods
     void addFile(QStringList *list);
 
     // make sure that str is a local file/dir
-    KURL toLocalFile( QString & str);
+    KURL toLocalFile(const KURL& url);
 
     // ask user whether to create a real archive from a compressed file
     // returns filename if so. Otherwise, empty.

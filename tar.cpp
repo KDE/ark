@@ -545,14 +545,14 @@ void TarArch::createTmpProgress( KProcess * _proc, char *_buffer, int _bufflen )
     }
 }
 
-void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
+void TarArch::deleteOldFiles(const QStringList &urls, bool bAddOnlyNew)
   // because tar is broken. Used when appending: see addFile.
 {
   QStringList list;
   QString str;
 
   QStringList::ConstIterator iter;
-  for (iter = urls->begin(); iter != urls->end(); ++iter )
+  for (iter = urls.begin(); iter != urls.end(); ++iter )
   {
     KURL url( *iter );
     // find the file entry in the archive listing
@@ -598,10 +598,10 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
 }
 
 
-void TarArch::addFile( QStringList* urls )
+void TarArch::addFile( const QStringList&  urls )
 {
-  kdDebug(1601) << "+TarArch::addFile" << ( urls->first() ) << endl;
-  m_filesToAdd = *urls;
+  kdDebug(1601) << "+TarArch::addFile" << ( urls.first() ) << endl;
+  m_filesToAdd = urls;
   // tar is broken. If you add a file that's already there, it gives you
   // two entries for that name, whether you --append or --update. If you
   // extract by name, it will give you
@@ -837,7 +837,7 @@ void TarArch::addDir(const QString & _dirName)
 {
   QStringList list;
   list.append(_dirName);
-  addFile(&list);
+  addFile(list);
 }
 
 void TarArch::openFinished( KProcess * )

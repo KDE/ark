@@ -108,15 +108,19 @@ QString ArchiveFormatInfo::filter()
             + filter;
 }
 
-const KMimeType::List ArchiveFormatInfo::supportedMimeTypes( bool includeCompressed )
+const QStringList ArchiveFormatInfo::supportedMimeTypes( bool includeCompressed )
 {
-    KMimeType::List list;
-    InfoList::Iterator it = m_formatInfos.begin();
-    QStringList::Iterator iter;
-    for ( ; it != m_formatInfos.end(); ++it )
-        if ( includeCompressed || (*it).type != COMPRESSED_FORMAT )
-            for ( iter = (*it).mimeTypes.begin(); iter !=(*it).mimeTypes.end(); ++iter )
-                list.append( KMimeType::mimeType( *iter ) );
+    QStringList list;
+
+    InfoList::Iterator end = m_formatInfos.end();
+    for ( InfoList::Iterator it = m_formatInfos.begin(); it != end; ++it )
+    {
+        if ( includeCompressed || ( *it ).type != COMPRESSED_FORMAT )
+        {
+		list += ( *it ).mimeTypes;
+        }
+    }
+
     return list;
 }
 

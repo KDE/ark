@@ -222,4 +222,3 @@ ArkUtils::getSizes(QStringList *list)
   }
   return sum;
 }
-

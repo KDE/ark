@@ -137,7 +137,7 @@ void ArArch::create()
 		   | Arch::View);
 }
 
-void ArArch::addFile( QStringList *urls )
+void ArArch::addFile( const QStringList &urls )
 {
   kdDebug(1601) << "+ArArch::addFile" << endl;
   KProcess *kp = new KProcess;
@@ -152,9 +152,9 @@ void ArArch::addFile( QStringList *urls )
   *kp << m_filename;
 
   QStringList::ConstIterator iter;
-  KURL url( urls->first() );
+  KURL url( urls.first() );
   QDir::setCurrent( url.directory() );
-  for (iter = urls->begin(); iter != urls->end(); ++iter )
+  for (iter = urls.begin(); iter != urls.end(); ++iter )
   {
     KURL fileURL( *iter );
     *kp << fileURL.fileName();

@@ -173,11 +173,11 @@ void RarArch::addDir(const QString & _dirName)
   {
     QStringList list;
     list.append(_dirName);
-    addFile(&list);
+    addFile(list);
   }
 }
 
-void RarArch::addFile( QStringList *urls )
+void RarArch::addFile( const QStringList & urls )
 {
   kdDebug(1601) << "+RarArch::addFile" << endl;
   KProcess *kp = new KProcess;
@@ -197,9 +197,9 @@ void RarArch::addFile( QStringList *urls )
   *kp << m_filename;
 
   QStringList::ConstIterator iter;
-  KURL dir( urls->first() );
+  KURL dir( urls.first() );
   QDir::setCurrent( dir.directory() );
-  for (iter = urls->begin(); iter != urls->end(); ++iter )
+  for (iter = urls.begin(); iter != urls.end(); ++iter )
   {
     KURL url( *iter );
     *kp << url.fileName();
