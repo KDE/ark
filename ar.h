@@ -20,7 +20,7 @@ void strshort( char *start, int num_rem );
 
 // ark includes
 #include "arch.h"
-#include "arkdata.h"
+#include "arksettings.h"
 #include "filelistview.h"
 
 #define UNSUPDIR 1

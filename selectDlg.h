@@ -35,7 +35,7 @@
 #include <qstring.h>
 
 // ark includes
-#include <arkdata.h>
+#include <arksettings.h>
 
 class SelectDlg : public QDialog {
 	Q_OBJECT

@@ -32,7 +32,7 @@
 #include <qradiobutton.h>
 
 // ark includes
-#include "arkdata.h"
+#include "arksettings.h"
 
 class DirDlg : public QDialog {
 	Q_OBJECT

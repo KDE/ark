@@ -36,12 +36,14 @@
 
 // KDE includes
 #include <kapp.h>
+#include <kfileviewitem.h>
+#include <kfileinfo.h>
+#include <kfileinfocontents.h>
 #include <kconfig.h>
 #include <kdebug.h>
 #include <kdir.h>
 #include <kdirlistbox.h>
 #include <klocale.h>
-#include <kfileinfo.h>
 #include <kfilefilter.h>
 #include <ktoolbar.h>
 #include <kmessagebox.h>
@@ -52,17 +54,20 @@
 
 
 ZipExtractDlg::ZipExtractDlg( ArkData *_d, bool _selection, QString _dir, QWidget *_parent, const char *_name )
-	: KFileBaseDialog( _dir, QString::null, _parent, _name, true, false )
+	: KFileDialog( _dir, QString::null, _parent, _name, true)
 {
+#if 0
 	m_data = _d;
 	m_selection = _selection;
 	boxLayout = 0;
 	lafBox = 0;
 	init();	
+#endif
 }
 
 void ZipExtractDlg::initGUI()
 {
+#if 0
 	kdebug(0, 1601, "+initGUI");
 
 	setCaption( i18n("Extract to...") );
@@ -176,6 +181,7 @@ void ZipExtractDlg::initGUI()
 	fileList->connectFileHighlighted(this, SLOT(fileHighlighted(KFileInfo*)));
 
 	kdebug(0, 1601, "-initGUI");
+#endif
 }
 
 bool ZipExtractDlg::getShowFilter()
@@ -185,8 +191,11 @@ bool ZipExtractDlg::getShowFilter()
 
 KFileInfoContents* ZipExtractDlg::initFileList( QWidget *parent )
 {
+#if 0
 	bool useSingleClick = kapp->config()->readBoolEntry("SingleClick", true);
 	return new KDirListBox( useSingleClick, dir->sorting(), parent, "_dirs" );
+#endif
+return 0;
 }
 
 bool ZipExtractDlg::lowerCase()
@@ -221,6 +230,7 @@ QString ZipExtractDlg::pattern()
 
 void ZipExtractDlg::onExtract()
 {
+#if 0
 	QString dest = locationEdit->currentText();
 	
 	if( dest.isEmpty() ){
@@ -231,6 +241,7 @@ void ZipExtractDlg::onExtract()
 		saveConfig();
 		accept();	
 	}
+#endif
 }
 
 void ZipExtractDlg::onPatternChanged(const QString &)
@@ -240,13 +251,17 @@ void ZipExtractDlg::onPatternChanged(const QString &)
 
 QString ZipExtractDlg::getDestination() const
 {
+#if 0
 	return locationEdit->currentText();
+#endif
 }
 
 void ZipExtractDlg::saveConfig()
 {
+#if 0
 	m_data->setZipExtractOverwrite( r4->isChecked() );	
 	m_data->setZipExtractJunkPaths( r5->isChecked() );	
 	m_data->setZipExtractLowerCase( r6->isChecked() );	
+#endif
 }
 

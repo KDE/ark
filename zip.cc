@@ -311,6 +311,7 @@ int ZipArch::addFile( QStringList *urls )
 	zad->exec();
   	delete zad;
 */
+
   	kdebug(0, 1601, "+ZipArch::addFile");
 }
 
@@ -483,19 +484,20 @@ void ZipArch::initExtract( bool _overwrite, bool _junkPaths, bool _lowerCase)
 
 void ZipArch::extract()
 {
+
 #if 0
- 	ZipExtractDlg *zed=new ZipExtractDlg( m_data, !fileList()->isSelectionEmpty(), m_data->getExtractDir() );
- 	if( zed->exec() ){
- 		
-		QString dir = zed->getDestination();
-		QDir dest( dir );
-		FileListView *flw = fileList();
-		
-		if( !dest.exists() ) {
-			if(dest.mkdir( dir, true )){
-				KMessageBox::error( 0, i18n("Unable to create destination directory") );
-				return;
-			}
+  ZipExtractDlg *zed=new ZipExtractDlg( m_data, !fileList()->isSelectionEmpty(), m_data->getExtractDir() );
+  if ( zed->exec() )
+    {
+      QString dir = zed->getDestination();
+      QDir dest( dir );
+      FileListView *flw = fileList();
+      
+      if ( !dest.exists() ) {
+	if (dest.mkdir( dir, true )){
+	  KMessageBox::error( 0, i18n("Unable to create destination directory") );
+	  return;
+	}
 
 
 //			if( mkdir( dir.local8Bit(), S_IWRITE | S_IREAD | S_IEXEC ) ) {

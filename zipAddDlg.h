@@ -38,47 +38,49 @@
 
 // KDE includes
 #include <kfiledialog.h>
-
+#include <kfileinfocontents.h>
 // ark includes
-#include "arkdata.h"
+#include "arksettings.h"
 #include "zip.h"
 
 
-class ZipAddDlg : public KFileBaseDialog {
-	Q_OBJECT
+class ZipAddDlg : public KFileDialog 
+{
+  Q_OBJECT
 public:
-	ZipAddDlg( ZipArch*, ArkData*, QString, QWidget *parent=0, const char *name=0 );
+  ZipAddDlg(ZipArch*, ArkData*, QString, QWidget *parent=0,
+	    const char *name=0);
 	
 protected:
-	QVBoxLayout *boxLayout;
-	QGridLayout *lafBox;
-	QCheckBox *c1, *c2, *c3, *c4;
-	QComboBox *cb1, *cb2;
-	QPushButton *m_bAdd, *m_bClose;
-	QLineEdit *m_leNames;
-	
-	virtual void initGUI();
-	virtual bool getShowFilter();
-	virtual KFileInfoContents *initFileList( QWidget *parent );
-	virtual QWidget *swallower() { return this; }
-	
-	void saveConfig();
-	QString location();
-	int mode();
-	QString compression();
-
-	bool m_addClicked;	
-	ArkData *m_data;
-	ZipArch *m_zip;
-	
+  QVBoxLayout *boxLayout;
+  QGridLayout *lafBox;
+  QCheckBox *c1, *c2, *c3, *c4;
+  QComboBox *cb1, *cb2;
+  QPushButton *m_bAdd, *m_bClose;
+  QLineEdit *m_leNames;
+  
+  virtual void initGUI();
+  virtual bool getShowFilter();
+  virtual KFileInfoContents *initFileList( QWidget *parent );
+  virtual QWidget *swallower() { return this; }
+  
+  void saveConfig();
+  QString location();
+  int mode();
+  QString compression();
+  
+  bool m_addClicked;	
+  ArkData *m_data;
+  ZipArch *m_zip;
+  
 protected slots:
-	void onAdd();	
-	void onClose();
-	void onHelp();
-	
-	void slotSelectionChanged(const QString&);
-	void slotFileHighlighted(const QString&);
-	void slotFileSelected(const QString&);
+  void onAdd();	
+  void onClose();
+  void onHelp();
+ 
+  void slotSelectionChanged(const QString&);
+  void slotFileHighlighted(const QString&);
+  void slotFileSelected(const QString&);
 };
 
 #endif /* ZIP_ADD_DLG_H */

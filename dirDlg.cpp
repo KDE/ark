@@ -254,73 +254,42 @@ DirDlg::DirDlg( ArkData *d, QWidget *parent, const char *name )
 
 void DirDlg::getFavDir( )
 {
-/*
-	KDirDialog dd( favLE->text(), this, "dirdialog" );
-	dd.setCaption( i18n("Archive directory") );
-	if( dd.exec() )
-	{
-		QString dirName = dd.selectedFile();
-		if( !dirName.isEmpty() ){
-			favLE->setText( dirName );
-		}
-	}
-*/
+  QString dir = KFileDialog::getExistingDirectory(favLE->text(), 0,
+						  i18n("Archive directory"));
+  if (!dir.isEmpty())
+    favLE->setText(dir);
 }
 
 void DirDlg::getStartDir( )
 {
-/*
-	KDirDialog dd( startLE->text(), this, "dirdialog" );
-	dd.setCaption( i18n("Start-up directory") );
-	if( dd.exec() )
-	{
-		QString dirName = dd.selectedFile();
-		if( !dirName.isEmpty() )
-			startLE->setText( dirName );
-	}
-*/
+  QString dir = KFileDialog::getExistingDirectory(startLE->text(), 0,
+						  i18n("Start-up directory"));
+  if (!dir.isEmpty())
+    startLE->setText(dir);
 }
 
 void DirDlg::getOpenDir( )
 {
-/*
-	KDirDialog dd( openLE->text(), this, "dirdialog" );
-	dd.setCaption( i18n("Default open directory") );
-	if( dd.exec() )
-	{
-		QString dirName = dd.selectedFile();
-		if( !dirName.isEmpty() )
-			openLE->setText( dirName );
-	}
-*/
+  QString dir = KFileDialog::getExistingDirectory(openLE->text(), 0,
+						  i18n("Default open directory"));
+  if (!dir.isEmpty())
+    openLE->setText(dir);
 }
 
 void DirDlg::getExtractDir( )
 {
-/*
-	KDirDialog dd( extractLE->text(), this, "dirdialog" );
-	dd.setCaption( i18n("Default extract directory") );
-	if( dd.exec() )
-	{
-		QString dirName = dd.selectedFile();
-		if( !dirName.isEmpty() )
-			extractLE->setText( dirName );
-	}
-*/
+  QString dir = KFileDialog::getExistingDirectory(extractLE->text(), 0,
+						  i18n("Default extract directory"));
+  if (!dir.isEmpty())
+    extractLE->setText(dir);
 }
 
 void DirDlg::getAddDir( )
 {
-/*
-	KDirDialog dd( addLE->text(), this, "dirdialog" );
-	dd.setCaption( i18n("Default add directory") );
-	if( dd.exec() )
-	{
-		QString dirName = dd.selectedFile();
-		if( !dirName.isEmpty() )
-			addLE->setText( dirName );
-	}
-*/
+  QString dir = KFileDialog::getExistingDirectory(addLE->text(), 0,
+						  i18n("Default add directory"));
+  if (!dir.isEmpty())
+    addLE->setText(dir);
 }
 
 void DirDlg::favDirChanged( const QString& path)

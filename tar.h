@@ -16,7 +16,7 @@
 // ark includes
 
 #include "arch.h"
-#include "arkdata.h"
+#include "arksettings.h"
 #include "filelistview.h"
 
 

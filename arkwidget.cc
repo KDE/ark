@@ -39,6 +39,7 @@
 #include <kconfig.h>
 #include <kdebug.h>
 #include <kfiledialog.h>
+#include <qfiledialog.h>
 #include <kglobal.h>
 #include <kiconloader.h>
 #include <kkeydialog.h>
@@ -61,6 +62,8 @@
 #include "generalOptDlg.h"
 #include "selectDlg.h"
 #include "shellOutputDlg.h"
+
+#include "extractdlg.h"
 
 extern int errno;
 
@@ -120,21 +123,19 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     actionMenu->setItemEnabled(eMDelete, false);
     actionMenu->setItemEnabled(eMExtract, false);
     editMenu->setItemEnabled(eMView, false);
-    editMenu->setItemEnabled(eMRename, false);
+//    editMenu->setItemEnabled(eMRename, false);
     editMenu->setItemEnabled(eMSelectAll, false);
 
-#if 0
-  m_pFilePopup->setItemEnabled(eMExtract, false);
-  m_pFilePopup->setItemEnabled(eMView, false);
-  m_pFilePopup->setItemEnabled(eMRename, false);
-  m_pFilePopup->setItemEnabled(eMDelete, false);
 
-  m_pArchivePopup->setItemEnabled(eMAddFile, false);
-  m_pArchivePopup->setItemEnabled(eMAddDir, false);
-  m_pArchivePopup->setItemEnabled(eMSelectAll, false);
-  m_pArchivePopup->setItemEnabled(eMClose, false);
-#endif
+    m_filePopup->setItemEnabled(eMExtract, false);
+    m_filePopup->setItemEnabled(eMView, false);
+//    m_filePopup->setItemEnabled(eMRename, false);
+    m_filePopup->setItemEnabled(eMDelete, false);
 
+    m_archivePopup->setItemEnabled(eMAddFile, false);
+    m_archivePopup->setItemEnabled(eMAddDir, false);
+    m_archivePopup->setItemEnabled(eMSelectAll, false);
+    m_archivePopup->setItemEnabled(eMClose, false);
 
     kdebug(0, 1601, "-ArkWidget::ArkWidget");
 
@@ -149,7 +150,8 @@ ArkWidget::~ArkWidget()
 	delete archiveContent;
 	delete recentPopup;
 	delete accelerators;
-	delete pop;
+	delete m_filePopup;
+	delete m_archivePopup;
 	delete m_data;
 //	delete statusBarTimer;
 	delete arch;
@@ -256,12 +258,25 @@ void ArkWidget::setupMenuBar()
 
 	setMenu( menu );
 
-	pop = new KPopupMenu();
-//	pop->setTitle( i18n("File Operations") );
-//	pop->insertItem( i18n("Extract..."), this, SLOT( action_extract() ) );
-//	pop->insertItem( i18n("View file"), this, SLOT( action_view() ) );
-//	pop->insertSeparator();
-//	pop->insertItem( i18n("Delete file"), this, SLOT( action_delete() ) );
+	// popup menus
+
+	m_filePopup = new KPopupMenu();
+
+	m_filePopup->setTitle(i18n("File Operations"));
+	m_filePopup->insertItem(i18n("Extract..."), this,
+				 SLOT(action_extract()), 0,
+				 eMExtract);
+	m_filePopup->insertItem(i18n("View/Run"), this,
+				SLOT(action_view()), 0, eMView);
+	m_filePopup->insertItem(i18n("Delete file"), this,
+				 SLOT(action_delete()), 0,
+				 eMDelete);
+
+	m_archivePopup = new KPopupMenu();
+	m_archivePopup->setTitle(i18n("Archive Operations"));
+	m_archivePopup->insertItem(i18n("To be announced"), this, 0, 0, 0);
+
+	
 }
 
 void ArkWidget::createEditMenu()
@@ -370,7 +385,7 @@ void ArkWidget::setupToolBar()
 		       this, SLOT(action_add()), true, i18n("Add File"));
 
     tb->insertButton ( BarIcon("adddir"), eAddDir, SIGNAL(clicked()), this,
-		       SLOT(dir_add()), true, i18n("Add Dir"));
+		       SLOT(action_add_dir()), true, i18n("Add Dir"));
 
     tb->insertSeparator();
 
@@ -552,7 +567,8 @@ void ArkWidget::file_open(const QString & strFile)
 
     // no errors if we made it this far.
 
-    file_close();  // close old zip
+    if (isArchiveOpen())
+      file_close();  // close old zip
 
     // Set the current archive filename to the filename
     m_strArchName = strFile;
@@ -597,16 +613,101 @@ void ArkWidget::saveProperties()
 
 void ArkWidget::file_new()
 {
-	QString file = KFileDialog::getSaveFileName(QString::null, m_data->getFilter());
-	if( !file.isEmpty() )
+  int choice=0;
+  struct stat statbuffer;
+  QString strFile;
+
+  while (true)
+    // keep asking for filenames as long as the user doesn't want to 
+    // overwrite existing ones. Break if they agree to overwrite
+    // or if the file doesn't already exist. Return if they cancel.
+  {
+    strFile = KFileDialog::getSaveFileName(QString::null,
+					   m_data->getFilter());
+    if (! strFile.isEmpty())
+    {
+      if (stat(strFile, &statbuffer) != -1)  // there's something there!
+      {
+	choice =
+	  QMessageBox::critical(0, i18n("Archive already exists"),
+				i18n("Archive already exists. Do you wish to overwrite it?"),
+				QMessageBox::Yes | QMessageBox::Default,
+				QMessageBox::No,
+				QMessageBox::Cancel | QMessageBox::Escape);
+	if (choice == QMessageBox::Yes)
 	{
-	    createFileListView();
-	    Arch *tempArch = createArchive( file );
-	    if (tempArch != 0)
-	    {
-		arch = tempArch;
-	    }
+	  unlink(strFile);
+	  break;
 	}
+	else 
+	{
+	  if (choice == QMessageBox::Cancel)
+	  return;
+	}
+      }
+      else  // file does not exist
+	break;  // so we can create it
+    }
+    else
+    {
+#ifdef DEBUG1
+      fprintf(stderr, "You didn't enter a filename\n");
+#endif
+      return; 
+    }
+  }
+  // if the filename has no dot in it, I'll ask if I should append ".tgz"
+  if (! strFile.contains('.'))
+  {
+    int nRet = QMessageBox::warning(this, i18n("Error"), i18n("Your file is missing an extension to indicate the archive type.\nShall create a file of the default type (ZIP)?"),
+				    QMessageBox::Yes | QMessageBox::Default,
+				    QMessageBox::Cancel | QMessageBox::Escape);
+    if (nRet == QMessageBox::Yes)
+    {
+      strFile += ".zip";
+      // make sure there isn't already a file by that name...
+      if (stat(strFile, &statbuffer) != -1)  // there's something there!
+      {
+	choice =
+	  QMessageBox::critical(0, i18n("Archive already exists"),
+				i18n("Archive already exists. Do you wish to overwrite it?"),
+				QMessageBox::Yes | QMessageBox::Default,
+				QMessageBox::No,
+				QMessageBox::Cancel | QMessageBox::Escape);
+	if (choice == QMessageBox::Yes)
+	{
+	  unlink(strFile);
+	}
+	else 
+	{
+	  if (choice == QMessageBox::Cancel)
+	    return;
+	}
+      }
+    } // user chose not to create a zip file and still has extension-less file
+    else
+      return;  // I definitely don't know that format.
+  }
+
+  // if I made it here, I can create the archive
+  // but I don't know if it will work yet, so I'm going to keep the old
+  // one around till I'm sure.
+
+  createFileListView();
+  Arch *tempArch = createArchive( strFile );
+  if (tempArch != 0)
+  {
+    file_close();
+    setCaption("ark - " + strFile);
+    openEnables();
+    arch = tempArch;
+  }
+  else
+  {
+    QMessageBox::warning(this, i18n("Error"), i18n("\nSorry - ark cannot create an archive of that type.\n\n  [Hint:  The filename should have an extension such as `.zip' to\n  indicate the type of the archive. Please see the help pages for\n  more information on supported archive formats.]"));
+    delete arch;
+  }
+  onFileNumChangeSetEnables();
 }
 
 void ArkWidget::slotCreate( bool _success, QString _filename, int _flag )
@@ -707,14 +808,14 @@ void ArkWidget::openEnables()   // private
 	actionMenu->setItemEnabled(eMExtract, true);
     }
 #if 0
-    m_pArchivePopup->setItemEnabled(eMAddFile, true);
-  m_pArchivePopup->setItemEnabled(eMAddDir, true);
-  m_pArchivePopup->setItemEnabled(eMClose, true);
+    m_archivePopup->setItemEnabled(eMAddFile, true);
+  m_archivePopup->setItemEnabled(eMAddDir, true);
+  m_archivePopup->setItemEnabled(eMClose, true);
 
     if (m_nNumFiles > 0)
     {
-	m_pArchivePopup->setItemEnabled(eMSelectAll, true);
-	m_pArchivePopup->setItemEnabled(eMExtract, true);
+	m_archivePopup->setItemEnabled(eMSelectAll, true);
+	m_archivePopup->setItemEnabled(eMExtract, true);
     }
 #endif
 
@@ -737,32 +838,30 @@ void ArkWidget::openEnables()   // private
 
 void ArkWidget::onFileNumChangeSetEnables() // private
 {
-#if 0
-    bool bHaveFiles = (m_nNumFiles > 0);
+  bool bHaveFiles = (m_nNumFiles > 0);
 
   // enable the select all and extract options
  
-  m_pEditMenu->setItemEnabled(eMSelectAll, bHaveFiles);
-  m_pEditMenu->setItemEnabled(eMExtract, bHaveFiles);
-  m_pArchivePopup->setItemEnabled(eMSelectAll, bHaveFiles);
-  m_pArchivePopup->setItemEnabled(eMExtract, bHaveFiles);
-  m_aButtons[eSelectAll]->setEnabled(bHaveFiles);
-  m_aButtons[eExtract]->setEnabled(bHaveFiles);
+  editMenu->setItemEnabled(eMSelectAll, bHaveFiles);
+  editMenu->setItemEnabled(eMExtract, bHaveFiles);
+  m_archivePopup->setItemEnabled(eMSelectAll, bHaveFiles);
+  m_archivePopup->setItemEnabled(eMExtract, bHaveFiles);
+  //  m_aButtons[eSelectAll]->setEnabled(bHaveFiles);
+  //  m_aButtons[eExtract]->setEnabled(bHaveFiles);
 
   // if there are no files, disable delete, view and rename.
   // If there are files, don't enable them! There may not be a selection yet.
   if (!bHaveFiles)
   {
-    m_aButtons[eDelete]->setEnabled(false);
-    m_pEditMenu->setItemEnabled(eMDelete, false);
+    //    m_aButtons[eDelete]->setEnabled(false);
+    editMenu->setItemEnabled(eMDelete, false);
 
-    m_aButtons[eView]->setEnabled(false);
-    m_pEditMenu->setItemEnabled(eMView, false);
+    //    m_aButtons[eView]->setEnabled(false);
+    editMenu->setItemEnabled(eMView, false);
 
-    m_pEditMenu->setItemEnabled(eMRename, false);
+    //    m_pEditMenu->setItemEnabled(eMRename, false);
 
   }
-#endif
 }
 
 
@@ -893,6 +992,11 @@ void ArkWidget::action_add()
 	arch->addFile( 0 );
 }
 
+void ArkWidget::action_add_dir()
+{
+  //  arch->addDir( 0 );
+}
+
 void ArkWidget::action_delete()
 {
     kdebug(0, 1601, "+ArkWidget::action_delete");
@@ -910,7 +1014,26 @@ void ArkWidget::action_delete()
 
 void ArkWidget::action_extract()
 {
-	arch->extract();
+  ExtractDlg *dlg = new ExtractDlg(getArchType(m_strArchName),
+				   m_data->getExtractDir());
+
+  // if they choose pattern, we have to tell arkwidget to select
+  // those files... once we're in the dialog code it's too late.
+  connect(dlg, SIGNAL(pattern(const QString &)), 
+	  this, SLOT(selectByPattern(const QString &)));
+
+  if (dlg->exec())
+    kdebug(0, 1601, "Success!");
+  else
+    kdebug(0, 1601, "Failure!");
+
+  // next grab the settings data, plunk it into the settings object,
+  // and tell the archive to extract the given files.
+
+  //  arch->extract(fileList);
+
+  delete dlg;
+
 }
 
 void ArkWidget::action_view()
@@ -988,6 +1111,25 @@ void ArkWidget::help()
 	kapp->invokeHTMLHelp( "", "" );
 }
 
+// Popup /////////////////////////////////////////////////////////////
+
+
+void ArkWidget::doPopup(QListViewItem *pItem, const QPoint &pPoint,
+                        int nCol) // slot
+  // do the right-click popup menus
+{
+  if (nCol == 0)
+  {
+    archiveContent->setCurrentItem(pItem);
+    archiveContent->setSelected(pItem, true);
+    m_filePopup->popup(QCursor::pos());
+  }
+  else // clicked anywhere else but the name column
+  {
+    m_archivePopup->popup(QCursor::pos());
+  }
+}
+
 
 // Service functions /////////////////////////////////////////////////
 
@@ -1006,21 +1148,18 @@ void ArkWidget::slotSelectionChanged()
 	actionMenu->setItemEnabled(eMDelete, true);
 	actionMenu->setItemEnabled(eMExtract, true);
     
-#if 0
-	filePopup->setItemEnabled(eMExtract, true);
-	filePopup->setItemEnabled(eMDelete, true);
-#endif
+
+	m_filePopup->setItemEnabled(eMExtract, true);
+	m_filePopup->setItemEnabled(eMDelete, true);
     
 	tb->setItemEnabled(eDelete, true);
 
 	// Because there's no 'multiple view' or 'multiple rename', we disable
 	// these options when there are multiple selections. But it is 
-	// unconditionally enabled in the edit popup because the user had
+	// unconditionally enabled in the popup because the user had
 	// to have right-clicked on an element in order to see the menu.
-#if 0
-	filePopup->setItemEnabled(eMView, true);
-	filePopup->setItemEnabled(eMRename, true);
-#endif
+	m_filePopup->setItemEnabled(eMView, true);
+	//	m_filePopup->setItemEnabled(eMRename, true);
 
 	bool bEnable = (1 == m_nNumSelectedFiles);
 
@@ -1034,12 +1173,12 @@ void ArkWidget::slotSelectionChanged()
     {
 	actionMenu->setItemEnabled(eMDelete, false);
 
-//	filePopup->setItemEnabled(eMDelete, false);
+	m_filePopup->setItemEnabled(eMDelete, false);
 
 	editMenu->setItemEnabled(eMView, false);
-//	filePopup->setItemEnabled(eMView, false);
+	m_filePopup->setItemEnabled(eMView, false);
 //	editMenu->setItemEnabled(eMRename, false);
-//	m_pFilePopup->setItemEnabled(eMRename, false);
+//	m_filePopup->setItemEnabled(eMRename, false);
 
 	tb->setItemEnabled(eView, false);
 	tb->setItemEnabled(eDelete, false);
@@ -1080,6 +1219,26 @@ void ArkWidget::updateStatusSelection()
 
   kdebug(0, 1601, "-ArkWidget::updateStatusSelection");
 }
+
+
+void ArkWidget::selectByPattern(const QString & _pattern) // slot
+{
+// select all the files that match the pattern
+
+  FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
+  QRegExp *glob = new QRegExp(_pattern, true, true); // file globber
+
+  while (flvi)
+    {
+      if (glob->match(flvi->text(0), 0, 0) != -1)
+	archiveContent->setSelected(flvi, true);
+      flvi = (FileLVI*)flvi->itemBelow();
+    }
+
+  delete glob;
+}
+
+
 
 
 
@@ -1273,13 +1432,21 @@ void ArkWidget::createFileListView()
 	updateRects();
 	archiveContent->show();
 
-	connect( archiveContent, SIGNAL( selectionChanged()), this, SLOT( slotSelectionChanged() ) );
+	connect( archiveContent, SIGNAL( selectionChanged()),
+		 this, SLOT( slotSelectionChanged() ) );
+
+	QObject::connect(archiveContent,
+			 SIGNAL(rightButtonPressed(QListViewItem *,
+						   const QPoint &, int)),
+			 this, SLOT(doPopup(QListViewItem *,
+					    const QPoint &, int)));
+	
 }
 
 
-int ArkWidget::getArchType( QString archname )
+ArchType ArkWidget::getArchType( QString archname )
 {
-	if( archname.contains(".tgz", FALSE) || archname.contains(".tar.gz", FALSE)
+  if ( archname.contains(".tgz", FALSE) || archname.contains(".tar.gz", FALSE)
 			|| archname.contains( ".tar.Z", FALSE ) || archname.contains(".tar.bz", FALSE)
 			|| archname.contains( ".tar.bz2", FALSE ) || archname.contains(".tar.lzo", FALSE)
 			|| archname.contains( ".tbz", FALSE ) || archname.contains(".tzo", FALSE)
@@ -1291,7 +1458,7 @@ int ArkWidget::getArchType( QString archname )
 		return ZIP_FORMAT;
 //	if( archname.contains(".a", FALSE ) )
 //		return AA_FORMAT;
-	return -1;
+	return UNKNOWN_FORMAT;
 }
 
 

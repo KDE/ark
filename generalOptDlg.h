@@ -32,7 +32,7 @@
 #include <qpushbutton.h>
 
 // ark includes
-#include "arkdata.h"
+#include "arksettings.h"
 
 class GeneralDlg : public QDialog {
 	Q_OBJECT

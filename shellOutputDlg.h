@@ -33,7 +33,7 @@
 #include <qmultilineedit.h>
 
 // ark includes
-#include "arkdata.h"
+#include "arksettings.h"
 
 
 class ShellOutputWidget : public QMultiLineEdit {

@@ -38,10 +38,10 @@
 #include <kfiledialog.h>
 
 // ark includes
-#include "arkdata.h"
+#include "arksettings.h"
 
 
-class ZipExtractDlg : public KFileBaseDialog {
+class ZipExtractDlg : public KFileDialog {
 	Q_OBJECT
 public:
 	ZipExtractDlg( ArkData*, bool, QString, QWidget *parent=0, const char *name=0 );

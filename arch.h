@@ -33,7 +33,7 @@
 #include <qstring.h>
 
 // ark includes
-#include "arkdata.h"
+#include "arksettings.h"
 #include "filelistview.h"
 
 class ArkWidget;

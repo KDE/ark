@@ -1,195 +1,165 @@
-/* (c)1997 Robert Palmbos
-   (c)1998 David Faure
-   See main.cc for license details */
-#include "extractdlg.h"
-#include "extractdlg.moc"
-#include <qlayout.h>
+#include <kdebug.h>
+#include <kurl.h>
 #include <kfiledialog.h>
+#include <qvbox.h>
+#include <qmessagebox.h>
+#include <qcheckbox.h>
+#include <qfileinfo.h>
+#include <klocale.h>
+#include <qbuttongroup.h>
+#include <qpushbutton.h>
+#include <qradiobutton.h>
+#include <qlineedit.h>
+#include "extractdlg.h"
 
-// Layout code heavily borrowed from the qt example "widgets.cpp"
-
-ExtractDlg::ExtractDlg( int eo, QWidget *parent, char *name )
-    : QDialog( parent, name, TRUE )
+ExtractDlg::ExtractDlg(ArchType _archtype, const QString & _extractDir)
+  : QTabDialog(0, "extractdialog", true), m_extractDir(_extractDir),
+    m_cbOverwrite(0), m_cbPreservePerms(0), m_cbToLower(0)
 {
-    setCaption(i18n("Extract"));
-    // Create a layout to position the widgets
-    QVBoxLayout *topLayout = new QVBoxLayout( this, 10 /* border */);
- 
-    // Create a horizontal layout to hold most of the widgets (not the buttons)
-    QHBoxLayout *hLayout = new QHBoxLayout( 8 /* autoBorder */ );
-    topLayout->addLayout( hLayout, 3 /* stretch */);
+  setCaption("ark - Extract");
 
-    // Create a vertical layout for the two groupboxes in the left column
-    QVBoxLayout *vLayout = new QVBoxLayout( 8 /* autoBorder */ );
-    hLayout->addLayout( vLayout, 1 /* stretch */);
+  setupFirstTab();
+  setupSecondTab(_archtype);
 
-    // Left box :
-    //   Upper box (Destination)
-    QGroupBox *gbDest = new QGroupBox( i18n("Destination"), this );
-    vLayout->addWidget(gbDest, 1, AlignLeft);
-    QVBoxLayout *vboxDest = new QVBoxLayout(gbDest, 10);
-    vboxDest->addSpacing( gbDest->fontMetrics().height() );
+  setOKButton();
+  setCancelButton();
 
-    le = new QLineEdit( gbDest );
-    le->setText( getenv( "HOME" ) );
-    le->setFocus();
-    le->setMinimumSize( le->sizeHint() );
-    vboxDest->addWidget(le);
- 
-    QPushButton *pb1 = new QPushButton( i18n("Browse..."), gbDest );
-    pb1->setFixedSize( pb1->sizeHint() );
-    vboxDest->addWidget(pb1, 0, AlignRight);
+  connect(m_patternLE, SIGNAL(textChanged(const QString &)),
+	  this, SLOT(choosePattern()));
 
-    //  Lower box (Extract options)
-    QButtonGroup *bgOptions = new QButtonGroup( i18n("Extract Options"), this );
-    vLayout->addWidget(bgOptions, 1, AlignLeft);
-    QVBoxLayout *vboxOptions = new QVBoxLayout(bgOptions, 10);
-    vboxOptions->addSpacing( bgOptions->fontMetrics().height() );
+  connect(m_extractDirLE, SIGNAL(returnPressed()), this, SLOT(accept()));
+  connect(m_patternLE, SIGNAL(returnPressed()), this, SLOT(accept()));
+}
 
-    //cb1 = new QCheckBox( i18n("Overwrite"), bgOptions );
-    //vboxOptions->addWidget(cb1);
+void ExtractDlg::setupFirstTab()
+{
+  // set up a grid
 
-    cb2 = new QCheckBox( i18n("Preserve Permissions"), bgOptions );
-    cb2->setMinimumSize( cb2->sizeHint() );
-    bgOptions->insert(cb2);
-    vboxOptions->addWidget(cb2);
+  QVBox *firstpage = new QVBox( this );
+  firstpage->setMargin( 5 );
 
-    cb3 = new QCheckBox( i18n("Filenames to Lowercase"), bgOptions );
-    cb3->setMinimumSize( cb3->sizeHint() );
-    bgOptions->insert(cb3);
-    vboxOptions->addWidget(cb3);
+  QLabel *extractToLabel = new QLabel(firstpage);
+  extractToLabel->setText(i18n("Extract to: "));
+  m_extractDirLE = new QLineEdit(firstpage);
+  m_extractDirLE->setText(m_extractDir);
 
-    // Right box (Files) :
-    QButtonGroup *bgFiles = new QButtonGroup( i18n( "Files"), this );    
-    hLayout->addWidget(bgFiles, 1, AlignLeft);
-    QVBoxLayout *vboxFiles = new QVBoxLayout(bgFiles, 10);
-    vboxFiles->addSpacing( bgFiles->fontMetrics().height() );
+  QPushButton *browseButton = new QPushButton(firstpage);
+  browseButton->setText(i18n("Browse..."));
 
-    rb1 = new QRadioButton( i18n("All Files"), bgFiles );
-    rb1->setMinimumSize( rb1->sizeHint() );
-    bgFiles->insert(rb1);
-    vboxFiles->addWidget(rb1);
- 
-    rb2 = new QRadioButton( i18n("Selected File"), bgFiles );
-    rb2->setMinimumSize( rb2->sizeHint() );
-    bgFiles->insert(rb2);
-    vboxFiles->addWidget(rb2);
-    rb2->setEnabled( FALSE );
+  QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
+				       "Files to Extract", firstpage );
+  m_radioCurrent = new QRadioButton("Current", bg);
+  m_radioCurrent->setText(i18n("Current"));
+  m_radioAll = new QRadioButton("All", bg);
+  m_radioAll->setText(i18n("All"));
+  m_radioSelected = new QRadioButton("Selected Files", bg);
+  m_radioSelected->setText(i18n("Selected Files"));
+  m_radioPattern = new QRadioButton("By Pattern", bg);
+  m_radioPattern->setText(i18n("Pattern"));
 
-    rb3 = new QRadioButton( i18n("Pattern"), bgFiles );
-    rb3->setMinimumSize( rb3->sizeHint() );
-    bgFiles->insert(rb3);
-    vboxFiles->addWidget(rb3);
-    rb3->setEnabled( FALSE );
+  QLabel *patternLabel = new QLabel(firstpage, "label");
+  patternLabel->setText("Pattern:");
 
-    switch( eo ) {
-        case All: {
-            rb1->setChecked( true );
-            break;
-        }
-        case Selected: {
-            rb2->setChecked( true );
-            break;
-        }
-        case Pattern: {
-            rb3->setChecked( true );
-            break;
-        }
-        default: {
-            rb1->setChecked( true );
-            break;
-        }
+  m_patternLE = new QLineEdit(firstpage, "le");
+
+  addTab(firstpage, "Extract");
+
+  QObject::connect(browseButton, SIGNAL(clicked()),
+		   this, SLOT(browse()));
+}
+
+void ExtractDlg::setupSecondTab(ArchType _archtype)
+{
+
+  QVBox *secondpage = new QVBox( this );
+  secondpage->setMargin( 5 );
+
+  // use __archtype to determine what goes here... 
+  // these are the advanced options
+
+  switch(_archtype)
+    {
+    case ZIP_FORMAT:
+      {
+	QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
+					     "ZIP Options", secondpage );
+	
+	m_cbOverwrite = new QCheckBox("Overwrite files", bg);
+	m_cbPreservePerms = new QCheckBox("Preserve permissions", bg);
+	m_cbToLower = new QCheckBox("Convert filenames to lowercase", bg);
+      }
+      break;
+    case TAR_FORMAT:
+      break;
+    default:
+      // shouldn't ever get here!
+      break;
     }
-
-    QLineEdit *le2 = new QLineEdit( bgFiles );
-    le2->setMinimumSize( le2->sizeHint() );
-    le2->setEnabled( FALSE );
-    vboxFiles->addWidget(le2);
-
-    // Add space at the bottom of each box (in case it grows)
-    vboxDest->addStretch(1);
-    vboxFiles->addStretch(1);
-    vboxOptions->addStretch(1);
-
-    // Create a layout for the two buttons
-    QHBoxLayout *buttonLayout = new QHBoxLayout( );
-    topLayout->addLayout( buttonLayout, 0/* stretch */ );
-    
-    buttonLayout->addStretch(1);
-    QPushButton *bOk = new QPushButton( i18n("OK"), this );
-    buttonLayout->addWidget(bOk,1);
-    buttonLayout->addStretch(1);
-    bOk->setFixedSize( bOk->sizeHint() );
-    QPushButton *bCancel = new QPushButton( i18n("Cancel"), this );
-    buttonLayout->addWidget(bCancel,1);
-    buttonLayout->addStretch(1);
-    bCancel->setFixedSize( bCancel->sizeHint() );
-
-    // Do the connects
-    connect( pb1, SIGNAL( clicked() ), SLOT( browse() ) );
-    connect( le, SIGNAL( returnPressed() ), SLOT( accept() ) );
-    connect( bOk, SIGNAL( clicked() ), SLOT( accept() ) );
-    connect( bCancel, SIGNAL( clicked() ), SLOT( reject() ) );
-
-    topLayout->activate(); 
-
-    // Minimum sizes
-    bgOptions->setMinimumSize( bgOptions->childrenRect().size() );
-    bgFiles->setMinimumSize( bgFiles->childrenRect().size() );
+  
+  addTab(secondpage, "Advanced");
 }
 
-void ExtractDlg::setMask( unsigned char mask )
+
+void ExtractDlg::accept()
 {
-    if( ( 0x01 & mask ) == 0 )
-        cb2->setEnabled( FALSE );
-    if( ( 0x02 & mask ) == 0 )
-        cb3->setEnabled( FALSE );
-    //if( 0x04 & mask ) == 0 )
-    //cb1->setEnabled( FALSE );
+  //  kdebug(0, 1601, "+ExtractDlg::accept");
+  if (! QFileInfo(m_extractDirLE->text()).isDir())
+  {
+    QMessageBox::warning(this, i18n("Error"),
+			   i18n("Please provide a valid directory"));
+    return;
+  }
+
+  if (m_radioPattern->isChecked())
+  {
+    if (strcmp(m_patternLE->text(), "") == 0)
+    {
+      // pattern selected but no pattern? Ask user to select a pattern.
+      QMessageBox::warning(this, i18n("Error"),
+			   i18n("Please provide a pattern"));
+      return;
+    }
+    else
+      {
+	emit pattern(m_patternLE->text());
+      }
+  }
+
+  // I made it! so nothing's wrong.
+  QTabDialog::accept();
+  //  kdebug(0, 1601, "-ExtractDlg::accept");
 }
 
-QString ExtractDlg::getDest()
+
+void ExtractDlg::browse() // slot
 {
-    return le->text();
+  QString dirName = 
+    KFileDialog::getExistingDirectory(m_extractDir, 0,
+				      "ark - Select an Extract Directory");
+  if (! dirName.isEmpty())
+  {
+    m_extractDirLE->setText(dirName);
+  }
 }
 
-bool ExtractDlg::doOverwrite()
-{
-    //return cb1->isChecked();
-    return FALSE;
-}
 
-bool ExtractDlg::doPreservePerms()
-{
-    return cb2->isChecked();
-}
 
-bool ExtractDlg::doLowerCase()
-{
-    return cb3->isChecked();
-}
-
-QString ExtractDlg::getPattern()
-{
-    return le2->text();
-}
 
 int ExtractDlg::extractOp()
 {
-    if( rb1->isChecked() )
-        return All;
-    if( rb2->isChecked() )
-        return Selected;
-    if( rb3->isChecked() )
-        return Pattern;
-    return -1;
+// which kind of extraction shall we do?
+
+  if (m_radioCurrent->isChecked())
+    return Current;
+  if(m_radioAll->isChecked())
+    return All;
+  if(m_radioSelected->isChecked())
+    return Selected;
+  if(m_radioPattern->isChecked())
+    return Pattern;
+  return -1;
 }
 
-void ExtractDlg::browse()
-{
-    KDirDialog dd( le->text(), 0, "dirdialog");
-    dd.setCaption(i18n("Extract To"));
-    if (dd.exec())
-        le->setText( dd.selectedFile() );
-}
 
+
+#include "extractdlg.moc"

@@ -1,3 +1,14 @@
+2000-01-6: Emily Ezust <emilye@corel.com>
+	* Disabled KUniqueApplication stuff for now... was interfering with
+	  development with crashes. Will add later.
+	* Asks "Are you sure?" when you try to "New" over an existing zip
+	* Began work on new extract dialog - old one doesn't work any longer 
+	  due to kdelibs changes. Doesn't do anything yet - just trying out
+	  for look&feel with error-checking.
+	  Idea of extract: highlight the ones to be extracted and then
+	  let the right archiver grab all the highlighted files (or current).
+
+	
 1999-12-16  Emily Ezust <emilye@corel.com>
 	* created ArkApplication : public KUniqueApplication
         * Code now to follow the Co-operating SDI model.

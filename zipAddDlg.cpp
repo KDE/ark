@@ -40,12 +40,13 @@
 #include <kconfig.h>
 #include <kdebug.h>
 #include <kdir.h>
+#include <kfileinfo.h>  // some weird compile messages if I move this lower! -E
+#include <kdialogbase.h>
 #include <kdirlistbox.h>
 #include <kfiledetaillist.h>
 #include <kfilesimpleview.h>
 #include <kglobal.h>
 #include <klocale.h>
-#include <kfileinfo.h>
 #include <kfilefilter.h>
 #include <ktoolbar.h>
 
@@ -55,20 +56,26 @@
 
 
 ZipAddDlg::ZipAddDlg( ZipArch *_z, ArkData *_d, QString _dir, QWidget *_parent, const char *_name )
-	: KFileBaseDialog( _dir, QString::null, _parent, _name, true, false )
+	: KFileDialog(_dir, QString(""),_parent, _name, true)
 {
-	m_zip = _z;
-	m_data = _d;
-	m_addClicked = false;
+#if 0
+  kdebug(0, 1601, "+zipAddDlg constructor");
+  kdebug(0, 1601, "Dir: %s", (const char *) _dir);
+  m_zip = _z;
+  m_data = _d;
+  m_addClicked = false;
 	
-	boxLayout = 0;
-	lafBox = 0;
-	setMultiSelection( true );
-	init();	
+  boxLayout = 0;
+  lafBox = 0;
+  //  setMultiSelection( true );
+  initGUI();
+  kdebug(0, 1601, "-zipAddDlg constructor");
+#endif
 }
 
 void ZipAddDlg::initGUI()
 {
+#if 0
 	kdebug(0, 1601, "+ZipAddDlg::initGUI");
 
 	setCaption( i18n("Add...") );
@@ -78,7 +85,7 @@ void ZipAddDlg::initGUI()
         toolbar->setItemEnabled(1009, false);
 
 	mainLayout->addWidget(toolbar);
-        mainLayout->addWidget(fileList->widget(), 4);
+	mainLayout->addWidget(fileList->widget(), 4);
         mainLayout->addSpacing(3);
 
 	mainLayout->addSpacing( 10 );
@@ -187,12 +194,12 @@ void ZipAddDlg::initGUI()
 	c4->setFixedSize( c4->sizeHint() );
 	vblg2->addWidget( c4, 0, AlignLeft );
 	
-	if ( myStatusLine )
-		mainLayout->addWidget( myStatusLine, 0 );
+	//	if ( myStatusLine )
+	//		mainLayout->addWidget( myStatusLine, 0 );
 
-	bOk->hide();
-	bCancel->hide();
-	locationEdit->hide();
+	//	bOk->hide();
+	//	bCancel->hide();
+	//	locationEdit->hide();
 		
 	mainLayout->activate();
 
@@ -205,6 +212,7 @@ void ZipAddDlg::initGUI()
 	connect(this, SIGNAL(fileSelected(const QString &)), SLOT(slotFileSelected(const QString&)));
 
 	kdebug(0, 1601, "-ZipAdd::initGUI");
+#endif
 }
 
 bool ZipAddDlg::getShowFilter()
@@ -214,7 +222,7 @@ bool ZipAddDlg::getShowFilter()
 
 KFileInfoContents *ZipAddDlg::initFileList( QWidget *parent )
 {
-
+#if 0
     bool mixDirsAndFiles = true;
 //	KGlobal::config()->readBoolEntry("MixDirsAndFiles",
 //					 false);
@@ -250,10 +258,13 @@ KFileInfoContents *ZipAddDlg::initFileList( QWidget *parent )
 	else
 	    return new KFileSimpleView(useSingleClick, dir->sorting(), parent, "_simple");
 
+#endif
+    return 0;
 }
 
 void ZipAddDlg::onAdd()
 {
+#if 0
 	if( !m_addClicked ){
 		m_bClose->setText( i18n("Close") );
 		m_addClicked = true;
@@ -263,12 +274,15 @@ void ZipAddDlg::onAdd()
 	
 	m_zip->add( location(), mode(), compression(),
 		c1->isChecked(), c2->isChecked(), c3->isChecked(), c4->isChecked() );
+#endif
 }
 
 void ZipAddDlg::onClose()
 {
+#if 0
 	saveConfig();
 	m_addClicked ? accept()	: reject();
+#endif
 }
 
 void ZipAddDlg::onHelp()
@@ -277,14 +291,18 @@ void ZipAddDlg::onHelp()
 
 void ZipAddDlg::slotSelectionChanged(const QString& sel)
 {
+#if 0
 	QRegExp exp( sel, true, true );
 	
 	m_bAdd->setEnabled( exp.isValid() );
+#endif
 }
 
 void ZipAddDlg::slotFileHighlighted(const QString& _fname)
 {
+#if 0
 	m_leNames->setText( _fname );
+#endif
 }
 
 void ZipAddDlg::slotFileSelected(const QString& _fname)
@@ -294,18 +312,23 @@ void ZipAddDlg::slotFileSelected(const QString& _fname)
 
 void ZipAddDlg::saveConfig()
 {
+#if 0
 	m_data->setZipAddRecurseDirs( c1->isChecked() );	
 	m_data->setZipAddJunkDirs( c2->isChecked() );	
 	m_data->setZipAddMSDOS( c3->isChecked() );	
 	m_data->setZipAddConvertLF( c4->isChecked() );	
+#endif
 }
 
 QString ZipAddDlg::location()
 {
+#if 0
 	if(lastDirectory->left(5) != "file:")
 		kdebug(3, 1601, "Only file protocol is supported here !");
 		
 	return QString(lastDirectory->right(lastDirectory->length()-5) + m_leNames->text());
+#endif
+	return "";
 }
 
 int ZipAddDlg::mode()
@@ -315,6 +338,7 @@ int ZipAddDlg::mode()
 
 QString ZipAddDlg::compression()
 {
+#if 0
 	switch( cb2->currentItem() )
 	{
 		case 0 : return QString("-9");
@@ -324,5 +348,6 @@ QString ZipAddDlg::compression()
 		case 4 : return QString("-1");
 		case 5 : return QString("-0");
 	}
+#endif
 }
 

@@ -49,7 +49,7 @@
 // ark includes
 //#include "ar.h"
 #include "arch.h"
-#include "arkdata.h"
+#include "arksettings.h"
 #include "filelistview.h"
 //#include "tar.h"
 #include "zip.h"
@@ -64,6 +64,8 @@
 // sorting sizes numerically instead of asciibetically)
 //
 
+enum ArchType {UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
+	       LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT};
 
 class ArkWidget : public KTMainWindow 
 {
@@ -101,6 +103,7 @@ protected slots:
     void edit_view_last_shell_output();
     
     void action_add();
+    void action_add_dir();
     void action_view();
     void action_delete();
     void action_extract();
@@ -112,13 +115,17 @@ protected slots:
     void options_saveNow();
 
     void help();
-			
+		
+    void doPopup(QListViewItem *, const QPoint &, int); // right-click menus
+	
     void showFavorite();
 //    void slotStatusBarTimeout();
     void slotSelectionChanged();
     void slotOpen(bool, QString, int);
     void slotCreate(bool, QString, int);
 			
+    void selectByPattern(const QString & _pattern);
+
 protected:
     static QList<ArkWidget> *windowList;
     void closeEvent( QCloseEvent * );
@@ -142,12 +149,11 @@ private: // methods
     void updateStatusTotals();
         
 private:
-    enum ArchType{ TAR_FORMAT, ZIP_FORMAT, AA_FORMAT, LHA_FORMAT };
 
     Arch *arch;
 
 private:
-    KPopupMenu *pop;
+    KPopupMenu *m_filePopup, *m_archivePopup;
     ArkData *m_data;
 //    QTimer *statusBarTimer;
     KAccel *accelerators;
@@ -180,7 +186,7 @@ protected:
     void newCaption(const QString& filename);
     void createFileListView();
 	
-    int  getArchType(QString archname);
+    ArchType getArchType(QString archname);
     Arch * createArchive(QString name);
     Arch * openArchive(QString name);
 
