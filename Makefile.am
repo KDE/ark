@@ -4,11 +4,12 @@ AM_CPPFLAGS = $(all_includes)
 SUBDIRS = pics
 
 # The binary name. Changed from kzip to ark
-bin_PROGRAMS = ark
-lib_LTLIBRARIES = ark.la
+bin_PROGRAMS = 
+kdeinit_LTLIBRARIES = ark.la
+lib_LTLIBRARIES = 
 
 ark_la_SOURCES = main.cpp arkapp.cpp arktoplevelwindow.cpp
-ark_la_LDFLAGS = -module -avoid-version
+ark_la_LDFLAGS = -module $(KDE_PLUGIN)
 ark_la_LIBADD = libark_common.la $(LIB_KPARTS)
 
 noinst_LTLIBRARIES = libark_common.la
@@ -28,11 +29,6 @@ libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp extractdlg.cpp dirDlg.cpp \
                 arkutils.cpp archiveformatdlg.cpp arkwidget.cpp
 
 
-# Which sources should be compiled for ark.
-ark_SOURCES = dummy.cpp
-ark_LDFLAGS = $(all_libraries) $(KDE_RPATH)
-ark_LDADD   = ark.la
-
 # this option you can leave out. Just, if you use "make dist", you need it
 noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \
                  extractdlg.h arkwidget.h arch.h zoo.h ar.h \
@@ -43,11 +39,6 @@ noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \
                  archiveformatdlg.h
 
 METASOURCES = AUTO
-
-dummy.cpp:
-	echo > dummy.cpp
-
-CLEANFILES = dummy.cpp
 
 rcdir = $(kde_datadir)/ark
 rc_DATA = arkui.rc ark_part.rc ark_part_readonly.rc

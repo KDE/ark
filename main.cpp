@@ -63,7 +63,7 @@ static KCmdLineOptions option[] =
     KCmdLineLastOption
 };
 
-int main( int argc, char *argv[]  )
+extern "C" int kdemain( int argc, char *argv[]  )
 {
 	KAboutData aboutData( "ark", I18N_NOOP( "Ark" ),
 			"v2.1.9", I18N_NOOP("KDE Archiving tool"), 
