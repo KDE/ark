@@ -353,7 +353,7 @@ void KZipWidget::aboutQt()
 
 void KZipWidget::help()
 {
-	kapp->invokeHTMLHelp( "kzip/kzip.html", "" );
+	kapp->invokeHTMLHelp( "kzip/index.html", "" );
 }
 
 void KZipWidget::quit()	

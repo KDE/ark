@@ -59,6 +59,9 @@ install-data-local:
 	$(INSTALL_DATA) kzip.kdelnk $(APPSDIR)
 	$(mkinstalldirs) $(kde_icondir)
 	$(INSTALL_DATA) kzip.xpm $(kde_icondir)
+	$(mkinstalldirs) $(kde_htmldir)/en/kzip
+	$(INSTALL_DATA) index.html $(kde_htmldir)/en/kzip/index.html	
+	$(INSTALL_DATA) kzip.gif $(kde_htmldir)/en/kzip/kzip.gif	
 	$(mkinstalldirs) $(kde_minidir)
 	$(INSTALL_DATA) mini-kzip.xpm $(kde_minidir)/kzip.xpm
 	$(mkinstalldirs) $(MIMEAPPDIR)
