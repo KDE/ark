@@ -205,6 +205,7 @@ ExtractDlg::accept()
 	kdDebug( 1601 ) << "+ExtractDlg::accept" << endl;
 
 	KURLCompletion uc;
+	uc.setReplaceHome( true );
 	KURL p( uc.replacedPath(  m_extractDirCB->currentText() ) );
 
 	//if p isn't local KIO and friends will complain later on
