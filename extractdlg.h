@@ -36,3 +36,4 @@ private slots:
 };
 
 #endif /* EXTRACTDLG_H */
+

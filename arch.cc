@@ -96,6 +96,7 @@ void Arch::extractTo( QString )
 
 QString Arch::unarchFile( int, QString )
 {
+  return ("");
 }
 
 void Arch::deleteFile( int )

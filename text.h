@@ -9,3 +9,4 @@ void strshort( char *start, int num_rem );
 #ifdef __cplusplus
 }
 #endif
+
