@@ -21,13 +21,7 @@ Exec=ark --extract %U
 [Desktop Action ExtractHere]
 Name=Extract Here
 Name[ca]=Extreu aquí
-Name[da]=Udpak her
 Name[de]=Hierher entpacken
-Name[es]=Extraer aquí...
-Name[fr]=Extraire ici
-Name[hu]=Kitömörítés itt
-Name[pt_BR]=Extrair aqui
-Name[ru]=Распаковать сюда
+Name[ru]=Распаковать в этот каталог
 Name[sv]=Packa upp här
-Name[xx]=xxExtract herexx
-Exec=ark --guess-name --extract-to . %u
+Exec=ark --guess-name --extract-to %d %u
