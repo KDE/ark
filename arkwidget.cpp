@@ -134,7 +134,7 @@ bool Utilities::diskHasSpace(const QString &dir, long size)
       double nAvailable = (double)buf.f_bavail * buf.f_bsize;
       if (nAvailable < (double)size)
         {
-          KMessageBox::error(0, i18n("Sorry, you've run out of disk space."));
+          KMessageBox::error(0, i18n("You have run out of disk space."));
           return false;
         }
     }
@@ -667,7 +667,7 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
       if (m_bMakeCFIntoArchiveInProgress &&
           Arch::getArchType(strFile, temp, url) == COMPRESSED_FORMAT)
         {
-          KMessageBox::information(0, i18n("Sorry, you need to create an archive, not a new\ncompressed file. Please try again."));
+          KMessageBox::information(0, i18n("You need to create an archive, not a new\ncompressed file. Please try again."));
           continue;
         }
 
@@ -740,7 +740,7 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
   else
     {
       QApplication::restoreOverrideCursor();
-      KMessageBox::error(this, i18n("Sorry, ark cannot create an archive of that type.\n\n  [Hint:  The filename should have an extension such as `.zip' to\n  indicate the type of the archive. Please see the help pages for\nmore information on supported archive formats.]"));
+      KMessageBox::error(this, i18n("ark cannot create an archive of that type.\n\n  [Hint: The filename should have an extension such as '.zip' to\n  indicate the archive type. Please see the help pages for\nmore information on supported archive formats.]"));
     }
 }
 
@@ -2168,13 +2168,13 @@ void ArkWidget::createFileListView()
 bool ArkWidget::badBzipName(const QString & _filename)
 {
   if (_filename.right(3) == ".BZ" || _filename.right(4) == ".TBZ")
-    KMessageBox::error(this, i18n("Sorry, bzip doesn't like filename extensions that use capital letters.") );
+    KMessageBox::error(this, i18n("bzip does not support filename extensions that use capital letters.") );
   else if (_filename.right(4) == ".tbz")
-    KMessageBox::error(this, i18n("Sorry, bzip doesn't like filename extensions that aren't exactly \".bz\"."));
+    KMessageBox::error(this, i18n("bzip only supports filenames with the extension \".bz\"."));
   else if (_filename.right(4) == ".BZ2" ||  _filename.right(5) == ".TBZ2")
-    KMessageBox::error(this, i18n("Sorry, bzip2 doesn't like filename extensions that use capital letters."));
+    KMessageBox::error(this, i18n("bzip2 does not support filename extensions that use capital letters."));
   else if (_filename.right(5) == ".tbz2")
-    KMessageBox::error(this, i18n("Sorry, bzip2 doesn't like filename extensions that aren't exactly \".bz2\".") );
+    KMessageBox::error(this, i18n("bzip2 only supports filenames with the extension \".bz2\".") );
   else
     return false;
   return true;
@@ -2202,7 +2202,7 @@ void ArkWidget::createArchive( const QString & _filename )
 
   if (!newArch->utilityIsAvailable())
     {
-      KMessageBox::error(this, i18n("Sorry, the utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
+      KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
       return;
     }
 
@@ -2266,7 +2266,7 @@ void ArkWidget::openArchive(const QString & _filename )
 
   if (!newArch->utilityIsAvailable())
     {
-      KMessageBox::error(this, i18n("Sorry, the utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
+      KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
       return;
     }
 
