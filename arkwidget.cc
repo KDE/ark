@@ -49,7 +49,7 @@
 #include <kaction.h>
 #include <kstdaction.h>
 #include <ktempfile.h>
-#include <progressbase.h>
+#include <kio/progressbase.h>
 #include <kmimemagic.h>
 #include <kedittoolbar.h>
 #include <kstandarddirs.h>
