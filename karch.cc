@@ -24,6 +24,8 @@ int KZipArch::getArchType( QString archname )
 {
 	if( archname.contains(".tgz", FALSE) || archname.contains(".tar.gz", FALSE) 
 			|| archname.contains( ".tar.Z", FALSE ) || archname.contains(".tar.bz", FALSE)
+			|| archname.contains( ".tar.bz2", FALSE ) || archname.contains(".tar.lzo", FALSE)
+			|| archname.contains( ".tbz", FALSE ) || archname.contains(".tzo", FALSE)
 			|| archname.contains( ".taz", FALSE) )
 		return Tar;
 	if( archname.contains(".lha", FALSE) || archname.contains(".lzh", FALSE ))
