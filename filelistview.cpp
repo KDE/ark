@@ -161,7 +161,11 @@ void FileLVI::setText(int column, const QString &text)
     }
     else if ( colName == ratioStrCol )
     {
-        m_ratio = text.toDouble();
+        int l = text.length() - 1;
+        if ( l>0 && text[l] == '%' )
+            m_ratio = text.left(l).toDouble();
+        else
+            m_ratio = text.toDouble();
         QListViewItem::setText(column, i18n("Packed Ratio", "%1 %").arg(KGlobal::locale()->formatNumber(m_ratio, 1)));
     }
     else if ( colName == timeStampStrCol )
