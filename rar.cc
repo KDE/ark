@@ -68,12 +68,12 @@ void RarArch::processLine( char *_line )
   ++m_linenumber;
   if (m_linenumber == 1)
     {
-      m_line1 = _line;
+      m_line1 = QString::fromLocal8Bit(_line);
       return;
     }
   if (m_linenumber == 2)
     {
-      m_line2 = _line;
+      m_line2 = QString::fromLocal8Bit(_line);
       return;
     }
   // if we made it here, we have all three lines.
@@ -82,7 +82,6 @@ void RarArch::processLine( char *_line )
 
   char columns[11][80];
   char filename[4096];
-
   sscanf(QFile::encodeName(m_line1), " %[^\n]", filename);
   sscanf((const char *)m_line2.ascii(), " %[0-9] %[0-9] %[0-9%] %2[0-9]-%2[0-9]-%2[0-9] %5[0-9:] %[drwxlst-] %[A-F0-9] %[A-Za-z0-9] %[0-9.]",
 	 columns[0], columns[1], columns[2], columns[3],

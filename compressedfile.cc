@@ -134,10 +134,10 @@ void CompressedFile::open()
   KProcess *kp = new KProcess;
   QString uncompressor = m_unarchiver_program;
   kp->clearArguments();
-  *kp << uncompressor.local8Bit() << "-f" ;
+  *kp << uncompressor << "-f" ;
   if (uncompressor == "lzop")
     *kp << "-d";
-  *kp << m_tmpfile.local8Bit();
+  *kp << m_tmpfile;
 
   kdDebug(1601) << "Command is " << uncompressor << " " << (const char *)m_tmpfile.local8Bit() << endl;
 

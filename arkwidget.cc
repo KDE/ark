@@ -1367,7 +1367,7 @@ void ArkWidget::createRealArchive(const QString &strFilename)
 {
   FileListView *flw = fileList();
   FileLVI *flvi = (FileLVI*)flw->firstChild();
-  m_compressedFile = flvi->getFileName().local8Bit();
+  m_compressedFile = flvi->getFileName();
   QString tmpdir = m_settings->getTmpDir();
   m_compressedFile = "file:" + tmpdir + "/" + m_compressedFile;
   kdDebug(1601) << "The compressed file is " << m_compressedFile << endl;
@@ -1669,7 +1669,7 @@ bool ArkWidget::reportExtractFailures(const QString & _dest,
     FileLVI *flvi = (FileLVI*)flw->firstChild();
     while (flvi)
       {
-	tmp = flvi->getFileName().local8Bit();
+	tmp = flvi->getFileName();
 	_list->append(tmp);
 	flvi = (FileLVI*)flvi->itemBelow();
       }
