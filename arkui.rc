@@ -7,7 +7,6 @@
   <Menu name="file"><text>&amp;File</text>
     <Action name="new_window"/>
     <Action name="reload_arch"/>
-    <Action name="close_arch"/>
   </Menu>
   <Menu name="editx"><text>&amp;Edit</text>
     <Action name="select"/>

@@ -205,7 +205,7 @@ void
 ArkWidget::setupActions()
 {
 	// setup File menu
-  	newWindowAction = new KAction(i18n("New &Window"), 0, this,
+  	newWindowAction = new KAction(i18n("New &Window"), "window_new", KShortcut(), this,
 			SLOT(file_newWindow()), actionCollection(), "new_window");
 	
 	newArchAction = KStdAction::openNew(this, SLOT(file_new()),	actionCollection());
@@ -213,7 +213,7 @@ ArkWidget::setupActions()
 	
 	reloadAction = new KAction(i18n("Re&load"), "reload", 0, this, SLOT(file_reload()), actionCollection(), "reload_arch");
 	saveAsAction = KStdAction::saveAs(this, SLOT(file_save_as()), actionCollection());
-	closeAction = new KAction(i18n("&Close Archive"), 0, this, SLOT(file_close()), actionCollection(), "close_arch");
+	closeAction = KStdAction::close(this, SLOT(file_close()), actionCollection(), "file_close");
 
 	recent = KStdAction::openRecent(this, SLOT(file_open(const KURL&)), actionCollection());
 	KConfig *kc = m_settings->getKConfig();
@@ -338,12 +338,12 @@ void ArkWidget::setupStatusBar()
   m_pStatusLabelSelect = new QLabel(sb);
   m_pStatusLabelSelect->setFrameStyle(QFrame::Panel | QFrame::Raised);
   m_pStatusLabelSelect->setAlignment(AlignLeft);
-  m_pStatusLabelSelect->setText(i18n("0 Files Selected"));
+  m_pStatusLabelSelect->setText(i18n("0 files selected"));
 
   m_pStatusLabelTotal = new QLabel(sb);
   m_pStatusLabelTotal->setFrameStyle(QFrame::Panel | QFrame::Raised);
   m_pStatusLabelTotal->setAlignment(AlignRight);
-  m_pStatusLabelTotal->setText(i18n("Total: 0 Files"));
+  m_pStatusLabelTotal->setText(i18n("Total: 0 files"));
 
   sb->addWidget(m_pStatusLabelSelect, 3000);
   sb->addWidget(m_pStatusLabelTotal, 3000);
@@ -403,7 +403,7 @@ void ArkWidget::updateStatusTotals()
     }
   //  kdDebug(1601) << "We have " << m_nNumFiles << " elements\n" << endl;
 
-  QString strInfo = i18n("%n File  %1", "%n Files  %1", m_nNumFiles).arg(KIO::convertSize(m_nSizeOfFiles));
+  QString strInfo = i18n("%n file  %1", "%n files  %1", m_nNumFiles).arg(KIO::convertSize(m_nSizeOfFiles));
   m_pStatusLabelTotal->setText(strInfo);
 }
 
@@ -1978,17 +1978,17 @@ void ArkWidget::updateStatusSelection()
   QString strInfo;
   if (m_nNumSelectedFiles == 0)
     {
-      strInfo = i18n("0 Files Selected");
+      strInfo = i18n("0 files selected");
     }
   else if (m_nNumSelectedFiles != 1)
     {
-      strInfo = i18n("%1 Files Selected  %2")
+      strInfo = i18n("%1 files selected  %2")
         .arg(KGlobal::locale()->formatNumber(m_nNumSelectedFiles, 0))
         .arg(KIO::convertSize(m_nSizeOfSelectedFiles));
     }
   else
     {
-    strInfo = i18n("1 File Selected  %2")
+    strInfo = i18n("1 file selected  %2")
         .arg(KIO::convertSize(m_nSizeOfSelectedFiles));
     }
 

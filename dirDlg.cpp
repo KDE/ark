@@ -94,25 +94,25 @@ DirWidget::DirWidget( DirType type, QWidget *parent, const char *name  )
     case StartupDir:
 
       rbFixed->setText( i18n( "Fixed start-up directory" ) );
-      rbLast->setText( i18n( "Last start-up directory" ) );
+      rbLast->setText( i18n( "&Last start-up directory" ) );
       break;
 
     case OpenDir:
 
       rbFixed->setText( i18n( "Fixed open directory" ) );
-      rbLast->setText( i18n( "Last open directory" ) );
+      rbLast->setText( i18n( "&Last open directory" ) );
       break;
 
     case ExtractDir:
 
       rbFixed->setText( i18n( "Fixed extract directory" ) );
-      rbLast->setText( i18n( "Last extract directory" ) );
+      rbLast->setText( i18n( "&Last extract directory" ) );
       break;
 
     case AddDir:
 
       rbFixed->setText( i18n( "Fixed add directory" ) );
-      rbLast->setText( i18n( "Last add directory" ) );
+      rbLast->setText( i18n( "&Last add directory" ) );
       break;
 
     default:

@@ -50,10 +50,10 @@
 #define GRP_ADDSET i18n("Add Settings")
 #define GRP_EXTRACTSET i18n("Extract Settings")
 
-#define OPT_REPLACE_NEWER i18n("Replace &old files only with newer files")
+#define OPT_REPLACE_NEWER i18n("Replace old files only &with newer files")
 #define OPT_MAKEGENERIC i18n("Keep entries &generic (Lha)")
 #define OPT_DOS_FILENAMES i18n("Force &MS-DOS short filenames (Zip)")
-#define OPT_CONV_CRLF i18n("Translate LF to DOS &CRLF (Zip)")
+#define OPT_CONV_CRLF i18n("Translate &LF to DOS CRLF (Zip)")
 #define OPT_RECURSE_SUBDIRS i18n("&Recursively add subdirectories (Zip, Rar)")
 #define OPT_STORE_SYMLINKS i18n("&Store symlinks as links (Zip, Rar)")
 
@@ -77,15 +77,15 @@ GeneralOptDlg::GeneralOptDlg(ArkSettings *_d, QWidget *_parent, const char *_nam
     m_settings = _d;
     QFrame *frame;
     
-    frame = addPage( i18n( "Addition" ), i18n( "File addition settings" ),
+    frame = addPage( i18n( "Addition" ), i18n( "File Addition Settings" ),
                      loadIcon( "ark_addfile" ) );
     createAddTab( frame );
     
-    frame = addPage( i18n( "Extraction" ), i18n( "Extraction settings" ),
+    frame = addPage( i18n( "Extraction" ), i18n( "Extraction Settings" ),
                      loadIcon( "ark_extract" ) );
     createExtractTab( frame );
     
-    frame = addPage( i18n( "Directories" ), i18n( "Directory settings" ),
+    frame = addPage( i18n( "Directories" ), i18n( "Directory Settings" ),
                      loadIcon( "folder" ) );
     createDirectoryTab( frame );	
 }
