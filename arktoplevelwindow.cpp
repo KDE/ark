@@ -269,6 +269,8 @@ ArkTopLevelWindow::getOpenURL( bool addOnly, const QString & caption,
     dlg.setOperationMode( addOnly ? KFileDialog::Saving
                                   : KFileDialog::Opening );
 
+	 kdDebug(1601) << "Caption to be set: " << caption << endl;
+	 
     dlg.setCaption( addOnly ? caption : i18n("Open") );
     dlg.setMode( addOnly ? ( KFile::File | KFile::ExistingOnly )
                                   :  KFile::File );

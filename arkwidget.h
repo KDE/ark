@@ -102,7 +102,6 @@ protected slots:
 
     void doPopup(QListViewItem *, const QPoint &, int); // right-click menus
 
-    void showFavorite();
     void slotSelectionChanged();
     void slotOpen(Arch *, bool, const QString &, int);
     void slotCreate(Arch *, bool, const QString &, int);

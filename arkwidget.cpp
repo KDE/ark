@@ -6,7 +6,7 @@
  Copyright (C)
 
  2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
- 2002: Helio Chissini de Castro <helio@conectiva.com.br>
+ 2002-2003: Helio Chissini de Castro <helio@conectiva.com.br>
  2001-2002: Roberto Teixeira <maragato@kde.org>
  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
@@ -111,7 +111,6 @@ void ArkWidget::updateStatusTotals()
             pItem = (FileLVI *)pItem->nextSibling();
         }
     }
-    //  kdDebug(1601) << "We have " << m_nNumFiles << " elements\n" << endl;
 
     QString strInfo = i18n("%n file  %1", "%n files  %1", m_nNumFiles).arg(KIO::convertSize(m_nSizeOfFiles));
     emit setStatusBarText(strInfo);
@@ -278,26 +277,13 @@ bool ArkWidget::allowedArchiveName( const KURL & u )
     if (u.isEmpty())
         return false;
 
-    //enum ArchType archtype = ArchiveFormatInfo::self()->archTypeForURL( m_url );
     QString archMimeType = KMimeType::findByURL( m_url )->name();
     if ( !m_openAsMimeType.isNull() )
-        //archtype = ArchiveFormatInfo::self()->archTypeForMimeType( m_openAsMimeType );
         archMimeType = m_openAsMimeType;
     QString newArchMimeType = KMimeType::findByPath( u.path() )->name();
     if ( archMimeType == newArchMimeType )
         return true;
 
-/*    QString strFile = u.path();
-    ArchType newArchType = ArchiveFormatInfo::self()->archTypeForURL( u );
-
-    if (newArchType == archtype)
-        return true;
-    // these types don't mind having no extension. Zip will add one, ulp!
-    if (newArchType == UNKNOWN_FORMAT && !strFile.contains('.')
-            && (archtype == RAR_FORMAT || archtype == LHA_FORMAT ||
-                archtype == AA_FORMAT))
-        return true;
-*/
     return false;
 }
 
@@ -917,7 +903,6 @@ void ArkWidget::createRealArchive( const QString & strFilename, const QStringLis
         return;
     if ( !filesToAdd.isEmpty() )
         m_pTempAddList = new QStringList( filesToAdd );
-    // kdDebug( 1601 ) << " ---- " << filesToAdd << endl;
     m_compressedFile = static_cast< CompressedFile * >( arch )->tempFileName();
     KURL u1, u2;
     u1.setPath( m_compressedFile );
@@ -925,7 +910,6 @@ void ArkWidget::createRealArchive( const QString & strFilename, const QStringLis
     u2.setPath( m_createRealArchTmpDir->name() + u1.fileName() );
     KIO::NetAccess::copy( u1, u2 );
     m_compressedFile = "file:" + u2.path(); // AGAIN THE 5 SPACES Hack :-(
-    // kdDebug(1601) << "The compressed file is " << m_compressedFile << endl;
     connect( newArch, SIGNAL( sigCreate( Arch *, bool, const QString &, int ) ),
              this, SLOT( createRealArchiveSlotCreate( Arch *, bool,
              const QString &, int ) ) );
@@ -985,7 +969,6 @@ void ArkWidget::createRealArchiveSlotAddDone( bool success )
 
 void ArkWidget::createRealArchiveSlotAddFilesDone( bool success )
 {
-    //kdDebug( 1601 ) << "createRealArchiveSlotAddFilesDone+, success:" << success << endl;
     disconnect( arch, SIGNAL( sigAdd( bool ) ), this,
                       SLOT( createRealArchiveSlotAddFilesDone( bool ) ) );
     delete m_pTempAddList;
@@ -1294,16 +1277,6 @@ void ArkWidget::prepareViewFiles( const QStringList & fileList )
     QString destTmpDirectory;
     destTmpDirectory = m_settings->getTmpDir();
 
-#if 0
-    QDir dir( destTmpDirectory );
-
-    //shouldn't happen, already created in the ctor
-    if( ! dir.exists( destTmpDirectory ) )
-    {
-        kdDebug(1601) << "Creating tmp view dir: " << destTmpDirectory << endl;
-        dir.mkdir( destTmpDirectory );
-    }
-#endif
     QStringList * list = new QStringList( fileList );
     arch->unarchFile( list, destTmpDirectory, true);
     delete list;
@@ -1393,11 +1366,18 @@ bool
 ArkWidget::action_extract()
 {
     kdDebug(1601) << "+action_extract" << endl;
-    //before we start, make sure the archive is still there
-    if (!KIO::NetAccess::exists(KURL(arch->fileName())))
+	 
+
+	 KURL fileToExtract;
+	 
+    fileToExtract.setPath( arch->fileName() );
+	 
+	 kdDebug(1601) << "Archive to extract: " << fileToExtract.prettyURL() << endl;
+	 
+	 //before we start, make sure the archive is still there
+    if (!KIO::NetAccess::exists( fileToExtract.prettyURL() ) )
     {
         KMessageBox::error(0, i18n("The archive to extract from no longer exists."));
-        // emit request_file_quit();
         return false;
     }
 
@@ -1810,14 +1790,6 @@ void ArkWidget::selectByPattern(const QString & _pattern) // slot
 
 // Drag & Drop ////////////////////////////////////////////////////////
 
-#if 0 // not sure I need this
-void ArkWidget::dragEnterEvent(QDragEnterEvent* event)
-{
-    event->accept(QUriDrag::canDecode(event));
-}
-
-#endif
-
 void ArkWidget::dragMoveEvent(QDragMoveEvent *e)
 {
     if (QUriDrag::canDecode(e) && !m_bDropSourceIsSelf)
@@ -1976,106 +1948,11 @@ void ArkWidget::startDragSlotExtractDone( bool )
     m_bDropSourceIsSelf = false;
 }
 
-//////////////////////////////////////////////////////////////////////
-///////////////////////// showFavorite ///////////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-//?Question: not used, what is this supposed to do? -> not ported yet
-
-void ArkWidget::showFavorite()
-{
-/*
-      const QFileInfoList *flist;
-      QDir *fav;
-
-      file_close();
-      createFileListView();
-
-      archiveContent->addColumn( i18n(" File ") );
-      archiveContent->addColumn( i18n(" Size ") );
-      archiveContent->setColumnAlignment(1, AlignRight);
-      archiveContent->setMultiSelection( false );
-
-      fav = new QDir( m_settings->getFavoriteDir() );
-      if ( !fav->exists() )
-        {
-          KMessageBox::error( this, i18n("Archive directory does not exist."));
-          return;
-        }
-      flist = fav->entryInfoList();
-      QFileInfoListIterator flisti( *flist );
-      ++flisti; // Skip . directory
-
-      if ( (flisti.current())->fileName() == ".." )
-        {
-          FileLVI *flvi = new FileLVI(archiveContent);
-          flvi->setText(0, "..");
-          archiveContent->insertItem(flvi);
-          ++flisti;
-        }
-
-      QString size;
-      bool isDirectory;
-      for( uint i=0; i < flist->count()-2; i++ )
-        {
-          QString name( (flisti.current())->fileName() );
-          isDirectory = (flisti.current())->isDir();
-          if ( (Arch::getArchType(name)!=-1) || (isDirectory) )
-            {
-              FileLVI *flvi = new FileLVI(archiveContent);
-              flvi->setText(0, name);
-              if (!isDirectory)
-                {
-                  size = KGlobal::locale()->formatNumber(flisti.current()->size(), 0);
-                  flvi->setText(1, size);
-                  archiveContent->insertItem(flvi);
-                }
-            }
-          ++flisti;
-        }
-      archiveContent->setColumnWidth(0, archiveContent->columnWidth(0) + 10 );
-
-      emit setWindowCaption( m_settings->getFavoriteDir() );
-
-      delete fav;
-
-      //    writeStatusMsg( i18n( "Archive Directory") );
-*/
-}
-
-/**
- * Writes a message in the status bar.
- * This message is visible during 5 seconds.
- */
-#if 0
-void ArkWidget::writeStatusMsg(const QString text)
-{
-    statusBarTimer->stop();
-    statusBar()->changeItem(text, 0);
-    statusBarTimer->start(5000,true);
-}
-#endif
-
-#if 0
-void ArkWidget::clearStatusBar()
-{
-    statusBar()->changeItem(QString::null,0);
-}
-#endif
-
 
 void ArkWidget::arkWarning(const QString& msg)
 {
     KMessageBox::information(this, msg);
 }
-
-#if 0
-void ArkWidget::slotStatusBarTimeout()
-
-clearStatusBar();
-}
-#endif
-
 
 void ArkWidget::createFileListView()
 {
