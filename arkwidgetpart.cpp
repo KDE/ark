@@ -58,7 +58,10 @@
 #define STATFS statvfs
 #elif defined(_AIX)
 #include <sys/statfs.h>
+#elif defined(hpux)
+#include <sys/vfs.h>
 #endif
+
 
 #ifndef STATFS
 #define STATFS statfs
