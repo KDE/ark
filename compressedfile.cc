@@ -139,7 +139,7 @@ void CompressedFile::open()
     *kp << "-d";
   *kp << m_tmpfile;
 
-  kdDebug(1601) << "Command is " << uncompressor << " " << (const char *)m_tmpfile.local8Bit() << endl;
+  kdDebug(1601) << "Command is " << uncompressor << " " << m_tmpfile<< endl;
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
@@ -199,10 +199,13 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
 
       kdDebug(1601) << columns[0] << "\t" << columns[1] << "\t" << columns[2] << "\t" << columns[3] << "\t" << columns[4] << "\t" << filename << "\n" << endl;
 
-
+      //used QFileInfo to add filename
+      //because sscanf line doesn't works on non english language
+      QFileInfo _fileInfo(m_tmpfile);
+      QString fileName=_fileInfo.fileName();
+      kdDebug(1601) << "Filename is " << fileName << endl;
       QStringList list;
-      kdDebug(1601) << "Filename is " << (const char *)filename << endl;
-      list.append(QString::fromLocal8Bit(filename));
+      list.append(fileName);
       for (int i=0; i<4; i++)
 	{
 	  list.append(QString::fromLocal8Bit(columns[i]));
