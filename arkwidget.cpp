@@ -29,6 +29,9 @@
 
 */
 
+#include <sys/types.h>
+#include <sys/stat.h>
+
 // Qt includes
 #include <qlayout.h>
 
@@ -196,7 +199,7 @@ ArkWidget::getSaveAsFileName()
 bool 
 ArkWidget::file_save_as( const KURL & u )
 {
-    bool success = KIO::NetAccess::upload( m_strArchName, u );
+    bool success = KIO::NetAccess::upload( m_strArchName, u, this );
     if ( m_modified && success )
         m_modified = false;
     return success;
@@ -298,7 +301,7 @@ ArkWidget::convertFinish()
         else
         {
             KIO::NetAccess::upload( m_settings->getTmpDir()
-                       + m_convert_saveAsURL.fileName(), m_convert_saveAsURL );
+                       + m_convert_saveAsURL.fileName(), m_convert_saveAsURL, this );
             // TODO: save bandwidth - we already have a local tmp file ...
             emit openURLRequest( m_convert_saveAsURL );
         }
@@ -336,9 +339,9 @@ ArkWidget::extractTo( const KURL & targetDirectory, const KURL & archive, bool b
         m_extractTo_targetDirectory.setPath( targetDirectory.path( 1 ) + fileName + '/' );
     }
 
-    if ( !KIO::NetAccess::exists( m_extractTo_targetDirectory ) )
+    if ( !KIO::NetAccess::exists( m_extractTo_targetDirectory, false, this ) )
     {
-        if ( !KIO::NetAccess::mkdir( m_extractTo_targetDirectory ) )
+        if ( !KIO::NetAccess::mkdir( m_extractTo_targetDirectory, this ) )
         {
             KMessageBox::error( 0, i18n( "Could not create the directory %1" ).arg(
                                                             targetDirectory.prettyURL() ) );
@@ -462,7 +465,7 @@ ArkWidget::addToArchive( const KURL::List & filesToAdd, const KURL & archive)
 {
     m_addToArchive_filesToAdd = filesToAdd;
     m_addToArchive_archive = archive;
-    if ( !KIO::NetAccess::exists( archive ) )
+    if ( !KIO::NetAccess::exists( archive, false, this ) )
     {
         if ( !m_openAsMimeType.isEmpty() )
         {
@@ -571,7 +574,7 @@ ArkWidget::addToArchiveSlotAddDone( bool success )
         KMessageBox::error( this, i18n( "An error occurred while adding the files to the archive." ) );
     }
     if ( !m_addToArchive_archive.isLocalFile() )
-        KIO::NetAccess::upload( m_strArchName, m_addToArchive_archive );
+        KIO::NetAccess::upload( m_strArchName, m_addToArchive_archive, this );
     emit request_file_quit();
     return;
 }
@@ -812,7 +815,7 @@ ArkWidget::extractRemoteInitiateMoving( const KURL & target )
 
     m_extractURL.adjustPath( 1 );
 
-    KIO::CopyJob *job = KIO::copy( srcList, target );
+    KIO::CopyJob *job = KIO::copy( srcList, target, this );
     connect( job, SIGNAL(result(KIO::Job*)),
             this, SLOT(slotExtractRemoteDone(KIO::Job*)) );
 
@@ -1001,7 +1004,7 @@ ArkWidget::createRealArchive( const QString & strFilename, const QStringList & f
     u1.setPath( m_compressedFile );
     m_createRealArchTmpDir = new KTempDir( m_settings->getTmpDir() + "create_real_arch" );
     u2.setPath( m_createRealArchTmpDir->name() + u1.fileName() );
-    KIO::NetAccess::copy( u1, u2 );
+    KIO::NetAccess::copy( u1, u2, this );
     m_compressedFile = "file:" + u2.path(); // AGAIN THE 5 SPACES Hack :-(
     connect( newArch, SIGNAL( sigCreate( Arch *, bool, const QString &, int ) ),
              this, SLOT( createRealArchiveSlotCreate( Arch *, bool,
@@ -1211,7 +1214,7 @@ ArkWidget::toLocalFile( QString & str )
             mpDownloadedList = new QStringList();
         QString tempfile = m_settings->getTmpDir();
         tempfile += str.right(str.length() - str.findRev("/") - 1);
-        if( !KIO::NetAccess::dircopy(url, tempfile) )
+        if( !KIO::NetAccess::dircopy(url, tempfile, this) )
             return KURL();
         mpDownloadedList->append(tempfile);        // remember for deletion
         url = tempfile;
@@ -1484,7 +1487,7 @@ ArkWidget::action_extract()
 	 kdDebug(1601) << "Archive to extract: " << fileToExtract.prettyURL() << endl;
 	 
 	 //before we start, make sure the archive is still there
-    if (!KIO::NetAccess::exists( fileToExtract.prettyURL() ) )
+    if (!KIO::NetAccess::exists( fileToExtract.prettyURL(), true, this ) )
     {
         KMessageBox::error(0, i18n("The archive to extract from no longer exists."));
         return false;
@@ -1775,7 +1778,19 @@ ArkWidget::action_view()
 void 
 ArkWidget::viewSlotExtractDone()
 {
-    m_pKRunPtr = new KRun( m_strFileToView );
+    chmod( QFile::encodeName( m_strFileToView ), 0400 );
+    QString mimetype = KMimeType::findByURL( m_strFileToView )->name();
+    bool view = true;
+    
+    if ( KRun::isExecutable( mimetype ) )
+    {
+    	QString text = i18n( "The file you're trying to view may be an executable. Running untrusted executables may compromisse your system's security.\nAre you sure you want to view that file?" );
+        view = ( KMessageBox::warningYesNo( this, text ) == KMessageBox::Yes );
+    }
+
+    if ( view )
+    	KRun::runURL( m_strFileToView, mimetype, true );
+
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this,
                 SLOT( viewSlotExtractDone( ) ) );
     // avoid race condition, don't do updates if application is exiting
