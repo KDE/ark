@@ -59,6 +59,7 @@ void ArchiveFormatInfo::buildFormatInfos()
   addFormatInfo( ZIP_FORMAT, "application/x-jar", ".jar" );
   addFormatInfo( ZIP_FORMAT, "application/x-zip", ".zip" );
 
+
   addFormatInfo( COMPRESSED_FORMAT, "application/x-gzip", ".gz" );
   addFormatInfo( COMPRESSED_FORMAT, "application/x-bzip", ".bz" );
   addFormatInfo( COMPRESSED_FORMAT, "application/x-bzip2", ".bz2" );
@@ -69,6 +70,8 @@ void ArchiveFormatInfo::buildFormatInfos()
   addFormatInfo( ZOO_FORMAT, "application/x-zoo", ".zoo" );
 
   addFormatInfo( RAR_FORMAT, "application/x-rar", ".rar" );
+  
+  addFormatInfo( AA_FORMAT, "application/x-deb", ".deb" );
   addFormatInfo( AA_FORMAT, "application/x-archive",".a" );
 }
 

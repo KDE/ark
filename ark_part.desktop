@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tgz;application/x-tbz;application/x-zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-bzip2;application/x-jar
+MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tgz;application/x-tbz;application/x-zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-bzip2;application/x-jar;application/x-deb
 Comment=Archive Handling Tool
 Comment[af]=Argief Handtering Program
 Comment[ar]=أداة للتعامل مغ الملقات المضغوطة
@@ -22,7 +22,7 @@ Comment[fr]=Outil de manipulation d'archives
 Comment[gl]=Ferramenta de Manexo de Arquivos
 Comment[he]=כלי לניהול ארכיונים
 Comment[hr]=Uslužni program za arhiviranje
-Comment[hu]=tömörítóprogram
+Comment[hu]=Tömörítóprogram
 Comment[id]=Program bantu menangani archive
 Comment[is]=ark:  Vinna meÃ° safnskrÃ¡r
 Comment[it]=Strumento per la gestione degli archivi
@@ -49,6 +49,7 @@ Comment[tr]=Arşiv İşleme Aracı
 Comment[uk]=Засіб роботи з архівами
 Comment[ven]=Tshishumiswa tshau fara tsha fhethu huno vhulungwa zwa kale
 Comment[vi]=Công cụ xử lí các file nén 
+Comment[wa]=Usteye po-z apougnî les årtchives
 Comment[xh]=Isixhobo sokuphatha i Archive
 Comment[zh_CN]=文件压缩归档处理工具
 Comment[zh_TW]=壓縮檔案處理工具
