@@ -101,24 +101,6 @@ void Arch::slotCancel()
   //  m_kp->kill();
 }
 
-void Arch::slotStoreDataStdout(KProcess*, char* _data, int _length)
-{
-  char c = _data[_length];
-  _data[_length] = '\0';
-
-  appendShellOutputData( _data );
-  _data[_length] = c;
-}
-
-void Arch::slotStoreDataStderr(KProcess*, char* _data, int _length)
-{
-  char c = _data[_length];
-  _data[_length] = '\0';
-
-  m_shellErrorData.append( _data );
-  _data[_length] = c;
-}
-
 void Arch::slotOpenExited(KProcess* _kp)
 {
   kdDebug(1601) << "normalExit = " << _kp->normalExit() << endl;

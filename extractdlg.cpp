@@ -151,19 +151,11 @@ ExtractDlg::ExtractDlg( QWidget *parent, const char *name, const QString& archiv
 	bgLayout->addLayout( Layout2, 0, 0 );
 	Layout10->addWidget( bg );
 
-/*	QHBoxLayout *Layout9 = new QHBoxLayout;
-	Layout9->setSpacing( 6 );
-	Layout9->setMargin( 0 );
-
-	QPushButton *prefButton = new QPushButton( mainFrame, "prefButton" );
-	prefButton->setText( i18n( "&Preferences..." ) );
-	Layout9->addWidget( prefButton );
-	QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-	Layout9->addItem( spacer );
-	Layout10->addLayout( Layout9 );
-*/
 	m_viewFolderAfterExtraction = new QCheckBox( i18n( "Open destination folder after extraction" ), mainFrame, "viewFolderCheckBox" );
 	Layout10->addWidget( m_viewFolderAfterExtraction );
+
+	config->setGroup( "ark" );
+	m_viewFolderAfterExtraction->setChecked( config->readBoolEntry( "OpenDestinationFolder", true ) );
 	
 	Form1Layout->addLayout( Layout10, 0, 0 );
 
@@ -171,9 +163,7 @@ ExtractDlg::ExtractDlg( QWidget *parent, const char *name, const QString& archiv
 
 	connect(m_patternLE, SIGNAL(textChanged(const QString &)), this, SLOT(choosePattern()));
 	connect(m_patternLE, SIGNAL(returnPressed()), this, SLOT(accept()));
-	//connect(prefButton, SIGNAL(clicked()), this, SLOT(openPrefs()));
 
-	//connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
 	m_radioCurrent->setChecked(true);
 	enableButtonOK(!m_extractDirCB->lineEdit()->text().isEmpty());
 	setFocus();
@@ -186,6 +176,8 @@ ExtractDlg::~ExtractDlg()
 	config->setGroup( "History" );
 	QStringList list = m_extractDirCB->historyItems();
 	config->writePathEntry( "ExtractTo History", list );
+	config->setGroup( "ark" );
+	config->writeEntry( "OpenDestinationFolder", m_viewFolderAfterExtraction->isChecked() );
 	
 	Settings::setLastExtractDir( m_extractDirCB->lineEdit()->text() );
 }

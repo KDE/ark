@@ -144,8 +144,6 @@ public:
 
 protected slots:
   void slotCancel();
-  void slotStoreDataStdout(KProcess*, char*, int);
-  void slotStoreDataStderr(KProcess*, char*, int);
   void slotOpenExited(KProcess*);
 
   void slotExtractExited(KProcess*);

@@ -80,6 +80,7 @@ extern "C" int kdemain( int argc, char *argv[]  )
 	aboutData.addAuthor( "Michael Jarrett (Corel Corporation)", 0, "michaelj@corel.com" );
 	aboutData.addAuthor( "Robert Palmbos", 0, "palm9744@kettering.edu" );
 	aboutData.addCredit( "Bryce Corkins", I18N_NOOP( "Icons" ), "dbryce@attglobal.net" );
+	aboutData.addCredit( "Liam Smit", I18N_NOOP( "Ideas, help with the icons" ), "smitty@absamail.co.za" );
 	
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( option );
