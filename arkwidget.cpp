@@ -1403,29 +1403,35 @@ void ArkWidget::addFile(QStringList *list)
     }
   else
     {
-      bool bNotLocal = true;
       // if they are URLs, we have to download them, replace the URLs
       // with filenames, and remember to delete the temporaries later.
       for (QStringList::Iterator it = list->begin(); it != list->end(); ++it)
         {
           QString str = *it;
           kdDebug(1601) << "Want to add " << str<< endl;
-          if (str.left(5) == QString("file:"))
-            {
-              bNotLocal = false;
-              break;  // no need to continue
-            }
+
           KURL url = str;
-          QString tempfile = m_settings->getTmpDir();
-          tempfile += str.right(str.length() - str.findRev("/") - 1);
-          KIO::NetAccess::download(url, tempfile); // TODO test return value
-          tempfile = "file:" + tempfile;
-          // replace the URL with the name of the temporary
-          *it = tempfile;
-        }
-      if (bNotLocal)
-        mpDownloadedList = new QStringList(*list);
-    }
+
+	  if(!url.isLocalFile())
+	  {
+	      if(!mpDownloadedList)
+		  mpDownloadedList = new QStringList();
+	      QString tempfile = m_settings->getTmpDir();
+	      tempfile += str.right(str.length() - str.findRev("/") - 1);
+	      KIO::NetAccess::download(url, tempfile);  // TODO test return value
+	      tempfile = "file:" + tempfile;
+
+	      // replace the URL with the name of the temporary
+	      *it = tempfile;
+	      
+	      mpDownloadedList->append(tempfile);        //remember for deletion
+	  }
+	     
+	  *it = url.url();
+
+	}
+      
+      }
   arch->addFile(list);
 }
 
