@@ -235,7 +235,7 @@ ArkTopLevelWindow::openURL( const KURL & url )
 
 KURL
 ArkTopLevelWindow::getOpenURL( bool addOnly, const QString & caption,
-                                             const QString & startDir )
+                               const QString & startDir, const QString & suggestedName )
 {
     kdDebug( 1601 ) << "startDir is: " << startDir << endl;
     QWidget * forceFormatWidget = new QWidget( this );
@@ -253,6 +253,14 @@ ArkTopLevelWindow::getOpenURL( bool addOnly, const QString & caption,
     list.prepend( i18n( "Autodetect (default)" ) );
     combo->insertStringList( list );
 
+    QString filter = ArchiveFormatInfo::self()->filter();
+    if ( !suggestedName.isEmpty() )
+    {
+        filter = QString::null;
+        combo->setCurrentItem( list.findIndex( ArchiveFormatInfo::self()->descriptionForMimeType(
+                                 KMimeType::findByPath( suggestedName, 0, true )->name() ) ) );
+    }
+
     label->setBuddy( combo );
 
     l->addWidget( label );
@@ -264,15 +272,18 @@ ArkTopLevelWindow::getOpenURL( bool addOnly, const QString & caption,
     else
         dir = m_widget->settings()->getOpenDir();
 
-    KFileDialog dlg( dir, ArchiveFormatInfo::self()->filter(),
-                     this, "filedialog", true, forceFormatWidget );
+    KFileDialog dlg( dir, filter, this, "filedialog", true, forceFormatWidget );
     dlg.setOperationMode( addOnly ? KFileDialog::Saving
                                   : KFileDialog::Opening );
 
     dlg.setCaption( addOnly ? caption : i18n("Open") );
     dlg.setMode( addOnly ? ( KFile::File | KFile::ExistingOnly )
                                   :  KFile::File );
-    dlg.setSelection( dir );
+    if ( !suggestedName.isEmpty() )
+        dlg.setSelection( dir + suggestedName );
+    else
+        dlg.setSelection( dir );
+
     dlg.exec();
 
     KURL url;
@@ -393,10 +404,10 @@ ArkTopLevelWindow::extractTo( const KURL & targetDirectory, const KURL & archive
 
 void
 ArkTopLevelWindow::addToArchive( const KURL::List & filesToAdd, const QString & /*cwd*/,
-                                                                const KURL & archive )
+                                 const KURL & archive, bool askForName )
 {
     KURL archiveFile;
-    if ( archive.isEmpty() )
+    if ( askForName || archive.isEmpty() )
     {
         // user definded actions in servicemus are being started by konq
         // from konqis working directory, not from the one being shown when
@@ -406,9 +417,10 @@ ArkTopLevelWindow::addToArchive( const KURL::List & filesToAdd, const QString & 
         // like: /dira> ark -add /dirb/file, but well...
         KURL cwdURL;
         cwdURL.setPath( filesToAdd.first().path() );
-        QString dir = cwdURL.directory();
+        QString dir = cwdURL.directory( false );
 
-        archiveFile = getOpenURL( true, i18n( "Select Archive to Add Files To" ), dir /*cwd*/ );
+        archiveFile = getOpenURL( true, i18n( "Select Archive to Add Files To" ),
+                                  dir /*cwd*/, archive.fileName() );
     }
     else
         archiveFile = archive;

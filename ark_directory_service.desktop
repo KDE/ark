@@ -5,30 +5,53 @@ Actions=create_targz;create_tarbz2;create_zip
 
 [Desktop Action create_targz]
 Name=Create gzipped tar Archive
-Name[bg]=Създаване на архиви Tar
+Name[bg]=Създаване на архиви Tar с помощта на gzip
 Name[ca]=Crea arxiu tar gzip
+Name[cs]=Vytvořit gzipovaný tar archív
 Name[da]=Lav gzippet tar-arkiv
-Name[de]=tar.gz Archiv erzeugen
+Name[de]=tar.gz Archiv erstellen
 Name[es]=Crear archivo tar.gz
 Name[et]=Gzipitud arhiivi loomine
 Name[fi]=Luo gzip pakattu tar-paketti
 Name[fr]=Créer une archive gzip
 Name[hu]=Gzip tar archívum létrehozása
-Name[it]=Crea archivio tar-gzip
+Name[it]=Crea archivio Tar+Gzip
+Name[pt]=Criar um Pacote tar/gzip
 Name[pt_BR]=Criar arquivo .tar.gz com gzip
 Name[ru]=Создать сжатый архив TAR (.tar.gz)
 Name[sl]=Ustvari arhiv Tar z gzip
 Name[sr]=Направи gzip-овану tar архиву
-Name[sv]=Skapa komprimerat tar-arkiv
+Name[sv]=Skapa tar-arkiv komprimerat med gzip
+Name[tr]=gziplenmiş tar Arşivi Oluştur
+Name[uz]=Gzip билан қисилган Tar архивини яратиш
 Name[wa]=Fé ene årtchive tar.gz
 Name[xx]=xxCreate gzipped tar Archivexx
 Icon=ark
-Exec=ark -add-to %u %u.tar.gz
+Exec=ark --add --add-to .tar.gz %U
 
 [Desktop Action create_tarbz2]
 Name=Create bzipped tar Archive
+Name[bg]=Създаване на архиви Tar с помощта на bzip
+Name[ca]=Crea arxiu tar bzip
+Name[cs]=Vytvořit bzipovaný tar archív
+Name[da]=Lav bzippet tar-arkiv
+Name[de]=Mit bzip komprimiertes tar-Archiv erstellen
+Name[es]=Crear archivo tar.bz2
+Name[et]=Bzipitud tar arhiivi loomine
+Name[fi]=Luo bzip-pakattu tar-paketti
+Name[fr]=Créer une archive tar bzipé
+Name[hu]=Bzip tar archívum létrehozása
+Name[it]=Crea archivio Tar+Bzip
+Name[pt]=Criar um Pacote tar/bzip
+Name[pt_BR]=Criar pacote .tar com bzip
+Name[sl]=Ustvari arhiv Tar z bzip
+Name[sr]=Направи bzip-овану tar архиву
+Name[sv]=Skapa tar-arkiv komprimerat med bzip
+Name[tr]=bziplenmiş tar Arşivi Oluştur
+Name[uz]=Bzip билан қисилган Tar архивини яратиш
+Name[xx]=xxCreate bzipped tar Archivexx
 Icon=ark
-Exec=ark -add-to %u %u.tar.bz2
+Exec=ark --add --add-to .tar.bz2 %U
 
 [Desktop Action create_zip]
 Name=Create zip Archive
@@ -36,22 +59,24 @@ Name[bg]=Създаване на архиви Zip
 Name[ca]=Crea arxiu zip
 Name[cs]=Vytvořit ZIP archív
 Name[da]=Lav zip-arkiv
-Name[de]=Zip-Archiv erzeugen
+Name[de]=Zip-Archiv erstellen
 Name[es]=Crear archivo zip
 Name[et]=Zipitud arhiivi loomine
 Name[fi]=Luo zip-paketti
 Name[fr]=Créer une archive zip
 Name[hu]=Zip archívum létrehozása
-Name[it]=Crea archivio zip
+Name[it]=Crea archivio Zip
 Name[pt]=Criar Arquivo zip
 Name[pt_BR]=Criar arquivo .zip
 Name[ru]=Создать архив ZIP
 Name[sl]=Ustvari arhiv zip
 Name[sr]=Направи zip архиву
 Name[sv]=Skapa zip-arkiv
+Name[tr]=zip Arşivi Oluştur
+Name[uz]=Zip архивини яратиш
 Name[wa]=Fé ene årtchive zip
 Name[xx]=xxCreate zip Archivexx
 Icon=ark
-Exec=ark -add-to %u %u.zip
+Exec=ark --add --add-to .zip %U
 
 

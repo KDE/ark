@@ -50,7 +50,7 @@ public:
     void setExtractOnly ( bool b );
     void extractTo( const KURL & targetDirectory, const KURL & archive, bool guessName );
     void addToArchive( const KURL::List & filesToAdd, const QString & cwd = QString::null,
-                       const KURL & archive = KURL() );
+                       const KURL & archive = KURL(), bool askForName = false );
 
 public slots:
     void file_newWindow();
@@ -87,7 +87,8 @@ private: // methods
     bool arkAlreadyOpen( const KURL & url );
 
     KURL getOpenURL( bool addOnly = false , const QString & caption = QString::null,
-                     const QString & startDir = QString::null );
+                     const QString & startDir = QString::null,
+                     const QString & suggestedName = QString::null );
 
 private: // data
     KParts::ReadWritePart *m_part;

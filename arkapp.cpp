@@ -151,7 +151,7 @@ ArkApplication::newInstance()
         }
     }
 
-    if ( args->isSet( "add-to" ) )
+    if ( args->isSet( "add-to" ) && ( !args->isSet( "add" ) ) )
     {
         if ( args->count() < 2 )
         {
@@ -172,7 +172,31 @@ ArkApplication::newInstance()
         }
     }
 
-    if ( args->isSet( "add" ) )
+    if ( args->isSet( "add" ) && args->isSet( "add-to" ) )   // HACK
+    {
+        bool oneFile = (args->count() == 2 ) ;
+
+        QString extension = args->arg( 0 );
+        KURL archiveName = args->url( 1 );  // the filename
+
+        // if more than one file -> use directory name
+        if ( !oneFile )
+            archiveName.setPath( archiveName.directory() );
+
+        archiveName.setFileName( archiveName.fileName() + extension );
+        KURL::List URLList;
+        for ( int c = 1; c < args->count(); c++ )
+            URLList.append( args->url( c ) );
+
+        ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
+        arkWin->showMinimized();
+
+        arkWin->addToArchive( URLList, args->cwd(), archiveName, !oneFile );
+        return 0;
+    }
+
+
+    if ( args->isSet( "add" ) && ( !args->isSet( "add-to" ) ) )
     {
         if ( args->count() < 1 )
         {
