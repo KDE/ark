@@ -69,9 +69,9 @@ void AddDlg::setupFirstTab()
   KCombiView *pCombiView = new KCombiView(m_dirList, "fileview");
   KFileIconView *pFileView = new KFileIconView(pCombiView, "fileview2");
   pCombiView->setRight(pFileView);
-  pFileView->setSelectionMode( KFile::Multi ); 
   m_dirList->setView(pCombiView);
-
+  // this has to go after setView or it reverts to Single.
+  pFileView->setSelectionMode( KFile::Multi ); 
   QVBoxLayout *vlay = new QVBoxLayout(frame, 0, spacingHint());
   vlay->addWidget(m_dirList);  
   

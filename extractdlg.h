@@ -45,6 +45,8 @@ public:
   ExtractDlg(ArchType _archtype, ArkSettings *_settings);
   enum ExtractOp{ All, Selected, Current, Pattern };
   int extractOp();
+  void disableSelectedFilesOption();
+  void disableCurrentFileOption() { m_radioCurrent->setEnabled(false); }
 public slots:
   void browse();
   void choosePattern() { m_radioPattern->setChecked(true); }

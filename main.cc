@@ -45,7 +45,7 @@
 static const char *description = 
 	I18N_NOOP("KDE Archiving tool");
 
-static const char *version = "v0.0.1";
+static const char *version = "v.1.9";
 
 static KCmdLineOptions option[] =
 {

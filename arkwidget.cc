@@ -621,6 +621,7 @@ QString ArkWidget::getCreateFilename()
 void ArkWidget::file_new()
 {
   QString strFile = getCreateFilename();
+  m_settings->clearShellOutput();
   if (!strFile.isEmpty())
     createArchive( strFile );
 }
@@ -1457,6 +1458,11 @@ void ArkWidget::action_extract()
   connect(dlg, SIGNAL(pattern(const QString &)), 
 	  this, SLOT(selectByPattern(const QString &)));
   bool bRedoExtract = false;
+
+  if (m_nNumSelectedFiles == 0)
+    dlg->disableSelectedFilesOption();
+  if (archiveContent->currentItem() == NULL)
+    dlg->disableCurrentFileOption();
 
   // list of files to be extracted
   m_extractList = new QStringList;

@@ -1,4 +1,10 @@
-2000-05-16:  Emily Ezust <emilye@corel.com>
+                           $Id$
+
+2000-05-23: Emily Ezust <emilye@corel.com>
+	* Odds and ends: fixed problem with selecting multiple files in Add
+ 	  File; added some better option enabling in the extract dialog.
+
+2000-05-16: Emily Ezust <emilye@corel.com>
 	* Fixed a bug in ArArch - wasn't reading TOCs properly
 	
 2000-05-12: Emily Ezust <emilye@corel.com>

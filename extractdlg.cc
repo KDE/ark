@@ -60,6 +60,13 @@ ExtractDlg::ExtractDlg(ArchType _archtype, ArkSettings *_settings)
   connect(m_patternLE, SIGNAL(returnPressed()), this, SLOT(accept()));
 }
 
+void ExtractDlg::disableSelectedFilesOption()
+{
+  m_radioSelected->setEnabled(false); 
+  m_radioAll->setChecked(true); 
+}
+
+
 void ExtractDlg::setupFirstTab()
 {
   QVBox *firstpage = new QVBox( this );
