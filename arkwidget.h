@@ -44,7 +44,7 @@
 // KDE includes
 #include <kaccel.h>
 #include <kconfig.h>
-#include <kpopmenu.h>
+#include <kpopupmenu.h>
 #include <ktmainwindow.h>
 #include <kurl.h>
 
