@@ -216,7 +216,12 @@ QString ArchiveFormatInfo::findMimeType( const KURL & url )
     delete dev;
 
     if ( n == 0x200 && buffer[0] != 0 && !strncmp(buffer + 257, "ustar", 5) )
-        return "application/x-tar";
+    {
+        if (mimeType == "application/x-bzip2")
+            return "application/x-tbz";
+        else
+            return "application/x-tgz";
+    }
 
     return mimeType;
 }
