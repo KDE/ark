@@ -2445,6 +2445,7 @@ ArkWidget::openArchive( const QString & _filename )
     archiveContent->setUpdatesEnabled( false );
     arch = newArch;
     newArch->open();
+    emit addRecentURL( m_url );
 }
 
 void
