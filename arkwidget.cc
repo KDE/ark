@@ -76,7 +76,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     m_nNumFiles(0), m_nNumSelectedFiles(0), m_bIsArchiveOpen(false),
     m_bIsSimpleCompressedFile(false), m_bDropSourceIsSelf(false)
 {
-    kdebug(0, 1601, "+ArkWidget::ArkWidget");
+    kDebugInfo( 1601, "+ArkWidget::ArkWidget");
   
     m_viewer = new Viewer(this);
     m_settings = new ArkSettings();
@@ -92,15 +92,15 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     ArkApplication::getInstance()->addWindow();
 
     // Build the ark UI
-    kdebug(0, 1601, "Build the GUI");
+    kDebugInfo( 1601, "Build the GUI");
     setupMenuBar();
-    kdebug(0, 1601, "Menubar build...");
+    kDebugInfo( 1601, "Menubar build...");
     setupStatusBar();
-    kdebug(0, 1601, "Statusbar build...");
+    kDebugInfo( 1601, "Statusbar build...");
     setupToolBar();
-    kdebug(0, 1601, "Toolbar build...");
+    kDebugInfo( 1601, "Toolbar build...");
     createFileListView();
-    kdebug(0, 1601, "GUI build...");
+    kDebugInfo( 1601, "GUI build...");
 
     // enable DnD
     setAcceptDrops(true);
@@ -109,7 +109,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 	
     initialEnables();
 
-    kdebug(0, 1601, "-ArkWidget::ArkWidget");
+    kDebugInfo( 1601, "-ArkWidget::ArkWidget");
     resize(640,300);
 }
 
@@ -283,7 +283,7 @@ void ArkWidget::createEditMenu()
 
 void ArkWidget::createActionMenu( int _flag )
 {
-  KASSERT(arch != 0, 0, 1601, "arch is empty !" );
+  kDebugError(arch != 0, 0, 1601, "arch is empty !" );
 	
   actionMenu->clear();
   if (_flag & Arch::Add )
@@ -346,7 +346,7 @@ void ArkWidget::createRecentPopup()
 
 void ArkWidget::setupStatusBar()
 {
-    kdebug(0, 1601, "+ArkWidget::setupStatusBar");
+    kDebugInfo( 1601, "+ArkWidget::setupStatusBar");
 
     KStatusBar *sb = statusBar();
     sb->setFrameStyle(QFrame::Panel | QFrame::Sunken);
@@ -362,13 +362,13 @@ void ArkWidget::setupStatusBar()
 
     QFrame *dummy = new QFrame(sb, "dummy");
     sb->insertWidget(dummy, 0, eStatusDummy);
-    kdebug(0, 1601, "-ArkWidget::setupStatusBar");
+    kDebugInfo( 1601, "-ArkWidget::setupStatusBar");
 
 }
 
 void ArkWidget::setupToolBar()
 {
-    kdebug(0, 1601, "+ArkWidget::setupToolBar");
+    kDebugInfo( 1601, "+ArkWidget::setupToolBar");
 
     KToolBar *tb = toolBar();
 
@@ -432,7 +432,7 @@ void ArkWidget::setupToolBar()
     tb->setItemEnabled(eSelectAll, false);
     tb->setItemEnabled(eView, false);
 
-    kdebug(0, 1601, "-ArkWidget::setupToolBar");
+    kDebugInfo( 1601, "-ArkWidget::setupToolBar");
 }
 
 void ArkWidget::initialEnables()
@@ -469,7 +469,7 @@ void ArkWidget::initialEnables()
 
 void ArkWidget::updateStatusTotals()
 {
-    kdebug(0, 1601, "+ArkWidget::updateStatusTotals");
+    kDebugInfo( 1601, "+ArkWidget::updateStatusTotals");
     m_nNumFiles = 0;
     m_nSizeOfFiles = 0;
     if (archiveContent)
@@ -479,19 +479,19 @@ void ArkWidget::updateStatusTotals()
 	  {
 	    ++m_nNumFiles;
 	    // warning! hardcoded for now - 3 should be eSize
-	    kdebug(0, 1601, "Adding %d\n", atoi(pItem->text(3)));
+	    kDebugInfo( 1601, "Adding %d\n", atoi(pItem->text(3)));
 	    m_nSizeOfFiles += atoi(pItem->text(3));
 	    pItem = (FileLVI *)pItem->nextSibling();
 	  }
       }
-    kdebug(0, 1601, "We have %d elements\n", m_nNumFiles);
+    kDebugInfo( 1601, "We have %d elements\n", m_nNumFiles);
 
     QString strInfo = i18n("Total %1 Files, %1 KB")
       .arg(KGlobal::locale()->formatNumber(m_nNumFiles, 0))
       .arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
     
     statusBar()->changeItem(strInfo, eNumFilesStatusLabel);
-    kdebug(0, 1601, "-ArkWidget::updateStatusTotals");
+    kDebugInfo( 1601, "-ArkWidget::updateStatusTotals");
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -591,7 +591,7 @@ void ArkWidget::file_open(const QString & strFile)
 
 void ArkWidget::saveProperties()
 {
-	kdebug(0, 1601, "+saveProperties (exit)");
+	kDebugInfo( 1601, "+saveProperties (exit)");
 
 	KConfig *kc = m_settings->getKConfig();
 	kc->setGroup( "ark" );
@@ -605,7 +605,7 @@ void ArkWidget::saveProperties()
 	QString ex( "rm -rf "+tmpdir );
 	system( ex.local8Bit() );
 
-	kdebug(0, 1601, "-saveProperties (exit)");
+	kDebugInfo( 1601, "-saveProperties (exit)");
 }
 
 
@@ -726,11 +726,11 @@ void ArkWidget::slotCreate( bool _success, const QString & _filename,
 
 void ArkWidget::file_newWindow()
 {
-  kdebug(0, 1601, "-ArkWidget::file_newWindow");
+  kDebugInfo( 1601, "-ArkWidget::file_newWindow");
   
   ArkWidget *kw = new ArkWidget;
   kw->show();
-  kdebug(0, 1601, "-ArkWidget::file_newWindow");
+  kDebugInfo( 1601, "-ArkWidget::file_newWindow");
 
 }
 
@@ -743,16 +743,16 @@ void ArkWidget::file_open()
 
 void ArkWidget::file_openRecent(int i)
 {
-  //	kdebug(0, 1601, "+ArkWidget::file_openRecent");
+  //	kDebugInfo( 1601, "+ArkWidget::file_openRecent");
 	QString filename = recentPopup->text(i);
 	file_open( filename );
 
-	kdebug(0, 1601, "-ArkWidget::file_openRecent");
+	kDebugInfo( 1601, "-ArkWidget::file_openRecent");
 }
 
 void ArkWidget::showZip( QString _filename )
 {
-  kdebug(0, 1601, "+ArkWidget::showZip");
+  kDebugInfo( 1601, "+ArkWidget::showZip");
 
   createFileListView();
 
@@ -764,12 +764,12 @@ void ArkWidget::showZip( QString _filename )
     }
 
   updateStatusTotals();
-  kdebug(0, 1601, "-ArkWidget::showZip");
+  kDebugInfo( 1601, "-ArkWidget::showZip");
 }
 
 void ArkWidget::slotOpen( bool _success, const QString & _filename, int _flag )
 {
-    kdebug(0, 1601, "+ArkWidget::slotOpen");
+    kDebugInfo( 1601, "+ArkWidget::slotOpen");
     
     archiveContent->setUpdatesEnabled(true);
     archiveContent->triggerUpdate();
@@ -790,7 +790,7 @@ void ArkWidget::slotOpen( bool _success, const QString & _filename, int _flag )
 	fixEnables();
     }
 	
-    kdebug(0, 1601, "-ArkWidget::slotOpen");
+    kDebugInfo( 1601, "-ArkWidget::slotOpen");
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -799,7 +799,7 @@ void ArkWidget::slotOpen( bool _success, const QString & _filename, int _flag )
 
 void ArkWidget::fixEnables() // private
 {
-  kdebug(0, 1601, "+ArkWidget::fixEnables");
+  kDebugInfo( 1601, "+ArkWidget::fixEnables");
 
   bool bHaveFiles = (m_nNumFiles > 0);
 
@@ -831,7 +831,7 @@ void ArkWidget::fixEnables() // private
   menuBar()->setItemEnabled(eMAction, m_bIsArchiveOpen);
 
   
-  kdebug(0, 1601, "-ArkWidget::fixEnables");
+  kDebugInfo( 1601, "-ArkWidget::fixEnables");
 
 }
 
@@ -856,7 +856,7 @@ void ArkWidget::reload()
 	
 void ArkWidget::file_close()
 {
-  kdebug(0, 1601, "+ArkWidget::file_close");
+  kDebugInfo( 1601, "+ArkWidget::file_close");
   if (isArchiveOpen())
     {
       delete arch;
@@ -876,12 +876,12 @@ void ArkWidget::file_close()
       updateStatusSelection();
       fixEnables();
     }
-  kdebug(0, 1601, "-ArkWidget::file_close");
+  kDebugInfo( 1601, "-ArkWidget::file_close");
 }
 
 void ArkWidget::window_close()
 {
-    kdebug(0, 1601, "+ArkWidget::window_close");
+    kDebugInfo( 1601, "+ArkWidget::window_close");
 
     file_close();
     if (ArkApplication::getInstance()->windowCount() < 2  )
@@ -894,7 +894,7 @@ void ArkWidget::window_close()
 	saveProperties();
 	delete this;
       }
-    kdebug(0, 1601, "-ArkWidget::window_close");
+    kDebugInfo( 1601, "-ArkWidget::window_close");
 }
 
 
@@ -919,7 +919,7 @@ void ArkWidget::edit_select()
 		m_settings->setSelectRegExp( exp );
 
 		QRegExp reg_exp( exp, true, true );
-		KASSERT(reg_exp.isValid(), 0, 1601, "ArkWidget::edit_select: regular expression is not valid.");
+		kDebugError(reg_exp.isValid(), 0, 1601, "ArkWidget::edit_select: regular expression is not valid.");
 		
 		FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
 
@@ -974,7 +974,7 @@ void ArkWidget::edit_view_last_shell_output()
 void ArkWidget::action_add()
 {
   ArchType archtype = getArchType(m_strArchName);
-  kdebug(0, 1601, "Add dir: %s", (const char *)m_settings->getAddDir());
+  kDebugInfo( 1601, "Add dir: %s", (const char *)m_settings->getAddDir());
   AddDlg *dlg = new AddDlg(archtype, m_settings->getAddDir(),
 			   m_settings, this, "adddlg");
   if (dlg->exec())
@@ -1028,10 +1028,10 @@ void ArkWidget::remove()
 
 void ArkWidget::action_delete()
 {
-    kdebug(0, 1601, "+ArkWidget::action_delete");
+    kDebugInfo( 1601, "+ArkWidget::action_delete");
 
-    KASSERT(!archiveContent->isSelectionEmpty(),
-	    3, 1601, "Nothing to be removed !" );
+    kDebugError(!archiveContent->isSelectionEmpty(),
+	    1601, "Nothing to be removed !" );
 
     if ( KMessageBox::questionYesNo(this, i18n("Do you really want to delete the selected items?")) == KMessageBox::Yes)
     {
@@ -1042,7 +1042,7 @@ void ArkWidget::action_delete()
       fixEnables();
     }
 
-    kdebug(0, 1601, "-ArkWidget::action_delete");
+    kDebugInfo( 1601, "-ArkWidget::action_delete");
 }
 
 void ArkWidget::action_extract()
@@ -1058,7 +1058,7 @@ void ArkWidget::action_extract()
   if (dlg->exec())
     {
       int extractOp = dlg->extractOp();
-      kdebug(0, 1601, "Extract op: %d", extractOp);
+      kDebugInfo( 1601, "Extract op: %d", extractOp);
       switch(extractOp)
 	{
 	case ExtractDlg::All:
@@ -1075,7 +1075,7 @@ void ArkWidget::action_extract()
 	    while (flvi)
 	      {
 		if ( flw->isSelected(flvi) ){
-		  kdebug(0, 1601, "unarching %s",
+		  kDebugInfo( 1601, "unarching %s",
 			 flvi->getFileName().ascii() );
 		  tmp = flvi->getFileName().local8Bit();
 		  list->append(tmp.local8Bit());
@@ -1090,7 +1090,7 @@ void ArkWidget::action_extract()
 	  {
 	    FileLVI *pItem = archiveContent->currentItem();
 	    if (pItem == 0)
-	      kdebug(0, 1601, "Can't seem to figure out which is current!");
+	      kDebugInfo( 1601, "Can't seem to figure out which is current!");
 	    else
 	      {
 		QString tmp = pItem->text(0);  // get the name
@@ -1213,7 +1213,7 @@ void ArkWidget::doPopup(QListViewItem *pItem, const QPoint &pPoint,
 
 void ArkWidget::slotSelectionChanged()
 {
-  kdebug(0, 1601, "+ArkWidget::slotSelectionChanged");
+  kDebugInfo( 1601, "+ArkWidget::slotSelectionChanged");
   
   KToolBar *tb = toolBar();
   
@@ -1261,7 +1261,7 @@ void ArkWidget::slotSelectionChanged()
       tb->setItemEnabled(eView, false);
       tb->setItemEnabled(eDelete, false);
     }
-  kdebug(0, 1601, "-ArkWidget::slotSelectionChanged");
+  kDebugInfo( 1601, "-ArkWidget::slotSelectionChanged");
 }
 
 
@@ -1271,7 +1271,7 @@ void ArkWidget::slotSelectionChanged()
 
 void ArkWidget::updateStatusSelection()
 {
-  kdebug(0, 1601, "+ArkWidget::updateStatusSelection");
+  kDebugInfo( 1601, "+ArkWidget::updateStatusSelection");
 
   m_nNumSelectedFiles = 0;
   m_nSizeOfSelectedFiles = 0;
@@ -1304,7 +1304,7 @@ void ArkWidget::updateStatusSelection()
     }
   statusBar()->changeItem(strInfo, eSelectedStatusLabel);
 
-  kdebug(0, 1601, "-ArkWidget::updateStatusSelection");
+  kDebugInfo( 1601, "-ArkWidget::updateStatusSelection");
 }
 
 
@@ -1349,7 +1349,7 @@ void ArkWidget::dragMoveEvent(QDragMoveEvent *e)
 
 void ArkWidget::dropEvent(QDropEvent* e)
 {
-  kdebug(0, 1601, "+ArkWidget::dropEvent");
+  kDebugInfo( 1601, "+ArkWidget::dropEvent");
 
   QStringList list;
 
@@ -1358,7 +1358,7 @@ void ArkWidget::dropEvent(QDropEvent* e)
     dropAction(&list);
   }
 
-  kdebug(0, 1601, "-dropEvent");
+  kDebugInfo( 1601, "-dropEvent");
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -1389,7 +1389,7 @@ void ArkWidget::dropAction(QStringList *list)
   for(QStringList::Iterator it = list->begin(); it != list->end(); ++it)
     {
       str = *it;
-      kdebug(0, 1601, "%s", (const char *)str);
+      kDebugInfo( 1601, "%s", (const char *)str);
       if (str.left(5) != QString("file:"))
 	{
 	  str = "file:" + str;

@@ -68,7 +68,7 @@ ZipExtractDlg::ZipExtractDlg( ArkSettings *_d, bool _selection, QString _dir, QW
 void ZipExtractDlg::initGUI()
 {
 #if 0
-	kdebug(0, 1601, "+initGUI");
+	kDebugInfo( 1601, "+initGUI");
 
 	setCaption( i18n("Extract to...") );
 	
@@ -180,7 +180,7 @@ void ZipExtractDlg::initGUI()
 	fileList->connectFileSelected(this, SLOT(fileActivated(KFileInfo*)));
 	fileList->connectFileHighlighted(this, SLOT(fileHighlighted(KFileInfo*)));
 
-	kdebug(0, 1601, "-initGUI");
+	kDebugInfo( 1601, "-initGUI");
 #endif
 }
 
@@ -237,7 +237,7 @@ void ZipExtractDlg::onExtract()
 		KMessageBox::sorry(this, i18n("Destination is empty"));
 	}
 	else{
-		kdebug(0, 1601, "ZipExtractDlg::onExtract: Destination is %s", dest.ascii());
+		kDebugInfo( 1601, "ZipExtractDlg::onExtract: Destination is %s", dest.ascii());
 		saveConfig();
 		accept();	
 	}

@@ -59,7 +59,7 @@ static QString resolveFilename(const QString & _arkname)
 	    return _arkname;
 	  else if (ENAMETOOLONG == errno)
 	    {
-	      kdebug(0, 1601, "resolveFilename: have to reallocate - name too long!");
+	      kDebugInfo( 1601, "resolveFilename: have to reallocate - name too long!");
 	      iter++;
 	      delete buff;
 	      continue;
@@ -84,7 +84,7 @@ static QString resolveFilename(const QString & _arkname)
 	      int index = _arkname.findRev('/');
 	      name = _arkname.left(index + 1) + name;
 	    }
-	  //kdebug(0, 1601, "Now resolve %s", (const char *)name);	  
+	  //kDebugInfo( 1601, "Now resolve %s", (const char *)name);	  
 	  return resolveFilename(name);
 	}
     }
@@ -102,15 +102,15 @@ ArkApplication * ArkApplication::getInstance()
 ArkApplication::ArkApplication()
   : KUniqueApplication(), m_windowCount(0)
 {
-  kdebug(0, 1601, "+ArkApplication::ArkApplication");
+  kDebugInfo( 1601, "+ArkApplication::ArkApplication");
   m_mainwidget = new QWidget();
   setMainWidget(m_mainwidget);
-  kdebug(0, 1601, "-ArkApplication::ArkApplication");
+  kDebugInfo( 1601, "-ArkApplication::ArkApplication");
 }
 
 int ArkApplication::newInstance()
 {
-  kdebug(0, 1601, "+ArkApplication::newInstance");
+  kDebugInfo( 1601, "+ArkApplication::newInstance");
 
   QString Zip;
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
@@ -137,7 +137,7 @@ int ArkApplication::newInstance()
   {
     arkWin->file_open(Zip);
   }
-  kdebug(0, 1601, "-ArkApplication::newInstance");
+  kDebugInfo( 1601, "-ArkApplication::newInstance");
   return 0;
 }
 
@@ -145,23 +145,23 @@ int ArkApplication::newInstance()
 void ArkApplication::addOpenArk(const QString & _arkname,
 				ArkWidget *_ptr)
 {
-  kdebug(0, 1601, "+ArkApplication::addOpenArk");
+  kDebugInfo( 1601, "+ArkApplication::addOpenArk");
   QString realName = resolveFilename(_arkname);  // follow symlink
-  kdebug(0, 1601, "---------------- Real name of %s is %s",
+  kDebugInfo( 1601, "---------------- Real name of %s is %s",
 	 (const char *)_arkname, (const char *)realName);
   openArksList.append(realName);
   m_windowsHash[realName] = _ptr;
-  kdebug(0, 1601, "---------------Saved ptr %p", _ptr);
-  kdebug(0, 1601, "-ArkApplication::addOpenArk");
+  kDebugInfo( 1601, "---------------Saved ptr %p", _ptr);
+  kDebugInfo( 1601, "-ArkApplication::addOpenArk");
 }
  
 void ArkApplication::removeOpenArk(const QString & _arkname)
 {
-  kdebug(0, 1601, "+ArkApplication::removeOpenArk");
+  kDebugInfo( 1601, "+ArkApplication::removeOpenArk");
   QString realName = resolveFilename(_arkname);  // follow symlink
   openArksList.remove(realName);
   m_windowsHash.erase(realName);
-  kdebug(0, 1601, "-ArkApplication::removeOpenArk");
+  kDebugInfo( 1601, "-ArkApplication::removeOpenArk");
 }
 
 void ArkApplication::raiseArk(const QString & _arkname)
@@ -169,7 +169,7 @@ void ArkApplication::raiseArk(const QString & _arkname)
   ArkWidget *window;
   QString realName = resolveFilename(_arkname);  // follow symlink
   window = m_windowsHash[realName];
-  kdebug(0, 1601, "ArkApplication::raiseArk %p", window);
+  kDebugInfo( 1601, "ArkApplication::raiseArk %p", window);
   // raise didn't seem to be enough. Not sure why!
   // This might be annoying though.
   window->hide();

@@ -92,8 +92,8 @@ void ZipArch::processLine( char *_line )
 
 void ZipArch::slotOpenExited(KProcess* _p)
 {
-  kdebug(0, 1601, "normalExit = %d", _p->normalExit() );
-  kdebug(0, 1601, "exitStatus = %d", _p->exitStatus() );
+  kDebugInfo( 1601, "normalExit = %d", _p->normalExit() );
+  kDebugInfo( 1601, "exitStatus = %d", _p->exitStatus() );
 
   bool bNormalExit = _p->normalExit();
 
@@ -184,7 +184,7 @@ void ZipArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
 
 void ZipArch::setHeaders()
 {
-  kdebug(0, 1601, "+ZipArch::setHeaders");
+  kDebugInfo( 1601, "+ZipArch::setHeaders");
   QStringList list;
 
   list.append(i18n(" Name "));
@@ -206,12 +206,12 @@ void ZipArch::setHeaders()
   m_gui->setHeaders(&list, alignRightCols, 4);
   delete [] alignRightCols;
 
-  kdebug(0, 1601, "-ZipArch::setHeaders");
+  kDebugInfo( 1601, "-ZipArch::setHeaders");
 }
 
 void ZipArch::initOpen()
 {
-  kdebug(0, 1601, "+ZipArch::initOpen");
+  kDebugInfo( 1601, "+ZipArch::initOpen");
 	
   m_buffer[0] = '\0';
   m_header_removed = false;
@@ -225,12 +225,12 @@ void ZipArch::initOpen()
   connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)), SLOT(slotOpenDataStdout(KProcess*, char*, int)));
   connect( m_kp, SIGNAL(processExited(KProcess*)), SLOT(slotOpenExited(KProcess*)));
 
-  kdebug(0, 1601, "-ZipArch::initOpen");
+  kDebugInfo( 1601, "-ZipArch::initOpen");
 }
 
 void ZipArch::open()
 {
-  kdebug(0, 1601, "+ZipArch::open");
+  kDebugInfo( 1601, "+ZipArch::open");
 
   setHeaders();
   initOpen();
@@ -240,7 +240,7 @@ void ZipArch::open()
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );  		
       emit sigOpen( false, QString::null, 0 );
     }
-  kdebug(0, 1601, "-ZipArch::open");
+  kDebugInfo( 1601, "-ZipArch::open");
 }
 
 
@@ -271,7 +271,7 @@ int ZipArch::addDir(const QString & _dirName)
 
 int ZipArch::addFile( QStringList *urls )
 {
-  kdebug(0, 1601, "+ZipArch::addFile");
+  kDebugInfo( 1601, "+ZipArch::addFile");
 	
   int retCode;
 
@@ -307,7 +307,7 @@ int ZipArch::addFile( QStringList *urls )
   
   // iterate over QStringList and plunk onto command line
 
-  kdebug(0, 1601, "Adding these files to the command line:");
+  kDebugInfo( 1601, "Adding these files to the command line:");
 
   for (QStringList::Iterator it = urls->begin();
        it != urls->end(); ++it ) 
@@ -316,7 +316,7 @@ int ZipArch::addFile( QStringList *urls )
       // remove "file:"
       currFile = currFile.right( currFile.length()-5);
       *m_kp << currFile;
-      kdebug(0, 1601, "%s", (const char *)currFile );
+      kDebugInfo( 1601, "%s", (const char *)currFile );
     }
 
   if( m_kp->start(KProcess::Block, KProcess::Stdout) == false)
@@ -325,8 +325,8 @@ int ZipArch::addFile( QStringList *urls )
       return FAILURE;
     }
 	
-  kdebug(0, 1601, "normalExit = %d", m_kp->normalExit() );
-  kdebug(0, 1601, "exitStatus = %d", m_kp->exitStatus() );
+  kDebugInfo( 1601, "normalExit = %d", m_kp->normalExit() );
+  kDebugInfo( 1601, "exitStatus = %d", m_kp->exitStatus() );
 	
   if( m_kp->normalExit() && (m_kp->exitStatus()==0) )
     {
@@ -348,14 +348,14 @@ int ZipArch::addFile( QStringList *urls )
   delete m_kp;
   
   return retCode;
-  kdebug(0, 1601, "+ZipArch::addFile");
+  kDebugInfo( 1601, "+ZipArch::addFile");
 }
 
 QString ZipArch::unarchFile(QStringList *_fileList)
 {
   // if _fileList is empty, we extract all.
 
-  kdebug(0, 1601, "+ZipArch::unarchFile");
+  kDebugInfo( 1601, "+ZipArch::unarchFile");
   QString dest = m_settings->getExtractDir();
   QString tmp;
 	
@@ -380,8 +380,8 @@ QString ZipArch::unarchFile(QStringList *_fileList)
       KMessageBox::error( 0, i18n("Subprocess wouldn't start!") );
     }
   
-  kdebug(0, 1601, "normalExit = %d", m_kp->normalExit() );
-  kdebug(0, 1601, "exitStatus = %d", m_kp->exitStatus() );
+  kDebugInfo( 1601, "normalExit = %d", m_kp->normalExit() );
+  kDebugInfo( 1601, "exitStatus = %d", m_kp->exitStatus() );
   
   if( m_kp->normalExit() && m_kp->exitStatus() ){
     KMessageBox::sorry( 0, "Unarch failed" );
@@ -389,14 +389,14 @@ QString ZipArch::unarchFile(QStringList *_fileList)
   
   delete m_kp;
   
-  kdebug(0, 1601, "-ZipArch::unarchFile");
+  kDebugInfo( 1601, "-ZipArch::unarchFile");
   
   return (dest+tmp);	
 }
 
 void ZipArch::remove(QStringList *list)
 {
-  kdebug(0, 1601, "+ZipArch::remove");
+  kDebugInfo( 1601, "+ZipArch::remove");
 
   if (!list)
     return;
@@ -420,8 +420,8 @@ void ZipArch::remove(QStringList *list)
       return;
     }
   
-  kdebug(0, 1601, "normalExit = %d", m_kp->normalExit() );
-  kdebug(0, 1601, "exitStatus = %d", m_kp->exitStatus() );
+  kDebugInfo( 1601, "normalExit = %d", m_kp->normalExit() );
+  kDebugInfo( 1601, "exitStatus = %d", m_kp->exitStatus() );
   
   if( m_kp->normalExit() && (m_kp->exitStatus()==0) )
     {
@@ -437,16 +437,16 @@ void ZipArch::remove(QStringList *list)
   
   delete m_kp;
   
-  kdebug(0, 1601, "-ZipArch::remove");
+  kDebugInfo( 1601, "-ZipArch::remove");
 }
 
 void ZipArch::slotExtractExited(KProcess *)
 {
-  kdebug(0, 1601, "+slotExtractExited");
+  kDebugInfo( 1601, "+slotExtractExited");
 
-  kdebug(0, 1601, "normalExit = %d", m_kp->normalExit() );
+  kDebugInfo( 1601, "normalExit = %d", m_kp->normalExit() );
   if( m_kp->normalExit() )
-    kdebug(0, 1601, "exitStatus = %d", m_kp->exitStatus() );
+    kDebugInfo( 1601, "exitStatus = %d", m_kp->exitStatus() );
 
   m_wd->close();
 
@@ -465,7 +465,7 @@ void ZipArch::slotExtractExited(KProcess *)
 		
   delete m_kp;
 		
-  kdebug(0, 1601, "-slotExtractExited");
+  kDebugInfo( 1601, "-slotExtractExited");
 }
 
 void ZipArch::initExtract( bool _overwrite, bool _junkPaths, bool _lowerCase)
@@ -497,10 +497,10 @@ void ZipArch::initExtract( bool _overwrite, bool _junkPaths, bool _lowerCase)
 
 void ZipArch::slotIntegrityExited(KProcess *)
 {
-  kdebug(0, 1601, "+slotIntegrityExited");
+  kDebugInfo( 1601, "+slotIntegrityExited");
 
-  kdebug(0, 1601, "normalExit = %d", m_kp->normalExit() );
-  kdebug(0, 1601, "exitStatus = %d", m_kp->exitStatus() );
+  kDebugInfo( 1601, "normalExit = %d", m_kp->normalExit() );
+  kDebugInfo( 1601, "exitStatus = %d", m_kp->exitStatus() );
 		
   if( m_kp->normalExit() && (m_kp->exitStatus()==0) )
     {
@@ -516,7 +516,7 @@ void ZipArch::slotIntegrityExited(KProcess *)
 		
   delete m_kp;
 		
-  kdebug(0, 1601, "-slotIntegrityExited");
+  kDebugInfo( 1601, "-slotIntegrityExited");
 }
 
 void ZipArch::testIntegrity()
@@ -536,7 +536,7 @@ void ZipArch::testIntegrity()
  		
   if(m_kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      kdebug(0, 1601, "Subprocess wouldn't start!");
+      kDebugInfo( 1601, "Subprocess wouldn't start!");
       return;
     }
 }

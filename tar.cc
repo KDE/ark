@@ -53,7 +53,7 @@
 TarArch::TarArch( ArkSettings *_settings, Viewer *_gui, FileListView *_flw )
 	: Arch(_settings, _gui, "")
 {
-	kdebug(0, 1601, "+TarArch::TarArch");
+	kDebugInfo( 1601, "+TarArch::TarArch");
 	
 	stdout_buf = NULL;
 	cout << "Entered TarArch" << endl;
@@ -65,7 +65,7 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui, FileListView *_flw )
 	
 	m_settings->getTarCommand();
 	
-	kdebug(0, 1601, "-TarArch::TarArch");
+	kDebugInfo( 1601, "-TarArch::TarArch");
 }
 
 TarArch::~TarArch()
@@ -401,7 +401,7 @@ void TarArch::deleteSelectedFiles()
 
 void TarArch::deleteFiles( const QString& patterns )
 {
-	kdebug(0, 1601, "+Tar::deleteFiles");
+	kDebugInfo( 1601, "+Tar::deleteFiles");
 	
 	QString name, tmp;
 	QString tar_exe = m_settings->getTarCommand();	
@@ -414,7 +414,7 @@ void TarArch::deleteFiles( const QString& patterns )
 	
 	updateArch();
 
-	kdebug(0, 1601, "-Tar::deleteFiles");
+	kDebugInfo( 1601, "-Tar::deleteFiles");
 }
 
 void TarArch::updateExtractProgress( KProcess *, char *buffer, int bufflen )

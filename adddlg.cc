@@ -34,7 +34,7 @@ AddDlg::AddDlg(ArchType _archtype, const QString & _sourceDir,
 
 void AddDlg::setupFirstTab()
 {
-  kdebug(0, 1601, "+AddDlg::setupFirstTab");
+  kDebugInfo( 1601, "+AddDlg::setupFirstTab");
 
   QFrame *frame = addPage(i18n("Add"));
   QVBoxLayout *vlay = new QVBoxLayout(frame, 0, spacingHint());
@@ -89,7 +89,7 @@ void AddDlg::setupSecondTab()
 
 void AddDlg::accept()
 {
-  kdebug(0, 1601, "+AddDlg::accept");
+  kDebugInfo( 1601, "+AddDlg::accept");
 
   // Put the settings data into the settings object
 
@@ -115,7 +115,7 @@ void AddDlg::accept()
   const KFileView *pView = m_dirList->view();
   KFileViewItemList *pList = pView->selectedItems();
 
-  kdebug(0, 1601, "There are %d items in my KFileViewItemList.",
+  kDebugInfo( 1601, "There are %d items in my KFileViewItemList.",
 	 pList->count());
 
   m_fileList = new QStringList;
@@ -123,12 +123,12 @@ void AddDlg::accept()
   KFileViewItem *pItem;
   for ( pItem=pList->first(); pItem != 0; pItem=pList->next() )
     {
-      kdebug(0, 1601, "%s", (const char *)pItem->url());
+      kDebugInfo( 1601, "%s", (const char *)pItem->url());
       m_fileList->append(pItem->url());
     }
 
   KDialogBase::accept();
-  kdebug(0, 1601, "-AddDlg::accept");
+  kDebugInfo( 1601, "-AddDlg::accept");
 }
 
 #include "adddlg.moc"

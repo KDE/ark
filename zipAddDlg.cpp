@@ -59,8 +59,8 @@ ZipAddDlg::ZipAddDlg( ZipArch *_z, ArkSettings *_d, QString _dir, QWidget *_pare
 	: KFileDialog(_dir, QString(""),_parent, _name, true)
 {
 #if 0
-  kdebug(0, 1601, "+zipAddDlg constructor");
-  kdebug(0, 1601, "Dir: %s", (const char *) _dir);
+  kDebugInfo( 1601, "+zipAddDlg constructor");
+  kDebugInfo( 1601, "Dir: %s", (const char *) _dir);
   m_zip = _z;
   m_settings = _d;
   m_addClicked = false;
@@ -69,14 +69,14 @@ ZipAddDlg::ZipAddDlg( ZipArch *_z, ArkSettings *_d, QString _dir, QWidget *_pare
   lafBox = 0;
   //  setMultiSelection( true );
   initGUI();
-  kdebug(0, 1601, "-zipAddDlg constructor");
+  kDebugInfo( 1601, "-zipAddDlg constructor");
 #endif
 }
 
 void ZipAddDlg::initGUI()
 {
 #if 0
-	kdebug(0, 1601, "+ZipAddDlg::initGUI");
+	kDebugInfo( 1601, "+ZipAddDlg::initGUI");
 
 	setCaption( i18n("Add...") );
 	
@@ -211,7 +211,7 @@ void ZipAddDlg::initGUI()
 	connect(this, SIGNAL(fileHighlighted(const QString &)), SLOT(slotFileHighlighted(const QString&)));
 	connect(this, SIGNAL(fileSelected(const QString &)), SLOT(slotFileSelected(const QString&)));
 
-	kdebug(0, 1601, "-ZipAdd::initGUI");
+	kDebugInfo( 1601, "-ZipAdd::initGUI");
 #endif
 }
 
@@ -307,7 +307,7 @@ void ZipAddDlg::slotFileHighlighted(const QString& _fname)
 
 void ZipAddDlg::slotFileSelected(const QString& _fname)
 {
-	kdebug(0, 1601, "selected: %s", selectedFile().ascii() );
+	kDebugInfo( 1601, "selected: %s", selectedFile().ascii() );
 }
 
 void ZipAddDlg::saveConfig()
@@ -324,7 +324,7 @@ QString ZipAddDlg::location()
 {
 #if 0
 	if(lastDirectory->left(5) != "file:")
-		kdebug(3, 1601, "Only file protocol is supported here !");
+		kDebugFatal( 1601, "Only file protocol is supported here !");
 		
 	return QString(lastDirectory->right(lastDirectory->length()-5) + m_leNames->text());
 #endif
