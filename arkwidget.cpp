@@ -12,6 +12,7 @@
  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
  2001-2002: Roberto Teixeira <maragato@kde.org>
+ 2002: Helio Chissini de Castro <helio@conectiva.com.br>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -568,6 +569,8 @@ void ArkWidget::file_open(const QString & strFile)
 
 bool ArkWidget::download(const KURL &url, QString &strFile)
 {
+  kdDebug(1601) << "+ArkWidget::download(const KURL &url, QString &strFile)" << endl;
+  
   // downloads url into strFile, making sure strFile has the same extension
   // as url.
   if (!url.isLocalFile())
@@ -576,10 +579,11 @@ bool ArkWidget::download(const KURL &url, QString &strFile)
       Arch::getArchType(url.path(), extension);
       QString directory = locateLocal( "tmp", "ark" );
       mpTempFile = new KTempFile(directory , extension);
-      strFile = mpTempFile->name();
-      kdDebug(1601) << "Downloading " << url.path() << " as " <<
+      strFile = url.fileName();
+      kdDebug(1601) << "Downloading " << url.path() << " as $HOME/" <<
         strFile << endl;
     }
+  kdDebug(1601) << "-ArkWidget::download - return KIO::NetAccess::download(url, strFile)" << endl;
   return KIO::NetAccess::download(url, strFile);
 }
 
