@@ -44,7 +44,7 @@
 #define DLG_NAME I18N_NOOP("Configure")
 #define TAB_ADD_NAME I18N_NOOP("Addi&ng")
 #define TAB_EXTRACT_NAME I18N_NOOP("&Extracting")
-#define TAB_PATH_NAME I18N_NOOP("&Directories")
+#define TAB_PATH_NAME I18N_NOOP("&Folders")
 
 #define GRP_ADDSET I18N_NOOP("Add Settings")
 #define GRP_EXTRACTSET I18N_NOOP("Extract Settings")
@@ -53,12 +53,12 @@
 #define OPT_MAKEGENERIC I18N_NOOP("Keep entries &generic (Lha)")
 #define OPT_DOS_FILENAMES I18N_NOOP("Force &MS-DOS short filenames (Zip)")
 #define OPT_CONV_CRLF I18N_NOOP("Translate &LF to DOS CRLF (Zip)")
-#define OPT_RECURSE_SUBDIRS I18N_NOOP("&Recursively add subdirectories (Zip, Rar)")
+#define OPT_RECURSE_SUBDIRS I18N_NOOP("&Recursively add subfolders (Zip, Rar)")
 #define OPT_STORE_SYMLINKS I18N_NOOP("&Store symlinks as links (Zip, Rar)")
 
 #define OPT_OVERWRITE I18N_NOOP("O&verwrite files (Zip, Tar, Zoo, Rar)")
 #define OPT_PRESERVEPERMS I18N_NOOP("&Preserve permissions (Tar)")
-#define OPT_DISCARDPATHS I18N_NOOP("&Ignore directory names (Zip)")
+#define OPT_DISCARDPATHS I18N_NOOP("&Ignore folder names (Zip)")
 #define OPT_TOLOWER I18N_NOOP("Convert filenames to &lowercase (Zip, Rar)")
 #define OPT_TOUPPER I18N_NOOP("Convert filenames to &uppercase (Rar)")
 
@@ -84,7 +84,7 @@ GeneralOptDlg::GeneralOptDlg(ArkSettings *_d, QWidget *_parent, const char *_nam
                      loadIcon( "ark_extract" ) );
     createExtractTab( frame );
 
-    frame = addPage( i18n( "Directories" ), i18n( "Directory Settings" ),
+    frame = addPage( i18n( "Folders" ), i18n( "Folder Settings" ),
                      loadIcon( "folder" ) );
     createDirectoryTab( frame );
 }

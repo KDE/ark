@@ -53,7 +53,7 @@ DirWidget::DirWidget( DirType type, QWidget *parent, const char *name  )
   btnGroup = new QButtonGroup( this );
   btnGroup->setFrameShape( QFrame::NoFrame );
 
-  rbFav = new QRadioButton( i18n( "Favorite directory" ), this );
+  rbFav = new QRadioButton( i18n( "Favorite folder" ), this );
   btnGroup->insert( rbFav );
   vbox->addWidget( rbFav );
 
@@ -91,26 +91,26 @@ DirWidget::DirWidget( DirType type, QWidget *parent, const char *name  )
   {
     case StartupDir:
 
-      rbFixed->setText( i18n( "Fixed start-up directory" ) );
-      rbLast->setText( i18n( "&Last start-up directory" ) );
+      rbFixed->setText( i18n( "Fixed start-up folder" ) );
+      rbLast->setText( i18n( "&Last start-up folder" ) );
       break;
 
     case OpenDir:
 
-      rbFixed->setText( i18n( "Fixed open directory" ) );
-      rbLast->setText( i18n( "&Last open directory" ) );
+      rbFixed->setText( i18n( "Fixed open folder" ) );
+      rbLast->setText( i18n( "&Last open folder" ) );
       break;
 
     case ExtractDir:
 
-      rbFixed->setText( i18n( "Fixed extract directory" ) );
-      rbLast->setText( i18n( "&Last extract directory" ) );
+      rbFixed->setText( i18n( "Fixed extract folder" ) );
+      rbLast->setText( i18n( "&Last extract folder" ) );
       break;
 
     case AddDir:
 
-      rbFixed->setText( i18n( "Fixed add directory" ) );
-      rbLast->setText( i18n( "&Last add directory" ) );
+      rbFixed->setText( i18n( "Fixed add folder" ) );
+      rbLast->setText( i18n( "&Last add folder" ) );
       break;
 
     default:
@@ -134,14 +134,14 @@ DirDlg::DirDlg(ArkSettings *d, QWidget *parent, const char *name)
 
   //setCaption( i18n("Directories Preferences") );
   QLabel* l2 = new QLabel( this, "Label_2" );
-  l2->setText( i18n("Directories:") );
+  l2->setText( i18n("Folders:") );
   vbox->addWidget( l2 );
 
   pListBox = new QListBox( this, "ListBox_1" );
-  pListBox->insertItem(i18n("Start-Up Directory"), 0);
-  pListBox->insertItem(i18n("directory for opening files","Open Directory"), 1);
-  pListBox->insertItem(i18n("directory for extracting files","Extract Directory"), 2);
-  pListBox->insertItem(i18n("directory for adding files","Add Directory"), 3);
+  pListBox->insertItem(i18n("Start-Up Folder"), 0);
+  pListBox->insertItem(i18n("folder for opening files","Open Folder"), 1);
+  pListBox->insertItem(i18n("folder for extracting files","Extract Folder"), 2);
+  pListBox->insertItem(i18n("folder for adding files","Add Folder"), 3);
   pListBox->setFixedHeight( 80 );
   vbox->addWidget( pListBox );
 

@@ -49,15 +49,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static KCmdLineOptions option[] =
 {
     { "extract", I18N_NOOP( "Open extract dialog, quit when finished." ), 0 },
-    { "extract-to", I18N_NOOP( "Extract 'archive' to 'directory'. Quit when finished.\n"
-                               "'directory' will be created if it does not exist."), 0 },
+    { "extract-to", I18N_NOOP( "Extract 'archive' to 'folder'. Quit when finished.\n"
+                               "'folder' will be created if it does not exist."), 0 },
     { "add", I18N_NOOP( "Ask for the name of the archive to add 'files' to. Quit when finished." ), 0 },
     { "add-to", I18N_NOOP( "Add 'files' to 'archive'. Quit when finished.\n'archive' "
                            "will be created if it does not exist." ), 0 },
     { "guess-name", I18N_NOOP( "Used with '--extract-to'. When specified, 'archive'\n"
-                               "will be extracted to a subdirectory of 'directory'\n"
+                               "will be extracted to a subfolder of 'folder'\n"
                                "whose name will be the name of 'archive' without the filename extension."), 0 },
-    { "+[directory]", I18N_NOOP( "Directory to extract to" ), 0 },
+    { "+[folder]", I18N_NOOP( "Folder to extract to" ), 0 },
     { "+[files]", I18N_NOOP( "Files to be added" ), 0 },
     { "+[archive]", I18N_NOOP( "Open 'archive'" ), 0 },
     KCmdLineLastOption

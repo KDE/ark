@@ -343,7 +343,7 @@ ArkWidget::extractTo( const KURL & targetDirectory, const KURL & archive, bool b
     {
         if ( !KIO::NetAccess::mkdir( m_extractTo_targetDirectory, this ) )
         {
-            KMessageBox::error( 0, i18n( "Could not create the directory %1" ).arg(
+            KMessageBox::error( 0, i18n( "Could not create the folder %1" ).arg(
                                                             targetDirectory.prettyURL() ) );
             emit request_file_quit();
             return;
@@ -1156,12 +1156,12 @@ ArkWidget::action_add_dir()
 {
     KURL u = KDirSelectDialog::selectDirectory( m_settings->getAddDir(),
                                                     false, this,
-                                                    i18n("Select Directory to Add"));
+                                                    i18n("Select Folder to Add"));
 
     QString dir = KURL::decode_string( u.url(-1) );
     if ( !dir.isEmpty() )
     {
-        busy( i18n( "Adding directory..." ) );
+        busy( i18n( "Adding folder..." ) );
         disableAll();
         u = toLocalFile(dir);
         connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( slotAddDone( bool ) ) );
@@ -1265,7 +1265,7 @@ ArkWidget::action_delete()
         }
         if (bDeletingDir)
         {
-            int nRet = KMessageBox::warningContinueCancel(this, i18n("If you delete a directory in a Tar archive, all the files in that\ndirectory will also be deleted. Are you sure you wish to proceed?"), i18n("Warning"), i18n("Continue"));
+            int nRet = KMessageBox::warningContinueCancel(this, i18n("If you delete a folder in a Tar archive, all the files in that\nfolder will also be deleted. Are you sure you wish to proceed?"), i18n("Warning"), i18n("Continue"));
             if (nRet == KMessageBox::Cancel)
                 return;
         }

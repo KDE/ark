@@ -108,7 +108,7 @@ ArkPart::setupActions()
     addFileAction = new KAction(i18n("Add &File..."), "ark_addfile", 0, awidget,
                                 SLOT(action_add()), actionCollection(), "addfile");
 
-    addDirAction = new KAction(i18n("Add &Directory..."), "ark_adddir", 0, awidget,
+    addDirAction = new KAction(i18n("Add Folde&r..."), "ark_adddir", 0, awidget,
                                SLOT(action_add_dir()), actionCollection(), "adddir");
 
     extractAction = new KAction(i18n("E&xtract..."), "ark_extract", 0, awidget,

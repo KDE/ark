@@ -213,8 +213,8 @@ ExtractDlg::accept()
 		QFileInfo fi( p.path() );
 		if ( !fi.isDir() && !fi.exists() )
 		{
-			QString ltext = i18n( "Create directory %1?").arg(p.path());
-			int createDir =  KMessageBox::questionYesNo( this, ltext, i18n( "Missing directory!" ) );
+			QString ltext = i18n( "Create folder %1?").arg(p.path());
+			int createDir =  KMessageBox::questionYesNo( this, ltext, i18n( "Missing folder!" ) );
 			if( createDir == 4 )
 			{
 				return;
@@ -223,13 +223,13 @@ ExtractDlg::accept()
 			p.adjustPath(1);
 			if( !KStandardDirs::makeDir( p.path() ) )
 			{
-				KMessageBox::error( this, i18n( "Directory could not be created. Please check permissions." ) );
+				KMessageBox::error( this, i18n( "The folder could not be created. Please check permissions." ) );
 				return;
 			}
 		}
 		if ( !ArkUtils::haveDirPermissions( p.path() ) )
 		{
-			KMessageBox::error( this, i18n( "You do not have write permission to this directory! Please provide another directory." ) );
+			KMessageBox::error( this, i18n( "You do not have write permission to this folder! Please provide another folder." ) );
 			return;
 		}
 	}
@@ -308,7 +308,7 @@ ExtractFailureDlg::ExtractFailureDlg( QStringList *list, QWidget *parent, char *
 
 	setCaption( i18n( "Failure to Extract" ) );
 	QLabel *pLabel = new QLabel( this );
-	pLabel->setText( i18n( "Some files already exist in your destination directory.\n"
+	pLabel->setText( i18n( "Some files already exist in your destination folder.\n"
 				"The following files will not be extracted if you continue: " ) );
 	labelWidth = pLabel->sizeHint().width();
 	labelHeight = pLabel->sizeHint().height();
