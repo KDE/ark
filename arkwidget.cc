@@ -516,9 +516,11 @@ void ArkWidget::updateStatusTotals()
       while (pItem)
 	{
 	  ++m_nNumFiles;
-	  // warning! hardcoded for now - 3 should be eSize
-	  kDebugInfo( 1601, "Adding %d\n", atoi(pItem->text(3)));
-	  m_nSizeOfFiles += atoi(pItem->text(3));
+	  
+	  kDebugInfo( 1601, "Adding %d\n",
+		      atoi(pItem->text(m_currentSizeColumn)));
+	  if (m_currentSizeColumn != -1)
+	    m_nSizeOfFiles += atoi(pItem->text(m_currentSizeColumn));
 	  pItem = (FileLVI *)pItem->nextSibling();
 	}
     }
@@ -1583,8 +1585,9 @@ void ArkWidget::updateStatusSelection()
 	  if (flvi->isSelected())
 	    {
 	      ++m_nNumSelectedFiles;
-	      // warning! hardcoded for now - 3 should be eSize
-	      m_nSizeOfSelectedFiles += atoi(flvi->text(3));
+	      if (m_currentSizeColumn != -1)
+		m_nSizeOfSelectedFiles +=
+		  atoi(flvi->text(m_currentSizeColumn));
 	    }
 	  flvi = (FileLVI*)flvi->itemBelow();
 	}
@@ -2041,10 +2044,15 @@ void ArkWidget::listingAdd(QStringList *_entries)
 void ArkWidget::setHeaders(QStringList *_headers,
 			   int * _rightAlignCols, int _numColsToAlignRight)
 {
+  int i = 0;
+  m_currentSizeColumn = -1;
   for ( QStringList::Iterator it = _headers->begin();
-	it != _headers->end(); ++it ) 
+	it != _headers->end(); ++it, ++i ) 
     {
-       archiveContent->addColumn(*it);
+      QString str = *it;
+       archiveContent->addColumn(str);
+       if (str.contains(i18n("Size")))
+	 m_currentSizeColumn = i;
     }
 
   for (int i = 0; i < _numColsToAlignRight; ++i)

@@ -238,6 +238,9 @@ private:
   bool m_bMakeCFIntoArchiveInProgress;
   // the compressed file to be added into the new archive
   QString m_compressedFile;
+
+  // which column has the size
+  int m_currentSizeColumn;
 };
 
 // menu ids

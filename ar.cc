@@ -186,9 +186,26 @@ void ArArch::slotReceivedTOC(KProcess*, char* _data, int _length)
 
 void ArArch::create()
 {
-  emit sigCreate(this, true, m_filename,
-		 Arch::Extract | Arch::Delete | Arch::Add 
-		 | Arch::View);
+  KProcess *kp = new KProcess;
+  kp->clearArguments();
+  *kp << m_archiver_program << "c" << m_filename.local8Bit();
+
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
+  if (kp->start(KProcess::Block) == false)
+    {
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      emit sigCreate(this, false, m_filename,
+		     Arch::Extract | Arch::Delete | Arch::Add 
+		     | Arch::View);
+    }
+  else
+    emit sigCreate(this, true, m_filename,
+		   Arch::Extract | Arch::Delete | Arch::Add 
+		   | Arch::View);
 }
 
 void ArArch::addFile( QStringList *urls )

@@ -46,7 +46,7 @@ public:
   virtual void create();
 	
   virtual void addFile( QStringList* );
-  virtual void addDir(const QString & _dirName) {} // never gets called
+  virtual void addDir(const QString &) {} // never gets called
 
   virtual void remove(QStringList *);
   virtual void unarchFile(QStringList *, const QString & _destDir="");
