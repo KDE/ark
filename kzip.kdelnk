@@ -2,6 +2,7 @@
 [KDE Desktop Entry]
 MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tbz;application/x-zip;
 Comment=Archive Handling Tool
+Comment[is_IS]=kzip:  Tól til að vinna með safnskrár
 Comment[es]=Herramienta de gestión de archivos
 Comment[pt]=Programa de Gestao de arquivos
 Comment[pt_BR]=Gerenciador de arquivos empacotados
@@ -16,6 +17,7 @@ Comment[hr]=Uslu¾ni program za arhiviranje
 Comment[pl]=Program obs³ugi archiwum
 Comment[ro]=Program de manipulare de arhive
 Name=Zip
+Name[is_IS]=Safnskrár
 Name[es]=Zip
 Name[pl]=Zip
 Name[fr]=Zip

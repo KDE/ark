@@ -1,6 +1,7 @@
 # KDE Config File
 [KDE Desktop Entry]
 Comment=Lha Archives
+Comment[is_IS]=Lha safnskrá
 Comment[C]=Lha Archives
 Comment[es]=Archivo LHA
 Comment[pt]=Arquivos Lha
