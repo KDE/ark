@@ -114,7 +114,17 @@ ArkView::ArkView( QWidget *parent, const char* name )
   addColumn( i18n( "Name" ), 250 );
   addColumn( i18n( "Type" ), 220 );
   addColumn( i18n( "Size" ), 100 );
+  addColumn( i18n( "Compressed Size" ), 100 );
+  addColumn( i18n( "Compression Ratio" ), 50 );
   addColumn( i18n( "Timestamp" ), 150 );
+  addColumn( i18n( "CRC" ), 100 );
+
+  setColumnAlignment( sizeColumn, Qt::AlignRight );
+  setColumnAlignment( ratioColumn, Qt::AlignRight );
+
+  hideColumn( compressedSizeColumn );
+  hideColumn( ratioColumn );
+  hideColumn( crcColumn );
 
   setEnabled( false );
 }

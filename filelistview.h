@@ -51,10 +51,10 @@ class Archive;
 #define nameColumn           0
 #define typeColumn           1
 #define sizeColumn           2
-#define compressedSizeColumn 997
-#define ratioColumn          998
-#define timeStampColumn      3
-#define crcColumn            999
+#define compressedSizeColumn 3
+#define ratioColumn          4
+#define timeStampColumn      5
+#define crcColumn            6
 
 
 class ArkListViewItem : public KListViewItem
