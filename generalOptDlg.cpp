@@ -76,7 +76,7 @@ void GeneralOptDlg::createGeneralTab( QFrame *parent ) {
 
 	QVBoxLayout *layout = new QVBoxLayout( parent );
 
-	m_cbKonquerorIntegration = new QCheckBox( i18n( "Enable Konqueror Integration" ), genFrame );
+	m_cbKonquerorIntegration = new QCheckBox( i18n( "Enable Konqueror integration" ), genFrame );
 //	m_cbKonquerorIntegration->setWhatsThis( i18n( "Enable Konqueror Integration\n"
 //	                                              "Check this option to enable Ark's integration into the Konqueror file manager, letting you easily archive and unarchive files through the context menus." ) );
 

@@ -50,7 +50,7 @@ ArkMenu::ArkMenu( KonqPopupMenu * popupmenu, const char *name, const QStringList
 
     if ( !m_conf->readBoolEntry( "Enable", true ) )
 	    return;
-    
+
     KGlobal::locale()->insertCatalogue("arkplugin");
     extMimeTypes();
     m_list = popupmenu->fileItemList();
@@ -98,11 +98,11 @@ ArkMenu::ArkMenu( KonqPopupMenu * popupmenu, const char *name, const QStringList
         }
         actionMenu->insert( action );
 
-        m_compAsMenu = new KActionMenu( i18n( "Compress as" ), actionCollection(), "arkcmpasmnu" );
+        m_compAsMenu = new KActionMenu( i18n( "Compress As" ), actionCollection(), "arkcmpasmnu" );
         actionMenu->insert( m_compAsMenu );
 
 
-        m_addToMenu = new KActionMenu( i18n( "Add to" ), actionCollection(), "arkaddtomnu" );
+        m_addToMenu = new KActionMenu( i18n( "Add To" ), actionCollection(), "arkaddtomnu" );
         if ( m_list.first()->url().isLocalFile() )
             actionMenu->insert( m_addToMenu );
 
@@ -139,7 +139,7 @@ ArkMenu::ArkMenu( KonqPopupMenu * popupmenu, const char *name, const QStringList
                                     SLOT( slotExtractToSubfolders() ), actionCollection() );
         }
         actionMenu->insert( action );
-        action = new KAction( i18n( "Extract to..." ), 0 , this,
+        action = new KAction( i18n( "Extract To..." ), 0 , this,
                                 SLOT( slotExtractTo() ), actionCollection() );
         actionMenu->insert( action );
         addAction( actionMenu );
@@ -270,7 +270,7 @@ void ArkMenu::compMimeTypes()
     if ( KStandardDirs::findExe( "zip" ) != QString::null && m_conf->readBoolEntry( "UseZip", true ) )
     {
         m_archiveMimeTypes << "application/x-zip";
-	
+
 	if ( m_conf->readBoolEntry( "UseJar", false ) )
 		m_archiveMimeTypes << "application/x-jar";
     }
