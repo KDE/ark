@@ -67,7 +67,6 @@ public slots:
     virtual void saveProperties( KConfig* config );
     virtual void readProperties( KConfig* config );
     void slotSaveProperties();
-    void slotSaveOptions();
     void slotArchivePopup( const QPoint &pPoint);
     void slotRemoveRecentURL( const KURL &url );
     void slotAddRecentURL( const KURL &url );

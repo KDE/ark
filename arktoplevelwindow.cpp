@@ -119,7 +119,6 @@ ArkTopLevelWindow::setupActions()
     KStdAction::quit(this, SLOT(window_close()), actionCollection());
     KStdAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
     KStdAction::keyBindings(this, SLOT( slotConfigureKeyBindings()), actionCollection());
-    KStdAction::saveOptions(this, SLOT(slotSaveOptions()), actionCollection());
 
     openAction->setEnabled( true );
     recent->setEnabled( true );
@@ -192,12 +191,6 @@ ArkTopLevelWindow::slotConfigureKeyBindings()
     dlg.insert( m_part->actionCollection() );
 
     dlg.configure();
-}
-
-void
-ArkTopLevelWindow::slotSaveOptions()
-{
-    m_widget->options_saveNow();
 }
 
 void
