@@ -29,8 +29,10 @@ public:
 	const QString getFavoriteDir();
 	void setFavoriteDir(const QString cmd);
 	
-	const QStrList * getRecentFiles();
-	void addRecentFile(const QString filename);
+	QStrList * getRecentFiles();
+	void addRecentFile(const QString& filename);
+
+	void writeConfiguration();
 	
 	KConfig * getKConfig() { return kc; };
 private:
@@ -44,6 +46,8 @@ private:
 	bool contextRow;
 	QStrList recentFiles;
 	void readConfigFile();
+	void readRecentFiles();
+	void writeRecentFiles();
 };
 
 #endif /* ARKDATA_H */

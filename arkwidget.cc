@@ -117,11 +117,14 @@ void ArkWidget::setupMenuBar()
 
 	accelerators->insertStdItem(KAccel::New, i18n("New"));
 	accelerators->insertStdItem(KAccel::Open, i18n("Open"));
+	accelerators->insertStdItem(KAccel::Close, i18n("Close"));
+	accelerators->insertStdItem(KAccel::Quit, i18n("Quit"));
 	accelerators->insertItem(i18n("Extract to"), "Extraction", "CTRL+E");
 	accelerators->insertStdItem(KAccel::Help);
 
 	// KAccel connections
 	accelerators->connectItem(KAccel::Quit, this, SLOT(quit()));
+	accelerators->connectItem(KAccel::Close, this, SLOT(closeZip()));
 	accelerators->connectItem(KAccel::New, this, SLOT(createZip()));
 	accelerators->connectItem("Extraction", this, SLOT(extractZip()));
 	accelerators->connectItem(KAccel::Open, this, SLOT(openZip()));
@@ -138,6 +141,8 @@ void ArkWidget::setupMenuBar()
 	QPopupMenu *optionsmenu = new QPopupMenu;
 
 	KMenuBar *menu = menuBar();
+
+	createRecentPopup();
 
 	filemenu->insertItem( i18n( "New &Window..."), this, SLOT( newWindow() ) );
 	filemenu->insertSeparator();
@@ -188,6 +193,18 @@ void ArkWidget::setupMenuBar()
 	pop->insertItem( i18n("View file"), this, SLOT( showFile() ) );
 	pop->insertSeparator();
 	pop->insertItem( i18n("Delete file"), this, SLOT( deleteFile() ) );
+}
+
+void ArkWidget::createRecentPopup()
+{
+	// removes the current enries in the recent popup
+	recentPopup->clear();
+
+	QStrList *recentFiles = data->getRecentFiles();
+	for (uint i=0; i<recentFiles->count(); i++)
+	{
+        	recentPopup->insertItem(recentFiles->at(i), -1, i);
+	}
 }
 
 void ArkWidget::setupStatusBar()
@@ -259,9 +276,7 @@ void ArkWidget::createZip()
 		arch = new KArchive(data->getTarCommand());
 		ret = arch->createArch( file );	
 		if( ret ){
-			QString caption;
-			caption.sprintf(i18n("ark: %s"), file.data());
-			setCaption(caption);
+			newCaption(file);
 		}
 		else
 		{
@@ -367,11 +382,9 @@ void ArkWidget::getTarExe()
 void ArkWidget::openZip()
 {
 	QString file = KFileDialog::getOpenFileName(QString::null, data->getFilter());
-	if( !file.isNull() ) {
-		QString caption;
-		caption.sprintf(i18n("ark: %s"), file.data());
-		setCaption(caption);
-
+	if( !file.isNull() )
+	{
+		newCaption(file);
 		showZip( file ); 
 	}
 }
@@ -379,10 +392,7 @@ void ArkWidget::openZip()
 void ArkWidget::openRecent(int i)
 {
 	QString filename = recentPopup->text(i);
-        QString caption;
-
-        caption.sprintf(i18n("ark: %s"), filename.data());
-        setCaption(caption);
+	newCaption( filename);
 	showZip( filename );
 }
 
@@ -530,6 +540,7 @@ void ArkWidget::quit()
 	}
 	
 	accelerators->writeSettings( data->getKConfig() );
+	data->writeConfiguration();
 
 	QString ex( "rm -rf "+tmpdir );
 	system( ex );
@@ -732,4 +743,14 @@ void ArkWidget::timeout()
 void ArkWidget::options_keyconf()
 {
 	KKeyDialog::configureKeys(accelerators);
+}
+
+void ArkWidget::newCaption(const QString& filename){
+	
+	QString caption;
+	caption.sprintf(i18n("ark: %s"), filename.data());
+	setCaption(caption);
+
+	data->addRecentFile(filename);
+	createRecentPopup();
 }

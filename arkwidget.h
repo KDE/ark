@@ -90,6 +90,8 @@ private:
 	void setupMenuBar();
 	void setupStatusBar();
 	void setupToolBar();
+	void createRecentPopup();
+	void newCaption(const QString& filename);
 };
 
 #endif /* ARKWIDGET_H*/

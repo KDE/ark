@@ -31,7 +31,7 @@ void ArkData::readConfigFile() {
 	tar_exe = kc->readEntry( TAR_KEY, "tar");
 	cerr << "Tar command is " << tar_exe.ascii() << "\n";
 
-
+	readRecentFiles();
 //	QString startpoint;
 //	startpoint = kc->readEntry( "CurrentLocation" );
 //	
@@ -47,6 +47,36 @@ ArkData::~ArkData()
 
 }
 
+
+void ArkData::readRecentFiles()
+{
+	QString s, name;
+	kc->setGroup( ARK_KEY );
+	for (int i=0; i < MAX_RECENT_FILES; i++)
+	{
+		name.sprintf("%s%d", RECENT_KEY, i);
+		s = kc->readEntry(name);
+		cerr << "key " << name << " is " << s << "\n";
+		if (!s.isEmpty())
+			recentFiles.append(s);
+	}
+
+}
+
+void ArkData::writeRecentFiles()
+{
+	QString s, name;
+	kc->setGroup( ARK_KEY );
+	uint nb_recent = recentFiles.count();
+
+	for (uint i=0; i < nb_recent; i++)
+	{
+		name.sprintf("%s%d", RECENT_KEY, i);
+		kc->writeEntry(name, recentFiles.at(i));
+		cerr << "key " << name << " is " << recentFiles.at(i) << "\n";
+	}
+
+}
 
 const QString ArkData::getTarCommand()
 {
@@ -74,14 +104,29 @@ void ArkData::setFavoriteDir(const QString fd)
 }
 
 
-const QStrList * ArkData::getRecentFiles()
+QStrList * ArkData::getRecentFiles()
 {
 	return &recentFiles;
 }
 
-void ArkData::addRecentFile(const QString filename)
+void ArkData::addRecentFile(const QString& filename)
 {
+	uint nb = recentFiles.count();
+	uint i=0;
 
+	while (i<nb)
+	{
+		if( recentFiles.at(i) == filename ){
+			recentFiles.remove(i);			
+			cerr << "found and removed\n";
+		}
+        	i++;
+	}	
+	recentFiles.insert(0, filename);
+	if (recentFiles.count() > MAX_RECENT_FILES)
+		recentFiles.removeLast();
+	
+	cerr << "left addRecentFile\n";
 }
 
 const QString ArkData::getFilter()
@@ -91,6 +136,11 @@ const QString ArkData::getFilter()
 			"*.tar.gz|Tar compressed archive (*.tar.gz *.tar.bz2)\n"
 			"*.ar|Ar archive (*.ar)\n"
 			"*.lha|Lha archive (*.lha)"));
+}
+
+void ArkData::writeConfiguration(){
+	
+	writeRecentFiles();
 }
 
 /*
