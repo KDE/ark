@@ -44,9 +44,9 @@ public:
 	GeneralOptDlg(ArkSettings *_d, QWidget *_parent=0, const char *_name=0);
 	
 protected:
-	void createAddTab();
-	void createExtractTab();
-	void createDirectoryTab();
+	void createAddTab( QFrame* );
+	void createExtractTab( QFrame* );
+	void createDirectoryTab( QFrame *);
 
 protected slots:
 	void readAddSettings();

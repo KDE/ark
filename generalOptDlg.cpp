@@ -9,6 +9,7 @@
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
  2001: Corel Corporation (author: Michael Jarrett <michaelj@corel.com>)
+ 2001-2002: Roberto Teixeira <maragato@kde.org>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -28,11 +29,13 @@
 
 // Qt includes
 #include <qvbox.h>
+#include <qlayout.h>
 #include <qgroupbox.h>
 #include <qcheckbox.h>
 
 // KDE includes
 #include <klocale.h>
+#include <kiconloader.h>
 
 // ark includes
 #include "arksettings.h"
@@ -60,63 +63,84 @@
 #define OPT_TOLOWER i18n("Convert filenames to &lowercase (Zip, Rar)")
 #define OPT_TOUPPER i18n("Convert filenames to &uppercase (Rar)")
 
+// little helper:
+static inline QPixmap loadIcon( const char * name ) {
+  return KGlobal::instance()->iconLoader()
+    ->loadIcon( QString::fromLatin1(name),
+                KIcon::NoGroup, KIcon::SizeMedium );
+}
+
 GeneralOptDlg::GeneralOptDlg(ArkSettings *_d, QWidget *_parent, const char *_name)
-	: KDialogBase(KDialogBase::Tabbed, DLG_NAME, Ok | Apply | Cancel, Ok,
+	: KDialogBase(IconList, DLG_NAME, Ok | Apply | Cancel, Ok,
 		      _parent, _name)
 {
-	m_settings = _d;
-
-	createAddTab();
-        createExtractTab();
-	createDirectoryTab();	
+    m_settings = _d;
+    QFrame *frame;
+    
+    frame = addPage( i18n( "Adding" ), i18n( "File adding settings" ),
+                     loadIcon( "ark_addfile" ) );
+    createAddTab( frame );
+    
+    frame = addPage( i18n( "Extracting" ), i18n( "Extract settings" ),
+                     loadIcon( "ark_extract" ) );
+    createExtractTab( frame );
+    
+    frame = addPage( i18n( "Diretoties" ), i18n( "Directory settings" ),
+                     loadIcon( "folder" ) );
+    createDirectoryTab( frame );	
 }
 
-void GeneralOptDlg::createAddTab()
-{
-	QVBox *addFrame = addVBoxPage(TAB_ADD_NAME);
-
-	QGroupBox *addSet = new QGroupBox(1, Horizontal, GRP_ADDSET, addFrame);
-	
-	m_cbReplaceOnlyWithNewer = new QCheckBox(OPT_REPLACE_NEWER, addSet);
-	m_cbMakeGeneric = new QCheckBox(OPT_MAKEGENERIC, addSet);
-	m_cbForceMS = new QCheckBox(OPT_DOS_FILENAMES, addSet);
-	m_cbConvertCRLF = new QCheckBox(OPT_CONV_CRLF, addSet);
-	m_cbStoreSymlinks = new QCheckBox(OPT_STORE_SYMLINKS, addSet);
-	m_cbRecurseSubdirs = new QCheckBox(OPT_RECURSE_SUBDIRS, addSet);
-	
-	readAddSettings();
-	connect(this, SIGNAL(applyClicked()), SLOT(writeAddSettings()));
-	connect(this, SIGNAL(okClicked()), SLOT(writeAddSettings()));
+void GeneralOptDlg::createAddTab( QFrame *parent ) {
+    //QVBox *addFrame = addVBoxPage(TAB_ADD_NAME);
+    QFrame *addFrame( parent );
+    
+    QVBoxLayout *layout = new QVBoxLayout(parent);
+    layout->setAutoAdd( true );
+    
+    QGroupBox *addSet = new QGroupBox(1, Horizontal, GRP_ADDSET, addFrame);
+    
+    m_cbReplaceOnlyWithNewer = new QCheckBox(OPT_REPLACE_NEWER, addSet);
+    m_cbMakeGeneric = new QCheckBox(OPT_MAKEGENERIC, addSet);
+    m_cbForceMS = new QCheckBox(OPT_DOS_FILENAMES, addSet);
+    m_cbConvertCRLF = new QCheckBox(OPT_CONV_CRLF, addSet);
+    m_cbStoreSymlinks = new QCheckBox(OPT_STORE_SYMLINKS, addSet);
+    m_cbRecurseSubdirs = new QCheckBox(OPT_RECURSE_SUBDIRS, addSet);
+    
+    readAddSettings();
+    connect(this, SIGNAL(applyClicked()), SLOT(writeAddSettings()));
+    connect(this, SIGNAL(okClicked()), SLOT(writeAddSettings()));
 }
 
-void GeneralOptDlg::createExtractTab()
-{
-	QFrame *exFrame = addVBoxPage(TAB_EXTRACT_NAME);
+void GeneralOptDlg::createExtractTab( QFrame *parent ) {
+    QFrame *exFrame( parent );// = addVBoxPage(TAB_EXTRACT_NAME);
+    QHBoxLayout *layout = new QHBoxLayout(exFrame);
+    layout->setAutoAdd(true);
+    
+    QGroupBox *exSet = new QGroupBox(1, Horizontal, GRP_EXTRACTSET, exFrame);
+    
+    m_cbOverwrite = new QCheckBox(OPT_OVERWRITE, exSet);
+    m_cbPreservePerms = new QCheckBox(OPT_PRESERVEPERMS, exSet);
+    m_cbDiscardPathnames = new QCheckBox(OPT_DISCARDPATHS, exSet);
+    m_cbToLower = new QCheckBox(OPT_TOLOWER, exSet);
+    m_cbToUpper = new QCheckBox(OPT_TOUPPER, exSet);
 
-	QGroupBox *exSet = new QGroupBox(1, Horizontal, GRP_EXTRACTSET, exFrame);
-
-	m_cbOverwrite = new QCheckBox(OPT_OVERWRITE, exSet);
-	m_cbPreservePerms = new QCheckBox(OPT_PRESERVEPERMS, exSet);
-	m_cbDiscardPathnames = new QCheckBox(OPT_DISCARDPATHS, exSet);
-	m_cbToLower = new QCheckBox(OPT_TOLOWER, exSet);
-	m_cbToUpper = new QCheckBox(OPT_TOUPPER, exSet);
-
-	readExtractSettings();
-	connect(this, SIGNAL(applyClicked()), SLOT(writeExtractSettings()));
-	connect(this, SIGNAL(okClicked()), SLOT(writeExtractSettings()));
+    readExtractSettings();
+    connect(this, SIGNAL(applyClicked()), SLOT(writeExtractSettings()));
+    connect(this, SIGNAL(okClicked()), SLOT(writeExtractSettings()));
 }
 
-void GeneralOptDlg::createDirectoryTab()
-{
-	QFrame *dirFrame = addPage(TAB_PATH_NAME);
+void GeneralOptDlg::createDirectoryTab( QFrame *parent ) {
+    QFrame *dirFrame( parent );// = addPage(TAB_PATH_NAME);
+    QHBoxLayout *layout = new QHBoxLayout(dirFrame);
+    layout->setAutoAdd(true);
 
-	// Modified the old dirdlg to inherit widget instead of QDialog
-	// Now we can just add it to our dialog frame!
-	DirDlg *dirPage = new DirDlg(m_settings, dirFrame);
-	connect(this, SIGNAL(applyClicked()), dirPage, SLOT(saveConfig()));
-	connect(this, SIGNAL(okClicked()), dirPage, SLOT(saveConfig()));
-
-	dirFrame->setMinimumSize(dirPage->minimumSize());
+    // Modified the old dirdlg to inherit widget instead of QDialog
+    // Now we can just add it to our dialog frame!
+    DirDlg *dirPage = new DirDlg(m_settings, dirFrame);
+    connect(this, SIGNAL(applyClicked()), dirPage, SLOT(saveConfig()));
+    connect(this, SIGNAL(okClicked()), dirPage, SLOT(saveConfig()));
+    
+    dirFrame->setMinimumSize(dirPage->minimumSize());
 }
 
 void GeneralOptDlg::readAddSettings()

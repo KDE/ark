@@ -1,4 +1,7 @@
-This is Ark almost-version 2.
+This is Ark version 2.9;
+
+This version has several bugs fixed from previous releases yet still
+uses more or less the same techniques as the previous versions.
 
 May, 2000:
 Supported formats:
@@ -9,7 +12,7 @@ Supported formats:
   single files compressed with compressors lzop, gzip, bzip2, bzip, compress
   rar
   ar
- 
+
 Emily Ezust <emilye@corel.com>
 
 --------------------------
@@ -18,7 +21,6 @@ From the OLD README:
 
 Type 'configure', then 'make', and 'make install'. Use the online help
 if anything is unclear to you.
-
 
 There may be a few bugs, as well as missing features, but the program should
 be fairly usable.
@@ -35,5 +37,5 @@ Thanks to:
 	o All the KDE developers
 	o Sebestyen Zoltan
 
-any suggestions, etc send to <duranceau@kde.org> or <palm9744@kettering.edu>
+any suggestions, etc send to <maragato@kde.org>
 
