@@ -894,7 +894,7 @@ ArkWidget::slotExtractDone()
 			kdDebug(1601) << "Edit in progress..." << endl;
 			KURL::List list;
 			// edit will be in progress until the KProcess terminates.
-         KOpenWithDlg l( list, i18n("Edit With:"), QString::null, (QWidget*)0L );
+         KOpenWithDlg l( list, i18n("Edit with:"), QString::null, (QWidget*)0L );
 			if ( l.exec() )
 			{
 				KProcess *kp = new KProcess;
@@ -922,7 +922,7 @@ ArkWidget::slotExtractDone()
 		KURL::List list;
 		KURL url = m_strFileToView;
 		list.append(url);
-		KOpenWithDlg l( list, i18n("Open With:"), QString::null, (QWidget*)0L);
+		KOpenWithDlg l( list, i18n("Open with:"), QString::null, (QWidget*)0L);
 		if ( l.exec() )
 		{
 			KService::Ptr service = l.service();
