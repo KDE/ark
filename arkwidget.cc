@@ -742,12 +742,13 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
 	  listForCompressedFile.append(m_compressedFile);
 	  addFile(&listForCompressedFile);
 	}
+      QApplication::restoreOverrideCursor();
     }
   else
     {
+      QApplication::restoreOverrideCursor();
       QMessageBox::warning(this, i18n("Error"), i18n("\nSorry - ark cannot create an archive of that type.\n\n  [Hint:  The filename should have an extension such as `.zip' to\n  indicate the type of the archive. Please see the help pages for\n  more information on supported archive formats.]"));
     }
-  QApplication::restoreOverrideCursor();
 }
 
 void ArkWidget::file_newWindow()
@@ -822,7 +823,9 @@ void ArkWidget::slotOpen(Arch *_newarch, bool _success,
 	    !fi.isWritable())
 	  {
 	    _newarch->setReadOnly(true);
+            QApplication::restoreOverrideCursor(); // no wait cursor during a msg box (David)
 	    KMessageBox::information(this, i18n("This archive is read-only. If you want to save it under\na new name, go to the File menu and select Save As."));
+            QApplication::setOverrideCursor( waitCursor );
 	  }
 	setCaption( _filename );
 	//	createActionMenu( _flag );
