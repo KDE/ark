@@ -2256,7 +2256,7 @@ bool ArkWidget::badBzipName(const QString & _filename)
 ////////////////////// createArchive /////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-
+                                                                                     
 void ArkWidget::createArchive( const QString & _filename )
 {
 
@@ -2316,7 +2316,7 @@ void ArkWidget::createArchive( const QString & _filename )
 //////////////////////////////////////////////////////////////////////
 //////////////////////// openArchive /////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-
+    
 void ArkWidget::openArchive(const QString & _filename )
 {
   // figure out what kind of archive it is
@@ -2346,6 +2346,7 @@ void ArkWidget::openArchive(const QString & _filename )
     case AA_FORMAT:
       newArch = new ArArch( m_settings, m_viewer, _filename );
       break;
+    case   UNKNOWN_FORMAT:
     default:
       if (!badBzipName(_filename))
 	{
@@ -2371,6 +2372,9 @@ void ArkWidget::openArchive(const QString & _filename )
 	       return;
 	     }
 	}
+    else
+        return;
+    break;
     }
 
   if (!newArch->utilityIsAvailable())

@@ -353,7 +353,7 @@ ArchType getArchType( const QString & archname, QString &extension)
        || (archname.right(4) == ".tar"))
     {
       extension = archname.right(4);
-      return TAR_FORMAT;      
+      return TAR_FORMAT;
     }
   if (archname.right(6) == ".tar.Z")
     {
@@ -414,7 +414,7 @@ ArchType getArchType( const QString & archname, QString &extension)
     }
 
   // now try using magic
-  
+
   KMimeMagic *mimePtr = KMimeMagic::self();
   KMimeMagicResult * mimeResultPtr = mimePtr->findFileType(archname);
   QString mimetype = mimeResultPtr->mimeType();
@@ -432,7 +432,6 @@ ArchType getArchType( const QString & archname, QString &extension)
     return TAR_FORMAT;
   if (mimetype == "application/x-zip")
     return ZIP_FORMAT;
-
   return UNKNOWN_FORMAT;
 }
 
