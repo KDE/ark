@@ -1,16 +1,15 @@
 # KDE Config File
 [KDE Desktop Entry]
+Comment=Ar Archives
 Comment[C]=Ar Archives
 Comment[pt]=Arquivos Ar
 Comment[fr]=Archives AR
-Mimetype=application/x-ar
-Comment=Ar Archives
-DefaultApp=Zip
-Comment[pl]=Archiwum Ar
-Icon=tgz.xpm
+Comment[sk]=Ar archívy
 Comment[fr]=Archives AR
-Comment[pt]=Arquivos Ar
 Comment[hr]=Ar Arhive
+Comment[pl]=Archiwum Ar
+Mimetype=application/x-ar
+Icon=tgz.xpm
 DefaultApp=Zip
 Icon=unzip.xpm
 Type=MimeType

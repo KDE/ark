@@ -3,10 +3,10 @@
 Comment[C]=Bzipped Tar Archives
 Comment[pt]=Arquivos Zip
 Comment[fr]=Archives ZIP
-Mimetype=application/x-tbz
-Comment=Zip Archives
-DefaultApp=Zip
 Comment[pl]=Archiwum Zip
+Comment[sk]=Bzipovaný Tar archív
+Mimetype=application/x-tbz
+DefaultApp=Zip
 Icon=tgz.xpm
 Type=MimeType
 Patterns=*.tar.bz;*.TAR.BZ;*.tar.bz2;*.TAR.BZ2;

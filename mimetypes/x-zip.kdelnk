@@ -3,13 +3,13 @@
 Comment[C]=Zip Archives
 Comment[pt]=Arquivos Zip
 Comment[fr]=Archives ZIP
+Comment[pl]=Archiwum Zip
+Comment[hr]=Zip Arhive
+Comment[sk]=Zip archív
 Mimetype=application/x-zip
 Comment=Zip Archives
 DefaultApp=Zip
-Comment[pl]=Archiwum Zip
 Icon=tgz.xpm
-Comment[pt]=Arquivos Zip
-Comment[hr]=Zip Arhive
 DefaultApp=Zip
 Icon=unzip.xpm
 Type=MimeType

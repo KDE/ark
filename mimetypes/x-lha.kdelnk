@@ -1,16 +1,16 @@
 # KDE Config File
 [KDE Desktop Entry]
+Comment=Lha Archives
 Comment[C]=Lha Archives
 Comment[pt]=Arquivos Lha
 Comment[fr]=Archives LHA
-Mimetype=application/x-lha
-Comment=Lha Archives
-DefaultApp=Zip
 Comment[pl]=Archiwum Lha
-Icon=tgz.xpm
 Comment[fr]=Archives LHA
-Comment[pt]=Arquivos Lha
 Comment[hr]=Lha Arhive
+Comment[sk]=LHA archív
+Mimetype=application/x-lha
+DefaultApp=Zip
+Icon=tgz.xpm
 DefaultApp=Zip
 Icon=unzip.xpm
 Type=MimeType
