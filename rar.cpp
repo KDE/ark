@@ -191,17 +191,12 @@ void RarArch::addFile( QStringList *urls )
   *kp << m_filename;
 
   QStringList::ConstIterator iter;
+  KURL dir( urls->first() );
+  QDir::setCurrent( dir.directory() );
   for (iter = urls->begin(); iter != urls->end(); ++iter )
   {
     KURL url( *iter );
-
-    if( !Settings::addDir() )
-    {
-      QDir::setCurrent(url.directory());
-      *kp << url.fileName();
-    }
-    else
-      *kp << url.path(-1);
+    *kp << url.fileName();
   }
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));

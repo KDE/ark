@@ -1,7 +1,5 @@
 /*
 
- $Id$
-
  ark -- archiver for the KDE project
 
  Copyright (C)
@@ -187,18 +185,14 @@ void ZooArch::addFile( QStringList *urls )
   *kp << m_filename;
 
   QStringList::ConstIterator iter;
+  KURL url( urls->first() );
+  QDir::setCurrent( url.directory() );
   for (iter = urls->begin(); iter != urls->end(); ++iter )
   {
-    KURL url( *iter );
-
-    if( !Settings::addDir() )
-    {
-      QDir::setCurrent(url.directory());
-      *kp << url.fileName();
-    }
-    else
-      *kp << url.path(-1);
+    KURL fileURL( *iter );
+    *kp << fileURL.fileName();
   }
+
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),

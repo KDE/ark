@@ -245,9 +245,9 @@ TarArch::open()
     connect(kp, SIGNAL(processExited(KProcess *)),
             this, SLOT(slotListingDone(KProcess *)));
     connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-            this, SLOT(slotReceivedOutput( KProcess *, char *, int )));
+        this, SLOT(slotReceivedOutput( KProcess *, char *, int )));
     connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-            this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+        this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
 
     if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
@@ -542,17 +542,9 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
   QStringList::ConstIterator iter;
   for (iter = urls->begin(); iter != urls->end(); ++iter )
   {
-    QString filename;
-    str = *iter;
-    if (str.left(5) == "file:")
-      // get rid of "file:" part of url
-      filename = str.right(str.length()-5);
-    str = str.right(str.length()-8); // get rid of leading /
-    if (!Settings::addDir())
-      str = str.right(str.length()-str.findRev('/')-1);
-
+    KURL url( *iter );
     // find the file entry in the archive listing
-    const FileLVI * lv = m_gui->getFileLVI(str);
+    const FileLVI * lv = m_gui->getFileLVI( url.fileName() );
     if ( !lv ) // it isn't in there, so skip it.
       continue;
 
@@ -562,7 +554,7 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
       // old. Otherwise we aren't adding it anyway, so we can go on to the next
       // file with a "continue".
 
-      QFileInfo fileInfo(filename);
+      QFileInfo fileInfo( url.path() );
       QDateTime addFileMTime = fileInfo.lastModified();
       QDateTime oldFileMTime = lv->timeStamp();
 
@@ -621,10 +613,7 @@ void TarArch::deleteOldFilesDone()
 void TarArch::addFileCreateTempDone()
 {
   disconnect( this, SIGNAL( createTempDone() ), this, SLOT( addFileCreateTempDone() ) );
-  QString file, url, tmp;
   QStringList * urls = &m_filesToAdd;
-  url = urls->first();
-  file = KURL(url).path(-1); // remove trailing slash
 
   KProcess *kp = new KProcess;
   *kp << m_archiver_program;
@@ -642,36 +631,14 @@ void TarArch::addFileCreateTempDone()
   if (Settings::tarUseAbsPathnames())
     *kp << "-P";
 
-  QString base;
-
-  if( !Settings::addDir() )
-    {
-      int pos;
-      pos = file.findRev( '/', -1, FALSE );
-      base = file.left( ++pos );
-      kdDebug(1601) << "base is " << base << endl;
-      //                pos++;
-      tmp = file.right( file.length()-pos );
-      file = tmp;
-      QDir::setCurrent(base);
-    }
-
-  QStringList::Iterator it=urls->begin();
-  while(1)
-    {
-      int pos;
-      *kp << file;
-      it++;
-      url = *it;
-
-      if( url.isNull() )
-        break;
-      file = KURL(url).path(-1); // remove trailing slash
-      pos = file.findRev( '/', -1, FALSE );
-      pos++;
-      tmp = file.right( file.length()-pos );
-      file = tmp;
-    }
+  QStringList::ConstIterator iter;
+  KURL url( urls->first() );
+  QDir::setCurrent( url.directory() );
+  for (iter = urls->begin(); iter != urls->end(); ++iter )
+  {
+    KURL fileURL( *iter );
+    *kp << fileURL.fileName();
+  }
 
   // debugging info
   QValueList<QCString> list = kp->args();
@@ -698,11 +665,6 @@ void TarArch::addFileCreateTempDone()
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigAdd(false);
     }
-
-#if 0
-  if( Settings::addDir() )
-    file.remove( 0, 1 );  // Get rid of leading /
-#endif
 
   kdDebug(1601) << "-TarArch::addFile" << endl;
 }

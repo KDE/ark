@@ -155,7 +155,7 @@ void ZipArch::addFile( QStringList *urls )
 
   *kp << m_archiver_program;
 
-  if (Settings::rarStoreSymlinks())
+  if (Settings::rarRecurseSubdirs())
     *kp << "-r";
 
   //	*kp << _compression;   // for later
@@ -174,17 +174,12 @@ void ZipArch::addFile( QStringList *urls )
   *kp << m_filename;
 
   QStringList::ConstIterator iter;
+  KURL url( urls->first() );
+  QDir::setCurrent( url.directory() );
   for (iter = urls->begin(); iter != urls->end(); ++iter )
   {
-    KURL url( *iter );
-
-    if (Settings::extractJunkPaths())
-    {
-      QDir::setCurrent(url.directory());
-      *kp << url.fileName();
-    }
-    else
-      *kp << url.path(-1);
+    KURL fileURL( *iter );
+    *kp << fileURL.fileName();
   }
 
   // debugging info
