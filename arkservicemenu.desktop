@@ -17,4 +17,4 @@ Exec=ark --extract %U
 
 [Desktop Action ExtractHere]
 Name=Extract here
-exec=ark --guess-name --extract-to . %u
+Exec=ark --guess-name --extract-to . %u
