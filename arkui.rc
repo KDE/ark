@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="ark" version="2">
+<kpartgui name="ark" version="3">
 <ActionProperties>
     <Action name="select_all" icon="ark_selectall"/>
 </ActionProperties>
@@ -8,7 +8,6 @@
     <Action name="new_window"/>
     <Action name="reload_arch"/>
     <Action name="close_arch"/>
-    <Separator lineSeparator="true"/>
   </Menu>
   <Menu name="editx"><text>&amp;Edit</text>
     <Action name="select"/>

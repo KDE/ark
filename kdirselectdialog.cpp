@@ -35,7 +35,7 @@ KDirSelectDialog::KDirSelectDialog(KURL &rootURL,
 	setCaption(i18n("Directories"));
 
 	// Create buttons
-	QPushButton *okButton = new QPushButton(i18n("&Ok"), this);
+	QPushButton *okButton = new QPushButton(i18n("&OK"), this);
 	QPushButton *cancelButton = new QPushButton(i18n("&Cancel"), this);
 	okButton->setDefault(true);
 

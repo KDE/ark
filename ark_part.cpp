@@ -28,6 +28,7 @@
 #include <kaboutdata.h>
 #include <kparts/partmanager.h>
 #include <kdebug.h>
+#include <kglobal.h>
 
 #include <qiconset.h>
 
@@ -45,6 +46,7 @@ extern "C"
      */
     void *init_libark()
     {
+	KGlobal::locale()->insertCatalogue("ark");
         return new ArkFactory;
     }
 };

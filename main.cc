@@ -68,7 +68,7 @@ int main( int argc, char *argv[]  )
 {
   KAboutData aboutData("ark", I18N_NOOP("ark"),
     version, description, KAboutData::License_GPL,
-    "(c) 1997-2001, The Various Ark Developers");
+    I18N_NOOP("(c) 1997-2001, The Various Ark Developers"));
   aboutData.addAuthor("Robert Palmbos",0, "palm9744@kettering.edu");
   aboutData.addAuthor("Francois-Xavier Duranceau",0, "duranceau@kde.org");
   aboutData.addAuthor("Corel Corporation (author: Emily Ezust)",0, "emilye@corel.com");
