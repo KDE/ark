@@ -45,7 +45,7 @@
                 <cstring>kcfg_rarToLower</cstring>
             </property>
             <property name="text">
-                <string>Convert filenames to &amp;lowercase (Zip, Rar)</string>
+                <string>Convert file names to &amp;lowercase (Zip, Rar)</string>
             </property>
         </widget>
         <widget class="QCheckBox">
@@ -53,7 +53,7 @@
                 <cstring>kcfg_rarToUpper</cstring>
             </property>
             <property name="text">
-                <string>Convert filenames to &amp;uppercase (Rar)</string>
+                <string>Convert file names to &amp;uppercase (Rar)</string>
             </property>
         </widget>
         <spacer>
