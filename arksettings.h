@@ -23,8 +23,8 @@
 
 */
 
-#ifndef ARKDATA_H
-#define ARKDATA_H
+#ifndef ARKSETTINGS_H
+#define ARKSETTINGS_H
 
 // Qt includes
 #include <qstrlist.h>
@@ -37,11 +37,11 @@
 #define MAX_RECENT_FILES 5
 
 
-class ArkData{
-
+class ArkSettings
+{
 public:
-	ArkData();
-	~ArkData();
+	ArkSettings();
+	~ArkSettings();
 	
 	enum DirPolicy{
 		FAVORITE_DIR=1, FIXED_START_DIR,
@@ -186,4 +186,4 @@ protected:
 	void writeZipProperties();
 };
 
-#endif /* ARKDATA_H */
+#endif /* ARKSETTINGS_H */

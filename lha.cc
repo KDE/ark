@@ -14,7 +14,7 @@
 #include "filelistview.h"
 #include "lha.h"
 
-LhaArch::LhaArch( ArkData *d )
+LhaArch::LhaArch( ArkSettings *d )
   : Arch()
 {
 	listing = new QStringList;

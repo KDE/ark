@@ -5,7 +5,7 @@
 #include <kuniqueapp.h>
 class ArkWidget;
 class ArkSettings;
-class ArkData;
+class ArkSettings;
 
 class ArkApplication : public KUniqueApplication
 {

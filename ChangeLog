@@ -1,3 +1,7 @@
+2000-01-10: Emily Ezust <emilye@corel.com>
+	* Finished renaming ArkData to ArkSettings.
+	* Tried using KDialogBase for Add dialog - not working too well.
+
 2000-01-6: Emily Ezust <emilye@corel.com>
 	* Disabled KUniqueApplication stuff for now... was interfering with
 	  development with crashes. Will add later.

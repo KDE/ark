@@ -47,7 +47,7 @@ public:
 class ShellOutputDlg : public QDialog {
 	Q_OBJECT
 public:
-	ShellOutputDlg( ArkData *, QWidget *parent=0, const char *name=0 );
+	ShellOutputDlg( ArkSettings *, QWidget *parent=0, const char *name=0 );
 	
 };
 

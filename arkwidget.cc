@@ -64,6 +64,7 @@
 #include "shellOutputDlg.h"
 
 #include "extractdlg.h"
+#include "adddlg.h"
 
 extern int errno;
 
@@ -79,7 +80,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 {
     kdebug(0, 1601, "+ArkWidget::ArkWidget");
   
-    m_data = new ArkData();
+    m_settings = new ArkSettings();
     // Creates a temp directory for this ark instance
     unsigned int pid = getpid();
     QString tmpdir;
@@ -87,7 +88,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     QString ex( "mkdir " + tmpdir + " &>/dev/null" );
     system( ex.local8Bit() );
 	
-    m_data->setTmpDir( tmpdir );
+    m_settings->setTmpDir( tmpdir );
     
     if (!windowList)
     {
@@ -152,7 +153,7 @@ ArkWidget::~ArkWidget()
 	delete accelerators;
 	delete m_filePopup;
 	delete m_archivePopup;
-	delete m_data;
+	delete m_settings;
 //	delete statusBarTimer;
 	delete arch;
 }
@@ -241,7 +242,7 @@ void ArkWidget::setupMenuBar()
 	optionsMenu->insertSeparator();
 	optionsMenu->insertItem( i18n( "&Save settings now..."), this, SLOT( options_saveNow() ) );
 	idSaveOnExit=optionsMenu->insertItem( i18n( "Save settings on e&xit..."), this, SLOT( options_saveOnExit() ) );
-	optionsMenu->setItemChecked(idSaveOnExit, m_data->isSaveOnExitChecked());
+	optionsMenu->setItemChecked(idSaveOnExit, m_settings->isSaveOnExitChecked());
 
 	// Help menu creation
 	QString about_ark = i18n("ark version %1\n(c) 1997-1999: Robert Palmbos <palm9744@kettering.edu>\n1999: Francois-Xavier Duranceau <duranceau@kde.org>\n1999: Corel Corporation (Emily Ezust <emilye@corel.com>)").arg( ARK_VERSION );
@@ -337,7 +338,7 @@ void ArkWidget::createRecentPopup()
 {
 	recentPopup->clear();
 
-	QStringList *recentFiles = m_data->getRecentFiles();
+	QStringList *recentFiles = m_settings->getRecentFiles();
 	for (uint i=0; i<recentFiles->count(); i++)
 	{
         	recentPopup->insertItem((*recentFiles)[i], -1, i);
@@ -593,15 +594,15 @@ void ArkWidget::saveProperties()
 {
 	kdebug(0, 1601, "+saveProperties (exit)");
 
-	KConfig *kc = m_data->getKConfig();
+	KConfig *kc = m_settings->getKConfig();
 	kc->setGroup( "ark" );
 
-	if( m_data->isSaveOnExitChecked() )
-		accelerators->writeSettings( m_data->getKConfig() );
+	if( m_settings->isSaveOnExitChecked() )
+		accelerators->writeSettings( m_settings->getKConfig() );
 
-	m_data->writeConfiguration();
+	m_settings->writeConfiguration();
 
-	QString tmpdir = m_data->getTmpDir();
+	QString tmpdir = m_settings->getTmpDir();
 	QString ex( "rm -rf "+tmpdir );
 	system( ex.local8Bit() );
 
@@ -623,7 +624,7 @@ void ArkWidget::file_new()
     // or if the file doesn't already exist. Return if they cancel.
   {
     strFile = KFileDialog::getSaveFileName(QString::null,
-					   m_data->getFilter());
+					   m_settings->getFilter());
     if (! strFile.isEmpty())
     {
       if (stat(strFile, &statbuffer) != -1)  // there's something there!
@@ -730,8 +731,8 @@ void ArkWidget::file_newWindow()
 
 void ArkWidget::file_open()
 {
-    QString file = KFileDialog::getOpenFileName(m_data->getOpenDir(),
-						m_data->getFilter(), this);
+    QString file = KFileDialog::getOpenFileName(m_settings->getOpenDir(),
+						m_settings->getFilter(), this);
     file_open( file );
 }
 
@@ -775,7 +776,7 @@ void ArkWidget::slotOpen( bool _success, QString _filename, int _flag )
 	
 	QFileInfo fi( _filename );
 	QString path = fi.dirPath( true );
-	m_data->setLastOpenDir( path );
+	m_settings->setLastOpenDir( path );
 	updateStatusTotals();
 	// make sure the enables are right
 	openEnables();
@@ -929,10 +930,10 @@ void ArkWidget::file_quit()
 
 void ArkWidget::edit_select()
 {
-	SelectDlg *sd = new SelectDlg( m_data, this );
+	SelectDlg *sd = new SelectDlg( m_settings, this );
 	if( sd->exec() ){
 		QString exp = sd->getRegExp();
-		m_data->setSelectRegExp( exp );
+		m_settings->setSelectRegExp( exp );
 
 		QRegExp reg_exp( exp, true, true );
 		KASSERT(reg_exp.isValid(), 0, 1601, "ArkWidget::edit_select: regular expression is not valid.");
@@ -980,7 +981,7 @@ void ArkWidget::edit_invertSel()
 
 void ArkWidget::edit_view_last_shell_output()
 {
-	ShellOutputDlg* sod = new ShellOutputDlg( m_data, this );
+	ShellOutputDlg* sod = new ShellOutputDlg( m_settings, this );
 	sod->exec();
 }
 
@@ -989,11 +990,19 @@ void ArkWidget::edit_view_last_shell_output()
 
 void ArkWidget::action_add()
 {
-	arch->addFile( 0 );
+  AddDlg *dlg = new AddDlg(getArchType(m_strArchName),
+			   m_settings->getAddDir());
+  if (dlg->exec())
+    kdebug(0, 1601, "Success!");
+  else
+    kdebug(0, 1601, "Failure!");
+  
+  //  arch->addFile( 0 );
 }
 
 void ArkWidget::action_add_dir()
 {
+
   //  arch->addDir( 0 );
 }
 
@@ -1015,7 +1024,7 @@ void ArkWidget::action_delete()
 void ArkWidget::action_extract()
 {
   ExtractDlg *dlg = new ExtractDlg(getArchType(m_strArchName),
-				   m_data->getExtractDir());
+				   m_settings->getExtractDir());
 
   // if they choose pattern, we have to tell arkwidget to select
   // those files... once we're in the dialog code it's too late.
@@ -1076,14 +1085,14 @@ void ArkWidget::showFile( int /*index*/, int /*col*/ )
 
 void ArkWidget::options_general()
 {
-	GeneralDlg *gd = new GeneralDlg( m_data, this );
+	GeneralDlg *gd = new GeneralDlg( m_settings, this );
 	gd->exec();
 	delete gd;
 }
 
 void ArkWidget::options_dirs()
 {
-	DirDlg *dd = new DirDlg( m_data, this );
+	DirDlg *dd = new DirDlg( m_settings, this );
 	dd->exec();
 	delete dd;
 }
@@ -1095,13 +1104,13 @@ void ArkWidget::options_keys()
 
 void ArkWidget::options_saveNow()
 {
-	m_data->writeConfigurationNow();
+	m_settings->writeConfigurationNow();
 }
 
 void ArkWidget::options_saveOnExit()
 {
-	optionsMenu->setItemChecked(idSaveOnExit, !m_data->isSaveOnExitChecked());
-	m_data->setSaveOnExitChecked( !m_data->isSaveOnExitChecked() );
+	optionsMenu->setItemChecked(idSaveOnExit, !m_settings->isSaveOnExitChecked());
+	m_settings->setSaveOnExitChecked( !m_settings->isSaveOnExitChecked() );
 }
 
 // Help menu /////////////////////////////////////////////////////////
@@ -1313,7 +1322,7 @@ void ArkWidget::showFavorite()
 	archiveContent->setColumnAlignment(1, AlignRight);
 	archiveContent->setMultiSelection( false );
 
-	fav = new QDir( m_data->getFavoriteDir() );
+	fav = new QDir( m_settings->getFavoriteDir() );
 	if( !fav->exists() )
 	{
 		KMessageBox::error( this, i18n("Archive directory does not exist."));
@@ -1352,7 +1361,7 @@ void ArkWidget::showFavorite()
 	}
 	archiveContent->setColumnWidth(0, archiveContent->columnWidth(0) + 10 );
 
-	setCaption( m_data->getFavoriteDir() );
+	setCaption( m_settings->getFavoriteDir() );
 
 	delete fav;
 
@@ -1420,7 +1429,7 @@ void ArkWidget::newCaption(const QString& _filename){
 
 	toolBar()->setItemEnabled( EXTRACT_BUTTON, true );
 
-	m_data->addRecentFile( _filename );
+	m_settings->addRecentFile( _filename );
 	createRecentPopup();
 }
 
@@ -1473,25 +1482,25 @@ Arch *ArkWidget::createArchive( QString _filename )
     {
 #if 0
     case TAR_FORMAT:
-	newArch = new TarArch( m_data, this, name );
+	newArch = new TarArch( m_settings, this, name );
 	newArch->createArch( name );
 	ret = true;
 	break;
 #endif
     case ZIP_FORMAT:
-	newArch = new ZipArch( m_data, this, _filename );
+	newArch = new ZipArch( m_settings, this, _filename );
 	connect( newArch, SIGNAL(sigOpen(bool,QString,int)), this, SLOT(slotOpen(bool,QString,int)) );
 	connect( newArch, SIGNAL(sigCreate(bool,QString,int)), this, SLOT(slotCreate(bool,QString,int)) );
 	newArch->create();
 	break;
 #if 0
     case LHA_FORMAT:
-	newArch = new LhaArch( m_data );
+	newArch = new LhaArch( m_settings );
 	newArch->createArch( name );
 	ret = true;
 	break;
     case AA_FORMAT:
-	newArch = new ArArch( m_data );
+	newArch = new ArArch( m_settings );
 	newArch->createArch( name );
 	ret = true;
 	break;
@@ -1516,13 +1525,13 @@ Arch *ArkWidget::openArchive( QString _filename )
 #if 0
 
     case TAR_FORMAT:
-	newArch = new TarArch(  m_data, this, _filename );
+	newArch = new TarArch(  m_settings, this, _filename );
 	newArch->openArch( name );
 	ret = true;
 	break;
 #endif   
     case ZIP_FORMAT:
-	newArch = new ZipArch( m_data, this, _filename );
+	newArch = new ZipArch( m_settings, this, _filename );
 	connect( newArch, SIGNAL(sigOpen(bool,QString,int)),
 		 this, SLOT(slotOpen(bool,QString,int)) );
 	connect( newArch, SIGNAL(sigCreate(bool,QString,int)),
@@ -1531,12 +1540,12 @@ Arch *ArkWidget::openArchive( QString _filename )
 	break;
 #if 0
     case LHA_FORMAT:
-	newArch = new LhaArch( m_data );
+	newArch = new LhaArch( m_settings );
 	newArch->openArch( name, archiveContent );
 	ret = true;
 	break;
     case AA_FORMAT:
-	newArch = new ArArch( m_data );
+	newArch = new ArArch( m_settings );
 	newArch->openArch( name, archiveContent );
 	ret = true;
 	break;

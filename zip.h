@@ -48,7 +48,7 @@ class ZipArch : public Arch
  Q_OBJECT
 
 public:
-	ZipArch( ArkData*, ArkWidget*, QString );
+	ZipArch( ArkSettings*, ArkWidget*, QString );
 	virtual ~ZipArch();
 	
 	virtual void open();

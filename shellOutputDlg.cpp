@@ -36,9 +36,10 @@
 // ark includes
 #include "shellOutputDlg.h"
 #include "shellOutputDlg.moc"
+#include "arksettings.h"
 
-
-ShellOutputDlg::ShellOutputDlg( ArkData *_data, QWidget *_parent, const char *_name )
+ShellOutputDlg::ShellOutputDlg( ArkSettings *_data, QWidget *_parent,
+				const char *_name )
 	: QDialog( _parent, _name, true )
 {
 	setCaption( i18n("ark - Last shell output") );

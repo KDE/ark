@@ -12,7 +12,7 @@
 class LhaArch : public Arch {
 
 public:
-	LhaArch( ArkData *d );
+	LhaArch( ArkSettings *d );
 	virtual ~LhaArch();
 	virtual unsigned char setOptions( bool p, bool l, bool o );
 	virtual void openArch( QString, FileListView * );

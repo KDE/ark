@@ -44,7 +44,7 @@
 class ZipExtractDlg : public KFileDialog {
 	Q_OBJECT
 public:
-	ZipExtractDlg( ArkData*, bool, QString, QWidget *parent=0, const char *name=0 );
+	ZipExtractDlg( ArkSettings*, bool, QString, QWidget *parent=0, const char *name=0 );
 	
 	bool overwrite();
 	bool lowerCase();
@@ -72,7 +72,7 @@ protected:
 	
 	void saveConfig();
 	
-	ArkData *m_data;
+	ArkSettings *m_settings;
 	
 protected slots:
 	void onExtract();

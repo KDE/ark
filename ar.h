@@ -28,7 +28,7 @@ void strshort( char *start, int num_rem );
 class ArArch : public Arch {
 
 public:
-	ArArch( ArkData *d );
+	ArArch( ArkSettings *d );
 	virtual ~ArArch();
 	virtual unsigned char setOptions( bool p, bool l, bool o );
 	virtual void openArch( QString, FileListView *flw );
@@ -40,7 +40,7 @@ public:
 	virtual void deleteFile( int );
 
 private:
-	ArkData *data;
+	ArkSettings *data;
 	QStringList *listing;
 	bool perms, tolower, overwrite;
 	void strshort( char *start, int num_rem );

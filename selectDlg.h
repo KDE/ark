@@ -40,12 +40,12 @@
 class SelectDlg : public QDialog {
 	Q_OBJECT
 public:
-	SelectDlg(  ArkData *d, QWidget *parent=0, const char *name=0 );
+	SelectDlg(  ArkSettings *d, QWidget *parent=0, const char *name=0 );
 	QString getRegExp() const;
 
 
 private:
-	ArkData *m_data;
+	ArkSettings *m_settings;
 	QLineEdit *m_regExp;
 	QPushButton *m_ok;
 	

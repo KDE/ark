@@ -13,7 +13,7 @@ See main.cc for license details */
 // ark includes
 #include "ar.h"
 
-ArArch::ArArch( ArkData *d )
+ArArch::ArArch( ArkSettings *d )
   : Arch()
 {
 	listing = new QStringList;

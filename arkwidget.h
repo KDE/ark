@@ -154,7 +154,7 @@ private:
 
 private:
     KPopupMenu *m_filePopup, *m_archivePopup;
-    ArkData *m_data;
+    ArkSettings *m_settings;
 //    QTimer *statusBarTimer;
     KAccel *accelerators;
     FileListView *archiveContent;

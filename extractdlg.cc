@@ -16,7 +16,7 @@ ExtractDlg::ExtractDlg(ArchType _archtype, const QString & _extractDir)
   : QTabDialog(0, "extractdialog", true), m_extractDir(_extractDir),
     m_cbOverwrite(0), m_cbPreservePerms(0), m_cbToLower(0)
 {
-  setCaption("ark - Extract");
+  setCaption(i18n("ark - Extract"));
 
   setupFirstTab();
   setupSecondTab(_archtype);
@@ -47,7 +47,7 @@ void ExtractDlg::setupFirstTab()
   browseButton->setText(i18n("Browse..."));
 
   QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
-				       "Files to Extract", firstpage );
+				       i18n("Files to Extract"), firstpage );
   m_radioCurrent = new QRadioButton("Current", bg);
   m_radioCurrent->setText(i18n("Current"));
   m_radioAll = new QRadioButton("All", bg);
@@ -58,11 +58,11 @@ void ExtractDlg::setupFirstTab()
   m_radioPattern->setText(i18n("Pattern"));
 
   QLabel *patternLabel = new QLabel(firstpage, "label");
-  patternLabel->setText("Pattern:");
+  patternLabel->setText(i18n("Pattern:"));
 
   m_patternLE = new QLineEdit(firstpage, "le");
 
-  addTab(firstpage, "Extract");
+  addTab(firstpage, i18n("Extract"));
 
   QObject::connect(browseButton, SIGNAL(clicked()),
 		   this, SLOT(browse()));
@@ -82,11 +82,12 @@ void ExtractDlg::setupSecondTab(ArchType _archtype)
     case ZIP_FORMAT:
       {
 	QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
-					     "ZIP Options", secondpage );
+					     i18n("ZIP Options"), secondpage );
 	
-	m_cbOverwrite = new QCheckBox("Overwrite files", bg);
-	m_cbPreservePerms = new QCheckBox("Preserve permissions", bg);
-	m_cbToLower = new QCheckBox("Convert filenames to lowercase", bg);
+	m_cbOverwrite = new QCheckBox(i18n("Overwrite files"), bg);
+	m_cbPreservePerms = new QCheckBox(i18n("Preserve permissions"), bg);
+	m_cbToLower = new QCheckBox(i18n("Convert filenames to lowercase"),
+				    bg);
       }
       break;
     case TAR_FORMAT:
@@ -96,7 +97,7 @@ void ExtractDlg::setupSecondTab(ArchType _archtype)
       break;
     }
   
-  addTab(secondpage, "Advanced");
+  addTab(secondpage, i18n("Advanced"));
 }
 
 
@@ -134,8 +135,7 @@ void ExtractDlg::accept()
 void ExtractDlg::browse() // slot
 {
   QString dirName = 
-    KFileDialog::getExistingDirectory(m_extractDir, 0,
-				      "ark - Select an Extract Directory");
+    KFileDialog::getExistingDirectory(m_extractDir, 0, i18n("ark - Select an Extract Directory"));
   if (! dirName.isEmpty())
   {
     m_extractDirLE->setText(dirName);
@@ -150,13 +150,13 @@ int ExtractDlg::extractOp()
 // which kind of extraction shall we do?
 
   if (m_radioCurrent->isChecked())
-    return Current;
+    return ExtractDlg::Current;
   if(m_radioAll->isChecked())
-    return All;
+    return ExtractDlg::All;
   if(m_radioSelected->isChecked())
-    return Selected;
+    return ExtractDlg::Selected;
   if(m_radioPattern->isChecked())
-    return Pattern;
+    return ExtractDlg::Pattern;
   return -1;
 }
 

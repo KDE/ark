@@ -48,7 +48,7 @@ class ZipAddDlg : public KFileDialog
 {
   Q_OBJECT
 public:
-  ZipAddDlg(ZipArch*, ArkData*, QString, QWidget *parent=0,
+  ZipAddDlg(ZipArch*, ArkSettings*, QString, QWidget *parent=0,
 	    const char *name=0);
 	
 protected:
@@ -70,7 +70,7 @@ protected:
   QString compression();
   
   bool m_addClicked;	
-  ArkData *m_data;
+  ArkSettings *m_settings;
   ZipArch *m_zip;
   
 protected slots:

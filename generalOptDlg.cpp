@@ -39,10 +39,10 @@
 
 #define BROWSE_WIDTH 40
 
-GeneralDlg::GeneralDlg( ArkData *_d, QWidget *_parent, const char *_name )
+GeneralDlg::GeneralDlg( ArkSettings *_d, QWidget *_parent, const char *_name )
 	: QDialog( _parent, _name, true )
 {
-	m_data = _d;
+	m_settings = _d;
 	
 	setCaption( i18n("ark - General preferences") );
 	QVBoxLayout *mainLayout = new QVBoxLayout( this, 10 );
@@ -86,12 +86,12 @@ GeneralDlg::GeneralDlg( ArkData *_d, QWidget *_parent, const char *_name )
 
 void GeneralDlg::initConfig()
 {
-	tarLE->setText( m_data->getTarCommand() );
+	tarLE->setText( m_settings->getTarCommand() );
 }
 
 void GeneralDlg::saveConfig()
 {
-	m_data->setTarCommand( tarLE->text() );
+	m_settings->setTarCommand( tarLE->text() );
 	accept();
 }
 

@@ -42,10 +42,10 @@
 //#include "zipExtractDlg.h"
 #include "zip.moc"
 
-ZipArch::ZipArch( ArkData *_d, ArkWidget *_mainWindow, QString _fileName )  
+ZipArch::ZipArch( ArkSettings *_d, ArkWidget *_mainWindow, QString _fileName )  
 	: Arch( _mainWindow, _fileName )
 {
-	m_data = _d;
+	m_settings = _d;
 }
 
 ZipArch::~ZipArch()
@@ -67,7 +67,7 @@ void ZipArch::slotStoreDataStdout(KProcess* _p, char* _data, int _length)
 	char c = _data[_length];
 	_data[_length] = '\0';
 
-	m_data->appendShellOutputData( _data );
+	m_settings->appendShellOutputData( _data );
 	_data[_length] = c;
 }
 
@@ -123,7 +123,7 @@ void ZipArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
 	char c = _data[_length];
 	_data[_length] = '\0';
 	
-	m_data->appendShellOutputData( _data );
+	m_settings->appendShellOutputData( _data );
 
 	char line[1024] = "";
 	char *tmpl = line;
@@ -219,7 +219,7 @@ void ZipArch::initOpen()
 	m_header_removed = false;
 	m_finished = false;
 	
-	m_data->clearShellOutput();
+	m_settings->clearShellOutput();
 
 	m_kp = new KProcess();
 	*m_kp << "unzip" << "-v" << m_filename.local8Bit();
@@ -307,7 +307,7 @@ int ZipArch::addFile( QStringList *urls )
 {
   	kdebug(0, 1601, "+ZipArch::addFile");
 /*
-	ZipAddDlg *zad = new ZipAddDlg( this, m_data, m_data->getAddDir() );  	
+	ZipAddDlg *zad = new ZipAddDlg( this, m_settings, m_settings->getAddDir() );  	
 	zad->exec();
   	delete zad;
 */
@@ -380,7 +380,7 @@ void ZipArch::remove()
 
 	KASSERT( !fileList()->isSelectionEmpty(), 0, 1601, "Nothing to remove !" );
 
-	m_data->clearShellOutput(); m_shellErrorData = "";
+	m_settings->clearShellOutput(); m_shellErrorData = "";
 	
 	m_kp = new KProcess();
 		
@@ -457,7 +457,7 @@ void ZipArch::slotExtractExited(KProcess *)
 
 void ZipArch::initExtract( bool _overwrite, bool _junkPaths, bool _lowerCase)
 {
-	m_data->clearShellOutput();
+	m_settings->clearShellOutput();
 	m_shellErrorData = "";
 
 	m_kp = new KProcess();
@@ -486,7 +486,7 @@ void ZipArch::extract()
 {
 
 #if 0
-  ZipExtractDlg *zed=new ZipExtractDlg( m_data, !fileList()->isSelectionEmpty(), m_data->getExtractDir() );
+  ZipExtractDlg *zed=new ZipExtractDlg( m_settings, !fileList()->isSelectionEmpty(), m_settings->getExtractDir() );
   if ( zed->exec() )
     {
       QString dir = zed->getDestination();
@@ -568,7 +568,7 @@ void ZipArch::slotIntegrityExited(KProcess *)
 
 void ZipArch::testIntegrity()
 {
-	m_data->clearShellOutput();
+	m_settings->clearShellOutput();
 	m_shellErrorData = "";
 
 	m_kp = new KProcess();

@@ -37,14 +37,14 @@
 class GeneralDlg : public QDialog {
 	Q_OBJECT
 public:
-	GeneralDlg(  ArkData *_d, QWidget *_parent=0, const char *_name=0 );
+	GeneralDlg(  ArkSettings *_d, QWidget *_parent=0, const char *_name=0 );
 	
 public slots:
 	void saveConfig();
 	void tarChanged( const QString & );	
 	
 private:
-	ArkData *m_data;
+	ArkSettings *m_settings;
 	QLineEdit *tarLE;
 	QPushButton *ok;
 	

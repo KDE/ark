@@ -37,7 +37,7 @@
 class DirDlg : public QDialog {
 	Q_OBJECT
 public:
-	DirDlg(  ArkData *d, QWidget *parent=0, const char *name=0 );
+	DirDlg(  ArkSettings *d, QWidget *parent=0, const char *name=0 );
 public slots:
 	void getFavDir();	
 	void getStartDir();	
@@ -47,7 +47,7 @@ public slots:
 	void favDirChanged(const QString &);
 	void saveConfig();
 private:
-	ArkData *data;
+	ArkSettings *data;
 	QLineEdit *favLE;
 	QLineEdit *openLE;
 	QLineEdit *startLE;

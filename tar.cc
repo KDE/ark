@@ -50,22 +50,22 @@
 #include "tar.h"
 #include "tar.moc"
 
-TarArch::TarArch( ArkData *_d, ArkWidget *_w, FileListView *_flw )
+TarArch::TarArch( ArkSettings *_d, ArkWidget *_w, FileListView *_flw )
 	:QObject(), Arch()
 {
 	kdebug(0, 1601, "+TarArch::TarArch");
 	
 	stdout_buf = NULL;
 	cout << "Entered TarArch" << endl;
-	m_data = _d;
+	m_settings = _d;
 	m_arkwidget = _w;
 	m_flw = _flw;
 	
 	listing = new QStringList;
-	m_data->setaddPath( false );
+	m_settings->setaddPath( false );
 	compressed = true;
 	
-	m_data->getTarCommand();
+	m_settings->getTarCommand();
 	
 	kdebug(0, 1601, "-TarArch::TarArch");
 }
@@ -154,7 +154,7 @@ void TarArch::openArch( QString name )
 	kproc.clearArguments();
 
 	m_filename = name;
-	QString tar_exe = m_data->getTarCommand();
+	QString tar_exe = m_settings->getTarCommand();
 	
 	kproc << tar_exe << "--use-compress-program="+getUnCompressor()
 	      <<	"-tvf" << m_filename.local8Bit();
@@ -239,7 +239,7 @@ int TarArch::addFile( QStringList* urls )
 
 	int retcode;
 	QString file, url, tmp;
-	QString tar_exe = m_data->getTarCommand();
+	QString tar_exe = m_settings->getTarCommand();
 		
 	createTmp();
 
@@ -249,7 +249,7 @@ int TarArch::addFile( QStringList* urls )
 	kproc.clearArguments();
 	kproc << tar_exe.local8Bit();
 	
-	if( m_data->getonlyUpdate() )
+	if( m_settings->getonlyUpdate() )
 		kproc << "uvf";
 	else
 		kproc << "rvf";
@@ -257,7 +257,7 @@ int TarArch::addFile( QStringList* urls )
 	
 	QString base;
 
-	if( !m_data->getaddPath() )
+	if( !m_settings->getaddPath() )
 	{
 		int pos;
 		pos = file.findRev( '/', -1, FALSE );
@@ -291,7 +291,7 @@ int TarArch::addFile( QStringList* urls )
 		return -1;
 	}
 	
-	if( m_data->getaddPath() )
+	if( m_settings->getaddPath() )
 		file.remove( 0, 1 );  // Get rid of leading /
 
 	retcode = updateArch();
@@ -332,7 +332,7 @@ void TarArch::extractTo( QString dir )
 {
 	cout << "Entered extractTo" << endl;
 
-	QString tar_exe = m_data->getTarCommand();
+	QString tar_exe = m_settings->getTarCommand();
 		
 	kproc.clearArguments();
 	kproc << tar_exe.local8Bit();
@@ -361,7 +361,7 @@ QString TarArch::unarchFile( int index, QString dest )
 	int pos;
 	QString tmp, name;
 	QString fullname;
-	QString tar_exe = m_data->getTarCommand();	
+	QString tar_exe = m_settings->getTarCommand();	
 	
 	updateArch();
 	
@@ -403,7 +403,7 @@ void TarArch::deleteFiles( const QString& patterns )
 	kdebug(0, 1601, "+Tar::deleteFiles");
 	
 	QString name, tmp;
-	QString tar_exe = m_data->getTarCommand();	
+	QString tar_exe = m_settings->getTarCommand();	
 	
 	createTmp();
 	

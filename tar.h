@@ -35,7 +35,7 @@ public slots:
 	void extractFinished( KProcess * );
 
 public:
-	TarArch( ArkData*, ArkWidget*, FileListView* );
+	TarArch( ArkSettings*, ArkWidget*, FileListView* );
 	virtual ~TarArch();
 	
 	/*virtual*/ unsigned char setOptions( bool p, bool l, bool o );
@@ -62,7 +62,7 @@ private:
 	QStringList      *listing;
 	QString       tmpfile;
 	bool          compressed;
-	ArkData	      *m_data;
+	ArkSettings    *m_settings;
 	ArkWidget     *m_arkwidget;
 	KProcess      kproc;
 	FileListView  *destination_flw;

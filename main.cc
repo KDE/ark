@@ -30,7 +30,6 @@
 #include <dcopclient.h>
 #include <qmessagebox.h>
 #include "arkwidget.h"
-#include "arkapp.h"
 
 int main( int argc, char *argv[]  )
 {

@@ -1,52 +1,81 @@
-/* (c)1997 Robert Palmbos
-See main.cc for license details */
-#include <kapp.h>
+#include <kdebug.h>
+#include <qstring.h>
+#include <kurl.h>
+#include <kfiledialog.h>
+#include <qvbox.h>
+#include <qmessagebox.h>
+#include <qcheckbox.h>
+#include <qfileinfo.h>
 #include <klocale.h>
+#include <kfilewidget.h>
+#include <qbuttongroup.h>
+#include <qpushbutton.h>
+#include <qradiobutton.h>
+#include <qlineedit.h>
+#include <kdialogbase.h>
 #include "adddlg.h"
+
+AddDlg::AddDlg(ArchType _archtype, const QString & _sourceDir,
+	       QWidget *parent, const char *name)
+  : KDialogBase(KDialogBase::Tabbed, i18n("Add"),
+		KDialogBase::Ok | KDialogBase::Cancel,
+		KDialogBase::Ok, parent, name), m_sourceDir(_sourceDir),
+    m_cbRecurse(0), m_cbJunkDirNames(0), m_cbForceMS(0), m_cbConvertLF2CRLF(0)
+{
+  setupFirstTab();
+  setupSecondTab(_archtype);
+
+  showButtonOK(true);
+  showButtonCancel(true);
+}
+
+void AddDlg::setupFirstTab()
+{
+  // set up a grid
+
+  QFrame *parent = addPage(i18n("Add"));
+
+  QVBox *firstpage = new QVBox(parent);
+  firstpage->setMargin( 5 );
+
+  KFileWidget *dirList = new KFileWidget(KFileWidget::Simple,
+					 firstpage, "dirlist");
+  
+  KURL url = QString("home/emilye/arks");
+  dirList->setURL(url);
+}
+
+void AddDlg::setupSecondTab(ArchType _archtype)
+{
+
+  QFrame *parent = addPage(i18n("Advanced"));
+
+  QVBox *secondpage = new QVBox(parent);
+  secondpage->setMargin( 5 );
+
+  // use __archtype to determine what goes here... 
+  // these are the advanced options
+
+  switch(_archtype)
+    {
+    case ZIP_FORMAT:
+      {
+	QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
+					     "ZIP Options", secondpage );
+	m_cbRecurse = new QCheckBox(i18n("Recurse into directories"), bg);
+	m_cbJunkDirNames = new QCheckBox(i18n("Junk directory names"), bg);
+	m_cbForceMS = new QCheckBox(i18n("Force MS-style (8+3) filenames"),
+				    bg);
+	m_cbConvertLF2CRLF = new QCheckBox(i18n("Convert LF to CRLF"), bg);
+      }
+      break;
+    case TAR_FORMAT:
+      break;
+    default:
+      // shouldn't ever get here!
+      break;
+    }
+ 
+}
+
 #include "adddlg.moc"
-
-AddOptionsDlg::AddOptionsDlg( QWidget *parent, const char *name )
-	: QDialog( parent, name, TRUE )
-{
-	gb = new QGroupBox( i18n( "Add File Options" ), this );
-	gb->setAlignment( AlignLeft );
-
-	ok = new QPushButton( i18n("OK"), this );
-	ok->adjustSize();
-	connect( ok, SIGNAL( clicked() ), SLOT( accept() ) );
-	cancel = new QPushButton( i18n("Cancel"), this );
-	cancel->adjustSize();
-	connect( cancel, SIGNAL( clicked() ), SLOT( reject() ) );
-
-	fullcb = new QCheckBox( i18n("Store Full Path"), gb );
-	fullcb->adjustSize();
-	
-	updatecb = new QCheckBox( i18n("Only Add Newer Files") , gb );
-	updatecb->adjustSize();
-
-        setMinimumSize(70+updatecb->width(), 10+20+fullcb->height()+20+updatecb->height()+10+ok->height()+50);
-}
-
-void AddOptionsDlg::resizeEvent(QResizeEvent *e)
-{
-        QDialog::resizeEvent(e);
-        int h_txt = fullcb->height(); // taken for the general qcheckbox height
-        int w = rect().width();
-        int h = rect().height();
-        gb->setGeometry(10,10,w-20,h-20-40); // 40 pixels for the bottom buttons
-        ok->move(20,h-10-ok->height());
-        cancel->move(w-20-cancel->width(),h-10-cancel->height());
-        // Now move the options inside the qcheckbox
-        fullcb->move(10+20,10+20);
-        updatecb->move(10+20,10+20+h_txt+20);
-}
-
-bool AddOptionsDlg::onlyUpdate()
-{
-	return updatecb->isChecked();
-}
-
-bool AddOptionsDlg::storeFullPath()
-{
-	return fullcb->isChecked();
-}

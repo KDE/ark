@@ -53,11 +53,11 @@
 #include "zipExtractDlg.moc"
 
 
-ZipExtractDlg::ZipExtractDlg( ArkData *_d, bool _selection, QString _dir, QWidget *_parent, const char *_name )
+ZipExtractDlg::ZipExtractDlg( ArkSettings *_d, bool _selection, QString _dir, QWidget *_parent, const char *_name )
 	: KFileDialog( _dir, QString::null, _parent, _name, true)
 {
 #if 0
-	m_data = _d;
+	m_settings = _d;
 	m_selection = _selection;
 	boxLayout = 0;
 	lafBox = 0;
@@ -153,17 +153,17 @@ void ZipExtractDlg::initGUI()
 	
 	r4 = new QCheckBox( i18n("Overwrite existing files"), bg2 );
 	r4->setFixedSize( r4->sizeHint() );
-	r4->setChecked( m_data->getZipExtractOverwrite() );
+	r4->setChecked( m_settings->getZipExtractOverwrite() );
 	vblg2->addWidget( r4, 0, AlignLeft );
 	
 	r5 = new QCheckBox( i18n("Junk paths"), bg2 );
 	r5->setFixedSize( r5->sizeHint() );
-	r5->setChecked( m_data->getZipExtractJunkPaths() );
+	r5->setChecked( m_settings->getZipExtractJunkPaths() );
 	vblg2->addWidget( r5, 0, AlignLeft );
 	
 	r6 = new QCheckBox( i18n("Make (some) names lowercase"), bg2 );
 	r6->setFixedSize( r6->sizeHint() );
-	r6->setChecked( m_data->getZipExtractLowerCase() );
+	r6->setChecked( m_settings->getZipExtractLowerCase() );
 	vblg2->addWidget( r6, 0, AlignLeft );
 	
 	if ( myStatusLine )
@@ -259,9 +259,9 @@ QString ZipExtractDlg::getDestination() const
 void ZipExtractDlg::saveConfig()
 {
 #if 0
-	m_data->setZipExtractOverwrite( r4->isChecked() );	
-	m_data->setZipExtractJunkPaths( r5->isChecked() );	
-	m_data->setZipExtractLowerCase( r6->isChecked() );	
+	m_settings->setZipExtractOverwrite( r4->isChecked() );	
+	m_settings->setZipExtractJunkPaths( r5->isChecked() );	
+	m_settings->setZipExtractLowerCase( r6->isChecked() );	
 #endif
 }
 

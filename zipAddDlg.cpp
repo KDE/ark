@@ -55,14 +55,14 @@
 #include "zipAddDlg.moc"
 
 
-ZipAddDlg::ZipAddDlg( ZipArch *_z, ArkData *_d, QString _dir, QWidget *_parent, const char *_name )
+ZipAddDlg::ZipAddDlg( ZipArch *_z, ArkSettings *_d, QString _dir, QWidget *_parent, const char *_name )
 	: KFileDialog(_dir, QString(""),_parent, _name, true)
 {
 #if 0
   kdebug(0, 1601, "+zipAddDlg constructor");
   kdebug(0, 1601, "Dir: %s", (const char *) _dir);
   m_zip = _z;
-  m_data = _d;
+  m_settings = _d;
   m_addClicked = false;
 	
   boxLayout = 0;
@@ -313,10 +313,10 @@ void ZipAddDlg::slotFileSelected(const QString& _fname)
 void ZipAddDlg::saveConfig()
 {
 #if 0
-	m_data->setZipAddRecurseDirs( c1->isChecked() );	
-	m_data->setZipAddJunkDirs( c2->isChecked() );	
-	m_data->setZipAddMSDOS( c3->isChecked() );	
-	m_data->setZipAddConvertLF( c4->isChecked() );	
+	m_settings->setZipAddRecurseDirs( c1->isChecked() );	
+	m_settings->setZipAddJunkDirs( c2->isChecked() );	
+	m_settings->setZipAddMSDOS( c3->isChecked() );	
+	m_settings->setZipAddConvertLF( c4->isChecked() );	
 #endif
 }
 

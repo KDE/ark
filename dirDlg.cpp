@@ -39,7 +39,7 @@
 
 #define BROWSE_WIDTH 40
 
-DirDlg::DirDlg( ArkData *d, QWidget *parent, const char *name )
+DirDlg::DirDlg( ArkSettings *d, QWidget *parent, const char *name )
 	: QDialog( parent, name, true )
 {
 	data = d;
@@ -317,20 +317,20 @@ void DirDlg::saveConfig()
 	
 	data->setFavoriteDir( favLE->text() );
 	
-	mode = r1->isChecked() ? ArkData::FAVORITE_DIR :
-		r2->isChecked() ? ArkData::LAST_OPEN_DIR : ArkData::FIXED_START_DIR;
+	mode = r1->isChecked() ? ArkSettings::FAVORITE_DIR :
+		r2->isChecked() ? ArkSettings::LAST_OPEN_DIR : ArkSettings::FIXED_START_DIR;
 	data->setStartDirCfg( startLE->text(), mode );
 
-	mode = r4->isChecked() ? ArkData::FAVORITE_DIR :
-		r5->isChecked() ? ArkData::LAST_OPEN_DIR : ArkData::FIXED_OPEN_DIR;
+	mode = r4->isChecked() ? ArkSettings::FAVORITE_DIR :
+		r5->isChecked() ? ArkSettings::LAST_OPEN_DIR : ArkSettings::FIXED_OPEN_DIR;
 	data->setOpenDirCfg( openLE->text(), mode );
 
-	mode = r7->isChecked() ? ArkData::FAVORITE_DIR :
-		r8->isChecked() ? ArkData::LAST_EXTRACT_DIR : ArkData::FIXED_EXTRACT_DIR;
+	mode = r7->isChecked() ? ArkSettings::FAVORITE_DIR :
+		r8->isChecked() ? ArkSettings::LAST_EXTRACT_DIR : ArkSettings::FIXED_EXTRACT_DIR;
 	data->setExtractDirCfg( extractLE->text(), mode );
 
-	mode = r10->isChecked() ? ArkData::FAVORITE_DIR :
-		r11->isChecked() ? ArkData::LAST_ADD_DIR : ArkData::FIXED_ADD_DIR;
+	mode = r10->isChecked() ? ArkSettings::FAVORITE_DIR :
+		r11->isChecked() ? ArkSettings::LAST_ADD_DIR : ArkSettings::FIXED_ADD_DIR;
 	data->setAddDirCfg( addLE->text(), mode );
 		
 	// close the dialog now
@@ -346,27 +346,27 @@ void DirDlg::initConfig()
 	addLE->setText( data->getFixedAddDir() );	
 
 	switch( data->getStartDirMode() ){
-		case ArkData::FAVORITE_DIR : r1->setChecked( true ); break;	
-		case ArkData::LAST_OPEN_DIR : r2->setChecked( true ); break;	
-		case ArkData::FIXED_START_DIR : r3->setChecked( true ); break;	
+		case ArkSettings::FAVORITE_DIR : r1->setChecked( true ); break;	
+		case ArkSettings::LAST_OPEN_DIR : r2->setChecked( true ); break;	
+		case ArkSettings::FIXED_START_DIR : r3->setChecked( true ); break;	
 	}
 
 	switch( data->getOpenDirMode() ){
-		case ArkData::FAVORITE_DIR : r4->setChecked( true ); break;	
-		case ArkData::LAST_OPEN_DIR : r5->setChecked( true ); break;	
-		case ArkData::FIXED_OPEN_DIR : r6->setChecked( true ); break;	
+		case ArkSettings::FAVORITE_DIR : r4->setChecked( true ); break;	
+		case ArkSettings::LAST_OPEN_DIR : r5->setChecked( true ); break;	
+		case ArkSettings::FIXED_OPEN_DIR : r6->setChecked( true ); break;	
 	}
 
 	switch( data->getExtractDirMode() ){
-		case ArkData::FAVORITE_DIR : r7->setChecked( true ); break;	
-		case ArkData::LAST_EXTRACT_DIR : r8->setChecked( true ); break;	
-		case ArkData::FIXED_EXTRACT_DIR : r9->setChecked( true ); break;	
+		case ArkSettings::FAVORITE_DIR : r7->setChecked( true ); break;	
+		case ArkSettings::LAST_EXTRACT_DIR : r8->setChecked( true ); break;	
+		case ArkSettings::FIXED_EXTRACT_DIR : r9->setChecked( true ); break;	
 	}
 	
 	switch( data->getAddDirMode() ){
-		case ArkData::FAVORITE_DIR : r10->setChecked( true ); break;	
-		case ArkData::LAST_ADD_DIR : r11->setChecked( true ); break;	
-		case ArkData::FIXED_ADD_DIR : r12->setChecked( true ); break;	
+		case ArkSettings::FAVORITE_DIR : r10->setChecked( true ); break;	
+		case ArkSettings::LAST_ADD_DIR : r11->setChecked( true ); break;	
+		case ArkSettings::FIXED_ADD_DIR : r12->setChecked( true ); break;	
 	}
 	
 }
