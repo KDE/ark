@@ -28,6 +28,7 @@
 // KDE includes
 #include <klocale.h>
 #include <kdebug.h>
+#include <kdebugclasses.h>
 #include <kstandarddirs.h>
 
 // Ark includes
@@ -64,15 +65,11 @@ ArkWidgetBase::ArkWidgetBase(QWidget *widget)
 ArkWidgetBase::~ArkWidgetBase()
 {
 	kdDebug(1601) << "ArkWidget::~ArkWidgetBase" << endl;
-	
-	if(archiveContent) 
-	{
-		// avoid race condition, so that archiveContent isn't used while being deleted
-		delete archiveContent;
-		archiveContent = NULL;
-	}
-	if(arch) delete arch;
-	if(m_settings) delete m_settings;
+        // avoid race condition, so that archiveContent isn't used while being deleted
+        delete archiveContent;
+        archiveContent = 0;
+	delete arch;
+	delete m_settings;
 }
 
 /**
@@ -220,11 +217,12 @@ void ArkWidgetBase::closeArch()
 		arch = 0;
 		m_bIsArchiveOpen = false;
 	}
-	
+
 	if (0 != archiveContent)
 	{
 		archiveContent->clear();
 		clearHeaders();
 	}
 }
+
 

@@ -72,7 +72,7 @@ public:
 
 protected:
 	ArkWidgetBase(QWidget *widget);
-	~ArkWidgetBase();
+	virtual ~ArkWidgetBase();
 
 // Data
 protected:

@@ -40,6 +40,7 @@
 
 // KDE includes
 #include <kdebug.h>
+#include <kdebugclasses.h>
 #include <klocale.h>
 #include <qpopupmenu.h>
 #include <kkeydialog.h>
@@ -173,7 +174,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     m_bDropFilesInProgress(false), mpTempFile(NULL),
     mpDownloadedList(NULL), mpAddList(NULL)
 {
-    
+
     kdDebug(1601) << "+ArkWidget::ArkWidget" << endl;
 
     ArkApplication::getInstance()->addWindow();
@@ -182,10 +183,9 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     kdDebug(1601) << "Build the GUI" << endl;
 
     setupStatusBar();
-    setupActions();
     createFileListView();
+    setupActions();
 
-    
     // enable DnD
     setAcceptDrops(true);
     initialEnables();
@@ -559,6 +559,7 @@ void ArkWidget::file_open(const QString & strFile)
   // display the archive contents
   showZip(strFile);
 
+  createGUI();
   kdDebug(1601) << "-ArkWidget::file_open(const QString & strFile)" << endl;
 }
 
@@ -570,7 +571,7 @@ void ArkWidget::file_open(const QString & strFile)
 bool ArkWidget::download(const KURL &url, QString &strFile)
 {
   kdDebug(1601) << "+ArkWidget::download(const KURL &url, QString &strFile)" << endl;
-  
+
   // downloads url into strFile, making sure strFile has the same extension
   // as url.
   if (!url.isLocalFile())
@@ -733,6 +734,7 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
       setCaption( _filename );
       createFileListView();
       setCaption(_filename);
+      createGUI();
       m_bIsArchiveOpen = true;
       arch = _newarch;
       QString extension;
@@ -893,12 +895,12 @@ void ArkWidget::slotDeleteDone(bool _bSuccess)
   kdDebug(1601) << "-ArkWidget::slotDeleteDone" << endl;
 }
 
-void 
+void
 ArkWidget::slotExtractDone()
 {
 	kdDebug(1601) << "+ArkWidget::slotExtractDone" << endl;
 	QApplication::restoreOverrideCursor();
-	
+
 	if ( m_bViewInProgress )
 	{
 		m_bViewInProgress = false;
@@ -958,7 +960,7 @@ ArkWidget::slotExtractDone()
 			URL += *it;
 			list.append( QUriDrag::localFileToUri(URL) );
 		}
-		
+
 		QUriDrag *d = new QUriDrag(list, archiveContent->viewport());
       m_bDropSourceIsSelf = true;
       d->dragCopy();
@@ -971,19 +973,19 @@ ArkWidget::slotExtractDone()
 		archiveContent->setUpdatesEnabled(true);
 		fixEnables();
 	}
-	
-        if ( m_extractRemote ) 
+
+        if ( m_extractRemote )
 	{
 		KURL srcDirURL( m_settings->getTmpDir() + "extrtmp/" );
 		KURL src;
-		QString srcDir( m_settings->getTmpDir() + "extrtmp/" ); 
+		QString srcDir( m_settings->getTmpDir() + "extrtmp/" );
 	   	QDir dir( srcDir );
 	       	QStringList lst( dir.entryList() );
 		lst.remove( "." );
 		lst.remove( ".." );
-		
+
 		KURL::List srcList;
-	       	for( QStringList::ConstIterator it = lst.begin(); it != lst.end() ; ++it)	  
+	       	for( QStringList::ConstIterator it = lst.begin(); it != lst.end() ; ++it)
                 {
 			src = srcDirURL;
 			src.addPath( *it );
@@ -994,7 +996,7 @@ ArkWidget::slotExtractDone()
 		extractURL.adjustPath( 1 );
 
 		KIO::CopyJob *job = KIO::copy( srcList, extractURL );
-    		connect( job, SIGNAL(result(KIO::Job*)), 
+    		connect( job, SIGNAL(result(KIO::Job*)),
              		this, SLOT(slotExtractRemoteDone(KIO::Job*)) );
 
 		m_extractRemote = false;
@@ -1011,7 +1013,7 @@ ArkWidget::slotExtractDone()
 
 void ArkWidget::slotExtractRemoteDone(KIO::Job *job)
 {
-  QDir dir( m_settings->getTmpDir() + "extrtmp/" ); 
+  QDir dir( m_settings->getTmpDir() + "extrtmp/" );
   dir.rmdir( dir.absPath()  );
 
   if ( job->error() )
@@ -1192,7 +1194,7 @@ void ArkWidget::file_close()
     {
       closeArch();
       setCaption(QString::null);
-      setCentralWidget(0);
+//      setCentralWidget(0);
       ArkApplication::getInstance()->removeOpenArk(m_strArchName);
       if (mpTempFile)
         {
@@ -1205,6 +1207,7 @@ void ArkWidget::file_close()
       updateStatusTotals();
       updateStatusSelection();
       fixEnables();
+      createGUI();
     }
   else closeArch();
   kdDebug(1601) << "-ArkWidget::file_close" << endl;
@@ -1457,7 +1460,7 @@ void ArkWidget::addFile(QStringList *list)
 	  *it = url.prettyURL();
 
 	}
-      
+
       }
   arch->addFile(list);
 }
@@ -1476,7 +1479,7 @@ void ArkWidget::action_add_dir() {
             u = toLocalFile(dir);
             arch->addDir( u.prettyURL() );
         }
-            
+
 }
 
 KURL ArkWidget::toLocalFile( QString & str)
@@ -1490,7 +1493,7 @@ KURL ArkWidget::toLocalFile( QString & str)
 	    QString tempfile = m_settings->getTmpDir();
 	    tempfile += str.right(str.length() - str.findRev("/") - 1);
 	    if( !KIO::NetAccess::dircopy(url, tempfile) )
-               return KURL();    
+               return KURL();
 	    mpDownloadedList->append(tempfile);        // remember for deletion
             url = tempfile;
 	}
@@ -1684,7 +1687,7 @@ bool ArkWidget::reportExtractFailures(const QString & _dest,
 bool ArkWidget::action_extract()
 {
     kdDebug(1601) << "+action_extract" << endl;
-    
+
   ExtractDlg *dlg = new ExtractDlg(m_settings);
 
   // if they choose pattern, we have to tell arkwidget to select
@@ -1708,7 +1711,7 @@ bool ArkWidget::action_extract()
       QString extractDir( m_settings->getExtractDir() );
       kdDebug(1601) << "Extract dir: " << extractDir << endl;
 
-      //extractURL will always be the location the user chose to 
+      //extractURL will always be the location the user chose to
       //extract to, whether local or remote
       KURL extractURL( extractDir);
 
@@ -1718,7 +1721,7 @@ bool ArkWidget::action_extract()
 	{
 	  extractDir = m_settings->getTmpDir() + "extrtmp/";
 	  m_extractRemote = true;
-          //make sure it's empty since all of it's contents 
+          //make sure it's empty since all of it's contents
           //will be copied to the remote extract location
 	  KIO::NetAccess::del( extractDir );
           if ( !KIO::NetAccess::mkdir( extractDir ) )
@@ -1727,13 +1730,13 @@ bool ArkWidget::action_extract()
                m_extractRemote = false;
                delete dlg;
                return false;
-            }     
+            }
 	}
       else
   	{
 		  extractDir = extractURL.path();
 	}
-		
+
       // if overwrite is false, then we need to check for failure of
       // extractions.
       bool bOvwrt = m_settings->getExtractOverwrite();
@@ -2184,6 +2187,8 @@ void ArkWidget::showFavorite()
 
   delete fav;
 
+  createGUI();
+
   //    writeStatusMsg( i18n( "Archive Directory") );
 }
 
@@ -2246,12 +2251,12 @@ void ArkWidget::createFileListView()
 //////////////////////// badBzipName /////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-bool 
+bool
 ArkWidget::badBzipName(const QString & _filename)
 {
 	if ( _filename.right(3) == ".BZ" || _filename.right(4) == ".TBZ" )
 	{
-		KMessageBox::error( this, 
+		KMessageBox::error( this,
 				i18n("bzip does not support filename extensions that use capital letters.") );
 	}
 	else if ( _filename.right(4) == ".tbz" )
@@ -2260,19 +2265,19 @@ ArkWidget::badBzipName(const QString & _filename)
 	}
 	else if (_filename.right(4) == ".BZ2" ||  _filename.right(5) == ".TBZ2")
 	{
-		KMessageBox::error(this, 
+		KMessageBox::error(this,
 				i18n("bzip2 does not support filename extensions that use capital letters."));
 	}
 	else if ( _filename.right(5) == ".tbz2" )
 	{
-		KMessageBox::error(this, 
+		KMessageBox::error(this,
 				i18n("bzip2 only supports filenames with the extension \".bz2\".") );
 	}
 	else
 	{
 		return false;
 	}
-	
+
 	return true;
 }
 
@@ -2322,13 +2327,13 @@ void ArkWidget::createArchive( const QString & _filename )
 //////////////////////// openArchive /////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-void 
+void
 ArkWidget::openArchive( const QString & _filename )
 {
 	QString extension;
 	Arch *newArch = 0;
 	ArchType archtype = Arch::getArchType( _filename, extension, m_url );
-	
+
 	if( 0 == ( newArch = Arch::archFactory( archtype, m_settings, this, _filename ) ) )
 	{
 		kdDebug( 1601 ) << "BadBZip name test..." << endl;
@@ -2361,15 +2366,15 @@ ArkWidget::openArchive( const QString & _filename )
 			return;
 		}
 	}
-	
+
 	if (!newArch->utilityIsAvailable())
 	{
 		KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
 		return;
 	}
-	
+
 	m_archType = archtype;
-	
+
 	connect( newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
 			this, SLOT(slotOpen(Arch *, bool, const QString &,int)) );
 	connect( newArch, SIGNAL(sigDelete(bool)),
@@ -2378,7 +2383,7 @@ ArkWidget::openArchive( const QString & _filename )
 			this, SLOT(slotAddDone(bool)));
 	connect( newArch, SIGNAL(sigExtract(bool)),
 			this, SLOT(slotExtractDone()));
-	
+
 	disableAll();
 	newArch->open();
 }

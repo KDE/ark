@@ -68,18 +68,18 @@ bool LhaArch::processLine(const QCString &line)
   char columns[13][80];
   char filename[4096];
 
-  if (QString(_line).contains("[generic]") ) 
+  if (QString(_line).contains("[generic]") )
     {
-      sscanf(_line, " %[]\[generic] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
+      sscanf(_line, " %[]\\[generic] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
 	     columns[0], columns[2], columns[3], columns[4], columns[5],
 	     columns[6], columns[10], columns[7], columns[11], columns[8],
 	     columns[9], filename );
       strcpy( columns[1], " " );
     }
   else
-  if (QString(_line).contains("[MS-DOS]") ) 
+  if (QString(_line).contains("[MS-DOS]") )
     {
-      sscanf(_line, " %[]\[MS-DOS] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
+      sscanf(_line, " %[]\\[MS-DOS] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
 	     columns[0], columns[2], columns[3], columns[4], columns[5],
 	     columns[6], columns[10], columns[7], columns[11], columns[8],
 	     columns[9], filename );
@@ -181,7 +181,7 @@ void LhaArch::setHeaders()
   alignRightCols[0] = 3;
   alignRightCols[1] = 4;
   alignRightCols[2] = 5;
-  
+
   m_gui->setHeaders(&list, alignRightCols, 3);
   delete [] alignRightCols;
 
@@ -192,7 +192,7 @@ void LhaArch::setHeaders()
 void LhaArch::create()
 {
   emit sigCreate(this, true, m_filename,
-		 Arch::Extract | Arch::Delete | Arch::Add 
+		 Arch::Extract | Arch::Delete | Arch::Add
 		 | Arch::View);
 }
 
@@ -212,7 +212,7 @@ void LhaArch::addFile( QStringList *urls )
   KProcess *kp = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program;
-	
+
   QString strOptions;
   if (m_settings->getAddReplaceOnlyWithNewer())
     strOptions = "u";
@@ -227,7 +227,7 @@ void LhaArch::addFile( QStringList *urls )
   QString url;
   QString file;
 
-	
+
   QStringList::ConstIterator iter;
   for (iter = urls->begin(); iter != urls->end(); ++iter )
   {
@@ -284,23 +284,23 @@ void LhaArch::unarchFile(QStringList *_fileList, const QString & _destDir,
   else dest = _destDir;
 
   QString tmp;
-	
+
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  
+
   *kp << m_archiver_program << "xfw="+dest << m_filename;
-  
+
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
   if (_fileList)
     {
       for ( QStringList::Iterator it = _fileList->begin();
-	    it != _fileList->end(); ++it ) 
+	    it != _fileList->end(); ++it )
 	{
 	  *kp << (*it).local8Bit() ;
 	}
     }
- 
+
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
@@ -308,7 +308,7 @@ void LhaArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 
   connect( kp, SIGNAL(processExited(KProcess*)), this,
 	   SLOT(slotExtractExited(KProcess*)));
-  
+
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
@@ -326,7 +326,7 @@ void LhaArch::remove(QStringList *list)
   m_shellErrorData = "";
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  
+
   *kp << m_archiver_program << "df" << m_filename.local8Bit();
   for ( QStringList::Iterator it = list->begin();
 	it != list->end(); ++it )
@@ -348,7 +348,7 @@ void LhaArch::remove(QStringList *list)
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
       emit sigDelete(false);
     }
-  
+
   kdDebug(1601) << "-LhaArch::remove" << endl;
 }
 
