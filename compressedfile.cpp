@@ -306,7 +306,10 @@ void CompressedFile::unarchFile(QStringList *, const QString & _destDir,
     {
       QString dest;
       if (_destDir.isEmpty() || _destDir.isNull())
-	dest = m_settings->getExtractDir();
+	{
+	  kdError(1601) << "There was no extract directory given." << endl;
+	  return;
+	}
       else
 	dest=_destDir;
       QString command;

@@ -72,7 +72,7 @@ static inline QPixmap loadIcon( const char * name ) {
 
 GeneralOptDlg::GeneralOptDlg(ArkSettings *_d, QWidget *_parent, const char *_name)
 	: KDialogBase(IconList, DLG_NAME, Ok | Apply | Cancel, Ok,
-		      _parent, _name)
+		      _parent, _name, true, true)
 {
     m_settings = _d;
     QFrame *frame;
@@ -95,9 +95,9 @@ void GeneralOptDlg::createAddTab( QFrame *parent ) {
     QFrame *addFrame( parent );
     
     QVBoxLayout *layout = new QVBoxLayout(parent);
-    layout->setAutoAdd( true );
     
     QGroupBox *addSet = new QGroupBox(1, Horizontal, GRP_ADDSET, addFrame);
+    layout->addWidget( addSet );
     
     m_cbReplaceOnlyWithNewer = new QCheckBox(OPT_REPLACE_NEWER, addSet);
     m_cbMakeGeneric = new QCheckBox(OPT_MAKEGENERIC, addSet);
@@ -105,7 +105,9 @@ void GeneralOptDlg::createAddTab( QFrame *parent ) {
     m_cbConvertCRLF = new QCheckBox(OPT_CONV_CRLF, addSet);
     m_cbStoreSymlinks = new QCheckBox(OPT_STORE_SYMLINKS, addSet);
     m_cbRecurseSubdirs = new QCheckBox(OPT_RECURSE_SUBDIRS, addSet);
-    
+
+    layout->addStretch();
+
     readAddSettings();
     connect(this, SIGNAL(applyClicked()), SLOT(writeAddSettings()));
     connect(this, SIGNAL(okClicked()), SLOT(writeAddSettings()));
@@ -113,16 +115,18 @@ void GeneralOptDlg::createAddTab( QFrame *parent ) {
 
 void GeneralOptDlg::createExtractTab( QFrame *parent ) {
     QFrame *exFrame( parent );// = addVBoxPage(TAB_EXTRACT_NAME);
-    QHBoxLayout *layout = new QHBoxLayout(exFrame);
-    layout->setAutoAdd(true);
+    QVBoxLayout *layout = new QVBoxLayout(exFrame);
     
     QGroupBox *exSet = new QGroupBox(1, Horizontal, GRP_EXTRACTSET, exFrame);
+    layout->add( exSet );
     
     m_cbOverwrite = new QCheckBox(OPT_OVERWRITE, exSet);
     m_cbPreservePerms = new QCheckBox(OPT_PRESERVEPERMS, exSet);
     m_cbDiscardPathnames = new QCheckBox(OPT_DISCARDPATHS, exSet);
     m_cbToLower = new QCheckBox(OPT_TOLOWER, exSet);
     m_cbToUpper = new QCheckBox(OPT_TOUPPER, exSet);
+
+    layout->addStretch();
 
     readExtractSettings();
     connect(this, SIGNAL(applyClicked()), SLOT(writeExtractSettings()));
@@ -131,16 +135,17 @@ void GeneralOptDlg::createExtractTab( QFrame *parent ) {
 
 void GeneralOptDlg::createDirectoryTab( QFrame *parent ) {
     QFrame *dirFrame( parent );// = addPage(TAB_PATH_NAME);
-    QHBoxLayout *layout = new QHBoxLayout(dirFrame);
-    layout->setAutoAdd(true);
+    QVBoxLayout *layout = new QVBoxLayout(dirFrame);
 
     // Modified the old dirdlg to inherit widget instead of QDialog
     // Now we can just add it to our dialog frame!
     DirDlg *dirPage = new DirDlg(m_settings, dirFrame);
     connect(this, SIGNAL(applyClicked()), dirPage, SLOT(saveConfig()));
     connect(this, SIGNAL(okClicked()), dirPage, SLOT(saveConfig()));
-    
-    dirFrame->setMinimumSize(dirPage->minimumSize());
+
+    layout->add( dirPage );
+
+    layout->addStretch();
 }
 
 void GeneralOptDlg::readAddSettings()

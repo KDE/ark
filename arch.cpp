@@ -204,7 +204,7 @@ void Arch::slotExtractExited(KProcess *_kp)
 	{
 	  QApplication::restoreOverrideCursor();
 	  int ret = KMessageBox::warningYesNo(m_gui->getArkWidget(),
-		i18n("Sorry, the extract operation failed.\n"
+		i18n("The extract operation failed.\n"
 		     "Do you wish to view the shell output?"), i18n("Error"));
 	  if (ret == KMessageBox::Yes)
 	    m_gui->viewShellOutput();
@@ -247,7 +247,7 @@ void Arch::slotAddExited(KProcess *_kp)
     {
       QApplication::restoreOverrideCursor();
       int ret = KMessageBox::warningYesNo(m_gui->getArkWidget(),
-		 i18n("Sorry, the add operation failed.\n"
+		 i18n("The add operation failed.\n"
 		      "Do you wish to view the shell output?"), i18n("Error"));
 	  if (ret == KMessageBox::Yes)
 	    m_gui->viewShellOutput();
@@ -320,7 +320,7 @@ void Arch::slotReceivedTOC(KProcess*, char* _data, int _length)
 	m_buffer = "";
   }
   if(!m_finished)
-	m_buffer = (_data + startChar);	// Copy what's left of the buffer
+	m_buffer.append(_data + startChar);	// Append what's left of the buffer
 
   _data[_length] = c;
 }
