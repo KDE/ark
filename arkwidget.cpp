@@ -80,6 +80,22 @@
 #include "shellOutputDlg.h"
 #include "arkviewer.h"
 
+static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
+{
+    QString mimetype = KMimeType::findByURL( filename )->name();
+    bool view = true;
+
+    if ( KRun::isExecutable( mimetype ) )
+    {
+        QString text = i18n( "The file you're trying to view may be an executable. Running untrusted executables may compromise your system's security.\nAre you sure you want to run that file?" );
+        view = ( KMessageBox::warningYesNo( parent, text ) == KMessageBox::Yes );
+    }
+
+    if ( view )
+        KRun::runURL( filename, mimetype );
+
+}
+
 //----------------------------------------------------------------------
 //
 //  Class ArkWidget starts here
@@ -1922,24 +1938,28 @@ void
 ArkWidget::viewSlotExtractDone()
 {
     chmod( QFile::encodeName( m_strFileToView ), 0400 );
-    QString mimetype = KMimeType::findByURL( m_strFileToView )->name();
     bool view = true;
 
-    if ( !m_viewer )
-	    m_viewer = new ArkViewer( this, "viewer" );
-
-    if ( !m_viewer->view( m_strFileToView ) )
+    if ( Settings::useIntegratedViewer() )
     {
-        kdDebug( 1601 ) << "ArkWidget::viewSlotExtractDone(): Internal Viewer can't view this file." << endl;
-    
-        if ( KRun::isExecutable( mimetype ) )
-        {
-            QString text = i18n( "The file you're trying to view may be an executable. Running untrusted executables may compromise your system's security.\nAre you sure you want to run that file?" );
-            view = ( KMessageBox::warningYesNo( this, text ) == KMessageBox::Yes );
-        }
 
-        if ( view )
-            KRun::runURL( m_strFileToView, mimetype );
+        if ( !m_viewer )
+            m_viewer = new ArkViewer( this, "viewer" );
+
+        if ( !m_viewer->view( m_strFileToView ) )
+        {
+            kdDebug( 1601 ) << "ArkWidget::viewSlotExtractDone(): Internal Viewer can't view this file." << endl;
+            QString text = i18n( "The internal viewer is not able to display this file. Would you like to view it using an external program?" );
+            view = ( KMessageBox::warningYesNo( this, text ) == KMessageBox::Yes );
+
+            if ( view )
+                viewInExternalViewer( this, m_strFileToView );
+
+        }
+    }
+    else
+    {
+        viewInExternalViewer( this, m_strFileToView );
     }
 
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this,

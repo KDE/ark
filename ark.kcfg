@@ -76,7 +76,7 @@
      <label>Enable Konqueror integration</label>
      <default>true</default>
     </entry>
-    <entry name="UseIntegratedViewer">
+    <entry name="UseIntegratedViewer" type="Bool">
      <label>Use integrated viewer</label>
      <default>true</default>
     </entry>
