@@ -108,7 +108,7 @@ m_settings( _settings )
 	Layout10->addLayout( Layout3 );
 
 	QButtonGroup *bg = new QButtonGroup( mainFrame, "bg" );
-	bg->setTitle( i18n( "Files to be extracted" ) );
+	bg->setTitle( i18n( "Files to Be Extracted" ) );
 	bg->setColumnLayout( 0, Qt::Vertical );
 	bg->layout()->setSpacing( 0 );
 	bg->layout()->setMargin( 0 );
@@ -153,7 +153,7 @@ m_settings( _settings )
 	Layout9->setMargin( 0 );
 	
 	QPushButton *prefButton = new QPushButton( mainFrame, "prefButton" );
-	prefButton->setText( i18n( "&Preferences" ) );
+	prefButton->setText( i18n( "&Preferences..." ) );
 	Layout9->addWidget( prefButton );
 	QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
 	Layout9->addItem( spacer );
@@ -259,7 +259,7 @@ ExtractDlg::browse() // slot
 {
 	KFileDialog extractDirDlg( m_settings->getExtractDir(), QString::null, this, "extractdirdlg", true );
 	extractDirDlg.setMode( KFile::Mode( KFile::Directory ) );
-	extractDirDlg.setCaption(i18n("Select an Extract Directory"));
+	extractDirDlg.setCaption(i18n("Select Extract Directory"));
 	extractDirDlg.exec();
 
 	KURL u( extractDirDlg.selectedURL() );

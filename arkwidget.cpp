@@ -698,7 +698,7 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
 void ArkWidget::file_new()
 {
   QString strFile;
-  KURL url = getCreateFilename(i18n("Create a New Archive"),
+  KURL url = getCreateFilename(i18n("Create New Archive"),
                                m_settings->getFilter());
   strFile = url.path();
   if (!strFile.isEmpty())
@@ -1337,7 +1337,7 @@ KURL ArkWidget::askToCreateRealArchive()
   if (choice == KMessageBox::Yes)
     {
       m_bMakeCFIntoArchiveInProgress = true;
-      url = getCreateFilename(i18n("Create a New Archive"),
+      url = getCreateFilename(i18n("Create New Archive"),
                               m_settings->getFilter());
     }
   return url;
@@ -1458,7 +1458,7 @@ void ArkWidget::action_add_dir() {
 
         KFileDialog addDirDlg( m_settings->getAddDir(), QString::null, this, "adddirdlg", true );
         addDirDlg.setMode( KFile::Mode( KFile::Directory ) );
-        addDirDlg.setCaption(i18n("Select a Directory to Add"));
+        addDirDlg.setCaption(i18n("Select Directory to Add"));
         addDirDlg.exec();
 
         KURL u( addDirDlg.selectedURL() );
