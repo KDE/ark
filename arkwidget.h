@@ -118,6 +118,7 @@ public slots:
   void toggleToolBar();
   void toggleStatusBar();
   void edit_view_last_shell_output();
+  void editToolbars();
 protected slots:
   void file_new();
   void file_open();

@@ -60,6 +60,7 @@
 #include <ktempfile.h>
 #include <progressbase.h>
 #include <kmimemagic.h>
+#include <kedittoolbar.h>
 // c includes
 
 #include <errno.h>
@@ -341,9 +342,17 @@ void ArkWidget::setupActions()
   statusbarAction = KStdAction::showStatusbar(this, SLOT(toggleStatusBar()), actionCollection());
   KStdAction::saveOptions(this, SLOT(options_saveNow()), actionCollection());
   KStdAction::keyBindings(this, SLOT(options_keys()), actionCollection());
-
+  KStdAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
 
   createGUI();
+}
+
+
+void ArkWidget::editToolbars()
+{
+  KEditToolbar dlg(actionCollection());
+  if (dlg.exec())
+    createGUI( );
 }
 
 void ArkWidget::setHeader()
