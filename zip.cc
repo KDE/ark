@@ -194,17 +194,17 @@ void ZipArch::initListView()
 	
 	FileListView *flw = fileList();
 
-	flw->addColumn( i18n("Name") );
-	flw->addColumn( i18n("Length") );
+	flw->addColumn( i18n(" Name ") );
+	flw->addColumn( i18n(" Length ") );
 	flw->setColumnAlignment( 1, QListView::AlignRight );
-	flw->addColumn( i18n("Method") );
-	flw->addColumn( i18n("Size") );
+	flw->addColumn( i18n(" Method ") );
+	flw->addColumn( i18n(" Size ") );
 	flw->setColumnAlignment( 3, QListView::AlignRight );
-	flw->addColumn( i18n("Ratio") );
+	flw->addColumn( i18n(" Ratio ") );
 	flw->setColumnAlignment( 4, QListView::AlignRight );
-	flw->addColumn( i18n("Date") );
-	flw->addColumn( i18n("Time") );
-	flw->addColumn( i18n("CRC-32") );
+	flw->addColumn( i18n(" Date ") );
+	flw->addColumn( i18n(" Time ") );
+	flw->addColumn( i18n(" CRC-32 ") );
 	flw->setColumnAlignment( 7, QListView::AlignRight );
 
 	flw->setUpdatesEnabled(false);
@@ -256,6 +256,8 @@ int ZipArch::addFile( QStringList *urls )
 {
   kdebug(0, 1601, "+ZipArch::addFile");
 	
+  int retCode;
+
   m_kp = new KProcess();
 			
   *m_kp << "zip";
@@ -283,9 +285,12 @@ int ZipArch::addFile( QStringList *urls )
       *m_kp << "-m"; break;
     }
 #endif
-  //	*m_kp << m_filename.local8Bit() ;
 
-	// iterate over QStringList and plunk onto command line
+  *m_kp << m_filename.local8Bit() ;
+  
+  // iterate over QStringList and plunk onto command line
+
+  kdebug(0, 1601, "Adding these files to the command line:");
 
   for (QStringList::Iterator it = urls->begin();
        it != urls->end(); ++it ) 
@@ -294,11 +299,13 @@ int ZipArch::addFile( QStringList *urls )
       // remove "file:"
       currFile = currFile.right( currFile.length()-5);
       *m_kp << currFile;
-    }	
+      kdebug(0, 1601, "%s", (const char *)currFile );
+    }
+
   if( m_kp->start(KProcess::Block, KProcess::Stdout) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
-      return ;
+      return FAILURE;
     }
 	
   kdebug(0, 1601, "normalExit = %d", m_kp->normalExit() );
@@ -306,25 +313,36 @@ int ZipArch::addFile( QStringList *urls )
 	
   if( m_kp->normalExit() && (m_kp->exitStatus()==0) )
     {
-      if(stderrIsError())
-	KMessageBox::error( 0, i18n("You probably don't have sufficient permissions\n"
-				    "Please check the file owner and the integrity\n"
-				    "of the archive.") );
+      if (stderrIsError())
+	{
+	  KMessageBox::error( 0, i18n("You probably don't have sufficient permissions\n"
+				      "Please check the file owner and the integrity\n"
+				      "of the archive.") );
+	  retCode = FAILURE;
+	}
       else
-	m_arkwidget->reload();
+	retCode = SUCCESS;
     }
   else
-    KMessageBox::sorry( 0, i18n("Add failed") );
-	
+    {
+      KMessageBox::sorry( 0, i18n("Add failed") );
+      retCode = FAILURE;
+    }	
   delete m_kp;
-  return 0;
+  
+  return retCode;
   kdebug(0, 1601, "+ZipArch::addFile");
 }
 
-QString ZipArch::unarchFile( int pos, const QString & dest )
+QString ZipArch::unarchFile(const QString & _filename )
+{
+  return "";
+}
+
+QString ZipArch::unarchFile( )
 {
 	kdebug(0, 1601, "+ZipArch::unarchFile");
-
+	QString dest = m_settings->getExtractDir();
 	QString tmp;
 	
 	m_kp = new KProcess();

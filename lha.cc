@@ -217,10 +217,16 @@ void LhaArch::extractTo( const QString & dest )
 	}
 }
 
-QString LhaArch::unarchFile( int pos, const QString & dest )
+QString LhaArch::unarchFile(const QString & _filename )
+{
+  return "";
+}
+
+QString LhaArch::unarchFile( )
 {
 //  	cout << "entered unarchFile" << endl;
 	QString tmp, tmp2;
+  QString dest = m_settings->getExtractDir();
 
 // Segfault testing
 //	QStrList segflist	= archProcess.getArguments();

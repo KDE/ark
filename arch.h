@@ -49,10 +49,15 @@ public:
 	virtual void open() = 0;
 	virtual void create() = 0;
 	virtual void remove() = 0;
-	virtual void extract() = 0;
-	
+	virtual void extract() = 0; // extract all
+
 	virtual int addFile( QStringList *) = 0;
-	virtual QString unarchFile( int , const QString & ) = 0;
+
+	// unarch the selected files
+	virtual QString unarchFile() = 0;
+
+	// unarch _filename
+	virtual QString unarchFile( const QString & _filename) = 0;
 	
 	virtual int actionFlag() = 0;
 	
@@ -78,5 +83,8 @@ protected:
 	ArkSettings *m_settings;
 	ArkWidget *m_arkwidget;
 };
+
+
+enum AddRetCodes { SUCCESS, FAILURE, UNSUPDIR } ;
 
 #endif /* ARCH_H */

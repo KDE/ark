@@ -10,16 +10,17 @@
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qlineedit.h>
+#include "arksettings.h"
 #include "extractdlg.h"
 
-ExtractDlg::ExtractDlg(ArchType _archtype, const QString & _extractDir)
-  : QTabDialog(0, "extractdialog", true), m_extractDir(_extractDir),
-    m_cbOverwrite(0), m_cbPreservePerms(0), m_cbToLower(0)
+ExtractDlg::ExtractDlg(ArchType _archtype, ArkSettings *_settings)
+  : QTabDialog(0, "extractdialog", true), m_settings(_settings),
+    m_archtype(_archtype)
 {
   setCaption(i18n("ark - Extract"));
 
   setupFirstTab();
-  setupSecondTab(_archtype);
+  setupSecondTab();
 
   setOKButton();
   setCancelButton();
@@ -33,15 +34,13 @@ ExtractDlg::ExtractDlg(ArchType _archtype, const QString & _extractDir)
 
 void ExtractDlg::setupFirstTab()
 {
-  // set up a grid
-
   QVBox *firstpage = new QVBox( this );
   firstpage->setMargin( 5 );
 
   QLabel *extractToLabel = new QLabel(firstpage);
   extractToLabel->setText(i18n("Extract to: "));
   m_extractDirLE = new QLineEdit(firstpage);
-  m_extractDirLE->setText(m_extractDir);
+  m_extractDirLE->setText(m_settings->getExtractDir());
 
   QPushButton *browseButton = new QPushButton(firstpage);
   browseButton->setText(i18n("Browse..."));
@@ -54,6 +53,7 @@ void ExtractDlg::setupFirstTab()
   m_radioAll->setText(i18n("All"));
   m_radioSelected = new QRadioButton("Selected Files", bg);
   m_radioSelected->setText(i18n("Selected Files"));
+  m_radioSelected->setChecked(true);
   m_radioPattern = new QRadioButton("By Pattern", bg);
   m_radioPattern->setText(i18n("Pattern"));
 
@@ -68,29 +68,38 @@ void ExtractDlg::setupFirstTab()
 		   this, SLOT(browse()));
 }
 
-void ExtractDlg::setupSecondTab(ArchType _archtype)
+void ExtractDlg::setupSecondTab()
 {
 
   QVBox *secondpage = new QVBox( this );
   secondpage->setMargin( 5 );
 
-  // use __archtype to determine what goes here... 
+  // use m_archtype to determine what goes here... 
   // these are the advanced options
 
-  switch(_archtype)
+  switch(m_archtype)
     {
     case ZIP_FORMAT:
       {
 	QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
 					     i18n("ZIP Options"), secondpage );
-	
 	m_cbOverwrite = new QCheckBox(i18n("Overwrite files"), bg);
+	if (m_settings->getZipExtractOverwrite())
+	  m_cbOverwrite->setChecked(true);
 	m_cbPreservePerms = new QCheckBox(i18n("Preserve permissions"), bg);
 	m_cbToLower = new QCheckBox(i18n("Convert filenames to lowercase"),
 				    bg);
+	if (m_settings->getZipExtractLowerCase())
+	  m_cbToLower->setChecked(true);
       }
       break;
     case TAR_FORMAT:
+      break;
+    case AA_FORMAT:
+    case LHA_FORMAT:
+    case RAR_FORMAT:
+    case ZOO_FORMAT:
+    case UNKNOWN_FORMAT:
       break;
     default:
       // shouldn't ever get here!
@@ -110,6 +119,32 @@ void ExtractDlg::accept()
 			   i18n("Please provide a valid directory"));
     return;
   }
+
+  // you need to change the settings to change the fixed dir.
+  m_settings->setLastExtractDir(m_extractDirLE->text());
+
+  // save settings
+
+  switch(m_archtype)
+    {
+    case ZIP_FORMAT:
+      {
+	m_settings->setZipExtractOverwrite(m_cbOverwrite->isChecked());
+	m_settings->setZipExtractLowerCase(m_cbToLower->isChecked());
+      }
+      break;
+    case TAR_FORMAT:
+      break;
+    case AA_FORMAT:
+    case LHA_FORMAT:
+    case RAR_FORMAT:
+    case ZOO_FORMAT:
+    case UNKNOWN_FORMAT:
+      break;
+    default:
+      // shouldn't ever get here!
+      break;
+    }
 
   if (m_radioPattern->isChecked())
   {
@@ -135,7 +170,8 @@ void ExtractDlg::accept()
 void ExtractDlg::browse() // slot
 {
   QString dirName = 
-    KFileDialog::getExistingDirectory(m_extractDir, 0, i18n("ark - Select an Extract Directory"));
+    KFileDialog::getExistingDirectory(m_settings->getExtractDir(), 0,
+				      i18n("Select an Extract Directory"));
   if (! dirName.isEmpty())
   {
     m_extractDirLE->setText(dirName);

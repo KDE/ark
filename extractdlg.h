@@ -32,12 +32,13 @@
 class QRadioButton;
 class QLineEdit;
 class QCheckBox;
+class ArkSettings;
 
 class ExtractDlg : public QTabDialog 
 {
   Q_OBJECT
 public:
-  ExtractDlg(ArchType _archtype, const QString & _extractDir);
+  ExtractDlg(ArchType _archtype, ArkSettings *_settings);
   enum ExtractOp{ All, Selected, Current, Pattern };
   int extractOp();
 public slots:
@@ -51,14 +52,14 @@ signals:
 
 private: // methods
   void setupFirstTab();
-  void setupSecondTab(ArchType _archtype);
+  void setupSecondTab();
 
 private: // data
   QRadioButton *m_radioCurrent, *m_radioAll, *m_radioSelected, *m_radioPattern;
   QLineEdit *m_patternLE;
   QLineEdit *m_extractDirLE;
-  QString m_extractDir;
-
+  ArkSettings *m_settings;
+  ArchType m_archtype;
   // advanced options 
   QCheckBox *m_cbOverwrite, *m_cbPreservePerms, *m_cbToLower;
 };

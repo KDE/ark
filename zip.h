@@ -57,7 +57,9 @@ public:
 	virtual int addFile( QStringList* );
 	virtual void remove();
 	virtual void extract();
-	virtual QString unarchFile( int, const QString & );
+	virtual QString unarchFile();
+	virtual QString unarchFile( const QString & );
+
 	
 	virtual int actionFlag();
 	void testIntegrity();

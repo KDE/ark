@@ -1,3 +1,4 @@
+
 /*
 
  $Id$
@@ -186,6 +187,7 @@ void ArkWidget::setupMenuBar()
 
 	// KAccel settings
 	accelerators->readSettings( KGlobal::config() );
+
 	int id;
 
 	// File menu creation
@@ -263,6 +265,7 @@ void ArkWidget::setupMenuBar()
 				 SLOT(action_delete()), 0,
 				 eMDelete);
 
+	
 	m_archivePopup = new KPopupMenu();
 	m_archivePopup->setTitle(i18n("Archive Operations"));
 	m_archivePopup->insertItem(i18n("To be announced"), this, 0, 0, 0);
@@ -424,6 +427,7 @@ void ArkWidget::updateStatusTotals()
 {
     kdebug(0, 1601, "+ArkWidget::updateStatusTotals");
     m_nNumFiles = 0;
+    m_nSizeOfFiles = 0;
     FileLVI *pItem = (FileLVI *)archiveContent->firstChild();
     while (pItem)
     {
@@ -813,14 +817,20 @@ void ArkWidget::onFileNumChangeSetEnables() // private
 
 void ArkWidget::file_reload()
 {
-	QString filename = arch->fileName();
-	file_close();
-	file_open( filename );
+    if (isArchiveOpen())
+    {
+      QString filename = arch->fileName();
+      file_close();
+      file_open( filename );
+    }
 }
 
 void ArkWidget::reload()
 {
-	file_reload();
+  if (isArchiveOpen())
+    {
+      file_reload();
+    }
 }
 	
 void ArkWidget::file_close()
@@ -840,6 +850,7 @@ void ArkWidget::file_close()
     
 	ArkApplication::getInstance()->removeOpenArk(m_strArchName);
 	updateStatusTotals();
+	updateStatusSelection();
     }
     kdebug(0, 1601, "-ArkWidget::file_close");
 }
@@ -944,7 +955,13 @@ void ArkWidget::action_add()
 			   m_settings, this, "adddlg");
   if (dlg->exec())
     {
-      arch->addFile(dlg->getFiles());
+      QStringList *list = dlg->getFiles();
+      if (list->count() > 0)
+	{
+	  int ret = arch->addFile(list);
+	  if (ret == SUCCESS)
+	    file_reload();
+	}
     }
 }
 
@@ -964,6 +981,7 @@ void ArkWidget::action_delete()
     {
 	arch->remove();
 	updateStatusTotals();
+	updateStatusSelection();	
     }
 
     kdebug(0, 1601, "-ArkWidget::action_delete");
@@ -972,7 +990,7 @@ void ArkWidget::action_delete()
 void ArkWidget::action_extract()
 {
   ExtractDlg *dlg = new ExtractDlg(getArchType(m_strArchName),
-				   m_settings->getExtractDir());
+				   m_settings);
 
   // if they choose pattern, we have to tell arkwidget to select
   // those files... once we're in the dialog code it's too late.
@@ -980,17 +998,36 @@ void ArkWidget::action_extract()
 	  this, SLOT(selectByPattern(const QString &)));
 
   if (dlg->exec())
-    kdebug(0, 1601, "Success!");
-  else
-    kdebug(0, 1601, "Failure!");
-
-  // next grab the settings data, plunk it into the settings object,
-  // and tell the archive to extract the given files.
-
-  //  arch->extract(fileList);
-
-  delete dlg;
-
+    {
+      int extractOp = dlg->extractOp();
+      kdebug(0, 1601, "Extract op: %d", extractOp);
+      switch(extractOp)
+	{
+	case ExtractDlg::All:
+	  arch->extract();
+	  break;
+	case ExtractDlg::Pattern:
+	case ExtractDlg::Selected:
+	  arch->unarchFile(); // extract selected files
+	  break;
+	case ExtractDlg::Current:
+	  {
+	    FileLVI *pItem = archiveContent->currentItem();
+	    if (pItem == 0)
+	      kdebug(0, 1601, "Can't seem to figure out which is current!");
+	    else
+	      {
+		arch->unarchFile(pItem->text(0)) ; // get the name
+	      }
+	  }
+	  break;
+	default:
+	  ASSERT(0);
+	  // never happens
+	  break;
+	}
+      delete dlg;
+    }
 }
 
 void ArkWidget::action_view()

@@ -184,8 +184,14 @@ void ArArch::extractTo( const QString & dest )
 	chdir( pwd );
 }
 
-QString ArArch::unarchFile( int pos, const QString & dest )
+QString ArArch::unarchFile(const QString & _filename )
 {
+  return "";
+}
+
+QString ArArch::unarchFile()
+{
+  QString dest = m_settings->getExtractDir();
 	QString ex, tmp, tmp2;
 	tmp = listing->at( pos );
 	tmp2 = tmp.right( (tmp.length())-(tmp.findRev('\t')+1) );

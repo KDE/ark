@@ -354,9 +354,16 @@ void TarArch::extractTo( const QString & dir )
 	cout << "Left extractTo" << endl;
 }
 
-/* untested */
-QString TarArch::unarchFile( int index, const QString & dest )
+QString TarArch::unarchFile(const QString & _filename )
 {
+  return "";
+}
+
+
+/* untested */
+QString TarArch::unarchFile()
+{
+  QString dest = m_settings->getExtractDir();
 	cout << "Entered unarchFile" << endl;
 	int pos;
 	QString tmp, name;

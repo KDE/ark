@@ -38,8 +38,8 @@ QString FileLVI::key(int column, bool ascending) const
     static QString s;
 
     QString columnName = parent->columnText(column);
-    if ( (columnName == QString("Size")) ||
-	 (columnName == QString("Length")))       
+    if ( (columnName == i18n(" Size ")) ||
+	 (columnName == i18n(" Length ")))       
     {
 	s.sprintf("%.10ld", atol(text(column)));
 	return s;

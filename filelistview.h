@@ -28,7 +28,7 @@ class FileListView : public QListView
 public:
 	FileListView(QWidget* parent = 0, const char* name = 0);
 	~FileListView();
-
+	FileLVI *currentItem() {return ((FileLVI *) QListView::currentItem());}
 	QStringList * selectedFilenames() const;
 	uint count();
 	bool isSelectionEmpty();

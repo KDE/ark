@@ -20,7 +20,8 @@ public:
 	virtual int addFile( QStringList *);
 	virtual void extractTo( const QString &);
 	virtual const QStringList *getListing();
-	virtual QString unarchFile( int, const QString &);
+	virtual QString unarchFile( const QString &);
+	virtual QString unarchFile();
 	virtual void deleteFile( int );
 
 private:

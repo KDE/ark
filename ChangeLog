@@ -1,3 +1,6 @@
+2000-02-09  : Emily Ezust <emilye@corel.com>
+	* Finally have Add and Extract working for zip
+
 2000-02-07:  Emily Ezust <emilye@corel.com>
 	* new locking scheme to prevent users from opening the same archive
 	  in two different windows. Handles symlinks. But I can't figure out

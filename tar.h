@@ -50,7 +50,8 @@ public:
 	virtual void extraction();
 	
 	const QStringList *getListing();
-	virtual QString unarchFile( int, const QString & );
+	virtual QString unarchFile( const QString & );
+	virtual QString unarchFile();
 	
 	virtual int getEditFlag();
 	
