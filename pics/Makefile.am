@@ -1,3 +1,2 @@
-datadir = $(kde_datadir)/ark/icons
-data_ICON = AUTO
-
+icondir = $(kde_datadir)/ark/icons
+icon_ICON = AUTO
