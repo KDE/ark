@@ -1,31 +1,31 @@
 //  -*- mode: c++; c-basic-offset: 4; -*-
 /*
- 
+
   ark -- archiver for the KDE project
- 
+
   Copyright (C)
- 
+
   2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
   2002: Helio Chissini de Castro <helio@conectiva.com.br>
   2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
   1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
   1999: Francois-Xavier Duranceau duranceau@kde.org
   1997-1999: Rob Palmbos palm9744@kettering.edu
- 
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
- 
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
- 
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- 
+
 */
 
 #ifndef ARKWIDGET_H
@@ -92,7 +92,7 @@ public:
      * @param _numColsToAlignRight Size of _rightAlignCols
      */
     void setHeaders( QStringList* _headers, int* _rightAlignCols, int _numColsToAlignRight );
-    
+
     /**
      * Clears all headers from the file list.
      */
@@ -107,8 +107,9 @@ public:
      * Miscellaneous tasks involved in closing an archive.
      */
     void closeArch();
-    
+
     virtual void setExtractOnly(bool extOnly) { m_extractOnly = extOnly; }
+    virtual void deleteAfterUse( const QString& path );
     bool allowedArchiveName( const KURL & u );
     bool file_save_as( const KURL & u );
     virtual KURL getSaveAsFileName();
@@ -195,6 +196,7 @@ private: // methods
     void updateStatusSelection();
     void updateStatusTotals();
     void addFile(QStringList *list);
+    void removeDownloadedFiles();
 
     // make sure that str is a local file/dir
     KURL toLocalFile(const KURL& url);
@@ -292,7 +294,7 @@ private: // data
 
     KRun *m_pKRunPtr;
 
-    QStringList *mpDownloadedList;
+    QStringList mpDownloadedList;
 
     bool m_bArchivePopupEnabled;
 

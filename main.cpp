@@ -84,6 +84,7 @@ extern "C" int kdemain( int argc, char *argv[]  )
 	
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( option );
+	KCmdLineArgs::addTempFileOption();
 	
 	kdDebug( 1601 ) << "Starting ark. argc=" << argc << "  First arg: " << (argc == 2 ? argv[1] : 0) << endl;
     if( argc > 2 )

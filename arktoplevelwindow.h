@@ -56,7 +56,7 @@ public:
 public slots:
     void file_newWindow();
     void file_new();
-    void openURL( const KURL & url );
+    void openURL( const KURL & url, bool tempFile = false );
     void file_open();
     void file_reload();
     void editToolbars();

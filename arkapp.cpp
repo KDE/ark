@@ -205,6 +205,7 @@ ArkApplication::newInstance()
     int i = 0;
     KURL url;
     bool doAutoExtract = args->isSet("extract");
+    bool tempFile = KCmdLineArgs::isTempFileSet();
     do
     {
         if (args->count() > 0)
@@ -219,7 +220,7 @@ ArkApplication::newInstance()
         }
         if (!url.isEmpty())
         {
-            arkWin->openURL(url);
+            arkWin->openURL(url, tempFile);
         }
 
         ++i;

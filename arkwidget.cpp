@@ -106,9 +106,9 @@ static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
 
 ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
         QVBox(parent, name), m_bBusy( false ), m_bBusyHold( false ),
-	m_extractOnly( false ), m_extractRemote(false), 
-	m_openAsMimeType(QString::null), m_pTempAddList(NULL), 
-	mpDownloadedList(NULL), m_bArchivePopupEnabled( false ), 
+	m_extractOnly( false ), m_extractRemote(false),
+	m_openAsMimeType(QString::null), m_pTempAddList(NULL),
+	m_bArchivePopupEnabled( false ),
 	m_convert_tmpDir( NULL ), m_convertSuccess( false ),
 	m_createRealArchTmpDir( NULL ),	m_extractRemoteTmpDir( NULL ),
 	m_modified( false ), m_searchToolBar( 0 ), m_searchBar( 0 ),
@@ -126,7 +126,7 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
 	                      << m_tmpDir->status() << "." << endl;
 	    m_tmpDir = NULL;
     }
-	
+
     m_searchToolBar = new KToolBar( this, "searchBar" );
     m_searchToolBar->boxLayout()->setSpacing( KDialog::spacingHint() );
 
@@ -138,7 +138,7 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
 
     if ( !Settings::showSearchBar() )
         m_searchToolBar->hide();
-    
+
     createFileListView();
 
     m_searchBar->setListView( archiveContent );
@@ -151,7 +151,6 @@ ArkWidget::~ArkWidget()
 {
     cleanArkTmpDir();
     ready();
-    delete mpDownloadedList;
     delete m_pTempAddList;
     delete archiveContent;
     archiveContent = 0;
@@ -161,13 +160,13 @@ ArkWidget::~ArkWidget()
 
 void ArkWidget::cleanArkTmpDir()
 {
+        removeDownloadedFiles();
 	if ( m_tmpDir )
 	{
 		m_tmpDir->unlink();
 		delete m_tmpDir;
 		m_tmpDir = NULL;
 	}
-	return;
 }
 
 void ArkWidget::setHeaders( QStringList* _headers, int * _rightAlignCols, int _numColsToAlignRight )
@@ -883,12 +882,12 @@ ArkWidget::extractOnlyOpenDone()
 
     Settings::setLastExtractDir( m_url.upURL().path() );
     Settings::setExtractDirMode( 2 ); // 2 means use custom dir
-    
+
     bool done = action_extract();
     // Extract should have started before this returns, so hopefully safe.
     Settings::setLastExtractDir( oldFixedExtractDir );
     Settings::setExtractDirMode( oldMode );
-    
+
     // last extract dir is still set, but this is not a problem
     if( !done )
     {
@@ -1318,14 +1317,7 @@ ArkWidget::slotAddDone(bool _bSuccess)
         file_open( u );
         emit setWindowCaption( u.path() );
     }
-    if (mpDownloadedList)
-    {
-        // is this necessary? Maybe risky. The tmp/ark.### directory
-        // will be removed anyhow...
-        KIO::del( *mpDownloadedList, false, false );
-        delete mpDownloadedList;
-        mpDownloadedList = NULL;
-    }
+    removeDownloadedFiles();
     fixEnables();
 }
 
@@ -1335,22 +1327,42 @@ KURL
 ArkWidget::toLocalFile( const KURL& url )
 {
     KURL localURL = url;
-    
+
     if(!url.isLocalFile())
     {
-        if(!mpDownloadedList)
-            mpDownloadedList = new QStringList();
-
 	QString strURL = url.prettyURL();
-	
+
         QString tempfile = tmpDir();
         tempfile += strURL.right(strURL.length() - strURL.findRev("/") - 1);
-        if( !KIO::NetAccess::dircopy(url, tempfile, this) )
+        deleteAfterUse(tempfile);  // remember for deletion
+        KURL tempurl; tempurl.setPath( tempfile );
+        if( !KIO::NetAccess::dircopy(url, tempurl, this) )
             return KURL();
-        mpDownloadedList->append(tempfile);        // remember for deletion
         localURL = tempfile;
     }
     return localURL;
+}
+
+void
+ArkWidget::deleteAfterUse( const QString& path )
+{
+    mpDownloadedList.append( path );
+}
+
+void
+ArkWidget::removeDownloadedFiles()
+{
+    if (!mpDownloadedList.isEmpty())
+    {
+        // It is necessary to remove those files even if tmpDir() is getting deleted:
+        // not all files in mpDownloadedList are from tmpDir() - e.g. when using --tempfile
+        // But of course we could decide to not add files from tmpDir() into mpDownloadedList.
+        QStringList::ConstIterator it = mpDownloadedList.begin();
+        QStringList::ConstIterator end = mpDownloadedList.end();
+        for ( ; it != end ; ++it )
+            QFile::remove( *it );
+        mpDownloadedList.clear();
+    }
 }
 
 void
@@ -2489,7 +2501,7 @@ void ArkWidget::slotShowSearchBarToggled( bool b )
 void ArkWidget::showSettings(){
   if(KConfigDialog::showDialog("settings"))
     return;
-  
+
   KConfigDialog *dialog = new KConfigDialog(this, "settings", Settings::self());
 
   General* genPage = new General(0, "General");
@@ -2506,7 +2518,7 @@ void ArkWidget::showSettings(){
 	  genPage->kcfg_KonquerorIntegration->setEnabled( false );
   else
 	  genPage->konqIntegrationLabel->setText( QString::null );
-  
+
   dialog->show();
 }
 

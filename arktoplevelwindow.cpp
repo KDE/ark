@@ -127,7 +127,7 @@ ArkTopLevelWindow::setupActions()
     KStdAction::quit(this, SLOT(window_close()), actionCollection());
     KStdAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
     KStdAction::keyBindings(this, SLOT( slotConfigureKeyBindings()), actionCollection());
-    
+
     openAction->setEnabled( true );
     recent->setEnabled( true );
     closeAction->setEnabled( false );
@@ -229,10 +229,13 @@ ArkTopLevelWindow::arkAlreadyOpen( const KURL & url )
 
 
 void
-ArkTopLevelWindow::openURL( const KURL & url )
+ArkTopLevelWindow::openURL( const KURL & url, bool tempFile )
 {
-    if( !arkAlreadyOpen( url ) )
+    if( !arkAlreadyOpen( url ) ) {
+        if ( tempFile && url.isLocalFile() )
+            m_widget->deleteAfterUse( url.path() );
         m_part->openURL( url );
+    }
 }
 
 KURL
@@ -429,7 +432,7 @@ ArkTopLevelWindow::addToArchive( const KURL::List & filesToAdd, const QString & 
         file_quit();
         return;
     }
-    
+
     startProgressDialog( i18n( "Compressing..." ) );
 
     bool exists = KIO::NetAccess::exists( archiveFile, false, m_widget );
@@ -449,7 +452,7 @@ ArkTopLevelWindow::startProgressDialog( const QString & text )
 
 //    progressDialog->setWFlags( Qt::WType_TopLevel );
 
-    progressDialog->setAllowCancel( false );    
+    progressDialog->setAllowCancel( false );
     progressDialog->setPlainCaption( i18n( "Please Wait" ) );
 
     progressDialog->progressBar()->setTotalSteps( 0 );
