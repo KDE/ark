@@ -338,8 +338,8 @@ void ZipArch::slotIntegrityExited(KProcess *_kp)
     {
       if(stderrIsError())
 	{
-	  KMessageBox::error( 0, i18n("You probably don't have sufficient permissions\n"
-				      "Please check the file owner and the integrity\n"
+	  KMessageBox::error( 0, i18n("You probably don't have sufficient permissions.\n"
+				      "Please check the file owner and the integrity "
 				      "of the archive.") );
 	}
     }
