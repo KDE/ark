@@ -1459,7 +1459,7 @@ void ArkWidget::action_add_dir() {
 
         KFileDialog addDirDlg( m_settings->getAddDir(), QString::null, this, "adddirdlg", true );
         addDirDlg.setMode( KFile::Mode( KFile::Directory ) );
-        addDirDlg.setCaption(i18n("Select a Directory to Add"));
+        addDirDlg.setCaption(i18n("Select Directory to Add"));
         addDirDlg.exec();
 
         KURL u( addDirDlg.selectedURL() );
