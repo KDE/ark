@@ -47,7 +47,7 @@ DISTCLEANFILES = $(BUILTSOURCES)
 
 # make messages.po. Move this one to ../po/ and "make merge" in po
 messages:
-	$(XGETTEXT) -C -ktranslate $(kzip_SOURCES)
+	$(XGETTEXT) -C -ktranslate -x../../kdelibs/po/kde.pot $(kzip_SOURCES) &&  mv messages.po ../po/kzip.pot
 
 # just install datas here. Use install-exec-data for scripts and etc.
 # the binary itself is already installed from automake
