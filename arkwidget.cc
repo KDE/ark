@@ -796,10 +796,12 @@ void ArkWidget::file_new()
   KURL url = getCreateFilename(i18n("Create a New Archive"),
 			       m_settings->getFilter());
   strFile = url.path();
-  m_settings->clearShellOutput();
-  file_close();
   if (!strFile.isEmpty())
-    createArchive( strFile );
+    {
+        m_settings->clearShellOutput();
+	file_close();
+	createArchive( strFile );
+    }
 }
 
 void ArkWidget::slotCreate(Arch * _newarch, bool _success,
