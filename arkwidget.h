@@ -127,6 +127,7 @@ protected slots:
   void slotCreate(Arch *, bool, const QString &, int);
   void slotDeleteDone(bool);
   void slotExtractDone();
+  void slotExtractRemoteDone(KIO::Job *job);
   void slotAddDone(bool);
   void slotEditFinished(KProcess *);
   void selectByPattern(const QString & _pattern);
@@ -155,6 +156,9 @@ private: // methods
   void updateStatusTotals();
 
   void addFile(QStringList *list);
+  
+  // make sure that str is a local file/dir
+  KURL toLocalFile( QString & str);
 
   // ask user whether to create a real archive from a compressed file
   // returns filename if so. Otherwise, empty.
@@ -236,6 +240,9 @@ private: // data
 
   // Set to true if we are doing an "Extract to Folder"
   bool m_extractOnly;
+
+  // Set to true if we are extracting to a remote location
+  bool m_extractRemote;
 
   // if they're dragging in files, this is the temporary list for when
   // we have to create an archive:

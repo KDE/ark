@@ -199,27 +199,23 @@ void ExtractDlg::accept() {
     kdDebug( 1601 ) << "+ExtractDlg::accept" << endl;
     
     KURLCompletion uc;
-    KURL p;
-    p.setPath( uc.replacedPath(  m_extractDirCB->currentText() ) );
+    KURL p( uc.replacedPath(  m_extractDirCB->currentText() ) );
+ 
+    //if p isn't local KIO and friends will complain later on
+    if ( p.isLocalFile() ){             
+        QFileInfo fi( p.path() );
+        if ( !fi.isDir() ) {
+            KMessageBox::error( this, i18n( "Please provide a valid directory" ) );
+            return;        
+         }
 
-    if ( ( !p.isLocalFile() ) ) {
-        KMessageBox::error( this, i18n( "Please provide a valid directory" ) );
-        return;
+        if ( !fi.isWritable() ) {
+            KMessageBox::error( this, i18n( "You do not have write permission to this directory! Please provide another directory." ) );
+            return;
+        }
     }
-
-    QFileInfo fi( p.path() );
-    if ( !fi.isDir() ) {
-        KMessageBox::error( this, i18n( "Please provide a valid directory" ) );
-        return;        
-    }
-
-    if ( !fi.isWritable() ) {
-        KMessageBox::error( this, i18n( "You do not have write permission to this directory! Please provide another directory." ) );
-        return;
-    }
-
     // you need to change the settings to change the fixed dir.
-    m_settings->setLastExtractDir( p.path() );
+    m_settings->setLastExtractDir( p.prettyURL() ); 
 
     if ( m_radioPattern->isChecked() ) {
         if ( m_patternLE->text().isEmpty() ) {
@@ -240,9 +236,14 @@ void ExtractDlg::accept() {
 
 void ExtractDlg::browse() // slot
 {
-    QString dirName
-        = KFileDialog::getExistingDirectory( m_settings->getExtractDir(), 0,
-                                             i18n( "Select an Extract Directory" ) );
+   KFileDialog extractDirDlg( m_settings->getExtractDir(), QString::null, this, "extractdirdlg", true );
+   extractDirDlg.setMode( KFile::Mode( KFile::Directory ) );
+   extractDirDlg.setCaption(i18n("Select an Extract Directory"));
+   extractDirDlg.exec();
+
+   KURL u( extractDirDlg.selectedURL() );
+   QString dirName = u.prettyURL(1);
+
     if (! dirName.isEmpty() )
     {
         m_extractDirCB->insertItem( dirName, 0 );
