@@ -21,6 +21,7 @@
 
 // C includes
 #include <unistd.h>
+#include <stdlib.h>
 
 // QT includes
 #include <qheader.h>
