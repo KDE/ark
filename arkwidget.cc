@@ -173,21 +173,21 @@ void ArkWidget::setupActions()
 
   (void)KStdAction::keyBindings();
 
-  shellOutputAction  = new KAction(i18n("&View shell output..."), 0, this,
+  shellOutputAction  = new KAction(i18n("&View shell output"), 0, this,
 				   SLOT(edit_view_last_shell_output()),
 				   actionCollection(), "shell_output");
 
   KStdAction::quit(this, SLOT(window_close()), actionCollection());
 
-  addFileAction = new KAction(i18n("&Add File"), "ark_addfile", 0, this,
+  addFileAction = new KAction(i18n("&Add File..."), "ark_addfile", 0, this,
 				SLOT(action_add()),
 				actionCollection(), "addfile");
 
-  addDirAction = new KAction(i18n("Add Di&r"), "ark_adddir", 0, this,
+  addDirAction = new KAction(i18n("Add Di&r..."), "ark_adddir", 0, this,
 				SLOT(action_add_dir()),
 				actionCollection(), "adddir");
 
-  extractAction = new KAction(i18n("&Extract"), "ark_extract", 0, this,
+  extractAction = new KAction(i18n("&Extract..."), "ark_extract", 0, this,
 				SLOT(action_extract()),
 				actionCollection(), "extract");
 
@@ -378,12 +378,9 @@ void ArkWidget::updateStatusTotals()
   if (m_nNumFiles == 0)
     strInfo = i18n("Total: 0 Files");
   else if (m_nNumFiles == 1)
-    strInfo = i18n("Total: 1 File %1 KB")
-      .arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
+    strInfo = i18n("Total: 1 File %1 KB").arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
   else
-    strInfo = i18n("Total: %1 Files %1 KB")
-      .arg(KGlobal::locale()->formatNumber(m_nNumFiles, 0))
-      .arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
+    strInfo = i18n("Total: %1 Files %1 KB").arg(KGlobal::locale()->formatNumber(m_nNumFiles, 0)).arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
   
   m_pStatusLabelTotal->setText(strInfo);
 }
@@ -393,24 +390,30 @@ void ArkWidget::updateStatusTotals()
 //////////////////////////////////////////////////////////////////////
 
 
-void ArkWidget::file_open(const QString & strFile)
+void ArkWidget::file_open(const QString & _strFile)
 {
+  QString strFile = _strFile;
+  KURL url = strFile;
+  if (strFile.left(7) == "http://" ||
+      strFile.left(6) == "ftp://")
+    {
+      KIO::NetAccess::download(url, strFile); 
+      m_settings->clearShellOutput();
+    }
   struct stat statbuffer;
   
-  if (stat(strFile, &statbuffer) == -1)
+  if (stat(strFile.local8Bit(), &statbuffer) == -1)
     {
       if (errno == ENOENT || errno == ENOTDIR || errno ==  EFAULT)
 	{
-	  QString x = "file:";
-	  QString errormesg = i18n("The archive ") + strFile +
-	    i18n(" does not exist");
-	  KMessageBox::error(this, errormesg);
+	  KMessageBox::error(this, i18n("The archive %1 does not exist.").arg(strFile.local8Bit()));
 	}
       else if (errno == EACCES)
 	{
-	  QString errormesg = i18n("Can't access the archive ") + strFile;
-	  KMessageBox::error(this, errormesg);
+	  KMessageBox::error(this, i18n("Can't access the archive %1").arg(strFile.local8Bit()));
 	}
+      else
+	KMessageBox::error(this, i18n("Unknown error."));
       return;
     }
   else
@@ -502,7 +505,8 @@ void ArkWidget::saveProperties()
 QString ArkWidget::getNewFileName()
 {
   KURL url = KFileDialog::getSaveURL(QString::null,
-				     m_settings->getFilter());
+				     m_settings->getFilter(),
+				     0, i18n("Create a New Archive"));
   QString strFile;
 
   if (!url.isEmpty())
@@ -615,6 +619,7 @@ QString ArkWidget::getCreateFilename()
 void ArkWidget::file_new()
 {
   QString strFile = getCreateFilename();
+  recent->addURL(strFile);
   m_settings->clearShellOutput();
   if (!strFile.isEmpty())
     createArchive( strFile );
@@ -667,17 +672,14 @@ void ArkWidget::file_open()
   QString strFile;
   url = KFileDialog::getOpenURL(m_settings->getOpenDir(),
 				m_settings->getFilter(), this);
-
   qApp->processEvents();
 
-  // do I have to remove this later if it's a temporary from net?
-  // Needs work. XXX
   if (!url.isEmpty())
     {
       KIO::NetAccess::download(url, strFile); 
       m_settings->clearShellOutput();
       recent->addURL(url);
-      file_open(strFile);  // note: assumes it is local for now
+      file_open(strFile);
     }
   kdDebug(1601) << "-ArkWidget::file_open" << endl;
 }
@@ -1674,14 +1676,11 @@ void ArkWidget::updateStatusSelection()
     }
   if (m_nNumSelectedFiles != 1)
     {
-      strInfo = i18n("%1 Files Selected %1 KB")
-	.arg(KGlobal::locale()->formatNumber(m_nNumSelectedFiles, 0))
-	.arg(KGlobal::locale()->formatNumber(m_nSizeOfSelectedFiles, 0));
+      strInfo = i18n("%1 Files Selected %1 KB").arg(KGlobal::locale()->formatNumber(m_nNumSelectedFiles, 0)).arg(KGlobal::locale()->formatNumber(m_nSizeOfSelectedFiles, 0));
     }
   else
     {
-    strInfo = i18n("1 File Selected %1 KB")
-      .arg(KGlobal::locale()->formatNumber(m_nSizeOfSelectedFiles, 0));
+    strInfo = i18n("1 File Selected %1 KB").arg(KGlobal::locale()->formatNumber(m_nSizeOfSelectedFiles, 0));
     }
   m_pStatusLabelSelect->setText(strInfo);
   fixEnables();

@@ -123,7 +123,8 @@ int ArkApplication::newInstance()
      {
         Zip = QFile::decodeName(arg);
      }
-     else
+     else if (QString(arg).left(7) != "http://" &&
+	      QString(arg).left(6) != "ftp://")
      {
         Zip = KCmdLineArgs::cwd() + "/" + QFile::decodeName(arg);
      }

@@ -42,7 +42,7 @@ ShellOutputDlg::ShellOutputDlg( ArkSettings *_data, QWidget *_parent,
 				const char *_name )
 	: QDialog( _parent, _name, true )
 {
-  setCaption( i18n("ark - Last shell output") );
+  setCaption( i18n("Shell Output") );
   QVBoxLayout *mainLayout = new QVBoxLayout( this, 10 );
 
   QMultiLineEdit *l1 = new QMultiLineEdit( this );
@@ -58,7 +58,7 @@ ShellOutputDlg::ShellOutputDlg( ArkSettings *_data, QWidget *_parent,
 
   mainLayout->addWidget( l1 );
 
-  QPushButton *close = new QPushButton( i18n("Dismiss"), this );
+  QPushButton *close = new QPushButton( i18n("Close"), this );
   close->setFixedSize( close->sizeHint() );
   connect( close, SIGNAL( clicked() ), SLOT( accept() ) );
   mainLayout->addWidget( close );
