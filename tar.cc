@@ -227,8 +227,8 @@ void TarArch::open()
   KTarGz2 *tarptr;
 
   if (!compressed || 
-      getUnCompressor() == QString("gunzip") ||
-      getUnCompressor() == QString("bunzip2"))
+      getUnCompressor() == QString("gunzip")
+    /* || getUnCompressor() == QString("bunzip2")*/)
     {
       tarptr = new KTarGz2(m_filename);
     }
