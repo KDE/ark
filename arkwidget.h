@@ -72,11 +72,8 @@ private:
 	KTabListBox *lb;
 	QStrList *listing;
 	QStrList *flisting;
-	KToolBar *tb;
-	KMenuBar *menu;
 	QDir *fav;
 	QFrame *f_main;
-	KStatusBar *sb;
 	QString tmpdir;
 	KFM *kfm;
 	bool contextRow;
@@ -84,10 +81,15 @@ private:
 	ArkData *data;
 	QTimer *statusBarTimer;
 	KAccel *accelerators;
+	QStrList recentFiles;
+	QPopupMenu *editMenu, *recentPopup;
+
 	void writeStatus(const QString text);
 	void clearCurrentArchive();
 	void arkWarning(const QString msg);
-	void setupMenus();
+	void setupMenuBar();
+	void setupStatusBar();
+	void setupToolBar();
 };
 
 #endif /* ARKWIDGET_H*/

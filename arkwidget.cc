@@ -1,4 +1,4 @@
-/* (c)1997 Robert Palmbos   See main.cc for license details */
+/* (c)1997 Robert Palmbos */
 /* Warning:  Uncommented spaghetti code next 500 lines */
 /* This is the main ark window widget */
 #include <sys/stat.h>
@@ -56,44 +56,15 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	windowList->setAutoDelete( FALSE );
 	windowList->append( this );
 
-	// Build the menu structure with keys accelerators
-	setupMenus();
+	// Build the ark UI
+	setupMenuBar();
+	setupStatusBar();
+	setupToolBar();
 
-	QPixmap pix;
-	QString pixpath;
-	
-	pixpath = kapp->kde_toolbardir().copy()+"/";
-	tb = new KToolBar( this, "toolbar" );
 
-	pix.load( pixpath+"fileopen.xpm" );
-	tb->insertButton( pix, 0, SIGNAL( clicked() ), this, SLOT( openZip() ), TRUE, i18n("Open"));
-
-	pix.load( pixpath+"home.xpm" );
-	tb->insertButton( pix, 3, SIGNAL( clicked() ), this, SLOT( showFavorite() ), TRUE, i18n("Goto Archive Dir..."));
-
-	pix.load( pixpath+"viewzoom.xpm" );
-	tb->insertButton( pix, 1, SIGNAL( clicked() ), this, SLOT( extractZip() ), TRUE, i18n("Extract To.."));
-	
-	tb->insertSeparator();
-	pix.load( pixpath+"exit.xpm" );
-	tb->insertButton( pix, 2, SIGNAL( clicked() ), this, SLOT( closeZip() ), TRUE, i18n("Exit"));
-
-	addToolBar( tb );
-	tb->setBarPos( KToolBar::Top );
-	enableToolBar( KToolBar::Show );
-
-	sb = new KStatusBar( this );
-	sb->insertItem( i18n( "Welcome to ark..." ), 0 );
-	setStatusBar( sb );
-	
-	statusBarTimer = new QTimer(this);
-	connect(statusBarTimer, SIGNAL(timeout()), SLOT(timeout()));
-
-	//f_main = new QFrame( this, "frame_0" );
 	lb = new KTabListBox( this );
 	lb->setSeparator( '\t' );
-//	QFont f( "courier", 12 );
-	//lb->setFont( f );
+
 	setView( lb );
 	connect( lb, SIGNAL( highlighted(int, int) ), this, SLOT( showFile(int, int) ) );
 	connect( lb, SIGNAL( popupMenu(int, int) ), this, SLOT( doPopup(int, int) ) );
@@ -103,10 +74,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	setCaption( kapp->getCaption() );
 	
 	setMinimumSize( 600, 400 );  // someday this won't be hardcoded
-	tb->show();
 	lb->show();
-	sb->show();
-	menu->show();
 	updateRects();
 	
 	kfm = new KFM;
@@ -120,19 +88,21 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	addonlynew = FALSE;
 	storefullpath = FALSE;
 	contextRow = false;
+	
+	writeStatus( i18n("Welcome to ark...") );
 }
 	
 ArkWidget::~ArkWidget()
 {
 	windowList->removeRef( this );
 	delete kfm;
-	delete menu;
-	delete sb;
 	delete lb;
-	delete tb;
+	delete recentPopup;
+	delete editMenu;
+	delete accelerators;
 }
 
-void ArkWidget::setupMenus()
+void ArkWidget::setupMenuBar()
 {
 	// KAccel initialization
 	accelerators = new KAccel(this);
@@ -155,6 +125,12 @@ void ArkWidget::setupMenus()
 
 	// File menu creation
 	QPopupMenu *filemenu = new QPopupMenu;
+	recentPopup = new QPopupMenu;
+	editMenu = new QPopupMenu;
+	QPopupMenu *optionsmenu = new QPopupMenu;
+
+	KMenuBar *menu = menuBar();
+
 	filemenu->insertItem( i18n( "New &Window..."), this, SLOT( newWindow() ) );
 	filemenu->insertSeparator();
 	id=filemenu->insertItem( i18n( "&New..." ), this, SLOT( createZip()) );
@@ -175,14 +151,12 @@ void ArkWidget::setupMenus()
 	accelerators->changeMenuAccel(filemenu, id, KAccel::Quit );
 
 	// Edit menu creation
-	QPopupMenu *editmenu = new QPopupMenu;
-	editmenu->insertItem( i18n( "E&xtract..."), this, SLOT( extractFile() ) );
-	editmenu->insertItem( i18n( "&View file"), this, SLOT( showFile() ) );
-	editmenu->insertSeparator();
-	editmenu->insertItem( i18n( "&Delete file"), this, SLOT( deleteFile() ) );
+	editMenu->insertItem( i18n( "E&xtract..."), this, SLOT( extractFile() ) );
+	editMenu->insertItem( i18n( "&View file"), this, SLOT( showFile() ) );
+	editMenu->insertSeparator();
+	editMenu->insertItem( i18n( "&Delete file"), this, SLOT( deleteFile() ) );
 
 	// Options menu creation
-	QPopupMenu *optionsmenu = new QPopupMenu;
 	optionsmenu->insertItem( i18n( "&Set Archive Directory..."), this, SLOT( getFav() ) );
 	optionsmenu->insertItem( i18n( "Set &Tar Executable..."), this, SLOT( getTarExe() ) );
 	optionsmenu->insertItem( i18n( "&File Adding Options..."), this, SLOT( getAddOptions() ) );
@@ -191,22 +165,53 @@ void ArkWidget::setupMenus()
 	// Help menu creation
 	QPopupMenu *helpmenu = kapp->getHelpMenu( true, "ark v0.5\n (c) 1997 Robert Palmbos" );
 
-	menu = new KMenuBar( this );
 	menu->insertItem( i18n( "&File"), filemenu );
-	menu->insertItem( i18n( "&Edit"), editmenu );
+	menu->insertItem( i18n( "&Edit"), editMenu );
 	menu->insertItem( i18n( "&Options"), optionsmenu );
 	menu->insertSeparator();
 	menu->insertItem( i18n( "&Help" ), helpmenu );
 	setMenu( menu );
 
-	pop = new KPopupMenu( i18n("File Operations") );
-	// QPopupMenu pop;
+	pop = new KPopupMenu();
+	pop->setTitle( i18n("File Operations") );
 	pop->insertItem( i18n("Extract..."), this, SLOT( extractFile() ) );
 	pop->insertItem( i18n("View file"), this, SLOT( showFile() ) );
 	pop->insertSeparator();
 	pop->insertItem( i18n("Delete file"), this, SLOT( deleteFile() ) );
 }
 
+void ArkWidget::setupStatusBar()
+{
+	KStatusBar *sb = statusBar();
+	sb->insertItem( "", 0 );
+	
+	statusBarTimer = new QTimer(this);
+	connect(statusBarTimer, SIGNAL(timeout()), SLOT(timeout()));
+}
+
+void ArkWidget::setupToolBar()
+{
+	QPixmap pix;
+	QString pixpath;
+	KToolBar *tb = toolBar();
+
+	pixpath = kapp->kde_toolbardir().copy()+"/";
+
+	pix.load( pixpath+"fileopen.xpm" );
+	tb->insertButton( pix, 0, SIGNAL( clicked() ), this, SLOT( openZip() ), TRUE, i18n("Open"));
+
+	pix.load( pixpath+"home.xpm" );
+	tb->insertButton( pix, 3, SIGNAL( clicked() ), this, SLOT( showFavorite() ), TRUE, i18n("Goto Archive Dir..."));
+
+	pix.load( pixpath+"viewzoom.xpm" );
+	tb->insertButton( pix, 1, SIGNAL( clicked() ), this, SLOT( extractZip() ), TRUE, i18n("Extract To.."));
+	
+	tb->insertSeparator();
+	pix.load( pixpath+"exit.xpm" );
+	tb->insertButton( pix, 2, SIGNAL( clicked() ), this, SLOT( closeZip() ), TRUE, i18n("Exit"));
+
+	tb->setBarPos( KToolBar::Top );
+}
 
 void ArkWidget::newWindow()
 {
@@ -371,7 +376,6 @@ void ArkWidget::showZip( QString name )
 		setupHeaders();
 		listing = (QStrList *)arch->getListing();
 		lb->appendStrList( listing );
-//		writeStatus( name.data() );
 	}else{
 		writeStatus( i18n( "Unknown archive format") );
 		lb->repaint();
@@ -414,7 +418,7 @@ void ArkWidget::showFavorite()
 	}
 	listing = flisting;
 	lb->appendStrList( listing );	
-	sb->changeItem( i18n( "Archive Directory"), 0 );
+	writeStatus( i18n( "Archive Directory") );
 }
 
 void ArkWidget::extractZip()
@@ -571,13 +575,13 @@ void ArkWidget::extractFile( int pos )
 			if( ret )
 			{
 				lb->clear();
-				sb->changeItem( listing->at(pos), 0 );
+				writeStatus( listing->at(pos) );
 				setupHeaders();
 				listing = (QStrList *)arch->getListing();
 				lb->appendStrList( listing );
 				gdest = new ExtractDlg( ExtractDlg::All );
 			}else{
-				sb->changeItem( i18n( "Unknown archive format"), 0 );
+				writeStatus( i18n( "Unknown archive format") );
 				delete arch;
 				arch = 0;
 				return;
@@ -618,6 +622,7 @@ void ArkWidget::deleteFile()
 	deleteFile( lb->currentItem() );
 } 
 
+
 void ArkWidget::deleteFile( int pos )
 {
 	if( pos != -1 && arch )
@@ -629,6 +634,7 @@ void ArkWidget::deleteFile( int pos )
 		lb->appendStrList( listing );
 	}
 }
+
 
 void ArkWidget::setupHeaders()
 {
@@ -661,27 +667,36 @@ void ArkWidget::setupHeaders()
 	free( h );
 }
 
+
+/**
+ * Writes a message in the status bar. 
+ * This message is visible during 5 seconds.
+ */
 void ArkWidget::writeStatus(const QString text)
 {
 	statusBarTimer->stop();
-	sb->changeItem(text, 0);
+	statusBar()->changeItem(text, 0);
 	statusBarTimer->start(5000,true);
 }
+
 
 void ArkWidget::clearCurrentArchive()
 {
 	setCaption("ark");
 }
 
+
 void ArkWidget::arkWarning(const QString msg)
 {
 	KMsgBox::message(this, ARK_WARNING, msg);
 }
 
+
 void ArkWidget::timeout()
 {
-	sb->changeItem("",0);
+	statusBar()->changeItem("",0);
 }
+
 
 void ArkWidget::options_keyconf()
 {
