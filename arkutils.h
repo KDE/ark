@@ -41,7 +41,7 @@ namespace ArkUtils
 {
   int getYear(int theMonth, int thisYear, int thisMonth);
   int getMonth(const char *strMonth);
-  QString fixYear(const char *strYear);
+  QString fixYear(const QString& strYear);
 
   QString getTimeStamp(const QString &month,
                        const QString &day,

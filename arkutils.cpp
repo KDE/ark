@@ -147,24 +147,27 @@ int ArkUtils::getYear(int theMonth, int thisYear, int thisMonth)
     return thisYear;
 }
 
-QString ArkUtils::fixYear(const char *strYear)
+QString ArkUtils::fixYear(const QString& strYear)
 {
   // returns 4-digit year by guessing from two-char year string.
   // Remember: this is used for file timestamps. There probably aren't any
   // files that were created before 1970, so that's our cutoff. Of course,
   // in 2070 we'll have some problems....
 
-  char fourDigits[5] = {0,0,0,0,0};
-  if (atoi(strYear) > 70)
-    {
-      strcpy(fourDigits, "19");
-    }
+  bool ok;
+  int y = strYear.toInt( &ok );
+
+  if ( ok )
+  {
+    if ( y > 70 )
+      y += 1900;
+    else
+      y += 2000;
+
+    return QString::number( y );
+  }
   else
-    {
-      strcpy(fourDigits, "20");
-    }
-  strlcat(fourDigits, strYear, sizeof(fourDigits));
-  return fourDigits;
+    return QString::null;
 }
 
 bool
