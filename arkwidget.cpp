@@ -1523,6 +1523,11 @@ ArkWidget::prepareViewFiles( const QStringList & fileList )
     QString destTmpDirectory;
     destTmpDirectory = tmpDir();
 
+    // Make sure to delete previous file already there...
+    for(QStringList::ConstIterator it = fileList.begin();
+        it != fileList.end(); ++it)
+        QFile::remove(destTmpDirectory + *it);
+
     QStringList * list = new QStringList( fileList );
     arch->unarchFile( list, destTmpDirectory, true);
     delete list;
