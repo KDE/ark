@@ -124,6 +124,7 @@ private: // data
     KProcess * m_pTmpProc2;
     KTar *tarptr;
     bool failed;
+    bool m_dotslash;
 };
 
 #endif /* TAR_H */

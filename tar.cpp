@@ -46,6 +46,7 @@
 
 // Qt includes
 #include <qdir.h>
+#include <qregexp.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -73,6 +74,7 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidget *_gui,
     m_pTmpProc( NULL ), m_pTmpProc2( NULL ), tarptr( NULL ), failed( false )
 {
     m_tmpDir = NULL;
+    m_dotslash = false;
     m_filesToAdd = m_filesToRemove = QStringList();
     kdDebug(1601) << "+TarArch::TarArch" << endl;
     m_archiver_program = m_settings->getTarCommand();
@@ -219,7 +221,12 @@ TarArch::open()
         QFile::remove(tmpfile); // just to make sure
     setHeaders();
 
+//  m_shellErrorData = "";
+    clearShellOutput();
     // might as well plunk the output of tar -tvf in the shell output window...
+    //
+    // Now it's essential - used later to decide whether pathnames in the
+    // tar archive are plain or start with "./"
     KProcess *kp = new KProcess;
 
     *kp << m_archiver_program;
@@ -334,6 +341,30 @@ void TarArch::openSecondCreateTempDone()
 
 void TarArch::slotListingDone(KProcess *_kp)
 {
+  const QString list = getLastShellOutput();
+  FileListView *flv = m_gui->fileList();
+  if (flv!=NULL && flv->count()>0)
+  {
+    const QString firstfile = ((FileLVI *) flv->firstChild())->fileName();
+    if (list.find(QRegExp(QString("\\s\\./%1[/\\n]").arg(firstfile)))>=0)
+    {
+      m_dotslash = true;
+      kdDebug(1601) << k_funcinfo << "archive has dot-slash" << endl;
+    }
+    else
+    {
+      if (list.find(QRegExp(QString("\\s%1[/\\n]").arg(firstfile)))>=0)
+      {
+        m_dotslash = false;
+        kdDebug(1601) << k_funcinfo << "archive doesn't have dot-slash" << endl;
+      }
+      else
+      {
+        kdDebug(1601) << k_funcinfo << "cannot match '" << firstfile << "' in listing!" << endl;
+      }
+    }
+  }
+
   delete _kp;
 }
 
@@ -742,7 +773,8 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
       for ( QStringList::Iterator it = _fileList->begin();
             it != _fileList->end(); ++it )
         {
-          *kp << (*it);/*.latin1() ;*/
+	    *kp << QString(m_dotslash ? "./" : "")+(*it);
+//	    *kp << (*it);/*.latin1() ;*/
         }
     }
 
@@ -788,8 +820,9 @@ void TarArch::removeCreateTempDone()
   QStringList::Iterator it = m_filesToRemove.begin();
   for ( ; it != m_filesToRemove.end(); ++it )
     {
-      kdDebug(1601) << *it << endl;
-      *kp << *it;
+        *kp << QString(m_dotslash ? "./" : "")+(*it);
+//      kdDebug(1601) << *it << endl;
+//      *kp << *it;
     }
   m_filesToRemove = QStringList();
 
