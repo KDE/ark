@@ -47,6 +47,6 @@ QString ArchiveEntry::mimeType()
 
 float ArchiveEntry::compressionRatio() const
 {
-  return ( m_size == 0 ? 0 : m_compressedSize/m_size );
+  return ( m_size == 0 ? 0.0 : 1.0 - ( float ) m_compressedSize/( float ) m_size );
 }
 

@@ -192,9 +192,15 @@ void ArkWidget::closeArch()
 void
 ArkWidget::updateStatusTotals()
 {
+  if ( arch )
+  {
     QString strInfo = i18n( "%n file,  %1", "%n files,  %1", arch->entries().count() )
                       .arg( KIO::convertSize( arch->totalSize() ) );
     emit setStatusBarText( strInfo );
+    return;
+  }
+
+  emit setStatusBarText( QString() );
 }
 
 void

@@ -49,7 +49,10 @@ ArkListViewItem::ArkListViewItem( const ArchiveEntry & entry, KListView * listVi
   setPixmap( nameColumn, mimeType->pixmap( KIcon::Small ) );
   setText( typeColumn, mimeType->comment() );
   setText( sizeColumn, KIO::convertSize( m_entry.size() ) );
+  setText( compressedSizeColumn, KIO::convertSize( m_entry.compressedSize() ) );
+  setText( ratioColumn, i18n( "%1%" ).arg( KGlobal::locale()->formatNumber( 100 * m_entry.compressionRatio(), 1 ) ) );
   setText( timeStampColumn, KGlobal::locale()->formatDateTime( m_entry.timeStamp() ) );
+  setText( crcColumn, QString::number( m_entry.crc(), 16 ) );
 }
 
 QString ArkListViewItem::key(int column, bool ascending) const

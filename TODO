@@ -1,11 +1,13 @@
 TODO
 -----
 
-Feature-wise:
-- Rename option
-- Behavior-compatibility with the Konqueror filemanager
+-> Get rid of ArkWidget, it does not make sense. Some parts of it (most of the actions) should
+   go to Archive, other parts should go to ArkPart.
 
-For KDE 4.0:
-- Use KArchive to handle archives
-- Add support for split files
-- Add support for more archive formats (ace, iso, rpm)
+-> Split Arch into Archive (generic class for archives) and another class with a name yet to be decided for
+   handling support for command-line archives.
+
+-> Improve error reporting.
+
+-> Clean up the Configuration Dialog. Most settings there do not make sense, and should either be trashed or
+   moved to somewhere where they make sense (some of them might go to the extraction dialog).
