@@ -27,6 +27,8 @@
 
 */
 
+#include <config.h>
+
 // C includes
 #include <stdio.h>
 #include <unistd.h>
@@ -97,7 +99,7 @@ bool LhaArch::processLine(const QCString &line)
   // make the time stamp sortable
   QString massagedTimeStamp = Utils::getTimeStamp(columns[6], columns[7],
 						  columns[8]);
-  strcpy(columns[6], massagedTimeStamp.ascii());
+  strlcpy(columns[6], massagedTimeStamp.ascii(), sizeof(columns[6]));
 
   kdDebug(1601) << "New timestamp is " << columns[6] << endl;
 

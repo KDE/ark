@@ -24,6 +24,8 @@
 
 */
 
+#include <config.h>
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -105,7 +107,7 @@ bool RarArch::processLine(const QCString &line)
 
   kdDebug(1601) << "Year is: " << year << "; Month is: " << columns[8] << "; Day is: " << columns[3] << "; Time is: " << columns[10] << endl;
 
-  strcpy(columns[3], timestamp.ascii());
+  strlcpy(columns[3], timestamp.ascii(), sizeof(columns[3]));
 
   kdDebug(1601) << "The actual file is " << filename << endl;
 
