@@ -69,13 +69,13 @@ public:
 
     bool isArchiveOpen() const { return m_bIsArchiveOpen; }
     int getNumFilesInArchive() const { return m_nNumFiles; }
-    
+
     int getArkInstanceId() const { return m_arkInstanceId; }
     void setArkInstanceId( int aid ) { m_arkInstanceId = aid; }
 
     void cleanArkTmpDir();
-    QString getArchName() const { return m_strArchName; }
-    
+    virtual QString getArchName() const { return m_strArchName; }
+
     const KURL& realURL() const { return m_realURL; }
     void setRealURL( const KURL& url ) { m_realURL = url; }
 
