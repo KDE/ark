@@ -236,7 +236,7 @@ ArkTopLevelWindow::getOpenURL( bool addOnly, const QString & caption,
     QHBoxLayout * l = new QHBoxLayout( forceFormatWidget );
 
     QLabel * label = new QLabel( forceFormatWidget );
-    label->setText( i18n( "Open &As:" ) );
+    label->setText( i18n( "Open &as:" ) );
     label->adjustSize();
 
     KComboBox * combo = new KComboBox( forceFormatWidget );

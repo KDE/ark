@@ -648,7 +648,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
     KFileDialog dlg( ":ArkSaveAsDialog", QString::null, this, "SaveAsDialog", true );
     dlg.setCaption( _caption );
     dlg.setOperationMode( KFileDialog::Saving );
-    dlg.setFilterMimeType( i18n( "Archive &Format:" ),
+    dlg.setFilterMimeType( i18n( "Archive &format:" ),
            ArchiveFormatInfo::self()->supportedMimeTypes( allowCompressed ),
            _defaultMimeType.isNull() ? KMimeType::mimeType( "application/x-tgz" )
                                      : KMimeType::mimeType( _defaultMimeType ) );
