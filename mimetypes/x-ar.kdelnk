@@ -11,6 +11,7 @@ Comment[fr]=Archives AR
 Comment[hr]=Ar Arhive
 Comment[pl]=Archiwum Ar
 Comment[ro]=Arhivã ar
+Comment[fi]=Ar -paketti
 Mimetype=application/x-ar
 Icon=tgz.xpm
 DefaultApp=ark

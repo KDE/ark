@@ -11,6 +11,7 @@ Comment[fr]=Archives LHA
 Comment[hr]=Lha Arhive
 Comment[sk]=LHA archívy
 Comment[ro]=Arhivã lha
+Comment[fi]=LHA -paketti
 Mimetype=application/x-lha
 DefaultApp=ark
 Icon=tgz.xpm

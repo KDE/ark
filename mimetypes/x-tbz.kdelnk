@@ -9,6 +9,7 @@ Comment[fr]=Archives bzip
 Comment[pl]=Archiwum Zip
 Comment[sk]=Bzipované Tar archívy
 Comment[ro]=Arhivã bzip
+Comment[fi]=Bzip pakattu tar paketti
 Mimetype=application/x-tbz
 DefaultApp=ark
 Icon=tgz.xpm
