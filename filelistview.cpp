@@ -38,6 +38,7 @@
 // KDE includes
 #include <klocale.h>
 #include <kdebug.h>
+#include <kglobalsettings.h>
 
 #include "filelistview.h"
 #include "arch.h"
@@ -183,36 +184,45 @@ bool FileListView::isSelectionEmpty()
 	return true;
 }
 
-void FileListView::contentsMousePressEvent(QMouseEvent *e)
+void 
+FileListView::contentsMousePressEvent(QMouseEvent *e)
 {
 	if(e->button()==QMouseEvent::LeftButton)
-	    m_bPressed = true;
+	{
+		m_bPressed = true;
+		presspos = e->pos();
+	}
 	
 	KListView::contentsMousePressEvent(e);
 }
 
-void FileListView::contentsMouseReleaseEvent(QMouseEvent *e)
+void 
+FileListView::contentsMouseReleaseEvent(QMouseEvent *e)
 {
 	m_bPressed = false;
 	KListView::contentsMouseReleaseEvent(e);
 }
 
-void FileListView::contentsMouseMoveEvent(QMouseEvent *e)
+void 
+FileListView::contentsMouseMoveEvent(QMouseEvent *e)
 {
 	if(!m_bPressed)
 	{
 		KListView::contentsMouseMoveEvent(e);
 	}
-	else
+	else if( ( presspos - e->pos() ).manhattanLength() > KGlobalSettings::dndEventDelay() )
 	{
 		m_bPressed = false;	// Prevent triggering again
 		if(isSelectionEmpty())
+		{
 			return;
+		}
 		QStringList *dragFiles = selectedFilenames();
 		m_pParent->setDragInProgress(true);
 		m_pParent->storeDragNames(*dragFiles);
 		kdDebug(1601) << "Drag Starting..." << endl;
 		m_pParent->prepareViewFiles(dragFiles);
+		KListView::contentsMouseMoveEvent(e);
 	}
 }
 
