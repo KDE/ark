@@ -62,6 +62,7 @@
 #include <ktrader.h>
 #include <kurl.h>
 #include <kpopupmenu.h>
+#include <kinputdialog.h>
 
 // settings
 #include "settings.h"
@@ -70,7 +71,6 @@
 #include "extraction.h"
 
 // ark includes
-#include "selectDlg.h"
 #include "archiveformatdlg.h"
 #include "extractdlg.h"
 #include "arkwidget.h"
@@ -79,7 +79,6 @@
 #include "archiveformatinfo.h"
 #include "compressedfile.h"
 #include "searchbar.h"
-#include "shellOutputDlg.h"
 #include "arkviewer.h"
 
 static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
@@ -191,10 +190,15 @@ void ArkWidget::closeArch()
 void
 ArkWidget::updateStatusTotals()
 {
+  m_nNumFiles = 0;
+  m_nSizeOfFiles = 0;
+
   if ( arch )
   {
-    QString strInfo = i18n( "%n file,  %1", "%n files,  %1", arch->entries().count() )
-                      .arg( KIO::convertSize( arch->totalSize() ) );
+    m_nNumFiles = arch->entries().count();
+    m_nSizeOfFiles = arch->totalSize();
+    QString strInfo = i18n( "%n file,  %1", "%n files,  %1", m_nNumFiles )
+                      .arg( KIO::convertSize( m_nSizeOfFiles ) );
     emit setStatusBarText( strInfo );
     return;
   }
@@ -967,40 +971,33 @@ ArkWidget::file_close()
 void
 ArkWidget::edit_select()
 {
-    SelectDlg *sd = new SelectDlg( this );
-    if ( sd->exec() )
-    {
-        QString exp = sd->getRegExp();
+  // User pressed the OK button?
+  bool ok;
+  // Gets selection RegExp from the user
+  // FIXME: Implement a Validator
+  QString input = KInputDialog::getText(  i18n(  "Selection" ), i18n(  "Select files:" ), QString::fromLatin1( "*" ), &ok, this );
 
-        QRegExp reg_exp( exp, true, true );
-        if (!reg_exp.isValid())
-            kdError(1601) <<
-            "ArkWidget::edit_select: regular expression is not valid." << endl;
-        else
-        {
-            // first deselect everything
-            m_view->clearSelection();
-            ArkListViewItem * flvi = (ArkListViewItem*) m_view->firstChild();
+  // If the user pressed OK
+  if ( ok )
+  {
+    QRegExp exp( input, true, true );
+    // The validator checked if that was a valid regexp before, so it is valid here, or we have a bug
+    Q_ASSERT( exp.isValid() );
+    // We don't want a selection change notification for each item selected
+    disconnect( m_view, SIGNAL( selectionChanged() ),
+                this, SLOT( slotSelectionChanged() ) );
 
+    m_view->select( exp );
 
-            // don't call the slot for each selection!
-            disconnect( m_view, SIGNAL( selectionChanged()),
-                        this, SLOT( slotSelectionChanged() ) );
+    // Restore the behavior
+    connect( m_view, SIGNAL( selectionChanged() ),
+             this, SLOT( slotSelectionChanged() ) );
+    // As slotSelectionChanged was not called, we must update selection status manually
+    updateStatusSelection();
 
-            while ( flvi )
-            {
-                if ( reg_exp.search(flvi->path()) == 0 )
-                {
-                    m_view->setSelected(flvi, true);
-                }
-                flvi = (ArkListViewItem*)flvi->itemBelow();
-            }
-            // restore the behavior
-            connect( m_view, SIGNAL( selectionChanged()),
-                     this, SLOT( slotSelectionChanged() ) );
-            updateStatusSelection();
-        }
-    }
+  }
+
+  return;
 }
 
 void

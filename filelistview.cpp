@@ -132,6 +132,24 @@ ArkView::ArkView( QWidget *parent, const char* name )
   setEnabled( false );
 }
 
+void ArkView::select( const QRegExp& regExp )
+{
+  // First, deselect everything that might be selected
+  clearSelection();
+
+  // Loops through all items, selecting the ones whose paths match the regular expression
+  ArkListViewItem *item = static_cast< ArkListViewItem* >( firstChild() );
+  while ( item )
+  {
+    if ( regExp.search( item->path() ) == 0 )
+    {
+      setSelected( item, true );
+    }
+    item = static_cast< ArkListViewItem* >( item->itemBelow() );
+  }
+
+}
+
 QStringList ArkView::selectedFilenames() const
 {
   QStringList files;

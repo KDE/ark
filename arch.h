@@ -55,7 +55,6 @@
 #include <qstring.h>
 #include <kurl.h>
 
-#include "filelistview.h"
 #include "archive.h"
 
 class QCString;

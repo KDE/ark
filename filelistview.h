@@ -41,6 +41,7 @@ class QPainter;
 class QColorGroup;
 class QMouseEvent;
 class QPoint;
+class QRegExp;
 
 class KListView;
 
@@ -88,16 +89,31 @@ class ArkView : public KListView
     ArkView( QWidget* parent = 0, const char* name = 0 );
     ArkListViewItem *currentItem() { return static_cast< ArkListViewItem * >( KListView::currentItem()); }
 
+    /**
+     * Selects all items matching a regular expression, and only them.
+     * @param regExp The regular expression that describes which items should be selected.
+     */
+    void select( const QRegExp& regExp );
+
     QStringList selectedFilenames() const;
+
+    /**
+     * Is the selection empty, or is there any item selected?
+     * @return true if no item is selected.
+     */
     bool isSelectionEmpty();
 
+    /**
+     * Sets the archive this view should show.
+     * @param archive Pointer to the archive that should be shown. A value of 0 means that this view should not be attached to an archive.
+     */
     void setArchive( Archive * archive = 0 );
 
-  public slots:
+  private slots:
     /**
-    * Adds a file and stats to the file listing
-    * @param entries A stringlist of the entries for each column of the list.
-    */
+     * Adds an entry to the listing
+     * @param entry The entry to be added
+     */
     void addItem( const ArchiveEntry & entry );
 
   signals:
