@@ -80,7 +80,7 @@ AddDlg::AddDlg(AddTypes type, const QString & _sourceDir, ArkSettings *settings,
 		connect(prefButton, SIGNAL(clicked()), this, SLOT(openPrefs()));
 	}
 	else
-		ASSERT(0);
+		Q_ASSERT(0);
 
 }
 

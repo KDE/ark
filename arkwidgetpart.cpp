@@ -104,7 +104,7 @@ bool Utilities::diskHasSpacePart(const QString &dir, long size)
   else
     {
     // something bad happened
-      ASSERT(0);
+      Q_ASSERT(0);
     }
   return true;
 }
@@ -350,7 +350,7 @@ bool ArkWidgetPart::reportExtractFailures(const QString & _dest,
 
   QApplication::restoreOverrideCursor();
 
-  ASSERT(_list != NULL);
+  Q_ASSERT(_list != NULL);
   QString strDestDir = _dest;
 
   // make sure the destination directory has a / at the end.
@@ -488,7 +488,7 @@ void ArkWidgetPart::action_extract()
 	    break;
 	  }
 	default:
-	  ASSERT(0);
+	  Q_ASSERT(0);
 	  // never happens
 	  break;
 	}

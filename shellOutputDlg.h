@@ -38,7 +38,9 @@ class ArkSettings;
 class ShellOutputWidget : public QMultiLineEdit {
 public:
   ShellOutputWidget( QDialog* _d ) : QMultiLineEdit( _d ) 
-    { setNumCols(80); };
+    { setWordWrap(FixedColumnWidth);
+      setWrapColumnOrWidth(80);
+     };
 };
 
 

@@ -248,7 +248,7 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 
   int ret = chdir(QFile::encodeName(dest));
  // I already checked the validity of the dir before coming here
-  ASSERT(ret == 0); 
+  Q_ASSERT(ret == 0); 
 
 
   QString tmp;

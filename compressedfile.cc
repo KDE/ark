@@ -239,8 +239,8 @@ void CompressedFile::addFile( QStringList *urls )
 
   kdDebug(1601) << "+CompressedFile::addFile" << endl;
 
-  ASSERT(m_gui->getNumFilesInArchive() == 0);
-  ASSERT(urls->count() == 1);
+  Q_ASSERT(m_gui->getNumFilesInArchive() == 0);
+  Q_ASSERT(urls->count() == 1);
 
   QString file = urls->first();
   if (file.left(5) == "file:")

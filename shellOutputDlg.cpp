@@ -53,11 +53,6 @@ ShellOutputDlg::ShellOutputDlg( ArkSettings *_data, QWidget *_parent,
   l1->setReadOnly( true );
   grid1->addMultiCellWidget(l1,0,8,0,4);
 
-  QFont my_font = KGlobalSettings::generalFont();
-  KGlobal::charsets()->setQFont(my_font, KGlobal::locale()->charset());
-
-  l1->setFont( my_font );
-
   l1->setText( *(_data->getLastShellOutput()) );
   l1->setCursorPosition(l1->numLines(), 0);
 
