@@ -50,7 +50,7 @@
 // ark includes
 #include "arkwidget.h"
 #include "arkwidget.moc"
-#include "deleteDlg.h"
+
 #include "dirDlg.h"
 #include "generalOptDlg.h"
 #include "selectDlg.h"
