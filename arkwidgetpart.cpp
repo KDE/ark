@@ -53,7 +53,7 @@ ArkWidgetPart::ArkWidgetPart( QWidget *parent, const char *name ) :
 	QWidget(parent, name), ArkWidgetBase( this ),
 	m_bViewInProgress(false), mpTempFile(0)
 {
-	setIconText("Ark Kparts");
+	setIconText(i18n("Ark Kparts"));
 	createFileListView();
 }
 
