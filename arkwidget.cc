@@ -456,7 +456,8 @@ void ArkWidget::file_save_as()
 
   QString strFile;
   QString extension, filter;
-  enum ArchType archtype = Arch::getArchType(m_strArchName, extension);
+  // Yes... again.
+  enum ArchType archtype = Arch::getArchType(m_strArchName, extension, m_url);
 
   filter = "*" + extension;
   KURL u;
@@ -467,7 +468,7 @@ void ArkWidget::file_save_as()
 	return;
       QString ext;
       strFile = u.path();
-      ArchType newArchType = Arch::getArchType(strFile, ext);
+      ArchType newArchType = Arch::getArchType(strFile, ext, u);
       if (newArchType == archtype)
 	break;
       // these types don't mind having no extension. Zip will add one, ulp!
@@ -491,7 +492,7 @@ void ArkWidget::slotSaveAsDone(KIO::Job * job)
   if (job->error())
     job->showErrorDialog();
   else
-    file_open(mSaveAsURL.path());
+    file_open(mSaveAsURL);
 }
 
 
@@ -515,7 +516,6 @@ void ArkWidget::file_open(const QString & strFile)
       else if (errno == EACCES)
 	{
 	  KMessageBox::error(this, i18n("Can't access the archive %1").arg(strFile.local8Bit()));
-	  recent->removeURL(strFile);
 	}
       else
 	KMessageBox::error(this, i18n("Unknown error."));
@@ -558,11 +558,12 @@ void ArkWidget::file_open(const QString & strFile)
     // see if the ark is already open in another window
   if (ArkApplication::getInstance()->isArkOpenAlready(strFile))
     {
+      // raise the window containing the already open archive
+      ArkApplication::getInstance()->raiseArk(strFile);
+
+      // MJ: Is this causing a wierd segfault? 
       // close this window
       window_close();
-
-	// raise the window containing the already open archive
-      ArkApplication::getInstance()->raiseArk(strFile);
 
       // notify the user what's going on
       KMessageBox::information(0, i18n("The archive %1 is already open and has been raised.\nNote: if the filename does not match, it only means that one of the two is a symbolic link.").arg(strFile));
@@ -574,7 +575,8 @@ void ArkWidget::file_open(const QString & strFile)
   if (isArchiveOpen())
     file_close();  // close old zip
 
-    // Set the current archive filename to the filename
+  // Set the current archive filename to the filename
+  // m_url is already set
   m_strArchName = strFile;
 
   // display the archive contents
@@ -687,7 +689,7 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
 
       QString temp;
       if (m_bMakeCFIntoArchiveInProgress &&
-	  Arch::getArchType(strFile, temp) == COMPRESSED_FORMAT)
+	  Arch::getArchType(strFile, temp, url) == COMPRESSED_FORMAT)
 	{
 	  KMessageBox::information(0, i18n("Sorry, you need to create an archive, not a new\ncompressed file. Please try again."));
 	  continue;
@@ -749,7 +751,7 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
       arch = _newarch;
       QString extension;
       m_bIsSimpleCompressedFile =
-	(Arch::getArchType(m_strArchName, extension) == COMPRESSED_FORMAT);
+	(m_archType == COMPRESSED_FORMAT);
       fixEnables();
       if (m_bMakeCFIntoArchiveInProgress)
 	{
@@ -792,6 +794,7 @@ void ArkWidget::file_open()
       {
           m_settings->clearShellOutput();
           recent->addURL(url);
+          m_url = url;
           file_open(strFile);
       }
     }
@@ -808,6 +811,7 @@ void ArkWidget::file_open(const KURL& url)
       file_close();  // close old arch. If we don't, our temp file is wrong!
     if (download(url, strFile))
     {
+	m_url = url;
         m_settings->clearShellOutput();
         kdDebug(1601) << "Recent open: " << strFile << endl;
         file_open(strFile);
@@ -819,7 +823,6 @@ void ArkWidget::file_open(const KURL& url)
 void ArkWidget::showZip( QString _filename )
 {
   kdDebug(1601) << "+ArkWidget::showZip" << endl;
-//  createFileListView();
   openArchive( _filename );
   kdDebug(1601) << "-ArkWidget::showZip" << endl;
 }
@@ -856,7 +859,7 @@ void ArkWidget::slotOpen(Arch *_newarch, bool _success,
 	m_bIsArchiveOpen = true;
 	QString extension;
 	m_bIsSimpleCompressedFile =
-	  (Arch::getArchType(m_strArchName, extension) == COMPRESSED_FORMAT);
+	  (m_archType == COMPRESSED_FORMAT);
 
 	ArkApplication::getInstance()->addOpenArk(_filename, this);
     }
@@ -1083,8 +1086,8 @@ void ArkWidget::fixEnables() // private
   bool bReadOnly = false;
   bool bAddDirSupported = true;
   QString extension;
-  enum ArchType archtype = Arch::getArchType(m_strArchName, extension);
-  if (archtype == ZOO_FORMAT || archtype == AA_FORMAT || archtype == COMPRESSED_FORMAT)
+  if (m_archType == ZOO_FORMAT || m_archType == AA_FORMAT
+      || m_archType == COMPRESSED_FORMAT)
     bAddDirSupported = false;
 
   if (arch)
@@ -1144,16 +1147,8 @@ void ArkWidget::file_close()
   kdDebug(1601) << "+ArkWidget::file_close" << endl;
   if (isArchiveOpen())
     {
-      delete arch;
-      arch = 0;
+      closeArch();
       setCaption(QString::null);
-      m_bIsArchiveOpen = false;
-
-      if (archiveContent)
-	{
-	  archiveContent->clear();
-	  clearHeaders();
-	}
       setCentralWidget(0);
       ArkApplication::getInstance()->removeOpenArk(m_strArchName);
       if (mpTempFile)
@@ -1168,6 +1163,7 @@ void ArkWidget::file_close()
       updateStatusSelection();
       fixEnables();
     }
+  else closeArch();
   kdDebug(1601) << "-ArkWidget::file_close" << endl;
 }
 
@@ -1467,7 +1463,7 @@ void ArkWidget::action_delete()
     return; // shouldn't happen - delete should have been disabled!
 
   QString extension;
-  bool bIsTar = Arch::getArchType(m_strArchName, extension) == TAR_FORMAT;
+  bool bIsTar = (TAR_FORMAT == m_archType);
   bool bDeletingDir = false;
   QStringList list;
   FileLVI* flvi = (FileLVI*)archiveContent->firstChild();
@@ -1640,9 +1636,7 @@ bool ArkWidget::reportExtractFailures(const QString & _dest,
 
 void ArkWidget::action_extract()
 {
-  QString extension;
-  ArchType archtype = Arch::getArchType(m_strArchName, extension);
-  ExtractDlg *dlg = new ExtractDlg(archtype, m_settings);
+  ExtractDlg *dlg = new ExtractDlg(m_settings);
 
   // if they choose pattern, we have to tell arkwidget to select
   // those files... once we're in the dialog code it's too late.
@@ -2196,8 +2190,10 @@ void ArkWidget::createArchive( const QString & _filename )
   // make sure we can write there
   Arch * newArch = 0;
   QString extension;
-  if(0 == (newArch = Arch::archFactory(Arch::getArchType(_filename, extension),
-     m_settings, this, _filename)))
+
+  ArchType archtype = Arch::getArchType(_filename, extension);  
+  if(0 == (newArch = Arch::archFactory(archtype, m_settings, this,
+           _filename)))
     {
       if (!badBzipName(_filename))
 	KMessageBox::error(this, i18n("Unknown archive format or corrupted archive") );
@@ -2209,6 +2205,8 @@ void ArkWidget::createArchive( const QString & _filename )
       KMessageBox::error(this, i18n("Sorry, the utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
       return;
     }
+
+  m_archType = archtype;
 
   connect( newArch, SIGNAL(sigCreate(Arch *, bool, const QString &, int)),
 	   this, SLOT(slotCreate(Arch *, bool, const QString &, int)) );
@@ -2241,8 +2239,9 @@ void ArkWidget::openArchive(const QString & _filename )
   Arch *newArch = 0;
 
   QString extension;
-  if(0 == (newArch = Arch::archFactory(Arch::getArchType(_filename, extension),
-     m_settings, this, _filename)))
+  ArchType archtype = Arch::getArchType(_filename, extension, m_url);
+  if(0 == (newArch = Arch::archFactory(archtype, m_settings, this,
+     _filename)))
     {
       if (!badBzipName(_filename))
 	{
@@ -2277,6 +2276,8 @@ void ArkWidget::openArchive(const QString & _filename )
       KMessageBox::error(this, i18n("Sorry, the utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
       return;
     }
+
+  m_archType = archtype;
 
   connect( newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
 	   this, SLOT(slotOpen(Arch *, bool, const QString &,int)) );

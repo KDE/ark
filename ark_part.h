@@ -69,7 +69,6 @@ class ArkPart: public KParts::ReadOnlyPart
 public:
     ArkPart(QWidget *parent = 0, const char *name = 0);
     virtual ~ArkPart();
-    virtual bool closeURL();
 
 protected:
     virtual bool openFile();  //Opening an archive file

@@ -27,6 +27,7 @@
 
 class QString;
 class QWidget;
+class KURL;
 class QResizeEvent;
 class KRun;
 class KTempFile;
@@ -50,9 +51,9 @@ public:
   void showZip( QString name );
 
 public slots:
-  void file_open(const QString &);  // opens the specified archive
-  void action_extract();   // extracts the specified archive
-  void action_view();      // views the specified file in an opened archive
+  void file_open(const QString &, const KURL &); 
+  void action_extract();
+  void action_view();
   void edit_view_last_shell_output();
 
 public: //data

@@ -50,7 +50,7 @@ class ExtractDlg : public KDialogBase
 {
   Q_OBJECT
 public:
-  ExtractDlg(ArchType _archtype, ArkSettings *_settings);
+  ExtractDlg(ArkSettings *_settings);
   enum ExtractOp{ All, Selected, Current, Pattern };
   int extractOp();
   void disableSelectedFilesOption();
@@ -71,7 +71,6 @@ private: // data
   QLineEdit *m_patternLE;
   QComboBox *m_extractDirCB;
   ArkSettings *m_settings;
-  ArchType m_archtype;
 };
 
 // this class is used for displaying the filenames that were not

@@ -22,6 +22,8 @@
 #ifndef ARKWIDGETBASE_H
 #define ARKWIDGETBASE_H
 
+#include <kurl.h>
+
 #include "arch.h"
 
 class QWidget;
@@ -31,6 +33,7 @@ class QStringList;
 class Arch;
 class FileListView;
 class ArkSettings;
+
 
 /**
 * Common functionality between ArkWidget and ArkWidgetPart, to avoid
@@ -45,6 +48,7 @@ public:
 
 	bool isArchiveOpen() const { return m_bIsArchiveOpen; }
 	QString getArchName() const { return m_strArchName; }
+	KURL getOriginalURL() const { return m_url; }
 	FileListView *fileList() const { return archiveContent; }
 	int getNumFilesInArchive() const { return m_nNumFiles; }
 	bool dragInProgress() const { return m_bDragInProgress; }
@@ -64,6 +68,7 @@ public:
 	void viewShellOutput();
 	void unarchFile(QStringList * _l) { arch->unarchFile(_l); }
 	void prepareViewFiles(QStringList *fileList);
+	void closeArch();
 
 protected:
 	ArkWidgetBase(QWidget *widget);
@@ -79,6 +84,8 @@ protected:
 	ArkSettings *m_settings;
 	FileListView *archiveContent;
 	QString m_strArchName;
+	KURL m_url;
+	ArchType m_archType;
 
 	int m_nSizeOfFiles;
 	int m_nSizeOfSelectedFiles;

@@ -155,16 +155,11 @@ ArkPart::~ArkPart(){}
 
 bool ArkPart::openFile()
 {
-    awidget->file_open(m_file);
+    awidget->file_open(m_file, m_url);
     m_viewAction->setEnabled(false);
     if(awidget->goodFileType==1)
       m_extractAction->setEnabled(true);
     return true;
-}
-
-bool ArkPart::closeURL()
-{
-    return ReadOnlyPart::closeURL();
 }
 
 void ArkPart::slotExtract()

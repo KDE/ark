@@ -55,6 +55,7 @@
 
 #include <qobject.h>
 #include <qlist.h>	// Some very annoying hackery in arkwidgetpart
+#include <kurl.h>
 
 class QString;
 class QCString;
@@ -137,7 +138,11 @@ public:
 
   QString getUtility() { return m_archiver_program; }
 
-  static ArchType getArchType(const QString &archname, QString &extension);
+  static ArchType getArchType(const QString &archname, QString &extension,
+                              const KURL &realURL = KURL());
+
+  static ArchType getArchTypeByExtension(const QString &archname,
+                                         QString & extension);
 
   static Arch *archFactory(ArchType aType, ArkSettings *settings,
 			   ArkWidgetBase *parent, const QString &filename);

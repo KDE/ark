@@ -53,9 +53,9 @@
 #define FIRST_PAGE_WIDTH  390
 #define DLG_NAME i18n("Extract")
 
-ExtractDlg::ExtractDlg(ArchType _archtype, ArkSettings *_settings) :
+ExtractDlg::ExtractDlg(ArkSettings *_settings) :
 	KDialogBase(KDialogBase::Plain, DLG_NAME, Ok | Cancel, Ok),
-	m_settings(_settings), m_archtype(_archtype)
+	m_settings(_settings)
 {
   QFrame *mainFrame = plainPage();
 

@@ -152,7 +152,7 @@ void ArkWidgetPart::updateStatusTotals()
 *
 *               display the archive file contents
 */
-void ArkWidgetPart::file_open(const QString & strFile)
+void ArkWidgetPart::file_open(const QString & strFile, const KURL &fileURL)
 {
   struct stat statbuffer;
 
@@ -196,6 +196,7 @@ void ArkWidgetPart::file_open(const QString & strFile)
 
   // see if the user is just opening the same file that's already
   // open (erm...)
+	// TODO: Is this relevant with a part that'll likely use temp files?
 
   if (strFile == m_strArchName && m_bIsArchiveOpen)
     {
@@ -207,6 +208,7 @@ void ArkWidgetPart::file_open(const QString & strFile)
 
     // Set the current archive filename to the filename
   m_strArchName = strFile;
+	m_url = fileURL;
 
   // display the archive contents
   showZip(strFile);
@@ -260,8 +262,7 @@ void ArkWidgetPart::slotOpen(Arch *_newarch, bool _success,
 	updateStatusTotals();
 	m_bIsArchiveOpen = true;
 	QString extension;
-	m_bIsSimpleCompressedFile =
-	  (Arch::getArchType(m_strArchName, extension) == COMPRESSED_FORMAT);
+	m_bIsSimpleCompressedFile = (COMPRESSED_FORMAT == m_archType);
     }
   QApplication::restoreOverrideCursor();
 }
@@ -314,18 +315,11 @@ void ArkWidgetPart::slotExtractDone()
 */
 void ArkWidgetPart::file_close()
 {
+  closeArch();
   if (isArchiveOpen())
     {
-      delete arch;
-      arch = 0;
+      closeArch();
       setCaption(QString::null);
-      m_bIsArchiveOpen = false;
-
-      if (archiveContent)
-	{
-	  archiveContent->clear();
-	  clearHeaders();
-	}
       if (mpTempFile)
 	{
 	  mpTempFile->unlink();
@@ -335,6 +329,7 @@ void ArkWidgetPart::file_close()
       updateStatusTotals();
       updateStatusSelection();
     }
+  else closeArch();
 }
 
 
@@ -410,9 +405,7 @@ bool ArkWidgetPart::reportExtractFailures(const QString & _dest,
 */
 void ArkWidgetPart::action_extract()
 {
-  QString extension;
-  ArchType archtype = Arch::getArchType(m_strArchName, extension);
-  ExtractDlg *dlg = new ExtractDlg(archtype, m_settings);
+  ExtractDlg *dlg = new ExtractDlg(m_settings);
 
   // if they choose pattern, we have to tell arkwidgetpart to select
   // those files... once we're in the dialog code it's too late.
@@ -656,9 +649,11 @@ void ArkWidgetPart::openArchive(const QString & _filename )
   QString extension;
     
   goodFileType=1;
-  //create Arch object accorting to the archive file type
-  if(0 == (newArch = Arch::archFactory(Arch::getArchType(_filename, extension),
-     m_settings, this, _filename)))
+  // create Arch object accorting to the archive file type
+	// use m_url to make a more intelligent guess at fileType
+  m_archType = Arch::getArchType(_filename, extension, m_url);
+  if(0 == (newArch = Arch::archFactory(m_archType, m_settings, this,
+     _filename)))
   {
       if (!badBzipName(_filename))
 	{

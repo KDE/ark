@@ -511,104 +511,125 @@ Arch *Arch::archFactory(ArchType aType, ArkSettings *settings,
 	}
 }
 
-ArchType Arch::getArchType( const QString & archname, QString &extension)
+ArchType Arch::getArchType(const QString &archname, QString &extension,
+                           const KURL &realURL)
 {
-  if ((archname.right(4) == ".tgz") || (archname.right(4) == ".tzo")
-       || (archname.right(4) == ".taz")
-       || (archname.right(4) == ".tar"))
-    {
-      extension = archname.right(4);
-      return TAR_FORMAT;
-    }
-  /* Patch by Matthias Belitz for handling KOffice docs */
-/*  if ((archname.right(4) == ".kil") || (archname.right(4) == ".kwd")
-       || (archname.right(4) == ".kwt")
-       || (archname.right(4) == ".ksp") || (archname.right(4) == ".kpr")
-       || (archname.right(4) == ".kpt"))
-    {
-      extension = archname.right(4);
-      return TAR_FORMAT;
-    }*/
-  if (archname.right(6) == ".tar.Z")
-    {
-      extension = ".tar.Z";
-      return TAR_FORMAT;
-    }
-  if ((archname.right(7) == ".tar.gz")
-      || (archname.right(7) == ".tar.bz"))
-    {
-      extension = archname.right(7);
-      return TAR_FORMAT;
-    }
-  if ((archname.right(8) == ".tar.bz2")
-      || (archname.right(8) == ".tar.lzo"))
-    {
-      extension = archname.right(8);
-      return TAR_FORMAT;
-    }
-  if ((archname.right(4) == ".lha") || (archname.right(4) == ".lzh"))
-    {
-      extension = archname.right(4);
-      return LHA_FORMAT;
-    }
-  if ((archname.right(4) == ".zip") || (archname.right(4) == ".xpi"))
-    {
-      extension = archname.right(4);
-      return ZIP_FORMAT;
-    }
-  if ((archname.right(3) == ".gz") || (archname.right(3) == ".bz"))
-    {
-      extension = archname.right(3);
-      return COMPRESSED_FORMAT;
-    }
-  if ((archname.right(4) == ".bz2") || (archname.right(4) == ".lzo"))
-    {
-      extension = archname.right(4);
-      return COMPRESSED_FORMAT;
-    }
-  if (archname.right(2) == ".Z")
-    {
-      extension = ".Z";
-      return COMPRESSED_FORMAT;
-    }
-  if (archname.right(4) == ".zoo")
-    {
-      extension = ".zoo";
-      return ZOO_FORMAT;
-    }
-  if (archname.right(4) == ".rar")
-    {
-      extension = ".rar";
-      return RAR_FORMAT;
-    }
-  if (archname.right(2) == ".a")
-    {
-      extension = ".a";
-      return AA_FORMAT;
-    }
+  // Get the non-temporary name. Since we don't actually open anything
+  // with it, the path information is irrelevant
+  QString fileName = realURL.isEmpty() ? archname : realURL.filename();
 
-  // now try using magic
+  ArchType extType = getArchTypeByExtension(fileName, extension);
+  
+  if(UNKNOWN_FORMAT == extType)
+  {
+    // now try using magic
+    KMimeMagic *mimePtr = KMimeMagic::self();
+    KMimeMagicResult * mimeResultPtr = mimePtr->findFileType(archname);
+    QString mimetype = mimeResultPtr->mimeType();
+    extension = QString::null;
 
-  KMimeMagic *mimePtr = KMimeMagic::self();
-  KMimeMagicResult * mimeResultPtr = mimePtr->findFileType(archname);
-  QString mimetype = mimeResultPtr->mimeType();
-  extension = QString::null;
+    kdDebug(1601) << "The mime type is " << mimetype << endl;
 
-  kdDebug(1601) << "The mime type is " << mimetype << endl;
+    if (mimetype == "application/x-rar")
+      extType = RAR_FORMAT;
+    if (mimetype == "application/x-lha")
+      extType = LHA_FORMAT;
+    if (mimetype == "application/x-archive")
+      extType = AA_FORMAT;
+    if (mimetype == "application/x-tar")
+      extType = TAR_FORMAT;
+    if (mimetype == "application/x-zip")
+      extType = ZIP_FORMAT;
+  }
 
-  if (mimetype == "application/x-rar")
-    return RAR_FORMAT;
-  if (mimetype == "application/x-lha")
-    return LHA_FORMAT;
-  if (mimetype == "application/x-archive")
-    return AA_FORMAT;
-  if (mimetype == "application/x-tar")
-    return TAR_FORMAT;
-  if (mimetype == "application/x-zip")
-    return ZIP_FORMAT;
-  return UNKNOWN_FORMAT;
+  return extType;
 }
 
+
+/**
+* Try to determine the archive type by the extension. We separate
+* this functionality out, to make it as easy to use as the MIME
+* magic.
+*/
+ArchType Arch::getArchTypeByExtension(const QString &archname,
+                                      QString &extension)
+{
+	if ((archname.right(4) == ".tgz") || (archname.right(4) == ".tzo")
+	    || (archname.right(4) == ".taz")
+	    || (archname.right(4) == ".tar"))
+	{
+		extension = archname.right(4);
+		return TAR_FORMAT;
+	}
+	/* Patch by Matthias Belitz for handling KOffice docs */
+	/*  if ((archname.right(4) == ".kil") || (archname.right(4) == ".kwd")
+	     || (archname.right(4) == ".kwt")
+	     || (archname.right(4) == ".ksp") || (archname.right(4) == ".kpr")
+	     || (archname.right(4) == ".kpt"))
+	{
+		extension = archname.right(4);
+		return TAR_FORMAT;
+	}*/
+	if (archname.right(6) == ".tar.Z")
+	{
+		extension = ".tar.Z";
+		return TAR_FORMAT;
+	}
+	if ((archname.right(7) == ".tar.gz")
+	    || (archname.right(7) == ".tar.bz"))
+	{
+		extension = archname.right(7);
+		return TAR_FORMAT;
+	}
+	if ((archname.right(8) == ".tar.bz2")
+	    || (archname.right(8) == ".tar.lzo"))
+	{
+		extension = archname.right(8);
+		return TAR_FORMAT;
+	}
+	if ((archname.right(4) == ".lha") || (archname.right(4) == ".lzh"))
+	{
+		extension = archname.right(4);
+		return LHA_FORMAT;
+	}
+	if ((archname.right(4) == ".zip") || (archname.right(4) == ".xpi"))
+	{
+		extension = archname.right(4);
+		return ZIP_FORMAT;
+	}
+	if ((archname.right(3) == ".gz") || (archname.right(3) == ".bz"))
+	{
+		extension = archname.right(3);
+		return COMPRESSED_FORMAT;
+	}
+	if ((archname.right(4) == ".bz2") || (archname.right(4) == ".lzo"))
+	{
+		extension = archname.right(4);
+		return COMPRESSED_FORMAT;
+	}
+	if (archname.right(2) == ".Z")
+	{
+		extension = ".Z";
+		return COMPRESSED_FORMAT;
+	}
+	if (archname.right(4) == ".zoo")
+	{
+		extension = ".zoo";
+		return ZOO_FORMAT;
+	}
+	if (archname.right(4) == ".rar")
+	{
+		extension = ".rar";
+		return RAR_FORMAT;
+	}
+	if (archname.right(2) == ".a")
+	{
+		extension = ".a";
+		return AA_FORMAT;
+	}
+
+	return UNKNOWN_FORMAT;
+}
 
 
 #include "arch.moc"

@@ -41,10 +41,10 @@
 
 
 // Protected - so the average Joe can't instantize
-ArkWidgetBase::ArkWidgetBase(QWidget *widget) : m_widget(widget),
-	arch(0), m_settings(0), archiveContent(0), m_nSizeOfFiles(0),
-	m_nSizeOfSelectedFiles(0),
-	m_nNumFiles(0), m_nNumSelectedFiles(0),
+ArkWidgetBase::ArkWidgetBase(QWidget *widget)
+	: m_widget(widget), arch(0), m_settings(0), archiveContent(0),
+	m_archType(UNKNOWN_FORMAT), m_nSizeOfFiles(0),
+	m_nSizeOfSelectedFiles(0), m_nNumFiles(0), m_nNumSelectedFiles(0),
 	m_bIsArchiveOpen(false), m_bIsSimpleCompressedFile(false),
 	m_bDragInProgress(false), m_bDropSourceIsSelf(false),
 	m_extractList(0)
@@ -203,5 +203,25 @@ void ArkWidgetBase::viewShellOutput()
 void ArkWidgetBase::prepareViewFiles(QStringList *fileList)
 {
       arch->unarchFile(fileList, m_settings->getTmpDir(), true);
+}
+
+
+/**
+* Miscellaneous tasks involved in closing an archive.
+*/
+void ArkWidgetBase::closeArch()
+{
+	if(isArchiveOpen())
+	{
+		delete arch;
+		arch = 0;
+		m_bIsArchiveOpen = false;
+	}
+	
+	if (0 != archiveContent)
+	{
+		archiveContent->clear();
+		clearHeaders();
+	}
 }
 
