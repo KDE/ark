@@ -41,26 +41,26 @@
 #include "dirDlg.h"
 #include "generalOptDlg.h"
 
-#define DLG_NAME i18n("Settings")
-#define TAB_ADD_NAME i18n("Addi&ng")
-#define TAB_EXTRACT_NAME i18n("&Extracting")
-#define TAB_PATH_NAME i18n("&Directories")
+#define DLG_NAME I18N_NOOP("Settings")
+#define TAB_ADD_NAME I18N_NOOP("Addi&ng")
+#define TAB_EXTRACT_NAME I18N_NOOP("&Extracting")
+#define TAB_PATH_NAME I18N_NOOP("&Directories")
 
-#define GRP_ADDSET i18n("Add Settings")
-#define GRP_EXTRACTSET i18n("Extract Settings")
+#define GRP_ADDSET I18N_NOOP("Add Settings")
+#define GRP_EXTRACTSET I18N_NOOP("Extract Settings")
 
-#define OPT_REPLACE_NEWER i18n("Replace old files only &with newer files")
-#define OPT_MAKEGENERIC i18n("Keep entries &generic (Lha)")
-#define OPT_DOS_FILENAMES i18n("Force &MS-DOS short filenames (Zip)")
-#define OPT_CONV_CRLF i18n("Translate &LF to DOS CRLF (Zip)")
-#define OPT_RECURSE_SUBDIRS i18n("&Recursively add subdirectories (Zip, Rar)")
-#define OPT_STORE_SYMLINKS i18n("&Store symlinks as links (Zip, Rar)")
+#define OPT_REPLACE_NEWER I18N_NOOP("Replace old files only &with newer files")
+#define OPT_MAKEGENERIC I18N_NOOP("Keep entries &generic (Lha)")
+#define OPT_DOS_FILENAMES I18N_NOOP("Force &MS-DOS short filenames (Zip)")
+#define OPT_CONV_CRLF I18N_NOOP("Translate &LF to DOS CRLF (Zip)")
+#define OPT_RECURSE_SUBDIRS I18N_NOOP("&Recursively add subdirectories (Zip, Rar)")
+#define OPT_STORE_SYMLINKS I18N_NOOP("&Store symlinks as links (Zip, Rar)")
 
-#define OPT_OVERWRITE i18n("O&verwrite files (Zip, Tar, Zoo, Rar)")
-#define OPT_PRESERVEPERMS i18n("&Preserve permissions (Tar)")
-#define OPT_DISCARDPATHS i18n("&Ignore directory names (Zip)")
-#define OPT_TOLOWER i18n("Convert filenames to &lowercase (Zip, Rar)")
-#define OPT_TOUPPER i18n("Convert filenames to &uppercase (Rar)")
+#define OPT_OVERWRITE I18N_NOOP("O&verwrite files (Zip, Tar, Zoo, Rar)")
+#define OPT_PRESERVEPERMS I18N_NOOP("&Preserve permissions (Tar)")
+#define OPT_DISCARDPATHS I18N_NOOP("&Ignore directory names (Zip)")
+#define OPT_TOLOWER I18N_NOOP("Convert filenames to &lowercase (Zip, Rar)")
+#define OPT_TOUPPER I18N_NOOP("Convert filenames to &uppercase (Rar)")
 
 // little helper:
 static inline QPixmap loadIcon( const char * name ) {
@@ -70,40 +70,40 @@ static inline QPixmap loadIcon( const char * name ) {
 }
 
 GeneralOptDlg::GeneralOptDlg(ArkSettings *_d, QWidget *_parent, const char *_name)
-	: KDialogBase(IconList, DLG_NAME, Ok | Apply | Cancel, Ok,
+	: KDialogBase(IconList, i18n(DLG_NAME), Ok | Apply | Cancel, Ok,
 		      _parent, _name, true, true)
 {
     m_settings = _d;
     QFrame *frame;
-    
+
     frame = addPage( i18n( "Addition" ), i18n( "File Addition Settings" ),
                      loadIcon( "ark_addfile" ) );
     createAddTab( frame );
-    
+
     frame = addPage( i18n( "Extraction" ), i18n( "Extraction Settings" ),
                      loadIcon( "ark_extract" ) );
     createExtractTab( frame );
-    
+
     frame = addPage( i18n( "Directories" ), i18n( "Directory Settings" ),
                      loadIcon( "folder" ) );
-    createDirectoryTab( frame );	
+    createDirectoryTab( frame );
 }
 
 void GeneralOptDlg::createAddTab( QFrame *parent ) {
-    //QVBox *addFrame = addVBoxPage(TAB_ADD_NAME);
+    //QVBox *addFrame = addVBoxPage(i18n(TAB_ADD_NAME));
     QFrame *addFrame( parent );
-    
+
     QVBoxLayout *layout = new QVBoxLayout(parent);
-    
-    QGroupBox *addSet = new QGroupBox(1, Horizontal, GRP_ADDSET, addFrame);
+
+    QGroupBox *addSet = new QGroupBox(1, Horizontal, i18n(GRP_ADDSET), addFrame);
     layout->addWidget( addSet );
-    
-    m_cbReplaceOnlyWithNewer = new QCheckBox(OPT_REPLACE_NEWER, addSet);
-    m_cbMakeGeneric = new QCheckBox(OPT_MAKEGENERIC, addSet);
-    m_cbForceMS = new QCheckBox(OPT_DOS_FILENAMES, addSet);
-    m_cbConvertCRLF = new QCheckBox(OPT_CONV_CRLF, addSet);
-    m_cbStoreSymlinks = new QCheckBox(OPT_STORE_SYMLINKS, addSet);
-    m_cbRecurseSubdirs = new QCheckBox(OPT_RECURSE_SUBDIRS, addSet);
+
+    m_cbReplaceOnlyWithNewer = new QCheckBox(i18n(OPT_REPLACE_NEWER), addSet);
+    m_cbMakeGeneric = new QCheckBox(i18n(OPT_MAKEGENERIC), addSet);
+    m_cbForceMS = new QCheckBox(i18n(OPT_DOS_FILENAMES), addSet);
+    m_cbConvertCRLF = new QCheckBox(i18n(OPT_CONV_CRLF), addSet);
+    m_cbStoreSymlinks = new QCheckBox(i18n(OPT_STORE_SYMLINKS), addSet);
+    m_cbRecurseSubdirs = new QCheckBox(i18n(OPT_RECURSE_SUBDIRS), addSet);
 
     layout->addStretch();
 
@@ -113,17 +113,17 @@ void GeneralOptDlg::createAddTab( QFrame *parent ) {
 }
 
 void GeneralOptDlg::createExtractTab( QFrame *parent ) {
-    QFrame *exFrame( parent );// = addVBoxPage(TAB_EXTRACT_NAME);
+    QFrame *exFrame( parent );// = addVBoxPage(i18n(TAB_EXTRACT_NAME));
     QVBoxLayout *layout = new QVBoxLayout(exFrame);
-    
-    QGroupBox *exSet = new QGroupBox(1, Horizontal, GRP_EXTRACTSET, exFrame);
+
+    QGroupBox *exSet = new QGroupBox(1, Horizontal, i18n(GRP_EXTRACTSET), exFrame);
     layout->add( exSet );
-    
-    m_cbOverwrite = new QCheckBox(OPT_OVERWRITE, exSet);
-    m_cbPreservePerms = new QCheckBox(OPT_PRESERVEPERMS, exSet);
-    m_cbDiscardPathnames = new QCheckBox(OPT_DISCARDPATHS, exSet);
-    m_cbToLower = new QCheckBox(OPT_TOLOWER, exSet);
-    m_cbToUpper = new QCheckBox(OPT_TOUPPER, exSet);
+
+    m_cbOverwrite = new QCheckBox(i18n(OPT_OVERWRITE), exSet);
+    m_cbPreservePerms = new QCheckBox(i18n(OPT_PRESERVEPERMS), exSet);
+    m_cbDiscardPathnames = new QCheckBox(i18n(OPT_DISCARDPATHS), exSet);
+    m_cbToLower = new QCheckBox(i18n(OPT_TOLOWER), exSet);
+    m_cbToUpper = new QCheckBox(i18n(OPT_TOUPPER), exSet);
 
     layout->addStretch();
 
@@ -133,7 +133,7 @@ void GeneralOptDlg::createExtractTab( QFrame *parent ) {
 }
 
 void GeneralOptDlg::createDirectoryTab( QFrame *parent ) {
-    QFrame *dirFrame( parent );// = addPage(TAB_PATH_NAME);
+    QFrame *dirFrame( parent );// = addPage(i18n(TAB_PATH_NAME));
     QVBoxLayout *layout = new QVBoxLayout(dirFrame);
 
     // Modified the old dirdlg to inherit widget instead of QDialog

@@ -40,7 +40,7 @@ KAboutData *ArkPart::createAboutData()
                                        "1.0",
                                        I18N_NOOP("Ark KParts Component"),
                                        KAboutData::License_GPL,
-                                       "(c) 1997-2001, The Various Ark Developers");
+                                       I18N_NOOP("(c) 1997-2003, The Various Ark Developers"));
 	 
     about->addAuthor("Robert Palmbos",0, "palm9744@kettering.edu");
     about->addAuthor("Francois-Xavier Duranceau",0, "duranceau@kde.org");
