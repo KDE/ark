@@ -1231,7 +1231,7 @@ void ArkWidget::edit_select()
 
           while (flvi)
             {
-              if ( reg_exp.match(flvi->getFileName())==0 )
+              if ( reg_exp.search(flvi->getFileName())==0 )
                 {
                   archiveContent->setSelected(flvi, true);
                 }
@@ -1524,7 +1524,7 @@ void ArkWidget::action_delete()
           for (QStringList::Iterator it = dirs.begin(); it != dirs.end(); ++it)
             {
               QRegExp re = "^" + *it;
-              if (re.match(strFile) != -1)
+              if (re.search(strFile) != -1)
                 {
                   bDel = true;
                   break;
@@ -1905,7 +1905,7 @@ void ArkWidget::selectByPattern(const QString & _pattern) // slot
   archiveContent->clearSelection();
   while (flvi)
     {
-      if (glob->match(flvi->getFileName(), 0, 0) != -1)
+      if (glob->search(flvi->getFileName()) != -1)
         archiveContent->setSelected(flvi, true);
       flvi = (FileLVI*)flvi->itemBelow();
     }

@@ -337,7 +337,8 @@ bool Arch::processLine(const QCString &line)
   {
   	ArchColumns *curCol = *col;
 
-	strpos = curCol->pattern.match(line, pos, &len);
+	strpos = curCol->pattern.search(line, pos);
+	len = curCol->pattern.matchedLength();
 
 	if(-1 == strpos || len >curCol->maxLength)
 	{

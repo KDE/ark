@@ -582,7 +582,7 @@ void ArkWidgetPart::selectByPattern(const QString & _pattern) // slot
   archiveContent->clearSelection();
   while (flvi)
     {
-      if (glob->match(flvi->getFileName(), 0, 0) != -1)
+      if (glob->search(flvi->getFileName()) != -1)
 	archiveContent->setSelected(flvi, true);
       flvi = (FileLVI*)flvi->itemBelow();
     }
