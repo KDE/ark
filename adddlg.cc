@@ -1,6 +1,6 @@
 /*
 
- $Id$ 
+ $Id$
 
  ark -- archiver for the KDE project
 
@@ -71,10 +71,10 @@ void AddDlg::setupFirstTab()
   pCombiView->setRight(pFileView);
   m_dirList->setView(pCombiView);
   // this has to go after setView or it reverts to Single.
-  pFileView->setSelectionMode( KFile::Multi ); 
+  pFileView->setSelectionMode( KFile::Multi );
   QVBoxLayout *vlay = new QVBoxLayout(frame, 0, spacingHint());
-  vlay->addWidget(m_dirList);  
-  
+  vlay->addWidget(m_dirList);
+
 }
 
 void AddDlg::setupSecondTab()
@@ -92,27 +92,27 @@ void AddDlg::setupSecondTab()
       bg->setTitle(i18n("ZIP Options"));
       if (m_settings->getZipReplaceOnlyWithNewer())
 	m_cbReplaceOnlyWithNewer->setChecked(true);
-      
+
       m_cbRecurseSubdirs = new QCheckBox(i18n("Recurse into subdirectories"),
 					 bg);
       if (m_settings->getZipAddRecurseDirs())
 	m_cbRecurseSubdirs->setChecked(true);
-      
-      
+
+
       m_cbJunkDirNames = new QCheckBox(i18n("Junk directory names"), bg);
       if (m_settings->getZipAddJunkDirs())
 	m_cbJunkDirNames->setChecked(true);
-      
-      
+
+
       m_cbForceMS = new QCheckBox(i18n("Force MS-style (8+3) filenames"),
 				  bg);
       if (m_settings->getZipAddMSDOS())
 	m_cbForceMS->setChecked(true);
-      
+
       m_cbConvertLF2CRLF = new QCheckBox(i18n("Convert LF to CRLF"), bg);
       if (m_settings->getZipAddConvertLF())
 	m_cbConvertLF2CRLF->setChecked(true);
-      
+
       m_cbStoreSymlinks = new QCheckBox(i18n("Store symlinks as such"), bg);
       if (m_settings->getZipStoreSymlinks())
 	m_cbStoreSymlinks->setChecked(true);
@@ -166,7 +166,7 @@ void AddDlg::setupSecondTab()
       // shouldn't ever get here!
       break;
     }
- 
+
 }
 
 void AddDlg::accept()
@@ -217,13 +217,15 @@ void AddDlg::accept()
 
   kdDebug(1601) << "There are " << pList->count() << " items in my KFileViewItemList." << endl;
 
+  // XXX Is this list ever freed?
+  //     And shouldn't it be a KURL::List ?? (Simon
   m_fileList = new QStringList;
 
   KFileViewItem *pItem;
   for ( pItem=pList->first(); pItem != 0; pItem=pList->next() )
     {
-      kdDebug(1601) << (const char *)pItem->url() << endl;
-      m_fileList->append(pItem->url());
+      kdDebug(1601) << pItem->url().url() << endl;
+      m_fileList->append(pItem->url().url());
     }
 
   KDialogBase::accept();

@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui>
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <kpartgui name="ark">
 <ActionProperties>
     <Action name="file_open" icon="ark_open"/>
