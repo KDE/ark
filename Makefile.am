@@ -44,7 +44,7 @@ rcdir = $(kde_datadir)/ark
 rc_DATA = arkui.rc ark_part.rc ark_part_readonly.rc
 
 messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/ark.pot
+	$(XGETTEXT) *.cpp konqplugin/*.cpp konqplugin/*.h -o $(podir)/ark.pot
 
 KDE_ICON = ark
 
