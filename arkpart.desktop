@@ -98,6 +98,7 @@ Name[tr]=Arşivci
 Name[uk]=Архіватор
 Name[ven]=Muvhulungi nwa zwithu zwa kale
 Name[vi]=Luư trữ 
+Name[wa]=Årtchiveu
 Name[xh]=Umenzi woshicilelo lukawonke-wonke nexwebhu leMbali
 Name[xx]=xx
 Exec=ark -caption "%c" %i %m %U

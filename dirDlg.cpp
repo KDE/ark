@@ -84,9 +84,9 @@ DirDlg::DirDlg(ArkSettings *d, QWidget *parent, const char *name)
   pListBox = new QListBox( this, "ListBox_1" );
   pListBox->setGeometry( 10, 30, DLG_WIDTH - 20, 80 );
   pListBox->insertItem(i18n("Start-up directory"), 0);
-  pListBox->insertItem(i18n("directory for opening files","Open directory"), 1);
-  pListBox->insertItem(i18n("directory for extracting files","Extract directory"), 2);
-  pListBox->insertItem(i18n("directory for adding files","Add directory"), 3);
+  pListBox->insertItem(i18n("directory for opening files","Open Directory"), 1);
+  pListBox->insertItem(i18n("directory for extracting files","Extract Directory"), 2);
+  pListBox->insertItem(i18n("directory for adding files","Add Directory"), 3);
   connect(pListBox, SIGNAL(highlighted(int)),
 	  this, SLOT(dirTypeChanged(int)));
 
