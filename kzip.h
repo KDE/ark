@@ -11,6 +11,7 @@
 #include <qframe.h>
 #include <kstatusbar.h>
 #include <kfm.h>
+#include <kpopmenu.h>
 #include "ktablistbox.h"
 #include "karch.h"
 #include "adddlg.h"
@@ -34,7 +35,9 @@ public slots:
 	void closeZip();
 	void extractZip();
 	void extractFile();
+	void extractFile( int );
 	void deleteFile();
+	void deleteFile( int );
 	void showFavorite();
 	void about();
 	void quit();
@@ -66,6 +69,8 @@ private:
 	KStatusBar *sb;
 	QString tmpdir;
 	KFM *kfm;
+	bool contextRow;
+	KPopupMenu *pop;
 };
 
 #endif /* KZIP_H*/

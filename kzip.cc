@@ -21,7 +21,6 @@
 #include <kstatusbar.h>
 #include <klocale.h>
 #include <kfm.h>
-#include <kpopmenu.h>
 #include "ktablistbox.h"
 #include "extractdlg.h"
 #include "karch.h"
@@ -89,6 +88,13 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 	menu->insertItem( klocale->translate( "&Help" ), helpmenu );
 	setMenu( menu );
 
+	pop = new KPopupMenu( "File Operations" );
+	// QPopupMenu pop;
+	pop->insertItem( "Extract...", this, SLOT( extractFile() ) );
+	pop->insertItem( "View", this, SLOT( showFile() ) );
+	pop->insertSeparator();
+	pop->insertItem( "Delete", this, SLOT( deleteFile() ) );
+
 	QPixmap pix;
 	QString pixpath;
 	
@@ -122,7 +128,7 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 	QFont f( "courier", 12 );
 	//lb->setFont( f );
 	setView( lb );
-	connect( lb, SIGNAL( selected(int, int) ), this, SLOT( showFile(int, int) ) );
+	connect( lb, SIGNAL( highlighted(int, int) ), this, SLOT( showFile(int, int) ) );
 	connect( lb, SIGNAL( popupMenu(int, int) ), this, SLOT( doPopup(int, int) ) );
 	KDNDDropZone *dz = new KDNDDropZone( lb, DndURL );
 	connect( dz, SIGNAL(dropAction(KDNDDropZone *)),SLOT( fileDrop(KDNDDropZone *)) );
@@ -145,6 +151,7 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 	fav=0;
 	addonlynew = FALSE;
 	storefullpath = FALSE;
+	contextRow = false;
 }
 	
 KZipWidget::~KZipWidget()
@@ -165,15 +172,12 @@ void KZipWidget::newWindow()
 
 void KZipWidget::doPopup( int row, int col )
 {
+	contextRow = true;
 	lb->setCurrentItem( row, col );
-	KPopupMenu *pop = new KPopupMenu( "File Operations" );
-	pop->insertItem( "Extract...", this, SLOT( extractFile() ) );
-	pop->insertItem( "View", this, SLOT( showFile() ) );
-	pop->insertSeparator();
-	pop->insertItem( "Delete", this, SLOT( deleteFile() ) );
+	contextRow = false;
+
 	pop->popup( QCursor::pos(), KPM_FirstItem );
-	pop->exec();
-	delete pop;
+	//pop.exec();
 }
 
 void KZipWidget::createZip()
@@ -295,7 +299,6 @@ void KZipWidget::showZip( QString name )
 	bool ret;
 	delete arch;
 	arch = new KZipArch;
-	lb->clear();
 
 	ret = arch->openArch( name );
 	if( ret )
@@ -306,8 +309,6 @@ void KZipWidget::showZip( QString name )
 		lb->appendStrList( listing );
 		sb->changeItem( name.data(), 0 );
 	}else{
-		lb->setNumCols( 0 );
-		lb->clear();
 		sb->changeItem( (char *)klocale->translate( "Unknown archive format"), 0 );
 		delete arch;
 		arch = 0;
@@ -434,14 +435,16 @@ void KZipWidget::showFile()
 	}
 }
 
-void KZipWidget::showFile( int index, int col=0  )
+void KZipWidget::showFile( int index, int col )
 {
 	QString tmp;
 	QString tname;
 	QString name;
 	QString fullname;
-	DlgLocation prog( klocale->translate( "Open With: (program)" ), "", this );
 	
+	if( contextRow )  // Warning: ugly hack
+		return;
+
 	col++; // Don't ask.
 	tmp = listing->at( index );
 	tname = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
@@ -453,17 +456,6 @@ void KZipWidget::showFile( int index, int col=0  )
 		fullname+= tname;
 		showZip( fullname );
 	}else{
-/*		if( prog.exec() )
-		{
-			fullname = arch->unarchFile( index, tmpdir );
-			name = prog.getText();
-			if( name.isNull() || name.isEmpty() )
-				return;
-			name += " ";
-			name += fullname;
-			name += " &";
-			system( (const char *)name );
-		}*/
 		fullname = "file:";
 		fullname += arch->unarchFile( index, tmpdir );
 		kfm->exec( fullname, 0L );
@@ -478,17 +470,20 @@ void KZipWidget::resizeEvent( QResizeEvent *re )
 
 void KZipWidget::extractFile()
 {
+	extractFile( lb->currentItem() );
+}
+
+void KZipWidget::extractFile( int pos )
+{
 	int ret;
 	QString tmp;
 	QString fullname;
 	QString tname;
-	int pos = lb->currentItem();
 	if( pos != -1 )
 	{
 		ExtractDlg *gdest;
 		if( !arch )
 		{
-			lb->clear();
 			arch = new KZipArch;
 			tmp = listing->at( pos );
 			tname = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
@@ -498,6 +493,7 @@ void KZipWidget::extractFile()
 			ret = arch->openArch( fullname );
 			if( ret )
 			{
+				lb->clear();
 				sb->changeItem( listing->at(pos), 0 );
 				setupHeaders();
 				listing = (QStrList *)arch->getListing();
@@ -542,7 +538,11 @@ void KZipWidget::extractFile()
 
 void KZipWidget::deleteFile()
 {
-	int pos = lb->currentItem();
+	deleteFile( lb->currentItem() );
+} 
+
+void KZipWidget::deleteFile( int pos )
+{
 	if( pos != -1 && arch )
 	{
 		arch->deleteFile( pos ); // This will be better for the future
