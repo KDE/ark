@@ -41,6 +41,7 @@
 #include <kopenwith.h>
 #include <ktempfile.h>
 #include <kmimemagic.h>
+#include <kmimetype.h>
 #include <kstandarddirs.h>
 #include <ktempdir.h>
 #include <kprocess.h>
@@ -1481,7 +1482,7 @@ ArkWidget::action_extract()
         return false;
     }
 
-    ExtractDlg *dlg = new ExtractDlg(m_settings);
+    ExtractDlg *dlg = new ExtractDlg(m_settings, this);
 
     // if they choose pattern, we have to tell arkwidget to select
     // those files... once we're in the dialog code it's too late.
@@ -2108,7 +2109,8 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName )
 {
     Arch * newArch = 0;
 
-    ArchType archtype = ArchiveFormatInfo::self()->archTypeByExtension(_fileName);
+    QString type = KMimeType::findByFileContent( _fileName )->name();
+    ArchType archtype = ArchiveFormatInfo::self()->archTypeForMimeType(_fileName);
     kdDebug( 1601 ) << "archtype is recognised as: " << archtype << endl;
     if(0 == (newArch = Arch::archFactory(archtype, m_settings, this,
                                          _fileName)))

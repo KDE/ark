@@ -52,8 +52,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "extractdlg.h"
 #define FIRST_PAGE_WIDTH  390
 
-ExtractDlg::ExtractDlg( ArkSettings *_settings )
-    : KDialogBase( KDialogBase::Plain, i18n("Extract"), Ok | Cancel, Ok ),
+ExtractDlg::ExtractDlg( ArkSettings *_settings, QWidget *parent, const char *name )
+    : KDialogBase( KDialogBase::Plain, i18n("Extract"), Ok | Cancel, Ok, parent, name ),
 m_settings( _settings )
 {
 	QFrame *mainFrame = plainPage();
