@@ -49,5 +49,5 @@ messages:
 KDE_ICON = ark
 
 apps_DATA = ark.desktop
-appsdir = $(kde_appsdir)/Programs/Utilities
+appsdir = $(kde_appsdir)/Utilities
 
