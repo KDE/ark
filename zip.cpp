@@ -206,12 +206,11 @@ void ZipArch::addFile( QStringList *urls )
   }
 
   // debugging info
-  QString strTemp;
-  const QStrList *ptr = kp->args();
-  QStrList list(*ptr); // copied because of const probs
-  for ( strTemp=list.first(); strTemp != 0; strTemp=list.next() )
+  QValueList<QCString> list = kp->args();
+  QValueList<QCString>::Iterator strTemp;
+  for ( strTemp=list.begin(); strTemp != list.end(); ++strTemp )
     {
-      kdDebug(1601) << strTemp << " " << endl;
+      kdDebug(1601) << *strTemp << " " << endl;
     }
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
