@@ -181,19 +181,31 @@ void TarArch::open()
   kDebugInfo(1601, "+TarArch::open");
 
   setHeaders();
-  
-  KTarGz *tarptr = new KTarGz(m_filename);
+  KTarGz *tarptr;
+
+  if (!compressed || 
+      getUnCompressor() == QString("gunzip"))
+    {
+      tarptr = new KTarGz(m_filename);
+    }
+  else
+    {
+      createTmp();
+      while (compressed && createTmpInProgress)
+	qApp->processEvents(); // wait for temp to be created;
+      tarptr = new KTarGz(tmpfile);
+    }
 
   if (! tarptr->open(IO_ReadOnly))
     {
-      emit sigOpen( false, QString::null, 0 );
+      emit sigOpen(this, false, QString::null, 0 );
     }
   else
     {
       processDir(tarptr->directory(), "");
       // because we aren't using the KProcess method, we have to emit this
       // ourselves.
-      emit sigOpen( true, m_filename,
+      emit sigOpen(this, true, m_filename,
 		    Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
     }
   delete tarptr;
@@ -257,7 +269,8 @@ void TarArch::create()
 {
   kDebugInfo(1601, "+TarArch::createArch");
 
-  emit sigCreate( true, m_filename, Arch::Extract | Arch::Delete | Arch::Add 
+  emit sigCreate(this, true, m_filename,
+		 Arch::Extract | Arch::Delete | Arch::Add 
 		  | Arch::View);
   kDebugInfo(1601, "-TarArch::createArch");
 }
@@ -346,6 +359,8 @@ int TarArch::addFile( QStringList* urls )
   QString tar_exe = m_settings->getTarCommand();
 		
   createTmp();
+  while (compressed && createTmpInProgress)
+    qApp->processEvents(); // wait for temp to be created;
 
   url = urls->first();
   file = KURL(url).path(-1); // remove trailing slash

@@ -77,6 +77,11 @@ public:
 
   bool stderrIsError();
 
+  // is the archive readonly?
+  bool isReadOnly() { return m_bReadOnly; }
+
+  void setReadOnly(bool bVal) { m_bReadOnly = bVal; }
+
 protected slots:
   void slotCancel();
   void slotStoreDataStdout(KProcess*, char*, int);
@@ -88,8 +93,8 @@ protected slots:
   void slotAddExited(KProcess*);
 
 signals:
-  void sigOpen( bool, const QString &, int );
-  void sigCreate( bool, const QString &, int );
+  void sigOpen( Arch *, bool, const QString &, int );
+  void sigCreate( Arch *, bool, const QString &, int );
   void sigDelete(bool);
   void sigExtract(bool);
   void sigAdd(bool);
@@ -100,6 +105,7 @@ protected:
   char m_buffer[1024];
   ArkSettings *m_settings;
   Viewer *m_gui;
+  bool m_bReadOnly; // for readonly archives
 };
 
 

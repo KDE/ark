@@ -192,7 +192,7 @@ void ZipArch::open()
   if (kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
-      emit sigOpen( false, QString::null, 0 );
+      emit sigOpen(this, false, QString::null, 0 );
     }
 
   kDebugInfo( 1601, "-ZipArch::open");
@@ -201,7 +201,8 @@ void ZipArch::open()
 
 void ZipArch::create()
 {
-  emit sigCreate( true, m_filename, Arch::Extract | Arch::Delete | Arch::Add 
+  emit sigCreate(this, true, m_filename,
+		 Arch::Extract | Arch::Delete | Arch::Add 
 		  | Arch::View);
 }
 

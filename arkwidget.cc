@@ -79,7 +79,8 @@ extern int errno;
 ArkWidget::ArkWidget( QWidget *, const char *name ) : 
     KTMainWindow(name), m_nSizeOfFiles(0), m_nSizeOfSelectedFiles(0),
     m_nNumFiles(0), m_nNumSelectedFiles(0), m_bIsArchiveOpen(false),
-    m_bIsSimpleCompressedFile(false), m_bDropSourceIsSelf(false)
+    m_bIsSimpleCompressedFile(false), m_bDropSourceIsSelf(false),
+    m_bViewInProgress(false)
 {
     kDebugInfo( 1601, "+ArkWidget::ArkWidget");
   
@@ -695,38 +696,29 @@ void ArkWidget::file_new()
   }
 
   // if I made it here, I can create the archive
-  // but I don't know if it will work yet, so I'm going to keep the old
-  // one around till I'm sure.
+  // if something goes wrong, I just keep the last arch pointer
 
-  Arch *tempArch = createArchive( strFile );
-  if (tempArch != 0)
-  {
-    file_close();
-    createFileListView();
-    setCaption("ark - " + strFile);
-    m_bIsArchiveOpen = true;
-    fixEnables();
-    arch = tempArch;
-  }
-  else
-  {
-    QMessageBox::warning(this, i18n("Error"), i18n("\nSorry - ark cannot create an archive of that type.\n\n  [Hint:  The filename should have an extension such as `.zip' to\n  indicate the type of the archive. Please see the help pages for\n  more information on supported archive formats.]"));
-    delete arch;
-  }
-  fixEnables();
+  createArchive( strFile );
 }
 
-void ArkWidget::slotCreate( bool _success, const QString & _filename,
-			    int _flag )
+void ArkWidget::slotCreate(Arch * _newarch, bool _success,
+			   const QString & _filename, int _flag )
 {
-    if ( _success ){
+    if ( _success )
+      {
 	newCaption( _filename );
 	createActionMenu( _flag );
-    }
+	file_close();
+	createFileListView();
+	setCaption(_filename);
+	m_bIsArchiveOpen = true;
+	arch = _newarch;
+	fixEnables();
+      }
     else
-    {
-	KMessageBox::error(this, i18n( "Can't create archive of that type") );
-    }
+      {
+	QMessageBox::warning(this, i18n("Error"), i18n("\nSorry - ark cannot create an archive of that type.\n\n  [Hint:  The filename should have an extension such as `.zip' to\n  indicate the type of the archive. Please see the help pages for\n  more information on supported archive formats.]"));
+      }
 }
 
 void ArkWidget::file_newWindow()
@@ -768,38 +760,36 @@ void ArkWidget::file_openRecent(int i)
 void ArkWidget::showZip( QString _filename )
 {
   kDebugInfo( 1601, "+ArkWidget::showZip");
-
   createFileListView();
-
-  Arch *tempArch = openArchive( _filename );
-  if (tempArch != 0)
-    {
-      arch = tempArch;
-      setCaption(i18n("ark - ") + _filename);
-    }
-
-  updateStatusTotals();
+  openArchive( _filename );
   kDebugInfo( 1601, "-ArkWidget::showZip");
 }
 
-void ArkWidget::slotOpen( bool _success, const QString & _filename, int _flag )
+void ArkWidget::slotOpen(Arch *_newarch, bool _success,
+			 const QString & _filename, int _flag )
 {
-    kDebugInfo( 1601, "+ArkWidget::slotOpen");
-    
-    archiveContent->setUpdatesEnabled(true);
-    archiveContent->triggerUpdate();
-    
-    if ( _success )
+  kDebugInfo( 1601, "+ArkWidget::slotOpen");
+  
+  archiveContent->setUpdatesEnabled(true);
+  archiveContent->triggerUpdate();
+  
+  if ( _success )
     {
-	newCaption( _filename );
 	menuBar()->setItemEnabled(eMEdit, true);
-	
-	//	menuBar()->setItemEnabled(idEditMenu, true);
-	createActionMenu( _flag );
-	
 	QFileInfo fi( _filename );
 	QString path = fi.dirPath( true );
 	m_settings->setLastOpenDir( path );
+
+	if (_filename.left(9) == QString("/tmp/ark.") ||
+	    !fi.isWritable())
+	  {
+	    _newarch->setReadOnly(true);
+	    newCaption(_filename + " READONLY ");
+	  }
+	else
+	  newCaption(_filename );
+	createActionMenu( _flag );
+	arch = _newarch;
 	updateStatusTotals();
 	m_bIsArchiveOpen = true;
 	fixEnables();
@@ -828,6 +818,12 @@ void ArkWidget::slotDeleteDone(bool _bSuccess)
 void ArkWidget::slotExtractDone()
 {
   kDebugInfo(1601, "+ArkWidget::slotExtractDone");
+  if (m_bViewInProgress)
+    {
+      m_bViewInProgress = false;
+      void *x = (void *) new KRun (strFileToView);
+      x = x; // just to get rid of the warning message
+    }
   archiveContent->setUpdatesEnabled(true);
   kDebugInfo(1601, "-ArkWidget::slotExtractDone");
 }
@@ -852,6 +848,9 @@ void ArkWidget::fixEnables() // private
   kDebugInfo( 1601, "+ArkWidget::fixEnables");
 
   bool bHaveFiles = (m_nNumFiles > 0);
+  bool bReadOnly = false;
+  if (arch)
+    bReadOnly = arch->isReadOnly();
 
   fileMenu->setItemEnabled(eMClose, bHaveFiles);
   fileMenu->setItemEnabled(eMReload, bHaveFiles);
@@ -862,8 +861,10 @@ void ArkWidget::fixEnables() // private
   editMenu->setItemEnabled(eMInvertSel, bHaveFiles);
 
   actionMenu->setItemEnabled(eMDelete, bHaveFiles  && m_nNumSelectedFiles > 0);
-  actionMenu->setItemEnabled(eMAddFile, m_bIsArchiveOpen);
-  actionMenu->setItemEnabled(eMAddDir, m_bIsArchiveOpen);
+  actionMenu->setItemEnabled(eMAddFile, m_bIsArchiveOpen &&
+			     !bReadOnly);
+  actionMenu->setItemEnabled(eMAddDir, m_bIsArchiveOpen &&
+			     !bReadOnly);
   actionMenu->setItemEnabled(eMExtract, bHaveFiles);
   actionMenu->setItemEnabled(eMView, bHaveFiles && m_nNumSelectedFiles == 1);
 
@@ -871,12 +872,15 @@ void ArkWidget::fixEnables() // private
 
   //    editMenu->setItemEnabled(eMRename, bHaveFiles);
   KToolBar *tb = toolBar();
-  tb->setItemEnabled(eDelete, bHaveFiles && m_nNumSelectedFiles > 0);
+  tb->setItemEnabled(eDelete, bHaveFiles && m_nNumSelectedFiles > 0
+		     && arch && !bReadOnly);
   tb->setItemEnabled(eExtract, bHaveFiles);
   tb->setItemEnabled(eSelectAll, bHaveFiles);
   tb->setItemEnabled(eView, bHaveFiles && m_nNumSelectedFiles == 1);
-  tb->setItemEnabled(eAddFile, m_bIsArchiveOpen);
-  tb->setItemEnabled(eAddDir, m_bIsArchiveOpen);
+  tb->setItemEnabled(eAddFile, m_bIsArchiveOpen && arch &&
+		     !bReadOnly);
+  tb->setItemEnabled(eAddDir, m_bIsArchiveOpen && arch &&
+		     !bReadOnly);
 
   menuBar()->setItemEnabled(eMAction, m_bIsArchiveOpen);
 
@@ -1086,12 +1090,13 @@ void ArkWidget::remove()
   FileLVI* old_flvi;
   while (flvi)
     {
-      if ( archiveContent->isSelected(flvi) ){
-	old_flvi = flvi;
-	flvi = (FileLVI*)flvi->itemBelow();
-	list.append(old_flvi->getFileName().copy());
-	delete old_flvi;
-      }		
+      if ( archiveContent->isSelected(flvi) )
+	{
+	  old_flvi = flvi;
+	  flvi = (FileLVI*)flvi->itemBelow();
+	  list.append(old_flvi->getFileName().copy());
+	  delete old_flvi;
+	}		
       else flvi = (FileLVI*)flvi->itemBelow();
     }
   archiveContent->setUpdatesEnabled(false);
@@ -1143,12 +1148,13 @@ void ArkWidget::action_extract()
 	    QString tmp;
 	    while (flvi)
 	      {
-		if ( flw->isSelected(flvi) ){
-		  kDebugInfo( 1601, "unarching %s",
-			 flvi->getFileName().ascii() );
-		  tmp = flvi->getFileName().local8Bit();
-		  list->append(tmp.local8Bit());
-		}
+		if ( flw->isSelected(flvi) )
+		  {
+		    kDebugInfo( 1601, "unarching %s",
+				flvi->getFileName().ascii() );
+		    tmp = flvi->getFileName().local8Bit();
+		    list->append(tmp.local8Bit());
+		  }
 		flvi = (FileLVI*)flvi->itemBelow();
 	      }
 	    arch->unarchFile(list); // extract selected files
@@ -1202,8 +1208,9 @@ void ArkWidget::showFile( FileLVI *_pItem )
   list.append(name);
 
   archiveContent->setUpdatesEnabled(false);
+  m_bViewInProgress = true;
+  strFileToView = fullname;
   arch->unarchFile( &list, m_settings->getTmpDir() );
-  (void *) new KRun ( fullname );
 }
 
 // Options menu //////////////////////////////////////////////////////
@@ -1628,7 +1635,7 @@ ArchType ArkWidget::getArchType( QString archname )
 }
 
 
-Arch *ArkWidget::createArchive( QString _filename )
+void ArkWidget::createArchive( QString _filename )
 {
   // returns a pointer to the new archive or, if there's a problem,
   // returns 0.
@@ -1655,13 +1662,11 @@ Arch *ArkWidget::createArchive( QString _filename )
     default:
       KMessageBox::error(this,
 			 i18n("Unknown archive format or corrupted archive") );
-      return 0;
+      return;
     }
 
-  connect( newArch, SIGNAL(sigOpen(bool, const QString &, int)),
-	   this, SLOT(slotOpen(bool, const QString &, int)) );
-  connect( newArch, SIGNAL(sigCreate(bool, const QString &, int)),
-	   this, SLOT(slotCreate(bool, const QString &, int)) );
+  connect( newArch, SIGNAL(sigCreate(Arch *, bool, const QString &, int)),
+	   this, SLOT(slotCreate(Arch *, bool, const QString &, int)) );
   connect( newArch, SIGNAL(sigDelete(bool)), this, SLOT(slotDeleteDone(bool)));
   connect( newArch, SIGNAL(sigAdd(bool)),
 	   this, SLOT(slotAddDone(bool)));
@@ -1670,25 +1675,20 @@ Arch *ArkWidget::createArchive( QString _filename )
 
   archiveContent->setUpdatesEnabled(false);
   newArch->create();
-
-  return newArch;
 }
 
-Arch *ArkWidget::openArchive( QString _filename )
+void ArkWidget::openArchive( QString _filename )
 {
-    // returns a pointer to the new archive unless there was a problem.
-    // otherwise returns 0
-
-    Arch *newArch = 0;
-
-    switch( getArchType( _filename ) )
+  Arch *newArch = 0;
+  
+  switch( getArchType( _filename ) )
     {
     case TAR_FORMAT:
-	newArch = new TarArch(m_settings, m_viewer, _filename );
-	break;
+      newArch = new TarArch(m_settings, m_viewer, _filename );
+      break;
     case ZIP_FORMAT:
-	newArch = new ZipArch(m_settings, m_viewer, _filename );
-	break;
+      newArch = new ZipArch(m_settings, m_viewer, _filename );
+      break;
 #if 0
     case LHA_FORMAT:
       newArch = new LhaArch( m_settings );
@@ -1698,25 +1698,22 @@ Arch *ArkWidget::openArchive( QString _filename )
       break;
 #endif
     default:
-	KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
-	// and just leave the old archive displayed
+      KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
+      // and just leave the old archive displayed
+      return;
     }
-
-    connect( newArch, SIGNAL(sigOpen(bool, const QString &, int)),
-	     this, SLOT(slotOpen(bool, const QString &,int)) );
-    connect( newArch, SIGNAL(sigCreate(bool, const QString &,int)),
-	     this, SLOT(slotCreate(bool, const QString &, int)) );
-  connect( newArch, SIGNAL(sigDelete(bool)), this, SLOT(slotDeleteDone(bool)));
+  
+  connect( newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
+	   this, SLOT(slotOpen(Arch *, bool, const QString &,int)) );
+  connect( newArch, SIGNAL(sigDelete(bool)),
+	   this, SLOT(slotDeleteDone(bool)));
   connect( newArch, SIGNAL(sigAdd(bool)),
 	   this, SLOT(slotAddDone(bool)));
   connect( newArch, SIGNAL(sigExtract(bool)),
 	   this, SLOT(slotExtractDone()));
 
-
-    archiveContent->setUpdatesEnabled(false);
-    newArch->open();
-
-    return newArch;    
+  archiveContent->setUpdatesEnabled(false);
+  newArch->open();
 }
 
 void ArkWidget::listingAdd(QStringList *_entries)

@@ -1,13 +1,21 @@
 
-January, 2000:
-This program is under renovation and does not work yet.
-Note: Zip will be the first to work
+March, 2000:
+This program is under renovation and does not work fully yet.
+
+What works so far:
+  zip
+  tar and tgz (partially)
+
 Emily Ezust <emilye@corel.com>
+
+
 
 --------------------------
 
-This is Ark v0.5.  Type 'configure', then 'make', and 'make install'. 
-Use the online help if anything is unclear to you.
+This is Ark almost-version 2.  Type 'configure', then 'make', and
+'make install'. Use the online help if anything is unclear to you.
+
+From the OLD README:
 
 
 There may be a few bugs, as well as missing features, but the program should

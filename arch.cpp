@@ -35,7 +35,8 @@
 
 Arch::Arch( ArkSettings *_settings, Viewer *_viewer,
 	    const QString & _fileName )
-  : m_filename(_fileName), m_settings(_settings), m_gui(_viewer) 
+  : m_filename(_fileName), m_settings(_settings), m_gui(_viewer),
+    m_bReadOnly(false)
 {
   kDebugInfo(1601, "+Arch::Arch");
   kDebugInfo(1601, "-Arch::Arch");
@@ -84,10 +85,10 @@ void Arch::slotOpenExited(KProcess* _kp)
                        // Is this a safe assumption?
 
   if(!exitStatus) 
-    emit sigOpen( true, m_filename,
+    emit sigOpen( this, true, m_filename,
 		  Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
   else
-    emit sigOpen( false, QString::null, 0 );
+    emit sigOpen( this, false, QString::null, 0 );
 
   delete _kp;
   _kp = NULL;

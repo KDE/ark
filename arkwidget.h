@@ -47,14 +47,10 @@
 #include <ktmainwindow.h>
 
 // ark includes
-//#include "ar.h"
-#include "arch.h"
 #include "arksettings.h"
 #include "filelistview.h"
-//#include "tar.h"
-#include "zip.h"
 
-#define ARK_VERSION "0.5"
+#define ARK_VERSION "1.9"
 
 //
 //
@@ -65,6 +61,7 @@
 //
 
 class Viewer;
+class Arch;
 
 enum ArchType {UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
 	       LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT};
@@ -126,8 +123,8 @@ protected slots:
   void showFavorite();
   //    void slotStatusBarTimeout();
   void slotSelectionChanged();
-  void slotOpen(bool, const QString &, int);
-  void slotCreate(bool, const QString &, int);
+  void slotOpen(Arch *, bool, const QString &, int);
+  void slotCreate(Arch *, bool, const QString &, int);
   void slotDeleteDone(bool);
   void slotExtractDone();
   void slotAddDone(bool);
@@ -194,8 +191,8 @@ protected:
   void createFileListView();
 	
   ArchType getArchType(QString archname);
-  Arch * createArchive(QString name);
-  Arch * openArchive(QString name);
+  void createArchive(QString name);
+  void openArchive(QString name);
 
   void showFile(FileLVI *);
 
@@ -214,6 +211,9 @@ private:
 
   Viewer *m_viewer; // for separating gui - archives know viewer not arkwidget
 
+ // true if user is trying to view something. For use in slotExtractDone
+  bool m_bViewInProgress;
+  QString strFileToView;
 };
 
 // menu ids
