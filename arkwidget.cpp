@@ -877,7 +877,6 @@ ArkWidget::file_new()
     strFile = url.path();
     if (!strFile.isEmpty())
     {
-        arch->clearShellOutput();
         file_close();
         createArchive( strFile );
     }
