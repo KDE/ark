@@ -194,6 +194,9 @@ void ZipArch::open()
   setHeaders();
   initOpen();
 
+  connect( m_kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotOpenExited(KProcess*)));
+
   if (m_kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
@@ -313,34 +316,16 @@ int ZipArch::addFile( QStringList *urls )
     }
 #endif
 
-  if( m_kp->start(KProcess::Block, KProcess::Stdout) == false)
+  connect( m_kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotAddExited(KProcess*)));
+
+  if (m_kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
-      return FAILURE;
+      emit sigAdd(false);
     }
-	
-  kDebugInfo( 1601, "normalExit = %d", m_kp->normalExit() );
-  kDebugInfo( 1601, "exitStatus = %d", m_kp->exitStatus() );
 
-  if( m_kp->normalExit() && (m_kp->exitStatus()==0) )
-    {
-      if (stderrIsError())
-	{
-	  KMessageBox::error( 0, i18n("You probably don't have sufficient permissions\n"
-				      "Please check the file owner and the integrity\n"
-				      "of the archive.") );
-	  retCode = FAILURE;
-	}
-      else
-	retCode = SUCCESS;
-    }
-  else
-    {
-      KMessageBox::sorry( 0, i18n("Add failed") );
-      retCode = FAILURE;
-    }	
-
-  return retCode;
+  return SUCCESS; // get rid of this return value!!
   kDebugInfo( 1601, "+ZipArch::addFile");
 }
 
@@ -373,20 +358,15 @@ QString ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
 	}
     }
   *m_kp << "-d" << dest;
+
+  connect( m_kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotExtractExited(KProcess*)));
   
-  if(m_kp->start(KProcess::Block, KProcess::Stdout) == false)
+  if (m_kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
     {
-      KMessageBox::error( 0, i18n("Subprocess wouldn't start!") );
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      emit sigExtract(false);
     }
-  
-  kDebugInfo( 1601, "normalExit = %d", m_kp->normalExit() );
-  kDebugInfo( 1601, "exitStatus = %d", m_kp->exitStatus() );
-  
-  if( m_kp->normalExit() && m_kp->exitStatus() ){
-    KMessageBox::sorry( 0, "Unarch failed" );
-  }
-  
-  kDebugInfo( 1601, "-ZipArch::unarchFile");
   
   return (dest+tmp);	
 }
@@ -408,31 +388,15 @@ void ZipArch::remove(QStringList *list)
       QString str = *it;
       *m_kp << str.local8Bit();
     }
-#if 0
-  connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)), SLOT(slotStoreDataStdout(KProcess*, char*, int)));
-  connect( m_kp, SIGNAL(receivedStderr(KProcess*, char*, int)), SLOT(slotStoreDataStderr(KProcess*, char*, int)));
-#endif
-  
-  if(m_kp->start(KProcess::Block, KProcess::AllOutput) == false)
+
+  connect( m_kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotDeleteExited(KProcess*)));
+
+  if (m_kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
-      return;
+      emit sigDelete(false);
     }
-  
-  kDebugInfo( 1601, "normalExit = %d", m_kp->normalExit() );
-  kDebugInfo( 1601, "exitStatus = %d", m_kp->exitStatus() );
-  
-  if( m_kp->normalExit() && (m_kp->exitStatus()==0) )
-    {
-      if(stderrIsError())
-	{
-	  KMessageBox::error( 0, i18n("You probably don't have sufficient permissions.\n"
-				      "Please check the file owner and the integrity\n"
-				      "of the archive.") );
-	}
-    }
-  else
-    KMessageBox::sorry( 0, i18n("Deletion failed") );
   
   kDebugInfo( 1601, "-ZipArch::remove");
 }
@@ -500,7 +464,8 @@ void ZipArch::testIntegrity()
 		
   *m_kp << m_filename;
 
-  connect( m_kp, SIGNAL(processExited(KProcess *)), SLOT(slotIntegrityExited(KProcess *)));
+  connect( m_kp, SIGNAL(processExited(KProcess *)),
+	   SLOT(slotIntegrityExited(KProcess *)));
 #if 0
   connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)), SLOT(slotStoreDataStdout(KProcess*, char*, int)));
 #endif

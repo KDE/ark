@@ -39,8 +39,6 @@ Arch::Arch( ArkSettings *_settings, Viewer *_viewer,
 {
   kDebugInfo(1601, "+Arch::Arch");
   m_kp = new KProcess;
-  connect( m_kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotOpenExited(KProcess*)));
   kDebugInfo(1601, "-Arch::Arch");
 }
 
@@ -55,7 +53,7 @@ void Arch::slotCancel()
   m_kp->kill();
 }
 
-void Arch::slotStoreDataStdout(KProcess* _p, char* _data, int _length)
+void Arch::slotStoreDataStdout(KProcess*, char* _data, int _length)
 {
   char c = _data[_length];
   _data[_length] = '\0';
@@ -64,7 +62,7 @@ void Arch::slotStoreDataStdout(KProcess* _p, char* _data, int _length)
   _data[_length] = c;
 }
 
-void Arch::slotStoreDataStderr(KProcess* _p, char* _data, int _length)
+void Arch::slotStoreDataStderr(KProcess*, char* _data, int _length)
 {
   char c = _data[_length];
   _data[_length] = '\0';
@@ -93,32 +91,103 @@ void Arch::slotOpenExited(KProcess* _p)
 		  Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
   else
     emit sigOpen( false, QString::null, 0 );
+
+  disconnect( m_kp, SIGNAL(processExited(KProcess*)), this,
+	      SLOT(slotOpenExited(KProcess*)));
+
+
 }
 
-void Arch::slotExtractExited(KProcess *)
+void Arch::slotDeleteExited(KProcess *_kp)
 {
-  kDebugInfo(1601, "+slotExtractExited");
+  kDebugInfo(1601, "+Arch::slotDeleteExited");
 
-  kDebugInfo(1601, "normalExit = %d", m_kp->normalExit() );
-  if( m_kp->normalExit() )
-    kDebugInfo(1601, "exitStatus = %d", m_kp->exitStatus() );
+  bool bSuccess = false;
 
-  //  m_wd->close();
-
-		
-  if( m_kp->normalExit() && (m_kp->exitStatus()==0) )
+  kDebugInfo(1601, "normalExit = %d", _kp->normalExit() );
+  if( _kp->normalExit() )
+    kDebugInfo(1601, "exitStatus = %d", _kp->exitStatus() );
+  
+  if( _kp->normalExit() && (_kp->exitStatus()==0) )
     {
       if(stderrIsError())
 	{
-	  KMessageBox::error( (QWidget *) 0, i18n("Error"), i18n("You probably don't have sufficient permissions\n"
+	  KMessageBox::error( 0, i18n("You probably don't have sufficient permissions.\n"
 				      "Please check the file owner and the integrity\n"
 				      "of the archive.") );
 	}
+      else
+	bSuccess = true;
     }
   else
-    KMessageBox::sorry( (QWidget *)0, i18n("Error"), i18n("Extraction failed") );
-  kDebugInfo(1601, "-slotExtractExited");
+    KMessageBox::sorry( (QWidget *)0, i18n("Error"), i18n("Deletion failed") );
+  
+  emit sigDelete(bSuccess);
+  disconnect( m_kp, SIGNAL(processExited(KProcess*)), this,
+	      SLOT(slotDeleteExited(KProcess*)));
+  kDebugInfo(1601, "-Arch::slotDeleteExited");
 }
+
+void Arch::slotExtractExited(KProcess *_kp)
+{
+  kDebugInfo(1601, "+Arch::slotExtractExited");
+
+  bool bSuccess = false;
+
+  kDebugInfo(1601, "normalExit = %d", _kp->normalExit() );
+  if( _kp->normalExit() )
+    kDebugInfo(1601, "exitStatus = %d", _kp->exitStatus() );
+
+  if( _kp->normalExit() && (_kp->exitStatus()==0) )
+    {
+      if(stderrIsError())
+	{
+	  KMessageBox::error( (QWidget *) 0, i18n("Error"), i18n("Something bad happened when trying to extract...") );
+	}
+      else
+	bSuccess = true;
+    }
+  else
+    KMessageBox::sorry((QWidget *)0, i18n("Error"), i18n("Extraction failed"));
+
+  emit sigExtract(bSuccess);
+  disconnect( m_kp, SIGNAL(processExited(KProcess*)), this,
+	      SLOT(slotExtractExited(KProcess*)));
+
+  kDebugInfo(1601, "-Arch::slotExtractExited");
+}
+
+void Arch::slotAddExited(KProcess *_kp)
+{
+  kDebugInfo(1601, "+Arch::slotAddExited");
+
+  bool bSuccess = false;
+
+  kDebugInfo(1601, "normalExit = %d", _kp->normalExit() );
+  if( _kp->normalExit() )
+    kDebugInfo(1601, "exitStatus = %d", _kp->exitStatus() );
+
+  if( _kp->normalExit() && (_kp->exitStatus()==0) )
+    {
+      if(stderrIsError())
+	{
+	  KMessageBox::error( 0, i18n("You probably don't have sufficient permissions\n"
+				      "Please check the file owner and the integrity\n"
+				      "of the archive.") );
+	}
+      else
+	bSuccess = true;
+    }
+  else
+    KMessageBox::sorry((QWidget *)0, i18n("Error"), i18n("Add failed"));
+  
+  emit sigAdd(bSuccess);
+  disconnect( m_kp, SIGNAL(processExited(KProcess*)), this,
+	      SLOT(slotAddExited(KProcess*)));
+
+  kDebugInfo(1601, "-Arch::slotAddExited");
+}
+
 
 bool Arch::stderrIsError()
 {

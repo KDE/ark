@@ -1,3 +1,6 @@
+2000-03-03:  Emily Ezust <emilye@corel.com>
+	* Made zip fully asynchronous.
+	
 2000-03-02:  Emily Ezust <emilye@corel.com>
         * add and delete now work for tar files, although I'll probably
 	  change how temp files are created from compressed tars and

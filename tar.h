@@ -48,6 +48,13 @@
 
 class Viewer;
 
+// TarArch can read Tar files and Tar files compressed with gzip.
+// It doesn't yet know how to list Tar files compressed with other
+// compressors because the listing part is done through KTar.
+// If it could be listed though, the rest would work.
+// The reason we use KTar for listing is that the output tar -tvf is
+// of unreliable format.
+
 class TarArch : public Arch
 {
   Q_OBJECT

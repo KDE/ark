@@ -298,7 +298,7 @@ static QString removeExtension(const QString &_filename)
       name += "tar";
    }
   else
-    // filename already has "tar." with one, two or three letters after
+    // filename already has "tar." with an additional extension
     {
       name = _filename.left(_filename.findRev("."));
     }

@@ -808,6 +808,41 @@ void ArkWidget::slotOpen( bool _success, const QString & _filename, int _flag )
     kDebugInfo( 1601, "-ArkWidget::slotOpen");
 }
 
+void ArkWidget::slotDeleteDone(bool _bSuccess)
+{
+  kDebugInfo(1601, "+ArkWidget::slotDeleteDone------------------------------");
+  archiveContent->setUpdatesEnabled(true);
+  archiveContent->triggerUpdate();
+  if (_bSuccess)
+    {
+      updateStatusTotals();
+      updateStatusSelection();	
+      
+      // disable the select all and extract options if there are no files left
+      fixEnables();
+    }
+
+  kDebugInfo(1601, "-ArkWidget::slotDeleteDone");
+}
+
+void ArkWidget::slotExtractDone(bool _bSuccess)
+{
+  kDebugInfo(1601, "+ArkWidget::slotExtractDone");
+  archiveContent->setUpdatesEnabled(true);
+  kDebugInfo(1601, "-ArkWidget::slotExtractDone");
+}
+
+void ArkWidget::slotAddDone(bool _bSuccess)
+{
+  kDebugInfo(1601, "+ArkWidget::slotAddDone");
+  archiveContent->setUpdatesEnabled(true);
+  archiveContent->triggerUpdate();
+  if (_bSuccess)
+    file_reload();
+
+  kDebugInfo(1601, "-ArkWidget::slotAddDone");
+}
+
 //////////////////////////////////////////////////////////////////////
 /////////////////////////// fixEnables ///////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -1028,10 +1063,8 @@ void ArkWidget::action_add()
 
 void ArkWidget::addFile(QStringList *list)
 {
-  int ret = arch->addFile(list);
-  if (ret == SUCCESS)
-    file_reload();
-
+  archiveContent->setUpdatesEnabled(false);
+  arch->addFile(list);
 }
 
 void ArkWidget::action_add_dir()
@@ -1041,9 +1074,8 @@ void ArkWidget::action_add_dir()
 					i18n("Select a Directory to Add"));
   // fix protocol
   dirName = "file:" + dirName;
-  int ret = arch->addDir(dirName);
-  if (ret == SUCCESS)
-    file_reload();
+  archiveContent->setUpdatesEnabled(false);
+  arch->addDir(dirName);
 }
 
 void ArkWidget::remove()
@@ -1062,6 +1094,7 @@ void ArkWidget::remove()
       }		
       else flvi = (FileLVI*)flvi->itemBelow();
     }
+  archiveContent->setUpdatesEnabled(false);
   arch->remove(&list);
 }
 
@@ -1075,10 +1108,6 @@ void ArkWidget::action_delete()
     if ( KMessageBox::questionYesNo(this, i18n("Do you really want to delete the selected items?")) == KMessageBox::Yes)
     {
       remove();
-      updateStatusTotals();
-      updateStatusSelection();	
-      // disable the select all and extract options if there are no files left
-      fixEnables();
     }
 
     kDebugInfo( 1601, "-ArkWidget::action_delete");
@@ -1098,6 +1127,7 @@ void ArkWidget::action_extract()
     {
       int extractOp = dlg->extractOp();
       kDebugInfo( 1601, "Extract op: %d", extractOp);
+      archiveContent->setUpdatesEnabled(false);
       switch(extractOp)
 	{
 	case ExtractDlg::All:
@@ -1147,8 +1177,6 @@ void ArkWidget::action_extract()
 	}
       
       delete dlg;
-      KMessageBox::information(this, i18n("Extraction completed."));
-
     }
 }
 
@@ -1173,6 +1201,7 @@ void ArkWidget::showFile( FileLVI *_pItem )
   QStringList list;
   list.append(name);
 
+  archiveContent->setUpdatesEnabled(false);
   arch->unarchFile( &list, m_settings->getTmpDir() );
   (void *) new KRun ( fullname );
 }
@@ -1632,6 +1661,13 @@ Arch *ArkWidget::createArchive( QString _filename )
 	   this, SLOT(slotOpen(bool, const QString &, int)) );
   connect( newArch, SIGNAL(sigCreate(bool, const QString &, int)),
 	   this, SLOT(slotCreate(bool, const QString &, int)) );
+  connect( newArch, SIGNAL(sigDelete(bool)), this, SLOT(slotDeleteDone(bool)));
+  connect( newArch, SIGNAL(sigAdd(bool)),
+	   this, SLOT(slotAddDone(bool)));
+  connect( newArch, SIGNAL(sigExtract(bool)),
+	   this, SLOT(slotExtractDone(bool)));
+
+  archiveContent->setUpdatesEnabled(false);
   newArch->create();
 
   return newArch;
@@ -1669,6 +1705,14 @@ Arch *ArkWidget::openArchive( QString _filename )
 	     this, SLOT(slotOpen(bool, const QString &,int)) );
     connect( newArch, SIGNAL(sigCreate(bool, const QString &,int)),
 	     this, SLOT(slotCreate(bool, const QString &, int)) );
+  connect( newArch, SIGNAL(sigDelete(bool)), this, SLOT(slotDeleteDone(bool)));
+  connect( newArch, SIGNAL(sigAdd(bool)),
+	   this, SLOT(slotAddDone(bool)));
+  connect( newArch, SIGNAL(sigExtract(bool)),
+	   this, SLOT(slotExtractDone(bool)));
+
+
+    archiveContent->setUpdatesEnabled(false);
     newArch->open();
 
     return newArch;    
@@ -1704,8 +1748,6 @@ void ArkWidget::setHeaders(QStringList *_headers,
       archiveContent->setColumnAlignment( _rightAlignCols[i],
 					  QListView::AlignRight );
     }
-  archiveContent->setUpdatesEnabled(false);
-
 }
 
 #include "arkwidget.moc"

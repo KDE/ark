@@ -493,7 +493,7 @@ void ArkSettings::setSelectRegExp(const QString& _exp)
 const QString ArkSettings::getFilter()
 {
 	return i18n(
-		"*.zip *.tar.gz *.tar.bz2 *.tar|All valid archives\n"
+		"*.zip *.tar.gz *.tar.Z *.tgz *.taz *.tzo *.tar.bz2 *.tbz2 *.tar.bz *.tar|All valid archives\n"
 		"*.zip|Zip archive (*.zip)\n"
 		"*.tar.gz *.tgz |Tar compressed with gzip (*.tar.gz *.tgz)\n"
 		"*.tbz2 *.tar.bz2|Tar compressed with bzip2 (*.tar.bz2 *.tbz2)\n" 

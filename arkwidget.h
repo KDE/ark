@@ -1,7 +1,7 @@
 //  -*-C++-*-           emacs magic for .h files
 /*
 
-  $Id $
+  $Id$
 
   ark -- archiver for the KDE project
 
@@ -128,7 +128,10 @@ protected slots:
   void slotSelectionChanged();
   void slotOpen(bool, const QString &, int);
   void slotCreate(bool, const QString &, int);
-			
+  void slotDeleteDone(bool);
+  void slotExtractDone(bool);
+  void slotAddDone(bool);
+
   void selectByPattern(const QString & _pattern);
 
 protected:

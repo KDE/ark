@@ -42,6 +42,15 @@
 
 class Viewer;
 class KProcess;
+
+// The following class is the base class for all of the archive types.
+// In order for it to work properly with the KProcess, you have to
+// connect the ProcessExited signal appropriately before spawning
+// the core operations. Then the signal that the process exited can
+// be intercepted by the viewer (in ark, ArkWidget) and dealt with
+// appropriately. See ZipArch for a good model. Don't use TarArch
+// as a model - it's too complicated!
+
 class Arch : public QObject
 {
   Q_OBJECT
@@ -75,11 +84,15 @@ protected slots:
   void slotOpenExited(KProcess*);
 	
   void slotExtractExited(KProcess*);
-
+  void slotDeleteExited(KProcess*);
+  void slotAddExited(KProcess*);
 
 signals:
   void sigOpen( bool, const QString &, int );
   void sigCreate( bool, const QString &, int );
+  void sigDelete(bool);
+  void sigExtract(bool);
+  void sigAdd(bool);
 	
 protected:
   QString m_filename;
