@@ -249,6 +249,8 @@ void ArkSettings::writeConfigurationNow()
   kc->writeEntry(FULLPATHS, fullPath);
   kc->writeEntry(REPLACEONLYNEWER, replaceOnlyNewerFiles);
 
+  kc->sync();
+
   kDebugInfo( 1601, "-writeConfigurationNow");
 }
 

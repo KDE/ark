@@ -126,9 +126,6 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 
 ArkWidget::~ArkWidget()
 {
-  KConfig *kc = m_settings->getKConfig();
-  kc->setGroup( "ark" );
-  recent->saveEntries(kc);
   ArkApplication::getInstance()->removeWindow();
   delete archiveContent;
   //  delete recentPopup;
@@ -465,7 +462,6 @@ void ArkWidget::saveProperties()
   kDebugInfo( 1601, "+saveProperties (exit)");
 
   KConfig *kc = m_settings->getKConfig();
-  kc->setGroup( "ark" );
   recent->saveEntries(kc);
 
 #if 0
