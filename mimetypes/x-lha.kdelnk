@@ -1,17 +1,20 @@
 # KDE Config File
 [KDE Desktop Entry]
 Comment=Lha Archives
-Comment[no]=Lha-arkiver
+Comment[de]=LHA-Archiv
+Comment[fr]=Archive LHA
+Comment[cs]=Lha archív
 Comment[es]=Archivo LHA
-Comment[pt]=Arquivos Lha
-Comment[pt_BR]=Arquivos Lha
-Comment[fr]=Archives lha
+Comment[ru]=áÒÈÉ× LHA
+Comment[fi]=LHA -pakkaus
+Comment[it]=Archivio Lha
+Comment[pt]=Arquivo Lha
 Comment[pl]=Archiwum Lha
-Comment[fr]=Archives LHA
-Comment[hr]=Lha Arhive
-Comment[sk]=LHA archívy
-Comment[ro]=Arhivã lha
-Comment[fi]=LHA -paketti
+Comment[ro]=Arhivã LHA
+Comment[no]=LHA-arkiv
+Comment[sk]=Lha archív
+Comment[pt_BR]=Arquivo Lha
+Comment[is]=Lha safnskrá
 Mimetype=application/x-lha
 DefaultApp=ark
 Icon=tgz.xpm

@@ -1,17 +1,20 @@
 # KDE Config File
 [KDE Desktop Entry]
 Comment=Ar Archives
-Comment[no]=Ar-arkiver
+Comment[de]=AR-Archiv
+Comment[fr]=Archive AR
+Comment[cs]=Ar archív
 Comment[es]=Archivo AR
-Comment[de]=LHR-Archive
-Comment[pt]=Arquivos Ar
-Comment[fr]=Archives ar
-Comment[sk]=Ar archívy
-Comment[fr]=Archives AR
-Comment[hr]=Ar Arhive
+Comment[ru]=áÒÈÉ× AR
+Comment[fi]=AR -paketti
+Comment[it]=Archivio AR
+Comment[pt]=Arquivo AR
 Comment[pl]=Archiwum Ar
-Comment[ro]=Arhivã ar
-Comment[fi]=Ar -paketti
+Comment[ro]=Arhivã AR
+Comment[no]=AR-arkiv
+Comment[sk]=Ar Archívy
+Comment[pt_BR]=Arquivo AR
+Comment[is]=Ar safnskrá
 Mimetype=application/x-ar
 Icon=tgz.xpm
 DefaultApp=ark
