@@ -32,6 +32,7 @@
 #include <kdebug.h>
 #include <kdebugclasses.h>
 #include <kstandarddirs.h>
+#include <kprocess.h>
 
 // Ark includes
 #include "filelistview.h"
@@ -83,7 +84,7 @@ ArkWidgetBase::cleanArkTmpDir( bool part )
 	
 	if(  part )
 	{
-		QString ex( "rm -rf "+ tmpdir );
+		QString ex( "rm -rf " + KProcess::quote(tmpdir) );
 		system( QFile::encodeName( ex ) );
 		return;
 	}
@@ -93,13 +94,13 @@ ArkWidgetBase::cleanArkTmpDir( bool part )
 	viewdir += "/";
 	
 	// delete the viwer temporary directory ( if exists ) and its contents
-	QString ex( "rm -rf "+ tmpdir + viewdir );
+	QString ex( "rm -rf "+ KProcess::quote(tmpdir + viewdir) );
 	system( QFile::encodeName( ex ) );
 	
 	// delete main temporary directory if no more ark instances are open
 	if ( ! ArkApplication::getInstance()->windowCount() )
 	{
-		QString ex( "rm -rf "+ tmpdir );
+		QString ex( "rm -rf "+ KProcess::quote(tmpdir) );
 		system( QFile::encodeName( ex ) );
 	}
 }
