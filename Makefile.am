@@ -43,8 +43,11 @@ noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \
 # just to make sure, automake makes them 
 METASOURCES =	AUTO
 
-messages:
-	$(XGETTEXT) $(ark_SOURCES) -o $(podir)/ark.pot
+rcdir = $(kde_datadir)/ark
+rc_DATA = ark.rc
+
+messages: rc.cpp
+	$(XGETTEXT) rc.cpp $(ark_SOURCES) -o $(podir)/ark.pot
 
 KDE_ICON = ark
 

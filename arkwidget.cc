@@ -52,6 +52,8 @@
 #include <krun.h>
 #include <kservice.h>
 #include <kopenwith.h>
+#include <kaction.h>
+#include <kstdaction.h>
 
 // c includes
 
@@ -108,20 +110,13 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 
     // Build the ark UI
     kDebugInfo( 1601, "Build the GUI");
-    setupMenuBar();
-    kDebugInfo( 1601, "Menubar build...");
-    setupStatusBar();
-    kDebugInfo( 1601, "Statusbar build...");
-    setupToolBar();
-    kDebugInfo( 1601, "Toolbar build...");
-    createFileListView();
-    kDebugInfo( 1601, "GUI build...");
 
+    setupStatusBar();
+    setupActions();
+    createFileListView();
     // enable DnD
     setAcceptDrops(true);
-       
     arch = 0;
-	
     initialEnables();
 
     kDebugInfo( 1601, "-ArkWidget::ArkWidget");
@@ -132,10 +127,10 @@ ArkWidget::~ArkWidget()
 {
   ArkApplication::getInstance()->removeWindow();
   delete archiveContent;
-  delete recentPopup;
-  delete accelerators;
-  delete m_filePopup;
-  delete m_archivePopup;
+  //  delete recentPopup;
+  //  delete accelerators;
+  //  delete m_filePopup;
+  //  delete m_archivePopup;
   delete arch;
 
   // delete the temporary directory and its contents
@@ -146,231 +141,120 @@ ArkWidget::~ArkWidget()
   delete m_settings;
 }
 
-void ArkWidget::setupMenuBar()
+void ArkWidget::setupActions()
 {
-  // KAccel initialization
-  accelerators = new KAccel(this);
+  // setup File menu
+  newWindowAction = new KAction(i18n("New &Window"), 0, this,
+				SLOT(file_newWindow()),
+				actionCollection(), "new_window");
 
-  accelerators->insertStdItem(KStdAccel::New, i18n("New"));
-  accelerators->insertStdItem(KStdAccel::Open, i18n("Open"));
-  accelerators->insertStdItem(KStdAccel::Close, i18n("Close"));
-  accelerators->insertStdItem(KStdAccel::Quit, i18n("Quit"));
+  newArchAction = new KAction(i18n("&New"), "ark_new", 0, this,
+				SLOT(file_new()),
+				actionCollection(), "new_arch");
 
-  accelerators->insertItem(i18n("Add"), "Add_accel", "SHIFT+A");
-  accelerators->insertItem(i18n("Delete"), "Delete_accel", "SHIFT+D");
-  accelerators->insertItem(i18n("Extract"), "Extract_accel", "SHIFT+E");
-  accelerators->insertItem(i18n("View"), "View_accel", "SHIFT+V");
-  accelerators->insertItem(i18n("Select"), "Selection", "CTRL+L");
-  accelerators->insertItem(i18n("Select all"), "SelectionAll", "CTRL+A");
-  accelerators->insertItem(i18n("Deselect all"), "DeselectionAll", "CTRL+D");
-  accelerators->insertItem(i18n("Invert selection"), "InvertSel", "CTRL+I");
+  openAction = new KAction(i18n("&Open"), "ark_open", 0, this,
+				SLOT(file_open()),
+				actionCollection(), "open_arch");
 
-  accelerators->insertStdItem(KStdAccel::Help);
+  reloadAction = new KAction(i18n("&Reload"), "reload", 0, this,
+				SLOT(file_reload()),
+				actionCollection(), "reload_arch");
 
-	// KAccel connections
-  accelerators->connectItem(KStdAccel::New, this, SLOT(file_new()));
-  accelerators->connectItem(KStdAccel::Open, this, SLOT(file_open()));
-  accelerators->connectItem(KStdAccel::Close, this, SLOT(file_close()));
-  accelerators->connectItem(KStdAccel::Quit, this, SLOT(file_quit()));
+  closeAction = new KAction(i18n("&Close Archive"), 0, this,
+				SLOT(file_close()),
+				actionCollection(), "close_arch");
 
-  accelerators->connectItem("Add_accel", this, SLOT(action_add()));
-  accelerators->connectItem("Delete_accel", this, SLOT(action_delete()));
-  accelerators->connectItem("Extract_accel", this, SLOT(action_extract()));
-  accelerators->connectItem("View_accel", this, SLOT(action_view()));
-  accelerators->connectItem("Open_with_accel", this, SLOT(slotOpenWith()));
-  accelerators->connectItem("Selection", this, SLOT(edit_select()));
-  accelerators->connectItem("SelectionAll", this, SLOT(edit_selectAll()));
-  accelerators->connectItem("DeselectionAll", this, SLOT(edit_deselectAll()));
-  accelerators->connectItem("InvertSel", this, SLOT(edit_invertSel()));
+  recent = KStdAction::openRecent(this,
+				  SLOT(file_openRecent(const KURL&)),
+				  actionCollection());
 
-	// KAccel settings
-  accelerators->readSettings( KGlobal::config() );
+  KStdAction::quit(this, SLOT(window_close()), actionCollection());
 
-	// File menu creation
-  fileMenu = new QPopupMenu;
-  recentPopup = new QPopupMenu;
-  editMenu = new QPopupMenu;
-  actionMenu = new QPopupMenu;
-  optionsMenu = new QPopupMenu;
+  addFileAction = new KAction(i18n("&Add File"), "ark_addfile", 0, this,
+				SLOT(action_add()),
+				actionCollection(), "addfile");
 
-  KMenuBar *menu = menuBar();
+  addDirAction = new KAction(i18n("Add Di&r"), "ark_adddir", 0, this,
+				SLOT(action_add_dir()),
+				actionCollection(), "adddir");
 
-  createRecentPopup();
+  extractAction = new KAction(i18n("&Extract"), "ark_extract", 0, this,
+				SLOT(action_extract()),
+				actionCollection(), "extract");
 
-  fileMenu->insertItem( i18n( "New &Window..."), this,
-			SLOT(file_newWindow()));
-  fileMenu->insertSeparator();
-  fileMenu->insertItem( i18n( "&New..." ), this, SLOT( file_new()), 0,
-			eMNew);
-  accelerators->changeMenuAccel(fileMenu, eMNew, KStdAccel::New );
-	
-  fileMenu->insertItem(i18n("&Open..."), this,  SLOT( file_open()), 0,
-		       eMOpen);
-  accelerators->changeMenuAccel(fileMenu, eMOpen, KStdAccel::Open );
+  deleteAction = new KAction(i18n("&Delete"), "ark_delete", 0, this,
+			     SLOT(action_delete()),
+			     actionCollection(), "delete");
 
-  fileMenu->insertItem( i18n( "Open &recent" ), recentPopup);
-  connect(recentPopup, SIGNAL(activated(int)), this,
-	  SLOT(file_openRecent(int)));
+  selectAllAction = new KAction(i18n("Select All"), "ark_selectall", 0, this,
+			     SLOT(edit_selectAll()),
+			     actionCollection(), "select_all");
 
-  fileMenu->insertItem( i18n( "Relo&ad" ), this,  SLOT( file_reload()),
-			0, eMReload);
+  viewAction = new KAction(i18n("&View"), "ark_view", 0, this,
+			   SLOT(action_view()),
+			   actionCollection(), "view");
 
-  fileMenu->insertSeparator();
+  openWithAction = new KAction(i18n("&Open with"), 0, this,
+			   SLOT(slotOpenWith()),
+			   actionCollection(), "open_with");
 
-  fileMenu->insertItem(i18n( "&Close"), this, SLOT( file_close()),
-		       0, eMClose);
-  accelerators->changeMenuAccel(fileMenu, eMClose, KStdAccel::Close );
+  settingsAction =  new KAction(i18n("&Settings"), "ark_options", 0, this,
+			   SLOT(options_dirs()),
+			   actionCollection(), "settings");
+ 
+  selectAction =  new KAction(i18n("Select..."), 0, this,
+			     SLOT(edit_select()),
+			     actionCollection(), "select");
+  deselectAllAction =  new KAction(i18n("Deselect All"), 0, this,
+			     SLOT(edit_deselectAll()),
+			     actionCollection(), "deselect_all");
 
-  fileMenu->insertItem( i18n( "&Quit"), this, SLOT(file_quit() ),
-			   0, eMExit);
-  accelerators->changeMenuAccel(fileMenu, eMExit, KStdAccel::Quit );
+  invertSelectionAction  =  new KAction(i18n("Invert Selection"), 0, this,
+					SLOT(edit_invertSel()),
+					actionCollection(),
+					"invert_selection");
 
-  createEditMenu();
-	
-  // Options menu creation
-  optionsMenu->insertItem( i18n( "&General..."), this, 
-			   SLOT( options_general() ) );
-  optionsMenu->insertItem( i18n( "&Directories..."), this,
-			   SLOT(options_dirs()));
-  optionsMenu->insertItem( i18n( "&Keys..."),
-			   this, SLOT(options_keys()));
-  optionsMenu->insertSeparator();
-  optionsMenu->insertItem( i18n( "&Save settings now..."),
-			   this, SLOT( options_saveNow() ) );
-  optionsMenu->insertItem( i18n( "Save settings on e&xit..."),
-			   this, SLOT( options_saveOnExit()),
-			   0, eMSaveOnExit);
-  optionsMenu->setItemChecked(eMSaveOnExit, m_settings->isSaveOnExitChecked());
+  (void)new KAction(i18n("&General"), 0, this,
+		    SLOT(options_general()),
+		    actionCollection(),
+		    "general");
 
-  // Help menu creation
-  QString about_ark = i18n("ark version %1\n(c) 1997-1999: Robert Palmbos <palm9744@kettering.edu>\n1999: Francois-Xavier Duranceau <duranceau@kde.org>\n1999-2000: Corel Corporation (author: Emily Ezust <emilye@corel.com>)").arg( ARK_VERSION );
-  QPopupMenu *helpmenu = helpMenu( about_ark );
+  (void)new KAction(i18n("&Directories..."), 0, this,
+		    SLOT(options_dirs()),
+		    actionCollection(),
+		    "directories");
 
-  menu->insertItem( i18n( "&File"), fileMenu );
-  menu->insertItem( i18n( "&Edit"), editMenu, eMEdit );
-  //  menu->setItemEnabled(eMEdit, false);
-  menu->insertItem( i18n( "&Action"), actionMenu, eMAction);
-  //  menu->setItemEnabled(eMAction, false);
-  menu->insertItem( i18n( "&Options"), optionsMenu );
-  menu->insertSeparator();
-  menu->insertItem( i18n( "&Help" ), helpmenu );
+  (void)new KAction(i18n("&Keys..."), 0, this,
+		    SLOT(options_keys()),
+		    actionCollection(),
+		    "keys");
 
-  setMenu( menu );
+  KStdAction::showToolbar(this, SLOT(toggleToolBar()), actionCollection());
+  KStdAction::showStatusbar(this, SLOT(toggleStatusBar()), actionCollection());
 
-	// popup menus
-
-  m_filePopup = new KPopupMenu();
-
-  m_filePopup->setTitle(i18n("File Operations"));
-  m_filePopup->insertItem(i18n("Open with..."), this,
-			  SLOT(slotOpenWith()), 0,
-			  eMOpenWith);
-  m_filePopup->insertItem(i18n("Extract..."), this,
-			  SLOT(action_extract()),
-			  0, eMExtract);
-  m_filePopup->insertItem(i18n("View/Run"), this,
-			  SLOT(action_view()), 0, eMView);
-  m_filePopup->insertItem(i18n("Delete file"), this,
-			  SLOT(action_delete()), 0,
-			  eMDelete);
-
-	
-  m_archivePopup = new KPopupMenu();
-  m_archivePopup->setTitle(i18n("Archive Operations"));
-  m_archivePopup->insertItem(i18n("To be announced"), this, 0, 0, 0);
-
+  createGUI("ark.rc");
 }
 
-void ArkWidget::createEditMenu()
+void ArkWidget::toggleToolBar()
 {
-  editMenu->insertItem(i18n( "&Select..."), this, SLOT( edit_select()),
-		       0, eMSelect);
-  accelerators->changeMenuAccel(editMenu, eMSelect, "Selection" );
-
-  editMenu->insertItem(i18n("&Select all"), this, SLOT(edit_selectAll()),
-		       0, eMSelectAll );
-  accelerators->changeMenuAccel(editMenu, eMSelectAll, "SelectionAll" );
-  
-  editMenu->insertItem( i18n( "Dese&lect all"),
-			this, SLOT( edit_deselectAll()), 0, eMDeselectAll );
-  accelerators->changeMenuAccel(editMenu, eMDeselectAll, "DeselectionAll" );
-
-  editMenu->insertItem( i18n( "&Invert selection"), this,
-			SLOT( edit_invertSel() ), 0, eMInvertSel );
-  accelerators->changeMenuAccel(editMenu, eMInvertSel, "InvertSel" );
-
-  editMenu->insertSeparator();
-	
-  editMenu->insertItem( i18n( "&View shell output..."),
-			this, SLOT( edit_view_last_shell_output() ) );
+ if(toolBar()->isVisible())
+   toolBar()->hide();
+ else
+   toolBar()->show();
 }
 
-void ArkWidget::createActionMenu( int _flag )
+void ArkWidget::toggleStatusBar()
 {
-  kDebugError(arch != 0, 0, 1601, "arch is empty !" );
-	
-  actionMenu->clear();
-  if (_flag & Arch::Add )
-    {
-      actionMenu->insertItem( i18n( "&Add..."), this,
-			      SLOT( action_add() ), 0, eMAddFile );
-      accelerators->changeMenuAccel(actionMenu, eMAddFile, "Add_accel" );
-      idAdd = eMAddFile;
-
-      actionMenu->insertItem(i18n("Add D&irectory..."), this,
-			     SLOT(action_add_dir()), 0, eMAddDir);
-    }
+  if (statusBar()->isVisible())
+    statusBar()->hide();
   else
-    idAdd = -1;
-
-  if (_flag & Arch::Delete )
-    {
-      actionMenu->insertItem( i18n( "&Delete..."), this,
-			      SLOT( action_delete() ), 0, eMDelete );
-      actionMenu->setItemEnabled(eMDelete, false);
-      accelerators->changeMenuAccel(actionMenu, eMDelete, "Delete_accel" );
-      idDelete = eMDelete;
-    }
-  else
-    idDelete = -1;
-
-  if (_flag & Arch::Extract )
-    {
-      actionMenu->insertItem( i18n( "E&xtract..."),
-			      this, SLOT( action_extract() ), 0, eMExtract );
-      accelerators->changeMenuAccel(actionMenu, eMExtract, "Extract_accel" );
-      idExtract = eMExtract;
-    }
-  else
-    idExtract = -1;
-
-
-  if (_flag & Arch::View )
-    {
-      actionMenu->insertItem( i18n( "&Open with..."), this,
-			      SLOT( slotOpenWith() ), 0, eMOpenWith );
-      accelerators->changeMenuAccel(actionMenu, eMOpenWith, "Open_with_accel");
-      idView = eMOpenWith;
-    }
-  else
-    idView = -1;
-	
-  if (_flag & Arch::View )
-    {
-      actionMenu->insertItem( i18n( "&View..."), this,
-			      SLOT( action_view() ), 0, eMView );
-      accelerators->changeMenuAccel(actionMenu, eMView, "View_accel" );
-      idView = eMView;
-    }
-  else
-    idView = -1;
-	
-  menuBar()->setItemEnabled(eMAction, true);
+    statusBar()->show();
 }
 
+#if 0
 void ArkWidget::createRecentPopup()
 {
-  recentPopup->clear();
+  //  recentPopup->clear();
 
   QStringList *recentFiles = m_settings->getRecentFiles();
   for (uint i=0; i<recentFiles->count(); i++)
@@ -379,6 +263,7 @@ void ArkWidget::createRecentPopup()
     }
 }
 
+#endif
 void ArkWidget::setupStatusBar()
 {
   kDebugInfo( 1601, "+ArkWidget::setupStatusBar");
@@ -406,98 +291,24 @@ void ArkWidget::setupStatusBar()
   sb->addWidget(m_pStatusLabelTotal, 3000);
 
   kDebugInfo( 1601, "-ArkWidget::setupStatusBar");
-
-}
-
-void ArkWidget::setupToolBar()
-{
-    kDebugInfo( 1601, "+ArkWidget::setupToolBar");
-
-    KToolBar *tb = toolBar();
-
-    QPixmap pixmap;
-
-    pixmap = BarIcon("ark_new");
-    tb->insertButton ( pixmap, eNew, SIGNAL(clicked()), this,
-		       SLOT(file_new()), true, i18n("New"));
-
-    pixmap = BarIcon("ark_open");
-    tb->insertButton ( pixmap, eOpen, SIGNAL(clicked()), this,
-		       SLOT(file_open()), true, i18n("Open"));
-
-    tb->insertSeparator();
-
-    pixmap = BarIcon("ark_addfile");
-    tb->insertButton ( pixmap, eAddFile, SIGNAL(clicked()),
-		       this, SLOT(action_add()), true, i18n("Add File"));
-
-    pixmap = BarIcon("ark_adddir");
-    tb->insertButton ( pixmap, eAddDir, SIGNAL(clicked()), this,
-		       SLOT(action_add_dir()), true, i18n("Add Dir"));
-
-    tb->insertSeparator();
-
-    pixmap = BarIcon("ark_extract");
-    tb->insertButton ( pixmap, eExtract, SIGNAL(clicked()),
-		       this, SLOT(action_extract()), true, i18n("Extract"));
-
-    pixmap =  BarIcon("ark_delete");
-    tb->insertButton ( pixmap, eDelete, SIGNAL(clicked()), this,
-		       SLOT(action_delete()), true, i18n("Delete"));
-
-    tb->insertSeparator();
-
-    pixmap = BarIcon("ark_selectall");
-    tb->insertButton ( pixmap , eSelectAll, SIGNAL(clicked()),
-		       this, SLOT(edit_selectAll()), true, i18n("Select All"));
-
-    pixmap = BarIcon("ark_view");
-    tb->insertButton ( pixmap, eView, SIGNAL(clicked()), this,
-		       SLOT(action_view()), true, i18n("View"));
-
-    tb->insertSeparator();
-
-    pixmap = BarIcon("ark_options");
-    tb->insertButton ( pixmap, eOptions, SIGNAL(clicked()),
-		       this, SLOT(options_dirs()), true, i18n("Options"));
-
-    pixmap = BarIcon("ark_help");
-    tb->insertButton ( pixmap, eHelp, SIGNAL(clicked()), this,
-		       SLOT(help()), true, i18n("Help"));
-
-    tb->setBarPos( KToolBar::Top );
-
-    // start out with some disabled
-    tb->setItemEnabled(eAddFile, false);
-    tb->setItemEnabled(eAddDir, false);
-    tb->setItemEnabled(eDelete, false);
-    tb->setItemEnabled(eExtract, false);
-    tb->setItemEnabled(eSelectAll, false);
-    tb->setItemEnabled(eView, false);
-
-    kDebugInfo( 1601, "-ArkWidget::setupToolBar");
 }
 
 void ArkWidget::initialEnables()
 {
   // start out with some menu items disabled
-  fileMenu->setItemEnabled(eMClose, false);
-  fileMenu->setItemEnabled(eMReload, false);
+  closeAction->setEnabled(false);
+  reloadAction->setEnabled(false);
 
-  editMenu->setItemEnabled(eMSelect, false);
-  editMenu->setItemEnabled(eMSelectAll, false);
-  editMenu->setItemEnabled(eMDeselectAll, false);
-  editMenu->setItemEnabled(eMInvertSel, false);
+  selectAction->setEnabled(false);
+  selectAllAction->setEnabled(false);
+  deselectAllAction->setEnabled(false);
+  invertSelectionAction->setEnabled(false);
 
-  actionMenu->setItemEnabled(eMDelete, false);
-  actionMenu->setItemEnabled(eMExtract, false);
-  actionMenu->setItemEnabled(eMAddFile, false);
-  actionMenu->setItemEnabled(eMAddDir, false);
-
-  m_archivePopup->setItemEnabled(eMAddFile, false);
-  m_archivePopup->setItemEnabled(eMAddDir, false);
-  m_archivePopup->setItemEnabled(eMSelectAll, false);
-  m_archivePopup->setItemEnabled(eMClose, false);
+  viewAction->setEnabled(false);
+  deleteAction->setEnabled(false);
+  extractAction->setEnabled(false);
+  addFileAction->setEnabled(false);
+  addDirAction->setEnabled(false);
 }
 
 
@@ -517,6 +328,9 @@ void ArkWidget::updateStatusTotals()
 	{
 	  ++m_nNumFiles;
 	  
+	  kDebugInfo( 1601, "Adding %s\n",
+		      (const char *)pItem->text(m_currentSizeColumn));
+
 	  kDebugInfo( 1601, "Adding %d\n",
 		      atoi(pItem->text(m_currentSizeColumn)));
 	  if (m_currentSizeColumn != -1)
@@ -643,8 +457,10 @@ void ArkWidget::saveProperties()
   KConfig *kc = m_settings->getKConfig();
   kc->setGroup( "ark" );
 
+#if 0
   if ( m_settings->isSaveOnExitChecked() )
     accelerators->writeSettings( m_settings->getKConfig() );
+#endif
 
   m_settings->writeConfiguration();
 
@@ -738,14 +554,13 @@ void ArkWidget::file_new()
 }
 
 void ArkWidget::slotCreate(Arch * _newarch, bool _success,
-			   const QString & _filename, int _flag )
+			   const QString & _filename, int _flag)
 {
   if ( _success )
     {
       file_close();
       m_strArchName = _filename;
       newCaption( _filename );
-      createActionMenu( _flag );
       createFileListView();
       setCaption(_filename);
       m_bIsArchiveOpen = true;
@@ -799,14 +614,30 @@ void ArkWidget::file_open()
   kDebugInfo( 1601, "-ArkWidget::file_open");
 }
 
+void ArkWidget::file_openRecent(const KURL& url)
+{
+  QString strFile;
+  if (!url.isEmpty())
+  {
+    KIO::NetAccess::download(url, strFile); 
+    m_settings->clearShellOutput();
+    file_open(strFile);
+    return;
+  }
+}
+
+
+#if 0
 void ArkWidget::file_openRecent(int i)
 {
+
   //	kDebugInfo( 1601, "+ArkWidget::file_openRecent");
   QString filename = recentPopup->text(i);
   file_open( filename );
   m_settings->clearShellOutput();
   kDebugInfo( 1601, "-ArkWidget::file_openRecent");
 }
+#endif
 
 void ArkWidget::showZip( QString _filename )
 {
@@ -826,7 +657,6 @@ void ArkWidget::slotOpen(Arch *_newarch, bool _success,
   
   if ( _success )
     {
-	menuBar()->setItemEnabled(eMEdit, true);
 	QFileInfo fi( _filename );
 	QString path = fi.dirPath( true );
 	m_settings->setLastOpenDir( path );
@@ -838,7 +668,7 @@ void ArkWidget::slotOpen(Arch *_newarch, bool _success,
 	    KMessageBox::information(this, i18n("This archive is read-only."));
 	  }
 	newCaption(_filename );
-	createActionMenu( _flag );
+	//	createActionMenu( _flag );
 	arch = _newarch;
 	updateStatusTotals();
 	m_bIsArchiveOpen = true;
@@ -931,37 +761,22 @@ void ArkWidget::disableAll() // private
 {
   kDebugInfo( 1601, "+ArkWidget::disableAll");
 
-  fileMenu->setItemEnabled(eMOpen, false);
-  fileMenu->setItemEnabled(eMNew, false);
-  fileMenu->setItemEnabled(eMClose, false);
-  fileMenu->setItemEnabled(eMReload, false);
+  openAction->setEnabled(false);
+  newArchAction->setEnabled(false);
+  closeAction->setEnabled(false);
+  reloadAction->setEnabled(false);
 
-  editMenu->setItemEnabled(eMSelect, false);
-  editMenu->setItemEnabled(eMSelectAll, false);
-  editMenu->setItemEnabled(eMDeselectAll, false);
-  editMenu->setItemEnabled(eMInvertSel, false);
+  selectAction->setEnabled(false);
+  selectAllAction->setEnabled(false);
+  deselectAllAction->setEnabled(false);
+  invertSelectionAction->setEnabled(false);
 
-  actionMenu->setItemEnabled(eMDelete, false);
-  actionMenu->setItemEnabled(eMAddFile, false);
-  actionMenu->setItemEnabled(eMAddDir, false);
-  actionMenu->setItemEnabled(eMExtract, false);
-  actionMenu->setItemEnabled(eMView, false);
-  actionMenu->setItemEnabled(eMOpenWith, false);
-
-  m_filePopup->setItemEnabled(eMDelete, false);
-
-  m_archivePopup->setItemEnabled(eMSelectAll, false);
-
-  //    editMenu->setItemEnabled(eMRename, bHaveFiles);
-  KToolBar *tb = toolBar();
-  tb->setItemEnabled(eNew, false);
-  tb->setItemEnabled(eOpen, false);
-  tb->setItemEnabled(eDelete, false);
-  tb->setItemEnabled(eExtract, false);
-  tb->setItemEnabled(eSelectAll, false);
-  tb->setItemEnabled(eView, false);
-  tb->setItemEnabled(eAddFile, false);
-  tb->setItemEnabled(eAddDir, false);
+  viewAction->setEnabled(false);
+  deleteAction->setEnabled(false);
+  extractAction->setEnabled(false);
+  addFileAction->setEnabled(false);
+  addDirAction->setEnabled(false);
+  openWithAction->setEnabled(false);
 
   kDebugInfo( 1601, "-ArkWidget::disableAll");
 }
@@ -984,51 +799,26 @@ void ArkWidget::fixEnables() // private
   if (arch)
     bReadOnly = arch->isReadOnly();
 
-  fileMenu->setItemEnabled(eMOpen, true);
-  fileMenu->setItemEnabled(eMNew, false);
-  fileMenu->setItemEnabled(eMClose, bHaveFiles);
-  fileMenu->setItemEnabled(eMReload, bHaveFiles);
+  openAction->setEnabled(true);
+  newArchAction->setEnabled(true);
+  closeAction->setEnabled(bHaveFiles);
+  reloadAction->setEnabled(bHaveFiles);
 
-  editMenu->setItemEnabled(eMSelect, bHaveFiles);
-  editMenu->setItemEnabled(eMSelectAll, bHaveFiles);
-  editMenu->setItemEnabled(eMDeselectAll, bHaveFiles);
-  editMenu->setItemEnabled(eMInvertSel, bHaveFiles);
+  selectAction->setEnabled(bHaveFiles);
+  selectAllAction->setEnabled(bHaveFiles);
+  deselectAllAction->setEnabled(bHaveFiles);
+  invertSelectionAction->setEnabled(bHaveFiles);
 
-  actionMenu->setItemEnabled(eMDelete, bHaveFiles  && m_nNumSelectedFiles > 0
-			     && arch && !bReadOnly);
-  actionMenu->setItemEnabled(eMAddFile, m_bIsArchiveOpen &&
-			     !bReadOnly);
-  actionMenu->setItemEnabled(eMAddDir, m_bIsArchiveOpen &&
-			     !bReadOnly && bAddDirSupported);
-  actionMenu->setItemEnabled(eMExtract, bHaveFiles);
-  actionMenu->setItemEnabled(eMView, bHaveFiles && m_nNumSelectedFiles == 1);
-  actionMenu->setItemEnabled(eMOpenWith,
-			      bHaveFiles && m_nNumSelectedFiles == 1);
+  deleteAction->setEnabled(bHaveFiles  && m_nNumSelectedFiles > 0
+			   && arch && !bReadOnly);
+  addFileAction->setEnabled(m_bIsArchiveOpen &&
+			    !bReadOnly);
+  addDirAction->setEnabled(m_bIsArchiveOpen &&
+			   !bReadOnly && bAddDirSupported);
+  extractAction->setEnabled(bHaveFiles);
+  viewAction->setEnabled(bHaveFiles && m_nNumSelectedFiles == 1);
 
-  m_filePopup->setItemEnabled(eMDelete, bHaveFiles  && m_nNumSelectedFiles > 0
-			     && arch && !bReadOnly);
-
-  m_archivePopup->setItemEnabled(eMSelectAll, bHaveFiles);
-
-  //    editMenu->setItemEnabled(eMRename, bHaveFiles);
-  KToolBar *tb = toolBar();
-  tb->setItemEnabled(eOpen, true);
-  tb->setItemEnabled(eNew, true);
-  tb->setItemEnabled(eDelete, bHaveFiles && m_nNumSelectedFiles > 0
-		     && arch && !bReadOnly);
-  tb->setItemEnabled(eExtract, bHaveFiles);
-  tb->setItemEnabled(eSelectAll, bHaveFiles);
-  tb->setItemEnabled(eView, bHaveFiles && m_nNumSelectedFiles == 1);
-  tb->setItemEnabled(eAddFile, m_bIsArchiveOpen && arch &&
-		     !bReadOnly);
-  tb->setItemEnabled(eAddDir, m_bIsArchiveOpen && arch &&
-		     !bReadOnly && bAddDirSupported);
-
-  menuBar()->setItemEnabled(eMAction, m_bIsArchiveOpen);
-
-  
   kDebugInfo( 1601, "-ArkWidget::fixEnables");
-
 }
 
 
@@ -1510,9 +1300,10 @@ void ArkWidget::options_dirs()
 
 void ArkWidget::options_keys()
 {
-	KKeyDialog::configureKeys(accelerators, this);
+  //  KKeyDialog::configureKeys(accelerators, this);
 }
 
+#if 0
 void ArkWidget::options_saveNow()
 {
   m_settings->writeConfigurationNow();
@@ -1525,12 +1316,7 @@ void ArkWidget::options_saveOnExit()
   m_settings->setSaveOnExitChecked( !m_settings->isSaveOnExitChecked() );
 }
 
-// Help menu /////////////////////////////////////////////////////////
-
-void ArkWidget::help()
-{
-  kapp->invokeHTMLHelp( "", "" );
-}
+#endif
 
 // Popup /////////////////////////////////////////////////////////////
 
@@ -1552,16 +1338,12 @@ void ArkWidget::doPopup(QListViewItem *pItem, const QPoint &pPoint,
   }
 }
 
-
 // Service functions /////////////////////////////////////////////////
 
 void ArkWidget::slotSelectionChanged()
 {
   kDebugInfo( 1601, "+ArkWidget::slotSelectionChanged");
-  
-  //  actionMenu->setItemEnabled( idDelete, !archiveContent->isSelectionEmpty() );
   updateStatusSelection();
-  
   kDebugInfo( 1601, "-ArkWidget::slotSelectionChanged");
 }
 
@@ -1776,7 +1558,6 @@ void ArkWidget::showFavorite()
   QDir *fav;
 
   file_close();
-  archiverMode = false;
   createFileListView();
 
   archiveContent->addColumn( i18n(" File ") );
@@ -1865,13 +1646,8 @@ void ArkWidget::slotStatusBarTimeout()
 
 void ArkWidget::newCaption(const QString& _filename)
 {
-//	QString caption;
-//	caption = i18n("ark - %1[%2 files]").arg(filename).arg(archiveContent->count());
-	setCaption( _filename );
-
-	toolBar()->setItemEnabled( eMExtract, true );
-	m_settings->addRecentFile( _filename );
-	createRecentPopup();
+  setCaption( _filename );
+  m_settings->addRecentFile( _filename );
 }
 
 void ArkWidget::createFileListView()
@@ -1885,11 +1661,13 @@ void ArkWidget::createFileListView()
   connect( archiveContent, SIGNAL( selectionChanged()),
 	   this, SLOT( slotSelectionChanged() ) );
 
+#if 0
   connect(archiveContent,
 	  SIGNAL(rightButtonPressed(QListViewItem *,
 				    const QPoint &, int)),
 	  this, SLOT(doPopup(QListViewItem *,
 			     const QPoint &, int)));
+#endif
 }
 
 

@@ -4,7 +4,7 @@
 
  Copyright (C)
 
- 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -54,6 +54,13 @@ RarArch::RarArch( ArkSettings *_settings, Viewer *_gui,
 
 void RarArch::processLine( char *_line )
 {
+  // For each rar entry, this function is called exactly three times.
+  // The first time, store the first line and return.
+  // The second time, store the second line and return.
+  // The third time, process the data in the first two lines and
+  // send to the GUI. We ignore the third line since the data there
+  // isn't really that important.
+
   ++m_linenumber;
   if (m_linenumber == 1)
     {
@@ -79,14 +86,12 @@ void RarArch::processLine( char *_line )
 	 columns[4], columns[5], columns[6],
 	 columns[7]);
 
-  // ignore the third line - don't really need that extra data.
-
   // rearrange columns 3, 8, 9 so that the sort will work.
   // columns[3] is the day
   // columns[8] is the month
   // columns[9] is a 2-digit year. Ugh. Y2K junk here.
   
-  QString year = fixYear(columns[9]);
+  QString year = Utils::fixYear(columns[9]);
 
   // put entire timestamp in columns[3]
 

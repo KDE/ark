@@ -32,7 +32,6 @@
 
 class QLineEdit;
 class QCheckBox;
-class KFileWidget;
 class ArkSettings;
 class KDirOperator;
 
@@ -43,7 +42,7 @@ public:
   AddDlg(ArchType _archtype, const QString & _sourceDir, 
 	 ArkSettings *_settings, QWidget *parent=0, const char *name=0);
 
-  ~AddDlg() { delete m_fileList; }
+  ~AddDlg() { delete m_fileList;}
   QStringList *getFiles() { return m_fileList; }
 public slots:
   void accept();

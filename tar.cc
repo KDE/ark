@@ -225,8 +225,9 @@ void TarArch::open()
   // might as well plunk the output of tar -tvf in the shell output window...
   KProcess *kp = new KProcess;
 
-  *kp << m_archiver_program.local8Bit() <<
-    "--use-compress-program="+getUnCompressor() ;
+  *kp << m_archiver_program.local8Bit() ;
+  if (compressed)
+    *kp << "--use-compress-program="+getUnCompressor() ;
   *kp << "-tvf" << m_filename.local8Bit();
   connect(kp, SIGNAL(processExited(KProcess *)),
 	  this, SLOT(slotListingDone(KProcess *)));
@@ -507,8 +508,9 @@ void TarArch::unarchFile( QStringList * _fileList, const QString & _destDir)
   KProcess *kp = new KProcess;
   kp->clearArguments();
   
-  *kp << m_archiver_program.local8Bit() <<
-    "--use-compress-program="+getUnCompressor() ;
+  *kp << m_archiver_program.local8Bit();
+  if (compressed)
+    *kp << "--use-compress-program="+getUnCompressor() ;
   if (m_settings->getTarPreservePerms())
     *kp << "-xvpf";
   else

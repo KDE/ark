@@ -5,7 +5,7 @@
  Copyright (C)
 
  1997-1999: Rob Palmbos palm9744@kettering.edu
- 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -87,7 +87,7 @@ void ArArch::processLine( char *_line )
   // Put columns[3] - [6] into standard format
   QString timestamp;
   timestamp.sprintf("%s-%.2d-%.2d %s",
-		    columns[6], getMonth(columns[3]),
+		    columns[6], Utils::getMonth(columns[3]),
 		    atoi(columns[4]), columns[5]);
   // put timestamp into column 3
   strcpy(columns[3], (const char *)timestamp);

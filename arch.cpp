@@ -204,9 +204,12 @@ void Arch::slotReceivedOutput(KProcess*, char* _data, int _length)
   _data[_length] = c;
 }
 
-QString Arch::getTimeStamp(const QString &_month,
-			   const QString &_day,
-			   const QString &_yearOrTime)
+/// UTILS
+
+
+QString Utils::getTimeStamp(const QString &_month,
+			    const QString &_day,
+			    const QString &_yearOrTime)
 {
   // Make the date format sortable.
   // Month is in _month, day is in _day.
@@ -234,7 +237,7 @@ QString Arch::getTimeStamp(const QString &_month,
   if (_yearOrTime.contains(":"))
     // it has a timestamp so we have to figure out the year
     {
-      year.sprintf("%d", getYear(nMonth, thisYear, thisMonth));
+      year.sprintf("%d", Utils::getYear(nMonth, thisYear, thisMonth));
       timestamp = _yearOrTime;
     }
   else
@@ -255,7 +258,7 @@ QString Arch::getTimeStamp(const QString &_month,
   return retval;
 }
 
-int getMonth(const char *strMonth)
+int Utils::getMonth(const char *strMonth)
   // returns numeric value for three-char month string
 {
   static char months[13][4] = { "", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -275,7 +278,7 @@ int getMonth(const char *strMonth)
 // year (of course it is hoped that there are not too many files lying 
 // around from the future).
 
-int getYear(int theMonth, int thisYear, int thisMonth)
+int Utils::getYear(int theMonth, int thisYear, int thisMonth)
 {
   int monthDiff = ABS(thisMonth - theMonth);
   if (monthDiff > 6)
@@ -284,7 +287,7 @@ int getYear(int theMonth, int thisYear, int thisMonth)
     return thisYear;
 }
 
-QString fixYear(const char *strYear)
+QString Utils::fixYear(const char *strYear)
 {
   // returns 4-digit year by guessing from two-char year string.
   // Remember: this is used for file timestamps. There probably aren't any

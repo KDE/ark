@@ -109,10 +109,6 @@ signals:
   void sigExtract(bool);
   void sigAdd(bool);
 	
-protected:  // methods
-  QString getTimeStamp(const QString &month,
-		       const QString &day,
-		       const QString &year);
 protected:  // data
   QString m_filename;
   QString m_shellErrorData;
@@ -122,8 +118,16 @@ protected:  // data
   bool m_bReadOnly; // for readonly archives
 };
 
-int getYear(int theMonth, int thisYear, int thisMonth);
-int getMonth(const char *strMonth);
-QString fixYear(const char *strYear);
+namespace Utils
+{
+  int getYear(int theMonth, int thisYear, int thisMonth);
+  int getMonth(const char *strMonth);
+  QString fixYear(const char *strYear);
+  
+  QString getTimeStamp(const QString &month,
+		       const QString &day,
+		       const QString &year);
+}
+
 
 #endif /* ARCH_H */

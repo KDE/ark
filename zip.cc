@@ -54,18 +54,30 @@ ZipArch::ZipArch( ArkSettings *_settings, Viewer *_gui,
 
 void ZipArch::processLine( char *_line )
 {
-  char columns[8][80];
+  char columns[11][80];
   char filename[4096];
 	
-  sscanf(_line, " %[0-9] %[a-zA-Z:] %[0-9] %[0-9%] %[-0-9] %[0-9:] "
-	 "%[0-9a-z]%3[ ]%[^\n]",
+  sscanf(_line, " %[0-9] %[a-zA-Z:] %[0-9] %[0-9%] %2[0-9]-%2[0-9]-%2[0-9]  %[0-9:] %[0-9a-z]%3[ ]%[^\n]",
 	 columns[0], columns[1], columns[2], columns[3],
-	 columns[4], columns[5], columns[6], columns[7],
-	 filename);
+	 columns[4], columns[7], columns[8], columns[9],
+         columns[5], columns[10], filename);
+
+  // columns[4] is the month, columns[7] the day, columns[8] the 2-digit year,
+  // columns[9] the time. Put into sortable format and plunk back into
+  // columns[4]
+
+  QString year = Utils::fixYear(columns[8]);
+
+  kDebugInfo(1601, "Year is %s", (const char *)year);
+  QString timestamp;
+  timestamp.sprintf("%s-%s-%s %s", (const char *)year,
+		    columns[4], columns[7], columns[9]);
   
+  strcpy(columns[4], (const char *)timestamp);
+  kDebugInfo(1601, "Timestamp is %s", (const char *)columns[4]);
   QStringList list;
   list.append(QString::fromLocal8Bit(filename));
-  for (int i = 0; i < 7; ++i)
+  for (int i = 0; i < 6; ++i)
     {
       list.append(QString::fromLocal8Bit(columns[i]));
     }
@@ -160,18 +172,19 @@ void ZipArch::setHeaders()
   list.append(i18n(" Method "));
   list.append(i18n(" Size "));
   list.append(i18n(" Ratio "));
-  list.append(i18n(" Date "));
-  list.append(i18n(" Time "));
+  list.append(i18n(" Timestamp "));
   list.append(i18n(" CRC-32 "));
 
   // which columns to align right
-  int *alignRightCols = new int[4];
+  int *alignRightCols = new int[6];
   alignRightCols[0] = 1;
-  alignRightCols[1] = 3;
-  alignRightCols[2] = 4;
-  alignRightCols[3] = 7;
+  alignRightCols[1] = 2;
+  alignRightCols[2] = 3;
+  alignRightCols[3] = 4;
+  alignRightCols[4] = 5;
+  alignRightCols[5] = 6;
   
-  m_gui->setHeaders(&list, alignRightCols, 4);
+  m_gui->setHeaders(&list, alignRightCols, 6);
   delete [] alignRightCols;
 
   kDebugInfo( 1601, "-ZipArch::setHeaders");

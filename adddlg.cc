@@ -25,7 +25,6 @@
 #include <kdebug.h>
 #include <qstring.h>
 #include <kurl.h>
-#include <kfiledialog.h>
 #include <kdiroperator.h>
 #include <kfile.h>
 #include <qvbox.h>
@@ -34,7 +33,8 @@
 #include <qfileinfo.h>
 #include <qlayout.h>
 #include <klocale.h>
-#include <kfileview.h>
+#include <kcombiview.h>
+#include <kfileiconview.h>
 #include <qbuttongroup.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
@@ -63,13 +63,15 @@ void AddDlg::setupFirstTab()
   kDebugInfo( 1601, "+AddDlg::setupFirstTab");
 
   QFrame *frame = addPage(i18n("Add"));
-  QVBoxLayout *vlay = new QVBoxLayout(frame, 0, spacingHint());
 
   m_dirList = new KDirOperator(m_sourceDir, frame, "dirlist");
-  
-  m_dirList->setView(static_cast<KFile::FileView>(KFile::Simple | KFile::SeparateDirs));
-  
-  m_dirList->setGeometry(x(), y(), 500, 500);  // this doesn't do a thing
+  KCombiView *pCombiView = new KCombiView(m_dirList, "fileview");
+  KFileIconView *pFileView = new KFileIconView(pCombiView, "fileview2");
+  pCombiView->setRight(pFileView);
+  pFileView->setSelectionMode( KFile::Multi ); 
+  m_dirList->setView(pCombiView);
+
+  QVBoxLayout *vlay = new QVBoxLayout(frame, 0, spacingHint());
   vlay->addWidget(m_dirList);  
 }
 

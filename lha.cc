@@ -76,8 +76,8 @@ void LhaArch::processLine( char *_line )
   kDebugInfo(1601, "The actual file is %s", (const char *)filename);
 
   // make the time stamp sortable
-  QString massagedTimeStamp = getTimeStamp(columns[6], columns[7],
-					   columns[8]);
+  QString massagedTimeStamp = Utils::getTimeStamp(columns[6], columns[7],
+						  columns[8]);
   strcpy(columns[6], (const char *)massagedTimeStamp);
 
   kDebugInfo(1601, "New timestamp is %s", columns[6]);

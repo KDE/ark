@@ -46,6 +46,7 @@
 #include <kconfig.h>
 #include <kpopmenu.h>
 #include <ktmainwindow.h>
+#include <kurl.h>
 
 // ark includes
 #include "arksettings.h"
@@ -64,6 +65,8 @@
 class Viewer;
 class Arch;
 class QLabel;
+class KAction;
+class KRecentFilesAction;
 
 enum ArchType {UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
 	       LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT, COMPRESSED_FORMAT};
@@ -86,15 +89,16 @@ public:
   QString getNewFileName();
   int getNumFilesInArchive() { return m_nNumFiles; }
 public slots:    
-void file_newWindow();
+  void file_newWindow();
+  void file_openRecent(const KURL& url);
+
   void file_open(const QString &);  // opens the specified archive
-  //    void open_fail();
-  //    void open_ok( QString );
-    
+  void toggleToolBar();
+  void toggleStatusBar();
+
 protected slots:
   void file_new();
   void file_open();
-  void file_openRecent( int );
   void file_reload();
   void file_close();
   void window_close();
@@ -112,14 +116,13 @@ protected slots:
   void action_delete();
   void action_extract();
   void slotOpenWith();
-	
   void options_dirs();
   void options_keys();
   void options_general();
-  void options_saveOnExit();
-  void options_saveNow();
+  //  void options_saveOnExit();
+  //  void options_saveNow();
 
-  void help();
+  //  void help();
 		
   void doPopup(QListViewItem *, const QPoint &, int); // right-click menus
 	
@@ -143,7 +146,6 @@ protected:
   void dropEvent(QDropEvent* event);
   void dropAction(QStringList *list);
 
-  void createActionMenu( int );
   void initialEnables();
 
 private: // methods
@@ -167,36 +169,34 @@ private:
   Arch *arch;
 
 private:
+  KAction *newWindowAction, *newArchAction, *openAction, *addFileAction,
+    *addDirAction, *extractAction, *deleteAction, *closeAction, *reloadAction,
+    *selectAllAction, *viewAction, *settingsAction, *helpAction,
+    *openWithAction, *selectAction, *deselectAllAction, *invertSelectionAction;
+  KRecentFilesAction *recent;
+
+  
   KPopupMenu *m_filePopup, *m_archivePopup;
   ArkSettings *m_settings;  // each arkwidget has its own settings
 
-  //    QTimer *statusBarTimer;
-  KAccel *accelerators;
+  //  KAccel *accelerators;
   FileListView *archiveContent;
 
   QString m_strArchName;
   QString m_strNewArchname;
-  QPopupMenu *fileMenu, *editMenu, *actionMenu, *optionsMenu;
-  QPopupMenu *recentPopup;
-
-  //  int  idActionMenu, idEditMenu;
-  int idExtract, idDelete, idAdd, idView;
-  //  int idSaveOnExit;
-
-  bool archiverMode;
-
-  //    void writeStatusMsg(const QString text);
-  //  void clearStatusBar();
-  void createEditMenu();
+  //  QPopupMenu *fileMenu, *editMenu, *actionMenu, *optionsMenu;
+  //  QPopupMenu *recentPopup;
 	
 protected:	
   void arkWarning(const QString& msg);
   void arkError(const QString& msg);
 	
-  void setupMenuBar();
+  void setupActions();
   void setupStatusBar();
+
+  void setupMenuBar();
   void setupToolBar();
-  void createRecentPopup();
+  //  void createRecentPopup();
 	
   void newCaption(const QString& filename);
   void createFileListView();
@@ -243,6 +243,7 @@ private:
   int m_currentSizeColumn;
 };
 
+#if 0
 // menu ids
 enum { eMFile, eMAction, eMEdit, eMOptions, eMHelp } ;
 
@@ -254,6 +255,7 @@ enum { eMNew, eMOpen, eMReload, eMClose, eMWindow, eMExit, eMAddFile,
        eMAddDir, eMDelete, eMExtract, eMView, eMSelectAll, eMRename,
        eMSaveOnExit, eMSelect, eMDeselectAll, eMInvertSel, eMOpenWith};
 
+#endif
 
 // status item numbers
 

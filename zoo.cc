@@ -4,7 +4,7 @@
 
  Copyright (C)
 
- 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -67,13 +67,13 @@ void ZooArch::processLine( char *_line )
 
   kDebugInfo(1601, "The actual file is %s", (const char *)filename);
 
-  QString year = fixYear(columns[8]);
+  QString year = Utils::fixYear(columns[8]);
 
   kDebugInfo(1601, "The year is %s", (const char *)year);
 
   QString strDate;
   strDate.sprintf("%s-%.2d-%.2d", (const char *)year,
-		    getMonth(columns[7]), atoi(columns[3]));
+		    Utils::getMonth(columns[7]), atoi(columns[3]));
 
   strcpy(columns[3], (const char *)strDate);
   kDebugInfo(1601, "New timestamp is %s", columns[3]);
@@ -130,11 +130,12 @@ void ZooArch::setHeaders()
   list.append(i18n(" Timestamp "));
 
   // which columns to align right
-  int *alignRightCols = new int[2];
+  int *alignRightCols = new int[3];
   alignRightCols[0] = 2;
   alignRightCols[1] = 3;
+  alignRightCols[2] = 4;
 
-  m_gui->setHeaders(&list, alignRightCols, 2);
+  m_gui->setHeaders(&list, alignRightCols, 3);
   delete [] alignRightCols;
 
   kDebugInfo( 1601, "-ZooArch::setHeaders");
@@ -414,7 +415,11 @@ QString fixTime(const QString &_strTime)
 	  strTime = strTime.left(8);
 	  strTime.sprintf("%2.2d%s", nHour, (const char *)strTime.right(6));
 	  kDebugInfo(1601, "The new time is %s\n", (const char *) strTime);
-	}
+	}	
+    }
+  else
+    {
+      strTime = strTime.left(8);
     }
   return strTime;
 }
