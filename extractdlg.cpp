@@ -51,10 +51,9 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include <qpushbutton.h>
 
 #define FIRST_PAGE_WIDTH  390
-#define DLG_NAME i18n( "Extract" )
 
 ExtractDlg::ExtractDlg( ArkSettings *_settings )
-    : KDialogBase( KDialogBase::Plain, DLG_NAME, Ok | Cancel, Ok ),
+    : KDialogBase( KDialogBase::Plain, i18n("Extract"), Ok | Cancel, Ok ),
 m_settings( _settings )
 {
     QFrame *mainFrame = plainPage();
