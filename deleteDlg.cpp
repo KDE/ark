@@ -1,6 +1,6 @@
 /*
 
- $Id: $
+ $Id$
 
  ark -- archiver for the KDE project
 
@@ -57,7 +57,7 @@ DeleteDlg::DeleteDlg( bool _selEnabled, QWidget *_parent, const char *_name )
 	QVBoxLayout *vblg1 = new QVBoxLayout( bg1, 10 );
 	vblg1->addSpacing( 10 );
 	
-	m_rbSelection = new QRadioButton( "Selected files", bg1 );
+	m_rbSelection = new QRadioButton( i18n("Selected files"), bg1 );
 	m_rbSelection->setFixedSize( m_rbSelection->sizeHint() );
 	vblg1->addWidget( m_rbSelection, 0, AlignLeft );
 	m_rbSelection->setEnabled( _selEnabled );
@@ -66,7 +66,7 @@ DeleteDlg::DeleteDlg( bool _selEnabled, QWidget *_parent, const char *_name )
 	QHBoxLayout *hbl1 = new QHBoxLayout();
 	vblg1->addLayout( hbl1 );
 	
-	m_rbPatterns = new QRadioButton( "Files: ", bg1 );
+	m_rbPatterns = new QRadioButton( i18n("Files: "), bg1 );
 	m_rbPatterns->setFixedSize( m_rbPatterns->sizeHint() );
 	hbl1->addWidget( m_rbPatterns );
 	m_rbPatterns->setChecked( !_selEnabled );
