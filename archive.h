@@ -26,8 +26,7 @@
 #include "archiveentry.h"
 
 #include <qobject.h>
-
-#include <kurl.h>
+#include <qstring.h>
 
 class KActionCollection;
 
@@ -40,13 +39,18 @@ class Archive : public QObject
      * Constructor.
      * Protected, since it should not be called directly
      */
-    Archive( const KURL& url, bool openReadOnly = false );
+    Archive( const QString& archive, bool openReadOnly = false );
 
   public:
     /**
      * Destructor.
      */
     virtual ~Archive();
+
+    /**
+     * 
+     */
+    QString fileName() const { return m_fileName; }
 
     /**
      * Returns true if the archive is read only, false otherwise.
@@ -107,7 +111,7 @@ class Archive : public QObject
      */
     void initActions();
 
-    KURL m_url;
+    QString m_fileName;
     bool m_readOnly;
     KActionCollection *m_actionCollection;
     Q_UINT64 m_totalSize;

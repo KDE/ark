@@ -109,8 +109,6 @@ class Arch : public Archive
     virtual void unarchFile( QStringList *, const QString & _destDir,
                              bool viewFriendly = false ) = 0;
 
-    QString fileName() const { return m_filename; };
-
     enum EditProperties{ Add = 1, Delete = 2, Extract = 4,
                          View = 8, Integrity = 16 };
 
@@ -152,7 +150,6 @@ class Arch : public Archive
     void sigAdd( bool );
 
   protected:  // data
-    QString m_filename;
     QString m_lastShellOutput;
     QCString m_buffer;
     ArkWidget *m_gui;

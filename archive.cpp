@@ -26,17 +26,13 @@
 
 #include <qfileinfo.h>
 
-Archive::Archive( const KURL& url, bool openReadOnly)
-  : QObject(), m_url( url ), m_readOnly( openReadOnly ),
+Archive::Archive( const QString& archive, bool openReadOnly )
+  : QObject(), m_fileName( archive ), m_readOnly( openReadOnly ),
     m_totalSize( 0 ), m_totalCompressedSize( 0 )
 {
-  // If url is a local file and the user hasn't specified that the archive should be opened in  read-only mode
-  if ( m_url.isLocalFile() and ( openReadOnly != true ) )
-  {
-    QFileInfo fi( m_url.path() );
-    // Open the archive in read-only mode if it is not writable
-    m_readOnly = !fi.isWritable();
-  }
+  QFileInfo fi( archive );
+  // Open the archive in read-only mode if it is not writable or if openReadOnly is true
+  m_readOnly = ( openReadOnly ) or ( !fi.isWritable() );
 
   // Creates the action collection
   m_actionCollection = new KActionCollection( 0, this );

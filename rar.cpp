@@ -127,8 +127,8 @@ void RarArch::open()
   m_finished = false;
 
   KProcess *kp = new KProcess;
-  *kp << m_archiver_program << "v" << "-c-" << m_filename;
-  
+  *kp << m_archiver_program << "v" << "-c-" << fileName();
+
   connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
            SLOT( slotReceivedTOC(KProcess*, char*, int) ) );
   connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
@@ -145,7 +145,7 @@ void RarArch::open()
 
 void RarArch::create()
 {
-  emit sigCreate( this, true, m_filename,
+  emit sigCreate( this, true, fileName(),
                   Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
 }
 
@@ -176,7 +176,7 @@ void RarArch::addFile( const QStringList & urls )
   if ( Settings::rarRecurseSubdirs() )
     *kp << "-r";
 
-  *kp << m_filename;
+  *kp << fileName();
 
   KURL dir( urls.first() );
   QDir::setCurrent( dir.directory() );
@@ -226,7 +226,7 @@ void RarArch::unarchFile( QStringList *fileList, const QString & destDir,
     *kp << "-o-";
   }
 
-  *kp << m_filename;
+  *kp << fileName();
 
   // if the file list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
@@ -263,7 +263,7 @@ void RarArch::remove( QStringList *list )
   KProcess *kp = new KProcess;
   kp->clearArguments();
 
-  *kp << m_archiver_program << "d" << m_filename;
+  *kp << m_archiver_program << "d" << fileName();
   
   QStringList::Iterator it;
   for ( it = list->begin(); it != list->end(); ++it )

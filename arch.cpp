@@ -57,8 +57,8 @@ Arch::ArchColumns::ArchColumns( int col, QRegExp reg, int length, bool opt )
 }
 
 Arch::Arch( ArkWidget *gui, const QString &filename )
-  : Archive( KURL::fromPathOrURL(filename) ),
-    m_filename( filename ), m_buffer( "" ), m_gui( gui ),
+  : Archive( filename ),
+    m_buffer( "" ), m_gui( gui ),
     m_bNotifyWhenDeleteFails( true ),
     m_header_removed( false ), m_finished( false ),
     m_numCols( 0 ), m_dateCol( -1 ), m_fixYear( -1 ), m_fixMonth( -1 ),
@@ -104,7 +104,7 @@ void Arch::slotOpenExited( KProcess* _kp )
   }
 
   if ( !exitStatus )
-    emit sigOpen( this, true, m_filename,
+    emit sigOpen( this, true, fileName(),
                   Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
   else
     emit sigOpen( this, false, QString::null, 0 );
