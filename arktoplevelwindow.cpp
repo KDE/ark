@@ -267,7 +267,7 @@ void ArkTopLevelWindow::file_open()
     KComboBox * combo = new KComboBox( forceFormatWidget );
 
     QStringList list;
-    list = ArchiveFormatInfo::allDescriptions();
+    list = ArchiveFormatInfo::self()->allDescriptions();
     list.sort();
     list.prepend( i18n( "Autodetect (default)" ) );
     combo->insertStringList( list );
@@ -278,7 +278,7 @@ void ArkTopLevelWindow::file_open()
     l->addWidget( combo, 1 );
 
     KFileDialog dlg( m_widget->settings()->getOpenDir(),
-                     ArchiveFormatInfo::filter(),this, "filedialog",
+                     ArchiveFormatInfo::self()->filter(),this, "filedialog",
                      true, forceFormatWidget );
     dlg.setOperationMode( KFileDialog::Opening );
 
@@ -290,7 +290,8 @@ void ArkTopLevelWindow::file_open()
     url = dlg.selectedURL();
 
     if ( combo->currentItem() !=0 ) // i.e. != "Autodetect"
-        m_widget->setOpenAsMimeType( ArchiveFormatInfo::mimeTypeForDescription( combo->currentText() ) );
+        m_widget->setOpenAsMimeType(
+            ArchiveFormatInfo::self()->mimeTypeForDescription( combo->currentText() ) );
     else
         m_widget->setOpenAsMimeType( QString::null );
 

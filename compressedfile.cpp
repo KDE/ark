@@ -154,7 +154,7 @@ void CompressedFile::open()
   setHeaders();
 
   // We copy the file into the temporary directory, uncompress it,
-  // and when the uncompression is done, obtain an ls -l of it
+  // and when the uncompression is done, list it
   // (that code is in the slot slotOpenDone)
 
   m_tmpfile = m_filename.right(m_filename.length()
@@ -173,7 +173,11 @@ void CompressedFile::open()
   kp->clearArguments();
   *kp << m_unarchiver_program << "-f" ;
   if ( m_unarchiver_program == "lzop")
+  {
     *kp << "-d";
+    // lzop hack, see comment in tar.cpp createTmp()
+    kp->setUsePty( KProcess::Stdin, false );
+  }
   // gunzip 1.3 seems not to like original names with directories in them
   // testcase: https://listman.redhat.com/pipermail/valhalla-list/2006-October.txt.gz
   /*if ( m_unarchiver_program == "gunzip" )
@@ -284,6 +288,11 @@ void CompressedFile::addFile( QStringList *urls )
 
   KProcess *kp = new KProcess;
   kp->clearArguments();
+
+  // lzop hack, see comment in tar.cpp createTmp()
+  if ( m_archiver_program == "lzop")
+    kp->setUsePty( KProcess::Stdin, false );
+
   QString compressor = m_archiver_program;
 
   *kp << compressor << "-c" << file;

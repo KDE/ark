@@ -27,19 +27,23 @@
 
 class ArchiveFormatInfo
 {
+private:
+    ArchiveFormatInfo();
+
 public:
-    static QString filter();
-    static QStringList allDescriptions();
-    static ArchType archTypeForMimeType( const QString & mimeType );
-    static ArchType archTypeByExtension( const QString & archname );
-    static ArchType archTypeForURL( const KURL & url );
-    static QString mimeTypeForDescription( const QString & description );
-    static QString descriptionForMimeType( const QString & mimeType );
-    static bool wasUnknownExtension();
+    static ArchiveFormatInfo * self();
+    QString filter();
+    QStringList allDescriptions();
+    ArchType archTypeForMimeType( const QString & mimeType );
+    ArchType archTypeByExtension( const QString & archname );
+    ArchType archTypeForURL( const KURL & url );
+    QString mimeTypeForDescription( const QString & description );
+    QString descriptionForMimeType( const QString & mimeType );
+    bool wasUnknownExtension();
 
 private:
-    static void buildFormatInfos();
-    static void addFormatInfo( ArchType type, QString mime );
+    void buildFormatInfos();
+    void addFormatInfo( ArchType type, QString mime );
 
     struct FormatInfo
     {
@@ -50,12 +54,14 @@ private:
         enum ArchType type;
     };
 
-    static FormatInfo & find ( ArchType type );
+    FormatInfo & find ( ArchType type );
 
     typedef QValueList<FormatInfo> InfoList;
-    static InfoList m_formatInfos;
+    InfoList m_formatInfos;
 
-    static bool m_lastExtensionUnknown;
+    bool m_lastExtensionUnknown;
+
+    static ArchiveFormatInfo * m_pSelf;
 };
 
 #endif // ARCHIVEFORMATINFO_H

@@ -32,7 +32,7 @@ ArchiveFormatDlg::ArchiveFormatDlg( QWidget * parent, const QString & defaultTyp
                           i18n( "Choose Archive Format" ),
                           KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok)
 {
-    QString defaultDescription = ArchiveFormatInfo::descriptionForMimeType( defaultType );
+    QString defaultDescription = ArchiveFormatInfo::self()->descriptionForMimeType( defaultType );
     QString text;
     if ( defaultDescription.isNull() )
         text = i18n( "This file seems to be of type %1,\n"
@@ -49,7 +49,7 @@ ArchiveFormatDlg::ArchiveFormatDlg( QWidget * parent, const QString & defaultTyp
     QLabel * label = new QLabel( text, page );
 
     m_combo = new KComboBox( page );
-    QStringList list = ArchiveFormatInfo::allDescriptions();
+    QStringList list = ArchiveFormatInfo::self()->allDescriptions();
     list.sort();
     m_combo->insertStringList( list );
     m_combo->setCurrentItem( list.findIndex( defaultDescription ) );
@@ -57,7 +57,7 @@ ArchiveFormatDlg::ArchiveFormatDlg( QWidget * parent, const QString & defaultTyp
 
 QString ArchiveFormatDlg::mimeType()
 {
-    return ArchiveFormatInfo::mimeTypeForDescription( m_combo->currentText() );
+    return ArchiveFormatInfo::self()->mimeTypeForDescription( m_combo->currentText() );
 }
 
 

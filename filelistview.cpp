@@ -1,7 +1,5 @@
 /*
 
-  $Id$
-
   ark -- archiver for the KDE project
 
   Copyright (C)
@@ -37,7 +35,7 @@
 #include <kglobalsettings.h>
 
 #include "filelistview.h"
-#include "arkwidgetbase.h"
+#include "arkwidget.h"
 
 /////////////////////////////////////////////////////////////////////
 // FileLVI implementation
@@ -154,7 +152,7 @@ void FileLVI::setText(int column, const QString &text)
 /////////////////////////////////////////////////////////////////////
 
 
-FileListView::FileListView(ArkWidgetBase *baseArk, QWidget *parent,
+FileListView::FileListView(ArkWidget *baseArk, QWidget *parent,
 			   const char* name)
 	: KListView(parent, name), m_pParent(baseArk)
 {
@@ -190,16 +188,16 @@ void FileListView::setSorting(int column, bool inc)
 	KListView::setSorting(sortColumn, increasing);
 }
 
-QStringList * FileListView::selectedFilenames() const
+QStringList FileListView::selectedFilenames() const
 {
-	QStringList *files = new QStringList;
+	QStringList files;
 	
 	FileLVI * flvi = (FileLVI*)firstChild();
 
 	while (flvi)
 	{
 		if( isSelected(flvi) )
-			files->append(flvi->fileName());
+			files.append(flvi->fileName());
 		flvi = (FileLVI*)flvi->itemBelow();
 	}
 	return files;
@@ -257,11 +255,8 @@ FileListView::contentsMouseMoveEvent(QMouseEvent *e)
 		{
 			return;
 		}
-		QStringList *dragFiles = selectedFilenames();
-		m_pParent->setDragInProgress(true);
-		m_pParent->storeDragNames(*dragFiles);
-		kdDebug(1601) << "Drag Starting..." << endl;
-		m_pParent->prepareViewFiles(dragFiles);
+		QStringList dragFiles = selectedFilenames();
+		emit startDragRequest( dragFiles );
 		KListView::contentsMouseMoveEvent(e);
 	}
 }

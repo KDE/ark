@@ -260,8 +260,6 @@ void ArkPart::slotArchivePopup( const QPoint &pPoint )
 
 void ArkPart::slotSaveProperties()
 {
-    KConfig *kc = awidget->settings()->getKConfig();
-
     awidget->settings()->writeConfiguration();
 
     kdDebug(1601) << "-saveProperties (exit)" << endl;

@@ -44,8 +44,7 @@ ArkWidgetBase::ArkWidgetBase(QWidget *widget)
 	m_archType(UNKNOWN_FORMAT), m_nSizeOfFiles(0),
 	m_nSizeOfSelectedFiles(0), m_nNumFiles(0), m_nNumSelectedFiles(0),
 	m_bIsArchiveOpen(false), m_bIsSimpleCompressedFile(false),
-	m_bDragInProgress(false), m_bDropSourceIsSelf(false),
-	m_extractList(0)
+	m_bDropSourceIsSelf(false), m_extractList(0)
 {
 	m_settings = new ArkSettings;
 	
@@ -187,30 +186,6 @@ ArkWidgetBase::viewShellOutput()
 	sod->exec();
 	delete sod;
 }
-
-/**
-* Special form of extract that uses the temp directory and forces
-* directory junk options to be ignored.
-* @param fileList Files to extract
-*/
-void
-ArkWidgetBase::prepareViewFiles(QStringList *fileList)
-{
-    QString destTmpDirectory;
-    destTmpDirectory = m_settings->getTmpDir();
-
-    QDir dir( destTmpDirectory );
-
-    //shouldn't happen, already created in the ctor
-    if( ! dir.exists( destTmpDirectory ) )
-    {
-        kdDebug(1601) << "Creating tmp view dir: " << destTmpDirectory << endl;
-        dir.mkdir( destTmpDirectory );
-    }
-
-    arch->unarchFile(fileList, destTmpDirectory, true);
-}
-
 
 /**
 * Miscellaneous tasks involved in closing an archive.

@@ -126,7 +126,13 @@ void TarArch::updateArch()
 
       KProcess *kp = new KProcess;
       kp->clearArguments();
-      if ( getCompressor().isNull() )
+      KProcess::Communication flag = KProcess::AllOutput;
+      if ( getCompressor() == "lzop" )
+      {
+        kp->setUsePty( KProcess::Stdin, false );
+        flag = KProcess::Stdout;
+      }
+      if ( !getCompressor().isNull() )
           *kp << getCompressor() << "-c" << tmpfile;
       else
           *kp << "cat" << tmpfile;
@@ -140,7 +146,7 @@ void TarArch::updateArch()
       connect(kp, SIGNAL(processExited(KProcess *)),
                this, SLOT(updateFinished(KProcess *)) );
 
-      if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+      if (kp->start(KProcess::NotifyOnExit, flag) == false)
         {
           KMessageBox::error(0, i18n("Trouble writing to the archive..."));
         }
@@ -199,11 +205,12 @@ QString TarArch::getUnCompressor()
     return QString::null;
 }
 
-void 
+void
 TarArch::open()
 {
 	kdDebug(1601) << "+TarArch::open" << endl;
-	QFile::remove(tmpfile); // just to make sure
+	if ( compressed )
+		QFile::remove(tmpfile); // just to make sure
 	setHeaders();
 	
 	// might as well plunk the output of tar -tvf in the shell output window...
@@ -213,7 +220,7 @@ TarArch::open()
 	
 	if ( compressed )
 	{
-		*kp << "--use-compress-program=" + getUnCompressor() ;
+		*kp << "--use-compress-program=" + getUnCompressor();
 	}
 	
 	*kp << "-tvf" << m_filename;
@@ -386,7 +393,7 @@ void TarArch::setHeaders()
   kdDebug(1601) << "-TarArch::setHeaders" << endl;
 }
 
-void 
+void
 TarArch::createTmp()
 {
 	kdDebug(1601) << "+TarArch::createTmp" << endl;
@@ -394,6 +401,15 @@ TarArch::createTmp()
 	{
 		if ( !QFile::exists(tmpfile) )
 		{
+			// at least lzop doesn't want to pipe zerosize/nonexistant files
+			QFile originalFile( m_filename );
+			if ( !originalFile.exists() || originalFile.size() == 0 )
+			{
+				QFile temp( tmpfile );
+				temp.open( IO_ReadWrite );
+				temp.close();
+				return;
+			}
 			// the tmpfile does not yet exist, so we create it.
 			createTmpInProgress = true;
 			fd = fopen( QFile::encodeName(tmpfile), "w" );
@@ -403,9 +419,15 @@ TarArch::createTmp()
 			QString strUncompressor = getUnCompressor();
 			kdDebug(1601) << "Uncompressor is " << strUncompressor << endl;
 			*kp << strUncompressor;
+			KProcess::Communication flag = KProcess::AllOutput;
 			if (strUncompressor == "lzop")
 			{
-				*kp << "-d" ;
+				// setting up a pty for lzop, since it doesn't like stdin to
+				// be /dev/null ( "no filename allowed when reading from stdin" )
+				// - but it used to work without this ? ( Feb 13, 2003 )
+				kp->setUsePty( KProcess::Stdin, false );
+				flag = KProcess::Stdout;
+				*kp << "-d";
 			}
 			*kp << "-c" << m_filename;
 			
@@ -415,8 +437,7 @@ TarArch::createTmp()
 					this, SLOT(createTmpProgress( KProcess *, char *, int )));
 			connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
 					this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-
-			if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+			if (kp->start(KProcess::NotifyOnExit, flag ) == false)
 			{
 				KMessageBox::error(0, i18n("I can't fork a decompressor"));
 			}
@@ -467,7 +488,7 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
     const FileLVI * lv = m_gui->getFileLVI(str);
     if ( !lv ) // it isn't in there, so skip it.
       continue;
-    
+
     if (bAddOnlyNew)
     {
       // compare timestamps. If the file to be added is newer, delete the
@@ -627,7 +648,7 @@ void TarArch::slotAddFinished(KProcess *_kp)
 }
 
 void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
-                         bool viewFriendly)
+                         bool /* viewFriendly */)
 {
   kdDebug(1601) << "+TarArch::unarchFile" << endl;
   QString dest;
@@ -646,7 +667,7 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
 
   *kp << m_archiver_program;
   if (compressed)
-    *kp << "--use-compress-program="+getUnCompressor() ;
+    *kp << "--use-compress-program="+getUnCompressor();
 
   QString options = "-x";
   if (!m_settings->getExtractOverwrite())

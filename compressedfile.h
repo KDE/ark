@@ -61,6 +61,8 @@ public:
   virtual void unarchFile(QStringList *, const QString & _destDir="",
 			  bool viewFriendly=false);
 
+  QString tempFileName(){ return m_tmpfile; }
+
 private slots:
   void slotUncompressDone(KProcess *);
   void slotAddInProgress(KProcess*, char*, int);

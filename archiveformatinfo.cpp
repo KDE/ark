@@ -30,8 +30,20 @@
 
 #include <qfile.h>
 
-ArchiveFormatInfo::InfoList ArchiveFormatInfo::m_formatInfos = InfoList();
-bool ArchiveFormatInfo::m_lastExtensionUnknown = false;
+ArchiveFormatInfo * ArchiveFormatInfo::m_pSelf = 0;
+
+ArchiveFormatInfo::ArchiveFormatInfo()
+    :m_lastExtensionUnknown( false )
+{
+    buildFormatInfos();
+}
+
+ArchiveFormatInfo * ArchiveFormatInfo::self()
+{
+    if ( !m_pSelf )
+        m_pSelf = new ArchiveFormatInfo();
+    return m_pSelf;
+}
 
 void ArchiveFormatInfo::buildFormatInfos()
 {
@@ -79,9 +91,6 @@ void ArchiveFormatInfo::addFormatInfo( ArchType type, QString mime )
 
 QString ArchiveFormatInfo::filter()
 {
-    if( m_formatInfos.isEmpty() )
-        buildFormatInfos();
-
     QStringList allExtensions;
     QString filter;
     InfoList::Iterator it;
@@ -97,9 +106,6 @@ QString ArchiveFormatInfo::filter()
 
 QStringList ArchiveFormatInfo::allDescriptions()
 {
-    if( m_formatInfos.isEmpty() )
-        buildFormatInfos();
-
     QStringList descriptions;
     InfoList::Iterator it;
     for ( it = m_formatInfos.begin(); it != m_formatInfos.end(); ++it )
@@ -121,9 +127,6 @@ ArchiveFormatInfo::FormatInfo & ArchiveFormatInfo::find( ArchType type )
 
 ArchType ArchiveFormatInfo::archTypeByExtension( const QString & archname )
 {
-    if( m_formatInfos.isEmpty() )
-        buildFormatInfos();
-
     InfoList::Iterator it = m_formatInfos.begin();
     QStringList::Iterator ext;
     for( ; it != m_formatInfos.end(); ++it )
@@ -138,9 +141,6 @@ ArchType ArchiveFormatInfo::archTypeByExtension( const QString & archname )
 
 ArchType ArchiveFormatInfo::archTypeForMimeType( const QString & mimeType )
 {
-    if( m_formatInfos.isEmpty() )
-        buildFormatInfos();
-
     InfoList::Iterator it = m_formatInfos.begin();
     for( ; it != m_formatInfos.end(); ++it )
     {
@@ -174,9 +174,6 @@ ArchType ArchiveFormatInfo::archTypeForURL( const KURL & url )
 
 QString ArchiveFormatInfo::mimeTypeForDescription( const QString & description )
 {
-    if( m_formatInfos.isEmpty() )
-        buildFormatInfos();
-
     InfoList::Iterator it = m_formatInfos.begin();
     int index;
     for( ; it != m_formatInfos.end(); ++it )
@@ -190,9 +187,6 @@ QString ArchiveFormatInfo::mimeTypeForDescription( const QString & description )
 
 QString ArchiveFormatInfo::descriptionForMimeType( const QString & mimeType )
 {
-    if( m_formatInfos.isEmpty() )
-        buildFormatInfos();
-
     InfoList::Iterator it = m_formatInfos.begin();
     int index;
     for( ; it != m_formatInfos.end(); ++it )
@@ -208,5 +202,4 @@ bool ArchiveFormatInfo::wasUnknownExtension()
 {
     return m_lastExtensionUnknown;
 }
-
 

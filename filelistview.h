@@ -1,8 +1,6 @@
 //  -*-C++-*-           emacs magic for .h files
 /*
 
- $Id$
-
   ark -- archiver for the KDE project
 
   Copyright (C)
@@ -44,7 +42,7 @@ class QPoint;
 
 class KListView;
 
-class ArkWidgetBase;
+class ArkWidget;
 
 class FileListView;
 
@@ -73,12 +71,15 @@ class FileListView : public KListView
 {
   Q_OBJECT
 public:
-  FileListView(ArkWidgetBase *baseArk, QWidget* parent = 0,
+  FileListView(ArkWidget *baseArk, QWidget* parent = 0,
 	       const char* name = 0);
   FileLVI *currentItem() {return ((FileLVI *) KListView::currentItem());}
-  QStringList * selectedFilenames() const;
+  QStringList selectedFilenames() const;
   uint count();
   bool isSelectionEmpty();
+
+signals:
+  void startDragRequest( const QStringList & fileList );
 
 protected:
   void contentsMouseReleaseEvent(QMouseEvent *e);
@@ -90,7 +91,7 @@ protected:
 private:
   int sortColumn;
   bool increasing;
-  ArkWidgetBase *m_pParent;
+  ArkWidget *m_pParent;
 
   bool m_bPressed;
   QPoint presspos;  // this will save the click pos to correctly recognize drag events

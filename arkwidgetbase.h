@@ -47,7 +47,6 @@ class ArkWidgetBase
 	public:
 		QWidget *getArkWidget() const { return m_widget; }
 		bool isArchiveOpen() const { return m_bIsArchiveOpen; }
-		bool dragInProgress() const { return m_bDragInProgress; }
 		int getNumFilesInArchive() const { return m_nNumFiles; }
 		//int getCol(const QString &);
 		int getArkInstanceId() const { return m_arkInstanceId; }
@@ -67,13 +66,10 @@ class ArkWidgetBase
 		int _numColsToAlignRight);
 		void clearHeaders();
 		void listingAdd(QStringList *_entries);
-		void setDragInProgress(bool _b) { m_bDragInProgress = _b; }
-		void storeDragNames(QStringList &dragFiles) { mDragFiles = dragFiles; }
 
 		// Others
 		void viewShellOutput();
 		void unarchFile(QStringList * _l) { arch->unarchFile(_l); }
-		void prepareViewFiles(QStringList *fileList);
 		void closeArch();
 
 	protected:
@@ -102,7 +98,6 @@ class ArkWidgetBase
 		
 		bool m_bIsArchiveOpen;
 		bool m_bIsSimpleCompressedFile;
-		bool m_bDragInProgress;
 		bool m_bDropSourceIsSelf;
 		
 		QStringList mDragFiles;
