@@ -236,12 +236,6 @@ columnName FileListView::nameOfColumn( int index )
 }
 
 
-void FileListView::paintEmptyArea(QPainter *p, const QRect &rect)
-{
-	QListView::paintEmptyArea(p, rect);
-}
-
-
 void FileListView::setSorting(int column, bool inc)
 {
 	if(sortColumn == column)
