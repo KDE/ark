@@ -35,6 +35,7 @@
 #include <qstring.h>
 #include <qheader.h>
 #include <qpixmap.h>
+#include <qpainter.h>
 #include <qstringlist.h>
 #include <qwhatsthis.h>
 #include <qlistview.h>

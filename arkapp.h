@@ -29,11 +29,11 @@
 #ifndef __ARKAPP_H__
 #define __ARKAPP_H__
 
+#include <qdict.h>
 #include <kuniqueapp.h>
 
 class QString;
 class QStringList;
-template<class type> class QDict;
 
 class ArkWidget;
 

@@ -55,6 +55,7 @@
 
 #include <qobject.h>
 #include <qlist.h>	// Some very annoying hackery in arkwidgetpart
+#include <qregexp.h>
 #include <kurl.h>
 
 class QString;

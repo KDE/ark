@@ -183,7 +183,7 @@ QString DirDlg::getDirType(int item)
   else if (item == 2) return EXTRACTDIR;
   else if (item == 3) return ADDDIR;
 
-  ASSERT(0);
+  Q_ASSERT(0);
   return "";
 }
 
@@ -276,7 +276,7 @@ void DirDlg::getFixedDir( )
       if (widgets[i]->fixedLE->isVisible())
 	break;
     }
-  ASSERT(i < NUM_DIR_TYPES);
+  Q_ASSERT(i < NUM_DIR_TYPES);
   QString dir
     = KFileDialog::getExistingDirectory(widgets[i]->fixedLE->text(), 0,
 					i18n("Fixed directory"));
