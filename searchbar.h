@@ -35,9 +35,6 @@ class SearchBar: public KListViewSearchLine
 	public:
 		SearchBar( QWidget* parent, KActionCollection* aC, const char * name = 0 );
 		~SearchBar();
-
-	public slots:
-		void slotResetSearch();
 };
 
 #endif // SEARCHBAR_H

@@ -108,7 +108,7 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
     m_searchToolBar = new KToolBar( this, "searchBar" );
     m_searchToolBar->boxLayout()->setSpacing( KDialog::spacingHint() );
 
-    QLabel * l1 = new QLabel( i18n( "&Search:" ), m_searchToolBar );
+    QLabel * l1 = new QLabel( i18n( "&Search:" ), m_searchToolBar, "kde toolbar widget" );
     m_searchBar = new SearchBar( m_searchToolBar, 0 );
     l1->setBuddy( m_searchBar );
 
