@@ -130,10 +130,6 @@ protected:
     void createActionMenu( int );
 
 private: // methods
-  // lock and unlock the current archive
-    void createLockFile();
-    void deleteLockFile();
-    
     // do all the toolbar and menu enables that have to be done when opening 
     // an archive
     void openEnables(); 

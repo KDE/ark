@@ -61,7 +61,6 @@
 #include "generalOptDlg.h"
 #include "selectDlg.h"
 #include "shellOutputDlg.h"
-#include "arkstrings.h"
 
 extern int errno;
 
@@ -243,7 +242,7 @@ void ArkWidget::setupMenuBar()
 	optionsMenu->setItemChecked(idSaveOnExit, m_data->isSaveOnExitChecked());
 
 	// Help menu creation
-	QString about_ark = IDS_BLURB.arg( ARK_VERSION );
+	QString about_ark = i18n("ark version %1\n(c) 1997-1999: Robert Palmbos <palm9744@kettering.edu>\n1999: Francois-Xavier Duranceau <duranceau@kde.org>\n1999: Corel Corporation (Emily Ezust <emilye@corel.com>)").arg( ARK_VERSION );
 	QPopupMenu *helpmenu = helpMenu( about_ark );
 
 	menu->insertItem( i18n( "&File"), fileMenu );
@@ -336,12 +335,12 @@ void ArkWidget::setupStatusBar()
 
     KStatusBar *sb = statusBar();
     sb->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-    sb->insertItem(IDS_NO_FILES_SELECTED, eSelectedStatusLabel);
+    sb->insertItem(i18n("0 Files Selected                            "), eSelectedStatusLabel);
     QFrame *separator = new QFrame(sb, "separator");
     separator->setFrameShape(QFrame::HLine);
     separator->setFrameStyle(QFrame::Panel | QFrame::Raised);
     sb->insertWidget(separator, 2, eStatusLabelSeparator);
-    sb->insertItem(IDS_NO_FILES, eNumFilesStatusLabel);
+    sb->insertItem(i18n("Total 0 Files, 0 KB                                             "), eNumFilesStatusLabel);
     sb->setAlignment(0, AlignCenter);
     sb->setAlignment(2, AlignCenter);
     sb->setBorderWidth(2);
@@ -360,46 +359,42 @@ void ArkWidget::setupToolBar()
 
 
     tb->insertButton ( BarIcon("new_ark"), eNew, SIGNAL(clicked()), this,
-		       SLOT(file_new()), TRUE, IDS_TOOLBAR_NEW);
+		       SLOT(file_new()), true, i18n("New"));
 
     tb->insertButton ( BarIcon("open_ark"), eOpen, SIGNAL(clicked()), this,
-		       SLOT(file_open()), TRUE, IDS_TOOLBAR_OPEN);
+		       SLOT(file_open()), true, i18n("Open"));
 
     tb->insertSeparator();
 
     tb->insertButton ( BarIcon("addfile"), eAddFile, SIGNAL(clicked()),
-		       this, SLOT(action_add()), TRUE,
-		       IDS_TOOLBAR_ADD_FILE);
+		       this, SLOT(action_add()), true, i18n("Add File"));
 
     tb->insertButton ( BarIcon("adddir"), eAddDir, SIGNAL(clicked()), this,
-		       SLOT(dir_add()), TRUE, IDS_TOOLBAR_ADD_DIR);
+		       SLOT(dir_add()), true, i18n("Add Dir"));
 
     tb->insertSeparator();
 
     tb->insertButton ( BarIcon("extract"), eExtract, SIGNAL(clicked()),
-		       this, SLOT(action_extract()), TRUE,
-		       IDS_TOOLBAR_EXTRACT);
+		       this, SLOT(action_extract()), true, i18n("Extract"));
 
     tb->insertButton ( BarIcon("delete"), eDelete, SIGNAL(clicked()), this,
-		       SLOT(action_delete()), TRUE, IDS_TOOLBAR_DEL);
+		       SLOT(action_delete()), true, i18n("Delete"));
 
     tb->insertSeparator();
 
     tb->insertButton ( BarIcon("selectall"), eSelectAll, SIGNAL(clicked()),
-		       this, SLOT(edit_selectAll()), TRUE,
-		       IDS_TOOLBAR_SELECT_ALL);
+		       this, SLOT(edit_selectAll()), true, i18n("Select All"));
 
     tb->insertButton ( BarIcon("view"), eView, SIGNAL(clicked()), this,
-		       SLOT(file_show()), TRUE, IDS_TOOLBAR_VIEW);
+		       SLOT(file_show()), true, i18n("View"));
 
     tb->insertSeparator();
 
     tb->insertButton ( BarIcon("options"), eOptions, SIGNAL(clicked()),
-		       this, SLOT(options_dirs()), TRUE,
-		       IDS_TOOLBAR_OPTIONS);
+		       this, SLOT(options_dirs()), true, i18n("Options"));
 
     tb->insertButton ( BarIcon("help"), eHelp, SIGNAL(clicked()), this,
-		       SLOT(help()), TRUE, IDS_TOOLBAR_HELP);
+		       SLOT(help()), true, i18n("Help"));
 
     tb->setBarPos( KToolBar::Top );
 
@@ -436,8 +431,8 @@ void ArkWidget::updateStatusTotals()
     kdebug(0, 1601, "We have %d elements\n", m_nNumFiles);
 
     char strInfo[BUFSIZ];
-    sprintf(strInfo, "%s %d %s, %d KB", (const char *)IDS_TOTAL,
-	    m_nNumFiles, (const char *) IDS_FILES, m_nSizeOfFiles);
+    sprintf(strInfo, "%s %d %s, %d KB", (const char *)i18n("Total"),
+	    m_nNumFiles, (const char *)i18n("Files"), m_nSizeOfFiles);
     
     statusBar()->changeItem(strInfo, eNumFilesStatusLabel);
     kdebug(0, 1601, "-ArkWidget::updateStatusTotals");
@@ -460,8 +455,8 @@ void CArkWidget::addFile(QStringList *list)
   CProgressDlg *pProgressDlg =
     //     new CProgressDlg(QString(KApplication::kde_icondir() + "/" + 
     new CProgressDlg(QString("to_archive_64.gif"),
-		     IDS_ADDING, this, 0);
-  pProgressDlg->setCaption(IDS_ADDING);
+		     i18n("Adding to archive..."), this, 0);
+  pProgressDlg->setCaption(i18n("Adding to archive..."));
   pProgressDlg->show();
 #endif
 
@@ -469,7 +464,7 @@ void CArkWidget::addFile(QStringList *list)
   {
   case UNSUPDIR:  // from errors.h
     // ar doesn't let you add a directory!
-      KMessageBox::error(this, IDS_NOT_SUPPORTED );
+      KMessageBox::error(this, i18n("Adding a directory is not supported by this archiving utility.\n") );
     break;
   }
 
@@ -494,90 +489,9 @@ void CArkWidget::addFile(QStringList *list)
 
 bool ArkWidget::isArchiveLocked(const QString & _strArchName)
 {
-    bool retval;
-
-    kdebug(0, 1601, "+ArkWidget::isArchiveLocked");
-
-    QString strLockPath = _strArchName.left(_strArchName.findRev('/')+1);
-    QString strFileName = _strArchName.right(_strArchName.length()
-					     - _strArchName.findRev('/')-1);
-    QString strLockFileName;
-    strLockFileName.sprintf("#%s#", (const char *)strFileName);
-
-    QString strFullName = strLockPath + strLockFileName;
-  
-    kdebug(0, 1601, "Lock file is %s\n", (const char *)strLockFileName);
-
-    struct stat statbuffer;
-  
-    if (stat((const char *)strFullName, &statbuffer) == -1)
-    {
-	retval = false;
-    }
-    else
-    {
-	retval = true;
-    }
-
-    kdebug(0, 1601, "-ArkWidget::isArchiveLocked");
-    return retval;
+  // for now just return false... later we'll check arkData
+  return false;
 }
-
-///////////////////////////////////////////////////////////////////
-//////////////////////// createLockFile ///////////////////////////
-///////////////////////////////////////////////////////////////////
-
-void ArkWidget::createLockFile()   // private
-{
-  // use m_strArchName to create a lock file
-
-  kdebug(0, 1601, "+ArkWidget::createLockFile");
-
-  kdebug(0, 1601, "Creating lockfile for %s\n", (const char *)m_strArchName);
-  QString strLockPath = m_strArchName.left(m_strArchName.findRev('/')+1);
-  QString strFileName = m_strArchName.right(m_strArchName.length()
-					    - m_strArchName.findRev('/')-1);
-  chdir( (const char *)strLockPath);
-
-  QString strLockFileName;
-  strLockFileName.sprintf("#%s#",  (const char *)strFileName);
-  
-  QString command;
-  command.sprintf("touch '%s'", (const char *)strLockFileName);
-
-  system( (const char *) command);
-  kdebug(0, 1601, "-ArkWidget::createLockFile");
-}   
-
-///////////////////////////////////////////////////////////////////
-//////////////////////// deleteLockFile ///////////////////////////
-///////////////////////////////////////////////////////////////////
-
-void ArkWidget::deleteLockFile()   // private
-{
-  // use m_strArchName to delete a lock file
-  kdebug(0, 1601, "+ArkWidget::deleteLockFile");
-
-  if (isArchiveOpen())
-  {
-    QString strLockPath = m_strArchName.left(m_strArchName.findRev('/')+1);
-    QString strFileName = m_strArchName.right(m_strArchName.length()
-					      - m_strArchName.findRev('/')-1);
-    chdir( (const char *)strLockPath);
-    
-    QString strLockFileName;
-    strLockFileName.sprintf("#%s#",  (const char *)strFileName);
-    
-    QString command;
-    command.sprintf("rm '%s'", (const char *)strLockFileName);
-
-    kdebug(0, 1601, "%s\n", (const char *)command);
-
-    system( (const char *) command);
-  }
-  kdebug(0, 1601, "-ArkWidget::deleteLockFile");
-}   
-
 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////// file_open //////////////////////////////////
@@ -594,11 +508,11 @@ void ArkWidget::file_open(const QString & strFile)
     {
       if (errno == ENOENT || errno == ENOTDIR || errno ==  EFAULT)
       {
-	KMessageBox::error(this, IDS_DOESNT_EXIST);
+	KMessageBox::error(this, i18n("Archive does not exist"));
       }
       else if (errno == EACCES)
       {
-	KMessageBox::error(this, IDS_NO_ACCESS);
+	KMessageBox::error(this, i18n("Can't access archive"));
       }
       return;
     }
@@ -621,15 +535,16 @@ void ArkWidget::file_open(const QString & strFile)
     
       if (! ((statbuffer.st_mode & nFlag) == nFlag))
       {
-	KMessageBox::error(this, IDS_NO_PERMISSION );
+	KMessageBox::error(this, i18n("You don't have permission to access that archive") );
 	return;
       }
     }
 
     if (isArchiveLocked(strFile) && (m_strArchName != strFile))
     {
-	int nRet = QMessageBox::warning(this, IDS_WARNING, IDS_ARCHIVE_LOCKED,
-					IDS_YES, IDS_CANCEL);
+	int nRet = QMessageBox::warning(this, i18n("Warning"),
+					i18n("Archive Administrator has detected a lock file for this archive.\nThis may mean that you are already viewing this archive in another\nwindow. If you make changes here, it could cause inconsistencies there.\n\nAre you sure you wish to continue?"),
+					i18n("Yes"), i18n("No"));
       if (nRet == 1)  // cancel
 	return;
 
@@ -737,9 +652,7 @@ void ArkWidget::showZip( QString _filename )
 	if (tempArch != 0)
 	{
 	    arch = tempArch;
-	    // Create a lock file so that we won't open the same archive twice.
-	    createLockFile();
-	    setCaption(IDS_ARCHIVER_PREFIX + _filename);
+	    setCaption(i18n("ark - ") + _filename);
 	}
 
 	updateStatusTotals();
@@ -869,8 +782,7 @@ void ArkWidget::file_close()
     kdebug(0, 1601, "+ArkWidget::file_close");
     if (isArchiveOpen())
     {
-	deleteLockFile();
-	setCaption(IDS_ARCHIVER);
+	setCaption(i18n("ark"));
 	delete arch;
 	arch = 0;
 	m_bIsArchiveOpen = false;
@@ -889,7 +801,7 @@ void ArkWidget::window_close()
 {
     kdebug(0, 1601, "+ArkWidget::window_close");
     file_close();
-    if( windowList->count() < 2 )
+    if( windowList->count() < 2  )
     {
 	saveProperties();
 	kapp->quit();
@@ -905,17 +817,13 @@ void ArkWidget::window_close()
 
 void ArkWidget::closeEvent( QCloseEvent * )
 {
-    
     window_close();
-    kapp->quit();
 }
 
 
 void ArkWidget::file_quit()
 {
-    file_close();
-    saveProperties();
-    kapp->quit();
+  window_close();
 }
 
 // Edit menu /////////////////////////////////////////////////////////
@@ -1164,8 +1072,9 @@ void ArkWidget::updateStatusSelection()
 
   char strInfo[BUFSIZ];
   sprintf(strInfo, "%d %s %s, %d KB", m_nNumSelectedFiles,
-	  (const char *) ((m_nNumSelectedFiles != 1)? IDS_FILES : IDS_FILE),
-	  (const char *) IDS_SELECTED, m_nSizeOfSelectedFiles);
+	  (const char *) ((m_nNumSelectedFiles != 1)?
+			  i18n("Files") : i18n("File")),
+	  (const char *) i18n("Selected"), m_nSizeOfSelectedFiles);
 
   statusBar()->changeItem(strInfo, eSelectedStatusLabel);
 

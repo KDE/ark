@@ -22,53 +22,64 @@
 
 */
 
-// ark includes
-#include "arkwidget.h"
-
-#include <iostream.h>
-#include <unistd.h>
-#include <sys/param.h> 
-
-// KDE includes
 #include <kapp.h>
+#include <klocale.h>
+#include <kdebug.h>
+#include <dcopclient.h>
+#include <qmessagebox.h>
+#include "arkwidget.h"
+#include "arkapp.h"
 
 int main( int argc, char *argv[]  )
 {
-    QString Zip( "" );
-    KApplication ark( argc, argv, "ark" );
+    ArkApplication ark( argc, argv, "ark" );
+    ArkWidget *arkWin = 0;
+    QValueList<QCString> params;
 
-    if( ark.isRestored() )
-    {
-	RESTORE(ArkWidget);
-    }
-    else
-    {
-	for (int i = 1; i < argc; ++i)
-	{
-	    if (argv[i][0] == '/')
-	    {
-		Zip = argv[i];
-		break;
-	    }
-	    else if (argv[i][0] == '-') // not that we have any options yet!
-	    {
-	    }
-	    else
-	    {
-		char currentWD[MAXPATHLEN];
-		getcwd(currentWD, MAXPATHLEN);
-		(Zip = currentWD).append("/").append(argv[i]);
-		break;
-	    }
-	}
-	
-	ArkWidget *arkWin = new ArkWidget;
+     if (ark.isRestored())
+     {
+       kdebug(0, 1601, "In main: Restore...");
+       RESTORE(ArkWidget);
+     }
+     else 
+     {
+       kdebug(0, 1601, "In main: New ArkWidget...");
+	  arkWin = new ArkWidget();
+     }
+     
+     ark.setMainWidget(arkWin);
+     
+     for (int i=0; i < argc; ++i)
+     {
+	  params.append(argv[i]);
+     }
+   
+     ark.newInstance(params);
 
-	QObject::connect(qApp, SIGNAL(lastWindowClosed()), arkWin, SLOT(quit()));
- 
-	arkWin->show();
-	if (!Zip.isEmpty())
-	    arkWin->file_open(Zip);
-	return ark.exec();
-    }
+     DCOPClient *client = ark.dcopClient();
+
+     kdebug(0, 1601, "Got client...");
+
+     if (!client->attach()) 
+       {
+	 QMessageBox::warning(arkWin, i18n("Error connecting to DCOP server"),
+	    i18n("There was an error connecting to the Desktop\n"
+		 "communications server.  Please make sure that\n"
+                 "the 'dcopserver' process has been started, and\n"
+		 "then try again.\n"));
+	 exit(1);
+       }
+
+     kdebug(0, 1601, "Registering...");
+
+     client->registerAs("ark");
+
+     kdebug(0, 1601, "Showing...");
+
+     arkWin->show();
+
+     kdebug(0, 1601, "Resizing...");
+
+     arkWin->resize(640, 300);
+     return ark.exec();
 }

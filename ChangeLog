@@ -1,3 +1,22 @@
+1999-12-16  Emily Ezust <emilye@corel.com>
+	* created ArkApplication : public KUniqueApplication
+        * Code now to follow the Co-operating SDI model.
+	* Some problems with dcop still... exiting the last window doesn't
+	  get you back the prompt!
+	
+1999-12-13  Emily Ezust <emilye@corel.com>
+        * fixed up icons, continued with merge: enabling toolbar buttons
+ 	  and menu items. Close enables don't work yet...
+        * Fixed status bar totals for selection, number and size.
+
+1999-12-09  Emily Ezust <emilye@corel.com>
+	* started merge with Corel Linux code.
+ 	* added toolbar icons (with two more on the way), lock files,
+ 	  and fixed the sorting for numeric column data.
+        * added preliminary code to count number of files and total sizes
+          in the status bar, but it does nothing so far.
+        * created a new problem: action_add in zip now segfaults.
+
 1999-07-05  Francois-Xavier Duranceau  <duranceau@kde.org>
 	* added selection with regular expressions
 
