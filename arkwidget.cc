@@ -845,7 +845,7 @@ void ArkWidget::slotOpen(Arch *_newarch, bool _success,
 	QString directory("tmp.");
 	dirtmp = locateLocal( "tmp", directory );
 
-	if (_filename.left(9) == /*QString("/tmp/ark.")*/dirtmp ||
+	if (_filename.left(dirtmp.length()) == dirtmp ||
 	    !fi.isWritable())
 	  {
 	    _newarch->setReadOnly(true);
@@ -1733,7 +1733,7 @@ bool ArkWidget::action_extract()
 		if (pItem == 0)
 		  {
 		    kdDebug(1601) << "Can't seem to figure out which is current!" << endl;
-		    return;
+		    return true;
 		  }
 		QString tmp = pItem->getFileName();  // no text(0)
 		nTotalSize += pItem->text(getSizeColumn()).toInt();
