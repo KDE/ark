@@ -83,7 +83,7 @@ m_settings( _settings )
     Layout3->setMargin( 0 );
 
     QLabel *extractToLabel = new QLabel( mainFrame, "extractToLabel" );
-    extractToLabel->setText( tr( "Extract to:" ) );
+    extractToLabel->setText( i18n( "Extract to:" ) );
     Layout3->addWidget( extractToLabel );
 
     m_extractDirCB = new KHistoryCombo( true, mainFrame, "m_extractDirCB" );
