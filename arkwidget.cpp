@@ -72,6 +72,7 @@
 #include "compressedfile.h"
 #include "searchbar.h"
 #include "shellOutputDlg.h"
+#include "arkviewer.h"
 
 //----------------------------------------------------------------------
 //
@@ -91,7 +92,7 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
 	m_archType( UNKNOWN_FORMAT ), m_nSizeOfFiles( 0 ),
 	m_nSizeOfSelectedFiles( 0 ), m_nNumFiles( 0 ), m_nNumSelectedFiles( 0 ),
 	m_bIsArchiveOpen( false ), m_bIsSimpleCompressedFile( false ),
-	m_bDropSourceIsSelf( false ), m_extractList( 0 )
+	m_bDropSourceIsSelf( false ), m_extractList( 0 ), m_viewer( 0 )
 {
     m_settings = ArkSettings::self();
 
@@ -133,6 +134,8 @@ ArkWidget::~ArkWidget()
     delete archiveContent;
     archiveContent = 0;
     delete arch;
+    delete m_viewer;
+    m_viewer = 0;
 }
 
 void ArkWidget::cleanArkTmpDir()
@@ -1916,14 +1919,22 @@ ArkWidget::viewSlotExtractDone()
     QString mimetype = KMimeType::findByURL( m_strFileToView )->name();
     bool view = true;
 
-    if ( KRun::isExecutable( mimetype ) )
-    {
-    	QString text = i18n( "The file you're trying to view may be an executable. Running untrusted executables may compromise your system's security.\nAre you sure you want to run that file?" );
-        view = ( KMessageBox::warningYesNo( this, text ) == KMessageBox::Yes );
-    }
+    if ( !m_viewer )
+	    m_viewer = new ArkViewer( this, "viewer" );
 
-    if ( view )
-        KRun::runURL( m_strFileToView, mimetype );
+    if ( !m_viewer->view( m_strFileToView ) )
+    {
+        kdDebug( 1601 ) << "ArkWidget::viewSlotExtractDone(): Internal Viewer can't view this file." << endl;
+    
+        if ( KRun::isExecutable( mimetype ) )
+        {
+            QString text = i18n( "The file you're trying to view may be an executable. Running untrusted executables may compromise your system's security.\nAre you sure you want to run that file?" );
+            view = ( KMessageBox::warningYesNo( this, text ) == KMessageBox::Yes );
+        }
+
+        if ( view )
+            KRun::runURL( m_strFileToView, mimetype );
+    }
 
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this,
                 SLOT( viewSlotExtractDone( ) ) );
