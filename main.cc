@@ -7,6 +7,7 @@
     1997-1999 Robert Palmbos <palm9744@kettering.edu>
     1999 Francois-Xavier Duranceau <duranceau@kde.org>
     1999-2000: Corel Corporation (author: Emily Ezust  emilye@corel.com)
+    2001: Roberto Selbach Teixeira <maragato@conectiva.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -52,8 +53,8 @@
 #include "arkapp.h"
 #include "arkwidget.h"
 
-static const char *description = 
-	I18N_NOOP("KDE Archiving tool");
+static const char *description =
+        I18N_NOOP("KDE Archiving tool");
 
 static const char *version = "v.2.1";
 
@@ -73,27 +74,27 @@ int main( int argc, char *argv[]  )
   aboutData.addAuthor("Francois-Xavier Duranceau",0, "duranceau@kde.org");
   aboutData.addAuthor("Corel Corporation (author: Emily Ezust)",0, "emilye@corel.com");
   aboutData.addAuthor("Corel Corporation (author: Michael Jarrett)", 0,
-		      "michaelj@corel.com");
+                      "michaelj@corel.com");
   aboutData.addAuthor("Roberto Selbach Teixeira", 0, "teixeira@conectiva.com" );
-  
+
   KCmdLineArgs::init( argc, argv, &aboutData );
   KCmdLineArgs::addCmdLineOptions( option );
 
   kdDebug(1601) << "Starting ark. argc=" << argc << "  First arg: " << (argc == 2 ? argv[1] : 0) << endl;
   if (!ArkApplication::start())
     {
-      // Already running! 
+      // Already running!
       kdDebug(1601) << "Already running" << endl;
       exit(0);
     }
-  
+
   if (ArkApplication::getInstance()->isRestored())
     {
       kdDebug(1601) << "In main: Restore..." << endl;
       RESTORE(ArkWidget);
     }
   kdDebug(1601) << "Starting ark..." << endl;
-  
+
   return ArkApplication::getInstance()->exec();
 
 }

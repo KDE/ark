@@ -3,28 +3,29 @@
  $Id$
 
  ark -- archiver for the KDE project
- 
+
  Copyright (C)
- 
+
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust emilye@corel.com)
  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
- 
+ 2001: Roberto Selbach Teixeira <maragato@conectiva.com>
+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  as published by the Free Software Foundation; either version 2
  of the License, or (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
- Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA. 
- 
+ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
 */
 
 #include <qvbox.h>
@@ -37,6 +38,7 @@
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qapplication.h>
+#include <qlayout.h>
 #include <qframe.h>
 
 #include <kdebug.h>
@@ -53,78 +55,107 @@
 #define FIRST_PAGE_WIDTH  390
 #define DLG_NAME i18n("Extract")
 
+
+
 ExtractDlg::ExtractDlg(ArkSettings *_settings) :
-	KDialogBase(KDialogBase::Plain, DLG_NAME, Ok | Cancel, Ok),
-	m_settings(_settings)
+        KDialogBase(KDialogBase::Plain, DLG_NAME, Ok | Cancel, Ok),
+        m_settings(_settings)
 {
   QFrame *mainFrame = plainPage();
 
-  QLabel *extractToLabel = new QLabel(mainFrame);
-  extractToLabel->setText(i18n("Extract to: "));
-  extractToLabel->setGeometry( 10, 10,
-			       extractToLabel->sizeHint().width(), 15 );
+  QGridLayout *Form1Layout = new QGridLayout( mainFrame );
+  Form1Layout->setSpacing( 6 );
+  Form1Layout->setMargin( 11 );
 
-  m_extractDirCB = new QComboBox(true, mainFrame);
-  m_extractDirCB->insertItem(m_settings->getExtractDir());
-  m_extractDirCB->setGeometry( 10, 30, 368, 20 );
+  QVBoxLayout *Layout10 = new QVBoxLayout;
+  Layout10->setSpacing( 6 );
+  Layout10->setMargin( 0 );
 
-  QPushButton *browseButton = new QPushButton(mainFrame);
-  browseButton->setText(i18n("Browse..."));
-  int x = browseButton->sizeHint().width();
-  browseButton->setGeometry( FIRST_PAGE_WIDTH-10-x, 55, x, 30 );
+  QHBoxLayout *Layout3 = new QHBoxLayout;
+  Layout3->setSpacing( 6 );
+  Layout3->setMargin( 0 );
 
-  QLabel *lToExtract = new QLabel(mainFrame);
-  lToExtract->setText(i18n("Files to be extracted"));
-  int y = lToExtract->sizeHint().width();
-  lToExtract->setGeometry( 10, 92, y, 15 );
+  QLabel *extractToLabel = new QLabel( mainFrame, "extractToLabel" );
+  extractToLabel->setText( tr( "Extract to:" ) );
+  Layout3->addWidget( extractToLabel );
 
-  QLabel *lHorizLine = new QLabel(mainFrame, "horizontal line");
-  lHorizLine->setGeometry( y+15, 100, FIRST_PAGE_WIDTH-25-y, 1 );
-  lHorizLine->setFrameStyle( 52 );
-  lHorizLine->setLineWidth( 1 );
+  m_extractDirCB = new QComboBox( true, mainFrame, "m_extractDirCB" );
+  m_extractDirCB->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)3, (QSizePolicy::SizeType)0, m_extractDirCB->sizePolicy().hasHeightForWidth() ) );
+  Layout3->addWidget( m_extractDirCB );
 
-  QButtonGroup *bg = new QButtonGroup(mainFrame);
-  bg->setFrameShape(QFrame::NoFrame);
-  bg->setGeometry(30, 120, 200, 80);
+  QPushButton *browseButton = new QPushButton( mainFrame, "browseButton" );
+  browseButton->setText( tr( "Browse..." ) );
+  Layout3->addWidget( browseButton );
+  Layout10->addLayout( Layout3 );
 
-  m_radioCurrent = new QRadioButton(bg);
-  m_radioCurrent->setText(i18n("Current"));
-  m_radioCurrent->setGeometry( 0, 0, m_radioCurrent->sizeHint().width(), 15 );
+  QButtonGroup *bg = new QButtonGroup( mainFrame, "bg" );
+  bg->setTitle( tr( "Files to be extracted" ) );
+  bg->setColumnLayout(0, Qt::Vertical );
+  bg->layout()->setSpacing( 0 );
+  bg->layout()->setMargin( 0 );
+  QGridLayout *bgLayout = new QGridLayout( bg->layout() );
+  bgLayout->setAlignment( Qt::AlignTop );
+  bgLayout->setSpacing( 6 );
+  bgLayout->setMargin( 11 );
 
-  m_radioAll = new QRadioButton(bg);
-  m_radioAll->setText(i18n("All"));
-  m_radioAll->setGeometry(0, 20, m_radioAll->sizeHint().width(), 15);
+  QVBoxLayout *Layout2 = new QVBoxLayout;
+  Layout2->setSpacing( 6 );
+  Layout2->setMargin( 0 );
 
-  m_radioSelected = new QRadioButton(bg);
-  m_radioSelected->setText(i18n("Selected Files"));
-  m_radioSelected->setChecked(true);
-  m_radioSelected->setGeometry(0, 40, m_radioSelected->sizeHint().width(), 15);
+  m_radioCurrent = new QRadioButton( bg, "m_radioCurrent" );
+  m_radioCurrent->setText( tr( "Current" ) );
+  Layout2->addWidget( m_radioCurrent );
 
-  m_radioPattern = new QRadioButton(bg);
-  m_radioPattern->setText(i18n("Pattern"));
-  m_radioPattern->setGeometry(0, 60, m_radioPattern->sizeHint().width(), 15);
+  m_radioAll = new QRadioButton( bg, "m_radioAll" );
+  m_radioAll->setText( tr( "All" ) );
+  Layout2->addWidget( m_radioAll );
 
-  m_patternLE = new QLineEdit(mainFrame, "le");
-  m_patternLE->setGeometry( 50, 200, 250, 20 );
+  m_radioSelected = new QRadioButton( bg, "m_radioSelected" );
+  m_radioSelected->setText( tr( "Selected Files" ) );
+  Layout2->addWidget( m_radioSelected );
 
-  QPushButton *prefButton = new QPushButton(i18n("&Preferences..."), this);
-  prefButton->move(10, 250);
+  QHBoxLayout *Layout1 = new QHBoxLayout;
+  Layout1->setSpacing( 6 );
+  Layout1->setMargin( 0 );
 
-  mainFrame->setMinimumSize(410,250);
+  m_radioPattern = new QRadioButton( bg, "m_radioPattern" );
+  m_radioPattern->setText( tr( "Pattern" ) );
+  Layout1->addWidget( m_radioPattern );
+
+  m_patternLE = new QLineEdit( bg, "m_patternLE" );
+  Layout1->addWidget( m_patternLE );
+  Layout2->addLayout( Layout1 );
+
+  bgLayout->addLayout( Layout2, 0, 0 );
+  Layout10->addWidget( bg );
+
+  QHBoxLayout *Layout9 = new QHBoxLayout;
+  Layout9->setSpacing( 6 );
+  Layout9->setMargin( 0 );
+
+  QPushButton *prefButton = new QPushButton( mainFrame, "prefButton" );
+  prefButton->setText( tr( "&Preferences" ) );
+  Layout9->addWidget( prefButton );
+  QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+  Layout9->addItem( spacer );
+  Layout10->addLayout( Layout9 );
+
+  Form1Layout->addLayout( Layout10, 0, 0 );
+
+  //mainFrame->setMinimumSize(410,250);
 
   connect(m_patternLE, SIGNAL(textChanged(const QString &)),
-	  this, SLOT(choosePattern()));
+          this, SLOT(choosePattern()));
   connect(m_patternLE, SIGNAL(returnPressed()), this, SLOT(accept()));
   connect(prefButton, SIGNAL(clicked()), this, SLOT(openPrefs()));
 
   connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
-
 }
 
 void ExtractDlg::disableSelectedFilesOption()
 {
-  m_radioSelected->setEnabled(false); 
-  m_radioAll->setChecked(true); 
+  m_radioSelected->setEnabled(false);
+  m_radioAll->setChecked(true);
 }
 
 
@@ -134,7 +165,7 @@ void ExtractDlg::accept()
   if (! QFileInfo(m_extractDirCB->currentText()).isDir())
   {
     KMessageBox::error(this,
-			   i18n("Please provide a valid directory"));
+                           i18n("Please provide a valid directory"));
     return;
   }
 
@@ -147,12 +178,12 @@ void ExtractDlg::accept()
     {
       // pattern selected but no pattern? Ask user to select a pattern.
       KMessageBox::error(this,
-			   i18n("Please provide a pattern"));
+                           i18n("Please provide a pattern"));
       return;
     }
     else
       {
-	emit pattern(m_patternLE->text());
+        emit pattern(m_patternLE->text());
       }
   }
 
@@ -166,7 +197,7 @@ void ExtractDlg::browse() // slot
 {
   QString dirName
     = KFileDialog::getExistingDirectory(m_settings->getExtractDir(), 0,
-					i18n("Select an Extract Directory"));
+                                        i18n("Select an Extract Directory"));
   if (! dirName.isEmpty())
   {
     m_extractDirCB->insertItem(dirName, 0);
@@ -203,7 +234,7 @@ void ExtractDlg::openPrefs()
  ******************************************************************/
 
 ExtractFailureDlg::ExtractFailureDlg(QStringList *list,
-				     QWidget *parent, char *name)
+                                     QWidget *parent, char *name)
   : QDialog(parent, name, true, 0)
 
 {
@@ -219,19 +250,19 @@ ExtractFailureDlg::ExtractFailureDlg(QStringList *list,
 
   QListBox *pBox = new QListBox(this);
   pBox->setGeometry(10, 10 + labelHeight + 10,
-		    boxWidth, boxHeight);
+                    boxWidth, boxHeight);
   pBox->insertStringList(*list);
 
   QPushButton *pOKButton = new QPushButton(this, "OKButton");
   pOKButton->setGeometry( labelWidth / 2 - 50, boxHeight + labelHeight + 30,
-			 70, buttonHeight);
+                         70, buttonHeight);
   pOKButton->setText(i18n("Continue"));
   connect(pOKButton, SIGNAL(pressed()), this, SLOT(accept()));
 
   QPushButton *pCancelButton = new QPushButton(this, "CancelButton");
   pCancelButton->setGeometry( labelWidth / 2 + 20,
-			      boxHeight + labelHeight + 30,
-			      70, buttonHeight);
+                              boxHeight + labelHeight + 30,
+                              70, buttonHeight);
   pCancelButton->setText(i18n("Cancel"));
   connect(pCancelButton, SIGNAL(pressed()), this, SLOT(reject()));
   setFixedSize(20+labelWidth, 40+labelHeight+boxHeight+buttonHeight);

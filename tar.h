@@ -11,7 +11,7 @@ Copyright (C)
 1999: Francois-Xavier Duranceau duranceau@kde.org
 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
-2001: Roberto Selbach Teixeira <teixeira@conectiva.com>
+2001: Roberto Selbach Teixeira <maragato@conectiva.com>
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -55,16 +55,16 @@ class TarArch : public Arch
 public:
   TarArch( ArkSettings *_settings, ArkWidgetBase *_gui, const QString & _filename);
   virtual ~TarArch();
-	
+
   virtual void open();
   virtual void create();
-	
+
   virtual void addFile( QStringList *);
     virtual void addDir( const QString & );
     virtual void remove( QStringList* );
     virtual void unarchFile( QStringList *, const QString & _destDir="",
                              bool viewFriendly=false );
-	
+
   virtual int getEditFlag();
 
   QString getCompressor();

@@ -10,7 +10,7 @@
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
- 2001: Roberto Selbach Teixeira <teixeira@conectiva.com>
+ 2001: Roberto Selbach Teixeira <maragato@conectiva.com>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -80,7 +80,7 @@ static char *makeAccessString(mode_t mode);
 static QString makeTimeStamp(const QDateTime & dt);
 
 TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
-		  const QString & _filename)
+                  const QString & _filename)
   : Arch(_settings, _gui, _filename), createTmpInProgress(false),
     updateInProgress(false), deleteInProgress(false), fd(NULL)
 {
@@ -106,14 +106,14 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
       //tmpdir.sprintf("/tmp/ark.%d", getpid());
 
       QString base = m_filename.right(m_filename.length()- 1 -
-				     m_filename.findRev("/"));
+                                     m_filename.findRev("/"));
       base = base.left(base.findRev("."));
 
       // build the temp file name
 
       KTempFile *pTempFile = new KTempFile(tmpdir +
-					   QString::fromLocal8Bit("/temp_tar"),
-					   QString::fromLocal8Bit(".tar"));
+                                           QString::fromLocal8Bit("/temp_tar"),
+                                           QString::fromLocal8Bit(".tar"));
 
       tmpfile = pTempFile->name();
       kdDebug(1601) << "Tmpfile will be " << tmpfile << "\n" << endl;
@@ -144,16 +144,16 @@ void TarArch::updateArch()
       *kp << getCompressor() << "-c" << tmpfile;
 
       connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	      this, SLOT(updateProgress( KProcess *, char *, int )));
+              this, SLOT(updateProgress( KProcess *, char *, int )));
       connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	       (Arch *)this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+               (Arch *)this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
 
       connect(kp, SIGNAL(processExited(KProcess *)),
-	       this, SLOT(updateFinished(KProcess *)) );
+               this, SLOT(updateFinished(KProcess *)) );
       if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
-	{
-	  KMessageBox::error(0, i18n("Trouble writing to the archive..."));
-	}
+        {
+          KMessageBox::error(0, i18n("Trouble writing to the archive..."));
+        }
     }
   kdDebug(1601) << "-TarArch::updateArch" << endl;
 }
@@ -174,48 +174,48 @@ void TarArch::updateProgress( KProcess *, char *_buffer, int _bufflen )
 
 
 
-QString TarArch::getCompressor() 
+QString TarArch::getCompressor()
 {
     QString extension = m_filename.right( m_filename.length() -
-				       m_filename.findRev('.') );
+                                       m_filename.findRev('.') );
 
   if( extension == ".tgz" || extension == ".gz" )
     return QString( "gzip" );
 
   if( extension == ".bz")
     return QString( "bzip" );
-    
+
   if( extension == ".Z" || extension == ".taz" )
     return QString( "compress" );
-    
+
   if( extension == ".bz2")
     return QString( "bzip2" );
-    
+
   if( extension == ".lzo" || extension == ".tzo" )
     return QString( "lzop" );
-    
+
   return QString::null;
 }
 
-QString TarArch::getUnCompressorByExtension() 
+QString TarArch::getUnCompressorByExtension()
 {
     QString extension = m_filename.right( m_filename.length() - m_filename.findRev('.') );
-  
-  if( extension == ".tgz" || extension == ".gz" ) 
+
+  if( extension == ".tgz" || extension == ".gz" )
     return QString( "gunzip" );
-    
+
   if( extension == ".bz")
     return QString( "bunzip" );
-    
+
   if( extension == ".Z" || extension == ".taz" )
     return QString( "uncompress" );
-    
+
   if( extension == ".bz2")
     return QString( "bunzip2" );
-    
+
   if( extension == ".lzo" || extension == ".tzo" )
     return QString( "lzop" );
-    
+
   return QString::null;
 }
 
@@ -229,13 +229,13 @@ QString TarArch::getUnCompressor()
 
     if ( fileType == "application/x-gzip" )
         return QString( "gunzip" );
-    
+
     if ( fileType == "application/x-bzip2" )
         return QString( "bunzip2" );
-    
+
     if( fileType == "application/x-zoo" )
         return QString( "lzop" );
-    
+
     return getUnCompressorByExtension();
 }
 
@@ -258,11 +258,11 @@ void TarArch::open()
   m_finished = false;
 
   connect(kp, SIGNAL(processExited(KProcess *)),
-	  this, SLOT(slotListingDone(KProcess *)));
+          this, SLOT(slotListingDone(KProcess *)));
   connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	  this, SLOT(slotReceivedOutput( KProcess *, char *, int )));
+          this, SLOT(slotReceivedOutput( KProcess *, char *, int )));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+           this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
@@ -275,7 +275,7 @@ void TarArch::open()
   KTarGz *tarptr;
   bool failed = false;
 
-  if (!compressed || 
+  if (!compressed ||
       getUnCompressor() == QString("gunzip")
      || getUnCompressor() == QString("bunzip2"))
     {
@@ -285,10 +285,10 @@ void TarArch::open()
     {
       createTmp();
       while (compressed && createTmpInProgress)
-	qApp->processEvents(); // wait for temp to be created;
+        qApp->processEvents(); // wait for temp to be created;
       tarptr = new KTarGz(tmpfile);
     }
-    
+
   failed = !tarptr->open(IO_ReadOnly);
   if(failed && (getUnCompressor() == QString("gunzip")
                 || getUnCompressor() == QString("bunzip2")))
@@ -309,7 +309,7 @@ void TarArch::open()
       // because we aren't using the KProcess method, we have to emit this
       // ourselves.
       emit sigOpen(this, true, m_filename,
-		    Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
+                    Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
     }
   delete tarptr;
 
@@ -332,21 +332,21 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
     {
       const KTarEntry* tarEntry = tardir->entry((*it));
       if (tarEntry == NULL)
-	return;
+        return;
       QStringList col_list;
       QString name;
       if (root.isEmpty() || root.isNull())
-	name = tarEntry->name();
+        name = tarEntry->name();
       else
-	name = root + '/' + tarEntry->name();
+        name = root + '/' + tarEntry->name();
       col_list.append( name );
       QString perms = makeAccessString(tarEntry->permissions());
       if (!tarEntry->isFile())
-	perms = "d" + perms;
+        perms = "d" + perms;
       else if (!tarEntry->symlink().isEmpty())
-	perms = "l" + perms;
+        perms = "l" + perms;
       else
-	perms = "-" + perms;
+        perms = "-" + perms;
       col_list.append(perms);
       QString usergroup = tarEntry->user();
       usergroup += '/';
@@ -354,9 +354,9 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
       col_list.append( usergroup );
       QString strSize = "0";
       if (tarEntry->isFile())
-	{
-	  strSize.sprintf("%d", ((KTarFile *)tarEntry)->size());
-	}
+        {
+          strSize.sprintf("%d", ((KTarFile *)tarEntry)->size());
+        }
       col_list.append(strSize);
       QString timestamp = makeTimeStamp(tarEntry->datetime());
       col_list.append(timestamp);
@@ -366,18 +366,18 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
       // if it isn't a file, it's a directory - process it.
       // remember that name is root + / + the name of the directory
       if (!tarEntry->isFile())
-	processDir( (KTarDirectory *)tarEntry, name);
+        processDir( (KTarDirectory *)tarEntry, name);
     }
   kdDebug(1601) << "-TarArch::processDir" << endl;
-}                                                                           
+}
 
 void TarArch::create()
 {
   kdDebug(1601) << "+TarArch::createArch" << endl;
 
   emit sigCreate(this, true, m_filename,
-		 Arch::Extract | Arch::Delete | Arch::Add 
-		  | Arch::View);
+                 Arch::Extract | Arch::Delete | Arch::Add
+                  | Arch::View);
   kdDebug(1601) << "-TarArch::createArch" << endl;
 }
 
@@ -397,7 +397,7 @@ void TarArch::setHeaders()
   int *alignRightCols = new int[2];
   alignRightCols[0] = 1;
   alignRightCols[1] = 3;
-  
+
   m_gui->setHeaders(&list, alignRightCols, 2);
   delete [] alignRightCols;
 
@@ -411,38 +411,38 @@ void TarArch::createTmp()
     {
       struct stat statbuffer;
       if (stat(QFile::encodeName(tmpfile), &statbuffer) == -1)
-	{
-	  // the tmpfile does not yet exist, so we create it.
-	  createTmpInProgress = true;
-	  fd = fopen( tmpfile.local8Bit(), "w" );
+        {
+          // the tmpfile does not yet exist, so we create it.
+          createTmpInProgress = true;
+          fd = fopen( tmpfile.local8Bit(), "w" );
 
-	  KProcess *kp = new KProcess;
-	  kp->clearArguments();
-	  QString strUncompressor = getUnCompressor();
-	  kdDebug(1601) << "Uncompressor is " << strUncompressor << endl;
-	  *kp << strUncompressor;
-	  if (strUncompressor == "lzop")
-	    {
-	      *kp << "-d" ;
-	    }
-	  *kp << "-c" << m_filename.local8Bit();
-	  
-	  connect(kp, SIGNAL(processExited(KProcess *)),
-		  this, SLOT(createTmpFinished(KProcess *)));
-	  connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-		  this, SLOT(createTmpProgress( KProcess *, char *, int )));
-	  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-		   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+          KProcess *kp = new KProcess;
+          kp->clearArguments();
+          QString strUncompressor = getUnCompressor();
+          kdDebug(1601) << "Uncompressor is " << strUncompressor << endl;
+          *kp << strUncompressor;
+          if (strUncompressor == "lzop")
+            {
+              *kp << "-d" ;
+            }
+          *kp << "-c" << m_filename.local8Bit();
 
-	  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
-	    {
-	      KMessageBox::error(0, i18n("I can't fork a decompressor"));
-	    }
-	}
+          connect(kp, SIGNAL(processExited(KProcess *)),
+                  this, SLOT(createTmpFinished(KProcess *)));
+          connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+                  this, SLOT(createTmpProgress( KProcess *, char *, int )));
+          connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+                   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
+          if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+            {
+              KMessageBox::error(0, i18n("I can't fork a decompressor"));
+            }
+        }
       else
-	{
-	  kdDebug(1601) << "Temp tar already there..." << endl;
-	}
+        {
+          kdDebug(1601) << "Temp tar already there..." << endl;
+        }
     }
   kdDebug(1601) << "-TarArch::createTmp" << endl;
 }
@@ -468,7 +468,7 @@ static QDateTime getMTime(const QString & entry)
   int year, month, day, hour, min, seconds;
   // HPB: should be okay 'cause the date format will not be localized
   sscanf( entry.ascii(), "%d-%d-%d %d:%d:%d", &year, &month, &day, &hour,
-	  &min, &seconds);
+          &min, &seconds);
 
   QDate theDate(year, month, day);
   QTime theTime(hour, min, seconds);
@@ -498,40 +498,40 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
       str = str.right(str.length()-str.findRev('/')-1);
     if (bAddOnlyNew)
     {
-      // compare timestamps. If the file to be added is newer, delete the 
+      // compare timestamps. If the file to be added is newer, delete the
       // old. Otherwise we aren't adding it anyway, so we can go on to the next
       // file with a "continue".
 
       // find the file entry in the archive listing
       QString entryTimeStamp = m_gui->getColData(str, col);
       if (entryTimeStamp.isNull())
-	continue;  // it isn't in there, so skip it.
+        continue;  // it isn't in there, so skip it.
       stat(QFile::encodeName(filename), &statbuffer);
       time_t the_mtime = statbuffer.st_mtime;
       struct tm *convertStruct = localtime(&the_mtime);
       QDateTime addFileMTime(QDate(convertStruct->tm_year,
-				   convertStruct->tm_mon + 1,
-				   convertStruct->tm_mday),
-			     QTime(convertStruct->tm_hour,
-				   convertStruct->tm_min,
-				   convertStruct->tm_sec));
+                                   convertStruct->tm_mon + 1,
+                                   convertStruct->tm_mday),
+                             QTime(convertStruct->tm_hour,
+                                   convertStruct->tm_min,
+                                   convertStruct->tm_sec));
       QDateTime oldFileMTime = getMTime(entryTimeStamp);
 
       kdDebug(1601) << "Old file: " << oldFileMTime.date().year() << "-" <<
-	oldFileMTime.date().month() << "-" << oldFileMTime.date().day() <<
-	" " << oldFileMTime.time().hour() << ":" <<
-	oldFileMTime.time().minute() << ":" << oldFileMTime.time().second() <<
-	endl;
+        oldFileMTime.date().month() << "-" << oldFileMTime.date().day() <<
+        " " << oldFileMTime.time().hour() << ":" <<
+        oldFileMTime.time().minute() << ":" << oldFileMTime.time().second() <<
+        endl;
       kdDebug(1601) << "New file: " << addFileMTime.date().year()  << "-" <<
-	addFileMTime.date().month()  << "-" << addFileMTime.date().day() <<
-	" " << addFileMTime.time().hour()  << ":" <<
-	addFileMTime.time().minute() << ":" << addFileMTime.time().second() <<
-	endl;
+        addFileMTime.date().month()  << "-" << addFileMTime.date().day() <<
+        " " << addFileMTime.time().hour()  << ":" <<
+        addFileMTime.time().minute() << ":" << addFileMTime.time().second() <<
+        endl;
 
       if (oldFileMTime >= addFileMTime)
       {
-	fprintf(stderr, "Old time is newer or same\n"); 
-	continue; // don't add this file to the list to be deleted.
+        fprintf(stderr, "Old time is newer or same\n");
+        continue; // don't add this file to the list to be deleted.
       }
     }
     list.append(str);
@@ -569,7 +569,7 @@ void TarArch::addFile( QStringList* urls )
   KProcess *kp = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program.local8Bit();
-	
+
   if( m_settings->getAddReplaceOnlyWithNewer())
     *kp << "uvf";
   else
@@ -582,7 +582,7 @@ void TarArch::addFile( QStringList* urls )
 
   if (m_settings->getTarUseAbsPathnames())
     *kp << "-P";
-	
+
   QString base;
 
   if( !m_settings->getaddPath() )
@@ -591,7 +591,7 @@ void TarArch::addFile( QStringList* urls )
       pos = file.findRev( '/', -1, FALSE );
       base = file.left( ++pos );
       kdDebug(1601) << "base is " << base << endl;
-      //		pos++;
+      //                pos++;
       tmp = file.right( file.length()-pos );
       file = tmp;
       chdir( base.local8Bit() );
@@ -605,13 +605,13 @@ void TarArch::addFile( QStringList* urls )
       url = *it;
 
       if( url.isNull() )
-	break;
+        break;
       file = KURL(url).path(-1); // remove trailing slash
       pos = file.findRev( '/', -1, FALSE );
       pos++;
       tmp = file.right( file.length()-pos );
       file = tmp;
-    }	
+    }
 
   // debugging info
   QString strTemp;
@@ -623,12 +623,12 @@ void TarArch::addFile( QStringList* urls )
     }
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+           this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+           this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
 
   connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotAddFinished(KProcess*)));
+           SLOT(slotAddFinished(KProcess*)));
 
   kdDebug(1601) << "Busy loop... waiting for temp tar to be created" << endl;
   while (compressed && createTmpInProgress)
@@ -653,19 +653,19 @@ void TarArch::slotAddFinished(KProcess *_kp)
   kdDebug(1601) << "+TarArch::slotAddFinished" << endl;
 
   disconnect( _kp, SIGNAL(processExited(KProcess*)), this,
-	      SLOT(slotAddFinished(KProcess*)));
+              SLOT(slotAddFinished(KProcess*)));
   if (compressed)
     {
       updateArch();
       while (updateInProgress)
-	qApp->processEvents(); // wait for update;
+        qApp->processEvents(); // wait for update;
     }
   Arch::slotAddExited(_kp); // this will delete _kp
   kdDebug(1601) << "-TarArch::slotAddFinished" << endl;
 }
 
 void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
-			 bool viewFriendly)
+                         bool viewFriendly)
 {
   kdDebug(1601) << "+TarArch::unarchFile" << endl;
   QString dest;
@@ -675,10 +675,10 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
   else dest = _destDir;
 
   QString tmp;
-	
+
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  
+
   *kp << m_archiver_program.local8Bit();
   if (compressed)
     *kp << "--use-compress-program="+getUnCompressor() ;
@@ -691,27 +691,27 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
   options += "f";
 
   kdDebug(1601) << "Options were: " << options.local8Bit() << endl;
-  *kp << options.local8Bit() << m_filename.local8Bit() << "-C" << dest;	
+  *kp << options.local8Bit() << m_filename.local8Bit() << "-C" << dest;
 
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
   if (_fileList)
     {
       for ( QStringList::Iterator it = _fileList->begin();
-	    it != _fileList->end(); ++it ) 
-	{
-	  *kp << (*it).local8Bit();/*.latin1() ;*/
-	}
+            it != _fileList->end(); ++it )
+        {
+          *kp << (*it).local8Bit();/*.latin1() ;*/
+        }
     }
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+           this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+           this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
 
   connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotExtractExited(KProcess*)));
-  
+           SLOT(slotExtractExited(KProcess*)));
+
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
@@ -726,12 +726,12 @@ void TarArch::remove(QStringList *list)
   kdDebug(1601) << "+Tar::remove" << endl;
   deleteInProgress = true;
   QString name, tmp;
-  
+
   createTmp();
   while (compressed && createTmpInProgress)
     qApp->processEvents(); // wait for temp to be created;
 
-  KProcess *kp = new KProcess;	
+  KProcess *kp = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program.local8Bit() << "--delete" << "-f" ;
   if (compressed)
@@ -739,19 +739,19 @@ void TarArch::remove(QStringList *list)
   else
     *kp << m_filename.local8Bit();
 
-  for ( QStringList::Iterator it = list->begin(); it != list->end(); ++it )  
+  for ( QStringList::Iterator it = list->begin(); it != list->end(); ++it )
     {
       kdDebug(1601) << *it << endl;
       *kp << *it;
     }
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+           this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+           this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
 
   connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotDeleteExited(KProcess*)));
+           SLOT(slotDeleteExited(KProcess*)));
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
@@ -830,7 +830,7 @@ static char *makeAccessString(mode_t mode)
     uxbit = 'x';
   else
     uxbit = '-';
-	
+
   if ( (mode & (S_IXGRP|S_ISGID)) == (S_IXGRP|S_ISGID) )
     gxbit = 's';
   else if ( (mode & (S_IXGRP|S_ISGID)) == S_ISGID )
@@ -839,7 +839,7 @@ static char *makeAccessString(mode_t mode)
     gxbit = 'x';
   else
     gxbit = '-';
-	
+
   if ( (mode & (S_IXOTH|S_ISVTX)) == (S_IXOTH|S_ISVTX) )
     oxbit = 't';
   else if ( (mode & (S_IXOTH|S_ISVTX)) == S_ISVTX )
@@ -873,8 +873,8 @@ static QString makeTimeStamp(const QDateTime & dt)
   QTime t = dt.time();
 
   timestamp.sprintf("%d-%02d-%02d %s",
-		    d.year(), d.month(), d.day(),
-		    t.toString().utf8().data());
+                    d.year(), d.month(), d.day(),
+                    t.toString().utf8().data());
   return timestamp;
 }
 

@@ -1,10 +1,14 @@
           $Id$
 
-2001-05-30  Roberto Selbach Teixeira  <teixeira@conectiva.com>
+2001-05-31  Roberto Selbach Teixeira  <maragato@conectiva.com>
+        * Fixed a bug that made the file list freeze.
+        * Fixed extractDlg size to use QLayout
+
+2001-05-30  Roberto Selbach Teixeira  <maragato@conectiva.com>
 	* Began using KMimeMagic to figure file types
 	* Began cleaning up Ark's code a bit.
 	  
-2001-05-29  Roberto Selbach Teixeira  <teixeira@conectiva.com>
+2001-05-29  Roberto Selbach Teixeira  <maragato@conectiva.com>
 
 	* compressedfile.cc (unarchFile): move to fromLocal8Bit() to allow
 	non-Latin1 characters in filenames.
