@@ -95,8 +95,6 @@ protected:
   void contentsMousePressEvent(QMouseEvent *e);
   void contentsMouseMoveEvent(QMouseEvent *e);
 
-  virtual void paintEmptyArea(QPainter * p, const QRect &rect);
-
 private:
   QMap<int, columnName> colMap;
   int sortColumn;

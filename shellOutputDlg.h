@@ -28,24 +28,13 @@
 #ifndef SHELL_OUTPUT_DLG_H
 #define SHELL_OUTPUT_DLG_H
 
-#include <qmultilineedit.h>
-#include <qdialog.h>
+#include <kdialogbase.h>
 
 class QWidget;
 
 class ArkSettings;
 
-class ShellOutputWidget : public QMultiLineEdit {
-public:
-  ShellOutputWidget( QDialog* _d ) : QMultiLineEdit( _d ) 
-    { setWordWrap(FixedColumnWidth);
-      setWrapColumnOrWidth(80);
-     };
-};
-
-
-
-class ShellOutputDlg : public QDialog 
+class ShellOutputDlg : public KDialogBase
 {
   Q_OBJECT
 public:

@@ -27,6 +27,7 @@
 
 // Qt includes
 #include <qlayout.h>
+#include <qtextedit.h>
 
 #include <klocale.h>
 #include <kpushbutton.h>
@@ -39,20 +40,16 @@
 
 ShellOutputDlg::ShellOutputDlg( ArkSettings *_data, QWidget *_parent,
 				const char *_name )
-	: QDialog( _parent, _name, true )
+	: KDialogBase( _parent, _name, true, i18n( "Shell Output" ), KDialogBase::Ok, KDialogBase::Ok, true )
 {
-  setCaption( i18n("Shell Output") );
-  QGridLayout *grid1 = new QGridLayout(this,10,5,15,7);  
-  QMultiLineEdit *l1 = new QMultiLineEdit( this );
-  l1->setReadOnly( true );
-  grid1->addMultiCellWidget(l1,0,8,0,4);
+  QTextEdit *outputViewer = new QTextEdit( this );
+  outputViewer->setTextFormat( Qt::PlainText );
+  outputViewer->setReadOnly( true );
 
-  l1->setText( *(_data->getLastShellOutput()) );
-  l1->setCursorPosition(l1->numLines(), 0);
+  outputViewer->setText( *( _data->getLastShellOutput() ) );
+  outputViewer->setCursorPosition( outputViewer->lines(), 0 );
 
-  QPushButton *close = new KPushButton( KStdGuiItem::close(), this );
-  grid1->addWidget(close,9,4);
-  connect( close, SIGNAL( clicked() ), SLOT( accept() ) );
-  close->setFocus();
-  resize(520, 380);
+  setMainWidget( outputViewer );
+
+  resize( 520, 380 );
 }

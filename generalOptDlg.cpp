@@ -31,6 +31,7 @@
 #include <qlayout.h>
 #include <qgroupbox.h>
 #include <qcheckbox.h>
+#include <qwhatsthis.h>
 
 // KDE includes
 #include <klocale.h>
@@ -77,8 +78,8 @@ void GeneralOptDlg::createGeneralTab( QFrame *parent ) {
 	QVBoxLayout *layout = new QVBoxLayout( parent );
 
 	m_cbKonquerorIntegration = new QCheckBox( i18n( "Enable Konqueror integration" ), genFrame );
-//	m_cbKonquerorIntegration->setWhatsThis( i18n( "Enable Konqueror Integration\n"
-//	                                              "Check this option to enable Ark's integration into the Konqueror file manager, letting you easily archive and unarchive files through the context menus." ) );
+	QWhatsThis::add( m_cbKonquerorIntegration, i18n( "Enable Konqueror Integration\n"
+	                                              "Check this option to enable Ark's integration into the Konqueror file manager, letting you easily archive and unarchive files through the context menus." ) );
 
 	layout->addWidget( m_cbKonquerorIntegration );
 
