@@ -41,7 +41,6 @@
 // course, for tape backups, so this is not so surprising!      -Emily
 //
 
-#include <kurl.h>
 // Unsorted in qdir.h is used, but in some of the headers
 // below it's defined, too. So I brought kurl.h to the top.
 #include <sys/stat.h>
@@ -52,10 +51,6 @@
 #include <time.h>
 
 // Qt includes
-#include <qstring.h>
-#include <qstrlist.h>
-#include <qregexp.h>
-#include <qdatetime.h>
 #include <qapplication.h>
 
 // KDE includes
@@ -64,7 +59,7 @@
 #include <kmessagebox.h>
 #include <ktempfile.h>
 #include <kmimemagic.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kprocess.h>
 #include <ktar.h>
 

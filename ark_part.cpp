@@ -22,15 +22,10 @@
 #include "ark_part.h"
 
 #include <klocale.h>
-#include <kiconloader.h>
 #include <kinstance.h>
 #include <kaction.h>
 #include <kaboutdata.h>
-#include <kparts/partmanager.h>
-#include <kdebug.h>
-#include <kglobal.h>
 
-#include <qiconset.h>
 
 #include "arkwidgetpart.h"
 

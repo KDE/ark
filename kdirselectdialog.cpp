@@ -16,11 +16,9 @@
 	Boston, MA 02111-1307, USA.
 */
 
-#include <qwidget.h>
 #include <qlayout.h>
 #include <qpushbutton.h>
 #include <kdialog.h>
-#include <kurl.h>
 #include <klocale.h>
 
 #include "kdirselect.h"

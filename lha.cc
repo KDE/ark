@@ -36,13 +36,9 @@
 #include <string.h>
 
 // QT includes
-#include <qstring.h>
-#include <qcstring.h>
-#include <qstringlist.h>
 #include <qfile.h>
 
 // KDE includes
-#include <kurl.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>

@@ -29,28 +29,17 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
 // QT include
-#include <qvbox.h>
-#include <qcheckbox.h>
-#include <qfileinfo.h>
 #include <qbuttongroup.h>
-#include <qpushbutton.h>
 #include <qlabel.h>
-#include <qradiobutton.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
 #include <qapplication.h>
 #include <qlayout.h>
-#include <qframe.h>
 
 // KDE includes
 #include <kdebug.h>
-#include <kurl.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 #include <klocale.h>
-#include <kdialogbase.h>
 #include <kcombobox.h>
-#include <kcompletion.h>
 #include <kurlcompletion.h>
 #include <kurifilter.h>
 

@@ -32,10 +32,8 @@
 #include <stdlib.h>	// for getenv
 
 // QT includes
-#include <qstring.h>
 
 // KDE includes
-#include <kapp.h>
 #include <kglobal.h>
 #include <kdebug.h>
 #include <klocale.h>

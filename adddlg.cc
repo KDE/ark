@@ -27,15 +27,12 @@
 */
 
 // QT includes
-#include <qstring.h>
-#include <qpushbutton.h>
 #include <qobjectlist.h>
 #include <qlayout.h>
 
 // KDE includes
 #include <kdebug.h>
 #include <klocale.h>
-#include <kfiledialog.h>
 
 // Ark includes
 #include "generalOptDlg.h"

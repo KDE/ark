@@ -35,8 +35,6 @@
 #include <qfile.h>
 
 // KDE includes
-#include <kurl.h>
-#include <qstringlist.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>

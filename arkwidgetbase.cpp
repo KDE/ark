@@ -23,14 +23,12 @@
 #include <unistd.h>
 
 // QT includes
-#include <qstringlist.h>
-#include <qstring.h>
 #include <qheader.h>
 
 // KDE includes
 #include <klocale.h>
 #include <kdebug.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 
 // Ark includes
 #include "filelistview.h"

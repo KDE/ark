@@ -27,14 +27,12 @@
 */
 
 // Qt includes
-#include <qlabel.h>
 #include <qvbox.h>
 #include <qgroupbox.h>
 #include <qcheckbox.h>
 
 // KDE includes
 #include <klocale.h>
-#include <kdialogbase.h>
 
 // ark includes
 #include "arksettings.h"

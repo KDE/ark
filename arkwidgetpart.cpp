@@ -21,24 +21,14 @@
 
 // Qt includes
 #include <qregexp.h> 
-#include <qheader.h>
-#include <qfile.h>
-#include <qstrlist.h>
-#include <qfiledialog.h>
-#include <qwidget.h>
 #include <qdragobject.h>
 
 // KDE includes
-#include <kdebug.h>
-#include <kfiledialog.h>
 #include <kkeydialog.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 #include <krun.h>
 #include <ktempfile.h>
 #include <kmimemagic.h>
-#include <kstddirs.h>
-#include <kaboutdata.h>
 
 // c includes
 #include <errno.h>

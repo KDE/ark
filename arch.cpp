@@ -34,9 +34,6 @@
 // QT includes
 #include <qapplication.h>
 #include <qfile.h>
-#include <qptrlist.h>
-#include <qregexp.h>
-#include <qstring.h>
 
 // KDE includes
 #include <kdebug.h>

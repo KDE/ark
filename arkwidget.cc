@@ -33,36 +33,15 @@
 #include <stdlib.h>
 
 // Qt includes
-#include <qwidget.h>
-#include <qdir.h>
 #include <qdragobject.h>
-#include <qevent.h>
-#include <qregexp.h>
-#include <qheader.h>
 #include <qwhatsthis.h>
-#include <qfile.h>
-#include <qstrlist.h>
-#include <qstring.h>
 
 // KDE includes
-#include <kapp.h>
-#include <kconfig.h>
 #include <kdebug.h>
-#include <kfiledialog.h>
-#include <kglobal.h>
-#include <kiconloader.h>
 #include <kkeydialog.h>
-#include <klocale.h>
-#include <kmenubar.h>
 #include <kmessagebox.h>
-#include <kstatusbar.h>
-#include <ktoolbar.h>
 #include <kio/netaccess.h>
-#include <kio/global.h>
-#include <kio/file.h>
 #include <kio/job.h>
-#include <krun.h>
-#include <kservice.h>
 #include <kopenwith.h>
 #include <kaction.h>
 #include <kstdaction.h>
@@ -70,7 +49,7 @@
 #include <progressbase.h>
 #include <kmimemagic.h>
 #include <kedittoolbar.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kprocess.h>
 #include <kmainwindow.h>
 

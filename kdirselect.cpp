@@ -17,16 +17,7 @@
 */
 
 
-#include <qwidget.h>
-#include <qpixmap.h>
-#include <qstringlist.h>
-#include <klistview.h>
-#include <kdirlister.h>
-#include <kfileitem.h>
-#include <kiconloader.h>
-#include <kurl.h>
 #include <klocale.h>
-#include <kdebug.h>
 
 #include "kdirselect.h"
 

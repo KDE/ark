@@ -28,8 +28,6 @@
 */
 
 // Qt includes
-#include <qpushbutton.h>
-#include <qlistbox.h>
 #include <qlineedit.h>
 #include <qlabel.h>
 #include <qbuttongroup.h>
@@ -38,7 +36,6 @@
 // KDE includes
 #include <kfiledialog.h>
 #include <klocale.h>
-#include <kdebug.h>
 #include <kmessagebox.h>
 
 // ark includes

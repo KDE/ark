@@ -25,7 +25,6 @@ $Id$
 */
 
 // Qt includes
-#include <qbuttongroup.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qregexp.h>

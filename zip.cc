@@ -30,10 +30,6 @@
 
 // Qt includes
 #include <qdir.h>
-#include <qstringlist.h>
-#include <qlist.h>
-#include <qcstring.h>
-#include <qregexp.h>
 
 // KDE includes
 #include <kdebug.h>

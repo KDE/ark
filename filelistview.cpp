@@ -32,18 +32,12 @@
 #include <sys/stat.h>
 
 // Qt includes
-#include <qstring.h>
-#include <qheader.h>
-#include <qpixmap.h>
 #include <qpainter.h>
-#include <qstringlist.h>
 #include <qwhatsthis.h>
-#include <qlistview.h>
 
 // KDE includes
 #include <klocale.h>
 #include <kdebug.h>
-#include <klistview.h>
 
 #include "filelistview.h"
 #include "arch.h"

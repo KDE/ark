@@ -27,16 +27,9 @@
 
 // Qt includes
 #include <qpushbutton.h>
-#include <qmultilineedit.h>
-#include <qgrid.h>
 #include <qlayout.h>
-#include <qdialog.h>
 
-#include <kdebug.h>
 #include <klocale.h>
-#include <kglobal.h>
-#include <kglobalsettings.h>
-#include <kcharsets.h>
 
 // ark includes
 #include "shellOutputDlg.h"

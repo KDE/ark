@@ -31,14 +31,12 @@
 
 // Qt includes
 #include <qdir.h>
-#include <qstring.h>
-#include <qstringlist.h>
 
 // KDE includes
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kprocess.h>
 
 // ark includes
