@@ -266,7 +266,7 @@ void ZipArch::extraction()
  	ZipExtractDlg zed( QString::null );
  	zed.exec();
 
-/*
+#if 0 
 	QString dir, ex;
 
 	ExtractDlg ld( ExtractDlg::All );
@@ -293,7 +293,6 @@ void ZipArch::extraction()
 		}
 	}
 
-/*
 	QString dir, ex;
 
 	ZipExtractDlg ld( ExtractDlg::All );
@@ -319,6 +318,6 @@ void ZipArch::extraction()
 			}
 		}
 	}
-*/
+#endif
 }
 
