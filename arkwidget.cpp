@@ -981,10 +981,9 @@ ArkWidget::slotExtractDone()
 			srcList.append( src );
 		}
 
-		KURL extractURL( m_settings->getExtractDir() );
-		extractURL.adjustPath( 1 );
+		m_extractURL.adjustPath( 1 );
 
-		KIO::CopyJob *job = KIO::copy( srcList, extractURL );
+		KIO::CopyJob *job = KIO::copy( srcList, m_extractURL );
     		connect( job, SIGNAL(result(KIO::Job*)),
              		this, SLOT(slotExtractRemoteDone(KIO::Job*)) );
 
@@ -1717,16 +1716,15 @@ ArkWidget::action_extract()
 		int extractOp = dlg->extractOp();
 		kdDebug(1601) << "Extract op: " << extractOp << endl;
 		
-		QString extractDir( m_settings->getExtractDir() );
-		kdDebug(1601) << "Extract dir: " << extractDir << endl;
+		//m_extractURL will always be the location the user chose to
+		//m_extract to, whether local or remote
+		m_extractURL = dlg->extractDir();
+				
+		//extractDir will either be the real, local extract dir,
+		//or in case of a extract to remote location, a local tmp dir
+		QString extractDir;
 		
-		//extractURL will always be the location the user chose to
-      //extract to, whether local or remote
-      KURL extractURL( extractDir);
-
-      //extractDir will either be the real, local extract dir,
-      //or in case of a extract to remote location, a local tmp dir
-      if ( !extractURL.isLocalFile() )
+		if ( !m_extractURL.isLocalFile() )
 		{
 			extractDir = m_settings->getTmpDir() + "extrtmp/";
 			m_extractRemote = true;
@@ -1743,12 +1741,12 @@ ArkWidget::action_extract()
 		}
 		else
 		{
-			extractDir = extractURL.path();
+			extractDir = m_extractURL.path();
 		}
 		
-      // if overwrite is false, then we need to check for failure of
-      // extractions.
-      bool bOvwrt = m_settings->getExtractOverwrite();
+		// if overwrite is false, then we need to check for failure of
+		// extractions.
+		bool bOvwrt = m_settings->getExtractOverwrite();
 		
 		switch(extractOp)
 		{

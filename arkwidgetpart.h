@@ -96,6 +96,12 @@ private: // data
   KRun *m_pKRunPtr;
   
   KTempFile *mpTempFile;
+
+  // Set to true if we are extracting to a remote location
+  bool m_extractRemote;
+		
+  // URL to extract to.
+  KURL m_extractURL;
 };
 
 #endif /* ARKWIDGETPART_H*/

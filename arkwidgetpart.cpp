@@ -24,11 +24,14 @@
 #include <qdragobject.h>
 
 // KDE includes
+#include <kdebug.h>
 #include <kkeydialog.h>
 #include <kmessagebox.h>
 #include <krun.h>
 #include <ktempfile.h>
 #include <kmimemagic.h>
+#include <kio/job.h>
+#include <kio/netaccess.h>
 
 // c includes
 #include <errno.h>
@@ -96,7 +99,7 @@ Utilities::diskHasSpacePart(const QString &dir, long size)
 	else
 	{
 		// something bad happened
-      Q_ASSERT(0);
+		Q_ASSERT(0);
 	}
 	return true;
 }
@@ -184,7 +187,7 @@ ArkWidgetPart::file_open(const QString & strFile, const KURL &fileURL)
 			nFlag = S_IROTH;  // it's someone else's
 		}
 
-      if ( ! ( ( statbuffer.st_mode & nFlag ) == nFlag ) )
+		if ( ! ( ( statbuffer.st_mode & nFlag ) == nFlag ) )
 		{
 			KMessageBox::error(this, i18n("You do not have permission to access that archive") );
 			return;
@@ -205,7 +208,7 @@ ArkWidgetPart::file_open(const QString & strFile, const KURL &fileURL)
 		file_close();
 	}
 
-   // Set the current archive filename to the filename
+	// Set the current archive filename to the filename
 	m_strArchName = strFile;
 	m_url = fileURL;
 	
@@ -297,14 +300,42 @@ ArkWidgetPart::slotExtractDone()
 		}
 		
 		QUriDrag *d = new QUriDrag(list, archiveContent->viewport());
-      m_bDropSourceIsSelf = true;
-      d->dragCopy();
-      m_bDropSourceIsSelf = false;
+		m_bDropSourceIsSelf = true;
+		d->dragCopy();
+		m_bDropSourceIsSelf = false;
 	}
 	
 	if(m_extractList != 0) delete m_extractList;
 	m_extractList = NULL;
 	archiveContent->setUpdatesEnabled(true);
+
+        if ( m_extractRemote )
+	{
+		KURL srcDirURL( m_settings->getTmpDir() + "extrtmp/" );
+		KURL src;
+		QString srcDir( m_settings->getTmpDir() + "extrtmp/" );
+	   	QDir dir( srcDir );
+	       	QStringList lst( dir.entryList() );
+		lst.remove( "." );
+		lst.remove( ".." );
+
+		KURL::List srcList;
+	       	for( QStringList::ConstIterator it = lst.begin(); it != lst.end() ; ++it)
+                {
+			src = srcDirURL;
+			src.addPath( *it );
+			srcList.append( src );
+		}
+
+		m_extractURL.adjustPath( 1 );
+
+		KIO::CopyJob *job = KIO::copy( srcList, m_extractURL );
+    		connect( job, SIGNAL(result(KIO::Job*)),
+             		this, SLOT(slotExtractRemoteDone(KIO::Job*)) );
+
+		m_extractRemote = false;
+	}
+
 }
 
 
@@ -363,7 +394,7 @@ ArkWidgetPart::reportExtractFailures(const QString & _dest, QStringList *_list)
 	if ( _list->isEmpty() )
 	{
 		// make the list
-    	FileListView *flw = fileList();
+		FileListView *flw = fileList();
 		FileLVI *flvi = (FileLVI*)flw->firstChild();
 		while (flvi)
 		{
@@ -390,7 +421,7 @@ ArkWidgetPart::reportExtractFailures(const QString & _dest, QStringList *_list)
 	if (numFilesToReport == 1)
 	{ 
 		strFilename = *(existingFiles.at(0));
-      QString message = i18n("%1 will not be extracted because it will overwrite an existing file.\nGo back to Extract Dialog?").arg(strFilename);
+		QString message = i18n("%1 will not be extracted because it will overwrite an existing file.\nGo back to Extract Dialog?").arg(strFilename);
 		bRedoExtract = KMessageBox::questionYesNo(this, message) == KMessageBox::Yes;
 	}
 	else if ( numFilesToReport != 0 )
@@ -432,23 +463,51 @@ ArkWidgetPart::action_extract()
 	{
 		int extractOp = dlg->extractOp();
 		
-		// if overwrite is false, then we need to check for failure of
-      // extractions.
-      bool bOvwrt = m_settings->getExtractOverwrite();
+		//m_extractURL will always be the location the user chose to
+		//m_extract to, whether local or remote
+		m_extractURL = dlg->extractDir();
+				
+		//extractDir will either be the real, local extract dir,
+		//or in case of a extract to remote location, a local tmp dir
+		QString extractDir;
 		
-      switch( extractOp )
+		if ( !m_extractURL.isLocalFile() )
+		{
+			extractDir = m_settings->getTmpDir() + "extrtmp/";
+			m_extractRemote = true;
+			//make sure it's empty since all of it's contents
+			//will be copied to the remote extract location
+			KIO::NetAccess::del( extractDir );
+			if ( !KIO::NetAccess::mkdir( extractDir ) )
+			{
+				kdWarning(1601) << "Unable to create " << extractDir << endl;
+				m_extractRemote = false;
+				delete dlg;
+				return;
+			}
+		}
+		else
+		{
+			extractDir = m_extractURL.path();
+		}
+
+		// if overwrite is false, then we need to check for failure of
+		// extractions.
+		bool bOvwrt = m_settings->getExtractOverwrite();
+
+		switch( extractOp )
 		{
 			case ExtractDlg::All:
 				if (!bOvwrt)  // send empty list to indicate we're extracting all
 				{
-					bRedoExtract = reportExtractFailures( m_settings->getExtractDir(), m_extractList );
+					bRedoExtract = reportExtractFailures( extractDir, m_extractList );
 				}
 				if ( !bRedoExtract ) // if the user's OK with those failures, go ahead
 				{
 					// unless we have no space!
-					if (Utilities::diskHasSpacePart( m_settings->getExtractDir(), m_nSizeOfFiles ) )
+					if (Utilities::diskHasSpacePart( extractDir, m_nSizeOfFiles ) )
 					{
-						arch->unarchFile(0);
+						arch->unarchFile(0, extractDir);
 					}
 				}
 				break;
@@ -486,13 +545,13 @@ ArkWidgetPart::action_extract()
 					}
 					if ( !bOvwrt )
 					{
-						bRedoExtract =	reportExtractFailures(m_settings->getExtractDir(), m_extractList);
+						bRedoExtract =	reportExtractFailures(extractDir, m_extractList);
 					}
 					if ( !bRedoExtract )
 					{
-						if ( Utilities::diskHasSpacePart( m_settings->getExtractDir(), nTotalSize ) )
+						if ( Utilities::diskHasSpacePart(extractDir, nTotalSize) )
 						{
-							arch->unarchFile(m_extractList); // extract selected files
+							arch->unarchFile(m_extractList, extractDir); // extract selected files
 						}
 					}
 					break;

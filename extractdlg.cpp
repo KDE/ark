@@ -231,8 +231,9 @@ ExtractDlg::accept()
 		}
 	}
 	
+	m_extractDir = p;
 	// you need to change the settings to change the fixed dir.
-   m_settings->setLastExtractDir( p.prettyURL() );
+	m_settings->setLastExtractDir( p.prettyURL() );
 	
 	if ( m_radioPattern->isChecked() ) 
 	{
@@ -259,10 +260,10 @@ ExtractDlg::browse() // slot
 	KFileDialog extractDirDlg( m_settings->getExtractDir(), QString::null, this, "extractdirdlg", true );
 	extractDirDlg.setMode( KFile::Mode( KFile::Directory ) );
 	extractDirDlg.setCaption(i18n("Select an Extract Directory"));
-   extractDirDlg.exec();
+	extractDirDlg.exec();
 
-   KURL u( extractDirDlg.selectedURL() );
-   QString dirName = u.prettyURL(1);
+	KURL u( extractDirDlg.selectedURL() );
+	QString dirName = u.prettyURL(1);
 	
 	if (! dirName.isEmpty() )
 	{
@@ -295,6 +296,12 @@ ExtractDlg::extractOp()
 	return -1;
 }
 
+KURL
+ExtractDlg::extractDir()
+{
+	return m_extractDir;
+}
+
 void 
 ExtractDlg::openPrefs()
 {
@@ -316,8 +323,8 @@ ExtractFailureDlg::ExtractFailureDlg( QStringList *list, QWidget *parent, char *
 	
 	setCaption( i18n( "Failure to Extract" ) );
 	QLabel *pLabel = new QLabel( this );
-	pLabel->setText( i18n( "Some files already exist in your destination directory.\n
-				The following files will not be extracted if you continue: " ) );
+	pLabel->setText( i18n( "Some files already exist in your destination directory.\n"
+				"The following files will not be extracted if you continue: " ) );
 	labelWidth = pLabel->sizeHint().width();
 	labelHeight = pLabel->sizeHint().height();
 	

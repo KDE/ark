@@ -247,6 +247,9 @@ ArkWidget : public KMainWindow, public ArkWidgetBase
 		// Set to true if we are extracting to a remote location
 		bool m_extractRemote;
 		
+		// URL to extract to.
+		KURL m_extractURL;
+		
 		// if they're dragging in files, this is the temporary list for when
 		// we have to create an archive:
 		QStringList *m_pTempAddList;

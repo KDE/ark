@@ -33,6 +33,7 @@
 #define __EXTRACTDLG_H__
 
 #include <qradiobutton.h>
+#include <kurl.h>
 
 #include "arch.h"
 
@@ -58,6 +59,7 @@ public:
   ~ExtractDlg();
   enum ExtractOp{ All, Selected, Current, Pattern };
   int extractOp();
+  KURL extractDir();
   void disableSelectedFilesOption();
   void disableCurrentFileOption() { m_radioCurrent->setEnabled(false); }
 public slots:
@@ -76,6 +78,7 @@ private: // data
   QLineEdit *m_patternLE;
   KHistoryCombo *m_extractDirCB;
   ArkSettings *m_settings;
+  KURL m_extractDir;
 };
 
 // this class is used for displaying the filenames that were not
