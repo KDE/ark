@@ -92,7 +92,7 @@
 					<label>Common folder</label>
 				</choice>
 				<choice name="Custom">
-					<label>Custom foder</label>
+					<label>Custom folder</label>
 				</choice>
 				<choice name="Last">
 					<label>Last used folder</label>
@@ -107,7 +107,7 @@
 					<label>Common folder</label>
 				</choice>
 				<choice name="Custom">
-					<label>Custom foder</label>
+					<label>Custom folder</label>
 				</choice>
 				<choice name="Last">
 					<label>Last used folder</label>
@@ -122,7 +122,7 @@
 					<label>Common folder</label>
 				</choice>
 				<choice name="Custom">
-					<label>Custom foder</label>
+					<label>Custom folder</label>
 				</choice>
 				<choice name="Last">
 					<label>Last used folder</label>
