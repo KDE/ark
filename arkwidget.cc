@@ -436,9 +436,9 @@ void ArkWidget::updateStatusTotals()
 
     kdebug(0, 1601, "We have %d elements\n", m_nNumFiles);
 
-    char strInfo[BUFSIZ];
-    sprintf(strInfo, "%s %d %s, %d KB", (const char *)i18n("Total"),
-	    m_nNumFiles, (const char *)i18n("Files"), m_nSizeOfFiles);
+    QString strInfo = i18n("Total %1 Files, %1 KB")
+	.arg(KGlobal::locale()->formatNumber(m_nNumFiles, 0))
+	.arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
     
     statusBar()->changeItem(strInfo, eNumFilesStatusLabel);
     kdebug(0, 1601, "-ArkWidget::updateStatusTotals");
@@ -1210,11 +1210,14 @@ void ArkWidget::updateStatusSelection()
       flvi = (FileLVI*)flvi->itemBelow();
   }
 
-  char strInfo[BUFSIZ];
-  sprintf(strInfo, "%d %s %s, %d KB", m_nNumSelectedFiles,
-	  (const char *) ((m_nNumSelectedFiles != 1)?
-			  i18n("Files") : i18n("File")),
-	  (const char *) i18n("Selected"), m_nSizeOfSelectedFiles);
+  QString strInfo;
+  if (m_nNumSelectedFiles != 0)
+    strInfo = i18n("%1 Files selected, %1 KB")
+	.arg(KGlobal::locale()->formatNumber(m_nNumSelectedFiles, 0))
+	.arg(KGlobal::locale()->formatNumber(m_nSizeOfSelectedFiles, 0));
+  else
+    strInfo = i18n("One File selected, %1 KB")
+	.arg(KGlobal::locale()->formatNumber(m_nSizeOfSelectedFiles, 0));
 
   statusBar()->changeItem(strInfo, eSelectedStatusLabel);
 
@@ -1344,7 +1347,7 @@ void ArkWidget::showFavorite()
 			flvi->setText(0, name);
 			if(!isDirectory)
 			{
-		                size.sprintf("%d", (flisti.current())->size());
+		                size = KGlobal::locale()->formatNumber(flisti.current()->size(), 0);
 				flvi->setText(1, size);
 				archiveContent->insertItem(flvi);
 			}
