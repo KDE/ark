@@ -639,6 +639,12 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
       if (strFile.isEmpty())
         return QString::null;
 
+     //the user chose to save as the current archive
+     //or wanted to create a new one with the same name
+     //no need to do anything
+      if (strFile == m_strArchName && m_bIsArchiveOpen)
+	return QString::null;
+
       kdDebug(1601) << "Trying to create an archive named " <<
         strFile << endl;
       if (stat(strFile.local8Bit(), &statbuffer) != -1)  // already exists!
