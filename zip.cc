@@ -175,7 +175,7 @@ void ZipArch::initOpen()
 	
   m_settings->clearShellOutput();
 
-  m_kp = new KProcess();
+  m_kp = new KProcess;
   *m_kp << "unzip" << "-v" << m_filename.local8Bit();
 	
   connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)),

@@ -26,7 +26,7 @@
 
 */
 
-// note from Emily:
+// note from Emily on future development (not yet implemented!! Soon.)
 // When maintaining tar files with ark, the user should be
 // aware that these options have been improved (IMHO). When you append a file
 // to a tarchive, tar does not check if the file exists already, and just
@@ -199,6 +199,7 @@ void TarArch::setHeaders()
 
 void TarArch::initOpen()
 {
+  m_kp = new KProcess;
   m_kp->clearArguments();
   QString tar_exe = m_settings->getTarCommand();
 
@@ -471,7 +472,8 @@ void TarArch::updateExtractProgress( KProcess *, char *buffer, int bufflen )
 {
   // some kind of progress bar, or something?
 
-  // I know its ugly, but I wan't the names for future reference
+  // I know it's ugly, but I want the names for future reference.
+  // purpose of this is to turn off warnings?
   buffer = buffer, bufflen = bufflen;
 }
 

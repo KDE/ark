@@ -48,6 +48,7 @@
 #include <kmessagebox.h>
 #include <kstatusbar.h>
 #include <ktoolbar.h>
+#include <kio/netaccess.h>
 
 // c includes
 
@@ -619,16 +620,18 @@ void ArkWidget::file_new()
   int choice=0;
   struct stat statbuffer;
   QString strFile;
-
+  KURL url;
   while (true)
     // keep asking for filenames as long as the user doesn't want to 
     // overwrite existing ones. Break if they agree to overwrite
     // or if the file doesn't already exist. Return if they cancel.
   {
-    strFile = KFileDialog::getSaveFileName(QString::null,
-    					   m_settings->getFilter());
-    if (! strFile.isEmpty())
+    
+    url = KFileDialog::getSaveURL(QString::null,
+				      m_settings->getFilter());
+    if (!url.isEmpty())
     {
+      strFile = url.path();  // needs work for network stuff XXX
       if (stat(strFile, &statbuffer) != -1)  // there's something there!
       {
 	choice =
@@ -739,10 +742,14 @@ void ArkWidget::file_newWindow()
 
 void ArkWidget::file_open()
 {
-    QString file
-      = KFileDialog::getOpenFileName(m_settings->getOpenDir(),
-				     m_settings->getFilter(), this);
-    file_open( file );
+    KURL url;
+    QString strFile;
+    url = KFileDialog::getOpenURL(m_settings->getOpenDir(),
+				  m_settings->getFilter(), this);
+
+    KIO::NetAccess::download(url, strFile); 
+    file_open(strFile);  // note: assumes it is local for now
+    // do I have to remove this later if it's a temporary? Needs work. XXX
 }
 
 void ArkWidget::file_openRecent(int i)
