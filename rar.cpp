@@ -51,7 +51,7 @@
 
 RarArch::RarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 		  const QString & _fileName )
-  : Arch(_settings, _gui, _fileName ), m_linenumber(0)
+  : Arch(_settings, _gui, _fileName )
 {
   kdDebug(1601) << "RarArch constructor" << endl;
 
@@ -68,43 +68,21 @@ RarArch::RarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 
 bool RarArch::processLine(const QCString &line)
 {
-  // For each rar entry, this function is called exactly three times.
-  // The first time, store the first line and return.
-  // The second time, store the second line and return.
-  // The third time, process the data in the first two lines and
-  // send to the GUI. We ignore the third line since the data there
-  // isn't really that important.
-
-  ++m_linenumber;
-  if (m_linenumber == 1)
-    {
-      m_line1 = QString::fromLocal8Bit(line.data());
-      return true;
-    }
-  if (m_linenumber == 2)
-    {
-      m_line2 = QString::fromLocal8Bit(line.data());
-      return true;
-    }
-  // if we made it here, we have all three lines.
-  // Reset the line number.
-  m_linenumber = 0;
-
   QStringList list;
-  list << m_line1.stripWhiteSpace(); // filename
 
-  QStringList l2 = QStringList::split( ' ', m_line2 );
+  QStringList l2 = QStringList::split( ' ', line );
 
-  list << l2[ 0 ]; // size
-  list << l2[ 1 ]; // packed
-  list << l2[ 2 ]; // ratio
+  list << l2[ 0 ]; // filename
+  list << l2[ 1 ]; // size
+  list << l2[ 2 ]; // packed
+  list << l2[ 3 ]; // ratio
 
-  QStringList date =  QStringList::split( '-', l2[ 3 ] );
-  list << ArkUtils::fixYear( date[ 2 ].latin1() ) + "-" + date[ 1 ] + "-" + date [ 0 ] + " " + l2[4]; // date
-  list << l2[ 5 ]; // attributes
-  list << l2[ 6 ]; // crc
-  list << l2[ 7 ]; // method
-  list << l2[ 8 ]; // Version
+  QStringList date =  QStringList::split( '-', l2[ 4 ] );
+  list << ArkUtils::fixYear( date[ 2 ].latin1() ) + "-" + date[ 1 ] + "-" + date [ 0 ] + " " + l2[5]; // date
+  list << l2[ 6 ]; // attributes
+  list << l2[ 7 ]; // crc
+  list << l2[ 8 ]; // method
+  list << l2[ 9 ]; // Version
 
   m_gui->listingAdd(&list); // send to GUI
 
@@ -122,7 +100,7 @@ void RarArch::open()
   
   
   KProcess *kp = new KProcess;
-  *kp << m_archiver_program << "vt" << m_filename;
+  *kp << m_archiver_program << "l" << "-c-" << m_filename;
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),

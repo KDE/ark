@@ -59,8 +59,6 @@ protected slots:
   virtual bool processLine(const QCString &line);
 
 private: // data
-  int m_linenumber;
-  QString m_line1, m_line2; // for keeping till we have all three lines
 
   void initExtract( bool, bool, bool );
   void setHeaders();
