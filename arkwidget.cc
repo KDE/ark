@@ -15,8 +15,10 @@
 #include <qmessagebox.h>
 #include <qstrlist.h>
 #include <qcursor.h>
+#include <qtimer.h>
 
 // KDE includes
+#include <kaccel.h>
 #include <ktoolbar.h>
 #include <kconfig.h>
 #include <kapp.h>
@@ -28,6 +30,7 @@
 #include <kfiledialog.h>
 #include <ktablistbox.h>
 #include <kmsgbox.h>
+#include <kkeydialog.h>
 
 #include "extractdlg.h"
 #include "karchive.h"
@@ -53,49 +56,8 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	windowList->setAutoDelete( FALSE );
 	windowList->append( this );
 
-	QAccel *a = new QAccel( this );
-	//a->connectItem( a->insertItem( CTRL+Key_O ), this, SLOT(openZip()) );
-	//a->connectItem( a->insertItem( CTRL+Key_N ), this, SLOT(createZip()) );
-	//a->connectItem( a->insertItem( CTRL+Key_W ), this, SLOT(closeZip()) );
-	//a->connectItem( a->insertItem( CTRL+Key_Q ), this, SLOT(quit()) );
-	a->connectItem( a->insertItem( Key_F1 ), this, SLOT(help()) );
-	a->connectItem( a->insertItem( CTRL+Key_H ), this, SLOT(showFavorite()) );
-	//a->connectItem( a->insertItem( CTRL+Key_E ), this, SLOT(extractZip()) );
-	QPopupMenu *filemenu = new QPopupMenu;
-	filemenu->insertItem( i18n( "New &Window..."), this, SLOT( newWindow() ) );
-	filemenu->insertSeparator();
-	filemenu->insertItem( i18n( "&New..." ), this, SLOT( createZip()), CTRL+Key_N );
-	filemenu->insertItem( i18n( "&Open..." ), this,  SLOT( openZip()), CTRL+Key_O );
-	filemenu->insertSeparator();
-	filemenu->insertItem( i18n( "&Extract To..."), this, SLOT( extractZip()), CTRL+Key_E );
-	filemenu->insertSeparator();
-	filemenu->insertItem( i18n( "&Close"), this, SLOT( closeZip() ), CTRL+Key_W );
-	filemenu->insertItem( i18n( "&Quit"), this, SLOT( quit() ), CTRL+Key_Q );
-	QPopupMenu *editmenu = new QPopupMenu;
-	editmenu->insertItem( i18n( "E&xtract..."), this, SLOT( extractFile() ) );
-	editmenu->insertItem( i18n( "&View file"), this, SLOT( showFile() ) );
-	editmenu->insertSeparator();
-	editmenu->insertItem( i18n( "&Delete file"), this, SLOT( deleteFile() ) );
-	QPopupMenu *optionsmenu = new QPopupMenu;
-	optionsmenu->insertItem( i18n( "&Set Archive Directory..."), this, SLOT( getFav() ) );
-	optionsmenu->insertItem( i18n( "Set &Tar Executable..."), this, SLOT( getTarExe() ) );
-	optionsmenu->insertItem( i18n( "&File Adding Options..."), this, SLOT( getAddOptions() ) );
-	QPopupMenu *helpmenu = kapp->getHelpMenu( true, "ark v0.5\n (c) 1997 Robert Palmbos" );
-
-	menu = new KMenuBar( this );
-	menu->insertItem( i18n( "&File"), filemenu );
-	menu->insertItem( i18n( "&Edit"), editmenu );
-	menu->insertItem( i18n( "&Options"), optionsmenu );
-	menu->insertSeparator();
-	menu->insertItem( i18n( "&Help" ), helpmenu );
-	setMenu( menu );
-
-	pop = new KPopupMenu( i18n("File Operations") );
-	// QPopupMenu pop;
-	pop->insertItem( i18n("Extract..."), this, SLOT( extractFile() ) );
-	pop->insertItem( i18n("View file"), this, SLOT( showFile() ) );
-	pop->insertSeparator();
-	pop->insertItem( i18n("Delete file"), this, SLOT( deleteFile() ) );
+	// Build the menu structure with keys accelerators
+	setupMenus();
 
 	QPixmap pix;
 	QString pixpath;
@@ -121,13 +83,16 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	enableToolBar( KToolBar::Show );
 
 	sb = new KStatusBar( this );
-	sb->insertItem( (char *)i18n( "Welcome to ark..." ), 0 );
+	sb->insertItem( i18n( "Welcome to ark..." ), 0 );
 	setStatusBar( sb );
+	
+	statusBarTimer = new QTimer(this);
+	connect(statusBarTimer, SIGNAL(timeout()), SLOT(timeout()));
 
 	//f_main = new QFrame( this, "frame_0" );
 	lb = new KTabListBox( this );
 	lb->setSeparator( '\t' );
-	QFont f( "courier", 12 );
+//	QFont f( "courier", 12 );
 	//lb->setFont( f );
 	setView( lb );
 	connect( lb, SIGNAL( highlighted(int, int) ), this, SLOT( showFile(int, int) ) );
@@ -137,7 +102,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 
 	setCaption( kapp->getCaption() );
 	
-	this->resize( 600, 400 );  // someday this won't be hardcoded
+	setMinimumSize( 600, 400 );  // someday this won't be hardcoded
 	tb->show();
 	lb->show();
 	sb->show();
@@ -166,6 +131,82 @@ ArkWidget::~ArkWidget()
 	delete lb;
 	delete tb;
 }
+
+void ArkWidget::setupMenus()
+{
+	// KAccel initialization
+	accelerators = new KAccel(this);
+
+	accelerators->insertStdItem(KAccel::New, i18n("New"));
+	accelerators->insertStdItem(KAccel::Open, i18n("Open"));
+	accelerators->insertItem(i18n("Extract to"), "Extraction", "CTRL+E");
+	accelerators->insertStdItem(KAccel::Help);
+
+	// KAccel connections
+	accelerators->connectItem(KAccel::Quit, this, SLOT(quit()));
+	accelerators->connectItem(KAccel::New, this, SLOT(createZip()));
+	accelerators->connectItem("Extraction", this, SLOT(extractZip()));
+	accelerators->connectItem(KAccel::Open, this, SLOT(openZip()));
+	
+	// KAccel settings
+	accelerators->readSettings();
+
+	int id;
+
+	// File menu creation
+	QPopupMenu *filemenu = new QPopupMenu;
+	filemenu->insertItem( i18n( "New &Window..."), this, SLOT( newWindow() ) );
+	filemenu->insertSeparator();
+	id=filemenu->insertItem( i18n( "&New..." ), this, SLOT( createZip()) );
+	accelerators->changeMenuAccel(filemenu, id, KAccel::New );
+
+	id=filemenu->insertItem( i18n( "&Open..." ), this,  SLOT( openZip()) );
+	accelerators->changeMenuAccel(filemenu, id, KAccel::Open );
+
+	filemenu->insertSeparator();
+	id=filemenu->insertItem( i18n( "&Extract To..."), this, SLOT( extractZip()) );
+	accelerators->changeMenuAccel(filemenu, id, "Extraction" );
+
+	filemenu->insertSeparator();
+	id=filemenu->insertItem( i18n( "&Close"), this, SLOT( closeZip() ) );
+	accelerators->changeMenuAccel(filemenu, id, KAccel::Close );
+
+	id=filemenu->insertItem( i18n( "&Quit"), this, SLOT( quit() ) );
+	accelerators->changeMenuAccel(filemenu, id, KAccel::Quit );
+
+	// Edit menu creation
+	QPopupMenu *editmenu = new QPopupMenu;
+	editmenu->insertItem( i18n( "E&xtract..."), this, SLOT( extractFile() ) );
+	editmenu->insertItem( i18n( "&View file"), this, SLOT( showFile() ) );
+	editmenu->insertSeparator();
+	editmenu->insertItem( i18n( "&Delete file"), this, SLOT( deleteFile() ) );
+
+	// Options menu creation
+	QPopupMenu *optionsmenu = new QPopupMenu;
+	optionsmenu->insertItem( i18n( "&Set Archive Directory..."), this, SLOT( getFav() ) );
+	optionsmenu->insertItem( i18n( "Set &Tar Executable..."), this, SLOT( getTarExe() ) );
+	optionsmenu->insertItem( i18n( "&File Adding Options..."), this, SLOT( getAddOptions() ) );
+	optionsmenu->insertItem( i18n( "&Keys..."), this, SLOT( options_keyconf() ) );
+
+	// Help menu creation
+	QPopupMenu *helpmenu = kapp->getHelpMenu( true, "ark v0.5\n (c) 1997 Robert Palmbos" );
+
+	menu = new KMenuBar( this );
+	menu->insertItem( i18n( "&File"), filemenu );
+	menu->insertItem( i18n( "&Edit"), editmenu );
+	menu->insertItem( i18n( "&Options"), optionsmenu );
+	menu->insertSeparator();
+	menu->insertItem( i18n( "&Help" ), helpmenu );
+	setMenu( menu );
+
+	pop = new KPopupMenu( i18n("File Operations") );
+	// QPopupMenu pop;
+	pop->insertItem( i18n("Extract..."), this, SLOT( extractFile() ) );
+	pop->insertItem( i18n("View file"), this, SLOT( showFile() ) );
+	pop->insertSeparator();
+	pop->insertItem( i18n("Delete file"), this, SLOT( deleteFile() ) );
+}
+
 
 void ArkWidget::newWindow()
 {
@@ -228,7 +269,7 @@ void ArkWidget::getAddOptions()
 		delete afd;
 		afd = 0;
 	}else{
-		writeStatus((char *) i18n( "Create or open an archive first"));
+		writeStatus(i18n( "Create or open an archive first"));
 	}
 }
 	
@@ -243,7 +284,7 @@ void ArkWidget::fileDrop( KDNDDropZone *dz )
 	dlist = dz->getURLList();
 
 	if( !arch ){
-		char *foo;
+		const char *foo;
 		url = dlist.at(0);
 		file = url.right( url.length()-5 );
 		foo = file.data();
@@ -253,7 +294,7 @@ void ArkWidget::fileDrop( KDNDDropZone *dz )
 			showZip( file );
 			opennew=true;
 		}else{
-			//sb->changeItem( (char *)i18n( "Create or open an archive first"), 0 );
+			//sb->changeItem( i18n( "Create or open an archive first"), 0 );
 			delete arch;
 			arch = 0;
 			createZip();
@@ -332,7 +373,7 @@ void ArkWidget::showZip( QString name )
 		lb->appendStrList( listing );
 //		writeStatus( name.data() );
 	}else{
-		writeStatus( (char *)i18n( "Unknown archive format") );
+		writeStatus( i18n( "Unknown archive format") );
 		lb->repaint();
 		delete arch;
 		arch = 0;
@@ -357,7 +398,7 @@ void ArkWidget::showFavorite()
 	fav = new QDir( data->getFavoriteDir() );
 	if( !fav->exists() )
 	{
-		writeStatus( (char *)i18n("Archive directory does not exist."));
+		writeStatus( i18n("Archive directory does not exist."));
 		return;
 	}
 	flist = fav->entryInfoList();
@@ -373,7 +414,7 @@ void ArkWidget::showFavorite()
 	}
 	listing = flisting;
 	lb->appendStrList( listing );	
-	sb->changeItem( (char *)i18n( "Archive Directory"), 0 );
+	sb->changeItem( i18n( "Archive Directory"), 0 );
 }
 
 void ArkWidget::extractZip()
@@ -536,7 +577,7 @@ void ArkWidget::extractFile( int pos )
 				lb->appendStrList( listing );
 				gdest = new ExtractDlg( ExtractDlg::All );
 			}else{
-				sb->changeItem( (char *)i18n( "Unknown archive format"), 0 );
+				sb->changeItem( i18n( "Unknown archive format"), 0 );
 				delete arch;
 				arch = 0;
 				return;
@@ -622,7 +663,9 @@ void ArkWidget::setupHeaders()
 
 void ArkWidget::writeStatus(const QString text)
 {
+	statusBarTimer->stop();
 	sb->changeItem(text, 0);
+	statusBarTimer->start(5000,true);
 }
 
 void ArkWidget::clearCurrentArchive()
@@ -630,4 +673,17 @@ void ArkWidget::clearCurrentArchive()
 	setCaption("ark");
 }
 
+void ArkWidget::arkWarning(const QString msg)
+{
+	KMsgBox::message(this, ARK_WARNING, msg);
+}
 
+void ArkWidget::timeout()
+{
+	sb->changeItem("",0);
+}
+
+void ArkWidget::options_keyconf()
+{
+	KKeyDialog::configureKeys(accelerators);
+}

@@ -1,24 +1,29 @@
 #ifndef ARKWIDGET_H
 #define ARKWIDGET_H
 
+// Qt includes
 #include <qdir.h>
 #include <qwidget.h>
 #include <qlistbox.h>
-#include <ktoolbar.h>
 #include <qmenubar.h>
 #include <drag.h>
-#include <ktopwidget.h>
 #include <qframe.h>
+
+// KDE includes
+#include <ktopwidget.h>
+#include <ktoolbar.h>
 #include <kstatusbar.h>
 #include <kfm.h>
 #include <kpopmenu.h>
-#include "ktablistbox.h"
+#include <ktablistbox.h>
+#include <kaccel.h>
+
 #include "karchive.h"
 #include "adddlg.h"
 #include "arkdata.h"
 
-#define ARK_WARNING i18n("ark: warning")
-#define ARK_ERROR i18n("ark: error")
+#define ARK_WARNING i18n("ark - warning")
+#define ARK_ERROR i18n("ark - error")
 
 class ArkWidget : public KTMainWindow {
 
@@ -52,10 +57,12 @@ public slots:
 	void showZip( QString name );
 	void setupHeaders();
 	void aboutQt();
+	void options_keyconf();
+	void timeout();
 	
 protected:
 	static QList<ArkWidget> *windowList;
-	void closeEvent( QCloseEvent * );	// do we need this ?
+	void closeEvent( QCloseEvent * );
 
 
 private:
@@ -75,9 +82,12 @@ private:
 	bool contextRow;
 	KPopupMenu *pop;
 	ArkData *data;
-	
+	QTimer *statusBarTimer;
+	KAccel *accelerators;
 	void writeStatus(const QString text);
 	void clearCurrentArchive();
+	void arkWarning(const QString msg);
+	void setupMenus();
 };
 
 #endif /* ARKWIDGET_H*/
