@@ -196,7 +196,7 @@ private: // methods
   bool reportExtractFailures(const QString & _dest,
 			     QStringList *_list);
 
-  void download(const KURL &, QString &);
+  bool download(const KURL &, QString &);
 
   // return the index of the size column
   int getSizeColumn();

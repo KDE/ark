@@ -612,7 +612,7 @@ void ArkWidget::file_open(const QString & strFile)
 //////////////////////////////////////////////////////////////////////
 
 
-void ArkWidget::download(const KURL &url, QString &strFile)
+bool ArkWidget::download(const KURL &url, QString &strFile)
 {
   // downloads url into strFile, making sure strFile has the same extension
   // as url.
@@ -625,7 +625,7 @@ void ArkWidget::download(const KURL &url, QString &strFile)
       kdDebug(1601) << "Downloading " << url.path().local8Bit() << " as " <<
 	strFile.local8Bit() << endl;
     }
-  KIO::NetAccess::download(url, strFile);
+  return KIO::NetAccess::download(url, strFile);
 }
 
 
@@ -842,10 +842,12 @@ void ArkWidget::file_open()
 
   if (!url.isEmpty())
     {
-      download(url, strFile);
-      m_settings->clearShellOutput();
-      recent->addURL(url);
-      file_open(strFile);
+      if (download(url, strFile))
+      {
+          m_settings->clearShellOutput();
+          recent->addURL(url);
+          file_open(strFile);
+      }
     }
   kdDebug(1601) << "-ArkWidget::file_open" << endl;
 }
@@ -858,10 +860,12 @@ void ArkWidget::file_open(const KURL& url)
   {
     if (isArchiveOpen())
       file_close();  // close old arch. If we don't, our temp file is wrong!
-    download(url, strFile);
-    m_settings->clearShellOutput();
-    kdDebug(1601) << "Recent open: " << strFile.local8Bit() << endl;
-    file_open(strFile);
+    if (download(url, strFile))
+    {
+        m_settings->clearShellOutput();
+        kdDebug(1601) << "Recent open: " << strFile.local8Bit() << endl;
+        file_open(strFile);
+    }
   }
   kdDebug(1601) << "-ArkWidget::file_open(const KURL& url)" << endl;
 }
@@ -1457,7 +1461,7 @@ void ArkWidget::addFile(QStringList *list)
 	  KURL url = str;
 	  QString tempfile = m_settings->getTmpDir();
 	  tempfile += str.right(str.length() - str.findRev("/") - 1);
-	  KIO::NetAccess::download(url, tempfile);
+	  KIO::NetAccess::download(url, tempfile); // TODO test return value
 	  tempfile = "file:" + tempfile;
 	  // replace the URL with the name of the temporary
 	  *it = tempfile;
