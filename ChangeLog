@@ -1,5 +1,8 @@
           $Id$
 
+2000-06-28:  Emily Ezust <emilye@corel.com>
+	* Made Extract dialog prettier
+	
 2000-06-27: Emily Ezust <emilye@corel.com>
 	* Added code to let users load rar, lha, ar and tar archives that
  	  do not have the standard extensions. You can also "Save As" into 

@@ -35,7 +35,7 @@
 #include <qcheckbox.h>
 #include "arkwidget.h"  // for ArchType
 
-class QLineEdit;
+class QComboBox;
 class ArkSettings;
 
 class ExtractDlg : public QTabDialog 
@@ -63,7 +63,7 @@ private: // methods
 private: // data
   QRadioButton *m_radioCurrent, *m_radioAll, *m_radioSelected, *m_radioPattern;
   QLineEdit *m_patternLE;
-  QLineEdit *m_extractDirLE;
+  QComboBox *m_extractDirCB;
   ArkSettings *m_settings;
   ArchType m_archtype;
   // advanced options 

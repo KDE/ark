@@ -35,11 +35,14 @@
 #include <klocale.h>
 #include <qbuttongroup.h>
 #include <qpushbutton.h>
+#include <qlabel.h>
 #include <qradiobutton.h>
 #include <qlineedit.h>
 #include <qapp.h>
 #include "arksettings.h"
 #include "extractdlg.h"
+
+#define FIRST_PAGE_WIDTH  390
 
 ExtractDlg::ExtractDlg(ArchType _archtype, ArkSettings *_settings)
   : QTabDialog(0, "extractdialog", true), m_settings(_settings),
@@ -50,13 +53,14 @@ ExtractDlg::ExtractDlg(ArchType _archtype, ArkSettings *_settings)
   setupFirstTab();
   setupSecondTab();
 
+  resize(415,330);
+
   setOKButton();
   setCancelButton();
 
   connect(m_patternLE, SIGNAL(textChanged(const QString &)),
 	  this, SLOT(choosePattern()));
 
-  connect(m_extractDirLE, SIGNAL(returnPressed()), this, SLOT(accept()));
   connect(m_patternLE, SIGNAL(returnPressed()), this, SLOT(accept()));
 }
 
@@ -69,35 +73,58 @@ void ExtractDlg::disableSelectedFilesOption()
 
 void ExtractDlg::setupFirstTab()
 {
-  QVBox *firstpage = new QVBox( this );
-  firstpage->setMargin( 5 );
+  QWidget *firstpage = new QWidget(this);
 
   QLabel *extractToLabel = new QLabel(firstpage);
   extractToLabel->setText(i18n("Extract to: "));
-  m_extractDirLE = new QLineEdit(firstpage);
-  m_extractDirLE->setText(m_settings->getExtractDir());
+  extractToLabel->setGeometry( 10, 10,
+			       extractToLabel->sizeHint().width(), 15 );
+
+  m_extractDirCB = new QComboBox(true, firstpage);
+  m_extractDirCB->insertItem(m_settings->getExtractDir());
+  m_extractDirCB->setGeometry( 10, 30, 368, 20 );
 
   QPushButton *browseButton = new QPushButton(firstpage);
   browseButton->setText(i18n("Browse..."));
+  int x = browseButton->sizeHint().width();
+  browseButton->setGeometry( FIRST_PAGE_WIDTH-10-x, 55, x, 30 );
 
-  QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
-				       i18n("Files to Extract"), firstpage );
-  m_radioCurrent = new QRadioButton("Current", bg);
+  QLabel *lToExtract = new QLabel(firstpage);
+  lToExtract->setText(i18n("Files to be extracted"));
+  int y = lToExtract->sizeHint().width();
+  lToExtract->setGeometry( 10, 92, y, 15 );
+
+  QLabel *lHorizLine = new QLabel(firstpage, "horizontal line");
+  lHorizLine->setGeometry( y+15, 100, FIRST_PAGE_WIDTH-25-y, 1 );
+  lHorizLine->setFrameStyle( 52 );
+  lHorizLine->setLineWidth( 1 );
+
+  QButtonGroup *bg = new QButtonGroup(firstpage);
+  bg->setFrameShape(QFrame::NoFrame);
+  bg->setGeometry(30, 120, 200, 80);
+
+  m_radioCurrent = new QRadioButton(bg);
   m_radioCurrent->setText(i18n("Current"));
-  m_radioAll = new QRadioButton("All", bg);
+  m_radioCurrent->setGeometry( 0, 0, m_radioCurrent->sizeHint().width(), 15 );
+
+  m_radioAll = new QRadioButton(bg);
   m_radioAll->setText(i18n("All"));
-  m_radioSelected = new QRadioButton("Selected Files", bg);
+  m_radioAll->setGeometry(0, 20, m_radioAll->sizeHint().width(), 15);
+
+  m_radioSelected = new QRadioButton(bg);
   m_radioSelected->setText(i18n("Selected Files"));
   m_radioSelected->setChecked(true);
-  m_radioPattern = new QRadioButton("By Pattern", bg);
-  m_radioPattern->setText(i18n("Pattern"));
+  m_radioSelected->setGeometry(0, 40, m_radioSelected->sizeHint().width(), 15);
 
-  QLabel *patternLabel = new QLabel(firstpage, "label");
-  patternLabel->setText(i18n("Pattern:"));
+  m_radioPattern = new QRadioButton(bg);
+  m_radioPattern->setText(i18n("Pattern"));
+  m_radioPattern->setGeometry(0, 60, m_radioPattern->sizeHint().width(), 15);
 
   m_patternLE = new QLineEdit(firstpage, "le");
+  m_patternLE->setGeometry( 50, 200, 250, 20 );
 
-  addTab(firstpage, i18n("Extract"));
+  firstpage->resize( FIRST_PAGE_WIDTH, 240 );
+  addTab(firstpage, i18n("&Extract"));
 
   QObject::connect(browseButton, SIGNAL(clicked()),
 		   this, SLOT(browse()));
@@ -178,14 +205,14 @@ void ExtractDlg::setupSecondTab()
       break;
     }
   
-  addTab(secondpage, i18n("Advanced"));
+  addTab(secondpage, i18n("&Advanced"));
 }
 
 
 void ExtractDlg::accept()
 {
   kdDebug(1601) << "+ExtractDlg::accept" << endl;
-  if (! QFileInfo(m_extractDirLE->text()).isDir())
+  if (! QFileInfo(m_extractDirCB->currentText()).isDir())
   {
     QMessageBox::warning(this, i18n("Error"),
 			   i18n("Please provide a valid directory"));
@@ -193,7 +220,7 @@ void ExtractDlg::accept()
   }
 
   // you need to change the settings to change the fixed dir.
-  m_settings->setLastExtractDir(m_extractDirLE->text());
+  m_settings->setLastExtractDir(m_extractDirCB->currentText());
 
   // save settings
 
@@ -253,7 +280,8 @@ void ExtractDlg::browse() // slot
 					i18n("Select an Extract Directory"));
   if (! dirName.isEmpty())
   {
-    m_extractDirLE->setText(dirName);
+    m_extractDirCB->insertItem(dirName, 0);
+    m_extractDirCB->setCurrentItem(0);
   }
 }
 
