@@ -470,7 +470,7 @@ void ArkWidget::updateStatusTotals()
     strInfo = i18n("Total: 0 Files");
   else if (m_nNumFiles == 1)
     strInfo = i18n("Total: 1 File %1 KB")
-      .arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles / 1024, 1));
+      .arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles / 1024.0, 1));
   else
     strInfo = i18n("Total: %1 Files %1 KB")
       .arg(KGlobal::locale()->formatNumber(m_nNumFiles, 0))
