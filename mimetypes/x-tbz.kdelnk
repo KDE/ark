@@ -1,0 +1,12 @@
+# KDE Config File
+[KDE Desktop Entry]
+Comment[C]=Bzipped Tar Archives
+Comment[pt]=Arquivos Zip
+Comment[fr]=Archives ZIP
+Mimetype=application/x-tbz
+Comment=Zip Archives
+DefaultApp=Zip
+Comment[pl]=Archiwum Zip
+Icon=tgz.xpm
+Type=MimeType
+Patterns=*.tar.bz;*.TAR.BZ;*.tar.bz2;*.TAR.BZ2;
