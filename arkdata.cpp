@@ -74,6 +74,16 @@ void ArkData::setFavoriteDir(const QString fd)
 }
 
 
+const QStrList * ArkData::getRecentFiles()
+{
+	return &recentFiles;
+}
+
+void ArkData::addRecentFile(const QString filename)
+{
+
+}
+
 const QString ArkData::getFilter()
 {
 	return QString(i18n("*.zip *.tar.gz *.tar.bz2 *.ar *.lha|All valid archives\n"

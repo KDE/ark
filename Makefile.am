@@ -21,7 +21,7 @@ bin_PROGRAMS = 	ark
 # Which sources should be compiled for ark.
 ark_SOURCES	= adddlg.cc ar.cc arch.cc extractdlg.cc karchive.cc  \
                  arkwidget.cc lha.cc main.cc tar.cc zip.cc arkprocess.cc \
-		text.c arkdata.cpp
+		text.c arkdata.cpp filelistview.cpp
 
 # the library search path
 ark_LDFLAGS = $(all_libraries) $(KDE_RPATH)
@@ -33,10 +33,10 @@ ark_LDADD   = $(LIB_KFILE) $(LIB_KFM)
 # this option you can leave out. Just, if you use "make dist", you need it
 noinst_HEADERS = adddlg.h errors.h lha.h zip.h \
                  ar.h extractdlg.h arkwidget.h tar.h arch.h karchive.h arkprocess.h \
-		 text.h arkdata.h
+		 text.h arkdata.h filelistview.h
 
 # just to make sure, automake makes them 
-METASOURCES =	adddlg.moc arch.moc extractdlg.moc arkwidget.moc
+METASOURCES =	adddlg.moc arch.moc extractdlg.moc arkwidget.moc filelistview.moc
 
 messages:
 	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(ark_SOURCES) &&  mv messages.po ../po/ark.pot

@@ -21,6 +21,7 @@
 #include "karchive.h"
 #include "adddlg.h"
 #include "arkdata.h"
+#include "filelistview.h"
 
 #define ARK_WARNING i18n("ark - warning")
 #define ARK_ERROR i18n("ark - error")
@@ -49,17 +50,16 @@ public slots:
 	void deleteFile();
 	void deleteFile( int );
 	void showFavorite();
-	void about();
 	void quit();
 	void showFile( int, int col=0 );
 	void showFile();
 	void help();
 	void showZip( QString name );
 	void setupHeaders();
-	void aboutQt();
 	void options_keyconf();
 	void timeout();
-	
+	void openRecent( int );
+		
 protected:
 	static QList<ArkWidget> *windowList;
 	void closeEvent( QCloseEvent * );
@@ -70,10 +70,10 @@ private:
 	bool storefullpath;
 	KArchive *arch;
 	KTabListBox *lb;
+	FileListView *archiveContent;
 	QStrList *listing;
 	QStrList *flisting;
 	QDir *fav;
-	QFrame *f_main;
 	QString tmpdir;
 	KFM *kfm;
 	bool contextRow;
@@ -81,12 +81,12 @@ private:
 	ArkData *data;
 	QTimer *statusBarTimer;
 	KAccel *accelerators;
-	QStrList recentFiles;
 	QPopupMenu *editMenu, *recentPopup;
 
 	void writeStatus(const QString text);
 	void clearCurrentArchive();
 	void arkWarning(const QString msg);
+	void arkError(const QString msg);
 	void setupMenuBar();
 	void setupStatusBar();
 	void setupToolBar();

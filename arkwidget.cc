@@ -7,15 +7,13 @@
 #include <stdlib.h>
 
 // Qt includes
-#include <qaccel.h>
 #include <qdir.h>
-#include <qfont.h>
 #include <qpopupmenu.h>
 #include <qpixmap.h>
-#include <qmessagebox.h>
 #include <qstrlist.h>
 #include <qcursor.h>
 #include <qtimer.h>
+#include <qstring.h>
 
 // KDE includes
 #include <kaccel.h>
@@ -23,7 +21,7 @@
 #include <kconfig.h>
 #include <kapp.h>
 #include <drag.h>
-#include <ktopwidget.h>
+#include <ktmainwindow.h>
 #include <kstatusbar.h>
 #include <klocale.h>
 #include <kfm.h>
@@ -39,6 +37,7 @@
 #include "arkwidget.moc"
 #include "arkdata.h"
 #include "kwm.h"
+#include "filelistview.h"
 
 QList<ArkWidget> *ArkWidget::windowList = 0;
 
@@ -63,24 +62,32 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 
 
 	lb = new KTabListBox( this );
+	//archiveContent = new FileListView(this);
 	lb->setSeparator( '\t' );
 
 	setView( lb );
+	//setView( archiveContent );
+
 	connect( lb, SIGNAL( highlighted(int, int) ), this, SLOT( showFile(int, int) ) );
 	connect( lb, SIGNAL( popupMenu(int, int) ), this, SLOT( doPopup(int, int) ) );
+	//connect( archiveContent, SIGNAL( rightButtonClicked(FileLVI *, QPoint &, int), this, SLOT( doPopup(FileLVI *, int) ) );
+
 	KDNDDropZone *dz = new KDNDDropZone( lb, DndURL );
+	//KDNDDropZone *dz = new KDNDDropZone( archiveContent, DndURL );
 	connect( dz, SIGNAL(dropAction(KDNDDropZone *)),SLOT( fileDrop(KDNDDropZone *)) );
 
 	setCaption( kapp->getCaption() );
 	
 	setMinimumSize( 600, 400 );  // someday this won't be hardcoded
 	lb->show();
-	updateRects();
+	//archiveContent->show();
 	
 	kfm = new KFM;
-	
+
+	// Creates a temp directory for this ark instance	
 	QString ex( "mkdir " + tmpdir + " &>/dev/null" );
 	system( ex );
+
 	arch=0;
 	flisting=0;
 	listing=0;
@@ -97,6 +104,7 @@ ArkWidget::~ArkWidget()
 	windowList->removeRef( this );
 	delete kfm;
 	delete lb;
+	//delete archiveContent;
 	delete recentPopup;
 	delete editMenu;
 	delete accelerators;
@@ -119,7 +127,7 @@ void ArkWidget::setupMenuBar()
 	accelerators->connectItem(KAccel::Open, this, SLOT(openZip()));
 	
 	// KAccel settings
-	accelerators->readSettings();
+	accelerators->readSettings( data->getKConfig() );
 
 	int id;
 
@@ -138,6 +146,8 @@ void ArkWidget::setupMenuBar()
 
 	id=filemenu->insertItem( i18n( "&Open..." ), this,  SLOT( openZip()) );
 	accelerators->changeMenuAccel(filemenu, id, KAccel::Open );
+	id=filemenu->insertItem( i18n( "Open &recent" ), recentPopup);
+	connect(recentPopup, SIGNAL(activated(int)), SLOT(openRecent(int)));
 
 	filemenu->insertSeparator();
 	id=filemenu->insertItem( i18n( "&Extract To..."), this, SLOT( extractZip()) );
@@ -223,6 +233,7 @@ void ArkWidget::doPopup( int row, int col )
 {
 	contextRow = true;
 	lb->setCurrentItem( row, col );
+	//archiveContent->setCurrentItem( item );
 	contextRow = false;
 
 	pop->popup( QCursor::pos(), KPM_FirstItem );
@@ -232,15 +243,19 @@ void ArkWidget::doPopup( int row, int col )
 void ArkWidget::createZip()
 {
 	int ret;
+
+	// Do not clear the archive content until a new archive is created
 //	if( arch )
 //	{
 //		lb->clear();
 //	}
+
 	QString file = KFileDialog::getSaveFileName(QString::null, data->getFilter());
 	if( !file.isEmpty() )
 	{
+		//archiveContent->clear()
 		lb->clear();
-		lb->repaint();
+		lb->repaint();	// to be deleted
 		arch = new KArchive(data->getTarCommand());
 		ret = arch->createArch( file );	
 		if( ret ){
@@ -252,8 +267,6 @@ void ArkWidget::createZip()
 		{
 			KMsgBox::message(this, ARK_WARNING, i18n( "Unable to create archive of that type"));
 //			writeStatus( (char *)i18n( "Can't create archive of that type"));
-			delete arch;
-			arch = 0;
 			clearCurrentArchive();
 		}
 	}
@@ -300,8 +313,7 @@ void ArkWidget::fileDrop( KDNDDropZone *dz )
 			opennew=true;
 		}else{
 			//sb->changeItem( i18n( "Create or open an archive first"), 0 );
-			delete arch;
-			arch = 0;
+			clearCurrentArchive();
 			createZip();
 		}
 	}
@@ -312,14 +324,16 @@ void ArkWidget::fileDrop( KDNDDropZone *dz )
 		if( !retcode )
 		{
 			listing = (QStrList *)arch->getListing();
+			//archiveContent->clear();
 			lb->clear();
 			setupHeaders();
+			//archiveContent->buildList( listing);
 			lb->appendStrList( listing );
 		} else {
 			if( retcode == UNSUPDIR )
-				writeStatus( i18n("Can't add directories with this archive type"));
+				arkWarning( i18n("Can't add directories with this archive type"));
 			else	
-				writeStatus( i18n( "Error saving to archive"));
+				arkError( i18n( "Error saving to archive"));
 		}
 	}
 
@@ -362,12 +376,23 @@ void ArkWidget::openZip()
 	}
 }
 
+void ArkWidget::openRecent(int i)
+{
+	QString filename = recentPopup->text(i);
+        QString caption;
+
+        caption.sprintf(i18n("ark: %s"), filename.data());
+        setCaption(caption);
+	showZip( filename );
+}
+
 void ArkWidget::showZip( QString name )
 {
 	bool ret;
 
+	//archiveContent->clear();
 	lb->clear();
-	delete arch;
+	clearCurrentArchive();
 	arch = new KArchive(data->getTarCommand());
 
 	ret = arch->openArch( name );
@@ -376,11 +401,11 @@ void ArkWidget::showZip( QString name )
 		setupHeaders();
 		listing = (QStrList *)arch->getListing();
 		lb->appendStrList( listing );
+		//archiveContent->buildList( listing );
 	}else{
-		writeStatus( i18n( "Unknown archive format") );
-		lb->repaint();
-		delete arch;
-		arch = 0;
+		arkError( i18n("Unknown archive format") );
+		lb->repaint();	// to be deleted
+		clearCurrentArchive();
 	}
 }
 
@@ -395,14 +420,21 @@ void ArkWidget::showFavorite()
 	flisting = new QStrList;
 	arch = 0;
 	
+	//archiveContent->clear();
 	lb->clear();
+
+	//archiveContent->addColumn( i18n("Size") );
+	//archiveContent->addColumn( i18n("File") );
+
+	// to be deleted
 	lb->setNumCols( 2 );
 	lb->setColumn( 0, i18n( "Size" ), 80 );
 	lb->setColumn( 1, i18n( "File" ), this->width()-80 );
+
 	fav = new QDir( data->getFavoriteDir() );
 	if( !fav->exists() )
 	{
-		writeStatus( i18n("Archive directory does not exist."));
+		arkError( i18n("Archive directory does not exist."));
 		return;
 	}
 	flist = fav->entryInfoList();
@@ -417,7 +449,10 @@ void ArkWidget::showFavorite()
 		++flisti;
 	}
 	listing = flisting;
+	
+	//archiveContent->buildList( listing );
 	lb->appendStrList( listing );	
+
 	writeStatus( i18n( "Archive Directory") );
 }
 
@@ -438,7 +473,7 @@ void ArkWidget::extractZip()
 		QDir dest( dir );
 		if( !dest.exists() ) {
 			if( mkdir( (const char *)dir, S_IWRITE | S_IREAD | S_IEXEC ) ) {
-				QMessageBox::warning( this, "Can't mkdir", "Unable to create destination directory", "OK" );
+				arkWarning( i18n("Unable to create destination directory") );
 				return;
 			}
 		}
@@ -475,19 +510,6 @@ void ArkWidget::closeZip()
 		delete this;
 }
 
-void ArkWidget::about()
-{
-	QMessageBox aboutmsg;
-	aboutmsg.information( this, "ark", "ark v0.5\n (c) 1997 Robert Palmbos", "OK" );
-	
-}
-
-void ArkWidget::aboutQt()
-{
-	QMessageBox aboutmsg;
-	aboutmsg.aboutQt(this);
-}
-
 void ArkWidget::help()
 {
 	kapp->invokeHTMLHelp( "ark/index.html", "" );
@@ -506,6 +528,8 @@ void ArkWidget::quit()
 	else{
 		config->writeEntry( "MaxMode", -1 );	
 	}
+	
+	accelerators->writeSettings( data->getKConfig() );
 
 	QString ex( "rm -rf "+tmpdir );
 	system( ex );
@@ -682,6 +706,9 @@ void ArkWidget::writeStatus(const QString text)
 
 void ArkWidget::clearCurrentArchive()
 {
+	if (!arch)
+		delete arch;
+	arch = 0;
 	setCaption("ark");
 }
 
@@ -691,6 +718,10 @@ void ArkWidget::arkWarning(const QString msg)
 	KMsgBox::message(this, ARK_WARNING, msg);
 }
 
+void ArkWidget::arkError(const QString msg)
+{
+	KMsgBox::message(this, ARK_ERROR, msg, KMsgBox::STOP);
+}
 
 void ArkWidget::timeout()
 {
