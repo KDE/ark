@@ -118,6 +118,7 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
                                            QString::fromLocal8Bit(".tar"));
 
       tmpfile = pTempFile->name();
+      delete pTempFile;
       kdDebug(1601) << "Tmpfile will be " << tmpfile << "\n" << endl;
     }
   kdDebug(1601) << "-TarArch::TarArch" << endl;
