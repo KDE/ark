@@ -55,6 +55,7 @@
 #include "zoo.h"
 #include "rar.h"
 #include "ar.h"
+#include "sevenzip.h"
 
 
 Arch::ArchColumns::ArchColumns(int col, QRegExp reg, int length, bool opt) :
@@ -373,6 +374,7 @@ Arch *Arch::archFactory(ArchType aType,
 	case ZOO_FORMAT: return new ZooArch(parent, filename);
 	case RAR_FORMAT: return new RarArch(parent, filename);
 	case AA_FORMAT: return new ArArch(parent, filename);
+	case SEVENZIP_FORMAT: return new SevenZipArch(parent, filename);
 	case UNKNOWN_FORMAT:
 	default: return 0;
 	}

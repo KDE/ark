@@ -73,6 +73,8 @@ void ArchiveFormatInfo::buildFormatInfos()
   
   addFormatInfo( AA_FORMAT, "application/x-deb", ".deb" );
   addFormatInfo( AA_FORMAT, "application/x-archive",".a" );
+  
+  addFormatInfo( SEVENZIP_FORMAT, "application/x-7z", ".7z" );
 }
 
 void ArchiveFormatInfo::addFormatInfo( ArchType type, QString mime, QString stdExt )
