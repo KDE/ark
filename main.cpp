@@ -69,6 +69,8 @@ int main( int argc, char *argv[]  )
                           I18N_NOOP( "(c) 1997-2001, The Various Ark Developers" ) );
     aboutData.addAuthor( "Roberto Teixeira", I18N_NOOP( "Current maintainer" ),
                          "maragato@kde.org" );
+    aboutData.addAuthor( "Helio Chissini de Castro", I18N_NOOP( "Current maintainer" ),
+		         "helio@conectiva.com.br" );
     aboutData.addAuthor( "Francois-Xavier Duranceau", 0, "duranceau@kde.org" );
     aboutData.addAuthor( "Emily Ezust (Corel Corporation)", 0, "emilye@corel.com" );
     aboutData.addAuthor( "Michael Jarrett (Corel Corporation)", 0,

@@ -47,55 +47,55 @@ ArkApplication *ArkApplication::mInstance = NULL;
 
 static QString resolveFilename(const QString & _arkname)
 {
-  char *buff;
-  int nread;
-  int iter = 1;
-  while (1)
-    {
-      buff = new char[BUFSIZ*iter];
-      nread = readlink( QFile::encodeName(_arkname),
-			buff, BUFSIZ);
-      if (-1 == nread)
+	char *buff;
+	int nread;
+	int iter = 1;
+	
+	while ( true )
 	{
-	  if (EINVAL == errno)  // not a symbolic link. Stopping condition.
-	    {
-	      delete buff;
-	      return _arkname;
-	    }
-	  else if (ENAMETOOLONG == errno)
-	    {
-	      kdDebug(1601) << "resolveFilename: have to reallocate - name too long!" << endl;
-	      iter++;
-	      delete buff;
-	      continue;
-	    }
-	  else
-	    {
-	      delete buff;
-	      // the other errors will be taken care of already in simply
-	      // opening the archive (i.e., the user will be notified)
-	      return "";
-	    }
-	}
+		buff = new char[BUFSIZ*iter];
+		nread = readlink( QFile::encodeName(_arkname), buff, BUFSIZ);
+		if (-1 == nread)
+		{
+			if ( EINVAL == errno )  // not a symbolic link. Stopping condition.
+			{
+				delete [] buff;
+				return _arkname;
+			}
+			else if ( ENAMETOOLONG == errno )
+			{
+				kdDebug(1601) << "resolveFilename: have to reallocate - name too long!" << endl;
+				iter++;
+				delete [] buff;
+				continue;
+			}
+			else
+			{
+				delete [] buff;
+				// the other errors will be taken care of already in simply
+				// // opening the archive (i.e., the user will be notified)
+				return "";
+			}
+		}
       else
-	{
-	  buff[nread] = '\0';  // readlink doesn't null terminate
-	  QString name = QFile::decodeName(buff);
-	  delete buff;
-
-	  // watch out for relative pathnames
-	  if (name.at(0) != '/')
-	    {
-	      // copy the path from _arkname
-	      int index = _arkname.findRev('/');
-	      name = _arkname.left(index + 1) + name;
-	    }
-	  //kdDebug(1601) << "Now resolve " << (const char *)name << endl;
-	  return resolveFilename(name);
+		{
+			buff[nread] = '\0';  // readlink doesn't null terminate
+			QString name = QFile::decodeName( buff );
+			delete [] buff;
+			
+			// watch out for relative pathnames
+			if (name.at(0) != '/')
+			{
+				// copy the path from _arkname
+				int index = _arkname.findRev('/');
+				name = _arkname.left(index + 1) + name;
+			}
+			kdDebug(1601) << "Now resolve " << name << endl;
+			
+			return resolveFilename( name );
+		}
 	}
-    }
 }
-
 
 
 ArkApplication * ArkApplication::getInstance()

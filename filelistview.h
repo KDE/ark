@@ -38,6 +38,8 @@ class QRect;
 class QPainter;
 class QColorGroup;
 class QMouseEvent;
+class QPoint;
+
 class KListView;
 
 class ArkWidgetBase;
@@ -83,6 +85,7 @@ private:
   ArkWidgetBase *m_pParent;
 
   bool m_bPressed;
+  QPoint presspos;  // this will save the click pos to correctly recognize drag events
 
   virtual void setSorting(int column, bool inc = TRUE);
 };

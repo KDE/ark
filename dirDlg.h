@@ -33,46 +33,67 @@
 
 class QString;
 class QWidget;
-class QLineEdit;
 class QListBox;
 class QRadioButton;
+class QWidgetStack;
+
+class KURLRequester;
 
 class ArkSettings;
 
-enum { NUM_RADIOS = 3, NUM_DIR_TYPES = 4 };
+enum DirType { StartupDir, OpenDir, ExtractDir, AddDir };
 
-class WidgetHolder
+class DirWidget : public QWidget
 {
+  Q_OBJECT
+
 public:
-  void hide();
-  void show();
-  friend class DirDlg;
-private:
-  QLineEdit *fixedLE;
-  QButtonGroup *buttonGroup;
-  QRadioButton *radios[NUM_RADIOS];
+
+  DirWidget( DirType type, QWidget *parent=0, const char *name=0 );
+
+signals:
+
+  void favDirChanged( const QString & );
+
+protected slots:
+
+  void slotFavDirChanged( const QString & );
+
+public:
+
+  KURLRequester *dirFav, *dirFixed;
+  QButtonGroup *btnGroup;
+  QRadioButton *rbFav, *rbFixed, *rbLast;
 };
 
 class DirDlg : public QWidget
 {
   Q_OBJECT
+
 public:
+
   DirDlg(ArkSettings *d, QWidget *parent=0, const char *name=0);
   ~DirDlg();
-  static QString getDirType(int item);
+
 public slots:
-  void getFavDir();	
-  void getFixedDir();
+
   void saveConfig();
   void dirTypeChanged(int _dirType);
+
+signals:
+
+  void favDirChanged( const QString & );
+
 private: // methods  
+
   void initConfig();
-  void createRepeatingWidgets();
+  QWidgetStack* createWidgetStack();
   void hideWidgets();
+
 private: // data
+
+  QWidgetStack *stack;
   ArkSettings *data;
-  WidgetHolder *widgets[NUM_DIR_TYPES]; // pointers to the widgets
-  QLineEdit *favLE;  // the favorite directory
   QListBox *pListBox;
 };
 
