@@ -24,9 +24,12 @@ ark_SOURCES	= adddlg.cc extractdlg.cc dirDlg.cpp \
 		arkdata.cpp filelistview.cpp zipExtractDlg.cpp \
 		generalOptDlg.cpp selectDlg.cpp
 
+# the library search path
+ark_LDFLAGS = $(all_libraries) $(KDE_RPATH)
+
 # the libraries to link against. Be aware of the order. First the libraries,
 # that depend on the following ones.
-ark_LDADD   = $(LIB_KFILE) $(all_libraries)
+ark_LDADD   = $(LIB_KFILE)
 
 # this option you can leave out. Just, if you use "make dist", you need it
 noinst_HEADERS = adddlg.h zip.h dirDlg.h \
