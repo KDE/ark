@@ -1,7 +1,7 @@
 This is Ark almost-version 2.
 
-March, 2000:
-This program is under renovation and does not work fully yet.
+April, 2000:
+This program is under renovation.
 
 What works so far:
   zip
@@ -9,9 +9,8 @@ What works so far:
   lha
   zoo
   single files compressed with compressors lzop, gzip, bzip2, bzip, compress
-
-To be added:
-  Better handling of options
+  rar
+  ar
  
 Emily Ezust <emilye@corel.com>
 

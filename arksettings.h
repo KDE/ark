@@ -55,6 +55,9 @@ public:
   void readLhaProperties();
   void writeLhaProperties();
 
+  void readArProperties();
+  void writeArProperties();
+
   enum DirPolicy {
     FAVORITE_DIR=1, FIXED_START_DIR,
     LAST_OPEN_DIR, FIXED_OPEN_DIR,
@@ -99,9 +102,6 @@ public:
   void setaddPath( bool b) { fullPath = b; }
   bool getaddPath() { return fullPath; }
 
-  void setReplaceOnlyNew(bool _b) { replaceOnlyNewerFiles = _b; }
-  bool getReplaceOnlyNew() { return replaceOnlyNewerFiles; }
-
   void setSelectRegExp(const QString& _exp) { m_regExp = _exp; }
 
   QString getSelectRegExp() const { return m_regExp; }
@@ -114,6 +114,18 @@ public:
 
   void setLhaGeneric(bool _b) { m_lhaAddGeneric = _b; }
   bool getLhaGeneric() { return m_lhaAddGeneric; }
+
+  void setLhaReplaceOnlyWithNewer(bool _b) { m_lhaReplaceOnlyWithNewer = _b; }
+  bool getLhaReplaceOnlyWithNewer() { return m_lhaReplaceOnlyWithNewer; }
+
+  void setArReplaceOnlyWithNewer(bool _b) { m_arReplaceOnlyWithNewer = _b; }
+  bool getArReplaceOnlyWithNewer() { return m_arReplaceOnlyWithNewer; }
+
+  void setRarReplaceOnlyWithNewer(bool _b) { m_rarReplaceOnlyWithNewer = _b; }
+  bool getRarReplaceOnlyWithNewer() { return m_rarReplaceOnlyWithNewer; }
+
+  void setZipReplaceOnlyWithNewer(bool _b) { m_zipReplaceOnlyWithNewer = _b; }
+  bool getZipReplaceOnlyWithNewer() { return m_zipReplaceOnlyWithNewer; }
 
   void setZipExtractOverwrite(bool _b) { m_zipExtractOverwrite = _b; }
   bool getZipExtractOverwrite() { return m_zipExtractOverwrite; }
@@ -136,14 +148,26 @@ public:
   void setZipAddConvertLF( bool _b ) { m_zipAddConvertLF = _b; }
   bool getZipAddConvertLF() { return m_zipAddConvertLF; }
 
+  void setZipStoreSymlinks( bool _b ) { m_zipStoreSymlinks = _b; }
+  bool getZipStoreSymlinks() { return m_zipStoreSymlinks; }
+
   void setTarPreservePerms(bool _b) { m_tarPreservePerms = _b; }
   bool getTarPreservePerms() { return m_tarPreservePerms; } 
 
   void setTarOverwriteFiles(bool _b) { m_tarOverwrite = _b; }
   bool getTarOverwriteFiles() { return m_tarOverwrite; }
 
+  void setTarUseAbsPathnames(bool _b) { m_tarUseAbsPathnames = _b; }
+  bool getTarUseAbsPathnames() { return m_tarUseAbsPathnames; }
+
+  void setTarReplaceOnlyWithNewer(bool _b) { m_tarReplaceOnlyWithNewer = _b; }
+  bool getTarReplaceOnlyWithNewer() { return m_tarReplaceOnlyWithNewer; }
+
   void setZooOverwriteFiles(bool _b) { m_zooOverwrite = _b; }
   bool getZooOverwriteFiles() { return m_zooOverwrite; }
+
+  void setZooReplaceOnlyWithNewer(bool _b) { m_zooReplaceOnlyWithNewer = _b; }
+  bool getZooReplaceOnlyWithNewer() { return m_zooReplaceOnlyWithNewer; }
 
   void setRarOverwriteFiles(bool _b) { m_rarOverwrite = _b; }
   bool getRarOverwriteFiles() { return m_rarOverwrite; }
@@ -153,6 +177,9 @@ public:
 
   bool getRarExtractUpperCase() { return m_rarToUpper;}
   void setRarExtractUpperCase(bool _b) { m_rarToUpper = _b; }
+
+  bool getRarStoreSymlinks() { return m_rarStoreSymlinks;}
+  void setRarStoreSymlinks(bool _b) { m_rarStoreSymlinks = _b; }
 
   void setTmpDir( QString _dir ) { m_tmpDir = _dir; }
   QString getTmpDir() const { return m_tmpDir; }	
@@ -191,25 +218,35 @@ public:
 
   bool contextRow;
 
+  bool m_arReplaceOnlyWithNewer;
+
   bool m_lhaAddGeneric;
+  bool m_lhaReplaceOnlyWithNewer;
 	
   bool m_zipExtractOverwrite;
   bool m_zipExtractJunkPaths;
   bool m_zipExtractLowerCase;
 
+  bool m_zipReplaceOnlyWithNewer;
   bool m_zipAddRecurseDirs;
   bool m_zipAddJunkDirs;
   bool m_zipAddMSDOS;
   bool m_zipAddConvertLF;
+  bool m_zipStoreSymlinks;
 
   bool m_tarPreservePerms;
   bool m_tarOverwrite;
+  bool m_tarUseAbsPathnames;
+  bool m_tarReplaceOnlyWithNewer;
 
   bool m_zooOverwrite;
+  bool m_zooReplaceOnlyWithNewer;
 
   bool m_rarOverwrite;
   bool m_rarToLower;
   bool m_rarToUpper;
+  bool m_rarStoreSymlinks;
+  bool m_rarReplaceOnlyWithNewer;
 
   bool fullPath, replaceOnlyNewerFiles;
   QString m_regExp;

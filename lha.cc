@@ -49,7 +49,6 @@ LhaArch::LhaArch( ArkSettings *_settings, Viewer *_gui,
   : Arch(_settings, _gui, _fileName )
 {
   kdDebug(1601) << "LhaArch constructor" << endl;
-  _settings->readLhaProperties();
   m_archiver_program = "lha";
 }
 
@@ -270,7 +269,7 @@ void LhaArch::addFile( QStringList *urls )
   *kp << m_archiver_program;
 	
   QString strOptions;
-  if (m_settings->getReplaceOnlyNew() )
+  if (m_settings->getLhaReplaceOnlyWithNewer())
     strOptions = "u";
   else
     strOptions = "a";

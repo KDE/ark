@@ -216,7 +216,7 @@ void ArArch::addFile( QStringList *urls )
   kp->clearArguments();
   *kp << m_archiver_program << "r";
 	
-  if (m_settings->getReplaceOnlyNew() )
+  if (m_settings->getArReplaceOnlyWithNewer())
     *kp << "u";
 
   *kp << m_filename.local8Bit() ;

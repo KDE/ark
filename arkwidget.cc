@@ -33,6 +33,7 @@
 #include <qevent.h>
 #include <qmessagebox.h>
 #include <qregexp.h>
+#include <qheader.h>
 
 // KDE includes
 #include <kapp.h>
@@ -72,6 +73,7 @@
 #include "adddlg.h"
 #include "arch.h"
 #include "arkwidget.h"
+#include "filelistview.h"
 
 // the archive types
 #include "tar.h"
@@ -91,6 +93,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     m_nNumFiles(0), m_nNumSelectedFiles(0), m_bIsArchiveOpen(false),
     m_bIsSimpleCompressedFile(false), m_bDropSourceIsSelf(false),
     m_bViewInProgress(false), m_bOpenWithInProgress(false),
+    m_bEditInProgress(false),
     m_bMakeCFIntoArchiveInProgress(false), m_pTempAddList(NULL),
     m_bDropFilesInProgress(false)
 {
@@ -212,6 +215,15 @@ void ArkWidget::setupActions()
 			   SLOT(slotOpenWith()),
 			   actionCollection(), "popup_menu_open_with");
 
+
+  editAction = new KAction(i18n("&Edit"), 0, this,
+			   SLOT(action_edit()),
+			   actionCollection(), "edit");
+
+  popupEditAction = new KAction(i18n("&Edit"), 0, this,
+				SLOT(action_edit()),
+				actionCollection(), "popup_edit");
+
   settingsAction =  new KAction(i18n("&Settings"), "ark_options", 0, this,
 			   SLOT(options_dirs()),
 			   actionCollection(), "settings");
@@ -237,13 +249,6 @@ void ArkWidget::setupActions()
 		    SLOT(options_dirs()),
 		    actionCollection(),
 		    "directories");
-
-#if 0
-  (void)new KAction(i18n("&Keys..."), 0, this,
-		    SLOT(options_keys()),
-		    actionCollection(),
-		    "keys");
-#endif
 
   KStdAction::showMenubar(this, SLOT(toggleMenuBar()), actionCollection());
   KStdAction::showToolbar(this, SLOT(toggleToolBar()), actionCollection());
@@ -338,6 +343,7 @@ void ArkWidget::initialEnables()
   // menu with these actions
   popupViewAction->setEnabled(true);
   popupOpenWithAction->setEnabled(true);
+  popupEditAction->setEnabled(true);
 
   deleteAction->setEnabled(false);
   extractAction->setEnabled(false);
@@ -512,6 +518,40 @@ QString ArkWidget::getNewFileName()
   return strFile;
 } 
 
+int ArkWidget::getCol(const QString & _columnHeader)
+{
+  // return the column corresponding to the header, or -1 for failure
+  int column;
+  for (column = 0; column < archiveContent->header()->count();
+       ++column)
+    {
+      if (archiveContent->columnText(column) == _columnHeader)
+	{
+	  return column;
+	}
+    }
+  
+  kdError(1601) << "Can't find header " << _columnHeader << endl;
+  return -1;
+}
+QString ArkWidget::getColData(const QString &_filename,
+			      int _col)
+{
+  FileListView *flw = fileList();
+  FileLVI *flvi = (FileLVI*)flw->firstChild();
+  while (flvi)
+    {
+      QString curFilename = flvi->text(0);
+      if (curFilename == _filename)
+	return (flvi->text(_col));
+      flvi = (FileLVI*)flvi->itemBelow();
+    }
+  kdError(1601) << "Couldn't find " << _filename << " in ArkWidget::getColData"
+		<< endl;
+
+  return QString("");
+}
+
 
 // File menu /////////////////////////////////////////////////////////
 
@@ -586,7 +626,7 @@ void ArkWidget::file_new()
 }
 
 void ArkWidget::slotCreate(Arch * _newarch, bool _success,
-			   const QString & _filename, int _flag)
+			   const QString & _filename, int)
 {
   if ( _success )
     {
@@ -722,10 +762,12 @@ void ArkWidget::slotExtractDone()
   QApplication::restoreOverrideCursor();
   if ( !KOpenWithHandler::exists() )
     (void) new KFileOpenWithHandler();
-  if (m_bViewInProgress)
+  if (m_bViewInProgress || m_bEditInProgress)
     {
       m_bViewInProgress = false;
-      new KRun (m_strFileToView);
+      m_pKRunPtr = new KRun (m_strFileToView);
+      connect(m_pKRunPtr, SIGNAL(finished()),
+	      this, SLOT(slotEditFinished()));
     }
   else if (m_bOpenWithInProgress)
     {
@@ -752,6 +794,13 @@ void ArkWidget::slotExtractDone()
   archiveContent->setUpdatesEnabled(true);
   fixEnables();  
   kdDebug(1601) << "-ArkWidget::slotExtractDone" << endl;
+}
+
+void ArkWidget::slotEditFinished()
+{
+  // darn, this is when it finishes starting. Definitely need to rethink this.
+  kdDebug(1601) << "+ArkWidget::slotEditFinished" << endl;
+
 }
 
 void ArkWidget::slotAddDone(bool _bSuccess)
@@ -815,7 +864,12 @@ void ArkWidget::disableAll() // private
   addFileAction->setEnabled(false);
   addDirAction->setEnabled(false);
   openWithAction->setEnabled(false);
+  editAction->setEnabled(false);
 
+  popupViewAction->setEnabled(false);
+  popupOpenWithAction->setEnabled(false);
+  popupEditAction->setEnabled(false);
+  
   kdDebug(1601) << "-ArkWidget::disableAll" << endl;
 }
 
@@ -837,6 +891,13 @@ void ArkWidget::fixEnables() // private
   if (arch)
     bReadOnly = arch->isReadOnly();
 
+  // always true - you have to have right-clicked on a file to see the
+  // menu with these actions
+  popupViewAction->setEnabled(true);
+  popupOpenWithAction->setEnabled(true);
+  popupEditAction->setEnabled(true);
+
+
   openAction->setEnabled(true);
   newArchAction->setEnabled(true);
   closeAction->setEnabled(bHaveFiles);
@@ -856,6 +917,7 @@ void ArkWidget::fixEnables() // private
   extractAction->setEnabled(bHaveFiles);
   viewAction->setEnabled(bHaveFiles && m_nNumSelectedFiles == 1);
   openWithAction->setEnabled(bHaveFiles && m_nNumSelectedFiles == 1);
+  editAction->setEnabled(bHaveFiles && m_nNumSelectedFiles == 1);
 
   kdDebug(1601) << "-ArkWidget::fixEnables" << endl;
 }
@@ -1291,6 +1353,20 @@ void ArkWidget::action_extract()
       
       delete dlg;
     }
+}
+
+void ArkWidget::action_edit()
+{
+  // begin an edit. This is like a view, but once the process exits,
+  // the file is put back into the archive. If the user tries to quit or
+  // close the archive, there will be a warning that any changes to the
+  // files open under "Edit" will be lost unless the archive remains open.
+  // [hmm, does that really make sense? I'll leave it for now.]
+
+  m_bEditInProgress = true;
+  action_view();
+  // The rest of the action happens when the process exits.
+
 }
 
 void ArkWidget::action_view()

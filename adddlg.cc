@@ -62,7 +62,7 @@ void AddDlg::setupFirstTab()
 {
   kdDebug(1601) << "+AddDlg::setupFirstTab" << endl;
 
-  QFrame *frame = addPage(i18n("Add"));
+  QFrame *frame = addPage(i18n("Add File(s)"));
 
   m_dirList = new KDirOperator(m_sourceDir, frame, "dirlist");
   KCombiView *pCombiView = new KCombiView(m_dirList, "fileview");
@@ -78,60 +78,80 @@ void AddDlg::setupFirstTab()
 void AddDlg::setupSecondTab()
 {
   QHBox *secondpage = addHBoxPage(i18n("Advanced"), i18n("Test"));
+  QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
+				       "", secondpage );
+  m_cbReplaceOnlyWithNewer =
+    new QCheckBox(i18n("Replace old files only with newer files"), bg);
 
   switch(m_archtype)
     {
     case ZIP_FORMAT:
-      {
-	kdDebug(1601) << "AddDlg::setupSecondTab - zip format" << endl;
-	
-	QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
-					     "ZIP Options", secondpage );
-	m_cbRecurse = new QCheckBox(i18n("Recurse into directories"), bg);
-	if (m_settings->getZipAddRecurseDirs())
-	  m_cbRecurse->setChecked(true);
-
-	// NO - I want three radio buttons here.
-
-	m_cbJunkDirNames = new QCheckBox(i18n("Junk directory names"), bg);
-	if (m_settings->getZipAddJunkDirs())
-	  m_cbJunkDirNames->setChecked(true);
-	m_cbForceMS = new QCheckBox(i18n("Force MS-style (8+3) filenames"),
-				    bg);
-	if (m_settings->getZipAddMSDOS())
-	  m_cbForceMS->setChecked(true);
-	m_cbConvertLF2CRLF = new QCheckBox(i18n("Convert LF to CRLF"), bg);
-	if (m_settings->getZipAddConvertLF())
-	  m_cbConvertLF2CRLF->setChecked(true);
-      }
+      kdDebug(1601) << "AddDlg::setupSecondTab - zip format" << endl;
+      bg->setTitle(i18n("ZIP Options"));
+      if (m_settings->getZipReplaceOnlyWithNewer())
+	m_cbReplaceOnlyWithNewer->setChecked(true);
+      
+      m_cbRecurse = new QCheckBox(i18n("Recurse into directories"), bg);
+      if (m_settings->getZipAddRecurseDirs())
+	m_cbRecurse->setChecked(true);
+      
+      // NO - I want three radio buttons here. XXX
+      
+      m_cbJunkDirNames = new QCheckBox(i18n("Junk directory names"), bg);
+      if (m_settings->getZipAddJunkDirs())
+	m_cbJunkDirNames->setChecked(true);
+      
+      
+      m_cbForceMS = new QCheckBox(i18n("Force MS-style (8+3) filenames"),
+				  bg);
+      if (m_settings->getZipAddMSDOS())
+	m_cbForceMS->setChecked(true);
+      
+      m_cbConvertLF2CRLF = new QCheckBox(i18n("Convert LF to CRLF"), bg);
+      if (m_settings->getZipAddConvertLF())
+	m_cbConvertLF2CRLF->setChecked(true);
+      
+      m_cbStoreSymlinks = new QCheckBox(i18n("Store symlinks as such"), bg);
+      if (m_settings->getZipStoreSymlinks())
+	m_cbStoreSymlinks->setChecked(true);
       break;
     case TAR_FORMAT:
-      {
-	QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
-					     "TAR Options", secondpage );
-	m_cbJunkDirNames = new QCheckBox(i18n("Junk directory names"), bg);
-	if (!m_settings->getaddPath())
-	  m_cbJunkDirNames->setChecked(true);
-	m_cbReplaceOnlyNewer = new QCheckBox(i18n("Replace newer files only"),
-					     bg);
-	if (m_settings->getReplaceOnlyNew())
-	  m_cbReplaceOnlyNewer->setChecked(true);
-      }
+      bg->setTitle(i18n("TAR Options"));
+      m_cbJunkDirNames = new QCheckBox(i18n("Junk directory names"), bg);
+      if (!m_settings->getaddPath())
+	m_cbJunkDirNames->setChecked(true);
+      if (m_settings->getTarReplaceOnlyWithNewer())
+	m_cbReplaceOnlyWithNewer->setChecked(true);
+      m_cbAbsPathNames =
+	new QCheckBox(i18n("Use absolute pathnames"), bg);
+      if (m_settings->getTarUseAbsPathnames())
+	m_cbAbsPathNames->setChecked(true);
       break;
     case AA_FORMAT:
+      bg->setTitle(i18n("AR Options"));
+      if (m_settings->getArReplaceOnlyWithNewer())
+	m_cbReplaceOnlyWithNewer->setChecked(true);
       break;
     case LHA_FORMAT:
-      {
-	QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
-					     "LHA Options", secondpage );
-	m_cbMakeGeneric =  new QCheckBox(i18n("Keep entries generic"), bg);
-	if (m_settings->getLhaGeneric())
-	  m_cbMakeGeneric->setChecked(true);
-      }
+      bg->setTitle(i18n("LHA Options"));
+      if (m_settings->getLhaReplaceOnlyWithNewer())
+	m_cbReplaceOnlyWithNewer->setChecked(true);
+      m_cbMakeGeneric =  new QCheckBox(i18n("Keep entries generic"), bg);
+      if (m_settings->getLhaGeneric())
+	m_cbMakeGeneric->setChecked(true);
       break;
     case RAR_FORMAT:
+      bg->setTitle(i18n("RAR Options"));
+      m_cbStoreSymlinks = new QCheckBox(i18n("Store symlinks as such"), bg);
+      if (m_settings->getRarStoreSymlinks())
+	m_cbStoreSymlinks->setChecked(true);
+      if (m_settings->getRarReplaceOnlyWithNewer())
+	m_cbReplaceOnlyWithNewer->setChecked(true);
       break;
     case ZOO_FORMAT:
+      if (m_settings->getZooReplaceOnlyWithNewer())
+	m_cbReplaceOnlyWithNewer->setChecked(true);
+      break;
     case UNKNOWN_FORMAT:
       break;
     default:
@@ -154,18 +174,28 @@ void AddDlg::accept()
       m_settings->setZipAddJunkDirs(m_cbJunkDirNames->isChecked());
       m_settings->setZipAddMSDOS(m_cbForceMS->isChecked());
       m_settings->setZipAddConvertLF(m_cbConvertLF2CRLF->isChecked());
+      m_settings->setZipStoreSymlinks(m_cbStoreSymlinks->isChecked());
+      m_settings->setZipReplaceOnlyWithNewer(m_cbReplaceOnlyWithNewer->isChecked());
       break;
     case TAR_FORMAT:
-      m_settings->setReplaceOnlyNew(m_cbReplaceOnlyNewer->isChecked());
+      m_settings->setTarReplaceOnlyWithNewer(m_cbReplaceOnlyWithNewer->isChecked());
       m_settings->setaddPath(!m_cbJunkDirNames->isChecked());
+      m_settings->setTarUseAbsPathnames(m_cbAbsPathNames->isChecked());
       break;
     case AA_FORMAT:
+      m_settings->setArReplaceOnlyWithNewer(m_cbReplaceOnlyWithNewer->isChecked());
       break;
     case LHA_FORMAT:
       m_settings->setLhaGeneric(m_cbMakeGeneric->isChecked());
+      m_settings->setLhaReplaceOnlyWithNewer(m_cbReplaceOnlyWithNewer->isChecked());
       break;
     case RAR_FORMAT:
+      m_settings->setRarStoreSymlinks(m_cbStoreSymlinks->isChecked());
+      m_settings->setRarReplaceOnlyWithNewer(m_cbReplaceOnlyWithNewer->isChecked());
+      break;
     case ZOO_FORMAT:
+      m_settings->setZooReplaceOnlyWithNewer(m_cbReplaceOnlyWithNewer->isChecked());
+      break;
     case UNKNOWN_FORMAT:
       break;
     default:

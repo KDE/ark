@@ -49,7 +49,6 @@ ZooArch::ZooArch( ArkSettings *_settings, Viewer *_gui,
   : Arch(_settings, _gui, _fileName )
 {
   kdDebug(1601) << "ZooArch constructor" << endl;
-  _settings->readZooProperties();
   m_archiver_program = "zoo";
 }
 
@@ -243,7 +242,7 @@ void ZooArch::addFile( QStringList *urls )
   kp->clearArguments();
   *kp << m_archiver_program;
 	
-  if (m_settings->getReplaceOnlyNew() )
+  if (m_settings->getZooReplaceOnlyWithNewer())
     *kp << "-update";
   else
     *kp << "-add";

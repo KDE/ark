@@ -56,16 +56,18 @@ private: // data
   ArchType m_archtype;
   ArkSettings *m_settings;
   QStringList *m_fileList;
+
   // advanced options
+  QCheckBox *m_cbAbsPathNames, *m_cbReplaceOnlyWithNewer;
 
   // zip:
   QCheckBox *m_cbRecurse, *m_cbJunkDirNames, *m_cbForceMS, *m_cbConvertLF2CRLF;
 
-  // tar
-  QCheckBox *m_cbReplaceOnlyNewer;
-
   // lha
   QCheckBox *m_cbMakeGeneric;
+
+  // zip or rar
+  QCheckBox *m_cbStoreSymlinks;
 };
 
 

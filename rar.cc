@@ -47,7 +47,6 @@ RarArch::RarArch( ArkSettings *_settings, Viewer *_gui,
   : Arch(_settings, _gui, _fileName ), m_linenumber(0)
 {
   kdDebug(1601) << "RarArch constructor" << endl;
-  _settings->readRarProperties();
   m_archiver_program = "rar";
   m_unarchiver_program = "unrar";
 }
@@ -272,10 +271,13 @@ void RarArch::addFile( QStringList *urls )
   kp->clearArguments();
   *kp << m_archiver_program;
 	
-  if (m_settings->getReplaceOnlyNew() )
+  if (m_settings->getRarReplaceOnlyWithNewer() )
     *kp << "u";
   else
     *kp << "a";
+
+  if (m_settings->getRarStoreSymlinks())
+    *kp << "-ol";
 
   *kp << m_filename.local8Bit() ;
 

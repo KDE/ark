@@ -83,12 +83,15 @@ public slots:
   void createTmpProgress( KProcess *_kp, char *_buffer, int _bufflen);
   void slotAddFinished(KProcess *);
   void slotListingDone(KProcess *);
+  void slotDeleteExited(KProcess *);
 
 private:  // methods
   void updateArch();
   void createTmp();
   void setHeaders();
   void processDir(const KTarDirectory *tardir, const QString & root);
+  void deleteOldFiles(QStringList *list, bool bAddOnlyNew);
+  QString getEntry(const QString & filename);
 
 private: // data
   QString m_archiver_program;
@@ -99,6 +102,9 @@ private: // data
   // for use with createTmp and updateArch
   bool createTmpInProgress;
   bool updateInProgress;
+
+  // for use with deleteOldFiles
+  bool deleteInProgress;
   FILE *fd;
   
 };

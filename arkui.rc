@@ -18,6 +18,7 @@
     <Action name="extract"/>
     <Action name="view"/>
     <Action name="open_with"/>
+    <Action name="edit"/>
   </Menu>
   <Menu name="edit"><text>&amp;Edit</text>
     <Action name="select"/>
@@ -54,6 +55,7 @@
  <Action name="delete"/>
  <Action name="popup_menu_view"/>
  <Action name="popup_menu_open_with"/>
+ <Action name="popup_edit"/>
 </Menu>
 <Menu name="archive_popup">
  <Action name="addfile"/>

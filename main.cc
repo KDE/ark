@@ -21,10 +21,12 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
-
+//
 // Note: This is a KUniqueApplication.
 // To debug add --nofork to the command line.
-// Be aware that newInstance() will not be called in this case.
+// Be aware that newInstance() will not be called in this case, but you
+// can run ark from a console, and that will invoke it in the debugger.
+//
 
 #include <sys/param.h>
 #include <stdio.h>
@@ -72,7 +74,7 @@ int main( int argc, char *argv[]  )
       kdDebug(1601) << "In main: Restore..." << endl;
       RESTORE(ArkWidget);
     }
-  kdDebug(1601) << "Ready to exec..." << endl;
+  kdDebug(1601) << "Starting ark..." << endl;
   
   return ArkApplication::getInstance()->exec();
 

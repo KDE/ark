@@ -26,8 +26,7 @@
 
 */
 
-// note from Emily on future development (not yet implemented!! Soon.)
-// When maintaining tar files with ark, the user should be
+// Note: When maintaining tar files with ark, the user should be
 // aware that these options have been improved (IMHO). When you append a file
 // to a tarchive, tar does not check if the file exists already, and just
 // tacks the new one on the end. ark deletes the old one.
@@ -36,8 +35,8 @@
 // the file is newer though). ark deletes the old one in this case as well.
 //
 // Basically, tar files are great for creating and extracting, but
-// not for maintaining. The original purpose of a tar was of course,
-// for tape backups, so this is not so surprising!
+// not especially for maintaining. The original purpose of a tar was of
+// course, for tape backups, so this is not so surprising!      -Emily
 //
 
 #include <kurl.h>
@@ -48,6 +47,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 // Qt includes
 #include <qregexp.h>
@@ -69,12 +69,11 @@ static QString makeTimeStamp(const QDateTime & dt);
 TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
 		  const QString & _filename)
   : Arch(_settings, _gui, _filename), createTmpInProgress(false),
-    updateInProgress(false), fd(NULL)
+    updateInProgress(false), deleteInProgress(false), fd(NULL)
 {
   kdDebug(1601) << "+TarArch::TarArch" << endl;
   m_archiver_program = m_settings->getTarCommand();
 
-  _settings->readTarProperties();
   if (_filename.right(4) == ".tar")
     {
       compressed = false;
@@ -388,10 +387,103 @@ void TarArch::createTmpProgress( KProcess *, char *_buffer, int _bufflen )
     }
 }
 
+static QDateTime getMTime(const QString & entry)
+{
+  // I have something like: 1999-10-04 11:04:44
+  int year, month, day, hour, min, seconds;
+  sscanf( (const char *)entry, "%d-%d-%d %d:%d:%d", &year, &month, &day, &hour,
+	  &min, &seconds);
+
+  QDate theDate(year, month, day);
+  QTime theTime(hour, min, seconds);
+  return (QDateTime(theDate, theTime));
+}
+
+
+void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
+  // because tar is broken. Used when appending: see addFile.
+{
+  struct stat statbuffer;
+  QStringList list;
+  QString str;
+
+  int col = m_gui->getCol(TIMESTAMP_STRING);
+
+  QStringList::ConstIterator iter;
+  for (iter = urls->begin(); iter != urls->end(); ++iter )
+  {
+    QString filename;
+    str = *iter;
+    if (str.left(5) == "file:")
+      // get rid of "file:" part of url
+      filename = str.right(str.length()-5);
+    str = str.right(str.length()-8); // get rid of leading /
+    if (!m_settings->getaddPath())
+      str = str.right(str.length()-str.findRev('/')-1);
+    if (bAddOnlyNew)
+    {
+      // compare timestamps. If the file to be added is newer, delete the 
+      // old. Otherwise we aren't adding it anyway, so we can go on to the next
+      // file with a "continue".
+
+      // find the file entry in the archive listing
+      QString entryTimeStamp = m_gui->getColData(str, col);
+      if (entryTimeStamp.isNull())
+	continue;  // it isn't in there, so skip it.
+      stat(filename, &statbuffer);
+      time_t the_mtime = statbuffer.st_mtime;
+      struct tm *convertStruct = localtime(&the_mtime);
+      QDateTime addFileMTime(QDate(convertStruct->tm_year,
+				   convertStruct->tm_mon + 1,
+				   convertStruct->tm_mday),
+			     QTime(convertStruct->tm_hour,
+				   convertStruct->tm_min,
+				   convertStruct->tm_sec));
+      QDateTime oldFileMTime = getMTime(entryTimeStamp);
+
+      kdDebug(1601) << "Old file: " << oldFileMTime.date().year() << "-" <<
+	oldFileMTime.date().month() << "-" << oldFileMTime.date().day() <<
+	" " << oldFileMTime.time().hour() << ":" <<
+	oldFileMTime.time().minute() << ":" << oldFileMTime.time().second() <<
+	endl;
+      kdDebug(1601) << "New file: " << addFileMTime.date().year()  << "-" <<
+	addFileMTime.date().month()  << "-" << addFileMTime.date().day() <<
+	" " << addFileMTime.time().hour()  << ":" <<
+	addFileMTime.time().minute() << ":" << addFileMTime.time().second() <<
+	endl;
+
+      if (oldFileMTime >= addFileMTime)
+      {
+	fprintf(stderr, "Old time is newer or same\n"); 
+	continue; // don't add this file to the list to be deleted.
+      }
+    }
+    list.append(str);
+
+#ifdef DEBUG
+    fprintf(stderr, "To delete: %s\n", (const char *)str);
+#endif
+  }
+  remove(&list);
+}
+
+
 void TarArch::addFile( QStringList* urls )
 {
   kdDebug(1601) << "+TarArch::addFile" << endl;
   QString file, url, tmp;
+
+  // tar is broken. If you add a file that's already there, it gives you
+  // two entries for that name, whether you --append or --update. If you
+  // extract by name, it will give you
+  // the first one. If you extract all, the second one will overwrite the
+  // first. So we'll first delete all the old files matching the names of
+  // those in urls.
+  m_bNotifyWhenDeleteFails = false;
+  deleteOldFiles(urls, m_settings->getTarReplaceOnlyWithNewer());
+  while (deleteInProgress)
+    qApp->processEvents(); // wait for deletion
+  m_bNotifyWhenDeleteFails = true;
 
   createTmp();
   while (compressed && createTmpInProgress)
@@ -404,14 +496,18 @@ void TarArch::addFile( QStringList* urls )
   kp->clearArguments();
   *kp << m_archiver_program.local8Bit();
 	
-  if( m_settings->getReplaceOnlyNew())
+  if( m_settings->getTarReplaceOnlyWithNewer())
     *kp << "uvf";
   else
     *kp << "rvf";
+
   if (compressed)
     *kp << tmpfile.local8Bit();
   else
     *kp << m_filename;
+
+  if (m_settings->getTarUseAbsPathnames())
+    *kp << "-P";
 	
   QString base;
 
@@ -548,8 +644,8 @@ void TarArch::unarchFile( QStringList * _fileList, const QString & _destDir)
 
 void TarArch::remove(QStringList *list)
 {
-  kdDebug(1601) << "+Tar::deleteFiles" << endl;
-
+  kdDebug(1601) << "+Tar::remove" << endl;
+  deleteInProgress = true;
   QString name, tmp;
   
   createTmp();
@@ -587,7 +683,13 @@ void TarArch::remove(QStringList *list)
   if (compressed)
     updateArch();
 
-  kdDebug(1601) << "-Tar::deleteFiles" << endl;
+  kdDebug(1601) << "-Tar::remove" << endl;
+}
+
+void TarArch::slotDeleteExited(KProcess *_kp)
+{
+  deleteInProgress = false;
+  Arch::slotDeleteExited(_kp);
 }
 
 void TarArch::addDir(const QString & _dirName)

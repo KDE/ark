@@ -1,3 +1,11 @@
+2000-04-18: Emily Ezust <emilye@corel.com>
+	* Added some code to prevent tar from adding duplicate filenames
+	  (having duplicates really screws up deletion and particular extracts)
+	* More archive-specific options (for all types: update only with
+ 	  newer files; tar: keep absolute paths; zip, rar: store file as
+ 	  symlinks (although my version of rar doesn't seem to know how
+ 	  to extract a symlink??)
+	
 2000-04-06: Emily Ezust <emilye@corel.com>
 	* Switched to KListView
 	* Some work on settings and archive-specific actions

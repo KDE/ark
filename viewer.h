@@ -23,6 +23,11 @@ public:
 		  int * _rightAlignCols, int _numColsToAlignRight)
     { mGui->setHeaders(_headers, _rightAlignCols, _numColsToAlignRight); }
   int getNumFilesInArchive() { return mGui->getNumFilesInArchive(); }
+  int getCol(const QString & _columnHeader)
+    { return mGui->getCol(_columnHeader); }
+  QString getColData(const QString & _filename, int _col)
+    { return mGui->getColData(_filename, _col); }
+  
 private:
   ArkWidget *mGui;
 };

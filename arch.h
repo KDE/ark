@@ -116,6 +116,10 @@ protected:  // data
   ArkSettings *m_settings;
   Viewer *m_gui;
   bool m_bReadOnly; // for readonly archives
+
+  // lets tar delete unsuccessfully before adding without confusing the user
+  bool m_bNotifyWhenDeleteFails; 
+
 };
 
 namespace Utils

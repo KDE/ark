@@ -67,6 +67,7 @@ class Arch;
 class QLabel;
 class KAction;
 class KRecentFilesAction;
+class KRun;
 
 enum ArchType {UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
 	       LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT, COMPRESSED_FORMAT};
@@ -88,6 +89,14 @@ public:
 		  int * _rightAlignCols, int _numColsToAlignRight);
   QString getNewFileName();
   int getNumFilesInArchive() { return m_nNumFiles; }
+
+  // given a filename, get the data in the column 
+  // used in the viewer class.
+  QString getColData(const QString &_filename, int _col);
+
+  // given a column header, find its index
+  int getCol(const QString & _columnHeader);
+
 public slots:    
   void file_newWindow();
   void file_openRecent(const KURL& url);
@@ -117,6 +126,7 @@ protected slots:
   void action_delete();
   void action_extract();
   void slotOpenWith();
+  void action_edit();
   void options_dirs();
   void options_keys();
   void options_general();
@@ -136,6 +146,8 @@ protected slots:
   void slotDeleteDone(bool);
   void slotExtractDone();
   void slotAddDone(bool);
+
+  void slotEditFinished();
 
   void selectByPattern(const QString & _pattern);
 
@@ -198,7 +210,8 @@ private: // data
   KAction *newWindowAction, *newArchAction, *openAction, *addFileAction,
     *addDirAction, *extractAction, *deleteAction, *closeAction, *reloadAction,
     *selectAllAction, *viewAction, *settingsAction, *helpAction,
-    *openWithAction, *selectAction, *deselectAllAction, *invertSelectionAction;
+    *openWithAction, *selectAction, *deselectAllAction, *invertSelectionAction,
+    *popupEditAction, *editAction;
 
  // the following have different enable rules from the above KActions
   KAction *popupViewAction;
@@ -240,6 +253,9 @@ private: // data
   // for use in slotExtractDone: the url.
   QString m_strFileToView;
 
+  //true if user is trying to edit something. For use in slotExtractDone
+  bool m_bEditInProgress;
+
   // true if user is trying to transform a compressed file into a
   // real archive
   bool m_bMakeCFIntoArchiveInProgress;
@@ -252,24 +268,8 @@ private: // data
 
   // which column has the size
   int m_currentSizeColumn;
+
+  KRun *m_pKRunPtr;
 };
 
-#if 0
-// menu ids
-enum { eMFile, eMAction, eMEdit, eMOptions, eMHelp } ;
-
-// toolbar buttons
-enum { eNew, eOpen, eAddFile, eAddDir, eExtract, eDelete,
-       eSelectAll, eView, eOptions, eHelp };
-// popup menu items
-enum { eMNew, eMOpen, eMReload, eMClose, eMWindow, eMExit, eMAddFile,
-       eMAddDir, eMDelete, eMExtract, eMView, eMSelectAll, eMRename,
-       eMSaveOnExit, eMSelect, eMDeselectAll, eMInvertSel, eMOpenWith};
-
-#endif
-
-// status item numbers
-
-enum { eSelectedStatusLabel, eStatusLabelSeparator, eNumFilesStatusLabel,
-       eStatusDummy };
 #endif /* ARKWIDGET_H*/

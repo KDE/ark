@@ -39,7 +39,7 @@
 Arch::Arch( ArkSettings *_settings, Viewer *_viewer,
 	    const QString & _fileName )
   : m_filename(_fileName), m_settings(_settings), m_gui(_viewer),
-    m_bReadOnly(false)
+    m_bReadOnly(false), m_bNotifyWhenDeleteFails(true)
 {
   kdDebug(1601) << "+Arch::Arch" << endl;
   kdDebug(1601) << "-Arch::Arch" << endl;
@@ -120,7 +120,14 @@ void Arch::slotDeleteExited(KProcess *_kp)
 	bSuccess = true;
     }
   else
-    KMessageBox::sorry( (QWidget *)0, i18n("Deletion failed"), i18n("Error") );
+    {
+      if (m_bNotifyWhenDeleteFails)
+	{
+	  KMessageBox::sorry( (QWidget *)0,
+			      i18n("Deletion failed"), i18n("Error") );
+	}
+      else bSuccess = true;
+    }
   
   emit sigDelete(bSuccess);
   delete _kp;

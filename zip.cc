@@ -46,7 +46,6 @@ ZipArch::ZipArch( ArkSettings *_settings, Viewer *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {
-  _settings->readZipProperties();
   m_archiver_program = "zip";
   m_unarchiver_program = "unzip";
   kdDebug(1601) << "ZipArch constructor" << endl;
@@ -257,27 +256,19 @@ void ZipArch::addFile( QStringList *urls )
 		
   //	*kp << _compression.local8Bit();   // for later
 
-#if 0
+  if (m_settings->getZipStoreSymlinks())
+    *kp << "-y";
+
   if (m_settings->getZipAddJunkDirs())
     *kp << "-j";
-#endif
 
   if (m_settings->getZipAddMSDOS())
     *kp << "-k";
   if (m_settings->getZipAddConvertLF())
     *kp << "-l";
-	
-#if 0
-  switch( _mode )
-    {
-    case Update:
-      *kp << "-u"; break;
-    case Freshen:
-      *kp << "-f"; break;
-    case Move:
-      *kp << "-m"; break;
-    }
-#endif
+  
+  if (m_settings->getZipReplaceOnlyWithNewer())
+    *kp << "-u";
 
   *kp << m_filename.local8Bit() ;
   
@@ -306,21 +297,14 @@ void ZipArch::addFile( QStringList *urls )
     *kp << file;
   }
 
-
-  // iterate over QStringList and plunk onto command line
-
-  kdDebug(1601) << "Adding these files to the command line:" << endl;
-
-  for (QStringList::Iterator it = urls->begin();
-       it != urls->end(); ++it ) 
+  // debugging info
+  QString strTemp;
+  const QStrList *ptr = kp->args();
+  QStrList list(*ptr); // copied because of const probs
+  for ( strTemp=list.first(); strTemp != 0; strTemp=list.next() )
     {
-      QString currFile = *it;
-      // remove "file:"
-      currFile = currFile.right( currFile.length()-5);
-      *kp << currFile;
-      kdDebug(1601) << (const char *)currFile << endl;
+      kdDebug(1601) << (const char *)strTemp << " " << endl;
     }
-
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
