@@ -94,11 +94,8 @@ extractdlg.moc: extractdlg.h
 kfdird.cc:kfdird.moc
 kfdird.moc: kfdird.h
 	$(MOC) kfdird.h -o kfdird.moc
-<<<<<<< Makefile.am
-=======
 
 ktablistbox.cc:ktablistbox.moc
 ktablistbox.moc: ktablistbox.h
 	$(MOC) ktablistbox.h -o ktablistbox.moc
 
->>>>>>> 1.2
