@@ -55,6 +55,7 @@
 #include <errno.h>
 
 // ark includes
+#include "arkapp.h"
 #include "arkwidget.h"
 #include "arkwidget.moc"
 
@@ -68,10 +69,10 @@
 
 extern int errno;
 
+extern ArkApplication *g_pArk;  // the way to access settings
+
 enum Buttons { OPEN_BUTTON= 1000, NEW_BUTTON, FAVORITE_BUTTON, EXTRACT_BUTTON,
 	       CLOSE_BUTTON };
-
-QList<ArkWidget> *ArkWidget::windowList = 0;
 
 ArkWidget::ArkWidget( QWidget *, const char *name ) : 
     KTMainWindow(name), m_nSizeOfFiles(0), m_nSizeOfSelectedFiles(0),
@@ -90,14 +91,8 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 	
     m_settings->setTmpDir( tmpdir );
     
-    if (!windowList)
-    {
-	windowList = new QList<ArkWidget>();
-    }
-    
-    windowList->setAutoDelete( FALSE );
-    windowList->append( this );
-    
+    g_pArk->addWindow(this);
+
     // Build the ark UI
     kdebug(0, 1601, "Build the GUI");
     setupMenuBar();
@@ -147,15 +142,15 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 
 ArkWidget::~ArkWidget()
 {
-	windowList->removeRef( this );
-	delete archiveContent;
-	delete recentPopup;
-	delete accelerators;
-	delete m_filePopup;
-	delete m_archivePopup;
-	delete m_settings;
-//	delete statusBarTimer;
-	delete arch;
+  g_pArk->removeWindow(this);
+  delete archiveContent;
+  delete recentPopup;
+  delete accelerators;
+  delete m_filePopup;
+  delete m_archivePopup;
+  delete m_settings;
+  //	delete statusBarTimer;
+  delete arch;
 }
 
 void ArkWidget::setupMenuBar()
@@ -210,7 +205,7 @@ void ArkWidget::setupMenuBar()
 	createRecentPopup();
 
 	fileMenu->insertItem( i18n( "New &Window..."), this,
-			      SLOT( file_newWindow()));
+			      SLOT(file_newWindow()));
 	fileMenu->insertSeparator();
 	id = fileMenu->insertItem( i18n( "&New..." ), this, SLOT( file_new()),
 				   0, eMNew);
@@ -725,8 +720,12 @@ void ArkWidget::slotCreate( bool _success, QString _filename, int _flag )
 
 void ArkWidget::file_newWindow()
 {
-	ArkWidget *kw = new ArkWidget;
-	kw->show();
+  kdebug(0, 1601, "-ArkWidget::file_newWindow");
+  
+  ArkWidget *kw = new ArkWidget;
+  kw->show();
+  kdebug(0, 1601, "-ArkWidget::file_newWindow");
+
 }
 
 void ArkWidget::file_open()
@@ -738,6 +737,7 @@ void ArkWidget::file_open()
 
 void ArkWidget::file_openRecent(int i)
 {
+  //	kdebug(0, 1601, "+ArkWidget::file_openRecent");
 	QString filename = recentPopup->text(i);
 	file_open( filename );
 
@@ -900,17 +900,19 @@ void ArkWidget::file_close()
 void ArkWidget::window_close()
 {
     kdebug(0, 1601, "+ArkWidget::window_close");
+    kdebug(0, 1601, "Num windows: %d\n", g_pArk->windowCount());
+
     file_close();
-    if( windowList->count() < 2  )
-    {
+    if( g_pArk->windowCount() < 2  )
+      {
 	saveProperties();
 	kapp->quit();
-    }
+      }
     else
-    {
+      {
 	saveProperties();
 	delete this;
-    }
+      }
     kdebug(0, 1601, "-ArkWidget::window_close");
 }
 

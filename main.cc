@@ -46,31 +46,33 @@ static KCmdLineOptions option[] =
    { 0, 0, 0 }
 };
 
+//
+// This pointer is to be used globally when we need to access the
+// settings and window list. I didn't make the ArkApplication itself
+// global because otherwise the command-line parsing won't work -
+// KCmdLineArgs would try to do its stuff before we even got to main!
+ArkApplication *g_pArk = 0;
+
 int main( int argc, char *argv[]  )
 {
     KCmdLineArgs::init(argc, argv, "ark", description, version );
-
     KCmdLineArgs::addCmdLineOptions( option );
- 
+
+
     if (!ArkApplication::start())
     {
        // Already running! 
        exit(0);
     }
-    ArkApplication ark; 
 
-    ArkWidget *arkWin = 0;
+    ArkApplication ark;
+    g_pArk = &ark;
 
     if (ark.isRestored())
     {
        kdebug(0, 1601, "In main: Restore...");
        RESTORE(ArkWidget);
     }
-
-    arkWin = new ArkWidget();
-    ark.setMainWidget(arkWin);
-    arkWin->show();
-    arkWin->resize(640, 300);
     kdebug(0, 1601, "Ready to exec...");
     return ark.exec();
 }

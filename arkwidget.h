@@ -76,19 +76,18 @@ public:
     bool isArchiveOpen() { return m_bIsArchiveOpen; }
     bool isArchiveLocked(const QString &) ;
     QString getArchName() { return m_strArchName; }
-    
-    void file_open(const QString &);  // opens the specified archive
-
-public:
-    void open_fail();
-    void open_ok( QString );
     void showZip( QString name );
     void reload();
     FileListView *fileList() const { return archiveContent; };
+
+public slots:    
+    void file_newWindow();
+    void file_open(const QString &);  // opens the specified archive
+  //    void open_fail();
+  //    void open_ok( QString );
     
 protected slots:
     void file_new();
-    void file_newWindow();
     void file_open();
     void file_openRecent( int );
     void file_reload();
@@ -127,7 +126,6 @@ protected slots:
     void selectByPattern(const QString & _pattern);
 
 protected:
-    static QList<ArkWidget> *windowList;
     void closeEvent( QCloseEvent * );
 
     // DND

@@ -14,6 +14,8 @@ ArkApplication::ArkApplication()
     mArkSettings(0)
 {
   kdebug(0, 1601, "+ArkApplication::ArkApplication");
+  windowList = new QList<ArkWidget>();
+  windowList->setAutoDelete( FALSE );
   kdebug(0, 1601, "-ArkApplication::ArkApplication");
 }
 
@@ -38,12 +40,16 @@ int ArkApplication::newInstance()
   }
   args->clear();
 
+  ArkWidget *arkWin = new ArkWidget();
+  arkWin->show();
+  arkWin->resize(640, 300);
 
   if (!Zip.isEmpty())
   {
-      ArkWidget *toplevel = (ArkWidget *) mainWidget();
-      toplevel->file_open(Zip);
+    arkWin->file_open(Zip);
   }
+
+  kdebug(0, 1601, "Num windows: %d\n", windowCount());
 
   kdebug(0, 1601, "-ArkApplication::newInstance");
   return 0;
