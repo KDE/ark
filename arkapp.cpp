@@ -117,9 +117,10 @@ int ArkApplication::newInstance()
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
   KURL url;
 
-  for (int i = 0; i < args->count(); ++i)
-  {
-    url = args->url(i);
+  int i = 0;
+  do {
+    if (args->count() > 0)
+      url = args->url(i);
     ArkWidget *arkWin = new ArkWidget(m_mainwidget);
     arkWin->show();
     arkWin->resize(640, 300);
@@ -128,9 +129,9 @@ int ArkApplication::newInstance()
       {
 	arkWin->file_open(url);
       }
-
     kdDebug(1601) << "-ArkApplication::newInstance" << endl;
-  }
+    ++i;
+  } while  (i < args->count());
   args->clear();
   return 0;
 }
