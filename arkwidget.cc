@@ -1227,6 +1227,7 @@ void ArkWidget::window_close()
     file_close();
     saveProperties();
     kdDebug(1601) << "-ArkWidget::window_close" << endl;
+    close();
 }
 
 
