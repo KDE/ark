@@ -144,12 +144,7 @@ int LhaArch::addFile( QStrList *urls )
 	url = urls->first();
 	do
 	{
-		KURL::decodeURL(url); // Because of special characters
-		file = url.right( url.length()-5);
-
-
-	    if( file[file.length()-1]=='/' )
-		    file[file.length()-1]='\0';
+		file = KURL(url).path(-1); // remove trailing slash
 		if( !storefullpath )
 		{
 			int pos;

@@ -223,12 +223,7 @@ int TarArch::addFile( QStrList* urls )
 	createTmp();
 
 	url = urls->first();
-	cout << "Url's name is: " << url << endl;
-	KURL::decodeURL(url); // Because of special characters
-	cout << "Url's name now is: " << url << endl;
-	file = url.right( url.length()-5 );
-	if( file[file.length()-1]=='/' )
-		file[file.length()-1]='\0';
+	file = KURL(url).path(-1); // remove trailing slash
 
 // 	if(archProcess.isRunning())
 // 		cerr << "Why oh, why you don't know how to say good bye?" << endl;
@@ -267,15 +262,7 @@ int TarArch::addFile( QStrList* urls )
 //		cout << url << " is the name of the url " << endl;
 		if( url.isNull() )
 			break;
-		KURL::decodeURL(url); 
-		// It's used because of the special characters, can't be
-		// before url.isNull() because this function makes empty string from
-		// a NULL pointer
-//		cout << url << " is the name of the url " << endl;
-		file = url.right( url.length()-5 );
-//		cout << file << " is the name of the file " << endl;
-		if( file[file.length()-1]=='/' )
-			file[file.length()-1]='\0';
+		file = KURL(url).path(-1); // remove trailing slash
 		pos = file.findRev( '/', -1, FALSE );
 		pos++;
 		tmp = file.right( file.length()-pos );
