@@ -41,7 +41,7 @@ noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \
 		 kdirselect.h
 
 # just to make sure, automake makes them 
-METASOURCES =	AUTO
+METASOURCES = AUTO
 
 rcdir = $(kde_datadir)/ark
 rc_DATA = arkui.rc ark_part.rc
