@@ -35,9 +35,11 @@
 
 // KDE includes
 #include <kdebug.h>
+#include <kglobal.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kprocess.h>
+#include <kstddirs.h>
 
 // ark includes
 #include <config.h>
@@ -52,8 +54,18 @@ RarArch::RarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
   : Arch(_settings, _gui, _fileName ), m_linenumber(0)
 {
   kdDebug(1601) << "RarArch constructor" << endl;
+
+  bool have_rar = !KGlobal::dirs()->findExe( "rar" ).isNull();
+  bool have_unrar = !KGlobal::dirs()->findExe( "unrar" ).isNull();
+
   m_archiver_program = "rar";
-  m_unarchiver_program = "rar"; // some distributions of rar don't have unrar (bug #7112)
+  m_unarchiver_program = "unrar";
+  if( !have_rar && have_unrar )
+	  m_archiver_program = "unrar";
+
+  if( !have_unrar && have_rar )
+      m_unarchiver_program = "rar";
+      
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
   m_headerString = "----";
