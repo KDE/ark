@@ -43,7 +43,7 @@
 #include <sys/mount.h>
 #elif defined(__linux__)
 #include <sys/vfs.h>
-#elif defined(__sun)
+#elif defined(__sun) || defined(__sgi)
 #include <sys/statvfs.h>
 #define STATFS statvfs
 #elif defined(_AIX)
