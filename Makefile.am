@@ -26,7 +26,7 @@ libark_la_LIBADD   = $(LIB_KFILE) -lkparts
 ark_SOURCES    = main.cpp
 
 # the library search path
-ark_LDFLAGS = $(KDE_RPATH)
+ark_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 
 # the libraries to link against. Be aware of the order. First the libraries,
 # that depend on the following ones.
