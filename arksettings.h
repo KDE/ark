@@ -42,8 +42,14 @@ class ArkSettings
 public:
   ArkSettings();
   ~ArkSettings();
+
+  void readZipProperties();
+  void writeZipProperties();
+
+  void readTarProperties();
+  void writeTarProperties();
 	
-  enum DirPolicy{
+  enum DirPolicy {
     FAVORITE_DIR=1, FIXED_START_DIR,
     LAST_OPEN_DIR, FIXED_OPEN_DIR,
     LAST_EXTRACT_DIR, FIXED_EXTRACT_DIR,
@@ -52,78 +58,91 @@ public:
 
   const QString getFilter();
 	
-  QString getTarCommand() const;
-  void setTarCommand(const QString& cmd);
+  QString getTarCommand() const { return tar_exe; }
+  void setTarCommand(const QString& _cmd) { tar_exe = _cmd; }
 	
-  QString getFavoriteDir() const;
-  void setFavoriteDir(const QString& cmd);
+  QString getFavoriteDir() const { return QString(favoriteDir); }
+  void setFavoriteDir(const QString& _dir) { favoriteDir = _dir; }
 
   QString getStartDir() const;
-  QString getFixedStartDir() const;
-  int getStartDirMode() const;
+  QString getFixedStartDir() const { return QString( startDir ); }
+  int getStartDirMode() const { return startDirMode; }
   void setStartDirCfg(const QString& dir, int mode);
 
   QString getOpenDir() const;
-  QString getFixedOpenDir() const;
-  int getOpenDirMode() const;
+  QString getFixedOpenDir() const { return QString( openDir ); }
+  int getOpenDirMode() const { return openDirMode; }
   void setLastOpenDir(const QString& dir);
   void setOpenDirCfg(const QString& dir, int mode);
 
-
   QString getExtractDir();
-  QString getFixedExtractDir() const;
-  int getExtractDirMode() const;
-  void setLastExtractDir(const QString& dir);
+  QString getFixedExtractDir() const { return QString( extractDir ); }
+  int getExtractDirMode() const { return extractDirMode; }
+  void setLastExtractDir(const QString& dir) { lastExtractDir = dir; }
   void setExtractDirCfg(const QString& dir, int mode);
 
   QString getAddDir();
-  QString getFixedAddDir() const;
-  int getAddDirMode() const;
-  void setLastAddDir(const QString& dir);
+  QString getFixedAddDir() const { return QString( addDir ); }
+  int getAddDirMode() const { return addDirMode; }
+  void setLastAddDir(const QString& dir) { lastAddDir = dir; }
   void setAddDirCfg(const QString& dir, int mode);
 
-  QStringList * getRecentFiles();
+  QStringList * getRecentFiles() { return &recentFiles;}
   void addRecentFile(const QString& filename);
 
-  void setSaveOnExitChecked( bool );
-  bool isSaveOnExitChecked();
+  void setSaveOnExitChecked( bool _b) { m_saveOnExit = _b; }
+  bool isSaveOnExitChecked() { return m_saveOnExit; }
 	
-  void setaddPath( bool b);
-  bool getaddPath();
+  void setaddPath( bool b) { fullPath = b; }
+  bool getaddPath() { return fullPath; }
 
-  void setonlyUpdate( bool b);
-  bool getonlyUpdate();
+  void setReplaceOnlyNew(bool _b) { replaceOnlyNewerFiles = _b; }
+  bool getReplaceOnlyNew() { return replaceOnlyNewerFiles; }
 
-  void setSelectRegExp(const QString& _exp);
-  QString getSelectRegExp() const;
+  void setSelectRegExp(const QString& _exp) { m_regExp = _exp; }
 
-  void appendShellOutputData( const char * );
+  QString getSelectRegExp() const { return m_regExp; }
+
+  void appendShellOutputData( const char * _data ) {
+    m_lastShellOutput->append( _data ); }
+
   void clearShellOutput();
-  QString * getLastShellOutput() const;
+  QString * getLastShellOutput() const { return m_lastShellOutput; }
 
-  void setZipExtractOverwrite( bool );
-  bool getZipExtractOverwrite();
+  void setZipExtractOverwrite(bool _b) { m_zipExtractOverwrite = _b; }
+  bool getZipExtractOverwrite() { return m_zipExtractOverwrite; }
 	
-  void setZipExtractJunkPaths( bool );
-  bool getZipExtractJunkPaths();
+  void setZipExtractJunkPaths( bool _b ) { m_zipExtractJunkPaths = _b; }
+  bool getZipExtractJunkPaths() { return m_zipExtractJunkPaths; }
 	
-  void setZipExtractLowerCase( bool );
-  bool getZipExtractLowerCase();
+  void setZipExtractLowerCase( bool _b ) {  m_zipExtractLowerCase = _b; }
+  bool getZipExtractLowerCase() {   return m_zipExtractLowerCase; }
 
-  void setZipAddRecurseDirs( bool );
-  bool getZipAddRecurseDirs();
+  void setZipAddRecurseDirs( bool _b ) { m_zipAddRecurseDirs = _b; }
+  bool getZipAddRecurseDirs() { return m_zipAddRecurseDirs; }
 
-  void setZipAddJunkDirs( bool );
-  bool getZipAddJunkDirs();
+  void setZipAddJunkDirs( bool _b ) { m_zipAddJunkDirs = _b; }
+  bool getZipAddJunkDirs() { return m_zipAddJunkDirs; }
 
-  void setZipAddMSDOS( bool );
-  bool getZipAddMSDOS();
+  void setZipAddMSDOS( bool _b ) { m_zipAddMSDOS = _b; }
+  bool getZipAddMSDOS() { return m_zipAddMSDOS; }
 
-  void setZipAddConvertLF( bool );
-  bool getZipAddConvertLF();
-			
-  void setTmpDir( QString );
-  QString getTmpDir() const;			
+  void setZipAddConvertLF( bool _b ) { m_zipAddConvertLF = _b; }
+  bool getZipAddConvertLF() { return m_zipAddConvertLF; }
+
+  void setTarPreservePerms(bool _b) { m_tarPreservePerms = _b; }
+  bool getTarPreservePerms() { return m_tarPreservePerms; } 
+
+  void setTarOverwriteFiles(bool _b) { m_tarOverwrite = _b; }
+  bool getTarOverwriteFiles() { return m_tarOverwrite; }
+
+  void setTarToLower(bool _b) { m_tarToLower = _b; }
+  bool getTarToLower() { return m_tarToLower; }
+
+  
+
+  void setTmpDir( QString _dir ) { m_tmpDir = _dir; }
+  QString getTmpDir() const { return m_tmpDir; }	
   void writeConfiguration();
   void writeConfigurationNow();
   void readConfiguration();
@@ -132,8 +151,6 @@ public:
 	
  private:
   KConfig *kc;
-  bool opt_AddOnlyNew;
-  bool opt_StoreFullPath;
 
   QString favoriteDir;
   QString tar_exe;
@@ -158,10 +175,6 @@ public:
   QString * m_lastShellOutput;
 	
   bool m_saveOnExit;
-  QString m_regExp;
-
-  bool addPath;
-  bool onlyUpdate;
 
   bool contextRow;
   QStringList recentFiles;
@@ -175,6 +188,14 @@ public:
   bool m_zipAddMSDOS;
   bool m_zipAddConvertLF;
 
+  bool m_tarPreservePerms;
+  bool m_tarToLower;
+  bool m_tarOverwrite;
+
+  bool fullPath, replaceOnlyNewerFiles;
+
+  QString m_regExp;
+
   QString m_tmpDir;
 	
   void readRecentFiles();
@@ -183,8 +204,6 @@ public:
   void readDirectories();
   void writeDirectories();
 	
-  void readZipProperties();
-  void writeZipProperties();
 };
 
 #endif /* ARKSETTINGS_H */

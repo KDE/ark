@@ -63,7 +63,7 @@ private: // data
   QCheckBox *m_cbRecurse, *m_cbJunkDirNames, *m_cbForceMS, *m_cbConvertLF2CRLF;
 
   // tar
-  QCheckBox *m_cbUpdateOnly;
+  QCheckBox *m_cbReplaceOnlyNewer;
 };
 
 

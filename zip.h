@@ -50,30 +50,25 @@ public:
   virtual void open();
   virtual void create();
 	
-  virtual int addFile( QStringList* );
-  virtual int addDir(const QString & _dirName);
+  virtual void addFile( QStringList* );
+  virtual void addDir(const QString & _dirName);
 
   virtual void remove(QStringList *);
-  virtual QString unarchFile(QStringList *, const QString & _destDir="");
+  virtual void unarchFile(QStringList *, const QString & _destDir="");
 	
   void testIntegrity();
 	
   enum AddMode { Update = 1, Freshen, Move };
 
-  int actionFlag() { return 0; }
-
 protected:
-  //  KProcess *m_kp;
-  bool perms;
   bool m_header_removed, m_finished, m_error;
 		
 protected slots:
   void slotIntegrityExited(KProcess*);
-  void slotOpenDataStdout(KProcess*, char*, int);
+  void slotReceivedTOC(KProcess *, char *, int);
 	
 private:
   void processLine( char* );	
-  void initExtract( bool, bool, bool );
   void setHeaders();
 };
 

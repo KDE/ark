@@ -78,11 +78,10 @@ public:
   void reload();
   FileListView *fileList() const { return archiveContent; };
 
-  void remove();
   void listingAdd(QStringList *_entries);
   void setHeaders(QStringList *_headers,
 		  int * _rightAlignCols, int _numColsToAlignRight);
-
+  QString getNewFileName();
 public slots:    
 void file_newWindow();
   void file_open(const QString &);  // opens the specified archive

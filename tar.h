@@ -65,29 +65,24 @@ public:
   virtual void open();
   virtual void create();
 	
-  virtual int addFile( QStringList *);
-  virtual int addDir(const QString &);
+  virtual void addFile( QStringList *);
+  virtual void addDir(const QString &);
   virtual void remove(QStringList *);
-  virtual QString unarchFile(QStringList *, const QString & _destDir="");
+  virtual void unarchFile(QStringList *, const QString & _destDir="");
 	
   virtual int getEditFlag();
-	
-  int actionFlag() { return 0; }
+
   QString getCompressor();
   QString getUnCompressor();
 
 public slots:
   void updateProgress( KProcess *_kp, char *_buffer, int _bufflen);
-  void extractProgress( KProcess *, char *_buffer, int _bufflen );
   void openFinished( KProcess * );
   void updateFinished( KProcess * );
   void createTmpFinished( KProcess * );
   void createTmpProgress( KProcess *_kp, char *_buffer, int _bufflen);
-  void extractFinished( KProcess * );
   void slotAddFinished(KProcess *);
-
-protected slots:
-  void slotOpenDataStdout(KProcess*, char*, int);
+  void slotListingDone(KProcess *);
 
 private:  // methods
   int updateArch();
@@ -96,10 +91,9 @@ private:  // methods
   void processDir(const KTarDirectory *tardir, const QString & root);
 
 private: // data
+ // if the tar is compressed, this is the temporary uncompressed tar.
   QString tmpfile;
   bool compressed;
-  bool perms, tolower, overwrite;
-  QString tmpdir; // easily recalculated, but I may need it a lot
 
   // for use with createTmp and updateArch
   bool createTmpInProgress;

@@ -85,9 +85,10 @@ void AddDlg::setupSecondTab()
 	m_cbJunkDirNames = new QCheckBox(i18n("Junk directory names"), bg);
 	if (!m_settings->getaddPath())
 	  m_cbJunkDirNames->setChecked(true);
-	m_cbUpdateOnly = new QCheckBox(i18n("Update only"), bg);
-	if (m_settings->getonlyUpdate())
-	  m_cbUpdateOnly->setChecked(true);
+	m_cbReplaceOnlyNewer = new QCheckBox(i18n("Replace newer files only"),
+					     bg);
+	if (m_settings->getReplaceOnlyNew())
+	  m_cbReplaceOnlyNewer->setChecked(true);
       }
       break;
     case AA_FORMAT:
@@ -118,7 +119,7 @@ void AddDlg::accept()
       m_settings->setZipAddConvertLF(m_cbConvertLF2CRLF->isChecked());
       break;
     case TAR_FORMAT:
-      m_settings->setonlyUpdate(m_cbUpdateOnly->isChecked());
+      m_settings->setReplaceOnlyNew(m_cbReplaceOnlyNewer->isChecked());
       m_settings->setaddPath(!m_cbJunkDirNames->isChecked());
       break;
     case AA_FORMAT:
@@ -132,7 +133,8 @@ void AddDlg::accept()
     }
 
   const KFileView *pView = m_dirList->view();
-  KFileViewItemList *pList = pView->selectedItems();
+  KFileViewItemList *pList =
+    const_cast<KFileViewItemList *>(pView->selectedItems());
 
   kDebugInfo( 1601, "There are %d items in my KFileViewItemList.",
 	 pList->count());

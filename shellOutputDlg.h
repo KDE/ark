@@ -38,17 +38,18 @@
 
 class ShellOutputWidget : public QMultiLineEdit {
 public:
-	ShellOutputWidget( QDialog* _d ) : QMultiLineEdit( _d ) 
-		{ setNumCols(80); };
+  ShellOutputWidget( QDialog* _d ) : QMultiLineEdit( _d ) 
+    { setNumCols(80); };
 };
 
 
 
-class ShellOutputDlg : public QDialog {
-	Q_OBJECT
+class ShellOutputDlg : public QDialog 
+{
+  Q_OBJECT
 public:
-	ShellOutputDlg( ArkSettings *, QWidget *parent=0, const char *name=0 );
-	
+  ShellOutputDlg( ArkSettings *, QWidget *parent=0, const char *name=0 );
+  
 };
 
 #endif /* SHELL_OUTPUT_DLG_H */

@@ -23,7 +23,7 @@ bin_PROGRAMS = 	ark
 # Which sources should be compiled for ark.
 ark_SOURCES	= arkapp.cpp extractdlg.cc dirDlg.cpp arkwidget.cc \
 		main.cc zip.cc tar.cc filelistview.cpp arch.cpp \
-		generalOptDlg.cpp selectDlg.cpp adddlg.cc \
+		generalOptDlg.cpp selectDlg.cpp adddlg.cc lha.cc \
 		waitDlg.cpp shellOutputDlg.cpp arksettings.cpp
 
 # the library search path
@@ -36,7 +36,7 @@ ark_LDADD   = $(LIB_KFILE)
 # this option you can leave out. Just, if you use "make dist", you need it
 noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h \
                  extractdlg.h arkwidget.h arch.h \
-		 filelistview.h adddlg.h \
+		 filelistview.h adddlg.h lha.h \
 		 generalOptDlg.h selectDlg.h waitDlg.h shellOutputDlg.h
 
 # just to make sure, automake makes them 

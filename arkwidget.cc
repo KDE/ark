@@ -71,6 +71,7 @@
 
 #include "tar.h"
 #include "zip.h"
+#include "lha.h"
 
 #include "viewer.h"
 
@@ -423,7 +424,7 @@ void ArkWidget::setupToolBar()
 
     pixmap = BarIcon("ark_view");
     tb->insertButton ( pixmap, eView, SIGNAL(clicked()), this,
-		       SLOT(file_show()), true, i18n("View"));
+		       SLOT(action_view()), true, i18n("View"));
 
     tb->insertSeparator();
 
@@ -509,81 +510,83 @@ void ArkWidget::updateStatusTotals()
 
 void ArkWidget::file_open(const QString & strFile)
 {
-  if (! strFile.isNull() )  // if they don't click cancel
-  {
-    struct stat statbuffer;
-
-    if (stat(strFile, &statbuffer) == -1)
+  struct stat statbuffer;
+  
+  if (stat(strFile, &statbuffer) == -1)
     {
       if (errno == ENOENT || errno == ENOTDIR || errno ==  EFAULT)
-      {
-	KMessageBox::error(this, i18n("Archive does not exist"));
-      }
+	{
+	  QString x = "file:";
+	  QString errormesg = i18n("The archive ") + strFile +
+	    i18n(" does not exist");
+	  KMessageBox::error(this, errormesg);
+	}
       else if (errno == EACCES)
-      {
-	KMessageBox::error(this, i18n("Can't access archive"));
-      }
+	{
+	  QString errormesg = i18n("Can't access the archive ") + strFile;
+	  KMessageBox::error(this, errormesg);
+	}
       return;
     }
-    else
+  else
     {
       // this will be the appropriate flag depending on whose file it is
       unsigned int nFlag = 0;
       if (geteuid() == statbuffer.st_uid)
-      {
-	nFlag = S_IRUSR; // it's mine
-      }
+	{
+	  nFlag = S_IRUSR; // it's mine
+	}
       else if (getegid() == statbuffer.st_gid)
-      {
-	nFlag = S_IRGRP; // it's my group's
-      }
+	{
+	  nFlag = S_IRGRP; // it's my group's
+	}
       else
-      {
-	nFlag = S_IROTH;  // it's someone else's
-      }
+	{
+	  nFlag = S_IROTH;  // it's someone else's
+	}
     
       if (! ((statbuffer.st_mode & nFlag) == nFlag))
-      {
-	KMessageBox::error(this, i18n("You don't have permission to access that archive") );
-	return;
-      }
+	{
+	  KMessageBox::error(this, i18n("You don't have permission to access that archive") );
+	  return;
+	}
     }
 
-    // see if the user is just opening the same file that's already
-    // open (erm...)
+  // see if the user is just opening the same file that's already
+  // open (erm...)
 
-    if (strFile == m_strArchName && m_bIsArchiveOpen)
+  if (strFile == m_strArchName && m_bIsArchiveOpen)
+    {
       return;
-
+    }
 
     // see if the ark is already open in another window
-    if (ArkApplication::getInstance()->isArkOpenAlready(strFile))
-      {
-	// close this window
-	window_close();
+  if (ArkApplication::getInstance()->isArkOpenAlready(strFile))
+    {
+      // close this window
+      window_close();
 
 	// raise the window containing the already open archive
-	ArkApplication::getInstance()->raiseArk(strFile);
+      ArkApplication::getInstance()->raiseArk(strFile);
 
-	// notify the user what's going on
-	KMessageBox::information(0, i18n("The archive %1 is already open and has been raised.\nNote: if the filename does not match, it only means that one of the two is a symbolic link.").arg((const char *)strFile));
-	return;
-      }
+      // notify the user what's going on
+      KMessageBox::information(0, i18n("The archive %1 is already open and has been raised.\nNote: if the filename does not match, it only means that one of the two is a symbolic link.").arg((const char *)strFile));
+      return;
+    }
 
-    // no errors if we made it this far.
+  // no errors if we made it this far.
 
-    if (isArchiveOpen())
-      file_close();  // close old zip
+  if (isArchiveOpen())
+    file_close();  // close old zip
 
     // Set the current archive filename to the filename
-    m_strArchName = strFile;
+  m_strArchName = strFile;
 
-    // add it to the application-wide list of open archives
-    ArkApplication::getInstance()->addOpenArk(strFile, this);
+  // add it to the application-wide list of open archives
+  ArkApplication::getInstance()->addOpenArk(strFile, this);
 
-    // display the archive contents
-    showZip(strFile);
-  }
+  // display the archive contents
+  showZip(strFile);
 }
 
 
@@ -612,6 +615,19 @@ void ArkWidget::saveProperties()
   kDebugInfo( 1601, "-saveProperties (exit)");
 }
 
+QString ArkWidget::getNewFileName()
+{
+  KURL url = KFileDialog::getSaveURL(QString::null,
+				     m_settings->getFilter());
+  QString strFile;
+
+  if (!url.isEmpty())
+    {
+      strFile = url.path();  // needs work for network stuff XXX
+    }
+  return strFile;
+} 
+
 
 // File menu /////////////////////////////////////////////////////////
 
@@ -619,106 +635,85 @@ void ArkWidget::file_new()
 {
   int choice=0;
   struct stat statbuffer;
-  QString strFile;
-  KURL url;
-  while (true)
-    // keep asking for filenames as long as the user doesn't want to 
-    // overwrite existing ones. Break if they agree to overwrite
-    // or if the file doesn't already exist. Return if they cancel.
-  {
-    
-    url = KFileDialog::getSaveURL(QString::null,
-				      m_settings->getFilter());
-    if (!url.isEmpty())
-    {
-      strFile = url.path();  // needs work for network stuff XXX
-      if (stat(strFile, &statbuffer) != -1)  // there's something there!
-      {
-	choice =
-	  QMessageBox::critical(0, i18n("Archive already exists"),
-				i18n("Archive already exists. Do you wish to overwrite it?"),
-				QMessageBox::Yes | QMessageBox::Default,
-				QMessageBox::No,
-				QMessageBox::Cancel | QMessageBox::Escape);
-	if (choice == QMessageBox::Yes)
-	{
-	  unlink(strFile);
-	  break;
-	}
-	else 
-	{
-	  if (choice == QMessageBox::Cancel)
-	  return;
-	}
-      }
-      else  // file does not exist
-	break;  // so we can create it
-    }
-    else
-    {
-#ifdef DEBUG1
-      fprintf(stderr, "You didn't enter a filename\n");
-#endif
-      return; 
-    }
-  }
-  // if the filename has no dot in it, I'll ask if I should append ".zip"
-  if (! strFile.contains('.'))
-  {
-    int nRet = QMessageBox::warning(this, i18n("Error"), i18n("Your file is missing an extension to indicate the archive type.\nShall create a file of the default type (ZIP)?"),
-				    QMessageBox::Yes | QMessageBox::Default,
-				    QMessageBox::Cancel | QMessageBox::Escape);
-    if (nRet == QMessageBox::Yes)
-    {
-      strFile += ".zip";
-      // make sure there isn't already a file by that name...
-      if (stat(strFile, &statbuffer) != -1)  // there's something there!
-      {
-	choice =
-	  QMessageBox::critical(0, i18n("Archive already exists"),
-				i18n("Archive already exists. Do you wish to overwrite it?"),
-				QMessageBox::Yes | QMessageBox::Default,
-				QMessageBox::No,
-				QMessageBox::Cancel | QMessageBox::Escape);
-	if (choice == QMessageBox::Yes)
-	{
-	  unlink(strFile);
-	}
-	else 
-	{
-	  if (choice == QMessageBox::Cancel)
-	    return;
-	}
-      }
-    } // user chose not to create a zip file and still has extension-less file
-    else
-      return;  // I definitely don't know that format.
-  }
+  QString strFile = getNewFileName();
 
-  // if I made it here, I can create the archive
-  // if something goes wrong, I just keep the last arch pointer
-
-  createArchive( strFile );
+  if (!strFile.isEmpty())
+    {
+      while (true)
+	// keep asking for filenames as long as the user doesn't want to 
+	// overwrite existing ones; break if they agree to overwrite
+	// or if the file doesn't already exist. Return if they cancel.
+	// Also check for proper extensions.
+	{
+	  if (stat(strFile, &statbuffer) != -1)  // already exists!
+	    {
+	      choice =
+		KMessageBox::warningYesNoCancel(0, i18n("Archive already exists. Do you wish to overwrite it?"), i18n("Archive already exists"));
+	      if (choice == KMessageBox::Yes)
+		{
+		  unlink(strFile);
+		  break;
+		}
+	      else if (choice == KMessageBox::Cancel)
+		{
+		  return;
+		}
+	      else
+		{
+		  strFile = getNewFileName();
+		  if (!strFile.isEmpty())
+		    continue;
+		  else
+		    return;
+		}
+	    }
+	  // if we got here, the file does not already exist.
+	  if (! strFile.contains('.'))
+	    {
+	      // if the filename has no dot in it, ask should we append ".zip"?
+	      int nRet = KMessageBox::warningYesNo(0, i18n("Your file is missing an extension to indicate the archive type.\nShall create a file of the default type (ZIP)?"), i18n("Error"));
+	      if (nRet == KMessageBox::Yes)
+		{
+		  strFile += ".zip";
+		  continue; // gotta check if it exists again
+		}
+	      else // no? well choose a different filename then.
+		{
+		  strFile = getNewFileName();
+		  if (!strFile.isEmpty())
+		    continue;
+		  else
+		    return;
+		}
+	    }
+	  else
+	    break; 
+	} // end of while loop
+      
+      // if I made it here, I can create the archive. If something goes wrong
+      // (e.g., bad extension), we just leave the old archive up.
+      createArchive( strFile );
+    }
 }
 
 void ArkWidget::slotCreate(Arch * _newarch, bool _success,
 			   const QString & _filename, int _flag )
 {
-    if ( _success )
-      {
-	newCaption( _filename );
-	createActionMenu( _flag );
-	file_close();
-	createFileListView();
-	setCaption(_filename);
-	m_bIsArchiveOpen = true;
-	arch = _newarch;
-	fixEnables();
-      }
-    else
-      {
-	QMessageBox::warning(this, i18n("Error"), i18n("\nSorry - ark cannot create an archive of that type.\n\n  [Hint:  The filename should have an extension such as `.zip' to\n  indicate the type of the archive. Please see the help pages for\n  more information on supported archive formats.]"));
-      }
+  if ( _success )
+    {
+      newCaption( _filename );
+      createActionMenu( _flag );
+      file_close();
+      createFileListView();
+      setCaption(_filename);
+      m_bIsArchiveOpen = true;
+      arch = _newarch;
+      fixEnables();
+    }
+  else
+    {
+      QMessageBox::warning(this, i18n("Error"), i18n("\nSorry - ark cannot create an archive of that type.\n\n  [Hint:  The filename should have an extension such as `.zip' to\n  indicate the type of the archive. Please see the help pages for\n  more information on supported archive formats.]"));
+    }
 }
 
 void ArkWidget::file_newWindow()
@@ -742,9 +737,12 @@ void ArkWidget::file_open()
 
   // do I have to remove this later if it's a temporary from net?
   // Needs work. XXX
-  KIO::NetAccess::download(url, strFile); 
-  file_open(strFile);  // note: assumes it is local for now
-  m_settings->clearShellOutput();
+  if (!url.isEmpty())
+    {
+      KIO::NetAccess::download(url, strFile); 
+      m_settings->clearShellOutput();
+      file_open(strFile);  // note: assumes it is local for now
+    }
   kDebugInfo( 1601, "-ArkWidget::file_open");
 }
 
@@ -784,10 +782,9 @@ void ArkWidget::slotOpen(Arch *_newarch, bool _success,
 	    !fi.isWritable())
 	  {
 	    _newarch->setReadOnly(true);
-	    newCaption(_filename + " READONLY ");
+	    KMessageBox::information(this, i18n("This archive is read-only."));
 	  }
-	else
-	  newCaption(_filename );
+	newCaption(_filename );
 	createActionMenu( _flag );
 	arch = _newarch;
 	updateStatusTotals();
@@ -821,8 +818,7 @@ void ArkWidget::slotExtractDone()
   if (m_bViewInProgress)
     {
       m_bViewInProgress = false;
-      void *x = (void *) new KRun (strFileToView);
-      x = x; // just to get rid of the warning message
+      new KRun (strFileToView);
     }
   archiveContent->setUpdatesEnabled(true);
   kDebugInfo(1601, "-ArkWidget::slotExtractDone");
@@ -860,7 +856,8 @@ void ArkWidget::fixEnables() // private
   editMenu->setItemEnabled(eMDeselectAll, bHaveFiles);
   editMenu->setItemEnabled(eMInvertSel, bHaveFiles);
 
-  actionMenu->setItemEnabled(eMDelete, bHaveFiles  && m_nNumSelectedFiles > 0);
+  actionMenu->setItemEnabled(eMDelete, bHaveFiles  && m_nNumSelectedFiles > 0
+			     && arch && !bReadOnly);
   actionMenu->setItemEnabled(eMAddFile, m_bIsArchiveOpen &&
 			     !bReadOnly);
   actionMenu->setItemEnabled(eMAddDir, m_bIsArchiveOpen &&
@@ -1042,8 +1039,8 @@ void ArkWidget::edit_invertSel()
 
 void ArkWidget::edit_view_last_shell_output()
 {
-	ShellOutputDlg* sod = new ShellOutputDlg( m_settings, this );
-	sod->exec();
+  ShellOutputDlg* sod = new ShellOutputDlg( m_settings, this );
+  sod->exec();
 }
 
 
@@ -1076,46 +1073,105 @@ void ArkWidget::action_add_dir()
   QString dirName
     = KFileDialog::getExistingDirectory(m_settings->getAddDir(), 0,
 					i18n("Select a Directory to Add"));
-  // fix protocol
-  dirName = "file:" + dirName;
-  archiveContent->setUpdatesEnabled(false);
-  arch->addDir(dirName);
-}
-
-void ArkWidget::remove()
-  // remove selected files and create a list to send to the archive
-{
-  QStringList list;
-  FileLVI* flvi = (FileLVI*)archiveContent->firstChild();
-  FileLVI* old_flvi;
-  while (flvi)
+  if (!dirName.isEmpty())
     {
-      if ( archiveContent->isSelected(flvi) )
-	{
-	  old_flvi = flvi;
-	  flvi = (FileLVI*)flvi->itemBelow();
-	  list.append(old_flvi->getFileName().copy());
-	  delete old_flvi;
-	}		
-      else flvi = (FileLVI*)flvi->itemBelow();
+      // fix protocol
+      dirName = "file:" + dirName;
+      archiveContent->setUpdatesEnabled(false);
+      arch->addDir(dirName);
     }
-  archiveContent->setUpdatesEnabled(false);
-  arch->remove(&list);
 }
 
 void ArkWidget::action_delete()
 {
-    kDebugInfo( 1601, "+ArkWidget::action_delete");
+  // remove selected files and create a list to send to the archive
+  // Warn the user if he/she/it tries to delete a directory entry in
+  // a tar file - it actually deletes the contents of the directory
+  // as well.
 
-    kDebugError(!archiveContent->isSelectionEmpty(),
-	    1601, "Nothing to be removed !" );
+  kDebugInfo( 1601, "+ArkWidget::action_delete");
+  
+  if (archiveContent->isSelectionEmpty())
+    return; // shouldn't happen - delete should have been disabled!
 
-    if ( KMessageBox::questionYesNo(this, i18n("Do you really want to delete the selected items?")) == KMessageBox::Yes)
+  bool bIsTar = getArchType(m_strArchName) == TAR_FORMAT;
+  bool bDeletingDir = false;
+  QStringList list;
+  FileLVI* flvi = (FileLVI*)archiveContent->firstChild();
+  FileLVI* old_flvi;
+  QStringList dirs;
+
+  if (bIsTar)
     {
-      remove();
+      // check if they're deleting a directory
+      while (flvi)
+	{
+	  if ( archiveContent->isSelected(flvi) )
+	    {
+	      old_flvi = flvi;
+	      flvi = (FileLVI*)flvi->itemBelow();
+	      QString strFile = old_flvi->getFileName().copy();
+	      list.append(strFile);
+	      QString strTemp = old_flvi->text(1);
+	      if (strTemp.left(1) == "d")
+		{
+		  bDeletingDir = true;
+		  dirs.append(strFile);
+		}
+	    }		
+	  else flvi = (FileLVI*)flvi->itemBelow();
+	}
+      if (bDeletingDir)
+	{
+	  int nRet = KMessageBox::warningContinueCancel(this, i18n("If you delete a directory in a Tar archive, all the files in that\ndirectory will also be deleted. Are you sure you wish to proceed?"), i18n("Warning"), i18n("Continue"));
+	  if (nRet == KMessageBox::Cancel)
+	    return;
+	}
     }
 
-    kDebugInfo( 1601, "-ArkWidget::action_delete");
+  bool bDoDelete = true;
+  if (!bDeletingDir)
+    {
+      // ask for confirmation
+      bDoDelete = KMessageBox::questionYesNo(this, i18n("Do you really want to delete the selected items?")) == KMessageBox::Yes;
+    }
+  if (!bDoDelete)
+    return;
+
+  // reset to the beginning to do the second sweep
+  flvi = (FileLVI*)archiveContent->firstChild();
+  while (flvi)
+    {
+      // if it's selected or, if it's a tar and we're deleting a directory
+      // and the file is in that directory, delete the listview item.
+      old_flvi = flvi;
+      flvi = (FileLVI*)flvi->itemBelow();
+      bool bDel = false;
+
+      QString strFile = old_flvi->getFileName().copy();
+      if (bIsTar && bDeletingDir)
+	{
+	  for (QStringList::Iterator it = dirs.begin(); it != dirs.end(); ++it)
+	    {
+	      QRegExp re = "^" + *it;
+	      if (re.match(strFile) != -1)
+		{
+		  bDel = true;
+		  break;
+		}
+	    }
+	}
+      if (bDel || archiveContent->isSelected(old_flvi))
+	{
+	  if (!bIsTar)
+	    list.append(strFile);
+	  delete old_flvi;
+	}		
+    }
+ 
+  archiveContent->setUpdatesEnabled(false);
+  arch->remove(&list);
+  kDebugInfo( 1601, "-ArkWidget::action_delete");
 }
 
 void ArkWidget::action_extract()
@@ -1651,10 +1707,10 @@ void ArkWidget::createArchive( QString _filename )
     case ZIP_FORMAT:
       newArch = new ZipArch( m_settings, m_viewer, _filename );
       break;
-#if 0
     case LHA_FORMAT:
-      newArch = new LhaArch( m_settings );
+      newArch = new LhaArch( m_settings, m_viewer, _filename );
       break;
+#if 0
     case AA_FORMAT:
       newArch = new ArArch( m_settings );
       break;
@@ -1689,12 +1745,12 @@ void ArkWidget::openArchive( QString _filename )
     case ZIP_FORMAT:
       newArch = new ZipArch(m_settings, m_viewer, _filename );
       break;
-#if 0
     case LHA_FORMAT:
-      newArch = new LhaArch( m_settings );
+      newArch = new LhaArch( m_settings, m_viewer, _filename );
       break;
+#if 0
     case AA_FORMAT:
-      newArch = new ArArch( m_settings );
+      newArch = new ArArch( m_settings, m_viewer, _filename );
       break;
 #endif
     default:

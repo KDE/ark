@@ -62,14 +62,13 @@ public:
   virtual void create() = 0;
   virtual void remove(QStringList *) = 0;
 
-  virtual int addFile(QStringList *) = 0;
-  virtual int addDir(const QString &) = 0;
+  virtual void addFile(QStringList *) = 0;
+  virtual void addDir(const QString &) = 0;
 
-  // unarch the files in the list or all files if the list is empty
-  virtual QString unarchFile(QStringList *, const QString & _destDir="") = 0;
+  // unarch the files in the list or all files if the list is empty.
+  // if _destDir is empty, look at settings for extract directory
+  virtual void unarchFile(QStringList *, const QString & _destDir="") = 0;
 
-  virtual int actionFlag() = 0;
-	
   QString fileName() const { return m_filename; };
 	
   enum EditProperties{ Add = 1, Delete = 2, Extract = 4,
@@ -91,6 +90,8 @@ protected slots:
   void slotExtractExited(KProcess*);
   void slotDeleteExited(KProcess*);
   void slotAddExited(KProcess*);
+
+  void slotReceivedOutput(KProcess *, char*, int);
 
 signals:
   void sigOpen( Arch *, bool, const QString &, int );

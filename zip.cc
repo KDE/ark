@@ -8,6 +8,7 @@
 
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
+ 1999-2000: Corel Corporation (Emily Ezust, emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -45,6 +46,7 @@ ZipArch::ZipArch( ArkSettings *_settings, Viewer *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {
+  _settings->readZipProperties();
   kDebugInfo(1601, "ZipArch constructor");
 }
 
@@ -69,8 +71,9 @@ void ZipArch::processLine( char *_line )
 }
 
 
-void ZipArch::slotOpenDataStdout(KProcess*, char* _data, int _length)
+void ZipArch::slotReceivedTOC(KProcess*, char* _data, int _length)
 {
+  kDebugInfo(1601, "+ZipArch::slotReceivedTOC");
   char c = _data[_length];
   _data[_length] = '\0';
 	
@@ -80,7 +83,7 @@ void ZipArch::slotOpenDataStdout(KProcess*, char* _data, int _length)
   char *tmpl = line;
 
   char *tmpb;
-	
+
   for( tmpb = m_buffer; *tmpb != '\0'; tmpl++, tmpb++ )
     *tmpl = *tmpb;
 
@@ -142,6 +145,7 @@ void ZipArch::slotOpenDataStdout(KProcess*, char* _data, int _length)
     }
   
   _data[_length] = c;
+  kDebugInfo(1601, "-ZipArch::slotReceivedTOC");
 }
 
 void ZipArch::setHeaders()
@@ -185,11 +189,14 @@ void ZipArch::open()
   *kp << "unzip" << "-v" << m_filename.local8Bit();
 	
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotOpenDataStdout(KProcess*, char*, int)));
+	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
   connect( kp, SIGNAL(processExited(KProcess*)), this,
 	   SLOT(slotOpenExited(KProcess*)));
 
-  if (kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
       emit sigOpen(this, false, QString::null, 0 );
@@ -206,9 +213,8 @@ void ZipArch::create()
 		  | Arch::View);
 }
 
-int ZipArch::addDir(const QString & _dirName)
+void ZipArch::addDir(const QString & _dirName)
 {
-  int ret = FAILURE;
   if (! _dirName.isEmpty())
   {
     bool bOldVal = m_settings->getZipAddRecurseDirs();
@@ -218,14 +224,12 @@ int ZipArch::addDir(const QString & _dirName)
     
     QStringList list;
     list.append(_dirName);
-    ret = addFile(&list);
+    addFile(&list);
     m_settings->setZipAddRecurseDirs(bOldVal); // reset to old val
   }
-  return ret;
-
 }
 
-int ZipArch::addFile( QStringList *urls )
+void ZipArch::addFile( QStringList *urls )
 {
   kDebugInfo( 1601, "+ZipArch::addFile");
   KProcess *kp = new KProcess;
@@ -303,20 +307,24 @@ int ZipArch::addFile( QStringList *urls )
     }
 #endif
 
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
   connect( kp, SIGNAL(processExited(KProcess*)), this,
 	   SLOT(slotAddExited(KProcess*)));
 
-  if (kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
       emit sigAdd(false);
     }
 
-  return SUCCESS; // get rid of this return value!!
   kDebugInfo( 1601, "+ZipArch::addFile");
 }
 
-QString ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
+void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
 {
   // if _fileList is empty, we extract all.
   // if _destDir is empty, look at settings for extract directory
@@ -347,16 +355,19 @@ QString ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
     }
   *kp << "-d" << dest;
 
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
   connect( kp, SIGNAL(processExited(KProcess*)), this,
 	   SLOT(slotExtractExited(KProcess*)));
   
-  if (kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
       emit sigExtract(false);
     }
-  
-  return (dest+tmp);	
 }
 
 void ZipArch::remove(QStringList *list)
@@ -378,41 +389,21 @@ void ZipArch::remove(QStringList *list)
       *kp << str.local8Bit();
     }
 
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
   connect( kp, SIGNAL(processExited(KProcess*)), this,
 	   SLOT(slotDeleteExited(KProcess*)));
 
-  if (kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
       emit sigDelete(false);
     }
   
   kDebugInfo( 1601, "-ZipArch::remove");
-}
-
-
-void ZipArch::initExtract( bool _overwrite, bool _junkPaths, bool _lowerCase)
-{
-  //  m_settings->clearShellOutput();
-  m_shellErrorData = "";
-
-  KProcess *kp = new KProcess;
-  kp->clearArguments();
-		
-  *kp << "unzip";
-		
-  if( _overwrite )
-    *kp << "-o";
-  else
-    *kp << "-n";
-	
-  if( _junkPaths )
-    *kp << "-j";
-		
-  if( _lowerCase )
-    *kp << "-L";
-		
-  *kp << m_filename.local8Bit();
 }
 
 void ZipArch::slotIntegrityExited(KProcess *_kp)
@@ -434,8 +425,6 @@ void ZipArch::slotIntegrityExited(KProcess *_kp)
   else
     KMessageBox::sorry( 0, i18n("Test of integrity failed") );
 
-  disconnect( _kp, SIGNAL(processExited(KProcess *)), this,
-	      SLOT(slotIntegrityExited(KProcess *)));
   delete _kp;
   _kp = NULL;
 
@@ -452,6 +441,11 @@ void ZipArch::testIntegrity()
   *kp << "unzip -t";
 		
   *kp << m_filename;
+
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
 
   connect( kp, SIGNAL(processExited(KProcess *)), this,
 	   SLOT(slotIntegrityExited(KProcess *)));

@@ -1,3 +1,11 @@
+2000-03-09: Emily Ezust <emilye@corel.com>
+	* Fixed TarArch so that it warns the user before deleting the
+	  contents of a directory. (Delete a directory entry in tar and 
+	  tar deletes everything in it, unlike zip & lha!!)
+	* Finished TarArch so that extract and view work.
+	* Added LHA format (fully functional)
+	* Simplified the Arch API a little (got rid of useless return values)
+	
 2000-03-06: Emily Ezust <emilye@corel.com>
 	* Fixed TarArch so that the other compressors work
 	* Dealt with readonly archives (if the user views an archive from

@@ -94,6 +94,18 @@ void ExtractDlg::setupSecondTab()
       }
       break;
     case TAR_FORMAT:
+      {
+	QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
+					     i18n("TAR Options"), secondpage );
+	m_cbOverwrite = new QCheckBox(i18n("Overwrite files"), bg);
+	if (m_settings->getZipExtractOverwrite())
+	  m_cbOverwrite->setChecked(true);
+	m_cbPreservePerms = new QCheckBox(i18n("Preserve permissions"), bg);
+	m_cbToLower = new QCheckBox(i18n("Convert filenames to lowercase"),
+				    bg);
+	if (m_settings->getZipExtractLowerCase())
+	  m_cbToLower->setChecked(true);
+      }
       break;
     case AA_FORMAT:
     case LHA_FORMAT:

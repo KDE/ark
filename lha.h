@@ -1,3 +1,4 @@
+//  -*-C++-*-           emacs magic for .h files
 #ifndef LHAARCH_H
 #define LHAARCH_H
 
@@ -10,22 +11,31 @@
 
 class LhaArch : public Arch 
 {
+  Q_OBJECT
 public:
-	LhaArch( ArkSettings *d );
-	virtual ~LhaArch();
-	virtual unsigned char setOptions( bool p, bool l, bool o );
-	virtual void openArch( const QString &, FileListView * );
-	virtual void createArch( const QString & );
-	virtual int addFile( QStringList *);
-	virtual void extractTo( const QString &);
-	virtual const QStringList *getListing();
-	virtual QString unarchFile( const QString &);
-	virtual QString unarchFile();
-	virtual void deleteFile( int );
+  LhaArch( ArkSettings *_settings, Viewer *_gui,
+	   const QString & _fileName );
+  virtual ~LhaArch() { }
+	
+  virtual void open();
+  virtual void create();
+	
+  virtual void addFile( QStringList* );
+  virtual void addDir(const QString & _dirName);
 
+  virtual void remove(QStringList *);
+  virtual void unarchFile(QStringList *, const QString & _destDir="");
+
+protected:
+  bool m_header_removed, m_finished, m_error;
+
+protected slots:
+  void slotReceivedTOC(KProcess *, char *, int);
+	
 private:
-	QStringList *listing;
-	ArkProcess archProcess;
+  void processLine( char* );	
+  void initExtract( bool, bool, bool );
+  void setHeaders();
 };
 
 #endif /* ARCH_H */

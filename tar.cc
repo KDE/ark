@@ -72,6 +72,7 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
     updateInProgress(false), fd(NULL)
 {
   kDebugInfo(1601, "+TarArch::TarArch");
+  _settings->readTarProperties();
   if (_filename.right(4) == ".tar")
     {
       compressed = false;
@@ -79,6 +80,7 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
   else
     {
       compressed = true;
+      QString tmpdir;
       tmpdir.sprintf("/tmp/ark.%d", getpid());
 
       // build the temp file name
@@ -112,9 +114,12 @@ int TarArch::updateArch()
 
       connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	      this, SLOT(updateProgress( KProcess *, char *, int )));
+      connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	       this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
       connect(kp, SIGNAL(processExited(KProcess *)),
 	       this, SLOT(updateFinished(KProcess *)) );
-      if (kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
+      if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
 	{
 	  KMessageBox::error(0, i18n("Trouble writing to the archive..."));
 	}
@@ -209,7 +214,30 @@ void TarArch::open()
 		    Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
     }
   delete tarptr;
+
+  // might as well plunk the output of tar -tvf in the shell output window...
+  KProcess *kp = new KProcess;
+  QString tar_exe = m_settings->getTarCommand();
+  *kp << tar_exe.local8Bit() << "--use-compress-program="+getUnCompressor() ;
+  *kp << "-tvf" << m_filename.local8Bit();
+  connect(kp, SIGNAL(processExited(KProcess *)),
+	  this, SLOT(slotListingDone(KProcess *)));
+  connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	  this, SLOT(slotReceivedOutput( KProcess *, char *, int )));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+    {
+      KMessageBox::error(0, i18n("Error in trying to list the contents of the archive."));
+    }
+
   kDebugInfo(1601, "-TarArch::open");
+}
+
+void TarArch::slotListingDone(KProcess *_kp)
+{
+  delete _kp;
 }
 
 void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
@@ -231,6 +259,8 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
 	name = root + "/" + tarEntry->name();
       col_list.append(QString::fromLocal8Bit(name));
       QString perms = makeAccessString(tarEntry->permissions());
+      if (!tarEntry->isFile())
+	perms = "d" + perms;
       col_list.append(QString::fromLocal8Bit(perms));
       QString usergroup = tarEntry->user();
       usergroup += '/';
@@ -254,16 +284,6 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
     }
   kDebugInfo(1601, "-TarArch::processDir");
 }                                                                           
-
-void TarArch::slotOpenDataStdout(KProcess*, char* _data, int _length)
-{
-  char c = _data[_length];
-  _data[_length] = '\0';
-
-  m_settings->appendShellOutputData( _data );
-  _data[_length] = c;
-
-}
 
 void TarArch::create()
 {
@@ -324,7 +344,10 @@ void TarArch::createTmp()
 		  this, SLOT(createTmpFinished(KProcess *)));
 	  connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 		  this, SLOT(createTmpProgress( KProcess *, char *, int )));
-	  if (kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
+	  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+		   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
+	  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
 	    {
 	      KMessageBox::error(0, i18n("I can't fork a decompressor"));
 	    }
@@ -352,7 +375,7 @@ void TarArch::createTmpProgress( KProcess *, char *_buffer, int _bufflen )
     }
 }
 
-int TarArch::addFile( QStringList* urls )
+void TarArch::addFile( QStringList* urls )
 {
   kDebugInfo(1601, "+TarArch::addFile");
   QString file, url, tmp;
@@ -369,7 +392,7 @@ int TarArch::addFile( QStringList* urls )
   kp->clearArguments();
   *kp << tar_exe.local8Bit();
 	
-  if( m_settings->getonlyUpdate() )
+  if( m_settings->getReplaceOnlyNew())
     *kp << "uvf";
   else
     *kp << "rvf";
@@ -417,6 +440,11 @@ int TarArch::addFile( QStringList* urls )
       kDebugInfo(1601, "%s ", (const char *)strTemp);
     }
 
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
   connect( kp, SIGNAL(processExited(KProcess*)), this,
 	   SLOT(slotAddFinished(KProcess*)));
 
@@ -424,7 +452,7 @@ int TarArch::addFile( QStringList* urls )
   while (compressed && createTmpInProgress)
     qApp->processEvents(); // wait for temp to be created;
 
-  if (kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
       emit sigAdd(false);
@@ -435,13 +463,13 @@ int TarArch::addFile( QStringList* urls )
     file.remove( 0, 1 );  // Get rid of leading /
 #endif
 
-  return SUCCESS;
   kDebugInfo(1601, "-TarArch::addFile");
 }
 
 void TarArch::slotAddFinished(KProcess *_kp)
 {
   kDebugInfo(1601, "+TarArch::slotAddFinished");
+
   disconnect( _kp, SIGNAL(processExited(KProcess*)), this,
 	      SLOT(slotAddFinished(KProcess*)));
   if (compressed)
@@ -454,114 +482,55 @@ void TarArch::slotAddFinished(KProcess *_kp)
   kDebugInfo(1601, "-TarArch::slotAddFinished");
 }
 
-#if 0
-void TarArch::extraction()
+void TarArch::unarchFile( QStringList * _fileList, const QString & _destDir)
 {
-  QString dir, ex;
-
-  ExtractDlg ld( ExtractDlg::All );
-  int mask = setOptions( FALSE, FALSE, FALSE );
-  ld.setMask( mask );
-  if( ld.exec() )
-    {
-      dir = ld.getDest();
-      if( dir.isEmpty() )
-	return;
-      QDir dest( dir );
-      if( !dest.exists() ) {
-	if( mkdir( dir.local8Bit(), S_IWRITE | S_IREAD | S_IEXEC ) ) {
-				//arkWarning( i18n("Unable to create destination directory") );
-	  return;
-	}
-      }
-      setOptions( ld.doPreservePerms(), ld.doLowerCase(), ld.doOverwrite() );
-      switch( ld.extractOp() ) {
-      case ExtractDlg::All: {
-	extractTo( dir );
-	break;
-      }
-      }
-    }
-}	
-
-void TarArch::extractTo( const QString & dir )
-{
-  kDebugInfo(1601, "+TarArch::extractTo");
-
-
-  QString tar_exe = m_settings->getTarCommand();
-
-  KProcess *kp = new KProcess;
-  kp->clearArguments();
-  *kp << tar_exe.local8Bit();
-  *kp << "--use-compress-program="+getUnCompressor() 
-      <<	"-xvf" << m_filename.local8Bit() << "-C" << dir;	
-
-  connect(kp, SIGNAL(processExited(KProcess *)), 
-	  this, SLOT(extractFinished(KProcess *)));
-#if 0
-  connect( kp, SIGNAL(receivedStdout(KProcess *, char *,int)),
-	   this, SLOT(updateExtractProgress(KProcess *, char *, int)));
-#endif
-
-  if(kp->start( KProcess::NotifyOnExit, KProcess::Stdout ) == false)
-    {
-      KMessageBox::error(0,"Subprocess wouldn't start!");
-      return;
-    }
-  kDebugInfo(1601, "-TarArch::extractTo");
-}
-#endif
-
-/* untested */
-QString TarArch::unarchFile( QStringList * _fileList, const QString & _destDir)
-{
-return "";
-#if 0
-  kDebugInfo(1601, "+TarArch::unarchFile");
-
+  kDebugInfo( 1601, "+TarArch::unarchFile");
   QString dest;
 
-  if (_destDir.isEmpty() || destDir.isNull())
-    QString dest = m_settings->getExtractDir();
-  else
-    dest = _destDir;
+  if (_destDir.isEmpty() || _destDir.isNull())
+    dest = m_settings->getExtractDir();
+  else dest = _destDir;
 
-
-
-  int pos;
-  QString tmp, name;
-  QString fullname;
+  QString tmp;
   QString tar_exe = m_settings->getTarCommand();	
 	
-  //updateArch();
-	
-  tmp = (*listing)[index];
-  pos = tmp.findRev( '\t', -1, FALSE );
-  pos++;
-  name = tmp.right( tmp.length()-pos );
-
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  *kp << tar_exe.local8Bit();
-	
-  if (perms)
-    *kp << "--use-compress-program="+getUnCompressor() << "-xvpf";
+  
+  *kp << tar_exe.local8Bit() << "--use-compress-program="+getUnCompressor() ;
+  if (m_settings->getTarPreservePerms())
+    *kp << "-xvpf";
   else
-    *kp << "--use-compress-program="+getUnCompressor() << "-xvf";
+    *kp << "-xvf";
 
-  *kp << m_filename.local8Bit() << "-C" << dest.local8Bit()
-	<< name.local8Bit();
-  if (kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
+  *kp << m_filename.local8Bit() << "-C" << dest;	
+
+  // if the list is empty, no filenames go on the command line,
+  // and we then extract everything in the archive.
+  if (_fileList)
     {
-      KMessageBox::error(0,"Can't start a kprocess.");
+      for ( QStringList::Iterator it = _fileList->begin();
+	    it != _fileList->end(); ++it ) 
+	{
+	  *kp << (*it).latin1() ;
+	}
     }
-  fullname = dest + name;
-  kDebugInfo(1601, "+TarArch::unarchFile");
 
-  return fullname;
-#endif
-  return "";
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
+  connect( kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotExtractExited(KProcess*)));
+  
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+    {
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      emit sigExtract(false);
+    }
+
+  kDebugInfo(1601, "+TarArch::unarchFile");
 }
 
 void TarArch::remove(QStringList *list)
@@ -586,10 +555,15 @@ void TarArch::remove(QStringList *list)
       *kp << *it;
     }
 
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
   connect( kp, SIGNAL(processExited(KProcess*)), this,
 	   SLOT(slotDeleteExited(KProcess*)));
 
-  if (kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
       emit sigDelete(false);
@@ -601,27 +575,11 @@ void TarArch::remove(QStringList *list)
   kDebugInfo( 1601, "-Tar::deleteFiles");
 }
 
-void TarArch::extractProgress( KProcess *, char *_buffer, int _bufflen )
-{
-  // some kind of progress bar, or something?
-
-  // I know it's ugly, but I want the names for future reference.
-
-  // purpose of this is to turn off warnings
-  _buffer = _buffer, _bufflen = _bufflen;
-}
-
-int TarArch::addDir(const QString & _dirName)
+void TarArch::addDir(const QString & _dirName)
 {
   QStringList list;
   list.append(_dirName);
-  return addFile(&list);
-}
-
-void TarArch::extractFinished( KProcess * )
-{
-  // turn off busy light (when someone makes one)
-  kDebugInfo(1601, "Extract Finished");
+  addFile(&list);
 }
 
 void TarArch::openFinished( KProcess * )

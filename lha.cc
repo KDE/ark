@@ -1,263 +1,371 @@
-/* (c)1997 Robert Palmbos
-   See main.cc for license details */
+/*
+
+ ark -- archiver for the KDE project
+
+ Copyright (C)
+
+ 1997-1999: Rob Palmbos palm9744@kettering.edu
+ 1999: Francois-Xavier Duranceau duranceau@kde.org
+ 1999-2000: Corel Corporation (Emily Ezust, emilye@corel.com)
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
 
 #include <iostream.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/errno.h>
-
+#include <string.h>
 // KDE includes
 #include <kurl.h>
+#include <qstringlist.h>
+#include <kdebug.h>
+#include <klocale.h>
+#include <kmessagebox.h>
 
 // ark includes
-#include "filelistview.h"
 #include "lha.h"
 
-LhaArch::LhaArch( ArkSettings *d )
-  : Arch()
+// the generic viewer to which to send header and column info.
+#include "viewer.h"
+
+LhaArch::LhaArch( ArkSettings *_settings, Viewer *_gui,
+		  const QString & _fileName )
+  : Arch(_settings, _gui, _fileName )
 {
-	listing = new QStringList;
-	data = d;
+  kDebugInfo(1601, "ZipArch constructor");
 }
 
-LhaArch::~LhaArch()
+void LhaArch::processLine( char *_line )
 {
-	delete listing;
+  char columns[8][80];
+  char filename[4096];
+
+  if (QString::QString(_line).contains("[generic]") ) 
+    {
+      sscanf(_line, " %[]\[generic] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %12[A-Za-z0-9: ]%1[ ]%[^\n]",
+	     columns[0], columns[2], columns[3], columns[4], columns[5],
+	     columns[6], columns[7], filename );
+      strcpy( columns[1], " " );
+    }
+  else
+    {
+      sscanf(_line, " %[-drwxst] %[0-9/] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %12[A-Za-z0-9: ]%1[ ]%[^\n]",
+	     columns[0], columns[1], columns[2], columns[3],
+	     columns[4], columns[5], columns[6], columns[7], filename);
+    }
+
+  kDebugInfo(1601, "The actual file is %s", (const char *)filename);
+
+
+  QStringList list;
+  list.append(QString::fromLocal8Bit(filename));
+  for (int i=0; i<7; i++)
+    {
+      list.append(QString::fromLocal8Bit(columns[i]));
+    }
+  m_gui->add(&list); // send to GUI
 }
 
-unsigned char LhaArch::setOptions( bool p, bool l, bool o )
+void LhaArch::open()
 {
-	perms = p;
-	tolower = l;
-	overwrite = o;
-	return 0;
+  kDebugInfo( 1601, "+LhaArch::open");
+  setHeaders();
+
+  m_buffer[0] = '\0';
+  m_header_removed = false;
+  m_finished = false;
+
+
+  KProcess *kp = new KProcess;
+  *kp << "lha" << "v" << m_filename.local8Bit();
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
+  connect( kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotOpenExited(KProcess*)));
+
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+    {
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      emit sigOpen(this, false, QString::null, 0 );
+    }
+
+  kDebugInfo( 1601, "-LhaArch::open");
 }
 
-void LhaArch::onlyUpdate( bool in )
+void LhaArch::setHeaders()
 {
-	onlyupdate = in;
+  kDebugInfo( 1601, "+LhaArch::setHeaders");
+  QStringList list;
+  list.append(i18n(" Name "));
+  list.append(i18n(" Permissions "));
+  list.append(i18n(" Owner/Group "));
+  list.append(i18n(" Packed "));
+  list.append(i18n(" Size "));
+  list.append(i18n(" Ratio "));
+  list.append(i18n(" CRC "));
+  list.append(i18n(" TimeStamp "));
+
+  // which columns to align right
+  int *alignRightCols = new int[2];
+  alignRightCols[0] = 3;
+  alignRightCols[1] = 4;
+  alignRightCols[2] = 5;
+  
+  m_gui->setHeaders(&list, alignRightCols, 3);
+  delete [] alignRightCols;
+
+  kDebugInfo( 1601, "-LhaArch::setHeaders");
 }
 
-void LhaArch::addPath( bool in )
+
+void LhaArch::slotReceivedTOC(KProcess*, char* _data, int _length)
 {
-	storefullpath = in;
-}
-
-void LhaArch::openArch( const QString & file, FileListView *flw )
-{
-	cout << "Entered openArch" << endl;
-	char line[4096];
-	char columns[8][80];
-	char filename[4096];
-	QString buffer;
-	FILE *fd;
-
-	archProcess.clearArguments();
-	archProcess.setExecutable( "lha" );
-
-	archname = file;
-
-	archProcess << "-v" << archname;
- 	if(archProcess.startPipe(KProcess::Stdout, &fd) == FALSE)
- 	{
- 		cerr << "Subprocess wouldn't start!" << endl;
- 		return;
- 	}
-
-	flw->clear();
-	flw->addColumn( i18n("Name") );
-	flw->addColumn( i18n("Permissions") );
-	flw->addColumn( i18n("Owner/Group") );
-	flw->addColumn( i18n("Packed") );
-	flw->addColumn( i18n("Size") );
-	flw->addColumn( i18n("Ratio") );
-	flw->addColumn( i18n("CRC") );
-	flw->addColumn( i18n("TimeStamp") );
-
-	fgets( line, 4096, fd );
-	if( feof(fd) )
-	{
-		fclose( fd );
-		return;
-	}
-
-	while( !feof(fd) && !strstr( line, "----------" ) )
-		fgets( line, 4096, fd );
-	fgets( line, 4096, fd );
-
-	while( !feof(fd) && !strstr( line, "----------" ) )
-	{
-//		cerr << "Actual line's: " << line << endl;
-// In the scanf's format string, the first and the fifth conversion string
-// contains a 'd' and an *, respectively so that scanf can parse directories,
-// too.
-		if( QString::QString(line).contains("[generic]") ) {
-			sscanf( line, " %[]\[generic] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] "
-				"%12[A-Za-z0-9: ]%1[ ]%[^\n]",
-				columns[0], columns[2], columns[3], columns[4], columns[5],
-				columns[6], columns[7], filename );
-			strcpy( columns[1], " " );
-		} else {
-			sscanf(line, " %[-drwxst] %[0-9/] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] "
-			"%12[A-Za-z0-9: ]%1[ ]%[^\n]",
-				columns[0], columns[1], columns[2], columns[3],
-				columns[4], columns[5], columns[6], columns[7],
-				filename
-				);
-		}
-		cerr << "The actual file's : '" << filename << "'" << endl;
-// Hereby I skip the line if the first field contains 'd', it means directory.
-//		if(!QString::QString(columns[0]).contains('d'))
-//		{
-		FileLVI *flvi = new FileLVI(flw);
-		flvi->setText(0, QString::fromLocal8Bit(filename));
-		for(int i=0; i<7; i++)
-		{
-                	flvi->setText(i+1, QString::fromLocal8Bit(columns[i]));
-		}
-		flw->insertItem(flvi);
-
-			sprintf(line, "%s\t%s\t%s\t%s\t%s\t%s\t"
-				"%s\t%s",
-				columns[0],columns[1],columns[2],columns[3],
-				columns[4],columns[5],columns[6],filename);
-			listing->append( QString::fromLocal8Bit(line) );
-//		}
-		fgets( line, 4096, fd );
-	}
-//	fclose( fd );
-//	cerr << strerror(errno);
-//	There should be a file descriptor close call, but this one makes a
-//	BAD FILEDESCRIPTOR error message
-//	BIG question: if the child (the subprocess) closed the socket on its side,
-//	the other side including the FILE * structure opened by fdopen() would
-//	close, too.
+  kDebugInfo(1601, "+LhaArch::slotReceivedTOC");
+  char c = _data[_length];
+  _data[_length] = '\0';
 	
+  m_settings->appendShellOutputData( _data );
 
-}
+  char line[1024] = "";
+  char *tmpl = line;
 
-void LhaArch::createArch( const QString & file )
-{
-	archname = file;
-}
+  char *tmpb;
 
-const QStringList *LhaArch::getListing()
-{
-	return listing;
-}
+  for( tmpb = m_buffer; *tmpb != '\0'; tmpl++, tmpb++ )
+    *tmpl = *tmpb;
 
+  for( tmpb = _data; *tmpb != '\n'; tmpl++, tmpb++ )
+    *tmpl = *tmpb;
+		
+  tmpb++;
+  *tmpl = '\0';
 
-int LhaArch::addFile( QStringList *urls )
-{
-	archProcess.clearArguments();
-	archProcess.setExecutable( "lha" );
-	archProcess << "a";
-	QString base;
-	QString url;
-	QString file;
-	
-	if( onlyupdate )
-		archProcess << "-u";
-	archProcess << archname;
-	
-	url = urls->first();
-	do
+  if( *tmpb == '\0' )
+    m_buffer[0]='\0';
+
+  if( !strstr( line, "----" ) )
+    {
+      if( m_header_removed && !m_finished ){
+	processLine( line );
+      }
+    }
+  else if(!m_header_removed)
+    m_header_removed = true;
+  else
+    m_finished = true;
+
+  bool stop = (*tmpb == '\0');
+
+  while( !stop && !m_finished )
+    {
+      tmpl = line; *tmpl = '\0';
+
+      for(; (*tmpb!='\n') && (*tmpb!='\0'); tmpl++, tmpb++)
+	*tmpl = *tmpb;
+
+      if( *tmpb == '\n' )
 	{
-		file = KURL(url).path(-1); // remove trailing slash
-		if( !storefullpath )
-		{
-			int pos;
-			pos = file.findRev( '/' );
-			base = file.left( pos );
-			pos++;
-			chdir( base );
-			base = file.right( file.length()-pos );
-			file = base;
-		}
-		archProcess << file;
-		url = urls->next();
-	}while( !url.isNull() );
-	archProcess.start(KProcess::Block);
-	int pos = archname.findRev( ".lha" );
-	if( pos != -1 )
-		archname.replace( pos, 4, ".lzh" );  // My lha makes it end with lzh :(
-	listing->clear();
+	  *tmpl = '\n';
+	  tmpl++;
+	  *tmpl = '\0';
+	  tmpb++;
 
-	// Argh : should not be commented
-//	openArch( archname );
-	return 0;
-//	cout << "left addFile" << endl;
-}
-
-void LhaArch::extractTo( const QString & dest )
-{
-	FILE *fd;
-	char line[4096];
-	archProcess.clearArguments();
-	archProcess.setExecutable( "lha" );
-	archProcess << "xfw="+dest << archname;
-
-  	newProgressDialog( 1, listing->count() );
- 	if(archProcess.startPipe(KProcess::Stdout, &fd) == false)
- 	{
- 		cerr << "Subprocess wouldn't start!" << endl;
- 		return;
- 	}
-	for( long int i=0; !feof(fd); i++)
-	{
-		kapp->processEvents();
-		fgets( line, 4096, fd );  
-		if( Arch::isCanceled() )
-		{
-			archProcess.kill();
-			break;
-		}
-		setProgress( i );
+	if( !strstr( line, "----" ) )
+	  {
+	    if( m_header_removed ){
+	      processLine( line );
+	    }
+	  }
+	else if( !m_header_removed )
+	  m_header_removed = true;
+	else
+	  {
+	    m_finished = true;
+	  }
 	}
+      else if (*tmpb == '\0' )
+	{
+	  *tmpl = '\0';
+	  strcpy( m_buffer, line );
+	  stop = true;
+	}
+    }
+  
+  _data[_length] = c;
+  kDebugInfo(1601, "-LhaArch::slotReceivedTOC");
 }
 
-QString LhaArch::unarchFile(const QString & _filename )
+void LhaArch::create()
 {
-  return "";
+  emit sigCreate(this, true, m_filename,
+		 Arch::Extract | Arch::Delete | Arch::Add 
+		 | Arch::View);
 }
 
-QString LhaArch::unarchFile( )
+void LhaArch::addDir(const QString & _dirName)
 {
-//  	cout << "entered unarchFile" << endl;
-	QString tmp, tmp2;
-  QString dest = m_settings->getExtractDir();
-
-// Segfault testing
-//	QStrList segflist	= archProcess.getArguments();
-//	for (const char* f = segflist.first(); f; f = segflist.next())
-//		cout << "Argument:" << f << endl;
-
-	archProcess.clearArguments();
- 	archProcess.setExecutable("lha");
-	tmp = (*listing).[pos];
-	tmp2 = tmp.right( (tmp.length())-(tmp.findRev('\t')+1) );
-	archProcess << "xfw=" + dest << archname << tmp2;
- 	archProcess.start(KProcess::Block);
-	return (dest+tmp2);
-//  	cout << "left unarchFile" << endl;
+  if (! _dirName.isEmpty())
+  {
+    QStringList list;
+    list.append(_dirName);
+    addFile(&list);
+  }
 }
 
-void LhaArch::deleteFile( int pos )
+void LhaArch::addFile( QStringList *urls )
 {
-	cout << "Entered deleteFile" << endl;
-	QString name, tmp;
+  kDebugInfo( 1601, "+LhaArch::addFile");
+  KProcess *kp = new KProcess;
+  kp->clearArguments();
+  *kp << "lha";
+	
+  if (m_settings->getReplaceOnlyNew() )
+    *kp << "u";
+  else
+    *kp << "a";
 
-	archProcess.clearArguments();
- 	archProcess.setExecutable("lha");
-	tmp = (*listing)[pos];
-	name = tmp.right( (tmp.length())-(tmp.findRev('\t')+1) );
- 	archProcess << "df" << archname << name;
- 	archProcess.start(KProcess::Block);
-	listing->clear();
+  *kp << m_filename.local8Bit() ;
 
-	//Argh : should not be commented
-	//openArch( archname );
-	cout << "Left deleteFile" << endl;
+  QString base;
+  QString url;
+  QString file;
+
+	
+  QStringList::ConstIterator iter;
+  for (iter = urls->begin(); iter != urls->end(); ++iter )
+  {
+    url = *iter;
+    // comment out for now until I figure out what happened to this function!
+    //    KURL::decodeURL(url); // Because of special characters
+    file = url.right(url.length()-5);
+
+    if( file[file.length()-1]=='/' )
+      file[file.length()-1]='\0';
+    if( ! m_settings->getaddPath() )
+    {
+      int pos;
+      pos = file.findRev( '/' );
+      base = file.left( pos );
+      pos++;
+      chdir( base );
+      base = file.right( file.length()-pos );
+      file = base;
+    }
+    *kp << file;
+  }
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
+  connect( kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotAddExited(KProcess*)));
+
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+    {
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      emit sigAdd(false);
+    }
+
+  kDebugInfo( 1601, "+LhaArch::addFile");
 }
 
+void LhaArch::unarchFile(QStringList *_fileList, const QString & _destDir)
+{
+  // if _fileList is empty, we extract all.
+  // if _destDir is empty, look at settings for extract directory
+
+  kDebugInfo( 1601, "+LhaArch::unarchFile");
+  QString dest;
+
+  if (_destDir.isEmpty() || _destDir.isNull())
+    dest = m_settings->getExtractDir();
+  else dest = _destDir;
+
+  QString tmp;
+	
+  KProcess *kp = new KProcess;
+  kp->clearArguments();
+  
+  *kp << "lha" << "xfw="+dest << m_filename;
+  
+  // if the list is empty, no filenames go on the command line,
+  // and we then extract everything in the archive.
+  if (_fileList)
+    {
+      for ( QStringList::Iterator it = _fileList->begin();
+	    it != _fileList->end(); ++it ) 
+	{
+	  *kp << (*it).latin1() ;
+	}
+    }
+ 
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
+  connect( kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotExtractExited(KProcess*)));
+  
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+    {
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      emit sigExtract(false);
+    }
+}
+
+void LhaArch::remove(QStringList *list)
+{
+  kDebugInfo( 1601, "+LhaArch::remove");
+
+  if (!list)
+    return;
+
+  m_shellErrorData = "";
+  KProcess *kp = new KProcess;
+  kp->clearArguments();
+  
+  *kp << "lha" << "df" << m_filename.local8Bit();
+  for ( QStringList::Iterator it = list->begin();
+	it != list->end(); ++it )
+    {
+      QString str = *it;
+      *kp << str.local8Bit();
+    }
+
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
+  connect( kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotDeleteExited(KProcess*)));
+
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+    {
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      emit sigDelete(false);
+    }
+  
+  kDebugInfo( 1601, "-LhaArch::remove");
+}
+#include "lha.moc"

@@ -42,26 +42,27 @@ ShellOutputDlg::ShellOutputDlg( ArkSettings *_data, QWidget *_parent,
 				const char *_name )
 	: QDialog( _parent, _name, true )
 {
-	setCaption( i18n("ark - Last shell output") );
-	QVBoxLayout *mainLayout = new QVBoxLayout( this, 10 );
+  setCaption( i18n("ark - Last shell output") );
+  QVBoxLayout *mainLayout = new QVBoxLayout( this, 10 );
 
-	QMultiLineEdit *l1 = new QMultiLineEdit( this );
-	l1->setReadOnly( true );
+  QMultiLineEdit *l1 = new QMultiLineEdit( this );
+  l1->setReadOnly( true );
 	
-	QFont my_font;
-	my_font.setFamily( "courier" );
-	l1->setFont( my_font );
+  QFont my_font;
+  my_font.setFamily( "courier" );
+  l1->setFont( my_font );
 
-	l1->setText( *(_data->getLastShellOutput()) );
-	l1->setMinimumSize( 500, 300 );
-	mainLayout->addWidget( l1 );
+  l1->setText( *(_data->getLastShellOutput()) );
+  l1->setMinimumSize( 500, 300 );
+  l1->setCursorPosition(l1->numLines(), 0);
 
-		
-	QPushButton *close = new QPushButton( i18n("Dismiss"), this );
-	close->setFixedSize( close->sizeHint() );
-	connect( close, SIGNAL( clicked() ), SLOT( accept() ) );
-	mainLayout->addWidget( close );
+  mainLayout->addWidget( l1 );
 
-	mainLayout->activate();
-	setMinimumSize( sizeHint() );
+  QPushButton *close = new QPushButton( i18n("Dismiss"), this );
+  close->setFixedSize( close->sizeHint() );
+  connect( close, SIGNAL( clicked() ), SLOT( accept() ) );
+  mainLayout->addWidget( close );
+
+  mainLayout->activate();
+  setMinimumSize( sizeHint() );
 }

@@ -8,6 +8,7 @@
 
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
+ 1999-2000: Corel Corporation (Emily Ezust, emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -117,7 +118,7 @@ void Arch::slotDeleteExited(KProcess *_kp)
 	bSuccess = true;
     }
   else
-    KMessageBox::sorry( (QWidget *)0, i18n("Error"), i18n("Deletion failed") );
+    KMessageBox::sorry( (QWidget *)0, i18n("Deletion failed"), i18n("Error") );
   
   emit sigDelete(bSuccess);
   delete _kp;
@@ -177,7 +178,7 @@ void Arch::slotAddExited(KProcess *_kp)
 	bSuccess = true;
     }
   else
-    KMessageBox::sorry((QWidget *)0, i18n("Error"), i18n("Add failed"));
+    KMessageBox::sorry((QWidget *)0, i18n("Sorry, the add operation failed.\nPlease see the last shell output for more information"), i18n("Error"));
   
   emit sigAdd(bSuccess);
   delete _kp;
@@ -190,6 +191,15 @@ void Arch::slotAddExited(KProcess *_kp)
 bool Arch::stderrIsError()
 {
   return m_shellErrorData.find(QString("eror")) != -1;
+}
+
+void Arch::slotReceivedOutput(KProcess*, char* _data, int _length)
+{
+  char c = _data[_length];
+  _data[_length] = '\0';
+
+  m_settings->appendShellOutputData( _data );
+  _data[_length] = c;
 }
 
 #include "arch.moc"
