@@ -19,8 +19,8 @@ INCLUDES= $(all_includes)
 bin_PROGRAMS = 	ark
 
 # Which sources should be compiled for ark.
-ark_SOURCES	= extractdlg.cc dirDlg.cpp zipAddDlg.cpp deleteDlg.cpp \
-                 arkwidget.cc main.cc tar.cc zip.cc \
+ark_SOURCES	= extractdlg.cc dirDlg.cpp zipAddDlg.cpp \
+                 arkwidget.cc main.cc zip.cc arch.cpp \
 		arkdata.cpp filelistview.cpp zipExtractDlg.cpp \
 		generalOptDlg.cpp selectDlg.cpp waitDlg.cpp shellOutputDlg.cpp
 
@@ -33,15 +33,15 @@ ark_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 ark_LDADD   = $(LIB_KFILE)
 
 # this option you can leave out. Just, if you use "make dist", you need it
-noinst_HEADERS = dirDlg.h zipAddDlg.h deleteDlg.h \
-                 extractdlg.h arkwidget.h tar.h arch.h \
+noinst_HEADERS = dirDlg.h zipAddDlg.h \
+                 extractdlg.h arkwidget.h arch.h \
 		 arkdata.h filelistview.h zipExtractDlg.h \
 		 generalOptDlg.h selectDlg.h waitDlg.h shellOutputDlg.h
 
 # just to make sure, automake makes them 
-METASOURCES =	extractdlg.moc arkwidget.moc filelistview.moc  deleteDlg.moc\
+METASOURCES =	extractdlg.moc arkwidget.moc filelistview.moc arch.moc \
 		dirDlg.moc zipExtractDlg.moc generalOptDlg.moc selectDlg.moc \
-		zip.moc waitDlg.moc shellOutputDlg.moc zipAddDlg.moc tar.moc
+		zip.moc waitDlg.moc shellOutputDlg.moc zipAddDlg.moc
 
 messages:
 	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(ark_SOURCES) &&  mv messages.po ../po/ark.pot

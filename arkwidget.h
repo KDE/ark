@@ -46,11 +46,11 @@
 #include <ktmainwindow.h>
 
 // ark includes
-#include "ar.h"
+//#include "ar.h"
 #include "arch.h"
 #include "arkdata.h"
 #include "filelistview.h"
-#include "tar.h"
+//#include "tar.h"
 #include "zip.h"
 
 #define ARK_VERSION "0.5"
@@ -68,7 +68,8 @@ public:
 	void open_ok( QString );
 	void showZip( QString name );
 	void reload();
-	
+	FileListView *fileList() const { return archiveContent; };
+		
 protected slots:
 	void file_new();
 	void file_newWindow();
@@ -100,6 +101,8 @@ protected slots:
 	void showFavorite();
 	void slotStatusBarTimeout();
 	void slotSelectionChanged();
+	void slotOpen(bool, QString, int);
+	void slotCreate(bool, QString, int);
 			
 protected:
 	static QList<ArkWidget> *windowList;
@@ -110,7 +113,7 @@ protected:
         void dropEvent(QDropEvent* event);
 
         void createEditMenu( bool );
-        void createActionMenu();
+        void createActionMenu( int );
         
 private:
 	enum ArchType{ TAR_FORMAT, ZIP_FORMAT, AA_FORMAT, LHA_FORMAT };
@@ -150,8 +153,8 @@ protected:
 	void createFileListView();
 	
 	int  getArchType(QString archname);
-	bool createArchive(QString name);
-	bool openArchive(QString name);
+	void createArchive(QString name);
+	void openArchive(QString name);
 
 	void showFile( int, int col=0 );
 

@@ -123,7 +123,7 @@ void ArkData::readRecentFiles()
 		kdebug(0, 1601, "key %s is %s", name.ascii(), s.ascii());
 
 		if (!s.isEmpty())
-			recentFiles.append(s.ascii());
+			recentFiles.append(s.local8Bit());
 	}
 	
 	kdebug(0, 1601, "-readRecentFiles");
@@ -281,9 +281,9 @@ void ArkData::writeRecentFiles()
 	{
 		// name.sprintf("%s%d", RECENT_KEY, i);
 		name = QString("%1%2").arg(RECENT_KEY).arg(i);
-		kc->writeEntry(name, recentFiles.at(i));
+		kc->writeEntry(name, recentFiles[i]);
 
-		kdebug(0, 1601, "key %s is %s", name.ascii(), recentFiles.at(i));
+		kdebug(0, 1601, "key %s is %s", name.ascii(), recentFiles[i].ascii());
 	}
 	
 	kdebug(0, 1601, "-writeRecentFiles");
@@ -332,7 +332,7 @@ void ArkData::setFavoriteDir(const QString& _dir)
 }
 
 
-QStrList * ArkData::getRecentFiles()
+QStringList * ArkData::getRecentFiles()
 {
 	return &recentFiles;
 }
@@ -344,15 +344,15 @@ void ArkData::addRecentFile(const QString& _filename)
 
 	while (i<nb)
 	{
-		if( recentFiles.at(i) == _filename ){
-			recentFiles.remove(i);			
+		if( recentFiles[i] == _filename ){
+			recentFiles.remove(recentFiles.at(i));			
 			kdebug(0 , 1601, "found and removed");
 		}
         	i++;
 	}	
-	recentFiles.insert(0, _filename.ascii());
+	recentFiles.prepend(_filename.local8Bit());
 	if (recentFiles.count() > MAX_RECENT_FILES)
-		recentFiles.removeLast();
+		recentFiles.remove(recentFiles.last());
 	
 	kdebug(0 , 1601, "-addRecentFile");
 }

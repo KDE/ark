@@ -43,7 +43,7 @@ int main( int argc, char *argv[]  )
 {
 	QString Zip( "" );
 
-	KApplication ark( argc, argv );
+	KApplication ark( argc, argv, "ark" );
 
 	if( ark.isRestored() )
 	{
@@ -109,10 +109,6 @@ int main( int argc, char *argv[]  )
         		}
 		}
 	}
-	
-	KRegistry registry;
-	registry.addFactory( new KServiceTypeFactory );
-	registry.load();
 	
 	ark.exec();
 }

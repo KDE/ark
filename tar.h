@@ -43,13 +43,13 @@ public:
 	virtual void openArch( QString );
 	virtual void createArch( QString );
 	
-	virtual int addFile( QStrList *);
+	virtual int addFile( QStringList *);
 	virtual void deleteSelectedFiles();
 	virtual void deleteFiles( const QString& );
 	virtual void extractTo( QString );
 	virtual void extraction();
 	
-	const QStrList *getListing();
+	const QStringList *getListing();
 	virtual QString unarchFile( int, QString );
 	
 	virtual int getEditFlag();
@@ -59,7 +59,7 @@ public:
 
 private:
 	char          *stdout_buf;
-	QStrList      *listing;
+	QStringList      *listing;
 	QString       tmpfile;
 	bool          compressed;
 	ArkData	      *m_data;

@@ -38,22 +38,26 @@
 
 class ArkWidget;
 
-class Arch
+class Arch : public QObject
 {
+Q_OBJECT
 
 public:
+	Arch( ArkWidget *_mainWindow, QString _fileName );
 	virtual ~Arch() {};
-	virtual void openArch( QString ) = 0;
-	virtual void createArch( QString ) = 0;
 	
-	virtual int addFile( QStrList *) = 0;
-	virtual void deleteSelectedFiles() = 0;
-	virtual void deleteFiles( const QString& ) = 0;
-	virtual void extraction() = 0;
+	virtual void open() = 0;
+	virtual void create() = 0;
+	virtual void remove() = 0;
+	virtual void extract() = 0;
+	
+	virtual int addFile( QStringList *) = 0;
 	virtual QString unarchFile( int , QString ) = 0;
 	
-	virtual int getEditFlag() = 0;
-	QString getFileName() const { return m_filename; };
+	virtual int actionFlag() = 0;
+	
+	QString fileName() const { return m_filename; };
+	FileListView *fileList();
 	
 	enum EditProperties{
 		Add = 1,
@@ -63,6 +67,10 @@ public:
 		Integrity = 16
 	};
 
+signals:
+	void sigOpen( bool, QString, int );
+	void sigCreate( bool, QString, int );
+	
 protected:
 	QString m_filename;
 	QString m_shellErrorData;
@@ -70,7 +78,6 @@ protected:
 	
 	ArkData *m_data;
 	ArkWidget *m_arkwidget;
-	FileListView *m_flw;
 };
 
 #endif /* ARCH_H */

@@ -33,15 +33,15 @@ public:
 	virtual unsigned char setOptions( bool p, bool l, bool o );
 	virtual void openArch( QString, FileListView *flw );
 	virtual void createArch( QString );
-	virtual int addFile( QStrList *);
+	virtual int addFile( QStringList *);
 	virtual void extractTo( QString );
-	virtual const QStrList *getListing();
+	virtual const QStringList *getListing();
 	virtual QString unarchFile( int , QString );
 	virtual void deleteFile( int );
 
 private:
 	ArkData *data;
-	QStrList *listing;
+	QStringList *listing;
 	bool perms, tolower, overwrite;
 	void strshort( char *start, int num_rem );
 };

@@ -28,10 +28,18 @@
 
 // ark includes
 #include "arch.h"
+#include "arch.moc"
+#include "arkwidget.h"
 
-void Arch::showError()
+Arch::Arch( ArkWidget *_mainWindow, QString _fileName ) : QObject()
 {
-	//TODO: implement me !
+	m_arkwidget = _mainWindow; 
+	m_filename = _fileName;
+}
+
+FileListView *Arch::fileList()
+{
+	return m_arkwidget->fileList();
 }
 
 

@@ -61,7 +61,7 @@ TarArch::TarArch( ArkData *_d, ArkWidget *_w, FileListView *_flw )
 	m_arkwidget = _w;
 	m_flw = _flw;
 	
-	listing = new QStrList;
+	listing = new QStringList;
 	m_data->setaddPath( false );
 	compressed = true;
 	
@@ -90,7 +90,8 @@ int TarArch::updateArch()
 		compressed = TRUE;
 		disconnect( &kproc, 0, 0, 0 );
 		kproc.clearArguments();
-		kproc << getCompressor() << "-c" << tmpfile << " > " << m_filename;
+		kproc << getCompressor() << "-c" << tmpfile.local8Bit() << " > " 
+			<< m_filename.local8Bit();
 		connect( &kproc, SIGNAL(processExited(KProcess *)),
 		                       this, SLOT(openFinished(KProcess *)) );
 		if( kproc.start( KProcess::NotifyOnExit ) == FALSE )
@@ -105,7 +106,7 @@ int TarArch::updateArch()
 QString TarArch::getCompressor() 
 {
 	QString extension = m_filename.right( m_filename.length()-m_filename.findRev('.') );
-	cout << extension.ascii();
+	cout << extension;
 	if( extension == ".tgz" || extension == ".gz" ) 
 		return QString( "gzip" );
 	if( extension == ".bz" )
@@ -122,7 +123,7 @@ QString TarArch::getCompressor()
 QString TarArch::getUnCompressor() 
 {
 	QString extension = m_filename.right( m_filename.length()-m_filename.findRev('.') );
-	cout << extension.ascii();
+	cout << extension;
 	if( extension == ".tgz" || extension == ".gz" ) 
 		return QString( "gunzip" );
 	if( extension == ".bz" )
@@ -156,7 +157,7 @@ void TarArch::openArch( QString name )
 	QString tar_exe = m_data->getTarCommand();
 	
 	kproc << tar_exe << "--use-compress-program="+getUnCompressor()
-	      <<	"-tvf" << m_filename;
+	      <<	"-tvf" << m_filename.local8Bit();
 	
 //	m_flw->addColumn( i18n("Name") );
 //	m_flw->addColumn( i18n("Permissions") );
@@ -200,7 +201,7 @@ void TarArch::createArch( QString file )
 	cout << "Left createArch" << endl;
 }
 
-const QStrList * TarArch::getListing()
+const QStringList * TarArch::getListing()
 {
 	return listing;
 }
@@ -217,7 +218,8 @@ void TarArch::createTmp()
 		compressed = FALSE;
 
 		kproc.clearArguments();
-		kproc << "gunzip" << "-c" << m_filename << " > " << tmpfile;
+		kproc << "gunzip" << "-c" << m_filename.local8Bit() << " > "
+			 << tmpfile.local8Bit();
 		
 		disconnect( &kproc, 0, 0, 0 );
 		connect(&kproc, SIGNAL(processExited(KProcess *)),
@@ -231,7 +233,7 @@ void TarArch::createTmp()
 }
 
 /* untested, someone please tell me how DND works in KDE2.0 */
-int TarArch::addFile( QStrList* urls )
+int TarArch::addFile( QStringList* urls )
 {
 	cout << "Entered addFile" << endl;
 
@@ -245,13 +247,13 @@ int TarArch::addFile( QStrList* urls )
 	file = KURL(url).path(-1); // remove trailing slash
 
 	kproc.clearArguments();
-	kproc << tar_exe;
+	kproc << tar_exe.local8Bit();
 	
 	if( m_data->getonlyUpdate() )
 		kproc << "uvf";
 	else
 		kproc << "rvf";
-	kproc << tmpfile;
+	kproc << tmpfile.local8Bit();
 	
 	QString base;
 
@@ -260,17 +262,19 @@ int TarArch::addFile( QStrList* urls )
 		int pos;
 		pos = file.findRev( '/', -1, FALSE );
 		base = file.left( ++pos );
-		cout << "base is" << base.ascii() << endl;
+		cout << "base is" << base << endl;
 //		pos++;
 		tmp = file.right( file.length()-pos );
 		file = tmp;
-		chdir( base.ascii() );
+		chdir( base.local8Bit() );
 	}
+	QStringList::Iterator it=urls->begin();
 	while(1)
 	{
 		int pos;
-		kproc << file;
-		url = urls->next();
+		kproc << file.local8Bit();
+		it++;
+		url = *it;
 //		cout << url << " is the name of the url " << endl;
 		if( url.isNull() )
 			break;
@@ -309,7 +313,7 @@ void TarArch::extraction()
 			return;
 		QDir dest( dir );
 		if( !dest.exists() ) {
-			if( mkdir( dir.ascii(), S_IWRITE | S_IREAD | S_IEXEC ) ) {
+			if( mkdir( dir.local8Bit(), S_IWRITE | S_IREAD | S_IEXEC ) ) {
 				//arkWarning( i18n("Unable to create destination directory") );
 				return;
 			}
@@ -331,9 +335,9 @@ void TarArch::extractTo( QString dir )
 	QString tar_exe = m_data->getTarCommand();
 		
 	kproc.clearArguments();
-	kproc << tar_exe;
+	kproc << tar_exe.local8Bit();
 	kproc << "--use-compress-program="+getUnCompressor() 
-	      <<	"-xvf" << m_filename << "-C" << dir;	
+	      <<	"-xvf" << m_filename.local8Bit() << "-C" << dir;	
 
 	disconnect( &kproc, 0, 0, 0 );
 	connect( &kproc, SIGNAL(processExited(KProcess *)), 
@@ -361,7 +365,7 @@ QString TarArch::unarchFile( int index, QString dest )
 	
 	updateArch();
 	
-	tmp = listing->at( index );
+	tmp = (*listing)[index];
 	pos = tmp.findRev( '\t', -1, FALSE );
 	pos++;
 	name = tmp.right( tmp.length()-pos );
@@ -371,14 +375,15 @@ QString TarArch::unarchFile( int index, QString dest )
 //	archProcess << tar_exe;
 
 	kproc.clearArguments();
-	kproc << tar_exe;
+	kproc << tar_exe.local8Bit();
 	
 	if( perms )
 		kproc << "--use-compress-program="+getUnCompressor() << "-xvpf";
 	else
 		kproc << "--use-compress-program="+getUnCompressor() << "-xvf";
 
-	kproc << m_filename << "-C" << dest << name;
+	kproc << m_filename.local8Bit() << "-C" << dest.local8Bit()
+		 << name.local8Bit();
 	if( kproc.start(KProcess::Block) == false )
 	{
 		KMessageBox::error(0,"Can't start a kprocess.");
@@ -403,7 +408,7 @@ void TarArch::deleteFiles( const QString& patterns )
 	createTmp();
 	
 	kproc.clearArguments();
-	kproc << tar_exe << "--delete" << "-f" << tmpfile << patterns.ascii();
+	kproc << tar_exe.local8Bit() << "--delete" << "-f" << tmpfile.local8Bit() << patterns.local8Bit();
 	kproc.start(KProcess::Block);
 	
 	updateArch();
@@ -461,17 +466,17 @@ void TarArch::inputPending( KProcess *, char *buffer, int bufflen )
 			strcpy( columns[i], tok );
 		}
 		strcat( columns[3], columns[4] );
-		flvi->setText(0, columns[5]);
+		flvi->setText(0, QString::fromLocal8Bit(columns[5]));
 		for(int i=0; i<4; i++)
 		{
-			flvi->setText(i+1, columns[i]);
+			flvi->setText(i+1, QString::fromLocal8Bit(columns[i]));
 		}
 		destination_flw->insertItem(flvi);
 
 		sprintf(line, "%s\t%s\t%s\t%s\t%s",
 		        columns[0], columns[1], columns[2], columns[3],
 		        columns[5]);
-		listing->append( line );
+		listing->append( QString::fromLocal8Bit(line) );
 		start = (pos+1);
 	}
 	free( stdout_buf );
@@ -512,7 +517,7 @@ void TarArch::updateFinished( KProcess * )
     // turn off busy light (when someone makes one)
 
 
-    fd = fopen( tmpfile, "r" );
+    fd = fopen( tmpfile.local8Bit(), "r" );
     fd2 = fopen( m_filename, "w" );
 		
     while( (size = fread( buffer, 1, 4096, fd )) )

@@ -42,25 +42,24 @@
 
 class ArkWidget;
 
-class ZipArch : public QObject, public Arch
+class ZipArch : public Arch
 {
 
  Q_OBJECT
 
 public:
-	ZipArch( ArkData*, ArkWidget*, FileListView* );
+	ZipArch( ArkData*, ArkWidget*, QString );
 	virtual ~ZipArch();
 	
-	virtual void openArch( QString );
-	virtual void createArch( QString );
+	virtual void open();
+	virtual void create();
 	
-	virtual int addFile( QStrList* );
-	virtual void deleteSelectedFiles();
-	virtual void deleteFiles( const QString & );
-	virtual void extraction();
+	virtual int addFile( QStringList* );
+	virtual void remove();
+	virtual void extract();
 	virtual QString unarchFile( int , QString );
 	
-	virtual int getEditFlag();
+	virtual int actionFlag();
 	void add( QString , int , QString , bool , bool , bool , bool );
 	void testIntegrity();
 	
@@ -71,15 +70,9 @@ protected:
 	bool perms;
 	WaitDlg *m_wd;
 	bool m_header_removed, m_finished, m_error;
-	
-	void initExtract( bool, bool, bool );
-	void initListView();
-	void initOpen();
-	bool stderrIsError();
-	void removeSelectedItems();
 		
 protected slots:
-	void slotProcessusKilled();
+	void slotCancel();
 	void slotStoreDataStdout(KProcess*, char*, int);
 	void slotStoreDataStderr(KProcess*, char*, int);
 	
@@ -87,6 +80,14 @@ protected slots:
 
 	void slotExtractExited(KProcess*);
 	void slotIntegrityExited(KProcess*);
+	
+private:
+	void processLine( char* );	
+	void initExtract( bool, bool, bool );
+	void initListView();
+	void initOpen();
+	bool stderrIsError();
+	void removeSelectedItems();	
 };
 
 #endif /* ZIPARCH_H */

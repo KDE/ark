@@ -16,7 +16,7 @@ See main.cc for license details */
 ArArch::ArArch( ArkData *d )
   : Arch()
 {
-	listing = new QStrList;
+	listing = new QStringList;
 	data = d;
 }
 
@@ -101,13 +101,13 @@ void ArArch::createArch( QString file )
 	archname = file;
 }
 
-const QStrList *ArArch::getListing()
+const QStringList *ArArch::getListing()
 {
 	return listing;
 }
 
 
-int ArArch::addFile( QStrList *urls )
+int ArArch::addFile( QStringList *urls )
 {
 	QString base;
 	QString url;

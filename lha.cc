@@ -17,7 +17,7 @@
 LhaArch::LhaArch( ArkData *d )
   : Arch()
 {
-	listing = new QStrList;
+	listing = new QStringList;
 	data = d;
 }
 
@@ -111,10 +111,10 @@ void LhaArch::openArch( QString file, FileListView *flw )
 //		if(!QString::QString(columns[0]).contains('d'))
 //		{
 		FileLVI *flvi = new FileLVI(flw);
-		flvi->setText(0, filename);
+		flvi->setText(0, QString::fromLocal8Bit(filename));
 		for(int i=0; i<7; i++)
 		{
-                	flvi->setText(i+1, columns[i]);
+                	flvi->setText(i+1, QString::fromLocal8Bit(columns[i]));
 		}
 		flw->insertItem(flvi);
 
@@ -122,7 +122,7 @@ void LhaArch::openArch( QString file, FileListView *flw )
 				"%s\t%s",
 				columns[0],columns[1],columns[2],columns[3],
 				columns[4],columns[5],columns[6],filename);
-			listing->append( line );
+			listing->append( QString::fromLocal8Bit(line) );
 //		}
 		fgets( line, 4096, fd );
 	}
@@ -142,13 +142,13 @@ void LhaArch::createArch( QString file )
 	archname = file;
 }
 
-const QStrList *LhaArch::getListing()
+const QStringList *LhaArch::getListing()
 {
 	return listing;
 }
 
 
-int LhaArch::addFile( QStrList *urls )
+int LhaArch::addFile( QStringList *urls )
 {
 	archProcess.clearArguments();
 	archProcess.setExecutable( "lha" );
@@ -229,7 +229,7 @@ QString LhaArch::unarchFile( int pos, QString dest )
 
 	archProcess.clearArguments();
  	archProcess.setExecutable("lha");
-	tmp = listing->at( pos );
+	tmp = (*listing).[pos];
 	tmp2 = tmp.right( (tmp.length())-(tmp.findRev('\t')+1) );
 	archProcess << "xfw=" + dest << archname << tmp2;
  	archProcess.start(KProcess::Block);
@@ -244,7 +244,7 @@ void LhaArch::deleteFile( int pos )
 
 	archProcess.clearArguments();
  	archProcess.setExecutable("lha");
-	tmp = listing->at( pos );
+	tmp = (*listing)[pos];
 	name = tmp.right( (tmp.length())-(tmp.findRev('\t')+1) );
  	archProcess << "df" << archname << name;
  	archProcess.start(KProcess::Block);

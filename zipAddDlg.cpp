@@ -317,12 +317,12 @@ QString ZipAddDlg::compression()
 {
 	switch( cb2->currentItem() )
 	{
-		case 0 : return QString("-9"); break;
-		case 1 : return QString("-7"); break;
-		case 2 : return QString("-5"); break;
-		case 3 : return QString("-3"); break;
-		case 4 : return QString("-1"); break;
-		case 5 : return QString("-0"); break;
+		case 0 : return QString("-9");
+		case 1 : return QString("-7");
+		case 2 : return QString("-5");
+		case 3 : return QString("-3");
+		case 4 : return QString("-1");
+		case 5 : return QString("-0");
 	}
 }
 

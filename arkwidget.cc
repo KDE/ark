@@ -73,7 +73,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 	QString tmpdir;
 	tmpdir.sprintf( "/tmp/ark.%d/", pid );
 	QString ex( "mkdir " + tmpdir + " &>/dev/null" );
-	system( ex.ascii() );
+	system( ex.local8Bit() );
 	
 	m_data->setTmpDir( tmpdir );
 
@@ -97,11 +97,6 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
         // enable DnD
         setAcceptDrops(true);
         
-	setCaption( kapp->caption() );
-
-//	setMinimumSize( 300, 200 );  // someday this won't be hardcoded
-
-
 	arch=0;
 	
 	writeStatusMsg( i18n("Welcome to ark...") );
@@ -255,32 +250,32 @@ void ArkWidget::createEditMenu( bool _enabled )
 	editMenu->setItemEnabled( idShellOutput, _enabled );
 }
 
-void ArkWidget::createActionMenu()
+void ArkWidget::createActionMenu( int _flag )
 {
 	KASSERT(arch != 0, 0, 1601, "arch is empty !" );
 	
-	int flag = arch->getEditFlag();
+//	int flag = arch->getEditFlag();
 	
 	actionMenu->clear();
-	if( flag & Arch::Add ){
+	if( _flag & Arch::Add ){
 		idAdd=actionMenu->insertItem( i18n( "&Add..."), this, SLOT( action_add() ) );
 		accelerators->changeMenuAccel(actionMenu, idAdd, "Add_accel" );
 	}
 	else idAdd = -1;
 
-        if( flag & Arch::Delete ){
+        if( _flag & Arch::Delete ){
 		idDelete=actionMenu->insertItem( i18n( "&Delete..."), this, SLOT( action_delete() ) );
 		accelerators->changeMenuAccel(actionMenu, idDelete, "Delete_accel" );
 	}
 	else idDelete = -1;
 	
-        if( flag & Arch::Extract ){
+        if( _flag & Arch::Extract ){
 		idExtract=actionMenu->insertItem( i18n( "E&xtract..."), this, SLOT( action_extract() ) );
 		accelerators->changeMenuAccel(actionMenu, idExtract, "Extract_accel" );
 	}
 	else idExtract = -1;
 	
-        if( flag & Arch::View ){
+        if( _flag & Arch::View ){
 		idView=actionMenu->insertItem( i18n( "&View..."), this, SLOT( action_view() ) );
 		accelerators->changeMenuAccel(actionMenu, idView, "View_accel" );
 	}
@@ -293,10 +288,10 @@ void ArkWidget::createRecentPopup()
 {
 	recentPopup->clear();
 
-	QStrList *recentFiles = m_data->getRecentFiles();
+	QStringList *recentFiles = m_data->getRecentFiles();
 	for (uint i=0; i<recentFiles->count(); i++)
 	{
-        	recentPopup->insertItem(recentFiles->at(i), -1, i);
+        	recentPopup->insertItem((*recentFiles)[i], -1, i);
 	}
 }
 
@@ -355,7 +350,7 @@ void ArkWidget::saveProperties()
 
 	QString tmpdir = m_data->getTmpDir();
 	QString ex( "rm -rf "+tmpdir );
-	system( ex.ascii() );
+	system( ex.local8Bit() );
 
 	kdebug(0, 1601, "-saveProperties (exit)");
 }
@@ -365,20 +360,22 @@ void ArkWidget::saveProperties()
 
 void ArkWidget::file_new()
 {
-	int ret;
-
 	QString file = KFileDialog::getSaveFileName(QString::null, m_data->getFilter());
 	if( !file.isEmpty() )
 	{
 		createFileListView();
-		ret = createArchive( file );
-		if( ret )
-			newCaption(file);
-		else
-		{
-			KMessageBox::error( this, i18n( "Can't create archive of that type") );
-		}
+		createArchive( file );
 	}
+}
+
+void ArkWidget::slotCreate( bool _success, QString _filename, int _flag )
+{
+	if( _success ){
+		newCaption( _filename );
+		createActionMenu( _flag );
+	}
+	else
+		KMessageBox::error( this, i18n( "Can't create archive of that type") );
 }
 
 void ArkWidget::file_newWindow()
@@ -400,42 +397,40 @@ void ArkWidget::file_openRecent(int i)
 	showZip( filename );
 }
 
-void ArkWidget::showZip( QString name )
+void ArkWidget::showZip( QString _filename )
 {
+	kdebug(0, 1601, "+ArkWidget::showZip");
+
 	createFileListView();
-
 	archiverMode = true;
+	openArchive( _filename );
 
-	kdebug(0, 1601, "Show Archive: %s", name.ascii());
-	openArchive( name );
+	kdebug(0, 1601, "-ArkWidget::showZip");
 }
 
-void ArkWidget::open_ok( QString _filename )
+void ArkWidget::slotOpen( bool _success, QString _filename, int _flag )
 {
-	kdebug(0, 1601, "+open_ok");
+	kdebug(0, 1601, "+ArkWidget::slotOpen");
 
-	newCaption( _filename );
+	if( _success ){
+		newCaption( _filename );
+		createActionMenu( _flag );
 
-	QFileInfo fi( _filename );
-	QString path = fi.dirPath( true );
-	m_data->setLastOpenDir( path );
-
-	kdebug(0, 1601, "-open_ok");
-}
-
-void ArkWidget::open_fail()
-{
-	kdebug(0, 1601, "+open_fail");
-
-	archiveContent->clear();
-	clearCurrentArchive();	
-
-	kdebug(0, 1601, "-open_fail");
+		QFileInfo fi( _filename );
+		QString path = fi.dirPath( true );
+		m_data->setLastOpenDir( path );
+	}
+	else{
+		archiveContent->clear();
+		clearCurrentArchive();	
+	}
+	
+	kdebug(0, 1601, "-ArkWidget::slotOpen");
 }
 
 void ArkWidget::file_reload()
 {
-	QString filename = arch->getFileName();
+	QString filename = arch->fileName();
 	showZip( filename );
 }
 
@@ -539,18 +534,14 @@ void ArkWidget::action_add()
 
 void ArkWidget::action_delete()
 {
-	DeleteDlg *dd = new DeleteDlg( !archiveContent->isSelectionEmpty(), this );
-	if( dd->exec() ){
-		if( dd->isSelectionChecked() )
-			arch->deleteSelectedFiles();
-		else{
-			QString patt = dd->patterns();
-			if( patt.isEmpty() )
-				KMessageBox::error(this, "ark can't proceed with an empty file list");
-			else
-				arch->deleteFiles( patt );
-		}
-	}
+	kdebug(0, 1601, "+ArkWidget::action_delete");
+
+	KASSERT(!archiveContent->isSelectionEmpty(), 0, 1601, "Nothing to be removed !" );
+
+	if( KMessageBox::questionYesNo(this, i18n("Do you really want to delete the selectionned items?")) == KMessageBox::Yes)
+		arch->remove();
+
+	kdebug(0, 1601, "-ArkWidget::action_delete");
 }
 
 void ArkWidget::action_extract()
@@ -558,7 +549,7 @@ void ArkWidget::action_extract()
 	if( arch == 0 )
 		arkWarning( "extract should not be available here !");
 	else
-		arch->extraction();
+		arch->extract();
 }
 
 void ArkWidget::action_view()
@@ -641,6 +632,7 @@ void ArkWidget::help()
 
 void ArkWidget::slotSelectionChanged()
 {
+	actionMenu->setItemEnabled( idDelete, !archiveContent->isSelectionEmpty() );
 }
 
 // Drag & Drop ////////////////////////////////////////////////////////
@@ -652,29 +644,31 @@ void ArkWidget::dragEnterEvent(QDragEnterEvent* event)
 
 void ArkWidget::dropEvent(QDropEvent* event )
 {
-	QStrList dlist;
+	kdebug(0, 1601, "+ArkWidget::dropEvent");
+
+	QStringList dlist;
 	QString url;
 	QString file;
 	bool opennew=false;
 
-	kdebug(0, 1601, "+dropEvent");
-
-        if(!QUrlDrag::decode(event, dlist))
-          return;
+        if(!QUrlDrag::decodeToUnicodeUris(event, dlist))
+		return;
         
-	kdebug(0, 1601, "URLs dropped and decoded");
+	KMessageBox::sorry(this, "Sorry, not yet implemented.");
+	return;
 
+	// TODO:
 	if( !arch ){	/* No archive is currently loaded */
 		const char *foo;
-		url = dlist.at(0);
+		url = dlist[0];
 		file = url.right( url.length()-5 );
-		foo = file.data();
-		if( openArchive(file) )
-		{
-			opennew=true;
-		}else{
-			file_new();
-		}
+		foo = file.local8Bit();
+		
+//		TODO: port to signal/slot
+//		if( openArchive(file) )
+//			opennew=true;
+//		else
+//			file_new();
 	}
 	if( arch && !opennew )  /* An archive was open or we just created one */
 	{		        /* so we add the url list in the current one */
@@ -682,13 +676,12 @@ void ArkWidget::dropEvent(QDropEvent* event )
 		retcode = arch->addFile( &dlist );
 		if( !retcode )
 		{
-//			listing = (QStrList *)arch->getListing();
 			archiveContent->clear();
 		} else {
-			if( retcode == UNSUPDIR )
-				arkWarning( i18n("Can't add directories with this archive type"));
-			else
-				KMessageBox::error( this, i18n( "Error saving to archive"));
+//			if( retcode == UNSUPDIR )
+//				arkWarning( i18n("Can't add directories with this archive type"));
+//			else
+//				KMessageBox::error( this, i18n( "Error saving to archive"));
 		}
 	}
 
@@ -752,9 +745,7 @@ void ArkWidget::showFavorite()
 	}
 	archiveContent->setColumnWidth(0, archiveContent->columnWidth(0) + 10 );
 
-	QString caption;
-	caption = i18n("ark - %1").arg(m_data->getFavoriteDir());
-	setCaption( caption );
+	setCaption( m_data->getFavoriteDir() );
 
 	delete fav;
 
@@ -786,7 +777,7 @@ void ArkWidget::clearCurrentArchive()
 		delete arch;
 	arch = 0;
 	
-	setCaption(i18n("ark"));
+	setCaption("");
 	
 	createEditMenu( false );
 	menuBar()->setItemEnabled(idActionMenu, false);
@@ -804,18 +795,19 @@ void ArkWidget::slotStatusBarTimeout()
 	clearStatusBar();
 }
 
-void ArkWidget::newCaption(const QString& filename){
+void ArkWidget::newCaption(const QString& _filename){
 
-	QString caption;
-	caption = i18n("ark - %1[%2 files]").arg(filename).arg(archiveContent->count());
-	setCaption(caption);
+	//TODO: add the item count in the statusbar
 
-	createActionMenu();
+//	QString caption;
+//	caption = i18n("ark - %1[%2 files]").arg(filename).arg(archiveContent->count());
+	setCaption( _filename );
+
 	createEditMenu( true );
 	
 	toolBar()->setItemEnabled( EXTRACT_BUTTON, true );
 
-	m_data->addRecentFile(filename);
+	m_data->addRecentFile( _filename );
 	createRecentPopup();
 }
 
@@ -849,24 +841,23 @@ int ArkWidget::getArchType( QString archname )
 }
 
 
-bool ArkWidget::createArchive( QString name )
+void ArkWidget::createArchive( QString _filename )
 {
-	int ret;
-
-	switch( getArchType( name ) )
+	switch( getArchType( _filename ) )
 	{
-		case TAR_FORMAT:
+/*		case TAR_FORMAT:
 		{
-			arch = new TarArch( m_data, this, archiveContent );
+			arch = new TarArch( m_data, this, name );
 			arch->createArch( name );
 			ret = true;
 			break;
 		}
-		case ZIP_FORMAT:
+*/		case ZIP_FORMAT:
 		{
-			arch = new ZipArch( m_data, this, archiveContent );
-			arch->createArch( name );
-			ret = true;
+			arch = new ZipArch( m_data, this, _filename );
+			connect( arch, SIGNAL(sigOpen(bool,QString,int)), this, SLOT(slotOpen(bool,QString,int)) );
+			connect( arch, SIGNAL(sigCreate(bool,QString,int)), this, SLOT(slotCreate(bool,QString,int)) );
+			arch->create();
 			break;
 		}
 /*		case LHA_FORMAT:
@@ -885,32 +876,29 @@ bool ArkWidget::createArchive( QString name )
 		}
 */		default:
 		{
-			return false;
 			KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
 			clearCurrentArchive();
 		}
 	}
-	return ret;
 }
 
-bool ArkWidget::openArchive( QString name )
+void ArkWidget::openArchive( QString _filename )
 {
-	int ret;
-
-	switch( getArchType( name ) )
+	switch( getArchType( _filename ) )
 	{
-		case TAR_FORMAT:
+/*		case TAR_FORMAT:
 		{
-			arch = new TarArch(  m_data, this, archiveContent );
+			arch = new TarArch(  m_data, this, _filename );
 			arch->openArch( name );
 			ret = true;
 			break;
 		}
-		case ZIP_FORMAT:
+*/		case ZIP_FORMAT:
 		{
-			arch = new ZipArch( m_data, this, archiveContent );
-			arch->openArch( name );
-			ret = true;
+			arch = new ZipArch( m_data, this, _filename );
+			connect( arch, SIGNAL(sigOpen(bool,QString,int)), this, SLOT(slotOpen(bool,QString,int)) );
+			connect( arch, SIGNAL(sigCreate(bool,QString,int)), this, SLOT(slotCreate(bool,QString,int)) );
+			arch->open();
 			break;
 		}
 /*		case LHA_FORMAT:
@@ -929,12 +917,9 @@ bool ArkWidget::openArchive( QString name )
 		}
 */		default:
 		{
-			ret = false;
-			break;
 			KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
 			clearCurrentArchive();
 		}
 	}
-	return ret;
 }
 

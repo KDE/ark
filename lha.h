@@ -17,14 +17,14 @@ public:
 	virtual unsigned char setOptions( bool p, bool l, bool o );
 	virtual void openArch( QString, FileListView * );
 	virtual void createArch( QString );
-	virtual int addFile( QStrList *);
+	virtual int addFile( QStringList *);
 	virtual void extractTo( QString );
-	virtual const QStrList *getListing();
+	virtual const QStringList *getListing();
 	virtual QString unarchFile( int , QString );
 	virtual void deleteFile( int );
 
 private:
-	QStrList *listing;
+	QStringList *listing;
 	ArkProcess archProcess;
 };
 

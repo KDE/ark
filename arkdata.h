@@ -83,7 +83,7 @@ public:
 	void setLastAddDir(const QString& dir);
 	void setAddDirCfg(const QString& dir, int mode);
 
-	QStrList * getRecentFiles();
+	QStringList * getRecentFiles();
 	void addRecentFile(const QString& filename);
 
 	void setSaveOnExitChecked( bool );
@@ -165,7 +165,7 @@ protected:
 	bool onlyUpdate;
 
 	bool contextRow;
-	QStrList recentFiles;
+	QStringList recentFiles;
 	
 	bool m_zipExtractOverwrite;
 	bool m_zipExtractJunkPaths;
