@@ -37,7 +37,7 @@ ark_LDADD   = $(LIB_KFILE)
 # this option you can leave out. Just, if you use "make dist", you need it
 noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \
                  extractdlg.h arkwidget.h arch.h zoo.h ar.h \
-		 filelistview.h adddlg.h lha.h compressedfile.h
+		 filelistview.h adddlg.h lha.h compressedfile.h \
 		 generalOptDlg.h selectDlg.h waitDlg.h shellOutputDlg.h
 
 # just to make sure, automake makes them 
