@@ -58,7 +58,6 @@ class FileListView;
 class FileLVI;
 class SearchBar;
 
-
 class ArkWidget : public QVBox
 {
     Q_OBJECT

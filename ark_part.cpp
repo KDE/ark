@@ -170,7 +170,7 @@ void ArkPart::fixEnables()
         bAddDirSupported = false;
 
     if (awidget->archive())
-        bReadOnly = awidget->archive()->isReadOnly();
+        bReadOnly = awidget->archive()->readOnly();
 
     saveAsAction->setEnabled(bHaveFiles);
     selectAction->setEnabled(bHaveFiles);

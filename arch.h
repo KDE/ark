@@ -56,6 +56,7 @@
 #include <kurl.h>
 
 #include "filelistview.h"
+#include "archive.h"
 
 class QCString;
 class QStringList;
@@ -73,7 +74,7 @@ enum ArchType { UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
  * Pure virtual base class for archives - provides a framework as well as
  * useful common functionality.
  */
-class Arch : public QObject
+class Arch : public Archive
 {
   Q_OBJECT
 
@@ -114,10 +115,6 @@ class Arch : public QObject
 
     enum EditProperties{ Add = 1, Delete = 2, Extract = 4,
                          View = 8, Integrity = 16 };
-
-    // is the archive readonly?
-    bool isReadOnly() { return m_bReadOnly; }
-    void setReadOnly( bool bVal ) { m_bReadOnly = bVal; }
 
     bool isError() { return m_error; }
     void resetError() { m_error = false; }
@@ -161,7 +158,6 @@ class Arch : public QObject
     QString m_lastShellOutput;
     QCString m_buffer;
     ArkWidget *m_gui;
-    bool m_bReadOnly; // for readonly archives
     bool m_error;
 
     // lets tar delete unsuccessfully before adding without confusing the user

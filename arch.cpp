@@ -46,16 +46,10 @@
 #include "arch.h"
 #include "arkwidget.h"
 #include "arkutils.h"
+#include "archiveentry.h"
 
 // the archive types
-#include "tar.h"
-#include "zip.h"
-#include "lha.h"
-#include "compressedfile.h"
-#include "zoo.h"
 #include "rar.h"
-#include "ar.h"
-#include "sevenzip.h"
 
 Arch::ArchColumns::ArchColumns( int col, QRegExp reg, int length, bool opt )
   : colRef( col ), pattern( reg ), maxLength( length ), optional( opt )
@@ -63,8 +57,9 @@ Arch::ArchColumns::ArchColumns( int col, QRegExp reg, int length, bool opt )
 }
 
 Arch::Arch( ArkWidget *gui, const QString &filename )
-  : m_filename( filename ), m_buffer( "" ), m_gui( gui ),
-    m_bReadOnly( false ), m_bNotifyWhenDeleteFails( true ),
+  : Archive( KURL::fromPathOrURL(filename) ),
+    m_filename( filename ), m_buffer( "" ), m_gui( gui ),
+    m_bNotifyWhenDeleteFails( true ),
     m_header_removed( false ), m_finished( false ),
     m_numCols( 0 ), m_dateCol( -1 ), m_fixYear( -1 ), m_fixMonth( -1 ),
     m_fixDay( -1 ), m_fixTime( -1 ), m_repairYear( -1 ), m_repairMonth( -1 ),
@@ -312,12 +307,12 @@ bool Arch::processLine( const QCString &line )
   }
 
   QStringList list;
-  
+
   for ( int i = 0; i < m_numCols; ++i )
   {
     list.append( columns[ i ] );
   }
-  
+
   m_gui->fileList()->addItem( list ); // send the entry to the GUI
 
   return true;
@@ -330,30 +325,9 @@ Arch *Arch::archFactory( ArchType aType,
 {
   switch( aType )
   {
-    case TAR_FORMAT:
-      return new TarArch( parent, filename, openAsMimeType );
-
-    case ZIP_FORMAT:
-      return new ZipArch( parent, filename );
-    
-    case LHA_FORMAT:
-      return new LhaArch( parent, filename );
-    
-    case COMPRESSED_FORMAT:
-      return new CompressedFile( parent, filename, openAsMimeType );
-    
-    case ZOO_FORMAT:
-      return new ZooArch( parent, filename );
-    
     case RAR_FORMAT:
       return new RarArch( parent, filename );
-    
-    case AA_FORMAT:
-      return new ArArch( parent, filename );
-    
-    case SEVENZIP_FORMAT:
-      return new SevenZipArch( parent, filename );
-    
+ 
     case UNKNOWN_FORMAT:
     default:
       return 0;

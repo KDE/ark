@@ -45,6 +45,7 @@
 #include <config.h>
 #include "arkwidget.h"
 #include "arch.h"
+#include "archiveentry.h"
 #include "settings.h"
 #include "rar.h"
 #include "arkutils.h"
@@ -102,6 +103,16 @@ bool RarArch::processLine( const QCString &line )
   list << l2[ 8 ]; // Version
 
   m_gui->fileList()->addItem( list ); // send to GUI
+
+  QStringList time = QStringList::split( ':', l2[ 4 ] );
+
+  QDateTime timeStamp;
+  timeStamp.setDate( QDate( ArkUtils::fixYear( date[ 2 ].latin1() ).toInt() ,  date[ 1 ].toInt() , date[ 0 ].toInt() ) );
+  timeStamp.setTime( QTime( time[ 0 ].toInt(), time[ 1 ].toInt() ) );
+
+  ArchiveEntry entry( m_entryFilename, l2[ 0 ].toULong() , timeStamp );
+
+  addEntry( entry );
 
   m_isFirstLine = true;
   return true;

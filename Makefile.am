@@ -24,23 +24,13 @@ libarkpart_la_LDFLAGS = $(KDE_PLUGIN) $(all_libraries)
 libarkpart_la_LIBADD = libark_common.la $(LIB_KPARTS)
 libarkpart_la_COMPILE_FIRST = settings.h
 
-libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp zip.cpp tar.cpp \
-                        filelistview.cpp arch.cpp selectDlg.cpp lha.cpp \
-                        shellOutputDlg.cpp compressedfile.cpp zoo.cpp rar.cpp \
-                        ar.cpp arkutils.cpp archiveformatdlg.cpp \
+libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp \
+                        filelistview.cpp arch.cpp selectDlg.cpp \
+                        shellOutputDlg.cpp rar.cpp \
+                        arkutils.cpp archiveformatdlg.cpp \
                         arkwidget.cpp searchbar.cpp extractdlg.cpp \
                         addition.ui extraction.ui general.ui \
-                        arkviewer.cpp sevenzip.cpp
-
-# this option you can leave out. Just, if you use "make dist", you need it
-noinst_HEADERS = tar.h zip.h rar.h \
-                 extractdlg.h arkwidget.h arch.h zoo.h ar.h \
-                 filelistview.h lha.h compressedfile.h \
-                 selectDlg.h shellOutputDlg.h \
-                 ark_part.h arktoplevelwindow.h \
-                 arkfactory.h arkutils.h archiveformatinfo.h \
-                 archiveformatdlg.h searchbar.h extractdlg.h settings.h \
-                 arkviewer.h sevenzip.h
+                        arkviewer.cpp archive.cpp archiveentry.cpp
 
 METASOURCES = AUTO
 
