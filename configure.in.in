@@ -1,2 +1,12 @@
 AC_CHECK_KDEMAXPATHLEN
 
+KDE_CHECK_FUNC_EXT(statfs, [
+#include <sys/mount.h> 
+], [
+  char buffer[200];
+  struct statfs b;
+  statfs(buffer, &b);
+], [
+  int statfs(const char *path, struct statfs *buffer)
+], [STATFS])
+
