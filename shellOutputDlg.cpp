@@ -26,12 +26,16 @@
 */
 
 // Qt includes
-#include <qlayout.h>
 #include <qpushbutton.h>
 #include <qmultilineedit.h>
+#include <qgrid.h>
+#include <qlayout.h>
 
 #include <kdebug.h>
 #include <klocale.h>
+#include <kglobal.h>
+#include <kglobalsettings.h>
+#include <kcharsets.h>
 
 // ark includes
 #include "shellOutputDlg.h"
@@ -43,23 +47,22 @@ ShellOutputDlg::ShellOutputDlg( ArkSettings *_data, QWidget *_parent,
 	: QDialog( _parent, _name, true )
 {
   setCaption( i18n("Shell Output") );
+  QGridLayout *grid1 = new QGridLayout(this,10,5,15,7);  
   QMultiLineEdit *l1 = new QMultiLineEdit( this );
   l1->setReadOnly( true );
-  l1->setGeometry(10, 10, 500, 320);
+  grid1->addMultiCellWidget(l1,0,8,0,4);
 
-  QFont my_font;
-  my_font.setFamily( "courier" );
+  QFont my_font = KGlobalSettings::generalFont();
+  KGlobal::charsets()->setQFont(my_font, KGlobal::locale()->charset());
+
   l1->setFont( my_font );
 
   l1->setText( *(_data->getLastShellOutput()) );
-  l1->setFixedSize( 500, 320 );
   l1->setCursorPosition(l1->numLines(), 0);
 
   QPushButton *close = new QPushButton( i18n("Close"), this );
-  close->setGeometry(430, 340, 80, 30);
+  grid1->addWidget(close,9,4);
   connect( close, SIGNAL( clicked() ), SLOT( accept() ) );
   close->setFocus();
-
-  setFixedSize(520, 380);
-
+  resize(520, 380);
 }
