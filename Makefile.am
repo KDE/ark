@@ -18,7 +18,7 @@ MIMEAPPDIR = $(kde_mimedir)/application
 # set the include path for X, qt and KDE
 INCLUDES= @all_includes@
 # claim, which subdirectories you want to install
-SUBDIRS = doc mimetypes 
+SUBDIRS = doc 
 
 ####### This part is very kzip specific
 # you can add here more. This one gets installed 
