@@ -183,9 +183,15 @@ ArkWidget::getSaveAsFileName()
         defaultMimeType = m_openAsMimeType;
 
     KURL u;
+    QString suggestedName;
+    if ( m_realURL.isLocalFile() )
+        suggestedName = m_realURL.url();
+    else
+        suggestedName = m_realURL.fileName( false );
+
     do
     {
-        u = getCreateFilename( i18n( "Save Archive As" ), defaultMimeType );
+        u = getCreateFilename( i18n( "Save Archive As" ), defaultMimeType, true, suggestedName );
         if (  u.isEmpty() )
             return u;
         if( allowedArchiveName( u ) || ( ArchiveFormatInfo::self()->archTypeByExtension( u.path() ) != UNKNOWN_FORMAT ) )
@@ -649,7 +655,8 @@ ArkWidget::file_open(const KURL& url)
 KURL 
 ArkWidget::getCreateFilename(const QString & _caption,
                                   const QString & _defaultMimeType,
-                                  bool allowCompressed)
+                                  bool allowCompressed,
+                                  const QString & _suggestedName )
 {
     int choice=0;
     bool fileExists = true;
@@ -663,6 +670,8 @@ ArkWidget::getCreateFilename(const QString & _caption,
            ArchiveFormatInfo::self()->supportedMimeTypes( allowCompressed ),
            _defaultMimeType.isNull() ? KMimeType::mimeType( "application/x-tgz" )
                                      : KMimeType::mimeType( _defaultMimeType ) );
+    if ( !_suggestedName.isEmpty() )
+        dlg.setSelection( _suggestedName );
 
     while ( fileExists )
         // keep asking for filenames as long as the user doesn't want to

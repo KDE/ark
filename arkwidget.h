@@ -164,7 +164,8 @@ private: // methods
                             const QStringList & filesToAdd = QStringList() );
     KURL getCreateFilename( const QString & _caption,
                             const QString & _defaultMimeType = QString::null,
-                            bool allowCompressed = true );
+                            bool allowCompressed = true,
+                            const QString & _suggestedName = QString::null );
 
     bool reportExtractFailures(const QString & _dest, QStringList *_list);
     QStringList existingFiles( const QString & _dest, QStringList & _list );
