@@ -2,7 +2,7 @@
 Encoding=UTF-8
 MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tgz;application/x-tbz;application/x-zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-bzip2
 Comment=Archive Handling Tool
-Comment[af]=argief handtering program
+Comment[af]=Argief Handtering Program
 Comment[ar]=أداة للتعامل مغ الملقات المضغوطة
 Comment[az]=Arxiv İşləmə Vasitəsi
 Comment[bg]=Инструмент за работа с архиви
@@ -56,7 +56,7 @@ Comment[zh_CN]=归档文件处理工具
 Comment[zh_TW]=壓縮檔案處理工具
 Comment[zu]=Ithuluzi Lokuphatha i Archive
 Name=Archiver
-Name[af]=argifeerder
+Name[af]=Argifeerder
 Name[ar]=الضاغط
 Name[az]=Arxivci
 Name[bg]=Архиватор
