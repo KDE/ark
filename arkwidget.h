@@ -69,11 +69,11 @@ class QLabel;
 class KAction;
 class KRecentFilesAction;
 class KRun;
+class KTempFile;
 
 namespace Utilities
 {
   bool haveDirPermissions(const QString &strFile);
-  void download(const KURL &, QString &);
 };
 
 class ArkWidget : public KTMainWindow 
@@ -192,6 +192,8 @@ private: // methods
 
   bool reportExtractFailures(const QString & _dest,
 			     QStringList *_list);
+
+  void download(const KURL &, QString &);
 protected:
   void arkWarning(const QString& msg);
   void arkError(const QString& msg);
@@ -270,7 +272,8 @@ private: // data
   // the compressed file to be added into the new archive
   QString m_compressedFile;
 
-  // if they're dragging in files, this is the temporary list:
+  // if they're dragging in files, this is the temporary list for when 
+  // we have to create an archive:
   QStringList *m_pTempAddList;
   bool m_bDropFilesInProgress;
 
@@ -285,6 +288,11 @@ private: // data
   // the list of files being extracted. Needs to be deleted in slotExtractDone
   QStringList *m_extractList;
   KURL mSaveAsURL;
+
+  KTempFile *mpTempFile;
+  QStringList *mpDownloadedList;
+
+  QStringList *mpAddList;
 };
 
 #endif /* ARKWIDGET_H*/

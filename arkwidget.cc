@@ -114,19 +114,6 @@ bool Utilities::haveDirPermissions(const QString &strFile)
   return true;
 }
 
-void Utilities::download(const KURL &url, QString &strFile)
-{
-  // downloads url into strFile, making sure strFile has the same extension
-  // as url.
-  QString extension;
-  getArchType(url.path(), extension);
-  KTempFile tmpFile ("/tmp/ark", extension);
-  strFile = tmpFile.name();
-  kdDebug(1601) << "Downloading " << url.path().local8Bit() << " as " <<
-    strFile.local8Bit() << endl;
-  KIO::NetAccess::download(url, strFile);
-}
-
 ArkWidget::ArkWidget( QWidget *, const char *name ) : 
     KTMainWindow(name), archiveContent(0),
     m_nSizeOfFiles(0), m_nSizeOfSelectedFiles(0),
@@ -135,7 +122,8 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     m_bViewInProgress(false), m_bOpenWithInProgress(false),
     m_bEditInProgress(false),
     m_bMakeCFIntoArchiveInProgress(false), m_pTempAddList(NULL),
-    m_bDropFilesInProgress(false), m_bDragInProgress(false)
+    m_bDropFilesInProgress(false), m_bDragInProgress(false), mpTempFile(NULL),
+    mpDownloadedList(NULL), mpAddList(NULL)
 {
     kdDebug(1601) << "+ArkWidget::ArkWidget" << endl;
   
@@ -469,6 +457,7 @@ void ArkWidget::slotSaveAsDone(KIO::Job * job)
 
 void ArkWidget::file_open(const QString & strFile)
 {
+  kdDebug(1601) << "+ArkWidget::file_open(const QString & strFile)" << endl;
   //strFile has no protocol by now - it's a path.
   struct stat statbuffer;
   
@@ -547,7 +536,27 @@ void ArkWidget::file_open(const QString & strFile)
 
   // display the archive contents
   showZip(strFile);
+  kdDebug(1601) << "-ArkWidget::file_open(const QString & strFile)" << endl;
 }
+
+//////////////////////////////////////////////////////////////////////
+////////////////////////////// download //////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+
+void ArkWidget::download(const KURL &url, QString &strFile)
+{
+  // downloads url into strFile, making sure strFile has the same extension
+  // as url.
+  QString extension;
+  getArchType(url.path(), extension);
+  mpTempFile = new KTempFile("/tmp/ark", extension);
+  strFile = mpTempFile->name();
+  kdDebug(1601) << "Downloading " << url.path().local8Bit() << " as " <<
+    strFile.local8Bit() << endl;
+  KIO::NetAccess::download(url, strFile);
+}
+
 
 
 //////////////////////////////////////////////////////////////////////
@@ -755,7 +764,7 @@ void ArkWidget::file_open()
 
   if (!url.isEmpty())
     {
-      Utilities::download(url, strFile);
+      download(url, strFile);
       m_settings->clearShellOutput();
       recent->addURL(url);
       file_open(strFile);
@@ -769,7 +778,7 @@ void ArkWidget::file_open(const KURL& url)
   QString strFile;
   if (!url.isEmpty())
   {
-    Utilities::download(url, strFile);
+    download(url, strFile);
     m_settings->clearShellOutput();
     kdDebug(1601) << "Recent open: " << strFile.local8Bit() << endl;
     file_open(strFile);
@@ -934,6 +943,9 @@ void ArkWidget::slotAddDone(bool _bSuccess)
   kdDebug(1601) << "+ArkWidget::slotAddDone" << endl;
   archiveContent->setUpdatesEnabled(true);
   archiveContent->triggerUpdate();
+  delete mpAddList;
+  mpAddList = NULL;
+
   if (_bSuccess)
     {
       file_reload();
@@ -964,6 +976,17 @@ void ArkWidget::slotAddDone(bool _bSuccess)
 	    }
 	  return;
 	}
+    }
+  if (mpDownloadedList)
+    {
+      for (QStringList::Iterator it = mpDownloadedList->begin();
+	   it != mpDownloadedList->end(); ++it)
+	{
+	  QString str = *it;
+	  KIO::NetAccess::removeTempFile(str);
+	}
+      delete mpDownloadedList;
+      mpDownloadedList = NULL;
     }
   fixEnables();
   QApplication::restoreOverrideCursor();
@@ -1086,8 +1109,14 @@ void ArkWidget::file_close()
 	}
       setView(0);
       ArkApplication::getInstance()->removeOpenArk(m_strArchName);
-      kdDebug(1601) << "Removing temp file" << m_strArchName.local8Bit() << endl;
-      KIO::NetAccess::removeTempFile(m_strArchName);
+      if (mpTempFile)
+	{      
+	  kdDebug(1601) << "Removing temp file" <<
+	    mpTempFile->name().local8Bit() << endl;
+	  mpTempFile->unlink();
+	  delete mpTempFile;
+	  mpTempFile = NULL;
+	}
       updateStatusTotals();
       updateStatusSelection();
       fixEnables();
@@ -1264,10 +1293,13 @@ void ArkWidget::action_add()
 			   m_settings, this, "adddlg");
   if (dlg->exec())
     {
-      QStringList *list = dlg->getFiles();
-      if (list->count() > 0)
+      // we're making our own so we can delete it later.
+      QStringList *temp = dlg->getFiles();
+      mpAddList = new QStringList(*temp);
+
+      if (mpAddList->count() > 0)
 	{
-	  if (m_bIsSimpleCompressedFile && list->count() > 1)
+	  if (m_bIsSimpleCompressedFile && mpAddList->count() > 1)
 	    {
 	      QString strFilename = askToCreateRealArchive();
 	      if (!strFilename.isEmpty())
@@ -1276,13 +1308,14 @@ void ArkWidget::action_add()
 		}
 	      return;
 	    }
-	  addFile(list);
+	  addFile(mpAddList);
 	}
     }
 }
 
 void ArkWidget::addFile(QStringList *list)
 {
+  // takes a list of KURLs.
   archiveContent->setUpdatesEnabled(false);
   disableAll();
   QApplication::setOverrideCursor( waitCursor );
@@ -1311,6 +1344,31 @@ void ArkWidget::addFile(QStringList *list)
 	  filename = "     " + filename;
 	  *it = filename;
 	}
+    }
+  else
+    {
+      bool bNotLocal = true;
+      // if they are URLs, we have to download them, replace the URLs
+      // with filenames, and remember to delete the temporaries later.
+      for (QStringList::Iterator it = list->begin(); it != list->end(); ++it)
+	{
+	  QString str = *it;
+	  kdDebug(1601) << "Want to add " << str.local8Bit() << endl;
+	  if (str.left(5) == QString("file:"))
+	    {
+	      bNotLocal = false;
+	      break;  // no need to continue
+	    }
+	  KURL url = str;
+	  QString tempfile = m_settings->getTmpDir();
+	  tempfile += str.right(str.length() - str.findRev("/") - 1);
+	  KIO::NetAccess::download(url, tempfile);
+	  tempfile = "file:" + tempfile;
+	  // replace the URL with the name of the temporary
+	  *it = tempfile;
+	}
+      if (bNotLocal)
+	mpDownloadedList = new QStringList(*list);
     }
   arch->addFile(list);
 }
@@ -1818,11 +1876,12 @@ void ArkWidget::dropEvent(QDropEvent* e)
 {
   kdDebug(1601) << "+ArkWidget::dropEvent" << endl;
 
-  QStringList list;
+  // I think I've got all the deletia covered... see slotAddDone.
+  mpAddList = new QStringList; 
 
-  if (QUrlDrag::decodeToUnicodeUris(e, list))
+  if (QUrlDrag::decodeToUnicodeUris(e, *mpAddList))
   {
-    dropAction(&list);
+    dropAction(mpAddList);
   }
 
   kdDebug(1601) << "-dropEvent" << endl;
@@ -1852,26 +1911,8 @@ void ArkWidget::dropAction(QStringList *list)
   QString str;
   QStringList urls; // to be sent to addFile
 
-  // make sure they are proper URLs
-  for(QStringList::Iterator it = list->begin(); it != list->end(); ++it)
-    {
-      str = *it;
-      kdDebug(1601) << (const char *)str << endl;
-      if (str.left(5) != QString("file:") )
-	{
-	  if (str.left(7) == "http://" ||
-	      str.left(6) == "ftp://")
-	    {
-	      KURL url = str;
-	      Utilities::download(url, str);
-	    }
-	  else
-	    {
-	      str = "file:" + str;
-	    }
-	}
-      urls.append(str);
-    }
+  str = list->first();
+
   QString extension;
   if (1 == list->count() &&  (UNKNOWN_FORMAT != getArchType(str, extension)))
   {
@@ -1886,27 +1927,21 @@ void ArkWidget::dropAction(QStringList *list)
 				      i18n("Cancel"), 0, 1);
       if (0 == nRet) // add it
       {
-	addFile(&urls);
+	addFile(list);
 	return;
       }
       else if (2 == nRet) // cancel
       {
+	delete list;
 	return;
       }
     }
 
     // if I made it here, there's either no archive currently open
     // or they selected "Open".
-    str = urls.first();
-    if (str.left(5) == "file:")
-      str = str.right(str.length()-5);  // get rid of "file:" part of url
-    else if (str.left(7) == "http://" ||
-	     str.left(6) == "ftp://")
-      {
-	KURL url = str;
-	Utilities::download(url, str);
-      }
-    file_open(str);
+    delete list;
+    KURL url = str;
+    file_open(url);
   }
   else
   {
@@ -1917,13 +1952,14 @@ void ArkWidget::dropAction(QStringList *list)
 	  QString strFilename = askToCreateRealArchive();
 	  if (!strFilename.isEmpty())
 	    {
-	      m_pTempAddList = new QStringList(urls);
+	      m_pTempAddList = new QStringList(*list);
 	      createRealArchive(strFilename);
 	    }
+	  delete list;
 	  return;
 	}
       // add the files to the open archive
-      addFile(&urls);
+      addFile(list);
     }
     else
     {
@@ -1939,10 +1975,11 @@ void ArkWidget::dropAction(QStringList *list)
 	file_new();
 	if (isArchiveOpen()) // they still could have canceled!
 	{
-	  addFile(&urls);
+	  addFile(list);
 	}
       }
-      // no else: just forget it.
+      else // basically a cancel on the drop.
+	delete list;
     }
   }
 }

@@ -1,7 +1,13 @@
           $Id$
 
+2000-06-13: Emily Ezust <emilye@corel.com>
+	* Added support for drag/adding files or drag/opening archives
+ 	  from konqy. There are still some problems I need to track down:
+ 	  every now and then everything stops working and you can't open 
+	  archives. :-(
+
 2000-06-12: Emily Ezust <emilye@corel.com>
-	* Added network transparency
+	* Began adding network transparency
  	* Added a Save As option so that people can rename arks that are
 	  temporary files
 
