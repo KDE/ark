@@ -36,6 +36,8 @@
 #include <qstring.h>
 
 // KDE includes
+#include <kapp.h>
+#include <kconfig.h>
 #include <kdir.h>
 #include <kdirlistbox.h>
 #include <klocale.h>
@@ -62,6 +64,8 @@ void ZipExtractDlg::initGUI()
 {
     cerr << "Entered initGUI()\n";
 
+	setCaption( i18n("Extract to...") );
+	
 	QVBoxLayout *mainLayout = new QVBoxLayout(this, 5);
 
 cerr << "p1\n";
@@ -167,37 +171,8 @@ cerr << fileList->widget()->sizeHint().width() << "\n";
 
 cerr << "p1\n";
 cerr << "p1\n";
-/*
-    lafBox= new QGridLayout(showFilter ? 2 : 1, 3, 7);
-cerr << "p1\n";
-    boxLayout->addLayout(lafBox, 0);
-cerr << "p1\n";
-//    lafBox->addWidget(locationLabel, 0, 0);
-//    lafBox->addMultiCellWidget(locationEdit, 0, 0, 1, 2);
-cerr << "p1\n";
-
-
-    if (showFilter) {
-	lafBox->addWidget(filterLabel, 1, 0);
-	lafBox->addWidget(filterWidget, 1, 1);
-	lafBox->addWidget(hiddenToggle, 1, 2);
-    }
-
-    lafBox->setColStretch(0, 1);
-    lafBox->setColStretch(1, 4);
-    lafBox->setColStretch(2, 1);
-*/
     if ( myStatusLine )
 	mainLayout->addWidget( myStatusLine, 0 );
-/*
-    boxLayout->addSpacing(3);
-    btngroup= new QHBoxLayout(10);
-    boxLayout->addLayout(btngroup, 0);
-    btngroup->addWidget(bHelp, 1);
-    btngroup->addStretch(2);
-    btngroup->addWidget(bOk, 1);
-    btngroup->addWidget(bCancel, 1);
-*/
 
     bOk->hide();
     bCancel->hide();
@@ -213,8 +188,9 @@ cerr << fileList->widget()->width() << "\n";
 cerr << fileList->widget()->sizeHint().height() << "\n";
 cerr << fileList->widget()->sizeHint().width() << "\n";
 
-//    setMinimumWidth( fileList->widget()->width() );
-    resize( minimumSize() );
+	resize( minimumSize() );
+//	setFixedWidth( width() );
+
 cerr << "p1\n";
 cerr << toolbar->height() << "\n";
 cerr << toolbar->width() << "\n";
@@ -239,7 +215,7 @@ bool ZipExtractDlg::getShowFilter()
 
 KFileInfoContents* ZipExtractDlg::initFileList( QWidget *parent )
 {
-//	bool useSingleClick = kapp->getConfig()->readBoolEntry("SingleClick",
-	return new KDirListBox( true, dir->sorting(), parent, "_dirs" );
+	bool useSingleClick = kapp->getConfig()->readBoolEntry("SingleClick", true);
+	return new KDirListBox( useSingleClick, dir->sorting(), parent, "_dirs" );
 }
 

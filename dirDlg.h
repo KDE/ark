@@ -29,6 +29,7 @@
 // Qt includes
 #include <qdialog.h>
 #include <qlineedit.h>
+#include <qradiobutton.h>
 
 // ark includes
 #include "arkdata.h"
@@ -38,9 +39,23 @@ class DirDlg : public QDialog {
 public:
 	DirDlg(  ArkData *d, QWidget *parent=0, const char *name=0 );
 public slots:
-	void getDir(QLineEdit *);	
+	void getFavDir();	
+	void getStartDir();	
+	void getOpenDir();	
+	void getExtractDir();	
+	void getAddDir();	
+	void favDirChanged(const QString &);
+	void saveConfig();
 private:
 	ArkData *data;
+	QLineEdit *favLE;
+	QLineEdit *openLE;
+	QLineEdit *startLE;
+	QLineEdit *extractLE;
+	QLineEdit *addLE;
+	QRadioButton *r1, *r2, *r3, *r4, *r5, *r6, *r7, *r8, *r9, *r10, *r11, *r12;
+	
+	void initConfig();
 };
 
 #endif /* DIRDLG_H */

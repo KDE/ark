@@ -167,11 +167,11 @@ void ArkWidget::setupMenuBar()
 	accelerators->changeMenuAccel(editMenu, id, "DeselectionAll" );
 
 	// Options menu creation
-	optionsmenu->insertItem( i18n( "&Set Archive Directory..."), this, SLOT( getFav() ) );
+//	optionsmenu->insertItem( i18n( "&Set Archive Directory..."), this, SLOT( getFav() ) );
 	optionsmenu->insertItem( i18n( "Set &Tar Executable..."), this, SLOT( getTarExe() ) );
 	optionsmenu->insertItem( i18n( "&File Adding Options..."), this, SLOT( getAddOptions() ) );
 	optionsmenu->insertItem( i18n( "&Keys..."), this, SLOT( options_keyconf() ) );
-//	optionsmenu->insertItem( i18n( "&Directories..."), this, SLOT( configDirs() ) );
+	optionsmenu->insertItem( i18n( "&Directories..."), this, SLOT( configDirs() ) );
 //	optionsmenu->insertItem( i18n( "&Test dialog..."), this, SLOT( testdlg() ) );
 
 	// Help menu creation

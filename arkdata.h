@@ -1,3 +1,28 @@
+/*
+
+ ark -- archiver for the KDE project
+
+ Copyright (C)
+
+ 1997-1999: Rob Palmbos palm9744@kettering.edu
+ 1999: Francois-Xavier Duranceau duranceau@kde.org
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
+
 #ifndef ARKDATA_H
 #define ARKDATA_H
 
@@ -35,6 +60,14 @@ class ArkData{
 public:
 	ArkData();
 	~ArkData();
+	
+	enum DirPolicy{
+		FAVORITE_DIR=1, FIXED_START_DIR,
+		LAST_OPEN_DIR, FIXED_OPEN_DIR,
+		LAST_EXTRACT_DIR, FIXED_EXTRACT_DIR,
+		LAST_ADD_DIR, FIXED_ADD_DIR
+	};
+
 	const QString getFilter();
 	
 	QString getTarCommand() const;
@@ -43,18 +76,26 @@ public:
 	QString getFavoriteDir() const;
 	void setFavoriteDir(const QString& cmd);
 
-	QString getStartDir();
+	QString getStartDir() const;
+	QString getFixedStartDir() const;
+	int getStartDirMode() const;
         void setStartDirCfg(const QString& dir, int mode);
 
-	QString getOpenDir();
+	QString getOpenDir() const;
+	QString getFixedOpenDir() const;
+	int getOpenDirMode() const;
 	void setLastOpenDir(const QString& dir);
 	void setOpenDirCfg(const QString& dir, int mode);
 
 	QString getExtractDir();
+	QString getFixedExtractDir() const;
+	int getExtractDirMode() const;
 	void setLastExtractDir(const QString& dir);
 	void setExtractDirCfg(const QString& dir, int mode);
 
 	QString getAddDir();
+	QString getFixedAddDir() const;
+	int getAddDirMode() const;
 	void setLastAddDir(const QString& dir);
 	void setAddDirCfg(const QString& dir, int mode);
 
@@ -96,13 +137,6 @@ private:
 	QString addDir;
 	QString lastAddDir;
 	int addDirMode;
-	
-	enum DirPolicy{
-		FAVORITE_DIR=1, FIXED_START_DIR,
-		LAST_OPEN_DIR, FIXED_OPEN_DIR,
-		LAST_EXTRACT_DIR, FIXED_EXTRACT_DIR,
-		LAST_ADD_DIR, FIXED_ADD_DIR
-	};
 	
 	QStrList lastShellOutput;
 	

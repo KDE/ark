@@ -1,3 +1,28 @@
+/*
+
+ ark -- archiver for the KDE project
+
+ Copyright (C)
+
+ 1997-1999: Rob Palmbos palm9744@kettering.edu
+ 1999: Francois-Xavier Duranceau duranceau@kde.org
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
+
 #include <stdlib.h>
 #include "iostream.h"
 
@@ -196,7 +221,7 @@ void ArkData::addRecentFile(const QString& filename)
 	cerr << "left addRecentFile\n";
 }
 
-QString ArkData::getStartDir()
+QString ArkData::getStartDir() const
 {
     switch(startDirMode){
     	case LAST_OPEN_DIR : return QString(lastOpenDir);
@@ -206,13 +231,23 @@ QString ArkData::getStartDir()
     }
 }
 
+QString ArkData::getFixedStartDir() const
+{
+	return QString( startDir );
+}
+
+int ArkData::getStartDirMode() const
+{
+	return startDirMode;
+}
+
 void ArkData::setStartDirCfg(const QString& dir, int mode)
 {
     startDir = dir;
     startDirMode = mode;
 }
 
-QString ArkData::getOpenDir()
+QString ArkData::getOpenDir() const
 {
     switch(openDirMode){
     	case LAST_OPEN_DIR : return QString(lastOpenDir);
@@ -220,6 +255,16 @@ QString ArkData::getOpenDir()
     	case FAVORITE_DIR : return QString(favoriteDir);
     	default : cerr << "Error in switch !\n"; return QString::null;
     }
+}
+
+QString ArkData::getFixedOpenDir() const
+{
+	return QString( openDir );
+}
+
+int ArkData::getOpenDirMode() const
+{
+	return openDirMode;
 }
 
 void ArkData::setLastOpenDir(const QString& dir)
@@ -244,6 +289,16 @@ QString ArkData::getExtractDir()
     }
 }
 
+QString ArkData::getFixedExtractDir() const
+{
+	return QString( extractDir );
+}
+
+int ArkData::getExtractDirMode() const
+{
+	return extractDirMode;
+}
+
 void ArkData::setLastExtractDir(const QString& dir)
 {
     lastExtractDir = dir;
@@ -251,7 +306,7 @@ void ArkData::setLastExtractDir(const QString& dir)
 
 void ArkData::setExtractDirCfg(const QString& dir, int mode)
 {
-    lastExtractDir = dir;
+    extractDir = dir;
     extractDirMode = mode;
 }
 
@@ -263,6 +318,16 @@ QString ArkData::getAddDir()
     	case FAVORITE_DIR : return QString(favoriteDir);
     	default : cerr << "Error in switch !\n"; return QString::null;
     }
+}
+
+QString ArkData::getFixedAddDir() const
+{
+	return QString( addDir );
+}
+
+int ArkData::getAddDirMode() const
+{
+	return addDirMode;
 }
 
 void ArkData::setLastAddDir(const QString& dir)
