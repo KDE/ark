@@ -43,7 +43,6 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <klocale.h>
 #include <kprocess.h>
 
 // ark includes
