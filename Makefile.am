@@ -33,7 +33,7 @@ kzip_LDFLAGS = @all_libraries@
 
 # the libraries to link against. Be aware of the order. First the libraries,
 # that depend on the following ones.
-kzip_LDADD   = -lkfm -lkdeui -lkdecore -lqt -lX11 -lXext @LIBSOCKET@     
+kzip_LDADD   = -lkfm -lkdeui -lkdecore -lqt -lXext -lX11 $(LIBSOCKET) $(KDE_RPATH)
 
 # this option you can leave out. Just, if you use "make dist", you need it
 #noinst_HEADERS = hexfile.h hexwidget.h
