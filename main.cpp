@@ -66,13 +66,14 @@ static KCmdLineOptions option[] =
 extern "C" int kdemain( int argc, char *argv[]  )
 {
 	KAboutData aboutData( "ark", I18N_NOOP( "Ark" ),
-			"v2.1.9", I18N_NOOP("KDE Archiving tool"), 
+			"v2.3", I18N_NOOP("KDE Archiving tool"), 
 			KAboutData::License_GPL,
 			I18N_NOOP( "(c) 1997-2003, The Various Ark Developers" ) );
 	
 	aboutData.addAuthor( "Helio Chissini de Castro", I18N_NOOP( "Current maintainer" ),
 			"helio@conectiva.com.br" );
 	aboutData.addAuthor( "Georg Robbers", 0, "Georg.Robbers@urz.uni-hd.de" );
+	aboutData.addAuthor( "Henrique Pinto", 0, "henrique.pinto@kdemail.net" );
 	aboutData.addAuthor( "Roberto Selbach Teixeira", 0, "maragato@kde.org" );
 	aboutData.addAuthor( "Francois-Xavier Duranceau", 0, "duranceau@kde.org" );
 	aboutData.addAuthor( "Emily Ezust (Corel Corporation)", 0, "emilye@corel.com" );

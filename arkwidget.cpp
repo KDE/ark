@@ -51,6 +51,7 @@
 #include <kfiledialog.h>
 #include <kdirselectdialog.h>
 #include <kurldrag.h>
+#include <klistviewsearchline.h>
 
 // ark includes
 #include "arkapp.h"
@@ -72,7 +73,7 @@
 //----------------------------------------------------------------------
 
 ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
-        QWidget(parent, name), ArkWidgetBase(this),
+        QVBox(parent, name), ArkWidgetBase(this),
         m_bBusy( false ), m_bBusyHold( false ), m_extractOnly(false),
         m_extractRemote(false), m_openAsMimeType(QString::null),
         m_pTempAddList(NULL), mpDownloadedList(NULL),
@@ -81,9 +82,13 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
         m_extractRemoteTmpDir( NULL ), m_modified( false )
 {
     kdDebug(1601) << "+ArkWidget::ArkWidget" << endl;
-    QHBoxLayout * l = new QHBoxLayout( this );
-    l->setAutoAdd( true );
+
+    m_searchLine = new KListViewSearchLine( this );
+    
     createFileListView();
+
+    m_searchLine->setListView( archiveContent );
+
     // enable DnD
     setAcceptDrops(true);
     kdDebug(1601) << "-ArkWidget::ArkWidget" << endl;

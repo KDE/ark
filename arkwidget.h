@@ -31,11 +31,10 @@
 #ifndef ARKWIDGET_H
 #define ARKWIDGET_H
 
-#define ARK_VERSION "2.1.9"
-
 #include "arkwidgetbase.h"
 #include <kio/job.h>
-#include <qwidget.h>
+
+#include <qvbox.h>
 
 class QPoint;
 class QString;
@@ -51,13 +50,14 @@ class KURL;
 class KRun;
 class KTempFile;
 class KTempDir;
+class KListViewSearchLine;
 
 class Arch;
 class ArkSettings;
 class FileLVI;
 
 
-class ArkWidget : public QWidget, public ArkWidgetBase
+class ArkWidget : public QVBox, public ArkWidgetBase
 {
     Q_OBJECT
 public:
@@ -265,6 +265,8 @@ private: // data
     KTempDir * m_extractRemoteTmpDir;
 
     bool m_modified;
+
+    KListViewSearchLine* m_searchLine;
 };
 
 #endif /* ARKWIDGET_H*/

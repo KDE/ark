@@ -431,7 +431,7 @@ ArkTopLevelWindow::addToArchive( const KURL::List & filesToAdd, const QString & 
         return;
     }
 
-    bool exists = KIO::NetAccess::exists( archiveFile );
+    bool exists = KIO::NetAccess::exists( archiveFile, false, m_widget );
     kdDebug( 1601 ) << archiveFile << endl;
     m_widget->addToArchive( filesToAdd, archiveFile );
     if ( exists )
