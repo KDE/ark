@@ -46,10 +46,11 @@
 #define BROWSE_WIDTH 40
 #define DLG_WIDTH 530
 #define DLG_HEIGHT 310
-#define STARTUPDIR i18n("start-up directory")
-#define OPENDIR i18n("open directory")
-#define EXTRACTDIR i18n("extract directory")
-#define ADDDIR i18n("add directory")
+// don't forget to change common_texts.cpp if you change a text here
+#define STARTUPDIR i18n("(used as part of a sentence)","start-up directory")
+#define OPENDIR i18n("directory for opening files (used as part of a sentence)","open directory")
+#define EXTRACTDIR i18n("directory for extracting files (used as part of a sentence)","extract directory")
+#define ADDDIR i18n("directory for adding files (used as part of a sentence)","add directory")
 
 void WidgetHolder::hide()
 {
@@ -99,9 +100,9 @@ DirDlg::DirDlg( ArkSettings *d, QWidget *parent, const char *name )
   pListBox = new QListBox( this, "ListBox_1" );
   pListBox->setGeometry( 10, 120, 180, 130 );
   pListBox->insertItem(i18n("Start-up directory"), 0);
-  pListBox->insertItem(i18n("Open directory"), 1);
-  pListBox->insertItem(i18n("Extract directory"), 2);
-  pListBox->insertItem(i18n("Add directory"), 3);
+  pListBox->insertItem(i18n("directory for opening files","Open directory"), 1);
+  pListBox->insertItem(i18n("directory for extracting files","Extract directory"), 2);
+  pListBox->insertItem(i18n("directory for adding files","Add directory"), 3);
   connect(pListBox, SIGNAL(highlighted(int)),
 	  this, SLOT(dirTypeChanged(int)));
 

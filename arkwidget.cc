@@ -231,11 +231,11 @@ void ArkWidget::setupActions()
 			     SLOT(edit_selectAll()),
 			     actionCollection(), "select_all");
 
-  viewAction = new KAction(i18n("&View"), "ark_view", 0, this,
+  viewAction = new KAction(i18n("to view something","&View"), "ark_view", 0, this,
 			   SLOT(action_view()),
 			   actionCollection(), "view");
 
-  popupViewAction  = new KAction(i18n("&View"), "ark_view", 0, this,
+  popupViewAction  = new KAction(i18n("to view something","&View"), "ark_view", 0, this,
 			   SLOT(action_view()),
 			   actionCollection(), "popup_menu_view");
 
@@ -252,7 +252,7 @@ void ArkWidget::setupActions()
 			   SLOT(action_edit()),
 			   actionCollection(), "edit");
 
-  popupEditAction = new KAction(i18n("&Edit with..."), 0, this,
+  popupEditAction = new KAction(i18n("Edit &with..."), 0, this,
 				SLOT(action_edit()),
 				actionCollection(), "popup_edit");
 
