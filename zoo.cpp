@@ -48,7 +48,7 @@
 #include "arksettings.h"
 #include "arch.h"
 #include "zoo.h"
-
+#include "utils.h"
 
 QString fixTime(const QString &_strTime);
 

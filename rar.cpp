@@ -46,6 +46,7 @@
 #include "arch.h"
 #include "arksettings.h"
 #include "rar.h"
+#include "utils.h"
 
 RarArch::RarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 		  const QString & _fileName )

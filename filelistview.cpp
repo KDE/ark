@@ -25,11 +25,6 @@
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
-#include <assert.h>
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/stat.h>
 
 // Qt includes
 #include <qpainter.h>

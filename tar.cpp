@@ -43,12 +43,10 @@
 
 // Unsorted in qdir.h is used, but in some of the headers
 // below it's defined, too. So I brought kurl.h to the top.
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
+
+// C includes
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
 // Qt includes
 #include <qapplication.h>
@@ -73,7 +71,6 @@
 #include "filelistview.h"
 
 static char *makeAccessString(mode_t mode);
-static QString makeTimeStamp(const QDateTime & dt);
 
 TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
                   const QString & _filename)
@@ -363,17 +360,15 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
       else
         perms = "-" + perms;
       col_list.append(perms);
-      QString usergroup = tarEntry->user();
-      usergroup += '/';
-      usergroup += tarEntry->group();
-      col_list.append( usergroup );
+      col_list.append( tarEntry->user() );
+      col_list.append( tarEntry->group() );
       QString strSize = "0";
       if (tarEntry->isFile())
         {
           strSize.sprintf("%d", ((KTarFile *)tarEntry)->size());
         }
       col_list.append(strSize);
-      QString timestamp = makeTimeStamp(tarEntry->datetime());
+      QString timestamp = tarEntry->datetime().toString(ISODate);
       col_list.append(timestamp);
       col_list.append(tarEntry->symlink());
       m_gui->listingAdd(&col_list); // send the entry to the GUI
@@ -403,7 +398,8 @@ void TarArch::setHeaders()
 
   list.append(FILENAME_STRING);
   list.append(PERMISSION_STRING);
-  list.append(OWNER_GROUP_STRING);
+  list.append(OWNER_STRING);
+  list.append(GROUP_STRING);
   list.append(SIZE_STRING);
   list.append(TIMESTAMP_STRING);
   list.append(LINK_STRING);
@@ -411,7 +407,7 @@ void TarArch::setHeaders()
   // which columns to align right
   int *alignRightCols = new int[2];
   alignRightCols[0] = 1;
-  alignRightCols[1] = 3;
+  alignRightCols[1] = 4;
 
   m_gui->setHeaders(&list, alignRightCols, 2);
   delete [] alignRightCols;
@@ -425,8 +421,7 @@ TarArch::createTmp()
 	kdDebug(1601) << "+TarArch::createTmp" << endl;
 	if ( compressed )
 	{
-		struct stat statbuffer;
-		if ( stat( QFile::encodeName( tmpfile ), &statbuffer) == -1)
+		if ( !QFile::exists(tmpfile) )
 		{
 			// the tmpfile does not yet exist, so we create it.
 			createTmpInProgress = true;
@@ -479,24 +474,9 @@ void TarArch::createTmpProgress( KProcess *, char *_buffer, int _bufflen )
     }
 }
 
-static QDateTime getMTime(const QString & entry)
-{
-  // I have something like: 1999-10-04 11:04:44
-  int year, month, day, hour, min, seconds;
-  // HPB: should be okay 'cause the date format will not be localized
-  sscanf( entry.ascii(), "%d-%d-%d %d:%d:%d", &year, &month, &day, &hour,
-          &min, &seconds);
-
-  QDate theDate(year, month, day);
-  QTime theTime(hour, min, seconds);
-  return (QDateTime(theDate, theTime));
-}
-
-
 void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
   // because tar is broken. Used when appending: see addFile.
 {
-  struct stat statbuffer;
   QStringList list;
   QString str;
 
@@ -523,15 +503,8 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
       // old. Otherwise we aren't adding it anyway, so we can go on to the next
       // file with a "continue".
 
-      stat(QFile::encodeName(filename), &statbuffer);
-      time_t the_mtime = statbuffer.st_mtime;
-      struct tm *convertStruct = localtime(&the_mtime);
-      QDateTime addFileMTime(QDate(convertStruct->tm_year,
-                                   convertStruct->tm_mon + 1,
-                                   convertStruct->tm_mday),
-                             QTime(convertStruct->tm_hour,
-                                   convertStruct->tm_min,
-                                   convertStruct->tm_sec));
+      QFileInfo fileInfo(filename);
+      QDateTime addFileMTime = fileInfo.lastModified();
       QDateTime oldFileMTime = lv->timeStamp();
 
       kdDebug(1601) << "Old file: " << oldFileMTime.date().year() << "-" <<
@@ -547,7 +520,7 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
 
       if (oldFileMTime >= addFileMTime)
       {
-        fprintf(stderr, "Old time is newer or same\n");
+        kdDebug() << "Old time is newer or same" << endl;
         continue; // don't add this file to the list to be deleted.
       }
     }
@@ -881,21 +854,6 @@ static char *makeAccessString(mode_t mode)
   buffer[9] = 0;
 
   return buffer;
-}
-
-static QString makeTimeStamp(const QDateTime & dt)
-{
-  // make sortable timestamp, like the output of tar -tvf
-  // but with seconds.
-
-  QString timestamp;
-  QDate d = dt.date();
-  QTime t = dt.time();
-
-  timestamp.sprintf("%d-%02d-%02d %s",
-                    d.year(), d.month(), d.day(),
-                    t.toString().utf8().data());
-  return timestamp;
 }
 
 #include "tar.moc"

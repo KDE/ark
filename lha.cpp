@@ -51,6 +51,7 @@
 #include "arksettings.h"
 #include "arch.h"
 #include "lha.h"
+#include "utils.h"
 
 LhaArch::LhaArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 		  const QString & _fileName )

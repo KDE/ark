@@ -14,7 +14,7 @@ libark_la_SOURCES= arkapp.cpp extractdlg.cpp dirDlg.cpp arkwidget.cpp \
 		waitDlg.cpp shellOutputDlg.cpp arksettings.cpp \
 		compressedfile.cpp zoo.cpp rar.cpp ar.cpp generalOptDlg.cpp \
 		ark_part.cpp arkwidgetpart.cpp arkwidgetbase.cpp kdirselectdialog.cpp \
-		kdirselect.cpp
+		kdirselect.cpp utils.cpp
 
 # KParts
 libark_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module $(LIB_KIO)
@@ -41,7 +41,7 @@ noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \
 		 filelistview.h adddlg.h lha.h compressedfile.h \
 		 selectDlg.h waitDlg.h shellOutputDlg.h generalOptDlg.h \
 		 ark_part.h arkwidgetpart.h arkwidgetbase.h kdirselectdialog.h \
-		 kdirselect.h
+		 kdirselect.h utils.h
 
 # just to make sure, automake makes them 
 METASOURCES = AUTO

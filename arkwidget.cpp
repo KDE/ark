@@ -658,7 +658,6 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
                                   const QString & _extension)
 {
   int choice=0;
-  struct stat statbuffer;
   bool skip = false;
   QString strFile;
   KURL url;
@@ -688,7 +687,7 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
 
       kdDebug(1601) << "Trying to create an archive named " <<
         strFile << endl;
-      if (stat(QFile::encodeName(strFile), &statbuffer) != -1)  // already exists!
+      if (QFile::exists(strFile))  // already exists!
         {
           choice =
             KMessageBox::warningYesNoCancel(0, i18n("Archive already exists. Do you wish to overwrite it?"), i18n("Archive Already Exists"));
@@ -1628,7 +1627,6 @@ ArkWidget::reportExtractFailures( const QString & _dest, QStringList *_list )
 	// Otherwise the list contains the files we are to extract.
 
 	QString strFilename, tmp;
-	struct stat statbuffer;
 	bool bRedoExtract = false;
 
 	QApplication::restoreOverrideCursor();
@@ -1661,7 +1659,7 @@ ArkWidget::reportExtractFailures( const QString & _dest, QStringList *_list )
 	{
 		strFilename = *it;
 		QString strFullName = strDestDir + strFilename;
-		if (stat(QFile::encodeName(strFullName), &statbuffer) != -1)
+		if (QFile::exists(strFullName))
 		{
 			existingFiles.append(strFilename);
 		}

@@ -85,7 +85,7 @@ extern int errno;
 bool 
 Utilities::diskHasSpacePart(const QString &dir, long size)
 {
-	fprintf(stderr, "Size: %ld\n", size);
+	kdDebug() << "Size: " << size << endl;
 	struct STATFS buf;
 	if (STATFS(QFile::encodeName(dir), &buf) == 0)
 	{
@@ -374,7 +374,6 @@ bool
 ArkWidgetPart::reportExtractFailures(const QString & _dest, QStringList *_list)
 {
 	QString strFilename, tmp;
-	struct stat statbuffer;
 	bool bRedoExtract = false;
 	
 	QApplication::restoreOverrideCursor();
@@ -406,7 +405,7 @@ ArkWidgetPart::reportExtractFailures(const QString & _dest, QStringList *_list)
 	{
 		strFilename = *it;
 		QString strFullName = strDestDir + strFilename;
-		if (stat(QFile::encodeName(strFullName), &statbuffer) != -1)
+		if (QFile::exists(strFullName))
 		{
 			existingFiles.append(strFilename);
 		}
