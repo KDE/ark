@@ -1,8 +1,6 @@
 /*
  Emacs: -*- mode: c++; c-basic-offset: 4; -*-
 
- $Id$
-
  ark -- archiver for the KDE project
 
  Copyright (C)
@@ -35,7 +33,6 @@
 //#include <stdlib.h>
 
 // Qt includes
-#include <qdragobject.h>
 #include <qlayout.h>
 
 
@@ -52,16 +49,19 @@
 #include <kprocess.h>
 #include <kfiledialog.h>
 #include <kdirselectdialog.h>
+#include <kurldrag.h>
 
 // ark includes
 #include "arkapp.h"
 #include "generalOptDlg.h"
 #include "selectDlg.h"
+#include "archiveformatdlg.h"
 #include "extractdlg.h"
 #include "arkwidget.h"
 #include "filelistview.h"
 #include "arksettings.h"
 #include "arkutils.h"
+#include "archiveformatinfo.h"
 
 //----------------------------------------------------------------------
 //
@@ -74,9 +74,9 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
         m_bViewInProgress(false), m_bOpenWithInProgress(false),
         m_bEditInProgress(false),
         m_bMakeCFIntoArchiveInProgress(false), m_extractOnly(false),
-        m_extractRemote(false), m_pTempAddList(NULL),
-        m_bDropFilesInProgress(false), mpTempFile(NULL),
-        mpDownloadedList(NULL), mpAddList(NULL)
+        m_extractRemote(false), m_openAsMimeType(QString::null),
+        m_pTempAddList(NULL), m_bDropFilesInProgress(false),
+        mpTempFile(NULL), mpDownloadedList(NULL), mpAddList(NULL)
 {
     kdDebug(1601) << "+ArkWidget::ArkWidget" << endl;
     QHBoxLayout * l = new QHBoxLayout( this );
@@ -125,21 +125,23 @@ void ArkWidget::updateStatusTotals()
 
 KURL ArkWidget::getSaveAsFileName()
 {
-    QString extension, filter;
-    // Yes... again.
-    enum ArchType archtype = Arch::getArchType(m_strArchName, extension, m_url);
-    filter = "*" + extension;
+    QStringList list;
+    if ( m_openAsMimeType.isNull() )
+        list = KMimeType::findByPath( m_strArchName )->patterns();
+    else
+        list = KMimeType::mimeType( m_openAsMimeType )->patterns();
+
     KURL u;
     do
     {
-        u = getCreateFilename( i18n( "Save Archive As" ), filter, extension );
+        u = getCreateFilename( i18n( "Save Archive As" ), list.join( "\n" ), list.first().remove( '*' ) );
         if (  u.isEmpty() )
             return u;
         // we have to make sure the user doesn't think this is
         // an opportunity to convert .tgz to .zip...
         if( allowedArchiveName( u ) )
             break;
-        KMessageBox::error( this, i18n( "Please save your archive in the same format as the original.\nHint: Use the same extension." ) );
+        KMessageBox::error( this, i18n( "Please save your archive in the same format as the original.\nHint: Use one of the suggested extensions." ) );
     }
     while ( true );
     return u;
@@ -163,15 +165,13 @@ bool ArkWidget::allowedArchiveName( const KURL & u )
     if (u.isEmpty())
         return false;
 
-    QString strFile;
-    QString ext;
-    QString extension, filter;
+    enum ArchType archtype = ArchiveFormatInfo::archTypeForURL( m_url );
+    if ( !m_openAsMimeType.isNull() )
+        archtype = ArchiveFormatInfo::archTypeForMimeType( m_openAsMimeType );
 
-    // Yes... again.
-    enum ArchType archtype = Arch::getArchType( m_strArchName, extension, m_url );
+    QString strFile = u.path();
+    ArchType newArchType = ArchiveFormatInfo::archTypeForURL( u );
 
-    strFile = u.path();
-    ArchType newArchType = Arch::getArchType(strFile, ext, u);
     if (newArchType == archtype)
         return true;
     // these types don't mind having no extension. Zip will add one, ulp!
@@ -188,6 +188,11 @@ void ArkWidget::slotSaveAsDone(KIO::Job * job)
         job->showErrorDialog();
 }
 
+void ArkWidget::setOpenAsMimeType( const QString & mimeType )
+{
+    m_openAsMimeType = mimeType;
+}
+
 void
 ArkWidget::file_open(const KURL& url)
 {
@@ -199,7 +204,10 @@ ArkWidget::file_open(const KURL& url)
         file_close();  // close old arch. If we don't, our temp file is wrong!
 
     if ( !url.isLocalFile() )
-            kdFatal( 1601 ) << url.prettyURL() << " is not a local URL in ArkWidget::file_open( KURL). Aborting. " << endl;
+    {
+        kdWarning ( 1601 ) << url.prettyURL() << " is not a local URL in ArkWidget::file_open( KURL). Aborting. " << endl;
+        return;
+    }
 
 
     QString strFile = url.path();
@@ -235,8 +243,7 @@ ArkWidget::file_open(const KURL& url)
     m_url = url;
     m_settings->clearShellOutput();
 
-    // display the archive contents
-    showZip(strFile);
+    openArchive( strFile );
 
     kdDebug(1601) << "-ArkWidget::file_open(const KURL& url)" << endl;
 }
@@ -255,10 +262,9 @@ ArkWidget::download(const KURL &url, QString &strFile)
     // as url.
     if (!url.isLocalFile())
     {
-        QString extension;
-        Arch::getArchType(url.path(), extension);
+        Arch::getArchType(url.path());
         QString directory = locateLocal( "tmp", "ark" );
-        mpTempFile = new KTempFile(directory , extension);
+        mpTempFile = new KTempFile(directory , extension( url.path() );
         kdDebug( 1601 ) << "Tempfile: " << mpTempFile->name() << endl;
         strFile = mpTempFile->name();
         kdDebug(1601) << "Downloading " << url.path() << " as " << strFile << endl;
@@ -327,9 +333,8 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
         if ( !ArkUtils::haveDirPermissions( strFile ) )
             return QString::null;
 
-        QString temp;
         if (m_bMakeCFIntoArchiveInProgress &&
-                Arch::getArchType(strFile, temp, url) == COMPRESSED_FORMAT)
+                ArchiveFormatInfo::archTypeForURL( url ) == COMPRESSED_FORMAT)
         {
             KMessageBox::information(0, i18n("You need to create an archive, not a new\ncompressed file. Please try again."));
             continue;
@@ -340,14 +345,14 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
                 (m_strArchName.isNull() && !strFile.contains('.')))
         {
             // if the filename has no dot in it, ask to append extension
-            QString extension = _extension;
-            if (extension.isNull())
-                extension = ".zip";
+            QString ext = _extension;
+            if (ext.isNull())
+                ext = ".zip";
 
-            int nRet = KMessageBox::warningYesNo(0, i18n("Your file is missing an extension to indicate the archive type.\nIs it OK to create a file of the default type (%1)?").arg(extension), i18n("Error"));
+            int nRet = KMessageBox::warningYesNo(0, i18n("Your file is missing an extension to indicate the archive type.\nIs it OK to create a file of the default type (%1)?").arg(ext), i18n("Error"));
             if (nRet == KMessageBox::Yes)
             {
-                strFile += extension;
+                strFile += ext;
                 url = strFile;
                 skip = true; // skip the getSaveUrl part
                 continue; // gotta check if it exists again
@@ -367,7 +372,7 @@ void ArkWidget::file_new()
 {
     QString strFile;
     KURL url = getCreateFilename(i18n("Create New Archive"),
-                                 m_settings->getFilter());
+                                 ArchiveFormatInfo::filter());
     strFile = url.path();
     if (!strFile.isEmpty())
     {
@@ -388,7 +393,6 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
         createFileListView();
         m_bIsArchiveOpen = true;
         arch = _newarch;
-        QString extension;
         m_bIsSimpleCompressedFile =
             (m_archType == COMPRESSED_FORMAT);
         fixEnables();
@@ -405,14 +409,6 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
         QApplication::restoreOverrideCursor();
         KMessageBox::error(this, i18n("ark cannot create an archive of that type.\n\n  [Hint: The filename should have an extension such as '.zip' to\n  indicate the archive type. Please see the help pages for\nmore information on supported archive formats.]"));
     }
-}
-
-void
-ArkWidget::showZip( const QString & _filename )
-{
-    kdDebug(1601) << "+ArkWidget::showZip" << endl;
-    openArchive( _filename );
-    kdDebug(1601) << "-ArkWidget::showZip" << endl;
 }
 
 void
@@ -442,9 +438,15 @@ ArkWidget::slotOpen( Arch *_newarch, bool _success, const QString & _filename, i
         arch = _newarch;
         updateStatusTotals();
         m_bIsArchiveOpen = true;
-        QString extension;
         m_bIsSimpleCompressedFile = ( m_archType == COMPRESSED_FORMAT );
         emit addOpenArk( _filename );
+    }
+    else
+    {
+        emit removeRecentURL( _filename );
+        emit setWindowCaption( QString::null );
+        QApplication::restoreOverrideCursor();
+        KMessageBox::error( this, i18n( "An error occured while trying to open the archive %1" ).arg( _filename ) );
     }
 
     fixEnables();
@@ -553,18 +555,18 @@ ArkWidget::slotExtractDone()
     else if (m_bDragInProgress)
     {
         m_bDragInProgress = false;
-        QStrList list;
+        KURL::List list;
+
         for (QStringList::Iterator it = mDragFiles.begin(); it != mDragFiles.end(); ++it)
         {
-            QString URL;
-            URL = m_settings->getTmpDir() + '/';
-            URL += *it;
-            list.append( QUriDrag::localFileToUri(URL) );
+            KURL url;
+            url.setPath( m_settings->getTmpDir() + '/' + *it );
+            list.append( url );
         }
 
-        QUriDrag *d = new QUriDrag(list, archiveContent->viewport());
+        KURLDrag *drg = new KURLDrag(list, archiveContent->viewport(), "Ark Archive Drag" );
         m_bDropSourceIsSelf = true;
-        d->dragCopy();
+        drg->dragCopy();
         m_bDropSourceIsSelf = false;
     }
     if(m_extractList != 0)
@@ -731,6 +733,10 @@ ArkWidget::file_close()
     {
         closeArch();
     }
+
+    m_strArchName = QString::null;
+    m_url = KURL();
+
     kdDebug(1601) << "-ArkWidget::file_close" << endl;
 }
 
@@ -835,7 +841,7 @@ KURL ArkWidget::askToCreateRealArchive()
     {
         m_bMakeCFIntoArchiveInProgress = true;
         url = getCreateFilename(i18n("Create New Archive"),
-                                m_settings->getFilter());
+                                ArchiveFormatInfo::filter());
     }
     return url;
 }
@@ -856,7 +862,6 @@ void ArkWidget::createRealArchive(const QString &strFilename)
 
 void ArkWidget::action_add()
 {
-    QString extension;
     if (m_bIsSimpleCompressedFile && (m_nNumFiles == 1))
     {
         QString strFilename;
@@ -997,7 +1002,6 @@ void ArkWidget::action_delete()
     if (archiveContent->isSelectionEmpty())
         return; // shouldn't happen - delete should have been disabled!
 
-    QString extension;
     bool bIsTar = (TAR_FORMAT == m_archType);
     bool bDeletingDir = false;
     QStringList list;
@@ -1549,8 +1553,7 @@ void ArkWidget::dropAction(QStringList *list)
 
     str = list->first();
 
-    QString extension;
-    if (1 == list->count() &&  (UNKNOWN_FORMAT != Arch::getArchType(str, extension)))
+    if (1 == list->count() &&  (UNKNOWN_FORMAT != ArchiveFormatInfo::archTypeByExtension(str)))
     {
         // if there's one thing being dropped and it's an archive
         if (isArchiveOpen())
@@ -1667,8 +1670,7 @@ void ArkWidget::showFavorite()
         {
           QString name( (flisti.current())->fileName() );
           isDirectory = (flisti.current())->isDir();
-          QString extension;
-          if ( (Arch::getArchType(name, extension)!=-1) || (isDirectory) )
+          if ( (Arch::getArchType(name)!=-1) || (isDirectory) )
             {
               FileLVI *flvi = new FileLVI(archiveContent);
               flvi->setText(0, name);
@@ -1746,40 +1748,6 @@ void ArkWidget::createFileListView()
 }
 
 //////////////////////////////////////////////////////////////////////
-//////////////////////// badBzipName /////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-bool
-ArkWidget::badBzipName(const QString & _filename)
-{
-    if ( _filename.right(3) == ".BZ" || _filename.right(4) == ".TBZ" )
-    {
-        KMessageBox::error( this,
-                            i18n("bzip does not support filename extensions that use capital letters.") );
-    }
-    else if ( _filename.right(4) == ".tbz" )
-    {
-        KMessageBox::error(this, i18n("bzip only supports filenames with the extension \".bz\"."));
-    }
-    else if (_filename.right(4) == ".BZ2" ||  _filename.right(5) == ".TBZ2")
-    {
-        KMessageBox::error(this,
-                           i18n("bzip2 does not support filename extensions that use capital letters."));
-    }
-    else if ( _filename.right(5) == ".tbz2" )
-    {
-        KMessageBox::error(this,
-                           i18n("bzip2 only supports filenames with the extension \".bz2\".") );
-    }
-    else
-    {
-        return false;
-    }
-
-    return true;
-}
-
-//////////////////////////////////////////////////////////////////////
 ////////////////////// createArchive /////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
@@ -1788,14 +1756,13 @@ void ArkWidget::createArchive( const QString & _filename )
 {
     // make sure we can write there
     Arch * newArch = 0;
-    QString extension;
 
-    ArchType archtype = Arch::getArchType(_filename, extension);
+    ArchType archtype = ArchiveFormatInfo::archTypeByExtension(_filename);
+    kdDebug( 1601 ) << "archtype is recognised as: " << archtype << endl;
     if(0 == (newArch = Arch::archFactory(archtype, m_settings, this,
                                          _filename)))
     {
-        if (!badBzipName(_filename))
-            KMessageBox::error(this, i18n("Unknown archive format or corrupted archive") );
+        KMessageBox::error(this, i18n("Unknown archive format or corrupted archive") );
         return;
     }
 
@@ -1826,41 +1793,40 @@ void ArkWidget::createArchive( const QString & _filename )
 void
 ArkWidget::openArchive( const QString & _filename )
 {
-    QString extension;
     Arch *newArch = 0;
-    ArchType archtype = Arch::getArchType( _filename, extension, m_url );
-
-    if( 0 == ( newArch = Arch::archFactory( archtype, m_settings, this, _filename ) ) )
+    ArchType archtype;
+    if ( m_openAsMimeType.isNull() )
     {
-        kdDebug( 1601 ) << "BadBZip name test..." << endl;
-        if ( !badBzipName( _filename ) )
+        archtype = ArchiveFormatInfo::archTypeForURL( m_url );
+        if ( ArchiveFormatInfo::wasUnknownExtension() )
         {
-            // it's still a bad name, so let's try to figure out what it is.
-            // Maybe it just needs the proper extension!
-            KMimeMagic *mimePtr = KMimeMagic::self();
-            KMimeMagicResult * mimeResultPtr = mimePtr->findFileType(_filename);
-            QString mimetype = mimeResultPtr->mimeType();
-            if (mimetype == "application/x-gzip")
+            ArchiveFormatDlg * dlg = new ArchiveFormatDlg( this, KMimeType::findByURL( m_url )->name() );
+            if ( !dlg->exec() == QDialog::Accepted )
             {
-                KMessageBox::error(this, i18n("Gzip archives need to have the extension `gz'."));
+                emit setWindowCaption( QString::null );
+                emit removeRecentURL( _filename );
+                delete dlg;
+                file_close();
                 return;
             }
-            else if (mimetype == "application/x-zoo")
-            {
-                KMessageBox::error(this, i18n("Zoo archives need to have the extension `zoo'."));
-                return;
-            }
-            else
-            {
-                KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
-                // and just leave the old archive displayed
-                return;
-            }
+            m_openAsMimeType = dlg->mimeType();
+            archtype = ArchiveFormatInfo::archTypeForMimeType( m_openAsMimeType );
+            delete dlg;
         }
-        else
-        {
-            return;
-        }
+    }
+    else
+    {
+       archtype = ArchiveFormatInfo::archTypeForMimeType( m_openAsMimeType );
+    }
+
+    kdDebug( 1601 ) << "m_openAsMimeType is: " << m_openAsMimeType << endl;
+    if( 0 == ( newArch = Arch::archFactory( archtype, m_settings, this,
+                                            _filename, m_openAsMimeType) ) )
+    {
+        emit setWindowCaption( QString::null );
+        emit removeRecentURL( _filename );
+        KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
+        return;
     }
 
     if (!newArch->utilityIsAvailable())

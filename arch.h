@@ -1,8 +1,6 @@
 //  -*-C++-*-           emacs magic for .h files
 /*
 
- $Id$
-
  ark -- archiver for the KDE project
 
  Copyright (C)
@@ -44,10 +42,8 @@
 // To add a new archive:
 // 1. Create a new header file and a source code module
 // 2. Add an entry to the ArchType enum in arch.h.
-// 3. Add appropriate types to getArchType() and archFactory() in arch.cpp
-// 4. Add your extension to the list of valid archives in
-//   ArkSettings::getFilter (you might also want to add a separate entry)
-//
+// 3. Add appropriate types to buildFormatInfo() in archiveformatinfo.cpp
+//    and archFactory() in arch.cpp
 
 
 #ifndef ARCH_H
@@ -139,14 +135,9 @@ public:
 
   QString getUtility() { return m_archiver_program; }
 
-  static ArchType getArchType(const QString &archname, QString &extension,
-                              const KURL &realURL = KURL());
-
-  static ArchType getArchTypeByExtension(const QString &archname,
-                                         QString & extension);
-
   static Arch *archFactory(ArchType aType, ArkSettings *settings,
-			   ArkWidgetBase *parent, const QString &filename);
+                ArkWidgetBase *parent, const QString &filename,
+                const QString &openAsMimeType = QString::null );
 
 protected slots:
   void slotCancel();

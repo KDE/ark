@@ -25,6 +25,7 @@
 #include "ark_part.h"
 #include "arksettings.h"
 #include "arkwidget.h"
+#include "archiveformatinfo.h"
 
 // KDE includes
 #include <kdebug.h>
@@ -36,8 +37,10 @@
 #include <kpopupmenu.h>
 #include <kparts/componentfactory.h>
 #include <kkeydialog.h>
+#include <kcombobox.h>
 
 #include <qwhatsthis.h>
+#include <qlayout.h>
 
 ArkTopLevelWindow::ArkTopLevelWindow( QWidget *parent, const char *name ) :
         KParts::MainWindow()
@@ -84,7 +87,7 @@ ArkTopLevelWindow::ArkTopLevelWindow( QWidget *parent, const char *name ) :
         setAutoSaveSettings( "MainWindow" );
     }
     else
-        kdFatal( 1601 ) << "libarkpart could not found. Aborting. " << endl;
+        kdFatal( 1601 ) << "libark could not found. Aborting. " << endl;
 
 }
 
@@ -229,9 +232,9 @@ void ArkTopLevelWindow::toggleStatusBar()
 // see if the ark is already open in another window
 bool ArkTopLevelWindow::arkAlreadyOpen( const KURL & url )
 {
-    if ( m_part->url() == url ) return true;
     if (ArkApplication::getInstance()->isArkOpenAlready(url))
     {
+        if ( m_part->url() == url ) return true;
         // raise the window containing the already open archive
         ArkApplication::getInstance()->raiseArk(url);
 
@@ -254,8 +257,42 @@ void ArkTopLevelWindow::openURL( const KURL & url )
 
 void ArkTopLevelWindow::file_open()
 {
+    QWidget * forceFormatWidget = new QWidget( this );
+    QHBoxLayout * l = new QHBoxLayout( forceFormatWidget );
+
+    QLabel * label = new QLabel( forceFormatWidget );
+    label->setText( i18n( "Open &As:" ) );
+    label->adjustSize();
+
+    KComboBox * combo = new KComboBox( forceFormatWidget );
+
+    QStringList list;
+    list = ArchiveFormatInfo::allDescriptions();
+    list.sort();
+    list.prepend( i18n( "Autodetect (default)" ) );
+    combo->insertStringList( list );
+
+    label->setBuddy( combo );
+
+    l->addWidget( label );
+    l->addWidget( combo, 1 );
+
+    KFileDialog dlg( m_widget->settings()->getOpenDir(),
+                     ArchiveFormatInfo::filter(),this, "filedialog",
+                     true, forceFormatWidget );
+    dlg.setOperationMode( KFileDialog::Opening );
+
+    dlg.setCaption( i18n("Open") );
+    dlg.setMode( KFile::File );
+    dlg.exec();
+
     KURL url;
-    url = KFileDialog::getOpenURL(m_widget->settings()->getOpenDir(), m_widget->settings()->getFilter(), this);
+    url = dlg.selectedURL();
+
+    if ( combo->currentItem() !=0 ) // i.e. != "Autodetect"
+        m_widget->setOpenAsMimeType( ArchiveFormatInfo::mimeTypeForDescription( combo->currentText() ) );
+    else
+        m_widget->setOpenAsMimeType( QString::null );
 
     if( !arkAlreadyOpen( url ) )
         m_part->openURL( url );
@@ -269,7 +306,7 @@ void ArkTopLevelWindow::file_close()
 void ArkTopLevelWindow::window_close()
 {
     file_close();
-    //needs a KConfig param->check again: static_cast<ArkWidget*>( m_part->widget() )->saveProperties();
+    slotSaveProperties();
     kdDebug(1601) << "-ArkWidget::window_close" << endl;
     close();
 }

@@ -1,7 +1,5 @@
 /*
 
- $Id$
-
  ark -- archiver for the KDE project
 
  Copyright (C)
@@ -67,8 +65,6 @@ public:
     LAST_ADD_DIR, FIXED_ADD_DIR
   };
 
-  const QString getFilter();
-	
   QString getTarCommand() const { return tar_exe; }
   void setTarCommand(const QString& _cmd) { tar_exe = _cmd; }
 	

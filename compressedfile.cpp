@@ -36,6 +36,11 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kprocess.h>
+#include <kmimetype.h>
+#include <kio/netaccess.h>
+#include <kio/global.h>
+#include <kfileitem.h>
+#include <kapplication.h>
 
 // ark includes
 #include "arkwidgetbase.h"
@@ -45,26 +50,29 @@
 // encapsulates the idea of a compressed file
 
 CompressedFile::CompressedFile( ArkSettings *_settings, ArkWidgetBase *_gui,
-		  const QString & _fileName )
+		  const QString & _fileName, const QString & _openAsMimeType )
   : Arch(_settings, _gui, _fileName )
 {
+  m_openAsMimeType = _openAsMimeType;
   kdDebug(1601) << "CompressedFile constructor" << endl;
-  QString directory;
-  m_tmpdir = _settings->getTmpDir();
-  m_archiver_program = getCompressor();
-  m_unarchiver_program = getUnCompressor();
+  m_tmpdir = _settings->getTmpDir() + QString::fromLatin1( "/compressed_file_temp" );
+  QDir dir;
+  QString ext = QString::number( kapp->random() );
+  for ( int i = 0; dir.exists( m_tmpdir + ext ) && ( i < 255 ); ++i )
+      ext = QString::number( kapp->random() );
+  m_tmpdir = m_tmpdir + ext + "/";
+  dir.mkdir( m_tmpdir );
+  initData();
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
   if (!QFile::exists(_fileName))
-    {
-      KMessageBox::information(0,
-			       i18n("You are creating a simple compressed archive which contains only one input file.\n"
-				    "When uncompressed, the file name will be based on the name of the archive file.\n"
-				    "If you add more files you will be prompted to convert it to a real archive."),
-			       i18n("Simple Compressed Archive"),
-			       "CreatingCompressedArchive"
-			       );
-    }
+  {
+    KMessageBox::information(0,
+              i18n("You are creating a simple compressed archive which contains only one input file.\n"
+                  "When uncompressed, the file name will be based on the name of the archive file.\n"
+                  "If you add more files you will be prompted to convert it to a real archive."),
+              i18n("Simple Compressed Archive"), "CreatingCompressedArchive");
+  }
 }
 
 void CompressedFile::setHeaders()
@@ -88,39 +96,56 @@ void CompressedFile::setHeaders()
   kdDebug(1601) << "-CompressedFile::setHeaders" << endl;
 }
 
-QString CompressedFile::getUnCompressor()
+void CompressedFile::initData()
 {
-  // see extension of m_filename to determine.
-  QString ret;
+    m_unarchiver_program = QString::null;
+    m_archiver_program = QString::null;
 
-  if ( ( m_filename.right( 3 ) == ".gz" ) ||
-       ( m_filename.right( 4 ) == ".exe" ) )
-    ret = "gunzip";
-  else if (m_filename.right(3) == ".bz")
-    ret = "bunzip";
-  else if (m_filename.right(4) == ".bz2")
-    ret = "bunzip2";
-  else if (m_filename.right(4) == ".lzo")
-    ret = "lzop";
-  else if (m_filename.right(2) == ".Z")
-    ret ="uncompress";
-  return ret;
+    QString mimeType;
+    if ( !m_openAsMimeType.isNull() )
+        mimeType = m_openAsMimeType;
+    else
+        mimeType = KMimeType::findByPath( m_filename )->name();
+
+    if ( mimeType == "application/x-gzip" )
+    {
+        m_unarchiver_program = "gunzip";
+        m_archiver_program = "gzip";
+        m_defaultExtensions << ".gz" << "-gz" << ".z" << "-z" << "_z" << ".Z";
+    }
+    if ( mimeType == "application/x-bzip" )
+    {
+        m_unarchiver_program = "bunzip";
+        m_archiver_program = "bzip";
+        m_defaultExtensions << ".bz";
+    }
+    if ( mimeType == "application/x-bzip2" )
+    {
+        m_unarchiver_program = "bunzip2";
+        m_archiver_program = "bzip2";
+        m_defaultExtensions << ".bz2" << ".bz";
+    }
+    if ( mimeType == "application/x-lzop" )
+    { m_unarchiver_program = "lzop";
+        m_archiver_program = "lzop";
+        m_defaultExtensions << ".lzo";
+    }
+    if ( mimeType == "application/x-compress" )
+    {
+        m_unarchiver_program = "uncompress";
+        m_archiver_program = "compress";
+        m_defaultExtensions = ".Z";
+    }
+
 }
 
-QString CompressedFile::getCompressor()
+QString CompressedFile::extension()
 {
-  QString ret;
-  if (m_filename.right(3) == ".gz")
-    ret = "gzip";
-  else if (m_filename.right(3) == ".bz")
-    ret = "bzip";
-  else if (m_filename.right(4) == ".bz2")
-    ret = "bzip2";
-  else if (m_filename.right(4) == ".lzo")
-    ret = "lzop";
-  else if (m_filename.right(2) == ".Z")
-    ret = "compress";
-  return ret;
+  QStringList::Iterator it = m_defaultExtensions.begin();
+  for( ; it != m_defaultExtensions.end(); ++it )
+    if( m_filename.endsWith( *it ) )
+        return QString::null;
+  return m_defaultExtensions.first();
 }
 
 void CompressedFile::open()
@@ -132,25 +157,31 @@ void CompressedFile::open()
   // and when the uncompression is done, obtain an ls -l of it
   // (that code is in the slot slotOpenDone)
 
+  m_tmpfile = m_filename.right(m_filename.length()
+                 - m_filename.findRev("/")-1);
+  m_tmpfile += extension();
+  m_tmpfile = m_tmpdir + m_tmpfile;
+
   KProcess proc;
-  proc << "cp" << m_filename << m_tmpdir;
+  proc << "cp" << m_filename << m_tmpfile;
   proc.start(KProcess::Block);
 
-  m_tmpfile = m_filename.right(m_filename.length()
-			       - m_filename.findRev("/")-1);
-  m_tmpfile = m_tmpdir + "/" + m_tmpfile;
 
   kdDebug(1601) << "Temp file name is " << m_tmpfile << endl;
 
   KProcess *kp = new KProcess;
-  QString uncompressor = m_unarchiver_program;
   kp->clearArguments();
-  *kp << uncompressor << "-f" ;
-  if (uncompressor == "lzop")
+  *kp << m_unarchiver_program << "-f" ;
+  if ( m_unarchiver_program == "lzop")
     *kp << "-d";
+  // gunzip 1.3 seems not to like original names with directories in them
+  // testcase: https://listman.redhat.com/pipermail/valhalla-list/2006-October.txt.gz
+  /*if ( m_unarchiver_program == "gunzip" )
+    *kp << "-N";
+  */
   *kp << m_tmpfile;
 
-  kdDebug(1601) << "Command is " << uncompressor << " " << m_tmpfile<< endl;
+  kdDebug(1601) << "Command is " << m_unarchiver_program << " " << m_tmpfile<< endl;
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
@@ -176,57 +207,46 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
     kdDebug(1601) << "exitStatus = " << _kp->exitStatus() << endl;
 
   if( _kp->normalExit() && (_kp->exitStatus()==0) )
+  {
+    if(stderrIsError())
     {
-      if(stderrIsError())
-	{
-	  KMessageBox::error( 0, i18n("You probably don't have sufficient permissions.\n"
-				      "Please check the file owner and the integrity "
-				      "of the archive.") );
-	}
-      else
-	bSuccess = true;
+      KMessageBox::error( 0, i18n("You probably don't have sufficient permissions.\n"
+                          "Please check the file owner and the integrity "
+                          "of the archive.") );
     }
-  else
-    KMessageBox::sorry( (QWidget *)0, i18n("Open failed"), i18n("Error") );
+    else
+      bSuccess = true;
+  }
 
-  if (bSuccess)
-    {
-      // now do the ls -l. Just a simple system() call
-      m_tmpfile = m_tmpfile.left(m_tmpfile.findRev("."));
-      kdDebug(1601) << "Temp file is " << m_tmpfile << endl;
-      QDir::setCurrent(m_tmpdir);
-      QString command = "ls -l " +
-	KProcess::quote(m_tmpfile.right(m_tmpfile.length() - 1 - m_tmpfile.findRev("/")));
-
-      char line[4096];
-      char columns[7][80];
-      char filename[4096];
-
-      FILE *readHandle = popen(QFile::encodeName(command), "r");
-      fscanf(readHandle, "%4095[-A-Za-z:0-9_+-. ]", line);
-      sscanf(line, "%79[-drwxst] %79[0-9] %79[0-9.a-zA-Z_] %79[0-9.a-zA-Z_] %79[0-9] %12[A-Za-z0-9: ]%1[ ]%79[^\n]", columns[0], columns[5],
-	     columns[1], columns[2], columns[3],
-	     columns[4], columns[6], filename);
-
-      kdDebug(1601) << columns[0] << "\t" << columns[1] << "\t" << columns[2] << "\t" << columns[3] << "\t" << columns[4] << "\t" << filename << "\n" << endl;
-
-      //used QFileInfo to add filename
-      //because sscanf line doesn't works on non english language
-      QFileInfo _fileInfo(m_tmpfile);
-      QString fileName=_fileInfo.fileName();
-      kdDebug(1601) << "Filename is " << fileName << endl;
-      QStringList list;
-      list.append(fileName);
-      for (int i=0; i<4; i++)
-	{
-	  list.append(QString::fromLocal8Bit(columns[i]));
-	}
-      m_gui->listingAdd(&list); // send to GUI
-    }
   delete _kp;
   _kp = 0;
+
+  if ( !bSuccess )
+  {
+      emit sigOpen( this, false, QString::null, 0 );
+      return;
+  }
+
+  QDir dir( m_tmpdir );
+  QStringList lst( dir.entryList() );
+  lst.remove( ".." );
+  lst.remove( "." );
+  KURL url;
+  url.setPath( m_tmpdir + lst.first() );
+  m_tmpfile = url.path();
+  KIO::UDSEntry udsInfo;
+  KIO::NetAccess::stat( url, udsInfo );
+  KFileItem fileItem( udsInfo, url );
+  QStringList list;
+  list << fileItem.name();
+  list << fileItem.permissionsString();
+  list << fileItem.user();
+  list << fileItem.group();
+  list << KIO::number( fileItem.size() );
+  m_gui->listingAdd(&list); // send to GUI
+
   emit sigOpen( this, bSuccess, m_filename,
-		Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
+                Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
 }
 
 void CompressedFile::create()
@@ -312,12 +332,12 @@ void CompressedFile::unarchFile(QStringList *, const QString & _destDir,
     {
       QString dest;
       if (_destDir.isEmpty() || _destDir.isNull())
-	{
-	  kdError(1601) << "There was no extract directory given." << endl;
-	  return;
-	}
+      {
+          kdError(1601) << "There was no extract directory given." << endl;
+          return;
+      }
       else
-	dest=_destDir;
+          dest=_destDir;
 
       KProcess proc;
       proc << "cp" << m_tmpfile << dest;

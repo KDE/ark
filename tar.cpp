@@ -39,9 +39,6 @@
 // course, for tape backups, so this is not so surprising!      -Emily
 //
 
-// Unsorted in qdir.h is used, but in some of the headers
-// below it's defined, too. So I brought kurl.h to the top.
-
 // C includes
 #include <stdio.h>
 #include <stdlib.h>
@@ -55,7 +52,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <ktempfile.h>
-#include <kmimemagic.h>
+#include <kmimetype.h>
 #include <kstandarddirs.h>
 #include <kprocess.h>
 #include <ktar.h>
@@ -69,7 +66,7 @@
 static char *makeAccessString(mode_t mode);
 
 TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
-                  const QString & _filename)
+                  const QString & _filename, const QString & _openAsMimeType)
   : Arch(_settings, _gui, _filename), createTmpInProgress(false),
     updateInProgress(false), deleteInProgress(false), fd(NULL)
 {
@@ -77,13 +74,14 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 	m_archiver_program = m_settings->getTarCommand();
 	m_unarchiver_program = QString::null;
 	verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+
+	m_fileMimeType = _openAsMimeType;
+	if ( m_fileMimeType.isNull() )
+		m_fileMimeType = KMimeType::findByPath( _filename )->name();
+
+	kdDebug(1601) << "TarArch::TarArch:  mimetype is " << m_fileMimeType << endl;
 	
-	KMimeMagic *mimePtr = KMimeMagic::self();
-	KMimeMagicResult * mimeResultPtr = mimePtr->findFileType(_filename);
-	QString mimetype = mimeResultPtr->mimeType();
-	kdDebug(1601) << "TarArch::TarArch:  mimetype is " << mimetype << endl;
-	
-	if ( mimetype == "application/x-tar" )
+	if ( m_fileMimeType == "application/x-tar" )
 	{
 		compressed = false;
 	}
@@ -128,7 +126,7 @@ void TarArch::updateArch()
 
       KProcess *kp = new KProcess;
       kp->clearArguments();
-      if ( !getCompressor().isNull() )
+      if ( getCompressor().isNull() )
           *kp << getCompressor() << "-c" << tmpfile;
       else
           *kp << "cat" << tmpfile;
@@ -168,67 +166,37 @@ void TarArch::updateProgress( KProcess *, char *_buffer, int _bufflen )
 
 QString TarArch::getCompressor()
 {
-  QString extension = m_filename.right( m_filename.length() -
-                                       m_filename.findRev('.') );
+    if ( m_fileMimeType == "application/x-tarz" )
+        return QString( "compress" );
 
-  if( extension == ".tgz" || extension == ".gz" )
-    return QString( "gzip" );
+    if ( m_fileMimeType == "application/x-tgz" )
+        return QString( "gzip" );
 
-  if( extension == ".bz")
-    return QString( "bzip" );
+    if (  m_fileMimeType == "application/x-tbz" )
+        return QString( "bzip2" );
 
-  if( extension == ".Z" || extension == ".taz" )
-    return QString( "compress" );
+    if( m_fileMimeType == "application/x-tzo" )
+        return QString( "lzop" );
 
-  if( extension == ".bz2")
-    return QString( "bzip2" );
-
-  if( extension == ".lzo" || extension == ".tzo" )
-    return QString( "lzop" );
-
-  return QString::null;
+    return QString::null;
 }
 
-QString TarArch::getUnCompressorByExtension()
-{
-    QString extension = m_filename.right( m_filename.length() - m_filename.findRev('.') );
-
-  if( extension == ".tgz" || extension == ".gz" )
-    return QString( "gunzip" );
-
-  if( extension == ".bz")
-    return QString( "bunzip" );
-
-  if( extension == ".Z" || extension == ".taz" )
-    return QString( "uncompress" );
-
-  if( extension == ".bz2")
-    return QString( "bunzip2" );
-
-  if( extension == ".lzo" || extension == ".tzo" )
-    return QString( "lzop" );
-
-  return QString::null;
-}
 
 QString TarArch::getUnCompressor()
 {
-
-    QString fileType = KMimeMagic::self()->findFileType( m_filename )->mimeType();
-
-    if ( fileType == "application/x-compress" )
+    if ( m_fileMimeType == "application/x-tarz" )
         return QString( "uncompress" );
 
-    if ( fileType == "application/x-gzip" )
+    if ( m_fileMimeType == "application/x-tgz" )
         return QString( "gunzip" );
 
-    if ( fileType == "application/x-bzip2" )
+    if (  m_fileMimeType == "application/x-tbz" )
         return QString( "bunzip2" );
 
-    if( fileType == "application/x-zoo" )
+    if( m_fileMimeType == "application/x-tzo" )
         return QString( "lzop" );
 
-    return getUnCompressorByExtension();
+    return QString::null;
 }
 
 void 
@@ -272,12 +240,16 @@ TarArch::open()
 	KTar *tarptr;
 	bool failed = false;
 	
-	if ( !compressed || getUnCompressor() == QString("gunzip")
-			|| getUnCompressor() == QString("bunzip2") )
+	if ( m_fileMimeType == "application/x-tgz"
+			|| m_fileMimeType == "application/x-tbz" )
 	{
-		kdDebug(1601)  << "Creating KTar from " << m_filename << 
-			" using uncompressor " << getUnCompressor() << endl;
-		tarptr = new KTar(m_filename);
+		QString type = ( m_fileMimeType == "application/x-tgz" )
+						? "application/x-gzip" : "application/x-bzip2";
+		tarptr = new KTar ( m_filename, type );
+	}
+	else if ( !compressed )
+	{
+		tarptr = new KTar( m_filename );
 	}
 	else
 	{
@@ -288,17 +260,24 @@ TarArch::open()
 	}
 	
 	failed = !tarptr->open( IO_ReadOnly );
+	// failed is false for a tar.gz archive opened as tar.bz2 ?
+	// but one should be able to open empty archives...
+	// failed = failed || ( tarptr->directory()->entries().isEmpty();
 	if( failed && ( getUnCompressor() == QString("gunzip")
 				|| getUnCompressor() == QString("bunzip2") ) )
 	{
 		delete tarptr;
+		tarptr = NULL;
 		createTmp();
 		while (compressed && createTmpInProgress)
 			qApp->processEvents(); // wait for temp to be created;
 		kdDebug(1601)  << "Creating KTar from failed IO_RW " << m_filename << 
 			" using uncompressor " << getUnCompressor() << endl;
-		tarptr = new KTar(tmpfile);
-		failed = !tarptr->open(IO_ReadOnly);
+		if ( KMimeType::findByFileContent( tmpfile )->name() != "application/x-zerosize" )
+		{
+			tarptr = new KTar(tmpfile);
+			failed = !tarptr->open(IO_ReadOnly); 
+		}
 	}
 	
 	if( failed )
@@ -331,6 +310,7 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
 {
   kdDebug(1601) << "+TarArch::processDir" << endl;
   QStringList list = tardir->entries();
+
   for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
     {
       const KTarEntry* tarEntry = tardir->entry((*it));
@@ -526,7 +506,7 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
 
 void TarArch::addFile( QStringList* urls )
 {
-  kdDebug(1601) << "+TarArch::addFile" << endl;
+  kdDebug(1601) << "+TarArch::addFile" << ( urls->first() ) << endl;
   QString file, url, tmp;
 
   // tar is broken. If you add a file that's already there, it gives you
@@ -578,6 +558,7 @@ void TarArch::addFile( QStringList* urls )
       file = tmp;
       QDir::setCurrent(base);
     }
+
   QStringList::Iterator it=urls->begin();
   while(1)
     {

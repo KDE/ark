@@ -1,8 +1,6 @@
 //  -*-C++-*-           emacs magic for .h files
 /*
 
-$Id$
-
 ark -- archiver for the KDE project
 
 Copyright (C)
@@ -53,7 +51,8 @@ class TarArch : public Arch
 {
   Q_OBJECT
 public:
-  TarArch( ArkSettings *_settings, ArkWidgetBase *_gui, const QString & _filename);
+  TarArch( ArkSettings *_settings, ArkWidgetBase *_gui, const QString & _filename,
+            const QString & _openAsMimeType );
   virtual ~TarArch();
 
   virtual void open();
@@ -69,7 +68,6 @@ public:
 
   QString getCompressor();
   QString getUnCompressor();
-    QString getUnCompressorByExtension();
 
  public slots:
  void updateProgress( KProcess *_kp, char *_buffer, int _bufflen );
@@ -92,6 +90,7 @@ private:  // methods
 private: // data
  // if the tar is compressed, this is the temporary uncompressed tar.
   QString tmpfile;
+  QString m_fileMimeType;
   bool compressed;
 
   // for use with createTmp and updateArch

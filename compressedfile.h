@@ -1,8 +1,6 @@
 //  -*-C++-*-           emacs magic for .h files
 /*
 
-    $Id$
-
     ark: A program for modifying archives via a GUI.
 
     Copyright (C)
@@ -50,7 +48,7 @@ class CompressedFile : public Arch
   Q_OBJECT
 public:
   CompressedFile( ArkSettings *_settings, ArkWidgetBase *_gui,
-		  const QString & _fileName );
+		  const QString & _fileName, const QString &_openAsMimeType );
   virtual ~CompressedFile() { }
 	
   virtual void open();
@@ -63,9 +61,6 @@ public:
   virtual void unarchFile(QStringList *, const QString & _destDir="",
 			  bool viewFriendly=false);
 
-  QString getUnCompressor();
-  QString getCompressor();
-
 private slots:
   void slotUncompressDone(KProcess *);
   void slotAddInProgress(KProcess*, char*, int);
@@ -74,8 +69,13 @@ private slots:
 private:
   void initExtract( bool, bool, bool );
   void setHeaders();
+  void initData();
+  QString extension();
+
+  QString m_openAsMimeType;
   QString m_tmpdir;
   QString m_tmpfile;
+  QStringList m_defaultExtensions;
 
   // for use with addFile
   FILE *fd;

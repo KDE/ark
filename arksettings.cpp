@@ -1,7 +1,5 @@
 /*
 
- $Id$
-
  ark -- archiver for the KDE project
 
  Copyright (C)
@@ -30,8 +28,6 @@
 
 // C Configs
 #include <stdlib.h>	// for getenv
-
-// QT includes
 
 // KDE includes
 #include <kglobal.h>
@@ -501,21 +497,6 @@ void ArkSettings::setAddDirCfg(const QString& dir, int mode)
 {
   addDir = dir;
   addDirMode = mode;
-}
-
-const QString ArkSettings::getFilter()
-{
-  return i18n(
-	      "*|All Files\n"
-	      "*.zip *.xpi *.tar.gz *.tar.Z *.tar.lzo *.tgz *.taz *.tzo *.tar.bz2 *.tar.bz *.tar *.lzh *.gz *.lzo *.Z *.bz *.bz2 *.zoo *.rar *.a|All valid archives with extensions\n"
-	      " *.tar.gz *.tar.Z *.tgz *.taz *.tzo *.tar.bz2 *.tar.bz *.tar.lzo *.tar |Tar archives (*.tar, *.tar.gz, *.tar.Z, *.tar.bz2, etc.)\n"
-	      "*.gz *.bz *.bz2 *.lzo *.Z|Compressed Files (*.gz *.bz *.bz2 *.lzo *.Z)\n"
-	      "*.zip *.xpi|Zip archives (*.zip, *.xpi)\n"
-	      "*.lzh|Lha archives with extension lzh\n"
-	      "*.zoo|Zoo archives (*.zoo)\n"
-	      "*.rar|Rar archives with extension rar\n"
-	      "*.a|Ar archives with extension a\n"
-	      );
 }
 
 void ArkSettings::clearShellOutput()

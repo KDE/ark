@@ -1,8 +1,6 @@
 /*
   -*- mode: c++; c-basic-offset: 4; indent-tabs-mode: nil -*-
 
-$Id$
-
 ark: A program for modifying archives via a GUI.
 
 Copyright (C)
@@ -53,7 +51,7 @@ static KCmdLineOptions option[] =
 {
     { "extract", I18N_NOOP( "Open extract dialog, quit when finished." ), 0},
     { "+[archive]", I18N_NOOP( "Open 'archive'" ), 0 },
-    { 0, 0, 0 }
+    KCmdLineLastOption
 };
 
 int main( int argc, char *argv[]  )

@@ -1,8 +1,6 @@
 //  -*- mode: c++; c-basic-offset: 4; -*-
 /*
  
-  $Id$
- 
   ark -- archiver for the KDE project
  
   Copyright (C)
@@ -63,7 +61,6 @@ class ArkWidget : public QWidget, public ArkWidgetBase
 public:
     ArkWidget( QWidget *parent=0, const char *name=0 );
     virtual ~ArkWidget();
-    void showZip( const QString & name );
 
     bool isEditInProgress() { return m_bEditInProgress; }
     void setExtractOnly(bool extOnly) { m_extractOnly = extOnly; }
@@ -72,10 +69,11 @@ public:
     bool allowedArchiveName( const KURL & u );
     bool file_save_as( const KURL & u );
     KURL getSaveAsFileName();
+    void setOpenAsMimeType( const QString & mimeType );
+    QString & openAsMimeType(){ return m_openAsMimeType; };
 
 public slots:
     void file_open(const KURL& url);
-    //void file_open(const QString &);  // opens the specified archive
     void edit_view_last_shell_output();
     void file_close();
     void file_new();
@@ -151,8 +149,6 @@ private: // methods
                            const QString & _filter = QString::null,
                            const QString & _extension = QString::null);
 
-    // complains if the filename has capital letters or is tbz or tbz2
-    bool badBzipName(const QString & _filename);
     bool reportExtractFailures(const QString & _dest, QStringList *_list);
     //bool download(const KURL &, QString &);
 
@@ -196,6 +192,9 @@ private: // data
 
     // URL to extract to.
     KURL m_extractURL;
+
+    // the mimetype the user wants to open this archive as
+    QString m_openAsMimeType;
 
     // if they're dragging in files, this is the temporary list for when
     // we have to create an archive:

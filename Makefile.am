@@ -9,10 +9,11 @@ kde_module_LTLIBRARIES = libarkpart.la
 
 # Kpart sources 
 libarkpart_la_SOURCES= arkapp.cpp extractdlg.cpp dirDlg.cpp arkwidget.cpp \
-		zip.cpp tar.cpp filelistview.cpp arch.cpp \
-		selectDlg.cpp lha.cpp shellOutputDlg.cpp arksettings.cpp \
-		compressedfile.cpp zoo.cpp rar.cpp ar.cpp generalOptDlg.cpp \
-		ark_part.cpp arkwidgetbase.cpp arktoplevelwindow.cpp arkfactory.cpp arkutils.cpp
+                zip.cpp tar.cpp filelistview.cpp arch.cpp \
+                selectDlg.cpp lha.cpp shellOutputDlg.cpp arksettings.cpp \
+                compressedfile.cpp zoo.cpp rar.cpp ar.cpp generalOptDlg.cpp \
+                ark_part.cpp arkwidgetbase.cpp arktoplevelwindow.cpp arkfactory.cpp \
+                arkutils.cpp archiveformatinfo.cpp archiveformatdlg.cpp
 
 # KParts
 libarkpart_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
@@ -26,10 +27,11 @@ ark_LDADD   = libarkpart.la
 # this option you can leave out. Just, if you use "make dist", you need it
 noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \
                  extractdlg.h arkwidget.h arch.h zoo.h ar.h \
-					  filelistview.h lha.h compressedfile.h \
-					  selectDlg.h shellOutputDlg.h generalOptDlg.h \
-					  ark_part.h arkwidgetbase.h arktoplevelwindow.h \
-					  arkfactory.h arkutils.h
+                 filelistview.h lha.h compressedfile.h \
+                 selectDlg.h shellOutputDlg.h generalOptDlg.h \
+                 ark_part.h arkwidgetbase.h arktoplevelwindow.h \
+                 arkfactory.h arkutils.h archiveformatinfo.h \
+                 archiveformatdlg.h
 
 # just to make sure, automake makes them 
 METASOURCES = AUTO
