@@ -179,7 +179,7 @@ void LhaArch::extractTo( QString dest )
 	char line[4096];
 	archProcess.clearArguments();
 	archProcess.setExecutable( "lha" );
-	archProcess << "xfw=" << dest << archname;
+	archProcess << "xfw="+dest << archname;
 
   	newProgressDialog( 1, listing->count() );
  	if(archProcess.startPipe(KProcess::Stdout, &fd) == false)

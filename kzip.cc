@@ -227,6 +227,7 @@ void KZipWidget::createZip()
 		{
 			sb->changeItem( (char *)klocale->translate( "Can't create archive of that type"), 0 );
 			delete arch;
+			arch = 0;
 		}
 	}
 }
@@ -256,9 +257,28 @@ void KZipWidget::fileDrop( KDNDDropZone *dz )
 	QStrList dlist;
 	QString url;
 	QString file;
+	bool opennew=false;
 
 	dlist = dz->getURLList();
-	if( arch )
+
+	if( !arch ){
+		char *foo;
+		url = dlist.at(0);
+		file = url.right( url.length()-5 );
+		foo = file.data();
+		arch = new KZipArch;
+		if( arch->openArch( file ) )
+		{
+			showZip( file );
+			opennew=true;
+		}else{
+			//sb->changeItem( (char *)klocale->translate( "Create or open an archive first"), 0 );
+			delete arch;
+			arch = 0;
+			createZip();
+		}
+	}
+	if( arch && !opennew )
 	{
 		int retcode;
 		retcode = arch->addFile( &dlist );
@@ -275,27 +295,7 @@ void KZipWidget::fileDrop( KDNDDropZone *dz )
 				sb->changeItem( klocale->translate( "Error saving to archive"), 0 );
 		}
 	}
-	else
-	{
-		char *foo;
-		url = dlist.at(0);
-		file = url.right( url.length()-5 );
-		foo = file.data();
-		if( foo[strlen(foo)-1] == '/' )
-		{
-			sb->changeItem( (char *)klocale->translate( "Create or open an archive first"), 0 );
-			return;
-		}
-		arch = new KZipArch;
-		if( arch->openArch( file ) )
-			showZip( file );
-		else
-		{
-			sb->changeItem( (char *)klocale->translate( "Create or open an archive first"), 0 );
-			delete arch;
-			arch = 0;
-		}
-	}
+
 }
 
 
@@ -509,7 +509,7 @@ void KZipWidget::extractFile( int pos )
 	int ret;
 	QString tmp;
 	QString fullname;
-	QString tname;
+	 QString tname;
 	if( pos != -1 )
 	{
 		ExtractDlg *gdest;

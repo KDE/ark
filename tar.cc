@@ -74,7 +74,7 @@ QString TarArch::getCompressor()
 	QString extension = archname.right( archname.length()-archname.findRev('.') );
 	cout << extension;
 	if( extension == ".tgz" || extension == ".gz" ) 
-		return QString( ".gzip" );
+		return QString( "gzip" );
 	if( extension == ".bz" )
 		return QString( "bzip" );
 	if( extension == ".Z" || extension == ".taz" )
