@@ -53,7 +53,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #define DLG_NAME i18n( "Extract" )
 
 ExtractDlg::ExtractDlg( ArkSettings *_settings )
-    : KDialogBase( KDialogBase::Plain, DLG_NAME, Ok | Cancel, Ok ),
+    : KDialogBase( KDialogBase::Plain, DLG_NAME, Ok | Cancel, Ok, this ),
 m_settings( _settings )
 {
     QFrame *mainFrame = plainPage();
