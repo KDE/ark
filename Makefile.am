@@ -45,7 +45,7 @@ messages:
 kde_icon_DATA = ark.xpm
 
 apps_DATA = ark.kdelnk
-appsdir = $(kde_appsdir)/Utilities 
+appsdir = $(kde_appsdir)/Utilities
 
 # just install datas here. Use install-exec-data for scripts and etc.
 # the binary itself is already installed from automake
