@@ -59,6 +59,8 @@ protected slots:
   virtual bool processLine(const QCString &line);
 
 private: // data
+  bool m_isFirstLine;
+  QString m_fileName;
 
   void initExtract( bool, bool, bool );
   void setHeaders();

@@ -64,28 +64,38 @@ RarArch::RarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
   m_headerString = "-------------------------------------------------------------------------------";
+
+  m_isFirstLine = true;
 }
 
 bool RarArch::processLine(const QCString &line)
 {
+  if ( m_isFirstLine )
+  {
+    m_fileName = line.stripWhiteSpace();
+    m_isFirstLine = false;
+    return true;
+  }
+
   QStringList list;
 
   QStringList l2 = QStringList::split( ' ', line );
 
-  list << l2[ 0 ]; // filename
-  list << l2[ 1 ]; // size
-  list << l2[ 2 ]; // packed
-  list << l2[ 3 ]; // ratio
+  list << m_fileName; // filename
+  list << l2[ 0 ]; // size
+  list << l2[ 1 ]; // packed
+  list << l2[ 2 ]; // ratio
 
-  QStringList date =  QStringList::split( '-', l2[ 4 ] );
-  list << ArkUtils::fixYear( date[ 2 ].latin1() ) + "-" + date[ 1 ] + "-" + date [ 0 ] + " " + l2[5]; // date
-  list << l2[ 6 ]; // attributes
-  list << l2[ 7 ]; // crc
-  list << l2[ 8 ]; // method
-  list << l2[ 9 ]; // Version
+  QStringList date =  QStringList::split( '-', l2[ 3 ] );
+  list << ArkUtils::fixYear( date[ 2 ].latin1() ) + "-" + date[ 1 ] + "-" + date [ 0 ] + " " + l2[4]; // date
+  list << l2[ 5 ]; // attributes
+  list << l2[ 6 ]; // crc
+  list << l2[ 7 ]; // method
+  list << l2[ 8 ]; // Version
 
   m_gui->listingAdd(&list); // send to GUI
 
+  m_isFirstLine = true;
   return true;
 }
 
@@ -100,7 +110,7 @@ void RarArch::open()
   
   
   KProcess *kp = new KProcess;
-  *kp << m_archiver_program << "l" << "-c-" << m_filename;
+  *kp << m_archiver_program << "v" << "-c-" << m_filename;
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
