@@ -1,4 +1,4 @@
-/*
+/* -*- c++ -*-
 
  $Id$
 
@@ -28,6 +28,7 @@
 
 */
 
+// QT include
 #include <qvbox.h>
 #include <qcheckbox.h>
 #include <qfileinfo.h>
@@ -41,6 +42,7 @@
 #include <qlayout.h>
 #include <qframe.h>
 
+// KDE includes
 #include <kdebug.h>
 #include <kurl.h>
 #include <kfiledialog.h>
@@ -48,161 +50,162 @@
 #include <klocale.h>
 #include <kdialogbase.h>
 
+// application includes
 #include "arksettings.h"
 #include "generalOptDlg.h"
 #include "extractdlg.h"
 
 #define FIRST_PAGE_WIDTH  390
-#define DLG_NAME i18n("Extract")
+#define DLG_NAME i18n( "Extract" )
 
 
 
-ExtractDlg::ExtractDlg(ArkSettings *_settings) :
-        KDialogBase(KDialogBase::Plain, DLG_NAME, Ok | Cancel, Ok),
-        m_settings(_settings)
+ExtractDlg::ExtractDlg( ArkSettings *_settings )
+    : KDialogBase( KDialogBase::Plain, DLG_NAME, Ok | Cancel, Ok ),
+      m_settings( _settings )
 {
-  QFrame *mainFrame = plainPage();
+    QFrame *mainFrame = plainPage();
 
-  QGridLayout *Form1Layout = new QGridLayout( mainFrame );
-  Form1Layout->setSpacing( 6 );
-  Form1Layout->setMargin( 11 );
+    QGridLayout *Form1Layout = new QGridLayout( mainFrame );
+    Form1Layout->setSpacing( 6 );
+    Form1Layout->setMargin( 11 );
 
-  QVBoxLayout *Layout10 = new QVBoxLayout;
-  Layout10->setSpacing( 6 );
-  Layout10->setMargin( 0 );
+    QVBoxLayout *Layout10 = new QVBoxLayout;
+    Layout10->setSpacing( 6 );
+    Layout10->setMargin( 0 );
 
-  QHBoxLayout *Layout3 = new QHBoxLayout;
-  Layout3->setSpacing( 6 );
-  Layout3->setMargin( 0 );
+    QHBoxLayout *Layout3 = new QHBoxLayout;
+    Layout3->setSpacing( 6 );
+    Layout3->setMargin( 0 );
 
-  QLabel *extractToLabel = new QLabel( mainFrame, "extractToLabel" );
-  extractToLabel->setText( tr( "Extract to:" ) );
-  Layout3->addWidget( extractToLabel );
+    QLabel *extractToLabel = new QLabel( mainFrame, "extractToLabel" );
+    extractToLabel->setText( tr( "Extract to:" ) );
+    Layout3->addWidget( extractToLabel );
 
-  m_extractDirCB = new QComboBox( true, mainFrame, "m_extractDirCB" );
-  m_extractDirCB->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)3, (QSizePolicy::SizeType)0, m_extractDirCB->sizePolicy().hasHeightForWidth() ) );
-  Layout3->addWidget( m_extractDirCB );
+    m_extractDirCB = new QComboBox( true, mainFrame, "m_extractDirCB" );
+    m_extractDirCB->setSizePolicy( QSizePolicy( ( QSizePolicy::SizeType ) 3, ( QSizePolicy::SizeType ) 0,
+                                                m_extractDirCB->sizePolicy().hasHeightForWidth() ) );
+    Layout3->addWidget( m_extractDirCB );
 
-  QPushButton *browseButton = new QPushButton( mainFrame, "browseButton" );
-  browseButton->setText( tr( "Browse..." ) );
-  Layout3->addWidget( browseButton );
-  Layout10->addLayout( Layout3 );
+    QPushButton *browseButton = new QPushButton( mainFrame, "browseButton" );
+    browseButton->setText( i18n( "Browse..." ) );
+    Layout3->addWidget( browseButton );
+    Layout10->addLayout( Layout3 );
 
-  QButtonGroup *bg = new QButtonGroup( mainFrame, "bg" );
-  bg->setTitle( tr( "Files to be extracted" ) );
-  bg->setColumnLayout(0, Qt::Vertical );
-  bg->layout()->setSpacing( 0 );
-  bg->layout()->setMargin( 0 );
-  QGridLayout *bgLayout = new QGridLayout( bg->layout() );
-  bgLayout->setAlignment( Qt::AlignTop );
-  bgLayout->setSpacing( 6 );
-  bgLayout->setMargin( 11 );
+    QButtonGroup *bg = new QButtonGroup( mainFrame, "bg" );
+    bg->setTitle( i18n( "Files to be extracted" ) );
+    bg->setColumnLayout( 0, Qt::Vertical );
+    bg->layout()->setSpacing( 0 );
+    bg->layout()->setMargin( 0 );
+    QGridLayout *bgLayout = new QGridLayout( bg->layout() );
+    bgLayout->setAlignment( Qt::AlignTop );
+    bgLayout->setSpacing( 6 );
+    bgLayout->setMargin( 11 );
 
-  QVBoxLayout *Layout2 = new QVBoxLayout;
-  Layout2->setSpacing( 6 );
-  Layout2->setMargin( 0 );
+    QVBoxLayout *Layout2 = new QVBoxLayout;
+    Layout2->setSpacing( 6 );
+    Layout2->setMargin( 0 );
 
-  m_radioCurrent = new QRadioButton( bg, "m_radioCurrent" );
-  m_radioCurrent->setText( tr( "Current" ) );
-  Layout2->addWidget( m_radioCurrent );
+    m_radioCurrent = new QRadioButton( bg, "m_radioCurrent" );
+    m_radioCurrent->setText( i18n( "Current" ) );
+    Layout2->addWidget( m_radioCurrent );
 
-  m_radioAll = new QRadioButton( bg, "m_radioAll" );
-  m_radioAll->setText( tr( "All" ) );
-  Layout2->addWidget( m_radioAll );
+    m_radioAll = new QRadioButton( bg, "m_radioAll" );
+    m_radioAll->setText( i18n( "All" ) );
+    Layout2->addWidget( m_radioAll );
 
-  m_radioSelected = new QRadioButton( bg, "m_radioSelected" );
-  m_radioSelected->setText( tr( "Selected Files" ) );
-  Layout2->addWidget( m_radioSelected );
+    m_radioSelected = new QRadioButton( bg, "m_radioSelected" );
+    m_radioSelected->setText( i18n( "Selected Files" ) );
+    Layout2->addWidget( m_radioSelected );
 
-  QHBoxLayout *Layout1 = new QHBoxLayout;
-  Layout1->setSpacing( 6 );
-  Layout1->setMargin( 0 );
+    QHBoxLayout *Layout1 = new QHBoxLayout;
+    Layout1->setSpacing( 6 );
+    Layout1->setMargin( 0 );
 
-  m_radioPattern = new QRadioButton( bg, "m_radioPattern" );
-  m_radioPattern->setText( tr( "Pattern" ) );
-  Layout1->addWidget( m_radioPattern );
+    m_radioPattern = new QRadioButton( bg, "m_radioPattern" );
+    m_radioPattern->setText( i18n( "Pattern" ) );
+    Layout1->addWidget( m_radioPattern );
 
-  m_patternLE = new QLineEdit( bg, "m_patternLE" );
-  Layout1->addWidget( m_patternLE );
-  Layout2->addLayout( Layout1 );
+    m_patternLE = new QLineEdit( bg, "m_patternLE" );
+    Layout1->addWidget( m_patternLE );
+    Layout2->addLayout( Layout1 );
 
-  bgLayout->addLayout( Layout2, 0, 0 );
-  Layout10->addWidget( bg );
+    bgLayout->addLayout( Layout2, 0, 0 );
+    Layout10->addWidget( bg );
 
-  QHBoxLayout *Layout9 = new QHBoxLayout;
-  Layout9->setSpacing( 6 );
-  Layout9->setMargin( 0 );
+    QHBoxLayout *Layout9 = new QHBoxLayout;
+    Layout9->setSpacing( 6 );
+    Layout9->setMargin( 0 );
 
-  QPushButton *prefButton = new QPushButton( mainFrame, "prefButton" );
-  prefButton->setText( tr( "&Preferences" ) );
-  Layout9->addWidget( prefButton );
-  QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-  Layout9->addItem( spacer );
-  Layout10->addLayout( Layout9 );
+    QPushButton *prefButton = new QPushButton( mainFrame, "prefButton" );
+    prefButton->setText( i18n( "&Preferences" ) );
+    Layout9->addWidget( prefButton );
+    QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    Layout9->addItem( spacer );
+    Layout10->addLayout( Layout9 );
 
-  Form1Layout->addLayout( Layout10, 0, 0 );
+    Form1Layout->addLayout( Layout10, 0, 0 );
 
-  //mainFrame->setMinimumSize(410,250);
+    mainFrame->setMinimumSize(410,250);
 
-  connect(m_patternLE, SIGNAL(textChanged(const QString &)),
-          this, SLOT(choosePattern()));
-  connect(m_patternLE, SIGNAL(returnPressed()), this, SLOT(accept()));
-  connect(prefButton, SIGNAL(clicked()), this, SLOT(openPrefs()));
+    connect(m_patternLE, SIGNAL(textChanged(const QString &)),
+            this, SLOT(choosePattern()));
+    connect(m_patternLE, SIGNAL(returnPressed()), this, SLOT(accept()));
+    connect(prefButton, SIGNAL(clicked()), this, SLOT(openPrefs()));
 
-  connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
+    connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
 }
 
 void ExtractDlg::disableSelectedFilesOption()
 {
-  m_radioSelected->setEnabled(false);
-  m_radioAll->setChecked(true);
+    m_radioSelected->setEnabled(false);
+    m_radioAll->setChecked(true);
 }
 
 
 void ExtractDlg::accept()
 {
-  kdDebug(1601) << "+ExtractDlg::accept" << endl;
-  if (! QFileInfo(m_extractDirCB->currentText()).isDir())
-  {
-    KMessageBox::error(this,
-                           i18n("Please provide a valid directory"));
-    return;
-  }
-
-  // you need to change the settings to change the fixed dir.
-  m_settings->setLastExtractDir(m_extractDirCB->currentText());
-
-  if (m_radioPattern->isChecked())
-  {
-    if (m_patternLE->text().isEmpty())
+    kdDebug( 1601 ) << "+ExtractDlg::accept" << endl;
+    if (! QFileInfo( m_extractDirCB->currentText() ).isDir() )
     {
-      // pattern selected but no pattern? Ask user to select a pattern.
-      KMessageBox::error(this,
-                           i18n("Please provide a pattern"));
-      return;
+        KMessageBox::error( this, i18n( "Please provide a valid directory" ) );
+        return;
     }
-    else
-      {
-        emit pattern(m_patternLE->text());
-      }
-  }
 
-  // I made it! so nothing's wrong.
-  KDialogBase::accept();
-  kdDebug(1601) << "-ExtractDlg::accept" << endl;
+    // you need to change the settings to change the fixed dir.
+    m_settings->setLastExtractDir( m_extractDirCB->currentText() );
+
+    if ( m_radioPattern->isChecked() )
+    {
+        if ( m_patternLE->text().isEmpty() )
+        {
+            // pattern selected but no pattern? Ask user to select a pattern.
+            KMessageBox::error( this,
+                                i18n( "Please provide a pattern" ) );
+            return;
+        }
+        else
+        {
+            emit pattern( m_patternLE->text() );
+        }
+    }
+
+    // I made it! so nothing's wrong.
+    KDialogBase::accept();
+    kdDebug( 1601 ) << "-ExtractDlg::accept" << endl;
 }
 
 
 void ExtractDlg::browse() // slot
 {
-  QString dirName
-    = KFileDialog::getExistingDirectory(m_settings->getExtractDir(), 0,
-                                        i18n("Select an Extract Directory"));
-  if (! dirName.isEmpty())
-  {
-    m_extractDirCB->insertItem(dirName, 0);
-    m_extractDirCB->setCurrentItem(0);
-  }
+    QString dirName
+        = KFileDialog::getExistingDirectory( m_settings->getExtractDir(), 0,
+                                             i18n( "Select an Extract Directory" ) );
+    if (! dirName.isEmpty() )
+    {
+        m_extractDirCB->insertItem( dirName, 0 );
+        m_extractDirCB->setCurrentItem( 0 );
+    }
 }
 
 
@@ -212,62 +215,61 @@ int ExtractDlg::extractOp()
 {
 // which kind of extraction shall we do?
 
-  if (m_radioCurrent->isChecked())
-    return ExtractDlg::Current;
-  if(m_radioAll->isChecked())
-    return ExtractDlg::All;
-  if(m_radioSelected->isChecked())
-    return ExtractDlg::Selected;
-  if(m_radioPattern->isChecked())
-    return ExtractDlg::Pattern;
-  return -1;
+    if ( m_radioCurrent->isChecked() )
+        return ExtractDlg::Current;
+    if ( m_radioAll->isChecked())
+        return ExtractDlg::All;
+    if ( m_radioSelected->isChecked() )
+        return ExtractDlg::Selected;
+    if ( m_radioPattern->isChecked() )
+        return ExtractDlg::Pattern;
+    return -1;
 }
 
 void ExtractDlg::openPrefs()
 {
-  GeneralOptDlg dd(m_settings, this);
-  dd.exec();
+    GeneralOptDlg dd( m_settings, this );
+    dd.exec();
 }
 
 /******************************************************************
  *           implementation of ExtractFailureDlg                  *
  ******************************************************************/
 
-ExtractFailureDlg::ExtractFailureDlg(QStringList *list,
-                                     QWidget *parent, char *name)
-  : QDialog(parent, name, true, 0)
+ExtractFailureDlg::ExtractFailureDlg( QStringList *list,
+                                      QWidget *parent, char *name )
+    : QDialog( parent, name, true, 0 )
 
 {
-  int labelHeight, labelWidth, boxHeight = 75, boxWidth, buttonHeight = 30;
-  setCaption(i18n("Failure to Extract"));
-  QLabel *pLabel = new QLabel(this);
-  pLabel->setText(i18n("Some files already exist in your destination directory.\nThe following files will not be extracted if you continue: "));
-  labelWidth = pLabel->sizeHint().width();
-  labelHeight = pLabel->sizeHint().height();
+    int labelHeight, labelWidth, boxHeight = 75, boxWidth, buttonHeight = 30;
+    setCaption( i18n( "Failure to Extract" ) );
+    QLabel *pLabel = new QLabel( this );
+    pLabel->setText( i18n( "Some files already exist in your destination directory.\nThe following files will not be extracted if you continue: " ) );
+    labelWidth = pLabel->sizeHint().width();
+    labelHeight = pLabel->sizeHint().height();
 
-  pLabel->setGeometry(10, 10, labelWidth, labelHeight);
-  boxWidth = labelWidth;
+    pLabel->setGeometry( 10, 10, labelWidth, labelHeight );
+    boxWidth = labelWidth;
 
-  QListBox *pBox = new QListBox(this);
-  pBox->setGeometry(10, 10 + labelHeight + 10,
-                    boxWidth, boxHeight);
-  pBox->insertStringList(*list);
+    QListBox *pBox = new QListBox( this );
+    pBox->setGeometry( 10, 10 + labelHeight + 10,
+                       boxWidth, boxHeight );
+    pBox->insertStringList( *list );
 
-  QPushButton *pOKButton = new QPushButton(this, "OKButton");
-  pOKButton->setGeometry( labelWidth / 2 - 50, boxHeight + labelHeight + 30,
-                         70, buttonHeight);
-  pOKButton->setText(i18n("Continue"));
-  connect(pOKButton, SIGNAL(pressed()), this, SLOT(accept()));
+    QPushButton *pOKButton = new QPushButton( this, "OKButton" );
+    pOKButton->setGeometry( labelWidth / 2 - 50, boxHeight + labelHeight + 30,
+                            70, buttonHeight );
+    pOKButton->setText( i18n( "Continue" ) );
+    connect( pOKButton, SIGNAL( pressed() ), this, SLOT( accept() ) );
 
-  QPushButton *pCancelButton = new QPushButton(this, "CancelButton");
-  pCancelButton->setGeometry( labelWidth / 2 + 20,
-                              boxHeight + labelHeight + 30,
-                              70, buttonHeight);
-  pCancelButton->setText(i18n("Cancel"));
-  connect(pCancelButton, SIGNAL(pressed()), this, SLOT(reject()));
-  setFixedSize(20+labelWidth, 40+labelHeight+boxHeight+buttonHeight);
-  QApplication::restoreOverrideCursor();
+    QPushButton *pCancelButton = new QPushButton( this, "CancelButton" );
+    pCancelButton->setGeometry( labelWidth / 2 + 20,
+                                boxHeight + labelHeight + 30,
+                                70, buttonHeight );
+    pCancelButton->setText( i18n( "Cancel" ) );
+    connect( pCancelButton, SIGNAL( pressed() ), this, SLOT( reject() ) );
+    setFixedSize( 20+labelWidth, 40+labelHeight+boxHeight+buttonHeight );
+    QApplication::restoreOverrideCursor();
 }
-
 
 #include "extractdlg.moc"
