@@ -182,7 +182,11 @@ ArchType ArchiveFormatInfo::archTypeForURL( const KURL & url )
         mimeType = KMimeType::findByFileContent( url.path() )->name();
     }
 
-    return archTypeForMimeType( mimeType );
+    ArchType archType = archTypeForMimeType( mimeType );
+    if ( archType == UNKNOWN_FORMAT )
+        m_lastExtensionUnknown = true;
+
+    return archType;
 }
 
 
