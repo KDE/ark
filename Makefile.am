@@ -62,6 +62,6 @@ xdg_apps_DATA = ark.desktop
 parts_DATA = ark_part.desktop
 partsdir = $(kde_servicesdir)
 
-konqservice_DATA = arkservicemenu.desktop
+konqservice_DATA = arkservicemenu.desktop ark_directory_service.desktop
 konqservicedir = $(kde_datadir)/konqueror/servicemenus
 
