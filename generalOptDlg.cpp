@@ -77,11 +77,11 @@ GeneralOptDlg::GeneralOptDlg(ArkSettings *_d, QWidget *_parent, const char *_nam
     m_settings = _d;
     QFrame *frame;
     
-    frame = addPage( i18n( "Adding" ), i18n( "File adding settings" ),
+    frame = addPage( i18n( "Addition" ), i18n( "File addition settings" ),
                      loadIcon( "ark_addfile" ) );
     createAddTab( frame );
     
-    frame = addPage( i18n( "Extracting" ), i18n( "Extract settings" ),
+    frame = addPage( i18n( "Extraction" ), i18n( "Extraction settings" ),
                      loadIcon( "ark_extract" ) );
     createExtractTab( frame );
     
