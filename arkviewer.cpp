@@ -42,6 +42,7 @@ ArkViewer::ArkViewer( QWidget * parent, const char * name )
 
 ArkViewer::~ArkViewer()
 {
+	saveDialogSize( "ArkViewer" );
 }
 
 void ArkViewer::slotFinished()
@@ -61,7 +62,7 @@ bool ArkViewer::view( const QString& filename )
 
 	setCaption( u.fileName() );
 
-	resize( 400, 300 );
+	setInitialSize( configDialogSize( "ArkViewer" ) );
 
 	kdDebug( 1601 ) << "ArkViewer::view(): mimetype = " << mimetype << endl;
 
