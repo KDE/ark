@@ -5,6 +5,7 @@ Comment=Ar Archives
 Comment[pl]=Archiwum Ar
 Comment[fr]=Archives AR
 Comment[pt]=Arquivos Ar
+Comment[hr]=Ar Arhive
 DefaultApp=Zip
 Icon=unzip.xpm
 Type=MimeType

@@ -5,6 +5,7 @@ Comment=Lha Archives
 Comment[pl]=Archiwum Lha
 Comment[fr]=Archives LHA
 Comment[pt]=Arquivos Lha
+Comment[hr]=Lha Arhive
 DefaultApp=Zip
 Icon=unzip.xpm
 Type=MimeType
