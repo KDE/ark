@@ -28,9 +28,6 @@
 #include <kaboutdata.h>
 #include <kparts/partmanager.h>
 #include <kdebug.h>
-#include <kio/netaccess.h>
-#include <ktempfile.h>
-#include <kstddirs.h>
 
 #include <qiconset.h>
 
@@ -163,46 +160,6 @@ bool ArkPart::openFile()
     if(awidget->goodFileType==1)
       m_extractAction->setEnabled(true);
     return true;
-}
-
-/**
-* Load a URL into the part. We overide this because we need to preserve
-* the extension for our various archiver tools.
-*/
-bool ArkPart::openURL(const KURL &url)
-{
-	// Hacked together from code in kparts and from arkwidget::download
-  if ( url.isMalformed() )
-    return false;
-  if ( !closeURL() )
-    return false;
-  m_url = url;
-  emit setWindowCaption( m_url.prettyURL() );
-
-	if (!url.isLocalFile())
-	{
-		QString extension;
-		Arch::getArchType(url.path(), extension);
-		QString directory = locateLocal( "tmp", "ark" );
-		KTempFile tempFile(directory , extension);
-		m_file = tempFile.name();
-		if(KIO::NetAccess::download(url, m_file))
-		{
-			emit started(0);
-			bool ret = openFile();
-			emit completed();
-			return ret;
-		}
-		else return false;
-	}
-	else
-  {
-    emit started( 0 );
-    m_file = m_url.path();
-    bool ret = openFile();
-    emit completed();
-    return ret;
-  }
 }
 
 bool ArkPart::closeURL()
