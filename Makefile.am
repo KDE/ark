@@ -22,7 +22,7 @@ bin_PROGRAMS = 	ark
 ark_SOURCES	= adddlg.cc extractdlg.cc dirDlg.cpp \
                  arkwidget.cc main.cc tar.cc zip.cc arkprocess.cc \
 		arkdata.cpp filelistview.cpp zipExtractDlg.cpp \
-		generalOptDlg.cpp selectDlg.cpp
+		generalOptDlg.cpp selectDlg.cpp arch.cc
 
 # the library search path
 ark_LDFLAGS = $(all_libraries) $(KDE_RPATH)
@@ -39,7 +39,8 @@ noinst_HEADERS = adddlg.h zip.h dirDlg.h \
 
 # just to make sure, automake makes them 
 METASOURCES =	adddlg.moc extractdlg.moc arkwidget.moc filelistview.moc \
-		dirDlg.moc zipExtractDlg.moc generalOptDlg.moc selectDlg.moc
+		dirDlg.moc zipExtractDlg.moc generalOptDlg.moc selectDlg.moc \
+		arch.moc tar.moc
 
 messages:
 	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(ark_SOURCES) &&  mv messages.po ../po/ark.pot

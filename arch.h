@@ -8,10 +8,13 @@
 // ark includes
 #include "filelistview.h"
 
-class Arch{
+class Arch : public QObject {
+
+Q_OBJECT
 	
 public:
-	virtual ~Arch() {};
+	Arch();
+	virtual ~Arch();
 	virtual unsigned char setOptions( bool p, bool l, bool o ) = 0;
 	virtual void openArch( QString, FileListView *flw ) = 0;
 	virtual void createArch( QString ) = 0;

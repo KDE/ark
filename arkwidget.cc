@@ -844,33 +844,28 @@ bool ArkWidget::createArchive( QString name )
 	switch( getArchType( name ) )
 	{
 		case TAR_FORMAT:
-		{
 			arch = new TarArch( data );
 			arch->createArch( name );
 			ret = true;
-		}
+			break;
 		case ZIP_FORMAT:
-		{
 			arch = new ZipArch( data );
 			arch->createArch( name );
 			ret = true;
-		}
+			break;
 /*		case LHA_FORMAT:
-		{
 			arch = new LhaArch( data );
 			arch->createArch( name );
 			ret = true;
-		}
+			break;
 		case AA_FORMAT:
-		{
 			arch = new ArArch( data );
 			arch->createArch( name );
 			ret = true;
-		}
+			break;
 */		default:
-		{
-			return false;
-		}
+			ret = false;
+			break;
 	}
 	return ret;
 }

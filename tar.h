@@ -15,6 +15,16 @@
 
 class TarArch : public Arch {
 
+Q_OBJECT
+
+public slots:
+	void inputPending( KProcess *, char *buffer, int bufflen );  
+	void updateExtractProgress( KProcess *, char *buffer, int bufflen );
+	void openFinished( KProcess * );
+	void updateFinished( KProcess * );
+	void createTmpFinished( KProcess * );
+	void extractFinished( KProcess * );
+
 public:
 	TarArch( ArkData *d );
 	virtual ~TarArch();
@@ -31,15 +41,18 @@ public:
 	QString getUnCompressor();
 
 private:
-	QStrList *listing;
-	QString tmpfile;
-	bool compressed;
-	ArkData *data;
-	ArkProcess archProcess;
+	char         *stdout_buf;
+	QStrList     *listing;
+	QString       tmpfile;
+	bool          compressed;
+	ArkData      *data;
+	ArkProcess    archProcess;
+	KProcess      kproc;
+	FileListView *destination_flw;
 
-	bool perms, tolower, overwrite;
-	int updateArch();
-	void createTmp();
+	bool          perms, tolower, overwrite;
+	int           updateArch();
+	void          createTmp();
 };
 
 #endif /* TAR_H */

@@ -16,10 +16,12 @@
 // ark includes
 #include "extractdlg.h"
 #include "tar.h"
+#include "tar.moc"
 
 TarArch::TarArch( ArkData *d )
 	: Arch()
 {
+	stdout_buf = NULL;
 	cout << "Entered TarArch" << endl;
 	data = d;
 	listing = new QStrList;
@@ -40,42 +42,21 @@ TarArch::~TarArch()
 
 int TarArch::updateArch()
 {
-	cout << "Entered updateArch" << endl;
-	int retcode = 0;
 	if( !compressed )
 	{
-		FILE* fd, *fd2;
-		char buffer[4096];
-		int size = 0;
 		compressed = TRUE;
-		archProcess.clearArguments();
-//		archProcess.setExecutable( "gzip" );
-		archProcess << getCompressor() << "-c" << tmpfile;
-		if(archProcess.startPipe(KProcess::Stdout, &fd) == FALSE)
+		disconnect( &kproc, 0, 0, 0 );
+		kproc.clearArguments();
+		kproc << getCompressor() << "-c" << tmpfile << " > " << archname;
+		connect( &kproc, SIGNAL(processExited(KProcess *)),
+		                       this, SLOT(openFinished(KProcess *)) );
+		if( kproc.start( KProcess::NotifyOnExit ) == FALSE )
 		{
-			cerr << "Subprocess wouldn't start!" << endl;
+			cerr << "Can't fork a compressor." << endl;
 			return -1;
 		}
-
-		fd2 = fopen(archname.ascii(), "w");
-		
-		while((size = fread(buffer, 1, 4096, fd)))
-			fwrite(buffer, size, 1, fd2);
-		fclose(fd2);
-
-		while(archProcess.isRunning())
-			;
-
-		if( !retcode )
-		{
-			listing->clear();
-
-			//Argh:should not be commented
-			//openArch( archname );
-		}
 	}
-	cout << "Left updateArch" << endl;
-	return retcode;
+	return 0;
 }
 
 QString TarArch::getCompressor() 
@@ -123,63 +104,35 @@ unsigned char TarArch::setOptions( bool p, bool l, bool o )
 void TarArch::openArch( QString name, FileListView *flw )
 {
 	cout << "Entered openArch" << endl;
-	char line[4096];
-	char columns[5][80];
-	char filename[4096];
 	QString buffer;
-	FILE *fd;
+	destination_flw = flw;
 
-	archProcess.clearArguments();
+	kproc.clearArguments();
 
 	archname = name;
 	QString tar_exe = data->getTarCommand();
 	
-	archProcess << tar_exe << "--use-compress-program="+getUnCompressor()
-	            <<	"-tvf" << archname;
+	kproc << tar_exe << "--use-compress-program="+getUnCompressor()
+	      <<	"-tvf" << archname;
 	
-	flw->addColumn( i18n("Name") );
+	disconnect( &kproc, 0, 0, 0 );
+	connect( &kproc, SIGNAL(processExited(KProcess *)), 
+	                       this, SLOT(openFinished(KProcess *)));
+	connect( &kproc, SIGNAL(receivedStdout(KProcess *, char *,int)),
+	                       this, SLOT(inputPending(KProcess *, char *, int)));
+	                       
+	flw->addColumn( i18n("Filename") );
 	flw->addColumn( i18n("Permissions") );
 	flw->addColumn( i18n("Owner/Group") );
 	flw->addColumn( i18n("Size") );
 	flw->addColumn( i18n("TimeStamp") );
 
- 	if(archProcess.startPipe(KProcess::Stdout, &fd) == FALSE)
- 	{
- 		cerr << "Subprocess wouldn't start!" << endl;
- 		return;
- 	}
-
-	fgets( line, 4096, fd );
-
-	while( !feof(fd) )
+	if( kproc.start( KProcess::NotifyOnExit, KProcess::Stdout ) == FALSE )
 	{
-		sscanf(line, " %[-drwxst] %[0-9.a-zA-Z/_] %[0-9] %17[a-zA-Z0-9:- ] %[^\n]",
-			columns[0], columns[1], columns[2], columns[3],
-			 filename
-			);
-
-		FileLVI *flvi = new FileLVI(flw);
-		flvi->setText(0, filename);
-		for(int i=0; i<4; i++)
-		{
-			flvi->setText(i+1, columns[i]);
-		}
-		flw->insertItem(flvi);
-
-		sprintf(line, "%s\t%s\t%s\t%s\t%s",
-			columns[0], columns[1], columns[2], columns[3],
-			filename);
-		listing->append( line );
-
-		fgets( line, 4096, fd );
+		cerr << "Can't fork a decompressor." << endl;
+		return;
 	}
-//	fclose( fd );
-//	There should be a file descriptor close call, but this one makes a
-//	BAD FILEDESCRIPTOR error message
-//	Another note: gzip reported 'Broken pipe' because of that fclose()
-	while(archProcess.isRunning())
-		;
-
+		
 	cout << "Left openArch" << endl;
 }
 
@@ -195,38 +148,32 @@ const QStrList * TarArch::getListing()
 	return listing;
 }
 
+/* untested */
 void TarArch::createTmp()
 {
 	cout << "Entered createTmp" << endl;
 	if( compressed )
 	{
-		FILE* fd, *fd2;
-		char buffer[4096];
-		int size = 0;
+//		FILE* fd, *fd2;
+//		char buffer[4096];
+//		int size = 0;
 		compressed = FALSE;
-		archProcess.clearArguments();
-//		archProcess.setExecutable( "gunzip" );
-		archProcess << "gunzip" << "-c" << archname;
-		if(archProcess.startPipe(KProcess::Stdout, &fd) == FALSE)
-		{
-			cerr << "Subprocess wouldn't start!" << endl;
-			return;
-		}
 
-		fd2 = fopen(tmpfile.ascii(), "w");
+		kproc.clearArguments();
+		kproc << "gunzip" << "-c" << archname << " > " << tmpfile;
 		
-		while((size = fread(buffer, 1, 4096, fd)))
+		disconnect( &kproc, 0, 0, 0 );
+		connect(&kproc, SIGNAL(processExited(KProcess *)),
+		                      this, SLOT(createTmpFinished(KProcess *)));
+		
+		if( kproc.start( KProcess::NotifyOnExit ) == FALSE )
 		{
-			fwrite(buffer, size, 1, fd2);
+			cerr << "Can't fork a decompressor" << endl;
 		}
-		fclose(fd2);
-		fclose(fd);
-		while(archProcess.isRunning())
-			;
 	}
-	cout << "Left createTmp" << endl;
 }
 
+/* untested, someone please tell me how DND works in KDE2.0 */
 int TarArch::addFile( QStrList* urls )
 {
 	cout << "Entered addFile" << endl;
@@ -240,22 +187,15 @@ int TarArch::addFile( QStrList* urls )
 	url = urls->first();
 	file = KURL(url).path(-1); // remove trailing slash
 
-// 	if(archProcess.isRunning())
-// 		cerr << "Why oh, why you don't know how to say good bye?" << endl;
-	archProcess.clearArguments();	
-//	archProcess.setExecutable( tar_exe );
-
-	archProcess << tar_exe;
-
-//  	QStrList segflist1 = archProcess.getArguments();
-//  	for (const char* f = segflist1.first(); f; f = segflist1.next())
-//  		cout << "Argument:" << "'" << f << "'" << endl;
-
+	kproc.clearArguments();
+	kproc << tar_exe;
+	
 	if( data->getonlyUpdate() )
-		archProcess << "uvf";
+		kproc << "uvf";
 	else
-		archProcess << "rvf";
-	archProcess << tmpfile;
+		kproc << "rvf";
+	kproc << tmpfile;
+	
 	QString base;
 
 	if( !data->getaddPath() )
@@ -272,7 +212,7 @@ int TarArch::addFile( QStrList* urls )
 	while(1)
 	{
 		int pos;
-		archProcess << file;
+		kproc << file;
 		url = urls->next();
 //		cout << url << " is the name of the url " << endl;
 		if( url.isNull() )
@@ -283,37 +223,16 @@ int TarArch::addFile( QStrList* urls )
 		tmp = file.right( file.length()-pos );
 		file = tmp;
 	}	
-	FILE *fd;
-	char inp[4096];
-// Debuggin part
- 	QStrList segflist	= archProcess.getArguments();
- 	for (const char* f = segflist.first(); f; f = segflist.next())
- 		cout << "Argument:" << "'" << f << "'" << endl;
- 	if(archProcess.startPipe(KProcess::Stdout, &fd) == FALSE)
- 	{
- 		cerr << "Subprocess wouldn't start!" << endl;
- 		cerr << "In addFile" << endl;
- 		return -1;
- 	}
-//	newProgressDialog( 1, urls->count() );
-	for( long int i=1; !feof( fd ); i++ )
-	{
-/*		kapp->processEvents();
-		if( Arch::isCanceled() )
-		{
-			archProcess.kill();
-			break;
-		}
-*/		fgets( inp, 4096, fd );
-		cerr << inp;
-//		setProgress( i );
- 	}
-	fclose( fd );
-	while(archProcess.isRunning())
-		;
 
+	if( kproc.start( KProcess::NotifyOnExit, KProcess::Stdout ) == FALSE )
+	{
+		cerr << "Can't start a kprocess." << endl;
+		return -1;
+	}
+	
 	if( data->getaddPath() )
 		file.remove( 0, 1 );  // Get rid of leading /
+
 	retcode = updateArch();
 	return retcode;
 	cout << "Left addFile" << endl;
@@ -351,44 +270,30 @@ void TarArch::extraction()
 void TarArch::extractTo( QString dir )
 {
 	cout << "Entered extractTo" << endl;
-	FILE *fd;
-	char line[4096];
 
 	QString tar_exe = data->getTarCommand();
 		
-	archProcess.clearArguments();
-//	archProcess.setExecutable( tar_exe );
-	archProcess << tar_exe;
+	kproc.clearArguments();
+	kproc << tar_exe;
+	kproc << "--use-compress-program="+getUnCompressor() 
+	      <<	"-xvf" << archname << "-C" << dir;	
 
+	disconnect( &kproc, 0, 0, 0 );
+	connect( &kproc, SIGNAL(processExited(KProcess *)), 
+	                       this, SLOT(extractFinished(KProcess *)));
+	connect( &kproc, SIGNAL(receivedStdout(KProcess *, char *,int)),
+	                       this, SLOT(updateExtractProgress(KProcess *, char *, int)));
 
-
-	archProcess << "--use-compress-program="+getUnCompressor() 
-	            <<	"-xvf" << archname << "-C" << dir;	
- 	if(archProcess.startPipe(KProcess::Stdout, &fd) == false)
+ 	if(kproc.start( KProcess::NotifyOnExit, KProcess::Stdout ) == false)
  	{
  		cerr << "Subprocess wouldn't start!" << endl;
  		return;
  	}
-//	newProgressDialog( 1, listing->count() );
-	for( long int i=1; !feof( fd ); i++ )
-	{
-//		kapp->processEvents();
-//		if( Arch::isCanceled() )
-//		{
-//			archProcess.kill();
-//			break;
-//		}
-		fgets( line, 4096, fd );
-//		setProgress( i );
- 	}
-	fclose( fd );
-	while(archProcess.isRunning())
-		;
-
 
 	cout << "Left extractTo" << endl;
 }
 
+/* untested */
 QString TarArch::unarchFile( int index, QString dest )
 {
 	cout << "Entered unarchFile" << endl;
@@ -404,22 +309,24 @@ QString TarArch::unarchFile( int index, QString dest )
 	pos++;
 	name = tmp.right( tmp.length()-pos );
 
-	archProcess.clearArguments();
-//	archProcess.setExecutable( tar_exe );
-	archProcess << tar_exe;
-
+	kproc.clearArguments();
+	kproc << tar_exe;
 	if( perms )
-		archProcess << "--use-compress-program="+getUnCompressor() << "-xvpf";
+		kproc << "--use-compress-program="+getUnCompressor() << "-xvpf";
 	else
-		archProcess << "--use-compress-program="+getUnCompressor() << "-xvf";
+		kproc << "--use-compress-program="+getUnCompressor() << "-xvf";
 
-	archProcess << archname << "-C" << dest << name;
-	archProcess.start(KProcess::Block);
+	kproc << archname << "-C" << dest << name;
+	if( kproc.start(KProcess::Block) == false )
+	{
+		cerr << "Can't start a kprocess." << endl;
+	}
 	fullname = dest + name;
 	cout << "Left unarchFile" << endl;
 	return fullname;
 }
 
+/* untested */
 void TarArch::deleteFile( int indx )
 {
 	cout << "Entered deleteFile" << endl;
@@ -430,12 +337,129 @@ void TarArch::deleteFile( int indx )
 	
 	tmp = listing->at(indx);
 	name = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
-	archProcess.clearArguments();
-//	archProcess.setExecutable( tar_exe );
-	archProcess << tar_exe << "--delete" << "-f" << tmpfile << name;
-	archProcess.start(KProcess::Block);
+	kproc.clearArguments();
+	kproc << tar_exe << "--delete" << "-f" << tmpfile << name;
+	kproc.start(KProcess::Block);
 	
 	updateArch();
 	cout << "Left deleteFile" << endl;
 }
 
+void TarArch::updateExtractProgress( KProcess *, char *buffer, int bufflen )
+{
+	// some kind of progress bar, or something?
+
+	// I know its ugly, but I wan't the names for future reference
+ 	buffer = buffer, bufflen = bufflen;
+}
+
+void TarArch::inputPending( KProcess *, char *buffer, int bufflen )
+{
+   char    columns[6][255];
+   char    line[512];
+   char    wline[512];
+   char   *pos;
+   char   *start;
+   char   *mybuf;
+   char   *tok;
+   int     i;
+
+   cout << ".";
+   bufflen = bufflen;
+    
+   if( stdout_buf == NULL )
+   	stdout_buf = strdup( "" );
+
+   mybuf = (char *) malloc( strlen(stdout_buf) + bufflen+1 );
+   strcpy( mybuf, stdout_buf );
+   strncpy( &mybuf[strlen(stdout_buf)], buffer, bufflen );
+   mybuf[strlen(stdout_buf)+bufflen] = 0;
+
+   start = pos = mybuf;
+   while( (pos = strchr( start, '\n' )) != NULL )
+   {
+   /* the sscanf doesn't work with symbolic links, I'm not sure why */
+//       sscanf( start, " %[-drwxst] %[0-9.a-zA-Z/_] %[0-9] %17[a-zA-Z0-9:- ] %[^\n]",
+//              columns[0], columns[1], columns[2], columns[3],
+//               filename
+//             );
+
+		FileLVI *flvi = new FileLVI(destination_flw);
+		strncpy( wline, start, pos-start );
+		wline[pos-start] = 0;
+		tok = strtok( wline, " " );
+		strcpy( columns[0], tok );
+		for( i=1; i<6; i++ )
+		{
+			tok = strtok( NULL, " " );
+			strcpy( columns[i], tok );
+		}
+		strcat( columns[3], columns[4] );
+		flvi->setText(0, columns[5]);
+		for(int i=0; i<4; i++)
+		{
+			flvi->setText(i+1, columns[i]);
+		}
+		destination_flw->insertItem(flvi);
+
+		sprintf(line, "%s\t%s\t%s\t%s\t%s",
+		        columns[0], columns[1], columns[2], columns[3],
+		        columns[5]);
+		listing->append( line );
+		start = (pos+1);
+	}
+	free( stdout_buf );
+	stdout_buf = strdup( start );
+	free( mybuf );
+
+}
+
+void TarArch::extractFinished( KProcess * )
+{
+	// turn off busy light (when someone makes one)
+	cout << "Extract Finished." << endl;
+}
+
+void TarArch::openFinished( KProcess * )
+{
+    // do nothing
+    // turn off busy light (when someone makes one)
+    cout << "Open finshed" << endl;
+}
+
+void TarArch::createTmpFinished( KProcess * )
+{
+    // do nothing
+    // turn off busy light (when someone makes one)
+    cout << "Create Tmp finished" << endl;
+}
+
+
+// copy the working archive to the real archive
+void TarArch::updateFinished( KProcess * )
+{
+#if 0
+    FILE   *fd, fd2;
+    char    buffer[4096];
+    int     size = 0;
+
+    // turn off busy light (when someone makes one)
+
+
+    fd = fopen( tmpfile, "r" );
+    fd2 = fopen( archname, "w" );
+		
+    while( (size = fread( buffer, 1, 4096, fd )) )
+        fwrite(buffer, size, 1, fd2);
+    fclose(fd2);
+#endif
+    
+// is this necessary?
+//    if( !retcode )
+//    {
+//        listing->clear();
+//        openArch( archname );
+//    }
+
+    cout << "Update finished" << endl;
+}
