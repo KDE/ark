@@ -29,9 +29,6 @@
 
 #include "arkwidgetpart.h"
 
-static const char *description = I18N_NOOP("Ark KParts Component");
-static const char *version     = "1.0";
-
 extern "C"
 {
     /**
@@ -98,8 +95,10 @@ KInstance *ArkFactory::instance()
 
 KAboutData *ArkFactory::aboutData()
 {
-  KAboutData *about = new KAboutData("ark", I18N_NOOP("ark"), version,
-				     description, KAboutData::License_GPL,
+  KAboutData *about = new KAboutData("ark", I18N_NOOP("ark"), 
+                                     "1.0",
+				     I18N_NOOP("Ark KParts Component"), 
+                                     KAboutData::License_GPL,
 				     "(c) 1997-2001, The Various Ark Developers");
   about->addAuthor("Robert Palmbos",0, "palm9744@kettering.edu");
   about->addAuthor("Francois-Xavier Duranceau",0, "duranceau@kde.org");
