@@ -310,7 +310,8 @@ bool ArkPart::closeURL()
 
 void ArkPart::slotFilePopup( const QPoint &pPoint )
 {
-    static_cast<KPopupMenu *>(factory()->container("file_popup", this))->popup(pPoint);
+    if ( factory() )
+        static_cast<KPopupMenu *>(factory()->container("file_popup", this))->popup(pPoint);
 }
 
 ArkBrowserExtension::ArkBrowserExtension( KParts::ReadOnlyPart * parent, const char * name )
@@ -335,22 +336,16 @@ ArkStatusBarExtension::ArkStatusBarExtension( KParts::ReadWritePart * parent )
 
 ArkStatusBarExtension::~ArkStatusBarExtension()
 {
-    if ( m_bBusy )
-    {
-        removeStatusBarItem( m_pBusyText );
-        removeStatusBarItem( m_pProgressBar );
-    }
-    else if ( m_pStatusLabelSelect )
-    {
-        removeStatusBarItem( m_pStatusLabelSelect );
-        removeStatusBarItem( m_pStatusLabelTotal );
-    }
 }
 
 void ArkStatusBarExtension::setupStatusBar()
 {
-    if ( m_pTimer ) // setup already done
+    if ( m_pTimer                      // setup already done
+         || !statusBar() )
+    {
         return;
+    }
+
     m_pTimer = new QTimer( this );
     connect( m_pTimer, SIGNAL( timeout() ), this, SLOT( slotProgress() ) );
 
@@ -370,19 +365,26 @@ void ArkStatusBarExtension::setupStatusBar()
 
 void ArkStatusBarExtension::slotSetStatusBarText( const QString & text )
 {
+    if ( !statusBar() )
+        return;
+
     setupStatusBar();
     m_pStatusLabelTotal->setText( text );
 }
 
 void ArkStatusBarExtension::slotSetStatusBarSelectedFiles( const QString & text )
 {
+
+    if ( !statusBar() )
+        return;
+
     setupStatusBar();
     m_pStatusLabelSelect->setText( text );
 }
 
 void ArkStatusBarExtension::slotSetBusy( const QString & text )
 {
-    if ( m_bBusy )
+    if ( m_bBusy || !statusBar() )
         return;
 
     setupStatusBar();
@@ -416,7 +418,7 @@ void ArkStatusBarExtension::slotSetBusy( const QString & text )
 
 void ArkStatusBarExtension::slotSetReady()
 {
-    if ( !m_bBusy )
+    if ( !m_bBusy || !statusBar() )
         return;
 
     setupStatusBar();
@@ -434,6 +436,9 @@ void ArkStatusBarExtension::slotSetReady()
 
 void ArkStatusBarExtension::slotProgress()
 {
+    if ( !statusBar() )
+        return;
+
     setupStatusBar();
     m_pProgressBar->setProgress( m_pProgressBar->progress() + 4 );
 }

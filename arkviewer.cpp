@@ -35,6 +35,8 @@ ArkViewer::ArkViewer( QWidget * parent, const char * name )
 {
 	m_widget = new QVBox( this );
 
+	connect( this, SIGNAL( finished() ), this, SLOT( slotFinished() ) );
+
 	setMainWidget( m_widget );
 }
 
@@ -44,12 +46,15 @@ ArkViewer::~ArkViewer()
 	m_part = 0;
 }
 
+void ArkViewer::slotFinished()
+{
+    delete m_part;
+    m_part = 0;
+}
+
 bool ArkViewer::view( const QString& filename )
 {
 	kdDebug( 1601 ) << "ArkViewer::view(): viewing " << filename << endl;
-
-	if ( m_part )
-		delete m_part;
 
 	KURL u( filename );
 
@@ -75,3 +80,4 @@ bool ArkViewer::view( const QString& filename )
 	}
 }
 
+#include "arkviewer.moc"

@@ -27,11 +27,16 @@
 
 class ArkViewer : public KDialogBase
 {
+	Q_OBJECT
+
 	public:
 		ArkViewer( QWidget* parent = 0, const char * name = 0 );
 		~ArkViewer();
 
 		bool view( const QString& filename );
+
+	protected slots:
+		void slotFinished();
 
 	private:
 		KParts::ReadOnlyPart *m_part;
