@@ -95,15 +95,19 @@ void GeneralOptDlg::createAddTab( QFrame *parent ) {
 
     QVBoxLayout *layout = new QVBoxLayout(parent);
 
-    QGroupBox *addSet = new QGroupBox(1, Horizontal, i18n(GRP_ADDSET), addFrame);
-    layout->addWidget( addSet );
+    m_cbReplaceOnlyWithNewer = new QCheckBox(i18n(OPT_REPLACE_NEWER), addFrame);
+    m_cbMakeGeneric = new QCheckBox(i18n(OPT_MAKEGENERIC), addFrame);
+    m_cbForceMS = new QCheckBox(i18n(OPT_DOS_FILENAMES), addFrame);
+    m_cbConvertCRLF = new QCheckBox(i18n(OPT_CONV_CRLF), addFrame);
+    m_cbStoreSymlinks = new QCheckBox(i18n(OPT_STORE_SYMLINKS), addFrame);
+    m_cbRecurseSubdirs = new QCheckBox(i18n(OPT_RECURSE_SUBDIRS), addFrame);
 
-    m_cbReplaceOnlyWithNewer = new QCheckBox(i18n(OPT_REPLACE_NEWER), addSet);
-    m_cbMakeGeneric = new QCheckBox(i18n(OPT_MAKEGENERIC), addSet);
-    m_cbForceMS = new QCheckBox(i18n(OPT_DOS_FILENAMES), addSet);
-    m_cbConvertCRLF = new QCheckBox(i18n(OPT_CONV_CRLF), addSet);
-    m_cbStoreSymlinks = new QCheckBox(i18n(OPT_STORE_SYMLINKS), addSet);
-    m_cbRecurseSubdirs = new QCheckBox(i18n(OPT_RECURSE_SUBDIRS), addSet);
+    layout->addWidget(m_cbReplaceOnlyWithNewer);
+    layout->addWidget(m_cbMakeGeneric);
+    layout->addWidget(m_cbForceMS);
+    layout->addWidget(m_cbConvertCRLF);
+    layout->addWidget(m_cbStoreSymlinks);
+    layout->addWidget(m_cbRecurseSubdirs);
 
     layout->addStretch();
 
@@ -116,14 +120,17 @@ void GeneralOptDlg::createExtractTab( QFrame *parent ) {
     QFrame *exFrame( parent );// = addVBoxPage(i18n(TAB_EXTRACT_NAME));
     QVBoxLayout *layout = new QVBoxLayout(exFrame);
 
-    QGroupBox *exSet = new QGroupBox(1, Horizontal, i18n(GRP_EXTRACTSET), exFrame);
-    layout->add( exSet );
+    m_cbOverwrite = new QCheckBox(i18n(OPT_OVERWRITE), exFrame);
+    m_cbPreservePerms = new QCheckBox(i18n(OPT_PRESERVEPERMS), exFrame);
+    m_cbDiscardPathnames = new QCheckBox(i18n(OPT_DISCARDPATHS), exFrame);
+    m_cbToLower = new QCheckBox(i18n(OPT_TOLOWER), exFrame);
+    m_cbToUpper = new QCheckBox(i18n(OPT_TOUPPER), exFrame);
 
-    m_cbOverwrite = new QCheckBox(i18n(OPT_OVERWRITE), exSet);
-    m_cbPreservePerms = new QCheckBox(i18n(OPT_PRESERVEPERMS), exSet);
-    m_cbDiscardPathnames = new QCheckBox(i18n(OPT_DISCARDPATHS), exSet);
-    m_cbToLower = new QCheckBox(i18n(OPT_TOLOWER), exSet);
-    m_cbToUpper = new QCheckBox(i18n(OPT_TOUPPER), exSet);
+    layout->addWidget(m_cbOverwrite);
+    layout->addWidget(m_cbPreservePerms);
+    layout->addWidget(m_cbDiscardPathnames);
+    layout->addWidget(m_cbToLower);
+    layout->addWidget(m_cbToUpper);
 
     layout->addStretch();
 
