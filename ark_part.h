@@ -121,7 +121,6 @@ private:
     KAction *selectAction;
     KAction *deselectAllAction;
     KAction *invertSelectionAction;
-    KAction *popupEditAction;
     KAction *editAction;
 
     // the following have different enable rules from the above KActions

@@ -193,7 +193,7 @@ void ArkPart::fixEnables()
     bool b = ( bHaveFiles && awidget->numSelectedFiles() == 1 );
     viewAction->setEnabled( b );
     openWithAction->setEnabled( b );
-    editAction->setEnabled( b );
+    editAction->setEnabled( b && !bReadOnly ); // You can't edit files in read-only archives
     emit fixActionState( bHaveFiles );
 }
 
