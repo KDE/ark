@@ -1235,7 +1235,7 @@ ArkWidget::action_add()
         KURL::List addList;
         addList = fileDlg.selectedURLs();
         QStringList * list = new QStringList();
-        for (KURL::List::ConstIterator it = addList.begin(); it != addList.end(); it++)
+        for (KURL::List::ConstIterator it = addList.begin(); it != addList.end(); ++it)
             list->append( KURL::decode_string( (*it).url() ) );
 
         if ( list->count() > 0 )
