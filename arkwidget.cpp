@@ -1785,7 +1785,7 @@ ArkWidget::viewSlotExtractDone()
     
     if ( KRun::isExecutable( mimetype ) )
     {
-    	QString text = i18n( "The file you're trying to view may be an executable. Running untrusted executables may compromisse your system's security.\nAre you sure you want to view that file?" );
+    	QString text = i18n( "The file you're trying to view may be an executable. Running untrusted executables may compromise your system's security.\nAre you sure you want to view that file?" );
         view = ( KMessageBox::warningYesNo( this, text ) == KMessageBox::Yes );
     }
 
