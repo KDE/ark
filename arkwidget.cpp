@@ -1652,6 +1652,7 @@ ArkWidget::action_extract()
     }
     else
     {
+        delete dlg;
         return false;
     }
 

@@ -310,21 +310,24 @@ void TarArch::openSecondCreateTempDone()
         }
     }
 
+    // sigOpen might lead to application exit, delete tarptr before sigOpen
+    // to avoid double deletion
     if( failed )
     {
         kdDebug(1601)  << "Failed to uncompress and open." << endl;
+        delete tarptr;
         emit sigOpen(this, false, QString::null, 0 );
     }
     else
     {
         processDir(tarptr->directory(), "");
+        delete tarptr;
         // because we aren't using the KProcess method, we have to emit this
         // ourselves.
         emit sigOpen(this, true, m_filename,
                 Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
     }
 
-    delete tarptr;
 
     kdDebug(1601) << "-TarArch::open" << endl;
 }
