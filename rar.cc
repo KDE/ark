@@ -85,8 +85,8 @@ bool RarArch::processLine(const QCString &line)
 
   char columns[11][80];
   char filename[4096];
-  sscanf(QFile::encodeName(m_line1), " %[^\n]", filename);
-  sscanf((const char *)m_line2.ascii(), " %[0-9] %[0-9] %[0-9%] %2[0-9]-%2[0-9]-%2[0-9] %5[0-9:] %[drwxlst-] %[A-F0-9] %[A-Za-z0-9] %[0-9.]",
+  sscanf(QFile::encodeName(m_line1), " %4095[^\n]", filename);
+  sscanf((const char *)m_line2.ascii(), " %79[0-9] %79[0-9] %79[0-9%] %2[0-9]-%2[0-9]-%2[0-9] %5[0-9:] %79[drwxlst-] %79[A-F0-9] %79[A-Za-z0-9] %79[0-9.]",
 	 columns[0], columns[1], columns[2], columns[3],
 	 columns[8], columns[9], columns[10],
 	 columns[4], columns[5], columns[6],
