@@ -1,4 +1,13 @@
           $Id$
+	  
+2001-05-29  Roberto Selbach Teixeira  <teixeira@conectiva.com>
+
+	* compressedfile.cc (unarchFile): move to fromLocal8Bit() to allow
+	non-Latin1 characters in filenames.
+
+	* ar.cc (unarchFile): .latin1() to .local8Bit()
+
+	* zip.cc (unarchFile): .latin1() to .local8Bit()
 
 2000-07-10:  Emily Ezust <emilye@corel.com>
 	* Added checks for available disk space

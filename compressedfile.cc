@@ -311,7 +311,7 @@ void CompressedFile::unarchFile(QStringList *, const QString & _destDir,
       else
 	dest=_destDir;
       QString command;
-      command = QString::fromLatin1("cp %1 %2").arg(m_tmpfile).arg(dest);
+      command = QString::fromLocal8Bit("cp %1 %2").arg(m_tmpfile).arg(dest);
       system(QFile::encodeName(command));
     }
   emit sigExtract(true);    
