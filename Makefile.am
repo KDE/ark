@@ -5,7 +5,7 @@ SUBDIRS = pics
 
 # The binary name. Changed from kzip to ark
 bin_PROGRAMS = ark
-kde_module_LTLIBRARIES = libarkpart.la
+lib_LTLIBRARIES = libarkpart.la
 
 # Kpart sources 
 libarkpart_la_SOURCES= arkapp.cpp extractdlg.cpp dirDlg.cpp arkwidget.cpp \
