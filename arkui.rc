@@ -61,8 +61,8 @@
  <Separator/>
  <Action name="select_all"/>
  <Separator/>
- <Action name="new_arch"/>
- <Action name="open_arch"/>
+ <Action name="file_new"/>
+ <Action name="file_open"/>
  <Action name="close_arch"/>
  <Separator/>
  <Action name="settings"/>
