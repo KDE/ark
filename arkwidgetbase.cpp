@@ -29,6 +29,7 @@
 // KDE includes
 #include <kdebug.h>
 #include <kstandarddirs.h>
+#include <ktempdir.h>
 #include <kprocess.h>
 
 // Ark includes
@@ -40,37 +41,26 @@
 
 // Protected - so the average Joe can't instantize
 ArkWidgetBase::ArkWidgetBase(QWidget *widget)
-	: m_widget(widget), arch(0), m_settings(0), archiveContent(0),
-	m_archType(UNKNOWN_FORMAT), m_nSizeOfFiles(0),
-	m_nSizeOfSelectedFiles(0), m_nNumFiles(0), m_nNumSelectedFiles(0),
-	m_bIsArchiveOpen(false), m_bIsSimpleCompressedFile(false),
-	m_bDropSourceIsSelf(false), m_extractList(0)
+    : m_widget(widget), arch(0), m_settings(0), archiveContent(0),
+    m_archType(UNKNOWN_FORMAT), m_nSizeOfFiles(0),
+    m_nSizeOfSelectedFiles(0), m_nNumFiles(0), m_nNumSelectedFiles(0),
+    m_bIsArchiveOpen(false), m_bIsSimpleCompressedFile(false),
+    m_bDropSourceIsSelf(false), m_extractList(0)
 {
-	m_settings = new ArkSettings;
-	
-	// Creates a temp directory for this ark instance
-    //getpid() doesn't help here, since we can have many arkkparts
-    //embedded in one Konqueror, all with the same pid
-	//unsigned int pid = getpid();
-	QString tmpdir, directory;
+    m_settings = new ArkSettings;
 
-    int count=0;
-    QDir dir;
-    srand( getpid() );
-    for( ; count <= 255; count++ )
+    m_tmpDir = new KTempDir( locateLocal( "tmp", "ark" ) );
+    if( m_tmpDir->status()==0 )
     {
-        //no trailing slash here, otherwise the dir is created by locateLocal if
-        //it doesn't exist
-	    directory.sprintf( "ark.%d", rand() );
-	    tmpdir = locateLocal( "tmp", directory );
-        kdDebug( 1601 )<< "ArkWidgetBase::ArkWidgetBase tmpdir: " << tmpdir << " exists( " << dir.exists( tmpdir ) << " )"<< endl;
-        if( !dir.exists( tmpdir ) )
-            break;
+        m_settings->setTmpDir( m_tmpDir->name() );
+        kdDebug( 1601 ) << "name of tmpDir: " << m_tmpDir->name() << endl;
     }
-    if( count < 255 && dir.mkdir( tmpdir ) )
-        m_settings->setTmpDir( tmpdir );
     else
-        kdWarning( 1601 ) << "Could not create a temporary directory." << endl;
+    {
+        kdWarning( 1601 ) << "Could not create a temporary directory. status() returned "
+                          << m_tmpDir->status() << "." << endl;
+        m_tmpDir = NULL;
+    }
 }
 
 /**
@@ -87,12 +77,14 @@ ArkWidgetBase::~ArkWidgetBase()
 }
 
 void
-ArkWidgetBase::cleanArkTmpDir( bool part )
+ArkWidgetBase::cleanArkTmpDir( bool /*part*/ )
 {
-    QString tmpdir = m_settings->getTmpDir();
-    KProcess proc;
-    proc << "rm" << "-rf" << tmpdir;
-    proc.start(KProcess::Block);
+    if ( m_tmpDir )
+    {
+        m_tmpDir->unlink();
+        delete m_tmpDir;
+        m_tmpDir = NULL;
+    }
     return;
 }
 

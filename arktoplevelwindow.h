@@ -39,9 +39,7 @@
 // ark includes
 #include "arkwidget.h"
 
-class QLabel;
-
-class 
+class
 ArkTopLevelWindow: public KParts::MainWindow
 {
     Q_OBJECT
@@ -60,9 +58,6 @@ public slots:
     void openURL( const KURL & url );
     void file_open();
     void file_reload();
-    void slotSetStatusBarSelectedFiles( const QString & text );
-    void slotSetStatusBarText(  const QString & text );
-
     void editToolbars();
     void window_close();
     void file_quit();
@@ -87,7 +82,6 @@ protected:
 private: // methods
     // disabling/enabling of buttons and menu items
     void setupActions();
-    void setupStatusBar();
     void setupMenuBar();
 
     void newCaption(const QString & filename);
@@ -99,8 +93,6 @@ private: // methods
 private: // data
     KParts::ReadWritePart *m_part;
     ArkWidget *m_widget; //the parts widget
-    QLabel *m_pStatusLabelSelect; // How many files are selected - label
-    QLabel *m_pStatusLabelTotal;  // How many files in archive - label
     KAction *newWindowAction;
     KAction *newArchAction;
     KAction *openAction;

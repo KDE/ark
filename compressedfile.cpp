@@ -5,6 +5,7 @@
 
     2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
     2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
+    2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,6 +36,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
+#include <ktempdir.h>
 #include <kprocess.h>
 #include <kmimetype.h>
 #include <kio/netaccess.h>
@@ -53,15 +55,13 @@ CompressedFile::CompressedFile( ArkSettings *_settings, ArkWidgetBase *_gui,
 		  const QString & _fileName, const QString & _openAsMimeType )
   : Arch(_settings, _gui, _fileName )
 {
+  m_tempDirectory = NULL;
   m_openAsMimeType = _openAsMimeType;
   kdDebug(1601) << "CompressedFile constructor" << endl;
-  m_tmpdir = _settings->getTmpDir() + QString::fromLatin1( "/compressed_file_temp" );
-  QDir dir;
-  QString ext = QString::number( kapp->random() );
-  for ( int i = 0; dir.exists( m_tmpdir + ext ) && ( i < 255 ); ++i )
-      ext = QString::number( kapp->random() );
-  m_tmpdir = m_tmpdir + ext + "/";
-  dir.mkdir( m_tmpdir );
+  m_tempDirectory = new KTempDir( _settings->getTmpDir()
+                          + QString::fromLatin1( "compressed_file_temp" ) );
+  m_tempDirectory->setAutoDelete( true );
+  m_tmpdir = m_tempDirectory->name();
   initData();
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
@@ -73,6 +73,12 @@ CompressedFile::CompressedFile( ArkSettings *_settings, ArkWidgetBase *_gui,
                   "If you add more files you will be prompted to convert it to a real archive."),
               i18n("Simple Compressed Archive"), "CreatingCompressedArchive");
   }
+}
+
+CompressedFile::~CompressedFile()
+{
+    if ( m_tempDirectory )
+        delete m_tempDirectory;
 }
 
 void CompressedFile::setHeaders()
@@ -157,15 +163,14 @@ void CompressedFile::open()
   // and when the uncompression is done, list it
   // (that code is in the slot slotOpenDone)
 
-  m_tmpfile = m_filename.right(m_filename.length()
-                 - m_filename.findRev("/")-1);
+  m_tmpfile = m_gui->realURL().fileName();
   m_tmpfile += extension();
   m_tmpfile = m_tmpdir + m_tmpfile;
 
-  KProcess proc;
-  proc << "cp" << m_filename << m_tmpfile;
-  proc.start(KProcess::Block);
-
+  KURL src, target;
+  src.setPath( m_filename );
+  target.setPath( m_tmpfile );
+  KIO::NetAccess::copy( m_filename, m_tmpfile );
 
   kdDebug(1601) << "Temp file name is " << m_tmpfile << endl;
 
@@ -175,9 +180,14 @@ void CompressedFile::open()
   if ( m_unarchiver_program == "lzop")
   {
     *kp << "-d";
-	 kp->setUsePty( KProcess::Stdin, false );
+    // lzop hack, see comment in tar.cpp createTmp()
+    kp->setUsePty( KProcess::Stdin, false );
   }
-  
+  // gunzip 1.3 seems not to like original names with directories in them
+  // testcase: https://listman.redhat.com/pipermail/valhalla-list/2006-October.txt.gz
+  /*if ( m_unarchiver_program == "gunzip" )
+    *kp << "-N";
+  */
   *kp << m_tmpfile;
 
   kdDebug(1601) << "Command is " << m_unarchiver_program << " " << m_tmpfile<< endl;
@@ -286,7 +296,7 @@ void CompressedFile::addFile( QStringList *urls )
 
   // lzop hack, see comment in tar.cpp createTmp()
   if ( m_archiver_program == "lzop")
-	  kp->setUsePty( KProcess::Stdin, false );
+    kp->setUsePty( KProcess::Stdin, false );
 
   QString compressor = m_archiver_program;
 
@@ -330,7 +340,7 @@ void CompressedFile::slotAddDone(KProcess *_kp)
 }
 
 void CompressedFile::unarchFile(QStringList *, const QString & _destDir,
-				bool viewFriendly)
+				bool /*viewFriendly*/)
 {
   if (_destDir != m_tmpdir)
     {

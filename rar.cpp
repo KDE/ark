@@ -1,7 +1,5 @@
 /*
 
- $Id$
-
  ark -- archiver for the KDE project
 
  Copyright (C)
@@ -108,11 +106,11 @@ bool RarArch::processLine(const QCString &line)
   timestamp.sprintf("%s-%s-%s %s", year.utf8().data(),
 		    columns[8], columns[3], columns[10]);
 
-  kdDebug(1601) << "Year is: " << year << "; Month is: " << columns[8] << "; Day is: " << columns[3] << "; Time is: " << columns[10] << endl;
+  //kdDebug(1601) << "Year is: " << year << "; Month is: " << columns[8] << "; Day is: " << columns[3] << "; Time is: " << columns[10] << endl;
 
   strlcpy(columns[3], timestamp.ascii(), sizeof(columns[3]));
 
-  kdDebug(1601) << "The actual file is " << filename << endl;
+  //kdDebug(1601) << "The actual file is " << filename << endl;
 
   QStringList list;
   list.append(QFile::decodeName(filename));
@@ -355,4 +353,3 @@ void RarArch::remove(QStringList *list)
 }
 
 #include "rar.moc"
-

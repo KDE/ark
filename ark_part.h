@@ -22,11 +22,16 @@
 #ifndef __ark_part_h__
 #define __ark_part_h__
 
+#include <arkwidget.h>
+
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
+#include <kparts/statusbarextension.h>
 #include <kparts/factory.h>
-#include <arkwidget.h>
 #include <kaction.h>
+#include <kprogress.h>
+
+#include <qlabel.h>
 
 class ArkBrowserExtension: public KParts::BrowserExtension
 {
@@ -36,6 +41,33 @@ public:
 public slots:
     void slotOpenURLRequested( const KURL & url );
 };
+
+class ArkStatusBarExtension: public KParts::StatusBarExtension
+{
+    Q_OBJECT
+public:
+    ArkStatusBarExtension( KParts::ReadWritePart * parent );
+    ~ArkStatusBarExtension();
+
+public slots:
+    void slotSetStatusBarSelectedFiles( const QString & text );
+    void slotSetStatusBarText( const QString & text );
+    void slotSetBusy( const QString & text );
+    void slotSetReady();
+    void slotProgress();
+
+protected:
+    void setupStatusBar();
+
+private:
+    bool m_bBusy;
+    QLabel *m_pStatusLabelSelect; // How many files are selected
+    QLabel *m_pStatusLabelTotal;  // How many files in archive
+    QLabel *m_pBusyText;
+    KProgress *m_pProgressBar;
+    QTimer *m_pTimer;
+};
+
 
 class ArkPart: public KParts::ReadWritePart
 {
@@ -53,6 +85,7 @@ public slots:
     void slotFilePopup( const QPoint & pPoint );
     void file_save_as();
     bool saveFile();
+    bool openURL( const KURL & url );
     bool closeURL();
 signals:
     void fixActionState( const bool & bHaveFiles );
@@ -70,6 +103,7 @@ protected slots:
 private:
     ArkWidget  *awidget;
     ArkBrowserExtension *m_ext;
+    ArkStatusBarExtension *m_bar;
 
     KAction *saveAsAction;
     KAction *addFileAction;

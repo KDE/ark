@@ -28,8 +28,10 @@
 #include <kpopupmenu.h>
 #include <kaboutdata.h>
 #include <kxmlguifactory.h>
+#include <kstatusbar.h>
 
 #include <qfile.h>
+#include <qtimer.h>
 
 KAboutData *ArkPart::createAboutData()
 {
@@ -37,7 +39,7 @@ KAboutData *ArkPart::createAboutData()
                                        "1.0",
                                        I18N_NOOP("Ark KParts Component"),
                                        KAboutData::License_GPL,
-                                       "(c) 1997-2001, The Various Ark Developers");
+                                       I18N_NOOP( "(c) 1997-2003, The Various Ark Developers" ));
     about->addAuthor("Robert Palmbos",0, "palm9744@kettering.edu");
     about->addAuthor("Francois-Xavier Duranceau",0, "duranceau@kde.org");
     about->addAuthor("Corel Corporation (author: Emily Ezust)",0,
@@ -81,6 +83,16 @@ ArkPart::ArkPart( QWidget *parentWidget, const char * /*widgetName*/, QObject *p
     m_ext = new ArkBrowserExtension( this, "ArkBrowserExtension" );
     connect( awidget, SIGNAL( openURLRequest( const KURL & ) ),
              m_ext, SLOT( slotOpenURLRequested( const KURL & ) ) );
+
+    m_bar = new ArkStatusBarExtension( this );
+    connect( awidget, SIGNAL( setStatusBarText( const QString & ) ), m_bar,
+                 SLOT( slotSetStatusBarText( const QString & ) ) );
+    connect( awidget, SIGNAL( setStatusBarSelectedFiles( const QString & ) ), m_bar,
+                 SLOT( slotSetStatusBarSelectedFiles( const QString & ) ) );
+    connect( awidget, SIGNAL( setBusy( const QString & ) ), m_bar,
+                 SLOT( slotSetBusy( const QString & ) ) );
+    connect( awidget, SIGNAL( setReady() ), m_bar,
+                 SLOT( slotSetReady() ) );
 }
 
 ArkPart::~ArkPart()
@@ -205,6 +217,12 @@ void ArkPart::disableActions()
 
 }
 
+bool ArkPart::openURL( const KURL & url )
+{
+    awidget->setRealURL( url );
+    return KParts::ReadWritePart::openURL( url );
+}
+
 bool ArkPart::openFile()
 {
     KURL url;
@@ -224,7 +242,10 @@ void ArkPart::file_save_as()
 {
     KURL u = awidget->getSaveAsFileName();
     if ( u.isEmpty() ) // user canceled
+    {
+        kdDebug( 1601 ) <<  "u is empty in ArkPart::file_save_as" << endl;
         return;
+    }
     if ( !awidget->allowedArchiveName( u ) )
         awidget->convertTo( u );
     else if ( saveAs( u ) )
@@ -266,5 +287,112 @@ void ArkBrowserExtension::slotOpenURLRequested( const KURL & url )
     emit openURLRequest( url, KParts::URLArgs() );
 }
 
+ArkStatusBarExtension::ArkStatusBarExtension( KParts::ReadWritePart * parent )
+                : KParts::StatusBarExtension( parent ),
+                  m_bBusy( false ), m_pTimer( NULL )
+{
+    setupStatusBar();
+}
+
+ArkStatusBarExtension::~ArkStatusBarExtension()
+{
+    if ( m_bBusy )
+    {
+        removeStatusBarItem( m_pBusyText );
+        removeStatusBarItem( m_pProgressBar );
+    }
+    else
+    {
+        removeStatusBarItem( m_pStatusLabelSelect );
+        removeStatusBarItem( m_pStatusLabelTotal );
+    }
+}
+
+void ArkStatusBarExtension::setupStatusBar()
+{
+    m_pProgressBar = NULL;
+    m_pBusyText = NULL;
+
+    m_pTimer = new QTimer( this );
+    connect( m_pTimer, SIGNAL( timeout() ), this, SLOT( slotProgress() ) );
+
+    m_pStatusLabelTotal = new QLabel( statusBar() );
+    m_pStatusLabelTotal->setFrameStyle( QFrame::Panel | QFrame::Raised );
+    m_pStatusLabelTotal->setAlignment( AlignRight );
+    m_pStatusLabelTotal->setText( i18n( "Total: 0 files" ) );
+
+    m_pStatusLabelSelect = new QLabel( statusBar() );
+    m_pStatusLabelSelect->setFrameStyle( QFrame::Panel | QFrame::Raised );
+    m_pStatusLabelSelect->setAlignment( AlignLeft );
+    m_pStatusLabelSelect->setText(i18n( "0 files selected" ) );
+
+    addStatusBarItem( m_pStatusLabelSelect, 3000, false );
+    addStatusBarItem( m_pStatusLabelTotal, 3000, false );
+}
+
+void ArkStatusBarExtension::slotSetStatusBarText( const QString & text )
+{
+    m_pStatusLabelTotal->setText( text );
+}
+
+void ArkStatusBarExtension::slotSetStatusBarSelectedFiles( const QString & text )
+{
+    m_pStatusLabelSelect->setText( text );
+}
+
+void ArkStatusBarExtension::slotSetBusy( const QString & text )
+{
+    if ( m_bBusy )
+        return;
+
+    if ( !m_pBusyText )
+    {
+        m_pBusyText = new QLabel( statusBar() );
+
+        m_pBusyText->setAlignment( AlignLeft );
+        m_pBusyText->setFrameStyle( QFrame::Panel | QFrame::Raised );
+    }
+
+    if ( !m_pProgressBar )
+    {
+        m_pProgressBar = new KProgress( statusBar() );
+
+        m_pProgressBar->setTotalSteps( 0 );
+        m_pProgressBar->setPercentageVisible( false );
+        m_pProgressBar->setFixedHeight( m_pBusyText->fontMetrics().height() );
+    }
+    m_pBusyText->setText( text );
+
+    removeStatusBarItem( m_pStatusLabelSelect );
+    removeStatusBarItem( m_pStatusLabelTotal );
+
+    addStatusBarItem( m_pBusyText, 5, true );
+    addStatusBarItem( m_pProgressBar, 1, true );
+
+    m_pTimer->start( 200, FALSE );
+    m_bBusy = true;
+}
+
+void ArkStatusBarExtension::slotSetReady()
+{
+    if ( !m_bBusy )
+        return;
+
+    m_pTimer->stop();
+    m_pProgressBar->setProgress( 0 );
+
+    removeStatusBarItem( m_pBusyText );
+    removeStatusBarItem( m_pProgressBar );
+
+    addStatusBarItem( m_pStatusLabelSelect, 3000, false );
+    addStatusBarItem( m_pStatusLabelTotal, 3000, false );
+
+    m_bBusy = false;
+}
+
+void ArkStatusBarExtension::slotProgress()
+{
+    m_pProgressBar->setProgress( m_pProgressBar->progress() + 4 );
+}
 
 #include "ark_part.moc"

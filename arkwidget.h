@@ -50,6 +50,7 @@ class KConfig;
 class KURL;
 class KRun;
 class KTempFile;
+class KTempDir;
 
 class Arch;
 class ArkSettings;
@@ -69,7 +70,7 @@ public:
     bool file_save_as( const KURL & u );
     virtual KURL getSaveAsFileName();
     virtual void setOpenAsMimeType( const QString & mimeType );
-    QString & openAsMimeType(){ return m_openAsMimeType; };
+    QString & openAsMimeType(){ return m_openAsMimeType; }
     void prepareViewFiles( const QStringList & fileList );
     virtual void setArchivePopupEnabled( bool b );
 
@@ -114,6 +115,8 @@ protected slots:
 signals:
     void openURLRequest( const KURL & url );
     void request_file_quit();
+    void setBusy( const QString & );
+    void setReady();
     void fixActions();
     void disableAllActions();
     void signalFilePopup( const QPoint & pPoint );
@@ -128,6 +131,7 @@ signals:
     void createDone( bool );
     void openDone( bool );
     void createRealArchiveDone( bool );
+    void extractRemoteMovingDone();
 
 protected:
 
@@ -160,10 +164,16 @@ private: // methods
                             bool allowCompressed = true );
 
     bool reportExtractFailures(const QString & _dest, QStringList *_list);
+    QStringList existingFiles( const QString & _dest, QStringList & _list );
 
     void extractOnlyOpenDone();
-    void extractRemoteInitiateMoving();
+    void extractRemoteInitiateMoving( const KURL & target );
     void editStart();
+
+    void busy( const QString & text );
+    void holdBusy();
+    void resumeBusy();
+    void ready();
 
 private slots:
     void startDrag( const QStringList & fileList );
@@ -205,6 +215,9 @@ protected:
 
 private: // data
 
+    bool m_bBusy;
+    bool m_bBusyHold;
+
     // for use in the edit methods: the url.
     QString m_strFileToView;
 
@@ -233,13 +246,16 @@ private: // data
 
     bool m_bArchivePopupEnabled;
 
-    QString m_convert_tmpDir;
+    KTempDir * m_convert_tmpDir;
     KURL m_convert_saveAsURL;
     bool m_convertSuccess;
 
     KURL m_extractTo_targetDirectory;
 
     KURL::List m_addToArchive_filesToAdd;
+
+    KTempDir * m_createRealArchTmpDir;
+    KTempDir * m_extractRemoteTmpDir;
 };
 
 #endif /* ARKWIDGET_H*/

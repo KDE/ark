@@ -54,6 +54,7 @@
 #include <ktempfile.h>
 #include <kmimetype.h>
 #include <kstandarddirs.h>
+#include <ktempdir.h>
 #include <kprocess.h>
 #include <ktar.h>
 
@@ -71,46 +72,46 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
     updateInProgress(false), deleteInProgress(false), fd(NULL),
     m_pTmpProc( NULL ), m_pTmpProc2( NULL ), tarptr( NULL ), failed( false )
 {
-	m_filesToAdd = m_filesToRemove = QStringList();
-	kdDebug(1601) << "+TarArch::TarArch" << endl;
-	m_archiver_program = m_settings->getTarCommand();
-	m_unarchiver_program = QString::null;
-	verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+    m_tmpDir = NULL;
+    m_filesToAdd = m_filesToRemove = QStringList();
+    kdDebug(1601) << "+TarArch::TarArch" << endl;
+    m_archiver_program = m_settings->getTarCommand();
+    m_unarchiver_program = QString::null;
+    verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
-	m_fileMimeType = _openAsMimeType;
-	if ( m_fileMimeType.isNull() )
-		m_fileMimeType = KMimeType::findByPath( _filename )->name();
+    m_fileMimeType = _openAsMimeType;
+    if ( m_fileMimeType.isNull() )
+        m_fileMimeType = KMimeType::findByPath( _filename )->name();
 
-	kdDebug(1601) << "TarArch::TarArch:  mimetype is " << m_fileMimeType << endl;
-	
-	if ( m_fileMimeType == "application/x-tar" )
-	{
-		compressed = false;
-	}
-	else
-	{
-		compressed = true;
-		QDir dir( _settings->getTmpDir() );
-		QString tarTempDir = QString::fromLatin1( "temp_tar" );
-		dir.mkdir( tarTempDir );
-		dir.cd( tarTempDir );
-		// build the temp file name
-		KTempFile *pTempFile = new KTempFile( dir.absPath() + '/',
-				QString::fromLatin1(".tar") );
+    kdDebug(1601) << "TarArch::TarArch:  mimetype is " << m_fileMimeType << endl;
 
-		tmpfile = pTempFile->name();
-		delete pTempFile;
-		
-		kdDebug(1601) << "Tmpfile will be " << tmpfile << "\n" << endl;
-	}
-	kdDebug(1601) << "-TarArch::TarArch" << endl;
+    if ( m_fileMimeType == "application/x-tar" )
+    {
+        compressed = false;
+    }
+    else
+    {
+        compressed = true;
+        m_tmpDir = new KTempDir( _settings->getTmpDir()
+                                 + QString::fromLatin1( "temp_tar" ) );
+        m_tmpDir->setAutoDelete( true );
+        m_tmpDir->qDir()->cd( m_tmpDir->name() );
+        // build the temp file name
+        KTempFile *pTempFile = new KTempFile( m_tmpDir->name(),
+                QString::fromLatin1(".tar") );
+
+        tmpfile = pTempFile->name();
+        delete pTempFile;
+
+        kdDebug(1601) << "Tmpfile will be " << tmpfile << "\n" << endl;
+    }
+    kdDebug(1601) << "-TarArch::TarArch" << endl;
 }
 
 TarArch::~TarArch()
 {
-  QDir tarTempDir( tmpfile.left( tmpfile.findRev( '/' ) ) );
-  QFile::remove( tmpfile );
-  tarTempDir.rmdir( tarTempDir.absPath() );
+    if ( m_tmpDir )
+        delete m_tmpDir;
 }
 
 int TarArch::getEditFlag()

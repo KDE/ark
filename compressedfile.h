@@ -30,6 +30,7 @@ class QString;
 class QCString;
 class QStringList;
 class KProcess;
+class KTempDir;
 
 class Arch;
 class ArkSettings;
@@ -49,7 +50,7 @@ class CompressedFile : public Arch
 public:
   CompressedFile( ArkSettings *_settings, ArkWidgetBase *_gui,
 		  const QString & _fileName, const QString &_openAsMimeType );
-  virtual ~CompressedFile() { }
+  virtual ~CompressedFile();
 	
   virtual void open();
   virtual void create();
@@ -75,6 +76,7 @@ private:
   QString extension();
 
   QString m_openAsMimeType;
+  KTempDir * m_tempDirectory;
   QString m_tmpdir;
   QString m_tmpfile;
   QStringList m_defaultExtensions;

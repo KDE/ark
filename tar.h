@@ -36,6 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 class QString;
 class QStrList;
 class KProcess;
+class KTempDir;
 class KTarDirectory;
 class ArkWidgetBase;
 class ArkSettings;
@@ -105,6 +106,7 @@ private:  // methods
 
 private: // data
     // if the tar is compressed, this is the temporary uncompressed tar.
+    KTempDir * m_tmpDir;
     QString tmpfile;
     QString m_fileMimeType;
     bool compressed;

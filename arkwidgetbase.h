@@ -31,6 +31,8 @@ class QWidget;
 class QString;
 class QStringList;
 
+class KTempDir;
+
 class Arch;
 class FileLVI;
 class FileListView;
@@ -54,8 +56,10 @@ class ArkWidgetBase
 		//int getSizeColumn();
 		void cleanArkTmpDir( bool part=false );
 		virtual QString getArchName() const { return m_strArchName; }
+        void setRealURL( const KURL & url ) { m_realURL = url; }
+        const KURL & realURL( ) const { return m_realURL; }
+
 		const FileLVI * getFileLVI(const QString &_filename) const;
-		KURL getOriginalURL() const { return m_url; }
 		FileListView *fileList() const { return archiveContent; }
         Arch *archive() const { return arch; }
         ArchType archiveType() const { return m_archType; }
@@ -85,13 +89,14 @@ class ArkWidgetBase
 		Arch *arch;
 		ArkSettings *m_settings;
 		QString m_strArchName;
+		KURL m_realURL;  // only for the hack in compressedfile.cpp
 		FileListView *archiveContent;
 		KURL m_url;
 		ArchType m_archType;
 
 		int m_nSizeOfFiles;
 		int m_nSizeOfSelectedFiles;
-		int m_nNumFiles;
+		unsigned int m_nNumFiles;
 		int m_nNumSelectedFiles;
 		//int m_currentSizeColumn;
 		int m_arkInstanceId;
@@ -102,6 +107,7 @@ class ArkWidgetBase
 		
 		QStringList mDragFiles;
 		QStringList *m_extractList;
+		KTempDir *m_tmpDir;
 };
 
 #endif

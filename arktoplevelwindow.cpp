@@ -22,7 +22,6 @@
 */
 
 // QT includes
-#include <qwhatsthis.h>
 #include <qlayout.h>
 
 // KDE includes
@@ -55,7 +54,6 @@ ArkTopLevelWindow::ArkTopLevelWindow( QWidget * /*parent*/, const char *name ) :
 
         setStandardToolBarMenuEnabled( true );
         setupActions();
-        setupStatusBar();
 
         connect( m_part->widget(), SIGNAL( request_file_quit() ), this, SLOT(  file_quit() ) );
         connect( KParts::BrowserExtension::childObject( m_part ), SIGNAL( openURLRequestDelayed
@@ -65,11 +63,6 @@ ArkTopLevelWindow::ArkTopLevelWindow( QWidget * /*parent*/, const char *name ) :
         m_widget->setArchivePopupEnabled( true );
         connect( m_part->widget(), SIGNAL( signalArchivePopup( const QPoint & ) ), this,
                  SLOT( slotArchivePopup( const QPoint & ) ) );
-
-        connect( m_part->widget(), SIGNAL( setStatusBarText( const QString & ) ), this,
-                 SLOT( slotSetStatusBarText( const QString & ) ) );
-        connect( m_part->widget(), SIGNAL( setStatusBarSelectedFiles( const QString & ) ), this,
-                 SLOT( slotSetStatusBarSelectedFiles( const QString & ) ) );
 
         connect( m_part, SIGNAL(  removeRecentURL( const QString & ) ), this,
                  SLOT( slotRemoveRecentURL( const QString & ) ) );
@@ -103,7 +96,7 @@ ArkTopLevelWindow::~ArkTopLevelWindow()
     delete m_part;
 }
 
-void 
+void
 ArkTopLevelWindow::setupActions()
 {
     newWindowAction = new KAction(i18n("New &Window"), "window_new", KShortcut(), this,
@@ -120,9 +113,9 @@ ArkTopLevelWindow::setupActions()
     KConfig *kc = m_widget->settings()->getKConfig();
     recent->loadEntries(kc);
 
-    KStdAction::quit(this, SLOT(window_close()), actionCollection());
     createStandardStatusBarAction();
-    setStandardToolBarMenuEnabled(true);
+
+    KStdAction::quit(this, SLOT(window_close()), actionCollection());
     KStdAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
     KStdAction::keyBindings(this, SLOT( slotConfigureKeyBindings()), actionCollection());
     KStdAction::saveOptions(this, SLOT(slotSaveOptions()), actionCollection());
@@ -133,7 +126,7 @@ ArkTopLevelWindow::setupActions()
     reloadAction->setEnabled( false );
 }
 
-void 
+void
 ArkTopLevelWindow::slotDisableActions()
 {
     openAction->setEnabled(false);
@@ -142,7 +135,7 @@ ArkTopLevelWindow::slotDisableActions()
     reloadAction->setEnabled(false);
 }
 
-void 
+void
 ArkTopLevelWindow::slotFixActionState( const bool & bHaveFiles )
 {
     openAction->setEnabled(true);
@@ -151,7 +144,7 @@ ArkTopLevelWindow::slotFixActionState( const bool & bHaveFiles )
     reloadAction->setEnabled(bHaveFiles);
 }
 
-void 
+void
 ArkTopLevelWindow::file_newWindow()
 {
     ArkTopLevelWindow *kw = new ArkTopLevelWindow;
@@ -159,13 +152,13 @@ ArkTopLevelWindow::file_newWindow()
     kw->show();
 }
 
-void 
+void
 ArkTopLevelWindow::file_new()
 {
     m_widget->file_new();
 }
 
-void 
+void
 ArkTopLevelWindow::file_reload()
 {
     KURL url( m_part->url() );
@@ -173,7 +166,7 @@ ArkTopLevelWindow::file_reload()
     m_part->openURL( url );
 }
 
-void 
+void
 ArkTopLevelWindow::editToolbars()
 {
     saveMainWindowSettings( KGlobal::config(), QString::fromLatin1("MainWindow") );
@@ -182,14 +175,14 @@ ArkTopLevelWindow::editToolbars()
     dlg.exec();
 }
 
-void 
+void
 ArkTopLevelWindow::slotNewToolbarConfig()
 {
     createGUI( m_part );
     applyMainWindowSettings( KGlobal::config(), QString::fromLatin1("MainWindow") );
 }
 
-void 
+void
 ArkTopLevelWindow::slotConfigureKeyBindings()
 {
     KKeyDialog dlg( true, this );
@@ -200,20 +193,20 @@ ArkTopLevelWindow::slotConfigureKeyBindings()
     dlg.configure();
 }
 
-void 
+void
 ArkTopLevelWindow::slotSaveOptions()
 {
     m_widget->options_saveNow();
 }
 
-void 
+void
 ArkTopLevelWindow::slotArchivePopup( const QPoint &pPoint)
 {
     static_cast<KPopupMenu *>(factory()->container("archive_popup", this))->popup(pPoint);
 }
 
 // see if the ark is already open in another window
-bool 
+bool
 ArkTopLevelWindow::arkAlreadyOpen( const KURL & url )
 {
     if (ArkApplication::getInstance()->isArkOpenAlready(url))
@@ -233,17 +226,16 @@ ArkTopLevelWindow::arkAlreadyOpen( const KURL & url )
 }
 
 
-void 
+void
 ArkTopLevelWindow::openURL( const KURL & url )
 {
     if( !arkAlreadyOpen( url ) )
         m_part->openURL( url );
 }
 
-KURL 
-ArkTopLevelWindow::getOpenURL(bool addOnly, 
-										const QString & caption,
-										const QString & startDir )
+KURL
+ArkTopLevelWindow::getOpenURL( bool addOnly, const QString & caption,
+                                             const QString & startDir )
 {
     kdDebug( 1601 ) << "startDir is: " << startDir << endl;
     QWidget * forceFormatWidget = new QWidget( this );
@@ -295,7 +287,7 @@ ArkTopLevelWindow::getOpenURL(bool addOnly,
     return url;
 }
 
-void 
+void
 ArkTopLevelWindow::file_open()
 {
     KURL url = getOpenURL();
@@ -303,71 +295,35 @@ ArkTopLevelWindow::file_open()
         m_part->openURL( url );
 }
 
-void 
+void
 ArkTopLevelWindow::file_close()
 {
     m_widget->file_close();
 }
 
-void 
+void
 ArkTopLevelWindow::window_close()
 {
     file_close();
     slotSaveProperties();
+    //kdDebug(1601) << "-ArkWidget::window_close" << endl;
     close();
 }
 
-bool 
+bool
 ArkTopLevelWindow::queryClose()
 {
     window_close();
     return true;
 }
 
-void 
+void
 ArkTopLevelWindow::file_quit()
 {
     window_close();
 }
 
-
-void 
-ArkTopLevelWindow::setupStatusBar()
-{
-    KStatusBar *sb = statusBar();
-
-    QWhatsThis::add
-        (sb, i18n("The statusbar shows you how many files you have and how many you have selected. It also shows you total sizes for these groups of files."));
-
-    m_pStatusLabelSelect = new QLabel(sb);
-    m_pStatusLabelSelect->setFrameStyle(QFrame::Panel | QFrame::Raised);
-    m_pStatusLabelSelect->setAlignment(AlignLeft);
-    m_pStatusLabelSelect->setText(i18n("0 files selected"));
-
-    m_pStatusLabelTotal = new QLabel(sb);
-    m_pStatusLabelTotal->setFrameStyle(QFrame::Panel | QFrame::Raised);
-    m_pStatusLabelTotal->setAlignment(AlignRight);
-    m_pStatusLabelTotal->setText(i18n("Total: 0 files"));
-
-    sb->addWidget(m_pStatusLabelSelect, 3000);
-    sb->addWidget(m_pStatusLabelTotal, 3000);
-
-    kdDebug(1601) << "-ArkWidget::setupStatusBar" << endl;
-}
-
-void 
-ArkTopLevelWindow::slotSetStatusBarText( const QString & text )
-{
-    m_pStatusLabelTotal->setText( text );
-}
-
-void 
-ArkTopLevelWindow::slotSetStatusBarSelectedFiles( const QString & text )
-{
-    m_pStatusLabelSelect->setText( text );
-}
-
-void 
+void
 ArkTopLevelWindow::slotSaveProperties()
 {
     KConfig *kc = m_widget->settings()->getKConfig();
@@ -376,7 +332,7 @@ ArkTopLevelWindow::slotSaveProperties()
     m_widget->settings()->writeConfiguration();
 }
 
-void 
+void
 ArkTopLevelWindow::saveProperties( KConfig* config )
 {
     //TODO: make it work for URLS
@@ -385,7 +341,7 @@ ArkTopLevelWindow::saveProperties( KConfig* config )
 }
 
 
-void 
+void
 ArkTopLevelWindow::readProperties( KConfig* config )
 {
     QString file = config->readEntry("SMOpenedFile");
@@ -394,7 +350,7 @@ ArkTopLevelWindow::readProperties( KConfig* config )
         openURL( file );
 }
 
-void 
+void
 ArkTopLevelWindow::slotAddRecentURL( const QString & url )
 {
     recent->addURL( url );
@@ -403,7 +359,7 @@ ArkTopLevelWindow::slotAddRecentURL( const QString & url )
     kdDebug( 1601 ) << "RecentURL: " << url << " added." << endl;
 }
 
-void 
+void
 ArkTopLevelWindow::slotRemoveRecentURL( const QString & url )
 {
     recent->removeURL( url );
@@ -417,27 +373,27 @@ ArkTopLevelWindow::slotAddOpenArk( const KURL & _arkname )
     ArkApplication::getInstance()->addOpenArk( _arkname, this );
 }
 
-void 
+void
 ArkTopLevelWindow::slotRemoveOpenArk( const KURL & _arkname )
 {
     ArkApplication::getInstance()->removeOpenArk( _arkname );
 }
 
-void 
+void
 ArkTopLevelWindow::setExtractOnly ( bool b )
 {
     m_widget->setExtractOnly(  b );
 }
 
-void 
+void
 ArkTopLevelWindow::extractTo( const KURL & targetDirectory, const KURL & archive, bool guessName )
 {
     m_widget->extractTo( targetDirectory, archive, guessName );
 }
 
-void 
+void
 ArkTopLevelWindow::addToArchive( const KURL::List & filesToAdd, const QString & /*cwd*/,
-                                                                     const KURL & archive )
+                                                                const KURL & archive )
 {
     KURL archiveFile;
     if ( archive.isEmpty() )
