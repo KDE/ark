@@ -185,7 +185,7 @@ bool ZipExtractDlg::getShowFilter()
 
 KFileInfoContents* ZipExtractDlg::initFileList( QWidget *parent )
 {
-	bool useSingleClick = kapp->getConfig()->readBoolEntry("SingleClick", true);
+	bool useSingleClick = kapp->config()->readBoolEntry("SingleClick", true);
 	return new KDirListBox( useSingleClick, dir->sorting(), parent, "_dirs" );
 }
 

@@ -75,7 +75,7 @@ int main( int argc, char *argv[]  )
 
 			KConfig *config;
         	
-        		config = kapp->getConfig();
+        		config = kapp->config();
 	        	config->setGroup("ark");
 
         	
@@ -96,7 +96,7 @@ int main( int argc, char *argv[]  )
 			arkWin->show();
 			KConfig *config;
         	
-        		config = kapp->getConfig();
+        		config = kapp->config();
 	        	config->setGroup("ark");
 
         	
