@@ -44,8 +44,7 @@ messages: rc.cpp
 
 KDE_ICON = ark
 
-apps_DATA = ark.desktop
-appsdir = $(kde_appsdir)/Utilities
+xdg_apps_DATA = ark.desktop
 
 parts_DATA = ark_part.desktop
 partsdir = $(kde_servicesdir)
