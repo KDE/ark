@@ -1,6 +1,7 @@
 /*
     ark: A program for modifying archives via a GUI.
-    (c)1997 Robert Palmbos
+
+    (c)1999 Emily Ezust, emilye@corel.com
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,12 +16,6 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-
-File added 1999
-
-Modifications to this program were made by Corel Corporation, November, 1999.
-All such modifications are copyright (C) 1999 Corel Corporation and are 
-licensed under the terms of the GNU General Public License
 
 */
 
@@ -107,12 +102,12 @@ licensed under the terms of the GNU General Public License
 #define IDS_DELETE i18n("Delete")
 #define IDS_DELETION_PROMPT i18n("Deletion is permanent. Do you wish to delete all the selected files?")
 #define IDS_DELETING i18n("Deleting File(s) from Archive")
-#define IDS_COREL_ARCHIVER_PREFIX i18n("Archive Administrator: ")
-#define IDS_COREL_ARCHIVER i18n("Archive Administrator")
-#define IDS_COREL_BLURB i18n("Archive Administrator: v0.5\n(c) 1997 Robert Palmbos\nWith modifications by Corel Corporation (1999)")
+#define IDS_ARCHIVER_PREFIX i18n("ark: ")
+#define IDS_ARCHIVER i18n("ark")
+#define IDS_BLURB i18n("ark version %1\n(c) 1997-1999: Robert Palmbos <palm9744@kettering.edu>\n1999: Francois-Xavier Duranceau <duranceau@kde.org>\n1999: Corel Corporation (Emily Ezust <emilye@corel.com>)")
 
-#define IDS_NO_FILES_SELECTED i18n("0 Files Selected")
-#define IDS_NO_FILES i18n("Total 0 Files, 0 KB")
+#define IDS_NO_FILES_SELECTED i18n("0 Files Selected                            ")
+#define IDS_NO_FILES i18n("Total 0 Files, 0 KB                                             ")
 #define IDS_TOTAL i18n("Total")
 #define IDS_FILES i18n("Files")
 #define IDS_FILE i18n("File")
@@ -141,8 +136,5 @@ licensed under the terms of the GNU General Public License
 
 #define IDS_WARNING i18n("Warning")
 #define IDS_ARCHIVE_LOCKED i18n("Archive Administrator has detected a lock file for this archive.\nThis may mean that you are already viewing this archive in another\nwindow. If you make changes here, it could cause inconsistencies there.\n\nAre you sure you wish to continue?")
-
-#define IDS_BLURB i18n("Ark version: %1")
-#define IDS_ARCHIVER "ark"
 
 #endif //  __ARKSTRINGS_H__
