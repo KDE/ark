@@ -61,3 +61,4 @@ SwallowExec=
 SwallowTitle=
 BinaryPattern=ark;
 X-DCOP-ServiceType=Unique
+Categories=QT;KDE;Utility
