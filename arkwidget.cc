@@ -428,7 +428,8 @@ void ArkWidget::initialEnables()
   extractAction->setEnabled(false);
   addFileAction->setEnabled(false);
   addDirAction->setEnabled(false);
-
+  openWithAction->setEnabled(false);
+  editAction->setEnabled(false);
 }
 
 
