@@ -1,7 +1,5 @@
 /*
 
- $Id$
-
  ark -- archiver for the KDE project
 
  Copyright (C)
@@ -92,18 +90,12 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 	else
 	{
 		compressed = true;
-		QString tmpdir;
-		QString directory;
-		directory.sprintf("ark.%d/", getpid());
-		tmpdir = locateLocal( "tmp", directory );
-
-		QString base = m_filename.right(m_filename.length()- 1 -
-                                     m_filename.findRev("/"));
-		base = base.left(base.findRev("."));
-
+		QDir dir( _settings->getTmpDir() );
+		QString tarTempDir = QString::fromLatin1( "temp_tar" );
+		dir.mkdir( tarTempDir );
+		dir.cd( tarTempDir );
 		// build the temp file name
-		KTempFile *pTempFile = new KTempFile(tmpdir +
-				QString::fromLatin1("/temp_tar"),
+		KTempFile *pTempFile = new KTempFile( dir.absPath() + '/',
 				QString::fromLatin1(".tar") );
 
 		tmpfile = pTempFile->name();
@@ -116,7 +108,9 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 
 TarArch::~TarArch()
 {
-  QFile::remove(tmpfile);
+  QDir tarTempDir( tmpfile.left( tmpfile.findRev( '/' ) ) );
+  QFile::remove( tmpfile );
+  tarTempDir.rmdir( tarTempDir.absPath() );
 }
 
 int TarArch::getEditFlag()
