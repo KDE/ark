@@ -8,6 +8,7 @@ Comment[fr]=Archives zip
 Comment[pl]=Archiwum Zip
 Comment[hr]=Zip Arhive
 Comment[sk]=Zip archívy
+Comment[ro]=Arhivã zip
 Mimetype=application/x-zip
 Comment=Zip Archives
 DefaultApp=Zip

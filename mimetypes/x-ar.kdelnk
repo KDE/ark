@@ -10,6 +10,7 @@ Comment[sk]=Ar archívy
 Comment[fr]=Archives AR
 Comment[hr]=Ar Arhive
 Comment[pl]=Archiwum Ar
+Comment[ro]=Arhivã ar
 Mimetype=application/x-ar
 Icon=tgz.xpm
 DefaultApp=Zip
