@@ -20,6 +20,7 @@
 */
 
 #include <kaboutdata.h>
+#include <kinstance.h>
 
 #include "ark_part.h"
 #include "arkfactory.h"

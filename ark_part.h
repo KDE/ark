@@ -33,6 +33,10 @@
 
 #include <qlabel.h>
 
+
+class KAboutData;
+
+
 class ArkBrowserExtension: public KParts::BrowserExtension
 {
     Q_OBJECT
