@@ -1744,7 +1744,6 @@ ArkWidget::action_view()
 void 
 ArkWidget::viewSlotExtractDone()
 {
-    KIO::chmod( m_strFileToView, "400" );
     m_pKRunPtr = new KRun( m_strFileToView );
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this,
                 SLOT( viewSlotExtractDone( ) ) );
