@@ -2278,7 +2278,9 @@ ArkWidget::createFileListView()
 				this, SLOT(doPopup(QListViewItem *, const QPoint &, int)));
 		connect( archiveContent, SIGNAL( startDragRequest( const QStringList & ) ),
 				this, SLOT( startDrag( const QStringList & ) ) );
-		connect( archiveContent, SIGNAL( doubleClicked(QListViewItem *, const QPoint &, int ) ),
+		connect( archiveContent, SIGNAL( executed(QListViewItem *, const QPoint &, int ) ),
+				this, SLOT( viewFile() ) );
+		connect( archiveContent, SIGNAL( returnPressed(QListViewItem * ) ),
 				this, SLOT( viewFile() ) );
     }
     archiveContent->clear();
