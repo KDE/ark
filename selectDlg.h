@@ -32,7 +32,7 @@ class QWidget;
 class QString;
 class QDialog;
 class QLineEdit;
-class QPushButton;
+class KPushButton;
 
 class ArkSettings;
 
@@ -47,8 +47,8 @@ public:
 private:
 	ArkSettings *m_settings;
 	QLineEdit *m_regExp;
-	QPushButton *m_ok;
-	
+	KPushButton *m_ok;
+
 private slots:
 	void regExpChanged(const QString& _exp);
 	void saveConfig();

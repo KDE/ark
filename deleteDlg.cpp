@@ -34,6 +34,7 @@
 
 // KDE includes
 #include <klocale.h>
+#include <kpushbutton.h>
 
 // ark includes
 #include "deleteDlg.h"
@@ -44,7 +45,7 @@ DeleteDlg::DeleteDlg( bool _selEnabled, QWidget *_parent, const char *_name )
 	: QDialog( _parent, _name, true )
 {
 	setCaption( i18n("Delete") );
-	
+
 	QVBoxLayout *mainLayout = new QVBoxLayout( this, 10 );
 
 	QLabel *l1 = new QLabel( i18n("What do you want to delete?"), this );
@@ -56,39 +57,39 @@ DeleteDlg::DeleteDlg( bool _selEnabled, QWidget *_parent, const char *_name )
 
 	QVBoxLayout *vblg1 = new QVBoxLayout( bg1, 10 );
 	vblg1->addSpacing( 10 );
-	
+
 	m_rbSelection = new QRadioButton( i18n("Selected files"), bg1 );
 	m_rbSelection->setFixedSize( m_rbSelection->sizeHint() );
 	vblg1->addWidget( m_rbSelection, 0, AlignLeft );
 	m_rbSelection->setEnabled( _selEnabled );
 	m_rbSelection->setChecked( _selEnabled );
-		
+
 	QHBoxLayout *hbl1 = new QHBoxLayout();
 	vblg1->addLayout( hbl1 );
-	
+
 	m_rbPatterns = new QRadioButton( i18n("Files: "), bg1 );
 	m_rbPatterns->setFixedSize( m_rbPatterns->sizeHint() );
 	hbl1->addWidget( m_rbPatterns );
 	m_rbPatterns->setChecked( !_selEnabled );
-	
+
 	m_lePatterns = new QLineEdit( bg1 );
 	m_lePatterns->setFixedHeight( m_lePatterns->sizeHint().height() );
 	m_lePatterns->setMinimumWidth( m_lePatterns->sizeHint().width() );
 	hbl1->addWidget( m_lePatterns );
 	connect( m_lePatterns, SIGNAL(textChanged(const QString &)), SLOT(onChange(const QString&)));
-	
+
 	QHBoxLayout *hbl = new QHBoxLayout();
 	mainLayout->addLayout( hbl );
-	
+
 	hbl->addStretch( 1 );
-	
-	QPushButton *ok = new QPushButton( i18n("OK"), this );	
+
+	KPushButton *ok = new KPushButton( KStdGuiItem::ok(), this );
 	ok->setFixedSize( ok->sizeHint() );
 	ok->setDefault(true);
 	connect( ok, SIGNAL( clicked() ), SLOT( accept() ) );
 	hbl->addWidget( ok );
 
-	QPushButton *cancel = new QPushButton( i18n("Cancel"), this );
+	KPushButton *cancel = new KPushButton( KStdGuiItem::cancel(), this );
 	cancel->setFixedSize( cancel->sizeHint() );
 	connect( cancel, SIGNAL( clicked() ), SLOT( reject() ) );
 	hbl->addWidget( cancel );

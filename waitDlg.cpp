@@ -26,13 +26,13 @@
 */
 
 // Qt includes
-#include <qpushbutton.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qdialog.h>
 
 // KDE includes
 #include <klocale.h>
+#include <kpushbutton.h>
 
 // ark includes
 #include "waitDlg.h"
@@ -49,7 +49,8 @@ WaitDlg::WaitDlg( QWidget *_parent, const char *_name, bool _modal, WFlags _f )
 	l1->setFixedSize( l1->sizeHint() );
 	mainLayout->addWidget( l1 );
 
-	QPushButton *cancel = new QPushButton( i18n("Cancel"), this );
+        KPushButton *cancel =new KPushButton( KStdGuiItem::cancel(), this);
+
 	cancel->setFixedSize( cancel->sizeHint() );
 	connect( cancel, SIGNAL( clicked() ), SLOT( onCancel() ) );
 	mainLayout->addWidget( cancel );
