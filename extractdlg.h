@@ -65,5 +65,14 @@ private: // data
   QCheckBox *m_cbDiscardPathnames;
 };
 
+// this class is used for displaying the filenames that were not
+// extracted, if that number is greater than 1.
+
+class ExtractFailureDlg : public QDialog 
+{
+public:
+  ExtractFailureDlg(QStringList *list,
+		    QWidget *parent=0, char *name=0);
+};
 
 #endif //  __EXTRACTDLG_H__

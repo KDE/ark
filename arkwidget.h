@@ -186,7 +186,10 @@ private: // methods
 
   // complains if the filename has capital letters or is tbz or tbz2
   bool badBzipName(const QString & _filename);
+  bool getOverwrite(ArchType _archtype);
 
+  bool reportExtractFailures(const QString & _dest,
+			     QStringList *_list);
 protected:
   void arkWarning(const QString& msg);
   void arkError(const QString& msg);
@@ -277,6 +280,9 @@ private: // data
 
   KRun *m_pKRunPtr;
   QStringList mDragFiles; // to be able to access the drag/extract files
+
+  // the list of files being extracted. Needs to be deleted in slotExtractDone
+  QStringList *m_extractList;
 };
 
 #endif /* ARKWIDGET_H*/

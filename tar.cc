@@ -607,12 +607,16 @@ void TarArch::unarchFile( QStringList * _fileList, const QString & _destDir)
   *kp << m_archiver_program.local8Bit();
   if (compressed)
     *kp << "--use-compress-program="+getUnCompressor() ;
-  if (m_settings->getTarPreservePerms())
-    *kp << "-xvpf";
-  else
-    *kp << "-xvf";
 
-  *kp << m_filename.local8Bit() << "-C" << dest;	
+  QString options = "-x";
+  if (!m_settings->getTarOverwriteFiles())
+    options += "k";
+  if (m_settings->getTarPreservePerms())
+    options += "p";
+  options += "f";
+
+  kdDebug(1601) << "Options were: " << options.local8Bit() << endl;
+  *kp << options.local8Bit() << m_filename.local8Bit() << "-C" << dest;	
 
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.

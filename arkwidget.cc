@@ -257,6 +257,7 @@ void ArkWidget::setupActions()
   KStdAction::saveOptions(this, SLOT(options_saveNow()), actionCollection());
   KStdAction::keyBindings(this, SLOT(options_keys()), actionCollection());
 
+
   createGUI();
 }
 
@@ -831,6 +832,8 @@ void ArkWidget::slotExtractDone()
       d->dragCopy();
       m_bDropSourceIsSelf = false;
     }
+  delete m_extractList;
+  m_extractList = NULL;
   archiveContent->setUpdatesEnabled(true);
   fixEnables();  
   kdDebug(1601) << "-ArkWidget::slotExtractDone" << endl;
@@ -1344,27 +1347,119 @@ void ArkWidget::slotOpenWith()
       fullname += m_settings->getTmpDir();
       fullname += name;
 
-      QStringList list;
-      list.append(name);
+      m_extractList = new QStringList;
+      m_extractList->append(name);
       archiveContent->setUpdatesEnabled(false);
       m_bOpenWithInProgress = true;
       m_strFileToView = fullname;
       QApplication::setOverrideCursor( waitCursor );
       disableAll();
-      arch->unarchFile( &list, m_settings->getTmpDir() );
+      arch->unarchFile(m_extractList, m_settings->getTmpDir());
     }
 }
 
+bool ArkWidget::getOverwrite(ArchType _archtype)
+{
+  // returns true if Overwrite is set on this particular archive type
+  switch (_archtype)
+    {
+    case ZIP_FORMAT:
+      return m_settings->getZipExtractOverwrite();
+    case TAR_FORMAT:
+      return m_settings->getTarOverwriteFiles();
+    case RAR_FORMAT:
+      return m_settings->getRarOverwriteFiles();
+    case ZOO_FORMAT:
+      return m_settings->getZooOverwriteFiles();
+    case LHA_FORMAT:
+    case AA_FORMAT:
+    case COMPRESSED_FORMAT:
+      return true;
+    case UNKNOWN_FORMAT:
+      ASSERT(0); // never happens;
+    }
+  return false;
+}
+
+bool ArkWidget::reportExtractFailures(const QString & _dest,
+				      QStringList *_list)
+{
+  // reports extract failures when Overwrite = False and the file
+  // exists already in the destination directory.
+  // If list is null, it means we are extracting all files.
+  // Otherwise the list contains the files we are to extract.
+
+  QString strFilename, tmp;
+  struct stat statbuffer;
+  bool bRedoExtract = false;
+
+  QApplication::restoreOverrideCursor();
+
+  ASSERT(_list != NULL);
+  QString strDestDir = _dest;
+
+  // make sure the destination directory has a / at the end.
+  if (strDestDir.right(1) != '/')
+    strDestDir += "/";
+
+  if (_list->isEmpty())
+  {
+    // make the list
+    FileListView *flw = fileList();
+    FileLVI *flvi = (FileLVI*)flw->firstChild();
+    while (flvi)
+      {
+	tmp = flvi->getFileName().local8Bit();
+	_list->append(tmp);
+	flvi = (FileLVI*)flvi->itemBelow();
+      }
+  }
+  QStringList existingFiles;
+  // now the list contains all the names we must verify.
+  for (QStringList::Iterator it = _list->begin(); it != _list->end(); ++it)
+    {
+      strFilename = *it;
+      QString strFullName = strDestDir + strFilename;
+      if (stat((const char *)strFullName, &statbuffer) != -1)
+	existingFiles.append(strFilename);
+    }
+  
+  int numFilesToReport = existingFiles.count();
+  
+  kdDebug(1601) << "There are " << numFilesToReport << " files to report existing already." << endl;
+
+  // now report on the contents
+  if (numFilesToReport == 1)  
+    {
+      kdDebug(1601) << "One to report" << endl;
+      strFilename = *(existingFiles.at(0));
+      QString message = strFilename + i18n(" was not extracted because it would overwrite an existing file.\nGo back to Extract Dialog?");
+      bRedoExtract =
+	KMessageBox::questionYesNo(this, message) == KMessageBox::Yes;
+    }
+  else if (numFilesToReport != 0)
+    {
+      ExtractFailureDlg *fDlg = new ExtractFailureDlg(&existingFiles,
+						      this);
+      bRedoExtract = !fDlg->exec();
+    }
+  return bRedoExtract;
+}
+
+
 void ArkWidget::action_extract()
 {
-  ExtractDlg *dlg = new ExtractDlg(getArchType(m_strArchName),
-				   m_settings);
+  ArchType archtype = getArchType(m_strArchName);
+  ExtractDlg *dlg = new ExtractDlg(archtype, m_settings);
 
   // if they choose pattern, we have to tell arkwidget to select
   // those files... once we're in the dialog code it's too late.
   connect(dlg, SIGNAL(pattern(const QString &)), 
 	  this, SLOT(selectByPattern(const QString &)));
+  bool bRedoExtract = false;
 
+  // list of files to be extracted
+  m_extractList = new QStringList;
   if (dlg->exec())
     {
       int extractOp = dlg->extractOp();
@@ -1373,48 +1468,57 @@ void ArkWidget::action_extract()
       QApplication::setOverrideCursor( waitCursor );
       disableAll();
 
+      // if overwrite is false, then we need to check for failure of
+      // extractions.
+      bool bOvwrt = getOverwrite(archtype); 
+
       switch(extractOp)
 	{
 	case ExtractDlg::All:
-	  arch->unarchFile(0);
+	  if (!bOvwrt)  // send empty list to indicate we're extracting all
+	    bRedoExtract = reportExtractFailures(m_settings->getExtractDir(),
+						 m_extractList);
+	  if (!bRedoExtract) // if the user's OK with those failures, go ahead
+	    arch->unarchFile(0);
 	  break;
 	case ExtractDlg::Pattern:
 	case ExtractDlg::Selected:
-	  {
-	    // make a list to send to unarchFile
-	    QStringList *list = new QStringList;
-	    FileListView *flw = fileList();
-	    FileLVI *flvi = (FileLVI*)flw->firstChild();
-	    QString tmp;
-	    while (flvi)
-	      {
-		if ( flw->isSelected(flvi) )
-		  {
-		    kdDebug(1601) << "unarching " << flvi->getFileName() << endl;
-		    tmp = flvi->getFileName().local8Bit();
-		    list->append(tmp.local8Bit());
-		  }
-		flvi = (FileLVI*)flvi->itemBelow();
-	      }
-	    arch->unarchFile(list); // extract selected files
-	    delete list;
-	    break;
-	  }
 	case ExtractDlg::Current:
-	  {
-	    FileLVI *pItem = archiveContent->currentItem();
-	    if (pItem == 0)
-	      kdDebug(1601) << "Can't seem to figure out which is current!" << endl;
-	    else
-	      {
-		QString tmp = pItem->text(0);  // get the name
-		QStringList *list = new QStringList;
-		list->append(tmp.local8Bit());
-		arch->unarchFile(list) ;
-		delete list;
-	      }
-	    break;
-	  }
+	  if (extractOp != ExtractDlg::Current )
+	    {
+	      // make a list to send to unarchFile
+	      FileListView *flw = fileList();
+	      FileLVI *flvi = (FileLVI*)flw->firstChild();
+	      QString tmp;
+	      while (flvi)
+		{
+		  if ( flw->isSelected(flvi) )
+		    {
+		      kdDebug(1601) << "unarching " << flvi->getFileName() << endl;
+		      tmp = flvi->getFileName().local8Bit();
+		      m_extractList->append(tmp);
+		    }
+		  flvi = (FileLVI*)flvi->itemBelow();
+		}
+	    }
+	  else
+	    {
+	      FileLVI *pItem = archiveContent->currentItem();
+	      if (pItem == 0)
+		{
+		  kdDebug(1601) << "Can't seem to figure out which is current!" << endl;
+		  return;
+		}
+	      QString tmp = pItem->text(0);  // get the name
+	      m_extractList->append(tmp.local8Bit());
+	    }
+	  if (!bOvwrt)
+	    bRedoExtract =
+	      reportExtractFailures(m_settings->getExtractDir(),
+				    m_extractList);
+	  if (!bRedoExtract)
+	    arch->unarchFile(m_extractList); // extract selected files
+	  break;
 	default:
 	  ASSERT(0);
 	  // never happens
@@ -1423,6 +1527,10 @@ void ArkWidget::action_extract()
       
       delete dlg;
     }
+
+  // user might want to change some options or the selection...
+  if (bRedoExtract)
+    action_extract();
 }
 
 void ArkWidget::action_edit()
@@ -1457,15 +1565,15 @@ void ArkWidget::showFile( FileLVI *_pItem )
   fullname += m_settings->getTmpDir();
   fullname += name;
 
-  QStringList list;
-  list.append(name);
+  m_extractList = new QStringList;
+  m_extractList->append(name);
 
   archiveContent->setUpdatesEnabled(false);
   m_bViewInProgress = true;
   m_strFileToView = fullname;
   QApplication::setOverrideCursor( waitCursor );
   disableAll();
-  arch->unarchFile( &list, m_settings->getTmpDir() );
+  arch->unarchFile(m_extractList, m_settings->getTmpDir() );
 }
 
 // Options menu //////////////////////////////////////////////////////
@@ -1820,7 +1928,7 @@ void ArkWidget::clearStatusBar()
 
 void ArkWidget::arkWarning(const QString& msg)
 {
-        KMessageBox::information(this, msg);
+  KMessageBox::information(this, msg);
 }
 
 #if 0

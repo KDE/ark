@@ -1,4 +1,14 @@
-2000-05-04:  Emily Ezust <emilye@corel.com>
+2000-05-12: Emily Ezust <emilye@corel.com>
+	* Added some code to notify the user about file(s) that were not
+ 	  extracted. This happens when the user disallows overwrites and 
+	  then extracts file(s) that already exist in the destination 
+	  directory. The notification happens before the extract, so that
+	  the user can decide whether to continue or not.
+	* Fixed a possible memory corruption having to do with the lists passed
+	  via the stack to unarchFile which cease to exist because unarchFile 
+	  returns before the job is done.
+	
+2000-05-04: Emily Ezust <emilye@corel.com>
 	* Added control/shift LMB selection rules
 	* Added code to allow drag/extract but it doesn't work yet. Commented
  	  it out. Not too sure about when to start the drag anyhow... have to

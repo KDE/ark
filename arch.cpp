@@ -155,8 +155,13 @@ void Arch::slotExtractExited(KProcess *_kp)
       else
 	bSuccess = true;
     }
-  else
-    KMessageBox::sorry((QWidget *)0, i18n("Extraction failed"), i18n("Error"));
+
+  // This is now taken care of by the code to notify user which file(s)
+  // can't be extracted due to Overwrite being set to false.
+#if 0
+    else
+      KMessageBox::sorry((QWidget *)0, i18n("Extraction failed"), i18n("Error"));
+#endif
 
   emit sigExtract(bSuccess);
   delete _kp;

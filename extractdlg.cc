@@ -33,6 +33,7 @@
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qlineedit.h>
+#include <qapp.h>
 #include "arksettings.h"
 #include "extractdlg.h"
 
@@ -263,6 +264,45 @@ int ExtractDlg::extractOp()
   return -1;
 }
 
+/******************************************************************
+ *           implementation of ExtractFailureDlg                  *
+ ******************************************************************/
+
+ExtractFailureDlg::ExtractFailureDlg(QStringList *list,
+				     QWidget *parent, char *name)
+  : QDialog(parent, name, true, 0)
+
+{
+  int labelHeight, labelWidth, boxHeight = 75, boxWidth, buttonHeight = 30;
+  setCaption(i18n("Failure to Extract"));
+  QLabel *pLabel = new QLabel(this);
+  pLabel->setText(i18n("Some files already exist in your destination directory.\nThe following files will not be extracted if you continue: "));
+  labelWidth = pLabel->sizeHint().width();
+  labelHeight = pLabel->sizeHint().height();
+
+  pLabel->setGeometry(10, 10, labelWidth, labelHeight);
+  boxWidth = labelWidth;
+
+  QListBox *pBox = new QListBox(this);
+  pBox->setGeometry(10, 10 + labelHeight + 10,
+		    boxWidth, boxHeight);
+  pBox->insertStringList(*list);
+
+  QPushButton *pOKButton = new QPushButton(this, "OKButton");
+  pOKButton->setGeometry( labelWidth / 2 - 50, boxHeight + labelHeight + 30,
+			 70, buttonHeight);
+  pOKButton->setText(i18n("Continue"));
+  connect(pOKButton, SIGNAL(pressed()), this, SLOT(accept()));
+
+  QPushButton *pCancelButton = new QPushButton(this, "CancelButton");
+  pCancelButton->setGeometry( labelWidth / 2 + 20,
+			      boxHeight + labelHeight + 30,
+			      70, buttonHeight);
+  pCancelButton->setText(i18n("Cancel"));
+  connect(pCancelButton, SIGNAL(pressed()), this, SLOT(reject()));
+  setFixedSize(20+labelWidth, 40+labelHeight+boxHeight+buttonHeight);
+  QApplication::restoreOverrideCursor();
+}
 
 
 #include "extractdlg.moc"
