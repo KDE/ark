@@ -52,7 +52,6 @@ Name[sr]=Arhiver
 Name[sv]=Arkiverare
 Exec=ark -caption "%c" %i %m %f
 Icon=ark
-MiniIcon=ark
 TerminalOptions=
 Protocols=file;
 Path=
