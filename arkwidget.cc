@@ -1,11 +1,12 @@
-/* (c)1997 Robert Palmbos
-   See main.cc for license details */
+/* (c)1997 Robert Palmbos   See main.cc for license details */
 /* Warning:  Uncommented spaghetti code next 500 lines */
 /* This is the main ark window widget */
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+// Qt includes
 #include <qaccel.h>
 #include <qdir.h>
 #include <qfont.h>
@@ -14,6 +15,8 @@
 #include <qmessagebox.h>
 #include <qstrlist.h>
 #include <qcursor.h>
+
+// KDE includes
 #include <ktoolbar.h>
 #include <kconfig.h>
 #include <kapp.h>
@@ -24,12 +27,14 @@
 #include <kfm.h>
 #include <kfiledialog.h>
 #include <ktablistbox.h>
+#include <kmsgbox.h>
+
 #include "extractdlg.h"
 #include "karchive.h"
 #include "arkwidget.h"
 #include "errors.h"
 #include "arkwidget.moc"
-
+#include "arkdata.h"
 #include "kwm.h"
 
 QList<ArkWidget> *ArkWidget::windowList = 0;
@@ -37,22 +42,11 @@ QList<ArkWidget> *ArkWidget::windowList = 0;
 ArkWidget::ArkWidget( QWidget *, const char *name )
 	: KTMainWindow( name )
 {
-	KConfig *config;
-	
+	data = new ArkData();
+
 	unsigned int pid = getpid();
 	tmpdir.sprintf( "/tmp/ark.%d/", pid );
 
-	config = kapp->getConfig();
-        config->setGroup("ark");
-	QString fav_key;
-	fav_key="ArchiveDirectory";
-	fav_dir = config->readEntry( fav_key );
-	if( fav_dir.isEmpty() )
-		fav_dir = getenv( "HOME" );
-	tar_exe = config->readEntry( QString("TarExe") );
-	if( tar_exe.isEmpty() )
-		tar_exe = "tar";
-	
 	if (!windowList)
 	    windowList = new QList<ArkWidget>();
 
@@ -173,33 +167,6 @@ ArkWidget::~ArkWidget()
 	delete tb;
 }
 
-void ArkWidget::saveProperties( KConfig *kc ) {
-	QString loc_key( "CurrentLocation" );
-	
-	if( arch != 0 )
-		kc->writeEntry( loc_key, arch->getName() );
-	else
-		if( listing != 0 )
-			kc->writeEntry( loc_key, "Favorites" );
-		else
-			kc->writeEntry( loc_key, "None" );
-	
-	// I would prefer to just delete all the widgets, but kwm gets confused
-	// if ark quits in the middle of session management
-	QString ex( "rm -rf "+tmpdir );
-	system( ex );
-}
-
-void ArkWidget::readProperties( KConfig *kc ) {
-	QString startpoint;
-	startpoint = kc->readEntry( "CurrentLocation" );
-	
-	if( startpoint == "Favorites" )
-		showFavorite();
-	else
-		if( startpoint != "None" )
-			showZip( startpoint );
-}
 void ArkWidget::newWindow()
 {
 	ArkWidget *kw = new ArkWidget;
@@ -219,24 +186,29 @@ void ArkWidget::doPopup( int row, int col )
 void ArkWidget::createZip()
 {
 	int ret;
-	if( arch )
-	{
-		lb->clear();
-	}
-	QString file = KFileDialog::getSaveFileName();
+//	if( arch )
+//	{
+//		lb->clear();
+//	}
+	QString file = KFileDialog::getSaveFileName(QString::null, data->getFilter());
 	if( !file.isEmpty() )
 	{
 		lb->clear();
 		lb->repaint();
-		arch = new KArchive(tar_exe);
+		arch = new KArchive(data->getTarCommand());
 		ret = arch->createArch( file );	
-		if( ret )
-			sb->changeItem( file.data(), 0 );
+		if( ret ){
+			QString caption;
+			caption.sprintf(i18n("ark: %s"), file.data());
+			setCaption(caption);
+		}
 		else
 		{
-			sb->changeItem( (char *)i18n( "Can't create archive of that type"), 0 );
+			KMsgBox::message(this, ARK_WARNING, i18n( "Unable to create archive of that type"));
+//			writeStatus( (char *)i18n( "Can't create archive of that type"));
 			delete arch;
 			arch = 0;
+			clearCurrentArchive();
 		}
 	}
 }
@@ -256,7 +228,7 @@ void ArkWidget::getAddOptions()
 		delete afd;
 		afd = 0;
 	}else{
-		sb->changeItem((char *) i18n( "Create or open an archive first"), 0 );
+		writeStatus((char *) i18n( "Create or open an archive first"));
 	}
 }
 	
@@ -275,7 +247,7 @@ void ArkWidget::fileDrop( KDNDDropZone *dz )
 		url = dlist.at(0);
 		file = url.right( url.length()-5 );
 		foo = file.data();
-		arch = new KArchive(tar_exe);
+		arch = new KArchive(data->getTarCommand());
 		if( arch->openArch( file ) )
 		{
 			showZip( file );
@@ -299,9 +271,9 @@ void ArkWidget::fileDrop( KDNDDropZone *dz )
 			lb->appendStrList( listing );
 		} else {
 			if( retcode == UNSUPDIR )
-				sb->changeItem( i18n("Can't add directories with this archive type"), 0 );
+				writeStatus( i18n("Can't add directories with this archive type"));
 			else	
-				sb->changeItem( i18n( "Error saving to archive"), 0 );
+				writeStatus( i18n( "Error saving to archive"));
 		}
 	}
 
@@ -310,53 +282,38 @@ void ArkWidget::fileDrop( KDNDDropZone *dz )
 
 void ArkWidget::getFav()
 {
-    KDirDialog dd( fav_dir.data(), 0, "dirdialog" );
+    KDirDialog dd( data->getFavoriteDir().data(), 0, "dirdialog" );
     dd.setCaption(i18n("Archive Dir"));
     if( dd.exec() && (! dd.selectedFile().isEmpty()) )
     {
-        KConfig *config = kapp->getConfig();
-        config->setGroup("ark");
-        fav_dir = dd.selectedFile();
-        config->writeEntry( "ArchiveDirectory", fav_dir );
+	data->setFavoriteDir(dd.selectedFile());
     }
 }
 
 void ArkWidget::getTarExe()
 {
        QString tmp;
-       DlgLocation ld( i18n( "What runs GNU tar:"), tar_exe, this );
+       DlgLocation ld( i18n( "What runs GNU tar:"), data->getTarCommand(), this );
        if( ld.exec() )
        {
                tmp = ld.getText();
                if( !tmp.isNull() && !tmp.isEmpty() )
                {
-                       KConfig *config;
-                       config = kapp->getConfig();
-                       tar_exe = tmp;
-                       config->writeEntry( "TarExe", tar_exe );
+                       data->setTarCommand(tmp);
                }
        }
-/*
-    The following doesn't work because the file "tar" without directory can't
-    be found by KFileDialog... Hum.
-
-    KFileDialog fd( tar_exe.data() );
-    fd.setCaption(i18n("What runs GNU tar"));
-    if( fd.exec() && (! fd.selectedFile().isEmpty()) )
-    {
-        KConfig *config = kapp->getConfig();
-        config->setGroup("ark");
-        tar_exe = fd.selectedFile();
-        config->writeEntry( "TarExe", tar_exe );
-    }
-*/
 }
 
 void ArkWidget::openZip()
 {
-	QString name = KFileDialog::getOpenFileName();
-	if( !name.isNull() ) 
-		showZip( name ); 
+	QString file = KFileDialog::getOpenFileName(QString::null, data->getFilter());
+	if( !file.isNull() ) {
+		QString caption;
+		caption.sprintf(i18n("ark: %s"), file.data());
+		setCaption(caption);
+
+		showZip( file ); 
+	}
 }
 
 void ArkWidget::showZip( QString name )
@@ -365,7 +322,7 @@ void ArkWidget::showZip( QString name )
 
 	lb->clear();
 	delete arch;
-	arch = new KArchive(tar_exe);
+	arch = new KArchive(data->getTarCommand());
 
 	ret = arch->openArch( name );
 	if( ret )
@@ -373,9 +330,9 @@ void ArkWidget::showZip( QString name )
 		setupHeaders();
 		listing = (QStrList *)arch->getListing();
 		lb->appendStrList( listing );
-		sb->changeItem( name.data(), 0 );
+//		writeStatus( name.data() );
 	}else{
-		sb->changeItem( (char *)i18n( "Unknown archive format"), 0 );
+		writeStatus( (char *)i18n( "Unknown archive format") );
 		lb->repaint();
 		delete arch;
 		arch = 0;
@@ -397,11 +354,10 @@ void ArkWidget::showFavorite()
 	lb->setNumCols( 2 );
 	lb->setColumn( 0, i18n( "Size" ), 80 );
 	lb->setColumn( 1, i18n( "File" ), this->width()-80 );
-	fav = new QDir( fav_dir );
+	fav = new QDir( data->getFavoriteDir() );
 	if( !fav->exists() )
 	{
-		sb->changeItem( (char *)i18n( 
-			"Archive directory does not exist."), 0 );
+		writeStatus( (char *)i18n("Archive directory does not exist."));
 		return;
 	}
 	flist = fav->entryInfoList();
@@ -547,18 +503,6 @@ void ArkWidget::showFile( int index, int col )
 	}
 }
 
-/*
-void ArkWidget::resizeEvent( QResizeEvent *re )
-{
-	int col = lb->numCols()-1;
-	int colpos;
-	KTopLevelWidget::resizeEvent( re );
-	::resizeEvent( re );
-	lb->resize( lb->width(), lb->height() );
-	if( lb->colXPos( col, &colpos ) )
-		lb->setColumnWidth( col, ((this->width())-colpos) );
-}
-*/
 
 void ArkWidget::extractFile()
 {
@@ -576,7 +520,7 @@ void ArkWidget::extractFile( int pos )
 		ExtractDlg *gdest;
 		if( !arch )
 		{
-			arch = new KArchive(tar_exe);
+			arch = new KArchive(data->getTarCommand());
 			tmp = listing->at( pos );
 			tname = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
 			fullname = fav->path();
@@ -675,3 +619,15 @@ void ArkWidget::setupHeaders()
 	lb->setColumnWidth( i-1, ((this->width())-twidth) );  // Is there a way to set to fill to right initially
 	free( h );
 }
+
+void ArkWidget::writeStatus(const QString text)
+{
+	sb->changeItem(text, 0);
+}
+
+void ArkWidget::clearCurrentArchive()
+{
+	setCaption("ark");
+}
+
+

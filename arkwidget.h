@@ -15,6 +15,10 @@
 #include "ktablistbox.h"
 #include "karchive.h"
 #include "adddlg.h"
+#include "arkdata.h"
+
+#define ARK_WARNING i18n("ark: warning")
+#define ARK_ERROR i18n("ark: error")
 
 class ArkWidget : public KTMainWindow {
 
@@ -51,10 +55,7 @@ public slots:
 	
 protected:
 	static QList<ArkWidget> *windowList;
-//	void resizeEvent( QResizeEvent * );  //don't need this, now uses KTMainWindow
-	void closeEvent( QCloseEvent * );
-	virtual void saveProperties( KConfig* );
-	virtual void readProperties( KConfig* );
+	void closeEvent( QCloseEvent * );	// do we need this ?
 
 
 private:
@@ -67,14 +68,16 @@ private:
 	KToolBar *tb;
 	KMenuBar *menu;
 	QDir *fav;
-	QString fav_dir;
-	QString tar_exe; // why do people insist on having two tars?
 	QFrame *f_main;
 	KStatusBar *sb;
 	QString tmpdir;
 	KFM *kfm;
 	bool contextRow;
 	KPopupMenu *pop;
+	ArkData *data;
+	
+	void writeStatus(const QString text);
+	void clearCurrentArchive();
 };
 
 #endif /* ARKWIDGET_H*/
