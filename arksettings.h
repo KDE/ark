@@ -33,8 +33,12 @@ class KConfig;
 
 class ArkSettings
 {
-public:
+private:
   ArkSettings();
+
+public:
+  static ArkSettings * self();
+
   ~ArkSettings();
 
   void readGenericProperties();
@@ -94,9 +98,6 @@ public:
   void setLastAddDir(const QString& dir) { lastAddDir = dir; }
   void setAddDirCfg(const QString& dir, int mode);
 
-  void setSaveOnExitChecked( bool _b) { m_saveOnExit = _b; }
-  bool isSaveOnExitChecked() { return m_saveOnExit; }
-	
   void setaddPath( bool b) { fullPath = b; }
   bool getaddPath() { return fullPath; }
 
@@ -170,6 +171,8 @@ public:
   KConfig * getKConfig() { return kc; };
 	
  private:
+  static ArkSettings * m_pSelf;
+
   KConfig *kc;
 
   QString favoriteDir;
@@ -193,8 +196,6 @@ public:
   int addDirMode;
 	
   QString * m_lastShellOutput;
-	
-  bool m_saveOnExit;
 
   bool contextRow;
 

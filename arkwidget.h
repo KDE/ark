@@ -87,7 +87,6 @@ public slots:
     virtual void file_close();
     virtual void file_new();
     virtual void options_dirs();
-    virtual void options_saveNow();
 
 protected slots:
     void edit_select();

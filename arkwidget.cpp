@@ -1828,7 +1828,6 @@ ArkWidget::showCurrentFile()
     QString fullname;
     fullname = "file:";
     fullname += m_settings->getTmpDir();
-    fullname += "/";
     fullname += name;
 
     kdDebug(1601) << "File to be viewed: " << fullname << endl;
@@ -1852,12 +1851,6 @@ ArkWidget::options_dirs()
     GeneralOptDlg *dd = new GeneralOptDlg( m_settings, this );
     dd->exec();
     delete dd;
-}
-
-
-void
-ArkWidget::options_saveNow()
-{
     m_settings->writeConfigurationNow();
 }
 

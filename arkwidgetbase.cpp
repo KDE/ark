@@ -47,7 +47,7 @@ ArkWidgetBase::ArkWidgetBase(QWidget *widget)
     m_bIsArchiveOpen(false), m_bIsSimpleCompressedFile(false),
     m_bDropSourceIsSelf(false), m_extractList(0)
 {
-    m_settings = new ArkSettings;
+    m_settings = ArkSettings::self();
 
     m_tmpDir = new KTempDir( locateLocal( "tmp", "ark" ) );
     if( m_tmpDir->status()==0 )
@@ -73,7 +73,6 @@ ArkWidgetBase::~ArkWidgetBase()
 	delete archiveContent;
 	archiveContent = 0;
 	delete arch;
-	delete m_settings;
 }
 
 void

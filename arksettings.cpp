@@ -34,6 +34,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kconfig.h>
+#include <kstaticdeleter.h>
 
 // ark includes
 #include "arksettings.h"
@@ -93,6 +94,17 @@
 
 // #define ARK_SETTINGS_DEBUG
 
+
+ArkSettings * ArkSettings::m_pSelf = 0;
+static KStaticDeleter<ArkSettings> settingsDeleter;
+
+ArkSettings * ArkSettings::self()
+{
+  if ( !m_pSelf )
+    settingsDeleter.setObject( m_pSelf , new ArkSettings() );
+  return m_pSelf;
+}
+
 /**
  * Constructs an ArkSettings object by reading the ark config file
  */
@@ -100,12 +112,14 @@ ArkSettings::ArkSettings()
 {
   m_lastShellOutput = new QString;
 
-  kc = KGlobal::config();
+  kc = new KConfig("arkrc");
   readConfiguration();
 }
 
 ArkSettings::~ArkSettings()
 {
+  writeConfiguration();
+  delete kc;
   delete m_lastShellOutput;
   m_lastShellOutput = 0;
 }
@@ -121,11 +135,6 @@ void ArkSettings::readConfiguration()
   tar_exe = kc->readPathEntry( TAR_KEY, "tar");
 #ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "Tar command is " << tar_exe << endl;
-#endif
-
-  m_saveOnExit = kc->readBoolEntry( SAVE_ON_EXIT_KEY, true );
-#ifdef ARK_SETTINGS_DEBUG
-  kdDebug(1601) << "SaveOnExit is " << m_saveOnExit << endl;
 #endif
 
   fullPath = kc->readBoolEntry(FULLPATHS, false);
@@ -286,26 +295,7 @@ void ArkSettings::readZipProperties()
 
 void ArkSettings::writeConfiguration()
 {
-#ifdef ARK_SETTINGS_DEBUG
-
-  kdDebug(1601) << "+writeConfiguration" << endl;
-#endif
-
-  if( !m_saveOnExit ){
-#ifdef ARK_SETTINGS_DEBUG
-    kdDebug(1601) << "Don't save the config (exit)" << endl;
-#endif
-
-    kc->setGroup( ARK_GROUP );
-    kc->writeEntry( SAVE_ON_EXIT_KEY, m_saveOnExit );
-  }
-  else
-    {
-      writeConfigurationNow();
-    }
-#ifdef ARK_SETTINGS_DEBUG
-  kdDebug(1601) << "-writeConfiguration" << endl;
-#endif
+  writeConfigurationNow();
 }
 
 void ArkSettings::writeConfigurationNow()
@@ -324,7 +314,6 @@ void ArkSettings::writeConfigurationNow()
 
   kc->setGroup( ARK_GROUP );
   kc->writePathEntry( TAR_KEY, tar_exe );
-  kc->writeEntry( SAVE_ON_EXIT_KEY, m_saveOnExit );
   kc->writeEntry(FULLPATHS, fullPath);
 
   kc->sync();

@@ -340,7 +340,6 @@ ArkTopLevelWindow::slotSaveProperties()
     KConfig *kc = m_widget->settings()->getKConfig();
     recent->saveEntries(kc);
 
-    m_widget->settings()->writeConfiguration();
 }
 
 void
