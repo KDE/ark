@@ -219,14 +219,7 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
 
   if( _kp->normalExit() && (_kp->exitStatus()==0) )
   {
-    if(stderrIsError())
-    {
-      KMessageBox::error( 0, i18n("You probably do not have sufficient permissions.\n"
-                          "Please check the file owner and the integrity "
-                          "of the archive.") );
-    }
-    else
-      bSuccess = true;
+    bSuccess = true;
   }
 
   delete _kp;

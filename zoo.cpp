@@ -258,7 +258,6 @@ void ZooArch::remove( QStringList *list )
   if (!list)
     return;
 
-  m_shellErrorData = "";
   KProcess *kp = new KProcess;
   kp->clearArguments();
 

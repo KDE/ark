@@ -120,8 +120,6 @@ public:
   enum EditProperties{ Add = 1, Delete = 2, Extract = 4,
     View = 8, Integrity = 16 };
 
-  bool stderrIsError();
-
   // is the archive readonly?
   bool isReadOnly() { return m_bReadOnly; }
   void setReadOnly(bool bVal) { m_bReadOnly = bVal; }
@@ -166,7 +164,6 @@ signals:
 
 protected:  // data
   QString m_filename;
-  QString m_shellErrorData;
   QString m_lastShellOutput;
   QCString m_buffer;
   ArkWidget *m_gui;
