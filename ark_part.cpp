@@ -113,7 +113,7 @@ KAboutData *ArkFactory::aboutData()
   about->addAuthor("Corel Corporation (author: Michael Jarrett)", 0,
 		   "michaelj@corel.com");
   about->addAuthor("Jian Huang");
-  about->addAuthor( "Roberto Selbach Teixeira", 0, "maragato@conectiva.com" );
+  about->addAuthor( "Roberto Teixeira", 0, "maragato@kde.org" );
 
   return about;
 }

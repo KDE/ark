@@ -1,4 +1,7 @@
 /*
+  -*- mode: c++; c-basic-offset: 4; indent-tabs-mode: nil -*-
+
+
    $Id$
 
     ark: A program for modifying archives via a GUI.
@@ -74,7 +77,7 @@ int main( int argc, char *argv[]  )
     aboutData.addAuthor( "Corel Corporation (author: Emily Ezust)", 0, "emilye@corel.com" );
     aboutData.addAuthor( "Corel Corporation (author: Michael Jarrett)", 0,
                          "michaelj@corel.com" );
-    aboutData.addAuthor( "Roberto Selbach Teixeira", 0, "maragato@conectiva.com" );
+    aboutData.addAuthor( "Roberto Teixeira", 0, "maragato@kde.org" );
 
     KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineArgs::addCmdLineOptions( option );
@@ -95,5 +98,4 @@ int main( int argc, char *argv[]  )
     kdDebug( 1601 ) << "Starting ark..." << endl;
 
     return ArkApplication::getInstance()->exec();
-
 }

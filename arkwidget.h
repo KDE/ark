@@ -1,4 +1,4 @@
-//  -*-C++-*-           emacs magic for .h files
+//  -*- mode: c++; c-basic-offset: 4; -*-
 /*
 
   $Id$
@@ -80,7 +80,7 @@ public:
   void setExtractOnly(bool extOnly) { m_extractOnly = extOnly; }
   bool getExtractOnly() { return m_extractOnly; }
 
-public slots:    
+public slots:
   void file_newWindow();
   void file_open(const KURL& url);
   void file_open(const QString &);  // opens the specified archive
@@ -96,12 +96,12 @@ protected slots:
   void file_close();
   void window_close();
   void file_quit();
-	
+
   void edit_select();
   void edit_selectAll();
   void edit_deselectAll();
   void edit_invertSel();
-    
+
   void action_add();
   void action_add_dir();
   void action_view();
@@ -117,9 +117,9 @@ protected slots:
   void slotSaveAsDone(KIO::Job *);
 
   //  void help();
-		
+
   void doPopup(QListViewItem *, const QPoint &, int); // right-click menus
-	
+
   void showFavorite();
   //    void slotStatusBarTimeout();
   void slotSelectionChanged();
@@ -153,7 +153,7 @@ private: // methods
   void disableAll();
   void updateStatusSelection();
   void updateStatusTotals();
-       
+
   void addFile(QStringList *list);
 
   // ask user whether to create a real archive from a compressed file
@@ -176,17 +176,17 @@ private: // methods
 protected:
   void arkWarning(const QString& msg);
   void arkError(const QString& msg);
-	
+
   void setupActions();
   void setupStatusBar();
 
   void setupMenuBar();
   void setupToolBar();
   //  void createRecentPopup();
-	
+
   void newCaption(const QString& filename);
   void createFileListView();
-	
+
   void createArchive(const QString & name);
   void openArchive(const QString & name);
 
@@ -213,7 +213,7 @@ private: // data
   KPopupMenu *m_filePopup, *m_archivePopup;
 
   QString m_strNewArchname;
-  
+
   QLabel *m_pStatusLabelSelect; // How many files are selected - label
   QLabel *m_pStatusLabelTotal;  // How many files in archive - label
 
@@ -237,7 +237,7 @@ private: // data
   // Set to true if we are doing an "Extract to Folder"
   bool m_extractOnly;
 
-  // if they're dragging in files, this is the temporary list for when 
+  // if they're dragging in files, this is the temporary list for when
   // we have to create an archive:
   QStringList *m_pTempAddList;
   bool m_bDropFilesInProgress;

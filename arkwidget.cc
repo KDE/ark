@@ -1,4 +1,5 @@
 /*
+ Emacs: -*- mode: c++; c-basic-offset: 4; -*-
 
  $Id$
 
