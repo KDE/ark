@@ -823,7 +823,7 @@ ArkWidget::slotOpen( Arch *_newarch, bool _success, const QString & _filename, i
 		{
 			_newarch->setReadOnly(true);
 			QApplication::restoreOverrideCursor(); // no wait cursor during a msg box (David)
-			KMessageBox::information(this, i18n("This archive is read-only. If you want to save it under\na new name, go to the File menu and select Save As."));
+			KMessageBox::information(this, i18n("This archive is read-only. If you want to save it under a new name, go to the File menu and select Save As."), i18n("Information"), "ReadOnlyArchive");
 			QApplication::setOverrideCursor( waitCursor );
 		}
 		setCaption( _filename );
