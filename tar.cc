@@ -93,6 +93,7 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
 
 TarArch::~TarArch()
 {
+  unlink((const char *)tmpfile);
 }
 
 int TarArch::getEditFlag()
