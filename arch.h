@@ -43,7 +43,7 @@ class Arch : public QObject
 Q_OBJECT
 
 public:
-	Arch( ArkWidget *_mainWindow, QString _fileName );
+	Arch( ArkWidget *_mainWindow, const QString & _fileName );
 	virtual ~Arch() {};
 	
 	virtual void open() = 0;
@@ -52,7 +52,7 @@ public:
 	virtual void extract() = 0;
 	
 	virtual int addFile( QStringList *) = 0;
-	virtual QString unarchFile( int , QString ) = 0;
+	virtual QString unarchFile( int , const QString & ) = 0;
 	
 	virtual int actionFlag() = 0;
 	
@@ -68,14 +68,14 @@ public:
 	};
 
 signals:
-	void sigOpen( bool, QString, int );
-	void sigCreate( bool, QString, int );
+	void sigOpen( bool, const QString &, int );
+	void sigCreate( bool, const QString &, int );
 	
 protected:
 	QString m_filename;
 	QString m_shellErrorData;
 	char m_buffer[1024];
-	
+
 	ArkSettings *m_settings;
 	ArkWidget *m_arkwidget;
 };

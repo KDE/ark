@@ -145,7 +145,7 @@ unsigned char TarArch::setOptions( bool p, bool l, bool o )
 	return 5;
 }
 
-void TarArch::openArch( QString name )
+void TarArch::openArch( const QString & name )
 {
 	cout << "Entered openArch" << endl;
 	QString buffer;
@@ -194,7 +194,7 @@ void TarArch::openArch( QString name )
 	cout << "Left openArch" << endl;
 }
 
-void TarArch::createArch( QString file )
+void TarArch::createArch( const QString & file )
 {
 	cout << "Entered createArch" << endl;
 	m_filename = file;
@@ -328,7 +328,7 @@ void TarArch::extraction()
 	}
 }	
 
-void TarArch::extractTo( QString dir )
+void TarArch::extractTo( const QString & dir )
 {
 	cout << "Entered extractTo" << endl;
 
@@ -355,7 +355,7 @@ void TarArch::extractTo( QString dir )
 }
 
 /* untested */
-QString TarArch::unarchFile( int index, QString dest )
+QString TarArch::unarchFile( int index, const QString & dest )
 {
 	cout << "Entered unarchFile" << endl;
 	int pos;

@@ -44,7 +44,7 @@ void LhaArch::addPath( bool in )
 	storefullpath = in;
 }
 
-void LhaArch::openArch( QString file, FileListView *flw )
+void LhaArch::openArch( const QString & file, FileListView *flw )
 {
 	cout << "Entered openArch" << endl;
 	char line[4096];
@@ -137,7 +137,7 @@ void LhaArch::openArch( QString file, FileListView *flw )
 
 }
 
-void LhaArch::createArch( QString file )
+void LhaArch::createArch( const QString & file )
 {
 	archname = file;
 }
@@ -190,7 +190,7 @@ int LhaArch::addFile( QStringList *urls )
 //	cout << "left addFile" << endl;
 }
 
-void LhaArch::extractTo( QString dest )
+void LhaArch::extractTo( const QString & dest )
 {
 	FILE *fd;
 	char line[4096];
@@ -217,7 +217,7 @@ void LhaArch::extractTo( QString dest )
 	}
 }
 
-QString LhaArch::unarchFile( int pos, QString dest )
+QString LhaArch::unarchFile( int pos, const QString & dest )
 {
 //  	cout << "entered unarchFile" << endl;
 	QString tmp, tmp2;

@@ -34,7 +34,7 @@ unsigned char ArArch::setOptions( bool p, bool l, bool o )
 }
 
 
-void ArArch::openArch( QString file, FileListView *flw )
+void ArArch::openArch( const QString & file, FileListView *flw )
 {
 	QString ex;
 	char line[4096];
@@ -96,7 +96,7 @@ void ArArch::openArch( QString file, FileListView *flw )
 	// pclose( fd );  I'm not sure what should be here
 }
 
-void ArArch::createArch( QString file )
+void ArArch::createArch( const QString & file )
 {
 	archname = file;
 }
@@ -149,7 +149,7 @@ int ArArch::addFile( QStringList *urls )
 	return 0;
 }
 
-void ArArch::extractTo( QString dest )
+void ArArch::extractTo( const QString & dest )
 {
 	FILE *fd;
 	char line[4096];
@@ -184,7 +184,7 @@ void ArArch::extractTo( QString dest )
 	chdir( pwd );
 }
 
-QString ArArch::unarchFile( int pos, QString dest )
+QString ArArch::unarchFile( int pos, const QString & dest )
 {
 	QString ex, tmp, tmp2;
 	tmp = listing->at( pos );

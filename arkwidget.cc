@@ -8,7 +8,7 @@
 
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
- 1999-2000: Emily Ezust  emilye@corel.com
+ 1999-2000: Corel Corporation (Emily Ezust, emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -89,7 +89,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 	
     m_settings->setTmpDir( tmpdir );
     
-    ArkApplication::getInstance()->addWindow(this);
+    ArkApplication::getInstance()->addWindow();
 
     // Build the ark UI
     kdebug(0, 1601, "Build the GUI");
@@ -107,9 +107,6 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
         
     arch=0;
 	
-    //writeStatusMsg( i18n("Welcome to ark...") );
-
-
     // start out with some menu items disabled
     fileMenu->setItemEnabled(eMClose, false);
     actionMenu->setItemEnabled(eMAddFile, false);
@@ -140,7 +137,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 
 ArkWidget::~ArkWidget()
 {
-  ArkApplication::getInstance()->removeWindow(this);
+  ArkApplication::getInstance()->removeWindow();
   delete archiveContent;
   delete recentPopup;
   delete accelerators;
@@ -238,7 +235,7 @@ void ArkWidget::setupMenuBar()
 	optionsMenu->setItemChecked(idSaveOnExit, m_settings->isSaveOnExitChecked());
 
 	// Help menu creation
-	QString about_ark = i18n("ark version %1\n(c) 1997-1999: Robert Palmbos <palm9744@kettering.edu>\n1999: Francois-Xavier Duranceau <duranceau@kde.org>\n1999: Corel Corporation (Emily Ezust <emilye@corel.com>)").arg( ARK_VERSION );
+	QString about_ark = i18n("ark version %1\n(c) 1997-1999: Robert Palmbos <palm9744@kettering.edu>\n1999: Francois-Xavier Duranceau <duranceau@kde.org>\n1999-2000: Corel Corporation (Emily Ezust <emilye@corel.com>)").arg( ARK_VERSION );
 	QPopupMenu *helpmenu = helpMenu( about_ark );
 
 	menu->insertItem( i18n( "&File"), fileMenu );
@@ -492,16 +489,6 @@ void CArkWidget::addFile(QStringList *list)
 }
 #endif
 
-////////////////////////////////////////////////////////////////////
-////////////////////// isArchiveLocked /////////////////////////////
-////////////////////////////////////////////////////////////////////
-
-bool ArkWidget::isArchiveLocked(const QString & _strArchName)
-{
-  // for now just return false... later we'll check arkData
-  return false;
-}
-
 //////////////////////////////////////////////////////////////////////
 ///////////////////////// file_open //////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -549,15 +536,13 @@ void ArkWidget::file_open(const QString & strFile)
       }
     }
 
-    if (isArchiveLocked(strFile) && (m_strArchName != strFile))
-    {
-	int nRet = QMessageBox::warning(this, i18n("Warning"),
-					i18n("Archive Administrator has detected a lock file for this archive.\nThis may mean that you are already viewing this archive in another\nwindow. If you make changes here, it could cause inconsistencies there.\n\nAre you sure you wish to continue?"),
-					i18n("Yes"), i18n("No"));
-      if (nRet == 1)  // cancel
+    // see if the ark is already open in another window
+    if (ArkApplication::getInstance()->isArkOpenAlready(strFile))
+      {
+	// raise the window containing the already open archive
+	ArkApplication::getInstance()->raiseArk(strFile);
 	return;
-
-    }
+      }
 
     // no errors if we made it this far.
 
@@ -566,6 +551,9 @@ void ArkWidget::file_open(const QString & strFile)
 
     // Set the current archive filename to the filename
     m_strArchName = strFile;
+
+    // add it to the application-wide list of open archives
+    ArkApplication::getInstance()->addOpenArk(strFile, this);
 
     // display the archive contents
     showZip(strFile);
@@ -704,7 +692,8 @@ void ArkWidget::file_new()
   onFileNumChangeSetEnables();
 }
 
-void ArkWidget::slotCreate( bool _success, QString _filename, int _flag )
+void ArkWidget::slotCreate( bool _success, const QString & _filename,
+			    int _flag )
 {
     if( _success ){
 	newCaption( _filename );
@@ -759,7 +748,7 @@ void ArkWidget::showZip( QString _filename )
 	kdebug(0, 1601, "-ArkWidget::showZip");
 }
 
-void ArkWidget::slotOpen( bool _success, QString _filename, int _flag )
+void ArkWidget::slotOpen( bool _success, const QString & _filename, int _flag )
 {
     kdebug(0, 1601, "+ArkWidget::slotOpen");
     
@@ -890,6 +879,7 @@ void ArkWidget::file_close()
 	    archiveContent->clear();
 	}
     
+	ArkApplication::getInstance()->removeOpenArk(m_strArchName);
 	updateStatusTotals();
     }
     kdebug(0, 1601, "-ArkWidget::file_close");
@@ -1488,8 +1478,10 @@ Arch *ArkWidget::createArchive( QString _filename )
 #endif
     case ZIP_FORMAT:
 	newArch = new ZipArch( m_settings, this, _filename );
-	connect( newArch, SIGNAL(sigOpen(bool,QString,int)), this, SLOT(slotOpen(bool,QString,int)) );
-	connect( newArch, SIGNAL(sigCreate(bool,QString,int)), this, SLOT(slotCreate(bool,QString,int)) );
+	connect( newArch, SIGNAL(sigOpen(bool, const QString &, int)),
+		 this, SLOT(slotOpen(bool, const QString &, int)) );
+	connect( newArch, SIGNAL(sigCreate(bool, const QString &, int)),
+		 this, SLOT(slotCreate(bool, const QString &, int)) );
 	newArch->create();
 	break;
 #if 0
@@ -1531,10 +1523,10 @@ Arch *ArkWidget::openArchive( QString _filename )
 #endif   
     case ZIP_FORMAT:
 	newArch = new ZipArch( m_settings, this, _filename );
-	connect( newArch, SIGNAL(sigOpen(bool,QString,int)),
-		 this, SLOT(slotOpen(bool,QString,int)) );
-	connect( newArch, SIGNAL(sigCreate(bool,QString,int)),
-		 this, SLOT(slotCreate(bool,QString,int)) );
+	connect( newArch, SIGNAL(sigOpen(bool, const QString &, int)),
+		 this, SLOT(slotOpen(bool, const QString &,int)) );
+	connect( newArch, SIGNAL(sigCreate(bool, const QString &,int)),
+		 this, SLOT(slotCreate(bool, const QString &, int)) );
 	newArch->open();
 	break;
 #if 0

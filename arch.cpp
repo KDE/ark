@@ -31,7 +31,7 @@
 #include "arch.moc"
 #include "arkwidget.h"
 
-Arch::Arch( ArkWidget *_mainWindow, QString _fileName ) : QObject()
+Arch::Arch( ArkWidget *_mainWindow, const QString & _fileName ) : QObject()
 {
 	m_arkwidget = _mainWindow; 
 	m_filename = _fileName;

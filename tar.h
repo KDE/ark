@@ -40,17 +40,17 @@ public:
 	
 	/*virtual*/ unsigned char setOptions( bool p, bool l, bool o );
 	
-	virtual void openArch( QString );
-	virtual void createArch( QString );
+	virtual void openArch( const QString & );
+	virtual void createArch( const QString &);
 	
 	virtual int addFile( QStringList *);
 	virtual void deleteSelectedFiles();
-	virtual void deleteFiles( const QString& );
-	virtual void extractTo( QString );
+	virtual void deleteFiles( const QString & );
+	virtual void extractTo( const QString & );
 	virtual void extraction();
 	
 	const QStringList *getListing();
-	virtual QString unarchFile( int, QString );
+	virtual QString unarchFile( int, const QString & );
 	
 	virtual int getEditFlag();
 	

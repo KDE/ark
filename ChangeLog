@@ -1,3 +1,9 @@
+2000-01-24:  Emily Ezust <emilye@corel.com>
+	* new locking scheme to prevent users from opening the same archive
+	  in two different windows. Can't figure out why raise() alone doesn't
+	  do it  - I hide and show the window. Blech.
+	* made classes more const correct
+
 2000-01-18: Emily Ezust <emilye@corel.com>
 	* KUniqueApplication stuff was enabled by waba, with KCmdLineArgs
 	  code. Modified it to work according to Cooperating-SDI model.

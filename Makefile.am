@@ -27,7 +27,7 @@ ark_SOURCES	= arkapp.cpp extractdlg.cc dirDlg.cpp arkwidget.cc \
 		waitDlg.cpp shellOutputDlg.cpp arksettings.cpp
 
 # the library search path
-ark_LDFLAGS = $(all_libraries) $(KDE_RPATH)
+ark_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LIB_KIO)
 
 # the libraries to link against. Be aware of the order. First the libraries,
 # that depend on the following ones.
@@ -37,7 +37,7 @@ ark_LDADD   = $(LIB_KFILE)
 noinst_HEADERS = dirDlg.h arksettings.h  \
                  extractdlg.h arkwidget.h arch.h \
 		 filelistview.h adddlg.h \
-		 generalOptDlg.h selectDlg.h waitDlg.h shellOutputDlg.h 
+		 generalOptDlg.h selectDlg.h waitDlg.h shellOutputDlg.h
 
 # just to make sure, automake makes them 
 METASOURCES =	AUTO

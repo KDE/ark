@@ -74,7 +74,6 @@ public:
     ArkWidget( QWidget *parent=0, const char *name=0 );
     ~ArkWidget();
     bool isArchiveOpen() { return m_bIsArchiveOpen; }
-    bool isArchiveLocked(const QString &) ;
     QString getArchName() { return m_strArchName; }
     void showZip( QString name );
     void reload();
@@ -120,8 +119,8 @@ protected slots:
     void showFavorite();
 //    void slotStatusBarTimeout();
     void slotSelectionChanged();
-    void slotOpen(bool, QString, int);
-    void slotCreate(bool, QString, int);
+    void slotOpen(bool, const QString &, int);
+    void slotCreate(bool, const QString &, int);
 			
     void selectByPattern(const QString & _pattern);
 

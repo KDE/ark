@@ -48,7 +48,7 @@ class ZipArch : public Arch
  Q_OBJECT
 
 public:
-	ZipArch( ArkSettings*, ArkWidget*, QString );
+	ZipArch( ArkSettings*, ArkWidget*, const QString & );
 	virtual ~ZipArch();
 	
 	virtual void open();
@@ -57,10 +57,11 @@ public:
 	virtual int addFile( QStringList* );
 	virtual void remove();
 	virtual void extract();
-	virtual QString unarchFile( int , QString );
+	virtual QString unarchFile( int, const QString & );
 	
 	virtual int actionFlag();
-	void add( QString , int , QString , bool , bool , bool , bool );
+	void add( const QString &, int , const QString &, bool,
+		  bool, bool, bool);
 	void testIntegrity();
 	
 	enum AddMode { Update = 1, Freshen, Move };

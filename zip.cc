@@ -42,8 +42,9 @@
 //#include "zipExtractDlg.h"
 #include "zip.moc"
 
-ZipArch::ZipArch( ArkSettings *_d, ArkWidget *_mainWindow, QString _fileName )  
-	: Arch( _mainWindow, _fileName )
+ZipArch::ZipArch( ArkSettings *_d, ArkWidget *_mainWindow,
+		  const QString & _fileName )  
+  : Arch( _mainWindow, _fileName )
 {
 	m_settings = _d;
 }
@@ -252,7 +253,9 @@ void ZipArch::create()
 }
 
 
-void ZipArch::add( QString _location, int _mode, QString _compression, bool _recurse, bool _junk, bool _msdos, bool _convertLF )
+void ZipArch::add( const QString & _location, int _mode,
+		   const QString & _compression, bool _recurse,
+		   bool _junk, bool _msdos, bool _convertLF )
 {
 	kdebug(0, 1601, "+ZipArch::add");
 	
@@ -315,7 +318,7 @@ int ZipArch::addFile( QStringList *urls )
   	kdebug(0, 1601, "+ZipArch::addFile");
 }
 
-QString ZipArch::unarchFile( int pos, QString dest )
+QString ZipArch::unarchFile( int pos, const QString & dest )
 {
 	kdebug(0, 1601, "+ZipArch::unarchFile");
 

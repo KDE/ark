@@ -27,12 +27,13 @@
 // Be aware that newInstance() will not be called in this case.
 
 #include <sys/param.h>
-
+#include <stdio.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include <dcopclient.h>
 #include <qmessagebox.h>
 #include <kcmdlineargs.h>
+#include <qstringlist.h>
 #include "arkapp.h"
 #include "arkwidget.h"
 
@@ -49,21 +50,22 @@ static KCmdLineOptions option[] =
 
 int main( int argc, char *argv[]  )
 {
-    KCmdLineArgs::init(argc, argv, "ark", description, version );
-    KCmdLineArgs::addCmdLineOptions( option );
+  KCmdLineArgs::init(argc, argv, "ark", description, version );
+  KCmdLineArgs::addCmdLineOptions( option );
 
-
-    if (!ArkApplication::start())
+  if (!ArkApplication::start())
     {
-       // Already running! 
-       exit(0);
+      // Already running! 
+      exit(0);
     }
-
-    if (ArkApplication::getInstance()->isRestored())
+  
+  if (ArkApplication::getInstance()->isRestored())
     {
-       kdebug(0, 1601, "In main: Restore...");
-       RESTORE(ArkWidget);
+      kdebug(0, 1601, "In main: Restore...");
+      RESTORE(ArkWidget);
     }
-    kdebug(0, 1601, "Ready to exec...");
-    return ArkApplication::getInstance()->exec();
+  kdebug(0, 1601, "Ready to exec...");
+  
+  return ArkApplication::getInstance()->exec();
+
 }
