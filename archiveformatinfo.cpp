@@ -51,6 +51,7 @@ void ArchiveFormatInfo::buildFormatInfos()
   addFormatInfo( TAR_FORMAT, "application/x-tzo", ".tar.lzo" );
   addFormatInfo( TAR_FORMAT, "application/x-tarz", ".tar.z" );
   addFormatInfo( TAR_FORMAT, "application/x-tbz", ".tar.bz2" );
+  addFormatInfo( TAR_FORMAT, "application/x-webarchive", ".war" );
   // x-tar as the last one to get its comment for all the others, too
   addFormatInfo( TAR_FORMAT, "application/x-tar", ".tar" );
 
@@ -58,6 +59,10 @@ void ArchiveFormatInfo::buildFormatInfos()
 
   addFormatInfo( ZIP_FORMAT, "application/x-jar", ".jar" );
   addFormatInfo( ZIP_FORMAT, "application/x-zip", ".zip" );
+  addFormatInfo( ZIP_FORMAT, "application/vnd.sun.xml.calc", ".sxc" );
+  addFormatInfo( ZIP_FORMAT, "application/vnd.sun.xml.draw", ".sxd" );
+  addFormatInfo( ZIP_FORMAT, "application/vnd.sun.xml.impress", ".sxi" );
+  addFormatInfo( ZIP_FORMAT, "application/vnd.sun.xml.writer", ".sxw" );
 
 
   addFormatInfo( COMPRESSED_FORMAT, "application/x-gzip", ".gz" );
@@ -174,10 +179,16 @@ ArchType ArchiveFormatInfo::archTypeForURL( const KURL & url )
     if( url.isEmpty() )
         return UNKNOWN_FORMAT;
 
-    if( !QFile::exists( url.path() ) )
-        return archTypeByExtension( url.path() );
+    //if( !QFile::exists( url.path() ) )
+    //    return archTypeByExtension( url.path() );
 
-    QString mimeType = KMimeType::findByURL( url, 0, true, true )->name();
+    QString mimeType;
+    
+    if ( url.isLocalFile() && QFile::exists( url.path() ) )
+        mimeType = KMimeType::findByFileContent( url.path() )->name();
+    else
+        mimeType = KMimeType::findByURL( url, 0, true, true )->name();
+    
     kdDebug( 1601 ) << "find by url: " << mimeType << endl;
     if( mimeType == KMimeType::defaultMimeType() )
     {
