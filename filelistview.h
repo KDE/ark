@@ -10,6 +10,7 @@
   1999: Francois-Xavier Duranceau duranceau@kde.org
   1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
   2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
+  2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -48,6 +49,8 @@ class ArkWidgetBase;
 
 class FileListView;
 
+enum columnName { sizeCol = 1 , packedStrCol, ratioStrCol, timeStampStrCol, otherCol };
+
 class FileLVI : public KListViewItem
 {
 public:
@@ -55,8 +58,11 @@ public:
 
   QString fileName() const;
   long fileSize() const;
+  long packedFileSize() const;
+  double ratio() const;
   QDateTime timeStamp() const;
 
+  int compare ( QListViewItem * i, int col, bool ascending ) const;
   virtual QString key(int column, bool) const;
   virtual void setText(int column, const QString &text);
 
@@ -79,6 +85,9 @@ public:
   QStringList * selectedFilenames() const;
   uint count();
   bool isSelectionEmpty();
+  virtual int addColumn( const QString & label, int width = -1 );
+  virtual void removeColumn( int index );
+  columnName nameOfColumn( int index );
 
 protected:
   void contentsMouseReleaseEvent(QMouseEvent *e);
@@ -88,6 +97,7 @@ protected:
   virtual void paintEmptyArea(QPainter * p, const QRect &rect);
 
 private:
+  QMap<int, columnName> colMap;
   int sortColumn;
   bool increasing;
   ArkWidgetBase *m_pParent;

@@ -9,6 +9,7 @@
   1999: Francois-Xavier Duranceau duranceau@kde.org
   1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
   2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
+  2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -73,6 +74,16 @@ long FileLVI::fileSize() const
   return m_fileSize;
 }
 
+long FileLVI::packedFileSize() const
+{
+  return m_packedFileSize;
+}
+
+double FileLVI::ratio() const
+{
+  return m_ratio;
+}
+
 QDateTime FileLVI::timeStamp() const
 {
   return m_timeStamp;
@@ -80,73 +91,88 @@ QDateTime FileLVI::timeStamp() const
 
 QString FileLVI::key(int column, bool ascending) const
 {
-    // puts numeric-type data into a field of 10 for correct sorting.
-    QString s;
-
-    QString columnName = listView()->columnText(column);
-    if ( columnName == SIZE_STRING )
-      {
-	s.sprintf("%.10ld", m_fileSize);
-	return s;
-      }
-    else if ( columnName == PACKED_STRING )
-      {
-	s.sprintf("%.10ld", m_packedFileSize);
-	return s;
-      }
-    else if (columnName == RATIO_STRING)
-      {
-	s.sprintf("%.10ld", (long)m_ratio);
-	return s;
-      }
-    else if (columnName == TIMESTAMP_STRING)
-      {
-	return m_timeStamp.toString(ISODate);
-      }
-    else if (0 == column)
-	return fileName();
-
+    if ( 0 == column )
+        return fileName();
     return QListViewItem::key(column, ascending);
+}
+
+int FileLVI::compare( QListViewItem * i, int col, bool ascending ) const
+{
+    if ( col == 0 )
+        return KListViewItem::compare( i, col, ascending );
+
+    FileLVI * item = static_cast< FileLVI * >( i );
+    columnName colName = ( static_cast< FileListView * > ( listView() ) )->nameOfColumn( col );
+    switch ( colName )
+    {
+        case sizeCol:
+                        {
+                            return ( m_fileSize < item->fileSize() ? -1 :
+                                    ( m_fileSize > item->fileSize() ? 1 : 0 ) );
+                            break;
+                        }
+        case ratioStrCol:
+                        {
+                            return ( m_ratio < item->ratio() ? -1 :
+                                    ( m_ratio > item->ratio() ? 1 : 0 ) );
+                            break;
+                        }
+
+        case packedStrCol:
+                        {
+                            return ( m_packedFileSize < item->packedFileSize() ? -1 :
+                                    ( m_packedFileSize > item->packedFileSize() ? 1 : 0 ) );
+                            break;
+                        }
+        case timeStampStrCol:
+                        {
+                            return ( m_timeStamp < item->timeStamp() ? -1 :
+                                    ( m_timeStamp > item->timeStamp() ? 1 : 0 ) );
+                            break;
+                        }
+        default:
+                        return KListViewItem::compare( i, col, ascending );
+    }
 }
 
 void FileLVI::setText(int column, const QString &text)
 {
-	QString columnName = listView()->columnText(column);
-	if ( column == 0 )
-	{
-		if (text.findRev('/', -2) != -1)
-		{
-			QListViewItem::setText(0, QString("  ") + text);
-			fileIndent = true;
-		}
-		else
-		{
-			QListViewItem::setText(column, text);
-			fileIndent = false;
-		}
-	}
-	else if ( columnName == SIZE_STRING )
-	{
-		m_fileSize = text.toLong();
-		QListViewItem::setText(column, KGlobal::locale()->formatNumber(m_fileSize, 0));
-	}
-	else if ( columnName == PACKED_STRING )
-	{
-		m_packedFileSize = text.toLong();
-		QListViewItem::setText(column, KGlobal::locale()->formatNumber(m_packedFileSize, 0));
-	}
-	else if ( columnName == RATIO_STRING )
-	{
-		m_ratio = text.toDouble();
-		QListViewItem::setText(column, i18n("Packed Ratio", "%1 %").arg(KGlobal::locale()->formatNumber(m_ratio, 1)));
-	}
-	else if ( columnName == TIMESTAMP_STRING )
-	{
-		m_timeStamp = QDateTime::fromString(text, ISODate);
-		QListViewItem::setText(column, KGlobal::locale()->formatDateTime(m_timeStamp));
-	}
-	else
-		QListViewItem::setText(column, text);
+    columnName colName = ( static_cast< FileListView * > ( listView() ) )->nameOfColumn( column );
+    if ( column == 0 )
+    {
+        if (text.findRev('/', -2) != -1)
+        {
+            QListViewItem::setText(0, QString("  ") + text);
+            fileIndent = true;
+        }
+        else
+        {
+            QListViewItem::setText(column, text);
+            fileIndent = false;
+        }
+    }
+    else if ( colName == sizeCol )
+    {
+        m_fileSize = text.toLong();
+        QListViewItem::setText(column, KGlobal::locale()->formatNumber(m_fileSize, 0));
+    }
+    else if ( colName == packedStrCol )
+    {
+        m_packedFileSize = text.toLong();
+        QListViewItem::setText(column, KGlobal::locale()->formatNumber(m_packedFileSize, 0));
+    }
+    else if ( colName == ratioStrCol )
+    {
+        m_ratio = text.toDouble();
+        QListViewItem::setText(column, i18n("Packed Ratio", "%1 %").arg(KGlobal::locale()->formatNumber(m_ratio, 1)));
+    }
+    else if ( colName == timeStampStrCol )
+    {
+        m_timeStamp = QDateTime::fromString(text, ISODate);
+        QListViewItem::setText(column, KGlobal::locale()->formatDateTime(m_timeStamp));
+    }
+    else
+        QListViewItem::setText(column, text);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -166,6 +192,47 @@ FileListView::FileListView(ArkWidgetBase *baseArk, QWidget *parent,
   setSelectionModeExt(FileManager);
   m_bPressed = false;
 }
+
+int FileListView::addColumn ( const QString & label, int width )
+{
+    int index = KListView::addColumn( label, width );
+    if ( label == SIZE_STRING )
+    {
+        colMap[ index ] = sizeCol;
+    }
+    else if ( label == PACKED_STRING )
+    {
+        colMap[ index ] = packedStrCol;
+    }
+    else if ( label == RATIO_STRING )
+    {
+        colMap[ index ] = ratioStrCol;
+    }
+    else if ( label == TIMESTAMP_STRING )
+    {
+        colMap[ index ] = timeStampStrCol;
+    }
+    else
+    {
+        colMap[ index ] = otherCol;
+    }
+    return index;
+}
+
+void FileListView::removeColumn( int index )
+{
+    unsigned int i = index;
+    for ( ; i < colMap.count() - 2; i++ )
+        colMap.replace( i, colMap[ i + 1 ] );
+    colMap.remove( colMap[ colMap.count() - 1 ] );
+    KListView::removeColumn( index );
+}
+
+columnName FileListView::nameOfColumn( int index )
+{
+    return colMap[ index ];
+}
+
 
 void FileListView::paintEmptyArea(QPainter *p, const QRect &rect)
 {
