@@ -218,12 +218,12 @@ DirDlg::DirDlg( ArkData *d, QWidget *parent, const char *name )
 	hblg4->addWidget( browse4 );
 		
 	
-	// Build the Ok/Cancel buttons layout
+	// Build the OK/Cancel buttons layout
 	QHBoxLayout *hbl = new QHBoxLayout();
 	mainLayout->addLayout( hbl );
 	hbl->addStretch( 1 );
 	
-	QPushButton *ok = new QPushButton( i18n("Ok"), this );
+	QPushButton *ok = new QPushButton( i18n("OK"), this );
 	ok->setFixedSize( ok->sizeHint() );
 	connect( ok, SIGNAL( clicked() ), SLOT( accept() ) );
 	hbl->addWidget( ok );
