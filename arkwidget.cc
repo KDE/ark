@@ -91,7 +91,8 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     m_nNumFiles(0), m_nNumSelectedFiles(0), m_bIsArchiveOpen(false),
     m_bIsSimpleCompressedFile(false), m_bDropSourceIsSelf(false),
     m_bViewInProgress(false), m_bOpenWithInProgress(false),
-    m_bMakeCFIntoArchiveInProgress(false), m_pTempAddList(NULL)
+    m_bMakeCFIntoArchiveInProgress(false), m_pTempAddList(NULL),
+    m_bDropFilesInProgress(false)
 {
     kDebugInfo( 1601, "+ArkWidget::ArkWidget");
   
@@ -148,21 +149,18 @@ void ArkWidget::setupActions()
 				SLOT(file_newWindow()),
 				actionCollection(), "new_window");
 
-  newArchAction = new KAction(i18n("&New"), "ark_new", 0, this,
-				SLOT(file_new()),
-				actionCollection(), "new_arch");
+  newArchAction = KStdAction::openNew(this, SLOT(file_new()),
+				      actionCollection());
 
-  openAction = new KAction(i18n("&Open"), "ark_open", 0, this,
-				SLOT(file_open()),
-				actionCollection(), "open_arch");
+  openAction = KStdAction::open(this, SLOT(file_open()), actionCollection());
 
   reloadAction = new KAction(i18n("&Reload"), "reload", 0, this,
 				SLOT(file_reload()),
 				actionCollection(), "reload_arch");
 
   closeAction = new KAction(i18n("&Close Archive"), 0, this,
-				SLOT(file_close()),
-				actionCollection(), "close_arch");
+			    SLOT(file_close()),
+			    actionCollection(), "close_arch");
 
   recent = KStdAction::openRecent(this,
 				  SLOT(file_openRecent(const KURL&)),
@@ -173,8 +171,6 @@ void ArkWidget::setupActions()
   shellOutputAction  = new KAction(i18n("&View shell output..."), 0, this,
 				   SLOT(edit_view_last_shell_output()),
 				   actionCollection(), "shell_output");
-
-
 
   KStdAction::quit(this, SLOT(window_close()), actionCollection());
 
@@ -202,9 +198,17 @@ void ArkWidget::setupActions()
 			   SLOT(action_view()),
 			   actionCollection(), "view");
 
+  popupViewAction  = new KAction(i18n("&View"), "ark_view", 0, this,
+			   SLOT(action_view()),
+			   actionCollection(), "popup_menu_view");
+
   openWithAction = new KAction(i18n("&Open with"), 0, this,
 			   SLOT(slotOpenWith()),
 			   actionCollection(), "open_with");
+
+  popupOpenWithAction  = new KAction(i18n("&Open with"), 0, this,
+			   SLOT(slotOpenWith()),
+			   actionCollection(), "popup_menu_open_with");
 
   settingsAction =  new KAction(i18n("&Settings"), "ark_options", 0, this,
 			   SLOT(options_dirs()),
@@ -313,6 +317,12 @@ void ArkWidget::initialEnables()
   invertSelectionAction->setEnabled(false);
 
   viewAction->setEnabled(false);
+
+  // always true - you have to have right-clicked on a file to see the
+  // menu with these actions
+  popupViewAction->setEnabled(true);
+  popupOpenWithAction->setEnabled(true);
+
   deleteAction->setEnabled(false);
   extractAction->setEnabled(false);
   addFileAction->setEnabled(false);
@@ -578,12 +588,9 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
       fixEnables();
       if (m_bMakeCFIntoArchiveInProgress)
 	{
-	  if (m_pTempAddList == NULL)
-	    {
-	      m_pTempAddList = new QStringList;
-	    }
-	  m_pTempAddList->append(m_compressedFile);
-	  addFile(m_pTempAddList);
+	  QStringList listForCompressedFile;
+	  listForCompressedFile.append(m_compressedFile);
+	  addFile(&listForCompressedFile);
 	}
     }
   else
@@ -710,6 +717,7 @@ void ArkWidget::slotDeleteDone(bool _bSuccess)
 void ArkWidget::slotExtractDone()
 {
   kDebugInfo(1601, "+ArkWidget::slotExtractDone");
+  QApplication::restoreOverrideCursor();
   if (m_bViewInProgress)
     {
       m_bViewInProgress = false;
@@ -738,7 +746,6 @@ void ArkWidget::slotExtractDone()
 	}
     }
   archiveContent->setUpdatesEnabled(true);
-  QApplication::restoreOverrideCursor();
   fixEnables();  
   kDebugInfo(1601, "-ArkWidget::slotExtractDone");
 }
@@ -751,13 +758,27 @@ void ArkWidget::slotAddDone(bool _bSuccess)
   if (_bSuccess)
     {
       file_reload();
+      if (m_bDropFilesInProgress)
+	{
+	  m_bDropFilesInProgress = false;
+	  delete m_pTempAddList;
+	  m_pTempAddList = NULL;
+	}
       if (m_bMakeCFIntoArchiveInProgress)
 	{
 	  m_bMakeCFIntoArchiveInProgress = false;
-	  delete m_pTempAddList;
-	  m_pTempAddList = NULL;
 	  QApplication::restoreOverrideCursor();
-	  action_add(); // now finally, get the files to be added!
+	  if (m_pTempAddList == NULL)
+	    {
+	      // now get the files to be added
+	      action_add();
+	    }
+	  else
+	    {
+	      // files were dropped in; add those files now.
+	      m_bDropFilesInProgress = true;
+	      addFile(m_pTempAddList);
+	    }
 	  return;
 	}
     }
@@ -830,6 +851,7 @@ void ArkWidget::fixEnables() // private
 			   !bReadOnly && bAddDirSupported);
   extractAction->setEnabled(bHaveFiles);
   viewAction->setEnabled(bHaveFiles && m_nNumSelectedFiles == 1);
+  openWithAction->setEnabled(bHaveFiles && m_nNumSelectedFiles == 1);
 
   kDebugInfo( 1601, "-ArkWidget::fixEnables");
 }

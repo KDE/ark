@@ -1,3 +1,9 @@
+2000-03-29: Emily Ezust <emilye@corel.com>
+        * Extra GUI tweaks
+	* Fixed faulty drop/add into compressed file (if you chose to create a
+	  real archive, it didn't actually add the files, just the compressed
+	  file).
+	
 2000-03-23: Emily Ezust <emilye@corel.com>
 	* Began migration to the XML-GUI framework. RMB menus disabled for
  	  the moment...

@@ -194,6 +194,11 @@ private: // data
     *addDirAction, *extractAction, *deleteAction, *closeAction, *reloadAction,
     *selectAllAction, *viewAction, *settingsAction, *helpAction,
     *openWithAction, *selectAction, *deselectAllAction, *invertSelectionAction;
+
+ // the following have different enable rules from the above KActions
+  KAction *popupViewAction;
+  KAction *popupOpenWithAction;
+
   KRecentFilesAction *recent;
   KAction *shellOutputAction;
 
@@ -235,8 +240,10 @@ private: // data
   bool m_bMakeCFIntoArchiveInProgress;
   // the compressed file to be added into the new archive
   QString m_compressedFile;
+
   // if they're dragging in files, this is the temporary list:
   QStringList *m_pTempAddList;
+  bool m_bDropFilesInProgress;
 
   // which column has the size
   int m_currentSizeColumn;

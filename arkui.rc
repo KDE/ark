@@ -1,11 +1,12 @@
 <!DOCTYPE kpartgui>
 <kpartgui name="ark">
+<ActionProperties>
+    <Action name="file_open" icon="ark_open"/>
+    <Action name="file_new" icon="ark_new"/>
+</ActionProperties>
 <MenuBar>
   <Menu name="file"><text>&amp;File</text>
     <Action name="new_window"/>
-    <Action name="new_arch"/>
-    <Action name="open_arch"/>
-    <Merge/>
     <Action name="reload_arch"/>
     <Action name="close_arch"/>
     <Separator/>
@@ -50,12 +51,21 @@
 </ToolBar>   
 <Menu name="file_popup">
  <Action name="extract"/>
- <Action name="view"/>
- <Action name="open_with"/>
+ <Action name="popup_menu_view"/>
+ <Action name="popup_menu_open_with"/>
  <Action name="delete"/>
 </Menu>
 <Menu name="archive_popup">
  <Action name="addfile"/>
  <Action name="adddir"/>
+ <Separator/>
+ <Action name="select_all"/>
+ <Separator/>
+ <Action name="new_arch"/>
+ <Action name="open_arch"/>
+ <Action name="close_arch"/>
+ <Separator/>
+ <Action name="settings"/>
+ <Action name="help"/>
 </Menu>
 </kpartgui>

@@ -306,7 +306,7 @@ void ZipArch::addFile( QStringList *urls )
     *kp << file;
   }
 
-#if 0
+
   // iterate over QStringList and plunk onto command line
 
   kDebugInfo( 1601, "Adding these files to the command line:");
@@ -320,7 +320,7 @@ void ZipArch::addFile( QStringList *urls )
       *kp << currFile;
       kDebugInfo( 1601, "%s", (const char *)currFile );
     }
-#endif
+
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
