@@ -75,13 +75,14 @@ DirDlg::DirDlg( ArkData *d, QWidget *parent, const char *name )
 	QVBoxLayout *vbl2 = new QVBoxLayout();
 	
 	hbl2->addLayout( vbl1 );
+	hbl2->addLayout( vbl2 );
 	
 	// *******
 	// *@@*  *
 	// *******
 	// *  *  *
 	// *******
-	QButtonGroup *bg1 = new QButtonGroup( i18n("Open directory"), this );
+	QButtonGroup *bg1 = new QButtonGroup( i18n("Start-up directory"), this );
 	vbl1->addWidget( bg1 );
 	
 	QVBoxLayout *vblg1 = new QVBoxLayout( bg1, 10 );
@@ -152,7 +153,7 @@ DirDlg::DirDlg( ArkData *d, QWidget *parent, const char *name )
 	// *******
 	// *  *  *
 	// *******
-	QButtonGroup *bg3 = new QButtonGroup( i18n("Open directory"), this );
+	QButtonGroup *bg3 = new QButtonGroup( i18n("Extract directory"), this );
 	vbl2->addWidget( bg3 );
 	
 	QVBoxLayout *vblg3 = new QVBoxLayout( bg3, 10 );
@@ -162,7 +163,7 @@ DirDlg::DirDlg( ArkData *d, QWidget *parent, const char *name )
 	r7->setFixedSize( r7->sizeHint() );
 	vblg3->addWidget( r7, 0, AlignLeft );
 	
-	QRadioButton *r8 = new QRadioButton( i18n("Last open directory"), bg3 );
+	QRadioButton *r8 = new QRadioButton( i18n("Last extract directory"), bg3 );
 	r8->setFixedSize( r8->sizeHint() );
 	vblg3->addWidget( r8, 0, AlignLeft );
 	
@@ -188,8 +189,8 @@ DirDlg::DirDlg( ArkData *d, QWidget *parent, const char *name )
 	// *******
 	// *  *@@*
 	// *******
-	QButtonGroup *bg4 = new QButtonGroup( i18n("Open directory"), this );
-	vbl1->addWidget( bg4 );
+	QButtonGroup *bg4 = new QButtonGroup( i18n("Add directory"), this );
+	vbl2->addWidget( bg4 );
 	
 	QVBoxLayout *vblg4 = new QVBoxLayout( bg4, 10 );
 	vblg4->addSpacing( 10 );
@@ -198,7 +199,7 @@ DirDlg::DirDlg( ArkData *d, QWidget *parent, const char *name )
 	r10->setFixedSize( r10->sizeHint() );
 	vblg4->addWidget( r10, 0, AlignLeft );
 	
-	QRadioButton *r11 = new QRadioButton( i18n("Last open directory"), bg4 );
+	QRadioButton *r11 = new QRadioButton( i18n("Last add directory"), bg4 );
 	r11->setFixedSize( r11->sizeHint() );
 	vblg4->addWidget( r11, 0, AlignLeft );
 	
@@ -237,38 +238,3 @@ DirDlg::DirDlg( ArkData *d, QWidget *parent, const char *name )
 	setFixedSize( sizeHint() );
 }
 
-/*
-TestDlg::TestDlg( const QString& url, QWidget *parent )
-	: QDialog( parent )
-{
-	KDirDialog *kdd = new KDirDialog( "/home/fx/tmp", this, "toto");
-
-	QVBoxLayout *mainLayout = new QVBoxLayout( this );
-
-	mainLayout->addWidget( kdd->swallower() );
-
-	gb = new QGroupBox( i18n( "Add File Options" ), this );
-	gb->setAlignment( AlignLeft );
-	mainLayout->addWidget( gb );
-
-	ok = new QPushButton( i18n("OK"), this );
-	ok->adjustSize();
-	mainLayout->addWidget( ok );
-
-	connect( ok, SIGNAL( clicked() ), SLOT( accept() ) );
-	cancel = new QPushButton( i18n("Cancel"), this );
-	cancel->adjustSize();
-	connect( cancel, SIGNAL( clicked() ), SLOT( reject() ) );
-	mainLayout->addWidget( cancel );
-
-	fullcb = new QCheckBox( i18n("Store Full Path"), gb );
-	fullcb->adjustSize();
-	mainLayout->addWidget( fullcb );
-	
-	updatecb = new QCheckBox( i18n("Only Add Newer Files") , gb );
-	updatecb->adjustSize();
-	mainLayout->addWidget( updatecb );
-
-	mainLayout->activate();
-}
-*/

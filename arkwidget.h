@@ -65,6 +65,8 @@ public slots:
 	void openRecent( int );
 	void selectAll();
 	void deselectAll();
+	void configDirs();
+	void testdlg();
 		
 protected:
 	static QList<ArkWidget> *windowList;

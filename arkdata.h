@@ -37,26 +37,26 @@ public:
 	~ArkData();
 	const QString getFilter();
 	
-	QString getTarCommand();
-	void setTarCommand(QString cmd);
+	QString getTarCommand() const;
+	void setTarCommand(const QString& cmd);
 	
-	QString getFavoriteDir();
-	void setFavoriteDir(QString cmd);
+	QString getFavoriteDir() const;
+	void setFavoriteDir(const QString& cmd);
 
 	QString getStartDir();
-        void setStartDirCfg(QString dir, int mode);
+        void setStartDirCfg(const QString& dir, int mode);
 
 	QString getOpenDir();
-	void setLastOpenDir(QString dir);
-	void setOpenDirCfg(QString dir, int mode);
+	void setLastOpenDir(const QString& dir);
+	void setOpenDirCfg(const QString& dir, int mode);
 
 	QString getExtractDir();
-	void setLastExtractDir(QString dir);
-	void setExtractDirCfg(QString dir, int mode);
+	void setLastExtractDir(const QString& dir);
+	void setExtractDirCfg(const QString& dir, int mode);
 
 	QString getAddDir();
-	void setLastAddDir(QString dir);
-	void setAddDirCfg(QString dir, int mode);
+	void setLastAddDir(const QString& dir);
+	void setAddDirCfg(const QString& dir, int mode);
 
 	QStrList * getRecentFiles();
 	void addRecentFile(const QString& filename);

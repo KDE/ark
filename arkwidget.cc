@@ -1,8 +1,6 @@
 /* (c)1997 Robert Palmbos */
 /* Warning:  Uncommented spaghetti code next 500 lines */
 /* This is the main ark window widget */
-//#include <stdio.h>
-//#include <stdlib.h>
 
 // Qt includes
 #include <qdir.h>
@@ -17,11 +15,14 @@
 #include <kmsgbox.h>
 #include <kstatusbar.h>
 #include <ktoolbar.h>
+#include <kwm.h>
 
+// ark includes
 #include "extractdlg.h"
 #include "arkwidget.h"
 #include "arkwidget.moc"
-#include "kwm.h"
+#include "dirDlg.h"
+#include "ZipExtractDlg.h"
 
 QList<ArkWidget> *ArkWidget::windowList = 0;
 
@@ -152,6 +153,8 @@ void ArkWidget::setupMenuBar()
 	optionsmenu->insertItem( i18n( "Set &Tar Executable..."), this, SLOT( getTarExe() ) );
 	optionsmenu->insertItem( i18n( "&File Adding Options..."), this, SLOT( getAddOptions() ) );
 	optionsmenu->insertItem( i18n( "&Keys..."), this, SLOT( options_keyconf() ) );
+	optionsmenu->insertItem( i18n( "&Directories..."), this, SLOT( configDirs() ) );
+	optionsmenu->insertItem( i18n( "&Test dialog..."), this, SLOT( testdlg() ) );
 
 	// Help menu creation
 	QString about_ark;
@@ -749,3 +752,18 @@ bool ArkWidget::openArchive( QString name )
 	}
 	return ret;
 }
+
+void ArkWidget::configDirs()
+{
+	DirDlg *dd = new DirDlg( data, this );
+	dd->exec();
+	delete dd;
+}
+
+void ArkWidget::testdlg()
+{
+	cerr << "Entered testdlg\n";
+ 	ZipExtractDlg zed( QString::null, this );
+ 	zed.exec();
+}
+

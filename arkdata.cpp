@@ -145,12 +145,12 @@ void ArkData::writeDirectories()
 }
 
 
-QString ArkData::getTarCommand()
+QString ArkData::getTarCommand() const
 {
 	return QString(tar_exe);
 }
 
-void ArkData::setTarCommand(QString cmd)
+void ArkData::setTarCommand(const QString& cmd)
 {
         kc->setGroup( ARK_KEY );
 	tar_exe = cmd;
@@ -158,12 +158,12 @@ void ArkData::setTarCommand(QString cmd)
 }
 
 
-QString ArkData::getFavoriteDir()
+QString ArkData::getFavoriteDir() const
 {
     return QString(favoriteDir);
 }
 
-void ArkData::setFavoriteDir(QString fd)
+void ArkData::setFavoriteDir(const QString& fd)
 {
         kc->setGroup( ARK_KEY );
         favoriteDir = fd;
@@ -206,7 +206,7 @@ QString ArkData::getStartDir()
     }
 }
 
-void ArkData::setStartDirCfg(QString dir, int mode)
+void ArkData::setStartDirCfg(const QString& dir, int mode)
 {
     startDir = dir;
     startDirMode = mode;
@@ -222,13 +222,13 @@ QString ArkData::getOpenDir()
     }
 }
 
-void ArkData::setLastOpenDir(QString dir)
+void ArkData::setLastOpenDir(const QString& dir)
 {
     lastOpenDir = dir;
     cerr << "last open dir is " << dir << "\n";
 }
 
-void ArkData::setOpenDirCfg(QString dir, int mode)
+void ArkData::setOpenDirCfg(const QString& dir, int mode)
 {
     openDir = dir;
     openDirMode = mode;
@@ -244,12 +244,12 @@ QString ArkData::getExtractDir()
     }
 }
 
-void ArkData::setLastExtractDir(QString dir)
+void ArkData::setLastExtractDir(const QString& dir)
 {
     lastExtractDir = dir;
 }
 
-void ArkData::setExtractDirCfg(QString dir, int mode)
+void ArkData::setExtractDirCfg(const QString& dir, int mode)
 {
     lastExtractDir = dir;
     extractDirMode = mode;
@@ -265,12 +265,12 @@ QString ArkData::getAddDir()
     }
 }
 
-void ArkData::setLastAddDir(const QString dir)
+void ArkData::setLastAddDir(const QString& dir)
 {
     lastAddDir = dir;
 }
 
-void ArkData::setAddDirCfg(QString dir, int mode)
+void ArkData::setAddDirCfg(const QString& dir, int mode)
 {
     addDir = dir;
     addDirMode = mode;
