@@ -146,7 +146,7 @@ void TarArch::updateArch()
       connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	      this, SLOT(updateProgress( KProcess *, char *, int )));
       connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	       this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+	       (Arch *)this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
 
       connect(kp, SIGNAL(processExited(KProcess *)),
 	       this, SLOT(updateFinished(KProcess *)) );
@@ -269,7 +269,7 @@ void TarArch::open()
   connect(kp, SIGNAL(processExited(KProcess *)),
 	  this, SLOT(slotListingDone(KProcess *)));
   connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	  this, SLOT(slotReceivedOuput( KProcess *, char *, int )));
+	  this, SLOT(slotReceivedOutput( KProcess *, char *, int )));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
 
