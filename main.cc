@@ -55,10 +55,11 @@
 static const char *description = 
 	I18N_NOOP("KDE Archiving tool");
 
-static const char *version = "v.1.9";
+static const char *version = "v.2.1";
 
 static KCmdLineOptions option[] =
 {
+   { "extract", I18N_NOOP("Open extract dialog, quit when finished."), 0},
    { "+[archive]", I18N_NOOP("Open 'archive'"), 0 },
    { 0, 0, 0 }
 };

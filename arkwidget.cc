@@ -182,7 +182,8 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     KMainWindow(0, name), ArkWidgetBase(this),
     m_bViewInProgress(false), m_bOpenWithInProgress(false),
     m_bEditInProgress(false),
-    m_bMakeCFIntoArchiveInProgress(false), m_pTempAddList(NULL),
+    m_bMakeCFIntoArchiveInProgress(false), m_extractOnly(false),
+    m_pTempAddList(NULL),
     m_bDropFilesInProgress(false), mpTempFile(NULL),
     mpDownloadedList(NULL), mpAddList(NULL)
 {
@@ -863,8 +864,31 @@ void ArkWidget::slotOpen(Arch *_newarch, bool _success,
 
 	ArkApplication::getInstance()->addOpenArk(_filename, this);
     }
+
   fixEnables();
   QApplication::restoreOverrideCursor();
+
+  if(m_extractOnly)
+  {
+    if(_success)
+    {
+      int oldMode = m_settings->getExtractDirMode();
+      QString oldFixedExtractDir = m_settings->getFixedExtractDir();
+      m_settings->setExtractDirCfg(m_url.upURL().path(), ArkSettings::FIXED_EXTRACT_DIR);
+      bool done = action_extract();
+      // Extract should have started before this returns, so hopefully
+      // safe.
+      m_settings->setExtractDirCfg(oldFixedExtractDir, oldMode);
+      // last extract dir is still set, but this is not a problem
+      if(!done)
+        file_quit();
+    }
+    else
+    {
+	// TODO: Error
+    }
+  }
+
   kdDebug(1601) << "-ArkWidget::slotOpen" << endl;
 }
 
@@ -966,6 +990,10 @@ void ArkWidget::slotExtractDone()
   m_extractList = 0;
   archiveContent->setUpdatesEnabled(true);
   fixEnables();
+
+  if(m_extractOnly)
+    file_quit();  // Close ark window if we are doing an Extract Here...
+
   kdDebug(1601) << "-ArkWidget::slotExtractDone" << endl;
 }
 
@@ -1634,7 +1662,7 @@ bool ArkWidget::reportExtractFailures(const QString & _dest,
 }
 
 
-void ArkWidget::action_extract()
+bool ArkWidget::action_extract()
 {
   ExtractDlg *dlg = new ExtractDlg(m_settings);
 
@@ -1734,10 +1762,16 @@ void ArkWidget::action_extract()
 
       delete dlg;
     }
+  else
+    {
+      return false;
+    }
 
   // user might want to change some options or the selection...
   if (bRedoExtract)
-    action_extract();
+    return action_extract();
+
+  return true;
 }
 
 void ArkWidget::action_edit()
@@ -2279,6 +2313,10 @@ void ArkWidget::openArchive(const QString & _filename )
 
   m_archType = archtype;
 
+  // Done BEFORE slotOpen so we can see colors on extractOnly
+  connect(newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
+	  archiveContent, SLOT(renumColors()));
+
   connect( newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
 	   this, SLOT(slotOpen(Arch *, bool, const QString &,int)) );
   connect( newArch, SIGNAL(sigDelete(bool)),
@@ -2288,17 +2326,18 @@ void ArkWidget::openArchive(const QString & _filename )
   connect( newArch, SIGNAL(sigExtract(bool)),
 	   this, SLOT(slotExtractDone()));
 
-  connect(newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
-	  archiveContent, SLOT(renumColors()));
-
   disableAll();
   newArch->open();
 
   // Done afterwards to prevent a flood of useless updates
-  connect(newArch, SIGNAL(sigAdd(bool)),
-	  archiveContent, SLOT(renumColors()));
-  connect(newArch, SIGNAL(sigDelete(bool)),
-	  archiveContent, SLOT(renumColors()));
+  // For some reason tar (and only tar) messes up in this case
+  if(!m_extractOnly)
+  {
+    connect(newArch, SIGNAL(sigAdd(bool)),
+	    archiveContent, SLOT(renumColors()));
+    connect(newArch, SIGNAL(sigDelete(bool)),
+            archiveContent, SLOT(renumColors()));
+  }
 }
 
 #include "arkwidget.moc"

@@ -132,12 +132,16 @@ int ArkApplication::newInstance()
   KURL url;
 
   int i = 0;
+  bool doAutoExtract = args->isSet("extract");
+
   do {
     if (args->count() > 0)
       url = args->url(i);
     ArkWidget *arkWin = new ArkWidget(m_mainwidget);
     arkWin->show();
     arkWin->resize(640, 300);
+    if(doAutoExtract)
+        arkWin->setExtractOnly(true);
 
     if (!url.isEmpty())
       {

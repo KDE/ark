@@ -77,6 +77,9 @@ public:
 
   bool isEditInProgress() { return m_bEditInProgress; }
 
+  void setExtractOnly(bool extOnly) { m_extractOnly = extOnly; }
+  bool getExtractOnly() { return m_extractOnly; }
+
 public slots:    
   void file_newWindow();
   void file_open(const KURL& url);
@@ -103,7 +106,7 @@ protected slots:
   void action_add_dir();
   void action_view();
   void action_delete();
-  void action_extract();
+  bool action_extract();
   void slotOpenWith();
   void action_edit();
   void options_dirs();
@@ -230,6 +233,9 @@ private: // data
   bool m_bMakeCFIntoArchiveInProgress;
   // the compressed file to be added into the new archive
   QString m_compressedFile;
+
+  // Set to true if we are doing an "Extract to Folder"
+  bool m_extractOnly;
 
   // if they're dragging in files, this is the temporary list for when 
   // we have to create an archive:

@@ -223,6 +223,34 @@ void TarArch::open()
   kdDebug(1601) << "+TarArch::open" << endl;
   unlink( QFile::encodeName(tmpfile) ); // just to make sure
   setHeaders();
+
+  // might as well plunk the output of tar -tvf in the shell output window...
+  KProcess *kp = new KProcess;
+
+  *kp << m_archiver_program;
+  if (compressed)
+    *kp << "--use-compress-program="+getUnCompressor() ;
+  *kp << "-tvf" << m_filename;
+
+  m_buffer = "";
+  m_header_removed = false;
+  m_finished = false;
+
+  connect(kp, SIGNAL(processExited(KProcess *)),
+	  this, SLOT(slotListingDone(KProcess *)));
+  connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	  this, SLOT(slotReceivedOutput( KProcess *, char *, int )));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+    {
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+//      emit sigOpen(this, false, QString::null, 0 );
+    }
+
+  // We list afterwards because we want the signals at the end
+  // This unconfuses Extract Here somewhat
   KTarGz *tarptr;
   bool failed = false;
 
@@ -264,30 +292,6 @@ void TarArch::open()
     }
   delete tarptr;
 
-  // might as well plunk the output of tar -tvf in the shell output window...
-  KProcess *kp = new KProcess;
-
-  *kp << m_archiver_program;
-  if (compressed)
-    *kp << "--use-compress-program="+getUnCompressor() ;
-  *kp << "-tvf" << m_filename;
-
-  m_buffer = "";
-  m_header_removed = false;
-  m_finished = false;
-
-  connect(kp, SIGNAL(processExited(KProcess *)),
-	  this, SLOT(slotListingDone(KProcess *)));
-  connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	  this, SLOT(slotReceivedOutput( KProcess *, char *, int )));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
-    {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
-      emit sigOpen(this, false, QString::null, 0 );
-    }
 
   kdDebug(1601) << "-TarArch::open" << endl;
 }

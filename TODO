@@ -24,4 +24,5 @@ file_open is nonsense.
 only convert when necessary.
 - More intuitive 'chained' archive support (ie. .tar.bz2)
 
+- file_quit()'s used for extractOnly are a mess. Clean me up.
 
