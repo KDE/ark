@@ -1,12 +1,18 @@
+/* (c)1997 Robert Palmbos
+   See main.cc for license details */
 /* This is the main kzip window widget */
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <qaccel.h>
 #include <qfont.h>
 #include <qpopmenu.h>
 #include <qpixmap.h>
 #include <qmsgbox.h>
 #include <qfiledlg.h>
 #include <qstrlist.h>
+#include <qcursor.h>
 #include <ktoolbar.h>
 #include <kconfig.h>
 #include <kapp.h>
@@ -14,20 +20,24 @@
 #include <ktopwidget.h>
 #include <kstatusbar.h>
 #include <klocale.h>
+#include <kfm.h>
+#include <kpopmenu.h>
 #include "ktablistbox.h"
 #include "extractdlg.h"
 #include "karch.h"
 #include "kzip.h"
+#include "errors.h"
 #include "kzip.moc"
+
+QList<KZipWidget> KZipWidget::windowList;
 
 KZipWidget::KZipWidget( QWidget *, const char *name )
 	: KTopLevelWidget( name )
 {
 	KConfig *config;
-
+	
 	unsigned int pid = getpid();
 	tmpdir.sprintf( "/tmp/kzip.%d/", pid );
-	printf( "%s\n", (const char *)tmpdir );
 
 	config = kapp->getConfig();
 	QString fav_key;
@@ -36,14 +46,27 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 	if( fav_dir.isEmpty() )
 		fav_dir = getenv( "HOME" );
 
+	windowList.setAutoDelete( FALSE );
+	windowList.append( this );
+
+	QAccel *a = new QAccel( this );
+	//a->connectItem( a->insertItem( CTRL+Key_O ), this, SLOT(openZip()) );
+	//a->connectItem( a->insertItem( CTRL+Key_N ), this, SLOT(createZip()) );
+	//a->connectItem( a->insertItem( CTRL+Key_W ), this, SLOT(closeZip()) );
+	//a->connectItem( a->insertItem( CTRL+Key_Q ), this, SLOT(quit()) );
+	a->connectItem( a->insertItem( Key_F1 ), this, SLOT(help()) );
+	a->connectItem( a->insertItem( CTRL+Key_H ), this, SLOT(showFavorite()) );
+	//a->connectItem( a->insertItem( CTRL+Key_E ), this, SLOT(extractZip()) );
 	QPopupMenu *filemenu = new QPopupMenu;
-	filemenu->insertItem( klocale->translate( "&New" ), this, SLOT( createZip()) );
-	filemenu->insertItem( klocale->translate( "&Open..." ), this,  SLOT( openZip()) );
+	filemenu->insertItem( klocale->translate( "New &Window..."), this, SLOT( newWindow() ) );
 	filemenu->insertSeparator();
-	filemenu->insertItem( klocale->translate( "&Extract To..."), this, SLOT( extractZip()) );
+	filemenu->insertItem( klocale->translate( "&New..." ), this, SLOT( createZip()), CTRL+Key_N );
+	filemenu->insertItem( klocale->translate( "&Open..." ), this,  SLOT( openZip()), CTRL+Key_O );
 	filemenu->insertSeparator();
-	filemenu->insertItem( klocale->translate( "&Close"), this, SLOT( closeZip() ) );
-	filemenu->insertItem( klocale->translate( "E&xit"), this, SLOT( quit() ) );
+	filemenu->insertItem( klocale->translate( "&Extract To..."), this, SLOT( extractZip()), CTRL+Key_E );
+	filemenu->insertSeparator();
+	filemenu->insertItem( klocale->translate( "&Close"), this, SLOT( closeZip() ), CTRL+Key_W );
+	filemenu->insertItem( klocale->translate( "&Quit"), this, SLOT( quit() ), CTRL+Key_Q );
 	QPopupMenu *editmenu = new QPopupMenu;
 	editmenu->insertItem( klocale->translate( "E&xtract..."), this, SLOT( extractFile() ) );
 	editmenu->insertItem( klocale->translate( "&View"), this, SLOT( showFile() ) );
@@ -52,11 +75,12 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 	QPopupMenu *optionsmenu = new QPopupMenu;
 	optionsmenu->insertItem( klocale->translate( "&Set Archive Directory..."), this, SLOT( getFav() ) );
 	optionsmenu->insertItem( klocale->translate( "&File Adding Options..."), this, SLOT( getAddOptions() ) );
-	QPopupMenu *helpmenu = new QPopupMenu;
-	helpmenu->insertItem( klocale->translate( "&Help..." ), this, SLOT( help() ) );
-	helpmenu->insertSeparator();
-	helpmenu->insertItem( klocale->translate( "About &Qt..." ), this, SLOT(aboutQt()) );
-	helpmenu->insertItem( klocale->translate( "&About..." ), this, SLOT( about() ) );
+	QPopupMenu *helpmenu = kapp->getHelpMenu( true, "KZip v0.5\n (c) 1997 Robert Palmbos" );
+	//QPopupMenu *helpmenu = new QPopupMenu;
+	//helpmenu->insertItem( klocale->translate( "&Contents..." ), this, SLOT( help() ) );
+	//helpmenu->insertSeparator();
+	//helpmenu->insertItem( klocale->translate( "About &Qt..." ), this, SLOT(aboutQt()) );
+	//helpmenu->insertItem( klocale->translate( "&About..." ), this, SLOT( about() ) );
 	menu = new KMenuBar( this );
 	menu->insertItem( klocale->translate( "&File"), filemenu );
 	menu->insertItem( klocale->translate( "&Edit"), editmenu );
@@ -82,7 +106,7 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 	
 	tb->insertSeparator();
 	pix.load( pixpath+"exit.xpm" );
-	tb->insertButton( pix, 2, SIGNAL( clicked() ), this, SLOT( quit() ), TRUE, "Exit" );
+	tb->insertButton( pix, 2, SIGNAL( clicked() ), this, SLOT( closeZip() ), TRUE, "Exit" );
 
 	addToolBar( tb );
 	tb->setBarPos( KToolBar::Top );
@@ -92,49 +116,73 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 	sb->insertItem( (char *)klocale->translate( "Welcome to KZip..." ), 0 );
 	setStatusBar( sb );
 
-	f_main = new QFrame( this, "frame_0" );
-	lb = new KTabListBox( f_main );
+	//f_main = new QFrame( this, "frame_0" );
+	lb = new KTabListBox( this );
 	lb->setSeparator( '\t' );
 	QFont f( "courier", 12 );
 	//lb->setFont( f );
-	setView( f_main );
+	setView( lb );
 	connect( lb, SIGNAL( selected(int, int) ), this, SLOT( showFile(int, int) ) );
+	connect( lb, SIGNAL( popupMenu(int, int) ), this, SLOT( doPopup(int, int) ) );
 	KDNDDropZone *dz = new KDNDDropZone( lb, DndURL );
 	connect( dz, SIGNAL(dropAction(KDNDDropZone *)),SLOT( fileDrop(KDNDDropZone *)) );
 
 	setCaption( kapp->getCaption() );
 	
 	tb->show();
-	f_main->show();
+	lb->show();
 	sb->show();
 	menu->show();
 	updateRects();
 	
-	QString ex( "mkdir " + tmpdir );
+	kfm = new KFM;
+	
+	QString ex( "mkdir " + tmpdir + " &>/dev/null" );
 	system( ex );
-	arch=NULL;
-	flisting=NULL;
-	listing=NULL;
-	fav=NULL;
+	arch=0;
+	flisting=0;
+	listing=0;
+	fav=0;
 	addonlynew = FALSE;
 	storefullpath = FALSE;
 }
 	
 KZipWidget::~KZipWidget()
 {
+	windowList.removeRef( this );
+	delete kfm;
 	delete menu;
 	delete sb;
 	delete lb;
 	delete tb;
-	QString ex( "rm -r "+tmpdir );
-	system( ex );
+}
+
+void KZipWidget::newWindow()
+{
+	KZipWidget *kw = new KZipWidget;
+	kw->show();
+}
+
+void KZipWidget::doPopup( int row, int col )
+{
+	lb->setCurrentItem( row, col );
+	KPopupMenu *pop = new KPopupMenu( "File Operations" );
+	pop->insertItem( "Extract...", this, SLOT( extractFile() ) );
+	pop->insertItem( "View", this, SLOT( showFile() ) );
+	pop->insertSeparator();
+	pop->insertItem( "Delete", this, SLOT( deleteFile() ) );
+	pop->popup( QCursor::pos(), KPM_FirstItem );
+	pop->exec();
+	delete pop;
 }
 
 void KZipWidget::createZip()
 {
 	int ret;
 	if( arch )
-		closeZip();
+	{
+		lb->clear();
+	}
 	QString file = QFileDialog::getSaveFileName();
 	if( !file.isEmpty() )
 	{
@@ -163,7 +211,7 @@ void KZipWidget::getAddOptions()
 			arch->onlyUpdate( addonlynew );
 		}
 		delete afd;
-		afd = NULL;
+		afd = 0;
 	}else{
 		sb->changeItem((char *) klocale->translate( "Create or open an archive first"), 0 );
 	}
@@ -187,14 +235,16 @@ void KZipWidget::fileDrop( KDNDDropZone *dz )
 			lb->clear();
 			setupHeaders();
 			lb->appendStrList( listing );
+		} else {
+			if( retcode == UNSUPDIR )
+				sb->changeItem( (char *)klocale->translate("Can't add directorys with this archive type"), 0 );
+			else	
+				sb->changeItem( (char *)klocale->translate( "Error saving to archive"), 0 );
 		}
-		else
-			sb->changeItem( (char *)klocale->translate( "Error saving to archive"), 0 );
 	}
 	else
 	{
 		char *foo;
-		arch = new KZipArch;
 		url = dlist.at(0);
 		file = url.right( url.length()-5 );
 		foo = file.data();
@@ -203,13 +253,14 @@ void KZipWidget::fileDrop( KDNDDropZone *dz )
 			sb->changeItem( (char *)klocale->translate( "Create or open an archive first"), 0 );
 			return;
 		}
+		arch = new KZipArch;
 		if( arch->openArch( file ) )
 			showZip( file );
 		else
 		{
 			sb->changeItem( (char *)klocale->translate( "Create or open an archive first"), 0 );
 			delete arch;
-			arch = NULL;
+			arch = 0;
 		}
 	}
 }
@@ -259,7 +310,7 @@ void KZipWidget::showZip( QString name )
 		lb->clear();
 		sb->changeItem( (char *)klocale->translate( "Unknown archive format"), 0 );
 		delete arch;
-		arch = NULL;
+		arch = 0;
 	}
 }
 
@@ -272,12 +323,12 @@ void KZipWidget::showFavorite()
 	
 	delete flisting;
 	flisting = new QStrList;
-	arch = NULL;
+	arch = 0;
 	
 	lb->clear();
 	lb->setNumCols( 2 );
-	lb->setColumn( 0, "Size", 80 );
-	lb->setColumn( 1, "File", 180 );
+	lb->setColumn( 0, klocale->translate( "Size" ), 80 );
+	lb->setColumn( 1, klocale->translate( "File" ), 180 );
 	fav = new QDir( fav_dir );
 	flist = fav->entryInfoList();
 	QFileInfoListIterator flisti( *flist );
@@ -297,9 +348,9 @@ void KZipWidget::showFavorite()
 
 void KZipWidget::extractZip()
 {
-	QString dir;
+	QString dir, ex;
 
-	if( arch == NULL )
+	if( arch == 0 )
 		return;
 	ExtractDlg ld( ExtractDlg::All );
 	int mask = arch->setOptions( FALSE, FALSE, FALSE );
@@ -307,8 +358,15 @@ void KZipWidget::extractZip()
 	if( ld.exec() )
 	{
 		dir = ld.getDest();
-		if( dir.isNull() || dir=="" || arch==NULL )
+		if( dir.isNull() || dir=="" || arch==0 )
 			return;
+		QDir dest( dir );
+		if( !dest.exists() ) {
+			if( mkdir( (const char *)dir, S_IWRITE | S_IREAD | S_IEXEC ) ) {
+				QMessageBox::warning( this, "Can't mkdir", "Unable to create destination directory", "Ok" );
+				return;
+			}
+		}
 		arch->setOptions( ld.doPreservePerms(), ld.doLowerCase(), ld.doOverwrite() );
 		switch( ld.extractOp() ) {
 			case ExtractDlg::All: {
@@ -328,20 +386,24 @@ void KZipWidget::extractZip()
 	}
 }
 
+void KZipWidget::closeEvent( QCloseEvent * )
+{
+	closeZip();
+}
+
 void KZipWidget::closeZip()
 {
-	quit();
-	delete arch;	
-	arch = NULL;
-	lb->clear();
-	lb->setNumCols(0);
-	sb->changeItem( (char *)klocale->translate( "None"), 0 );
+	if( windowList.count() < 2 )
+	{
+		KZipWidget::quit();
+	}else
+		delete this;
 }
 
 void KZipWidget::about()
 {
 	QMessageBox aboutmsg;
-	aboutmsg.information( this, "Zip", "KZip v0.4\n (c) 1997 Robert Palmbos", "Ok" );
+	aboutmsg.information( this, "Zip", "KZip v0.5\n (c) 1997 Robert Palmbos", "Ok" );
 	
 }
 
@@ -358,7 +420,9 @@ void KZipWidget::help()
 
 void KZipWidget::quit()	
 {
-	delete arch;
+	QString ex( "rm -rf "+tmpdir );
+	system( ex );
+	delete this;
 	kapp->quit();
 }
 
@@ -382,14 +446,14 @@ void KZipWidget::showFile( int index, int col=0  )
 	tmp = listing->at( index );
 	tname = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
 	
-	if( arch == NULL )
+	if( arch == 0 )
 	{
 		fullname = fav->path();
 		fullname+= "/";
 		fullname+= tname;
 		showZip( fullname );
 	}else{
-		if( prog.exec() )
+/*		if( prog.exec() )
 		{
 			fullname = arch->unarchFile( index, tmpdir );
 			name = prog.getText();
@@ -399,46 +463,50 @@ void KZipWidget::showFile( int index, int col=0  )
 			name += fullname;
 			name += " &";
 			system( (const char *)name );
-		}
+		}*/
+		fullname = "file:";
+		fullname += arch->unarchFile( index, tmpdir );
+		kfm->exec( fullname, 0L );
 	}
 }
 
 void KZipWidget::resizeEvent( QResizeEvent *re )
 {
 	KTopLevelWidget::resizeEvent( re );
-	lb->resize( f_main->width(), f_main->height() );
+	lb->resize( lb->width(), lb->height() );
 }
 
 void KZipWidget::extractFile()
 {
 	int ret;
 	QString tmp;
-	QString name;
+	QString fullname;
+	QString tname;
 	int pos = lb->currentItem();
 	if( pos != -1 )
 	{
 		ExtractDlg *gdest;
 		if( !arch )
 		{
+			lb->clear();
 			arch = new KZipArch;
-			tmp = listing->at(pos);
-			name = fav->path();
-			name+="/";
-			name+=tmp;
-			puts( (const char *)name );
-			ret = arch->openArch( name );
+			tmp = listing->at( pos );
+			tname = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
+			fullname = fav->path();
+			fullname+="/";
+			fullname+=tname;
+			ret = arch->openArch( fullname );
 			if( ret )
 			{
 				sb->changeItem( listing->at(pos), 0 );
 				setupHeaders();
 				listing = (QStrList *)arch->getListing();
-				lb->clear();
 				lb->appendStrList( listing );
 				gdest = new ExtractDlg( ExtractDlg::All );
 			}else{
 				sb->changeItem( (char *)klocale->translate( "Unknown archive format"), 0 );
 				delete arch;
-				arch = NULL;
+				arch = 0;
 				return;
 			}
 		}
@@ -501,7 +569,7 @@ void KZipWidget::setupHeaders()
 	}
 	lb->setNumCols( cols );
 	i=0;
-	while( (tmp=strstr( hdrs, "\t" ))!=NULL )
+	while( (tmp=strstr( hdrs, "\t" ))!=0 )
 	{
 		hdr=hdrs;
 		hdrs=tmp+1;
