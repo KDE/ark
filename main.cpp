@@ -72,8 +72,8 @@ int main( int argc, char *argv[]  )
 	aboutData.addAuthor( "Helio Chissini de Castro", I18N_NOOP( "Current maintainer" ),
 			"helio@conectiva.com.br" );
 	
-	aboutData.addAuthor( "Roberto Teixeira", I18N_NOOP( "Current maintainer" ),
-			"maragato@kde.org" );
+	aboutData.addAuthor( "Roberto Teixeira", 0,
+			"maragato@conectiva.com" );
 	
 	aboutData.addAuthor( "Francois-Xavier Duranceau", 0, "duranceau@kde.org" );
 	
