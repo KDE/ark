@@ -130,6 +130,7 @@ FileListView::FileListView(ArkWidgetBase *baseArk, QWidget *parent,
 
   setMouseTracking(false);
   setSelectionModeExt(Konqueror);
+  m_bPressed = false;
 }
 
 void FileListView::paintEmptyArea(QPainter *p, const QRect &rect)
