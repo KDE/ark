@@ -1,0 +1,22 @@
+This is KZip v0.4.  Type 'configure', then 'make', and 'make install'. 
+Please ignore the warnings, they will be dealt with before the next release.
+Use the online help if some things are unclear to you.
+
+
+There may be a few bugs, as well as missing features, but the program should
+be fairly usable.
+
+Changes:
+	o Internationalization
+	o Edit...Extract and View work from the archive directory
+	o kfsstnd compliance
+	o Now uses ktablistbox
+	o no memory leaks!!!
+
+TODO:
+	o make things a little prettier
+	o multiple mainwidgets, ala kpaint
+	o network transparency
+	o I need a pretty icon for kzip
+
+any suggestions, etc send to 'robertp@macatawa.org'

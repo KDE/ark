@@ -1,0 +1,15 @@
+Begin3
+Title:          KZip
+Version:        0.4
+Entered-date:   05SEP97
+Description:    A tar, zip and lha archive manipulator.
+Keywords:       archive tar kzip zip lha
+Author:         robertp@macatawa.org (Robert Palmbos)
+Maintained-by:  
+Primary-site:   ftp.kde.org /pub/kde/unstable/apps/utils
+                110kb kzip-0.4.tar.gz
+Alternate-site: 
+Original-site:  
+Platforms:       Unix, KDE, Qt
+Copying-policy:  GPL
+End

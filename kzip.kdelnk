@@ -1,0 +1,15 @@
+# KDE Config File
+[KDE Desktop Entry]
+Name=Zip
+DocPath=kzip/kzip.html
+BinaryPattern=kzip;
+Protocols=file;
+MimeType=application/x-lha;application/x-tar;application/x-zip;
+Comment=Archive Handling Tool
+Exec=kzip -caption %c %f
+Icon=kzip.xpm
+TerminalOptions=
+Path=
+Type=Application
+Terminal=0
+

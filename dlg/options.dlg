@@ -1,0 +1,40 @@
+DlgEdit {
+	ClassHeader {}
+	ClassSource {}
+	ClassName {}
+	DataHeader {}
+	DataSource {}
+	DataName {}
+	DataVariableName {}
+}
+WidgetLayout {
+		Rect {3 61 260 180}
+		Grid {1}
+
+ButtonGroup {
+		Title {Add File Options}
+		Alignment {Left}
+		Style {49}
+		Rect {10 10 240 120}
+		Name {ButtonGroup_2}
+}
+PushButton {
+		Text {Ok}
+		Rect {90 140 70 30}
+		Name {PushButton_1}
+}
+PushButton {
+		Text {Cancel}
+		Rect {170 140 70 30}
+		Name {PushButton_2}
+}
+CheckBox {
+		Text {Store Full Path}
+		Rect {30 30 130 30}
+		Name {CheckBox_1}
+}
+CheckBox {
+		Text {Only Add Newer Files}
+		Rect {30 70 150 30}
+		Name {CheckBox_2}
+}}

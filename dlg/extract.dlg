@@ -1,0 +1,89 @@
+DlgEdit {
+	ClassHeader {ExtractDialog.h}
+	ClassSource {ExtractDialog.cpp}
+	ClassName {ExtractDialog}
+	DataHeader {ExtractDialogData.h}
+	DataSource {ExtractDialogData.cpp}
+	DataName {ExtractDialogData}
+	DataVariableName {itsDialogData}
+}
+WidgetLayout {
+		Rect {3 61 400 400}
+		Grid {10}
+
+ButtonGroup {
+		Title {Files}
+		Alignment {Left}
+		Style {49}
+		Rect {260 10 120 250}
+		Name {ButtonGroup_3}
+}
+ButtonGroup {
+		Title {Extract Options}
+		Alignment {Left}
+		Style {49}
+		Rect {10 140 240 120}
+		Name {ButtonGroup_2}
+}
+ButtonGroup {
+		Title {Destination}
+		Alignment {Left}
+		Style {49}
+		Rect {10 10 240 120}
+		Name {ButtonGroup_1}
+}
+LineEdit {
+		Text {}
+		Rect {30 40 200 20}
+		Name {LineEdit_1}
+}
+PushButton {
+		Text {Browse...}
+		Rect {120 80 100 30}
+		Name {PushButton_1}
+}
+CheckBox {
+		Text {Overwrite}
+		Rect {20 160 100 30}
+		Name {CheckBox_1}
+}
+CheckBox {
+		Text {Preserve Permsissions}
+		Rect {20 190 170 30}
+		Name {CheckBox_2}
+}
+CheckBox {
+		Text {Filenames to Lowercase}
+		Rect {20 220 160 30}
+		Name {CheckBox_3}
+}
+CheckBox {
+		Text {All Files}
+		Rect {270 40 100 30}
+		Name {CheckBox_5}
+}
+CheckBox {
+		Text {Selected File}
+		Rect {270 70 100 30}
+		Name {CheckBox_6}
+}
+CheckBox {
+		Text {Pattern}
+		Rect {270 100 100 30}
+		Name {CheckBox_7}
+}
+LineEdit {
+		Text {}
+		Rect {270 130 100 20}
+		Name {LineEdit_2}
+}
+PushButton {
+		Text {Ok}
+		Rect {150 270 100 30}
+		Name {PushButton_2}
+}
+PushButton {
+		Text {Cancel}
+		Rect {280 270 100 30}
+		Name {PushButton_3}
+}}

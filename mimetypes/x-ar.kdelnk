@@ -1,0 +1,8 @@
+# KDE Config File
+[KDE Desktop Entry]
+Mimetype=application/x-ar
+Comment=Ar Archives
+DefaultApp=Zip
+Icon=unzip.xpm
+Type=MimeType
+Patterns=*.a;
