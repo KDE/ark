@@ -25,7 +25,7 @@ libarkpart_la_LIBADD = libark_common.la $(LIB_KPARTS)
 libarkpart_la_COMPILE_FIRST = settings.h
 
 libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp \
-                        filelistview.cpp arch.cpp selectDlg.cpp \
+                        filelistview.cpp arch.cpp \
                         rar.cpp \
                         arkutils.cpp archiveformatdlg.cpp \
                         arkwidget.cpp searchbar.cpp extractdlg.cpp \
