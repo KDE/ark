@@ -431,18 +431,7 @@ void ArkWidget::updateStatusTotals()
     }
   //  kdDebug(1601) << "We have " << m_nNumFiles << " elements\n" << endl;
 
-  QString strInfo;
-
-  if (m_nNumFiles == 0)
-    strInfo = i18n("Total: 0 Files");
-  else if (m_nNumFiles == 1)
-    strInfo = i18n("Total: 1 File  %1")
-      .arg(KIO::convertSize(m_nSizeOfFiles));
-  else
-    strInfo = i18n("Total: %1 Files  %2")
-      .arg(KGlobal::locale()->formatNumber(m_nNumFiles, 0))
-      .arg(KIO::convertSize(m_nSizeOfFiles));
-
+  QString strInfo = i18n("%n File  %1", "%n Files  %1", m_nNumFiles).arg(KIO::convertSize(m_nSizeOfFiles));
   m_pStatusLabelTotal->setText(strInfo);
 }
 
