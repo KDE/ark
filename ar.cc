@@ -71,7 +71,7 @@ ArArch::ArArch( ArkSettings *_settings, ArkWidgetBase *_gui,
   m_archCols.append(new ArchColumns(6, QRegExp("[0-9]+"), 2)); // Day
   m_archCols.append(new ArchColumns(7, QRegExp("[0-9:]+"), 6)); // Time
   m_archCols.append(new ArchColumns(8, QRegExp("[0-9]+"), 5)); // Year
-  m_archCols.append(new ArchColumns(0, QRegExp("[^\\s\\n]+"), 4096));// File
+  m_archCols.append(new ArchColumns(0, QRegExp("[^\\s][^\\n]+"), 4096));// File
 
   kdDebug(1601) << "ArArch constructor" << endl;
 }
