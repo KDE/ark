@@ -696,9 +696,6 @@ void ArkWidgetPart::openArchive(const QString & _filename )
   connect( newArch, SIGNAL(sigExtract(bool)),
 	   this, SLOT(slotExtractDone()));
 
-  connect(newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
-	  archiveContent, SLOT(renumColors()));
-
   newArch->open();  //open the archive file
 }
 

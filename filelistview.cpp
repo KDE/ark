@@ -48,8 +48,6 @@
 #include "arch.h"
 #include "arkwidgetbase.h"
 
-#define FILE_COLOR_ALT QColor(222, 242, 255)
-
 #define EMPTY_ARCH_STRING i18n("No files in current archive")
 
 inline int max(int a, int b)
@@ -100,21 +98,6 @@ QString FileLVI::key(int column, bool ascending) const
 		else if(0 == column)
 			return getFileName();
     else return QListViewItem::key(column, ascending);
-}
-
-/**
-* Updated GUI style for FileListView's entries.
-* Same as QListViewItem::paintCell, except highlighting of alternate files
-* is done.
-*/
-void FileLVI::paintCell (QPainter *p, const QColorGroup & cg,
-			  int column, int width, int align)
-{
-	QColorGroup newCg(cg);
-	if(colorAlt)
-		newCg.setColor(QColorGroup::Base, FILE_COLOR_ALT);
-	
-	QListViewItem::paintCell(p, newCg, column, width, align);
 }
 
 void FileLVI::setText(int column, const QString &text)
@@ -170,7 +153,6 @@ void FileListView::setSorting(int column, bool inc)
 		increasing = inc;
 	}
 	KListView::setSorting(sortColumn, increasing);
-	renumColors();
 }
 
 QStringList * FileListView::selectedFilenames() const
@@ -205,20 +187,6 @@ bool FileListView::isSelectionEmpty()
 		flvi = (FileLVI*)flvi->itemBelow();
 	}
 	return true;
-}
-
-void FileListView::renumColors()
-{
-	bool colChange = true;
-
-	// Color :)
-	QListViewItem *curItem = firstChild();
-	while(0 != curItem)
-	{
-		colChange = !colChange;
-		((FileLVI *)curItem)->setColorAlt(colChange);
-		curItem = curItem->itemBelow();
-	}
 }
 
 void FileListView::contentsMousePressEvent(QMouseEvent *e)

@@ -44,21 +44,18 @@ class ArkWidgetBase;
 
 class FileListView;
 
-class FileLVI : public QListViewItem
+class FileLVI : public KListViewItem
 {
 public:
-  FileLVI(KListView* lv) : QListViewItem(lv), parent(lv) {}
+  FileLVI(KListView* lv) : KListViewItem(lv), parent(lv) {}
 
   QString getFileName() const;
   virtual QString key(int column, bool) const;
-  virtual void paintCell (QPainter * p, const QColorGroup & cg,
-			  int column, int width, int align);
-  void setColorAlt(bool isAlt) { colorAlt = isAlt; }
 	virtual void setText(int column, const QString &text);
 
 private:
   KListView *parent;
-  bool colorAlt, fileIndent;	
+  bool fileIndent;	
 };
 
 
@@ -72,9 +69,6 @@ public:
   QStringList * selectedFilenames() const;
   uint count();
   bool isSelectionEmpty();
-
-public slots:
-  void renumColors();
 
 protected:
   void contentsMouseReleaseEvent(QMouseEvent *e);

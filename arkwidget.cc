@@ -2239,13 +2239,6 @@ void ArkWidget::createArchive( const QString & _filename )
   connect( newArch, SIGNAL(sigExtract(bool)),
            this, SLOT(slotExtractDone()));
 
-  connect(newArch, SIGNAL(sigCreate(Arch *, bool, const QString &, int)),
-           archiveContent, SLOT(renumColors()));
-  connect(newArch, SIGNAL(sigDelete(bool)), archiveContent,
-          SLOT(renumColors()));
-  connect(newArch, SIGNAL(sigAdd(bool)),
-          archiveContent, SLOT(renumColors()));
-
   archiveContent->setUpdatesEnabled(true);
   QApplication::setOverrideCursor( waitCursor );
   newArch->create();
@@ -2302,10 +2295,6 @@ void ArkWidget::openArchive(const QString & _filename )
 
   m_archType = archtype;
 
-  // Done BEFORE slotOpen so we can see colors on extractOnly
-  connect(newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
-          archiveContent, SLOT(renumColors()));
-
   connect( newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
            this, SLOT(slotOpen(Arch *, bool, const QString &,int)) );
   connect( newArch, SIGNAL(sigDelete(bool)),
@@ -2317,16 +2306,6 @@ void ArkWidget::openArchive(const QString & _filename )
 
   disableAll();
   newArch->open();
-
-  // Done afterwards to prevent a flood of useless updates
-  // For some reason tar (and only tar) messes up in this case
-  if(!m_extractOnly)
-  {
-    connect(newArch, SIGNAL(sigAdd(bool)),
-            archiveContent, SLOT(renumColors()));
-    connect(newArch, SIGNAL(sigDelete(bool)),
-            archiveContent, SLOT(renumColors()));
-  }
 }
 
 #include "arkwidget.moc"
