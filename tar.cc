@@ -385,7 +385,7 @@ QString TarArch::unarchFile( int index, QString dest )
 
 void TarArch::deleteSelectedFiles()
 {
-	QMessageBox::warning(0, "ark", "Sorry, not implemented yet !");
+	QMessageBox::warning(0, i18n("ark"), i18n("Sorry, not implemented yet !"), i18n("OK"));
 }
 
 #if 0

@@ -220,7 +220,7 @@ void ZipExtractDlg::onExtract()
 	QString dest = locationEdit->currentText();
 	
 	if( dest.isEmpty() ){
-		QMessageBox::warning(this, "ark", "Destination is empty");
+		QMessageBox::warning(this, i18n("ark"), i18n("Destination is empty"), i18n("OK"));
 	}
 	else{
 		kdebug(0, 1601, "ZipExtractDlg::onExtract: Destination is %s", dest.ascii());

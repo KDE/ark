@@ -291,7 +291,7 @@ void ZipArch::openArch( QString _filename )
 
  	if(m_kp->start(KProcess::Block, KProcess::Stdout) == false)
  	{
- 		QMessageBox::warning( 0, "ark", "Subprocess wouldn't start!");
+ 		QMessageBox::warning( 0, i18n("ark"), i18n("Subprocess wouldn't start!"), i18n("OK"));
  		return;
  	}
 	kdebug(0, 1601, "process stopped");
@@ -394,7 +394,7 @@ QString ZipArch::unarchFile( int pos, QString dest )
 
  	if(m_kp->start(KProcess::Block, KProcess::Stdout) == false)
  	{
- 		QMessageBox::warning( 0, "ark", "Subprocess wouldn't start!");
+ 		QMessageBox::warning( 0, i18n("ark"), i18n("Subprocess wouldn't start!"), i18n("OK"));
  	}
 	kdebug(0, 1601, "process stopped");
 
@@ -403,7 +403,7 @@ QString ZipArch::unarchFile( int pos, QString dest )
 		kdebug(0, 1601, "exitStatus = %d", m_kp->exitStatus() );
 
 	if( m_kp->normalExit() && m_kp->exitStatus() ){
- 		QMessageBox::warning( 0, "ark", "Unarch failed");
+ 		QMessageBox::warning( 0, i18n("ark"), i18n("Unarch failed"), i18n("OK"));
  	}
 	
 	delete m_kp;
@@ -444,7 +444,7 @@ void ZipArch::deleteSelectedFiles()
  	
  	if(m_kp->start(KProcess::Block, KProcess::Stdout) == false)
  	{
- 		QMessageBox::warning( 0, "ark", "Subprocess wouldn't start!");
+ 		QMessageBox::warning( 0, i18n("ark"), i18n("Subprocess wouldn't start!"), i18n("OK"));
  		return;
  	}
 	kdebug(0, 1601, "process stopped");
@@ -454,7 +454,7 @@ void ZipArch::deleteSelectedFiles()
 		kdebug(0, 1601, "exitStatus = %d", m_kp->exitStatus() );
 
 	if( m_kp->normalExit() && m_kp->exitStatus() ){
- 		QMessageBox::warning( 0, "ark", "Deletion failed");
+ 		QMessageBox::warning( 0, i18n("ark"), i18n("Deletion failed"), i18n("OK"));
  	}
 	
 	delete m_kp;
@@ -476,7 +476,7 @@ void ZipArch::slotExtractExited(KProcess *_p)
 	m_wd->close();
 
 	if( m_kp->normalExit() && !m_kp->exitStatus() )
-		QMessageBox::warning( 0, "ark", "Extraction failed" );
+		QMessageBox::warning( 0, i18n("ark"), i18n("Extraction failed"), i18n("OK"));
 
 	if( m_error )
 		showError();	
@@ -525,7 +525,7 @@ void ZipArch::extraction()
 		
 		if( !dest.exists() ) {
 			if( mkdir( dir.ascii(), S_IWRITE | S_IREAD | S_IEXEC ) ) {
-				QMessageBox::warning( 0, "ark", i18n("Unable to create destination directory") );
+				QMessageBox::warning( 0, i18n("ark"), i18n("Unable to create destination directory"), i18n("OK"));
 				return;
 			}
 		}
