@@ -28,7 +28,7 @@ KInstance* ArkFactory::s_instance = 0L;
 KAboutData* ArkFactory::s_about = 0L;
 int ArkFactory::instanceNumber = 0;
 
-K_EXPORT_COMPONENT_FACTORY( libarkpart, ArkFactory );
+K_EXPORT_COMPONENT_FACTORY( libarkpart, ArkFactory )
 
 ArkFactory::~ArkFactory()
 {
