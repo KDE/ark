@@ -2,6 +2,7 @@
 
 2000-06-22: Emily Ezust <emilye@corel.com>
 	* Overhaul of Directories Preferences dialog
+	* For Save As, ark will add proper extension if user does not have one.
 	
 2000-06-13: Emily Ezust <emilye@corel.com>
 	* Fixed "Save As" code so that it prevents the user from saving a

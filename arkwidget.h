@@ -91,7 +91,6 @@ public:
   void listingAdd(QStringList *_entries);
   void setHeaders(QStringList *_headers,
 		  int * _rightAlignCols, int _numColsToAlignRight);
-  QString getNewFileName();
   int getNumFilesInArchive() { return m_nNumFiles; }
 
   // given a filename, get the data in the column 
@@ -181,10 +180,12 @@ private: // methods
   void addFile(QStringList *list);
 
   // ask user whether to create a real archive from a compressed file
-  // returns filename if so. Otherwise, empty string.
-  QString askToCreateRealArchive();
+  // returns filename if so. Otherwise, empty.
+  KURL askToCreateRealArchive();
   void createRealArchive(const QString &strFilename);
-  QString getCreateFilename();
+  KURL getCreateFilename(const QString & _caption,
+			 const QString & _filter = QString::null,
+			 const QString & _extension = QString::null);
 
   // complains if the filename has capital letters or is tbz or tbz2
   bool badBzipName(const QString & _filename);

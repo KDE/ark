@@ -414,24 +414,25 @@ void ArkWidget::file_save_as()
   // we have to make sure the user doesn't think this is
   // an opportunity to convert .tgz to .zip...
 
-  QString extension;
+  QString strFile;
+  QString extension, filter;
   enum ArchType archtype = getArchType(m_strArchName, extension);
-  extension = "*" + extension;
+  
+  filter = "*" + extension;
   KURL u;
   do
     {
-      u = KFileDialog::getSaveURL(QString::null, extension,
-				       this, i18n("Save Archive As"));
+      u = getCreateFilename(i18n("Save Archive As"), filter, extension);
       if (u.isEmpty())
-	return;
+	return;      
       QString ext;
-      if (getArchType(u.path(), ext) == archtype)
+      strFile = u.path();
+      if (getArchType(strFile, ext) == archtype)
 	break;
 
       KMessageBox::error(this, i18n("Please save your archive in the same format as the original.\nHint: Use the same extension."));
     }
   while (true);
-
 
   KURL src = m_strArchName;
   mSaveAsURL = u;
@@ -585,20 +586,6 @@ void ArkWidget::saveProperties()
   kdDebug(1601) << "-saveProperties (exit)" << endl;
 }
 
-QString ArkWidget::getNewFileName()
-{
-  KURL url = KFileDialog::getSaveURL(QString::null,
-				     m_settings->getFilter(),
-				     0, i18n("Create a New Archive"));
-  QString strFile;
-
-  if (!url.isEmpty())
-    {
-      strFile = url.path();  // needs work for network stuff XXX
-    }
-  return strFile;
-} 
-
 int ArkWidget::getCol(const QString & _columnHeader)
 {
   // return the column corresponding to the header, or -1 for failure
@@ -636,11 +623,16 @@ QString ArkWidget::getColData(const QString &_filename,
 
 // File menu /////////////////////////////////////////////////////////
 
-QString ArkWidget::getCreateFilename()
+KURL ArkWidget::getCreateFilename(const QString & _caption,
+				  const QString & _filter,
+				  const QString & _extension)
 {
   int choice=0;
   struct stat statbuffer;
-  QString strFile = getNewFileName();
+  KURL url = KFileDialog::getSaveURL(QString::null,
+				     _filter,
+				     0, _caption);
+  QString strFile = url.path();
   
   if (!strFile.isEmpty())
     {
@@ -668,7 +660,10 @@ QString ArkWidget::getCreateFilename()
 		}
 	      else
 		{
-		  strFile = getNewFileName();
+		  url = KFileDialog::getSaveURL(QString::null,
+						_filter,
+						0, _caption);
+		  strFile = url.path();
 		  if (!strFile.isEmpty())
 		    continue;
 		  else
@@ -682,16 +677,24 @@ QString ArkWidget::getCreateFilename()
 	  // if we made it here, it's a go.
 	  if (! strFile.contains('.'))
 	    {
-	      // if the filename has no dot in it, ask should we append ".zip"?
-	      int nRet = KMessageBox::warningYesNo(0, i18n("Your file is missing an extension to indicate the archive type.\nShall create a file of the default type (ZIP)?"), i18n("Error"));
+	      // if the filename has no dot in it, ask to append extension
+	      QString extension = _extension;
+	      if (extension.isNull())
+		extension = ".zip";
+
+	      int nRet = KMessageBox::warningYesNo(0, i18n("Your file is missing an extension to indicate the archive type.\nShall create a file of the default type (%1)?").arg(extension), i18n("Error"));
 	      if (nRet == KMessageBox::Yes)
 		{
-		  strFile += ".zip";
+		  strFile += extension;
+		  url = strFile;
 		  continue; // gotta check if it exists again
 		}
 	      else // no? well choose a different filename then.
 		{
-		  strFile = getNewFileName();
+		  url = KFileDialog::getSaveURL(QString::null,
+						_filter,
+						0, _caption);
+		  strFile = url.path();
 		  if (!strFile.isEmpty())
 		    continue;
 		  else
@@ -703,12 +706,15 @@ QString ArkWidget::getCreateFilename()
 	} // end of while loop
       
     }
-  return strFile;
+  return url;
 }
 
 void ArkWidget::file_new()
 {
-  QString strFile = getCreateFilename();
+  QString strFile;
+  KURL url = getCreateFilename(i18n("Create a New Archive"),
+			       m_settings->getFilter());
+  strFile = url.path();
   m_settings->clearShellOutput();
   if (!strFile.isEmpty())
     createArchive( strFile );
@@ -1254,19 +1260,20 @@ void ArkWidget::edit_view_last_shell_output()
   sod->exec();
 }
 
-QString ArkWidget::askToCreateRealArchive()
+KURL ArkWidget::askToCreateRealArchive()
 {
   // ask user whether to create a real archive from a compressed file
   // returns filename if so
-  QString strFilename;
+  KURL url;
   int choice =
     KMessageBox::warningYesNo(0, i18n("You are currently working with a simple compressed file.\nWould you like to make it into an archive so that it can contain multiple files?\nIf so, you must choose a name for your new archive."), i18n("Warning"));
   if (choice == KMessageBox::Yes)
     {
       m_bMakeCFIntoArchiveInProgress = true;
-      strFilename = getCreateFilename();
+      url = getCreateFilename(i18n("Create a New Archive"),
+			      m_settings->getFilter());
     }
-  return strFilename;
+  return url;
 }
 
 void ArkWidget::createRealArchive(const QString &strFilename)
@@ -1289,7 +1296,9 @@ void ArkWidget::action_add()
   ArchType archtype = getArchType(m_strArchName, extension);
   if (m_bIsSimpleCompressedFile && (m_nNumFiles == 1))
     {
-      QString strFilename = askToCreateRealArchive();
+      QString strFilename;
+      KURL url = askToCreateRealArchive();
+      strFilename = url.path();
       if (!strFilename.isEmpty())
 	{
 	  createRealArchive(strFilename);
@@ -1309,7 +1318,9 @@ void ArkWidget::action_add()
 	{
 	  if (m_bIsSimpleCompressedFile && mpAddList->count() > 1)
 	    {
-	      QString strFilename = askToCreateRealArchive();
+	      QString strFilename;
+	      KURL url = askToCreateRealArchive();
+	      strFilename = url.path();
 	      if (!strFilename.isEmpty())
 		{
 		  createRealArchive(strFilename);
@@ -1757,16 +1768,6 @@ void ArkWidget::options_saveNow()
   m_settings->writeConfigurationNow();
 }
 
-#if 0
-void ArkWidget::options_saveOnExit()
-{
-  optionsMenu->setItemChecked(eMSaveOnExit,
-			      !m_settings->isSaveOnExitChecked());
-  m_settings->setSaveOnExitChecked( !m_settings->isSaveOnExitChecked() );
-}
-
-#endif
-
 // Popup /////////////////////////////////////////////////////////////
 
 
@@ -1958,7 +1959,9 @@ void ArkWidget::dropAction(QStringList *list)
     {
       if (m_bIsSimpleCompressedFile && (m_nNumFiles == 1))
 	{
-	  QString strFilename = askToCreateRealArchive();
+	  QString strFilename;
+	  KURL url = askToCreateRealArchive();
+	  strFilename = url.path();
 	  if (!strFilename.isEmpty())
 	    {
 	      m_pTempAddList = new QStringList(*list);
