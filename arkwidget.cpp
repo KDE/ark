@@ -1659,7 +1659,7 @@ ArkWidget::action_extract()
     }
 
 
-    ExtractDlg *dlg = new ExtractDlg(this, 0, m_url.filename(), prefix);
+    ExtractDlg *dlg = new ExtractDlg(this, 0, m_url.fileName(), prefix);
 
     // if they choose pattern, we have to tell arkwidget to select
     // those files... once we're in the dialog code it's too late.
