@@ -88,8 +88,10 @@ DirDlg::DirDlg( ArkSettings *d, QWidget *parent, const char *name )
 
   QPushButton* browseFav;
   browseFav = new QPushButton( this, "PushButton_1" );
-  browseFav->setGeometry( 440, 70, 80, 30 );
   browseFav->setText( i18n("Browse...") );
+  browseFav->setMinimumSize(80, 30);  // improved i18n support, 5.9.2000, Gregor Zumstein
+  browseFav->adjustSize();
+  browseFav->move( 520 - browseFav->width(), 70);
   connect( browseFav, SIGNAL(clicked()), SLOT(getFavDir()) );
   
   QLabel* l2;
@@ -109,8 +111,10 @@ DirDlg::DirDlg( ArkSettings *d, QWidget *parent, const char *name )
   createRepeatingWidgets();
 
   QPushButton *browseFixed = new QPushButton( this, "PushButton_2" );
-  browseFixed->setGeometry( 440, 215, 80, 30 );
   browseFixed->setText( i18n("Browse...") );
+  browseFixed->setMinimumSize(80, 30);  // GZ
+  browseFixed->adjustSize();
+  browseFixed->move( 520 - browseFixed->width(), 215);
   connect( browseFixed, SIGNAL(clicked()), SLOT(getFixedDir()) );
 
   QLabel *lHoriz2 = new QLabel( this, "Label_5" );
@@ -155,6 +159,8 @@ void DirDlg::createRepeatingWidgets()
 	  if (j == 0) widgets[i]->radios[j]->setText(i18n("Favorite directory") );
 	  if (j == 2) widgets[i]->radios[j]->setText(i18n("Fixed directory"));
 	}
+      widgets[i]->radios[0]->adjustSize(); // GZ
+      widgets[i]->radios[2]->adjustSize(); // GZ
     }
   widgets[0]->lDirType->setText(i18n("Default start-up directory"));
   widgets[1]->lDirType->setText(i18n("Default open directory"));
@@ -164,6 +170,10 @@ void DirDlg::createRepeatingWidgets()
   widgets[1]->radios[1]->setText(i18n("Last open directory"));
   widgets[2]->radios[1]->setText(i18n("Last extract directory"));
   widgets[3]->radios[1]->setText(i18n("Last add directory"));
+  for (int i = 0; i < NUM_DIR_TYPES; ++i)  // GZ
+    {
+      widgets[i]->radios[1]->adjustSize();
+    }
 
   int x;
   for (int i = 0; i < NUM_DIR_TYPES; ++i)
