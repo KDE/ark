@@ -128,7 +128,7 @@ void TarArch::updateArch()
 
       KProcess *kp = new KProcess;
       kp->clearArguments();
-      if ( getCompressor() != QString::null )
+      if ( !getCompressor().isNull() )
           *kp << getCompressor() << "-c" << tmpfile;
       else
           *kp << "cat" << tmpfile;
