@@ -211,7 +211,7 @@ ExtractDlg::accept()
 		if ( !fi.isDir() && !fi.exists() ) 
 		{
 			QString ltext = i18n( "Create directory " ) + p.path() + " ?";
-			int createDir =  KMessageBox::questionYesNo( this, ltext, i18n( "Missing directory !" ) );
+			int createDir =  KMessageBox::questionYesNo( this, ltext, i18n( "Missing directory!" ) );
 			if( createDir == 4 )
 			{
 				return;
