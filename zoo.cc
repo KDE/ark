@@ -339,7 +339,7 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir)
       for ( QStringList::Iterator it = _fileList->begin();
 	    it != _fileList->end(); ++it ) 
 	{
-	  *kp << (*it).latin1() ;
+	  *kp << (*it).local8Bit();/*.latin1() ;*/
 	}
     }
  

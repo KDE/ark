@@ -57,7 +57,7 @@ void ZipArch::processLine( char *_line )
 {
   char columns[11][80];
   char filename[4096];
-	
+
   sscanf(_line, " %[0-9] %[a-zA-Z:] %[0-9] %[0-9%] %2[0-9]-%2[0-9]-%2[0-9]  %[0-9:] %[0-9a-z]%3[ ]%[^\n]",
 	 columns[0], columns[1], columns[2], columns[3],
 	 columns[4], columns[7], columns[8], columns[9],
@@ -68,14 +68,12 @@ void ZipArch::processLine( char *_line )
   // columns[4]
 
   QString year = Utils::fixYear(columns[8]);
-
-  kdDebug(1601) << "Year is " << year << endl;
-  QString timestamp = QString::fromLatin1("%1-%2-%3 %4")
+    QString timestamp= QString::fromLatin1("%1-%2-%3 %4")
     .arg(year)
     .arg(columns[4])
     .arg(columns[7])
     .arg(columns[9]);
-  
+ 
   strcpy(columns[4], timestamp.ascii());
   kdDebug(1601) << "Timestamp is " << columns[4] << endl;
   QStringList list;
@@ -93,7 +91,7 @@ void ZipArch::slotReceivedTOC(KProcess*, char* _data, int _length)
   kdDebug(1601) << "+ZipArch::slotReceivedTOC" << endl;
   char c = _data[_length];
   _data[_length] = '\0';
-	
+
   m_settings->appendShellOutputData( _data );
 
   char line[1024] = "";
@@ -205,7 +203,7 @@ void ZipArch::open()
   KProcess *kp = new KProcess;
 
   *kp << m_unarchiver_program << "-v" << m_filename.local8Bit();
-	
+
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
@@ -239,7 +237,7 @@ void ZipArch::addDir(const QString & _dirName)
     
     // must be true for add directory - otherwise why would user try?
     m_settings->setZipAddRecurseDirs(true);
-    
+
     QStringList list;
     list.append(_dirName);
     addFile(&list);
@@ -364,7 +362,7 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
       for ( QStringList::Iterator it = _fileList->begin();
 	    it != _fileList->end(); ++it ) 
 	{
-	  *kp << (*it).latin1() ;
+	  *kp << (*it).local8Bit();/*.latin1() ;*/
 	}
     }
 

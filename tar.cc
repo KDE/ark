@@ -94,12 +94,12 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
       QString base = m_filename.right(m_filename.length()- 1 -
 				     m_filename.findRev("/"));
       base = base.left(base.findRev("."));
-      
+
       // build the temp file name
-      
+
       KTempFile *pTempFile = new KTempFile(tmpdir +
-					   QString::fromLatin1("/temp_tar"),
-					   QString::fromLatin1(".tar"));
+					   QString::fromLocal8Bit("/temp_tar"),
+					   QString::fromLocal8Bit(".tar"));
 
       tmpfile = pTempFile->name();
       kdDebug(1601) << "Tmpfile will be " << tmpfile << "\n" << endl;
@@ -166,7 +166,7 @@ QString TarArch::getCompressor()
 				       m_filename.findRev('.') );
   kdDebug(1601) << "Extension: " << extension << endl;
 
-  if( extension == ".tgz" || extension == ".gz" ) 
+  if( extension == ".tgz" || extension == ".gz" )
     return QString( "gzip" );
   if( extension == ".bz")
     return QString( "bzip" );
@@ -635,7 +635,7 @@ void TarArch::unarchFile( QStringList * _fileList, const QString & _destDir)
       for ( QStringList::Iterator it = _fileList->begin();
 	    it != _fileList->end(); ++it ) 
 	{
-	  *kp << (*it).latin1() ;
+	  *kp << (*it).local8Bit();/*.latin1() ;*/
 	}
     }
 
