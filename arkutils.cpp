@@ -175,7 +175,7 @@ ArkUtils::haveDirPermissions( const QString &strFile )
 
 bool
 ArkUtils::diskHasSpace(const QString &dir, long size)
-  // check if disk has enough space to accomodate (a) new file(s) of
+  // check if disk has enough space to accommodate (a) new file(s) of
   // the given size in the partition containing the given directory
 {
   kdDebug( 1601 ) << "diskHasSpace() " << "dir: " << dir << "Size: " << size << endl;

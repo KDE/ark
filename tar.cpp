@@ -424,7 +424,7 @@ void TarArch::createTmp()
         if ( !QFile::exists(tmpfile) )
         {
             QString strUncompressor = getUnCompressor();
-            // at least lzop doesn't want to pipe zerosize/nonexistant files
+            // at least lzop doesn't want to pipe zerosize/nonexistent files
             QFile originalFile( m_filename );
             if ( strUncompressor != "gunzip" && strUncompressor !="bunzip2" &&
                 ( !originalFile.exists() || originalFile.size() == 0 ) )
