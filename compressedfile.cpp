@@ -28,6 +28,9 @@
 // C includes
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 // Qt includes
 #include <qdir.h>
@@ -127,7 +130,7 @@ void CompressedFile::open()
   // (that code is in the slot slotOpenDone)
 
   QString command;
-  command = "cp '" + m_filename + "' " + m_tmpdir;
+  command = "cp " + KShellProcess::quote(m_filename) + " " + KShellProcess::quote(m_tmpdir);
   system(QFile::encodeName(command));
 
   m_tmpfile = m_filename.right(m_filename.length()
@@ -190,15 +193,15 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
       kdDebug(1601) << "Temp file is " << m_tmpfile << endl;
       chdir(QFile::encodeName(m_tmpdir));
       QString command = "ls -l " +
-	m_tmpfile.right(m_tmpfile.length() - 1 - m_tmpfile.findRev("/"));
+	KShellProcess::quote(m_tmpfile.right(m_tmpfile.length() - 1 - m_tmpfile.findRev("/")));
 
       char line[4096];
       char columns[7][80];
       char filename[4096];
 
       FILE *readHandle = popen(QFile::encodeName(command), "r");
-      fscanf(readHandle, "%[-A-Za-z:0-9_+-. ]", line);
-      sscanf(line, "%[-drwxst] %[0-9] %[0-9.a-zA-Z_] %[0-9.a-zA-Z_] %[0-9] %12[A-Za-z0-9: ]%1[ ]%[^\n]", columns[0], columns[5],
+      fscanf(readHandle, "%4095[-A-Za-z:0-9_+-. ]", line);
+      sscanf(line, "%79[-drwxst] %79[0-9] %79[0-9.a-zA-Z_] %79[0-9.a-zA-Z_] %79[0-9] %12[A-Za-z0-9: ]%1[ ]%79[^\n]", columns[0], columns[5],
 	     columns[1], columns[2], columns[3],
 	     columns[4], columns[6], filename);
 
@@ -245,7 +248,7 @@ void CompressedFile::addFile( QStringList *urls )
     file = file.right(file.length() - 5);
 
   QString command;
-  command = "cp '" + file + "' " + m_tmpdir;
+  command = "cp " + KShellProcess::quote(file) + " " + KShellProcess::quote(m_tmpdir);
   system(QFile::encodeName(command));
 
   m_tmpfile = file.right(file.length()
@@ -306,11 +309,13 @@ void CompressedFile::unarchFile(QStringList *, const QString & _destDir,
     {
       QString dest;
       if (_destDir.isEmpty() || _destDir.isNull())
-	dest = m_settings->getExtractDir();
+	{
+	  kdError(1601) << "There was no extract directory given." << endl;
+	  return;
+	}
       else
 	dest=_destDir;
-      QString command;
-      command = QString::fromLocal8Bit("cp %1 %2").arg(m_tmpfile).arg(dest);
+      QString command = "cp " + KShellProcess::quote(m_tmpfile) + " " + KShellProcess::quote(dest);
       system(QFile::encodeName(command));
     }
   emit sigExtract(true);
@@ -324,8 +329,8 @@ void CompressedFile::remove(QStringList *)
   // delete the compressed file but then create it empty in case someone
   // does a reload and finds it no longer exists!
   unlink(QFile::encodeName(m_filename));
-  QString command = "touch '" + m_filename + "'";
-  system(QFile::encodeName(command));
+  
+  ::close(::open(QFile::encodeName(m_filename), O_WRONLY | O_CREAT | O_EXCL));
 
   m_tmpfile = "";
   emit sigDelete(true);

@@ -27,6 +27,8 @@
 
 */
 
+#include <config.h>
+
 // C includes
 #include <iostream.h>
 #include <stdio.h>
@@ -70,7 +72,7 @@ bool LhaArch::processLine(const QCString &line)
 
   if (QString(_line).contains("[generic]") ) 
     {
-      sscanf(_line, " %[]\[generic] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
+      sscanf(_line, " %79[]\\[generic] %79[0-9] %79[0-9] %79[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%4095[^\n]",
 	     columns[0], columns[2], columns[3], columns[4], columns[5],
 	     columns[6], columns[10], columns[7], columns[11], columns[8],
 	     columns[9], filename );
@@ -79,7 +81,7 @@ bool LhaArch::processLine(const QCString &line)
   else
   if (QString(_line).contains("[MS-DOS]") ) 
     {
-      sscanf(_line, " %[]\[MS-DOS] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
+      sscanf(_line, " %79[]\\[MS-DOS] %79[0-9] %79[0-9] %79[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%4095[^\n]",
 	     columns[0], columns[2], columns[3], columns[4], columns[5],
 	     columns[6], columns[10], columns[7], columns[11], columns[8],
 	     columns[9], filename );
@@ -87,7 +89,7 @@ bool LhaArch::processLine(const QCString &line)
     }
   else
     {
-      sscanf(_line, " %[-drlwxst] %[0-9/] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
+      sscanf(_line, " %79[-drlwxst] %79[0-9/] %79[0-9] %79[0-9] %79[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%4095[^\n]",
 	     columns[0], columns[1], columns[2], columns[3],
 	     columns[4], columns[5], columns[6], columns[10], columns[7],
 	     columns[11], columns[8], columns[9], filename);
@@ -98,7 +100,7 @@ bool LhaArch::processLine(const QCString &line)
   // make the time stamp sortable
   QString massagedTimeStamp = Utils::getTimeStamp(columns[6], columns[7],
 						  columns[8]);
-  strcpy(columns[6], massagedTimeStamp.ascii());
+  strlcpy(columns[6], massagedTimeStamp.ascii(), sizeof(columns[6]));
 
   kdDebug(1601) << "New timestamp is " << columns[6] << endl;
 
@@ -271,13 +273,16 @@ void LhaArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 			 bool viewFriendly)
 {
   // if _fileList is empty, we extract all.
-  // if _destDir is empty, look at settings for extract directory
+  // if _destDir is empty, abort with error.
 
   kdDebug(1601) << "+LhaArch::unarchFile" << endl;
   QString dest;
 
   if (_destDir.isEmpty() || _destDir.isNull())
-    dest = m_settings->getExtractDir();
+    {
+      kdError(1601) << "There was no extract directory given." << endl;
+      return;
+    }
   else dest = _destDir;
 
   QString tmp;

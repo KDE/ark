@@ -23,7 +23,10 @@ libark_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module $(LIB_KIO)
 libark_la_LIBADD   = $(LIB_KFILE) -lkparts
 
 # Which sources should be compiled for ark.
-ark_SOURCES    = main.cpp
+ark_SOURCES    = dummy.cpp
+
+dummy.cpp:
+	echo > $@
 
 # the library search path
 ark_LDFLAGS = $(KDE_RPATH) $(all_libraries)

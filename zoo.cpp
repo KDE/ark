@@ -25,6 +25,8 @@
 
 */
 
+#include <config.h>
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -69,7 +71,7 @@ bool ZooArch::processLine(const QCString &line)
 
   // Note: I'm reversing the ratio and the length for better display
 
-  sscanf(_line, " %[0-9] %[0-9%] %[0-9] %[0-9] %[a-zA-Z] %[0-9]%[ ]%11[ 0-9:+-]%2[C ]%[^\n]",
+  sscanf(_line, " %79[0-9] %79[0-9%] %79[0-9] %79[0-9] %79[a-zA-Z] %79[0-9]%79[ ]%11[ 0-9:+-]%2[C ]%4095[^\n]",
 	 columns[1], columns[0], columns[2], columns[3], columns[7],
 	 columns[8], columns[9], columns[4], columns[10], filename);
 
@@ -84,11 +86,11 @@ bool ZooArch::processLine(const QCString &line)
   strDate.sprintf("%s-%.2d-%.2d", year.utf8().data(),
 		    Utils::getMonth(columns[7]), atoi(columns[3]));
 
-  strcpy(columns[3], strDate.ascii());
+  strlcpy(columns[3], strDate.ascii(), sizeof(columns[3]));
   kdDebug(1601) << "New timestamp is " << columns[3] << endl;
 
-  strcat(columns[3], " ");
-  strcat(columns[3], fixTime(columns[4]).ascii());
+  strlcat(columns[3], " ", sizeof(columns[3]));
+  strlcat(columns[3], fixTime(columns[4]).ascii(),sizeof(columns[3]));
 
   QStringList list;
   list.append(QString::fromLocal8Bit(filename));
@@ -232,13 +234,16 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 			 bool viewFriendly)
 {
   // if _fileList is empty, we extract all.
-  // if _destDir is empty, look at settings for extract directory
+  // if _destDir is empty, abort with error.
 
   kdDebug(1601) << "+ZooArch::unarchFile" << endl;
   QString dest;
 
   if (_destDir.isEmpty() || _destDir.isNull())
-    dest = m_settings->getExtractDir();
+    {
+      kdError(1601) << "There was no extract directory given." << endl;
+      return;
+    }
   else dest = _destDir;
 
   // zoo has no option to specify the destination directory

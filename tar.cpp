@@ -79,28 +79,27 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
   : Arch(_settings, _gui, _filename), createTmpInProgress(false),
     updateInProgress(false), deleteInProgress(false), fd(NULL)
 {
-  kdDebug(1601) << "+TarArch::TarArch" << endl;
-  m_archiver_program = m_settings->getTarCommand();
-  m_unarchiver_program = QString::null;
-  verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
-
-  KMimeMagic *mimePtr = KMimeMagic::self();
-  KMimeMagicResult * mimeResultPtr = mimePtr->findFileType(_filename);
-  QString mimetype = mimeResultPtr->mimeType();
-  kdDebug(1601) << "TarArch::TarArch:  mimetype is " << mimetype << endl;
-
-  if (mimetype == "application/x-tar")
-    {
-      compressed = false;
-    }
-  else
-    {
-      compressed = true;
-      QString tmpdir;
-      QString directory;
+	kdDebug(1601) << "+TarArch::TarArch" << endl;
+	m_archiver_program = m_settings->getTarCommand();
+	m_unarchiver_program = QString::null;
+	verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+	
+	KMimeMagic *mimePtr = KMimeMagic::self();
+	KMimeMagicResult * mimeResultPtr = mimePtr->findFileType(_filename);
+	QString mimetype = mimeResultPtr->mimeType();
+	kdDebug(1601) << "TarArch::TarArch:  mimetype is " << mimetype << endl;
+	
+	if ( mimetype == "application/x-tar" )
+	{
+		compressed = false;
+	}
+	else
+	{
+		compressed = true;
+		QString tmpdir;
+		QString directory;
       directory.sprintf("ark.%d/", getpid());
-      tmpdir = locateLocal( "tmp", directory );
-      //tmpdir.sprintf("/tmp/ark.%d", getpid());
+		tmpdir = locateLocal( "tmp", directory );
 
       QString base = m_filename.right(m_filename.length()- 1 -
                                      m_filename.findRev("/"));
@@ -108,15 +107,16 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 
       // build the temp file name
 
-      KTempFile *pTempFile = new KTempFile(tmpdir +
-                                           QString::fromLocal8Bit("/temp_tar"),
-                                           QString::fromLocal8Bit(".tar"));
+		KTempFile *pTempFile = new KTempFile(tmpdir +
+				QString::fromLocal8Bit("/temp_tar"),
+				QString::fromLocal8Bit(".tar") );
 
       tmpfile = pTempFile->name();
-      delete pTempFile;
-      kdDebug(1601) << "Tmpfile will be " << tmpfile << "\n" << endl;
-    }
-  kdDebug(1601) << "-TarArch::TarArch" << endl;
+		delete pTempFile;
+		
+		kdDebug(1601) << "Tmpfile will be " << tmpfile << "\n" << endl;
+	}
+	kdDebug(1601) << "-TarArch::TarArch" << endl;
 }
 
 TarArch::~TarArch()
@@ -242,84 +242,93 @@ QString TarArch::getUnCompressor()
     return getUnCompressorByExtension();
 }
 
-void TarArch::open()
+void 
+TarArch::open()
 {
-  kdDebug(1601) << "+TarArch::open" << endl;
-  unlink( QFile::encodeName(tmpfile) ); // just to make sure
-  setHeaders();
+	kdDebug(1601) << "+TarArch::open" << endl;
+	unlink( QFile::encodeName(tmpfile) ); // just to make sure
+	setHeaders();
+	
+	// might as well plunk the output of tar -tvf in the shell output window...
+	KProcess *kp = new KProcess;
+	
+	*kp << m_archiver_program;
+	
+	if ( compressed )
+	{
+		*kp << "--use-compress-program=" + getUnCompressor() ;
+	}
+	
+	*kp << "-tvf" << m_filename;
+	
+	m_buffer = "";
+	m_header_removed = false;
+	m_finished = false;
+	
+	connect(kp, SIGNAL(processExited(KProcess *)),
+			this, SLOT(slotListingDone(KProcess *)));
+	connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+			this, SLOT(slotReceivedOutput( KProcess *, char *, int )));
+	connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+			this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+	
+	if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+	{
+		KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+   }
+	
+	// We list afterwards because we want the signals at the end
+	// This unconfuses Extract Here somewhat
+	
+	KTar *tarptr;
+	bool failed = false;
+	
+	if ( !compressed || getUnCompressor() == QString("gunzip")
+			|| getUnCompressor() == QString("bunzip2") )
+	{
+		kdDebug(1601)  << "Creating KTar from " << m_filename << 
+			" using uncompressor " << getUnCompressor() << endl;
+		tarptr = new KTar(m_filename);
+	}
+	else
+	{
+		createTmp();
+		while ( compressed && createTmpInProgress )
+			qApp->processEvents(); // wait for temp to be created;
+		tarptr = new KTar(tmpfile);
+	}
+	
+	failed = !tarptr->open( IO_ReadOnly );
+	if( failed && ( getUnCompressor() == QString("gunzip")
+				|| getUnCompressor() == QString("bunzip2") ) )
+	{
+		delete tarptr;
+		createTmp();
+		while (compressed && createTmpInProgress)
+			qApp->processEvents(); // wait for temp to be created;
+		kdDebug(1601)  << "Creating KTar from failed IO_RW " << m_filename << 
+			" using uncompressor " << getUnCompressor() << endl;
+		tarptr = new KTar(tmpfile);
+		failed = !tarptr->open(IO_ReadOnly);
+	}
+	
+	if( failed )
+	{
+		kdDebug(1601)  << "Failed to uncompress and open." << endl;
+		emit sigOpen(this, false, QString::null, 0 );
+	}
+	else
+	{
+		processDir(tarptr->directory(), "");
+		// because we aren't using the KProcess method, we have to emit this
+		// ourselves.
+		emit sigOpen(this, true, m_filename,
+				Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
+	}
+	
+	delete tarptr;
 
-  // might as well plunk the output of tar -tvf in the shell output window...
-  KProcess *kp = new KProcess;
-
-  *kp << m_archiver_program;
-
-  if (compressed)
-    *kp << "--use-compress-program="+getUnCompressor() ;
-
-  *kp << "-tvf" << m_filename;
-
-  m_buffer = "";
-  m_header_removed = false;
-  m_finished = false;
-
-  connect(kp, SIGNAL(processExited(KProcess *)),
-          this, SLOT(slotListingDone(KProcess *)));
-  connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-          this, SLOT(slotReceivedOutput( KProcess *, char *, int )));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-           this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
-    {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
-//      emit sigOpen(this, false, QString::null, 0 );
-    }
-
-  // We list afterwards because we want the signals at the end
-  // This unconfuses Extract Here somewhat
-  KTarGz *tarptr;
-  bool failed = false;
-
-  if (!compressed ||
-      getUnCompressor() == QString("gunzip")
-     || getUnCompressor() == QString("bunzip2"))
-    {
-      tarptr = new KTarGz(m_filename);
-    }
-  else
-    {
-      createTmp();
-      while (compressed && createTmpInProgress)
-        qApp->processEvents(); // wait for temp to be created;
-      tarptr = new KTarGz(tmpfile);
-    }
-
-  failed = !tarptr->open(IO_ReadOnly);
-  if(failed && (getUnCompressor() == QString("gunzip")
-                || getUnCompressor() == QString("bunzip2")))
-    {
-      delete tarptr;
-      createTmp();
-      while (compressed && createTmpInProgress)
-        qApp->processEvents(); // wait for temp to be created;
-      tarptr = new KTarGz(tmpfile);
-      failed = !tarptr->open(IO_ReadOnly);
-    }
-
-  if(failed)
-      emit sigOpen(this, false, QString::null, 0 );
-  else
-    {
-      processDir(tarptr->directory(), "");
-      // because we aren't using the KProcess method, we have to emit this
-      // ourselves.
-      emit sigOpen(this, true, m_filename,
-                    Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
-    }
-  delete tarptr;
-
-
-  kdDebug(1601) << "-TarArch::open" << endl;
+	kdDebug(1601) << "-TarArch::open" << endl;
 }
 
 void TarArch::slotListingDone(KProcess *_kp)
@@ -409,47 +418,49 @@ void TarArch::setHeaders()
   kdDebug(1601) << "-TarArch::setHeaders" << endl;
 }
 
-void TarArch::createTmp()
+void 
+TarArch::createTmp()
 {
-  kdDebug(1601) << "+TarArch::createTmp" << endl;
-  if (compressed)
-    {
-      struct stat statbuffer;
-      if (stat(QFile::encodeName(tmpfile), &statbuffer) == -1)
-        {
-          // the tmpfile does not yet exist, so we create it.
-          createTmpInProgress = true;
-          fd = fopen( tmpfile.local8Bit(), "w" );
+	kdDebug(1601) << "+TarArch::createTmp" << endl;
+	if ( compressed )
+	{
+		struct stat statbuffer;
+		if ( stat( QFile::encodeName( tmpfile ), &statbuffer) == -1)
+		{
+			// the tmpfile does not yet exist, so we create it.
+			createTmpInProgress = true;
+			fd = fopen( tmpfile.local8Bit(), "w" );
+			
+			KProcess *kp = new KProcess;
+			kp->clearArguments();
+			QString strUncompressor = getUnCompressor();
+			kdDebug(1601) << "Uncompressor is " << strUncompressor << endl;
+			*kp << strUncompressor;
+			if (strUncompressor == "lzop")
+			{
+				*kp << "-d" ;
+			}
+			*kp << "-c" << m_filename.local8Bit();
+			
+			connect(kp, SIGNAL(processExited(KProcess *)),
+					this, SLOT(createTmpFinished(KProcess *)));
+			connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+					this, SLOT(createTmpProgress( KProcess *, char *, int )));
+			connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+					this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
 
-          KProcess *kp = new KProcess;
-          kp->clearArguments();
-          QString strUncompressor = getUnCompressor();
-          kdDebug(1601) << "Uncompressor is " << strUncompressor << endl;
-          *kp << strUncompressor;
-          if (strUncompressor == "lzop")
-            {
-              *kp << "-d" ;
-            }
-          *kp << "-c" << m_filename.local8Bit();
-
-          connect(kp, SIGNAL(processExited(KProcess *)),
-                  this, SLOT(createTmpFinished(KProcess *)));
-          connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-                  this, SLOT(createTmpProgress( KProcess *, char *, int )));
-          connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-                   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-
-          if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
-            {
-              KMessageBox::error(0, i18n("I can't fork a decompressor"));
-            }
-        }
+			if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+			{
+				KMessageBox::error(0, i18n("I can't fork a decompressor"));
+			}
+		}
       else
-        {
-          kdDebug(1601) << "Temp tar already there..." << endl;
-        }
-    }
-  kdDebug(1601) << "-TarArch::createTmp" << endl;
+		{
+			kdDebug(1601) << "Temp tar already there..." << endl;
+		}
+	}
+	
+	kdDebug(1601) << "-TarArch::createTmp" << endl;
 }
 
 void TarArch::createTmpProgress( KProcess *, char *_buffer, int _bufflen )
@@ -501,16 +512,18 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
     str = str.right(str.length()-8); // get rid of leading /
     if (!m_settings->getaddPath())
       str = str.right(str.length()-str.findRev('/')-1);
+
+    // find the file entry in the archive listing
+    QString entryTimeStamp = m_gui->getColData(str, col);
+    if (entryTimeStamp.isNull())
+      continue;  // it isn't in there, so skip it.
+
     if (bAddOnlyNew)
     {
       // compare timestamps. If the file to be added is newer, delete the
       // old. Otherwise we aren't adding it anyway, so we can go on to the next
       // file with a "continue".
 
-      // find the file entry in the archive listing
-      QString entryTimeStamp = m_gui->getColData(str, col);
-      if (entryTimeStamp.isNull())
-        continue;  // it isn't in there, so skip it.
       stat(QFile::encodeName(filename), &statbuffer);
       time_t the_mtime = statbuffer.st_mtime;
       struct tm *convertStruct = localtime(&the_mtime);
@@ -543,7 +556,8 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
 
     kdDebug() << "To delete: " << str << endl;
   }
-  remove(&list);
+  if(!list.isEmpty())
+    remove(&list);
 }
 
 
@@ -675,7 +689,10 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
   QString dest;
 
   if (_destDir.isEmpty() || _destDir.isNull())
-    dest = m_settings->getExtractDir();
+    {
+      kdError(1601) << "There was no extract directory given." << endl;
+      return;
+    }
   else dest = _destDir;
 
   QString tmp;
