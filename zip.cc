@@ -105,6 +105,19 @@ void ZipArch::processLine( char *_line )
 	fileList()->insertItem(flvi);
 }
 
+void ZipArch::slotOpenExited(KProcess* _p)
+{
+	kdebug(0, 1601, "normalExit = %d", _p->normalExit() );
+	kdebug(0, 1601, "exitStatus = %d", _p->exitStatus() );
+
+	if( _p->normalExit() && !_p->exitStatus() )
+		emit sigOpen( true, m_filename, Arch::Extract | Arch::Delete | Arch::Add );
+	else
+		emit sigOpen( false, QString::null, 0 );
+
+	delete m_kp;
+}
+
 void ZipArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
 {
 	char c = _data[_length];
@@ -132,22 +145,6 @@ void ZipArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
 	{
 		if( m_header_removed && !m_finished ){
 			processLine( line );
-/*
-			sscanf(line, " %[0-9] %[a-zA-Z:] %[0-9] %[0-9%] %[-0-9] %[0-9:] "
-			"%[0-9a-z]%3[ ]%[^\n]",
-			columns[0], columns[1], columns[2], columns[3],
-			columns[4], columns[5], columns[6], columns[7],
-			filename
-			);
-
-			FileLVI *flvi = new FileLVI(m_flw);
-			flvi->setText(0, QString::fromLocal8Bit(filename));
-
-			for(int i=0; i<7; i++)
-				flvi->setText(i+1, QString::fromLocal8Bit(columns[i]));
-				
-			m_flw->insertItem(flvi);
-*/
 		}
 	}
 	else if(!m_header_removed)
@@ -172,22 +169,6 @@ void ZipArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
 			{
 				if( m_header_removed ){
 					processLine( line );
-/*
-				sscanf(line, " %[0-9] %[a-zA-Z:] %[0-9] %[0-9%] %[-0-9] %[0-9:] "
-				"%[0-9a-z]%3[ ]%[^\n]",
-				columns[0], columns[1], columns[2], columns[3],
-				columns[4], columns[5], columns[6], columns[7],
-				filename
-				);
-
-				FileLVI *flvi = new FileLVI(m_flw);
-				flvi->setText(0, QString::fromLocal8Bit(filename));
-
-				for(int i=0; i<7; i++)
-					flvi->setText(i+1, QString::fromLocal8Bit(columns[i]));
-					
-				m_flw->insertItem(flvi);
-*/
 				}
 			}
 			else if( !m_header_removed )
@@ -225,6 +206,8 @@ void ZipArch::initListView()
 	flw->addColumn( i18n("CRC-32") );
 	flw->setColumnAlignment( 7, QListView::AlignRight );
 
+	flw->setUpdatesEnabled(false);
+
 	kdebug(0, 1601, "-ZipArch::initListView");
 }
 
@@ -242,6 +225,7 @@ void ZipArch::initOpen()
 	*m_kp << "unzip" << "-v" << m_filename.local8Bit();
 	
 	connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)), SLOT(slotOpenDataStdout(KProcess*, char*, int)));
+	connect( m_kp, SIGNAL(processExited(KProcess*)), SLOT(slotOpenExited(KProcess*)));
 
 	kdebug(0, 1601, "-ZipArch::initOpen");
 }
@@ -253,23 +237,11 @@ void ZipArch::open()
 	initListView();
 	initOpen();
 
- 	if(m_kp->start(KProcess::Block, KProcess::Stdout) == false)
+ 	if(m_kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
  	{
  		KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );  		
 		emit sigOpen( false, QString::null, 0 );
-//		return;
 	}
-
-	kdebug(0, 1601, "normalExit = %d", m_kp->normalExit() );
-	kdebug(0, 1601, "exitStatus = %d", m_kp->exitStatus() );
-
-	if( m_kp->normalExit() && !m_kp->exitStatus() )
-		emit sigOpen( true, m_filename, Arch::Extract | Arch::Delete | Arch::Add );
-	else
-		emit sigOpen( false, QString::null, 0 );
-
-	delete m_kp;
-	
 	kdebug(0, 1601, "-ZipArch::open");
 }
 

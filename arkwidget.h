@@ -112,7 +112,6 @@ protected:
         void dragEnterEvent(QDragEnterEvent* event);
         void dropEvent(QDropEvent* event);
 
-        void createEditMenu( bool );
         void createActionMenu( int );
         
 private:
@@ -128,15 +127,15 @@ private:
 	FileListView *archiveContent;
 
 	QPopupMenu *editMenu, *actionMenu, *optionsMenu, *recentPopup;
-	int idActionMenu;
+	int idActionMenu, idEditMenu;
 	int idExtract, idDelete, idAdd, idView;
-	int idSelect, idSelectAll, idDeselectAll, idInvertSel;
-	int idShellOutput, idSaveOnExit;
+	int idSaveOnExit;
 
         bool archiverMode;
 
 	void writeStatusMsg(const QString text);
 	void clearStatusBar();
+        void createEditMenu();
 	
 protected:	
 	void clearCurrentArchive();

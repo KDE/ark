@@ -33,7 +33,6 @@
 
 // KDE includes
 #include <kapp.h>
-#include <kwm.h>
 
 
 int main( int argc, char *argv[]  )
@@ -45,15 +44,6 @@ int main( int argc, char *argv[]  )
 	if( ark.isRestored() )
 	{
 		RESTORE(ArkWidget);
-/*
-		int n=1;
-		while( KTMainWindow::canBeRestored(n)){
-			ArkWidget *arkWin = new ArkWidget();
-			arkWin->restore(n);
-			arkWin->show();
-			n++;
-		}
-*/
 	}
 	else
 	{
@@ -70,20 +60,6 @@ int main( int argc, char *argv[]  )
 			ArkWidget *arkWin = new ArkWidget();
 			arkWin->show();
 
-			KConfig *config;
-        	
-        		config = kapp->config();
-	        	config->setGroup("ark");
-
-        	
-                	int max_mode=config->readNumEntry(QString("MaxMode"), -1);
-		        if(max_mode!=-1){
-        		    if( (max_mode==1) || (max_mode==2) || (max_mode==3) )
-                	        KWM::doMaximize(arkWin->winId(), TRUE,  max_mode);
-		            else
-				 cerr << "main.cc: unknown maximize mode";
-        		}
-
 			if( !Zip.isEmpty() )
 				arkWin->showZip( Zip );
 		}
@@ -91,19 +67,6 @@ int main( int argc, char *argv[]  )
 		{
 			ArkWidget *arkWin=new ArkWidget();
 			arkWin->show();
-			KConfig *config;
-        	
-        		config = kapp->config();
-	        	config->setGroup("ark");
-
-        	
-                	int max_mode=config->readNumEntry(QString("MaxMode"), -1);
-		        if(max_mode!=-1){
-        		    if( (max_mode==1) || (max_mode==2) || (max_mode==3) )
-                	        KWM::doMaximize(arkWin->winId(), TRUE,  max_mode);
-		            else
-				 cerr << "main.cc: unknown maximize mode";
-        		}
 		}
 	}
 	

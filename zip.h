@@ -77,7 +77,8 @@ protected slots:
 	void slotStoreDataStderr(KProcess*, char*, int);
 	
 	void slotOpenDataStdout(KProcess*, char*, int);
-
+	void slotOpenExited(KProcess*);
+	
 	void slotExtractExited(KProcess*);
 	void slotIntegrityExited(KProcess*);
 	

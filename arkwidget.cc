@@ -46,7 +46,6 @@
 #include <kmessagebox.h>
 #include <kstatusbar.h>
 #include <ktoolbar.h>
-#include <kwm.h>
 
 // ark includes
 #include "arkwidget.h"
@@ -175,7 +174,7 @@ void ArkWidget::setupMenuBar()
 	id=fileMenu->insertItem( i18n( "&Open..." ), this,  SLOT( file_open()) );
 	accelerators->changeMenuAccel(fileMenu, id, KAccel::Open );
 	id=fileMenu->insertItem( i18n( "Open &recent" ), recentPopup);
-	connect(recentPopup, SIGNAL(activated(int)), SLOT(file_openRecent(int)));
+	connect(recentPopup, SIGNAL(activated(int)), this, SLOT(file_openRecent(int)));
 	fileMenu->insertItem( i18n( "Relo&ad" ), this,  SLOT( file_reload()) );
 
 	fileMenu->insertSeparator();
@@ -185,7 +184,7 @@ void ArkWidget::setupMenuBar()
 	id=fileMenu->insertItem( i18n( "&Quit"), this, SLOT( file_quit() ) );
 	accelerators->changeMenuAccel(fileMenu, id, KAccel::Quit );
 
-	createEditMenu( false );
+	createEditMenu();
 	
 	// Options menu creation
 	optionsMenu->insertItem( i18n( "&General..."), this, SLOT( options_general() ) );
@@ -207,7 +206,8 @@ void ArkWidget::setupMenuBar()
 	QPopupMenu *helpmenu = helpMenu( about_ark );
 
 	menu->insertItem( i18n( "&File"), fileMenu );
-	menu->insertItem( i18n( "&Edit"), editMenu );
+	idEditMenu = menu->insertItem( i18n( "&Edit"), editMenu );
+	menu->setItemEnabled(idEditMenu, false);
 	idActionMenu = menu->insertItem( i18n( "&Action"), actionMenu );
 	menu->setItemEnabled(idActionMenu, false);
 	menu->insertItem( i18n( "&Options"), optionsMenu );
@@ -217,44 +217,37 @@ void ArkWidget::setupMenuBar()
 	setMenu( menu );
 
 	pop = new KPopupMenu();
-	pop->setTitle( i18n("File Operations") );
-	pop->insertItem( i18n("Extract..."), this, SLOT( action_extract() ) );
-	pop->insertItem( i18n("View file"), this, SLOT( action_view() ) );
-	pop->insertSeparator();
-	pop->insertItem( i18n("Delete file"), this, SLOT( action_delete() ) );
+//	pop->setTitle( i18n("File Operations") );
+//	pop->insertItem( i18n("Extract..."), this, SLOT( action_extract() ) );
+//	pop->insertItem( i18n("View file"), this, SLOT( action_view() ) );
+//	pop->insertSeparator();
+//	pop->insertItem( i18n("Delete file"), this, SLOT( action_delete() ) );
 }
 
-void ArkWidget::createEditMenu( bool _enabled )
+void ArkWidget::createEditMenu()
 {
-	editMenu->clear();
-	
-	idSelect=editMenu->insertItem( i18n( "&Select..."), this, SLOT( edit_select() ) );
-	accelerators->changeMenuAccel(editMenu, idSelect, "Selection" );
-	editMenu->setItemEnabled( idSelect, _enabled );
+	int id;
 
-	idSelectAll=editMenu->insertItem( i18n( "&Select all"), this, SLOT( edit_selectAll() ) );
-	accelerators->changeMenuAccel(editMenu, idSelectAll, "SelectionAll" );
-	editMenu->setItemEnabled( idSelectAll, _enabled );
+	id=editMenu->insertItem( i18n( "&Select..."), this, SLOT( edit_select() ) );
+	accelerators->changeMenuAccel(editMenu, id, "Selection" );
 
-	idDeselectAll=editMenu->insertItem( i18n( "Dese&lect all"), this, SLOT( edit_deselectAll() ) );
-	accelerators->changeMenuAccel(editMenu, idDeselectAll, "DeselectionAll" );
-	editMenu->setItemEnabled( idDeselectAll, _enabled );
+	id=editMenu->insertItem( i18n( "&Select all"), this, SLOT( edit_selectAll() ) );
+	accelerators->changeMenuAccel(editMenu, id, "SelectionAll" );
 
-	idInvertSel=editMenu->insertItem( i18n( "&Invert selection"), this, SLOT( edit_invertSel() ) );
-	accelerators->changeMenuAccel(editMenu, idInvertSel, "InvertSel" );
-	editMenu->setItemEnabled( idInvertSel, _enabled );
+	id=editMenu->insertItem( i18n( "Dese&lect all"), this, SLOT( edit_deselectAll() ) );
+	accelerators->changeMenuAccel(editMenu, id, "DeselectionAll" );
+
+	id=editMenu->insertItem( i18n( "&Invert selection"), this, SLOT( edit_invertSel() ) );
+	accelerators->changeMenuAccel(editMenu, id, "InvertSel" );
 
 	editMenu->insertSeparator();
 	
-	idShellOutput=editMenu->insertItem( i18n( "&View last shell output..."), this, SLOT( edit_view_last_shell_output() ) );
-	editMenu->setItemEnabled( idShellOutput, _enabled );
+	editMenu->insertItem( i18n( "&View last shell output..."), this, SLOT( edit_view_last_shell_output() ) );
 }
 
 void ArkWidget::createActionMenu( int _flag )
 {
 	KASSERT(arch != 0, 0, 1601, "arch is empty !" );
-	
-//	int flag = arch->getEditFlag();
 	
 	actionMenu->clear();
 	if( _flag & Arch::Add ){
@@ -265,6 +258,7 @@ void ArkWidget::createActionMenu( int _flag )
 
         if( _flag & Arch::Delete ){
 		idDelete=actionMenu->insertItem( i18n( "&Delete..."), this, SLOT( action_delete() ) );
+		actionMenu->setItemEnabled(idDelete, false);
 		accelerators->changeMenuAccel(actionMenu, idDelete, "Delete_accel" );
 	}
 	else idDelete = -1;
@@ -311,8 +305,8 @@ void ArkWidget::setupToolBar()
 	KToolBar *tb = toolBar();
 
 	tb->insertButton( BarIcon("fileopen"), OPEN_BUTTON, SIGNAL( clicked() ), this, SLOT( file_open() ), TRUE, i18n("Open"));
-	tb->insertButton( BarIcon("home"), FAVORITE_BUTTON, SIGNAL( clicked() ), this, SLOT( showFavorite() ), TRUE, i18n("Goto Archive Dir"));
-	tb->insertButton( BarIcon("viewzoom"), EXTRACT_BUTTON, SIGNAL( clicked() ), this, SLOT( action_extract() ), FALSE, i18n("Extract"));
+//	tb->insertButton( BarIcon("home"), FAVORITE_BUTTON, SIGNAL( clicked() ), this, SLOT( showFavorite() ), TRUE, i18n("Goto Archive Dir"));
+//	tb->insertButton( BarIcon("viewzoom"), EXTRACT_BUTTON, SIGNAL( clicked() ), this, SLOT( action_extract() ), FALSE, i18n("Extract"));
 //	tb()->setItemEnabled( EXTRACT_BUTTON, false );
 
 	tb->insertSeparator();
@@ -335,13 +329,6 @@ void ArkWidget::saveProperties()
 
 	KConfig *kc = m_data->getKConfig();
 	kc->setGroup( "ark" );
-
-	if( KWM::isMaximized(this->winId()) ){
-		kc->writeEntry( "MaxMode", KWM::maximizeMode(this->winId()) );
-	}
-	else{
-		kc->writeEntry( "MaxMode", -1 );
-	}
 
 	if( m_data->isSaveOnExitChecked() )
 		accelerators->writeSettings( m_data->getKConfig() );
@@ -395,6 +382,8 @@ void ArkWidget::file_openRecent(int i)
 {
 	QString filename = recentPopup->text(i);
 	showZip( filename );
+
+	kdebug(0, 1601, "-ArkWidget::file_openRecent");
 }
 
 void ArkWidget::showZip( QString _filename )
@@ -402,7 +391,6 @@ void ArkWidget::showZip( QString _filename )
 	kdebug(0, 1601, "+ArkWidget::showZip");
 
 	createFileListView();
-	archiverMode = true;
 	openArchive( _filename );
 
 	kdebug(0, 1601, "-ArkWidget::showZip");
@@ -412,8 +400,12 @@ void ArkWidget::slotOpen( bool _success, QString _filename, int _flag )
 {
 	kdebug(0, 1601, "+ArkWidget::slotOpen");
 
+	archiveContent->setUpdatesEnabled(true);
+	archiveContent->triggerUpdate();
+
 	if( _success ){
 		newCaption( _filename );
+		menuBar()->setItemEnabled(idEditMenu, true);
 		createActionMenu( _flag );
 
 		QFileInfo fi( _filename );
@@ -460,7 +452,6 @@ void ArkWidget::closeEvent( QCloseEvent * )
 
 void ArkWidget::file_quit()
 {
-//	delete this;
 	saveProperties();
 	kapp->quit();
 }
@@ -536,7 +527,7 @@ void ArkWidget::action_delete()
 {
 	kdebug(0, 1601, "+ArkWidget::action_delete");
 
-	KASSERT(!archiveContent->isSelectionEmpty(), 0, 1601, "Nothing to be removed !" );
+	KASSERT(!archiveContent->isSelectionEmpty(), 3, 1601, "Nothing to be removed !" );
 
 	if( KMessageBox::questionYesNo(this, i18n("Do you really want to delete the selectionned items?")) == KMessageBox::Yes)
 		arch->remove();
@@ -546,10 +537,7 @@ void ArkWidget::action_delete()
 
 void ArkWidget::action_extract()
 {
-	if( arch == 0 )
-		arkWarning( "extract should not be available here !");
-	else
-		arch->extract();
+	arch->extract();
 }
 
 void ArkWidget::action_view()
@@ -773,13 +761,15 @@ void ArkWidget::clearCurrentArchive()
 	if (!archiveContent)
 		archiveContent->clear();
 
-	if (!arch)
+	if (!arch){
 		delete arch;
-	arch = 0;
-	
+		arch = 0;
+	}
+
 	setCaption("");
+	setView(0);
 	
-	createEditMenu( false );
+	menuBar()->setItemEnabled(idEditMenu, false);
 	menuBar()->setItemEnabled(idActionMenu, false);
 	
 	toolBar()->setItemEnabled( EXTRACT_BUTTON, false );
@@ -787,7 +777,7 @@ void ArkWidget::clearCurrentArchive()
 
 void ArkWidget::arkWarning(const QString& msg)
 {
-        QMessageBox::warning(this, i18n("ark"), msg, i18n("OK"));
+        KMessageBox::information(this, msg);
 }
 
 void ArkWidget::slotStatusBarTimeout()
@@ -803,8 +793,6 @@ void ArkWidget::newCaption(const QString& _filename){
 //	caption = i18n("ark - %1[%2 files]").arg(filename).arg(archiveContent->count());
 	setCaption( _filename );
 
-	createEditMenu( true );
-	
 	toolBar()->setItemEnabled( EXTRACT_BUTTON, true );
 
 	m_data->addRecentFile( _filename );
