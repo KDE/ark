@@ -85,7 +85,7 @@ GeneralOptDlg::GeneralOptDlg(ArkSettings *_d, QWidget *_parent, const char *_nam
                      loadIcon( "ark_extract" ) );
     createExtractTab( frame );
     
-    frame = addPage( i18n( "Diretoties" ), i18n( "Directory settings" ),
+    frame = addPage( i18n( "Directories" ), i18n( "Directory settings" ),
                      loadIcon( "folder" ) );
     createDirectoryTab( frame );	
 }
