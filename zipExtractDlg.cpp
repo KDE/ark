@@ -46,8 +46,8 @@
 #include <ktoolbar.h>
 
 // ark includes
-#include "ZipExtractDlg.h"
-#include "ZipExtractDlg.moc"
+#include "zipExtractDlg.h"
+#include "zipExtractDlg.moc"
 
 
 ZipExtractDlg::ZipExtractDlg( QString dirName, QWidget *parent, const char *name )
@@ -68,22 +68,12 @@ void ZipExtractDlg::initGUI()
 	
 	QVBoxLayout *mainLayout = new QVBoxLayout(this, 5);
 
-cerr << "p1\n";
-
+        toolbar->setItemEnabled(1009, false);
 	toolbar->setFixedHeight( toolbar->height() );
 	toolbar->setMinimumWidth( toolbar->width() );
-	toolbar->hideItem(8);
 	mainLayout->addSpacing(toolbar->height());
 	mainLayout->addSpacing( 5 );
 
-cerr << "p1\n";
-cerr << toolbar->height() << "\n";
-cerr << toolbar->width() << "\n";
-cerr << "p1\n";
-cerr << fileList->widget()->height() << "\n";
-cerr << fileList->widget()->width() << "\n";
-cerr << fileList->widget()->sizeHint().height() << "\n";
-cerr << fileList->widget()->sizeHint().width() << "\n";
 	fileList->widget()->setMinimumHeight( 200 );
 	mainLayout->addWidget(fileList->widget(), 4);
 
@@ -169,24 +159,14 @@ cerr << fileList->widget()->sizeHint().width() << "\n";
 	vblg2->addWidget( r6, 0, AlignLeft );
 	
 
-cerr << "p1\n";
-cerr << "p1\n";
-    if ( myStatusLine )
-	mainLayout->addWidget( myStatusLine, 0 );
+	if ( myStatusLine )
+		mainLayout->addWidget( myStatusLine, 0 );
 
-    bOk->hide();
-    bCancel->hide();
-    bHelp->hide();
+	bOk->hide();
+	bCancel->hide();
+	bHelp->hide();
 
-    mainLayout->activate();
-cerr << "p1\n";
-cerr << toolbar->height() << "\n";
-cerr << toolbar->width() << "\n";
-cerr << "p1\n";
-cerr << fileList->widget()->height() << "\n";
-cerr << fileList->widget()->width() << "\n";
-cerr << fileList->widget()->sizeHint().height() << "\n";
-cerr << fileList->widget()->sizeHint().width() << "\n";
+	mainLayout->activate();
 
 	resize( minimumSize() );
 //	setFixedWidth( width() );
@@ -200,12 +180,11 @@ cerr << fileList->widget()->width() << "\n";
 cerr << fileList->widget()->sizeHint().height() << "\n";
 cerr << fileList->widget()->sizeHint().width() << "\n";
 
-    fileList->connectDirSelected(this, SLOT(dirActivated(KFileInfo*)));
-    fileList->connectFileSelected(this, SLOT(fileActivated(KFileInfo*)));
-    fileList->connectFileHighlighted(this, SLOT(fileHighlighted(KFileInfo*)));
+	fileList->connectDirSelected(this, SLOT(dirActivated(KFileInfo*)));
+	fileList->connectFileSelected(this, SLOT(fileActivated(KFileInfo*)));
+	fileList->connectFileHighlighted(this, SLOT(fileHighlighted(KFileInfo*)));
 
-    cerr << "Exited initGUI()\n";
-
+	cerr << "Exited initGUI()\n";
 }
 
 bool ZipExtractDlg::getShowFilter()

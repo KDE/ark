@@ -33,6 +33,24 @@
 // ark includes
 #include "arkdata.h"
 
+// Key names in the arkrc config file
+#define ARK_KEY "ark"
+#define FAVORITE_KEY "ArchiveDirectory"
+#define TAR_KEY "TarExe"
+#define RECENT_KEY "Recent"
+
+#define START_DIR_KEY "startDir"
+#define OPEN_DIR_KEY "openDir"
+#define EXTRACT_DIR_KEY "extractDir"
+#define ADD_DIR_KEY "addDir"
+#define LAST_OPEN_DIR_KEY "lastOpenDir"
+#define LAST_EXTRACT_DIR_KEY "lastExtractDir"
+#define LAST_ADD_DIR_KEY "lastAddDir"
+
+#define START_MODE_KEY "startDirMode"
+#define OPEN_MODE_KEY "openDirMode"
+#define EXTRACT_MODE_KEY "extractDirMode"
+#define ADD_MODE_KEY "addDirMode"
 
 /**
  * Constructs an ArkData object by reading the ark config file

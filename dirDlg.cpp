@@ -237,11 +237,12 @@ DirDlg::DirDlg( ArkData *d, QWidget *parent, const char *name )
 	
 	QPushButton *ok = new QPushButton( i18n("OK"), this );
 	ok->setFixedSize( ok->sizeHint() );
+	ok->setDefault(true);
 	connect( ok, SIGNAL( clicked() ), SLOT( saveConfig() ) );
 	hbl->addWidget( ok );
 
 	QPushButton *cancel = new QPushButton( i18n("Cancel"), this );
-	cancel->adjustSize();
+	cancel->setFixedSize( cancel->sizeHint() );
 	connect( cancel, SIGNAL( clicked() ), SLOT( reject() ) );
 	hbl->addWidget( cancel );
 
@@ -254,7 +255,7 @@ DirDlg::DirDlg( ArkData *d, QWidget *parent, const char *name )
 void DirDlg::getFavDir( )
 {
 
-	KDirDialog dd( favLE->text(), 0, "dirdialog" );
+	KDirDialog dd( favLE->text(), this, "dirdialog" );
 	dd.setCaption( i18n("Archive directory") );
 	if( dd.exec() )
 	{
@@ -268,7 +269,7 @@ void DirDlg::getFavDir( )
 void DirDlg::getStartDir( )
 {
 
-	KDirDialog dd( startLE->text(), 0, "dirdialog" );
+	KDirDialog dd( startLE->text(), this, "dirdialog" );
 	dd.setCaption( i18n("Start-up directory") );
 	if( dd.exec() )
 	{
@@ -281,7 +282,7 @@ void DirDlg::getStartDir( )
 void DirDlg::getOpenDir( )
 {
 
-	KDirDialog dd( openLE->text(), 0, "dirdialog" );
+	KDirDialog dd( openLE->text(), this, "dirdialog" );
 	dd.setCaption( i18n("Default open directory") );
 	if( dd.exec() )
 	{
@@ -294,7 +295,7 @@ void DirDlg::getOpenDir( )
 void DirDlg::getExtractDir( )
 {
 
-	KDirDialog dd( extractLE->text(), 0, "dirdialog" );
+	KDirDialog dd( extractLE->text(), this, "dirdialog" );
 	dd.setCaption( i18n("Default extract directory") );
 	if( dd.exec() )
 	{
@@ -307,7 +308,7 @@ void DirDlg::getExtractDir( )
 void DirDlg::getAddDir( )
 {
 
-	KDirDialog dd( addLE->text(), 0, "dirdialog" );
+	KDirDialog dd( addLE->text(), this, "dirdialog" );
 	dd.setCaption( i18n("Default add directory") );
 	if( dd.exec() )
 	{

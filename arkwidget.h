@@ -42,32 +42,35 @@ public:
 	~ArkWidget();
 
 public slots:
-	void getTarExe();
 	void doPopup( QListViewItem *item );
-	void newWindow();
-	void createZip();
 	void fileDrop( KDNDDropZone * );
+	
+	void file_new();
+	void file_newWindow();
+	void file_open();
+	void file_openRecent( int );
+	void file_close();
+	void file_quit();
+	
 	void getAddOptions();
-	void getFav();
-	void openZip();
-	void closeZip();
 	void edit_add();
 	void edit_view();
 	void edit_delete();
 	void edit_extract();
-	void deleteFile( int );
-	void showFavorite();
-	void quit();
-	void showFile( int, int col=0 );
-	void help();
-	void showZip( QString name );
-	void options_keyconf();
-	void timeout();
-	void openRecent( int );
-	void selectAll();
-	void deselectAll();
-	void configDirs();
+	void edit_selectAll();
+	void edit_deselectAll();
+	void edit_invertSel();
+
+	void options_dirs();
+	void options_keys();
+	void options_general();
 	void testdlg();
+
+	void help();
+			
+	void showFavorite();
+	void showZip( QString name );
+	void timeout();
 		
 protected:
 	static QList<ArkWidget> *windowList;
@@ -90,6 +93,7 @@ private:
 	KAccel *accelerators;
 	QPopupMenu *editMenu, *recentPopup;
 	int idExtract, idDelete, idAdd, idView;
+	int idSelectAll, idDeselectAll, idInvertSel;
         bool archiverMode;
 
 	void writeStatus(const QString text);
@@ -109,6 +113,9 @@ private:
 	int getArchType(QString archname);
 	bool createArchive(QString name);
 	bool openArchive(QString name);
+
+	void deleteFile( int );
+	void showFile( int, int col=0 );
 };
 
 #endif /* ARKWIDGET_H*/
