@@ -269,8 +269,7 @@ void ArkTopLevelWindow::file_close()
 void ArkTopLevelWindow::window_close()
 {
     file_close();
-    //needs a KConfig param->check again: static_cast<ArkWidget*>( m_part->widget() )->saveProperties();
-    kdDebug(1601) << "-ArkWidget::window_close" << endl;
+    slotSaveProperties();
     close();
 }
 
