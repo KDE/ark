@@ -153,10 +153,10 @@ void ArkWidget::setupMenuBar()
 	// KAccel initialization
 	accelerators = new KAccel(this);
 
-	accelerators->insertStdItem(KAccel::New, i18n("New"));
-	accelerators->insertStdItem(KAccel::Open, i18n("Open"));
-	accelerators->insertStdItem(KAccel::Close, i18n("Close"));
-	accelerators->insertStdItem(KAccel::Quit, i18n("Quit"));
+	accelerators->insertStdItem(KStdAccel::New, i18n("New"));
+	accelerators->insertStdItem(KStdAccel::Open, i18n("Open"));
+	accelerators->insertStdItem(KStdAccel::Close, i18n("Close"));
+	accelerators->insertStdItem(KStdAccel::Quit, i18n("Quit"));
 
 	accelerators->insertItem(i18n("Add"), "Add_accel", "SHIFT+A");
 	accelerators->insertItem(i18n("Delete"), "Delete_accel", "SHIFT+D");
@@ -167,13 +167,13 @@ void ArkWidget::setupMenuBar()
 	accelerators->insertItem(i18n("Deselect all"), "DeselectionAll", "CTRL+D");
 	accelerators->insertItem(i18n("Invert selection"), "InvertSel", "CTRL+I");
 
-	accelerators->insertStdItem(KAccel::Help);
+	accelerators->insertStdItem(KStdAccel::Help);
 
 	// KAccel connections
-	accelerators->connectItem(KAccel::New, this, SLOT(file_new()));
-	accelerators->connectItem(KAccel::Open, this, SLOT(file_open()));
-	accelerators->connectItem(KAccel::Close, this, SLOT(file_close()));
-	accelerators->connectItem(KAccel::Quit, this, SLOT(file_quit()));
+	accelerators->connectItem(KStdAccel::New, this, SLOT(file_new()));
+	accelerators->connectItem(KStdAccel::Open, this, SLOT(file_open()));
+	accelerators->connectItem(KStdAccel::Close, this, SLOT(file_close()));
+	accelerators->connectItem(KStdAccel::Quit, this, SLOT(file_quit()));
 
 	accelerators->connectItem("Add_accel", this, SLOT(action_add()));
 	accelerators->connectItem("Delete_accel", this, SLOT(action_delete()));
@@ -204,11 +204,11 @@ void ArkWidget::setupMenuBar()
 	fileMenu->insertSeparator();
 	id = fileMenu->insertItem( i18n( "&New..." ), this, SLOT( file_new()),
 				   0, eMNew);
-	accelerators->changeMenuAccel(fileMenu, id, KAccel::New );
+	accelerators->changeMenuAccel(fileMenu, id, KStdAccel::New );
 
 	id=fileMenu->insertItem( i18n( "&Open..." ), this,  SLOT( file_open()),
 				 0, eMOpen);
-	accelerators->changeMenuAccel(fileMenu, id, KAccel::Open );
+	accelerators->changeMenuAccel(fileMenu, id, KStdAccel::Open );
 	id=fileMenu->insertItem( i18n( "Open &recent" ), recentPopup);
 	connect(recentPopup, SIGNAL(activated(int)), this,
 		SLOT(file_openRecent(int)));
@@ -217,11 +217,11 @@ void ArkWidget::setupMenuBar()
 	fileMenu->insertSeparator();
 	id=fileMenu->insertItem( i18n( "&Close"), this, SLOT( file_close()),
 				 0, eMClose);
-	accelerators->changeMenuAccel(fileMenu, id, KAccel::Close );
+	accelerators->changeMenuAccel(fileMenu, id, KStdAccel::Close );
 
 	id=fileMenu->insertItem( i18n( "&Quit"), this, SLOT( file_quit() ),
 				 0, eMExit);
-	accelerators->changeMenuAccel(fileMenu, id, KAccel::Quit );
+	accelerators->changeMenuAccel(fileMenu, id, KStdAccel::Quit );
 
 	createEditMenu();
 	
