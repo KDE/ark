@@ -122,7 +122,7 @@ bool KZipProcess::isRunning()
    pid_t retval; 
    if(getPid() == 0)
    	return false;
-   retval = wait4(getPid(), &local_status, WNOHANG, (struct rusage*)0);
+   retval = waitpid(getPid(), &local_status, WNOHANG);
    if(retval)
    {
    	status = local_status;
