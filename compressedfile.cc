@@ -77,7 +77,7 @@ void CompressedFile::setHeaders()
   // which columns to align right
   int *alignRightCols = new int[1];
   alignRightCols[0] = 3;
-  
+
   m_gui->setHeaders(&list, alignRightCols, 1);
   delete [] alignRightCols;
 
@@ -89,7 +89,8 @@ QString CompressedFile::getUnCompressor()
   // see extension of m_filename to determine.
   QString ret;
 
-  if (m_filename.right(3) == ".gz")
+  if ( ( m_filename.right( 3 ) == ".gz" ) ||
+       ( m_filename.right( 4 ) == ".exe" ) )
     ret = "gunzip";
   else if (m_filename.right(3) == ".bz")
     ret = "bunzip";
@@ -227,7 +228,7 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
 void CompressedFile::create()
 {
   emit sigCreate(this, true, m_filename,
-		 Arch::Extract | Arch::Delete | Arch::Add 
+		 Arch::Extract | Arch::Delete | Arch::Add
 		  | Arch::View);
 }
 
@@ -314,7 +315,7 @@ void CompressedFile::unarchFile(QStringList *, const QString & _destDir,
       command = QString::fromLocal8Bit("cp %1 %2").arg(m_tmpfile).arg(dest);
       system(QFile::encodeName(command));
     }
-  emit sigExtract(true);    
+  emit sigExtract(true);
 }
 
 void CompressedFile::remove(QStringList *)
@@ -326,7 +327,7 @@ void CompressedFile::remove(QStringList *)
   // does a reload and finds it no longer exists!
   unlink(QFile::encodeName(m_filename));
   QString command = "touch '" + m_filename + "'";
-  system(QFile::encodeName(command));  
+  system(QFile::encodeName(command));
 
   m_tmpfile = "";
   emit sigDelete(true);

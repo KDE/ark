@@ -119,7 +119,7 @@ void Arch::slotStoreDataStderr(KProcess*, char* _data, int _length)
 {
   char c = _data[_length];
   _data[_length] = '\0';
-	
+
   m_shellErrorData.append( _data );
   _data[_length] = c;
 }
@@ -139,7 +139,7 @@ void Arch::slotOpenExited(KProcess* _kp)
     exitStatus = 0;    // because 1 means empty archive - not an error.
                        // Is this a safe assumption?
 
-  if(!exitStatus) 
+  if(!exitStatus)
     emit sigOpen( this, true, m_filename,
 		  Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
   else
@@ -159,7 +159,7 @@ void Arch::slotDeleteExited(KProcess *_kp)
   kdDebug(1601) << "normalExit = " << _kp->normalExit() << endl;
   if( _kp->normalExit() )
     kdDebug(1601) << "exitStatus = " << _kp->exitStatus() << endl;
-  
+
   if( _kp->normalExit() && (_kp->exitStatus()==0) )
     {
       if(stderrIsError())
@@ -183,7 +183,7 @@ void Arch::slotDeleteExited(KProcess *_kp)
 	}
       else bSuccess = true;
     }
-  
+
   emit sigDelete(bSuccess);
   delete _kp;
   _kp = NULL;
@@ -254,7 +254,7 @@ void Arch::slotAddExited(KProcess *_kp)
 		      "Do you wish to view the shell output?"), i18n("Error"));
 	  if (ret == KMessageBox::Yes)
 	    m_gui->viewShellOutput();
-    }  
+    }
   emit sigAdd(bSuccess);
   delete _kp;
   _kp = NULL;
@@ -291,7 +291,7 @@ void Arch::slotReceivedTOC(KProcess*, char* _data, int _length)
   {
   	for(lfChar = startChar; _data[lfChar] != '\n' && lfChar < _length;
 	    lfChar++);
-	
+
 	if(_data[lfChar] != '\n') break;	// We are done all the complete lines
 
 	_data[lfChar] = '\0';
@@ -341,7 +341,7 @@ bool Arch::processLine(const QCString &line)
   	ArchColumns *curCol = *col;
 
 	strpos = curCol->pattern.match(line, pos, &len);
-	
+
 	if(-1 == strpos || len >curCol->maxLength)
 	{
 		if(curCol->optional)
@@ -353,10 +353,10 @@ bool Arch::processLine(const QCString &line)
 			return false;
 		}
 	}
-	
+
 	pos = strpos + len;
 
-	columns[curCol->colRef] = line.mid(strpos, len);	
+	columns[curCol->colRef] = line.mid(strpos, len);
   }
 
 
@@ -398,7 +398,7 @@ QString Utils::getTimeStamp(const QString &_month,
 {
   // Make the date format sortable.
   // Month is in _month, day is in _day.
-  // In _yearOrTime is either a year or a time. 
+  // In _yearOrTime is either a year or a time.
   // If it's March, we'll see the year for all dates up to October 1999.
   // (five months' difference - e.g., if it's Apr, then get years up to Nov)
 
@@ -435,10 +435,10 @@ QString Utils::getTimeStamp(const QString &_month,
 
       timestamp = "??:??";
     }
-    
+
   QString retval;
   retval.sprintf("%s-%.2d-%.2d %s",
-		 year.utf8().data(), nMonth, nDay, 
+		 year.utf8().data(), nMonth, nDay,
 		 timestamp.utf8().data());
   return retval;
 }
@@ -456,11 +456,11 @@ int Utils::getMonth(const char *strMonth)
     }
   return 0;
 }
-  
+
 // This function gets the year from an LHA or ls -l timestamp.
 // Note: LHA doesn't seem to display the year if the file is more
 // than 6 months into the future, so this will fail to give the correct
-// year (of course it is hoped that there are not too many files lying 
+// year (of course it is hoped that there are not too many files lying
 // around from the future).
 
 int Utils::getYear(int theMonth, int thisYear, int thisMonth)
@@ -519,8 +519,8 @@ ArchType Arch::getArchType(const QString &archname, QString &extension,
   QString fileName = realURL.isEmpty() ? archname : realURL.filename();
 
   ArchType extType = getArchTypeByExtension(fileName, extension);
-  
-  if(UNKNOWN_FORMAT == extType)
+
+  if (UNKNOWN_FORMAT == extType)
   {
     // now try using magic
     KMimeMagic *mimePtr = KMimeMagic::self();
@@ -592,7 +592,10 @@ ArchType Arch::getArchTypeByExtension(const QString &archname,
 		extension = archname.right(4);
 		return LHA_FORMAT;
 	}
-	if ((archname.right(4) == ".zip") || (archname.right(4) == ".xpi"))
+	if ( ( archname.right( 4 ) == ".zip" ) ||
+             ( archname.right( 4 ) == ".xpi" ) ||
+             ( archname.right( 4 ) == ".exe" ) ||
+             ( archname.right( 4 ) == ".EXE" ) )
 	{
 		extension = archname.right(4);
 		return ZIP_FORMAT;
