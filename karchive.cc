@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <kprogress.h>
 #include <qdialog.h>
-#include <qpushbt.h>
+#include <qpushbutton.h>
 #include <qobject.h>
 #include <kfm.h>
 #include "karchive.h"

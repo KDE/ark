@@ -5,7 +5,7 @@
 #include <qstrlist.h>
 #include <qobject.h>
 #include <qdialog.h>
-#include <qpushbt.h>
+#include <qpushbutton.h>
 #include <klocale.h>
 #include <kapp.h>
 #include <kprogress.h>

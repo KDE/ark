@@ -83,7 +83,7 @@ QString TarArch::getCompressor()
 		return QString( "bzip2" );
 	if( extension == ".lzo" || extension == ".tzo" )
 		return QString( "lzop" );
-	return 0;
+	return QString::null;
 }
 
 QString TarArch::getUnCompressor() 
@@ -100,7 +100,7 @@ QString TarArch::getUnCompressor()
 		return QString( "bunzip2" );
 	if( extension == ".lzo" || extension == ".tzo" )
 		return QString( "lzop" );
-	return 0;
+	return QString::null;
 }
 
 unsigned char TarArch::setOptions( bool p, bool l, bool o )

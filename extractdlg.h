@@ -3,12 +3,12 @@
 
 #include <stdlib.h>
 #include <qdialog.h>
-#include <qpushbt.h>
-#include <qgrpbox.h>
-#include <qchkbox.h>
-#include <qlined.h>
-#include <qradiobt.h>
-#include <qbttngrp.h>
+#include <qpushbutton.h>
+#include <qgroupbox.h>
+#include <qcheckbox.h>
+#include <qlineedit.h>
+#include <qradiobutton.h>
+#include <qbuttongroup.h>
 #include <klocale.h>
 #include <kapp.h>
 

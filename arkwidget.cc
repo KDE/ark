@@ -9,9 +9,9 @@
 #include <qaccel.h>
 #include <qdir.h>
 #include <qfont.h>
-#include <qpopmenu.h>
+#include <qpopupmenu.h>
 #include <qpixmap.h>
-#include <qmsgbox.h>
+#include <qmessagebox.h>
 #include <qstrlist.h>
 #include <qcursor.h>
 #include <ktoolbar.h>

@@ -11,7 +11,7 @@
 #define _MAY_INCLUDE_KPROCESSCONTROLLER_
 #include "kprocctrl.h"
 
-#include "qapp.h"
+#include "qapplication.h"
 
 #include <sys/time.h>
 #include <sys/types.h>
