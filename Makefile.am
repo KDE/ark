@@ -15,7 +15,7 @@ libarkpart_la_SOURCES= arkapp.cpp extractdlg.cpp dirDlg.cpp arkwidget.cpp \
 		ark_part.cpp arkwidgetbase.cpp arktoplevelwindow.cpp arkfactory.cpp arkutils.cpp
 
 # KParts
-libarkpart_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries) -version-info 1:0:0
+libarkpart_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
 libarkpart_la_LIBADD   = $(LIB_KFILE) $(LIB_KPARTS)
 
 # Which sources should be compiled for ark.
