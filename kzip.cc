@@ -98,7 +98,7 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 	QPixmap pix;
 	QString pixpath;
 	
-	pixpath = kapp->kde_toolbardir().copy();
+	pixpath = kapp->kde_toolbardir().copy()+"/";
 	tb = new KToolBar( this, "toolbar" );
 
 	pix.load( pixpath+"fileopen.xpm" );
