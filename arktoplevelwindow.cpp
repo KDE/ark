@@ -275,7 +275,7 @@ ArkTopLevelWindow::getOpenURL( bool addOnly, const QString & caption,
     if ( addOnly )
         dir = startDir;
     else
-        dir = Settings::openDir();
+        dir = ":ArkOpenDir";
 
     KFileDialog dlg( dir, filter, this, "filedialog", true, forceFormatWidget );
     dlg.setOperationMode( addOnly ? KFileDialog::Saving
@@ -284,10 +284,7 @@ ArkTopLevelWindow::getOpenURL( bool addOnly, const QString & caption,
     dlg.setCaption( addOnly ? caption : i18n("Open") );
     dlg.setMode( addOnly ? ( KFile::File | KFile::ExistingOnly )
                                   :  KFile::File );
-    if ( !suggestedName.isEmpty() )
-        dlg.setSelection( dir + suggestedName );
-    else
-        dlg.setSelection( dir );
+    dlg.setSelection( suggestedName );
 
     dlg.exec();
 

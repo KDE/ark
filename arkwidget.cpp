@@ -4,7 +4,7 @@
 
  Copyright (C)
 
- 2004: Henrique Pinto <henrique.pinto@kdemail.net>
+ 2004-2005: Henrique Pinto <henrique.pinto@kdemail.net>
  2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
  2002-2003: Helio Chissini de Castro <helio@conectiva.com.br>
  2001-2002: Roberto Teixeira <maragato@kde.org>
@@ -37,6 +37,7 @@
 #include <qstringlist.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
+#include <qdir.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -58,13 +59,13 @@
 #include <ktoolbar.h>
 #include <kconfigdialog.h>
 #include <ktrader.h>
+#include <kurl.h>
 
 // settings
 #include "settings.h"
 #include "general.h"
 #include "addition.h"
 #include "extraction.h"
-#include "folders.h"
 #include <kpopupmenu.h>
 #include <kdialog.h>
 
@@ -877,16 +878,7 @@ ArkWidget::file_new()
 void
 ArkWidget::extractOnlyOpenDone()
 {
-    int oldMode = Settings::extractDirMode();
-    QString oldFixedExtractDir = Settings::extractDir();
-
-    Settings::setLastExtractDir( m_url.upURL().path() );
-    Settings::setExtractDirMode( 2 ); // 2 means use custom dir
-
     bool done = action_extract();
-    // Extract should have started before this returns, so hopefully safe.
-    Settings::setLastExtractDir( oldFixedExtractDir );
-    Settings::setExtractDirMode( oldMode );
 
     // last extract dir is still set, but this is not a problem
     if( !done )
@@ -1225,7 +1217,7 @@ ArkWidget::action_add()
         return;
     }
 
-    KFileDialog fileDlg( Settings::addDir(), QString::null, this, "adddlg", true );
+    KFileDialog fileDlg( ":ArkAddDir", QString::null, this, "adddlg", true );
     fileDlg.setMode( KFile::Mode( KFile::Files | KFile::ExistingOnly ) );
     fileDlg.setCaption(i18n("Select Files to Add"));
 
@@ -1283,9 +1275,9 @@ ArkWidget::addFile(QStringList *list)
 void
 ArkWidget::action_add_dir()
 {
-    KURL u = KDirSelectDialog::selectDirectory( Settings::addDir(),
-                                                    false, this,
-                                                    i18n("Select Folder to Add"));
+    KURL u = KDirSelectDialog::selectDirectory( ":ArkAddDir",
+                                                false, this,
+                                                i18n("Select Folder to Add"));
 
     QString dir = KURL::decode_string( u.url(-1) );
     if ( !dir.isEmpty() )
@@ -1623,13 +1615,13 @@ ArkWidget::action_extract()
     kdDebug(1601) << "+action_extract" << endl;
 
 
-	 KURL fileToExtract;
+    KURL fileToExtract;
 
     fileToExtract.setPath( arch->fileName() );
 
-	 kdDebug(1601) << "Archive to extract: " << fileToExtract.prettyURL() << endl;
+    kdDebug(1601) << "Archive to extract: " << fileToExtract.prettyURL() << endl;
 
-	 //before we start, make sure the archive is still there
+     //before we start, make sure the archive is still there
     if (!KIO::NetAccess::exists( fileToExtract.prettyURL(), true, this ) )
     {
         KMessageBox::error(0, i18n("The archive to extract from no longer exists."));
@@ -1659,7 +1651,20 @@ ArkWidget::action_extract()
     }
 
 
-    ExtractDlg *dlg = new ExtractDlg(this, 0, m_url.fileName(), prefix);
+    ExtractDlg *dlg = new ExtractDlg(this, 0, m_url.fileName());
+    
+    QString tmp; // for KFileDialog::getStartUrl()
+    
+    if (m_extractOnly)
+    {
+      dlg->setURL( KURL::fromPathOrURL( QDir::currentDirPath() ) );
+    }
+    if (!prefix.isNull())
+    {
+      QString tmp;
+      KURL baseURL = KFileDialog::getStartURL( ":ArkExtractDir", tmp );
+      dlg->setURL( baseURL.url() + prefix );
+    }
 
     // if they choose pattern, we have to tell arkwidget to select
     // those files... once we're in the dialog code it's too late.
@@ -2448,7 +2453,6 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
     {
         QFileInfo fi( _filename );
         QString path = fi.dirPath( true );
-	Settings::setLastOpenDir( path );
 
         if ( !fi.isWritable() )
         {
@@ -2508,7 +2512,6 @@ void ArkWidget::showSettings(){
   dialog->addPage(genPage, i18n("General"), "ark", i18n("General Settings"));
   dialog->addPage(new Addition(0, "Addition"), i18n("Addition"), "ark_addfile", i18n("File Addition Settings"));
   dialog->addPage(new Extraction(0, "Extraction"), i18n("Extraction"), "ark_extract", i18n("Extraction Settings"));
-  dialog->addPage(new Folders(0, "Folders"), i18n("Folders"), "folder", i18n("Folder Settings"));
 
   KTrader::OfferList offers;
 

@@ -53,7 +53,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "arch.h"
 #define FIRST_PAGE_WIDTH  390
 
-ExtractDlg::ExtractDlg( QWidget *parent, const char *name, const QString& archiveName, const QString &prefix )
+ExtractDlg::ExtractDlg( QWidget *parent, const char *name, const QString& archiveName )
     : KDialogBase( KDialogBase::Plain, i18n("Extract"), Ok | Cancel, Ok, parent, name )
 {
 	QFrame *mainFrame = plainPage();
@@ -94,22 +94,8 @@ ExtractDlg::ExtractDlg( QWidget *parent, const char *name, const QString& archiv
 	m_extractDirCB->setHistoryItems( list );
 
 	KURL u;
-
-	switch ( Settings::extractDirMode() )
-	{
-		case Settings::EnumExtractDirMode::Common:
-			kdDebug( 1601 ) << "ExtractDlg: Using common folder" << endl;
-			u = Settings::archiveDirectory() + prefix;
-			break;
-		case Settings::EnumExtractDirMode::Custom:
-			kdDebug( 1601 ) << "ExtractDlg: Using custom folder" << endl;
-			u = Settings::extractDir() + prefix;
-			break;
-		case Settings::EnumExtractDirMode::Last:
-		default:
-			kdDebug( 1601 ) << "ExtractDlg: Using last extraction folder" << endl;
-			u = Settings::lastExtractDir() + prefix;
-	}
+	QString tmp;
+	u = KFileDialog::getStartURL( ":ArkExtractDir", tmp );
 
 	kdDebug( 1601 ) << "ExtractDlg: u is " << u.prettyURL() << endl;
 	
@@ -247,8 +233,6 @@ ExtractDlg::accept()
 	}
 
 	m_extractDir = p;
-	// you need to change the settings to change the fixed dir.
-	Settings::setLastExtractDir( p.prettyURL() );
 
 	if ( m_radioPattern->isChecked() )
 	{
@@ -263,10 +247,6 @@ ExtractDlg::accept()
 			emit pattern( m_patternLE->text() );
 		}
 	}
-
-
-	// Remember the last extraction folder
-	Settings::setLastExtractDir( m_extractDirCB->lineEdit()->text() );
 
 	// I made it! so nothing's wrong.
 	KDialogBase::accept();
@@ -337,6 +317,11 @@ ExtractFailureDlg::ExtractFailureDlg( QStringList *list, QWidget *parent, char *
 	connect( pCancelButton, SIGNAL( pressed() ), this, SLOT( reject() ) );
 	setFixedSize( 20+labelWidth, 40+labelHeight+boxHeight+buttonHeight );
 	QApplication::restoreOverrideCursor();
+}
+
+void ExtractDlg::setURL( const KURL& u )
+{
+	m_extractDirCB->setEditURL( u );
 }
 
 #include "extractdlg.moc"

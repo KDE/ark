@@ -29,7 +29,7 @@ libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp zip.cpp tar.cpp \
                         shellOutputDlg.cpp compressedfile.cpp zoo.cpp rar.cpp \
                         ar.cpp arkutils.cpp archiveformatdlg.cpp \
                         arkwidget.cpp searchbar.cpp extractdlg.cpp \
-                        addition.ui  extraction.ui  folders.ui  general.ui \
+                        addition.ui extraction.ui general.ui \
                         arkviewer.cpp sevenzip.cpp
 
 # this option you can leave out. Just, if you use "make dist", you need it

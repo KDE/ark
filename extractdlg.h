@@ -52,7 +52,7 @@ class ExtractDlg : public KDialogBase
 {
   Q_OBJECT
 public:
-  ExtractDlg(QWidget *parent=0, const char *name=0, const QString &archiveName=QString::null, const QString &prefix=QString::null);
+  ExtractDlg(QWidget *parent=0, const char *name=0, const QString &archiveName=QString::null);
   ~ExtractDlg();
   enum ExtractOp{ All, Selected, Current, Pattern };
   int extractOp();
@@ -60,6 +60,8 @@ public:
   void disableSelectedFilesOption();
   void disableCurrentFileOption() { m_radioCurrent->setEnabled(false); }
   bool viewFolderAfterExtraction() const { return m_viewFolderAfterExtraction->isChecked(); }
+  
+  void setURL( const KURL& );
 public slots:
   //void browse();
   void choosePattern() { m_radioPattern->setChecked(true); }
