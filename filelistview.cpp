@@ -4,10 +4,10 @@
 
   Copyright (C)
 
-  1999: Francois-Xavier Duranceau duranceau@kde.org
-  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
-  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
   2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
+  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
+  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+  1999: Francois-Xavier Duranceau duranceau@kde.org
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -292,7 +292,7 @@ bool FileListView::isSelectionEmpty()
 void 
 FileListView::contentsMousePressEvent(QMouseEvent *e)
 {
-	if(e->button()==QMouseEvent::LeftButton)
+	if( e->button()==QMouseEvent::LeftButton )
 	{
 		m_bPressed = true;
 		presspos = e->pos();

@@ -97,7 +97,8 @@ ArkWidget::~ArkWidget()
 ///////////////////////// updateStatusTotals ///////////////////////
 ////////////////////////////////////////////////////////////////////
 
-void ArkWidget::updateStatusTotals()
+void 
+ArkWidget::updateStatusTotals()
 {
     m_nNumFiles = 0;
     m_nSizeOfFiles = 0;
@@ -116,7 +117,8 @@ void ArkWidget::updateStatusTotals()
     emit setStatusBarText(strInfo);
 }
 
-void ArkWidget::busy( const QString & text )
+void 
+ArkWidget::busy( const QString & text )
 {
     kdDebug( 1601 ) << "ArkWidget::busy()+" << endl;
     emit setBusy( text );
@@ -129,7 +131,8 @@ void ArkWidget::busy( const QString & text )
     kdDebug( 1601 ) << "ArkWidget::busy()-" << endl;
 }
 
-void ArkWidget::holdBusy()
+void 
+ArkWidget::holdBusy()
 {
     if ( !m_bBusy || m_bBusyHold )
         return;
@@ -138,7 +141,8 @@ void ArkWidget::holdBusy()
     QApplication::restoreOverrideCursor();
 }
 
-void ArkWidget::resumeBusy()
+void 
+ArkWidget::resumeBusy()
 {
     if ( !m_bBusyHold )
         return;
@@ -147,7 +151,8 @@ void ArkWidget::resumeBusy()
     QApplication::setOverrideCursor( waitCursor );
 }
 
-void ArkWidget::ready()
+void 
+ArkWidget::ready()
 {
     kdDebug( 1601 ) << "ArkWidget::ready()+" << endl;
     if ( !m_bBusy )
@@ -164,7 +169,8 @@ void ArkWidget::ready()
 ////////////////////// file_save_as //////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-KURL ArkWidget::getSaveAsFileName()
+KURL 
+ArkWidget::getSaveAsFileName()
 {
     QString defaultMimeType;
     if ( m_openAsMimeType.isNull() )
@@ -186,7 +192,8 @@ KURL ArkWidget::getSaveAsFileName()
     return u;
 }
 
-bool ArkWidget::file_save_as( const KURL & u )
+bool 
+ArkWidget::file_save_as( const KURL & u )
 {
     bool success = KIO::NetAccess::upload( m_strArchName, u );
     if ( m_modified && success )
@@ -194,7 +201,8 @@ bool ArkWidget::file_save_as( const KURL & u )
     return success;
 }
 
-void ArkWidget::convertTo( const KURL & u )
+void 
+ArkWidget::convertTo( const KURL & u )
 {
     busy( i18n( "Saving..." ) );
     m_convert_tmpDir =  new KTempDir( m_settings->getTmpDir() + "convtmp" );
@@ -204,14 +212,16 @@ void ArkWidget::convertTo( const KURL & u )
     arch->unarchFile( 0, m_convert_tmpDir->name() );
 }
 
-void ArkWidget::convertSlotExtractDone( bool )
+void 
+ArkWidget::convertSlotExtractDone( bool )
 {
     kdDebug( 1601 ) << k_funcinfo << endl;
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( convertSlotExtractDone( bool ) ) );
     QTimer::singleShot( 0, this, SLOT( convertSlotCreate() ) );
 }
 
-void ArkWidget::convertSlotCreate()
+void 
+ArkWidget::convertSlotCreate()
 {
     file_close();
     connect( this, SIGNAL( createDone( bool ) ), this, SLOT( convertSlotCreateDone( bool ) ) );
@@ -225,7 +235,8 @@ void ArkWidget::convertSlotCreate()
 }
 
 
-void ArkWidget::convertSlotCreateDone( bool success )
+void 
+ArkWidget::convertSlotCreateDone( bool success )
 {
     disconnect( this, SIGNAL( createDone( bool ) ), this, SLOT( convertSlotCreateDone( bool ) ) );
     kdDebug( 1601 ) << k_funcinfo << endl;
@@ -259,7 +270,8 @@ void ArkWidget::convertSlotCreateDone( bool success )
     m_settings->setZipAddRecurseDirs( bOldRecVal );
 }
 
-void ArkWidget::convertSlotAddDone( bool success )
+void 
+ArkWidget::convertSlotAddDone( bool success )
 {
     disconnect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( convertSlotAddDone( bool ) ) );
     kdDebug( 1601 ) << k_funcinfo << endl;
@@ -268,7 +280,8 @@ void ArkWidget::convertSlotAddDone( bool success )
     QTimer::singleShot( 0, this, SLOT( convertFinish() ) );
 }
 
-void ArkWidget::convertFinish()
+void 
+ArkWidget::convertFinish()
 {
     kdDebug( 1601 ) << k_funcinfo << endl;
     delete m_convert_tmpDir;
@@ -295,7 +308,8 @@ void ArkWidget::convertFinish()
     }
 }
 
-bool ArkWidget::allowedArchiveName( const KURL & u )
+bool 
+ArkWidget::allowedArchiveName( const KURL & u )
 {
     if (u.isEmpty())
         return false;
@@ -310,7 +324,8 @@ bool ArkWidget::allowedArchiveName( const KURL & u )
     return false;
 }
 
-void ArkWidget::extractTo( const KURL & targetDirectory, const KURL & archive, bool guessName )
+void 
+ArkWidget::extractTo( const KURL & targetDirectory, const KURL & archive, bool guessName )
 {
     m_extractTo_targetDirectory = targetDirectory;
 
@@ -346,7 +361,8 @@ void ArkWidget::extractTo( const KURL & targetDirectory, const KURL & archive, b
     connect( this, SIGNAL( openDone( bool ) ), this, SLOT( extractToSlotOpenDone( bool ) ) );
 }
 
-void ArkWidget::extractToSlotOpenDone( bool success )
+void 
+ArkWidget::extractToSlotOpenDone( bool success )
 {
     disconnect( this, SIGNAL( openDone( bool ) ), this, SLOT( extractToSlotOpenDone( bool ) ) );
     if ( !success )
@@ -411,7 +427,8 @@ void ArkWidget::extractToSlotOpenDone( bool success )
     }
 }
 
-void ArkWidget::extractToSlotExtractDone( bool success )
+void 
+ArkWidget::extractToSlotExtractDone( bool success )
 {
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( extractToSlotExtractDone( bool ) ) );
     if ( !success )
@@ -431,7 +448,8 @@ void ArkWidget::extractToSlotExtractDone( bool success )
         emit request_file_quit();
 }
 
-void ArkWidget::addToArchive( const KURL::List & filesToAdd, const KURL & archive)
+void 
+ArkWidget::addToArchive( const KURL::List & filesToAdd, const KURL & archive)
 {
     m_addToArchive_filesToAdd = filesToAdd;
     m_addToArchive_archive = archive;
@@ -466,7 +484,8 @@ void ArkWidget::addToArchive( const KURL::List & filesToAdd, const KURL & archiv
     connect( this, SIGNAL( openDone( bool ) ), this, SLOT( addToArchiveSlotOpenDone( bool ) ) );
 }
 
-void ArkWidget::addToArchiveSlotCreateDone( bool success )
+void 
+ArkWidget::addToArchiveSlotCreateDone( bool success )
 {
     disconnect( this, SIGNAL( createDone( bool ) ), this, SLOT( addToArchiveSlotCreateDone( bool ) ) );
     if ( !success )
@@ -478,7 +497,8 @@ void ArkWidget::addToArchiveSlotCreateDone( bool success )
     addToArchiveSlotOpenDone( true );
 }
 
-void ArkWidget::addToArchiveSlotOpenDone( bool success )
+void 
+ArkWidget::addToArchiveSlotOpenDone( bool success )
 {
     kdDebug( 1601 ) << k_funcinfo << endl;
     disconnect( this, SIGNAL( openDone( bool ) ), this, SLOT( addToArchiveSlotOpenDone( bool ) ) );
@@ -532,7 +552,8 @@ void ArkWidget::addToArchiveSlotOpenDone( bool success )
     arch->addFile( &list );
 }
 
-void ArkWidget::addToArchiveSlotAddDone( bool success )
+void 
+ArkWidget::addToArchiveSlotAddDone( bool success )
 {
     kdDebug( 1601 ) << k_funcinfo << endl;
     disconnect( this, SLOT( addToArchiveSlotAddDone( bool ) ) );
@@ -613,7 +634,8 @@ ArkWidget::file_open(const KURL& url)
 
 // File menu /////////////////////////////////////////////////////////
 
-KURL ArkWidget::getCreateFilename(const QString & _caption,
+KURL 
+ArkWidget::getCreateFilename(const QString & _caption,
                                   const QString & _defaultMimeType,
                                   bool allowCompressed)
 {
@@ -695,7 +717,8 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
     return url;
 }
 
-void ArkWidget::file_new()
+void 
+ArkWidget::file_new()
 {
     QString strFile;
     KURL url = getCreateFilename(i18n("Create New Archive") );
@@ -708,7 +731,8 @@ void ArkWidget::file_new()
     }
 }
 
-void ArkWidget::extractOnlyOpenDone()
+void 
+ArkWidget::extractOnlyOpenDone()
 {
     int oldMode = m_settings->getExtractDirMode();
     QString oldFixedExtractDir = m_settings->getFixedExtractDir();
@@ -753,7 +777,8 @@ ArkWidget::slotExtractDone()
     kdDebug(1601) << "-ArkWidget::slotExtractDone" << endl;
 }
 
-void ArkWidget::extractRemoteInitiateMoving( const KURL & target )
+void 
+ArkWidget::extractRemoteInitiateMoving( const KURL & target )
 {
     KURL srcDirURL;
     KURL src;
@@ -785,7 +810,8 @@ void ArkWidget::extractRemoteInitiateMoving( const KURL & target )
     m_extractRemote = false;
 }
 
-void ArkWidget::slotExtractRemoteDone(KIO::Job *job)
+void 
+ArkWidget::slotExtractRemoteDone(KIO::Job *job)
 {
     delete m_extractRemoteTmpDir;
     m_extractRemoteTmpDir = NULL;
@@ -800,7 +826,8 @@ void ArkWidget::slotExtractRemoteDone(KIO::Job *job)
 }
 
 
-void ArkWidget::disableAll() // private
+void 
+ArkWidget::disableAll() // private
 {
     kdDebug(1601) << "+ArkWidget::disableAll" << endl;
     emit disableAllActions();
@@ -808,7 +835,8 @@ void ArkWidget::disableAll() // private
     kdDebug(1601) << "-ArkWidget::disableAll" << endl;
 }
 
-void ArkWidget::fixEnables() // private
+void 
+ArkWidget::fixEnables() // private
 {
     emit fixActions(); //connected to the part
 }
@@ -840,7 +868,8 @@ ArkWidget::file_close()
 
 // Edit menu /////////////////////////////////////////////////////////
 
-void ArkWidget::edit_select()
+void 
+ArkWidget::edit_select()
 {
     SelectDlg *sd = new SelectDlg( m_settings, this );
     if ( sd->exec() )
@@ -879,7 +908,8 @@ void ArkWidget::edit_select()
     }
 }
 
-void ArkWidget::edit_selectAll()
+void 
+ArkWidget::edit_selectAll()
 {
     FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
 
@@ -898,13 +928,15 @@ void ArkWidget::edit_selectAll()
     updateStatusSelection();
 }
 
-void ArkWidget::edit_deselectAll()
+void 
+ArkWidget::edit_deselectAll()
 {
     archiveContent->clearSelection();
     updateStatusSelection();
 }
 
-void ArkWidget::edit_invertSel()
+void 
+ArkWidget::edit_invertSel()
 {
     FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
     // don't call the slot for each selection!
@@ -922,12 +954,14 @@ void ArkWidget::edit_invertSel()
     updateStatusSelection();
 }
 
-void ArkWidget::edit_view_last_shell_output()
+void 
+ArkWidget::edit_view_last_shell_output()
 {
     viewShellOutput();
 }
 
-KURL ArkWidget::askToCreateRealArchive()
+KURL 
+ArkWidget::askToCreateRealArchive()
 {
     // ask user whether to create a real archive from a compressed file
     // returns filename if so
@@ -944,7 +978,8 @@ KURL ArkWidget::askToCreateRealArchive()
     return url;
 }
 
-void ArkWidget::createRealArchive( const QString & strFilename, const QStringList & filesToAdd )
+void 
+ArkWidget::createRealArchive( const QString & strFilename, const QStringList & filesToAdd )
 {
     Arch * newArch = getNewArchive( strFilename );
     busy( i18n( "Creating archive..." ) );
@@ -966,7 +1001,8 @@ void ArkWidget::createRealArchive( const QString & strFilename, const QStringLis
     newArch->create();
 }
 
-void ArkWidget::createRealArchiveSlotCreate( Arch * newArch, bool success,
+void 
+ArkWidget::createRealArchiveSlotCreate( Arch * newArch, bool success,
                                              const QString & fileName, int nbr )
 {
     slotCreate( newArch, success, fileName, nbr );
@@ -984,7 +1020,8 @@ void ArkWidget::createRealArchiveSlotCreate( Arch * newArch, bool success,
     newArch->addFile(&listForCompressedFile);
 }
 
-void ArkWidget::createRealArchiveSlotAddDone( bool success )
+void 
+ArkWidget::createRealArchiveSlotAddDone( bool success )
 {
     kdDebug( 1601 ) << "createRealArchiveSlotAddDone+, success:" << success << endl;
     disconnect( arch, SIGNAL( sigAdd( bool ) ), this,
@@ -1015,7 +1052,8 @@ void ArkWidget::createRealArchiveSlotAddDone( bool success )
     }
 }
 
-void ArkWidget::createRealArchiveSlotAddFilesDone( bool success )
+void 
+ArkWidget::createRealArchiveSlotAddFilesDone( bool success )
 {
     //kdDebug( 1601 ) << "createRealArchiveSlotAddFilesDone+, success:" << success << endl;
     disconnect( arch, SIGNAL( sigAdd( bool ) ), this,
@@ -1030,7 +1068,8 @@ void ArkWidget::createRealArchiveSlotAddFilesDone( bool success )
 
 // Action menu /////////////////////////////////////////////////////////
 
-void ArkWidget::action_add()
+void 
+ArkWidget::action_add()
 {
     if (m_bIsSimpleCompressedFile && (m_nNumFiles == 1))
     {
@@ -1077,7 +1116,8 @@ void ArkWidget::action_add()
     }
 }
 
-void ArkWidget::addFile(QStringList *list)
+void 
+ArkWidget::addFile(QStringList *list)
 {
     if ( !ArkUtils::diskHasSpace( m_strArchName, ArkUtils::getSizes( list ) ) )
         return;
@@ -1099,7 +1139,8 @@ void ArkWidget::addFile(QStringList *list)
     arch->addFile(list);
 }
 
-void ArkWidget::action_add_dir()
+void 
+ArkWidget::action_add_dir()
 {
     KURL u = KDirSelectDialog::selectDirectory( m_settings->getAddDir(),
                                                     false, this,
@@ -1117,7 +1158,8 @@ void ArkWidget::action_add_dir()
 
 }
 
-void ArkWidget::slotAddDone(bool _bSuccess)
+void 
+ArkWidget::slotAddDone(bool _bSuccess)
 {
     disconnect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( slotAddDone( bool ) ) );
     kdDebug(1601) << "+ArkWidget::slotAddDone" << endl;
@@ -1149,7 +1191,8 @@ void ArkWidget::slotAddDone(bool _bSuccess)
 
 
 
-KURL ArkWidget::toLocalFile( QString & str )
+KURL 
+ArkWidget::toLocalFile( QString & str )
 {
     KURL url = str;
 
@@ -1167,7 +1210,8 @@ KURL ArkWidget::toLocalFile( QString & str )
     return url;
 }
 
-void ArkWidget::action_delete()
+void 
+ArkWidget::action_delete()
 {
     // remove selected files and create a list to send to the archive
     // Warn the user if he/she/it tries to delete a directory entry in
@@ -1262,7 +1306,8 @@ void ArkWidget::action_delete()
     kdDebug(1601) << "-ArkWidget::action_delete" << endl;
 }
 
-void ArkWidget::slotDeleteDone(bool _bSuccess)
+void 
+ArkWidget::slotDeleteDone(bool _bSuccess)
 {
     disconnect( arch, SIGNAL( sigDelete( bool ) ), this, SLOT( slotDeleteDone( bool ) ) );
     kdDebug(1601) << "+ArkWidget::slotDeleteDone" << endl;
@@ -1283,7 +1328,8 @@ void ArkWidget::slotDeleteDone(bool _bSuccess)
 
 
 
-void ArkWidget::slotOpenWith()
+void 
+ArkWidget::slotOpenWith()
 {
     connect( arch, SIGNAL( sigExtract( bool ) ), this,
             SLOT( openWithSlotExtractDone() ) );
@@ -1291,7 +1337,8 @@ void ArkWidget::slotOpenWith()
     showCurrentFile();
 }
 
-void ArkWidget::openWithSlotExtractDone()
+void 
+ArkWidget::openWithSlotExtractDone()
 {
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this,
             SLOT( openWithSlotExtractDone() ) );
@@ -1323,7 +1370,8 @@ void ArkWidget::openWithSlotExtractDone()
 }
 
 
-void ArkWidget::prepareViewFiles( const QStringList & fileList )
+void 
+ArkWidget::prepareViewFiles( const QStringList & fileList )
 {
     QString destTmpDirectory;
     destTmpDirectory = m_settings->getTmpDir();
@@ -1370,7 +1418,8 @@ ArkWidget::reportExtractFailures( const QString & _dest, QStringList *_list )
     return bRedoExtract;
 }
 
-QStringList ArkWidget::existingFiles( const QString & _dest, QStringList & _list )
+QStringList 
+ArkWidget::existingFiles( const QString & _dest, QStringList & _list )
 {
     QString strFilename, tmp;
 
@@ -1580,7 +1629,8 @@ ArkWidget::action_extract()
     return true;
 }
 
-void ArkWidget::action_edit()
+void 
+ArkWidget::action_edit()
 {
     // begin an edit. This is like a view, but once the process exits,
     // the file is put back into the archive. If the user tries to quit or
@@ -1594,7 +1644,8 @@ void ArkWidget::action_edit()
     showCurrentFile();
 }
 
-void ArkWidget::editSlotExtractDone()
+void 
+ArkWidget::editSlotExtractDone()
 {
     disconnect( arch, SIGNAL( sigExtract( bool ) ),
                 this, SLOT( editSlotExtractDone() ) );
@@ -1608,7 +1659,9 @@ void ArkWidget::editSlotExtractDone()
         fixEnables();
     }
 }
-void ArkWidget::editStart()
+
+void 
+ArkWidget::editStart()
 {
     kdDebug(1601) << "Edit in progress..." << endl;
     KURL::List list;
@@ -1629,10 +1682,11 @@ void ArkWidget::editStart()
     }
 }
 
-void ArkWidget::slotEditFinished(KProcess *kp)
+void 
+ArkWidget::slotEditFinished(KProcess *kp)
 {
-    connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( editSlotAddDone( bool ) ) );
     kdDebug(1601) << "+ArkWidget::slotEditFinished" << endl;
+    connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( editSlotAddDone( bool ) ) );
     delete kp;
     QStringList list;
     // now put the file back into the archive.
@@ -1669,14 +1723,16 @@ void ArkWidget::slotEditFinished(KProcess *kp)
     kdDebug(1601) << "-ArkWidget::slotEditFinished" << endl;
 }
 
-void ArkWidget::editSlotAddDone( bool success )
+void 
+ArkWidget::editSlotAddDone( bool success )
 {
     ready();
     disconnect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( editSlotAddDone( bool ) ) );
     slotAddDone( success );
 }
 
-void ArkWidget::action_view()
+void 
+ArkWidget::action_view()
 {
     connect( arch, SIGNAL( sigExtract( bool ) ), this,
              SLOT( viewSlotExtractDone() ) );
@@ -1684,7 +1740,8 @@ void ArkWidget::action_view()
     showCurrentFile();
 }
 
-void ArkWidget::viewSlotExtractDone()
+void 
+ArkWidget::viewSlotExtractDone()
 {
     m_pKRunPtr = new KRun( m_strFileToView );
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this,
@@ -1699,7 +1756,8 @@ void ArkWidget::viewSlotExtractDone()
 }
 
 
-void ArkWidget::showCurrentFile()
+void 
+ArkWidget::showCurrentFile()
 {
     FileLVI *pItem = archiveContent->currentItem();
 
@@ -1746,15 +1804,16 @@ ArkWidget::options_saveNow()
 
 // Popup /////////////////////////////////////////////////////////////
 
-void ArkWidget::setArchivePopupEnabled( bool b )
+void 
+ArkWidget::setArchivePopupEnabled( bool b )
 {
     m_bArchivePopupEnabled = b;
 }
 
-void ArkWidget::doPopup( QListViewItem *pItem, const QPoint &pPoint, int nCol ) // slot
+void 
+ArkWidget::doPopup( QListViewItem *pItem, const QPoint &pPoint, int nCol ) // slot
 // do the right-click popup menus
 {
-    kdDebug(1601) << "+ArkWidget::doPopup" << endl;
     if ( nCol == 0 || !m_bArchivePopupEnabled )
     {
         archiveContent->setCurrentItem(pItem);
@@ -1766,6 +1825,15 @@ void ArkWidget::doPopup( QListViewItem *pItem, const QPoint &pPoint, int nCol ) 
         emit signalArchivePopup( pPoint );
     }
 }
+
+
+void 
+ArkWidget::viewFile() // slot
+// show contents when double click
+{
+	emit action_view();
+}
+
 
 // Service functions /////////////////////////////////////////////////
 
@@ -1780,7 +1848,8 @@ ArkWidget::slotSelectionChanged()
 //////////////////// updateStatusSelection /////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-void ArkWidget::updateStatusSelection()
+void 
+ArkWidget::updateStatusSelection()
 {
     kdDebug( 1601 )<< "update Status Selection" << endl;
     m_nNumSelectedFiles = 0;
@@ -1821,7 +1890,8 @@ void ArkWidget::updateStatusSelection()
 }
 
 
-void ArkWidget::selectByPattern(const QString & _pattern) // slot
+void 
+ArkWidget::selectByPattern(const QString & _pattern) // slot
 {
     // select all the files that match the pattern
 
@@ -1841,7 +1911,8 @@ void ArkWidget::selectByPattern(const QString & _pattern) // slot
 
 // Drag & Drop ////////////////////////////////////////////////////////
 
-void ArkWidget::dragMoveEvent(QDragMoveEvent *e)
+void 
+ArkWidget::dragMoveEvent(QDragMoveEvent *e)
 {
     if (KURLDrag::canDecode(e) && !m_bDropSourceIsSelf)
     {
@@ -1850,7 +1921,8 @@ void ArkWidget::dragMoveEvent(QDragMoveEvent *e)
 }
 
 
-void ArkWidget::dropEvent(QDropEvent* e)
+void 
+ArkWidget::dropEvent(QDropEvent* e)
 {
     kdDebug( 1601 ) << "+ArkWidget::dropEvent" << endl;
 
@@ -1869,7 +1941,8 @@ void ArkWidget::dropEvent(QDropEvent* e)
 ///////////////////////// dropAction /////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-void ArkWidget::dropAction( QStringList  & list )
+void 
+ArkWidget::dropAction( QStringList  & list )
 {
     // Called by dropEvent
 
@@ -1973,14 +2046,16 @@ void ArkWidget::dropAction( QStringList  & list )
     }
 }
 
-void ArkWidget::startDrag( const QStringList & fileList )
+void 
+ArkWidget::startDrag( const QStringList & fileList )
 {
     mDragFiles = fileList;
     connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( startDragSlotExtractDone( bool ) ) );
     prepareViewFiles( fileList );
 }
 
-void ArkWidget::startDragSlotExtractDone( bool )
+void 
+ArkWidget::startDragSlotExtractDone( bool )
 {
     disconnect( arch, SIGNAL( sigExtract( bool ) ),
                 this, SLOT( startDragSlotExtractDone( bool ) ) );
@@ -2001,29 +2076,29 @@ void ArkWidget::startDragSlotExtractDone( bool )
 }
 
 
-void ArkWidget::arkWarning(const QString& msg)
+void 
+ArkWidget::arkWarning(const QString& msg)
 {
     KMessageBox::information(this, msg);
 }
 
-void ArkWidget::createFileListView()
+void 
+ArkWidget::createFileListView()
 {
-    kdDebug() << "ArkWidget::createFileListView" << endl;
-    //delete archiveContent;
-    if ( !archiveContent )
-    {
-        archiveContent = new FileListView(this, this);
-        archiveContent->setMultiSelection(true);
-        archiveContent->show();
-        connect( archiveContent, SIGNAL( selectionChanged()),
-                 this, SLOT( slotSelectionChanged() ) );
-        connect(archiveContent,
-                SIGNAL(rightButtonPressed(QListViewItem *,
-                                          const QPoint &, int)),
-                this, SLOT(doPopup(QListViewItem *,
-                                   const QPoint &, int)));
-        connect( archiveContent, SIGNAL( startDragRequest( const QStringList & ) ),
-                 this, SLOT( startDrag( const QStringList & ) ) );
+	kdDebug() << "ArkWidget::createFileListView" << endl;
+	//delete archiveContent;
+	if ( !archiveContent )
+	{
+		archiveContent = new FileListView(this, this);
+		archiveContent->setMultiSelection(true);
+		archiveContent->show();
+		connect( archiveContent, SIGNAL( selectionChanged()), this, SLOT( slotSelectionChanged() ) );
+		connect( archiveContent, SIGNAL( rightButtonPressed(QListViewItem *, const QPoint &, int)),
+				this, SLOT(doPopup(QListViewItem *, const QPoint &, int)));
+		connect( archiveContent, SIGNAL( startDragRequest( const QStringList & ) ),
+				this, SLOT( startDrag( const QStringList & ) ) );
+		connect( archiveContent, SIGNAL( doubleClicked(QListViewItem *, const QPoint &, int ) ), 
+				this, SLOT( viewFile() ) );
     }
     archiveContent->clear();
 }
@@ -2058,7 +2133,8 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName )
 //////////////////////////////////////////////////////////////////////
 
 
-void ArkWidget::createArchive( const QString & _filename )
+void 
+ArkWidget::createArchive( const QString & _filename )
 {
     Arch * newArch = getNewArchive( _filename );
     if ( !newArch )
@@ -2071,8 +2147,8 @@ void ArkWidget::createArchive( const QString & _filename )
     newArch->create();
 }
 
-void ArkWidget::slotCreate(Arch * _newarch, bool _success,
-                           const QString & _filename, int)
+void 
+ArkWidget::slotCreate(Arch * _newarch, bool _success, const QString & _filename, int)
 {
     kdDebug( 1601 ) << k_funcinfo << endl;
     disconnect( _newarch, SIGNAL( sigCreate( Arch *, bool, const QString &, int ) ),
