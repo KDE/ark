@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 ServiceTypes=all/all
+ExcludeServiceTypes=kdedevice/*
 Actions=create_targz;create_tarbz2;create_zip
 
 [Desktop Action create_targz]
@@ -29,11 +30,13 @@ Name[sk]=Vytvoriť gzipovaný Tar archív
 Name[sl]=Ustvari arhiv Tar z gzip
 Name[sr]=Направи gzip-овану tar архиву
 Name[sv]=Skapa tar-arkiv komprimerat med gzip
-Name[ta]=காப்பகக் கோப்பு 
+Name[ta]=ஜிசுருக்கப்பட்ட டார் காப்பகத்தை உருவாக்கு
 Name[tr]=gziplenmiş tar Arşivi Oluştur
+Name[uk]=Архів tar стиснутий gzip
 Name[uz]=Gzip билан қисилган Tar архивини яратиш
 Name[wa]=Fé ene årtchive tar.gz
 Name[xx]=xxCreate gzipped tar Archivexx
+Name[zh_CN]=创建 gzip tar 压缩的存档
 Icon=ark
 Exec=ark --add --add-to .tar.gz %U
 
@@ -63,10 +66,12 @@ Name[sk]=Vytvoriť bzipovaný Tar archív
 Name[sl]=Ustvari arhiv Tar z bzip
 Name[sr]=Направи bzip-овану tar архиву
 Name[sv]=Skapa tar-arkiv komprimerat med bzip
-Name[ta]= சிப் tar காப்பக உருவாக்கு 
+Name[ta]= பிசுருக்கப்பட்ட டார் காப்பகத்தை உருவாக்கு
 Name[tr]=bziplenmiş tar Arşivi Oluştur
+Name[uk]=Архів tar стиснутий bzip
 Name[uz]=Bzip билан қисилган Tar архивини яратиш
 Name[xx]=xxCreate bzipped tar Archivexx
+Name[zh_CN]=创建 bzip tar 压缩的存档
 Icon=ark
 Exec=ark --add --add-to .tar.bz2 %U
 
@@ -96,11 +101,13 @@ Name[sk]=Vytvoriť Zip archív
 Name[sl]=Ustvari arhiv zip
 Name[sr]=Направи zip архиву
 Name[sv]=Skapa zip-arkiv
-Name[ta]= காப்பகக் கோப்பு 
+Name[ta]= சுருக்க காப்பகக் கோப்பை உருவாக்கு
 Name[tr]=zip Arşivi Oluştur
+Name[uk]=Створити zip архів
 Name[uz]=Zip архивини яратиш
 Name[wa]=Fé ene årtchive zip
 Name[xx]=xxCreate zip Archivexx
+Name[zh_CN]=创建 zip 存档
 Icon=ark
 Exec=ark --add --add-to .zip %U
 
