@@ -71,7 +71,7 @@
 #include <sys/mount.h>
 #elif defined(__linux)
 #include <sys/vfs.h>
-#elif defined(__solaris)
+#elif defined(__sun)
 #include <sys/statvfs.h>
 #define STATFS statvfs
 #endif
