@@ -62,7 +62,10 @@ bool ArkViewer::view( const QString& filename )
 
 	setCaption( u.fileName() );
 
-	setInitialSize( configDialogSize( "ArkViewer" ) );
+	QSize size = configDialogSize( "ArkViewer" );
+	if (size.width() < 200)
+		size = QSize(560, 400);
+	setInitialSize( size );
 
 	kdDebug( 1601 ) << "ArkViewer::view(): mimetype = " << mimetype << endl;
 
