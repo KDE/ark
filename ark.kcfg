@@ -27,10 +27,6 @@
 			<whatsthis>Save the user, group, and permission settings on files. Use with care, as this may result in files being extracted that do not belong to any valid user on your computer</whatsthis>
 			<default>false</default>
 		</entry>
-		<entry name="tarUseAbsPathnames" type="Bool">
-			<label>Use absolute pathnames</label>
-			<default>false</default>
-		</entry>
 	</group>
 	<group name="Zip">
 		<entry name="forceMSDOS" type="Bool">

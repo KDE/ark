@@ -285,10 +285,10 @@ bool ArkPart::closeArchive()
 
 bool ArkPart::closeURL()
 {
-  if ( !isReadWrite() || !awidget->isModified() || url().isLocalFile() )
+  if ( !isReadWrite() || !awidget->isModified() || awidget->realURL().isLocalFile() )
     return closeArchive();
 
-  QString docName = url().prettyURL();
+  QString docName = awidget->realURL().prettyURL();
 
   int res = KMessageBox::warningYesNoCancel( widget(),
           i18n( "The archive \"%1\" has been modified.\n"
@@ -298,7 +298,7 @@ bool ArkPart::closeURL()
   switch ( res )
   {
     case KMessageBox::Yes :
-        return awidget->file_save_as( url() ) && closeArchive();
+        return awidget->file_save_as( awidget->realURL() ) && closeArchive();
 
     case KMessageBox::No :
         return closeArchive();

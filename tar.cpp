@@ -628,9 +628,6 @@ void TarArch::addFileCreateTempDone()
   else
     *kp << m_filename;
 
-  if (Settings::tarUseAbsPathnames())
-    *kp << "-P";
-
   QStringList::ConstIterator iter;
   KURL url( urls->first() );
   QDir::setCurrent( url.directory() );
@@ -655,10 +652,6 @@ void TarArch::addFileCreateTempDone()
 
   connect( kp, SIGNAL(processExited(KProcess*)), this,
            SLOT(slotAddFinished(KProcess*)));
- // was this ever necessary here?
- // kdDebug(1601) << "Busy loop... waiting for temp tar to be created" << endl;
- // while (compressed && createTmpInProgress)
- //   qApp->processEvents(); // wait for temp to be created;
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
