@@ -190,7 +190,10 @@ void FileListView::contentsMouseMoveEvent(QMouseEvent *e)
   kdDebug(1601) << "Drag Starting..." << endl;
   m_pParent->unarchFile(&dragFiles);
 }
-#endif
+#endif // end of stuff that doesn't quite work
+
+
+
 
 void FileListView::contentsMousePressEvent(QMouseEvent *e)
 {

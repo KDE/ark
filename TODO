@@ -1,8 +1,7 @@
 TODO:
- o A way to edit files within archives
- o Better control over pathnames in adding and extracting
+ o Get Drag/Extract working.
  o A rename option (?)
- o A better way to tell users about available types of archives before opening
-or creating them.
+ o A better way to tell users about available types of archives before
+   opening or creating them.
  o Network transparency
  o Make things prettier (dialogs in particular)

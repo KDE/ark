@@ -122,6 +122,7 @@ protected:  // data
 
 };
 
+// various functions for massaging timestamps
 namespace Utils
 {
   int getYear(int theMonth, int thisYear, int thisMonth);
@@ -148,9 +149,5 @@ namespace Utils
 #define VERSION_STRING i18n(" Version ")
 #define OWNER_STRING i18n(" Owner ")
 #define GROUP_STRING i18n(" Group ")
-
-
-
-
 
 #endif /* ARCH_H */

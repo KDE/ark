@@ -1,9 +1,7 @@
 This is Ark almost-version 2.
 
-April, 2000:
-This program is under renovation.
-
-What works so far:
+May, 2000:
+Supported formats:
   zip
   plain tar and tar with compressors lzop, gzip, bzip2, bzip, compress
   lha
