@@ -1,5 +1,8 @@
           $Id$
 
+2001-06-23: Roberto Selbach Teixeira <maragato@kde.org>
+	* Fixed a bug in tar addition with non-compressed tar archives
+	
 2001-06-10: Roberto Selbach Teixeira <maragato@conectiva.com>
 	* Made extraction use KURL instead of QString.
 	* Made extractDlg use a KHistoryCombo.

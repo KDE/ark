@@ -1,30 +1,30 @@
 /* -*- c++ -*-
 
- $Id$
+$Id$
 
- ark -- archiver for the KDE project
+ark -- archiver for the KDE project
 
- Copyright (C)
+Copyright (C)
 
- 1997-1999: Rob Palmbos palm9744@kettering.edu
- 1999: Francois-Xavier Duranceau duranceau@kde.org
- 1999-2000: Corel Corporation (author: Emily Ezust emilye@corel.com)
- 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
- 2001: Roberto Selbach Teixeira <maragato@conectiva.com>
+1997-1999: Rob Palmbos palm9744@kettering.edu
+1999: Francois-Xavier Duranceau duranceau@kde.org
+1999-2000: Corel Corporation (author: Emily Ezust emilye@corel.com)
+2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
+2001: Roberto Selbach Teixeira <maragato@conectiva.com>
 
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or (at your option) any later version.
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
 
@@ -62,11 +62,9 @@
 #define FIRST_PAGE_WIDTH  390
 #define DLG_NAME i18n( "Extract" )
 
-
-
 ExtractDlg::ExtractDlg( ArkSettings *_settings )
     : KDialogBase( KDialogBase::Plain, DLG_NAME, Ok | Cancel, Ok ),
-      m_settings( _settings )
+m_settings( _settings )
 {
     QFrame *mainFrame = plainPage();
 
@@ -198,7 +196,6 @@ void ExtractDlg::disableSelectedFilesOption()
     m_radioAll->setChecked(true);
 }
 
-
 void ExtractDlg::accept()
 {
     kdDebug( 1601 ) << "+ExtractDlg::accept" << endl;
@@ -230,7 +227,7 @@ void ExtractDlg::accept()
         {
             // pattern selected but no pattern? Ask user to select a pattern.
             KMessageBox::error( this,
-                                i18n( "Please provide a pattern" ) );
+				i18n( "Please provide a pattern" ) );
             return;
         }
         else
@@ -257,12 +254,9 @@ void ExtractDlg::browse() // slot
     }
 }
 
-
-
-
 int ExtractDlg::extractOp()
 {
-// which kind of extraction shall we do?
+    // which kind of extraction shall we do?
 
     if ( m_radioCurrent->isChecked() )
         return ExtractDlg::Current;
@@ -284,11 +278,9 @@ void ExtractDlg::openPrefs()
 /******************************************************************
  *           implementation of ExtractFailureDlg                  *
  ******************************************************************/
-
 ExtractFailureDlg::ExtractFailureDlg( QStringList *list,
                                       QWidget *parent, char *name )
     : QDialog( parent, name, true, 0 )
-
 {
     int labelHeight, labelWidth, boxHeight = 75, boxWidth, buttonHeight = 30;
     setCaption( i18n( "Failure to Extract" ) );

@@ -92,6 +92,8 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
   KMimeMagic *mimePtr = KMimeMagic::self();
   KMimeMagicResult * mimeResultPtr = mimePtr->findFileType(_filename);
   QString mimetype = mimeResultPtr->mimeType();
+  kdDebug(1601) << "TarArch::TarArch:  mimetype is " << mimetype << endl;
+
   if (mimetype == "application/x-tar")
     {
       compressed = false;
@@ -141,7 +143,11 @@ void TarArch::updateArch()
 
       KProcess *kp = new KProcess;
       kp->clearArguments();
-      *kp << getCompressor() << "-c" << tmpfile;
+      if ( getCompressor() != QString::null )
+          *kp << getCompressor() << "-c" << tmpfile;
+      else
+          *kp << "cat" << tmpfile;
+
 
       connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
               this, SLOT(updateProgress( KProcess *, char *, int )));
@@ -150,6 +156,7 @@ void TarArch::updateArch()
 
       connect(kp, SIGNAL(processExited(KProcess *)),
                this, SLOT(updateFinished(KProcess *)) );
+
       if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
         {
           KMessageBox::error(0, i18n("Trouble writing to the archive..."));
@@ -249,8 +256,10 @@ void TarArch::open()
   KProcess *kp = new KProcess;
 
   *kp << m_archiver_program;
+
   if (compressed)
     *kp << "--use-compress-program="+getUnCompressor() ;
+
   *kp << "-tvf" << m_filename;
 
   m_buffer = "";
