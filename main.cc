@@ -1,6 +1,9 @@
 /*
     ark: A program for modifying archives via a GUI.
-    Copyright (C) 1997 Robert Palmbos
+
+    Copyright (C)
+    1997-1999 Robert Palmbos <palm9744@kettering.edu>
+    1999 Francois-Xavier Duranceau <duranceau@kde.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,21 +19,23 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    I can be reached at: 
-    
-    robertp@macatawa.org
 
 */
+
+// ark includes
 #include "arkwidget.h"
+
+#include <iostream.h>
 #include <config.h>
-#include <kapp.h>
 #include <unistd.h>
 #include <sys/param.h> 
 
-#include "kwm.h"
-#include "kcontrol.h"
 
-#include "iostream.h"
+// KDE includes
+#include <kapp.h>
+#include <kcontrol.h>
+#include <kwm.h>
+
 
 int main( int argc, char *argv[]  )
 {
@@ -47,7 +52,9 @@ int main( int argc, char *argv[]  )
 			arkWin->show();
 			n++;
 		}
-	} else {
+	}
+	else
+	{
 		for( int i=1; i<argc; i++ )
 		{
 			if( argv[i][0] == '/' )
@@ -57,28 +64,27 @@ int main( int argc, char *argv[]  )
 				getcwd(currentWD, KDEMAXPATHLEN);
 				(Zip = currentWD).append("/").append(argv[i]);
 			}
-			break;
+					
+			ArkWidget *arkWin = new ArkWidget();
+			arkWin->show();
+
+			KConfig *config;
+        	
+        		config = kapp->getConfig();
+	        	config->setGroup("ark");
+
+        	
+                	int max_mode=config->readNumEntry(QString("MaxMode"), -1);
+		        if(max_mode!=-1){
+        		    if( (max_mode==1) || (max_mode==2) || (max_mode==3) )
+                	        KWM::doMaximize(arkWin->winId(), TRUE,  max_mode);
+		            else
+				 cerr << "main.cc: unknown maximize mode";
+        		}
+
+			if( !Zip.isEmpty() )
+				arkWin->showZip( Zip );
 		}
-		ArkWidget *arkWin = new ArkWidget();
-		arkWin->show();
-
-		KConfig *config;
- 
-        	config = kapp->getConfig();
-        	config->setGroup("ark");                                                
-
-
-                int max_mode=config->readNumEntry(QString("MaxMode"), -1);
-	        if(max_mode!=-1){
-        	    if( (max_mode==1) || (max_mode==2) || (max_mode==3) )
-                        KWM::doMaximize(arkWin->winId(), TRUE,  max_mode);
-	            else
-			 cerr << "main.cc: unknown maximize mode";
-        	}
-
-		if( !Zip.isEmpty() )
-			arkWin->showZip( Zip );
 	}
-
 	ark.exec();
 }
