@@ -61,9 +61,16 @@
 #include <kmimemagic.h>
 // c includes
 
-#include <sys/stat.h>
 #include <errno.h>
+
+#include <sys/param.h>
+
+#include <sys/stat.h>
+#ifdef BSD4_4
+#include <sys/mount.h>
+#elif linux
 #include <sys/vfs.h>  // for statfs
+#endif
 
 // ark includes
 #include "arkapp.h"
