@@ -75,7 +75,7 @@ namespace Utilities
 {
   bool haveDirPermissions(const QString &strFile);
   bool diskHasSpace(const QString &dir, long size);
-  long Utilities::getSizes(QStringList *list);
+  long getSizes(QStringList *list);
 };
 
 class ArkWidget : public KTMainWindow 
