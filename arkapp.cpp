@@ -101,7 +101,7 @@ ArkApplication * ArkApplication::getInstance()
 }
 
 ArkApplication::ArkApplication()
-  : KUniqueApplication(), m_windowCount(0)
+  : KUniqueApplication(), m_windowCount(0), m_isSessionRestored(isRestored())
 {
   kdDebug(1601) << "+ArkApplication::ArkApplication" << endl;
   m_mainwidget = new QWidget;
@@ -112,6 +112,19 @@ ArkApplication::ArkApplication()
 int ArkApplication::newInstance()
 {
   kdDebug(1601) << "+ArkApplication::newInstance" << endl;
+
+  // If we are restored by session management, we don't need to open
+  // another window on startup.
+  if ( m_isSessionRestored )
+  {
+    // But next invocations must still come through.
+    // NOTE: IMHO this should be handled by KUniqueApplication itself
+    m_isSessionRestored = false;
+    kdDebug(1601) << "-ArkApplication::newInstance no new window since restored by SM" << endl;
+    return 0;
+  }
+
+  QString Zip;
 
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
   KURL url;

@@ -64,9 +64,11 @@ int main( int argc, char *argv[]  )
   KCmdLineArgs::init( argc, argv, &aboutData );
   KCmdLineArgs::addCmdLineOptions( option );
 
+  kdDebug(1601) << "Starting ark. argc=" << argc << "  First arg: " << (argc == 2 ? argv[1] : 0) << endl;
   if (!ArkApplication::start())
     {
       // Already running! 
+      kdDebug(1601) << "Already running" << endl;
       exit(0);
     }
   

@@ -89,6 +89,8 @@ private:
   // given a QString key, you get an ArkWidget * pointer.
   QDict<ArkWidget> m_windowsHash;
 
+  bool m_isSessionRestored;
+
   static ArkApplication *mInstance; 
 };
 

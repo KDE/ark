@@ -161,7 +161,10 @@ protected slots:
   void selectByPattern(const QString & _pattern);
 
 protected:
-  void closeEvent( QCloseEvent * );
+  virtual bool queryClose();
+  // SM
+  virtual void saveProperties( KConfig* config );
+  virtual void readProperties( KConfig* config );
 
   // DND
   void dragMoveEvent(QDragMoveEvent *e);

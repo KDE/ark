@@ -1222,29 +1222,33 @@ void ArkWidget::file_close()
 void ArkWidget::window_close()
 {
     kdDebug(1601) << "+ArkWidget::window_close" << endl;
-
     file_close();
-    if (ArkApplication::getInstance()->windowCount() < 2  )
-      {
-	saveProperties();
-	delete this;  // hack
-	kapp->quit();
-      }
-    else
-      {
-	saveProperties();
-	delete this;
-      }
+    saveProperties();
     kdDebug(1601) << "-ArkWidget::window_close" << endl;
 }
 
 
-void ArkWidget::closeEvent( QCloseEvent *e )
+bool ArkWidget::queryClose()
 {
-    KMainWindow::closeEvent(e);
     window_close();
+    return true;
 }
 
+
+void ArkWidget::saveProperties( KConfig* config )
+{
+    config->writeEntry("SMOpenedFile",m_strArchName);
+    config->sync();
+    kdDebug(1601) << "ArkWidget::saveProperties( KConfig* config )" << endl;
+}
+
+void ArkWidget::readProperties( KConfig* config )
+{
+    QString file = config->readEntry("SMOpenedFile");
+    kdDebug(1601) << "ArkWidget::readProperties( KConfig* config ) file=" << file << endl;
+    if ( !file.isEmpty() )
+        file_open( file );
+}
 
 void ArkWidget::file_quit()
 {
@@ -1885,7 +1889,13 @@ void ArkWidget::doPopup(QListViewItem *pItem, const QPoint &pPoint,
   {
     archiveContent->setCurrentItem(pItem);
     archiveContent->setSelected(pItem, true);
-    ((QPopupMenu *)factory()->container("file_popup", this))->popup(pPoint);
+    QWidget* filePopup = factory()->container("file_popup", this);
+    if ( !filePopup )
+      kdError() << "No file_popup container !!!" << endl;
+    else if ( !filePopup->inherits("QPopupMenu") )
+      kdError() << "file_popup is a " << filePopup->className() << endl;
+    else
+      static_cast<QPopupMenu *>(factory()->container("file_popup", this))->popup(pPoint);
   }
   else // clicked anywhere else but the name column
   {
@@ -2201,18 +2211,23 @@ void ArkWidget::slotStatusBarTimeout()
 
 void ArkWidget::createFileListView()
 {
-  delete archiveContent;
-  archiveContent = new FileListView(this);
-  archiveContent->setMultiSelection(true);
-  setCentralWidget(archiveContent);
-  archiveContent->show();
-  connect( archiveContent, SIGNAL( selectionChanged()),
-	   this, SLOT( slotSelectionChanged() ) );
-  connect(archiveContent,
-	  SIGNAL(rightButtonPressed(QListViewItem *,
-				    const QPoint &, int)),
-	  this, SLOT(doPopup(QListViewItem *,
+  kdDebug() << "ArkWidget::createFileListView" << endl;
+  //delete archiveContent;
+  if ( !archiveContent )
+  {
+    archiveContent = new FileListView(this);
+    archiveContent->setMultiSelection(true);
+    setCentralWidget(archiveContent);
+    archiveContent->show();
+    connect( archiveContent, SIGNAL( selectionChanged()),
+  	   this, SLOT( slotSelectionChanged() ) );
+    connect(archiveContent,
+  	  SIGNAL(rightButtonPressed(QListViewItem *,
+  				    const QPoint &, int)),
+  	  this, SLOT(doPopup(QListViewItem *,
 			     const QPoint &, int)));
+  }
+  archiveContent->clear();
 }
 
 //////////////////////////////////////////////////////////////////////
