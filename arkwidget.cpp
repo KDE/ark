@@ -2109,8 +2109,8 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName )
 {
     Arch * newArch = 0;
 
-    QString type = KMimeType::findByFileContent( _fileName )->name();
-    ArchType archtype = ArchiveFormatInfo::self()->archTypeForMimeType(_fileName);
+    QString type = KMimeType::findByURL( _fileName )->name();
+    ArchType archtype = ArchiveFormatInfo::self()->archTypeForMimeType(type);
     kdDebug( 1601 ) << "archtype is recognised as: " << archtype << endl;
     if(0 == (newArch = Arch::archFactory(archtype, m_settings, this,
                                          _fileName)))
