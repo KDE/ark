@@ -26,14 +26,6 @@
         </widget>
         <widget class="QCheckBox">
             <property name="name">
-                <cstring>kcfg_lhaGeneric</cstring>
-            </property>
-            <property name="text">
-                <string>Keep entries &amp;generic (Lha)</string>
-            </property>
-        </widget>
-        <widget class="QCheckBox">
-            <property name="name">
                 <cstring>kcfg_forceMSDOS</cstring>
             </property>
             <property name="text">

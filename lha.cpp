@@ -210,8 +210,6 @@ void LhaArch::addFile( const QStringList &urls )
     strOptions = "u";
   else
     strOptions = "a";
-  if ( Settings::lhaGeneric() )
-    strOptions += "g";
 
   *kp << strOptions << m_filename;
 

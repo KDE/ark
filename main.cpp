@@ -66,19 +66,19 @@ static KCmdLineOptions option[] =
 extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 {
 	KAboutData aboutData( "ark", I18N_NOOP( "Ark" ),
-			"2.4.90", I18N_NOOP("KDE Archiving tool"), 
+			"2.5", I18N_NOOP("KDE Archiving tool"), 
 			KAboutData::License_GPL,
-			I18N_NOOP( "(c) 1997-2004, The Various Ark Developers" ) );
+			I18N_NOOP( "(c) 1997-2005, The Various Ark Developers" ) );
 	
-	aboutData.addAuthor( "Helio Chissini de Castro", I18N_NOOP( "Current maintainer" ),
-			"helio@conectiva.com.br" );
+	aboutData.addAuthor( "Henrique Pinto", I18N_NOOP( "Maintainer" ), "henrique.pinto@kdemail.net" );
+	aboutData.addAuthor( "Helio Chissini de Castro", I18N_NOOP( "Former maintainer" ), "helio@conectiva.com.br" );
 	aboutData.addAuthor( "Georg Robbers", 0, "Georg.Robbers@urz.uni-hd.de" );
-	aboutData.addAuthor( "Henrique Pinto", 0, "henrique.pinto@kdemail.net" );
 	aboutData.addAuthor( "Roberto Selbach Teixeira", 0, "maragato@kde.org" );
 	aboutData.addAuthor( "Francois-Xavier Duranceau", 0, "duranceau@kde.org" );
 	aboutData.addAuthor( "Emily Ezust (Corel Corporation)", 0, "emilye@corel.com" );
 	aboutData.addAuthor( "Michael Jarrett (Corel Corporation)", 0, "michaelj@corel.com" );
 	aboutData.addAuthor( "Robert Palmbos", 0, "palm9744@kettering.edu" );
+
 	aboutData.addCredit( "Bryce Corkins", I18N_NOOP( "Icons" ), "dbryce@attglobal.net" );
 	aboutData.addCredit( "Liam Smit", I18N_NOOP( "Ideas, help with the icons" ), "smitty@absamail.co.za" );
 	

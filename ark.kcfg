@@ -16,13 +16,6 @@
 			<default>false</default>
 		</entry>
 	</group>
-	<group name="Lha">
-		<entry name="lhaGeneric" type="Bool">
-			<label>Keep entries generic (Lha)</label>
-			<whatsthis>Affects only Lha archives</whatsthis>
-			<default>false</default>
-		</entry>
-	</group>
 	<group name="Tar">
 		<entry name="preservePerms" type="Bool">
 			<label>Preserve permissions</label>
