@@ -5,14 +5,19 @@
 #include <qstringlist.h>
 #include <qwidget.h>
 
+class FileListView;
+
 class FileLVI : public QListViewItem
 {
 public:
-	FileLVI(QListView* lv) : QListViewItem(lv) {}
-	FileLVI(QListViewItem* lv) : QListViewItem(lv) {}
+	FileLVI(QListView* lv) : QListViewItem(lv), parent(lv) {}
+//	FileLVI(QListViewItem* lv) : QListViewItem(lv), parent(0) {}
 	QString getFileName();
 
-//	virtual QString key(int column, bool) const;
+	virtual QString key(int column, bool) const;
+private:
+    QListView *parent;
+	
 };
 
 

@@ -29,46 +29,60 @@
 #include <config.h>
 #include <unistd.h>
 #include <sys/param.h> 
-
+#include "settings.h"
 
 // KDE includes
 #include <kapp.h>
 
 
+// the settings objects... GLOBALS!!!
+CSettings *g_pSettings = 0;
+KConfig *g_pConfig = 0;
+
+
 int main( int argc, char *argv[]  )
 {
-	QString Zip( "" );
+    QString Zip( "" );
+    KApplication ark( argc, argv, "ark" );
 
-	KApplication ark( argc, argv, "ark" );
+// read in the settings
+    g_pConfig = kapp->config();
+    g_pConfig->setGroup("ark");
+    g_pSettings = new CSettings;
+    g_pSettings->readConfig(g_pConfig); 
 
-	if( ark.isRestored() )
+    if( ark.isRestored() )
+    {
+	RESTORE(ArkWidget);
+    }
+    else
+    {
+	for (int i = 1; i < argc; ++i)
 	{
-		RESTORE(ArkWidget);
-	}
-	else
-	{
-		for( int i=1; i<argc; i++ )
-		{
-			if( argv[i][0] == '/' )
-				Zip = argv[i];
-			else{
-				char currentWD[KDEMAXPATHLEN];
-				getcwd(currentWD, KDEMAXPATHLEN);
-				(Zip = currentWD).append("/").append(argv[i]);
-			}
-					
-			ArkWidget *arkWin = new ArkWidget();
-			arkWin->show();
-
-			if( !Zip.isEmpty() )
-				arkWin->showZip( Zip );
-		}
-		if(argc==1)
-		{
-			ArkWidget *arkWin=new ArkWidget();
-			arkWin->show();
-		}
+	    if (argv[i][0] == '/')
+	    {
+		Zip = argv[i];
+		break;
+	    }
+	    else if (argv[i][0] == '-') // not that we have any options yet!
+	    {
+	    }
+	    else
+	    {
+		char currentWD[MAXPATHLEN];
+		getcwd(currentWD, MAXPATHLEN);
+		(Zip = currentWD).append("/").append(argv[i]);
+		break;
+	    }
 	}
 	
-	ark.exec();
+	ArkWidget *arkWin = new ArkWidget;
+
+	QObject::connect(qApp, SIGNAL(lastWindowClosed()), arkWin, SLOT(quit()));
+ 
+	arkWin->show();
+	if (!Zip.isEmpty())
+	    arkWin->file_open(Zip);
+	return ark.exec();
+    }
 }

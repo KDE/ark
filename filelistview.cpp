@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <ctype.h>
 #include <stdio.h>
-
+#include <stdlib.h>
 // Qt includes
 #include <qheader.h>
 #include <qpixmap.h>
@@ -22,13 +22,36 @@ inline int max(int a, int b)
 typedef const char* (*KeyFunc) (const char*);
 
 /////////////////////////////////////////////////////////////////////
-// FileListView implementation
+// FileLVI implementation
 /////////////////////////////////////////////////////////////////////
 
 QString FileLVI::getFileName()
 {
-	return text(0);
+    return text(0);
 }
+
+
+
+QString FileLVI::key(int column, bool ascending) const
+{
+    // puts numeric-type data into a field of 10 for correct sorting.
+    static QString s;
+
+    QString columnName = parent->columnText(column);
+    if ( (columnName == QString("Size")) ||
+	 (columnName == QString("Length")))       
+    {
+	s.sprintf("%.10ld", atol(text(column)));
+	return s;
+    }
+    else return QListViewItem::key(column, ascending);
+}
+
+
+/////////////////////////////////////////////////////////////////////
+// FileListView implementation
+/////////////////////////////////////////////////////////////////////
+
 
 FileListView::FileListView(QWidget *parent, const char* name)
 	: QListView(parent, name)
@@ -96,3 +119,4 @@ bool FileListView::isSelectionEmpty()
 	}
 	return true;
 }
+

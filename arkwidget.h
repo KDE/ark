@@ -1,3 +1,4 @@
+//  -*-C++-*-           emacs magic for .h files
 /*
 
  $Id $
@@ -55,110 +56,153 @@
 
 #define ARK_VERSION "0.5"
 
-class ArkWidget : public KTMainWindow {
+//
+//
+// This file contains the class definitions for CArkWidget (the main
+// widget for the app), ArkListView (the listview widget tailored to
+// be a drop-site), and MyListViewItem (the listview item tailored to
+// sorting sizes numerically instead of asciibetically)
+//
 
-Q_OBJECT
+
+class ArkWidget : public KTMainWindow 
+{
+    Q_OBJECT
+public:
+    ArkWidget( QWidget *parent=0, const char *name=0 );
+    ~ArkWidget();
+    bool isArchiveOpen() { return m_bIsArchiveOpen; }
+    bool isArchiveLocked(const QString &) ;
+    void updateListing();
+    QString getArchName() { return m_strArchName; }
+    
+    void updateStatusTotals();
+    void file_open(const QString &);  // opens the specified archive
 
 public:
-	ArkWidget( QWidget *parent=0, const char *name=0 );
-	~ArkWidget();
-
-public:
-	void open_fail();
-	void open_ok( QString );
-	void showZip( QString name );
-	void reload();
-	FileListView *fileList() const { return archiveContent; };
-		
+    void open_fail();
+    void open_ok( QString );
+    void showZip( QString name );
+    void reload();
+    FileListView *fileList() const { return archiveContent; };
+    
 protected slots:
-	void file_new();
-	void file_newWindow();
-	void file_open();
-	void file_openRecent( int );
-	void file_reload();
-	void file_close();
-	void file_quit();
+    void file_new();
+    void file_newWindow();
+    void file_open();
+    void file_openRecent( int );
+    void file_reload();
+    void file_close();
+    void file_quit();
 	
-	void edit_select();
-	void edit_selectAll();
-	void edit_deselectAll();
-	void edit_invertSel();
-	void edit_view_last_shell_output();
-
-	void action_add();
-	void action_view();
-	void action_delete();
-	void action_extract();
+    void edit_select();
+    void edit_selectAll();
+    void edit_deselectAll();
+    void edit_invertSel();
+    void edit_view_last_shell_output();
+    
+    void action_add();
+    void action_view();
+    void action_delete();
+    void action_extract();
 	
-	void options_dirs();
-	void options_keys();
-	void options_general();
-	void options_saveOnExit();
-	void options_saveNow();
+    void options_dirs();
+    void options_keys();
+    void options_general();
+    void options_saveOnExit();
+    void options_saveNow();
 
-	void help();
+    void help();
 			
-	void showFavorite();
-	void slotStatusBarTimeout();
-	void slotSelectionChanged();
-	void slotOpen(bool, QString, int);
-	void slotCreate(bool, QString, int);
+    void showFavorite();
+//    void slotStatusBarTimeout();
+    void slotSelectionChanged();
+    void slotOpen(bool, QString, int);
+    void slotCreate(bool, QString, int);
 			
 protected:
-	static QList<ArkWidget> *windowList;
-	void closeEvent( QCloseEvent * );
+    static QList<ArkWidget> *windowList;
+    void closeEvent( QCloseEvent * );
 
-        // DND
-        void dragEnterEvent(QDragEnterEvent* event);
-        void dropEvent(QDropEvent* event);
+    // DND
+    void dragEnterEvent(QDragEnterEvent* event);
+    void dropEvent(QDropEvent* event);
 
-        void createActionMenu( int );
+    void createActionMenu( int );
+
+private: // methods
+  // lock and unlock the current archive
+  void createLockFile();
+  void deleteLockFile();
         
 private:
-	enum ArchType{ TAR_FORMAT, ZIP_FORMAT, AA_FORMAT, LHA_FORMAT };
+    enum ArchType{ TAR_FORMAT, ZIP_FORMAT, AA_FORMAT, LHA_FORMAT };
 
-	Arch *arch;
+    Arch *arch;
 
 private:
-	KPopupMenu *pop;
-	ArkData *m_data;
-	QTimer *statusBarTimer;
-	KAccel *accelerators;
-	FileListView *archiveContent;
+    KPopupMenu *pop;
+    ArkData *m_data;
+//    QTimer *statusBarTimer;
+    KAccel *accelerators;
+    FileListView *archiveContent;
 
-	QPopupMenu *editMenu, *actionMenu, *optionsMenu, *recentPopup;
-	int idActionMenu, idEditMenu;
-	int idExtract, idDelete, idAdd, idView;
-	int idSaveOnExit;
+    QString m_strArchName;
 
-        bool archiverMode;
+    QPopupMenu *editMenu, *actionMenu, *optionsMenu, *recentPopup;
+    int idActionMenu, idEditMenu;
+    int idExtract, idDelete, idAdd, idView;
+    int idSaveOnExit;
 
-	void writeStatusMsg(const QString text);
-	void clearStatusBar();
-        void createEditMenu();
+    bool archiverMode;
+
+//    void writeStatusMsg(const QString text);
+//  void clearStatusBar();
+    void createEditMenu();
 	
 protected:	
-	void clearCurrentArchive();
+    void clearCurrentArchive();
 	
-	void arkWarning(const QString& msg);
-	void arkError(const QString& msg);
+    void arkWarning(const QString& msg);
+    void arkError(const QString& msg);
 	
-	void setupMenuBar();
-	void setupStatusBar();
-	void setupToolBar();
-	void createRecentPopup();
+    void setupMenuBar();
+    void setupStatusBar();
+    void setupToolBar();
+    void createRecentPopup();
 	
-	void newCaption(const QString& filename);
-	void createFileListView();
+    void newCaption(const QString& filename);
+    void createFileListView();
 	
-	int  getArchType(QString archname);
-	void createArchive(QString name);
-	void openArchive(QString name);
+    int  getArchType(QString archname);
+    Arch * createArchive(QString name);
+    Arch * openArchive(QString name);
 
-	void showFile( int, int col=0 );
+    void showFile( int, int col=0 );
 
-	void saveProperties();
+    void saveProperties();
+private:
+  // totals for status bar:
+  int m_nSizeOfFiles;
+  int m_nSizeOfSelectedFiles;
+  int m_nNumFiles;
+  int m_nNumSelectedFiles;
+
+  // some informational bools
+  bool m_bIsArchiveOpen;
+  bool m_bIsSimpleCompressedFile;
 
 };
 
+ // toolbar buttons
+enum { eNew, eOpen, eAddFile, eAddDir, eExtract, eDelete,
+       eSelectAll, eView, eOptions, eHelp };
+// popup menu items
+enum { eMNew, eMOpen, eMClose, eMWindow, eMExit, eMAddFile,
+       eMAddDir, eMDelete, eMExtract, eMView, eMSelectAll, eMRename };
+
+// status item numbers
+
+enum { eSelectedStatusLabel, eStatusLabelSeparator, eNumFilesStatusLabel,
+       eStatusDummy };
 #endif /* ARKWIDGET_H*/

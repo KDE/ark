@@ -47,6 +47,11 @@
 #include <kstatusbar.h>
 #include <ktoolbar.h>
 
+// c includes
+
+#include <sys/stat.h>
+#include <errno.h>
+
 // ark includes
 #include "arkwidget.h"
 #include "arkwidget.moc"
@@ -55,52 +60,65 @@
 #include "generalOptDlg.h"
 #include "selectDlg.h"
 #include "shellOutputDlg.h"
+#include "arkstrings.h"
 
-enum Buttons { OPEN_BUTTON= 1000, FAVORITE_BUTTON, EXTRACT_BUTTON,
+extern int errno;
+
+#define DEBUG1
+
+enum Buttons { OPEN_BUTTON= 1000, NEW_BUTTON, FAVORITE_BUTTON, EXTRACT_BUTTON,
 	       CLOSE_BUTTON };
 
 QList<ArkWidget> *ArkWidget::windowList = 0;
 
 ArkWidget::ArkWidget( QWidget *, const char *name ) : 
-	KTMainWindow( name )
+    KTMainWindow(name), m_nSizeOfFiles(0), m_nSizeOfSelectedFiles(0),
+    m_nNumFiles(0), m_nNumSelectedFiles(0), m_bIsArchiveOpen(false),
+    m_bIsSimpleCompressedFile(false)
 {
-	kdebug(0, 1601, "+ArkWidget::ArkWidget");
-
-	m_data = new ArkData();
-	// Creates a temp directory for this ark instance
-	unsigned int pid = getpid();
-	QString tmpdir;
-	tmpdir.sprintf( "/tmp/ark.%d/", pid );
-	QString ex( "mkdir " + tmpdir + " &>/dev/null" );
-	system( ex.local8Bit() );
+    kdebug(0, 1601, "+ArkWidget::ArkWidget");
+  
+    m_data = new ArkData();
+    // Creates a temp directory for this ark instance
+    unsigned int pid = getpid();
+    QString tmpdir;
+    tmpdir.sprintf( "/tmp/ark.%d/", pid );
+    QString ex( "mkdir " + tmpdir + " &>/dev/null" );
+    system( ex.local8Bit() );
 	
-	m_data->setTmpDir( tmpdir );
+    m_data->setTmpDir( tmpdir );
+    
+    if (!windowList)
+    {
+	windowList = new QList<ArkWidget>();
+    }
+    
+    windowList->setAutoDelete( FALSE );
+    windowList->append( this );
+    
+    // Build the ark UI
+    kdebug(0, 1601, "Build the GUI");
+    setupMenuBar();
+    kdebug(0, 1601, "Menubar build...");
+    setupStatusBar();
+    kdebug(0, 1601, "Statusbar build...");
+    setupToolBar();
+    kdebug(0, 1601, "Toolbar build...");
+    createFileListView();
+    kdebug(0, 1601, "GUI build...");
 
-	if (!windowList)
-	    windowList = new QList<ArkWidget>();
-
-	windowList->setAutoDelete( FALSE );
-	windowList->append( this );
-
-	// Build the ark UI
-	kdebug(0, 1601, "Build the GUI");
-	setupMenuBar();
-	kdebug(0, 1601, "Menubar build...");
-	setupStatusBar();
-	kdebug(0, 1601, "Statusbar build...");
-	setupToolBar();
-	kdebug(0, 1601, "Toolbar build...");
-  	createFileListView();
-	kdebug(0, 1601, "GUI build...");
-
-        // enable DnD
-        setAcceptDrops(true);
+    // enable DnD
+    setAcceptDrops(true);
         
-	arch=0;
+    arch=0;
 	
-	writeStatusMsg( i18n("Welcome to ark...") );
+    //writeStatusMsg( i18n("Welcome to ark...") );
 
-	kdebug(0, 1601, "-ArkWidget::ArkWidget");
+    kdebug(0, 1601, "-ArkWidget::ArkWidget");
+
+    resize(640,300);
+
+
 }
 
 ArkWidget::~ArkWidget()
@@ -111,7 +129,7 @@ ArkWidget::~ArkWidget()
 	delete accelerators;
 	delete pop;
 	delete m_data;
-	delete statusBarTimer;
+//	delete statusBarTimer;
 	delete arch;
 }
 
@@ -196,13 +214,7 @@ void ArkWidget::setupMenuBar()
 	optionsMenu->setItemChecked(idSaveOnExit, m_data->isSaveOnExitChecked());
 
 	// Help menu creation
-	QString about_ark = i18n(
-		"ark version %1 - the KDE archiver\n"
-                "\n"
-                "Copyright:\n"
-                "1997-1999: Robert Palmbos <palm9744@kettering.edu>\n"
-                "1999: Francois-Xavier Duranceau <duranceau@kde.org>\n")
-		.arg( ARK_VERSION );
+	QString about_ark = IDS_BLURB.arg( ARK_VERSION );
 	QPopupMenu *helpmenu = helpMenu( about_ark );
 
 	menu->insertItem( i18n( "&File"), fileMenu );
@@ -292,18 +304,97 @@ void ArkWidget::createRecentPopup()
 void ArkWidget::setupStatusBar()
 {
 	KStatusBar *sb = statusBar();
+	sb->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+	sb->insertItem(IDS_NO_FILES_SELECTED, eSelectedStatusLabel);
+	QFrame *separator = new QFrame(sb, "separator");
+	separator->setFrameShape(QFrame::HLine);
+	separator->setFrameStyle(QFrame::Panel | QFrame::Raised);
+	sb->insertWidget(separator, 2, eStatusLabelSeparator);
+	sb->insertItem(IDS_NO_FILES, eNumFilesStatusLabel);
+	sb->setAlignment(0, AlignCenter);
+	sb->setAlignment(2, AlignCenter);
+	sb->setBorderWidth(2);
+
+	QFrame *dummy = new QFrame(sb, "dummy");
+	sb->insertWidget(dummy, 0, eStatusDummy);
+
+#if 0
 	sb->insertItem( "", 0 );
 
 	statusBarTimer = new QTimer(this);
 	connect(statusBarTimer, SIGNAL(timeout()), SLOT(slotStatusBarTimeout()));
+#endif
 }
 
 void ArkWidget::setupToolBar()
 {
-	QPixmap pix;
+	QPixmap pixmap;
 	QString pixpath;
 	KToolBar *tb = toolBar();
+	QString strPixmapName;
 
+
+	strPixmapName = "new_ark.xpm";
+	pixmap.load(strPixmapName);
+	tb->insertButton ( pixmap, eNew, SIGNAL(clicked()), this,
+			   SLOT(file_new()), TRUE, IDS_TOOLBAR_NEW);
+
+
+	strPixmapName =  "open_ark.xpm";
+	pixmap.load(strPixmapName);
+	tb->insertButton ( pixmap, eOpen, SIGNAL(clicked()), this,
+			   SLOT(file_open()), TRUE, IDS_TOOLBAR_OPEN);
+
+	tb->insertSeparator();
+
+	strPixmapName =  "add.xpm";
+	pixmap.load(strPixmapName);
+	tb->insertButton ( pixmap, eAddFile, SIGNAL(clicked()), this,
+			   SLOT(action_add()), TRUE, IDS_TOOLBAR_ADD_FILE);
+
+	strPixmapName =  "add.xpm";
+	pixmap.load(strPixmapName);
+	tb->insertButton ( pixmap, eAddDir, SIGNAL(clicked()), this,
+			   SLOT(dir_add()), TRUE, IDS_TOOLBAR_ADD_DIR);
+
+	tb->insertSeparator();
+
+	strPixmapName =  "extract.xpm";
+	pixmap.load(strPixmapName);
+	tb->insertButton ( pixmap, eExtract, SIGNAL(clicked()), this,
+			   SLOT(action_extract()), TRUE, IDS_TOOLBAR_EXTRACT);
+
+	strPixmapName =  "extract.xpm";
+	pixmap.load(strPixmapName);
+	tb->insertButton ( pixmap, eDelete, SIGNAL(clicked()), this,
+			   SLOT(action_delete()), TRUE, IDS_TOOLBAR_DEL);
+
+	tb->insertSeparator();
+
+	strPixmapName =  "selectall.xpm";
+	pixmap.load(strPixmapName);
+	tb->insertButton ( pixmap, eSelectAll, SIGNAL(clicked()), this,
+			   SLOT(edit_selectAll()), TRUE,
+			   IDS_TOOLBAR_SELECT_ALL);
+
+	strPixmapName =  "view.xpm";
+	pixmap.load(strPixmapName);
+	tb->insertButton ( pixmap, eView, SIGNAL(clicked()), this,
+			   SLOT(file_show()), TRUE, IDS_TOOLBAR_VIEW);
+
+	tb->insertSeparator();
+
+	strPixmapName =  "options.xpm";
+	pixmap.load(strPixmapName);
+	tb->insertButton ( pixmap, eOptions, SIGNAL(clicked()), this,
+			   SLOT(options_dirs()), TRUE, IDS_TOOLBAR_OPTIONS);
+
+	strPixmapName =  "help.xpm";
+	pixmap.load(strPixmapName);
+	tb->insertButton ( pixmap, eHelp, SIGNAL(clicked()), this,
+			   SLOT(help()), TRUE, IDS_TOOLBAR_HELP);
+
+#if 0
 	tb->insertButton( BarIcon("fileopen"), OPEN_BUTTON, SIGNAL( clicked() ), this, SLOT( file_open() ), TRUE, i18n("Open"));
 //	tb->insertButton( BarIcon("home"), FAVORITE_BUTTON, SIGNAL( clicked() ), this, SLOT( showFavorite() ), TRUE, i18n("Goto Archive Dir"));
 //	tb->insertButton( BarIcon("viewzoom"), EXTRACT_BUTTON, SIGNAL( clicked() ), this, SLOT( action_extract() ), FALSE, i18n("Extract"));
@@ -312,8 +403,286 @@ void ArkWidget::setupToolBar()
 	tb->insertSeparator();
 	tb->insertButton( BarIcon("exit"), CLOSE_BUTTON, SIGNAL( clicked() ), this, SLOT( file_close() ), TRUE, i18n("Close"));
 
+#endif
 	tb->setBarPos( KToolBar::Top );
 }
+
+
+////////////////////////////////////////////////////////////////////
+///////////////////////// updateStatusTotals ///////////////////////
+////////////////////////////////////////////////////////////////////
+
+void ArkWidget::updateStatusTotals()
+{
+    kdebug(0, 1601, "+ArkWidget::updateStatusTotals");
+    m_nNumFiles = 0;
+    FileLVI *pItem = (FileLVI *)archiveContent->firstChild();
+    while (pItem)
+    {
+	++m_nNumFiles;
+	fprintf(stderr, "Adding %d\n", atoi(pItem->text(3)));
+	m_nSizeOfFiles += atoi(pItem->text(3));
+	pItem = (FileLVI *)pItem->itemBelow();
+    }
+    
+    char strInfo[BUFSIZ];
+    sprintf(strInfo, "%s %d %s, %d KB", (const char *)IDS_TOTAL,
+	    m_nNumFiles, (const char *) IDS_FILES, m_nSizeOfFiles);
+    
+    statusBar()->changeItem(strInfo, eNumFilesStatusLabel);
+    kdebug(0, 1601, "-ArkWidget::updateStatusTotals");
+}
+
+
+#if 0
+
+////////////////////////////////////////////////////////////////////
+////////////////////////// addFile /////////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+void CArkWidget::addFile(QStringList *list)
+{
+    // add the files in the list to the archive
+    kdebug(0, 1601, "+ArkWidget::addFile(QStringList)");
+
+  QApplication::setOverrideCursor( waitCursor );
+#if 0
+  CProgressDlg *pProgressDlg =
+    //     new CProgressDlg(QString(KApplication::kde_icondir() + "/" + 
+    new CProgressDlg(QString("to_archive_64.gif"),
+		     IDS_ADDING, this, 0);
+  pProgressDlg->setCaption(IDS_ADDING);
+  pProgressDlg->show();
+#endif
+
+  switch (m_pArch->addFile(list))
+  {
+  case UNSUPDIR:  // from errors.h
+    // ar doesn't let you add a directory!
+    QMessageBox::warning(this, IDS_ERROR, IDS_NOT_SUPPORTED);
+    break;
+  }
+
+  updateListing();
+
+#if 0
+  delete pProgressDlg;
+#endif
+  QApplication::restoreOverrideCursor();
+
+  // we may have been adding files into an empty archive - 
+  // see if we need to change the button and menu item enables.
+#if 0
+  onFileNumChangeSetEnables();
+#endif
+
+  kdebug(0, 1601, "-ArkWidget::addFile(QStringList)");
+}
+#endif
+
+////////////////////////////////////////////////////////////////////
+////////////////////// isArchiveLocked /////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+bool ArkWidget::isArchiveLocked(const QString &strArchName)
+{
+
+  // use m_strArchName to see if there's a lock file
+
+  kdebug(0, 1601, "+ArkWidget::isArchiveLocked");
+
+  QString strLockPath = strArchName.left(strArchName.findRev('/')+1);
+  QString strFileName = strArchName.right(strArchName.length()
+					  - strArchName.findRev('/')-1);
+  QString strLockFileName;
+  strLockFileName.sprintf("#%s#",  (const char *)strFileName);
+
+  QString strFullName = strLockPath + strLockFileName;
+  
+#ifdef DEBUG1
+  fprintf(stderr, "Lock file is %s\n", (const char *)strLockFileName);
+#endif
+
+  kdebug(0, 1601, "-ArkWidget::isArchiveLocked");
+
+  struct stat statbuffer;
+  
+  if (stat((const char *)strFullName, &statbuffer) == -1)
+    return false;
+  else
+    return true;
+}
+
+////////////////////////////////////////////////////////////////////
+//////////////////////// updateListing /////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+void ArkWidget::updateListing()
+{
+
+  kdebug(0, 1601, "+ArkWidget::updateListing");
+#if 0  // from corel archiver: not sure what to do with this yet...
+  QString str;
+
+  m_pMainList->clear();
+
+  QStringList *pListing;
+  pListing = const_cast<QStringList *>(m_pArch->getListing());
+  if (pListing == 0)
+  {
+    fprintf(stderr, IDS_NO_LISTING);
+    return;
+  }
+
+  QStringList::ConstIterator iter;
+  for (iter = pListing->begin(); iter != pListing->end(); ++iter )
+  {
+    CMyListViewItem *pItem;
+    char columns[5][BUFSIZ];
+    str = *iter;
+    sscanf((const char *)str,
+	   " %[-drwxst?] %[0-9.a-zA-Z/_?-] %[0-9] %17[a-zA-Z0-9:- ] %[^\n]",
+	   columns[0], columns[1], columns[2], columns[3], columns[4]);
+    pItem = new CMyListViewItem(m_pMainList);
+    pItem->setText(eName, columns[4]);
+    pItem->setText(ePerms, columns[0]);
+    pItem->setText(eOwnerGrp, columns[1]);
+    pItem->setText(eSize, columns[2]);
+    pItem->setText(eDate, columns[3]);
+  }
+#endif // #if 0
+
+  updateStatusTotals();
+
+  kdebug(0, 1601, "-ArkWidget::updateListing");
+
+}
+///////////////////////////////////////////////////////////////////
+//////////////////////// createLockFile ///////////////////////////
+///////////////////////////////////////////////////////////////////
+
+void ArkWidget::createLockFile()   // private
+{
+  // use m_strArchName to create a lock file
+
+  kdebug(0, 1601, "+ArkWidget::createLockFile");
+
+  fprintf(stderr, "Creating lockfile for %s\n", (const char *)m_strArchName);
+  QString strLockPath = m_strArchName.left(m_strArchName.findRev('/')+1);
+  QString strFileName = m_strArchName.right(m_strArchName.length()
+					    - m_strArchName.findRev('/')-1);
+  chdir( (const char *)strLockPath);
+
+  QString strLockFileName;
+  strLockFileName.sprintf("#%s#",  (const char *)strFileName);
+  
+  QString command;
+  command.sprintf("touch '%s'", (const char *)strLockFileName);
+
+  system( (const char *) command);
+  kdebug(0, 1601, "-ArkWidget::createLockFile");
+}   
+
+///////////////////////////////////////////////////////////////////
+//////////////////////// deleteLockFile ///////////////////////////
+///////////////////////////////////////////////////////////////////
+
+void ArkWidget::deleteLockFile()   // private
+{
+  // use m_strArchName to delete a lock file
+  kdebug(0, 1601, "+ArkWidget::deleteLockFile");
+
+  if (isArchiveOpen())
+  {
+    QString strLockPath = m_strArchName.left(m_strArchName.findRev('/')+1);
+    QString strFileName = m_strArchName.right(m_strArchName.length()
+					      - m_strArchName.findRev('/')-1);
+    chdir( (const char *)strLockPath);
+    
+    QString strLockFileName;
+    strLockFileName.sprintf("#%s#",  (const char *)strFileName);
+    
+    QString command;
+    command.sprintf("rm '%s'", (const char *)strLockFileName);
+#ifdef DEBUG1
+    fprintf(stderr, "%s\n", (const char *)command);
+#endif
+    system( (const char *) command);
+  }
+  kdebug(0, 1601, "-ArkWidget::deleteLockFile");
+}   
+
+
+//////////////////////////////////////////////////////////////////////
+///////////////////////// file_open //////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+
+void ArkWidget::file_open(const QString & strFile)
+{
+  if (! strFile.isNull() )  // if they don't click cancel
+  {
+    struct stat statbuffer;
+
+    if (stat(strFile, &statbuffer) == -1)
+    {
+      if (errno == ENOENT || errno == ENOTDIR || errno ==  EFAULT)
+      {
+	QMessageBox::warning(this, IDS_ERROR, IDS_DOESNT_EXIST);
+      }
+      else if (errno == EACCES)
+      {
+	QMessageBox::warning(this, IDS_ERROR, IDS_NO_ACCESS);
+      }
+      return;
+    }
+    else
+    {
+      // this will be the appropriate flag depending on whose file it is
+      unsigned int nFlag = 0;
+      if (geteuid() == statbuffer.st_uid)
+      {
+	nFlag = S_IRUSR; // it's mine
+      }
+      else if (getegid() == statbuffer.st_gid)
+      {
+	nFlag = S_IRGRP; // it's my group's
+      }
+      else
+      {
+	nFlag = S_IROTH;  // it's someone else's
+      }
+    
+      if (! ((statbuffer.st_mode & nFlag) == nFlag))
+      {
+	QMessageBox::warning(this, IDS_ERROR, IDS_NO_PERMISSION );
+	return;
+      }
+    }
+
+    if (isArchiveLocked(strFile) && (m_strArchName != strFile))
+    {
+      int nRet = QMessageBox::warning(this, IDS_WARNING, IDS_ARCHIVE_LOCKED,
+				      IDS_YES, IDS_CANCEL);
+      if (nRet == 1)  // cancel
+	return;
+
+    }
+
+    // no errors if we made it this far.
+
+    file_close();  // close old zip
+
+    // Set the current archive filename to the filename
+    m_strArchName = strFile;
+
+    // display the archive contents
+    showZip(strFile);
+  }
+}
+
+
+
 
 
 //////////////////////////////////////////////////////////////////////
@@ -350,8 +719,12 @@ void ArkWidget::file_new()
 	QString file = KFileDialog::getSaveFileName(QString::null, m_data->getFilter());
 	if( !file.isEmpty() )
 	{
-		createFileListView();
-		createArchive( file );
+	    createFileListView();
+	    Arch *tempArch = createArchive( file );
+	    if (tempArch != 0)
+	    {
+		arch = tempArch;
+	    }
 	}
 }
 
@@ -373,15 +746,15 @@ void ArkWidget::file_newWindow()
 
 void ArkWidget::file_open()
 {
-	QString file = KFileDialog::getOpenFileName(m_data->getOpenDir(), m_data->getFilter(), this);
-	if( !file.isEmpty() )
-		showZip( file );
+    QString file = KFileDialog::getOpenFileName(m_data->getOpenDir(),
+						m_data->getFilter(), this);
+    file_open( file );
 }
 
 void ArkWidget::file_openRecent(int i)
 {
 	QString filename = recentPopup->text(i);
-	showZip( filename );
+	file_open( filename );
 
 	kdebug(0, 1601, "-ArkWidget::file_openRecent");
 }
@@ -391,8 +764,17 @@ void ArkWidget::showZip( QString _filename )
 	kdebug(0, 1601, "+ArkWidget::showZip");
 
 	createFileListView();
-	openArchive( _filename );
 
+	Arch *tempArch = openArchive( _filename );
+	if (tempArch != 0)
+	{
+	    arch = tempArch;
+	    m_bIsArchiveOpen = true;
+	    // Create a lock file so that we won't open the same archive twice.
+	    createLockFile();
+	}
+
+	updateListing();
 	kdebug(0, 1601, "-ArkWidget::showZip");
 }
 
@@ -423,7 +805,7 @@ void ArkWidget::slotOpen( bool _success, QString _filename, int _flag )
 void ArkWidget::file_reload()
 {
 	QString filename = arch->fileName();
-	showZip( filename );
+	file_open( filename );
 }
 
 void ArkWidget::reload()
@@ -433,27 +815,47 @@ void ArkWidget::reload()
 	
 void ArkWidget::file_close()
 {
-	if( windowList->count() < 2 )
-	{
-		saveProperties();
-		kapp->quit();
-	}else{
-		saveProperties();
-		delete this;
-	}
+    deleteLockFile();
+    setCaption(IDS_ARCHIVER);
+    delete arch;
+    arch = 0;
+    m_bIsArchiveOpen = false;
+    
+    if (archiveContent)
+    {
+	archiveContent->clear();
+    }
+    
+    updateStatusTotals();
+//    updateStatusSelection();
+
+#if 0 // old stuff - no longer close the window, just clear it.
+    if( windowList->count() < 2 )
+    {
+	saveProperties();
+	kapp->quit();
+    }
+    else
+    {
+	saveProperties();
+	delete this;
+    }
+#endif
 }
 
 
 void ArkWidget::closeEvent( QCloseEvent * )
 {
 	file_close();
+	kapp->quit();
 }
 
 
 void ArkWidget::file_quit()
 {
-	saveProperties();
-	kapp->quit();
+    file_close();
+    saveProperties();
+    kapp->quit();
 }
 
 // Edit menu /////////////////////////////////////////////////////////
@@ -737,24 +1139,28 @@ void ArkWidget::showFavorite()
 
 	delete fav;
 
-	writeStatusMsg( i18n( "Archive Directory") );
+//	writeStatusMsg( i18n( "Archive Directory") );
 }
 
 /**
  * Writes a message in the status bar.
  * This message is visible during 5 seconds.
  */
+#if 0
 void ArkWidget::writeStatusMsg(const QString text)
 {
 	statusBarTimer->stop();
 	statusBar()->changeItem(text, 0);
 	statusBarTimer->start(5000,true);
 }
+#endif
 
+#if 0
 void ArkWidget::clearStatusBar()
 {
 	statusBar()->changeItem("",0);
 }
+#endif
 
 void ArkWidget::clearCurrentArchive()
 {
@@ -780,10 +1186,12 @@ void ArkWidget::arkWarning(const QString& msg)
         KMessageBox::information(this, msg);
 }
 
+#if 0
 void ArkWidget::slotStatusBarTimeout()
 {
 	clearStatusBar();
 }
+#endif
 
 void ArkWidget::newCaption(const QString& _filename){
 
@@ -829,85 +1237,89 @@ int ArkWidget::getArchType( QString archname )
 }
 
 
-void ArkWidget::createArchive( QString _filename )
+Arch *ArkWidget::createArchive( QString _filename )
 {
-	switch( getArchType( _filename ) )
-	{
-/*		case TAR_FORMAT:
-		{
-			arch = new TarArch( m_data, this, name );
-			arch->createArch( name );
-			ret = true;
-			break;
-		}
-*/		case ZIP_FORMAT:
-		{
-			arch = new ZipArch( m_data, this, _filename );
-			connect( arch, SIGNAL(sigOpen(bool,QString,int)), this, SLOT(slotOpen(bool,QString,int)) );
-			connect( arch, SIGNAL(sigCreate(bool,QString,int)), this, SLOT(slotCreate(bool,QString,int)) );
-			arch->create();
-			break;
-		}
-/*		case LHA_FORMAT:
-		{
-			arch = new LhaArch( m_data );
-			arch->createArch( name );
-			ret = true;
-			break;
-		}
-		case AA_FORMAT:
-		{
-			arch = new ArArch( m_data );
-			arch->createArch( name );
-			ret = true;
-			break;
-		}
-*/		default:
-		{
-			KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
-			clearCurrentArchive();
-		}
-	}
+    // returns a pointer to the new archive or, if there's a problem,
+    // returns 0.
+
+    Arch * newArch = 0;
+
+    switch( getArchType( _filename ) )
+    {
+#if 0
+    case TAR_FORMAT:
+	newArch = new TarArch( m_data, this, name );
+	newArch->createArch( name );
+	ret = true;
+	break;
+#endif
+    case ZIP_FORMAT:
+	newArch = new ZipArch( m_data, this, _filename );
+	connect( newArch, SIGNAL(sigOpen(bool,QString,int)), this, SLOT(slotOpen(bool,QString,int)) );
+	connect( newArch, SIGNAL(sigCreate(bool,QString,int)), this, SLOT(slotCreate(bool,QString,int)) );
+	newArch->create();
+	break;
+#if 0
+    case LHA_FORMAT:
+	newArch = new LhaArch( m_data );
+	newArch->createArch( name );
+	ret = true;
+	break;
+    case AA_FORMAT:
+	newArch = new ArArch( m_data );
+	newArch->createArch( name );
+	ret = true;
+	break;
+#endif
+    default:
+	KMessageBox::error(this, i18n("Unknown archive format or corrupted archive") );
+//	clearCurrentArchive();     // no - just leave the old one.
+    }
+
+    return newArch;
 }
 
-void ArkWidget::openArchive( QString _filename )
+Arch *ArkWidget::openArchive( QString _filename )
 {
-	switch( getArchType( _filename ) )
-	{
-/*		case TAR_FORMAT:
-		{
-			arch = new TarArch(  m_data, this, _filename );
-			arch->openArch( name );
-			ret = true;
-			break;
-		}
-*/		case ZIP_FORMAT:
-		{
-			arch = new ZipArch( m_data, this, _filename );
-			connect( arch, SIGNAL(sigOpen(bool,QString,int)), this, SLOT(slotOpen(bool,QString,int)) );
-			connect( arch, SIGNAL(sigCreate(bool,QString,int)), this, SLOT(slotCreate(bool,QString,int)) );
-			arch->open();
-			break;
-		}
-/*		case LHA_FORMAT:
-		{
-			arch = new LhaArch( m_data );
-			arch->openArch( name, archiveContent );
-			ret = true;
-			break;
-		}
-		case AA_FORMAT:
-		{
-			arch = new ArArch( m_data );
-			arch->openArch( name, archiveContent );
-			ret = true;
-			break;
-		}
-*/		default:
-		{
-			KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
-			clearCurrentArchive();
-		}
-	}
+    // returns a pointer to the new archive unless there was a problem.
+    // otherwise returns 0
+
+    Arch *newArch = 0;
+
+    switch( getArchType( _filename ) )
+    {
+#if 0
+
+    case TAR_FORMAT:
+	newArch = new TarArch(  m_data, this, _filename );
+	newArch->openArch( name );
+	ret = true;
+	break;
+#endif   
+    case ZIP_FORMAT:
+	newArch = new ZipArch( m_data, this, _filename );
+	connect( newArch, SIGNAL(sigOpen(bool,QString,int)),
+		 this, SLOT(slotOpen(bool,QString,int)) );
+	connect( newArch, SIGNAL(sigCreate(bool,QString,int)),
+		 this, SLOT(slotCreate(bool,QString,int)) );
+	newArch->open();
+	break;
+#if 0
+    case LHA_FORMAT:
+	newArch = new LhaArch( m_data );
+	newArch->openArch( name, archiveContent );
+	ret = true;
+	break;
+    case AA_FORMAT:
+	newArch = new ArArch( m_data );
+	newArch->openArch( name, archiveContent );
+	ret = true;
+	break;
+#endif
+    default:
+	KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
+//	clearCurrentArchive();     // leave old one instead.
+    }
+    return newArch;    
 }
 
