@@ -47,21 +47,8 @@ METASOURCES =	adddlg.moc extractdlg.moc arkwidget.moc filelistview.moc \
 messages:
 	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(ark_SOURCES) &&  mv messages.po ../po/ark.pot
 
-kde_icon_DATA = ark.xpm
+KDE_ICON = ark
 
 apps_DATA = ark.desktop
 appsdir = $(kde_appsdir)/Utilities
-
-# just install datas here. Use install-exec-data for scripts and etc.
-# the binary itself is already installed from automake
-# use mkinstalldirs, not "install -d"
-# don't install a list of file. Just one file per install.
-# if you have more of them, create a subdirectory with an extra Makefile 
-install-data-local: 
-	$(mkinstalldirs) $(kde_minidir)
-	$(INSTALL_DATA) $(srcdir)/mini-ark.xpm $(kde_minidir)/ark.xpm
-
-# remove ALL you have installed in install-data-local or install-exec-local
-uninstall-local:
-	-rm -f $(kde_minidir)/ark.xpm
 
