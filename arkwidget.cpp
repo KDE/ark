@@ -1686,6 +1686,13 @@ bool
 ArkWidget::action_extract()
 {
 	kdDebug(1601) << "+action_extract" << endl;
+	//before we start, make sure the archive is still there
+	if (!KIO::NetAccess::exists(KURL(arch->fileName()))){
+		KMessageBox::error(0,
+			i18n("The archive to extract from no longer exists."));
+		file_quit();
+		return false;
+	}
 	
 	ExtractDlg *dlg = new ExtractDlg(m_settings);
 	
