@@ -43,7 +43,7 @@
 #include "generalOptDlg.h"
 
 #define DLG_NAME i18n("Settings")
-#define TAB_ADD_NAME i18n("&Adding")
+#define TAB_ADD_NAME i18n("Addi&ng")
 #define TAB_EXTRACT_NAME i18n("&Extracting")
 #define TAB_PATH_NAME i18n("&Directories")
 
@@ -53,7 +53,7 @@
 #define OPT_REPLACE_NEWER i18n("Replace &old files only with newer files")
 #define OPT_MAKEGENERIC i18n("Keep entries &generic (Lha)")
 #define OPT_DOS_FILENAMES i18n("Force &MS-DOS short filenames (Zip)")
-#define OPT_CONV_CRLF i18n("Tranlate LF to DOS &CRLF (Zip)")
+#define OPT_CONV_CRLF i18n("Translate LF to DOS &CRLF (Zip)")
 #define OPT_RECURSE_SUBDIRS i18n("&Recursively add subdirectories (Zip, Rar)")
 #define OPT_STORE_SYMLINKS i18n("&Store symlinks as links (Zip, Rar)")
 
