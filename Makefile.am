@@ -43,7 +43,7 @@ noinst_HEADERS = dirDlg.h arksettings.h  \
 METASOURCES =	AUTO
 
 messages:
-	$(XGETTEXT) -C -kI18N_NOOP -ki18n -x $(includedir)/kde.pot $(ark_SOURCES) &&  mv messages.po $(podir)/ark.pot
+	$(XGETTEXT) $(ark_SOURCES) -o $(podir)/ark.pot
 
 KDE_ICON = ark
 
