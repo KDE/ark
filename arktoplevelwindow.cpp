@@ -119,7 +119,7 @@ ArkTopLevelWindow::setupActions()
     closeAction = KStdAction::close(this, SLOT(file_close()), actionCollection(), "file_close");
 
     recent = KStdAction::openRecent(this, SLOT(openURL(const KURL&)), actionCollection());
-    recent->loadEntries(kapp->sessionConfig());
+    recent->loadEntries(kapp->config());
 
     createStandardStatusBarAction();
 
@@ -338,7 +338,7 @@ ArkTopLevelWindow::file_quit()
 void
 ArkTopLevelWindow::slotSaveProperties()
 {
-    recent->saveEntries(kapp->sessionConfig());
+    recent->saveEntries(kapp->config());
 }
 
 void
@@ -363,14 +363,14 @@ void
 ArkTopLevelWindow::slotAddRecentURL( const KURL & url )
 {
     recent->addURL( url );
-    recent->saveEntries(kapp->sessionConfig());
+    recent->saveEntries(kapp->config());
 }
 
 void
 ArkTopLevelWindow::slotRemoveRecentURL( const KURL & url )
 {
     recent->removeURL( url );
-    recent->saveEntries(kapp->sessionConfig());
+    recent->saveEntries(kapp->config());
 }
 
 void

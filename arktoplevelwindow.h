@@ -91,25 +91,26 @@ private: // methods
     KURL getOpenURL( bool addOnly = false , const QString & caption = QString::null,
                      const QString & startDir = QString::null,
                      const QString & suggestedName = QString::null );
-    
+
     void startProgressDialog( const QString & text );
 
 private slots:
-    void slotProgress();                     
+    void slotProgress();
 
 private: // data
     KParts::ReadWritePart *m_part;
     ArkWidget *m_widget; //the parts widget
+
     KAction *newWindowAction;
     KAction *newArchAction;
     KAction *openAction;
     KAction *closeAction;
     KAction *reloadAction;
     KRecentFilesAction *recent;
-    
+
     //progress dialog for konqs service menus / commmand line
     KProgressDialog *progressDialog;
-    QTimer *timer;        
+    QTimer *timer;
 };
 
 #endif /* ARKTOPLEVELWINDOW_H*/

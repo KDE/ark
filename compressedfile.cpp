@@ -171,7 +171,7 @@ void CompressedFile::open()
   KURL src, target;
   src.setPath( m_filename );
   target.setPath( m_tmpfile );
-  KIO::NetAccess::copy( m_filename, m_tmpfile );
+  KIO::NetAccess::copy( m_filename, m_tmpfile, m_gui );
 
   kdDebug(1601) << "Temp file name is " << m_tmpfile << endl;
 
@@ -245,7 +245,7 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
   url.setPath( m_tmpdir + lst.first() );
   m_tmpfile = url.path();
   KIO::UDSEntry udsInfo;
-  KIO::NetAccess::stat( url, udsInfo );
+  KIO::NetAccess::stat( url, udsInfo, m_gui );
   KFileItem fileItem( udsInfo, url );
   QStringList list;
   list << fileItem.name();

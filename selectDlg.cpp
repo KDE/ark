@@ -45,7 +45,8 @@ SelectDlg::SelectDlg( QWidget *_parent, const char *_name )
 {
     QHBox * box = makeHBoxMainWidget();
 
-    QLabel *l1 = new QLabel( i18n("Select files:"), box );
+    QLabel *l1;
+    l1 = new QLabel( i18n("Select files:"), box );
 
     m_regExp = new KLineEdit( box );
     m_regExp->setMinimumWidth( fontMetrics().maxWidth() * 6 );

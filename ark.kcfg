@@ -2,16 +2,7 @@
 <!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
 <kcfg>
   <kcfgfile name="arkrc"/>
-  <group name="ArkPlugin">
-    <entry name="Enable" type="Bool">
-      <label>Enable Konqueror integration</label>
-      <default>true</default>
-    </entry>
-    <entry name="showSearchBar" type="Bool">
-      <default>true</default>
-    </entry>
-   </group> 
-   
+
    <group name="generic">
     <entry name="replaceOnlyWithNewer" type="Bool">
       <label>Replace old files only with newer files</label>
@@ -77,6 +68,18 @@
    </group>
 
    <group name="ark">
+    <entry name="showSearchBar" type="Bool">
+     <label>Show search bar</label>
+     <default>true</default>
+    </entry>
+    <entry name="KonquerorIntegration" type="Bool">
+     <label>Enable Konqueror integration</label>
+     <default>true</default>
+    </entry>
+    <entry name="UseIntegratedViewer">
+     <label>Use integrated viewer</label>
+     <default>true</default>
+    </entry>
     <entry name="TarExe" type="String">
      <label>Tar Command</label>
      <default>tar</default>

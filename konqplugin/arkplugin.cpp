@@ -48,9 +48,9 @@ ArkMenu::ArkMenu( KonqPopupMenu * popupmenu, const char *name, const QStringList
         return;
 
     m_conf = new KConfig( "arkrc" );
-    m_conf->setGroup( "ArkPlugin" );
+    m_conf->setGroup( "ark" );
 
-    if ( !m_conf->readBoolEntry( "Enable", true ) )
+    if ( !m_conf->readBoolEntry( "KonquerorIntegration", true ) )
         return;
 
     KGlobal::locale()->insertCatalogue("ark");

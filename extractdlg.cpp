@@ -84,7 +84,7 @@ ExtractDlg::ExtractDlg( QWidget *parent, const char *name, const QString &prefix
 	m_extractDirCB->setMaxCount( 20 );
 	m_extractDirCB->setInsertionPolicy( QComboBox::AtTop );
 
-	KConfig *config = kapp->sessionConfig();
+	KConfig *config = kapp->config();
 	QStringList list;
 
 	config->setGroup( "History" );

@@ -68,9 +68,6 @@
                                 <property name="text">
                                     <string>&amp;Last</string>
                                 </property>
-                                <property name="accel">
-                                    <string>Alt+L</string>
-                                </property>
                                 <property name="checked">
                                     <bool>true</bool>
                                 </property>
@@ -131,9 +128,6 @@
                                 </property>
                                 <property name="text">
                                     <string>&amp;Last</string>
-                                </property>
-                                <property name="accel">
-                                    <string>Alt+L</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>
@@ -196,9 +190,6 @@
                                 <property name="text">
                                     <string>&amp;Last</string>
                                 </property>
-                                <property name="accel">
-                                    <string>Alt+L</string>
-                                </property>
                                 <property name="checked">
                                     <bool>true</bool>
                                 </property>
@@ -259,9 +250,6 @@
                                 </property>
                                 <property name="text">
                                     <string>&amp;Last</string>
-                                </property>
-                                <property name="accel">
-                                    <string>Alt+L</string>
                                 </property>
                                 <property name="checked">
                                     <bool>true</bool>

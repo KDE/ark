@@ -217,7 +217,7 @@ void ZooArch::addFile( QStringList *urls )
 }
 
 void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir,
-			 bool viewFriendly)
+			 bool /*viewFriendly*/)
 {
   // if _fileList is empty, we extract all.
   // if _destDir is empty, abort with error.

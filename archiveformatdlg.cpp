@@ -46,7 +46,9 @@ ArchiveFormatDlg::ArchiveFormatDlg( QWidget * parent, const QString & defaultTyp
                     "the appropriate format." ).arg( defaultDescription );
 
     QVBox * page = makeVBoxMainWidget();
-    QLabel * label = new QLabel( text, page );
+
+    QLabel * label;
+    label = new QLabel( text, page );
 
     m_combo = new KComboBox( page );
     QStringList list = ArchiveFormatInfo::self()->allDescriptions();

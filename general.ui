@@ -21,13 +21,22 @@
         </property>
         <widget class="QCheckBox">
             <property name="name">
-                <cstring>kcfg_Enable</cstring>
+                <cstring>kcfg_KonquerorIntegration</cstring>
             </property>
             <property name="text">
                 <string>&amp;Enable Konqueror integration</string>
             </property>
-            <property name="accel">
-                <string>Alt+E</string>
+            <property name="whatsThis" stdset="0">
+                <string>Enable Konqueror Integration\n"
+	                                              "Check this option to enable Ark's integration into the Konqueror file manager, letting you easily archive and unarchive files through the context menus.</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_UseIntegratedViewer</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Use integrated viewer</string>
             </property>
             <property name="whatsThis" stdset="0">
                 <string>Enable Konqueror Integration\n"
@@ -47,7 +56,7 @@
             <property name="sizeHint">
                 <size>
                     <width>20</width>
-                    <height>151</height>
+                    <height>150</height>
                 </size>
             </property>
         </spacer>
