@@ -797,6 +797,7 @@ void ArkWidget::file_new()
 			       m_settings->getFilter());
   strFile = url.path();
   m_settings->clearShellOutput();
+  file_close();
   if (!strFile.isEmpty())
     createArchive( strFile );
 }
