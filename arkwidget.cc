@@ -107,7 +107,7 @@
 
 #include "viewer.h"
 
-extern int errno;
+//extern int errno;
 
 bool Utilities::haveDirPermissions(const QString &strFile)
 {

@@ -163,7 +163,7 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
   kdDebug(1601) << "normalExit = " << _kp->normalExit() << endl;
   if( _kp->normalExit() )
     kdDebug(1601) << "exitStatus = " << _kp->exitStatus() << endl;
-  
+
   if( _kp->normalExit() && (_kp->exitStatus()==0) )
     {
       if(stderrIsError())
@@ -186,17 +186,17 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
       chdir(QFile::encodeName(m_tmpdir));
       QString command = "ls -l " +
 	m_tmpfile.right(m_tmpfile.length() - 1 - m_tmpfile.findRev("/"));
-      
+
       char line[4096];
       char columns[7][80];
       char filename[4096];
-      
+
       FILE *readHandle = popen(QFile::encodeName(command), "r");
-      fscanf(readHandle, "%[-A-Za-z:0-9_. ]", line);
+      fscanf(readHandle, "%[-A-Za-z:0-9_+-. ]", line);
       sscanf(line, "%[-drwxst] %[0-9] %[0-9.a-zA-Z_] %[0-9.a-zA-Z_] %[0-9] %12[A-Za-z0-9: ]%1[ ]%[^\n]", columns[0], columns[5],
 	     columns[1], columns[2], columns[3],
 	     columns[4], columns[6], filename);
-      
+
       kdDebug(1601) << columns[0] << "\t" << columns[1] << "\t" << columns[2] << "\t" << columns[3] << "\t" << columns[4] << "\t" << filename << "\n" << endl;
 
 
