@@ -270,7 +270,7 @@ ArkTopLevelWindow::getOpenURL( bool addOnly, const QString & caption,
                                   : KFileDialog::Opening );
 
     dlg.setCaption( addOnly ? caption : i18n("Open") );
-    dlg.setMode( addOnly ? ( KFile::File || KFile::ExistingOnly )
+    dlg.setMode( addOnly ? ( KFile::File | KFile::ExistingOnly )
                                   :  KFile::File );
     dlg.setSelection( dir );
     dlg.exec();
