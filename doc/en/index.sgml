@@ -1,0 +1,162 @@
+<!doctype linuxdoc system>
+
+<!-- The KZip Handbook.
+
+ -->
+
+<article>
+
+<!-- Title information -->
+
+<title>The KZip Handbook
+<author>Robert Palmbos, <tt/robertp@macatawa.org/
+<date>Version 0.5, Oct 25, 1997
+<abstract>This Handbook describes KZip Version 0.5
+
+<!-- Table of contents -->
+<toc>
+
+<!-- Begin the document -->
+
+
+<sect>Introduction
+
+<p> 
+KZip is a program for managing and quickly extracting archives. It works
+closely with KFM and various other parts of the KDE environment. Current
+features include, a quick list of archives in a user defined directory,
+quick extraction of archives to any directory, and adding files via drag and
+drop from kfm. 
+
+<tt>Robert Palmbos</tt>
+<p>
+<htmlurl url="mailto:robertp@macatawa.org" name="robertp@macatawa.org">
+<p>
+
+<sect>Installation 
+<p> 
+<sect1>How to obtain KZip 
+
+<p> KZip can be found in the kdeutils package of the K Desktop Environment
+<url url="http://www.kde.org">. <url url="ftp://ftp.kde.org/pub/kde/"> is
+the main ftp site of the KDE project.
+
+<sect1>Requirements
+<p>
+<itemize>
+<item>The latest version of KDE. KDE is in beta so not everything will work
+perfectly. It can be found on <url url="ftp://ftp.kde.org/">.
+<item>GNU Tar v1.12 and a recent gzip.
+<item>KFM is needed to get full functionality from KZip.
+<item>Qt v1.31.  Information regarding Qt can found on 
+<url url="http://www.troll.no/">.
+<item>The appropriate programs for other archive formats are needed as well. 
+These include lha, zip, unzip, and ar.
+</itemize>
+
+<sect>Onscreen Fundamentals
+<p>
+<sect1> Setting the Archive Directory 
+<p>
+KZip will automatically remember your archive dir. You must first set it via
+"Set Archive Directory" from the options menu. Enter the full path, such as,
+"/home/rob/dloads". To quickly go to this directory when kzip is running,
+click on the home icon on the toolbar. A listing of all files in the archive
+directory will then be shown. Double-click on an archive to open it.
+
+<sect1>Opening and Viewing Archives
+<p>
+ There are a few different ways to open an archive. The first is done by
+clicking on either the open button on the toolbar or by choosing open from
+the file menu. The second is done by double-clicking on an archive in your
+archive directory.
+
+<sect1>Working with Files
+<p>
+An archive must be opened before any work can be done with it. To view a
+file in an archive double click on it or select view from the edit menu
+after selecting a file. A dialog will come up asking for the program you
+wish to view it with. Type in kless, kview, or whatever is appropriate for
+that file.  Select "Edit...Extract" in the menus to extract the selected
+file to a directory of your choice.  Select "Edit...Delete" to remove the
+selected file from the archive.
+
+<sect1>Extracting Archives
+<p>
+
+Once you have opened an archive it can be quickly extracted to any directory.
+To do this either click on the extract button on the toolbar or choose
+"Extract To" from the file menu. A dialog will come up asking you for the
+destination directory. Type in the full path, such as, "/home/rob/new_kde_stuff".
+A progress indicator will popup showing just that, and disappear when finished.
+
+<sect1>Creating and Adding Files to Archives
+<p>
+To create a new archive choose new from the file menu. Files can be added
+to an open archive by dragging them in from KFM. Whole directories and
+multiple files can dropped on KZip at once. 
+
+
+<sect>The Menu Entries
+<p>
+<sect1>File
+<p>
+<sect2>New Window
+<p>
+Creates a another KZip window.
+<sect2>New
+<p>
+Create a new archive.  The type of archive created is determined from the
+extension you give the new file.
+<sect2>Open
+<p>
+Opens an archive.  Whatever is open now will be closed.
+<sect2>Close
+<p>
+Closes the current KZip window.  If no windows remain the program will exit.
+<sect2>Exit
+<p>
+Exits KZip.
+
+<sect1>Edit
+<p>
+<sect2>Extract
+<p>
+This will extract what ever is currently selected in the listing.
+<sect2>View
+<p>
+This pops up a dialog asking what program you wish to use to view the
+selected file.
+<sect2>Delete
+<p>
+This will delete the currently select file.  It may not work with all
+archive formats.
+
+<sect1>Options
+<p>
+<sect2>Set archive directory...
+<p>
+This will popup a dialog asking which directory you normally keep your
+archives in.  After setting this, clicking the home button on the toolbar
+will show a listing of the archives present in that directory.
+<sect2>File adding options...
+<p>
+This pops up a dialog with two checboxes.  If you want files added to
+archives to be stored from there full path, for instance /bin/sh, check this. 
+Otherwise they will be stored from the directory they are dragged out of in
+KFM.  
+<p>
+The next checkbox should be checked if you wish to only add files to an
+archive that are new than those present in the archive.  This may not work
+with all archive formats.
+<sect1>Help
+<p>
+<sect2>Help
+<p>
+Invokes the KDE help system with the KZip help pages displayed.
+<sect2>About 
+<p>
+Displays essential information about KZip.
+
+<p>
+</article>
