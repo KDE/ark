@@ -80,12 +80,12 @@ QString FileLVI::key(int column, bool ascending) const
     if ( columnName == SIZE_STRING ||
 	 columnName == PACKED_STRING )
       {
-	s.sprintf("%.10ld", text(column).toInt());
+	s.sprintf("%.10ld", (long)(text(column).toInt()));
 	return s;
       }
     else if (columnName == RATIO_STRING)
       {
-	s.sprintf("%.10ld", text(column).toInt());
+	s.sprintf("%.10ld", (long)(text(column).toInt()));
 	return s;
       }
 		else if(0 == column)
