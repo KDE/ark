@@ -83,6 +83,11 @@ ArkTopLevelWindow::ArkTopLevelWindow( QWidget * /*parent*/, const char *name ) :
 
         setCentralWidget( m_part->widget() );
         createGUI( m_part );
+
+        if ( !initialGeometrySet() )
+        {
+            resize( 640, 300 );
+        }
         setAutoSaveSettings( "MainWindow" );
     }
     else

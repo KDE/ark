@@ -205,7 +205,6 @@ ArkApplication::newInstance()
         }
         ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
         arkWin->show();
-        arkWin->resize(640, 300);
         if(doAutoExtract)
         {
             arkWin->setExtractOnly(true);
