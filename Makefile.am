@@ -1,6 +1,6 @@
 # set the include path for X, qt and KDE
 INCLUDES= $(all_includes)
-kde_module_LTLIBRARIES = kparts_ark.la
+lib_LTLIBRARIES = libark.la
 
 SUBDIRS = pics
 
@@ -8,7 +8,7 @@ SUBDIRS = pics
 bin_PROGRAMS = 	ark
 
 # Kpart sources 
-kparts_ark_la_SOURCES= arkapp.cpp extractdlg.cpp dirDlg.cpp arkwidget.cpp \
+libark_la_SOURCES= arkapp.cpp extractdlg.cpp dirDlg.cpp arkwidget.cpp \
 		main.cpp zip.cpp tar.cpp filelistview.cpp arch.cpp \
 		selectDlg.cpp adddlg.cpp lha.cpp \
 		waitDlg.cpp shellOutputDlg.cpp arksettings.cpp \
@@ -17,10 +17,10 @@ kparts_ark_la_SOURCES= arkapp.cpp extractdlg.cpp dirDlg.cpp arkwidget.cpp \
 		kdirselect.cpp
 
 # KParts
-kparts_ark_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module $(LIB_KIO)
+libark_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module $(LIB_KIO)
 
 # KParts
-kparts_ark_la_LIBADD   = $(LIB_KFILE) -lkparts
+libark_la_LIBADD   = $(LIB_KFILE) -lkparts
 
 # Which sources should be compiled for ark.
 ark_SOURCES    = dummy.cpp
@@ -33,7 +33,7 @@ ark_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 
 # the libraries to link against. Be aware of the order. First the libraries,
 # that depend on the following ones.
-ark_LDADD   = kparts_ark.la
+ark_LDADD   = libark.la
 
 # this option you can leave out. Just, if you use "make dist", you need it
 noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \

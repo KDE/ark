@@ -36,7 +36,7 @@ extern "C"
      * the form 'void *init_lib<library name>()'.  It always returns a
      * new factory object
      */
-    void *init_kparts_ark()
+    void *init_libark()
     {
 	KGlobal::locale()->insertCatalogue("ark");
         return new ArkFactory;
