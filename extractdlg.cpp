@@ -58,46 +58,46 @@ ExtractDlg::ExtractDlg( ArkSettings *_settings )
 m_settings( _settings )
 {
 	QFrame *mainFrame = plainPage();
-	
+
 	kdDebug() << "+ExtractDlg::ExtractDlg" << endl;
-	
+
 	QGridLayout *Form1Layout = new QGridLayout( mainFrame );
 	Form1Layout->setSpacing( 6 );
 	Form1Layout->setMargin( 11 );
-	
+
 	QVBoxLayout *Layout10 = new QVBoxLayout;
 	Layout10->setSpacing( 6 );
 	Layout10->setMargin( 0 );
-	
+
 	QHBoxLayout *Layout3 = new QHBoxLayout;
 	Layout3->setSpacing( 6 );
 	Layout3->setMargin( 0 );
-	
+
 	QLabel *extractToLabel = new QLabel( mainFrame, "extractToLabel" );
 	extractToLabel->setText( i18n( "Extract to:" ) );
 	Layout3->addWidget( extractToLabel );
-	
+
 	m_extractDirCB = new KHistoryCombo( true, mainFrame, "m_extractDirCB" );
 	m_extractDirCB->setSizePolicy( QSizePolicy( ( QSizePolicy::SizeType ) 3, ( QSizePolicy::SizeType ) 0,
 				m_extractDirCB->sizePolicy().hasHeightForWidth() ) );
 	Layout3->addWidget( m_extractDirCB );
-	
+
 	KURLCompletion *comp = new KURLCompletion();
 	comp->setReplaceHome( true );
 	comp->setCompletionMode( KGlobalSettings::CompletionAuto );
 	m_extractDirCB->setCompletionObject( comp );
 	m_extractDirCB->setMaxCount( 20 );
 	m_extractDirCB->setInsertionPolicy( QComboBox::AtTop );
-	
+
 	KConfig *config = m_settings->getKConfig();
 	QStringList list;
-	
+
 	config->setGroup( "History" );
 	list = config->readListEntry( "ExtractTo History" );
 	m_extractDirCB->setHistoryItems( list );
-	
+
 	m_extractDirCB->setEditURL( KURL( m_settings->getExtractDir() ) );
-	
+
 	// Connect to the return pressed signal - optional
 	connect( m_extractDirCB, SIGNAL( returnPressed( const QString& ) ), comp, SLOT( addItem( const QString& ) ) );
 	connect( m_extractDirCB->lineEdit(),SIGNAL(textChanged ( const QString & )),this,SLOT(extractDirChanged(const QString & )));
@@ -116,23 +116,23 @@ m_settings( _settings )
 	bgLayout->setAlignment( Qt::AlignTop );
 	bgLayout->setSpacing( 6 );
 	bgLayout->setMargin( 11 );
-	
+
 	QVBoxLayout *Layout2 = new QVBoxLayout;
 	Layout2->setSpacing( 6 );
 	Layout2->setMargin( 0 );
-	
+
 	m_radioCurrent = new QRadioButton( bg, "m_radioCurrent" );
 	m_radioCurrent->setText( i18n( "Current" ) );
 	Layout2->addWidget( m_radioCurrent );
-	
+
 	m_radioAll = new QRadioButton( bg, "m_radioAll" );
 	m_radioAll->setText( i18n( "All" ) );
 	Layout2->addWidget( m_radioAll );
-	
+
 	m_radioSelected = new QRadioButton( bg, "m_radioSelected" );
 	m_radioSelected->setText( i18n( "Selected files" ) );
 	Layout2->addWidget( m_radioSelected );
-	
+
 	QHBoxLayout *Layout1 = new QHBoxLayout;
 	Layout1->setSpacing( 6 );
 	Layout1->setMargin( 0 );
@@ -140,33 +140,33 @@ m_settings( _settings )
 	m_radioPattern = new QRadioButton( bg, "m_radioPattern" );
 	m_radioPattern->setText( i18n( "Pattern" ) );
 	Layout1->addWidget( m_radioPattern );
-	
+
 	m_patternLE = new QLineEdit( bg, "m_patternLE" );
 	Layout1->addWidget( m_patternLE );
 	Layout2->addLayout( Layout1 );
-	
+
 	bgLayout->addLayout( Layout2, 0, 0 );
 	Layout10->addWidget( bg );
-	
+
 	QHBoxLayout *Layout9 = new QHBoxLayout;
 	Layout9->setSpacing( 6 );
 	Layout9->setMargin( 0 );
-	
+
 	QPushButton *prefButton = new QPushButton( mainFrame, "prefButton" );
 	prefButton->setText( i18n( "&Preferences..." ) );
 	Layout9->addWidget( prefButton );
 	QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
 	Layout9->addItem( spacer );
 	Layout10->addLayout( Layout9 );
-	
+
 	Form1Layout->addLayout( Layout10, 0, 0 );
-	
+
 	mainFrame->setMinimumSize(410,250);
-	
+
 	connect(m_patternLE, SIGNAL(textChanged(const QString &)), this, SLOT(choosePattern()));
 	connect(m_patternLE, SIGNAL(returnPressed()), this, SLOT(accept()));
 	connect(prefButton, SIGNAL(clicked()), this, SLOT(openPrefs()));
-	
+
 	connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
 	m_radioCurrent->setChecked(true);
 	enableButtonOK(!m_extractDirCB->lineEdit()->text().isEmpty());
@@ -183,34 +183,34 @@ ExtractDlg::~ExtractDlg()
 	config->writeEntry( "ExtractTo History", list );
 }
 
-void 
+void
 ExtractDlg::extractDirChanged(const QString &text )
 {
 	enableButtonOK(!text.isEmpty());
 }
 
-void 
+void
 ExtractDlg::disableSelectedFilesOption()
 {
 	m_radioSelected->setEnabled(false);
 	m_radioAll->setChecked(true);
 }
 
-void 
-ExtractDlg::accept() 
+void
+ExtractDlg::accept()
 {
 	kdDebug( 1601 ) << "+ExtractDlg::accept" << endl;
-	
+
 	KURLCompletion uc;
 	KURL p( uc.replacedPath(  m_extractDirCB->currentText() ) );
-	
+
 	//if p isn't local KIO and friends will complain later on
 	if ( p.isLocalFile() )
-	{             
+	{
 		QFileInfo fi( p.path() );
-		if ( !fi.isDir() && !fi.exists() ) 
+		if ( !fi.isDir() && !fi.exists() )
 		{
-			QString ltext = i18n( "Create directory " ) + p.path() + " ?";
+			QString ltext = i18n( "Create directory %1?").arg(p.path());
 			int createDir =  KMessageBox::questionYesNo( this, ltext, i18n( "Missing directory!" ) );
 			if( createDir == 4 )
 			{
@@ -224,37 +224,37 @@ ExtractDlg::accept()
 				return;
 			}
 		}
-		if ( !fi.isWritable() ) 
+		if ( !fi.isWritable() )
 		{
 			KMessageBox::error( this, i18n( "You do not have write permission to this directory! Please provide another directory." ) );
 			return;
 		}
 	}
-	
+
 	m_extractDir = p;
 	// you need to change the settings to change the fixed dir.
 	m_settings->setLastExtractDir( p.prettyURL() );
-	
-	if ( m_radioPattern->isChecked() ) 
+
+	if ( m_radioPattern->isChecked() )
 	{
-		if ( m_patternLE->text().isEmpty() ) 
+		if ( m_patternLE->text().isEmpty() )
 		{
 			// pattern selected but no pattern? Ask user to select a pattern.
 			KMessageBox::error( this, i18n( "Please provide a pattern" ) );
 			return;
-		} 
-		else 
+		}
+		else
 		{
 			emit pattern( m_patternLE->text() );
 		}
 	}
-	
+
 	// I made it! so nothing's wrong.
 	KDialogBase::accept();
 	kdDebug( 1601 ) << "-ExtractDlg::accept" << endl;
 }
 
-void 
+void
 ExtractDlg::browse() // slot
 {
 	KFileDialog extractDirDlg( m_settings->getExtractDir(), QString::null, this, "extractdirdlg", true );
@@ -264,7 +264,7 @@ ExtractDlg::browse() // slot
 
 	KURL u( extractDirDlg.selectedURL() );
 	QString dirName = u.prettyURL(1);
-	
+
 	if (! dirName.isEmpty() )
 	{
 		m_extractDirCB->insertItem( dirName, 0 );
@@ -272,7 +272,7 @@ ExtractDlg::browse() // slot
 	}
 }
 
-int 
+int
 ExtractDlg::extractOp()
 {
 	// which kind of extraction shall we do?
@@ -302,7 +302,7 @@ ExtractDlg::extractDir()
 	return m_extractDir;
 }
 
-void 
+void
 ExtractDlg::openPrefs()
 {
 	GeneralOptDlg dd( m_settings, this );
@@ -320,26 +320,26 @@ ExtractFailureDlg::ExtractFailureDlg( QStringList *list, QWidget *parent, char *
 	int boxHeight = 75;
 	int boxWidth;
 	int buttonHeight = 30;
-	
+
 	setCaption( i18n( "Failure to Extract" ) );
 	QLabel *pLabel = new QLabel( this );
 	pLabel->setText( i18n( "Some files already exist in your destination directory.\n"
 				"The following files will not be extracted if you continue: " ) );
 	labelWidth = pLabel->sizeHint().width();
 	labelHeight = pLabel->sizeHint().height();
-	
+
 	pLabel->setGeometry( 10, 10, labelWidth, labelHeight );
 	boxWidth = labelWidth;
-	
+
 	QListBox *pBox = new QListBox( this );
 	pBox->setGeometry( 10, 10 + labelHeight + 10, boxWidth, boxHeight );
 	pBox->insertStringList( *list );
-	
+
 	QPushButton *pOKButton = new QPushButton( this, "OKButton" );
 	pOKButton->setGeometry( labelWidth / 2 - 50, boxHeight + labelHeight + 30, 70, buttonHeight );
 	pOKButton->setText( i18n( "Continue" ) );
 	connect( pOKButton, SIGNAL( pressed() ), this, SLOT( accept() ) );
-	
+
 	QPushButton *pCancelButton = new QPushButton( this, "CancelButton" );
 	pCancelButton->setGeometry( labelWidth / 2 + 20, boxHeight + labelHeight + 30, 70, buttonHeight );
 	pCancelButton->setText( i18n( "Cancel" ) );
