@@ -69,6 +69,7 @@ public:
   void setLastOpenDir(const QString& dir);
   void setOpenDirCfg(const QString& dir, int mode);
 
+
   QString getExtractDir();
   QString getFixedExtractDir() const;
   int getExtractDirMode() const;

@@ -39,6 +39,7 @@
 
 // KDE includes
 #include <kprocess.h>
+#include <ktar.h>
 
 // ark includes
 
@@ -60,7 +61,7 @@ public:
   virtual int addFile( QStringList *);
   virtual int addDir(const QString &);
   virtual void remove(QStringList *);
-  virtual QString unarchFile(QStringList *);
+  virtual QString unarchFile(QStringList *, const QString & _destDir="");
 	
   virtual int getEditFlag();
 	
@@ -84,14 +85,13 @@ private:  // methods
   int updateArch();
   void createTmp();
   void setHeaders();
-  void initOpen();
-  void processLine( char* );	
+  void processDir(const KTarDirectory *tardir, const QString & root);
 
 private: // data
   char          *stdout_buf;
   QString       tmpfile;
   bool          compressed;
-  KProcess      *m_kp;
+  KTarGz *tarptr;
 
   bool          perms, tolower, overwrite;
 };

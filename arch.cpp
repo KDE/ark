@@ -33,6 +33,18 @@
 #include "viewer.h"
 
 
+Arch::Arch( ArkSettings *_settings, Viewer *_viewer,
+	    const QString & _fileName )
+  : m_filename(_fileName), m_settings(_settings), m_gui(_viewer) 
+{
+  kDebugInfo(1601, "+Arch::Arch");
+  m_kp = new KProcess;
+  connect( m_kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotOpenExited(KProcess*)));
+  kDebugInfo(1601, "-Arch::Arch");
+}
+
+
 void Arch::slotCancel()
 {
   m_kp->kill();
@@ -76,8 +88,6 @@ void Arch::slotOpenExited(KProcess* _p)
 		  Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
   else
     emit sigOpen( false, QString::null, 0 );
-  
-  delete m_kp;
 }
 
 void Arch::slotExtractExited(KProcess *)
@@ -102,9 +112,6 @@ void Arch::slotExtractExited(KProcess *)
     }
   else
     KMessageBox::sorry( (QWidget *)0, i18n("Error"), i18n("Extraction failed") );
-		
-  delete m_kp;
-		
   kDebugInfo(1601, "-slotExtractExited");
 }
 

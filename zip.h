@@ -45,7 +45,7 @@ class ZipArch : public Arch
 public:
   ZipArch( ArkSettings *_settings, Viewer *_gui,
 	   const QString & _fileName );
-  virtual ~ZipArch() {}
+  virtual ~ZipArch() { }
 	
   virtual void open();
   virtual void create();
@@ -54,7 +54,7 @@ public:
   virtual int addDir(const QString & _dirName);
 
   virtual void remove(QStringList *);
-  virtual QString unarchFile(QStringList *);
+  virtual QString unarchFile(QStringList *, const QString & _destDir="");
 	
   void testIntegrity();
 	

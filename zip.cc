@@ -87,7 +87,8 @@ void ZipArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
   for( tmpb = _data; *tmpb != '\n'; tmpl++, tmpb++ )
     *tmpl = *tmpb;
 		
-  tmpb++;	*tmpl = '\0';
+  tmpb++;
+  *tmpl = '\0';
 
   if( *tmpb == '\0' )
     m_buffer[0]='\0';
@@ -112,9 +113,12 @@ void ZipArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
       for(; (*tmpb!='\n') && (*tmpb!='\0'); tmpl++, tmpb++)
 	*tmpl = *tmpb;
 
-      if( *tmpb == '\n' ){
-	*tmpl = '\n';  	tmpl++;
-	*tmpl = '\0';  	tmpb++;
+      if( *tmpb == '\n' )
+	{
+	  *tmpl = '\n';
+	  tmpl++;
+	  *tmpl = '\0';
+	  tmpb++;
 
 	if( !strstr( line, "----" ) )
 	  {
@@ -124,17 +128,19 @@ void ZipArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
 	  }
 	else if( !m_header_removed )
 	  m_header_removed = true;
-	else{
-	  m_finished = true;
+	else
+	  {
+	    m_finished = true;
+	  }
 	}
-      }
-      else if( *tmpb == '\0' ){
-	*tmpl = '\0';
-	strcpy( m_buffer, line );
-	stop = true;
-      }
+      else if (*tmpb == '\0' )
+	{
+	  *tmpl = '\0';
+	  strcpy( m_buffer, line );
+	  stop = true;
+	}
     }
-
+  
   _data[_length] = c;
 }
 
@@ -175,13 +181,10 @@ void ZipArch::initOpen()
 	
   m_settings->clearShellOutput();
 
-  m_kp = new KProcess;
   *m_kp << "unzip" << "-v" << m_filename.local8Bit();
 	
   connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotOpenDataStdout(KProcess*, char*, int)));
-  connect( m_kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotOpenExited(KProcess*)));
 
   kDebugInfo( 1601, "-ZipArch::initOpen");
 }
@@ -193,7 +196,7 @@ void ZipArch::open()
   setHeaders();
   initOpen();
 
-  if(m_kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
+  if (m_kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
       emit sigOpen( false, QString::null, 0 );
@@ -233,7 +236,7 @@ int ZipArch::addFile( QStringList *urls )
 	
   int retCode;
 
-  m_kp = new KProcess();
+  m_kp->clearArguments();
 			
   *m_kp << "zip";
 	
@@ -303,21 +306,26 @@ int ZipArch::addFile( QStringList *urls )
       KMessageBox::sorry( 0, i18n("Add failed") );
       retCode = FAILURE;
     }	
-  delete m_kp;
-  
+
   return retCode;
   kDebugInfo( 1601, "+ZipArch::addFile");
 }
 
-QString ZipArch::unarchFile(QStringList *_fileList)
+QString ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
 {
   // if _fileList is empty, we extract all.
+  // if _destDir is empty, look at settings for extract directory
 
   kDebugInfo( 1601, "+ZipArch::unarchFile");
-  QString dest = m_settings->getExtractDir();
+  QString dest;
+
+  if (_destDir.isEmpty() || _destDir.isNull())
+    dest = m_settings->getExtractDir();
+  else dest = _destDir;
+
   QString tmp;
 	
-  m_kp = new KProcess();
+  m_kp->clearArguments();
   
   *m_kp << "unzip" << "-o" << m_filename;
   
@@ -345,8 +353,6 @@ QString ZipArch::unarchFile(QStringList *_fileList)
     KMessageBox::sorry( 0, "Unarch failed" );
   }
   
-  delete m_kp;
-  
   kDebugInfo( 1601, "-ZipArch::unarchFile");
   
   return (dest+tmp);	
@@ -359,7 +365,7 @@ void ZipArch::remove(QStringList *list)
   if (!list)
     return;
   m_settings->clearShellOutput(); m_shellErrorData = "";
-  m_kp = new KProcess();
+  m_kp->clearArguments();
   
   *m_kp << "zip" << "-d" << m_filename.local8Bit();
   for ( QStringList::Iterator it = list->begin();
@@ -393,8 +399,6 @@ void ZipArch::remove(QStringList *list)
   else
     KMessageBox::sorry( 0, i18n("Deletion failed") );
   
-  delete m_kp;
-  
   kDebugInfo( 1601, "-ZipArch::remove");
 }
 
@@ -404,7 +408,7 @@ void ZipArch::initExtract( bool _overwrite, bool _junkPaths, bool _lowerCase)
   m_settings->clearShellOutput();
   m_shellErrorData = "";
 
-  m_kp = new KProcess();
+  m_kp->clearArguments();
 		
   *m_kp << "unzip";
 		
@@ -444,9 +448,7 @@ void ZipArch::slotIntegrityExited(KProcess *)
     }
   else
     KMessageBox::sorry( 0, i18n("Test of integrity failed") );
-		
-  delete m_kp;
-		
+				
   kDebugInfo( 1601, "-slotIntegrityExited");
 }
 
@@ -455,7 +457,7 @@ void ZipArch::testIntegrity()
   m_settings->clearShellOutput();
   m_shellErrorData = "";
 
-  m_kp = new KProcess();
+  m_kp->clearArguments();
 		
   *m_kp << "unzip -t";
 		

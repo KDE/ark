@@ -50,7 +50,7 @@
 #include <stdlib.h>
 
 // Qt includes
-#include <qmessagebox.h>
+#include <qregexp.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -63,9 +63,12 @@
 #include "tar.h"
 #include "tar.moc"
 
+static char *makeAccessString(mode_t mode);
+static QString makeTimeStamp(const QDateTime & dt);
+
 TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
 		  const QString & _filename)
-  : Arch(_settings, _gui, _filename)
+  : Arch(_settings, _gui, _filename), tarptr(NULL)
 {
   kDebugInfo(1601, "+TarArch::TarArch");
   stdout_buf = NULL;
@@ -84,10 +87,9 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
 TarArch::~TarArch()
 {
   QString strCmd("rm -f " + tmpfile);
-  updateArch();
+  delete tarptr;
+  //updateArch();
 }
-
-
 
 int TarArch::getEditFlag()
 {
@@ -96,6 +98,7 @@ int TarArch::getEditFlag()
 
 int TarArch::updateArch()
 {
+#if 0
   if (!compressed)
     {
       compressed = TRUE;
@@ -111,6 +114,7 @@ int TarArch::updateArch()
 	  return -1;
 	}
     }
+#endif
   return 0;
 }
 
@@ -154,16 +158,72 @@ QString TarArch::getUnCompressor()
 void TarArch::open()
 {
   kDebugInfo(1601, "+TarArch::open");
-  setHeaders();
-  initOpen();
 
-  if (m_kp->start( KProcess::NotifyOnExit, KProcess::Stdout ) == FALSE )
+  setHeaders();
+  
+  tarptr = new KTarGz(m_filename);
+
+  if (! tarptr->open(IO_ReadOnly))
     {
-      KMessageBox::error(0, "Can't fork a decompressor.");
       emit sigOpen( false, QString::null, 0 );
-      return;
     }
+  else
+    {
+      processDir(tarptr->directory(), "");
+      // because we aren't using the KProcess method, we have to emit this
+      // ourselves.
+      emit sigOpen( true, m_filename,
+		    Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
+    }
+
   kDebugInfo(1601, "-TarArch::open");
+}
+
+void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
+  // process a KTarDirectory. Called recursively for directories within
+  // directories, etc. Prepends to filename root, for relative pathnames.
+{
+  kDebugInfo(1601, "+TarArch::processDir");
+  QStringList list = tardir->entries();
+  for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
+    {
+      const KTarEntry* tarEntry = tardir->entry((*it));
+      if (tarEntry == NULL)
+	return;
+      QStringList col_list;
+      QString name;
+      if (root.isEmpty() || root.isNull())
+	name = tarEntry->name();
+      else
+	name = root + "/" + tarEntry->name();
+      col_list.append(QString::fromLocal8Bit(name));
+      QString perms = makeAccessString(tarEntry->permissions());
+      col_list.append(QString::fromLocal8Bit(perms));
+      QString usergroup = tarEntry->user();
+      usergroup += '/';
+      usergroup += tarEntry->group();
+      col_list.append(QString::fromLocal8Bit(usergroup));
+      QString strSize = "0";
+      if (tarEntry->isFile())
+	{
+	  strSize.sprintf("%d", ((KTarFile *)tarEntry)->size());
+	}
+      col_list.append(QString::fromLocal8Bit(strSize));
+      QString timestamp = makeTimeStamp(tarEntry->datetime());
+      col_list.append(QString::fromLocal8Bit(timestamp));
+      col_list.append(QString::fromLocal8Bit(tarEntry->symlink()));
+      m_gui->add(&col_list); // send the entry to the GUI
+
+      // if it isn't a file, it's a directory - process it.
+      // remember that name is root + / + the name of the directory
+      if (!tarEntry->isFile())
+	processDir( (KTarDirectory *)tarEntry, name);
+    }
+  kDebugInfo(1601, "-TarArch::processDir");
+}                                                                           
+
+void TarArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
+{
 }
 
 void TarArch::create()
@@ -185,6 +245,7 @@ void TarArch::setHeaders()
   list.append(i18n(" Owner/Group ") );
   list.append(i18n(" Size ") );
   list.append(i18n(" TimeStamp ") );
+  list.append(i18n(" Link "));
 
   // which columns to align right
   int *alignRightCols = new int[2];
@@ -197,64 +258,11 @@ void TarArch::setHeaders()
   kDebugInfo(1601, "-TarArch::setHeaders");
 }
 
-void TarArch::initOpen()
-{
-  m_kp = new KProcess;
-  m_kp->clearArguments();
-  QString tar_exe = m_settings->getTarCommand();
-
-  if (tar_exe.isEmpty() || tar_exe.isNull())
-    tar_exe = "tar";
-
-  *m_kp << tar_exe;
-
-  if (compressed)
-    {
-      *m_kp << "--use-compress-program="+getUnCompressor();
-    }
-
-  *m_kp << "-tvf" << m_filename.local8Bit();
-
-  disconnect( m_kp, 0, 0, 0 );
-  connect(m_kp, SIGNAL(processExited(KProcess *)), 
-	  this, SLOT(openFinished(KProcess *)));
-  connect(m_kp, SIGNAL(receivedStdout(KProcess *, char *,int)),
-	  this, SLOT(inputPending(KProcess *, char *, int)));
-}
-
-void TarArch::processLine( char *_line )
-{
-  char columns[4][80];
-  char filename[4096];
-  
-  sscanf(_line, " %[-drwxst] %[0-9.a-zA-Z/_-] %[0-9] %17[a-zA-Z0-9:- ] %[^\n]",
-	 columns[0], columns[1], columns[2], columns[3],
-	 filename);
- 
-  QStringList list;
-  list.append(QString::fromLocal8Bit(filename));
-  for (int i = 0; i < 7; ++i)
-    {
-      list.append(QString::fromLocal8Bit(columns[i]));
-    }
-  m_gui->add(&list); // send the entry to the GUI
-}
-
-void TarArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
-{
-  kDebugInfo(1601, "+TarArch::slotOpenDataStdout");
-  char c = _data[_length];
-  _data[_length] = '\0';
-	
-  m_settings->appendShellOutputData( _data );
-
-  kDebugInfo(1601, "-TarArch::slotOpenDataStdout");
-  
-}
 
 /* untested */
 void TarArch::createTmp()
 {
+#if 0
   kDebugInfo(1601, "+TarArch::createTmp");
   if (compressed )
     {
@@ -277,10 +285,12 @@ void TarArch::createTmp()
 	}
     }
   kDebugInfo(1601, "-TarArch::createTmp");
+#endif
 }
 
 int TarArch::addFile( QStringList* urls )
 {
+#if 0
   kDebugInfo(1601, "+TarArch::addFile");
 
   int retcode;
@@ -343,6 +353,7 @@ int TarArch::addFile( QStringList* urls )
   retcode = updateArch();
   return retcode;
   kDebugInfo(1601, "-TarArch::addFile");
+#endif
 }
 
 #if 0
@@ -403,19 +414,26 @@ void TarArch::extractTo( const QString & dir )
 #endif
 
 /* untested */
-QString TarArch::unarchFile( QStringList * _fileList)
+QString TarArch::unarchFile( QStringList * _fileList, const QString & _destDir)
 {
 #if 0
   kDebugInfo(1601, "+TarArch::unarchFile");
 
-  QString dest = m_settings->getExtractDir();
+  QString dest;
+
+  if (_destDir.isEmpty() || destDir.isNull())
+    QString dest = m_settings->getExtractDir();
+  else
+    dest = _destDir;
+
+ = m_settings->getExtractDir();
 
   int pos;
   QString tmp, name;
   QString fullname;
   QString tar_exe = m_settings->getTarCommand();	
 	
-  updateArch();
+  //updateArch();
 	
   tmp = (*listing)[index];
   pos = tmp.findRev( '\t', -1, FALSE );
@@ -462,10 +480,10 @@ void TarArch::remove(QStringList *)
   *m_kp << tar_exe.local8Bit() << "--delete" << "-f" << tmpfile.local8Bit() << patterns.local8Bit();
   m_kp->start(KProcess::Block);
 	
-  updateArch();
+  //updateArch();
 
-#endif
   kDebugInfo( 1601, "-Tar::deleteFiles");
+#endif
 }
 
 void TarArch::updateExtractProgress( KProcess *, char *buffer, int bufflen )
@@ -479,6 +497,7 @@ void TarArch::updateExtractProgress( KProcess *, char *buffer, int bufflen )
 
 void TarArch::inputPending( KProcess *, char *buffer, int bufflen )
 {
+#if 0
   char    columns[6][255];
   char    line[512];
   char    wline[512];
@@ -508,7 +527,8 @@ void TarArch::inputPending( KProcess *, char *buffer, int bufflen )
       //              columns[0], columns[1], columns[2], columns[3],
       //               filename
       //             );
-#if 0
+
+#if 0   // yech! GUI stuff! take it away!
       FileLVI *flvi = new FileLVI(destination_flw);
       strncpy( wline, start, pos-start );
       wline[pos-start] = 0;
@@ -537,12 +557,12 @@ void TarArch::inputPending( KProcess *, char *buffer, int bufflen )
   free( stdout_buf );
   stdout_buf = strdup( start );
   free( mybuf );
-
+#endif
 }
 
 int TarArch::addDir(const QString & _dirName)
 {
-  return SUCCESS;
+  return FAILURE;  // not implemented yet
 }
 
 void TarArch::extractFinished( KProcess * )
@@ -594,4 +614,71 @@ void TarArch::updateFinished( KProcess * )
 
 
   kDebugInfo(1601, "Update finshed");
+}
+
+////////////////////////////////////////////////////////////////////////
+/////////////////// some helper functions
+///////////////////////////////////////////////////////////////////////
+
+// copied from KonqTreeViewItem::makeAccessString()
+static char *makeAccessString(mode_t mode)
+{
+  static char buffer[10];
+
+  char uxbit,gxbit,oxbit;
+
+  if ( (mode & (S_IXUSR|S_ISUID)) == (S_IXUSR|S_ISUID) )
+    uxbit = 's';
+  else if ( (mode & (S_IXUSR|S_ISUID)) == S_ISUID )
+    uxbit = 'S';
+  else if ( (mode & (S_IXUSR|S_ISUID)) == S_IXUSR )
+    uxbit = 'x';
+  else
+    uxbit = '-';
+	
+  if ( (mode & (S_IXGRP|S_ISGID)) == (S_IXGRP|S_ISGID) )
+    gxbit = 's';
+  else if ( (mode & (S_IXGRP|S_ISGID)) == S_ISGID )
+    gxbit = 'S';
+  else if ( (mode & (S_IXGRP|S_ISGID)) == S_IXGRP )
+    gxbit = 'x';
+  else
+    gxbit = '-';
+	
+  if ( (mode & (S_IXOTH|S_ISVTX)) == (S_IXOTH|S_ISVTX) )
+    oxbit = 't';
+  else if ( (mode & (S_IXOTH|S_ISVTX)) == S_ISVTX )
+    oxbit = 'T';
+  else if ( (mode & (S_IXOTH|S_ISVTX)) == S_IXOTH )
+    oxbit = 'x';
+  else
+    oxbit = '-';
+
+  buffer[0] = ((( mode & S_IRUSR ) == S_IRUSR ) ? 'r' : '-' );
+  buffer[1] = ((( mode & S_IWUSR ) == S_IWUSR ) ? 'w' : '-' );
+  buffer[2] = uxbit;
+  buffer[3] = ((( mode & S_IRGRP ) == S_IRGRP ) ? 'r' : '-' );
+  buffer[4] = ((( mode & S_IWGRP ) == S_IWGRP ) ? 'w' : '-' );
+  buffer[5] = gxbit;
+  buffer[6] = ((( mode & S_IROTH ) == S_IROTH ) ? 'r' : '-' );
+  buffer[7] = ((( mode & S_IWOTH ) == S_IWOTH ) ? 'w' : '-' );
+  buffer[8] = oxbit;
+  buffer[9] = 0;
+
+  return buffer;
+}
+
+static QString makeTimeStamp(const QDateTime & dt)
+{
+  // make sortable timestamp, like the output of tar -tvf
+  // but with seconds.
+
+  QString timestamp;
+  QDate d = dt.date();
+  QTime t = dt.time();
+
+  timestamp.sprintf("%d-%02d-%02d %s",
+		    d.year(), d.month(), d.day(),
+		    (const char *)t.toString());
+  return timestamp;
 }

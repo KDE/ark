@@ -1,3 +1,8 @@
+2000-02-24: Emily Ezust <emilye@corel.com>
+	* Got showFile interface working (see zip)
+	* Started using KTar in tar. Seems to display OK.
+	  No other functionality yet for tar.
+	
 2000-02-22: Emily Ezust <emilye@corel.com>
 	* More work on the abstract base class for archives - moved lots of
 	  slots dealing with the KProcess from zip.cpp to arch.cpp

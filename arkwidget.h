@@ -194,7 +194,7 @@ protected:
   Arch * createArchive(QString name);
   Arch * openArchive(QString name);
 
-  void showFile( int, int col=0 );
+  void showFile(FileLVI *);
 
   void saveProperties();
 private:

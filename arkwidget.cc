@@ -49,6 +49,7 @@
 #include <kstatusbar.h>
 #include <ktoolbar.h>
 #include <kio/netaccess.h>
+#include <krun.h>
 
 // c includes
 
@@ -742,14 +743,19 @@ void ArkWidget::file_newWindow()
 
 void ArkWidget::file_open()
 {
-    KURL url;
-    QString strFile;
-    url = KFileDialog::getOpenURL(m_settings->getOpenDir(),
-				  m_settings->getFilter(), this);
+  kDebugInfo( 1601, "+ArkWidget::file_open");
 
-    KIO::NetAccess::download(url, strFile); 
-    file_open(strFile);  // note: assumes it is local for now
-    // do I have to remove this later if it's a temporary? Needs work. XXX
+  KURL url;
+  QString strFile;
+  url = KFileDialog::getOpenURL(m_settings->getOpenDir(),
+				m_settings->getFilter(), this);
+
+  // do I have to remove this later if it's a temporary from net?
+  // Needs work. XXX
+  KIO::NetAccess::download(url, strFile); 
+  file_open(strFile);  // note: assumes it is local for now
+
+  kDebugInfo( 1601, "-ArkWidget::file_open");
 }
 
 void ArkWidget::file_openRecent(int i)
@@ -924,25 +930,25 @@ void ArkWidget::file_quit()
 
 void ArkWidget::edit_select()
 {
-	SelectDlg *sd = new SelectDlg( m_settings, this );
-	if ( sd->exec() ){
-		QString exp = sd->getRegExp();
-		m_settings->setSelectRegExp( exp );
+  SelectDlg *sd = new SelectDlg( m_settings, this );
+  if ( sd->exec() ){
+    QString exp = sd->getRegExp();
+    m_settings->setSelectRegExp( exp );
 
-		QRegExp reg_exp( exp, true, true );
-		kDebugError(reg_exp.isValid(), 0, 1601, "ArkWidget::edit_select: regular expression is not valid.");
+    QRegExp reg_exp( exp, true, true );
+    kDebugError(reg_exp.isValid(), 0, 1601, "ArkWidget::edit_select: regular expression is not valid.");
 		
-		FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
+    FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
 
-		while (flvi)
-		{
-			if ( reg_exp.match(flvi->text(0))==0 ){
-		        	archiveContent->setSelected(flvi, true);
-			}
-			flvi = (FileLVI*)flvi->itemBelow();
-		}
-			
+    while (flvi)
+      {
+	if ( reg_exp.match(flvi->text(0))==0 ){
+	  archiveContent->setSelected(flvi, true);
 	}
+	flvi = (FileLVI*)flvi->itemBelow();
+      }
+			
+  }
 }
 
 void ArkWidget::edit_selectAll()
@@ -1126,38 +1132,27 @@ void ArkWidget::action_extract()
 
 void ArkWidget::action_view()
 {
-  /*
-    if ( lb->currentItem() != -1 )
+  FileLVI *pItem = archiveContent->currentItem();
+  if (pItem  != NULL )
     {
-    showFile( lb->currentItem() );
+      showFile(pItem);
     }
-  */
 }
 
-void ArkWidget::showFile( int /*index*/, int /*col*/ )
+void ArkWidget::showFile( FileLVI *_pItem )
 {
-	QString tmp;
-	QString tname;
-	QString name;
-	QString fullname;
+  QString name = _pItem->text(0); // get name
 
-/*
-	col++; // Don't ask.
-	tmp = listing->at( index );
-	tname = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
+  QString fullname;
+  fullname = "file:";
+  fullname += m_settings->getTmpDir();
+  fullname += name;
 
-	if ( arch == 0 )
-	{
-		fullname = fav->path();
-		fullname+= "/";
-		fullname+= tname;
-		showZip( fullname );
-	}else{
-		fullname = "file:";
-		fullname += arch->unarchFile( index, tmpdir );
-		(void) new KRun ( fullname );
-	}
-*/
+  QStringList list;
+  list.append(name);
+
+  arch->unarchFile( &list, m_settings->getTmpDir() );
+  (void *) new KRun ( fullname );
 }
 
 // Options menu //////////////////////////////////////////////////////
@@ -1635,32 +1630,30 @@ Arch *ArkWidget::createArchive( QString _filename )
     {
     case TAR_FORMAT:
       newArch = new TarArch( m_settings, m_viewer, _filename );
-      newArch->create();
       break;
     case ZIP_FORMAT:
       newArch = new ZipArch( m_settings, m_viewer, _filename );
-      connect( newArch, SIGNAL(sigOpen(bool, const QString &, int)),
-	       this, SLOT(slotOpen(bool, const QString &, int)) );
-      connect( newArch, SIGNAL(sigCreate(bool, const QString &, int)),
-	       this, SLOT(slotCreate(bool, const QString &, int)) );
-      newArch->create();
       break;
 #if 0
     case LHA_FORMAT:
       newArch = new LhaArch( m_settings );
-      newArch->createArch( name );
-      ret = true;
       break;
     case AA_FORMAT:
       newArch = new ArArch( m_settings );
-      newArch->createArch( name );
-      ret = true;
       break;
 #endif
     default:
       KMessageBox::error(this,
 			 i18n("Unknown archive format or corrupted archive") );
+      return 0;
     }
+
+  connect( newArch, SIGNAL(sigOpen(bool, const QString &, int)),
+	   this, SLOT(slotOpen(bool, const QString &, int)) );
+  connect( newArch, SIGNAL(sigCreate(bool, const QString &, int)),
+	   this, SLOT(slotCreate(bool, const QString &, int)) );
+  newArch->create();
+
   return newArch;
 }
 

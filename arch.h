@@ -30,6 +30,9 @@
 #ifndef ARCH_H
 #define ARCH_H
 
+// KDE includes
+#include <kprocess.h>
+
 // Qt includes
 #include <qstring.h>
 
@@ -43,10 +46,8 @@ class Arch : public QObject
 {
   Q_OBJECT
 public:
-  Arch( ArkSettings *_settings, Viewer *_viewer, const QString & _fileName )
-    : m_filename(_fileName), m_settings(_settings), m_gui(_viewer) {}
-
-  virtual ~Arch() {};
+  Arch( ArkSettings *_settings, Viewer *_viewer, const QString & _fileName );
+  virtual ~Arch() { delete m_kp; m_kp = 0;}
 	
   virtual void open() = 0;
   virtual void create() = 0;
@@ -56,7 +57,7 @@ public:
   virtual int addDir(const QString &) = 0;
 
   // unarch the files in the list or all files if the list is empty
-  virtual QString unarchFile(QStringList *) = 0;
+  virtual QString unarchFile(QStringList *, const QString & _destDir="") = 0;
 
   virtual int actionFlag() = 0;
 	
