@@ -73,10 +73,8 @@ public:
     ~ArkWidget();
     bool isArchiveOpen() { return m_bIsArchiveOpen; }
     bool isArchiveLocked(const QString &) ;
-    void updateListing();
     QString getArchName() { return m_strArchName; }
     
-    void updateStatusTotals();
     void file_open(const QString &);  // opens the specified archive
 
 public:
@@ -93,6 +91,7 @@ protected slots:
     void file_openRecent( int );
     void file_reload();
     void file_close();
+    void window_close();
     void file_quit();
 	
     void edit_select();
@@ -132,8 +131,19 @@ protected:
 
 private: // methods
   // lock and unlock the current archive
-  void createLockFile();
-  void deleteLockFile();
+    void createLockFile();
+    void deleteLockFile();
+    
+    // do all the toolbar and menu enables that have to be done when opening 
+    // an archive
+    void openEnables(); 
+    
+    // when the number of files changes, see if we need to do some 
+    // disabling/enabling of buttons and menu items
+    void onFileNumChangeSetEnables();
+    
+    void updateStatusSelection();
+    void updateStatusTotals();
         
 private:
     enum ArchType{ TAR_FORMAT, ZIP_FORMAT, AA_FORMAT, LHA_FORMAT };
@@ -149,8 +159,8 @@ private:
 
     QString m_strArchName;
 
-    QPopupMenu *editMenu, *actionMenu, *optionsMenu, *recentPopup;
-    int idActionMenu, idEditMenu;
+    QPopupMenu *fileMenu, *editMenu, *actionMenu, *optionsMenu, *recentPopup;
+    int  idActionMenu, idEditMenu;
     int idExtract, idDelete, idAdd, idView;
     int idSaveOnExit;
 

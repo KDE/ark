@@ -26,30 +26,16 @@
 #include "arkwidget.h"
 
 #include <iostream.h>
-#include <config.h>
 #include <unistd.h>
 #include <sys/param.h> 
-#include "settings.h"
 
 // KDE includes
 #include <kapp.h>
-
-
-// the settings objects... GLOBALS!!!
-CSettings *g_pSettings = 0;
-KConfig *g_pConfig = 0;
-
 
 int main( int argc, char *argv[]  )
 {
     QString Zip( "" );
     KApplication ark( argc, argv, "ark" );
-
-// read in the settings
-    g_pConfig = kapp->config();
-    g_pConfig->setGroup("ark");
-    g_pSettings = new CSettings;
-    g_pSettings->readConfig(g_pConfig); 
 
     if( ark.isRestored() )
     {
