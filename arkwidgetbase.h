@@ -24,14 +24,13 @@
 #define ARKWIDGETBASE_H
 
 #include <kurl.h>
+#include <ktempdir.h>
 
 #include "arch.h"
 
 class QWidget;
 class QString;
 class QStringList;
-
-class KTempDir;
 
 class Arch;
 class FileLVI;
@@ -58,6 +57,7 @@ class ArkWidgetBase
 		virtual QString getArchName() const { return m_strArchName; }
         void setRealURL( const KURL & url ) { m_realURL = url; }
         const KURL & realURL( ) const { return m_realURL; }
+        QString tmpDir() const { return m_tmpDir ? m_tmpDir->name() : QString::null ; }
 
 		const FileLVI * getFileLVI(const QString &_filename) const;
 		FileListView *fileList() const { return archiveContent; }

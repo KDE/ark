@@ -162,8 +162,6 @@ public:
   bool getRarRecurseSubdirs() { return  m_rarRecurseSubdirs;}
   void setRarRecurseSubdirs(bool _b) { m_rarRecurseSubdirs = _b; }
 
-  void setTmpDir( const QString & _dir ) { m_tmpDir = _dir; }
-  QString getTmpDir() const { return m_tmpDir; }	
   void writeConfiguration();
   void writeConfigurationNow();
   void readConfiguration();
@@ -179,7 +177,6 @@ public:
   QString tar_exe;
 
 	// Directories options
-  QString tmpdir;
   QString startDir;
   int startDirMode;
 	

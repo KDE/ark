@@ -92,7 +92,7 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
     else
     {
         compressed = true;
-        m_tmpDir = new KTempDir( _settings->getTmpDir()
+        m_tmpDir = new KTempDir( _gui->tmpDir()
                                  + QString::fromLatin1( "temp_tar" ) );
         m_tmpDir->setAutoDelete( true );
         m_tmpDir->qDir()->cd( m_tmpDir->name() );

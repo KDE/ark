@@ -217,7 +217,7 @@ void
 ArkWidget::convertTo( const KURL & u )
 {
     busy( i18n( "Saving..." ) );
-    m_convert_tmpDir =  new KTempDir( m_settings->getTmpDir() + "convtmp" );
+    m_convert_tmpDir =  new KTempDir( tmpDir() + "convtmp" );
     m_convert_tmpDir->setAutoDelete( true );
     connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( convertSlotExtractDone( bool ) ) );
     m_convert_saveAsURL = u;
@@ -241,7 +241,7 @@ ArkWidget::convertSlotCreate()
     if ( m_convert_saveAsURL.isLocalFile() )
         archToCreate = m_convert_saveAsURL.path();
     else
-        archToCreate = m_settings->getTmpDir() + m_convert_saveAsURL.fileName();
+        archToCreate = tmpDir() + m_convert_saveAsURL.fileName();
 
     createArchive( archToCreate );
 }
@@ -308,7 +308,7 @@ ArkWidget::convertFinish()
         }
         else
         {
-            KIO::NetAccess::upload( m_settings->getTmpDir()
+            KIO::NetAccess::upload( tmpDir()
                        + m_convert_saveAsURL.fileName(), m_convert_saveAsURL, this );
             // TODO: save bandwidth - we already have a local tmp file ...
             emit openURLRequest( m_convert_saveAsURL );
@@ -396,7 +396,7 @@ ArkWidget::extractToSlotOpenDone( bool success )
     // little code duplication from action_extract():
     if ( !m_extractTo_targetDirectory.isLocalFile() )
     {
-        m_extractRemoteTmpDir = new KTempDir( m_settings->getTmpDir() + "extremote" );
+        m_extractRemoteTmpDir = new KTempDir( tmpDir() + "extremote" );
         m_extractRemoteTmpDir->setAutoDelete( true );
 
         extractDir = m_extractRemoteTmpDir->name();
@@ -496,7 +496,7 @@ ArkWidget::addToArchive( const KURL::List & filesToAdd, const KURL & archive)
         if ( archive.isLocalFile() )
             createArchive( archive.path() );
         else
-            createArchive( m_settings->getTmpDir() + archive.fileName() );
+            createArchive( tmpDir() + archive.fileName() );
 
 
         return;
@@ -1013,7 +1013,7 @@ ArkWidget::createRealArchive( const QString & strFilename, const QStringList & f
     m_compressedFile = static_cast< CompressedFile * >( arch )->tempFileName();
     KURL u1, u2;
     u1.setPath( m_compressedFile );
-    m_createRealArchTmpDir = new KTempDir( m_settings->getTmpDir() + "create_real_arch" );
+    m_createRealArchTmpDir = new KTempDir( tmpDir() + "create_real_arch" );
     u2.setPath( m_createRealArchTmpDir->name() + u1.fileName() );
     KIO::NetAccess::copy( u1, u2, this );
     m_compressedFile = "file:" + u2.path(); // AGAIN THE 5 SPACES Hack :-(
@@ -1223,7 +1223,7 @@ ArkWidget::toLocalFile( QString & str )
     {
         if(!mpDownloadedList)
             mpDownloadedList = new QStringList();
-        QString tempfile = m_settings->getTmpDir();
+        QString tempfile = tmpDir();
         tempfile += str.right(str.length() - str.findRev("/") - 1);
         if( !KIO::NetAccess::dircopy(url, tempfile, this) )
             return KURL();
@@ -1397,7 +1397,7 @@ void
 ArkWidget::prepareViewFiles( const QStringList & fileList )
 {
     QString destTmpDirectory;
-    destTmpDirectory = m_settings->getTmpDir();
+    destTmpDirectory = tmpDir();
 
     QStringList * list = new QStringList( fileList );
     arch->unarchFile( list, destTmpDirectory, true);
@@ -1560,7 +1560,7 @@ ArkWidget::action_extract()
 
         if ( !m_extractURL.isLocalFile() )
         {
-            m_extractRemoteTmpDir = new KTempDir( m_settings->getTmpDir() + "extremote" );
+            m_extractRemoteTmpDir = new KTempDir( tmpDir() + "extremote" );
             m_extractRemoteTmpDir->setAutoDelete( true );
 
             extractDir = m_extractRemoteTmpDir->name();
@@ -1801,7 +1801,7 @@ ArkWidget::viewSlotExtractDone()
     }
 
     if ( view )
-    	KRun::runURL( m_strFileToView, mimetype, true );
+        KRun::runURL( m_strFileToView, mimetype );
 
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this,
                 SLOT( viewSlotExtractDone( ) ) );
@@ -1827,7 +1827,7 @@ ArkWidget::showCurrentFile()
 
     QString fullname;
     fullname = "file:";
-    fullname += m_settings->getTmpDir();
+    fullname += tmpDir();
     fullname += name;
 
     kdDebug(1601) << "File to be viewed: " << fullname << endl;
@@ -1836,7 +1836,7 @@ ArkWidget::showCurrentFile()
     extractList.append(name);
 
     m_strFileToView = fullname;
-    if (ArkUtils::diskHasSpace( m_settings->getTmpDir(), pItem->fileSize() ) )
+    if (ArkUtils::diskHasSpace( tmpDir(), pItem->fileSize() ) )
     {
         disableAll();
         prepareViewFiles( extractList );
@@ -2117,7 +2117,7 @@ ArkWidget::startDragSlotExtractDone( bool )
     for (QStringList::Iterator it = mDragFiles.begin(); it != mDragFiles.end(); ++it)
     {
         KURL url;
-        url.setPath( m_settings->getTmpDir() + '/' + *it );
+        url.setPath( tmpDir() + *it );
         list.append( url );
     }
 

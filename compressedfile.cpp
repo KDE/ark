@@ -58,7 +58,7 @@ CompressedFile::CompressedFile( ArkSettings *_settings, ArkWidgetBase *_gui,
   m_tempDirectory = NULL;
   m_openAsMimeType = _openAsMimeType;
   kdDebug(1601) << "CompressedFile constructor" << endl;
-  m_tempDirectory = new KTempDir( _settings->getTmpDir()
+  m_tempDirectory = new KTempDir( _gui->tmpDir()
                           + QString::fromLatin1( "compressed_file_temp" ) );
   m_tempDirectory->setAutoDelete( true );
   m_tmpdir = m_tempDirectory->name();

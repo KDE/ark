@@ -50,12 +50,7 @@ ArkWidgetBase::ArkWidgetBase(QWidget *widget)
     m_settings = ArkSettings::self();
 
     m_tmpDir = new KTempDir( locateLocal( "tmp", "ark" ) );
-    if( m_tmpDir->status()==0 )
-    {
-        m_settings->setTmpDir( m_tmpDir->name() );
-        kdDebug( 1601 ) << "name of tmpDir: " << m_tmpDir->name() << endl;
-    }
-    else
+    if( m_tmpDir->status()!=0 )
     {
         kdWarning( 1601 ) << "Could not create a temporary directory. status() returned "
                           << m_tmpDir->status() << "." << endl;
