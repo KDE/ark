@@ -33,6 +33,8 @@
 #include <time.h>
 #include <qapplication.h>
 
+#include <stdlib.h>
+
 // ark includes
 #include "arch.h"
 #include "viewer.h"

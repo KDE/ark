@@ -36,6 +36,8 @@
 // ark includes
 #include "compressedfile.h"
 
+#include <stdlib.h>
+
 // the generic viewer to which to send header and column info.
 #include "viewer.h"
 
