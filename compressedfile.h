@@ -1,5 +1,8 @@
 //  -*-C++-*-           emacs magic for .h files
 /*
+
+    $Id$
+
     ark: A program for modifying archives via a GUI.
 
     Copyright (C)

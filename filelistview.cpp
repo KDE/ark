@@ -1,5 +1,7 @@
 /*
 
+  $Id$
+
   ark -- archiver for the KDE project
 
   Copyright (C)

@@ -1,4 +1,6 @@
 /*
+   $Id$
+
     ark: A program for modifying archives via a GUI.
 
     Copyright (C)

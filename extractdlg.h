@@ -1,5 +1,9 @@
 //  -*-C++-*-           emacs magic for .h files
-/*                                                                               ark -- archiver for the KDE project
+/*
+
+ $Id$
+
+ ark -- archiver for the KDE project
  
  Copyright (C)
  

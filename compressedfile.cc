@@ -1,6 +1,7 @@
-/* CompressedFile implementation 
-*/
 /*
+
+  $Id$
+
     ark: A program for modifying archives via a GUI.
 
     Copyright (C)
@@ -37,6 +38,9 @@
 
 // the generic viewer to which to send header and column info.
 #include "viewer.h"
+
+
+// encapsulates the idea of a compressed file
 
 CompressedFile::CompressedFile( ArkSettings *_settings, Viewer *_gui,
 		  const QString & _fileName )

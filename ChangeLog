@@ -1,3 +1,6 @@
+2000-05-16:  Emily Ezust <emilye@corel.com>
+	* Fixed a bug in ArArch - wasn't reading TOCs properly
+	
 2000-05-12: Emily Ezust <emilye@corel.com>
 	* Added some code to notify the user about file(s) that were not
  	  extracted. This happens when the user disallows overwrites and 

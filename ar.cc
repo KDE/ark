@@ -1,5 +1,7 @@
 /*
 
+ $Id$
+
  ark -- archiver for the KDE project
 
  Copyright (C)
@@ -28,6 +30,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <string.h>
 
 // KDE includes
 #include <kurl.h>
@@ -71,21 +74,14 @@ void ArArch::setHeaders()
 
 void ArArch::processLine( char *_line )
 {
-  char columns[9][80];
-  char filename[4096];
-  if (_line[0] == '\020') // hack hack
-    sscanf(_line, "\020%[-dwrxl] %[0-9/] %[0-9] %3[A-Za-z] %2[0-9 ] %5[0-9:] %4[0-9]%1[ ]%[^\n]",
-	   columns[0], columns[1], columns[2], columns[3], columns[4],
-	   columns[5], columns[6], columns[7], filename );
-  else
-    sscanf(_line, "%[-dwrxl] %[0-9/] %[0-9] %3[A-Za-z] %2[0-9 ] %5[0-9:] %4[0-9]%1[ ]%[^\n]",
-	   columns[0], columns[1], columns[2], columns[3], columns[4],
-	   columns[5], columns[6], columns[7], filename );
-    
-  
+  char columns[10][80] = { "","","","","","","","","" };
+  char filename[4096] = "";
+
+  sscanf(_line, "%[-dwrxl] %[0-9/] %[0-9] %3[A-Za-z] %2[0-9 ] %5[0-9:] %4[0-9]%1[ ]%[^\n]",
+	 columns[0], columns[1], columns[2], columns[3], columns[4],
+	 columns[5], columns[6], columns[7], filename );
   kdDebug(1601) << columns[0] << "!" << columns[1] << "!" << columns[2] << "!" << columns[3] << "!" << columns[4] << "!" << columns[5] << "!" << columns[6] << "!" << columns[7] << "!" << filename << endl;
-
-
+  
   // Put columns[3] - [6] into standard format
   QString timestamp;
   timestamp.sprintf("%s-%.2d-%.2d %s",
@@ -108,6 +104,7 @@ void ArArch::open()
 {
   kdDebug(1601) << "+ArArch::open" << endl;
   setHeaders();
+  m_buffer[0] = '\0';
   KProcess *kp = new KProcess;
   *kp << m_archiver_program << "vt" << m_filename.local8Bit();
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
@@ -167,7 +164,6 @@ void ArArch::slotReceivedTOC(KProcess*, char* _data, int _length)
 	  tmpl++;
 	  *tmpl = '\0';
 	  tmpb++;
-
 	  processLine( line );
 	}
       else if (*tmpb == '\0' )
@@ -179,9 +175,6 @@ void ArArch::slotReceivedTOC(KProcess*, char* _data, int _length)
     }
   
   _data[_length] = c;
-
-
-
   kdDebug(1601) << "-ArArch::slotReceivedTOC" << endl;
 }
 

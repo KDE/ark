@@ -1,6 +1,7 @@
 //  -*-C++-*-           emacs magic for .h files
-
 /*
+
+ $Id$
 
  ark -- archiver for the KDE project
 
