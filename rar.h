@@ -53,8 +53,6 @@ class RarArch : public Arch
     virtual bool processLine( const QCString & );
 
   private:
-    void setHeaders();
-    
     /*
      * The output of the rar command uses more than one
      * line for each entry, the first containing the filename

@@ -62,7 +62,6 @@ class QCString;
 class QStringList;
 class KProcess;
 
-class FileListView;
 class ArkWidget;
 
 enum ArchType { UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,

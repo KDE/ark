@@ -1,4 +1,3 @@
-//  -*-C++-*-           emacs magic for .h files
 /*
 
   ark -- archiver for the KDE project
@@ -33,6 +32,8 @@
 
 #include <klistview.h>
 
+#include "archiveentry.h"
+
 class QString;
 class QStringList;
 class QRect;
@@ -44,77 +45,73 @@ class QPoint;
 class KListView;
 
 class ArkWidget;
+class Archive;
 
-class FileListView;
+/* Columns */
+#define nameColumn           0
+#define typeColumn           1
+#define sizeColumn           2
+#define compressedSizeColumn 997
+#define ratioColumn          998
+#define timeStampColumn      3
+#define crcColumn            999
 
-enum columnName { sizeCol = 1 , packedStrCol, ratioStrCol, timeStampStrCol, otherCol };
 
-class FileLVI : public KListViewItem
+class ArkListViewItem : public KListViewItem
 {
-public:
-  FileLVI(KListView* lv);
+  public:
+    ArkListViewItem( const ArchiveEntry & entry, KListView * listView );
 
-  QString fileName() const;
-  long fileSize() const;
-  long packedFileSize() const;
-  double ratio() const;
-  QDateTime timeStamp() const;
+    int compare ( QListViewItem * i, int col, bool ascending ) const;
+    virtual QString key(int column, bool) const;
 
-  int compare ( QListViewItem * i, int col, bool ascending ) const;
-  virtual QString key(int column, bool) const;
-  virtual void setText(int column, const QString &text);
+    ArchiveEntry entry() const { return m_entry; }
 
-private:
-  bool fileIndent;
-  long m_fileSize;
-  long m_packedFileSize;
-  double m_ratio;
-  QDateTime m_timeStamp;
+    QString   path() const { return m_entry.path(); }
+    QString   mimeType() { return m_entry.mimeType(); }
+    Q_UINT64  size() const { return m_entry.size(); }
+    Q_UINT64  compressedSize() const { return m_entry.compressedSize(); }
+    float     compressionRatio() const { return m_entry.compressionRatio(); }
+    QDateTime timeStamp() const { return m_entry.timeStamp(); }
+    Q_UINT64  crc() const { return m_entry.crc(); }
+
+  private:
+    ArchiveEntry m_entry;
 };
 
 
-class FileListView : public KListView
+class ArkView : public KListView
 {
   Q_OBJECT
-public:
-  FileListView(ArkWidget *baseArk, QWidget* parent = 0,
-	       const char* name = 0);
-  FileLVI *currentItem() {return ((FileLVI *) KListView::currentItem());}
-	
-	/**
-     * Returns the file item, or 0 if not found.
-     * @param filename The filename in question to reference in the archive
-     * @return The requested file's FileLVI
-     */
-  FileLVI *item(const QString& filename) const;
-  
-  QStringList selectedFilenames() const;
-  uint count();
-  bool isSelectionEmpty();
-  virtual int addColumn( const QString & label, int width = -1 );
-  virtual void removeColumn( int index );
-  columnName nameOfColumn( int index );
 
-  /**
-   * Adds a file and stats to the file listing
-   * @param entries A stringlist of the entries for each column of the list.
-   */
-  void addItem( const QStringList & entries );
+  public:
+    ArkView( QWidget* parent = 0, const char* name = 0 );
+    ArkListViewItem *currentItem() { return static_cast< ArkListViewItem * >( KListView::currentItem()); }
 
-signals:
-  void startDragRequest( const QStringList & fileList );
+    QStringList selectedFilenames() const;
+    bool isSelectionEmpty();
 
-protected:
-  void contentsMouseReleaseEvent(QMouseEvent *e);
-  void contentsMousePressEvent(QMouseEvent *e);
-  void contentsMouseMoveEvent(QMouseEvent *e);
+    void setArchive( Archive * archive = 0 );
 
-private:
-  QMap<int, columnName> colMap;
-  ArkWidget *m_pParent;
+  public slots:
+    /**
+    * Adds a file and stats to the file listing
+    * @param entries A stringlist of the entries for each column of the list.
+    */
+    void addItem( const ArchiveEntry & entry );
 
-  bool m_bPressed;
-  QPoint presspos;  // this will save the click pos to correctly recognize drag events
+  signals:
+    void startDragRequest( const QStringList & fileList );
+
+  protected:
+    void contentsMouseReleaseEvent( QMouseEvent *e );
+    void contentsMousePressEvent( QMouseEvent *e );
+    void contentsMouseMoveEvent( QMouseEvent *e );
+
+  private:
+    Archive *m_archive;
+    bool m_pressed;
+    QPoint presspos;  // this will save the click pos to correctly recognize drag events
 };
 
 #endif

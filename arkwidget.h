@@ -1,4 +1,3 @@
-//  -*- mode: c++; c-basic-offset: 4; -*-
 /*
 
   ark -- archiver for the KDE project
@@ -54,7 +53,7 @@ class KTempFile;
 class KTempDir;
 class KToolBar;
 
-class FileListView;
+class ArkView;
 class FileLVI;
 class SearchBar;
 
@@ -79,28 +78,10 @@ public:
 
     QString tmpDir() const { return m_tmpDir ? m_tmpDir->name() : QString::null; }
 
-    FileListView * fileList() const { return archiveContent; }
+    ArkView * fileList() const { return m_view; }
     Arch * archive() const { return arch; }
     ArchType archiveType() const { return m_archType; }
     int numSelectedFiles() const { return m_nNumSelectedFiles; }
-
-    /**
-     * Sets up the column headers for the file list. Clears previous entries before adding new ones.
-     * @param _headers A list of headers to add.
-     * @param _rightAlignCols An array of ints representing the columns ro right-align
-     * @param _numColsToAlignRight Size of _rightAlignCols
-     */
-    void setHeaders( QStringList* _headers, int* _rightAlignCols, int _numColsToAlignRight );
-
-    /**
-     * Clears all headers from the file list.
-     */
-    void clearHeaders();
-
-    /**
-     * Brings up a dialog showing the results returned by the last cmdline tool.
-     */
-    void viewShellOutput();
 
     /**
      * Miscellaneous tasks involved in closing an archive.
@@ -126,7 +107,6 @@ public:
 
 public slots:
     void file_open( const KURL& url);
-    void edit_view_last_shell_output();
     virtual void file_close();
     virtual void file_new();
     void slotShowSearchBarToggled( bool b );
@@ -257,7 +237,7 @@ protected:
     void arkError(const QString& msg);
 
     void newCaption(const QString& filename);
-    void createFileListView();
+    void createView();
 
     void createArchive(const QString & name);
     void openArchive(const QString & name);
@@ -317,7 +297,7 @@ private: // data
     Arch *arch;
     QString m_strArchName;
     KURL m_realURL;
-    FileListView *archiveContent;
+    ArkView *m_view;
     KURL m_url;
     ArchType m_archType;
 

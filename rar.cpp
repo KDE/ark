@@ -102,7 +102,7 @@ bool RarArch::processLine( const QCString &line )
   list << l2[ 7 ]; // method
   list << l2[ 8 ]; // Version
 
-  m_gui->fileList()->addItem( list ); // send to GUI
+  //m_gui->fileList()->addItem( list ); // send to GUI
 
   QStringList time = QStringList::split( ':', l2[ 4 ] );
 
@@ -111,6 +111,8 @@ bool RarArch::processLine( const QCString &line )
   timeStamp.setTime( QTime( time[ 0 ].toInt(), time[ 1 ].toInt() ) );
 
   ArchiveEntry entry( m_entryFilename, l2[ 0 ].toULong() , timeStamp );
+  entry.setCompressedSize( l2[ 1 ].toULong() );
+  entry.setCRC( l2[ 6 ].toULong( 0, 16 ) );
 
   addEntry( entry );
 
@@ -120,8 +122,6 @@ bool RarArch::processLine( const QCString &line )
 
 void RarArch::open()
 {
-  setHeaders();
-
   m_buffer = "";
   m_header_removed = false;
   m_finished = false;
@@ -141,29 +141,6 @@ void RarArch::open()
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
     emit sigOpen( this, false, QString::null, 0 );
   }
-}
-
-void RarArch::setHeaders()
-{
-  QStringList list;
-  list.append( FILENAME_STRING );
-  list.append( SIZE_STRING );
-  list.append( PACKED_STRING );
-  list.append( RATIO_STRING );
-  list.append( TIMESTAMP_STRING );
-  list.append( PERMISSION_STRING );
-  list.append( CRC_STRING );
-  list.append( METHOD_STRING );
-  list.append( VERSION_STRING );
-
-  // which columns to align right
-  int *alignRightCols = new int[3];
-  alignRightCols[0] = 1;
-  alignRightCols[1] = 2;
-  alignRightCols[2] = 3;
-
-  m_gui->setHeaders( &list, alignRightCols, 3 );
-  delete [] alignRightCols;
 }
 
 void RarArch::create()

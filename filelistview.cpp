@@ -34,308 +34,193 @@
 #include <kglobal.h>
 #include <kdebug.h>
 #include <kglobalsettings.h>
+#include <kmimetype.h>
+#include <kio/global.h>
 
 #include "filelistview.h"
 #include "arkwidget.h"
+#include "archive.h"
 
-/////////////////////////////////////////////////////////////////////
-// FileLVI implementation
-/////////////////////////////////////////////////////////////////////
-
-FileLVI::FileLVI(KListView* lv)
-  : KListViewItem(lv)
+ArkListViewItem::ArkListViewItem( const ArchiveEntry & entry, KListView * listView )
+  : KListViewItem( listView ), m_entry( entry )
 {
+  KMimeType::Ptr mimeType = KMimeType::mimeType( m_entry.mimeType() );
+  setText( nameColumn, m_entry.path() );
+  setPixmap( nameColumn, mimeType->pixmap( KIcon::Small ) );
+  setText( typeColumn, mimeType->comment() );
+  setText( sizeColumn, KIO::convertSize( m_entry.size() ) );
+  setText( timeStampColumn, KGlobal::locale()->formatDateTime( m_entry.timeStamp() ) );
 }
 
-/**
-* Gets the filename associated with this FileLVI.
-* This will return the filename of this entry, with any path information
-* present.
-* @return The filename associated with the FileLVI, stripped of any text
-* 	used for formatting
-* @warning Do NOT use text(0) for this purpose! This will get the filename
-* 	with extra spaces for fileIndent, and is just plain shoddy code.
-*/
-QString FileLVI::fileName() const
+QString ArkListViewItem::key(int column, bool ascending) const
 {
-	if(fileIndent)
-		return text(0).mid(2);
-	else
-		return text(0);
+  if ( column == 0 )
+  {
+    return m_entry.path();
+  }
+
+  return KListViewItem::key(column, ascending);
 }
 
-/**
- * Returns the size of the file, or 0 if no size is defined.
- */
-long FileLVI::fileSize() const
+int ArkListViewItem::compare( QListViewItem * qItem, int column, bool ascending ) const
 {
-  return m_fileSize;
+  if ( column == nameColumn or column == typeColumn )
+  {
+    return KListViewItem::compare( qItem, column, ascending );
+  }
+
+  ArkListViewItem * item = static_cast< ArkListViewItem * >( qItem );
+  switch ( column )
+  {
+    case sizeColumn:
+      {
+        return ( size() < item->size() ? -1 :
+               ( size() > item->size() ?  1 : 0 ) );
+        break;
+      }
+    case compressedSizeColumn:
+      {
+        return ( compressedSize() < item->compressedSize() ? -1 :
+               ( compressedSize() > item->compressedSize() ?  1 : 0 ) );
+        break;
+      }
+    case ratioColumn:
+      {
+        return ( compressionRatio() < item->compressionRatio() ? -1 :
+               ( compressionRatio() > item->compressionRatio() ?  1 : 0 ) );
+        break;
+      }
+    case timeStampColumn:
+      {
+        return ( timeStamp() < item->timeStamp() ? -1 :
+               ( timeStamp() > item->timeStamp() ?  1 : 0 ) );
+        break;
+      }
+    default:
+      return KListViewItem::compare( qItem, column, ascending );
+  }
 }
 
-long FileLVI::packedFileSize() const
+ArkView::ArkView( QWidget *parent, const char* name )
+  : KListView( parent, name ), m_archive( 0 )
 {
-  return m_packedFileSize;
-}
-
-double FileLVI::ratio() const
-{
-  return m_ratio;
-}
-
-QDateTime FileLVI::timeStamp() const
-{
-  return m_timeStamp;
-}
-
-QString FileLVI::key(int column, bool ascending) const
-{
-    if ( 0 == column )
-        return fileName();
-    return QListViewItem::key(column, ascending);
-}
-
-int FileLVI::compare( QListViewItem * i, int col, bool ascending ) const
-{
-    if ( col == 0 )
-        return KListViewItem::compare( i, col, ascending );
-
-    FileLVI * item = static_cast< FileLVI * >( i );
-    columnName colName = ( static_cast< FileListView * > ( listView() ) )->nameOfColumn( col );
-    switch ( colName )
-    {
-        case sizeCol:
-                        {
-                            return ( m_fileSize < item->fileSize() ? -1 :
-                                    ( m_fileSize > item->fileSize() ? 1 : 0 ) );
-                            break;
-                        }
-        case ratioStrCol:
-                        {
-                            return ( m_ratio < item->ratio() ? -1 :
-                                    ( m_ratio > item->ratio() ? 1 : 0 ) );
-                            break;
-                        }
-
-        case packedStrCol:
-                        {
-                            return ( m_packedFileSize < item->packedFileSize() ? -1 :
-                                    ( m_packedFileSize > item->packedFileSize() ? 1 : 0 ) );
-                            break;
-                        }
-        case timeStampStrCol:
-                        {
-                            return ( m_timeStamp < item->timeStamp() ? -1 :
-                                    ( m_timeStamp > item->timeStamp() ? 1 : 0 ) );
-                            break;
-                        }
-        default:
-                        return KListViewItem::compare( i, col, ascending );
-    }
-}
-
-void FileLVI::setText(int column, const QString &text)
-{
-    columnName colName = ( static_cast< FileListView * > ( listView() ) )->nameOfColumn( column );
-    if ( column == 0 )
-    {
-        if (text.findRev('/', -2) != -1)
-        {
-            QListViewItem::setText(0, QString("  ") + text);
-            fileIndent = true;
-        }
-        else
-        {
-            QListViewItem::setText(column, text);
-            fileIndent = false;
-        }
-    }
-    else if ( colName == sizeCol )
-    {
-        m_fileSize = text.toLong();
-        QListViewItem::setText(column, KGlobal::locale()->formatNumber(m_fileSize, 0));
-    }
-    else if ( colName == packedStrCol )
-    {
-        m_packedFileSize = text.toLong();
-        QListViewItem::setText(column, KGlobal::locale()->formatNumber(m_packedFileSize, 0));
-    }
-    else if ( colName == ratioStrCol )
-    {
-        int l = text.length() - 1;
-        if ( l>0 && text[l] == '%' )
-            m_ratio = text.left(l).toDouble();
-        else
-            m_ratio = text.toDouble();
-        QListViewItem::setText(column, i18n("Packed Ratio", "%1 %").arg(KGlobal::locale()->formatNumber(m_ratio, 1)));
-    }
-    else if ( colName == timeStampStrCol )
-    {
-        m_timeStamp = QDateTime::fromString(text, ISODate);
-        QListViewItem::setText(column, KGlobal::locale()->formatDateTime(m_timeStamp));
-    }
-    else
-        QListViewItem::setText(column, text);
-}
-
-/////////////////////////////////////////////////////////////////////
-// FileListView implementation
-/////////////////////////////////////////////////////////////////////
-
-
-FileListView::FileListView(ArkWidget *baseArk, QWidget *parent,
-			   const char* name)
-	: KListView(parent, name), m_pParent(baseArk)
-{
-  QWhatsThis::add(this, i18n("This area is for displaying information about the files contained within an archive."));
-
   setMultiSelection( true );
   setSelectionModeExt( FileManager );
   setDragEnabled( true );
   setItemsMovable( false );
-  
-  m_bPressed = false;
+
+  m_pressed = false;
+
+  addColumn( i18n( "Name" ), 250 );
+  addColumn( i18n( "Type" ), 220 );
+  addColumn( i18n( "Size" ), 100 );
+  addColumn( i18n( "Timestamp" ), 150 );
+
+  setEnabled( false );
 }
 
-int FileListView::addColumn ( const QString & label, int width )
+QStringList ArkView::selectedFilenames() const
 {
-    int index = KListView::addColumn( label, width );
-    if ( label == SIZE_STRING )
+  QStringList files;
+
+  ArkListViewItem * flvi = dynamic_cast< ArkListViewItem* >( firstChild() );
+
+  while( flvi )
+  {
+    if( isSelected( flvi ) )
     {
-        colMap[ index ] = sizeCol;
+      files.append(flvi->path());
     }
-    else if ( label == PACKED_STRING )
-    {
-        colMap[ index ] = packedStrCol;
-    }
-    else if ( label == RATIO_STRING )
-    {
-        colMap[ index ] = ratioStrCol;
-    }
-    else if ( label == TIMESTAMP_STRING )
-    {
-        colMap[ index ] = timeStampStrCol;
-    }
+
+    flvi = dynamic_cast< ArkListViewItem* >( flvi->itemBelow() );
+  }
+
+  return files;
+}
+
+bool ArkView::isSelectionEmpty()
+{
+  ArkListViewItem * flvi = static_cast< ArkListViewItem* >( firstChild() );
+
+  while (flvi)
+  {
+    if( flvi->isSelected() )
+      return false;
     else
+      flvi = static_cast< ArkListViewItem* >( flvi->itemBelow() );
+  }
+
+  return true;
+}
+
+void ArkView::contentsMousePressEvent(QMouseEvent *e)
+{
+  if( e->button() == QMouseEvent::LeftButton )
+  {
+    m_pressed = true;
+    presspos = e->pos();
+  }
+
+  KListView::contentsMousePressEvent( e );
+}
+
+void ArkView::contentsMouseReleaseEvent(QMouseEvent *e)
+{
+  m_pressed = false;
+  KListView::contentsMouseReleaseEvent(e);
+}
+
+void ArkView::contentsMouseMoveEvent(QMouseEvent *e)
+{
+  // If the left mouse button isn't pressed, then we shouldn't start a drag
+  if( !m_pressed )
+  {
+    KListView::contentsMouseMoveEvent( e );
+  }
+  else if( ( presspos - e->pos() ).manhattanLength() > KGlobalSettings::dndEventDelay() )
+  {
+    m_pressed = false;	// Prevent triggering again
+
+    if( isSelectionEmpty() )
     {
-        colMap[ index ] = otherCol;
+      return;
     }
-    return index;
+
+    QStringList dragFiles = selectedFilenames();
+
+    emit startDragRequest( dragFiles );
+
+    KListView::contentsMouseMoveEvent( e );
+  }
 }
 
-void FileListView::removeColumn( int index )
+void ArkView::addItem( const ArchiveEntry& entry )
 {
-    unsigned int i = index;
-    for ( ; i < colMap.count() - 2; i++ )
-        colMap.replace( i, colMap[ i + 1 ] );
-    colMap.remove( colMap[ colMap.count() - 1 ] );
-    KListView::removeColumn( index );
+  ArkListViewItem *item;
+  item = new ArkListViewItem( entry, this );
 }
 
-columnName FileListView::nameOfColumn( int index )
+void ArkView::setArchive( Archive * archive )
 {
-    return colMap[ index ];
-}
+  if ( m_archive )
+  {
+    disconnect( m_archive, SIGNAL( entryAdded(const ArchiveEntry&) ),
+                this, SLOT( addItem(const ArchiveEntry&) ) );
+  }
+  
+  m_archive = archive;
 
-QStringList FileListView::selectedFilenames() const
-{
-	QStringList files;
-	
-	FileLVI * flvi = (FileLVI*)firstChild();
+  if ( m_archive )
+  {
+    connect( m_archive, SIGNAL( entryAdded(const ArchiveEntry&) ),
+             SLOT( addItem(const ArchiveEntry&) ) );
+    setEnabled( true );
+    return;
+  }
 
-	while (flvi)
-	{
-		if( isSelected(flvi) )
-			files.append(flvi->fileName());
-		flvi = (FileLVI*)flvi->itemBelow();
-	}
-	return files;
-}
-
-uint FileListView::count()
-{
-	return childCount();
-}
-
-bool FileListView::isSelectionEmpty()
-{
-	FileLVI * flvi = (FileLVI*)firstChild();
-
-	while (flvi)
-	{
-		if( flvi->isSelected() )
-			return false;
-		else
-		flvi = (FileLVI*)flvi->itemBelow();
-	}
-	return true;
-}
-
-void 
-FileListView::contentsMousePressEvent(QMouseEvent *e)
-{
-	if( e->button()==QMouseEvent::LeftButton )
-	{
-		m_bPressed = true;
-		presspos = e->pos();
-	}
-	
-	KListView::contentsMousePressEvent(e);
-}
-
-void 
-FileListView::contentsMouseReleaseEvent(QMouseEvent *e)
-{
-	m_bPressed = false;
-	KListView::contentsMouseReleaseEvent(e);
-}
-
-void 
-FileListView::contentsMouseMoveEvent(QMouseEvent *e)
-{
-	if(!m_bPressed)
-	{
-		KListView::contentsMouseMoveEvent(e);
-	}
-	else if( ( presspos - e->pos() ).manhattanLength() > KGlobalSettings::dndEventDelay() )
-	{
-		m_bPressed = false;	// Prevent triggering again
-		if(isSelectionEmpty())
-		{
-			return;
-		}
-		QStringList dragFiles = selectedFilenames();
-		emit startDragRequest( dragFiles );
-		KListView::contentsMouseMoveEvent(e);
-	}
-}
-
-FileLVI*
-FileListView::item(const QString& filename) const
-{
-	FileLVI * flvi = (FileLVI*) firstChild();
-	
-	while (flvi)
-	{
-		QString curFilename = flvi->fileName();
-		if (curFilename == filename)
-			return flvi;
-		flvi = (FileLVI*) flvi->nextSibling();
-	}
-	
-	return 0;
-}
-
-void FileListView::addItem( const QStringList & entries )
-{
-	FileLVI *flvi = new FileLVI(this);
-
-	int i = 0;
-	
-	for (QStringList::ConstIterator it = entries.begin(); it != entries.end(); ++it)
-	{
-		flvi->setText(i, *it);
-		++i;
-	}
+  // If archive is null
+  clear();
+  setEnabled( false );
 }
 
 #include "filelistview.moc"
