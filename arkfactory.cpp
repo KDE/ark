@@ -30,7 +30,7 @@ int ArkFactory::instanceNumber = 0;
 
 extern "C"
 {
-    void* init_libark()
+    void* init_libarkpart()
     {
         return new ArkFactory;
     }

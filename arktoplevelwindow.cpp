@@ -43,7 +43,7 @@ ArkTopLevelWindow::ArkTopLevelWindow( QWidget *parent, const char *name ) :
         KParts::MainWindow()
 {
     setXMLFile( "arkui.rc" );
-    m_part = KParts::ComponentFactory::createPartInstanceFromLibrary<ArkPart>( "libark", this, name, this, name);
+    m_part = KParts::ComponentFactory::createPartInstanceFromLibrary<ArkPart>( "libarkpart", this, name, this, name);
     if (m_part )
     {
         //Since most of the functionality is still in ArkWidget:
