@@ -270,9 +270,11 @@ void CompressedFile::addFile( const QStringList &urls )
   Q_ASSERT(m_gui->getNumFilesInArchive() == 0);
   Q_ASSERT(urls.count() == 1);
 
-  QString file = urls.first();
-  if (file.left(5) == "file:")
-    file = file.right(file.length() - 5);
+  KURL url = KURL::fromPathOrURL(urls.first());
+  Q_ASSERT(url.isLocalFile());
+
+  QString file;
+  file = url.path();
 
   KProcess proc;
   proc << "cp" << file << m_tmpdir;
