@@ -1,6 +1,6 @@
 # KDE Config File
 [KDE Desktop Entry]
-MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tbz;application/x-zip;
+MimeType=application/x-gzip;application/x-lha;application/x-tbz;application/x-zip;
 Comment=Archive Handling Tool
 Comment[br]=Benveg merañ dielloù
 Comment[ca]=Eina per manegar arxius
