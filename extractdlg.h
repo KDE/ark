@@ -10,7 +10,6 @@
 #include <qradiobt.h>
 #include <qbttngrp.h>
 #include <klocale.h>
-#include "kfdird.h"
 #include <kapp.h>
 
 class ExtractDlg : public QDialog {

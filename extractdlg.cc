@@ -1,135 +1,194 @@
 /* (c)1997 Robert Palmbos
+   (c)1998 David Faure
    See main.cc for license details */
 #include "extractdlg.h"
 #include "extractdlg.moc"
+#include <qlayout.h>
+#include <kfiledialog.h>
+
+// Layout code heavily borrowed from the qt example "widgets.cpp"
 
 ExtractDlg::ExtractDlg( int eo, QWidget *parent, char *name )
-	: QDialog( parent, name, TRUE )
+    : QDialog( parent, name, TRUE )
 {
-	QButtonGroup *gb1 = new QButtonGroup( klocale->translate( "Files"), this );
-	gb1->setAlignment( AlignLeft );
-	gb1->setGeometry( 260, 10, 120, 250 );
-	
-	QGroupBox *gb2 = new QGroupBox( klocale->translate("Extract Options"), this );
-	gb2->setAlignment( AlignLeft );
-	gb2->setGeometry( 10, 140, 240, 120 );
+    setCaption(i18n("Extract"));
+    // Create a layout to position the widgets
+    QVBoxLayout *topLayout = new QVBoxLayout( this, 10 /* border */);
+ 
+    // Create a horizontal layout to hold most of the widgets (not the buttons)
+    QHBoxLayout *hLayout = new QHBoxLayout( 8 /* autoBorder */ );
+    topLayout->addLayout( hLayout, 3 /* stretch */);
 
-	QGroupBox *gb3 = new QGroupBox( klocale->translate("Destination"), this );
-	gb3->setAlignment( AlignLeft );
-	gb3->setGeometry( 10, 10, 240, 120 );	
+    // Create a vertical layout for the two groupboxes in the left column
+    QVBoxLayout *vLayout = new QVBoxLayout( 8 /* autoBorder */ );
+    hLayout->addLayout( vLayout, 1 /* stretch */);
 
-	le = new QLineEdit( this );
-	le->setGeometry( 30, 40, 200, 20 );
-	le->setText( getenv( "HOME" ) );
-	le->setFocus();
-	
-	QPushButton *pb1 = new QPushButton( klocale->translate("Browse..."), this );
-	pb1->setGeometry( 120, 80, 100, 30 );
-	connect( pb1, SIGNAL( clicked() ), SLOT( browse() ) );
+    // Left box :
+    //   Upper box (Destination)
+    QGroupBox *gbDest = new QGroupBox( i18n("Destination"), this );
+    vLayout->addWidget(gbDest, 1, AlignLeft);
+    QVBoxLayout *vboxDest = new QVBoxLayout(gbDest, 10);
+    vboxDest->addSpacing( gbDest->fontMetrics().height() );
 
-	//cb1 = new QCheckBox( klocale->translate("Overwrite"), this );
-	//cb1->setGeometry( 20, 160, 100, 30 );
+    le = new QLineEdit( gbDest );
+    le->setText( getenv( "HOME" ) );
+    le->setFocus();
+    le->setMinimumSize( le->sizeHint() );
+    vboxDest->addWidget(le);
+ 
+    QPushButton *pb1 = new QPushButton( i18n("Browse..."), gbDest );
+    pb1->setFixedSize( pb1->sizeHint() );
+    vboxDest->addWidget(pb1, 0, AlignRight);
 
-	cb2 = new QCheckBox( klocale->translate("Preserve Permissions"), this );
-	cb2->setGeometry( 20, 190, 170, 30 );
+    //  Lower box (Extract options)
+    QButtonGroup *bgOptions = new QButtonGroup( i18n("Extract Options"), this );
+    vLayout->addWidget(bgOptions, 1, AlignLeft);
+    QVBoxLayout *vboxOptions = new QVBoxLayout(bgOptions, 10);
+    vboxOptions->addSpacing( bgOptions->fontMetrics().height() );
 
-	cb3 = new QCheckBox( klocale->translate("Filenames to Lowercase"), this );
-	cb3->setGeometry( 20, 220, 160, 30 );
-	
-	rb1 = new QRadioButton( klocale->translate("All Files"), gb1 );
-	rb1->setGeometry( 10, 25, 100, 30 );
-	
-	rb2 = new QRadioButton( klocale->translate("Selected File"), gb1 );
-	rb2->setGeometry( 10, 50, 100, 30 );
+    //cb1 = new QCheckBox( i18n("Overwrite"), bgOptions );
+    //vboxOptions->addWidget(cb1);
 
-	rb3 = new QRadioButton( klocale->translate("Pattern"), gb1 );
-	rb3->setGeometry( 10, 80, 100, 30 );
-	rb3->setEnabled( FALSE );
+    cb2 = new QCheckBox( i18n("Preserve Permissions"), bgOptions );
+    cb2->setMinimumSize( cb2->sizeHint() );
+    bgOptions->insert(cb2);
+    vboxOptions->addWidget(cb2);
 
-	switch( eo ) {
-		case All: {
-			rb1->setChecked( true );
-			break;
-		}
-		case Selected: {
-			rb2->setChecked( true );
-			break;
-		}
-		case Pattern: {
-			rb3->setChecked( true );
-			break;
-		}
-		default: {
-			rb1->setChecked( true );
-			break;
-		}
-	}
+    cb3 = new QCheckBox( i18n("Filenames to Lowercase"), bgOptions );
+    cb3->setMinimumSize( cb3->sizeHint() );
+    bgOptions->insert(cb3);
+    vboxOptions->addWidget(cb3);
 
-	QLineEdit *le2 = new QLineEdit( this );
-	le2->setGeometry( 270, 130, 100, 20 );
-	le2->setEnabled( FALSE );
+    // Right box (Files) :
+    QButtonGroup *bgFiles = new QButtonGroup( i18n( "Files"), this );    
+    hLayout->addWidget(bgFiles, 1, AlignLeft);
+    QVBoxLayout *vboxFiles = new QVBoxLayout(bgFiles, 10);
+    vboxFiles->addSpacing( bgFiles->fontMetrics().height() );
 
-	QPushButton *pb2 = new QPushButton( klocale->translate("OK"), this );
-	pb2->setGeometry( 150, 270, 70, 30 );
-	connect( le, SIGNAL( returnPressed() ), SLOT( accept() ) );
-	connect( pb2, SIGNAL( clicked() ), SLOT( accept() ) );
-	
-	QPushButton *pb3 = new QPushButton( klocale->translate("Cancel"), this );
-	pb3->setGeometry( 280, 270, 70, 30 );
-	connect( pb3, SIGNAL( clicked() ), SLOT( reject() ) );
+    rb1 = new QRadioButton( i18n("All Files"), bgFiles );
+    rb1->setMinimumSize( rb1->sizeHint() );
+    bgFiles->insert(rb1);
+    vboxFiles->addWidget(rb1);
+ 
+    rb2 = new QRadioButton( i18n("Selected File"), bgFiles );
+    rb2->setMinimumSize( rb2->sizeHint() );
+    bgFiles->insert(rb2);
+    vboxFiles->addWidget(rb2);
+
+    rb3 = new QRadioButton( i18n("Pattern"), bgFiles );
+    rb3->setMinimumSize( rb3->sizeHint() );
+    bgFiles->insert(rb3);
+    vboxFiles->addWidget(rb3);
+    rb3->setEnabled( FALSE );
+
+    switch( eo ) {
+        case All: {
+            rb1->setChecked( true );
+            break;
+        }
+        case Selected: {
+            rb2->setChecked( true );
+            break;
+        }
+        case Pattern: {
+            rb3->setChecked( true );
+            break;
+        }
+        default: {
+            rb1->setChecked( true );
+            break;
+        }
+    }
+
+    QLineEdit *le2 = new QLineEdit( bgFiles );
+    le2->setMinimumSize( le2->sizeHint() );
+    le2->setEnabled( FALSE );
+    vboxFiles->addWidget(le2);
+
+    // Add space at the bottom of each box (in case it grows)
+    vboxDest->addStretch(1);
+    vboxFiles->addStretch(1);
+    vboxOptions->addStretch(1);
+
+    // Create a layout for the two buttons
+    QHBoxLayout *buttonLayout = new QHBoxLayout( );
+    topLayout->addLayout( buttonLayout, 0/* stretch */ );
+    
+    buttonLayout->addStretch(1);
+    QPushButton *bOk = new QPushButton( i18n("OK"), this );
+    buttonLayout->addWidget(bOk,1);
+    buttonLayout->addStretch(1);
+    bOk->setFixedSize( bOk->sizeHint() );
+    QPushButton *bCancel = new QPushButton( i18n("Cancel"), this );
+    buttonLayout->addWidget(bCancel,1);
+    buttonLayout->addStretch(1);
+    bCancel->setFixedSize( bCancel->sizeHint() );
+
+    // Do the connects
+    connect( pb1, SIGNAL( clicked() ), SLOT( browse() ) );
+    connect( le, SIGNAL( returnPressed() ), SLOT( accept() ) );
+    connect( bOk, SIGNAL( clicked() ), SLOT( accept() ) );
+    connect( bCancel, SIGNAL( clicked() ), SLOT( reject() ) );
+
+    topLayout->activate(); 
+
+    // Minimum sizes
+    bgOptions->setMinimumSize( bgOptions->childrenRect().size() );
+    bgFiles->setMinimumSize( bgFiles->childrenRect().size() );
 }
 
 void ExtractDlg::setMask( unsigned char mask )
 {
-	if( ( 0x01 & mask ) == 0 )
-		cb2->setEnabled( FALSE );
-	if( ( 0x02 & mask ) == 0 )
-		cb3->setEnabled( FALSE );
-	//if( 0x04 & mask ) == 0 )
-		//cb1->setEnabled( FALSE );
+    if( ( 0x01 & mask ) == 0 )
+        cb2->setEnabled( FALSE );
+    if( ( 0x02 & mask ) == 0 )
+        cb3->setEnabled( FALSE );
+    //if( 0x04 & mask ) == 0 )
+    //cb1->setEnabled( FALSE );
 }
 
 const char *ExtractDlg::getDest()
 {
-	return le->text();
+    return le->text();
 }
 
 bool ExtractDlg::doOverwrite()
 {
-	//return cb1->isChecked();
-	return FALSE;
+    //return cb1->isChecked();
+    return FALSE;
 }
 
 bool ExtractDlg::doPreservePerms()
 {
-	return cb2->isChecked();
+    return cb2->isChecked();
 }
 
 bool ExtractDlg::doLowerCase()
 {
-	return cb3->isChecked();
+    return cb3->isChecked();
 }
 
 const char *ExtractDlg::getPattern()
 {
-	return le2->text();
+    return le2->text();
 }
 
 int ExtractDlg::extractOp()
 {
-	if( rb1->isChecked() )
-		return All;
-	if( rb2->isChecked() )
-		return Selected;
-	if( rb3->isChecked() )
-		return Pattern;
-	return -1;
+    if( rb1->isChecked() )
+        return All;
+    if( rb2->isChecked() )
+        return Selected;
+    if( rb3->isChecked() )
+        return Pattern;
+    return -1;
 }
 
 void ExtractDlg::browse()
 {
-	KfDirDialog dd( le->text(), this, "dirdialog", TRUE );
-	if( dd.exec() )
-		le->setText( dd.selectedDir() );
+    KDirDialog dd( le->text(), 0, "dirdialog");
+    dd.setCaption(i18n("Extract To"));
+    if (dd.exec())
+        le->setText( dd.selectedFile() );
 }
 

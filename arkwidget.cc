@@ -41,6 +41,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	tmpdir.sprintf( "/tmp/ark.%d/", pid );
 
 	config = kapp->getConfig();
+        config->setGroup("ark");
 	QString fav_key;
 	fav_key="ArchiveDirectory";
 	fav_dir = config->readEntry( fav_key );
@@ -307,36 +308,46 @@ void ArkWidget::fileDrop( KDNDDropZone *dz )
 
 void ArkWidget::getFav()
 {
-	QString tmp;
-	DlgLocation ld( i18n( "Archive Dir:"), fav_dir, this );
-	if( ld.exec() )
-	{
-		tmp = ld.getText();
-		if( !tmp.isNull() && !tmp.isEmpty() )
-		{
-			KConfig *config;
-			config = kapp->getConfig();
-			fav_dir = tmp;
-			config->writeEntry( "ArchiveDirectory", fav_dir );
-		}
-	}
+    KDirDialog dd( fav_dir.data(), 0, "dirdialog" );
+    dd.setCaption(i18n("Archive Dir"));
+    if( dd.exec() && (! dd.selectedFile().isEmpty()) )
+    {
+        KConfig *config = kapp->getConfig();
+        config->setGroup("ark");
+        fav_dir = dd.selectedFile();
+        config->writeEntry( "ArchiveDirectory", fav_dir );
+    }
 }
 
 void ArkWidget::getTarExe()
 {
-	QString tmp;
-	DlgLocation ld( i18n( "What runs GNU tar:"), tar_exe, this );
-	if( ld.exec() )
-	{
-		tmp = ld.getText();
-		if( !tmp.isNull() && !tmp.isEmpty() )
-		{
-			KConfig *config;
-			config = kapp->getConfig();
-			tar_exe = tmp;
-			config->writeEntry( "TarExe", tar_exe );
-		}
-	}
+       QString tmp;
+       DlgLocation ld( i18n( "What runs GNU tar:"), tar_exe, this );
+       if( ld.exec() )
+       {
+               tmp = ld.getText();
+               if( !tmp.isNull() && !tmp.isEmpty() )
+               {
+                       KConfig *config;
+                       config = kapp->getConfig();
+                       tar_exe = tmp;
+                       config->writeEntry( "TarExe", tar_exe );
+               }
+       }
+/*
+    The following doesn't work because the file "tar" without directory can't
+    be found by KFileDialog... Hum.
+
+    KFileDialog fd( tar_exe.data() );
+    fd.setCaption(i18n("What runs GNU tar"));
+    if( fd.exec() && (! fd.selectedFile().isEmpty()) )
+    {
+        KConfig *config = kapp->getConfig();
+        config->setGroup("ark");
+        tar_exe = fd.selectedFile();
+        config->writeEntry( "TarExe", tar_exe );
+    }
+*/
 }
 
 void ArkWidget::openZip()

@@ -24,7 +24,7 @@ SUBDIRS = doc mimetypes
 bin_PROGRAMS = 	ark
 
 # Which sources should be compiled for ark.
-ark_SOURCES	= adddlg.cc ar.cc arch.cc extractdlg.cc karchive.cc kfdird.cc \
+ark_SOURCES	= adddlg.cc ar.cc arch.cc extractdlg.cc karchive.cc  \
                  arkwidget.cc lha.cc main.cc tar.cc zip.cc arkprocess.cc text.c
 
 # the library search path
@@ -35,12 +35,12 @@ ark_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 ark_LDADD   = $(LIB_KFILE)
 
 # this option you can leave out. Just, if you use "make dist", you need it
-noinst_HEADERS = adddlg.h errors.h kfdird.h lha.h zip.h \
+noinst_HEADERS = adddlg.h errors.h lha.h zip.h \
                  ar.h extractdlg.h arkwidget.h tar.h arch.h karchive.h arkprocess.h \
 		 text.h 
 
 # just to make sure, automake makes them 
-BUILTSOURCES =	adddlg.moc arch.moc extractdlg.moc kfdird.moc arkwidget.moc
+BUILTSOURCES =	adddlg.moc arch.moc extractdlg.moc arkwidget.moc
 
 # if you "make distclean", this files get removed. If you want to remove
 # them while "make clean", use CLEANFILES
@@ -86,6 +86,3 @@ extractdlg.cc:extractdlg.moc
 extractdlg.moc: extractdlg.h
 	$(MOC) extractdlg.h -o extractdlg.moc
 
-kfdird.cc:kfdird.moc
-kfdird.moc: kfdird.h
-	$(MOC) kfdird.h -o kfdird.moc
