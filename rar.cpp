@@ -74,57 +74,38 @@ bool RarArch::processLine(const QCString &line)
   // The third time, process the data in the first two lines and
   // send to the GUI. We ignore the third line since the data there
   // isn't really that important.
-  const char *_line = (const char *)line;
 
   ++m_linenumber;
   if (m_linenumber == 1)
     {
-      m_line1 = QString::fromLocal8Bit(_line);
+      m_line1 = QString::fromLocal8Bit(line.data());
       return true;
     }
   if (m_linenumber == 2)
     {
-      m_line2 = QString::fromLocal8Bit(_line);
+      m_line2 = QString::fromLocal8Bit(line.data());
       return true;
     }
   // if we made it here, we have all three lines.
   // Reset the line number.
   m_linenumber = 0;
 
-  char columns[11][80];
-  char filename[4096];
-  sscanf(QFile::encodeName(m_line1), " %4095[^\n]", filename);
-  sscanf((const char *)m_line2.ascii(), " %79[0-9] %79[0-9] %79[0-9%<>-] %2[0-9]-%2[0-9]-%2[0-9] %5[0-9:] %79[drwxlst-] %79[A-F0-9] %79[A-Za-z0-9] %79[0-9.]",
-	 columns[0], columns[1], columns[2], columns[3],
-	 columns[8], columns[9], columns[10],
-	 columns[4], columns[5], columns[6],
-	 columns[7]);
-
-  // rearrange columns 3, 8, 9 so that the sort will work.
-  // columns[3] is the day
-  // columns[8] is the month
-  // columns[9] is a 2-digit year. Ugh. Y2K junk here.
-  
-  QString year = ArkUtils::fixYear(columns[9]);
-
-  // put entire timestamp in columns[3]
-
-  QString timestamp;
-  timestamp.sprintf("%s-%s-%s %s", year.utf8().data(),
-		    columns[8], columns[3], columns[10]);
-
-  //kdDebug(1601) << "Year is: " << year << "; Month is: " << columns[8] << "; Day is: " << columns[3] << "; Time is: " << columns[10] << endl;
-
-  strlcpy(columns[3], timestamp.ascii(), sizeof(columns[3]));
-
-  //kdDebug(1601) << "The actual file is " << filename << endl;
-
   QStringList list;
-  list.append(QFile::decodeName(filename));
-  for (int i=0; i<8; i++)
-    {
-      list.append(QString::fromLocal8Bit(columns[i]));
-    }
+  list << m_line1.stripWhiteSpace(); // filename
+
+  QStringList l2 = QStringList::split( ' ', m_line2 );
+
+  list << l2[ 0 ]; // size
+  list << l2[ 1 ]; // packed
+  list << l2[ 2 ]; // ratio
+
+  QStringList date =  QStringList::split( '-', l2[ 3 ] );
+  list << ArkUtils::fixYear( date[ 2 ].latin1() ) + "-" + date[ 1 ] + "-" + date [ 0 ] + " " + l2[4]; // date
+  list << l2[ 5 ]; // attributes
+  list << l2[ 6 ]; // crc
+  list << l2[ 7 ]; // method
+  list << l2[ 8 ]; // Version
+
   m_gui->listingAdd(&list); // send to GUI
 
   return true;
@@ -266,7 +247,7 @@ void RarArch::addFile( QStringList *urls )
 }
 
 void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir,
-			 bool viewFriendly)
+			 bool /*viewFriendly*/)
 {
   kdDebug(1601) << "+RarArch::unarchFile" << endl;
 
