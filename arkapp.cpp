@@ -27,13 +27,70 @@
 #include <dcopclient.h>
 #include <kdebug.h>
 #include <kcmdlineargs.h>
-
+#include <unistd.h>
 #include <qfile.h>
+#include <errno.h>
+
+extern int errno;
 
 #include "arkapp.h"
 #include "arkwidget.h"
 
 ArkApplication *ArkApplication::mInstance = NULL;
+
+// a helper function to follow a symlink and obtain the real filename
+// Used in the ArkApplication functions that use the archive filename
+// to make sure an archive isn't opened twice in different windows
+// Now, readlink only gives one level so this function recurses.
+
+static QString resolveFilename(const QString & _arkname)
+{
+  char *buff;
+  int nread;
+  int iter = 1;
+  while (1)
+    {
+      buff = new char[BUFSIZ*iter];
+      nread = readlink( (const char *)_arkname,
+			buff, BUFSIZ);
+      if (-1 == nread)
+	{
+	  if (EINVAL == errno)  // not a symbolic link. Stopping condition.
+	    return _arkname;
+	  else if (ENAMETOOLONG == errno)
+	    {
+	      kdebug(0, 1601, "resolveFilename: have to reallocate - name too long!");
+	      iter++;
+	      delete buff;
+	      continue;
+	    }
+	  else 
+	    {
+	      // the other errors will be taken care of already in simply
+	      // opening the archive (i.e., the user will be notified)
+	      return "";
+	    }
+	}
+      else
+	{
+	  buff[nread] = '\0';  // readlink doesn't null terminate
+	  QString name(buff);
+	  delete buff;
+
+	  // watch out for relative pathnames
+	  if (name.left(1) != '/')
+	    {
+	      // copy the path from _arkname
+	      int index = _arkname.findRev('/');
+	      name = _arkname.left(index + 1) + name;
+	    }
+	  //kdebug(0, 1601, "Now resolve %s", (const char *)name);	  
+	  return resolveFilename(name);
+	}
+    }
+}
+
+
 
 ArkApplication * ArkApplication::getInstance()
 {
@@ -89,8 +146,11 @@ void ArkApplication::addOpenArk(const QString & _arkname,
 				ArkWidget *_ptr)
 {
   kdebug(0, 1601, "+ArkApplication::addOpenArk");
-  openArksList.append(_arkname);
-  m_windowsHash[_arkname] = _ptr;
+  QString realName = resolveFilename(_arkname);  // follow symlink
+  kdebug(0, 1601, "---------------- Real name of %s is %s",
+	 (const char *)_arkname, (const char *)realName);
+  openArksList.append(realName);
+  m_windowsHash[realName] = _ptr;
   kdebug(0, 1601, "---------------Saved ptr %p", _ptr);
   kdebug(0, 1601, "-ArkApplication::addOpenArk");
 }
@@ -98,21 +158,30 @@ void ArkApplication::addOpenArk(const QString & _arkname,
 void ArkApplication::removeOpenArk(const QString & _arkname)
 {
   kdebug(0, 1601, "+ArkApplication::removeOpenArk");
-  openArksList.remove(_arkname);
-  m_windowsHash.erase(_arkname);
+  QString realName = resolveFilename(_arkname);  // follow symlink
+  openArksList.remove(realName);
+  m_windowsHash.erase(realName);
   kdebug(0, 1601, "-ArkApplication::removeOpenArk");
 }
 
 void ArkApplication::raiseArk(const QString & _arkname)
 { 
   ArkWidget *window;
-  window = m_windowsHash[_arkname];
+  QString realName = resolveFilename(_arkname);  // follow symlink
+  window = m_windowsHash[realName];
   kdebug(0, 1601, "ArkApplication::raiseArk %p", window);
   // raise didn't seem to be enough. Not sure why!
   // This might be annoying though.
   window->hide();
   window->show();
   window->raise();
+}
+
+
+bool ArkApplication::isArkOpenAlready(const QString & _arkname)
+{
+  QString realName = resolveFilename(_arkname);  // follow symlink
+  return (openArksList.findIndex(realName) != -1); 
 }
 
 

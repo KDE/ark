@@ -1,7 +1,8 @@
 2000-01-24:  Emily Ezust <emilye@corel.com>
 	* new locking scheme to prevent users from opening the same archive
-	  in two different windows. Can't figure out why raise() alone doesn't
-	  do it  - I hide and show the window. Blech.
+	  in two different windows. Handles symlinks. But I can't figure out
+	  why raise() alone doesn't do it  - I hide and show the window 
+	  instead - blech!
 	* made classes more const correct
 
 2000-01-18: Emily Ezust <emilye@corel.com>

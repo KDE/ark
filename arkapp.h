@@ -45,9 +45,7 @@ public:
   void addOpenArk(const QString & _arkname, ArkWidget * _ptr);
   void removeOpenArk(const QString & _arkname);
 
-  // returns -1 if ark is not already open; otherwise returns index
-  bool isArkOpenAlready(const QString & _arkname)
-    {  return (openArksList.findIndex(_arkname) != -1); }
+  bool isArkOpenAlready(const QString & _arkname);
 
   void raiseArk(const QString & _arkname);
 

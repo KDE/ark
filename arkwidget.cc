@@ -541,6 +541,9 @@ void ArkWidget::file_open(const QString & strFile)
       {
 	// raise the window containing the already open archive
 	ArkApplication::getInstance()->raiseArk(strFile);
+	// notify the user what's going on
+	
+	KMessageBox::information(this, i18n("The archive %1 is already open and has been raised.\nNote: if the filename does not match, it only means that one of the two is a symbolic link.").arg((const char *)strFile));
 	return;
       }
 
