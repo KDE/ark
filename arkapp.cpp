@@ -117,33 +117,21 @@ int ArkApplication::newInstance()
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
   KURL url;
 
-  if (args->count() > 0) 
+  for (int i = 0; i < args->count(); ++i)
   {
-    url = args->url(0);
-#if 0    // do I need this?
-     const char *arg = args->arg(0);
-     if (arg[0] == '/')
-     {
-        Zip = QFile::decodeName(arg);
-     }
-     else if (QString(arg).left(7) != "http://" &&
-	      QString(arg).left(6) != "ftp://")
-     {
-        Zip = KCmdLineArgs::cwd() + "/" + QFile::decodeName(arg);
-     }
-#endif
-  }
-  ArkWidget *arkWin = new ArkWidget(m_mainwidget);
-  arkWin->show();
-  arkWin->resize(640, 300);
+    url = args->url(i);
+    ArkWidget *arkWin = new ArkWidget(m_mainwidget);
+    arkWin->show();
+    arkWin->resize(640, 300);
+    
+    if (!url.isEmpty())
+      {
+	arkWin->file_open(url);
+      }
 
-  if (!url.isEmpty())
-  {
-    arkWin->file_open(url);
+    kdDebug(1601) << "-ArkApplication::newInstance" << endl;
   }
-
   args->clear();
-  kdDebug(1601) << "-ArkApplication::newInstance" << endl;
   return 0;
 }
 
