@@ -1,4 +1,5 @@
 /*
+
  ark -- archiver for the KDE project
 
  Copyright (C)
@@ -35,33 +36,33 @@
 #include <kprocess.h>
 
 // ark includes
+#include "zip.h"
 #include "arkwidget.h"
 #include "settings.h"
-#include "zip.h"
 
-ZipArch::ZipArch( ArkWidget *_gui,
-		  const QString & _fileName )
+
+ZipArch::ZipArch( ArkWidget *_gui, const QString & _fileName )
   : Arch(  _gui, _fileName )
 {
   m_archiver_program = "zip";
   m_unarchiver_program = "unzip";
-  verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+  verifyUtilityIsAvailable( m_archiver_program, m_unarchiver_program );
 
   m_headerString = "----";
   m_repairYear = 9; m_fixMonth = 7; m_fixDay = 8; m_fixTime = 10;
   m_dateCol = 5;
   m_numCols = 7;
 
-  m_archCols.append(new ArchColumns(1, QRegExp("[0-9]+")));
-  m_archCols.append(new ArchColumns(2, QRegExp("[^\\s]+")));
-  m_archCols.append(new ArchColumns(3, QRegExp("[0-9]+")));
-  m_archCols.append(new ArchColumns(4, QRegExp("[0-9.]+%")));
-  m_archCols.append(new ArchColumns(7, QRegExp("[01][0-9]"), 2));
-  m_archCols.append(new ArchColumns(8, QRegExp("[0-3][0-9]"), 2));
-  m_archCols.append(new ArchColumns(9, QRegExp("[0-9][0-9]"), 2));
-  m_archCols.append(new ArchColumns(10, QRegExp("[0-9:]+"), 6));
-  m_archCols.append(new ArchColumns(6, QRegExp("[a-fA-F0-9]+ {2}")));
-  m_archCols.append(new ArchColumns(0, QRegExp("[^\\n]+"), 4096));
+  m_archCols.append( new ArchColumns( 1, QRegExp( "[0-9]+" ) ) );
+  m_archCols.append( new ArchColumns( 2, QRegExp( "[^\\s]+" ) ) );
+  m_archCols.append( new ArchColumns( 3, QRegExp( "[0-9]+" ) ) );
+  m_archCols.append( new ArchColumns( 4, QRegExp( "[0-9.]+%" ) ) );
+  m_archCols.append( new ArchColumns( 7, QRegExp( "[01][0-9]" ), 2 ) );
+  m_archCols.append( new ArchColumns( 8, QRegExp( "[0-3][0-9]" ), 2 ) );
+  m_archCols.append( new ArchColumns( 9, QRegExp( "[0-9][0-9]" ), 2 ) );
+  m_archCols.append( new ArchColumns( 10, QRegExp( "[0-9:]+" ), 6 ) );
+  m_archCols.append( new ArchColumns( 6, QRegExp( "[a-fA-F0-9]+ {2}" ) ) );
+  m_archCols.append( new ArchColumns( 0, QRegExp( "[^\\n]+" ), 4096 ) );
 
 }
 
@@ -69,13 +70,13 @@ void ZipArch::setHeaders()
 {
   QStringList list;
 
-  list.append(FILENAME_STRING);
-  list.append(SIZE_STRING);
-  list.append(METHOD_STRING);
-  list.append(PACKED_STRING);
-  list.append(RATIO_STRING);
-  list.append(TIMESTAMP_STRING);
-  list.append(CRC_STRING);
+  list.append( FILENAME_STRING );
+  list.append( SIZE_STRING );
+  list.append( METHOD_STRING );
+  list.append( PACKED_STRING );
+  list.append( RATIO_STRING );
+  list.append( TIMESTAMP_STRING );
+  list.append( CRC_STRING );
 
   // which columns to align right
   int *alignRightCols = new int[6];
@@ -86,7 +87,7 @@ void ZipArch::setHeaders()
   alignRightCols[4] = 5;
   alignRightCols[5] = 6;
 
-  m_gui->setHeaders(&list, alignRightCols, 6);
+  m_gui->setHeaders( &list, alignRightCols, 6 );
   delete [] alignRightCols;
 
 }
@@ -103,42 +104,39 @@ void ZipArch::open()
 
   *kp << m_unarchiver_program << "-v" << m_filename;
 
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
+           SLOT( slotReceivedTOC(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
+           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(KProcess*) ),
+           SLOT( slotOpenExited(KProcess*) ) );
 
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotOpenExited(KProcess*)));
-
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
-    {
-      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
-      emit sigOpen(this, false, QString::null, 0 );
-    }
-
+  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  {
+    KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
+    emit sigOpen( this, false, QString::null, 0 );
+  }
 }
 
 
 void ZipArch::create()
 {
-  emit sigCreate(this, true, m_filename,
-		 Arch::Extract | Arch::Delete | Arch::Add
-		  | Arch::View);
+  emit sigCreate( this, true, m_filename,
+                 Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
 }
 
-void ZipArch::addDir(const QString & _dirName)
+void ZipArch::addDir( const QString & _dirName )
 {
-  if (! _dirName.isEmpty())
+  if ( !_dirName.isEmpty() )
   {
     bool bOldRecVal = Settings::rarRecurseSubdirs();
     // must be true for add directory - otherwise why would user try?
-    Settings::setRarRecurseSubdirs(true);
+    Settings::setRarRecurseSubdirs( true );
 
     QStringList list;
-    list.append(_dirName);
-    addFile(list);
-    Settings::setRarRecurseSubdirs(bOldRecVal); // reset to old val
+    list.append( _dirName );
+    addFile( list );
+    Settings::setRarRecurseSubdirs( bOldRecVal ); // reset to old val
   }
 }
 
@@ -149,18 +147,18 @@ void ZipArch::addFile( const QStringList &urls )
 
   *kp << m_archiver_program;
 
-  if (Settings::rarRecurseSubdirs())
+  if ( Settings::rarRecurseSubdirs() )
     *kp << "-r";
 
-  if (Settings::rarStoreSymlinks())
+  if ( Settings::rarStoreSymlinks() )
     *kp << "-y";
 
-  if (Settings::forceMSDOS())
+  if ( Settings::forceMSDOS() )
     *kp << "-k";
-  if (Settings::convertLF2CRLF())
+  if ( Settings::convertLF2CRLF() )
     *kp << "-l";
 
-  if (Settings::replaceOnlyWithNewer())
+  if ( Settings::replaceOnlyWithNewer() )
     *kp << "-u";
 
   *kp << m_filename;
@@ -168,172 +166,112 @@ void ZipArch::addFile( const QStringList &urls )
   QStringList::ConstIterator iter;
   KURL url( urls.first() );
   QDir::setCurrent( url.directory() );
-  for (iter = urls.begin(); iter != urls.end(); ++iter )
+  for ( iter = urls.begin(); iter != urls.end(); ++iter )
   {
     KURL fileURL( *iter );
     *kp << fileURL.fileName();
   }
 
-  // debugging info
-  //QValueList<QCString> list = kp->args();
-  //QValueList<QCString>::Iterator strTemp;
-  //for ( strTemp=list.begin(); strTemp != list.end(); ++strTemp )
-  //  {
-  //    kdDebug(1601) << *strTemp << " " << endl;
-  //  }
+  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
+           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
+           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(KProcess*) ),
+           SLOT( slotAddExited(KProcess*) ) );
 
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotAddExited(KProcess*)));
-
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
-    {
-      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
-      emit sigAdd(false);
-    }
-
+  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  {
+    KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
+    emit sigAdd( false );
+  }
 }
 
-void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir,
-			 bool viewFriendly)
+void ZipArch::unarchFile( QStringList *fileList, const QString & destDir,
+                         bool viewFriendly )
 {
-  // if _fileList is empty, we extract all.
-  // if _destDir is empty, abort with error.
+  // if fileList is empty, all files are extracted.
+  // if destDir is empty, abort with error.
 
-  QString dest;
-
-  if (_destDir.isEmpty() || _destDir.isNull())
-    {
-      kdError(1601) << "There was no extract directory given." << endl;
-      return;
-    }
-  else dest = _destDir;
-
-  QString tmp;
+  if ( destDir.isEmpty() || destDir.isNull() )
+  {
+    kdError( 1601 ) << "There was no extract directory given." << endl;
+    return;
+  }
 
   KProcess *kp = new KProcess;
   kp->clearArguments();
 
   *kp << m_unarchiver_program;
 
-  if (Settings::extractJunkPaths() && !viewFriendly)
+  if ( Settings::extractJunkPaths() && !viewFriendly )
     *kp << "-j" ;
 
-  if (Settings::rarToLower())
+  if ( Settings::rarToLower() )
     *kp << "-L";
 
-  if (Settings::extractOverwrite())
+  if ( Settings::extractOverwrite() )
     *kp << "-o";
 
   *kp << m_filename;
 
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
-  if (_fileList)
+  if ( fileList )
+  {
+    QStringList::Iterator it;
+    
+    for ( it = fileList->begin(); it != fileList->end(); ++it )
     {
-      for ( QStringList::Iterator it = _fileList->begin();
-	    it != _fileList->end(); ++it )
-	{
-	  *kp << (*it);/*.latin1() ;*/
-	}
+      *kp << (*it);
     }
+  }
 
-  *kp << "-d" << dest;
+  *kp << "-d" << destDir;
 
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
+           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
+           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(KProcess*) ),
+           SLOT( slotExtractExited(KProcess*) ) );
 
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotExtractExited(KProcess*)));
-
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
-    {
-      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
-      emit sigExtract(false);
-    }
+  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  {
+    KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
+    emit sigExtract( false );
+  }
 }
 
-void ZipArch::remove(QStringList *list)
+void ZipArch::remove( QStringList *list )
 {
-
-  if (!list)
+  if ( !list )
     return;
+
   m_shellErrorData = "";
   KProcess *kp = new KProcess;
   kp->clearArguments();
 
   *kp << m_archiver_program << "-d" << m_filename;
-  for ( QStringList::Iterator it = list->begin();
-	it != list->end(); ++it )
-    {
-      QString str = *it;
-      *kp << str;
-    }
+  
+  QStringList::Iterator it;
+  for ( it = list->begin(); it != list->end(); ++it )
+  {
+    QString str = *it;
+    *kp << str;
+  }
 
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
+           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
+           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(KProcess*) ),
+           SLOT( slotDeleteExited(KProcess*) ) );
 
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotDeleteExited(KProcess*)));
-
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
-    {
-      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
-      emit sigDelete(false);
-    }
-
-}
-
-void ZipArch::slotIntegrityExited(KProcess *_kp)
-{
-  if( _kp->normalExit() && (_kp->exitStatus()==0) )
-    {
-      if(stderrIsError())
-	{
-	  KMessageBox::error( 0, i18n("You probably do not have sufficient permissions.\n"
-				      "Please check the file owner and the integrity "
-				      "of the archive.") );
-	}
-    }
-  else
-    KMessageBox::sorry( 0, i18n("Test of integrity failed") );
-
-  delete _kp;
-  _kp = NULL;
-
-}
-
-void ZipArch::testIntegrity()
-{
-  m_shellErrorData = "";
-  KProcess *kp = new KProcess;
-  kp->clearArguments();
-
-  *kp << m_unarchiver_program << "-t";
-
-  *kp << m_filename;
-
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-
-  connect( kp, SIGNAL(processExited(KProcess *)), this,
-	   SLOT(slotIntegrityExited(KProcess *)));
-
-  if(kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
-    {
-      kdDebug(1601) << "Subprocess wouldn't start!" << endl;
-      return;
-    }
+  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  {
+    KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
+    emit sigDelete( false );
+  }
 }
 
 #include "zip.moc"

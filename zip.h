@@ -1,7 +1,4 @@
-//  -*-C++-*-           emacs magic for .h files
 /*
-
- $Id$
 
   ark -- archiver for the KDE project
 
@@ -28,44 +25,35 @@
 
 */
 
-
 #ifndef ZIPARCH_H
 #define ZIPARCH_H
 
-class QString;
-class QCString;
-class QStringList;
-class KProcess;
+#include "arch.h"
 
-class Arch;
+class QString;
+class QStringList;
+
 class ArkWidget;
 
 class ZipArch : public Arch
 {
   Q_OBJECT
-public:
-  ZipArch( ArkWidget *_gui, const QString & _fileName );
-  virtual ~ZipArch() { }
-	
-  virtual void open();
-  virtual void create();
-	
-  virtual void addFile( const QStringList & );
-  virtual void addDir(const QString & _dirName);
+  public:
+    ZipArch( ArkWidget *_gui, const QString & _fileName );
+    virtual ~ZipArch() { }
 
-  virtual void remove(QStringList *);
-  virtual void unarchFile(QStringList *, const QString & _destDir="",
-			  bool viewFriendly=false);
-	
-  void testIntegrity();
+    virtual void open();
+    virtual void create();
 
-  enum AddMode { Update = 1, Freshen, Move };
+    virtual void addFile( const QStringList & );
+    virtual void addDir( const QString &  );
 
-protected slots:
-  void slotIntegrityExited(KProcess*);
-	
-private:
-  void setHeaders();
+    virtual void remove( QStringList * );
+    virtual void unarchFile( QStringList *, const QString & destDir = "",
+                             bool viewFriendly = false );
+
+  private:
+    void setHeaders();
 };
 
 #endif /* ZIPARCH_H */
