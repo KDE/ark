@@ -133,6 +133,8 @@ void CompressedFile::open()
   // (that code is in the slot slotOpenDone)
 
   m_tmpfile = m_gui->realURL().fileName();
+  if ( m_tmpfile.isEmpty() )
+    m_tmpfile = m_filename;
   m_tmpfile = m_tmpdir + "/" + m_tmpfile;
   KProcess proc;
   proc << "cp" << m_filename << m_tmpfile;
