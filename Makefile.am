@@ -44,7 +44,7 @@ METASOURCES =	extractdlg.moc arkwidget.moc filelistview.moc arch.moc \
 		zip.moc waitDlg.moc shellOutputDlg.moc zipAddDlg.moc
 
 messages:
-	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(ark_SOURCES) &&  mv messages.po ../po/ark.pot
+	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(ark_SOURCES) &&  mv messages.po $(podir)/ark.pot
 
 KDE_ICON = ark
 
