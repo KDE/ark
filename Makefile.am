@@ -55,6 +55,8 @@ appsdir = $(kde_appsdir)/Utilities
 install-data-local: 
 	$(mkinstalldirs) $(kde_minidir)
 	$(INSTALL_DATA) $(srcdir)/mini-ark.xpm $(kde_minidir)/ark.xpm
+	$(mkinstalldirs) $(kde_minidir)/../large
+	$(INSTALL_DATA) $(srcdir)/large-ark.xpm $(kde_minidir)/../large/ark.xpm
 # Get rid of kzip
 	-rm -f $(kde_bindir)/kzip
 	-rm -f $(appsdir)/kzip.kdelnk
@@ -64,4 +66,5 @@ install-data-local:
 # remove ALL you have installed in install-data-local or install-exec-local
 uninstall-local:
 	-rm -f $(kde_minidir)/ark.xpm
+	-rm -f $(kde_minidir)/../large/ark.xpm
 
