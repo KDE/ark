@@ -517,10 +517,6 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
     if ( !lv ) // it isn't in there, so skip it.
       continue;
     
-    QString entryTimeStamp = lv->timeStampStr();
-    if (entryTimeStamp.isNull())
-      continue; // it isn't in there, so skip it.
-
     if (bAddOnlyNew)
     {
       // compare timestamps. If the file to be added is newer, delete the
@@ -536,7 +532,7 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
                              QTime(convertStruct->tm_hour,
                                    convertStruct->tm_min,
                                    convertStruct->tm_sec));
-      QDateTime oldFileMTime = getMTime(entryTimeStamp);
+      QDateTime oldFileMTime = lv->timeStamp();
 
       kdDebug(1601) << "Old file: " << oldFileMTime.date().year() << "-" <<
         oldFileMTime.date().month() << "-" << oldFileMTime.date().day() <<

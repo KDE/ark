@@ -30,6 +30,8 @@
 #define FILELISTVIEW_H
 
 #include <qlistview.h>
+#include <qdatetime.h>
+
 #include <klistview.h>
 
 class QString;
@@ -49,21 +51,21 @@ class FileListView;
 class FileLVI : public KListViewItem
 {
 public:
-  FileLVI(KListView* lv) : KListViewItem(lv), parent(lv) {}
+  FileLVI(KListView* lv);
 
   QString fileName() const;
-  /**
-   * Returns the size of the file, or 0 if no size is defined.
-   */
   long fileSize() const;
-  QString timeStampStr() const;
+  QDateTime timeStamp() const;
 
   virtual QString key(int column, bool) const;
   virtual void setText(int column, const QString &text);
 
 private:
-  KListView *parent;
-  bool fileIndent;	
+  bool fileIndent;
+  long m_fileSize;
+  long m_packedFileSize;
+  double m_ratio;
+  QDateTime m_timeStamp;
 };
 
 
