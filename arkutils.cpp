@@ -66,7 +66,7 @@
 
 #include "arkutils.h"
 
-QString Utils::getTimeStamp(const QString &_month,
+QString ArkUtils::getTimeStamp(const QString &_month,
 			    const QString &_day,
 			    const QString &_yearOrTime)
 {
@@ -96,7 +96,7 @@ QString Utils::getTimeStamp(const QString &_month,
   if (_yearOrTime.contains(":"))
     // it has a timestamp so we have to figure out the year
     {
-      year.sprintf("%d", Utils::getYear(nMonth, thisYear, thisMonth));
+      year.sprintf("%d", ArkUtils::getYear(nMonth, thisYear, thisMonth));
       timestamp = _yearOrTime;
     }
   else
@@ -117,7 +117,7 @@ QString Utils::getTimeStamp(const QString &_month,
   return retval;
 }
 
-int Utils::getMonth(const char *strMonth)
+int ArkUtils::getMonth(const char *strMonth)
   // returns numeric value for three-char month string
 {
   static char months[13][4] = { "", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -137,7 +137,7 @@ int Utils::getMonth(const char *strMonth)
 // year (of course it is hoped that there are not too many files lying
 // around from the future).
 
-int Utils::getYear(int theMonth, int thisYear, int thisMonth)
+int ArkUtils::getYear(int theMonth, int thisYear, int thisMonth)
 {
   int monthDiff = QABS(thisMonth - theMonth);
   if (monthDiff > 6)
@@ -146,7 +146,7 @@ int Utils::getYear(int theMonth, int thisYear, int thisMonth)
     return thisYear;
 }
 
-QString Utils::fixYear(const char *strYear)
+QString ArkUtils::fixYear(const char *strYear)
 {
   // returns 4-digit year by guessing from two-char year string.
   // Remember: this is used for file timestamps. There probably aren't any
@@ -167,7 +167,7 @@ QString Utils::fixYear(const char *strYear)
 }
 
 bool
-Utils::haveDirPermissions( const QString &strFile )
+ArkUtils::haveDirPermissions( const QString &strFile )
 {
   QString dir = strFile.left(strFile.findRev('/'));
   QFileInfo fileInfo(dir);
@@ -180,7 +180,7 @@ Utils::haveDirPermissions( const QString &strFile )
 }
 
 bool
-Utils::diskHasSpace(const QString &dir, long size)
+ArkUtils::diskHasSpace(const QString &dir, long size)
   // check if disk has enough space to accomodate (a) new file(s) of
   // the given size in the partition containing the given directory
 {
@@ -205,7 +205,7 @@ Utils::diskHasSpace(const QString &dir, long size)
 }
 
 long
-Utils::getSizes(QStringList *list)
+ArkUtils::getSizes(QStringList *list)
 {
   long sum = 0;
   QString str;

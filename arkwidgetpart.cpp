@@ -416,7 +416,7 @@ ArkWidgetPart::action_extract()
 				if ( !bRedoExtract ) // if the user's OK with those failures, go ahead
 				{
 					// unless we have no space!
-					if (Utils::diskHasSpace( extractDir, m_nSizeOfFiles ) )
+					if (ArkUtils::diskHasSpace( extractDir, m_nSizeOfFiles ) )
 					{
 						arch->unarchFile(0, extractDir);
 					}
@@ -460,7 +460,7 @@ ArkWidgetPart::action_extract()
 					}
 					if ( !bRedoExtract )
 					{
-						if ( Utils::diskHasSpace(extractDir, nTotalSize) )
+						if ( ArkUtils::diskHasSpace(extractDir, nTotalSize) )
 						{
 							arch->unarchFile(m_extractList, extractDir); // extract selected files
 						}
@@ -518,7 +518,7 @@ ArkWidgetPart::showFile( FileLVI *_pItem )
 	
 	m_bViewInProgress = true;
 	m_strFileToView = fullname;
-	if ( Utils::diskHasSpace( m_settings->getTmpDir(), _pItem->fileSize() ) )
+	if ( ArkUtils::diskHasSpace( m_settings->getTmpDir(), _pItem->fileSize() ) )
 	{
 		arch->unarchFile( m_extractList, m_settings->getTmpDir() );
 	}

@@ -1,7 +1,7 @@
 //  -*-C++-*-           emacs magic for .h files
 /*
 
- $Id:$
+ $Id$
 
  ark -- archiver for the KDE project
 
@@ -37,7 +37,7 @@
 class QStringList;
 
 // various functions for massaging timestamps
-namespace Utils
+namespace ArkUtils
 {
   int getYear(int theMonth, int thisYear, int thisMonth);
   int getMonth(const char *strMonth);

@@ -590,7 +590,7 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
             }
         }
       // if we got here, the file does not already exist.
-      if (!Utils::haveDirPermissions(strFile))
+      if (!ArkUtils::haveDirPermissions(strFile))
         return QString::null;
 
       QString temp;
@@ -1296,7 +1296,7 @@ void ArkWidget::action_add()
 void
 ArkWidget::addFile(QStringList *list)
 {
-  if (!Utils::diskHasSpace(m_strArchName, Utils::getSizes(list)))
+  if (!ArkUtils::diskHasSpace(m_strArchName, ArkUtils::getSizes(list)))
     return;
 
   // takes a list of KURLs.
@@ -1489,7 +1489,7 @@ ArkWidget::slotOpenWith()
 		m_extractList->append(name);
 		m_bOpenWithInProgress = true;
 		m_strFileToView = fullname;
-		if ( Utils::diskHasSpace( m_settings->getTmpDir(), pItem->fileSize() ) )
+		if ( ArkUtils::diskHasSpace( m_settings->getTmpDir(), pItem->fileSize() ) )
 		{
 			disableAll();
 			prepareViewFiles( m_extractList );
@@ -1643,7 +1643,7 @@ ArkWidget::action_extract()
 				if (!bRedoExtract) // if the user's OK with those failures, go ahead
 				{
 					// unless we have no space!
-					if (Utils::diskHasSpace(extractDir, m_nSizeOfFiles))
+					if (ArkUtils::diskHasSpace(extractDir, m_nSizeOfFiles))
 					{
 						disableAll();
 						arch->unarchFile(0, extractDir);
@@ -1690,7 +1690,7 @@ ArkWidget::action_extract()
 					}
 					if (!bRedoExtract)
 					{
-						if (Utils::diskHasSpace(extractDir, nTotalSize))
+						if (ArkUtils::diskHasSpace(extractDir, nTotalSize))
 						{
 							disableAll();
 							arch->unarchFile(m_extractList, extractDir); // extract selected files
@@ -1762,7 +1762,7 @@ ArkWidget::showFile( FileLVI *_pItem )
 	m_extractList->append(name);
 
 	m_strFileToView = fullname;
-	if (Utils::diskHasSpace( m_settings->getTmpDir(), _pItem->fileSize() ) )
+	if (ArkUtils::diskHasSpace( m_settings->getTmpDir(), _pItem->fileSize() ) )
 	{
 		disableAll();
 		prepareViewFiles( m_extractList );

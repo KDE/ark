@@ -365,9 +365,9 @@ bool Arch::processLine(const QCString &line)
   if(m_dateCol >= 0)
   {
     QString year = m_repairYear >= 0?
-	Utils::fixYear(columns[m_repairYear].ascii()) : columns[m_fixYear];
+	ArkUtils::fixYear(columns[m_repairYear].ascii()) : columns[m_fixYear];
     QString month = m_repairMonth >= 0?
-	QString("%1").arg(Utils::getMonth(columns[m_repairMonth].ascii())) :
+	QString("%1").arg(ArkUtils::getMonth(columns[m_repairMonth].ascii())) :
 	columns[m_fixMonth];
     QString timestamp= QString::fromLatin1("%1-%2-%3 %4")
       .arg(year)

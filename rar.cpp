@@ -99,7 +99,7 @@ bool RarArch::processLine(const QCString &line)
   // columns[8] is the month
   // columns[9] is a 2-digit year. Ugh. Y2K junk here.
   
-  QString year = Utils::fixYear(columns[9]);
+  QString year = ArkUtils::fixYear(columns[9]);
 
   // put entire timestamp in columns[3]
 

@@ -99,7 +99,7 @@ bool LhaArch::processLine(const QCString &line)
   kdDebug(1601) << "The actual file is " << (const char *)filename << endl;
 
   // make the time stamp sortable
-  QString massagedTimeStamp = Utils::getTimeStamp(columns[6], columns[7],
+  QString massagedTimeStamp = ArkUtils::getTimeStamp(columns[6], columns[7],
 						  columns[8]);
   strlcpy(columns[6], massagedTimeStamp.ascii(), sizeof(columns[6]));
 

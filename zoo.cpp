@@ -79,13 +79,13 @@ bool ZooArch::processLine(const QCString &line)
 
   kdDebug(1601) << "The actual file is " << (const char *)filename << endl;
 
-  QString year = Utils::fixYear(columns[8]);
+  QString year = ArkUtils::fixYear(columns[8]);
 
   kdDebug(1601) << "The year is " << year << endl;
 
   QString strDate;
   strDate.sprintf("%s-%.2d-%.2d", year.utf8().data(),
-		    Utils::getMonth(columns[7]), atoi(columns[3]));
+		    ArkUtils::getMonth(columns[7]), atoi(columns[3]));
 
   strlcpy(columns[3], strDate.ascii(), sizeof(columns[3]));
   kdDebug(1601) << "New timestamp is " << columns[3] << endl;
