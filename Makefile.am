@@ -1,6 +1,6 @@
 # set the include path for X, qt and KDE
 INCLUDES= $(all_includes)
-lib_LTLIBRARIES = libark.la
+noinst_LTLIBRARIES = libark.la
 
 SUBDIRS = pics
 
