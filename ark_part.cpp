@@ -29,8 +29,6 @@
 
 #include <qfile.h>
 
-//typedef KParts::GenericFactory<ArkPart> ArkFactory;
-//K_EXPORT_COMPONENT_FACTORY( libark, ArkFactory );
 #include "arkfactory.h"
 
 KAboutData *ArkPart::createAboutData()

@@ -110,4 +110,4 @@ SwallowExec=
 SwallowTitle=
 BinaryPattern=ark;
 ServiceTypes=Browser/View
-X-KDE-Library=libark
+X-KDE-Library=libarkpart
