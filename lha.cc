@@ -11,6 +11,8 @@
 //#include <string.h>
 #include <sys/errno.h>
 
+#include "filelistview.h"
+
 LhaArch::LhaArch()
   : Arch()
 {
@@ -42,7 +44,7 @@ void LhaArch::addPath( bool in )
 	storefullpath = in;
 }
 
-void LhaArch::openArch( QString file )
+void LhaArch::openArch( QString file, FileListView *flw )
 {
 	cout << "Entered openArch" << endl;
 	char line[4096];
@@ -63,6 +65,16 @@ void LhaArch::openArch( QString file )
  		return;
  	}
 
+	flw->clear();
+	flw->addColumn( i18n("Name") );
+	flw->addColumn( i18n("Permissions") );
+	flw->addColumn( i18n("Owner/Group") );
+	flw->addColumn( i18n("Packed") );
+	flw->addColumn( i18n("Size") );
+	flw->addColumn( i18n("Ratio") );
+	flw->addColumn( i18n("CRC") );
+	flw->addColumn( i18n("TimeStamp") );
+
 	fgets( line, 4096, fd );
 	if( feof(fd) )
 	{
@@ -82,8 +94,8 @@ void LhaArch::openArch( QString file )
 // too.
 		if( QString::QString(line).contains("[generic]") ) {
 			sscanf( line, " %[]\[generic] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] "
-				"%12[A-Za-z0-9: ]%1[ ]%[^\n]", 
-				columns[0], columns[2], columns[3], columns[4], columns[5], 
+				"%12[A-Za-z0-9: ]%1[ ]%[^\n]",
+				columns[0], columns[2], columns[3], columns[4], columns[5],
 				columns[6], columns[7], filename );
 			strcpy( columns[1], " " );
 		} else {
@@ -98,6 +110,14 @@ void LhaArch::openArch( QString file )
 // Hereby I skip the line if the first field contains 'd', it means directory.
 //		if(!QString::QString(columns[0]).contains('d'))
 //		{
+		FileLVI *flvi = new FileLVI(flw);
+		flvi->setText(0, filename);
+		for(int i=0; i<7; i++)
+		{
+                	flvi->setText(i+1, columns[i]);
+		}
+		flw->insertItem(flvi);
+
 			sprintf(line, "%s\t%s\t%s\t%s\t%s\t%s\t"
 				"%s\t%s",
 				columns[0],columns[1],columns[2],columns[3],
@@ -108,7 +128,7 @@ void LhaArch::openArch( QString file )
 	}
 //	fclose( fd );
 //	cerr << strerror(errno);
-//	There should be a file descriptor close call, but this one makes a 
+//	There should be a file descriptor close call, but this one makes a
 //	BAD FILEDESCRIPTOR error message
 //	BIG question: if the child (the subprocess) closed the socket on its side,
 //	the other side including the FILE * structure opened by fdopen() would
@@ -163,7 +183,9 @@ int LhaArch::addFile( QStrList *urls )
 	if( pos != -1 )
 		archname.replace( pos, 4, ".lzh" );  // My lha makes it end with lzh :(
 	listing->clear();
-	openArch( archname );
+
+	// Argh : should not be commented
+//	openArch( archname );
 	return 0;
 //	cout << "left addFile" << endl;
 }
@@ -227,7 +249,9 @@ void LhaArch::deleteFile( int pos )
  	archProcess << "df" << archname << name;
  	archProcess.start(KProcess::Block);
 	listing->clear();
-	openArch( archname );
+
+	//Argh : should not be commented
+	//openArch( archname );
 	cout << "Left deleteFile" << endl;
 }
 

@@ -59,6 +59,8 @@ public slots:
 	void options_keyconf();
 	void timeout();
 	void openRecent( int );
+	void selectAll();
+	void deselectAll();
 		
 protected:
 	static QList<ArkWidget> *windowList;
@@ -69,7 +71,6 @@ private:
 	bool addonlynew;
 	bool storefullpath;
 	KArchive *arch;
-	KTabListBox *lb;
 	FileListView *archiveContent;
 	QStrList *listing;
 	QStrList *flisting;
@@ -92,6 +93,7 @@ private:
 	void setupToolBar();
 	void createRecentPopup();
 	void newCaption(const QString& filename);
+	void createFileListView();
 };
 
 #endif /* ARKWIDGET_H*/

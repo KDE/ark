@@ -59,28 +59,18 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	setupMenuBar();
 	setupStatusBar();
 	setupToolBar();
+  	createFileListView();
 
+	//connect( lb, SIGNAL( highlighted(int, int) ), this, SLOT( showFile(int, int) ) );
+	//connect( lb, SIGNAL( popupMenu(int, int) ), this, SLOT( doPopup(int, int) ) );
+//	connect( archiveContent, SIGNAL( rightButtonClicked(FileLVI *, QPoint &, int), this, SLOT( doPopup(FileLVI *, int) ) );
 
-	lb = new KTabListBox( this );
-	//archiveContent = new FileListView(this);
-	lb->setSeparator( '\t' );
-
-	setView( lb );
-	//setView( archiveContent );
-
-	connect( lb, SIGNAL( highlighted(int, int) ), this, SLOT( showFile(int, int) ) );
-	connect( lb, SIGNAL( popupMenu(int, int) ), this, SLOT( doPopup(int, int) ) );
-	//connect( archiveContent, SIGNAL( rightButtonClicked(FileLVI *, QPoint &, int), this, SLOT( doPopup(FileLVI *, int) ) );
-
-	KDNDDropZone *dz = new KDNDDropZone( lb, DndURL );
-	//KDNDDropZone *dz = new KDNDDropZone( archiveContent, DndURL );
+	KDNDDropZone *dz = new KDNDDropZone( archiveContent, DndURL );
 	connect( dz, SIGNAL(dropAction(KDNDDropZone *)),SLOT( fileDrop(KDNDDropZone *)) );
 
 	setCaption( kapp->getCaption() );
 	
 	setMinimumSize( 600, 400 );  // someday this won't be hardcoded
-	lb->show();
-	//archiveContent->show();
 	
 	kfm = new KFM;
 
@@ -103,8 +93,7 @@ ArkWidget::~ArkWidget()
 {
 	windowList->removeRef( this );
 	delete kfm;
-	delete lb;
-	//delete archiveContent;
+	delete archiveContent;
 	delete recentPopup;
 	delete editMenu;
 	delete accelerators;
@@ -120,6 +109,8 @@ void ArkWidget::setupMenuBar()
 	accelerators->insertStdItem(KAccel::Close, i18n("Close"));
 	accelerators->insertStdItem(KAccel::Quit, i18n("Quit"));
 	accelerators->insertItem(i18n("Extract to"), "Extraction", "CTRL+E");
+	accelerators->insertItem(i18n("Select all"), "SelectionAll", "CTRL+A");
+	accelerators->insertItem(i18n("Deselect all"), "DeselectionAll", "CTRL+D");
 	accelerators->insertStdItem(KAccel::Help);
 
 	// KAccel connections
@@ -127,11 +118,12 @@ void ArkWidget::setupMenuBar()
 	accelerators->connectItem(KAccel::Close, this, SLOT(closeZip()));
 	accelerators->connectItem(KAccel::New, this, SLOT(createZip()));
 	accelerators->connectItem("Extraction", this, SLOT(extractZip()));
+	accelerators->connectItem("SelectionAll", this, SLOT(selectAll()));
+	accelerators->connectItem("DeselectionAll", this, SLOT(deselectAll()));
 	accelerators->connectItem(KAccel::Open, this, SLOT(openZip()));
 	
 	// KAccel settings
 	accelerators->readSettings( data->getKConfig() );
-
 	int id;
 
 	// File menu creation
@@ -168,8 +160,13 @@ void ArkWidget::setupMenuBar()
 	// Edit menu creation
 	editMenu->insertItem( i18n( "E&xtract..."), this, SLOT( extractFile() ) );
 	editMenu->insertItem( i18n( "&View file"), this, SLOT( showFile() ) );
-	editMenu->insertSeparator();
 	editMenu->insertItem( i18n( "&Delete file"), this, SLOT( deleteFile() ) );
+	editMenu->insertSeparator();
+	id=editMenu->insertItem( i18n( "&Select all"), this, SLOT( selectAll() ) );
+	accelerators->changeMenuAccel(editMenu, id, "SelectionAll" );
+
+	id=editMenu->insertItem( i18n( "Dese&lect all"), this, SLOT( deselectAll() ) );
+	accelerators->changeMenuAccel(editMenu, id, "DeselectionAll" );
 
 	// Options menu creation
 	optionsmenu->insertItem( i18n( "&Set Archive Directory..."), this, SLOT( getFav() ) );
@@ -249,7 +246,7 @@ void ArkWidget::newWindow()
 void ArkWidget::doPopup( int row, int col )
 {
 	contextRow = true;
-	lb->setCurrentItem( row, col );
+	//lb->setCurrentItem( row, col );
 	//archiveContent->setCurrentItem( item );
 	contextRow = false;
 
@@ -270,9 +267,9 @@ void ArkWidget::createZip()
 	QString file = KFileDialog::getSaveFileName(QString::null, data->getFilter());
 	if( !file.isEmpty() )
 	{
-		//archiveContent->clear()
-		lb->clear();
-		lb->repaint();	// to be deleted
+		archiveContent->clear();
+		//lb->clear();
+		//lb->repaint();	// to be deleted
 		arch = new KArchive(data->getTarCommand());
 		ret = arch->createArch( file );	
 		if( ret ){
@@ -280,8 +277,7 @@ void ArkWidget::createZip()
 		}
 		else
 		{
-			KMsgBox::message(this, ARK_WARNING, i18n( "Unable to create archive of that type"));
-//			writeStatus( (char *)i18n( "Can't create archive of that type"));
+			arkWarning( i18n( "Can't create archive of that type") );
 			clearCurrentArchive();
 		}
 	}
@@ -322,9 +318,9 @@ void ArkWidget::fileDrop( KDNDDropZone *dz )
 		file = url.right( url.length()-5 );
 		foo = file.data();
 		arch = new KArchive(data->getTarCommand());
-		if( arch->openArch( file ) )
+		if( arch->openArch(file, archiveContent) )
 		{
-			showZip( file );
+//			showZip( file );
 			opennew=true;
 		}else{
 			//sb->changeItem( i18n( "Create or open an archive first"), 0 );
@@ -339,11 +335,11 @@ void ArkWidget::fileDrop( KDNDDropZone *dz )
 		if( !retcode )
 		{
 			listing = (QStrList *)arch->getListing();
-			//archiveContent->clear();
-			lb->clear();
-			setupHeaders();
+			archiveContent->clear();
+			//lb->clear();
+			//setupHeaders();
 			//archiveContent->buildList( listing);
-			lb->appendStrList( listing );
+			//lb->appendStrList( listing );
 		} else {
 			if( retcode == UNSUPDIR )
 				arkWarning( i18n("Can't add directories with this archive type"));
@@ -384,37 +380,36 @@ void ArkWidget::openZip()
 	QString file = KFileDialog::getOpenFileName(QString::null, data->getFilter());
 	if( !file.isNull() )
 	{
+		showZip( file );
 		newCaption(file);
-		showZip( file ); 
 	}
 }
 
 void ArkWidget::openRecent(int i)
 {
 	QString filename = recentPopup->text(i);
-	newCaption( filename);
 	showZip( filename );
+	newCaption( filename);
 }
 
 void ArkWidget::showZip( QString name )
 {
 	bool ret;
 
-	//archiveContent->clear();
-	lb->clear();
+	archiveContent->clear();
 	clearCurrentArchive();
 	arch = new KArchive(data->getTarCommand());
 
-	ret = arch->openArch( name );
+	delete archiveContent;
+	createFileListView();
+	ret = arch->openArch( name, archiveContent );
+	cerr << "openArch2 returned " << ret << "\n";
 	if( ret )
 	{
 		setupHeaders();
 		listing = (QStrList *)arch->getListing();
-		lb->appendStrList( listing );
-		//archiveContent->buildList( listing );
 	}else{
 		arkError( i18n("Unknown archive format") );
-		lb->repaint();	// to be deleted
 		clearCurrentArchive();
 	}
 }
@@ -422,7 +417,6 @@ void ArkWidget::showZip( QString name )
 void ArkWidget::showFavorite()
 {
 	const QFileInfoList *flist;
-	
 	delete fav;
 	delete arch;
 	
@@ -430,16 +424,13 @@ void ArkWidget::showFavorite()
 	flisting = new QStrList;
 	arch = 0;
 	
-	//archiveContent->clear();
-	lb->clear();
+	archiveContent->clear();
+	clearCurrentArchive();
 
-	//archiveContent->addColumn( i18n("Size") );
-	//archiveContent->addColumn( i18n("File") );
-
-	// to be deleted
-	lb->setNumCols( 2 );
-	lb->setColumn( 0, i18n( "Size" ), 80 );
-	lb->setColumn( 1, i18n( "File" ), this->width()-80 );
+	delete archiveContent;
+	createFileListView();
+	archiveContent->addColumn( i18n("File") );
+	archiveContent->addColumn( i18n("Size") );
 
 	fav = new QDir( data->getFavoriteDir() );
 	if( !fav->exists() )
@@ -451,18 +442,18 @@ void ArkWidget::showFavorite()
 	QFileInfoListIterator flisti( *flist );
 	++flisti; // Skip . and ..
 	++flisti;
-	QString line;
+	QString size;
 	for( uint i=0; i < flist->count()-2; i++ )
 	{
-		line.sprintf( "%d\t%s",(flisti.current())->size(), (const char *)(flisti.current())->fileName() );
-		flisting->append( line );
+		FileLVI *flvi = new FileLVI(archiveContent);
+		flvi->setText(0, (flisti.current())->fileName());
+                size.sprintf("%d", (flisti.current())->size());
+		flvi->setText(1, size);
+		archiveContent->insertItem(flvi);
 		++flisti;
 	}
 	listing = flisting;
 	
-	//archiveContent->buildList( listing );
-	lb->appendStrList( listing );	
-
 	writeStatus( i18n( "Archive Directory") );
 }
 
@@ -472,6 +463,7 @@ void ArkWidget::extractZip()
 
 	if( arch == 0 )
 		return;
+/*
 	ExtractDlg ld( ExtractDlg::All );
 	int mask = arch->setOptions( FALSE, FALSE, FALSE );
 	ld.setMask( mask );
@@ -504,6 +496,7 @@ void ArkWidget::extractZip()
 			}
 		}
 	}
+*/
 }
 
 void ArkWidget::closeEvent( QCloseEvent * )
@@ -550,10 +543,12 @@ void ArkWidget::quit()
 
 void ArkWidget::showFile()
 {
+/*
 	if( lb->currentItem() != -1 )
 	{
 		showFile( lb->currentItem() );
 	}
+*/
 }
 
 void ArkWidget::showFile( int index, int col )
@@ -565,7 +560,7 @@ void ArkWidget::showFile( int index, int col )
 	
 	if( contextRow )  // Warning: ugly hack
 		return;
-
+/*
 	col++; // Don't ask.
 	tmp = listing->at( index );
 	tname = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
@@ -581,16 +576,18 @@ void ArkWidget::showFile( int index, int col )
 		fullname += arch->unarchFile( index, tmpdir );
 		kfm->exec( fullname, 0L );
 	}
+*/
 }
 
 
 void ArkWidget::extractFile()
 {
-	extractFile( lb->currentItem() );
+//	extractFile( lb->currentItem() );
 }
 
 void ArkWidget::extractFile( int pos )
 {
+/*
 	int ret;
 	QString tmp;
 	QString fullname;
@@ -649,17 +646,19 @@ void ArkWidget::extractFile( int pos )
 			}
 		}
 	}
+*/
 }
 	
 
 void ArkWidget::deleteFile()
 {
-	deleteFile( lb->currentItem() );
+//	deleteFile( lb->currentItem() );
 } 
 
 
 void ArkWidget::deleteFile( int pos )
 {
+/*
 	if( pos != -1 && arch )
 	{
 		arch->deleteFile( pos ); // This will be better for the future
@@ -668,11 +667,13 @@ void ArkWidget::deleteFile( int pos )
 		setupHeaders();
 		lb->appendStrList( listing );
 	}
+*/
 }
 
 
 void ArkWidget::setupHeaders()
 {
+/*
 	char *h = strdup( arch->getHeaders() );
 	char *hdrs=h;
 	char *tmp;
@@ -700,6 +701,7 @@ void ArkWidget::setupHeaders()
 		twidth+=lb->cellWidth( ii );
 	lb->setColumnWidth( i-1, ((this->width())-twidth) );  // Is there a way to set to fill to right initially
 	free( h );
+*/
 }
 
 
@@ -748,9 +750,35 @@ void ArkWidget::options_keyconf()
 void ArkWidget::newCaption(const QString& filename){
 	
 	QString caption;
-	caption.sprintf(i18n("ark: %s"), filename.data());
+	caption.sprintf(i18n("ark - %s"), filename.data());
 	setCaption(caption);
 
 	data->addRecentFile(filename);
 	createRecentPopup();
 }
+
+void ArkWidget::createFileListView()
+{
+	archiveContent = new FileListView(this);                	
+	archiveContent->setMultiSelection(true);
+	setView(archiveContent);
+	updateRects();
+	archiveContent->show();
+}
+
+void ArkWidget::selectAll()
+{
+	FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
+
+	while (flvi)
+	{
+        	archiveContent->setSelected(flvi, true);
+		flvi = (FileLVI*)flvi->itemBelow();
+	}
+}
+
+void ArkWidget::deselectAll()
+{
+	archiveContent->clearSelection();
+}
+

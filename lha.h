@@ -1,11 +1,14 @@
 #ifndef LHAARCH_H
 #define LHAARCH_H
 
+// Qt includes
 #include <qstring.h>
 #include <qstrlist.h>
 #include <qobject.h>
+
 #include "arch.h"
 #include "arkprocess.h"
+#include "filelistview.h"
 
 class LhaArch : public Arch {
 
@@ -13,7 +16,7 @@ public:
 	LhaArch();
 	virtual ~LhaArch();
 	virtual unsigned char setOptions( bool p, bool l, bool o );
-	virtual void openArch( QString );
+	virtual void openArch( QString, FileListView * );
 	virtual void createArch( QString );
 	virtual int addFile( QStrList *);
 	virtual void extractTo( QString );

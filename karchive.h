@@ -9,13 +9,14 @@
 #include "zip.h"
 #include "lha.h"
 #include "ar.h"
+#include "filelistview.h"
 
 class KArchive {
 
 public:
 	KArchive( QString te="tar" );
 	~KArchive();
-	bool openArch( QString name );
+	bool openArch( QString name, FileListView * flw );
 	bool createArch( QString file );
 	int addFile( QStrList *urls );
 	void extractTo( QString dir );

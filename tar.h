@@ -4,6 +4,7 @@
 #include "arch.h"
 #include <unistd.h>
 #include "arkprocess.h"
+#include "filelistview.h"
 
 class TarArch : public Arch {
 
@@ -11,7 +12,7 @@ public:
 	TarArch( QString );
 	virtual ~TarArch();
 	virtual unsigned char setOptions( bool p, bool l, bool o );
-	virtual void openArch( QString );
+	virtual void openArch( QString, FileListView *flw );
 	virtual void createArch( QString );
 	virtual int addFile( QStrList *);
 	virtual void extractTo( QString );

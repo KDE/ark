@@ -52,32 +52,32 @@ void KArchive::addPath( bool p )
 	arch->onlyUpdate( p );
 }
 
-bool KArchive::openArch( QString name )
+bool KArchive::openArch( QString name, FileListView *flw )
 {
 	switch( getArchType( name ) )
 	{
 		case Tar:
 		{
 			arch = new TarArch( tar_exe );
-			arch->openArch( name );
+			arch->openArch( name, flw );
 			break;
 		}
 		case Zip:
 		{
 			arch = new ZipArch;
-			arch->openArch( name );
+			arch->openArch( name, flw );
 			break;
 		}
 		case Lha:
 		{
 			arch = new LhaArch;
-			arch->openArch( name );
+			arch->openArch( name, flw );
 			break;
 		}
 		case AA:
 		{
 			arch = new ArArch;
-			arch->openArch( name );
+			arch->openArch( name, flw );
 			break;
 		}
 		case -1:

@@ -4,8 +4,10 @@
 #include <qstring.h>
 #include <qstrlist.h>
 #include <qobject.h>
+
 #include "arch.h"
 #include "arkprocess.h"
+#include "filelistview.h"
 
 class ZipArch : public Arch {
 
@@ -13,7 +15,7 @@ public:
 	ZipArch();
 	virtual ~ZipArch();
 	virtual unsigned char setOptions( bool p, bool l, bool o );
-	virtual void openArch( QString );
+	virtual void openArch( QString, FileListView * flw );
 	virtual void createArch( QString );
 	virtual int addFile( QStrList *);
 	virtual void extractTo( QString );

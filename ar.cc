@@ -8,6 +8,7 @@ See main.cc for license details */
 #include "ar.h"
 #include "text.h"
 #include "errors.h"
+#include "filelistview.h"
 
 ArArch::ArArch()
   : Arch()
@@ -40,7 +41,8 @@ void ArArch::addPath( bool in )
 	storefullpath = in;
 }
 
-void ArArch::openArch( QString file )
+
+void ArArch::openArch( QString file, FileListView *flw )
 {
 	QString ex;
 	char line[4096];
@@ -56,6 +58,14 @@ void ArArch::openArch( QString file )
 		cerr << "Subproccess won't start, armageddon is iminent!";
 		return;
 	}
+
+	flw->clear();
+	flw->addColumn( i18n("Permissions") );
+	flw->addColumn( i18n("Owner/Group") );
+	flw->addColumn( i18n("Size") );
+	flw->addColumn( i18n("TimeStamp") );
+	flw->addColumn( i18n("Name") );
+
 	char *nl;
 	while( 1 )
 	{
@@ -64,6 +74,9 @@ void ArArch::openArch( QString file )
 			break;
 		nl = strstr( line, "\n" );
 		*nl = '\0';
+
+//		FileLVI *flvi = new FileLVI(flw);
+
 		for( int i=0; i<5; i++ )
 		{
 			if( i==3 )
@@ -86,6 +99,7 @@ void ArArch::openArch( QString file )
 		while( (tmp = strstr( line, "\a" ))!=0 )
 			tmp[0] = ' ';
 		listing->append( line );
+		cerr << line << "\n";
 	}
 	// pclose( fd );  I'm not sure what should be here
 }
@@ -137,7 +151,9 @@ int ArArch::addFile( QStrList *urls )
 	cout << "starting add command";
 	archProcess.start( KProcess::Block );
 	listing->clear();
-	openArch( archname );
+
+/////AAAAAAAArgh !
+//	openArch( archname );     // Will not work
 	return 0;
 }
 
@@ -216,6 +232,8 @@ void ArArch::deleteFile( int pos )
 	archProcess << "d" << archname << name ;
 	archProcess.start( KProcess::Block );
 	listing->clear();
-	openArch( archname );
+
+	////////Argh
+//	openArch( archname );  Should not be commented !!!!!!!!!!!!!
 }
 

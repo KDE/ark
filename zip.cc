@@ -38,9 +38,10 @@ void ZipArch::addPath( bool in )
 	storefullpath = in;
 }
 
-void ZipArch::openArch( QString file )
+
+void ZipArch::openArch( QString file, FileListView *flw )
 {
-//	cout << "Entered openArch" << endl;
+	cout << "Entered openArch2" << endl;
 	char line[4096];
 	char columns[8][80];
 	char filename[4096];
@@ -48,7 +49,6 @@ void ZipArch::openArch( QString file )
 	FILE *fd;
 
 	archProcess.clearArguments();
-//	archProcess.setExecutable( "unzip" );
 
 	archname = file;
 
@@ -66,6 +66,18 @@ void ZipArch::openArch( QString file )
 		return;
 	}
 
+	//Clear the archive currently displayed
+	flw->clear();
+	flw->addColumn( i18n("Name") );
+	flw->addColumn( i18n("Length") );
+	flw->addColumn( i18n("Method") );
+	flw->addColumn( i18n("Size") );
+	flw->addColumn( i18n("Ratio") );
+	flw->addColumn( i18n("Date") );
+	flw->addColumn( i18n("Time") );
+	flw->addColumn( i18n("CRC-32") );
+
+
 	while( !feof(fd) && !strstr( line, "----" ) )
 		fgets( line, 4096, fd );
 	fgets( line, 4096, fd );
@@ -78,15 +90,25 @@ void ZipArch::openArch( QString file )
 			columns[4], columns[5], columns[6], columns[7],
 			filename
 			);
+
+		FileLVI *flvi = new FileLVI(flw);
+		flvi->setText(0, filename);
+		for(int i=0; i<7; i++)
+		{
+			flvi->setText(i+1, columns[i]);
+		}
+		flw->insertItem(flvi);
+
 		sprintf(line, "%s\t%s\t%s\t%s\t%s\t%s\t"
 			"%s\t%s",
 			columns[0],columns[1],columns[2],columns[3],
 			columns[4],columns[5],columns[6],filename);
 		listing->append( line );
+		cerr << line << "\n";	          	
 		fgets( line, 4096, fd );
 	}
 //	fclose( fd );
-//	There should be a file descriptor close call, but this one makes a 
+//	There should be a file descriptor close call, but this one makes a
 //	BAD FILEDESCRIPTOR error message
 
 }
@@ -134,7 +156,9 @@ int ZipArch::addFile( QStrList *urls )
 	}while( !url.isNull() );
 	archProcess.start(KProcess::Block);
 	listing->clear();
-	openArch( archname );
+
+	//Argh: should not be commented
+	//openArch( archname );
 	return 0;
 //	cout << "left addFile" << endl;
 }
@@ -197,7 +221,9 @@ void ZipArch::deleteFile( int pos )
  	archProcess << "-d" << archname << name;
  	archProcess.start(KProcess::Block);
 	listing->clear();
-	openArch( archname );
+
+	// Argh:  should not be commented
+	//openArch( archname );
 //	cout << "Left deleteFile" << endl;
 }
 

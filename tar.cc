@@ -7,8 +7,12 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "tar.h"
+
+// Qt includes
 #include <qstrlist.h>
+
+#include "tar.h"
+#include "filelistview.h"
 
 TarArch::TarArch( QString te )
 	: Arch()
@@ -62,7 +66,9 @@ int TarArch::updateArch()
 		if( !retcode )
 		{
 			listing->clear();
-			openArch( archname );
+
+			//Argh:should not be commented
+			//openArch( archname );
 		}
 	}
 	cout << "Left updateArch" << endl;
@@ -121,7 +127,7 @@ void TarArch::addPath( bool p )
 	storefullpath = p;
 }
 
-void TarArch::openArch( QString name )
+void TarArch::openArch( QString name, FileListView *flw )
 {
 	cout << "Entered openArch" << endl;
 	char line[4096];
@@ -131,13 +137,19 @@ void TarArch::openArch( QString name )
 	FILE *fd;
 
 	archProcess.clearArguments();
-//	archProcess.setExecutable( tar_exe );
 
 	archname = name;
 
-	archProcess << tar_exe << "--use-compress-program="+getUnCompressor() 
+	archProcess << tar_exe << "--use-compress-program="+getUnCompressor()
 	            <<	"-tvf" << archname;
 	
+	flw->clear();
+	flw->addColumn( i18n("Name") );
+	flw->addColumn( i18n("Permissions") );
+	flw->addColumn( i18n("Owner/Group") );
+	flw->addColumn( i18n("Size") );
+	flw->addColumn( i18n("TimeStamp") );
+
  	if(archProcess.startPipe(KProcess::Stdout, &fd) == FALSE)
  	{
  		cerr << "Subprocess wouldn't start!" << endl;
@@ -152,19 +164,28 @@ void TarArch::openArch( QString name )
 			columns[0], columns[1], columns[2], columns[3],
 			 filename
 			);
+
+		FileLVI *flvi = new FileLVI(flw);
+		flvi->setText(0, filename);
+		for(int i=0; i<4; i++)
+		{
+			flvi->setText(i+1, columns[i]);
+		}
+		flw->insertItem(flvi);
+
 		sprintf(line, "%s\t%s\t%s\t%s\t%s",
 			columns[0], columns[1], columns[2], columns[3],
 			filename);
 		listing->append( line );
+
 		fgets( line, 4096, fd );
 	}
 //	fclose( fd );
-//	There should be a file descriptor close call, but this one makes a 
+//	There should be a file descriptor close call, but this one makes a
 //	BAD FILEDESCRIPTOR error message
 //	Another note: gzip reported 'Broken pipe' because of that fclose()
 	while(archProcess.isRunning())
 		;
-
 
 	cout << "Left openArch" << endl;
 }
