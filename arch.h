@@ -38,7 +38,7 @@
 #include "filelistview.h"
 
 class Viewer;
-
+class KProcess;
 class Arch : public QObject
 {
   Q_OBJECT
@@ -61,10 +61,20 @@ public:
   virtual int actionFlag() = 0;
 	
   QString fileName() const { return m_filename; };
-  FileListView *fileList() { return 0; } //m_arkwidget->fileList(); }
 	
   enum EditProperties{ Add = 1, Delete = 2, Extract = 4,
     View = 8, Integrity = 16 };
+
+  bool stderrIsError();
+
+protected slots:
+  void slotCancel();
+  void slotStoreDataStdout(KProcess*, char*, int);
+  void slotStoreDataStderr(KProcess*, char*, int);
+  void slotOpenExited(KProcess*);
+	
+  void slotExtractExited(KProcess*);
+
 
 signals:
   void sigOpen( bool, const QString &, int );
@@ -75,8 +85,8 @@ protected:
   QString m_shellErrorData;
   char m_buffer[1024];
   ArkSettings *m_settings;
-  //  ArkWidget *m_arkwidget;
   Viewer *m_gui;
+  KProcess *m_kp;
 };
 
 

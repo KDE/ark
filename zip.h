@@ -7,6 +7,7 @@
 
   1997-1999: Rob Palmbos palm9744@kettering.edu
   1999: Francois-Xavier Duranceau duranceau@kde.org
+  1999-2000: Corel Corporation (Emily Ezust, emilye@corel.com)
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -43,8 +44,7 @@ class ZipArch : public Arch
   Q_OBJECT
 public:
   ZipArch( ArkSettings *_settings, Viewer *_gui,
-	   const QString & _fileName )  
-    : Arch(_settings, _gui, _fileName ) {}
+	   const QString & _fileName );
   virtual ~ZipArch() {}
 	
   virtual void open();
@@ -63,28 +63,19 @@ public:
   int actionFlag() { return 0; }
 
 protected:
-  KProcess *m_kp;
+  //  KProcess *m_kp;
   bool perms;
-  WaitDlg *m_wd;
   bool m_header_removed, m_finished, m_error;
 		
 protected slots:
-  void slotCancel();
-  void slotStoreDataStdout(KProcess*, char*, int);
-  void slotStoreDataStderr(KProcess*, char*, int);
-	
-  void slotOpenDataStdout(KProcess*, char*, int);
-  void slotOpenExited(KProcess*);
-	
-  void slotExtractExited(KProcess*);
   void slotIntegrityExited(KProcess*);
+  void slotOpenDataStdout(KProcess*, char*, int);
 	
 private:
   void processLine( char* );	
   void initExtract( bool, bool, bool );
   void setHeaders();
   void initOpen();
-  bool stderrIsError();
 };
 
 #endif /* ZIPARCH_H */

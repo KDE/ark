@@ -37,37 +37,15 @@
 
 // ark includes
 #include "zip.h"
-//#include "zipAddDlg.h"
-//#include "zipExtractDlg.h"
 
+// the generic viewer to which to send header and column info.
 #include "viewer.h"
 
-void ZipArch::slotCancel()
+ZipArch::ZipArch( ArkSettings *_settings, Viewer *_gui,
+		  const QString & _fileName )
+  : Arch(_settings, _gui, _fileName )
 {
-  m_kp->kill();
-}
-
-void ZipArch::slotStoreDataStdout(KProcess* _p, char* _data, int _length)
-{
-  char c = _data[_length];
-  _data[_length] = '\0';
-
-  m_settings->appendShellOutputData( _data );
-  _data[_length] = c;
-}
-
-void ZipArch::slotStoreDataStderr(KProcess* _p, char* _data, int _length)
-{
-  char c = _data[_length];
-  _data[_length] = '\0';
-	
-  m_shellErrorData.append( _data );
-  _data[_length] = c;
-}
-
-bool ZipArch::stderrIsError()
-{
-  return m_shellErrorData.find(QString("eror")) != -1;
+  kDebugInfo(1601, "ZipArch constructor");
 }
 
 void ZipArch::processLine( char *_line )
@@ -90,28 +68,6 @@ void ZipArch::processLine( char *_line )
   m_gui->add(&list); // send the entry to the GUI
 }
 
-void ZipArch::slotOpenExited(KProcess* _p)
-{
-  kDebugInfo( 1601, "normalExit = %d", _p->normalExit() );
-  kDebugInfo( 1601, "exitStatus = %d", _p->exitStatus() );
-
-  bool bNormalExit = _p->normalExit();
-
-  int exitStatus = 100; // arbitrary bad exit status
-  if (bNormalExit)
-    exitStatus = _p->exitStatus();
-
-  if (1 == exitStatus)
-    exitStatus = 0;    // because 1 is for empty - just a warning. XXX
-
-  if(!exitStatus) 
-    emit sigOpen( true, m_filename,
-		  Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
-  else
-    emit sigOpen( false, QString::null, 0 );
-  
-  delete m_kp;
-}
 
 void ZipArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
 {
@@ -222,8 +178,10 @@ void ZipArch::initOpen()
   m_kp = new KProcess();
   *m_kp << "unzip" << "-v" << m_filename.local8Bit();
 	
-  connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)), SLOT(slotOpenDataStdout(KProcess*, char*, int)));
-  connect( m_kp, SIGNAL(processExited(KProcess*)), SLOT(slotOpenExited(KProcess*)));
+  connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotOpenDataStdout(KProcess*, char*, int)));
+  connect( m_kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotOpenExited(KProcess*)));
 
   kDebugInfo( 1601, "-ZipArch::initOpen");
 }
@@ -237,7 +195,7 @@ void ZipArch::open()
 
   if(m_kp->start(KProcess::NotifyOnExit, KProcess::Stdout) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );  		
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
       emit sigOpen( false, QString::null, 0 );
     }
   kDebugInfo( 1601, "-ZipArch::open");
@@ -440,33 +398,6 @@ void ZipArch::remove(QStringList *list)
   kDebugInfo( 1601, "-ZipArch::remove");
 }
 
-void ZipArch::slotExtractExited(KProcess *)
-{
-  kDebugInfo( 1601, "+slotExtractExited");
-
-  kDebugInfo( 1601, "normalExit = %d", m_kp->normalExit() );
-  if( m_kp->normalExit() )
-    kDebugInfo( 1601, "exitStatus = %d", m_kp->exitStatus() );
-
-  m_wd->close();
-
-		
-  if( m_kp->normalExit() && (m_kp->exitStatus()==0) )
-    {
-      if(stderrIsError())
-	{
-	  KMessageBox::error( 0, i18n("You probably don't have sufficient permissions\n"
-				      "Please check the file owner and the integrity\n"
-				      "of the archive.") );
-	}
-    }
-  else
-    KMessageBox::sorry( 0, i18n("Extraction failed") );
-		
-  delete m_kp;
-		
-  kDebugInfo( 1601, "-slotExtractExited");
-}
 
 void ZipArch::initExtract( bool _overwrite, bool _junkPaths, bool _lowerCase)
 {

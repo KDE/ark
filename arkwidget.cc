@@ -67,6 +67,9 @@
 #include "arch.h"
 #include "arkwidget.h"
 
+#include "tar.h"
+#include "zip.h"
+
 #include "viewer.h"
 
 extern int errno;
@@ -623,7 +626,7 @@ void ArkWidget::file_new()
     // or if the file doesn't already exist. Return if they cancel.
   {
     strFile = KFileDialog::getSaveFileName(QString::null,
-					   m_settings->getFilter());
+    					   m_settings->getFilter());
     if (! strFile.isEmpty())
     {
       if (stat(strFile, &statbuffer) != -1)  // there's something there!
@@ -736,8 +739,9 @@ void ArkWidget::file_newWindow()
 
 void ArkWidget::file_open()
 {
-    QString file = KFileDialog::getOpenFileName(m_settings->getOpenDir(),
-						m_settings->getFilter(), this);
+    QString file
+      = KFileDialog::getOpenFileName(m_settings->getOpenDir(),
+				     m_settings->getFilter(), this);
     file_open( file );
 }
 
@@ -997,9 +1001,9 @@ void ArkWidget::addFile(QStringList *list)
 
 void ArkWidget::action_add_dir()
 {
-  QString dirName = 
-    KFileDialog::getExistingDirectory(m_settings->getAddDir(), 0,
-				      i18n("Select a Directory to Add"));
+  QString dirName
+    = KFileDialog::getExistingDirectory(m_settings->getAddDir(), 0,
+					i18n("Select a Directory to Add"));
   // fix protocol
   dirName = "file:" + dirName;
   int ret = arch->addDir(dirName);
@@ -1472,8 +1476,8 @@ void ArkWidget::showFavorite()
   archiverMode = false;
   createFileListView();
 
-  archiveContent->addColumn( i18n("File") );
-  archiveContent->addColumn( i18n("Size") );
+  archiveContent->addColumn( i18n(" File ") );
+  archiveContent->addColumn( i18n(" Size ") );
   archiveContent->setColumnAlignment(1, AlignRight);
   archiveContent->setMultiSelection( false );
 
@@ -1588,19 +1592,28 @@ void ArkWidget::createFileListView()
 
 ArchType ArkWidget::getArchType( QString archname )
 {
-  if ( archname.contains(".tgz", FALSE) || archname.contains(".tar.gz", FALSE)
-			|| archname.contains( ".tar.Z", FALSE ) || archname.contains(".tar.bz", FALSE)
-			|| archname.contains( ".tar.bz2", FALSE ) || archname.contains(".tar.lzo", FALSE)
-			|| archname.contains( ".tbz", FALSE ) || archname.contains(".tzo", FALSE)
-			|| archname.contains( ".taz", FALSE) )
-		return TAR_FORMAT;
-//	if ( archname.contains(".lha", FALSE) || archname.contains(".lzh", FALSE ))
-//		return LHA_FORMAT;
-	if ( archname.contains(".zip", FALSE) )
-		return ZIP_FORMAT;
-//	if ( archname.contains(".a", FALSE ) )
-//		return AA_FORMAT;
-	return UNKNOWN_FORMAT;
+  if ((archname.right(4) == ".tgz")
+      || (archname.right(7) == ".tar.gz")
+      || (archname.right(6) == ".tar.Z")
+      || (archname.right(7) == ".tar.bz")
+      || (archname.right(8) == ".tar.bz2")
+      || (archname.right(8) == ".tar.lzo")
+      || (archname.right(4) == ".tbz")
+      || (archname.right(4) == ".tzo")
+      || (archname.right(4) == ".taz")
+      || (archname.right(4) == ".tar"))
+  {
+    return TAR_FORMAT;
+  }
+  if ((archname.right(4) == ".lha") || (archname.right(4) == ".lzh"))
+  {
+    return LHA_FORMAT;
+  }
+  if (archname.right(4) == ".zip")
+  {
+    return ZIP_FORMAT;
+  }
+  return UNKNOWN_FORMAT;
 }
 
 
@@ -1613,13 +1626,10 @@ Arch *ArkWidget::createArchive( QString _filename )
 
   switch( getArchType( _filename ) )
     {
-#if 0
     case TAR_FORMAT:
-      newArch = new TarArch( m_settings, m_viewer, name );
-      newArch->createArch( name );
-      ret = true;
+      newArch = new TarArch( m_settings, m_viewer, _filename );
+      newArch->create();
       break;
-#endif
     case ZIP_FORMAT:
       newArch = new ZipArch( m_settings, m_viewer, _filename );
       connect( newArch, SIGNAL(sigOpen(bool, const QString &, int)),
@@ -1656,38 +1666,31 @@ Arch *ArkWidget::openArchive( QString _filename )
 
     switch( getArchType( _filename ) )
     {
-#if 0
-
     case TAR_FORMAT:
-	newArch = new TarArch(  m_settings, m_viewer, _filename );
-	newArch->openArch( name );
-	ret = true;
+	newArch = new TarArch(m_settings, m_viewer, _filename );
 	break;
-#endif   
     case ZIP_FORMAT:
-	newArch = new ZipArch( m_settings, m_viewer, _filename );
-	connect( newArch, SIGNAL(sigOpen(bool, const QString &, int)),
-		 this, SLOT(slotOpen(bool, const QString &,int)) );
-	connect( newArch, SIGNAL(sigCreate(bool, const QString &,int)),
-		 this, SLOT(slotCreate(bool, const QString &, int)) );
-	newArch->open();
+	newArch = new ZipArch(m_settings, m_viewer, _filename );
 	break;
 #if 0
     case LHA_FORMAT:
-	newArch = new LhaArch( m_settings );
-	newArch->openArch( name, archiveContent );
-	ret = true;
-	break;
+      newArch = new LhaArch( m_settings );
+      break;
     case AA_FORMAT:
-	newArch = new ArArch( m_settings );
-	newArch->openArch( name, archiveContent );
-	ret = true;
-	break;
+      newArch = new ArArch( m_settings );
+      break;
 #endif
     default:
 	KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
 	// and just leave the old archive displayed
     }
+
+    connect( newArch, SIGNAL(sigOpen(bool, const QString &, int)),
+	     this, SLOT(slotOpen(bool, const QString &,int)) );
+    connect( newArch, SIGNAL(sigCreate(bool, const QString &,int)),
+	     this, SLOT(slotCreate(bool, const QString &, int)) );
+    newArch->open();
+
     return newArch;    
 }
 
@@ -1725,5 +1728,4 @@ void ArkWidget::setHeaders(QStringList *_headers,
 
 }
 
-#include "arch.moc"
 #include "arkwidget.moc"

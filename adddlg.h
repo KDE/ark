@@ -34,6 +34,7 @@ class QLineEdit;
 class QCheckBox;
 class KFileWidget;
 class ArkSettings;
+class KDirOperator;
 
 class AddDlg : public KDialogBase 
 {

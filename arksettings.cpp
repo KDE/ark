@@ -97,6 +97,7 @@ void ArkSettings::readConfiguration()
 	tar_exe = kc->readEntry( TAR_KEY, "tar");
 	kDebugInfo( 1601, "Tar command is %s", tar_exe.ascii());
 
+
 	m_saveOnExit = kc->readBoolEntry( SAVE_ON_EXIT_KEY, true );
 	kDebugInfo( 1601, "SaveOnExit is %d", m_saveOnExit);
 
@@ -312,7 +313,7 @@ void ArkSettings::writeZipProperties()
 
 QString ArkSettings::getTarCommand() const
 {
-	return QString(tar_exe);
+  return tar_exe;
 }
 
 void ArkSettings::setTarCommand(const QString& _cmd)

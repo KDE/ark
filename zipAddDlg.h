@@ -1,3 +1,5 @@
+// OBSOLETE
+
 /*
 
  $Id $

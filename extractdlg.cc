@@ -163,15 +163,15 @@ void ExtractDlg::accept()
 
   // I made it! so nothing's wrong.
   QTabDialog::accept();
-  //  kDebugInfo( 1601, "-ExtractDlg::accept");
+  kDebugInfo( 1601, "-ExtractDlg::accept");
 }
 
 
 void ExtractDlg::browse() // slot
 {
-  QString dirName = 
-    KFileDialog::getExistingDirectory(m_settings->getExtractDir(), 0,
-				      i18n("Select an Extract Directory"));
+  QString dirName
+    = KFileDialog::getExistingDirectory(m_settings->getExtractDir(), 0,
+					i18n("Select an Extract Directory"));
   if (! dirName.isEmpty())
   {
     m_extractDirLE->setText(dirName);

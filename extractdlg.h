@@ -27,11 +27,11 @@
 #define __EXTRACTDLG_H__
 
 #include <qtabdialog.h>
+#include <qradiobutton.h>
+#include <qcheckbox.h>
 #include "arkwidget.h"  // for ArchType
 
-class QRadioButton;
 class QLineEdit;
-class QCheckBox;
 class ArkSettings;
 
 class ExtractDlg : public QTabDialog 

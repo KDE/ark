@@ -2,13 +2,14 @@
 #include <qstring.h>
 #include <kurl.h>
 #include <kfiledialog.h>
+#include <kdiroperator.h>
 #include <kfile.h>
 #include <qvbox.h>
 #include <qmessagebox.h>
 #include <qcheckbox.h>
 #include <qfileinfo.h>
 #include <klocale.h>
-#include <kfilewidget.h>
+#include <kfileview.h>
 #include <qbuttongroup.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
@@ -40,9 +41,9 @@ void AddDlg::setupFirstTab()
   QVBoxLayout *vlay = new QVBoxLayout(frame, 0, spacingHint());
 
   m_dirList = new KDirOperator(m_sourceDir, frame, "dirlist");
-
+  
   m_dirList->setView(static_cast<KFile::FileView>(KFile::Simple | KFile::SeparateDirs));
-
+  
   m_dirList->setGeometry(x(), y(), 500, 500);  // this doesn't do a thing
   vlay->addWidget(m_dirList);  
 }

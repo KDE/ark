@@ -1,4 +1,30 @@
 //  -*-C++-*-           emacs magic for .h files
+/*
+
+  ark -- archiver for the KDE project
+
+  Copyright (C)
+
+  1997-1999: Rob Palmbos palm9744@kettering.edu
+  1999: Francois-Xavier Duranceau duranceau@kde.org
+  1999-2000: Corel Corporation (Emily Ezust, emilye@corel.com)
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
+
 #ifndef TAR_H
 #define TAR_H
 
@@ -18,8 +44,6 @@
 
 #include "arch.h"
 #include "arksettings.h"
-#include "filelistview.h"
-
 
 class Viewer;
 
@@ -27,50 +51,49 @@ class TarArch : public Arch
 {
   Q_OBJECT
 public:
-  TarArch( ArkSettings *, Viewer *, FileListView* );
+  TarArch( ArkSettings *_settings, Viewer *_gui, const QString & _filename);
   virtual ~TarArch();
 	
-  /*virtual*/ unsigned char setOptions( bool p, bool l, bool o );
-	
-  virtual void openArch( const QString & );
-  virtual void createArch( const QString &);
+  virtual void open();
+  virtual void create();
 	
   virtual int addFile( QStringList *);
-  virtual int addDir(const QString &) {}
-  virtual void deleteSelectedFiles();
-  virtual void deleteFiles( const QString & );
-  //	virtual void extractTo( const QString & );
-  //	virtual void extraction();
-	
-  const QStringList *getListing();
-  virtual QString unarchFile( QStringList * _fileList );
+  virtual int addDir(const QString &);
+  virtual void remove(QStringList *);
+  virtual QString unarchFile(QStringList *);
 	
   virtual int getEditFlag();
 	
+  int actionFlag() { return 0; }
   QString getCompressor();
   QString getUnCompressor();
 
 public slots:
-void inputPending( KProcess *, char *buffer, int bufflen );  
+  void inputPending( KProcess *, char *buffer, int bufflen );  
   void updateExtractProgress( KProcess *, char *buffer, int bufflen );
   void openFinished( KProcess * );
   void updateFinished( KProcess * );
   void createTmpFinished( KProcess * );
   void extractFinished( KProcess * );
 
-private:
+
+protected slots:
+  void slotOpenDataStdout(KProcess*, char*, int);
+
+private:  // methods
+  int updateArch();
+  void createTmp();
+  void setHeaders();
+  void initOpen();
+  void processLine( char* );	
+
+private: // data
   char          *stdout_buf;
-  QStringList      *listing;
   QString       tmpfile;
   bool          compressed;
-  ArkSettings    *m_settings;
-  ArkWidget     *m_arkwidget;
-  KProcess      kproc;
-  FileListView  *destination_flw;
+  KProcess      *m_kp;
 
   bool          perms, tolower, overwrite;
-  int           updateArch();
-  void          createTmp();
 };
 
 #endif /* TAR_H */

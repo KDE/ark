@@ -30,7 +30,6 @@
 #include <qbuttongroup.h>
 
 // KDE includes
-#include <kfiledialog.h>
 #include <klocale.h>
 
 // ark includes

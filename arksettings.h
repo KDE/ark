@@ -129,7 +129,7 @@ public:
 	
   KConfig * getKConfig() { return kc; };
 	
- protected:
+ private:
   KConfig *kc;
   bool opt_AddOnlyNew;
   bool opt_StoreFullPath;
