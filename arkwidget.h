@@ -13,9 +13,10 @@
 
 
 // KDE includes
-#include <ktmainwindow.h>
-#include <kpopmenu.h>
 #include <kaccel.h>
+#include <kconfig.h>
+#include <kpopmenu.h>
+#include <ktmainwindow.h>
 
 // ark includes
 #include "ar.h"
@@ -51,6 +52,7 @@ public slots:
 	void edit_view();
 	void edit_delete();
 	void edit_extract();
+	void edit_select();
 	void edit_selectAll();
 	void edit_deselectAll();
 	void edit_invertSel();
@@ -59,6 +61,8 @@ public slots:
 	void options_keys();
 	void options_general();
 	void testdlg();
+	void options_saveOnExit();
+	void options_saveNow();
 
 	void help();
 			
@@ -73,7 +77,6 @@ protected:
         // DND
         void dragEnterEvent(QDragEnterEvent* event);
         void dropEvent(QDropEvent* event);
-
 private:
 	enum ArchType{ TAR_FORMAT, ZIP_FORMAT, AA_FORMAT, LHA_FORMAT };
 
@@ -86,9 +89,12 @@ private:
 	ArkData *data;
 	QTimer *statusBarTimer;
 	KAccel *accelerators;
-	QPopupMenu *editMenu, *recentPopup;
+
+	QPopupMenu *editMenu, *optionsMenu, *recentPopup;
 	int idExtract, idDelete, idAdd, idView;
-	int idSelectAll, idDeselectAll, idInvertSel;
+	int idSelect, idSelectAll, idDeselectAll, idInvertSel;
+	int idSaveOnExit;
+
         bool archiverMode;
 
 	void writeStatus(const QString text);
@@ -111,6 +117,9 @@ private:
 
 	void deleteFile( int );
 	void showFile( int, int col=0 );
+
+	void saveProperties();
+
 };
 
 #endif /* ARKWIDGET_H*/

@@ -1,5 +1,31 @@
-/* (c)1997 Robert Palmbos
-   See main.cc for license details */
+/*
+
+ $Id$
+
+ ark -- archiver for the KDE project
+
+ Copyright (C)
+
+ 1997-1999: Rob Palmbos palm9744@kettering.edu
+ 1999: Francois-Xavier Duranceau duranceau@kde.org
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
+
+
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <iostream.h>
@@ -17,6 +43,7 @@
 #include "arkdata.h"
 #include "extractdlg.h"
 #include "zip.h"
+#include "zipExtractDlg.h"
 
 
 ZipArch::ZipArch( ArkData *d )
@@ -235,6 +262,11 @@ void ZipArch::deleteFile( int pos )
 
 void ZipArch::extraction()
 {
+
+ 	ZipExtractDlg zed( QString::null );
+ 	zed.exec();
+
+/*
 	QString dir, ex;
 
 	ExtractDlg ld( ExtractDlg::All );
@@ -261,5 +293,32 @@ void ZipArch::extraction()
 		}
 	}
 
+/*
+	QString dir, ex;
+
+	ZipExtractDlg ld( ExtractDlg::All );
+	int mask = setOptions( FALSE, FALSE, FALSE );
+	ld.setMask( mask );
+	if( ld.exec() )
+	{
+		dir = ld.getDest();
+		if( dir.isEmpty() )
+			return;
+		QDir dest( dir );
+		if( !dest.exists() ) {
+			if( mkdir( dir.ascii(), S_IWRITE | S_IREAD | S_IEXEC ) ) {
+				//arkWarning( i18n("Unable to create destination directory") );
+				return;
+			}
+		}
+		setOptions( ld.doPreservePerms(), ld.doLowerCase(), ld.doOverwrite() );
+		switch( ld.extractOp() ) {
+			case ExtractDlg::All: {
+				extractTo( dir );
+				break;
+			}
+		}
+	}
+*/
 }
 

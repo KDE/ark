@@ -83,6 +83,9 @@ public:
 
 	QStrList * getRecentFiles();
 	void addRecentFile(const QString& filename);
+
+	void setSaveOnExitChecked( bool );
+	bool isSaveOnExitChecked();
 	
 	void setaddPath( bool b);
 	bool getaddPath();
@@ -90,9 +93,14 @@ public:
 	void setonlyUpdate( bool b);
 	bool getonlyUpdate();
 
+	void setSelectRegExp(const QString& _exp);
+	QString getSelectRegExp() const;
+
 	QStrList * getlastShellPtr();
 	
 	void writeConfiguration();
+	void writeConfigurationNow();
+	void readConfiguration();
 	
 	KConfig * getKConfig() { return kc; };
 private:
@@ -122,13 +130,15 @@ private:
 	
 	QStrList lastShellOutput;
 	
+	bool m_saveOnExit;
+	QString m_regExp;
+
 	bool addPath;
 	bool onlyUpdate;
 
 	bool contextRow;
 	QStrList recentFiles;
 
-	void readConfigFile();
 	void readRecentFiles();
 	void writeRecentFiles();
 	void readDirectories();

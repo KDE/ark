@@ -1,22 +1,47 @@
-/* (c)1997 Robert Palmbos */
-/* Warning:  Uncommented spaghetti code next 500 lines */
-/* This is the main ark window widget */
+/*
+
+ $Id$
+
+ ark -- archiver for the KDE project
+
+ Copyright (C)
+
+ 1997-1999: Rob Palmbos palm9744@kettering.edu
+ 1999: Francois-Xavier Duranceau duranceau@kde.org
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
+
 
 // Qt includes
+#include <qdir.h>
 #include <qdragobject.h>
 #include <qevent.h>
 #include <qmessagebox.h>
-#include <qdir.h>
-#include <qcursor.h>
+#include <qregexp.h>
 
 // KDE includes
 #include <kapp.h>
 #include <kconfig.h>
+#include <kdebug.h>
 #include <kfiledialog.h>
-#include <kkeydialog.h>
+#include <kglobal.h>
 #include <kiconloader.h>
+#include <kkeydialog.h>
 #include <klocale.h>
-#include <krun.h>
 #include <kstatusbar.h>
 #include <ktoolbar.h>
 #include <kwm.h>
@@ -28,7 +53,7 @@
 #include "dirDlg.h"
 #include "generalOptDlg.h"
 #include "zipExtractDlg.h"
-#include <kglobal.h>
+#include "selectDlg.h"
 
 #define FILE_OPEN_XPM "fileopen.xpm"
 #define FILE_CLOSE_XPM "exit.xpm"
@@ -40,10 +65,11 @@ enum Buttons { OPEN_BUTTON= 1000, FAVORITE_BUTTON, EXTRACT_BUTTON,
 
 QList<ArkWidget> *ArkWidget::windowList = 0;
 
-ArkWidget::ArkWidget( QWidget *, const char *name )
-	: KTMainWindow( name )
+ArkWidget::ArkWidget( QWidget *, const char *name ) : 
+	KTMainWindow( name )
 {
 	data = new ArkData();
+	readProperties( KGlobal::config() );
 
 	unsigned int pid = getpid();
 	tmpdir.sprintf( "/tmp/ark.%d/", pid );
@@ -65,7 +91,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
         
 	setCaption( kapp->getCaption() );
 
-	setMinimumSize( 300, 200 );  // someday this won't be hardcoded
+//	setMinimumSize( 300, 200 );  // someday this won't be hardcoded
 
 	// Creates a temp directory for this ark instance
 	QString ex( "mkdir " + tmpdir + " &>/dev/null" );
@@ -81,7 +107,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 ArkWidget::~ArkWidget()
 {
 	windowList->removeRef( this );
-//	delete archiveContent;
+	delete archiveContent;
 	delete recentPopup;
 	delete accelerators;
 	delete pop;
@@ -104,6 +130,7 @@ void ArkWidget::setupMenuBar()
 	accelerators->insertItem(i18n("Delete"), "Delete_accel", "SHIFT+D");
 	accelerators->insertItem(i18n("Extract"), "Extract_accel", "SHIFT+E");
 	accelerators->insertItem(i18n("View"), "View_accel", "SHIFT+V");
+	accelerators->insertItem(i18n("Select"), "Selection", "CTRL+L");
 	accelerators->insertItem(i18n("Select all"), "SelectionAll", "CTRL+A");
 	accelerators->insertItem(i18n("Deselect all"), "DeselectionAll", "CTRL+D");
 	accelerators->insertItem(i18n("Invert selection"), "InvertSel", "CTRL+I");
@@ -120,19 +147,20 @@ void ArkWidget::setupMenuBar()
 	accelerators->connectItem("Delete_accel", this, SLOT(edit_delete()));
 	accelerators->connectItem("Extract_accel", this, SLOT(edit_extract()));
 	accelerators->connectItem("View_accel", this, SLOT(edit_view()));
+	accelerators->connectItem("Selection", this, SLOT(edit_select()));
 	accelerators->connectItem("SelectionAll", this, SLOT(edit_selectAll()));
 	accelerators->connectItem("DeselectionAll", this, SLOT(edit_deselectAll()));
 	accelerators->connectItem("InvertSel", this, SLOT(edit_invertSel()));
 
 	// KAccel settings
-	accelerators->readSettings( data->getKConfig() );
+	accelerators->readSettings( KGlobal::config() );
 	int id;
 
 	// File menu creation
 	QPopupMenu *fileMenu = new QPopupMenu;
 	recentPopup = new QPopupMenu;
 	editMenu = new QPopupMenu;
-	QPopupMenu *optionsmenu = new QPopupMenu;
+	optionsMenu = new QPopupMenu;
 
 	KMenuBar *menu = menuBar();
 
@@ -174,31 +202,32 @@ void ArkWidget::setupMenuBar()
 
 
 	editMenu->insertSeparator();
+	idSelect=editMenu->insertItem( i18n( "&Select..."), this, SLOT( edit_select() ) );
+	accelerators->changeMenuAccel(editMenu, idSelect, "Selection" );
+	editMenu->setItemEnabled( idSelect, false );
+
 	idSelectAll=editMenu->insertItem( i18n( "&Select all"), this, SLOT( edit_selectAll() ) );
-	accelerators->changeMenuAccel(editMenu, id, "SelectionAll" );
+	accelerators->changeMenuAccel(editMenu, idSelectAll, "SelectionAll" );
 	editMenu->setItemEnabled( idSelectAll, false );
 
 	idDeselectAll=editMenu->insertItem( i18n( "Dese&lect all"), this, SLOT( edit_deselectAll() ) );
-	accelerators->changeMenuAccel(editMenu, id, "DeselectionAll" );
+	accelerators->changeMenuAccel(editMenu, idDeselectAll, "DeselectionAll" );
 	editMenu->setItemEnabled( idDeselectAll, false );
 
 	idInvertSel=editMenu->insertItem( i18n( "&Invert selection"), this, SLOT( edit_invertSel() ) );
 	accelerators->changeMenuAccel(editMenu, id, "InvertSel" );
 	editMenu->setItemEnabled( idInvertSel, false );
 
-//	idInvertSel=editMenu->insertItem( i18n( "Single selection"), this, SLOT( edit_invertSel() ) );
-//	accelerators->changeMenuAccel(editMenu, id, "InvertSel" );
-//	editMenu->setItemEnabled( idInvertSel, false );
-
-
 	// Options menu creation
-	optionsmenu->insertItem( i18n( "&General..."), this, SLOT( options_general() ) );
-	optionsmenu->insertItem( i18n( "&Directories..."), this, SLOT( options_dirs() ) );
-	optionsmenu->insertItem( i18n( "&Keys..."), this, SLOT( options_keys() ) );
-	optionsmenu->insertItem( i18n( "&File Adding Options..."), this, SLOT( getAddOptions() ) );
-//	optionsmenu->insertItem( i18n( "&Test dialog..."), this, SLOT( testdlg() ) );
-//	optionsmenu->insertItem( i18n( "&Save options now..."), this, SLOT( options_saveNow() ) );
-//	optionsmenu->insertItem( i18n( "Save options on e&xit..."), this, SLOT( options_saveOnExit() ) );
+	optionsMenu->insertItem( i18n( "&General..."), this, SLOT( options_general() ) );
+	optionsMenu->insertItem( i18n( "&Directories..."), this, SLOT( options_dirs() ) );
+	optionsMenu->insertItem( i18n( "&Keys..."), this, SLOT( options_keys() ) );
+	optionsMenu->insertItem( i18n( "&File Adding Options..."), this, SLOT( getAddOptions() ) );
+//	optionsMenu->insertItem( i18n( "&Test dialog..."), this, SLOT( testdlg() ) );
+	optionsMenu->insertSeparator();
+	optionsMenu->insertItem( i18n( "&Save settings now..."), this, SLOT( options_saveNow() ) );
+	idSaveOnExit=optionsMenu->insertItem( i18n( "Save settings on e&xit..."), this, SLOT( options_saveOnExit() ) );
+	optionsMenu->setItemChecked(idSaveOnExit, data->isSaveOnExitChecked());
 
 	// Help menu creation
 	QString about_ark = i18n(
@@ -212,7 +241,7 @@ void ArkWidget::setupMenuBar()
 
 	menu->insertItem( i18n( "&File"), fileMenu );
 	menu->insertItem( i18n( "&Edit"), editMenu );
-	menu->insertItem( i18n( "&Options"), optionsmenu );
+	menu->insertItem( i18n( "&Options"), optionsMenu );
 	menu->insertSeparator();
 	menu->insertItem( i18n( "&Help" ), helpmenu );
 	setMenu( menu );
@@ -271,6 +300,31 @@ void ArkWidget::setupToolBar()
 //////////////////////////////////////////////////////////////////////
 
 
+void ArkWidget::saveProperties()
+{
+	kdebug(0, 1601, "+saveProperties (exit)");
+
+	KConfig *kc = data->getKConfig();
+
+	if( KWM::isMaximized(this->winId()) ){
+		kc->writeEntry( "MaxMode", KWM::maximizeMode(this->winId()) );
+	}
+	else{
+		kc->writeEntry( "MaxMode", -1 );
+	}
+
+	if( data->isSaveOnExitChecked() )
+		accelerators->writeSettings( data->getKConfig() );
+
+	data->writeConfiguration();
+
+	QString ex( "rm -rf "+tmpdir );
+	system( ex.ascii() );
+
+	kdebug(0, 1601, "-saveProperties (exit)");
+}
+
+
 // File menu /////////////////////////////////////////////////////////
 
 void ArkWidget::file_new()
@@ -322,9 +376,9 @@ void ArkWidget::showZip( QString name )
 
 	archiverMode = true;
 
-	cerr << "Chow Archive: " << name.ascii() << "\n";
+	kdebug(0, 1601, "Show Archive: %s", name.ascii());
 	ret = openArchive( name );
-	cerr << "openArchive returned " << ret << "\n";
+	kdebug(0, 1601, "openArchive returned %d", ret);
 	if( ret )
 	{
 		listing = (QStrList *)arch->getListing();
@@ -343,37 +397,25 @@ void ArkWidget::file_close()
 {
 	if( windowList->count() < 2 )
 	{
-		file_quit();
-	}else
+		saveProperties();
+		kapp->quit();
+	}else{
+		saveProperties();
 		delete this;
+	}
 }
+
 
 void ArkWidget::closeEvent( QCloseEvent * )
 {
 	file_close();
 }
 
+
 void ArkWidget::file_quit()
 {
-	KConfig *config;
-
-	config = kapp->getConfig();
-        config->setGroup("ark");
-
-	if( KWM::isMaximized(this->winId()) ){
-		config->writeEntry( "MaxMode", KWM::maximizeMode(this->winId()) );
-	}
-	else{
-		config->writeEntry( "MaxMode", -1 );
-	}
-
-	accelerators->writeSettings( data->getKConfig() );
-	data->writeConfiguration();
-	cerr << "configuration written\n";
-
-	QString ex( "rm -rf "+tmpdir );
-	system( ex.ascii() );
-	delete this;
+//	delete this;
+	saveProperties();
 	kapp->quit();
 }
 
@@ -381,17 +423,20 @@ void ArkWidget::file_quit()
 
 void ArkWidget::edit_add()
 {
-
+	arkWarning("Sorry, not implemented yet !");
 }
 
 void ArkWidget::edit_delete()
 {
+	arkWarning("Sorry, not implemented yet !");
 //	deleteFile( lb->currentItem() );
 }
 
 
 void ArkWidget::deleteFile( int /*pos*/ )
 {
+	arkWarning("Sorry, not implemented yet !");
+
 /*
 	if( pos != -1 && arch )
 	{
@@ -448,6 +493,29 @@ void ArkWidget::showFile( int /*index*/, int /*col*/ )
 		(void) new KRun ( fullname );
 	}
 */
+}
+
+void ArkWidget::edit_select()
+{
+	SelectDlg *sd = new SelectDlg( data, data->getSelectRegExp(), this );
+	if( sd->exec() ){
+		QString exp = sd->getRegExp();
+		data->setSelectRegExp( exp );
+
+		QRegExp reg_exp( exp, true, true );
+		KASSERT(reg_exp.isValid(), 0, 1601, "ArkWidget::edit_select: regular expression is not valid."); 
+		
+		FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
+
+		while (flvi)
+		{
+			if( reg_exp.match(flvi->text(0))==0 ){
+		        	archiveContent->setSelected(flvi, true);
+			}
+			flvi = (FileLVI*)flvi->itemBelow();
+		}
+			
+	}
 }
 
 void ArkWidget::edit_selectAll()
@@ -516,6 +584,17 @@ void ArkWidget::getAddOptions()
 	}
 }
 
+void ArkWidget::options_saveNow()
+{
+	data->writeConfigurationNow();
+}
+
+void ArkWidget::options_saveOnExit()
+{
+	optionsMenu->setItemChecked(idSaveOnExit, !data->isSaveOnExitChecked());
+	data->setSaveOnExitChecked( !data->isSaveOnExitChecked() );
+}
+
 // Help menu /////////////////////////////////////////////////////////
 
 void ArkWidget::help()
@@ -542,7 +621,7 @@ void ArkWidget::doPopup( QListViewItem * /*item*/ )
 
 void ArkWidget::dragEnterEvent(QDragEnterEvent* event)
 {
-  event->accept(QUrlDrag::canDecode(event));
+	event->accept(QUrlDrag::canDecode(event));
 }
 
 void ArkWidget::dropEvent(QDropEvent* event )
@@ -552,9 +631,13 @@ void ArkWidget::dropEvent(QDropEvent* event )
 	QString file;
 	bool opennew=false;
 
+	kdebug(0, 1601, "+dropEvent");
+
         if(!QUrlDrag::decode(event, dlist))
           return;
         
+	kdebug(0, 1601, "URLs dropped and decoded");
+
 	if( !arch ){	/* No archive is currently loaded */
 		const char *foo;
 		url = dlist.at(0);
@@ -583,6 +666,7 @@ void ArkWidget::dropEvent(QDropEvent* event )
 		}
 	}
 
+	kdebug(0, 1601, "-dropEvent");
 }
 
 
@@ -677,13 +761,13 @@ void ArkWidget::clearCurrentArchive()
 	editMenu->setItemEnabled( idExtract, false );
 	editMenu->setItemEnabled( idView, false );
 
+	editMenu->setItemEnabled( idSelect, false );
 	editMenu->setItemEnabled( idSelectAll, false );
 	editMenu->setItemEnabled( idDeselectAll, false );
 	editMenu->setItemEnabled( idInvertSel, false );
 
 	toolBar()->setItemEnabled( EXTRACT_BUTTON, false );
 }
-
 
 void ArkWidget::arkWarning(const QString& msg)
 {
@@ -711,6 +795,7 @@ void ArkWidget::newCaption(const QString& filename){
 	editMenu->setItemEnabled( idExtract, true );
 //	editMenu->setItemEnabled( idView, true );
 
+	editMenu->setItemEnabled( idSelect, true );
 	editMenu->setItemEnabled( idSelectAll, true );
 	editMenu->setItemEnabled( idDeselectAll, true );
 	editMenu->setItemEnabled( idInvertSel, true );
@@ -724,7 +809,7 @@ void ArkWidget::newCaption(const QString& filename){
 void ArkWidget::createFileListView()
 {
 	archiveContent = new FileListView(this);
-	archiveContent->setMultiSelection(false);
+	archiveContent->setMultiSelection(true);
 	setView(archiveContent);
 	updateRects();
 	archiveContent->show();

@@ -45,6 +45,8 @@ int main( int argc, char *argv[]  )
 
 	if( ark.isRestored() )
 	{
+		RESTORE(ArkWidget);
+/*
 		int n=1;
 		while( KTMainWindow::canBeRestored(n)){
 			ArkWidget *arkWin = new ArkWidget();
@@ -52,6 +54,7 @@ int main( int argc, char *argv[]  )
 			arkWin->show();
 			n++;
 		}
+*/
 	}
 	else
 	{

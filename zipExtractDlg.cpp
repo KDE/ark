@@ -1,5 +1,7 @@
 /*
 
+ $Id$
+
  ark -- archiver for the KDE project
 
  Copyright (C)
@@ -69,13 +71,17 @@ void ZipExtractDlg::initGUI()
 	QVBoxLayout *mainLayout = new QVBoxLayout(this, 5);
 
         toolbar->setItemEnabled(1009, false);
-	toolbar->setFixedHeight( toolbar->height() );
-	toolbar->setMinimumWidth( toolbar->width() );
-	mainLayout->addSpacing(toolbar->height());
-	mainLayout->addSpacing( 5 );
+//	toolbar->setFixedHeight( toolbar->height() );
+//	toolbar->setMinimumWidth( toolbar->width() );
+//	mainLayout->addSpacing(toolbar->height());
+//	mainLayout->addSpacing( 5 );
 
-	fileList->widget()->setMinimumHeight( 200 );
-	mainLayout->addWidget(fileList->widget(), 4);
+	mainLayout->addWidget(toolbar);
+        mainLayout->addWidget(fileList->widget(), 4);
+        mainLayout->addSpacing(3);
+
+//	fileList->widget()->setMinimumHeight( 200 );
+//	mainLayout->addWidget(fileList->widget(), 4);
 
 	mainLayout->addSpacing( 10 );
 

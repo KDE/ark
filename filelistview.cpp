@@ -48,3 +48,20 @@ void FileListView::setSorting(int column, bool inc)
 	}
 	QListView::setSorting(sortColumn, increasing);
 }
+
+QStrList * FileListView::selectedFilenames() const
+{
+	QStrList *files;
+
+	FileLVI * flvi = (FileLVI*)firstChild();
+
+	while (flvi)
+	{
+		if( isSelected(flvi) )
+			files->insert(0, flvi->text(0));
+		flvi = (FileLVI*)flvi->itemBelow();
+	}
+	return files;
+}
+
+
