@@ -129,7 +129,7 @@ m_settings( _settings )
     Layout2->addWidget( m_radioAll );
 
     m_radioSelected = new QRadioButton( bg, "m_radioSelected" );
-    m_radioSelected->setText( i18n( "Selected Files" ) );
+    m_radioSelected->setText( i18n( "Selected files" ) );
     Layout2->addWidget( m_radioSelected );
 
     QHBoxLayout *Layout1 = new QHBoxLayout;
