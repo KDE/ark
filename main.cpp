@@ -68,7 +68,7 @@ extern "C" int kdemain( int argc, char *argv[]  )
 	KAboutData aboutData( "ark", I18N_NOOP( "Ark" ),
 			"2.3.1", I18N_NOOP("KDE Archiving tool"), 
 			KAboutData::License_GPL,
-			I18N_NOOP( "(c) 1997-2003, The Various Ark Developers" ) );
+			I18N_NOOP( "(c) 1997-2004, The Various Ark Developers" ) );
 	
 	aboutData.addAuthor( "Helio Chissini de Castro", I18N_NOOP( "Current maintainer" ),
 			"helio@conectiva.com.br" );
