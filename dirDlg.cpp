@@ -60,7 +60,7 @@ DirWidget::DirWidget( DirType type, QWidget *parent, const char *name  )
   vbox->addWidget( rbFav );
 
   dirFav = new KURLRequester( this );
-  dirFav->fileDialog()->setMode( mode );
+  dirFav->setMode( mode );
   dirFav->setEnabled( false );
   vbox->addWidget( dirFav );
 
@@ -72,7 +72,7 @@ DirWidget::DirWidget( DirType type, QWidget *parent, const char *name  )
   vbox->addWidget( rbFixed );
 
   dirFixed = new KURLRequester( this );
-  dirFixed->fileDialog()->setMode( mode );
+  dirFixed->setMode( mode );
   dirFixed->setEnabled( false );
   vbox->addWidget( dirFixed );
 
