@@ -186,12 +186,13 @@ FileListView::FileListView(ArkWidget *baseArk, QWidget *parent,
 			   const char* name)
 	: KListView(parent, name), m_pParent(baseArk)
 {
-  sortColumn = 0;
-  increasing = TRUE;
   QWhatsThis::add(this, i18n("This area is for displaying information about the files contained within an archive."));
 
-  setMouseTracking(false);
-  setSelectionModeExt(FileManager);
+  setMultiSelection( true );
+  setSelectionModeExt( FileManager );
+  setDragEnabled( true );
+  setItemsMovable( false );
+  
   m_bPressed = false;
 }
 
@@ -233,20 +234,6 @@ void FileListView::removeColumn( int index )
 columnName FileListView::nameOfColumn( int index )
 {
     return colMap[ index ];
-}
-
-
-void FileListView::setSorting(int column, bool inc)
-{
-	if(sortColumn == column)
-	{
-		increasing = !inc;
-	}
-	else{
-		sortColumn = column;
-		increasing = inc;
-	}
-	KListView::setSorting(sortColumn, increasing);
 }
 
 QStringList FileListView::selectedFilenames() const

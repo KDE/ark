@@ -97,14 +97,10 @@ protected:
 
 private:
   QMap<int, columnName> colMap;
-  int sortColumn;
-  bool increasing;
   ArkWidget *m_pParent;
 
   bool m_bPressed;
   QPoint presspos;  // this will save the click pos to correctly recognize drag events
-
-  virtual void setSorting(int column, bool inc = TRUE);
 };
 
 #endif
