@@ -21,7 +21,6 @@
 
 // Qt includes
 #include <qdir.h>
-#include <qdragobject.h>
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <qregexp.h> 
@@ -36,6 +35,7 @@
 #include <kio/job.h>
 #include <kio/netaccess.h>
 #include <klocale.h>
+#include <kurldrag.h>
 
 // ark includes
 #include "arkapp.h"
@@ -202,16 +202,15 @@ ArkWidgetPart::slotExtractDone()
 	else if (m_bDragInProgress)
 	{
 		m_bDragInProgress = false;
-		QStrList list;
+		KURL::List list;
 		for (QStringList::Iterator it = mDragFiles.begin(); it != mDragFiles.end(); ++it)
 		{
-			QString URL;
-			URL = m_settings->getTmpDir();
-			URL += *it;
-			list.append( QUriDrag::localFileToUri(URL) );
+			KURL url;
+			url.setPath(m_settings->getTmpDir() + *it);
+			list.append( url );
 		}
 		
-		QUriDrag *d = new QUriDrag(list, archiveContent->viewport());
+		KURLDrag *d = KURLDrag::newDrag(list, archiveContent->viewport());
 		m_bDropSourceIsSelf = true;
 		d->dragCopy();
 		m_bDropSourceIsSelf = false;

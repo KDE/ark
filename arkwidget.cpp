@@ -1792,7 +1792,7 @@ void ArkWidget::selectByPattern(const QString & _pattern) // slot
 
 void ArkWidget::dragMoveEvent(QDragMoveEvent *e)
 {
-    if (QUriDrag::canDecode(e) && !m_bDropSourceIsSelf)
+    if (KURLDrag::canDecode(e) && !m_bDropSourceIsSelf)
     {
         e->accept();
     }
@@ -1803,11 +1803,12 @@ void ArkWidget::dropEvent(QDropEvent* e)
 {
     kdDebug( 1601 ) << "+ArkWidget::dropEvent" << endl;
 
-    QStringList list;
+    KURL::List list;
 
-    if ( QUriDrag::decodeToUnicodeUris( e, list ) )
+    if ( KURLDrag::decode( e, list ) )
     {
-        dropAction( list );
+        QStringList urlList = list.toStringList();
+        dropAction( urlList );
     }
 
     kdDebug(1601) << "-dropEvent" << endl;
