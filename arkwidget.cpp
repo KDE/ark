@@ -1276,7 +1276,7 @@ ArkWidget::action_delete()
         }
         if (bDeletingDir)
         {
-            int nRet = KMessageBox::warningContinueCancel(this, i18n("If you delete a folder in a Tar archive, all the files in that\nfolder will also be deleted. Are you sure you wish to proceed?"), i18n("Warning"), i18n("Continue"));
+            int nRet = KMessageBox::warningContinueCancel(this, i18n("If you delete a folder in a Tar archive, all the files in that\nfolder will also be deleted. Are you sure you wish to proceed?"), i18n("Warning"), KStdGuiItem::cont());
             if (nRet == KMessageBox::Cancel)
                 return;
         }

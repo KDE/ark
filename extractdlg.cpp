@@ -321,14 +321,12 @@ ExtractFailureDlg::ExtractFailureDlg( QStringList *list, QWidget *parent, char *
 	pBox->setGeometry( 10, 10 + labelHeight + 10, boxWidth, boxHeight );
 	pBox->insertStringList( *list );
 
-	QPushButton *pOKButton = new QPushButton( this, "OKButton" );
+	QPushButton *pOKButton = new KPushButton( KStdGuiItem::cont(), this, "OKButton" );
 	pOKButton->setGeometry( labelWidth / 2 - 50, boxHeight + labelHeight + 30, 70, buttonHeight );
-	pOKButton->setText( i18n( "Continue" ) );
 	connect( pOKButton, SIGNAL( pressed() ), this, SLOT( accept() ) );
 
-	QPushButton *pCancelButton = new QPushButton( this, "CancelButton" );
+	QPushButton *pCancelButton = new KPushButton( KStdGuiItem::cancel(), this, "CancelButton" );
 	pCancelButton->setGeometry( labelWidth / 2 + 20, boxHeight + labelHeight + 30, 70, buttonHeight );
-	pCancelButton->setText( i18n( "Cancel" ) );
 	connect( pCancelButton, SIGNAL( pressed() ), this, SLOT( reject() ) );
 	setFixedSize( 20+labelWidth, 40+labelHeight+boxHeight+buttonHeight );
 	QApplication::restoreOverrideCursor();
