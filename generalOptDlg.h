@@ -44,11 +44,15 @@ public:
 	GeneralOptDlg(ArkSettings *_d, QWidget *_parent=0, const char *_name=0);
 	
 protected:
+	void createGeneralTab( QFrame* );
 	void createAddTab( QFrame* );
 	void createExtractTab( QFrame* );
 	void createDirectoryTab( QFrame *);
 
 protected slots:
+	void readGeneralSettings();
+	void writeGeneralSettings();
+
 	void readAddSettings();
 	void writeAddSettings();
 
@@ -58,6 +62,9 @@ protected slots:
 private:
 	ArkSettings *m_settings;
 
+	// General options
+	QCheckBox *m_cbKonquerorIntegration;
+	
 	// Extract options
 	QCheckBox *m_cbOverwrite, *m_cbPreservePerms;
 	QCheckBox *m_cbToLower, *m_cbToUpper, *m_cbDiscardPathnames;

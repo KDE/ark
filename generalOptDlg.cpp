@@ -55,6 +55,9 @@ GeneralOptDlg::GeneralOptDlg(ArkSettings *_d, QWidget *_parent, const char *_nam
     m_settings = _d;
     QFrame *frame;
 
+    frame = addPage( i18n( "General" ), i18n( "General Settings" ), loadIcon( "ark" ) );
+    createGeneralTab( frame );
+
     frame = addPage( i18n( "Addition" ), i18n( "File Addition Settings" ),
                      loadIcon( "ark_addfile" ) );
     createAddTab( frame );
@@ -66,6 +69,25 @@ GeneralOptDlg::GeneralOptDlg(ArkSettings *_d, QWidget *_parent, const char *_nam
     frame = addPage( i18n( "Folders" ), i18n( "Folder Settings" ),
                      loadIcon( "folder" ) );
     createDirectoryTab( frame );
+}
+
+void GeneralOptDlg::createGeneralTab( QFrame *parent ) {
+	QFrame *genFrame( parent );
+
+	QVBoxLayout *layout = new QVBoxLayout( parent );
+
+	m_cbKonquerorIntegration = new QCheckBox( i18n( "Enable Konqueror Integration" ), genFrame );
+//	m_cbKonquerorIntegration->setWhatsThis( i18n( "Enable Konqueror Integration\n"
+//	                                              "Check this option to enable Ark's integration into the Konqueror file manager, letting you easily archive and unarchive files through the context menus." ) );
+
+	layout->addWidget( m_cbKonquerorIntegration );
+
+	layout->addStretch();
+
+	readGeneralSettings();
+	connect(this, SIGNAL(applyClicked()), SLOT(writeGeneralSettings()));
+	connect(this, SIGNAL(okClicked()), SLOT(writeGeneralSettings()));
+
 }
 
 void GeneralOptDlg::createAddTab( QFrame *parent ) {
@@ -131,6 +153,16 @@ void GeneralOptDlg::createDirectoryTab( QFrame *parent ) {
     layout->add( dirPage );
 
     layout->addStretch();
+}
+
+void GeneralOptDlg::readGeneralSettings()
+{
+	m_cbKonquerorIntegration->setChecked( m_settings->getKonquerorIntegration() );
+}
+
+void GeneralOptDlg::writeGeneralSettings()
+{
+	m_settings->setKonquerorIntegration( m_cbKonquerorIntegration->isChecked() );
 }
 
 void GeneralOptDlg::readAddSettings()

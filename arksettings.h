@@ -121,6 +121,9 @@ public:
 
   bool getShowSearchBar() const { return m_bShowSearchBar; }
   void setShowSearchBar(bool _b) { m_bShowSearchBar = _b; }
+
+  bool getKonquerorIntegration() const { return m_bKonquerorIntegration; }
+  void setKonquerorIntegration( bool _b ) { m_bKonquerorIntegration = _b; }
   /***/
 
   void setLhaGeneric(bool _b) { m_lhaAddGeneric = _b; }
@@ -203,7 +206,7 @@ public:
   bool m_bExtractOverwrite;
   bool m_bAddReplaceOnlyWithNewer;
   bool m_bShowSearchBar;
-
+  bool m_bKonquerorIntegration;
 	
   bool m_lhaAddGeneric;
 	

@@ -202,6 +202,9 @@ void ArkSettings::readGenericProperties()
 	m_bAddReplaceOnlyWithNewer = kc->readBoolEntry(ADD_REPLACEONLYWITHNEWER,
 						    false);
 	m_bShowSearchBar = kc->readBoolEntry(SHOW_SEARCH_BAR, true );
+
+	kc->setGroup( "ArkPlugin" );
+	m_bKonquerorIntegration = kc->readBoolEntry( "Enable", true );
 }
 
 void ArkSettings::readTarProperties()
@@ -377,6 +380,9 @@ void ArkSettings::writeGenericProperties()
 	kc->writeEntry(EXTRACT_OVERWRITE, m_bExtractOverwrite);
 	kc->writeEntry(ADD_REPLACEONLYWITHNEWER, m_bAddReplaceOnlyWithNewer);
 	kc->writeEntry(SHOW_SEARCH_BAR, m_bShowSearchBar );
+
+	kc->setGroup( "ArkPlugin" );
+	kc->writeEntry( "Enable", m_bKonquerorIntegration );
 }
 
 void ArkSettings::writeTarProperties()
