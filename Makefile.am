@@ -75,26 +75,27 @@ uninstall-local:
 
 # add a dependency for every moc file to be full portable
 # I've added a key binding to emacs for this. 
-kzip.cpp:kzip.moc
+kzip.cc:kzip.moc
 kzip.moc: kzip.h
 	$(MOC) kzip.h -o kzip.moc
 
-adddlg.cpp:adddlg.moc
+adddlg.cc:adddlg.moc
 adddlg.moc: adddlg.h
 	$(MOC) adddlg.h -o adddlg.moc
 
-arch.cpp:arch.moc
+arch.cc:arch.moc
 arch.moc: arch.h
 	$(MOC) arch.h -o arch.moc
 
-extractdlg.cpp:extractdlg.moc
+extractdlg.cc:extractdlg.moc
 extractdlg.moc: extractdlg.h
 	$(MOC) extractdlg.h -o extractdlg.moc
 
-kfdird.cpp:kfdird.moc
+kfdird.cc:kfdird.moc
 kfdird.moc: kfdird.h
 	$(MOC) kfdird.h -o kfdird.moc
 
-ktablistbox.cpp:ktablistbox.moc
+ktablistbox.cc:ktablistbox.moc
 ktablistbox.moc: ktablistbox.h
 	$(MOC) ktablistbox.h -o ktablistbox.moc
+
