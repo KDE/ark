@@ -239,10 +239,6 @@ columnName FileListView::nameOfColumn( int index )
 void FileListView::paintEmptyArea(QPainter *p, const QRect &rect)
 {
 	QListView::paintEmptyArea(p, rect);
-	if(0 == childCount())
-	{
-		p->drawText(2, 16, i18n("No files in current archive"));
-	}
 }
 
 
