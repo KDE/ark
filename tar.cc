@@ -58,6 +58,7 @@
 #include <kmessagebox.h>
 #include <ktempfile.h>
 #include <kmimemagic.h>
+#include <kstddirs.h>
 
 // ark includes
 #include "viewer.h"
@@ -89,7 +90,10 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
     {
       compressed = true;
       QString tmpdir;
-      tmpdir.sprintf("/tmp/ark.%d", getpid());
+      QString directory;
+      directory.sprintf("ark.%d/", getpid());
+      tmpdir = locateLocal( "tmp", directory );
+      //tmpdir.sprintf("/tmp/ark.%d", getpid());
 
       QString base = m_filename.right(m_filename.length()- 1 -
 				     m_filename.findRev("/"));

@@ -61,6 +61,7 @@
 #include <progressbase.h>
 #include <kmimemagic.h>
 #include <kedittoolbar.h>
+#include <kstddirs.h>
 // c includes
 
 #include <errno.h>
@@ -193,10 +194,13 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     m_settings = new ArkSettings;
     // Creates a temp directory for this ark instance
     unsigned int pid = getpid();
-    QString tmpdir;
-    tmpdir.sprintf( "/tmp/ark.%d/", pid );
-    QString ex( "mkdir " + tmpdir + " &>/dev/null" );
-    system( QFile::encodeName(ex) );
+    QString tmpdir,directory;
+    directory.sprintf( "ark.%d/", pid );
+    tmpdir = locateLocal( "tmp", directory );
+
+
+    /*QString ex( "mkdir " + tmpdir + " &>/dev/null" );
+      system( QFile::encodeName(ex) );*/
 
     m_settings->setTmpDir( tmpdir );
 
@@ -632,7 +636,8 @@ bool ArkWidget::download(const KURL &url, QString &strFile)
     {
       QString extension;
       getArchType(url.path(), extension);
-      mpTempFile = new KTempFile("/tmp/ark", extension);
+      QString directory = locateLocal( "tmp", "ark" );
+      mpTempFile = new KTempFile(directory , extension);
       strFile = mpTempFile->name();
       kdDebug(1601) << "Downloading " << url.path() << " as " <<
 	strFile << endl;
@@ -906,8 +911,11 @@ void ArkWidget::slotOpen(Arch *_newarch, bool _success,
 	QFileInfo fi( _filename );
 	QString path = fi.dirPath( true );
 	m_settings->setLastOpenDir( path );
+	QString dirtmp;
+	QString directory("tmp.");
+	dirtmp = locateLocal( "tmp", directory );
 
-	if (_filename.left(9) == QString("/tmp/ark.") ||
+	if (_filename.left(9) == /*QString("/tmp/ark.")*/dirtmp ||
 	    !fi.isWritable())
 	  {
 	    _newarch->setReadOnly(true);
@@ -1012,7 +1020,9 @@ void ArkWidget::slotExtractDone()
 	   it != mDragFiles.end(); ++it)
 	{
 	  QString URL;
-	  URL.sprintf("/tmp/ark.%d/", getpid());
+	  QString directory;
+	  directory.sprintf("ark.%d/", getpid());
+	  URL = locateLocal( "tmp", directory );
 	  URL += *it;
 	  list.append( QUriDrag::localFileToUri(URL) );
 	}

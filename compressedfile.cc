@@ -32,6 +32,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kstddirs.h>
 
 // ark includes
 #include "compressedfile.h"
@@ -49,7 +50,10 @@ CompressedFile::CompressedFile( ArkSettings *_settings, Viewer *_gui,
   : Arch(_settings, _gui, _fileName )
 {
   kdDebug(1601) << "CompressedFile constructor" << endl;
-  m_tmpdir.sprintf("/tmp/ark.%d", getpid());
+  QString directory;
+  directory.sprintf("ark.%d/", getpid());
+  m_tmpdir = locateLocal( "tmp", directory );
+  //m_tmpdir.sprintf("/tmp/ark.%d", getpid());
   m_archiver_program = getCompressor();
   m_unarchiver_program = getUnCompressor();
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
