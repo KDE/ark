@@ -428,7 +428,7 @@ void KZipWidget::extractZip()
 		QDir dest( dir );
 		if( !dest.exists() ) {
 			if( mkdir( (const char *)dir, S_IWRITE | S_IREAD | S_IEXEC ) ) {
-				QMessageBox::warning( this, "Can't mkdir", "Unable to create destination directory", "Ok" );
+				QMessageBox::warning( this, "Can't mkdir", "Unable to create destination directory", "OK" );
 				return;
 			}
 		}
@@ -468,7 +468,7 @@ void KZipWidget::closeZip()
 void KZipWidget::about()
 {
 	QMessageBox aboutmsg;
-	aboutmsg.information( this, "Zip", "KZip v0.5\n (c) 1997 Robert Palmbos", "Ok" );
+	aboutmsg.information( this, "Zip", "KZip v0.5\n (c) 1997 Robert Palmbos", "OK" );
 	
 }
 

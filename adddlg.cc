@@ -12,7 +12,7 @@ AddOptionsDlg::AddOptionsDlg( QWidget *parent, char *name )
 	gb->setAlignment( AlignLeft );
 	gb->setGeometry( 10, 10, 240, 120 );
 
-	ok = new QPushButton( klocale->translate("Ok"), this );
+	ok = new QPushButton( klocale->translate("OK"), this );
 	ok->setGeometry( 90, 140, 70, 30 );
 	connect( ok, SIGNAL( clicked() ), SLOT( accept() ) );
 	cancel = new QPushButton( klocale->translate("Cancel"), this );

@@ -69,7 +69,7 @@ ExtractDlg::ExtractDlg( int eo, QWidget *parent, char *name )
 	le2->setGeometry( 270, 130, 100, 20 );
 	le2->setEnabled( FALSE );
 
-	QPushButton *pb2 = new QPushButton( klocale->translate("Ok"), this );
+	QPushButton *pb2 = new QPushButton( klocale->translate("OK"), this );
 	pb2->setGeometry( 150, 270, 70, 30 );
 	connect( le, SIGNAL( returnPressed() ), SLOT( accept() ) );
 	connect( pb2, SIGNAL( clicked() ), SLOT( accept() ) );

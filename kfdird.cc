@@ -231,7 +231,7 @@ void KfDirDialog::pathSelected( int index )
 
 /*!
   \internal
-  Activated when the "Ok" button is clicked.
+  Activated when the "OK" button is clicked.
 */
 
 void KfDirDialog::okClicked()
