@@ -1,7 +1,5 @@
 /*
 
- $Id$
-
  ark -- archiver for the KDE project
 
  Copyright (C)
@@ -30,11 +28,11 @@
 
 class QWidget;
 class QString;
-class QDialog;
-class QLineEdit;
+class KLineEdit;
 class KPushButton;
+class KDialogBase;
 
-class SelectDlg : public QDialog {
+class SelectDlg : public KDialogBase {
 	Q_OBJECT
 public:
 	SelectDlg(QWidget *parent=0, const char *name=0);
@@ -42,12 +40,11 @@ public:
 
 
 private:
-	QLineEdit *m_regExp;
+	KLineEdit *m_regExp;
 	KPushButton *m_ok;
 
 private slots:
 	void regExpChanged(const QString& _exp);
-	void saveConfig();
 };
 
 #endif /* SELECT_DLG_H */

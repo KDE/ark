@@ -1,5 +1,4 @@
 /*
-$Id$
 
  ark -- archiver for the KDE project
 
@@ -26,80 +25,47 @@ $Id$
 
 // Qt includes
 #include <qlabel.h>
-#include <qlayout.h>
+#include <qvbox.h>
 #include <qregexp.h>
-#include <qdialog.h>
-#include <qlineedit.h>
 #include <qpushbutton.h>
 
 // KDE includes
 #include <klocale.h>
 #include <kstdguiitem.h>
 #include <kpushbutton.h>
+#include <kdialogbase.h>
+#include <klineedit.h>
 
 // ark includes
 #include "selectDlg.h"
-#include "selectDlg.moc"
 
 SelectDlg::SelectDlg( QWidget *_parent, const char *_name )
-    : QDialog( _parent, _name, true )
+    : KDialogBase( _parent, _name, true, i18n("Selection"),
+                   KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok )
 {
-    setCaption( i18n("Selection") );
-    QVBoxLayout *mainLayout = new QVBoxLayout( this, 10 );
+    QHBox * box = makeHBoxMainWidget();
 
-    /**
-    * Tar command horizontal layout
-    */
-    QHBoxLayout *hbl1 = new QHBoxLayout();
-    mainLayout->addLayout( hbl1 );
+    QLabel *l1 = new QLabel( i18n("Select files:"), box );
 
-    QLabel *l1 = new QLabel( i18n("Select files:"), this );
-    l1->setFixedSize( l1->sizeHint() );
-    hbl1->addWidget( l1 );
+    m_regExp = new KLineEdit( box );
+    m_regExp->setMinimumWidth( fontMetrics().maxWidth() * 6 );
 
-    m_ok = new KPushButton( KStdGuiItem::ok(), this );
+    connect( m_regExp, SIGNAL( textChanged( const QString& ) ),
+                       SLOT( regExpChanged( const QString& ) ) );
 
-    m_regExp = new QLineEdit( this );
-    m_regExp->setFixedSize( m_regExp->sizeHint() );
-    hbl1->addWidget( m_regExp );
-    connect( m_regExp, SIGNAL(textChanged(const QString&)), SLOT(regExpChanged(const QString&)) );
-
-    QHBoxLayout *hbl = new QHBoxLayout();
-    mainLayout->addStretch( 1 );
-    mainLayout->addLayout( hbl );
-
-    hbl->addStretch( 1 );
-    m_ok->setFixedSize( m_ok->sizeHint() );
-    m_ok->setDefault(true);
-    connect( m_ok, SIGNAL( clicked() ), SLOT( saveConfig() ) );
-    hbl->addWidget( m_ok );
-
-    KPushButton *cancel = new KPushButton( KStdGuiItem::cancel() , this );
-    cancel->setFixedSize( cancel->sizeHint() );
-    connect( cancel, SIGNAL( clicked() ), SLOT( reject() ) );
-    hbl->addWidget( cancel );
-
-    mainLayout->activate();
-    setFixedSize( sizeHint() );
     m_regExp->setFocus();
 }
 
-
-void SelectDlg::saveConfig()
+void SelectDlg::regExpChanged( const QString& _exp )
 {
-    accept();
-}
-
-void SelectDlg::regExpChanged(const QString& _exp)
-{
-    QRegExp reg_exp(_exp, true, true);
-    if(reg_exp.isValid())
-        m_ok->setEnabled(true);
-    else
-        m_ok->setEnabled(false);
+    QRegExp reg_exp( _exp, true, true );
+    enableButtonOK( reg_exp.isValid() );
 }
 
 QString SelectDlg::getRegExp() const
 {
     return m_regExp->text();
 }
+
+#include "selectDlg.moc"
+
