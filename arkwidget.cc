@@ -174,7 +174,7 @@ long Utilities::getSizes(QStringList *list)
 
 
 ArkWidget::ArkWidget( QWidget *, const char *name ) : 
-    KTMainWindow(name), archiveContent(0),
+    KMainWindow(0, name), archiveContent(0),
     m_nSizeOfFiles(0), m_nSizeOfSelectedFiles(0),
     m_nNumFiles(0), m_nNumSelectedFiles(0), m_bIsArchiveOpen(false),
     m_bIsSimpleCompressedFile(false), m_bDropSourceIsSelf(false),
@@ -335,8 +335,8 @@ void ArkWidget::setupActions()
 		    actionCollection(),
 		    "directories");
 
-  KStdAction::showToolbar(this, SLOT(toggleToolBar()), actionCollection());
-  KStdAction::showStatusbar(this, SLOT(toggleStatusBar()), actionCollection());
+  toolbarAction = KStdAction::showToolbar(this, SLOT(toggleToolBar()), actionCollection());
+  statusbarAction = KStdAction::showStatusbar(this, SLOT(toggleStatusBar()), actionCollection());
   KStdAction::saveOptions(this, SLOT(options_saveNow()), actionCollection());
   KStdAction::keyBindings(this, SLOT(options_keys()), actionCollection());
 
@@ -355,19 +355,19 @@ void ArkWidget::setHeader()
 
 void ArkWidget::toggleToolBar()
 {
- if(toolBar()->isVisible())
-   toolBar()->hide();
+ if(toolbarAction->isChecked())
+   toolBar("mainToolBar")->show();
  else
-   toolBar()->show();
+   toolBar("mainToolBar")->hide();
 
 }
 
 void ArkWidget::toggleStatusBar()
 {
-  if (statusBar()->isVisible())
-    statusBar()->hide();
-  else
+  if (statusbarAction->isChecked())
     statusBar()->show();
+  else
+    statusBar()->hide();
 }
 
 void ArkWidget::setupStatusBar()
@@ -1202,7 +1202,7 @@ void ArkWidget::file_close()
 	{
 	  archiveContent->clear();
 	}
-      setView(0);
+      setCentralWidget(0);
       ArkApplication::getInstance()->removeOpenArk(m_strArchName);
       if (mpTempFile)
 	{      
@@ -1241,7 +1241,7 @@ void ArkWidget::window_close()
 
 void ArkWidget::closeEvent( QCloseEvent *e )
 {
-    KTMainWindow::closeEvent(e);
+    KMainWindow::closeEvent(e);
     window_close();
 }
 
@@ -2206,8 +2206,7 @@ void ArkWidget::createFileListView()
   delete archiveContent;
   archiveContent = new FileListView(this);
   archiveContent->setMultiSelection(true);
-  setView(archiveContent);
-  updateRects();
+  setCentralWidget(archiveContent);
   archiveContent->show();
   connect( archiveContent, SIGNAL( selectionChanged()),
 	   this, SLOT( slotSelectionChanged() ) );

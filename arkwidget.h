@@ -45,7 +45,7 @@
 #include <kaccel.h>
 #include <kconfig.h>
 #include <kpopupmenu.h>
-#include <ktmainwindow.h>
+#include <kmainwindow.h>
 #include <kurl.h>
 #include <kio/job.h>
 
@@ -67,6 +67,7 @@
 class Viewer;
 class QLabel;
 class KAction;
+class KToggleAction;
 class KRecentFilesAction;
 class KRun;
 class KTempFile;
@@ -78,7 +79,7 @@ namespace Utilities
   long getSizes(QStringList *list);
 };
 
-class ArkWidget : public KTMainWindow 
+class ArkWidget : public KMainWindow 
 {
   Q_OBJECT
 public:
@@ -237,6 +238,8 @@ private: // data
 
   KRecentFilesAction *recent;
   KAction *shellOutputAction;
+  KToggleAction *toolbarAction;
+  KToggleAction *statusbarAction;
 
   KPopupMenu *m_filePopup, *m_archivePopup;
   ArkSettings *m_settings;  // each arkwidget has its own settings
