@@ -2,6 +2,7 @@
 [KDE Desktop Entry]
 MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tbz;application/x-zip;
 Comment=Archive Handling Tool
+Comment[ca]=Eina per manegar arxius
 Comment[cs]=Program pro práci s archívy
 Comment[da]=Arkivbehandlingsværktøj
 Comment[de]=Archiv-Verwaltungsprogramm
@@ -20,6 +21,7 @@ Comment[ru]=õÔÉÌÉÔÁ ÏÂÒÁÂÏÔËÉ ÁÒÈÉ×Ï×
 Comment[sk]=Program na prácu s archívmi
 Comment[sv]=Verktyg för att hantera filarkiv
 Name=Archiver
+Name[ca]=Arxivador
 Name[cs]=Ark
 Name[da]=Arkivbehandler
 Name[de]=Ark
