@@ -188,3 +188,4 @@ ArkBrowserExtension::ArkBrowserExtension(ArkPart *parent)
 ArkBrowserExtension::~ArkBrowserExtension()
 {
 }
+#include "ark_part.moc"

@@ -714,3 +714,4 @@ void ArkWidgetPart::resizeEvent ( QResizeEvent * newSize) {
      archiveContent->resize( newSize->size() );
 }
 
+#include "arkwidgetpart.moc"
