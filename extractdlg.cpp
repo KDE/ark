@@ -139,7 +139,7 @@ m_settings( _settings )
 	Layout1->setMargin( 0 );
 
 	m_radioPattern = new QRadioButton( bg, "m_radioPattern" );
-	m_radioPattern->setText( i18n( "Pattern" ) );
+	m_radioPattern->setText( i18n( "Pattern:" ) );
 	Layout1->addWidget( m_radioPattern );
 
 	m_patternLE = new QLineEdit( bg, "m_patternLE" );

@@ -53,7 +53,7 @@ DirWidget::DirWidget( DirType type, QWidget *parent, const char *name  )
   btnGroup = new QButtonGroup( this );
   btnGroup->setFrameShape( QFrame::NoFrame );
 
-  rbFav = new QRadioButton( i18n( "Favorite folder" ), this );
+  rbFav = new QRadioButton( i18n( "Favorite folder:" ), this );
   btnGroup->insert( rbFav );
   vbox->addWidget( rbFav );
 
@@ -62,7 +62,7 @@ DirWidget::DirWidget( DirType type, QWidget *parent, const char *name  )
   dirFav->setEnabled( false );
   vbox->addWidget( dirFav );
 
-  connect( rbFav, SIGNAL( toggled( bool ) ), 
+  connect( rbFav, SIGNAL( toggled( bool ) ),
             dirFav, SLOT( setEnabled( bool ) ) );
 
   rbFixed = new QRadioButton( this );
@@ -74,7 +74,7 @@ DirWidget::DirWidget( DirType type, QWidget *parent, const char *name  )
   dirFixed->setEnabled( false );
   vbox->addWidget( dirFixed );
 
-  connect( rbFixed, SIGNAL( toggled( bool ) ), 
+  connect( rbFixed, SIGNAL( toggled( bool ) ),
             dirFixed, SLOT( setEnabled( bool ) ) );
 
   rbLast = new QRadioButton( this );
@@ -91,25 +91,25 @@ DirWidget::DirWidget( DirType type, QWidget *parent, const char *name  )
   {
     case StartupDir:
 
-      rbFixed->setText( i18n( "Fixed start-up folder" ) );
+      rbFixed->setText( i18n( "Fixed start-up folder:" ) );
       rbLast->setText( i18n( "&Last start-up folder" ) );
       break;
 
     case OpenDir:
 
-      rbFixed->setText( i18n( "Fixed open folder" ) );
+      rbFixed->setText( i18n( "Fixed open folder:" ) );
       rbLast->setText( i18n( "&Last open folder" ) );
       break;
 
     case ExtractDir:
 
-      rbFixed->setText( i18n( "Fixed extract folder" ) );
+      rbFixed->setText( i18n( "Fixed extract folder:" ) );
       rbLast->setText( i18n( "&Last extract folder" ) );
       break;
 
     case AddDir:
 
-      rbFixed->setText( i18n( "Fixed add folder" ) );
+      rbFixed->setText( i18n( "Fixed add folder:" ) );
       rbLast->setText( i18n( "&Last add folder" ) );
       break;
 
