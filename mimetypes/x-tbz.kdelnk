@@ -1,6 +1,7 @@
 # KDE Config File
 [KDE Desktop Entry]
 Comment=Bzipped Tar Archives
+Comment[es]=Archivo BZIP
 Comment[de]=BZip2-Tar-Archive
 Comment[pt]=Arquivos Zip
 Comment[pt_BR]=Arquivos Zip
