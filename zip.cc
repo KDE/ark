@@ -46,7 +46,7 @@ ZipArch::ZipArch( ArkSettings *_d, ArkWidget *_mainWindow,
 		  const QString & _fileName )  
   : Arch( _mainWindow, _fileName )
 {
-	m_settings = _d;
+  m_settings = _d;
 }
 
 ZipArch::~ZipArch()
@@ -252,70 +252,73 @@ void ZipArch::create()
 	emit sigCreate( true, m_filename, Arch::Extract | Arch::Delete | Arch::Add );
 }
 
-
-void ZipArch::add( const QString & _location, int _mode,
-		   const QString & _compression, bool _recurse,
-		   bool _junk, bool _msdos, bool _convertLF )
-{
-	kdebug(0, 1601, "+ZipArch::add");
-	
-	m_kp = new KProcess();
-			
-	*m_kp << "zip";
-	
-	if( _recurse ) *m_kp << "-r";
-		
-	*m_kp << _compression.local8Bit();
-	
-	if( _junk ) *m_kp << "-j";
-	if( _msdos ) *m_kp << "-k";
-	if( _convertLF ) *m_kp << "-l";
-	
-	switch( _mode ){
-		case Update : *m_kp << "-u"; break;
-		case Freshen : *m_kp << "-f"; break;
-		case Move : *m_kp << "-m"; break;
-	}
-	
-	*m_kp << m_filename.local8Bit() << _location.local8Bit();
-	
- 	if(m_kp->start(KProcess::Block, KProcess::Stdout) == false)
- 	{
- 		KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
- 		return;
- 	}
-
-	kdebug(0, 1601, "normalExit = %d", m_kp->normalExit() );
-	kdebug(0, 1601, "exitStatus = %d", m_kp->exitStatus() );
-
-	if( m_kp->normalExit() && (m_kp->exitStatus()==0) )
-	{
-		if(stderrIsError())
-	 		KMessageBox::error( 0, i18n("You probably don't have sufficient permissions\n"
-	 					"Please check the file owner and the integrity\n"
-	 					"of the archive.") );
-	 	else
-	 		m_arkwidget->reload();
-	}
-	else
- 		KMessageBox::sorry( 0, i18n("Add failed") );
-	
- 	delete m_kp;
-
-	kdebug(0, 1601, "-ZipArch::add");
-}
-
-
 int ZipArch::addFile( QStringList *urls )
 {
-  	kdebug(0, 1601, "+ZipArch::addFile");
-/*
-	ZipAddDlg *zad = new ZipAddDlg( this, m_settings, m_settings->getAddDir() );  	
-	zad->exec();
-  	delete zad;
-*/
+  kdebug(0, 1601, "+ZipArch::addFile");
+	
+  m_kp = new KProcess();
+			
+  *m_kp << "zip";
+	
+  if (m_settings->getZipAddRecurseDirs())
+    *m_kp << "-r";
+		
+	//	*m_kp << _compression.local8Bit();   // for later
+	
+  if (m_settings->getZipAddJunkDirs())
+    *m_kp << "-j";
+  if (m_settings->getZipAddMSDOS())
+    *m_kp << "-k";
+  if (m_settings->getZipAddConvertLF())
+    *m_kp << "-l";
+	
+#if 0
+  switch( _mode )
+    {
+    case Update:
+      *m_kp << "-u"; break;
+    case Freshen:
+      *m_kp << "-f"; break;
+    case Move:
+      *m_kp << "-m"; break;
+    }
+#endif
+  //	*m_kp << m_filename.local8Bit() ;
 
-  	kdebug(0, 1601, "+ZipArch::addFile");
+	// iterate over QStringList and plunk onto command line
+
+  for (QStringList::Iterator it = urls->begin();
+       it != urls->end(); ++it ) 
+    {
+      QString currFile = *it;
+      // remove "file:"
+      currFile = currFile.right( currFile.length()-5);
+      *m_kp << currFile;
+    }	
+  if( m_kp->start(KProcess::Block, KProcess::Stdout) == false)
+    {
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      return ;
+    }
+	
+  kdebug(0, 1601, "normalExit = %d", m_kp->normalExit() );
+  kdebug(0, 1601, "exitStatus = %d", m_kp->exitStatus() );
+	
+  if( m_kp->normalExit() && (m_kp->exitStatus()==0) )
+    {
+      if(stderrIsError())
+	KMessageBox::error( 0, i18n("You probably don't have sufficient permissions\n"
+				    "Please check the file owner and the integrity\n"
+				    "of the archive.") );
+      else
+	m_arkwidget->reload();
+    }
+  else
+    KMessageBox::sorry( 0, i18n("Add failed") );
+	
+  delete m_kp;
+  return 0;
+  kdebug(0, 1601, "+ZipArch::addFile");
 }
 
 QString ZipArch::unarchFile( int pos, const QString & dest )

@@ -150,8 +150,9 @@ private:
     Arch *arch;
 
 private:
-    KPopupMenu *m_filePopup, *m_archivePopup;
-    ArkSettings *m_settings;
+  KPopupMenu *m_filePopup, *m_archivePopup;
+  ArkSettings *m_settings;  // each arkwidget has its own settings
+
 //    QTimer *statusBarTimer;
     KAccel *accelerators;
     FileListView *archiveContent;

@@ -14,49 +14,43 @@
 #include <qlineedit.h>
 #include <kdialogbase.h>
 #include "adddlg.h"
+#include "arksettings.h"
 
 AddDlg::AddDlg(ArchType _archtype, const QString & _sourceDir,
+	       ArkSettings *_settings,
 	       QWidget *parent, const char *name)
   : KDialogBase(KDialogBase::Tabbed, i18n("Add"),
 		KDialogBase::Ok | KDialogBase::Cancel,
 		KDialogBase::Ok, parent, name), m_sourceDir(_sourceDir),
-    m_cbRecurse(0), m_cbJunkDirNames(0), m_cbForceMS(0), m_cbConvertLF2CRLF(0)
+    m_archtype(_archtype), m_settings(_settings), m_fileList(0)
 {
+  // this has some sizing problems
   setupFirstTab();
-  setupSecondTab(_archtype);
-
+  setupSecondTab();
   showButtonOK(true);
   showButtonCancel(true);
 }
 
 void AddDlg::setupFirstTab()
 {
-  // set up a grid
+  kdebug(0, 1601, "+AddDlg::setupFirstTab");
 
-  QFrame *parent = addPage(i18n("Add"));
+  QFrame *frame = addPage(i18n("Add"));
+  QVBoxLayout *vlay = new QVBoxLayout(frame, 0, spacingHint());
 
-  QVBox *firstpage = new QVBox(parent);
-  firstpage->setMargin( 5 );
+  m_dirList = new KDirOperator(m_sourceDir, frame, "dirlist");
 
-  KFileWidget *dirList = new KFileWidget(KFileWidget::Simple,
-					 firstpage, "dirlist");
-  
-  KURL url = QString("home/emilye/arks");
-  dirList->setURL(url);
+  m_dirList->setView(KDirOperator::Simple, true);
+
+  m_dirList->setGeometry(x(), y(), 500, 500);  // this doesn't do a thing
+  vlay->addWidget(m_dirList);  
 }
 
-void AddDlg::setupSecondTab(ArchType _archtype)
+void AddDlg::setupSecondTab()
 {
+  QHBox *secondpage = addHBoxPage(i18n("Advanced"), i18n("Test"));
 
-  QFrame *parent = addPage(i18n("Advanced"));
-
-  QVBox *secondpage = new QVBox(parent);
-  secondpage->setMargin( 5 );
-
-  // use __archtype to determine what goes here... 
-  // these are the advanced options
-
-  switch(_archtype)
+  switch(m_archtype)
     {
     case ZIP_FORMAT:
       {
@@ -71,11 +65,60 @@ void AddDlg::setupSecondTab(ArchType _archtype)
       break;
     case TAR_FORMAT:
       break;
+    case AA_FORMAT:
+    case LHA_FORMAT:
+    case RAR_FORMAT:
+    case ZOO_FORMAT:
+    case UNKNOWN_FORMAT:
+      break;
     default:
       // shouldn't ever get here!
       break;
     }
  
+}
+
+void AddDlg::accept()
+{
+  kdebug(0, 1601, "+AddDlg::accept");
+
+  // Put the settings data into the settings object
+
+  switch(m_archtype)
+    {
+    case ZIP_FORMAT:
+      {
+	m_settings->setZipAddRecurseDirs(m_cbRecurse->isChecked());
+	m_settings->setZipAddJunkDirs(m_cbJunkDirNames->isChecked());
+	m_settings->setZipAddMSDOS(m_cbForceMS->isChecked());
+	m_settings->setZipAddConvertLF(m_cbConvertLF2CRLF->isChecked());
+      }
+    case AA_FORMAT:
+    case LHA_FORMAT:
+    case RAR_FORMAT:
+    case ZOO_FORMAT:
+    case UNKNOWN_FORMAT:
+      break;
+    default:
+      break;
+    }
+
+  const KFileView *pView = m_dirList->view();
+  KFileViewItemList *pList = pView->selectedItems();
+
+  kdebug(0, 1601, "There are %d items in my KFileViewItemList.", pList->count());
+
+  m_fileList = new QStringList;
+
+  KFileViewItem *pItem;
+  for ( pItem=pList->first(); pItem != 0; pItem=pList->next() )
+    {
+      kdebug(0, 1601, "%s", (const char *)pItem->name());
+      m_fileList->append(pItem->name());
+    }
+
+  KDialogBase::accept();
+  kdebug(0, 1601, "-AddDlg::accept");
 }
 
 #include "adddlg.moc"

@@ -60,8 +60,6 @@ public:
 	virtual QString unarchFile( int, const QString & );
 	
 	virtual int actionFlag();
-	void add( const QString &, int , const QString &, bool,
-		  bool, bool, bool);
 	void testIntegrity();
 	
 	enum AddMode { Update = 1, Freshen, Move };

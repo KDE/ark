@@ -444,51 +444,6 @@ void ArkWidget::updateStatusTotals()
     kdebug(0, 1601, "-ArkWidget::updateStatusTotals");
 }
 
-
-#if 0
-
-////////////////////////////////////////////////////////////////////
-////////////////////////// addFile /////////////////////////////////
-////////////////////////////////////////////////////////////////////
-
-void CArkWidget::addFile(QStringList *list)
-{
-    // add the files in the list to the archive
-    kdebug(0, 1601, "+ArkWidget::addFile(QStringList)");
-
-  QApplication::setOverrideCursor( waitCursor );
-#if 0
-  CProgressDlg *pProgressDlg =
-    //     new CProgressDlg(QString(KApplication::kde_icondir() + "/" + 
-    new CProgressDlg(QString("to_archive_64.gif"),
-		     i18n("Adding to archive..."), this, 0);
-  pProgressDlg->setCaption(i18n("Adding to archive..."));
-  pProgressDlg->show();
-#endif
-
-  switch (m_pArch->addFile(list))
-  {
-  case UNSUPDIR:  // from errors.h
-    // ar doesn't let you add a directory!
-      KMessageBox::error(this, i18n("Adding a directory is not supported by this archiving utility.\n") );
-    break;
-  }
-
-#if 0
-  delete pProgressDlg;
-#endif
-  QApplication::restoreOverrideCursor();
-
-  // we may have been adding files into an empty archive - 
-  // see if we need to change the button and menu item enables.
-#if 0
-  onFileNumChangeSetEnables();
-#endif
-
-  kdebug(0, 1601, "-ArkWidget::addFile(QStringList)");
-}
-#endif
-
 //////////////////////////////////////////////////////////////////////
 ///////////////////////// file_open //////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -859,6 +814,7 @@ void ArkWidget::onFileNumChangeSetEnables() // private
 void ArkWidget::file_reload()
 {
 	QString filename = arch->fileName();
+	file_close();
 	file_open( filename );
 }
 
@@ -982,14 +938,14 @@ void ArkWidget::edit_view_last_shell_output()
 
 void ArkWidget::action_add()
 {
-  AddDlg *dlg = new AddDlg(getArchType(m_strArchName),
-			   m_settings->getAddDir());
+  ArchType archtype = getArchType(m_strArchName);
+  kdebug(0, 1601, "Add dir: %s", (const char *)m_settings->getAddDir());
+  AddDlg *dlg = new AddDlg(archtype, m_settings->getAddDir(),
+			   m_settings, this, "adddlg");
   if (dlg->exec())
-    kdebug(0, 1601, "Success!");
-  else
-    kdebug(0, 1601, "Failure!");
-  
-  //  arch->addFile( 0 );
+    {
+      arch->addFile(dlg->getFiles());
+    }
 }
 
 void ArkWidget::action_add_dir()
@@ -1004,7 +960,7 @@ void ArkWidget::action_delete()
 
     KASSERT(!archiveContent->isSelectionEmpty(), 3, 1601, "Nothing to be removed !" );
 
-    if( KMessageBox::questionYesNo(this, i18n("Do you really want to delete the selectionned items?")) == KMessageBox::Yes)
+    if( KMessageBox::questionYesNo(this, i18n("Do you really want to delete the selected items?")) == KMessageBox::Yes)
     {
 	arch->remove();
 	updateStatusTotals();

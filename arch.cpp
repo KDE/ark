@@ -33,8 +33,8 @@
 
 Arch::Arch( ArkWidget *_mainWindow, const QString & _fileName ) : QObject()
 {
-	m_arkwidget = _mainWindow; 
-	m_filename = _fileName;
+  m_arkwidget = _mainWindow; 
+  m_filename = _fileName;
 }
 
 FileListView *Arch::fileList()

@@ -75,7 +75,6 @@ protected:
 	QString m_filename;
 	QString m_shellErrorData;
 	char m_buffer[1024];
-
 	ArkSettings *m_settings;
 	ArkWidget *m_arkwidget;
 };

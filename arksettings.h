@@ -40,150 +40,150 @@
 class ArkSettings
 {
 public:
-	ArkSettings();
-	~ArkSettings();
+  ArkSettings();
+  ~ArkSettings();
 	
-	enum DirPolicy{
-		FAVORITE_DIR=1, FIXED_START_DIR,
-		LAST_OPEN_DIR, FIXED_OPEN_DIR,
-		LAST_EXTRACT_DIR, FIXED_EXTRACT_DIR,
-		LAST_ADD_DIR, FIXED_ADD_DIR
-	};
+  enum DirPolicy{
+    FAVORITE_DIR=1, FIXED_START_DIR,
+    LAST_OPEN_DIR, FIXED_OPEN_DIR,
+    LAST_EXTRACT_DIR, FIXED_EXTRACT_DIR,
+    LAST_ADD_DIR, FIXED_ADD_DIR
+  };
 
-	const QString getFilter();
+  const QString getFilter();
 	
-	QString getTarCommand() const;
-	void setTarCommand(const QString& cmd);
+  QString getTarCommand() const;
+  void setTarCommand(const QString& cmd);
 	
-	QString getFavoriteDir() const;
-	void setFavoriteDir(const QString& cmd);
+  QString getFavoriteDir() const;
+  void setFavoriteDir(const QString& cmd);
 
-	QString getStartDir() const;
-	QString getFixedStartDir() const;
-	int getStartDirMode() const;
-        void setStartDirCfg(const QString& dir, int mode);
+  QString getStartDir() const;
+  QString getFixedStartDir() const;
+  int getStartDirMode() const;
+  void setStartDirCfg(const QString& dir, int mode);
 
-	QString getOpenDir() const;
-	QString getFixedOpenDir() const;
-	int getOpenDirMode() const;
-	void setLastOpenDir(const QString& dir);
-	void setOpenDirCfg(const QString& dir, int mode);
+  QString getOpenDir() const;
+  QString getFixedOpenDir() const;
+  int getOpenDirMode() const;
+  void setLastOpenDir(const QString& dir);
+  void setOpenDirCfg(const QString& dir, int mode);
 
-	QString getExtractDir();
-	QString getFixedExtractDir() const;
-	int getExtractDirMode() const;
-	void setLastExtractDir(const QString& dir);
-	void setExtractDirCfg(const QString& dir, int mode);
+  QString getExtractDir();
+  QString getFixedExtractDir() const;
+  int getExtractDirMode() const;
+  void setLastExtractDir(const QString& dir);
+  void setExtractDirCfg(const QString& dir, int mode);
 
-	QString getAddDir();
-	QString getFixedAddDir() const;
-	int getAddDirMode() const;
-	void setLastAddDir(const QString& dir);
-	void setAddDirCfg(const QString& dir, int mode);
+  QString getAddDir();
+  QString getFixedAddDir() const;
+  int getAddDirMode() const;
+  void setLastAddDir(const QString& dir);
+  void setAddDirCfg(const QString& dir, int mode);
 
-	QStringList * getRecentFiles();
-	void addRecentFile(const QString& filename);
+  QStringList * getRecentFiles();
+  void addRecentFile(const QString& filename);
 
-	void setSaveOnExitChecked( bool );
-	bool isSaveOnExitChecked();
+  void setSaveOnExitChecked( bool );
+  bool isSaveOnExitChecked();
 	
-	void setaddPath( bool b);
-	bool getaddPath();
+  void setaddPath( bool b);
+  bool getaddPath();
 
-	void setonlyUpdate( bool b);
-	bool getonlyUpdate();
+  void setonlyUpdate( bool b);
+  bool getonlyUpdate();
 
-	void setSelectRegExp(const QString& _exp);
-	QString getSelectRegExp() const;
+  void setSelectRegExp(const QString& _exp);
+  QString getSelectRegExp() const;
 
-	void appendShellOutputData( const char * );
-	void clearShellOutput();
-	QString * getLastShellOutput() const;
+  void appendShellOutputData( const char * );
+  void clearShellOutput();
+  QString * getLastShellOutput() const;
 
-	void setZipExtractOverwrite( bool );
-	bool getZipExtractOverwrite();
+  void setZipExtractOverwrite( bool );
+  bool getZipExtractOverwrite();
 	
-	void setZipExtractJunkPaths( bool );
-	bool getZipExtractJunkPaths();
+  void setZipExtractJunkPaths( bool );
+  bool getZipExtractJunkPaths();
 	
-	void setZipExtractLowerCase( bool );
-	bool getZipExtractLowerCase();
+  void setZipExtractLowerCase( bool );
+  bool getZipExtractLowerCase();
 
-	void setZipAddRecurseDirs( bool );
-	bool getZipAddRecurseDirs();
+  void setZipAddRecurseDirs( bool );
+  bool getZipAddRecurseDirs();
 
-	void setZipAddJunkDirs( bool );
-	bool getZipAddJunkDirs();
+  void setZipAddJunkDirs( bool );
+  bool getZipAddJunkDirs();
 
-	void setZipAddMSDOS( bool );
-	bool getZipAddMSDOS();
+  void setZipAddMSDOS( bool );
+  bool getZipAddMSDOS();
 
-	void setZipAddConvertLF( bool );
-	bool getZipAddConvertLF();
+  void setZipAddConvertLF( bool );
+  bool getZipAddConvertLF();
 			
-	void setTmpDir( QString );
-	QString getTmpDir() const;			
-	void writeConfiguration();
-	void writeConfigurationNow();
-	void readConfiguration();
+  void setTmpDir( QString );
+  QString getTmpDir() const;			
+  void writeConfiguration();
+  void writeConfigurationNow();
+  void readConfiguration();
 	
-	KConfig * getKConfig() { return kc; };
+  KConfig * getKConfig() { return kc; };
 	
-protected:
-	KConfig *kc;
-	bool opt_AddOnlyNew;
-	bool opt_StoreFullPath;
+ protected:
+  KConfig *kc;
+  bool opt_AddOnlyNew;
+  bool opt_StoreFullPath;
 
-	QString favoriteDir;
-	QString tar_exe;
+  QString favoriteDir;
+  QString tar_exe;
 
 	// Directories options
-	QString tmpdir;
-	QString startDir;
-	int startDirMode;
+  QString tmpdir;
+  QString startDir;
+  int startDirMode;
 	
-	QString openDir;
-	QString lastOpenDir;
-	int openDirMode;
+  QString openDir;
+  QString lastOpenDir;
+  int openDirMode;
 	
-	QString extractDir;
-	QString lastExtractDir;
-	int extractDirMode;
+  QString extractDir;
+  QString lastExtractDir;
+  int extractDirMode;
 	
-	QString addDir;
-	QString lastAddDir;
-	int addDirMode;
+  QString addDir;
+  QString lastAddDir;
+  int addDirMode;
 	
-	QString * m_lastShellOutput;
+  QString * m_lastShellOutput;
 	
-	bool m_saveOnExit;
-	QString m_regExp;
+  bool m_saveOnExit;
+  QString m_regExp;
 
-	bool addPath;
-	bool onlyUpdate;
+  bool addPath;
+  bool onlyUpdate;
 
-	bool contextRow;
-	QStringList recentFiles;
+  bool contextRow;
+  QStringList recentFiles;
 	
-	bool m_zipExtractOverwrite;
-	bool m_zipExtractJunkPaths;
-	bool m_zipExtractLowerCase;
+  bool m_zipExtractOverwrite;
+  bool m_zipExtractJunkPaths;
+  bool m_zipExtractLowerCase;
 	
-	bool m_zipAddRecurseDirs;
-	bool m_zipAddJunkDirs;
-	bool m_zipAddMSDOS;
-	bool m_zipAddConvertLF;
+  bool m_zipAddRecurseDirs;
+  bool m_zipAddJunkDirs;
+  bool m_zipAddMSDOS;
+  bool m_zipAddConvertLF;
 
-	QString m_tmpDir;
+  QString m_tmpDir;
 	
-	void readRecentFiles();
-	void writeRecentFiles();
+  void readRecentFiles();
+  void writeRecentFiles();
 	
-	void readDirectories();
-	void writeDirectories();
+  void readDirectories();
+  void writeDirectories();
 	
-	void readZipProperties();
-	void writeZipProperties();
+  void readZipProperties();
+  void writeZipProperties();
 };
 
 #endif /* ARKSETTINGS_H */

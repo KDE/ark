@@ -27,24 +27,35 @@
 #define __ADDDLG_H__
 
 #include <kdialogbase.h>
+#include <qstringlist.h>
 #include "arkwidget.h"  // for ArchType
 
 class QLineEdit;
 class QCheckBox;
+class KFileWidget;
+class ArkSettings;
 
 class AddDlg : public KDialogBase 
 {
   Q_OBJECT
 public:
-  AddDlg(ArchType _archtype, const QString & _extractDir, 
-	 QWidget *parent=0, const char *name=0);
+  AddDlg(ArchType _archtype, const QString & _sourceDir, 
+	 ArkSettings *_settings, QWidget *parent=0, const char *name=0);
+
+  ~AddDlg() { delete m_fileList; }
+  QStringList *getFiles() { return m_fileList; }
+public slots:
+  void accept();
 private: // methods
   void setupFirstTab();
-  void setupSecondTab(ArchType _archtype);
+  void setupSecondTab();
 
 private: // data
   QString m_sourceDir;  
-
+  KDirOperator *m_dirList;
+  ArchType m_archtype;
+  ArkSettings *m_settings;
+  QStringList *m_fileList;
   // advanced options
   QCheckBox *m_cbRecurse, *m_cbJunkDirNames, *m_cbForceMS, *m_cbConvertLF2CRLF;
 };
