@@ -33,13 +33,9 @@
 #include <time.h>
 #include <qapplication.h>
 
-#define ABS(x) (x) < 0? -(x) : (x)
-
 // ark includes
 #include "arch.h"
 #include "viewer.h"
-
-
 
 Arch::Arch( ArkSettings *_settings, Viewer *_viewer,
 	    const QString & _fileName )
@@ -317,7 +313,7 @@ int Utils::getMonth(const char *strMonth)
 
 int Utils::getYear(int theMonth, int thisYear, int thisMonth)
 {
-  int monthDiff = ABS(thisMonth - theMonth);
+  int monthDiff = QABS(thisMonth - theMonth);
   if (monthDiff > 6)
     return (thisYear - 1);
   else

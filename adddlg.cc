@@ -30,7 +30,6 @@
 #include <kdiroperator.h>
 #include <kfile.h>
 #include <qvbox.h>
-#include <qmessagebox.h>
 #include <qcheckbox.h>
 #include <qfileinfo.h>
 #include <qlayout.h>

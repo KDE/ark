@@ -25,20 +25,23 @@
  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA. 
  
 */
-#include <kdebug.h>
-#include <kurl.h>
-#include <kfiledialog.h>
+
 #include <qvbox.h>
-#include <qmessagebox.h>
 #include <qcheckbox.h>
 #include <qfileinfo.h>
-#include <klocale.h>
 #include <qbuttongroup.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qradiobutton.h>
 #include <qlineedit.h>
 #include <qapp.h>
+
+#include <kdebug.h>
+#include <kurl.h>
+#include <kfiledialog.h>
+#include <kmessagebox.h>
+#include <klocale.h>
+
 #include "arksettings.h"
 #include "extractdlg.h"
 
@@ -214,7 +217,7 @@ void ExtractDlg::accept()
   kdDebug(1601) << "+ExtractDlg::accept" << endl;
   if (! QFileInfo(m_extractDirCB->currentText()).isDir())
   {
-    QMessageBox::warning(this, i18n("Error"),
+    KMessageBox::error(this,
 			   i18n("Please provide a valid directory"));
     return;
   }
@@ -257,7 +260,7 @@ void ExtractDlg::accept()
     if (strcmp(m_patternLE->text(), "") == 0)
     {
       // pattern selected but no pattern? Ask user to select a pattern.
-      QMessageBox::warning(this, i18n("Error"),
+      KMessageBox::error(this,
 			   i18n("Please provide a pattern"));
       return;
     }

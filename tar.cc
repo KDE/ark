@@ -58,6 +58,7 @@
 #include <kmessagebox.h>
 #include <ktempfile.h>
 #include <kmimemagic.h>
+
 // ark includes
 #include "viewer.h"
 #include "extractdlg.h"
@@ -96,20 +97,19 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
       
       // build the temp file name
       
-      KTempFile *pTempFile = new KTempFile(QString(tmpdir +
-						   QString("/temp_tar")),
-					   QString(".tar"));
+      KTempFile *pTempFile = new KTempFile(tmpdir +
+					   QString::fromLatin1("/temp_tar"),
+					   QString::fromLatin1(".tar"));
 
       tmpfile = pTempFile->name();
-      kdDebug(1601) << "Tmpfile will be " <<
-	(const char *)tmpfile.local8Bit() << "\n" << endl;
+      kdDebug(1601) << "Tmpfile will be " << tmpfile << "\n" << endl;
     }
   kdDebug(1601) << "-TarArch::TarArch" << endl;
 }
 
 TarArch::~TarArch()
 {
-  unlink((const char *)tmpfile);
+  unlink( QFile::encodeName(tmpfile) );
 }
 
 int TarArch::getEditFlag()
@@ -123,11 +123,11 @@ void TarArch::updateArch()
   if (compressed)
     {
       updateInProgress = true;
-      fd = fopen( m_filename.local8Bit(), "w" );
+      fd = fopen( QFile::encodeName(m_filename), "w" );
 
       KProcess *kp = new KProcess;
       kp->clearArguments();
-      *kp << getCompressor() << "-c" << tmpfile.local8Bit();
+      *kp << getCompressor() << "-c" << tmpfile;
 
       connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	      this, SLOT(updateProgress( KProcess *, char *, int )));
@@ -200,7 +200,7 @@ QString TarArch::getUnCompressor()
 void TarArch::open()
 {
   kdDebug(1601) << "+TarArch::open" << endl;
-  unlink((const char *)tmpfile); // just to make sure
+  unlink( QFile::encodeName(tmpfile) ); // just to make sure
   setHeaders();
   KTarGz *tarptr;
 
@@ -234,10 +234,10 @@ void TarArch::open()
   // might as well plunk the output of tar -tvf in the shell output window...
   KProcess *kp = new KProcess;
 
-  *kp << m_archiver_program.local8Bit() ;
+  *kp << m_archiver_program;
   if (compressed)
     *kp << "--use-compress-program="+getUnCompressor() ;
-  *kp << "-tvf" << m_filename.local8Bit();
+  *kp << "-tvf" << m_filename;
   connect(kp, SIGNAL(processExited(KProcess *)),
 	  this, SLOT(slotListingDone(KProcess *)));
   connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
@@ -274,8 +274,8 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
       if (root.isEmpty() || root.isNull())
 	name = tarEntry->name();
       else
-	name = root + "/" + tarEntry->name();
-      col_list.append(QString::fromLocal8Bit(name));
+	name = root + '/' + tarEntry->name();
+      col_list.append( name );
       QString perms = makeAccessString(tarEntry->permissions());
       if (!tarEntry->isFile())
 	perms = "d" + perms;
@@ -287,7 +287,7 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
       QString usergroup = tarEntry->user();
       usergroup += '/';
       usergroup += tarEntry->group();
-      col_list.append(QString::fromLocal8Bit(usergroup));
+      col_list.append( usergroup );
       QString strSize = "0";
       if (tarEntry->isFile())
 	{

@@ -35,7 +35,6 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <dcopclient.h>
-#include <qmessagebox.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <qstringlist.h>

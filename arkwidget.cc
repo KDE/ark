@@ -31,10 +31,10 @@
 #include <qdir.h>
 #include <qdragobject.h>
 #include <qevent.h>
-#include <qmessagebox.h>
 #include <qregexp.h>
 #include <qheader.h>
 #include <qwhatsthis.h>
+
 // KDE includes
 #include <kapp.h>
 #include <kconfig.h>
@@ -134,7 +134,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     QString tmpdir;
     tmpdir.sprintf( "/tmp/ark.%d/", pid );
     QString ex( "mkdir " + tmpdir + " &>/dev/null" );
-    system( ex.local8Bit() );
+    system( QFile::encodeName(ex) );
 
     m_settings->setTmpDir( tmpdir );
     
@@ -168,7 +168,7 @@ ArkWidget::~ArkWidget()
   // delete the temporary directory and its contents
   QString tmpdir = m_settings->getTmpDir();
   QString ex( "rm -rf "+tmpdir );
-  system( ex.local8Bit() );
+  system( QFile::encodeName(ex) );
 
   delete m_settings;
 }
@@ -398,9 +398,12 @@ void ArkWidget::updateStatusTotals()
   if (m_nNumFiles == 0)
     strInfo = i18n("Total: 0 Files");
   else if (m_nNumFiles == 1)
-    strInfo = i18n("Total: 1 File %1 KB").arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
+    strInfo = i18n("Total: 1 File %1 KB")
+      .arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
   else
-    strInfo = i18n("Total: %1 Files %1 KB").arg(KGlobal::locale()->formatNumber(m_nNumFiles, 0)).arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
+    strInfo = i18n("Total: %1 Files %1 KB")
+      .arg(KGlobal::locale()->formatNumber(m_nNumFiles, 0))
+      .arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
   
   m_pStatusLabelTotal->setText(strInfo);
 }
@@ -753,7 +756,7 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
   else
     {
       QApplication::restoreOverrideCursor();
-      KMessageBox::information(this, i18n("Error"), i18n("\nSorry - ark cannot create an archive of that type.\n\n  [Hint:  The filename should have an extension such as `.zip' to\n  indicate the type of the archive. Please see the help pages for\n  more information on supported archive formats.]"));
+      KMessageBox::error(this, i18n("Sorry, ark cannot create an archive of that type.\n\n  [Hint:  The filename should have an extension such as `.zip' to\n  indicate the type of the archive. Please see the help pages for\nmore information on supported archive formats.]"));
     }
 }
 
@@ -1361,13 +1364,11 @@ void ArkWidget::addFile(QStringList *list)
       QString path;
       if (filename.contains('/') > 3)
 	{
-	  kdDebug(1601) << "Filename is originally: " << 
-	    (const char *)filename.local8Bit() << endl;
+	  kdDebug(1601) << "Filename is originally: " << filename << endl;
 	  int i = filename.find('/', 5);
 	  path = filename.left(1+i);
-	  kdDebug(1601) << "Changing to dir: " <<
-	    (const char *) path.local8Bit() << endl;
-	  chdir((const char *) path.local8Bit());
+	  kdDebug(1601) << "Changing to dir: " << path << endl;
+	  chdir( QFile::encodeName(path) );
 	  filename = filename.right(filename.length()-i-1);
 	  // HACK!! We need a relative path. If I have "file:", it
 	  // will look like an absolute path. So five spaces here to get
@@ -1579,7 +1580,7 @@ bool ArkWidget::reportExtractFailures(const QString & _dest,
 
   // make sure the destination directory has a / at the end.
   if (strDestDir.right(1) != '/')
-    strDestDir += "/";
+    strDestDir += '/';
 
   if (_list->isEmpty())
   {
@@ -1599,7 +1600,7 @@ bool ArkWidget::reportExtractFailures(const QString & _dest,
     {
       strFilename = *it;
       QString strFullName = strDestDir + strFilename;
-      if (stat((const char *)strFullName, &statbuffer) != -1)
+      if (stat(QFile::encodeName(strFullName), &statbuffer) != -1)
 	existingFiles.append(strFilename);
     }
   
@@ -1612,7 +1613,7 @@ bool ArkWidget::reportExtractFailures(const QString & _dest,
     {
       kdDebug(1601) << "One to report" << endl;
       strFilename = *(existingFiles.at(0));
-      QString message = strFilename + i18n(" will not be extracted because it will overwrite an existing file.\nGo back to Extract Dialog?");
+      QString message = strFilename + i18n("%1 will not be extracted because it will overwrite an existing file.\nGo back to Extract Dialog?").arg(strFilename);
       bRedoExtract =
 	KMessageBox::questionYesNo(this, message) == KMessageBox::Yes;
     }
@@ -1674,13 +1675,12 @@ void ArkWidget::action_extract()
 	      // make a list to send to unarchFile
 	      FileListView *flw = fileList();
 	      FileLVI *flvi = (FileLVI*)flw->firstChild();
-	      QString tmp;
 	      while (flvi)
 		{
 		  if ( flw->isSelected(flvi) )
 		    {
 		      kdDebug(1601) << "unarching " << flvi->getFileName() << endl;
-		      tmp = flvi->getFileName().local8Bit();
+		      QCString tmp = QFile::encodeName(flvi->getFileName());
 		      m_extractList->append(tmp);
 		    }
 		  flvi = (FileLVI*)flvi->itemBelow();
@@ -1695,7 +1695,7 @@ void ArkWidget::action_extract()
 		  return;
 		}
 	      QString tmp = pItem->text(0);  // get the name
-	      m_extractList->append(tmp.local8Bit());
+	      m_extractList->append( QFile::encodeName(tmp) );
 	    }
 	  if (!bOvwrt)
 	    bRedoExtract =
@@ -1943,16 +1943,16 @@ void ArkWidget::dropAction(QStringList *list)
     {
       // ask them if they want to add the dragged archive to the current
       // one or open it as the new current archive
-      int nRet = QMessageBox::warning(this, i18n("Question"),
+      int nRet = KMessageBox::warningYesNoCancel(this,
 				      i18n("Do you wish to add this to the current archive or open it as a new archive?"),
-				      i18n("Add"), i18n("Open"),
-				      i18n("Cancel"), 0, 1);
-      if (0 == nRet) // add it
+				      QString::null,
+                                      i18n("Add"), i18n("Open"));
+      if (KMessageBox::Yes == nRet) // add it
       {
 	addFile(list);
 	return;
       }
-      else if (2 == nRet) // cancel
+      else if (KMessageBox::Cancel == nRet) // cancel
       {
 	delete list;
 	return;
@@ -1990,11 +1990,12 @@ void ArkWidget::dropAction(QStringList *list)
       // no archive is open, so we ask if the user wants to open one
       // for this/these file/files.
 
-      int nRet = QMessageBox::warning(this, i18n("Error"),
-				      (list->count() > 1) ?
-				      i18n("There is no archive currently open. Do you wish to create one now for these files?") : i18n("There is no archive currently open. Do you wish to create one now for this file?"),
-				      i18n("Yes"), i18n("No"), 0, 0, 1);
-      if (0 == nRet) // yes
+      QString str;
+      str = (list->count() > 1)
+	? i18n("There is no archive currently open. Do you wish to create one now for these files?")
+        : i18n("There is no archive currently open. Do you wish to create one now for this file?");
+      int nRet = KMessageBox::warningYesNo(this, str);
+      if (nRet == KMessageBox::Yes) // yes
       {
 	file_new();
 	if (isArchiveOpen()) // they still could have canceled!
