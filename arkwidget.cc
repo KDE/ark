@@ -1026,8 +1026,9 @@ void ArkWidget::window_close()
 }
 
 
-void ArkWidget::closeEvent( QCloseEvent * )
+void ArkWidget::closeEvent( QCloseEvent *e )
 {
+    KTMainWindow::closeEvent(e);
     window_close();
 }
 
