@@ -41,6 +41,7 @@
 #include <qradiobutton.h>
 #include <qlineedit.h>
 #include <kdialogbase.h>
+#include <qapplication.h>
 #include "adddlg.h"
 #include "arksettings.h"
 
@@ -53,10 +54,18 @@ AddDlg::AddDlg(ArchType _archtype, const QString & _sourceDir,
     m_archtype(_archtype), m_settings(_settings), m_fileList(0)
 {
   // this has some sizing problems
+  // DF: yeah, right, this appears as a 20x20 pixels dialog !
   setupFirstTab();
   setupSecondTab();
   showButtonOK(true);
   showButtonCancel(true);
+
+  // DF: From kfiledialog
+  int w, h;
+  QWidget *desk = QApplication::desktop();
+  w = QMIN( 530, (int) (desk->width() * 0.5)); // minimum default width = 530
+  h = (int) (desk->height() * 0.4); 
+  resize(w, h);
 }
 
 void AddDlg::setupFirstTab()
