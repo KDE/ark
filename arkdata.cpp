@@ -362,12 +362,12 @@ void ArkData::setAddDirCfg(const QString& dir, int mode)
 
 const QString ArkData::getFilter()
 {
-	return QString(i18n(
+	return i18n(
 			"*.zip *.tar.gz *.tar.bz2|All valid archives\n"
 			"*.zip|Zip archive (*.zip)\n"
 	            "*.tar.gz *.tgz |Tar compressed with gzip (*.tar.gz *.tgz)\n"
         	    "*.tbz2 *.tar.bz2|Tar compressed with bzip2 (*.tar.bz2 *.tbz2)\n"
-			));
+			);
 }
 
 void ArkData::writeConfiguration(){

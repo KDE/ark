@@ -27,9 +27,6 @@
 #include "tar.h"
 #include "zip.h"
 
-#define ARK_WARNING i18n("ark - warning")
-#define ARK_ERROR i18n("ark - error")
-
 #define ARK_VERSION "0.5"
 
 class ArkWidget : public KTMainWindow {

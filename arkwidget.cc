@@ -201,14 +201,13 @@ void ArkWidget::setupMenuBar()
 //	optionsmenu->insertItem( i18n( "Save options on e&xit..."), this, SLOT( options_saveOnExit() ) );
 
 	// Help menu creation
-	QString about_ark;
-	about_ark.sprintf(i18n(
-		"ark version %s - the KDE archiver\n"
+	QString about_ark = i18n(
+		"ark version %1 - the KDE archiver\n"
                 "\n"
                 "Copyright:\n"
                 "1997-1999: Robert Palmbos <palm9744@kettering.edu>\n"
-                "1999: Francois-Xavier Duranceau <duranceau@kde.org>\n"),
-		ARK_VERSION );
+                "1999: Francois-Xavier Duranceau <duranceau@kde.org>\n")
+		.arg( ARK_VERSION );
 	QPopupMenu *helpmenu = kapp->getHelpMenu( true, about_ark );
 
 	menu->insertItem( i18n( "&File"), fileMenu );
@@ -686,12 +685,12 @@ void ArkWidget::clearCurrentArchive()
 
 void ArkWidget::arkWarning(const QString msg)
 {
-	KMsgBox::message(this, ARK_WARNING, msg);
+	KMsgBox::message(this, i18n("ark - warning"), msg);
 }
 
 void ArkWidget::arkError(const QString msg)
 {
-	KMsgBox::message(this, ARK_ERROR, msg, KMsgBox::STOP);
+	KMsgBox::message(this, i18n("ark - error"), msg, KMsgBox::STOP);
 }
 
 void ArkWidget::timeout()
