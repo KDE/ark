@@ -81,21 +81,41 @@
      <label>Tar Command</label>
      <default>tar</default>
     </entry>
-    <entry name="startDirMode" type="Int">
+    <entry name="startDirMode" type="Enum">
      <label>Use Folder</label>
-     <default>0</default>
+     <default>Last</default>
+     <choices>
+        <choice name="Common"/>
+        <choice name="Custom"/>
+        <choice name="Last"/>
+      </choices>
     </entry>
-    <entry name="openDirMode" type="Int">
+    <entry name="openDirMode" type="Enum">
      <label>Use Folder</label>
-     <default>0</default>
+     <default>Last</default>
+     <choices>
+        <choice name="Common"/>
+        <choice name="Custom"/>
+        <choice name="Last"/>
+      </choices>
     </entry>
-    <entry name="addDirMode" type="Int">
+    <entry name="addDirMode" type="Enum">
      <label>Use Folder</label>
-     <default>0</default>
+     <default>Last</default>
+     <choices>
+        <choice name="Common"/>
+        <choice name="Custom"/>
+        <choice name="Last"/>
+      </choices>
     </entry>
-    <entry name="extractDirMode" type="Int">
+    <entry name="extractDirMode" type="Enum">
      <label>Use Folder</label>
-     <default>0</default>
+      <default>Last</default>
+      <choices>
+        <choice name="Common"/>
+        <choice name="Custom"/>
+        <choice name="Last"/>
+      </choices>
     </entry>
     <entry name="ArchiveDirectory" type="Path">
      <label>Common Folder</label>
