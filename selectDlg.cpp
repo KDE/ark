@@ -30,10 +30,11 @@ $Id$
 #include <qregexp.h>
 #include <qdialog.h>
 #include <qlineedit.h>
-#include <qpushbutton.h>
 
 // KDE includes
 #include <klocale.h>
+#include <kpushbutton.h>
+#include <kstdguiitem.h>
 
 // ark includes
 #include "selectDlg.h"
@@ -58,7 +59,7 @@ SelectDlg::SelectDlg( ArkSettings *_data, QWidget *_parent, const char *_name )
     l1->setFixedSize( l1->sizeHint() );
     hbl1->addWidget( l1 );
 
-    m_ok = new QPushButton( i18n("OK"), this );
+    m_ok = new KPushButton( KStdGuiItem::ok(), this );
 
     QString pattern = m_settings->getSelectRegExp();
     m_regExp = new QLineEdit( this );
@@ -79,7 +80,7 @@ SelectDlg::SelectDlg( ArkSettings *_data, QWidget *_parent, const char *_name )
     connect( m_ok, SIGNAL( clicked() ), SLOT( saveConfig() ) );
     hbl->addWidget( m_ok );
 
-    QPushButton *cancel = new QPushButton( i18n("Cancel"), this );
+    QPushButton *cancel = new KPushButton( KStdGuiItem::cancel(), this );
     cancel->setFixedSize( cancel->sizeHint() );
     connect( cancel, SIGNAL( clicked() ), SLOT( reject() ) );
     hbl->addWidget( cancel );

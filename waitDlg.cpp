@@ -49,7 +49,7 @@ WaitDlg::WaitDlg( QWidget *_parent, const char *_name, bool _modal, WFlags _f )
 	l1->setFixedSize( l1->sizeHint() );
 	mainLayout->addWidget( l1 );
 
-	QPushButton *cancel = new QPushButton( i18n("Cancel"), this );
+	QPushButton *cancel = new KPushButton( KStdGuiItem::cancel(), this );
 	cancel->setFixedSize( cancel->sizeHint() );
 	connect( cancel, SIGNAL( clicked() ), SLOT( onCancel() ) );
 	mainLayout->addWidget( cancel );
