@@ -231,7 +231,7 @@ void ArkWidget::setupActions()
 
   (void)KStdAction::keyBindings();
 
-  shellOutputAction  = new KAction(i18n("&View shell output"), 0, this,
+  shellOutputAction  = new KAction(i18n("&View Shell Output"), 0, this,
                                    SLOT(edit_view_last_shell_output()),
                                    actionCollection(), "shell_output");
 
@@ -261,20 +261,20 @@ void ArkWidget::setupActions()
                            SLOT(action_view()),
                            actionCollection(), "popup_menu_view");
 
-  openWithAction = new KAction(i18n("&Open with..."), 0, this,
+  openWithAction = new KAction(i18n("&Open With..."), 0, this,
                            SLOT(slotOpenWith()),
                            actionCollection(), "open_with");
 
-  popupOpenWithAction  = new KAction(i18n("&Open with..."), 0, this,
+  popupOpenWithAction  = new KAction(i18n("&Open With..."), 0, this,
                            SLOT(slotOpenWith()),
                            actionCollection(), "popup_menu_open_with");
 
 
-  editAction = new KAction(i18n("Edit &with..."), 0, this,
+  editAction = new KAction(i18n("Edit &With..."), 0, this,
                            SLOT(action_edit()),
                            actionCollection(), "edit");
 
-  popupEditAction = new KAction(i18n("Edit &with..."), 0, this,
+  popupEditAction = new KAction(i18n("Edit &With..."), 0, this,
                                 SLOT(action_edit()),
                                 actionCollection(), "popup_edit");
 
