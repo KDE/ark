@@ -49,7 +49,7 @@ ZipArch::ZipArch( ArkSettings *_settings, Viewer *_gui,
   _settings->readZipProperties();
   m_archiver_program = "zip";
   m_unarchiver_program = "unzip";
-  kDebugInfo(1601, "ZipArch constructor");
+  kdDebug(1601) << "ZipArch constructor" << endl;
 }
 
 void ZipArch::processLine( char *_line )
@@ -68,13 +68,13 @@ void ZipArch::processLine( char *_line )
 
   QString year = Utils::fixYear(columns[8]);
 
-  kDebugInfo(1601, "Year is %s", (const char *)year);
+  kdDebug(1601) << "Year is " << (const char *)year << endl;
   QString timestamp;
   timestamp.sprintf("%s-%s-%s %s", (const char *)year,
 		    columns[4], columns[7], columns[9]);
   
   strcpy(columns[4], (const char *)timestamp);
-  kDebugInfo(1601, "Timestamp is %s", (const char *)columns[4]);
+  kdDebug(1601) << "Timestamp is " << (const char *)columns[4] << endl;
   QStringList list;
   list.append(QString::fromLocal8Bit(filename));
   for (int i = 0; i < 6; ++i)
@@ -87,7 +87,7 @@ void ZipArch::processLine( char *_line )
 
 void ZipArch::slotReceivedTOC(KProcess*, char* _data, int _length)
 {
-  kDebugInfo(1601, "+ZipArch::slotReceivedTOC");
+  kdDebug(1601) << "+ZipArch::slotReceivedTOC" << endl;
   char c = _data[_length];
   _data[_length] = '\0';
 	
@@ -159,12 +159,12 @@ void ZipArch::slotReceivedTOC(KProcess*, char* _data, int _length)
     }
   
   _data[_length] = c;
-  kDebugInfo(1601, "-ZipArch::slotReceivedTOC");
+  kdDebug(1601) << "-ZipArch::slotReceivedTOC" << endl;
 }
 
 void ZipArch::setHeaders()
 {
-  kDebugInfo( 1601, "+ZipArch::setHeaders");
+  kdDebug(1601) << "+ZipArch::setHeaders" << endl;
   QStringList list;
 
   list.append(FILENAME_STRING);
@@ -187,12 +187,12 @@ void ZipArch::setHeaders()
   m_gui->setHeaders(&list, alignRightCols, 6);
   delete [] alignRightCols;
 
-  kDebugInfo( 1601, "-ZipArch::setHeaders");
+  kdDebug(1601) << "-ZipArch::setHeaders" << endl;
 }
 
 void ZipArch::open()
 {
-  kDebugInfo( 1601, "+ZipArch::open");
+  kdDebug(1601) << "+ZipArch::open" << endl;
   setHeaders();
 
   m_buffer[0] = '\0';
@@ -217,7 +217,7 @@ void ZipArch::open()
       emit sigOpen(this, false, QString::null, 0 );
     }
 
-  kDebugInfo( 1601, "-ZipArch::open");
+  kdDebug(1601) << "-ZipArch::open" << endl;
 }
 
 
@@ -246,7 +246,7 @@ void ZipArch::addDir(const QString & _dirName)
 
 void ZipArch::addFile( QStringList *urls )
 {
-  kDebugInfo( 1601, "+ZipArch::addFile");
+  kdDebug(1601) << "+ZipArch::addFile" << endl;
   KProcess *kp = new KProcess;
   kp->clearArguments();
 			
@@ -309,7 +309,7 @@ void ZipArch::addFile( QStringList *urls )
 
   // iterate over QStringList and plunk onto command line
 
-  kDebugInfo( 1601, "Adding these files to the command line:");
+  kdDebug(1601) << "Adding these files to the command line:" << endl;
 
   for (QStringList::Iterator it = urls->begin();
        it != urls->end(); ++it ) 
@@ -318,7 +318,7 @@ void ZipArch::addFile( QStringList *urls )
       // remove "file:"
       currFile = currFile.right( currFile.length()-5);
       *kp << currFile;
-      kDebugInfo( 1601, "%s", (const char *)currFile );
+      kdDebug(1601) << (const char *)currFile << endl;
     }
 
 
@@ -336,7 +336,7 @@ void ZipArch::addFile( QStringList *urls )
       emit sigAdd(false);
     }
 
-  kDebugInfo( 1601, "-ZipArch::addFile");
+  kdDebug(1601) << "-ZipArch::addFile" << endl;
 }
 
 void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
@@ -344,7 +344,7 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
   // if _fileList is empty, we extract all.
   // if _destDir is empty, look at settings for extract directory
 
-  kDebugInfo( 1601, "+ZipArch::unarchFile");
+  kdDebug(1601) << "+ZipArch::unarchFile" << endl;
   QString dest;
 
   if (_destDir.isEmpty() || _destDir.isNull())
@@ -383,12 +383,12 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
       emit sigExtract(false);
     }
-  kDebugInfo( 1601, "-ZipArch::unarchFile");
+  kdDebug(1601) << "-ZipArch::unarchFile" << endl;
 }
 
 void ZipArch::remove(QStringList *list)
 {
-  kDebugInfo( 1601, "+ZipArch::remove");
+  kdDebug(1601) << "+ZipArch::remove" << endl;
 
   if (!list)
     return;
@@ -419,15 +419,15 @@ void ZipArch::remove(QStringList *list)
       emit sigDelete(false);
     }
   
-  kDebugInfo( 1601, "-ZipArch::remove");
+  kdDebug(1601) << "-ZipArch::remove" << endl;
 }
 
 void ZipArch::slotIntegrityExited(KProcess *_kp)
 {
-  kDebugInfo( 1601, "+slotIntegrityExited");
+  kdDebug(1601) << "+slotIntegrityExited" << endl;
 
-  kDebugInfo( 1601, "normalExit = %d", _kp->normalExit() );
-  kDebugInfo( 1601, "exitStatus = %d", _kp->exitStatus() );
+  kdDebug(1601) << "normalExit = " << _kp->normalExit() << endl;
+  kdDebug(1601) << "exitStatus = " << _kp->exitStatus() << endl;
 		
   if( _kp->normalExit() && (_kp->exitStatus()==0) )
     {
@@ -444,7 +444,7 @@ void ZipArch::slotIntegrityExited(KProcess *_kp)
   delete _kp;
   _kp = NULL;
 
-  kDebugInfo( 1601, "-slotIntegrityExited");
+  kdDebug(1601) << "-slotIntegrityExited" << endl;
 }
 
 void ZipArch::testIntegrity()
@@ -468,7 +468,7 @@ void ZipArch::testIntegrity()
  		
   if(kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      kDebugInfo( 1601, "Subprocess wouldn't start!");
+      kdDebug(1601) << "Subprocess wouldn't start!" << endl;
       return;
     }
 }

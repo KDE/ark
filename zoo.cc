@@ -48,7 +48,7 @@ ZooArch::ZooArch( ArkSettings *_settings, Viewer *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {
-  kDebugInfo(1601, "ZooArch constructor");
+  kdDebug(1601) << "ZooArch constructor" << endl;
   _settings->readZooProperties();
   m_archiver_program = "zoo";
 }
@@ -65,18 +65,18 @@ void ZooArch::processLine( char *_line )
 	 columns[8], columns[9], columns[4], columns[10], filename);
 
 
-  kDebugInfo(1601, "The actual file is %s", (const char *)filename);
+  kdDebug(1601) << "The actual file is " << (const char *)filename << endl;
 
   QString year = Utils::fixYear(columns[8]);
 
-  kDebugInfo(1601, "The year is %s", (const char *)year);
+  kdDebug(1601) << "The year is " << (const char *)year << endl;
 
   QString strDate;
   strDate.sprintf("%s-%.2d-%.2d", (const char *)year,
 		    Utils::getMonth(columns[7]), atoi(columns[3]));
 
   strcpy(columns[3], (const char *)strDate);
-  kDebugInfo(1601, "New timestamp is %s", columns[3]);
+  kdDebug(1601) << "New timestamp is " << columns[3] << endl;
 
   strcat(columns[3], " ");
   strcat(columns[3], (const char *)fixTime(columns[4]));
@@ -92,7 +92,7 @@ void ZooArch::processLine( char *_line )
 
 void ZooArch::open()
 {
-  kDebugInfo( 1601, "+ZooArch::open");
+  kdDebug(1601) << "+ZooArch::open" << endl;
   setHeaders();
 
   m_buffer[0] = '\0';
@@ -116,12 +116,12 @@ void ZooArch::open()
       emit sigOpen(this, false, QString::null, 0 );
     }
 
-  kDebugInfo( 1601, "-ZooArch::open");
+  kdDebug(1601) << "-ZooArch::open" << endl;
 }
 
 void ZooArch::setHeaders()
 {
-  kDebugInfo( 1601, "+ZooArch::setHeaders");
+  kdDebug(1601) << "+ZooArch::setHeaders" << endl;
   QStringList list;
   list.append(FILENAME_STRING);
   list.append(RATIO_STRING);
@@ -138,13 +138,13 @@ void ZooArch::setHeaders()
   m_gui->setHeaders(&list, alignRightCols, 3);
   delete [] alignRightCols;
 
-  kDebugInfo( 1601, "-ZooArch::setHeaders");
+  kdDebug(1601) << "-ZooArch::setHeaders" << endl;
 }
 
 
 void ZooArch::slotReceivedTOC(KProcess*, char* _data, int _length)
 {
-  kDebugInfo(1601, "+ZooArch::slotReceivedTOC");
+  kdDebug(1601) << "+ZooArch::slotReceivedTOC" << endl;
   char c = _data[_length];
   _data[_length] = '\0';
 	
@@ -216,7 +216,7 @@ void ZooArch::slotReceivedTOC(KProcess*, char* _data, int _length)
     }
   
   _data[_length] = c;
-  kDebugInfo(1601, "-ZooArch::slotReceivedTOC");
+  kdDebug(1601) << "-ZooArch::slotReceivedTOC" << endl;
 }
 
 void ZooArch::create()
@@ -238,7 +238,7 @@ void ZooArch::addDir(const QString & _dirName)
 
 void ZooArch::addFile( QStringList *urls )
 {
-  kDebugInfo( 1601, "+ZooArch::addFile");
+  kdDebug(1601) << "+ZooArch::addFile" << endl;
   KProcess *kp = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program;
@@ -291,7 +291,7 @@ void ZooArch::addFile( QStringList *urls )
       emit sigAdd(false);
     }
 
-  kDebugInfo( 1601, "+ZooArch::addFile");
+  kdDebug(1601) << "+ZooArch::addFile" << endl;
 }
 
 void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir)
@@ -299,7 +299,7 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir)
   // if _fileList is empty, we extract all.
   // if _destDir is empty, look at settings for extract directory
 
-  kDebugInfo( 1601, "+ZooArch::unarchFile");
+  kdDebug(1601) << "+ZooArch::unarchFile" << endl;
   QString dest;
 
   if (_destDir.isEmpty() || _destDir.isNull())
@@ -355,7 +355,7 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir)
 
 void ZooArch::remove(QStringList *list)
 {
-  kDebugInfo( 1601, "+ZooArch::remove");
+  kdDebug(1601) << "+ZooArch::remove" << endl;
 
   if (!list)
     return;
@@ -386,7 +386,7 @@ void ZooArch::remove(QStringList *list)
       emit sigDelete(false);
     }
   
-  kDebugInfo( 1601, "-ZooArch::remove");
+  kdDebug(1601) << "-ZooArch::remove" << endl;
 }
 
 QString fixTime(const QString &_strTime)
@@ -399,7 +399,7 @@ QString fixTime(const QString &_strTime)
     {
       QCharRef c = strTime.at(8);
       int offset = atoi(strTime.right(strTime.length() - 9));
-      kDebugInfo(1601, "Offset is %d\n", offset);
+      kdDebug(1601) << "Offset is " << offset << "\n" << endl;
       QString strHour = strTime.left(2);
       int nHour = atoi(strHour);
       if (c == '+' || c == '-')
@@ -414,7 +414,7 @@ QString fixTime(const QString &_strTime)
 	    }
 	  strTime = strTime.left(8);
 	  strTime.sprintf("%2.2d%s", nHour, (const char *)strTime.right(6));
-	  kDebugInfo(1601, "The new time is %s\n", (const char *) strTime);
+	  kdDebug(1601) << "The new time is " << (const char *) strTime << "\n" << endl;
 	}	
     }
   else

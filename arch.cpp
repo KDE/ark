@@ -41,8 +41,8 @@ Arch::Arch( ArkSettings *_settings, Viewer *_viewer,
   : m_filename(_fileName), m_settings(_settings), m_gui(_viewer),
     m_bReadOnly(false)
 {
-  kDebugInfo(1601, "+Arch::Arch");
-  kDebugInfo(1601, "-Arch::Arch");
+  kdDebug(1601) << "+Arch::Arch" << endl;
+  kdDebug(1601) << "-Arch::Arch" << endl;
 }
 
 Arch::~Arch()
@@ -74,8 +74,8 @@ void Arch::slotStoreDataStderr(KProcess*, char* _data, int _length)
 
 void Arch::slotOpenExited(KProcess* _kp)
 {
-  kDebugInfo(1601, "normalExit = %d", _kp->normalExit() );
-  kDebugInfo(1601, "exitStatus = %d", _kp->exitStatus() );
+  kdDebug(1601) << "normalExit = " << _kp->normalExit() << endl;
+  kdDebug(1601) << "exitStatus = " << _kp->exitStatus() << endl;
 
   bool bNormalExit = _kp->normalExit();
 
@@ -100,13 +100,13 @@ void Arch::slotOpenExited(KProcess* _kp)
 
 void Arch::slotDeleteExited(KProcess *_kp)
 {
-  kDebugInfo(1601, "+Arch::slotDeleteExited");
+  kdDebug(1601) << "+Arch::slotDeleteExited" << endl;
 
   bool bSuccess = false;
 
-  kDebugInfo(1601, "normalExit = %d", _kp->normalExit() );
+  kdDebug(1601) << "normalExit = " << _kp->normalExit() << endl;
   if( _kp->normalExit() )
-    kDebugInfo(1601, "exitStatus = %d", _kp->exitStatus() );
+    kdDebug(1601) << "exitStatus = " << _kp->exitStatus() << endl;
   
   if( _kp->normalExit() && (_kp->exitStatus()==0) )
     {
@@ -126,18 +126,18 @@ void Arch::slotDeleteExited(KProcess *_kp)
   delete _kp;
   _kp = NULL;
 
-  kDebugInfo(1601, "-Arch::slotDeleteExited");
+  kdDebug(1601) << "-Arch::slotDeleteExited" << endl;
 }
 
 void Arch::slotExtractExited(KProcess *_kp)
 {
-  kDebugInfo(1601, "+Arch::slotExtractExited");
+  kdDebug(1601) << "+Arch::slotExtractExited" << endl;
 
   bool bSuccess = false;
 
-  kDebugInfo(1601, "normalExit = %d", _kp->normalExit() );
+  kdDebug(1601) << "normalExit = " << _kp->normalExit() << endl;
   if( _kp->normalExit() )
-    kDebugInfo(1601, "exitStatus = %d", _kp->exitStatus() );
+    kdDebug(1601) << "exitStatus = " << _kp->exitStatus() << endl;
 
   if( _kp->normalExit() && (_kp->exitStatus()==0) )
     {
@@ -155,18 +155,18 @@ void Arch::slotExtractExited(KProcess *_kp)
   delete _kp;
   _kp = NULL;
 
-  kDebugInfo(1601, "-Arch::slotExtractExited");
+  kdDebug(1601) << "-Arch::slotExtractExited" << endl;
 }
 
 void Arch::slotAddExited(KProcess *_kp)
 {
-  kDebugInfo(1601, "+Arch::slotAddExited");
+  kdDebug(1601) << "+Arch::slotAddExited" << endl;
 
   bool bSuccess = false;
 
-  kDebugInfo(1601, "normalExit = %d", _kp->normalExit() );
+  kdDebug(1601) << "normalExit = " << _kp->normalExit() << endl;
   if( _kp->normalExit() )
-    kDebugInfo(1601, "exitStatus = %d", _kp->exitStatus() );
+    kdDebug(1601) << "exitStatus = " << _kp->exitStatus() << endl;
 
   if( _kp->normalExit() && (_kp->exitStatus()==0) )
     {
@@ -186,7 +186,7 @@ void Arch::slotAddExited(KProcess *_kp)
   delete _kp;
   _kp = NULL;
 
-  kDebugInfo(1601, "-Arch::slotAddExited");
+  kdDebug(1601) << "-Arch::slotAddExited" << endl;
 }
 
 
@@ -223,7 +223,7 @@ QString Utils::getTimeStamp(const QString &_month,
   int nMonth = getMonth(month);
   int nDay = atoi((const char *)_day);
 
-  kDebugInfo(1601, "Month is %d, Day is %d", nMonth, nDay);
+  kdDebug(1601) << "Month is " << nMonth << ", Day is " << nDay << endl;
 
   time_t t = time(0);
   if (t == -1)

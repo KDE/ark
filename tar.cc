@@ -71,7 +71,7 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
   : Arch(_settings, _gui, _filename), createTmpInProgress(false),
     updateInProgress(false), fd(NULL)
 {
-  kDebugInfo(1601, "+TarArch::TarArch");
+  kdDebug(1601) << "+TarArch::TarArch" << endl;
   m_archiver_program = m_settings->getTarCommand();
 
   _settings->readTarProperties();
@@ -92,10 +92,9 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
       // build the temp file name
       tmpfile.sprintf("%s/temp_tar_%s.%d", (const char *)tmpdir,
 		      (const char *)base, getpid());
-      kDebugInfo(1601, "Tmpfile will be %s\n",
-		 (const char *)tmpfile.local8Bit());
+      kdDebug(1601) << "Tmpfile will be " << (const char *)tmpfile.local8Bit() << "\n" << endl;
     }
-  kDebugInfo( 1601, "-TarArch::TarArch");
+  kdDebug(1601) << "-TarArch::TarArch" << endl;
 }
 
 TarArch::~TarArch()
@@ -110,7 +109,7 @@ int TarArch::getEditFlag()
 
 void TarArch::updateArch()
 {
-  kDebugInfo(1601, "+TarArch::updateArch");
+  kdDebug(1601) << "+TarArch::updateArch" << endl;
   if (compressed)
     {
       updateInProgress = true;
@@ -132,7 +131,7 @@ void TarArch::updateArch()
 	  KMessageBox::error(0, i18n("Trouble writing to the archive..."));
 	}
     }
-  kDebugInfo(1601, "-TarArch::updateArch");
+  kdDebug(1601) << "-TarArch::updateArch" << endl;
 }
 
 void TarArch::updateProgress( KProcess *, char *_buffer, int _bufflen )
@@ -155,7 +154,7 @@ QString TarArch::getCompressor()
 {
   QString extension = m_filename.right(m_filename.length() -
 				       m_filename.findRev('.') );
-  kDebugInfo(1601, "Extension: %s", (const char *)extension);
+  kdDebug(1601) << "Extension: " << (const char *)extension << endl;
 
   if( extension == ".tgz" || extension == ".gz" ) 
     return QString( "gzip" );
@@ -174,7 +173,7 @@ QString TarArch::getUnCompressor()
 {
   QString extension = m_filename.right(m_filename.length() -
 				       m_filename.findRev('.'));
-  kDebugInfo(1601, "Extension: %s", (const char *)extension);
+  kdDebug(1601) << "Extension: " << (const char *)extension << endl;
   if( extension == ".tgz" || extension == ".gz" ) 
     return QString( "gunzip" );
   if( extension == ".bz")
@@ -190,7 +189,7 @@ QString TarArch::getUnCompressor()
 
 void TarArch::open()
 {
-  kDebugInfo(1601, "+TarArch::open");
+  kdDebug(1601) << "+TarArch::open" << endl;
   unlink((const char *)tmpfile); // just to make sure
   setHeaders();
   KTarGz *tarptr;
@@ -241,7 +240,7 @@ void TarArch::open()
       KMessageBox::error(0, i18n("Error in trying to list the contents of the archive."));
     }
 
-  kDebugInfo(1601, "-TarArch::open");
+  kdDebug(1601) << "-TarArch::open" << endl;
 }
 
 void TarArch::slotListingDone(KProcess *_kp)
@@ -253,7 +252,7 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
   // process a KTarDirectory. Called recursively for directories within
   // directories, etc. Prepends to filename root, for relative pathnames.
 {
-  kDebugInfo(1601, "+TarArch::processDir");
+  kdDebug(1601) << "+TarArch::processDir" << endl;
   QStringList list = tardir->entries();
   for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
     {
@@ -295,22 +294,22 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
       if (!tarEntry->isFile())
 	processDir( (KTarDirectory *)tarEntry, name);
     }
-  kDebugInfo(1601, "-TarArch::processDir");
+  kdDebug(1601) << "-TarArch::processDir" << endl;
 }                                                                           
 
 void TarArch::create()
 {
-  kDebugInfo(1601, "+TarArch::createArch");
+  kdDebug(1601) << "+TarArch::createArch" << endl;
 
   emit sigCreate(this, true, m_filename,
 		 Arch::Extract | Arch::Delete | Arch::Add 
 		  | Arch::View);
-  kDebugInfo(1601, "-TarArch::createArch");
+  kdDebug(1601) << "-TarArch::createArch" << endl;
 }
 
 void TarArch::setHeaders()
 {
-  kDebugInfo(1601, "+TarArch::setHeaders");
+  kdDebug(1601) << "+TarArch::setHeaders" << endl;
   QStringList list;
 
   list.append(FILENAME_STRING);
@@ -328,12 +327,12 @@ void TarArch::setHeaders()
   m_gui->setHeaders(&list, alignRightCols, 2);
   delete [] alignRightCols;
 
-  kDebugInfo(1601, "-TarArch::setHeaders");
+  kdDebug(1601) << "-TarArch::setHeaders" << endl;
 }
 
 void TarArch::createTmp()
 {
-  kDebugInfo(1601, "+TarArch::createTmp");
+  kdDebug(1601) << "+TarArch::createTmp" << endl;
   if (compressed)
     {
       struct stat statbuffer;
@@ -346,7 +345,7 @@ void TarArch::createTmp()
 	  KProcess *kp = new KProcess;
 	  kp->clearArguments();
 	  QString strUncompressor = getUnCompressor();
-	  kDebugInfo(1601, "Uncompressor is %s", (const char *)strUncompressor);
+	  kdDebug(1601) << "Uncompressor is " << (const char *)strUncompressor << endl;
 	  *kp << strUncompressor;
 	  if (strUncompressor == "lzop")
 	    {
@@ -368,10 +367,10 @@ void TarArch::createTmp()
 	}
       else
 	{
-	  kDebugInfo(1601, "Temp tar already there...");
+	  kdDebug(1601) << "Temp tar already there..." << endl;
 	}
     }
-  kDebugInfo(1601, "-TarArch::createTmp");
+  kdDebug(1601) << "-TarArch::createTmp" << endl;
 }
 
 void TarArch::createTmpProgress( KProcess *, char *_buffer, int _bufflen )
@@ -391,7 +390,7 @@ void TarArch::createTmpProgress( KProcess *, char *_buffer, int _bufflen )
 
 void TarArch::addFile( QStringList* urls )
 {
-  kDebugInfo(1601, "+TarArch::addFile");
+  kdDebug(1601) << "+TarArch::addFile" << endl;
   QString file, url, tmp;
 
   createTmp();
@@ -421,7 +420,7 @@ void TarArch::addFile( QStringList* urls )
       int pos;
       pos = file.findRev( '/', -1, FALSE );
       base = file.left( ++pos );
-      kDebugInfo(1601, "base is %s", (const char *)base);
+      kdDebug(1601) << "base is " << (const char *)base << endl;
       //		pos++;
       tmp = file.right( file.length()-pos );
       file = tmp;
@@ -450,7 +449,7 @@ void TarArch::addFile( QStringList* urls )
   QStrList list(*ptr); // copied because of const probs
   for ( strTemp=list.first(); strTemp != 0; strTemp=list.next() )
     {
-      kDebugInfo(1601, "%s ", (const char *)strTemp);
+      kdDebug(1601) << (const char *)strTemp << " " << endl;
     }
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
@@ -461,7 +460,7 @@ void TarArch::addFile( QStringList* urls )
   connect( kp, SIGNAL(processExited(KProcess*)), this,
 	   SLOT(slotAddFinished(KProcess*)));
 
-  kDebugInfo(1601, "Busy loop... waiting for temp tar to be created");
+  kdDebug(1601) << "Busy loop... waiting for temp tar to be created" << endl;
   while (compressed && createTmpInProgress)
     qApp->processEvents(); // wait for temp to be created;
 
@@ -476,12 +475,12 @@ void TarArch::addFile( QStringList* urls )
     file.remove( 0, 1 );  // Get rid of leading /
 #endif
 
-  kDebugInfo(1601, "-TarArch::addFile");
+  kdDebug(1601) << "-TarArch::addFile" << endl;
 }
 
 void TarArch::slotAddFinished(KProcess *_kp)
 {
-  kDebugInfo(1601, "+TarArch::slotAddFinished");
+  kdDebug(1601) << "+TarArch::slotAddFinished" << endl;
 
   disconnect( _kp, SIGNAL(processExited(KProcess*)), this,
 	      SLOT(slotAddFinished(KProcess*)));
@@ -492,12 +491,12 @@ void TarArch::slotAddFinished(KProcess *_kp)
 	qApp->processEvents(); // wait for update;
     }
   Arch::slotAddExited(_kp); // this will delete _kp
-  kDebugInfo(1601, "-TarArch::slotAddFinished");
+  kdDebug(1601) << "-TarArch::slotAddFinished" << endl;
 }
 
 void TarArch::unarchFile( QStringList * _fileList, const QString & _destDir)
 {
-  kDebugInfo( 1601, "+TarArch::unarchFile");
+  kdDebug(1601) << "+TarArch::unarchFile" << endl;
   QString dest;
 
   if (_destDir.isEmpty() || _destDir.isNull())
@@ -544,12 +543,12 @@ void TarArch::unarchFile( QStringList * _fileList, const QString & _destDir)
       emit sigExtract(false);
     }
 
-  kDebugInfo(1601, "+TarArch::unarchFile");
+  kdDebug(1601) << "+TarArch::unarchFile" << endl;
 }
 
 void TarArch::remove(QStringList *list)
 {
-  kDebugInfo( 1601, "+Tar::deleteFiles");
+  kdDebug(1601) << "+Tar::deleteFiles" << endl;
 
   QString name, tmp;
   
@@ -567,7 +566,7 @@ void TarArch::remove(QStringList *list)
 
   for ( QStringList::Iterator it = list->begin(); it != list->end(); ++it )  
     {
-      kDebugInfo(1601, "%s", (const char *)*it);
+      kdDebug(1601) << (const char *)*it << endl;
       *kp << *it;
     }
 
@@ -588,7 +587,7 @@ void TarArch::remove(QStringList *list)
   if (compressed)
     updateArch();
 
-  kDebugInfo( 1601, "-Tar::deleteFiles");
+  kdDebug(1601) << "-Tar::deleteFiles" << endl;
 }
 
 void TarArch::addDir(const QString & _dirName)
@@ -602,12 +601,12 @@ void TarArch::openFinished( KProcess * )
 {
   // do nothing
   // turn off busy light (when someone makes one)
-  kDebugInfo(1601, "Open finshed");
+  kdDebug(1601) << "Open finshed" << endl;
 }
 
 void TarArch::createTmpFinished( KProcess *_kp )
 {
-  kDebugInfo(1601, "+TarArch::createTmpFinished");
+  kdDebug(1601) << "+TarArch::createTmpFinished" << endl;
 
   createTmpInProgress = false;
   fclose(fd);
@@ -616,18 +615,18 @@ void TarArch::createTmpFinished( KProcess *_kp )
 
   // turn off busy light (when someone makes one)
 
-  kDebugInfo(1601, "-TarArch::createTmpFinished");
+  kdDebug(1601) << "-TarArch::createTmpFinished" << endl;
 }
 
 void TarArch::updateFinished( KProcess *_kp )
 {
-  kDebugInfo(1601, "+TarArch::updateFinished");
+  kdDebug(1601) << "+TarArch::updateFinished" << endl;
   fclose(fd);
   updateInProgress = false;
   delete _kp;
   _kp = NULL;
 
-  kDebugInfo(1601, "-TarArch::updateFinished");
+  kdDebug(1601) << "-TarArch::updateFinished" << endl;
 
 }
 

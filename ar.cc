@@ -46,12 +46,12 @@ ArArch::ArArch( ArkSettings *_settings, Viewer *_gui,
   : Arch(_settings, _gui, _fileName )
 {
   m_archiver_program = "ar";
-  kDebugInfo(1601, "ArArch constructor");
+  kdDebug(1601) << "ArArch constructor" << endl;
 }
 
 void ArArch::setHeaders()
 {
-  kDebugInfo( 1601, "+ArArch::setHeaders");
+  kdDebug(1601) << "+ArArch::setHeaders" << endl;
   QStringList list;
   list.append(FILENAME_STRING);
   list.append(PERMISSION_STRING);
@@ -66,7 +66,7 @@ void ArArch::setHeaders()
   m_gui->setHeaders(&list, alignRightCols, 1);
   delete [] alignRightCols;
 
-  kDebugInfo( 1601, "-ArArch::setHeaders");
+  kdDebug(1601) << "-ArArch::setHeaders" << endl;
 }
 
 void ArArch::processLine( char *_line )
@@ -83,9 +83,7 @@ void ArArch::processLine( char *_line )
 	   columns[5], columns[6], columns[7], filename );
     
   
-  kDebugInfo(1601, "%s!%s!%s!%s!%s!%s!%s!%s!%s",
-	 columns[0], columns[1], columns[2], columns[3], columns[4],
-	 columns[5], columns[6], columns[7], filename );
+  kdDebug(1601) << columns[0] << "!" << columns[1] << "!" << columns[2] << "!" << columns[3] << "!" << columns[4] << "!" << columns[5] << "!" << columns[6] << "!" << columns[7] << "!" << filename << endl;
 
 
   // Put columns[3] - [6] into standard format
@@ -95,8 +93,7 @@ void ArArch::processLine( char *_line )
 		    atoi(columns[4]), columns[5]);
   // put timestamp into column 3
   strcpy(columns[3], (const char *)timestamp);
-  kDebugInfo(1601, "Timestamp for file %s is %s", (const char *)filename,
-	     (const char *)timestamp);
+  kdDebug(1601) << "Timestamp for file " << (const char *)filename << " is " << (const char *)timestamp << endl;
 
   QStringList list;
   list.append(QString::fromLocal8Bit(filename));
@@ -109,7 +106,7 @@ void ArArch::processLine( char *_line )
 
 void ArArch::open()
 {
-  kDebugInfo(1601, "+ArArch::open");
+  kdDebug(1601) << "+ArArch::open" << endl;
   setHeaders();
   KProcess *kp = new KProcess;
   *kp << m_archiver_program << "vt" << m_filename.local8Bit();
@@ -126,12 +123,12 @@ void ArArch::open()
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
       emit sigOpen(this, false, QString::null, 0 );
     }
-  kDebugInfo(1601, "-ArArch::open");
+  kdDebug(1601) << "-ArArch::open" << endl;
 }
 
 void ArArch::slotReceivedTOC(KProcess*, char* _data, int _length)
 {
-  kDebugInfo(1601, "+ArArch::slotReceivedTOC");
+  kdDebug(1601) << "+ArArch::slotReceivedTOC" << endl;
   char c = _data[_length];
   _data[_length] = '\0';
 	
@@ -185,7 +182,7 @@ void ArArch::slotReceivedTOC(KProcess*, char* _data, int _length)
 
 
 
-  kDebugInfo(1601, "-ArArch::slotReceivedTOC");
+  kdDebug(1601) << "-ArArch::slotReceivedTOC" << endl;
 }
 
 void ArArch::create()
@@ -214,7 +211,7 @@ void ArArch::create()
 
 void ArArch::addFile( QStringList *urls )
 {
-  kDebugInfo( 1601, "+ArArch::addFile");
+  kdDebug(1601) << "+ArArch::addFile" << endl;
   KProcess *kp = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program << "r";
@@ -265,7 +262,7 @@ void ArArch::addFile( QStringList *urls )
       emit sigAdd(false);
     }
 
-  kDebugInfo( 1601, "+ArArch::addFile");
+  kdDebug(1601) << "+ArArch::addFile" << endl;
 }
 
 void ArArch::unarchFile(QStringList *_fileList, const QString & _destDir)
@@ -273,7 +270,7 @@ void ArArch::unarchFile(QStringList *_fileList, const QString & _destDir)
   // if _fileList is empty, we extract all.
   // if _destDir is empty, look at settings for extract directory
 
-  kDebugInfo( 1601, "+ArArch::unarchFile");
+  kdDebug(1601) << "+ArArch::unarchFile" << endl;
   QString dest;
 
   if (_destDir.isEmpty() || _destDir.isNull())
@@ -322,7 +319,7 @@ void ArArch::unarchFile(QStringList *_fileList, const QString & _destDir)
 
 void ArArch::remove(QStringList *list)
 {
-  kDebugInfo( 1601, "+ArArch::remove");
+  kdDebug(1601) << "+ArArch::remove" << endl;
 
   if (!list)
     return;
@@ -353,7 +350,7 @@ void ArArch::remove(QStringList *list)
       emit sigDelete(false);
     }
   
-  kDebugInfo( 1601, "-ArArch::remove");
+  kdDebug(1601) << "-ArArch::remove" << endl;
 }
 
 

@@ -69,10 +69,10 @@ int main( int argc, char *argv[]  )
   
   if (ArkApplication::getInstance()->isRestored())
     {
-      kDebugInfo( 1601, "In main: Restore...");
+      kdDebug(1601) << "In main: Restore..." << endl;
       RESTORE(ArkWidget);
     }
-  kDebugInfo( 1601, "Ready to exec...");
+  kdDebug(1601) << "Ready to exec..." << endl;
   
   return ArkApplication::getInstance()->exec();
 

@@ -94,7 +94,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     m_bMakeCFIntoArchiveInProgress(false), m_pTempAddList(NULL),
     m_bDropFilesInProgress(false)
 {
-    kDebugInfo( 1601, "+ArkWidget::ArkWidget");
+    kdDebug(1601) << "+ArkWidget::ArkWidget" << endl;
   
     m_viewer = new Viewer(this);
     m_settings = new ArkSettings;
@@ -110,7 +110,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     ArkApplication::getInstance()->addWindow();
 
     // Build the ark UI
-    kDebugInfo( 1601, "Build the GUI");
+    kdDebug(1601) << "Build the GUI" << endl;
 
     setupStatusBar();
     setupActions();
@@ -120,7 +120,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     arch = 0;
     initialEnables();
 
-    kDebugInfo( 1601, "-ArkWidget::ArkWidget");
+    kdDebug(1601) << "-ArkWidget::ArkWidget" << endl;
     resize(640,300);
 }
 
@@ -294,7 +294,7 @@ void ArkWidget::toggleStatusBar()
 
 void ArkWidget::setupStatusBar()
 {
-  kDebugInfo( 1601, "+ArkWidget::setupStatusBar");
+  kdDebug(1601) << "+ArkWidget::setupStatusBar" << endl;
 
   KStatusBar *sb = statusBar();
 
@@ -318,7 +318,7 @@ void ArkWidget::setupStatusBar()
   sb->addWidget(m_pStatusLabelSelect, 3000);
   sb->addWidget(m_pStatusLabelTotal, 3000);
 
-  kDebugInfo( 1601, "-ArkWidget::setupStatusBar");
+  kdDebug(1601) << "-ArkWidget::setupStatusBar" << endl;
 }
 
 void ArkWidget::initialEnables()
@@ -352,7 +352,7 @@ void ArkWidget::initialEnables()
 
 void ArkWidget::updateStatusTotals()
 {
-  kDebugInfo( 1601, "+ArkWidget::updateStatusTotals");
+  kdDebug(1601) << "+ArkWidget::updateStatusTotals" << endl;
   m_nNumFiles = 0;
   m_nSizeOfFiles = 0;
   if (archiveContent)
@@ -362,17 +362,15 @@ void ArkWidget::updateStatusTotals()
 	{
 	  ++m_nNumFiles;
 	  
-	  kDebugInfo( 1601, "Adding %s\n",
-		      (const char *)pItem->text(m_currentSizeColumn));
+	  kdDebug(1601) << "Adding " << (const char *)pItem->text(m_currentSizeColumn) << "\n" << endl;
 
-	  kDebugInfo( 1601, "Adding %d\n",
-		      atoi(pItem->text(m_currentSizeColumn)));
+	  kdDebug(1601) << "Adding " << atoi(pItem->text(m_currentSizeColumn)) << "\n" << endl;
 	  if (m_currentSizeColumn != -1)
 	    m_nSizeOfFiles += atoi(pItem->text(m_currentSizeColumn));
 	  pItem = (FileLVI *)pItem->nextSibling();
 	}
     }
-  kDebugInfo( 1601, "We have %d elements\n", m_nNumFiles);
+  kdDebug(1601) << "We have " << m_nNumFiles << " elements\n" << endl;
 
   QString strInfo;
 
@@ -387,7 +385,7 @@ void ArkWidget::updateStatusTotals()
       .arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
   
   m_pStatusLabelTotal->setText(strInfo);
-  kDebugInfo( 1601, "-ArkWidget::updateStatusTotals");
+  kdDebug(1601) << "-ArkWidget::updateStatusTotals" << endl;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -486,7 +484,7 @@ void ArkWidget::file_open(const QString & strFile)
 
 void ArkWidget::saveProperties()
 {
-  kDebugInfo( 1601, "+saveProperties (exit)");
+  kdDebug(1601) << "+saveProperties (exit)" << endl;
 
   KConfig *kc = m_settings->getKConfig();
   recent->saveEntries(kc);
@@ -498,7 +496,7 @@ void ArkWidget::saveProperties()
 
   m_settings->writeConfiguration();
 
-  kDebugInfo( 1601, "-saveProperties (exit)");
+  kdDebug(1601) << "-saveProperties (exit)" << endl;
 }
 
 QString ArkWidget::getNewFileName()
@@ -618,17 +616,17 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
 
 void ArkWidget::file_newWindow()
 {
-  kDebugInfo( 1601, "-ArkWidget::file_newWindow");
+  kdDebug(1601) << "-ArkWidget::file_newWindow" << endl;
   
   ArkWidget *kw = new ArkWidget;
   kw->show();
-  kDebugInfo( 1601, "-ArkWidget::file_newWindow");
+  kdDebug(1601) << "-ArkWidget::file_newWindow" << endl;
 
 }
 
 void ArkWidget::file_open()
 {
-  kDebugInfo( 1601, "+ArkWidget::file_open");
+  kdDebug(1601) << "+ArkWidget::file_open" << endl;
 
   KURL url;
   QString strFile;
@@ -646,7 +644,7 @@ void ArkWidget::file_open()
       recent->addURL(url);
       file_open(strFile);  // note: assumes it is local for now
     }
-  kDebugInfo( 1601, "-ArkWidget::file_open");
+  kdDebug(1601) << "-ArkWidget::file_open" << endl;
 }
 
 void ArkWidget::file_openRecent(const KURL& url)
@@ -663,16 +661,16 @@ void ArkWidget::file_openRecent(const KURL& url)
 
 void ArkWidget::showZip( QString _filename )
 {
-  kDebugInfo( 1601, "+ArkWidget::showZip");
+  kdDebug(1601) << "+ArkWidget::showZip" << endl;
   createFileListView();
   openArchive( _filename );
-  kDebugInfo( 1601, "-ArkWidget::showZip");
+  kdDebug(1601) << "-ArkWidget::showZip" << endl;
 }
 
 void ArkWidget::slotOpen(Arch *_newarch, bool _success,
 			 const QString & _filename, int _flag )
 {
-  kDebugInfo( 1601, "+ArkWidget::slotOpen");
+  kdDebug(1601) << "+ArkWidget::slotOpen" << endl;
   
   archiveContent->setUpdatesEnabled(true);
   archiveContent->triggerUpdate();
@@ -699,12 +697,12 @@ void ArkWidget::slotOpen(Arch *_newarch, bool _success,
     }
   fixEnables();
   QApplication::restoreOverrideCursor();
-  kDebugInfo( 1601, "-ArkWidget::slotOpen");
+  kdDebug(1601) << "-ArkWidget::slotOpen" << endl;
 }
 
 void ArkWidget::slotDeleteDone(bool _bSuccess)
 {
-  kDebugInfo(1601, "+ArkWidget::slotDeleteDone------------------------------");
+  kdDebug(1601) << "+ArkWidget::slotDeleteDone------------------------------" << endl;
   archiveContent->setUpdatesEnabled(true);
   archiveContent->triggerUpdate();
   if (_bSuccess)
@@ -715,12 +713,12 @@ void ArkWidget::slotDeleteDone(bool _bSuccess)
   // disable the select all and extract options if there are no files left
   fixEnables();
   QApplication::restoreOverrideCursor();
-  kDebugInfo(1601, "-ArkWidget::slotDeleteDone");
+  kdDebug(1601) << "-ArkWidget::slotDeleteDone" << endl;
 }
 
 void ArkWidget::slotExtractDone()
 {
-  kDebugInfo(1601, "+ArkWidget::slotExtractDone");
+  kdDebug(1601) << "+ArkWidget::slotExtractDone" << endl;
   QApplication::restoreOverrideCursor();
   if ( !KOpenWithHandler::exists() )
     (void) new KFileOpenWithHandler();
@@ -753,12 +751,12 @@ void ArkWidget::slotExtractDone()
     }
   archiveContent->setUpdatesEnabled(true);
   fixEnables();  
-  kDebugInfo(1601, "-ArkWidget::slotExtractDone");
+  kdDebug(1601) << "-ArkWidget::slotExtractDone" << endl;
 }
 
 void ArkWidget::slotAddDone(bool _bSuccess)
 {
-  kDebugInfo(1601, "+ArkWidget::slotAddDone");
+  kdDebug(1601) << "+ArkWidget::slotAddDone" << endl;
   archiveContent->setUpdatesEnabled(true);
   archiveContent->triggerUpdate();
   if (_bSuccess)
@@ -790,7 +788,7 @@ void ArkWidget::slotAddDone(bool _bSuccess)
     }
   fixEnables();
   QApplication::restoreOverrideCursor();
-  kDebugInfo(1601, "-ArkWidget::slotAddDone");
+  kdDebug(1601) << "-ArkWidget::slotAddDone" << endl;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -799,7 +797,7 @@ void ArkWidget::slotAddDone(bool _bSuccess)
 
 void ArkWidget::disableAll() // private
 {
-  kDebugInfo( 1601, "+ArkWidget::disableAll");
+  kdDebug(1601) << "+ArkWidget::disableAll" << endl;
 
   openAction->setEnabled(false);
   newArchAction->setEnabled(false);
@@ -818,7 +816,7 @@ void ArkWidget::disableAll() // private
   addDirAction->setEnabled(false);
   openWithAction->setEnabled(false);
 
-  kDebugInfo( 1601, "-ArkWidget::disableAll");
+  kdDebug(1601) << "-ArkWidget::disableAll" << endl;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -827,7 +825,7 @@ void ArkWidget::disableAll() // private
 
 void ArkWidget::fixEnables() // private
 {
-  kDebugInfo( 1601, "+ArkWidget::fixEnables");
+  kdDebug(1601) << "+ArkWidget::fixEnables" << endl;
 
   bool bHaveFiles = (m_nNumFiles > 0);
   bool bReadOnly = false;
@@ -859,7 +857,7 @@ void ArkWidget::fixEnables() // private
   viewAction->setEnabled(bHaveFiles && m_nNumSelectedFiles == 1);
   openWithAction->setEnabled(bHaveFiles && m_nNumSelectedFiles == 1);
 
-  kDebugInfo( 1601, "-ArkWidget::fixEnables");
+  kdDebug(1601) << "-ArkWidget::fixEnables" << endl;
 }
 
 
@@ -883,7 +881,7 @@ void ArkWidget::reload()
 	
 void ArkWidget::file_close()
 {
-  kDebugInfo( 1601, "+ArkWidget::file_close");
+  kdDebug(1601) << "+ArkWidget::file_close" << endl;
   if (isArchiveOpen())
     {
       delete arch;
@@ -903,12 +901,12 @@ void ArkWidget::file_close()
       updateStatusSelection();
       fixEnables();
     }
-  kDebugInfo( 1601, "-ArkWidget::file_close");
+  kdDebug(1601) << "-ArkWidget::file_close" << endl;
 }
 
 void ArkWidget::window_close()
 {
-    kDebugInfo( 1601, "+ArkWidget::window_close");
+    kdDebug(1601) << "+ArkWidget::window_close" << endl;
 
     file_close();
     if (ArkApplication::getInstance()->windowCount() < 2  )
@@ -922,7 +920,7 @@ void ArkWidget::window_close()
 	saveProperties();
 	delete this;
       }
-    kDebugInfo( 1601, "-ArkWidget::window_close");
+    kdDebug(1601) << "-ArkWidget::window_close" << endl;
 }
 
 
@@ -948,8 +946,10 @@ void ArkWidget::edit_select()
       m_settings->setSelectRegExp( exp );
 
       QRegExp reg_exp( exp, true, true );
-      kDebugError(reg_exp.isValid(), 0, 1601, "ArkWidget::edit_select: regular expression is not valid.");
-		
+      if (!reg_exp.isValid())
+	kdError(1601) <<
+	  "ArkWidget::edit_select: regular expression is not valid." << endl;
+      
       FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
 
       // don't call the slot for each selection!
@@ -1042,8 +1042,7 @@ void ArkWidget::createRealArchive(const QString &strFilename)
   m_compressedFile = flvi->getFileName().local8Bit();
   QString tmpdir = m_settings->getTmpDir();
   m_compressedFile = "file:" + tmpdir + "/" + m_compressedFile;
-  kDebugInfo(1601, "The compressed file is %s",
-	     (const char *)m_compressedFile);
+  kdDebug(1601) << "The compressed file is " << (const char *)m_compressedFile << endl;
   createArchive(strFilename);
   // the file will be moved into the new archive in slotCreate.
 }
@@ -1062,7 +1061,7 @@ void ArkWidget::action_add()
 	}
       return;
     }
-  kDebugInfo( 1601, "Add dir: %s", (const char *)m_settings->getAddDir());
+  kdDebug(1601) << "Add dir: " << (const char *)m_settings->getAddDir() << endl;
   AddDlg *dlg = new AddDlg(archtype, m_settings->getAddDir(),
 			   m_settings, this, "adddlg");
   if (dlg->exec())
@@ -1115,7 +1114,7 @@ void ArkWidget::action_delete()
   // a tar file - it actually deletes the contents of the directory
   // as well.
 
-  kDebugInfo( 1601, "+ArkWidget::action_delete");
+  kdDebug(1601) << "+ArkWidget::action_delete" << endl;
   
   if (archiveContent->isSelectionEmpty())
     return; // shouldn't happen - delete should have been disabled!
@@ -1199,7 +1198,7 @@ void ArkWidget::action_delete()
   QApplication::setOverrideCursor( waitCursor );
   disableAll();
   arch->remove(&list);
-  kDebugInfo( 1601, "-ArkWidget::action_delete");
+  kdDebug(1601) << "-ArkWidget::action_delete" << endl;
 }
 
 void ArkWidget::slotOpenWith()
@@ -1237,7 +1236,7 @@ void ArkWidget::action_extract()
   if (dlg->exec())
     {
       int extractOp = dlg->extractOp();
-      kDebugInfo( 1601, "Extract op: %d", extractOp);
+      kdDebug(1601) << "Extract op: " << extractOp << endl;
       archiveContent->setUpdatesEnabled(false);
       QApplication::setOverrideCursor( waitCursor );
       disableAll();
@@ -1259,8 +1258,7 @@ void ArkWidget::action_extract()
 	      {
 		if ( flw->isSelected(flvi) )
 		  {
-		    kDebugInfo( 1601, "unarching %s",
-				flvi->getFileName().ascii() );
+		    kdDebug(1601) << "unarching " << flvi->getFileName() << endl;
 		    tmp = flvi->getFileName().local8Bit();
 		    list->append(tmp.local8Bit());
 		  }
@@ -1274,7 +1272,7 @@ void ArkWidget::action_extract()
 	  {
 	    FileLVI *pItem = archiveContent->currentItem();
 	    if (pItem == 0)
-	      kDebugInfo( 1601, "Can't seem to figure out which is current!");
+	      kdDebug(1601) << "Can't seem to figure out which is current!" << endl;
 	    else
 	      {
 		QString tmp = pItem->text(0);  // get the name
@@ -1367,7 +1365,7 @@ void ArkWidget::doPopup(QListViewItem *pItem, const QPoint &pPoint,
                         int nCol) // slot
   // do the right-click popup menus
 {
-  kDebugInfo(1601, "+ArkWidget::doPopup");
+  kdDebug(1601) << "+ArkWidget::doPopup" << endl;
   if (nCol == 0)
   {
     archiveContent->setCurrentItem(pItem);
@@ -1381,16 +1379,16 @@ void ArkWidget::doPopup(QListViewItem *pItem, const QPoint &pPoint,
     ((QPopupMenu *)factory()->container("archive_popup", this))->popup(pPoint);
 
   }
-  kDebugInfo(1601, "-ArkWidget::doPopup");
+  kdDebug(1601) << "-ArkWidget::doPopup" << endl;
 }
 
 // Service functions /////////////////////////////////////////////////
 
 void ArkWidget::slotSelectionChanged()
 {
-  kDebugInfo( 1601, "+ArkWidget::slotSelectionChanged");
+  kdDebug(1601) << "+ArkWidget::slotSelectionChanged" << endl;
   updateStatusSelection();
-  kDebugInfo( 1601, "-ArkWidget::slotSelectionChanged");
+  kdDebug(1601) << "-ArkWidget::slotSelectionChanged" << endl;
 }
 
 
@@ -1400,7 +1398,7 @@ void ArkWidget::slotSelectionChanged()
 
 void ArkWidget::updateStatusSelection()
 {
-  kDebugInfo( 1601, "+ArkWidget::updateStatusSelection");
+  kdDebug(1601) << "+ArkWidget::updateStatusSelection" << endl;
 
   m_nNumSelectedFiles = 0;
   m_nSizeOfSelectedFiles = 0;
@@ -1438,7 +1436,7 @@ void ArkWidget::updateStatusSelection()
     }
   m_pStatusLabelSelect->setText(strInfo);
   fixEnables();
-  kDebugInfo( 1601, "-ArkWidget::updateStatusSelection");
+  kdDebug(1601) << "-ArkWidget::updateStatusSelection" << endl;
 }
 
 
@@ -1483,7 +1481,7 @@ void ArkWidget::dragMoveEvent(QDragMoveEvent *e)
 
 void ArkWidget::dropEvent(QDropEvent* e)
 {
-  kDebugInfo( 1601, "+ArkWidget::dropEvent");
+  kdDebug(1601) << "+ArkWidget::dropEvent" << endl;
 
   QStringList list;
 
@@ -1492,7 +1490,7 @@ void ArkWidget::dropEvent(QDropEvent* e)
     dropAction(&list);
   }
 
-  kDebugInfo( 1601, "-dropEvent");
+  kdDebug(1601) << "-dropEvent" << endl;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -1523,7 +1521,7 @@ void ArkWidget::dropAction(QStringList *list)
   for(QStringList::Iterator it = list->begin(); it != list->end(); ++it)
     {
       str = *it;
-      kDebugInfo( 1601, "%s", (const char *)str);
+      kdDebug(1601) << (const char *)str << endl;
       if (str.left(5) != QString("file:"))
 	{
 	  str = "file:" + str;

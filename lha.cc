@@ -48,7 +48,7 @@ LhaArch::LhaArch( ArkSettings *_settings, Viewer *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {
-  kDebugInfo(1601, "LhaArch constructor");
+  kdDebug(1601) << "LhaArch constructor" << endl;
   _settings->readLhaProperties();
   m_archiver_program = "lha";
 }
@@ -74,14 +74,14 @@ void LhaArch::processLine( char *_line )
 	     columns[11], columns[8], columns[9], filename);
     }
 
-  kDebugInfo(1601, "The actual file is %s", (const char *)filename);
+  kdDebug(1601) << "The actual file is " << (const char *)filename << endl;
 
   // make the time stamp sortable
   QString massagedTimeStamp = Utils::getTimeStamp(columns[6], columns[7],
 						  columns[8]);
   strcpy(columns[6], (const char *)massagedTimeStamp);
 
-  kDebugInfo(1601, "New timestamp is %s", columns[6]);
+  kdDebug(1601) << "New timestamp is " << columns[6] << endl;
 
   // see if there was a link in filename
   QString file = filename;
@@ -93,8 +93,7 @@ void LhaArch::processLine( char *_line )
       bLink = true;
       name = file.left(pos);
       link = file.right(file.length()-pos-4);
-      kDebugInfo(1601, "Name is: %s\nLink is %s", (const char *)name,
-		 (const char *)link);
+      kdDebug(1601) << "Name is: " << (const char *)name << "\nLink is " << (const char *)link << endl;
     }
   else
     name = file;
@@ -115,7 +114,7 @@ void LhaArch::processLine( char *_line )
 
 void LhaArch::open()
 {
-  kDebugInfo( 1601, "+LhaArch::open");
+  kdDebug(1601) << "+LhaArch::open" << endl;
   setHeaders();
 
   m_buffer[0] = '\0';
@@ -139,12 +138,12 @@ void LhaArch::open()
       emit sigOpen(this, false, QString::null, 0 );
     }
 
-  kDebugInfo( 1601, "-LhaArch::open");
+  kdDebug(1601) << "-LhaArch::open" << endl;
 }
 
 void LhaArch::setHeaders()
 {
-  kDebugInfo( 1601, "+LhaArch::setHeaders");
+  kdDebug(1601) << "+LhaArch::setHeaders" << endl;
   QStringList list;
   list.append(FILENAME_STRING);
   list.append(PERMISSION_STRING);
@@ -165,13 +164,13 @@ void LhaArch::setHeaders()
   m_gui->setHeaders(&list, alignRightCols, 3);
   delete [] alignRightCols;
 
-  kDebugInfo( 1601, "-LhaArch::setHeaders");
+  kdDebug(1601) << "-LhaArch::setHeaders" << endl;
 }
 
 
 void LhaArch::slotReceivedTOC(KProcess*, char* _data, int _length)
 {
-  kDebugInfo(1601, "+LhaArch::slotReceivedTOC");
+  kdDebug(1601) << "+LhaArch::slotReceivedTOC" << endl;
   char c = _data[_length];
   _data[_length] = '\0';
 	
@@ -243,7 +242,7 @@ void LhaArch::slotReceivedTOC(KProcess*, char* _data, int _length)
     }
   
   _data[_length] = c;
-  kDebugInfo(1601, "-LhaArch::slotReceivedTOC");
+  kdDebug(1601) << "-LhaArch::slotReceivedTOC" << endl;
 }
 
 void LhaArch::create()
@@ -265,17 +264,20 @@ void LhaArch::addDir(const QString & _dirName)
 
 void LhaArch::addFile( QStringList *urls )
 {
-  kDebugInfo( 1601, "+LhaArch::addFile");
+  kdDebug(1601) << "+LhaArch::addFile" << endl;
   KProcess *kp = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program;
 	
+  QString strOptions;
   if (m_settings->getReplaceOnlyNew() )
-    *kp << "u";
+    strOptions = "u";
   else
-    *kp << "a";
+    strOptions = "a";
+  if (m_settings->getLhaGeneric())
+    strOptions += "g";
 
-  *kp << m_filename.local8Bit() ;
+  *kp << strOptions << m_filename.local8Bit() ;
 
   QString base;
   QString url;
@@ -318,7 +320,7 @@ void LhaArch::addFile( QStringList *urls )
       emit sigAdd(false);
     }
 
-  kDebugInfo( 1601, "+LhaArch::addFile");
+  kdDebug(1601) << "+LhaArch::addFile" << endl;
 }
 
 void LhaArch::unarchFile(QStringList *_fileList, const QString & _destDir)
@@ -326,7 +328,7 @@ void LhaArch::unarchFile(QStringList *_fileList, const QString & _destDir)
   // if _fileList is empty, we extract all.
   // if _destDir is empty, look at settings for extract directory
 
-  kDebugInfo( 1601, "+LhaArch::unarchFile");
+  kdDebug(1601) << "+LhaArch::unarchFile" << endl;
   QString dest;
 
   if (_destDir.isEmpty() || _destDir.isNull())
@@ -368,7 +370,7 @@ void LhaArch::unarchFile(QStringList *_fileList, const QString & _destDir)
 
 void LhaArch::remove(QStringList *list)
 {
-  kDebugInfo( 1601, "+LhaArch::remove");
+  kdDebug(1601) << "+LhaArch::remove" << endl;
 
   if (!list)
     return;
@@ -399,6 +401,6 @@ void LhaArch::remove(QStringList *list)
       emit sigDelete(false);
     }
   
-  kDebugInfo( 1601, "-LhaArch::remove");
+  kdDebug(1601) << "-LhaArch::remove" << endl;
 }
 #include "lha.moc"

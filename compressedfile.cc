@@ -42,13 +42,13 @@ CompressedFile::CompressedFile( ArkSettings *_settings, Viewer *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {
-  kDebugInfo(1601, "CompressedFile constructor");
+  kdDebug(1601) << "CompressedFile constructor" << endl;
   m_tmpdir.sprintf("/tmp/ark.%d", getpid());
 }
 
 void CompressedFile::setHeaders()
 {
-  kDebugInfo( 1601, "+CompressedFile::setHeaders");
+  kdDebug(1601) << "+CompressedFile::setHeaders" << endl;
   QStringList list;
 
   list.append(FILENAME_STRING);
@@ -64,7 +64,7 @@ void CompressedFile::setHeaders()
   m_gui->setHeaders(&list, alignRightCols, 1);
   delete [] alignRightCols;
 
-  kDebugInfo( 1601, "-CompressedFile::setHeaders");
+  kdDebug(1601) << "-CompressedFile::setHeaders" << endl;
 }
 
 QString CompressedFile::getUnCompressor()
@@ -103,7 +103,7 @@ QString CompressedFile::getCompressor()
 
 void CompressedFile::open()
 {
-  kDebugInfo( 1601, "+CompressedFile::open");
+  kdDebug(1601) << "+CompressedFile::open" << endl;
   setHeaders();
 
   // We copy the file into the temporary directory, uncompress it,
@@ -118,7 +118,7 @@ void CompressedFile::open()
 			       - m_filename.findRev("/")-1);
   m_tmpfile = m_tmpdir + "/" + m_tmpfile;
 
-  kDebugInfo(1601, "Temp file name is %s", (const char *)m_tmpfile);
+  kdDebug(1601) << "Temp file name is " << (const char *)m_tmpfile << endl;
 
   KProcess *kp = new KProcess;
   QString uncompressor = getUnCompressor();
@@ -128,8 +128,7 @@ void CompressedFile::open()
     *kp << "-d";
   *kp << m_tmpfile.local8Bit();
 
-  kDebugInfo(1601, "Command is %s %s", (const char *)uncompressor,
-	     (const char *)m_tmpfile.local8Bit());
+  kdDebug(1601) << "Command is " << (const char *)uncompressor << " " << (const char *)m_tmpfile.local8Bit() << endl;
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
@@ -144,15 +143,15 @@ void CompressedFile::open()
       emit sigOpen(this, false, QString::null, 0 );
     }
 
-  kDebugInfo( 1601, "-CompressedFile::open");
+  kdDebug(1601) << "-CompressedFile::open" << endl;
 }
 
 void CompressedFile::slotUncompressDone(KProcess *_kp)
 {
   bool bSuccess = false;
-  kDebugInfo(1601, "normalExit = %d", _kp->normalExit() );
+  kdDebug(1601) << "normalExit = " << _kp->normalExit() << endl;
   if( _kp->normalExit() )
-    kDebugInfo(1601, "exitStatus = %d", _kp->exitStatus() );
+    kdDebug(1601) << "exitStatus = " << _kp->exitStatus() << endl;
   
   if( _kp->normalExit() && (_kp->exitStatus()==0) )
     {
@@ -172,7 +171,7 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
     {
       // now do the ls -l. Just a simple system() call
       m_tmpfile = m_tmpfile.left(m_tmpfile.findRev("."));
-      kDebugInfo(1601, "Temp file is %s", (const char *)m_tmpfile);
+      kdDebug(1601) << "Temp file is " << (const char *)m_tmpfile << endl;
       chdir((const char *)m_tmpdir);
       QString command = "ls -l " +
 	m_tmpfile.right(m_tmpfile.length() - 1 - m_tmpfile.findRev("/"));
@@ -187,13 +186,11 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
 	     columns[1], columns[2], columns[3],
 	     columns[4], columns[6], filename);
       
-      kDebugInfo(1601, "%s\t%s\t%s\t%s\t%s\t%s\n",
-	      columns[0], columns[1], columns[2], columns[3],
-	      columns[4], filename);
+      kdDebug(1601) << columns[0] << "\t" << columns[1] << "\t" << columns[2] << "\t" << columns[3] << "\t" << columns[4] << "\t" << filename << "\n" << endl;
 
 
       QStringList list;
-      kDebugInfo(1601, "Filename is %s", (const char *)filename);
+      kdDebug(1601) << "Filename is " << (const char *)filename << endl;
       list.append(QString::fromLocal8Bit(filename));
       for (int i=0; i<4; i++)
 	{
@@ -219,7 +216,7 @@ void CompressedFile::addFile( QStringList *urls )
   // only used for adding ONE file to an EMPTY gzip file, i.e., one that
   // has just been created
 
-  kDebugInfo( 1601, "+CompressedFile::addFile");
+  kdDebug(1601) << "+CompressedFile::addFile" << endl;
 
   ASSERT(m_gui->getNumFilesInArchive() == 0);
   ASSERT(urls->count() == 1);
@@ -236,9 +233,9 @@ void CompressedFile::addFile( QStringList *urls )
 			 - file.findRev("/")-1);
   m_tmpfile = m_tmpdir + "/" + m_tmpfile;
 
-  kDebugInfo(1601, "Temp file name is %s", (const char *)m_tmpfile);
+  kdDebug(1601) << "Temp file name is " << (const char *)m_tmpfile << endl;
 
-  kDebugInfo(1601, "File is %s", (const char *)file);
+  kdDebug(1601) << "File is " << (const char *)file << endl;
 
   KProcess *kp = new KProcess;
   kp->clearArguments();
@@ -260,7 +257,7 @@ void CompressedFile::addFile( QStringList *urls )
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
     }
 
-  kDebugInfo( 1601, "-CompressedFile::addFile");
+  kdDebug(1601) << "-CompressedFile::addFile" << endl;
 }
 
 void CompressedFile::slotAddInProgress(KProcess*, char* _buffer, int _bufflen)
@@ -297,7 +294,7 @@ void CompressedFile::unarchFile(QStringList *_fileList, const QString & _destDir
 
 void CompressedFile::remove(QStringList *list)
 {
-  kDebugInfo( 1601, "+CompressedFile::remove");
+  kdDebug(1601) << "+CompressedFile::remove" << endl;
   unlink(m_tmpfile);
 
   // delete the compressed file but then create it empty in case someone
@@ -308,7 +305,7 @@ void CompressedFile::remove(QStringList *list)
 
   m_tmpfile = "";
   emit sigDelete(true);
-  kDebugInfo( 1601, "-CompressedFile::remove");
+  kdDebug(1601) << "-CompressedFile::remove" << endl;
 }
 
 

@@ -106,28 +106,28 @@ ArkSettings::~ArkSettings()
 
 void ArkSettings::readConfiguration() 
 {
-  kDebugInfo( 1601, "+ArkSettings::readConfiguration()");
+  kdDebug(1601) << "+ArkSettings::readConfiguration()" << endl;
 
   kc->setGroup( ARK_GROUP );
 
   tar_exe = kc->readEntry( TAR_KEY, "tar");
-  kDebugInfo( 1601, "Tar command is %s", tar_exe.ascii());
+  kdDebug(1601) << "Tar command is " << tar_exe << endl;
 
 
   m_saveOnExit = kc->readBoolEntry( SAVE_ON_EXIT_KEY, true );
-  kDebugInfo( 1601, "SaveOnExit is %d", m_saveOnExit);
+  kdDebug(1601) << "SaveOnExit is " << m_saveOnExit << endl;
 
   fullPath = kc->readBoolEntry(FULLPATHS, false);
   replaceOnlyNewerFiles = kc->readBoolEntry(REPLACEONLYNEWER, false);
 
   readDirectories();
 
-  kDebugInfo( 1601, "-ArkSettings::readConfiguration()");
+  kdDebug(1601) << "-ArkSettings::readConfiguration()" << endl;
 }
 
 void ArkSettings::readDirectories()
 {
-  kDebugInfo( 1601, "+readDirectories");
+  kdDebug(1601) << "+readDirectories" << endl;
 	
   kc->setGroup( ARK_GROUP );
 
@@ -150,64 +150,64 @@ void ArkSettings::readDirectories()
   extractDirMode = kc->readNumEntry( EXTRACT_MODE_KEY, LAST_EXTRACT_DIR);
   addDirMode = kc->readNumEntry( ADD_MODE_KEY, LAST_ADD_DIR);
 	
-  kDebugInfo( 1601, "favorite dir is %s", favoriteDir.ascii() );
-  kDebugInfo( 1601, "last open dir is %s", lastOpenDir.ascii() );
-  kDebugInfo( 1601, "last xtr dir is %s", lastExtractDir.ascii() );
-  kDebugInfo( 1601, "last add dir is %s", lastAddDir.ascii() );
+  kdDebug(1601) << "favorite dir is " << favoriteDir << endl;
+  kdDebug(1601) << "last open dir is " << lastOpenDir << endl;
+  kdDebug(1601) << "last xtr dir is " << lastExtractDir << endl;
+  kdDebug(1601) << "last add dir is " << lastAddDir << endl;
 	
-  kDebugInfo( 1601, "start dir is %s", startDir.ascii() );
-  kDebugInfo( 1601, "open dir is %s", openDir.ascii() );
-  kDebugInfo( 1601, "xtr dir is %s", extractDir.ascii() );
-  kDebugInfo( 1601, "add dir is %s", addDir.ascii() );
+  kdDebug(1601) << "start dir is " << startDir << endl;
+  kdDebug(1601) << "open dir is " << openDir << endl;
+  kdDebug(1601) << "xtr dir is " << extractDir << endl;
+  kdDebug(1601) << "add dir is " << addDir << endl;
 
-  kDebugInfo( 1601, "start mode is %d", startDirMode );		
-  kDebugInfo( 1601, "open mode is %d", openDirMode );		
-  kDebugInfo( 1601, "xtr mode is %d", extractDirMode );		
-  kDebugInfo( 1601, "add mode is %d", addDirMode );		
+  kdDebug(1601) << "start mode is " << startDirMode << endl;
+  kdDebug(1601) << "open mode is " << openDirMode << endl;
+  kdDebug(1601) << "xtr mode is " << extractDirMode << endl;
+  kdDebug(1601) << "add mode is " << addDirMode << endl;
 	
-  kDebugInfo( 1601, "-readDirectories");
+  kdDebug(1601) << "-readDirectories" << endl;
 }
 
 void ArkSettings::readTarProperties()
 {
-  kDebugInfo( 1601, "+readTarProperties");	
+  kdDebug(1601) << "+readTarProperties" << endl;
 	
   kc->setGroup( TAR_GROUP );
   m_tarPreservePerms = kc->readBoolEntry(PRESERVE_PERMS, false);
   m_tarOverwrite = kc->readBoolEntry(TAR_OVERWRITE, false);
 
-  kDebugInfo( 1601, "-readTarProperties");	
+  kdDebug(1601) << "-readTarProperties" << endl;
 }
 
 void ArkSettings::readLhaProperties()
 {
-  kDebugInfo(1601, "+readLhaProperties");
+  kdDebug(1601) << "+readLhaProperties" << endl;
   kc->setGroup(LHA_GROUP);
   m_lhaAddGeneric = kc->readBoolEntry(LHA_GENERIC, false);
-  kDebugInfo(1601, "-readLhaProperties");
+  kdDebug(1601) << "-readLhaProperties" << endl;
 }
 
 void ArkSettings::readZooProperties()
 {
-  kDebugInfo(1601, "+readZooProperties");
+  kdDebug(1601) << "+readZooProperties" << endl;
   kc->setGroup(ZOO_GROUP);
   m_zooOverwrite = kc->readBoolEntry(ZOO_OVERWRITE, false);
-  kDebugInfo(1601, "-readZooProperties");
+  kdDebug(1601) << "-readZooProperties" << endl;
 }
 
 void ArkSettings::readRarProperties()
 {
-  kDebugInfo(1601, "+readRarProperties");
+  kdDebug(1601) << "+readRarProperties" << endl;
   kc->setGroup(RAR_GROUP);
   m_rarOverwrite = kc->readBoolEntry(RAR_OVERWRITE, false);
   m_rarToLower = kc->readBoolEntry(RAR_LOWER, false);
   m_rarToUpper = kc->readBoolEntry(RAR_UPPER, false);
-  kDebugInfo(1601, "-readRarProperties");
+  kdDebug(1601) << "-readRarProperties" << endl;
 }
 
 void ArkSettings::readZipProperties()
 {
-  kDebugInfo( 1601, "+readZipProperties");	
+  kdDebug(1601) << "+readZipProperties" << endl;
 	
   kc->setGroup( ZIP_GROUP );
 
@@ -220,7 +220,7 @@ void ArkSettings::readZipProperties()
   m_zipAddMSDOS = kc->readBoolEntry( ADD_MSDOS, false );
   m_zipAddConvertLF = kc->readBoolEntry( ADD_CONVERTLF, false );
 	
-  kDebugInfo( 1601, "-readZipProperties");	
+  kdDebug(1601) << "-readZipProperties" << endl;
 }
 
 
@@ -230,10 +230,10 @@ void ArkSettings::readZipProperties()
 void ArkSettings::writeConfiguration()
 {
 
-  kDebugInfo( 1601, "+writeConfiguration");
+  kdDebug(1601) << "+writeConfiguration" << endl;
 
   if( !m_saveOnExit ){
-    kDebugInfo( 1601, "Don't save the config (exit)");
+    kdDebug(1601) << "Don't save the config (exit)" << endl;
 
     kc->setGroup( ARK_GROUP );
     kc->writeEntry( SAVE_ON_EXIT_KEY, m_saveOnExit );
@@ -242,12 +242,12 @@ void ArkSettings::writeConfiguration()
     {
       writeConfigurationNow();
     }
-  kDebugInfo( 1601, "-writeConfiguration");
+  kdDebug(1601) << "-writeConfiguration" << endl;
 }
 
 void ArkSettings::writeConfigurationNow()
 {
-  kDebugInfo( 1601, "+writeConfigurationNow");
+  kdDebug(1601) << "+writeConfigurationNow" << endl;
 
   writeDirectories();
   writeZipProperties();
@@ -264,12 +264,12 @@ void ArkSettings::writeConfigurationNow()
 
   kc->sync();
 
-  kDebugInfo( 1601, "-writeConfigurationNow");
+  kdDebug(1601) << "-writeConfigurationNow" << endl;
 }
 
 void ArkSettings::writeDirectories()
 {
-  kDebugInfo( 1601, "+writeDirectories");
+  kdDebug(1601) << "+writeDirectories" << endl;
 	
   kc->setGroup( ARK_GROUP );
 	
@@ -288,70 +288,70 @@ void ArkSettings::writeDirectories()
   kc->writeEntry(EXTRACT_MODE_KEY, extractDirMode);
   kc->writeEntry(ADD_MODE_KEY, addDirMode);
 
-  kDebugInfo( 1601, "favorite dir is %s", favoriteDir.ascii() );
+  kdDebug(1601) << "favorite dir is " << favoriteDir << endl;
 
-  kDebugInfo( 1601, "last open dir is %s", lastOpenDir.ascii() );
-  kDebugInfo( 1601, "last xtr dir is %s", lastExtractDir.ascii() );
-  kDebugInfo( 1601, "last add dir is %s", lastAddDir.ascii() );
+  kdDebug(1601) << "last open dir is " << lastOpenDir << endl;
+  kdDebug(1601) << "last xtr dir is " << lastExtractDir << endl;
+  kdDebug(1601) << "last add dir is " << lastAddDir << endl;
 	
-  kDebugInfo( 1601, "start dir is %s", startDir.ascii() );
-  kDebugInfo( 1601, "open dir is %s", openDir.ascii() );
-  kDebugInfo( 1601, "xtr dir is %s", extractDir.ascii() );
-  kDebugInfo( 1601, "add dir is %s", addDir.ascii() );
+  kdDebug(1601) << "start dir is " << startDir << endl;
+  kdDebug(1601) << "open dir is " << openDir << endl;
+  kdDebug(1601) << "xtr dir is " << extractDir << endl;
+  kdDebug(1601) << "add dir is " << addDir << endl;
 
-  kDebugInfo( 1601, "start mode is %d", startDirMode );		
-  kDebugInfo( 1601, "open mode is %d", openDirMode );		
-  kDebugInfo( 1601, "xtr mode is %d", extractDirMode );		
-  kDebugInfo( 1601, "add mode is %d", addDirMode );		
+  kdDebug(1601) << "start mode is " << startDirMode << endl;
+  kdDebug(1601) << "open mode is " << openDirMode << endl;
+  kdDebug(1601) << "xtr mode is " << extractDirMode << endl;
+  kdDebug(1601) << "add mode is " << addDirMode << endl;
 
-  kDebugInfo( 1601, "-writeDirectories");
+  kdDebug(1601) << "-writeDirectories" << endl;
 }
 
 void ArkSettings::writeTarProperties()
 {
-  kDebugInfo(1601, "+ArkSettings::writeTarProperties");
+  kdDebug(1601) << "+ArkSettings::writeTarProperties" << endl;
 
   kc->setGroup( TAR_GROUP );
 
   kc->writeEntry(PRESERVE_PERMS, m_tarPreservePerms);
   kc->writeEntry(TAR_OVERWRITE, m_tarOverwrite);
 
-  kDebugInfo(1601, "-ArkSettings::writeTarProperties");
+  kdDebug(1601) << "-ArkSettings::writeTarProperties" << endl;
 }
 
 void ArkSettings::writeZooProperties()
 {
-  kDebugInfo(1601, "+ArkSettings::writeZooProperties");
+  kdDebug(1601) << "+ArkSettings::writeZooProperties" << endl;
   kc->setGroup(ZOO_GROUP);
   kc->writeEntry(ZOO_OVERWRITE, m_zooOverwrite);
-  kDebugInfo(1601, "-ArkSettings::writeZooProperties");
+  kdDebug(1601) << "-ArkSettings::writeZooProperties" << endl;
 }
 
 void ArkSettings::writeLhaProperties()
 {
-  kDebugInfo(1601, "+ArkSettings::writeLhaProperties");
+  kdDebug(1601) << "+ArkSettings::writeLhaProperties" << endl;
   kc->setGroup(LHA_GROUP);
   kc->writeEntry(LHA_GENERIC, m_lhaAddGeneric);
-  kDebugInfo(1601, "-ArkSettings::writeLhaProperties");
+  kdDebug(1601) << "-ArkSettings::writeLhaProperties" << endl;
 }
 
 void ArkSettings::writeRarProperties()
 {
-  kDebugInfo(1601, "+ArkSettings::writeRarProperties");
+  kdDebug(1601) << "+ArkSettings::writeRarProperties" << endl;
   kc->setGroup(RAR_GROUP);
   kc->writeEntry(RAR_OVERWRITE, m_rarOverwrite);
   kc->writeEntry(RAR_LOWER, m_rarToLower);
   kc->writeEntry(RAR_UPPER, m_rarToUpper);
-  kDebugInfo(1601, "-ArkSettings::writeRarProperties");
+  kdDebug(1601) << "-ArkSettings::writeRarProperties" << endl;
 }
 
 void ArkSettings::writeZipProperties()
 {
-  kDebugInfo( 1601, "+writeZipProperties");
+  kdDebug(1601) << "+writeZipProperties" << endl;
 	
   kc->setGroup( ZIP_GROUP );
 
-  kDebugInfo( 1601, "m_zipExtract	Overwrite = %d", m_zipExtractOverwrite);
+  kdDebug(1601) << "m_zipExtract	Overwrite = " << m_zipExtractOverwrite << endl;
   kc->writeEntry( EXTRACT_OVERWRITE, m_zipExtractOverwrite );
   kc->writeEntry( EXTRACT_JUNKPATHS, m_zipExtractJunkPaths );
   kc->writeEntry( EXTRACT_LOWERCASE, m_zipExtractLowerCase );
@@ -361,18 +361,24 @@ void ArkSettings::writeZipProperties()
   kc->writeEntry( ADD_MSDOS, m_zipAddMSDOS );
   kc->writeEntry( ADD_CONVERTLF, m_zipAddConvertLF );
 	
-  kDebugInfo( 1601, "-writeZipProperties");
+  kdDebug(1601) << "-writeZipProperties" << endl;
 }
 
 //////////////////////////////////////////////////////////////////////////
 
 QString ArkSettings::getStartDir() const
 {
-  switch(startDirMode){
-  case LAST_OPEN_DIR : return QString(lastOpenDir);
-  case FIXED_START_DIR : return QString(startDir);
-  case FAVORITE_DIR : return QString(favoriteDir);
-  default : kDebugInfo( 1601, "Error in switch !"); return QString::null;
+  switch(startDirMode)
+    {
+  case LAST_OPEN_DIR:
+    return QString(lastOpenDir);
+  case FIXED_START_DIR:
+    return QString(startDir);
+  case FAVORITE_DIR:
+    return QString(favoriteDir);
+  default:
+    kdDebug(1601) << "Error in switch !" << endl;
+    return QString("");
   }
 }
 
@@ -384,18 +390,24 @@ void ArkSettings::setStartDirCfg(const QString& dir, int mode)
 
 QString ArkSettings::getOpenDir() const
 {
-  switch(openDirMode){
-  case LAST_OPEN_DIR : return QString(lastOpenDir);
-  case FIXED_OPEN_DIR : return QString(openDir);
-  case FAVORITE_DIR : return QString(favoriteDir);
-  default : kDebugInfo( 1601, "Error in switch !"); return QString::null;
-  }
+  switch(openDirMode)
+    {
+    case LAST_OPEN_DIR:
+      return QString(lastOpenDir);
+    case FIXED_OPEN_DIR:
+      return QString(openDir);
+    case FAVORITE_DIR:
+      return QString(favoriteDir);
+    default:
+      kdDebug(1601) << "Error in switch !" << endl;
+      return QString("");
+    }
 }
 
 void ArkSettings::setLastOpenDir(const QString& dir)
 {
   lastOpenDir = dir;
-  kDebugInfo( 1601, "last open dir is %s", dir.ascii());
+  kdDebug(1601) << "last open dir is " << dir << endl;
 }
 
 void ArkSettings::setOpenDirCfg(const QString& dir, int mode)
@@ -406,12 +418,18 @@ void ArkSettings::setOpenDirCfg(const QString& dir, int mode)
 
 QString ArkSettings::getExtractDir()
 {
-  switch(extractDirMode){
-  case LAST_EXTRACT_DIR : return QString(lastExtractDir);
-  case FIXED_EXTRACT_DIR : return QString(extractDir);
-  case FAVORITE_DIR : return QString(favoriteDir);
-  default : kDebugInfo( 1601, "Error in switch !"); return QString::null;
-  }
+  switch(extractDirMode)
+    {
+  case LAST_EXTRACT_DIR:
+    return QString(lastExtractDir);
+  case FIXED_EXTRACT_DIR:
+    return QString(extractDir);
+  case FAVORITE_DIR:
+    return QString(favoriteDir);
+  default:
+    kdDebug(1601) << "Error in switch !" << endl;
+    return QString("");
+    }
 }
 
 void ArkSettings::setExtractDirCfg(const QString& dir, int mode)
@@ -422,11 +440,17 @@ void ArkSettings::setExtractDirCfg(const QString& dir, int mode)
 
 QString ArkSettings::getAddDir()
 {
-  switch(addDirMode){
-  case LAST_ADD_DIR : return QString(lastAddDir);
-  case FIXED_ADD_DIR : return QString(addDir);
-  case FAVORITE_DIR : return QString(favoriteDir);
-  default : kDebugInfo( 1601, "Error in switch !"); return QString::null;
+  switch(addDirMode)
+    {
+  case LAST_ADD_DIR:
+    return QString(lastAddDir);
+  case FIXED_ADD_DIR:
+    return QString(addDir);
+  case FAVORITE_DIR:
+    return QString(favoriteDir);
+  default:
+    kdDebug(1601) << "Error in switch !" << endl;
+    return QString("");
   }
 }
 

@@ -60,7 +60,7 @@ AddDlg::AddDlg(ArchType _archtype, const QString & _sourceDir,
 
 void AddDlg::setupFirstTab()
 {
-  kDebugInfo( 1601, "+AddDlg::setupFirstTab");
+  kdDebug(1601) << "+AddDlg::setupFirstTab" << endl;
 
   QFrame *frame = addPage(i18n("Add"));
 
@@ -83,7 +83,7 @@ void AddDlg::setupSecondTab()
     {
     case ZIP_FORMAT:
       {
-	kDebugInfo( 1601, "AddDlg::setupSecondTab - zip format");
+	kdDebug(1601) << "AddDlg::setupSecondTab - zip format" << endl;
 	
 	QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
 					     "ZIP Options", secondpage );
@@ -119,8 +119,18 @@ void AddDlg::setupSecondTab()
       }
       break;
     case AA_FORMAT:
+      break;
     case LHA_FORMAT:
+      {
+	QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
+					     "LHA Options", secondpage );
+	m_cbMakeGeneric =  new QCheckBox(i18n("Keep entries generic"), bg);
+	if (m_settings->getLhaGeneric())
+	  m_cbMakeGeneric->setChecked(true);
+      }
+      break;
     case RAR_FORMAT:
+      break;
     case ZOO_FORMAT:
     case UNKNOWN_FORMAT:
       break;
@@ -133,7 +143,7 @@ void AddDlg::setupSecondTab()
 
 void AddDlg::accept()
 {
-  kDebugInfo( 1601, "+AddDlg::accept");
+  kdDebug(1601) << "+AddDlg::accept" << endl;
 
   // Put the settings data into the settings object
 
@@ -150,7 +160,10 @@ void AddDlg::accept()
       m_settings->setaddPath(!m_cbJunkDirNames->isChecked());
       break;
     case AA_FORMAT:
+      break;
     case LHA_FORMAT:
+      m_settings->setLhaGeneric(m_cbMakeGeneric->isChecked());
+      break;
     case RAR_FORMAT:
     case ZOO_FORMAT:
     case UNKNOWN_FORMAT:
@@ -163,20 +176,19 @@ void AddDlg::accept()
   KFileViewItemList *pList =
     const_cast<KFileViewItemList *>(pView->selectedItems());
 
-  kDebugInfo( 1601, "There are %d items in my KFileViewItemList.",
-	 pList->count());
+  kdDebug(1601) << "There are " << pList->count() << " items in my KFileViewItemList." << endl;
 
   m_fileList = new QStringList;
 
   KFileViewItem *pItem;
   for ( pItem=pList->first(); pItem != 0; pItem=pList->next() )
     {
-      kDebugInfo( 1601, "%s", (const char *)pItem->url());
+      kdDebug(1601) << (const char *)pItem->url() << endl;
       m_fileList->append(pItem->url());
     }
 
   KDialogBase::accept();
-  kDebugInfo( 1601, "-AddDlg::accept");
+  kdDebug(1601) << "-AddDlg::accept" << endl;
 }
 
 #include "adddlg.moc"

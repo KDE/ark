@@ -46,7 +46,7 @@ RarArch::RarArch( ArkSettings *_settings, Viewer *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName ), m_linenumber(0)
 {
-  kDebugInfo(1601, "RarArch constructor");
+  kdDebug(1601) << "RarArch constructor" << endl;
   _settings->readRarProperties();
   m_archiver_program = "rar";
   m_unarchiver_program = "unrar";
@@ -99,12 +99,11 @@ void RarArch::processLine( char *_line )
   timestamp.sprintf("%s-%s-%s %s", (const char *)year, 
 		    columns[8], columns[3], columns[10]);
   
-  kDebugInfo(1601, "Year is: %s; Month is: %s; Day is: %s; Time is: %s",
-	     (const char *)year, columns[8], columns[3], columns[10]);
+  kdDebug(1601) << "Year is: " << (const char *)year << "; Month is: " << columns[8] << "; Day is: " << columns[3] << "; Time is: " << columns[10] << endl;
   
   strcpy(columns[3], (const char *)timestamp);
 
-  kDebugInfo(1601, "The actual file is %s", (const char *)filename);
+  kdDebug(1601) << "The actual file is " << (const char *)filename << endl;
   
   QStringList list;
   list.append(QString::fromLocal8Bit(filename));
@@ -117,7 +116,7 @@ void RarArch::processLine( char *_line )
 
 void RarArch::open()
 {
-  kDebugInfo( 1601, "+RarArch::open");
+  kdDebug(1601) << "+RarArch::open" << endl;
   setHeaders();
   
   m_buffer[0] = '\0';
@@ -141,12 +140,12 @@ void RarArch::open()
       emit sigOpen(this, false, QString::null, 0 );
     }
 
-  kDebugInfo( 1601, "-RarArch::open");
+  kdDebug(1601) << "-RarArch::open" << endl;
 }
 
 void RarArch::setHeaders()
 {
-  kDebugInfo( 1601, "+RarArch::setHeaders");
+  kdDebug(1601) << "+RarArch::setHeaders" << endl;
   QStringList list;
   list.append(FILENAME_STRING);
   list.append(SIZE_STRING);
@@ -167,13 +166,13 @@ void RarArch::setHeaders()
   m_gui->setHeaders(&list, alignRightCols, 3);
   delete [] alignRightCols;
 
-  kDebugInfo( 1601, "-RarArch::setHeaders");
+  kdDebug(1601) << "-RarArch::setHeaders" << endl;
 }
 
 
 void RarArch::slotReceivedTOC(KProcess*, char* _data, int _length)
 {
-  kDebugInfo(1601, "+RarArch::slotReceivedTOC");
+  kdDebug(1601) << "+RarArch::slotReceivedTOC" << endl;
   char c = _data[_length];
   _data[_length] = '\0';
 	
@@ -246,7 +245,7 @@ void RarArch::slotReceivedTOC(KProcess*, char* _data, int _length)
     }
   
   _data[_length] = c;
-  kDebugInfo(1601, "-RarArch::slotReceivedTOC");
+  kdDebug(1601) << "-RarArch::slotReceivedTOC" << endl;
 }
 
 void RarArch::create()
@@ -268,7 +267,7 @@ void RarArch::addDir(const QString & _dirName)
 
 void RarArch::addFile( QStringList *urls )
 {
-  kDebugInfo( 1601, "+RarArch::addFile");
+  kdDebug(1601) << "+RarArch::addFile" << endl;
   KProcess *kp = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program;
@@ -321,7 +320,7 @@ void RarArch::addFile( QStringList *urls )
       emit sigAdd(false);
     }
 
-  kDebugInfo( 1601, "+RarArch::addFile");
+  kdDebug(1601) << "+RarArch::addFile" << endl;
 }
 
 void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir)
@@ -329,7 +328,7 @@ void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir)
   // if _fileList is empty, we extract all.
   // if _destDir is empty, look at settings for extract directory
 
-  kDebugInfo( 1601, "+RarArch::unarchFile");
+  kdDebug(1601) << "+RarArch::unarchFile" << endl;
 
   QString dest;
   if (_destDir.isEmpty() || _destDir.isNull())
@@ -390,7 +389,7 @@ void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir)
 
 void RarArch::remove(QStringList *list)
 {
-  kDebugInfo( 1601, "+RarArch::remove");
+  kdDebug(1601) << "+RarArch::remove" << endl;
 
   if (!list)
     return;
@@ -421,7 +420,7 @@ void RarArch::remove(QStringList *list)
       emit sigDelete(false);
     }
   
-  kDebugInfo( 1601, "-RarArch::remove");
+  kdDebug(1601) << "-RarArch::remove" << endl;
 }
 
 

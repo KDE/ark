@@ -63,6 +63,9 @@ private: // data
 
   // tar
   QCheckBox *m_cbReplaceOnlyNewer;
+
+  // lha
+  QCheckBox *m_cbMakeGeneric;
 };
 
 

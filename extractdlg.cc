@@ -167,7 +167,7 @@ void ExtractDlg::setupSecondTab()
 
 void ExtractDlg::accept()
 {
-  kDebugInfo( 1601, "+ExtractDlg::accept");
+  kdDebug(1601) << "+ExtractDlg::accept" << endl;
   if (! QFileInfo(m_extractDirLE->text()).isDir())
   {
     QMessageBox::warning(this, i18n("Error"),
@@ -224,7 +224,7 @@ void ExtractDlg::accept()
 
   // I made it! so nothing's wrong.
   QTabDialog::accept();
-  kDebugInfo( 1601, "-ExtractDlg::accept");
+  kdDebug(1601) << "-ExtractDlg::accept" << endl;
 }
 
 
