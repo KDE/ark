@@ -156,6 +156,7 @@ ArkWidget::~ArkWidget()
     delete archiveContent;
     archiveContent = 0;
     delete arch;
+    Settings::writeConfig();
 }
 
 void ArkWidget::cleanArkTmpDir()
