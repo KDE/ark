@@ -3,6 +3,7 @@
 MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tbz;application/x-zip;
 Comment=Archive Handling Tool
 Comment[pt]=Programa de Gestao de arquivos
+Comment[pt_BR]=Gerenciador de arquivos empacotados
 Comment[fi]=Pakettienhallintatyökalu
 Comment[de]=Archiv-Verwaltungsprogramm
 Comment[no]=Arkivbehandlingsprogram
@@ -19,6 +20,7 @@ Name[de]=Zip
 Name[no]=Zip
 Name[hu]=Zip
 Name[pt]=Zip
+Name[pt_BR]=Zip
 Name[sk]=Zip
 Name[cs]=Zip
 Name[hr]=Zip
