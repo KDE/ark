@@ -295,8 +295,13 @@ void CompressedFile::unarchFile(QStringList *, const QString & _destDir)
 {
   if (_destDir != m_tmpdir)
     {
+      QString dest;
+      if (_destDir.isEmpty() || _destDir.isNull())
+	dest = m_settings->getExtractDir();
+      else
+	dest=_destDir;
       QString command;
-      command = QString::fromLatin1("cp %1 %2").arg(m_tmpfile).arg(_destDir);
+      command = QString::fromLatin1("cp %1 %2").arg(m_tmpfile).arg(dest);
       system(QFile::encodeName(command));
     }
   emit sigExtract(true);    
