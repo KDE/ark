@@ -19,19 +19,19 @@ public slots:
 public:
 	Arch();
 	virtual ~Arch();
-	virtual unsigned char setOptions( bool p, bool l, bool o );
+	virtual unsigned char setOptions( bool p, bool l, bool o ) = 0;
 	virtual void openArch( QString ) = 0;
-	virtual void createArch( QString );
-	virtual int addFile( QStrList *);
-	virtual void extractTo( QString );
-	virtual void onlyUpdate( bool );
-	virtual void addPath( bool );
-	virtual const QStrList *getListing();
-	virtual QString unarchFile( int , QString );
-	virtual void deleteFile( int );
+	virtual void createArch( QString ) = 0;
+	virtual int addFile( QStrList *) = 0;
+	virtual void extractTo( QString ) = 0;
+	virtual void onlyUpdate( bool ) = 0;
+	virtual void addPath( bool ) = 0;
+	virtual const QStrList *getListing() = 0;
+	virtual QString unarchFile( int , QString ) = 0;
+	virtual void deleteFile( int ) = 0;
 	virtual void newProgressDialog( long int, long int );
 	virtual int isCanceled();
-	virtual const char *getHeaders();
+	virtual const char *getHeaders() = 0;
 	virtual const char *getName() { return archname; };
 
 protected:

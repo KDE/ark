@@ -43,7 +43,7 @@ int TarArch::updateArch()
 		compressed = TRUE;
 		archProcess.clearArguments();
 //		archProcess.setExecutable( "gzip" );
-		archProcess << "gzip" << "-c" << tmpfile;
+		archProcess << getCompressor() << "-c" << tmpfile;
 		if(archProcess.startPipe(KProcess::Stdout, &fd) == FALSE)
 		{
 			cerr << "Subprocess wouldn't start!" << endl;
@@ -67,6 +67,36 @@ int TarArch::updateArch()
 	}
 	cout << "Left updateArch" << endl;
 	return retcode;
+}
+
+QString TarArch::getCompressor() 
+{
+	QString extension = archname.right( archname.length()-archname.findRev('.') );
+	cout << extension;
+	if( extension == ".tgz" || extension == ".gz" ) 
+		return QString( ".gzip" );
+	if( extension == ".bz" )
+		return QString( "bzip" );
+	if( extension == ".Z" || extension == ".taz" )
+		return QString( "compress" );
+	if( extension == ".bz2" )
+		return QString( "bzip2" );
+	return 0;
+}
+
+QString TarArch::getUnCompressor() 
+{
+	QString extension = archname.right( archname.length()-archname.findRev('.') );
+	cout << extension;
+	if( extension == ".tgz" || extension == ".gz" ) 
+		return QString( "gunzip" );
+	if( extension == ".bz" )
+		return QString( "bunzip" );
+	if( extension == ".Z" || extension == ".taz" )
+		return QString( "uncompress" );
+	if( extension == ".bz2" )
+		return QString( "bunzip2" );
+	return 0;
 }
 
 unsigned char TarArch::setOptions( bool p, bool l, bool o )
@@ -101,7 +131,9 @@ void TarArch::openArch( QString name )
 
 	archname = name;
 
-	archProcess << tar_exe << "tvzf" << archname;
+	archProcess << tar_exe << "--use-compress-program="+getUnCompressor() 
+	            <<	"-tvf" << archname;
+	
  	if(archProcess.startPipe(KProcess::Stdout, &fd) == FALSE)
  	{
  		cerr << "Subprocess wouldn't start!" << endl;
@@ -295,10 +327,7 @@ void TarArch::extractTo( QString dir )
 //	archProcess.setExecutable( tar_exe );
 	archProcess << tar_exe;
 
-	if( perms )
-		archProcess << "xvzpf";
-	else
-		archProcess << "xvzf";
+
 
 	archProcess << archname << "-C" << dir;	
  	if(archProcess.startPipe(KProcess::Stdout, &fd) == false)
@@ -345,9 +374,9 @@ QString TarArch::unarchFile( int index, QString dest )
 	archProcess << tar_exe;
 
 	if( perms )
-		archProcess << "xzpf";
+		archProcess << "--use-compress-program="+getUnCompressor() << "-xvpf";
 	else
-		archProcess << "xzf";
+		archProcess << "--use-compress-program="+getUnCompressor() << "-xvf";
 
 	archProcess << archname << "-C" << dest << name;
 	archProcess.start(KProcess::Block);

@@ -21,6 +21,8 @@ public:
 	virtual QString unarchFile( int, QString );
 	virtual void deleteFile( int );
 	virtual const char *getHeaders() { return klocale->translate( "Permissions\tOwner/Group\tSize        \tTimeStamp\tName\t" ); };
+	QString getCompressor();
+	QString getUnCompressor();
 
 private:
 	bool storefullpath;

@@ -13,11 +13,11 @@ Arch::~Arch()
 {
 }
 
-unsigned char Arch::setOptions( bool, bool, bool )
+/*unsigned char Arch::setOptions( bool, bool, bool )
 {
 	return 0;
 }
-
+*/
 void Arch::newProgressDialog( long int initial, long int max )
 {
 	delete pd;
@@ -63,7 +63,7 @@ int Arch::isCanceled()
 	return canceled;
 }
 
-void Arch::onlyUpdate( bool )
+/*void Arch::onlyUpdate( bool )
 {
 }
 
@@ -106,3 +106,4 @@ const char * Arch::getHeaders()
 {
 	return 0;
 }
+*/
