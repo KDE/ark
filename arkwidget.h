@@ -103,8 +103,6 @@ public:
      */
     void viewShellOutput();
 
-    void unarchFile( QStringList* _l ) { arch->unarchFile( _l ); }
-
     /**
      * Miscellaneous tasks involved in closing an archive.
      */
