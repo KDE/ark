@@ -82,7 +82,6 @@
 		</entry>
 		<entry name="openDirMode" type="Enum">
 			<label>Opening Folder</label>
-			<default>Last</default>
 			<choices>
 				<choice name="Common">
 					<label>Common folder</label>
@@ -94,10 +93,10 @@
 					<label>Last used folder</label>
 				</choice>
 			</choices>
+			<default>Last</default>
 		</entry>
 		<entry name="addDirMode" type="Enum">
 			<label>Addition Folder</label>
-			<default>Last</default>
 			<choices>
 				<choice name="Common">
 					<label>Common folder</label>
@@ -109,10 +108,10 @@
 					<label>Last used folder</label>
 				</choice>
 			</choices>
+			<default>Last</default>
 		</entry>
 		<entry name="extractDirMode" type="Enum">
 			<label>Extraction Folder</label>
-			<default>Last</default>
 			<choices>
 				<choice name="Common">
 					<label>Common folder</label>
@@ -124,6 +123,7 @@
 					<label>Last used folder</label>
 				</choice>
 			</choices>
+			<default>Last</default>
 		</entry>
 		<entry name="ArchiveDirectory" type="Path">
 			<label>Common Folder</label>
