@@ -113,7 +113,7 @@ Utilities::haveDirPermissions( const QString &strFile )
 	}
 	if (! ((statbuffer.st_mode & nFlag) == nFlag))
 	{
-		KMessageBox::error(0, i18n("You don't have permission to write to the directory %1").arg(dir.local8Bit()));
+		KMessageBox::error(0, i18n("You do not have permission to write to the directory %1").arg(dir.local8Bit()));
 		return false;
 	}
 	return true;
@@ -477,7 +477,7 @@ void ArkWidget::file_open(const QString & strFile)
         }
       else if (errno == EACCES)
         {
-          KMessageBox::error(this, i18n("Can't access the archive %1").arg(strFile.local8Bit()));
+          KMessageBox::error(this, i18n("Cannot access the archive %1").arg(strFile.local8Bit()));
         }
       else
         KMessageBox::error(this, i18n("Unknown error"));

@@ -159,7 +159,7 @@ ArkWidgetPart::file_open(const QString & strFile, const KURL &fileURL)
 		}
 		else if (errno == EACCES )
 		{
-			KMessageBox::error(this, i18n("Can't access the archive %1").arg(strFile.local8Bit()));	  
+			KMessageBox::error(this, i18n("Cannot access the archive %1").arg(strFile.local8Bit()));	  
 		}
 		else
 		{
@@ -186,7 +186,7 @@ ArkWidgetPart::file_open(const QString & strFile, const KURL &fileURL)
 
       if ( ! ( ( statbuffer.st_mode & nFlag ) == nFlag ) )
 		{
-			KMessageBox::error(this, i18n("You don't have permission to access that archive") );
+			KMessageBox::error(this, i18n("You do not have permission to access that archive") );
 			return;
 		}
 	}
