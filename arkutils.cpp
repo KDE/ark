@@ -35,10 +35,36 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include <errno.h>
+#include <sys/param.h>
+#include <sys/stat.h>
+#include <config.h>
+
+// for statfs:
+#ifdef BSD4_4
+#include <sys/mount.h>
+#elif defined(__linux__)
+#include <sys/vfs.h>
+#elif defined(__sun)
+#include <sys/statvfs.h>
+#define STATFS statvfs
+#elif defined(_AIX)
+#include <sys/statfs.h>
+#endif
+
+#ifndef STATFS
+#define STATFS statfs
+#endif
+
+// Qt includes
+#include <qfileinfo.h>
+
 // KDE includes
 #include <kdebug.h>
+#include <kmessagebox.h>
+#include <klocale.h>
 
-#include "utils.h"
+#include "arkutils.h"
 
 QString Utils::getTimeStamp(const QString &_month,
 			    const QString &_day,
@@ -138,4 +164,57 @@ QString Utils::fixYear(const char *strYear)
     }
   strlcat(fourDigits, strYear, sizeof(fourDigits));
   return fourDigits;
+}
+
+bool
+Utils::haveDirPermissions( const QString &strFile )
+{
+  QString dir = strFile.left(strFile.findRev('/'));
+  QFileInfo fileInfo(dir);
+  if ( /*!fileInfo.isReadable() ||*/ !fileInfo.isWritable() )
+  {
+    KMessageBox::error(0, i18n("You do not have permission to write to the directory %1").arg(dir));
+    return false;
+  }
+  return true;
+}
+
+bool
+Utils::diskHasSpace(const QString &dir, long size)
+  // check if disk has enough space to accomodate (a) new file(s) of
+  // the given size in the partition containing the given directory
+{
+  kdDebug() << "Size: " << size << endl;
+  struct STATFS buf;
+  if (STATFS(QFile::encodeName(dir), &buf) == 0)
+  {
+    double nAvailable = (double)buf.f_bavail * buf.f_bsize;
+    if ( nAvailable < (double)size )
+    {
+      KMessageBox::error(0, i18n("You have run out of disk space."));
+      return false;
+    }
+  }
+  else
+  {
+    // something bad happened
+    kdWarning() << "diskHasSpace() failed" << endl;
+    // Q_ASSERT(0);
+  }
+  return true;
+}
+
+long
+Utils::getSizes(QStringList *list)
+{
+  long sum = 0;
+  QString str;
+
+  for ( QStringList::Iterator it = list->begin(); it != list->end(); ++it)
+  {
+    str = *it;
+    QFile f(str.right(str.length()-5));
+    sum += f.size();
+  }
+  return sum;
 }

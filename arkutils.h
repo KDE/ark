@@ -1,7 +1,7 @@
 //  -*-C++-*-           emacs magic for .h files
 /*
 
- $Id:¤
+ $Id:$
 
  ark -- archiver for the KDE project
 
@@ -29,10 +29,12 @@
 
 */
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef ARKUTILS_H
+#define ARKUTILS_H
 
 #include <qstring.h>
+
+class QStringList;
 
 // various functions for massaging timestamps
 namespace Utils
@@ -44,6 +46,9 @@ namespace Utils
   QString getTimeStamp(const QString &month,
 		       const QString &day,
 		       const QString &year);
+  bool haveDirPermissions(const QString &strFile);
+  bool diskHasSpace(const QString &dir, long size);
+  long getSizes(QStringList *list);
 }
 
 #endif

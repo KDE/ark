@@ -20,8 +20,11 @@
 */
 
 // Qt includes
-#include <qregexp.h> 
+#include <qdir.h>
 #include <qdragobject.h>
+#include <qfile.h>
+#include <qfileinfo.h>
+#include <qregexp.h> 
 
 // KDE includes
 #include <kdebug.h>
@@ -32,77 +35,19 @@
 #include <kmimemagic.h>
 #include <kio/job.h>
 #include <kio/netaccess.h>
-
-// c includes
-#include <errno.h>
-#include <sys/param.h>
-#include <sys/stat.h>
-#include <config.h>
-#include <stdlib.h>
-#include <unistd.h>
-
-// for statfs:
-#ifdef BSD4_4
-#include <sys/mount.h>
-#elif defined(__linux__)
-#include <sys/vfs.h>
-#elif defined(__sun) || defined(__sgi)
-#include <sys/statvfs.h>
-#define STATFS statvfs
-#elif defined(_AIX)
-#include <sys/statfs.h>
-#elif defined(hpux)
-#include <sys/vfs.h>
-#endif
-
-
-#ifndef STATFS
-#define STATFS statfs
-#endif
+#include <klocale.h>
 
 // ark includes
 #include "arkapp.h"
 #include "dirDlg.h"
 #include "selectDlg.h"
 #include "extractdlg.h"
-#include "adddlg.h"
 #include "arch.h"
 #include "arkwidgetpart.h"
 #include "arkwidgetbase.h"
 #include "arksettings.h"
 #include "filelistview.h"
-#include <klocale.h>
-
-extern int errno;
-
-/*******************************************************************
-*                       diskHasSpacePart
-*
-*
-*  check if disk has enough space to accomodate (a) new file(s) of
-*  the given size in the partition containing the given directory
-*/
-bool 
-Utilities::diskHasSpacePart(const QString &dir, long size)
-{
-	kdDebug() << "Size: " << size << endl;
-	struct STATFS buf;
-	if (STATFS(QFile::encodeName(dir), &buf) == 0)
-	{
-		double nAvailable = (double)buf.f_bavail * buf.f_bsize;
-		if (nAvailable < (double)size)
-		{
-			KMessageBox::error(0, i18n("You have run out of disk space."));
-			return false;
-		}
-	}
-	else
-	{
-		// something bad happened
-		Q_ASSERT(0);
-	}
-	return true;
-}
+#include "arkutils.h"
 
 ArkWidgetPart::ArkWidgetPart( QWidget *parent, const char *name ) :
 	QWidget(parent, name), ArkWidgetBase( this ),
@@ -149,46 +94,16 @@ ArkWidgetPart::updateStatusTotals()
 void 
 ArkWidgetPart::file_open(const QString & strFile, const KURL &fileURL)
 {
-	struct stat statbuffer;
-	
-	if (stat(QFile::encodeName(strFile), &statbuffer) == -1)
+	QFileInfo fileInfo(strFile);
+	if (!fileInfo.exists())
 	{
-		if (errno == ENOENT || errno == ENOTDIR || errno ==  EFAULT)
-		{
-			KMessageBox::error(this, i18n("The archive %1 does not exist.").arg(strFile));
-		}
-		else if (errno == EACCES )
-		{
-			KMessageBox::error(this, i18n("Cannot access the archive %1").arg(strFile));	  
-		}
-		else
-		{
-			KMessageBox::error(this, i18n("Unknown error."));      
-		}
+		KMessageBox::error(this, i18n("The archive %1 does not exist.").arg(strFile));
 		return;
 	}
-	else
+	else if (!fileInfo.isReadable())
 	{
-		// this will be the appropriate flag depending on whose file it is
-		unsigned int nFlag = 0;
-		if ( geteuid() == statbuffer.st_uid )
-		{
-			nFlag = S_IRUSR; // it's mine
-		}
-		else if ( getegid() == statbuffer.st_gid )
-		{
-			nFlag = S_IRGRP; // it's my group's
-		}
-		else
-		{
-			nFlag = S_IROTH;  // it's someone else's
-		}
-
-		if ( ! ( ( statbuffer.st_mode & nFlag ) == nFlag ) )
-		{
-			KMessageBox::error(this, i18n("You do not have permission to access that archive") );
-			return;
-		}
+		KMessageBox::error(this, i18n("You don't have permission to access that archive.") );
+		return;
 	}
 	
 	// see if the user is just opening the same file that's already
@@ -501,7 +416,7 @@ ArkWidgetPart::action_extract()
 				if ( !bRedoExtract ) // if the user's OK with those failures, go ahead
 				{
 					// unless we have no space!
-					if (Utilities::diskHasSpacePart( extractDir, m_nSizeOfFiles ) )
+					if (Utils::diskHasSpace( extractDir, m_nSizeOfFiles ) )
 					{
 						arch->unarchFile(0, extractDir);
 					}
@@ -545,7 +460,7 @@ ArkWidgetPart::action_extract()
 					}
 					if ( !bRedoExtract )
 					{
-						if ( Utilities::diskHasSpacePart(extractDir, nTotalSize) )
+						if ( Utils::diskHasSpace(extractDir, nTotalSize) )
 						{
 							arch->unarchFile(m_extractList, extractDir); // extract selected files
 						}
@@ -603,7 +518,7 @@ ArkWidgetPart::showFile( FileLVI *_pItem )
 	
 	m_bViewInProgress = true;
 	m_strFileToView = fullname;
-	if ( Utilities::diskHasSpacePart( m_settings->getTmpDir(), _pItem->fileSize() ) )
+	if ( Utils::diskHasSpace( m_settings->getTmpDir(), _pItem->fileSize() ) )
 	{
 		arch->unarchFile( m_extractList, m_settings->getTmpDir() );
 	}

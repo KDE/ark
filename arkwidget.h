@@ -59,14 +59,6 @@ class Arch;
 class ArkSettings;
 class FileLVI;
 
-
-namespace Utilities
-{
-  bool haveDirPermissions(const QString &strFile);
-  bool diskHasSpace(const QString &dir, long size);
-  long getSizes(QStringList *list);
-};
-
 class
 ArkWidget : public KMainWindow, public ArkWidgetBase
 {

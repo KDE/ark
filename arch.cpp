@@ -51,7 +51,7 @@
 #include "arksettings.h"
 #include "filelistview.h"
 #include "arkwidgetbase.h"
-#include "utils.h"
+#include "arkutils.h"
 
 // the archive types
 #include "tar.h"
