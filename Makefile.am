@@ -54,7 +54,7 @@ appsdir = $(kde_appsdir)/Utilities
 # if you have more of them, create a subdirectory with an extra Makefile 
 install-data-local: 
 	$(mkinstalldirs) $(kde_minidir)
-	$(INSTALL_DATA) mini-ark.xpm $(kde_minidir)/ark.xpm
+	$(INSTALL_DATA) $(srcdir)/mini-ark.xpm $(kde_minidir)/ark.xpm
 # Get rid of kzip
 	-rm -f $(kde_bindir)/kzip
 	-rm -f $(appsdir)/kzip.kdelnk
