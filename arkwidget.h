@@ -51,6 +51,7 @@
 // ark includes
 #include "arksettings.h"
 #include "filelistview.h"
+#include "arch.h"
 
 #define ARK_VERSION "1.9"
 
@@ -63,7 +64,6 @@
 //
 
 class Viewer;
-class Arch;
 class QLabel;
 class KAction;
 class KRecentFilesAction;
@@ -96,6 +96,13 @@ public:
 
   // given a column header, find its index
   int getCol(const QString & _columnHeader);
+
+  void setDragInProgress(bool _b) { m_bDragInProgress = _b; }
+  bool dragInProgress() { return m_bDragInProgress; }
+  void storeNames(QStringList _dragFiles) { mDragFiles = _dragFiles; }
+  void unarchFile(QStringList * _l) { arch->unarchFile(_l); }
+
+  bool isEditInProgress() { return m_bEditInProgress; }
 
 public slots:    
   void file_newWindow();
@@ -146,9 +153,7 @@ protected slots:
   void slotDeleteDone(bool);
   void slotExtractDone();
   void slotAddDone(bool);
-
-  void slotEditFinished();
-
+  void slotEditFinished(KProcess *);
   void selectByPattern(const QString & _pattern);
 
 protected:
@@ -223,7 +228,6 @@ private: // data
   KPopupMenu *m_filePopup, *m_archivePopup;
   ArkSettings *m_settings;  // each arkwidget has its own settings
 
-  //  KAccel *accelerators;
   FileListView *archiveContent;
 
   QString m_strArchName;
@@ -269,7 +273,10 @@ private: // data
   // which column has the size
   int m_currentSizeColumn;
 
+  bool m_bDragInProgress;
+
   KRun *m_pKRunPtr;
+  QStringList mDragFiles; // to be able to access the drag/extract files
 };
 
 #endif /* ARKWIDGET_H*/

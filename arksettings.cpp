@@ -76,6 +76,7 @@
 
 #define ZIP_STORE_SYM_LINKS "zipStoreSymlinks"
 #define RAR_STORE_SYM_LINKS "rarStoreSymlinks"
+#define RAR_RECURSE_SUBDIRS "rarRecurseSubdirs"
 
 #define SAVE_ON_EXIT_KEY "saveOnExit"
 
@@ -238,6 +239,8 @@ void ArkSettings::readRarProperties()
   m_rarStoreSymlinks = kc->readBoolEntry(RAR_STORE_SYM_LINKS, true);
   m_rarReplaceOnlyWithNewer = kc->readBoolEntry(RAR_REPLACE_ONLY_WITH_NEWER,
 						false);
+  m_rarRecurseSubdirs = kc->readBoolEntry(RAR_RECURSE_SUBDIRS, true);
+
   kdDebug(1601) << "-readRarProperties" << endl;
 }
 
@@ -394,6 +397,8 @@ void ArkSettings::writeRarProperties()
   kc->writeEntry(RAR_UPPER, m_rarToUpper);
   kc->writeEntry(RAR_STORE_SYM_LINKS, m_rarStoreSymlinks);
   kc->writeEntry(RAR_REPLACE_ONLY_WITH_NEWER, m_rarReplaceOnlyWithNewer);
+  kc->writeEntry(RAR_RECURSE_SUBDIRS, m_rarRecurseSubdirs);
+
   kdDebug(1601) << "-ArkSettings::writeRarProperties" << endl;
 }
 

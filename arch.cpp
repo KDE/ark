@@ -156,7 +156,7 @@ void Arch::slotExtractExited(KProcess *_kp)
 	bSuccess = true;
     }
   else
-    KMessageBox::sorry((QWidget *)0, i18n("Error"), i18n("Extraction failed"));
+    KMessageBox::sorry((QWidget *)0, i18n("Extraction failed"), i18n("Error"));
 
   emit sigExtract(bSuccess);
   delete _kp;

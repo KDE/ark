@@ -181,6 +181,9 @@ public:
   bool getRarStoreSymlinks() { return m_rarStoreSymlinks;}
   void setRarStoreSymlinks(bool _b) { m_rarStoreSymlinks = _b; }
 
+  bool getRarRecurseSubdirs() { return  m_rarRecurseSubdirs;}
+  void setRarRecurseSubdirs(bool _b) { m_rarRecurseSubdirs = _b; }
+
   void setTmpDir( QString _dir ) { m_tmpDir = _dir; }
   QString getTmpDir() const { return m_tmpDir; }	
   void writeConfiguration();
@@ -247,6 +250,7 @@ public:
   bool m_rarToUpper;
   bool m_rarStoreSymlinks;
   bool m_rarReplaceOnlyWithNewer;
+  bool m_rarRecurseSubdirs;
 
   bool fullPath, replaceOnlyNewerFiles;
   QString m_regExp;

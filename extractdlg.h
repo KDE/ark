@@ -62,6 +62,7 @@ private: // data
   ArchType m_archtype;
   // advanced options 
   QCheckBox *m_cbOverwrite, *m_cbPreservePerms, *m_cbToLower, *m_cbToUpper;
+  QCheckBox *m_cbDiscardPathnames;
 };
 
 

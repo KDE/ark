@@ -31,14 +31,14 @@
 #include <qwidget.h>
 
 class FileListView;
+class ArkWidget;
 
 class FileLVI : public QListViewItem
 {
 public:
-	FileLVI(KListView* lv) : QListViewItem(lv), parent(lv) {}
-	QString getFileName();
-
-	virtual QString key(int column, bool) const;
+  FileLVI(KListView* lv) : QListViewItem(lv), parent(lv) {}
+  QString getFileName();
+  virtual QString key(int column, bool) const;
 private:
     KListView *parent;
 	
@@ -49,17 +49,26 @@ class FileListView : public KListView
 {
   Q_OBJECT
 public:
-	FileListView(QWidget* parent = 0, const char* name = 0);
-	~FileListView();
-	FileLVI *currentItem() {return ((FileLVI *) KListView::currentItem());}
-	QStringList * selectedFilenames() const;
-	uint count();
-	bool isSelectionEmpty();
+  FileListView(QWidget* parent = 0, const char* name = 0);
+  ~FileListView();
+  FileLVI *currentItem() {return ((FileLVI *) KListView::currentItem());}
+  QStringList * selectedFilenames() const;
+  uint count();
+  bool isSelectionEmpty();
+  QListViewItem *GetItemAt(const QPoint& );
+protected:
+  void contentsMouseReleaseEvent(QMouseEvent *e);
+  void contentsMousePressEvent(QMouseEvent *e);
+  //  void contentsMouseMoveEvent(QMouseEvent *e);
 private:
-	int sortColumn;
-	bool increasing;
-	
-	virtual void setSorting(int column, bool inc = TRUE);
+  int sortColumn;
+  bool increasing;
+  ArkWidget *m_pParent;
+  bool m_bDropSourceIsSelf;
+  virtual void setSorting(int column, bool inc = TRUE);
+  void SelectCurrentOnly();
+  QListViewItem *m_pLastCurrentItem;
+  bool m_pressed;
 };
 
 #endif

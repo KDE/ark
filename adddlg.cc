@@ -63,7 +63,6 @@ void AddDlg::setupFirstTab()
   kdDebug(1601) << "+AddDlg::setupFirstTab" << endl;
 
   QFrame *frame = addPage(i18n("Add File(s)"));
-
   m_dirList = new KDirOperator(m_sourceDir, frame, "dirlist");
   KCombiView *pCombiView = new KCombiView(m_dirList, "fileview");
   KFileIconView *pFileView = new KFileIconView(pCombiView, "fileview2");
@@ -73,6 +72,7 @@ void AddDlg::setupFirstTab()
 
   QVBoxLayout *vlay = new QVBoxLayout(frame, 0, spacingHint());
   vlay->addWidget(m_dirList);  
+  
 }
 
 void AddDlg::setupSecondTab()
@@ -91,11 +91,11 @@ void AddDlg::setupSecondTab()
       if (m_settings->getZipReplaceOnlyWithNewer())
 	m_cbReplaceOnlyWithNewer->setChecked(true);
       
-      m_cbRecurse = new QCheckBox(i18n("Recurse into directories"), bg);
+      m_cbRecurseSubdirs = new QCheckBox(i18n("Recurse into subdirectories"),
+					 bg);
       if (m_settings->getZipAddRecurseDirs())
-	m_cbRecurse->setChecked(true);
+	m_cbRecurseSubdirs->setChecked(true);
       
-      // NO - I want three radio buttons here. XXX
       
       m_cbJunkDirNames = new QCheckBox(i18n("Junk directory names"), bg);
       if (m_settings->getZipAddJunkDirs())
@@ -122,10 +122,12 @@ void AddDlg::setupSecondTab()
 	m_cbJunkDirNames->setChecked(true);
       if (m_settings->getTarReplaceOnlyWithNewer())
 	m_cbReplaceOnlyWithNewer->setChecked(true);
+#if 0 // too dangerous? I'm omitting but feeling wafflish.
       m_cbAbsPathNames =
 	new QCheckBox(i18n("Use absolute pathnames"), bg);
       if (m_settings->getTarUseAbsPathnames())
 	m_cbAbsPathNames->setChecked(true);
+#endif
       break;
     case AA_FORMAT:
       bg->setTitle(i18n("AR Options"));
@@ -147,6 +149,10 @@ void AddDlg::setupSecondTab()
 	m_cbStoreSymlinks->setChecked(true);
       if (m_settings->getRarReplaceOnlyWithNewer())
 	m_cbReplaceOnlyWithNewer->setChecked(true);
+      m_cbRecurseSubdirs = new QCheckBox(i18n("Recurse into subdirectories"),
+					 bg);
+      if (m_settings->getRarRecurseSubdirs())
+	m_cbRecurseSubdirs->setChecked(true);
       break;
     case ZOO_FORMAT:
       if (m_settings->getZooReplaceOnlyWithNewer())
@@ -170,7 +176,7 @@ void AddDlg::accept()
   switch(m_archtype)
     {
     case ZIP_FORMAT:
-      m_settings->setZipAddRecurseDirs(m_cbRecurse->isChecked());
+      m_settings->setZipAddRecurseDirs(m_cbRecurseSubdirs->isChecked());
       m_settings->setZipAddJunkDirs(m_cbJunkDirNames->isChecked());
       m_settings->setZipAddMSDOS(m_cbForceMS->isChecked());
       m_settings->setZipAddConvertLF(m_cbConvertLF2CRLF->isChecked());
@@ -180,7 +186,7 @@ void AddDlg::accept()
     case TAR_FORMAT:
       m_settings->setTarReplaceOnlyWithNewer(m_cbReplaceOnlyWithNewer->isChecked());
       m_settings->setaddPath(!m_cbJunkDirNames->isChecked());
-      m_settings->setTarUseAbsPathnames(m_cbAbsPathNames->isChecked());
+      //      m_settings->setTarUseAbsPathnames(m_cbAbsPathNames->isChecked());
       break;
     case AA_FORMAT:
       m_settings->setArReplaceOnlyWithNewer(m_cbReplaceOnlyWithNewer->isChecked());
@@ -192,6 +198,7 @@ void AddDlg::accept()
     case RAR_FORMAT:
       m_settings->setRarStoreSymlinks(m_cbStoreSymlinks->isChecked());
       m_settings->setRarReplaceOnlyWithNewer(m_cbReplaceOnlyWithNewer->isChecked());
+      m_settings->setRarRecurseSubdirs(m_cbRecurseSubdirs->isChecked());
       break;
     case ZOO_FORMAT:
       m_settings->setZooReplaceOnlyWithNewer(m_cbReplaceOnlyWithNewer->isChecked());

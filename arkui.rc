@@ -9,7 +9,7 @@
     <Action name="new_window"/>
     <Action name="reload_arch"/>
     <Action name="close_arch"/>
-    <Separator/>
+    <Separator lineSeparator="true"/>
   </Menu>
   <Menu name="action"><text>&amp;Action</text>
     <Action name="addfile"/>
@@ -25,7 +25,7 @@
     <Action name="select_all"/>
     <Action name="deselect_all"/>
     <Action name="invert_selection"/>
-    <Separator/>
+    <Separator lineSeparator="true"/>
     <Action name="shell_output"/>
   </Menu>  
   <Menu name="settings"><text>&amp;Settings</text>
@@ -37,16 +37,16 @@
 <ToolBar fullWidth="true" name="mainToolBar">
   <Action name="new_arch"/>
   <Action name="open_arch"/>
-  <Separator/>
+  <Separator lineSeparator="true"/>
   <Action name="addfile"/>
   <Action name="adddir"/>
-  <Separator/>
+  <Separator lineSeparator="true"/>
   <Action name="extract"/>
   <Action name="delete"/>
-  <Separator/>
+  <Separator lineSeparator="true"/>
   <Action name="select_all"/>
   <Action name="view"/>
-  <Separator/>
+  <Separator lineSeparator="true"/>
   <Action name="settings"/>
   <Action name="help"/>
 </ToolBar>   
@@ -60,17 +60,17 @@
 <Menu name="archive_popup">
  <Action name="addfile"/>
  <Action name="adddir"/>
- <Separator/>
+ <Separator lineSeparator="true"/>
  <Action name="select_all"/>
- <Separator/>
+ <Separator lineSeparator="true"/>
  <Action name="file_new"/>
  <Action name="file_open"/>
  <Action name="close_arch"/>
- <Separator/>
+ <Separator lineSeparator="true"/>
  <Action name="options_show_menubar"/>
  <Action name="options_show_toolbar"/>
  <Action name="options_show_statusbar"/>
- <Separator/>
+ <Separator lineSeparator="true"/>
  <Action name="settings"/>
  <Action name="help"/>
 </Menu>

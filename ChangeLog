@@ -1,3 +1,24 @@
+2000-05-04:  Emily Ezust <emilye@corel.com>
+	* Added control/shift LMB selection rules
+	* Added code to allow drag/extract but it doesn't work yet. Commented
+ 	  it out. Not too sure about when to start the drag anyhow... have to
+	  extract first!
+	* Added an "Edit With" option to let you edit files in the archive.
+	  It would be too complicated to let the user edit more than one
+	  file at a time, so like view, this freezes the app until the user
+	  quits the editor.
+	
+	  It even works with files that have paths! (I think - haven't
+	  tested thoroughly)
+
+2000-04-27:  Emily Ezust <emilye@corel.com>
+	* Got rid of a segfault that occured whenever you closed an archive
+	  (I was deleting something that the statusbar needed (but had not
+	   needed before KStatusBar was adopted by QStatusBar!))
+	* Added code to let users drag files to extract them. Not working
+	  yet: when I drag to konqy, it requests a filename for
+ 	  clipboard content.
+
 2000-04-18: Emily Ezust <emilye@corel.com>
 	* Added some code to prevent tar from adding duplicate filenames
 	  (having duplicates really screws up deletion and particular extracts)

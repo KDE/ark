@@ -340,7 +340,18 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
   KProcess *kp = new KProcess;
   kp->clearArguments();
   
-  *kp << m_unarchiver_program << "-o" << m_filename;
+  *kp << m_unarchiver_program;
+
+  if (m_settings->getZipExtractJunkPaths())
+    *kp << "-j" ;
+
+  if (m_settings->getZipExtractLowerCase())
+    *kp << "-L";
+
+  if (m_settings->getZipExtractOverwrite())
+    *kp << "-o";
+
+  *kp << m_filename;
   
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
@@ -352,6 +363,7 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
 	  *kp << (*it).latin1() ;
 	}
     }
+
   *kp << "-d" << dest;
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),

@@ -61,13 +61,13 @@ private: // data
   QCheckBox *m_cbAbsPathNames, *m_cbReplaceOnlyWithNewer;
 
   // zip:
-  QCheckBox *m_cbRecurse, *m_cbJunkDirNames, *m_cbForceMS, *m_cbConvertLF2CRLF;
+  QCheckBox *m_cbJunkDirNames, *m_cbForceMS, *m_cbConvertLF2CRLF;
 
   // lha
   QCheckBox *m_cbMakeGeneric;
 
   // zip or rar
-  QCheckBox *m_cbStoreSymlinks;
+  QCheckBox *m_cbStoreSymlinks, *m_cbRecurseSubdirs;
 };
 
 

@@ -270,7 +270,7 @@ void RarArch::addFile( QStringList *urls )
   KProcess *kp = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program;
-	
+
   if (m_settings->getRarReplaceOnlyWithNewer() )
     *kp << "u";
   else
@@ -278,6 +278,8 @@ void RarArch::addFile( QStringList *urls )
 
   if (m_settings->getRarStoreSymlinks())
     *kp << "-ol";
+  if (m_settings->getRarRecurseSubdirs())
+    *kp << "-r";
 
   *kp << m_filename.local8Bit() ;
 

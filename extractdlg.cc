@@ -119,6 +119,11 @@ void ExtractDlg::setupSecondTab()
 				  bg);
       if (m_settings->getZipExtractLowerCase())
 	m_cbToLower->setChecked(true);
+
+      m_cbDiscardPathnames = new QCheckBox(i18n("Discard pathnames"), bg);
+      if (m_settings->getZipExtractJunkPaths())
+	m_cbDiscardPathnames->setChecked(true);
+					
       break;
     case TAR_FORMAT:
       bg->setTitle(i18n("TAR Options"));
@@ -185,6 +190,7 @@ void ExtractDlg::accept()
     case ZIP_FORMAT:
       m_settings->setZipExtractOverwrite(m_cbOverwrite->isChecked());
       m_settings->setZipExtractLowerCase(m_cbToLower->isChecked());
+      m_settings->setZipExtractJunkPaths(m_cbDiscardPathnames->isChecked());
       break;
     case TAR_FORMAT:
       m_settings->setTarOverwriteFiles(m_cbOverwrite->isChecked());

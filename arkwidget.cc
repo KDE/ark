@@ -89,13 +89,14 @@
 extern int errno;
 
 ArkWidget::ArkWidget( QWidget *, const char *name ) : 
-    KTMainWindow(name), m_nSizeOfFiles(0), m_nSizeOfSelectedFiles(0),
+    KTMainWindow(name), archiveContent(0),
+    m_nSizeOfFiles(0), m_nSizeOfSelectedFiles(0),
     m_nNumFiles(0), m_nNumSelectedFiles(0), m_bIsArchiveOpen(false),
     m_bIsSimpleCompressedFile(false), m_bDropSourceIsSelf(false),
     m_bViewInProgress(false), m_bOpenWithInProgress(false),
     m_bEditInProgress(false),
     m_bMakeCFIntoArchiveInProgress(false), m_pTempAddList(NULL),
-    m_bDropFilesInProgress(false)
+    m_bDropFilesInProgress(false), m_bDragInProgress(false)
 {
     kdDebug(1601) << "+ArkWidget::ArkWidget" << endl;
   
@@ -207,20 +208,20 @@ void ArkWidget::setupActions()
 			   SLOT(action_view()),
 			   actionCollection(), "popup_menu_view");
 
-  openWithAction = new KAction(i18n("&Open with"), 0, this,
+  openWithAction = new KAction(i18n("&Open with..."), 0, this,
 			   SLOT(slotOpenWith()),
 			   actionCollection(), "open_with");
 
-  popupOpenWithAction  = new KAction(i18n("&Open with"), 0, this,
+  popupOpenWithAction  = new KAction(i18n("&Open with..."), 0, this,
 			   SLOT(slotOpenWith()),
 			   actionCollection(), "popup_menu_open_with");
 
 
-  editAction = new KAction(i18n("&Edit"), 0, this,
+  editAction = new KAction(i18n("&Edit with..."), 0, this,
 			   SLOT(action_edit()),
 			   actionCollection(), "edit");
 
-  popupEditAction = new KAction(i18n("&Edit"), 0, this,
+  popupEditAction = new KAction(i18n("&Edit with..."), 0, this,
 				SLOT(action_edit()),
 				actionCollection(), "popup_edit");
 
@@ -240,7 +241,7 @@ void ArkWidget::setupActions()
 					actionCollection(),
 					"invert_selection");
 
-  (void)new KAction(i18n("&General"), 0, this,
+  (void)new KAction(i18n("&General..."), 0, this,
 		    SLOT(options_general()),
 		    actionCollection(),
 		    "general");
@@ -358,7 +359,6 @@ void ArkWidget::initialEnables()
 
 void ArkWidget::updateStatusTotals()
 {
-  kdDebug(1601) << "+ArkWidget::updateStatusTotals" << endl;
   m_nNumFiles = 0;
   m_nSizeOfFiles = 0;
   if (archiveContent)
@@ -376,7 +376,7 @@ void ArkWidget::updateStatusTotals()
 	  pItem = (FileLVI *)pItem->nextSibling();
 	}
     }
-  kdDebug(1601) << "We have " << m_nNumFiles << " elements\n" << endl;
+  //  kdDebug(1601) << "We have " << m_nNumFiles << " elements\n" << endl;
 
   QString strInfo;
 
@@ -391,7 +391,6 @@ void ArkWidget::updateStatusTotals()
       .arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
   
   m_pStatusLabelTotal->setText(strInfo);
-  kdDebug(1601) << "-ArkWidget::updateStatusTotals" << endl;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -708,7 +707,7 @@ void ArkWidget::showZip( QString _filename )
 }
 
 void ArkWidget::slotOpen(Arch *_newarch, bool _success,
-			 const QString & _filename, int _flag )
+			 const QString & _filename, int )
 {
   kdDebug(1601) << "+ArkWidget::slotOpen" << endl;
   
@@ -762,12 +761,33 @@ void ArkWidget::slotExtractDone()
   QApplication::restoreOverrideCursor();
   if ( !KOpenWithHandler::exists() )
     (void) new KFileOpenWithHandler();
-  if (m_bViewInProgress || m_bEditInProgress)
+  if (m_bViewInProgress)
     {
       m_bViewInProgress = false;
-      m_pKRunPtr = new KRun (m_strFileToView);
-      connect(m_pKRunPtr, SIGNAL(finished()),
-	      this, SLOT(slotEditFinished()));
+      if (m_bEditInProgress)
+	{
+	  KURL::List list;
+	  // edit will be in progress until the KProcess terminates.
+	  KOpenWithDlg l( list, i18n("Edit With:"), "", (QWidget*)0L);
+	  if ( l.exec() )
+	    {
+	      KProcess *kp = new KProcess;
+	      m_strFileToView =
+		m_strFileToView.right(m_strFileToView.length() - 5);
+	      *kp << l.text() << m_strFileToView;
+	      connect(kp, SIGNAL(processExited(KProcess *)),
+		      this, SLOT(slotEditFinished(KProcess *)));
+	      if (kp->start(KProcess::NotifyOnExit,
+			    KProcess::AllOutput) == false)
+		{
+		  KMessageBox::error(0, i18n("Trouble editing the file..."));
+		}
+	    }
+	}
+      else
+	{
+	  m_pKRunPtr = new KRun (m_strFileToView);
+	}
     }
   else if (m_bOpenWithInProgress)
     {
@@ -791,16 +811,40 @@ void ArkWidget::slotExtractDone()
 	    }
 	}
     }
+  else if (m_bDragInProgress)
+    {
+      m_bDragInProgress = false;
+      QStrList list;
+      for (QStringList::Iterator it = mDragFiles.begin();
+	   it != mDragFiles.end(); ++it)
+	{      
+	  QString URL;
+	  URL.sprintf("/tmp/ark.%d/", getpid());
+	  URL += *it;
+	  URL = QUriDrag::localFileToUri(URL);
+	  list.append(URL);
+	}
+      QUriDrag *d = new QUriDrag(list, archiveContent->viewport());
+      //      d->setPixmap(QPixmap(QString("document.xpm")),
+      //		   QPoint(0,0));
+      m_bDropSourceIsSelf = true;
+      d->dragCopy();
+      m_bDropSourceIsSelf = false;
+    }
   archiveContent->setUpdatesEnabled(true);
   fixEnables();  
   kdDebug(1601) << "-ArkWidget::slotExtractDone" << endl;
 }
 
-void ArkWidget::slotEditFinished()
+void ArkWidget::slotEditFinished(KProcess *kp)
 {
-  // darn, this is when it finishes starting. Definitely need to rethink this.
   kdDebug(1601) << "+ArkWidget::slotEditFinished" << endl;
-
+  delete kp;
+  QStringList list;
+  // now put the file back into the archive.
+  list.append(m_strFileToView);
+  addFile(&list);
+  kdDebug(1601) << "-ArkWidget::slotEditFinished" << endl;
 }
 
 void ArkWidget::slotAddDone(bool _bSuccess)
@@ -816,6 +860,10 @@ void ArkWidget::slotAddDone(bool _bSuccess)
 	  m_bDropFilesInProgress = false;
 	  delete m_pTempAddList;
 	  m_pTempAddList = NULL;
+	}
+      if (m_bEditInProgress)
+	{
+	  m_bEditInProgress = false;
 	}
       if (m_bMakeCFIntoArchiveInProgress)
 	{
@@ -879,8 +927,6 @@ void ArkWidget::disableAll() // private
 
 void ArkWidget::fixEnables() // private
 {
-  kdDebug(1601) << "+ArkWidget::fixEnables" << endl;
-
   bool bHaveFiles = (m_nNumFiles > 0);
   bool bReadOnly = false;
   bool bAddDirSupported = true;
@@ -918,8 +964,6 @@ void ArkWidget::fixEnables() // private
   viewAction->setEnabled(bHaveFiles && m_nNumSelectedFiles == 1);
   openWithAction->setEnabled(bHaveFiles && m_nNumSelectedFiles == 1);
   editAction->setEnabled(bHaveFiles && m_nNumSelectedFiles == 1);
-
-  kdDebug(1601) << "-ArkWidget::fixEnables" << endl;
 }
 
 
@@ -955,8 +999,6 @@ void ArkWidget::file_close()
 	{
 	  archiveContent->clear();
 	}
-      delete archiveContent;
-      archiveContent = 0;
       setView(0);
       ArkApplication::getInstance()->removeOpenArk(m_strArchName);
       updateStatusTotals();
@@ -1150,6 +1192,34 @@ void ArkWidget::addFile(QStringList *list)
   archiveContent->setUpdatesEnabled(false);
   disableAll();
   QApplication::setOverrideCursor( waitCursor );
+  if (m_bEditInProgress)
+    {
+      // there's only one file, and it's in the temp directory.
+      // If the filename has more than three /'s then we should
+      // change to the first level directory so that the paths
+      // come out right.
+      QStringList::Iterator it = list->begin();
+      QString filename = *it;
+      QString path;
+      if (filename.contains('/') > 3)
+	{
+	  kdDebug(1601) << "Filename is originally: " << 
+	    (const char *)filename.local8Bit() << endl;
+	  int i = filename.find('/', 5);
+	  path = filename.left(1+i);
+	  kdDebug(1601) << "Changing to dir: " <<
+	    (const char *) path.local8Bit() << endl;
+	  chdir((const char *) path.local8Bit());
+	  filename = filename.right(filename.length()-i-1);
+	  // HACK!! We need a relative path. If I have "file:", it
+	  // will look like an absolute path. So five spaces here to get
+	  // chopped off later....
+	  filename = "     " + filename;
+	  *it = filename;
+	  kdDebug(1601) << "Adding " << (const char *)filename.local8Bit()
+			<< endl;
+	}
+    }
   arch->addFile(list);
 }
 
@@ -1462,9 +1532,7 @@ void ArkWidget::doPopup(QListViewItem *pItem, const QPoint &pPoint,
 
 void ArkWidget::slotSelectionChanged()
 {
-  kdDebug(1601) << "+ArkWidget::slotSelectionChanged" << endl;
   updateStatusSelection();
-  kdDebug(1601) << "-ArkWidget::slotSelectionChanged" << endl;
 }
 
 
@@ -1474,8 +1542,6 @@ void ArkWidget::slotSelectionChanged()
 
 void ArkWidget::updateStatusSelection()
 {
-  kdDebug(1601) << "+ArkWidget::updateStatusSelection" << endl;
-
   m_nNumSelectedFiles = 0;
   m_nSizeOfSelectedFiles = 0;
 
@@ -1512,7 +1578,6 @@ void ArkWidget::updateStatusSelection()
     }
   m_pStatusLabelSelect->setText(strInfo);
   fixEnables();
-  kdDebug(1601) << "-ArkWidget::updateStatusSelection" << endl;
 }
 
 
@@ -1768,6 +1833,7 @@ void ArkWidget::slotStatusBarTimeout()
 
 void ArkWidget::createFileListView()
 {
+  delete archiveContent;
   archiveContent = new FileListView(this);
   archiveContent->setMultiSelection(true);
   setView(archiveContent);
