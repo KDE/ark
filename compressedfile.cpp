@@ -45,13 +45,13 @@
 #include <kapplication.h>
 
 // ark includes
-#include "arkwidgetbase.h"
+#include "arkwidget.h"
 #include "arksettings.h"
 #include "compressedfile.h"
 
 // encapsulates the idea of a compressed file
 
-CompressedFile::CompressedFile( ArkSettings *_settings, ArkWidgetBase *_gui,
+CompressedFile::CompressedFile( ArkSettings *_settings, ArkWidget *_gui,
 		  const QString & _fileName, const QString & _openAsMimeType )
   : Arch(_settings, _gui, _fileName )
 {

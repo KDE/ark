@@ -34,6 +34,7 @@
 
 // Qt includes
 #include <qlayout.h>
+#include <qstringlist.h>
 #include <qlabel.h>
 
 // KDE includes
@@ -54,6 +55,8 @@
 #include <kurldrag.h>
 #include <klistviewsearchline.h>
 #include <ktoolbar.h>
+#include <kpopupmenu.h>
+#include <kdialog.h>
 
 // ark includes
 #include "arkapp.h"
@@ -68,7 +71,7 @@
 #include "archiveformatinfo.h"
 #include "compressedfile.h"
 #include "searchbar.h"
-#include <kdialog.h>
+#include "shellOutputDlg.h"
 
 //----------------------------------------------------------------------
 //
@@ -77,17 +80,30 @@
 //----------------------------------------------------------------------
 
 ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
-        QVBox(parent, name), ArkWidgetBase(this),
-        m_bBusy( false ), m_bBusyHold( false ), m_extractOnly(false),
-        m_extractRemote(false), m_openAsMimeType(QString::null),
-        m_pTempAddList(NULL), mpDownloadedList(NULL),
-        m_bArchivePopupEnabled( false ), m_convert_tmpDir( NULL ),
-        m_convertSuccess( false ), m_createRealArchTmpDir( NULL ),
-        m_extractRemoteTmpDir( NULL ), m_modified( false ),
-	m_searchToolBar( 0 ), m_searchBar( 0 )
+        QVBox(parent, name), m_bBusy( false ), m_bBusyHold( false ),
+	m_extractOnly( false ), m_extractRemote(false), 
+	m_openAsMimeType(QString::null), m_pTempAddList(NULL), 
+	mpDownloadedList(NULL), m_bArchivePopupEnabled( false ), 
+	m_convert_tmpDir( NULL ), m_convertSuccess( false ),
+	m_createRealArchTmpDir( NULL ),	m_extractRemoteTmpDir( NULL ),
+	m_modified( false ), m_searchToolBar( 0 ), m_searchBar( 0 ),
+	arch( 0 ), m_settings( 0 ), archiveContent( 0 ),
+	m_archType( UNKNOWN_FORMAT ), m_nSizeOfFiles( 0 ),
+	m_nSizeOfSelectedFiles( 0 ), m_nNumFiles( 0 ), m_nNumSelectedFiles( 0 ),
+	m_bIsArchiveOpen( false ), m_bIsSimpleCompressedFile( false ),
+	m_bDropSourceIsSelf( false ), m_extractList( 0 )
 {
-    kdDebug(1601) << "+ArkWidget::ArkWidget" << endl;
+    m_settings = ArkSettings::self();
 
+    m_tmpDir = new KTempDir( locateLocal( "tmp", "ark" ) );
+
+    if ( m_tmpDir->status() != 0 )
+    {
+	    kdWarning( 1601 ) << "Could not create a temporary directory. status() returned "
+	                      << m_tmpDir->status() << "." << endl;
+	    m_tmpDir = NULL;
+    }
+	
     m_searchToolBar = new KToolBar( this, "searchBar" );
     m_searchToolBar->boxLayout()->setSpacing( KDialog::spacingHint() );
 
@@ -106,18 +122,104 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
 
     // enable DnD
     setAcceptDrops(true);
-    kdDebug(1601) << "-ArkWidget::ArkWidget" << endl;
 }
 
 ArkWidget::~ArkWidget()
 {
     cleanArkTmpDir();
     ready();
-    kdDebug(1601) << "-ArkWidget::~ArkWidget" << endl;
     delete mpDownloadedList;
     delete m_pTempAddList;
+    delete archiveContent;
+    archiveContent = 0;
+    delete arch;
 }
 
+void ArkWidget::cleanArkTmpDir()
+{
+	if ( m_tmpDir )
+	{
+		m_tmpDir->unlink();
+		delete m_tmpDir;
+		m_tmpDir = NULL;
+	}
+	return;
+}
+
+const FileLVI * ArkWidget::getFileLVI( const QString& _filename ) const
+{
+	FileLVI * flvi = ( FileLVI* ) archiveContent->firstChild();
+	
+	while ( flvi )
+	{
+		QString curFilename = flvi->fileName();
+		if ( curFilename == _filename )
+			return flvi;
+		flvi = ( FileLVI* ) flvi->itemBelow();
+	}
+	
+	return 0;
+}
+
+void ArkWidget::setHeaders( QStringList* _headers, int * _rightAlignCols, int _numColsToAlignRight )
+{
+	clearHeaders();
+
+	for ( QStringList::Iterator it = _headers->begin(); it != _headers->end(); ++it )
+	{
+		QString str = *it;
+		archiveContent->addColumn( str );
+	}
+
+	for ( int i = 0; i < _numColsToAlignRight; ++i )
+	{
+		archiveContent->setColumnAlignment( _rightAlignCols[ i ], QListView::AlignRight );
+	}
+}
+
+void ArkWidget::clearHeaders()
+{
+	while ( archiveContent->columns() > 0 )
+	{
+		archiveContent->removeColumn( 0 );
+	}
+}
+
+void ArkWidget::listingAdd( QStringList * _entries )
+{
+	FileLVI *flvi = new FileLVI( archiveContent );
+
+	int i = 0;
+	
+	for ( QStringList::Iterator it = _entries->begin(); it != _entries->end(); ++it )
+	{
+		flvi->setText( i, *it );
+		++i;
+	}
+}
+
+void ArkWidget::viewShellOutput()
+{
+	ShellOutputDlg* sod = new ShellOutputDlg( m_settings, this );
+	sod->exec();
+	delete sod;
+}
+
+void ArkWidget::closeArch()
+{
+	if ( isArchiveOpen() )
+	{
+		delete arch;
+		arch = 0;
+		m_bIsArchiveOpen = false;
+	}
+
+	if ( 0 != archiveContent )
+	{
+		archiveContent->clear();
+		clearHeaders();
+	}
+}
 
 ////////////////////////////////////////////////////////////////////
 ///////////////////////// updateStatusTotals ///////////////////////
@@ -2163,7 +2265,7 @@ ArkWidget::createFileListView()
 	{
 		archiveContent = new FileListView(this, this);
 		archiveContent->setMultiSelection(true);
-		archiveContent->show();
+		//archiveContent->show();
 		connect( archiveContent, SIGNAL( selectionChanged()), this, SLOT( slotSelectionChanged() ) );
 		connect( archiveContent, SIGNAL( rightButtonPressed(QListViewItem *, const QPoint &, int)),
 				this, SLOT(doPopup(QListViewItem *, const QPoint &, int)));
@@ -2240,6 +2342,7 @@ ArkWidget::slotCreate(Arch * _newarch, bool _success, const QString & _filename,
         emit setWindowCaption( _filename );
         emit addRecentURL( u );
         createFileListView();
+	archiveContent->show();
         m_bIsArchiveOpen = true;
         arch = _newarch;
         m_bIsSimpleCompressedFile =
@@ -2323,6 +2426,8 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
     kdDebug(1601) << "+ArkWidget::slotOpen" << endl;
     archiveContent->setUpdatesEnabled(true);
     archiveContent->triggerUpdate();
+
+    archiveContent->show();
 
     if ( _success )
     {

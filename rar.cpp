@@ -43,13 +43,13 @@
 
 // ark includes
 #include <config.h>
-#include "arkwidgetbase.h"
+#include "arkwidget.h"
 #include "arch.h"
 #include "arksettings.h"
 #include "rar.h"
 #include "arkutils.h"
 
-RarArch::RarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
+RarArch::RarArch( ArkSettings *_settings, ArkWidget *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {

@@ -44,7 +44,7 @@
 #include <kprocess.h>
 
 // ark includes
-#include "arkwidgetbase.h"
+#include "arkwidget.h"
 #include "arksettings.h"
 #include "arch.h"
 #include "zoo.h"
@@ -52,7 +52,7 @@
 
 QString fixTime(const QString &_strTime);
 
-ZooArch::ZooArch( ArkSettings *_settings, ArkWidgetBase *_gui,
+ZooArch::ZooArch( ArkSettings *_settings, ArkWidget *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {

@@ -59,14 +59,14 @@
 #include <ktar.h>
 
 // ark includes
-#include "arkwidgetbase.h"
+#include "arkwidget.h"
 #include "arksettings.h"
 #include "tar.h"
 #include "filelistview.h"
 
 static char *makeAccessString(mode_t mode);
 
-TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
+TarArch::TarArch( ArkSettings *_settings, ArkWidget *_gui,
                   const QString & _filename, const QString & _openAsMimeType)
   : Arch(_settings, _gui, _filename), createTmpInProgress(false),
     updateInProgress(false), deleteInProgress(false), fd(NULL),

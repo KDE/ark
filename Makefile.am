@@ -22,11 +22,12 @@ kde_module_LTLIBRARIES = libarkpart.la
 libarkpart_la_LDFLAGS = $(KDE_PLUGIN) $(all_libraries)
 libarkpart_la_LIBADD = libark_common.la $(LIB_KPARTS)
 
-libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp extractdlg.cpp dirDlg.cpp \
+libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp dirDlg.cpp \
                 zip.cpp tar.cpp filelistview.cpp arch.cpp selectDlg.cpp \
                 lha.cpp shellOutputDlg.cpp compressedfile.cpp \
                 zoo.cpp rar.cpp ar.cpp generalOptDlg.cpp arkwidgetbase.cpp \
-                arkutils.cpp archiveformatdlg.cpp arkwidget.cpp searchbar.cpp
+                arkutils.cpp archiveformatdlg.cpp arkwidget.cpp searchbar.cpp \
+		extractdlg.cpp
 
 
 # this option you can leave out. Just, if you use "make dist", you need it
@@ -36,7 +37,7 @@ noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \
                  selectDlg.h shellOutputDlg.h generalOptDlg.h \
                  ark_part.h arkwidgetbase.h arktoplevelwindow.h \
                  arkfactory.h arkutils.h archiveformatinfo.h \
-                 archiveformatdlg.h searchbar.h
+                 archiveformatdlg.h searchbar.h extractdlg.h
 
 METASOURCES = AUTO
 

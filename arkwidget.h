@@ -31,10 +31,12 @@
 #ifndef ARKWIDGET_H
 #define ARKWIDGET_H
 
-#include "arkwidgetbase.h"
 #include <kio/job.h>
+#include <ktempdir.h>
 
 #include <qvbox.h>
+
+#include "arch.h"
 
 class QPoint;
 class QString;
@@ -52,19 +54,75 @@ class KTempFile;
 class KTempDir;
 class KToolBar;
 
-class Arch;
 class ArkSettings;
+class FileListView;
 class FileLVI;
 class SearchBar;
 
 
-class ArkWidget : public QVBox, public ArkWidgetBase
+class ArkWidget : public QVBox
 {
     Q_OBJECT
 public:
     ArkWidget( QWidget *parent=0, const char *name=0 );
     virtual ~ArkWidget();
 
+    bool isArchiveOpen() const { return m_bIsArchiveOpen; }
+    int getNumFilesInArchive() const { return m_nNumFiles; }
+    
+    int getArkInstanceId() const { return m_arkInstanceId; }
+    void setArkInstanceId( int aid ) { m_arkInstanceId = aid; }
+
+    void cleanArkTmpDir();
+    QString getArchName() const { return m_strArchName; }
+    
+    const KURL& realURL() const { return m_realURL; }
+    void setRealURL( const KURL& url ) { m_realURL = url; }
+
+    QString tmpDir() const { return m_tmpDir ? m_tmpDir->name() : QString::null; }
+
+    /**
+     * Returns the file item, or 0 if not found.
+     * @param _filename The filename in question to reference in the archive
+     * @return The requested file's FileLVI
+     */
+    const FileLVI * getFileLVI( const QString& _filename ) const;
+    FileListView * fileList() const { return archiveContent; }
+    Arch * archive() const { return arch; }
+    ArchType archiveType() const { return m_archType; }
+    int numSelectedFiles() const { return m_nNumSelectedFiles; }
+
+    /**
+     * Sets up the column headers for the file list. Clears previous entries before adding new ones.
+     * @param _headers A list of headers to add.
+     * @param _rightAlignCols An array of ints representing the columns ro right-align
+     * @param _numColsToAlignRight Size of _rightAlignCols
+     */
+    void setHeaders( QStringList* _headers, int* _rightAlignCols, int _numColsToAlignRight );
+    
+    /**
+     * Clears all headers from the file list.
+     */
+    void clearHeaders();
+
+    /**
+     * Adds a file and stats to the file listing
+     * @param _entries A stringlist of the entries for each column of the list.
+     */
+    void listingAdd( QStringList * _entries );
+
+    /**
+     * Brings up a dialog showing the results returned by the last cmdline tool.
+     */
+    void viewShellOutput();
+
+    void unarchFile( QStringList* _l ) { arch->unarchFile( _l ); }
+
+    /**
+     * Miscellaneous tasks involved in closing an archive.
+     */
+    void closeArch();
+    
     virtual void setExtractOnly(bool extOnly) { m_extractOnly = extOnly; }
     virtual ArkSettings *settings() { return m_settings; }
     bool allowedArchiveName( const KURL & u );
@@ -270,6 +328,28 @@ private: // data
 
     KToolBar  * m_searchToolBar;
     SearchBar * m_searchBar;
+
+    Arch *arch;
+    ArkSettings *m_settings;
+    QString m_strArchName;
+    KURL m_realURL;
+    FileListView *archiveContent;
+    KURL m_url;
+    ArchType m_archType;
+
+    int m_nSizeOfFiles;
+    int m_nSizeOfSelectedFiles;
+    unsigned int m_nNumFiles;
+    int m_nNumSelectedFiles;
+    int m_arkInstanceId;
+
+    bool m_bIsArchiveOpen;
+    bool m_bIsSimpleCompressedFile;
+    bool m_bDropSourceIsSelf;
+
+    QStringList mDragFiles;
+    QStringList *m_extractList;
+    KTempDir *m_tmpDir;
 };
 
 #endif /* ARKWIDGET_H*/

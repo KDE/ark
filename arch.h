@@ -63,7 +63,7 @@ class KProcess;
 
 class FileListView;
 class ArkSettings;
-class ArkWidgetBase;
+class ArkWidget;
 
 enum ArchType {UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
 	       LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT, COMPRESSED_FORMAT};
@@ -96,7 +96,7 @@ protected:
   };
 
 public:
-  Arch(ArkSettings *_settings, ArkWidgetBase *_viewer,
+  Arch(ArkSettings *_settings, ArkWidget *_viewer,
        const QString & _fileName);
   virtual ~Arch();
 
@@ -136,7 +136,7 @@ public:
   QString getUtility() { return m_archiver_program; }
 
   static Arch *archFactory(ArchType aType, ArkSettings *settings,
-                ArkWidgetBase *parent, const QString &filename,
+                ArkWidget *parent, const QString &filename,
                 const QString &openAsMimeType = QString::null );
 
 protected slots:
@@ -166,7 +166,7 @@ protected:  // data
   QString m_shellErrorData;
   QCString m_buffer;
   ArkSettings *m_settings;
-  ArkWidgetBase *m_gui;
+  ArkWidget *m_gui;
   bool m_bReadOnly; // for readonly archives
   bool m_error;
 

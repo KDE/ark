@@ -45,7 +45,7 @@
 // ark includes
 #include "arch.h"
 #include "arksettings.h"
-#include "arkwidgetbase.h"
+#include "arkwidget.h"
 #include "arkutils.h"
 
 // the archive types
@@ -64,7 +64,7 @@ Arch::ArchColumns::ArchColumns(int col, QRegExp reg, int length, bool opt) :
 }
 
 
-Arch::Arch(ArkSettings *_settings, ArkWidgetBase *_viewer,
+Arch::Arch(ArkSettings *_settings, ArkWidget *_viewer,
 	   const QString & _fileName )
   : m_filename(_fileName), m_buffer(""), m_settings(_settings),
     m_gui(_viewer), m_bReadOnly(false), m_bNotifyWhenDeleteFails(true),
@@ -161,7 +161,7 @@ void Arch::slotDeleteExited(KProcess *_kp)
       if(stderrIsError())
 	{
 	  QApplication::restoreOverrideCursor();
-	  KMessageBox::error(m_gui->getArkWidget(),
+	  KMessageBox::error(m_gui,
 		 i18n("You probably do not have sufficient permissions.\n"
 		      "Please check the file owner and the integrity "
 		      "of the archive.") );
@@ -174,7 +174,7 @@ void Arch::slotDeleteExited(KProcess *_kp)
       if (m_bNotifyWhenDeleteFails)
 	{
 	  QApplication::restoreOverrideCursor();
-	  KMessageBox::sorry(m_gui->getArkWidget(), i18n("The deletion failed."),
+	  KMessageBox::sorry(m_gui, i18n("The deletion failed."),
 			     i18n("Error") );
 	}
       else bSuccess = true;
@@ -202,7 +202,7 @@ void Arch::slotExtractExited(KProcess *_kp)
       if(stderrIsError())
 	{
 	  QApplication::restoreOverrideCursor();
-	  int ret = KMessageBox::warningYesNo(m_gui->getArkWidget(),
+	  int ret = KMessageBox::warningYesNo(m_gui,
 		i18n("The extract operation failed.\n"
 		     "Do you wish to view the shell output?"), i18n("Error"));
 	  if (ret == KMessageBox::Yes)
@@ -234,7 +234,7 @@ void Arch::slotAddExited(KProcess *_kp)
       if(stderrIsError())
 	{
 	  QApplication::restoreOverrideCursor();
-	  KMessageBox::error(m_gui->getArkWidget(),
+	  KMessageBox::error(m_gui,
 			     i18n("You probably do not have sufficient permissions.\n"
 				  "Please check the file owner and the integrity "
 				  "of the archive."));
@@ -245,7 +245,7 @@ void Arch::slotAddExited(KProcess *_kp)
   else
     {
       QApplication::restoreOverrideCursor();
-      int ret = KMessageBox::warningYesNo(m_gui->getArkWidget(),
+      int ret = KMessageBox::warningYesNo(m_gui,
 		 i18n("The add operation failed.\n"
 		      "Do you wish to view the shell output?"), i18n("Error"));
 	  if (ret == KMessageBox::Yes)
@@ -385,7 +385,7 @@ bool Arch::processLine(const QCString &line)
 
 
 Arch *Arch::archFactory(ArchType aType, ArkSettings *settings,
-            ArkWidgetBase *parent, const QString &filename,
+            ArkWidget *parent, const QString &filename,
             const QString & openAsMimeType )
 {
 	switch(aType)

@@ -47,13 +47,13 @@
 #include <kprocess.h>
 
 // ark includes
-#include "arkwidgetbase.h"
+#include "arkwidget.h"
 #include "arksettings.h"
 #include "arch.h"
 #include "lha.h"
 #include "arkutils.h"
 
-LhaArch::LhaArch( ArkSettings *_settings, ArkWidgetBase *_gui,
+LhaArch::LhaArch( ArkSettings *_settings, ArkWidget *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {

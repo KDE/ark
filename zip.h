@@ -39,13 +39,13 @@ class KProcess;
 
 class Arch;
 class ArkSettings;
-class ArkWidgetBase;
+class ArkWidget;
 
 class ZipArch : public Arch
 {
   Q_OBJECT
 public:
-  ZipArch( ArkSettings *_settings, ArkWidgetBase *_gui,
+  ZipArch( ArkSettings *_settings, ArkWidget *_gui,
 	   const QString & _fileName );
   virtual ~ZipArch() { }
 	

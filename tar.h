@@ -38,7 +38,7 @@ class QStrList;
 class KProcess;
 class KTempDir;
 class KTarDirectory;
-class ArkWidgetBase;
+class ArkWidget;
 class ArkSettings;
 class Arch;
 class KTar;
@@ -54,7 +54,7 @@ class TarArch : public Arch
 {
   Q_OBJECT
 public:
-  TarArch( ArkSettings *_settings, ArkWidgetBase *_gui, const QString & _filename,
+  TarArch( ArkSettings *_settings, ArkWidget *_gui, const QString & _filename,
             const QString & _openAsMimeType );
   virtual ~TarArch();
 

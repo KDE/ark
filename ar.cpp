@@ -41,11 +41,11 @@
 #include <kprocess.h>
 
 // ark includes
-#include "arkwidgetbase.h"
+#include "arkwidget.h"
 #include "arksettings.h"
 #include "ar.h"
 
-ArArch::ArArch( ArkSettings *_settings, ArkWidgetBase *_gui,
+ArArch::ArArch( ArkSettings *_settings, ArkWidget *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {

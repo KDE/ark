@@ -34,13 +34,13 @@ class QStringList;
 
 class Arch;
 class ArkSettings;
-class ArkWidgetBase;
+class ArkWidget;
 
 class ZooArch : public Arch
 {
   Q_OBJECT
 public:
-  ZooArch( ArkSettings *_settings, ArkWidgetBase *_gui,
+  ZooArch( ArkSettings *_settings, ArkWidget *_gui,
 	   const QString & _fileName );
   virtual ~ZooArch() { }
 	

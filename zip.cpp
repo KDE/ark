@@ -35,11 +35,11 @@
 #include <kprocess.h>
 
 // ark includes
-#include "arkwidgetbase.h"
+#include "arkwidget.h"
 #include "arksettings.h"
 #include "zip.h"
 
-ZipArch::ZipArch( ArkSettings *_settings, ArkWidgetBase *_gui,
+ZipArch::ZipArch( ArkSettings *_settings, ArkWidget *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {

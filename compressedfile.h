@@ -34,7 +34,7 @@ class KTempDir;
 
 class Arch;
 class ArkSettings;
-class ArkWidgetBase;
+class ArkWidget;
 
 //
 // This isn't *really* an archive, but having this class in the program
@@ -48,7 +48,7 @@ class CompressedFile : public Arch
 {
   Q_OBJECT
 public:
-  CompressedFile( ArkSettings *_settings, ArkWidgetBase *_gui,
+  CompressedFile( ArkSettings *_settings, ArkWidget *_gui,
 		  const QString & _fileName, const QString &_openAsMimeType );
   virtual ~CompressedFile();
 	
