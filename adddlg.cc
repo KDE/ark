@@ -10,20 +10,35 @@ AddOptionsDlg::AddOptionsDlg( QWidget *parent, char *name )
 {
 	gb = new QGroupBox( klocale->translate( "Add File Options" ), this );
 	gb->setAlignment( AlignLeft );
-	gb->setGeometry( 10, 10, 240, 120 );
 
 	ok = new QPushButton( klocale->translate("OK"), this );
-	ok->setGeometry( 90, 140, 70, 30 );
+	ok->adjustSize();
 	connect( ok, SIGNAL( clicked() ), SLOT( accept() ) );
 	cancel = new QPushButton( klocale->translate("Cancel"), this );
-	cancel->setGeometry( 170, 140, 70, 30 );
+	cancel->adjustSize();
 	connect( cancel, SIGNAL( clicked() ), SLOT( reject() ) );
 
-	fullcb = new QCheckBox( klocale->translate("Store Full Path"), this );
-	fullcb->setGeometry( 30, 30, 130, 30 );
+	fullcb = new QCheckBox( klocale->translate("Store Full Path"), gb );
+	fullcb->adjustSize();
 	
-	updatecb = new QCheckBox( klocale->translate("Only Add Newer Files") , this );
-	updatecb->setGeometry( 30, 70, 150, 30 );
+	updatecb = new QCheckBox( klocale->translate("Only Add Newer Files") , gb );
+	updatecb->adjustSize();
+
+        setMinimumSize(70+updatecb->width(), 10+20+fullcb->height()+20+updatecb->height()+10+ok->height()+50);
+}
+
+void AddOptionsDlg::resizeEvent(QResizeEvent *e)
+{
+        QDialog::resizeEvent(e);
+        int h_txt = fullcb->height(); // taken for the general qcheckbox height
+        int w = rect().width();
+        int h = rect().height();
+        gb->setGeometry(10,10,w-20,h-20-40); // 40 pixels for the bottom buttons
+        ok->move(20,h-10-ok->height());
+        cancel->move(w-20-cancel->width(),h-10-cancel->height());
+        // Now move the options inside the qcheckbox
+        fullcb->move(10+20,10+20);
+        updatecb->move(10+20,10+20+h_txt+20);
 }
 
 bool AddOptionsDlg::onlyUpdate()
@@ -35,4 +50,3 @@ bool AddOptionsDlg::storeFullPath()
 {
 	return fullcb->isChecked();
 }
-

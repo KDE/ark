@@ -12,6 +12,7 @@ public:
 	AddOptionsDlg( QWidget *parent=0, char *name="" );
 	bool onlyUpdate();
 	bool storeFullPath();
+        void resizeEvent(QResizeEvent *e);
 private:
 	QPushButton *ok;
 	QPushButton *cancel;
