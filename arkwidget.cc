@@ -90,7 +90,10 @@ void ArkWidget::setupMenuBar()
 	accelerators->insertStdItem(KAccel::Open, i18n("Open"));
 	accelerators->insertStdItem(KAccel::Close, i18n("Close"));
 	accelerators->insertStdItem(KAccel::Quit, i18n("Quit"));
-	accelerators->insertItem(i18n("Extract"), "Extraction", "CTRL+E");
+	accelerators->insertItem(i18n("Add"), "Add_accel", "CTRL+E");
+	accelerators->insertItem(i18n("Delete"), "Delete_accel", "CTRL+E");
+	accelerators->insertItem(i18n("Extract"), "Extract_accel", "CTRL+E");
+	accelerators->insertItem(i18n("View"), "View_accel", "CTRL+E");
 	accelerators->insertItem(i18n("Select all"), "SelectionAll", "CTRL+A");
 	accelerators->insertItem(i18n("Deselect all"), "DeselectionAll", "CTRL+D");
 	accelerators->insertStdItem(KAccel::Help);
@@ -99,7 +102,10 @@ void ArkWidget::setupMenuBar()
 	accelerators->connectItem(KAccel::Quit, this, SLOT(quit()));
 	accelerators->connectItem(KAccel::Close, this, SLOT(closeZip()));
 	accelerators->connectItem(KAccel::New, this, SLOT(createZip()));
-	accelerators->connectItem("Extraction", this, SLOT(extract()));
+	accelerators->connectItem("Add_accel", this, SLOT(edit_add()));
+	accelerators->connectItem("Delete_accel", this, SLOT(edit_delete()));
+	accelerators->connectItem("Extract_accel", this, SLOT(edit_extract()));
+	accelerators->connectItem("View_accel", this, SLOT(edit_view()));
 	accelerators->connectItem("SelectionAll", this, SLOT(selectAll()));
 	accelerators->connectItem("DeselectionAll", this, SLOT(deselectAll()));
 	accelerators->connectItem(KAccel::Open, this, SLOT(openZip()));
@@ -136,11 +142,23 @@ void ArkWidget::setupMenuBar()
 	accelerators->changeMenuAccel(filemenu, id, KAccel::Quit );
 
 	// Edit menu creation
-	idExtract=editMenu->insertItem( i18n( "E&xtract..."), this, SLOT( extract() ) );
-	accelerators->changeMenuAccel(editMenu, idExtract, "Extraction" );
+	idAdd=editMenu->insertItem( i18n( "&Add..."), this, SLOT( edit_add() ) );
+	accelerators->changeMenuAccel(editMenu, idAdd, "Add_accel" );
+	editMenu->setItemEnabled( idAdd, false );
+	
+	idDelete=editMenu->insertItem( i18n( "&Delete..."), this, SLOT( edit_delete() ) );
+	accelerators->changeMenuAccel(editMenu, idDelete, "Delete_accel" );
+	editMenu->setItemEnabled( idDelete, false );
+	
+	idExtract=editMenu->insertItem( i18n( "E&xtract..."), this, SLOT( edit_extract() ) );
+	accelerators->changeMenuAccel(editMenu, idExtract, "Extract_accel" );
+	editMenu->setItemEnabled( idExtract, false );
 
-	idView=editMenu->insertItem( i18n( "&View file"), this, SLOT( showFile() ) );
-	idDelete=editMenu->insertItem( i18n( "&Delete file"), this, SLOT( deleteFile() ) );
+	idView=editMenu->insertItem( i18n( "&View..."), this, SLOT( edit_view() ) );
+	accelerators->changeMenuAccel(editMenu, idView, "View_accel" );
+	editMenu->setItemEnabled( idView, false );
+	
+	
 	editMenu->insertSeparator();
 	id=editMenu->insertItem( i18n( "&Select all"), this, SLOT( selectAll() ) );
 	accelerators->changeMenuAccel(editMenu, id, "SelectionAll" );
@@ -153,8 +171,8 @@ void ArkWidget::setupMenuBar()
 	optionsmenu->insertItem( i18n( "Set &Tar Executable..."), this, SLOT( getTarExe() ) );
 	optionsmenu->insertItem( i18n( "&File Adding Options..."), this, SLOT( getAddOptions() ) );
 	optionsmenu->insertItem( i18n( "&Keys..."), this, SLOT( options_keyconf() ) );
-	optionsmenu->insertItem( i18n( "&Directories..."), this, SLOT( configDirs() ) );
-	optionsmenu->insertItem( i18n( "&Test dialog..."), this, SLOT( testdlg() ) );
+//	optionsmenu->insertItem( i18n( "&Directories..."), this, SLOT( configDirs() ) );
+//	optionsmenu->insertItem( i18n( "&Test dialog..."), this, SLOT( testdlg() ) );
 
 	// Help menu creation
 	QString about_ark;
@@ -176,10 +194,10 @@ void ArkWidget::setupMenuBar()
 
 	pop = new KPopupMenu();
 	pop->setTitle( i18n("File Operations") );
-	pop->insertItem( i18n("Extract..."), this, SLOT( extractFile() ) );
-	pop->insertItem( i18n("View file"), this, SLOT( showFile() ) );
+	pop->insertItem( i18n("Extract..."), this, SLOT( edit_extract() ) );
+	pop->insertItem( i18n("View file"), this, SLOT( edit_view() ) );
 	pop->insertSeparator();
-	pop->insertItem( i18n("Delete file"), this, SLOT( deleteFile() ) );
+	pop->insertItem( i18n("Delete file"), this, SLOT( edit_delete() ) );
 }
 
 void ArkWidget::createRecentPopup()
@@ -218,7 +236,9 @@ void ArkWidget::setupToolBar()
 	tb->insertButton( pix, 3, SIGNAL( clicked() ), this, SLOT( showFavorite() ), TRUE, i18n("Goto Archive Dir..."));
 
 	pix.load( pixpath+"viewzoom.xpm" );
-	tb->insertButton( pix, 1, SIGNAL( clicked() ), this, SLOT( extractZip() ), TRUE, i18n("Extract To.."));
+	int id=tb->insertButton( pix, 1, SIGNAL( clicked() ), this, SLOT( edit_extract() ), TRUE, i18n("Extract To.."));
+	cerr << "id is " << id << "\n";
+	tb->hideItem( id );
 	
 	tb->insertSeparator();
 	pix.load( pixpath+"exit.xpm" );
@@ -460,7 +480,12 @@ void ArkWidget::showFavorite()
 	writeStatus( i18n( "Archive Directory") );
 }
 
-void ArkWidget::extract()
+void ArkWidget::edit_add()
+{
+
+}
+
+void ArkWidget::edit_extract()
 {
 	if( arch == 0 )
 		arkWarning( "extract should not be available here !");
@@ -511,7 +536,7 @@ void ArkWidget::quit()
 	kapp->quit();
 }
 
-void ArkWidget::showFile()
+void ArkWidget::edit_view()
 {
 /*
 	if( lb->currentItem() != -1 )
@@ -550,7 +575,7 @@ void ArkWidget::showFile( int index, int col )
 }
 
 
-void ArkWidget::deleteFile()
+void ArkWidget::edit_delete()
 {
 //	deleteFile( lb->currentItem() );
 } 
@@ -589,6 +614,10 @@ void ArkWidget::clearCurrentArchive()
 		delete arch;
 	arch = 0;
 	setCaption("ark");
+	editMenu->setItemEnabled( idAdd, false );
+	editMenu->setItemEnabled( idDelete, false );
+	editMenu->setItemEnabled( idExtract, false );
+	editMenu->setItemEnabled( idView, false );
 }
 
 
@@ -618,6 +647,11 @@ void ArkWidget::newCaption(const QString& filename){
 	QString caption;
 	caption.sprintf(i18n("ark - %s"), filename.data());
 	setCaption(caption);
+
+//	editMenu->setItemEnabled( idAdd, false );
+	editMenu->setItemEnabled( idDelete, true );
+	editMenu->setItemEnabled( idExtract, true );
+	editMenu->setItemEnabled( idView, true );
 
 	data->addRecentFile(filename);
 	createRecentPopup();

@@ -32,6 +32,7 @@
 #include <qbuttongroup.h>
 
 // KDE includes
+#include <kfiledialog.h>
 #include <klocale.h>
 
 // ark includes
@@ -64,7 +65,7 @@ DirDlg::DirDlg( ArkData *d, QWidget *parent, const char *name )
 	QPushButton *browse = new QPushButton( i18n("Browse..."), this );
 	browse->setFixedSize( browse->sizeHint() );
 	hbl1->addWidget( browse );
-
+        connect( browse, SIGNAL(clicked()), SLOT(getDir(le)) );
 	/**
 	 * Build the 4 directories selection
 	 */
@@ -238,3 +239,13 @@ DirDlg::DirDlg( ArkData *d, QWidget *parent, const char *name )
 	setFixedSize( sizeHint() );
 }
 
+void DirDlg::getDir( QLineEdit *le )
+{
+	KDirDialog dd( le->text(), 0, "dirdialog" );
+	if( dd.exec() )
+	{
+		QString dirName = dd.selectedFile();
+		if( !dirName.isEmpty() )
+			le->setText( dirName );
+	}
+}

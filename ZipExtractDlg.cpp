@@ -107,6 +107,7 @@ cerr << fileList->widget()->sizeHint().width() << "\n";
 	cancel->setFixedSize( cancel->sizeHint() );
 	vbl1->addWidget( cancel );
         connect(cancel, SIGNAL(clicked()), SLOT(reject()));
+
 	// *******
 	// *@@*  *
 	// *******
@@ -127,6 +128,7 @@ cerr << fileList->widget()->sizeHint().width() << "\n";
 	
 	QRadioButton *r2 = new QRadioButton( i18n("All files"), bg1 );
 	r2->setFixedSize( r2->sizeHint() );
+	r2->setChecked( true );
 	vblg1->addWidget( r2, 0, AlignLeft );
 	
 	QRadioButton *r3 = new QRadioButton( i18n("Files: "), bg1 );

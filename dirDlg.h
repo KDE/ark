@@ -28,9 +28,7 @@
 
 // Qt includes
 #include <qdialog.h>
-
-// KDE includes
-#include <kfiledialog.h>
+#include <qlineedit.h>
 
 // ark includes
 #include "arkdata.h"
@@ -39,6 +37,8 @@ class DirDlg : public QDialog {
 	Q_OBJECT
 public:
 	DirDlg(  ArkData *d, QWidget *parent=0, const char *name=0 );
+public slots:
+	void getDir(QLineEdit *);	
 private:
 	ArkData *data;
 };

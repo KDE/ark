@@ -51,13 +51,14 @@ public slots:
 	void getFav();
 	void openZip();
 	void closeZip();
-	void extract();
-	void deleteFile();
+	void edit_add();
+	void edit_view();
+	void edit_delete();
+	void edit_extract();
 	void deleteFile( int );
 	void showFavorite();
 	void quit();
 	void showFile( int, int col=0 );
-	void showFile();
 	void help();
 	void showZip( QString name );
 	void options_keyconf();

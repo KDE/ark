@@ -85,6 +85,24 @@ int main( int argc, char *argv[]  )
 			if( !Zip.isEmpty() )
 				arkWin->showZip( Zip );
 		}
+		if(argc==1)
+		{
+			ArkWidget *arkWin=new ArkWidget();
+			arkWin->show();
+			KConfig *config;
+        	
+        		config = kapp->getConfig();
+	        	config->setGroup("ark");
+
+        	
+                	int max_mode=config->readNumEntry(QString("MaxMode"), -1);
+		        if(max_mode!=-1){
+        		    if( (max_mode==1) || (max_mode==2) || (max_mode==3) )
+                	        KWM::doMaximize(arkWin->winId(), TRUE,  max_mode);
+		            else
+				 cerr << "main.cc: unknown maximize mode";
+        		}
+		}
 	}
 	ark.exec();
 }
