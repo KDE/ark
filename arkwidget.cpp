@@ -40,7 +40,6 @@
 
 // KDE includes
 #include <kdebug.h>
-#include <kdebugclasses.h>
 #include <klocale.h>
 #include <qpopupmenu.h>
 #include <kkeydialog.h>
