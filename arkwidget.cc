@@ -31,7 +31,6 @@
 #include <kkeydialog.h>
 
 #include "extractdlg.h"
-#include "karchive.h"
 #include "arkwidget.h"
 #include "errors.h"
 #include "arkwidget.moc"
@@ -63,7 +62,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 
 	//connect( lb, SIGNAL( highlighted(int, int) ), this, SLOT( showFile(int, int) ) );
 	//connect( lb, SIGNAL( popupMenu(int, int) ), this, SLOT( doPopup(int, int) ) );
-//	connect( archiveContent, SIGNAL( rightButtonClicked(FileLVI *, QPoint &, int), this, SLOT( doPopup(FileLVI *, int) ) );
+//	connect( archiveContent, SIGNAL( rightButtonClicked(FileLVI *, QPoint &, int)), this, SLOT( doPopup(FileLVI *) ) );
 
 	KDNDDropZone *dz = new KDNDDropZone( archiveContent, DndURL );
 	connect( dz, SIGNAL(dropAction(KDNDDropZone *)),SLOT( fileDrop(KDNDDropZone *)) );
@@ -175,7 +174,15 @@ void ArkWidget::setupMenuBar()
 	optionsmenu->insertItem( i18n( "&Keys..."), this, SLOT( options_keyconf() ) );
 
 	// Help menu creation
-	QPopupMenu *helpmenu = kapp->getHelpMenu( true, "ark v0.5\n (c) 1997 Robert Palmbos" );
+	QString about_ark;
+	about_ark.sprintf(i18n(
+		"ark version %s - the KDE archiver\n"
+                "\n"
+                "Copyright:\n" 
+                "1997-1999: Robert Palmbos <palm9744@kettering.edu\n"
+                "1999: Francois-Xavier Duranceau <duranceau@kde.org>\n"),
+		ARK_VERSION );
+	QPopupMenu *helpmenu = kapp->getHelpMenu( true, about_ark );
 
 	menu->insertItem( i18n( "&File"), filemenu );
 	menu->insertItem( i18n( "&Edit"), editMenu );
@@ -243,14 +250,15 @@ void ArkWidget::newWindow()
 	kw->show();
 }
 
-void ArkWidget::doPopup( int row, int col )
+void ArkWidget::doPopup( FileLVI *item )
 {
+	cerr << "Entered doPopup\n";
 	contextRow = true;
-	//lb->setCurrentItem( row, col );
 	//archiveContent->setCurrentItem( item );
 	contextRow = false;
 
 	pop->popup( QCursor::pos(), KPM_FirstItem );
+	cerr << "Exited doPopup\n";
 	//pop.exec();
 }
 
@@ -258,27 +266,17 @@ void ArkWidget::createZip()
 {
 	int ret;
 
-	// Do not clear the archive content until a new archive is created
-//	if( arch )
-//	{
-//		lb->clear();
-//	}
-
 	QString file = KFileDialog::getSaveFileName(QString::null, data->getFilter());
 	if( !file.isEmpty() )
 	{
-		archiveContent->clear();
-		//lb->clear();
-		//lb->repaint();	// to be deleted
-		arch = new KArchive(data->getTarCommand());
-		ret = arch->createArch( file );	
-		if( ret ){
+		delete archiveContent;
+		createFileListView();
+		ret = createArchive( file );	
+		if( ret )
 			newCaption(file);
-		}
 		else
 		{
-			arkWarning( i18n( "Can't create archive of that type") );
-			clearCurrentArchive();
+			arkError( i18n( "Can't create archive of that type") );
 		}
 	}
 }
@@ -292,8 +290,8 @@ void ArkWidget::getAddOptions()
 		{
 			addonlynew = afd->onlyUpdate();
 			storefullpath = afd->storeFullPath();
-			arch->addPath( storefullpath );
-			arch->onlyUpdate( addonlynew );
+			data->setaddPath( storefullpath );
+			data->setonlyUpdate( addonlynew );
 		}
 		delete afd;
 		afd = 0;
@@ -317,14 +315,15 @@ void ArkWidget::fileDrop( KDNDDropZone *dz )
 		url = dlist.at(0);
 		file = url.right( url.length()-5 );
 		foo = file.data();
-		arch = new KArchive(data->getTarCommand());
-		if( arch->openArch(file, archiveContent) )
+//		arch = new KArchive(data->getTarCommand());
+//		if( arch->openArch(file, archiveContent) )
+		if( openArchive(file) )
 		{
 //			showZip( file );
 			opennew=true;
 		}else{
 			//sb->changeItem( i18n( "Create or open an archive first"), 0 );
-			clearCurrentArchive();
+			//clearCurrentArchive();
 			createZip();
 		}
 	}
@@ -389,24 +388,21 @@ void ArkWidget::openRecent(int i)
 {
 	QString filename = recentPopup->text(i);
 	showZip( filename );
-	newCaption( filename);
+
+	//If showZip fails ??
+	newCaption(filename);
 }
 
 void ArkWidget::showZip( QString name )
 {
 	bool ret;
 
-	archiveContent->clear();
-	clearCurrentArchive();
-	arch = new KArchive(data->getTarCommand());
-
 	delete archiveContent;
 	createFileListView();
-	ret = arch->openArch( name, archiveContent );
-	cerr << "openArch2 returned " << ret << "\n";
+	ret = openArchive( name );
+	cerr << "openArchive returned " << ret << "\n";
 	if( ret )
 	{
-		setupHeaders();
 		listing = (QStrList *)arch->getListing();
 	}else{
 		arkError( i18n("Unknown archive format") );
@@ -671,40 +667,6 @@ void ArkWidget::deleteFile( int pos )
 }
 
 
-void ArkWidget::setupHeaders()
-{
-/*
-	char *h = strdup( arch->getHeaders() );
-	char *hdrs=h;
-	char *tmp;
-	char *hdr;
-	int i=0;
-	int cols=0;
-	while( h[i]!='\0' )
-	{
-		if( h[i] == '\t' )
-			cols++;
-		i++;
-	}
-	lb->setNumCols( cols );
-	i=0;
-	while( (tmp=strstr( hdrs, "\t" ))!=0 )
-	{
-		hdr=hdrs;
-		hdrs=tmp+1;
-		tmp[0]='\0';
-		lb->setColumn( i, hdr, (lb->fontMetrics()).width( hdr )+20 );
-		i++;
-	}
-	int twidth=0;
-	for( int ii=0; ii<i-1; ii++ )
-		twidth+=lb->cellWidth( ii );
-	lb->setColumnWidth( i-1, ((this->width())-twidth) );  // Is there a way to set to fill to right initially
-	free( h );
-*/
-}
-
-
 /**
  * Writes a message in the status bar. 
  * This message is visible during 5 seconds.
@@ -782,3 +744,96 @@ void ArkWidget::deselectAll()
 	archiveContent->clearSelection();
 }
 
+
+int ArkWidget::getArchType( QString archname )
+{
+	if( archname.contains(".tgz", FALSE) || archname.contains(".tar.gz", FALSE)
+			|| archname.contains( ".tar.Z", FALSE ) || archname.contains(".tar.bz", FALSE)
+			|| archname.contains( ".tar.bz2", FALSE ) || archname.contains(".tar.lzo", FALSE)
+			|| archname.contains( ".tbz", FALSE ) || archname.contains(".tzo", FALSE)
+			|| archname.contains( ".taz", FALSE) )
+		return TAR_FORMAT;
+//	if( archname.contains(".lha", FALSE) || archname.contains(".lzh", FALSE ))
+//		return LHA_FORMAT;
+	if( archname.contains(".zip", FALSE) )
+		return ZIP_FORMAT;
+//	if( archname.contains(".a", FALSE ) )
+//		return AA_FORMAT;
+	return -1;
+}
+
+
+bool ArkWidget::createArchive( QString name )
+{
+	int ret;
+
+	switch( getArchType( name ) )
+	{
+		case TAR_FORMAT:
+		{
+			arch = new TarArch( data );
+			arch->createArch( name );
+			ret = true;
+		}
+		case ZIP_FORMAT:
+		{
+			arch = new ZipArch( data );
+			arch->createArch( name );
+			ret = true;
+		}
+/*		case LHA_FORMAT:
+		{
+			return new LhaArch;
+			break;
+		}
+		case AA_FORMAT:
+		{
+			return new ArArch;
+			break;
+		}
+*/		default:
+		{
+			return false;
+		}
+	}
+	return ret;
+}
+
+bool ArkWidget::openArchive( QString name )
+{
+	int ret;
+
+	switch( getArchType( name ) )
+	{
+		case TAR_FORMAT:
+		{
+			arch = new TarArch(  data );
+			arch->openArch( name, archiveContent );
+			ret = true;
+			break;
+		}
+		case ZIP_FORMAT:
+		{
+			arch = new ZipArch( data );
+			arch->openArch( name, archiveContent );
+			ret = true;
+			break;
+		}
+/*		case LHA_FORMAT:
+		{
+			return new LhaArch;
+			break;
+		}
+		case AA_FORMAT:
+		{
+			return new ArArch;
+			break;
+		}
+*/		default:
+		{
+			ret = false;
+			break;
+		}
+	}
+	return ret;
+}

@@ -3,13 +3,15 @@
 
 #include "arch.h"
 #include <unistd.h>
+
+#include "arkdata.h"
 #include "arkprocess.h"
 #include "filelistview.h"
 
 class TarArch : public Arch {
 
 public:
-	TarArch( QString );
+	TarArch( ArkData *data );
 	virtual ~TarArch();
 	virtual unsigned char setOptions( bool p, bool l, bool o );
 	virtual void openArch( QString, FileListView *flw );

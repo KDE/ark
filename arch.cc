@@ -13,11 +13,6 @@ Arch::~Arch()
 {
 }
 
-/*unsigned char Arch::setOptions( bool, bool, bool )
-{
-	return 0;
-}
-*/
 void Arch::newProgressDialog( long int initial, long int max )
 {
 	delete pd;
@@ -63,47 +58,3 @@ int Arch::isCanceled()
 	return canceled;
 }
 
-/*void Arch::onlyUpdate( bool )
-{
-}
-
-void Arch::addPath( bool )
-{
-}
-
-// void Arch::openArch( QString )
-// {
-// }
-
-void Arch::createArch( QString )
-{
-}
-
-const QStrList *Arch::getListing()
-{
-	return 0;
-}
-
-
-int Arch::addFile( QStrList *)
-{
-	return FALSE;
-}
-
-void Arch::extractTo( QString )
-{
-}
-
-QString Arch::unarchFile( int, QString )
-{
-}
-
-void Arch::deleteFile( int )
-{
-}
-
-const char * Arch::getHeaders()
-{
-	return 0;
-}
-*/

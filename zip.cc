@@ -5,14 +5,18 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <kurl.h>
+
+#include "arkdata.h"
 #include "zip.h"
 
-ZipArch::ZipArch()
+
+ZipArch::ZipArch( ArkData *d )
   : Arch()
 {
 	listing = new QStrList;
-	storefullpath = FALSE;
-	onlyupdate = FALSE;
+//	storefullpath = FALSE;
+//	onlyupdate = FALSE;
+	data = d;
 }
 
 ZipArch::~ZipArch()
@@ -28,20 +32,10 @@ unsigned char ZipArch::setOptions( bool p, bool l, bool o )
 	return 2;
 }
 
-void ZipArch::onlyUpdate( bool in )
-{
-	onlyupdate = in;
-}
-
-void ZipArch::addPath( bool in )
-{
-	storefullpath = in;
-}
-
 
 void ZipArch::openArch( QString file, FileListView *flw )
 {
-	cout << "Entered openArch2" << endl;
+	cout << "Entered openArch for Zip" << endl;
 	char line[4096];
 	char columns[8][80];
 	char filename[4096];
@@ -66,8 +60,6 @@ void ZipArch::openArch( QString file, FileListView *flw )
 		return;
 	}
 
-	//Clear the archive currently displayed
-	flw->clear();
 	flw->addColumn( i18n("Name") );
 	flw->addColumn( i18n("Length") );
 	flw->addColumn( i18n("Method") );
@@ -76,7 +68,6 @@ void ZipArch::openArch( QString file, FileListView *flw )
 	flw->addColumn( i18n("Date") );
 	flw->addColumn( i18n("Time") );
 	flw->addColumn( i18n("CRC-32") );
-
 
 	while( !feof(fd) && !strstr( line, "----" ) )
 		fgets( line, 4096, fd );
@@ -107,7 +98,7 @@ void ZipArch::openArch( QString file, FileListView *flw )
 		cerr << line << "\n";	          	
 		fgets( line, 4096, fd );
 	}
-//	fclose( fd );
+	fclose( fd );
 //	There should be a file descriptor close call, but this one makes a
 //	BAD FILEDESCRIPTOR error message
 
@@ -134,7 +125,7 @@ int ZipArch::addFile( QStrList *urls )
 	QString url;
 	QString file;
 	
-	if( onlyupdate )
+	if( data->getonlyUpdate() )
 		archProcess << "-u";
 	archProcess << archname;
 	
@@ -142,7 +133,7 @@ int ZipArch::addFile( QStrList *urls )
 	do
 	{
 		file = KURL(url).path(-1); // remove trailing slash
-		if( !storefullpath )
+		if( !data->getaddPath() )
 		{
 			int pos;
 			pos = file.findRev( '/' );

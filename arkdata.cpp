@@ -5,13 +5,16 @@
 #include <qstring.h>
 
 // KDE includes
-#include <klocale.h>
-#include <kconfig.h>
 #include <kapp.h>
+#include <kconfig.h>
+#include <klocale.h>
 
 #include "arkdata.h"
 
 
+/**
+ * Constructs an ArkData object by reading the ark config file
+ */
 ArkData::ArkData()
 {
 	kc = kapp->getConfig();
@@ -22,14 +25,19 @@ void ArkData::readConfigFile() {
 
         kc->setGroup( ARK_KEY );
 
-	fav_dir = kc->readEntry( FAVORITE_KEY );
+    favoriteDir = kc->readEntry( FAVORITE_KEY );
 
-	if( fav_dir.isEmpty() )
-		fav_dir = getenv( "HOME" );
-	cerr << "Favorite dir is " << fav_dir.ascii() << "\n";
+    if( favoriteDir.isEmpty() )
+        favoriteDir = getenv( "HOME" );
+    cerr << "Favorite dir is " << favoriteDir.ascii() << "\n";
 
 	tar_exe = kc->readEntry( TAR_KEY, "tar");
 	cerr << "Tar command is " << tar_exe.ascii() << "\n";
+
+    startDir = kc->readEntry( START_DIR_KEY );
+    openDir = kc->readEntry( OPEN_DIR_KEY );
+    extractDir = kc->readEntry( EXTRACT_DIR_KEY );
+    addDir = kc->readEntry( ADD_DIR_KEY );
 
 	readRecentFiles();
 //	QString startpoint;
@@ -93,13 +101,13 @@ void ArkData::setTarCommand(const QString cmd)
 
 const QString ArkData::getFavoriteDir()
 {
-	return QString(fav_dir);
+    return QString(favoriteDir);
 }
 
 void ArkData::setFavoriteDir(const QString fd)
 {
         kc->setGroup( ARK_KEY );
-	fav_dir = fd;
+        favoriteDir = fd;
         kc->writeEntry( FAVORITE_KEY, fd );
 }
 
@@ -129,11 +137,53 @@ void ArkData::addRecentFile(const QString& filename)
 	cerr << "left addRecentFile\n";
 }
 
+const QString ArkData::getAddDir()
+{
+    return QString(addDir);
+}
+
+void ArkData::setAddDir(const QString dir)
+{
+    addDir = dir;
+}
+
+const QString ArkData::getExtractDir()
+{
+    return QString(extractDir);
+}
+
+void ArkData::setExtractDir(const QString dir)
+{
+    extractDir = dir;
+}
+
+const QString ArkData::getOpenDir()
+{
+    return QString(openDir);
+}
+
+void ArkData::setOpenDir(const QString dir)
+{
+    openDir = dir;
+}
+
+const QString ArkData::getStartDir()
+{
+    return QString(startDir);
+}
+
+void ArkData::setStartDir(const QString dir)
+{
+    startDir = dir;
+}
+
+
 const QString ArkData::getFilter()
 {
 	return QString(i18n("*.zip *.tar.gz *.tar.bz2 *.ar *.lha|All valid archives\n"
 			"*.zip|Zip archive (*.zip)\n"
-			"*.tar.gz|Tar compressed archive (*.tar.gz *.tar.bz2)\n"
+            "*.tar.gz *.tgz |Tar compressed with gzip (*.tar.gz *.tgz)\n"
+            "*.tbz2 *.tar.bz2|Tar compressed with bzip2 (*.tar.bz2 *.tbz2)\n"
 			"*.ar|Ar archive (*.ar)\n"
 			"*.lha|Lha archive (*.lha)"));
 }
@@ -141,6 +191,14 @@ const QString ArkData::getFilter()
 void ArkData::writeConfiguration(){
 	
 	writeRecentFiles();
+    kc->setGroup( ARK_KEY );
+    kc->writeEntry( TAR_KEY, tar_exe );
+    kc->writeEntry( FAVORITE_KEY, favoriteDir );
+
+    kc->writeEntry( START_DIR_KEY, startDir);
+    kc->writeEntry( OPEN_DIR_KEY, openDir);
+    kc->writeEntry( EXTRACT_DIR_KEY, extractDir);
+    kc->writeEntry( ADD_DIR_KEY, addDir);
 }
 
 /*
@@ -174,3 +232,22 @@ void ArkWidget::readProperties( KConfig *kc ) {
 
 */
 
+void ArkData::setaddPath( bool& b)
+{
+	addPath = b;
+}
+
+void ArkData::setonlyUpdate( bool& b)
+{
+	onlyUpdate = b;
+}
+
+bool ArkData::getonlyUpdate()
+{
+	return onlyUpdate;
+}
+
+bool ArkData::getaddPath()
+{
+	return addPath;
+}

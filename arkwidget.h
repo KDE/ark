@@ -18,13 +18,19 @@
 #include <ktablistbox.h>
 #include <kaccel.h>
 
-#include "karchive.h"
+#include "ar.h"
+#include "arch.h"
 #include "adddlg.h"
 #include "arkdata.h"
 #include "filelistview.h"
+#include "tar.h"
+#include "zip.h"
+#include "lha.h"
 
 #define ARK_WARNING i18n("ark - warning")
 #define ARK_ERROR i18n("ark - error")
+
+#define ARK_VERSION "0.5"
 
 class ArkWidget : public KTMainWindow {
 
@@ -36,7 +42,7 @@ public:
 
 public slots:
 	void getTarExe();
-	void doPopup( int, int );
+	void doPopup( FileLVI *item );
 	void newWindow();
 	void createZip();
 	void fileDrop( KDNDDropZone * );
@@ -55,7 +61,6 @@ public slots:
 	void showFile();
 	void help();
 	void showZip( QString name );
-	void setupHeaders();
 	void options_keyconf();
 	void timeout();
 	void openRecent( int );
@@ -68,12 +73,14 @@ protected:
 
 
 private:
+	enum ArchType{ TAR_FORMAT, ZIP_FORMAT, AA_FORMAT, LHA_FORMAT };
+
 	bool addonlynew;
 	bool storefullpath;
-	KArchive *arch;
+	Arch *arch;
 	FileListView *archiveContent;
 	QStrList *listing;
-	QStrList *flisting;
+	QStrList *flisting;	
 	QDir *fav;
 	QString tmpdir;
 	KFM *kfm;
@@ -94,6 +101,9 @@ private:
 	void createRecentPopup();
 	void newCaption(const QString& filename);
 	void createFileListView();
+	int getArchType(QString archname);
+	bool createArchive(QString name);
+	bool openArchive(QString name);
 };
 
 #endif /* ARKWIDGET_H*/

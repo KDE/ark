@@ -14,7 +14,7 @@
 #include "tar.h"
 #include "filelistview.h"
 
-TarArch::TarArch( QString te )
+TarArch::TarArch( ArkData *data )
 	: Arch()
 {
 	cout << "Entered TarArch" << endl;
@@ -23,7 +23,7 @@ TarArch::TarArch( QString te )
 	onlyupdate = FALSE;
 	storefullpath = FALSE;
 	tmpfile.sprintf( "/tmp/ark.%d/tmpfile.tar", getpid() );
-	tar_exe = te;
+	tar_exe = data->getTarCommand();
 	cout << "Left TarArch" << endl;
 }
 

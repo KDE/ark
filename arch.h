@@ -29,15 +29,14 @@ public:
 	virtual void createArch( QString ) = 0;
 	virtual int addFile( QStrList *) = 0;
 	virtual void extractTo( QString ) = 0;
-	virtual void onlyUpdate( bool ) = 0;
-	virtual void addPath( bool ) = 0;
+//	virtual void onlyUpdate( bool ) = 0;
+//	virtual void addPath( bool ) = 0;
 	virtual const QStrList *getListing() = 0;
 	virtual QString unarchFile( int , QString ) = 0;
 	virtual void deleteFile( int ) = 0;
 	virtual void newProgressDialog( long int, long int );
 	virtual int isCanceled();
-	virtual const char *getHeaders() = 0;
-	virtual const char *getName() { return archname; };
+//	virtual const char *getName() { return archname; };
 
 protected:
 	QString archname;
