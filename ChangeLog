@@ -1,9 +1,9 @@
 2000-01-18: Emily Ezust <emilye@corel.com>
 	* KUniqueApplication stuff was enabled by waba, with KCmdLineArgs
 	  code. Modified it to work according to Cooperating-SDI model.
-	* Moved windowList to ArkApplication (accessed through a global
- 	pointer).
-
+	* Moved windowList to ArkApplication (accessed through a static
+	  function). ArkApplication is now modelled on the singleton pattern.
+  
 2000-01-10: Emily Ezust <emilye@corel.com>
 	* Finished renaming ArkData to ArkSettings.
 	* Tried using KDialogBase for Add dialog - not working too well.

@@ -4,6 +4,7 @@
     Copyright (C)
     1997-1999 Robert Palmbos <palm9744@kettering.edu>
     1999 Francois-Xavier Duranceau <duranceau@kde.org>
+    1999-2000: Emily Ezust  emilye@corel.com
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -46,13 +47,6 @@ static KCmdLineOptions option[] =
    { 0, 0, 0 }
 };
 
-//
-// This pointer is to be used globally when we need to access the
-// settings and window list. I didn't make the ArkApplication itself
-// global because otherwise the command-line parsing won't work -
-// KCmdLineArgs would try to do its stuff before we even got to main!
-ArkApplication *g_pArk = 0;
-
 int main( int argc, char *argv[]  )
 {
     KCmdLineArgs::init(argc, argv, "ark", description, version );
@@ -65,14 +59,11 @@ int main( int argc, char *argv[]  )
        exit(0);
     }
 
-    ArkApplication ark;
-    g_pArk = &ark;
-
-    if (ark.isRestored())
+    if (ArkApplication::getInstance()->isRestored())
     {
        kdebug(0, 1601, "In main: Restore...");
        RESTORE(ArkWidget);
     }
     kdebug(0, 1601, "Ready to exec...");
-    return ark.exec();
+    return ArkApplication::getInstance()->exec();
 }

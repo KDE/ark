@@ -8,7 +8,7 @@
 
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
- 1999: Emily Ezust  emilye@corel.com
+ 1999-2000: Emily Ezust  emilye@corel.com
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -69,8 +69,6 @@
 
 extern int errno;
 
-extern ArkApplication *g_pArk;  // the way to access settings
-
 enum Buttons { OPEN_BUTTON= 1000, NEW_BUTTON, FAVORITE_BUTTON, EXTRACT_BUTTON,
 	       CLOSE_BUTTON };
 
@@ -91,7 +89,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 	
     m_settings->setTmpDir( tmpdir );
     
-    g_pArk->addWindow(this);
+    ArkApplication::getInstance()->addWindow(this);
 
     // Build the ark UI
     kdebug(0, 1601, "Build the GUI");
@@ -142,7 +140,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 
 ArkWidget::~ArkWidget()
 {
-  g_pArk->removeWindow(this);
+  ArkApplication::getInstance()->removeWindow(this);
   delete archiveContent;
   delete recentPopup;
   delete accelerators;
@@ -900,10 +898,9 @@ void ArkWidget::file_close()
 void ArkWidget::window_close()
 {
     kdebug(0, 1601, "+ArkWidget::window_close");
-    kdebug(0, 1601, "Num windows: %d\n", g_pArk->windowCount());
 
     file_close();
-    if( g_pArk->windowCount() < 2  )
+    if (ArkApplication::getInstance()->windowCount() < 2  )
       {
 	saveProperties();
 	kapp->quit();
