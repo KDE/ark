@@ -66,12 +66,14 @@ int main( int argc, char *argv[]  )
     KAboutData aboutData( "ark", I18N_NOOP( "ark" ),
                           "v2.1.9", I18N_NOOP("KDE Archiving tool"), KAboutData::License_GPL,
                           I18N_NOOP( "(c) 1997-2001, The Various Ark Developers" ) );
-    aboutData.addAuthor( "Robert Palmbos", 0, "palm9744@kettering.edu" );
+    aboutData.addAuthor( "Roberto Teixeira", I18N_NOOP( "Current maintainer" ),
+                         "maragato@kde.org" );
     aboutData.addAuthor( "Francois-Xavier Duranceau", 0, "duranceau@kde.org" );
-    aboutData.addAuthor( "Corel Corporation (author: Emily Ezust)", 0, "emilye@corel.com" );
-    aboutData.addAuthor( "Corel Corporation (author: Michael Jarrett)", 0,
+    aboutData.addAuthor( "Emily Ezust (Corel Corporation)", 0, "emilye@corel.com" );
+    aboutData.addAuthor( "Michael Jarrett (Corel Corporation)", 0,
                          "michaelj@corel.com" );
-    aboutData.addAuthor( "Roberto Teixeira", 0, "maragato@kde.org" );
+    aboutData.addAuthor( "Robert Palmbos", 0, "palm9744@kettering.edu" );
+
 
     KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineArgs::addCmdLineOptions( option );
