@@ -59,9 +59,11 @@ void ZipArch::openArch( QString file )
 		{
 			if( strstr( line, "----" ) )
 				break;
+			while( line[0] == ' ' )
+				strshort( line, 1 );
 			nl = strstr( line, "\n" );
 			*nl = '\0';
-			for(idx=0; idx<8; idx++ )
+			for(idx=0; idx<7; idx++ )
 			{
 				tmp = strstr( line, " " );
 					tmp[0]='\t';
