@@ -63,7 +63,7 @@ RarArch::RarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
       
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
-  m_headerString = "----";
+  m_headerString = "-------------------------------------------------------------------------------";
 }
 
 bool RarArch::processLine(const QCString &line)
