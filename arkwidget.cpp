@@ -654,7 +654,7 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
       if (stat(strFile.local8Bit(), &statbuffer) != -1)  // already exists!
         {
           choice =
-            KMessageBox::warningYesNoCancel(0, i18n("Archive already exists. Do you wish to overwrite it?"), i18n("Archive already exists"));
+            KMessageBox::warningYesNoCancel(0, i18n("Archive already exists. Do you wish to overwrite it?"), i18n("Archive Already Exists"));
           if (choice == KMessageBox::Yes)
             {
               unlink(QFile::encodeName(strFile));
