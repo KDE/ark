@@ -317,7 +317,10 @@ ArkStatusBarExtension::ArkStatusBarExtension( KParts::ReadWritePart * parent )
                 : KParts::StatusBarExtension( parent ),
                   m_bBusy( false ), m_pTimer( NULL )
 {
-    setupStatusBar();
+    m_pProgressBar = NULL;
+    m_pBusyText = NULL;
+    m_pStatusLabelTotal = NULL;
+    m_pStatusLabelSelect = NULL;
 }
 
 ArkStatusBarExtension::~ArkStatusBarExtension()
@@ -327,7 +330,7 @@ ArkStatusBarExtension::~ArkStatusBarExtension()
         removeStatusBarItem( m_pBusyText );
         removeStatusBarItem( m_pProgressBar );
     }
-    else
+    else if ( m_pStatusLabelSelect )
     {
         removeStatusBarItem( m_pStatusLabelSelect );
         removeStatusBarItem( m_pStatusLabelTotal );
@@ -336,9 +339,8 @@ ArkStatusBarExtension::~ArkStatusBarExtension()
 
 void ArkStatusBarExtension::setupStatusBar()
 {
-    m_pProgressBar = NULL;
-    m_pBusyText = NULL;
-
+    if ( m_pTimer ) // setup already done
+        return;
     m_pTimer = new QTimer( this );
     connect( m_pTimer, SIGNAL( timeout() ), this, SLOT( slotProgress() ) );
 
@@ -358,11 +360,13 @@ void ArkStatusBarExtension::setupStatusBar()
 
 void ArkStatusBarExtension::slotSetStatusBarText( const QString & text )
 {
+    setupStatusBar();
     m_pStatusLabelTotal->setText( text );
 }
 
 void ArkStatusBarExtension::slotSetStatusBarSelectedFiles( const QString & text )
 {
+    setupStatusBar();
     m_pStatusLabelSelect->setText( text );
 }
 
@@ -371,6 +375,7 @@ void ArkStatusBarExtension::slotSetBusy( const QString & text )
     if ( m_bBusy )
         return;
 
+    setupStatusBar();
     if ( !m_pBusyText )
     {
         m_pBusyText = new QLabel( statusBar() );
@@ -404,6 +409,7 @@ void ArkStatusBarExtension::slotSetReady()
     if ( !m_bBusy )
         return;
 
+    setupStatusBar();
     m_pTimer->stop();
     m_pProgressBar->setProgress( 0 );
 
@@ -418,6 +424,7 @@ void ArkStatusBarExtension::slotSetReady()
 
 void ArkStatusBarExtension::slotProgress()
 {
+    setupStatusBar();
     m_pProgressBar->setProgress( m_pProgressBar->progress() + 4 );
 }
 
