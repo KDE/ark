@@ -47,6 +47,7 @@
 #include <kpopupmenu.h>
 #include <ktmainwindow.h>
 #include <kurl.h>
+#include <kio/job.h>
 
 // ark includes
 #include "arksettings.h"
@@ -69,8 +70,11 @@ class KAction;
 class KRecentFilesAction;
 class KRun;
 
-enum ArchType {UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
-	       LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT, COMPRESSED_FORMAT};
+namespace Utilities
+{
+  bool haveDirPermissions(const QString &strFile);
+  void download(const KURL &, QString &);
+};
 
 class ArkWidget : public KTMainWindow 
 {
@@ -103,12 +107,11 @@ public:
   void unarchFile(QStringList * _l) { arch->unarchFile(_l); }
 
   bool isEditInProgress() { return m_bEditInProgress; }
-
 public slots:    
   void file_newWindow();
-  void file_openRecent(const KURL& url);
-
+  void file_open(const KURL& url);
   void file_open(const QString &);  // opens the specified archive
+  void file_save_as();
   void toggleToolBar();
   void toggleStatusBar();
   void toggleMenuBar();
@@ -138,6 +141,7 @@ protected slots:
   //  void options_saveOnExit();
   void options_saveNow();
   void setHeader();
+  void slotSaveAsDone(KIO::Job *);
 
   //  void help();
 		
@@ -202,7 +206,6 @@ protected:
   void newCaption(const QString& filename);
   void createFileListView();
 	
-  ArchType getArchType(QString archname);
   void createArchive(const QString & name);
   void openArchive(const QString & name);
 
@@ -217,7 +220,7 @@ private: // data
     *addDirAction, *extractAction, *deleteAction, *closeAction, *reloadAction,
     *selectAllAction, *viewAction, *settingsAction, *helpAction,
     *openWithAction, *selectAction, *deselectAllAction, *invertSelectionAction,
-    *popupEditAction, *editAction;
+    *popupEditAction, *editAction, *saveAsAction;
 
  // the following have different enable rules from the above KActions
   KAction *popupViewAction;
@@ -281,6 +284,7 @@ private: // data
 
   // the list of files being extracted. Needs to be deleted in slotExtractDone
   QStringList *m_extractList;
+  KURL mSaveAsURL;
 };
 
 #endif /* ARKWIDGET_H*/

@@ -43,6 +43,12 @@
 class KProcess;
 class Viewer;
 
+
+enum ArchType {UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
+	       LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT, COMPRESSED_FORMAT};
+
+ArchType getArchType( const QString & archname, QString &extension);
+
 // The following class is the base class for all of the archive types.
 // In order for it to work properly with the KProcess, you have to
 // connect the ProcessExited signal appropriately before spawning
@@ -54,10 +60,13 @@ class Viewer;
 //
 // To add a new archive:
 // 1. Create a new header file and a source code module
-// 2. Add an entry to the ArchType enum in arkwidget.h.
+// 2. Add an entry to the ArchType enum in arch.h.
 // 3. Include your new header file in arkwidget.cc.
-// 4. Add new cases for your format in createArchive(const QString &),
-//   openArchive(const QString &) and ArkWidget::getArchType().
+// 4. Add new cases for your format in 
+//    ArkWidget::createArchive(const QString &),
+//    ArkWidget::openArchive(const QString &)
+// and
+//    getArchType() in arch.cpp
 // 5. Add your extension to the list of valid archives in 
 //   ArkSettings::getFilter (you might also want to add a separate entry)
 //

@@ -37,6 +37,8 @@
 #include "arch.h"
 #include "viewer.h"
 
+
+
 Arch::Arch( ArkSettings *_settings, Viewer *_viewer,
 	    const QString & _fileName )
   : m_filename(_fileName), m_settings(_settings), m_gui(_viewer),
@@ -317,6 +319,78 @@ QString Utils::fixYear(const char *strYear)
   strcat(fourDigits, strYear);
   return fourDigits;
 }
+
+ArchType getArchType( const QString & archname, QString &extension)
+{
+  if ((archname.right(4) == ".tgz") || (archname.right(4) == ".tzo")
+       || (archname.right(4) == ".taz")
+       || (archname.right(4) == ".tar"))
+    {
+      extension = archname.right(4);
+      return TAR_FORMAT;      
+    }
+  if (archname.right(6) == ".tar.Z")
+    {
+      extension = ".tar.Z";
+      return TAR_FORMAT;
+    }
+  if ((archname.right(7) == ".tar.gz")
+      || (archname.right(7) == ".tar.bz"))
+    {
+      extension = archname.right(7);
+      return TAR_FORMAT;
+    }
+  if ((archname.right(8) == ".tar.bz2")
+      || (archname.right(8) == ".tar.lzo"))
+    {
+      extension = archname.right(8);
+      return TAR_FORMAT;
+    }
+  if ((archname.right(4) == ".lha") || (archname.right(4) == ".lzh"))
+    {
+      extension = archname.right(4);
+      return LHA_FORMAT;
+    }
+  if (archname.right(4) == ".zip")
+    {
+      extension = ".zip";
+      return ZIP_FORMAT;
+    }
+  if ((archname.right(3) == ".gz") || (archname.right(3) == ".bz"))
+    {
+      extension = archname.right(3);
+      return COMPRESSED_FORMAT;
+    }
+  if ((archname.right(4) == ".bz2") || (archname.right(4) == ".lzo"))
+    {
+      extension = archname.right(4);
+      return COMPRESSED_FORMAT;
+    }
+  if (archname.right(2) == ".Z")
+    {
+      extension = ".Z";
+      return COMPRESSED_FORMAT;
+    }
+  if (archname.right(4) == ".zoo")
+    {
+      extension = ".zoo";
+      return ZOO_FORMAT;
+    }
+  if (archname.right(4) == ".rar")
+    {
+      extension = ".rar";
+      return RAR_FORMAT;
+    }
+  if (archname.right(2) == ".a")
+    {
+      extension = ".a";
+      return AA_FORMAT;
+    }
+  extension = QString::null;
+  return UNKNOWN_FORMAT;
+}
+
+
 
 #include "arch.moc"
 

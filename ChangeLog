@@ -1,5 +1,10 @@
           $Id$
 
+2000-06-12: Emily Ezust <emilye@corel.com>
+	* Added network transparency
+ 	* Added a Save As option so that people can rename arks that are
+	  temporary files
+
 2000-05-23: Emily Ezust <emilye@corel.com>
 	* Odds and ends: fixed problem with selecting multiple files in Add
  	  File; added some better option enabling in the extract dialog.

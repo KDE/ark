@@ -115,9 +115,12 @@ int ArkApplication::newInstance()
 
   QString Zip;
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+  KURL url;
 
   if (args->count() > 0) 
   {
+    url = args->url(0);
+#if 0    // do I need this?
      const char *arg = args->arg(0);
      if (arg[0] == '/')
      {
@@ -128,17 +131,18 @@ int ArkApplication::newInstance()
      {
         Zip = KCmdLineArgs::cwd() + "/" + QFile::decodeName(arg);
      }
+#endif
   }
-  args->clear();
-
   ArkWidget *arkWin = new ArkWidget(m_mainwidget);
   arkWin->show();
   arkWin->resize(640, 300);
 
-  if (!Zip.isEmpty())
+  if (!url.isEmpty())
   {
-    arkWin->file_open(Zip);
+    arkWin->file_open(url);
   }
+
+  args->clear();
   kdDebug(1601) << "-ArkApplication::newInstance" << endl;
   return 0;
 }

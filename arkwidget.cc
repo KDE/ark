@@ -55,7 +55,8 @@
 #include <kopenwith.h>
 #include <kaction.h>
 #include <kstdaction.h>
-
+#include <ktempfile.h>
+#include <progressbase.h>
 // c includes
 
 #include <sys/stat.h>
@@ -86,6 +87,45 @@
 #include "viewer.h"
 
 extern int errno;
+
+bool Utilities::haveDirPermissions(const QString &strFile)
+{
+  struct stat statbuffer;
+  QString dir = strFile.left(strFile.findRev('/'));
+  stat(dir.local8Bit(), &statbuffer);
+  unsigned int nFlag = 0;
+  if (geteuid() == statbuffer.st_uid)
+    {
+      nFlag = S_IWUSR; // it's mine
+    }
+  else if (getegid() == statbuffer.st_gid)
+    {
+      nFlag = S_IWGRP; // it's my group's
+    }
+  else
+    {
+      nFlag = S_IWOTH;  // it's someone else's
+    }
+  if (! ((statbuffer.st_mode & nFlag) == nFlag))
+    {
+      KMessageBox::error(0, i18n("You don't have permission to write to the directory %1").arg(dir.local8Bit()));
+      return false;
+    }
+  return true;
+}
+
+void Utilities::download(const KURL &url, QString &strFile)
+{
+  // downloads url into strFile, making sure strFile has the same extension
+  // as url.
+  QString extension;
+  getArchType(url.path(), extension);
+  KTempFile tmpFile ("/tmp/ark", extension);
+  strFile = tmpFile.name();
+  kdDebug(1601) << "Downloading " << url.path().local8Bit() << " as " <<
+    strFile.local8Bit() << endl;
+  KIO::NetAccess::download(url, strFile);
+}
 
 ArkWidget::ArkWidget( QWidget *, const char *name ) : 
     KTMainWindow(name), archiveContent(0),
@@ -161,12 +201,15 @@ void ArkWidget::setupActions()
 				SLOT(file_reload()),
 				actionCollection(), "reload_arch");
 
+  saveAsAction = KStdAction::saveAs(this, SLOT(file_save_as()),
+				    actionCollection());
+
   closeAction = new KAction(i18n("&Close Archive"), 0, this,
 			    SLOT(file_close()),
 			    actionCollection(), "close_arch");
 
   recent = KStdAction::openRecent(this,
-				  SLOT(file_openRecent(const KURL&)),
+				  SLOT(file_open(const KURL&)),
 				  actionCollection());
   KConfig *kc = m_settings->getKConfig();
   recent->loadEntries(kc);
@@ -329,6 +372,7 @@ void ArkWidget::initialEnables()
 {
   // start out with some menu items disabled
   closeAction->setEnabled(false);
+  saveAsAction->setEnabled(false);
   reloadAction->setEnabled(false);
 
   selectAction->setEnabled(false);
@@ -366,9 +410,6 @@ void ArkWidget::updateStatusTotals()
 	{
 	  ++m_nNumFiles;
 	  
-	  kdDebug(1601) << "Adding " << (const char *)pItem->text(m_currentSizeColumn) << "\n" << endl;
-
-	  kdDebug(1601) << "Adding " << atoi(pItem->text(m_currentSizeColumn)) << "\n" << endl;
 	  if (m_currentSizeColumn != -1)
 	    m_nSizeOfFiles += atoi(pItem->text(m_currentSizeColumn));
 	  pItem = (FileLVI *)pItem->nextSibling();
@@ -387,6 +428,39 @@ void ArkWidget::updateStatusTotals()
   
   m_pStatusLabelTotal->setText(strInfo);
 }
+
+//////////////////////////////////////////////////////////////////////
+////////////////////// file_save_as //////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+void ArkWidget::file_save_as()
+{
+  // we have to make sure the user doesn't think this is
+  // an opportunity to convert .tgz to .zip...  TODO
+
+  QString extension;
+  getArchType(m_strArchName, extension);
+  extension = "*" + extension;
+  KURL u = KFileDialog::getSaveURL(QString::null, extension,
+				   this, i18n("Save Archive As"));
+  if (u.isEmpty())
+     return;
+
+  KURL src = m_strArchName;
+  mSaveAsURL = u;
+  KIO::Job * job = KIO::copy(src, u);
+  connect( job, SIGNAL( result( KIO::Job * ) ), this,
+	   SLOT( slotSaveAsDone( KIO::Job * ) ) );
+}
+
+void ArkWidget::slotSaveAsDone(KIO::Job * job)
+{
+  if (job->error())
+    job->showErrorDialog();
+  else
+    file_open(mSaveAsURL.path());
+}
+
 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////// file_open //////////////////////////////////
@@ -591,26 +665,9 @@ QString ArkWidget::getCreateFilename()
 		}
 	    }
 	  // if we got here, the file does not already exist.
-	  QString dir = strFile.left(strFile.findRev('/'));
-	  stat(dir.local8Bit(), &statbuffer);
-	  unsigned int nFlag = 0;
-	  if (geteuid() == statbuffer.st_uid)
-	    {
-	      nFlag = S_IWUSR; // it's mine
-	    }
-	  else if (getegid() == statbuffer.st_gid)
-	    {
-	      nFlag = S_IWGRP; // it's my group's
-	    }
-	  else
-	    {
-	      nFlag = S_IWOTH;  // it's someone else's
-	    }
-	  if (! ((statbuffer.st_mode & nFlag) == nFlag))
-	    {
-	      KMessageBox::error(this, i18n("You don't have permission to write to the directory %1").arg(dir.local8Bit()));
-	      return "";
-	    }
+	  if (!Utilities::haveDirPermissions(strFile))
+	    return "";
+
 	  // if we made it here, it's a go.
 	  if (! strFile.contains('.'))
 	    {
@@ -658,8 +715,9 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
       setCaption(_filename);
       m_bIsArchiveOpen = true;
       arch = _newarch;
+      QString extension;
       m_bIsSimpleCompressedFile =
-	(getArchType(m_strArchName) == COMPRESSED_FORMAT);
+	(getArchType(m_strArchName, extension) == COMPRESSED_FORMAT);
       fixEnables();
       if (m_bMakeCFIntoArchiveInProgress)
 	{
@@ -697,7 +755,7 @@ void ArkWidget::file_open()
 
   if (!url.isEmpty())
     {
-      KIO::NetAccess::download(url, strFile); 
+      Utilities::download(url, strFile);
       m_settings->clearShellOutput();
       recent->addURL(url);
       file_open(strFile);
@@ -705,19 +763,18 @@ void ArkWidget::file_open()
   kdDebug(1601) << "-ArkWidget::file_open" << endl;
 }
 
-void ArkWidget::file_openRecent(const KURL& url)
+void ArkWidget::file_open(const KURL& url)
 {
+  kdDebug(1601) << "+ArkWidget::file_open(const KURL& url)" << endl;
   QString strFile;
   if (!url.isEmpty())
   {
-    KIO::NetAccess::download(url, strFile); 
+    Utilities::download(url, strFile);
     m_settings->clearShellOutput();
     kdDebug(1601) << "Recent open: " << strFile.local8Bit() << endl;
     file_open(strFile);
   }
-  else
-    kdDebug(1601) << "Empty URL requested in file_openRecent()" << endl;
-      
+  kdDebug(1601) << "-ArkWidget::file_open(const KURL& url)" << endl;
 }
 
 void ArkWidget::showZip( QString _filename )
@@ -746,15 +803,16 @@ void ArkWidget::slotOpen(Arch *_newarch, bool _success,
 	    !fi.isWritable())
 	  {
 	    _newarch->setReadOnly(true);
-	    KMessageBox::information(this, i18n("This archive is read-only."));
+	    KMessageBox::information(this, i18n("This archive is read-only. If you want to save it under\na new name, go to the File menu and select Save As."));
 	  }
 	setCaption( _filename );
 	//	createActionMenu( _flag );
 	arch = _newarch;
 	updateStatusTotals();
 	m_bIsArchiveOpen = true;
+	QString extension;
 	m_bIsSimpleCompressedFile =
-	  (getArchType(m_strArchName) == COMPRESSED_FORMAT);
+	  (getArchType(m_strArchName, extension) == COMPRESSED_FORMAT);
     }
   fixEnables();
   QApplication::restoreOverrideCursor();
@@ -923,6 +981,7 @@ void ArkWidget::disableAll() // private
   openAction->setEnabled(false);
   newArchAction->setEnabled(false);
   closeAction->setEnabled(false);
+  saveAsAction->setEnabled(false);
   reloadAction->setEnabled(false);
 
   selectAction->setEnabled(false);
@@ -954,7 +1013,8 @@ void ArkWidget::fixEnables() // private
   bool bHaveFiles = (m_nNumFiles > 0);
   bool bReadOnly = false;
   bool bAddDirSupported = true;
-  enum ArchType archtype = getArchType(m_strArchName);
+  QString extension;
+  enum ArchType archtype = getArchType(m_strArchName, extension);
   if (archtype == ZOO_FORMAT || archtype == AA_FORMAT)
     bAddDirSupported = false;
 
@@ -971,6 +1031,7 @@ void ArkWidget::fixEnables() // private
   openAction->setEnabled(true);
   newArchAction->setEnabled(true);
   closeAction->setEnabled(bHaveFiles);
+  saveAsAction->setEnabled(bHaveFiles);
   reloadAction->setEnabled(bHaveFiles);
 
   selectAction->setEnabled(bHaveFiles);
@@ -1025,6 +1086,8 @@ void ArkWidget::file_close()
 	}
       setView(0);
       ArkApplication::getInstance()->removeOpenArk(m_strArchName);
+      kdDebug(1601) << "Removing temp file" << m_strArchName.local8Bit() << endl;
+      KIO::NetAccess::removeTempFile(m_strArchName);
       updateStatusTotals();
       updateStatusSelection();
       fixEnables();
@@ -1185,7 +1248,8 @@ void ArkWidget::createRealArchive(const QString &strFilename)
 
 void ArkWidget::action_add()
 {
-  ArchType archtype = getArchType(m_strArchName);
+  QString extension;
+  ArchType archtype = getArchType(m_strArchName, extension);
   if (m_bIsSimpleCompressedFile && (m_nNumFiles == 1))
     {
       QString strFilename = askToCreateRealArchive();
@@ -1246,8 +1310,6 @@ void ArkWidget::addFile(QStringList *list)
 	  // chopped off later....
 	  filename = "     " + filename;
 	  *it = filename;
-	  kdDebug(1601) << "Adding " << (const char *)filename.local8Bit()
-			<< endl;
 	}
     }
   arch->addFile(list);
@@ -1281,7 +1343,8 @@ void ArkWidget::action_delete()
   if (archiveContent->isSelectionEmpty())
     return; // shouldn't happen - delete should have been disabled!
 
-  bool bIsTar = getArchType(m_strArchName) == TAR_FORMAT;
+  QString extension;
+  bool bIsTar = getArchType(m_strArchName, extension) == TAR_FORMAT;
   bool bDeletingDir = false;
   QStringList list;
   FileLVI* flvi = (FileLVI*)archiveContent->firstChild();
@@ -1476,7 +1539,8 @@ bool ArkWidget::reportExtractFailures(const QString & _dest,
 
 void ArkWidget::action_extract()
 {
-  ArchType archtype = getArchType(m_strArchName);
+  QString extension;
+  ArchType archtype = getArchType(m_strArchName, extension);
   ExtractDlg *dlg = new ExtractDlg(archtype, m_settings);
 
   // if they choose pattern, we have to tell arkwidget to select
@@ -1799,7 +1863,7 @@ void ArkWidget::dropAction(QStringList *list)
 	      str.left(6) == "ftp://")
 	    {
 	      KURL url = str;
-	      KIO::NetAccess::download(url, str); 
+	      Utilities::download(url, str);
 	    }
 	  else
 	    {
@@ -1808,8 +1872,8 @@ void ArkWidget::dropAction(QStringList *list)
 	}
       urls.append(str);
     }
-
-  if (1 == list->count() &&  (UNKNOWN_FORMAT != getArchType(str)))
+  QString extension;
+  if (1 == list->count() &&  (UNKNOWN_FORMAT != getArchType(str, extension)))
   {
     // if there's one thing being dropped and it's an archive
     if (isArchiveOpen())
@@ -1840,7 +1904,7 @@ void ArkWidget::dropAction(QStringList *list)
 	     str.left(6) == "ftp://")
       {
 	KURL url = str;
-	KIO::NetAccess::download(url, str); 
+	Utilities::download(url, str);
       }
     file_open(str);
   }
@@ -1920,7 +1984,8 @@ void ArkWidget::showFavorite()
     {
       QString name( (flisti.current())->fileName() );
       isDirectory = (flisti.current())->isDir();
-      if ( (getArchType(name)!=-1) || (isDirectory) )
+      QString extension;
+      if ( (getArchType(name, extension)!=-1) || (isDirectory) )
 	{
 	  FileLVI *flvi = new FileLVI(archiveContent);
 	  flvi->setText(0, name);
@@ -1993,44 +2058,6 @@ void ArkWidget::createFileListView()
 			     const QPoint &, int)));
 }
 
-
-ArchType ArkWidget::getArchType( QString archname )
-{
-  if ((archname.right(4) == ".tgz")
-      || (archname.right(7) == ".tar.gz")
-      || (archname.right(6) == ".tar.Z")
-      || (archname.right(7) == ".tar.bz")
-      || (archname.right(8) == ".tar.bz2")
-      || (archname.right(8) == ".tar.lzo")
-      || (archname.right(4) == ".tzo")
-      || (archname.right(4) == ".taz")
-      || (archname.right(4) == ".tar"))
-  {
-    return TAR_FORMAT;
-  }
-  if ((archname.right(4) == ".lha") || (archname.right(4) == ".lzh"))
-  {
-    return LHA_FORMAT;
-  }
-  if (archname.right(4) == ".zip")
-  {
-    return ZIP_FORMAT;
-  }
-  if (archname.right(3) == ".gz" || archname.right(4) == ".lzo"
-      || archname.right(3) == ".bz" || archname.right(4) == ".bz2"
-      || archname.right(2) == ".Z")
-    {
-      return COMPRESSED_FORMAT;
-    }
-  if (archname.right(4) == ".zoo")
-    return ZOO_FORMAT;
-  if (archname.right(4) == ".rar")
-    return RAR_FORMAT;
-  if (archname.right(2) == ".a")
-    return AA_FORMAT;
-  return UNKNOWN_FORMAT;
-}
-
 bool ArkWidget::badBzipName(const QString & _filename)
 {
   if (_filename.right(3) == ".BZ" || _filename.right(4) == ".TBZ")
@@ -2052,7 +2079,8 @@ void ArkWidget::createArchive( const QString & _filename )
   // make sure we can write there
 
   Arch * newArch = 0;
-  switch( getArchType( _filename ) )
+  QString extension;
+  switch( getArchType( _filename, extension) )
     {
     case TAR_FORMAT:
       newArch = new TarArch( m_settings, m_viewer, _filename );
@@ -2098,7 +2126,8 @@ void ArkWidget::openArchive(const QString & _filename )
 {
   Arch *newArch = 0;
   
-  switch( getArchType( _filename ) )
+  QString extension;
+  switch( getArchType( _filename, extension ) )
     {
     case TAR_FORMAT:
       newArch = new TarArch(m_settings, m_viewer, _filename );
