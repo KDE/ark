@@ -25,6 +25,8 @@
 
 */
 
+#include <config.h>
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -84,7 +86,7 @@ bool ZooArch::processLine(const QCString &line)
   strDate.sprintf("%s-%.2d-%.2d", year.utf8().data(),
 		    Utils::getMonth(columns[7]), atoi(columns[3]));
 
-  strcpy(columns[3], strDate.ascii());
+  strlcpy(columns[3], strDate.ascii(), sizeof(columns[3]));
   kdDebug(1601) << "New timestamp is " << columns[3] << endl;
 
   strcat(columns[3], " ");
