@@ -38,6 +38,7 @@
 class QObject;
 class QString;
 class QStringList;
+class KURL;
 class KAction;
 class KInstance;
 class KLibFactory;
@@ -69,6 +70,7 @@ class ArkPart: public KParts::ReadOnlyPart
 public:
     ArkPart(QWidget *parent = 0, const char *name = 0);
     virtual ~ArkPart();
+    virtual bool openURL(const KURL &url);
     virtual bool closeURL();
 
 protected:
