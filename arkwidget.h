@@ -149,7 +149,9 @@ protected:
 private: // methods
   // disabling/enabling of buttons and menu items
   void fixEnables();
-    
+
+  // disable all (temporarily, during operations)
+  void disableAll();
   void updateStatusSelection();
   void updateStatusTotals();
        

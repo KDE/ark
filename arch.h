@@ -124,5 +124,6 @@ protected:  // data
 
 int getYear(int theMonth, int thisYear, int thisMonth);
 int getMonth(const char *strMonth);
+QString fixYear(const char *strYear);
 
 #endif /* ARCH_H */

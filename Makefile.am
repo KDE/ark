@@ -25,7 +25,7 @@ ark_SOURCES	= arkapp.cpp extractdlg.cc dirDlg.cpp arkwidget.cc \
 		main.cc zip.cc tar.cc filelistview.cpp arch.cpp \
 		generalOptDlg.cpp selectDlg.cpp adddlg.cc lha.cc \
 		waitDlg.cpp shellOutputDlg.cpp arksettings.cpp \
-		compressedfile.cc zoo.cc
+		compressedfile.cc zoo.cc rar.cc
 
 # the library search path
 ark_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LIB_KIO)
@@ -35,7 +35,7 @@ ark_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LIB_KIO)
 ark_LDADD   = $(LIB_KFILE)
 
 # this option you can leave out. Just, if you use "make dist", you need it
-noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h \
+noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \
                  extractdlg.h arkwidget.h arch.h zoo.h \
 		 filelistview.h adddlg.h lha.h compressedfile.h
 		 generalOptDlg.h selectDlg.h waitDlg.h shellOutputDlg.h

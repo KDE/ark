@@ -40,11 +40,20 @@ QString FileLVI::key(int column, bool ascending) const
     QString columnName = parent->columnText(column);
     if ( (columnName == i18n(" Size ")) ||
 	 (columnName == i18n(" Size Now ")) ||
+	 (columnName == i18n(" Packed ")) || 
 	 (columnName == i18n(" Length ")))       
     {
 	s.sprintf("%.10ld", atol(text(column)));
 	return s;
     }
+    else if (columnName == i18n(" Ratio "))
+      {
+	char ratio[5];
+	strcpy(ratio, text(column));
+	ratio[strlen(ratio) - 1] = '\0';
+	s.sprintf("%.10ld", atol(ratio));
+	return s;
+      }
     else return QListViewItem::key(column, ascending);
 }
 

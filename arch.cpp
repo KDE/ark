@@ -284,6 +284,26 @@ int getYear(int theMonth, int thisYear, int thisMonth)
     return thisYear;
 }
 
+QString fixYear(const char *strYear)
+{
+  // returns 4-digit year by guessing from two-char year string.
+  // Remember: this is used for file timestamps. There probably aren't any
+  // files that were created before 1970, so that's our cutoff. Of course,
+  // in 2070 we'll have some problems....
+
+  char fourDigits[5] = {0,0,0,0,0};
+  if (atoi(strYear) > 70)
+    {
+      strcpy(fourDigits, "19");
+    }
+  else
+    {
+      strcpy(fourDigits, "20");
+    }
+  strcat(fourDigits, strYear);
+  return fourDigits;
+}
+
 #include "arch.moc"
 
 

@@ -37,71 +37,91 @@
 #include <kmessagebox.h>
 
 // ark includes
-#include "zoo.h"
+#include "rar.h"
 
 // the generic viewer to which to send header and column info.
 #include "viewer.h"
 
-QString fixTime(const QString &_strTime);
-
-ZooArch::ZooArch( ArkSettings *_settings, Viewer *_gui,
+RarArch::RarArch( ArkSettings *_settings, Viewer *_gui,
 		  const QString & _fileName )
-  : Arch(_settings, _gui, _fileName )
+  : Arch(_settings, _gui, _fileName ), m_linenumber(0)
 {
-  kDebugInfo(1601, "ZooArch constructor");
-  _settings->readZooProperties();
-  m_archiver_program = "zoo";
+  kDebugInfo(1601, "RarArch constructor");
+  _settings->readRarProperties();
+  m_archiver_program = "rar";
+  m_unarchiver_program = "unrar";
 }
 
-void ZooArch::processLine( char *_line )
+void RarArch::processLine( char *_line )
 {
+  ++m_linenumber;
+  if (m_linenumber == 1)
+    {
+      m_line1 = _line;
+      return;
+    }
+  if (m_linenumber == 2)
+    {
+      m_line2 = _line;
+      return;
+    }
+  // if we made it here, we have all three lines.
+  // Reset the line number.
+  m_linenumber = 0;
+
   char columns[11][80];
   char filename[4096];
 
-  // Note: I'm reversing the ratio and the length for better display
+  sscanf((const char *)m_line1, " %[^\n]", filename);
+  sscanf((const char *)m_line2, " %[0-9] %[0-9] %[0-9%] %2[0-9]-%2[0-9]-%2[0-9] %5[0-9:] %[drlwx-] %[A-F0-9] %[A-Za-z0-9] %[0-9.]",
+	 columns[0], columns[1], columns[2], columns[3],
+	 columns[8], columns[9], columns[10],
+	 columns[4], columns[5], columns[6],
+	 columns[7]);
 
-  sscanf(_line, " %[0-9] %[0-9%] %[0-9] %[0-9] %[a-zA-Z] %[0-9]%[ ]%11[ 0-9:+-]%2[C ]%[^\n]",
-	 columns[1], columns[0], columns[2], columns[3], columns[7],
-	 columns[8], columns[9], columns[4], columns[10], filename);
+  // ignore the third line - don't really need that extra data.
 
+  // rearrange columns 3, 8, 9 so that the sort will work.
+  // columns[3] is the day
+  // columns[8] is the month
+  // columns[9] is a 2-digit year. Ugh. Y2K junk here.
+  
+  QString year = fixYear(columns[9]);
+
+  // put entire timestamp in columns[3]
+
+  QString timestamp;
+  timestamp.sprintf("%s-%s-%s %s", (const char *)year, 
+		    columns[8], columns[3], columns[10]);
+  
+  kDebugInfo(1601, "Year is: %s; Month is: %s; Day is: %s; Time is: %s",
+	     (const char *)year, columns[8], columns[3], columns[10]);
+  
+  strcpy(columns[3], (const char *)timestamp);
 
   kDebugInfo(1601, "The actual file is %s", (const char *)filename);
-
-  QString year = fixYear(columns[8]);
-
-  kDebugInfo(1601, "The year is %s", (const char *)year);
-
-  QString strDate;
-  strDate.sprintf("%s-%.2d-%.2d", (const char *)year,
-		    getMonth(columns[7]), atoi(columns[3]));
-
-  strcpy(columns[3], (const char *)strDate);
-  kDebugInfo(1601, "New timestamp is %s", columns[3]);
-
-  strcat(columns[3], " ");
-  strcat(columns[3], (const char *)fixTime(columns[4]));
-
+  
   QStringList list;
   list.append(QString::fromLocal8Bit(filename));
-  for (int i=0; i<4; i++)
+  for (int i=0; i<8; i++)
     {
       list.append(QString::fromLocal8Bit(columns[i]));
     }
   m_gui->add(&list); // send to GUI
 }
 
-void ZooArch::open()
+void RarArch::open()
 {
-  kDebugInfo( 1601, "+ZooArch::open");
+  kDebugInfo( 1601, "+RarArch::open");
   setHeaders();
-
+  
   m_buffer[0] = '\0';
   m_header_removed = false;
   m_finished = false;
-
-
+  
+  
   KProcess *kp = new KProcess;
-  *kp << m_archiver_program << "l" << m_filename.local8Bit();
+  *kp << m_archiver_program << "vt" << m_filename.local8Bit();
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
@@ -116,34 +136,39 @@ void ZooArch::open()
       emit sigOpen(this, false, QString::null, 0 );
     }
 
-  kDebugInfo( 1601, "-ZooArch::open");
+  kDebugInfo( 1601, "-RarArch::open");
 }
 
-void ZooArch::setHeaders()
+void RarArch::setHeaders()
 {
-  kDebugInfo( 1601, "+ZooArch::setHeaders");
+  kDebugInfo( 1601, "+RarArch::setHeaders");
   QStringList list;
   list.append(i18n(" Filename "));
+  list.append(i18n(" Size "));
+  list.append(i18n(" Packed "));
   list.append(i18n(" Ratio "));
-  list.append(i18n(" Length "));
-  list.append(i18n(" Size Now "));
   list.append(i18n(" Timestamp "));
+  list.append(i18n(" Permissions "));
+  list.append(i18n(" CRC "));
+  list.append(i18n(" Method "));
+  list.append(i18n(" Version "));
 
   // which columns to align right
-  int *alignRightCols = new int[2];
-  alignRightCols[0] = 2;
-  alignRightCols[1] = 3;
+  int *alignRightCols = new int[3];
+  alignRightCols[0] = 1;
+  alignRightCols[1] = 2;
+  alignRightCols[2] = 3;
 
-  m_gui->setHeaders(&list, alignRightCols, 2);
+  m_gui->setHeaders(&list, alignRightCols, 3);
   delete [] alignRightCols;
 
-  kDebugInfo( 1601, "-ZooArch::setHeaders");
+  kDebugInfo( 1601, "-RarArch::setHeaders");
 }
 
 
-void ZooArch::slotReceivedTOC(KProcess*, char* _data, int _length)
+void RarArch::slotReceivedTOC(KProcess*, char* _data, int _length)
 {
-  kDebugInfo(1601, "+ZooArch::slotReceivedTOC");
+  kDebugInfo(1601, "+RarArch::slotReceivedTOC");
   char c = _data[_length];
   _data[_length] = '\0';
 	
@@ -168,9 +193,10 @@ void ZooArch::slotReceivedTOC(KProcess*, char* _data, int _length)
 
   if( !strstr( line, "----" ) )
     {
-      if( m_header_removed && !m_finished ){
-	processLine( line );
-      }
+      if( m_header_removed && !m_finished )
+	{
+	  processLine( line );
+	}
     }
   else if(!m_header_removed)
     m_header_removed = true;
@@ -215,17 +241,17 @@ void ZooArch::slotReceivedTOC(KProcess*, char* _data, int _length)
     }
   
   _data[_length] = c;
-  kDebugInfo(1601, "-ZooArch::slotReceivedTOC");
+  kDebugInfo(1601, "-RarArch::slotReceivedTOC");
 }
 
-void ZooArch::create()
+void RarArch::create()
 {
   emit sigCreate(this, true, m_filename,
 		 Arch::Extract | Arch::Delete | Arch::Add 
 		 | Arch::View);
 }
 
-void ZooArch::addDir(const QString & _dirName)
+void RarArch::addDir(const QString & _dirName)
 {
   if (! _dirName.isEmpty())
   {
@@ -235,17 +261,17 @@ void ZooArch::addDir(const QString & _dirName)
   }
 }
 
-void ZooArch::addFile( QStringList *urls )
+void RarArch::addFile( QStringList *urls )
 {
-  kDebugInfo( 1601, "+ZooArch::addFile");
+  kDebugInfo( 1601, "+RarArch::addFile");
   KProcess *kp = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program;
 	
   if (m_settings->getReplaceOnlyNew() )
-    *kp << "-update";
+    *kp << "u";
   else
-    *kp << "-add";
+    *kp << "a";
 
   *kp << m_filename.local8Bit() ;
 
@@ -290,43 +316,46 @@ void ZooArch::addFile( QStringList *urls )
       emit sigAdd(false);
     }
 
-  kDebugInfo( 1601, "+ZooArch::addFile");
+  kDebugInfo( 1601, "+RarArch::addFile");
 }
 
-void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir)
+void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir)
 {
   // if _fileList is empty, we extract all.
   // if _destDir is empty, look at settings for extract directory
 
-  kDebugInfo( 1601, "+ZooArch::unarchFile");
-  QString dest;
+  kDebugInfo( 1601, "+RarArch::unarchFile");
 
+  QString dest;
   if (_destDir.isEmpty() || _destDir.isNull())
     dest = m_settings->getExtractDir();
   else dest = _destDir;
 
-  // zoo has no option to specify the destination directory
-  // so I have to change to it.
-
-  int ret = chdir((const char *)dest);
- // I already checked the validity of the dir before coming here
-  ASSERT(ret == 0); 
-
-
-  QString tmp;
-	
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  
-  *kp << m_archiver_program;
 
-  if (!m_settings->getZooOverwriteFiles())
-    *kp << "x";
+  // extract (and maybe overwrite)
+  *kp << m_unarchiver_program << "x";
+
+  if (!m_settings->getRarOverwriteFiles())
+    {
+      *kp << "-o+" ; 
+    }
   else
-    *kp << "xOOS";
-  *kp << m_filename;
-  
-  // if the list is empty, no filenames go on the command line,
+    {
+    *kp << "-o-" ;
+    }
+
+#if 0
+  if (g_pSettings->filesToLower())
+  {
+    *kp << "-cl";
+  }
+#endif
+
+  *kp << m_filename.local8Bit();
+
+  // if the file list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
   if (_fileList)
     {
@@ -336,6 +365,8 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir)
 	  *kp << (*it).latin1() ;
 	}
     }
+
+  *kp << dest ;
  
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
@@ -352,9 +383,9 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir)
     }
 }
 
-void ZooArch::remove(QStringList *list)
+void RarArch::remove(QStringList *list)
 {
-  kDebugInfo( 1601, "+ZooArch::remove");
+  kDebugInfo( 1601, "+RarArch::remove");
 
   if (!list)
     return;
@@ -363,7 +394,7 @@ void ZooArch::remove(QStringList *list)
   KProcess *kp = new KProcess;
   kp->clearArguments();
   
-  *kp << m_archiver_program << "D" << m_filename.local8Bit();
+  *kp << m_archiver_program << "d" << m_filename.local8Bit();
   for ( QStringList::Iterator it = list->begin();
 	it != list->end(); ++it )
     {
@@ -385,38 +416,9 @@ void ZooArch::remove(QStringList *list)
       emit sigDelete(false);
     }
   
-  kDebugInfo( 1601, "-ZooArch::remove");
+  kDebugInfo( 1601, "-RarArch::remove");
 }
 
-QString fixTime(const QString &_strTime)
-{
-  // it may have come from a different time zone... get rid of trailing
-  // +3 or -3 etc. 
-  QString strTime = _strTime;
 
-  if (strTime.contains("+") || strTime.contains("-"))
-    {
-      QCharRef c = strTime.at(8);
-      int offset = atoi(strTime.right(strTime.length() - 9));
-      kDebugInfo(1601, "Offset is %d\n", offset);
-      QString strHour = strTime.left(2);
-      int nHour = atoi(strHour);
-      if (c == '+' || c == '-')
-	{
-	  if (c == '+')
-	    nHour = (nHour + offset) % 24;
-	  else if (c == '-')
-	    {
-	      nHour -= offset;
-	      if (nHour < 0)
-		nHour += 24;
-	    }
-	  strTime = strTime.left(8);
-	  strTime.sprintf("%2.2d%s", nHour, (const char *)strTime.right(6));
-	  kDebugInfo(1601, "The new time is %s\n", (const char *) strTime);
-	}
-    }
-  return strTime;
-}
 
-#include "zoo.moc"
+#include "rar.moc"

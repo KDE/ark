@@ -77,6 +77,7 @@
 #include "lha.h"
 #include "compressedfile.h"
 #include "zoo.h"
+#include "rar.h"
 
 #include "viewer.h"
 
@@ -782,6 +783,8 @@ void ArkWidget::file_open()
   url = KFileDialog::getOpenURL(m_settings->getOpenDir(),
 				m_settings->getFilter(), this);
 
+  qApp->processEvents();
+
   // do I have to remove this later if it's a temporary from net?
   // Needs work. XXX
   if (!url.isEmpty())
@@ -838,8 +841,8 @@ void ArkWidget::slotOpen(Arch *_newarch, bool _success,
 	m_bIsArchiveOpen = true;
 	m_bIsSimpleCompressedFile =
 	  (getArchType(m_strArchName) == COMPRESSED_FORMAT);
-	fixEnables();
     }
+  fixEnables();
   QApplication::restoreOverrideCursor();
   kDebugInfo( 1601, "-ArkWidget::slotOpen");
 }
@@ -853,11 +856,9 @@ void ArkWidget::slotDeleteDone(bool _bSuccess)
     {
       updateStatusTotals();
       updateStatusSelection();	
-      
-      // disable the select all and extract options if there are no files left
-      fixEnables();
     }
-
+  // disable the select all and extract options if there are no files left
+  fixEnables();
   QApplication::restoreOverrideCursor();
   kDebugInfo(1601, "-ArkWidget::slotDeleteDone");
 }
@@ -892,9 +893,9 @@ void ArkWidget::slotExtractDone()
 	    }
 	}
     }
-
   archiveContent->setUpdatesEnabled(true);
   QApplication::restoreOverrideCursor();
+  fixEnables();  
   kDebugInfo(1601, "-ArkWidget::slotExtractDone");
 }
 
@@ -911,10 +912,55 @@ void ArkWidget::slotAddDone(bool _bSuccess)
 	  m_bMakeCFIntoArchiveInProgress = false;
 	  QApplication::restoreOverrideCursor();
 	  action_add(); // now finally, get the files to be added!
+	  return;
 	}
     }
+  fixEnables();
   QApplication::restoreOverrideCursor();
   kDebugInfo(1601, "-ArkWidget::slotAddDone");
+}
+
+//////////////////////////////////////////////////////////////////////
+/////////////////////////// disableAll ///////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+void ArkWidget::disableAll() // private
+{
+  kDebugInfo( 1601, "+ArkWidget::disableAll");
+
+  fileMenu->setItemEnabled(eMOpen, false);
+  fileMenu->setItemEnabled(eMNew, false);
+  fileMenu->setItemEnabled(eMClose, false);
+  fileMenu->setItemEnabled(eMReload, false);
+
+  editMenu->setItemEnabled(eMSelect, false);
+  editMenu->setItemEnabled(eMSelectAll, false);
+  editMenu->setItemEnabled(eMDeselectAll, false);
+  editMenu->setItemEnabled(eMInvertSel, false);
+
+  actionMenu->setItemEnabled(eMDelete, false);
+  actionMenu->setItemEnabled(eMAddFile, false);
+  actionMenu->setItemEnabled(eMAddDir, false);
+  actionMenu->setItemEnabled(eMExtract, false);
+  actionMenu->setItemEnabled(eMView, false);
+  actionMenu->setItemEnabled(eMOpenWith, false);
+
+  m_filePopup->setItemEnabled(eMDelete, false);
+
+  m_archivePopup->setItemEnabled(eMSelectAll, false);
+
+  //    editMenu->setItemEnabled(eMRename, bHaveFiles);
+  KToolBar *tb = toolBar();
+  tb->setItemEnabled(eNew, false);
+  tb->setItemEnabled(eOpen, false);
+  tb->setItemEnabled(eDelete, false);
+  tb->setItemEnabled(eExtract, false);
+  tb->setItemEnabled(eSelectAll, false);
+  tb->setItemEnabled(eView, false);
+  tb->setItemEnabled(eAddFile, false);
+  tb->setItemEnabled(eAddDir, false);
+
+  kDebugInfo( 1601, "-ArkWidget::disableAll");
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -935,6 +981,8 @@ void ArkWidget::fixEnables() // private
   if (arch)
     bReadOnly = arch->isReadOnly();
 
+  fileMenu->setItemEnabled(eMOpen, true);
+  fileMenu->setItemEnabled(eMNew, false);
   fileMenu->setItemEnabled(eMClose, bHaveFiles);
   fileMenu->setItemEnabled(eMReload, bHaveFiles);
 
@@ -961,6 +1009,8 @@ void ArkWidget::fixEnables() // private
 
   //    editMenu->setItemEnabled(eMRename, bHaveFiles);
   KToolBar *tb = toolBar();
+  tb->setItemEnabled(eOpen, true);
+  tb->setItemEnabled(eNew, true);
   tb->setItemEnabled(eDelete, bHaveFiles && m_nNumSelectedFiles > 0
 		     && arch && !bReadOnly);
   tb->setItemEnabled(eExtract, bHaveFiles);
@@ -1202,6 +1252,7 @@ void ArkWidget::action_add()
 void ArkWidget::addFile(QStringList *list)
 {
   archiveContent->setUpdatesEnabled(false);
+  disableAll();
   QApplication::setOverrideCursor( waitCursor );
   arch->addFile(list);
 }
@@ -1217,6 +1268,7 @@ void ArkWidget::action_add_dir()
       dirName = "file:" + dirName;
       archiveContent->setUpdatesEnabled(false);
       QApplication::setOverrideCursor( waitCursor );
+      disableAll();
       arch->addDir(dirName);
     }
 }
@@ -1310,6 +1362,7 @@ void ArkWidget::action_delete()
  
   archiveContent->setUpdatesEnabled(false);
   QApplication::setOverrideCursor( waitCursor );
+  disableAll();
   arch->remove(&list);
   kDebugInfo( 1601, "-ArkWidget::action_delete");
 }
@@ -1331,6 +1384,7 @@ void ArkWidget::slotOpenWith()
       m_bOpenWithInProgress = true;
       m_strFileToView = fullname;
       QApplication::setOverrideCursor( waitCursor );
+      disableAll();
       arch->unarchFile( &list, m_settings->getTmpDir() );
     }
 }
@@ -1351,6 +1405,7 @@ void ArkWidget::action_extract()
       kDebugInfo( 1601, "Extract op: %d", extractOp);
       archiveContent->setUpdatesEnabled(false);
       QApplication::setOverrideCursor( waitCursor );
+      disableAll();
 
       switch(extractOp)
 	{
@@ -1430,6 +1485,7 @@ void ArkWidget::showFile( FileLVI *_pItem )
   m_bViewInProgress = true;
   m_strFileToView = fullname;
   QApplication::setOverrideCursor( waitCursor );
+  disableAll();
   arch->unarchFile( &list, m_settings->getTmpDir() );
 }
 
@@ -1864,6 +1920,8 @@ ArchType ArkWidget::getArchType( QString archname )
     }
   if (archname.right(4) == ".zoo")
     return ZOO_FORMAT;
+  if (archname.right(4) == ".rar")
+    return RAR_FORMAT;
   return UNKNOWN_FORMAT;
 }
 
@@ -1887,6 +1945,9 @@ void ArkWidget::createArchive( const QString & _filename )
       break;
     case ZOO_FORMAT:
       newArch = new ZooArch( m_settings, m_viewer, _filename );
+      break;
+    case RAR_FORMAT:
+      newArch = new RarArch( m_settings, m_viewer, _filename );
       break;
 #if 0
     case AA_FORMAT:
@@ -1933,6 +1994,9 @@ void ArkWidget::openArchive(const QString & _filename )
     case ZOO_FORMAT:
       newArch = new ZooArch( m_settings, m_viewer, _filename );
       break;
+    case RAR_FORMAT:
+      newArch = new RarArch( m_settings, m_viewer, _filename );
+      break;
 #if 0
     case AA_FORMAT:
       newArch = new ArArch( m_settings, m_viewer, _filename );
@@ -1954,6 +2018,7 @@ void ArkWidget::openArchive(const QString & _filename )
 	   this, SLOT(slotExtractDone()));
 
   archiveContent->setUpdatesEnabled(false);
+  disableAll();
   QApplication::setOverrideCursor( waitCursor );
   newArch->open();
 }
