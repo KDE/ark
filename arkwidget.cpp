@@ -1437,7 +1437,7 @@ void ArkWidget::addFile(QStringList *list)
 	      mpDownloadedList->append(tempfile);        //remember for deletion
 	  }
 	     
-	  *it = url.url();
+	  *it = url.prettyURL();
 
 	}
       
@@ -1453,7 +1453,7 @@ void ArkWidget::action_add_dir() {
         if ( !dir.isEmpty() ) {
             disableAll();
             KURL u( dir );
-            arch->addDir( u.url() );
+            arch->addDir( u.prettyURL() );
         }
             
 }
