@@ -151,7 +151,7 @@ ArkWidgetPart::file_open(const QString & strFile, const KURL &fileURL)
 {
 	struct stat statbuffer;
 	
-	if (stat(strFile.local8Bit(), &statbuffer) == -1)
+	if (stat(QFile::encodeName(strFile), &statbuffer) == -1)
 	{
 		if (errno == ENOENT || errno == ENOTDIR || errno ==  EFAULT)
 		{

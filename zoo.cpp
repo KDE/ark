@@ -35,6 +35,7 @@
 
 // QT includes
 #include <qfile.h>
+#include <qdir.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -93,7 +94,7 @@ bool ZooArch::processLine(const QCString &line)
   strlcat(columns[3], fixTime(columns[4]).ascii(),sizeof(columns[3]));
 
   QStringList list;
-  list.append(QString::fromLocal8Bit(filename));
+  list.append(QFile::decodeName(filename));
   for (int i=0; i<4; i++)
     {
       list.append(QString::fromLocal8Bit(columns[i]));
@@ -114,7 +115,7 @@ void ZooArch::open()
 
 
   KProcess *kp = new KProcess;
-  *kp << m_archiver_program << "l" << m_filename.local8Bit();
+  *kp << m_archiver_program << "l" << m_filename;
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
@@ -184,7 +185,7 @@ void ZooArch::addFile( QStringList *urls )
   else
     *kp << "-add";
 
-  *kp << m_filename.local8Bit() ;
+  *kp << m_filename;
 
   QString base;
   QString url;
@@ -207,7 +208,7 @@ void ZooArch::addFile( QStringList *urls )
       pos = file.findRev( '/' );
       base = file.left( pos );
       pos++;
-      chdir( QFile::encodeName(base) );
+      QDir::setCurrent(base);
       base = file.right( file.length()-pos );
       file = base;
     }
@@ -249,9 +250,9 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir,
   // zoo has no option to specify the destination directory
   // so I have to change to it.
 
-  int ret = chdir(QFile::encodeName(dest));
+  bool ret = QDir::setCurrent(dest);
  // I already checked the validity of the dir before coming here
-  Q_ASSERT(ret == 0); 
+  Q_ASSERT(ret);
 
 
   QString tmp;
@@ -274,7 +275,7 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir,
       for ( QStringList::Iterator it = _fileList->begin();
 	    it != _fileList->end(); ++it ) 
 	{
-	  *kp << (*it).local8Bit();/*.latin1() ;*/
+	  *kp << (*it);/*.latin1() ;*/
 	}
     }
  
@@ -304,12 +305,12 @@ void ZooArch::remove(QStringList *list)
   KProcess *kp = new KProcess;
   kp->clearArguments();
   
-  *kp << m_archiver_program << "D" << m_filename.local8Bit();
+  *kp << m_archiver_program << "D" << m_filename;
   for ( QStringList::Iterator it = list->begin();
 	it != list->end(); ++it )
     {
       QString str = *it;
-      *kp << str.local8Bit();
+      *kp << str;
     }
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),

@@ -502,7 +502,7 @@ ArkWidget::file_open( const QString & strFile )
 
 	kdDebug( 1601 ) << "File to open: " << strFile << endl;
 
-	if (stat(strFile.local8Bit(), &statbuffer) == -1)
+	if (stat(QFile::encodeName(strFile), &statbuffer) == -1)
 	{
 		if (errno == ENOENT || errno == ENOTDIR || errno ==  EFAULT)
 		{
@@ -688,13 +688,13 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
 
       kdDebug(1601) << "Trying to create an archive named " <<
         strFile << endl;
-      if (stat(strFile.local8Bit(), &statbuffer) != -1)  // already exists!
+      if (stat(QFile::encodeName(strFile), &statbuffer) != -1)  // already exists!
         {
           choice =
             KMessageBox::warningYesNoCancel(0, i18n("Archive already exists. Do you wish to overwrite it?"), i18n("Archive Already Exists"));
           if (choice == KMessageBox::Yes)
             {
-              unlink(QFile::encodeName(strFile));
+              QFile::remove(strFile);
               break;
             }
           else if (choice == KMessageBox::Cancel)
@@ -1435,7 +1435,7 @@ ArkWidget::addFile(QStringList *list)
           int i = filename.find('/', 5);
           path = filename.left(1+i);
           kdDebug(1601) << "Changing to dir: " << path << endl;
-          chdir( QFile::encodeName(path) );
+          QDir::setCurrent(path);
           filename = filename.right(filename.length()-i-1);
           // HACK!! We need a relative path. If I have "file:", it
           // will look like an absolute path. So five spaces here to get

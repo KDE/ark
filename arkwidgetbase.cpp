@@ -83,8 +83,10 @@ ArkWidgetBase::cleanArkTmpDir( bool part )
 	
 	if(  part )
 	{
-		QString ex( "rm -rf " + KProcess::quote(tmpdir) );
-		system( QFile::encodeName( ex ) );
+		KProcess proc;
+		proc << "rm" << "-rf" << tmpdir;
+		proc.start(KProcess::Block);
+
 		return;
 	}
 
@@ -93,19 +95,21 @@ ArkWidgetBase::cleanArkTmpDir( bool part )
 	viewdir += "/";
 	
 	// delete the viwer temporary directory ( if exists ) and its contents
-	QString ex( "rm -rf "+ KProcess::quote(tmpdir + viewdir) );
-	system( QFile::encodeName( ex ) );
+	KProcess proc;
+	proc << "rm" << "-rf" << tmpdir + viewdir;
+	proc.start(KProcess::Block);
 	
 	// delete main temporary directory if no more ark instances are open
 	if ( ! ArkApplication::getInstance()->windowCount() )
 	{
-		QString ex( "rm -rf "+ KProcess::quote(tmpdir) );
-		system( QFile::encodeName( ex ) );
+		KProcess proc;
+		proc << "rm" << "-rf" << tmpdir;
+		proc.start(KProcess::Block);
 	}
 }
 
 /**
-* Returns the file item.
+* Returns the file item, or 0 if not found.
 * @param _filename The filename in question to reference in the archive
 * @return The requested file's FileLVI
 */
@@ -123,7 +127,6 @@ ArkWidgetBase::getFileLVI(const QString &_filename) const
 		}
 		flvi = (FileLVI*)flvi->itemBelow();
 	}
-	kdError(1601) << "Couldn't find " << _filename << " in ArkWidget::getFileLVI"	<< endl;
 	
 	return 0;
 }

@@ -33,6 +33,7 @@
 #include <string.h>
 
 #include <qfile.h>
+#include <qdir.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -112,7 +113,7 @@ bool RarArch::processLine(const QCString &line)
   kdDebug(1601) << "The actual file is " << filename << endl;
 
   QStringList list;
-  list.append(QString::fromLocal8Bit(filename));
+  list.append(QFile::decodeName(filename));
   for (int i=0; i<8; i++)
     {
       list.append(QString::fromLocal8Bit(columns[i]));
@@ -133,7 +134,7 @@ void RarArch::open()
   
   
   KProcess *kp = new KProcess;
-  *kp << m_archiver_program << "vt" << m_filename.local8Bit();
+  *kp << m_archiver_program << "vt" << m_filename;
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
@@ -211,7 +212,7 @@ void RarArch::addFile( QStringList *urls )
   if (m_settings->getRarRecurseSubdirs())
     *kp << "-r";
 
-  *kp << m_filename.local8Bit() ;
+  *kp << m_filename;
 
   QString base;
   QString url;
@@ -234,7 +235,7 @@ void RarArch::addFile( QStringList *urls )
       pos = file.findRev( '/' );
       base = file.left( pos );
       pos++;
-      chdir( QFile::encodeName(base) );
+      QDir::setCurrent(base);
       base = file.right( file.length()-pos );
       file = base;
     }
@@ -295,7 +296,7 @@ void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir,
   }
 #endif
 
-  *kp << m_filename.local8Bit();
+  *kp << m_filename;
 
   // if the file list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
@@ -304,7 +305,7 @@ void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir,
       for ( QStringList::Iterator it = _fileList->begin();
 	    it != _fileList->end(); ++it ) 
 	{
-	  *kp << (*it).local8Bit();/*.latin1() ;*/
+	  *kp << (*it);/*.latin1() ;*/
 	}
     }
 
@@ -336,12 +337,12 @@ void RarArch::remove(QStringList *list)
   KProcess *kp = new KProcess;
   kp->clearArguments();
   
-  *kp << m_archiver_program << "d" << m_filename.local8Bit();
+  *kp << m_archiver_program << "d" << m_filename;
   for ( QStringList::Iterator it = list->begin();
 	it != list->end(); ++it )
     {
       QString str = *it;
-      *kp << str.local8Bit();
+      *kp << str;
     }
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),

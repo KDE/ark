@@ -53,6 +53,7 @@
 // Qt includes
 #include <qapplication.h>
 #include <qfile.h>
+#include <qdir.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -98,7 +99,7 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 		compressed = true;
 		QString tmpdir;
 		QString directory;
-      directory.sprintf("ark.%d/", getpid());
+		directory.sprintf("ark.%d/", getpid());
 		tmpdir = locateLocal( "tmp", directory );
 
       QString base = m_filename.right(m_filename.length()- 1 -
@@ -108,8 +109,8 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
       // build the temp file name
 
 		KTempFile *pTempFile = new KTempFile(tmpdir +
-				QString::fromLocal8Bit("/temp_tar"),
-				QString::fromLocal8Bit(".tar") );
+				QString::fromLatin1("/temp_tar"),
+				QString::fromLatin1(".tar") );
 
       tmpfile = pTempFile->name();
 		delete pTempFile;
@@ -121,7 +122,7 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 
 TarArch::~TarArch()
 {
-  unlink( QFile::encodeName(tmpfile) );
+  QFile::remove(tmpfile);
 }
 
 int TarArch::getEditFlag()
@@ -246,7 +247,7 @@ void
 TarArch::open()
 {
 	kdDebug(1601) << "+TarArch::open" << endl;
-	unlink( QFile::encodeName(tmpfile) ); // just to make sure
+	QFile::remove(tmpfile); // just to make sure
 	setHeaders();
 	
 	// might as well plunk the output of tar -tvf in the shell output window...
@@ -429,7 +430,7 @@ TarArch::createTmp()
 		{
 			// the tmpfile does not yet exist, so we create it.
 			createTmpInProgress = true;
-			fd = fopen( tmpfile.local8Bit(), "w" );
+			fd = fopen( QFile::encodeName(tmpfile), "w" );
 			
 			KProcess *kp = new KProcess;
 			kp->clearArguments();
@@ -440,7 +441,7 @@ TarArch::createTmp()
 			{
 				*kp << "-d" ;
 			}
-			*kp << "-c" << m_filename.local8Bit();
+			*kp << "-c" << m_filename;
 			
 			connect(kp, SIGNAL(processExited(KProcess *)),
 					this, SLOT(createTmpFinished(KProcess *)));
@@ -512,9 +513,13 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
       str = str.right(str.length()-str.findRev('/')-1);
 
     // find the file entry in the archive listing
-    QString entryTimeStamp = m_gui->getFileLVI(str)->timeStampStr();
+    const FileLVI * lv = m_gui->getFileLVI(str);
+    if ( !lv ) // it isn't in there, so skip it.
+      continue;
+    
+    QString entryTimeStamp = lv->timeStampStr();
     if (entryTimeStamp.isNull())
-      continue;  // it isn't in there, so skip it.
+      continue; // it isn't in there, so skip it.
 
     if (bAddOnlyNew)
     {
@@ -585,7 +590,7 @@ void TarArch::addFile( QStringList* urls )
 
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  *kp << m_archiver_program.local8Bit();
+  *kp << m_archiver_program;
 
   if( m_settings->getAddReplaceOnlyWithNewer())
     *kp << "uvf";
@@ -593,7 +598,7 @@ void TarArch::addFile( QStringList* urls )
     *kp << "rvf";
 
   if (compressed)
-    *kp << tmpfile.local8Bit();
+    *kp << tmpfile;
   else
     *kp << m_filename;
 
@@ -611,13 +616,13 @@ void TarArch::addFile( QStringList* urls )
       //                pos++;
       tmp = file.right( file.length()-pos );
       file = tmp;
-      chdir( base.local8Bit() );
+      QDir::setCurrent(base);
     }
   QStringList::Iterator it=urls->begin();
   while(1)
     {
       int pos;
-      *kp << file.local8Bit();
+      *kp << file;
       it++;
       url = *it;
 
@@ -698,7 +703,7 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
   KProcess *kp = new KProcess;
   kp->clearArguments();
 
-  *kp << m_archiver_program.local8Bit();
+  *kp << m_archiver_program;
   if (compressed)
     *kp << "--use-compress-program="+getUnCompressor() ;
 
@@ -709,8 +714,8 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
     options += "p";
   options += "f";
 
-  kdDebug(1601) << "Options were: " << options.local8Bit() << endl;
-  *kp << options.local8Bit() << m_filename.local8Bit() << "-C" << dest;
+  kdDebug(1601) << "Options were: " << options << endl;
+  *kp << options << m_filename << "-C" << dest;
 
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
@@ -719,7 +724,7 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
       for ( QStringList::Iterator it = _fileList->begin();
             it != _fileList->end(); ++it )
         {
-          *kp << (*it).local8Bit();/*.latin1() ;*/
+          *kp << (*it);/*.latin1() ;*/
         }
     }
 
@@ -752,11 +757,11 @@ void TarArch::remove(QStringList *list)
 
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  *kp << m_archiver_program.local8Bit() << "--delete" << "-f" ;
+  *kp << m_archiver_program << "--delete" << "-f" ;
   if (compressed)
-    *kp << tmpfile.local8Bit();
+    *kp << tmpfile;
   else
-    *kp << m_filename.local8Bit();
+    *kp << m_filename;
 
   for ( QStringList::Iterator it = list->begin(); it != list->end(); ++it )
     {
