@@ -1,7 +1,26 @@
 [Desktop Entry]
+Encoding=UTF-8
 MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tgz;application/x-tbz;application/x-zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-bzip2
 Comment=Archiving Tool
+Comment[da]=Arkiveringsværktøj
+Comment[de]=Archivprogramm
+Comment[es]=Herramienta de archivado
+Comment[fi]=Pakettienhallintatyökalu
+Comment[fr]=Un outil de manipulation d'archives
+Comment[he]=כלי לניהול ארכיונים
+Comment[hu]=Tömörített fájlokat kezelő program
+Comment[lt]=Archyvavimo priemonė
+Comment[lv]=Arhivēšanas Rīks
+Comment[pt]=Ferramenta de Armazenamento
+Comment[pt_BR]=Ferramenta de Armazenamento
+Comment[sk]=Archivačný nástroj
+Comment[sv]=Arkiveringsverktyg
+Comment[ta]=¸¡ôÀ¸ì ¸ÕÅ¢
+Comment[tr]=Arşivleme Aracı
+Comment[xx]=xx
 Name=Ark
+Name[hu]=Ark tömörítőprogram
+Name[xx]=xx
 Exec=ark -caption "%c" %i %m %U
 Icon=ark
 TerminalOptions=
