@@ -70,7 +70,7 @@
 // for statfs:
 #ifdef BSD4_4
 #include <sys/mount.h>
-#elif defined(__linux)
+#elif defined(__linux__)
 #include <sys/vfs.h>
 #elif defined(__sun)
 #include <sys/statvfs.h>
