@@ -63,7 +63,7 @@ void LhaArch::processLine( char *_line )
   char columns[13][80];
   char filename[4096];
 
-  if (QString::QString(_line).contains("[generic]") ) 
+  if (QString(_line).contains("[generic]") ) 
     {
       sscanf(_line, " %[]\[generic] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
 	     columns[0], columns[2], columns[3], columns[4], columns[5],
