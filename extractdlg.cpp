@@ -52,12 +52,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "settings.h"
 #define FIRST_PAGE_WIDTH  390
 
-ExtractDlg::ExtractDlg( QWidget *parent, const char *name, const QString &prefix )
+ExtractDlg::ExtractDlg( QWidget *parent, const char *name, const QString& archiveName, const QString &prefix )
     : KDialogBase( KDialogBase::Plain, i18n("Extract"), Ok | Cancel, Ok, parent, name )
 {
 	QFrame *mainFrame = plainPage();
 
 	kdDebug(1601) << "+ExtractDlg::ExtractDlg" << endl;
+
+	if ( !archiveName.isNull() )
+		setCaption( i18n( "Extract Files From %1" ).arg( archiveName ) );
 
 	QGridLayout *Form1Layout = new QGridLayout( mainFrame );
 	Form1Layout->setSpacing( 6 );
@@ -148,7 +151,7 @@ ExtractDlg::ExtractDlg( QWidget *parent, const char *name, const QString &prefix
 	bgLayout->addLayout( Layout2, 0, 0 );
 	Layout10->addWidget( bg );
 
-	QHBoxLayout *Layout9 = new QHBoxLayout;
+/*	QHBoxLayout *Layout9 = new QHBoxLayout;
 	Layout9->setSpacing( 6 );
 	Layout9->setMargin( 0 );
 
@@ -158,14 +161,17 @@ ExtractDlg::ExtractDlg( QWidget *parent, const char *name, const QString &prefix
 	QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
 	Layout9->addItem( spacer );
 	Layout10->addLayout( Layout9 );
-
+*/
+	m_viewFolderAfterExtraction = new QCheckBox( i18n( "Open destination folder after extraction" ), mainFrame, "viewFolderCheckBox" );
+	Layout10->addWidget( m_viewFolderAfterExtraction );
+	
 	Form1Layout->addLayout( Layout10, 0, 0 );
 
 	mainFrame->setMinimumSize(410,250);
 
 	connect(m_patternLE, SIGNAL(textChanged(const QString &)), this, SLOT(choosePattern()));
 	connect(m_patternLE, SIGNAL(returnPressed()), this, SLOT(accept()));
-	connect(prefButton, SIGNAL(clicked()), this, SLOT(openPrefs()));
+	//connect(prefButton, SIGNAL(clicked()), this, SLOT(openPrefs()));
 
 	//connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
 	m_radioCurrent->setChecked(true);

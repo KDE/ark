@@ -36,6 +36,7 @@
 #include <qlayout.h>
 #include <qstringlist.h>
 #include <qlabel.h>
+#include <qcheckbox.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -56,6 +57,7 @@
 #include <klistviewsearchline.h>
 #include <ktoolbar.h>
 #include <kconfigdialog.h>
+#include <ktrader.h>
 
 // settings
 #include "settings.h"
@@ -1674,7 +1676,7 @@ ArkWidget::action_extract()
     }
 
 
-    ExtractDlg *dlg = new ExtractDlg(this, 0, prefix);
+    ExtractDlg *dlg = new ExtractDlg(this, 0, m_url.filename(), prefix);
 
     // if they choose pattern, we have to tell arkwidget to select
     // those files... once we're in the dialog code it's too late.
@@ -1804,6 +1806,10 @@ ArkWidget::action_extract()
             Q_ASSERT(0);
             // never happens
             break;
+        }
+        if ( dlg->viewFolderAfterExtraction() )
+        {
+            KRun::runURL( dlg->extractDir(), "inode/directory" );
         }
 
         delete dlg;
@@ -2517,13 +2523,22 @@ void ArkWidget::showSettings(){
     return;
   
   KConfigDialog *dialog = new KConfigDialog(this, "settings", Settings::self());
-  dialog->addPage(new General(0, "General"), i18n("General"), "ark", i18n("General Settings"));
+
+  General* genPage = new General(0, "General");
+  dialog->addPage(genPage, i18n("General"), "ark", i18n("General Settings"));
   dialog->addPage(new Addition(0, "Addition"), i18n("Addition"), "ark_addfile", i18n("File Addition Settings"));
   dialog->addPage(new Extraction(0, "Extraction"), i18n("Extraction"), "ark_extract", i18n("Extraction Settings"));
   dialog->addPage(new Folders(0, "Folders"), i18n("Folders"), "folder", i18n("Folder Settings"));
+
+  KTrader::OfferList offers;
+
+  offers = KTrader::self()->query( "KonqPopupMenu/Plugin", "Library == 'libarkplugin'" );
+
+  if ( offers.isEmpty() )
+	  genPage->kcfg_KonquerorIntegration->setEnabled( false );
+  else
+	  genPage->konqIntegrationLabel->setText( QString::null );
   
-  //connect(dialog, SIGNAL(settingsChanged()), tron, SLOT(loadSettings()));
-  //connect(dialog, SIGNAL(settingsChanged()), this, SLOT(loadSettings()));
   dialog->show();
 }
 

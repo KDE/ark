@@ -8,9 +8,12 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>307</width>
+            <width>323</width>
             <height>251</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>General</string>
     </property>
     <vbox>
         <property name="name">
@@ -56,17 +59,17 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>25</width>
+                            <width>15</width>
                             <height>31</height>
                         </size>
                     </property>
                 </spacer>
                 <widget class="QLabel">
                     <property name="name">
-                        <cstring>textLabel1</cstring>
+                        <cstring>konqIntegrationLabel</cstring>
                     </property>
                     <property name="text">
-                        <string>&lt;font size="-1"&gt;&lt;i&gt;Please note that this option will only work correctly if the Konqueror integration plugin from the kdeaddons package is installed in your system.&lt;/i&gt;&lt;/font&gt;</string>
+                        <string>&lt;font size="-1"&gt;&lt;i&gt;Konqueror integration is only available if you install the Konqueror Integration Plugin, from the kdeaddons package.&lt;/i&gt;&lt;/font&gt;</string>
                     </property>
                 </widget>
             </hbox>

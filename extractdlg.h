@@ -33,6 +33,7 @@
 #define __EXTRACTDLG_H__
 
 #include <qradiobutton.h>
+#include <qcheckbox.h>
 #include <kurl.h>
 
 #include "arch.h"
@@ -53,13 +54,14 @@ class ExtractDlg : public KDialogBase
 {
   Q_OBJECT
 public:
-  ExtractDlg(QWidget *parent=0, const char *name=0, const QString &prefix=QString::null);
+  ExtractDlg(QWidget *parent=0, const char *name=0, const QString &archiveName=QString::null, const QString &prefix=QString::null);
   ~ExtractDlg();
   enum ExtractOp{ All, Selected, Current, Pattern };
   int extractOp();
   KURL extractDir();
   void disableSelectedFilesOption();
   void disableCurrentFileOption() { m_radioCurrent->setEnabled(false); }
+  bool viewFolderAfterExtraction() const { return m_viewFolderAfterExtraction->isChecked(); }
 public slots:
   //void browse();
   void choosePattern() { m_radioPattern->setChecked(true); }
@@ -72,6 +74,7 @@ signals:
 
 private: // data
   QRadioButton *m_radioCurrent, *m_radioAll, *m_radioSelected, *m_radioPattern;
+  QCheckBox    *m_viewFolderAfterExtraction;
   QLineEdit *m_patternLE;
   KHistoryCombo *m_extractDirCB;
   KURLRequester *m_urlRequester;
