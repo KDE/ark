@@ -410,15 +410,30 @@ void ArkWidget::updateStatusTotals()
 void ArkWidget::file_save_as()
 {
   // we have to make sure the user doesn't think this is
-  // an opportunity to convert .tgz to .zip...  TODO
+  // an opportunity to convert .tgz to .zip...
 
   QString extension;
-  getArchType(m_strArchName, extension);
+  enum ArchType archtype = getArchType(m_strArchName, extension);
   extension = "*" + extension;
-  KURL u = KFileDialog::getSaveURL(QString::null, extension,
-				   this, i18n("Save Archive As"));
-  if (u.isEmpty())
-     return;
+  bool done = false;
+  KURL u;
+  do
+    {
+      u = KFileDialog::getSaveURL(QString::null, extension,
+				       this, i18n("Save Archive As"));
+      if (u.isEmpty())
+	return;
+      QString ext;
+      if (getArchType(u.path(), ext) == archtype)
+	done = true;
+
+      if (!done)
+	{
+	  KMessageBox::error(this, i18n("Please save your archive in the same format as the original.\nHint: Use the same extension."));
+	}
+    }
+  while (!done);
+
 
   KURL src = m_strArchName;
   mSaveAsURL = u;
