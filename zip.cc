@@ -86,7 +86,7 @@ void ZipArch::openArch( QString file )
 		fgets( line, 4096, fd );
 	}
 //	fclose( fd );
-//	There should be a file descriptor close call, but this one makes a 
+//	There should be a file descriptor close call, but this one makes a
 //	BAD FILEDESCRIPTOR error message
 
 }
@@ -111,15 +111,15 @@ int ZipArch::addFile( QStrList *urls )
 	QString base;
 	QString url;
 	QString file;
-	
+
 	if( onlyupdate )
 		archProcess << "-u";
 	archProcess << archname;
-	
+
 	url = urls->first();
 	do
 	{
-		KURL::decodeURL(url); // Because of special characters
+		KURL::decode(url); // Because of special characters
 		file = url.right( url.length()-5);
 
 
@@ -149,7 +149,7 @@ void ZipArch::extractTo( QString dest )
 //	cout << "Got in extractTo" << endl;
 	FILE *fd;
 	char line[4096];
-	
+
 	archProcess.clearArguments();
 //	archProcess.setExecutable( "unzip" );
 	archProcess << "unzip" << "-o";
@@ -165,7 +165,7 @@ void ZipArch::extractTo( QString dest )
 	for( long int i=0; !feof(fd); i++)
 	{
 		kapp->processEvents();
-		fgets( line, 4096, fd );  
+		fgets( line, 4096, fd );
 		if( Arch::isCanceled() )
 		{
 			archProcess.kill();

@@ -36,7 +36,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	: KTopLevelWidget( name )
 {
 	KConfig *config;
-	
+
 	unsigned int pid = getpid();
 	tmpdir.sprintf( "/tmp/ark.%d/", pid );
 
@@ -50,7 +50,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	tar_exe = config->readEntry( QString("TarExe") );
 	if( tar_exe.isEmpty() )
 		tar_exe = "tar";
-	
+
 	if (!windowList)
 	    windowList = new QList<ArkWidget>();
 
@@ -103,7 +103,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 
 	QPixmap pix;
 	QString pixpath;
-	
+
 	pixpath = kapp->kde_toolbardir().copy()+"/";
 	tb = new KToolBar( this, "toolbar" );
 
@@ -115,7 +115,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 
 	pix.load( pixpath+"viewzoom.xpm" );
 	tb->insertButton( pix, 1, SIGNAL( clicked() ), this, SLOT( extractZip() ), TRUE, i18n("Extract To.."));
-	
+
 	tb->insertSeparator();
 	pix.load( pixpath+"exit.xpm" );
 	tb->insertButton( pix, 2, SIGNAL( clicked() ), this, SLOT( closeZip() ), TRUE, i18n("Exit"));
@@ -125,7 +125,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	enableToolBar( KToolBar::Show );
 
 	sb = new KStatusBar( this );
-	sb->insertItem( (char *)i18n( "Welcome to ark..." ), 0 );
+	sb->insertItem( i18n( "Welcome to ark..." ), 0 );
 	setStatusBar( sb );
 
 	//f_main = new QFrame( this, "frame_0" );
@@ -140,16 +140,16 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	connect( dz, SIGNAL(dropAction(KDNDDropZone *)),SLOT( fileDrop(KDNDDropZone *)) );
 
 	setCaption( kapp->getCaption() );
-	
+
 	this->resize( 600, 400 );  // someday this won't be hardcoded
 	tb->show();
 	lb->show();
 	sb->show();
 	menu->show();
 	updateRects();
-	
+
 	kfm = new KFM;
-	
+
 	QString ex( "mkdir " + tmpdir + " &>/dev/null" );
 	system( ex );
 	arch=0;
@@ -160,7 +160,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	storefullpath = FALSE;
 	contextRow = false;
 }
-	
+
 ArkWidget::~ArkWidget()
 {
 	windowList->removeRef( this );
@@ -173,7 +173,7 @@ ArkWidget::~ArkWidget()
 
 void ArkWidget::saveProperties( KConfig *kc ) {
 	QString loc_key( "CurrentLocation" );
-	
+
 	if( arch != 0 )
 		kc->writeEntry( loc_key, arch->getName() );
 	else
@@ -181,7 +181,7 @@ void ArkWidget::saveProperties( KConfig *kc ) {
 			kc->writeEntry( loc_key, "Favorites" );
 		else
 			kc->writeEntry( loc_key, "None" );
-	
+
 	// I would prefer to just delete all the widgets, but kwm gets confused
 	// if ark quits in the middle of session management
 	QString ex( "rm -rf "+tmpdir );
@@ -191,7 +191,7 @@ void ArkWidget::saveProperties( KConfig *kc ) {
 void ArkWidget::readProperties( KConfig *kc ) {
 	QString startpoint;
 	startpoint = kc->readEntry( "CurrentLocation" );
-	
+
 	if( startpoint == "Favorites" )
 		showFavorite();
 	else
@@ -227,12 +227,12 @@ void ArkWidget::createZip()
 		lb->clear();
 		lb->repaint();
 		arch = new KArchive(tar_exe);
-		ret = arch->createArch( file );	
+		ret = arch->createArch( file );
 		if( ret )
 			sb->changeItem( file.data(), 0 );
 		else
 		{
-			sb->changeItem( (char *)i18n( "Can't create archive of that type"), 0 );
+			sb->changeItem( i18n( "Can't create archive of that type"), 0 );
 			delete arch;
 			arch = 0;
 		}
@@ -254,10 +254,10 @@ void ArkWidget::getAddOptions()
 		delete afd;
 		afd = 0;
 	}else{
-		sb->changeItem((char *) i18n( "Create or open an archive first"), 0 );
+		sb->changeItem( i18n( "Create or open an archive first"), 0 );
 	}
 }
-	
+
 
 void ArkWidget::fileDrop( KDNDDropZone *dz )
 {
@@ -269,10 +269,8 @@ void ArkWidget::fileDrop( KDNDDropZone *dz )
 	dlist = dz->getURLList();
 
 	if( !arch ){
-		char *foo;
 		url = dlist.at(0);
 		file = url.right( url.length()-5 );
-		foo = file.data();
 		arch = new KArchive(tar_exe);
 		if( arch->openArch( file ) )
 		{
@@ -298,7 +296,7 @@ void ArkWidget::fileDrop( KDNDDropZone *dz )
 		} else {
 			if( retcode == UNSUPDIR )
 				sb->changeItem( i18n("Can't add directories with this archive type"), 0 );
-			else	
+			else
 				sb->changeItem( i18n( "Error saving to archive"), 0 );
 		}
 	}
@@ -353,8 +351,8 @@ void ArkWidget::getTarExe()
 void ArkWidget::openZip()
 {
 	QString name = KFileDialog::getOpenFileName();
-	if( !name.isNull() ) 
-		showZip( name ); 
+	if( !name.isNull() )
+		showZip( name );
 }
 
 void ArkWidget::showZip( QString name )
@@ -373,7 +371,7 @@ void ArkWidget::showZip( QString name )
 		lb->appendStrList( listing );
 		sb->changeItem( name.data(), 0 );
 	}else{
-		sb->changeItem( (char *)i18n( "Unknown archive format"), 0 );
+		sb->changeItem( i18n( "Unknown archive format"), 0 );
 		lb->repaint();
 		delete arch;
 		arch = 0;
@@ -383,14 +381,14 @@ void ArkWidget::showZip( QString name )
 void ArkWidget::showFavorite()
 {
 	const QFileInfoList *flist;
-	
+
 	delete fav;
 	delete arch;
-	
+
 	delete flisting;
 	flisting = new QStrList;
 	arch = 0;
-	
+
 	lb->clear();
 	lb->setNumCols( 2 );
 	lb->setColumn( 0, i18n( "Size" ), 80 );
@@ -398,8 +396,7 @@ void ArkWidget::showFavorite()
 	fav = new QDir( fav_dir );
 	if( !fav->exists() )
 	{
-		sb->changeItem( (char *)i18n( 
-			"Archive directory does not exist."), 0 );
+		sb->changeItem( i18n("Archive directory does not exist."), 0 );
 		return;
 	}
 	flist = fav->entryInfoList();
@@ -414,8 +411,8 @@ void ArkWidget::showFavorite()
 		++flisti;
 	}
 	listing = flisting;
-	lb->appendStrList( listing );	
-	sb->changeItem( (char *)i18n( "Archive Directory"), 0 );
+	lb->appendStrList( listing );
+	sb->changeItem( i18n( "Archive Directory"), 0 );
 }
 
 void ArkWidget::extractZip()
@@ -476,7 +473,7 @@ void ArkWidget::about()
 {
 	QMessageBox aboutmsg;
 	aboutmsg.information( this, "ark", "ark v0.5\n (c) 1997 Robert Palmbos", "OK" );
-	
+
 }
 
 void ArkWidget::aboutQt()
@@ -490,7 +487,7 @@ void ArkWidget::help()
 	kapp->invokeHTMLHelp( "ark/index.html", "" );
 }
 
-void ArkWidget::quit()	
+void ArkWidget::quit()
 {
 	QString ex( "rm -rf "+tmpdir );
 	system( ex );
@@ -512,14 +509,14 @@ void ArkWidget::showFile( int index, int col )
 	QString tname;
 	QString name;
 	QString fullname;
-	
+
 	if( contextRow )  // Warning: ugly hack
 		return;
 
 	col++; // Don't ask.
 	tmp = listing->at( index );
 	tname = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
-	
+
 	if( arch == 0 )
 	{
 		fullname = fav->path();
@@ -575,7 +572,7 @@ void ArkWidget::extractFile( int pos )
 				lb->appendStrList( listing );
 				gdest = new ExtractDlg( ExtractDlg::All );
 			}else{
-				sb->changeItem( (char *)i18n( "Unknown archive format"), 0 );
+				sb->changeItem( i18n( "Unknown archive format"), 0 );
 				delete arch;
 				arch = 0;
 				return;
@@ -589,7 +586,7 @@ void ArkWidget::extractFile( int pos )
 		if( gdest->exec() )
 		{
 			QString dest(  gdest->getDest() );
-			arch->setOptions( gdest->doPreservePerms(), gdest->doLowerCase(), 
+			arch->setOptions( gdest->doPreservePerms(), gdest->doLowerCase(),
 				gdest->doOverwrite() );
 			switch( gdest->extractOp() ) {
 				case ExtractDlg::All: {
@@ -609,12 +606,12 @@ void ArkWidget::extractFile( int pos )
 		}
 	}
 }
-	
+
 
 void ArkWidget::deleteFile()
 {
 	deleteFile( lb->currentItem() );
-} 
+}
 
 void ArkWidget::deleteFile( int pos )
 {
