@@ -41,7 +41,6 @@ int ArkApplication::newInstance()
 
   if (!Zip.isEmpty())
   {
-      fprintf(stderr, "ZIP = %s\n", Zip.ascii());
       ArkWidget *toplevel = (ArkWidget *) mainWidget();
       toplevel->file_open(Zip);
   }
