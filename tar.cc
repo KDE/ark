@@ -18,7 +18,7 @@ TarArch::TarArch( QString te )
 	compressed = TRUE;
 	onlyupdate = FALSE;
 	storefullpath = FALSE;
-	tmpfile.sprintf( "/tmp/kzip.%d/tmpfile.tar", getpid() );
+	tmpfile.sprintf( "/tmp/ark.%d/tmpfile.tar", getpid() );
 	tar_exe = te;
 	cout << "Left TarArch" << endl;
 }

@@ -1,7 +1,6 @@
 # KDE Config File
 [KDE Desktop Entry]
 Comment=Ar Archives
-Comment[is_IS]=Ar safnskrá
 Comment[es]=Archivo AR
 Comment[de]=LHR-Archive
 Comment[pt]=Arquivos Ar
@@ -14,7 +13,7 @@ Comment[pl]=Archiwum Ar
 Comment[ro]=Arhivã ar
 Mimetype=application/x-ar
 Icon=tgz.xpm
-DefaultApp=Zip
+DefaultApp=ark
 Icon=unzip.xpm
 Type=MimeType
 Patterns=*.a;

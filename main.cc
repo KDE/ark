@@ -1,5 +1,5 @@
 /*
-    KZip: A program for modifying archives via a GUI.
+    ark: A program for modifying archives via a GUI.
     Copyright (C) 1997 Robert Palmbos
 
     This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
     robertp@macatawa.org
 
 */
-#include "kzip.h"
+#include "arkwidget.h"
 #include <kapp.h>
 #include <unistd.h>
 #include <sys/param.h> 
@@ -30,15 +30,15 @@ int main( int argc, char *argv[]  )
 {
 	QString Zip( "" );
 
-	KApplication kzip( argc, argv );
+	KApplication ark( argc, argv );
 
-	if( kzip.isRestored() )
+	if( ark.isRestored() )
 	{
 		int n=1;
 		while( KTopLevelWidget::canBeRestored(n)){
-			KZipWidget *kzipwin = new KZipWidget();
-			kzipwin->restore(n);
-			kzipwin->show();
+			ArkWidget *arkWin = new ArkWidget();
+			arkWin->restore(n);
+			arkWin->show();
 			n++;
 		}
 	} else {
@@ -53,11 +53,11 @@ int main( int argc, char *argv[]  )
 			}
 			break;
 		}
-		KZipWidget *kzipwin = new KZipWidget();
-		kzipwin->show();
+		ArkWidget *arkWin = new ArkWidget();
+		arkWin->show();
 		if( !Zip.isEmpty() )
-			kzipwin->showZip( Zip );
+			arkWin->showZip( Zip );
 	}
 
-	kzip.exec();
+	ark.exec();
 }

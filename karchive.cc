@@ -7,20 +7,20 @@
 #include <qpushbt.h>
 #include <qobject.h>
 #include <kfm.h>
-#include "karch.h"
+#include "karchive.h"
 
-KZipArch::KZipArch( QString te )
+KArchive::KArchive( QString te )
 {
 	tar_exe = te;  // *sigh*
 	arch = 0;
 }
 
-KZipArch::~KZipArch()
+KArchive::~KArchive()
 {
 	delete arch;
 }
 
-int KZipArch::getArchType( QString archname )
+int KArchive::getArchType( QString archname )
 {
 	if( archname.contains(".tgz", FALSE) || archname.contains(".tar.gz", FALSE) 
 			|| archname.contains( ".tar.Z", FALSE ) || archname.contains(".tar.bz", FALSE)
@@ -37,22 +37,22 @@ int KZipArch::getArchType( QString archname )
 	return -1;
 }
 
-unsigned char KZipArch::setOptions( bool p, bool l, bool o )
+unsigned char KArchive::setOptions( bool p, bool l, bool o )
 {
 	return arch->setOptions( p, l, o );
 }
 
-void KZipArch::onlyUpdate( bool up )
+void KArchive::onlyUpdate( bool up )
 {
 	arch->onlyUpdate( up );
 }
 
-void KZipArch::addPath( bool p )
+void KArchive::addPath( bool p )
 {
 	arch->onlyUpdate( p );
 }
 
-bool KZipArch::openArch( QString name )
+bool KArchive::openArch( QString name )
 {
 	switch( getArchType( name ) )
 	{
@@ -88,7 +88,7 @@ bool KZipArch::openArch( QString name )
 	return TRUE;
 }
 
-bool KZipArch::createArch( QString file )
+bool KArchive::createArch( QString file )
 {
 	switch( getArchType( file ) )
 	{
@@ -124,27 +124,27 @@ bool KZipArch::createArch( QString file )
 	return TRUE;
 }
 
-const QStrList *KZipArch::getListing()
+const QStrList *KArchive::getListing()
 {
 	return arch->getListing();
 }
 
-int KZipArch::addFile( QStrList *urls )
+int KArchive::addFile( QStrList *urls )
 {
 	return arch->addFile( urls );
 }
 
-void KZipArch::extractTo( QString dir )
+void KArchive::extractTo( QString dir )
 {
 	arch->extractTo( dir );
 }
 
-QString KZipArch::unarchFile( int index, QString dest )
+QString KArchive::unarchFile( int index, QString dest )
 {
 	return arch->unarchFile( index, dest );
 }
 
-void KZipArch::deleteFile( int indx )
+void KArchive::deleteFile( int indx )
 {
 	arch->deleteFile( indx );
 }

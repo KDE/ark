@@ -201,7 +201,7 @@ QString ArArch::unarchFile( int pos, QString dest )
 	QString curarch = archname.right( archname.length()-(archname.findRev( '/' )+1) );
 	int i = unlink( curarch );
 	if( i==-1 )
-		perror( "kzip" );
+		perror( "ark" );
 	chdir( pwd );
 	return (dest+tmp2);
 }

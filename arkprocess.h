@@ -1,14 +1,13 @@
 //
-//  KZIPPROCESS -- A subclass of KProcess for providing 'popen'-like
+//  ARKPROCESS -- A subclass of KProcess for providing 'popen'-like
 //  capabilities
 
-#ifndef __kzipprocess_h__
-#define __kzipprocess_h__
+#ifndef __arkprocess_h__
+#define __arkprocess_h__
 #include <stdio.h>
 #include <kprocess.h>
 
-class KZipProcess : public KProcess
-{
+class ArkProcess : public KProcess {
 
 public:
 

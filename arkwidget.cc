@@ -1,7 +1,7 @@
 /* (c)1997 Robert Palmbos
    See main.cc for license details */
 /* Warning:  Uncommented spaghetti code next 500 lines */
-/* This is the main kzip window widget */
+/* This is the main ark window widget */
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -25,20 +25,20 @@
 #include <kfiledialog.h>
 #include <ktablistbox.h>
 #include "extractdlg.h"
-#include "karch.h"
-#include "kzip.h"
+#include "karchive.h"
+#include "arkwidget.h"
 #include "errors.h"
-#include "kzip.moc"
+#include "arkwidget.moc"
 
-QList<KZipWidget> *KZipWidget::windowList = 0;
+QList<ArkWidget> *ArkWidget::windowList = 0;
 
-KZipWidget::KZipWidget( QWidget *, const char *name )
+ArkWidget::ArkWidget( QWidget *, const char *name )
 	: KTopLevelWidget( name )
 {
 	KConfig *config;
 	
 	unsigned int pid = getpid();
-	tmpdir.sprintf( "/tmp/kzip.%d/", pid );
+	tmpdir.sprintf( "/tmp/ark.%d/", pid );
 
 	config = kapp->getConfig();
 	QString fav_key;
@@ -51,7 +51,7 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 		tar_exe = "tar";
 	
 	if (!windowList)
-	    windowList = new QList<KZipWidget>();
+	    windowList = new QList<ArkWidget>();
 
 	windowList->setAutoDelete( FALSE );
 	windowList->append( this );
@@ -83,7 +83,7 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 	optionsmenu->insertItem( klocale->translate( "&Set Archive Directory..."), this, SLOT( getFav() ) );
 	optionsmenu->insertItem( klocale->translate( "Set &Tar Executable..."), this, SLOT( getTarExe() ) );
 	optionsmenu->insertItem( klocale->translate( "&File Adding Options..."), this, SLOT( getAddOptions() ) );
-	QPopupMenu *helpmenu = kapp->getHelpMenu( true, "KZip v0.5\n (c) 1997 Robert Palmbos" );
+	QPopupMenu *helpmenu = kapp->getHelpMenu( true, "ark v0.5\n (c) 1997 Robert Palmbos" );
 	//QPopupMenu *helpmenu = new QPopupMenu;
 	//helpmenu->insertItem( klocale->translate( "&Contents..." ), this, SLOT( help() ) );
 	//helpmenu->insertSeparator();
@@ -128,7 +128,7 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 	enableToolBar( KToolBar::Show );
 
 	sb = new KStatusBar( this );
-	sb->insertItem( (char *)klocale->translate( "Welcome to KZip..." ), 0 );
+	sb->insertItem( (char *)klocale->translate( "Welcome to ark..." ), 0 );
 	setStatusBar( sb );
 
 	//f_main = new QFrame( this, "frame_0" );
@@ -164,7 +164,7 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 	contextRow = false;
 }
 	
-KZipWidget::~KZipWidget()
+ArkWidget::~ArkWidget()
 {
 	windowList->removeRef( this );
 	delete kfm;
@@ -174,7 +174,7 @@ KZipWidget::~KZipWidget()
 	delete tb;
 }
 
-void KZipWidget::saveProperties( KConfig *kc ) {
+void ArkWidget::saveProperties( KConfig *kc ) {
 	QString loc_key( "CurrentLocation" );
 	
 	if( arch != 0 )
@@ -186,12 +186,12 @@ void KZipWidget::saveProperties( KConfig *kc ) {
 			kc->writeEntry( loc_key, "None" );
 	
 	// I would prefer to just delete all the widgets, but kwm gets confused
-	// if kzip quits in the middle of session management
+	// if ark quits in the middle of session management
 	QString ex( "rm -rf "+tmpdir );
 	system( ex );
 }
 
-void KZipWidget::readProperties( KConfig *kc ) {
+void ArkWidget::readProperties( KConfig *kc ) {
 	QString startpoint;
 	startpoint = kc->readEntry( "CurrentLocation" );
 	
@@ -201,13 +201,13 @@ void KZipWidget::readProperties( KConfig *kc ) {
 		if( startpoint != "None" )
 			showZip( startpoint );
 }
-void KZipWidget::newWindow()
+void ArkWidget::newWindow()
 {
-	KZipWidget *kw = new KZipWidget;
+	ArkWidget *kw = new ArkWidget;
 	kw->show();
 }
 
-void KZipWidget::doPopup( int row, int col )
+void ArkWidget::doPopup( int row, int col )
 {
 	contextRow = true;
 	lb->setCurrentItem( row, col );
@@ -217,7 +217,7 @@ void KZipWidget::doPopup( int row, int col )
 	//pop.exec();
 }
 
-void KZipWidget::createZip()
+void ArkWidget::createZip()
 {
 	int ret;
 	if( arch )
@@ -229,7 +229,7 @@ void KZipWidget::createZip()
 	{
 		lb->clear();
 		lb->repaint();
-		arch = new KZipArch(tar_exe);
+		arch = new KArchive(tar_exe);
 		ret = arch->createArch( file );	
 		if( ret )
 			sb->changeItem( file.data(), 0 );
@@ -242,7 +242,7 @@ void KZipWidget::createZip()
 	}
 }
 
-void KZipWidget::getAddOptions()
+void ArkWidget::getAddOptions()
 {
 	if( arch )
 	{
@@ -262,7 +262,7 @@ void KZipWidget::getAddOptions()
 }
 	
 
-void KZipWidget::fileDrop( KDNDDropZone *dz )
+void ArkWidget::fileDrop( KDNDDropZone *dz )
 {
 	QStrList dlist;
 	QString url;
@@ -276,7 +276,7 @@ void KZipWidget::fileDrop( KDNDDropZone *dz )
 		url = dlist.at(0);
 		file = url.right( url.length()-5 );
 		foo = file.data();
-		arch = new KZipArch(tar_exe);
+		arch = new KArchive(tar_exe);
 		if( arch->openArch( file ) )
 		{
 			showZip( file );
@@ -309,7 +309,7 @@ void KZipWidget::fileDrop( KDNDDropZone *dz )
 }
 
 
-void KZipWidget::getFav()
+void ArkWidget::getFav()
 {
 	QString tmp;
 	DlgLocation ld( klocale->translate( "Archive Dir:"), fav_dir, this );
@@ -326,7 +326,7 @@ void KZipWidget::getFav()
 	}
 }
 
-void KZipWidget::getTarExe()
+void ArkWidget::getTarExe()
 {
 	QString tmp;
 	DlgLocation ld( klocale->translate( "What runs GNU tar:"), tar_exe, this );
@@ -343,20 +343,20 @@ void KZipWidget::getTarExe()
 	}
 }
 
-void KZipWidget::openZip()
+void ArkWidget::openZip()
 {
 	QString name = KFileDialog::getOpenFileName();
 	if( !name.isNull() ) 
 		showZip( name ); 
 }
 
-void KZipWidget::showZip( QString name )
+void ArkWidget::showZip( QString name )
 {
 	bool ret;
 
 	lb->clear();
 	delete arch;
-	arch = new KZipArch(tar_exe);
+	arch = new KArchive(tar_exe);
 
 	ret = arch->openArch( name );
 	if( ret )
@@ -373,7 +373,7 @@ void KZipWidget::showZip( QString name )
 	}
 }
 
-void KZipWidget::showFavorite()
+void ArkWidget::showFavorite()
 {
 	const QFileInfoList *flist;
 	
@@ -411,7 +411,7 @@ void KZipWidget::showFavorite()
 	sb->changeItem( (char *)klocale->translate( "Archive Directory"), 0 );
 }
 
-void KZipWidget::extractZip()
+void ArkWidget::extractZip()
 {
 	QString dir, ex;
 
@@ -451,39 +451,39 @@ void KZipWidget::extractZip()
 	}
 }
 
-void KZipWidget::closeEvent( QCloseEvent * )
+void ArkWidget::closeEvent( QCloseEvent * )
 {
 	closeZip();
 }
 
-void KZipWidget::closeZip()
+void ArkWidget::closeZip()
 {
 	if( windowList->count() < 2 )
 	{
-		KZipWidget::quit();
+		ArkWidget::quit();
 	}else
 		delete this;
 }
 
-void KZipWidget::about()
+void ArkWidget::about()
 {
 	QMessageBox aboutmsg;
-	aboutmsg.information( this, "Zip", "KZip v0.5\n (c) 1997 Robert Palmbos", "OK" );
+	aboutmsg.information( this, "ark", "ark v0.5\n (c) 1997 Robert Palmbos", "OK" );
 	
 }
 
-void KZipWidget::aboutQt()
+void ArkWidget::aboutQt()
 {
 	QMessageBox aboutmsg;
 	aboutmsg.aboutQt(this);
 }
 
-void KZipWidget::help()
+void ArkWidget::help()
 {
-	kapp->invokeHTMLHelp( "kzip/index.html", "" );
+	kapp->invokeHTMLHelp( "ark/index.html", "" );
 }
 
-void KZipWidget::quit()	
+void ArkWidget::quit()	
 {
 	QString ex( "rm -rf "+tmpdir );
 	system( ex );
@@ -491,7 +491,7 @@ void KZipWidget::quit()
 	kapp->quit();
 }
 
-void KZipWidget::showFile()
+void ArkWidget::showFile()
 {
 	if( lb->currentItem() != -1 )
 	{
@@ -499,7 +499,7 @@ void KZipWidget::showFile()
 	}
 }
 
-void KZipWidget::showFile( int index, int col )
+void ArkWidget::showFile( int index, int col )
 {
 	QString tmp;
 	QString tname;
@@ -526,7 +526,7 @@ void KZipWidget::showFile( int index, int col )
 	}
 }
 
-void KZipWidget::resizeEvent( QResizeEvent *re )
+void ArkWidget::resizeEvent( QResizeEvent *re )
 {
 	int col = lb->numCols()-1;
 	int colpos;
@@ -536,12 +536,12 @@ void KZipWidget::resizeEvent( QResizeEvent *re )
 		lb->setColumnWidth( col, ((this->width())-colpos) );
 }
 
-void KZipWidget::extractFile()
+void ArkWidget::extractFile()
 {
 	extractFile( lb->currentItem() );
 }
 
-void KZipWidget::extractFile( int pos )
+void ArkWidget::extractFile( int pos )
 {
 	int ret;
 	QString tmp;
@@ -552,7 +552,7 @@ void KZipWidget::extractFile( int pos )
 		ExtractDlg *gdest;
 		if( !arch )
 		{
-			arch = new KZipArch(tar_exe);
+			arch = new KArchive(tar_exe);
 			tmp = listing->at( pos );
 			tname = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
 			fullname = fav->path();
@@ -604,12 +604,12 @@ void KZipWidget::extractFile( int pos )
 }
 	
 
-void KZipWidget::deleteFile()
+void ArkWidget::deleteFile()
 {
 	deleteFile( lb->currentItem() );
 } 
 
-void KZipWidget::deleteFile( int pos )
+void ArkWidget::deleteFile( int pos )
 {
 	if( pos != -1 && arch )
 	{
@@ -621,7 +621,7 @@ void KZipWidget::deleteFile( int pos )
 	}
 }
 
-void KZipWidget::setupHeaders()
+void ArkWidget::setupHeaders()
 {
 	char *h = strdup( arch->getHeaders() );
 	char *hdrs=h;

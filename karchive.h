@@ -10,11 +10,11 @@
 #include "lha.h"
 #include "ar.h"
 
-class KZipArch {
+class KArchive {
 
 public:
-	KZipArch( QString te="tar" );
-	~KZipArch();
+	KArchive( QString te="tar" );
+	~KArchive();
 	bool openArch( QString name );
 	bool createArch( QString file );
 	int addFile( QStrList *urls );

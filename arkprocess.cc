@@ -1,8 +1,8 @@
 //
-//  KZIPPROCESS -- A subclass of KProcess for providing 'popen'-like
+//  ARKPROCESS -- A subclass of KProcess for providing 'popen'-like
 //  capabilities
 
-#include "kzipprocess.h"
+#include "arkprocess.h"
 #include <kprocess.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,23 +23,19 @@
 #include <sys/socket.h>
 #include <fcntl.h>
 
-// #include "kzipprocess.moc"
-
 /////////////////////////////
 // public member functions //
 /////////////////////////////
 
-bool KZipProcess::startPipe(Communication comm, FILE** stream)
+bool ArkProcess::startPipe(Communication comm, FILE** stream)
  {
-   // Unique feature: there's no runmode, it's defaulted to DontCare. In theory the pipes
-   // closed state can be determined bz getting an EOF.
+   // Unique feature: there's no runmode, it's defaulted to DontCare. In theory
+   // the pipes closed state can be determined bz getting an EOF.
  
    uint i;
    uint n = arguments.count();
    char **arglist;
  
-// THESE FOUR LINES ARE COMMENTED OUT, BECAUSE THERE'S NO SOLUTION FOR
-// CHECKING THE SUBPROCESS'S CEASE.
    if (isRunning()) {
      return FALSE;  // cannot start a process that is already running
      // or if no executable has been assigned
@@ -109,13 +105,13 @@ bool KZipProcess::startPipe(Communication comm, FILE** stream)
  }
  
 
-QStrList &KZipProcess::getArguments()
+QStrList &ArkProcess::getArguments()
  {
    return arguments;
  }
     	
 
-bool KZipProcess::isRunning()
+bool ArkProcess::isRunning()
 {
 // Maybe I gotta use pid instead of getPid().
    int local_status;
@@ -137,7 +133,7 @@ bool KZipProcess::isRunning()
 //////////////////////////////
 
   
-int KZipProcess::commSetupDonePPipe()
+int ArkProcess::commSetupDonePPipe()
  {
    int ok = 1;
    struct linger so;

@@ -1,5 +1,5 @@
-#ifndef KZIP_H
-#define  KZIP_H
+#ifndef ARKWIDGET_H
+#define ARKWIDGET_H
 
 #include <qdir.h>
 #include <qwidget.h>
@@ -13,16 +13,16 @@
 #include <kfm.h>
 #include <kpopmenu.h>
 #include "ktablistbox.h"
-#include "karch.h"
+#include "karchive.h"
 #include "adddlg.h"
 
-class KZipWidget : public KTopLevelWidget {
+class ArkWidget : public KTopLevelWidget {
 
 Q_OBJECT
 
 public:
-	KZipWidget( QWidget *parent=0, const char *name=0 );
-	~KZipWidget();
+	ArkWidget( QWidget *parent=0, const char *name=0 );
+	~ArkWidget();
 
 public slots:
 	void getTarExe();
@@ -50,7 +50,7 @@ public slots:
 	void aboutQt();
 	
 protected:
-	static QList<KZipWidget> *windowList;
+	static QList<ArkWidget> *windowList;
 	void resizeEvent( QResizeEvent * );
 	void closeEvent( QCloseEvent * );
 	virtual void saveProperties( KConfig* );
@@ -60,7 +60,7 @@ protected:
 private:
 	bool addonlynew;
 	bool storefullpath;
-	KZipArch *arch;
+	KArchive *arch;
 	KTabListBox *lb;
 	QStrList *listing;
 	QStrList *flisting;
@@ -77,4 +77,4 @@ private:
 	KPopupMenu *pop;
 };
 
-#endif /* KZIP_H*/
+#endif /* ARKWIDGET_H*/
