@@ -53,7 +53,7 @@ bool KZipArch::openArch( QString name )
 	{
 		case Tar:
 		{
-			arch = new TarArch;
+			arch = new TarArch( "tar" );
 			arch->openArch( name );
 			break;
 		}
@@ -89,7 +89,7 @@ bool KZipArch::createArch( QString file )
 	{
 		case Tar:
 		{
-			arch = new TarArch;
+			arch = new TarArch( "tar" );
 			arch->createArch( file );
 			break;
 		}

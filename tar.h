@@ -3,11 +3,12 @@
 
 #include "arch.h"
 #include <unistd.h>
+#include <kzipprocess.h>
 
 class TarArch : public Arch {
 
 public:
-	TarArch();
+	TarArch( QString );
 	virtual ~TarArch();
 	virtual unsigned char setOptions( bool p, bool l, bool o );
 	virtual void openArch( QString );
@@ -28,6 +29,8 @@ private:
 	QString archname;
 	QString tmpfile;
 	bool compressed;
+	KZipProcess archProcess;
+	QString tar_exe;
 
 	int updateArch();
 	void createTmp();

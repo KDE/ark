@@ -20,7 +20,7 @@ public:
 	Arch();
 	virtual ~Arch();
 	virtual unsigned char setOptions( bool p, bool l, bool o );
-	virtual void openArch( QString );
+	virtual void openArch( QString ) = 0;
 	virtual void createArch( QString );
 	virtual int addFile( QStrList *);
 	virtual void extractTo( QString );

@@ -1,10 +1,11 @@
 /* (c)1997 Robert Palmbos
    See main.cc for license details */
+#include <iostream.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <kurl.h>
 #include "zip.h"
-#include "text.h"
 
 ZipArch::ZipArch()
   : Arch()
@@ -39,43 +40,55 @@ void ZipArch::addPath( bool in )
 
 void ZipArch::openArch( QString file )
 {
-	QString ex;
+//	cout << "Entered openArch" << endl;
 	char line[4096];
+	char columns[8][80];
+	char filename[4096];
+	QString buffer;
 	FILE *fd;
-	int idx;
-	char *tmp;
-	
+
+	archProcess.clearArguments();
+//	archProcess.setExecutable( "unzip" );
+
 	archname = file;
-	ex = "unzip -v " + file;
-	fd = popen( ex, "r" );
-	bool i=FALSE;
-	char *nl;
-	while( 1 )
+
+	archProcess << "unzip" << "-v" << archname;
+ 	if(archProcess.startPipe(KProcess::Stdout, &fd) == FALSE)
+ 	{
+ 		cerr << "Subprocess wouldn't start!" << endl;
+ 		return;
+ 	}
+
+	fgets( line, 4096, fd );
+	if( feof(fd) )
 	{
-		fgets( line, 4096, fd );
-		if( feof(fd) )
-			break;
-		if(i)
-		{
-			if( strstr( line, "----" ) )
-				break;
-			while( line[0] == ' ' )
-				strshort( line, 1 );
-			nl = strstr( line, "\n" );
-			*nl = '\0';
-			for(idx=0; idx<7; idx++ )
-			{
-				tmp = strstr( line, " " );
-					tmp[0]='\t';
-				while( tmp[1]==' ' )
-					strshort( tmp+1, 1 );
-			}
-			listing->append( line );
-		}
-		if( strstr( line, "----" ) )
-			i=TRUE;
+		fclose( fd );
+		return;
 	}
-	pclose( fd );
+
+	while( !feof(fd) && !strstr( line, "----" ) )
+		fgets( line, 4096, fd );
+	fgets( line, 4096, fd );
+
+	while( !feof(fd) && !strstr( line, "----" ) )
+	{
+		sscanf(line, " %[0-9] %[a-zA-Z:] %[0-9] %[0-9%] %[-0-9] %[0-9:] "
+			"%[0-9a-z]%3[ ]%[^\n]",
+			columns[0], columns[1], columns[2], columns[3],
+			columns[4], columns[5], columns[6], columns[7],
+			filename
+			);
+		sprintf(line, "%s\t%s\t%s\t%s\t%s\t%s\t"
+			"%s\t%s",
+			columns[0],columns[1],columns[2],columns[3],
+			columns[4],columns[5],columns[6],filename);
+		listing->append( line );
+		fgets( line, 4096, fd );
+	}
+//	fclose( fd );
+//	There should be a file descriptor close call, but this one makes a 
+//	BAD FILEDESCRIPTOR error message
+
 }
 
 void ZipArch::createArch( QString file )
@@ -88,82 +101,108 @@ const QStrList *ZipArch::getListing()
 	return listing;
 }
 
-
 int ZipArch::addFile( QStrList *urls )
 {
-	QString ex( "zip -r " );
+//  	cout << "entered in addFile" << endl;
+
+	archProcess.clearArguments();
+//	archProcess.setExecutable( "zip" );
+	archProcess << "zip" << "-r";
 	QString base;
 	QString url;
 	QString file;
 	
 	if( onlyupdate )
-		ex += "-u ";
-	ex = ex+archname+" ";
+		archProcess << "-u";
+	archProcess << archname;
 	
 	url = urls->first();
 	do
 	{
+		KURL::decodeURL(url); // Because of special characters
 		file = url.right( url.length()-5);
-		if( file[file.length()-1]=='/' )
-			file[file.length()-1]='\0';
+
+
+	    if( file[file.length()-1]=='/' )
+		    file[file.length()-1]='\0';
 		if( !storefullpath )
 		{
 			int pos;
 			pos = file.findRev( '/' );
-			base = file.left( pos );
-			pos++;
+			base = file.left( ++pos );
 			chdir( base );
 			base = file.right( file.length()-pos );
 			file = base;
 		}
-		ex = ex +" "+file;
+		archProcess << file;
 		url = urls->next();
 	}while( !url.isNull() );
-	printf( "ex: %s\n", (const char *) ex );
-	system( ex );
+	archProcess.start(KProcess::Block);
 	listing->clear();
 	openArch( archname );
 	return 0;
+//	cout << "left addFile" << endl;
 }
 
 void ZipArch::extractTo( QString dest )
 {
+//	cout << "Got in extractTo" << endl;
 	FILE *fd;
-	QString ex;
 	char line[4096];
-	ex = "unzip -o ";
+	
+	archProcess.clearArguments();
+//	archProcess.setExecutable( "unzip" );
+	archProcess << "unzip" << "-o";
 	if( tolower )
-		ex += " -L ";
-	ex = ex + archname + " -d " + dest;
-	fd = popen( ex, "r" );
-	newProgressDialog( 1, listing->count() );
-	for( long int i=0; !feof(fd); i++ )
+		archProcess << "-L";
+	archProcess << archname << "-d" << dest;
+ 	if(archProcess.startPipe(KProcess::Stdout, &fd) == false)
+ 	{
+ 		cerr << "Subprocess wouldn't start!" << endl;
+ 		return;
+ 	}
+  	newProgressDialog( 1, listing->count() );
+	for( long int i=0; !feof(fd); i++)
 	{
-		fgets( line, 4096, fd );
+		kapp->processEvents();
+		fgets( line, 4096, fd );  
 		if( Arch::isCanceled() )
+		{
+			archProcess.kill();
 			break;
+		}
 		setProgress( i );
 	}
 }
 
 QString ZipArch::unarchFile( int pos, QString dest )
 {
-	QString ex, tmp, tmp2;
+//  	cout << "entered unarchFile" << endl;
+	QString tmp, tmp2;
+
+	archProcess.clearArguments();
+// 	archProcess.setExecutable("unzip");
 	tmp = listing->at( pos );
 	tmp2 = tmp.right( (tmp.length())-(tmp.findRev('\t')+1) );
-	ex = "unzip -o "+archname+" "+tmp2+" -d "+dest;
-	system( ex );
+	archProcess << "unzip" << "-o" << archname << tmp2 << "-d" << dest;
+ 	archProcess.start(KProcess::Block);
 	return (dest+tmp2);
+//  	cout << "left unarchFile" << endl;
 }
 
 void ZipArch::deleteFile( int pos )
 {
-	QString ex, name, tmp;
+//	cout << "Entered deleteFile" << endl;
+	QString name, tmp;
+
+	archProcess.clearArguments();
+ 	archProcess.setExecutable("zip");
 	tmp = listing->at( pos );
 	name = tmp.right( (tmp.length())-(tmp.findRev('\t')+1) );
-	ex = "zip -d " + archname + " " + name ;
-	system( ex );
+ 	archProcess << "-d" << archname << name;
+ 	archProcess.start(KProcess::Block);
 	listing->clear();
 	openArch( archname );
+//	cout << "Left deleteFile" << endl;
 }
 

@@ -71,9 +71,9 @@ void Arch::addPath( bool )
 {
 }
 
-void Arch::openArch( QString )
-{
-}
+// void Arch::openArch( QString )
+// {
+// }
 
 void Arch::createArch( QString )
 {
@@ -96,7 +96,6 @@ void Arch::extractTo( QString )
 
 QString Arch::unarchFile( int, QString )
 {
-  return ("");
 }
 
 void Arch::deleteFile( int )

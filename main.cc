@@ -23,6 +23,8 @@
 */
 #include "kzip.h"
 #include <kapp.h>
+#include <unistd.h>
+#include <sys/param.h> 
 
 int main( int argc, char *argv[]  )
 {
@@ -31,8 +33,14 @@ int main( int argc, char *argv[]  )
 	{
 		if( strstr( "-caption", argv[i] ) )
 			i++;
-		else{		
-			Zip = argv[i];
+		else{
+			if( argv[i][0] == '/' )
+				Zip = argv[i];
+			else{
+				char currentWD[MAXPATHLEN];
+				getcwd(currentWD, MAXPATHLEN);
+				(Zip = currentWD).append("/").append(argv[i]);
+			}
 			break;
 		}
 	}

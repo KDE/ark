@@ -5,6 +5,7 @@
 #include <qstrlist.h>
 #include <qobject.h>
 #include "arch.h"
+#include <kzipprocess.h>
 
 class ZipArch : public Arch {
 
@@ -27,6 +28,7 @@ private:
 	QStrList *listing;
 	bool onlyupdate;
 	bool storefullpath;
+	KZipProcess archProcess;
 };
 
 #endif /* ARCH_H */
