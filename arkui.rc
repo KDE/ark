@@ -6,6 +6,10 @@
     <Action name="reload_arch"/>
     <Merge/>
    </Menu>
+  <Menu name="settings">
+    <DefineGroup name="settings_show" append="show_merge"/>
+    <DefineGroup name="settings_configure" append="configure_merge"/>
+  </Menu>
   <Merge/>
 </MenuBar>
 <Menu name="archive_popup">

@@ -27,7 +27,7 @@
  <Menu noMerge="1" name="settings">
     <text>&amp;Settings</text>
     <Merge name="StandardToolBarMenuHandler"/>
-    <Action name="options_show_search_bar"/>
+    <Action name="options_show_search_bar" group="settings_show"/>
     <Separator/>
     <Action name="options_configure_keybinding" group="settings_configure"/>
     <Action name="options_configure_toolbars" group="settings_configure"/>
