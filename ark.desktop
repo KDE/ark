@@ -2,6 +2,7 @@
 Encoding=UTF-8
 MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tgz;application/x-tbz;application/x-zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-bzip2
 GenericName=Archiving Tool
+GenericName[af]=argiveer program
 GenericName[ar]=أداة أرشفة
 GenericName[bg]=Инструмент за работа с архиви
 GenericName[bs]=Alat za arhiviranje
