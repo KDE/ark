@@ -26,7 +26,7 @@
         </widget>
         <widget class="QCheckBox">
             <property name="name">
-                <cstring>kcfgpreservePerms_</cstring>
+                <cstring>kcfg_preservePerms</cstring>
             </property>
             <property name="text">
                 <string>&amp;Preserve permissions (Tar)</string>
@@ -34,7 +34,7 @@
         </widget>
         <widget class="QCheckBox">
             <property name="name">
-                <cstring>checkBox10</cstring>
+                <cstring>kcfg_extractJunkPaths</cstring>
             </property>
             <property name="text">
                 <string>&amp;Ignore folder names (Zip)</string>

@@ -98,28 +98,23 @@ static QString resolveFilename(const QString & _arkname)
 
 ArkApplication * ArkApplication::getInstance()
 {
-    kdDebug( 1601 ) << "+ArkApplication::getInstance()" << endl;
 	if (mInstance == NULL)
 	{
 		mInstance = new ArkApplication();
 	}
-    kdDebug( 1601 ) << "-ArkApplication::getInstance()" << endl;
 	return mInstance;
 }
 
 ArkApplication::ArkApplication()
   : KUniqueApplication(), m_windowCount(0)
 {
-	kdDebug(1601) << "+ArkApplication::ArkApplication" << endl;
 	m_mainwidget = new QWidget;
 	setMainWidget(m_mainwidget);
-	kdDebug(1601) << "-ArkApplication::ArkApplication" << endl;
 }
 
 int
 ArkApplication::newInstance()
 {
-    kdDebug(1601) << "+ArkApplication::newInstance" << endl;
 
     // If we are restored by session management, we don't need to open
     // another window on startup.
@@ -227,7 +222,6 @@ ArkApplication::newInstance()
             arkWin->openURL(url);
         }
 
-        kdDebug(1601) << "-ArkApplication::newInstance" << endl;
         ++i;
     } while  (i < args->count());
 
@@ -239,7 +233,6 @@ ArkApplication::newInstance()
 void
 ArkApplication::addOpenArk(const KURL & _arkname, ArkTopLevelWindow *_ptr)
 {
-    kdDebug(1601) << "+ArkApplication::addOpenArk" << endl;
     QString realName;
     if( _arkname.isLocalFile() )
     {
@@ -251,13 +244,11 @@ ArkApplication::addOpenArk(const KURL & _arkname, ArkTopLevelWindow *_ptr)
     openArksList.append(realName);
     m_windowsHash.replace(realName, _ptr);
     kdDebug(1601) << "Saved ptr " << _ptr << " added open ark: " << realName << endl;
-    kdDebug(1601) << "-ArkApplication::addOpenArk" << endl;
 }
 
 void
 ArkApplication::removeOpenArk(const KURL & _arkname)
 {
-    kdDebug(1601) << "+ArkApplication::removeOpenArk" << endl;
     QString realName;
     if ( _arkname.isLocalFile() )
         realName = resolveFilename( _arkname.path() );  // follow symlink
@@ -266,7 +257,6 @@ ArkApplication::removeOpenArk(const KURL & _arkname)
     kdDebug(1601) << "Removing name " << _arkname.prettyURL() << endl;
     openArksList.remove(realName);
     m_windowsHash.remove(realName);
-    kdDebug(1601) << "-ArkApplication::removeOpenArk" << endl;
 }
 
 void
@@ -291,7 +281,6 @@ ArkApplication::raiseArk(const KURL & _arkname)
 bool
 ArkApplication::isArkOpenAlready(const KURL & _arkname)
 {
-    kdDebug( 1601 ) << "ArkApplication::isArkOpenAlready: " << _arkname.prettyURL() << endl;
     QString realName;
     if ( _arkname.isLocalFile() )
         realName = resolveFilename(_arkname.path());  // follow symlink

@@ -57,8 +57,6 @@ ExtractDlg::ExtractDlg( QWidget *parent, const char *name, const QString& archiv
 {
 	QFrame *mainFrame = plainPage();
 
-	kdDebug(1601) << "+ExtractDlg::ExtractDlg" << endl;
-
 	if ( !archiveName.isNull() )
 		setCaption( i18n( "Extract Files From %1" ).arg( archiveName ) );
 
@@ -94,7 +92,27 @@ ExtractDlg::ExtractDlg( QWidget *parent, const char *name, const QString& archiv
 	list = config->readPathListEntry( "ExtractTo History" );
 	m_extractDirCB->setHistoryItems( list );
 
-	m_extractDirCB->setEditURL( KURL( Settings::extractDir() + prefix ) );
+	KURL u;
+
+	switch ( Settings::extractDirMode() )
+	{
+		case Settings::EnumExtractDirMode::Common:
+			kdDebug( 1601 ) << "ExtractDlg: Using common folder" << endl;
+			u = Settings::archiveDirectory() + prefix;
+			break;
+		case Settings::EnumExtractDirMode::Custom:
+			kdDebug( 1601 ) << "ExtractDlg: Using custom folder" << endl;
+			u = Settings::extractDir() + prefix;
+			break;
+		case Settings::EnumExtractDirMode::Last:
+		default:
+			kdDebug( 1601 ) << "ExtractDlg: Using last extraction folder" << endl;
+			u = Settings::lastExtractDir() + prefix;
+	}
+
+	kdDebug( 1601 ) << "ExtractDlg: u is " << u.prettyURL() << endl;
+	
+	m_extractDirCB->setEditURL( u );
 
 	m_urlRequester = new KURLRequester( m_extractDirCB, mainFrame );
 	m_urlRequester->setMode( KFile::Directory );
@@ -167,7 +185,6 @@ ExtractDlg::ExtractDlg( QWidget *parent, const char *name, const QString& archiv
 	m_radioCurrent->setChecked(true);
 	enableButtonOK(!m_extractDirCB->lineEdit()->text().isEmpty());
 	setFocus();
-	kdDebug(1601) << "-ExtractDlg::~ExtractDlg" << endl;
 }
 
 ExtractDlg::~ExtractDlg()
@@ -178,8 +195,6 @@ ExtractDlg::~ExtractDlg()
 	config->writePathEntry( "ExtractTo History", list );
 	config->setGroup( "ark" );
 	config->writeEntry( "OpenDestinationFolder", m_viewFolderAfterExtraction->isChecked() );
-	
-	Settings::setLastExtractDir( m_extractDirCB->lineEdit()->text() );
 }
 
 void
@@ -198,7 +213,6 @@ ExtractDlg::disableSelectedFilesOption()
 void
 ExtractDlg::accept()
 {
-	kdDebug( 1601 ) << "+ExtractDlg::accept" << endl;
 
 	KURLCompletion uc;
 	uc.setReplaceHome( true );
@@ -249,9 +263,12 @@ ExtractDlg::accept()
 		}
 	}
 
+
+	// Remember the last extraction folder
+	Settings::setLastExtractDir( m_extractDirCB->lineEdit()->text() );
+
 	// I made it! so nothing's wrong.
 	KDialogBase::accept();
-	kdDebug( 1601 ) << "-ExtractDlg::accept" << endl;
 }
 
 int

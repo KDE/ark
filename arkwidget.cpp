@@ -273,7 +273,6 @@ ArkWidget::updateStatusTotals()
 void
 ArkWidget::busy( const QString & text )
 {
-    kdDebug( 1601 ) << "ArkWidget::busy()+" << endl;
     emit setBusy( text );
 
     if ( m_bBusy )
@@ -281,7 +280,6 @@ ArkWidget::busy( const QString & text )
 
     QApplication::setOverrideCursor( waitCursor );
     m_bBusy = true;
-    kdDebug( 1601 ) << "ArkWidget::busy()-" << endl;
 }
 
 void
@@ -307,7 +305,6 @@ ArkWidget::resumeBusy()
 void
 ArkWidget::ready()
 {
-    kdDebug( 1601 ) << "ArkWidget::ready()+" << endl;
     if ( !m_bBusy )
         return;
 
@@ -315,7 +312,6 @@ ArkWidget::ready()
     emit setReady();
     m_bBusyHold = false;
     m_bBusy = false;
-    kdDebug( 1601 ) << "ArkWidget::ready()-" << endl;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -1003,10 +999,8 @@ ArkWidget::slotExtractRemoteDone(KIO::Job *job)
 void
 ArkWidget::disableAll() // private
 {
-    kdDebug(1601) << "+ArkWidget::disableAll" << endl;
     emit disableAllActions();
     archiveContent->setUpdatesEnabled(true);
-    kdDebug(1601) << "-ArkWidget::disableAll" << endl;
 }
 
 void

@@ -1,163 +1,165 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
 <kcfg>
-  <kcfgfile name="arkrc"/>
-
-   <group name="generic">
-    <entry name="replaceOnlyWithNewer" type="Bool">
-      <label>Replace old files only with newer files</label>
-      <whatsthis>If this option is enabled and you add filenames that already exist in an archive, only replace the old files if the added files are newer than them</whatsthis>
-      <default>false</default>
-    </entry>
-   <entry name="extractOverwrite" type="Bool">
-      <label>Overwrite files (Zip, Tar, Zoo, Rar)</label>
-      <whatsthis>Overwrite any files that have matching names on disk with the one from the archive</whatsthis>
-      <default>false</default>
-    </entry>
-   </group>
-
-   <group name="Lha">
-    <entry name="lhaGeneric" type="Bool">
-      <label>Keep entries generic (Lha)</label>
-	  <whatsthis>Affects only Lha archives</whatsthis>
-      <default>false</default>
-    </entry>
-   </group>
-
-   <group name="Tar">
-    <entry name="preservePerms" type="Bool">
-      <label>Preserve permissions</label>
-	  <whatsthis>Save the user, group, and permission settings on files. Use with care, as this may result in files being extracted that do not belong to any valid user on your computer</whatsthis>
-      <default>false</default>
-    </entry>
-    <entry name="tarUseAbsPathnames" type="Bool">
-      <label>Use ABS pathnames</label>
-      <default>false</default>
-    </entry>
-    </group>
-
-
-   <group name="Zip">
-    <entry name="forceMSDOS" type="Bool">
-      <label>Force MS-DOS short filenames (Zip)</label>
-	  <whatsthis>Force names of files in Zip archives to the DOS 8.3 format</whatsthis>
-      <default>false</default>
-    </entry>
-    <entry name="convertLF2CRLF" type="Bool">
-      <label>Translate LF to DOS CRLF</label>
-      <default>false</default>
-    </entry>
-    <entry name="extractJunkPaths" type="Bool">
-      <label>Ignore folder names (Zip)</label>
-	  <whatsthis>Extract all the files into the extraction folder, ignoring any folder structure in the archive.</whatsthis>
-      <default>false</default>
-    </entry>
-   </group>
-
-   <group name="Rar">
-    <entry name="rarStoreSymlinks" type="Bool">
-      <label>Store symlinks as links (Zip, Rar)</label>
-      <default>true</default>
-    </entry>
-    <entry name="rarRecurseSubdirs" type="Bool">
-      <label>Recursively add subfolders (Zip, Rar)</label>
-      <default>true</default>
-    </entry>
-    <entry name="rarToLower" type="Bool">
-      <label>Convert filenames to lowercase (Zip, Rar)</label>
-      <default>false</default>
-    </entry>
-    <entry name="rarToUpper" type="Bool">
-      <label>Convert filenames to uppercase</label>
-      <default>false</default>
-    </entry>
-   </group>
-
-   <group name="ark">
-    <entry name="showSearchBar" type="Bool">
-     <label>Show search bar</label>
-     <default>true</default>
-    </entry>
-    <entry name="KonquerorIntegration" type="Bool">
-     <label>Enable Konqueror integration</label>
-	 <whatsthis>Enables integration with Konqueror's context menus, letting you easily archive or unarchive files. This option will only work if you have the kdeaddons package installed.</whatsthis>
-     <default>true</default>
-    </entry>
-    <entry name="UseIntegratedViewer" type="Bool">
-     <label>Use integrated viewer</label>
-     <default>true</default>
-    </entry>
-    <entry name="TarExe" type="String">
-     <label>Tar Command</label>
-     <default>tar</default>
-    </entry>
-    <entry name="startDirMode" type="Enum">
-     <label>Use Folder</label>
-     <default>Last</default>
-     <choices>
-        <choice name="Common"/>
-        <choice name="Custom"/>
-        <choice name="Last"/>
-      </choices>
-    </entry>
-    <entry name="openDirMode" type="Enum">
-     <label>Use Folder</label>
-     <default>Last</default>
-     <choices>
-        <choice name="Common"/>
-        <choice name="Custom"/>
-        <choice name="Last"/>
-      </choices>
-    </entry>
-    <entry name="addDirMode" type="Enum">
-     <label>Use Folder</label>
-     <default>Last</default>
-     <choices>
-        <choice name="Common"/>
-        <choice name="Custom"/>
-        <choice name="Last"/>
-      </choices>
-    </entry>
-    <entry name="extractDirMode" type="Enum">
-     <label>Use Folder</label>
-      <default>Last</default>
-      <choices>
-        <choice name="Common"/>
-        <choice name="Custom"/>
-        <choice name="Last"/>
-      </choices>
-    </entry>
-    <entry name="ArchiveDirectory" type="Path">
-     <label>Common Folder</label>
-    </entry>
-    
-    <entry name="startDir" type="Path">
-     <label>Custom Folder</label>
-    </entry>
-    <entry name="openDir" type="Path">
-     <label>Custom Folder</label>
-    </entry>
-    <entry name="addDir" type="Path">
-     <label>Custom Folder</label>
-    </entry>
-    <entry name="extractDir" type="Path">
-     <label>Custom Folder</label>
-    </entry>
-    
-    
-    <entry name="lastStartDir" type="Path">
-     <label>Last Start Folder</label>
-    </entry>
-    <entry name="lastOpenDir" type="Path">
-     <label>Last Open Folder</label>
-    </entry>
-    <entry name="lastAddDir" type="Path">
-     <label>Last Add Folder</label>
-    </entry>
-    <entry name="lastExtractDir" type="Path">
-     <label>Last Extract Folder</label>
-    </entry>
-   
-   
-   </group>
+	<kcfgfile name="arkrc"/>
+	<group name="generic">
+		<entry name="replaceOnlyWithNewer" type="Bool">
+			<label>Replace old files only with newer files</label>
+			<whatsthis>If this option is enabled and you add filenames that already exist in an archive, only replace the old files if the added files are newer than them</whatsthis>
+			<default>false</default>
+		</entry>
+		<entry name="extractOverwrite" type="Bool">
+			<label>Overwrite files (Zip, Tar, Zoo, Rar)</label>
+			<whatsthis>Overwrite any files that have matching names on disk with the one from the archive</whatsthis>
+			<default>false</default>
+		</entry>
+	</group>
+	<group name="Lha">
+		<entry name="lhaGeneric" type="Bool">
+			<label>Keep entries generic (Lha)</label>
+			<whatsthis>Affects only Lha archives</whatsthis>
+			<default>false</default>
+		</entry>
+	</group>
+	<group name="Tar">
+		<entry name="preservePerms" type="Bool">
+			<label>Preserve permissions</label>
+			<whatsthis>Save the user, group, and permission settings on files. Use with care, as this may result in files being extracted that do not belong to any valid user on your computer</whatsthis>
+			<default>false</default>
+		</entry>
+		<entry name="tarUseAbsPathnames" type="Bool">
+			<label>Use absolute pathnames</label>
+			<default>false</default>
+		</entry>
+	</group>
+	<group name="Zip">
+		<entry name="forceMSDOS" type="Bool">
+			<label>Force MS-DOS short filenames (Zip)</label>
+			<whatsthis>Force names of files in Zip archives to the DOS 8.3 format</whatsthis>
+			<default>false</default>
+		</entry>
+		<entry name="convertLF2CRLF" type="Bool">
+			<label>Translate LF to DOS CRLF</label>
+			<default>false</default>
+		</entry>
+		<entry name="extractJunkPaths" type="Bool">
+			<label>Ignore folder names (Zip)</label>
+			<whatsthis>Extract all the files into the extraction folder, ignoring any folder structure in the archive.</whatsthis>
+			<default>false</default>
+		</entry>
+	</group>
+	<group name="Rar">
+		<entry name="rarStoreSymlinks" type="Bool">
+			<label>Store symlinks as links (Zip, Rar)</label>
+			<default>true</default>
+		</entry>
+		<entry name="rarRecurseSubdirs" type="Bool">
+			<label>Recursively add subfolders (Zip, Rar)</label>
+			<default>true</default>
+		</entry>
+		<entry name="rarToLower" type="Bool">
+			<label>Convert filenames to lowercase (Zip, Rar)</label>
+			<default>false</default>
+		</entry>
+		<entry name="rarToUpper" type="Bool">
+			<label>Convert filenames to uppercase</label>
+			<default>false</default>
+		</entry>
+	</group>
+	<group name="ark">
+		<entry name="showSearchBar" type="Bool">
+			<label>Show search bar</label>
+			<default>true</default>
+		</entry>
+		<entry name="KonquerorIntegration" type="Bool">
+			<label>Enable Konqueror integration</label>
+			<whatsthis>Enables integration with Konqueror's context menus, letting you easily archive or unarchive files. This option will only work if you have the kdeaddons package installed.</whatsthis>
+			<default>true</default>
+		</entry>
+		<entry name="UseIntegratedViewer" type="Bool">
+			<label>Use integrated viewer</label>
+			<default>true</default>
+		</entry>
+		<entry name="TarExe" type="String">
+			<label>Tar Command</label>
+			<default>tar</default>
+		</entry>
+		<entry name="openDirMode" type="Enum">
+			<label>Opening Folder</label>
+			<default>Last</default>
+			<choices>
+				<choice name="Common">
+					<label>Common folder</label>
+				</choice>
+				<choice name="Custom">
+					<label>Custom foder</label>
+				</choice>
+				<choice name="Last">
+					<label>Last used folder</label>
+				</choice>
+			</choices>
+		</entry>
+		<entry name="addDirMode" type="Enum">
+			<label>Addition Folder</label>
+			<default>Last</default>
+			<choices>
+				<choice name="Common">
+					<label>Common folder</label>
+				</choice>
+				<choice name="Custom">
+					<label>Custom foder</label>
+				</choice>
+				<choice name="Last">
+					<label>Last used folder</label>
+				</choice>
+			</choices>
+		</entry>
+		<entry name="extractDirMode" type="Enum">
+			<label>Extraction Folder</label>
+			<default>Last</default>
+			<choices>
+				<choice name="Common">
+					<label>Common folder</label>
+				</choice>
+				<choice name="Custom">
+					<label>Custom foder</label>
+				</choice>
+				<choice name="Last">
+					<label>Last used folder</label>
+				</choice>
+			</choices>
+		</entry>
+		<entry name="ArchiveDirectory" type="Path">
+			<label>Common Folder</label>
+			<default>$HOME</default>
+		</entry>
+		<entry name="openDir" type="Path">
+			<label>Custom Opening Folder</label>
+			<default>$HOME</default>
+		</entry>
+		<entry name="addDir" type="Path">
+			<label>Custom Addition Folder</label>
+			<default>$HOME</default>
+		</entry>
+		<entry name="extractDir" type="Path">
+			<label>Custom Extraction Folder</label>
+			<default>$HOME</default>
+		</entry>
+		<entry name="lastStartDir" type="Path">
+			<label>Last Start Folder</label>
+			<default>$HOME</default>
+		</entry>
+		<entry name="lastOpenDir" type="Path">
+			<label>Last Open Folder</label>
+			<default>$HOME</default>
+		</entry>
+		<entry name="lastAddDir" type="Path">
+			<label>Last Add Folder</label>
+			<default>$HOME</default>
+		</entry>
+		<entry name="lastExtractDir" type="Path">
+			<label>Last Extract Folder</label>
+			<default>$HOME</default>
+		</entry>
+	</group>
 </kcfg>
