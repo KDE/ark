@@ -54,17 +54,17 @@ appsdir = $(kde_appsdir)/Utilities
 # if you have more of them, create a subdirectory with an extra Makefile 
 install-data-local: 
 	$(mkinstalldirs) $(kde_minidir)
-	$(INSTALL_DATA) $(srcdir)/mini-ark.xpm $(kde_minidir)/ark.xpm
-	$(mkinstalldirs) $(kde_minidir)/../large
-	$(INSTALL_DATA) $(srcdir)/large-ark.xpm $(kde_minidir)/../large/ark.xpm
+	$(INSTALL_DATA) $(srcdir)/mini-ark.xpm $(kde_icondir)k.xpm
+	$(mkinstalldirs) $(kde_icondir)/large
+	$(INSTALL_DATA) $(srcdir)/large-ark.xpm $(kde_icondir)/large/ark.xpm
 # Get rid of kzip
 	-rm -f $(kde_bindir)/kzip
 	-rm -f $(appsdir)/kzip.kdelnk
 	-rm -f $(kde_icondir)/kzip.xpm
-	-rm -f $(kde_minidir)/kzip.xpm
+	-rm -f $(kde_icondir)ip.xpm
 
 # remove ALL you have installed in install-data-local or install-exec-local
 uninstall-local:
-	-rm -f $(kde_minidir)/ark.xpm
-	-rm -f $(kde_minidir)/../large/ark.xpm
+	-rm -f $(kde_icondir)k.xpm
+	-rm -f $(kde_icondir)/large/ark.xpm
 
