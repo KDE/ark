@@ -470,11 +470,11 @@ void ArkWidget::updateStatusTotals()
     strInfo = i18n("Total: 0 Files");
   else if (m_nNumFiles == 1)
     strInfo = i18n("Total: 1 File %1 KB")
-      .arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
+      .arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles / 1024, 1));
   else
     strInfo = i18n("Total: %1 Files %1 KB")
       .arg(KGlobal::locale()->formatNumber(m_nNumFiles, 0))
-      .arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
+      .arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles / 1024.0, 1));
 
   m_pStatusLabelTotal->setText(strInfo);
 }
@@ -1216,6 +1216,7 @@ void ArkWidget::file_close()
       if (archiveContent)
 	{
 	  archiveContent->clear();
+	  clearHeaders();
 	}
       setCentralWidget(0);
       ArkApplication::getInstance()->removeOpenArk(m_strArchName);
@@ -1960,13 +1961,13 @@ void ArkWidget::updateStatusSelection()
     {
       strInfo = i18n("0 Files Selected");
     }
-  if (m_nNumSelectedFiles != 1)
+  else if (m_nNumSelectedFiles != 1)
     {
-      strInfo = i18n("%1 Files Selected %1 KB").arg(KGlobal::locale()->formatNumber(m_nNumSelectedFiles, 0)).arg(KGlobal::locale()->formatNumber(m_nSizeOfSelectedFiles, 0));
+      strInfo = i18n("%1 Files Selected %1 KB").arg(KGlobal::locale()->formatNumber(m_nNumSelectedFiles, 0)).arg(KGlobal::locale()->formatNumber(m_nSizeOfSelectedFiles / 1024.0, 1));
     }
   else
     {
-    strInfo = i18n("1 File Selected %1 KB").arg(KGlobal::locale()->formatNumber(m_nSizeOfSelectedFiles, 0));
+    strInfo = i18n("1 File Selected %1 KB").arg(KGlobal::locale()->formatNumber(m_nSizeOfSelectedFiles / 1024.0, 1));
     }
   m_pStatusLabelSelect->setText(strInfo);
   fixEnables();
@@ -2437,12 +2438,15 @@ void ArkWidget::setHeaders(QStringList *_headers,
 {
   int i = 0;
   m_currentSizeColumn = -1;
+
+  clearHeaders();
+
   for ( QStringList::Iterator it = _headers->begin();
 	it != _headers->end(); ++it, ++i )
     {
       QString str = *it;
        archiveContent->addColumn(str);
-       if (str.contains(i18n("Size")))
+       if (SIZE_STRING == str)
 	 m_currentSizeColumn = i;
     }
 
@@ -2452,5 +2456,12 @@ void ArkWidget::setHeaders(QStringList *_headers,
 					  QListView::AlignRight );
     }
 }
+
+void ArkWidget::clearHeaders()
+{
+	while(archiveContent->columns() > 0) 
+		archiveContent->removeColumn(0);
+}
+
 
 #include "arkwidget.moc"

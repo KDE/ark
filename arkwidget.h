@@ -94,6 +94,7 @@ public:
   void listingAdd(QStringList *_entries);
   void setHeaders(QStringList *_headers,
 		  int * _rightAlignCols, int _numColsToAlignRight);
+  void clearHeaders();
   int getNumFilesInArchive() { return m_nNumFiles; }
 
   // given a filename, get the data in the column 
