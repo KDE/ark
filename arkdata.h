@@ -111,6 +111,18 @@ public:
 	void setZipExtractLowerCase( bool );
 	bool getZipExtractLowerCase();
 
+	void setZipAddRecurseDirs( bool );
+	bool getZipAddRecurseDirs();
+
+	void setZipAddJunkDirs( bool );
+	bool getZipAddJunkDirs();
+
+	void setZipAddMSDOS( bool );
+	bool getZipAddMSDOS();
+
+	void setZipAddConvertLF( bool );
+	bool getZipAddConvertLF();
+			
 	void setTmpDir( QString );
 	QString getTmpDir() const;			
 	void writeConfiguration();
@@ -158,6 +170,11 @@ protected:
 	bool m_zipExtractOverwrite;
 	bool m_zipExtractJunkPaths;
 	bool m_zipExtractLowerCase;
+	
+	bool m_zipAddRecurseDirs;
+	bool m_zipAddJunkDirs;
+	bool m_zipAddMSDOS;
+	bool m_zipAddConvertLF;
 
 	QString m_tmpDir;
 	

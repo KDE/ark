@@ -25,6 +25,11 @@ typedef const char* (*KeyFunc) (const char*);
 // FileListView implementation
 /////////////////////////////////////////////////////////////////////
 
+QString FileLVI::getFileName()
+{
+	return text(0);
+}
+
 FileListView::FileListView(QWidget *parent, const char* name)
 	: QListView(parent, name)
 {

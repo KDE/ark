@@ -55,9 +55,10 @@
 #include "zipAddDlg.moc"
 
 
-ZipAddDlg::ZipAddDlg( ArkData *_d, QString _dir, QWidget *_parent, const char *_name )
+ZipAddDlg::ZipAddDlg( ZipArch *_z, ArkData *_d, QString _dir, QWidget *_parent, const char *_name )
 	: KFileBaseDialog( _dir, QString::null, _parent, _name, true, false )
 {
+	m_zip = _z;
 	m_data = _d;
 	m_addClicked = false;
 	
@@ -127,7 +128,6 @@ void ZipAddDlg::initGUI()
 	mainLayout->addLayout( hbl2 );
 	
 	QVBoxLayout *vblg1 = new QVBoxLayout();
-//	vblg1->addSpacing( 10 );
 	
 	hbl2->addLayout( vblg1 );
 	
@@ -135,7 +135,7 @@ void ZipAddDlg::initGUI()
 	l1->setFixedSize( l1->sizeHint() );
 	vblg1->addWidget( l1, 0, AlignLeft | AlignTop );
 	
-	QComboBox *cb1 = new QComboBox( false, this );
+	cb1 = new QComboBox( false, this );
 	cb1->insertItem( i18n("Add and update files") );
 	cb1->insertItem( i18n("Freshen (changed) files") );
 	cb1->insertItem( i18n("Move files (delete files)") );
@@ -149,10 +149,12 @@ void ZipAddDlg::initGUI()
 	l2->setFixedSize( l2->sizeHint() );
 	vblg1->addWidget( l2, 0, AlignLeft );
 	
-	QComboBox *cb2 = new QComboBox( false, this );
-	cb2->insertItem( i18n("Maximum ( -9 )") );
-	cb2->insertItem( i18n("Normal (-5)") );
-	cb2->insertItem( i18n("Minimum (-1)") );
+	cb2 = new QComboBox( false, this );
+	cb2->insertItem( i18n("Maximum ( 9 )") );
+	cb2->insertItem( i18n("Good ( 7 )") );
+	cb2->insertItem( i18n("Normal ( 5 )") );
+	cb2->insertItem( i18n("Small ( 3 )") );
+	cb2->insertItem( i18n("Minimum ( 1 )") );
 	cb2->insertItem( i18n("None, store only") );
 	cb2->setFixedHeight( cb2->sizeHint().height() );
 	cb2->setMinimumWidth( cb1->minimumWidth() );
@@ -201,6 +203,7 @@ void ZipAddDlg::initGUI()
 	fileList->connectFileSelected(this, SLOT(fileActivated(KFileInfo*)));
 	fileList->connectFileHighlighted(this, SLOT(fileHighlighted(KFileInfo*)));
 	connect(this, SIGNAL(fileHighlighted(const QString &)), SLOT(slotFileHighlighted(const QString&)));
+	connect(this, SIGNAL(fileSelected(const QString &)), SLOT(slotFileSelected(const QString&)));
 
 	kdebug(0, 1601, "-ZipAdd::initGUI");
 }
@@ -258,6 +261,9 @@ void ZipAddDlg::onAdd()
 	}
 
 	saveConfig();
+	
+	m_zip->add( location(), mode(), compression(),
+		c1->isChecked(), c2->isChecked(), c3->isChecked(), c4->isChecked() );
 }
 
 void ZipAddDlg::onClose()
@@ -282,9 +288,41 @@ void ZipAddDlg::slotFileHighlighted(const QString& _fname)
 	m_leNames->setText( _fname );
 }
 
-void ZipAddDlg::saveConfig()
+void ZipAddDlg::slotFileSelected(const QString& _fname)
 {
-	#warning fixme: saveConfig() is empty
-//	m_data->setZipExtractOverwrite( r4->isChecked() );	
+	kdebug(0, 1601, "selected: %s", selectedFile().ascii() );
 }
 
+void ZipAddDlg::saveConfig()
+{
+	m_data->setZipAddRecurseDirs( c1->isChecked() );	
+	m_data->setZipAddJunkDirs( c2->isChecked() );	
+	m_data->setZipAddMSDOS( c3->isChecked() );	
+	m_data->setZipAddConvertLF( c4->isChecked() );	
+}
+
+QString ZipAddDlg::location()
+{
+	if(lastDirectory->left(5) != "file:")
+		kdebug(3, 1601, "Only file protocol is supported here !");
+		
+	return QString(lastDirectory->right(lastDirectory->length()-5) + m_leNames->text());
+}
+
+int ZipAddDlg::mode()
+{
+	
+}
+
+QString ZipAddDlg::compression()
+{
+	switch( cb2->currentItem() )
+	{
+		case 0 : return QString("-9"); break;
+		case 1 : return QString("-7"); break;
+		case 2 : return QString("-5"); break;
+		case 3 : return QString("-3"); break;
+		case 4 : return QString("-1"); break;
+		case 5 : return QString("-0"); break;
+	}
+}

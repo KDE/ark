@@ -63,6 +63,11 @@
 #define EXTRACT_JUNKPATHS "extractJunkPaths"
 #define EXTRACT_LOWERCASE "extractLowerCase"
 
+#define ADD_RECURSEDIRS "recurseDirs"
+#define ADD_JUNKDIRS "junkDirs"
+#define ADD_MSDOS "forceMSDOS"
+#define ADD_CONVERTLF "convertLF2CRLF"
+
 #define SAVE_ON_EXIT_KEY "saveOnExit"
 
 /**
@@ -177,10 +182,12 @@ void ArkData::readZipProperties()
 	m_zipExtractOverwrite = kc->readBoolEntry( EXTRACT_OVERWRITE, true );
 	m_zipExtractJunkPaths = kc->readBoolEntry( EXTRACT_JUNKPATHS, false );
 	m_zipExtractOverwrite = kc->readBoolEntry( EXTRACT_LOWERCASE, false );
-	
-	kdebug(0, 1601, "Zip properties are: %d, %d, %d", m_zipExtractOverwrite,
-			m_zipExtractJunkPaths, m_zipExtractLowerCase);
 
+	m_zipAddRecurseDirs = kc->readBoolEntry( ADD_RECURSEDIRS, false );
+	m_zipAddJunkDirs = kc->readBoolEntry( ADD_JUNKDIRS, false );
+	m_zipAddMSDOS = kc->readBoolEntry( ADD_MSDOS, false );
+	m_zipAddConvertLF = kc->readBoolEntry( ADD_CONVERTLF, false );
+	
 	kdebug(0, 1601, "-readZipProperties");	
 }
 
@@ -293,6 +300,11 @@ void ArkData::writeZipProperties()
 	kc->writeEntry( EXTRACT_JUNKPATHS, m_zipExtractJunkPaths );
 	kc->writeEntry( EXTRACT_LOWERCASE, m_zipExtractLowerCase );
 
+	kc->writeEntry( ADD_RECURSEDIRS, m_zipAddRecurseDirs );
+	kc->writeEntry( ADD_JUNKDIRS, m_zipAddJunkDirs );
+	kc->writeEntry( ADD_MSDOS, m_zipAddMSDOS );
+	kc->writeEntry( ADD_CONVERTLF, m_zipAddConvertLF );
+	
 	kdebug(0, 1601, "-writeZipProperties");
 }
 
@@ -540,6 +552,47 @@ void ArkData::setZipExtractLowerCase( bool _b )
 bool ArkData::getZipExtractLowerCase()
 {
 	return m_zipExtractLowerCase;
+}
+
+
+void ArkData::setZipAddRecurseDirs( bool _b )
+{
+	m_zipAddRecurseDirs = _b;
+}
+
+bool ArkData::getZipAddRecurseDirs()
+{
+	return m_zipAddRecurseDirs;
+}
+
+void ArkData::setZipAddJunkDirs( bool _b )
+{
+	m_zipAddJunkDirs = _b;
+}
+
+bool ArkData::getZipAddJunkDirs()
+{
+	return m_zipAddJunkDirs;
+}
+
+void ArkData::setZipAddMSDOS( bool _b )
+{
+	m_zipAddMSDOS = _b;
+}
+
+bool ArkData::getZipAddMSDOS()
+{
+	return m_zipAddMSDOS;
+}
+
+void ArkData::setZipAddConvertLF( bool _b )
+{
+	m_zipAddConvertLF = _b;
+}
+
+bool ArkData::getZipAddConvertLF()
+{
+	return m_zipAddConvertLF;
 }
 
 void ArkData::setTmpDir( QString _dir )

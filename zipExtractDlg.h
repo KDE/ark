@@ -30,6 +30,7 @@
 
 // Qt includes
 #include <qcheckbox.h>
+#include <qlineedit.h>
 #include <qradiobutton.h>
 #include <qwidget.h>
 
@@ -53,12 +54,14 @@ public:
 	
 	enum selectionType{ All, Selection, Pattern };
 	int selection();
+	QString pattern();
 		
 protected:
 	QVBoxLayout *boxLayout;
 	QGridLayout *lafBox;
 	QRadioButton *r1, *r2, *r3;
 	QCheckBox *r4, *r5, *r6;
+	QLineEdit *le1;
 	
 	bool m_selection;
 	
@@ -72,7 +75,8 @@ protected:
 	ArkData *m_data;
 	
 protected slots:
-	void onExtract();	
+	void onExtract();
+	void onPatternChanged(const QString &);	
 };
 
 #endif /* ZIP_EXTRACT_DLG_H */

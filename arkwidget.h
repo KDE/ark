@@ -1,3 +1,30 @@
+/*
+
+ $Id $
+
+ ark -- archiver for the KDE project
+
+ Copyright (C)
+
+ 1997-1999: Rob Palmbos palm9744@kettering.edu
+ 1999: Francois-Xavier Duranceau duranceau@kde.org
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
+
 #ifndef ARKWIDGET_H
 #define ARKWIDGET_H
 
@@ -43,8 +70,6 @@ public:
 	void showZip( QString name );
 	
 protected slots:
-	void doPopup( QListViewItem *item );
-	
 	void file_new();
 	void file_newWindow();
 	void file_open();
@@ -73,7 +98,8 @@ protected slots:
 			
 	void showFavorite();
 	void slotStatusBarTimeout();
-		
+	void slotSelectionChanged();
+			
 protected:
 	static QList<ArkWidget> *windowList;
 	void closeEvent( QCloseEvent * );
@@ -82,8 +108,8 @@ protected:
         void dragEnterEvent(QDragEnterEvent* event);
         void dropEvent(QDropEvent* event);
 
-        void createStandardEditMenu( bool );
-        void createArchiveEditMenu();
+        void createEditMenu( bool );
+        void createActionMenu();
         
 private:
 	enum ArchType{ TAR_FORMAT, ZIP_FORMAT, AA_FORMAT, LHA_FORMAT };
@@ -100,7 +126,8 @@ private:
 	QTimer *statusBarTimer;
 	KAccel *accelerators;
 
-	QPopupMenu *editMenu, *optionsMenu, *recentPopup;
+	QPopupMenu *editMenu, *actionMenu, *optionsMenu, *recentPopup;
+	int idActionMenu;
 	int idExtract, idDelete, idAdd, idView;
 	int idSelect, idSelectAll, idDeselectAll, idInvertSel;
 	int idShellOutput, idSaveOnExit;

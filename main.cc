@@ -33,8 +33,10 @@
 
 // KDE includes
 #include <kapp.h>
-// #include <kcontrol.h>
 #include <kwm.h>
+#include <kmimetypes.h>
+#include <kregfactories.h>
+#include <kregistry.h>
 
 
 int main( int argc, char *argv[]  )
@@ -107,5 +109,10 @@ int main( int argc, char *argv[]  )
         		}
 		}
 	}
+	
+	KRegistry registry;
+	registry.addFactory( new KMimeTypeFactory );
+	registry.load();
+	
 	ark.exec();
 }

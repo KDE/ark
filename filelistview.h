@@ -10,6 +10,7 @@ class FileLVI : public QListViewItem
 public:
 	FileLVI(QListView* lv) : QListViewItem(lv) {}
 	FileLVI(QListViewItem* lv) : QListViewItem(lv) {}
+	QString getFileName();
 
 //	virtual QString key(int column, bool) const;
 };

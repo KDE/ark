@@ -31,7 +31,6 @@
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qlineedit.h>
 #include <qmessagebox.h>
 #include <qpushbutton.h>
 #include <qstring.h>
@@ -127,15 +126,15 @@ void ZipExtractDlg::initGUI()
 	
 	r3 = new QRadioButton( i18n("Files: "), bg1 );
 	r3->setFixedSize( r3->sizeHint() );
-	r3->setEnabled( false );
 	QHBoxLayout *hblg1 = new QHBoxLayout();
 	vblg1->addLayout( hblg1 );
 	
 	hblg1->addWidget( r3 );
 	
-	QLineEdit *le1 = new QLineEdit( bg1 );
+	le1 = new QLineEdit( bg1 );
 	le1->setMinimumSize( le1->sizeHint() );
 	hblg1->addWidget( le1 );
+	connect( le1, SIGNAL(textChanged(const QString &)), SLOT(onPatternChanged(const QString&)));
 
 	// *******
 	// *  *@@*
@@ -215,6 +214,11 @@ int ZipExtractDlg::selection()
 		return Pattern;
 }
 
+QString ZipExtractDlg::pattern()
+{
+	return le1->text();
+}
+
 void ZipExtractDlg::onExtract()
 {
 	QString dest = locationEdit->currentText();
@@ -227,6 +231,11 @@ void ZipExtractDlg::onExtract()
 		saveConfig();
 		accept();	
 	}
+}
+
+void ZipExtractDlg::onPatternChanged(const QString &)
+{
+	r3->setChecked( true );	
 }
 
 QString ZipExtractDlg::getDestination() const

@@ -30,6 +30,7 @@
 
 // Qt includes
 #include <qcheckbox.h>
+#include <qcombobox.h>
 #include <qlayout.h>
 #include <qlineedit.h>
 #include <qpushbutton.h>
@@ -40,17 +41,19 @@
 
 // ark includes
 #include "arkdata.h"
+#include "zip.h"
 
 
 class ZipAddDlg : public KFileBaseDialog {
 	Q_OBJECT
 public:
-	ZipAddDlg( ArkData*, QString, QWidget *parent=0, const char *name=0 );
+	ZipAddDlg( ZipArch*, ArkData*, QString, QWidget *parent=0, const char *name=0 );
 	
 protected:
 	QVBoxLayout *boxLayout;
 	QGridLayout *lafBox;
 	QCheckBox *c1, *c2, *c3, *c4;
+	QComboBox *cb1, *cb2;
 	QPushButton *m_bAdd, *m_bClose;
 	QLineEdit *m_leNames;
 	
@@ -60,9 +63,13 @@ protected:
 	virtual QWidget *swallower() { return this; }
 	
 	void saveConfig();
+	QString location();
+	int mode();
+	QString compression();
 
 	bool m_addClicked;	
 	ArkData *m_data;
+	ZipArch *m_zip;
 	
 protected slots:
 	void onAdd();	
@@ -71,6 +78,7 @@ protected slots:
 	
 	void slotSelectionChanged(const QString&);
 	void slotFileHighlighted(const QString&);
+	void slotFileSelected(const QString&);
 };
 
 #endif /* ZIP_ADD_DLG_H */

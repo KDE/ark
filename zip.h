@@ -57,9 +57,12 @@ public:
 	virtual QString unarchFile( int , QString );
 	virtual void deleteSelectedFiles();
 	virtual int getEditFlag();
+	void add( QString , int , QString , bool , bool , bool , bool );
+	void testIntegrity();
+	
+	enum AddMode { Update = 1, Freshen, Move };
 
 protected:
-	ArkProcess archProcess;
 	KProcess *m_kp;
 	bool perms;
 	WaitDlg *m_wd;
@@ -70,7 +73,9 @@ protected:
 	void initListView();
 	void initOpen();
 	void showWait();
-	
+	bool stderrIsError();
+	void removeSelectedItems();
+		
 protected slots:
 	void slotProcessusKilled();
 	void slotStoreDataStdout(KProcess*, char*, int);
@@ -79,6 +84,7 @@ protected slots:
 	void slotOpenDataStdout(KProcess*, char*, int);
 
 	void slotExtractExited(KProcess*);
+	void slotIntegrityExited(KProcess*);
 };
 
 #endif /* ZIPARCH_H */
