@@ -352,12 +352,12 @@ void ArkStatusBarExtension::setupStatusBar()
     connect( m_pTimer, SIGNAL( timeout() ), this, SLOT( slotProgress() ) );
 
     m_pStatusLabelTotal = new QLabel( statusBar() );
-    m_pStatusLabelTotal->setFrameStyle( QFrame::Panel | QFrame::Raised );
+    m_pStatusLabelTotal->setFrameStyle( QFrame::NoFrame );
     m_pStatusLabelTotal->setAlignment( AlignRight );
     m_pStatusLabelTotal->setText( i18n( "Total: 0 files" ) );
 
     m_pStatusLabelSelect = new QLabel( statusBar() );
-    m_pStatusLabelSelect->setFrameStyle( QFrame::Panel | QFrame::Raised );
+    m_pStatusLabelSelect->setFrameStyle( QFrame::NoFrame );
     m_pStatusLabelSelect->setAlignment( AlignLeft );
     m_pStatusLabelSelect->setText(i18n( "0 files selected" ) );
 
