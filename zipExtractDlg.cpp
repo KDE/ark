@@ -164,7 +164,6 @@ void ZipExtractDlg::initGUI()
 
 	bOk->hide();
 	bCancel->hide();
-	bHelp->hide();
 
 	mainLayout->activate();
 
