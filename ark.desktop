@@ -24,7 +24,6 @@ Name[xx]=xx
 Exec=ark -caption "%c" %i %m %U
 Icon=ark
 TerminalOptions=
-Protocols=file;
 Path=
 DocPath=ark/index.html
 Type=Application
