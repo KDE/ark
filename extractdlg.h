@@ -16,8 +16,8 @@ class ExtractDlg : public QDialog {
 	Q_OBJECT
 public:
 	ExtractDlg( int eo, QWidget *parent=0, char *name=0 );
-	const char *getDest();
-	bool doOverwrite();
+        const char *getDest();
+        bool doOverwrite();
 	bool doLowerCase();
 	bool doPreservePerms();
 	void setMask( unsigned char mask );
@@ -34,5 +34,4 @@ private slots:
 	void browse();
 };
 
-#endif /* EXTRACTDLG_H */
-
+#endif

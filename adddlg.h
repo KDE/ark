@@ -7,7 +7,7 @@
 #include <qcheckbox.h>
 
 class AddOptionsDlg : public QDialog {
-	Q_OBJECT
+    Q_OBJECT
 public:
 	AddOptionsDlg( QWidget *parent=0, char *name="" );
 	bool onlyUpdate();
@@ -21,5 +21,4 @@ private:
 	QCheckBox *fullcb;
 };
 
-#endif ADDDLG_H
-
+#endif

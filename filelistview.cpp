@@ -21,39 +21,6 @@ inline int max(int a, int b)
 
 typedef const char* (*KeyFunc) (const char*);
 
-static const char * intKey(const char* text);
-static const char * timeKey(const char* text);
-
-static const char*
-intKey(const char* text)
-{
-	int val;
-	sscanf(text, "%d", &val);
-	static char key[16];
-	sprintf(key, "%010d", val);
-
-	return (key);
-}
-
-static const char*
-timeKey(const char* text)
-{
-	int h, m;
-	sscanf(text, "%d:%d", &h, &m);
-	int t = h * 60 + m;
-	static char key[16];
-	sprintf(key, "%07d", t);
-
-	return (key);
-}
-
-/*
-QString FileLVI::key(int column, bool dir) const
-{
-	return QString::null;
-}
-*/
-
 /////////////////////////////////////////////////////////////////////
 // FileListView implementation
 /////////////////////////////////////////////////////////////////////
@@ -77,7 +44,7 @@ void FileListView::setSorting(int column, bool inc)
 	}
 	else{
 		sortColumn = column;
-		increasing = inc;	
+		increasing = inc;
 	}
 	QListView::setSorting(sortColumn, increasing);
 }

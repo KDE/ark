@@ -33,7 +33,7 @@
 
 enum Buttons { OPEN_BUTTON= 1000, FAVORITE_BUTTON, EXTRACT_BUTTON,
 	       CLOSE_BUTTON };
-	       	
+
 QList<ArkWidget> *ArkWidget::windowList = 0;
 
 ArkWidget::ArkWidget( QWidget *, const char *name )
@@ -62,22 +62,22 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	//connect( dz, SIGNAL(dropAction(KDNDDropZone *)),SLOT( fileDrop(KDNDDropZone *)) );
 
 	setCaption( kapp->getCaption() );
-	
+
 	setMinimumSize( 300, 200 );  // someday this won't be hardcoded
-	
+
 	kfm = new KFM;
 
-	// Creates a temp directory for this ark instance	
+	// Creates a temp directory for this ark instance
 	QString ex( "mkdir " + tmpdir + " &>/dev/null" );
 	system( ex );
 
 	arch=0;
 	listing=0;
 	contextRow = false;
-	
+
 	writeStatus( i18n("Welcome to ark...") );
 }
-	
+
 ArkWidget::~ArkWidget()
 {
 	windowList->removeRef( this );
@@ -100,7 +100,7 @@ void ArkWidget::setupMenuBar()
 	accelerators->insertStdItem(KAccel::Open, i18n("Open"));
 	accelerators->insertStdItem(KAccel::Close, i18n("Close"));
 	accelerators->insertStdItem(KAccel::Quit, i18n("Quit"));
-	
+
 	accelerators->insertItem(i18n("Add"), "Add_accel", "SHIFT+A");
 	accelerators->insertItem(i18n("Delete"), "Delete_accel", "SHIFT+D");
 	accelerators->insertItem(i18n("Extract"), "Extract_accel", "SHIFT+E");
@@ -108,7 +108,7 @@ void ArkWidget::setupMenuBar()
 	accelerators->insertItem(i18n("Select all"), "SelectionAll", "CTRL+A");
 	accelerators->insertItem(i18n("Deselect all"), "DeselectionAll", "CTRL+D");
 	accelerators->insertItem(i18n("Invert selection"), "InvertSel", "CTRL+I");
-	
+
 	accelerators->insertStdItem(KAccel::Help);
 
 	// KAccel connections
@@ -116,7 +116,7 @@ void ArkWidget::setupMenuBar()
 	accelerators->connectItem(KAccel::Open, this, SLOT(file_open()));
 	accelerators->connectItem(KAccel::Close, this, SLOT(file_close()));
 	accelerators->connectItem(KAccel::Quit, this, SLOT(file_quit()));
-	
+
 	accelerators->connectItem("Add_accel", this, SLOT(edit_add()));
 	accelerators->connectItem("Delete_accel", this, SLOT(edit_delete()));
 	accelerators->connectItem("Extract_accel", this, SLOT(edit_extract()));
@@ -124,7 +124,7 @@ void ArkWidget::setupMenuBar()
 	accelerators->connectItem("SelectionAll", this, SLOT(edit_selectAll()));
 	accelerators->connectItem("DeselectionAll", this, SLOT(edit_deselectAll()));
 	accelerators->connectItem("InvertSel", this, SLOT(edit_invertSel()));
-	
+
 	// KAccel settings
 	accelerators->readSettings( data->getKConfig() );
 	int id;
@@ -160,11 +160,11 @@ void ArkWidget::setupMenuBar()
 	idAdd=editMenu->insertItem( i18n( "&Add..."), this, SLOT( edit_add() ) );
 	accelerators->changeMenuAccel(editMenu, idAdd, "Add_accel" );
 	editMenu->setItemEnabled( idAdd, false );
-	
+
 	idDelete=editMenu->insertItem( i18n( "&Delete..."), this, SLOT( edit_delete() ) );
 	accelerators->changeMenuAccel(editMenu, idDelete, "Delete_accel" );
 	editMenu->setItemEnabled( idDelete, false );
-	
+
 	idExtract=editMenu->insertItem( i18n( "E&xtract..."), this, SLOT( edit_extract() ) );
 	accelerators->changeMenuAccel(editMenu, idExtract, "Extract_accel" );
 	editMenu->setItemEnabled( idExtract, false );
@@ -172,8 +172,8 @@ void ArkWidget::setupMenuBar()
 	idView=editMenu->insertItem( i18n( "&View..."), this, SLOT( edit_view() ) );
 	accelerators->changeMenuAccel(editMenu, idView, "View_accel" );
 	editMenu->setItemEnabled( idView, false );
-	
-	
+
+
 	editMenu->insertSeparator();
 	idSelectAll=editMenu->insertItem( i18n( "&Select all"), this, SLOT( edit_selectAll() ) );
 	accelerators->changeMenuAccel(editMenu, id, "SelectionAll" );
@@ -182,7 +182,7 @@ void ArkWidget::setupMenuBar()
 	idDeselectAll=editMenu->insertItem( i18n( "Dese&lect all"), this, SLOT( edit_deselectAll() ) );
 	accelerators->changeMenuAccel(editMenu, id, "DeselectionAll" );
 	editMenu->setItemEnabled( idDeselectAll, false );
-	
+
 	idInvertSel=editMenu->insertItem( i18n( "&Invert selection"), this, SLOT( edit_invertSel() ) );
 	accelerators->changeMenuAccel(editMenu, id, "InvertSel" );
 	editMenu->setItemEnabled( idInvertSel, false );
@@ -190,7 +190,7 @@ void ArkWidget::setupMenuBar()
 //	idInvertSel=editMenu->insertItem( i18n( "Single selection"), this, SLOT( edit_invertSel() ) );
 //	accelerators->changeMenuAccel(editMenu, id, "InvertSel" );
 //	editMenu->setItemEnabled( idInvertSel, false );
-	
+
 
 	// Options menu creation
 	optionsmenu->insertItem( i18n( "&General..."), this, SLOT( options_general() ) );
@@ -206,7 +206,7 @@ void ArkWidget::setupMenuBar()
 	about_ark.sprintf(i18n(
 		"ark version %s - the KDE archiver\n"
                 "\n"
-                "Copyright:\n" 
+                "Copyright:\n"
                 "1997-1999: Robert Palmbos <palm9744@kettering.edu>\n"
                 "1999: Francois-Xavier Duranceau <duranceau@kde.org>\n"),
 		ARK_VERSION );
@@ -243,7 +243,7 @@ void ArkWidget::setupStatusBar()
 {
 	KStatusBar *sb = statusBar();
 	sb->insertItem( "", 0 );
-	
+
 	statusBarTimer = new QTimer(this);
 	connect(statusBarTimer, SIGNAL(timeout()), SLOT(timeout()));
 }
@@ -258,7 +258,7 @@ void ArkWidget::setupToolBar()
 	tb->insertButton( ICON(FAVORITE_XPM), FAVORITE_BUTTON, SIGNAL( clicked() ), this, SLOT( showFavorite() ), TRUE, i18n("Goto Archive Dir"));
 	tb->insertButton( ICON(EDIT_EXTRACT_XPM), EXTRACT_BUTTON, SIGNAL( clicked() ), this, SLOT( edit_extract() ), FALSE, i18n("Extract"));
 //	tb()->setItemEnabled( EXTRACT_BUTTON, false );
-	
+
 	tb->insertSeparator();
 	tb->insertButton( ICON(FILE_CLOSE_XPM), CLOSE_BUTTON, SIGNAL( clicked() ), this, SLOT( file_close() ), TRUE, i18n("Close"));
 
@@ -285,7 +285,7 @@ void ArkWidget::file_new()
 //		delete archiveContent;
 		delete dz;
 		createFileListView();
-		ret = createArchive( file );	
+		ret = createArchive( file );
 		if( ret )
 			newCaption(file);
 		else
@@ -307,7 +307,7 @@ void ArkWidget::file_open()
 	if( !file.isEmpty() )
 	{
 		cerr << "file selected: " << file << "\n";
-		
+
 		showZip( file );
 	}
 }
@@ -325,9 +325,9 @@ void ArkWidget::showZip( QString name )
 //	delete archiveContent;
 	delete dz;
 	createFileListView();
-	
+
 	archiverMode = true;
-	
+
 	cerr << "Chow Archive: " << name << "\n";
 	ret = openArchive( name );
 	cerr << "openArchive returned " << ret << "\n";
@@ -335,7 +335,7 @@ void ArkWidget::showZip( QString name )
 	{
 		listing = (QStrList *)arch->getListing();
 		newCaption( name );
-		
+
 		QFileInfo fi( name );
 		QString path = fi.dirPath( true );
 		data->setLastOpenDir( path );
@@ -359,20 +359,20 @@ void ArkWidget::closeEvent( QCloseEvent * )
 	file_close();
 }
 
-void ArkWidget::file_quit()	
+void ArkWidget::file_quit()
 {
 	KConfig *config;
-	
+
 	config = kapp->getConfig();
         config->setGroup("ark");
 
 	if( KWM::isMaximized(this->winId()) ){
-		config->writeEntry( "MaxMode", KWM::maximizeMode(this->winId()) );	
+		config->writeEntry( "MaxMode", KWM::maximizeMode(this->winId()) );
 	}
 	else{
-		config->writeEntry( "MaxMode", -1 );	
+		config->writeEntry( "MaxMode", -1 );
 	}
-	
+
 	accelerators->writeSettings( data->getKConfig() );
 	data->writeConfiguration();
 	cerr << "configuration written\n";
@@ -396,7 +396,7 @@ void ArkWidget::edit_delete()
 }
 
 
-void ArkWidget::deleteFile( int pos )
+void ArkWidget::deleteFile( int /*pos*/ )
 {
 /*
 	if( pos != -1 && arch )
@@ -428,20 +428,20 @@ void ArkWidget::edit_view()
 */
 }
 
-void ArkWidget::showFile( int index, int col )
+void ArkWidget::showFile( int /*index*/, int /*col*/ )
 {
 	QString tmp;
 	QString tname;
 	QString name;
 	QString fullname;
-	
+
 	if( contextRow )  // Warning: ugly hack
 		return;
 /*
 	col++; // Don't ask.
 	tmp = listing->at( index );
 	tname = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
-	
+
 	if( arch == 0 )
 	{
 		fullname = fav->path();
@@ -521,7 +521,7 @@ void ArkWidget::getAddOptions()
 		writeStatus(i18n( "Create or open an archive first"));
 	}
 }
-	
+
 // Help menu /////////////////////////////////////////////////////////
 
 void ArkWidget::help()
@@ -532,7 +532,7 @@ void ArkWidget::help()
 
 // Service functions /////////////////////////////////////////////////
 
-void ArkWidget::doPopup( QListViewItem *item )
+void ArkWidget::doPopup( QListViewItem * /*item*/ )
 {
 	cerr << "Entered doPopup\n";
 	contextRow = true;
@@ -577,7 +577,7 @@ void ArkWidget::fileDrop( KDNDDropZone *dz )
 		} else {
 			if( retcode == UNSUPDIR )
 				arkWarning( i18n("Can't add directories with this archive type"));
-			else	
+			else
 				arkError( i18n( "Error saving to archive"));
 		}
 	}
@@ -590,20 +590,20 @@ void ArkWidget::showFavorite()
 	const QFileInfoList *flist;
 	QDir *fav;
 	QStrList *flisting = new QStrList;
-	
+
 	clearCurrentArchive();
 
 	archiverMode = false;
-	
+
 //	delete archiveContent;
 	delete dz;
 	createFileListView();
-	
+
 	archiveContent->addColumn( i18n("File") );
 	archiveContent->addColumn( i18n("Size") );
 	archiveContent->setColumnAlignment(1, AlignRight);
 	archiveContent->setMultiSelection( false );
-	
+
 	fav = new QDir( data->getFavoriteDir() );
 	if( !fav->exists() )
 	{
@@ -621,7 +621,7 @@ void ArkWidget::showFavorite()
 		archiveContent->insertItem(flvi);
 		++flisti;
 	}
-	
+
 	QString size;
 	bool isDirectory;
 	for( uint i=0; i < flist->count()-2; i++ )
@@ -642,20 +642,20 @@ void ArkWidget::showFavorite()
 		++flisti;
 	}
 	archiveContent->setColumnWidth(0, archiveContent->columnWidth(0) + 10 );
-	
+
 	QString caption;
 	caption.sprintf(i18n("ark - %s"), (data->getFavoriteDir()).data());
 	setCaption( caption );
-	
+
 	listing = flisting;
 	delete fav;
 	delete flisting;
-	
+
 	writeStatus( i18n( "Archive Directory") );
 }
 
 /**
- * Writes a message in the status bar. 
+ * Writes a message in the status bar.
  * This message is visible during 5 seconds.
  */
 void ArkWidget::writeStatus(const QString text)
@@ -676,11 +676,11 @@ void ArkWidget::clearCurrentArchive()
 	editMenu->setItemEnabled( idDelete, false );
 	editMenu->setItemEnabled( idExtract, false );
 	editMenu->setItemEnabled( idView, false );
-	
+
 	editMenu->setItemEnabled( idSelectAll, false );
 	editMenu->setItemEnabled( idDeselectAll, false );
 	editMenu->setItemEnabled( idInvertSel, false );
-	
+
 	toolBar()->setItemEnabled( EXTRACT_BUTTON, false );
 }
 
@@ -701,7 +701,7 @@ void ArkWidget::timeout()
 }
 
 void ArkWidget::newCaption(const QString& filename){
-	
+
 	QString caption;
 	caption.sprintf(i18n("ark - %s"), filename.data());
 	setCaption(caption);
@@ -723,12 +723,12 @@ void ArkWidget::newCaption(const QString& filename){
 
 void ArkWidget::createFileListView()
 {
-	archiveContent = new FileListView(this);                	
+	archiveContent = new FileListView(this);
 	archiveContent->setMultiSelection(false);
 	setView(archiveContent);
 	updateRects();
 	archiveContent->show();
-	
+
 	connect( archiveContent, SIGNAL( selectionChanged(QListViewItem*)), this, SLOT( doPopup(QListViewItem*) ) );
 
 	dz = new KDNDDropZone( archiveContent, DndURL );
