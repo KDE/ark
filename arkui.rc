@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="ark" version="1">
+<kpartgui name="ark" version="2">
 <ActionProperties>
     <Action name="file_open" icon="ark_open"/>
     <Action name="file_new" icon="ark_new"/>
@@ -33,7 +33,7 @@
     <Action name="directories"/>
   </Menu>
 </MenuBar>
-<ToolBar fullWidth="true" name="mainToolBar">
+<ToolBar fullWidth="true" name="mainToolBar"><text>Main Toolbar</text>
   <Action name="new_arch"/>
   <Action name="open_arch"/>
   <Separator lineSeparator="true"/>
