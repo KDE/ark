@@ -34,6 +34,7 @@
 #include <qregexp.h>
 #include <qheader.h>
 #include <qwhatsthis.h>
+#include <qfile.h>
 
 // KDE includes
 #include <kapp.h>
@@ -62,6 +63,7 @@
 
 #include <sys/stat.h>
 #include <errno.h>
+#include <sys/vfs.h>  // for statfs
 
 // ark includes
 #include "arkapp.h"
@@ -114,6 +116,46 @@ bool Utilities::haveDirPermissions(const QString &strFile)
     }
   return true;
 }
+
+bool Utilities::diskHasSpace(const QString &dir, long size)
+  // check if disk has enough space to accomodate (a) new file(s) of
+  // the given size in the partition containing the given directory
+{
+  fprintf(stderr, "Size: %ld\n", size);
+  struct statfs buf;
+  if (statfs((const char *)dir, &buf) == 0)
+    {
+      double nAvailable = (double)buf.f_bavail * buf.f_bsize;
+      if (nAvailable < (double)size)
+	{
+	  KMessageBox::error(0, i18n("Sorry, you've run out of disk space."));
+	  return false;
+	}
+    }
+  else
+    {
+    // something bad happened
+      ASSERT(0);
+    }
+  return true;
+}
+
+long Utilities::getSizes(QStringList *list)
+{
+  long sum = 0;
+  QString str;
+
+  for (QStringList::Iterator it = list->begin();
+       it != list->end(); ++it)
+    {
+      str = *it;
+      QFile f(str.right(str.length()-5));
+      sum += f.size();
+    }
+  return sum;
+}
+
+
 
 ArkWidget::ArkWidget( QWidget *, const char *name ) : 
     KTMainWindow(name), archiveContent(0),
@@ -693,7 +735,8 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
 	}
       
       // if we made it here, it's a go.
-      if (m_strArchName.contains('.') && !strFile.contains('.'))
+      if ((m_strArchName.contains('.') && !strFile.contains('.')) ||
+	  (m_strArchName.isNull() && !strFile.contains('.')))
 	{
 	  // if the filename has no dot in it, ask to append extension
 	  QString extension = _extension;
@@ -1054,6 +1097,9 @@ void ArkWidget::disableAll() // private
   popupOpenWithAction->setEnabled(false);
   popupEditAction->setEnabled(false);
   
+  archiveContent->setUpdatesEnabled(false);
+  QApplication::setOverrideCursor( waitCursor );
+
   kdDebug(1601) << "-ArkWidget::disableAll" << endl;
 }
 
@@ -1350,10 +1396,11 @@ void ArkWidget::action_add()
 
 void ArkWidget::addFile(QStringList *list)
 {
+  if (!Utilities::diskHasSpace(m_strArchName, Utilities::getSizes(list)))
+    return;
+
   // takes a list of KURLs.
-  archiveContent->setUpdatesEnabled(false);
   disableAll();
-  QApplication::setOverrideCursor( waitCursor );
   if (m_bEditInProgress)
     {
       // there's only one file, and it's in the temp directory.
@@ -1415,8 +1462,6 @@ void ArkWidget::action_add_dir()
     {
       // fix protocol
       dirName = "file:" + dirName;
-      archiveContent->setUpdatesEnabled(false);
-      QApplication::setOverrideCursor( waitCursor );
       disableAll();
       arch->addDir(dirName);
     }
@@ -1510,8 +1555,6 @@ void ArkWidget::action_delete()
 	}		
     }
  
-  archiveContent->setUpdatesEnabled(false);
-  QApplication::setOverrideCursor( waitCursor );
   disableAll();
   arch->remove(&list);
   kdDebug(1601) << "-ArkWidget::action_delete" << endl;
@@ -1530,13 +1573,24 @@ void ArkWidget::slotOpenWith()
 
       m_extractList = new QStringList;
       m_extractList->append(name);
-      archiveContent->setUpdatesEnabled(false);
       m_bOpenWithInProgress = true;
       m_strFileToView = fullname;
-      QApplication::setOverrideCursor( waitCursor );
-      disableAll();
-      arch->unarchFile(m_extractList, m_settings->getTmpDir());
+      if (Utilities::diskHasSpace(m_settings->getTmpDir(),
+				  atol(pItem->text(getSizeColumn()))))
+	{
+	  disableAll();
+	  arch->unarchFile(m_extractList, m_settings->getTmpDir());
+	}	
     }
+}
+
+
+int ArkWidget::getSizeColumn()
+{
+  for (int i = 0; i < archiveContent->header()->count(); ++i)
+    if (archiveContent->columnText(i) == SIZE_STRING)
+      return i;
+  return -1;
 }
 
 bool ArkWidget::getOverwrite(ArchType _archtype)
@@ -1651,9 +1705,6 @@ void ArkWidget::action_extract()
     {
       int extractOp = dlg->extractOp();
       kdDebug(1601) << "Extract op: " << extractOp << endl;
-      archiveContent->setUpdatesEnabled(false);
-      QApplication::setOverrideCursor( waitCursor );
-      disableAll();
 
       // if overwrite is false, then we need to check for failure of
       // extractions.
@@ -1666,45 +1717,65 @@ void ArkWidget::action_extract()
 	    bRedoExtract = reportExtractFailures(m_settings->getExtractDir(),
 						 m_extractList);
 	  if (!bRedoExtract) // if the user's OK with those failures, go ahead
-	    arch->unarchFile(0);
+	    {
+	      // unless we have no space!
+	      if (Utilities::diskHasSpace(m_settings->getExtractDir(),
+					  m_nSizeOfFiles))
+		{
+		  disableAll();
+		  arch->unarchFile(0);
+		}
+	    }
 	  break;
 	case ExtractDlg::Pattern:
 	case ExtractDlg::Selected:
 	case ExtractDlg::Current:
-	  if (extractOp != ExtractDlg::Current )
-	    {
-	      // make a list to send to unarchFile
-	      FileListView *flw = fileList();
-	      FileLVI *flvi = (FileLVI*)flw->firstChild();
-	      while (flvi)
-		{
-		  if ( flw->isSelected(flvi) )
-		    {
-		      kdDebug(1601) << "unarching " << flvi->getFileName() << endl;
-		      QCString tmp = QFile::encodeName(flvi->getFileName());
-		      m_extractList->append(tmp);
-		    }
-		  flvi = (FileLVI*)flvi->itemBelow();
-		}
-	    }
-	  else
-	    {
-	      FileLVI *pItem = archiveContent->currentItem();
-	      if (pItem == 0)
-		{
-		  kdDebug(1601) << "Can't seem to figure out which is current!" << endl;
-		  return;
-		}
-	      QString tmp = pItem->text(0);  // get the name
-	      m_extractList->append( QFile::encodeName(tmp) );
-	    }
-	  if (!bOvwrt)
-	    bRedoExtract =
-	      reportExtractFailures(m_settings->getExtractDir(),
-				    m_extractList);
-	  if (!bRedoExtract)
-	    arch->unarchFile(m_extractList); // extract selected files
-	  break;
+	  {
+	    int nTotalSize = 0;
+	    if (extractOp != ExtractDlg::Current )
+	      {
+		// make a list to send to unarchFile
+		FileListView *flw = fileList();
+		FileLVI *flvi = (FileLVI*)flw->firstChild();
+		while (flvi)
+		  {
+		    if ( flw->isSelected(flvi) )
+		      {
+			kdDebug(1601) << "unarching " << flvi->getFileName() << endl;
+			QCString tmp = QFile::encodeName(flvi->getFileName());
+			m_extractList->append(tmp);
+			nTotalSize += atol(flvi->text(getSizeColumn()));
+		      }
+		    flvi = (FileLVI*)flvi->itemBelow();
+		  }
+	      }
+	    else
+	      {
+		FileLVI *pItem = archiveContent->currentItem();
+		if (pItem == 0)
+		  {
+		    kdDebug(1601) << "Can't seem to figure out which is current!" << endl;
+		    return;
+		  }
+		QString tmp = pItem->text(0);  // get the name
+		nTotalSize += atol(pItem->text(getSizeColumn()));
+		m_extractList->append( QFile::encodeName(tmp) );
+	      }
+	    if (!bOvwrt)
+	      bRedoExtract =
+		reportExtractFailures(m_settings->getExtractDir(),
+				      m_extractList);
+	    if (!bRedoExtract)
+	      {
+		if (Utilities::diskHasSpace(m_settings->getExtractDir(),
+					    nTotalSize))
+		  {
+		    disableAll();
+		    arch->unarchFile(m_extractList); // extract selected files
+		  }
+	      }
+	    break;
+	  }
 	default:
 	  ASSERT(0);
 	  // never happens
@@ -1754,12 +1825,14 @@ void ArkWidget::showFile( FileLVI *_pItem )
   m_extractList = new QStringList;
   m_extractList->append(name);
 
-  archiveContent->setUpdatesEnabled(false);
   m_bViewInProgress = true;
   m_strFileToView = fullname;
-  QApplication::setOverrideCursor( waitCursor );
-  disableAll();
-  arch->unarchFile(m_extractList, m_settings->getTmpDir() );
+  if (Utilities::diskHasSpace(m_settings->getTmpDir(),
+			      atol(_pItem->text(getSizeColumn()))))
+    {
+      disableAll();
+      arch->unarchFile(m_extractList, m_settings->getTmpDir() );
+    }
 }
 
 // Options menu //////////////////////////////////////////////////////
@@ -2281,9 +2354,7 @@ void ArkWidget::openArchive(const QString & _filename )
   connect( newArch, SIGNAL(sigExtract(bool)),
 	   this, SLOT(slotExtractDone()));
 
-  archiveContent->setUpdatesEnabled(false);
   disableAll();
-  QApplication::setOverrideCursor( waitCursor );
   newArch->open();
 }
 

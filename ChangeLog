@@ -1,5 +1,8 @@
           $Id$
 
+2000-07-10:  Emily Ezust <emilye@corel.com>
+	* Added checks for available disk space
+	
 2000-07-05: Emily Ezust <emilye@corel.com>
 	* Added some more mimetype magic.
 	

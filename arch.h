@@ -172,7 +172,7 @@ namespace Utils
 #define LINK_STRING i18n(" Link ")
 #define PACKED_STRING i18n(" Size Now ")
 #define RATIO_STRING i18n(" Ratio ")
-#define CRC_STRING i18n("shortcut for Cyclic Redundancy Check"," CRC ")
+#define CRC_STRING i18n("acronym for Cyclic Redundancy Check"," CRC ")
 #define METHOD_STRING i18n(" Method ")
 #define VERSION_STRING i18n(" Version ")
 #define OWNER_STRING i18n(" Owner ")

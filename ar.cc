@@ -79,7 +79,7 @@ void ArArch::processLine( char *_line )
   char columns[10][80] = { "","","","","","","","","" };
   char filename[4096] = "";
 
-  sscanf(_line, "%[-dwrxl] %[0-9/] %[0-9] %3[A-Za-z] %2[0-9 ] %5[0-9:] %4[0-9]%1[ ]%[^\n]",
+  sscanf(_line, "%[-dwrxlst] %[0-9/] %[0-9] %3[A-Za-z] %2[0-9 ] %5[0-9:] %4[0-9]%1[ ]%[^\n]",
 	 columns[0], columns[1], columns[2], columns[3], columns[4],
 	 columns[5], columns[6], columns[7], filename );
   kdDebug(1601) << columns[0] << "!" << columns[1] << "!" << columns[2] << "!" << columns[3] << "!" << columns[4] << "!" << columns[5] << "!" << columns[6] << "!" << columns[7] << "!" << filename << endl;

@@ -74,6 +74,8 @@ class KTempFile;
 namespace Utilities
 {
   bool haveDirPermissions(const QString &strFile);
+  bool diskHasSpace(const QString &dir, long size);
+  long Utilities::getSizes(QStringList *list);
 };
 
 class ArkWidget : public KTMainWindow 
@@ -195,6 +197,10 @@ private: // methods
 			     QStringList *_list);
 
   void download(const KURL &, QString &);
+
+  // return the index of the size column
+  int getSizeColumn();
+
 protected:
   void arkWarning(const QString& msg);
   void arkError(const QString& msg);
