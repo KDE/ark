@@ -1,9 +1,9 @@
 # KDE Config File
 [KDE Desktop Entry]
-Comment[C]=Zip Archives
+Comment=Zip Archives
 Comment[de]=ZIP-Archive
 Comment[pt]=Arquivos Zip
-Comment[fr]=Archives ZIP
+Comment[fr]=Archives zip
 Comment[pl]=Archiwum Zip
 Comment[hr]=Zip Arhive
 Comment[sk]=Zip archív
