@@ -43,8 +43,6 @@
 #include "arch.h"
 #include "arkwidgetbase.h"
 
-#define EMPTY_ARCH_STRING i18n("No files in current archive")
-
 inline int max(int a, int b)
 {
 	return ((a) < (b) ? (b) : (a));
@@ -132,7 +130,7 @@ void FileListView::paintEmptyArea(QPainter *p, const QRect &rect)
 	QListView::paintEmptyArea(p, rect);
 	if(0 == childCount())
 	{
-		p->drawText(2, 16, EMPTY_ARCH_STRING);
+		p->drawText(2, 16, i18n("No files in current archive"));
 	}
 }
 
