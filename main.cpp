@@ -54,10 +54,6 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include "arkapp.h"
 #include "arkwidget.h"
 
-static const char *description = I18N_NOOP( "KDE Archiving tool" );
-
-static const char *version = "v.2.1.9";
-
 static KCmdLineOptions option[] =
 {
     { "extract", I18N_NOOP( "Open extract dialog, quit when finished." ), 0},
@@ -68,7 +64,7 @@ static KCmdLineOptions option[] =
 int main( int argc, char *argv[]  )
 {
     KAboutData aboutData( "ark", I18N_NOOP( "ark" ),
-                          version, description, KAboutData::License_GPL,
+                          "v2.1.9", "KDE Archiving tool", KAboutData::License_GPL,
                           I18N_NOOP( "(c) 1997-2001, The Various Ark Developers" ) );
     aboutData.addAuthor( "Robert Palmbos", 0, "palm9744@kettering.edu" );
     aboutData.addAuthor( "Francois-Xavier Duranceau", 0, "duranceau@kde.org" );
