@@ -18,7 +18,7 @@ libark_common_la_LDFLAGS = $(all_libraries) -no-undefined
 libark_common_la_LIBADD  = $(LIB_KFILE)
 
 kde_module_LTLIBRARIES = libarkpart.la
-libarkpart_la_LDFLAGS = $(KDE_PLUGIN)
+libarkpart_la_LDFLAGS = $(KDE_PLUGIN) $(all_libraries)
 libarkpart_la_LIBADD = libark_common.la $(LIB_KPARTS)
 
 libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp extractdlg.cpp dirDlg.cpp \
