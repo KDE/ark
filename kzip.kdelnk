@@ -6,6 +6,7 @@ BinaryPattern=kzip;
 Protocols=file;
 MimeType=application/x-lha;application/x-tar;application/x-zip;
 Comment=Archive Handling Tool
+Comment[pl]=Program do obs³ugi archiwum
 Exec=kzip -caption %c %f
 Icon=kzip.xpm
 TerminalOptions=
