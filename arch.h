@@ -62,7 +62,6 @@ class QStringList;
 class KProcess;
 
 class FileListView;
-class ArkSettings;
 class ArkWidget;
 
 enum ArchType {UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
@@ -96,7 +95,7 @@ protected:
   };
 
 public:
-  Arch(ArkSettings *_settings, ArkWidget *_viewer,
+  Arch( ArkWidget *_viewer,
        const QString & _fileName);
   virtual ~Arch();
 
@@ -139,7 +138,7 @@ public:
   void clearShellOutput() { m_lastShellOutput.truncate( 0 ); }
   const QString& getLastShellOutput() const { return m_lastShellOutput; }
 
-  static Arch *archFactory(ArchType aType, ArkSettings *settings,
+  static Arch *archFactory(ArchType aType,
                 ArkWidget *parent, const QString &filename,
                 const QString &openAsMimeType = QString::null );
 
@@ -170,7 +169,6 @@ protected:  // data
   QString m_shellErrorData;
   QString m_lastShellOutput;
   QCString m_buffer;
-  ArkSettings *m_settings;
   ArkWidget *m_gui;
   bool m_bReadOnly; // for readonly archives
   bool m_error;

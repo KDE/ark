@@ -48,14 +48,13 @@
 
 // ark includes
 #include "arkwidget.h"
-#include "arksettings.h"
+#include "settings.h"
 #include "arch.h"
 #include "lha.h"
 #include "arkutils.h"
 
-LhaArch::LhaArch( ArkSettings *_settings, ArkWidget *_gui,
-		  const QString & _fileName )
-  : Arch(_settings, _gui, _fileName )
+LhaArch::LhaArch( ArkWidget *_gui, const QString & _fileName )
+  : Arch( _gui, _fileName )
 {
   kdDebug(1601) << "LhaArch constructor" << endl;
   m_archiver_program = "lha";
@@ -218,11 +217,11 @@ void LhaArch::addFile( QStringList *urls )
   *kp << m_archiver_program;
 
   QString strOptions;
-  if (m_settings->getAddReplaceOnlyWithNewer())
+  if (Settings::replaceOnlyWithNewer())
     strOptions = "u";
   else
     strOptions = "a";
-  if (m_settings->getLhaGeneric())
+  if (Settings::lhaGeneric())
     strOptions += "g";
 
   *kp << strOptions << m_filename;
@@ -232,7 +231,7 @@ void LhaArch::addFile( QStringList *urls )
   {
     KURL url( *iter );
 
-    if( !m_settings->getaddPath() )
+    if( !Settings::addDir() )
     {
       QDir::setCurrent(url.directory());
       *kp << url.fileName();

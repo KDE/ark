@@ -45,13 +45,12 @@
 #include <config.h>
 #include "arkwidget.h"
 #include "arch.h"
-#include "arksettings.h"
+#include "settings.h"
 #include "rar.h"
 #include "arkutils.h"
 
-RarArch::RarArch( ArkSettings *_settings, ArkWidget *_gui,
-		  const QString & _fileName )
-  : Arch(_settings, _gui, _fileName )
+RarArch::RarArch( ArkWidget *_gui, const QString & _fileName )
+  : Arch( _gui, _fileName )
 {
   kdDebug(1601) << "RarArch constructor" << endl;
 
@@ -179,14 +178,14 @@ void RarArch::addFile( QStringList *urls )
   kp->clearArguments();
   *kp << m_archiver_program;
 
-  if (m_settings->getAddReplaceOnlyWithNewer() )
+  if (Settings::replaceOnlyWithNewer() )
     *kp << "u";
   else
     *kp << "a";
 
-  if (m_settings->getRarStoreSymlinks())
+  if (Settings::rarStoreSymlinks())
     *kp << "-ol";
-  if (m_settings->getRarRecurseSubdirs())
+  if (Settings::rarRecurseSubdirs())
     *kp << "-r";
 
   *kp << m_filename;
@@ -196,7 +195,7 @@ void RarArch::addFile( QStringList *urls )
   {
     KURL url( *iter );
 
-    if( !m_settings->getaddPath() )
+    if( !Settings::addDir() )
     {
       QDir::setCurrent(url.directory());
       *kp << url.fileName();
@@ -240,7 +239,7 @@ void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir,
   // extract (and maybe overwrite)
   *kp << m_unarchiver_program << "x";
 
-  if (!m_settings->getExtractOverwrite())
+  if (!Settings::extractOverwrite())
     {
       *kp << "-o+" ;
     }

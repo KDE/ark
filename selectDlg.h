@@ -34,18 +34,14 @@ class QDialog;
 class QLineEdit;
 class KPushButton;
 
-class ArkSettings;
-
-
 class SelectDlg : public QDialog {
 	Q_OBJECT
 public:
-	SelectDlg(ArkSettings *d, QWidget *parent=0, const char *name=0);
+	SelectDlg(QWidget *parent=0, const char *name=0);
 	QString getRegExp() const;
 
 
 private:
-	ArkSettings *m_settings;
 	QLineEdit *m_regExp;
 	KPushButton *m_ok;
 

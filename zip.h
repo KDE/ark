@@ -38,15 +38,13 @@ class QStringList;
 class KProcess;
 
 class Arch;
-class ArkSettings;
 class ArkWidget;
 
 class ZipArch : public Arch
 {
   Q_OBJECT
 public:
-  ZipArch( ArkSettings *_settings, ArkWidget *_gui,
-	   const QString & _fileName );
+  ZipArch( ArkWidget *_gui, const QString & _fileName );
   virtual ~ZipArch() { }
 	
   virtual void open();

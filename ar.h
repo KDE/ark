@@ -35,14 +35,13 @@ class QCString;
 class QStringList;
 
 class Arch;
-class ArkSettings;
 class ArkWidget;
 
 class ArArch : public Arch 
 {
   Q_OBJECT
 public:
-  ArArch( ArkSettings *_settings, ArkWidget *_gui,
+  ArArch( ArkWidget *_gui,
 	   const QString & _fileName );
   virtual ~ArArch() {}
 

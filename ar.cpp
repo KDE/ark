@@ -42,12 +42,11 @@
 
 // ark includes
 #include "arkwidget.h"
-#include "arksettings.h"
+#include "settings.h"
 #include "ar.h"
 
-ArArch::ArArch( ArkSettings *_settings, ArkWidget *_gui,
-		  const QString & _fileName )
-  : Arch(_settings, _gui, _fileName )
+ArArch::ArArch( ArkWidget *_gui, const QString & _fileName )
+  : Arch(_gui, _fileName )
 {
   m_archiver_program = "ar";
   m_unarchiver_program = QString::null;
@@ -145,7 +144,7 @@ void ArArch::addFile( QStringList *urls )
   kp->clearArguments();
   *kp << m_archiver_program;
 
-  if (m_settings->getAddReplaceOnlyWithNewer())
+  if (Settings::replaceOnlyWithNewer())
 	  *kp << "ru";
   else
 	  *kp << "r";
@@ -157,7 +156,7 @@ void ArArch::addFile( QStringList *urls )
   {
     KURL url( *iter );
     
-    if( !m_settings->getaddPath() )
+    if( !Settings::addDir() )
     {
       QDir::setCurrent(url.directory());
       *kp << url.fileName();

@@ -39,6 +39,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <kdebug.h>
 #include <kfiledialog.h>
 #include <kstandarddirs.h>
+#include <kapplication.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kcombobox.h>
@@ -47,14 +48,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // application includes
 #include "arkutils.h"
-#include "arksettings.h"
-#include "generalOptDlg.h"
 #include "extractdlg.h"
+#include "settings.h"
 #define FIRST_PAGE_WIDTH  390
 
-ExtractDlg::ExtractDlg( ArkSettings *_settings, QWidget *parent, const char *name, const QString &prefix )
-    : KDialogBase( KDialogBase::Plain, i18n("Extract"), Ok | Cancel, Ok, parent, name ),
-m_settings( _settings )
+ExtractDlg::ExtractDlg( QWidget *parent, const char *name, const QString &prefix )
+    : KDialogBase( KDialogBase::Plain, i18n("Extract"), Ok | Cancel, Ok, parent, name )
 {
 	QFrame *mainFrame = plainPage();
 
@@ -85,14 +84,14 @@ m_settings( _settings )
 	m_extractDirCB->setMaxCount( 20 );
 	m_extractDirCB->setInsertionPolicy( QComboBox::AtTop );
 
-	KConfig *config = m_settings->getKConfig();
+	KConfig *config = kapp->sessionConfig();
 	QStringList list;
 
 	config->setGroup( "History" );
 	list = config->readPathListEntry( "ExtractTo History" );
 	m_extractDirCB->setHistoryItems( list );
 
-	m_extractDirCB->setEditURL( KURL( m_settings->getExtractDir() + prefix ) );
+	m_extractDirCB->setEditURL( KURL( Settings::extractDir() + prefix ) );
 
 	m_urlRequester = new KURLRequester( m_extractDirCB, mainFrame );
 	m_urlRequester->setMode( KFile::Directory );
@@ -177,13 +176,12 @@ m_settings( _settings )
 
 ExtractDlg::~ExtractDlg()
 {
-	KConfig *config = m_settings->getKConfig();
-	QStringList list;
+	KConfig *config = kapp->config();
 	config->setGroup( "History" );
-	list = m_extractDirCB->historyItems();
+	QStringList list = m_extractDirCB->historyItems();
 	config->writePathEntry( "ExtractTo History", list );
-        config->setGroup( "ark" );
-        config->writePathEntry( "lastExtractDir", m_extractDirCB->lineEdit()->text() );
+	
+	Settings::setLastExtractDir( m_extractDirCB->lineEdit()->text() );
 }
 
 void
@@ -237,7 +235,7 @@ ExtractDlg::accept()
 
 	m_extractDir = p;
 	// you need to change the settings to change the fixed dir.
-	m_settings->setLastExtractDir( p.prettyURL() );
+	Settings::setLastExtractDir( p.prettyURL() );
 
 	if ( m_radioPattern->isChecked() )
 	{
@@ -286,13 +284,6 @@ KURL
 ExtractDlg::extractDir()
 {
 	return m_extractDir;
-}
-
-void
-ExtractDlg::openPrefs()
-{
-	GeneralOptDlg dd( m_settings, this );
-	dd.exec();
 }
 
 /******************************************************************

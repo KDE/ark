@@ -61,15 +61,15 @@
 
 // ark includes
 #include "arkwidget.h"
-#include "arksettings.h"
+#include "settings.h"
 #include "tar.h"
 #include "filelistview.h"
 
 static char *makeAccessString(mode_t mode);
 
-TarArch::TarArch( ArkSettings *_settings, ArkWidget *_gui,
+TarArch::TarArch( ArkWidget *_gui,
                   const QString & _filename, const QString & _openAsMimeType)
-  : Arch(_settings, _gui, _filename), createTmpInProgress(false),
+  : Arch( _gui, _filename), createTmpInProgress(false),
     updateInProgress(false), deleteInProgress(false), fd(NULL),
     m_pTmpProc( NULL ), m_pTmpProc2( NULL ), tarptr( NULL ), failed( false )
 {
@@ -77,7 +77,7 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidget *_gui,
     m_dotslash = false;
     m_filesToAdd = m_filesToRemove = QStringList();
     kdDebug(1601) << "+TarArch::TarArch" << endl;
-    m_archiver_program = m_settings->getTarCommand();
+    m_archiver_program = Settings::tarExe();
     m_unarchiver_program = QString::null;
     verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
@@ -548,7 +548,7 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
       // get rid of "file:" part of url
       filename = str.right(str.length()-5);
     str = str.right(str.length()-8); // get rid of leading /
-    if (!m_settings->getaddPath())
+    if (!Settings::addDir())
       str = str.right(str.length()-str.findRev('/')-1);
 
     // find the file entry in the archive listing
@@ -606,7 +606,7 @@ void TarArch::addFile( QStringList* urls )
   // those in urls.
   m_bNotifyWhenDeleteFails = false;
   connect( this, SIGNAL( removeDone() ), this, SLOT( deleteOldFilesDone() ) );
-  deleteOldFiles(urls, m_settings->getAddReplaceOnlyWithNewer());
+  deleteOldFiles(urls, Settings::replaceOnlyWithNewer());
 }
 
 void TarArch::deleteOldFilesDone()
@@ -629,7 +629,7 @@ void TarArch::addFileCreateTempDone()
   KProcess *kp = new KProcess;
   *kp << m_archiver_program;
 
-  if( m_settings->getAddReplaceOnlyWithNewer())
+  if( Settings::replaceOnlyWithNewer())
     *kp << "uvf";
   else
     *kp << "rvf";
@@ -639,12 +639,12 @@ void TarArch::addFileCreateTempDone()
   else
     *kp << m_filename;
 
-  if (m_settings->getTarUseAbsPathnames())
+  if (Settings::tarUseAbsPathnames())
     *kp << "-P";
 
   QString base;
 
-  if( !m_settings->getaddPath() )
+  if( !Settings::addDir() )
     {
       int pos;
       pos = file.findRev( '/', -1, FALSE );
@@ -700,7 +700,7 @@ void TarArch::addFileCreateTempDone()
     }
 
 #if 0
-  if( m_settings->getaddPath() )
+  if( Settings::addDir() )
     file.remove( 0, 1 );  // Get rid of leading /
 #endif
 
@@ -757,9 +757,9 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
     *kp << "--use-compress-program="+getUnCompressor();
 
   QString options = "-x";
-  if (!m_settings->getExtractOverwrite())
+  if (!Settings::extractOverwrite())
     options += "k";
-  if (m_settings->getTarPreservePerms())
+  if (Settings::preservePerms())
     options += "p";
   options += "f";
 

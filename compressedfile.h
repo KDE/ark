@@ -33,7 +33,6 @@ class KProcess;
 class KTempDir;
 
 class Arch;
-class ArkSettings;
 class ArkWidget;
 
 //
@@ -48,8 +47,7 @@ class CompressedFile : public Arch
 {
   Q_OBJECT
 public:
-  CompressedFile( ArkSettings *_settings, ArkWidget *_gui,
-		  const QString & _fileName, const QString &_openAsMimeType );
+  CompressedFile( ArkWidget *_gui, const QString & _fileName, const QString &_openAsMimeType );
   virtual ~CompressedFile();
 	
   virtual void open();

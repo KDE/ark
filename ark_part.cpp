@@ -21,8 +21,8 @@
 */
 
 #include "ark_part.h"
-#include "arksettings.h"
 #include "arkfactory.h"
+#include "settings.h"
 
 #include <kdebug.h>
 #include <kpopupmenu.h>
@@ -141,13 +141,17 @@ ArkPart::setupActions()
                                         SLOT(edit_invertSel()), actionCollection(), "invert_selection");
 
     saveAsAction = KStdAction::saveAs(this, SLOT(file_save_as()), actionCollection());
+    
+    //KStdAction::preferences(awidget, SLOT(showSettings()), actionCollection());
+
     ( void ) new KAction( i18n( "Configure &Ark..." ), "configure" , 0, awidget,
-                                        SLOT( options_dirs() ), actionCollection(), "options_configure_ark" );
+                                       SLOT( showSettings() ), actionCollection(), "options_configure_ark" );
+
 
     showSearchBar = new KToggleAction( i18n( "Show Search Bar" ), KShortcut(), actionCollection(), "options_show_search_bar" );
     showSearchBar->setCheckedState(i18n("Hide Search Bar"));
 
-    showSearchBar->setChecked( ArkSettings::self()->getShowSearchBar() );
+    showSearchBar->setChecked( Settings::showSearchBar() );
 
     connect( showSearchBar, SIGNAL( toggled( bool ) ), awidget, SLOT( slotShowSearchBarToggled( bool ) ) );
 
@@ -301,13 +305,6 @@ bool ArkPart::closeURL()
 void ArkPart::slotFilePopup( const QPoint &pPoint )
 {
     static_cast<KPopupMenu *>(factory()->container("file_popup", this))->popup(pPoint);
-}
-
-void ArkPart::slotSaveProperties()
-{
-    awidget->settings()->writeConfiguration();
-
-    kdDebug(1601) << "-saveProperties (exit)" << endl;
 }
 
 ArkBrowserExtension::ArkBrowserExtension( KParts::ReadOnlyPart * parent, const char * name )

@@ -44,17 +44,16 @@
 #include <kprocess.h>
 
 // ark includes
+#include "settings.h"
 #include "arkwidget.h"
-#include "arksettings.h"
 #include "arch.h"
 #include "zoo.h"
 #include "arkutils.h"
 
 QString fixTime(const QString &_strTime);
 
-ZooArch::ZooArch( ArkSettings *_settings, ArkWidget *_gui,
-		  const QString & _fileName )
-  : Arch(_settings, _gui, _fileName )
+ZooArch::ZooArch( ArkWidget *_gui, const QString & _fileName )
+  : Arch( _gui, _fileName )
 {
   kdDebug(1601) << "ZooArch constructor" << endl;
   m_archiver_program = "zoo";
@@ -180,7 +179,7 @@ void ZooArch::addFile( QStringList *urls )
   kp->clearArguments();
   *kp << m_archiver_program;
 
-  if (m_settings->getAddReplaceOnlyWithNewer())
+  if (Settings::replaceOnlyWithNewer())
     *kp << "-update";
   else
     *kp << "-add";
@@ -192,7 +191,7 @@ void ZooArch::addFile( QStringList *urls )
   {
     KURL url( *iter );
 
-    if( !m_settings->getaddPath() )
+    if( !Settings::addDir() )
     {
       QDir::setCurrent(url.directory());
       *kp << url.fileName();
@@ -248,7 +247,7 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 
   *kp << m_archiver_program;
 
-  if (!m_settings->getExtractOverwrite())
+  if (!Settings::extractOverwrite())
     *kp << "x";
   else
     *kp << "xOOS";

@@ -104,9 +104,6 @@ protected:
     void initialEnables();
     void init();
 
-protected slots:
-    void slotSaveProperties();
-
 private:
     ArkWidget  *awidget;
     ArkBrowserExtension *m_ext;

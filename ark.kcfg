@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg>
+  <kcfgfile name="arkrc"/>
+  <group name="ArkPlugin">
+    <entry name="Enable" type="Bool">
+      <label>Enable Konqueror integration</label>
+      <default>true</default>
+    </entry>
+    <entry name="showSearchBar" type="Bool">
+      <default>true</default>
+    </entry>
+   </group> 
+   
+   <group name="generic">
+    <entry name="replaceOnlyWithNewer" type="Bool">
+      <label>Replace old files only with newer files</label>
+      <default>false</default>
+    </entry>
+   <entry name="extractOverwrite" type="Bool">
+      <label>Overwrite files (Zip, Tar, Zoo, Rar)</label>
+      <default>false</default>
+    </entry>
+   </group>
+
+   <group name="Lha">
+    <entry name="lhaGeneric" type="Bool">
+      <label>Keep entries generic</label>
+      <default>false</default>
+    </entry>
+   </group>
+
+   <group name="Tar">
+    <entry name="preservePerms" type="Bool">
+      <label>Preserve permissions</label>
+      <default>false</default>
+    </entry>
+    <entry name="tarUseAbsPathnames" type="Bool">
+      <label>Use ABS pathnames</label>
+      <default>false</default>
+    </entry>
+    </group>
+
+
+   <group name="Zip">
+    <entry name="forceMSDOS" type="Bool">
+      <label>Force MS-DOS short filenames</label>
+      <default>false</default>
+    </entry>
+    <entry name="convertLF2CRLF" type="Bool">
+      <label>Translate LF to DOS CRLF</label>
+      <default>false</default>
+    </entry>
+    <entry name="extractJunkPaths" type="Bool">
+      <label>Ignore folder names (Zip)</label>
+      <default>false</default>
+    </entry>
+   </group>
+
+   <group name="Rar">
+    <entry name="rarStoreSymlinks" type="Bool">
+      <label>Store symlinks as links (Zip, Rar)</label>
+      <default>true</default>
+    </entry>
+    <entry name="rarRecurseSubdirs" type="Bool">
+      <label>Recursively add subfolders (Zip, Rar)</label>
+      <default>true</default>
+    </entry>
+    <entry name="rarToLower" type="Bool">
+      <label>Convert filenames to lowercase (Zip, Rar)</label>
+      <default>false</default>
+    </entry>
+    <entry name="rarToUpper" type="Bool">
+      <label>Convert filenames to uppercase</label>
+      <default>false</default>
+    </entry>
+   </group>
+
+   <group name="ark">
+    <entry name="TarExe" type="String">
+     <label>Tar Command</label>
+     <default>tar</default>
+    </entry>
+    <entry name="startDirMode" type="Int">
+     <label>Use Folder</label>
+     <default>0</default>
+    </entry>
+    <entry name="openDirMode" type="Int">
+     <label>Use Folder</label>
+     <default>0</default>
+    </entry>
+    <entry name="addDirMode" type="Int">
+     <label>Use Folder</label>
+     <default>0</default>
+    </entry>
+    <entry name="extractDirMode" type="Int">
+     <label>Use Folder</label>
+     <default>0</default>
+    </entry>
+    <entry name="ArchiveDirectory" type="Path">
+     <label>Common Folder</label>
+    </entry>
+    
+    <entry name="startDir" type="Path">
+     <label>Custom Folder</label>
+    </entry>
+    <entry name="openDir" type="Path">
+     <label>Custom Folder</label>
+    </entry>
+    <entry name="addDir" type="Path">
+     <label>Custom Folder</label>
+    </entry>
+    <entry name="extractDir" type="Path">
+     <label>Custom Folder</label>
+    </entry>
+    
+    
+    <entry name="lastStartDir" type="Path">
+     <label>Last Start Folder</label>
+    </entry>
+    <entry name="lastOpenDir" type="Path">
+     <label>Last Open Folder</label>
+    </entry>
+    <entry name="lastAddDir" type="Path">
+     <label>Last Add Folder</label>
+    </entry>
+    <entry name="lastExtractDir" type="Path">
+     <label>Last Extract Folder</label>
+    </entry>
+   
+   
+   </group>
+</kcfg>

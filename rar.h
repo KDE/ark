@@ -31,13 +31,12 @@ class QString;
 class QStringList;
 
 class Arch;
-class ArkSettings;
 
 class RarArch : public Arch
 {
   Q_OBJECT
 public:
-  RarArch( ArkSettings *_settings, ArkWidget *_gui,
+  RarArch( ArkWidget *_gui,
 	   const QString & _fileName );
   virtual ~RarArch() {}
   virtual void open();

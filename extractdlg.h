@@ -49,14 +49,11 @@ class KCompletion;
 class KURLCompletion;
 class KURLRequester;
 
-class ArkSettings;
-
-
 class ExtractDlg : public KDialogBase
 {
   Q_OBJECT
 public:
-  ExtractDlg(ArkSettings *_settings, QWidget *parent=0, const char *name=0, const QString &prefix=QString::null);
+  ExtractDlg(QWidget *parent=0, const char *name=0, const QString &prefix=QString::null);
   ~ExtractDlg();
   enum ExtractOp{ All, Selected, Current, Pattern };
   int extractOp();
@@ -66,7 +63,6 @@ public:
 public slots:
   //void browse();
   void choosePattern() { m_radioPattern->setChecked(true); }
-  void openPrefs();
   void accept();
   void extractDirChanged(const QString & );
 signals:
@@ -79,7 +75,6 @@ private: // data
   QLineEdit *m_patternLE;
   KHistoryCombo *m_extractDirCB;
   KURLRequester *m_urlRequester;
-  ArkSettings *m_settings;
   KURL m_extractDir;
 };
 
@@ -94,3 +89,4 @@ public:
 };
 
 #endif //  __EXTRACTDLG_H__
+

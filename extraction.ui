@@ -1,0 +1,97 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>Extraction</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>Extraction</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>436</width>
+            <height>289</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form3</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_extractOverwrite</cstring>
+            </property>
+            <property name="text">
+                <string>O&amp;verwrite files (Zip, Tar, Zoo, Rar)</string>
+            </property>
+            <property name="accel">
+                <string>Alt+V</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfgpreservePerms_</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Preserve permissions (Tar)</string>
+            </property>
+            <property name="accel">
+                <string>Alt+P</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>checkBox10</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Ignore folder names (Zip)</string>
+            </property>
+            <property name="accel">
+                <string>Alt+I</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_rarToLower</cstring>
+            </property>
+            <property name="text">
+                <string>Convert filenames to &amp;lowercase (Zip, Rar)</string>
+            </property>
+            <property name="accel">
+                <string>Alt+L</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_rarToUpper</cstring>
+            </property>
+            <property name="text">
+                <string>Convert filenames to &amp;uppercase (Rar)</string>
+            </property>
+            <property name="accel">
+                <string>Alt+U</string>
+            </property>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>spacer3</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+    </vbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

@@ -1,0 +1,108 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>Addition</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>Addition</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>365</width>
+            <height>268</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form2</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_replaceOnlyWithNewer</cstring>
+            </property>
+            <property name="text">
+                <string>Replace old files only &amp;with newer files</string>
+            </property>
+            <property name="accel">
+                <string>Alt+W</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_lhaGeneric</cstring>
+            </property>
+            <property name="text">
+                <string>Keep entries &amp;generic (Lha)</string>
+            </property>
+            <property name="accel">
+                <string>Alt+G</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_forceMSDOS</cstring>
+            </property>
+            <property name="text">
+                <string>Force &amp;MS-DOS short filenames (Zip)</string>
+            </property>
+            <property name="accel">
+                <string>Alt+M</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_convertLF2CRLF</cstring>
+            </property>
+            <property name="text">
+                <string>Translate &amp;LF to DOS CRLF (Zip)</string>
+            </property>
+            <property name="accel">
+                <string>Alt+L</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_rarStoreSymlinks</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Store symlinks as links (Zip, Rar)</string>
+            </property>
+            <property name="accel">
+                <string>Alt+S</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_rarRecurseSubdirs</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Recursively add subfolders (Zip, Rar)</string>
+            </property>
+            <property name="accel">
+                <string>Alt+R</string>
+            </property>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>51</height>
+                </size>
+            </property>
+        </spacer>
+    </vbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

@@ -55,18 +55,24 @@
 #include <kurldrag.h>
 #include <klistviewsearchline.h>
 #include <ktoolbar.h>
+#include <kconfigdialog.h>
+
+// settings
+#include "settings.h"
+#include "general.h"
+#include "addition.h"
+#include "extraction.h"
+#include "folders.h"
 #include <kpopupmenu.h>
 #include <kdialog.h>
 
 // ark includes
 #include "arkapp.h"
-#include "generalOptDlg.h"
 #include "selectDlg.h"
 #include "archiveformatdlg.h"
 #include "extractdlg.h"
 #include "arkwidget.h"
 #include "filelistview.h"
-#include "arksettings.h"
 #include "arkutils.h"
 #include "archiveformatinfo.h"
 #include "compressedfile.h"
@@ -88,14 +94,12 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
 	m_convert_tmpDir( NULL ), m_convertSuccess( false ),
 	m_createRealArchTmpDir( NULL ),	m_extractRemoteTmpDir( NULL ),
 	m_modified( false ), m_searchToolBar( 0 ), m_searchBar( 0 ),
-	arch( 0 ), m_settings( 0 ), archiveContent( 0 ),
+	arch( 0 ), archiveContent( 0 ),
 	m_archType( UNKNOWN_FORMAT ), m_nSizeOfFiles( 0 ),
 	m_nSizeOfSelectedFiles( 0 ), m_nNumFiles( 0 ), m_nNumSelectedFiles( 0 ),
 	m_bIsArchiveOpen( false ), m_bIsSimpleCompressedFile( false ),
 	m_bDropSourceIsSelf( false ), m_extractList( 0 ), m_viewer( 0 )
 {
-    m_settings = ArkSettings::self();
-
     m_tmpDir = new KTempDir( locateLocal( "tmp", "ark" ) );
 
     if ( m_tmpDir->status() != 0 )
@@ -114,7 +118,7 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
 
     m_searchToolBar->setStretchableWidget( m_searchBar );
 
-    if ( !m_settings->getShowSearchBar() )
+    if ( !Settings::showSearchBar() )
         m_searchToolBar->hide();
     
     createFileListView();
@@ -401,10 +405,10 @@ ArkWidget::convertSlotCreateDone( bool success )
         //////////////////////////////////////////////////////
         *it = QString::fromLatin1( "file:" )+ m_convert_tmpDir->name() + *it;
     }
-    bool bOldRecVal = m_settings->getZipAddRecurseDirs();
+    bool bOldRecVal = Settings::rarRecurseSubdirs();
     connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( convertSlotAddDone( bool ) ) );
     arch->addFile( &entries );
-    m_settings->setZipAddRecurseDirs( bOldRecVal );
+    Settings::setRarRecurseSubdirs( bOldRecVal );
 }
 
 void
@@ -540,7 +544,7 @@ ArkWidget::extractToSlotOpenDone( bool success )
     QStringList alreadyExisting = existingFiles( extractDir, empty );
     kdDebug( 1601 ) << "Already existing files count: " << existingFiles( extractDir, empty ).count() << endl;
     bool keepGoing = true;
-    if ( !m_settings->getExtractOverwrite() && !alreadyExisting.isEmpty() )
+    if ( !Settings::extractOverwrite() && !alreadyExisting.isEmpty() )
     {
        if ( alreadyExisting.count() == m_nNumFiles )
         {
@@ -882,12 +886,17 @@ ArkWidget::file_new()
 void
 ArkWidget::extractOnlyOpenDone()
 {
-    int oldMode = m_settings->getExtractDirMode();
-    QString oldFixedExtractDir = m_settings->getFixedExtractDir();
-    m_settings->setExtractDirCfg( m_url.upURL().path(), ArkSettings::FIXED_EXTRACT_DIR );
+    int oldMode = Settings::extractDirMode();
+    QString oldFixedExtractDir = Settings::extractDir();
+
+    Settings::setLastExtractDir( m_url.upURL().path() );
+    Settings::setExtractDirMode( 2 ); // 2 means use custom dir
+    
     bool done = action_extract();
     // Extract should have started before this returns, so hopefully safe.
-    m_settings->setExtractDirCfg( oldFixedExtractDir, oldMode );
+    Settings::setLastExtractDir( oldFixedExtractDir );
+    Settings::setExtractDirMode( oldMode );
+    
     // last extract dir is still set, but this is not a problem
     if( !done )
     {
@@ -1019,11 +1028,10 @@ ArkWidget::file_close()
 void
 ArkWidget::edit_select()
 {
-    SelectDlg *sd = new SelectDlg( m_settings, this );
+    SelectDlg *sd = new SelectDlg( this );
     if ( sd->exec() )
     {
         QString exp = sd->getRegExp();
-        m_settings->setSelectRegExp( exp );
 
         QRegExp reg_exp( exp, true, true );
         if (!reg_exp.isValid())
@@ -1230,9 +1238,8 @@ ArkWidget::action_add()
         }
         return;
     }
-    kdDebug(1601) << "Add dir: " << m_settings->getAddDir() << endl;
 
-    KFileDialog fileDlg( m_settings->getAddDir(), QString::null, this, "adddlg", true );
+    KFileDialog fileDlg( Settings::addDir(), QString::null, this, "adddlg", true );
     fileDlg.setMode( KFile::Mode( KFile::Files | KFile::ExistingOnly ) );
     fileDlg.setCaption(i18n("Select Files to Add"));
 
@@ -1290,7 +1297,7 @@ ArkWidget::addFile(QStringList *list)
 void
 ArkWidget::action_add_dir()
 {
-    KURL u = KDirSelectDialog::selectDirectory( m_settings->getAddDir(),
+    KURL u = KDirSelectDialog::selectDirectory( Settings::addDir(),
                                                     false, this,
                                                     i18n("Select Folder to Add"));
 
@@ -1652,7 +1659,7 @@ ArkWidget::action_extract()
     }
 
 
-    ExtractDlg *dlg = new ExtractDlg(m_settings, this, 0, prefix);
+    ExtractDlg *dlg = new ExtractDlg(this, 0, prefix);
 
     // if they choose pattern, we have to tell arkwidget to select
     // those files... once we're in the dialog code it's too late.
@@ -1705,7 +1712,7 @@ ArkWidget::action_extract()
 
         // if overwrite is false, then we need to check for failure of
         // extractions.
-        bool bOvwrt = m_settings->getExtractOverwrite();
+        bool bOvwrt = Settings::extractOverwrite();
 
         switch(extractOp)
         {
@@ -1974,17 +1981,6 @@ ArkWidget::showCurrentFile()
         disableAll();
         prepareViewFiles( extractList );
     }
-}
-
-// Options menu //////////////////////////////////////////////////////
-
-void
-ArkWidget::options_dirs()
-{
-    GeneralOptDlg *dd = new GeneralOptDlg( m_settings, this );
-    dd->exec();
-    delete dd;
-    m_settings->writeConfigurationNow();
 }
 
 // Popup /////////////////////////////////////////////////////////////
@@ -2296,7 +2292,7 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName )
     QString type = KMimeType::findByURL( _fileName )->name();
     ArchType archtype = ArchiveFormatInfo::self()->archTypeForMimeType(type);
     kdDebug( 1601 ) << "archtype is recognised as: " << archtype << endl;
-    if(0 == (newArch = Arch::archFactory(archtype, m_settings, this,
+    if(0 == (newArch = Arch::archFactory(archtype, this,
                                          _fileName)))
     {
         KMessageBox::error(this, i18n("Unknown archive format or corrupted archive") );
@@ -2402,7 +2398,7 @@ ArkWidget::openArchive( const QString & _filename )
     }
 
     kdDebug( 1601 ) << "m_openAsMimeType is: " << m_openAsMimeType << endl;
-    if( 0 == ( newArch = Arch::archFactory( archtype, m_settings, this,
+    if( 0 == ( newArch = Arch::archFactory( archtype, this,
                                             _filename, m_openAsMimeType) ) )
     {
         emit setWindowCaption( QString::null );
@@ -2444,7 +2440,7 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
     {
         QFileInfo fi( _filename );
         QString path = fi.dirPath( true );
-        m_settings->setLastOpenDir( path );
+	Settings::setLastOpenDir( path );
 
         if ( !fi.isWritable() )
         {
@@ -2483,13 +2479,31 @@ void ArkWidget::slotShowSearchBarToggled( bool b )
 	if ( b )
 	{
 		m_searchToolBar->show();
-		m_settings->setShowSearchBar( true );
+		Settings::setShowSearchBar( true );
 	}
 	else
 	{
 		m_searchToolBar->hide();
-		m_settings->setShowSearchBar( false );
+		Settings::setShowSearchBar( false );
 	}
+}
+
+/**
+ * Show Settings dialog.
+ */
+void ArkWidget::showSettings(){
+  if(KConfigDialog::showDialog("settings"))
+    return;
+  
+  KConfigDialog *dialog = new KConfigDialog(this, "settings", Settings::self());
+  dialog->addPage(new General(0, "General"), i18n("General"), "ark", i18n("General Settings"));
+  dialog->addPage(new Addition(0, "Addition"), i18n("Addition"), "ark_addfile", i18n("File Addition Settings"));
+  dialog->addPage(new Extraction(0, "Extraction"), i18n("Extraction"), "ark_extract", i18n("Extraction Settings"));
+  dialog->addPage(new Folders(0, "Folders"), i18n("Folder"), "folder", i18n("Folder Settings"));
+  
+  //connect(dialog, SIGNAL(settingsChanged()), tron, SLOT(loadSettings()));
+  //connect(dialog, SIGNAL(settingsChanged()), this, SLOT(loadSettings()));
+  dialog->show();
 }
 
 #include "arkwidget.moc"

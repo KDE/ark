@@ -54,7 +54,6 @@ class KTempFile;
 class KTempDir;
 class KToolBar;
 
-class ArkSettings;
 class ArkViewer;
 class FileListView;
 class FileLVI;
@@ -125,7 +124,6 @@ public:
     void closeArch();
     
     virtual void setExtractOnly(bool extOnly) { m_extractOnly = extOnly; }
-    virtual ArkSettings *settings() { return m_settings; }
     bool allowedArchiveName( const KURL & u );
     bool file_save_as( const KURL & u );
     virtual KURL getSaveAsFileName();
@@ -146,8 +144,8 @@ public slots:
     void edit_view_last_shell_output();
     virtual void file_close();
     virtual void file_new();
-    virtual void options_dirs();
     void slotShowSearchBarToggled( bool b );
+    void showSettings();
 
 protected slots:
     void edit_select();
@@ -331,7 +329,6 @@ private: // data
     SearchBar * m_searchBar;
 
     Arch *arch;
-    ArkSettings *m_settings;
     QString m_strArchName;
     KURL m_realURL;
     FileListView *archiveContent;

@@ -36,12 +36,12 @@
 
 // ark includes
 #include "arkwidget.h"
-#include "arksettings.h"
+#include "settings.h"
 #include "zip.h"
 
-ZipArch::ZipArch( ArkSettings *_settings, ArkWidget *_gui,
+ZipArch::ZipArch( ArkWidget *_gui,
 		  const QString & _fileName )
-  : Arch(_settings, _gui, _fileName )
+  : Arch(  _gui, _fileName )
 {
   m_archiver_program = "zip";
   m_unarchiver_program = "unzip";
@@ -136,15 +136,14 @@ void ZipArch::addDir(const QString & _dirName)
 {
   if (! _dirName.isEmpty())
   {
-    bool bOldRecVal = m_settings->getZipAddRecurseDirs();
-
+    bool bOldRecVal = Settings::rarRecurseSubdirs();
     // must be true for add directory - otherwise why would user try?
-    m_settings->setZipAddRecurseDirs(true);
+    Settings::setRarRecurseSubdirs(true);
 
     QStringList list;
     list.append(_dirName);
     addFile(&list);
-    m_settings->setZipAddRecurseDirs(bOldRecVal); // reset to old val
+    Settings::setRarRecurseSubdirs(bOldRecVal); // reset to old val
   }
 }
 
@@ -156,23 +155,20 @@ void ZipArch::addFile( QStringList *urls )
 
   *kp << m_archiver_program;
 
-  if (m_settings->getZipAddRecurseDirs())
+  if (Settings::rarStoreSymlinks())
     *kp << "-r";
 
   //	*kp << _compression;   // for later
 
-  if (m_settings->getZipStoreSymlinks())
+  if (Settings::rarStoreSymlinks())
     *kp << "-y";
 
-//  if (m_settings->getZipAddJunkDirs())	// Extraneous
-//    *kp << "-j";
-
-  if (m_settings->getZipAddMSDOS())
+  if (Settings::forceMSDOS())
     *kp << "-k";
-  if (m_settings->getZipAddConvertLF())
+  if (Settings::convertLF2CRLF())
     *kp << "-l";
 
-  if (m_settings->getAddReplaceOnlyWithNewer())
+  if (Settings::replaceOnlyWithNewer())
     *kp << "-u";
 
   *kp << m_filename;
@@ -182,7 +178,7 @@ void ZipArch::addFile( QStringList *urls )
   {
     KURL url( *iter );
 
-    if (m_settings->getZipAddJunkDirs())
+    if (Settings::extractJunkPaths())
     {
       QDir::setCurrent(url.directory());
       *kp << url.fileName();
@@ -239,13 +235,13 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 
   *kp << m_unarchiver_program;
 
-  if (m_settings->getZipExtractJunkPaths() && !viewFriendly)
+  if (Settings::extractJunkPaths() && !viewFriendly)
     *kp << "-j" ;
 
-  if (m_settings->getZipExtractLowerCase())
+  if (Settings::rarToLower())
     *kp << "-L";
 
-  if (m_settings->getExtractOverwrite())
+  if (Settings::extractOverwrite())
     *kp << "-o";
 
   *kp << m_filename;
@@ -285,7 +281,6 @@ void ZipArch::remove(QStringList *list)
 
   if (!list)
     return;
-  //  m_settings->clearShellOutput();
   m_shellErrorData = "";
   KProcess *kp = new KProcess;
   kp->clearArguments();
@@ -342,7 +337,6 @@ void ZipArch::slotIntegrityExited(KProcess *_kp)
 
 void ZipArch::testIntegrity()
 {
-  //  m_settings->clearShellOutput();
   m_shellErrorData = "";
   KProcess *kp = new KProcess;
   kp->clearArguments();

@@ -41,7 +41,7 @@
 
 // ark includes
 #include "arkapp.h"
-#include "arksettings.h"
+#include "settings.h"
 #include "archiveformatinfo.h"
 
 ArkTopLevelWindow::ArkTopLevelWindow( QWidget * /*parent*/, const char *name )
@@ -119,15 +119,14 @@ ArkTopLevelWindow::setupActions()
     closeAction = KStdAction::close(this, SLOT(file_close()), actionCollection(), "file_close");
 
     recent = KStdAction::openRecent(this, SLOT(openURL(const KURL&)), actionCollection());
-    KConfig *kc = m_widget->settings()->getKConfig();
-    recent->loadEntries(kc);
+    recent->loadEntries(kapp->sessionConfig());
 
     createStandardStatusBarAction();
 
     KStdAction::quit(this, SLOT(window_close()), actionCollection());
     KStdAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
     KStdAction::keyBindings(this, SLOT( slotConfigureKeyBindings()), actionCollection());
-
+    
     openAction->setEnabled( true );
     recent->setEnabled( true );
     closeAction->setEnabled( false );
@@ -272,7 +271,7 @@ ArkTopLevelWindow::getOpenURL( bool addOnly, const QString & caption,
     if ( addOnly )
         dir = startDir;
     else
-        dir = m_widget->settings()->getOpenDir();
+        dir = Settings::openDir();
 
     KFileDialog dlg( dir, filter, this, "filedialog", true, forceFormatWidget );
     dlg.setOperationMode( addOnly ? KFileDialog::Saving
@@ -339,9 +338,7 @@ ArkTopLevelWindow::file_quit()
 void
 ArkTopLevelWindow::slotSaveProperties()
 {
-    KConfig *kc = m_widget->settings()->getKConfig();
-    recent->saveEntries(kc);
-
+    recent->saveEntries(kapp->sessionConfig());
 }
 
 void
@@ -366,16 +363,14 @@ void
 ArkTopLevelWindow::slotAddRecentURL( const KURL & url )
 {
     recent->addURL( url );
-    KConfig *kc = m_widget->settings()->getKConfig();
-    recent->saveEntries(kc);
+    recent->saveEntries(kapp->sessionConfig());
 }
 
 void
 ArkTopLevelWindow::slotRemoveRecentURL( const KURL & url )
 {
     recent->removeURL( url );
-    KConfig *kc = m_widget->settings()->getKConfig();
-    recent->saveEntries(kc);
+    recent->saveEntries(kapp->sessionConfig());
 }
 
 void

@@ -44,7 +44,6 @@
 
 // ark includes
 #include "arch.h"
-#include "arksettings.h"
 #include "arkwidget.h"
 #include "arkutils.h"
 
@@ -64,9 +63,9 @@ Arch::ArchColumns::ArchColumns(int col, QRegExp reg, int length, bool opt) :
 }
 
 
-Arch::Arch(ArkSettings *_settings, ArkWidget *_viewer,
+Arch::Arch( ArkWidget *_viewer,
 	   const QString & _fileName )
-  : m_filename(_fileName), m_buffer(""), m_settings(_settings),
+  : m_filename(_fileName), m_buffer(""),
     m_gui(_viewer), m_bReadOnly(false), m_bNotifyWhenDeleteFails(true),
     m_header_removed(false), m_finished(false),
 	m_numCols(0), m_dateCol(-1), m_fixYear(-1), m_fixMonth(-1),
@@ -384,20 +383,19 @@ bool Arch::processLine(const QCString &line)
 }
 
 
-Arch *Arch::archFactory(ArchType aType, ArkSettings *settings,
+Arch *Arch::archFactory(ArchType aType,
             ArkWidget *parent, const QString &filename,
             const QString & openAsMimeType )
 {
 	switch(aType)
 	{
-	case TAR_FORMAT: return new TarArch(settings, parent, filename, openAsMimeType);
-	case ZIP_FORMAT: return new ZipArch(settings, parent, filename);
-	case LHA_FORMAT: return new LhaArch(settings, parent, filename);
-	case COMPRESSED_FORMAT: return new CompressedFile(settings,
-							  parent, filename, openAsMimeType);
-	case ZOO_FORMAT: return new ZooArch(settings, parent, filename);
-	case RAR_FORMAT: return new RarArch(settings, parent, filename);
-	case AA_FORMAT: return new ArArch(settings, parent, filename);
+	case TAR_FORMAT: return new TarArch(parent, filename, openAsMimeType);
+	case ZIP_FORMAT: return new ZipArch(parent, filename);
+	case LHA_FORMAT: return new LhaArch(parent, filename);
+	case COMPRESSED_FORMAT: return new CompressedFile(parent, filename, openAsMimeType);
+	case ZOO_FORMAT: return new ZooArch(parent, filename);
+	case RAR_FORMAT: return new RarArch(parent, filename);
+	case AA_FORMAT: return new ArArch(parent, filename);
 	case UNKNOWN_FORMAT:
 	default: return 0;
 	}

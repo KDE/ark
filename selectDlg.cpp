@@ -40,13 +40,10 @@ $Id$
 // ark includes
 #include "selectDlg.h"
 #include "selectDlg.moc"
-#include "arksettings.h"
 
-SelectDlg::SelectDlg( ArkSettings *_data, QWidget *_parent, const char *_name )
+SelectDlg::SelectDlg( QWidget *_parent, const char *_name )
     : QDialog( _parent, _name, true )
 {
-    m_settings = _data;
-
     setCaption( i18n("Selection") );
     QVBoxLayout *mainLayout = new QVBoxLayout( this, 10 );
 
@@ -62,12 +59,8 @@ SelectDlg::SelectDlg( ArkSettings *_data, QWidget *_parent, const char *_name )
 
     m_ok = new KPushButton( KStdGuiItem::ok(), this );
 
-    QString pattern = m_settings->getSelectRegExp();
     m_regExp = new QLineEdit( this );
     m_regExp->setFixedSize( m_regExp->sizeHint() );
-    m_regExp->setText( pattern );
-    m_regExp->setSelection(0, pattern.length() );
-    regExpChanged( pattern );
     hbl1->addWidget( m_regExp );
     connect( m_regExp, SIGNAL(textChanged(const QString&)), SLOT(regExpChanged(const QString&)) );
 
@@ -94,8 +87,6 @@ SelectDlg::SelectDlg( ArkSettings *_data, QWidget *_parent, const char *_name )
 
 void SelectDlg::saveConfig()
 {
-    if( !m_regExp->text().isEmpty() )
-        m_settings->setSelectRegExp( m_regExp->text() );
     accept();
 }
 
