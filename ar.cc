@@ -47,9 +47,15 @@ void ArArch::openArch( QString file )
 	FILE *fd;
 	char *tmp;
 	
+	archProcess.clearArguments();
+	archProcess.setExecutable( "ar" );
 	archname = file;
-	ex = "ar vt " + file;
-	fd = popen( ex, "r" );
+	archProcess << "vt" << file;
+	if( archProcess.startPipe(KProcess::Stdout, &fd) == FALSE )
+	{
+		cerr << "Subproccess won't start, armageddon is iminent!";
+		return;
+	}
 	char *nl;
 	while( 1 )
 	{
@@ -81,7 +87,7 @@ void ArArch::openArch( QString file )
 			tmp[0] = ' ';
 		listing->append( line );
 	}
-	pclose( fd );
+	// pclose( fd );  I'm not sure what should be here
 }
 
 void ArArch::createArch( QString file )
@@ -97,14 +103,16 @@ const QStrList *ArArch::getListing()
 
 int ArArch::addFile( QStrList *urls )
 {
-	QString ex( "ar q " );
 	QString base;
 	QString url;
 	QString file;
-	
+
+	archProcess.clearArguments();
+	archProcess.setExecutable( "ar" );
+	archProcess << "q";	
 	if( onlyupdate )
-		ex += "-u ";
-	ex = ex+archname+" ";
+		archProcess << "u";
+	archProcess << archname;
 	
 	url = urls->first();
 	do
@@ -123,10 +131,11 @@ int ArArch::addFile( QStrList *urls )
 			base = file.right( file.length()-pos );
 			file = base;
 		}
-		ex = ex +" "+file;
+		archProcess << file;
 		url = urls->next();
 	}while( !url.isNull() );
-	system( ex );
+	cout << "starting add command";
+	archProcess.start( KProcess::Block );
 	listing->clear();
 	openArch( archname );
 	return 0;
@@ -135,16 +144,25 @@ int ArArch::addFile( QStrList *urls )
 void ArArch::extractTo( QString dest )
 {
 	FILE *fd;
-	QString ex;
 	char line[4096];
-	ex = "cp " + archname + " " + dest; // Ar doesn't extract to a dir, so fake it
-	system( ex );
-	char pwd[4096];  // Potential bug, but unlikely
+
+	archProcess.clearArguments();
+	archProcess.setExecutable( "cp" );
+	archProcess << archname << dest; // Ar doesn't extract to a dir, so fake it
+	archProcess.start( KProcess::Block );	
+
+	char pwd[4096];
 	getcwd( pwd, 4096 );
 	chdir( dest );
-	ex = "ar vx ";
-	ex = ex + archname;
-	fd = popen( ex, "r" );
+	archProcess.clearArguments();
+	archProcess.setExecutable( "ar" );
+	archProcess << "vx" << archname;
+
+	if( archProcess.startPipe( KProcess::Stdout, &fd ) == FALSE )
+	{
+		cerr << "Subprocess won't start, perhaps your computer has a virus?";
+		return;
+	}
 	newProgressDialog( 1, listing->count() );
 	for( long int i=0; !feof(fd); i++ )
 	{
@@ -164,22 +182,23 @@ QString ArArch::unarchFile( int pos, QString dest )
 	tmp = listing->at( pos );
 	tmp2 = tmp.right( (tmp.length())-(tmp.findRev('\t')+1) );
 
-	ex = "cp " + archname + " " + dest; // Ar doesn't extract to a dir, so fake it
-	system( ex );
+	archProcess.clearArguments();
+	archProcess.setExecutable( "cp" );
+	archProcess << archname << dest; // Ar doesn't extract to a dir, so fake it
+	archProcess.start( KProcess::Block );		
 
-	char pwd[4096];  // Potential bug, but unlikely
+	char pwd[4096]; 
 	getcwd( pwd, 4096 );
 
 	chdir( dest );
 
-	ex = "ar x ";
-	ex = ex + archname + " " + tmp2;
+	archProcess.clearArguments();
+	archProcess.setExecutable( "ar" );
+	archProcess << "x" << archname << tmp2;
 
-	system( ex );
+	archProcess.start( KProcess::Block );
 
-	cout << archname;
 	QString curarch = archname.right( archname.length()-(archname.findRev( '/' )+1) );
-	cout << curarch;
 	int i = unlink( curarch );
 	if( i==-1 )
 		perror( "kzip" );
@@ -189,11 +208,13 @@ QString ArArch::unarchFile( int pos, QString dest )
 
 void ArArch::deleteFile( int pos )
 {
-	QString ex, name, tmp;
+	QString name, tmp;
 	tmp = listing->at( pos );
 	name = tmp.right( (tmp.length())-(tmp.findRev('\t')+1) );
-	ex = "ar d " + archname + " " + name ;
-	system( ex );
+	archProcess.clearArguments();
+	archProcess.setExecutable( "ar" );
+	archProcess << "d" << archname << name ;
+	archProcess.start( KProcess::Block );
 	listing->clear();
 	openArch( archname );
 }

@@ -26,6 +26,7 @@ public:
 	void deleteFile( int indx );
 	unsigned char setOptions( bool p, bool l, bool o );
 	const char *getHeaders() { return arch->getHeaders(); };
+	const char *getName() { return arch->getName(); };
 	
 
 private:

@@ -3,7 +3,7 @@
 
 #include "arch.h"
 #include <unistd.h>
-#include <kzipprocess.h>
+#include "kzipprocess.h"
 
 class TarArch : public Arch {
 
@@ -26,7 +26,6 @@ private:
 	bool storefullpath;
 	bool onlyupdate;
 	QStrList *listing;
-	QString archname;
 	QString tmpfile;
 	bool compressed;
 	KZipProcess archProcess;

@@ -5,6 +5,7 @@
 #include <qstrlist.h>
 #include <qobject.h>
 #include "arch.h"
+#include "kzipprocess.h"
 
 class ArArch : public Arch {
 
@@ -23,7 +24,7 @@ public:
 	virtual void deleteFile( int );
 	virtual const char *getHeaders() { return klocale->translate( "Permissions\tOwner/Group\tSize      \tTimeStamp         \tName\t"); };
 private:
-	QString archname;
+	KZipProcess archProcess;
 	QStrList *listing;
 	bool onlyupdate;
 	bool storefullpath;

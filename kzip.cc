@@ -164,6 +164,33 @@ KZipWidget::~KZipWidget()
 	delete tb;
 }
 
+void KZipWidget::saveProperties( KConfig *kc ) {
+	QString loc_key( "CurrentLocation" );
+	
+	if( arch != 0 )
+		kc->writeEntry( loc_key, arch->getName() );
+	else
+		if( listing != 0 )
+			kc->writeEntry( loc_key, "Favorites" );
+		else
+			kc->writeEntry( loc_key, "None" );
+	
+	// I would prefer to just delete all the widgets, but kwm gets confused
+	// if kzip quits in the middle of session management
+	QString ex( "rm -rf "+tmpdir );
+	system( ex );
+}
+
+void KZipWidget::readProperties( KConfig *kc ) {
+	QString startpoint;
+	startpoint = kc->readEntry( "CurrentLocation" );
+	
+	if( startpoint == "Favorites" )
+		showFavorite();
+	else
+		if( startpoint != "None" )
+			showZip( startpoint );
+}
 void KZipWidget::newWindow()
 {
 	KZipWidget *kw = new KZipWidget;
@@ -190,6 +217,8 @@ void KZipWidget::createZip()
 	QString file = QFileDialog::getSaveFileName();
 	if( !file.isEmpty() )
 	{
+		lb->clear();
+		lb->repaint();
 		arch = new KZipArch;
 		ret = arch->createArch( file );	
 		if( ret )

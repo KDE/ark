@@ -32,8 +32,10 @@ public:
 	virtual void newProgressDialog( long int, long int );
 	virtual int isCanceled();
 	virtual const char *getHeaders();
+	virtual const char *getName() { return archname; };
 
 protected:
+	QString archname;
 	bool perms, tolower, overwrite;
 
 private:

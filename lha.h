@@ -5,7 +5,7 @@
 #include <qstrlist.h>
 #include <qobject.h>
 #include "arch.h"
-#include <kzipprocess.h>
+#include "kzipprocess.h"
 
 class LhaArch : public Arch {
 
@@ -25,7 +25,6 @@ public:
 	virtual const char *getHeaders() { return klocale->translate("Permissions\tOwner/Group\tPacked      \tSize       \tRatio\tCRC   \tTimeStamp     \tName\t"); };
 
 private:
-	QString archname;
 	QStrList *listing;
 	bool onlyupdate;
 	bool storefullpath;

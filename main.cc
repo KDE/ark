@@ -29,11 +29,21 @@
 int main( int argc, char *argv[]  )
 {
 	QString Zip( "" );
-	for( int i=1; i<argc; i++ )
+
+	KApplication kzip( argc, argv );
+
+	if( kzip.isRestored() )
 	{
-		if( strstr( "-caption", argv[i] ) )
-			i++;
-		else{
+		int n=1;
+		while( KTopLevelWidget::canBeRestored(n)){
+			KZipWidget *kzipwin = new KZipWidget();
+			kzipwin->restore(n);
+			kzipwin->show();
+			n++;
+		}
+	} else {
+		for( int i=1; i<argc; i++ )
+		{
 			if( argv[i][0] == '/' )
 				Zip = argv[i];
 			else{
@@ -43,13 +53,11 @@ int main( int argc, char *argv[]  )
 			}
 			break;
 		}
+		KZipWidget *kzipwin = new KZipWidget();
+		kzipwin->show();
+		if( !Zip.isEmpty() )
+			kzipwin->showZip( Zip );
 	}
-	KApplication kzip( argc, argv );
-	KZipWidget *kzipwin = new KZipWidget;
-	//kzip.setMainWidget( kzipwin );
-	kzipwin->show();
 
-	if( !Zip.isEmpty() )
-		kzipwin->showZip( Zip );
 	kzip.exec();
 }
