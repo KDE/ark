@@ -103,7 +103,7 @@ void ArkData::readRecentFiles()
 	kc->setGroup( ARK_KEY );
 	for (int i=0; i < MAX_RECENT_FILES; i++)
 	{
-		name.sprintf("%s%d", RECENT_KEY, i);
+		name = QString("%1%2").arg(RECENT_KEY).arg(i);
 		s = kc->readEntry(name);
 		cerr << "key " << name << " is " << s << "\n";
 		if (!s.isEmpty())
