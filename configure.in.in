@@ -10,3 +10,9 @@ KDE_CHECK_FUNC_EXT(statfs, [
   int statfs(const char *path, struct statfs *buffer)
 ], [STATFS])
 
+KDE_CHECK_HEADER(konq_popupmenu.h,
+  COMPILE_KONQPLUGIN=true,
+  COMPILE_KONQPLUGIN=false
+)
+
+AM_CONDITIONAL(compile_KONQPLUGIN, test x$COMPILE_KONQPLUGIN = xtrue)

@@ -1,7 +1,11 @@
 # set the include path for X, qt and KDE
 AM_CPPFLAGS = $(all_includes)
 
-SUBDIRS = pics konqplugin
+if compile_KONQPLUGIN
+KONQPLUGINDIR = konqplugin
+endif
+
+SUBDIRS = pics $(KONQPLUGINDIR)
 
 # The binary name. Changed from kzip to ark
 bin_PROGRAMS = 
