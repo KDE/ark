@@ -74,6 +74,7 @@ int main( int argc, char *argv[]  )
   aboutData.addAuthor("Corel Corporation (author: Emily Ezust)",0, "emilye@corel.com");
   aboutData.addAuthor("Corel Corporation (author: Michael Jarrett)", 0,
 		      "michaelj@corel.com");
+  aboutData.addAuthor("Roberto Selbach Teixeira", 0, "teixeira@conectiva.com" );
   
   KCmdLineArgs::init( argc, argv, &aboutData );
   KCmdLineArgs::addCmdLineOptions( option );

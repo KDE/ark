@@ -10,6 +10,7 @@
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
+ 2001: Roberto Selbach Teixeira <teixeira@conectiva.com>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -175,47 +176,67 @@ void TarArch::updateProgress( KProcess *, char *_buffer, int _bufflen )
 
 QString TarArch::getCompressor() 
 {
-  QString extension = m_filename.right(m_filename.length() -
+    QString extension = m_filename.right( m_filename.length() -
 				       m_filename.findRev('.') );
-  kdDebug(1601) << "Extension: " << extension << endl;
 
   if( extension == ".tgz" || extension == ".gz" )
     return QString( "gzip" );
-/* Patch by Matthias Belitz to open KOffice docs */
-/*  if (extension == ".kil" || extension == ".kwd" || extension == ".kwt"
-     || extension == ".ksp" || extension == ".kpr" || extension == ".kpt")
-     return QString( "gzip" );*/
+
   if( extension == ".bz")
     return QString( "bzip" );
+    
   if( extension == ".Z" || extension == ".taz" )
     return QString( "compress" );
+    
   if( extension == ".bz2")
     return QString( "bzip2" );
+    
   if( extension == ".lzo" || extension == ".tzo" )
     return QString( "lzop" );
+    
   return QString::null;
 }
 
-QString TarArch::getUnCompressor() 
+QString TarArch::getUnCompressorByExtension() 
 {
-  QString extension = m_filename.right(m_filename.length() -
-				       m_filename.findRev('.'));
-  kdDebug(1601) << "Extension: " << extension << endl;
+    QString extension = m_filename.right( m_filename.length() - m_filename.findRev('.') );
+  
   if( extension == ".tgz" || extension == ".gz" ) 
     return QString( "gunzip" );
-/* Patch by Matthias Belitz to open KOffice docs */
-/*  if (extension == ".kil" || extension == ".kwd" || extension == ".kwt"
-     || extension == ".ksp" || extension == ".kpr" || extension == ".kpt")
-     return QString( "gunzip" );*/
+    
   if( extension == ".bz")
     return QString( "bunzip" );
+    
   if( extension == ".Z" || extension == ".taz" )
     return QString( "uncompress" );
+    
   if( extension == ".bz2")
     return QString( "bunzip2" );
+    
   if( extension == ".lzo" || extension == ".tzo" )
     return QString( "lzop" );
+    
   return QString::null;
+}
+
+QString TarArch::getUnCompressor()
+{
+
+    QString fileType = KMimeMagic::self()->findFileType( m_filename )->mimeType();
+
+    if ( fileType == "application/x-compress" )
+        return QString( "uncompress" );
+
+    if ( fileType == "application/x-gzip" )
+        return QString( "gunzip" );
+    
+    if ( fileType == "application/x-bzip2" )
+        return QString( "bunzip2" );
+    
+    if( fileType == "application/x-zoo" )
+        return QString( "lzop" );
+    
+    return getUnCompressorByExtension();
 }
 
 void TarArch::open()

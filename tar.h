@@ -1,30 +1,31 @@
 //  -*-C++-*-           emacs magic for .h files
 /*
 
- $Id$
+$Id$
 
-  ark -- archiver for the KDE project
+ark -- archiver for the KDE project
 
-  Copyright (C)
+Copyright (C)
 
-  1997-1999: Rob Palmbos palm9744@kettering.edu
-  1999: Francois-Xavier Duranceau duranceau@kde.org
-  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
-  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
+1997-1999: Rob Palmbos palm9744@kettering.edu
+1999: Francois-Xavier Duranceau duranceau@kde.org
+1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
+2001: Roberto Selbach Teixeira <teixeira@conectiva.com>
 
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
 
@@ -59,33 +60,34 @@ public:
   virtual void create();
 	
   virtual void addFile( QStringList *);
-  virtual void addDir(const QString &);
-  virtual void remove(QStringList *);
-  virtual void unarchFile(QStringList *, const QString & _destDir="",
-			  bool viewFriendly=false);
+    virtual void addDir( const QString & );
+    virtual void remove( QStringList* );
+    virtual void unarchFile( QStringList *, const QString & _destDir="",
+                             bool viewFriendly=false );
 	
   virtual int getEditFlag();
 
   QString getCompressor();
   QString getUnCompressor();
+    QString getUnCompressorByExtension();
 
-public slots:
-  void updateProgress( KProcess *_kp, char *_buffer, int _bufflen);
+ public slots:
+ void updateProgress( KProcess *_kp, char *_buffer, int _bufflen );
   void openFinished( KProcess * );
   void updateFinished( KProcess * );
   void createTmpFinished( KProcess * );
-  void createTmpProgress( KProcess *_kp, char *_buffer, int _bufflen);
-  void slotAddFinished(KProcess *);
-  void slotListingDone(KProcess *);
-  void slotDeleteExited(KProcess *);
+    void createTmpProgress( KProcess *_kp, char *_buffer, int _bufflen );
+    void slotAddFinished( KProcess * );
+    void slotListingDone( KProcess * );
+    void slotDeleteExited( KProcess * );
 
 private:  // methods
   void updateArch();
   void createTmp();
   void setHeaders();
-  void processDir(const KTarDirectory *tardir, const QString & root);
-  void deleteOldFiles(QStringList *list, bool bAddOnlyNew);
-  QString getEntry(const QString & filename);
+    void processDir( const KTarDirectory *tardir, const QString & root );
+    void deleteOldFiles( QStringList *list, bool bAddOnlyNew );
+    QString getEntry( const QString & filename );
 
 private: // data
  // if the tar is compressed, this is the temporary uncompressed tar.

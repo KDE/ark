@@ -1,4 +1,8 @@
           $Id$
+
+2001-05-30  Roberto Selbach Teixeira  <teixeira@conectiva.com>
+	* Began using KMimeMagic to figure file types
+	* Began cleaning up Ark's code a bit.
 	  
 2001-05-29  Roberto Selbach Teixeira  <teixeira@conectiva.com>
 
