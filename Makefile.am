@@ -9,7 +9,7 @@ kdeinit_LTLIBRARIES = ark.la
 lib_LTLIBRARIES = 
 
 ark_la_SOURCES = main.cpp arkapp.cpp arktoplevelwindow.cpp
-ark_la_LDFLAGS = -module $(KDE_PLUGIN)
+ark_la_LDFLAGS = $(all_libraries) -module $(KDE_PLUGIN)
 ark_la_LIBADD = libark_common.la $(LIB_KPARTS)
 
 noinst_LTLIBRARIES = libark_common.la
