@@ -599,7 +599,7 @@ void ArkWidget::options_saveOnExit()
 
 void ArkWidget::help()
 {
-	kapp->invokeHTMLHelp( "ark/index.html", "" );
+	kapp->invokeHTMLHelp( "", "" );
 }
 
 
@@ -755,7 +755,7 @@ void ArkWidget::clearCurrentArchive()
 	if (!arch)
 		delete arch;
 	arch = 0;
-	setCaption("ark");
+	setCaption(i18n("ark"));
 	editMenu->setItemEnabled( idAdd, false );
 	editMenu->setItemEnabled( idDelete, false );
 	editMenu->setItemEnabled( idExtract, false );
@@ -771,12 +771,12 @@ void ArkWidget::clearCurrentArchive()
 
 void ArkWidget::arkWarning(const QString& msg)
 {
-        QMessageBox::warning(this, i18n("ark"), msg);
+        QMessageBox::warning(this, i18n("ark"), msg, i18n("OK"));
 }
 
 void ArkWidget::arkError(const QString& msg)
 {
-        QMessageBox::critical(this, i18n("ark"), msg);
+        QMessageBox::critical(this, i18n("ark"), msg, i18n("OK"));
 }
 
 void ArkWidget::timeout()
