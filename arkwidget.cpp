@@ -457,146 +457,190 @@ void ArkWidget::slotSaveAsDone(KIO::Job * job)
     file_open(mSaveAsURL);
 }
 
+// --------------------------------------------------------------
+// File open methods:
+// file_open
+// file_open( const QString )
+// file_open( KURL )
 
-//////////////////////////////////////////////////////////////////////
-///////////////////////// file_open //////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-
-void ArkWidget::file_open(const QString & strFile)
+void 
+ArkWidget::file_open()
 {
-  kdDebug(1601) << "+ArkWidget::file_open(const QString & strFile)" << endl;
-  //strFile has no protocol by now - it's a path.
-  struct stat statbuffer;
-
-  if (stat(strFile.local8Bit(), &statbuffer) == -1)
-    {
-      if (errno == ENOENT || errno == ENOTDIR || errno ==  EFAULT)
-        {
-          KMessageBox::error(this, i18n("The archive %1 does not exist.").arg(strFile.local8Bit()));
-        }
-      else if (errno == EACCES)
-        {
-          KMessageBox::error(this, i18n("Cannot access the archive %1").arg(strFile.local8Bit()));
-        }
-      else
-        KMessageBox::error(this, i18n("Unknown error"));
-      recent->removeURL(strFile);
-      return;
-    }
-  else
-    {
-      // this will be the appropriate flag depending on whose file it is
-      unsigned int nFlag = 0;
-      if (geteuid() == statbuffer.st_uid)
-        {
-          nFlag = S_IRUSR; // it's mine
-        }
-      else if (getegid() == statbuffer.st_gid)
-        {
-          nFlag = S_IRGRP; // it's my group's
-        }
-      else
-        {
-          nFlag = S_IROTH;  // it's someone else's
-        }
-
-      if (! ((statbuffer.st_mode & nFlag) == nFlag))
-        {
-          KMessageBox::error(this, i18n("You don't have permission to access that archive.") );
-          recent->removeURL(strFile);
-          return;
-        }
-    }
-
-  // see if the user is just opening the same file that's already
-  // open (erm...)
-
-  if (strFile == m_strArchName && m_bIsArchiveOpen)
-    {
-      return;
-    }
-
-    // see if the ark is already open in another window
-  if (ArkApplication::getInstance()->isArkOpenAlready(strFile))
-    {
-      // raise the window containing the already open archive
-      ArkApplication::getInstance()->raiseArk(strFile);
-
-      // MJ: Is this causing a wierd segfault?
-      // close this window
-      window_close();
-
-      // notify the user what's going on
-      KMessageBox::information(0, i18n("The archive %1 is already open and has been raised.\nNote: if the filename does not match, it only means that one of the two is a symbolic link.").arg(strFile));
-      return;
-    }
-
-  // no errors if we made it this far.
-
-  if (isArchiveOpen())
-    file_close();  // close old zip
-
-  // Set the current archive filename to the filename
-  // m_url is already set
-  m_strArchName = strFile;
-
-  // display the archive contents
-  showZip(strFile);
-
-  createGUI();
-  kdDebug(1601) << "-ArkWidget::file_open(const QString & strFile)" << endl;
+	kdDebug(1601) << "+ArkWidget::file_open" << endl;
+	
+	KURL url;
+	QString strFile;
+	url = KFileDialog::getOpenURL(m_settings->getOpenDir(), m_settings->getFilter(), this);
+	qApp->processEvents();
+	
+	if (!url.isEmpty())
+	{
+		if (download(url, strFile))
+		{
+			m_settings->clearShellOutput();
+			recent->addURL(url);
+			m_url = url;
+			file_open(strFile);
+		}
+	}
+	kdDebug(1601) << "-ArkWidget::file_open" << endl;
 }
 
-//////////////////////////////////////////////////////////////////////
-////////////////////////////// download //////////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-
-bool ArkWidget::download(const KURL &url, QString &strFile)
+void 
+ArkWidget::file_open( const QString & strFile )
 {
-  kdDebug(1601) << "+ArkWidget::download(const KURL &url, QString &strFile)" << endl;
+	kdDebug( 1601 ) << "+ArkWidget::file_open(const QString & strFile)" << endl;
+	//strFile has no protocol by now - it's a path.
+	struct stat statbuffer;
 
-  // downloads url into strFile, making sure strFile has the same extension
-  // as url.
-  if (!url.isLocalFile())
-    {
-      QString extension;
-      Arch::getArchType(url.path(), extension);
-      QString directory = locateLocal( "tmp", "ark" );
-      mpTempFile = new KTempFile(directory , extension);
-      strFile = url.fileName();
-      kdDebug(1601) << "Downloading " << url.path() << " as $HOME/" <<
-        strFile << endl;
-    }
-  kdDebug(1601) << "-ArkWidget::download - return KIO::NetAccess::download(url, strFile)" << endl;
-  return KIO::NetAccess::download(url, strFile);
+	kdDebug( 1601 ) << "File to open: " << strFile << endl;
+	
+	if (stat(strFile.local8Bit(), &statbuffer) == -1)
+	{
+		if (errno == ENOENT || errno == ENOTDIR || errno ==  EFAULT)
+		{
+			KMessageBox::error(this, i18n("The archive %1 does not exist.").arg(strFile.local8Bit()));
+		}
+		else if (errno == EACCES)
+		{
+			KMessageBox::error(this, i18n("Cannot access the archive %1").arg(strFile.local8Bit()));
+		}
+		else
+		{
+			KMessageBox::error(this, i18n("Unknown error"));
+		}
+		recent->removeURL(strFile);
+		return;
+	}
+	else
+	{
+		// this will be the appropriate flag depending on whose file it is
+		unsigned int nFlag = 0;
+		if (geteuid() == statbuffer.st_uid)
+		{
+			nFlag = S_IRUSR; // it's mine
+		}
+		else if (getegid() == statbuffer.st_gid)
+		{
+			nFlag = S_IRGRP; // it's my group's
+		}
+		else
+		{
+			nFlag = S_IROTH;  // it's someone else's
+		}
+		
+		if (! ((statbuffer.st_mode & nFlag) == nFlag))
+		{
+			KMessageBox::error(this, i18n("You don't have permission to access that archive.") );
+			recent->removeURL(strFile);
+			return;
+		}
+	}
+	
+	// see if the user is just opening the same file that's already
+	// open (erm...)
+
+	if (strFile == m_strArchName && m_bIsArchiveOpen)
+	{
+		return;
+	}
+	
+	// see if the ark is already open in another window
+	if (ArkApplication::getInstance()->isArkOpenAlready(strFile))
+	{
+		// raise the window containing the already open archive
+		ArkApplication::getInstance()->raiseArk(strFile);
+		
+		// MJ: Is this causing a wierd segfault?
+		// close this window
+		window_close();
+		
+		// notify the user what's going on
+		KMessageBox::information(0, i18n("The archive %1 is already open and has been raised.\nNote: if the filename does not match, it only means that one of the two is a symbolic link.").arg(strFile));
+		return;
+	}
+	
+	// no errors if we made it this far.
+
+	if (isArchiveOpen())
+	{
+		file_close();  // close old zip
+	}
+	
+	// Set the current archive filename to the filename
+	// m_url is already set
+	m_strArchName = strFile;
+
+	// display the archive contents
+	showZip(strFile);
+	
+	createGUI();
+	kdDebug(1601) << "-ArkWidget::file_open(const QString & strFile)" << endl;
+}
+
+void 
+ArkWidget::file_open(const KURL& url)
+{
+	kdDebug(1601) << "+ArkWidget::file_open(const KURL& url)" << endl;
+	QString strFile;
+	if (!url.isEmpty())
+	{
+		if ( isArchiveOpen() )
+		{
+			file_close();  // close old arch. If we don't, our temp file is wrong!
+		}
+		if (download(url, strFile))
+		{
+			m_url = url;
+			m_settings->clearShellOutput();
+			kdDebug(1601) << "Recent open: " << strFile << endl;
+			file_open(strFile);
+		}
+	}
+	kdDebug(1601) << "-ArkWidget::file_open(const KURL& url)" << endl;
 }
 
 
+//-------------------------------------------------------------------------------
+// Download
 
-//////////////////////////////////////////////////////////////////////
-//
+bool 
+ArkWidget::download(const KURL &url, QString &strFile)
+{
+	kdDebug(1601) << "+ArkWidget::download(const KURL &url, QString &strFile)" << endl;
+	
+	// downloads url into strFile, making sure strFile has the same extension
+	// as url.
+	if (!url.isLocalFile())
+	{
+		QString extension;
+		Arch::getArchType(url.path(), extension);
+		QString directory = locateLocal( "tmp", "ark" );
+		mpTempFile = new KTempFile(directory , extension);
+		kdDebug( 1601 ) << "Tempfile: " << mpTempFile->name() << endl;
+		strFile = mpTempFile->name();
+		kdDebug(1601) << "Downloading " << url.path() << " as " << strFile << endl;
+	}
+	kdDebug(1601) << "-ArkWidget::download - return KIO::NetAccess::download(url, strFile)" << endl;
+	return KIO::NetAccess::download( url, strFile );
+}
+
+
+//-----------------------------------------------------------------------
 // ArkWidget slots
 //
-//////////////////////////////////////////////////////////////////////
 
-
-void ArkWidget::saveProperties()
+void 
+ArkWidget::saveProperties()
 {
-  kdDebug(1601) << "+saveProperties (exit)" << endl;
-
-  KConfig *kc = m_settings->getKConfig();
-  recent->saveEntries(kc);
-
-#if 0
-  if ( m_settings->isSaveOnExitChecked() )
-    accelerators->writeSettings( m_settings->getKConfig() );
-#endif
-
-  m_settings->writeConfiguration();
-
-  kdDebug(1601) << "-saveProperties (exit)" << endl;
+	kdDebug(1601) << "+saveProperties (exit)" << endl;
+	
+	KConfig *kc = m_settings->getKConfig();
+	recent->saveEntries(kc);
+	
+	m_settings->writeConfiguration();
+	
+	kdDebug(1601) << "-saveProperties (exit)" << endl;
 }
 
 
@@ -718,7 +762,6 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
       m_strArchName = _filename;
       setCaption( _filename );
       createFileListView();
-      setCaption(_filename);
       createGUI();
       m_bIsArchiveOpen = true;
       arch = _newarch;
@@ -751,117 +794,72 @@ void ArkWidget::file_newWindow()
 
 }
 
-void ArkWidget::file_open()
+void 
+ArkWidget::showZip( QString _filename )
 {
-  kdDebug(1601) << "+ArkWidget::file_open" << endl;
-
-  KURL url;
-  QString strFile;
-  url = KFileDialog::getOpenURL(m_settings->getOpenDir(),
-                                m_settings->getFilter(), this);
-  qApp->processEvents();
-
-  if (!url.isEmpty())
-    {
-      if (download(url, strFile))
-      {
-          m_settings->clearShellOutput();
-          recent->addURL(url);
-          m_url = url;
-          file_open(strFile);
-      }
-    }
-  kdDebug(1601) << "-ArkWidget::file_open" << endl;
+	kdDebug(1601) << "+ArkWidget::showZip" << endl;
+	openArchive( _filename );
+	kdDebug(1601) << "-ArkWidget::showZip" << endl;
 }
 
-void ArkWidget::file_open(const KURL& url)
+void 
+ArkWidget::slotOpen( Arch *_newarch, bool _success, const QString & _filename, int )
 {
-  kdDebug(1601) << "+ArkWidget::file_open(const KURL& url)" << endl;
-  QString strFile;
-  if (!url.isEmpty())
-  {
-    if (isArchiveOpen())
-      file_close();  // close old arch. If we don't, our temp file is wrong!
-    if (download(url, strFile))
-    {
-        m_url = url;
-        m_settings->clearShellOutput();
-        kdDebug(1601) << "Recent open: " << strFile << endl;
-        file_open(strFile);
-    }
-  }
-  kdDebug(1601) << "-ArkWidget::file_open(const KURL& url)" << endl;
-}
-
-void ArkWidget::showZip( QString _filename )
-{
-  kdDebug(1601) << "+ArkWidget::showZip" << endl;
-  openArchive( _filename );
-  kdDebug(1601) << "-ArkWidget::showZip" << endl;
-}
-
-void ArkWidget::slotOpen(Arch *_newarch, bool _success,
-                         const QString & _filename, int )
-{
-  kdDebug(1601) << "+ArkWidget::slotOpen" << endl;
-
-  archiveContent->setUpdatesEnabled(true);
-  archiveContent->triggerUpdate();
-
-  if ( _success )
-    {
-        QFileInfo fi( _filename );
-        QString path = fi.dirPath( true );
-        m_settings->setLastOpenDir( path );
-        QString dirtmp;
-        QString directory("tmp.");
-        dirtmp = locateLocal( "tmp", directory );
-
-        if (_filename.left(dirtmp.length()) == dirtmp ||
-            !fi.isWritable())
-          {
-            _newarch->setReadOnly(true);
-            QApplication::restoreOverrideCursor(); // no wait cursor during a msg box (David)
-            KMessageBox::information(this, i18n("This archive is read-only. If you want to save it under\na new name, go to the File menu and select Save As."));
-            QApplication::setOverrideCursor( waitCursor );
-          }
-        setCaption( _filename );
-        // createActionMenu( _flag );
-        arch = _newarch;
-        updateStatusTotals();
-        m_bIsArchiveOpen = true;
-        QString extension;
-        m_bIsSimpleCompressedFile =
-          (m_archType == COMPRESSED_FORMAT);
-
-        ArkApplication::getInstance()->addOpenArk(_filename, this);
-    }
-
-  fixEnables();
-  QApplication::restoreOverrideCursor();
-
-  if(m_extractOnly)
-  {
-    if(_success)
-    {
-      int oldMode = m_settings->getExtractDirMode();
-      QString oldFixedExtractDir = m_settings->getFixedExtractDir();
-      m_settings->setExtractDirCfg(m_url.upURL().path(), ArkSettings::FIXED_EXTRACT_DIR);
-      bool done = action_extract();
-      // Extract should have started before this returns, so hopefully
-      // safe.
-      m_settings->setExtractDirCfg(oldFixedExtractDir, oldMode);
-      // last extract dir is still set, but this is not a problem
-      if(!done)
-        file_quit();
-    }
-    else
-    {
-        // TODO: Error
-    }
-  }
-
-  kdDebug(1601) << "-ArkWidget::slotOpen" << endl;
+	kdDebug(1601) << "+ArkWidget::slotOpen" << endl;
+	
+	archiveContent->setUpdatesEnabled(true);
+	archiveContent->triggerUpdate();
+	
+	if ( _success )
+	{
+		QFileInfo fi( _filename );
+		QString path = fi.dirPath( true );
+		m_settings->setLastOpenDir( path );
+		QString dirtmp;
+		QString directory("tmp.");
+		dirtmp = locateLocal( "tmp", directory );
+		
+		if ( _filename.left( dirtmp.length() ) == dirtmp || !fi.isWritable() )
+		{
+			_newarch->setReadOnly(true);
+			QApplication::restoreOverrideCursor(); // no wait cursor during a msg box (David)
+			KMessageBox::information(this, i18n("This archive is read-only. If you want to save it under\na new name, go to the File menu and select Save As."));
+			QApplication::setOverrideCursor( waitCursor );
+		}
+		setCaption( _filename );
+		arch = _newarch;
+		updateStatusTotals();
+		m_bIsArchiveOpen = true;
+		QString extension;
+		m_bIsSimpleCompressedFile = ( m_archType == COMPRESSED_FORMAT );
+		ArkApplication::getInstance()->addOpenArk( _filename, this );
+	}
+	
+	fixEnables();
+	QApplication::restoreOverrideCursor();
+	
+	if( m_extractOnly )
+	{
+		if( _success )
+		{
+			int oldMode = m_settings->getExtractDirMode();
+			QString oldFixedExtractDir = m_settings->getFixedExtractDir();
+			m_settings->setExtractDirCfg(m_url.upURL().path(), ArkSettings::FIXED_EXTRACT_DIR);
+			bool done = action_extract();
+			// Extract should have started before this returns, so hopefully safe.
+			m_settings->setExtractDirCfg( oldFixedExtractDir, oldMode );
+			// last extract dir is still set, but this is not a problem
+			if( !done )
+			{
+				file_quit();
+			}
+		}
+		else
+		{
+			// TODO: Error
+		}
+	}
+	kdDebug(1601) << "-ArkWidget::slotOpen" << endl;
 }
 
 void ArkWidget::slotDeleteDone(bool _bSuccess)
@@ -1175,30 +1173,32 @@ void ArkWidget::reload()
     }
 }
 
-void ArkWidget::file_close()
+void 
+ArkWidget::file_close()
 {
-  kdDebug(1601) << "+ArkWidget::file_close" << endl;
-  if (isArchiveOpen())
-    {
-      closeArch();
-      setCaption(QString::null);
-//      setCentralWidget(0);
-      ArkApplication::getInstance()->removeOpenArk(m_strArchName);
-      if (mpTempFile)
-        {
-          kdDebug(1601) << "Removing temp file " <<
-            mpTempFile->name() << endl;
-          mpTempFile->unlink();
-          delete mpTempFile;
-          mpTempFile = NULL;
-        }
-      updateStatusTotals();
-      updateStatusSelection();
-      fixEnables();
-      createGUI();
-    }
-  else closeArch();
-  kdDebug(1601) << "-ArkWidget::file_close" << endl;
+	kdDebug(1601) << "+ArkWidget::file_close" << endl;
+	if ( isArchiveOpen() )
+	{
+		closeArch();
+		setCaption( QString::null );
+      ArkApplication::getInstance()->removeOpenArk( m_strArchName );
+		if ( mpTempFile )
+		{
+			kdDebug(1601) << "Removing temp file " << mpTempFile->name() << endl;
+			mpTempFile->unlink();
+			delete mpTempFile;
+			mpTempFile = NULL;
+		}
+		updateStatusTotals();
+		updateStatusSelection();
+		fixEnables();
+		createGUI();
+	}
+	else 
+	{
+		closeArch();
+	}
+	kdDebug(1601) << "-ArkWidget::file_close" << endl;
 }
 
 void ArkWidget::window_close()
@@ -1686,9 +1686,9 @@ ArkWidget::action_extract()
 {
 	kdDebug(1601) << "+action_extract" << endl;
 	//before we start, make sure the archive is still there
-	if (!KIO::NetAccess::exists(KURL(arch->fileName()))){
-		KMessageBox::error(0,
-			i18n("The archive to extract from no longer exists."));
+	if (!KIO::NetAccess::exists(KURL(arch->fileName())))
+	{
+		KMessageBox::error(0, i18n("The archive to extract from no longer exists."));
 		file_quit();
 		return false;
 	}
