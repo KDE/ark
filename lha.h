@@ -53,14 +53,10 @@ public:
   virtual void unarchFile(QStringList *, const QString & _destDir="",
 			  bool viewFriendly=false);
 
-protected:
-  bool m_header_removed, m_finished, m_error;
-
 protected slots:
-  void slotReceivedTOC(KProcess *, char *, int);
-	
+  virtual bool processLine(const QCString &line);
+
 private:
-  void processLine( char* );	
   void initExtract( bool, bool, bool );
   void setHeaders();
 };

@@ -56,10 +56,13 @@ ZooArch::ZooArch( ArkSettings *_settings, Viewer *_gui,
   m_archiver_program = "zoo";
   m_unarchiver_program = QString::null;
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+
+  m_headerString = "----";
 }
 
-void ZooArch::processLine( char *_line )
+bool ZooArch::processLine(const QCString &line)
 {
+  const char *_line = (const char *)line;
   char columns[11][80];
   char filename[4096];
 
@@ -93,6 +96,8 @@ void ZooArch::processLine( char *_line )
       list.append(QString::fromLocal8Bit(columns[i]));
     }
   m_gui->add(&list); // send to GUI
+
+ return true;
 }
 
 void ZooArch::open()
@@ -100,7 +105,7 @@ void ZooArch::open()
   kdDebug(1601) << "+ZooArch::open" << endl;
   setHeaders();
 
-  m_buffer[0] = '\0';
+  m_buffer = "";
   m_header_removed = false;
   m_finished = false;
 
@@ -147,87 +152,10 @@ void ZooArch::setHeaders()
 }
 
 
-void ZooArch::slotReceivedTOC(KProcess*, char* _data, int _length)
-{
-  kdDebug(1601) << "+ZooArch::slotReceivedTOC" << endl;
-  char c = _data[_length];
-  _data[_length] = '\0';
-	
-  m_settings->appendShellOutputData( _data );
-
-  char line[1024] = "";
-  char *tmpl = line;
-
-  char *tmpb;
-
-  for( tmpb = m_buffer; *tmpb != '\0'; tmpl++, tmpb++ )
-    *tmpl = *tmpb;
-
-  for( tmpb = _data; *tmpb != '\n'; tmpl++, tmpb++ )
-    *tmpl = *tmpb;
-		
-  tmpb++;
-  *tmpl = '\0';
-
-  if( *tmpb == '\0' )
-    m_buffer[0]='\0';
-
-  if( !strstr( line, "----" ) )
-    {
-      if( m_header_removed && !m_finished ){
-	processLine( line );
-      }
-    }
-  else if(!m_header_removed)
-    m_header_removed = true;
-  else
-    m_finished = true;
-
-  bool stop = (*tmpb == '\0');
-
-  while( !stop && !m_finished )
-    {
-      tmpl = line; *tmpl = '\0';
-
-      for(; (*tmpb!='\n') && (*tmpb!='\0'); tmpl++, tmpb++)
-	*tmpl = *tmpb;
-
-      if( *tmpb == '\n' )
-	{
-	  *tmpl = '\n';
-	  tmpl++;
-	  *tmpl = '\0';
-	  tmpb++;
-
-	if( !strstr( line, "----" ) )
-	  {
-	    if( m_header_removed ){
-	      processLine( line );
-	    }
-	  }
-	else if( !m_header_removed )
-	  m_header_removed = true;
-	else
-	  {
-	    m_finished = true;
-	  }
-	}
-      else if (*tmpb == '\0' )
-	{
-	  *tmpl = '\0';
-	  strcpy( m_buffer, line );
-	  stop = true;
-	}
-    }
-  
-  _data[_length] = c;
-  kdDebug(1601) << "-ZooArch::slotReceivedTOC" << endl;
-}
-
 void ZooArch::create()
 {
   emit sigCreate(this, true, m_filename,
-		 Arch::Extract | Arch::Delete | Arch::Add 
+		 Arch::Extract | Arch::Delete | Arch::Add
 		 | Arch::View);
 }
 
@@ -247,7 +175,7 @@ void ZooArch::addFile( QStringList *urls )
   KProcess *kp = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program;
-	
+
   if (m_settings->getZooReplaceOnlyWithNewer())
     *kp << "-update";
   else
@@ -259,7 +187,7 @@ void ZooArch::addFile( QStringList *urls )
   QString url;
   QString file;
 
-	
+
   QStringList::ConstIterator iter;
   for (iter = urls->begin(); iter != urls->end(); ++iter )
   {
@@ -317,14 +245,14 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 
   int ret = chdir(QFile::encodeName(dest));
  // I already checked the validity of the dir before coming here
-  ASSERT(ret == 0); 
+  ASSERT(ret == 0);
 
 
   QString tmp;
-	
+
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  
+
   *kp << m_archiver_program;
 
   if (!m_settings->getZooOverwriteFiles())
@@ -332,18 +260,18 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir,
   else
     *kp << "xOOS";
   *kp << m_filename;
-  
+
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
   if (_fileList)
     {
       for ( QStringList::Iterator it = _fileList->begin();
-	    it != _fileList->end(); ++it ) 
+	    it != _fileList->end(); ++it )
 	{
 	  *kp << (*it).local8Bit();/*.latin1() ;*/
 	}
     }
- 
+
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
@@ -351,7 +279,7 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 
   connect( kp, SIGNAL(processExited(KProcess*)), this,
 	   SLOT(slotExtractExited(KProcess*)));
-  
+
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
@@ -369,7 +297,7 @@ void ZooArch::remove(QStringList *list)
   m_shellErrorData = "";
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  
+
   *kp << m_archiver_program << "D" << m_filename.local8Bit();
   for ( QStringList::Iterator it = list->begin();
 	it != list->end(); ++it )
@@ -391,14 +319,14 @@ void ZooArch::remove(QStringList *list)
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
       emit sigDelete(false);
     }
-  
+
   kdDebug(1601) << "-ZooArch::remove" << endl;
 }
 
 QString fixTime(const QString &_strTime)
 {
   // it may have come from a different time zone... get rid of trailing
-  // +3 or -3 etc. 
+  // +3 or -3 etc.
   QString strTime = _strTime;
 
   if (strTime.contains("+") || strTime.contains("-"))
@@ -421,7 +349,7 @@ QString fixTime(const QString &_strTime)
 	  strTime = strTime.left(8);
 	  strTime.sprintf("%2.2d%s", nHour, strTime.right(6).utf8().data());
 	  kdDebug(1601) << "The new time is " << strTime << endl;
-	}	
+	}
     }
   else
     {

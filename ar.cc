@@ -33,6 +33,8 @@
 #include <string.h>
 
 #include <qfile.h>
+#include <qregexp.h>
+#include <qlist.h>
 
 // KDE includes
 #include <kurl.h>
@@ -53,6 +55,20 @@ ArArch::ArArch( ArkSettings *_settings, Viewer *_gui,
   m_archiver_program = "ar";
   m_unarchiver_program = QString::null;
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+
+  // Do not set headerString - there is none for Ar
+  m_numCols = 5;
+  m_dateCol = 4; m_fixYear = 8; m_repairMonth = 5; m_fixDay = 6; m_fixTime = 7;
+
+  m_archCols.append(new ArchColumns(1, QRegExp("[a-zA-Z-]+"), 12)); // Perms
+  m_archCols.append(new ArchColumns(2, QRegExp("[^\\s]+"), 128)); //User/grp
+  m_archCols.append(new ArchColumns(3, QRegExp("[0-9]+"))); // Size
+  m_archCols.append(new ArchColumns(5, QRegExp("[a-zA-Z]+"), 4)); // Month
+  m_archCols.append(new ArchColumns(6, QRegExp("[0-9]+"), 2)); // Day
+  m_archCols.append(new ArchColumns(7, QRegExp("[0-9:]+"), 6)); // Time
+  m_archCols.append(new ArchColumns(8, QRegExp("[0-9]+"), 5)); // Year
+  m_archCols.append(new ArchColumns(0, QRegExp("[^\\s\\n]+"), 4096));// File
+
   kdDebug(1601) << "ArArch constructor" << endl;
 }
 
@@ -76,39 +92,11 @@ void ArArch::setHeaders()
   kdDebug(1601) << "-ArArch::setHeaders" << endl;
 }
 
-void ArArch::processLine( char *_line )
-{
-  char columns[10][80] = { "","","","","","","","","" };
-  char filename[4096] = "";
-
-  sscanf(_line, "%[-dwrxlst] %[0-9/] %[0-9] %3[A-Za-z] %2[0-9 ] %5[0-9:] %4[0-9]%1[ ]%[^\n]",
-	 columns[0], columns[1], columns[2], columns[3], columns[4],
-	 columns[5], columns[6], columns[7], filename );
-  kdDebug(1601) << columns[0] << "!" << columns[1] << "!" << columns[2] << "!" << columns[3] << "!" << columns[4] << "!" << columns[5] << "!" << columns[6] << "!" << columns[7] << "!" << filename << endl;
-  
-  // Put columns[3] - [6] into standard format
-  QString timestamp;
-  timestamp.sprintf("%s-%.2d-%.2d %s",
-		    columns[6], Utils::getMonth(columns[3]),
-		    atoi(columns[4]), columns[5]);
-  // put timestamp into column 3
-  strcpy(columns[3], timestamp.ascii());
-  kdDebug(1601) << "Timestamp for file " << filename << " is " << timestamp << endl;
-
-  QStringList list;
-  list.append(QString::fromLocal8Bit(filename));
-  for (int i=0; i<4; i++)
-    {
-      list.append(QString::fromLocal8Bit(columns[i]));
-    }
-  m_gui->add(&list); // send to GUI
-}
-
 void ArArch::open()
 {
   kdDebug(1601) << "+ArArch::open" << endl;
   setHeaders();
-  m_buffer[0] = '\0';
+  m_buffer = "";
   KProcess *kp = new KProcess;
   *kp << m_archiver_program << "vt" << m_filename.local8Bit();
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
@@ -125,61 +113,6 @@ void ArArch::open()
       emit sigOpen(this, false, QString::null, 0 );
     }
   kdDebug(1601) << "-ArArch::open" << endl;
-}
-
-void ArArch::slotReceivedTOC(KProcess*, char* _data, int _length)
-{
-  kdDebug(1601) << "+ArArch::slotReceivedTOC" << endl;
-  char c = _data[_length];
-  _data[_length] = '\0';
-	
-  m_settings->appendShellOutputData( _data );
-
-  char line[1024] = "";
-  char *tmpl = line;
-
-  char *tmpb;
-
-  for( tmpb = m_buffer; *tmpb != '\0'; tmpl++, tmpb++ )
-    *tmpl = *tmpb;
-
-  for( tmpb = _data; *tmpb != '\n'; tmpl++, tmpb++ )
-    *tmpl = *tmpb;
-		
-  tmpb++;
-  *tmpl = '\0';
-
-  if( *tmpb == '\0' )
-    m_buffer[0]='\0';
-
-  processLine( line );
-  bool stop = (*tmpb == '\0');
-
-  while( !stop)
-    {
-      tmpl = line; *tmpl = '\0';
-      
-      for(; (*tmpb!='\n') && (*tmpb!='\0'); tmpl++, tmpb++)
-	*tmpl = *tmpb;
-
-      if( *tmpb == '\n' )
-	{
-	  *tmpl = '\n';
-	  tmpl++;
-	  *tmpl = '\0';
-	  tmpb++;
-	  processLine( line );
-	}
-      else if (*tmpb == '\0' )
-	{
-	  *tmpl = '\0';
-	  strcpy( m_buffer, line );
-	  stop = true;
-	}
-    }
-  
-  _data[_length] = c;
-  kdDebug(1601) << "-ArArch::slotReceivedTOC" << endl;
 }
 
 void ArArch::create()

@@ -11,7 +11,7 @@ ark_SOURCES	= arkapp.cpp extractdlg.cc dirDlg.cpp arkwidget.cc \
 		main.cc zip.cc tar.cc filelistview.cpp arch.cpp \
 		selectDlg.cpp adddlg.cc lha.cc \
 		waitDlg.cpp shellOutputDlg.cpp arksettings.cpp \
-		compressedfile.cc zoo.cc rar.cc ar.cc
+		compressedfile.cc zoo.cc rar.cc ar.cc ktar.cpp
 
 # the library search path
 ark_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LIB_KIO)

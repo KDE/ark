@@ -63,15 +63,10 @@ public:
 
   enum AddMode { Update = 1, Freshen, Move };
 
-protected:
-  bool m_header_removed, m_finished, m_error;
-		
 protected slots:
   void slotIntegrityExited(KProcess*);
-  void slotReceivedTOC(KProcess *, char *, int);
-	
+
 private:
-  void processLine( char* );	
   void setHeaders();
 };
 

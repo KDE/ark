@@ -30,6 +30,8 @@
 // Qt includes
 #include <qdir.h>
 #include <qstringlist.h>
+#include <qregexp.h>
+#include <qlist.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -50,117 +52,23 @@ ZipArch::ZipArch( ArkSettings *_settings, Viewer *_gui,
   m_unarchiver_program = "unzip";
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
+  m_headerString = "----";
+  m_repairYear = 9; m_fixMonth = 7; m_fixDay = 8; m_fixTime = 10;
+  m_dateCol = 5;
+  m_numCols = 7;
+
+  m_archCols.append(new ArchColumns(1, QRegExp("[0-9]+")));
+  m_archCols.append(new ArchColumns(2, QRegExp("[^\\s]+")));
+  m_archCols.append(new ArchColumns(3, QRegExp("[0-9]+")));
+  m_archCols.append(new ArchColumns(4, QRegExp("[0-9.]+%")));
+  m_archCols.append(new ArchColumns(7, QRegExp("[01][0-9]"), 2));
+  m_archCols.append(new ArchColumns(8, QRegExp("[0-3][0-9]"), 2));
+  m_archCols.append(new ArchColumns(9, QRegExp("[0-9][0-9]"), 2));
+  m_archCols.append(new ArchColumns(10, QRegExp("[0-9:]+"), 6));
+  m_archCols.append(new ArchColumns(6, QRegExp("[a-fA-F0-9]+")));
+  m_archCols.append(new ArchColumns(0, QRegExp("[^\\n\\s]+"), 4096));
+
   kdDebug(1601) << "ZipArch constructor" << endl;
-}
-
-void ZipArch::processLine( char *_line )
-{
-  char columns[11][80];
-  char filename[4096];
-
-  sscanf(_line, " %[0-9] %[a-zA-Z:] %[0-9] %[0-9%] %2[0-9]-%2[0-9]-%2[0-9]  %[0-9:] %[0-9a-z]%3[ ]%[^\n]",
-	 columns[0], columns[1], columns[2], columns[3],
-	 columns[4], columns[7], columns[8], columns[9],
-         columns[5], columns[10], filename);
-
-  // columns[4] is the month, columns[7] the day, columns[8] the 2-digit year,
-  // columns[9] the time. Put into sortable format and plunk back into
-  // columns[4]
-
-  QString year = Utils::fixYear(columns[8]);
-    QString timestamp= QString::fromLatin1("%1-%2-%3 %4")
-    .arg(year)
-    .arg(columns[4])
-    .arg(columns[7])
-    .arg(columns[9]);
- 
-  strcpy(columns[4], timestamp.ascii());
-  kdDebug(1601) << "Timestamp is " << columns[4] << endl;
-  QStringList list;
-  list.append(QString::fromLocal8Bit(filename));
-  for (int i = 0; i < 6; ++i)
-    {
-      list.append(QString::fromLocal8Bit(columns[i]));
-    }
-  m_gui->add(&list); // send the entry to the GUI
-}
-
-
-void ZipArch::slotReceivedTOC(KProcess*, char* _data, int _length)
-{
-  kdDebug(1601) << "+ZipArch::slotReceivedTOC" << endl;
-  char c = _data[_length];
-  _data[_length] = '\0';
-
-  m_settings->appendShellOutputData( _data );
-
-  char line[1024] = "";
-  char *tmpl = line;
-
-  char *tmpb;
-
-  for( tmpb = m_buffer; *tmpb != '\0'; tmpl++, tmpb++ )
-    *tmpl = *tmpb;
-
-  for( tmpb = _data; *tmpb != '\n'; tmpl++, tmpb++ )
-    *tmpl = *tmpb;
-		
-  tmpb++;
-  *tmpl = '\0';
-
-  if( *tmpb == '\0' )
-    m_buffer[0]='\0';
-
-  if( !strstr( line, "----" ) )
-    {
-      if( m_header_removed && !m_finished ){
-	processLine( line );
-      }
-    }
-  else if(!m_header_removed)
-    m_header_removed = true;
-  else
-    m_finished = true;
-
-  bool stop = (*tmpb == '\0');
-
-  while( !stop && !m_finished )
-    {
-      tmpl = line; *tmpl = '\0';
-
-      for(; (*tmpb!='\n') && (*tmpb!='\0'); tmpl++, tmpb++)
-	*tmpl = *tmpb;
-
-      if( *tmpb == '\n' )
-	{
-	  *tmpl = '\n';
-	  tmpl++;
-	  *tmpl = '\0';
-	  tmpb++;
-
-	if( !strstr( line, "----" ) )
-	  {
-	    if( m_header_removed ){
-	      processLine( line );
-	    }
-	  }
-	else if( !m_header_removed )
-	  m_header_removed = true;
-	else
-	  {
-	    m_finished = true;
-	  }
-	}
-      else if (*tmpb == '\0' )
-	{
-	  *tmpl = '\0';
-	  strcpy( m_buffer, line );
-	  stop = true;
-	}
-    }
-  
-  _data[_length] = c;
-  kdDebug(1601) << "-ZipArch::slotReceivedTOC" << endl;
 }
 
 void ZipArch::setHeaders()
@@ -196,7 +104,7 @@ void ZipArch::open()
   kdDebug(1601) << "+ZipArch::open" << endl;
   setHeaders();
 
-  m_buffer[0] = '\0';
+  m_buffer = "";
   m_header_removed = false;
   m_finished = false;
 	

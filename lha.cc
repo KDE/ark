@@ -56,14 +56,17 @@ LhaArch::LhaArch( ArkSettings *_settings, Viewer *_gui,
   m_archiver_program = "lha";
   m_unarchiver_program = QString::null;
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+
+  m_headerString = "----";
 }
 
-void LhaArch::processLine( char *_line )
+bool LhaArch::processLine(const QCString &line)
 {
+  const char *_line = (const char *)line;
   char columns[13][80];
   char filename[4096];
 
-  if (QString(_line).contains("[generic]") ) 
+  if (QString(_line).contains("[generic]") )
     {
       sscanf(_line, " %[]\[generic] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
 	     columns[0], columns[2], columns[3], columns[4], columns[5],
@@ -124,6 +127,8 @@ void LhaArch::processLine( char *_line )
     list.append("");
 
   m_gui->add(&list); // send to GUI
+
+  return true;
 }
 
 void LhaArch::open()
@@ -131,7 +136,7 @@ void LhaArch::open()
   kdDebug(1601) << "+LhaArch::open" << endl;
   setHeaders();
 
-  m_buffer[0] = '\0';
+  m_buffer = "";
   m_header_removed = false;
   m_finished = false;
 
@@ -174,89 +179,11 @@ void LhaArch::setHeaders()
   alignRightCols[0] = 3;
   alignRightCols[1] = 4;
   alignRightCols[2] = 5;
-  
+
   m_gui->setHeaders(&list, alignRightCols, 3);
   delete [] alignRightCols;
 
   kdDebug(1601) << "-LhaArch::setHeaders" << endl;
-}
-
-
-void LhaArch::slotReceivedTOC(KProcess*, char* _data, int _length)
-{
-  kdDebug(1601) << "+LhaArch::slotReceivedTOC" << endl;
-  char c = _data[_length];
-  _data[_length] = '\0';
-	
-  m_settings->appendShellOutputData( _data );
-
-  char line[1024] = "";
-  char *tmpl = line;
-
-  char *tmpb;
-
-  for( tmpb = m_buffer; *tmpb != '\0'; tmpl++, tmpb++ )
-    *tmpl = *tmpb;
-
-  for( tmpb = _data; *tmpb != '\n'; tmpl++, tmpb++ )
-    *tmpl = *tmpb;
-		
-  tmpb++;
-  *tmpl = '\0';
-
-  if( *tmpb == '\0' )
-    m_buffer[0]='\0';
-
-  if( !strstr( line, "----" ) )
-    {
-      if( m_header_removed && !m_finished ){
-	processLine( line );
-      }
-    }
-  else if(!m_header_removed)
-    m_header_removed = true;
-  else
-    m_finished = true;
-
-  bool stop = (*tmpb == '\0');
-
-  while( !stop && !m_finished )
-    {
-      tmpl = line; *tmpl = '\0';
-
-      for(; (*tmpb!='\n') && (*tmpb!='\0'); tmpl++, tmpb++)
-	*tmpl = *tmpb;
-
-      if( *tmpb == '\n' )
-	{
-	  *tmpl = '\n';
-	  tmpl++;
-	  *tmpl = '\0';
-	  tmpb++;
-
-	if( !strstr( line, "----" ) )
-	  {
-	    if( m_header_removed ){
-	      processLine( line );
-	    }
-	  }
-	else if( !m_header_removed )
-	  m_header_removed = true;
-	else
-	  {
-	    m_finished = true;
-	  }
-	}
-      else if (*tmpb == '\0' )
-	{
-	  *tmpl = '\0';
-	  strcpy( m_buffer, line );
-	  stop = true;
-	}
-    }
-  
-  _data[_length] = c;
-  kdDebug(1601) << "-LhaArch::slotReceivedTOC" << endl;
 }
 
 void LhaArch::create()

@@ -54,9 +54,11 @@ RarArch::RarArch( ArkSettings *_settings, Viewer *_gui,
   m_archiver_program = "rar";
   m_unarchiver_program = "rar"; // some distributions of rar don't have unrar (bug #7112)
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+
+  m_headerString = "----";
 }
 
-void RarArch::processLine( char *_line )
+bool RarArch::processLine(const QCString &line)
 {
   // For each rar entry, this function is called exactly three times.
   // The first time, store the first line and return.
@@ -64,17 +66,18 @@ void RarArch::processLine( char *_line )
   // The third time, process the data in the first two lines and
   // send to the GUI. We ignore the third line since the data there
   // isn't really that important.
+  const char *_line = (const char *)line;
 
   ++m_linenumber;
   if (m_linenumber == 1)
     {
       m_line1 = QString::fromLocal8Bit(_line);
-      return;
+      return true;
     }
   if (m_linenumber == 2)
     {
       m_line2 = QString::fromLocal8Bit(_line);
-      return;
+      return true;
     }
   // if we made it here, we have all three lines.
   // Reset the line number.
@@ -93,7 +96,7 @@ void RarArch::processLine( char *_line )
   // columns[3] is the day
   // columns[8] is the month
   // columns[9] is a 2-digit year. Ugh. Y2K junk here.
-  
+
   QString year = Utils::fixYear(columns[9]);
 
   // put entire timestamp in columns[3]
@@ -115,6 +118,8 @@ void RarArch::processLine( char *_line )
       list.append(QString::fromLocal8Bit(columns[i]));
     }
   m_gui->add(&list); // send to GUI
+
+  return true;
 }
 
 void RarArch::open()
@@ -122,7 +127,7 @@ void RarArch::open()
   kdDebug(1601) << "+RarArch::open" << endl;
   setHeaders();
 
-  m_buffer[0] = '\0';
+  m_buffer = "";
   m_header_removed = false;
   m_finished = false;
   
@@ -173,88 +178,10 @@ void RarArch::setHeaders()
 }
 
 
-void RarArch::slotReceivedTOC(KProcess*, char* _data, int _length)
-{
-  kdDebug(1601) << "+RarArch::slotReceivedTOC" << endl;
-  char c = _data[_length];
-  _data[_length] = '\0';
-	
-  m_settings->appendShellOutputData( _data );
-
-  char line[1024] = "";
-  char *tmpl = line;
-
-  char *tmpb;
-
-  for( tmpb = m_buffer; *tmpb != '\0'; tmpl++, tmpb++ )
-    *tmpl = *tmpb;
-
-  for( tmpb = _data; *tmpb != '\n'; tmpl++, tmpb++ )
-    *tmpl = *tmpb;
-		
-  tmpb++;
-  *tmpl = '\0';
-
-  if( *tmpb == '\0' )
-    m_buffer[0]='\0';
-
-  if( !strstr( line, "----" ) )
-    {
-      if( m_header_removed && !m_finished )
-	{
-	  processLine( line );
-	}
-    }
-  else if(!m_header_removed)
-    m_header_removed = true;
-  else
-    m_finished = true;
-
-  bool stop = (*tmpb == '\0');
-
-  while( !stop && !m_finished )
-    {
-      tmpl = line; *tmpl = '\0';
-
-      for(; (*tmpb!='\n') && (*tmpb!='\0'); tmpl++, tmpb++)
-	*tmpl = *tmpb;
-
-      if( *tmpb == '\n' )
-	{
-	  *tmpl = '\n';
-	  tmpl++;
-	  *tmpl = '\0';
-	  tmpb++;
-
-	if( !strstr( line, "----" ) )
-	  {
-	    if( m_header_removed ){
-	      processLine( line );
-	    }
-	  }
-	else if( !m_header_removed )
-	  m_header_removed = true;
-	else
-	  {
-	    m_finished = true;
-	  }
-	}
-      else if (*tmpb == '\0' )
-	{
-	  *tmpl = '\0';
-	  strcpy( m_buffer, line );
-	  stop = true;
-	}
-    }
-  
-  _data[_length] = c;
-  kdDebug(1601) << "-RarArch::slotReceivedTOC" << endl;
-}
-
 void RarArch::create()
 {
   emit sigCreate(this, true, m_filename,
-		 Arch::Extract | Arch::Delete | Arch::Add 
+		 Arch::Extract | Arch::Delete | Arch::Add
 		 | Arch::View);
 }
 

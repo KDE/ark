@@ -41,14 +41,13 @@
 
 // KDE includes
 #include <kprocess.h>
-#include <ktar.h>
 
 // ark includes
-
 #include "arch.h"
 #include "arksettings.h"
 
 class Viewer;
+class KTarDirectory2;
 
 // TarArch can read Tar files and Tar files compressed with gzip.
 // It doesn't yet know how to list Tar files compressed with other
@@ -92,7 +91,7 @@ private:  // methods
   void updateArch();
   void createTmp();
   void setHeaders();
-  void processDir(const KTarDirectory *tardir, const QString & root);
+  void processDir(const KTarDirectory2 *tardir, const QString & root);
   void deleteOldFiles(QStringList *list, bool bAddOnlyNew);
   QString getEntry(const QString & filename);
 
@@ -108,7 +107,6 @@ private: // data
   // for use with deleteOldFiles
   bool deleteInProgress;
   FILE *fd;
-  
 };
 
 #endif /* TAR_H */

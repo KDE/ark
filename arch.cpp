@@ -31,6 +31,8 @@
 
 #include <qapplication.h>
 #include <qfile.h>
+#include <qregexp.h>
+#include <qlist.h>
 
 #include <kdebug.h>
 #include <kmessagebox.h>
@@ -43,12 +45,24 @@
 #include "arch.h"
 #include "viewer.h"
 
+
+Arch::ArchColumns::ArchColumns(int col, QRegExp reg, int length, bool opt) :
+	colRef(col), pattern(reg), maxLength(length), optional(opt)
+{
+}
+
 Arch::Arch( ArkSettings *_settings, Viewer *_viewer,
 	    const QString & _fileName )
   : m_filename(_fileName), m_settings(_settings), m_gui(_viewer),
-    m_bReadOnly(false), m_bNotifyWhenDeleteFails(true)
+    m_bReadOnly(false), m_bNotifyWhenDeleteFails(true),
+    m_header_removed(false), m_finished(false),
+    m_numCols(0), m_dateCol(-1), m_fixYear(-1), m_fixMonth(-1),
+    m_fixDay(-1), m_fixTime(-1), m_repairYear(-1), m_repairMonth(-1),
+    m_repairTime(-1)
+
 {
   kdDebug(1601) << "+Arch::Arch" << endl;
+  m_archCols.setAutoDelete(true);
   kdDebug(1601) << "-Arch::Arch" << endl;
 }
 
@@ -91,7 +105,7 @@ void Arch::slotStoreDataStderr(KProcess*, char* _data, int _length)
 {
   char c = _data[_length];
   _data[_length] = '\0';
-	
+
   m_shellErrorData.append( _data );
   _data[_length] = c;
 }
@@ -111,7 +125,7 @@ void Arch::slotOpenExited(KProcess* _kp)
     exitStatus = 0;    // because 1 means empty archive - not an error.
                        // Is this a safe assumption?
 
-  if(!exitStatus) 
+  if(!exitStatus)
     emit sigOpen( this, true, m_filename,
 		  Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
   else
@@ -131,7 +145,7 @@ void Arch::slotDeleteExited(KProcess *_kp)
   kdDebug(1601) << "normalExit = " << _kp->normalExit() << endl;
   if( _kp->normalExit() )
     kdDebug(1601) << "exitStatus = " << _kp->exitStatus() << endl;
-  
+
   if( _kp->normalExit() && (_kp->exitStatus()==0) )
     {
       if(stderrIsError())
@@ -154,7 +168,7 @@ void Arch::slotDeleteExited(KProcess *_kp)
 	}
       else bSuccess = true;
     }
-  
+
   emit sigDelete(bSuccess);
   delete _kp;
   _kp = NULL;
@@ -220,7 +234,7 @@ void Arch::slotAddExited(KProcess *_kp)
       int ret = KMessageBox::warningYesNo( (QWidget *) 0, i18n("Sorry, the add operation failed.\nDo you wish to view the shell output?"), i18n("Error"));
 	  if (ret == KMessageBox::Yes)
 	    m_gui->viewShellOutput();
-    }  
+    }
   emit sigAdd(bSuccess);
   delete _kp;
   _kp = NULL;
@@ -242,6 +256,116 @@ void Arch::slotReceivedOutput(KProcess*, char* _data, int _length)
   m_settings->appendShellOutputData( _data );
   _data[_length] = c;
 }
+
+void Arch::slotReceivedTOC(KProcess*, char* _data, int _length)
+{
+  char c = _data[_length];
+  _data[_length] = '\0';
+
+  m_settings->appendShellOutputData( _data );
+
+  int lfChar, startChar = 0;
+
+  while(!m_finished)
+  {
+  	for(lfChar = startChar; _data[lfChar] != '\n' && lfChar < _length;
+	    lfChar++);
+
+	if(_data[lfChar] != '\n') break;	// We are done all the complete lines
+
+	_data[lfChar] = '\0';
+	m_buffer.append(_data + startChar);
+	_data[lfChar] = '\n';
+	startChar = lfChar + 1;
+
+	if(m_headerString.isEmpty())
+	{
+		processLine(m_buffer);
+	}
+	else if( m_buffer.find(m_headerString) == -1 )
+	{
+		if( m_header_removed && !m_finished)
+		{
+			if(!processLine(m_buffer))
+			{
+				// Have faith - maybe it wasn't a header?
+				m_header_removed = false;
+				m_error = true;
+			}
+		}
+	}
+	else if(!m_header_removed)
+		m_header_removed = true;
+	else
+		m_finished = true;
+
+	m_buffer = "";
+  }
+  if(!m_finished)
+	m_buffer = (_data + startChar);	// Copy what's left of the buffer
+  _data[_length] = c;
+}
+
+
+bool Arch::processLine(const QCString &line)
+{
+  QString columns[11];
+  unsigned int pos = 0;
+  int strpos, len;
+
+  // Go through our columns, try to pick out data, return silently on failure
+  for(QListIterator <ArchColumns>col(m_archCols); col.current(); ++col)
+  {
+  	ArchColumns *curCol = *col;
+
+	strpos = curCol->pattern.match(line, pos, &len);
+
+	if(-1 == strpos || len >curCol->maxLength)
+	{
+		if(curCol->optional)
+			continue;	// More?
+		else
+		{
+			kdDebug(1601) << "processLine failed to match critical column"
+				      << endl;
+			return false;
+		}
+	}
+
+	pos = strpos + len;
+
+	columns[curCol->colRef] = line.mid(strpos, len);
+  }
+
+  if(m_dateCol >= 0)
+  {
+    QString year = m_repairYear >= 0?
+	Utils::fixYear(columns[m_repairYear].ascii()) : columns[m_fixYear];
+    QString month = m_repairMonth >= 0?
+	QString("%1").arg(Utils::getMonth(columns[m_repairMonth].ascii())) :
+	columns[m_fixMonth];
+    QString timestamp= QString::fromLatin1("%1-%2-%3 %4")
+      .arg(year)
+      .arg(month)
+      .arg(columns[m_fixDay])
+      .arg(columns[m_fixTime]);
+
+    columns[m_dateCol] = timestamp;
+  }
+
+  QStringList list;
+  for (int i = 0; i < m_numCols; ++i)
+    {
+      list.append(columns[i]);
+    }
+  m_gui->add(&list); // send the entry to the GUI
+
+  return true;
+}
+
+
+
+
 
 /// UTILS
 

@@ -65,6 +65,10 @@
 #include "extractdlg.h"
 #include "tar.h"
 #include "tar.moc"
+// David Faure (resident miracle worker) has provided a better KTarGz
+// Until 'tar' is more reliable, or kdelibs' KTar handles large archives
+// better, stick with the safe code.
+#include "ktar.h"
 
 static char *makeAccessString(mode_t mode);
 static QString makeTimeStamp(const QDateTime & dt);
@@ -206,19 +210,19 @@ void TarArch::open()
   kdDebug(1601) << "+TarArch::open" << endl;
   unlink( QFile::encodeName(tmpfile) ); // just to make sure
   setHeaders();
-  KTarGz *tarptr;
+  KTarGz2 *tarptr;
 
   if (!compressed || 
       getUnCompressor() == QString("gunzip"))
     {
-      tarptr = new KTarGz(m_filename);
+      tarptr = new KTarGz2(m_filename);
     }
   else
     {
       createTmp();
       while (compressed && createTmpInProgress)
 	qApp->processEvents(); // wait for temp to be created;
-      tarptr = new KTarGz(tmpfile);
+      tarptr = new KTarGz2(tmpfile);
     }
 
   if (! tarptr->open(IO_ReadOnly))
@@ -262,7 +266,7 @@ void TarArch::slotListingDone(KProcess *_kp)
   delete _kp;
 }
 
-void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
+void TarArch::processDir(const KTarDirectory2 *tardir, const QString & root)
   // process a KTarDirectory. Called recursively for directories within
   // directories, etc. Prepends to filename root, for relative pathnames.
 {
@@ -270,7 +274,7 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
   QStringList list = tardir->entries();
   for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
     {
-      const KTarEntry* tarEntry = tardir->entry((*it));
+      const KTarEntry2* tarEntry = tardir->entry((*it));
       if (tarEntry == NULL)
 	return;
       QStringList col_list;
@@ -295,7 +299,7 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
       QString strSize = "0";
       if (tarEntry->isFile())
 	{
-	  strSize.sprintf("%d", ((KTarFile *)tarEntry)->size());
+	  strSize.sprintf("%d", ((KTarFile2 *)tarEntry)->size());
 	}
       col_list.append(strSize);
       QString timestamp = makeTimeStamp(tarEntry->datetime());
@@ -306,7 +310,7 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
       // if it isn't a file, it's a directory - process it.
       // remember that name is root + / + the name of the directory
       if (!tarEntry->isFile())
-	processDir( (KTarDirectory *)tarEntry, name);
+	processDir( (KTarDirectory2 *)tarEntry, name);
     }
   kdDebug(1601) << "-TarArch::processDir" << endl;
 }                                                                           

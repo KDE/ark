@@ -36,7 +36,7 @@
 // ark includes
 #include "arch.h"
 
-class ArArch : public Arch 
+class ArArch : public Arch
 {
   Q_OBJECT
 public:
@@ -46,7 +46,7 @@ public:
 
   virtual void open();
   virtual void create();
-	
+
   virtual void addFile( QStringList* );
   virtual void addDir(const QString &) {} // never gets called
 
@@ -54,12 +54,8 @@ public:
   virtual void unarchFile(QStringList *, const QString & _destDir="",
 			  bool viewFriendly=false);
 
-protected slots:
-  void slotReceivedTOC(KProcess *, char *, int);
-
 private:
   void setHeaders();
-  void processLine( char *_line );
 };
 
 #endif /* ARARCH_H */

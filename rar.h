@@ -51,17 +51,16 @@ public:
 			  bool viewFriendly=false);
 
 protected:
-  bool m_header_removed, m_finished, m_error, m_split_line;
+  bool m_split_line;
 
 protected slots:
-  void slotReceivedTOC(KProcess *, char *, int);
   //  void slotExtractDone(KProcess *_);
+  virtual bool processLine(const QCString &line);
 
 private: // data
   int m_linenumber;
   QString m_line1, m_line2; // for keeping till we have all three lines
 
-  void processLine( char* );
   void initExtract( bool, bool, bool );
   void setHeaders();
 };

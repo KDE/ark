@@ -36,12 +36,16 @@
 
 // Qt includes
 #include <qstring.h>
+#include <qcstring.h>
 
 // ark includes
 #include "arksettings.h"
 #include "filelistview.h"
 class KProcess;
 class Viewer;
+
+class QRegExp;
+template <class type> class QList;
 
 
 enum ArchType {UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
@@ -58,7 +62,7 @@ ArchType getArchType( const QString & archname, QString &extension);
 // TarArch or CompressedFile as models - they're too complicated!
 //
 // Don't forget to set m_archiver_program and m_unarchiver_program
-// and add a call to 
+// and add a call to
 //     verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 // in the constructor of your class. It's OK to leave out the second argument.
 //
@@ -66,22 +70,40 @@ ArchType getArchType( const QString & archname, QString &extension);
 // 1. Create a new header file and a source code module
 // 2. Add an entry to the ArchType enum in arch.h.
 // 3. Include your new header file in arkwidget.cc.
-// 4. Add new cases for your format in 
+// 4. Add new cases for your format in
 //    ArkWidget::createArchive(const QString &),
 //    ArkWidget::openArchive(const QString &)
 // and
 //    getArchType() in arch.cpp
-// 5. Add your extension to the list of valid archives in 
+// 5. Add your extension to the list of valid archives in
 //   ArkSettings::getFilter (you might also want to add a separate entry)
 //
 
 class Arch : public QObject
 {
   Q_OBJECT
+protected:
+  /**
+  * A struct representing column data. This makes it possible to abstract
+  * archive output, and save writing the same function for every archive
+  * type. It is also much more robust than sscanf (which was breaking).
+  */
+  struct ArchColumns
+  {
+  	// YES, a struct. A proper class is excessive here.
+	int colRef;	// Which column to load to in processLine
+	QRegExp pattern;
+	int maxLength;
+	bool optional;
+
+	ArchColumns(int col, QRegExp reg, int length = 64,
+		    bool opt = false);
+  };
+
 public:
   Arch( ArkSettings *_settings, Viewer *_viewer, const QString & _fileName );
   virtual ~Arch();
-	
+
   virtual void open() = 0;
   virtual void create() = 0;
   virtual void remove(QStringList *) = 0;
@@ -120,12 +142,14 @@ protected slots:
   void slotStoreDataStdout(KProcess*, char*, int);
   void slotStoreDataStderr(KProcess*, char*, int);
   void slotOpenExited(KProcess*);
-	
+
   void slotExtractExited(KProcess*);
   void slotDeleteExited(KProcess*);
   void slotAddExited(KProcess*);
 
   void slotReceivedOutput(KProcess *, char*, int);
+  virtual bool processLine(const QCString &line);
+  virtual void slotReceivedTOC(KProcess *, char *, int);
 
 signals:
   void sigOpen( Arch *, bool, const QString &, int );
@@ -133,23 +157,30 @@ signals:
   void sigDelete(bool);
   void sigExtract(bool);
   void sigAdd(bool);
-	
+
 protected:  // data
   QString m_filename;
   QString m_shellErrorData;
-  char m_buffer[1024];
+  QCString m_buffer;
   ArkSettings *m_settings;
   Viewer *m_gui;
   bool m_bReadOnly; // for readonly archives
 
   // lets tar delete unsuccessfully before adding without confusing the user
-  bool m_bNotifyWhenDeleteFails; 
+  bool m_bNotifyWhenDeleteFails;
 
   // set to whether the archiving utility/utilities is/are in the user's PATH
   bool m_bUtilityIsAvailable;
 
   QString m_archiver_program;
   QString m_unarchiver_program;
+
+  // Archive parsing information
+  QCString m_headerString;
+  bool m_header_removed, m_finished, m_error;
+  QList<ArchColumns> m_archCols;
+  int m_numCols, m_dateCol, m_fixYear, m_fixMonth, m_fixDay, m_fixTime;
+  int m_repairYear, m_repairMonth, m_repairTime;
 };
 
 // various functions for massaging timestamps
