@@ -182,6 +182,8 @@ ExtractDlg::~ExtractDlg()
 	config->setGroup( "History" );
 	list = m_extractDirCB->historyItems();
 	config->writePathEntry( "ExtractTo History", list );
+        config->setGroup( "ark" );
+        config->writePathEntry( "lastExtractDir", m_extractDirCB->lineEdit()->text() );
 }
 
 void
