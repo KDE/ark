@@ -38,6 +38,8 @@
 #include <errno.h>
 #include <sys/param.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+                                         
 #include <unistd.h>
 #include <config.h>
 
@@ -61,6 +63,7 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <klocale.h>
+#include <klargefile.h>
 
 // Qt includes
 #include <qfile.h>
@@ -177,11 +180,12 @@ ArkUtils::haveDirPermissions( const QString &strFile )
 }
 
 bool
-ArkUtils::diskHasSpace(const QString &dir, long size)
+ArkUtils::diskHasSpace(const QString &dir, KIO::filesize_t size)
   // check if disk has enough space to accommodate (a) new file(s) of
   // the given size in the partition containing the given directory
 {
-  kdDebug( 1601 ) << "diskHasSpace() " << "dir: " << dir << "Size: " << size << endl;
+  kdDebug( 1601 ) << "diskHasSpace() " << "dir: " << dir << " Size: " << size << endl;
+  
   struct STATFS buf;
   if (STATFS(QFile::encodeName(dir), &buf) == 0)
   {
@@ -201,17 +205,20 @@ ArkUtils::diskHasSpace(const QString &dir, long size)
   return true;
 }
 
-long
+KIO::filesize_t
 ArkUtils::getSizes(QStringList *list)
 {
-  long sum = 0;
+  KIO::filesize_t sum = 0;
   QString str;
+  KDE_struct_stat st;
 
   for ( QStringList::Iterator it = list->begin(); it != list->end(); ++it)
   {
     str = *it;
-    QFile f(str.right(str.length()-5));
-    sum += f.size();
+    str = str.right(str.length()-5);
+    if (KDE_stat(QFile::encodeName(str), &st ) < 0)
+       continue;
+    sum += st.st_size;
   }
   return sum;
 }

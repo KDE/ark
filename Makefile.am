@@ -1,5 +1,5 @@
 # set the include path for X, qt and KDE
-AM_CPPFLAGS = $(all_includes)
+AM_CPPFLAGS = -D_LARGEFILE64_SOURCE $(all_includes)
 
 SUBDIRS = pics
 

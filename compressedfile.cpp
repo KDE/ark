@@ -33,6 +33,7 @@
 
 // KDE includes
 #include <kdebug.h>
+#include <klargefile.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
@@ -310,7 +311,11 @@ void CompressedFile::addFile( QStringList *urls )
   connect( kp, SIGNAL(processExited(KProcess*)), this,
 	   SLOT(slotAddDone(KProcess*)));
 
-  fd = fopen( QFile::encodeName(m_filename), "w" );
+  int f_desc = KDE_open(QFile::encodeName(m_filename), O_CREAT | O_TRUNC | O_WRONLY, 0666);
+  if (f_desc != -1)
+      fd = fdopen( f_desc, "w" );
+  else
+      fd = NULL;
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {

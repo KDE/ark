@@ -334,8 +334,8 @@ private: // data
     KURL m_url;
     ArchType m_archType;
 
-    int m_nSizeOfFiles;
-    int m_nSizeOfSelectedFiles;
+    KIO::filesize_t m_nSizeOfFiles;
+    KIO::filesize_t m_nSizeOfSelectedFiles;
     unsigned int m_nNumFiles;
     int m_nNumSelectedFiles;
     int m_arkInstanceId;

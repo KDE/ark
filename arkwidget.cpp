@@ -689,7 +689,7 @@ ArkWidget::addToArchiveSlotOpenDone( bool success )
     }
 
     QStringList list = m_addToArchive_filesToAdd.toStringList();
-    if ( !ArkUtils::diskHasSpace( m_strArchName, ArkUtils::getSizes( &list ) ) )
+    if ( !ArkUtils::diskHasSpace( tmpDir(), ArkUtils::getSizes( &list ) ) )
     {
         KMessageBox::error( this, i18n( "Not enough free disc space to extract the archive." ) );
         emit request_file_quit();
@@ -1283,7 +1283,7 @@ ArkWidget::action_add()
 void
 ArkWidget::addFile(QStringList *list)
 {
-    if ( !ArkUtils::diskHasSpace( m_strArchName, ArkUtils::getSizes( list ) ) )
+    if ( !ArkUtils::diskHasSpace( tmpDir(), ArkUtils::getSizes( list ) ) )
         return;
 
     disableAll();
@@ -1747,7 +1747,7 @@ ArkWidget::action_extract()
         case ExtractDlg::Selected:
         case ExtractDlg::Current:
             {
-                int nTotalSize = 0;
+                KIO::filesize_t nTotalSize = 0;
                 if (extractOp != ExtractDlg::Current )
                 {
                     // make a list to send to unarchFile

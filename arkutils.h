@@ -34,6 +34,8 @@
 
 #include <qstring.h>
 
+#include <kio/global.h>
+
 class QStringList;
 
 // various functions for massaging timestamps
@@ -47,8 +49,8 @@ namespace ArkUtils
                        const QString &day,
                        const QString &year);
   bool haveDirPermissions(const QString &strFile);
-  bool diskHasSpace(const QString &dir, long size);
-  long getSizes(QStringList *list);
+  bool diskHasSpace(const QString &dir, KIO::filesize_t size);
+  KIO::filesize_t getSizes(QStringList *list);
 }
 
 #endif

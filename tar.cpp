@@ -41,6 +41,9 @@
 //
 
 // C includes
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -50,6 +53,7 @@
 
 // KDE includes
 #include <kdebug.h>
+#include <klargefile.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <ktempfile.h>
@@ -127,7 +131,11 @@ void TarArch::updateArch()
   if (compressed)
     {
       updateInProgress = true;
-      fd = fopen( QFile::encodeName(m_filename), "w" );
+      int f_desc = KDE_open(QFile::encodeName(m_filename), O_CREAT | O_TRUNC | O_WRONLY, 0666);
+      if (f_desc != -1)
+          fd = fdopen( f_desc, "w" );
+      else
+          fd = NULL;
 
       KProcess *kp = new KProcess;
       kp->clearArguments();
@@ -471,7 +479,11 @@ void TarArch::createTmp()
             }
             // the tmpfile does not yet exist, so we create it.
             createTmpInProgress = true;
-            fd = fopen( QFile::encodeName(tmpfile), "w" );
+            int f_desc = KDE_open(QFile::encodeName(tmpfile), O_CREAT | O_TRUNC | O_WRONLY, 0666);
+            if (f_desc != -1)
+                fd = fdopen( f_desc, "w" );
+            else
+                fd = NULL;
 
             KProcess *kp = new KProcess;
             kp->clearArguments();
