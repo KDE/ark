@@ -178,8 +178,9 @@ m_settings( _settings )
     connect(prefButton, SIGNAL(clicked()), this, SLOT(openPrefs()));
 
     connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
+    m_radioCurrent->setChecked(true);
     enableButtonOK(!m_extractDirCB->lineEdit()->text().isEmpty());
-
+    setFocus();
     kdDebug() << "-ExtractDlg::~ExtractDlg" << endl;
 }
 
