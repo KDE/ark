@@ -60,5 +60,4 @@ QString ArchiveFormatDlg::mimeType()
     return ArchiveFormatInfo::self()->mimeTypeForDescription( m_combo->currentText() );
 }
 
-
-
+#include "archiveformatdlg.moc"
