@@ -51,7 +51,7 @@ ArkMenu::ArkMenu( KonqPopupMenu * popupmenu, const char *name, const QStringList
     if ( !m_conf->readBoolEntry( "Enable", true ) )
 	    return;
 
-    KGlobal::locale()->insertCatalogue("arkplugin");
+    KGlobal::locale()->insertCatalogue("ark");
     extMimeTypes();
     m_list = popupmenu->fileItemList();
     unsigned int itemCount = m_list.count();
