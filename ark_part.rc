@@ -24,8 +24,14 @@
     <Action name="open_with"/>
     <Action name="edit"/>
   </Menu>
- <Menu name="settings"><text>&amp;Settings</text>
-    <Action name="options_configure_ark"/>
+ <Menu noMerge="1" name="settings">
+    <text>&amp;Settings</text>
+    <Merge name="StandardToolBarMenuHandler"/>
+    <Action name="options_show_search_bar"/>
+    <Separator/>
+    <Action name="options_configure_keybinding" group="settings_configure"/>
+    <Action name="options_configure_toolbars" group="settings_configure"/>
+    <Action name="options_configure_ark" group="settings_configure"/>
  </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar">

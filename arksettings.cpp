@@ -70,6 +70,8 @@
 #define EXTRACT_JUNKPATHS "extractJunkPaths"
 #define EXTRACT_LOWERCASE "extractLowerCase"
 
+#define SHOW_SEARCH_BAR "showSearchBar"
+
 #define ADD_RECURSEDIRS "recurseDirs"
 #define ADD_JUNKDIRS "junkDirs"
 #define ADD_ABSPATHS "absPaths"
@@ -199,6 +201,7 @@ void ArkSettings::readGenericProperties()
 	m_bExtractOverwrite = kc->readBoolEntry(EXTRACT_OVERWRITE, false);
 	m_bAddReplaceOnlyWithNewer = kc->readBoolEntry(ADD_REPLACEONLYWITHNEWER,
 						    false);
+	m_bShowSearchBar = kc->readBoolEntry(SHOW_SEARCH_BAR, true );
 }
 
 void ArkSettings::readTarProperties()
@@ -373,6 +376,7 @@ void ArkSettings::writeGenericProperties()
 
 	kc->writeEntry(EXTRACT_OVERWRITE, m_bExtractOverwrite);
 	kc->writeEntry(ADD_REPLACEONLYWITHNEWER, m_bAddReplaceOnlyWithNewer);
+	kc->writeEntry(SHOW_SEARCH_BAR, m_bShowSearchBar );
 }
 
 void ArkSettings::writeTarProperties()

@@ -50,11 +50,12 @@ class KURL;
 class KRun;
 class KTempFile;
 class KTempDir;
-class KListViewSearchLine;
+class KToolBar;
 
 class Arch;
 class ArkSettings;
 class FileLVI;
+class SearchBar;
 
 
 class ArkWidget : public QVBox, public ArkWidgetBase
@@ -87,6 +88,7 @@ public slots:
     virtual void file_close();
     virtual void file_new();
     virtual void options_dirs();
+    void slotShowSearchBarToggled( bool b );
 
 protected slots:
     void edit_select();
@@ -266,7 +268,8 @@ private: // data
 
     bool m_modified;
 
-    KListViewSearchLine* m_searchLine;
+    KToolBar  * m_searchToolBar;
+    SearchBar * m_searchBar;
 };
 
 #endif /* ARKWIDGET_H*/

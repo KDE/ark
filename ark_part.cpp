@@ -144,6 +144,12 @@ ArkPart::setupActions()
     ( void ) new KAction( i18n( "Configure &Ark..." ), "configure" , 0, awidget,
                                         SLOT( options_dirs() ), actionCollection(), "options_configure_ark" );
 
+    showSearchBar = new KToggleAction( i18n( "Show Search Bar" ), KShortcut(), actionCollection(), "options_show_search_bar" );
+
+    showSearchBar->setChecked( ArkSettings::self()->getShowSearchBar() );
+
+    connect( showSearchBar, SIGNAL( toggled( bool ) ), awidget, SLOT( slotShowSearchBarToggled( bool ) ) );
+
     initialEnables();
 }
 

@@ -34,6 +34,7 @@
 
 // Qt includes
 #include <qlayout.h>
+#include <qlabel.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -52,6 +53,7 @@
 #include <kdirselectdialog.h>
 #include <kurldrag.h>
 #include <klistviewsearchline.h>
+#include <ktoolbar.h>
 
 // ark includes
 #include "arkapp.h"
@@ -65,6 +67,8 @@
 #include "arkutils.h"
 #include "archiveformatinfo.h"
 #include "compressedfile.h"
+#include "searchbar.h"
+#include <kdialog.h>
 
 //----------------------------------------------------------------------
 //
@@ -79,15 +83,26 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
         m_pTempAddList(NULL), mpDownloadedList(NULL),
         m_bArchivePopupEnabled( false ), m_convert_tmpDir( NULL ),
         m_convertSuccess( false ), m_createRealArchTmpDir( NULL ),
-        m_extractRemoteTmpDir( NULL ), m_modified( false )
+        m_extractRemoteTmpDir( NULL ), m_modified( false ),
+	m_searchToolBar( 0 ), m_searchBar( 0 )
 {
     kdDebug(1601) << "+ArkWidget::ArkWidget" << endl;
 
-    m_searchLine = new KListViewSearchLine( this );
+    m_searchToolBar = new KToolBar( this, "searchBar" );
+    m_searchToolBar->boxLayout()->setSpacing( KDialog::spacingHint() );
+
+    QLabel * l1 = new QLabel( i18n( "&Search:" ), m_searchToolBar );
+    m_searchBar = new SearchBar( m_searchToolBar, 0 );
+    l1->setBuddy( m_searchBar );
+
+    m_searchToolBar->setStretchableWidget( m_searchBar );
+
+    if ( !m_settings->getShowSearchBar() )
+        m_searchToolBar->hide();
     
     createFileListView();
 
-    m_searchLine->setListView( archiveContent );
+    m_searchBar->setListView( archiveContent );
 
     // enable DnD
     setAcceptDrops(true);
@@ -2344,6 +2359,21 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
     fixEnables();
     emit openDone( _success );
     kdDebug(1601) << "-ArkWidget::slotOpen" << endl;
+}
+
+
+void ArkWidget::slotShowSearchBarToggled( bool b )
+{
+	if ( b )
+	{
+		m_searchToolBar->show();
+		m_settings->setShowSearchBar( true );
+	}
+	else
+	{
+		m_searchToolBar->hide();
+		m_settings->setShowSearchBar( false );
+	}
 }
 
 #include "arkwidget.moc"

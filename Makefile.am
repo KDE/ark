@@ -26,7 +26,7 @@ libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp extractdlg.cpp dirDlg.cpp \
                 zip.cpp tar.cpp filelistview.cpp arch.cpp selectDlg.cpp \
                 lha.cpp shellOutputDlg.cpp compressedfile.cpp \
                 zoo.cpp rar.cpp ar.cpp generalOptDlg.cpp arkwidgetbase.cpp \
-                arkutils.cpp archiveformatdlg.cpp arkwidget.cpp
+                arkutils.cpp archiveformatdlg.cpp arkwidget.cpp searchbar.cpp
 
 
 # this option you can leave out. Just, if you use "make dist", you need it
@@ -36,7 +36,7 @@ noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \
                  selectDlg.h shellOutputDlg.h generalOptDlg.h \
                  ark_part.h arkwidgetbase.h arktoplevelwindow.h \
                  arkfactory.h arkutils.h archiveformatinfo.h \
-                 archiveformatdlg.h
+                 archiveformatdlg.h searchbar.h
 
 METASOURCES = AUTO
 

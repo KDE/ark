@@ -131,6 +131,7 @@ private:
     KAction *popupViewAction;
     KAction *popupOpenWithAction;
     KAction *shellOutputAction;
+    KToggleAction *showSearchBar;
 
 };
 

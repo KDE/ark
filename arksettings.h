@@ -118,6 +118,9 @@ public:
 
   bool getAddReplaceOnlyWithNewer() const { return m_bAddReplaceOnlyWithNewer; }
   void setAddReplaceOnlyWithNewer(bool _b) { m_bAddReplaceOnlyWithNewer = _b; }
+
+  bool getShowSearchBar() const { return m_bShowSearchBar; }
+  void setShowSearchBar(bool _b) { m_bShowSearchBar = _b; }
   /***/
 
   void setLhaGeneric(bool _b) { m_lhaAddGeneric = _b; }
@@ -199,6 +202,7 @@ public:
   // Generics
   bool m_bExtractOverwrite;
   bool m_bAddReplaceOnlyWithNewer;
+  bool m_bShowSearchBar;
 
 	
   bool m_lhaAddGeneric;
