@@ -615,9 +615,6 @@ void ArkWidget::file_open(const QString & strFile)
     // Set the current archive filename to the filename
   m_strArchName = strFile;
 
-  // add it to the application-wide list of open archives
-  ArkApplication::getInstance()->addOpenArk(strFile, this);
-
   // display the archive contents
   showZip(strFile);
   kdDebug(1601) << "-ArkWidget::file_open(const QString & strFile)" << endl;
@@ -931,6 +928,8 @@ void ArkWidget::slotOpen(Arch *_newarch, bool _success,
 	QString extension;
 	m_bIsSimpleCompressedFile =
 	  (getArchType(m_strArchName, extension) == COMPRESSED_FORMAT);
+
+	ArkApplication::getInstance()->addOpenArk(_filename, this);
     }
   fixEnables();
   QApplication::restoreOverrideCursor();
