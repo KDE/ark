@@ -56,7 +56,8 @@ public:
   virtual void addDir(const QString & _dirName);
 
   virtual void remove(QStringList *);
-  virtual void unarchFile(QStringList *, const QString & _destDir="");
+  virtual void unarchFile(QStringList *, const QString & _destDir="",
+			  bool viewFriendly=false);
 	
   void testIntegrity();
 

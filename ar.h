@@ -51,7 +51,8 @@ public:
   virtual void addDir(const QString &) {} // never gets called
 
   virtual void remove(QStringList *);
-  virtual void unarchFile(QStringList *, const QString & _destDir="");
+  virtual void unarchFile(QStringList *, const QString & _destDir="",
+			  bool viewFriendly=false);
 
 protected slots:
   void slotReceivedTOC(KProcess *, char *, int);

@@ -294,7 +294,8 @@ void CompressedFile::slotAddDone(KProcess *_kp)
   slotAddExited(_kp);
 }
 
-void CompressedFile::unarchFile(QStringList *, const QString & _destDir)
+void CompressedFile::unarchFile(QStringList *, const QString & _destDir,
+				bool viewFriendly)
 {
   if (_destDir != m_tmpdir)
     {

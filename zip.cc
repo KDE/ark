@@ -233,7 +233,7 @@ void ZipArch::addDir(const QString & _dirName)
 {
   if (! _dirName.isEmpty())
   {
-    bool bOldVal = m_settings->getZipAddRecurseDirs();
+    bool bOldRecVal = m_settings->getZipAddRecurseDirs();
     
     // must be true for add directory - otherwise why would user try?
     m_settings->setZipAddRecurseDirs(true);
@@ -241,7 +241,7 @@ void ZipArch::addDir(const QString & _dirName)
     QStringList list;
     list.append(_dirName);
     addFile(&list);
-    m_settings->setZipAddRecurseDirs(bOldVal); // reset to old val
+    m_settings->setZipAddRecurseDirs(bOldRecVal); // reset to old val
   }
 }
 
@@ -261,8 +261,8 @@ void ZipArch::addFile( QStringList *urls )
   if (m_settings->getZipStoreSymlinks())
     *kp << "-y";
 
-  if (m_settings->getZipAddJunkDirs())
-    *kp << "-j";
+//  if (m_settings->getZipAddJunkDirs())	// Extraneous
+//    *kp << "-j";
 
   if (m_settings->getZipAddMSDOS())
     *kp << "-k";
@@ -325,7 +325,8 @@ void ZipArch::addFile( QStringList *urls )
   kdDebug(1601) << "-ZipArch::addFile" << endl;
 }
 
-void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
+void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir,
+			 bool viewFriendly)
 {
   // if _fileList is empty, we extract all.
   // if _destDir is empty, look at settings for extract directory
@@ -344,7 +345,7 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
   
   *kp << m_unarchiver_program;
 
-  if (m_settings->getZipExtractJunkPaths())
+  if (m_settings->getZipExtractJunkPaths() && !viewFriendly)
     *kp << "-j" ;
 
   if (m_settings->getZipExtractLowerCase())

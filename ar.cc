@@ -262,7 +262,8 @@ void ArArch::addFile( QStringList *urls )
   kdDebug(1601) << "+ArArch::addFile" << endl;
 }
 
-void ArArch::unarchFile(QStringList *_fileList, const QString & _destDir)
+void ArArch::unarchFile(QStringList *_fileList, const QString & _destDir,
+			bool viewFriendly)
 {
   // if _fileList is empty, we extract all.
   // if _destDir is empty, look at settings for extract directory

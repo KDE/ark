@@ -600,7 +600,8 @@ void TarArch::slotAddFinished(KProcess *_kp)
   kdDebug(1601) << "-TarArch::slotAddFinished" << endl;
 }
 
-void TarArch::unarchFile( QStringList * _fileList, const QString & _destDir)
+void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
+			 bool viewFriendly)
 {
   kdDebug(1601) << "+TarArch::unarchFile" << endl;
   QString dest;

@@ -337,7 +337,8 @@ void LhaArch::addFile( QStringList *urls )
   kdDebug(1601) << "+LhaArch::addFile" << endl;
 }
 
-void LhaArch::unarchFile(QStringList *_fileList, const QString & _destDir)
+void LhaArch::unarchFile(QStringList *_fileList, const QString & _destDir,
+			 bool viewFriendly)
 {
   // if _fileList is empty, we extract all.
   // if _destDir is empty, look at settings for extract directory

@@ -1870,7 +1870,7 @@ void ArkWidget::showFile( FileLVI *_pItem )
 			      _pItem->text(getSizeColumn()).toLong()))
     {
       disableAll();
-      arch->unarchFile(m_extractList, m_settings->getTmpDir() );
+      arch->unarchFile(m_extractList, m_settings->getTmpDir(), true);
     }
 }
 

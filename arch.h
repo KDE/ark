@@ -91,7 +91,9 @@ public:
 
   // unarch the files in the list or all files if the list is empty.
   // if _destDir is empty, look at settings for extract directory
-  virtual void unarchFile(QStringList *, const QString & _destDir="") = 0;
+  // viewFriendly forces certain options like directory junking required by view/edit
+  virtual void unarchFile(QStringList *, const QString & _destDir="",
+			  bool viewFriendly=false) = 0;
 
   QString fileName() const { return m_filename; };
 
