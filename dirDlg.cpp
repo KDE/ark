@@ -126,6 +126,7 @@ DirDlg::DirDlg( ArkSettings *d, QWidget *parent, const char *name )
   OKButton->setGeometry( 350, 270, 80, 30 );
   OKButton->setText(i18n( "OK") );
   connect(OKButton, SIGNAL(clicked()), this, SLOT(saveConfig()));
+  OKButton->setFocus();
 
   pListBox->setCurrentItem(0); // this will make the right buttons show
   setFixedSize( DLG_WIDTH, DLG_HEIGHT );

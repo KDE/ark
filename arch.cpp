@@ -28,8 +28,10 @@
 
 #include <kdebug.h>
 #include <kmessagebox.h>
+#include <kmimemagic.h>
 #include <klocale.h>
 #include <time.h>
+#include <qapplication.h>
 
 #define ABS(x) (x) < 0? -(x) : (x)
 
@@ -132,6 +134,7 @@ void Arch::slotDeleteExited(KProcess *_kp)
     {
       if(stderrIsError())
 	{
+	  QApplication::restoreOverrideCursor();
 	  KMessageBox::error( 0, i18n("You probably don't have sufficient permissions.\n"
 				      "Please check the file owner and the integrity\n"
 				      "of the archive.") );
@@ -143,6 +146,7 @@ void Arch::slotDeleteExited(KProcess *_kp)
     {
       if (m_bNotifyWhenDeleteFails)
 	{
+	  QApplication::restoreOverrideCursor();
 	  KMessageBox::sorry( (QWidget *)0,
 			      i18n("Deletion failed"), i18n("Error") );
 	}
@@ -170,6 +174,7 @@ void Arch::slotExtractExited(KProcess *_kp)
     {
       if(stderrIsError())
 	{
+	  QApplication::restoreOverrideCursor();
 	  int ret = KMessageBox::warningYesNo( (QWidget *) 0, i18n("Sorry, the extract operation failed.\nDo you wish to view the shell output?"), i18n("Error"));
 	  if (ret == KMessageBox::Yes)
 	    m_gui->viewShellOutput();
@@ -199,6 +204,7 @@ void Arch::slotAddExited(KProcess *_kp)
     {
       if(stderrIsError())
 	{
+	  QApplication::restoreOverrideCursor();
 	  KMessageBox::error( 0, i18n("You probably don't have sufficient permissions\n"
 				      "Please check the file owner and the integrity\n"
 				      "of the archive.") );
@@ -208,6 +214,7 @@ void Arch::slotAddExited(KProcess *_kp)
     }
   else
     {
+      QApplication::restoreOverrideCursor();
       int ret = KMessageBox::warningYesNo( (QWidget *) 0, i18n("Sorry, the add operation failed.\nDo you wish to view the shell output?"), i18n("Error"));
 	  if (ret == KMessageBox::Yes)
 	    m_gui->viewShellOutput();
@@ -403,7 +410,22 @@ ArchType getArchType( const QString & archname, QString &extension)
       extension = ".a";
       return AA_FORMAT;
     }
+
+  // now try using magic
+  
+  KMimeMagic *mimePtr = KMimeMagic::self();
+  KMimeMagicResult * mimeResultPtr = mimePtr->findFileType(archname);
+  QString mimetype = mimeResultPtr->mimeType();
   extension = QString::null;
+  if (mimetype == "application/x-rar")
+    return RAR_FORMAT;
+  if (mimetype == "application/x-lha")
+    return LHA_FORMAT;
+  if (mimetype == "application/x-archive")
+    return AA_FORMAT;
+  if (mimetype == "application/x-tar")
+    return TAR_FORMAT;
+
   return UNKNOWN_FORMAT;
 }
 

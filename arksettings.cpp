@@ -251,11 +251,11 @@ void ArkSettings::readZipProperties()
   kc->setGroup( ZIP_GROUP );
 
   m_zipExtractOverwrite = kc->readBoolEntry( EXTRACT_OVERWRITE, true );
-  m_zipExtractJunkPaths = kc->readBoolEntry( EXTRACT_JUNKPATHS, false );
-  m_zipExtractOverwrite = kc->readBoolEntry( EXTRACT_LOWERCASE, false );
+  m_zipExtractJunkPaths = kc->readBoolEntry( EXTRACT_JUNKPATHS, true );
+  m_zipExtractOverwrite = kc->readBoolEntry( EXTRACT_LOWERCASE, true );
 
   m_zipAddRecurseDirs = kc->readBoolEntry( ADD_RECURSEDIRS, true );
-  m_zipAddJunkDirs = kc->readBoolEntry( ADD_JUNKDIRS, false );
+  m_zipAddJunkDirs = kc->readBoolEntry( ADD_JUNKDIRS, true );
   m_zipAddMSDOS = kc->readBoolEntry( ADD_MSDOS, false );
   m_zipAddConvertLF = kc->readBoolEntry( ADD_CONVERTLF, false );
   m_zipStoreSymlinks = kc->readBoolEntry( ZIP_STORE_SYM_LINKS, true );
@@ -522,14 +522,15 @@ void ArkSettings::setAddDirCfg(const QString& dir, int mode)
 const QString ArkSettings::getFilter()
 {
   return i18n(
-	      "*.zip *.tar.gz *.tar.Z *.tar.lzo *.tgz *.taz *.tzo *.tar.bz2 *.tar.bz *.tar *.lzh *.gz *.lzo *.Z *.bz *.bz2 *.zoo *.rar *.a|All valid archives\n"
+	      "*|All Files\n"
+	      "*.zip *.tar.gz *.tar.Z *.tar.lzo *.tgz *.taz *.tzo *.tar.bz2 *.tar.bz *.tar *.lzh *.gz *.lzo *.Z *.bz *.bz2 *.zoo *.rar *.a|All valid archives with extensions\n"
 	      " *.tar.gz *.tar.Z *.tgz *.taz *.tzo *.tar.bz2 *.tar.bz *.tar.lzo *.tar |Tar archives (*.tar, *.tar.gz, *.tar.Z, *.tar.bz2, etc.)\n"
 	      "*.gz *.bz *.bz2 *.lzo *.Z|Compressed Files (*.gz *.bz *.bz2 *.lzo *.Z)\n"
 	      "*.zip|Zip archives (*.zip)\n"
-	      "*.lzh|Lha archives (*.lzh)\n"
+	      "*.lzh|Lha archives with extension lzh\n"
 	      "*.zoo|Zoo archives (*.zoo)\n"
-	      "*.rar|Rar archives (*.rar)\n"
-	      "*.a|Ar archives (*.a)\n"
+	      "*.rar|Rar archives with extension rar\n"
+	      "*.a|Ar archives with extension a\n"
 	      ); 
 }
 

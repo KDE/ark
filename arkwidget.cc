@@ -291,7 +291,7 @@ void ArkWidget::setHeader()
   if (m_bIsArchiveOpen)
     setCaption(m_strArchName);
   else
-    setCaption("");
+    setCaption(QString::null);
 }
 
 void ArkWidget::toggleToolBar()
@@ -427,9 +427,14 @@ void ArkWidget::file_save_as()
 	return;      
       QString ext;
       strFile = u.path();
-      if (getArchType(strFile, ext) == archtype)
+      ArchType newArchType = getArchType(strFile, ext);
+      if (newArchType == archtype)
 	break;
-
+      // these types don't mind having no extension
+      if (newArchType == UNKNOWN_FORMAT && !strFile.contains('.')
+	  && (archtype == RAR_FORMAT || archtype == LHA_FORMAT ||
+	      archtype == AA_FORMAT))
+	break;
       KMessageBox::error(this, i18n("Please save your archive in the same format as the original.\nHint: Use the same extension."));
     }
   while (true);
@@ -466,7 +471,6 @@ void ArkWidget::file_open(const QString & strFile)
       if (errno == ENOENT || errno == ENOTDIR || errno ==  EFAULT)
 	{
 	  KMessageBox::error(this, i18n("The archive %1 does not exist.").arg(strFile.local8Bit()));
-	  recent->removeURL(strFile);
 	}
       else if (errno == EACCES)
 	{
@@ -475,6 +479,7 @@ void ArkWidget::file_open(const QString & strFile)
 	}
       else
 	KMessageBox::error(this, i18n("Unknown error."));
+      recent->removeURL(strFile);
       return;
     }
   else
@@ -497,6 +502,7 @@ void ArkWidget::file_open(const QString & strFile)
       if (! ((statbuffer.st_mode & nFlag) == nFlag))
 	{
 	  KMessageBox::error(this, i18n("You don't have permission to access that archive") );
+	  recent->removeURL(strFile);
 	  return;
 	}
     }
@@ -617,7 +623,7 @@ QString ArkWidget::getColData(const QString &_filename,
   kdError(1601) << "Couldn't find " << _filename << " in ArkWidget::getColData"
 		<< endl;
 
-  return QString("");
+  return QString(QString::null);
 }
 
 
@@ -656,7 +662,7 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
 		}
 	      else if (choice == KMessageBox::Cancel)
 		{
-		  return "";
+		  return QString::null;
 		}
 	      else
 		{
@@ -667,22 +673,22 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
 		  if (!strFile.isEmpty())
 		    continue;
 		  else
-		    return "";
+		    return QString::null;
 		}
 	    }
 	  // if we got here, the file does not already exist.
 	  if (!Utilities::haveDirPermissions(strFile))
-	    return "";
+	    return QString::null;
 
 	  // if we made it here, it's a go.
-	  if (! strFile.contains('.'))
+	  if (m_strArchName.contains('.') && !strFile.contains('.'))
 	    {
 	      // if the filename has no dot in it, ask to append extension
 	      QString extension = _extension;
 	      if (extension.isNull())
 		extension = ".zip";
 
-	      int nRet = KMessageBox::warningYesNo(0, i18n("Your file is missing an extension to indicate the archive type.\nShall create a file of the default type (%1)?").arg(extension), i18n("Error"));
+	      int nRet = KMessageBox::warningYesNo(0, i18n("Your file is missing an extension to indicate the archive type.\nIs it OK to create a file of the default type (%1)?").arg(extension), i18n("Error"));
 	      if (nRet == KMessageBox::Yes)
 		{
 		  strFile += extension;
@@ -698,7 +704,7 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
 		  if (!strFile.isEmpty())
 		    continue;
 		  else
-		    return "";
+		    return QString::null;
 		}
 	    }
 	  else
@@ -861,16 +867,19 @@ void ArkWidget::slotExtractDone()
 {
   kdDebug(1601) << "+ArkWidget::slotExtractDone" << endl;
   QApplication::restoreOverrideCursor();
-  if ( !KOpenWithHandler::exists() )
-    (void) new KFileOpenWithHandler();
+  // I don't need this any more??
+  //  if ( !KOpenWithHandler::exists() )
+  //    (void) new KFileOpenWithHandler();
   if (m_bViewInProgress)
     {
       m_bViewInProgress = false;
       if (m_bEditInProgress)
 	{
+	  kdDebug(1601) << "Edit in progress..." << endl;
 	  KURL::List list;
 	  // edit will be in progress until the KProcess terminates.
-	  KOpenWithDlg l( list, i18n("Edit With:"), "", (QWidget*)0L);
+	  KOpenWithDlg l( list, i18n("Edit With:"), QString::null,
+			  (QWidget*)0L);
 	  if ( l.exec() )
 	    {
 	      KProcess *kp = new KProcess;
@@ -897,7 +906,7 @@ void ArkWidget::slotExtractDone()
       KURL::List list;
       KURL url = m_strFileToView;
       list.append(url);
-      KOpenWithDlg l( list, i18n("Open With:"), "", (QWidget*)0L);
+      KOpenWithDlg l( list, i18n("Open With:"), QString::null, (QWidget*)0L);
       if ( l.exec() )
 	{
 	  KService::Ptr service = l.service();
@@ -1117,7 +1126,7 @@ void ArkWidget::file_close()
     {
       delete arch;
       arch = 0;
-      setCaption("");
+      setCaption(QString::null);
       m_bIsArchiveOpen = false;
       
       if (archiveContent)
@@ -2080,7 +2089,7 @@ void ArkWidget::writeStatusMsg(const QString text)
 #if 0
 void ArkWidget::clearStatusBar()
 {
-	statusBar()->changeItem("",0);
+	statusBar()->changeItem(QString::null,0);
 }
 #endif
 
@@ -2201,6 +2210,7 @@ void ArkWidget::createArchive( const QString & _filename )
 
 void ArkWidget::openArchive(const QString & _filename )
 {
+  // figure out what kind of archive it is
   Arch *newArch = 0;
   
   QString extension;

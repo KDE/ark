@@ -1,5 +1,14 @@
           $Id$
 
+2000-06-27: Emily Ezust <emilye@corel.com>
+	* Added code to let users load rar, lha, ar and tar archives that
+ 	  do not have the standard extensions. You can also "Save As" into 
+	  a file with no extension provided the original is rar, lha or ar.
+ 	  Zip and zoo don't like having no extension. Tar doesn't mind but 
+	  I haven't explored that tangle yet. It's complicated with all the
+ 	  compressors!
+	* Made shell output dialog a tiny bit prettier.
+	
 2000-06-22: Emily Ezust <emilye@corel.com>
 	* Overhaul of Directories Preferences dialog
 	* For Save As, ark will add proper extension if user does not have one.

@@ -43,26 +43,23 @@ ShellOutputDlg::ShellOutputDlg( ArkSettings *_data, QWidget *_parent,
 	: QDialog( _parent, _name, true )
 {
   setCaption( i18n("Shell Output") );
-  QVBoxLayout *mainLayout = new QVBoxLayout( this, 10 );
-
   QMultiLineEdit *l1 = new QMultiLineEdit( this );
   l1->setReadOnly( true );
-	
+  l1->setGeometry(10, 10, 500, 320);
+
   QFont my_font;
   my_font.setFamily( "courier" );
   l1->setFont( my_font );
 
   l1->setText( *(_data->getLastShellOutput()) );
-  l1->setMinimumSize( 500, 300 );
+  l1->setFixedSize( 500, 320 );
   l1->setCursorPosition(l1->numLines(), 0);
 
-  mainLayout->addWidget( l1 );
-
   QPushButton *close = new QPushButton( i18n("Close"), this );
-  close->setFixedSize( close->sizeHint() );
+  close->setGeometry(430, 340, 80, 30);
   connect( close, SIGNAL( clicked() ), SLOT( accept() ) );
-  mainLayout->addWidget( close );
+  close->setFocus();
 
-  mainLayout->activate();
-  setMinimumSize( sizeHint() );
+  setFixedSize(520, 380);
+
 }

@@ -1,5 +1,5 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="ark">
+<!DOCTYPE kpartgui>
+<kpartgui name="ark" version="1">
 <ActionProperties>
     <Action name="file_open" icon="ark_open"/>
     <Action name="file_new" icon="ark_new"/>
@@ -45,8 +45,6 @@
   <Separator lineSeparator="true"/>
   <Action name="select_all"/>
   <Action name="view"/>
-  <Separator lineSeparator="true"/>
-  <Action name="help"/>
 </ToolBar>   
 <Menu name="file_popup">
  <Action name="extract"/>
@@ -68,7 +66,6 @@
  <Action name="options_show_toolbar"/>
  <Action name="options_show_statusbar"/>
  <Separator lineSeparator="true"/>
- <Action name="settings"/>
  <Action name="help"/>
 </Menu>
 </kpartgui>
