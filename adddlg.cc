@@ -32,6 +32,7 @@
 #include <qmessagebox.h>
 #include <qcheckbox.h>
 #include <qfileinfo.h>
+#include <qlayout.h>
 #include <klocale.h>
 #include <kfileview.h>
 #include <qbuttongroup.h>
