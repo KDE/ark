@@ -968,8 +968,7 @@ ArkWidget::file_close()
 
 // Edit menu /////////////////////////////////////////////////////////
 
-void
-ArkWidget::edit_select()
+void ArkWidget::edit_select()
 {
   // User pressed the OK button?
   bool ok;
@@ -982,11 +981,13 @@ ArkWidget::edit_select()
   {
     QRegExp exp( input, true, true );
     // The validator checked if that was a valid regexp before, so it is valid here, or we have a bug
+    // FIXME: we don't have a validator yet, so the above sentence is false.
     Q_ASSERT( exp.isValid() );
     // We don't want a selection change notification for each item selected
     disconnect( m_view, SIGNAL( selectionChanged() ),
                 this, SLOT( slotSelectionChanged() ) );
 
+    // Ask the view to select the items
     m_view->select( exp );
 
     // Restore the behavior
@@ -1000,50 +1001,19 @@ ArkWidget::edit_select()
   return;
 }
 
-void
-ArkWidget::edit_selectAll()
+void ArkWidget::edit_selectAll()
 {
-    ArkListViewItem * flvi = (ArkListViewItem*) m_view->firstChild();
-
-    // don't call the slot for each selection!
-    disconnect( m_view, SIGNAL( selectionChanged()),
-                this, SLOT( slotSelectionChanged() ) );
-    while (flvi)
-    {
-        m_view->setSelected(flvi, true);
-        flvi = (ArkListViewItem*)flvi->itemBelow();
-    }
-
-    // restore the behavior
-    connect( m_view, SIGNAL( selectionChanged()),
-             this, SLOT( slotSelectionChanged() ) );
-    updateStatusSelection();
+  m_view->selectAll( true );
 }
 
-void
-ArkWidget::edit_deselectAll()
+void ArkWidget::edit_deselectAll()
 {
-    m_view->clearSelection();
-    updateStatusSelection();
+  m_view->clearSelection();
 }
 
-void
-ArkWidget::edit_invertSel()
+void ArkWidget::edit_invertSel()
 {
-    ArkListViewItem * flvi = (ArkListViewItem*) m_view->firstChild();
-    // don't call the slot for each selection!
-    disconnect( m_view, SIGNAL( selectionChanged()),
-                this, SLOT( slotSelectionChanged() ) );
-
-    while (flvi)
-    {
-        m_view->setSelected(flvi, !flvi->isSelected());
-        flvi = (ArkListViewItem*)flvi->itemBelow();
-    }
-    // restore the behavior
-    connect( m_view, SIGNAL( selectionChanged()),
-             this, SLOT( slotSelectionChanged() ) );
-    updateStatusSelection();
+  m_view->invertSelection();
 }
 
 KURL
