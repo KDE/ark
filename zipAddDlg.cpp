@@ -31,7 +31,6 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qlineedit.h>
-#include <qmessagebox.h>
 #include <qregexp.h>
 #include <qstring.h>
 

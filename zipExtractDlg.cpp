@@ -31,7 +31,6 @@
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qmessagebox.h>
 #include <qpushbutton.h>
 #include <qstring.h>
 
@@ -45,6 +44,7 @@
 #include <kfileinfo.h>
 #include <kfilefilter.h>
 #include <ktoolbar.h>
+#include <kmessagebox.h>
 
 // ark includes
 #include "zipExtractDlg.h"
@@ -224,7 +224,7 @@ void ZipExtractDlg::onExtract()
 	QString dest = locationEdit->currentText();
 	
 	if( dest.isEmpty() ){
-		QMessageBox::warning(this, i18n("ark"), i18n("Destination is empty"), i18n("OK"));
+		KMessageBox::sorry(this, i18n("Destination is empty"));
 	}
 	else{
 		kdebug(0, 1601, "ZipExtractDlg::onExtract: Destination is %s", dest.ascii());
