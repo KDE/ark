@@ -33,6 +33,7 @@
 #include <dcopclient.h>
 #include <qmessagebox.h>
 #include <kcmdlineargs.h>
+#include <kaboutdata.h>
 #include <qstringlist.h>
 #include "arkapp.h"
 #include "arkwidget.h"
@@ -50,7 +51,14 @@ static KCmdLineOptions option[] =
 
 int main( int argc, char *argv[]  )
 {
-  KCmdLineArgs::init(argc, argv, "ark", description, version );
+  KAboutData aboutData("ark", I18N_NOOP("arK"),
+    version, description, KAboutData::License_GPL,
+    "(c) 1997-2000, The Various Ark Developers");
+  aboutData.addAuthor("Robert Palmbos",0, "palm9744@kettering.edu");
+  aboutData.addAuthor("Francois-Xavier Duranceau",0, "duranceau@kde.org");
+  aboutData.addAuthor("Emily Ezust",0, "emilye@corel.com");
+  
+  KCmdLineArgs::init( argc, argv, &aboutData );
   KCmdLineArgs::addCmdLineOptions( option );
 
   if (!ArkApplication::start())
