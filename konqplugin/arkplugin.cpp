@@ -34,13 +34,15 @@
 
 #include <qdir.h>
 #include <qcstring.h>
+#include <qsignalmapper.h>
 #include <qobject.h>
 
 typedef KGenericFactory<ArkMenu, KonqPopupMenu> ArkMenuFactory;
 K_EXPORT_COMPONENT_FACTORY( libarkplugin, ArkMenuFactory("arkplugin") );
 
 ArkMenu::ArkMenu( KonqPopupMenu * popupmenu, const char *name, const QStringList& /* list */ )
-                : KonqPopupMenuPlugin( popupmenu, name)
+                : KonqPopupMenuPlugin( popupmenu, name),
+                m_compAsMapper( 0 ), m_addToMapper( 0 )
 {
     if ( QCString( kapp->name() ) == "kdesktop" && !kapp->authorize("editable_desktop_icons" ) )
         return;
@@ -49,9 +51,10 @@ ArkMenu::ArkMenu( KonqPopupMenu * popupmenu, const char *name, const QStringList
     m_conf->setGroup( "ArkPlugin" );
 
     if ( !m_conf->readBoolEntry( "Enable", true ) )
-	    return;
+        return;
 
     KGlobal::locale()->insertCatalogue("ark");
+
     extMimeTypes();
     m_list = popupmenu->fileItemList();
     unsigned int itemCount = m_list.count();
@@ -149,6 +152,9 @@ ArkMenu::ArkMenu( KonqPopupMenu * popupmenu, const char *name, const QStringList
 
 ArkMenu::~ArkMenu()
 {
+    delete m_conf;
+    delete m_compAsMapper;
+    delete m_addToMapper;
 }
 
 void ArkMenu::slotPrepareCompAsMenu()
@@ -157,6 +163,7 @@ void ArkMenu::slotPrepareCompAsMenu()
                 this, SLOT( slotPrepareCompAsMenu() ) );
 
     KAction * action;
+    m_compAsMapper = new QSignalMapper( this, "compAsMapper" );
     QString ext;
     QStringList newExt;
     unsigned int counter = 0;
@@ -173,17 +180,18 @@ void ArkMenu::slotPrepareCompAsMenu()
             *eit = ".tar.bz2";
         if ( m_list.count() == 1 )
         {
-            action = new KAction( m_name + (*eit), 0, this,
-                    SLOT( slotCompressAs() ), actionCollection(), actionName.setNum( counter ) );
-            m_compAsMenu->insert( action );
+            action = new KAction( m_name + (*eit), 0, m_compAsMapper,
+                    SLOT( map() ), actionCollection() );
         }
         else
         {
             ext = KMimeType::mimeType(*mit)->comment();
-            action = new KAction( ext, 0, this,
-                    SLOT( slotCompressAs() ), actionCollection(), actionName.setNum( counter ) );
-            m_compAsMenu->insert( action );
+            action = new KAction( ext, 0, m_compAsMapper,
+                    SLOT( map() ), actionCollection() );
         }
+
+        m_compAsMenu->insert( action );
+        m_compAsMapper->setMapping( action, counter );
 
         ++counter;
         ++eit;
@@ -195,6 +203,8 @@ void ArkMenu::slotPrepareCompAsMenu()
         }
         m_extensionList += newExt;
     }
+
+    connect( m_compAsMapper, SIGNAL( mapped( int ) ), SLOT( slotCompressAs( int ) ) );
 }
 
 void ArkMenu::slotPrepareAddToMenu()
@@ -208,6 +218,7 @@ void ArkMenu::slotPrepareAddToMenu()
 
     unsigned int counter = 0;
     KAction * action;
+    m_addToMapper = new QSignalMapper( this, "addToMapper" );
     QCString actionName;
     QStringList::Iterator mit;
     KURL archive;
@@ -219,15 +230,17 @@ void ArkMenu::slotPrepareAddToMenu()
         for ( mit = m_extensionList.begin(); mit != m_extensionList.end(); ++mit )
             if ( (*uit).endsWith(*mit) )
             {
-                action = new KAction( *uit, 0, this, SLOT( slotAddTo() ),
-                        actionCollection(), actionName.setNum( counter ) );
+                action = new KAction( *uit, 0, m_addToMapper,
+                                      SLOT( map() ), actionCollection() );
                 m_addToMenu->insert( action );
+                m_addToMapper->setMapping( action, counter );
                 archive.setPath( *uit );
                 m_archiveList << archive;
                 counter++;
                 break;
             }
     }
+    connect( m_addToMapper, SIGNAL( mapped( int ) ), SLOT( slotAddTo( int ) ) );
 }
 
 void ArkMenu::compMimeTypes()
@@ -271,8 +284,8 @@ void ArkMenu::compMimeTypes()
     {
         m_archiveMimeTypes << "application/x-zip";
 
-	if ( m_conf->readBoolEntry( "UseJar", false ) )
-		m_archiveMimeTypes << "application/x-jar";
+        if ( m_conf->readBoolEntry( "UseJar", false ) )
+            m_archiveMimeTypes << "application/x-jar";
     }
 
     if ( KStandardDirs::findExe( "rar" ) != QString::null && m_conf->readBoolEntry( "UseRar", true ) )
@@ -363,7 +376,7 @@ void ArkMenu::stripExtension( QString & name )
     }
 }
 
-void ArkMenu::slotCompressAs()
+void ArkMenu::slotCompressAs( int pos )
 {
     QCString name;
     QString extension, mimeType;
@@ -373,13 +386,12 @@ void ArkMenu::slotCompressAs()
     while (  ( item = it.current() ) != 0 )
     {
         ++it;
-        name = sender()->name();
         target = item->url();
-        target.setPath( target.path( -1 ) + m_extensionList[ name.toUInt() ] );
+        target.setPath( target.path( -1 ) + m_extensionList[ pos ] );
         compressAs( item->url(), target );
     }
 
-    extension = m_extensionList[ name.toUInt() ];
+    extension = m_extensionList[ pos ];
     m_conf->setGroup( "ArkPlugin" );
     m_conf->writeEntry( "LastExtension", extension );
 
@@ -402,6 +414,7 @@ void ArkMenu::slotCompressAs()
             }
         }
     }
+    m_conf->sync();
 }
 
 void ArkMenu::slotCompressAsDefault()
@@ -426,9 +439,8 @@ void ArkMenu::compressAs( const KURL & name, const KURL & compressed )
     kapp->kdeinitExec( "ark", args );
 }
 
-void ArkMenu::slotAddTo()
+void ArkMenu::slotAddTo( int pos )
 {
-    QCString name = sender()->name();
     QStringList args;
     args << "--add-to";
     KFileItemListIterator it( m_list );
@@ -438,7 +450,11 @@ void ArkMenu::slotAddTo()
         ++it;
         args << item->url().prettyURL();
     }
-    args << m_archiveList[ name.toUInt() ].prettyURL();
+    KURL archive( m_list.first()->url() );
+    archive.setPath( archive.directory( false ) );
+    archive.setFileName( m_archiveList[ pos ].fileName() );
+
+    args << archive.prettyURL();
     kapp->kdeinitExec( "ark", args );
 }
 

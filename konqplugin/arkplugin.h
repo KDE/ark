@@ -26,6 +26,7 @@
 #include <kconfig.h>
 
 class KAction;
+class QSignalMapper;
 
 class ArkMenu : public KonqPopupMenuPlugin {
   Q_OBJECT
@@ -35,8 +36,8 @@ public:
 
 public slots:
     void slotCompressAsDefault();
-    void slotCompressAs();
-    void slotAddTo();
+    void slotCompressAs( int pos );
+    void slotAddTo( int pos );
     void slotAdd();
     void slotExtractHere();
     void slotExtractToSubfolders();
@@ -60,6 +61,8 @@ private:
     QStringList m_extensionList;
     KActionMenu * m_compAsMenu;
     KActionMenu * m_addToMenu;
+    QSignalMapper * m_compAsMapper;
+    QSignalMapper * m_addToMapper;
     KConfig * m_conf;
 };
 
