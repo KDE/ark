@@ -34,10 +34,6 @@
             <property name="text">
                 <string>&amp;Enable Konqueror integration</string>
             </property>
-            <property name="whatsThis" stdset="0">
-                <string>Enable Konqueror Integration\n"
-	                                              "Check this option to enable Ark's integration into the Konqueror file manager, letting you easily archive and unarchive files through the context menus.</string>
-            </property>
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
