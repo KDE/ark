@@ -149,7 +149,7 @@ void TarArch::updateArch()
       connect(kp, SIGNAL(processExited(KProcess *)),
                this, SLOT(updateFinished(KProcess *)) );
 
-      if (kp->start(KProcess::NotifyOnExit, flag) == false)
+      if ( !fd || kp->start(KProcess::NotifyOnExit, flag) == false)
         {
           KMessageBox::error(0, i18n("Trouble writing to the archive..."));
           emit updateDone();
