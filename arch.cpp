@@ -162,7 +162,7 @@ void Arch::slotDeleteExited(KProcess *_kp)
 	{
 	  QApplication::restoreOverrideCursor();
 	  KMessageBox::error(m_gui->getArkWidget(),
-		 i18n("You probably don't have sufficient permissions.\n"
+		 i18n("You probably do not have sufficient permissions.\n"
 		      "Please check the file owner and the integrity "
 		      "of the archive.") );
 	}
@@ -235,7 +235,7 @@ void Arch::slotAddExited(KProcess *_kp)
 	{
 	  QApplication::restoreOverrideCursor();
 	  KMessageBox::error(m_gui->getArkWidget(),
-			     i18n("You probably don't have sufficient permissions.\n"
+			     i18n("You probably do not have sufficient permissions.\n"
 				  "Please check the file owner and the integrity "
 				  "of the archive."));
 	}

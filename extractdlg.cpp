@@ -215,7 +215,7 @@ ExtractDlg::accept()
 		if ( !fi.isDir() && !fi.exists() )
 		{
 			QString ltext = i18n( "Create folder %1?").arg(p.path());
-			int createDir =  KMessageBox::questionYesNo( this, ltext, i18n( "Missing folder!" ) );
+			int createDir =  KMessageBox::questionYesNo( this, ltext, i18n( "Missing folder." ) );
 			if( createDir == 4 )
 			{
 				return;
@@ -230,7 +230,7 @@ ExtractDlg::accept()
 		}
 		if ( !ArkUtils::haveDirPermissions( p.path() ) )
 		{
-			KMessageBox::error( this, i18n( "You do not have write permission to this folder! Please provide another folder." ) );
+			KMessageBox::error( this, i18n( "You do not have write permission to this folder. Please provide another folder." ) );
 			return;
 		}
 	}

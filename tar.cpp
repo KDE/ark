@@ -244,7 +244,7 @@ TarArch::open()
 
     if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-        KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+        KMessageBox::error( 0, i18n("Could not start a subprocess.") );
     }
 
     // We list afterwards because we want the signals at the end
@@ -301,12 +301,12 @@ void TarArch::openSecondCreateTempDone()
                 || getUnCompressor() == QString("bunzip2") ) )
     {
         disconnect( this, SIGNAL( createTempDone() ), this, SLOT( openSecondCreateTempDone() ) );
-        kdDebug(1601)  << "Creating KTar from failed IO_RW " << m_filename << 
+        kdDebug(1601)  << "Creating KTar from failed IO_RW " << m_filename <<
             " using uncompressor " << getUnCompressor() << endl;
         if ( KMimeType::findByFileContent( tmpfile )->name() != "application/x-zerosize" )
         {
             tarptr = new KTar(tmpfile);
-            failed = !tarptr->open(IO_ReadOnly); 
+            failed = !tarptr->open(IO_ReadOnly);
         }
     }
 
@@ -466,7 +466,7 @@ void TarArch::createTmp()
                     this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
             if (kp->start(KProcess::NotifyOnExit, flag ) == false)
             {
-                KMessageBox::error(0, i18n("I can't fork a decompressor"));
+                KMessageBox::error(0, i18n("I cannot fork a decompressor"));
 		emit sigOpen( this, false, QString::null, 0 );
             }
         }
@@ -664,7 +664,7 @@ void TarArch::addFileCreateTempDone()
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigAdd(false);
     }
 
@@ -756,7 +756,7 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigExtract(false);
     }
 
@@ -803,7 +803,7 @@ void TarArch::removeCreateTempDone()
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigDelete(false);
     }
 

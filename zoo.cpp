@@ -126,7 +126,7 @@ void ZooArch::open()
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigOpen(this, false, QString::null, 0 );
     }
 
@@ -159,7 +159,7 @@ void ZooArch::setHeaders()
 void ZooArch::create()
 {
   emit sigCreate(this, true, m_filename,
-		 Arch::Extract | Arch::Delete | Arch::Add 
+		 Arch::Extract | Arch::Delete | Arch::Add
 		 | Arch::View);
 }
 
@@ -179,7 +179,7 @@ void ZooArch::addFile( QStringList *urls )
   KProcess *kp = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program;
-	
+
   if (m_settings->getAddReplaceOnlyWithNewer())
     *kp << "-update";
   else
@@ -191,7 +191,7 @@ void ZooArch::addFile( QStringList *urls )
   QString url;
   QString file;
 
-	
+
   QStringList::ConstIterator iter;
   for (iter = urls->begin(); iter != urls->end(); ++iter )
   {
@@ -224,7 +224,7 @@ void ZooArch::addFile( QStringList *urls )
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigAdd(false);
     }
 
@@ -256,10 +256,10 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 
 
   QString tmp;
-	
+
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  
+
   *kp << m_archiver_program;
 
   if (!m_settings->getExtractOverwrite())
@@ -267,18 +267,18 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir,
   else
     *kp << "xOOS";
   *kp << m_filename;
-  
+
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
   if (_fileList)
     {
       for ( QStringList::Iterator it = _fileList->begin();
-	    it != _fileList->end(); ++it ) 
+	    it != _fileList->end(); ++it )
 	{
 	  *kp << (*it);/*.latin1() ;*/
 	}
     }
- 
+
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
@@ -286,10 +286,10 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 
   connect( kp, SIGNAL(processExited(KProcess*)), this,
 	   SLOT(slotExtractExited(KProcess*)));
-  
+
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigExtract(false);
     }
 }
@@ -304,7 +304,7 @@ void ZooArch::remove(QStringList *list)
   m_shellErrorData = "";
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  
+
   *kp << m_archiver_program << "D" << m_filename;
   for ( QStringList::Iterator it = list->begin();
 	it != list->end(); ++it )
@@ -323,17 +323,17 @@ void ZooArch::remove(QStringList *list)
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigDelete(false);
     }
-  
+
   kdDebug(1601) << "-ZooArch::remove" << endl;
 }
 
 QString fixTime(const QString &_strTime)
 {
   // it may have come from a different time zone... get rid of trailing
-  // +3 or -3 etc. 
+  // +3 or -3 etc.
   QString strTime = _strTime;
 
   if (strTime.contains("+") || strTime.contains("-"))
@@ -356,7 +356,7 @@ QString fixTime(const QString &_strTime)
 	  strTime = strTime.left(8);
 	  strTime.sprintf("%2.2d%s", nHour, strTime.right(6).utf8().data());
 	  kdDebug(1601) << "The new time is " << strTime << endl;
-	}	
+	}
     }
   else
     {

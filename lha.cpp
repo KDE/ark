@@ -159,7 +159,7 @@ void LhaArch::open()
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigOpen(this, false, QString::null, 0 );
     }
 
@@ -264,7 +264,7 @@ void LhaArch::addFile( QStringList *urls )
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigAdd(false);
     }
 
@@ -315,7 +315,7 @@ void LhaArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigExtract(false);
     }
 }
@@ -349,7 +349,7 @@ void LhaArch::remove(QStringList *list)
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigDelete(false);
     }
 

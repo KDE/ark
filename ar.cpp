@@ -108,7 +108,7 @@ void ArArch::open()
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigOpen(this, false, QString::null, 0 );
     }
   kdDebug(1601) << "-ArArch::open" << endl;
@@ -127,14 +127,14 @@ void ArArch::create()
 
   if (kp->start(KProcess::Block) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigCreate(this, false, m_filename,
-		     Arch::Extract | Arch::Delete | Arch::Add 
+		     Arch::Extract | Arch::Delete | Arch::Add
 		     | Arch::View);
     }
   else
     emit sigCreate(this, true, m_filename,
-		   Arch::Extract | Arch::Delete | Arch::Add 
+		   Arch::Extract | Arch::Delete | Arch::Add
 		   | Arch::View);
 }
 
@@ -144,7 +144,7 @@ void ArArch::addFile( QStringList *urls )
   KProcess *kp = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program;
-	
+
   if (m_settings->getAddReplaceOnlyWithNewer())
 	  *kp << "ru";
   else
@@ -156,7 +156,7 @@ void ArArch::addFile( QStringList *urls )
   QString url;
   QString file;
 
-	
+
   QStringList::ConstIterator iter;
   for (iter = urls->begin(); iter != urls->end(); ++iter )
   {
@@ -189,7 +189,7 @@ void ArArch::addFile( QStringList *urls )
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigAdd(false);
     }
 
@@ -216,26 +216,26 @@ void ArArch::unarchFile(QStringList *_fileList, const QString & _destDir, bool )
 
   bool ret = QDir::setCurrent(dest);
  // I already checked the validity of the dir before coming here
-  Q_ASSERT(ret); 
+  Q_ASSERT(ret);
 
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  
+
   *kp << m_archiver_program;
   *kp << "vx";
   *kp << m_filename;
-  
+
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
   if (_fileList)
     {
       for ( QStringList::Iterator it = _fileList->begin();
-	    it != _fileList->end(); ++it ) 
+	    it != _fileList->end(); ++it )
 	{
 	  *kp << (*it);
 	}
     }
- 
+
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
@@ -243,10 +243,10 @@ void ArArch::unarchFile(QStringList *_fileList, const QString & _destDir, bool )
 
   connect( kp, SIGNAL(processExited(KProcess*)), this,
 	   SLOT(slotExtractExited(KProcess*)));
-  
+
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigExtract(false);
     }
 }
@@ -261,7 +261,7 @@ void ArArch::remove(QStringList *list)
   m_shellErrorData = "";
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  
+
   *kp << m_archiver_program << "d" << m_filename;
   for ( QStringList::Iterator it = list->begin();
 	it != list->end(); ++it )
@@ -280,10 +280,10 @@ void ArArch::remove(QStringList *list)
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigDelete(false);
     }
-  
+
   kdDebug(1601) << "-ArArch::remove" << endl;
 }
 

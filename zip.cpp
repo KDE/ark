@@ -87,7 +87,7 @@ void ZipArch::setHeaders()
   alignRightCols[3] = 4;
   alignRightCols[4] = 5;
   alignRightCols[5] = 6;
-  
+
   m_gui->setHeaders(&list, alignRightCols, 6);
   delete [] alignRightCols;
 
@@ -102,7 +102,7 @@ void ZipArch::open()
   m_buffer = "";
   m_header_removed = false;
   m_finished = false;
-	
+
   KProcess *kp = new KProcess;
 
   *kp << m_unarchiver_program << "-v" << m_filename;
@@ -117,7 +117,7 @@ void ZipArch::open()
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigOpen(this, false, QString::null, 0 );
     }
 
@@ -128,7 +128,7 @@ void ZipArch::open()
 void ZipArch::create()
 {
   emit sigCreate(this, true, m_filename,
-		 Arch::Extract | Arch::Delete | Arch::Add 
+		 Arch::Extract | Arch::Delete | Arch::Add
 		  | Arch::View);
 }
 
@@ -137,7 +137,7 @@ void ZipArch::addDir(const QString & _dirName)
   if (! _dirName.isEmpty())
   {
     bool bOldRecVal = m_settings->getZipAddRecurseDirs();
-    
+
     // must be true for add directory - otherwise why would user try?
     m_settings->setZipAddRecurseDirs(true);
 
@@ -153,12 +153,12 @@ void ZipArch::addFile( QStringList *urls )
   kdDebug(1601) << "+ZipArch::addFile" << endl;
   KProcess *kp = new KProcess;
   kp->clearArguments();
-			
+
   *kp << m_archiver_program;
-	
+
   if (m_settings->getZipAddRecurseDirs())
     *kp << "-r";
-		
+
   //	*kp << _compression;   // for later
 
   if (m_settings->getZipStoreSymlinks())
@@ -171,12 +171,12 @@ void ZipArch::addFile( QStringList *urls )
     *kp << "-k";
   if (m_settings->getZipAddConvertLF())
     *kp << "-l";
-  
+
   if (m_settings->getAddReplaceOnlyWithNewer())
     *kp << "-u";
 
   *kp << m_filename;
-  
+
   QString base;
   QString url;
   QString file;
@@ -220,7 +220,7 @@ void ZipArch::addFile( QStringList *urls )
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigAdd(false);
     }
 
@@ -244,10 +244,10 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir,
   else dest = _destDir;
 
   QString tmp;
-	
+
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  
+
   *kp << m_unarchiver_program;
 
   if (m_settings->getZipExtractJunkPaths() && !viewFriendly)
@@ -260,13 +260,13 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir,
     *kp << "-o";
 
   *kp << m_filename;
-  
+
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
   if (_fileList)
     {
       for ( QStringList::Iterator it = _fileList->begin();
-	    it != _fileList->end(); ++it ) 
+	    it != _fileList->end(); ++it )
 	{
 	  *kp << (*it);/*.latin1() ;*/
 	}
@@ -281,10 +281,10 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 
   connect( kp, SIGNAL(processExited(KProcess*)), this,
 	   SLOT(slotExtractExited(KProcess*)));
-  
+
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigExtract(false);
     }
   kdDebug(1601) << "-ZipArch::unarchFile" << endl;
@@ -300,7 +300,7 @@ void ZipArch::remove(QStringList *list)
   m_shellErrorData = "";
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  
+
   *kp << m_archiver_program << "-d" << m_filename;
   for ( QStringList::Iterator it = list->begin();
 	it != list->end(); ++it )
@@ -319,10 +319,10 @@ void ZipArch::remove(QStringList *list)
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigDelete(false);
     }
-  
+
   kdDebug(1601) << "-ZipArch::remove" << endl;
 }
 
@@ -332,12 +332,12 @@ void ZipArch::slotIntegrityExited(KProcess *_kp)
 
   kdDebug(1601) << "normalExit = " << _kp->normalExit() << endl;
   kdDebug(1601) << "exitStatus = " << _kp->exitStatus() << endl;
-		
+
   if( _kp->normalExit() && (_kp->exitStatus()==0) )
     {
       if(stderrIsError())
 	{
-	  KMessageBox::error( 0, i18n("You probably don't have sufficient permissions.\n"
+	  KMessageBox::error( 0, i18n("You probably do not have sufficient permissions.\n"
 				      "Please check the file owner and the integrity "
 				      "of the archive.") );
 	}
@@ -357,9 +357,9 @@ void ZipArch::testIntegrity()
   m_shellErrorData = "";
   KProcess *kp = new KProcess;
   kp->clearArguments();
-		
+
   *kp << m_unarchiver_program << "-t";
-		
+
   *kp << m_filename;
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
@@ -369,7 +369,7 @@ void ZipArch::testIntegrity()
 
   connect( kp, SIGNAL(processExited(KProcess *)), this,
 	   SLOT(slotIntegrityExited(KProcess *)));
- 		
+
   if(kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
       kdDebug(1601) << "Subprocess wouldn't start!" << endl;

@@ -60,7 +60,7 @@ RarArch::RarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 
   m_archiver_program = have_rar ? "rar" : "unrar";
   m_unarchiver_program = have_unrar ? "unrar" : "rar";
-      
+
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
   m_headerString = "-------------------------------------------------------------------------------";
@@ -107,8 +107,8 @@ void RarArch::open()
   m_buffer = "";
   m_header_removed = false;
   m_finished = false;
-  
-  
+
+
   KProcess *kp = new KProcess;
   *kp << m_archiver_program << "v" << "-c-" << m_filename;
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
@@ -121,7 +121,7 @@ void RarArch::open()
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigOpen(this, false, QString::null, 0 );
     }
 
@@ -157,7 +157,7 @@ void RarArch::setHeaders()
 void RarArch::create()
 {
   emit sigCreate(this, true, m_filename,
-		 Arch::Extract | Arch::Delete | Arch::Add 
+		 Arch::Extract | Arch::Delete | Arch::Add
 		 | Arch::View);
 }
 
@@ -194,7 +194,7 @@ void RarArch::addFile( QStringList *urls )
   QString url;
   QString file;
 
-	
+
   QStringList::ConstIterator iter;
   for (iter = urls->begin(); iter != urls->end(); ++iter )
   {
@@ -227,7 +227,7 @@ void RarArch::addFile( QStringList *urls )
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigAdd(false);
     }
 
@@ -255,7 +255,7 @@ void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 
   if (!m_settings->getExtractOverwrite())
     {
-      *kp << "-o+" ; 
+      *kp << "-o+" ;
     }
   else
     {
@@ -269,14 +269,14 @@ void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir,
   if (_fileList)
     {
       for ( QStringList::Iterator it = _fileList->begin();
-	    it != _fileList->end(); ++it ) 
+	    it != _fileList->end(); ++it )
 	{
 	  *kp << (*it);/*.latin1() ;*/
 	}
     }
 
   *kp << dest ;
- 
+
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
@@ -284,10 +284,10 @@ void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 
   connect( kp, SIGNAL(processExited(KProcess*)), this,
 	   SLOT(slotExtractExited(KProcess*)));
-  
+
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigExtract(false);
     }
 }
@@ -302,7 +302,7 @@ void RarArch::remove(QStringList *list)
   m_shellErrorData = "";
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  
+
   *kp << m_archiver_program << "d" << m_filename;
   for ( QStringList::Iterator it = list->begin();
 	it != list->end(); ++it )
@@ -321,10 +321,10 @@ void RarArch::remove(QStringList *list)
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigDelete(false);
     }
-  
+
   kdDebug(1601) << "-RarArch::remove" << endl;
 }
 

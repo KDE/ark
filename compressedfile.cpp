@@ -203,7 +203,7 @@ void CompressedFile::open()
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigOpen(this, false, QString::null, 0 );
     }
 
@@ -221,7 +221,7 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
   {
     if(stderrIsError())
     {
-      KMessageBox::error( 0, i18n("You probably don't have sufficient permissions.\n"
+      KMessageBox::error( 0, i18n("You probably do not have sufficient permissions.\n"
                           "Please check the file owner and the integrity "
                           "of the archive.") );
     }
@@ -315,7 +315,7 @@ void CompressedFile::addFile( QStringList *urls )
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
     }
 
   kdDebug(1601) << "-CompressedFile::addFile" << endl;
@@ -370,7 +370,7 @@ void CompressedFile::remove(QStringList *)
   // delete the compressed file but then create it empty in case someone
   // does a reload and finds it no longer exists!
   QFile::remove(m_filename);
-  
+
   ::close(::open(QFile::encodeName(m_filename), O_WRONLY | O_CREAT | O_EXCL));
 
   m_tmpfile = "";
