@@ -119,19 +119,19 @@ void DirDlg::createRepeatingWidgets()
       widgets[i] = new WidgetHolder;
       widgets[i]->buttonGroup = new QButtonGroup(this);
       widgets[i]->buttonGroup->setFrameShape(QFrame::NoFrame);
-      widgets[i]->buttonGroup->setGeometry(10, 130, DLG_WIDTH-220, 160);
+      widgets[i]->buttonGroup->setGeometry(10, 130, DLG_WIDTH-110, 160);
 
       for (int j = 0; j < NUM_RADIOS; ++j)
 	// radio buttons
 	{
 	  widgets[i]->radios[j] = new QRadioButton(widgets[i]->buttonGroup);
-	  widgets[i]->radios[j]->setGeometry(0, j*40, 200, 20);
+	  widgets[i]->radios[j]->setGeometry(0, j*40, DLG_WIDTH-110, 20);
 	  //widgets[i]->buttonGroup->insert(widgets[i]->radios[j]);
 	  if (j == 0) widgets[i]->radios[j]->setText(i18n("Favorite directory") );
 	}
-      widgets[i]->radios[0]->setGeometry(0, 0, 200, 20);
-      widgets[i]->radios[1]->setGeometry(0, 80, 200, 20);
-      widgets[i]->radios[2]->setGeometry(0, 40, 200, 20);
+      widgets[i]->radios[0]->setGeometry(0, 0, DLG_WIDTH-110, 20);
+      widgets[i]->radios[1]->setGeometry(0, 80, DLG_WIDTH-110, 20);
+      widgets[i]->radios[2]->setGeometry(0, 40, DLG_WIDTH-110, 20);
 
       widgets[i]->radios[0]->adjustSize(); // GZ
 
