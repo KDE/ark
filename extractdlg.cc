@@ -95,6 +95,7 @@ ExtractDlg::ExtractDlg( ArkSettings *_settings )
 
     KURLCompletion *comp = new KURLCompletion();
     comp->setReplaceHome( true );
+    comp->setCompletionMode( KGlobalSettings::CompletionAuto );
     m_extractDirCB->setCompletionObject( comp );
     m_extractDirCB->setMaxCount( 20 );
     m_extractDirCB->setInsertionPolicy( QComboBox::AtTop );
