@@ -186,7 +186,7 @@ void ArkWidget::setupActions()
 
   openAction = KStdAction::open(this, SLOT(file_open()), actionCollection());
 
-  reloadAction = new KAction(i18n("&Reload"), "reload", 0, this,
+  reloadAction = new KAction(i18n("Re&load"), "reload", 0, this,
 				SLOT(file_reload()),
 				actionCollection(), "reload_arch");
 
@@ -2139,7 +2139,7 @@ bool ArkWidget::badBzipName(const QString & _filename)
   else if (_filename.right(4) == ".BZ2" ||  _filename.right(5) == ".TBZ2")
     KMessageBox::error(this, i18n("Sorry, bzip2 doesn't like filename extensions that use capital letters."));
   else if (_filename.right(5) == ".tbz2")
-    KMessageBox::error(this, i18n("Sorry, bzip2 doesn't like filename extensions that aren't exactly \".bz\".") );
+    KMessageBox::error(this, i18n("Sorry, bzip2 doesn't like filename extensions that aren't exactly \".bz2\".") );
   else
     return false;
   return true;
