@@ -102,7 +102,8 @@ bool LhaArch::processLine(const QCString &line)
   // make the time stamp sortable
   QString massagedTimeStamp = Utils::getTimeStamp(columns[6], columns[7],
 						  columns[8]);
-  strcpy(columns[6], massagedTimeStamp.ascii());
+  strncpy(columns[6], massagedTimeStamp.ascii(), sizeof(columns[6]));
+  columns[6][sizeof(columns[6])-1] = '\0';
 
   kdDebug(1601) << "New timestamp is " << columns[6] << endl;
 

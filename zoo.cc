@@ -86,11 +86,12 @@ bool ZooArch::processLine(const QCString &line)
   strDate.sprintf("%s-%.2d-%.2d", year.utf8().data(),
 		    Utils::getMonth(columns[7]), atoi(columns[3]));
 
-  strcpy(columns[3], strDate.ascii());
+  strncpy(columns[3], strDate.ascii(), sizeof(columns[3]));
+  columns[3][sizeof(columns[3])] = '\0';
   kdDebug(1601) << "New timestamp is " << columns[3] << endl;
 
-  strcat(columns[3], " ");
-  strcat(columns[3], fixTime(columns[4]).ascii());
+  strncat(columns[3], " ", sizeof(columns[3])-strlen(columns[3])-1);
+  strncat(columns[3], fixTime(columns[4]).ascii(),sizeof(columns[3])-strlen(columns[3])-1);
 
   QStringList list;
   list.append(QString::fromLocal8Bit(filename));

@@ -488,7 +488,7 @@ QString Utils::fixYear(const char *strYear)
     {
       strcpy(fourDigits, "20");
     }
-  strcat(fourDigits, strYear);
+  strncat(fourDigits, strYear, sizeof(fourDigits)-strlen(fourDigits)-1);
   return fourDigits;
 }
 

@@ -107,7 +107,8 @@ bool RarArch::processLine(const QCString &line)
 
   kdDebug(1601) << "Year is: " << year << "; Month is: " << columns[8] << "; Day is: " << columns[3] << "; Time is: " << columns[10] << endl;
 
-  strcpy(columns[3], timestamp.ascii());
+  strncpy(columns[3], timestamp.ascii(), sizeof(columns[3]));
+  columns[3][sizeof(columns[3])-1] = '\0';
 
   kdDebug(1601) << "The actual file is " << filename << endl;
 
