@@ -26,6 +26,7 @@
 #include <kdebug.h>
 #include <kpopupmenu.h>
 #include <kaboutdata.h>
+#include <ktempfile.h>
 
 #include <qfile.h>
 
@@ -40,6 +41,7 @@ KAboutData *ArkPart::createAboutData()
                                        I18N_NOOP("Ark KParts Component"),
                                        KAboutData::License_GPL,
                                        "(c) 1997-2001, The Various Ark Developers");
+	 
     about->addAuthor("Robert Palmbos",0, "palm9744@kettering.edu");
     about->addAuthor("Francois-Xavier Duranceau",0, "duranceau@kde.org");
     about->addAuthor("Corel Corporation (author: Emily Ezust)",0,
@@ -48,6 +50,8 @@ KAboutData *ArkPart::createAboutData()
                      "michaelj@corel.com");
     about->addAuthor("Jian Huang");
     about->addAuthor( "Roberto Teixeira", 0, "maragato@kde.org" );
+    about->addAuthor("Helio Chissini de Castro",0, "helio@conectiva.com.br");
+    about->addAuthor("Georg Robbers",0, "georg@pacaterie.u-psud.fr");
 
     return about;
 }
@@ -77,6 +81,7 @@ ArkPart::ArkPart( QWidget *parentWidget, const char *widgetName, QObject *parent
     else
     {
         setArchivePopupEnabled( false );
+        disconnect( awidget, SIGNAL( signalFilePopup( const QPoint& ) ), this, SLOT( slotFilePopup( const QPoint& ) ) );
         setXMLFile( "ark_part_readonly.rc" );
     }
     setReadWrite( readWrite );
@@ -268,6 +273,67 @@ void ArkPart::slotSaveProperties()
 
     kdDebug(1601) << "-saveProperties (exit)" << endl;
 }
+
+bool ArkPart::openURL( const KURL &url )
+{
+  if ( url.isMalformed() )
+    return false;
+  if ( !closeURL() )
+    return false;
+  m_url = url;
+  emit setWindowCaption( m_url.prettyURL() );
+  if ( m_url.isLocalFile() )
+  {
+    emit started( 0 );
+    m_file = m_url.path();
+    bool ret = openFile();
+    if (ret)
+        emit completed();
+    return ret;
+  }
+  else
+  {
+    m_bTemp = true;
+    // Use same extension as remote file. This is important for mimetype-determination (e.g. koffice)
+    // keep also the second-to-last extension, for e.g. ".tar.bz2"
+    QString extension;
+    QString fileName = url.fileName();
+    int extensionPos1 = fileName.findRev( '.' );
+    int extensionPos2 = fileName.findRev( '.', extensionPos1 - 1 );
+    if ( url.query().isNull() ) // not if the URL has a query, e.g. cgi.pl?something
+    {
+      if ( extensionPos2 != -1 )
+        extension = fileName.mid( extensionPos2 ); // keep the '.'
+      else if ( extensionPos1 != -1 )
+        extension = fileName.mid( extensionPos1 );
+    }
+    KTempFile tempFile( QString::null, extension );
+    m_file = tempFile.name();
+
+    KURL destURL;
+    destURL.setPath( m_file );
+    m_job = KIO::file_copy( m_url, destURL, 0600, true, false, true );
+    emit started( m_job );
+    connect( m_job, SIGNAL( result( KIO::Job * ) ), this, SLOT( slotJobFinished ( KIO::Job * ) ) );
+    return true;
+  }
+}
+
+void ArkPart::slotMyJobFinished( KIO::Job * job )
+{
+  m_job = 0;
+  if (job->error())
+    emit canceled( job->errorString() );
+  else
+  {
+    openFile();
+    emit completed();
+  }
+}
+
+
+
+
 
 
 #include "ark_part.moc"

@@ -25,6 +25,7 @@
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
 #include <kparts/factory.h>
+#include <kio/job.h>
 
 class QObject;
 class QString;
@@ -56,6 +57,7 @@ public slots:
     void slotFilePopup( const QPoint & pPoint );
     bool saveFile();
     bool closeURL();
+    virtual bool openURL( const KURL &url );
 signals:
     void fixActionState( const bool & bHaveFiles );
     void removeRecentURL( const QString & url );
@@ -68,6 +70,7 @@ protected:
 
 protected slots:
     void slotSaveProperties();
+    void slotMyJobFinished( KIO::Job * job );
 
 private:
     ArkWidget  *awidget;
@@ -92,7 +95,7 @@ private:
     KAction *popupViewAction;
     KAction *popupOpenWithAction;
     KAction *shellOutputAction;
-
+    KIO::FileCopyJob *m_job;
 };
 
 #endif
