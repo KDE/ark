@@ -209,7 +209,7 @@ void ArkWidget::setupMenuBar()
                 "1997-1999: Robert Palmbos <palm9744@kettering.edu>\n"
                 "1999: Francois-Xavier Duranceau <duranceau@kde.org>\n")
 		.arg( ARK_VERSION );
-	QPopupMenu *helpmenu = kapp->helpMenu( false, about_ark );
+	QPopupMenu *helpmenu = helpMenu( about_ark );
 
 	menu->insertItem( i18n( "&File"), fileMenu );
 	menu->insertItem( i18n( "&Edit"), editMenu );
