@@ -25,7 +25,7 @@ libarkpart_la_LIBADD = libark_common.la $(LIB_KPARTS)
 libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp dirDlg.cpp \
                 zip.cpp tar.cpp filelistview.cpp arch.cpp selectDlg.cpp \
                 lha.cpp shellOutputDlg.cpp compressedfile.cpp \
-                zoo.cpp rar.cpp ar.cpp generalOptDlg.cpp arkwidgetbase.cpp \
+                zoo.cpp rar.cpp ar.cpp generalOptDlg.cpp \
                 arkutils.cpp archiveformatdlg.cpp arkwidget.cpp searchbar.cpp \
 		extractdlg.cpp
 
@@ -35,7 +35,7 @@ noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \
                  extractdlg.h arkwidget.h arch.h zoo.h ar.h \
                  filelistview.h lha.h compressedfile.h \
                  selectDlg.h shellOutputDlg.h generalOptDlg.h \
-                 ark_part.h arkwidgetbase.h arktoplevelwindow.h \
+                 ark_part.h arktoplevelwindow.h \
                  arkfactory.h arkutils.h archiveformatinfo.h \
                  archiveformatdlg.h searchbar.h extractdlg.h
 
