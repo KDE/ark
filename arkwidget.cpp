@@ -94,6 +94,8 @@ ArkWidget::~ArkWidget()
     cleanArkTmpDir();
     ready();
     kdDebug(1601) << "-ArkWidget::~ArkWidget" << endl;
+    delete mpDownloadedList;
+    delete m_pTempAddList;
 }
 
 
