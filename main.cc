@@ -22,6 +22,7 @@
 
 */
 #include "arkwidget.h"
+#include <config.h>
 #include <kapp.h>
 #include <unistd.h>
 #include <sys/param.h> 
@@ -47,8 +48,8 @@ int main( int argc, char *argv[]  )
 			if( argv[i][0] == '/' )
 				Zip = argv[i];
 			else{
-				char currentWD[MAXPATHLEN];
-				getcwd(currentWD, MAXPATHLEN);
+				char currentWD[KDEMAXPATHLEN];
+				getcwd(currentWD, KDEMAXPATHLEN);
 				(Zip = currentWD).append("/").append(argv[i]);
 			}
 			break;
