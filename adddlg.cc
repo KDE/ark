@@ -224,8 +224,8 @@ void AddDlg::accept()
   KFileViewItem *pItem;
   for ( pItem=pList->first(); pItem != 0; pItem=pList->next() )
     {
-      kdDebug(1601) << pItem->url().url() << endl;
-      m_fileList->append(pItem->url().url());
+      kdDebug(1601) << (const char *)pItem->urlString() << endl;
+      m_fileList->append(pItem->urlString());
     }
 
   KDialogBase::accept();
