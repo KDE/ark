@@ -2232,6 +2232,7 @@ ArkWidget::openArchive( const QString & _filename )
     disableAll();
 
     busy( i18n( "Opening the archive..." ) );
+    archiveContent->setUpdatesEnabled( false );
     newArch->open();
 }
 
