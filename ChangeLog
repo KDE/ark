@@ -1,5 +1,7 @@
-
-2000-03-16: Emily Ezust <emilye@corel.com>
+2000-03-20: Emily Ezust <emilye@corel.com>
+	* Fixed up Ar format.
+	
+2000-03-20: Emily Ezust <emilye@corel.com>
 	* Added Rar format. Added disabling of buttons and menu entries during 
 	  operations
 	

@@ -37,6 +37,7 @@ class RarArch : public Arch
 public:
   RarArch( ArkSettings *_settings, Viewer *_gui,
 	   const QString & _fileName );
+  virtual ~RarArch() {}
   virtual void open();
   virtual void create();
 	

@@ -1,3 +1,4 @@
+//  -*-C++-*-           emacs magic for .h files
 /*
 
  ark -- archiver for the KDE project
@@ -26,48 +27,37 @@
 #ifndef ARARCH_H
 #define ARARCH_H
 
-/*
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-void strshort( char *start, int num_rem );
-
-#ifdef __cplusplus
-}
-#endif
-*/
-
 // Qt includes
 #include <qstring.h>
 #include <qstrlist.h>
 
 // ark includes
 #include "arch.h"
-#include "arksettings.h"
-#include "filelistview.h"
 
-#define UNSUPDIR 1
-
-class ArArch : public Arch {
-
+class ArArch : public Arch 
+{
+  Q_OBJECT
 public:
-	ArArch( ArkSettings *d );
-	virtual ~ArArch();
-	virtual unsigned char setOptions( bool p, bool l, bool o );
-	virtual void openArch( const QString &, FileListView *flw );
-	virtual void createArch( const QString & );
-	virtual int addFile( QStringList *);
-	//	virtual void extractTo( const QString &);
-	virtual const QStringList *getListing();
-	virtual QString unarchFile(QStringList * _fileList);
-	virtual void deleteFile( int );
+  ArArch( ArkSettings *_settings, Viewer *_gui,
+	   const QString & _fileName );
+  virtual ~ArArch() {}
+
+  virtual void open();
+  virtual void create();
+	
+  virtual void addFile( QStringList* );
+  virtual void addDir(const QString & _dirName) {} // never gets called
+
+  virtual void remove(QStringList *);
+  virtual void unarchFile(QStringList *, const QString & _destDir="");
+
+protected slots:
+  void slotReceivedTOC(KProcess *, char *, int);
 
 private:
-	ArkSettings *data;
-	QStringList *listing;
-	bool perms, tolower, overwrite;
-	void strshort( char *start, int num_rem );
+  QString m_archiver_program;
+  void setHeaders();
+  void processLine( char *_line );
 };
 
 #endif /* ARARCH_H */

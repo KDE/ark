@@ -78,6 +78,7 @@
 #include "compressedfile.h"
 #include "zoo.h"
 #include "rar.h"
+#include "ar.h"
 
 #include "viewer.h"
 
@@ -1922,6 +1923,8 @@ ArchType ArkWidget::getArchType( QString archname )
     return ZOO_FORMAT;
   if (archname.right(4) == ".rar")
     return RAR_FORMAT;
+  if (archname.right(2) == ".a")
+    return AA_FORMAT;
   return UNKNOWN_FORMAT;
 }
 
@@ -1949,11 +1952,9 @@ void ArkWidget::createArchive( const QString & _filename )
     case RAR_FORMAT:
       newArch = new RarArch( m_settings, m_viewer, _filename );
       break;
-#if 0
     case AA_FORMAT:
-      newArch = new ArArch( m_settings );
+      newArch = new ArArch( m_settings, m_viewer, _filename );
       break;
-#endif
     default:
       KMessageBox::error(this,
 			 i18n("Unknown archive format or corrupted archive") );
@@ -1997,11 +1998,9 @@ void ArkWidget::openArchive(const QString & _filename )
     case RAR_FORMAT:
       newArch = new RarArch( m_settings, m_viewer, _filename );
       break;
-#if 0
     case AA_FORMAT:
       newArch = new ArArch( m_settings, m_viewer, _filename );
       break;
-#endif
     default:
       KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
       // and just leave the old archive displayed

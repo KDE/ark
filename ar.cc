@@ -30,242 +30,310 @@
 #include <errno.h>
 
 // KDE includes
+#include <kurl.h>
+#include <qstringlist.h>
+#include <kdebug.h>
+#include <klocale.h>
+#include <kmessagebox.h>
 #include <klocale.h>
 
 // ark includes
 #include "ar.h"
+#include "viewer.h"
 
-ArArch::ArArch( ArkSettings *d )
-  : Arch()
+ArArch::ArArch( ArkSettings *_settings, Viewer *_gui,
+		  const QString & _fileName )
+  : Arch(_settings, _gui, _fileName )
 {
-	listing = new QStringList;
-	data = d;
+  m_archiver_program = "ar";
+  kDebugInfo(1601, "ArArch constructor");
 }
 
-ArArch::~ArArch()
+void ArArch::setHeaders()
 {
-	delete listing;
+  kDebugInfo( 1601, "+ArArch::setHeaders");
+  QStringList list;
+  list.append(i18n(" Filename "));
+  list.append(i18n(" Permissions "));
+  list.append(i18n(" Owner/Group "));
+  list.append(i18n(" Size "));
+  list.append(i18n(" Timestamp "));
+
+
+  // which columns to align right
+  int *alignRightCols = new int[1];
+  alignRightCols[0] = 3;
+
+  m_gui->setHeaders(&list, alignRightCols, 1);
+  delete [] alignRightCols;
+
+  kDebugInfo( 1601, "-ArArch::setHeaders");
 }
 
-unsigned char ArArch::setOptions( bool p, bool l, bool o )
+void ArArch::processLine( char *_line )
 {
-	perms = p;
-	tolower = l;
-	overwrite = o;
-	return 0;
+  char columns[9][80];
+  char filename[4096];
+  sscanf(_line, "%[-dwrxl] %[0-9/] %[0-9] %3[A-Za-z] %2[0-9 ] %5[0-9:] %4[0-9]%1[ ]%[^\n]",
+	 columns[0], columns[1], columns[2], columns[3], columns[4],
+	 columns[5], columns[6], columns[7], filename );
+  
+  kDebugInfo(1601, "%s!%s!%s!%s!%s!%s!%s!%s",
+	 columns[0], columns[1], columns[2], columns[3], columns[4],
+	 columns[5], columns[6], columns[7],
+	 filename );
+
+
+  // Put columns[3] - [6] into standard format
+  QString timestamp;
+  timestamp.sprintf("%s-%.2d-%.2d %s",
+		    columns[6], getMonth(columns[3]),
+		    atoi(columns[4]), columns[5]);
+  // put timestamp into column 3
+  strcpy(columns[3], (const char *)timestamp);
+  kDebugInfo(1601, "Timestamp for file %s is %s", (const char *)filename,
+	     (const char *)timestamp);
+
+  QStringList list;
+  list.append(QString::fromLocal8Bit(filename));
+  for (int i=0; i<4; i++)
+    {
+      list.append(QString::fromLocal8Bit(columns[i]));
+    }
+  m_gui->add(&list); // send to GUI
 }
 
-
-void ArArch::openArch( const QString & file, FileListView *flw )
+void ArArch::open()
 {
-	QString ex;
-	char line[4096];
-	FILE *fd;
-	char *tmp;
+  kDebugInfo(1601, "+ArArch::open");
+  setHeaders();
+  KProcess *kp = new KProcess;
+  *kp << m_archiver_program << "vt" << m_filename.local8Bit();
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
+  connect( kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotOpenExited(KProcess*)));
+
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+    {
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      emit sigOpen(this, false, QString::null, 0 );
+    }
+  kDebugInfo(1601, "-ArArch::open");
+}
+
+void ArArch::slotReceivedTOC(KProcess*, char* _data, int _length)
+{
+  kDebugInfo(1601, "+ArArch::slotReceivedTOC");
+  char c = _data[_length];
+  _data[_length] = '\0';
 	
-	archProcess.clearArguments();
-	archProcess.setExecutable( "ar" );
-	archname = file;
-	archProcess << "vt" << file;
-	if( archProcess.startPipe(KProcess::Stdout, &fd) == FALSE )
+  m_settings->appendShellOutputData( _data );
+
+  char line[1024] = "";
+  char *tmpl = line;
+
+  char *tmpb;
+
+  for( tmpb = m_buffer; *tmpb != '\0'; tmpl++, tmpb++ )
+    *tmpl = *tmpb;
+
+  for( tmpb = _data; *tmpb != '\n'; tmpl++, tmpb++ )
+    *tmpl = *tmpb;
+		
+  tmpb++;
+  *tmpl = '\0';
+
+  if( *tmpb == '\0' )
+    m_buffer[0]='\0';
+
+  processLine( line );
+  bool stop = (*tmpb == '\0');
+
+  while( !stop)
+    {
+      tmpl = line; *tmpl = '\0';
+      
+      for(; (*tmpb!='\n') && (*tmpb!='\0'); tmpl++, tmpb++)
+	*tmpl = *tmpb;
+
+      if( *tmpb == '\n' )
 	{
-		cerr << "Subproccess won't start, armageddon is iminent!";
-		return;
+	  *tmpl = '\n';
+	  tmpl++;
+	  *tmpl = '\0';
+	  tmpb++;
+
+	  processLine( line );
 	}
-
-	flw->clear();
-	flw->addColumn( i18n("Permissions") );
-	flw->addColumn( i18n("Owner/Group") );
-	flw->addColumn( i18n("Size") );
-	flw->addColumn( i18n("TimeStamp") );
-	flw->addColumn( i18n("Name") );
-
-	char *nl;
-	while( 1 )
+      else if (*tmpb == '\0' )
 	{
-		fgets( line, 4096, fd );
-		if( feof(fd) )
-			break;
-		nl = strstr( line, "\n" );
-		*nl = '\0';
-
-//		FileLVI *flvi = new FileLVI(flw);
-
-		for( int i=0; i<5; i++ )
-		{
-			if( i==3 )
-			{
-				for( int ii=0; ii<3;ii++ )
-				{
-					tmp = strstr( line, " " );
-					tmp[0] = '\a'; // :) Kludge Alert :)
-					if( tmp[1]==' ' )
-						tmp[1]='\a';
-				}
-			}
-			else{
-				tmp = strstr( line, " " );
-				tmp[0]='\t';
-			}
-			while( tmp[1]==' ' )
-				strshort( tmp+1, 1 );
-		}
-		while( (tmp = strstr( line, "\a" ))!=0 )
-			tmp[0] = ' ';
-		listing->append( line );
-		cerr << line << "\n";
+	  *tmpl = '\0';
+	  strcpy( m_buffer, line );
+	  stop = true;
 	}
-	// pclose( fd );  I'm not sure what should be here
+    }
+  
+  _data[_length] = c;
+
+
+
+  kDebugInfo(1601, "-ArArch::slotReceivedTOC");
 }
 
-void ArArch::createArch( const QString & file )
+void ArArch::create()
 {
-	archname = file;
+  emit sigCreate(this, true, m_filename,
+		 Arch::Extract | Arch::Delete | Arch::Add 
+		 | Arch::View);
 }
 
-const QStringList *ArArch::getListing()
+void ArArch::addFile( QStringList *urls )
 {
-	return listing;
-}
-
-
-int ArArch::addFile( QStringList *urls )
-{
-	QString base;
-	QString url;
-	QString file;
-
-	archProcess.clearArguments();
-	archProcess.setExecutable( "ar" );
-	archProcess << "q";	
-	if( data->getonlyUpdate() )
-		archProcess << "u";
-	archProcess << archname;
+  kDebugInfo( 1601, "+ArArch::addFile");
+  KProcess *kp = new KProcess;
+  kp->clearArguments();
+  *kp << m_archiver_program << "r";
 	
-	url = urls->first();
-	do
-	{
-		file = url.right( url.length()-5);
-		if( file[file.length()-1]=='/' ) {
-			return UNSUPDIR;
-		}
-		if( !data->getaddPath() )
-		{
-			int pos;
-			pos = file.findRev( '/' );
-			base = file.left( pos );
-			pos++;
-			chdir( base );
-			base = file.right( file.length()-pos );
-			file = base;
-		}
-		archProcess << file;
-		url = urls->next();
-	}while( !url.isNull() );
-	cout << "starting add command";
-	archProcess.start( KProcess::Block );
-	listing->clear();
+  if (m_settings->getReplaceOnlyNew() )
+    *kp << "u";
 
-/////AAAAAAAArgh !
-//	openArch( archname );     // Will not work
-	return 0;
+  *kp << m_filename.local8Bit() ;
+
+  QString base;
+  QString url;
+  QString file;
+
+	
+  QStringList::ConstIterator iter;
+  for (iter = urls->begin(); iter != urls->end(); ++iter )
+  {
+    url = *iter;
+    // comment out for now until I figure out what happened to this function!
+    //    KURL::decodeURL(url); // Because of special characters
+    file = url.right(url.length()-5);
+
+    if( file[file.length()-1]=='/' )
+      file[file.length()-1]='\0';
+    if( ! m_settings->getaddPath() )
+    {
+      int pos;
+      pos = file.findRev( '/' );
+      base = file.left( pos );
+      pos++;
+      chdir( base );
+      base = file.right( file.length()-pos );
+      file = base;
+    }
+    *kp << file;
+  }
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+
+  connect( kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotAddExited(KProcess*)));
+
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+    {
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      emit sigAdd(false);
+    }
+
+  kDebugInfo( 1601, "+ArArch::addFile");
 }
 
-#if 0
-void ArArch::extractTo( const QString & dest )
+void ArArch::unarchFile(QStringList *_fileList, const QString & _destDir)
 {
-	FILE *fd;
-	char line[4096];
+  // if _fileList is empty, we extract all.
+  // if _destDir is empty, look at settings for extract directory
 
-	archProcess.clearArguments();
-	archProcess.setExecutable( "cp" );
-	archProcess << archname << dest; // Ar doesn't extract to a dir, so fake it
-	archProcess.start( KProcess::Block );	
+  kDebugInfo( 1601, "+ArArch::unarchFile");
+  QString dest;
 
-	char pwd[4096];
-	getcwd( pwd, 4096 );
-	chdir( dest );
-	archProcess.clearArguments();
-	archProcess.setExecutable( "ar" );
-	archProcess << "vx" << archname;
+  if (_destDir.isEmpty() || _destDir.isNull())
+    dest = m_settings->getExtractDir();
+  else dest = _destDir;
 
-	if( archProcess.startPipe( KProcess::Stdout, &fd ) == FALSE )
+  // ar has no option to specify the destination directory
+  // so I have to change to it.
+
+  int ret = chdir((const char *)dest);
+ // I already checked the validity of the dir before coming here
+  ASSERT(ret == 0); 
+
+  KProcess *kp = new KProcess;
+  kp->clearArguments();
+  
+  *kp << m_archiver_program;
+  *kp << "vx";
+  *kp << m_filename;
+  
+  // if the list is empty, no filenames go on the command line,
+  // and we then extract everything in the archive.
+  if (_fileList)
+    {
+      for ( QStringList::Iterator it = _fileList->begin();
+	    it != _fileList->end(); ++it ) 
 	{
-		cerr << "Subprocess won't start, perhaps your computer has a virus?";
-		return;
+	  *kp << (*it).latin1() ;
 	}
-//	newProgressDialog( 1, listing->count() );
-	for( long int i=0; !feof(fd); i++ )
-	{
-		fgets( line, 4096, fd );
-//		if( Arch::isCanceled() )
-//			break;
-//		setProgress( i );
-	}
-	QString curarch = archname.right( archname.length()-(archname.findRev( '/' )+1) );
-	unlink( curarch );
-	chdir( pwd );
-}
-#endif
+    }
+ 
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
 
-QString ArArch::unarchFile(QStringList * _fileList)
+  connect( kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotExtractExited(KProcess*)));
+  
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+    {
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      emit sigExtract(false);
+    }
+}
+
+void ArArch::remove(QStringList *list)
 {
-  QString dest = m_settings->getExtractDir();
-	QString ex, tmp, tmp2;
-	tmp = listing->at( pos );
-	tmp2 = tmp.right( (tmp.length())-(tmp.findRev('\t')+1) );
+  kDebugInfo( 1601, "+ArArch::remove");
 
-	archProcess.clearArguments();
-	archProcess.setExecutable( "cp" );
-	archProcess << archname << dest; // Ar doesn't extract to a dir, so fake it
-	archProcess.start( KProcess::Block );		
+  if (!list)
+    return;
 
-	char pwd[4096]; 
-	getcwd( pwd, 4096 );
+  m_shellErrorData = "";
+  KProcess *kp = new KProcess;
+  kp->clearArguments();
+  
+  *kp << m_archiver_program << "d" << m_filename.local8Bit();
+  for ( QStringList::Iterator it = list->begin();
+	it != list->end(); ++it )
+    {
+      QString str = *it;
+      *kp << str.local8Bit();
+    }
 
-	chdir( dest );
+  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
+	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
 
-	archProcess.clearArguments();
-	archProcess.setExecutable( "ar" );
-	archProcess << "x" << archname << tmp2;
+  connect( kp, SIGNAL(processExited(KProcess*)), this,
+	   SLOT(slotDeleteExited(KProcess*)));
 
-	archProcess.start( KProcess::Block );
-
-	QString curarch = archname.right( archname.length()-(archname.findRev( '/' )+1) );
-	int i = unlink( curarch );
-	if( i==-1 )
-		perror( "ark" );
-	chdir( pwd );
-	return (dest+tmp2);
+  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+    {
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      emit sigDelete(false);
+    }
+  
+  kDebugInfo( 1601, "-ArArch::remove");
 }
 
-void ArArch::deleteFile( int pos )
-{
-	QString name, tmp;
-	tmp = listing->at( pos );
-	name = tmp.right( (tmp.length())-(tmp.findRev('\t')+1) );
-	archProcess.clearArguments();
-	archProcess.setExecutable( "ar" );
-	archProcess << "d" << archname << name ;
-	archProcess.start( KProcess::Block );
-	listing->clear();
 
-	////////Argh
-//	openArch( archname );  Should not be commented !!!!!!!!!!!!!
-}
-
-void ArArch::strshort( char *start, int num_rem )
-{
-	int c=0;
-	char *orig = start;
-	while( c < num_rem )
-	{
-		while( *start != '\0' )
-		{
-			*start = *(start+1);
-			start++;
-		}
-		c++;
-		start = orig;
-	}
-}
+#include "ar.moc"

@@ -484,13 +484,14 @@ void ArkSettings::setAddDirCfg(const QString& dir, int mode)
 const QString ArkSettings::getFilter()
 {
   return i18n(
-	      "*.zip *.tar.gz *.tar.Z *.tgz *.taz *.tzo *.tar.bz2 *.tbz2 *.tar.bz *.tar *.lzh *.gz *.lzo *.Z *.bz *.bz2 *.zoo *.rar|All valid archives\n"
+	      "*.zip *.tar.gz *.tar.Z *.tgz *.taz *.tzo *.tar.bz2 *.tbz2 *.tar.bz *.tar *.lzh *.gz *.lzo *.Z *.bz *.bz2 *.zoo *.rar *.a|All valid archives\n"
 	      "*.zip|Zip archives (*.zip)\n"
 	      "*.tar.gz *.tgz |Tars compressed with gzip (*.tar.gz *.tgz)\n"
 	      "*.tbz2 *.tar.bz2|Tars compressed with bzip2 (*.tar.bz2 *.tbz2)\n"
 	      "*.lzh|Lha archives (*.lzh)\n"
 	      "*.zoo|Zoo archives (*.zoo)\n"
 	      "*.rar|Rar archives (*.rar)\n"
+	      "*.a|Ar archives (*.a)\n"
 	      ); 
 }
 
