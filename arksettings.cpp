@@ -90,6 +90,9 @@
 #define LHA_GENERIC "lhaGeneric"
 #define TAR_USE_ABS_PATHNAMES "tarUseAbsPathnames"
 
+
+// #define ARK_SETTINGS_DEBUG
+
 /**
  * Constructs an ArkSettings object by reading the ark config file
  */
@@ -116,11 +119,14 @@ void ArkSettings::readConfiguration()
   kc->setGroup( ARK_GROUP );
 
   tar_exe = kc->readEntry( TAR_KEY, "tar");
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "Tar command is " << tar_exe << endl;
-
+#endif
 
   m_saveOnExit = kc->readBoolEntry( SAVE_ON_EXIT_KEY, true );
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "SaveOnExit is " << m_saveOnExit << endl;
+#endif
 
   fullPath = kc->readBoolEntry(FULLPATHS, false);
 
@@ -131,13 +137,13 @@ void ArkSettings::readConfiguration()
   readLhaProperties();
   readRarProperties();
   readTarProperties();
-
-  kdDebug(1601) << "-ArkSettings::readConfiguration()" << endl;
 }
 
 void ArkSettings::readDirectories()
 {
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "+readDirectories" << endl;
+#endif
 
   kc->setGroup( ARK_GROUP );
 
@@ -160,6 +166,7 @@ void ArkSettings::readDirectories()
   extractDirMode = kc->readNumEntry( EXTRACT_MODE_KEY, LAST_EXTRACT_DIR);
   addDirMode = kc->readNumEntry( ADD_MODE_KEY, LAST_ADD_DIR);
 
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "favorite dir is " << favoriteDir << endl;
   kdDebug(1601) << "last open dir is " << lastOpenDir << endl;
   kdDebug(1601) << "last xtr dir is " << lastExtractDir << endl;
@@ -176,6 +183,7 @@ void ArkSettings::readDirectories()
   kdDebug(1601) << "add mode is " << addDirMode << endl;
 
   kdDebug(1601) << "-readDirectories" << endl;
+#endif
 }
 
 void ArkSettings::readGenericProperties()
@@ -189,54 +197,76 @@ void ArkSettings::readGenericProperties()
 
 void ArkSettings::readTarProperties()
 {
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "+readTarProperties" << endl;
+#endif
 
   kc->setGroup( TAR_GROUP );
   m_tarPreservePerms = kc->readBoolEntry(PRESERVE_PERMS, false);
   m_tarUseAbsPathnames = kc->readBoolEntry(TAR_USE_ABS_PATHNAMES, false);
 
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "-readTarProperties" << endl;
+#endif
 }
 
 void ArkSettings::readLhaProperties()
 {
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "+readLhaProperties" << endl;
+#endif
   kc->setGroup(LHA_GROUP);
   m_lhaAddGeneric = kc->readBoolEntry(LHA_GENERIC, false);
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "-readLhaProperties" << endl;
+#endif
 }
 
 void ArkSettings::readArProperties()
 {
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "+ArkSettings::readArProperties" << endl;
+#endif
   kc->setGroup(AR_GROUP);
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "-ArkSettings::readArProperties" << endl;
+#endif
 }
 
 
 void ArkSettings::readZooProperties()
 {
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "+readZooProperties" << endl;
+#endif
   kc->setGroup(ZOO_GROUP);
 
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "-readZooProperties" << endl;
+#endif
 }
 
 void ArkSettings::readRarProperties()
 {
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "+readRarProperties" << endl;
+#endif
   kc->setGroup(RAR_GROUP);
   m_rarToLower = kc->readBoolEntry(RAR_LOWER, false);
   m_rarToUpper = kc->readBoolEntry(RAR_UPPER, false);
   m_rarStoreSymlinks = kc->readBoolEntry(RAR_STORE_SYM_LINKS, true);
   m_rarRecurseSubdirs = kc->readBoolEntry(RAR_RECURSE_SUBDIRS, true);
 
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "-readRarProperties" << endl;
+#endif
 }
 
 void ArkSettings::readZipProperties()
 {
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "+readZipProperties" << endl;
+#endif
 
   kc->setGroup( ZIP_GROUP );
 
@@ -248,7 +278,9 @@ void ArkSettings::readZipProperties()
   m_zipAddMSDOS = kc->readBoolEntry( ADD_MSDOS, false );
   m_zipAddConvertLF = kc->readBoolEntry( ADD_CONVERTLF, false );
   m_zipStoreSymlinks = kc->readBoolEntry( ZIP_STORE_SYM_LINKS, true );
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "-readZipProperties" << endl;
+#endif
 }
 
 
@@ -257,11 +289,15 @@ void ArkSettings::readZipProperties()
 
 void ArkSettings::writeConfiguration()
 {
+#ifdef ARK_SETTINGS_DEBUG
 
   kdDebug(1601) << "+writeConfiguration" << endl;
+#endif
 
   if( !m_saveOnExit ){
+#ifdef ARK_SETTINGS_DEBUG
     kdDebug(1601) << "Don't save the config (exit)" << endl;
+#endif
 
     kc->setGroup( ARK_GROUP );
     kc->writeEntry( SAVE_ON_EXIT_KEY, m_saveOnExit );
@@ -270,12 +306,16 @@ void ArkSettings::writeConfiguration()
     {
       writeConfigurationNow();
     }
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "-writeConfiguration" << endl;
+#endif
 }
 
 void ArkSettings::writeConfigurationNow()
 {
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "+writeConfigurationNow" << endl;
+#endif
 
   writeDirectories();
   writeGenericProperties();
@@ -292,12 +332,16 @@ void ArkSettings::writeConfigurationNow()
 
   kc->sync();
 
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "-writeConfigurationNow" << endl;
+#endif
 }
 
 void ArkSettings::writeDirectories()
 {
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "+writeDirectories" << endl;
+#endif
 
   kc->setGroup( ARK_GROUP );
 
@@ -316,6 +360,7 @@ void ArkSettings::writeDirectories()
   kc->writeEntry(EXTRACT_MODE_KEY, extractDirMode);
   kc->writeEntry(ADD_MODE_KEY, addDirMode);
 
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "favorite dir is " << favoriteDir << endl;
 
   kdDebug(1601) << "last open dir is " << lastOpenDir << endl;
@@ -333,6 +378,7 @@ void ArkSettings::writeDirectories()
   kdDebug(1601) << "add mode is " << addDirMode << endl;
 
   kdDebug(1601) << "-writeDirectories" << endl;
+#endif
 }
 
 void ArkSettings::writeGenericProperties()
@@ -345,52 +391,74 @@ void ArkSettings::writeGenericProperties()
 
 void ArkSettings::writeTarProperties()
 {
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "+ArkSettings::writeTarProperties" << endl;
+#endif
 
   kc->setGroup( TAR_GROUP );
 
   kc->writeEntry(PRESERVE_PERMS, m_tarPreservePerms);
   kc->writeEntry(TAR_USE_ABS_PATHNAMES, m_tarUseAbsPathnames);
 
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "-ArkSettings::writeTarProperties" << endl;
+#endif
 }
 
 void ArkSettings::writeArProperties()
 {
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "+ArkSettings::writeArProperties" << endl;
+#endif
   kc->setGroup(AR_GROUP);
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "-ArkSettings::writeArProperties" << endl;
+#endif
 }
 
 void ArkSettings::writeZooProperties()
 {
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "+ArkSettings::writeZooProperties" << endl;
+#endif
   kc->setGroup(ZOO_GROUP);
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "-ArkSettings::writeZooProperties" << endl;
+#endif
 }
 
 void ArkSettings::writeLhaProperties()
 {
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "+ArkSettings::writeLhaProperties" << endl;
+#endif
   kc->setGroup(LHA_GROUP);
   kc->writeEntry(LHA_GENERIC, m_lhaAddGeneric);
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "-ArkSettings::writeLhaProperties" << endl;
+#endif
 }
 
 void ArkSettings::writeRarProperties()
 {
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "+ArkSettings::writeRarProperties" << endl;
+#endif
   kc->setGroup(RAR_GROUP);
   kc->writeEntry(RAR_LOWER, m_rarToLower);
   kc->writeEntry(RAR_UPPER, m_rarToUpper);
   kc->writeEntry(RAR_STORE_SYM_LINKS, m_rarStoreSymlinks);
   kc->writeEntry(RAR_RECURSE_SUBDIRS, m_rarRecurseSubdirs);
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "-ArkSettings::writeRarProperties" << endl;
+#endif
 }
 
 void ArkSettings::writeZipProperties()
 {
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "+writeZipProperties" << endl;
+#endif
 
   kc->setGroup( ZIP_GROUP );
   kc->writeEntry( EXTRACT_JUNKPATHS, m_zipExtractJunkPaths );
@@ -400,7 +468,9 @@ void ArkSettings::writeZipProperties()
   kc->writeEntry( ADD_MSDOS, m_zipAddMSDOS );
   kc->writeEntry( ADD_CONVERTLF, m_zipAddConvertLF );
   kc->writeEntry( ZIP_STORE_SYM_LINKS, m_zipStoreSymlinks );
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "-writeZipProperties" << endl;
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -446,7 +516,9 @@ QString ArkSettings::getOpenDir() const
 void ArkSettings::setLastOpenDir(const QString& dir)
 {
   lastOpenDir = dir;
+#ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "last open dir is " << dir << endl;
+#endif
 }
 
 void ArkSettings::setOpenDirCfg(const QString& dir, int mode)

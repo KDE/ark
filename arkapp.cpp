@@ -6,7 +6,8 @@
 
  Copyright (C)
 
- 2002: Helio Chissini de Castro <helio@conectiva.com.br>
+ 2002-2003: Helio Chissini de Castro <helio@conectiva.com.br>
+ 2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
  1999-2000: Corel Corporation (author: Emily Ezust  emilye@corel.com)
  1999: Francois-Xavier Duranceau duranceau@kde.org
 
@@ -29,6 +30,7 @@
 #include <dcopclient.h>
 #include <kdebug.h>
 #include <kcmdlineargs.h>
+#include <klocale.h>
 #include <unistd.h>
 #include <qfile.h>
 #include <errno.h>
@@ -116,54 +118,111 @@ ArkApplication::ArkApplication()
 	kdDebug(1601) << "-ArkApplication::ArkApplication" << endl;
 }
 
-int 
+int
 ArkApplication::newInstance()
 {
-	kdDebug(1601) << "+ArkApplication::newInstance" << endl;
-	
-	// If we are restored by session management, we don't need to open
-	// another window on startup.
+    kdDebug(1601) << "+ArkApplication::newInstance" << endl;
+
+    // If we are restored by session management, we don't need to open
+    // another window on startup.
     if ( m_isSessionRestored )
-	{
-		// But next invocations must still come through.
-		// NOTE: IMHO this should be handled by KUniqueApplication itself
-		m_isSessionRestored = false;
-		kdDebug(1601) << "-ArkApplication::newInstance no new window since restored by SM" << endl;
-		return 0;
-	}
-	
-	QString Zip;
-	
-	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-	KURL url;
-	
-	int i = 0;
-	bool doAutoExtract = args->isSet("extract");
-	
-	do 
-	{
-		if (args->count() > 0)
-		{
-			url = args->url(i);
-		}
-		ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
-		arkWin->show();
-		arkWin->resize(640, 300);
-		if(doAutoExtract)
-		{
-			arkWin->setExtractOnly(true);
-		}
-		if (!url.isEmpty())
-		{
-			arkWin->openURL(url);
-		}
-		
-		kdDebug(1601) << "-ArkApplication::newInstance" << endl;
-		++i;
-	} while  (i < args->count());
-	
-	args->clear();
-	return 0;
+    {
+        // But next invocations must still come through.
+        // NOTE: IMHO this should be handled by KUniqueApplication itself
+        m_isSessionRestored = false;
+        kdDebug(1601) << "-ArkApplication::newInstance no new window since restored by SM" << endl;
+        return 0;
+    }
+
+    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+
+    if ( args->isSet( "extract-to" ) )
+    {
+        if ( args->count() == 2 )
+        {
+            ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
+            arkWin->showMinimized();
+
+            arkWin->extractTo( args->url( 0 ), args->url( 1 ), args->isSet( "guess-name" ) );
+            return 0;
+        }
+        else
+        {
+            KCmdLineArgs::usage( i18n( "Wrong number of arguments specified" ) );
+            return 0;
+        }
+    }
+
+    if ( args->isSet( "add-to" ) )
+    {
+        if ( args->count() < 2 )
+        {
+            KCmdLineArgs::usage( i18n( "You need to specify at least one file to be added to the archive." ) );
+            return 0;
+        }
+        else
+        {
+            KURL::List URLList;
+            for ( int c = 0; c < args->count()-1 ; c++ )
+                URLList.append( args->url( c ) );
+
+            ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
+            arkWin->showMinimized();
+
+            arkWin->addToArchive( URLList, args->cwd(), args->url( args->count()-1 ) );
+            return 0;
+        }
+    }
+
+    if ( args->isSet( "add" ) )
+    {
+        if ( args->count() < 1 )
+        {
+            KCmdLineArgs::usage( i18n( "You need to specify at least one file to be added to the archive." ) );
+            return 0;
+        }
+        else
+        {
+            KURL::List URLList;
+            for ( int c = 0; c < args->count() ; c++ )
+                URLList.append( args->url( c ) );
+
+            ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
+            arkWin->showMinimized();
+
+            arkWin->addToArchive( URLList, args->cwd() );
+            return 0;
+        }
+    }
+
+
+    int i = 0;
+    KURL url;
+    bool doAutoExtract = args->isSet("extract");
+    do
+    {
+        if (args->count() > 0)
+        {
+            url = args->url(i);
+        }
+        ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
+        arkWin->show();
+        arkWin->resize(640, 300);
+        if(doAutoExtract)
+        {
+            arkWin->setExtractOnly(true);
+        }
+        if (!url.isEmpty())
+        {
+            arkWin->openURL(url);
+        }
+
+        kdDebug(1601) << "-ArkApplication::newInstance" << endl;
+        ++i;
+    } while  (i < args->count());
+
+    args->clear();
+    return 0;
 }
 
 

@@ -53,7 +53,7 @@ class ArkWidgetBase
 		void setArkInstanceId( int aid ) { m_arkInstanceId = aid; }
 		//int getSizeColumn();
 		void cleanArkTmpDir( bool part=false );
-		QString getArchName() const { return m_strArchName; }
+		virtual QString getArchName() const { return m_strArchName; }
 		const FileLVI * getFileLVI(const QString &_filename) const;
 		KURL getOriginalURL() const { return m_url; }
 		FileListView *fileList() const { return archiveContent; }

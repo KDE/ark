@@ -3,7 +3,8 @@
  
   ark -- archiver for the KDE project
  
-  Copyright (C) 2002: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
+  Copyright (C) 2002-2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
+  Copyright (C) 2003: Helio Chissini de Castro <helio@conectiva.com>
  
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -24,38 +25,24 @@
 #ifndef ARKTOPLEVELWINDOW_H
 #define ARKTOPLEVELWINDOW_H
 
-#define ARK_VERSION "1.9"
+#define ARK_VERSION "2.1.9"
 
+// QT includes
 #include <qstring.h>
 #include <qpopupmenu.h>
 
+// KDE includes
 #include <kmainwindow.h>
 #include <kparts/mainwindow.h>
+#include <kparts/part.h>
 
-class QWidget;
-class QPoint;
-class QStringList;
+// ark includes
+#include "arkwidget.h"
+
 class QLabel;
-class QListViewItem;
-class QDragMoveEvent;
-class QDropEvent;
-class KMainWindow;
-class KPopupMenu;
-class KProcess;
-class KConfig;
-class KURL;
-class KAction;
-class KRecentFilesAction;
-class KRun;
-class KTempFile;
 
-class Arch;
-class ArkSettings;
-class FileLVI;
-class ArkWidget;
-class ArkPart;
-
-class ArkTopLevelWindow: public KParts::MainWindow
+class 
+ArkTopLevelWindow: public KParts::MainWindow
 {
     Q_OBJECT
 public:
@@ -63,6 +50,9 @@ public:
     virtual ~ArkTopLevelWindow();
 
     void setExtractOnly ( bool b );
+    void extractTo( const KURL & targetDirectory, const KURL & archive, bool guessName );
+    void addToArchive( const KURL::List & filesToAdd, const QString & cwd = QString::null,
+                       const KURL & archive = KURL() );
 
 public slots:
     void file_newWindow();
@@ -70,7 +60,6 @@ public slots:
     void openURL( const KURL & url );
     void file_open();
     void file_reload();
-    void file_save_as();
     void slotSetStatusBarSelectedFiles( const QString & text );
     void slotSetStatusBarText(  const QString & text );
 
@@ -84,7 +73,6 @@ public slots:
     virtual void readProperties( KConfig* config );
     void slotSaveProperties();
     void slotSaveOptions();
-    void slotPreferences();
     void slotArchivePopup( const QPoint &pPoint);
     void slotRemoveRecentURL( const QString &url );
     void slotAddRecentURL( const QString &url );
@@ -105,8 +93,11 @@ private: // methods
     void newCaption(const QString & filename);
     bool arkAlreadyOpen( const KURL & url );
 
+    KURL getOpenURL( bool addOnly = false , const QString & caption = QString::null,
+                     const QString & startDir = QString::null );
+
 private: // data
-    ArkPart *m_part;
+    KParts::ReadWritePart *m_part;
     ArkWidget *m_widget; //the parts widget
     QLabel *m_pStatusLabelSelect; // How many files are selected - label
     QLabel *m_pStatusLabelTotal;  // How many files in archive - label
@@ -115,7 +106,6 @@ private: // data
     KAction *openAction;
     KAction *closeAction;
     KAction *reloadAction;
-    KAction *saveAsAction;
     KRecentFilesAction *recent;
 };
 

@@ -25,18 +25,17 @@
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
 #include <kparts/factory.h>
+#include <arkwidget.h>
+#include <kaction.h>
 
-class QObject;
-class QString;
-class QStringList;
-class KAction;
-class KRecentFilesAction;
-class KToggleAction;
-class KInstance;
-class KLibFactory;
-class KAboutData;
-
-class ArkWidget;
+class ArkBrowserExtension: public KParts::BrowserExtension
+{
+    Q_OBJECT
+public:
+    ArkBrowserExtension( KParts::ReadOnlyPart * parent, const char * name = 0L );
+public slots:
+    void slotOpenURLRequested( const KURL & url );
+};
 
 class ArkPart: public KParts::ReadWritePart
 {
@@ -47,13 +46,12 @@ public:
     virtual ~ArkPart();
 
     static KAboutData* createAboutData();
-    void setArchivePopupEnabled( const bool b );
 
 public slots:
     void fixEnables();//rename to slotFixEnables()...
     void disableActions();
-    void slotArchivePopup( const QPoint & pPoint );
     void slotFilePopup( const QPoint & pPoint );
+    void file_save_as();
     bool saveFile();
     bool closeURL();
 signals:
@@ -71,9 +69,9 @@ protected slots:
 
 private:
     ArkWidget  *awidget;
-    bool m_ArchivePopupEnabled;
+    ArkBrowserExtension *m_ext;
 
-    //actions that were formerly defined in Arkwidget
+    KAction *saveAsAction;
     KAction *addFileAction;
     KAction *addDirAction;
     KAction *extractAction;

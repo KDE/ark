@@ -61,3 +61,4 @@ QString ArchiveFormatDlg::mimeType()
 }
 
 #include "archiveformatdlg.moc"
+

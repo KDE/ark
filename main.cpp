@@ -4,7 +4,8 @@
 ark: A program for modifying archives via a GUI.
 
 Copyright (C)
-2002: Helio Chissini de Castro <helio@conectiva.com.br>
+2002-2003: Helio Chissini de Castro <helio@conectiva.com.br>
+2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
 2001: Roberto Selbach Teixeira <maragato@kde.org>
 1999-2000: Corel Corporation (author: Emily Ezust  emilye@corel.com)
 1999 Francois-Xavier Duranceau <duranceau@kde.org>
@@ -36,8 +37,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // C includes
 #include <stdlib.h>
 
-// QT includes
-
 // KDE includes
 #include <kdebug.h>
 #include <dcopclient.h>
@@ -49,7 +48,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static KCmdLineOptions option[] =
 {
-    { "extract", I18N_NOOP( "Open extract dialog, quit when finished." ), 0},
+    { "extract", I18N_NOOP( "Open extract dialog, quit when finished." ), 0 },
+    { "extract-to", I18N_NOOP( "Extract 'archive' to 'directory', quit when finished.\n"
+                               "'directory' will be created if it does not exist."), 0 },
+    { "add", I18N_NOOP( "Ask the name of the archive to add 'files' to, quit when finished." ), 0 },
+    { "add-to", I18N_NOOP( "Add 'files' to 'archive', quit when finished.\n'archive' "
+                           "will be created if it does not exist." ), 0 },
+    { "guess-name", I18N_NOOP( "Used with '--extract-to'. When specified, 'archive'\n"
+                               "will be extracted to a subdirectory of 'directory'\n"
+                               "whose name will be the name of 'archive' without the filename extension."), 0 },
+    { "+[directory]", I18N_NOOP( "Directory to extract to" ), 0 },
+    { "+[files]", I18N_NOOP( "Files to be added" ), 0 },
     { "+[archive]", I18N_NOOP( "Open 'archive'" ), 0 },
     KCmdLineLastOption
 };
@@ -59,21 +68,15 @@ int main( int argc, char *argv[]  )
 	KAboutData aboutData( "ark", I18N_NOOP( "Ark" ),
 			"v2.1.9", I18N_NOOP("KDE Archiving tool"), 
 			KAboutData::License_GPL,
-			I18N_NOOP( "(c) 1997-2002, The Various Ark Developers" ) );
+			I18N_NOOP( "(c) 1997-2003, The Various Ark Developers" ) );
 	
 	aboutData.addAuthor( "Helio Chissini de Castro", I18N_NOOP( "Current maintainer" ),
 			"helio@conectiva.com.br" );
-	
-	aboutData.addAuthor( "Roberto Teixeira", 0,
-			"maragato@conectiva.com" );
-	
+	aboutData.addAuthor( "Georg Robbers", 0, "Georg.Robbers@urz.uni-hd.de" );
+	aboutData.addAuthor( "Roberto Teixeira", 0, "maragato@conectiva.com" );
 	aboutData.addAuthor( "Francois-Xavier Duranceau", 0, "duranceau@kde.org" );
-	
 	aboutData.addAuthor( "Emily Ezust (Corel Corporation)", 0, "emilye@corel.com" );
-	
-	aboutData.addAuthor( "Michael Jarrett (Corel Corporation)", 0,
-			"michaelj@corel.com" );
-	
+	aboutData.addAuthor( "Michael Jarrett (Corel Corporation)", 0, "michaelj@corel.com" );
 	aboutData.addAuthor( "Robert Palmbos", 0, "palm9744@kettering.edu" );
 	
 	KCmdLineArgs::init( argc, argv, &aboutData );

@@ -10,6 +10,7 @@ Copyright (C)
 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 2001: Roberto Selbach Teixeira <maragato@conectiva.com>
+2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -39,6 +40,7 @@ class KTarDirectory;
 class ArkWidgetBase;
 class ArkSettings;
 class Arch;
+class KTar;
 
 // TarArch can read Tar files and Tar files compressed with gzip.
 // It doesn't yet know how to list Tar files compressed with other
@@ -79,27 +81,47 @@ public:
     void slotListingDone( KProcess * );
     void slotDeleteExited( KProcess * );
 
+signals:
+    void removeDone();
+    void createTempDone();
+    void updateDone();
+
+private slots:
+    void openFirstCreateTempDone();
+    void openSecondCreateTempDone();
+    void deleteOldFilesDone();
+    void addFileCreateTempDone();
+    void addFinishedUpdateDone();
+    void removeCreateTempDone();
+    void removeUpdateDone();
+
 private:  // methods
-  void updateArch();
-  void createTmp();
-  void setHeaders();
+    void updateArch();
+    void createTmp();
+    void setHeaders();
     void processDir( const KTarDirectory *tardir, const QString & root );
     void deleteOldFiles( QStringList *list, bool bAddOnlyNew );
     QString getEntry( const QString & filename );
 
 private: // data
- // if the tar is compressed, this is the temporary uncompressed tar.
-  QString tmpfile;
-  QString m_fileMimeType;
-  bool compressed;
+    // if the tar is compressed, this is the temporary uncompressed tar.
+    QString tmpfile;
+    QString m_fileMimeType;
+    bool compressed;
 
-  // for use with createTmp and updateArch
-  bool createTmpInProgress;
-  bool updateInProgress;
+    // for use with createTmp and updateArch
+    bool createTmpInProgress;
+    bool updateInProgress;
 
-  // for use with deleteOldFiles
-  bool deleteInProgress;
-  FILE *fd;
+    // for use with deleteOldFiles
+    bool deleteInProgress;
+    FILE *fd;
+    QStringList m_filesToAdd;
+    QStringList m_filesToRemove;
+    KProcess * m_pTmpProc;
+    KProcess * m_pTmpProc2;
+    KTar *tarptr;
+    bool failed;
 };
 
 #endif /* TAR_H */

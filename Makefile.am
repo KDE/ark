@@ -1,28 +1,37 @@
 # set the include path for X, qt and KDE
-INCLUDES= $(all_includes)
+AM_CPPFLAGS = $(all_includes)
 
 SUBDIRS = pics
 
 # The binary name. Changed from kzip to ark
 bin_PROGRAMS = ark
+lib_LTLIBRARIES = ark.la
+
+ark_la_SOURCES = main.cpp arkapp.cpp arktoplevelwindow.cpp
+ark_la_LDFLAGS = -module -avoid-version
+ark_la_LIBADD = libark_common.la $(LIB_KPARTS)
+
+noinst_LTLIBRARIES = libark_common.la
+
+libark_common_la_SOURCES = archiveformatinfo.cpp arksettings.cpp
+libark_common_la_LDFLAGS = $(all_libraries) -no-undefined
+libark_common_la_LIBADD  = $(LIB_KFILE)
+
 kde_module_LTLIBRARIES = libarkpart.la
+libarkpart_la_LDFLAGS = $(KDE_PLUGIN)
+libarkpart_la_LIBADD = libark_common.la $(LIB_KPARTS)
 
-# Kpart sources 
-libarkpart_la_SOURCES= arkapp.cpp extractdlg.cpp dirDlg.cpp arkwidget.cpp \
-                zip.cpp tar.cpp filelistview.cpp arch.cpp \
-                selectDlg.cpp lha.cpp shellOutputDlg.cpp arksettings.cpp \
-                compressedfile.cpp zoo.cpp rar.cpp ar.cpp generalOptDlg.cpp \
-                ark_part.cpp arkwidgetbase.cpp arktoplevelwindow.cpp arkfactory.cpp \
-                arkutils.cpp archiveformatinfo.cpp archiveformatdlg.cpp
+libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp extractdlg.cpp dirDlg.cpp \
+                zip.cpp tar.cpp filelistview.cpp arch.cpp selectDlg.cpp \
+                lha.cpp shellOutputDlg.cpp compressedfile.cpp \
+                zoo.cpp rar.cpp ar.cpp generalOptDlg.cpp arkwidgetbase.cpp \
+                arkutils.cpp archiveformatdlg.cpp arkwidget.cpp
 
-# KParts
-libarkpart_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
-libarkpart_la_LIBADD   = $(LIB_KFILE) $(LIB_KPARTS)
 
 # Which sources should be compiled for ark.
-ark_SOURCES    = main.cpp
-ark_LDFLAGS = $(KDE_RPATH) $(all_libraries)
-ark_LDADD   = libarkpart.la
+ark_SOURCES = dummy.cpp
+ark_LDFLAGS = $(all_libraries) $(KDE_RPATH)
+ark_LDADD   = ark.la
 
 # this option you can leave out. Just, if you use "make dist", you need it
 noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \
@@ -33,8 +42,12 @@ noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \
                  arkfactory.h arkutils.h archiveformatinfo.h \
                  archiveformatdlg.h
 
-# just to make sure, automake makes them 
 METASOURCES = AUTO
+
+dummy.cpp:
+	echo > dummy.cpp
+
+CLEANFILES = dummy.cpp
 
 rcdir = $(kde_datadir)/ark
 rc_DATA = arkui.rc ark_part.rc ark_part_readonly.rc

@@ -145,10 +145,12 @@ void ArArch::addFile( QStringList *urls )
   kdDebug(1601) << "+ArArch::addFile" << endl;
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  *kp << m_archiver_program << "r";
+  *kp << m_archiver_program;
 	
   if (m_settings->getAddReplaceOnlyWithNewer())
-    *kp << "u";
+	  *kp << "ru";
+  else
+	  *kp << "r";
 
   *kp << m_filename;
 
@@ -193,11 +195,10 @@ void ArArch::addFile( QStringList *urls )
       emit sigAdd(false);
     }
 
-  kdDebug(1601) << "+ArArch::addFile" << endl;
+  kdDebug(1601) << "-ArArch::addFile" << endl;
 }
 
-void ArArch::unarchFile(QStringList *_fileList, const QString & _destDir,
-			bool viewFriendly)
+void ArArch::unarchFile(QStringList *_fileList, const QString & _destDir, bool )
 {
   // if _fileList is empty, we extract all.
   // if _destDir is empty, abort with error.

@@ -175,14 +175,9 @@ void CompressedFile::open()
   if ( m_unarchiver_program == "lzop")
   {
     *kp << "-d";
-    // lzop hack, see comment in tar.cpp createTmp()
-    kp->setUsePty( KProcess::Stdin, false );
+	 kp->setUsePty( KProcess::Stdin, false );
   }
-  // gunzip 1.3 seems not to like original names with directories in them
-  // testcase: https://listman.redhat.com/pipermail/valhalla-list/2006-October.txt.gz
-  /*if ( m_unarchiver_program == "gunzip" )
-    *kp << "-N";
-  */
+  
   *kp << m_tmpfile;
 
   kdDebug(1601) << "Command is " << m_unarchiver_program << " " << m_tmpfile<< endl;
@@ -291,7 +286,7 @@ void CompressedFile::addFile( QStringList *urls )
 
   // lzop hack, see comment in tar.cpp createTmp()
   if ( m_archiver_program == "lzop")
-    kp->setUsePty( KProcess::Stdin, false );
+	  kp->setUsePty( KProcess::Stdin, false );
 
   QString compressor = m_archiver_program;
 

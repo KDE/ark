@@ -1,9 +1,12 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="ark_kparts" version="5">
+<kpartgui name="ark_kparts" version="6">
 <ActionProperties>
     <Action name="select_all" icon="ark_selectall"/>
 </ActionProperties>
 <MenuBar>
+ <Menu name="file"><text>&amp;File</text>
+    <Action name="file_save_as"/>
+ </Menu>
  <Menu name="edit"><text>&amp;Edit</text>
     <Action name="select"/>
     <Action name="select_all"/>
@@ -11,12 +14,15 @@
     <Action name="invert_selection"/>
     <Separator lineSeparator="true"/>
     <Action name="shell_output"/>
-  </Menu>
-  <Menu name="action"><text>&amp;Action</text>
+ </Menu>
+ <Menu name="action"><text>&amp;Action</text>
     <Action name="extract"/>
     <Action name="view"/>
     <Action name="open_with"/>
   </Menu>
+ <Menu name="settings"><text>&amp;Settings</text>
+    <Action name="options_configure_ark"/>
+ </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar">
   <Action name="extract"/>

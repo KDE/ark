@@ -6,6 +6,7 @@
 
  Copyright (C)
 
+ 2003: Helio Chissini de Castro <helio@conectiva.com>
  2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
@@ -24,14 +25,13 @@
 
 */
 
-#include <config.h>
-
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
+// Std includes
 #include <sys/errno.h>
-#include <string.h>
+#include <unistd.h>
+#include <iostream>
+#include <string>
 
+// QT includes
 #include <qfile.h>
 #include <qdir.h>
 
@@ -42,6 +42,7 @@
 #include <kprocess.h>
 
 // ark includes
+#include <config.h>
 #include "arkwidgetbase.h"
 #include "arch.h"
 #include "arksettings.h"
@@ -256,15 +257,12 @@ void RarArch::addFile( QStringList *urls )
       emit sigAdd(false);
     }
 
-  kdDebug(1601) << "+RarArch::addFile" << endl;
+  kdDebug(1601) << "-RarArch::addFile" << endl;
 }
 
 void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 			 bool viewFriendly)
 {
-  // if _fileList is empty, we extract all.
-  // if _destDir is empty, abort with error.
-
   kdDebug(1601) << "+RarArch::unarchFile" << endl;
 
   QString dest;
@@ -289,13 +287,6 @@ void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir,
     {
     *kp << "-o-" ;
     }
-
-#if 0
-  if (g_pSettings->filesToLower())
-  {
-    *kp << "-cl";
-  }
-#endif
 
   *kp << m_filename;
 
@@ -363,6 +354,5 @@ void RarArch::remove(QStringList *list)
   kdDebug(1601) << "-RarArch::remove" << endl;
 }
 
-
-
 #include "rar.moc"
+

@@ -31,12 +31,12 @@
 #ifndef ARKWIDGET_H
 #define ARKWIDGET_H
 
-#define ARK_VERSION "1.9"
+#define ARK_VERSION "2.1.9"
 
 #include "arkwidgetbase.h"
-#include "arktoplevelwindow.h"
+#include <kio/job.h>
+#include <qwidget.h>
 
-class QWidget;
 class QPoint;
 class QString;
 class QStringList;
@@ -63,23 +63,27 @@ public:
     ArkWidget( QWidget *parent=0, const char *name=0 );
     virtual ~ArkWidget();
 
-    void setExtractOnly(bool extOnly) { m_extractOnly = extOnly; }
-    bool getExtractOnly() { return m_extractOnly; }
-    ArkSettings *settings() { return m_settings; }
+    virtual void setExtractOnly(bool extOnly) { m_extractOnly = extOnly; }
+    virtual ArkSettings *settings() { return m_settings; }
     bool allowedArchiveName( const KURL & u );
     bool file_save_as( const KURL & u );
-    KURL getSaveAsFileName();
-    void setOpenAsMimeType( const QString & mimeType );
+    virtual KURL getSaveAsFileName();
+    virtual void setOpenAsMimeType( const QString & mimeType );
     QString & openAsMimeType(){ return m_openAsMimeType; };
     void prepareViewFiles( const QStringList & fileList );
+    virtual void setArchivePopupEnabled( bool b );
+
+    virtual void extractTo( const KURL & targetDirectory, const KURL & archive, bool guessName );
+    virtual void addToArchive( const KURL::List & filesToAdd, const KURL & archive = KURL() );
+    void convertTo( const KURL & u );
 
 public slots:
-    void file_open(const KURL& url);
+    void file_open( const KURL& url);
     void edit_view_last_shell_output();
-    void file_close();
-    void file_new();
-    void options_dirs();
-    void options_saveNow();
+    virtual void file_close();
+    virtual void file_new();
+    virtual void options_dirs();
+    virtual void options_saveNow();
 
 protected slots:
     void edit_select();
@@ -94,7 +98,6 @@ protected slots:
     bool action_extract();
     void slotOpenWith();
     void action_edit();
-    void slotSaveAsDone(KIO::Job *);
 
     void doPopup(QListViewItem *, const QPoint &, int); // right-click menus
 
@@ -109,6 +112,7 @@ protected slots:
     void slotEditFinished(KProcess *);
     void selectByPattern(const QString & _pattern);
 signals:
+    void openURLRequest( const KURL & url );
     void request_file_quit();
     void fixActions();
     void disableAllActions();
@@ -121,6 +125,9 @@ signals:
     void setWindowCaption( const QString &caption );
     void removeOpenArk( const KURL & );
     void addOpenArk( const KURL & );
+    void createDone( bool );
+    void openDone( bool );
+    void createRealArchiveDone( bool );
 
 protected:
 
@@ -149,8 +156,7 @@ private: // methods
     void createRealArchive( const QString &strFilename,
                             const QStringList & filesToAdd = QStringList() );
     KURL getCreateFilename( const QString & _caption,
-                            const QString & _filter = QString::null,
-                            const QString & _extension = QString::null,
+                            const QString & _defaultMimeType = QString::null,
                             bool allowCompressed = true );
 
     bool reportExtractFailures(const QString & _dest, QStringList *_list);
@@ -166,10 +172,24 @@ private slots:
     void editSlotAddDone( bool success );
     void viewSlotExtractDone();
     void openWithSlotExtractDone();
+
     void createRealArchiveSlotCreate( Arch * newArch, bool success,
                                       const QString & fileName, int nbr );
     void createRealArchiveSlotAddDone( bool success );
     void createRealArchiveSlotAddFilesDone( bool success );
+
+    void convertSlotExtractDone( bool success );
+    void convertSlotCreate();
+    void convertSlotCreateDone( bool success );
+    void convertSlotAddDone( bool success );
+    void convertFinish();
+
+    void extractToSlotOpenDone( bool success );
+    void extractToSlotExtractDone( bool success );
+
+    void addToArchiveSlotOpenDone( bool success );
+    void addToArchiveSlotCreateDone( bool success );
+    void addToArchiveSlotAddDone( bool success );
 
 protected:
     void arkWarning(const QString& msg);
@@ -211,6 +231,15 @@ private: // data
 
     QStringList *mpDownloadedList;
 
+    bool m_bArchivePopupEnabled;
+
+    QString m_convert_tmpDir;
+    KURL m_convert_saveAsURL;
+    bool m_convertSuccess;
+
+    KURL m_extractTo_targetDirectory;
+
+    KURL::List m_addToArchive_filesToAdd;
 };
 
 #endif /* ARKWIDGET_H*/

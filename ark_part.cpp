@@ -2,6 +2,7 @@
   Copyright (C)
  
   2001: Macadamian Technologies Inc (author: Jian Huang, jian@macadamian.com)
+  2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
  
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -21,15 +22,14 @@
 
 #include "ark_part.h"
 #include "arksettings.h"
-#include "arkwidget.h"
+#include "arkfactory.h"
 
 #include <kdebug.h>
 #include <kpopupmenu.h>
 #include <kaboutdata.h>
+#include <kxmlguifactory.h>
 
 #include <qfile.h>
-
-#include "arkfactory.h"
 
 KAboutData *ArkPart::createAboutData()
 {
@@ -52,20 +52,18 @@ KAboutData *ArkPart::createAboutData()
 
 
 
-ArkPart::ArkPart( QWidget *parentWidget, const char *widgetName, QObject *parent,
+ArkPart::ArkPart( QWidget *parentWidget, const char * /*widgetName*/, QObject *parent,
                   const char *name, const QStringList &, bool readWrite )
-        : KParts::ReadWritePart(parent, name),
-        m_ArchivePopupEnabled( true )
+        : KParts::ReadWritePart(parent, name)
 {
     kdDebug()<<"ArkPart::ArkPart"<<endl;
     setInstance(ArkFactory::instance());
-    awidget = new  ArkWidget( parentWidget, widgetName );
+    awidget = new  ArkWidget( parentWidget, "ArkWidget" );
 
     setWidget(awidget);
     connect( awidget, SIGNAL( fixActions() ), this, SLOT( fixEnables() ) );
     connect( awidget, SIGNAL( disableAllActions() ), this, SLOT( disableActions() ) );
     connect( awidget, SIGNAL( signalFilePopup( const QPoint& ) ), this, SLOT( slotFilePopup( const QPoint& ) ) );
-    connect( awidget, SIGNAL( signalArchivePopup( const QPoint& ) ), this, SLOT( slotArchivePopup( const QPoint& ) ) );
     connect( awidget, SIGNAL( setWindowCaption( const QString & ) ), this, SIGNAL( setWindowCaption( const QString & ) ) );
     connect( awidget, SIGNAL( removeRecentURL( const QString & ) ), this, SIGNAL( removeRecentURL(  const QString & ) ) );
     connect( awidget, SIGNAL( addRecentURL( const QString & ) ), this, SIGNAL( addRecentURL(  const QString & ) ) );
@@ -74,12 +72,15 @@ ArkPart::ArkPart( QWidget *parentWidget, const char *widgetName, QObject *parent
         setXMLFile( "ark_part.rc" );
     else
     {
-        setArchivePopupEnabled( false );
         setXMLFile( "ark_part_readonly.rc" );
     }
     setReadWrite( readWrite );
 
     setupActions();
+
+    m_ext = new ArkBrowserExtension( this, "ArkBrowserExtension" );
+    connect( awidget, SIGNAL( openURLRequest( const KURL & ) ),
+             m_ext, SLOT( slotOpenURLRequested( const KURL & ) ) );
 }
 
 ArkPart::~ArkPart()
@@ -118,7 +119,7 @@ ArkPart::setupActions()
                                 SLOT(edit_select()),	actionCollection(), "select");
 
     selectAllAction = KStdAction::selectAll(awidget,
-                                            SLOT(edit_selectAll()),	actionCollection(), "select_all");
+                                            SLOT(edit_selectAll()), actionCollection(), "select_all");
 
     deselectAllAction =  new KAction(i18n("&Deselect All"), 0, awidget,
                                      SLOT(edit_deselectAll()), actionCollection(), "deselect_all");
@@ -126,7 +127,9 @@ ArkPart::setupActions()
     invertSelectionAction = new KAction(i18n("&Invert Selection"), 0, awidget,
                                         SLOT(edit_invertSel()), actionCollection(), "invert_selection");
 
-    KStdAction::preferences(awidget, SLOT(options_dirs()), actionCollection());
+    saveAsAction = KStdAction::saveAs(this, SLOT(file_save_as()), actionCollection());
+    ( void ) new KAction( i18n( "Configure &Ark..." ), "configure" , 0, awidget,
+                                        SLOT( options_dirs() ), actionCollection(), "options_configure_ark" );
 
     initialEnables();
 }
@@ -145,6 +148,7 @@ void ArkPart::fixEnables()
     if (awidget->archive())
         bReadOnly = awidget->archive()->isReadOnly();
 
+    saveAsAction->setEnabled(bHaveFiles);
     selectAction->setEnabled(bHaveFiles);
     selectAllAction->setEnabled(bHaveFiles);
     deselectAllAction->setEnabled(bHaveFiles);
@@ -167,6 +171,7 @@ void ArkPart::fixEnables()
 
 void ArkPart::initialEnables()
 {
+    saveAsAction->setEnabled( false );
     selectAction->setEnabled(false);
     selectAllAction->setEnabled(false);
     deselectAllAction->setEnabled(false);
@@ -184,6 +189,7 @@ void ArkPart::initialEnables()
 
 void ArkPart::disableActions()
 {
+    saveAsAction->setEnabled(false);
     selectAction->setEnabled(false);
     selectAllAction->setEnabled(false);
     deselectAllAction->setEnabled(false);
@@ -214,14 +220,22 @@ bool ArkPart::openFile()
     return true;
 }
 
+void ArkPart::file_save_as()
+{
+    KURL u = awidget->getSaveAsFileName();
+    if ( u.isEmpty() ) // user canceled
+        return;
+    if ( !awidget->allowedArchiveName( u ) )
+        awidget->convertTo( u );
+    else if ( saveAs( u ) )
+        m_ext->slotOpenURLRequested( u );
+}
+
 bool ArkPart::saveFile()
 {
     KURL url;
     url.setPath(  m_file );
-    if ( awidget->allowedArchiveName( url ) )
-        return awidget->file_save_as( url );
-    else
-        return false;
+    return awidget->file_save_as( url );
 }
 
 bool ArkPart::closeURL()
@@ -230,32 +244,9 @@ bool ArkPart::closeURL()
     return ReadWritePart::closeURL();
 }
 
-void ArkPart::setArchivePopupEnabled ( const bool b )
-{
-    if ( b==m_ArchivePopupEnabled )
-        return;
-    if( b )
-    {
-        connect( awidget, SIGNAL( signalArchivePopup( const QPoint& ) ), this,
-                 SLOT( slotArchivePopup( const QPoint& ) ) );
-    }
-
-    else
-    {
-        disconnect( awidget, SIGNAL( signalArchivePopup( const QPoint& ) ), this,
-                    SLOT( slotArchivePopup( const QPoint& ) ) );
-    }
-    m_ArchivePopupEnabled = b;
-}
-
 void ArkPart::slotFilePopup( const QPoint &pPoint )
 {
     static_cast<KPopupMenu *>(factory()->container("file_popup", this))->popup(pPoint);
-}
-
-void ArkPart::slotArchivePopup( const QPoint &pPoint )
-{
-    static_cast<KPopupMenu *>(factory()->container("archive_popup", this))->popup(pPoint);
 }
 
 void ArkPart::slotSaveProperties()
@@ -263,6 +254,16 @@ void ArkPart::slotSaveProperties()
     awidget->settings()->writeConfiguration();
 
     kdDebug(1601) << "-saveProperties (exit)" << endl;
+}
+
+ArkBrowserExtension::ArkBrowserExtension( KParts::ReadOnlyPart * parent, const char * name )
+                : KParts::BrowserExtension( parent, name )
+{
+}
+
+void ArkBrowserExtension::slotOpenURLRequested( const KURL & url )
+{
+    emit openURLRequest( url, KParts::URLArgs() );
 }
 
 

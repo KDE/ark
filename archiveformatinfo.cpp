@@ -25,7 +25,6 @@
 
 #include <klocale.h>
 #include <kdebug.h>
-#include <kmimetype.h>
 #include <kdesktopfile.h>
 
 #include <qfile.h>
@@ -47,32 +46,32 @@ ArchiveFormatInfo * ArchiveFormatInfo::self()
 
 void ArchiveFormatInfo::buildFormatInfos()
 {
-  addFormatInfo( TAR_FORMAT, "application/x-tgz" );
-  addFormatInfo( TAR_FORMAT, "application/x-tzo" );
-  addFormatInfo( TAR_FORMAT, "application/x-tarz" );
-  addFormatInfo( TAR_FORMAT, "application/x-tbz" );
+  addFormatInfo( TAR_FORMAT, "application/x-tgz", ".tar.gz" );
+  addFormatInfo( TAR_FORMAT, "application/x-tzo", ".tar.lzo" );
+  addFormatInfo( TAR_FORMAT, "application/x-tarz", ".tar.z" );
+  addFormatInfo( TAR_FORMAT, "application/x-tbz", ".tar.bz2" );
   // x-tar as the last one to get its comment for all the others, too
-  addFormatInfo( TAR_FORMAT, "application/x-tar" );
+  addFormatInfo( TAR_FORMAT, "application/x-tar", ".tar" );
 
-  addFormatInfo( LHA_FORMAT, "application/x-lha" );
+  addFormatInfo( LHA_FORMAT, "application/x-lha", ".lha" );
 
-  addFormatInfo( ZIP_FORMAT, "application/x-jar" );
-  addFormatInfo( ZIP_FORMAT, "application/x-zip" );
+  addFormatInfo( ZIP_FORMAT, "application/x-jar", ".jar" );
+  addFormatInfo( ZIP_FORMAT, "application/x-zip", ".zip" );
 
-  addFormatInfo( COMPRESSED_FORMAT, "application/x-gzip" );
-  addFormatInfo( COMPRESSED_FORMAT, "application/x-bzip" );
-  addFormatInfo( COMPRESSED_FORMAT, "application/x-bzip2" );
-  addFormatInfo( COMPRESSED_FORMAT, "application/x-lzop" );
-  addFormatInfo( COMPRESSED_FORMAT, "application/x-compress" );
+  addFormatInfo( COMPRESSED_FORMAT, "application/x-gzip", ".gz" );
+  addFormatInfo( COMPRESSED_FORMAT, "application/x-bzip", ".bz" );
+  addFormatInfo( COMPRESSED_FORMAT, "application/x-bzip2", ".bz2" );
+  addFormatInfo( COMPRESSED_FORMAT, "application/x-lzop", ".lzo"  );
+  addFormatInfo( COMPRESSED_FORMAT, "application/x-compress", ".Z" );
   find( COMPRESSED_FORMAT ).description = i18n( "Compressed File" );
 
-  addFormatInfo( ZOO_FORMAT, "application/x-zoo" );
+  addFormatInfo( ZOO_FORMAT, "application/x-zoo", ".zoo" );
 
-  addFormatInfo( RAR_FORMAT, "application/x-rar" );
-  addFormatInfo( AA_FORMAT, "application/x-archive" );
+  addFormatInfo( RAR_FORMAT, "application/x-rar", ".rar" );
+  addFormatInfo( AA_FORMAT, "application/x-archive",".a" );
 }
 
-void ArchiveFormatInfo::addFormatInfo( ArchType type, QString mime )
+void ArchiveFormatInfo::addFormatInfo( ArchType type, QString mime, QString stdExt )
 {
     FormatInfo & info = find( type );
 
@@ -82,6 +81,7 @@ void ArchiveFormatInfo::addFormatInfo( ArchType type, QString mime )
     KMimeType mimeType( desktopFile );
     info.mimeTypes.append( mimeType.name() );
     info.extensions += mimeType.patterns();
+    info.defaultExtensions += stdExt;
     info.allDescriptions.append( mimeType.comment() );
     info.description = mimeType.comment();
 
@@ -99,9 +99,21 @@ QString ArchiveFormatInfo::filter()
         allExtensions += (*it).extensions;
         filter += "\n" + (*it).extensions.join( " " ) + '|' + (*it).description;
     }
-    return i18n( "*|All Files\n" )
-                 + allExtensions.join( " " ) + '|' + i18n( "All Valid Archives" )
-                 + filter;
+    return allExtensions.join( " " ) + '|' + i18n( "All Valid Archives\n" )
+            + "*|" + i18n( "All Files" )
+            + filter;
+}
+
+const KMimeType::List ArchiveFormatInfo::supportedMimeTypes( bool includeCompressed )
+{
+    KMimeType::List list;
+    InfoList::Iterator it = m_formatInfos.begin();
+    QStringList::Iterator iter;
+    for ( ; it != m_formatInfos.end(); ++it )
+        if ( includeCompressed || (*it).type != COMPRESSED_FORMAT )
+            for ( iter = (*it).mimeTypes.begin(); iter !=(*it).mimeTypes.end(); ++iter )
+                list.append( KMimeType::mimeType( *iter ) );
+    return list;
 }
 
 QStringList ArchiveFormatInfo::allDescriptions()
@@ -194,6 +206,19 @@ QString ArchiveFormatInfo::descriptionForMimeType( const QString & mimeType )
         index = (*it).mimeTypes.findIndex( mimeType );
         if ( index != -1 )
             return (* (*it).allDescriptions.at( index ) );
+    }
+    return QString::null;
+}
+
+QString ArchiveFormatInfo::defaultExtension( const QString & mimeType )
+{
+    InfoList::Iterator it = m_formatInfos.begin();
+    int index;
+    for( ; it != m_formatInfos.end(); ++it )
+    {
+        index = (*it).mimeTypes.findIndex( mimeType );
+        if ( index != -1 )
+            return (* (*it).defaultExtensions.at( index ) );
     }
     return QString::null;
 }

@@ -184,7 +184,7 @@ ArkUtils::diskHasSpace(const QString &dir, long size)
   // check if disk has enough space to accomodate (a) new file(s) of
   // the given size in the partition containing the given directory
 {
-  kdDebug() << "Size: " << size << endl;
+  kdDebug( 1601 ) << "diskHasSpace() " << "dir: " << dir << "Size: " << size << endl;
   struct STATFS buf;
   if (STATFS(QFile::encodeName(dir), &buf) == 0)
   {
@@ -198,7 +198,7 @@ ArkUtils::diskHasSpace(const QString &dir, long size)
   else
   {
     // something bad happened
-    kdWarning() << "diskHasSpace() failed" << endl;
+    kdWarning( 1601 ) << "diskHasSpace() failed" << endl;
     // Q_ASSERT(0);
   }
   return true;

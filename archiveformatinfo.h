@@ -24,6 +24,7 @@
 #define ARCHIVEFORMATINFO_H
 
 #include "arch.h"
+#include <kmimetype.h>
 
 class ArchiveFormatInfo
 {
@@ -33,23 +34,26 @@ private:
 public:
     static ArchiveFormatInfo * self();
     QString filter();
+    const KMimeType::List supportedMimeTypes( bool includeCompressed = true );
     QStringList allDescriptions();
     ArchType archTypeForMimeType( const QString & mimeType );
     ArchType archTypeByExtension( const QString & archname );
     ArchType archTypeForURL( const KURL & url );
     QString mimeTypeForDescription( const QString & description );
     QString descriptionForMimeType( const QString & mimeType );
+    QString defaultExtension( const QString & mimeType );
     bool wasUnknownExtension();
 
 private:
     void buildFormatInfos();
-    void addFormatInfo( ArchType type, QString mime );
+    void addFormatInfo( ArchType type, QString mime, QString stdExt );
 
     struct FormatInfo
     {
         QStringList extensions;
         QStringList mimeTypes;
         QStringList allDescriptions;
+        QStringList defaultExtensions;
         QString description;
         enum ArchType type;
     };
