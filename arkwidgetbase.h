@@ -49,6 +49,9 @@ class ArkWidgetBase
 		bool isArchiveOpen() const { return m_bIsArchiveOpen; }
 		bool dragInProgress() const { return m_bDragInProgress; }
 		int getNumFilesInArchive() const { return m_nNumFiles; }
+		void setRealURL( const KURL & url ) { m_realURL = url; }
+		const KURL & realURL( ) const { return m_realURL; }
+
 		//int getCol(const QString &);
 		int getArkInstanceId() const { return m_arkInstanceId; }
 		void setArkInstanceId( int aid ) { m_arkInstanceId = aid; }
@@ -89,6 +92,7 @@ class ArkWidgetBase
 		Arch *arch;
 		ArkSettings *m_settings;
 		QString m_strArchName;
+		KURL m_realURL;  // only for the hack in compressedfile.cpp
 		FileListView *archiveContent;
 		KURL m_url;
 		ArchType m_archType;

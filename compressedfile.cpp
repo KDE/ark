@@ -132,13 +132,11 @@ void CompressedFile::open()
   // and when the uncompression is done, obtain an ls -l of it
   // (that code is in the slot slotOpenDone)
 
-  KProcess proc;
-  proc << "cp" << m_filename << m_tmpdir;
-  proc.start(KProcess::Block);
-
-  m_tmpfile = m_filename.right(m_filename.length()
-			       - m_filename.findRev("/")-1);
+  m_tmpfile = m_gui->realURL().fileName();
   m_tmpfile = m_tmpdir + "/" + m_tmpfile;
+  KProcess proc;
+  proc << "cp" << m_filename << m_tmpfile;
+  proc.start(KProcess::Block);
 
   kdDebug(1601) << "Temp file name is " << m_tmpfile << endl;
 
