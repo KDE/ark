@@ -1,4 +1,3 @@
-//  -*-C++-*-           emacs magic for .h files
 /*
 
  ark -- archiver for the KDE project
@@ -26,31 +25,32 @@
 
 */
 
-// The following class is the base class for all of the archive types.
-// In order for it to work properly with the KProcess, you have to
-// connect the ProcessExited signal appropriately before spawning
-// the core operations. Then the signal that the process exited can
-// be intercepted by the viewer (in ark, ArkWidget) and dealt with
-// appropriately. See LhaArch or ZipArch for a good model. Don't use
-// TarArch or CompressedFile as models - they're too complicated!
-//
-// Don't forget to set m_archiver_program and m_unarchiver_program
-// and add a call to
-//     verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
-// in the constructor of your class. It's OK to leave out the second argument.
-//
-// To add a new archive:
-// 1. Create a new header file and a source code module
-// 2. Add an entry to the ArchType enum in arch.h.
-// 3. Add appropriate types to buildFormatInfo() in archiveformatinfo.cpp
-//    and archFactory() in arch.cpp
+/* The following class is the base class for all of the archive types.
+ * In order for it to work properly with the KProcess, you have to
+ * connect the ProcessExited signal appropriately before spawning
+ * the core operations. Then the signal that the process exited can
+ * be intercepted by the viewer (in ark, ArkWidget) and dealt with
+ * appropriately. See LhaArch or ZipArch for a good model. Don't use
+ * TarArch or CompressedFile as models - they're too complicated!
+ *
+ * Don't forget to set m_archiver_program and m_unarchiver_program
+ * and add a call to
+ *     verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+ * in the constructor of your class. It's OK to leave out the second argument.
+ *
+ * To add a new archive type:
+ * 1. Create a new header file and a source code module
+ * 2. Add an entry to the ArchType enum in arch.h.
+ * 3. Add appropriate types to buildFormatInfo() in archiveformatinfo.cpp
+ *    and archFactory() in arch.cpp
+ */
 
 
 #ifndef ARCH_H
 #define ARCH_H
 
 #include <qobject.h>
-#include <qptrlist.h>	// Some very annoying hackery in arkwidgetpart
+#include <qptrlist.h> // Some very annoying hackery in arkwidgetpart
 #include <qregexp.h>
 #include <qstring.h>
 #include <kurl.h>
@@ -58,8 +58,6 @@
 #include "filelistview.h"
 
 class QCString;
-template<class type> class QPtrList;
-class QRegExp;
 class QStringList;
 class KProcess;
 
@@ -72,119 +70,115 @@ enum ArchType { UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
 
 
 /**
-* Pure virtual base class for archives - provides a framework as well as
-* useful common functionality.
-*/
+ * Pure virtual base class for archives - provides a framework as well as
+ * useful common functionality.
+ */
 class Arch : public QObject
 {
   Q_OBJECT
 
-protected:
-  /**
-  * A struct representing column data. This makes it possible to abstract
-  * archive output, and save writing the same function for every archive
-  * type. It is also much more robust than sscanf (which was breaking).
-  */
-  struct ArchColumns
-  {
-  	// YES, a struct. A proper class is excessive here.
-	int colRef;	// Which column to load to in processLine
-	QRegExp pattern;
-	int maxLength;
-	bool optional;
+  protected:
+    /**
+     * A struct representing column data. This makes it possible to abstract
+     * archive output, and save writing the same function for every archive
+     * type. It is also much more robust than sscanf (which was breaking).
+     */
+    struct ArchColumns
+    {
+      int colRef; // Which column to load to in processLine
+      QRegExp pattern;
+      int maxLength;
+      bool optional;
 
-	ArchColumns(int col, QRegExp reg, int length = 64,
-		    bool opt = false);
-  };
+      ArchColumns( int col, QRegExp reg, int length = 64, bool opt = false );
+    };
 
-public:
-  Arch( ArkWidget *_viewer,
-       const QString & _fileName);
-  virtual ~Arch();
+  public:
+    Arch( ArkWidget *_viewer, const QString & _fileName );
+    virtual ~Arch();
 
-  virtual void open() = 0;
-  virtual void create() = 0;
-  virtual void remove(QStringList *) = 0;
+    virtual void open() = 0;
+    virtual void create() = 0;
+    virtual void remove( QStringList * ) = 0;
 
-  virtual void addFile( const QStringList & ) = 0;
-  virtual void addDir(const QString &) = 0;
+    virtual void addFile( const QStringList & ) = 0;
+    virtual void addDir( const QString & ) = 0;
 
-  // unarch the files in the list or all files if the list is empty.
-  // if _destDir is empty, abort with error.
-  // viewFriendly forces certain options like directory junking required by view/edit
-  virtual void unarchFile(QStringList *, const QString & _destDir="",
-			  bool viewFriendly=false) = 0;
+    // unarch the files in the list or all files if the list is empty.
+    // if _destDir is empty, abort with error.
+    // viewFriendly forces certain options like directory junking required by view/edit
+    virtual void unarchFile( QStringList *, const QString & _destDir,
+                             bool viewFriendly = false ) = 0;
 
-  QString fileName() const { return m_filename; };
+    QString fileName() const { return m_filename; };
 
-  enum EditProperties{ Add = 1, Delete = 2, Extract = 4,
-    View = 8, Integrity = 16 };
+    enum EditProperties{ Add = 1, Delete = 2, Extract = 4,
+                         View = 8, Integrity = 16 };
 
-  // is the archive readonly?
-  bool isReadOnly() { return m_bReadOnly; }
-  void setReadOnly(bool bVal) { m_bReadOnly = bVal; }
+    // is the archive readonly?
+    bool isReadOnly() { return m_bReadOnly; }
+    void setReadOnly( bool bVal ) { m_bReadOnly = bVal; }
 
-  bool isError() { return m_error; }
-  void resetError() { m_error = false; }
+    bool isError() { return m_error; }
+    void resetError() { m_error = false; }
 
-  // check to see if the utility exists in the PATH of the user
-  void verifyUtilityIsAvailable(const QString &,
-				const QString & = QString::null);
+    // check to see if the utility exists in the PATH of the user
+    void verifyUtilityIsAvailable( const QString &,
+                                   const QString & = QString::null );
 
-  bool utilityIsAvailable() { return m_bUtilityIsAvailable; }
+    bool utilityIsAvailable() { return m_bUtilityIsAvailable; }
 
-  QString getUtility() { return m_archiver_program; }
+    QString getUtility() { return m_archiver_program; }
 
-  void appendShellOutputData( const char * data ) { m_lastShellOutput.append( data ); }
-  void clearShellOutput() { m_lastShellOutput.truncate( 0 ); }
-  const QString& getLastShellOutput() const { return m_lastShellOutput; }
+    void appendShellOutputData( const char * data ) { m_lastShellOutput.append( data ); }
+    void clearShellOutput() { m_lastShellOutput.truncate( 0 ); }
+    const QString& getLastShellOutput() const { return m_lastShellOutput; }
 
-  static Arch *archFactory(ArchType aType,
-                ArkWidget *parent, const QString &filename,
-                const QString &openAsMimeType = QString::null );
+    static Arch *archFactory( ArchType aType, ArkWidget *parent,
+                              const QString &filename,
+                              const QString &openAsMimeType = QString::null );
 
-protected slots:
-  void slotOpenExited(KProcess*);
+  protected slots:
+    void slotOpenExited( KProcess* );
+    void slotExtractExited( KProcess* );
+    void slotDeleteExited( KProcess* );
+    void slotAddExited( KProcess* );
 
-  void slotExtractExited(KProcess*);
-  void slotDeleteExited(KProcess*);
-  void slotAddExited(KProcess*);
+    void slotReceivedOutput( KProcess *, char*, int );
 
-  void slotReceivedOutput(KProcess *, char*, int);
+    virtual bool processLine( const QCString &line );
+    virtual void slotReceivedTOC( KProcess *, char *, int );
 
-  virtual bool processLine(const QCString &line);
-  virtual void slotReceivedTOC(KProcess *, char *, int);
+  signals:
+    void sigOpen( Arch * archive, bool success, const QString &filename, int );
+    void sigCreate( Arch *, bool, const QString &, int );
+    void sigDelete( bool );
+    void sigExtract( bool );
+    void sigAdd( bool );
 
-signals:
-  void sigOpen( Arch *, bool, const QString &, int );
-  void sigCreate( Arch *, bool, const QString &, int );
-  void sigDelete(bool);
-  void sigExtract(bool);
-  void sigAdd(bool);
+  protected:  // data
+    QString m_filename;
+    QString m_lastShellOutput;
+    QCString m_buffer;
+    ArkWidget *m_gui;
+    bool m_bReadOnly; // for readonly archives
+    bool m_error;
 
-protected:  // data
-  QString m_filename;
-  QString m_lastShellOutput;
-  QCString m_buffer;
-  ArkWidget *m_gui;
-  bool m_bReadOnly; // for readonly archives
-  bool m_error;
+    // lets tar delete unsuccessfully before adding without confusing the user
+    bool m_bNotifyWhenDeleteFails;
 
-  // lets tar delete unsuccessfully before adding without confusing the user
-  bool m_bNotifyWhenDeleteFails;
+    // set to whether the archiving utility/utilities is/are in the user's PATH
+    bool m_bUtilityIsAvailable;
 
-  // set to whether the archiving utility/utilities is/are in the user's PATH
-  bool m_bUtilityIsAvailable;
+    QString m_archiver_program;
+    QString m_unarchiver_program;
 
-  QString m_archiver_program;
-  QString m_unarchiver_program;
-
-  // Archive parsing information
-  QCString m_headerString;
-  bool m_header_removed, m_finished;
-  QPtrList<ArchColumns> m_archCols;
-  int m_numCols, m_dateCol, m_fixYear, m_fixMonth, m_fixDay, m_fixTime;
-  int m_repairYear, m_repairMonth, m_repairTime;
+    // Archive parsing information
+    QCString m_headerString;
+    bool m_header_removed, m_finished;
+    QPtrList<ArchColumns> m_archCols;
+    int m_numCols, m_dateCol, m_fixYear, m_fixMonth, m_fixDay, m_fixTime;
+    int m_repairYear, m_repairMonth, m_repairTime;
 };
 
 // Column header strings
