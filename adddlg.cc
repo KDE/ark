@@ -65,12 +65,11 @@ void AddDlg::setupFirstTab()
 
   QFrame *frame = addPage(i18n("Add File(s)"));
   m_dirList = new KDirOperator(m_sourceDir, frame, "dirlist");
+  m_dirList->setMode( KFile::Files );
   KCombiView *pCombiView = new KCombiView(m_dirList, "fileview");
   KFileIconView *pFileView = new KFileIconView(pCombiView, "fileview2");
   pCombiView->setRight(pFileView);
   m_dirList->setView(pCombiView);
-  // this has to go after setView or it reverts to Single.
-  pFileView->setSelectionMode( KFile::Multi );
   QVBoxLayout *vlay = new QVBoxLayout(frame, 0, spacingHint());
   vlay->addWidget(m_dirList);
 
