@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tgz;application/x-tbz;application/x-zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-bzip2
+MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tgz;application/x-tbz;application/x-zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-bzip2;application/x-jar
 Comment=Archive Handling Tool
 Comment[af]=argief handtering program
 Comment[ar]=أداة للتعامل مغ الملقات المضغوطة
@@ -98,6 +98,7 @@ Name[tr]=Arşivci
 Name[uk]=Архіватор
 Name[ven]=Muvhulungi nwa zwithu zwa kale
 Name[vi]=Luư trữ 
+Name[wa]=Årtchiveu
 Name[xh]=Umenzi woshicilelo lukawonke-wonke nexwebhu leMbali
 Name[xx]=xx
 Exec=ark -caption "%c" %i %m %U

@@ -6,8 +6,9 @@
 
  Copyright (C)
 
- 1999: Francois-Xavier Duranceau duranceau@kde.org
+ 2002: Helio Chissini de Castro <helio@conectiva.com.br>
  1999-2000: Corel Corporation (author: Emily Ezust  emilye@corel.com)
+ 1999: Francois-Xavier Duranceau duranceau@kde.org
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -100,105 +101,118 @@ static QString resolveFilename(const QString & _arkname)
 
 ArkApplication * ArkApplication::getInstance()
 {
-  if (mInstance == NULL)
-    mInstance = new ArkApplication();
-  return mInstance;
+	if (mInstance == NULL)
+	{
+		mInstance = new ArkApplication();
+	}
+	return mInstance;
 }
 
 ArkApplication::ArkApplication()
   : KUniqueApplication(), m_windowCount(0), m_isSessionRestored(isRestored())
 {
-  kdDebug(1601) << "+ArkApplication::ArkApplication" << endl;
-  m_mainwidget = new QWidget;
-  setMainWidget(m_mainwidget);
-  kdDebug(1601) << "-ArkApplication::ArkApplication" << endl;
+	kdDebug(1601) << "+ArkApplication::ArkApplication" << endl;
+	m_mainwidget = new QWidget;
+	setMainWidget(m_mainwidget);
+	kdDebug(1601) << "-ArkApplication::ArkApplication" << endl;
 }
 
-int ArkApplication::newInstance()
+int 
+ArkApplication::newInstance()
 {
-  kdDebug(1601) << "+ArkApplication::newInstance" << endl;
-
-  // If we are restored by session management, we don't need to open
-  // another window on startup.
-  if ( m_isSessionRestored )
-  {
-    // But next invocations must still come through.
-    // NOTE: IMHO this should be handled by KUniqueApplication itself
-    m_isSessionRestored = false;
-    kdDebug(1601) << "-ArkApplication::newInstance no new window since restored by SM" << endl;
-    return 0;
-  }
-
-  QString Zip;
-
-  KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-  KURL url;
-
-  int i = 0;
-  bool doAutoExtract = args->isSet("extract");
-
-  do {
-    if (args->count() > 0)
-      url = args->url(i);
-    ArkWidget *arkWin = new ArkWidget(m_mainwidget);
-    arkWin->show();
-    arkWin->resize(640, 300);
-    if(doAutoExtract)
-        arkWin->setExtractOnly(true);
-
-    if (!url.isEmpty())
-      {
-	arkWin->file_open(url);
-      }
-    kdDebug(1601) << "-ArkApplication::newInstance" << endl;
-    ++i;
-  } while  (i < args->count());
-  args->clear();
-  return 0;
+	kdDebug(1601) << "+ArkApplication::newInstance" << endl;
+	
+	// If we are restored by session management, we don't need to open
+	// another window on startup.
+	if ( m_isSessionRestored )
+	{
+		// But next invocations must still come through.
+		// NOTE: IMHO this should be handled by KUniqueApplication itself
+		m_isSessionRestored = false;
+		kdDebug(1601) << "-ArkApplication::newInstance no new window since restored by SM" << endl;
+		return 0;
+	}
+	
+	QString Zip;
+	
+	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+	KURL url;
+	
+	int i = 0;
+	bool doAutoExtract = args->isSet("extract");
+	
+	do 
+	{
+		if (args->count() > 0)
+		{
+			url = args->url(i);
+		}
+		
+		ArkWidget *arkWin = new ArkWidget(m_mainwidget);
+		arkWin->show();
+		arkWin->resize(640, 300);
+		if(doAutoExtract)
+		{
+			arkWin->setExtractOnly(true);
+		}
+		if (!url.isEmpty())
+		{
+			arkWin->file_open(url);
+		}
+		
+		kdDebug(1601) << "-ArkApplication::newInstance" << endl;
+		++i;
+	} while  (i < args->count());
+	
+	args->clear();
+	
+	return 0;
 }
 
 
-void ArkApplication::addOpenArk(const QString & _arkname,
-				ArkWidget *_ptr)
+void 
+ArkApplication::addOpenArk(const QString & _arkname, ArkWidget *_ptr)
 {
-  kdDebug(1601) << "+ArkApplication::addOpenArk" << endl;
-  QString realName = resolveFilename(_arkname);  // follow symlink
-  kdDebug(1601) << "---------------- Real name of " << _arkname << " is " << realName << endl;
-  openArksList.append(realName);
-  m_windowsHash.replace(realName, _ptr);
-  kdDebug(1601) << "---------------Saved ptr " << _ptr << endl;
-  kdDebug(1601) << "-ArkApplication::addOpenArk" << endl;
+	kdDebug(1601) << "+ArkApplication::addOpenArk" << endl;
+	QString realName = resolveFilename(_arkname);  // follow symlink
+	kdDebug(1601) << "---------------- Real name of " << _arkname << " is " << realName << endl;
+	openArksList.append(realName);
+	m_windowsHash.replace(realName, _ptr);
+	kdDebug(1601) << "---------------Saved ptr " << _ptr << endl;
+	kdDebug(1601) << "-ArkApplication::addOpenArk" << endl;
 }
 
-void ArkApplication::removeOpenArk(const QString & _arkname)
+void 
+ArkApplication::removeOpenArk(const QString & _arkname)
 {
-  kdDebug(1601) << "+ArkApplication::removeOpenArk" << endl;
-  QString realName = resolveFilename(_arkname);  // follow symlink
-  kdDebug(1601) << "Removing name " << _arkname << endl;
-  openArksList.remove(realName);
-  m_windowsHash.remove(realName);
-  kdDebug(1601) << "-ArkApplication::removeOpenArk" << endl;
+	kdDebug(1601) << "+ArkApplication::removeOpenArk" << endl;
+	QString realName = resolveFilename(_arkname);  // follow symlink
+	kdDebug(1601) << "Removing name " << _arkname << endl;
+	openArksList.remove(realName);
+	m_windowsHash.remove(realName);
+	kdDebug(1601) << "-ArkApplication::removeOpenArk" << endl;
 }
 
-void ArkApplication::raiseArk(const QString & _arkname)
+void 
+ArkApplication::raiseArk(const QString & _arkname)
 {
-  ArkWidget *window;
-  QString realName = resolveFilename(_arkname);  // follow symlink
-  window = m_windowsHash[realName];
-  kdDebug(1601) << "ArkApplication::raiseArk " << window << endl;
-  // raise didn't seem to be enough. Not sure why!
-  // This might be annoying though.
-  window->hide();
-  window->show();
-  window->raise();
+	ArkWidget *window;
+	QString realName = resolveFilename(_arkname);  // follow symlink
+	window = m_windowsHash[realName];
+	kdDebug(1601) << "ArkApplication::raiseArk " << window << endl;
+	// raise didn't seem to be enough. Not sure why!
+	// This might be annoying though.
+	window->hide();
+	window->show();
+	window->raise();
 }
 
-
-bool ArkApplication::isArkOpenAlready(const QString & _arkname)
+bool 
+ArkApplication::isArkOpenAlready(const QString & _arkname)
 {
-  QString realName = resolveFilename(_arkname);  // follow symlink
-  return (openArksList.findIndex(realName) != -1);
+	QString realName = resolveFilename(_arkname);  // follow symlink
+	return ( openArksList.findIndex(realName) != -1 );
 }
-
 
 #include "arkapp.moc"
+

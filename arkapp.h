@@ -7,8 +7,9 @@
 
  Copyright (C)
 
- 1999: Francois-Xavier Duranceau duranceau@kde.org
+ 2002: Helio Chissini de Castro <helio@conectiva.com.br>
  1999-2000: Corel Corporation (author: Emily Ezust  emilye@corel.com)
+ 1999: Francois-Xavier Duranceau duranceau@kde.org
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -29,7 +30,10 @@
 #ifndef __ARKAPP_H__
 #define __ARKAPP_H__
 
+// QT includes
 #include <qdict.h>
+
+// KDE includes
 #include <kuniqueapplication.h>
 
 class QString;
@@ -39,56 +43,56 @@ class ArkWidget;
 
 class EqualKey
 {
-public:
-  bool operator()(const QString & str1, const QString & str2) const
-    {
-      return (str1 == str2);
-    }
+	public:
+		bool operator()(const QString & str1, const QString & str2) const
+		{
+			return (str1 == str2);
+		}
 };
 
-// This class follows the singleton pattern.
 
+// This class follows the singleton pattern.
 class ArkApplication : public KUniqueApplication
 {
-  Q_OBJECT
-public:
-  virtual int newInstance();
-  virtual ~ArkApplication() {}
+	Q_OBJECT
+	public:
+		virtual int newInstance();
+		virtual ~ArkApplication() {}
+		
+		// keep track of windows so we know when to quit
+		int windowCount() { return m_windowCount; }
+		void addWindow() { ++m_windowCount; }
+		void removeWindow() { --m_windowCount;} 
 
-  // keep track of windows so we know when to quit
-  int windowCount() { return m_windowCount; }
-  void addWindow() { ++m_windowCount; }
-  void removeWindow() { --m_windowCount;} 
+		// keep track of open archive names so we don't open one twice
+		// note that ArkWidget is not a pointer to const because raise()
+		// requires later a pointer to nonconst.
+		void addOpenArk(const QString & _arkname, ArkWidget * _ptr);
+		void removeOpenArk(const QString & _arkname);
+		
+		bool isArkOpenAlready(const QString & _arkname);
+		
+		void raiseArk(const QString & _arkname);
+			
+		// use this function to access data from other modules.
+		static ArkApplication *getInstance();
+		
+	protected:
+		ArkApplication();
 
-  // keep track of open archive names so we don't open one twice
-  // note that ArkWidget is not a pointer to const because raise()
-  // requires later a pointer to nonconst.
-  void addOpenArk(const QString & _arkname, ArkWidget * _ptr);
-  void removeOpenArk(const QString & _arkname);
-
-  bool isArkOpenAlready(const QString & _arkname);
-
-  void raiseArk(const QString & _arkname);
-
-  // use this function to access data from other modules.
-  static ArkApplication *getInstance();
-
-protected:
-  ArkApplication();
-
-private:
-  QWidget *m_mainwidget;  // to be the parent of all ArkWidgets
-  int m_windowCount;
-
-  QStringList openArksList;
-
-  // a hash to obtain the window associated with a filename.
-  // given a QString key, you get an ArkWidget * pointer.
-  QDict<ArkWidget> m_windowsHash;
-
-  bool m_isSessionRestored;
-
-  static ArkApplication *mInstance; 
+	private:
+		QWidget *m_mainwidget;  // to be the parent of all ArkWidgets
+		int m_windowCount;
+		
+		QStringList openArksList;
+		
+		// a hash to obtain the window associated with a filename.
+		// given a QString key, you get an ArkWidget * pointer.
+		QDict<ArkWidget> m_windowsHash;
+		
+		bool m_isSessionRestored;
+		
+		static ArkApplication *mInstance; 
 };
 
 #endif // __ARKAPP_H__

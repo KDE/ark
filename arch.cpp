@@ -6,10 +6,11 @@
 
  Copyright (C)
 
- 1997-1999: Rob Palmbos palm9744@kettering.edu
- 1999: Francois-Xavier Duranceau duranceau@kde.org
- 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2002: Helio Chissini de Castro <helio@conectiva.com.br>
  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
+ 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 1999: Francois-Xavier Duranceau duranceau@kde.org
+ 1997-1999: Rob Palmbos palm9744@kettering.edu
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -537,6 +538,8 @@ ArchType Arch::getArchType(const QString &archname, QString &extension,
     if (mimetype == "application/x-tar")
       extType = TAR_FORMAT;
     if (mimetype == "application/x-zip")
+      extType = ZIP_FORMAT;
+    if (mimetype == "application/x-jar")
       extType = ZIP_FORMAT;
   }
 

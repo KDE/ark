@@ -7,12 +7,12 @@
 
  Copyright (C)
 
- 1997-1999: Rob Palmbos palm9744@kettering.edu
- 1999: Francois-Xavier Duranceau duranceau@kde.org
- 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
- 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
- 2001-2002: Roberto Teixeira <maragato@kde.org>
  2002: Helio Chissini de Castro <helio@conectiva.com.br>
+ 2001-2002: Roberto Teixeira <maragato@kde.org>
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
+ 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 1999: Francois-Xavier Duranceau duranceau@kde.org
+ 1997-1999: Rob Palmbos palm9744@kettering.edu
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -61,7 +61,6 @@
 #include <kfiledialog.h>
 
 // c includes
-
 #include <errno.h>
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -85,85 +84,85 @@
 
 // ark includes
 #include "arkapp.h"
-
-//#include "dirDlg.h"
 #include "generalOptDlg.h"
 #include "selectDlg.h"
-
 #include "extractdlg.h"
-//#include "adddlg.h"
 #include "arch.h"
 #include "arkwidget.h"
 #include "filelistview.h"
 #include "arksettings.h"
 
-//extern int errno;
-
-bool Utilities::haveDirPermissions(const QString &strFile)
+bool 
+Utilities::haveDirPermissions( const QString &strFile )
 {
-  struct stat statbuffer;
-  QString dir = strFile.left(strFile.findRev('/'));
-  stat(dir.local8Bit(), &statbuffer);
-  unsigned int nFlag = 0;
-  if (geteuid() == statbuffer.st_uid)
-    {
-      nFlag = S_IWUSR; // it's mine
-    }
-  else if (getegid() == statbuffer.st_gid)
-    {
-      nFlag = S_IWGRP; // it's my group's
-    }
-  else
-    {
-      nFlag = S_IWOTH;  // it's someone else's
-    }
-  if (! ((statbuffer.st_mode & nFlag) == nFlag))
-    {
-      KMessageBox::error(0, i18n("You don't have permission to write to the directory %1").arg(dir.local8Bit()));
-      return false;
-    }
-  return true;
+	struct stat statbuffer;
+	QString dir = strFile.left(strFile.findRev('/'));
+	stat(dir.local8Bit(), &statbuffer);
+	unsigned int nFlag = 0;
+	if (geteuid() == statbuffer.st_uid)
+	{
+		nFlag = S_IWUSR; // it's mine
+	}
+	else if (getegid() == statbuffer.st_gid)
+	{
+		nFlag = S_IWGRP; // it's my group's
+	}
+	else
+	{
+		nFlag = S_IWOTH;  // it's someone else's
+	}
+	if (! ((statbuffer.st_mode & nFlag) == nFlag))
+	{
+		KMessageBox::error(0, i18n("You don't have permission to write to the directory %1").arg(dir.local8Bit()));
+		return false;
+	}
+	return true;
 }
 
-bool Utilities::diskHasSpace(const QString &dir, long size)
-  // check if disk has enough space to accomodate (a) new file(s) of
-  // the given size in the partition containing the given directory
+bool 
+Utilities::diskHasSpace(const QString &dir, long size)
+	// check if disk has enough space to accomodate (a) new file(s) of
+	// the given size in the partition containing the given directory
 {
-  fprintf(stderr, "Size: %ld\n", size);
-  struct STATFS buf;
-  if (STATFS(QFile::encodeName(dir), &buf) == 0)
-    {
-      double nAvailable = (double)buf.f_bavail * buf.f_bsize;
-      if (nAvailable < (double)size)
-        {
-          KMessageBox::error(0, i18n("You have run out of disk space."));
-          return false;
-        }
-    }
-  else
-    {
-    // something bad happened
+	fprintf(stderr, "Size: %ld\n", size);
+	struct STATFS buf;
+	if (STATFS(QFile::encodeName(dir), &buf) == 0)
+	{
+		double nAvailable = (double)buf.f_bavail * buf.f_bsize;
+		if ( nAvailable < (double)size )
+		{
+			KMessageBox::error(0, i18n("You have run out of disk space."));
+			return false;
+		}
+	}
+	else
+	{
+		// something bad happened
       Q_ASSERT(0);
-    }
-  return true;
+	}
+	return true;
 }
 
-long Utilities::getSizes(QStringList *list)
+long 
+Utilities::getSizes(QStringList *list)
 {
-  long sum = 0;
-  QString str;
-
-  for (QStringList::Iterator it = list->begin();
-       it != list->end(); ++it)
-    {
-      str = *it;
-      QFile f(str.right(str.length()-5));
-      sum += f.size();
-    }
-  return sum;
+	long sum = 0;
+	QString str;
+	
+	for ( QStringList::Iterator it = list->begin(); it != list->end(); ++it)
+	{
+		str = *it;
+		QFile f(str.right(str.length()-5));
+		sum += f.size();
+	}
+	return sum;
 }
 
-
+//----------------------------------------------------------------------
+//
+//  Class ArkWidget starts here
+//
+//----------------------------------------------------------------------
 
 ArkWidget::ArkWidget( QWidget *, const char *name ) :
     KMainWindow(0, name), ArkWidgetBase(this),
@@ -174,172 +173,172 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     m_bDropFilesInProgress(false), mpTempFile(NULL),
     mpDownloadedList(NULL), mpAddList(NULL)
 {
-
-    kdDebug(1601) << "+ArkWidget::ArkWidget" << endl;
-
-    ArkApplication::getInstance()->addWindow();
-
-    // Build the ark UI
-    kdDebug(1601) << "Build the GUI" << endl;
-
-    setupStatusBar();
-    createFileListView();
-    setupActions();
-
-    // enable DnD
-    setAcceptDrops(true);
-    initialEnables();
-
-    kdDebug(1601) << "-ArkWidget::ArkWidget" << endl;
-    resize(640,300);
+	
+	kdDebug(1601) << "+ArkWidget::ArkWidget" << endl;
+	
+	ArkApplication::getInstance()->addWindow();
+	
+	// Build the ark UI
+	kdDebug(1601) << "Build the GUI" << endl;
+	
+	setupStatusBar();
+	createFileListView();
+	setupActions();
+	
+	// enable DnD
+	setAcceptDrops(true);
+	initialEnables();
+	
+	kdDebug(1601) << "-ArkWidget::ArkWidget" << endl;
+	resize(640,300);
 }
 
 ArkWidget::~ArkWidget()
 {
-  kdDebug(1601) << "-ArkWidget::~ArkWidget" << endl;
+	kdDebug(1601) << "-ArkWidget::~ArkWidget" << endl;
+	
+	ArkApplication::getInstance()->removeWindow();
+	
+	QString tmpdir = m_settings->getTmpDir();
+	QDir ltmpDir( m_strArchName );
+	QString viewdir = ltmpDir.dirName() + "/";
 
-  ArkApplication::getInstance()->removeWindow();
+	// delete the viwer temporary directory ( if exists ) and its contents
+	QString ex( "rm -rf "+ tmpdir + viewdir );
+  	system( QFile::encodeName( ex ) );
 
-  // delete the temporary directory and its contents
-  QString tmpdir = m_settings->getTmpDir();
-  QString ex( "rm -rf "+tmpdir );
-  system( QFile::encodeName(ex) );
+	// delete main temporary directory if no more ark instances are open
+	if ( ! ArkApplication::getInstance()->windowCount() )
+	{
+		QString ex( "rm -rf "+ tmpdir );
+		system( QFile::encodeName( ex ) );
+	}
 }
 
-void ArkWidget::setupActions()
+void 
+ArkWidget::setupActions()
 {
-  // setup File menu
-  newWindowAction = new KAction(i18n("New &Window"), 0, this,
-                                SLOT(file_newWindow()),
-                                actionCollection(), "new_window");
+	// setup File menu
+  	newWindowAction = new KAction(i18n("New &Window"), 0, this,
+			SLOT(file_newWindow()), actionCollection(), "new_window");
+	
+	newArchAction = KStdAction::openNew(this, SLOT(file_new()),	actionCollection());
+	openAction = KStdAction::open(this, SLOT(file_open()), actionCollection());
+	
+	reloadAction = new KAction(i18n("Re&load"), "reload", 0, this, SLOT(file_reload()), actionCollection(), "reload_arch");
+	saveAsAction = KStdAction::saveAs(this, SLOT(file_save_as()), actionCollection());
+	closeAction = new KAction(i18n("&Close Archive"), 0, this, SLOT(file_close()), actionCollection(), "close_arch");
 
-  newArchAction = KStdAction::openNew(this, SLOT(file_new()),
-                                      actionCollection());
+	recent = KStdAction::openRecent(this, SLOT(file_open(const KURL&)), actionCollection());
+	KConfig *kc = m_settings->getKConfig();
+	recent->loadEntries(kc);
+	
+	shellOutputAction  = new KAction(i18n("&View Shell Output"), 0, this,
+			SLOT(edit_view_last_shell_output()), actionCollection(), "shell_output");
+	
+	KStdAction::quit(this, SLOT(window_close()), actionCollection());
+	
+	addFileAction = new KAction(i18n("Add &File..."), "ark_addfile", 0, this,
+			SLOT(action_add()), actionCollection(), "addfile");
+	
+	addDirAction = new KAction(i18n("Add &Directory..."), "ark_adddir", 0, this,
+			SLOT(action_add_dir()), actionCollection(), "adddir");
+	
+	extractAction = new KAction(i18n("E&xtract..."), "ark_extract", 0, this,
+			SLOT(action_extract()),	actionCollection(), "extract");
+	
+	deleteAction = new KAction(i18n("De&lete"), "ark_delete", 0, this,
+			SLOT(action_delete()), actionCollection(), "delete");
+	
+	viewAction = new KAction(i18n("to view something","&View"), "ark_view", 0, this,
+			SLOT(action_view()), actionCollection(), "view");
+	
+	popupViewAction  = new KAction(i18n("to view something","&View"), "ark_view", 0, this,
+			SLOT(action_view()), actionCollection(), "popup_menu_view");
+	
+	openWithAction = new KAction(i18n("&Open With..."), 0, this,
+			SLOT(slotOpenWith()), actionCollection(), "open_with");
+	
+	popupOpenWithAction  = new KAction(i18n("&Open With..."), 0, this,
+			SLOT(slotOpenWith()), actionCollection(), "popup_menu_open_with");
+	
+	editAction = new KAction(i18n("Edit &With..."), 0, this,
+			SLOT(action_edit()), actionCollection(), "edit");
 
-  openAction = KStdAction::open(this, SLOT(file_open()), actionCollection());
+	popupEditAction = new KAction(i18n("Edit &With..."), 0, this,
+			SLOT(action_edit()), actionCollection(), "popup_edit");
+	
+	selectAction =  new KAction(i18n("&Select..."), 0, this,
+			SLOT(edit_select()),	actionCollection(), "select");
+	
+	selectAllAction = KStdAction::selectAll(this, 
+			SLOT(edit_selectAll()),	actionCollection(), "select_all");
+	
+	deselectAllAction =  new KAction(i18n("&Deselect All"), 0, this,
+			SLOT(edit_deselectAll()), actionCollection(), "deselect_all");
+	
+	invertSelectionAction = new KAction(i18n("&Invert Selection"), 0, this,
+			SLOT(edit_invertSel()), actionCollection(), "invert_selection");
 
-  reloadAction = new KAction(i18n("Re&load"), "reload", 0, this,
-                                SLOT(file_reload()),
-                                actionCollection(), "reload_arch");
-
-  saveAsAction = KStdAction::saveAs(this, SLOT(file_save_as()),
-                                    actionCollection());
-
-  closeAction = new KAction(i18n("&Close Archive"), 0, this,
-                            SLOT(file_close()),
-                            actionCollection(), "close_arch");
-
-  recent = KStdAction::openRecent(this,
-                                  SLOT(file_open(const KURL&)),
-                                  actionCollection());
-  KConfig *kc = m_settings->getKConfig();
-  recent->loadEntries(kc);
-
-  shellOutputAction  = new KAction(i18n("&View Shell Output"), 0, this,
-                                   SLOT(edit_view_last_shell_output()),
-                                   actionCollection(), "shell_output");
-
-  KStdAction::quit(this, SLOT(window_close()), actionCollection());
-
-  addFileAction = new KAction(i18n("Add &File..."), "ark_addfile", 0, this,
-                                SLOT(action_add()),
-                                actionCollection(), "addfile");
-
-  addDirAction = new KAction(i18n("Add &Directory..."), "ark_adddir", 0, this,
-                                SLOT(action_add_dir()),
-                                actionCollection(), "adddir");
-
-  extractAction = new KAction(i18n("E&xtract..."), "ark_extract", 0, this,
-                                SLOT(action_extract()),
-                                actionCollection(), "extract");
-
-  deleteAction = new KAction(i18n("De&lete"), "ark_delete", 0, this,
-                             SLOT(action_delete()),
-                             actionCollection(), "delete");
-
-  viewAction = new KAction(i18n("to view something","&View"), "ark_view", 0, this,
-                           SLOT(action_view()),
-                           actionCollection(), "view");
-
-  popupViewAction  = new KAction(i18n("to view something","&View"), "ark_view", 0, this,
-                           SLOT(action_view()),
-                           actionCollection(), "popup_menu_view");
-
-  openWithAction = new KAction(i18n("&Open With..."), 0, this,
-                           SLOT(slotOpenWith()),
-                           actionCollection(), "open_with");
-
-  popupOpenWithAction  = new KAction(i18n("&Open With..."), 0, this,
-                           SLOT(slotOpenWith()),
-                           actionCollection(), "popup_menu_open_with");
-
-
-  editAction = new KAction(i18n("Edit &With..."), 0, this,
-                           SLOT(action_edit()),
-                           actionCollection(), "edit");
-
-  popupEditAction = new KAction(i18n("Edit &With..."), 0, this,
-                                SLOT(action_edit()),
-                                actionCollection(), "popup_edit");
-
-  selectAction =  new KAction(i18n("&Select..."), 0, this,
-                             SLOT(edit_select()),
-                             actionCollection(), "select");
-
-  selectAllAction = KStdAction::selectAll(this, SLOT(edit_selectAll()),
-                                          actionCollection(), "select_all");
-
-  deselectAllAction =  new KAction(i18n("&Deselect All"), 0, this,
-                             SLOT(edit_deselectAll()),
-                             actionCollection(), "deselect_all");
-
-  invertSelectionAction  =  new KAction(i18n("&Invert Selection"), 0, this,
-                                        SLOT(edit_invertSel()),
-                                        actionCollection(),
-                                        "invert_selection");
-
-  toolbarAction = KStdAction::showToolbar(this, SLOT(toggleToolBar()), actionCollection());
-  statusbarAction = KStdAction::showStatusbar(this, SLOT(toggleStatusBar()), actionCollection());
-  KStdAction::saveOptions(this, SLOT(options_saveNow()), actionCollection());
-  KStdAction::keyBindings(this, SLOT(options_keys()), actionCollection());
-  KStdAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
-  KStdAction::preferences(this, SLOT(options_dirs()), actionCollection());
-
-  createGUI();
+	toolbarAction = KStdAction::showToolbar(this, SLOT(toggleToolBar()), actionCollection());
+	statusbarAction = KStdAction::showStatusbar(this, SLOT(toggleStatusBar()), actionCollection());
+	KStdAction::saveOptions(this, SLOT(options_saveNow()), actionCollection());
+	KStdAction::keyBindings(this, SLOT(options_keys()), actionCollection());
+	KStdAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
+	KStdAction::preferences(this, SLOT(options_dirs()), actionCollection());
+	
+	createGUI();
 }
 
 
-void ArkWidget::editToolbars()
+void 
+ArkWidget::editToolbars()
 {
-  KEditToolbar dlg(actionCollection());
-  if (dlg.exec())
-    createGUI( );
+	KEditToolbar dlg(actionCollection());
+	if ( dlg.exec() )
+	{
+		createGUI( );
+	}
 }
 
-void ArkWidget::setHeader()
+void
+ArkWidget::setHeader()
 {
-  // called after the QTimer goes off after toggling menu bar to hide it.
-  if (m_bIsArchiveOpen)
-    setCaption(m_strArchName);
-  else
-    setCaption(QString::null);
+	// called after the QTimer goes off after toggling menu bar to hide it.
+	if ( m_bIsArchiveOpen )
+	{
+		setCaption(m_strArchName);
+	}
+	else
+	{
+		setCaption(QString::null);
+	}
 }
 
-void ArkWidget::toggleToolBar()
+void 
+ArkWidget::toggleToolBar()
 {
- if(toolbarAction->isChecked())
-   toolBar("mainToolBar")->show();
- else
-   toolBar("mainToolBar")->hide();
-
+	if( toolbarAction->isChecked() )
+	{
+		toolBar("mainToolBar")->show();
+	}
+	else
+	{
+		toolBar("mainToolBar")->hide();
+	}
 }
 
-void ArkWidget::toggleStatusBar()
+void 
+ArkWidget::toggleStatusBar()
 {
-  if (statusbarAction->isChecked())
-    statusBar()->show();
-  else
-    statusBar()->hide();
+	if ( statusbarAction->isChecked() )
+	{
+		statusBar()->show();
+	}
+	else
+	{
+		statusBar()->hide();
+	}
 }
 
 void ArkWidget::setupStatusBar()
@@ -921,10 +920,14 @@ ArkWidget::slotExtractDone()
 					KMessageBox::error(0, i18n("Trouble editing the file..."));
 				}
 			}
+			else
+			{
+				m_bEditInProgress = false;
+			}
 		}
 		else
 		{
-			m_pKRunPtr = new KRun (m_strFileToView);
+			m_pKRunPtr = new KRun( m_strFileToView );
 		}
 	}
 	else if (m_bOpenWithInProgress)
@@ -1417,14 +1420,15 @@ void ArkWidget::action_add()
   }
 }
 
-void ArkWidget::addFile(QStringList *list)
+void 
+ArkWidget::addFile(QStringList *list)
 {
   if (!Utilities::diskHasSpace(m_strArchName, Utilities::getSizes(list)))
     return;
 
   // takes a list of KURLs.
   disableAll();
-  if (m_bEditInProgress)
+  if ( m_bEditInProgress )
     {
       // there's only one file, and it's in the temp directory.
       // If the filename has more than three /'s then we should
@@ -1593,336 +1597,369 @@ void ArkWidget::action_delete()
   kdDebug(1601) << "-ArkWidget::action_delete" << endl;
 }
 
-void ArkWidget::slotOpenWith()
+void 
+ArkWidget::slotOpenWith()
 {
-  FileLVI *pItem = archiveContent->currentItem();
-  if (pItem  != NULL )
-    {
-      QString name = pItem->getFileName(); // mj: text(0) BAD!
-      QString fullname;
-      fullname = "file:";
-      fullname += m_settings->getTmpDir();
-      fullname += name;
-
-      m_extractList = new QStringList;
-      m_extractList->append(name);
-      m_bOpenWithInProgress = true;
-      m_strFileToView = fullname;
-      if (Utilities::diskHasSpace(m_settings->getTmpDir(),
-                                  pItem->text(getSizeColumn()).toInt()))
-        {
-          disableAll();
-          prepareViewFiles(m_extractList);
-        }
-    }
+	FileLVI *pItem = archiveContent->currentItem();
+	if (pItem  != NULL )
+	{
+		QString name = pItem->getFileName();
+		
+		m_extractList = new QStringList;
+		m_extractList->append(name);
+		
+		QDir ltmpDir( m_strArchName );
+		QString fullname;
+		fullname = "file:";
+		fullname += m_settings->getTmpDir();
+		fullname += ltmpDir.dirName();
+		fullname += "/";
+		fullname += name;
+		
+		m_extractList = new QStringList;
+		m_extractList->append(name);
+		m_bOpenWithInProgress = true;
+		m_strFileToView = fullname;
+		if ( Utilities::diskHasSpace( m_settings->getTmpDir(), pItem->text( getSizeColumn() ).toInt() ) )
+		{
+			disableAll();
+			prepareViewFiles(m_extractList);
+		}
+	}
 }
 
-
-bool ArkWidget::reportExtractFailures(const QString & _dest,
-                                      QStringList *_list)
+bool 
+ArkWidget::reportExtractFailures( const QString & _dest, QStringList *_list )
 {
-  // reports extract failures when Overwrite = False and the file
-  // exists already in the destination directory.
-  // If list is null, it means we are extracting all files.
-  // Otherwise the list contains the files we are to extract.
+	// reports extract failures when Overwrite = False and the file
+	// exists already in the destination directory.
+	// If list is null, it means we are extracting all files.
+	// Otherwise the list contains the files we are to extract.
 
-  QString strFilename, tmp;
-  struct stat statbuffer;
-  bool bRedoExtract = false;
+	QString strFilename, tmp;
+	struct stat statbuffer;
+	bool bRedoExtract = false;
+	
+	QApplication::restoreOverrideCursor();
+	
+	Q_ASSERT(_list != NULL);
+	QString strDestDir = _dest;
 
-  QApplication::restoreOverrideCursor();
+	// make sure the destination directory has a / at the end.
+	if (strDestDir.at(0) != '/')
+	{
+		strDestDir += '/';
+	}
 
-  Q_ASSERT(_list != NULL);
-  QString strDestDir = _dest;
-
-  // make sure the destination directory has a / at the end.
-  if (strDestDir.at(0) != '/')
-    strDestDir += '/';
-
-  if (_list->isEmpty())
-  {
-    // make the list
-    FileListView *flw = fileList();
-    FileLVI *flvi = (FileLVI*)flw->firstChild();
-    while (flvi)
-      {
-        tmp = flvi->getFileName();
-        _list->append(tmp);
-        flvi = (FileLVI*)flvi->itemBelow();
-      }
-  }
-  QStringList existingFiles;
-  // now the list contains all the names we must verify.
-  for (QStringList::Iterator it = _list->begin(); it != _list->end(); ++it)
-    {
-      strFilename = *it;
-      QString strFullName = strDestDir + strFilename;
-      if (stat(QFile::encodeName(strFullName), &statbuffer) != -1)
-        existingFiles.append(strFilename);
-    }
-
-  int numFilesToReport = existingFiles.count();
-
-  kdDebug(1601) << "There are " << numFilesToReport << " files to report existing already." << endl;
-
-  // now report on the contents
-  if (numFilesToReport == 1)
-    {
-      kdDebug(1601) << "One to report" << endl;
-      strFilename = *(existingFiles.at(0));
-      QString message = i18n("%1 will not be extracted because it will overwrite an existing file.\nGo back to Extract Dialog?").arg(strFilename);
-      bRedoExtract =
-        KMessageBox::questionYesNo(this, message) == KMessageBox::Yes;
-    }
-  else if (numFilesToReport != 0)
-    {
-      ExtractFailureDlg *fDlg = new ExtractFailureDlg(&existingFiles,
-                                                      this);
-      bRedoExtract = !fDlg->exec();
-    }
-  return bRedoExtract;
+	if (_list->isEmpty())
+	{
+		// make the list
+		FileListView *flw = fileList();
+		FileLVI *flvi = (FileLVI*)flw->firstChild();
+		while (flvi)
+		{
+			tmp = flvi->getFileName();
+			_list->append(tmp);
+			flvi = (FileLVI*)flvi->itemBelow();
+		}
+	}
+	
+	QStringList existingFiles;
+	// now the list contains all the names we must verify.
+	for (QStringList::Iterator it = _list->begin(); it != _list->end(); ++it)
+	{
+		strFilename = *it;
+		QString strFullName = strDestDir + strFilename;
+		if (stat(QFile::encodeName(strFullName), &statbuffer) != -1)
+		{
+			existingFiles.append(strFilename);
+		}
+	}
+	
+	int numFilesToReport = existingFiles.count();
+	
+	kdDebug(1601) << "There are " << numFilesToReport << " files to report existing already." << endl;
+	
+	// now report on the contents
+  	if (numFilesToReport == 1)
+	{
+		kdDebug(1601) << "One to report" << endl;
+		strFilename = *(existingFiles.at(0));
+      QString message = 
+			i18n("%1 will not be extracted because it will overwrite an existing file.\nGo back to Extract Dialog?").arg(strFilename);
+      bRedoExtract =	KMessageBox::questionYesNo(this, message) == KMessageBox::Yes;
+	}
+	else if (numFilesToReport != 0)
+	{
+		ExtractFailureDlg *fDlg = new ExtractFailureDlg( &existingFiles, this );
+		bRedoExtract = !fDlg->exec();
+	}
+	return bRedoExtract;
 }
 
-
-bool ArkWidget::action_extract()
+bool 
+ArkWidget::action_extract()
 {
-    kdDebug(1601) << "+action_extract" << endl;
+	kdDebug(1601) << "+action_extract" << endl;
+	
+	ExtractDlg *dlg = new ExtractDlg(m_settings);
+	
+	// if they choose pattern, we have to tell arkwidget to select
+	// those files... once we're in the dialog code it's too late.
+	connect( dlg, SIGNAL( pattern( const QString & ) ), this, SLOT( selectByPattern( const QString & ) ) );
+	bool bRedoExtract = false;
 
-  ExtractDlg *dlg = new ExtractDlg(m_settings);
-
-  // if they choose pattern, we have to tell arkwidget to select
-  // those files... once we're in the dialog code it's too late.
-  connect(dlg, SIGNAL(pattern(const QString &)),
-          this, SLOT(selectByPattern(const QString &)));
-  bool bRedoExtract = false;
-
-  if (m_nNumSelectedFiles == 0)
-    dlg->disableSelectedFilesOption();
-  if (archiveContent->currentItem() == NULL)
-    dlg->disableCurrentFileOption();
-
-  // list of files to be extracted
-  m_extractList = new QStringList;
-  if (dlg->exec())
-    {
-      int extractOp = dlg->extractOp();
-      kdDebug(1601) << "Extract op: " << extractOp << endl;
-
-      QString extractDir( m_settings->getExtractDir() );
-      kdDebug(1601) << "Extract dir: " << extractDir << endl;
-
-      //extractURL will always be the location the user chose to
+	if (m_nNumSelectedFiles == 0)
+	{
+		dlg->disableSelectedFilesOption();
+	}
+	if (archiveContent->currentItem() == NULL)
+	{
+		dlg->disableCurrentFileOption();
+	}
+	
+	// list of files to be extracted
+  	m_extractList = new QStringList;
+	if ( dlg->exec() )
+	{
+		int extractOp = dlg->extractOp();
+		kdDebug(1601) << "Extract op: " << extractOp << endl;
+		
+		QString extractDir( m_settings->getExtractDir() );
+		kdDebug(1601) << "Extract dir: " << extractDir << endl;
+		
+		//extractURL will always be the location the user chose to
       //extract to, whether local or remote
       KURL extractURL( extractDir);
 
       //extractDir will either be the real, local extract dir,
       //or in case of a extract to remote location, a local tmp dir
       if ( !extractURL.isLocalFile() )
-	{
-	  extractDir = m_settings->getTmpDir() + "extrtmp/";
-	  m_extractRemote = true;
-          //make sure it's empty since all of it's contents
-          //will be copied to the remote extract location
-	  KIO::NetAccess::del( extractDir );
-          if ( !KIO::NetAccess::mkdir( extractDir ) )
-            {
-	       kdWarning(1601) << "Unable to create " << extractDir << endl;
-               m_extractRemote = false;
-               delete dlg;
-               return false;
-            }
-	}
-      else
-  	{
-		  extractDir = extractURL.path();
-	}
-
+		{
+			extractDir = m_settings->getTmpDir() + "extrtmp/";
+			m_extractRemote = true;
+			//make sure it's empty since all of it's contents
+			//will be copied to the remote extract location
+			KIO::NetAccess::del( extractDir );
+			if ( !KIO::NetAccess::mkdir( extractDir ) )
+			{
+				kdWarning(1601) << "Unable to create " << extractDir << endl;
+				m_extractRemote = false;
+				delete dlg;
+				return false;
+			}
+		}
+		else
+		{
+			extractDir = extractURL.path();
+		}
+		
       // if overwrite is false, then we need to check for failure of
       // extractions.
       bool bOvwrt = m_settings->getExtractOverwrite();
+		
+		switch(extractOp)
+		{
+			case ExtractDlg::All:
+				if (!bOvwrt)  // send empty list to indicate we're extracting all
+				{
+					bRedoExtract = reportExtractFailures(extractDir, m_extractList);
+				}
 
-      switch(extractOp)
-        {
-        case ExtractDlg::All:
-          if (!bOvwrt)  // send empty list to indicate we're extracting all
-            bRedoExtract = reportExtractFailures(extractDir, m_extractList);
+				if (!bRedoExtract) // if the user's OK with those failures, go ahead
+				{
+					// unless we have no space!
+					if (Utilities::diskHasSpace(extractDir, m_nSizeOfFiles))
+					{
+						disableAll();
+						arch->unarchFile(0, extractDir);
+					}
+				}
+				break;
+			case ExtractDlg::Pattern:
+			case ExtractDlg::Selected:
+			case ExtractDlg::Current:
+				{
+					int nTotalSize = 0;
+					if (extractOp != ExtractDlg::Current )
+					{
+						// make a list to send to unarchFile
+						FileListView *flw = fileList();
+						FileLVI *flvi = (FileLVI*)flw->firstChild();
+						while (flvi)
+						{
+							if ( flw->isSelected(flvi) )
+							{
+								kdDebug(1601) << "unarching " << flvi->getFileName() << endl;
+								QCString tmp = QFile::encodeName(flvi->getFileName());
+								m_extractList->append(tmp);
+								nTotalSize += flvi->text(getSizeColumn()).toInt();
+							}
+							flvi = (FileLVI*)flvi->itemBelow();
+						}
+					}
+					else
+					{
+						FileLVI *pItem = archiveContent->currentItem();
+						if (pItem == 0)
+						{
+							kdDebug(1601) << "Can't seem to figure out which is current!" << endl;
+							return true;
+						}
+						QString tmp = pItem->getFileName();  // no text(0)
+						nTotalSize += pItem->text(getSizeColumn()).toInt();
+						m_extractList->append( QFile::encodeName(tmp) );
+					}
+					if (!bOvwrt)
+					{
+						bRedoExtract = reportExtractFailures(extractDir, m_extractList);
+					}
+					if (!bRedoExtract)
+					{
+						if (Utilities::diskHasSpace(extractDir, nTotalSize))
+						{
+							disableAll();
+							arch->unarchFile(m_extractList, extractDir); // extract selected files
+						}
+					}
+					break;
+				}
+			default:
+				Q_ASSERT(0);
+				// never happens
+				break;
+		}
 
-          if (!bRedoExtract) // if the user's OK with those failures, go ahead
-            {
-              // unless we have no space!
-              if (Utilities::diskHasSpace(extractDir, m_nSizeOfFiles))
-                {
-                  disableAll();
-                  arch->unarchFile(0, extractDir);
-                }
-            }
-          break;
-        case ExtractDlg::Pattern:
-        case ExtractDlg::Selected:
-        case ExtractDlg::Current:
-          {
-            int nTotalSize = 0;
-            if (extractOp != ExtractDlg::Current )
-              {
-                // make a list to send to unarchFile
-                FileListView *flw = fileList();
-                FileLVI *flvi = (FileLVI*)flw->firstChild();
-                while (flvi)
-                  {
-                    if ( flw->isSelected(flvi) )
-                      {
-                        kdDebug(1601) << "unarching " << flvi->getFileName() << endl;
-                        QCString tmp = QFile::encodeName(flvi->getFileName());
-                        m_extractList->append(tmp);
-                        nTotalSize += flvi->text(getSizeColumn()).toInt();
-                      }
-                    flvi = (FileLVI*)flvi->itemBelow();
-                  }
-              }
-            else
-              {
-                FileLVI *pItem = archiveContent->currentItem();
-                if (pItem == 0)
-                  {
-                    kdDebug(1601) << "Can't seem to figure out which is current!" << endl;
-                    return true;
-                  }
-                QString tmp = pItem->getFileName();  // no text(0)
-                nTotalSize += pItem->text(getSizeColumn()).toInt();
-                m_extractList->append( QFile::encodeName(tmp) );
-              }
-            if (!bOvwrt)
-              bRedoExtract =
-                reportExtractFailures(extractDir, m_extractList);
-            if (!bRedoExtract)
-              {
-                if (Utilities::diskHasSpace(extractDir, nTotalSize))
-                  {
-                    disableAll();
-                    arch->unarchFile(m_extractList, extractDir); // extract selected files
-                  }
-              }
-            break;
-          }
-        default:
-          Q_ASSERT(0);
-          // never happens
-          break;
-        }
+		delete dlg;
+	}
+	else
+	{
+		return false;
+	}
 
-      delete dlg;
-    }
-  else
-    {
-      return false;
-    }
-
-  // user might want to change some options or the selection...
-  if (bRedoExtract)
-    return action_extract();
-
-  return true;
+	// user might want to change some options or the selection...
+	if (bRedoExtract)
+	{
+		return action_extract();
+	}
+	
+	return true;
 }
 
-void ArkWidget::action_edit()
+void 
+ArkWidget::action_edit()
 {
-  // begin an edit. This is like a view, but once the process exits,
-  // the file is put back into the archive. If the user tries to quit or
-  // close the archive, there will be a warning that any changes to the
-  // files open under "Edit" will be lost unless the archive remains open.
-  // [hmm, does that really make sense? I'll leave it for now.]
+	// begin an edit. This is like a view, but once the process exits,
+	// the file is put back into the archive. If the user tries to quit or
+	// close the archive, there will be a warning that any changes to the
+	// files open under "Edit" will be lost unless the archive remains open.
+	// [hmm, does that really make sense? I'll leave it for now.]
 
-  m_bEditInProgress = true;
-  action_view();
-  // The rest of the action happens when the process exits.
-
+	m_bEditInProgress = true;
+	action_view();
 }
 
-void ArkWidget::action_view()
+void 
+ArkWidget::action_view()
 {
-  FileLVI *pItem = archiveContent->currentItem();
-  if (pItem  != NULL )
-    {
-      showFile(pItem);
-    }
+	FileLVI *pItem = archiveContent->currentItem();
+	m_bViewInProgress = true;
+	if (pItem  != NULL )
+	{
+		showFile(pItem);
+	}
 }
 
-void ArkWidget::showFile( FileLVI *_pItem )
+void 
+ArkWidget::showFile( FileLVI *_pItem )
 {
-  QString name = _pItem->getFileName(); // no text(0)
+	QString name = _pItem->getFileName(); // no text(0)
+	
+	QDir ltmpDir( m_strArchName );
+	QString fullname;
+	fullname = "file:";
+	fullname += m_settings->getTmpDir();
+	fullname += ltmpDir.dirName();
+	fullname += "/";
+	fullname += name;
 
-  QString fullname;
-  fullname = "file:";
-  fullname += m_settings->getTmpDir();
-  fullname += name;
-
-  m_extractList = new QStringList;
-  m_extractList->append(name);
-
-  m_bViewInProgress = true;
-  m_strFileToView = fullname;
-  if (Utilities::diskHasSpace(m_settings->getTmpDir(),
-                              _pItem->text(getSizeColumn()).toLong()))
-    {
-      disableAll();
-      prepareViewFiles(m_extractList);
-    }
+	kdDebug(1601) << "File to be viewed: " << fullname << endl;
+	
+	m_extractList = new QStringList;
+	m_extractList->append(name);
+	
+	m_strFileToView = fullname;
+	if (Utilities::diskHasSpace(m_settings->getTmpDir(),
+				_pItem->text(getSizeColumn()).toLong()))
+	{
+		disableAll();
+		prepareViewFiles(m_extractList);
+	}
 }
 
 // Options menu //////////////////////////////////////////////////////
 
-void ArkWidget::options_dirs()
+void 
+ArkWidget::options_dirs()
 {
-  GeneralOptDlg *dd = new GeneralOptDlg( m_settings, this );
-  dd->exec();
-  delete dd;
+	GeneralOptDlg *dd = new GeneralOptDlg( m_settings, this );
+	dd->exec();
+	delete dd;
 }
 
-void ArkWidget::options_keys()
+void 
+ArkWidget::options_keys()
 {
-    KKeyDialog::configureKeys(actionCollection(), xmlFile());
+	KKeyDialog::configureKeys(actionCollection(), xmlFile());
 }
 
-void ArkWidget::options_saveNow()
+void 
+ArkWidget::options_saveNow()
 {
-  m_settings->writeConfigurationNow();
+	m_settings->writeConfigurationNow();
 }
 
 // Popup /////////////////////////////////////////////////////////////
 
 
-void ArkWidget::doPopup(QListViewItem *pItem, const QPoint &pPoint,
-                        int nCol) // slot
-  // do the right-click popup menus
+void 
+ArkWidget::doPopup( QListViewItem *pItem, const QPoint &pPoint, int nCol ) // slot
+// do the right-click popup menus
 {
-  kdDebug(1601) << "+ArkWidget::doPopup" << endl;
-  if (nCol == 0)
-  {
-    archiveContent->setCurrentItem(pItem);
-    archiveContent->setSelected(pItem, true);
-    QWidget* filePopup = factory()->container("file_popup", this);
-    if ( !filePopup )
-      kdError() << "No file_popup container !!!" << endl;
-    else if ( !filePopup->inherits("QPopupMenu") )
-      kdError() << "file_popup is a " << filePopup->className() << endl;
-    else
-      static_cast<QPopupMenu *>(factory()->container("file_popup", this))->popup(pPoint);
-  }
-  else // clicked anywhere else but the name column
-  {
-    //m_archivePopup->popup(pPoint);
+	kdDebug(1601) << "+ArkWidget::doPopup" << endl;
+	if (nCol == 0)
+	{
+		archiveContent->setCurrentItem(pItem);
+		archiveContent->setSelected(pItem, true);
+		QWidget* filePopup = factory()->container("file_popup", this);
+		if ( !filePopup )
+		{
+			kdError() << "No file_popup container !!!" << endl;
+		}
+		else if ( !filePopup->inherits("QPopupMenu") )
+		{
+			kdError() << "file_popup is a " << filePopup->className() << endl;
+		}
+		else
+		{
+			static_cast<QPopupMenu *>(factory()->container("file_popup", this))->popup(pPoint);
+		}
+	}
+	else // clicked anywhere else but the name column
+	{
+		//m_archivePopup->popup(pPoint);
 
-    ((QPopupMenu *)factory()->container("archive_popup", this))->popup(pPoint);
-
-  }
-  kdDebug(1601) << "-ArkWidget::doPopup" << endl;
+		((QPopupMenu *)factory()->container("archive_popup", this))->popup(pPoint);
+	}
+	kdDebug(1601) << "-ArkWidget::doPopup" << endl;
 }
 
 // Service functions /////////////////////////////////////////////////
 
-void ArkWidget::slotSelectionChanged()
+void 
+ArkWidget::slotSelectionChanged()
 {
-  updateStatusSelection();
+	updateStatusSelection();
 }
 
 

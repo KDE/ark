@@ -511,25 +511,28 @@ void ArkWidgetPart::action_view()
 *
 *          show a selected file using a suitable utility
 */
-void ArkWidgetPart::showFile( FileLVI *_pItem )
+void 
+ArkWidgetPart::showFile( FileLVI *_pItem )
 {
-  QString name = _pItem->getFileName(); // mj: NO text(0)!
+	QString name = _pItem->getFileName(); // mj: NO text(0)!
 
-  QString fullname;
-  fullname = "file:";
-  fullname += m_settings->getTmpDir();
-  fullname += name;
+	QDir ltmpDir( m_strArchName );
+	QString fullname;
+	fullname = "file:";
+	fullname += m_settings->getTmpDir();
+	fullname += ltmpDir.dirName();
+	fullname += "/";
+	fullname += name;
 
-  m_extractList = new QStringList;
-  m_extractList->append(name);
-
-  m_bViewInProgress = true;
-  m_strFileToView = fullname;
-  if (Utilities::diskHasSpacePart(m_settings->getTmpDir(),
-			      _pItem->text(getSizeColumn()).toLong()))
-    {
-      arch->unarchFile(m_extractList, m_settings->getTmpDir() );
-    }
+	m_extractList = new QStringList;
+	m_extractList->append(name);
+	
+	m_bViewInProgress = true;
+	m_strFileToView = fullname;
+	if ( Utilities::diskHasSpacePart( m_settings->getTmpDir(), _pItem->text( getSizeColumn() ).toLong() ) )
+	{
+		arch->unarchFile(m_extractList, m_settings->getTmpDir() );
+	}
 }
 
 

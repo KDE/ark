@@ -119,6 +119,7 @@ bool LhaArch::processLine(const QCString &line)
 
   QStringList list;
   list.append(name.local8Bit());
+  kdDebug(1601) << "Added file " << name.local8Bit() << endl;
   for (int i=0; i<7; i++)
     {
       list.append(QString::fromLocal8Bit(columns[i]));
