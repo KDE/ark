@@ -3,6 +3,9 @@
 /* This is the main ark window widget */
 
 // Qt includes
+#include <qdragobject.h>
+#include <qevent.h>
+#include <qmessagebox.h>
 #include <qdir.h>
 #include <qcursor.h>
 
@@ -13,7 +16,6 @@
 #include <kkeydialog.h>
 #include <kiconloader.h>
 #include <klocale.h>
-#include <kmsgbox.h>
 #include <krun.h>
 #include <kstatusbar.h>
 #include <ktoolbar.h>
@@ -58,11 +60,9 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	setupToolBar();
   	createFileListView();
 
-	//connect( lb, SIGNAL( highlighted(int, int) ), this, SLOT( showFile(int, int) ) );
-	//connect( lb, SIGNAL( popupMenu(int, int) ), this, SLOT( doPopup(int, int) ) );
-        //KDNDDropZone *dz = new KDNDDropZone( archiveContent, DndURL );
-	//connect( dz, SIGNAL(dropAction(KDNDDropZone *)),SLOT( fileDrop(KDNDDropZone *)) );
-
+        // enable DnD
+        setAcceptDrops(true);
+        
 	setCaption( kapp->getCaption() );
 
 	setMinimumSize( 300, 200 );  // someday this won't be hardcoded
@@ -280,8 +280,6 @@ void ArkWidget::file_new()
 	QString file = KFileDialog::getSaveFileName(QString::null, data->getFilter());
 	if( !file.isEmpty() )
 	{
-//		delete archiveContent;
-		delete dz;
 		createFileListView();
 		ret = createArchive( file );
 		if( ret )
@@ -320,8 +318,6 @@ void ArkWidget::showZip( QString name )
 {
 	bool ret;
 
-//	delete archiveContent;
-	delete dz;
 	createFileListView();
 
 	archiverMode = true;
@@ -542,16 +538,23 @@ void ArkWidget::doPopup( QListViewItem * /*item*/ )
 	//pop.exec();
 }
 
+// Drag & Drop ////////////////////////////////////////////////////////
 
-void ArkWidget::fileDrop( KDNDDropZone *dz )
+void ArkWidget::dragEnterEvent(QDragEnterEvent* event)
+{
+  event->accept(QUrlDrag::canDecode(event));
+}
+
+void ArkWidget::dropEvent(QDropEvent* event )
 {
 	QStrList dlist;
 	QString url;
 	QString file;
 	bool opennew=false;
 
-	dlist = dz->getURLList();
-
+        if(!QUrlDrag::decode(event, dlist))
+          return;
+        
 	if( !arch ){	/* No archive is currently loaded */
 		const char *foo;
 		url = dlist.at(0);
@@ -594,7 +597,6 @@ void ArkWidget::showFavorite()
 	archiverMode = false;
 
 //	delete archiveContent;
-	delete dz;
 	createFileListView();
 
 	archiveContent->addColumn( i18n("File") );
@@ -683,14 +685,14 @@ void ArkWidget::clearCurrentArchive()
 }
 
 
-void ArkWidget::arkWarning(const QString msg)
+void ArkWidget::arkWarning(const QString& msg)
 {
-	KMsgBox::message(this, i18n("ark - warning"), msg);
+        QMessageBox::warning(this, i18n("ark"), msg);
 }
 
-void ArkWidget::arkError(const QString msg)
+void ArkWidget::arkError(const QString& msg)
 {
-	KMsgBox::message(this, i18n("ark - error"), msg, KMsgBox::STOP);
+        QMessageBox::critical(this, i18n("ark"), msg);
 }
 
 void ArkWidget::timeout()
@@ -728,9 +730,6 @@ void ArkWidget::createFileListView()
 	archiveContent->show();
 
 	connect( archiveContent, SIGNAL( selectionChanged(QListViewItem*)), this, SLOT( doPopup(QListViewItem*) ) );
-
-	dz = new KDNDDropZone( archiveContent, DndURL );
-	connect( dz, SIGNAL(dropAction(KDNDDropZone *)),SLOT( fileDrop(KDNDDropZone *)) );
 }
 
 

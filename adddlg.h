@@ -9,7 +9,7 @@
 class AddOptionsDlg : public QDialog {
     Q_OBJECT
 public:
-	AddOptionsDlg( QWidget *parent=0, char *name="" );
+	AddOptionsDlg( QWidget *parent=0, const char *name="" );
 	bool onlyUpdate();
 	bool storeFullPath();
         void resizeEvent(QResizeEvent *e);

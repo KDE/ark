@@ -2,7 +2,7 @@
 #define ARKWIDGET_H
 
 // Qt includes
-#include <drag.h>
+#include <qdragobject.h>
 #include <qlist.h>
 #include <qlistview.h>
 #include <qpopupmenu.h>
@@ -23,7 +23,6 @@
 #include "adddlg.h"
 #include "arkdata.h"
 #include "filelistview.h"
-// #include "lha.h"
 #include "tar.h"
 #include "zip.h"
 
@@ -39,7 +38,6 @@ public:
 
 public slots:
 	void doPopup( QListViewItem *item );
-	void fileDrop( KDNDDropZone * );
 	
 	void file_new();
 	void file_newWindow();
@@ -72,6 +70,9 @@ protected:
 	static QList<ArkWidget> *windowList;
 	void closeEvent( QCloseEvent * );
 
+        // DND
+        void dragEnterEvent(QDragEnterEvent* event);
+        void dropEvent(QDropEvent* event);
 
 private:
 	enum ArchType{ TAR_FORMAT, ZIP_FORMAT, AA_FORMAT, LHA_FORMAT };
@@ -80,7 +81,6 @@ private:
 	FileListView *archiveContent;
 	QStrList *listing;
 	QString tmpdir;
-	KDNDDropZone *dz;
 	bool contextRow;
 	KPopupMenu *pop;
 	ArkData *data;
@@ -94,8 +94,8 @@ private:
 	void writeStatus(const QString text);
 	void clearCurrentArchive();
 	
-	void arkWarning(const QString msg);
-	void arkError(const QString msg);
+	void arkWarning(const QString& msg);
+	void arkError(const QString& msg);
 	
 	void setupMenuBar();
 	void setupStatusBar();

@@ -5,7 +5,7 @@ See main.cc for license details */
 #include "adddlg.h"
 #include "adddlg.moc"
 
-AddOptionsDlg::AddOptionsDlg( QWidget *parent, char *name )
+AddOptionsDlg::AddOptionsDlg( QWidget *parent, const char *name )
 	: QDialog( parent, name, TRUE )
 {
 	gb = new QGroupBox( i18n( "Add File Options" ), this );
