@@ -70,6 +70,8 @@ ExtractDlg::ExtractDlg( ArkSettings *_settings )
 {
     QFrame *mainFrame = plainPage();
 
+    kdDebug() << "+ExtractDlg::ExtractDlg" << endl;
+
     QGridLayout *Form1Layout = new QGridLayout( mainFrame );
     Form1Layout->setSpacing( 6 );
     Form1Layout->setMargin( 11 );
@@ -86,14 +88,7 @@ ExtractDlg::ExtractDlg( ArkSettings *_settings )
     extractToLabel->setText( tr( "Extract to:" ) );
     Layout3->addWidget( extractToLabel );
 
-
-
-//      m_extractDirCB = new QComboBox( true, mainFrame, "m_extractDirCB" );
-//      m_extractDirCB->setSizePolicy( QSizePolicy( ( QSizePolicy::SizeType ) 3, ( QSizePolicy::SizeType ) 0,
-//                                                  m_extractDirCB->sizePolicy().hasHeightForWidth() ) );
-//      Layout3->addWidget( m_extractDirCB );
-
-    m_extractDirCB = new KComboBox( true, mainFrame, "m_extractDirCB" );
+    m_extractDirCB = new KHistoryCombo( true, mainFrame, "m_extractDirCB" );
     m_extractDirCB->setSizePolicy( QSizePolicy( ( QSizePolicy::SizeType ) 3, ( QSizePolicy::SizeType ) 0,
                                                 m_extractDirCB->sizePolicy().hasHeightForWidth() ) );
     Layout3->addWidget( m_extractDirCB );
@@ -101,9 +96,20 @@ ExtractDlg::ExtractDlg( ArkSettings *_settings )
     KURLCompletion *comp = new KURLCompletion();
     comp->setReplaceHome( true );
     m_extractDirCB->setCompletionObject( comp );
+    m_extractDirCB->setMaxCount( 20 );
+    m_extractDirCB->setInsertionPolicy( QComboBox::AtTop );
+
+    KConfig *config = m_settings->getKConfig();
+    QStringList list;
+
+    config->setGroup( "History" );
+    list = config->readListEntry( "ExtractTo History" );
+    m_extractDirCB->setHistoryItems( list );
+
+    m_extractDirCB->setEditURL( KURL( m_settings->getExtractDir() ) );
+
     // Connect to the return pressed signal - optional
     connect( m_extractDirCB, SIGNAL( returnPressed( const QString& ) ), comp, SLOT( addItem( const QString& ) ) );
-
 
     QPushButton *browseButton = new QPushButton( mainFrame, "browseButton" );
     browseButton->setText( i18n( "Browse..." ) );
@@ -172,6 +178,17 @@ ExtractDlg::ExtractDlg( ArkSettings *_settings )
     connect(prefButton, SIGNAL(clicked()), this, SLOT(openPrefs()));
 
     connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
+
+    kdDebug() << "-ExtractDlg::~ExtractDlg" << endl;
+}
+
+ExtractDlg::~ExtractDlg()
+{
+    KConfig *config = m_settings->getKConfig();
+    QStringList list;
+    config->setGroup( "History" );
+    list = m_extractDirCB->historyItems();
+    config->writeEntry( "ExtractTo History", list );
 }
 
 void ExtractDlg::disableSelectedFilesOption()

@@ -2,7 +2,8 @@
 
 2001-06-10: Roberto Selbach Teixeira <maragato@conectiva.com>
 	* Made extraction use KURL instead of QString.
-	
+	* Made extractDlg use a KHistoryCombo.
+
 2001-05-31  Roberto Selbach Teixeira  <maragato@conectiva.com>
         * Fixed a bug that made the file list freeze.
         * Fixed extractDlg size to use QLayout

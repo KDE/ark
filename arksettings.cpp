@@ -102,9 +102,9 @@
 ArkSettings::ArkSettings()
 {
   m_lastShellOutput = new QString;
-	
+
   kc = KGlobal::config();
-  readConfiguration();	
+  readConfiguration();
 }
 
 ArkSettings::~ArkSettings()
@@ -115,7 +115,7 @@ ArkSettings::~ArkSettings()
 
 ////////////////// READ CONFIGURATION ///////////////////////////////////
 
-void ArkSettings::readConfiguration() 
+void ArkSettings::readConfiguration()
 {
   kdDebug(1601) << "+ArkSettings::readConfiguration()" << endl;
 
@@ -144,33 +144,33 @@ void ArkSettings::readConfiguration()
 void ArkSettings::readDirectories()
 {
   kdDebug(1601) << "+readDirectories" << endl;
-	
+
   kc->setGroup( ARK_GROUP );
 
   favoriteDir = kc->readEntry( FAVORITE_KEY );
 
   if( favoriteDir.isEmpty() )
     favoriteDir = getenv( "HOME" );
-	
+
   startDir = kc->readEntry( START_DIR_KEY );
   openDir = kc->readEntry( OPEN_DIR_KEY );
   extractDir = kc->readEntry( EXTRACT_DIR_KEY );
   addDir = kc->readEntry( ADD_DIR_KEY );
-	
+
   lastOpenDir = kc->readEntry( LAST_OPEN_DIR_KEY );
   lastExtractDir = kc->readEntry( LAST_EXTRACT_DIR_KEY );
   lastAddDir = kc->readEntry( LAST_ADD_DIR_KEY );
-	
+
   startDirMode = kc->readNumEntry( START_MODE_KEY, LAST_OPEN_DIR);
   openDirMode = kc->readNumEntry( OPEN_MODE_KEY, LAST_OPEN_DIR);
   extractDirMode = kc->readNumEntry( EXTRACT_MODE_KEY, LAST_EXTRACT_DIR);
   addDirMode = kc->readNumEntry( ADD_MODE_KEY, LAST_ADD_DIR);
-	
+
   kdDebug(1601) << "favorite dir is " << favoriteDir << endl;
   kdDebug(1601) << "last open dir is " << lastOpenDir << endl;
   kdDebug(1601) << "last xtr dir is " << lastExtractDir << endl;
   kdDebug(1601) << "last add dir is " << lastAddDir << endl;
-	
+
   kdDebug(1601) << "start dir is " << startDir << endl;
   kdDebug(1601) << "open dir is " << openDir << endl;
   kdDebug(1601) << "xtr dir is " << extractDir << endl;
@@ -180,14 +180,14 @@ void ArkSettings::readDirectories()
   kdDebug(1601) << "open mode is " << openDirMode << endl;
   kdDebug(1601) << "xtr mode is " << extractDirMode << endl;
   kdDebug(1601) << "add mode is " << addDirMode << endl;
-	
+
   kdDebug(1601) << "-readDirectories" << endl;
 }
 
 void ArkSettings::readGenericProperties()
 {
 	kc->setGroup(GENERIC_GROUP);
-	
+
 	m_bExtractOverwrite = kc->readBoolEntry(EXTRACT_OVERWRITE, false);
 	m_bAddReplaceOnlyWithNewer = kc->readBoolEntry(ADD_REPLACEONLYWITHNEWER,
 						    false);
@@ -196,7 +196,7 @@ void ArkSettings::readGenericProperties()
 void ArkSettings::readTarProperties()
 {
   kdDebug(1601) << "+readTarProperties" << endl;
-	
+
   kc->setGroup( TAR_GROUP );
   m_tarPreservePerms = kc->readBoolEntry(PRESERVE_PERMS, false);
   m_tarUseAbsPathnames = kc->readBoolEntry(TAR_USE_ABS_PATHNAMES, false);
@@ -243,7 +243,7 @@ void ArkSettings::readRarProperties()
 void ArkSettings::readZipProperties()
 {
   kdDebug(1601) << "+readZipProperties" << endl;
-	
+
   kc->setGroup( ZIP_GROUP );
 
   m_zipExtractJunkPaths = kc->readBoolEntry( EXTRACT_JUNKPATHS, false );
@@ -304,9 +304,9 @@ void ArkSettings::writeConfigurationNow()
 void ArkSettings::writeDirectories()
 {
   kdDebug(1601) << "+writeDirectories" << endl;
-	
+
   kc->setGroup( ARK_GROUP );
-	
+
   kc->writeEntry( FAVORITE_KEY, favoriteDir );
 
   kc->writeEntry(START_DIR_KEY, startDir);
@@ -327,7 +327,7 @@ void ArkSettings::writeDirectories()
   kdDebug(1601) << "last open dir is " << lastOpenDir << endl;
   kdDebug(1601) << "last xtr dir is " << lastExtractDir << endl;
   kdDebug(1601) << "last add dir is " << lastAddDir << endl;
-	
+
   kdDebug(1601) << "start dir is " << startDir << endl;
   kdDebug(1601) << "open dir is " << openDir << endl;
   kdDebug(1601) << "xtr dir is " << extractDir << endl;
@@ -344,7 +344,7 @@ void ArkSettings::writeDirectories()
 void ArkSettings::writeGenericProperties()
 {
 	kc->setGroup(GENERIC_GROUP);
-	
+
 	kc->writeEntry(EXTRACT_OVERWRITE, m_bExtractOverwrite);
 	kc->writeEntry(ADD_REPLACEONLYWITHNEWER, m_bAddReplaceOnlyWithNewer);
 }
@@ -397,7 +397,7 @@ void ArkSettings::writeRarProperties()
 void ArkSettings::writeZipProperties()
 {
   kdDebug(1601) << "+writeZipProperties" << endl;
-	
+
   kc->setGroup( ZIP_GROUP );
   kc->writeEntry( EXTRACT_JUNKPATHS, m_zipExtractJunkPaths );
   kc->writeEntry( EXTRACT_LOWERCASE, m_zipExtractLowerCase );
@@ -517,7 +517,7 @@ const QString ArkSettings::getFilter()
 	      "*.zoo|Zoo archives (*.zoo)\n"
 	      "*.rar|Rar archives with extension rar\n"
 	      "*.a|Ar archives with extension a\n"
-	      ); 
+	      );
 }
 
 void ArkSettings::clearShellOutput()

@@ -11,7 +11,12 @@
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust emilye@corel.com)
  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
+<<<<<<< extractdlg.h
+ 2001: Roberto Selbach Teixeira (maragato@conectiva.com)
 
+=======
+
+>>>>>>> 1.19
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  as published by the Free Software Foundation; either version 2
@@ -42,7 +47,7 @@ class QLineEdit;
 class QComboBox;
 class QDialog;
 class KDialogBase;
-class KComboBox;
+class KHistoryCombo;
 class KCompletion;
 class KURLCompletion;
 
@@ -54,6 +59,7 @@ class ExtractDlg : public KDialogBase
   Q_OBJECT
 public:
   ExtractDlg(ArkSettings *_settings);
+  ~ExtractDlg();
   enum ExtractOp{ All, Selected, Current, Pattern };
   int extractOp();
   void disableSelectedFilesOption();
@@ -72,7 +78,7 @@ signals:
 private: // data
   QRadioButton *m_radioCurrent, *m_radioAll, *m_radioSelected, *m_radioPattern;
   QLineEdit *m_patternLE;
-  KComboBox *m_extractDirCB;
+  KHistoryCombo *m_extractDirCB;
   ArkSettings *m_settings;
 };
 

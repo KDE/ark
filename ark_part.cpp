@@ -32,10 +32,10 @@
 
 #include <qiconset.h>
 
-#include "arkwidgetpart.h" 
+#include "arkwidgetpart.h"
 
 static const char *description = I18N_NOOP("Ark KParts Component");
-static const char *version     = "1.0"; 
+static const char *version     = "1.0";
 
 extern "C"
 {
@@ -113,9 +113,10 @@ KAboutData *ArkFactory::aboutData()
   about->addAuthor("Corel Corporation (author: Michael Jarrett)", 0,
 		   "michaelj@corel.com");
   about->addAuthor("Jian Huang");
+  about->addAuthor( "Roberto Selbach Teixeira", 0, "maragato@conectiva.com" );
 
   return about;
-} 
+}
 
 /**************************************************************************
 *                           ArkPart
@@ -131,26 +132,26 @@ ArkPart::ArkPart(QWidget *parent, const char *name)
     //create an ark widget
     awidget = new  ArkWidgetPart (parent);
     awidget->setFocus();
-    setWidget(awidget);  
+    setWidget(awidget);
 
     //create and connect to different actions
-    m_extractAction = new KAction(i18n("&Extract"), "ark_extract", 
+    m_extractAction = new KAction(i18n("&Extract"), "ark_extract",
                                0, this,
                                SLOT(slotExtract()), actionCollection(),
                                "extract");
-			       
-    m_viewAction = new KAction(i18n("&View"), "ark_view",  
+
+    m_viewAction = new KAction(i18n("&View"), "ark_view",
                                0, this,
                                SLOT(slotView()), actionCollection(),
                                "view");
-			       
+
     m_extension = new ArkBrowserExtension(this);
-    setXMLFile("ark_part.rc");  
-    
+    setXMLFile("ark_part.rc");
+
     m_extractAction->setEnabled(false);
-    m_viewAction->setEnabled(false);   
-    
-    connect(awidget, SIGNAL(toKpartsView(int, int)), this, SLOT(slotEnableView(int, int)) ); 
+    m_viewAction->setEnabled(false);
+
+    connect(awidget, SIGNAL(toKpartsView(int, int)), this, SLOT(slotEnableView(int, int)) );
 }
 
 ArkPart::~ArkPart(){}
