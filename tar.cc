@@ -329,7 +329,8 @@ void TarArch::extractTo( QString dir )
 
 
 
-	archProcess << archname << "-C" << dir;	
+	archProcess << "--use-compress-program="+getUnCompressor() 
+	            <<	"-xvf" << archname << "-C" << dir;	
  	if(archProcess.startPipe(KProcess::Stdout, &fd) == false)
  	{
  		cerr << "Subprocess wouldn't start!" << endl;
