@@ -8,7 +8,7 @@
 #include <qfiledlg.h>
 #include <qstrlist.h>
 #include <ktoolbar.h>
-#include <Kconfig.h>
+#include <kconfig.h>
 #include <kapp.h>
 #include <drag.h>
 #include <ktopwidget.h>

@@ -26,7 +26,7 @@ bin_PROGRAMS = 	kzip
 
 # Which sources should be compiled for kzip.
 kzip_SOURCES	= adddlg.cc ar.cc arch.cc extractdlg.cc karch.cc kfdird.cc \
-                 ktablistbox.cc kzip.cc lha.cc main.cc tar.cc zip.cc text.c
+                 kzip.cc lha.cc main.cc tar.cc zip.cc text.c
 
 # the library search path
 kzip_LDFLAGS = @all_libraries@
@@ -39,7 +39,7 @@ kzip_LDADD   = -lkfm -lkdeui -lkdecore -lqt -lX11 -lXext @LIBSOCKET@
 #noinst_HEADERS = hexfile.h hexwidget.h
 
 # just to make sure, automake makes them 
-BUILTSOURCES =	adddlg.moc arch.moc extractdlg.moc kfdird.moc ktablistbox.moc kzip.moc
+BUILTSOURCES =	adddlg.moc arch.moc extractdlg.moc kfdird.moc kzip.moc
 
 # if you "make distclean", this files get removed. If you want to remove
 # them while "make clean", use CLEANFILES
@@ -94,8 +94,11 @@ extractdlg.moc: extractdlg.h
 kfdird.cc:kfdird.moc
 kfdird.moc: kfdird.h
 	$(MOC) kfdird.h -o kfdird.moc
+<<<<<<< Makefile.am
+=======
 
 ktablistbox.cc:ktablistbox.moc
 ktablistbox.moc: ktablistbox.h
 	$(MOC) ktablistbox.h -o ktablistbox.moc
 
+>>>>>>> 1.2
