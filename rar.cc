@@ -52,7 +52,7 @@ RarArch::RarArch( ArkSettings *_settings, Viewer *_gui,
 {
   kdDebug(1601) << "RarArch constructor" << endl;
   m_archiver_program = "rar";
-  m_unarchiver_program = "unrar";
+  m_unarchiver_program = "rar"; // some distributions of rar don't have unrar (bug #7112)
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 }
 
