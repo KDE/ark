@@ -1,3 +1,8 @@
+2000-02-15: Emily Ezust <emilye@corel.com>
+	* Added drop support. Doesn't seem to work with directories though.
+	* Toolbar icons stopped working briefly - renamed them to ensure no
+ 	  ambiguity.
+
 2000-02-14: Emily Ezust <emilye@corel.com>
 	* Separated GUI and backend in zip, which will be the model
 	  for the other formats once it's just-right. Next I'll make sure

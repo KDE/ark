@@ -77,7 +77,7 @@ enum Buttons { OPEN_BUTTON= 1000, NEW_BUTTON, FAVORITE_BUTTON, EXTRACT_BUTTON,
 ArkWidget::ArkWidget( QWidget *, const char *name ) : 
     KTMainWindow(name), m_nSizeOfFiles(0), m_nSizeOfSelectedFiles(0),
     m_nNumFiles(0), m_nNumSelectedFiles(0), m_bIsArchiveOpen(false),
-    m_bIsSimpleCompressedFile(false)
+    m_bIsSimpleCompressedFile(false), m_bDropSourceIsSelf(false)
 {
     kdebug(0, 1601, "+ArkWidget::ArkWidget");
   
@@ -370,51 +370,51 @@ void ArkWidget::setupToolBar()
 
     QPixmap pixmap;
 
-    pixmap = BarIcon("new_ark");
+    pixmap = BarIcon("ark_new");
     tb->insertButton ( pixmap, eNew, SIGNAL(clicked()), this,
 		       SLOT(file_new()), true, i18n("New"));
 
-    pixmap = BarIcon("open_ark");
+    pixmap = BarIcon("ark_open");
     tb->insertButton ( pixmap, eOpen, SIGNAL(clicked()), this,
 		       SLOT(file_open()), true, i18n("Open"));
 
     tb->insertSeparator();
 
-    pixmap = BarIcon("addfile");
+    pixmap = BarIcon("ark_addfile");
     tb->insertButton ( pixmap, eAddFile, SIGNAL(clicked()),
 		       this, SLOT(action_add()), true, i18n("Add File"));
 
-    pixmap = BarIcon("adddir");
+    pixmap = BarIcon("ark_adddir");
     tb->insertButton ( pixmap, eAddDir, SIGNAL(clicked()), this,
 		       SLOT(action_add_dir()), true, i18n("Add Dir"));
 
     tb->insertSeparator();
 
-    pixmap = BarIcon("extract");
+    pixmap = BarIcon("ark_extract");
     tb->insertButton ( pixmap, eExtract, SIGNAL(clicked()),
 		       this, SLOT(action_extract()), true, i18n("Extract"));
 
-    pixmap =  BarIcon("delete");
+    pixmap =  BarIcon("ark_delete");
     tb->insertButton ( pixmap, eDelete, SIGNAL(clicked()), this,
 		       SLOT(action_delete()), true, i18n("Delete"));
 
     tb->insertSeparator();
 
-    pixmap = BarIcon("selectall");
+    pixmap = BarIcon("ark_selectall");
     tb->insertButton ( pixmap , eSelectAll, SIGNAL(clicked()),
 		       this, SLOT(edit_selectAll()), true, i18n("Select All"));
 
-    pixmap = BarIcon("view");
+    pixmap = BarIcon("ark_view");
     tb->insertButton ( pixmap, eView, SIGNAL(clicked()), this,
 		       SLOT(file_show()), true, i18n("View"));
 
     tb->insertSeparator();
 
-    pixmap = BarIcon("options");
+    pixmap = BarIcon("ark_options");
     tb->insertButton ( pixmap, eOptions, SIGNAL(clicked()),
 		       this, SLOT(options_dirs()), true, i18n("Options"));
 
-    pixmap = BarIcon("help");
+    pixmap = BarIcon("ark_help");
     tb->insertButton ( pixmap, eHelp, SIGNAL(clicked()), this,
 		       SLOT(help()), true, i18n("Help"));
 
@@ -511,11 +511,14 @@ void ArkWidget::file_open(const QString & strFile)
     // see if the ark is already open in another window
     if (ArkApplication::getInstance()->isArkOpenAlready(strFile))
       {
+	// close this window
+	window_close();
+
 	// raise the window containing the already open archive
 	ArkApplication::getInstance()->raiseArk(strFile);
+
 	// notify the user what's going on
-	
-	KMessageBox::information(this, i18n("The archive %1 is already open and has been raised.\nNote: if the filename does not match, it only means that one of the two is a symbolic link.").arg((const char *)strFile));
+	KMessageBox::information(0, i18n("The archive %1 is already open and has been raised.\nNote: if the filename does not match, it only means that one of the two is a symbolic link.").arg((const char *)strFile));
 	return;
       }
 
@@ -971,11 +974,17 @@ void ArkWidget::action_add()
       QStringList *list = dlg->getFiles();
       if (list->count() > 0)
 	{
-	  int ret = arch->addFile(list);
-	  if (ret == SUCCESS)
-	    file_reload();
+	  addFile(list);
 	}
     }
+}
+
+void ArkWidget::addFile(QStringList *list)
+{
+  int ret = arch->addFile(list);
+  if (ret == SUCCESS)
+    file_reload();
+
 }
 
 void ArkWidget::action_add_dir()
@@ -1090,12 +1099,12 @@ void ArkWidget::action_extract()
 
 void ArkWidget::action_view()
 {
-/*
-	if( lb->currentItem() != -1 )
-	{
-		showFile( lb->currentItem() );
-	}
-*/
+  /*
+    if( lb->currentItem() != -1 )
+    {
+    showFile( lb->currentItem() );
+    }
+  */
 }
 
 void ArkWidget::showFile( int /*index*/, int /*col*/ )
@@ -1128,16 +1137,16 @@ void ArkWidget::showFile( int /*index*/, int /*col*/ )
 
 void ArkWidget::options_general()
 {
-	GeneralDlg *gd = new GeneralDlg( m_settings, this );
-	gd->exec();
-	delete gd;
+  GeneralDlg *gd = new GeneralDlg( m_settings, this );
+  gd->exec();
+  delete gd;
 }
 
 void ArkWidget::options_dirs()
 {
-	DirDlg *dd = new DirDlg( m_settings, this );
-	dd->exec();
-	delete dd;
+  DirDlg *dd = new DirDlg( m_settings, this );
+  dd->exec();
+  delete dd;
 }
 
 void ArkWidget::options_keys()
@@ -1147,20 +1156,20 @@ void ArkWidget::options_keys()
 
 void ArkWidget::options_saveNow()
 {
-	m_settings->writeConfigurationNow();
+  m_settings->writeConfigurationNow();
 }
 
 void ArkWidget::options_saveOnExit()
 {
-	optionsMenu->setItemChecked(idSaveOnExit, !m_settings->isSaveOnExitChecked());
-	m_settings->setSaveOnExitChecked( !m_settings->isSaveOnExitChecked() );
+  optionsMenu->setItemChecked(idSaveOnExit, !m_settings->isSaveOnExitChecked());
+  m_settings->setSaveOnExitChecked( !m_settings->isSaveOnExitChecked() );
 }
 
 // Help menu /////////////////////////////////////////////////////////
 
 void ArkWidget::help()
 {
-	kapp->invokeHTMLHelp( "", "" );
+  kapp->invokeHTMLHelp( "", "" );
 }
 
 // Popup /////////////////////////////////////////////////////////////
@@ -1187,54 +1196,55 @@ void ArkWidget::doPopup(QListViewItem *pItem, const QPoint &pPoint,
 
 void ArkWidget::slotSelectionChanged()
 {
-    KToolBar *tb = toolBar();
-
-    actionMenu->setItemEnabled( idDelete, !archiveContent->isSelectionEmpty() );
-
-    updateStatusSelection();
-
-	
-    if (m_nNumSelectedFiles > 0)
+  kdebug(0, 1601, "+ArkWidget::slotSelectionChanged");
+  
+  KToolBar *tb = toolBar();
+  
+  actionMenu->setItemEnabled( idDelete, !archiveContent->isSelectionEmpty() );
+  updateStatusSelection();
+  
+  if (m_nNumSelectedFiles > 0)
     {
-	// enable appropriate menu items and toolbuttons
-	actionMenu->setItemEnabled(eMDelete, true);
-	actionMenu->setItemEnabled(eMExtract, true);
-    
-
-	m_filePopup->setItemEnabled(eMExtract, true);
-	m_filePopup->setItemEnabled(eMDelete, true);
-    
-	tb->setItemEnabled(eDelete, true);
-
-	// Because there's no 'multiple view' or 'multiple rename', we disable
-	// these options when there are multiple selections. But it is 
-	// unconditionally enabled in the popup because the user had
-	// to have right-clicked on an element in order to see the menu.
-	m_filePopup->setItemEnabled(eMView, true);
-	//	m_filePopup->setItemEnabled(eMRename, true);
-
-	bool bEnable = (1 == m_nNumSelectedFiles);
-
-	editMenu->setItemEnabled(eMView, bEnable);
-//	editMenu->setItemEnabled(eMRename, bEnable);
-
-	tb->setItemEnabled(eExtract, true);
-	tb->setItemEnabled(eView, bEnable);
+      // enable appropriate menu items and toolbuttons
+      actionMenu->setItemEnabled(eMDelete, true);
+      actionMenu->setItemEnabled(eMExtract, true);
+      
+      
+      m_filePopup->setItemEnabled(eMExtract, true);
+      m_filePopup->setItemEnabled(eMDelete, true);
+      
+      tb->setItemEnabled(eDelete, true);
+      
+      // Because there's no 'multiple view' or 'multiple rename', we disable
+      // these options when there are multiple selections. But it is 
+      // unconditionally enabled in the popup because the user had
+      // to have right-clicked on an element in order to see the menu.
+      m_filePopup->setItemEnabled(eMView, true);
+      //	m_filePopup->setItemEnabled(eMRename, true);
+      
+      bool bEnable = (1 == m_nNumSelectedFiles);
+      
+      editMenu->setItemEnabled(eMView, bEnable);
+      //	editMenu->setItemEnabled(eMRename, bEnable);
+      
+      tb->setItemEnabled(eExtract, true);
+      tb->setItemEnabled(eView, bEnable);
     }
-    else
+  else
     {
-	actionMenu->setItemEnabled(eMDelete, false);
-
-	m_filePopup->setItemEnabled(eMDelete, false);
-
-	editMenu->setItemEnabled(eMView, false);
-	m_filePopup->setItemEnabled(eMView, false);
-//	editMenu->setItemEnabled(eMRename, false);
-//	m_filePopup->setItemEnabled(eMRename, false);
-
-	tb->setItemEnabled(eView, false);
-	tb->setItemEnabled(eDelete, false);
+      actionMenu->setItemEnabled(eMDelete, false);
+      
+      m_filePopup->setItemEnabled(eMDelete, false);
+      
+      editMenu->setItemEnabled(eMView, false);
+      m_filePopup->setItemEnabled(eMView, false);
+      //	editMenu->setItemEnabled(eMRename, false);
+      //	m_filePopup->setItemEnabled(eMRename, false);
+      
+      tb->setItemEnabled(eView, false);
+      tb->setItemEnabled(eDelete, false);
     }
+  kdebug(0, 1601, "-ArkWidget::slotSelectionChanged");
 }
 
 
@@ -1293,63 +1303,143 @@ void ArkWidget::selectByPattern(const QString & _pattern) // slot
   delete glob;
 }
 
-
-
-
-
 // Drag & Drop ////////////////////////////////////////////////////////
 
+#if 0 // not sure I need this
 void ArkWidget::dragEnterEvent(QDragEnterEvent* event)
 {
-	event->accept(QUrlDrag::canDecode(event));
+  event->accept(QUrlDrag::canDecode(event));
 }
 
-void ArkWidget::dropEvent(QDropEvent* event )
+#endif
+
+void ArkWidget::dragMoveEvent(QDragMoveEvent *e)
 {
-    kdebug(0, 1601, "+ArkWidget::dropEvent");
+  QStringList list;
 
-	QStringList dlist;
-	QString url;
-	QString file;
-	bool opennew=false;
-
-        if(!QUrlDrag::decodeToUnicodeUris(event, dlist))
-		return;
-        
-	KMessageBox::sorry(this, "Sorry, not yet implemented.");
-	return;
-
-	// TODO:
-	if( !arch ){	/* No archive is currently loaded */
-		const char *foo;
-		url = dlist[0];
-		file = url.right( url.length()-5 );
-		foo = file.local8Bit();
-		
-//		TODO: port to signal/slot
-//		if( openArchive(file) )
-//			opennew=true;
-//		else
-//			file_new();
-	}
-	if( arch && !opennew )  /* An archive was open or we just created one */
-	{		        /* so we add the url list in the current one */
-		int retcode;
-		retcode = arch->addFile( &dlist );
-		if( !retcode )
-		{
-			archiveContent->clear();
-		} else {
-//			if( retcode == UNSUPDIR )
-//				arkWarning( i18n("Can't add directories with this archive type"));
-//			else
-//				KMessageBox::error( this, i18n( "Error saving to archive"));
-		}
-	}
-
-	kdebug(0, 1601, "-dropEvent");
+  if (QUrlDrag::canDecode(e) &&
+      !m_bDropSourceIsSelf)
+    {
+    e->accept();
+  }
 }
 
+
+void ArkWidget::dropEvent(QDropEvent* e)
+{
+  kdebug(0, 1601, "+ArkWidget::dropEvent");
+
+  QStringList list;
+
+  if (QUrlDrag::decodeToUnicodeUris(e, list))
+  {
+    dropAction(&list);
+  }
+
+  kdebug(0, 1601, "-dropEvent");
+}
+
+//////////////////////////////////////////////////////////////////////
+///////////////////////// dropAction /////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+void ArkWidget::dropAction(QStringList *list)
+{
+// Called by dropEvent
+
+// The possibilities treated are as follows:
+// drop a regular file into a window with
+//   * an open archive - add it.
+//   * no open archive - ask user to open an archive for adding file or cancel
+// drop an archive into a window with
+//   * an open archive - ask user to add to open archive or to open it freshly
+//   * no open archive - open it
+// drop many files (can be a mix of archives and regular) into a window with
+//   * an open archive - add them.
+//   * no open archive - ask user to open an archive for adding files or cancel
+
+// and don't forget about gzip files.
+
+  QString str;
+  QStringList urls; // to be sent to addFile
+
+  // make sure they are proper URLs
+  for(QStringList::Iterator it = list->begin(); it != list->end(); ++it)
+    {
+      str = *it;
+      kdebug(0, 1601, "%s", (const char *)str);
+      if (str.left(5) != QString("file:"))
+	{
+	  str = "file:" + str;
+	}
+      urls.append(str);
+    }
+
+  if (1 == list->count() &&  (UNKNOWN_FORMAT != getArchType(str)))
+  {
+    // if there's one thing being dropped and it's an archive
+    if (isArchiveOpen())
+    {
+      // ask them if they want to add the dragged archive to the current
+      // one or open it as the new current archive
+      int nRet = QMessageBox::warning(this, i18n("Question"),
+				      i18n("Do you wish to add this to the current archive or open it as a new archive?"),
+				      i18n("Add"), i18n("Open"),
+				      i18n("Cancel"), 0, 1);
+      if (0 == nRet) // add it
+      {
+	addFile(&urls);
+	return;
+      }
+      else if (2 == nRet) // cancel
+      {
+	return;
+      }
+    }
+
+    // if I made it here, there's either no archive currently open
+    // or they selected "Open".
+    str = urls.first();
+    str = str.right(str.length()-5);  // get rid of "file:" part of url
+    file_open(str);
+  }
+  else
+  {
+    if (isArchiveOpen())
+    {
+#if 0
+      if (currentIsSimpleCompressedFile())
+      {
+	// e.g., is it a gz?
+	if (! canAddToSimpleCompressedFile(&urls))
+	  return;
+      }
+#endif
+
+      // add the files to the open archive
+      addFile(&urls);
+    }
+    else
+    {
+      // no archive is open, so we ask if the user wants to open one
+      // for this/these file/files.
+
+      int nRet = QMessageBox::warning(this, i18n("Error"),
+				      (list->count() > 1) ?
+				      i18n("There is no archive currently open. Do you wish to open one now for these files?") : i18n("There is no archive currently open. Do you wish to open one now for this file?"),
+				      i18n("Yes"), i18n("No"), 0, 0, 1);
+      if (0 == nRet) // yes
+      {
+	file_new();
+	if (isArchiveOpen()) // they still could have canceled!
+	{
+	  addFile(&urls);
+	}
+      }
+      // no else: just forget it.
+    }
+  }
+}
 
 void ArkWidget::showFavorite()
 {

@@ -93,7 +93,7 @@ void file_newWindow();
   //    void open_ok( QString );
     
 protected slots:
-void file_new();
+  void file_new();
   void file_open();
   void file_openRecent( int );
   void file_reload();
@@ -135,8 +135,10 @@ protected:
   void closeEvent( QCloseEvent * );
 
   // DND
-  void dragEnterEvent(QDragEnterEvent* event);
+  void dragMoveEvent(QDragMoveEvent *e);
+  //  void dragEnterEvent(QDragEnterEvent* event);
   void dropEvent(QDropEvent* event);
+  void dropAction(QStringList *list);
 
   void createActionMenu( int );
 
@@ -151,7 +153,8 @@ private: // methods
     
   void updateStatusSelection();
   void updateStatusTotals();
-        
+       
+  void addFile(QStringList *list);
 private:
 
   Arch *arch;
@@ -208,6 +211,7 @@ private:
   // some informational bools
   bool m_bIsArchiveOpen;
   bool m_bIsSimpleCompressedFile;
+  bool m_bDropSourceIsSelf; // no dragging from and dropping on myself
 
   Viewer *m_viewer; // for separating gui - archives know viewer not arkwidget
 

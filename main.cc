@@ -51,7 +51,7 @@ static KCmdLineOptions option[] =
 
 int main( int argc, char *argv[]  )
 {
-  KAboutData aboutData("ark", I18N_NOOP("arK"),
+  KAboutData aboutData("ark", I18N_NOOP("ark"),
     version, description, KAboutData::License_GPL,
     "(c) 1997-2000, The Various Ark Developers");
   aboutData.addAuthor("Robert Palmbos",0, "palm9744@kettering.edu");
