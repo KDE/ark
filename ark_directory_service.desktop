@@ -3,9 +3,10 @@ Encoding=UTF-8
 ServiceTypes=all/all
 ExcludeServiceTypes=kdedevice/*
 Actions=create_targz;create_tarbz2;create_zip
+X-KDE-Submenu=Create Archive
 
 [Desktop Action create_targz]
-Name=Create gzipped tar Archive
+Name=gzip compressed (faster)
 Name[bg]=Създаване на архиви Tar с помощта на gzip
 Name[ca]=Crea arxiu tar gzip
 Name[cs]=Vytvořit gzipovaný tar archív
@@ -41,7 +42,7 @@ Icon=ark
 Exec=ark --add --add-to .tar.gz %U
 
 [Desktop Action create_tarbz2]
-Name=Create bzipped tar Archive
+Name=bzip compressed (smaller)
 Name[bg]=Създаване на архиви Tar с помощта на bzip
 Name[ca]=Crea arxiu tar bzip
 Name[cs]=Vytvořit bzipovaný tar archív
@@ -76,7 +77,7 @@ Icon=ark
 Exec=ark --add --add-to .tar.bz2 %U
 
 [Desktop Action create_zip]
-Name=Create zip Archive
+Name=zip compressed (legacy)
 Name[bg]=Създаване на архиви Zip
 Name[ca]=Crea arxiu zip
 Name[cs]=Vytvořit ZIP archív
