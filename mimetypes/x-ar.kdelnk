@@ -1,6 +1,7 @@
 # KDE Config File
 [KDE Desktop Entry]
 Comment=Ar Archives
+Comment[no]=Ar-arkiver
 Comment[es]=Archivo AR
 Comment[de]=LHR-Archive
 Comment[pt]=Arquivos Ar
