@@ -1347,8 +1347,8 @@ void ArkWidget::action_add()
   //AddDlg fileDlg(AddDlg::File, m_settings->getAddDir(), m_settings,
   //               this, "adddlg");
   KFileDialog fileDlg( m_settings->getAddDir(), QString::null, this, "adddlg", true );
-  fileDlg.setMode(KFile::Mode(KFile::Directory | KFile::ExistingOnly));
-  fileDlg.setCaption(i18n("Select Directory to Add"));
+  fileDlg.setMode( KFile::Mode( KFile::Files | KFile::ExistingOnly ) );
+  fileDlg.setCaption(i18n("Select Files to Add"));
 
   if(fileDlg.exec())
   {
