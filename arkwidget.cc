@@ -57,11 +57,6 @@
 #include "selectDlg.h"
 #include "shellOutputDlg.h"
 
-#define FILE_OPEN_XPM "fileopen.xpm"
-#define FILE_CLOSE_XPM "exit.xpm"
-#define EDIT_EXTRACT_XPM "viewzoom.xpm"
-#define FAVORITE_XPM "home.xpm"
-
 enum Buttons { OPEN_BUTTON= 1000, FAVORITE_BUTTON, EXTRACT_BUTTON,
 	       CLOSE_BUTTON };
 
@@ -311,13 +306,13 @@ void ArkWidget::setupToolBar()
 	QString pixpath;
 	KToolBar *tb = toolBar();
 
-	tb->insertButton( ICON(FILE_OPEN_XPM), OPEN_BUTTON, SIGNAL( clicked() ), this, SLOT( file_open() ), TRUE, i18n("Open"));
-	tb->insertButton( ICON(FAVORITE_XPM), FAVORITE_BUTTON, SIGNAL( clicked() ), this, SLOT( showFavorite() ), TRUE, i18n("Goto Archive Dir"));
-	tb->insertButton( ICON(EDIT_EXTRACT_XPM), EXTRACT_BUTTON, SIGNAL( clicked() ), this, SLOT( edit_extract() ), FALSE, i18n("Extract"));
+	tb->insertButton( BarIcon("fileopen"), OPEN_BUTTON, SIGNAL( clicked() ), this, SLOT( file_open() ), TRUE, i18n("Open"));
+	tb->insertButton( BarIcon("home"), FAVORITE_BUTTON, SIGNAL( clicked() ), this, SLOT( showFavorite() ), TRUE, i18n("Goto Archive Dir"));
+	tb->insertButton( BarIcon("viewzoom"), EXTRACT_BUTTON, SIGNAL( clicked() ), this, SLOT( edit_extract() ), FALSE, i18n("Extract"));
 //	tb()->setItemEnabled( EXTRACT_BUTTON, false );
 
 	tb->insertSeparator();
-	tb->insertButton( ICON(FILE_CLOSE_XPM), CLOSE_BUTTON, SIGNAL( clicked() ), this, SLOT( file_close() ), TRUE, i18n("Close"));
+	tb->insertButton( BarIcon("exit"), CLOSE_BUTTON, SIGNAL( clicked() ), this, SLOT( file_close() ), TRUE, i18n("Close"));
 
 	tb->setBarPos( KToolBar::Top );
 }

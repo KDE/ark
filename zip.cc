@@ -465,7 +465,7 @@ void ZipArch::deleteSelectedFiles()
 	kdebug(0, 1601, "-ZipArch::deleteSelectedFiles");
 }
 
-void ZipArch::slotExtractExited(KProcess *_p)
+void ZipArch::slotExtractExited(KProcess *)
 {
 	kdebug(0, 1601, "+slotExtractExited");
 
