@@ -41,7 +41,7 @@
 #include "dirDlg.h"
 #include "generalOptDlg.h"
 
-#define DLG_NAME i18n("Settings")
+#define DLG_NAME i18n("Configure")
 #define TAB_ADD_NAME i18n("Addi&ng")
 #define TAB_EXTRACT_NAME i18n("&Extracting")
 #define TAB_PATH_NAME i18n("&Directories")
