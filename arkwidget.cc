@@ -62,15 +62,23 @@
 // c includes
 
 #include <errno.h>
-
 #include <sys/param.h>
-
 #include <sys/stat.h>
+
+
+// for statfs:
 #ifdef BSD4_4
 #include <sys/mount.h>
 #elif defined(__linux)
-#include <sys/vfs.h>  // for statfs
+#include <sys/vfs.h>
+#elif defined(__solaris)
+#include <sys/statvfs.h>
+#define STATFS statvfs
 #endif
+ 
+#ifndef STATFS
+#define STATFS statfs
+#endif                                                                   
 
 // ark includes
 #include "arkapp.h"
@@ -129,8 +137,8 @@ bool Utilities::diskHasSpace(const QString &dir, long size)
   // the given size in the partition containing the given directory
 {
   fprintf(stderr, "Size: %ld\n", size);
-  struct statfs buf;
-  if (statfs((const char *)dir, &buf) == 0)
+  struct STATFS buf;
+  if (STATFS((const char *)dir, &buf) == 0)
     {
       double nAvailable = (double)buf.f_bavail * buf.f_bsize;
       if (nAvailable < (double)size)
