@@ -270,9 +270,9 @@ void KZipWidget::fileDrop( KDNDDropZone *dz )
 			lb->appendStrList( listing );
 		} else {
 			if( retcode == UNSUPDIR )
-				sb->changeItem( (char *)klocale->translate("Can't add directorys with this archive type"), 0 );
+				sb->changeItem( klocale->translate("Can't add directories with this archive type"), 0 );
 			else	
-				sb->changeItem( (char *)klocale->translate( "Error saving to archive"), 0 );
+				sb->changeItem( klocale->translate( "Error saving to archive"), 0 );
 		}
 	}
 	else
