@@ -3,6 +3,7 @@
 MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tbz;application/x-zip;
 Comment=Archive Handling Tool
 Comment[cs]=Program pro práci s archívy
+Comment[da]=Arkivbehandlingsværktøj
 Comment[de]=Archiv-Verwaltungsprogramm
 Comment[es]=Herramienta de gestión de archivos
 Comment[fi]=Pakettienhallintatyökalu
@@ -20,6 +21,7 @@ Comment[sk]=Program na prácu s archívmi
 Comment[sv]=Verktyg för att hantera filarkiv
 Name=Archiver
 Name[cs]=Ark
+Name[da]=Arkivbehandler
 Name[de]=Ark
 Name[es]=Ark
 Name[fi]=Pakettienhallinta
