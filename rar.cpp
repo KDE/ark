@@ -1,11 +1,10 @@
 /*
 
- $Id$
-
  ark -- archiver for the KDE project
 
  Copyright (C)
 
+ 2003: Helio Chissini de Castro <helio@conectiva.com>
  2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
@@ -20,28 +19,30 @@
 
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
- Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include <config.h>
-
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
+// Std includes
 #include <sys/errno.h>
-#include <string.h>
+#include <unistd.h>
+#include <iostream>
+#include <string>
 
+// QT includes
 #include <qfile.h>
 #include <qdir.h>
 
 // KDE includes
 #include <kdebug.h>
+#include <kglobal.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kprocess.h>
+#include <kstandarddirs.h>
 
 // ark includes
+#include <config.h>
 #include "arkwidgetbase.h"
 #include "arch.h"
 #include "arksettings.h"
@@ -53,8 +54,13 @@ RarArch::RarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
   : Arch(_settings, _gui, _fileName ), m_linenumber(0)
 {
   kdDebug(1601) << "RarArch constructor" << endl;
-  m_archiver_program = "rar";
-  m_unarchiver_program = "rar"; // some distributions of rar don't have unrar (bug #7112)
+
+  bool have_rar = !KGlobal::dirs()->findExe( "rar" ).isNull();
+  bool have_unrar = !KGlobal::dirs()->findExe( "unrar" ).isNull();
+
+  m_archiver_program = have_rar ? "rar" : "unrar";
+  m_unarchiver_program = have_unrar ? "unrar" : "rar";
+      
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
   m_headerString = "----";
@@ -68,57 +74,38 @@ bool RarArch::processLine(const QCString &line)
   // The third time, process the data in the first two lines and
   // send to the GUI. We ignore the third line since the data there
   // isn't really that important.
-  const char *_line = (const char *)line;
 
   ++m_linenumber;
   if (m_linenumber == 1)
     {
-      m_line1 = QString::fromLocal8Bit(_line);
+      m_line1 = QString::fromLocal8Bit(line.data());
       return true;
     }
   if (m_linenumber == 2)
     {
-      m_line2 = QString::fromLocal8Bit(_line);
+      m_line2 = QString::fromLocal8Bit(line.data());
       return true;
     }
   // if we made it here, we have all three lines.
   // Reset the line number.
   m_linenumber = 0;
 
-  char columns[11][80];
-  char filename[4096];
-  sscanf(QFile::encodeName(m_line1), " %4095[^\n]", filename);
-  sscanf((const char *)m_line2.ascii(), " %79[0-9] %79[0-9] %79[0-9%<>-] %2[0-9]-%2[0-9]-%2[0-9] %5[0-9:] %79[drwxlst-] %79[A-F0-9] %79[A-Za-z0-9] %79[0-9.]",
-	 columns[0], columns[1], columns[2], columns[3],
-	 columns[8], columns[9], columns[10],
-	 columns[4], columns[5], columns[6],
-	 columns[7]);
-
-  // rearrange columns 3, 8, 9 so that the sort will work.
-  // columns[3] is the day
-  // columns[8] is the month
-  // columns[9] is a 2-digit year. Ugh. Y2K junk here.
-  
-  QString year = ArkUtils::fixYear(columns[9]);
-
-  // put entire timestamp in columns[3]
-
-  QString timestamp;
-  timestamp.sprintf("%s-%s-%s %s", year.utf8().data(),
-		    columns[8], columns[3], columns[10]);
-
-  kdDebug(1601) << "Year is: " << year << "; Month is: " << columns[8] << "; Day is: " << columns[3] << "; Time is: " << columns[10] << endl;
-
-  strlcpy(columns[3], timestamp.ascii(), sizeof(columns[3]));
-
-  kdDebug(1601) << "The actual file is " << filename << endl;
-
   QStringList list;
-  list.append(QFile::decodeName(filename));
-  for (int i=0; i<8; i++)
-    {
-      list.append(QString::fromLocal8Bit(columns[i]));
-    }
+  list << m_line1.stripWhiteSpace(); // filename
+
+  QStringList l2 = QStringList::split( ' ', m_line2 );
+
+  list << l2[ 0 ]; // size
+  list << l2[ 1 ]; // packed
+  list << l2[ 2 ]; // ratio
+
+  QStringList date =  QStringList::split( '-', l2[ 3 ] );
+  list << ArkUtils::fixYear( date[ 2 ].latin1() ) + "-" + date[ 1 ] + "-" + date [ 0 ] + " " + l2[4]; // date
+  list << l2[ 5 ]; // attributes
+  list << l2[ 6 ]; // crc
+  list << l2[ 7 ]; // method
+  list << l2[ 8 ]; // Version
+
   m_gui->listingAdd(&list); // send to GUI
 
   return true;
@@ -256,15 +243,12 @@ void RarArch::addFile( QStringList *urls )
       emit sigAdd(false);
     }
 
-  kdDebug(1601) << "+RarArch::addFile" << endl;
+  kdDebug(1601) << "-RarArch::addFile" << endl;
 }
 
 void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir,
-			 bool viewFriendly)
+			 bool /*viewFriendly*/)
 {
-  // if _fileList is empty, we extract all.
-  // if _destDir is empty, abort with error.
-
   kdDebug(1601) << "+RarArch::unarchFile" << endl;
 
   QString dest;
@@ -289,13 +273,6 @@ void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir,
     {
     *kp << "-o-" ;
     }
-
-#if 0
-  if (g_pSettings->filesToLower())
-  {
-    *kp << "-cl";
-  }
-#endif
 
   *kp << m_filename;
 
@@ -362,7 +339,5 @@ void RarArch::remove(QStringList *list)
   
   kdDebug(1601) << "-RarArch::remove" << endl;
 }
-
-
 
 #include "rar.moc"
