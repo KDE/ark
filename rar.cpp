@@ -72,7 +72,8 @@ bool RarArch::processLine(const QCString &line)
 {
   if ( m_isFirstLine )
   {
-    m_fileName = line.stripWhiteSpace();
+    m_fileName = line;
+    m_fileName.remove( 0, 1 );
     m_isFirstLine = false;
     return true;
   }
