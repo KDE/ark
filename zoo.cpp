@@ -232,13 +232,16 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 			 bool viewFriendly)
 {
   // if _fileList is empty, we extract all.
-  // if _destDir is empty, look at settings for extract directory
+  // if _destDir is empty, abort with error.
 
   kdDebug(1601) << "+ZooArch::unarchFile" << endl;
   QString dest;
 
   if (_destDir.isEmpty() || _destDir.isNull())
-    dest = m_settings->getExtractDir();
+    {
+      kdError(1601) << "There was no extract directory given." << endl;
+      return;
+    }
   else dest = _destDir;
 
   // zoo has no option to specify the destination directory

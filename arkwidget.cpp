@@ -90,7 +90,7 @@
 #include "selectDlg.h"
 
 #include "extractdlg.h"
-#include "adddlg.h"
+//#include "adddlg.h"
 #include "arch.h"
 #include "arkwidget.h"
 #include "filelistview.h"
@@ -169,7 +169,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     m_bViewInProgress(false), m_bOpenWithInProgress(false),
     m_bEditInProgress(false),
     m_bMakeCFIntoArchiveInProgress(false), m_extractOnly(false),
-    m_pTempAddList(NULL),
+    m_extractRemote(false), m_pTempAddList(NULL),
     m_bDropFilesInProgress(false), mpTempFile(NULL),
     mpDownloadedList(NULL), mpAddList(NULL)
 {
@@ -972,6 +972,34 @@ ArkWidget::slotExtractDone()
 		fixEnables();
 	}
 	
+        if ( m_extractRemote ) 
+	{
+		KURL srcDirURL( m_settings->getTmpDir() + "extrtmp/" );
+		KURL src;
+		QString srcDir( m_settings->getTmpDir() + "extrtmp/" ); 
+	   	QDir dir( srcDir );
+	       	QStringList lst( dir.entryList() );
+		lst.remove( "." );
+		lst.remove( ".." );
+		
+		KURL::List srcList;
+	       	for( QStringList::ConstIterator it = lst.begin(); it != lst.end() ; ++it)	  
+                {
+			src = srcDirURL;
+			src.addPath( *it );
+			srcList.append( src );
+		}
+
+		KURL extractURL( m_settings->getExtractDir() );
+		extractURL.adjustPath( 1 );
+
+		KIO::CopyJob *job = KIO::copy( srcList, extractURL );
+    		connect( job, SIGNAL(result(KIO::Job*)), 
+             		this, SLOT(slotExtractRemoteDone(KIO::Job*)) );
+
+		m_extractRemote = false;
+	}
+
 	if(m_extractOnly)
 	{
 		file_quit();  // Close ark window if we are doing an Extract Here...
@@ -979,6 +1007,17 @@ ArkWidget::slotExtractDone()
 
   kdDebug(1601) << "-ArkWidget::slotExtractDone" << endl;
 }
+
+
+void ArkWidget::slotExtractRemoteDone(KIO::Job *job)
+{
+  QDir dir( m_settings->getTmpDir() + "extrtmp/" ); 
+  dir.rmdir( dir.absPath()  );
+
+  if ( job->error() )
+    job->showErrorDialog();
+}
+
 
 void ArkWidget::slotEditFinished(KProcess *kp)
 {
@@ -1032,16 +1071,9 @@ void ArkWidget::slotAddDone(bool _bSuccess)
     }
   if (mpDownloadedList)
     {
-      for (QStringList::Iterator it = mpDownloadedList->begin();
-           it != mpDownloadedList->end(); ++it)
-        {
-          QString str = *it;
-
-          // is this necessary? Maybe risky. The tmp/ark.### directory
-          // will be removed anyhow...
-          str = str.right(str.length() - 5);
-          unlink(str.local8Bit());
-        }
+      // is this necessary? Maybe risky. The tmp/ark.### directory
+      // will be removed anyhow...
+      KIO::del( *mpDownloadedList, false, false );
       delete mpDownloadedList;
       mpDownloadedList = NULL;
     }
@@ -1358,7 +1390,11 @@ void ArkWidget::action_add()
 
   if(fileDlg.exec())
   {
-    mpAddList = new QStringList(fileDlg.selectedFiles());
+    KURL::List addList;
+    addList = fileDlg.selectedURLs();
+    mpAddList = new QStringList();
+    for (KURL::List::ConstIterator it = addList.begin(); it != addList.end(); it++)
+       mpAddList->append( KURL::decode_string( (*it).url() ) );
 
     if (mpAddList->count() > 0)
     {
@@ -1417,24 +1453,7 @@ void ArkWidget::addFile(QStringList *list)
         {
           QString str = *it;
           kdDebug(1601) << "Want to add " << str<< endl;
-
-          KURL url = str;
-
-	  if(!url.isLocalFile())
-	  {
-	      if(!mpDownloadedList)
-		  mpDownloadedList = new QStringList();
-	      QString tempfile = m_settings->getTmpDir();
-	      tempfile += str.right(str.length() - str.findRev("/") - 1);
-	      KIO::NetAccess::download(url, tempfile);  // TODO test return value
-	      tempfile = "file:" + tempfile;
-
-	      // replace the URL with the name of the temporary
-	      *it = tempfile;
-	      
-	      mpDownloadedList->append(tempfile);        //remember for deletion
-	  }
-	     
+          KURL url( toLocalFile(str) );
 	  *it = url.prettyURL();
 
 	}
@@ -1444,16 +1463,38 @@ void ArkWidget::addFile(QStringList *list)
 }
 
 void ArkWidget::action_add_dir() {
-        QString dir =
-            KFileDialog::getExistingDirectory( m_settings->getAddDir(),
-                                               this, 
-                                               i18n( "Select a directory to add" ) );
+
+        KFileDialog addDirDlg( m_settings->getAddDir(), QString::null, this, "adddirdlg", true );
+        addDirDlg.setMode( KFile::Mode( KFile::Directory ) );
+        addDirDlg.setCaption(i18n("Select a Directory to Add"));
+        addDirDlg.exec();
+
+        KURL u( addDirDlg.selectedURL() );
+        QString dir = KURL::decode_string( u.url(-1) );
         if ( !dir.isEmpty() ) {
             disableAll();
-            KURL u( dir );
+            u = toLocalFile(dir);
             arch->addDir( u.prettyURL() );
         }
             
+}
+
+KURL ArkWidget::toLocalFile( QString & str)
+{
+    KURL url = str;
+
+    if(!url.isLocalFile())
+        {
+	    if(!mpDownloadedList)
+	        mpDownloadedList = new QStringList();
+	    QString tempfile = m_settings->getTmpDir();
+	    tempfile += str.right(str.length() - str.findRev("/") - 1);
+	    if( !KIO::NetAccess::dircopy(url, tempfile) )
+               return KURL();    
+	    mpDownloadedList->append(tempfile);        // remember for deletion
+            url = tempfile;
+	}
+    return url;
 }
 
 void ArkWidget::action_delete()
@@ -1664,6 +1705,35 @@ bool ArkWidget::action_extract()
       int extractOp = dlg->extractOp();
       kdDebug(1601) << "Extract op: " << extractOp << endl;
 
+      QString extractDir( m_settings->getExtractDir() );
+      kdDebug(1601) << "Extract dir: " << extractDir << endl;
+
+      //extractURL will always be the location the user chose to 
+      //extract to, whether local or remote
+      KURL extractURL( extractDir);
+
+      //extractDir will either be the real, local extract dir,
+      //or in case of a extract to remote location, a local tmp dir
+      if ( !extractURL.isLocalFile() )
+	{
+	  extractDir = m_settings->getTmpDir() + "extrtmp/";
+	  m_extractRemote = true;
+          //make sure it's empty since all of it's contents 
+          //will be copied to the remote extract location
+	  KIO::NetAccess::del( extractDir );
+          if ( !KIO::NetAccess::mkdir( extractDir ) )
+            {
+	       kdWarning(1601) << "Unable to create " << extractDir << endl;
+               m_extractRemote = false;
+               delete dlg;
+               return false;
+            }     
+	}
+      else
+  	{
+		  extractDir = extractURL.path();
+	}
+		
       // if overwrite is false, then we need to check for failure of
       // extractions.
       bool bOvwrt = m_settings->getExtractOverwrite();
@@ -1672,16 +1742,15 @@ bool ArkWidget::action_extract()
         {
         case ExtractDlg::All:
           if (!bOvwrt)  // send empty list to indicate we're extracting all
-            bRedoExtract = reportExtractFailures(m_settings->getExtractDir(),
-                                                 m_extractList);
+            bRedoExtract = reportExtractFailures(extractDir, m_extractList);
+
           if (!bRedoExtract) // if the user's OK with those failures, go ahead
             {
               // unless we have no space!
-              if (Utilities::diskHasSpace(m_settings->getExtractDir(),
-                                          m_nSizeOfFiles))
+              if (Utilities::diskHasSpace(extractDir, m_nSizeOfFiles))
                 {
                   disableAll();
-                  arch->unarchFile(0);
+                  arch->unarchFile(0, extractDir);
                 }
             }
           break;
@@ -1721,15 +1790,13 @@ bool ArkWidget::action_extract()
               }
             if (!bOvwrt)
               bRedoExtract =
-                reportExtractFailures(m_settings->getExtractDir(),
-                                      m_extractList);
+                reportExtractFailures(extractDir, m_extractList);
             if (!bRedoExtract)
               {
-                if (Utilities::diskHasSpace(m_settings->getExtractDir(),
-                                            nTotalSize))
+                if (Utilities::diskHasSpace(extractDir, nTotalSize))
                   {
                     disableAll();
-                    arch->unarchFile(m_extractList); // extract selected files
+                    arch->unarchFile(m_extractList, extractDir); // extract selected files
                   }
               }
             break;

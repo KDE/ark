@@ -28,44 +28,103 @@
 */
 
 // Qt includes
-#include <qlineedit.h>
 #include <qlabel.h>
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
+#include <qlistbox.h>
+#include <qwidgetstack.h>
+#include <qlayout.h>
 
 // KDE includes
-#include <kfiledialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kfiledialog.h>
+#include <kurlrequester.h>
 
 // ark includes
 #include "dirDlg.h"
 #include "arksettings.h"
-#include <qpushbutton.h>
 
-#define BROWSE_WIDTH 40
-#define DLG_WIDTH 390
-#define DLG_HEIGHT 280
-// don't forget to change common_texts.cpp if you change a text here
-#define STARTUPDIR i18n("(used as part of a sentence)","start-up directory")
-#define OPENDIR i18n("directory for opening files (used as part of a sentence)","open directory")
-#define EXTRACTDIR i18n("directory for extracting files (used as part of a sentence)","extract directory")
-#define ADDDIR i18n("directory for adding files (used as part of a sentence)","add directory")
-
-void WidgetHolder::hide()
+DirWidget::DirWidget( DirType type, QWidget *parent, const char *name  )
+    : QWidget( parent, name )
 {
-  buttonGroup->hide();
-  for (int j = 0; j < NUM_RADIOS; ++j)
-    radios[j]->hide();
-  fixedLE->hide();
+  int mode = KFile::Directory | KFile::ExistingOnly | KFile::LocalOnly;
+
+  QVBoxLayout *vbox = new QVBoxLayout( this, 0, KDialog::spacingHint() );
+
+  btnGroup = new QButtonGroup( this );
+  btnGroup->setFrameShape( QFrame::NoFrame );
+
+  rbFav = new QRadioButton( i18n( "Favorite directory" ), this );
+  btnGroup->insert( rbFav );
+  vbox->addWidget( rbFav );
+
+  dirFav = new KURLRequester( this );
+  dirFav->fileDialog()->setMode( mode );
+  dirFav->setEnabled( false );
+  vbox->addWidget( dirFav );
+
+  connect( rbFav, SIGNAL( toggled( bool ) ), 
+            dirFav, SLOT( setEnabled( bool ) ) );
+
+  rbFixed = new QRadioButton( this );
+  btnGroup->insert( rbFixed );
+  vbox->addWidget( rbFixed );
+
+  dirFixed = new KURLRequester( this );
+  dirFixed->fileDialog()->setMode( mode );
+  dirFixed->setEnabled( false );
+  vbox->addWidget( dirFixed );
+
+  connect( rbFixed, SIGNAL( toggled( bool ) ), 
+            dirFixed, SLOT( setEnabled( bool ) ) );
+
+  rbLast = new QRadioButton( this );
+  btnGroup->insert( rbLast );
+  vbox->addWidget( rbLast );
+
+  connect( dirFav, SIGNAL( textChanged( const QString & ) ),
+            SIGNAL( favDirChanged( const QString & ) ) );
+
+  connect( parent, SIGNAL( favDirChanged( const QString & ) ),
+            SLOT( slotFavDirChanged( const QString & ) ) );
+
+  switch ( type )
+  {
+    case StartupDir:
+
+      rbFixed->setText( i18n( "Fixed start-up directory" ) );
+      rbLast->setText( i18n( "Last start-up directory" ) );
+      break;
+
+    case OpenDir:
+
+      rbFixed->setText( i18n( "Fixed open directory" ) );
+      rbLast->setText( i18n( "Last open directory" ) );
+      break;
+
+    case ExtractDir:
+
+      rbFixed->setText( i18n( "Fixed extract directory" ) );
+      rbLast->setText( i18n( "Last extract directory" ) );
+      break;
+
+    case AddDir:
+
+      rbFixed->setText( i18n( "Fixed add directory" ) );
+      rbLast->setText( i18n( "Last add directory" ) );
+      break;
+
+    default:
+
+      break;
+  }
 }
 
-void WidgetHolder::show()
+void DirWidget::slotFavDirChanged( const QString &url )
 {
-  for (int j = 0; j < NUM_RADIOS; ++j)
-    radios[j]->show();
-  buttonGroup->show();
-  fixedLE->show();
+  if ( dirFav->url() != url )
+    dirFav->setURL( url );
 }
 
 DirDlg::DirDlg(ArkSettings *d, QWidget *parent, const char *name)
@@ -73,270 +132,173 @@ DirDlg::DirDlg(ArkSettings *d, QWidget *parent, const char *name)
 {
   data = d;
 
-  createRepeatingWidgets();
+  QVBoxLayout *vbox = new QVBoxLayout( this, 0, KDialog::spacingHint() );
 
   //setCaption( i18n("Directories Preferences - ark") );
-  QLabel* l2;
-  l2 = new QLabel( this, "Label_2" );
-  l2->setGeometry( 10, 10, 130, 20 );
+  QLabel* l2 = new QLabel( this, "Label_2" );
   l2->setText( i18n("Directories:") );
+  vbox->addWidget( l2 );
 
   pListBox = new QListBox( this, "ListBox_1" );
-  pListBox->setGeometry( 10, 30, DLG_WIDTH - 20, 80 );
   pListBox->insertItem(i18n("Start-up directory"), 0);
   pListBox->insertItem(i18n("directory for opening files","Open Directory"), 1);
   pListBox->insertItem(i18n("directory for extracting files","Extract Directory"), 2);
   pListBox->insertItem(i18n("directory for adding files","Add Directory"), 3);
-  connect(pListBox, SIGNAL(highlighted(int)),
-	  this, SLOT(dirTypeChanged(int)));
+  pListBox->setFixedHeight( 80 );
+  vbox->addWidget( pListBox );
 
-  favLE = new QLineEdit( this, "LineEdit_1" );
-  favLE->setGeometry( 10, 150, DLG_WIDTH-110, 20 );
-  QPushButton* browseFav;
-  browseFav = new QPushButton( this, "PushButton_1" );
-  browseFav->setText( i18n("Browse...") );
-  browseFav->setMinimumSize(80, 30);  // improved i18n support, 5.9.2000, Gregor Zumstein
-  browseFav->adjustSize();
-  browseFav->move( DLG_WIDTH - 10 - browseFav->width(), 145);
-  connect( browseFav, SIGNAL(clicked()), SLOT(getFavDir()) );
-  
-  QPushButton *browseFixed = new QPushButton( this, "PushButton_2" );
-  browseFixed->setText( i18n("Browse...") );
-  browseFixed->setMinimumSize(80, 30);  // GZ
-  browseFixed->adjustSize();
-  browseFixed->move( DLG_WIDTH - 10 - browseFixed->width(), 185);
-  connect( browseFixed, SIGNAL(clicked()), SLOT(getFixedDir()) );
+  connect(pListBox, SIGNAL(highlighted(int)), SLOT(dirTypeChanged(int)));
+
+  stack = createWidgetStack();
+  vbox->addWidget( stack );
+
+  vbox->addSpacing( 20 );
+  vbox->addStretch( 1 );
 
   pListBox->setCurrentItem(0); // this will make the right buttons show
-  setMinimumSize( DLG_WIDTH, DLG_HEIGHT );
+
   initConfig();
 }
 
-void DirDlg::createRepeatingWidgets()
+QWidgetStack *DirDlg::createWidgetStack()
 {
-  for (int i = 0; i < NUM_DIR_TYPES; ++i)
-    {
-      widgets[i] = new WidgetHolder;
-      widgets[i]->buttonGroup = new QButtonGroup(this);
-      widgets[i]->buttonGroup->setFrameShape(QFrame::NoFrame);
-      widgets[i]->buttonGroup->setGeometry(10, 130, DLG_WIDTH-110, 160);
+  DirWidget *w;
+  DirType types[] = { StartupDir, OpenDir, ExtractDir, AddDir };
 
-      for (int j = 0; j < NUM_RADIOS; ++j)
-	// radio buttons
-	{
-	  widgets[i]->radios[j] = new QRadioButton(widgets[i]->buttonGroup);
-	  widgets[i]->radios[j]->setGeometry(0, j*40, DLG_WIDTH-110, 20);
-	  //widgets[i]->buttonGroup->insert(widgets[i]->radios[j]);
-	  if (j == 0) widgets[i]->radios[j]->setText(i18n("Favorite directory") );
-	}
-      widgets[i]->radios[0]->setGeometry(0, 0, DLG_WIDTH-110, 20);
-      widgets[i]->radios[1]->setGeometry(0, 80, DLG_WIDTH-110, 20);
-      widgets[i]->radios[2]->setGeometry(0, 40, DLG_WIDTH-110, 20);
+  QWidgetStack *_stack = new QWidgetStack( this );
 
-      widgets[i]->radios[0]->adjustSize(); // GZ
+  for ( int i = 0; i < 4; ++i )
+  {
+    w = new DirWidget( types[ i ], this );
+    connect( w, SIGNAL( favDirChanged( const QString & ) ),
+            SIGNAL( favDirChanged( const QString & ) ) );
+    _stack->addWidget( w, i );
+  }
 
-      widgets[i]->fixedLE = new QLineEdit(this);
-      widgets[i]->fixedLE->setGeometry( 10, 190, DLG_WIDTH-110, 20 );
-    }
-  widgets[0]->radios[1]->setText(i18n("Last start-up directory"));
-  widgets[1]->radios[1]->setText(i18n("Last open directory"));
-  widgets[2]->radios[1]->setText(i18n("Last extract directory"));
-  widgets[3]->radios[1]->setText(i18n("Last add directory"));
-  widgets[0]->radios[2]->setText(i18n("Fixed start-up directory"));
-  widgets[1]->radios[2]->setText(i18n("Fixed open directory"));
-  widgets[2]->radios[2]->setText(i18n("Fixed extract directory"));
-  widgets[3]->radios[2]->setText(i18n("Fixed add directory"));
-  for (int i = 0; i < NUM_DIR_TYPES; ++i)  // GZ
-    {
-      widgets[i]->radios[1]->adjustSize();
-      widgets[i]->radios[2]->adjustSize(); // GZ
-    }
-}
-
-void DirDlg::hideWidgets()
-{
-  for (int i = 0; i < NUM_DIR_TYPES; ++i)
-    {
-      widgets[i]->hide();
-    }
+  return _stack;
 }
 
 DirDlg::~DirDlg()
 {
-  for (int i = 0; i < NUM_DIR_TYPES; ++i)
-    {
-      for (int j = 0; j < NUM_RADIOS; ++j)
-	{
-	  delete widgets[i]->radios[j];
-	}
-      delete widgets[i]->fixedLE;
-      delete widgets[i];
-    }
 }
 
-QString DirDlg::getDirType(int item)
+void DirDlg::dirTypeChanged(int index)
 {
-  if (item == 0) return STARTUPDIR;
-  else if (item == 1) return OPENDIR;
-  else if (item == 2) return EXTRACTDIR;
-  else if (item == 3) return ADDDIR;
-
-  Q_ASSERT(0);
-  return "";
-}
-
-void DirDlg::dirTypeChanged(int _dirType)
-{
-  // hide the widgets and show the ones pertaining to this dir type.
-  hideWidgets();
-  widgets[_dirType]->show();
-  favLE->show();
+  stack->raiseWidget( index );
 }
 
 void DirDlg::initConfig()
-  // get existing settings and plunk into the widgets
 {
-  favLE->setText( data->getFavoriteDir() );
-  widgets[0]->fixedLE->setText( data->getFixedStartDir() );
-  widgets[1]->fixedLE->setText( data->getFixedOpenDir() );
-  widgets[2]->fixedLE->setText( data->getFixedExtractDir() );
-  widgets[3]->fixedLE->setText( data->getFixedAddDir() );
+  DirWidget *startup = static_cast<DirWidget *>( stack->widget( 0 ) );
+  DirWidget *open = static_cast<DirWidget *>( stack->widget( 1 ) );
+  DirWidget *extract = static_cast<DirWidget *>( stack->widget( 2 ) );
+  DirWidget *add = static_cast<DirWidget *>( stack->widget( 3 ) );
+
+  startup->dirFav->setURL( data->getFavoriteDir() );
+
+  startup->dirFixed->setURL( data->getFixedStartDir() );
+  open->dirFixed->setURL( data->getFixedOpenDir() );
+  extract->dirFixed->setURL( data->getFixedExtractDir() );
+  add->dirFixed->setURL( data->getFixedAddDir() );
 
   switch( data->getStartDirMode() )
-    {
+  {
     case ArkSettings::FAVORITE_DIR:
-      widgets[0]->radios[0]->setChecked( true );
+      startup->rbFav->setChecked( true );
+      startup->dirFav->setEnabled( true );
       break; 
-    case ArkSettings::LAST_OPEN_DIR: 
-      widgets[0]->radios[1]->setChecked( true );
-      break;        
     case ArkSettings::FIXED_START_DIR:
-      widgets[0]->radios[2]->setChecked( true );
-      break;      
-    }
+      startup->rbFixed->setChecked( true );
+      startup->dirFixed->setEnabled( true );
+      break;
+    case ArkSettings::LAST_OPEN_DIR: 
+      startup->rbLast->setChecked( true );
+      break;
+    default:
+      break;
+  }
+
   switch( data->getOpenDirMode() )
-    {
+  {
     case ArkSettings::FAVORITE_DIR:
-      widgets[1]->radios[0]->setChecked( true ); 
+      open->rbFav->setChecked( true ); 
+      open->dirFav->setEnabled( true );
       break; 
-    case ArkSettings::LAST_OPEN_DIR:
-      widgets[1]->radios[1]->setChecked( true );
-      break;        
     case ArkSettings::FIXED_OPEN_DIR:
-      widgets[1]->radios[2]->setChecked( true ); 
-      break;       
-    }
-  
-  switch( data->getExtractDirMode() )
-    {
-    case ArkSettings::FAVORITE_DIR:
-      widgets[2]->radios[0]->setChecked( true ); 
-      break; 
-    case ArkSettings::LAST_EXTRACT_DIR:
-      widgets[2]->radios[1]->setChecked( true ); 
-      break;     
-    case ArkSettings::FIXED_EXTRACT_DIR:
-      widgets[2]->radios[2]->setChecked( true );
-      break;    
-    }
-        
-  switch( data->getAddDirMode() )
-    {
-    case ArkSettings::FAVORITE_DIR:
-      widgets[3]->radios[0]->setChecked( true ); 
+      open->rbFixed->setChecked( true ); 
+      open->dirFixed->setEnabled( true );
+      break;
+    case ArkSettings::LAST_OPEN_DIR:
+      open->rbLast->setChecked( true );
       break;        
-    case ArkSettings::LAST_ADD_DIR:
-      widgets[3]->radios[1]->setChecked( true );
+    default:
       break;
+  }
+ 
+  switch( data->getExtractDirMode() )
+  {
+    case ArkSettings::FAVORITE_DIR:
+      extract->rbFav->setChecked( true ); 
+      extract->dirFav->setEnabled( true );
+      break; 
+    case ArkSettings::FIXED_EXTRACT_DIR:
+      extract->rbFixed->setChecked( true );
+      extract->dirFixed->setEnabled( true );
+      break;
+    case ArkSettings::LAST_EXTRACT_DIR:
+      extract->rbLast->setChecked( true ); 
+      break;     
+    default:
+      break;
+  }
+ 
+  switch( data->getAddDirMode() )
+  {
+    case ArkSettings::FAVORITE_DIR:
+      add->rbFav->setChecked( true ); 
+      add->dirFav->setEnabled( true );
+      break;        
     case ArkSettings::FIXED_ADD_DIR:
-      widgets[3]->radios[2]->setChecked( true );
+      add->rbFixed->setChecked( true );
+      add->dirFixed->setEnabled( true );
       break;
-    }
-}
-
-void DirDlg::getFavDir( )
-{
-  QString dir
-    = KFileDialog::getExistingDirectory(favLE->text(), 0,
-					i18n("Favorite directory"));
-
-  if (!dir.isEmpty())
-    favLE->setText(dir);
-}
-
-
-void DirDlg::getFixedDir( )
-{
-  int i;
-  // see which fixedLE is visible, and use that.
-  for (i = 0; i <  NUM_DIR_TYPES; ++i)
-    {
-      if (widgets[i]->fixedLE->isVisible())
-	break;
-    }
-  Q_ASSERT(i < NUM_DIR_TYPES);
-  QString dir
-    = KFileDialog::getExistingDirectory(widgets[i]->fixedLE->text(), 0,
-					i18n("Fixed directory"));
-  if (!dir.isEmpty())
-    widgets[i]->fixedLE->setText(dir);
-
+    case ArkSettings::LAST_ADD_DIR:
+      add->rbLast->setChecked( true );
+      break;
+    default:
+      break;
+  }
 }
 
 void DirDlg::saveConfig()
 {
+  DirWidget *startup = static_cast<DirWidget *>( stack->widget( 0 ) );
+  DirWidget *open = static_cast<DirWidget *>( stack->widget( 1 ) );
+  DirWidget *extract = static_cast<DirWidget *>( stack->widget( 2 ) );
+  DirWidget *add = static_cast<DirWidget *>( stack->widget( 3 ) );
 
-  QDir *fav = new QDir( favLE->text());
-  if ( !fav->exists() )
-    {
-      KMessageBox::error( this, i18n("The directory specified as your favorite does not exist."));
-      return;
-    }
-
-  for (int i = 0; i <  NUM_DIR_TYPES; ++i)
-    {
-      QString fixedStr = widgets[i]->fixedLE->text();
-      if (!fixedStr.isEmpty())
-	{
-	  QDir *fixed = new QDir (fixedStr);
-	  if (!fixed->exists())
-	    {
-	      KMessageBox::error(this, i18n("The fixed directory specified for your %1 does not exist.").arg(getDirType(i)));
-	      return;
-	    }
-	}
-    }
-  
   int mode;
-  data->setFavoriteDir( favLE->text() );
-        
-  mode = widgets[0]->radios[0]->isChecked() ? 
-    ArkSettings::FAVORITE_DIR :
-    widgets[0]->radios[1]->isChecked() ?
-    ArkSettings::LAST_OPEN_DIR :
+  data->setFavoriteDir( startup->dirFav->url() );
+
+  mode = startup->rbFav->isChecked() ?  ArkSettings::FAVORITE_DIR :
+    startup->rbLast->isChecked() ?  ArkSettings::LAST_OPEN_DIR :
     ArkSettings::FIXED_START_DIR;
-  data->setStartDirCfg( widgets[0]->fixedLE->text(), mode );
+  data->setStartDirCfg( startup->dirFixed->url(), mode );
 
-  mode = widgets[1]->radios[0]->isChecked() ?
-    ArkSettings::FAVORITE_DIR :
-    widgets[1]->radios[1]->isChecked() ?
-    ArkSettings::LAST_OPEN_DIR :
+  mode = open->rbFav->isChecked() ?  ArkSettings::FAVORITE_DIR :
+    open->rbLast->isChecked() ?  ArkSettings::LAST_OPEN_DIR :
     ArkSettings::FIXED_OPEN_DIR;
-  data->setOpenDirCfg( widgets[1]->fixedLE->text(), mode );
+  data->setOpenDirCfg( open->dirFixed->url(), mode );
 
-  mode = widgets[2]->radios[0]->isChecked() ? 
-    ArkSettings::FAVORITE_DIR :
-    widgets[2]->radios[1]->isChecked() ? 
-    ArkSettings::LAST_EXTRACT_DIR :
+  mode = extract->rbFav->isChecked() ?  ArkSettings::FAVORITE_DIR :
+    extract->rbLast->isChecked() ?  ArkSettings::LAST_EXTRACT_DIR :
     ArkSettings::FIXED_EXTRACT_DIR;
-  data->setExtractDirCfg( widgets[2]->fixedLE->text(), mode );
+  data->setExtractDirCfg( extract->dirFixed->url(), mode );
 
-  mode = widgets[3]->radios[0]->isChecked() ? 
-    ArkSettings::FAVORITE_DIR :
-    widgets[3]->radios[1]->isChecked() ? 
-    ArkSettings::LAST_ADD_DIR : 
+  mode = add->rbFav->isChecked() ?  ArkSettings::FAVORITE_DIR :
+    add->rbLast->isChecked() ?  ArkSettings::LAST_ADD_DIR : 
     ArkSettings::FIXED_ADD_DIR;
-  data->setAddDirCfg( widgets[3]->fixedLE->text(), mode );
+  data->setAddDirCfg( add->dirFixed->url(), mode );
 }
 
 

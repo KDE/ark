@@ -112,7 +112,7 @@ public:
   virtual void addDir(const QString &) = 0;
 
   // unarch the files in the list or all files if the list is empty.
-  // if _destDir is empty, look at settings for extract directory
+  // if _destDir is empty, abort with error.
   // viewFriendly forces certain options like directory junking required by view/edit
   virtual void unarchFile(QStringList *, const QString & _destDir="",
 			  bool viewFriendly=false) = 0;
