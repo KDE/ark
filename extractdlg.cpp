@@ -44,6 +44,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include <kcombobox.h>
 #include <kurlcompletion.h>
 #include <kurifilter.h>
+#include <kurlrequester.h>
 
 // application includes
 #include "arksettings.h"
@@ -78,9 +79,6 @@ m_settings( _settings )
 	Layout3->addWidget( extractToLabel );
 
 	m_extractDirCB = new KHistoryCombo( true, mainFrame, "m_extractDirCB" );
-	m_extractDirCB->setSizePolicy( QSizePolicy( ( QSizePolicy::SizeType ) 3, ( QSizePolicy::SizeType ) 0,
-				m_extractDirCB->sizePolicy().hasHeightForWidth() ) );
-	Layout3->addWidget( m_extractDirCB );
 
 	KURLCompletion *comp = new KURLCompletion();
 	comp->setReplaceHome( true );
@@ -98,13 +96,16 @@ m_settings( _settings )
 
 	m_extractDirCB->setEditURL( KURL( m_settings->getExtractDir() ) );
 
+	m_urlRequester = new KURLRequester( m_extractDirCB, mainFrame );
+	m_urlRequester->setMode( KFile::Directory );
+
+	Layout3->addWidget( m_urlRequester );
+
+
 	// Connect to the return pressed signal - optional
 	connect( m_extractDirCB, SIGNAL( returnPressed( const QString& ) ), comp, SLOT( addItem( const QString& ) ) );
 	connect( m_extractDirCB->lineEdit(),SIGNAL(textChanged ( const QString & )),this,SLOT(extractDirChanged(const QString & )));
 
-	QPushButton *browseButton = new QPushButton( mainFrame, "browseButton" );
-	browseButton->setText( i18n( "Browse..." ) );
-	Layout3->addWidget( browseButton );
 	Layout10->addLayout( Layout3 );
 
 	QButtonGroup *bg = new QButtonGroup( mainFrame, "bg" );
@@ -167,7 +168,7 @@ m_settings( _settings )
 	connect(m_patternLE, SIGNAL(returnPressed()), this, SLOT(accept()));
 	connect(prefButton, SIGNAL(clicked()), this, SLOT(openPrefs()));
 
-	connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
+	//connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
 	m_radioCurrent->setChecked(true);
 	enableButtonOK(!m_extractDirCB->lineEdit()->text().isEmpty());
 	setFocus();
@@ -252,24 +253,6 @@ ExtractDlg::accept()
 	// I made it! so nothing's wrong.
 	KDialogBase::accept();
 	kdDebug( 1601 ) << "-ExtractDlg::accept" << endl;
-}
-
-void
-ExtractDlg::browse() // slot
-{
-	KFileDialog extractDirDlg( m_settings->getExtractDir(), QString::null, this, "extractdirdlg", true );
-	extractDirDlg.setMode( KFile::Mode( KFile::Directory ) );
-	extractDirDlg.setCaption(i18n("Select Extract Directory"));
-	extractDirDlg.exec();
-
-	KURL u( extractDirDlg.selectedURL() );
-	QString dirName = u.prettyURL(1);
-
-	if (! dirName.isEmpty() )
-	{
-		m_extractDirCB->insertItem( dirName, 0 );
-		m_extractDirCB->setCurrentItem( 0 );
-	}
 }
 
 int

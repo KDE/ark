@@ -47,6 +47,7 @@ class KDialogBase;
 class KHistoryCombo;
 class KCompletion;
 class KURLCompletion;
+class KURLRequester;
 
 class ArkSettings;
 
@@ -63,7 +64,7 @@ public:
   void disableSelectedFilesOption();
   void disableCurrentFileOption() { m_radioCurrent->setEnabled(false); }
 public slots:
-  void browse();
+  //void browse();
   void choosePattern() { m_radioPattern->setChecked(true); }
   void openPrefs();
   void accept();
@@ -77,6 +78,7 @@ private: // data
   QRadioButton *m_radioCurrent, *m_radioAll, *m_radioSelected, *m_radioPattern;
   QLineEdit *m_patternLE;
   KHistoryCombo *m_extractDirCB;
+  KURLRequester *m_urlRequester;
   ArkSettings *m_settings;
   KURL m_extractDir;
 };
