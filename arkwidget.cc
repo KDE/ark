@@ -1687,7 +1687,7 @@ bool ArkWidget::reportExtractFailures(const QString & _dest,
     {
       kdDebug(1601) << "One to report" << endl;
       strFilename = *(existingFiles.at(0));
-      QString message = strFilename + i18n("%1 will not be extracted because it will overwrite an existing file.\nGo back to Extract Dialog?").arg(strFilename);
+      QString message = i18n("%1 will not be extracted because it will overwrite an existing file.\nGo back to Extract Dialog?").arg(strFilename);
       bRedoExtract =
 	KMessageBox::questionYesNo(this, message) == KMessageBox::Yes;
     }
