@@ -124,7 +124,7 @@ FileListView::FileListView(ArkWidgetBase *baseArk, QWidget *parent,
   QWhatsThis::add(this, i18n("This area is for displaying information about the files contained within an archive."));
 
   setMouseTracking(false);
-  setSelectionModeExt(Konqueror);
+  setSelectionModeExt(FileManager);
 }
 
 void FileListView::paintEmptyArea(QPainter *p, const QRect &rect)
