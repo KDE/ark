@@ -179,16 +179,11 @@ ArchType ArchiveFormatInfo::archTypeForURL( const KURL & url )
     if( url.isEmpty() )
         return UNKNOWN_FORMAT;
 
-    //if( !QFile::exists( url.path() ) )
-    //    return archTypeByExtension( url.path() );
+    if( !QFile::exists( url.path() ) )
+        return archTypeByExtension( url.path() );
 
-    QString mimeType;
-    
-    if ( url.isLocalFile() && QFile::exists( url.path() ) )
-        mimeType = KMimeType::findByFileContent( url.path() )->name();
-    else
-        mimeType = KMimeType::findByURL( url, 0, true, true )->name();
-    
+    QString mimeType = KMimeType::findByURL( url, 0, true, true )->name();
+
     kdDebug( 1601 ) << "find by url: " << mimeType << endl;
     if( mimeType == KMimeType::defaultMimeType() )
     {
