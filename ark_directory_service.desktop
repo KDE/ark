@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-ServiceTypes=inode/directory
+ServiceTypes=all/all
 Actions=create_targz;create_tarbz2;create_zip
 
 [Desktop Action create_targz]
