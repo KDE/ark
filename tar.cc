@@ -3,27 +3,30 @@
 #include <kurl.h>
 // Unsorted in qdir.h is used, but in some of the headers
 // below it's defined, too. So I brought kurl.h to the top.
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <iostream.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-// Qt includes
-#include <qstrlist.h>
+// KDE includes
+#include "klocale.h"
 
+// ark includes
+#include "extractdlg.h"
 #include "tar.h"
-#include "filelistview.h"
 
-TarArch::TarArch( ArkData *data )
+TarArch::TarArch( ArkData *d )
 	: Arch()
 {
 	cout << "Entered TarArch" << endl;
+	data = d;
 	listing = new QStrList;
-	compressed = TRUE;
-	onlyupdate = FALSE;
-	storefullpath = FALSE;
+	data->setaddPath( false );
+	compressed = true;
 	tmpfile.sprintf( "/tmp/ark.%d/tmpfile.tar", getpid() );
-	tar_exe = data->getTarCommand();
+	data->getTarCommand();
 	cout << "Left TarArch" << endl;
 }
 
@@ -117,16 +120,6 @@ unsigned char TarArch::setOptions( bool p, bool l, bool o )
 	return 5;
 }
 
-void TarArch::onlyUpdate( bool up )
-{
-	onlyupdate = up;
-}
-
-void TarArch::addPath( bool p )
-{
-	storefullpath = p;
-}
-
 void TarArch::openArch( QString name, FileListView *flw )
 {
 	cout << "Entered openArch" << endl;
@@ -139,11 +132,11 @@ void TarArch::openArch( QString name, FileListView *flw )
 	archProcess.clearArguments();
 
 	archname = name;
-
+	QString tar_exe = data->getTarCommand();
+	
 	archProcess << tar_exe << "--use-compress-program="+getUnCompressor()
 	            <<	"-tvf" << archname;
 	
-	flw->clear();
 	flw->addColumn( i18n("Name") );
 	flw->addColumn( i18n("Permissions") );
 	flw->addColumn( i18n("Owner/Group") );
@@ -240,7 +233,8 @@ int TarArch::addFile( QStrList* urls )
 
 	int retcode;
 	QString file, url, tmp;
-	
+	QString tar_exe = data->getTarCommand();
+		
 	createTmp();
 
 	url = urls->first();
@@ -257,14 +251,14 @@ int TarArch::addFile( QStrList* urls )
 //  	for (const char* f = segflist1.first(); f; f = segflist1.next())
 //  		cout << "Argument:" << "'" << f << "'" << endl;
 
-	if( onlyupdate )
+	if( data->getonlyUpdate() )
 		archProcess << "uvf";
 	else
 		archProcess << "rvf";
 	archProcess << tmpfile;
 	QString base;
 
-	if( !storefullpath )
+	if( !data->getaddPath() )
 	{
 		int pos;
 		pos = file.findRev( '/', -1, FALSE );
@@ -301,29 +295,58 @@ int TarArch::addFile( QStrList* urls )
  		cerr << "In addFile" << endl;
  		return -1;
  	}
-	newProgressDialog( 1, urls->count() );
+//	newProgressDialog( 1, urls->count() );
 	for( long int i=1; !feof( fd ); i++ )
 	{
-		kapp->processEvents();
+/*		kapp->processEvents();
 		if( Arch::isCanceled() )
 		{
 			archProcess.kill();
 			break;
 		}
-		fgets( inp, 4096, fd );
+*/		fgets( inp, 4096, fd );
 		cerr << inp;
-		setProgress( i );
+//		setProgress( i );
  	}
 	fclose( fd );
 	while(archProcess.isRunning())
 		;
 
-	if( storefullpath )
+	if( data->getaddPath() )
 		file.remove( 0, 1 );  // Get rid of leading /
 	retcode = updateArch();
 	return retcode;
 	cout << "Left addFile" << endl;
 }
+
+void TarArch::extraction()
+{
+	QString dir, ex;
+
+	ExtractDlg ld( ExtractDlg::All );
+	int mask = setOptions( FALSE, FALSE, FALSE );
+	ld.setMask( mask );
+	if( ld.exec() )
+	{
+		dir = ld.getDest();
+		if( dir.isNull() || dir=="" )
+			return;
+		QDir dest( dir );
+		if( !dest.exists() ) {
+			if( mkdir( (const char *)dir, S_IWRITE | S_IREAD | S_IEXEC ) ) {
+				//arkWarning( i18n("Unable to create destination directory") );
+				return;
+			}
+		}
+		setOptions( ld.doPreservePerms(), ld.doLowerCase(), ld.doOverwrite() );
+		switch( ld.extractOp() ) {
+			case ExtractDlg::All: {
+				extractTo( dir );
+				break;
+			}
+		}
+	}
+}	
 
 void TarArch::extractTo( QString dir )
 {
@@ -331,6 +354,8 @@ void TarArch::extractTo( QString dir )
 	FILE *fd;
 	char line[4096];
 
+	QString tar_exe = data->getTarCommand();
+		
 	archProcess.clearArguments();
 //	archProcess.setExecutable( tar_exe );
 	archProcess << tar_exe;
@@ -344,17 +369,17 @@ void TarArch::extractTo( QString dir )
  		cerr << "Subprocess wouldn't start!" << endl;
  		return;
  	}
-	newProgressDialog( 1, listing->count() );
+//	newProgressDialog( 1, listing->count() );
 	for( long int i=1; !feof( fd ); i++ )
 	{
-		kapp->processEvents();
-		if( Arch::isCanceled() )
-		{
-			archProcess.kill();
-			break;
-		}
+//		kapp->processEvents();
+//		if( Arch::isCanceled() )
+//		{
+//			archProcess.kill();
+//			break;
+//		}
 		fgets( line, 4096, fd );
-		setProgress( i );
+//		setProgress( i );
  	}
 	fclose( fd );
 	while(archProcess.isRunning())
@@ -370,6 +395,7 @@ QString TarArch::unarchFile( int index, QString dest )
 	int pos;
 	QString tmp, name;
 	QString fullname;
+	QString tar_exe = data->getTarCommand();	
 	
 	updateArch();
 	
@@ -398,6 +424,7 @@ void TarArch::deleteFile( int indx )
 {
 	cout << "Entered deleteFile" << endl;
 	QString name, tmp;
+	QString tar_exe = data->getTarCommand();	
 	
 	createTmp();
 	

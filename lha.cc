@@ -1,24 +1,24 @@
 /* (c)1997 Robert Palmbos
    See main.cc for license details */
-#include <kurl.h>
+
 #include <iostream.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include "lha.h"
-// Just to find out the segfault problem
-#include <qstrlist.h>
-//#include <string.h>
 #include <sys/errno.h>
 
-#include "filelistview.h"
+// KDE includes
+#include <kurl.h>
 
-LhaArch::LhaArch()
+// ark includes
+#include "filelistview.h"
+#include "lha.h"
+
+LhaArch::LhaArch( ArkData *d )
   : Arch()
 {
 	listing = new QStrList;
-	storefullpath = FALSE;
-	onlyupdate = FALSE;
+	data = d;
 }
 
 LhaArch::~LhaArch()

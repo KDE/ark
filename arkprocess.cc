@@ -3,8 +3,6 @@
 //  capabilities
 
 #include "arkprocess.h"
-#include <kprocess.h>
-#include <stdio.h>
 #include <stdlib.h>
 // These includes are a little mysterious to me. No, they aren't!
 

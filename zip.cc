@@ -1,22 +1,29 @@
 /* (c)1997 Robert Palmbos
    See main.cc for license details */
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <iostream.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <kurl.h>
 
+// Qt includes
+#include <qdir.h>
+
+// KDE includes
+#include <klocale.h>
+
 #include "arkdata.h"
+#include "extractdlg.h"
 #include "zip.h"
 
 
 ZipArch::ZipArch( ArkData *d )
   : Arch()
 {
-	listing = new QStrList;
-//	storefullpath = FALSE;
-//	onlyupdate = FALSE;
 	data = d;
+	listing = new QStrList;
 }
 
 ZipArch::~ZipArch()
@@ -62,12 +69,16 @@ void ZipArch::openArch( QString file, FileListView *flw )
 
 	flw->addColumn( i18n("Name") );
 	flw->addColumn( i18n("Length") );
+	flw->setColumnAlignment( 1, QListView::AlignRight );
 	flw->addColumn( i18n("Method") );
 	flw->addColumn( i18n("Size") );
+	flw->setColumnAlignment( 3, QListView::AlignRight );
 	flw->addColumn( i18n("Ratio") );
+	flw->setColumnAlignment( 4, QListView::AlignRight );
 	flw->addColumn( i18n("Date") );
 	flw->addColumn( i18n("Time") );
 	flw->addColumn( i18n("CRC-32") );
+	flw->setColumnAlignment( 7, QListView::AlignRight );
 
 	while( !feof(fd) && !strstr( line, "----" ) )
 		fgets( line, 4096, fd );
@@ -95,10 +106,14 @@ void ZipArch::openArch( QString file, FileListView *flw )
 			columns[0],columns[1],columns[2],columns[3],
 			columns[4],columns[5],columns[6],filename);
 		listing->append( line );
-		cerr << line << "\n";	          	
 		fgets( line, 4096, fd );
 	}
-	fclose( fd );
+	while( archProcess.isRunning() );
+	if( archProcess.normalExit() )
+		cerr << "exitStatus is " << archProcess.exitStatus() << "\n";
+	else
+ 		cerr << "abnormal exit\n";
+//	fclose( fd );
 //	There should be a file descriptor close call, but this one makes a
 //	BAD FILEDESCRIPTOR error message
 
@@ -171,17 +186,17 @@ void ZipArch::extractTo( QString dest )
  		cerr << "Subprocess wouldn't start!" << endl;
  		return;
  	}
-  	newProgressDialog( 1, listing->count() );
+//  	newProgressDialog( 1, listing->count() );
 	for( long int i=0; !feof(fd); i++)
 	{
-		kapp->processEvents();
+//		kapp->processEvents();
 		fgets( line, 4096, fd );  
-		if( Arch::isCanceled() )
-		{
-			archProcess.kill();
-			break;
-		}
-		setProgress( i );
+//		if( Arch::isCanceled() )
+//		{
+//			archProcess.kill();
+//			break;
+//		}
+//		setProgress( i );
 	}
 }
 
@@ -216,5 +231,35 @@ void ZipArch::deleteFile( int pos )
 	// Argh:  should not be commented
 	//openArch( archname );
 //	cout << "Left deleteFile" << endl;
+}
+
+void ZipArch::extraction()
+{
+	QString dir, ex;
+
+	ExtractDlg ld( ExtractDlg::All );
+	int mask = setOptions( FALSE, FALSE, FALSE );
+	ld.setMask( mask );
+	if( ld.exec() )
+	{
+		dir = ld.getDest();
+		if( dir.isNull() || dir=="" )
+			return;
+		QDir dest( dir );
+		if( !dest.exists() ) {
+			if( mkdir( (const char *)dir, S_IWRITE | S_IREAD | S_IEXEC ) ) {
+				//arkWarning( i18n("Unable to create destination directory") );
+				return;
+			}
+		}
+		setOptions( ld.doPreservePerms(), ld.doLowerCase(), ld.doOverwrite() );
+		switch( ld.extractOp() ) {
+			case ExtractDlg::All: {
+				extractTo( dir );
+				break;
+			}
+		}
+	}
+
 }
 

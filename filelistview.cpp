@@ -47,12 +47,12 @@ timeKey(const char* text)
 	return (key);
 }
 
-
+/*
 QString FileLVI::key(int column, bool dir) const
 {
 	return QString::null;
 }
-
+*/
 
 /////////////////////////////////////////////////////////////////////
 // FileListView implementation
@@ -61,25 +61,23 @@ QString FileLVI::key(int column, bool dir) const
 FileListView::FileListView(QWidget *parent, const char* name)
 	: QListView(parent, name)
 {
-	sortColumn = 1;
-	increasing = FALSE;
+	sortColumn = 0;
+	increasing = TRUE;
 }
 
 FileListView::~FileListView()
 {
 }
 
-void FileListView::buildList( QStrList * fileList )
+void FileListView::setSorting(int column, bool inc)
 {
-	clear();
-	
-	QStrListIterator *sli = new QStrListIterator(*fileList);
-	while(!sli->atLast())
+	if(sortColumn == column)
 	{
-		FileLVI *flvi=new FileLVI(this);
-		flvi->setText(0, sli->current());
-		insertItem(flvi);
+		increasing = !inc;
 	}
+	else{
+		sortColumn = column;
+		increasing = inc;	
+	}
+	QListView::setSorting(sortColumn, increasing);
 }
-
-

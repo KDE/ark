@@ -13,13 +13,9 @@ Changes:
 	o no memory leaks!!! perhaps...
         o Renamed from kzip to ark by David Faure <faure@kde.org>
 
-TODO:
-	o make things a little prettier
-	o network transparency
-
 Thanks to:
 	o All the KDE developers
 	o Sebestyen Zoltan
 
-any suggestions, etc send to 'robertp@macatawa.org'
+any suggestions, etc send to <duranceau@kde.org> or <palm9744@kettering.edu>
 

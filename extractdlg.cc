@@ -74,6 +74,7 @@ ExtractDlg::ExtractDlg( int eo, QWidget *parent, char *name )
     rb2->setMinimumSize( rb2->sizeHint() );
     bgFiles->insert(rb2);
     vboxFiles->addWidget(rb2);
+    rb2->setEnabled( FALSE );
 
     rb3 = new QRadioButton( i18n("Pattern"), bgFiles );
     rb3->setMinimumSize( rb3->sizeHint() );

@@ -1,21 +1,23 @@
 /* (c)1997 Robert Palmbos
 See main.cc for license details */
+
 #include <iostream.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
-#include "ar.h"
-#include "text.h"
-#include "errors.h"
-#include "filelistview.h"
 
-ArArch::ArArch()
+// KDE includes
+#include <klocale.h>
+
+// ark includes
+#include "ar.h"
+
+ArArch::ArArch( ArkData *d )
   : Arch()
 {
 	listing = new QStrList;
-	storefullpath = FALSE;
-	onlyupdate = FALSE;
+	data = d;
 }
 
 ArArch::~ArArch()
@@ -29,16 +31,6 @@ unsigned char ArArch::setOptions( bool p, bool l, bool o )
 	tolower = l;
 	overwrite = o;
 	return 0;
-}
-
-void ArArch::onlyUpdate( bool in )
-{
-	onlyupdate = in;
-}
-
-void ArArch::addPath( bool in )
-{
-	storefullpath = in;
 }
 
 
@@ -124,7 +116,7 @@ int ArArch::addFile( QStrList *urls )
 	archProcess.clearArguments();
 	archProcess.setExecutable( "ar" );
 	archProcess << "q";	
-	if( onlyupdate )
+	if( data->getonlyUpdate() )
 		archProcess << "u";
 	archProcess << archname;
 	
@@ -135,7 +127,7 @@ int ArArch::addFile( QStrList *urls )
 		if( file[file.length()-1]=='/' ) {
 			return UNSUPDIR;
 		}
-		if( !storefullpath )
+		if( !data->getaddPath() )
 		{
 			int pos;
 			pos = file.findRev( '/' );
@@ -179,13 +171,13 @@ void ArArch::extractTo( QString dest )
 		cerr << "Subprocess won't start, perhaps your computer has a virus?";
 		return;
 	}
-	newProgressDialog( 1, listing->count() );
+//	newProgressDialog( 1, listing->count() );
 	for( long int i=0; !feof(fd); i++ )
 	{
 		fgets( line, 4096, fd );
-		if( Arch::isCanceled() )
-			break;
-		setProgress( i );
+//		if( Arch::isCanceled() )
+//			break;
+//		setProgress( i );
 	}
 	QString curarch = archname.right( archname.length()-(archname.findRev( '/' )+1) );
 	unlink( curarch );
@@ -237,3 +229,18 @@ void ArArch::deleteFile( int pos )
 //	openArch( archname );  Should not be commented !!!!!!!!!!!!!
 }
 
+void ArArch::strshort( char *start, int num_rem )
+{
+	int c=0;
+	char *orig = start;
+	while( c < num_rem )
+	{
+		while( *start != '\0' )
+		{
+			*start = *(start+1);
+			start++;
+		}
+		c++;
+		start = orig;
+	}
+}

@@ -1,10 +1,11 @@
 #ifndef ZIPARCH_H
 #define ZIPARCH_H
 
+// Qt includes
 #include <qstring.h>
 #include <qstrlist.h>
-#include <qobject.h>
 
+// ark includes
 #include "arch.h"
 #include "arkdata.h"
 #include "arkprocess.h"
@@ -20,17 +21,15 @@ public:
 	virtual void createArch( QString );
 	virtual int addFile( QStrList *);
 	virtual void extractTo( QString );
-//	virtual void onlyUpdate( bool );
-//	virtual void addPath( bool );
+	virtual void extraction();
 	virtual const QStrList *getListing();
 	virtual QString unarchFile( int , QString );
 	virtual void deleteFile( int );
 private:
 	QStrList *listing;
-//	bool onlyupdate;
-//	bool storefullpath;
 	ArkProcess archProcess;
 	ArkData *data;
+	bool perms, tolower, overwrite;
 };
 
-#endif /* ARCH_H */
+#endif /* ZIPARCH_H */

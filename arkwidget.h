@@ -2,30 +2,31 @@
 #define ARKWIDGET_H
 
 // Qt includes
-#include <qdir.h>
-#include <qwidget.h>
-#include <qlistbox.h>
-#include <qmenubar.h>
 #include <drag.h>
-#include <qframe.h>
+#include <qlist.h>
+#include <qlistview.h>
+#include <qpopupmenu.h>
+#include <qstring.h>
+#include <qstrlist.h>
+#include <qtimer.h>
+#include <qwidget.h>
+
 
 // KDE includes
-#include <ktopwidget.h>
-#include <ktoolbar.h>
-#include <kstatusbar.h>
+#include <ktmainwindow.h>
 #include <kfm.h>
 #include <kpopmenu.h>
-#include <ktablistbox.h>
 #include <kaccel.h>
 
+// ark includes
 #include "ar.h"
 #include "arch.h"
 #include "adddlg.h"
 #include "arkdata.h"
 #include "filelistview.h"
+// #include "lha.h"
 #include "tar.h"
 #include "zip.h"
-#include "lha.h"
 
 #define ARK_WARNING i18n("ark - warning")
 #define ARK_ERROR i18n("ark - error")
@@ -42,7 +43,7 @@ public:
 
 public slots:
 	void getTarExe();
-	void doPopup( FileLVI *item );
+	void doPopup( QListViewItem *item );
 	void newWindow();
 	void createZip();
 	void fileDrop( KDNDDropZone * );
@@ -50,9 +51,7 @@ public slots:
 	void getFav();
 	void openZip();
 	void closeZip();
-	void extractZip();
-	void extractFile();
-	void extractFile( int );
+	void extract();
 	void deleteFile();
 	void deleteFile( int );
 	void showFavorite();
@@ -75,32 +74,35 @@ protected:
 private:
 	enum ArchType{ TAR_FORMAT, ZIP_FORMAT, AA_FORMAT, LHA_FORMAT };
 
-	bool addonlynew;
-	bool storefullpath;
 	Arch *arch;
 	FileListView *archiveContent;
 	QStrList *listing;
-	QStrList *flisting;	
-	QDir *fav;
 	QString tmpdir;
 	KFM *kfm;
+	KDNDDropZone *dz;
 	bool contextRow;
 	KPopupMenu *pop;
 	ArkData *data;
 	QTimer *statusBarTimer;
 	KAccel *accelerators;
 	QPopupMenu *editMenu, *recentPopup;
+	int idExtract, idDelete, idAdd, idView;
+        bool archiverMode;
 
 	void writeStatus(const QString text);
 	void clearCurrentArchive();
+	
 	void arkWarning(const QString msg);
 	void arkError(const QString msg);
+	
 	void setupMenuBar();
 	void setupStatusBar();
 	void setupToolBar();
 	void createRecentPopup();
+	
 	void newCaption(const QString& filename);
 	void createFileListView();
+	
 	int getArchType(QString archname);
 	bool createArchive(QString name);
 	bool openArchive(QString name);

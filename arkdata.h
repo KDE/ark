@@ -15,9 +15,17 @@
 #define RECENT_KEY "Recent"
 
 #define START_DIR_KEY "startDir"
-#define OPEN_DIR_KEY "lastOpenDir"
-#define EXTRACT_DIR_KEY "lastExtractDir"
-#define ADD_DIR_KEY "lastAddDir"
+#define OPEN_DIR_KEY "openDir"
+#define EXTRACT_DIR_KEY "extractDir"
+#define ADD_DIR_KEY "addDir"
+#define LAST_OPEN_DIR_KEY "lastOpenDir"
+#define LAST_EXTRACT_DIR_KEY "lastExtractDir"
+#define LAST_ADD_DIR_KEY "lastAddDir"
+
+#define START_MODE_KEY "startDirMode"
+#define OPEN_MODE_KEY "openDirMode"
+#define EXTRACT_MODE_KEY "extractDirMode"
+#define ADD_MODE_KEY "addDirMode"
 
 #define MAX_RECENT_FILES 5
 
@@ -29,33 +37,38 @@ public:
 	~ArkData();
 	const QString getFilter();
 	
-	const QString getTarCommand();
-	void setTarCommand(const QString cmd);
+	QString getTarCommand();
+	void setTarCommand(QString cmd);
 	
-	const QString getFavoriteDir();
-	void setFavoriteDir(const QString cmd);
+	QString getFavoriteDir();
+	void setFavoriteDir(QString cmd);
 
-	const QString getStartDir();
-	void setStartDir(const QString dir);
+	QString getStartDir();
+        void setStartDirCfg(QString dir, int mode);
 
-	const QString getOpenDir();
-	void setOpenDir(const QString dir);
+	QString getOpenDir();
+	void setLastOpenDir(QString dir);
+	void setOpenDirCfg(QString dir, int mode);
 
-	const QString getExtractDir();
-	void setExtractDir(const QString dir);
+	QString getExtractDir();
+	void setLastExtractDir(QString dir);
+	void setExtractDirCfg(QString dir, int mode);
 
-	const QString getAddDir();
-	void setAddDir(const QString dir);
+	QString getAddDir();
+	void setLastAddDir(QString dir);
+	void setAddDirCfg(QString dir, int mode);
 
 	QStrList * getRecentFiles();
 	void addRecentFile(const QString& filename);
 	
-	void setaddPath( bool& b);
+	void setaddPath( bool b);
 	bool getaddPath();
 
-	void setonlyUpdate( bool& b);
+	void setonlyUpdate( bool b);
 	bool getonlyUpdate();
 
+	QStrList * getlastShellPtr();
+	
 	void writeConfiguration();
 	
 	KConfig * getKConfig() { return kc; };
@@ -67,12 +80,31 @@ private:
 	QString favoriteDir;
 	QString tar_exe;
 
-    // Directories options
+	// Directories options
 	QString tmpdir;
 	QString startDir;
+	int startDirMode;
+	
 	QString openDir;
+	QString lastOpenDir;
+	int openDirMode;
+	
 	QString extractDir;
+	QString lastExtractDir;
+	int extractDirMode;
+	
 	QString addDir;
+	QString lastAddDir;
+	int addDirMode;
+	
+	enum DirPolicy{
+		FAVORITE_DIR=1, FIXED_START_DIR,
+		LAST_OPEN_DIR, FIXED_OPEN_DIR,
+		LAST_EXTRACT_DIR, FIXED_EXTRACT_DIR,
+		LAST_ADD_DIR, FIXED_ADD_DIR
+	};
+	
+	QStrList lastShellOutput;
 	
 	bool addPath;
 	bool onlyUpdate;
@@ -83,6 +115,8 @@ private:
 	void readConfigFile();
 	void readRecentFiles();
 	void writeRecentFiles();
+	void readDirectories();
+	void writeDirectories();
 };
 
 #endif /* ARKDATA_H */
