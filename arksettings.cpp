@@ -254,7 +254,7 @@ void ArkSettings::readZipProperties()
   m_zipExtractJunkPaths = kc->readBoolEntry( EXTRACT_JUNKPATHS, false );
   m_zipExtractOverwrite = kc->readBoolEntry( EXTRACT_LOWERCASE, false );
 
-  m_zipAddRecurseDirs = kc->readBoolEntry( ADD_RECURSEDIRS, false );
+  m_zipAddRecurseDirs = kc->readBoolEntry( ADD_RECURSEDIRS, true );
   m_zipAddJunkDirs = kc->readBoolEntry( ADD_JUNKDIRS, false );
   m_zipAddMSDOS = kc->readBoolEntry( ADD_MSDOS, false );
   m_zipAddConvertLF = kc->readBoolEntry( ADD_CONVERTLF, false );
