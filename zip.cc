@@ -352,8 +352,8 @@ QString ZipArch::unarchFile( int pos, QString dest )
 	while (flvi)
 	{
 		if( m_flw->isSelected(flvi) ){
-			kdebug(0, 1601, "unarch %s", flvi->getFileName.ascii() );
-			tmp = flvi->getFileName.ascii();
+			kdebug(0, 1601, "unarch %s", flvi->getFileName().ascii() );
+			tmp = flvi->getFileName().ascii();
 			*m_kp << tmp.ascii();
 		}
 		flvi = (FileLVI*)flvi->itemBelow();

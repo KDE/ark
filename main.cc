@@ -111,7 +111,7 @@ int main( int argc, char *argv[]  )
 	}
 	
 	KRegistry registry;
-	registry.addFactory( new KMimeTypeFactory );
+	registry.addFactory( new KServiceTypeFactory );
 	registry.load();
 	
 	ark.exec();
