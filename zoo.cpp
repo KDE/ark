@@ -89,8 +89,8 @@ bool ZooArch::processLine(const QCString &line)
   strlcpy(columns[3], strDate.ascii(), sizeof(columns[3]));
   kdDebug(1601) << "New timestamp is " << columns[3] << endl;
 
-  strcat(columns[3], " ");
-  strcat(columns[3], fixTime(columns[4]).ascii());
+  strlcat(columns[3], " ", sizeof(columns[3]));
+  strlcat(columns[3], fixTime(columns[4]).ascii(),sizeof(columns[3]));
 
   QStringList list;
   list.append(QString::fromLocal8Bit(filename));
