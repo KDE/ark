@@ -1,16 +1,6 @@
 TODO
 -----
 
-More than I can count. After working with the code for awhile, I have come
-to see that so many developers with such different styles has lead to
-hacks on top of hacks, and the code is DESPERATELY in need of serious
-re-engineering.
-
-Most important is arkwidget.cc which is downright PAINFUL to work with.
-The migration to arkwidgetbase took a bit of the bloat out, but the signals
-are still spread out and awkward to trace about.
-
-
 Feature-wise:
 - Rename option
 - Archive conversion with save as 
@@ -25,3 +15,8 @@ only convert when necessary.
 - More intuitive 'chained' archive support (ie. .tar.bz2)
 
 - file_quit()'s used for extractOnly are a mess. Clean me up.
+
+For KDE 3.0:
+- rewrite :-)
+- need to add support for split files
+- need to add some kind of progress feedback to the user
