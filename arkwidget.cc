@@ -75,6 +75,8 @@
 #elif defined(__sun)
 #include <sys/statvfs.h>
 #define STATFS statvfs
+#elif defined(_AIX)
+#include <sys/statfs.h>
 #endif
 
 #ifndef STATFS
