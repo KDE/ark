@@ -73,7 +73,7 @@ extern "C" int kdemain( int argc, char *argv[]  )
 	aboutData.addAuthor( "Helio Chissini de Castro", I18N_NOOP( "Current maintainer" ),
 			"helio@conectiva.com.br" );
 	aboutData.addAuthor( "Georg Robbers", 0, "Georg.Robbers@urz.uni-hd.de" );
-	aboutData.addAuthor( "Roberto Teixeira", 0, "maragato@conectiva.com" );
+	aboutData.addAuthor( "Roberto Selbach Teixeira", 0, "maragato@kde.org" );
 	aboutData.addAuthor( "Francois-Xavier Duranceau", 0, "duranceau@kde.org" );
 	aboutData.addAuthor( "Emily Ezust (Corel Corporation)", 0, "emilye@corel.com" );
 	aboutData.addAuthor( "Michael Jarrett (Corel Corporation)", 0, "michaelj@corel.com" );
