@@ -26,12 +26,16 @@
 
 */
 
+#include <stdlib.h>
+#include <time.h>
+
+#include <qapplication.h>
+#include <qfile.h>
+
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <kmimemagic.h>
 #include <klocale.h>
-#include <time.h>
-#include <qapplication.h>
 
 #include <stdlib.h>
 
@@ -58,12 +62,12 @@ void Arch::verifyUtilityIsAvailable(const QString & _utility1,
   // see if the utility is in the PATH of the user. If there is a
   // second utility specified, it must also be present.
   QString cmd = "which " + _utility1;
-  int ret1 = system(cmd.local8Bit());
+  int ret1 = system(QFile::encodeName(cmd));
   int ret2 = 0;
   if (!_utility2.isNull())
     {
       cmd = "which " + _utility2;
-      ret2 = system(cmd.local8Bit());
+      ret2 = system(QFile::encodeName(cmd));
     }
 
   m_bUtilityIsAvailable = ((ret1 == 0) && (ret2 == 0));
@@ -253,10 +257,10 @@ QString Utils::getTimeStamp(const QString &_month,
   // (five months' difference - e.g., if it's Apr, then get years up to Nov)
 
   char month[4];
-  strncpy(month, (const char *)_month, 3);
+  strncpy(month, _month.ascii(), 3);
   month[3] = '\0';
   int nMonth = getMonth(month);
-  int nDay = atoi((const char *)_day);
+  int nDay = _day.toInt();
 
   kdDebug(1601) << "Month is " << nMonth << ", Day is " << nDay << endl;
 
@@ -288,8 +292,8 @@ QString Utils::getTimeStamp(const QString &_month,
     
   QString retval;
   retval.sprintf("%s-%.2d-%.2d %s",
-		 (const char *)year, nMonth, nDay, 
-		 (const char *)timestamp);
+		 year.utf8().data(), nMonth, nDay, 
+		 timestamp.utf8().data());
   return retval;
 }
 

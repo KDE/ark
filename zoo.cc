@@ -31,6 +31,8 @@
 #include <sys/errno.h>
 #include <string.h>
 
+#include <qfile.h>
+
 // KDE includes
 #include <kurl.h>
 #include <qstringlist.h>
@@ -72,17 +74,17 @@ void ZooArch::processLine( char *_line )
 
   QString year = Utils::fixYear(columns[8]);
 
-  kdDebug(1601) << "The year is " << (const char *)year << endl;
+  kdDebug(1601) << "The year is " << year << endl;
 
   QString strDate;
-  strDate.sprintf("%s-%.2d-%.2d", (const char *)year,
+  strDate.sprintf("%s-%.2d-%.2d", year.utf8().data(),
 		    Utils::getMonth(columns[7]), atoi(columns[3]));
 
-  strcpy(columns[3], (const char *)strDate);
+  strcpy(columns[3], strDate.ascii());
   kdDebug(1601) << "New timestamp is " << columns[3] << endl;
 
   strcat(columns[3], " ");
-  strcat(columns[3], (const char *)fixTime(columns[4]));
+  strcat(columns[3], fixTime(columns[4]).ascii());
 
   QStringList list;
   list.append(QString::fromLocal8Bit(filename));
@@ -274,7 +276,7 @@ void ZooArch::addFile( QStringList *urls )
       pos = file.findRev( '/' );
       base = file.left( pos );
       pos++;
-      chdir( base );
+      chdir( QFile::encodeName(base) );
       base = file.right( file.length()-pos );
       file = base;
     }
@@ -312,7 +314,7 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir)
   // zoo has no option to specify the destination directory
   // so I have to change to it.
 
-  int ret = chdir((const char *)dest);
+  int ret = chdir(QFile::encodeName(dest));
  // I already checked the validity of the dir before coming here
   ASSERT(ret == 0); 
 
@@ -401,10 +403,10 @@ QString fixTime(const QString &_strTime)
   if (strTime.contains("+") || strTime.contains("-"))
     {
       QCharRef c = strTime.at(8);
-      int offset = atoi(strTime.right(strTime.length() - 9));
+      int offset = strTime.right(strTime.length() - 9).toInt();
       kdDebug(1601) << "Offset is " << offset << "\n" << endl;
       QString strHour = strTime.left(2);
-      int nHour = atoi(strHour);
+      int nHour = strHour.toInt();
       if (c == '+' || c == '-')
 	{
 	  if (c == '+')
@@ -416,8 +418,8 @@ QString fixTime(const QString &_strTime)
 		nHour += 24;
 	    }
 	  strTime = strTime.left(8);
-	  strTime.sprintf("%2.2d%s", nHour, (const char *)strTime.right(6));
-	  kdDebug(1601) << "The new time is " << (const char *) strTime << "\n" << endl;
+	  strTime.sprintf("%2.2d%s", nHour, strTime.right(6).utf8().data());
+	  kdDebug(1601) << "The new time is " << strTime << endl;
 	}	
     }
   else

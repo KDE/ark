@@ -257,7 +257,7 @@ void ExtractDlg::accept()
 
   if (m_radioPattern->isChecked())
   {
-    if (strcmp(m_patternLE->text(), "") == 0)
+    if (m_patternLE->text().isEmpty())
     {
       // pattern selected but no pattern? Ask user to select a pattern.
       KMessageBox::error(this,

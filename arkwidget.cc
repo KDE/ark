@@ -35,6 +35,7 @@
 #include <qheader.h>
 #include <qwhatsthis.h>
 #include <qfile.h>
+#include <qstrlist.h>
 
 // KDE includes
 #include <kapp.h>
@@ -138,7 +139,7 @@ bool Utilities::diskHasSpace(const QString &dir, long size)
 {
   fprintf(stderr, "Size: %ld\n", size);
   struct STATFS buf;
-  if (STATFS((const char *)dir, &buf) == 0)
+  if (STATFS(QFile::encodeName(dir), &buf) == 0)
     {
       double nAvailable = (double)buf.f_bavail * buf.f_bsize;
       if (nAvailable < (double)size)
@@ -445,7 +446,7 @@ void ArkWidget::updateStatusTotals()
 	  ++m_nNumFiles;
 	  
 	  if (m_currentSizeColumn != -1)
-	    m_nSizeOfFiles += atoi(pItem->text(m_currentSizeColumn));
+	    m_nSizeOfFiles += pItem->text(m_currentSizeColumn).toInt();
 	  pItem = (FileLVI *)pItem->nextSibling();
 	}
     }
@@ -586,7 +587,7 @@ void ArkWidget::file_open(const QString & strFile)
       ArkApplication::getInstance()->raiseArk(strFile);
 
       // notify the user what's going on
-      KMessageBox::information(0, i18n("The archive %1 is already open and has been raised.\nNote: if the filename does not match, it only means that one of the two is a symbolic link.").arg((const char *)strFile));
+      KMessageBox::information(0, i18n("The archive %1 is already open and has been raised.\nNote: if the filename does not match, it only means that one of the two is a symbolic link.").arg(strFile));
       return;
     }
 
@@ -725,7 +726,7 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
 	    KMessageBox::warningYesNoCancel(0, i18n("Archive already exists. Do you wish to overwrite it?"), i18n("Archive already exists"));
 	  if (choice == KMessageBox::Yes)
 	    {
-	      unlink(strFile);
+	      unlink(QFile::encodeName(strFile));
 	      break;
 	    }
 	  else if (choice == KMessageBox::Cancel)
@@ -994,8 +995,7 @@ void ArkWidget::slotExtractDone()
 	  QString URL;
 	  URL.sprintf("/tmp/ark.%d/", getpid());
 	  URL += *it;
-	  URL = QUriDrag::localFileToUri(URL);
-	  list.append(URL);
+	  list.append( QUriDrag::localFileToUri(URL) );
 	}
       QUriDrag *d = new QUriDrag(list, archiveContent->viewport());
       //      d->setPixmap(QPixmap(QString("document.xpm")),
@@ -1360,7 +1360,7 @@ void ArkWidget::createRealArchive(const QString &strFilename)
   m_compressedFile = flvi->getFileName().local8Bit();
   QString tmpdir = m_settings->getTmpDir();
   m_compressedFile = "file:" + tmpdir + "/" + m_compressedFile;
-  kdDebug(1601) << "The compressed file is " << (const char *)m_compressedFile << endl;
+  kdDebug(1601) << "The compressed file is " << m_compressedFile << endl;
   createArchive(strFilename);
   // the file will be moved into the new archive in slotCreate.
 }
@@ -1382,7 +1382,7 @@ void ArkWidget::action_add()
 	}
       return;
     }
-  kdDebug(1601) << "Add dir: " << (const char *)m_settings->getAddDir() << endl;
+  kdDebug(1601) << "Add dir: " << m_settings->getAddDir() << endl;
   AddDlg *dlg = new AddDlg(archtype, m_settings->getAddDir(),
 			   m_settings, this, "adddlg");
   if (dlg->exec())
@@ -1591,7 +1591,7 @@ void ArkWidget::slotOpenWith()
       m_bOpenWithInProgress = true;
       m_strFileToView = fullname;
       if (Utilities::diskHasSpace(m_settings->getTmpDir(),
-				  atol(pItem->text(getSizeColumn()))))
+				  pItem->text(getSizeColumn()).toInt()))
 	{
 	  disableAll();
 	  arch->unarchFile(m_extractList, m_settings->getTmpDir());
@@ -1649,7 +1649,7 @@ bool ArkWidget::reportExtractFailures(const QString & _dest,
   QString strDestDir = _dest;
 
   // make sure the destination directory has a / at the end.
-  if (strDestDir.right(1) != '/')
+  if (strDestDir.at(0) != '/')
     strDestDir += '/';
 
   if (_list->isEmpty())
@@ -1759,7 +1759,7 @@ void ArkWidget::action_extract()
 			kdDebug(1601) << "unarching " << flvi->getFileName() << endl;
 			QCString tmp = QFile::encodeName(flvi->getFileName());
 			m_extractList->append(tmp);
-			nTotalSize += atol(flvi->text(getSizeColumn()));
+			nTotalSize += flvi->text(getSizeColumn()).toInt();
 		      }
 		    flvi = (FileLVI*)flvi->itemBelow();
 		  }
@@ -1773,7 +1773,7 @@ void ArkWidget::action_extract()
 		    return;
 		  }
 		QString tmp = pItem->text(0);  // get the name
-		nTotalSize += atol(pItem->text(getSizeColumn()));
+		nTotalSize += pItem->text(getSizeColumn()).toInt();
 		m_extractList->append( QFile::encodeName(tmp) );
 	      }
 	    if (!bOvwrt)
@@ -1843,7 +1843,7 @@ void ArkWidget::showFile( FileLVI *_pItem )
   m_bViewInProgress = true;
   m_strFileToView = fullname;
   if (Utilities::diskHasSpace(m_settings->getTmpDir(),
-			      atol(_pItem->text(getSizeColumn()))))
+			      _pItem->text(getSizeColumn()).toLong()))
     {
       disableAll();
       arch->unarchFile(m_extractList, m_settings->getTmpDir() );
@@ -1920,7 +1920,7 @@ void ArkWidget::updateStatusSelection()
 	      ++m_nNumSelectedFiles;
 	      if (m_currentSizeColumn != -1)
 		m_nSizeOfSelectedFiles +=
-		  atoi(flvi->text(m_currentSizeColumn));
+		  flvi->text(m_currentSizeColumn).toInt();
 	    }
 	  flvi = (FileLVI*)flvi->itemBelow();
 	}
@@ -1966,7 +1966,7 @@ void ArkWidget::selectByPattern(const QString & _pattern) // slot
 #if 0 // not sure I need this
 void ArkWidget::dragEnterEvent(QDragEnterEvent* event)
 {
-  event->accept(QUrlDrag::canDecode(event));
+  event->accept(QUriDrag::canDecode(event));
 }
 
 #endif
@@ -1975,7 +1975,7 @@ void ArkWidget::dragMoveEvent(QDragMoveEvent *e)
 {
   QStringList list;
 
-  if (QUrlDrag::canDecode(e) &&
+  if (QUriDrag::canDecode(e) &&
       !m_bDropSourceIsSelf)
     {
     e->accept();
@@ -1990,7 +1990,7 @@ void ArkWidget::dropEvent(QDropEvent* e)
   // I think I've got all the deletia covered... see slotAddDone.
   mpAddList = new QStringList; 
 
-  if (QUrlDrag::decodeToUnicodeUris(e, *mpAddList))
+  if (QUriDrag::decodeToUnicodeUris(e, *mpAddList))
   {
     dropAction(mpAddList);
   }

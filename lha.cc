@@ -33,6 +33,8 @@
 #include <sys/errno.h>
 #include <string.h>
 
+#include <qfile.h>
+
 // KDE includes
 #include <kurl.h>
 #include <qstringlist.h>
@@ -82,7 +84,7 @@ void LhaArch::processLine( char *_line )
   // make the time stamp sortable
   QString massagedTimeStamp = Utils::getTimeStamp(columns[6], columns[7],
 						  columns[8]);
-  strcpy(columns[6], (const char *)massagedTimeStamp);
+  strcpy(columns[6], massagedTimeStamp.ascii());
 
   kdDebug(1601) << "New timestamp is " << columns[6] << endl;
 
@@ -96,7 +98,7 @@ void LhaArch::processLine( char *_line )
       bLink = true;
       name = file.left(pos);
       link = file.right(file.length()-pos-4);
-      kdDebug(1601) << "Name is: " << (const char *)name << "\nLink is " << (const char *)link << endl;
+      kdDebug(1601) << "Name is: " << name << "\nLink is " << link << endl;
     }
   else
     name = file;
@@ -303,7 +305,7 @@ void LhaArch::addFile( QStringList *urls )
       pos = file.findRev( '/' );
       base = file.left( pos );
       pos++;
-      chdir( base );
+      chdir( QFile::encodeName(base) );
       base = file.right( file.length()-pos );
       file = base;
     }

@@ -33,11 +33,12 @@
 #include <kuniqueapp.h>
 #include "arkwidget.h"
 
+#include <qdict.h>
+
 class ArkSettings;
 
 #include <stdlib.h>
 #include <string.h>
-#include <hash_map>
 
 class EqualKey
 {
@@ -47,9 +48,6 @@ public:
       return (str1 == str2);
     }
 };
-
-// defines HashTable for obtaining ArkWidget pointers given a filename
-typedef hash_map<QString, ArkWidget *, hash<char*>,EqualKey> HashTable;
 
 // This class follows the singleton pattern.
 
@@ -77,8 +75,10 @@ public:
 
   // use this function to access data from other modules.
   static ArkApplication *getInstance();
+
 protected:
   ArkApplication();
+
 private:
   QWidget *m_mainwidget;  // to be the parent of all ArkWidgets
   int m_windowCount;
@@ -87,7 +87,7 @@ private:
 
   // a hash to obtain the window associated with a filename.
   // given a QString key, you get an ArkWidget * pointer.
-  HashTable m_windowsHash;
+  QDict<ArkWidget> m_windowsHash;
 
   static ArkApplication *mInstance; 
 };

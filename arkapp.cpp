@@ -52,7 +52,7 @@ static QString resolveFilename(const QString & _arkname)
   while (1)
     {
       buff = new char[BUFSIZ*iter];
-      nread = readlink( (const char *)_arkname,
+      nread = readlink( QFile::encodeName(_arkname),
 			buff, BUFSIZ);
       if (-1 == nread)
 	{
@@ -75,11 +75,11 @@ static QString resolveFilename(const QString & _arkname)
       else
 	{
 	  buff[nread] = '\0';  // readlink doesn't null terminate
-	  QString name(buff);
+	  QString name = QFile::decodeName(buff);
 	  delete buff;
 
 	  // watch out for relative pathnames
-	  if (name.left(1) != '/')
+	  if (name.at(0) != '/')
 	    {
 	      // copy the path from _arkname
 	      int index = _arkname.findRev('/');
@@ -142,9 +142,9 @@ void ArkApplication::addOpenArk(const QString & _arkname,
 {
   kdDebug(1601) << "+ArkApplication::addOpenArk" << endl;
   QString realName = resolveFilename(_arkname);  // follow symlink
-  kdDebug(1601) << "---------------- Real name of " << (const char *)_arkname << " is " << (const char *)realName << endl;
+  kdDebug(1601) << "---------------- Real name of " << _arkname << " is " << realName << endl;
   openArksList.append(realName);
-  m_windowsHash[realName] = _ptr;
+  m_windowsHash.replace(realName, _ptr);
   kdDebug(1601) << "---------------Saved ptr " << _ptr << endl;
   kdDebug(1601) << "-ArkApplication::addOpenArk" << endl;
 }
@@ -153,9 +153,9 @@ void ArkApplication::removeOpenArk(const QString & _arkname)
 {
   kdDebug(1601) << "+ArkApplication::removeOpenArk" << endl;
   QString realName = resolveFilename(_arkname);  // follow symlink
-  kdDebug(1601) << "Removing name " << (const char *)_arkname << endl;
+  kdDebug(1601) << "Removing name " << _arkname << endl;
   openArksList.remove(realName);
-  m_windowsHash.erase(realName);
+  m_windowsHash.remove(realName);
   kdDebug(1601) << "-ArkApplication::removeOpenArk" << endl;
 }
 

@@ -69,13 +69,15 @@ void ZipArch::processLine( char *_line )
 
   QString year = Utils::fixYear(columns[8]);
 
-  kdDebug(1601) << "Year is " << (const char *)year << endl;
-  QString timestamp;
-  timestamp.sprintf("%s-%s-%s %s", (const char *)year,
-		    columns[4], columns[7], columns[9]);
+  kdDebug(1601) << "Year is " << year << endl;
+  QString timestamp = QString::fromLatin1("%s-%s-%s %s")
+    .arg(year)
+    .arg(columns[4])
+    .arg(columns[7])
+    .arg(columns[9]);
   
-  strcpy(columns[4], (const char *)timestamp);
-  kdDebug(1601) << "Timestamp is " << (const char *)columns[4] << endl;
+  strcpy(columns[4], timestamp.ascii());
+  kdDebug(1601) << "Timestamp is " << columns[4] << endl;
   QStringList list;
   list.append(QString::fromLocal8Bit(filename));
   for (int i = 0; i < 6; ++i)
@@ -292,7 +294,7 @@ void ZipArch::addFile( QStringList *urls )
       int pos;
       pos = file.findRev('/');
       base = file.left(++pos);
-      chdir(base);
+      chdir(QFile::encodeName(base));
       base = file.right(file.length()-pos);
       file = base;
     }
@@ -305,7 +307,7 @@ void ZipArch::addFile( QStringList *urls )
   QStrList list(*ptr); // copied because of const probs
   for ( strTemp=list.first(); strTemp != 0; strTemp=list.next() )
     {
-      kdDebug(1601) << (const char *)strTemp << " " << endl;
+      kdDebug(1601) << strTemp << " " << endl;
     }
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),

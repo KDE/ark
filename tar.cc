@@ -164,7 +164,7 @@ QString TarArch::getCompressor()
 {
   QString extension = m_filename.right(m_filename.length() -
 				       m_filename.findRev('.') );
-  kdDebug(1601) << "Extension: " << (const char *)extension << endl;
+  kdDebug(1601) << "Extension: " << extension << endl;
 
   if( extension == ".tgz" || extension == ".gz" ) 
     return QString( "gzip" );
@@ -183,7 +183,7 @@ QString TarArch::getUnCompressor()
 {
   QString extension = m_filename.right(m_filename.length() -
 				       m_filename.findRev('.'));
-  kdDebug(1601) << "Extension: " << (const char *)extension << endl;
+  kdDebug(1601) << "Extension: " << extension << endl;
   if( extension == ".tgz" || extension == ".gz" ) 
     return QString( "gunzip" );
   if( extension == ".bz")
@@ -283,7 +283,7 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
 	perms = "l" + perms;
       else
 	perms = "-" + perms;
-      col_list.append(QString::fromLocal8Bit(perms));
+      col_list.append(perms);
       QString usergroup = tarEntry->user();
       usergroup += '/';
       usergroup += tarEntry->group();
@@ -293,10 +293,10 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
 	{
 	  strSize.sprintf("%d", ((KTarFile *)tarEntry)->size());
 	}
-      col_list.append(QString::fromLocal8Bit(strSize));
+      col_list.append(strSize);
       QString timestamp = makeTimeStamp(tarEntry->datetime());
-      col_list.append(QString::fromLocal8Bit(timestamp));
-      col_list.append(QString::fromLocal8Bit(tarEntry->symlink()));
+      col_list.append(timestamp);
+      col_list.append(tarEntry->symlink());
       m_gui->add(&col_list); // send the entry to the GUI
 
       // if it isn't a file, it's a directory - process it.
@@ -346,7 +346,7 @@ void TarArch::createTmp()
   if (compressed)
     {
       struct stat statbuffer;
-      if (stat((const char *)tmpfile, &statbuffer) == -1)
+      if (stat(QFile::encodeName(tmpfile), &statbuffer) == -1)
 	{
 	  // the tmpfile does not yet exist, so we create it.
 	  createTmpInProgress = true;
@@ -355,7 +355,7 @@ void TarArch::createTmp()
 	  KProcess *kp = new KProcess;
 	  kp->clearArguments();
 	  QString strUncompressor = getUnCompressor();
-	  kdDebug(1601) << "Uncompressor is " << (const char *)strUncompressor << endl;
+	  kdDebug(1601) << "Uncompressor is " << strUncompressor << endl;
 	  *kp << strUncompressor;
 	  if (strUncompressor == "lzop")
 	    {
@@ -402,7 +402,8 @@ static QDateTime getMTime(const QString & entry)
 {
   // I have something like: 1999-10-04 11:04:44
   int year, month, day, hour, min, seconds;
-  sscanf( (const char *)entry, "%d-%d-%d %d:%d:%d", &year, &month, &day, &hour,
+  // HPB: should be okay 'cause the date format will not be localized
+  sscanf( entry.ascii(), "%d-%d-%d %d:%d:%d", &year, &month, &day, &hour,
 	  &min, &seconds);
 
   QDate theDate(year, month, day);
@@ -441,7 +442,7 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
       QString entryTimeStamp = m_gui->getColData(str, col);
       if (entryTimeStamp.isNull())
 	continue;  // it isn't in there, so skip it.
-      stat(filename, &statbuffer);
+      stat(QFile::encodeName(filename), &statbuffer);
       time_t the_mtime = statbuffer.st_mtime;
       struct tm *convertStruct = localtime(&the_mtime);
       QDateTime addFileMTime(QDate(convertStruct->tm_year,
@@ -471,9 +472,7 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
     }
     list.append(str);
 
-#ifdef DEBUG
-    fprintf(stderr, "To delete: %s\n", (const char *)str);
-#endif
+    kdDebug() << "To delete: " << str << endl;
   }
   remove(&list);
 }
@@ -527,7 +526,7 @@ void TarArch::addFile( QStringList* urls )
       int pos;
       pos = file.findRev( '/', -1, FALSE );
       base = file.left( ++pos );
-      kdDebug(1601) << "base is " << (const char *)base << endl;
+      kdDebug(1601) << "base is " << base << endl;
       //		pos++;
       tmp = file.right( file.length()-pos );
       file = tmp;
@@ -556,7 +555,7 @@ void TarArch::addFile( QStringList* urls )
   QStrList list(*ptr); // copied because of const probs
   for ( strTemp=list.first(); strTemp != 0; strTemp=list.next() )
     {
-      kdDebug(1601) << (const char *)strTemp << " " << endl;
+      kdDebug(1601) << strTemp << " " << endl;
     }
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
@@ -677,7 +676,7 @@ void TarArch::remove(QStringList *list)
 
   for ( QStringList::Iterator it = list->begin(); it != list->end(); ++it )  
     {
-      kdDebug(1601) << (const char *)*it << endl;
+      kdDebug(1601) << *it << endl;
       *kp << *it;
     }
 
@@ -810,6 +809,6 @@ static QString makeTimeStamp(const QDateTime & dt)
 
   timestamp.sprintf("%d-%02d-%02d %s",
 		    d.year(), d.month(), d.day(),
-		    (const char *)t.toString());
+		    t.toString().utf8().data());
   return timestamp;
 }

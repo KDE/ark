@@ -32,6 +32,8 @@
 #include <errno.h>
 #include <string.h>
 
+#include <qfile.h>
+
 // KDE includes
 #include <kurl.h>
 #include <qstringlist.h>
@@ -90,8 +92,8 @@ void ArArch::processLine( char *_line )
 		    columns[6], Utils::getMonth(columns[3]),
 		    atoi(columns[4]), columns[5]);
   // put timestamp into column 3
-  strcpy(columns[3], (const char *)timestamp);
-  kdDebug(1601) << "Timestamp for file " << (const char *)filename << " is " << (const char *)timestamp << endl;
+  strcpy(columns[3], timestamp.ascii());
+  kdDebug(1601) << "Timestamp for file " << filename << " is " << timestamp << endl;
 
   QStringList list;
   list.append(QString::fromLocal8Bit(filename));
@@ -237,7 +239,7 @@ void ArArch::addFile( QStringList *urls )
       pos = file.findRev( '/' );
       base = file.left( pos );
       pos++;
-      chdir( base );
+      chdir( QFile::encodeName(base) );
       base = file.right( file.length()-pos );
       file = base;
     }
@@ -275,7 +277,7 @@ void ArArch::unarchFile(QStringList *_fileList, const QString & _destDir)
   // ar has no option to specify the destination directory
   // so I have to change to it.
 
-  int ret = chdir((const char *)dest);
+  int ret = chdir(QFile::encodeName(dest));
  // I already checked the validity of the dir before coming here
   ASSERT(ret == 0); 
 

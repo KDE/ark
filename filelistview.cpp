@@ -70,15 +70,12 @@ QString FileLVI::key(int column, bool ascending) const
     if ( columnName == SIZE_STRING ||
 	 columnName == PACKED_STRING )
       {
-	s.sprintf("%.10ld", atol(text(column)));
+	s.sprintf("%.10ld", text(column).toInt());
 	return s;
       }
     else if (columnName == RATIO_STRING)
       {
-	char ratio[5];
-	strcpy(ratio, text(column));
-	ratio[strlen(ratio) - 1] = '\0';
-	s.sprintf("%.10ld", atol(ratio));
+	s.sprintf("%.10ld", text(column).toInt());
 	return s;
       }
     else return QListViewItem::key(column, ascending);

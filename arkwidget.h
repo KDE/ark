@@ -36,7 +36,7 @@
 #include <qlistview.h>
 #include <qpopupmenu.h>
 #include <qstring.h>
-#include <qstrlist.h>
+#include <qstringlist.h>
 #include <qtimer.h>
 #include <qwidget.h>
 

@@ -31,6 +31,8 @@
 #include <sys/errno.h>
 #include <string.h>
 
+#include <qfile.h>
+
 // KDE includes
 #include <kurl.h>
 #include <qstringlist.h>
@@ -81,8 +83,8 @@ void RarArch::processLine( char *_line )
   char columns[11][80];
   char filename[4096];
 
-  sscanf((const char *)m_line1, " %[^\n]", filename);
-  sscanf((const char *)m_line2, " %[0-9] %[0-9] %[0-9%] %2[0-9]-%2[0-9]-%2[0-9] %5[0-9:] %[drwxlst-] %[A-F0-9] %[A-Za-z0-9] %[0-9.]",
+  sscanf(QFile::encodeName(m_line1), " %[^\n]", filename);
+  sscanf((const char *)m_line2.ascii(), " %[0-9] %[0-9] %[0-9%] %2[0-9]-%2[0-9]-%2[0-9] %5[0-9:] %[drwxlst-] %[A-F0-9] %[A-Za-z0-9] %[0-9.]",
 	 columns[0], columns[1], columns[2], columns[3],
 	 columns[8], columns[9], columns[10],
 	 columns[4], columns[5], columns[6],
@@ -98,14 +100,14 @@ void RarArch::processLine( char *_line )
   // put entire timestamp in columns[3]
 
   QString timestamp;
-  timestamp.sprintf("%s-%s-%s %s", (const char *)year, 
+  timestamp.sprintf("%s-%s-%s %s", year.utf8().data(), 
 		    columns[8], columns[3], columns[10]);
   
-  kdDebug(1601) << "Year is: " << (const char *)year << "; Month is: " << columns[8] << "; Day is: " << columns[3] << "; Time is: " << columns[10] << endl;
+  kdDebug(1601) << "Year is: " << year << "; Month is: " << columns[8] << "; Day is: " << columns[3] << "; Time is: " << columns[10] << endl;
   
-  strcpy(columns[3], (const char *)timestamp);
+  strcpy(columns[3], timestamp.ascii());
 
-  kdDebug(1601) << "The actual file is " << (const char *)filename << endl;
+  kdDebug(1601) << "The actual file is " << filename << endl;
   
   QStringList list;
   list.append(QString::fromLocal8Bit(filename));
@@ -307,7 +309,7 @@ void RarArch::addFile( QStringList *urls )
       pos = file.findRev( '/' );
       base = file.left( pos );
       pos++;
-      chdir( base );
+      chdir( QFile::encodeName(base) );
       base = file.right( file.length()-pos );
       file = base;
     }

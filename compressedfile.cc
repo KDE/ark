@@ -123,13 +123,13 @@ void CompressedFile::open()
 
   QString command;
   command = "cp '" + m_filename + "' " + m_tmpdir;
-  system((const char *)command);
+  system(QFile::encodeName(command));
 
   m_tmpfile = m_filename.right(m_filename.length()
 			       - m_filename.findRev("/")-1);
   m_tmpfile = m_tmpdir + "/" + m_tmpfile;
 
-  kdDebug(1601) << "Temp file name is " << (const char *)m_tmpfile << endl;
+  kdDebug(1601) << "Temp file name is " << m_tmpfile << endl;
 
   KProcess *kp = new KProcess;
   QString uncompressor = m_unarchiver_program;
@@ -139,7 +139,7 @@ void CompressedFile::open()
     *kp << "-d";
   *kp << m_tmpfile.local8Bit();
 
-  kdDebug(1601) << "Command is " << (const char *)uncompressor << " " << (const char *)m_tmpfile.local8Bit() << endl;
+  kdDebug(1601) << "Command is " << uncompressor << " " << (const char *)m_tmpfile.local8Bit() << endl;
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
@@ -182,8 +182,8 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
     {
       // now do the ls -l. Just a simple system() call
       m_tmpfile = m_tmpfile.left(m_tmpfile.findRev("."));
-      kdDebug(1601) << "Temp file is " << (const char *)m_tmpfile << endl;
-      chdir((const char *)m_tmpdir);
+      kdDebug(1601) << "Temp file is " << m_tmpfile << endl;
+      chdir(QFile::encodeName(m_tmpdir));
       QString command = "ls -l " +
 	m_tmpfile.right(m_tmpfile.length() - 1 - m_tmpfile.findRev("/"));
       
@@ -191,7 +191,7 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
       char columns[7][80];
       char filename[4096];
       
-      FILE *readHandle = popen((const char *)command, "r");
+      FILE *readHandle = popen(QFile::encodeName(command), "r");
       fscanf(readHandle, "%[-A-Za-z:0-9_. ]", line);
       sscanf(line, "%[-drwxst] %[0-9] %[0-9.a-zA-Z_] %[0-9.a-zA-Z_] %[0-9] %12[A-Za-z0-9: ]%1[ ]%[^\n]", columns[0], columns[5],
 	     columns[1], columns[2], columns[3],
@@ -238,15 +238,15 @@ void CompressedFile::addFile( QStringList *urls )
 
   QString command;
   command = "cp '" + file + "' " + m_tmpdir;
-  system((const char *)command);
+  system(QFile::encodeName(command));
 
   m_tmpfile = file.right(file.length()
 			 - file.findRev("/")-1);
   m_tmpfile = m_tmpdir + "/" + m_tmpfile;
 
-  kdDebug(1601) << "Temp file name is " << (const char *)m_tmpfile << endl;
+  kdDebug(1601) << "Temp file name is " << m_tmpfile << endl;
 
-  kdDebug(1601) << "File is " << (const char *)file << endl;
+  kdDebug(1601) << "File is " << file << endl;
 
   KProcess *kp = new KProcess;
   kp->clearArguments();
@@ -296,9 +296,8 @@ void CompressedFile::unarchFile(QStringList *, const QString & _destDir)
   if (_destDir != m_tmpdir)
     {
       QString command;
-      command.sprintf("cp %s %s", (const char *)m_tmpfile, 
-		      (const char *)_destDir);
-      system((const char *)command);
+      command = QString::fromLatin1("cp %1 %2").arg(m_tmpfile).arg(_destDir);
+      system(QFile::encodeName(command));
     }
   emit sigExtract(true);    
 }
@@ -306,13 +305,13 @@ void CompressedFile::unarchFile(QStringList *, const QString & _destDir)
 void CompressedFile::remove(QStringList *)
 {
   kdDebug(1601) << "+CompressedFile::remove" << endl;
-  unlink(m_tmpfile);
+  unlink(QFile::encodeName(m_tmpfile));
 
   // delete the compressed file but then create it empty in case someone
   // does a reload and finds it no longer exists!
-  unlink(m_filename);
+  unlink(QFile::encodeName(m_filename));
   QString command = "touch '" + m_filename + "'";
-  system((const char *)command);  
+  system(QFile::encodeName(command));  
 
   m_tmpfile = "";
   emit sigDelete(true);
