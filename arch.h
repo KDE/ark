@@ -55,6 +55,8 @@
 #include <qstring.h>
 #include <kurl.h>
 
+#include "filelistview.h"
+
 class QCString;
 template<class type> class QPtrList;
 class QRegExp;

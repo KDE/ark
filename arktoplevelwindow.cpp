@@ -43,6 +43,7 @@
 #include "arkapp.h"
 #include "settings.h"
 #include "archiveformatinfo.h"
+#include "arkwidget.h"
 
 ArkTopLevelWindow::ArkTopLevelWindow( QWidget * /*parent*/, const char *name )
 	: KParts::MainWindow(), progressDialog( 0 )

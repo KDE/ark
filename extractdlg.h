@@ -36,8 +36,6 @@
 #include <qcheckbox.h>
 #include <kurl.h>
 
-#include "arch.h"
-
 class QWidget;
 class QString;
 class QStringList;

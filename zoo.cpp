@@ -47,6 +47,7 @@
 #include "arch.h"
 #include "zoo.h"
 #include "arkutils.h"
+#include "filelistview.h"
 
 QString fixTime(const QString &_strTime);
 
@@ -96,7 +97,7 @@ bool ZooArch::processLine(const QCString &line)
     {
       list.append(QString::fromLocal8Bit(columns[i]));
     }
-  m_gui->listingAdd(&list); // send to GUI
+  m_gui->fileList()->addItem(list); // send to GUI
 
   return true;
 }

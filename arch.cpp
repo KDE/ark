@@ -359,7 +359,7 @@ bool Arch::processLine(const QCString &line)
     {
       list.append(columns[i]);
     }
-  m_gui->listingAdd(&list); // send the entry to the GUI
+  m_gui->fileList()->addItem(list); // send the entry to the GUI
 
   return true;
 }

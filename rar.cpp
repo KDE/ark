@@ -48,6 +48,7 @@
 #include "settings.h"
 #include "rar.h"
 #include "arkutils.h"
+#include "filelistview.h"
 
 RarArch::RarArch( ArkWidget *_gui, const QString & _fileName )
   : Arch( _gui, _fileName )
@@ -99,7 +100,7 @@ bool RarArch::processLine(const QCString &line)
   list << l2[ 7 ]; // method
   list << l2[ 8 ]; // Version
 
-  m_gui->listingAdd(&list); // send to GUI
+  m_gui->fileList()->addItem(list); // send to GUI
 
   m_isFirstLine = true;
   return true;

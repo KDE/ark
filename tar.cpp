@@ -52,6 +52,7 @@
 #include <qregexp.h>
 
 // KDE includes
+#include <kapplication.h>
 #include <kdebug.h>
 #include <klargefile.h>
 #include <klocale.h>
@@ -388,12 +389,15 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
       const KTarEntry* tarEntry = tardir->entry((*it));
       if (tarEntry == NULL)
         return;
+
       QStringList col_list;
       QString name;
       if (root.isEmpty() || root.isNull())
         name = tarEntry->name();
       else
-        name = root + '/' + tarEntry->name();
+        name = root + tarEntry->name();
+      if ( !tarEntry->isFile() )
+        name += '/';
       col_list.append( name );
       QString perms = makeAccessString(tarEntry->permissions());
       if (!tarEntry->isFile())
@@ -414,12 +418,13 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
       QString timestamp = tarEntry->datetime().toString(ISODate);
       col_list.append(timestamp);
       col_list.append(tarEntry->symlink());
-      m_gui->listingAdd(&col_list); // send the entry to the GUI
+      m_gui->fileList()->addItem(col_list); // send the entry to the GUI
 
       // if it isn't a file, it's a directory - process it.
       // remember that name is root + / + the name of the directory
       if (!tarEntry->isFile())
         processDir( (KTarDirectory *)tarEntry, name);
+      kapp->processEvents(20);
     }
   // kdDebug(1601) << "-TarArch::processDir" << endl;
 }
@@ -556,7 +561,7 @@ void TarArch::deleteOldFiles(const QStringList &urls, bool bAddOnlyNew)
   {
     KURL url( *iter );
     // find the file entry in the archive listing
-    const FileLVI * lv = m_gui->getFileLVI( url.fileName() );
+    const FileLVI * lv = m_gui->fileList()->item( url.fileName() );
     if ( !lv ) // it isn't in there, so skip it.
       continue;
 

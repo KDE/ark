@@ -80,12 +80,26 @@ public:
   FileListView(ArkWidget *baseArk, QWidget* parent = 0,
 	       const char* name = 0);
   FileLVI *currentItem() {return ((FileLVI *) KListView::currentItem());}
+	
+	/**
+     * Returns the file item, or 0 if not found.
+     * @param filename The filename in question to reference in the archive
+     * @return The requested file's FileLVI
+     */
+  FileLVI *item(const QString& filename) const;
+  
   QStringList selectedFilenames() const;
   uint count();
   bool isSelectionEmpty();
   virtual int addColumn( const QString & label, int width = -1 );
   virtual void removeColumn( int index );
   columnName nameOfColumn( int index );
+
+  /**
+   * Adds a file and stats to the file listing
+   * @param entries A stringlist of the entries for each column of the list.
+   */
+  void addItem( const QStringList & entries );
 
 signals:
   void startDragRequest( const QStringList & fileList );

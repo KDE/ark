@@ -1,10 +1,10 @@
 /*
- Emacs: -*- mode: c++; c-basic-offset: 4; -*-
 
  ark -- archiver for the KDE project
 
  Copyright (C)
 
+ 2004: Henrique Pinto <henrique.pinto@kdemail.net>
  2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
  2002-2003: Helio Chissini de Castro <helio@conectiva.com.br>
  2001-2002: Roberto Teixeira <maragato@kde.org>
@@ -170,21 +170,6 @@ void ArkWidget::cleanArkTmpDir()
 	return;
 }
 
-const FileLVI * ArkWidget::getFileLVI( const QString& _filename ) const
-{
-	FileLVI * flvi = ( FileLVI* ) archiveContent->firstChild();
-	
-	while ( flvi )
-	{
-		QString curFilename = flvi->fileName();
-		if ( curFilename == _filename )
-			return flvi;
-		flvi = ( FileLVI* ) flvi->itemBelow();
-	}
-	
-	return 0;
-}
-
 void ArkWidget::setHeaders( QStringList* _headers, int * _rightAlignCols, int _numColsToAlignRight )
 {
 	clearHeaders();
@@ -206,19 +191,6 @@ void ArkWidget::clearHeaders()
 	while ( archiveContent->columns() > 0 )
 	{
 		archiveContent->removeColumn( 0 );
-	}
-}
-
-void ArkWidget::listingAdd( QStringList * _entries )
-{
-	FileLVI *flvi = new FileLVI( archiveContent );
-
-	int i = 0;
-	
-	for ( QStringList::Iterator it = _entries->begin(); it != _entries->end(); ++it )
-	{
-		flvi->setText( i, *it );
-		++i;
 	}
 }
 

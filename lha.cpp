@@ -50,6 +50,7 @@
 #include "arch.h"
 #include "lha.h"
 #include "arkutils.h"
+#include "filelistview.h"
 
 LhaArch::LhaArch( ArkWidget *_gui, const QString & _fileName )
   : Arch( _gui, _fileName )
@@ -129,7 +130,7 @@ bool LhaArch::processLine(const QCString &line)
   else
     list.append("");
 
-  m_gui->listingAdd(&list); // send to GUI
+  m_gui->fileList()->addItem(list); // send to GUI
 
   return true;
 }

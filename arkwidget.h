@@ -80,12 +80,6 @@ public:
 
     QString tmpDir() const { return m_tmpDir ? m_tmpDir->name() : QString::null; }
 
-    /**
-     * Returns the file item, or 0 if not found.
-     * @param _filename The filename in question to reference in the archive
-     * @return The requested file's FileLVI
-     */
-    const FileLVI * getFileLVI( const QString& _filename ) const;
     FileListView * fileList() const { return archiveContent; }
     Arch * archive() const { return arch; }
     ArchType archiveType() const { return m_archType; }
@@ -103,12 +97,6 @@ public:
      * Clears all headers from the file list.
      */
     void clearHeaders();
-
-    /**
-     * Adds a file and stats to the file listing
-     * @param _entries A stringlist of the entries for each column of the list.
-     */
-    void listingAdd( QStringList * _entries );
 
     /**
      * Brings up a dialog showing the results returned by the last cmdline tool.

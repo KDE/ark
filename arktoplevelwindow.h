@@ -25,8 +25,6 @@
 #ifndef ARKTOPLEVELWINDOW_H
 #define ARKTOPLEVELWINDOW_H
 
-#define ARK_VERSION "2.1.9"
-
 // QT includes
 #include <qstring.h>
 #include <qpopupmenu.h>
@@ -39,7 +37,8 @@
 #include <kprogress.h>
 
 // ark includes
-#include "arkwidget.h"
+//#include "arkwidget.h"
+class ArkWidget;
 
 class
 ArkTopLevelWindow: public KParts::MainWindow

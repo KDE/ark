@@ -21,6 +21,7 @@
 
 #include "archiveformatdlg.h"
 #include "archiveformatinfo.h"
+#include "arch.h"
 
 #include <klocale.h>
 

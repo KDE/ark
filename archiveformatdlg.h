@@ -22,8 +22,6 @@
 #ifndef ARCHIVEFORMATDLG_H
 #define ARCHIVEFORMATDLG_H
 
-#include "arch.h"
-
 #include <kdialogbase.h>
 #include <kcombobox.h>
 

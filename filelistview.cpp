@@ -309,4 +309,33 @@ FileListView::contentsMouseMoveEvent(QMouseEvent *e)
 	}
 }
 
+FileLVI*
+FileListView::item(const QString& filename) const
+{
+	FileLVI * flvi = (FileLVI*) firstChild();
+	
+	while (flvi)
+	{
+		QString curFilename = flvi->fileName();
+		if (curFilename == filename)
+			return flvi;
+		flvi = (FileLVI*) flvi->nextSibling();
+	}
+	
+	return 0;
+}
+
+void FileListView::addItem( const QStringList & entries )
+{
+	FileLVI *flvi = new FileLVI(this);
+
+	int i = 0;
+	
+	for (QStringList::ConstIterator it = entries.begin(); it != entries.end(); ++it)
+	{
+		flvi->setText(i, *it);
+		++i;
+	}
+}
+
 #include "filelistview.moc"

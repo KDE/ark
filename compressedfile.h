@@ -26,6 +26,8 @@
 #ifndef __COMPRESSED_FILE_H__
 #define __COMPRESSED_FILE_H__
 
+#include "filelistview.h"
+
 class QString;
 class QCString;
 class QStringList;
