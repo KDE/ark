@@ -63,11 +63,16 @@ ArkWidgetBase::ArkWidgetBase(QWidget *widget)
 */
 ArkWidgetBase::~ArkWidgetBase()
 {
-  kdDebug(1601) << "ArkWidget::~ArkWidgetBase" << endl;
-
-  if(archiveContent) delete archiveContent;
-  if(arch) delete arch;
-  if(m_settings) delete m_settings;
+	kdDebug(1601) << "ArkWidget::~ArkWidgetBase" << endl;
+	
+	if(archiveContent) 
+	{
+		// avoid race condition, so that archiveContent isn't used while being deleted
+		archiveContent = NULL;
+		delete archiveContent;
+	}
+	if(arch) delete arch;
+	if(m_settings) delete m_settings;
 }
 
 /**
