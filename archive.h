@@ -48,7 +48,8 @@ class Archive : public QObject
     virtual ~Archive();
 
     /**
-     * 
+     * File name of the archive.
+     * This class only deals with local archives, as KParts take care of URLs.
      */
     QString fileName() const { return m_fileName; }
 
@@ -56,12 +57,6 @@ class Archive : public QObject
      * Returns true if the archive is read only, false otherwise.
      */
     bool readOnly() const { return m_readOnly; }
-
-    /**
-     * Returns a pointer to the KActionCollection object containing the 
-     * archive's actions.
-     */
-    KActionCollection* actionCollection() const { return m_actionCollection; }
 
     /**
      * A list of entries in an archive.
@@ -106,14 +101,8 @@ class Archive : public QObject
     void addEntry( const ArchiveEntry & entry );
 
   private:
-    /**
-     * Creates the actions related to this archive.
-     */
-    void initActions();
-
     QString m_fileName;
     bool m_readOnly;
-    KActionCollection *m_actionCollection;
     Q_UINT64 m_totalSize;
     Q_UINT64 m_totalCompressedSize;
     EntryList m_entries;

@@ -33,23 +33,10 @@ Archive::Archive( const QString& archive, bool openReadOnly )
   QFileInfo fi( archive );
   // Open the archive in read-only mode if it is not writable or if openReadOnly is true
   m_readOnly = ( openReadOnly ) or ( !fi.isWritable() );
-
-  // Creates the action collection
-  m_actionCollection = new KActionCollection( 0, this );
-  // initializes the actions
-  initActions();
 }
 
 Archive::~Archive()
 {
-  // Delete the action collection.
-  delete m_actionCollection;
-  m_actionCollection = 0;
-}
-
-void Archive::initActions()
-{
-  // FIXME: Implement
 }
 
 void Archive::addEntry( const ArchiveEntry & entry )
