@@ -190,32 +190,18 @@ void RarArch::addFile( QStringList *urls )
 
   *kp << m_filename;
 
-  QString base;
-  QString url;
-  QString file;
-
-
   QStringList::ConstIterator iter;
   for (iter = urls->begin(); iter != urls->end(); ++iter )
   {
-    url = *iter;
-    // comment out for now until I figure out what happened to this function!
-    //    KURL::decodeURL(url); // Because of special characters
-    file = url.right(url.length()-5);
+    KURL url( *iter );
 
-    if( file[file.length()-1]=='/' )
-      file[file.length()-1]='\0';
-    if( ! m_settings->getaddPath() )
+    if( !m_settings->getaddPath() )
     {
-      int pos;
-      pos = file.findRev( '/' );
-      base = file.left( pos );
-      pos++;
-      QDir::setCurrent(base);
-      base = file.right( file.length()-pos );
-      file = base;
+      QDir::setCurrent(url.directory());
+      *kp << url.fileName();
     }
-    *kp << file;
+    else
+      *kp << url.path(-1);
   }
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));

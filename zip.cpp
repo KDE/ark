@@ -177,29 +177,18 @@ void ZipArch::addFile( QStringList *urls )
 
   *kp << m_filename;
 
-  QString base;
-  QString url;
-  QString file;
-
   QStringList::ConstIterator iter;
   for (iter = urls->begin(); iter != urls->end(); ++iter )
   {
-    url = *iter;
-    //    KURL::decodeURL(url); // Because of special characters
-    file = url.right(url.length()-5);
+    KURL url( *iter );
 
-    if (file[file.length()-1]=='/')
-      file[file.length()-1]='\0';
     if (m_settings->getZipAddJunkDirs())
     {
-      int pos;
-      pos = file.findRev('/');
-      base = file.left(++pos);
-      QDir::setCurrent(base);
-      base = file.right(file.length()-pos);
-      file = base;
+      QDir::setCurrent(url.directory());
+      *kp << url.fileName();
     }
-    *kp << file;
+    else
+      *kp << url.path(-1);
   }
 
   // debugging info
