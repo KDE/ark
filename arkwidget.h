@@ -54,7 +54,6 @@ class KTempFile;
 class KTempDir;
 class KToolBar;
 
-class ArkViewer;
 class FileListView;
 class FileLVI;
 class SearchBar;
@@ -348,8 +347,6 @@ private: // data
     QStringList mDragFiles;
     QStringList *m_extractList;
     KTempDir *m_tmpDir;
-
-    ArkViewer *m_viewer;
 };
 
 #endif /* ARKWIDGET_H*/

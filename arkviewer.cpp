@@ -42,14 +42,11 @@ ArkViewer::ArkViewer( QWidget * parent, const char * name )
 
 ArkViewer::~ArkViewer()
 {
-	delete m_part;
-	m_part = 0;
 }
 
 void ArkViewer::slotFinished()
 {
-    delete m_part;
-    m_part = 0;
+	delayedDestruct();
 }
 
 bool ArkViewer::view( const QString& filename )

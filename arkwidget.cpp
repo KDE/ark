@@ -116,7 +116,7 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
 	m_archType( UNKNOWN_FORMAT ), m_nSizeOfFiles( 0 ),
 	m_nSizeOfSelectedFiles( 0 ), m_nNumFiles( 0 ), m_nNumSelectedFiles( 0 ),
 	m_bIsArchiveOpen( false ), m_bIsSimpleCompressedFile( false ),
-	m_bDropSourceIsSelf( false ), m_extractList( 0 ), m_viewer( 0 )
+	m_bDropSourceIsSelf( false ), m_extractList( 0 )
 {
     m_tmpDir = new KTempDir( locateLocal( "tmp", "ark" ) );
 
@@ -156,8 +156,6 @@ ArkWidget::~ArkWidget()
     delete archiveContent;
     archiveContent = 0;
     delete arch;
-    delete m_viewer;
-    m_viewer = 0;
 }
 
 void ArkWidget::cleanArkTmpDir()
@@ -1942,11 +1940,9 @@ ArkWidget::viewSlotExtractDone()
 
     if ( Settings::useIntegratedViewer() )
     {
+        ArkViewer * viewer = new ArkViewer( this, "viewer" );
 
-        if ( !m_viewer )
-            m_viewer = new ArkViewer( this, "viewer" );
-
-        if ( !m_viewer->view( m_strFileToView ) )
+        if ( !viewer->view( m_strFileToView ) )
         {
             kdDebug( 1601 ) << "ArkWidget::viewSlotExtractDone(): Internal Viewer can't view this file." << endl;
             QString text = i18n( "The internal viewer is not able to display this file. Would you like to view it using an external program?" );
