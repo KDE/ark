@@ -825,7 +825,7 @@ void ArkWidget::slotDeleteDone(bool _bSuccess)
   kDebugInfo(1601, "-ArkWidget::slotDeleteDone");
 }
 
-void ArkWidget::slotExtractDone(bool _bSuccess)
+void ArkWidget::slotExtractDone()
 {
   kDebugInfo(1601, "+ArkWidget::slotExtractDone");
   archiveContent->setUpdatesEnabled(true);
@@ -1261,7 +1261,8 @@ void ArkWidget::doPopup(QListViewItem *pItem, const QPoint &pPoint,
   }
   else // clicked anywhere else but the name column
   {
-    m_archivePopup->popup(QCursor::pos());
+    //    m_archivePopup->popup(QCursor::pos());
+    m_archivePopup->popup(pPoint);
   }
 }
 
@@ -1665,7 +1666,7 @@ Arch *ArkWidget::createArchive( QString _filename )
   connect( newArch, SIGNAL(sigAdd(bool)),
 	   this, SLOT(slotAddDone(bool)));
   connect( newArch, SIGNAL(sigExtract(bool)),
-	   this, SLOT(slotExtractDone(bool)));
+	   this, SLOT(slotExtractDone()));
 
   archiveContent->setUpdatesEnabled(false);
   newArch->create();
@@ -1709,7 +1710,7 @@ Arch *ArkWidget::openArchive( QString _filename )
   connect( newArch, SIGNAL(sigAdd(bool)),
 	   this, SLOT(slotAddDone(bool)));
   connect( newArch, SIGNAL(sigExtract(bool)),
-	   this, SLOT(slotExtractDone(bool)));
+	   this, SLOT(slotExtractDone()));
 
 
     archiveContent->setUpdatesEnabled(false);

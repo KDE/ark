@@ -77,12 +77,14 @@ public:
   QString getUnCompressor();
 
 public slots:
-  void inputPending( KProcess *, char *buffer, int bufflen );  
-  void updateExtractProgress( KProcess *, char *buffer, int bufflen );
+  void updateProgress( KProcess *_kp, char *_buffer, int _bufflen);
+  void extractProgress( KProcess *, char *_buffer, int _bufflen );
   void openFinished( KProcess * );
   void updateFinished( KProcess * );
   void createTmpFinished( KProcess * );
+  void createTmpProgress( KProcess *_kp, char *_buffer, int _bufflen);
   void extractFinished( KProcess * );
+  void slotAddFinished(KProcess *);
 
 protected slots:
   void slotOpenDataStdout(KProcess*, char*, int);
@@ -94,11 +96,15 @@ private:  // methods
   void processDir(const KTarDirectory *tardir, const QString & root);
 
 private: // data
-  char          *stdout_buf;
-  QString       tmpfile;
-  bool          compressed;
-  bool          perms, tolower, overwrite;
+  QString tmpfile;
+  bool compressed;
+  bool perms, tolower, overwrite;
   QString tmpdir; // easily recalculated, but I may need it a lot
+
+  // for use with createTmp and updateArch
+  bool createTmpInProgress;
+  bool updateInProgress;
+  FILE *fd;
 };
 
 #endif /* TAR_H */

@@ -75,7 +75,6 @@ private:
   void processLine( char* );	
   void initExtract( bool, bool, bool );
   void setHeaders();
-  void initOpen();
 };
 
 #endif /* ZIPARCH_H */

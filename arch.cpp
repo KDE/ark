@@ -38,19 +38,16 @@ Arch::Arch( ArkSettings *_settings, Viewer *_viewer,
   : m_filename(_fileName), m_settings(_settings), m_gui(_viewer) 
 {
   kDebugInfo(1601, "+Arch::Arch");
-  m_kp = new KProcess;
   kDebugInfo(1601, "-Arch::Arch");
 }
 
 Arch::~Arch()
 {
-  delete m_kp;
-  m_kp = 0;
 }
 
 void Arch::slotCancel()
 {
-  m_kp->kill();
+  //  m_kp->kill();
 }
 
 void Arch::slotStoreDataStdout(KProcess*, char* _data, int _length)
@@ -71,16 +68,16 @@ void Arch::slotStoreDataStderr(KProcess*, char* _data, int _length)
   _data[_length] = c;
 }
 
-void Arch::slotOpenExited(KProcess* _p)
+void Arch::slotOpenExited(KProcess* _kp)
 {
-  kDebugInfo(1601, "normalExit = %d", _p->normalExit() );
-  kDebugInfo(1601, "exitStatus = %d", _p->exitStatus() );
+  kDebugInfo(1601, "normalExit = %d", _kp->normalExit() );
+  kDebugInfo(1601, "exitStatus = %d", _kp->exitStatus() );
 
-  bool bNormalExit = _p->normalExit();
+  bool bNormalExit = _kp->normalExit();
 
   int exitStatus = 100; // arbitrary bad exit status
   if (bNormalExit)
-    exitStatus = _p->exitStatus();
+    exitStatus = _kp->exitStatus();
 
   if (1 == exitStatus)
     exitStatus = 0;    // because 1 means empty archive - not an error.
@@ -92,9 +89,8 @@ void Arch::slotOpenExited(KProcess* _p)
   else
     emit sigOpen( false, QString::null, 0 );
 
-  disconnect( m_kp, SIGNAL(processExited(KProcess*)), this,
-	      SLOT(slotOpenExited(KProcess*)));
-
+  delete _kp;
+  _kp = NULL;
 
 }
 
@@ -123,8 +119,9 @@ void Arch::slotDeleteExited(KProcess *_kp)
     KMessageBox::sorry( (QWidget *)0, i18n("Error"), i18n("Deletion failed") );
   
   emit sigDelete(bSuccess);
-  disconnect( m_kp, SIGNAL(processExited(KProcess*)), this,
-	      SLOT(slotDeleteExited(KProcess*)));
+  delete _kp;
+  _kp = NULL;
+
   kDebugInfo(1601, "-Arch::slotDeleteExited");
 }
 
@@ -151,8 +148,8 @@ void Arch::slotExtractExited(KProcess *_kp)
     KMessageBox::sorry((QWidget *)0, i18n("Error"), i18n("Extraction failed"));
 
   emit sigExtract(bSuccess);
-  disconnect( m_kp, SIGNAL(processExited(KProcess*)), this,
-	      SLOT(slotExtractExited(KProcess*)));
+  delete _kp;
+  _kp = NULL;
 
   kDebugInfo(1601, "-Arch::slotExtractExited");
 }
@@ -182,8 +179,8 @@ void Arch::slotAddExited(KProcess *_kp)
     KMessageBox::sorry((QWidget *)0, i18n("Error"), i18n("Add failed"));
   
   emit sigAdd(bSuccess);
-  disconnect( m_kp, SIGNAL(processExited(KProcess*)), this,
-	      SLOT(slotAddExited(KProcess*)));
+  delete _kp;
+  _kp = NULL;
 
   kDebugInfo(1601, "-Arch::slotAddExited");
 }

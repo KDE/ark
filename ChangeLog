@@ -1,3 +1,10 @@
+2000-03-06: Emily Ezust <emilye@corel.com>
+	* Got rid of KProcess data member in Arch - no need for it with the
+	  new way that KProcess does its work: we are always passing it 
+	  around to the functions that need it. This way we won't get
+ 	  confused when there are more than one processes happening.
+	* Made tar more asynchronous, redid the temp file creation & updating.
+
 2000-03-03:  Emily Ezust <emilye@corel.com>
 	* Made zip fully asynchronous.
 	

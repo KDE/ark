@@ -39,9 +39,9 @@
 // ark includes
 #include "arksettings.h"
 #include "filelistview.h"
+class KProcess;
 
 class Viewer;
-class KProcess;
 
 // The following class is the base class for all of the archive types.
 // In order for it to work properly with the KProcess, you have to
@@ -100,7 +100,6 @@ protected:
   char m_buffer[1024];
   ArkSettings *m_settings;
   Viewer *m_gui;
-  KProcess *m_kp;
 };
 
 

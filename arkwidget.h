@@ -129,7 +129,7 @@ protected slots:
   void slotOpen(bool, const QString &, int);
   void slotCreate(bool, const QString &, int);
   void slotDeleteDone(bool);
-  void slotExtractDone(bool);
+  void slotExtractDone();
   void slotAddDone(bool);
 
   void selectByPattern(const QString & _pattern);
