@@ -466,7 +466,7 @@ void TarArch::createTmp()
                     this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
             if (kp->start(KProcess::NotifyOnExit, flag ) == false)
             {
-                KMessageBox::error(0, i18n("I cannot fork a decompressor"));
+                KMessageBox::error(0, i18n("Unable to fork a decompressor"));
 		emit sigOpen( this, false, QString::null, 0 );
             }
         }
