@@ -57,6 +57,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <ktempfile.h>
+#include <kmimemagic.h>
 // ark includes
 #include "viewer.h"
 #include "extractdlg.h"
@@ -76,7 +77,10 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
   m_unarchiver_program = QString::null;
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
-  if (_filename.right(4) == ".tar")
+  KMimeMagic *mimePtr = KMimeMagic::self();
+  KMimeMagicResult * mimeResultPtr = mimePtr->findFileType(_filename);
+  QString mimetype = mimeResultPtr->mimeType();
+  if (mimetype == "application/x-tar")
     {
       compressed = false;
     }

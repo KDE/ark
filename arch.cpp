@@ -417,6 +417,9 @@ ArchType getArchType( const QString & archname, QString &extension)
   KMimeMagicResult * mimeResultPtr = mimePtr->findFileType(archname);
   QString mimetype = mimeResultPtr->mimeType();
   extension = QString::null;
+
+  kdDebug(1601) << "The mime type is " << mimetype << endl;
+
   if (mimetype == "application/x-rar")
     return RAR_FORMAT;
   if (mimetype == "application/x-lha")
