@@ -1,3 +1,4 @@
+//  -*-C++-*-           emacs magic for .h files
 /*
 
  $Id $
@@ -36,52 +37,45 @@
 #include "arksettings.h"
 #include "filelistview.h"
 
-class ArkWidget;
+class Viewer;
 
 class Arch : public QObject
 {
-Q_OBJECT
-
+  Q_OBJECT
 public:
-	Arch( ArkWidget *_mainWindow, const QString & _fileName );
-	virtual ~Arch() {};
-	
-	virtual void open() = 0;
-	virtual void create() = 0;
-	virtual void remove() = 0;
-	virtual void extract() = 0; // extract all
+  Arch( ArkSettings *_settings, Viewer *_viewer, const QString & _fileName )
+    : m_filename(_fileName), m_settings(_settings), m_gui(_viewer) {}
 
-	virtual int addFile( QStringList *) = 0;
+  virtual ~Arch() {};
+	
+  virtual void open() = 0;
+  virtual void create() = 0;
+  virtual void remove(QStringList *) = 0;
 
-	// unarch the selected files
-	virtual QString unarchFile() = 0;
+  virtual int addFile(QStringList *) = 0;
 
-	// unarch _filename
-	virtual QString unarchFile( const QString & _filename) = 0;
+  // unarch the files in the list or all files if the list is empty
+  virtual QString unarchFile(QStringList *) = 0;
+
+  virtual int actionFlag() = 0;
 	
-	virtual int actionFlag() = 0;
+  QString fileName() const { return m_filename; };
+  FileListView *fileList() { return 0; } //m_arkwidget->fileList(); }
 	
-	QString fileName() const { return m_filename; };
-	FileListView *fileList();
-	
-	enum EditProperties{
-		Add = 1,
-		Delete = 2,
-		Extract = 4,
-		View = 8,
-		Integrity = 16
-	};
+  enum EditProperties{ Add = 1, Delete = 2, Extract = 4,
+    View = 8, Integrity = 16 };
 
 signals:
-	void sigOpen( bool, const QString &, int );
-	void sigCreate( bool, const QString &, int );
+  void sigOpen( bool, const QString &, int );
+  void sigCreate( bool, const QString &, int );
 	
 protected:
-	QString m_filename;
-	QString m_shellErrorData;
-	char m_buffer[1024];
-	ArkSettings *m_settings;
-	ArkWidget *m_arkwidget;
+  QString m_filename;
+  QString m_shellErrorData;
+  char m_buffer[1024];
+  ArkSettings *m_settings;
+  //  ArkWidget *m_arkwidget;
+  Viewer *m_gui;
 };
 
 

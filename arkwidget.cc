@@ -1,4 +1,3 @@
-
 /*
 
  $Id$
@@ -57,8 +56,6 @@
 
 // ark includes
 #include "arkapp.h"
-#include "arkwidget.h"
-#include "arkwidget.moc"
 
 #include "dirDlg.h"
 #include "generalOptDlg.h"
@@ -67,6 +64,10 @@
 
 #include "extractdlg.h"
 #include "adddlg.h"
+#include "arch.h"
+#include "arkwidget.h"
+
+#include "viewer.h"
 
 extern int errno;
 
@@ -80,6 +81,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 {
     kdebug(0, 1601, "+ArkWidget::ArkWidget");
   
+    m_viewer = new Viewer(this);
     m_settings = new ArkSettings();
     // Creates a temp directory for this ark instance
     unsigned int pid = getpid();
@@ -366,43 +368,54 @@ void ArkWidget::setupToolBar()
 
     KToolBar *tb = toolBar();
 
+    QPixmap pixmap;
 
-    tb->insertButton ( BarIcon("new_ark"), eNew, SIGNAL(clicked()), this,
+    pixmap = BarIcon("new_ark");
+    tb->insertButton ( pixmap, eNew, SIGNAL(clicked()), this,
 		       SLOT(file_new()), true, i18n("New"));
 
-    tb->insertButton ( BarIcon("open_ark"), eOpen, SIGNAL(clicked()), this,
+    pixmap = BarIcon("open_ark");
+    tb->insertButton ( pixmap, eOpen, SIGNAL(clicked()), this,
 		       SLOT(file_open()), true, i18n("Open"));
 
     tb->insertSeparator();
 
-    tb->insertButton ( BarIcon("addfile"), eAddFile, SIGNAL(clicked()),
+    pixmap = BarIcon("addfile");
+    tb->insertButton ( pixmap, eAddFile, SIGNAL(clicked()),
 		       this, SLOT(action_add()), true, i18n("Add File"));
 
-    tb->insertButton ( BarIcon("adddir"), eAddDir, SIGNAL(clicked()), this,
+    pixmap = BarIcon("adddir");
+    tb->insertButton ( pixmap, eAddDir, SIGNAL(clicked()), this,
 		       SLOT(action_add_dir()), true, i18n("Add Dir"));
 
     tb->insertSeparator();
 
-    tb->insertButton ( BarIcon("extract"), eExtract, SIGNAL(clicked()),
+    pixmap = BarIcon("extract");
+    tb->insertButton ( pixmap, eExtract, SIGNAL(clicked()),
 		       this, SLOT(action_extract()), true, i18n("Extract"));
 
-    tb->insertButton ( BarIcon("delete"), eDelete, SIGNAL(clicked()), this,
+    pixmap =  BarIcon("delete");
+    tb->insertButton ( pixmap, eDelete, SIGNAL(clicked()), this,
 		       SLOT(action_delete()), true, i18n("Delete"));
 
     tb->insertSeparator();
 
-    tb->insertButton ( BarIcon("selectall"), eSelectAll, SIGNAL(clicked()),
+    pixmap = BarIcon("selectall");
+    tb->insertButton ( pixmap , eSelectAll, SIGNAL(clicked()),
 		       this, SLOT(edit_selectAll()), true, i18n("Select All"));
 
-    tb->insertButton ( BarIcon("view"), eView, SIGNAL(clicked()), this,
+    pixmap = BarIcon("view");
+    tb->insertButton ( pixmap, eView, SIGNAL(clicked()), this,
 		       SLOT(file_show()), true, i18n("View"));
 
     tb->insertSeparator();
 
-    tb->insertButton ( BarIcon("options"), eOptions, SIGNAL(clicked()),
+    pixmap = BarIcon("options");
+    tb->insertButton ( pixmap, eOptions, SIGNAL(clicked()),
 		       this, SLOT(options_dirs()), true, i18n("Options"));
 
-    tb->insertButton ( BarIcon("help"), eHelp, SIGNAL(clicked()), this,
+    pixmap = BarIcon("help");
+    tb->insertButton ( pixmap, eHelp, SIGNAL(clicked()), this,
 		       SLOT(help()), true, i18n("Help"));
 
     tb->setBarPos( KToolBar::Top );
@@ -971,17 +984,37 @@ void ArkWidget::action_add_dir()
   //  arch->addDir( 0 );
 }
 
+void ArkWidget::remove()
+  // remove selected files and create a list to send to the archive
+{
+  QStringList list;
+  FileLVI* flvi = (FileLVI*)archiveContent->firstChild();
+  FileLVI* old_flvi;
+  while (flvi)
+    {
+      if( archiveContent->isSelected(flvi) ){
+	old_flvi = flvi;
+	flvi = (FileLVI*)flvi->itemBelow();
+	list.append(old_flvi->getFileName().copy());
+	delete old_flvi;
+      }		
+      else flvi = (FileLVI*)flvi->itemBelow();
+    }
+  arch->remove(&list);
+}
+
 void ArkWidget::action_delete()
 {
     kdebug(0, 1601, "+ArkWidget::action_delete");
 
-    KASSERT(!archiveContent->isSelectionEmpty(), 3, 1601, "Nothing to be removed !" );
+    KASSERT(!archiveContent->isSelectionEmpty(),
+	    3, 1601, "Nothing to be removed !" );
 
     if( KMessageBox::questionYesNo(this, i18n("Do you really want to delete the selected items?")) == KMessageBox::Yes)
     {
-	arch->remove();
-	updateStatusTotals();
-	updateStatusSelection();	
+      remove();
+      updateStatusTotals();
+      updateStatusSelection();	
     }
 
     kdebug(0, 1601, "-ArkWidget::action_delete");
@@ -1004,12 +1037,30 @@ void ArkWidget::action_extract()
       switch(extractOp)
 	{
 	case ExtractDlg::All:
-	  arch->extract();
+	  arch->unarchFile(0);
 	  break;
 	case ExtractDlg::Pattern:
 	case ExtractDlg::Selected:
-	  arch->unarchFile(); // extract selected files
-	  break;
+	  {
+	    // make a list to send to unarchFile
+	    QStringList *list = new QStringList;
+	    FileListView *flw = fileList();
+	    FileLVI *flvi = (FileLVI*)flw->firstChild();
+	    QString tmp;
+	    while (flvi)
+	      {
+		if( flw->isSelected(flvi) ){
+		  kdebug(0, 1601, "unarching %s",
+			 flvi->getFileName().ascii() );
+		  tmp = flvi->getFileName().local8Bit();
+		  list->append(tmp.local8Bit());
+		}
+		flvi = (FileLVI*)flvi->itemBelow();
+	      }
+	    arch->unarchFile(list); // extract selected files
+	    delete list;
+	    break;
+	  }
 	case ExtractDlg::Current:
 	  {
 	    FileLVI *pItem = archiveContent->currentItem();
@@ -1017,16 +1068,23 @@ void ArkWidget::action_extract()
 	      kdebug(0, 1601, "Can't seem to figure out which is current!");
 	    else
 	      {
-		arch->unarchFile(pItem->text(0)) ; // get the name
+		QString tmp = pItem->text(0);  // get the name
+		QStringList *list = new QStringList;
+		list->append(tmp.local8Bit());
+		arch->unarchFile(list) ;
+		delete list;
 	      }
+	    break;
 	  }
-	  break;
 	default:
 	  ASSERT(0);
 	  // never happens
 	  break;
 	}
+      
       delete dlg;
+      KMessageBox::information(this, i18n("Extraction completed."));
+
     }
 }
 
@@ -1470,13 +1528,13 @@ Arch *ArkWidget::createArchive( QString _filename )
     {
 #if 0
     case TAR_FORMAT:
-	newArch = new TarArch( m_settings, this, name );
+	newArch = new TarArch( m_settings, m_viewer, name );
 	newArch->createArch( name );
 	ret = true;
 	break;
 #endif
     case ZIP_FORMAT:
-	newArch = new ZipArch( m_settings, this, _filename );
+	newArch = new ZipArch( m_settings, m_viewer, _filename );
 	connect( newArch, SIGNAL(sigOpen(bool, const QString &, int)),
 		 this, SLOT(slotOpen(bool, const QString &, int)) );
 	connect( newArch, SIGNAL(sigCreate(bool, const QString &, int)),
@@ -1515,13 +1573,13 @@ Arch *ArkWidget::openArchive( QString _filename )
 #if 0
 
     case TAR_FORMAT:
-	newArch = new TarArch(  m_settings, this, _filename );
+	newArch = new TarArch(  m_settings, m_viewer, _filename );
 	newArch->openArch( name );
 	ret = true;
 	break;
 #endif   
     case ZIP_FORMAT:
-	newArch = new ZipArch( m_settings, this, _filename );
+	newArch = new ZipArch( m_settings, m_viewer, _filename );
 	connect( newArch, SIGNAL(sigOpen(bool, const QString &, int)),
 		 this, SLOT(slotOpen(bool, const QString &,int)) );
 	connect( newArch, SIGNAL(sigCreate(bool, const QString &,int)),
@@ -1542,8 +1600,44 @@ Arch *ArkWidget::openArchive( QString _filename )
 #endif
     default:
 	KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
-//	clearCurrentArchive();     // just leave the old one
+	// and just leave the old archive displayed
     }
     return newArch;    
 }
 
+void ArkWidget::listingAdd(QStringList *_entries)
+{
+  // add the column data in _entries to the list view.
+
+  FileLVI *flvi = new FileLVI( fileList() );
+
+  int i = 0;
+  for ( QStringList::Iterator it = _entries->begin();
+	it != _entries->end(); ++it ) 
+    {
+      flvi->setText(i, *it);
+      ++i;
+    }
+  archiveContent->insertItem(flvi);
+}
+
+void ArkWidget::setHeaders(QStringList *_headers,
+			   int * _rightAlignCols, int _numColsToAlignRight)
+{
+  for ( QStringList::Iterator it = _headers->begin();
+	it != _headers->end(); ++it ) 
+    {
+       archiveContent->addColumn(*it);
+    }
+
+  for (int i = 0; i < _numColsToAlignRight; ++i)
+    {
+      archiveContent->setColumnAlignment( _rightAlignCols[i],
+					  QListView::AlignRight );
+    }
+  archiveContent->setUpdatesEnabled(false);
+
+}
+
+#include "arch.moc"
+#include "arkwidget.moc"

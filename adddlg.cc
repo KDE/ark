@@ -40,7 +40,7 @@ void AddDlg::setupFirstTab()
 
   m_dirList = new KDirOperator(m_sourceDir, frame, "dirlist");
 
-  m_dirList->setView(KDirOperator::Default, true);
+  m_dirList->setView(KDirOperator::Simple, true);
 
   m_dirList->setGeometry(x(), y(), 500, 500);  // this doesn't do a thing
   vlay->addWidget(m_dirList);  

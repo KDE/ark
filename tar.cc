@@ -45,20 +45,18 @@
 #include <kmessagebox.h>
 
 // ark includes
-#include "arkwidget.h"
+#include "viewer.h"
 #include "extractdlg.h"
 #include "tar.h"
 #include "tar.moc"
 
-TarArch::TarArch( ArkSettings *_d, ArkWidget *_w, FileListView *_flw )
-	:QObject(), Arch()
+TarArch::TarArch( ArkSettings *_settings, Viewer *_gui, FileListView *_flw )
+	: Arch(_settings, _gui, "")
 {
 	kdebug(0, 1601, "+TarArch::TarArch");
 	
 	stdout_buf = NULL;
 	cout << "Entered TarArch" << endl;
-	m_settings = _d;
-	m_arkwidget = _w;
 	m_flw = _flw;
 	
 	listing = new QStringList;
@@ -189,7 +187,7 @@ void TarArch::openArch( const QString & name )
 //	while(archProcess.isRunning())
 //		;
 
-	m_arkwidget->open_ok( m_filename );
+	//	m_arkwidget->open_ok( m_filename );
 	
 	cout << "Left openArch" << endl;
 }
@@ -299,6 +297,7 @@ int TarArch::addFile( QStringList* urls )
 	cout << "Left addFile" << endl;
 }
 
+#if 0
 void TarArch::extraction()
 {
 	QString dir, ex;
@@ -353,15 +352,10 @@ void TarArch::extractTo( const QString & dir )
 
 	cout << "Left extractTo" << endl;
 }
-
-QString TarArch::unarchFile(const QString & _filename )
-{
-  return "";
-}
-
+#endif
 
 /* untested */
-QString TarArch::unarchFile()
+QString TarArch::unarchFile( QStringList * _fileList)
 {
   QString dest = m_settings->getExtractDir();
 	cout << "Entered unarchFile" << endl;

@@ -34,10 +34,9 @@ public:
 	virtual void openArch( const QString &, FileListView *flw );
 	virtual void createArch( const QString & );
 	virtual int addFile( QStringList *);
-	virtual void extractTo( const QString &);
+	//	virtual void extractTo( const QString &);
 	virtual const QStringList *getListing();
-	virtual QString unarchFile();
-	virtual QString unarchFile( const QString & );
+	virtual QString unarchFile(QStringList * _fileList);
 	virtual void deleteFile( int );
 
 private:

@@ -149,6 +149,7 @@ int ArArch::addFile( QStringList *urls )
 	return 0;
 }
 
+#if 0
 void ArArch::extractTo( const QString & dest )
 {
 	FILE *fd;
@@ -183,13 +184,9 @@ void ArArch::extractTo( const QString & dest )
 	unlink( curarch );
 	chdir( pwd );
 }
+#endif
 
-QString ArArch::unarchFile(const QString & _filename )
-{
-  return "";
-}
-
-QString ArArch::unarchFile()
+QString ArArch::unarchFile(QStringList * _fileList)
 {
   QString dest = m_settings->getExtractDir();
 	QString ex, tmp, tmp2;

@@ -22,7 +22,7 @@ bin_PROGRAMS = 	ark
 
 # Which sources should be compiled for ark.
 ark_SOURCES	= arkapp.cpp extractdlg.cc dirDlg.cpp arkwidget.cc \
-		main.cc zip.cc arch.cpp filelistview.cpp \
+		main.cc zip.cc filelistview.cpp \
 		generalOptDlg.cpp selectDlg.cpp adddlg.cc \
 		waitDlg.cpp shellOutputDlg.cpp arksettings.cpp
 

@@ -6,11 +6,10 @@
 #include <qstrlist.h>
 
 #include "arch.h"
-#include "arkprocess.h"
 #include "filelistview.h"
 
-class LhaArch : public Arch {
-
+class LhaArch : public Arch 
+{
 public:
 	LhaArch( ArkSettings *d );
 	virtual ~LhaArch();

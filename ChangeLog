@@ -1,4 +1,9 @@
-2000-02-09  : Emily Ezust <emilye@corel.com>
+2000-02-14: Emily Ezust <emilye@corel.com>
+	* Separated GUI and backend in zip, which will be the model
+	  for the other formats once it's just-right. Next I'll make sure
+	  drag and drop works.
+	
+2000-02-09: Emily Ezust <emilye@corel.com>
 	* Finally have Add and Extract working for zip
 
 2000-02-07:  Emily Ezust <emilye@corel.com>
