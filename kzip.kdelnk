@@ -2,13 +2,15 @@
 [KDE Desktop Entry]
 Comment[C]=Archive Handling Tool
 Comment[pl]=Program obs³ugi archiwum
-Command[fr]=Outil de manipulation d'archives
+Comment[fr]=Outil de manipulation d'archives
+Comment[hu]=Tömörített file-kezelõ eszköz
 BinaryPattern=kzip;
 Name=Zip
 Protocols=file;
 Name[C]=Zip
 Name[pl]=Zip
 Name[fr]=Zip
+Name[hu]=Zip
 MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-zip;
 Comment=Archive Handling Tool
 Comment[fi]=Pakettienhallintatyökalu
