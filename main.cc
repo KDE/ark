@@ -4,7 +4,7 @@
     Copyright (C)
     1997-1999 Robert Palmbos <palm9744@kettering.edu>
     1999 Francois-Xavier Duranceau <duranceau@kde.org>
-    1999-2000: Emily Ezust  emilye@corel.com
+    1999-2000: Corel Corporation (author: Emily Ezust  emilye@corel.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ int main( int argc, char *argv[]  )
     "(c) 1997-2000, The Various Ark Developers");
   aboutData.addAuthor("Robert Palmbos",0, "palm9744@kettering.edu");
   aboutData.addAuthor("Francois-Xavier Duranceau",0, "duranceau@kde.org");
-  aboutData.addAuthor("Emily Ezust",0, "emilye@corel.com");
+  aboutData.addAuthor("Corel Corporation (author: Emily Ezust)",0, "emilye@corel.com");
   
   KCmdLineArgs::init( argc, argv, &aboutData );
   KCmdLineArgs::addCmdLineOptions( option );

@@ -1,14 +1,13 @@
 //  -*-C++-*-           emacs magic for .h files
 /*
 
- $Id $
-
  ark -- archiver for the KDE project
 
  Copyright (C)
 
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
+ 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -100,7 +99,11 @@ signals:
   void sigExtract(bool);
   void sigAdd(bool);
 	
-protected:
+protected:  // methods
+  QString getTimeStamp(const QString &col1,
+		       const QString &col2,
+		       const QString &col3);
+protected:  // data
   QString m_filename;
   QString m_shellErrorData;
   char m_buffer[1024];

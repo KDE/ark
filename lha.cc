@@ -6,7 +6,7 @@
 
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
- 1999-2000: Corel Corporation (Emily Ezust, emilye@corel.com)
+ 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <sys/errno.h>
 #include <string.h>
+
 // KDE includes
 #include <kurl.h>
 #include <qstringlist.h>
@@ -52,25 +53,33 @@ LhaArch::LhaArch( ArkSettings *_settings, Viewer *_gui,
 
 void LhaArch::processLine( char *_line )
 {
-  char columns[8][80];
+  char columns[12][80];
   char filename[4096];
 
   if (QString::QString(_line).contains("[generic]") ) 
     {
-      sscanf(_line, " %[]\[generic] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %12[A-Za-z0-9: ]%1[ ]%[^\n]",
+      sscanf(_line, " %[]\[generic] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
 	     columns[0], columns[2], columns[3], columns[4], columns[5],
-	     columns[6], columns[7], filename );
+	     columns[6], columns[10], columns[7], columns[11], columns[8],
+	     columns[9], filename );
       strcpy( columns[1], " " );
     }
   else
     {
-      sscanf(_line, " %[-drwxst] %[0-9/] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %12[A-Za-z0-9: ]%1[ ]%[^\n]",
+      sscanf(_line, " %[-drwxst] %[0-9/] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
 	     columns[0], columns[1], columns[2], columns[3],
-	     columns[4], columns[5], columns[6], columns[7], filename);
+	     columns[4], columns[5], columns[6], columns[10], columns[7],
+	     columns[11], columns[8], columns[9], filename);
     }
 
   kDebugInfo(1601, "The actual file is %s", (const char *)filename);
 
+  // make the time stamp sortable
+  QString massagedTimeStamp = getTimeStamp(columns[6], columns[7],
+					   columns[8]);
+  strcpy(columns[6], (const char *)massagedTimeStamp);
+
+  kDebugInfo(1601, "New timestamp is %s", columns[6]);
 
   QStringList list;
   list.append(QString::fromLocal8Bit(filename));
@@ -114,14 +123,14 @@ void LhaArch::setHeaders()
 {
   kDebugInfo( 1601, "+LhaArch::setHeaders");
   QStringList list;
-  list.append(i18n(" Name "));
+  list.append(i18n(" Filename "));
   list.append(i18n(" Permissions "));
   list.append(i18n(" Owner/Group "));
   list.append(i18n(" Packed "));
   list.append(i18n(" Size "));
   list.append(i18n(" Ratio "));
   list.append(i18n(" CRC "));
-  list.append(i18n(" TimeStamp "));
+  list.append(i18n(" Timestamp "));
 
   // which columns to align right
   int *alignRightCols = new int[2];

@@ -8,7 +8,7 @@
 
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
- 1999-2000: Corel Corporation (Emily Ezust, emilye@corel.com)
+ 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -83,8 +83,13 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
       QString tmpdir;
       tmpdir.sprintf("/tmp/ark.%d", getpid());
 
+      QString base = m_filename.right(m_filename.length()- 1 -
+				     m_filename.findRev("/"));
+      base = base.left(base.findRev("."));
+      
       // build the temp file name
-      tmpfile.sprintf("%s/temp_tarfile.%d", (const char *)tmpdir, getpid());
+      tmpfile.sprintf("%s/temp_tar_%s.%d", (const char *)tmpdir,
+		      (const char *)base, getpid());
       kDebugInfo(1601, "Tmpfile will be %s\n",
 		 (const char *)tmpfile.local8Bit());
     }
@@ -185,7 +190,7 @@ QString TarArch::getUnCompressor()
 void TarArch::open()
 {
   kDebugInfo(1601, "+TarArch::open");
-
+  unlink((const char *)tmpfile); // just to make sure
   setHeaders();
   KTarGz *tarptr;
 
@@ -262,6 +267,10 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
       QString perms = makeAccessString(tarEntry->permissions());
       if (!tarEntry->isFile())
 	perms = "d" + perms;
+      else if (!tarEntry->symlink().isEmpty())
+	perms = "l" + perms;
+      else
+	perms = "-" + perms;
       col_list.append(QString::fromLocal8Bit(perms));
       QString usergroup = tarEntry->user();
       usergroup += '/';
@@ -542,6 +551,9 @@ void TarArch::remove(QStringList *list)
   QString tar_exe = m_settings->getTarCommand();	
   
   createTmp();
+  while (compressed && createTmpInProgress)
+    qApp->processEvents(); // wait for temp to be created;
+
   KProcess *kp = new KProcess;	
   kp->clearArguments();
   *kp << tar_exe.local8Bit() << "--delete" << "-f" ;

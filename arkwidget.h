@@ -9,6 +9,7 @@
 
   1997-1999: Rob Palmbos palm9744@kettering.edu
   1999: Francois-Xavier Duranceau duranceau@kde.org
+  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -62,9 +63,10 @@
 
 class Viewer;
 class Arch;
+class QLabel;
 
 enum ArchType {UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
-	       LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT};
+	       LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT, COMPRESSED_FORMAT};
 
 class ArkWidget : public KTMainWindow 
 {
@@ -82,6 +84,7 @@ public:
   void setHeaders(QStringList *_headers,
 		  int * _rightAlignCols, int _numColsToAlignRight);
   QString getNewFileName();
+  int getNumFilesInArchive() { return m_nNumFiles; }
 public slots:    
 void file_newWindow();
   void file_open(const QString &);  // opens the specified archive
@@ -108,6 +111,7 @@ protected slots:
   void action_view();
   void action_delete();
   void action_extract();
+  void slotOpenWith();
 	
   void options_dirs();
   void options_keys();
@@ -150,6 +154,12 @@ private: // methods
   void updateStatusTotals();
        
   void addFile(QStringList *list);
+
+  // ask user whether to create a real archive from a compressed file
+  // returns filename if so. Otherwise, empty string.
+  QString askToCreateRealArchive();
+  void createRealArchive(const QString &strFilename);
+  QString getCreateFilename();
 private:
 
   Arch *arch;
@@ -163,7 +173,7 @@ private:
   FileListView *archiveContent;
 
   QString m_strArchName;
-
+  QString m_strNewArchname;
   QPopupMenu *fileMenu, *editMenu, *actionMenu, *optionsMenu;
   QPopupMenu *recentPopup;
 
@@ -203,6 +213,10 @@ private:
   int m_nNumFiles;
   int m_nNumSelectedFiles;
 
+  QLabel *m_pStatusLabelSelect; // How many files are selected - label
+  QLabel *m_pStatusLabelTotal;  // How many files in archive - label
+
+
   // some informational bools
   bool m_bIsArchiveOpen;
   bool m_bIsSimpleCompressedFile;
@@ -212,7 +226,16 @@ private:
 
  // true if user is trying to view something. For use in slotExtractDone
   bool m_bViewInProgress;
-  QString strFileToView;
+  // true if user is trying to openWith something. For use in slotExtractDone
+  bool m_bOpenWithInProgress;
+  // for use in slotExtractDone: the url.
+  QString m_strFileToView;
+
+  // true if user is trying to transform a compressed file into a
+  // real archive
+  bool m_bMakeCFIntoArchiveInProgress;
+  // the compressed file to be added into the new archive
+  QString m_compressedFile;
 };
 
 // menu ids
@@ -224,7 +247,7 @@ enum { eNew, eOpen, eAddFile, eAddDir, eExtract, eDelete,
 // popup menu items
 enum { eMNew, eMOpen, eMReload, eMClose, eMWindow, eMExit, eMAddFile,
        eMAddDir, eMDelete, eMExtract, eMView, eMSelectAll, eMRename,
-       eMSaveOnExit, eMSelect, eMDeselectAll, eMInvertSel};
+       eMSaveOnExit, eMSelect, eMDeselectAll, eMInvertSel, eMOpenWith};
 
 
 // status item numbers

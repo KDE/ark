@@ -8,7 +8,7 @@
 
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
- 1999-2000: Corel Corporation (Emily Ezust, emilye@corel.com)
+ 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -153,7 +153,7 @@ void ZipArch::setHeaders()
   kDebugInfo( 1601, "+ZipArch::setHeaders");
   QStringList list;
 
-  list.append(i18n(" Name "));
+  list.append(i18n(" Filename "));
   list.append(i18n(" Length "));
   list.append(i18n(" Method "));
   list.append(i18n(" Size "));
@@ -321,7 +321,7 @@ void ZipArch::addFile( QStringList *urls )
       emit sigAdd(false);
     }
 
-  kDebugInfo( 1601, "+ZipArch::addFile");
+  kDebugInfo( 1601, "-ZipArch::addFile");
 }
 
 void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
@@ -368,6 +368,7 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir)
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
       emit sigExtract(false);
     }
+  kDebugInfo( 1601, "-ZipArch::unarchFile");
 }
 
 void ZipArch::remove(QStringList *list)

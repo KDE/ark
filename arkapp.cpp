@@ -4,9 +4,8 @@
 
  Copyright (C)
 
- 1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
- 1999-2000: Emily Ezust  emilye@corel.com
+ 1999-2000: Corel Corporation (author: Emily Ezust  emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -159,6 +158,7 @@ void ArkApplication::removeOpenArk(const QString & _arkname)
 {
   kDebugInfo( 1601, "+ArkApplication::removeOpenArk");
   QString realName = resolveFilename(_arkname);  // follow symlink
+  kDebugInfo(1601, "Removing name %s", (const char *)_arkname);
   openArksList.remove(realName);
   m_windowsHash.erase(realName);
   kDebugInfo( 1601, "-ArkApplication::removeOpenArk");

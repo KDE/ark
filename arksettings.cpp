@@ -8,7 +8,7 @@
 
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
- 1999-2000: Corel Corporation (Emily Ezust, emilye@corel.com)
+ 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -446,7 +446,7 @@ void ArkSettings::setAddDirCfg(const QString& dir, int mode)
 const QString ArkSettings::getFilter()
 {
   return i18n(
-	      "*.zip *.tar.gz *.tar.Z *.tgz *.taz *.tzo *.tar.bz2 *.tbz2 *.tar.bz *.tar *.lzh |All valid archives\n"
+	      "*.zip *.tar.gz *.tar.Z *.tgz *.taz *.tzo *.tar.bz2 *.tbz2 *.tar.bz *.tar *.lzh *.gz *.lzo *.Z *.bz *.bz2|All valid archives\n"
 	      "*.zip|Zip archive (*.zip)\n"
 	      "*.tar.gz *.tgz |Tar compressed with gzip (*.tar.gz *.tgz)\n"
 	      "*.tbz2 *.tar.bz2|Tar compressed with bzip2 (*.tar.bz2 *.tbz2)\n"

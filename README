@@ -1,21 +1,21 @@
+This is Ark almost-version 2.
 
 March, 2000:
 This program is under renovation and does not work fully yet.
 
 What works so far:
   zip
-  tar and tgz (partially)
+  tar and tar with compressors lzop, gzip, bzip2, bzip, compress
+  lha
 
 Emily Ezust <emilye@corel.com>
 
-
-
 --------------------------
 
-This is Ark almost-version 2.  Type 'configure', then 'make', and
-'make install'. Use the online help if anything is unclear to you.
-
 From the OLD README:
+
+Type 'configure', then 'make', and 'make install'. Use the online help
+if anything is unclear to you.
 
 
 There may be a few bugs, as well as missing features, but the program should

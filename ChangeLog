@@ -1,3 +1,13 @@
+2000-03-15:  Emily Ezust <emilye@corel.com>
+	* Added the class CompressedFile to the hierarchy. This
+	  allows ark to be used to view, create, and extract compressed files.
+	  The user will be asked if he/she wants to create a real archive if
+	  she/he tries to add a file to the thing when there's already
+	  a file in there.
+	* Added an Open With option (RMB and Action menu)
+	* Made use of statusbar improvements
+	* Made the time and date stamp in LHA sortable
+	
 2000-03-09: Emily Ezust <emilye@corel.com>
 	* Fixed TarArch so that it warns the user before deleting the
 	  contents of a directory. (Delete a directory entry in tar and 

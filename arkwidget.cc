@@ -8,7 +8,7 @@
 
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
- 1999-2000: Corel Corporation (Emily Ezust, emilye@corel.com)
+ 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -50,6 +50,8 @@
 #include <ktoolbar.h>
 #include <kio/netaccess.h>
 #include <krun.h>
+#include <kservice.h>
+#include <kopenwith.h>
 
 // c includes
 
@@ -72,6 +74,7 @@
 #include "tar.h"
 #include "zip.h"
 #include "lha.h"
+#include "compressedfile.h"
 
 #include "viewer.h"
 
@@ -81,7 +84,8 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     KTMainWindow(name), m_nSizeOfFiles(0), m_nSizeOfSelectedFiles(0),
     m_nNumFiles(0), m_nNumSelectedFiles(0), m_bIsArchiveOpen(false),
     m_bIsSimpleCompressedFile(false), m_bDropSourceIsSelf(false),
-    m_bViewInProgress(false)
+    m_bViewInProgress(false), m_bOpenWithInProgress(false),
+    m_bMakeCFIntoArchiveInProgress(false)
 {
     kDebugInfo( 1601, "+ArkWidget::ArkWidget");
   
@@ -169,6 +173,7 @@ void ArkWidget::setupMenuBar()
   accelerators->connectItem("Delete_accel", this, SLOT(action_delete()));
   accelerators->connectItem("Extract_accel", this, SLOT(action_extract()));
   accelerators->connectItem("View_accel", this, SLOT(action_view()));
+  accelerators->connectItem("Open_with_accel", this, SLOT(slotOpenWith()));
   accelerators->connectItem("Selection", this, SLOT(edit_select()));
   accelerators->connectItem("SelectionAll", this, SLOT(edit_selectAll()));
   accelerators->connectItem("DeselectionAll", this, SLOT(edit_deselectAll()));
@@ -234,14 +239,14 @@ void ArkWidget::setupMenuBar()
   optionsMenu->setItemChecked(eMSaveOnExit, m_settings->isSaveOnExitChecked());
 
   // Help menu creation
-  QString about_ark = i18n("ark version %1\n(c) 1997-1999: Robert Palmbos <palm9744@kettering.edu>\n1999: Francois-Xavier Duranceau <duranceau@kde.org>\n1999-2000: Corel Corporation (Emily Ezust <emilye@corel.com>)").arg( ARK_VERSION );
+  QString about_ark = i18n("ark version %1\n(c) 1997-1999: Robert Palmbos <palm9744@kettering.edu>\n1999: Francois-Xavier Duranceau <duranceau@kde.org>\n1999-2000: Corel Corporation (author: Emily Ezust <emilye@corel.com>)").arg( ARK_VERSION );
   QPopupMenu *helpmenu = helpMenu( about_ark );
 
   menu->insertItem( i18n( "&File"), fileMenu );
   menu->insertItem( i18n( "&Edit"), editMenu, eMEdit );
-  menu->setItemEnabled(eMEdit, false);
+  //  menu->setItemEnabled(eMEdit, false);
   menu->insertItem( i18n( "&Action"), actionMenu, eMAction);
-  menu->setItemEnabled(eMAction, false);
+  //  menu->setItemEnabled(eMAction, false);
   menu->insertItem( i18n( "&Options"), optionsMenu );
   menu->insertSeparator();
   menu->insertItem( i18n( "&Help" ), helpmenu );
@@ -253,6 +258,9 @@ void ArkWidget::setupMenuBar()
   m_filePopup = new KPopupMenu();
 
   m_filePopup->setTitle(i18n("File Operations"));
+  m_filePopup->insertItem(i18n("Open with..."), this,
+			  SLOT(slotOpenWith()), 0,
+			  eMOpenWith);
   m_filePopup->insertItem(i18n("Extract..."), this,
 			  SLOT(action_extract()),
 			  0, eMExtract);
@@ -331,6 +339,17 @@ void ArkWidget::createActionMenu( int _flag )
     }
   else
     idExtract = -1;
+
+
+  if (_flag & Arch::View )
+    {
+      actionMenu->insertItem( i18n( "&Open with..."), this,
+			      SLOT( slotOpenWith() ), 0, eMOpenWith );
+      accelerators->changeMenuAccel(actionMenu, eMOpenWith, "Open_with_accel");
+      idView = eMOpenWith;
+    }
+  else
+    idView = -1;
 	
   if (_flag & Arch::View )
     {
@@ -358,25 +377,31 @@ void ArkWidget::createRecentPopup()
 
 void ArkWidget::setupStatusBar()
 {
-    kDebugInfo( 1601, "+ArkWidget::setupStatusBar");
+  kDebugInfo( 1601, "+ArkWidget::setupStatusBar");
 
-    KStatusBar *sb = statusBar();
-    //sb->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-    sb->insertItem(i18n("                         0 Files Selected                      "), eSelectedStatusLabel);
-    //QFrame *separator = new QFrame(sb, "separator");
-    //separator->setFrameShape(QFrame::HLine);
-    //separator->setFrameStyle(QFrame::Panel | QFrame::Raised);
-    //sb->insertWidget(separator, 2, eStatusLabelSeparator);
-    sb->insertItem(i18n("                         Total 0 Files, 0 KB                   "), eNumFilesStatusLabel);
+  KStatusBar *sb = statusBar();
 
-    //QFrame *dummy = new QFrame(sb, "dummy");
-    //sb->insertWidget(dummy, 0, eStatusDummy);
+  m_pStatusLabelSelect = new QLabel(sb);
+  m_pStatusLabelSelect->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+  m_pStatusLabelSelect->setFixedHeight(25);
+  m_pStatusLabelSelect->setMargin(0);
+  m_pStatusLabelSelect->setAlignment(AlignCenter);
+  m_pStatusLabelSelect->setText(i18n("0 Files Selected"));
 
-    //sb->setAlignment(0, AlignCenter);
-    //sb->setAlignment(2, AlignCenter);
-    //sb->setBorderWidth(2);
+  m_pStatusLabelTotal = new QLabel(sb);
+  m_pStatusLabelTotal->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+  m_pStatusLabelTotal->setFixedHeight(25);
+  m_pStatusLabelTotal->setMargin(0);
+  m_pStatusLabelTotal->setAlignment(AlignCenter);
+  m_pStatusLabelTotal->setText(i18n("Total: 0 Files"));
 
-    kDebugInfo( 1601, "-ArkWidget::setupStatusBar");
+
+  sb->setMinimumHeight(40);
+
+  sb->addWidget(m_pStatusLabelSelect, 3000);
+  sb->addWidget(m_pStatusLabelTotal, 3000);
+
+  kDebugInfo( 1601, "-ArkWidget::setupStatusBar");
 
 }
 
@@ -478,29 +503,37 @@ void ArkWidget::initialEnables()
 
 void ArkWidget::updateStatusTotals()
 {
-    kDebugInfo( 1601, "+ArkWidget::updateStatusTotals");
-    m_nNumFiles = 0;
-    m_nSizeOfFiles = 0;
-    if (archiveContent)
-      {
-	FileLVI *pItem = (FileLVI *)archiveContent->firstChild();
-	while (pItem)
-	  {
-	    ++m_nNumFiles;
-	    // warning! hardcoded for now - 3 should be eSize
-	    kDebugInfo( 1601, "Adding %d\n", atoi(pItem->text(3)));
-	    m_nSizeOfFiles += atoi(pItem->text(3));
-	    pItem = (FileLVI *)pItem->nextSibling();
-	  }
-      }
-    kDebugInfo( 1601, "We have %d elements\n", m_nNumFiles);
+  kDebugInfo( 1601, "+ArkWidget::updateStatusTotals");
+  m_nNumFiles = 0;
+  m_nSizeOfFiles = 0;
+  if (archiveContent)
+    {
+      FileLVI *pItem = (FileLVI *)archiveContent->firstChild();
+      while (pItem)
+	{
+	  ++m_nNumFiles;
+	  // warning! hardcoded for now - 3 should be eSize
+	  kDebugInfo( 1601, "Adding %d\n", atoi(pItem->text(3)));
+	  m_nSizeOfFiles += atoi(pItem->text(3));
+	  pItem = (FileLVI *)pItem->nextSibling();
+	}
+    }
+  kDebugInfo( 1601, "We have %d elements\n", m_nNumFiles);
 
-    QString strInfo = i18n("Total %1 Files, %1 KB")
+  QString strInfo;
+
+  if (m_nNumFiles == 0)
+    strInfo = i18n("Total: 0 Files");
+  else if (m_nNumFiles == 1)
+    strInfo = i18n("Total: 1 File %1 KB")
+      .arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
+  else
+    strInfo = i18n("Total: %1 Files %1 KB")
       .arg(KGlobal::locale()->formatNumber(m_nNumFiles, 0))
       .arg(KGlobal::locale()->formatNumber(m_nSizeOfFiles, 0));
-    
-    statusBar()->changeItem(strInfo, eNumFilesStatusLabel);
-    kDebugInfo( 1601, "-ArkWidget::updateStatusTotals");
+  
+  m_pStatusLabelTotal->setText(strInfo);
+  kDebugInfo( 1601, "-ArkWidget::updateStatusTotals");
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -590,9 +623,6 @@ void ArkWidget::file_open(const QString & strFile)
 }
 
 
-
-
-
 //////////////////////////////////////////////////////////////////////
 //
 // ArkWidget slots
@@ -631,12 +661,12 @@ QString ArkWidget::getNewFileName()
 
 // File menu /////////////////////////////////////////////////////////
 
-void ArkWidget::file_new()
+QString ArkWidget::getCreateFilename()
 {
   int choice=0;
   struct stat statbuffer;
   QString strFile = getNewFileName();
-
+  
   if (!strFile.isEmpty())
     {
       while (true)
@@ -656,7 +686,7 @@ void ArkWidget::file_new()
 		}
 	      else if (choice == KMessageBox::Cancel)
 		{
-		  return;
+		  return "";
 		}
 	      else
 		{
@@ -664,7 +694,7 @@ void ArkWidget::file_new()
 		  if (!strFile.isEmpty())
 		    continue;
 		  else
-		    return;
+		    return "";
 		}
 	    }
 	  // if we got here, the file does not already exist.
@@ -683,17 +713,22 @@ void ArkWidget::file_new()
 		  if (!strFile.isEmpty())
 		    continue;
 		  else
-		    return;
+		    return "";
 		}
 	    }
 	  else
 	    break; 
 	} // end of while loop
       
-      // if I made it here, I can create the archive. If something goes wrong
-      // (e.g., bad extension), we just leave the old archive up.
-      createArchive( strFile );
     }
+  return strFile;
+}
+
+void ArkWidget::file_new()
+{
+  QString strFile = getCreateFilename();
+  if (!strFile.isEmpty())
+    createArchive( strFile );
 }
 
 void ArkWidget::slotCreate(Arch * _newarch, bool _success,
@@ -701,19 +736,29 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
 {
   if ( _success )
     {
+      file_close();
+      m_strArchName = _filename;
       newCaption( _filename );
       createActionMenu( _flag );
-      file_close();
       createFileListView();
       setCaption(_filename);
       m_bIsArchiveOpen = true;
       arch = _newarch;
+      m_bIsSimpleCompressedFile =
+	(getArchType(m_strArchName) == COMPRESSED_FORMAT);
       fixEnables();
+      if (m_bMakeCFIntoArchiveInProgress)
+	{
+	  QStringList list;
+	  list.append(m_compressedFile);
+	  addFile(&list);
+	}
     }
   else
     {
       QMessageBox::warning(this, i18n("Error"), i18n("\nSorry - ark cannot create an archive of that type.\n\n  [Hint:  The filename should have an extension such as `.zip' to\n  indicate the type of the archive. Please see the help pages for\n  more information on supported archive formats.]"));
     }
+  QApplication::restoreOverrideCursor();
 }
 
 void ArkWidget::file_newWindow()
@@ -789,10 +834,12 @@ void ArkWidget::slotOpen(Arch *_newarch, bool _success,
 	arch = _newarch;
 	updateStatusTotals();
 	m_bIsArchiveOpen = true;
+	m_bIsSimpleCompressedFile =
+	  (getArchType(m_strArchName) == COMPRESSED_FORMAT);
 	fixEnables();
     }
-	
-    kDebugInfo( 1601, "-ArkWidget::slotOpen");
+  QApplication::restoreOverrideCursor();
+  kDebugInfo( 1601, "-ArkWidget::slotOpen");
 }
 
 void ArkWidget::slotDeleteDone(bool _bSuccess)
@@ -809,6 +856,7 @@ void ArkWidget::slotDeleteDone(bool _bSuccess)
       fixEnables();
     }
 
+  QApplication::restoreOverrideCursor();
   kDebugInfo(1601, "-ArkWidget::slotDeleteDone");
 }
 
@@ -818,9 +866,33 @@ void ArkWidget::slotExtractDone()
   if (m_bViewInProgress)
     {
       m_bViewInProgress = false;
-      new KRun (strFileToView);
+      new KRun (m_strFileToView);
     }
+  else if (m_bOpenWithInProgress)
+    {
+      m_bOpenWithInProgress = false;
+      KURL::List list;
+      KURL url = m_strFileToView;
+      list.append(url);
+      KOpenWithDlg l( list, i18n("Open With:"), "", (QWidget*)0L);
+      if ( l.exec() )
+	{
+	  KService::Ptr service = l.service();
+	  if ( !!service )
+	    {
+	      KRun::run( *service, list );
+	    }
+	  else
+	    {
+	      QString exec = l.text();
+	      exec += " %f";
+	      KRun::run( exec, list );
+	    }
+	}
+    }
+
   archiveContent->setUpdatesEnabled(true);
+  QApplication::restoreOverrideCursor();
   kDebugInfo(1601, "-ArkWidget::slotExtractDone");
 }
 
@@ -830,8 +902,16 @@ void ArkWidget::slotAddDone(bool _bSuccess)
   archiveContent->setUpdatesEnabled(true);
   archiveContent->triggerUpdate();
   if (_bSuccess)
-    file_reload();
-
+    {
+      file_reload();
+      if (m_bMakeCFIntoArchiveInProgress)
+	{
+	  m_bMakeCFIntoArchiveInProgress = false;
+	  QApplication::restoreOverrideCursor();
+	  action_add(); // now finally, get the files to be added!
+	}
+    }
+  QApplication::restoreOverrideCursor();
   kDebugInfo(1601, "-ArkWidget::slotAddDone");
 }
 
@@ -845,6 +925,7 @@ void ArkWidget::fixEnables() // private
 
   bool bHaveFiles = (m_nNumFiles > 0);
   bool bReadOnly = false;
+
   if (arch)
     bReadOnly = arch->isReadOnly();
 
@@ -864,6 +945,11 @@ void ArkWidget::fixEnables() // private
 			     !bReadOnly);
   actionMenu->setItemEnabled(eMExtract, bHaveFiles);
   actionMenu->setItemEnabled(eMView, bHaveFiles && m_nNumSelectedFiles == 1);
+  actionMenu->setItemEnabled(eMOpenWith,
+			      bHaveFiles && m_nNumSelectedFiles == 1);
+
+  m_filePopup->setItemEnabled(eMDelete, bHaveFiles  && m_nNumSelectedFiles > 0
+			     && arch && !bReadOnly);
 
   m_archivePopup->setItemEnabled(eMSelectAll, bHaveFiles);
 
@@ -1043,12 +1129,48 @@ void ArkWidget::edit_view_last_shell_output()
   sod->exec();
 }
 
+QString ArkWidget::askToCreateRealArchive()
+{
+  // ask user whether to create a real archive from a compressed file
+  // returns filename if so
+  QString strFilename;
+  int choice =
+    KMessageBox::warningYesNo(0, i18n("You are currently working with a simple compressed file.\nWould you like to make it into an archive so that it can contain multiple files?\nIf so, you must choose a name for your new archive."), i18n("Warning"));
+  if (choice == KMessageBox::Yes)
+    {
+      m_bMakeCFIntoArchiveInProgress = true;
+      strFilename = getCreateFilename();
+    }
+  return strFilename;
+}
+
+void ArkWidget::createRealArchive(const QString &strFilename)
+{
+  FileListView *flw = fileList();  
+  FileLVI *flvi = (FileLVI*)flw->firstChild();
+  m_compressedFile = flvi->getFileName().local8Bit();
+  QString tmpdir = m_settings->getTmpDir();
+  m_compressedFile = "file:" + tmpdir + "/" + m_compressedFile;
+  kDebugInfo(1601, "The compressed file is %s",
+	     (const char *)m_compressedFile);
+  createArchive(strFilename);
+  // the file will be moved into the new archive in slotCreate.
+}
 
 // Action menu /////////////////////////////////////////////////////////
 
 void ArkWidget::action_add()
 {
   ArchType archtype = getArchType(m_strArchName);
+  if (m_bIsSimpleCompressedFile && (m_nNumFiles == 1))
+    {
+      QString strFilename = askToCreateRealArchive();
+      if (!strFilename.isEmpty())
+	{
+	  createRealArchive(strFilename);
+	}
+      return;
+    }
   kDebugInfo( 1601, "Add dir: %s", (const char *)m_settings->getAddDir());
   AddDlg *dlg = new AddDlg(archtype, m_settings->getAddDir(),
 			   m_settings, this, "adddlg");
@@ -1057,6 +1179,15 @@ void ArkWidget::action_add()
       QStringList *list = dlg->getFiles();
       if (list->count() > 0)
 	{
+	  if (m_bIsSimpleCompressedFile && list->count() > 1)
+	    {
+	      QString strFilename = askToCreateRealArchive();
+	      if (!strFilename.isEmpty())
+		{
+		  createRealArchive(strFilename);
+		}
+	      return;
+	    }
 	  addFile(list);
 	}
     }
@@ -1065,6 +1196,7 @@ void ArkWidget::action_add()
 void ArkWidget::addFile(QStringList *list)
 {
   archiveContent->setUpdatesEnabled(false);
+  QApplication::setOverrideCursor( waitCursor );
   arch->addFile(list);
 }
 
@@ -1078,6 +1210,7 @@ void ArkWidget::action_add_dir()
       // fix protocol
       dirName = "file:" + dirName;
       archiveContent->setUpdatesEnabled(false);
+      QApplication::setOverrideCursor( waitCursor );
       arch->addDir(dirName);
     }
 }
@@ -1170,8 +1303,30 @@ void ArkWidget::action_delete()
     }
  
   archiveContent->setUpdatesEnabled(false);
+  QApplication::setOverrideCursor( waitCursor );
   arch->remove(&list);
   kDebugInfo( 1601, "-ArkWidget::action_delete");
+}
+
+void ArkWidget::slotOpenWith()
+{
+  FileLVI *pItem = archiveContent->currentItem();
+  if (pItem  != NULL )
+    {
+      QString name = pItem->text(0); // get name
+      QString fullname;
+      fullname = "file:";
+      fullname += m_settings->getTmpDir();
+      fullname += name;
+
+      QStringList list;
+      list.append(name);
+      archiveContent->setUpdatesEnabled(false);
+      m_bOpenWithInProgress = true;
+      m_strFileToView = fullname;
+      QApplication::setOverrideCursor( waitCursor );
+      arch->unarchFile( &list, m_settings->getTmpDir() );
+    }
 }
 
 void ArkWidget::action_extract()
@@ -1189,6 +1344,8 @@ void ArkWidget::action_extract()
       int extractOp = dlg->extractOp();
       kDebugInfo( 1601, "Extract op: %d", extractOp);
       archiveContent->setUpdatesEnabled(false);
+      QApplication::setOverrideCursor( waitCursor );
+
       switch(extractOp)
 	{
 	case ExtractDlg::All:
@@ -1265,7 +1422,8 @@ void ArkWidget::showFile( FileLVI *_pItem )
 
   archiveContent->setUpdatesEnabled(false);
   m_bViewInProgress = true;
-  strFileToView = fullname;
+  m_strFileToView = fullname;
+  QApplication::setOverrideCursor( waitCursor );
   arch->unarchFile( &list, m_settings->getTmpDir() );
 }
 
@@ -1336,7 +1494,7 @@ void ArkWidget::slotSelectionChanged()
 {
   kDebugInfo( 1601, "+ArkWidget::slotSelectionChanged");
   
-  actionMenu->setItemEnabled( idDelete, !archiveContent->isSelectionEmpty() );
+  //  actionMenu->setItemEnabled( idDelete, !archiveContent->isSelectionEmpty() );
   updateStatusSelection();
   
   kDebugInfo( 1601, "-ArkWidget::slotSelectionChanged");
@@ -1369,18 +1527,22 @@ void ArkWidget::updateStatusSelection()
 	}
     }
   QString strInfo;
+  if (m_nNumSelectedFiles == 0)
+    {
+      strInfo = i18n("0 Files Selected");
+    }
   if (m_nNumSelectedFiles != 1)
     {
-      strInfo = i18n("%1 Files selected, %1 KB")
+      strInfo = i18n("%1 Files Selected %1 KB")
 	.arg(KGlobal::locale()->formatNumber(m_nNumSelectedFiles, 0))
 	.arg(KGlobal::locale()->formatNumber(m_nSizeOfSelectedFiles, 0));
     }
   else
     {
-    strInfo = i18n("One File selected, %1 KB")
+    strInfo = i18n("1 File Selected %1 KB")
       .arg(KGlobal::locale()->formatNumber(m_nSizeOfSelectedFiles, 0));
     }
-  statusBar()->changeItem(strInfo, eSelectedStatusLabel);
+  m_pStatusLabelSelect->setText(strInfo);
   fixEnables();
   kDebugInfo( 1601, "-ArkWidget::updateStatusSelection");
 }
@@ -1500,7 +1662,8 @@ void ArkWidget::dropAction(QStringList *list)
     // if I made it here, there's either no archive currently open
     // or they selected "Open".
     str = urls.first();
-    str = str.right(str.length()-5);  // get rid of "file:" part of url
+    if (str.left(5) == "file:")
+      str = str.right(str.length()-5);  // get rid of "file:" part of url
     file_open(str);
   }
   else
@@ -1687,18 +1850,19 @@ ArchType ArkWidget::getArchType( QString archname )
   {
     return ZIP_FORMAT;
   }
+  if (archname.right(3) == ".gz" || archname.right(4) == ".lzo"
+      || archname.right(3) == ".bz" || archname.right(4) == ".bz2"
+      || archname.right(2) == ".Z")
+    {
+      return COMPRESSED_FORMAT;
+    }
   return UNKNOWN_FORMAT;
 }
 
 
 void ArkWidget::createArchive( QString _filename )
 {
-  // returns a pointer to the new archive or, if there's a problem,
-  // returns 0.
-
   Arch * newArch = 0;
-  m_strArchName = _filename;
-
   switch( getArchType( _filename ) )
     {
     case TAR_FORMAT:
@@ -1709,6 +1873,9 @@ void ArkWidget::createArchive( QString _filename )
       break;
     case LHA_FORMAT:
       newArch = new LhaArch( m_settings, m_viewer, _filename );
+      break;
+    case COMPRESSED_FORMAT:
+      newArch = new CompressedFile( m_settings, m_viewer, _filename );
       break;
 #if 0
     case AA_FORMAT:
@@ -1730,6 +1897,7 @@ void ArkWidget::createArchive( QString _filename )
 	   this, SLOT(slotExtractDone()));
 
   archiveContent->setUpdatesEnabled(false);
+  QApplication::setOverrideCursor( waitCursor );
   newArch->create();
 }
 
@@ -1747,6 +1915,9 @@ void ArkWidget::openArchive( QString _filename )
       break;
     case LHA_FORMAT:
       newArch = new LhaArch( m_settings, m_viewer, _filename );
+      break;
+    case COMPRESSED_FORMAT:
+      newArch = new CompressedFile( m_settings, m_viewer, _filename );
       break;
 #if 0
     case AA_FORMAT:
@@ -1769,6 +1940,7 @@ void ArkWidget::openArchive( QString _filename )
 	   this, SLOT(slotExtractDone()));
 
   archiveContent->setUpdatesEnabled(false);
+  QApplication::setOverrideCursor( waitCursor );
   newArch->open();
 }
 

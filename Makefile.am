@@ -24,7 +24,8 @@ bin_PROGRAMS = 	ark
 ark_SOURCES	= arkapp.cpp extractdlg.cc dirDlg.cpp arkwidget.cc \
 		main.cc zip.cc tar.cc filelistview.cpp arch.cpp \
 		generalOptDlg.cpp selectDlg.cpp adddlg.cc lha.cc \
-		waitDlg.cpp shellOutputDlg.cpp arksettings.cpp
+		waitDlg.cpp shellOutputDlg.cpp arksettings.cpp \
+		compressedfile.cc
 
 # the library search path
 ark_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LIB_KIO)
@@ -36,7 +37,7 @@ ark_LDADD   = $(LIB_KFILE)
 # this option you can leave out. Just, if you use "make dist", you need it
 noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h \
                  extractdlg.h arkwidget.h arch.h \
-		 filelistview.h adddlg.h lha.h \
+		 filelistview.h adddlg.h lha.h compressedfile.h
 		 generalOptDlg.h selectDlg.h waitDlg.h shellOutputDlg.h
 
 # just to make sure, automake makes them 

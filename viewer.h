@@ -20,6 +20,7 @@ public:
   void setHeaders(QStringList *_headers,
 		  int * _rightAlignCols, int _numColsToAlignRight)
     { mGui->setHeaders(_headers, _rightAlignCols, _numColsToAlignRight); }
+  int getNumFilesInArchive() { return mGui->getNumFilesInArchive(); }
 private:
   ArkWidget *mGui;
 };
