@@ -37,6 +37,7 @@
 #include <kkeydialog.h>
 #include <kcombobox.h>
 #include <kio/netaccess.h>
+#include <kaccel.h>
 
 // ark includes
 #include "arkapp.h"
@@ -106,7 +107,7 @@ ArkTopLevelWindow::setupActions()
     newArchAction = KStdAction::openNew(this, SLOT(file_new()), actionCollection());
     openAction = KStdAction::open(this, SLOT(file_open()), actionCollection());
 
-    reloadAction = new KAction(i18n("Re&load"), "reload", 0, this,
+    reloadAction = new KAction(i18n("Re&load"), "reload", KStdAccel::shortcut( KStdAccel::Reload ), this,
                                SLOT(file_reload()), actionCollection(), "reload_arch");
     closeAction = KStdAction::close(this, SLOT(file_close()), actionCollection(), "file_close");
 

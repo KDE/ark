@@ -74,7 +74,7 @@ public:
     void prepareViewFiles( const QStringList & fileList );
     virtual void setArchivePopupEnabled( bool b );
 
-    virtual void extractTo( const KURL & targetDirectory, const KURL & archive, bool guessName );
+    virtual void extractTo( const KURL & targetDirectory, const KURL & archive, bool bGuessName );
     virtual void addToArchive( const KURL::List & filesToAdd, const KURL & archive = KURL() );
     void convertTo( const KURL & u );
 
@@ -177,6 +177,9 @@ private: // methods
     void holdBusy();
     void resumeBusy();
     void ready();
+
+    //suggests an extract directory based on archive name
+    const QString guessName( const KURL & archive );
 
 private slots:
     void startDrag( const QStringList & fileList );

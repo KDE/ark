@@ -56,7 +56,7 @@ class ExtractDlg : public KDialogBase
 {
   Q_OBJECT
 public:
-  ExtractDlg(ArkSettings *_settings, QWidget *parent=0, const char *name=0);
+  ExtractDlg(ArkSettings *_settings, QWidget *parent=0, const char *name=0, const QString &prefix=QString::null);
   ~ExtractDlg();
   enum ExtractOp{ All, Selected, Current, Pattern };
   int extractOp();

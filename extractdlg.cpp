@@ -52,7 +52,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "extractdlg.h"
 #define FIRST_PAGE_WIDTH  390
 
-ExtractDlg::ExtractDlg( ArkSettings *_settings, QWidget *parent, const char *name )
+ExtractDlg::ExtractDlg( ArkSettings *_settings, QWidget *parent, const char *name, const QString &prefix )
     : KDialogBase( KDialogBase::Plain, i18n("Extract"), Ok | Cancel, Ok, parent, name ),
 m_settings( _settings )
 {
@@ -92,10 +92,12 @@ m_settings( _settings )
 	list = config->readPathListEntry( "ExtractTo History" );
 	m_extractDirCB->setHistoryItems( list );
 
-	m_extractDirCB->setEditURL( KURL( m_settings->getExtractDir() ) );
+	m_extractDirCB->setEditURL( KURL( m_settings->getExtractDir() + prefix ) );
 
 	m_urlRequester = new KURLRequester( m_extractDirCB, mainFrame );
 	m_urlRequester->setMode( KFile::Directory );
+
+	m_extractDirCB->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed ) );
 
 	Layout3->addWidget( m_urlRequester );
 

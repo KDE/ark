@@ -142,7 +142,7 @@ ArkWidget::holdBusy()
     QApplication::restoreOverrideCursor();
 }
 
-void 
+void
 ArkWidget::resumeBusy()
 {
     if ( !m_bBusyHold )
@@ -170,7 +170,7 @@ ArkWidget::ready()
 ////////////////////// file_save_as //////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-KURL 
+KURL
 ArkWidget::getSaveAsFileName()
 {
     QString defaultMimeType;
@@ -326,25 +326,13 @@ ArkWidget::allowedArchiveName( const KURL & u )
 }
 
 void 
-ArkWidget::extractTo( const KURL & targetDirectory, const KURL & archive, bool guessName )
+ArkWidget::extractTo( const KURL & targetDirectory, const KURL & archive, bool bGuessName )
 {
     m_extractTo_targetDirectory = targetDirectory;
 
-    if ( guessName ) // suggest an extract directory based on archive name
+    if ( bGuessName ) // suggest an extract directory based on archive name
     {
-        QString fileName = archive.fileName();
-        QStringList list = KMimeType::findByPath( fileName )->patterns();
-        QStringList::Iterator it = list.begin();
-        QString ext;
-        for ( ; it != list.end(); ++it )
-        {
-            ext = (*it).remove( '*' );
-            if ( fileName.endsWith( ext ) )
-            {
-                fileName = fileName.left( fileName.findRev( ext ) );
-                break;
-            }
-        }
+        const QString fileName = guessName( archive );
         m_extractTo_targetDirectory.setPath( targetDirectory.path( 1 ) + fileName + '/' );
     }
 
@@ -362,7 +350,27 @@ ArkWidget::extractTo( const KURL & targetDirectory, const KURL & archive, bool g
     connect( this, SIGNAL( openDone( bool ) ), this, SLOT( extractToSlotOpenDone( bool ) ) );
 }
 
-void 
+const QString
+ArkWidget::guessName( const KURL &archive )
+{
+  QString fileName = archive.fileName();
+  QStringList list = KMimeType::findByPath( fileName )->patterns();
+  QStringList::Iterator it = list.begin();
+  QString ext;
+  for ( ; it != list.end(); ++it )
+  {
+    ext = (*it).remove( '*' );
+    if ( fileName.endsWith( ext ) )
+    {
+      fileName = fileName.left( fileName.findRev( ext ) );
+      break;
+    }
+  }
+
+  return fileName;
+}
+
+void
 ArkWidget::extractToSlotOpenDone( bool success )
 {
     disconnect( this, SIGNAL( openDone( bool ) ), this, SLOT( extractToSlotOpenDone( bool ) ) );
@@ -449,7 +457,7 @@ ArkWidget::extractToSlotExtractDone( bool success )
         emit request_file_quit();
 }
 
-void 
+void
 ArkWidget::addToArchive( const KURL::List & filesToAdd, const KURL & archive)
 {
     m_addToArchive_filesToAdd = filesToAdd;
@@ -1482,7 +1490,30 @@ ArkWidget::action_extract()
         return false;
     }
 
-    ExtractDlg *dlg = new ExtractDlg(m_settings, this);
+
+    //if more than one entry in the archive is root level, suggest a path prefix
+    QString prefix;
+    int i = 0;
+
+    for( FileLVI *pItem = (FileLVI *)archiveContent->firstChild();
+         pItem;
+         pItem = (FileLVI *)pItem->nextSibling() )
+    {
+      if( pItem->fileName().findRev( '/', -2 ) == -1 )
+      {
+        ++i;
+
+        if( i > 1 )
+        {
+          prefix = QChar( '/' ) + guessName( fileToExtract.path() );
+          kdDebug(1601) << "Archive requires extraction prefix: " << prefix << endl;
+          break;
+        }
+      }
+    }
+
+
+    ExtractDlg *dlg = new ExtractDlg(m_settings, this, 0, prefix);
 
     // if they choose pattern, we have to tell arkwidget to select
     // those files... once we're in the dialog code it's too late.
