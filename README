@@ -1,41 +1,4 @@
-This is Ark version 2.9;
+This is Ark version 2.3.x.
 
-This version has several bugs fixed from previous releases yet still
-uses more or less the same techniques as the previous versions.
-
-May, 2000:
-Supported formats:
-  zip
-  plain tar and tar with compressors lzop, gzip, bzip2, bzip, compress
-  lha
-  zoo
-  single files compressed with compressors lzop, gzip, bzip2, bzip, compress
-  rar
-  ar
-
-Emily Ezust <emilye@corel.com>
-
---------------------------
-
-From the OLD README:
-
-Type 'configure', then 'make', and 'make install'. Use the online help
-if anything is unclear to you.
-
-There may be a few bugs, as well as missing features, but the program should
-be fairly usable.
-
-Changes:
-	o Internationalization
-	o Edit...Extract and View really do work from the archive directory
-	o kfsstnd compliance
-	o Now uses ktablistbox
-	o no memory leaks!!! perhaps...
-        o Renamed from kzip to ark by David Faure <faure@kde.org>
-
-Thanks to:
-	o All the KDE developers
-	o Sebestyen Zoltan
-
-any suggestions, etc send to <maragato@kde.org>
+Ark is KDE archive handling tool, part of the kdeutils package.
 

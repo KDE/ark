@@ -3,19 +3,9 @@ TODO
 
 Feature-wise:
 - Rename option
-- Archive conversion with save as 
-- Thorough bug hunting
+- Behavior-compatibility with the Konqueror filemanager
 
-Code-wise:
-- Kill the mess of signals in arkwidget.cc
-- Get rid of QStrings. Carry KURLs through 99% of the process, and
-only convert when necessary.
-- More intuitive 'chained' archive support (ie. .tar.bz2)
-
-- file_quit()'s used for extractOnly are a mess. Clean me up.
-
-For KDE 3.0:
-- rewrite :-)
-- need to add support for split files
-- need to add some kind of progress feedback to the user
-- don't exit when something is wrong
+For KDE 4.0:
+- Use KArchive to handle archives
+- Add support for split files
+- Add support for more archive formats (ace, iso, rpm)

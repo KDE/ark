@@ -6,17 +6,20 @@
    <group name="generic">
     <entry name="replaceOnlyWithNewer" type="Bool">
       <label>Replace old files only with newer files</label>
+      <whatsthis>If this option is enabled and you add filenames that already exist in an archive, only replace the old files if the added files are newer than them</whatsthis>
       <default>false</default>
     </entry>
    <entry name="extractOverwrite" type="Bool">
       <label>Overwrite files (Zip, Tar, Zoo, Rar)</label>
+      <whatsthis>Overwrite any files that have matching names on disk with the one from the archive</whatsthis>
       <default>false</default>
     </entry>
    </group>
 
    <group name="Lha">
     <entry name="lhaGeneric" type="Bool">
-      <label>Keep entries generic</label>
+      <label>Keep entries generic (Lha)</label>
+	  <whatsthis>Affects only Lha archives</whatsthis>
       <default>false</default>
     </entry>
    </group>
@@ -24,6 +27,7 @@
    <group name="Tar">
     <entry name="preservePerms" type="Bool">
       <label>Preserve permissions</label>
+	  <whatsthis>Save the user, group, and permission settings on files. Use with care, as this may result in files being extracted that do not belong to any valid user on your computer</whatsthis>
       <default>false</default>
     </entry>
     <entry name="tarUseAbsPathnames" type="Bool">
@@ -35,7 +39,8 @@
 
    <group name="Zip">
     <entry name="forceMSDOS" type="Bool">
-      <label>Force MS-DOS short filenames</label>
+      <label>Force MS-DOS short filenames (Zip)</label>
+	  <whatsthis>Force names of files in Zip archives to the DOS 8.3 format</whatsthis>
       <default>false</default>
     </entry>
     <entry name="convertLF2CRLF" type="Bool">
@@ -44,6 +49,7 @@
     </entry>
     <entry name="extractJunkPaths" type="Bool">
       <label>Ignore folder names (Zip)</label>
+	  <whatsthis>Extract all the files into the extraction folder, ignoring any folder structure in the archive.</whatsthis>
       <default>false</default>
     </entry>
    </group>
@@ -74,6 +80,7 @@
     </entry>
     <entry name="KonquerorIntegration" type="Bool">
      <label>Enable Konqueror integration</label>
+	 <whatsthis>Enables integration with Konqueror's context menus, letting you easily archive or unarchive files. This option will only work if you have the kdeaddons package installed.</whatsthis>
      <default>true</default>
     </entry>
     <entry name="UseIntegratedViewer" type="Bool">
