@@ -52,9 +52,9 @@
 #include <qobject.h>
 #include <qptrlist.h>	// Some very annoying hackery in arkwidgetpart
 #include <qregexp.h>
+#include <qstring.h>
 #include <kurl.h>
 
-class QString;
 class QCString;
 template<class type> class QPtrList;
 class QRegExp;
@@ -135,6 +135,10 @@ public:
 
   QString getUtility() { return m_archiver_program; }
 
+  void appendShellOutputData( const char * data ) { m_lastShellOutput.append( data ); }
+  void clearShellOutput() { m_lastShellOutput.truncate( 0 ); }
+  const QString& getLastShellOutput() const { return m_lastShellOutput; }
+
   static Arch *archFactory(ArchType aType, ArkSettings *settings,
                 ArkWidget *parent, const QString &filename,
                 const QString &openAsMimeType = QString::null );
@@ -164,6 +168,7 @@ signals:
 protected:  // data
   QString m_filename;
   QString m_shellErrorData;
+  QString m_lastShellOutput;
   QCString m_buffer;
   ArkSettings *m_settings;
   ArkWidget *m_gui;

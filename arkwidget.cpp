@@ -200,7 +200,7 @@ void ArkWidget::listingAdd( QStringList * _entries )
 
 void ArkWidget::viewShellOutput()
 {
-	ShellOutputDlg* sod = new ShellOutputDlg( m_settings, this );
+	ShellOutputDlg* sod = new ShellOutputDlg( arch->getLastShellOutput(), this );
 	sod->exec();
 	delete sod;
 }
@@ -575,7 +575,7 @@ ArkWidget::extractToSlotExtractDone( bool success )
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( extractToSlotExtractDone( bool ) ) );
     if ( !success )
     {
-        kdDebug( 1601 ) << "Last Shell Output" << *( m_settings->getLastShellOutput() ) << endl;
+        kdDebug( 1601 ) << "Last Shell Output" << arch->getLastShellOutput() << endl;
         KMessageBox::error( this, i18n( "An error occurred while extracting the archive." ) );
         emit request_file_quit();
         return;
@@ -766,7 +766,7 @@ ArkWidget::file_open(const KURL& url)
     // Set the current archive filename to the filename
     m_strArchName = strFile;
     m_url = url;
-    m_settings->clearShellOutput();
+    //arch->clearShellOutput();
 
     openArchive( strFile );
 
@@ -870,7 +870,7 @@ ArkWidget::file_new()
     strFile = url.path();
     if (!strFile.isEmpty())
     {
-        m_settings->clearShellOutput();
+        arch->clearShellOutput();
         file_close();
         createArchive( strFile );
     }

@@ -112,7 +112,7 @@ ArkSettings * ArkSettings::self()
  */
 ArkSettings::ArkSettings()
 {
-  m_lastShellOutput = new QString;
+  //m_lastShellOutput = new QString;
 
   kc = new KConfig("arkrc");
   readConfiguration();
@@ -122,8 +122,8 @@ ArkSettings::~ArkSettings()
 {
   writeConfiguration();
   delete kc;
-  delete m_lastShellOutput;
-  m_lastShellOutput = 0;
+  //delete m_lastShellOutput;
+  //m_lastShellOutput = 0;
 }
 
 ////////////////// READ CONFIGURATION ///////////////////////////////////
@@ -567,11 +567,11 @@ void ArkSettings::setAddDirCfg(const QString& dir, int mode)
   addDirMode = mode;
 }
 
-void ArkSettings::clearShellOutput()
+/*void ArkSettings::clearShellOutput()
 {
   delete m_lastShellOutput;
   m_lastShellOutput = new QString;
-}
+}*/
 
 
 

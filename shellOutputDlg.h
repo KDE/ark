@@ -31,15 +31,17 @@
 #include <kdialogbase.h>
 
 class QWidget;
-
-class ArkSettings;
+class QString;
+class QTextEdit;
 
 class ShellOutputDlg : public KDialogBase
 {
-  Q_OBJECT
-public:
-  ShellOutputDlg( ArkSettings *, QWidget *parent=0, const char *name=0 );
-  
+	Q_OBJECT
+	public:
+		ShellOutputDlg( const QString& text, QWidget *parent=0, const char *name=0 );
+		~ShellOutputDlg();
+	private:
+		QTextEdit * m_outputViewer;
 };
 
 #endif /* SHELL_OUTPUT_DLG_H */

@@ -105,11 +105,12 @@ public:
 
   QString getSelectRegExp() const { return m_regExp; }
 
-  void appendShellOutputData( const char * _data ) {
+/*  void appendShellOutputData( const char * _data ) {
     m_lastShellOutput->append( _data ); }
 
   void clearShellOutput();
   QString * getLastShellOutput() const { return m_lastShellOutput; }
+  */
 
   /* Generic config functions: Ideally, ALL config options move here, but
 	for now we must consider options not globally supported */
@@ -198,7 +199,7 @@ public:
   QString lastAddDir;
   int addDirMode;
 	
-  QString * m_lastShellOutput;
+//  QString * m_lastShellOutput;
 
   bool contextRow;
 

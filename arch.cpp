@@ -107,7 +107,7 @@ void Arch::slotStoreDataStdout(KProcess*, char* _data, int _length)
   char c = _data[_length];
   _data[_length] = '\0';
 
-  m_settings->appendShellOutputData( _data );
+  appendShellOutputData( _data );
   _data[_length] = c;
 }
 
@@ -269,7 +269,7 @@ void Arch::slotReceivedOutput(KProcess*, char* _data, int _length)
   char c = _data[_length];
   _data[_length] = '\0';
 
-  m_settings->appendShellOutputData( _data );
+  appendShellOutputData( _data );
   _data[_length] = c;
 }
 
@@ -279,7 +279,7 @@ void Arch::slotReceivedTOC(KProcess*, char* _data, int _length)
   char c = _data[_length];
   _data[_length] = '\0';
 
-  m_settings->appendShellOutputData( _data );
+  appendShellOutputData( _data );
 
   int lfChar, startChar = 0;
 

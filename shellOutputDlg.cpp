@@ -28,28 +28,33 @@
 // Qt includes
 #include <qlayout.h>
 #include <qtextedit.h>
+#include <qstring.h>
 
 #include <klocale.h>
-#include <kpushbutton.h>
-#include <kstdguiitem.h>
 
 // ark includes
 #include "shellOutputDlg.h"
-#include "shellOutputDlg.moc"
-#include "arksettings.h"
 
-ShellOutputDlg::ShellOutputDlg( ArkSettings *_data, QWidget *_parent,
+ShellOutputDlg::ShellOutputDlg( const QString& text, QWidget *_parent,
 				const char *_name )
 	: KDialogBase( _parent, _name, true, i18n( "Shell Output" ), KDialogBase::Ok, KDialogBase::Ok, true )
 {
-  QTextEdit *outputViewer = new QTextEdit( this );
-  outputViewer->setTextFormat( Qt::PlainText );
-  outputViewer->setReadOnly( true );
+	m_outputViewer = new QTextEdit( this );
+	m_outputViewer->setTextFormat( Qt::PlainText );
+	m_outputViewer->setReadOnly( true );
 
-  outputViewer->setText( *( _data->getLastShellOutput() ) );
-  outputViewer->setCursorPosition( outputViewer->lines(), 0 );
+	m_outputViewer->setText( text );
+	m_outputViewer->setCursorPosition( m_outputViewer->lines(), 0 );
 
-  setMainWidget( outputViewer );
+	setMainWidget( m_outputViewer );
 
-  resize( 520, 380 );
+	resize( 520, 380 );
 }
+
+ShellOutputDlg::~ShellOutputDlg()
+{
+	delete m_outputViewer;
+	m_outputViewer = 0;
+}
+
+#include "shellOutputDlg.moc"
