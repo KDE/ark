@@ -212,7 +212,8 @@ void FileListView::contentsMousePressEvent(QMouseEvent *e)
   //  the former current item and select all the ones between it and 
   //  the new current item.
   //
-  QListViewItem *pItem = itemAt(e->pos());
+  QPoint p( contentsToViewport( e->pos() ) );
+  QListViewItem *pItem = itemAt(p);
   m_pLastCurrentItem = currentItem();
   setCurrentItem(pItem);
 
@@ -252,7 +253,8 @@ void FileListView::contentsMouseReleaseEvent(QMouseEvent *e)
 
   if (e->button() == LeftButton || e->button() == RightButton)
   {
-    QListViewItem *pNewCurrentItem = itemAt(e->pos());
+    QPoint p( contentsToViewport( e->pos() ) );
+    QListViewItem *pNewCurrentItem = itemAt(p);
 
     //    const QPoint pPoint(viewport()->mapToGlobal(e->pos()));
     //		
