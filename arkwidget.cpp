@@ -330,7 +330,7 @@ void ArkWidget::extractToSlotOpenDone( bool success )
     disconnect( this, SIGNAL( openDone( bool ) ), this, SLOT( extractToSlotOpenDone( bool ) ) );
     if ( !success )
     {
-        KMessageBox::error( this, i18n( "An error occured while opening the archive %1." ).arg( m_url.prettyURL() ) );
+        KMessageBox::error( this, i18n( "An error occurred while opening the archive %1." ).arg( m_url.prettyURL() ) );
         emit request_file_quit();
         return;
     }
@@ -396,7 +396,7 @@ void ArkWidget::extractToSlotExtractDone( bool success )
     if ( !success )
     {
         kdDebug( 1601 ) << "Last Shell Output" << *( m_settings->getLastShellOutput() ) << endl;
-        KMessageBox::error( this, i18n( "An error occured while extracting the archive." ) );
+        KMessageBox::error( this, i18n( "An error occurred while extracting the archive." ) );
         emit request_file_quit();
         return;
     }
@@ -497,7 +497,7 @@ void ArkWidget::addToArchiveSlotAddDone( bool success )
     disconnect( this, SLOT( addToArchiveSlotAddDone( bool ) ) );
     if ( !success )
     {
-        KMessageBox::error( this, i18n( "An error occured while adding the files to the archive." ) );
+        KMessageBox::error( this, i18n( "An error occurred while adding the files to the archive." ) );
     }
     emit request_file_quit();
     return;
@@ -2048,7 +2048,7 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
     }
     else
     {
-        KMessageBox::error(this, i18n("An error occured while trying to create the archive.") );
+        KMessageBox::error(this, i18n("An error occurred while trying to create the archive.") );
     }
     emit createDone( _success );
 }
@@ -2153,7 +2153,7 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
     {
         emit removeRecentURL( _filename );
         emit setWindowCaption( QString::null );
-        KMessageBox::error( this, i18n( "An error occured while trying to open the archive %1" ).arg( _filename ) );
+        KMessageBox::error( this, i18n( "An error occurred while trying to open the archive %1" ).arg( _filename ) );
 
         if ( m_extractOnly )
             emit request_file_quit();

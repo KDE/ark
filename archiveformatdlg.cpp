@@ -35,9 +35,9 @@ ArchiveFormatDlg::ArchiveFormatDlg( QWidget * parent, const QString & defaultTyp
     QString defaultDescription = ArchiveFormatInfo::self()->descriptionForMimeType( defaultType );
     QString text;
     if ( defaultDescription.isNull() )
-        text = i18n( "This file seems to be of type %1,\n"
+        text = i18n( "This file appears to be of type %1,\n"
                      "which is not a supported archive format.\n"
-                     "In order to proceed, please chose the format\n"
+                     "In order to proceed, please choose the format\n"
                      "of the file." ).arg( defaultType );
     else
         text = i18n( "You are about to open a file that has a non-standard extension.\n"
