@@ -2233,11 +2233,12 @@ ArkWidget::openArchive( const QString & _filename )
 
     busy( i18n( "Opening the archive..." ) );
     archiveContent->setUpdatesEnabled( false );
+    arch = newArch;
     newArch->open();
 }
 
 void
-ArkWidget::slotOpen( Arch *_newarch, bool _success, const QString & _filename, int )
+ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _filename, int )
 {
     ready();
     kdDebug(1601) << "+ArkWidget::slotOpen" << endl;
@@ -2255,10 +2256,9 @@ ArkWidget::slotOpen( Arch *_newarch, bool _success, const QString & _filename, i
 
         if ( _filename.left( dirtmp.length() ) == dirtmp || !fi.isWritable() )
         {
-            _newarch->setReadOnly(true);
+            arch->setReadOnly(true);
             KMessageBox::information(this, i18n("This archive is read-only. If you want to save it under a new name, go to the File menu and select Save As."), i18n("Information"), "ReadOnlyArchive");
         }
-        arch = _newarch;
         updateStatusTotals();
         m_bIsArchiveOpen = true;
         m_bIsSimpleCompressedFile = ( m_archType == COMPRESSED_FORMAT );
