@@ -64,7 +64,7 @@ ZipArch::ZipArch( ArkSettings *_settings, ArkWidgetBase *_gui,
   m_archCols.append(new ArchColumns(9, QRegExp("[0-9][0-9]"), 2));
   m_archCols.append(new ArchColumns(10, QRegExp("[0-9:]+"), 6));
   m_archCols.append(new ArchColumns(6, QRegExp("[a-fA-F0-9]+")));
-  m_archCols.append(new ArchColumns(0, QRegExp("[^\\s][^\\n]+"), 4096));
+  m_archCols.append(new ArchColumns(0, QRegExp("[^\\S][^\\n]+"), 4096));
 
   kdDebug(1601) << "ZipArch constructor" << endl;
 }
