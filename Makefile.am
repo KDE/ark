@@ -46,7 +46,7 @@ messages:
 
 kde_icon_DATA = ark.xpm
 
-apps_DATA = ark.kdelnk
+apps_DATA = ark.desktop
 appsdir = $(kde_appsdir)/Utilities
 
 # just install datas here. Use install-exec-data for scripts and etc.
@@ -59,7 +59,7 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/mini-ark.xpm $(kde_minidir)/ark.xpm
 # Get rid of kzip
 	-rm -f $(kde_bindir)/kzip
-	-rm -f $(appsdir)/kzip.kdelnk
+	-rm -f $(appsdir)/kzip.desktop
 	-rm -f $(kde_icondir)/kzip.xpm
 	-rm -f $(kde_minidir)/kzip.xpm
 
