@@ -59,6 +59,17 @@ CompressedFile::CompressedFile( ArkSettings *_settings, ArkWidgetBase *_gui,
   m_archiver_program = getCompressor();
   m_unarchiver_program = getUnCompressor();
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+
+  if (!QFile::exists(_fileName))
+    {
+      KMessageBox::information(0,
+			       i18n("You are creating a simple compressed archive which contains only one input file.\n"
+				    "When uncompressed, the file name will be based on the name of the archive file.\n"
+				    "If you add more files you will be prompted to convert it to a real archive."),
+			       i18n("Simple Compressed Archive"),
+			       "CreatingCompressedArchive"
+			       );
+    }
 }
 
 void CompressedFile::setHeaders()
