@@ -4,6 +4,7 @@ Mimetype=application/x-zip
 Comment=Zip Archives
 Comment[fr]=Archives ZIP
 Comment[pl]=Archiwum Zip
+Comment[pt]=Arquivos Zip
 DefaultApp=Zip
 Icon=unzip.xpm
 Type=MimeType
