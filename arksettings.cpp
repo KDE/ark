@@ -26,8 +26,8 @@
 */
 
 
-// C Configs
-#include <stdlib.h>	// for getenv
+// Qt includes
+#include <qdir.h>
 
 // KDE includes
 #include <kglobal.h>
@@ -147,10 +147,7 @@ void ArkSettings::readDirectories()
 
   kc->setGroup( ARK_GROUP );
 
-  favoriteDir = kc->readPathEntry( FAVORITE_KEY );
-
-  if( favoriteDir.isEmpty() )
-    favoriteDir = getenv( "HOME" );
+  favoriteDir = kc->readPathEntry( FAVORITE_KEY, QDir::homeDirPath() );
 
   startDir = kc->readPathEntry( START_DIR_KEY );
   openDir = kc->readPathEntry( OPEN_DIR_KEY );
@@ -480,11 +477,11 @@ QString ArkSettings::getStartDir() const
   switch(startDirMode)
     {
   case LAST_OPEN_DIR:
-    return QString(lastOpenDir);
+    return lastOpenDir;
   case FIXED_START_DIR:
-    return QString(startDir);
+    return startDir;
   case FAVORITE_DIR:
-    return QString(favoriteDir);
+    return favoriteDir;
   default:
     kdDebug(1601) << "Error in switch !" << endl;
     return QString("");
@@ -502,11 +499,11 @@ QString ArkSettings::getOpenDir() const
   switch(openDirMode)
     {
     case LAST_OPEN_DIR:
-      return QString(lastOpenDir);
+      return lastOpenDir;
     case FIXED_OPEN_DIR:
-      return QString(openDir);
+      return openDir;
     case FAVORITE_DIR:
-      return QString(favoriteDir);
+      return favoriteDir;
     default:
       kdDebug(1601) << "Error in switch !" << endl;
       return QString("");
@@ -532,11 +529,11 @@ QString ArkSettings::getExtractDir()
   switch(extractDirMode)
     {
   case LAST_EXTRACT_DIR:
-    return QString(lastExtractDir);
+    return lastExtractDir;
   case FIXED_EXTRACT_DIR:
-    return QString(extractDir);
+    return extractDir;
   case FAVORITE_DIR:
-    return QString(favoriteDir);
+    return favoriteDir;
   default:
     kdDebug(1601) << "Error in switch !" << endl;
     return QString("");
@@ -554,11 +551,11 @@ QString ArkSettings::getAddDir()
   switch(addDirMode)
     {
   case LAST_ADD_DIR:
-    return QString(lastAddDir);
+    return lastAddDir;
   case FIXED_ADD_DIR:
-    return QString(addDir);
+    return addDir;
   case FAVORITE_DIR:
-    return QString(favoriteDir);
+    return favoriteDir;
   default:
     kdDebug(1601) << "Error in switch !" << endl;
     return QString("");

@@ -68,28 +68,28 @@ public:
   QString getTarCommand() const { return tar_exe; }
   void setTarCommand(const QString& _cmd) { tar_exe = _cmd; }
 	
-  QString getFavoriteDir() const { return QString(favoriteDir); }
+  QString getFavoriteDir() const { return favoriteDir; }
   void setFavoriteDir(const QString& _dir) { favoriteDir = _dir; }
 
   QString getStartDir() const;
-  QString getFixedStartDir() const { return QString( startDir ); }
+  QString getFixedStartDir() const { return startDir; }
   int getStartDirMode() const { return startDirMode; }
   void setStartDirCfg(const QString& dir, int mode);
 
   QString getOpenDir() const;
-  QString getFixedOpenDir() const { return QString( openDir ); }
+  QString getFixedOpenDir() const { return openDir; }
   int getOpenDirMode() const { return openDirMode; }
   void setLastOpenDir(const QString& dir);
   void setOpenDirCfg(const QString& dir, int mode);
 
   QString getExtractDir();
-  QString getFixedExtractDir() const { return QString( extractDir ); }
+  QString getFixedExtractDir() const { return extractDir; }
   int getExtractDirMode() const { return extractDirMode; }
   void setLastExtractDir(const QString& dir) { lastExtractDir = dir; }
   void setExtractDirCfg(const QString& dir, int mode);
 
   QString getAddDir();
-  QString getFixedAddDir() const { return QString( addDir ); }
+  QString getFixedAddDir() const { return addDir; }
   int getAddDirMode() const { return addDirMode; }
   void setLastAddDir(const QString& dir) { lastAddDir = dir; }
   void setAddDirCfg(const QString& dir, int mode);
