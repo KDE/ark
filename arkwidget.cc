@@ -110,7 +110,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     // enable DnD
     setAcceptDrops(true);
        
-    arch=0;
+    arch = 0;
 	
     initialEnables();
 
@@ -126,9 +126,14 @@ ArkWidget::~ArkWidget()
   delete accelerators;
   delete m_filePopup;
   delete m_archivePopup;
-  delete m_settings;
-  //	delete statusBarTimer;
   delete arch;
+
+  // delete the temporary directory and its contents
+  QString tmpdir = m_settings->getTmpDir();
+  QString ex( "rm -rf "+tmpdir );
+  system( ex.local8Bit() );
+
+  delete m_settings;
 }
 
 void ArkWidget::setupMenuBar()
@@ -282,7 +287,7 @@ void ArkWidget::createEditMenu()
 
   editMenu->insertSeparator();
 	
-  editMenu->insertItem( i18n( "&View last shell output..."),
+  editMenu->insertItem( i18n( "&View shell output..."),
 			this, SLOT( edit_view_last_shell_output() ) );
 }
 
@@ -340,13 +345,13 @@ void ArkWidget::createActionMenu( int _flag )
 
 void ArkWidget::createRecentPopup()
 {
-	recentPopup->clear();
+  recentPopup->clear();
 
-	QStringList *recentFiles = m_settings->getRecentFiles();
-	for (uint i=0; i<recentFiles->count(); i++)
-	{
-        	recentPopup->insertItem((*recentFiles)[i], -1, i);
-	}
+  QStringList *recentFiles = m_settings->getRecentFiles();
+  for (uint i=0; i<recentFiles->count(); i++)
+    {
+      recentPopup->insertItem((*recentFiles)[i], -1, i);
+    }
 }
 
 void ArkWidget::setupStatusBar()
@@ -355,18 +360,20 @@ void ArkWidget::setupStatusBar()
 
     KStatusBar *sb = statusBar();
     sb->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-    sb->insertItem(i18n("0 Files Selected                            "), eSelectedStatusLabel);
+    sb->insertItem(i18n("                         0 Files Selected                      "), eSelectedStatusLabel);
     QFrame *separator = new QFrame(sb, "separator");
     separator->setFrameShape(QFrame::HLine);
     separator->setFrameStyle(QFrame::Panel | QFrame::Raised);
     sb->insertWidget(separator, 2, eStatusLabelSeparator);
-    sb->insertItem(i18n("Total 0 Files, 0 KB                                             "), eNumFilesStatusLabel);
+    sb->insertItem(i18n("                         Total 0 Files, 0 KB                   "), eNumFilesStatusLabel);
+
+    QFrame *dummy = new QFrame(sb, "dummy");
+    sb->insertWidget(dummy, 0, eStatusDummy);
+
     sb->setAlignment(0, AlignCenter);
     sb->setAlignment(2, AlignCenter);
     sb->setBorderWidth(2);
 
-    QFrame *dummy = new QFrame(sb, "dummy");
-    sb->insertWidget(dummy, 0, eStatusDummy);
     kDebugInfo( 1601, "-ArkWidget::setupStatusBar");
 
 }
@@ -455,11 +462,6 @@ void ArkWidget::initialEnables()
   actionMenu->setItemEnabled(eMExtract, false);
   actionMenu->setItemEnabled(eMAddFile, false);
   actionMenu->setItemEnabled(eMAddDir, false);
-
-  m_filePopup->setItemEnabled(eMExtract, false);
-  m_filePopup->setItemEnabled(eMView, false);
-  //    m_filePopup->setItemEnabled(eMRename, false);
-  m_filePopup->setItemEnabled(eMDelete, false);
 
   m_archivePopup->setItemEnabled(eMAddFile, false);
   m_archivePopup->setItemEnabled(eMAddDir, false);
@@ -596,21 +598,17 @@ void ArkWidget::file_open(const QString & strFile)
 
 void ArkWidget::saveProperties()
 {
-	kDebugInfo( 1601, "+saveProperties (exit)");
+  kDebugInfo( 1601, "+saveProperties (exit)");
 
-	KConfig *kc = m_settings->getKConfig();
-	kc->setGroup( "ark" );
+  KConfig *kc = m_settings->getKConfig();
+  kc->setGroup( "ark" );
 
-	if ( m_settings->isSaveOnExitChecked() )
-		accelerators->writeSettings( m_settings->getKConfig() );
+  if ( m_settings->isSaveOnExitChecked() )
+    accelerators->writeSettings( m_settings->getKConfig() );
 
-	m_settings->writeConfiguration();
+  m_settings->writeConfiguration();
 
-	QString tmpdir = m_settings->getTmpDir();
-	QString ex( "rm -rf "+tmpdir );
-	system( ex.local8Bit() );
-
-	kDebugInfo( 1601, "-saveProperties (exit)");
+  kDebugInfo( 1601, "-saveProperties (exit)");
 }
 
 
@@ -663,7 +661,7 @@ void ArkWidget::file_new()
       return; 
     }
   }
-  // if the filename has no dot in it, I'll ask if I should append ".tgz"
+  // if the filename has no dot in it, I'll ask if I should append ".zip"
   if (! strFile.contains('.'))
   {
     int nRet = QMessageBox::warning(this, i18n("Error"), i18n("Your file is missing an extension to indicate the archive type.\nShall create a file of the default type (ZIP)?"),
@@ -700,11 +698,11 @@ void ArkWidget::file_new()
   // but I don't know if it will work yet, so I'm going to keep the old
   // one around till I'm sure.
 
-  createFileListView();
   Arch *tempArch = createArchive( strFile );
   if (tempArch != 0)
   {
     file_close();
+    createFileListView();
     setCaption("ark - " + strFile);
     m_bIsArchiveOpen = true;
     fixEnables();
@@ -754,17 +752,17 @@ void ArkWidget::file_open()
   // Needs work. XXX
   KIO::NetAccess::download(url, strFile); 
   file_open(strFile);  // note: assumes it is local for now
-
+  m_settings->clearShellOutput();
   kDebugInfo( 1601, "-ArkWidget::file_open");
 }
 
 void ArkWidget::file_openRecent(int i)
 {
   //	kDebugInfo( 1601, "+ArkWidget::file_openRecent");
-	QString filename = recentPopup->text(i);
-	file_open( filename );
-
-	kDebugInfo( 1601, "-ArkWidget::file_openRecent");
+  QString filename = recentPopup->text(i);
+  file_open( filename );
+  m_settings->clearShellOutput();
+  kDebugInfo( 1601, "-ArkWidget::file_openRecent");
 }
 
 void ArkWidget::showZip( QString _filename )
@@ -828,20 +826,20 @@ void ArkWidget::fixEnables() // private
   editMenu->setItemEnabled(eMDeselectAll, bHaveFiles);
   editMenu->setItemEnabled(eMInvertSel, bHaveFiles);
 
-  actionMenu->setItemEnabled(eMDelete, bHaveFiles);
+  actionMenu->setItemEnabled(eMDelete, bHaveFiles  && m_nNumSelectedFiles > 0);
   actionMenu->setItemEnabled(eMAddFile, m_bIsArchiveOpen);
   actionMenu->setItemEnabled(eMAddDir, m_bIsArchiveOpen);
   actionMenu->setItemEnabled(eMExtract, bHaveFiles);
+  actionMenu->setItemEnabled(eMView, bHaveFiles && m_nNumSelectedFiles == 1);
 
   m_archivePopup->setItemEnabled(eMSelectAll, bHaveFiles);
-  m_archivePopup->setItemEnabled(eMExtract, bHaveFiles);
 
   //    editMenu->setItemEnabled(eMRename, bHaveFiles);
   KToolBar *tb = toolBar();
-  tb->setItemEnabled(eDelete, bHaveFiles);
+  tb->setItemEnabled(eDelete, bHaveFiles && m_nNumSelectedFiles > 0);
   tb->setItemEnabled(eExtract, bHaveFiles);
   tb->setItemEnabled(eSelectAll, bHaveFiles);
-  tb->setItemEnabled(eView, bHaveFiles);
+  tb->setItemEnabled(eView, bHaveFiles && m_nNumSelectedFiles == 1);
   tb->setItemEnabled(eAddFile, m_bIsArchiveOpen);
   tb->setItemEnabled(eAddDir, m_bIsArchiveOpen);
 
@@ -855,7 +853,7 @@ void ArkWidget::fixEnables() // private
 
 void ArkWidget::file_reload()
 {
-    if (isArchiveOpen())
+  if (isArchiveOpen())
     {
       QString filename = arch->fileName();
       file_close();
@@ -931,52 +929,76 @@ void ArkWidget::file_quit()
 void ArkWidget::edit_select()
 {
   SelectDlg *sd = new SelectDlg( m_settings, this );
-  if ( sd->exec() ){
-    QString exp = sd->getRegExp();
-    m_settings->setSelectRegExp( exp );
+  if ( sd->exec() )
+    {
+      QString exp = sd->getRegExp();
+      m_settings->setSelectRegExp( exp );
 
-    QRegExp reg_exp( exp, true, true );
-    kDebugError(reg_exp.isValid(), 0, 1601, "ArkWidget::edit_select: regular expression is not valid.");
+      QRegExp reg_exp( exp, true, true );
+      kDebugError(reg_exp.isValid(), 0, 1601, "ArkWidget::edit_select: regular expression is not valid.");
 		
-    FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
+      FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
 
-    while (flvi)
-      {
-	if ( reg_exp.match(flvi->text(0))==0 ){
-	  archiveContent->setSelected(flvi, true);
+      // don't call the slot for each selection!
+      disconnect( archiveContent, SIGNAL( selectionChanged()),
+		  this, SLOT( slotSelectionChanged() ) );
+    
+      while (flvi)
+	{
+	  if ( reg_exp.match(flvi->text(0))==0 )
+	    {
+	      archiveContent->setSelected(flvi, true);
+	    }
+	  flvi = (FileLVI*)flvi->itemBelow();
 	}
-	flvi = (FileLVI*)flvi->itemBelow();
-      }
-			
-  }
+      // restore the behavior
+      connect( archiveContent, SIGNAL( selectionChanged()),
+	       this, SLOT( slotSelectionChanged() ) );
+      updateStatusSelection();	
+    }
 }
 
 void ArkWidget::edit_selectAll()
 {
-	FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
+  FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
 
-	while (flvi)
-	{
-        	archiveContent->setSelected(flvi, true);
-		flvi = (FileLVI*)flvi->itemBelow();
-	}
+  // don't call the slot for each selection!
+  disconnect( archiveContent, SIGNAL( selectionChanged()),
+	   this, SLOT( slotSelectionChanged() ) );
+  while (flvi)
+    {
+      archiveContent->setSelected(flvi, true);
+      flvi = (FileLVI*)flvi->itemBelow();
+    }
+
+  // restore the behavior
+  connect( archiveContent, SIGNAL( selectionChanged()),
+	   this, SLOT( slotSelectionChanged() ) );
+  updateStatusSelection();	
 }
 
 void ArkWidget::edit_deselectAll()
 {
-	archiveContent->clearSelection();
+  archiveContent->clearSelection();
+  updateStatusSelection();	
 }
 
 void ArkWidget::edit_invertSel()
 {
-	FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
+  FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
+  // don't call the slot for each selection!
+  disconnect( archiveContent, SIGNAL( selectionChanged()),
+	   this, SLOT( slotSelectionChanged() ) );
 
-	while (flvi)
-	{
-        	archiveContent->setSelected(flvi, !flvi->isSelected());
-		flvi = (FileLVI*)flvi->itemBelow();
-	}
-
+  while (flvi)
+    {
+      archiveContent->setSelected(flvi, !flvi->isSelected());
+      flvi = (FileLVI*)flvi->itemBelow();
+    }
+  // restore the behavior
+  connect( archiveContent, SIGNAL( selectionChanged()),
+	   this, SLOT( slotSelectionChanged() ) );
+  updateStatusSelection();	
 }
 
 void ArkWidget::edit_view_last_shell_output()
@@ -1221,52 +1243,9 @@ void ArkWidget::slotSelectionChanged()
 {
   kDebugInfo( 1601, "+ArkWidget::slotSelectionChanged");
   
-  KToolBar *tb = toolBar();
-  
   actionMenu->setItemEnabled( idDelete, !archiveContent->isSelectionEmpty() );
   updateStatusSelection();
   
-  if (m_nNumSelectedFiles > 0)
-    {
-      // enable appropriate menu items and toolbuttons
-      actionMenu->setItemEnabled(eMDelete, true);
-      actionMenu->setItemEnabled(eMExtract, true);
-      
-      
-      m_filePopup->setItemEnabled(eMExtract, true);
-      m_filePopup->setItemEnabled(eMDelete, true);
-      
-      tb->setItemEnabled(eDelete, true);
-      
-      // Because there's no 'multiple view' or 'multiple rename', we disable
-      // these options when there are multiple selections. But it is 
-      // unconditionally enabled in the popup because the user had
-      // to have right-clicked on an element in order to see the menu.
-      m_filePopup->setItemEnabled(eMView, true);
-      //	m_filePopup->setItemEnabled(eMRename, true);
-      
-      bool bEnable = (1 == m_nNumSelectedFiles);
-      
-      editMenu->setItemEnabled(eMView, bEnable);
-      //	editMenu->setItemEnabled(eMRename, bEnable);
-      
-      tb->setItemEnabled(eExtract, true);
-      tb->setItemEnabled(eView, bEnable);
-    }
-  else
-    {
-      actionMenu->setItemEnabled(eMDelete, false);
-      
-      m_filePopup->setItemEnabled(eMDelete, false);
-      
-      editMenu->setItemEnabled(eMView, false);
-      m_filePopup->setItemEnabled(eMView, false);
-      //	editMenu->setItemEnabled(eMRename, false);
-      //	m_filePopup->setItemEnabled(eMRename, false);
-      
-      tb->setItemEnabled(eView, false);
-      tb->setItemEnabled(eDelete, false);
-    }
   kDebugInfo( 1601, "-ArkWidget::slotSelectionChanged");
 }
 
@@ -1309,7 +1288,7 @@ void ArkWidget::updateStatusSelection()
       .arg(KGlobal::locale()->formatNumber(m_nSizeOfSelectedFiles, 0));
     }
   statusBar()->changeItem(strInfo, eSelectedStatusLabel);
-
+  fixEnables();
   kDebugInfo( 1601, "-ArkWidget::updateStatusSelection");
 }
 
@@ -1625,6 +1604,7 @@ Arch *ArkWidget::createArchive( QString _filename )
   // returns 0.
 
   Arch * newArch = 0;
+  m_strArchName = _filename;
 
   switch( getArchType( _filename ) )
     {

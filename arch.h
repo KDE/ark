@@ -47,7 +47,7 @@ class Arch : public QObject
   Q_OBJECT
 public:
   Arch( ArkSettings *_settings, Viewer *_viewer, const QString & _fileName );
-  virtual ~Arch() { delete m_kp; m_kp = 0;}
+  virtual ~Arch();
 	
   virtual void open() = 0;
   virtual void create() = 0;

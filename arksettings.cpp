@@ -65,6 +65,8 @@
 
 #define ADD_RECURSEDIRS "recurseDirs"
 #define ADD_JUNKDIRS "junkDirs"
+#define ADD_ABSPATHS "absPaths"
+#define ADD_RELPATHS "relPaths"
 #define ADD_MSDOS "forceMSDOS"
 #define ADD_CONVERTLF "convertLF2CRLF"
 

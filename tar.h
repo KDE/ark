@@ -77,7 +77,6 @@ public slots:
   void createTmpFinished( KProcess * );
   void extractFinished( KProcess * );
 
-
 protected slots:
   void slotOpenDataStdout(KProcess*, char*, int);
 
@@ -91,9 +90,8 @@ private: // data
   char          *stdout_buf;
   QString       tmpfile;
   bool          compressed;
-  KTarGz *tarptr;
-
   bool          perms, tolower, overwrite;
+  QString tmpdir; // easily recalculated, but I may need it a lot
 };
 
 #endif /* TAR_H */

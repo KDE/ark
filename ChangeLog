@@ -1,3 +1,13 @@
+2000-03-02:  Emily Ezust <emilye@corel.com>
+        * add and delete now work for tar files, although I'll probably
+	  change how temp files are created from compressed tars and
+	  how they are used to update the original archive...
+ 	  Note: ark uses KTar for display and shell process for everything
+	  else.
+	* Reduced the number of calls of slotSelectionChanged
+	* OK, _now_ I'm done with the enable/disable stuff - I swear!
+	* Other miscellaneous abstractions with zip->arch code
+	
 2000-02-24: Emily Ezust <emilye@corel.com>
 	* Got showFile interface working (see zip)
 	* Started using KTar in tar. Seems to display OK.

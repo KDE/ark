@@ -58,7 +58,12 @@ private: // data
   ArkSettings *m_settings;
   QStringList *m_fileList;
   // advanced options
+
+  // zip:
   QCheckBox *m_cbRecurse, *m_cbJunkDirNames, *m_cbForceMS, *m_cbConvertLF2CRLF;
+
+  // tar
+  QCheckBox *m_cbUpdateOnly;
 };
 
 

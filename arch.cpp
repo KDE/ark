@@ -44,6 +44,11 @@ Arch::Arch( ArkSettings *_settings, Viewer *_viewer,
   kDebugInfo(1601, "-Arch::Arch");
 }
 
+Arch::~Arch()
+{
+  delete m_kp;
+  m_kp = 0;
+}
 
 void Arch::slotCancel()
 {

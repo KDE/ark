@@ -179,8 +179,6 @@ void ZipArch::initOpen()
   m_header_removed = false;
   m_finished = false;
 	
-  m_settings->clearShellOutput();
-
   *m_kp << "unzip" << "-v" << m_filename.local8Bit();
 	
   connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
@@ -226,6 +224,11 @@ int ZipArch::addDir(const QString & _dirName)
     ret = addFile(&list);
     m_settings->setZipAddRecurseDirs(bOldVal); // reset to old val
   }
+
+  connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotOpenDataStdout(KProcess*, char*, int)));
+
+
   return ret;
 
 }
@@ -244,9 +247,12 @@ int ZipArch::addFile( QStringList *urls )
     *m_kp << "-r";
 		
   //	*m_kp << _compression.local8Bit();   // for later
-	
+
+#if 0
   if (m_settings->getZipAddJunkDirs())
     *m_kp << "-j";
+#endif
+
   if (m_settings->getZipAddMSDOS())
     *m_kp << "-k";
   if (m_settings->getZipAddConvertLF())
@@ -266,6 +272,32 @@ int ZipArch::addFile( QStringList *urls )
 
   *m_kp << m_filename.local8Bit() ;
   
+  QString base;
+  QString url;
+  QString file;
+
+  QStringList::ConstIterator iter;
+  for (iter = urls->begin(); iter != urls->end(); ++iter )
+  {
+    url = *iter;
+    //    KURL::decodeURL(url); // Because of special characters
+    file = url.right(url.length()-5);
+
+    if (file[file.length()-1]=='/')
+      file[file.length()-1]='\0';
+    if (m_settings->getZipAddJunkDirs())
+    {
+      int pos;
+      pos = file.findRev('/');
+      base = file.left(++pos);
+      chdir(base);
+      base = file.right(file.length()-pos);
+      file = base;
+    }
+    *m_kp << file;
+  }
+
+#if 0
   // iterate over QStringList and plunk onto command line
 
   kDebugInfo( 1601, "Adding these files to the command line:");
@@ -279,6 +311,7 @@ int ZipArch::addFile( QStringList *urls )
       *m_kp << currFile;
       kDebugInfo( 1601, "%s", (const char *)currFile );
     }
+#endif
 
   if( m_kp->start(KProcess::Block, KProcess::Stdout) == false)
     {
@@ -288,7 +321,7 @@ int ZipArch::addFile( QStringList *urls )
 	
   kDebugInfo( 1601, "normalExit = %d", m_kp->normalExit() );
   kDebugInfo( 1601, "exitStatus = %d", m_kp->exitStatus() );
-	
+
   if( m_kp->normalExit() && (m_kp->exitStatus()==0) )
     {
       if (stderrIsError())
@@ -364,7 +397,8 @@ void ZipArch::remove(QStringList *list)
 
   if (!list)
     return;
-  m_settings->clearShellOutput(); m_shellErrorData = "";
+  //  m_settings->clearShellOutput();
+  m_shellErrorData = "";
   m_kp->clearArguments();
   
   *m_kp << "zip" << "-d" << m_filename.local8Bit();
@@ -374,9 +408,10 @@ void ZipArch::remove(QStringList *list)
       QString str = *it;
       *m_kp << str.local8Bit();
     }
-
+#if 0
   connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)), SLOT(slotStoreDataStdout(KProcess*, char*, int)));
   connect( m_kp, SIGNAL(receivedStderr(KProcess*, char*, int)), SLOT(slotStoreDataStderr(KProcess*, char*, int)));
+#endif
   
   if(m_kp->start(KProcess::Block, KProcess::AllOutput) == false)
     {
@@ -405,7 +440,7 @@ void ZipArch::remove(QStringList *list)
 
 void ZipArch::initExtract( bool _overwrite, bool _junkPaths, bool _lowerCase)
 {
-  m_settings->clearShellOutput();
+  //  m_settings->clearShellOutput();
   m_shellErrorData = "";
 
   m_kp->clearArguments();
@@ -425,9 +460,11 @@ void ZipArch::initExtract( bool _overwrite, bool _junkPaths, bool _lowerCase)
 		
   *m_kp << m_filename.local8Bit();
 
+#if 0
   connect( m_kp, SIGNAL(processExited(KProcess *)), SLOT(slotExtractExited(KProcess *)));
   connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)), SLOT(slotStoreDataStdout(KProcess*, char*, int)));
   connect( m_kp, SIGNAL(receivedStderr(KProcess*, char*, int)), SLOT(slotStoreDataStderr(KProcess*, char*, int)));
+#endif
 }
 
 void ZipArch::slotIntegrityExited(KProcess *)
@@ -454,7 +491,7 @@ void ZipArch::slotIntegrityExited(KProcess *)
 
 void ZipArch::testIntegrity()
 {
-  m_settings->clearShellOutput();
+  //  m_settings->clearShellOutput();
   m_shellErrorData = "";
 
   m_kp->clearArguments();
@@ -464,7 +501,9 @@ void ZipArch::testIntegrity()
   *m_kp << m_filename;
 
   connect( m_kp, SIGNAL(processExited(KProcess *)), SLOT(slotIntegrityExited(KProcess *)));
+#if 0
   connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)), SLOT(slotStoreDataStdout(KProcess*, char*, int)));
+#endif
   //	connect( m_kp, SIGNAL(receivedStderr(KProcess*, char*, int)), SLOT(slotStoreDataStderr(KProcess*, char*, int)));
  		
   if(m_kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)

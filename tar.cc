@@ -68,7 +68,7 @@ static QString makeTimeStamp(const QDateTime & dt);
 
 TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
 		  const QString & _filename)
-  : Arch(_settings, _gui, _filename), tarptr(NULL)
+  : Arch(_settings, _gui, _filename)
 {
   kDebugInfo(1601, "+TarArch::TarArch");
   stdout_buf = NULL;
@@ -79,16 +79,13 @@ TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
   else
     {
       compressed = true;
+      tmpdir.sprintf("/tmp/ark.%d", getpid());
     }
-
   kDebugInfo( 1601, "-TarArch::TarArch");
 }
 
 TarArch::~TarArch()
 {
-  QString strCmd("rm -f " + tmpfile);
-  delete tarptr;
-  //updateArch();
 }
 
 int TarArch::getEditFlag()
@@ -98,24 +95,46 @@ int TarArch::getEditFlag()
 
 int TarArch::updateArch()
 {
-#if 0
-  if (!compressed)
+  if (compressed)
     {
-      compressed = TRUE;
-      disconnect( m_kp, 0, 0, 0 );
+      // copy the tmpfile to a junk name, compress, and move the file
+      // to where m_filename is. Then rename junk name back to tmpfile.
+
+      QString command;
+      command.sprintf("cp '%s' %s/junkname",
+		      (const char *)tmpfile, (const char *)tmpdir);
+
+      kDebugInfo(1601, "Command is %s", (const char *)command);
+      system((const char *)command);
+
       m_kp->clearArguments();
-      *m_kp << getCompressor() << "-c" << tmpfile.local8Bit() << " > " 
-	    << m_filename.local8Bit();
+      *m_kp << getCompressor() << tmpfile.local8Bit();
       connect( m_kp, SIGNAL(processExited(KProcess *)),
 	       this, SLOT(openFinished(KProcess *)) );
-      if( m_kp->start( KProcess::NotifyOnExit ) == FALSE )
+      if( m_kp->start( KProcess::Block, KProcess::Stdout ) == FALSE )
 	{
 	  KMessageBox::error(0, "Can't fork a compressor.");
-	  return -1;
+	  return FAILURE;
 	}
+      
+      // temparch will be m_filename but with tmpdir as the path
+      QString temparch = tmpdir + "/" + 
+	m_filename.right(m_filename.length() - 1 - 
+			m_filename.findRev("/"));
+      kDebugInfo(1601, "Temparch is %s", (const char *)temparch);
+
+      command.sprintf("mv '%s' '%s'",
+		      (const char *)temparch, (const char *)m_filename);
+      kDebugInfo(1601, "Command is %s", (const char *)command);
+      system((const char *)command);
+
+      // rename back
+      command.sprintf("mv /tmp/ark.%d/junkname '%s'",
+		      getpid(), (const char *)tmpfile);
+      kDebugInfo(1601, "Command is %s", (const char *)command);
+      system((const char *)command);
     }
-#endif
-  return 0;
+  return SUCCESS;
 }
 
 QString TarArch::getCompressor() 
@@ -159,9 +178,14 @@ void TarArch::open()
 {
   kDebugInfo(1601, "+TarArch::open");
 
+  connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotOpenDataStdout(KProcess*, char*, int)));
+
+  kDebugInfo(1601, "Connected receivedStdout to slotOpenDataStdout");
+
   setHeaders();
   
-  tarptr = new KTarGz(m_filename);
+  KTarGz *tarptr = new KTarGz(m_filename);
 
   if (! tarptr->open(IO_ReadOnly))
     {
@@ -175,7 +199,7 @@ void TarArch::open()
       emit sigOpen( true, m_filename,
 		    Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
     }
-
+  delete tarptr;
   kDebugInfo(1601, "-TarArch::open");
 }
 
@@ -224,6 +248,12 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
 
 void TarArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
 {
+  char c = _data[_length];
+  _data[_length] = '\0';
+
+  m_settings->appendShellOutputData( _data );
+  _data[_length] = c;
+
 }
 
 void TarArch::create()
@@ -258,39 +288,80 @@ void TarArch::setHeaders()
   kDebugInfo(1601, "-TarArch::setHeaders");
 }
 
+static QString removeExtension(const QString &_filename)
+{
+  QString name;
+  if (_filename.right(4) == ".tgz" || _filename.right(4) == ".taz" ||
+      _filename.right(4) == ".tzo")
+    {
+      name = _filename.left(_filename.length() - 3);
+      name += "tar";
+   }
+  else
+    // filename already has "tar." with one, two or three letters after
+    {
+      name = _filename.left(_filename.findRev("."));
+    }
+  return name;
+}
 
-/* untested */
 void TarArch::createTmp()
 {
-#if 0
   kDebugInfo(1601, "+TarArch::createTmp");
-  if (compressed )
+  if (compressed)
     {
-      //		FILE* fd, *fd2;
-      //		char buffer[4096];
-      //		int size = 0;
-      compressed = FALSE;
-
-      m_kp->clearArguments();
-      *m_kp << "gunzip" << "-c" << m_filename.local8Bit() << " > "
-	    << tmpfile.local8Bit();
-		
-      disconnect( m_kp, 0, 0, 0 );
-      connect(m_kp, SIGNAL(processExited(KProcess *)),
-	      this, SLOT(createTmpFinished(KProcess *)));
-		
-      if( m_kp->start( KProcess::NotifyOnExit ) == FALSE )
+      // copy the archive to the tmp directory unless it's there already
+      if (tmpfile.isEmpty())
 	{
-	  KMessageBox::error(0, "Can't fork a decompressor");
+	  // build the tmpfile name
+	  tmpfile = tmpdir + "/" + m_filename.right(m_filename.length() - 1 - 
+						    m_filename.findRev('/'));
+	  kDebugInfo(1601, "Tmpfile is %s\n",
+		     (const char *)tmpfile.local8Bit());
+	  m_kp->clearArguments();
+	  *m_kp << "cp" << m_filename.local8Bit() << tmpdir;
+	  if (m_kp->start( KProcess::Block, KProcess::Stdout ) == FALSE )
+	    {
+	      KMessageBox::error(0, i18n("I can't copy the archive to a temporary directory"));
+	    }
+	  
+	  
+	  // uncompress the temporary file
+	  m_kp->clearArguments();
+	  QString strUncompressor = getUnCompressor();
+	  *m_kp << strUncompressor;
+	  *m_kp << tmpfile;
+	  
+	  // debugging info
+	  QString strTemp;
+	  const QStrList *ptr = m_kp->args();
+	  QStrList list(*ptr); // copied because of const probs
+	  for ( strTemp=list.first(); strTemp != 0; strTemp=list.next() )
+	    {
+	      kDebugInfo(1601, "%s ", (const char *)strTemp);
+	    }
+	  
+	  connect(m_kp, SIGNAL(processExited(KProcess *)),
+		  this, SLOT(createTmpFinished(KProcess *)));
+	  
+	  if( m_kp->start( KProcess::Block, KProcess::Stdout ) == FALSE )
+	    {
+	      KMessageBox::error(0, "Can't fork a decompressor");
+	    }
+	  tmpfile = removeExtension(tmpfile); // for next time we need it
+	  kDebugInfo(1601, "Tmpfile is %s\n",
+		     (const char *)tmpfile.local8Bit());
+	}
+      else
+	{
+	  kDebugInfo(1601, "Temp tar already there...");
 	}
     }
   kDebugInfo(1601, "-TarArch::createTmp");
-#endif
 }
 
 int TarArch::addFile( QStringList* urls )
 {
-#if 0
   kDebugInfo(1601, "+TarArch::addFile");
 
   int retcode;
@@ -309,7 +380,10 @@ int TarArch::addFile( QStringList* urls )
     *m_kp << "uvf";
   else
     *m_kp << "rvf";
-  *m_kp << tmpfile.local8Bit();
+  if (compressed)
+    *m_kp << tmpfile.local8Bit();
+  else
+    *m_kp << m_filename;
 	
   QString base;
 
@@ -341,10 +415,26 @@ int TarArch::addFile( QStringList* urls )
       file = tmp;
     }	
 
-  if( m_kp->start( KProcess::NotifyOnExit, KProcess::Stdout ) == FALSE )
+  // debugging info
+  QString strTemp;
+  const QStrList *ptr = m_kp->args();
+  QStrList list(*ptr); // copied because of const probs
+  for ( strTemp=list.first(); strTemp != 0; strTemp=list.next() )
+    {
+      kDebugInfo(1601, "%s ", (const char *)strTemp);
+    }
+
+#if 0
+  connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
+	   this, SLOT(slotOpenDataStdout(KProcess*, char*, int)));
+#endif
+  connect( m_kp, SIGNAL(processExited(KProcess *)), 
+	   this, SLOT(addFinished(KProcess *)));
+
+  if( m_kp->start( KProcess::Block, KProcess::Stdout ) == FALSE )
     {
       KMessageBox::error(0, "Can't start a kprocess.");
-      return -1;
+      return FAILURE;
     }
 	
   if( m_settings->getaddPath() )
@@ -353,7 +443,6 @@ int TarArch::addFile( QStringList* urls )
   retcode = updateArch();
   return retcode;
   kDebugInfo(1601, "-TarArch::addFile");
-#endif
 }
 
 #if 0
@@ -398,11 +487,12 @@ void TarArch::extractTo( const QString & dir )
   *m_kp << "--use-compress-program="+getUnCompressor() 
 	<<	"-xvf" << m_filename.local8Bit() << "-C" << dir;	
 
-  disconnect( m_kp, 0, 0, 0 );
   connect( m_kp, SIGNAL(processExited(KProcess *)), 
 	   this, SLOT(extractFinished(KProcess *)));
+#if 0
   connect( m_kp, SIGNAL(receivedStdout(KProcess *, char *,int)),
 	   this, SLOT(updateExtractProgress(KProcess *, char *, int)));
+#endif
 
   if(m_kp->start( KProcess::NotifyOnExit, KProcess::Stdout ) == false)
     {
@@ -426,7 +516,7 @@ QString TarArch::unarchFile( QStringList * _fileList, const QString & _destDir)
   else
     dest = _destDir;
 
- = m_settings->getExtractDir();
+
 
   int pos;
   QString tmp, name;
@@ -466,9 +556,8 @@ QString TarArch::unarchFile( QStringList * _fileList, const QString & _destDir)
   return "";
 }
 
-void TarArch::remove(QStringList *)
+void TarArch::remove(QStringList *list)
 {
-#if 0
   kDebugInfo( 1601, "+Tar::deleteFiles");
 
   QString name, tmp;
@@ -477,13 +566,22 @@ void TarArch::remove(QStringList *)
   createTmp();
 	
   m_kp->clearArguments();
-  *m_kp << tar_exe.local8Bit() << "--delete" << "-f" << tmpfile.local8Bit() << patterns.local8Bit();
+  *m_kp << tar_exe.local8Bit() << "--delete" << "-f" ;
+  if (compressed)
+    *m_kp << tmpfile.local8Bit();
+  else
+    *m_kp << m_filename.local8Bit();
+
+  for ( QStringList::Iterator it = list->begin(); it != list->end(); ++it )  
+    {
+      kDebugInfo(1601, "%s", (const char *)*it);
+      *m_kp << *it;
+    }
+
   m_kp->start(KProcess::Block);
-	
-  //updateArch();
+  updateArch();
 
   kDebugInfo( 1601, "-Tar::deleteFiles");
-#endif
 }
 
 void TarArch::updateExtractProgress( KProcess *, char *buffer, int bufflen )

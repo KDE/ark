@@ -56,11 +56,16 @@ void AddDlg::setupSecondTab()
     {
     case ZIP_FORMAT:
       {
+	kDebugInfo( 1601, "AddDlg::setupSecondTab - zip format");
+	
 	QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
 					     "ZIP Options", secondpage );
 	m_cbRecurse = new QCheckBox(i18n("Recurse into directories"), bg);
 	if (m_settings->getZipAddRecurseDirs())
 	  m_cbRecurse->setChecked(true);
+
+	// NO - I want three radio buttons here.
+
 	m_cbJunkDirNames = new QCheckBox(i18n("Junk directory names"), bg);
 	if (m_settings->getZipAddJunkDirs())
 	  m_cbJunkDirNames->setChecked(true);
@@ -74,6 +79,16 @@ void AddDlg::setupSecondTab()
       }
       break;
     case TAR_FORMAT:
+      {
+	QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
+					     "TAR Options", secondpage );
+	m_cbJunkDirNames = new QCheckBox(i18n("Junk directory names"), bg);
+	if (!m_settings->getaddPath())
+	  m_cbJunkDirNames->setChecked(true);
+	m_cbUpdateOnly = new QCheckBox(i18n("Update only"), bg);
+	if (m_settings->getonlyUpdate())
+	  m_cbUpdateOnly->setChecked(true);
+      }
       break;
     case AA_FORMAT:
     case LHA_FORMAT:
@@ -97,12 +112,15 @@ void AddDlg::accept()
   switch(m_archtype)
     {
     case ZIP_FORMAT:
-      {
-	m_settings->setZipAddRecurseDirs(m_cbRecurse->isChecked());
-	m_settings->setZipAddJunkDirs(m_cbJunkDirNames->isChecked());
-	m_settings->setZipAddMSDOS(m_cbForceMS->isChecked());
-	m_settings->setZipAddConvertLF(m_cbConvertLF2CRLF->isChecked());
-      }
+      m_settings->setZipAddRecurseDirs(m_cbRecurse->isChecked());
+      m_settings->setZipAddJunkDirs(m_cbJunkDirNames->isChecked());
+      m_settings->setZipAddMSDOS(m_cbForceMS->isChecked());
+      m_settings->setZipAddConvertLF(m_cbConvertLF2CRLF->isChecked());
+      break;
+    case TAR_FORMAT:
+      m_settings->setonlyUpdate(m_cbUpdateOnly->isChecked());
+      m_settings->setaddPath(!m_cbJunkDirNames->isChecked());
+      break;
     case AA_FORMAT:
     case LHA_FORMAT:
     case RAR_FORMAT:
