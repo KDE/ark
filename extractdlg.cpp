@@ -50,8 +50,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "arkutils.h"
 #include "extractdlg.h"
 #include "settings.h"
-#include "arch.h"
-#define FIRST_PAGE_WIDTH  390
 
 ExtractDlg::ExtractDlg( QWidget *parent, const char *name, const QString& archiveName )
     : KDialogBase( KDialogBase::Plain, i18n("Extract"), Ok | Cancel, Ok, parent, name )
