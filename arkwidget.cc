@@ -91,7 +91,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     m_nNumFiles(0), m_nNumSelectedFiles(0), m_bIsArchiveOpen(false),
     m_bIsSimpleCompressedFile(false), m_bDropSourceIsSelf(false),
     m_bViewInProgress(false), m_bOpenWithInProgress(false),
-    m_bMakeCFIntoArchiveInProgress(false)
+    m_bMakeCFIntoArchiveInProgress(false), m_pTempAddList(NULL)
 {
     kDebugInfo( 1601, "+ArkWidget::ArkWidget");
   
@@ -168,6 +168,14 @@ void ArkWidget::setupActions()
 				  SLOT(file_openRecent(const KURL&)),
 				  actionCollection());
 
+  (void)KStdAction::keyBindings();
+
+  shellOutputAction  = new KAction(i18n("&View shell output..."), 0, this,
+				   SLOT(edit_view_last_shell_output()),
+				   actionCollection(), "shell_output");
+
+
+
   KStdAction::quit(this, SLOT(window_close()), actionCollection());
 
   addFileAction = new KAction(i18n("&Add File"), "ark_addfile", 0, this,
@@ -232,7 +240,7 @@ void ArkWidget::setupActions()
   KStdAction::showToolbar(this, SLOT(toggleToolBar()), actionCollection());
   KStdAction::showStatusbar(this, SLOT(toggleStatusBar()), actionCollection());
 
-  createGUI("ark.rc");
+  createGUI();
 }
 
 void ArkWidget::toggleToolBar()
@@ -272,14 +280,14 @@ void ArkWidget::setupStatusBar()
 
   m_pStatusLabelSelect = new QLabel(sb);
   m_pStatusLabelSelect->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-  m_pStatusLabelSelect->setFixedHeight(25);
+  m_pStatusLabelSelect->setFixedHeight(30);
   m_pStatusLabelSelect->setMargin(0);
   m_pStatusLabelSelect->setAlignment(AlignCenter);
   m_pStatusLabelSelect->setText(i18n("0 Files Selected"));
 
   m_pStatusLabelTotal = new QLabel(sb);
   m_pStatusLabelTotal->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-  m_pStatusLabelTotal->setFixedHeight(25);
+  m_pStatusLabelTotal->setFixedHeight(30);
   m_pStatusLabelTotal->setMargin(0);
   m_pStatusLabelTotal->setAlignment(AlignCenter);
   m_pStatusLabelTotal->setText(i18n("Total: 0 Files"));
@@ -570,9 +578,12 @@ void ArkWidget::slotCreate(Arch * _newarch, bool _success,
       fixEnables();
       if (m_bMakeCFIntoArchiveInProgress)
 	{
-	  QStringList list;
-	  list.append(m_compressedFile);
-	  addFile(&list);
+	  if (m_pTempAddList == NULL)
+	    {
+	      m_pTempAddList = new QStringList;
+	    }
+	  m_pTempAddList->append(m_compressedFile);
+	  addFile(m_pTempAddList);
 	}
     }
   else
@@ -743,6 +754,8 @@ void ArkWidget::slotAddDone(bool _bSuccess)
       if (m_bMakeCFIntoArchiveInProgress)
 	{
 	  m_bMakeCFIntoArchiveInProgress = false;
+	  delete m_pTempAddList;
+	  m_pTempAddList = NULL;
 	  QApplication::restoreOverrideCursor();
 	  action_add(); // now finally, get the files to be added!
 	  return;
@@ -1325,17 +1338,21 @@ void ArkWidget::doPopup(QListViewItem *pItem, const QPoint &pPoint,
                         int nCol) // slot
   // do the right-click popup menus
 {
+  kDebugInfo(1601, "+ArkWidget::doPopup");
   if (nCol == 0)
   {
     archiveContent->setCurrentItem(pItem);
     archiveContent->setSelected(pItem, true);
-    m_filePopup->popup(QCursor::pos());
+    ((QPopupMenu *)factory()->container("file_popup", this))->popup(pPoint);
   }
   else // clicked anywhere else but the name column
   {
-    //    m_archivePopup->popup(QCursor::pos());
-    m_archivePopup->popup(pPoint);
+    //m_archivePopup->popup(pPoint);
+
+    ((QPopupMenu *)factory()->container("archive_popup", this))->popup(pPoint);
+
   }
+  kDebugInfo(1601, "-ArkWidget::doPopup");
 }
 
 // Service functions /////////////////////////////////////////////////
@@ -1518,15 +1535,16 @@ void ArkWidget::dropAction(QStringList *list)
   {
     if (isArchiveOpen())
     {
-#if 0
-      if (currentIsSimpleCompressedFile())
-      {
-	// e.g., is it a gz?
-	if (! canAddToSimpleCompressedFile(&urls))
+      if (m_bIsSimpleCompressedFile && (m_nNumFiles == 1))
+	{
+	  QString strFilename = askToCreateRealArchive();
+	  if (!strFilename.isEmpty())
+	    {
+	      m_pTempAddList = new QStringList(urls);
+	      createRealArchive(strFilename);
+	    }
 	  return;
-      }
-#endif
-
+	}
       // add the files to the open archive
       addFile(&urls);
     }
@@ -1657,17 +1675,13 @@ void ArkWidget::createFileListView()
   setView(archiveContent);
   updateRects();
   archiveContent->show();
-
   connect( archiveContent, SIGNAL( selectionChanged()),
 	   this, SLOT( slotSelectionChanged() ) );
-
-#if 0
   connect(archiveContent,
 	  SIGNAL(rightButtonPressed(QListViewItem *,
 				    const QPoint &, int)),
 	  this, SLOT(doPopup(QListViewItem *,
 			     const QPoint &, int)));
-#endif
 }
 
 
@@ -1682,6 +1696,7 @@ ArchType ArkWidget::getArchType( QString archname )
       || (archname.right(4) == ".tbz")
       || (archname.right(4) == ".tzo")
       || (archname.right(4) == ".taz")
+      || (archname.right(5) == ".tbz2")
       || (archname.right(4) == ".tar"))
   {
     return TAR_FORMAT;

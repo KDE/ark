@@ -44,7 +44,7 @@ noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \
 METASOURCES =	AUTO
 
 rcdir = $(kde_datadir)/ark
-rc_DATA = ark.rc
+rc_DATA = arkui.rc
 
 messages: rc.cpp
 	$(XGETTEXT) rc.cpp $(ark_SOURCES) -o $(podir)/ark.pot

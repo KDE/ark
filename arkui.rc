@@ -23,6 +23,8 @@
     <Action name="select_all"/>
     <Action name="deselect_all"/>
     <Action name="invert_selection"/>
+    <Separator/>
+    <Action name="shell_output"/>
   </Menu>  
   <Menu name="settings"><text>&amp;Settings</text>
     <Action name="general"/>
@@ -46,4 +48,14 @@
   <Action name="settings"/>
   <Action name="help"/>
 </ToolBar>   
+<Menu name="file_popup">
+ <Action name="extract"/>
+ <Action name="view"/>
+ <Action name="open_with"/>
+ <Action name="delete"/>
+</Menu>
+<Menu name="archive_popup">
+ <Action name="addfile"/>
+ <Action name="adddir"/>
+</Menu>
 </kpartgui>

@@ -159,11 +159,11 @@ QString TarArch::getCompressor()
 
   if( extension == ".tgz" || extension == ".gz" ) 
     return QString( "gzip" );
-  if( extension == ".bz" )
+  if( extension == ".bz" || extension == ".tbz")
     return QString( "bzip" );
   if( extension == ".Z" || extension == ".taz" )
     return QString( "compress" );
-  if( extension == ".bz2" )
+  if( extension == ".bz2" || extension == ".tbz2" )
     return QString( "bzip2" );
   if( extension == ".lzo" || extension == ".tzo" )
     return QString( "lzop" );
@@ -177,11 +177,11 @@ QString TarArch::getUnCompressor()
   kDebugInfo(1601, "Extension: %s", (const char *)extension);
   if( extension == ".tgz" || extension == ".gz" ) 
     return QString( "gunzip" );
-  if( extension == ".bz" )
+  if( extension == ".bz" || extension == ".tbz")
     return QString( "bunzip" );
   if( extension == ".Z" || extension == ".taz" )
     return QString( "uncompress" );
-  if( extension == ".bz2" )
+  if( extension == ".bz2" || extension == ".tbz2")
     return QString( "bunzip2" );
   if( extension == ".lzo" || extension == ".tzo" )
     return QString( "lzop" );

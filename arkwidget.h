@@ -164,30 +164,8 @@ private: // methods
   QString askToCreateRealArchive();
   void createRealArchive(const QString &strFilename);
   QString getCreateFilename();
-private:
 
-  Arch *arch;
-
-private:
-  KAction *newWindowAction, *newArchAction, *openAction, *addFileAction,
-    *addDirAction, *extractAction, *deleteAction, *closeAction, *reloadAction,
-    *selectAllAction, *viewAction, *settingsAction, *helpAction,
-    *openWithAction, *selectAction, *deselectAllAction, *invertSelectionAction;
-  KRecentFilesAction *recent;
-
-  
-  KPopupMenu *m_filePopup, *m_archivePopup;
-  ArkSettings *m_settings;  // each arkwidget has its own settings
-
-  //  KAccel *accelerators;
-  FileListView *archiveContent;
-
-  QString m_strArchName;
-  QString m_strNewArchname;
-  //  QPopupMenu *fileMenu, *editMenu, *actionMenu, *optionsMenu;
-  //  QPopupMenu *recentPopup;
-	
-protected:	
+protected:
   void arkWarning(const QString& msg);
   void arkError(const QString& msg);
 	
@@ -208,7 +186,26 @@ protected:
   void showFile(FileLVI *);
 
   void saveProperties();
-private:
+
+private: // data
+  Arch *arch;
+
+  KAction *newWindowAction, *newArchAction, *openAction, *addFileAction,
+    *addDirAction, *extractAction, *deleteAction, *closeAction, *reloadAction,
+    *selectAllAction, *viewAction, *settingsAction, *helpAction,
+    *openWithAction, *selectAction, *deselectAllAction, *invertSelectionAction;
+  KRecentFilesAction *recent;
+  KAction *shellOutputAction;
+
+  KPopupMenu *m_filePopup, *m_archivePopup;
+  ArkSettings *m_settings;  // each arkwidget has its own settings
+
+  //  KAccel *accelerators;
+  FileListView *archiveContent;
+
+  QString m_strArchName;
+  QString m_strNewArchname;
+  
   // totals for status bar:
   int m_nSizeOfFiles;
   int m_nSizeOfSelectedFiles;
@@ -238,6 +235,8 @@ private:
   bool m_bMakeCFIntoArchiveInProgress;
   // the compressed file to be added into the new archive
   QString m_compressedFile;
+  // if they're dragging in files, this is the temporary list:
+  QStringList *m_pTempAddList;
 
   // which column has the size
   int m_currentSizeColumn;
