@@ -7,6 +7,7 @@
  Copyright (C)
 
  2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -24,13 +25,13 @@
 
 */
 
-#include <iostream.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/errno.h>
 #include <string.h>
 
+// QT includes
 #include <qfile.h>
 
 // KDE includes
@@ -39,16 +40,18 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kprocess.h>
 
 // ark includes
+#include "arkwidgetbase.h"
+#include "arksettings.h"
+#include "arch.h"
 #include "zoo.h"
 
-// the generic viewer to which to send header and column info.
-#include "viewer.h"
 
 QString fixTime(const QString &_strTime);
 
-ZooArch::ZooArch( ArkSettings *_settings, Viewer *_gui,
+ZooArch::ZooArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {
@@ -95,9 +98,9 @@ bool ZooArch::processLine(const QCString &line)
     {
       list.append(QString::fromLocal8Bit(columns[i]));
     }
-  m_gui->add(&list); // send to GUI
+  m_gui->listingAdd(&list); // send to GUI
 
- return true;
+  return true;
 }
 
 void ZooArch::open()
@@ -155,7 +158,7 @@ void ZooArch::setHeaders()
 void ZooArch::create()
 {
   emit sigCreate(this, true, m_filename,
-		 Arch::Extract | Arch::Delete | Arch::Add
+		 Arch::Extract | Arch::Delete | Arch::Add 
 		 | Arch::View);
 }
 
@@ -175,8 +178,8 @@ void ZooArch::addFile( QStringList *urls )
   KProcess *kp = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program;
-
-  if (m_settings->getZooReplaceOnlyWithNewer())
+	
+  if (m_settings->getAddReplaceOnlyWithNewer())
     *kp << "-update";
   else
     *kp << "-add";
@@ -187,7 +190,7 @@ void ZooArch::addFile( QStringList *urls )
   QString url;
   QString file;
 
-
+	
   QStringList::ConstIterator iter;
   for (iter = urls->begin(); iter != urls->end(); ++iter )
   {
@@ -245,33 +248,33 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 
   int ret = chdir(QFile::encodeName(dest));
  // I already checked the validity of the dir before coming here
-  ASSERT(ret == 0);
+  ASSERT(ret == 0); 
 
 
   QString tmp;
-
+	
   KProcess *kp = new KProcess;
   kp->clearArguments();
-
+  
   *kp << m_archiver_program;
 
-  if (!m_settings->getZooOverwriteFiles())
+  if (!m_settings->getExtractOverwrite())
     *kp << "x";
   else
     *kp << "xOOS";
   *kp << m_filename;
-
+  
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
   if (_fileList)
     {
       for ( QStringList::Iterator it = _fileList->begin();
-	    it != _fileList->end(); ++it )
+	    it != _fileList->end(); ++it ) 
 	{
 	  *kp << (*it).local8Bit();/*.latin1() ;*/
 	}
     }
-
+ 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
@@ -279,7 +282,7 @@ void ZooArch::unarchFile(QStringList *_fileList, const QString & _destDir,
 
   connect( kp, SIGNAL(processExited(KProcess*)), this,
 	   SLOT(slotExtractExited(KProcess*)));
-
+  
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
@@ -297,7 +300,7 @@ void ZooArch::remove(QStringList *list)
   m_shellErrorData = "";
   KProcess *kp = new KProcess;
   kp->clearArguments();
-
+  
   *kp << m_archiver_program << "D" << m_filename.local8Bit();
   for ( QStringList::Iterator it = list->begin();
 	it != list->end(); ++it )
@@ -319,14 +322,14 @@ void ZooArch::remove(QStringList *list)
       KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
       emit sigDelete(false);
     }
-
+  
   kdDebug(1601) << "-ZooArch::remove" << endl;
 }
 
 QString fixTime(const QString &_strTime)
 {
   // it may have come from a different time zone... get rid of trailing
-  // +3 or -3 etc.
+  // +3 or -3 etc. 
   QString strTime = _strTime;
 
   if (strTime.contains("+") || strTime.contains("-"))
@@ -349,7 +352,7 @@ QString fixTime(const QString &_strTime)
 	  strTime = strTime.left(8);
 	  strTime.sprintf("%2.2d%s", nHour, strTime.right(6).utf8().data());
 	  kdDebug(1601) << "The new time is " << strTime << endl;
-	}
+	}	
     }
   else
     {

@@ -10,6 +10,7 @@
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -29,17 +30,19 @@
 #ifndef LHAARCH_H
 #define LHAARCH_H
 
-// Qt includes
-#include <qstring.h>
-#include <qstrlist.h>
+class QString;
+class QCString;
+class QStringList;
 
-#include "arch.h"
+class Arch;
+class ArkSettings;
+class ArkWidgetBase;
 
-class LhaArch : public Arch 
+class LhaArch : public Arch
 {
   Q_OBJECT
 public:
-  LhaArch( ArkSettings *_settings, Viewer *_gui,
+  LhaArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 	   const QString & _fileName );
   virtual ~LhaArch() { }
 	
@@ -55,7 +58,7 @@ public:
 
 protected slots:
   virtual bool processLine(const QCString &line);
-
+	
 private:
   void initExtract( bool, bool, bool );
   void setHeaders();

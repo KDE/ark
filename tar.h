@@ -10,6 +10,7 @@
   1997-1999: Rob Palmbos palm9744@kettering.edu
   1999: Francois-Xavier Duranceau duranceau@kde.org
   1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -32,22 +33,13 @@
 
 #include <unistd.h>
 
-// Qt includes
-#include <qdir.h>
-#include <qobject.h>
-#include <qstring.h>
-#include <qstrlist.h>
-
-
-// KDE includes
-#include <kprocess.h>
-
-// ark includes
-#include "arch.h"
-#include "arksettings.h"
-
-class Viewer;
+class QString;
+class QStrList;
+class KProcess;
 class KTarDirectory2;
+class ArkWidgetBase;
+class ArkSettings;
+class Arch;
 
 // TarArch can read Tar files and Tar files compressed with gzip.
 // It doesn't yet know how to list Tar files compressed with other
@@ -60,7 +52,7 @@ class TarArch : public Arch
 {
   Q_OBJECT
 public:
-  TarArch( ArkSettings *_settings, Viewer *_gui, const QString & _filename);
+  TarArch( ArkSettings *_settings, ArkWidgetBase *_gui, const QString & _filename);
   virtual ~TarArch();
 	
   virtual void open();

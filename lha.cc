@@ -9,6 +9,7 @@
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -26,6 +27,7 @@
 
 */
 
+// C includes
 #include <iostream.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -33,22 +35,26 @@
 #include <sys/errno.h>
 #include <string.h>
 
+// QT includes
+#include <qstring.h>
+#include <qcstring.h>
+#include <qstringlist.h>
 #include <qfile.h>
 
 // KDE includes
 #include <kurl.h>
-#include <qstringlist.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kprocess.h>
 
 // ark includes
+#include "arkwidgetbase.h"
+#include "arksettings.h"
+#include "arch.h"
 #include "lha.h"
 
-// the generic viewer to which to send header and column info.
-#include "viewer.h"
-
-LhaArch::LhaArch( ArkSettings *_settings, Viewer *_gui,
+LhaArch::LhaArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {
@@ -66,9 +72,9 @@ bool LhaArch::processLine(const QCString &line)
   char columns[13][80];
   char filename[4096];
 
-  if (QString(_line).contains("[generic]") )
+  if (QString(_line).contains("[generic]") ) 
     {
-      sscanf(_line, " %[]\\[generic\\] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
+      sscanf(_line, " %[]\[generic] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
 	     columns[0], columns[2], columns[3], columns[4], columns[5],
 	     columns[6], columns[10], columns[7], columns[11], columns[8],
 	     columns[9], filename );
@@ -77,7 +83,7 @@ bool LhaArch::processLine(const QCString &line)
   else
   if (QString(_line).contains("[MS-DOS]") ) 
     {
-      sscanf(_line, " %[]\\[MS-DOS\\] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
+      sscanf(_line, " %[]\[MS-DOS] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
 	     columns[0], columns[2], columns[3], columns[4], columns[5],
 	     columns[6], columns[10], columns[7], columns[11], columns[8],
 	     columns[9], filename );
@@ -126,7 +132,7 @@ bool LhaArch::processLine(const QCString &line)
   else
     list.append("");
 
-  m_gui->add(&list); // send to GUI
+  m_gui->listingAdd(&list); // send to GUI
 
   return true;
 }
@@ -179,12 +185,13 @@ void LhaArch::setHeaders()
   alignRightCols[0] = 3;
   alignRightCols[1] = 4;
   alignRightCols[2] = 5;
-
+  
   m_gui->setHeaders(&list, alignRightCols, 3);
   delete [] alignRightCols;
 
   kdDebug(1601) << "-LhaArch::setHeaders" << endl;
 }
+
 
 void LhaArch::create()
 {
@@ -211,7 +218,7 @@ void LhaArch::addFile( QStringList *urls )
   *kp << m_archiver_program;
 	
   QString strOptions;
-  if (m_settings->getLhaReplaceOnlyWithNewer())
+  if (m_settings->getAddReplaceOnlyWithNewer())
     strOptions = "u";
   else
     strOptions = "a";
@@ -345,4 +352,5 @@ void LhaArch::remove(QStringList *list)
   
   kdDebug(1601) << "-LhaArch::remove" << endl;
 }
+
 #include "lha.moc"

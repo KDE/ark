@@ -27,17 +27,18 @@
 #ifndef __RAR_H__
 #define __RAR_H__ 
 
-// Qt includes
-#include <qstring.h>
-#include <qstrlist.h>
+class QString;
+class QStringList;
 
-#include "arch.h"
+class Arch;
+class ArkSettings;
+class ArkSettingsBase;
 
-class RarArch : public Arch 
+class RarArch : public Arch
 {
   Q_OBJECT
 public:
-  RarArch( ArkSettings *_settings, Viewer *_gui,
+  RarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 	   const QString & _fileName );
   virtual ~RarArch() {}
   virtual void open();

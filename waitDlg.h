@@ -28,9 +28,7 @@
 #ifndef WAIT_DLG_H
 #define WAIT_DLG_H
 
-// Qt includes
-#include <qdialog.h>
-
+class QDialog;
 
 class WaitDlg : public QDialog {
 	Q_OBJECT

@@ -1,6 +1,6 @@
 /*
 
- $Id: $
+ $Id$
 
  ark -- archiver for the KDE project
 
@@ -28,12 +28,11 @@
 #ifndef DELETE_DLG_H
 #define DELETE_DLG_H
 
-// Qt includes
-#include <qdialog.h>
-#include <qlineedit.h>
-#include <qradiobutton.h>
-#include <qstring.h>
-
+class QWidget;
+class QDialog;
+class QString;
+class QLineEdit;
+class QRadioButton;
 
 class DeleteDlg : public QDialog {
 	Q_OBJECT

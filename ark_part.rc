@@ -1,0 +1,14 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="ark_kparts">
+<MenuBar>
+ <Menu name="action"><Text>&amp;Archive</Text>
+  <Action name="extract"/>
+  <Action name="view"/>
+ </Menu>
+</MenuBar>
+<ToolBar name="Ark-ToolBar">
+  <Action name="extract"/>
+  <Action name="view"/>
+</ToolBar>
+<StatusBar/>
+</kpartgui>

@@ -9,6 +9,7 @@
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -27,18 +28,24 @@
 */
 
 
+// C Configs
 #include <stdlib.h>	// for getenv
+
+// QT includes
+#include <qstring.h>
 
 // KDE includes
 #include <kapp.h>
 #include <kglobal.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kconfig.h>
 
 // ark includes
 #include "arksettings.h"
 
 // Key names in the arkrc config file
+#define GENERIC_GROUP "generic"
 #define ARK_GROUP "ark"
 #define TAR_GROUP "Tar"
 #define ZIP_GROUP "Zip"
@@ -64,6 +71,7 @@
 #define ADD_MODE_KEY "addDirMode"
 
 #define EXTRACT_OVERWRITE "extractOverwrite"
+#define ADD_REPLACEONLYWITHNEWER "replaceOnlyWithNewer"
 #define EXTRACT_JUNKPATHS "extractJunkPaths"
 #define EXTRACT_LOWERCASE "extractLowerCase"
 
@@ -81,17 +89,8 @@
 #define SAVE_ON_EXIT_KEY "saveOnExit"
 
 #define PRESERVE_PERMS "preservePerms"
-#define TAR_REPLACE_ONLY_WITH_NEWER "tarReplaceOnlyWithNewer"
-#define ZIP_REPLACE_ONLY_WITH_NEWER "zipReplaceOnlyWithNewer"
-#define LHA_REPLACE_ONLY_WITH_NEWER "lhaReplaceOnlyWithNewer"
-#define AR_REPLACE_ONLY_WITH_NEWER "arReplaceOnlyWithNewer"
-#define ZOO_REPLACE_ONLY_WITH_NEWER "zooReplaceOnlyWithNewer"
-#define RAR_REPLACE_ONLY_WITH_NEWER "rarReplaceOnlyWithNewer"
 
 #define FULLPATHS "fullPaths"
-#define TAR_OVERWRITE "tarOverwrite"
-#define ZOO_OVERWRITE "zooOverwrite"
-#define RAR_OVERWRITE "rarOverwrite"
 #define RAR_UPPER "rarToUpper"
 #define RAR_LOWER "rarToLower"
 #define LHA_GENERIC "lhaGeneric"
@@ -132,6 +131,7 @@ void ArkSettings::readConfiguration()
   fullPath = kc->readBoolEntry(FULLPATHS, false);
 
   readDirectories();
+  readGenericProperties();
   readZipProperties();
   readZooProperties();
   readLhaProperties();
@@ -184,16 +184,22 @@ void ArkSettings::readDirectories()
   kdDebug(1601) << "-readDirectories" << endl;
 }
 
+void ArkSettings::readGenericProperties()
+{
+	kc->setGroup(GENERIC_GROUP);
+	
+	m_bExtractOverwrite = kc->readBoolEntry(EXTRACT_OVERWRITE, false);
+	m_bAddReplaceOnlyWithNewer = kc->readBoolEntry(ADD_REPLACEONLYWITHNEWER,
+						    false);
+}
+
 void ArkSettings::readTarProperties()
 {
   kdDebug(1601) << "+readTarProperties" << endl;
 	
   kc->setGroup( TAR_GROUP );
   m_tarPreservePerms = kc->readBoolEntry(PRESERVE_PERMS, false);
-  m_tarOverwrite = kc->readBoolEntry(TAR_OVERWRITE, false);
   m_tarUseAbsPathnames = kc->readBoolEntry(TAR_USE_ABS_PATHNAMES, false);
-  m_tarReplaceOnlyWithNewer = kc->readBoolEntry(TAR_REPLACE_ONLY_WITH_NEWER,
-						false);
 
   kdDebug(1601) << "-readTarProperties" << endl;
 }
@@ -203,8 +209,6 @@ void ArkSettings::readLhaProperties()
   kdDebug(1601) << "+readLhaProperties" << endl;
   kc->setGroup(LHA_GROUP);
   m_lhaAddGeneric = kc->readBoolEntry(LHA_GENERIC, false);
-  m_lhaReplaceOnlyWithNewer = kc->readBoolEntry(LHA_REPLACE_ONLY_WITH_NEWER,
-						false);
   kdDebug(1601) << "-readLhaProperties" << endl;
 }
 
@@ -212,8 +216,6 @@ void ArkSettings::readArProperties()
 {
   kdDebug(1601) << "+ArkSettings::readArProperties" << endl;
   kc->setGroup(AR_GROUP);
-  m_arReplaceOnlyWithNewer = kc->readBoolEntry(AR_REPLACE_ONLY_WITH_NEWER,
-					       false);
   kdDebug(1601) << "-ArkSettings::readArProperties" << endl;
 }
 
@@ -222,9 +224,6 @@ void ArkSettings::readZooProperties()
 {
   kdDebug(1601) << "+readZooProperties" << endl;
   kc->setGroup(ZOO_GROUP);
-  m_zooOverwrite = kc->readBoolEntry(ZOO_OVERWRITE, false);
-  m_zooReplaceOnlyWithNewer = kc->readBoolEntry(ZOO_REPLACE_ONLY_WITH_NEWER,
-						false);
 
   kdDebug(1601) << "-readZooProperties" << endl;
 }
@@ -233,12 +232,9 @@ void ArkSettings::readRarProperties()
 {
   kdDebug(1601) << "+readRarProperties" << endl;
   kc->setGroup(RAR_GROUP);
-  m_rarOverwrite = kc->readBoolEntry(RAR_OVERWRITE, false);
   m_rarToLower = kc->readBoolEntry(RAR_LOWER, false);
   m_rarToUpper = kc->readBoolEntry(RAR_UPPER, false);
   m_rarStoreSymlinks = kc->readBoolEntry(RAR_STORE_SYM_LINKS, true);
-  m_rarReplaceOnlyWithNewer = kc->readBoolEntry(RAR_REPLACE_ONLY_WITH_NEWER,
-						false);
   m_rarRecurseSubdirs = kc->readBoolEntry(RAR_RECURSE_SUBDIRS, true);
 
   kdDebug(1601) << "-readRarProperties" << endl;
@@ -250,7 +246,6 @@ void ArkSettings::readZipProperties()
 	
   kc->setGroup( ZIP_GROUP );
 
-  m_zipExtractOverwrite = kc->readBoolEntry( EXTRACT_OVERWRITE, true );
   m_zipExtractJunkPaths = kc->readBoolEntry( EXTRACT_JUNKPATHS, false );
   m_zipExtractLowerCase = kc->readBoolEntry( EXTRACT_LOWERCASE, false );
 
@@ -259,8 +254,6 @@ void ArkSettings::readZipProperties()
   m_zipAddMSDOS = kc->readBoolEntry( ADD_MSDOS, false );
   m_zipAddConvertLF = kc->readBoolEntry( ADD_CONVERTLF, false );
   m_zipStoreSymlinks = kc->readBoolEntry( ZIP_STORE_SYM_LINKS, true );
-  m_zipReplaceOnlyWithNewer = kc->readBoolEntry(ZIP_REPLACE_ONLY_WITH_NEWER,
-						false);
   kdDebug(1601) << "-readZipProperties" << endl;
 }
 
@@ -291,6 +284,7 @@ void ArkSettings::writeConfigurationNow()
   kdDebug(1601) << "+writeConfigurationNow" << endl;
 
   writeDirectories();
+  writeGenericProperties();
   writeZipProperties();
   writeTarProperties();
   writeZooProperties();
@@ -347,6 +341,14 @@ void ArkSettings::writeDirectories()
   kdDebug(1601) << "-writeDirectories" << endl;
 }
 
+void ArkSettings::writeGenericProperties()
+{
+	kc->setGroup(GENERIC_GROUP);
+	
+	kc->writeEntry(EXTRACT_OVERWRITE, m_bExtractOverwrite);
+	kc->writeEntry(ADD_REPLACEONLYWITHNEWER, m_bAddReplaceOnlyWithNewer);
+}
+
 void ArkSettings::writeTarProperties()
 {
   kdDebug(1601) << "+ArkSettings::writeTarProperties" << endl;
@@ -354,9 +356,7 @@ void ArkSettings::writeTarProperties()
   kc->setGroup( TAR_GROUP );
 
   kc->writeEntry(PRESERVE_PERMS, m_tarPreservePerms);
-  kc->writeEntry(TAR_OVERWRITE, m_tarOverwrite);
   kc->writeEntry(TAR_USE_ABS_PATHNAMES, m_tarUseAbsPathnames);
-  kc->writeEntry(TAR_REPLACE_ONLY_WITH_NEWER, m_tarReplaceOnlyWithNewer);
 
   kdDebug(1601) << "-ArkSettings::writeTarProperties" << endl;
 }
@@ -365,7 +365,6 @@ void ArkSettings::writeArProperties()
 {
   kdDebug(1601) << "+ArkSettings::writeArProperties" << endl;
   kc->setGroup(AR_GROUP);
-  kc->writeEntry(AR_REPLACE_ONLY_WITH_NEWER, m_arReplaceOnlyWithNewer);
   kdDebug(1601) << "-ArkSettings::writeArProperties" << endl;
 }
 
@@ -373,9 +372,6 @@ void ArkSettings::writeZooProperties()
 {
   kdDebug(1601) << "+ArkSettings::writeZooProperties" << endl;
   kc->setGroup(ZOO_GROUP);
-  kc->writeEntry(ZOO_OVERWRITE, m_zooOverwrite);
-  kc->writeEntry(ZOO_REPLACE_ONLY_WITH_NEWER, m_zooReplaceOnlyWithNewer);
-
   kdDebug(1601) << "-ArkSettings::writeZooProperties" << endl;
 }
 
@@ -384,7 +380,6 @@ void ArkSettings::writeLhaProperties()
   kdDebug(1601) << "+ArkSettings::writeLhaProperties" << endl;
   kc->setGroup(LHA_GROUP);
   kc->writeEntry(LHA_GENERIC, m_lhaAddGeneric);
-  kc->writeEntry(LHA_REPLACE_ONLY_WITH_NEWER, m_lhaReplaceOnlyWithNewer);
   kdDebug(1601) << "-ArkSettings::writeLhaProperties" << endl;
 }
 
@@ -392,13 +387,10 @@ void ArkSettings::writeRarProperties()
 {
   kdDebug(1601) << "+ArkSettings::writeRarProperties" << endl;
   kc->setGroup(RAR_GROUP);
-  kc->writeEntry(RAR_OVERWRITE, m_rarOverwrite);
   kc->writeEntry(RAR_LOWER, m_rarToLower);
   kc->writeEntry(RAR_UPPER, m_rarToUpper);
   kc->writeEntry(RAR_STORE_SYM_LINKS, m_rarStoreSymlinks);
-  kc->writeEntry(RAR_REPLACE_ONLY_WITH_NEWER, m_rarReplaceOnlyWithNewer);
   kc->writeEntry(RAR_RECURSE_SUBDIRS, m_rarRecurseSubdirs);
-
   kdDebug(1601) << "-ArkSettings::writeRarProperties" << endl;
 }
 
@@ -407,19 +399,13 @@ void ArkSettings::writeZipProperties()
   kdDebug(1601) << "+writeZipProperties" << endl;
 	
   kc->setGroup( ZIP_GROUP );
-
-  kdDebug(1601) << "m_zipExtract	Overwrite = " << m_zipExtractOverwrite << endl;
-  kc->writeEntry( EXTRACT_OVERWRITE, m_zipExtractOverwrite );
   kc->writeEntry( EXTRACT_JUNKPATHS, m_zipExtractJunkPaths );
   kc->writeEntry( EXTRACT_LOWERCASE, m_zipExtractLowerCase );
-
   kc->writeEntry( ADD_RECURSEDIRS, m_zipAddRecurseDirs );
   kc->writeEntry( ADD_JUNKDIRS, m_zipAddJunkDirs );
   kc->writeEntry( ADD_MSDOS, m_zipAddMSDOS );
   kc->writeEntry( ADD_CONVERTLF, m_zipAddConvertLF );
   kc->writeEntry( ZIP_STORE_SYM_LINKS, m_zipStoreSymlinks );
-  kc->writeEntry( ZIP_REPLACE_ONLY_WITH_NEWER, m_zipReplaceOnlyWithNewer);
-
   kdDebug(1601) << "-writeZipProperties" << endl;
 }
 
@@ -539,4 +525,6 @@ void ArkSettings::clearShellOutput()
   delete m_lastShellOutput;
   m_lastShellOutput = new QString;
 }
+
+
 

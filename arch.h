@@ -10,6 +10,7 @@
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -27,32 +28,6 @@
 
 */
 
-
-#ifndef ARCH_H
-#define ARCH_H
-
-// KDE includes
-#include <kprocess.h>
-
-// Qt includes
-#include <qstring.h>
-#include <qcstring.h>
-
-// ark includes
-#include "arksettings.h"
-#include "filelistview.h"
-class KProcess;
-class Viewer;
-
-class QRegExp;
-template <class type> class QList;
-
-
-enum ArchType {UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
-	       LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT, COMPRESSED_FORMAT};
-
-ArchType getArchType( const QString & archname, QString &extension);
-
 // The following class is the base class for all of the archive types.
 // In order for it to work properly with the KProcess, you have to
 // connect the ProcessExited signal appropriately before spawning
@@ -69,19 +44,41 @@ ArchType getArchType( const QString & archname, QString &extension);
 // To add a new archive:
 // 1. Create a new header file and a source code module
 // 2. Add an entry to the ArchType enum in arch.h.
-// 3. Include your new header file in arkwidget.cc.
-// 4. Add new cases for your format in
-//    ArkWidget::createArchive(const QString &),
-//    ArkWidget::openArchive(const QString &)
-// and
-//    getArchType() in arch.cpp
-// 5. Add your extension to the list of valid archives in
+// 3. Add appropriate types to getArchType() and archFactory() in arch.cpp
+// 4. Add your extension to the list of valid archives in
 //   ArkSettings::getFilter (you might also want to add a separate entry)
 //
 
+
+#ifndef ARCH_H
+#define ARCH_H
+
+#include <qobject.h>
+#include <qlist.h>	// Some very annoying hackery in arkwidgetpart
+
+class QString;
+class QCString;
+template<class type> class QList;
+class QRegExp;
+class QStringList;
+class KProcess;
+
+class FileListView;
+class ArkSettings;
+class ArkWidgetBase;
+
+enum ArchType {UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
+	       LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT, COMPRESSED_FORMAT};
+
+
+/**
+* Pure virtual base class for archives - provides a framework as well as
+* useful common functionality.
+*/
 class Arch : public QObject
 {
   Q_OBJECT
+
 protected:
   /**
   * A struct representing column data. This makes it possible to abstract
@@ -92,18 +89,19 @@ protected:
   {
   	// YES, a struct. A proper class is excessive here.
 	int colRef;	// Which column to load to in processLine
-	QRegExp pattern;
+	QRegExp pattern;	
 	int maxLength;
 	bool optional;
-
+	
 	ArchColumns(int col, QRegExp reg, int length = 64,
 		    bool opt = false);
   };
 
 public:
-  Arch( ArkSettings *_settings, Viewer *_viewer, const QString & _fileName );
+  Arch(ArkSettings *_settings, ArkWidgetBase *_viewer,
+       const QString & _fileName);
   virtual ~Arch();
-
+	
   virtual void open() = 0;
   virtual void create() = 0;
   virtual void remove(QStringList *) = 0;
@@ -126,8 +124,10 @@ public:
 
   // is the archive readonly?
   bool isReadOnly() { return m_bReadOnly; }
-
   void setReadOnly(bool bVal) { m_bReadOnly = bVal; }
+
+  bool isError() { return m_error; }
+  void resetError() { m_error = false; }
 
   // check to see if the utility exists in the PATH of the user
   void verifyUtilityIsAvailable(const QString &,
@@ -137,17 +137,23 @@ public:
 
   QString getUtility() { return m_archiver_program; }
 
+  static ArchType getArchType(const QString &archname, QString &extension);
+
+  static Arch *archFactory(ArchType aType, ArkSettings *settings,
+			   ArkWidgetBase *parent, const QString &filename);
+
 protected slots:
   void slotCancel();
   void slotStoreDataStdout(KProcess*, char*, int);
   void slotStoreDataStderr(KProcess*, char*, int);
   void slotOpenExited(KProcess*);
-
+	
   void slotExtractExited(KProcess*);
   void slotDeleteExited(KProcess*);
   void slotAddExited(KProcess*);
 
   void slotReceivedOutput(KProcess *, char*, int);
+
   virtual bool processLine(const QCString &line);
   virtual void slotReceivedTOC(KProcess *, char *, int);
 
@@ -157,17 +163,18 @@ signals:
   void sigDelete(bool);
   void sigExtract(bool);
   void sigAdd(bool);
-
+	
 protected:  // data
   QString m_filename;
   QString m_shellErrorData;
   QCString m_buffer;
   ArkSettings *m_settings;
-  Viewer *m_gui;
+  ArkWidgetBase *m_gui;
   bool m_bReadOnly; // for readonly archives
+  bool m_error;
 
   // lets tar delete unsuccessfully before adding without confusing the user
-  bool m_bNotifyWhenDeleteFails;
+  bool m_bNotifyWhenDeleteFails; 
 
   // set to whether the archiving utility/utilities is/are in the user's PATH
   bool m_bUtilityIsAvailable;
@@ -177,7 +184,7 @@ protected:  // data
 
   // Archive parsing information
   QCString m_headerString;
-  bool m_header_removed, m_finished, m_error;
+  bool m_header_removed, m_finished;
   QList<ArchColumns> m_archCols;
   int m_numCols, m_dateCol, m_fixYear, m_fixMonth, m_fixDay, m_fixTime;
   int m_repairYear, m_repairMonth, m_repairTime;

@@ -8,6 +8,7 @@
 
  1997-1999: Rob Palmbos palm9744@kettering.edu
  2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -25,30 +26,33 @@
 
 */
 
-#include <iostream.h>
+// C includes
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
 
+// QT includes
 #include <qfile.h>
+#include <qstringlist.h>
 #include <qregexp.h>
-#include <qlist.h>
 
 // KDE includes
 #include <kurl.h>
-#include <qstringlist.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <klocale.h>
+#include <kprocess.h>
 
 // ark includes
+#include "arkwidgetbase.h"
+#include "arch.h"
+#include "arksettings.h"
 #include "ar.h"
-#include "viewer.h"
 
-ArArch::ArArch( ArkSettings *_settings, Viewer *_gui,
+ArArch::ArArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {
@@ -96,7 +100,9 @@ void ArArch::open()
 {
   kdDebug(1601) << "+ArArch::open" << endl;
   setHeaders();
+
   m_buffer = "";
+
   KProcess *kp = new KProcess;
   *kp << m_archiver_program << "vt" << m_filename.local8Bit();
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
@@ -146,7 +152,7 @@ void ArArch::addFile( QStringList *urls )
   kp->clearArguments();
   *kp << m_archiver_program << "r";
 	
-  if (m_settings->getArReplaceOnlyWithNewer())
+  if (m_settings->getAddReplaceOnlyWithNewer())
     *kp << "u";
 
   *kp << m_filename.local8Bit() ;

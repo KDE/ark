@@ -9,6 +9,7 @@
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -29,18 +30,17 @@
 #ifndef ARKSETTINGS_H
 #define ARKSETTINGS_H
 
-// Qt includes
-#include <qstrlist.h>
-#include <qstring.h>
-
-// KDE includes
-#include <kconfig.h>
+class QString;
+class KConfig;
 
 class ArkSettings
 {
 public:
   ArkSettings();
   ~ArkSettings();
+
+  void readGenericProperties();
+  void writeGenericProperties();
 
   void readZipProperties();
   void writeZipProperties();
@@ -114,24 +114,18 @@ public:
   void clearShellOutput();
   QString * getLastShellOutput() const { return m_lastShellOutput; }
 
+  /* Generic config functions: Ideally, ALL config options move here, but
+	for now we must consider options not globally supported */
+  bool getExtractOverwrite() const { return m_bExtractOverwrite; }
+  void setExtractOverwrite(bool _b) { m_bExtractOverwrite = _b; }
+
+  bool getAddReplaceOnlyWithNewer() const { return m_bAddReplaceOnlyWithNewer; }
+  void setAddReplaceOnlyWithNewer(bool _b) { m_bAddReplaceOnlyWithNewer = _b; }
+  /***/
+
   void setLhaGeneric(bool _b) { m_lhaAddGeneric = _b; }
   bool getLhaGeneric() { return m_lhaAddGeneric; }
 
-  void setLhaReplaceOnlyWithNewer(bool _b) { m_lhaReplaceOnlyWithNewer = _b; }
-  bool getLhaReplaceOnlyWithNewer() { return m_lhaReplaceOnlyWithNewer; }
-
-  void setArReplaceOnlyWithNewer(bool _b) { m_arReplaceOnlyWithNewer = _b; }
-  bool getArReplaceOnlyWithNewer() { return m_arReplaceOnlyWithNewer; }
-
-  void setRarReplaceOnlyWithNewer(bool _b) { m_rarReplaceOnlyWithNewer = _b; }
-  bool getRarReplaceOnlyWithNewer() { return m_rarReplaceOnlyWithNewer; }
-
-  void setZipReplaceOnlyWithNewer(bool _b) { m_zipReplaceOnlyWithNewer = _b; }
-  bool getZipReplaceOnlyWithNewer() { return m_zipReplaceOnlyWithNewer; }
-
-  void setZipExtractOverwrite(bool _b) { m_zipExtractOverwrite = _b; }
-  bool getZipExtractOverwrite() { return m_zipExtractOverwrite; }
-	
   void setZipExtractJunkPaths( bool _b ) { m_zipExtractJunkPaths = _b; }
   bool getZipExtractJunkPaths() { return m_zipExtractJunkPaths; }
 	
@@ -156,23 +150,8 @@ public:
   void setTarPreservePerms(bool _b) { m_tarPreservePerms = _b; }
   bool getTarPreservePerms() { return m_tarPreservePerms; } 
 
-  void setTarOverwriteFiles(bool _b) { m_tarOverwrite = _b; }
-  bool getTarOverwriteFiles() { return m_tarOverwrite; }
-
   void setTarUseAbsPathnames(bool _b) { m_tarUseAbsPathnames = _b; }
   bool getTarUseAbsPathnames() { return m_tarUseAbsPathnames; }
-
-  void setTarReplaceOnlyWithNewer(bool _b) { m_tarReplaceOnlyWithNewer = _b; }
-  bool getTarReplaceOnlyWithNewer() { return m_tarReplaceOnlyWithNewer; }
-
-  void setZooOverwriteFiles(bool _b) { m_zooOverwrite = _b; }
-  bool getZooOverwriteFiles() { return m_zooOverwrite; }
-
-  void setZooReplaceOnlyWithNewer(bool _b) { m_zooReplaceOnlyWithNewer = _b; }
-  bool getZooReplaceOnlyWithNewer() { return m_zooReplaceOnlyWithNewer; }
-
-  void setRarOverwriteFiles(bool _b) { m_rarOverwrite = _b; }
-  bool getRarOverwriteFiles() { return m_rarOverwrite; }
 
   bool getRarExtractLowerCase() { return m_rarToLower;}
   void setRarExtractLowerCase(bool _b) { m_rarToLower = _b; }
@@ -223,16 +202,16 @@ public:
 
   bool contextRow;
 
-  bool m_arReplaceOnlyWithNewer;
+  // Generics
+  bool m_bExtractOverwrite;
+  bool m_bAddReplaceOnlyWithNewer;
 
-  bool m_lhaAddGeneric;
-  bool m_lhaReplaceOnlyWithNewer;
 	
-  bool m_zipExtractOverwrite;
+  bool m_lhaAddGeneric;
+	
   bool m_zipExtractJunkPaths;
   bool m_zipExtractLowerCase;
 
-  bool m_zipReplaceOnlyWithNewer;
   bool m_zipAddRecurseDirs;
   bool m_zipAddJunkDirs;
   bool m_zipAddMSDOS;
@@ -240,18 +219,11 @@ public:
   bool m_zipStoreSymlinks;
 
   bool m_tarPreservePerms;
-  bool m_tarOverwrite;
   bool m_tarUseAbsPathnames;
-  bool m_tarReplaceOnlyWithNewer;
 
-  bool m_zooOverwrite;
-  bool m_zooReplaceOnlyWithNewer;
-
-  bool m_rarOverwrite;
   bool m_rarToLower;
   bool m_rarToUpper;
   bool m_rarStoreSymlinks;
-  bool m_rarReplaceOnlyWithNewer;
   bool m_rarRecurseSubdirs;
 
   bool fullPath, replaceOnlyNewerFiles;
@@ -259,7 +231,6 @@ public:
   QString m_tmpDir;	
   void readDirectories();
   void writeDirectories();
-	
 };
 
 #endif /* ARKSETTINGS_H */

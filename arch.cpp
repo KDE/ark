@@ -9,6 +9,7 @@
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -26,24 +27,38 @@
 
 */
 
+// C includes
 #include <stdlib.h>
 #include <time.h>
 
+// QT includes
 #include <qapplication.h>
 #include <qfile.h>
-#include <qregexp.h>
 #include <qlist.h>
+#include <qregexp.h>
+#include <qstring.h>
 
+// KDE includes
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <kmimemagic.h>
 #include <klocale.h>
-
-#include <stdlib.h>
+#include <kprocess.h>
 
 // ark includes
 #include "arch.h"
-#include "viewer.h"
+#include "arksettings.h"
+#include "filelistview.h"
+#include "arkwidgetbase.h"
+
+// the archive types
+#include "tar.h"
+#include "zip.h"
+#include "lha.h"
+#include "compressedfile.h"
+#include "zoo.h"
+#include "rar.h"
+#include "ar.h"
 
 
 Arch::ArchColumns::ArchColumns(int col, QRegExp reg, int length, bool opt) :
@@ -51,19 +66,18 @@ Arch::ArchColumns::ArchColumns(int col, QRegExp reg, int length, bool opt) :
 {
 }
 
-Arch::Arch( ArkSettings *_settings, Viewer *_viewer,
-	    const QString & _fileName )
-  : m_filename(_fileName), m_settings(_settings), m_gui(_viewer),
-    m_bReadOnly(false), m_bNotifyWhenDeleteFails(true),
+
+Arch::Arch(ArkSettings *_settings, ArkWidgetBase *_viewer,
+	   const QString & _fileName )
+  : m_filename(_fileName), m_buffer(""), m_settings(_settings),
+    m_gui(_viewer), m_bReadOnly(false), m_bNotifyWhenDeleteFails(true),
     m_header_removed(false), m_finished(false),
-    m_numCols(0), m_dateCol(-1), m_fixYear(-1), m_fixMonth(-1),
-    m_fixDay(-1), m_fixTime(-1), m_repairYear(-1), m_repairMonth(-1),
-    m_repairTime(-1)
+	m_numCols(0), m_dateCol(-1), m_fixYear(-1), m_fixMonth(-1),
+	m_fixDay(-1), m_fixTime(-1), m_repairYear(-1), m_repairMonth(-1),
+	m_repairTime(-1)
 
 {
-  kdDebug(1601) << "+Arch::Arch" << endl;
-  m_archCols.setAutoDelete(true);
-  kdDebug(1601) << "-Arch::Arch" << endl;
+	m_archCols.setAutoDelete(true);	// To check: it still leaky here???
 }
 
 Arch::~Arch()
@@ -105,7 +119,7 @@ void Arch::slotStoreDataStderr(KProcess*, char* _data, int _length)
 {
   char c = _data[_length];
   _data[_length] = '\0';
-
+	
   m_shellErrorData.append( _data );
   _data[_length] = c;
 }
@@ -125,7 +139,7 @@ void Arch::slotOpenExited(KProcess* _kp)
     exitStatus = 0;    // because 1 means empty archive - not an error.
                        // Is this a safe assumption?
 
-  if(!exitStatus)
+  if(!exitStatus) 
     emit sigOpen( this, true, m_filename,
 		  Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
   else
@@ -145,15 +159,16 @@ void Arch::slotDeleteExited(KProcess *_kp)
   kdDebug(1601) << "normalExit = " << _kp->normalExit() << endl;
   if( _kp->normalExit() )
     kdDebug(1601) << "exitStatus = " << _kp->exitStatus() << endl;
-
+  
   if( _kp->normalExit() && (_kp->exitStatus()==0) )
     {
       if(stderrIsError())
 	{
 	  QApplication::restoreOverrideCursor();
-	  KMessageBox::error( 0, i18n("You probably don't have sufficient permissions.\n"
-				      "Please check the file owner and the integrity\n"
-				      "of the archive.") );
+	  KMessageBox::error(m_gui->getArkWidget(),
+		 i18n("You probably don't have sufficient permissions.\n"
+		      "Please check the file owner and the integrity\n"
+		      "of the archive.") );
 	}
       else
 	bSuccess = true;
@@ -163,12 +178,12 @@ void Arch::slotDeleteExited(KProcess *_kp)
       if (m_bNotifyWhenDeleteFails)
 	{
 	  QApplication::restoreOverrideCursor();
-	  KMessageBox::sorry( (QWidget *)0,
-			      i18n("Deletion failed"), i18n("Error") );
+	  KMessageBox::sorry(m_gui->getArkWidget(), i18n("Deletion failed"),
+			     i18n("Error") );
 	}
       else bSuccess = true;
     }
-
+  
   emit sigDelete(bSuccess);
   delete _kp;
   _kp = NULL;
@@ -191,7 +206,9 @@ void Arch::slotExtractExited(KProcess *_kp)
       if(stderrIsError())
 	{
 	  QApplication::restoreOverrideCursor();
-	  int ret = KMessageBox::warningYesNo( (QWidget *) 0, i18n("Sorry, the extract operation failed.\nDo you wish to view the shell output?"), i18n("Error"));
+	  int ret = KMessageBox::warningYesNo(m_gui->getArkWidget(),
+		i18n("Sorry, the extract operation failed.\n"
+		     "Do you wish to view the shell output?"), i18n("Error"));
 	  if (ret == KMessageBox::Yes)
 	    m_gui->viewShellOutput();
 	}
@@ -221,9 +238,10 @@ void Arch::slotAddExited(KProcess *_kp)
       if(stderrIsError())
 	{
 	  QApplication::restoreOverrideCursor();
-	  KMessageBox::error( 0, i18n("You probably don't have sufficient permissions\n"
-				      "Please check the file owner and the integrity\n"
-				      "of the archive.") );
+	  KMessageBox::error(m_gui->getArkWidget(),
+			     i18n("You probably don't have sufficient permissions\n"
+				  "Please check the file owner and the integrity\n"
+				  "of the archive."));
 	}
       else
 	bSuccess = true;
@@ -231,10 +249,12 @@ void Arch::slotAddExited(KProcess *_kp)
   else
     {
       QApplication::restoreOverrideCursor();
-      int ret = KMessageBox::warningYesNo( (QWidget *) 0, i18n("Sorry, the add operation failed.\nDo you wish to view the shell output?"), i18n("Error"));
+      int ret = KMessageBox::warningYesNo(m_gui->getArkWidget(),
+		 i18n("Sorry, the add operation failed.\n"
+		      "Do you wish to view the shell output?"), i18n("Error"));
 	  if (ret == KMessageBox::Yes)
 	    m_gui->viewShellOutput();
-    }
+    }  
   emit sigAdd(bSuccess);
   delete _kp;
   _kp = NULL;
@@ -257,6 +277,7 @@ void Arch::slotReceivedOutput(KProcess*, char* _data, int _length)
   _data[_length] = c;
 }
 
+
 void Arch::slotReceivedTOC(KProcess*, char* _data, int _length)
 {
   char c = _data[_length];
@@ -270,7 +291,7 @@ void Arch::slotReceivedTOC(KProcess*, char* _data, int _length)
   {
   	for(lfChar = startChar; _data[lfChar] != '\n' && lfChar < _length;
 	    lfChar++);
-
+	
 	if(_data[lfChar] != '\n') break;	// We are done all the complete lines
 
 	_data[lfChar] = '\0';
@@ -303,6 +324,7 @@ void Arch::slotReceivedTOC(KProcess*, char* _data, int _length)
   }
   if(!m_finished)
 	m_buffer = (_data + startChar);	// Copy what's left of the buffer
+
   _data[_length] = c;
 }
 
@@ -319,7 +341,7 @@ bool Arch::processLine(const QCString &line)
   	ArchColumns *curCol = *col;
 
 	strpos = curCol->pattern.match(line, pos, &len);
-
+	
 	if(-1 == strpos || len >curCol->maxLength)
 	{
 		if(curCol->optional)
@@ -331,11 +353,12 @@ bool Arch::processLine(const QCString &line)
 			return false;
 		}
 	}
-
+	
 	pos = strpos + len;
 
-	columns[curCol->colRef] = line.mid(strpos, len);
+	columns[curCol->colRef] = line.mid(strpos, len);	
   }
+
 
   if(m_dateCol >= 0)
   {
@@ -358,11 +381,10 @@ bool Arch::processLine(const QCString &line)
     {
       list.append(columns[i]);
     }
-  m_gui->add(&list); // send the entry to the GUI
+  m_gui->listingAdd(&list); // send the entry to the GUI
 
   return true;
 }
-
 
 
 
@@ -470,7 +492,26 @@ QString Utils::fixYear(const char *strYear)
   return fourDigits;
 }
 
-ArchType getArchType( const QString & archname, QString &extension)
+
+Arch *Arch::archFactory(ArchType aType, ArkSettings *settings,
+			ArkWidgetBase *parent, const QString &filename)
+{
+	switch(aType)
+	{
+	case TAR_FORMAT: return new TarArch(settings, parent, filename);
+	case ZIP_FORMAT: return new ZipArch(settings, parent, filename);
+	case LHA_FORMAT: return new LhaArch(settings, parent, filename);
+	case COMPRESSED_FORMAT: return new CompressedFile(settings,
+							  parent, filename);
+	case ZOO_FORMAT: return new ZooArch(settings, parent, filename);
+	case RAR_FORMAT: return new RarArch(settings, parent, filename);
+	case AA_FORMAT: return new ArArch(settings, parent, filename);
+	case UNKNOWN_FORMAT:
+	default: return 0;
+	}
+}
+
+ArchType Arch::getArchType( const QString & archname, QString &extension)
 {
   if ((archname.right(4) == ".tgz") || (archname.right(4) == ".tzo")
        || (archname.right(4) == ".taz")
@@ -479,6 +520,15 @@ ArchType getArchType( const QString & archname, QString &extension)
       extension = archname.right(4);
       return TAR_FORMAT;
     }
+  /* Patch by Matthias Belitz for handling KOffice docs */
+/*  if ((archname.right(4) == ".kil") || (archname.right(4) == ".kwd")
+       || (archname.right(4) == ".kwt")
+       || (archname.right(4) == ".ksp") || (archname.right(4) == ".kpr")
+       || (archname.right(4) == ".kpt"))
+    {
+      extension = archname.right(4);
+      return TAR_FORMAT;
+    }*/
   if (archname.right(6) == ".tar.Z")
     {
       extension = ".tar.Z";

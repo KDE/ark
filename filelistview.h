@@ -9,6 +9,7 @@
 
   1999: Francois-Xavier Duranceau duranceau@kde.org
   1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -28,22 +29,36 @@
 #ifndef FILELISTVIEW_H
 #define FILELISTVIEW_H
 
+#include <qlistview.h>
 #include <klistview.h>
-#include <qstringlist.h>
-#include <qwidget.h>
+
+class QString;
+class QStringList;
+class QRect;
+class QPainter;
+class QColorGroup;
+class QMouseEvent;
+class KListView;
+
+class ArkWidgetBase;
 
 class FileListView;
-class ArkWidget;
 
 class FileLVI : public QListViewItem
 {
 public:
   FileLVI(KListView* lv) : QListViewItem(lv), parent(lv) {}
-  QString getFileName();
+
+  QString getFileName() const;
   virtual QString key(int column, bool) const;
+  virtual void paintCell (QPainter * p, const QColorGroup & cg,
+			  int column, int width, int align);
+  void setColorAlt(bool isAlt) { colorAlt = isAlt; }
+	virtual void setText(int column, const QString &text);
+
 private:
-    KListView *parent;
-	
+  KListView *parent;
+  bool colorAlt, fileIndent;	
 };
 
 
@@ -51,26 +66,31 @@ class FileListView : public KListView
 {
   Q_OBJECT
 public:
-  FileListView(QWidget* parent = 0, const char* name = 0);
-  ~FileListView();
+  FileListView(ArkWidgetBase *baseArk, QWidget* parent = 0,
+	       const char* name = 0);
   FileLVI *currentItem() {return ((FileLVI *) KListView::currentItem());}
   QStringList * selectedFilenames() const;
   uint count();
   bool isSelectionEmpty();
-  QListViewItem *GetItemAt(const QPoint& );
+
+public slots:
+  void renumColors();
+
 protected:
   void contentsMouseReleaseEvent(QMouseEvent *e);
   void contentsMousePressEvent(QMouseEvent *e);
-  //  void contentsMouseMoveEvent(QMouseEvent *e);
+  void contentsMouseMoveEvent(QMouseEvent *e);
+
+  virtual void paintEmptyArea(QPainter * p, const QRect &rect);
+
 private:
   int sortColumn;
   bool increasing;
-  ArkWidget *m_pParent;
-  bool m_bDropSourceIsSelf;
+  ArkWidgetBase *m_pParent;
+
+  bool m_bPressed;
+
   virtual void setSorting(int column, bool inc = TRUE);
-  void SelectCurrentOnly();
-  QListViewItem *m_pLastCurrentItem;
-  bool m_pressed;
 };
 
 #endif

@@ -7,6 +7,7 @@
     Copyright (C)
 
     2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+    2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,8 +25,13 @@
 
 */
 
+// C includes
+#include <unistd.h>
+#include <stdlib.h>
+
 // Qt includes
 #include <qdir.h>
+#include <qstring.h>
 #include <qstringlist.h>
 
 // KDE includes
@@ -33,19 +39,17 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstddirs.h>
+#include <kprocess.h>
 
 // ark includes
+#include "arch.h"
+#include "arksettings.h"
+#include "arkwidgetbase.h"
 #include "compressedfile.h"
-
-#include <stdlib.h>
-
-// the generic viewer to which to send header and column info.
-#include "viewer.h"
-
 
 // encapsulates the idea of a compressed file
 
-CompressedFile::CompressedFile( ArkSettings *_settings, Viewer *_gui,
+CompressedFile::CompressedFile( ArkSettings *_settings, ArkWidgetBase *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {
@@ -57,8 +61,6 @@ CompressedFile::CompressedFile( ArkSettings *_settings, Viewer *_gui,
   m_archiver_program = getCompressor();
   m_unarchiver_program = getUnCompressor();
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
-
-
 }
 
 void CompressedFile::setHeaders()
@@ -214,7 +216,7 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
 	{
 	  list.append(QString::fromLocal8Bit(columns[i]));
 	}
-      m_gui->add(&list); // send to GUI
+      m_gui->listingAdd(&list); // send to GUI
     }
   delete _kp;
   _kp = 0;

@@ -30,6 +30,7 @@
 #include <qmultilineedit.h>
 #include <qgrid.h>
 #include <qlayout.h>
+#include <qdialog.h>
 
 #include <kdebug.h>
 #include <klocale.h>

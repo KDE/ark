@@ -10,6 +10,7 @@
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
  
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -27,51 +28,47 @@
  
 */
 
+/* The original purpose of this class was a combined Add/preferences dialog.
+   This is rather silly, and the UI was terrible. Now this serves as an
+   add dialog for both add file and add directory, and for the most part
+   can be used exactly like a KFileDialog.
+*/
+
 #ifndef __ADDDLG_H__
 #define __ADDDLG_H__
 
-#include <kdialogbase.h>
-#include <qstringlist.h>
-#include "arkwidget.h"  // for ArchType
-
-class QLineEdit;
-class QCheckBox;
+class QString;
+class QObjectList;
+class QVBoxLayout;
+class KFileDialog;
 class ArkSettings;
-class KDirOperator;
 
-class AddDlg : public KDialogBase 
+#include <kfiledialog.h>
+
+/**
+* A file-addition dialog based upon KFileDialog.
+* All this really does is add a few tweaks and add a preferences button.
+*/
+class AddDlg : public KFileDialog
 {
   Q_OBJECT
 public:
-  AddDlg(ArchType _archtype, const QString & _sourceDir, 
-	 ArkSettings *_settings, QWidget *parent=0, const char *name=0);
+  enum AddTypes {File, Directory};
 
-  ~AddDlg() { delete m_fileList;}
-  QStringList *getFiles() { return m_fileList; }
+public:
+  AddDlg(AddTypes type, const QString & _sourceDir, ArkSettings *settings,
+	 QWidget *parent=0, const char *name=0);
+
+  QString getDirectory();
+
 public slots:
-  void accept();
-private: // methods
-  void setupFirstTab();
-  void setupSecondTab();
+  void openPrefs();
 
-private: // data
-  QString m_sourceDir;  
-  KDirOperator *m_dirList;
-  ArchType m_archtype;
-  ArkSettings *m_settings;
-  QStringList *m_fileList;
+protected:
+	virtual void initGUI();
 
-  // advanced options
-  QCheckBox *m_cbAbsPathNames, *m_cbReplaceOnlyWithNewer;
-
-  // zip:
-  QCheckBox *m_cbJunkDirNames, *m_cbForceMS, *m_cbConvertLF2CRLF;
-
-  // lha
-  QCheckBox *m_cbMakeGeneric;
-
-  // zip or rar
-  QCheckBox *m_cbStoreSymlinks, *m_cbRecurseSubdirs;
+private: // Data
+	ArkSettings *m_settings;
 };
 
 

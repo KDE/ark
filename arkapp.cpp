@@ -31,6 +31,10 @@
 #include <unistd.h>
 #include <qfile.h>
 #include <errno.h>
+#include <kuniqueapp.h>
+#include <kmainwindow.h>
+#include <kio/jobclasses.h>
+
 
 #include "arkapp.h"
 #include "arkwidget.h"

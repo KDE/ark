@@ -8,6 +8,7 @@
 
   1999: Francois-Xavier Duranceau duranceau@kde.org
   1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -31,19 +32,25 @@
 #include <sys/stat.h>
 
 // Qt includes
+#include <qstring.h>
 #include <qheader.h>
 #include <qpixmap.h>
 #include <qstringlist.h>
 #include <qwhatsthis.h>
+#include <qlistview.h>
 
 // KDE includes
 #include <klocale.h>
 #include <kdebug.h>
+#include <klistview.h>
 
 #include "filelistview.h"
-#include "filelistview.moc"
-#include "arkwidget.h"
 #include "arch.h"
+#include "arkwidgetbase.h"
+
+#define FILE_COLOR_ALT QColor(222, 242, 255)
+
+#define EMPTY_ARCH_STRING i18n("No files in current archive")
 
 inline int max(int a, int b)
 {
@@ -56,15 +63,27 @@ typedef const char* (*KeyFunc) (const char*);
 // FileLVI implementation
 /////////////////////////////////////////////////////////////////////
 
-QString FileLVI::getFileName()
+/**
+* Gets the filename associated with this FileLVI.
+* This will return the filename of this entry, with any path information
+* present.
+* @return The filename associated with the FileLVI, stripped of any text
+* 	used for formatting
+* @warning Do NOT use text(0) for this purpose! This will get the filename
+* 	with extra spaces for fileIndent, and is just plain shoddy code.
+*/
+QString FileLVI::getFileName() const
 {
-    return text(0);
+	if(fileIndent)
+		return text(0).mid(2);
+	else
+		return text(0);
 }
 
 QString FileLVI::key(int column, bool ascending) const
 {
     // puts numeric-type data into a field of 10 for correct sorting.
-    static QString s;
+    QString s;
 
     QString columnName = parent->columnText(column);
     if ( columnName == SIZE_STRING ||
@@ -78,29 +97,67 @@ QString FileLVI::key(int column, bool ascending) const
 	s.sprintf("%.10ld", text(column).toInt());
 	return s;
       }
+		else if(0 == column)
+			return getFileName();
     else return QListViewItem::key(column, ascending);
 }
 
+/**
+* Updated GUI style for FileListView's entries.
+* Same as QListViewItem::paintCell, except highlighting of alternate files
+* is done.
+*/
+void FileLVI::paintCell (QPainter *p, const QColorGroup & cg,
+			  int column, int width, int align)
+{
+	QColorGroup newCg(cg);
+	if(colorAlt)
+		newCg.setColor(QColorGroup::Base, FILE_COLOR_ALT);
+	
+	QListViewItem::paintCell(p, newCg, column, width, align);
+}
+
+void FileLVI::setText(int column, const QString &text)
+{
+	if(0 == column && -1 != text.findRev('/', -2))
+	{
+		QListViewItem::setText(0, QString("  ") + text);
+		fileIndent = true;
+	}
+	else
+	{
+		if(0 == column)
+			fileIndent = false;
+		QListViewItem::setText(column, text);
+	}
+}
 
 /////////////////////////////////////////////////////////////////////
 // FileListView implementation
 /////////////////////////////////////////////////////////////////////
 
 
-FileListView::FileListView(QWidget *parent, const char* name)
-  : KListView(parent, name), m_pParent((ArkWidget *)parent),
-    m_bDropSourceIsSelf(false), m_pLastCurrentItem(0), m_pressed(false)
+FileListView::FileListView(ArkWidgetBase *baseArk, QWidget *parent,
+			   const char* name)
+	: KListView(parent, name), m_pParent(baseArk)
 {
   sortColumn = 0;
   increasing = TRUE;
   QWhatsThis::add(this, i18n("This area is for displaying information about the files contained within an archive."));
 
   setMouseTracking(false);
+  setSelectionModeExt(Konqueror);
 }
 
-FileListView::~FileListView()
+void FileListView::paintEmptyArea(QPainter *p, const QRect &rect)
 {
+	QListView::paintEmptyArea(p, rect);
+	if(0 == childCount())
+	{
+		p->drawText(2, 16, EMPTY_ARCH_STRING);
+	}
 }
+
 
 void FileListView::setSorting(int column, bool inc)
 {
@@ -113,6 +170,7 @@ void FileListView::setSorting(int column, bool inc)
 		increasing = inc;
 	}
 	KListView::setSorting(sortColumn, increasing);
+	renumColors();
 }
 
 QStringList * FileListView::selectedFilenames() const
@@ -124,7 +182,7 @@ QStringList * FileListView::selectedFilenames() const
 	while (flvi)
 	{
 		if( isSelected(flvi) )
-			files->append(flvi->text(0));
+			files->append(flvi->getFileName());
 		flvi = (FileLVI*)flvi->itemBelow();
 	}
 	return files;
@@ -132,16 +190,7 @@ QStringList * FileListView::selectedFilenames() const
 
 uint FileListView::count()
 {
-	uint c = 0;
-
-	FileLVI * flvi = (FileLVI*)firstChild();
-
-	while (flvi)
-	{
-		c++;
-		flvi = (FileLVI*)flvi->itemBelow();
-	}
-	return c;
+	return childCount();
 }
 
 bool FileListView::isSelectionEmpty()
@@ -158,245 +207,49 @@ bool FileListView::isSelectionEmpty()
 	return true;
 }
 
-#if 0 /// this doesn't seem to work. :-(
-void FileListView::contentsMouseMoveEvent(QMouseEvent *e)
+void FileListView::renumColors()
 {
-  // takes care of the drag/extract
+	bool colChange = true;
 
-  if (!m_pressed)
-    return;
-  if (m_pParent->dragInProgress())
-    return;
-  struct stat statbuffer;
-  const QPoint pPoint(viewport()->mapToGlobal(e->pos()));
-  
-  if (NULL == GetItemAt(pPoint))
-    return;
-
-  QListViewItem *pI;
-  QStringList dragFiles;
-  for (pI = firstChild(); pI != NULL; pI = pI->nextSibling())
-  {
-    if (isSelected(pI))
-      {
-	char name[BUFSIZ];
-	strcpy(name, (const char *)pI->text(0));
-	if (stat(name, &statbuffer) == -1)      // if it doesn't exist already
-	  {   
-	    dragFiles.append(name);
-	  }
-      }
-  }
-  m_pParent->setDragInProgress(true);
-  m_pParent->storeNames(dragFiles);
-  kdDebug(1601) << "Drag Starting..." << endl;
-  m_pParent->unarchFile(&dragFiles);
+	// Color :)
+	QListViewItem *curItem = firstChild();
+	while(0 != curItem)
+	{
+		colChange = !colChange;
+		((FileLVI *)curItem)->setColorAlt(colChange);
+		curItem = curItem->itemBelow();
+	}
 }
-#endif // end of stuff that doesn't quite work
-
-
-
 
 void FileListView::contentsMousePressEvent(QMouseEvent *e)
 {
-  // does selection depending on these rules:
-  // if it's the right mouse button, select the current and,
-  // if it wasn't already selected, deselect the others.
-  // Rationale: if it was already selected, this means someone probably wants
-  // to do file operations on a bunch of selected files. But if it was
-  // not selected, it's one its own.
-  //
-  // if it's the left button alone, select current and deselect others
-  // if it's the left button with control, deselect all others
-  // if it's the left button with shift, let mouseReleaseEvent look at
-  //  the former current item and select all the ones between it and 
-  //  the new current item.
-  //
-  QPoint p( contentsToViewport( e->pos() ) );
-  QListViewItem *pItem = itemAt(p);
-  m_pLastCurrentItem = currentItem();
-  setCurrentItem(pItem);
-
-  if (e->button() == RightButton)
-  {
-    if (!isSelected(pItem))
-      SelectCurrentOnly();
-    KListView::contentsMousePressEvent(e);
-  }
-  else
-  {
-    bool bControl = (ControlButton == (e->state() & ControlButton));
-    bool bShift = (ShiftButton == (e->state() & ShiftButton));
-    if (e->button() == LeftButton)
-    {
-      m_pressed = true;
-      if (!bControl && !bShift &&
-	  !isSelected(pItem))       // so we can drag it
-      {
-	SelectCurrentOnly();
-      }
-      if (bControl)
-      {
-      	setSelected(pItem, !isSelected(pItem));
-      }
-    }
-  }
+	m_bPressed = true;
+	KListView::contentsMousePressEvent(e);
 }
 
 void FileListView::contentsMouseReleaseEvent(QMouseEvent *e)
 {
-  //based on code from Corel File Manager/rightpanel.cpp
-  //
-  // Deals with shift range selection among other related tasks.
-  //
-  m_pressed = false;
-
-  if (e->button() == LeftButton || e->button() == RightButton)
-  {
-    QPoint p( contentsToViewport( e->pos() ) );
-    QListViewItem *pNewCurrentItem = itemAt(p);
-
-    //    const QPoint pPoint(viewport()->mapToGlobal(e->pos()));
-    //		
-    //    if (NULL == GetItemAt(pPoint))
-    if (NULL == pNewCurrentItem)
-    {
-      setSelected(currentItem(), false);
-      KListView::contentsMouseReleaseEvent(e);
-      return;
-    }
-
-    if (e->button() == LeftButton)
-    {
-      //QListViewItem *pOldCurrentItem = currentItem();
-      QListViewItem *pOldCurrentItem = m_pLastCurrentItem;
-      setCurrentItem(pNewCurrentItem);
-	
-      if (ShiftButton == (e->state() & ShiftButton))
-      {
-	// First determine whether we should go up or down (from new to old)...
-	QListViewItem *pI;
-				
-	bool bGoDown = false;
-	
-	for (pI = firstChild(); pI != NULL; pI = pI->nextSibling())
-	{
-	  if (pI == pNewCurrentItem)
-	  {
-	    bGoDown = true;
-	    break;
-	  }
-	
-	  if (pI == pOldCurrentItem)
-	    break;
-	}
-	// Now build a list of items from the new to old in the correct order
-	// ...Too bad Qt doesn't have prevSibling() :-(
-	QList<QListViewItem> list;
-	
-	for (pI = bGoDown ? pNewCurrentItem : pOldCurrentItem;
-	     pI != NULL; pI = pI->nextSibling())
-	{
-	  if (bGoDown)
-	    list.append(pI);
-	  else
-	    list.insert(0, pI);
-	
-	  if (pI == (bGoDown ? pOldCurrentItem : pNewCurrentItem))
-	    break;
-	}
-				
-	// Now traverse the list we just built...
-	
-	QListIterator<QListViewItem> it(list);
-	bool bCurrentFlag = true;
-	
-	for (; it.current() != NULL; ++it)
-	{
-	  pI = it.current();
-	
-	  if (ControlButton == (e->state() & ControlButton))
-	  {
-	    if (!isSelected(pI))
-	      setSelected(pI, true);
-	  }
-	  else
-	  {
-	    bool bWasSelected = isSelected(pI);
-	    setSelected(pI, bCurrentFlag);
-	
-	    if (bCurrentFlag && bWasSelected)
-	      bCurrentFlag = false;
-	  }
-	}
-      }
-    }
-    else
-    {
-      KListView::contentsMouseReleaseEvent(e);
-    }
-  }
-  else
-  {
-    KListView::contentsMouseReleaseEvent(e);
-  }
+	m_bPressed = false;
+	KListView::contentsMouseReleaseEvent(e);
 }
 
-
-QListViewItem *FileListView::GetItemAt(const QPoint& p)
+void FileListView::contentsMouseMoveEvent(QMouseEvent *e)
 {
-  QPoint pos = viewport()->mapFromGlobal(p);
-
-  QListViewItem *pItem = itemAt(pos);
-	
-  if (NULL == pItem)// || iconView())
-  {
-    return pItem;
-  }
-
-  if (allColumnsShowFocus())
-    return pItem;
-
-  // otherwise make sure p is on the item
-  int x = pos.x();
-
-  if (x < header()->cellPos(header()->mapToActual(0)) ||
-      x > header()->cellPos(header()->mapToActual(0)) + columnWidth(0))
-  {
-    return NULL;
-  }
-
-  QPainter painter;
-  painter.begin(this);
-  int w = painter.boundingRect(0, 0, columnWidth(0), 500, AlignLeft, pItem->text(0)).width();
-  painter.end();
-
-  const QPixmap *pPixmap = pItem->pixmap(0);
-  int nPixWidth = 0;
-  if (pPixmap != NULL)
-  {
-    nPixWidth = pPixmap->width();
-  }
-  if (x > header()->cellPos(header()->mapToActual(0)) + w + itemMargin()*2 +
-      nPixWidth)
-  {
-    return NULL;
-  }
-
-  return pItem;
+	if(!m_bPressed)
+	{
+		KListView::contentsMouseMoveEvent(e);
+	}
+	else
+	{
+		m_bPressed = false;	// Prevent triggering again
+		if(isSelectionEmpty())
+			return;
+		QStringList *dragFiles = selectedFilenames();
+		m_pParent->setDragInProgress(true);
+		m_pParent->storeDragNames(*dragFiles);
+		kdDebug(1601) << "Drag Starting..." << endl;
+		m_pParent->prepareViewFiles(dragFiles);
+	}
 }
 
-
-void FileListView::SelectCurrentOnly()
-{
-  QListViewItem *pI;
-
-  for (pI = firstChild(); pI != NULL; pI = pI->nextSibling())
-  {
-    if (isSelected(pI) && pI != currentItem())
-      setSelected(pI, false);
-  }
-
-  if (!isSelected(currentItem()))
-    setSelected(currentItem(), true);
-}
+#include "filelistview.moc"

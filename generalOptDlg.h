@@ -8,6 +8,7 @@
 
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
+ 2001: Corel Corporation (author: Michael Jarrett <michaelj@corel.com>)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -28,29 +29,43 @@
 #ifndef GENERAL_DLG_H
 #define GENERAL_DLG_H
 
-// Qt includes
-#include <qdialog.h>
-#include <qlineedit.h>
-#include <qpushbutton.h>
+class QWidget;
+class QCheckBox;
 
-// ark includes
-#include "arksettings.h"
+#include <kdialogbase.h>
 
-class GeneralDlg : public QDialog {
+class ArkSettings;
+
+
+class GeneralOptDlg : public KDialogBase
+{
 	Q_OBJECT
 public:
-	GeneralDlg(  ArkSettings *_d, QWidget *_parent=0, const char *_name=0 );
+	GeneralOptDlg(ArkSettings *_d, QWidget *_parent=0, const char *_name=0);
 	
-public slots:
-	void saveConfig();
-	void tarChanged( const QString & );	
-	
+protected:
+	void createAddTab();
+	void createExtractTab();
+	void createDirectoryTab();
+
+protected slots:
+	void readAddSettings();
+	void writeAddSettings();
+
+	void readExtractSettings();
+	void writeExtractSettings();
+
 private:
 	ArkSettings *m_settings;
-	QLineEdit *tarLE;
-	QPushButton *ok;
-	
-	void initConfig();
+
+	// Extract options
+	QCheckBox *m_cbOverwrite, *m_cbPreservePerms;
+	QCheckBox *m_cbToLower, *m_cbToUpper, *m_cbDiscardPathnames;
+
+	// Add options
+	QCheckBox *m_cbReplaceOnlyWithNewer, *m_cbStoreSymlinks;
+	QCheckBox *m_cbMakeGeneric, *m_cbForceMS, *m_cbConvertCRLF;
+	QCheckBox *m_cbRecurseSubdirs, *m_cbJunkDirNames;
 };
 
 #endif /* GENERAL_DLG_H */

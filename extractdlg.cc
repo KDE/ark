@@ -9,6 +9,7 @@
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
  
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -33,76 +34,56 @@
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qradiobutton.h>
+#include <qcombobox.h>
 #include <qlineedit.h>
 #include <qapp.h>
+#include <qframe.h>
 
 #include <kdebug.h>
 #include <kurl.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 #include <klocale.h>
+#include <kdialogbase.h>
 
 #include "arksettings.h"
+#include "generalOptDlg.h"
 #include "extractdlg.h"
 
 #define FIRST_PAGE_WIDTH  390
+#define DLG_NAME i18n("Extract")
 
-ExtractDlg::ExtractDlg(ArchType _archtype, ArkSettings *_settings)
-  : QTabDialog(0, "extractdialog", true), m_settings(_settings),
-    m_archtype(_archtype)
+ExtractDlg::ExtractDlg(ArchType _archtype, ArkSettings *_settings) :
+	KDialogBase(KDialogBase::Plain, DLG_NAME, Ok | Cancel, Ok),
+	m_settings(_settings), m_archtype(_archtype)
 {
-  setCaption(i18n("ark - Extract"));
+  QFrame *mainFrame = plainPage();
 
-  setupFirstTab();
-  setupSecondTab();
-
-  resize(415,330);
-
-  setOKButton();
-  setCancelButton();
-
-  connect(m_patternLE, SIGNAL(textChanged(const QString &)),
-	  this, SLOT(choosePattern()));
-
-  connect(m_patternLE, SIGNAL(returnPressed()), this, SLOT(accept()));
-}
-
-void ExtractDlg::disableSelectedFilesOption()
-{
-  m_radioSelected->setEnabled(false); 
-  m_radioAll->setChecked(true); 
-}
-
-
-void ExtractDlg::setupFirstTab()
-{
-  QWidget *firstpage = new QWidget(this);
-
-  QLabel *extractToLabel = new QLabel(firstpage);
+  QLabel *extractToLabel = new QLabel(mainFrame);
   extractToLabel->setText(i18n("Extract to: "));
   extractToLabel->setGeometry( 10, 10,
 			       extractToLabel->sizeHint().width(), 15 );
 
-  m_extractDirCB = new QComboBox(true, firstpage);
+  m_extractDirCB = new QComboBox(true, mainFrame);
   m_extractDirCB->insertItem(m_settings->getExtractDir());
   m_extractDirCB->setGeometry( 10, 30, 368, 20 );
 
-  QPushButton *browseButton = new QPushButton(firstpage);
+  QPushButton *browseButton = new QPushButton(mainFrame);
   browseButton->setText(i18n("Browse..."));
   int x = browseButton->sizeHint().width();
   browseButton->setGeometry( FIRST_PAGE_WIDTH-10-x, 55, x, 30 );
 
-  QLabel *lToExtract = new QLabel(firstpage);
+  QLabel *lToExtract = new QLabel(mainFrame);
   lToExtract->setText(i18n("Files to be extracted"));
   int y = lToExtract->sizeHint().width();
   lToExtract->setGeometry( 10, 92, y, 15 );
 
-  QLabel *lHorizLine = new QLabel(firstpage, "horizontal line");
+  QLabel *lHorizLine = new QLabel(mainFrame, "horizontal line");
   lHorizLine->setGeometry( y+15, 100, FIRST_PAGE_WIDTH-25-y, 1 );
   lHorizLine->setFrameStyle( 52 );
   lHorizLine->setLineWidth( 1 );
 
-  QButtonGroup *bg = new QButtonGroup(firstpage);
+  QButtonGroup *bg = new QButtonGroup(mainFrame);
   bg->setFrameShape(QFrame::NoFrame);
   bg->setGeometry(30, 120, 200, 80);
 
@@ -123,92 +104,27 @@ void ExtractDlg::setupFirstTab()
   m_radioPattern->setText(i18n("Pattern"));
   m_radioPattern->setGeometry(0, 60, m_radioPattern->sizeHint().width(), 15);
 
-  m_patternLE = new QLineEdit(firstpage, "le");
+  m_patternLE = new QLineEdit(mainFrame, "le");
   m_patternLE->setGeometry( 50, 200, 250, 20 );
 
-  firstpage->resize( FIRST_PAGE_WIDTH, 240 );
-  addTab(firstpage, i18n("&Extract"));
+  QPushButton *prefButton = new QPushButton(i18n("&Preferences..."), this);
+  prefButton->move(10, 250);
 
-  QObject::connect(browseButton, SIGNAL(clicked()),
-		   this, SLOT(browse()));
+  mainFrame->setMinimumSize(410,250);
+
+  connect(m_patternLE, SIGNAL(textChanged(const QString &)),
+	  this, SLOT(choosePattern()));
+  connect(m_patternLE, SIGNAL(returnPressed()), this, SLOT(accept()));
+  connect(prefButton, SIGNAL(clicked()), this, SLOT(openPrefs()));
+
+  connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
+
 }
 
-void ExtractDlg::setupSecondTab()
+void ExtractDlg::disableSelectedFilesOption()
 {
-  if (m_archtype == LHA_FORMAT || m_archtype == AA_FORMAT)
-    return; // there are no extract options for LHA or AA
-
-  QVBox *secondpage = new QVBox( this );
-  secondpage->setMargin( 5 );
-
-  QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
-				       0, secondpage );
-
-
-  // use m_archtype to determine what goes here... 
-  // these are the advanced options
-
-  switch(m_archtype)
-    {
-    case ZIP_FORMAT:
-      bg->setTitle(i18n("ZIP Options"));
-
-      m_cbOverwrite = new QCheckBox(i18n("Overwrite files"), bg);
-      if (m_settings->getZipExtractOverwrite())
-	m_cbOverwrite->setChecked(true);
-
-      m_cbToLower = new QCheckBox(i18n("Convert filenames to lowercase"),
-				  bg);
-      if (m_settings->getZipExtractLowerCase())
-	m_cbToLower->setChecked(true);
-
-      m_cbDiscardPathnames = new QCheckBox(i18n("Discard pathnames"), bg);
-      if (m_settings->getZipExtractJunkPaths())
-	m_cbDiscardPathnames->setChecked(true);
-					
-      break;
-    case TAR_FORMAT:
-      bg->setTitle(i18n("TAR Options"));
-
-      m_cbOverwrite = new QCheckBox(i18n("Overwrite files"), bg);
-      if (m_settings->getTarOverwriteFiles())
-	m_cbOverwrite->setChecked(true);
-
-      m_cbPreservePerms = new QCheckBox(i18n("Preserve permissions"), bg);
-      if (m_settings->getTarPreservePerms())
-	m_cbPreservePerms->setChecked(true);
-
-      break;
-    case RAR_FORMAT:
-      bg->setTitle(i18n("RAR Options"));
-
-      m_cbOverwrite = new QCheckBox(i18n("Overwrite files"), bg);
-      if (m_settings->getRarOverwriteFiles())
-	m_cbOverwrite->setChecked(true);
-
-      m_cbToLower = new QCheckBox(i18n("Convert filenames to lowercase"),
-				  bg);
-      if (m_settings->getRarExtractLowerCase())
-	m_cbToLower->setChecked(true);
-
-      m_cbToUpper = new QCheckBox(i18n("Convert filenames to uppercase"),
-				  bg);
-      if (m_settings->getRarExtractUpperCase())
-	m_cbToUpper->setChecked(true);
-      break;
-    case ZOO_FORMAT:
-      bg->setTitle(i18n("ZOO Options"));
-      m_cbOverwrite = new QCheckBox(i18n("Overwrite files"), bg);
-      if (m_settings->getZooOverwriteFiles())
-	m_cbOverwrite->setChecked(true);
-      break;
-    default:
-      // shouldn't ever get here!
-      ASSERT(0);
-      break;
-    }
-  
-  addTab(secondpage, i18n("&Advanced"));
+  m_radioSelected->setEnabled(false); 
+  m_radioAll->setChecked(true); 
 }
 
 
@@ -224,36 +140,6 @@ void ExtractDlg::accept()
 
   // you need to change the settings to change the fixed dir.
   m_settings->setLastExtractDir(m_extractDirCB->currentText());
-
-  // save settings
-
-  switch(m_archtype)
-    {
-    case ZIP_FORMAT:
-      m_settings->setZipExtractOverwrite(m_cbOverwrite->isChecked());
-      m_settings->setZipExtractLowerCase(m_cbToLower->isChecked());
-      m_settings->setZipExtractJunkPaths(m_cbDiscardPathnames->isChecked());
-      break;
-    case TAR_FORMAT:
-      m_settings->setTarOverwriteFiles(m_cbOverwrite->isChecked());
-      m_settings->setTarPreservePerms(m_cbPreservePerms->isChecked());
-      break;
-    case AA_FORMAT:
-    case LHA_FORMAT:
-      break; // do nothing
-    case RAR_FORMAT:
-      m_settings->setRarOverwriteFiles(m_cbOverwrite->isChecked());
-      m_settings->setRarExtractLowerCase(m_cbToLower->isChecked());
-      m_settings->setRarExtractUpperCase(m_cbToUpper->isChecked());
-      break;
-    case ZOO_FORMAT:
-      m_settings->setZooOverwriteFiles(m_cbOverwrite->isChecked());
-      break;
-    default:
-      // shouldn't ever get here!
-      ASSERT(0);
-      break;
-    }
 
   if (m_radioPattern->isChecked())
   {
@@ -271,7 +157,7 @@ void ExtractDlg::accept()
   }
 
   // I made it! so nothing's wrong.
-  QTabDialog::accept();
+  KDialogBase::accept();
   kdDebug(1601) << "-ExtractDlg::accept" << endl;
 }
 
@@ -304,6 +190,12 @@ int ExtractDlg::extractOp()
   if(m_radioPattern->isChecked())
     return ExtractDlg::Pattern;
   return -1;
+}
+
+void ExtractDlg::openPrefs()
+{
+  GeneralOptDlg dd(m_settings, this);
+  dd.exec();
 }
 
 /******************************************************************

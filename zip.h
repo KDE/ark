@@ -10,6 +10,7 @@
   1997-1999: Rob Palmbos palm9744@kettering.edu
   1999: Francois-Xavier Duranceau duranceau@kde.org
   1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -31,21 +32,20 @@
 #ifndef ZIPARCH_H
 #define ZIPARCH_H
 
-// Qt includes
-#include <qobject.h>
+class QString;
+class QCString;
+class QStringList;
+class KProcess;
 
-// KDE includes
-#include <kprocess.h>
-
-// ark includes
-#include "arch.h"
-#include "waitDlg.h"
+class Arch;
+class ArkSettings;
+class ArkWidgetBase;
 
 class ZipArch : public Arch
 {
   Q_OBJECT
 public:
-  ZipArch( ArkSettings *_settings, Viewer *_gui,
+  ZipArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 	   const QString & _fileName );
   virtual ~ZipArch() { }
 	
@@ -65,7 +65,7 @@ public:
 
 protected slots:
   void slotIntegrityExited(KProcess*);
-
+	
 private:
   void setHeaders();
 };

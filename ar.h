@@ -9,6 +9,7 @@
 
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -29,24 +30,25 @@
 #ifndef ARARCH_H
 #define ARARCH_H
 
-// Qt includes
-#include <qstring.h>
-#include <qstrlist.h>
+class QString;
+class QCString;
+class QStringList;
 
-// ark includes
-#include "arch.h"
+class Arch;
+class ArkSettings;
+class ArkWidgetBase;
 
-class ArArch : public Arch
+class ArArch : public Arch 
 {
   Q_OBJECT
 public:
-  ArArch( ArkSettings *_settings, Viewer *_gui,
+  ArArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 	   const QString & _fileName );
   virtual ~ArArch() {}
 
   virtual void open();
   virtual void create();
-
+	
   virtual void addFile( QStringList* );
   virtual void addDir(const QString &) {} // never gets called
 

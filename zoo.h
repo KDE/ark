@@ -8,6 +8,7 @@
  Copyright (C)
 
  2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -27,17 +28,19 @@
 #ifndef __ZOO_H__
 #define __ZOO_H__ 
 
-// Qt includes
-#include <qstring.h>
-#include <qstrlist.h>
+class QString;
+class QCString;
+class QStringList;
 
-#include "arch.h"
+class Arch;
+class ArkSettings;
+class ArkWidgetBase;
 
-class ZooArch : public Arch 
+class ZooArch : public Arch
 {
   Q_OBJECT
 public:
-  ZooArch( ArkSettings *_settings, Viewer *_gui,
+  ZooArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 	   const QString & _fileName );
   virtual ~ZooArch() { }
 	
@@ -53,7 +56,7 @@ public:
 
 protected slots:
   virtual bool processLine(const QCString &line);
-
+	
 private:
   void initExtract( bool, bool, bool );
   void setHeaders();

@@ -24,7 +24,6 @@
 
 */
 
-#include <iostream.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -39,14 +38,15 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kprocess.h>
 
 // ark includes
+#include "arkwidgetbase.h"
+#include "arch.h"
+#include "arksettings.h"
 #include "rar.h"
 
-// the generic viewer to which to send header and column info.
-#include "viewer.h"
-
-RarArch::RarArch( ArkSettings *_settings, Viewer *_gui,
+RarArch::RarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName ), m_linenumber(0)
 {
@@ -96,7 +96,7 @@ bool RarArch::processLine(const QCString &line)
   // columns[3] is the day
   // columns[8] is the month
   // columns[9] is a 2-digit year. Ugh. Y2K junk here.
-
+  
   QString year = Utils::fixYear(columns[9]);
 
   // put entire timestamp in columns[3]
@@ -117,7 +117,7 @@ bool RarArch::processLine(const QCString &line)
     {
       list.append(QString::fromLocal8Bit(columns[i]));
     }
-  m_gui->add(&list); // send to GUI
+  m_gui->listingAdd(&list); // send to GUI
 
   return true;
 }
@@ -177,11 +177,10 @@ void RarArch::setHeaders()
   kdDebug(1601) << "-RarArch::setHeaders" << endl;
 }
 
-
 void RarArch::create()
 {
   emit sigCreate(this, true, m_filename,
-		 Arch::Extract | Arch::Delete | Arch::Add
+		 Arch::Extract | Arch::Delete | Arch::Add 
 		 | Arch::View);
 }
 
@@ -202,7 +201,7 @@ void RarArch::addFile( QStringList *urls )
   kp->clearArguments();
   *kp << m_archiver_program;
 
-  if (m_settings->getRarReplaceOnlyWithNewer() )
+  if (m_settings->getAddReplaceOnlyWithNewer() )
     *kp << "u";
   else
     *kp << "a";
@@ -277,7 +276,7 @@ void RarArch::unarchFile(QStringList *_fileList, const QString & _destDir,
   // extract (and maybe overwrite)
   *kp << m_unarchiver_program << "x";
 
-  if (!m_settings->getRarOverwriteFiles())
+  if (!m_settings->getExtractOverwrite())
     {
       *kp << "-o+" ; 
     }

@@ -10,6 +10,7 @@
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
  
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -30,15 +31,22 @@
 #ifndef __EXTRACTDLG_H__
 #define __EXTRACTDLG_H__
 
-#include <qtabdialog.h>
 #include <qradiobutton.h>
-#include <qcheckbox.h>
-#include "arkwidget.h"  // for ArchType
 
+#include "arch.h"
+
+class QWidget;
+class QString;
+class QStringList;
+class QLineEdit;
 class QComboBox;
+class QDialog;
+class KDialogBase;
+
 class ArkSettings;
 
-class ExtractDlg : public QTabDialog 
+
+class ExtractDlg : public KDialogBase
 {
   Q_OBJECT
 public:
@@ -50,15 +58,13 @@ public:
 public slots:
   void browse();
   void choosePattern() { m_radioPattern->setChecked(true); }
+  void openPrefs();
   void accept();
+
 signals:
   // This signal is caught by ArkWidget, which selects all files matching
   // that pattern.
   void pattern(const QString &); 
-
-private: // methods
-  void setupFirstTab();
-  void setupSecondTab();
 
 private: // data
   QRadioButton *m_radioCurrent, *m_radioAll, *m_radioSelected, *m_radioPattern;
@@ -66,9 +72,6 @@ private: // data
   QComboBox *m_extractDirCB;
   ArkSettings *m_settings;
   ArchType m_archtype;
-  // advanced options 
-  QCheckBox *m_cbOverwrite, *m_cbPreservePerms, *m_cbToLower, *m_cbToUpper;
-  QCheckBox *m_cbDiscardPathnames;
 };
 
 // this class is used for displaying the filenames that were not

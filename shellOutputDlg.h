@@ -28,13 +28,12 @@
 #ifndef SHELL_OUTPUT_DLG_H
 #define SHELL_OUTPUT_DLG_H
 
-// Qt includes
-#include <qdialog.h>
 #include <qmultilineedit.h>
+#include <qdialog.h>
 
-// ark includes
-#include "arksettings.h"
+class QWidget;
 
+class ArkSettings;
 
 class ShellOutputWidget : public QMultiLineEdit {
 public:

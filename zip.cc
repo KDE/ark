@@ -9,6 +9,7 @@
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -30,21 +31,22 @@
 // Qt includes
 #include <qdir.h>
 #include <qstringlist.h>
-#include <qregexp.h>
 #include <qlist.h>
+#include <qcstring.h>
+#include <qregexp.h>
 
 // KDE includes
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kprocess.h>
 
 // ark includes
+#include "arkwidgetbase.h"
+#include "arksettings.h"
 #include "zip.h"
 
-// the generic viewer to which to send header and column info.
-#include "viewer.h"
-
-ZipArch::ZipArch( ArkSettings *_settings, Viewer *_gui,
+ZipArch::ZipArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 		  const QString & _fileName )
   : Arch(_settings, _gui, _fileName )
 {
@@ -177,7 +179,7 @@ void ZipArch::addFile( QStringList *urls )
   if (m_settings->getZipAddConvertLF())
     *kp << "-l";
   
-  if (m_settings->getZipReplaceOnlyWithNewer())
+  if (m_settings->getAddReplaceOnlyWithNewer())
     *kp << "-u";
 
   *kp << m_filename.local8Bit() ;
@@ -259,7 +261,7 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir,
   if (m_settings->getZipExtractLowerCase())
     *kp << "-L";
 
-  if (m_settings->getZipExtractOverwrite())
+  if (m_settings->getExtractOverwrite())
     *kp << "-o";
 
   *kp << m_filename;

@@ -10,6 +10,7 @@
   1997-1999: Rob Palmbos palm9744@kettering.edu
   1999: Francois-Xavier Duranceau duranceau@kde.org
   1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -30,47 +31,33 @@
 #ifndef ARKWIDGET_H
 #define ARKWIDGET_H
 
-// Qt includes
-#include <qdragobject.h>
-#include <qlist.h>
-#include <qlistview.h>
-#include <qpopupmenu.h>
-#include <qstring.h>
-#include <qstringlist.h>
-#include <qtimer.h>
-#include <qwidget.h>
-
-
-// KDE includes
-#include <kaccel.h>
-#include <kconfig.h>
-#include <kpopupmenu.h>
-#include <kmainwindow.h>
-#include <kurl.h>
-#include <kio/job.h>
-
-// ark includes
-#include "arksettings.h"
-#include "filelistview.h"
-#include "arch.h"
-
 #define ARK_VERSION "1.9"
 
-//
-//
-// This file contains the class definitions for CArkWidget (the main
-// widget for the app), ArkListView (the listview widget tailored to
-// be a drop-site), and MyListViewItem (the listview item tailored to
-// sorting sizes numerically instead of asciibetically)
-//
+#include "arkwidgetbase.h"
 
-class Viewer;
+class QWidget;
+class QPoint;
+class QString;
+class QStringList;
 class QLabel;
+class QListViewItem;
+class QDragMoveEvent;
+class QDropEvent;
+class KMainWindow;
+class KPopupMenu;
+class KProcess;
+class KConfig;
+class KURL;
 class KAction;
-class KToggleAction;
 class KRecentFilesAction;
+class KToggleAction;
 class KRun;
 class KTempFile;
+
+class Arch;
+class ArkSettings;
+class FileLVI;
+
 
 namespace Utilities
 {
@@ -79,35 +66,14 @@ namespace Utilities
   long getSizes(QStringList *list);
 };
 
-class ArkWidget : public KMainWindow 
+class ArkWidget : public KMainWindow, public ArkWidgetBase
 {
   Q_OBJECT
 public:
   ArkWidget( QWidget *parent=0, const char *name=0 );
   virtual ~ArkWidget();
-  bool isArchiveOpen() { return m_bIsArchiveOpen; }
-  QString getArchName() { return m_strArchName; }
   void showZip( QString name );
   void reload();
-  FileListView *fileList() const { return archiveContent; };
-
-  void listingAdd(QStringList *_entries);
-  void setHeaders(QStringList *_headers,
-		  int * _rightAlignCols, int _numColsToAlignRight);
-  void clearHeaders();
-  int getNumFilesInArchive() { return m_nNumFiles; }
-
-  // given a filename, get the data in the column 
-  // used in the viewer class.
-  QString getColData(const QString &_filename, int _col);
-
-  // given a column header, find its index
-  int getCol(const QString & _columnHeader);
-
-  void setDragInProgress(bool _b) { m_bDragInProgress = _b; }
-  bool dragInProgress() { return m_bDragInProgress; }
-  void storeNames(QStringList _dragFiles) { mDragFiles = _dragFiles; }
-  void unarchFile(QStringList * _l) { arch->unarchFile(_l); }
 
   bool isEditInProgress() { return m_bEditInProgress; }
 
@@ -197,15 +163,12 @@ private: // methods
 
   // complains if the filename has capital letters or is tbz or tbz2
   bool badBzipName(const QString & _filename);
-  bool getOverwrite(ArchType _archtype);
-
   bool reportExtractFailures(const QString & _dest,
 			     QStringList *_list);
 
   bool download(const KURL &, QString &);
 
   // return the index of the size column
-  int getSizeColumn();
 
 protected:
   void arkWarning(const QString& msg);
@@ -229,11 +192,9 @@ protected:
   void saveProperties();
 
 private: // data
-  Arch *arch;
-
   KAction *newWindowAction, *newArchAction, *openAction, *addFileAction,
     *addDirAction, *extractAction, *deleteAction, *closeAction, *reloadAction,
-    *selectAllAction, *viewAction, *settingsAction, *helpAction,
+    *selectAllAction, *viewAction, *helpAction,
     *openWithAction, *selectAction, *deselectAllAction, *invertSelectionAction,
     *popupEditAction, *editAction, *saveAsAction;
 
@@ -247,29 +208,12 @@ private: // data
   KToggleAction *statusbarAction;
 
   KPopupMenu *m_filePopup, *m_archivePopup;
-  ArkSettings *m_settings;  // each arkwidget has its own settings
 
-  FileListView *archiveContent;
-
-  QString m_strArchName;
   QString m_strNewArchname;
   
-  // totals for status bar:
-  int m_nSizeOfFiles;
-  int m_nSizeOfSelectedFiles;
-  int m_nNumFiles;
-  int m_nNumSelectedFiles;
-
   QLabel *m_pStatusLabelSelect; // How many files are selected - label
   QLabel *m_pStatusLabelTotal;  // How many files in archive - label
 
-
-  // some informational bools
-  bool m_bIsArchiveOpen;
-  bool m_bIsSimpleCompressedFile;
-  bool m_bDropSourceIsSelf; // no dragging from and dropping on myself
-
-  Viewer *m_viewer; // for separating gui - archives know viewer not arkwidget
 
  // true if user is trying to view something. For use in slotExtractDone
   bool m_bViewInProgress;
@@ -292,16 +236,8 @@ private: // data
   QStringList *m_pTempAddList;
   bool m_bDropFilesInProgress;
 
-  // which column has the size
-  int m_currentSizeColumn;
-
-  bool m_bDragInProgress;
-
   KRun *m_pKRunPtr;
-  QStringList mDragFiles; // to be able to access the drag/extract files
 
-  // the list of files being extracted. Needs to be deleted in slotExtractDone
-  QStringList *m_extractList;
   KURL mSaveAsURL;
 
   KTempFile *mpTempFile;

@@ -10,6 +10,7 @@
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
  2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -30,17 +31,13 @@
 #ifndef DIRDLG_H
 #define DIRDLG_H
 
-// Qt includes
-#include <qdialog.h>
-
-// ark includes
-#include "arksettings.h"
-
-class QListBoxItem;
-class QLabel;
+class QString;
+class QWidget;
 class QLineEdit;
+class QListBox;
 class QRadioButton;
-class QButtonGroup;
+
+class ArkSettings;
 
 enum { NUM_RADIOS = 3, NUM_DIR_TYPES = 4 };
 
@@ -51,17 +48,16 @@ public:
   void show();
   friend class DirDlg;
 private:
-  QLabel *lDirType, *lHorizLine;
   QLineEdit *fixedLE;
   QButtonGroup *buttonGroup;
   QRadioButton *radios[NUM_RADIOS];
 };
 
-class DirDlg : public QDialog 
+class DirDlg : public QWidget
 {
   Q_OBJECT
 public:
-  DirDlg(  ArkSettings *d, QWidget *parent=0, const char *name=0 );
+  DirDlg(ArkSettings *d, QWidget *parent=0, const char *name=0);
   ~DirDlg();
   static QString getDirType(int item);
 public slots:

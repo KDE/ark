@@ -29,16 +29,13 @@
 #ifndef __ARKAPP_H__
 #define __ARKAPP_H__
 
-#include <qstring.h>
 #include <kuniqueapp.h>
-#include "arkwidget.h"
 
-#include <qdict.h>
+class QString;
+class QStringList;
+template<class type> class QDict;
 
-class ArkSettings;
-
-#include <stdlib.h>
-#include <string.h>
+class ArkWidget;
 
 class EqualKey
 {

@@ -29,6 +29,7 @@
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qlayout.h>
+#include <qdialog.h>
 
 // KDE includes
 #include <klocale.h>

@@ -8,6 +8,7 @@
     Copyright (C)
 
     2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+    2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,12 +28,14 @@
 #ifndef __COMPRESSED_FILE_H__
 #define __COMPRESSED_FILE_H__
 
-// Qt includes
-#include <qstring.h>
-#include <qstrlist.h>
-
-#include "arch.h"
+class QString;
+class QCString;
+class QStringList;
 class KProcess;
+
+class Arch;
+class ArkSettings;
+class ArkWidgetBase;
 
 //
 // This isn't *really* an archive, but having this class in the program
@@ -46,7 +49,7 @@ class CompressedFile : public Arch
 {
   Q_OBJECT
 public:
-  CompressedFile( ArkSettings *_settings, Viewer *_gui,
+  CompressedFile( ArkSettings *_settings, ArkWidgetBase *_gui,
 		  const QString & _fileName );
   virtual ~CompressedFile() { }
 	

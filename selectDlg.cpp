@@ -30,6 +30,9 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qregexp.h>
+#include <qdialog.h>
+#include <qlineedit.h>
+#include <qpushbutton.h>
 
 // KDE includes
 #include <klocale.h>

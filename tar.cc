@@ -9,6 +9,7 @@
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -50,7 +51,11 @@
 #include <time.h>
 
 // Qt includes
+#include <qstring.h>
+#include <qstrlist.h>
 #include <qregexp.h>
+#include <qdatetime.h>
+#include <qapplication.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -59,21 +64,22 @@
 #include <ktempfile.h>
 #include <kmimemagic.h>
 #include <kstddirs.h>
+#include <kprocess.h>
+// Modified KTar from David Faure (thank you!!)
+// This one WORKS, but is read-only
+#include "ktar.h"
 
 // ark includes
-#include "viewer.h"
-#include "extractdlg.h"
+#include "arch.h"
+#include "arkwidgetbase.h"
+#include "arksettings.h"
+#include "arch.h"
 #include "tar.h"
-#include "tar.moc"
-// David Faure (resident miracle worker) has provided a better KTarGz
-// Until 'tar' is more reliable, or kdelibs' KTar handles large archives
-// better, stick with the safe code.
-#include "ktar.h"
 
 static char *makeAccessString(mode_t mode);
 static QString makeTimeStamp(const QDateTime & dt);
 
-TarArch::TarArch( ArkSettings *_settings, Viewer *_gui,
+TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 		  const QString & _filename)
   : Arch(_settings, _gui, _filename), createTmpInProgress(false),
     updateInProgress(false), deleteInProgress(false), fd(NULL)
@@ -176,6 +182,10 @@ QString TarArch::getCompressor()
 
   if( extension == ".tgz" || extension == ".gz" )
     return QString( "gzip" );
+/* Patch by Matthias Belitz to open KOffice docs */
+/*  if (extension == ".kil" || extension == ".kwd" || extension == ".kwt"
+     || extension == ".ksp" || extension == ".kpr" || extension == ".kpt")
+     return QString( "gzip" );*/
   if( extension == ".bz")
     return QString( "bzip" );
   if( extension == ".Z" || extension == ".taz" )
@@ -194,6 +204,10 @@ QString TarArch::getUnCompressor()
   kdDebug(1601) << "Extension: " << extension << endl;
   if( extension == ".tgz" || extension == ".gz" ) 
     return QString( "gunzip" );
+/* Patch by Matthias Belitz to open KOffice docs */
+/*  if (extension == ".kil" || extension == ".kwd" || extension == ".kwt"
+     || extension == ".ksp" || extension == ".kpr" || extension == ".kpt")
+     return QString( "gunzip" );*/
   if( extension == ".bz")
     return QString( "bunzip" );
   if( extension == ".Z" || extension == ".taz" )
@@ -213,7 +227,8 @@ void TarArch::open()
   KTarGz2 *tarptr;
 
   if (!compressed || 
-      getUnCompressor() == QString("gunzip"))
+      getUnCompressor() == QString("gunzip") ||
+      getUnCompressor() == QString("bunzip2"))
     {
       tarptr = new KTarGz2(m_filename);
     }
@@ -246,16 +261,22 @@ void TarArch::open()
   if (compressed)
     *kp << "--use-compress-program="+getUnCompressor() ;
   *kp << "-tvf" << m_filename;
+
+  m_buffer = "";
+  m_header_removed = false;
+  m_finished = false;
+
   connect(kp, SIGNAL(processExited(KProcess *)),
 	  this, SLOT(slotListingDone(KProcess *)));
   connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	  this, SLOT(slotReceivedOutput( KProcess *, char *, int )));
+	  this, SLOT(slotReceivedOuput( KProcess *, char *, int )));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
 
   if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
     {
-      KMessageBox::error(0, i18n("Error in trying to list the contents of the archive."));
+      KMessageBox::error( 0, i18n("Couldn't start a subprocess.") );
+      emit sigOpen(this, false, QString::null, 0 );
     }
 
   kdDebug(1601) << "-TarArch::open" << endl;
@@ -305,7 +326,7 @@ void TarArch::processDir(const KTarDirectory2 *tardir, const QString & root)
       QString timestamp = makeTimeStamp(tarEntry->datetime());
       col_list.append(timestamp);
       col_list.append(tarEntry->symlink());
-      m_gui->add(&col_list); // send the entry to the GUI
+      m_gui->listingAdd(&col_list); // send the entry to the GUI
 
       // if it isn't a file, it's a directory - process it.
       // remember that name is root + / + the name of the directory
@@ -498,7 +519,7 @@ void TarArch::addFile( QStringList* urls )
   // first. So we'll first delete all the old files matching the names of
   // those in urls.
   m_bNotifyWhenDeleteFails = false;
-  deleteOldFiles(urls, m_settings->getTarReplaceOnlyWithNewer());
+  deleteOldFiles(urls, m_settings->getAddReplaceOnlyWithNewer());
   while (deleteInProgress)
     qApp->processEvents(); // wait for deletion
   m_bNotifyWhenDeleteFails = true;
@@ -514,7 +535,7 @@ void TarArch::addFile( QStringList* urls )
   kp->clearArguments();
   *kp << m_archiver_program.local8Bit();
 	
-  if( m_settings->getTarReplaceOnlyWithNewer())
+  if( m_settings->getAddReplaceOnlyWithNewer())
     *kp << "uvf";
   else
     *kp << "rvf";
@@ -628,7 +649,7 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
     *kp << "--use-compress-program="+getUnCompressor() ;
 
   QString options = "-x";
-  if (!m_settings->getTarOverwriteFiles())
+  if (!m_settings->getExtractOverwrite())
     options += "k";
   if (m_settings->getTarPreservePerms())
     options += "p";
@@ -821,3 +842,5 @@ static QString makeTimeStamp(const QDateTime & dt)
 		    t.toString().utf8().data());
   return timestamp;
 }
+
+#include "tar.moc"
