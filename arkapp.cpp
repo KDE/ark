@@ -32,8 +32,6 @@
 #include <qfile.h>
 #include <errno.h>
 
-extern int errno;
-
 #include "arkapp.h"
 #include "arkwidget.h"
 
