@@ -1,5 +1,7 @@
 /*
 
+ $Id$
+
  ark -- archiver for the KDE project
 
  Copyright (C)
@@ -96,14 +98,28 @@ public:
 	void setSelectRegExp(const QString& _exp);
 	QString getSelectRegExp() const;
 
-	QStrList * getlastShellPtr();
+	void appendShellOutputData( const char * );
+	void clearShellOutput();
+	QString * getLastShellOutput() const;
+
+	void setZipExtractOverwrite( bool );
+	bool getZipExtractOverwrite();
 	
+	void setZipExtractJunkPaths( bool );
+	bool getZipExtractJunkPaths();
+	
+	void setZipExtractLowerCase( bool );
+	bool getZipExtractLowerCase();
+
+	void setTmpDir( QString );
+	QString getTmpDir() const;			
 	void writeConfiguration();
 	void writeConfigurationNow();
 	void readConfiguration();
 	
 	KConfig * getKConfig() { return kc; };
-private:
+	
+protected:
 	KConfig *kc;
 	bool opt_AddOnlyNew;
 	bool opt_StoreFullPath;
@@ -128,7 +144,7 @@ private:
 	QString lastAddDir;
 	int addDirMode;
 	
-	QStrList lastShellOutput;
+	QString * m_lastShellOutput;
 	
 	bool m_saveOnExit;
 	QString m_regExp;
@@ -138,11 +154,21 @@ private:
 
 	bool contextRow;
 	QStrList recentFiles;
+	
+	bool m_zipExtractOverwrite;
+	bool m_zipExtractJunkPaths;
+	bool m_zipExtractLowerCase;
 
+	QString m_tmpDir;
+	
 	void readRecentFiles();
 	void writeRecentFiles();
+	
 	void readDirectories();
 	void writeDirectories();
+	
+	void readZipProperties();
+	void writeZipProperties();
 };
 
 #endif /* ARKDATA_H */

@@ -38,7 +38,10 @@
 #include "arkdata.h"
 
 // Key names in the arkrc config file
-#define ARK_KEY "ark"
+#define ARK_GROUP "ark"
+#define TAR_GROUP "Tar"
+#define ZIP_GROUP "Zip"
+
 #define FAVORITE_KEY "ArchiveDirectory"
 #define TAR_KEY "TarExe"
 #define RECENT_KEY "Recent"
@@ -56,6 +59,10 @@
 #define EXTRACT_MODE_KEY "extractDirMode"
 #define ADD_MODE_KEY "addDirMode"
 
+#define EXTRACT_OVERWRITE "extractOverwrite"
+#define EXTRACT_JUNKPATHS "extractJunkPaths"
+#define EXTRACT_LOWERCASE "extractLowerCase"
+
 #define SAVE_ON_EXIT_KEY "saveOnExit"
 
 /**
@@ -63,20 +70,24 @@
  */
 ArkData::ArkData()
 {
+	m_lastShellOutput = new QString;
+	
 	kc = KGlobal::config();
 	readConfiguration();	
 }
 
 ArkData::~ArkData()
 {
-
+	delete m_lastShellOutput;
 }
 
 ////////////////// READ CONFIGURATION ///////////////////////////////////
 
-void ArkData::readConfiguration() {
+void ArkData::readConfiguration() 
+{
+	kdebug(0, 1601, "+ArkData::readConfiguration()");
 
-        kc->setGroup( ARK_KEY );
+        kc->setGroup( ARK_GROUP );
 
 	tar_exe = kc->readEntry( TAR_KEY, "tar");
 	kdebug(0, 1601, "Tar command is %s", tar_exe.ascii());
@@ -86,6 +97,9 @@ void ArkData::readConfiguration() {
 
 	readRecentFiles();
 	readDirectories();
+	readZipProperties();
+
+	kdebug(0, 1601, "-ArkData::readConfiguration()");
 }
 
 
@@ -95,7 +109,7 @@ void ArkData::readRecentFiles()
 	kdebug(0, 1601, "+readRecentFiles");
 	
 	QString s, name;
-	kc->setGroup( ARK_KEY );
+	kc->setGroup( ARK_GROUP );
 	for (int i=0; i < MAX_RECENT_FILES; i++)
 	{
 		name = QString("%1%2").arg(RECENT_KEY).arg(i);
@@ -115,7 +129,7 @@ void ArkData::readDirectories()
 {
 	kdebug(0, 1601, "+readDirectories");
 	
-	kc->setGroup( ARK_KEY );
+	kc->setGroup( ARK_GROUP );
 
 	favoriteDir = kc->readEntry( FAVORITE_KEY );
 
@@ -154,6 +168,23 @@ void ArkData::readDirectories()
 	kdebug(0, 1601, "-readDirectories");
 }
 
+void ArkData::readZipProperties()
+{
+	kdebug(0, 1601, "+readZipProperties");	
+	
+	kc->setGroup( ZIP_GROUP );
+
+	m_zipExtractOverwrite = kc->readBoolEntry( EXTRACT_OVERWRITE, true );
+	m_zipExtractJunkPaths = kc->readBoolEntry( EXTRACT_JUNKPATHS, false );
+	m_zipExtractOverwrite = kc->readBoolEntry( EXTRACT_LOWERCASE, false );
+	
+	kdebug(0, 1601, "Zip properties are: %d, %d, %d", m_zipExtractOverwrite,
+			m_zipExtractJunkPaths, m_zipExtractLowerCase);
+
+	kdebug(0, 1601, "-readZipProperties");	
+}
+
+
 
 ////////////////// WRITE CONFIGURATION ///////////////////////////////////
 
@@ -167,7 +198,7 @@ void ArkData::writeConfiguration()
 
 		writeRecentFiles();
 
-		kc->setGroup( ARK_KEY );
+		kc->setGroup( ARK_GROUP );
 		kc->writeEntry( SAVE_ON_EXIT_KEY, m_saveOnExit );
 	}
 	else{
@@ -182,8 +213,9 @@ void ArkData::writeConfigurationNow()
 	
 	writeRecentFiles();
 	writeDirectories();
+	writeZipProperties();
 	
-	kc->setGroup( ARK_KEY );
+	kc->setGroup( ARK_GROUP );
 	kc->writeEntry( TAR_KEY, tar_exe );
 	kc->writeEntry( SAVE_ON_EXIT_KEY, m_saveOnExit );
 
@@ -194,7 +226,7 @@ void ArkData::writeDirectories()
 {
 	kdebug(0 , 1601, "+writeDirectories");
 	
-	kc->setGroup( ARK_KEY );
+	kc->setGroup( ARK_GROUP );
 	
 	kc->writeEntry( FAVORITE_KEY, favoriteDir );
 
@@ -235,7 +267,7 @@ void ArkData::writeRecentFiles()
 	kdebug(0, 1601, "+writeRecentFiles");
 	
 	QString s, name;
-	kc->setGroup( ARK_KEY );
+	kc->setGroup( ARK_GROUP );
 	uint nb_recent = recentFiles.count();
 
 	for (uint i=0; i < nb_recent; i++)
@@ -250,6 +282,19 @@ void ArkData::writeRecentFiles()
 	kdebug(0, 1601, "-writeRecentFiles");
 }
 
+void ArkData::writeZipProperties()
+{
+	kdebug(0, 1601, "+writeZipProperties");
+	
+	kc->setGroup( ZIP_GROUP );
+
+	kdebug(0, 1601, "m_zipExtract	Overwrite = %d", m_zipExtractOverwrite);
+	kc->writeEntry( EXTRACT_OVERWRITE, m_zipExtractOverwrite );
+	kc->writeEntry( EXTRACT_JUNKPATHS, m_zipExtractJunkPaths );
+	kc->writeEntry( EXTRACT_LOWERCASE, m_zipExtractLowerCase );
+
+	kdebug(0, 1601, "-writeZipProperties");
+}
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -440,10 +485,20 @@ const QString ArkData::getFilter()
 		); 
 }
 
-
-void ArkData::setaddPath( bool b)
+void ArkData::appendShellOutputData( const char *_data )
 {
-	addPath = b;
+	m_lastShellOutput->append( _data );	
+}
+
+void ArkData::clearShellOutput()
+{
+	delete m_lastShellOutput;
+	m_lastShellOutput = new QString;
+}
+
+QString * ArkData::getLastShellOutput() const
+{
+	return m_lastShellOutput;
 }
 
 
@@ -456,6 +511,53 @@ bool ArkData::isSaveOnExitChecked()
 {
 	return m_saveOnExit;
 }
+
+void ArkData::setZipExtractOverwrite( bool _b )
+{
+	m_zipExtractOverwrite = _b;
+}
+
+bool ArkData::getZipExtractOverwrite()
+{
+	return m_zipExtractOverwrite;
+}
+
+void ArkData::setZipExtractJunkPaths( bool _b )
+{
+	m_zipExtractJunkPaths = _b;
+}
+
+bool ArkData::getZipExtractJunkPaths()
+{
+	return m_zipExtractJunkPaths;
+}
+
+void ArkData::setZipExtractLowerCase( bool _b )
+{
+	m_zipExtractLowerCase = _b;
+}
+
+bool ArkData::getZipExtractLowerCase()
+{
+	return m_zipExtractLowerCase;
+}
+
+void ArkData::setTmpDir( QString _dir )
+{
+	m_tmpDir = _dir;
+}
+
+QString ArkData::getTmpDir() const
+{
+	return m_tmpDir;
+}
+
+
+void ArkData::setaddPath( bool b)
+{
+	addPath = b;
+}
+
 
 void ArkData::setonlyUpdate( bool b)
 {

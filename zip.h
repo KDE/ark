@@ -1,35 +1,84 @@
+/*
+
+ $Id $
+
+ ark -- archiver for the KDE project
+
+ Copyright (C)
+
+ 1997-1999: Rob Palmbos palm9744@kettering.edu
+ 1999: Francois-Xavier Duranceau duranceau@kde.org
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
+
+
 #ifndef ZIPARCH_H
 #define ZIPARCH_H
 
 // Qt includes
-#include <qstring.h>
-#include <qstrlist.h>
+#include <qobject.h>
+
+// KDE includes
+#include <kprocess.h>
 
 // ark includes
 #include "arch.h"
-#include "arkdata.h"
-#include "arkprocess.h"
-#include "filelistview.h"
+#include "waitDlg.h"
 
-class ZipArch : public Arch {
+
+class ArkWidget;
+
+class ZipArch : public QObject, public Arch
+{
+
+ Q_OBJECT
 
 public:
-	ZipArch(ArkData *data);
+	ZipArch( ArkData*, ArkWidget*, FileListView* );
 	virtual ~ZipArch();
-	virtual unsigned char setOptions( bool p, bool l, bool o );
-	virtual void openArch( QString, FileListView * flw );
+	virtual void openArch( QString );
 	virtual void createArch( QString );
-	virtual int addFile( QStrList *);
-	virtual void extractTo( QString );
+	virtual int addFile( QStrList* );
 	virtual void extraction();
-	virtual const QStrList *getListing();
 	virtual QString unarchFile( int , QString );
-	virtual void deleteFile( int );
-private:
-	QStrList *listing;
+	virtual void deleteSelectedFiles();
+	virtual int getEditFlag();
+
+protected:
 	ArkProcess archProcess;
-	ArkData *data;
-	bool perms, tolower, overwrite;
+	KProcess *m_kp;
+	bool perms;
+	WaitDlg *m_wd;
+	bool m_header_removed, m_finished, m_error;
+	int m_steps;
+	
+	void initExtract( bool, bool, bool );
+	void initListView();
+	void initOpen();
+	void showWait();
+	
+protected slots:
+	void slotProcessusKilled();
+	void slotStoreDataStdout(KProcess*, char*, int);
+	void slotStoreDataStderr(KProcess*, char*, int);
+	
+	void slotOpenDataStdout(KProcess*, char*, int);
+
+	void slotExtractExited(KProcess*);
 };
 
 #endif /* ZIPARCH_H */

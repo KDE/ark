@@ -25,12 +25,14 @@
 
 */
 
-#ifndef ZIP_EXTRACT_DLG_H
-#define ZIP_EXTRACT_DLG_H
+#ifndef ZIP_ADD_DLG_H
+#define ZIP_ADD_DLG_H
 
 // Qt includes
 #include <qcheckbox.h>
-#include <qradiobutton.h>
+#include <qlayout.h>
+#include <qlineedit.h>
+#include <qpushbutton.h>
 #include <qwidget.h>
 
 // KDE includes
@@ -40,27 +42,17 @@
 #include "arkdata.h"
 
 
-class ZipExtractDlg : public KFileBaseDialog {
+class ZipAddDlg : public KFileBaseDialog {
 	Q_OBJECT
 public:
-	ZipExtractDlg( ArkData*, bool, QString, QWidget *parent=0, const char *name=0 );
+	ZipAddDlg( ArkData*, QString, QWidget *parent=0, const char *name=0 );
 	
-	bool overwrite();
-	bool lowerCase();
-	bool junkPaths();
-	
-	QString getDestination() const;
-	
-	enum selectionType{ All, Selection, Pattern };
-	int selection();
-		
 protected:
 	QVBoxLayout *boxLayout;
 	QGridLayout *lafBox;
-	QRadioButton *r1, *r2, *r3;
-	QCheckBox *r4, *r5, *r6;
-	
-	bool m_selection;
+	QCheckBox *c1, *c2, *c3, *c4;
+	QPushButton *m_bAdd, *m_bClose;
+	QLineEdit *m_leNames;
 	
 	virtual void initGUI();
 	virtual bool getShowFilter();
@@ -68,12 +60,18 @@ protected:
 	virtual QWidget *swallower() { return this; }
 	
 	void saveConfig();
-	
+
+	bool m_addClicked;	
 	ArkData *m_data;
 	
 protected slots:
-	void onExtract();	
+	void onAdd();	
+	void onClose();
+	void onHelp();
+	
+	void slotSelectionChanged(const QString&);
+	void slotFileHighlighted(const QString&);
 };
 
-#endif /* ZIP_EXTRACT_DLG_H */
+#endif /* ZIP_ADD_DLG_H */
 

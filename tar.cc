@@ -1,5 +1,31 @@
-/* (c)1997 Robert Palmbos
-   See main.cc for license details */
+/*
+
+ $Id$
+
+ ark -- archiver for the KDE project
+
+ Copyright (C)
+
+ 1997-1999: Rob Palmbos palm9744@kettering.edu
+ 1999: Francois-Xavier Duranceau duranceau@kde.org
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
+
+
 #include <kurl.h>
 // Unsorted in qdir.h is used, but in some of the headers
 // below it's defined, too. So I brought kurl.h to the top.
@@ -10,25 +36,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Qt includes
+#include <qmessagebox.h>
+
 // KDE includes
 #include "klocale.h"
 
 // ark includes
+#include "arkwidget.h"
 #include "extractdlg.h"
 #include "tar.h"
 #include "tar.moc"
 
-TarArch::TarArch( ArkData *d )
-	: Arch()
+TarArch::TarArch( ArkData *_d, ArkWidget *_w, FileListView *_flw )
+	:QObject(), Arch()
 {
 	stdout_buf = NULL;
 	cout << "Entered TarArch" << endl;
-	data = d;
+	m_data = _d;
+	m_arkwidget = _w;
+	m_flw = _flw;
+	
 	listing = new QStrList;
-	data->setaddPath( false );
+	m_data->setaddPath( false );
 	compressed = true;
-	tmpfile.sprintf( "/tmp/ark.%d/tmpfile.tar", getpid() );
-	data->getTarCommand();
+	
+	m_data->getTarCommand();
 	cout << "Left TarArch" << endl;
 }
 
@@ -40,6 +73,11 @@ TarArch::~TarArch()
 	cout << "Left ~TarArch" << endl;
 }
 
+int TarArch::getEditFlag()
+{
+	return Arch::Extract;
+}
+
 int TarArch::updateArch()
 {
 	if( !compressed )
@@ -47,7 +85,7 @@ int TarArch::updateArch()
 		compressed = TRUE;
 		disconnect( &kproc, 0, 0, 0 );
 		kproc.clearArguments();
-		kproc << getCompressor() << "-c" << tmpfile << " > " << archname;
+		kproc << getCompressor() << "-c" << tmpfile << " > " << m_filename;
 		connect( &kproc, SIGNAL(processExited(KProcess *)),
 		                       this, SLOT(openFinished(KProcess *)) );
 		if( kproc.start( KProcess::NotifyOnExit ) == FALSE )
@@ -61,7 +99,7 @@ int TarArch::updateArch()
 
 QString TarArch::getCompressor() 
 {
-	QString extension = archname.right( archname.length()-archname.findRev('.') );
+	QString extension = m_filename.right( m_filename.length()-m_filename.findRev('.') );
 	cout << extension.ascii();
 	if( extension == ".tgz" || extension == ".gz" ) 
 		return QString( "gzip" );
@@ -78,7 +116,7 @@ QString TarArch::getCompressor()
 
 QString TarArch::getUnCompressor() 
 {
-	QString extension = archname.right( archname.length()-archname.findRev('.') );
+	QString extension = m_filename.right( m_filename.length()-m_filename.findRev('.') );
 	cout << extension.ascii();
 	if( extension == ".tgz" || extension == ".gz" ) 
 		return QString( "gunzip" );
@@ -101,45 +139,59 @@ unsigned char TarArch::setOptions( bool p, bool l, bool o )
 	return 5;
 }
 
-void TarArch::openArch( QString name, FileListView *flw )
+void TarArch::openArch( QString name )
 {
 	cout << "Entered openArch" << endl;
 	QString buffer;
-	destination_flw = flw;
+	destination_flw = m_flw;
 
 	kproc.clearArguments();
 
-	archname = name;
-	QString tar_exe = data->getTarCommand();
+	m_filename = name;
+	QString tar_exe = m_data->getTarCommand();
 	
 	kproc << tar_exe << "--use-compress-program="+getUnCompressor()
-	      <<	"-tvf" << archname;
+	      <<	"-tvf" << m_filename;
 	
+	m_flw->addColumn( i18n("Name") );
+	m_flw->addColumn( i18n("Permissions") );
+	m_flw->addColumn( i18n("Owner/Group") );
+	m_flw->addColumn( i18n("Size") );
+	m_flw->addColumn( i18n("TimeStamp") );
+
 	disconnect( &kproc, 0, 0, 0 );
 	connect( &kproc, SIGNAL(processExited(KProcess *)), 
 	                       this, SLOT(openFinished(KProcess *)));
 	connect( &kproc, SIGNAL(receivedStdout(KProcess *, char *,int)),
 	                       this, SLOT(inputPending(KProcess *, char *, int)));
 	                       
-	flw->addColumn( i18n("Filename") );
-	flw->addColumn( i18n("Permissions") );
-	flw->addColumn( i18n("Owner/Group") );
-	flw->addColumn( i18n("Size") );
-	flw->addColumn( i18n("TimeStamp") );
+	m_flw->addColumn( i18n("Filename") );
+	m_flw->addColumn( i18n("Permissions") );
+	m_flw->addColumn( i18n("Owner/Group") );
+	m_flw->addColumn( i18n("Size") );
+	m_flw->addColumn( i18n("TimeStamp") );
 
 	if( kproc.start( KProcess::NotifyOnExit, KProcess::Stdout ) == FALSE )
 	{
 		cerr << "Can't fork a decompressor." << endl;
 		return;
 	}
-		
+//	fclose( fd );
+//	There should be a file descriptor close call, but this one makes a
+//	BAD FILEDESCRIPTOR error message
+//	Another note: gzip reported 'Broken pipe' because of that fclose()
+	while(archProcess.isRunning())
+		;
+
+	m_arkwidget->open_ok( m_filename );
+	
 	cout << "Left openArch" << endl;
 }
 
 void TarArch::createArch( QString file )
 {
 	cout << "Entered createArch" << endl;
-	archname = file;
+	m_filename = file;
 	cout << "Left createArch" << endl;
 }
 
@@ -160,7 +212,7 @@ void TarArch::createTmp()
 		compressed = FALSE;
 
 		kproc.clearArguments();
-		kproc << "gunzip" << "-c" << archname << " > " << tmpfile;
+		kproc << "gunzip" << "-c" << m_filename << " > " << tmpfile;
 		
 		disconnect( &kproc, 0, 0, 0 );
 		connect(&kproc, SIGNAL(processExited(KProcess *)),
@@ -180,7 +232,7 @@ int TarArch::addFile( QStrList* urls )
 
 	int retcode;
 	QString file, url, tmp;
-	QString tar_exe = data->getTarCommand();
+	QString tar_exe = m_data->getTarCommand();
 		
 	createTmp();
 
@@ -190,7 +242,7 @@ int TarArch::addFile( QStrList* urls )
 	kproc.clearArguments();
 	kproc << tar_exe;
 	
-	if( data->getonlyUpdate() )
+	if( m_data->getonlyUpdate() )
 		kproc << "uvf";
 	else
 		kproc << "rvf";
@@ -198,7 +250,7 @@ int TarArch::addFile( QStrList* urls )
 	
 	QString base;
 
-	if( !data->getaddPath() )
+	if( !m_data->getaddPath() )
 	{
 		int pos;
 		pos = file.findRev( '/', -1, FALSE );
@@ -230,7 +282,7 @@ int TarArch::addFile( QStrList* urls )
 		return -1;
 	}
 	
-	if( data->getaddPath() )
+	if( m_data->getaddPath() )
 		file.remove( 0, 1 );  // Get rid of leading /
 
 	retcode = updateArch();
@@ -271,12 +323,12 @@ void TarArch::extractTo( QString dir )
 {
 	cout << "Entered extractTo" << endl;
 
-	QString tar_exe = data->getTarCommand();
+	QString tar_exe = m_data->getTarCommand();
 		
 	kproc.clearArguments();
 	kproc << tar_exe;
 	kproc << "--use-compress-program="+getUnCompressor() 
-	      <<	"-xvf" << archname << "-C" << dir;	
+	      <<	"-xvf" << m_filename << "-C" << dir;	
 
 	disconnect( &kproc, 0, 0, 0 );
 	connect( &kproc, SIGNAL(processExited(KProcess *)), 
@@ -300,7 +352,7 @@ QString TarArch::unarchFile( int index, QString dest )
 	int pos;
 	QString tmp, name;
 	QString fullname;
-	QString tar_exe = data->getTarCommand();	
+	QString tar_exe = m_data->getTarCommand();	
 	
 	updateArch();
 	
@@ -309,14 +361,19 @@ QString TarArch::unarchFile( int index, QString dest )
 	pos++;
 	name = tmp.right( tmp.length()-pos );
 
+	archProcess.clearArguments();
+//	archProcess.setExecutable( tar_exe );
+	archProcess << tar_exe;
+
 	kproc.clearArguments();
 	kproc << tar_exe;
+	
 	if( perms )
 		kproc << "--use-compress-program="+getUnCompressor() << "-xvpf";
 	else
 		kproc << "--use-compress-program="+getUnCompressor() << "-xvf";
 
-	kproc << archname << "-C" << dest << name;
+	kproc << m_filename << "-C" << dest << name;
 	if( kproc.start(KProcess::Block) == false )
 	{
 		cerr << "Can't start a kprocess." << endl;
@@ -326,12 +383,18 @@ QString TarArch::unarchFile( int index, QString dest )
 	return fullname;
 }
 
+void TarArch::deleteSelectedFiles()
+{
+	QMessageBox::warning(0, "ark", "Sorry, not implemented yet !");
+}
+
+#if 0
 /* untested */
 void TarArch::deleteFile( int indx )
 {
 	cout << "Entered deleteFile" << endl;
 	QString name, tmp;
-	QString tar_exe = data->getTarCommand();	
+	QString tar_exe = m_data->getTarCommand();	
 	
 	createTmp();
 	
@@ -344,6 +407,7 @@ void TarArch::deleteFile( int indx )
 	updateArch();
 	cout << "Left deleteFile" << endl;
 }
+#endif
 
 void TarArch::updateExtractProgress( KProcess *, char *buffer, int bufflen )
 {
@@ -447,7 +511,7 @@ void TarArch::updateFinished( KProcess * )
 
 
     fd = fopen( tmpfile, "r" );
-    fd2 = fopen( archname, "w" );
+    fd2 = fopen( m_filename, "w" );
 		
     while( (size = fread( buffer, 1, 4096, fd )) )
         fwrite(buffer, size, 1, fd2);
@@ -458,7 +522,7 @@ void TarArch::updateFinished( KProcess * )
 //    if( !retcode )
 //    {
 //        listing->clear();
-//        openArch( archname );
+//        openArch( m_filename );
 //    }
 
     cout << "Update finished" << endl;

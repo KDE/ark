@@ -1,5 +1,6 @@
 /*
 
+
  $Id$
 
  ark -- archiver for the KDE project
@@ -25,21 +26,20 @@
 
 */
 
-#include "iostream.h"
-
 // Qt includes
 #include <qbuttongroup.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qlineedit.h>
+#include <qmessagebox.h>
 #include <qpushbutton.h>
-#include <qradiobutton.h>
 #include <qstring.h>
 
 // KDE includes
 #include <kapp.h>
 #include <kconfig.h>
+#include <kdebug.h>
 #include <kdir.h>
 #include <kdirlistbox.h>
 #include <klocale.h>
@@ -52,36 +52,29 @@
 #include "zipExtractDlg.moc"
 
 
-ZipExtractDlg::ZipExtractDlg( QString dirName, QWidget *parent, const char *name )
-	: KFileBaseDialog( dirName, QString::null, parent, name, true, false )
+ZipExtractDlg::ZipExtractDlg( ArkData *_d, bool _selection, QString _dir, QWidget *_parent, const char *_name )
+	: KFileBaseDialog( _dir, QString::null, _parent, _name, true, false )
 {
+	m_data = _d;
+	m_selection = _selection;
 	boxLayout = 0;
 	lafBox = 0;
-	cerr << "before init()\n";
 	init();	
-	cerr << "after init()\n";
 }
 
 void ZipExtractDlg::initGUI()
 {
-    cerr << "Entered initGUI()\n";
+	kdebug(0, 1601, "+initGUI");
 
 	setCaption( i18n("Extract to...") );
 	
 	QVBoxLayout *mainLayout = new QVBoxLayout(this, 5);
 
         toolbar->setItemEnabled(1009, false);
-//	toolbar->setFixedHeight( toolbar->height() );
-//	toolbar->setMinimumWidth( toolbar->width() );
-//	mainLayout->addSpacing(toolbar->height());
-//	mainLayout->addSpacing( 5 );
 
 	mainLayout->addWidget(toolbar);
         mainLayout->addWidget(fileList->widget(), 4);
         mainLayout->addSpacing(3);
-
-//	fileList->widget()->setMinimumHeight( 200 );
-//	mainLayout->addWidget(fileList->widget(), 4);
 
 	mainLayout->addSpacing( 10 );
 
@@ -99,6 +92,7 @@ void ZipExtractDlg::initGUI()
 	hbl1->addLayout( vbl1 );
 	QPushButton *bExtract = new QPushButton( i18n("Extract"), this );
 	bExtract->setFixedSize( bExtract->sizeHint() );
+	connect(bExtract, SIGNAL(clicked()), SLOT(onExtract()));
 	vbl1->addWidget( bExtract );
 	locationLabel->setFixedHeight( bExtract->sizeHint().height() );
 	locationEdit->setFixedHeight( bExtract->sizeHint().height() );
@@ -121,18 +115,19 @@ void ZipExtractDlg::initGUI()
 	QVBoxLayout *vblg1 = new QVBoxLayout( bg1, 10 );
 	vblg1->addSpacing( 10 );
 	
-	QRadioButton *r1 = new QRadioButton( i18n("Selected files"), bg1 );
+	r1 = new QRadioButton( i18n("Selected files"), bg1 );
 	r1->setFixedSize( r1->sizeHint() );
-	r1->setEnabled( false );
+	r1->setEnabled( m_selection );
 	vblg1->addWidget( r1, 0, AlignLeft );
 	
-	QRadioButton *r2 = new QRadioButton( i18n("All files"), bg1 );
+	r2 = new QRadioButton( i18n("All files"), bg1 );
 	r2->setFixedSize( r2->sizeHint() );
 	r2->setChecked( true );
 	vblg1->addWidget( r2, 0, AlignLeft );
 	
-	QRadioButton *r3 = new QRadioButton( i18n("Files: "), bg1 );
+	r3 = new QRadioButton( i18n("Files: "), bg1 );
 	r3->setFixedSize( r3->sizeHint() );
+	r3->setEnabled( false );
 	QHBoxLayout *hblg1 = new QHBoxLayout();
 	vblg1->addLayout( hblg1 );
 	
@@ -152,19 +147,21 @@ void ZipExtractDlg::initGUI()
 	QVBoxLayout *vblg2 = new QVBoxLayout( bg2, 10 );
 	vblg2->addSpacing( 10 );
 	
-	QCheckBox *r4 = new QCheckBox( i18n("Overwrite existing files"), bg2 );
+	r4 = new QCheckBox( i18n("Overwrite existing files"), bg2 );
 	r4->setFixedSize( r4->sizeHint() );
+	r4->setChecked( m_data->getZipExtractOverwrite() );
 	vblg2->addWidget( r4, 0, AlignLeft );
 	
-	QCheckBox *r5 = new QCheckBox( i18n("Junk paths"), bg2 );
+	r5 = new QCheckBox( i18n("Junk paths"), bg2 );
 	r5->setFixedSize( r5->sizeHint() );
+	r5->setChecked( m_data->getZipExtractJunkPaths() );
 	vblg2->addWidget( r5, 0, AlignLeft );
 	
-	QCheckBox *r6 = new QCheckBox( i18n("Restore UID/GID"), bg2 );
+	r6 = new QCheckBox( i18n("Make (some) names lowercase"), bg2 );
 	r6->setFixedSize( r6->sizeHint() );
+	r6->setChecked( m_data->getZipExtractLowerCase() );
 	vblg2->addWidget( r6, 0, AlignLeft );
 	
-
 	if ( myStatusLine )
 		mainLayout->addWidget( myStatusLine, 0 );
 
@@ -174,22 +171,12 @@ void ZipExtractDlg::initGUI()
 	mainLayout->activate();
 
 	resize( minimumSize() );
-//	setFixedWidth( width() );
-
-cerr << "p1\n";
-cerr << toolbar->height() << "\n";
-cerr << toolbar->width() << "\n";
-cerr << "p1\n";
-cerr << fileList->widget()->height() << "\n";
-cerr << fileList->widget()->width() << "\n";
-cerr << fileList->widget()->sizeHint().height() << "\n";
-cerr << fileList->widget()->sizeHint().width() << "\n";
 
 	fileList->connectDirSelected(this, SLOT(dirActivated(KFileInfo*)));
 	fileList->connectFileSelected(this, SLOT(fileActivated(KFileInfo*)));
 	fileList->connectFileHighlighted(this, SLOT(fileHighlighted(KFileInfo*)));
 
-	cerr << "Exited initGUI()\n";
+	kdebug(0, 1601, "-initGUI");
 }
 
 bool ZipExtractDlg::getShowFilter()
@@ -201,5 +188,56 @@ KFileInfoContents* ZipExtractDlg::initFileList( QWidget *parent )
 {
 	bool useSingleClick = kapp->getConfig()->readBoolEntry("SingleClick", true);
 	return new KDirListBox( useSingleClick, dir->sorting(), parent, "_dirs" );
+}
+
+bool ZipExtractDlg::lowerCase()
+{
+	return r6->isChecked();
+}
+
+bool ZipExtractDlg::overwrite()
+{
+	return r4->isChecked();
+}
+
+bool ZipExtractDlg::junkPaths()
+{
+	return r5->isChecked();
+}
+
+int ZipExtractDlg::selection()
+{
+	if( r1->isChecked() )
+		return Selection;
+	else if(r2->isChecked() )
+		return All;
+	else
+		return Pattern;
+}
+
+void ZipExtractDlg::onExtract()
+{
+	QString dest = locationEdit->currentText();
+	
+	if( dest.isEmpty() ){
+		QMessageBox::warning(this, "ark", "Destination is empty");
+	}
+	else{
+		kdebug(0, 1601, "ZipExtractDlg::onExtract: Destination is %s", dest.ascii());
+		saveConfig();
+		accept();	
+	}
+}
+
+QString ZipExtractDlg::getDestination() const
+{
+	return locationEdit->currentText();
+}
+
+void ZipExtractDlg::saveConfig()
+{
+	m_data->setZipExtractOverwrite( r4->isChecked() );	
+	m_data->setZipExtractJunkPaths( r5->isChecked() );	
+	m_data->setZipExtractLowerCase( r6->isChecked() );	
 }
 

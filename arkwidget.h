@@ -37,7 +37,12 @@ public:
 	ArkWidget( QWidget *parent=0, const char *name=0 );
 	~ArkWidget();
 
-public slots:
+public:
+	void open_fail();
+	void open_ok( QString );
+	void showZip( QString name );
+	
+protected slots:
 	void doPopup( QListViewItem *item );
 	
 	void file_new();
@@ -52,6 +57,7 @@ public slots:
 	void edit_view();
 	void edit_delete();
 	void edit_extract();
+	void edit_view_last_shell_output();
 	void edit_select();
 	void edit_selectAll();
 	void edit_deselectAll();
@@ -60,15 +66,13 @@ public slots:
 	void options_dirs();
 	void options_keys();
 	void options_general();
-	void testdlg();
 	void options_saveOnExit();
 	void options_saveNow();
 
 	void help();
 			
 	void showFavorite();
-	void showZip( QString name );
-	void timeout();
+	void slotStatusBarTimeout();
 		
 protected:
 	static QList<ArkWidget> *windowList;
@@ -77,27 +81,36 @@ protected:
         // DND
         void dragEnterEvent(QDragEnterEvent* event);
         void dropEvent(QDropEvent* event);
+
+        void createStandardEditMenu( bool );
+        void createArchiveEditMenu();
+        
 private:
 	enum ArchType{ TAR_FORMAT, ZIP_FORMAT, AA_FORMAT, LHA_FORMAT };
 
 	Arch *arch;
+public:
 	FileListView *archiveContent;
+
+private:
 	QStrList *listing;
-	QString tmpdir;
 	bool contextRow;
 	KPopupMenu *pop;
-	ArkData *data;
+	ArkData *m_data;
 	QTimer *statusBarTimer;
 	KAccel *accelerators;
 
 	QPopupMenu *editMenu, *optionsMenu, *recentPopup;
 	int idExtract, idDelete, idAdd, idView;
 	int idSelect, idSelectAll, idDeselectAll, idInvertSel;
-	int idSaveOnExit;
+	int idShellOutput, idSaveOnExit;
 
         bool archiverMode;
 
-	void writeStatus(const QString text);
+	void writeStatusMsg(const QString text);
+	void clearStatusBar();
+	
+protected:	
 	void clearCurrentArchive();
 	
 	void arkWarning(const QString& msg);

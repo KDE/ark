@@ -1,6 +1,6 @@
 /*
 
- $Id $
+ $Id$
 
  ark -- archiver for the KDE project
 
@@ -25,51 +25,47 @@
 
 */
 
-
-#ifndef ARCH_H
-#define ARCH_H
-
 // Qt includes
-#include <qstring.h>
+#include <qpushbutton.h>
+#include <qlabel.h>
+#include <qlayout.h>
+
+// KDE includes
+#include <klocale.h>
 
 // ark includes
-#include "arkdata.h"
-#include "filelistview.h"
+#include "waitDlg.h"
+#include "waitDlg.moc"
 
-class ArkWidget;
 
-class Arch
+WaitDlg::WaitDlg( QWidget *_parent, const char *_name, bool _modal, WFlags _f )
+	: QDialog( _parent, _name, _modal, _f )
 {
+	setCaption( i18n("ark - Extracting...") );
+	QVBoxLayout *mainLayout = new QVBoxLayout( this, 10 );
 
-public:
-	virtual ~Arch() {};
-//	virtual unsigned char setOptions( bool p, bool l, bool o ) = 0;
-	virtual void openArch( QString ) = 0;
-	virtual void createArch( QString ) = 0;
-	virtual int addFile( QStrList *) = 0;
-	virtual void extraction() = 0;
-	virtual QString unarchFile( int , QString ) = 0;
-	virtual void deleteSelectedFiles() = 0;
-	virtual int getEditFlag() = 0;
-	
-	enum EditProperties{
-		Add = 1,
-		Delete = 2,
-		Extract = 4,
-		View = 8,
-		Integrity = 16
-	};
+	QLabel *l1 = new QLabel( i18n("Please wait..."), this );
+	l1->setFixedSize( l1->sizeHint() );
+	mainLayout->addWidget( l1 );
 
-protected:
-	QString m_filename;
-	QString m_shellErrorData;
-	char m_buffer[1024];
-	
-	ArkData *m_data;
-	ArkWidget *m_arkwidget;
-	FileListView *m_flw;
-	
-	void showError();
-};
+	QPushButton *cancel = new QPushButton( i18n("Cancel"), this );
+	cancel->setFixedSize( cancel->sizeHint() );
+	connect( cancel, SIGNAL( clicked() ), SLOT( onCancel() ) );
+	mainLayout->addWidget( cancel );
 
-#endif /* ARCH_H */
+	mainLayout->activate();
+	setFixedSize( sizeHint() );
+}
+
+
+void WaitDlg::onCancel()
+{
+	emit( dialogClosed() );
+	reject();
+}
+
+void WaitDlg::close()
+{
+	reject();
+}
+

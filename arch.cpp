@@ -26,50 +26,13 @@
 */
 
 
-#ifndef ARCH_H
-#define ARCH_H
-
-// Qt includes
-#include <qstring.h>
-
 // ark includes
-#include "arkdata.h"
-#include "filelistview.h"
+#include "arch.h"
 
-class ArkWidget;
-
-class Arch
+void Arch::showError()
 {
+	//TODO: implement me !
+}
 
-public:
-	virtual ~Arch() {};
-//	virtual unsigned char setOptions( bool p, bool l, bool o ) = 0;
-	virtual void openArch( QString ) = 0;
-	virtual void createArch( QString ) = 0;
-	virtual int addFile( QStrList *) = 0;
-	virtual void extraction() = 0;
-	virtual QString unarchFile( int , QString ) = 0;
-	virtual void deleteSelectedFiles() = 0;
-	virtual int getEditFlag() = 0;
-	
-	enum EditProperties{
-		Add = 1,
-		Delete = 2,
-		Extract = 4,
-		View = 8,
-		Integrity = 16
-	};
 
-protected:
-	QString m_filename;
-	QString m_shellErrorData;
-	char m_buffer[1024];
-	
-	ArkData *m_data;
-	ArkWidget *m_arkwidget;
-	FileListView *m_flw;
-	
-	void showError();
-};
 
-#endif /* ARCH_H */

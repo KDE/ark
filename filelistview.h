@@ -2,7 +2,7 @@
 #define FILELISTVIEW_H
 
 #include <qlistview.h>
-#include <qstrlist.h>
+#include <qstringlist.h>
 #include <qwidget.h>
 
 class FileLVI : public QListViewItem
@@ -23,8 +23,10 @@ public:
 	FileListView(QWidget* parent = 0, const char* name = 0);
 	~FileListView();
 
-	QStrList * selectedFilenames() const;
-
+	QStringList * selectedFilenames() const;
+	uint count();
+	bool isSelectionEmpty();
+	
 public slots:
 
 

@@ -5,6 +5,7 @@
 
 // Qt includes
 #include <qdir.h>
+#include <qobject.h>
 #include <qstring.h>
 #include <qstrlist.h>
 
@@ -13,7 +14,9 @@
 #include "arkprocess.h"
 #include "filelistview.h"
 
-class TarArch : public Arch {
+class ArkWidget;
+
+class TarArch : public QObject, public Arch {
 
 Q_OBJECT
 
@@ -26,17 +29,18 @@ public slots:
 	void extractFinished( KProcess * );
 
 public:
-	TarArch( ArkData *d );
+	TarArch( ArkData*, ArkWidget*, FileListView* );
 	virtual ~TarArch();
-	virtual unsigned char setOptions( bool p, bool l, bool o );
-	virtual void openArch( QString, FileListView *flw );
+	/*virtual*/ unsigned char setOptions( bool p, bool l, bool o );
+	virtual void openArch( QString );
 	virtual void createArch( QString );
 	virtual int addFile( QStrList *);
 	virtual void extractTo( QString );
 	virtual void extraction();
-	virtual const QStrList *getListing();
+	const QStrList *getListing();
 	virtual QString unarchFile( int, QString );
-	virtual void deleteFile( int );
+	virtual void deleteSelectedFiles();
+	virtual int getEditFlag();
 	QString getCompressor();
 	QString getUnCompressor();
 
@@ -45,7 +49,8 @@ private:
 	QStrList     *listing;
 	QString       tmpfile;
 	bool          compressed;
-	ArkData      *data;
+	ArkData *m_data;
+	ArkWidget *m_arkwidget;
 	ArkProcess    archProcess;
 	KProcess      kproc;
 	FileListView *destination_flw;

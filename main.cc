@@ -33,7 +33,7 @@
 
 // KDE includes
 #include <kapp.h>
-#include <kcontrol.h>
+// #include <kcontrol.h>
 #include <kwm.h>
 
 

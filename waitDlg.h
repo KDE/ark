@@ -1,6 +1,6 @@
 /*
 
- $Id $
+ $Id$
 
  ark -- archiver for the KDE project
 
@@ -25,51 +25,25 @@
 
 */
 
-
-#ifndef ARCH_H
-#define ARCH_H
+#ifndef WAIT_DLG_H
+#define WAIT_DLG_H
 
 // Qt includes
-#include <qstring.h>
+#include <qdialog.h>
 
-// ark includes
-#include "arkdata.h"
-#include "filelistview.h"
 
-class ArkWidget;
-
-class Arch
-{
-
+class WaitDlg : public QDialog {
+	Q_OBJECT
 public:
-	virtual ~Arch() {};
-//	virtual unsigned char setOptions( bool p, bool l, bool o ) = 0;
-	virtual void openArch( QString ) = 0;
-	virtual void createArch( QString ) = 0;
-	virtual int addFile( QStrList *) = 0;
-	virtual void extraction() = 0;
-	virtual QString unarchFile( int , QString ) = 0;
-	virtual void deleteSelectedFiles() = 0;
-	virtual int getEditFlag() = 0;
+	WaitDlg( QWidget *_parent=0, const char *_name=0, bool _modal=false, WFlags _f=0 );
+	void close();
 	
-	enum EditProperties{
-		Add = 1,
-		Delete = 2,
-		Extract = 4,
-		View = 8,
-		Integrity = 16
-	};
-
-protected:
-	QString m_filename;
-	QString m_shellErrorData;
-	char m_buffer[1024];
+private slots:
+	void onCancel();
 	
-	ArkData *m_data;
-	ArkWidget *m_arkwidget;
-	FileListView *m_flw;
-	
-	void showError();
+signals:	
+	void dialogClosed();
 };
 
-#endif /* ARCH_H */
+#endif /* WAIT_DLG_H */
+

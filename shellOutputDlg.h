@@ -1,6 +1,6 @@
 /*
 
- $Id $
+ $Id$
 
  ark -- archiver for the KDE project
 
@@ -25,55 +25,31 @@
 
 */
 
-#ifndef ZIP_EXTRACT_DLG_H
-#define ZIP_EXTRACT_DLG_H
+#ifndef SHELL_OUTPUT_DLG_H
+#define SHELL_OUTPUT_DLG_H
 
 // Qt includes
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qwidget.h>
-
-// KDE includes
-#include <kfiledialog.h>
+#include <qdialog.h>
+#include <qmultilineedit.h>
 
 // ark includes
 #include "arkdata.h"
 
 
-class ZipExtractDlg : public KFileBaseDialog {
-	Q_OBJECT
+class ShellOutputWidget : public QMultiLineEdit {
 public:
-	ZipExtractDlg( ArkData*, bool, QString, QWidget *parent=0, const char *name=0 );
-	
-	bool overwrite();
-	bool lowerCase();
-	bool junkPaths();
-	
-	QString getDestination() const;
-	
-	enum selectionType{ All, Selection, Pattern };
-	int selection();
-		
-protected:
-	QVBoxLayout *boxLayout;
-	QGridLayout *lafBox;
-	QRadioButton *r1, *r2, *r3;
-	QCheckBox *r4, *r5, *r6;
-	
-	bool m_selection;
-	
-	virtual void initGUI();
-	virtual bool getShowFilter();
-	virtual KFileInfoContents *initFileList( QWidget *parent );
-	virtual QWidget *swallower() { return this; }
-	
-	void saveConfig();
-	
-	ArkData *m_data;
-	
-protected slots:
-	void onExtract();	
+	ShellOutputWidget( QDialog* _d ) : QMultiLineEdit( _d ) 
+		{ setNumCols(80); };
 };
 
-#endif /* ZIP_EXTRACT_DLG_H */
+
+
+class ShellOutputDlg : public QDialog {
+	Q_OBJECT
+public:
+	ShellOutputDlg( ArkData *, QWidget *parent=0, const char *name=0 );
+	
+};
+
+#endif /* SHELL_OUTPUT_DLG_H */
 

@@ -5,7 +5,7 @@
 // Qt includes
 #include <qheader.h>
 #include <qpixmap.h>
-#include <qstrlist.h>
+#include <qstringlist.h>
 
 // KDE includes
 #include <klocale.h>
@@ -49,19 +49,45 @@ void FileListView::setSorting(int column, bool inc)
 	QListView::setSorting(sortColumn, increasing);
 }
 
-QStrList * FileListView::selectedFilenames() const
+QStringList * FileListView::selectedFilenames() const
 {
-	QStrList *files;
-
+	QStringList *files = new QStringList;
+	
 	FileLVI * flvi = (FileLVI*)firstChild();
 
 	while (flvi)
 	{
 		if( isSelected(flvi) )
-			files->insert(0, flvi->text(0));
+			files->append(flvi->text(0));
 		flvi = (FileLVI*)flvi->itemBelow();
 	}
 	return files;
 }
 
+uint FileListView::count()
+{
+	uint c = 0;
 
+	FileLVI * flvi = (FileLVI*)firstChild();
+
+	while (flvi)
+	{
+		c++;
+		flvi = (FileLVI*)flvi->itemBelow();
+	}
+	return c;
+}
+
+bool FileListView::isSelectionEmpty()
+{
+	FileLVI * flvi = (FileLVI*)firstChild();
+
+	while (flvi)
+	{
+		if( flvi->isSelected() )
+			return false;
+		else
+		flvi = (FileLVI*)flvi->itemBelow();
+	}
+	return true;
+}
