@@ -1,5 +1,8 @@
           $Id$
 
+2001-10-24: Roberto Selbach Teixeira <maragato@kde.org>
+	* Renamed all .cc files to .cpp to make things more logic.
+
 2001-06-23: Roberto Selbach Teixeira <maragato@kde.org>
 	* Fixed a bug in tar addition with non-compressed tar archives
 	

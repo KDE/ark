@@ -8,11 +8,11 @@ SUBDIRS = pics
 bin_PROGRAMS = 	ark
 
 # Kpart sources 
-libark_la_SOURCES= arkapp.cpp extractdlg.cc dirDlg.cpp arkwidget.cc \
-		main.cc zip.cc tar.cc filelistview.cpp arch.cpp \
-		selectDlg.cpp adddlg.cc lha.cc \
+libark_la_SOURCES= arkapp.cpp extractdlg.cpp dirDlg.cpp arkwidget.cpp \
+		main.cpp zip.cpp tar.cpp filelistview.cpp arch.cpp \
+		selectDlg.cpp adddlg.cpp lha.cpp \
 		waitDlg.cpp shellOutputDlg.cpp arksettings.cpp \
-		compressedfile.cc zoo.cc rar.cc ar.cc generalOptDlg.cpp \
+		compressedfile.cpp zoo.cpp rar.cpp ar.cpp generalOptDlg.cpp \
 		ark_part.cpp arkwidgetpart.cpp arkwidgetbase.cpp kdirselectdialog.cpp \
 		kdirselect.cpp
 
@@ -23,7 +23,7 @@ libark_la_LDFLAGS = $(all_libraries) -version-info 1:0:0 -module $(LIB_KIO)
 libark_la_LIBADD   = $(LIB_KFILE) -lkparts
 
 # Which sources should be compiled for ark.
-ark_SOURCES    = main.cc
+ark_SOURCES    = main.cpp
 
 # the library search path
 ark_LDFLAGS = $(KDE_RPATH)
@@ -47,7 +47,7 @@ rcdir = $(kde_datadir)/ark
 rc_DATA = arkui.rc ark_part.rc
 
 messages: rc.cpp
-	$(XGETTEXT) *.cpp *.cc -o $(podir)/ark.pot
+	$(XGETTEXT) *.cpp -o $(podir)/ark.pot
 
 KDE_ICON = ark
 
