@@ -46,7 +46,6 @@ class KConfig;
 class KURL;
 class KAction;
 class KRecentFilesAction;
-class KToggleAction;
 class KRun;
 class KTempFile;
 
@@ -75,7 +74,6 @@ public slots:
     void slotSetStatusBarSelectedFiles( const QString & text );
     void slotSetStatusBarText(  const QString & text );
 
-    void toggleStatusBar();
     void editToolbars();
     void window_close();
     void file_quit();
@@ -119,7 +117,6 @@ private: // data
     KAction *reloadAction;
     KAction *saveAsAction;
     KRecentFilesAction *recent;
-    KToggleAction *statusbarAction;
 };
 
 #endif /* ARKTOPLEVELWINDOW_H*/

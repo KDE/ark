@@ -117,7 +117,8 @@ void ArkTopLevelWindow::setupActions()
     recent->loadEntries(kc);
 
     KStdAction::quit(this, SLOT(window_close()), actionCollection());
-    statusbarAction = KStdAction::showStatusbar(this, SLOT(toggleStatusBar()), actionCollection());
+    createStandardStatusBarAction();
+    setStandardToolBarMenuEnabled(true);
     KStdAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
     KStdAction::keyBindings(this, SLOT( slotConfigureKeyBindings()), actionCollection());
     KStdAction::saveOptions(this, SLOT(slotSaveOptions()), actionCollection());
@@ -215,18 +216,6 @@ void ArkTopLevelWindow::slotSaveOptions()
 void ArkTopLevelWindow::slotArchivePopup( const QPoint &pPoint)
 {
     static_cast<KPopupMenu *>(factory()->container("archive_popup", this))->popup(pPoint);
-}
-
-void ArkTopLevelWindow::toggleStatusBar()
-{
-    if ( statusbarAction->isChecked() )
-    {
-        statusBar()->show();
-    }
-    else
-    {
-        statusBar()->hide();
-    }
 }
 
 // see if the ark is already open in another window
