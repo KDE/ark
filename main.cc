@@ -34,9 +34,6 @@
 // KDE includes
 #include <kapp.h>
 #include <kwm.h>
-#include <kmimetypes.h>
-#include <kregfactories.h>
-#include <kregistry.h>
 
 
 int main( int argc, char *argv[]  )
