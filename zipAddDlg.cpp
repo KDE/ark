@@ -325,3 +325,4 @@ QString ZipAddDlg::compression()
 		case 5 : return QString("-0"); break;
 	}
 }
+
