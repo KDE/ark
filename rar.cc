@@ -100,15 +100,15 @@ void RarArch::processLine( char *_line )
   // put entire timestamp in columns[3]
 
   QString timestamp;
-  timestamp.sprintf("%s-%s-%s %s", year.utf8().data(), 
+  timestamp.sprintf("%s-%s-%s %s", year.utf8().data(),
 		    columns[8], columns[3], columns[10]);
-  
+
   kdDebug(1601) << "Year is: " << year << "; Month is: " << columns[8] << "; Day is: " << columns[3] << "; Time is: " << columns[10] << endl;
-  
+
   strcpy(columns[3], timestamp.ascii());
 
   kdDebug(1601) << "The actual file is " << filename << endl;
-  
+
   QStringList list;
   list.append(QString::fromLocal8Bit(filename));
   for (int i=0; i<8; i++)
@@ -122,7 +122,7 @@ void RarArch::open()
 {
   kdDebug(1601) << "+RarArch::open" << endl;
   setHeaders();
-  
+
   m_buffer[0] = '\0';
   m_header_removed = false;
   m_finished = false;

@@ -70,7 +70,7 @@ void ZipArch::processLine( char *_line )
   QString year = Utils::fixYear(columns[8]);
 
   kdDebug(1601) << "Year is " << year << endl;
-  QString timestamp = QString::fromLatin1("%s-%s-%s %s")
+  QString timestamp = QString::fromLatin1("%1-%2-%3 %4")
     .arg(year)
     .arg(columns[4])
     .arg(columns[7])
