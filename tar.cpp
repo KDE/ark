@@ -65,10 +65,8 @@
 #include <ktar.h>
 
 // ark includes
-#include "arch.h"
 #include "arkwidgetbase.h"
 #include "arksettings.h"
-#include "arch.h"
 #include "tar.h"
 #include <qfile.h>
 
