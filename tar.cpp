@@ -501,16 +501,18 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
     str = str.right(str.length()-8); // get rid of leading /
     if (!m_settings->getaddPath())
       str = str.right(str.length()-str.findRev('/')-1);
+
+    // find the file entry in the archive listing
+    QString entryTimeStamp = m_gui->getColData(str, col);
+    if (entryTimeStamp.isNull())
+      continue;  // it isn't in there, so skip it.
+
     if (bAddOnlyNew)
     {
       // compare timestamps. If the file to be added is newer, delete the
       // old. Otherwise we aren't adding it anyway, so we can go on to the next
       // file with a "continue".
 
-      // find the file entry in the archive listing
-      QString entryTimeStamp = m_gui->getColData(str, col);
-      if (entryTimeStamp.isNull())
-        continue;  // it isn't in there, so skip it.
       stat(QFile::encodeName(filename), &statbuffer);
       time_t the_mtime = statbuffer.st_mtime;
       struct tm *convertStruct = localtime(&the_mtime);
@@ -543,7 +545,8 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
 
     kdDebug() << "To delete: " << str << endl;
   }
-  remove(&list);
+  if(!list.isEmpty())
+    remove(&list);
 }
 
 
