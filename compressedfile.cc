@@ -284,7 +284,7 @@ void CompressedFile::slotAddDone(KProcess *_kp)
   slotAddExited(_kp);
 }
 
-void CompressedFile::unarchFile(QStringList *_fileList, const QString & _destDir)
+void CompressedFile::unarchFile(QStringList *, const QString & _destDir)
 {
   if (_destDir != m_tmpdir)
     {
@@ -296,7 +296,7 @@ void CompressedFile::unarchFile(QStringList *_fileList, const QString & _destDir
   emit sigExtract(true);    
 }
 
-void CompressedFile::remove(QStringList *list)
+void CompressedFile::remove(QStringList *)
 {
   kdDebug(1601) << "+CompressedFile::remove" << endl;
   unlink(m_tmpfile);
