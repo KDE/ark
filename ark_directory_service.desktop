@@ -4,10 +4,32 @@ ServiceTypes=inode/directory
 Actions=create_targz;create_zip
 
 [Desktop Action create_targz]
-Name=Create gzipped tar archive
+Name=Create gzipped tar Archive
+Name[ca]=Crea arxiu tar gzip
+Name[da]=Lav gzippet tar-arkiv
+Name[de]=gz.tar Archiv erzeugen
+Name[es]=Crear archivos gzip y tar
+Name[fr]=Créer une archive gzip
+Name[hu]=Gzip tar archívum létrehozása
+Name[pt_BR]=Criar arquivo .tar.gz
+Name[ru]=Создать сжатый архив TAR
+Name[sv]=Skapa komprimerat tar-arkiv
+Name[wa]=Fé ene årtchive tar.gz
+Name[xx]=xxCreate gzipped tar archivexx
 Exec=ark -add-to %u %u.tar.gz
 
 [Desktop Action create_zip]
-Name=Create zip archive
+Name=Create zip Archive
+Name[ca]=Crea arxiu zip
+Name[da]=Lav zip-arkiv
+Name[de]=Zip-Archiv erzeugen
+Name[es]=Crear archivos zip
+Name[fr]=Créer une archive zip
+Name[hu]=Zip archívum létrehozása
+Name[pt_BR]=Criar arquivo .zip
+Name[ru]=Создать архив ZIP
+Name[sv]=Skapa zip-arkiv
+Name[wa]=Fé ene årtchive zip
+Name[xx]=xxCreate zip archivexx
 Exec=ark -add-to %u %u.zip
 
