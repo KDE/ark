@@ -195,7 +195,7 @@ void ArkWidget::setupActions()
 			     SLOT(action_delete()),
 			     actionCollection(), "delete");
 
-  selectAllAction = new KAction(i18n("Select All"), "ark_selectall", 0, this,
+  selectAllAction = new KAction(i18n("Select &All"), "ark_selectall", 0, this,
 			     SLOT(edit_selectAll()),
 			     actionCollection(), "select_all");
 
@@ -216,7 +216,7 @@ void ArkWidget::setupActions()
 			   actionCollection(), "popup_menu_open_with");
 
 
-  editAction = new KAction(i18n("&Edit with..."), 0, this,
+  editAction = new KAction(i18n("Edit &with..."), 0, this,
 			   SLOT(action_edit()),
 			   actionCollection(), "edit");
 
@@ -228,14 +228,14 @@ void ArkWidget::setupActions()
 			   SLOT(options_dirs()),
 			   actionCollection(), "settings");
  
-  selectAction =  new KAction(i18n("Select..."), 0, this,
+  selectAction =  new KAction(i18n("&Select..."), 0, this,
 			     SLOT(edit_select()),
 			     actionCollection(), "select");
-  deselectAllAction =  new KAction(i18n("Deselect All"), 0, this,
+  deselectAllAction =  new KAction(i18n("&Deselect All"), 0, this,
 			     SLOT(edit_deselectAll()),
 			     actionCollection(), "deselect_all");
 
-  invertSelectionAction  =  new KAction(i18n("Invert Selection"), 0, this,
+  invertSelectionAction  =  new KAction(i18n("&Invert Selection"), 0, this,
 					SLOT(edit_invertSel()),
 					actionCollection(),
 					"invert_selection");
@@ -561,13 +561,16 @@ QString ArkWidget::getCreateFilename()
   
   if (!strFile.isEmpty())
     {
+      kdDebug(1601) << "Trying to create an archive named " <<
+	strFile.local8Bit() << endl;
+
       while (true)
 	// keep asking for filenames as long as the user doesn't want to 
 	// overwrite existing ones; break if they agree to overwrite
 	// or if the file doesn't already exist. Return if they cancel.
 	// Also check for proper extensions.
 	{
-	  if (stat(strFile, &statbuffer) != -1)  // already exists!
+	  if (stat(strFile.local8Bit(), &statbuffer) != -1)  // already exists!
 	    {
 	      choice =
 		KMessageBox::warningYesNoCancel(0, i18n("Archive already exists. Do you wish to overwrite it?"), i18n("Archive already exists"));
@@ -590,6 +593,27 @@ QString ArkWidget::getCreateFilename()
 		}
 	    }
 	  // if we got here, the file does not already exist.
+	  QString dir = strFile.left(strFile.findRev('/'));
+	  stat(dir.local8Bit(), &statbuffer);
+	  unsigned int nFlag = 0;
+	  if (geteuid() == statbuffer.st_uid)
+	    {
+	      nFlag = S_IWUSR; // it's mine
+	    }
+	  else if (getegid() == statbuffer.st_gid)
+	    {
+	      nFlag = S_IWGRP; // it's my group's
+	    }
+	  else
+	    {
+	      nFlag = S_IWOTH;  // it's someone else's
+	    }
+	  if (! ((statbuffer.st_mode & nFlag) == nFlag))
+	    {
+	      KMessageBox::error(this, i18n("You don't have permission to write to the directory %1").arg(dir.local8Bit()));
+	      return "";
+	    }
+	  // if we made it here, it's a go.
 	  if (! strFile.contains('.'))
 	    {
 	      // if the filename has no dot in it, ask should we append ".zip"?
@@ -2009,6 +2033,9 @@ bool ArkWidget::badBzipName(const QString & _filename)
 
 void ArkWidget::createArchive( const QString & _filename )
 {
+
+  // make sure we can write there
+
   Arch * newArch = 0;
   switch( getArchType( _filename ) )
     {
