@@ -234,8 +234,6 @@ void ArkWidget::setupActions()
   KConfig *kc = m_settings->getKConfig();
   recent->loadEntries(kc);
 
-  (void)KStdAction::keyBindings();
-
   shellOutputAction  = new KAction(i18n("&View Shell Output"), 0, this,
                                    SLOT(edit_view_last_shell_output()),
                                    actionCollection(), "shell_output");
