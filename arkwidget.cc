@@ -30,10 +30,12 @@
 #include "errors.h"
 #include "arkwidget.moc"
 
+#include "kwm.h"
+
 QList<ArkWidget> *ArkWidget::windowList = 0;
 
 ArkWidget::ArkWidget( QWidget *, const char *name )
-	: KTopLevelWidget( name )
+	: KTMainWindow( name )
 {
 	KConfig *config;
 	
@@ -492,6 +494,18 @@ void ArkWidget::help()
 
 void ArkWidget::quit()	
 {
+	KConfig *config;
+	
+	config = kapp->getConfig();
+        config->setGroup("ark");
+
+	if( KWM::isMaximized(this->winId()) ){
+		config->writeEntry( "MaxMode", KWM::maximizeMode(this->winId()) );	
+	}
+	else{
+		config->writeEntry( "MaxMode", -1 );	
+	}
+
 	QString ex( "rm -rf "+tmpdir );
 	system( ex );
 	delete this;
@@ -533,15 +547,18 @@ void ArkWidget::showFile( int index, int col )
 	}
 }
 
+/*
 void ArkWidget::resizeEvent( QResizeEvent *re )
 {
 	int col = lb->numCols()-1;
 	int colpos;
 	KTopLevelWidget::resizeEvent( re );
+	::resizeEvent( re );
 	lb->resize( lb->width(), lb->height() );
 	if( lb->colXPos( col, &colpos ) )
 		lb->setColumnWidth( col, ((this->width())-colpos) );
 }
+*/
 
 void ArkWidget::extractFile()
 {

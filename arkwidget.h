@@ -16,7 +16,7 @@
 #include "karchive.h"
 #include "adddlg.h"
 
-class ArkWidget : public KTopLevelWidget {
+class ArkWidget : public KTMainWindow {
 
 Q_OBJECT
 
@@ -51,7 +51,7 @@ public slots:
 	
 protected:
 	static QList<ArkWidget> *windowList;
-	void resizeEvent( QResizeEvent * );
+//	void resizeEvent( QResizeEvent * );  //don't need this, now uses KTMainWindow
 	void closeEvent( QCloseEvent * );
 	virtual void saveProperties( KConfig* );
 	virtual void readProperties( KConfig* );
