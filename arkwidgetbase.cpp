@@ -68,8 +68,8 @@ ArkWidgetBase::~ArkWidgetBase()
 	if(archiveContent) 
 	{
 		// avoid race condition, so that archiveContent isn't used while being deleted
-		archiveContent = NULL;
 		delete archiveContent;
+		archiveContent = NULL;
 	}
 	if(arch) delete arch;
 	if(m_settings) delete m_settings;
