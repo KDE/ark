@@ -1,6 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Service
-Name=Compress/Extract Files
-X-KDE-Library=libarkplugin
-ServiceTypes=KonqPopupMenu/Plugin,all/all

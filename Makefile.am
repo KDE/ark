@@ -1,11 +1,7 @@
 # set the include path for X, qt and KDE
 AM_CPPFLAGS = $(all_includes)
 
-if compile_KONQPLUGIN
-KONQPLUGINDIR = konqplugin
-endif
-
-SUBDIRS = pics $(KONQPLUGINDIR)
+SUBDIRS = pics
 
 # The binary name. Changed from kzip to ark
 bin_PROGRAMS = 
@@ -52,7 +48,7 @@ rcdir = $(kde_datadir)/ark
 rc_DATA = arkui.rc ark_part.rc ark_part_readonly.rc
 
 messages: rc.cpp
-	$(XGETTEXT) *.cpp konqplugin/*.cpp konqplugin/*.h -o $(podir)/ark.pot
+	$(XGETTEXT) *.cpp -o $(podir)/ark.pot
 
 KDE_ICON = ark
 
