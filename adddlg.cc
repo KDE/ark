@@ -8,20 +8,20 @@ See main.cc for license details */
 AddOptionsDlg::AddOptionsDlg( QWidget *parent, char *name )
 	: QDialog( parent, name, TRUE )
 {
-	gb = new QGroupBox( klocale->translate( "Add File Options" ), this );
+	gb = new QGroupBox( i18n( "Add File Options" ), this );
 	gb->setAlignment( AlignLeft );
 
-	ok = new QPushButton( klocale->translate("OK"), this );
+	ok = new QPushButton( i18n("OK"), this );
 	ok->adjustSize();
 	connect( ok, SIGNAL( clicked() ), SLOT( accept() ) );
-	cancel = new QPushButton( klocale->translate("Cancel"), this );
+	cancel = new QPushButton( i18n("Cancel"), this );
 	cancel->adjustSize();
 	connect( cancel, SIGNAL( clicked() ), SLOT( reject() ) );
 
-	fullcb = new QCheckBox( klocale->translate("Store Full Path"), gb );
+	fullcb = new QCheckBox( i18n("Store Full Path"), gb );
 	fullcb->adjustSize();
 	
-	updatecb = new QCheckBox( klocale->translate("Only Add Newer Files") , gb );
+	updatecb = new QCheckBox( i18n("Only Add Newer Files") , gb );
 	updatecb->adjustSize();
 
         setMinimumSize(70+updatecb->width(), 10+20+fullcb->height()+20+updatecb->height()+10+ok->height()+50);

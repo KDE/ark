@@ -40,7 +40,7 @@ noinst_HEADERS = adddlg.h errors.h lha.h zip.h \
 METASOURCES =	adddlg.moc arch.moc extractdlg.moc arkwidget.moc
 
 messages:
-	$(XGETTEXT) -C -ktranslate -ki18n -x $(includedir)/kde.pot $(ark_SOURCES) &&  mv messages.po ../po/ark.pot
+	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(ark_SOURCES) &&  mv messages.po ../po/ark.pot
 
 kde_icon_DATA = ark.xpm
 

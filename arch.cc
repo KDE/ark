@@ -32,7 +32,7 @@ void Arch::newProgressDialog( long int initial, long int max )
 	pd = new QDialog;
 	kp = new KProgress( initial, max, 1, KProgress::Horizontal, pd );
 	kp->setGeometry( 10, 10, 200, 20 );
-	QPushButton *can = new QPushButton( klocale->translate("Cancel"), pd );
+	QPushButton *can = new QPushButton( i18n("Cancel"), pd );
 	can->setGeometry( 75, 35, 60, 30 );
 	connect( can, SIGNAL( clicked() ), this, SLOT( cancel() ) );
 	pd->show();
