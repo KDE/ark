@@ -24,6 +24,8 @@ public:
 	~KZipWidget();
 
 public slots:
+	void doPopup( int, int );
+	void newWindow();
 	void createZip();
 	void fileDrop( KDNDDropZone * );
 	void getAddOptions();
@@ -44,7 +46,9 @@ public slots:
 	void aboutQt();
 	
 protected:
+	static QList<KZipWidget> windowList;
 	void resizeEvent( QResizeEvent * );
+	void closeEvent( QCloseEvent * );
 
 
 private:
@@ -61,6 +65,7 @@ private:
 	QFrame *f_main;
 	KStatusBar *sb;
 	QString tmpdir;
+	KFM *kfm;
 };
 
 #endif /* KZIP_H*/

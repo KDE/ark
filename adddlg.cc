@@ -1,3 +1,5 @@
+/* (c)1997 Robert Palmbos
+See main.cc for license details */
 #include <kapp.h>
 #include <klocale.h>
 #include "adddlg.h"

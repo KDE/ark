@@ -1,3 +1,5 @@
+/* (c)1997 Robert Palmbos
+   See main.cc for license details */
 #include <stdio.h>
 #include <stdlib.h>
 #include <kprogress.h>
@@ -9,7 +11,7 @@
 
 KZipArch::KZipArch()
 {
-	arch = NULL;
+	arch = 0;
 }
 
 KZipArch::~KZipArch()

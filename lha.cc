@@ -1,3 +1,5 @@
+/* (c)1997 Robert Palmbos
+   See main.cc for license details */
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -56,7 +58,7 @@ void LhaArch::openArch( QString file )
 			break;
 		if(i)
 		{
-			if( strstr( line, "----" ) )
+			if( strstr( line, "-----------" ) )
 				break;
 			nl = strstr( line, "\n" );
 			*nl = '\0';
@@ -80,11 +82,11 @@ void LhaArch::openArch( QString file )
 				while( tmp[1]==' ' )
 					strshort( tmp+1, 1 );
 			}
-			while( (tmp = strstr( line, "\a" ))!=NULL )
+			while( (tmp = strstr( line, "\a" ))!=0 )
 				tmp[0] = ' ';
 			listing->append( line );
 		}
-		if( strstr( line, "----" ) )
+		if( strstr( line, "-----------" ) )
 			i=TRUE;
 	}
 	pclose( fd );

@@ -1,3 +1,5 @@
+/* (c)1997 Robert Palmbos
+   See main.cc for license details */
 #include "extractdlg.h"
 #include "extractdlg.moc"
 
@@ -19,6 +21,7 @@ ExtractDlg::ExtractDlg( int eo, QWidget *parent, char *name )
 	le = new QLineEdit( this );
 	le->setGeometry( 30, 40, 200, 20 );
 	le->setText( getenv( "HOME" ) );
+	le->setFocus();
 	
 	QPushButton *pb1 = new QPushButton( klocale->translate("Browse..."), this );
 	pb1->setGeometry( 120, 80, 100, 30 );
@@ -34,7 +37,7 @@ ExtractDlg::ExtractDlg( int eo, QWidget *parent, char *name )
 	cb3->setGeometry( 20, 220, 160, 30 );
 	
 	rb1 = new QRadioButton( klocale->translate("All Files"), gb1 );
-	rb1->setGeometry( 10, 30, 100, 30 );
+	rb1->setGeometry( 10, 25, 100, 30 );
 	
 	rb2 = new QRadioButton( klocale->translate("Selected File"), gb1 );
 	rb2->setGeometry( 10, 50, 100, 30 );
@@ -68,6 +71,7 @@ ExtractDlg::ExtractDlg( int eo, QWidget *parent, char *name )
 
 	QPushButton *pb2 = new QPushButton( klocale->translate("Ok"), this );
 	pb2->setGeometry( 150, 270, 70, 30 );
+	connect( le, SIGNAL( returnPressed() ), SLOT( accept() ) );
 	connect( pb2, SIGNAL( clicked() ), SLOT( accept() ) );
 	
 	QPushButton *pb3 = new QPushButton( klocale->translate("Cancel"), this );
@@ -92,7 +96,8 @@ const char *ExtractDlg::getDest()
 
 bool ExtractDlg::doOverwrite()
 {
-	return cb1->isChecked();
+	//return cb1->isChecked();
+	return FALSE;
 }
 
 bool ExtractDlg::doPreservePerms()

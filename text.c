@@ -2,6 +2,9 @@
 
 These are a few miscellaneous string editing functions.
 
+(C) 1997 Robert Palmbos
+This file is under the GPL.  See main.cc for more.
+
 ************************************************************/
 
 #ifdef C_DEBUG

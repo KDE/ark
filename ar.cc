@@ -1,3 +1,5 @@
+/* (c)1997 Robert Palmbos
+See main.cc for license details */
 #include <iostream.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -5,6 +7,7 @@
 #include <errno.h>
 #include "ar.h"
 #include "text.h"
+#include "errors.h"
 
 ArArch::ArArch()
   : Arch()
@@ -74,7 +77,7 @@ void ArArch::openArch( QString file )
 			while( tmp[1]==' ' )
 				strshort( tmp+1, 1 );
 		}
-		while( (tmp = strstr( line, "\a" ))!=NULL )
+		while( (tmp = strstr( line, "\a" ))!=0 )
 			tmp[0] = ' ';
 		listing->append( line );
 	}
@@ -107,8 +110,9 @@ int ArArch::addFile( QStrList *urls )
 	do
 	{
 		file = url.right( url.length()-5);
-		if( file[file.length()-1]=='/' )
-			file[file.length()-1]='\0';
+		if( file[file.length()-1]=='/' ) {
+			return UNSUPDIR;
+		}
 		if( !storefullpath )
 		{
 			int pos;

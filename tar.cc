@@ -1,3 +1,5 @@
+/* (c)1997 Robert Palmbos
+   See main.cc for license details */
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -93,7 +95,7 @@ void TarArch::openArch( QString name )
 			while( tmp[1]==' ' )
 				strshort( tmp+1, 1 );
 		}
-		while( (tmp = strstr( line, "\a" ))!=NULL )
+		while( (tmp = strstr( line, "\a" ))!=0 )
 			tmp[0] = ' ';
 		listing->append( line );
 	}

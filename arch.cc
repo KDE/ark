@@ -1,10 +1,12 @@
+/* (c)1997 Robert Palmbos
+   See main.cc for license details */
 #include "arch.h"
 #include "arch.moc"
 
 Arch::Arch()
 	: QObject()
 {
-	pd = NULL;
+	pd = 0;
 }
 
 Arch::~Arch()
@@ -24,7 +26,7 @@ void Arch::newProgressDialog( long int initial, long int max )
 	canceled = FALSE;
 	if( (max-initial) < 2 )
 	{
-		kp = NULL;
+		kp = 0;
 		return;
 	}
 	pd = new QDialog;
@@ -39,20 +41,20 @@ void Arch::newProgressDialog( long int initial, long int max )
 
 void Arch::setProgress( long int num_done )
 {
-	if( kp!=NULL )
+	if( kp!=0 )
 		kp->setValue( num_done );
 	kapp->processEvents();
 	if( num_done == total )
 	{
 		delete pd;
-		pd = NULL;
+		pd = 0;
 	}
 }
 
 void Arch::cancel()
 {
 	delete pd;
-	pd = NULL;
+	pd = 0;
 	canceled = TRUE;
 }
 
@@ -79,7 +81,7 @@ void Arch::createArch( QString )
 
 const QStrList *Arch::getListing()
 {
-	return NULL;
+	return 0;
 }
 
 
@@ -102,5 +104,5 @@ void Arch::deleteFile( int )
 
 const char * Arch::getHeaders()
 {
-	return NULL;
+	return 0;
 }

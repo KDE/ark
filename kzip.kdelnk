@@ -1,16 +1,16 @@
 # KDE Config File
 [KDE Desktop Entry]
-Name=Zip
-DocPath=kzip/kzip.html
+Comment[C]=Archive Handling Tool
 BinaryPattern=kzip;
+Name=Zip
 Protocols=file;
-MimeType=application/x-lha;application/x-tar;application/x-zip;
+Name[C]=Zip
+MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-zip;
 Comment=Archive Handling Tool
-Comment[pl]=Program do obs³ugi archiwum
 Exec=kzip -caption %c %f
-Icon=kzip.xpm
 TerminalOptions=
+Icon=kzip.xpm
 Path=
+DocPath=kzip/index.html
 Type=Application
 Terminal=0
-

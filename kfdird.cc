@@ -1,5 +1,8 @@
 /***********************************************************************
- *  This code is part of kfind.  I stole it.
+ *  This code is part of kfind.  
+ *  (c) 1997 Miroslav Flidr
+ *  <flidr@kky.zcu.cz>
+ *  See the kfind package for license details.
  *
  *  KfDirD.cpp
  *

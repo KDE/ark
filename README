@@ -1,5 +1,4 @@
-This is KZip v0.4.  Type 'configure', then 'make', and 'make install'. 
-Please ignore the warnings, they will be dealt with before the next release.
+This is KZip v0.5.  Type 'configure', then 'make', and 'make install'. 
 Use the online help if some things are unclear to you.
 
 
@@ -8,14 +7,14 @@ be fairly usable.
 
 Changes:
 	o Internationalization
-	o Edit...Extract and View work from the archive directory
+	o Edit...Extract and View really do work from the archive directory
 	o kfsstnd compliance
 	o Now uses ktablistbox
-	o no memory leaks!!!
+	o no memory leaks!!! perhaps...
 
 TODO:
 	o make things a little prettier
-	o multiple mainwidgets, ala kpaint
+	o multiple mainwidgets, ala kpaint..done
 	o network transparency
 	o I need a pretty icon for kzip
 
