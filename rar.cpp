@@ -39,7 +39,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kprocess.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 
 // ark includes
 #include <config.h>
@@ -58,13 +58,8 @@ RarArch::RarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
   bool have_rar = !KGlobal::dirs()->findExe( "rar" ).isNull();
   bool have_unrar = !KGlobal::dirs()->findExe( "unrar" ).isNull();
 
-  m_archiver_program = "rar";
-  m_unarchiver_program = "unrar";
-  if( !have_rar && have_unrar )
-	  m_archiver_program = "unrar";
-
-  if( !have_unrar && have_rar )
-      m_unarchiver_program = "rar";
+  m_archiver_program = have_rar ? "rar" : "unrar";
+  m_unarchiver_program = have_unrar ? "unrar" : "rar";
       
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
