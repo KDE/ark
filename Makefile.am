@@ -13,7 +13,7 @@ libark_la_SOURCES= arkapp.cpp extractdlg.cc dirDlg.cpp arkwidget.cc \
 		selectDlg.cpp adddlg.cc lha.cc \
 		waitDlg.cpp shellOutputDlg.cpp arksettings.cpp \
 		compressedfile.cc zoo.cc rar.cc ar.cc generalOptDlg.cpp \
-		ark_part.cpp arkwidgetpart.cpp arkwidgetbase.cpp ktar.cpp kdirselectdialog.cpp \
+		ark_part.cpp arkwidgetpart.cpp arkwidgetbase.cpp kdirselectdialog.cpp \
 		kdirselect.cpp
 
 # KParts
@@ -37,7 +37,7 @@ noinst_HEADERS = dirDlg.h arksettings.h  tar.h zip.h rar.h \
                  extractdlg.h arkwidget.h arch.h zoo.h ar.h \
 		 filelistview.h adddlg.h lha.h compressedfile.h \
 		 selectDlg.h waitDlg.h shellOutputDlg.h generalOptDlg.h \
-		 ark_part.h arkwidgetpart.h arkwidgetbase.h ktar.h kdirselectdialog.h \
+		 ark_part.h arkwidgetpart.h arkwidgetbase.h kdirselectdialog.h \
 		 kdirselect.h
 
 # just to make sure, automake makes them 
@@ -56,3 +56,7 @@ appsdir = $(kde_appsdir)/Utilities
 
 parts_DATA = arkpart.desktop
 partsdir = $(kde_servicesdir)
+
+konqservice_DATA = arkservicemenu.desktop
+konqservicedir = $(kde_datadir)/konqueror/servicemenus
+

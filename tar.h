@@ -36,7 +36,7 @@
 class QString;
 class QStrList;
 class KProcess;
-class KTarDirectory2;
+class KTarDirectory;
 class ArkWidgetBase;
 class ArkSettings;
 class Arch;
@@ -83,7 +83,7 @@ private:  // methods
   void updateArch();
   void createTmp();
   void setHeaders();
-  void processDir(const KTarDirectory2 *tardir, const QString & root);
+  void processDir(const KTarDirectory *tardir, const QString & root);
   void deleteOldFiles(QStringList *list, bool bAddOnlyNew);
   QString getEntry(const QString & filename);
 
