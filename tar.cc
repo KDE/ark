@@ -148,7 +148,7 @@ void TarArch::openArch( QString name )
 
 	while( !feof(fd) )
 	{
-		sscanf(line, " %[-drwxst] %[0-9.a-zA-Z/] %[0-9] %17[a-zA-Z0-9:- ] %[^\n]",
+		sscanf(line, " %[-drwxst] %[0-9.a-zA-Z/_] %[0-9] %17[a-zA-Z0-9:- ] %[^\n]",
 			columns[0], columns[1], columns[2], columns[3],
 			 filename
 			);
