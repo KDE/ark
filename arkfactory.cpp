@@ -34,7 +34,7 @@ extern "C"
     {
         return new ArkFactory;
     }
-};
+}
 
 ArkFactory::~ArkFactory()
 {
