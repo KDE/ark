@@ -11,6 +11,7 @@
  1999: Francois-Xavier Duranceau duranceau@kde.org
  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
+ 2001-2002: Roberto Teixeira <maragato@kde.org>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -55,6 +56,7 @@
 #include <kprocess.h>
 #include <kmainwindow.h>
 #include <kstatusbar.h>
+#include <kfiledialog.h>
 
 // c includes
 
@@ -170,6 +172,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     m_bDropFilesInProgress(false), mpTempFile(NULL),
     mpDownloadedList(NULL), mpAddList(NULL)
 {
+    
     kdDebug(1601) << "+ArkWidget::ArkWidget" << endl;
 
     ArkApplication::getInstance()->addWindow();
@@ -180,6 +183,8 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
     setupStatusBar();
     setupActions();
     createFileListView();
+
+    
     // enable DnD
     setAcceptDrops(true);
     initialEnables();
@@ -1339,8 +1344,11 @@ void ArkWidget::action_add()
     }
   kdDebug(1601) << "Add dir: " << m_settings->getAddDir() << endl;
 
-  AddDlg fileDlg(AddDlg::File, m_settings->getAddDir(), m_settings,
-                 this, "adddlg");
+  //AddDlg fileDlg(AddDlg::File, m_settings->getAddDir(), m_settings,
+  //               this, "adddlg");
+  KFileDialog fileDlg( m_settings->getAddDir(), QString::null, this, "adddlg", true );
+  fileDlg.setMode(KFile::Mode(KFile::Directory | KFile::ExistingOnly));
+  fileDlg.setCaption(i18n("Select Directory to Add"));
 
   if(fileDlg.exec())
   {
@@ -1423,31 +1431,17 @@ void ArkWidget::addFile(QStringList *list)
   arch->addFile(list);
 }
 
-#include "kdirselectdialog.h"
-void ArkWidget::action_add_dir()
-{
-/*  AddDlg dirDlg(AddDlg::Directory, m_settings->getAddDir(), m_settings,
-                this, "adddirdlg");
-
-  if(dirDlg.exec())
-  {
-        QString dirName = dirDlg.getDirectory();
-        if (!dirName.isEmpty())
-        {
-                // fix protocol
-                dirName = "file:" + dirName;
-                disableAll();
-                arch->addDir(dirName);
+void ArkWidget::action_add_dir() {
+        QString dir =
+            KFileDialog::getExistingDirectory( m_settings->getAddDir(),
+                                               this, 
+                                               i18n( "Select a directory to add" ) );
+        if ( !dir.isEmpty() ) {
+            disableAll();
+            KURL u( dir );
+            arch->addDir( u.url() );
         }
-  }                    */
-
-        KURL ourUrl("file:/");
-        ourUrl = KDirSelectDialog::selectDirectory(ourUrl, this);
-        if(!ourUrl.isEmpty())
-        {
-                disableAll();
-                arch->addDir(ourUrl.url());
-        }
+            
 }
 
 void ArkWidget::action_delete()
@@ -1636,6 +1630,8 @@ bool ArkWidget::reportExtractFailures(const QString & _dest,
 
 bool ArkWidget::action_extract()
 {
+    kdDebug(1601) << "+action_extract" << endl;
+    
   ExtractDlg *dlg = new ExtractDlg(m_settings);
 
   // if they choose pattern, we have to tell arkwidget to select

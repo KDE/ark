@@ -33,6 +33,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include <qlabel.h>
 #include <qapplication.h>
 #include <qlayout.h>
+#include <qfileinfo.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -53,7 +54,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #define DLG_NAME i18n( "Extract" )
 
 ExtractDlg::ExtractDlg( ArkSettings *_settings )
-    : KDialogBase( KDialogBase::Plain, DLG_NAME, Ok | Cancel, Ok, this ),
+    : KDialogBase( KDialogBase::Plain, DLG_NAME, Ok | Cancel, Ok ),
 m_settings( _settings )
 {
     QFrame *mainFrame = plainPage();
@@ -186,46 +187,44 @@ void ExtractDlg::disableSelectedFilesOption()
     m_radioAll->setChecked(true);
 }
 
-void ExtractDlg::accept()
-{
+void ExtractDlg::accept() {
+
     kdDebug( 1601 ) << "+ExtractDlg::accept" << endl;
-
+    
     KURLCompletion uc;
-    KURL p = uc.replacedPath(  m_extractDirCB->currentText() );
+    KURL p;
+    p.setPath( uc.replacedPath(  m_extractDirCB->currentText() ) );
 
-    KURIFilterData d = m_extractDirCB->currentText();
-    KURIFilter::self()->filterURI( d );
-
-    if (  d.uriType() == KURIFilterData::NET_PROTOCOL )
-    {
-        KMessageBox::error( this, i18n( "Ark cannot extract files to a remote location. Please provide a local valid directory" ) );
-        return;
-    }
-
-    if ( d.uriType() != KURIFilterData::LOCAL_DIR )
-    {
+    if ( ( !p.isLocalFile() ) ) {
         KMessageBox::error( this, i18n( "Please provide a valid directory" ) );
         return;
     }
 
-    // you need to change the settings to change the fixed dir.
-    m_settings->setLastExtractDir( d.uri().path() );
+    QFileInfo fi( p.path() );
+    if ( !fi.isDir() ) {
+        KMessageBox::error( this, i18n( "Please provide a valid directory" ) );
+        return;        
+    }
 
-    if ( m_radioPattern->isChecked() )
-    {
-        if ( m_patternLE->text().isEmpty() )
-        {
+    if ( !fi.isWritable() ) {
+        KMessageBox::error( this, i18n( "You do not have write permission to this directory! Please provide another directory." ) );
+        return;
+    }
+
+    // you need to change the settings to change the fixed dir.
+    m_settings->setLastExtractDir( p.path() );
+
+    if ( m_radioPattern->isChecked() ) {
+        if ( m_patternLE->text().isEmpty() ) {
             // pattern selected but no pattern? Ask user to select a pattern.
             KMessageBox::error( this,
 				i18n( "Please provide a pattern" ) );
             return;
-        }
-        else
-        {
+        } else {
             emit pattern( m_patternLE->text() );
         }
     }
-
+    
     // I made it! so nothing's wrong.
     KDialogBase::accept();
     kdDebug( 1601 ) << "-ExtractDlg::accept" << endl;

@@ -64,7 +64,8 @@ static KCmdLineOptions option[] =
 int main( int argc, char *argv[]  )
 {
     KAboutData aboutData( "ark", I18N_NOOP( "ark" ),
-                          "v2.1.9", I18N_NOOP("KDE Archiving tool"), KAboutData::License_GPL,
+                          "v2.1.9", I18N_NOOP("KDE Archiving tool"), 
+			  KAboutData::License_GPL,
                           I18N_NOOP( "(c) 1997-2001, The Various Ark Developers" ) );
     aboutData.addAuthor( "Roberto Teixeira", I18N_NOOP( "Current maintainer" ),
                          "maragato@kde.org" );

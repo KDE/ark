@@ -70,15 +70,15 @@ AddDlg::AddDlg(AddTypes type, const QString & _sourceDir, ArkSettings *settings,
 	QWidget *mainWidget = (QWidget *)oList->getFirst();
   delete oList;
 
-	if(0 != layout && 0 != mainWidget)
-	{
-		kdDebug(1601) << "Made it there!" << endl;
-		QPushButton *prefButton = new QPushButton(i18n("&Preferences..."), mainWidget);
-		layout->addWidget(prefButton);
-		connect(prefButton, SIGNAL(clicked()), this, SLOT(openPrefs()));
-	}
-	else
-		Q_ASSERT(0);
+  if ( 0 ) //(0 != layout && 0 != mainWidget)
+      {
+          kdDebug(1601) << "Made it there!" << endl;
+          QPushButton *prefButton = new QPushButton(i18n("&Preferences..."), mainWidget);
+          layout->addWidget(prefButton);
+          connect(prefButton, SIGNAL(clicked()), this, SLOT(openPrefs()));
+      }
+  else
+      Q_ASSERT(0);
 
 }
 
