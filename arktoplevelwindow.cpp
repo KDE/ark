@@ -337,7 +337,7 @@ void
 ArkTopLevelWindow::saveProperties( KConfig* config )
 {
     //TODO: make it work for URLS
-    config->writeEntry( "SMOpenedFile",m_widget->getArchName() );
+    config->writePathEntry( "SMOpenedFile",m_widget->getArchName() );
     config->sync();
 }
 
@@ -345,7 +345,7 @@ ArkTopLevelWindow::saveProperties( KConfig* config )
 void
 ArkTopLevelWindow::readProperties( KConfig* config )
 {
-    QString file = config->readEntry("SMOpenedFile");
+    QString file = config->readPathEntry("SMOpenedFile");
     kdDebug(1601) << "ArkWidget::readProperties( KConfig* config ) file=" << file << endl;
     if ( !file.isEmpty() )
         openURL( file );

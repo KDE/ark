@@ -118,7 +118,7 @@ void ArkSettings::readConfiguration()
 
   kc->setGroup( ARK_GROUP );
 
-  tar_exe = kc->readEntry( TAR_KEY, "tar");
+  tar_exe = kc->readPathEntry( TAR_KEY, "tar");
 #ifdef ARK_SETTINGS_DEBUG
   kdDebug(1601) << "Tar command is " << tar_exe << endl;
 #endif
@@ -147,19 +147,19 @@ void ArkSettings::readDirectories()
 
   kc->setGroup( ARK_GROUP );
 
-  favoriteDir = kc->readEntry( FAVORITE_KEY );
+  favoriteDir = kc->readPathEntry( FAVORITE_KEY );
 
   if( favoriteDir.isEmpty() )
     favoriteDir = getenv( "HOME" );
 
-  startDir = kc->readEntry( START_DIR_KEY );
-  openDir = kc->readEntry( OPEN_DIR_KEY );
-  extractDir = kc->readEntry( EXTRACT_DIR_KEY );
-  addDir = kc->readEntry( ADD_DIR_KEY );
+  startDir = kc->readPathEntry( START_DIR_KEY );
+  openDir = kc->readPathEntry( OPEN_DIR_KEY );
+  extractDir = kc->readPathEntry( EXTRACT_DIR_KEY );
+  addDir = kc->readPathEntry( ADD_DIR_KEY );
 
-  lastOpenDir = kc->readEntry( LAST_OPEN_DIR_KEY );
-  lastExtractDir = kc->readEntry( LAST_EXTRACT_DIR_KEY );
-  lastAddDir = kc->readEntry( LAST_ADD_DIR_KEY );
+  lastOpenDir = kc->readPathEntry( LAST_OPEN_DIR_KEY );
+  lastExtractDir = kc->readPathEntry( LAST_EXTRACT_DIR_KEY );
+  lastAddDir = kc->readPathEntry( LAST_ADD_DIR_KEY );
 
   startDirMode = kc->readNumEntry( START_MODE_KEY, LAST_OPEN_DIR);
   openDirMode = kc->readNumEntry( OPEN_MODE_KEY, LAST_OPEN_DIR);
@@ -326,7 +326,7 @@ void ArkSettings::writeConfigurationNow()
   writeLhaProperties();
 
   kc->setGroup( ARK_GROUP );
-  kc->writeEntry( TAR_KEY, tar_exe );
+  kc->writePathEntry( TAR_KEY, tar_exe );
   kc->writeEntry( SAVE_ON_EXIT_KEY, m_saveOnExit );
   kc->writeEntry(FULLPATHS, fullPath);
 
@@ -345,15 +345,15 @@ void ArkSettings::writeDirectories()
 
   kc->setGroup( ARK_GROUP );
 
-  kc->writeEntry( FAVORITE_KEY, favoriteDir );
+  kc->writePathEntry( FAVORITE_KEY, favoriteDir );
 
-  kc->writeEntry(START_DIR_KEY, startDir);
-  kc->writeEntry(OPEN_DIR_KEY, openDir);
-  kc->writeEntry(EXTRACT_DIR_KEY, extractDir);
-  kc->writeEntry(ADD_DIR_KEY, addDir);
-  kc->writeEntry(LAST_OPEN_DIR_KEY, lastOpenDir);
-  kc->writeEntry(LAST_EXTRACT_DIR_KEY, lastExtractDir);
-  kc->writeEntry(LAST_ADD_DIR_KEY, lastAddDir);
+  kc->writePathEntry(START_DIR_KEY, startDir);
+  kc->writePathEntry(OPEN_DIR_KEY, openDir);
+  kc->writePathEntry(EXTRACT_DIR_KEY, extractDir);
+  kc->writePathEntry(ADD_DIR_KEY, addDir);
+  kc->writePathEntry(LAST_OPEN_DIR_KEY, lastOpenDir);
+  kc->writePathEntry(LAST_EXTRACT_DIR_KEY, lastExtractDir);
+  kc->writePathEntry(LAST_ADD_DIR_KEY, lastAddDir);
 
   kc->writeEntry(START_MODE_KEY, startDirMode);
   kc->writeEntry(OPEN_MODE_KEY, openDirMode);

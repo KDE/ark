@@ -89,7 +89,7 @@ m_settings( _settings )
 	QStringList list;
 
 	config->setGroup( "History" );
-	list = config->readListEntry( "ExtractTo History" );
+	list = config->readPathListEntry( "ExtractTo History" );
 	m_extractDirCB->setHistoryItems( list );
 
 	m_extractDirCB->setEditURL( KURL( m_settings->getExtractDir() ) );
@@ -179,7 +179,7 @@ ExtractDlg::~ExtractDlg()
 	QStringList list;
 	config->setGroup( "History" );
 	list = m_extractDirCB->historyItems();
-	config->writeEntry( "ExtractTo History", list );
+	config->writePathEntry( "ExtractTo History", list );
 }
 
 void
