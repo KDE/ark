@@ -30,11 +30,13 @@
 // QT includes
 #include <qstring.h>
 #include <qpopupmenu.h>
+#include <qtimer.h>
 
 // KDE includes
 #include <kmainwindow.h>
 #include <kparts/mainwindow.h>
 #include <kparts/part.h>
+#include <kprogress.h>
 
 // ark includes
 #include "arkwidget.h"
@@ -89,6 +91,11 @@ private: // methods
     KURL getOpenURL( bool addOnly = false , const QString & caption = QString::null,
                      const QString & startDir = QString::null,
                      const QString & suggestedName = QString::null );
+    
+    void startProgressDialog( const QString & text );
+
+private slots:
+    void slotProgress();                     
 
 private: // data
     KParts::ReadWritePart *m_part;
@@ -99,6 +106,10 @@ private: // data
     KAction *closeAction;
     KAction *reloadAction;
     KRecentFilesAction *recent;
+    
+    //progress dialog for konqs service menus / commmand line
+    KProgressDialog *progressDialog;
+    QTimer *timer;        
 };
 
 #endif /* ARKTOPLEVELWINDOW_H*/

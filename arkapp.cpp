@@ -132,7 +132,6 @@ ArkApplication::newInstance()
         if ( args->count() == 2 )
         {
             ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
-            arkWin->showMinimized();
 
             arkWin->extractTo( args->url( 0 ), args->url( 1 ), args->isSet( "guess-name" ) );
             return 0;
@@ -158,7 +157,6 @@ ArkApplication::newInstance()
                 URLList.append( args->url( c ) );
 
             ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
-            arkWin->showMinimized();
 
             arkWin->addToArchive( URLList, args->cwd(), args->url( args->count()-1 ) );
             return 0;
@@ -182,7 +180,6 @@ ArkApplication::newInstance()
             URLList.append( args->url( c ) );
 
         ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
-        arkWin->showMinimized();
 
         arkWin->addToArchive( URLList, args->cwd(), archiveName, !oneFile );
         return 0;
@@ -203,7 +200,6 @@ ArkApplication::newInstance()
                 URLList.append( args->url( c ) );
 
             ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
-            arkWin->showMinimized();
 
             arkWin->addToArchive( URLList, args->cwd() );
             return 0;

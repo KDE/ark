@@ -44,8 +44,8 @@
 #include "arksettings.h"
 #include "archiveformatinfo.h"
 
-ArkTopLevelWindow::ArkTopLevelWindow( QWidget * /*parent*/, const char *name ) :
-        KParts::MainWindow()
+ArkTopLevelWindow::ArkTopLevelWindow( QWidget * /*parent*/, const char *name )
+	: KParts::MainWindow(), progressDialog( 0 )
 {
     setXMLFile( "arkui.rc" );
     m_part = KParts::ComponentFactory::createPartInstanceFromLibrary<KParts::ReadWritePart>( "libarkpart", this, name, this, "ArkPart");
@@ -101,6 +101,8 @@ ArkTopLevelWindow::~ArkTopLevelWindow()
 {
     ArkApplication::getInstance()->removeWindow();
     delete m_part;
+    delete progressDialog;
+    progressDialog = 0;
 }
 
 void
@@ -397,6 +399,7 @@ ArkTopLevelWindow::setExtractOnly ( bool b )
 void
 ArkTopLevelWindow::extractTo( const KURL & targetDirectory, const KURL & archive, bool guessName )
 {
+    startProgressDialog( i18n( "Extracting..." ) );
     m_widget->extractTo( targetDirectory, archive, guessName );
     m_part->openURL( archive );
 }
@@ -430,6 +433,8 @@ ArkTopLevelWindow::addToArchive( const KURL::List & filesToAdd, const QString & 
         file_quit();
         return;
     }
+    
+    startProgressDialog( i18n( "Compressing..." ) );
 
     bool exists = KIO::NetAccess::exists( archiveFile, false, m_widget );
     kdDebug( 1601 ) << archiveFile << endl;
@@ -437,6 +442,40 @@ ArkTopLevelWindow::addToArchive( const KURL::List & filesToAdd, const QString & 
     if ( exists )
         m_part->openURL( archiveFile );
 }
+
+void
+ArkTopLevelWindow::startProgressDialog( const QString & text )
+{
+    if ( !progressDialog )
+        progressDialog = new KProgressDialog( this, "progress_dialog", QString::null, text, false );
+    else
+        progressDialog->setLabel( text );
+
+//    progressDialog->setWFlags( Qt::WType_TopLevel );
+
+    progressDialog->setAllowCancel( false );    
+    progressDialog->setPlainCaption( i18n( "Please Wait" ) );
+
+    progressDialog->progressBar()->setTotalSteps( 0 );
+    progressDialog->progressBar()->setPercentageVisible( false );
+
+//    progressDialog->setInitialSize( QSize(200,100), true );
+    progressDialog->setMinimumDuration( 500 );
+    progressDialog->show();
+    KDialog::centerOnScreen( progressDialog );
+
+    timer = new QTimer( this );
+    connect( timer, SIGNAL( timeout() ), this, SLOT( slotProgress() ) );
+
+    timer->start( 200, FALSE );
+}
+
+void
+ArkTopLevelWindow::slotProgress()
+{
+    progressDialog->progressBar()->setProgress( progressDialog->progressBar()->progress() + 4 );
+}
+
 
 #include "arktoplevelwindow.moc"
 
