@@ -384,7 +384,7 @@ void ArkWidget::initialEnables()
   popupViewAction->setEnabled(true);
   popupOpenWithAction->setEnabled(true);
   popupEditAction->setEnabled(true);
-  recent->setEnabled(true);
+  //recent->setEnabled(true);
 
   deleteAction->setEnabled(false);
   extractAction->setEnabled(false);

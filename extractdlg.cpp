@@ -100,6 +100,7 @@ m_settings( _settings )
 
     // Connect to the return pressed signal - optional
     connect( m_extractDirCB, SIGNAL( returnPressed( const QString& ) ), comp, SLOT( addItem( const QString& ) ) );
+    connect( m_extractDirCB->lineEdit(),SIGNAL(textChanged ( const QString & )),this,SLOT(extractDirChanged(const QString & )));
 
     QPushButton *browseButton = new QPushButton( mainFrame, "browseButton" );
     browseButton->setText( i18n( "Browse..." ) );
@@ -168,6 +169,7 @@ m_settings( _settings )
     connect(prefButton, SIGNAL(clicked()), this, SLOT(openPrefs()));
 
     connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
+    enableButtonOK(!m_extractDirCB->lineEdit()->text().isEmpty());
 
     kdDebug() << "-ExtractDlg::~ExtractDlg" << endl;
 }
@@ -179,6 +181,11 @@ ExtractDlg::~ExtractDlg()
     config->setGroup( "History" );
     list = m_extractDirCB->historyItems();
     config->writeEntry( "ExtractTo History", list );
+}
+
+void ExtractDlg::extractDirChanged(const QString &text )
+{
+  enableButtonOK(!text.isEmpty());
 }
 
 void ExtractDlg::disableSelectedFilesOption()

@@ -65,7 +65,7 @@ public slots:
   void choosePattern() { m_radioPattern->setChecked(true); }
   void openPrefs();
   void accept();
-
+  void extractDirChanged(const QString & );
 signals:
   // This signal is caught by ArkWidget, which selects all files matching
   // that pattern.
