@@ -50,7 +50,7 @@ public slots:
 	void aboutQt();
 	
 protected:
-	static QList<KZipWidget> windowList;
+	static QList<KZipWidget> *windowList;
 	void resizeEvent( QResizeEvent * );
 	void closeEvent( QCloseEvent * );
 	virtual void saveProperties( KConfig* );

@@ -30,7 +30,7 @@
 #include "errors.h"
 #include "kzip.moc"
 
-QList<KZipWidget> KZipWidget::windowList;
+QList<KZipWidget> *KZipWidget::windowList = 0;
 
 KZipWidget::KZipWidget( QWidget *, const char *name )
 	: KTopLevelWidget( name )
@@ -50,8 +50,11 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 	if( tar_exe.isEmpty() )
 		tar_exe = "tar";
 	
-	windowList.setAutoDelete( FALSE );
-	windowList.append( this );
+	if (!windowList)
+	    windowList = new QList<KZipWidget>();
+
+	windowList->setAutoDelete( FALSE );
+	windowList->append( this );
 
 	QAccel *a = new QAccel( this );
 	//a->connectItem( a->insertItem( CTRL+Key_O ), this, SLOT(openZip()) );
@@ -163,7 +166,7 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 	
 KZipWidget::~KZipWidget()
 {
-	windowList.removeRef( this );
+	windowList->removeRef( this );
 	delete kfm;
 	delete menu;
 	delete sb;
@@ -455,7 +458,7 @@ void KZipWidget::closeEvent( QCloseEvent * )
 
 void KZipWidget::closeZip()
 {
-	if( windowList.count() < 2 )
+	if( windowList->count() < 2 )
 	{
 		KZipWidget::quit();
 	}else
