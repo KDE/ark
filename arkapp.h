@@ -90,8 +90,6 @@ class ArkApplication : public KUniqueApplication
 		// given a QString key, you get an ArkWidget * pointer.
 		QDict<ArkTopLevelWindow>m_windowsHash;
 		
-		bool m_isSessionRestored;
-		
 		static ArkApplication *mInstance; 
 };
 
