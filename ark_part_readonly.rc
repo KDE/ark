@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="ark_kparts" version="6">
+<kpartgui name="ark_kparts" version="7">
 <ActionProperties>
     <Action name="select_all" icon="ark_selectall"/>
 </ActionProperties>
@@ -32,7 +32,6 @@
 </MenuBar>
 <ToolBar name="mainToolBar">
   <Action name="extract"/>
-  <Action name="select_all"/>
   <Action name="view"/>
 </ToolBar>
 <Menu name="file_popup">
