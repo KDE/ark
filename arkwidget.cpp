@@ -113,7 +113,7 @@ Utilities::haveDirPermissions( const QString &strFile )
 	}
 	if (! ((statbuffer.st_mode & nFlag) == nFlag))
 	{
-		KMessageBox::error(0, i18n("You do not have permission to write to the directory %1").arg(dir.local8Bit()));
+		KMessageBox::error(0, i18n("You do not have permission to write to the directory %1").arg(dir));
 		return false;
 	}
 	return true;
@@ -506,11 +506,11 @@ ArkWidget::file_open( const QString & strFile )
 	{
 		if (errno == ENOENT || errno == ENOTDIR || errno ==  EFAULT)
 		{
-			KMessageBox::error(this, i18n("The archive %1 does not exist.").arg(strFile.local8Bit()));
+			KMessageBox::error(this, i18n("The archive %1 does not exist.").arg(strFile));
 		}
 		else if (errno == EACCES)
 		{
-			KMessageBox::error(this, i18n("Cannot access the archive %1").arg(strFile.local8Bit()));
+			KMessageBox::error(this, i18n("Cannot access the archive %1").arg(strFile));
 		}
 		else
 		{

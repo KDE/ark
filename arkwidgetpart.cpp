@@ -158,11 +158,11 @@ ArkWidgetPart::file_open(const QString & strFile, const KURL &fileURL)
 	{
 		if (errno == ENOENT || errno == ENOTDIR || errno ==  EFAULT)
 		{
-			KMessageBox::error(this, i18n("The archive %1 does not exist.").arg(strFile.local8Bit()));
+			KMessageBox::error(this, i18n("The archive %1 does not exist.").arg(strFile));
 		}
 		else if (errno == EACCES )
 		{
-			KMessageBox::error(this, i18n("Cannot access the archive %1").arg(strFile.local8Bit()));	  
+			KMessageBox::error(this, i18n("Cannot access the archive %1").arg(strFile));	  
 		}
 		else
 		{
@@ -398,7 +398,7 @@ ArkWidgetPart::reportExtractFailures(const QString & _dest, QStringList *_list)
 		FileLVI *flvi = (FileLVI*)flw->firstChild();
 		while (flvi)
 		{
-			tmp = flvi->getFileName().local8Bit();
+			tmp = flvi->getFileName();
 			_list->append(tmp);
 			flvi = (FileLVI*)flvi->itemBelow();
 		}
