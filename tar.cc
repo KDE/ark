@@ -69,6 +69,7 @@
 #include "arksettings.h"
 #include "arch.h"
 #include "tar.h"
+#include <qfile.h>
 
 
 static char *makeAccessString(mode_t mode);

@@ -68,6 +68,7 @@
 #include "arkwidgetbase.h"
 #include "arksettings.h"
 #include "filelistview.h"
+#include <klocale.h>
 
 extern int errno;
 

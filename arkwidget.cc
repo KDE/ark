@@ -38,6 +38,9 @@
 
 // KDE includes
 #include <kdebug.h>
+#include <klocale.h>
+#include <kstatusbar.h>
+#include <qpopupmenu.h>
 #include <kkeydialog.h>
 #include <kmessagebox.h>
 #include <kio/netaccess.h>
@@ -1421,6 +1424,7 @@ void ArkWidget::addFile(QStringList *list)
 }
 
 #include "kdirselectdialog.h"
+#include <kstatusbar.h>
 void ArkWidget::action_add_dir()
 {
 /*  AddDlg dirDlg(AddDlg::Directory, m_settings->getAddDir(), m_settings,

@@ -37,6 +37,7 @@
 // Ark includes
 #include "generalOptDlg.h"
 #include "adddlg.h"
+#include <qpushbutton.h>
 
 /* QFileDialog is used instead of KFileDialog since (despite what the docs say),
    the layout management of KFileDialog bites if subclassing. Also, one can

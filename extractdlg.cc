@@ -47,6 +47,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include "arksettings.h"
 #include "generalOptDlg.h"
 #include "extractdlg.h"
+#include <qpushbutton.h>
 
 #define FIRST_PAGE_WIDTH  390
 #define DLG_NAME i18n( "Extract" )

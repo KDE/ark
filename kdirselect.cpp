@@ -20,6 +20,7 @@
 #include <klocale.h>
 
 #include "kdirselect.h"
+#include <kiconloader.h>
 
 class KDirSelect::KDirSelectPrivate
 {

@@ -41,6 +41,7 @@
 // ark includes
 #include "dirDlg.h"
 #include "arksettings.h"
+#include <qpushbutton.h>
 
 #define BROWSE_WIDTH 40
 #define DLG_WIDTH 390
