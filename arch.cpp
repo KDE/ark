@@ -320,7 +320,7 @@ void Arch::slotReceivedTOC(KProcess*, char* _data, int _length)
 	m_buffer = "";
   }
   if(!m_finished)
-	m_buffer = (_data + startChar);	// Copy what's left of the buffer
+	m_buffer.append(_data + startChar);	// Append what's left of the buffer
 
   _data[_length] = c;
 }
