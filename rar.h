@@ -53,7 +53,6 @@ class RarArch : public Arch
     virtual bool processLine( const QCString & );
 
   private:
-    void initExtract( bool, bool, bool );
     void setHeaders();
     
     /*

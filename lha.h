@@ -1,8 +1,5 @@
-//  -*-C++-*-           emacs magic for .h files
 /*
-
- $Id$
-
+ 
  ark -- archiver for the KDE project
 
  Copyright (C)
@@ -27,40 +24,39 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#ifndef LHAARCH_H
-#define LHAARCH_H
+#ifndef LHA_H
+#define LHA_H
+
+#include "arch.h"
 
 class QString;
 class QCString;
 class QStringList;
 
-class Arch;
 class ArkWidget;
 
 class LhaArch : public Arch
 {
   Q_OBJECT
-public:
-  LhaArch( ArkWidget *_gui,
-	   const QString & _fileName );
-  virtual ~LhaArch() { }
-	
-  virtual void open();
-  virtual void create();
-	
-  virtual void addFile( const QStringList & );
-  virtual void addDir(const QString & _dirName);
+  public:
+    LhaArch( ArkWidget *, const QString & );
+    virtual ~LhaArch() { }
 
-  virtual void remove(QStringList *);
-  virtual void unarchFile(QStringList *, const QString & _destDir="",
-			  bool viewFriendly=false);
+    virtual void open();
+    virtual void create();
 
-protected slots:
-  virtual bool processLine(const QCString &line);
-	
-private:
-  void initExtract( bool, bool, bool );
-  void setHeaders();
+    virtual void addFile( const QStringList & );
+    virtual void addDir( const QString & );
+
+    virtual void remove( QStringList * );
+    virtual void unarchFile( QStringList *, const QString & _destDir = "",
+                             bool viewFriendly = false );
+
+  protected slots:
+    virtual bool processLine( const QCString &line );
+
+  private:
+    void setHeaders();
 };
 
-#endif /* ARCH_H */
+#endif // LHA_H

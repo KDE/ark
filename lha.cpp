@@ -55,89 +55,87 @@
 LhaArch::LhaArch( ArkWidget *_gui, const QString & _fileName )
   : Arch( _gui, _fileName )
 {
-  kdDebug(1601) << "LhaArch constructor" << endl;
   m_archiver_program = "lha";
   m_unarchiver_program = QString::null;
-  verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+  verifyUtilityIsAvailable( m_archiver_program, m_unarchiver_program );
 
   m_headerString = "----";
 }
 
-bool LhaArch::processLine(const QCString &line)
+bool LhaArch::processLine( const QCString &line )
 {
-  const char *_line = (const char *)line;
+  const char *_line = ( const char * ) line;
   char columns[13][80];
   char filename[4096];
 
-  if (QCString(_line).contains("[generic]") )
-    {
-      sscanf(_line, " %79[]\\[generic] %79[0-9] %79[0-9] %79[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%4095[^\n]",
-	     columns[0], columns[2], columns[3], columns[4], columns[5],
-	     columns[6], columns[10], columns[7], columns[11], columns[8],
-	     columns[9], filename );
-      strcpy( columns[1], " " );
-    }
+  if ( line.contains( "[generic]" ) )
+  {
+    sscanf( _line,
+            " %79[]\\[generic] %79[0-9] %79[0-9] %79[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%4095[^\n]",
+            columns[0], columns[2], columns[3], columns[4], columns[5],
+            columns[6], columns[10], columns[7], columns[11], columns[8],
+            columns[9], filename );
+    strcpy( columns[1], " " );
+  }
+  else if ( line.contains( "[MS-DOS]" ) )
+  {
+    sscanf( _line,
+            " %79[]\\[MS-DOS] %79[0-9] %79[0-9] %79[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%4095[^\n]",
+            columns[0], columns[2], columns[3], columns[4], columns[5],
+            columns[6], columns[10], columns[7], columns[11], columns[8],
+            columns[9], filename );
+    strcpy( columns[1], " " );
+  }
   else
-  if (QCString(_line).contains("[MS-DOS]") )
-    {
-      sscanf(_line, " %79[]\\[MS-DOS] %79[0-9] %79[0-9] %79[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%4095[^\n]",
-	     columns[0], columns[2], columns[3], columns[4], columns[5],
-	     columns[6], columns[10], columns[7], columns[11], columns[8],
-	     columns[9], filename );
-      strcpy( columns[1], " " );
-    }
-  else
-    {
-      sscanf(_line, " %79[-drlwxst] %79[0-9/] %79[0-9] %79[0-9] %79[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%4095[^\n]",
-	     columns[0], columns[1], columns[2], columns[3],
-	     columns[4], columns[5], columns[6], columns[10], columns[7],
-	     columns[11], columns[8], columns[9], filename);
-    }
-
-  kdDebug(1601) << "The actual file is " << (const char *)filename << endl;
+  {
+    sscanf( _line,
+            " %79[-drlwxst] %79[0-9/] %79[0-9] %79[0-9] %79[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%4095[^\n]",
+            columns[0], columns[1], columns[2], columns[3],
+            columns[4], columns[5], columns[6], columns[10], columns[7],
+            columns[11], columns[8], columns[9], filename );
+  }
 
   // make the time stamp sortable
-  QString massagedTimeStamp = ArkUtils::getTimeStamp(columns[6], columns[7],
-						  columns[8]);
-  strlcpy(columns[6], massagedTimeStamp.ascii(), sizeof(columns[6]));
-
-  kdDebug(1601) << "New timestamp is " << columns[6] << endl;
+  QString massagedTimeStamp = ArkUtils::getTimeStamp( columns[6], columns[7],
+                                                      columns[8] );
+  strlcpy( columns[6], massagedTimeStamp.ascii(), sizeof( columns[6] ) );
 
   // see if there was a link in filename
   QString file = filename;
   QString name, link;
   bool bLink = false;
-  int pos = file.find(" -> ");
-  if (pos != -1)
-    {
-      bLink = true;
-      name = file.left(pos);
-      link = file.right(file.length()-pos-4);
-      kdDebug(1601) << "Name is: " << name << "\nLink is " << link << endl;
-    }
+  int pos = file.find( " -> " );
+  if ( pos != -1 )
+  {
+    bLink = true;
+    name = file.left(pos);
+    link = file.right(file.length()-pos-4);
+  }
   else
+  {
     name = file;
+  }
 
   QStringList list;
-  list.append(name);
-  kdDebug(1601) << "Added file " << name << endl;
-  for (int i=0; i<7; i++)
-    {
-      list.append(QString::fromLocal8Bit(columns[i]));
-    }
-  if (bLink)
-    list.append(link);
+  list.append( name );
+  
+  for ( int i = 0; i < 7; i++ )
+  {
+    list.append( QString::fromLocal8Bit( columns[i] ) );
+  }
+  
+  if ( bLink )
+    list.append( link );
   else
-    list.append("");
+    list.append( "" );
 
-  m_gui->fileList()->addItem(list); // send to GUI
+  m_gui->fileList()->addItem( list ); // send to GUI
 
   return true;
 }
 
 void LhaArch::open()
 {
-  kdDebug(1601) << "+LhaArch::open" << endl;
   setHeaders();
 
   m_buffer = "";
@@ -147,36 +145,32 @@ void LhaArch::open()
 
   KProcess *kp = new KProcess;
   *kp << m_archiver_program << "v" << m_filename;
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
+           SLOT( slotReceivedTOC(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
+           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(KProcess*) ),
+           SLOT( slotOpenExited(KProcess*) ) );
 
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotOpenExited(KProcess*)));
-
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
-    {
-      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
-      emit sigOpen(this, false, QString::null, 0 );
-    }
-
-  kdDebug(1601) << "-LhaArch::open" << endl;
+  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  {
+    KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
+    emit sigOpen( this, false, QString::null, 0 );
+  }
 }
 
 void LhaArch::setHeaders()
 {
-  kdDebug(1601) << "+LhaArch::setHeaders" << endl;
   QStringList list;
-  list.append(FILENAME_STRING);
-  list.append(PERMISSION_STRING);
-  list.append(OWNER_GROUP_STRING);
-  list.append(PACKED_STRING);
-  list.append(SIZE_STRING);
-  list.append(RATIO_STRING);
-  list.append(CRC_STRING);
-  list.append(TIMESTAMP_STRING);
-  list.append(LINK_STRING);
+  list.append( FILENAME_STRING );
+  list.append( PERMISSION_STRING );
+  list.append( OWNER_GROUP_STRING );
+  list.append( PACKED_STRING );
+  list.append( SIZE_STRING );
+  list.append( RATIO_STRING );
+  list.append( CRC_STRING );
+  list.append( TIMESTAMP_STRING );
+  list.append( LINK_STRING );
 
   // which columns to align right
   int *alignRightCols = new int[3];
@@ -184,128 +178,112 @@ void LhaArch::setHeaders()
   alignRightCols[1] = 4;
   alignRightCols[2] = 5;
 
-  m_gui->setHeaders(&list, alignRightCols, 3);
+  m_gui->setHeaders( &list, alignRightCols, 3 );
   delete [] alignRightCols;
-
-  kdDebug(1601) << "-LhaArch::setHeaders" << endl;
 }
 
 
 void LhaArch::create()
 {
-  emit sigCreate(this, true, m_filename,
-		 Arch::Extract | Arch::Delete | Arch::Add
-		 | Arch::View);
+  emit sigCreate( this, true, m_filename,
+                  Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
 }
 
-void LhaArch::addDir(const QString & _dirName)
+void LhaArch::addDir( const QString & dirName )
 {
-  if (! _dirName.isEmpty())
+  if ( !dirName.isEmpty() )
   {
     QStringList list;
-    list.append(_dirName);
-    addFile(list);
+    list.append( dirName );
+    addFile( list );
   }
 }
 
 void LhaArch::addFile( const QStringList &urls )
 {
-  kdDebug(1601) << "+LhaArch::addFile" << endl;
   KProcess *kp = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program;
 
   QString strOptions;
-  if (Settings::replaceOnlyWithNewer())
+  if ( Settings::replaceOnlyWithNewer() )
     strOptions = "u";
   else
     strOptions = "a";
-  if (Settings::lhaGeneric())
+  if ( Settings::lhaGeneric() )
     strOptions += "g";
 
   *kp << strOptions << m_filename;
 
-  QStringList::ConstIterator iter;
   KURL url( urls.first() );
   QDir::setCurrent( url.directory() );
-  for (iter = urls.begin(); iter != urls.end(); ++iter )
+
+  QStringList::ConstIterator iter;
+  for ( iter = urls.begin(); iter != urls.end(); ++iter )
   {
     KURL fileURL( *iter );
     *kp << fileURL.fileName();
   }
 
+  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
+           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
+           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(KProcess*) ),
+           SLOT( slotAddExited(KProcess*) ) );
 
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotAddExited(KProcess*)));
-
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
-    {
-      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
-      emit sigAdd(false);
-    }
-
-  kdDebug(1601) << "+LhaArch::addFile" << endl;
+  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  {
+    KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
+    emit sigAdd( false );
+  }
 }
 
-void LhaArch::unarchFile(QStringList *_fileList, const QString & _destDir,
-			 bool /*viewFriendly*/)
+void LhaArch::unarchFile( QStringList *fileList, const QString &destDir,
+                          bool /*viewFriendly*/ )
 {
   // if _fileList is empty, we extract all.
   // if _destDir is empty, abort with error.
 
-  kdDebug(1601) << "+LhaArch::unarchFile" << endl;
-  QString dest;
-
-  if (_destDir.isEmpty() || _destDir.isNull())
-    {
-      kdError(1601) << "There was no extract directory given." << endl;
-      return;
-    }
-  else dest = _destDir;
-
-  QString tmp;
+  if ( destDir.isEmpty() || destDir.isNull() )
+  {
+    kdError( 1601 ) << "There was no extract directory given." << endl;
+    return;
+  }
 
   KProcess *kp = new KProcess;
   kp->clearArguments();
 
-  *kp << m_archiver_program << "xfw="+dest << m_filename;
+  *kp << m_archiver_program << "xfw=" + destDir << m_filename;
 
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
-  if (_fileList)
+  if ( fileList )
+  {
+    QStringList::Iterator it;
+    for ( it = fileList->begin(); it != fileList->end(); ++it )
     {
-      for ( QStringList::Iterator it = _fileList->begin();
-	    it != _fileList->end(); ++it )
-	{
-	  *kp << (*it);
-	}
+      *kp << ( *it );
     }
+  }
 
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
+           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
+           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(KProcess*) ),
+           SLOT( slotExtractExited(KProcess*) ) );
 
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotExtractExited(KProcess*)));
-
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
-    {
-      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
-      emit sigExtract(false);
-    }
+  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  {
+    KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
+    emit sigExtract( false );
+  }
 }
 
-void LhaArch::remove(QStringList *list)
+void LhaArch::remove( QStringList *list )
 {
-  kdDebug(1601) << "+LhaArch::remove" << endl;
-
-  if (!list)
+  if ( !list )
     return;
 
   m_shellErrorData = "";
@@ -313,28 +291,25 @@ void LhaArch::remove(QStringList *list)
   kp->clearArguments();
 
   *kp << m_archiver_program << "df" << m_filename;
-  for ( QStringList::Iterator it = list->begin();
-	it != list->end(); ++it )
-    {
-      QString str = *it;
-      *kp << str;
-    }
+  
+  QStringList::Iterator it;
+  for ( it = list->begin(); it != list->end(); ++it )
+  {
+    *kp << ( *it );
+  }
 
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
+           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
+           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(KProcess*) ),
+           SLOT( slotDeleteExited(KProcess*) ) );
 
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotDeleteExited(KProcess*)));
-
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
-    {
-      KMessageBox::error( 0, i18n("Could not start a subprocess.") );
-      emit sigDelete(false);
-    }
-
-  kdDebug(1601) << "-LhaArch::remove" << endl;
+  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  {
+    KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
+    emit sigDelete( false );
+  }
 }
 
 #include "lha.moc"
