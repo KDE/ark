@@ -71,7 +71,7 @@ bool ZooArch::processLine(const QCString &line)
 
   // Note: I'm reversing the ratio and the length for better display
 
-  sscanf(_line, " %[0-9] %[0-9%] %[0-9] %[0-9] %[a-zA-Z] %[0-9]%[ ]%11[ 0-9:+-]%2[C ]%[^\n]",
+  sscanf(_line, " %79[0-9] %79[0-9%] %79[0-9] %79[0-9] %79[a-zA-Z] %79[0-9]%79[ ]%11[ 0-9:+-]%2[C ]%4095[^\n]",
 	 columns[1], columns[0], columns[2], columns[3], columns[7],
 	 columns[8], columns[9], columns[4], columns[10], filename);
 
