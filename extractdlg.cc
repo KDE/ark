@@ -49,6 +49,10 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kdialogbase.h>
+#include <kcombobox.h>
+#include <kcompletion.h>
+#include <kurlcompletion.h>
+#include <kurifilter.h>
 
 // application includes
 #include "arksettings.h"
@@ -82,10 +86,24 @@ ExtractDlg::ExtractDlg( ArkSettings *_settings )
     extractToLabel->setText( tr( "Extract to:" ) );
     Layout3->addWidget( extractToLabel );
 
-    m_extractDirCB = new QComboBox( true, mainFrame, "m_extractDirCB" );
+
+
+//      m_extractDirCB = new QComboBox( true, mainFrame, "m_extractDirCB" );
+//      m_extractDirCB->setSizePolicy( QSizePolicy( ( QSizePolicy::SizeType ) 3, ( QSizePolicy::SizeType ) 0,
+//                                                  m_extractDirCB->sizePolicy().hasHeightForWidth() ) );
+//      Layout3->addWidget( m_extractDirCB );
+
+    m_extractDirCB = new KComboBox( true, mainFrame, "m_extractDirCB" );
     m_extractDirCB->setSizePolicy( QSizePolicy( ( QSizePolicy::SizeType ) 3, ( QSizePolicy::SizeType ) 0,
                                                 m_extractDirCB->sizePolicy().hasHeightForWidth() ) );
     Layout3->addWidget( m_extractDirCB );
+
+    KURLCompletion *comp = new KURLCompletion();
+    comp->setReplaceHome( true );
+    m_extractDirCB->setCompletionObject( comp );
+    // Connect to the return pressed signal - optional
+    connect( m_extractDirCB, SIGNAL( returnPressed( const QString& ) ), comp, SLOT( addItem( const QString& ) ) );
+
 
     QPushButton *browseButton = new QPushButton( mainFrame, "browseButton" );
     browseButton->setText( i18n( "Browse..." ) );
@@ -166,14 +184,27 @@ void ExtractDlg::disableSelectedFilesOption()
 void ExtractDlg::accept()
 {
     kdDebug( 1601 ) << "+ExtractDlg::accept" << endl;
-    if (! QFileInfo( m_extractDirCB->currentText() ).isDir() )
+
+    KURLCompletion uc;
+    KURL p = uc.replacedPath(  m_extractDirCB->currentText() );
+
+    KURIFilterData d = m_extractDirCB->currentText();
+    KURIFilter::self()->filterURI( d );
+
+    if (  d.uriType() == KURIFilterData::NET_PROTOCOL )
+    {
+        KMessageBox::error( this, i18n( "Ark cannot extract files to a remote location. Please provide a local valid directory" ) );
+        return;
+    }
+
+    if ( d.uriType() != KURIFilterData::LOCAL_DIR )
     {
         KMessageBox::error( this, i18n( "Please provide a valid directory" ) );
         return;
     }
 
     // you need to change the settings to change the fixed dir.
-    m_settings->setLastExtractDir( m_extractDirCB->currentText() );
+    m_settings->setLastExtractDir( d.uri().path() );
 
     if ( m_radioPattern->isChecked() )
     {

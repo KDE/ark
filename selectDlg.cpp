@@ -1,6 +1,6 @@
 /*
 
- $Id$
+$Id$
 
  ark -- archiver for the KDE project
 
@@ -43,72 +43,72 @@
 #include "arksettings.h"
 
 SelectDlg::SelectDlg( ArkSettings *_data, QWidget *_parent, const char *_name )
-	: QDialog( _parent, _name, true )
+    : QDialog( _parent, _name, true )
 {
-	m_settings = _data;
-	
-	setCaption( i18n("Selection") );
-	QVBoxLayout *mainLayout = new QVBoxLayout( this, 10 );
+    m_settings = _data;
 
-	/**
-	 * Tar command horizontal layout
-	 */
-	QHBoxLayout *hbl1 = new QHBoxLayout();
-	mainLayout->addLayout( hbl1 );
-	
-	QLabel *l1 = new QLabel( i18n("Select files:"), this );
-	l1->setFixedSize( l1->sizeHint() );
-	hbl1->addWidget( l1 );
+    setCaption( i18n("Selection") );
+    QVBoxLayout *mainLayout = new QVBoxLayout( this, 10 );
 
-	m_ok = new QPushButton( i18n("OK"), this );	
+    /**
+    * Tar command horizontal layout
+    */
+    QHBoxLayout *hbl1 = new QHBoxLayout();
+    mainLayout->addLayout( hbl1 );
 
-	QString pattern = m_settings->getSelectRegExp();
-	m_regExp = new QLineEdit( this );
-	m_regExp->setFixedSize( m_regExp->sizeHint() );
-	m_regExp->setText( pattern );
-	m_regExp->setSelection(0, pattern.length() );
-	regExpChanged( pattern );
-	hbl1->addWidget( m_regExp );
-	connect( m_regExp, SIGNAL(textChanged(const QString&)), SLOT(regExpChanged(const QString&)) );
-	
-	QHBoxLayout *hbl = new QHBoxLayout();
-	mainLayout->addStretch( 1 );
-	mainLayout->addLayout( hbl );
-	
-	hbl->addStretch( 1 );
-	m_ok->setFixedSize( m_ok->sizeHint() );
-	m_ok->setDefault(true);
-	connect( m_ok, SIGNAL( clicked() ), SLOT( saveConfig() ) );
-	hbl->addWidget( m_ok );
+    QLabel *l1 = new QLabel( i18n("Select files:"), this );
+    l1->setFixedSize( l1->sizeHint() );
+    hbl1->addWidget( l1 );
 
-	QPushButton *cancel = new QPushButton( i18n("Cancel"), this );
-	cancel->setFixedSize( cancel->sizeHint() );
-	connect( cancel, SIGNAL( clicked() ), SLOT( reject() ) );
-	hbl->addWidget( cancel );
+    m_ok = new QPushButton( i18n("OK"), this );
 
-	mainLayout->activate();
-	setFixedSize( sizeHint() );
-	m_regExp->setFocus();
+    QString pattern = m_settings->getSelectRegExp();
+    m_regExp = new QLineEdit( this );
+    m_regExp->setFixedSize( m_regExp->sizeHint() );
+    m_regExp->setText( pattern );
+    m_regExp->setSelection(0, pattern.length() );
+    regExpChanged( pattern );
+    hbl1->addWidget( m_regExp );
+    connect( m_regExp, SIGNAL(textChanged(const QString&)), SLOT(regExpChanged(const QString&)) );
+
+    QHBoxLayout *hbl = new QHBoxLayout();
+    mainLayout->addStretch( 1 );
+    mainLayout->addLayout( hbl );
+
+    hbl->addStretch( 1 );
+    m_ok->setFixedSize( m_ok->sizeHint() );
+    m_ok->setDefault(true);
+    connect( m_ok, SIGNAL( clicked() ), SLOT( saveConfig() ) );
+    hbl->addWidget( m_ok );
+
+    QPushButton *cancel = new QPushButton( i18n("Cancel"), this );
+    cancel->setFixedSize( cancel->sizeHint() );
+    connect( cancel, SIGNAL( clicked() ), SLOT( reject() ) );
+    hbl->addWidget( cancel );
+
+    mainLayout->activate();
+    setFixedSize( sizeHint() );
+    m_regExp->setFocus();
 }
 
 
 void SelectDlg::saveConfig()
 {
-  if( !m_regExp->text().isEmpty() )
-    m_settings->setSelectRegExp( m_regExp->text() );
-  accept();
+    if( !m_regExp->text().isEmpty() )
+        m_settings->setSelectRegExp( m_regExp->text() );
+    accept();
 }
 
 void SelectDlg::regExpChanged(const QString& _exp)
 {
-	QRegExp reg_exp(_exp, true, true);
-	if(reg_exp.isValid())
-		m_ok->setEnabled(true);
-	else
-		m_ok->setEnabled(false);
+    QRegExp reg_exp(_exp, true, true);
+    if(reg_exp.isValid())
+        m_ok->setEnabled(true);
+    else
+        m_ok->setEnabled(false);
 }
 
 QString SelectDlg::getRegExp() const
 {
-	return m_regExp->text();
+    return m_regExp->text();
 }
