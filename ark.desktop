@@ -1,5 +1,5 @@
 [Desktop Entry]
-MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tgz;application/x-tbz;application/x-zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo
+MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tgz;application/x-tbz;application/x-zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz
 Comment=Archive Handling Tool
 Comment[ca]=Eina per a manegar arxius
 Comment[cs]=Program pro práci s archívy
@@ -59,7 +59,7 @@ Name[sv]=Arkiverare
 Name[ta]=காபஂபகரஂ
 Name[tr]=Arşivci
 Name[uk]=Архіватор
-Exec=ark -caption "%c" %i %m %u
+Exec=ark -caption "%c" %i %m %U
 Icon=ark
 TerminalOptions=
 Protocols=file;

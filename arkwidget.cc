@@ -361,11 +361,13 @@ void ArkWidget::initialEnables()
   popupViewAction->setEnabled(true);
   popupOpenWithAction->setEnabled(true);
   popupEditAction->setEnabled(true);
+  recent->setEnabled(true);
 
   deleteAction->setEnabled(false);
   extractAction->setEnabled(false);
   addFileAction->setEnabled(false);
   addDirAction->setEnabled(false);
+
 }
 
 
@@ -415,7 +417,6 @@ void ArkWidget::file_save_as()
   QString extension;
   enum ArchType archtype = getArchType(m_strArchName, extension);
   extension = "*" + extension;
-  bool done = false;
   KURL u;
   do
     {
@@ -425,14 +426,11 @@ void ArkWidget::file_save_as()
 	return;
       QString ext;
       if (getArchType(u.path(), ext) == archtype)
-	done = true;
+	break;
 
-      if (!done)
-	{
-	  KMessageBox::error(this, i18n("Please save your archive in the same format as the original.\nHint: Use the same extension."));
-	}
+      KMessageBox::error(this, i18n("Please save your archive in the same format as the original.\nHint: Use the same extension."));
     }
-  while (!done);
+  while (true);
 
 
   KURL src = m_strArchName;
@@ -1591,7 +1589,7 @@ bool ArkWidget::reportExtractFailures(const QString & _dest,
     {
       kdDebug(1601) << "One to report" << endl;
       strFilename = *(existingFiles.at(0));
-      QString message = strFilename + i18n(" was not extracted because it would overwrite an existing file.\nGo back to Extract Dialog?");
+      QString message = strFilename + i18n(" will not be extracted because it will overwrite an existing file.\nGo back to Extract Dialog?");
       bRedoExtract =
 	KMessageBox::questionYesNo(this, message) == KMessageBox::Yes;
     }
@@ -1850,6 +1848,7 @@ void ArkWidget::selectByPattern(const QString & _pattern) // slot
   FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
   QRegExp *glob = new QRegExp(_pattern, true, true); // file globber
 
+  archiveContent->clearSelection();
   while (flvi)
     {
       if (glob->match(flvi->text(0), 0, 0) != -1)

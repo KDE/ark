@@ -29,9 +29,8 @@
     <Action name="shell_output"/>
   </Menu>  
   <Menu name="settings"><text>&amp;Settings</text>
-    <Action name="general"/>
-    <Action name="directories"/>
     <Action name="keys"/>
+    <Action name="directories"/>
   </Menu>
 </MenuBar>
 <ToolBar fullWidth="true" name="mainToolBar">
@@ -47,7 +46,6 @@
   <Action name="select_all"/>
   <Action name="view"/>
   <Separator lineSeparator="true"/>
-  <Action name="settings"/>
   <Action name="help"/>
 </ToolBar>   
 <Menu name="file_popup">

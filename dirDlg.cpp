@@ -8,6 +8,7 @@
 
  1997-1999: Rob Palmbos palm9744@kettering.edu
  1999: Francois-Xavier Duranceau duranceau@kde.org
+ 2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -26,360 +27,339 @@
 */
 
 // Qt includes
-#include <qlayout.h>
 #include <qpushbutton.h>
+#include <qlistbox.h>
+#include <qlineedit.h>
 #include <qlabel.h>
 #include <qbuttongroup.h>
+#include <qradiobutton.h>
 
 // KDE includes
 #include <kfiledialog.h>
 #include <klocale.h>
-
+#include <kdebug.h>
+#include <kmessagebox.h>
 // ark includes
 #include "dirDlg.h"
 #include "dirDlg.moc"
 
 #define BROWSE_WIDTH 40
+#define DLG_WIDTH 530
+#define DLG_HEIGHT 310
+#define STARTUPDIR i18n("start-up directory")
+#define OPENDIR i18n("open directory")
+#define EXTRACTDIR i18n("extract directory")
+#define ADDDIR i18n("add directory")
+
+void WidgetHolder::hide()
+{
+  lDirType->hide();
+  fixedLE->hide();
+  lHorizLine->hide();
+  buttonGroup->hide();
+  for (int j = 0; j < NUM_RADIOS; ++j)
+    radios[j]->hide();
+}
+
+void WidgetHolder::show()
+{
+  lDirType->show();
+  fixedLE->show();
+  lHorizLine->show();
+  for (int j = 0; j < NUM_RADIOS; ++j)
+    radios[j]->show();
+  buttonGroup->show();
+}
 
 DirDlg::DirDlg( ArkSettings *d, QWidget *parent, const char *name )
 	: QDialog( parent, name, true )
 {
-	data = d;
+  data = d;
 	
-	setCaption( i18n("ark - Directories preferences") );
-	QVBoxLayout *mainLayout = new QVBoxLayout( this, 10 );
+  setCaption( i18n("Directories Preferences - ark") );
 
-	QHBoxLayout *hbl1 = new QHBoxLayout();
-	mainLayout->addLayout( hbl1 );
-	
-	/**
-	 * Build the Favorite directory selection
-	 */
-	QLabel *l1 = new QLabel( i18n("Favorite directory:"), this );
-	l1->setFixedSize( l1->sizeHint() );
-	hbl1->addWidget( l1 );
-	
-	favLE = new QLineEdit( this );
-	favLE->setFixedHeight( favLE->sizeHint().height() );
-	favLE->setMinimumWidth( favLE->sizeHint().width() );
-	hbl1->addWidget( favLE );
-	connect( favLE, SIGNAL(textChanged(const QString&)), SLOT(favDirChanged(const QString&)) );
-	
-	QPushButton *browse = new QPushButton( i18n("..."), this );
-	browse->setFixedHeight( browse->sizeHint().height() );
-	browse->setFixedWidth( BROWSE_WIDTH );
-	hbl1->addWidget( browse );
-        connect( browse, SIGNAL(clicked()), SLOT(getFavDir()) );
-	/**
-	 * Build the 4 directories selection
-	 */
-	QHBoxLayout *hbl2 = new QHBoxLayout();
-	mainLayout->addLayout( hbl2 );
-	
-	QVBoxLayout *vbl1 = new QVBoxLayout();
-	QVBoxLayout *vbl2 = new QVBoxLayout();
-	
-	hbl2->addLayout( vbl1 );
-	hbl2->addLayout( vbl2 );
-	
-	// *******
-	// *@@*  *
-	// *******
-	// *  *  *
-	// *******
-	QButtonGroup *bg1 = new QButtonGroup( i18n("Start-up directory"), this );
-	vbl1->addWidget( bg1 );
-	
-	QVBoxLayout *vblg1 = new QVBoxLayout( bg1, 10 );
-	vblg1->addSpacing( 10 );
-	
-	r1 = new QRadioButton( i18n("Favorite directory"), bg1 );
-	r1->setFixedSize( r1->sizeHint() );
-	vblg1->addWidget( r1, 0, AlignLeft );
-	
-	r2 = new QRadioButton( i18n("Last open directory"), bg1 );
-	r2->setFixedSize( r2->sizeHint() );
-	vblg1->addWidget( r2, 0, AlignLeft );
-	
-	r3 = new QRadioButton( i18n("Fixed:"), bg1 );
-	r3->setFixedSize( r3->sizeHint() );
-	QHBoxLayout *hblg1 = new QHBoxLayout();
-	vblg1->addLayout( hblg1 );
-	
-	hblg1->addWidget( r3 );
-	
-	startLE = new QLineEdit( bg1 );
-	startLE->setMinimumSize( startLE->sizeHint() );
-	hblg1->addWidget( startLE );
+  QLabel *l1 = new QLabel( this, "Label_1" );
+  l1->setGeometry( 10, 20, 300, 20 );
+  l1->setText( i18n("Favorite directory:") );
 
-	QPushButton *browse1 = new QPushButton( i18n("..."), bg1 );
-	browse1->setFixedHeight( browse1->sizeHint().height() );
-	browse1->setFixedWidth( BROWSE_WIDTH );
-	hblg1->addWidget( browse1);
-        connect( browse1, SIGNAL(clicked()), SLOT(getStartDir()) );
+  favLE = new QLineEdit( this, "LineEdit_1" );
+  favLE->setGeometry( 10, 40, 510, 20 );
 
-	
-	// *******
-	// *  *  *
-	// *******
-	// *@@*  *
-	// *******
-	QButtonGroup *bg2 = new QButtonGroup( i18n("Open directory"), this );
-	vbl1->addWidget( bg2 );
-	
-	QVBoxLayout *vblg2 = new QVBoxLayout( bg2, 10 );
-	vblg2->addSpacing( 10 );
-	
-	r4 = new QRadioButton( i18n("Favorite directory"), bg2 );
-	r4->setFixedSize( r4->sizeHint() );
-	vblg2->addWidget( r4, 0, AlignLeft );
-	
-	r5 = new QRadioButton( i18n("Last open directory"), bg2 );
-	r5->setFixedSize( r5->sizeHint() );
-	vblg2->addWidget( r5, 0, AlignLeft );
-	
-	r6 = new QRadioButton( i18n("Fixed:"), bg2 );
-	r6->setFixedSize( r6->sizeHint() );
-	QHBoxLayout *hblg2 = new QHBoxLayout();
-	vblg2->addLayout( hblg2 );
-	
-	hblg2->addWidget( r6 );
-	
-	openLE = new QLineEdit( bg2 );
-	openLE->setMinimumSize( openLE->sizeHint() );
-	hblg2->addWidget( openLE );
+  QPushButton* browseFav;
+  browseFav = new QPushButton( this, "PushButton_1" );
+  browseFav->setGeometry( 440, 70, 80, 30 );
+  browseFav->setText( i18n("Browse...") );
+  connect( browseFav, SIGNAL(clicked()), SLOT(getFavDir()) );
+  
+  QLabel* l2;
+  l2 = new QLabel( this, "Label_2" );
+  l2->setGeometry( 10, 100, 130, 20 );
+  l2->setText( i18n("Directories:") );
 
-	QPushButton *browse2 = new QPushButton( i18n("..."), bg2 );
-	browse2->setFixedHeight( browse2->sizeHint().height() );
-	browse2->setFixedWidth( BROWSE_WIDTH );
-	hblg2->addWidget( browse2 );
-        connect( browse2, SIGNAL(clicked()), SLOT(getOpenDir()) );
+  pListBox = new QListBox( this, "ListBox_1" );
+  pListBox->setGeometry( 10, 120, 180, 130 );
+  pListBox->insertItem(i18n("Start-up directory"), 0);
+  pListBox->insertItem(i18n("Open directory"), 1);
+  pListBox->insertItem(i18n("Extract directory"), 2);
+  pListBox->insertItem(i18n("Add directory"), 3);
+  connect(pListBox, SIGNAL(highlighted(int)),
+	  this, SLOT(dirTypeChanged(int)));
 
+  createRepeatingWidgets();
 
-	
-	// *******
-	// *  *@@*
-	// *******
-	// *  *  *
-	// *******
-	QButtonGroup *bg3 = new QButtonGroup( i18n("Extract directory"), this );
-	vbl2->addWidget( bg3 );
-	
-	QVBoxLayout *vblg3 = new QVBoxLayout( bg3, 10 );
-	vblg3->addSpacing( 10 );
-	
-	r7 = new QRadioButton( i18n("Favorite directory"), bg3 );
-	r7->setFixedSize( r7->sizeHint() );
-	vblg3->addWidget( r7, 0, AlignLeft );
-	
-	r8 = new QRadioButton( i18n("Last extract directory"), bg3 );
-	r8->setFixedSize( r8->sizeHint() );
-	vblg3->addWidget( r8, 0, AlignLeft );
-	
-	r9 = new QRadioButton( i18n("Fixed:"), bg3 );
-	r9->setFixedSize( r9->sizeHint() );
-	QHBoxLayout *hblg3 = new QHBoxLayout();
-	vblg3->addLayout( hblg3 );
-	
-	hblg3->addWidget( r9 );
-	
-	extractLE = new QLineEdit( bg3 );
-	extractLE->setMinimumSize( extractLE->sizeHint() );
-	hblg3->addWidget( extractLE );
+  QPushButton *browseFixed = new QPushButton( this, "PushButton_2" );
+  browseFixed->setGeometry( 440, 215, 80, 30 );
+  browseFixed->setText( i18n("Browse...") );
+  connect( browseFixed, SIGNAL(clicked()), SLOT(getFixedDir()) );
 
-	QPushButton *browse3 = new QPushButton( i18n("..."), bg3 );
-	browse3->setFixedHeight( browse3->sizeHint().height() );
-	browse3->setFixedWidth( BROWSE_WIDTH );
-	hblg3->addWidget( browse3 );
-        connect( browse3, SIGNAL(clicked()), SLOT(getExtractDir()) );
+  QLabel *lHoriz2 = new QLabel( this, "Label_5" );
+  lHoriz2->setGeometry( 10, 255, 510, 10 );
+  lHoriz2->setFrameStyle( 52 );
+  lHoriz2->setLineWidth( 1 );
 
+  QPushButton* cancelButton = new QPushButton( this, "PushButton_3" );
+  cancelButton->setGeometry( 440, 270, 80, 30 );
+  cancelButton->setText( i18n("Cancel") );
+  connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
 
-	
-	// *******
-	// *  *  *
-	// *******
-	// *  *@@*
-	// *******
-	QButtonGroup *bg4 = new QButtonGroup( i18n("Add directory"), this );
-	vbl2->addWidget( bg4 );
-	
-	QVBoxLayout *vblg4 = new QVBoxLayout( bg4, 10 );
-	vblg4->addSpacing( 10 );
-	
-	r10 = new QRadioButton( i18n("Favorite directory"), bg4 );
-	r10->setFixedSize( r10->sizeHint() );
-	vblg4->addWidget( r10, 0, AlignLeft );
-	
-	r11 = new QRadioButton( i18n("Last add directory"), bg4 );
-	r11->setFixedSize( r11->sizeHint() );
-	vblg4->addWidget( r11, 0, AlignLeft );
-	
-	r12 = new QRadioButton( i18n("Fixed:"), bg4 );
-	r12->setFixedSize( r12->sizeHint() );
-	QHBoxLayout *hblg4 = new QHBoxLayout();
-	vblg4->addLayout( hblg4 );
-	
-	hblg4->addWidget( r12 );
-	
-	addLE = new QLineEdit( bg4 );
-	addLE->setMinimumSize( addLE->sizeHint() );
-	hblg4->addWidget( addLE );
+  QPushButton* OKButton = new QPushButton( this, "PushButton_4" );
+  OKButton->setGeometry( 350, 270, 80, 30 );
+  OKButton->setText(i18n( "OK") );
+  connect(OKButton, SIGNAL(clicked()), this, SLOT(saveConfig()));
 
-	QPushButton *browse4 = new QPushButton( i18n("..."), bg4 );
-	browse4->setFixedHeight( browse4->sizeHint().height() );
-	browse4->setFixedWidth( BROWSE_WIDTH );
-	hblg4->addWidget( browse4 );
-        connect( browse4, SIGNAL(clicked()), SLOT(getAddDir()) );
-		
-	
-	// Build the OK/Cancel buttons layout
-	QHBoxLayout *hbl = new QHBoxLayout();
-	mainLayout->addLayout( hbl );
-	hbl->addStretch( 1 );
-	
-	QPushButton *ok = new QPushButton( i18n("OK"), this );
-	ok->setFixedSize( ok->sizeHint() );
-	ok->setDefault(true);
-	connect( ok, SIGNAL( clicked() ), SLOT( saveConfig() ) );
-	hbl->addWidget( ok );
+  pListBox->setCurrentItem(0); // this will make the right buttons show
+  setFixedSize( DLG_WIDTH, DLG_HEIGHT );
+  initConfig();
+}
 
-	QPushButton *cancel = new QPushButton( i18n("Cancel"), this );
-	cancel->setFixedSize( cancel->sizeHint() );
-	connect( cancel, SIGNAL( clicked() ), SLOT( reject() ) );
-	hbl->addWidget( cancel );
+void DirDlg::createRepeatingWidgets()
+{
+  for (int i = 0; i < NUM_DIR_TYPES; ++i)
+    {
+      widgets[i] = new WidgetHolder;
+      widgets[i]->lDirType = new QLabel(this);
+      widgets[i]->fixedLE = new QLineEdit(this);
+      widgets[i]->fixedLE->setGeometry( 250, 190, 270, 20 );
+      widgets[i]->buttonGroup = new QButtonGroup(this);
+      widgets[i]->buttonGroup->setFrameShape(QFrame::NoFrame);
+      widgets[i]->buttonGroup->setGeometry(230, 125, DLG_WIDTH-220, 60);
 
-	initConfig();
-	
-	mainLayout->activate();
-	setFixedSize( sizeHint() );
+      for (int j = 0; j < NUM_RADIOS; ++j)
+	// radio buttons
+	{
+	  widgets[i]->radios[j] = new QRadioButton(widgets[i]->buttonGroup);
+	  widgets[i]->radios[j]->setGeometry(0, j*20, 200, 20);
+	  widgets[i]->buttonGroup->insert(widgets[i]->radios[j]);
+	  if (j == 0) widgets[i]->radios[j]->setText(i18n("Favorite directory") );
+	  if (j == 2) widgets[i]->radios[j]->setText(i18n("Fixed directory"));
+	}
+    }
+  widgets[0]->lDirType->setText(i18n("Default start-up directory"));
+  widgets[1]->lDirType->setText(i18n("Default open directory"));
+  widgets[2]->lDirType->setText(i18n("Default extract directory"));
+  widgets[3]->lDirType->setText(i18n("Default add directory"));
+  widgets[0]->radios[1]->setText(i18n("Last start-up directory"));
+  widgets[1]->radios[1]->setText(i18n("Last open directory"));
+  widgets[2]->radios[1]->setText(i18n("Last extract directory"));
+  widgets[3]->radios[1]->setText(i18n("Last add directory"));
+
+  int x;
+  for (int i = 0; i < NUM_DIR_TYPES; ++i)
+    {
+      widgets[i]->lDirType->setGeometry(220, 100, widgets[i]->lDirType->sizeHint().width(), 20 );
+      // set up horizontal line based on how wide the corresponding dir type is
+      x = widgets[i]->lDirType->x() + widgets[i]->lDirType->width() + 5;
+      widgets[i]->lHorizLine = new QLabel(this);
+      widgets[i]->lHorizLine->setGeometry(x, 105, DLG_WIDTH-10-x, 10);
+      widgets[i]->lHorizLine->setFrameStyle( 52 );
+      widgets[i]->lHorizLine->setLineWidth( 1 );
+    }
+}
+
+void DirDlg::hideWidgets()
+{
+  for (int i = 0; i < NUM_DIR_TYPES; ++i)
+    {
+      widgets[i]->hide();
+    }
+}
+
+DirDlg::~DirDlg()
+{
+  for (int i = 0; i < NUM_DIR_TYPES; ++i)
+    {
+      for (int j = 0; j < NUM_RADIOS; ++j)
+	{
+	  delete widgets[i]->radios[j];
+	}
+      delete widgets[i]->lDirType;
+      delete widgets[i]->lHorizLine;
+      delete widgets[i]->fixedLE;
+      delete widgets[i];
+    }
+}
+
+QString DirDlg::getDirType(int item)
+{
+  if (item == 0) return STARTUPDIR;
+  else if (item == 1) return OPENDIR;
+  else if (item == 2) return EXTRACTDIR ;
+  else if (item == 3) return ADDDIR;
+
+  ASSERT(0);
+  return "";
+}
+
+void DirDlg::dirTypeChanged(int _dirType)
+{
+  // hide the widgets and show the ones pertaining to this dir type.
+  hideWidgets();
+  widgets[_dirType]->show();
+}
+
+void DirDlg::initConfig()
+  // get existing settings and plunk into the widgets
+{
+  favLE->setText( data->getFavoriteDir() );
+  widgets[0]->fixedLE->setText( data->getFixedStartDir() );
+  widgets[1]->fixedLE->setText( data->getFixedOpenDir() );
+  widgets[2]->fixedLE->setText( data->getFixedExtractDir() );
+  widgets[3]->fixedLE->setText( data->getFixedAddDir() );
+
+  switch( data->getStartDirMode() )
+    {
+    case ArkSettings::FAVORITE_DIR:
+      widgets[0]->radios[0]->setChecked( true );
+      break; 
+    case ArkSettings::LAST_OPEN_DIR: 
+      widgets[0]->radios[1]->setChecked( true );
+      break;        
+    case ArkSettings::FIXED_START_DIR:
+      widgets[0]->radios[2]->setChecked( true );
+      break;      
+    }
+  switch( data->getOpenDirMode() )
+    {
+    case ArkSettings::FAVORITE_DIR:
+      widgets[1]->radios[0]->setChecked( true ); 
+      break; 
+    case ArkSettings::LAST_OPEN_DIR:
+      widgets[1]->radios[1]->setChecked( true );
+      break;        
+    case ArkSettings::FIXED_OPEN_DIR:
+      widgets[1]->radios[2]->setChecked( true ); 
+      break;       
+    }
+  
+  switch( data->getExtractDirMode() )
+    {
+    case ArkSettings::FAVORITE_DIR:
+      widgets[2]->radios[0]->setChecked( true ); 
+      break; 
+    case ArkSettings::LAST_EXTRACT_DIR:
+      widgets[2]->radios[1]->setChecked( true ); 
+      break;     
+    case ArkSettings::FIXED_EXTRACT_DIR:
+      widgets[2]->radios[2]->setChecked( true );
+      break;    
+    }
+        
+  switch( data->getAddDirMode() )
+    {
+    case ArkSettings::FAVORITE_DIR:
+      widgets[3]->radios[0]->setChecked( true ); 
+      break;        
+    case ArkSettings::LAST_ADD_DIR:
+      widgets[3]->radios[1]->setChecked( true );
+      break;
+    case ArkSettings::FIXED_ADD_DIR:
+      widgets[3]->radios[2]->setChecked( true );
+      break;
+    }
 }
 
 void DirDlg::getFavDir( )
 {
   QString dir
     = KFileDialog::getExistingDirectory(favLE->text(), 0,
-					i18n("Archive directory"));
+					i18n("Favorite directory"));
+
   if (!dir.isEmpty())
     favLE->setText(dir);
 }
 
-void DirDlg::getStartDir( )
-{
-  QString dir
-    = KFileDialog::getExistingDirectory(startLE->text(), 0,
-					i18n("Start-up directory"));
-  if (!dir.isEmpty())
-    startLE->setText(dir);
-}
 
-void DirDlg::getOpenDir( )
+void DirDlg::getFixedDir( )
 {
+  int i;
+  // see which fixedLE is visible, and use that.
+  for (i = 0; i <  NUM_DIR_TYPES; ++i)
+    {
+      if (widgets[i]->fixedLE->isVisible())
+	break;
+    }
+  ASSERT(i < NUM_DIR_TYPES);
   QString dir
-    = KFileDialog::getExistingDirectory(openLE->text(), 0,
-				       i18n("Default open directory"));
+    = KFileDialog::getExistingDirectory(widgets[i]->fixedLE->text(), 0,
+					i18n("Fixed directory"));
   if (!dir.isEmpty())
-    openLE->setText(dir);
-}
-
-void DirDlg::getExtractDir( )
-{
-  QString dir
-    = KFileDialog::getExistingDirectory(extractLE->text(), 0,
-					i18n("Default extract directory"));
-  if (!dir.isEmpty())
-    extractLE->setText(dir);
-}
-
-void DirDlg::getAddDir( )
-{
-  QString dir
-    = KFileDialog::getExistingDirectory(addLE->text(), 0,
-					i18n("Default add directory"));
-  if (!dir.isEmpty())
-    addLE->setText(dir);
-}
-
-void DirDlg::favDirChanged( const QString& path)
-{
-	if( path.isEmpty() )	
-	{
-		r1->setEnabled( false );
-		r4->setEnabled( false );
-		r7->setEnabled( false );
-		r10->setEnabled( false );
-	}
-	else
-	{
-		r1->setEnabled( true );
-		r4->setEnabled( true );
-		r7->setEnabled( true );
-		r10->setEnabled( true );
-	}
+    widgets[i]->fixedLE->setText(dir);
 
 }
 
 void DirDlg::saveConfig()
 {
-	int mode;
-	
-	data->setFavoriteDir( favLE->text() );
-	
-	mode = r1->isChecked() ? ArkSettings::FAVORITE_DIR :
-		r2->isChecked() ? ArkSettings::LAST_OPEN_DIR : ArkSettings::FIXED_START_DIR;
-	data->setStartDirCfg( startLE->text(), mode );
 
-	mode = r4->isChecked() ? ArkSettings::FAVORITE_DIR :
-		r5->isChecked() ? ArkSettings::LAST_OPEN_DIR : ArkSettings::FIXED_OPEN_DIR;
-	data->setOpenDirCfg( openLE->text(), mode );
+  QDir *fav = new QDir( favLE->text());
+  if ( !fav->exists() )
+    {
+      KMessageBox::error( this, i18n("The directory specified as your favorite does not exist."));
+      return;
+    }
 
-	mode = r7->isChecked() ? ArkSettings::FAVORITE_DIR :
-		r8->isChecked() ? ArkSettings::LAST_EXTRACT_DIR : ArkSettings::FIXED_EXTRACT_DIR;
-	data->setExtractDirCfg( extractLE->text(), mode );
+  for (int i = 0; i <  NUM_DIR_TYPES; ++i)
+    {
+      QString fixedStr = widgets[i]->fixedLE->text();
+      if (!fixedStr.isEmpty())
+	{
+	  QDir *fixed = new QDir (fixedStr);
+	  if (!fixed->exists())
+	    {
+	      KMessageBox::error(this, i18n("The fixed directory specified for your %1 does not exist.").arg(getDirType(i)));
+	      return;
+	    }
+	}
+    }
+  
+  int mode;
+  data->setFavoriteDir( favLE->text() );
+        
+  mode = widgets[0]->radios[0]->isChecked() ? 
+    ArkSettings::FAVORITE_DIR :
+    widgets[0]->radios[1]->isChecked() ?
+    ArkSettings::LAST_OPEN_DIR :
+    ArkSettings::FIXED_START_DIR;
+  data->setStartDirCfg( widgets[0]->fixedLE->text(), mode );
 
-	mode = r10->isChecked() ? ArkSettings::FAVORITE_DIR :
-		r11->isChecked() ? ArkSettings::LAST_ADD_DIR : ArkSettings::FIXED_ADD_DIR;
-	data->setAddDirCfg( addLE->text(), mode );
-		
-	// close the dialog now
-	accept();
+  mode = widgets[1]->radios[0]->isChecked() ?
+    ArkSettings::FAVORITE_DIR :
+    widgets[1]->radios[1]->isChecked() ?
+    ArkSettings::LAST_OPEN_DIR :
+    ArkSettings::FIXED_OPEN_DIR;
+  data->setOpenDirCfg( widgets[1]->fixedLE->text(), mode );
+
+  mode = widgets[2]->radios[0]->isChecked() ? 
+    ArkSettings::FAVORITE_DIR :
+    widgets[2]->radios[1]->isChecked() ? 
+    ArkSettings::LAST_EXTRACT_DIR :
+    ArkSettings::FIXED_EXTRACT_DIR;
+  data->setExtractDirCfg( widgets[2]->fixedLE->text(), mode );
+
+  mode = widgets[3]->radios[0]->isChecked() ? 
+    ArkSettings::FAVORITE_DIR :
+    widgets[3]->radios[1]->isChecked() ? 
+    ArkSettings::LAST_ADD_DIR : 
+    ArkSettings::FIXED_ADD_DIR;
+  data->setAddDirCfg( widgets[3]->fixedLE->text(), mode );
+  accept();
 }
-
-void DirDlg::initConfig()
-{
-	favLE->setText( data->getFavoriteDir() );
-	startLE->setText( data->getFixedStartDir() );	
-	openLE->setText( data->getFixedOpenDir() );	
-	extractLE->setText( data->getFixedExtractDir() );	
-	addLE->setText( data->getFixedAddDir() );	
-
-	switch( data->getStartDirMode() ){
-		case ArkSettings::FAVORITE_DIR : r1->setChecked( true ); break;	
-		case ArkSettings::LAST_OPEN_DIR : r2->setChecked( true ); break;	
-		case ArkSettings::FIXED_START_DIR : r3->setChecked( true ); break;	
-	}
-
-	switch( data->getOpenDirMode() ){
-		case ArkSettings::FAVORITE_DIR : r4->setChecked( true ); break;	
-		case ArkSettings::LAST_OPEN_DIR : r5->setChecked( true ); break;	
-		case ArkSettings::FIXED_OPEN_DIR : r6->setChecked( true ); break;	
-	}
-
-	switch( data->getExtractDirMode() ){
-		case ArkSettings::FAVORITE_DIR : r7->setChecked( true ); break;	
-		case ArkSettings::LAST_EXTRACT_DIR : r8->setChecked( true ); break;	
-		case ArkSettings::FIXED_EXTRACT_DIR : r9->setChecked( true ); break;	
-	}
-	
-	switch( data->getAddDirMode() ){
-		case ArkSettings::FAVORITE_DIR : r10->setChecked( true ); break;	
-		case ArkSettings::LAST_ADD_DIR : r11->setChecked( true ); break;	
-		case ArkSettings::FIXED_ADD_DIR : r12->setChecked( true ); break;	
-	}
-	
-}
-
-
-
-
-
-

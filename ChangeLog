@@ -1,6 +1,9 @@
           $Id$
 
-2000-06-13:  Emily Ezust <emilye@corel.com>
+2000-06-22: Emily Ezust <emilye@corel.com>
+	* Overhaul of Directories Preferences dialog
+	
+2000-06-13: Emily Ezust <emilye@corel.com>
 	* Fixed "Save As" code so that it prevents the user from saving a
  	  zip as a tar
 	* Fixed bug preventing you from opening a network file after having
@@ -8,10 +11,8 @@
 	* Added a check for utilities (it will notify you e.g. that
  	  "The utility zip is not in your PATH. Please
 	  install it or contact your system administrator.").
-	* Added support for drag/adding files or drag/opening archives
- 	  from konqy. There are still some problems I need to track down:
- 	  every now and then everything stops working and you can't open 
-	  archives. :-(
+	* Added support for drag/adding files or drag/opening network archives
+ 	  from konqy.
 
 2000-06-12: Emily Ezust <emilye@corel.com>
 	* Began adding network transparency
