@@ -64,12 +64,41 @@ typedef const char* (*KeyFunc) (const char*);
 * @warning Do NOT use text(0) for this purpose! This will get the filename
 * 	with extra spaces for fileIndent, and is just plain shoddy code.
 */
-QString FileLVI::getFileName() const
+QString FileLVI::fileName() const
 {
 	if(fileIndent)
 		return text(0).mid(2);
 	else
 		return text(0);
+}
+
+long FileLVI::fileSize() const
+{
+  QListView * lv = listView();
+  int max = lv->columns();
+
+  for ( int i = 0; i < max; ++i )
+  {
+    kdDebug() << text(i) << endl;
+    if ( lv->columnText( i ) == SIZE_STRING )
+      return text(i).toLong();
+  }
+
+  kdDebug() << "Didnt find any" << endl;
+
+  return 0;
+}
+
+QString FileLVI::timeStampStr() const
+{
+  QListView * lv = listView();
+  int max = lv->columns();
+
+  for ( int i = 0; i < max; ++i )
+    if ( lv->columnText( i ) == "TIMESTAMP_STRING" )
+      return text(i);
+
+  return QString::null;
 }
 
 QString FileLVI::key(int column, bool ascending) const
@@ -90,7 +119,7 @@ QString FileLVI::key(int column, bool ascending) const
 	return s;
       }
 		else if(0 == column)
-			return getFileName();
+			return fileName();
     else return QListViewItem::key(column, ascending);
 }
 
@@ -159,7 +188,7 @@ QStringList * FileListView::selectedFilenames() const
 	while (flvi)
 	{
 		if( isSelected(flvi) )
-			files->append(flvi->getFileName());
+			files->append(flvi->fileName());
 		flvi = (FileLVI*)flvi->itemBelow();
 	}
 	return files;

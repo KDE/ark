@@ -52,6 +52,7 @@
 
 // Qt includes
 #include <qapplication.h>
+#include <qfile.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -68,8 +69,7 @@
 #include "arkwidgetbase.h"
 #include "arksettings.h"
 #include "tar.h"
-#include <qfile.h>
-
+#include "filelistview.h"
 
 static char *makeAccessString(mode_t mode);
 static QString makeTimeStamp(const QDateTime & dt);
@@ -499,8 +499,6 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
   QStringList list;
   QString str;
 
-  int col = m_gui->getCol(TIMESTAMP_STRING);
-
   QStringList::ConstIterator iter;
   for (iter = urls->begin(); iter != urls->end(); ++iter )
   {
@@ -514,7 +512,7 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
       str = str.right(str.length()-str.findRev('/')-1);
 
     // find the file entry in the archive listing
-    QString entryTimeStamp = m_gui->getColData(str, col);
+    QString entryTimeStamp = m_gui->getFileLVI(str)->timeStampStr();
     if (entryTimeStamp.isNull())
       continue;  // it isn't in there, so skip it.
 

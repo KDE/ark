@@ -30,7 +30,6 @@
 // KDE includes
 #include <klocale.h>
 #include <kdebug.h>
-#include <kdebugclasses.h>
 #include <kstandarddirs.h>
 #include <kprocess.h>
 
@@ -106,67 +105,28 @@ ArkWidgetBase::cleanArkTmpDir( bool part )
 }
 
 /**
-* @param _columnHeader The name of the column (== the display text)
-* @return The column matching columnHeader, or -1 if not found
-*/
-int 
-ArkWidgetBase::getCol(const QString & _columnHeader)
-{
-	// return the column corresponding to the header, or -1 for failure
-	int column;
-	for (column = 0; column < archiveContent->header()->count(); ++column)
-	{
-		if (archiveContent->columnText(column) == _columnHeader)
-		{
-			return column;
-		}
-	}
-	
-	kdError(1601) << "Can't find header " << _columnHeader << endl;
-	return -1;
-}
-
-/**
-* Returns the data in a file column
+* Returns the file item.
 * @param _filename The filename in question to reference in the archive
-* @param _col The 0-indexed column whose contents is desired
-* @return QString of column data
+* @return The requested file's FileLVI
 */
-QString 
-ArkWidgetBase::getColData(const QString &_filename, int _col)
+const FileLVI *
+ArkWidgetBase::getFileLVI(const QString &_filename) const
 {
 	FileListView *flw = fileList();
 	FileLVI *flvi = (FileLVI*)flw->firstChild();
 	while (flvi)
 	{
-		QString curFilename = flvi->getFileName();
+		QString curFilename = flvi->fileName();
 		if (curFilename == _filename)
 		{
-			return (flvi->text(_col));
+			return flvi;
 		}
 		flvi = (FileLVI*)flvi->itemBelow();
 	}
-	kdError(1601) << "Couldn't find " << _filename << " in ArkWidget::getColData"	<< endl;
+	kdError(1601) << "Couldn't find " << _filename << " in ArkWidget::getFileLVI"	<< endl;
 	
-	return QString(QString::null);
+	return 0;
 }
-
-/**
-* @return 0-indexed column number that contains uncompressed file sizes
-*/
-int 
-ArkWidgetBase::getSizeColumn()
-{
-	for (int i = 0; i < archiveContent->header()->count(); ++i)
-	{
-		if (archiveContent->columnText(i) == SIZE_STRING)
-		{
-			return i;
-		}
-	}
-	return -1;
-}
-
 
 /**
 * Adds a file and stats to the file listing
@@ -196,7 +156,6 @@ void
 ArkWidgetBase::setHeaders(QStringList *_headers, int * _rightAlignCols, int _numColsToAlignRight)
 {
 	int i = 0;
-	m_currentSizeColumn = -1;
 	
 	clearHeaders();
 	
@@ -204,10 +163,6 @@ ArkWidgetBase::setHeaders(QStringList *_headers, int * _rightAlignCols, int _num
 	{
 		QString str = *it;
 		archiveContent->addColumn(str);
-		if (SIZE_STRING == str)
-		{
-			m_currentSizeColumn = i;
-		}
 	}
 
 	for (int i = 0; i < _numColsToAlignRight; ++i)

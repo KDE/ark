@@ -36,6 +36,7 @@
 
 // Qt includes
 #include <qdragobject.h>
+#include <qfile.h>
 #include <qwhatsthis.h>
 
 // KDE includes
@@ -96,7 +97,7 @@ Utilities::haveDirPermissions( const QString &strFile )
 {
 	struct stat statbuffer;
 	QString dir = strFile.left(strFile.findRev('/'));
-	stat(dir.local8Bit(), &statbuffer);
+	stat(QFile::encodeName(dir), &statbuffer);
 	unsigned int nFlag = 0;
 	if (geteuid() == statbuffer.st_uid)
 	{
@@ -123,7 +124,7 @@ Utilities::diskHasSpace(const QString &dir, long size)
 	// check if disk has enough space to accomodate (a) new file(s) of
 	// the given size in the partition containing the given directory
 {
-	fprintf(stderr, "Size: %ld\n", size);
+	kdDebug() << "Size: " << size << endl;
 	struct STATFS buf;
 	if (STATFS(QFile::encodeName(dir), &buf) == 0)
 	{
@@ -137,7 +138,8 @@ Utilities::diskHasSpace(const QString &dir, long size)
 	else
 	{
 		// something bad happened
-      Q_ASSERT(0);
+		kdWarning() << "diskHasSpace() failed" << endl;
+		// Q_ASSERT(0);
 	}
 	return true;
 }
@@ -402,8 +404,7 @@ void ArkWidget::updateStatusTotals()
         {
           ++m_nNumFiles;
 
-          if (m_currentSizeColumn != -1)
-            m_nSizeOfFiles += pItem->text(m_currentSizeColumn).toInt();
+          m_nSizeOfFiles += pItem->fileSize();
           pItem = (FileLVI *)pItem->nextSibling();
         }
     }
@@ -801,7 +802,7 @@ void ArkWidget::file_newWindow()
 }
 
 void
-ArkWidget::showZip( QString _filename )
+ArkWidget::showZip( const QString & _filename )
 {
 	kdDebug(1601) << "+ArkWidget::showZip" << endl;
 	openArchive( _filename );
@@ -1271,7 +1272,7 @@ void ArkWidget::edit_select()
 
           while (flvi)
             {
-              if ( reg_exp.search(flvi->getFileName())==0 )
+              if ( reg_exp.search(flvi->fileName())==0 )
                 {
                   archiveContent->setSelected(flvi, true);
                 }
@@ -1353,7 +1354,7 @@ void ArkWidget::createRealArchive(const QString &strFilename)
 {
   FileListView *flw = fileList();
   FileLVI *flvi = (FileLVI*)flw->firstChild();
-  m_compressedFile = flvi->getFileName();
+  m_compressedFile = flvi->fileName();
   QString tmpdir = m_settings->getTmpDir();
   m_compressedFile = "file:" + tmpdir + "/" + m_compressedFile;
   kdDebug(1601) << "The compressed file is " << m_compressedFile << endl;
@@ -1524,7 +1525,7 @@ void ArkWidget::action_delete()
             {
               old_flvi = flvi;
               flvi = (FileLVI*)flvi->itemBelow();
-              QString strFile = old_flvi->getFileName().copy();
+              QString strFile = old_flvi->fileName();
               list.append(strFile);
               QString strTemp = old_flvi->text(1);
               if (strTemp.left(1) == "d")
@@ -1562,7 +1563,7 @@ void ArkWidget::action_delete()
       flvi = (FileLVI*)flvi->itemBelow();
       bool bDel = false;
 
-      QString strFile = old_flvi->getFileName().copy();
+      QString strFile = old_flvi->fileName();
       if (bIsTar && bDeletingDir)
         {
           for (QStringList::Iterator it = dirs.begin(); it != dirs.end(); ++it)
@@ -1594,7 +1595,7 @@ ArkWidget::slotOpenWith()
 	FileLVI *pItem = archiveContent->currentItem();
 	if (pItem  != NULL )
 	{
-		QString name = pItem->getFileName();
+		QString name = pItem->fileName();
 
 		m_extractList = new QStringList;
 		m_extractList->append(name);
@@ -1610,7 +1611,7 @@ ArkWidget::slotOpenWith()
 		m_extractList->append(name);
 		m_bOpenWithInProgress = true;
 		m_strFileToView = fullname;
-		if ( Utilities::diskHasSpace( m_settings->getTmpDir(), pItem->text( getSizeColumn() ).toInt() ) )
+		if ( Utilities::diskHasSpace( m_settings->getTmpDir(), pItem->fileSize() ) )
 		{
 			disableAll();
 			prepareViewFiles( m_extractList );
@@ -1648,7 +1649,7 @@ ArkWidget::reportExtractFailures( const QString & _dest, QStringList *_list )
 		FileLVI *flvi = (FileLVI*)flw->firstChild();
 		while (flvi)
 		{
-			tmp = flvi->getFileName();
+			tmp = flvi->fileName();
 			_list->append(tmp);
 			flvi = (FileLVI*)flvi->itemBelow();
 		}
@@ -1786,10 +1787,10 @@ ArkWidget::action_extract()
 						{
 							if ( flw->isSelected(flvi) )
 							{
-								kdDebug(1601) << "unarching " << flvi->getFileName() << endl;
-								QCString tmp = QFile::encodeName(flvi->getFileName());
+								kdDebug(1601) << "unarching " << flvi->fileName() << endl;
+								QCString tmp = QFile::encodeName(flvi->fileName());
 								m_extractList->append(tmp);
-								nTotalSize += flvi->text(getSizeColumn()).toInt();
+								nTotalSize += flvi->fileSize();
 							}
 							flvi = (FileLVI*)flvi->itemBelow();
 						}
@@ -1802,8 +1803,8 @@ ArkWidget::action_extract()
 							kdDebug(1601) << "Can't seem to figure out which is current!" << endl;
 							return true;
 						}
-						QString tmp = pItem->getFileName();  // no text(0)
-						nTotalSize += pItem->text(getSizeColumn()).toInt();
+						QString tmp = pItem->fileName();  // no text(0)
+						nTotalSize += pItem->fileSize();
 						m_extractList->append( QFile::encodeName(tmp) );
 					}
 					if (!bOvwrt)
@@ -1869,7 +1870,7 @@ ArkWidget::action_view()
 void
 ArkWidget::showFile( FileLVI *_pItem )
 {
-	QString name = _pItem->getFileName(); // no text(0)
+	QString name = _pItem->fileName(); // no text(0)
 
 	QString fullname;
 	fullname = "file:";
@@ -1884,7 +1885,7 @@ ArkWidget::showFile( FileLVI *_pItem )
 	m_extractList->append(name);
 
 	m_strFileToView = fullname;
-	if (Utilities::diskHasSpace( m_settings->getTmpDir(),	_pItem->text( getSizeColumn() ).toLong() ) )
+	if (Utilities::diskHasSpace( m_settings->getTmpDir(), _pItem->fileSize() ) )
 	{
 		disableAll();
 		prepareViewFiles( m_extractList );
@@ -1974,9 +1975,7 @@ void ArkWidget::updateStatusSelection()
           if (flvi->isSelected())
             {
               ++m_nNumSelectedFiles;
-              if (m_currentSizeColumn != -1)
-                m_nSizeOfSelectedFiles +=
-                  flvi->text(m_currentSizeColumn).toInt();
+              m_nSizeOfSelectedFiles += flvi->fileSize();
             }
           flvi = (FileLVI*)flvi->itemBelow();
         }
@@ -2013,7 +2012,7 @@ void ArkWidget::selectByPattern(const QString & _pattern) // slot
   archiveContent->clearSelection();
   while (flvi)
     {
-      if (glob->search(flvi->getFileName()) != -1)
+      if (glob->search(flvi->fileName()) != -1)
         archiveContent->setSelected(flvi, true);
       flvi = (FileLVI*)flvi->itemBelow();
     }

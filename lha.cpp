@@ -69,7 +69,7 @@ bool LhaArch::processLine(const QCString &line)
   char columns[13][80];
   char filename[4096];
 
-  if (QString(_line).contains("[generic]") )
+  if (QCString(_line).contains("[generic]") )
     {
       sscanf(_line, " %79[]\\[generic] %79[0-9] %79[0-9] %79[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%4095[^\n]",
 	     columns[0], columns[2], columns[3], columns[4], columns[5],
@@ -78,7 +78,7 @@ bool LhaArch::processLine(const QCString &line)
       strcpy( columns[1], " " );
     }
   else
-  if (QString(_line).contains("[MS-DOS]") )
+  if (QCString(_line).contains("[MS-DOS]") )
     {
       sscanf(_line, " %79[]\\[MS-DOS] %79[0-9] %79[0-9] %79[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%4095[^\n]",
 	     columns[0], columns[2], columns[3], columns[4], columns[5],

@@ -135,10 +135,7 @@ ArkWidgetPart::updateStatusTotals()
 		{
 			++m_nNumFiles;
 			
-			if (m_currentSizeColumn != -1)
-			{
-				m_nSizeOfFiles += pItem->text(m_currentSizeColumn).toInt();
-			}
+			m_nSizeOfFiles += pItem->fileSize();
 			pItem = (FileLVI *)pItem->nextSibling();
 		}
 	}
@@ -229,7 +226,7 @@ ArkWidgetPart::edit_view_last_shell_output()
 *     open a archive file and show its contents in a list view
 */
 void 
-ArkWidgetPart::showZip( QString _filename )
+ArkWidgetPart::showZip( const QString & _filename )
 {
 	createFileListView();
 	openArchive( _filename );
@@ -398,7 +395,7 @@ ArkWidgetPart::reportExtractFailures(const QString & _dest, QStringList *_list)
 		FileLVI *flvi = (FileLVI*)flw->firstChild();
 		while (flvi)
 		{
-			tmp = flvi->getFileName();
+			tmp = flvi->fileName();
 			_list->append(tmp);
 			flvi = (FileLVI*)flvi->itemBelow();
 		}
@@ -525,9 +522,9 @@ ArkWidgetPart::action_extract()
 						{
 							if ( flw->isSelected(flvi) )
 							{
-								QCString tmp = QFile::encodeName( flvi->getFileName() );
+								QCString tmp = QFile::encodeName( flvi->fileName() );
 								m_extractList->append( tmp );
-								nTotalSize += flvi->text( getSizeColumn() ).toInt();
+								nTotalSize += flvi->fileSize();
 							}
 							flvi = (FileLVI*)flvi->itemBelow();
 						}
@@ -539,8 +536,8 @@ ArkWidgetPart::action_extract()
 						{
 							return;
 						}
-						QString tmp = pItem->getFileName();  // mj: text(0) won't work
-						nTotalSize += pItem->text(getSizeColumn()).toInt();
+						QString tmp = pItem->fileName();  // mj: text(0) won't work
+						nTotalSize += pItem->fileSize();
 						m_extractList->append( QFile::encodeName(tmp) );
 					}
 					if ( !bOvwrt )
@@ -595,7 +592,7 @@ ArkWidgetPart::action_view()
 void 
 ArkWidgetPart::showFile( FileLVI *_pItem )
 {
-	QString name = _pItem->getFileName(); // mj: NO text(0)!
+	QString name = _pItem->fileName(); // mj: NO text(0)!
 	
 	QString fullname;
 	fullname = "file:";
@@ -607,7 +604,7 @@ ArkWidgetPart::showFile( FileLVI *_pItem )
 	
 	m_bViewInProgress = true;
 	m_strFileToView = fullname;
-	if ( Utilities::diskHasSpacePart( m_settings->getTmpDir(), _pItem->text( getSizeColumn() ).toLong() ) )
+	if ( Utilities::diskHasSpacePart( m_settings->getTmpDir(), _pItem->fileSize() ) )
 	{
 		arch->unarchFile( m_extractList, m_settings->getTmpDir() );
 	}
@@ -642,10 +639,7 @@ ArkWidgetPart::updateStatusSelection()
 			if (flvi->isSelected())
 			{
 				++m_nNumSelectedFiles;
-				if (m_currentSizeColumn != -1)
-				{
-					m_nSizeOfSelectedFiles += flvi->text(m_currentSizeColumn).toInt();
-				}
+				m_nSizeOfSelectedFiles += flvi->fileSize();
 			}
 			flvi = (FileLVI*)flvi->itemBelow();
 		}
@@ -667,7 +661,7 @@ ArkWidgetPart::selectByPattern(const QString & _pattern) // slot
 	archiveContent->clearSelection();
 	while ( flvi )
 	{
-		if ( glob->search(flvi->getFileName() ) != -1 )
+		if ( glob->search(flvi->fileName() ) != -1 )
 		{
 			archiveContent->setSelected(flvi, true);
 		}

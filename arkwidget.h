@@ -74,7 +74,7 @@ ArkWidget : public KMainWindow, public ArkWidgetBase
 	public:
 		ArkWidget( QWidget *parent=0, const char *name=0 );
 		virtual ~ArkWidget();
-		void showZip( QString name );
+		void showZip( const QString & name );
 		void reload();
 
 		bool isEditInProgress() { return m_bEditInProgress; }

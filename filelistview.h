@@ -51,9 +51,15 @@ class FileLVI : public KListViewItem
 public:
   FileLVI(KListView* lv) : KListViewItem(lv), parent(lv) {}
 
-  QString getFileName() const;
+  QString fileName() const;
+  /**
+   * Returns the size of the file, or 0 if no size is defined.
+   */
+  long fileSize() const;
+  QString timeStampStr() const;
+
   virtual QString key(int column, bool) const;
-	virtual void setText(int column, const QString &text);
+  virtual void setText(int column, const QString &text);
 
 private:
   KListView *parent;
