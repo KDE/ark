@@ -1,16 +1,17 @@
 /* (c)1997 Robert Palmbos
    See main.cc for license details */
+/* Warning:  Uncommented spaghetti code next 500 lines */
 /* This is the main kzip window widget */
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <qaccel.h>
+#include <qdir.h>
 #include <qfont.h>
 #include <qpopmenu.h>
 #include <qpixmap.h>
 #include <qmsgbox.h>
-#include <qfiledlg.h>
 #include <qstrlist.h>
 #include <qcursor.h>
 #include <ktoolbar.h>
@@ -21,7 +22,8 @@
 #include <kstatusbar.h>
 #include <klocale.h>
 #include <kfm.h>
-#include "ktablistbox.h"
+#include <kfiledialog.h>
+#include <ktablistbox.h>
 #include "extractdlg.h"
 #include "karch.h"
 #include "kzip.h"
@@ -44,7 +46,10 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 	fav_dir = config->readEntry( fav_key );
 	if( fav_dir.isEmpty() )
 		fav_dir = getenv( "HOME" );
-
+	tar_exe = config->readEntry( QString("TarExe") );
+	if( tar_exe.isEmpty() )
+		tar_exe = "tar";
+	
 	windowList.setAutoDelete( FALSE );
 	windowList.append( this );
 
@@ -73,6 +78,7 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 	editmenu->insertItem( klocale->translate( "&Delete"), this, SLOT( deleteFile() ) );
 	QPopupMenu *optionsmenu = new QPopupMenu;
 	optionsmenu->insertItem( klocale->translate( "&Set Archive Directory..."), this, SLOT( getFav() ) );
+	optionsmenu->insertItem( klocale->translate( "Set &Tar Executable..."), this, SLOT( getTarExe() ) );
 	optionsmenu->insertItem( klocale->translate( "&File Adding Options..."), this, SLOT( getAddOptions() ) );
 	QPopupMenu *helpmenu = kapp->getHelpMenu( true, "KZip v0.5\n (c) 1997 Robert Palmbos" );
 	//QPopupMenu *helpmenu = new QPopupMenu;
@@ -135,6 +141,7 @@ KZipWidget::KZipWidget( QWidget *, const char *name )
 
 	setCaption( kapp->getCaption() );
 	
+	this->resize( 600, 400 );  // someday this won't be hardcoded
 	tb->show();
 	lb->show();
 	sb->show();
@@ -214,12 +221,12 @@ void KZipWidget::createZip()
 	{
 		lb->clear();
 	}
-	QString file = QFileDialog::getSaveFileName();
+	QString file = KFileDialog::getSaveFileName();
 	if( !file.isEmpty() )
 	{
 		lb->clear();
 		lb->repaint();
-		arch = new KZipArch;
+		arch = new KZipArch(tar_exe);
 		ret = arch->createArch( file );	
 		if( ret )
 			sb->changeItem( file.data(), 0 );
@@ -266,7 +273,7 @@ void KZipWidget::fileDrop( KDNDDropZone *dz )
 		url = dlist.at(0);
 		file = url.right( url.length()-5 );
 		foo = file.data();
-		arch = new KZipArch;
+		arch = new KZipArch(tar_exe);
 		if( arch->openArch( file ) )
 		{
 			showZip( file );
@@ -302,7 +309,7 @@ void KZipWidget::fileDrop( KDNDDropZone *dz )
 void KZipWidget::getFav()
 {
 	QString tmp;
-	DlgLocation ld( klocale->translate( "Archive Dir:"), "", this );
+	DlgLocation ld( klocale->translate( "Archive Dir:"), fav_dir, this );
 	if( ld.exec() )
 	{
 		tmp = ld.getText();
@@ -316,9 +323,26 @@ void KZipWidget::getFav()
 	}
 }
 
+void KZipWidget::getTarExe()
+{
+	QString tmp;
+	DlgLocation ld( klocale->translate( "What runs GNU tar:"), tar_exe, this );
+	if( ld.exec() )
+	{
+		tmp = ld.getText();
+		if( !tmp.isNull() && !tmp.isEmpty() )
+		{
+			KConfig *config;
+			config = kapp->getConfig();
+			tar_exe = tmp;
+			config->writeEntry( "TarExe", tar_exe );
+		}
+	}
+}
+
 void KZipWidget::openZip()
 {
-	QString name = QFileDialog::getOpenFileName();
+	QString name = KFileDialog::getOpenFileName();
 	if( !name.isNull() ) 
 		showZip( name ); 
 }
@@ -329,7 +353,7 @@ void KZipWidget::showZip( QString name )
 
 	lb->clear();
 	delete arch;
-	arch = new KZipArch;
+	arch = new KZipArch(tar_exe);
 
 	ret = arch->openArch( name );
 	if( ret )
@@ -360,8 +384,14 @@ void KZipWidget::showFavorite()
 	lb->clear();
 	lb->setNumCols( 2 );
 	lb->setColumn( 0, klocale->translate( "Size" ), 80 );
-	lb->setColumn( 1, klocale->translate( "File" ), 180 );
+	lb->setColumn( 1, klocale->translate( "File" ), this->width()-80 );
 	fav = new QDir( fav_dir );
+	if( !fav->exists() )
+	{
+		sb->changeItem( (char *)klocale->translate( 
+			"Archive directory does not exist."), 0 );
+		return;
+	}
 	flist = fav->entryInfoList();
 	QFileInfoListIterator flisti( *flist );
 	++flisti; // Skip . and ..
@@ -495,8 +525,12 @@ void KZipWidget::showFile( int index, int col )
 
 void KZipWidget::resizeEvent( QResizeEvent *re )
 {
+	int col = lb->numCols()-1;
+	int colpos;
 	KTopLevelWidget::resizeEvent( re );
 	lb->resize( lb->width(), lb->height() );
+	if( lb->colXPos( col, &colpos ) )
+		lb->setColumnWidth( col, ((this->width())-colpos) );
 }
 
 void KZipWidget::extractFile()
@@ -515,7 +549,7 @@ void KZipWidget::extractFile( int pos )
 		ExtractDlg *gdest;
 		if( !arch )
 		{
-			arch = new KZipArch;
+			arch = new KZipArch(tar_exe);
 			tmp = listing->at( pos );
 			tname = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
 			fullname = fav->path();

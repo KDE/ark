@@ -9,8 +9,9 @@
 #include <kfm.h>
 #include "karch.h"
 
-KZipArch::KZipArch()
+KZipArch::KZipArch( QString te )
 {
+	tar_exe = te;  // *sigh*
 	arch = 0;
 }
 
@@ -55,7 +56,7 @@ bool KZipArch::openArch( QString name )
 	{
 		case Tar:
 		{
-			arch = new TarArch( "tar" );
+			arch = new TarArch( tar_exe );
 			arch->openArch( name );
 			break;
 		}
@@ -91,7 +92,7 @@ bool KZipArch::createArch( QString file )
 	{
 		case Tar:
 		{
-			arch = new TarArch( "tar" );
+			arch = new TarArch( tar_exe );
 			arch->createArch( file );
 			break;
 		}

@@ -168,10 +168,6 @@ void TarArch::openArch( QString name )
 void TarArch::createArch( QString file )
 {
 	cout << "Entered createArch" << endl;
-	/*QString ex;
-	ex = "tar cf ";
-	ex += file;
-	system( ex );*/
 	archname = file;
 	cout << "Left createArch" << endl;
 }

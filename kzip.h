@@ -25,6 +25,7 @@ public:
 	~KZipWidget();
 
 public slots:
+	void getTarExe();
 	void doPopup( int, int );
 	void newWindow();
 	void createZip();
@@ -67,6 +68,7 @@ private:
 	KMenuBar *menu;
 	QDir *fav;
 	QString fav_dir;
+	QString tar_exe; // why do people insist on having two tars?
 	QFrame *f_main;
 	KStatusBar *sb;
 	QString tmpdir;

@@ -26,14 +26,14 @@ bin_PROGRAMS = 	kzip
 
 # Which sources should be compiled for kzip.
 kzip_SOURCES	= adddlg.cc ar.cc arch.cc extractdlg.cc karch.cc kfdird.cc \
-                 kzip.cc lha.cc main.cc tar.cc zip.cc text.c kzipprocess.cc
+                 kzip.cc lha.cc main.cc tar.cc zip.cc kzipprocess.cc text.c
 
 # the library search path
 kzip_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 # the libraries to link against. Be aware of the order. First the libraries,
 # that depend on the following ones.
-kzip_LDADD   = -lkfm -lkdeui -lkdecore -lqt -lX11 -lXext $(LIBSOCKET)
+kzip_LDADD   = -lkfile -lkfm -lkdeui -lkdecore -lqt -lX11 -lXext $(LIBSOCKET)
 
 # this option you can leave out. Just, if you use "make dist", you need it
 #noinst_HEADERS = hexfile.h hexwidget.h

@@ -1,9 +1,13 @@
 # KDE Config File
 [KDE Desktop Entry]
+Comment[C]=Zip Archives
+Comment[pt]=Arquivos Zip
+Comment[fr]=Archives ZIP
 Mimetype=application/x-zip
 Comment=Zip Archives
-Comment[fr]=Archives ZIP
+DefaultApp=Zip
 Comment[pl]=Archiwum Zip
+Icon=tgz.xpm
 Comment[pt]=Arquivos Zip
 Comment[hr]=Zip Arhive
 DefaultApp=Zip

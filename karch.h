@@ -13,7 +13,7 @@
 class KZipArch {
 
 public:
-	KZipArch();
+	KZipArch( QString te="tar" );
 	~KZipArch();
 	bool openArch( QString name );
 	bool createArch( QString file );
@@ -33,6 +33,7 @@ private:
 	enum ArchType{ Tar, Zip, AA, Lha };
 	int getArchType( QString );
 	Arch *arch;
+	QString tar_exe;
 
 };
 

@@ -14,6 +14,7 @@ This file is under the GPL.  See main.cc for more.
 
 /* This function removes num_rem characters at point *find, 
    moving the remaining characters back to fill in the spot */
+	/* this is ugly and slow, blech */
    
 void strshort( char *start, int num_rem )
 {
