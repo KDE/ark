@@ -38,8 +38,8 @@
 // ark includes
 #include "arkwidget.h"
 #include "zip.h"
-#include "zipAddDlg.h"
-#include "zipExtractDlg.h"
+//#include "zipAddDlg.h"
+//#include "zipExtractDlg.h"
 #include "zip.moc"
 
 ZipArch::ZipArch( ArkData *_d, ArkWidget *_mainWindow, QString _fileName )  
@@ -306,11 +306,11 @@ void ZipArch::add( QString _location, int _mode, QString _compression, bool _rec
 int ZipArch::addFile( QStringList *urls )
 {
   	kdebug(0, 1601, "+ZipArch::addFile");
-
+/*
 	ZipAddDlg *zad = new ZipAddDlg( this, m_data, m_data->getAddDir() );  	
 	zad->exec();
   	delete zad;
-
+*/
   	kdebug(0, 1601, "+ZipArch::addFile");
 }
 
@@ -483,6 +483,7 @@ void ZipArch::initExtract( bool _overwrite, bool _junkPaths, bool _lowerCase)
 
 void ZipArch::extract()
 {
+#if 0
  	ZipExtractDlg *zed=new ZipExtractDlg( m_data, !fileList()->isSelectionEmpty(), m_data->getExtractDir() );
  	if( zed->exec() ){
  		
@@ -536,6 +537,7 @@ void ZipArch::extract()
 		m_wd->exec();	
 	}
 	delete zed;
+#endif
 }
 
 void ZipArch::slotIntegrityExited(KProcess *)

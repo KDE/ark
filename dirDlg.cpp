@@ -254,7 +254,7 @@ DirDlg::DirDlg( ArkData *d, QWidget *parent, const char *name )
 
 void DirDlg::getFavDir( )
 {
-
+/*
 	KDirDialog dd( favLE->text(), this, "dirdialog" );
 	dd.setCaption( i18n("Archive directory") );
 	if( dd.exec() )
@@ -264,11 +264,12 @@ void DirDlg::getFavDir( )
 			favLE->setText( dirName );
 		}
 	}
+*/
 }
 
 void DirDlg::getStartDir( )
 {
-
+/*
 	KDirDialog dd( startLE->text(), this, "dirdialog" );
 	dd.setCaption( i18n("Start-up directory") );
 	if( dd.exec() )
@@ -277,11 +278,12 @@ void DirDlg::getStartDir( )
 		if( !dirName.isEmpty() )
 			startLE->setText( dirName );
 	}
+*/
 }
 
 void DirDlg::getOpenDir( )
 {
-
+/*
 	KDirDialog dd( openLE->text(), this, "dirdialog" );
 	dd.setCaption( i18n("Default open directory") );
 	if( dd.exec() )
@@ -290,11 +292,12 @@ void DirDlg::getOpenDir( )
 		if( !dirName.isEmpty() )
 			openLE->setText( dirName );
 	}
+*/
 }
 
 void DirDlg::getExtractDir( )
 {
-
+/*
 	KDirDialog dd( extractLE->text(), this, "dirdialog" );
 	dd.setCaption( i18n("Default extract directory") );
 	if( dd.exec() )
@@ -303,11 +306,12 @@ void DirDlg::getExtractDir( )
 		if( !dirName.isEmpty() )
 			extractLE->setText( dirName );
 	}
+*/
 }
 
 void DirDlg::getAddDir( )
 {
-
+/*
 	KDirDialog dd( addLE->text(), this, "dirdialog" );
 	dd.setCaption( i18n("Default add directory") );
 	if( dd.exec() )
@@ -316,6 +320,7 @@ void DirDlg::getAddDir( )
 		if( !dirName.isEmpty() )
 			addLE->setText( dirName );
 	}
+*/
 }
 
 void DirDlg::favDirChanged( const QString& path)
