@@ -65,7 +65,7 @@ static QString resolveFilename(const QString & _arkname)
 	      delete buff;
 	      continue;
 	    }
-	  else 
+	  else
 	    {
 	      // the other errors will be taken care of already in simply
 	      // opening the archive (i.e., the user will be notified)
@@ -113,7 +113,6 @@ int ArkApplication::newInstance()
 {
   kdDebug(1601) << "+ArkApplication::newInstance" << endl;
 
-  QString Zip;
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
   KURL url;
 
@@ -124,7 +123,7 @@ int ArkApplication::newInstance()
     ArkWidget *arkWin = new ArkWidget(m_mainwidget);
     arkWin->show();
     arkWin->resize(640, 300);
-    
+
     if (!url.isEmpty())
       {
 	arkWin->file_open(url);
@@ -160,7 +159,7 @@ void ArkApplication::removeOpenArk(const QString & _arkname)
 }
 
 void ArkApplication::raiseArk(const QString & _arkname)
-{ 
+{
   ArkWidget *window;
   QString realName = resolveFilename(_arkname);  // follow symlink
   window = m_windowsHash[realName];
@@ -176,7 +175,7 @@ void ArkApplication::raiseArk(const QString & _arkname)
 bool ArkApplication::isArkOpenAlready(const QString & _arkname)
 {
   QString realName = resolveFilename(_arkname);  // follow symlink
-  return (openArksList.findIndex(realName) != -1); 
+  return (openArksList.findIndex(realName) != -1);
 }
 
 
