@@ -58,7 +58,7 @@ m_settings( _settings )
 {
 	QFrame *mainFrame = plainPage();
 
-	kdDebug() << "+ExtractDlg::ExtractDlg" << endl;
+	kdDebug(1601) << "+ExtractDlg::ExtractDlg" << endl;
 
 	QGridLayout *Form1Layout = new QGridLayout( mainFrame );
 	Form1Layout->setSpacing( 6 );
@@ -172,7 +172,7 @@ m_settings( _settings )
 	m_radioCurrent->setChecked(true);
 	enableButtonOK(!m_extractDirCB->lineEdit()->text().isEmpty());
 	setFocus();
-	kdDebug() << "-ExtractDlg::~ExtractDlg" << endl;
+	kdDebug(1601) << "-ExtractDlg::~ExtractDlg" << endl;
 }
 
 ExtractDlg::~ExtractDlg()

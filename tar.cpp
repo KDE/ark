@@ -548,13 +548,13 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
 
       if (oldFileMTime >= addFileMTime)
       {
-        kdDebug() << "Old time is newer or same" << endl;
+        kdDebug(1601) << "Old time is newer or same" << endl;
         continue; // don't add this file to the list to be deleted.
       }
     }
     list.append(str);
 
-    kdDebug() << "To delete: " << str << endl;
+    kdDebug(1601) << "To delete: " << str << endl;
   }
   if(!list.isEmpty())
     remove(&list);

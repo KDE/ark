@@ -2144,7 +2144,7 @@ ArkWidget::arkWarning(const QString& msg)
 void
 ArkWidget::createFileListView()
 {
-	kdDebug() << "ArkWidget::createFileListView" << endl;
+	kdDebug(1601) << "ArkWidget::createFileListView" << endl;
 	//delete archiveContent;
 	if ( !archiveContent )
 	{
