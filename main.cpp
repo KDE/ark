@@ -41,17 +41,13 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 // QT includes
 
 // KDE includes
-#include <klocale.h>
 #include <kdebug.h>
 #include <dcopclient.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
-#include <kio/job.h>
-#include <kmainwindow.h>
 
 // ark includes
 #include "arkapp.h"
-#include "arkwidget.h"
 
 static KCmdLineOptions option[] =
 {
@@ -86,6 +82,9 @@ int main( int argc, char *argv[]  )
 	KCmdLineArgs::addCmdLineOptions( option );
 	
 	kdDebug( 1601 ) << "Starting ark. argc=" << argc << "  First arg: " << (argc == 2 ? argv[1] : 0) << endl;
+    if( argc > 2 )
+        for( int c = 1; c<argc; c++ )
+            kdDebug( 1601 ) << "arg[" << c << "] " << argv[ c ] << endl;
 	
 	if ( !ArkApplication::start() )
 	{
@@ -97,7 +96,7 @@ int main( int argc, char *argv[]  )
 	if ( ArkApplication::getInstance()->isRestored() )
 	{
 		kdDebug( 1601 ) << "In main: Restore..." << endl;
-		RESTORE( ArkWidget );
+		RESTORE( ArkTopLevelWindow );
 	}
 	kdDebug( 1601 ) << "Starting ark..." << endl;
 	

@@ -1,7 +1,4 @@
 /*
-
-  $Id$
-
     ark: A program for modifying archives via a GUI.
 
     Copyright (C)
@@ -29,7 +26,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
-//#include <stdio.h>
 
 // Qt includes
 #include <qdir.h>
@@ -42,8 +38,6 @@
 #include <kprocess.h>
 
 // ark includes
-#include "arch.h"
-#include "arksettings.h"
 #include "arkwidgetbase.h"
 #include "compressedfile.h"
 

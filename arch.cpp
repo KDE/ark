@@ -28,15 +28,12 @@
 
 */
 
-#include <config.h>
-
 // C includes
 #include <stdlib.h>
 #include <time.h>
 
 // QT includes
 #include <qapplication.h>
-#include <qfile.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -49,7 +46,6 @@
 // ark includes
 #include "arch.h"
 #include "arksettings.h"
-#include "filelistview.h"
 #include "arkwidgetbase.h"
 #include "arkutils.h"
 
@@ -92,7 +88,7 @@ void Arch::verifyUtilityIsAvailable(const QString & _utility1,
   // see if the utility is in the PATH of the user. If there is a
   // second utility specified, it must also be present.
   QString cmd1 = KGlobal::dirs()->findExe(_utility1);
-  
+
   if( _utility2.isNull() )
     m_bUtilityIsAvailable = !cmd1.isEmpty();
   else
@@ -266,7 +262,7 @@ void Arch::slotAddExited(KProcess *_kp)
 
 bool Arch::stderrIsError()
 {
-  return m_shellErrorData.find(QString("eror")) != -1;
+  return m_shellErrorData.find(QString("error")) != -1;
 }
 
 void Arch::slotReceivedOutput(KProcess*, char* _data, int _length)
@@ -387,6 +383,7 @@ bool Arch::processLine(const QCString &line)
 
   return true;
 }
+
 
 Arch *Arch::archFactory(ArchType aType, ArkSettings *settings,
 			ArkWidgetBase *parent, const QString &filename)

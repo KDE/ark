@@ -46,7 +46,6 @@ class ArkWidgetBase
 	// Methods
 	public:
 		QWidget *getArkWidget() const { return m_widget; }
-		
 		bool isArchiveOpen() const { return m_bIsArchiveOpen; }
 		bool dragInProgress() const { return m_bDragInProgress; }
 		int getNumFilesInArchive() const { return m_nNumFiles; }
@@ -59,6 +58,9 @@ class ArkWidgetBase
 		const FileLVI * getFileLVI(const QString &_filename) const;
 		KURL getOriginalURL() const { return m_url; }
 		FileListView *fileList() const { return archiveContent; }
+        Arch *archive() const { return arch; }
+        ArchType archiveType() const { return m_archType; }
+        int numSelectedFiles() const { return m_nNumSelectedFiles; }
 				
 		// Mutators
 		void setHeaders(QStringList *headers, int *_rightAlignCols,
@@ -86,8 +88,8 @@ class ArkWidgetBase
 
 		Arch *arch;
 		ArkSettings *m_settings;
-		FileListView *archiveContent;
 		QString m_strArchName;
+		FileListView *archiveContent;
 		KURL m_url;
 		ArchType m_archType;
 

@@ -30,6 +30,8 @@
 #ifndef __ARKAPP_H__
 #define __ARKAPP_H__
 
+#include "arktoplevelwindow.h"
+
 // QT includes
 #include <qdict.h>
 
@@ -38,8 +40,6 @@
 
 class QString;
 class QStringList;
-
-class ArkWidget;
 
 class EqualKey
 {
@@ -67,12 +67,12 @@ class ArkApplication : public KUniqueApplication
 		// keep track of open archive names so we don't open one twice
 		// note that ArkWidget is not a pointer to const because raise()
 		// requires later a pointer to nonconst.
-		void addOpenArk(const QString & _arkname, ArkWidget * _ptr);
-		void removeOpenArk(const QString & _arkname);
+		void addOpenArk(const KURL & _arkname, ArkTopLevelWindow * _ptr);
+		void removeOpenArk(const KURL & _arkname);
 		
-		bool isArkOpenAlready(const QString & _arkname);
+		bool isArkOpenAlready(const KURL & _arkname);
 		
-		void raiseArk(const QString & _arkname);
+		void raiseArk(const KURL & _arkname);
 			
 		// use this function to access data from other modules.
 		static ArkApplication *getInstance();
@@ -88,7 +88,7 @@ class ArkApplication : public KUniqueApplication
 		
 		// a hash to obtain the window associated with a filename.
 		// given a QString key, you get an ArkWidget * pointer.
-		QDict<ArkWidget> m_windowsHash;
+		QDict<ArkTopLevelWindow>m_windowsHash;
 		
 		bool m_isSessionRestored;
 		

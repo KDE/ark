@@ -34,7 +34,6 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include <qlabel.h>
 #include <qapplication.h>
 #include <qlayout.h>
-#include <qfileinfo.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -43,14 +42,12 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include <klocale.h>
 #include <kcombobox.h>
 #include <kurlcompletion.h>
-#include <kurifilter.h>
 #include <kurlrequester.h>
 
 // application includes
 #include "arksettings.h"
 #include "generalOptDlg.h"
 #include "extractdlg.h"
-#include <qpushbutton.h>
 
 #define FIRST_PAGE_WIDTH  390
 

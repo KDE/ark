@@ -37,7 +37,6 @@
 #include <kglobalsettings.h>
 
 #include "filelistview.h"
-#include "arch.h"
 #include "arkwidgetbase.h"
 
 /////////////////////////////////////////////////////////////////////

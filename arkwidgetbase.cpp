@@ -24,19 +24,15 @@
 #include <stdlib.h>
 
 // QT includes
-#include <qheader.h>
 #include <qdir.h>
 
 // KDE includes
-#include <klocale.h>
 #include <kdebug.h>
 #include <kstandarddirs.h>
 #include <kprocess.h>
 
 // Ark includes
 #include "filelistview.h"
-#include "arch.h"
-#include "arkapp.h"
 #include "shellOutputDlg.h"
 #include "arksettings.h"
 #include "arkwidgetbase.h"
@@ -54,13 +50,28 @@ ArkWidgetBase::ArkWidgetBase(QWidget *widget)
 	m_settings = new ArkSettings;
 	
 	// Creates a temp directory for this ark instance
-	unsigned int pid = getpid();
+    //getpid() doesn't help here, since we can have many arkkparts
+    //embedded in one Konqueror, all with the same pid
+	//unsigned int pid = getpid();
 	QString tmpdir, directory;
-	
-	directory.sprintf( "ark.%d/", pid );
-	tmpdir = locateLocal( "tmp", directory );
-	
-	m_settings->setTmpDir( tmpdir );
+
+    int count=0;
+    QDir dir;
+    srand( getpid() );
+    for( ; count <= 255; count++ )
+    {
+        //no trailing slash here, otherwise the dir is created by locateLocal if
+        //it doesn't exist
+	    directory.sprintf( "ark.%d", rand() );
+	    tmpdir = locateLocal( "tmp", directory );
+        kdDebug( 1601 )<< "ArkWidgetBase::ArkWidgetBase tmpdir: " << tmpdir << " exists( " << dir.exists( tmpdir ) << " )"<< endl;
+        if( !dir.exists( tmpdir ) )
+            break;
+    }
+    if( count < 255 && dir.mkdir( tmpdir ) )
+        m_settings->setTmpDir( tmpdir );
+    else
+        kdWarning( 1601 ) << "Could not create a temporary directory." << endl;
 }
 
 /**
@@ -79,40 +90,18 @@ ArkWidgetBase::~ArkWidgetBase()
 void
 ArkWidgetBase::cleanArkTmpDir( bool part )
 {
-	QString tmpdir = m_settings->getTmpDir();
-	
-	if(  part )
-	{
-		KProcess proc;
-		proc << "rm" << "-rf" << tmpdir;
-		proc.start(KProcess::Block);
-
-		return;
-	}
-
-	ArkApplication::getInstance()->removeWindow();
-	QString viewdir = QString::number( getArkInstanceId() );
-	viewdir += "/";
-	
-	// delete the viwer temporary directory ( if exists ) and its contents
-	KProcess proc;
-	proc << "rm" << "-rf" << tmpdir + viewdir;
-	proc.start(KProcess::Block);
-	
-	// delete main temporary directory if no more ark instances are open
-	if ( ! ArkApplication::getInstance()->windowCount() )
-	{
-		KProcess proc;
-		proc << "rm" << "-rf" << tmpdir;
-		proc.start(KProcess::Block);
-	}
+    QString tmpdir = m_settings->getTmpDir();
+    KProcess proc;
+    proc << "rm" << "-rf" << tmpdir;
+    proc.start(KProcess::Block);
+    return;
 }
 
 /**
-* Returns the file item, or 0 if not found.
-* @param _filename The filename in question to reference in the archive
-* @return The requested file's FileLVI
-*/
+ * Returns the file item, or 0 if not found.
+ * @param _filename The filename in question to reference in the archive
+ * @return The requested file's FileLVI
+ */
 const FileLVI *
 ArkWidgetBase::getFileLVI(const QString &_filename) const
 {
@@ -130,6 +119,7 @@ ArkWidgetBase::getFileLVI(const QString &_filename) const
 	
 	return 0;
 }
+
 
 /**
 * Adds a file and stats to the file listing
@@ -203,44 +193,43 @@ ArkWidgetBase::viewShellOutput()
 * directory junk options to be ignored.
 * @param fileList Files to extract
 */
-void 
+void
 ArkWidgetBase::prepareViewFiles(QStringList *fileList)
 {
-	// Ark can have two or more instances with same name files and diferent
-	// contents. Need specify wich compressed file we are viewing
-	QString destTmpDirectory;
-	destTmpDirectory = m_settings->getTmpDir();
-	destTmpDirectory += QString::number( getArkInstanceId() );
-	
-	QDir dir( destTmpDirectory );
-	if( ! dir.exists( destTmpDirectory ) )
-	{
-		kdDebug(1601) << "Creating tmp view dir: " << destTmpDirectory << endl;
-		dir.mkdir( destTmpDirectory );
-	}
-	
-	arch->unarchFile(fileList, destTmpDirectory, true);
+    QString destTmpDirectory;
+    destTmpDirectory = m_settings->getTmpDir();
+
+    QDir dir( destTmpDirectory );
+
+    //shouldn't happen, already created in the ctor
+    if( ! dir.exists( destTmpDirectory ) )
+    {
+        kdDebug(1601) << "Creating tmp view dir: " << destTmpDirectory << endl;
+        dir.mkdir( destTmpDirectory );
+    }
+
+    arch->unarchFile(fileList, destTmpDirectory, true);
 }
 
 
 /**
 * Miscellaneous tasks involved in closing an archive.
-*/
-void 
+ */
+void
 ArkWidgetBase::closeArch()
 {
-	if( isArchiveOpen() )
-	{
-		delete arch;
-		arch = 0;
-		m_bIsArchiveOpen = false;	
-	}
+    if( isArchiveOpen() )
+    {
+        delete arch;
+        arch = 0;
+        m_bIsArchiveOpen = false;	
+    }
 
-	if ( 0 != archiveContent )
-	{
-		archiveContent->clear();
-		clearHeaders();
-	}
+    if ( 0 != archiveContent )
+    {
+        archiveContent->clear();
+        clearHeaders();
+    }
 }
 
 

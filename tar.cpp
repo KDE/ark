@@ -50,7 +50,6 @@
 
 // Qt includes
 #include <qapplication.h>
-#include <qfile.h>
 #include <qdir.h>
 
 // KDE includes
@@ -61,7 +60,6 @@
 #include <kmimemagic.h>
 #include <kstandarddirs.h>
 #include <kprocess.h>
-#include <karchive.h>
 #include <ktar.h>
 
 // ark includes

@@ -5,11 +5,9 @@ Feature-wise:
 - Rename option
 - Archive conversion with save as 
 - Thorough bug hunting
-- Read-write part for full konqueror integration
 
 Code-wise:
-- Kill the mess of signals in arkwidget.cc - the triple-overload on
-file_open is nonsense.
+- Kill the mess of signals in arkwidget.cc
 - Get rid of QStrings. Carry KURLs through 99% of the process, and
 only convert when necessary.
 - More intuitive 'chained' archive support (ie. .tar.bz2)

@@ -67,8 +67,8 @@
 #include "arkutils.h"
 
 QString ArkUtils::getTimeStamp(const QString &_month,
-			    const QString &_day,
-			    const QString &_yearOrTime)
+                            const QString &_day,
+                            const QString &_yearOrTime)
 {
   // Make the date format sortable.
   // Month is in _month, day is in _day.
@@ -103,17 +103,17 @@ QString ArkUtils::getTimeStamp(const QString &_month,
     {
       year = _yearOrTime;
       if (year.right(1) == " ")
-	year = year.left(4);
+        year = year.left(4);
       if (year.left(1) == " ")
-	year = year.right(4);
+        year = year.right(4);
 
       timestamp = "??:??";
     }
 
   QString retval;
   retval.sprintf("%s-%.2d-%.2d %s",
-		 year.utf8().data(), nMonth, nDay,
-		 timestamp.utf8().data());
+                 year.utf8().data(), nMonth, nDay,
+                 timestamp.utf8().data());
   return retval;
 }
 
@@ -121,12 +121,12 @@ int ArkUtils::getMonth(const char *strMonth)
   // returns numeric value for three-char month string
 {
   static char months[13][4] = { "", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-				"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
   int nIndex;
   for (nIndex = 1; nIndex < 13; ++nIndex)
     {
       if (0 == strcmp(strMonth, months[nIndex]))
-	return nIndex;
+        return nIndex;
     }
   return 0;
 }
@@ -218,3 +218,4 @@ ArkUtils::getSizes(QStringList *list)
   }
   return sum;
 }
+

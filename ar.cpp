@@ -34,7 +34,6 @@
 #include <string.h>
 
 // QT includes
-#include <qfile.h>
 #include <qdir.h>
 
 // KDE includes
@@ -45,7 +44,6 @@
 
 // ark includes
 #include "arkwidgetbase.h"
-#include "arch.h"
 #include "arksettings.h"
 #include "ar.h"
 

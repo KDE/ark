@@ -44,8 +44,8 @@ namespace ArkUtils
   QString fixYear(const char *strYear);
 
   QString getTimeStamp(const QString &month,
-		       const QString &day,
-		       const QString &year);
+                       const QString &day,
+                       const QString &year);
   bool haveDirPermissions(const QString &strFile);
   bool diskHasSpace(const QString &dir, long size);
   long getSizes(QStringList *list);
