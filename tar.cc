@@ -51,7 +51,7 @@ int TarArch::updateArch()
 		}
 
 		fd2 = fopen(archname, "w");
-
+		
 		while((size = fread(buffer, 1, 4096, fd)))
 			fwrite(buffer, size, 1, fd2);
 		fclose(fd2);
@@ -69,11 +69,11 @@ int TarArch::updateArch()
 	return retcode;
 }
 
-QString TarArch::getCompressor()
+QString TarArch::getCompressor() 
 {
 	QString extension = archname.right( archname.length()-archname.findRev('.') );
 	cout << extension;
-	if( extension == ".tgz" || extension == ".gz" )
+	if( extension == ".tgz" || extension == ".gz" ) 
 		return QString( "gzip" );
 	if( extension == ".bz" )
 		return QString( "bzip" );
@@ -86,11 +86,11 @@ QString TarArch::getCompressor()
 	return 0;
 }
 
-QString TarArch::getUnCompressor()
+QString TarArch::getUnCompressor() 
 {
 	QString extension = archname.right( archname.length()-archname.findRev('.') );
 	cout << extension;
-	if( extension == ".tgz" || extension == ".gz" )
+	if( extension == ".tgz" || extension == ".gz" ) 
 		return QString( "gunzip" );
 	if( extension == ".bz" )
 		return QString( "bunzip" );
@@ -135,9 +135,9 @@ void TarArch::openArch( QString name )
 
 	archname = name;
 
-	archProcess << tar_exe << "--use-compress-program="+getUnCompressor()
+	archProcess << tar_exe << "--use-compress-program="+getUnCompressor() 
 	            <<	"-tvf" << archname;
-
+	
  	if(archProcess.startPipe(KProcess::Stdout, &fd) == FALSE)
  	{
  		cerr << "Subprocess wouldn't start!" << endl;
@@ -159,7 +159,7 @@ void TarArch::openArch( QString name )
 		fgets( line, 4096, fd );
 	}
 //	fclose( fd );
-//	There should be a file descriptor close call, but this one makes a
+//	There should be a file descriptor close call, but this one makes a 
 //	BAD FILEDESCRIPTOR error message
 //	Another note: gzip reported 'Broken pipe' because of that fclose()
 	while(archProcess.isRunning())
@@ -200,7 +200,7 @@ void TarArch::createTmp()
 		}
 
 		fd2 = fopen(tmpfile, "w");
-
+		
 		while((size = fread(buffer, 1, 4096, fd)))
 		{
 			fwrite(buffer, size, 1, fd2);
@@ -219,12 +219,12 @@ int TarArch::addFile( QStrList* urls )
 
 	int retcode;
 	QString file, url, tmp;
-
+	
 	createTmp();
 
 	url = urls->first();
 	cout << "Url's name is: " << url << endl;
-	KURL::decode(url); // Because of special characters
+	KURL::decodeURL(url); // Because of special characters
 	cout << "Url's name now is: " << url << endl;
 	file = url.right( url.length()-5 );
 	if( file[file.length()-1]=='/' )
@@ -232,7 +232,7 @@ int TarArch::addFile( QStrList* urls )
 
 // 	if(archProcess.isRunning())
 // 		cerr << "Why oh, why you don't know how to say good bye?" << endl;
-	archProcess.clearArguments();
+	archProcess.clearArguments();	
 //	archProcess.setExecutable( tar_exe );
 
 	archProcess << tar_exe;
@@ -267,7 +267,7 @@ int TarArch::addFile( QStrList* urls )
 //		cout << url << " is the name of the url " << endl;
 		if( url.isNull() )
 			break;
-		KURL::decode(url);
+		KURL::decodeURL(url); 
 		// It's used because of the special characters, can't be
 		// before url.isNull() because this function makes empty string from
 		// a NULL pointer
@@ -280,7 +280,7 @@ int TarArch::addFile( QStrList* urls )
 		pos++;
 		tmp = file.right( file.length()-pos );
 		file = tmp;
-	}
+	}	
 	FILE *fd;
 	char inp[4096];
 // Debuggin part
@@ -329,8 +329,8 @@ void TarArch::extractTo( QString dir )
 
 
 
-	archProcess << "--use-compress-program="+getUnCompressor()
-	            <<	"-xvf" << archname << "-C" << dir;
+	archProcess << "--use-compress-program="+getUnCompressor() 
+	            <<	"-xvf" << archname << "-C" << dir;	
  	if(archProcess.startPipe(KProcess::Stdout, &fd) == false)
  	{
  		cerr << "Subprocess wouldn't start!" << endl;
@@ -362,9 +362,9 @@ QString TarArch::unarchFile( int index, QString dest )
 	int pos;
 	QString tmp, name;
 	QString fullname;
-
+	
 	updateArch();
-
+	
 	tmp = listing->at( index );
 	pos = tmp.findRev( '\t', -1, FALSE );
 	pos++;
@@ -390,16 +390,16 @@ void TarArch::deleteFile( int indx )
 {
 	cout << "Entered deleteFile" << endl;
 	QString name, tmp;
-
+	
 	createTmp();
-
+	
 	tmp = listing->at(indx);
 	name = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
 	archProcess.clearArguments();
 //	archProcess.setExecutable( tar_exe );
 	archProcess << tar_exe << "--delete" << "-f" << tmpfile << name;
 	archProcess.start(KProcess::Block);
-
+	
 	updateArch();
 	cout << "Left deleteFile" << endl;
 }

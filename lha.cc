@@ -144,7 +144,7 @@ int LhaArch::addFile( QStrList *urls )
 	url = urls->first();
 	do
 	{
-		KURL::decode(url); // Because of special characters
+		KURL::decodeURL(url); // Because of special characters
 		file = url.right( url.length()-5);
 
 
