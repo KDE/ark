@@ -20,3 +20,4 @@ For KDE 3.0:
 - rewrite :-)
 - need to add support for split files
 - need to add some kind of progress feedback to the user
+- don't exit when something is wrong
