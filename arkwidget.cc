@@ -508,7 +508,7 @@ void ArkWidget::file_open(const QString & strFile)
 	  KMessageBox::error(this, i18n("Can't access the archive %1").arg(strFile.local8Bit()));
 	}
       else
-	KMessageBox::error(this, i18n("Unknown error."));
+	KMessageBox::error(this, i18n("Unknown error"));
       recent->removeURL(strFile);
       return;
     }
@@ -531,7 +531,7 @@ void ArkWidget::file_open(const QString & strFile)
 
       if (! ((statbuffer.st_mode & nFlag) == nFlag))
 	{
-	  KMessageBox::error(this, i18n("You don't have permission to access that archive") );
+	  KMessageBox::error(this, i18n("You don't have permission to access that archive.") );
 	  recent->removeURL(strFile);
 	  return;
 	}
@@ -2275,12 +2275,12 @@ void ArkWidget::openArchive(const QString & _filename )
 	   QString mimetype = mimeResultPtr->mimeType();
 	   if (mimetype == "application/x-gzip")
 	     {
-	       KMessageBox::error(this, i18n("Gzip archives need to have an extension `gz'."));
+	       KMessageBox::error(this, i18n("Gzip archives need to have the extension `gz'."));
 	       return;
 	     }
 	   else if (mimetype == "application/x-zoo")
 	     {
-	       KMessageBox::error(this, i18n("Zoo archives need to have an extension `zoo'."));
+	       KMessageBox::error(this, i18n("Zoo archives need to have the extension `zoo'."));
 	       return;
 	     }
 	   else
