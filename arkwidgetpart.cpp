@@ -210,7 +210,7 @@ ArkWidgetPart::slotExtractDone()
 			list.append( url );
 		}
 		
-		KURLDrag *d = KURLDrag::newDrag(list, archiveContent->viewport());
+		KURLDrag *d = new KURLDrag(list, archiveContent->viewport());
 		m_bDropSourceIsSelf = true;
 		d->dragCopy();
 		m_bDropSourceIsSelf = false;
