@@ -3,6 +3,7 @@
 #define __ARKAPP_H__
 
 #include <kuniqueapp.h>
+
 class ArkWidget;
 class ArkSettings;
 class ArkSettings;
@@ -11,13 +12,11 @@ class ArkApplication : public KUniqueApplication
 {
   Q_OBJECT
 public:
-  ArkApplication(int argc, char *argv[], const QCString & rAppName);
-  virtual int newInstance(QValueList<QCString> params);
-  ArkWidget *mainWidget() { return mToplevel; }
+  ArkApplication();
+  virtual int newInstance();
   virtual ~ArkApplication() {}
 private:
-  ArkWidget *mToplevel;
-  ArkData *mArkData; // for keeping uniqueapplication-wide hidden information
+//  ArkData *mArkData; // for keeping uniqueapplication-wide hidden information
   ArkSettings *mArkSettings; // for storing user-defined options
 };
 

@@ -1,53 +1,49 @@
-#include <kapp.h>
 #include <dcopclient.h>
-#include <sys/param.h>
 #include <kdebug.h>
+#include <kcmdlineargs.h>
+
+#include <qfile.h>
+
 #include "arkapp.h"
 #include "arkwidget.h"
 
 // copied from kdebase/kcontrol/kcontrol/main.cpp
 
-ArkApplication::ArkApplication(int argc, char *argv[],
-			       const QCString & rAppName)
-  : KUniqueApplication(argc, argv, rAppName), mToplevel(0), mArkData(0),
+ArkApplication::ArkApplication()
+  : KUniqueApplication(), /* mArkData(0),*/
     mArkSettings(0)
 {
   kdebug(0, 1601, "+ArkApplication::ArkApplication");
   kdebug(0, 1601, "-ArkApplication::ArkApplication");
 }
 
-int ArkApplication::newInstance(QValueList<QCString> params)
+int ArkApplication::newInstance()
 {
   kdebug(0, 1601, "+ArkApplication::newInstance");
 
-  QValueList<QCString>::Iterator it = params.begin();
-  QString Zip("");
+  QString Zip;
+  KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-  it++; // skip program name
-  for (; it != params.end(); it++)
+  if (args->count() > 0) 
   {
-    kdebug(0, 1601, "Parsing params..");
-      QString strParam = *it;
-      if (strParam.left(1) == '/')
-      {
-	  Zip = *it;
-	  break;
-      }
-      else if (strParam.left(1) == '-') // not that we have any options yet!
-      {
-      }
-      else
-      {
-	  char currentWD[MAXPATHLEN];
-	  getcwd(currentWD, MAXPATHLEN);
-	  (Zip = currentWD).append("/").append(*it);
-	  break;
-      }
+     const char *arg = args->arg(0);
+     if (arg[0] == '/')
+     {
+        Zip = QFile::decodeName(arg);
+     }
+     else
+     {
+        Zip = KCmdLineArgs::cwd() + "/" + QFile::decodeName(arg);
+     }
   }
+  args->clear();
+
 
   if (!Zip.isEmpty())
   {
-      mToplevel->file_open(*it);
+      fprintf(stderr, "ZIP = %s\n", Zip.ascii());
+      ArkWidget *toplevel = (ArkWidget *) mainWidget();
+      toplevel->file_open(Zip);
   }
 
   kdebug(0, 1601, "-ArkApplication::newInstance");

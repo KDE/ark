@@ -19,61 +19,58 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-
 */
+
+// Note: This is a KUniqueApplication.
+// To debug add --nofork to the command line.
+// Be aware that newInstance() will not be called in this case.
 
 #include <sys/param.h>
 
-#include <kapp.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include <dcopclient.h>
 #include <qmessagebox.h>
+#include <kcmdlineargs.h>
+#include "arkapp.h"
 #include "arkwidget.h"
+
+static const char *description = 
+	I18N_NOOP("KDE Archiving tool");
+
+static const char *version = "v0.0.1";
+
+static KCmdLineOptions option[] =
+{
+   { "+[archive]", I18N_NOOP("Open 'archive'"), 0 },
+   { 0, 0, 0 }
+};
 
 int main( int argc, char *argv[]  )
 {
-  //    ArkApplication ark( argc, argv, "ark" );   // do this later.
-    KApplication ark( argc, argv, "ark" );
+    KCmdLineArgs::init(argc, argv, "ark", description, version );
+
+    KCmdLineArgs::addCmdLineOptions( option );
+ 
+    if (!ArkApplication::start())
+    {
+       // Already running! 
+       exit(0);
+    }
+    ArkApplication ark; 
+
     ArkWidget *arkWin = 0;
-    QString Zip;
 
-      //      QValueList<QCString> params;
-
-     if (ark.isRestored())
-     {
+    if (ark.isRestored())
+    {
        kdebug(0, 1601, "In main: Restore...");
        RESTORE(ArkWidget);
-     }
-     else 
-     {
-       kdebug(0, 1601, "In main: New ArkWidget...");
-       for (int i = 1; i < argc; ++i)
-	 {
-	   if (argv[i][0] == '/')
-	     {
-	       Zip = argv[i];
-	       break;
-	     }
-	   else if (argv[i][0] == '-') // not that we have any options yet!
-	     {
-	       
-	     }
-	   else
-	     {
-	       char currentWD[MAXPATHLEN];
-	       getcwd(currentWD, MAXPATHLEN);
-	       (Zip = currentWD).append("/").append(argv[i]);
-	       break;
-	     }
-	 }
-     }
-     arkWin = new ArkWidget();
-     ark.setMainWidget(arkWin);
-     arkWin->show();
-     if (!Zip.isEmpty())
-       arkWin->file_open(Zip);
-     arkWin->resize(640, 300);
-     kdebug(0, 1601, "Ready to exec...");
-     return ark.exec();
+    }
+
+    arkWin = new ArkWidget();
+    ark.setMainWidget(arkWin);
+    arkWin->show();
+    arkWin->resize(640, 300);
+    kdebug(0, 1601, "Ready to exec...");
+    return ark.exec();
 }

@@ -21,7 +21,7 @@ SUBDIRS = pics
 bin_PROGRAMS = 	ark
 
 # Which sources should be compiled for ark.
-ark_SOURCES	= extractdlg.cc dirDlg.cpp arkwidget.cc \
+ark_SOURCES	= arkapp.cpp extractdlg.cc dirDlg.cpp arkwidget.cc \
 		main.cc zip.cc arch.cpp filelistview.cpp \
 		generalOptDlg.cpp selectDlg.cpp adddlg.cc \
 		waitDlg.cpp shellOutputDlg.cpp arksettings.cpp
@@ -40,9 +40,7 @@ noinst_HEADERS = dirDlg.h arksettings.h  \
 		 generalOptDlg.h selectDlg.h waitDlg.h shellOutputDlg.h 
 
 # just to make sure, automake makes them 
-METASOURCES =	extractdlg.moc arkwidget.moc filelistview.moc arch.moc \
-		dirDlg.moc generalOptDlg.moc selectDlg.moc adddlg.moc \
-		zip.moc waitDlg.moc shellOutputDlg.moc
+METASOURCES =	AUTO
 
 messages:
 	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(ark_SOURCES) &&  mv messages.po $(podir)/ark.pot
