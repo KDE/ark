@@ -185,7 +185,9 @@ bool FileListView::isSelectionEmpty()
 
 void FileListView::contentsMousePressEvent(QMouseEvent *e)
 {
-	m_bPressed = true;
+	if(e->button()==QMouseEvent::LeftButton)
+	    m_bPressed = true;
+	
 	KListView::contentsMousePressEvent(e);
 }
 

@@ -59,19 +59,19 @@ static QString resolveFilename(const QString & _arkname)
 	{
 	  if (EINVAL == errno)  // not a symbolic link. Stopping condition.
 	    {
-	      delete buff;
+	      delete [] buff;
 	      return _arkname;
 	    }
 	  else if (ENAMETOOLONG == errno)
 	    {
 	      kdDebug(1601) << "resolveFilename: have to reallocate - name too long!" << endl;
 	      iter++;
-	      delete buff;
+	      delete [] buff;
 	      continue;
 	    }
 	  else
 	    {
-	      delete buff;
+	      delete [] buff;
 	      // the other errors will be taken care of already in simply
 	      // opening the archive (i.e., the user will be notified)
 	      return "";
@@ -81,7 +81,7 @@ static QString resolveFilename(const QString & _arkname)
 	{
 	  buff[nread] = '\0';  // readlink doesn't null terminate
 	  QString name = QFile::decodeName(buff);
-	  delete buff;
+	  delete [] buff;
 
 	  // watch out for relative pathnames
 	  if (name.at(0) != '/')
