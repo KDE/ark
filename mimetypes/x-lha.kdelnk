@@ -3,6 +3,7 @@
 Mimetype=application/x-lha
 Comment=Lha Archives
 Comment[pl]=Archiwum Lha
+Comment[fr]=Archives LHA
 DefaultApp=Zip
 Icon=unzip.xpm
 Type=MimeType

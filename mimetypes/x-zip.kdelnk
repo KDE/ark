@@ -2,6 +2,7 @@
 [KDE Desktop Entry]
 Mimetype=application/x-zip
 Comment=Zip Archives
+Comment[fr]=Archives ZIP
 Comment[pl]=Archiwum Zip
 DefaultApp=Zip
 Icon=unzip.xpm
