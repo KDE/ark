@@ -211,8 +211,8 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
       char filename[4096];
 
       FILE *readHandle = popen(QFile::encodeName(command), "r");
-      fscanf(readHandle, "%[-A-Za-z:0-9_+-. ]", line);
-      sscanf(line, "%[-drwxst] %[0-9] %[0-9.a-zA-Z_] %[0-9.a-zA-Z_] %[0-9] %12[A-Za-z0-9: ]%1[ ]%[^\n]", columns[0], columns[5],
+      fscanf(readHandle, "%4095[-A-Za-z:0-9_+-. ]", line);
+      sscanf(line, "%79[-drwxst] %79[0-9] %79[0-9.a-zA-Z_] %79[0-9.a-zA-Z_] %79[0-9] %12[A-Za-z0-9: ]%1[ ]%79[^\n]", columns[0], columns[5],
 	     columns[1], columns[2], columns[3],
 	     columns[4], columns[6], filename);
 
