@@ -48,7 +48,7 @@ class ArkWidgetPart : public QWidget, public ArkWidgetBase
 public:
   ArkWidgetPart( QWidget *parent=0, const char *name=0 );
   virtual ~ArkWidgetPart();
-  void showZip( QString name );
+  void showZip( const QString & name );
 
 public slots:
   void file_open(const QString &, const KURL &); 

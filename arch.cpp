@@ -28,15 +28,12 @@
 
 */
 
-#include <config.h>
-
 // C includes
 #include <stdlib.h>
 #include <time.h>
 
 // QT includes
 #include <qapplication.h>
-#include <qfile.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -49,8 +46,8 @@
 // ark includes
 #include "arch.h"
 #include "arksettings.h"
-#include "filelistview.h"
 #include "arkwidgetbase.h"
+#include "arkutils.h"
 
 // the archive types
 #include "tar.h"
@@ -91,7 +88,7 @@ void Arch::verifyUtilityIsAvailable(const QString & _utility1,
   // see if the utility is in the PATH of the user. If there is a
   // second utility specified, it must also be present.
   QString cmd1 = KGlobal::dirs()->findExe(_utility1);
-  
+
   if( _utility2.isNull() )
     m_bUtilityIsAvailable = !cmd1.isEmpty();
   else
@@ -265,7 +262,7 @@ void Arch::slotAddExited(KProcess *_kp)
 
 bool Arch::stderrIsError()
 {
-  return m_shellErrorData.find(QString("eror")) != -1;
+  return m_shellErrorData.find(QString("error")) != -1;
 }
 
 void Arch::slotReceivedOutput(KProcess*, char* _data, int _length)
@@ -364,9 +361,9 @@ bool Arch::processLine(const QCString &line)
   if(m_dateCol >= 0)
   {
     QString year = m_repairYear >= 0?
-	Utils::fixYear(columns[m_repairYear].ascii()) : columns[m_fixYear];
+	ArkUtils::fixYear(columns[m_repairYear].ascii()) : columns[m_fixYear];
     QString month = m_repairMonth >= 0?
-	QString("%1").arg(Utils::getMonth(columns[m_repairMonth].ascii())) :
+	QString("%1").arg(ArkUtils::getMonth(columns[m_repairMonth].ascii())) :
 	columns[m_fixMonth];
     QString timestamp= QString::fromLatin1("%1-%2-%3 %4")
       .arg(year)
@@ -385,112 +382,6 @@ bool Arch::processLine(const QCString &line)
   m_gui->listingAdd(&list); // send the entry to the GUI
 
   return true;
-}
-
-
-
-
-/// UTILS
-
-
-QString Utils::getTimeStamp(const QString &_month,
-			    const QString &_day,
-			    const QString &_yearOrTime)
-{
-  // Make the date format sortable.
-  // Month is in _month, day is in _day.
-  // In _yearOrTime is either a year or a time.
-  // If it's March, we'll see the year for all dates up to October 1999.
-  // (five months' difference - e.g., if it's Apr, then get years up to Nov)
-
-  char month[4];
-  strncpy(month, _month.ascii(), 3);
-  month[3] = '\0';
-  int nMonth = getMonth(month);
-  int nDay = _day.toInt();
-
-  kdDebug(1601) << "Month is " << nMonth << ", Day is " << nDay << endl;
-
-  time_t t = time(0);
-  if (t == -1)
-    exit(1);
-  struct tm *now = localtime(&t);
-  int thisYear = now->tm_year + 1900;
-  int thisMonth = now->tm_mon + 1;
-
-  QString year, timestamp;
-
-  if (_yearOrTime.contains(":"))
-    // it has a timestamp so we have to figure out the year
-    {
-      year.sprintf("%d", Utils::getYear(nMonth, thisYear, thisMonth));
-      timestamp = _yearOrTime;
-    }
-  else
-    {
-      year = _yearOrTime;
-      if (year.right(1) == " ")
-	year = year.left(4);
-      if (year.left(1) == " ")
-	year = year.right(4);
-
-      timestamp = "??:??";
-    }
-
-  QString retval;
-  retval.sprintf("%s-%.2d-%.2d %s",
-		 year.utf8().data(), nMonth, nDay,
-		 timestamp.utf8().data());
-  return retval;
-}
-
-int Utils::getMonth(const char *strMonth)
-  // returns numeric value for three-char month string
-{
-  static char months[13][4] = { "", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-				"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-  int nIndex;
-  for (nIndex = 1; nIndex < 13; ++nIndex)
-    {
-      if (0 == strcmp(strMonth, months[nIndex]))
-	return nIndex;
-    }
-  return 0;
-}
-
-// This function gets the year from an LHA or ls -l timestamp.
-// Note: LHA doesn't seem to display the year if the file is more
-// than 6 months into the future, so this will fail to give the correct
-// year (of course it is hoped that there are not too many files lying
-// around from the future).
-
-int Utils::getYear(int theMonth, int thisYear, int thisMonth)
-{
-  int monthDiff = QABS(thisMonth - theMonth);
-  if (monthDiff > 6)
-    return (thisYear - 1);
-  else
-    return thisYear;
-}
-
-QString Utils::fixYear(const char *strYear)
-{
-  // returns 4-digit year by guessing from two-char year string.
-  // Remember: this is used for file timestamps. There probably aren't any
-  // files that were created before 1970, so that's our cutoff. Of course,
-  // in 2070 we'll have some problems....
-
-  char fourDigits[5] = {0,0,0,0,0};
-  if (atoi(strYear) > 70)
-    {
-      strcpy(fourDigits, "19");
-    }
-  else
-    {
-      strcpy(fourDigits, "20");
-    }
-  strlcat(fourDigits, strYear, sizeof(fourDigits));
-  return fourDigits;
 }
 
 
@@ -547,7 +438,6 @@ ArchType Arch::getArchType(const QString &archname, QString &extension,
 
   return extType;
 }
-
 
 /**
 * Try to determine the archive type by the extension. We separate

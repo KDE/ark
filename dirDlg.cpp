@@ -31,13 +31,11 @@
 #include <qlabel.h>
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
-#include <qlistbox.h>
 #include <qwidgetstack.h>
 #include <qlayout.h>
 
 // KDE includes
 #include <klocale.h>
-#include <kmessagebox.h>
 #include <kfiledialog.h>
 #include <kurlrequester.h>
 

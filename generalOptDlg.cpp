@@ -28,7 +28,6 @@
 */
 
 // Qt includes
-#include <qvbox.h>
 #include <qlayout.h>
 #include <qgroupbox.h>
 #include <qcheckbox.h>

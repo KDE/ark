@@ -25,11 +25,6 @@
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
-#include <assert.h>
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/stat.h>
 
 // Qt includes
 #include <qpainter.h>
@@ -37,23 +32,21 @@
 
 // KDE includes
 #include <klocale.h>
+#include <kglobal.h>
 #include <kdebug.h>
 #include <kglobalsettings.h>
 
 #include "filelistview.h"
-#include "arch.h"
 #include "arkwidgetbase.h"
-
-inline int max(int a, int b)
-{
-	return ((a) < (b) ? (b) : (a));
-}
-
-typedef const char* (*KeyFunc) (const char*);
 
 /////////////////////////////////////////////////////////////////////
 // FileLVI implementation
 /////////////////////////////////////////////////////////////////////
+
+FileLVI::FileLVI(KListView* lv)
+  : KListViewItem(lv)
+{
+}
 
 /**
 * Gets the filename associated with this FileLVI.
@@ -64,7 +57,7 @@ typedef const char* (*KeyFunc) (const char*);
 * @warning Do NOT use text(0) for this purpose! This will get the filename
 * 	with extra spaces for fileIndent, and is just plain shoddy code.
 */
-QString FileLVI::getFileName() const
+QString FileLVI::fileName() const
 {
 	if(fileIndent)
 		return text(0).mid(2);
@@ -72,41 +65,88 @@ QString FileLVI::getFileName() const
 		return text(0);
 }
 
+/**
+ * Returns the size of the file, or 0 if no size is defined.
+ */
+long FileLVI::fileSize() const
+{
+  return m_fileSize;
+}
+
+QDateTime FileLVI::timeStamp() const
+{
+  return m_timeStamp;
+}
+
 QString FileLVI::key(int column, bool ascending) const
 {
     // puts numeric-type data into a field of 10 for correct sorting.
     QString s;
 
-    QString columnName = parent->columnText(column);
-    if ( columnName == SIZE_STRING ||
-	 columnName == PACKED_STRING )
+    QString columnName = listView()->columnText(column);
+    if ( columnName == SIZE_STRING )
       {
-	s.sprintf("%.10ld", (long)(text(column).toInt()));
+	s.sprintf("%.10ld", m_fileSize);
+	return s;
+      }
+    else if ( columnName == PACKED_STRING )
+      {
+	s.sprintf("%.10ld", m_packedFileSize);
 	return s;
       }
     else if (columnName == RATIO_STRING)
       {
-	s.sprintf("%.10ld", (long)(text(column).toInt()));
+	s.sprintf("%.10ld", (long)m_ratio);
 	return s;
       }
-		else if(0 == column)
-			return getFileName();
-    else return QListViewItem::key(column, ascending);
+    else if (columnName == TIMESTAMP_STRING)
+      {
+	return m_timeStamp.toString(ISODate);
+      }
+    else if (0 == column)
+	return fileName();
+
+    return QListViewItem::key(column, ascending);
 }
 
 void FileLVI::setText(int column, const QString &text)
 {
-	if(0 == column && -1 != text.findRev('/', -2))
+	QString columnName = listView()->columnText(column);
+	if ( column == 0 )
 	{
-		QListViewItem::setText(0, QString("  ") + text);
-		fileIndent = true;
+		if (text.findRev('/', -2) != -1)
+		{
+			QListViewItem::setText(0, QString("  ") + text);
+			fileIndent = true;
+		}
+		else
+		{
+			QListViewItem::setText(column, text);
+			fileIndent = false;
+		}
+	}
+	else if ( columnName == SIZE_STRING )
+	{
+		m_fileSize = text.toLong();
+		QListViewItem::setText(column, KGlobal::locale()->formatNumber(m_fileSize, 0));
+	}
+	else if ( columnName == PACKED_STRING )
+	{
+		m_packedFileSize = text.toLong();
+		QListViewItem::setText(column, KGlobal::locale()->formatNumber(m_packedFileSize, 0));
+	}
+	else if ( columnName == RATIO_STRING )
+	{
+		m_ratio = text.toDouble();
+		QListViewItem::setText(column, i18n("Packed Ratio", "%1 %").arg(KGlobal::locale()->formatNumber(m_ratio, 1)));
+	}
+	else if ( columnName == TIMESTAMP_STRING )
+	{
+		m_timeStamp = QDateTime::fromString(text, ISODate);
+		QListViewItem::setText(column, KGlobal::locale()->formatDateTime(m_timeStamp));
 	}
 	else
-	{
-		if(0 == column)
-			fileIndent = false;
 		QListViewItem::setText(column, text);
-	}
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -159,7 +199,7 @@ QStringList * FileListView::selectedFilenames() const
 	while (flvi)
 	{
 		if( isSelected(flvi) )
-			files->append(flvi->getFileName());
+			files->append(flvi->fileName());
 		flvi = (FileLVI*)flvi->itemBelow();
 	}
 	return files;

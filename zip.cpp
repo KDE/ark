@@ -108,7 +108,7 @@ void ZipArch::open()
 	
   KProcess *kp = new KProcess;
 
-  *kp << m_unarchiver_program << "-v" << m_filename.local8Bit();
+  *kp << m_unarchiver_program << "-v" << m_filename;
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
@@ -162,7 +162,7 @@ void ZipArch::addFile( QStringList *urls )
   if (m_settings->getZipAddRecurseDirs())
     *kp << "-r";
 		
-  //	*kp << _compression.local8Bit();   // for later
+  //	*kp << _compression;   // for later
 
   if (m_settings->getZipStoreSymlinks())
     *kp << "-y";
@@ -178,7 +178,7 @@ void ZipArch::addFile( QStringList *urls )
   if (m_settings->getAddReplaceOnlyWithNewer())
     *kp << "-u";
 
-  *kp << m_filename.local8Bit() ;
+  *kp << m_filename;
   
   QString base;
   QString url;
@@ -198,7 +198,7 @@ void ZipArch::addFile( QStringList *urls )
       int pos;
       pos = file.findRev('/');
       base = file.left(++pos);
-      chdir(QFile::encodeName(base));
+      QDir::setCurrent(base);
       base = file.right(file.length()-pos);
       file = base;
     }
@@ -271,7 +271,7 @@ void ZipArch::unarchFile(QStringList *_fileList, const QString & _destDir,
       for ( QStringList::Iterator it = _fileList->begin();
 	    it != _fileList->end(); ++it ) 
 	{
-	  *kp << (*it).local8Bit();/*.latin1() ;*/
+	  *kp << (*it);/*.latin1() ;*/
 	}
     }
 
@@ -304,12 +304,12 @@ void ZipArch::remove(QStringList *list)
   KProcess *kp = new KProcess;
   kp->clearArguments();
   
-  *kp << m_archiver_program << "-d" << m_filename.local8Bit();
+  *kp << m_archiver_program << "-d" << m_filename;
   for ( QStringList::Iterator it = list->begin();
 	it != list->end(); ++it )
     {
       QString str = *it;
-      *kp << str.local8Bit();
+      *kp << str;
     }
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),

@@ -38,6 +38,7 @@
 
 // QT includes
 #include <qfile.h>
+#include <qdir.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -50,6 +51,7 @@
 #include "arksettings.h"
 #include "arch.h"
 #include "lha.h"
+#include "arkutils.h"
 
 LhaArch::LhaArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 		  const QString & _fileName )
@@ -69,7 +71,7 @@ bool LhaArch::processLine(const QCString &line)
   char columns[13][80];
   char filename[4096];
 
-  if (QString(_line).contains("[generic]") )
+  if (QCString(_line).contains("[generic]") )
     {
       sscanf(_line, " %79[]\\[generic] %79[0-9] %79[0-9] %79[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%4095[^\n]",
 	     columns[0], columns[2], columns[3], columns[4], columns[5],
@@ -78,7 +80,7 @@ bool LhaArch::processLine(const QCString &line)
       strcpy( columns[1], " " );
     }
   else
-  if (QString(_line).contains("[MS-DOS]") )
+  if (QCString(_line).contains("[MS-DOS]") )
     {
       sscanf(_line, " %79[]\\[MS-DOS] %79[0-9] %79[0-9] %79[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%4095[^\n]",
 	     columns[0], columns[2], columns[3], columns[4], columns[5],
@@ -97,7 +99,7 @@ bool LhaArch::processLine(const QCString &line)
   kdDebug(1601) << "The actual file is " << (const char *)filename << endl;
 
   // make the time stamp sortable
-  QString massagedTimeStamp = Utils::getTimeStamp(columns[6], columns[7],
+  QString massagedTimeStamp = ArkUtils::getTimeStamp(columns[6], columns[7],
 						  columns[8]);
   strlcpy(columns[6], massagedTimeStamp.ascii(), sizeof(columns[6]));
 
@@ -119,14 +121,14 @@ bool LhaArch::processLine(const QCString &line)
     name = file;
 
   QStringList list;
-  list.append(name.local8Bit());
-  kdDebug(1601) << "Added file " << name.local8Bit() << endl;
+  list.append(name);
+  kdDebug(1601) << "Added file " << name << endl;
   for (int i=0; i<7; i++)
     {
       list.append(QString::fromLocal8Bit(columns[i]));
     }
   if (bLink)
-    list.append(link.local8Bit());
+    list.append(link);
   else
     list.append("");
 
@@ -146,7 +148,7 @@ void LhaArch::open()
 
 
   KProcess *kp = new KProcess;
-  *kp << m_archiver_program << "v" << m_filename.local8Bit();
+  *kp << m_archiver_program << "v" << m_filename;
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
   connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
@@ -223,7 +225,7 @@ void LhaArch::addFile( QStringList *urls )
   if (m_settings->getLhaGeneric())
     strOptions += "g";
 
-  *kp << strOptions << m_filename.local8Bit() ;
+  *kp << strOptions << m_filename;
 
   QString base;
   QString url;
@@ -246,7 +248,7 @@ void LhaArch::addFile( QStringList *urls )
       pos = file.findRev( '/' );
       base = file.left( pos );
       pos++;
-      chdir( QFile::encodeName(base) );
+      QDir::setCurrent(base);
       base = file.right( file.length()-pos );
       file = base;
     }
@@ -299,7 +301,7 @@ void LhaArch::unarchFile(QStringList *_fileList, const QString & _destDir,
       for ( QStringList::Iterator it = _fileList->begin();
 	    it != _fileList->end(); ++it )
 	{
-	  *kp << (*it).local8Bit() ;
+	  *kp << (*it);
 	}
     }
 
@@ -329,12 +331,12 @@ void LhaArch::remove(QStringList *list)
   KProcess *kp = new KProcess;
   kp->clearArguments();
 
-  *kp << m_archiver_program << "df" << m_filename.local8Bit();
+  *kp << m_archiver_program << "df" << m_filename;
   for ( QStringList::Iterator it = list->begin();
 	it != list->end(); ++it )
     {
       QString str = *it;
-      *kp << str.local8Bit();
+      *kp << str;
     }
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),

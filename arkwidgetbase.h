@@ -32,6 +32,7 @@ class QString;
 class QStringList;
 
 class Arch;
+class FileLVI;
 class FileListView;
 class ArkSettings;
 
@@ -45,19 +46,21 @@ class ArkWidgetBase
 	// Methods
 	public:
 		QWidget *getArkWidget() const { return m_widget; }
-		
 		bool isArchiveOpen() const { return m_bIsArchiveOpen; }
 		bool dragInProgress() const { return m_bDragInProgress; }
 		int getNumFilesInArchive() const { return m_nNumFiles; }
-		int getCol(const QString &);
+		//int getCol(const QString &);
 		int getArkInstanceId() const { return m_arkInstanceId; }
 		void setArkInstanceId( int aid ) { m_arkInstanceId = aid; }
-		int getSizeColumn();
+		//int getSizeColumn();
 		void cleanArkTmpDir( bool part=false );
 		QString getArchName() const { return m_strArchName; }
-		QString getColData(const QString &_filename, int _col);
+		const FileLVI * getFileLVI(const QString &_filename) const;
 		KURL getOriginalURL() const { return m_url; }
 		FileListView *fileList() const { return archiveContent; }
+        Arch *archive() const { return arch; }
+        ArchType archiveType() const { return m_archType; }
+        int numSelectedFiles() const { return m_nNumSelectedFiles; }
 				
 		// Mutators
 		void setHeaders(QStringList *headers, int *_rightAlignCols,
@@ -85,8 +88,8 @@ class ArkWidgetBase
 
 		Arch *arch;
 		ArkSettings *m_settings;
-		FileListView *archiveContent;
 		QString m_strArchName;
+		FileListView *archiveContent;
 		KURL m_url;
 		ArchType m_archType;
 
@@ -94,7 +97,7 @@ class ArkWidgetBase
 		int m_nSizeOfSelectedFiles;
 		int m_nNumFiles;
 		int m_nNumSelectedFiles;
-		int m_currentSizeColumn;
+		//int m_currentSizeColumn;
 		int m_arkInstanceId;
 		
 		bool m_bIsArchiveOpen;

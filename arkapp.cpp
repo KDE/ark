@@ -32,12 +32,9 @@
 #include <unistd.h>
 #include <qfile.h>
 #include <errno.h>
-#include <kmainwindow.h>
-#include <kio/jobclasses.h>
 
 
 #include "arkapp.h"
-#include "arkwidget.h"
 
 ArkApplication *ArkApplication::mInstance = NULL;
 
@@ -101,10 +98,12 @@ static QString resolveFilename(const QString & _arkname)
 
 ArkApplication * ArkApplication::getInstance()
 {
+    kdDebug( 1601 ) << "+ArkApplication::getInstance()" << endl;
 	if (mInstance == NULL)
 	{
 		mInstance = new ArkApplication();
 	}
+    kdDebug( 1601 ) << "-ArkApplication::getInstance()" << endl;
 	return mInstance;
 }
 
@@ -124,7 +123,7 @@ ArkApplication::newInstance()
 	
 	// If we are restored by session management, we don't need to open
 	// another window on startup.
-	if ( m_isSessionRestored )
+    if ( m_isSessionRestored )
 	{
 		// But next invocations must still come through.
 		// NOTE: IMHO this should be handled by KUniqueApplication itself
@@ -147,8 +146,7 @@ ArkApplication::newInstance()
 		{
 			url = args->url(i);
 		}
-		
-		ArkWidget *arkWin = new ArkWidget(m_mainwidget);
+		ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
 		arkWin->show();
 		arkWin->resize(640, 300);
 		if(doAutoExtract)
@@ -157,7 +155,7 @@ ArkApplication::newInstance()
 		}
 		if (!url.isEmpty())
 		{
-			arkWin->file_open(url);
+			arkWin->openURL(url);
 		}
 		
 		kdDebug(1601) << "-ArkApplication::newInstance" << endl;
@@ -165,52 +163,71 @@ ArkApplication::newInstance()
 	} while  (i < args->count());
 	
 	args->clear();
-	
 	return 0;
 }
 
 
-void 
-ArkApplication::addOpenArk(const QString & _arkname, ArkWidget *_ptr)
+void
+ArkApplication::addOpenArk(const KURL & _arkname, ArkTopLevelWindow *_ptr)
 {
-	kdDebug(1601) << "+ArkApplication::addOpenArk" << endl;
-	QString realName = resolveFilename(_arkname);  // follow symlink
-	kdDebug(1601) << "---------------- Real name of " << _arkname << " is " << realName << endl;
-	openArksList.append(realName);
-	m_windowsHash.replace(realName, _ptr);
-	kdDebug(1601) << "---------------Saved ptr " << _ptr << endl;
-	kdDebug(1601) << "-ArkApplication::addOpenArk" << endl;
+    kdDebug(1601) << "+ArkApplication::addOpenArk" << endl;
+    QString realName;
+    if( _arkname.isLocalFile() )
+    {
+        realName = resolveFilename( _arkname.path() );  // follow symlink
+        kdDebug(1601) << " Real name of " << _arkname.prettyURL() << " is " << realName << endl;
+    }
+    else
+        realName = _arkname.prettyURL();
+    openArksList.append(realName);
+    m_windowsHash.replace(realName, _ptr);
+    kdDebug(1601) << "Saved ptr " << _ptr << " added open ark: " << realName << endl;
+    kdDebug(1601) << "-ArkApplication::addOpenArk" << endl;
 }
 
-void 
-ArkApplication::removeOpenArk(const QString & _arkname)
+void
+ArkApplication::removeOpenArk(const KURL & _arkname)
 {
-	kdDebug(1601) << "+ArkApplication::removeOpenArk" << endl;
-	QString realName = resolveFilename(_arkname);  // follow symlink
-	kdDebug(1601) << "Removing name " << _arkname << endl;
-	openArksList.remove(realName);
-	m_windowsHash.remove(realName);
-	kdDebug(1601) << "-ArkApplication::removeOpenArk" << endl;
+    kdDebug(1601) << "+ArkApplication::removeOpenArk" << endl;
+    QString realName;
+    if ( _arkname.isLocalFile() )
+        realName = resolveFilename( _arkname.path() );  // follow symlink
+    else
+        realName = _arkname.prettyURL();
+    kdDebug(1601) << "Removing name " << _arkname.prettyURL() << endl;
+    openArksList.remove(realName);
+    m_windowsHash.remove(realName);
+    kdDebug(1601) << "-ArkApplication::removeOpenArk" << endl;
 }
 
-void 
-ArkApplication::raiseArk(const QString & _arkname)
+void
+ArkApplication::raiseArk(const KURL & _arkname)
 {
-	ArkWidget *window;
-	QString realName = resolveFilename(_arkname);  // follow symlink
-	window = m_windowsHash[realName];
-	kdDebug(1601) << "ArkApplication::raiseArk " << window << endl;
-	// raise didn't seem to be enough. Not sure why!
-	// This might be annoying though.
-	window->hide();
-	window->show();
-	window->raise();
+    kdDebug( 1601 ) << "ArkApplication::raiseArk " << endl;
+    ArkTopLevelWindow *window;
+    QString realName;
+    if( _arkname.isLocalFile() )
+        realName = resolveFilename(_arkname.path());  // follow symlink
+    else
+        realName = _arkname.prettyURL();
+    window = m_windowsHash[realName];
+    kdDebug(1601) << "ArkApplication::raiseArk " << window << endl;
+    // raise didn't seem to be enough. Not sure why!
+    // This might be annoying though.
+    //window->hide();
+    //window->show();
+    window->raise();
 }
 
-bool 
-ArkApplication::isArkOpenAlready(const QString & _arkname)
+bool
+ArkApplication::isArkOpenAlready(const KURL & _arkname)
 {
-	QString realName = resolveFilename(_arkname);  // follow symlink
+    kdDebug( 1601 ) << "ArkApplication::isArkOpenAlready: " << _arkname.prettyURL() << endl;
+    QString realName;
+    if ( _arkname.isLocalFile() )
+        realName = resolveFilename(_arkname.path());  // follow symlink
+    else
+        realName = _arkname.prettyURL();
 	return ( openArksList.findIndex(realName) != -1 );
 }
 

@@ -196,18 +196,6 @@ protected:  // data
   int m_repairYear, m_repairMonth, m_repairTime;
 };
 
-// various functions for massaging timestamps
-namespace Utils
-{
-  int getYear(int theMonth, int thisYear, int thisMonth);
-  int getMonth(const char *strMonth);
-  QString fixYear(const char *strYear);
-
-  QString getTimeStamp(const QString &month,
-		       const QString &day,
-		       const QString &year);
-}
-
 // Column header strings
 // don't forget to change common_texts.cpp if you change something here
 #define FILENAME_STRING i18n(" Filename ")

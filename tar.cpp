@@ -43,15 +43,14 @@
 
 // Unsorted in qdir.h is used, but in some of the headers
 // below it's defined, too. So I brought kurl.h to the top.
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
+
+// C includes
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
 // Qt includes
 #include <qapplication.h>
+#include <qdir.h>
 
 // KDE includes
 #include <kdebug.h>
@@ -61,18 +60,15 @@
 #include <kmimemagic.h>
 #include <kstandarddirs.h>
 #include <kprocess.h>
-#include <karchive.h>
 #include <ktar.h>
 
 // ark includes
 #include "arkwidgetbase.h"
 #include "arksettings.h"
 #include "tar.h"
-#include <qfile.h>
-
+#include "filelistview.h"
 
 static char *makeAccessString(mode_t mode);
-static QString makeTimeStamp(const QDateTime & dt);
 
 TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
                   const QString & _filename)
@@ -98,20 +94,19 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 		compressed = true;
 		QString tmpdir;
 		QString directory;
-      directory.sprintf("ark.%d/", getpid());
+		directory.sprintf("ark.%d/", getpid());
 		tmpdir = locateLocal( "tmp", directory );
 
-      QString base = m_filename.right(m_filename.length()- 1 -
+		QString base = m_filename.right(m_filename.length()- 1 -
                                      m_filename.findRev("/"));
-      base = base.left(base.findRev("."));
+		base = base.left(base.findRev("."));
 
-      // build the temp file name
-
+		// build the temp file name
 		KTempFile *pTempFile = new KTempFile(tmpdir +
-				QString::fromLocal8Bit("/temp_tar"),
-				QString::fromLocal8Bit(".tar") );
+				QString::fromLatin1("/temp_tar"),
+				QString::fromLatin1(".tar") );
 
-      tmpfile = pTempFile->name();
+		tmpfile = pTempFile->name();
 		delete pTempFile;
 		
 		kdDebug(1601) << "Tmpfile will be " << tmpfile << "\n" << endl;
@@ -121,7 +116,7 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 
 TarArch::~TarArch()
 {
-  unlink( QFile::encodeName(tmpfile) );
+  QFile::remove(tmpfile);
 }
 
 int TarArch::getEditFlag()
@@ -179,7 +174,7 @@ void TarArch::updateProgress( KProcess *, char *_buffer, int _bufflen )
 
 QString TarArch::getCompressor()
 {
-    QString extension = m_filename.right( m_filename.length() -
+  QString extension = m_filename.right( m_filename.length() -
                                        m_filename.findRev('.') );
 
   if( extension == ".tgz" || extension == ".gz" )
@@ -246,7 +241,7 @@ void
 TarArch::open()
 {
 	kdDebug(1601) << "+TarArch::open" << endl;
-	unlink( QFile::encodeName(tmpfile) ); // just to make sure
+	QFile::remove(tmpfile); // just to make sure
 	setHeaders();
 	
 	// might as well plunk the output of tar -tvf in the shell output window...
@@ -362,17 +357,15 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
       else
         perms = "-" + perms;
       col_list.append(perms);
-      QString usergroup = tarEntry->user();
-      usergroup += '/';
-      usergroup += tarEntry->group();
-      col_list.append( usergroup );
+      col_list.append( tarEntry->user() );
+      col_list.append( tarEntry->group() );
       QString strSize = "0";
       if (tarEntry->isFile())
         {
           strSize.sprintf("%d", ((KTarFile *)tarEntry)->size());
         }
       col_list.append(strSize);
-      QString timestamp = makeTimeStamp(tarEntry->datetime());
+      QString timestamp = tarEntry->datetime().toString(ISODate);
       col_list.append(timestamp);
       col_list.append(tarEntry->symlink());
       m_gui->listingAdd(&col_list); // send the entry to the GUI
@@ -402,7 +395,8 @@ void TarArch::setHeaders()
 
   list.append(FILENAME_STRING);
   list.append(PERMISSION_STRING);
-  list.append(OWNER_GROUP_STRING);
+  list.append(OWNER_STRING);
+  list.append(GROUP_STRING);
   list.append(SIZE_STRING);
   list.append(TIMESTAMP_STRING);
   list.append(LINK_STRING);
@@ -410,7 +404,7 @@ void TarArch::setHeaders()
   // which columns to align right
   int *alignRightCols = new int[2];
   alignRightCols[0] = 1;
-  alignRightCols[1] = 3;
+  alignRightCols[1] = 4;
 
   m_gui->setHeaders(&list, alignRightCols, 2);
   delete [] alignRightCols;
@@ -424,12 +418,11 @@ TarArch::createTmp()
 	kdDebug(1601) << "+TarArch::createTmp" << endl;
 	if ( compressed )
 	{
-		struct stat statbuffer;
-		if ( stat( QFile::encodeName( tmpfile ), &statbuffer) == -1)
+		if ( !QFile::exists(tmpfile) )
 		{
 			// the tmpfile does not yet exist, so we create it.
 			createTmpInProgress = true;
-			fd = fopen( tmpfile.local8Bit(), "w" );
+			fd = fopen( QFile::encodeName(tmpfile), "w" );
 			
 			KProcess *kp = new KProcess;
 			kp->clearArguments();
@@ -440,7 +433,7 @@ TarArch::createTmp()
 			{
 				*kp << "-d" ;
 			}
-			*kp << "-c" << m_filename.local8Bit();
+			*kp << "-c" << m_filename;
 			
 			connect(kp, SIGNAL(processExited(KProcess *)),
 					this, SLOT(createTmpFinished(KProcess *)));
@@ -478,28 +471,11 @@ void TarArch::createTmpProgress( KProcess *, char *_buffer, int _bufflen )
     }
 }
 
-static QDateTime getMTime(const QString & entry)
-{
-  // I have something like: 1999-10-04 11:04:44
-  int year, month, day, hour, min, seconds;
-  // HPB: should be okay 'cause the date format will not be localized
-  sscanf( entry.ascii(), "%d-%d-%d %d:%d:%d", &year, &month, &day, &hour,
-          &min, &seconds);
-
-  QDate theDate(year, month, day);
-  QTime theTime(hour, min, seconds);
-  return (QDateTime(theDate, theTime));
-}
-
-
 void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
   // because tar is broken. Used when appending: see addFile.
 {
-  struct stat statbuffer;
   QStringList list;
   QString str;
-
-  int col = m_gui->getCol(TIMESTAMP_STRING);
 
   QStringList::ConstIterator iter;
   for (iter = urls->begin(); iter != urls->end(); ++iter )
@@ -514,26 +490,19 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
       str = str.right(str.length()-str.findRev('/')-1);
 
     // find the file entry in the archive listing
-    QString entryTimeStamp = m_gui->getColData(str, col);
-    if (entryTimeStamp.isNull())
-      continue;  // it isn't in there, so skip it.
-
+    const FileLVI * lv = m_gui->getFileLVI(str);
+    if ( !lv ) // it isn't in there, so skip it.
+      continue;
+    
     if (bAddOnlyNew)
     {
       // compare timestamps. If the file to be added is newer, delete the
       // old. Otherwise we aren't adding it anyway, so we can go on to the next
       // file with a "continue".
 
-      stat(QFile::encodeName(filename), &statbuffer);
-      time_t the_mtime = statbuffer.st_mtime;
-      struct tm *convertStruct = localtime(&the_mtime);
-      QDateTime addFileMTime(QDate(convertStruct->tm_year,
-                                   convertStruct->tm_mon + 1,
-                                   convertStruct->tm_mday),
-                             QTime(convertStruct->tm_hour,
-                                   convertStruct->tm_min,
-                                   convertStruct->tm_sec));
-      QDateTime oldFileMTime = getMTime(entryTimeStamp);
+      QFileInfo fileInfo(filename);
+      QDateTime addFileMTime = fileInfo.lastModified();
+      QDateTime oldFileMTime = lv->timeStamp();
 
       kdDebug(1601) << "Old file: " << oldFileMTime.date().year() << "-" <<
         oldFileMTime.date().month() << "-" << oldFileMTime.date().day() <<
@@ -548,7 +517,7 @@ void TarArch::deleteOldFiles(QStringList *urls, bool bAddOnlyNew)
 
       if (oldFileMTime >= addFileMTime)
       {
-        fprintf(stderr, "Old time is newer or same\n");
+        kdDebug() << "Old time is newer or same" << endl;
         continue; // don't add this file to the list to be deleted.
       }
     }
@@ -587,7 +556,7 @@ void TarArch::addFile( QStringList* urls )
 
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  *kp << m_archiver_program.local8Bit();
+  *kp << m_archiver_program;
 
   if( m_settings->getAddReplaceOnlyWithNewer())
     *kp << "uvf";
@@ -595,7 +564,7 @@ void TarArch::addFile( QStringList* urls )
     *kp << "rvf";
 
   if (compressed)
-    *kp << tmpfile.local8Bit();
+    *kp << tmpfile;
   else
     *kp << m_filename;
 
@@ -613,13 +582,13 @@ void TarArch::addFile( QStringList* urls )
       //                pos++;
       tmp = file.right( file.length()-pos );
       file = tmp;
-      chdir( base.local8Bit() );
+      QDir::setCurrent(base);
     }
   QStringList::Iterator it=urls->begin();
   while(1)
     {
       int pos;
-      *kp << file.local8Bit();
+      *kp << file;
       it++;
       url = *it;
 
@@ -700,7 +669,7 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
   KProcess *kp = new KProcess;
   kp->clearArguments();
 
-  *kp << m_archiver_program.local8Bit();
+  *kp << m_archiver_program;
   if (compressed)
     *kp << "--use-compress-program="+getUnCompressor() ;
 
@@ -711,8 +680,8 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
     options += "p";
   options += "f";
 
-  kdDebug(1601) << "Options were: " << options.local8Bit() << endl;
-  *kp << options.local8Bit() << m_filename.local8Bit() << "-C" << dest;
+  kdDebug(1601) << "Options were: " << options << endl;
+  *kp << options << m_filename << "-C" << dest;
 
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
@@ -721,7 +690,7 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
       for ( QStringList::Iterator it = _fileList->begin();
             it != _fileList->end(); ++it )
         {
-          *kp << (*it).local8Bit();/*.latin1() ;*/
+          *kp << (*it);/*.latin1() ;*/
         }
     }
 
@@ -754,11 +723,11 @@ void TarArch::remove(QStringList *list)
 
   KProcess *kp = new KProcess;
   kp->clearArguments();
-  *kp << m_archiver_program.local8Bit() << "--delete" << "-f" ;
+  *kp << m_archiver_program << "--delete" << "-f" ;
   if (compressed)
-    *kp << tmpfile.local8Bit();
+    *kp << tmpfile;
   else
-    *kp << m_filename.local8Bit();
+    *kp << m_filename;
 
   for ( QStringList::Iterator it = list->begin(); it != list->end(); ++it )
     {
@@ -882,21 +851,6 @@ static char *makeAccessString(mode_t mode)
   buffer[9] = 0;
 
   return buffer;
-}
-
-static QString makeTimeStamp(const QDateTime & dt)
-{
-  // make sortable timestamp, like the output of tar -tvf
-  // but with seconds.
-
-  QString timestamp;
-  QDate d = dt.date();
-  QTime t = dt.time();
-
-  timestamp.sprintf("%d-%02d-%02d %s",
-                    d.year(), d.month(), d.day(),
-                    t.toString().utf8().data());
-  return timestamp;
 }
 
 #include "tar.moc"
