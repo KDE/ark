@@ -220,7 +220,7 @@ ArkTopLevelWindow::arkAlreadyOpen( const KURL & url )
         window_close();
 
         // notify the user what's going on
-        KMessageBox::information(0, i18n("The archive %1 is already open and has been raised.\nNote: if the filename does not match, it only means that one of the two is a symbolic link.").arg(url.prettyURL()));
+        KMessageBox::information(0, i18n("The archive %1 is already open and has been raised.\nNote: if the file name does not match, it only means that one of the two is a symbolic link.").arg(url.prettyURL()));
         return true;
     }
     return false;

@@ -37,7 +37,7 @@
                 <cstring>kcfg_forceMSDOS</cstring>
             </property>
             <property name="text">
-                <string>Force &amp;MS-DOS short filenames (Zip)</string>
+                <string>Force &amp;MS-DOS short file names (Zip)</string>
             </property>
         </widget>
         <widget class="QCheckBox">
