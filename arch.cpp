@@ -34,7 +34,7 @@
 // QT includes
 #include <qapplication.h>
 #include <qfile.h>
-#include <qlist.h>
+#include <qptrlist.h>
 #include <qregexp.h>
 #include <qstring.h>
 
@@ -336,7 +336,7 @@ bool Arch::processLine(const QCString &line)
   int strpos, len;
 
   // Go through our columns, try to pick out data, return silently on failure
-  for(QListIterator <ArchColumns>col(m_archCols); col.current(); ++col)
+  for(QPtrListIterator <ArchColumns>col(m_archCols); col.current(); ++col)
   {
   	ArchColumns *curCol = *col;
 

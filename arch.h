@@ -54,13 +54,13 @@
 #define ARCH_H
 
 #include <qobject.h>
-#include <qlist.h>	// Some very annoying hackery in arkwidgetpart
+#include <qptrlist.h>	// Some very annoying hackery in arkwidgetpart
 #include <qregexp.h>
 #include <kurl.h>
 
 class QString;
 class QCString;
-template<class type> class QList;
+template<class type> class QPtrList;
 class QRegExp;
 class QStringList;
 class KProcess;
@@ -91,10 +91,10 @@ protected:
   {
   	// YES, a struct. A proper class is excessive here.
 	int colRef;	// Which column to load to in processLine
-	QRegExp pattern;	
+	QRegExp pattern;
 	int maxLength;
 	bool optional;
-	
+
 	ArchColumns(int col, QRegExp reg, int length = 64,
 		    bool opt = false);
   };
@@ -103,7 +103,7 @@ public:
   Arch(ArkSettings *_settings, ArkWidgetBase *_viewer,
        const QString & _fileName);
   virtual ~Arch();
-	
+
   virtual void open() = 0;
   virtual void create() = 0;
   virtual void remove(QStringList *) = 0;
@@ -153,7 +153,7 @@ protected slots:
   void slotStoreDataStdout(KProcess*, char*, int);
   void slotStoreDataStderr(KProcess*, char*, int);
   void slotOpenExited(KProcess*);
-	
+
   void slotExtractExited(KProcess*);
   void slotDeleteExited(KProcess*);
   void slotAddExited(KProcess*);
@@ -169,7 +169,7 @@ signals:
   void sigDelete(bool);
   void sigExtract(bool);
   void sigAdd(bool);
-	
+
 protected:  // data
   QString m_filename;
   QString m_shellErrorData;
@@ -180,7 +180,7 @@ protected:  // data
   bool m_error;
 
   // lets tar delete unsuccessfully before adding without confusing the user
-  bool m_bNotifyWhenDeleteFails; 
+  bool m_bNotifyWhenDeleteFails;
 
   // set to whether the archiving utility/utilities is/are in the user's PATH
   bool m_bUtilityIsAvailable;
@@ -191,7 +191,7 @@ protected:  // data
   // Archive parsing information
   QCString m_headerString;
   bool m_header_removed, m_finished;
-  QList<ArchColumns> m_archCols;
+  QPtrList<ArchColumns> m_archCols;
   int m_numCols, m_dateCol, m_fixYear, m_fixMonth, m_fixDay, m_fixTime;
   int m_repairYear, m_repairMonth, m_repairTime;
 };
@@ -202,7 +202,7 @@ namespace Utils
   int getYear(int theMonth, int thisYear, int thisMonth);
   int getMonth(const char *strMonth);
   QString fixYear(const char *strYear);
-  
+
   QString getTimeStamp(const QString &month,
 		       const QString &day,
 		       const QString &year);
