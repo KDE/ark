@@ -19,11 +19,11 @@ INCLUDES= $(all_includes)
 bin_PROGRAMS = 	ark
 
 # Which sources should be compiled for ark.
-ark_SOURCES	= adddlg.cc extractdlg.cc dirDlg.cpp \
-                 arkwidget.cc main.cc tar.cc zip.cc arkprocess.cc \
+ark_SOURCES	= extractdlg.cc dirDlg.cpp zipAddDlg.cpp deleteDlg.cpp \
+                 arkwidget.cc main.cc tar.cc zip.cc \
 		arkdata.cpp filelistview.cpp zipExtractDlg.cpp \
-		generalOptDlg.cpp selectDlg.cpp waitDlg.cpp shellOutputDlg.cpp \
-		zipAddDlg.cpp arch.cpp
+		generalOptDlg.cpp selectDlg.cpp waitDlg.cpp shellOutputDlg.cpp
+
 
 # the library search path
 ark_LDFLAGS = $(all_libraries) $(KDE_RPATH)
@@ -33,14 +33,13 @@ ark_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 ark_LDADD   = $(LIB_KFILE)
 
 # this option you can leave out. Just, if you use "make dist", you need it
-noinst_HEADERS = adddlg.h zip.h dirDlg.h \
-                 extractdlg.h arkwidget.h tar.h arch.h arkprocess.h \
+noinst_HEADERS = dirDlg.h zipAddDlg.h deleteDlg.h \
+                 extractdlg.h arkwidget.h tar.h arch.h \
 		 arkdata.h filelistview.h zipExtractDlg.h \
-		 generalOptDlg.h selectDlg.h waitDlg.h shellOutputDlg.h \
-		 zipAddDlg.cpp
+		 generalOptDlg.h selectDlg.h waitDlg.h shellOutputDlg.h
 
 # just to make sure, automake makes them 
-METASOURCES =	adddlg.moc extractdlg.moc arkwidget.moc filelistview.moc \
+METASOURCES =	extractdlg.moc arkwidget.moc filelistview.moc  deleteDlg.moc\
 		dirDlg.moc zipExtractDlg.moc generalOptDlg.moc selectDlg.moc \
 		zip.moc waitDlg.moc shellOutputDlg.moc zipAddDlg.moc tar.moc
 

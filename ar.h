@@ -21,7 +21,6 @@ void strshort( char *start, int num_rem );
 // ark includes
 #include "arch.h"
 #include "arkdata.h"
-#include "arkprocess.h"
 #include "filelistview.h"
 
 #define UNSUPDIR 1
@@ -41,7 +40,6 @@ public:
 	virtual void deleteFile( int );
 
 private:
-	ArkProcess archProcess;
 	ArkData *data;
 	QStrList *listing;
 	bool perms, tolower, overwrite;

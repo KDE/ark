@@ -50,12 +50,16 @@ class ZipArch : public QObject, public Arch
 public:
 	ZipArch( ArkData*, ArkWidget*, FileListView* );
 	virtual ~ZipArch();
+	
 	virtual void openArch( QString );
 	virtual void createArch( QString );
+	
 	virtual int addFile( QStrList* );
+	virtual void deleteSelectedFiles();
+	virtual void deleteFiles( const QString & );
 	virtual void extraction();
 	virtual QString unarchFile( int , QString );
-	virtual void deleteSelectedFiles();
+	
 	virtual int getEditFlag();
 	void add( QString , int , QString , bool , bool , bool , bool );
 	void testIntegrity();
@@ -67,12 +71,10 @@ protected:
 	bool perms;
 	WaitDlg *m_wd;
 	bool m_header_removed, m_finished, m_error;
-	int m_steps;
 	
 	void initExtract( bool, bool, bool );
 	void initListView();
 	void initOpen();
-	void showWait();
 	bool stderrIsError();
 	void removeSelectedItems();
 		

@@ -39,10 +39,10 @@
 
 #define BROWSE_WIDTH 40
 
-GeneralDlg::GeneralDlg( ArkData *d, QWidget *parent, const char *name )
-	: QDialog( parent, name, true )
+GeneralDlg::GeneralDlg( ArkData *_d, QWidget *_parent, const char *_name )
+	: QDialog( _parent, _name, true )
 {
-	data = d;
+	m_data = _d;
 	
 	setCaption( i18n("ark - General preferences") );
 	QVBoxLayout *mainLayout = new QVBoxLayout( this, 10 );
@@ -60,14 +60,14 @@ GeneralDlg::GeneralDlg( ArkData *d, QWidget *parent, const char *name )
 	tarLE = new QLineEdit( this );
 	tarLE->setFixedSize( tarLE->sizeHint() );
 	hbl1->addWidget( tarLE );
-//	connect( favLE, SIGNAL(textChanged(const QString&)), SLOT(favDirChanged(const QString&)) );
+	connect( tarLE, SIGNAL(textChanged(const QString&)), SLOT(tarChanged(const QString&)) );
 	
 	QHBoxLayout *hbl = new QHBoxLayout();
 	mainLayout->addStretch( 1 );
 	mainLayout->addLayout( hbl );
 	
 	hbl->addStretch( 1 );
-	QPushButton *ok = new QPushButton( i18n("OK"), this );	
+	ok = new QPushButton( i18n("OK"), this );	
 	ok->setFixedSize( ok->sizeHint() );
 	ok->setDefault(true);
 	connect( ok, SIGNAL( clicked() ), SLOT( saveConfig() ) );
@@ -86,13 +86,16 @@ GeneralDlg::GeneralDlg( ArkData *d, QWidget *parent, const char *name )
 
 void GeneralDlg::initConfig()
 {
-	tarLE->setText( data->getTarCommand() );
+	tarLE->setText( m_data->getTarCommand() );
 }
 
 void GeneralDlg::saveConfig()
 {
-	if( !tarLE->text().isEmpty() )
-		data->setTarCommand( tarLE->text() );
+	m_data->setTarCommand( tarLE->text() );
 	accept();
 }
 
+void GeneralDlg::tarChanged(const QString& _cmd)
+{
+	ok->setEnabled( !_cmd.isEmpty() );
+}

@@ -86,8 +86,7 @@ void ZipArch::slotStoreDataStderr(KProcess* _p, char* _data, int _length)
 
 bool ZipArch::stderrIsError()
 {
-	const QString err("error");
-	return m_shellErrorData.find(err) != -1;
+	return m_shellErrorData.find(QString("eror")) != -1;
 }
 
 void ZipArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
@@ -95,11 +94,6 @@ void ZipArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
 	char columns[8][80];
 	char filename[4096];
 
-//	kdebug(0, 1601, "+slotOpenDataStdout");
-
-//	if( !(++m_steps % 100) )
-//		kapp->processEvents();
-	
 	char c = _data[_length];
 	_data[_length] = '\0';
 	
@@ -107,7 +101,6 @@ void ZipArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
 
 	char line[1024] = "";
 	char *tmpl = line;
-//	tmpl = line;
 //	*tmpl = '\0';
 
 	char *tmpb;
@@ -138,9 +131,8 @@ void ZipArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
 			flvi->setText(0, filename);
 
 			for(int i=0; i<7; i++)
-			{
 				flvi->setText(i+1, columns[i]);
-			}
+				
 			m_flw->insertItem(flvi);
 		}
 	}
@@ -151,6 +143,8 @@ void ZipArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
 
 	bool stop = (*tmpb == '\0');
 
+	const QString prefix("file:/");
+	
 	while( !stop && !m_finished )
 	{
 		tmpl = line;
@@ -177,10 +171,13 @@ void ZipArch::slotOpenDataStdout(KProcess* _p, char* _data, int _length)
 				FileLVI *flvi = new FileLVI(m_flw);
 				flvi->setText(0, filename);
 
+				KURL myUrl(prefix + QString(filename));
+				QPixmap *pix = KPixmapCache::pixmapForURL( myUrl, -1, false, true );
+				flvi->setPixmap( 0, *pix );
+								
 				for(int i=0; i<7; i++)
-				{
 					flvi->setText(i+1, columns[i]);
-				}
+					
 				m_flw->insertItem(flvi);
 				}
 			}
@@ -227,7 +224,6 @@ void ZipArch::initOpen()
 	m_buffer[0] = '\0';
 	m_header_removed = false;
 	m_finished = false;
-	m_steps = 0;
 	
 	m_data->clearShellOutput();
 
@@ -236,8 +232,6 @@ void ZipArch::initOpen()
 	
 	connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)), SLOT(slotOpenDataStdout(KProcess*, char*, int)));
 
-//	showWait();
-	
 	kdebug(0, 1601, "-ZipArch::initOpen");
 }
 
@@ -257,19 +251,13 @@ void ZipArch::openArch( QString _filename )
  	}
 	kdebug(0, 1601, "process stopped");
 
-//	m_wd->close();
-//	delete m_wd;
-
 	kdebug(0, 1601, "normalExit = %d", m_kp->normalExit() );
-	if( m_kp->normalExit() )
-		kdebug(0, 1601, "exitStatus = %d", m_kp->exitStatus() );
+	kdebug(0, 1601, "exitStatus = %d", m_kp->exitStatus() );
 
 	if( m_kp->normalExit() && !m_kp->exitStatus() )
 		m_arkwidget->open_ok( m_filename );
-	else{
-		m_flw->clear();
+	else
 		m_arkwidget->open_fail();
-	}
 
 	delete m_kp;
 	
@@ -317,10 +305,18 @@ void ZipArch::add( QString _location, int _mode, QString _compression, bool _rec
 	kdebug(0, 1601, "normalExit = %d", m_kp->normalExit() );
 	kdebug(0, 1601, "exitStatus = %d", m_kp->exitStatus() );
 
-	if( m_kp->normalExit() && m_kp->exitStatus() ){
- 		KMessageBox::sorry( 0, "Add failed" );
- 	}
-
+	if( m_kp->normalExit() && (m_kp->exitStatus()==0) )
+	{
+		if(stderrIsError())
+	 		KMessageBox::error( 0, i18n("You probably don't have sufficient permissions\n"
+	 					"Please check the file owner and the integrity\n"
+	 					"of the archive.") );
+	 	else
+	 		m_arkwidget->reload();
+	}
+	else
+ 		KMessageBox::sorry( 0, i18n("Add failed") );
+	
  	delete m_kp;
 
 	kdebug(0, 1601, "-ZipArch::add");
@@ -445,6 +441,47 @@ void ZipArch::deleteSelectedFiles()
 	kdebug(0, 1601, "-ZipArch::deleteSelectedFiles");
 }
 
+void ZipArch::deleteFiles( const QString& patterns )
+{
+	kdebug(0, 1601, "+ZipArch::deleteFiles");
+
+	m_data->clearShellOutput(); m_shellErrorData = "";
+	
+	m_kp = new KProcess();
+		
+ 	*m_kp << "zip" << "-d" << m_filename.ascii();
+	*m_kp << patterns.ascii(); 	
+	
+	connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)), SLOT(slotStoreDataStdout(KProcess*, char*, int)));
+	connect( m_kp, SIGNAL(receivedStderr(KProcess*, char*, int)), SLOT(slotStoreDataStderr(KProcess*, char*, int)));
+ 	
+ 	if(m_kp->start(KProcess::Block, KProcess::AllOutput) == false)
+ 	{
+ 		KMessageBox::error( 0, i18n("Unable to start a subprocess.") );
+ 		return;
+ 	}
+	
+	kdebug(0, 1601, "normalExit = %d", m_kp->normalExit() );
+	kdebug(0, 1601, "exitStatus = %d", m_kp->exitStatus() );
+	
+	if( m_kp->normalExit() && (m_kp->exitStatus()==0) )
+	{
+		if(stderrIsError())
+		{
+	 		KMessageBox::error( 0, i18n("You probably don't have sufficient permissions\n"
+	 					"Please check the file owner and the integrity\n"
+	 					"of the archive.") );
+		}
+		else m_arkwidget->reload();
+	}
+	else
+ 		KMessageBox::sorry( 0, i18n("Deletion failed") );
+
+ 	delete m_kp;
+ 		
+	kdebug(0, 1601, "-ZipArch::deleteFiles");
+}
+
 void ZipArch::slotExtractExited(KProcess *)
 {
 	kdebug(0, 1601, "+slotExtractExited");
@@ -493,7 +530,7 @@ void ZipArch::initExtract( bool _overwrite, bool _junkPaths, bool _lowerCase)
 	if( _lowerCase )
 		*m_kp << "-L";
 		
-	*m_kp << m_filename;
+	*m_kp << m_filename.ascii();
 
 	connect( m_kp, SIGNAL(processExited(KProcess *)), SLOT(slotExtractExited(KProcess *)));
 	connect( m_kp, SIGNAL(receivedStdout(KProcess*, char*, int)), SLOT(slotStoreDataStdout(KProcess*, char*, int)));
@@ -502,7 +539,6 @@ void ZipArch::initExtract( bool _overwrite, bool _junkPaths, bool _lowerCase)
 
 void ZipArch::extraction()
 {
-
  	ZipExtractDlg *zed=new ZipExtractDlg( m_data, !m_flw->isSelectionEmpty(), m_data->getExtractDir() );
  	if( zed->exec() ){
  		
@@ -528,9 +564,7 @@ void ZipArch::extraction()
 				QStringList::Iterator it = list->begin();
 				
 				for ( ; it != list->end(); it++ )
-				{
 					*m_kp << *it;
-				}	
 				break;		
 			}
 			case ZipExtractDlg::Pattern: {
@@ -601,14 +635,3 @@ void ZipArch::testIntegrity()
 	}
 }
 
-#if 0
-void ZipArch::showWait()
-{
-	m_wd = new WaitDlg( m_arkwidget, "", false );
-	connect( m_wd, SIGNAL(dialogClosed()), SLOT( slotProcessusKilled()) );
-	m_wd->show();
-	kapp->processEvents();
-	m_wd->update();
-	kapp->processEvents();
-}
-#endif

@@ -40,7 +40,9 @@
 #include <qmessagebox.h>
 
 // KDE includes
-#include "klocale.h"
+#include <kdebug.h>
+#include <klocale.h>
+#include <kmessagebox.h>
 
 // ark includes
 #include "arkwidget.h"
@@ -51,6 +53,8 @@
 TarArch::TarArch( ArkData *_d, ArkWidget *_w, FileListView *_flw )
 	:QObject(), Arch()
 {
+	kdebug(0, 1601, "+TarArch::TarArch");
+	
 	stdout_buf = NULL;
 	cout << "Entered TarArch" << endl;
 	m_data = _d;
@@ -62,14 +66,15 @@ TarArch::TarArch( ArkData *_d, ArkWidget *_w, FileListView *_flw )
 	compressed = true;
 	
 	m_data->getTarCommand();
-	cout << "Left TarArch" << endl;
+	
+	kdebug(0, 1601, "-TarArch::TarArch");
 }
 
 TarArch::~TarArch()
 {
 	cout << "Entered ~TarArch" << endl;
 	updateArch();
-	delete listing;
+//	delete listing;
 	cout << "Left ~TarArch" << endl;
 }
 
@@ -90,7 +95,7 @@ int TarArch::updateArch()
 		                       this, SLOT(openFinished(KProcess *)) );
 		if( kproc.start( KProcess::NotifyOnExit ) == FALSE )
 		{
-			cerr << "Can't fork a compressor." << endl;
+			KMessageBox::error(0, "Can't fork a compressor.");
 			return -1;
 		}
 	}
@@ -173,15 +178,15 @@ void TarArch::openArch( QString name )
 
 	if( kproc.start( KProcess::NotifyOnExit, KProcess::Stdout ) == FALSE )
 	{
-		cerr << "Can't fork a decompressor." << endl;
+		KMessageBox::error(0, "Can't fork a decompressor.");
 		return;
 	}
 //	fclose( fd );
 //	There should be a file descriptor close call, but this one makes a
 //	BAD FILEDESCRIPTOR error message
 //	Another note: gzip reported 'Broken pipe' because of that fclose()
-	while(archProcess.isRunning())
-		;
+//	while(archProcess.isRunning())
+//		;
 
 	m_arkwidget->open_ok( m_filename );
 	
@@ -220,7 +225,7 @@ void TarArch::createTmp()
 		
 		if( kproc.start( KProcess::NotifyOnExit ) == FALSE )
 		{
-			cerr << "Can't fork a decompressor" << endl;
+			KMessageBox::error(0, "Can't fork a decompressor");
 		}
 	}
 }
@@ -278,7 +283,7 @@ int TarArch::addFile( QStrList* urls )
 
 	if( kproc.start( KProcess::NotifyOnExit, KProcess::Stdout ) == FALSE )
 	{
-		cerr << "Can't start a kprocess." << endl;
+		KMessageBox::error(0, "Can't start a kprocess.");
 		return -1;
 	}
 	
@@ -338,7 +343,7 @@ void TarArch::extractTo( QString dir )
 
  	if(kproc.start( KProcess::NotifyOnExit, KProcess::Stdout ) == false)
  	{
- 		cerr << "Subprocess wouldn't start!" << endl;
+ 		KMessageBox::error(0,"Subprocess wouldn't start!");
  		return;
  	}
 
@@ -361,9 +366,9 @@ QString TarArch::unarchFile( int index, QString dest )
 	pos++;
 	name = tmp.right( tmp.length()-pos );
 
-	archProcess.clearArguments();
+//	archProcess.clearArguments();
 //	archProcess.setExecutable( tar_exe );
-	archProcess << tar_exe;
+//	archProcess << tar_exe;
 
 	kproc.clearArguments();
 	kproc << tar_exe;
@@ -376,7 +381,7 @@ QString TarArch::unarchFile( int index, QString dest )
 	kproc << m_filename << "-C" << dest << name;
 	if( kproc.start(KProcess::Block) == false )
 	{
-		cerr << "Can't start a kprocess." << endl;
+		KMessageBox::error(0,"Can't start a kprocess.");
 	}
 	fullname = dest + name;
 	cout << "Left unarchFile" << endl;
@@ -388,26 +393,23 @@ void TarArch::deleteSelectedFiles()
 	QMessageBox::warning(0, i18n("ark"), i18n("Sorry, not implemented yet !"), i18n("OK"));
 }
 
-#if 0
-/* untested */
-void TarArch::deleteFile( int indx )
+void TarArch::deleteFiles( const QString& patterns )
 {
-	cout << "Entered deleteFile" << endl;
+	kdebug(0, 1601, "+Tar::deleteFiles");
+	
 	QString name, tmp;
 	QString tar_exe = m_data->getTarCommand();	
 	
 	createTmp();
 	
-	tmp = listing->at(indx);
-	name = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
 	kproc.clearArguments();
-	kproc << tar_exe << "--delete" << "-f" << tmpfile << name;
+	kproc << tar_exe << "--delete" << "-f" << tmpfile << patterns.ascii();
 	kproc.start(KProcess::Block);
 	
 	updateArch();
-	cout << "Left deleteFile" << endl;
+
+	kdebug(0, 1601, "-Tar::deleteFiles");
 }
-#endif
 
 void TarArch::updateExtractProgress( KProcess *, char *buffer, int bufflen )
 {

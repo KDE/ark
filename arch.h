@@ -43,14 +43,17 @@ class Arch
 
 public:
 	virtual ~Arch() {};
-//	virtual unsigned char setOptions( bool p, bool l, bool o ) = 0;
 	virtual void openArch( QString ) = 0;
 	virtual void createArch( QString ) = 0;
+	
 	virtual int addFile( QStrList *) = 0;
+	virtual void deleteSelectedFiles() = 0;
+	virtual void deleteFiles( const QString& ) = 0;
 	virtual void extraction() = 0;
 	virtual QString unarchFile( int , QString ) = 0;
-	virtual void deleteSelectedFiles() = 0;
+	
 	virtual int getEditFlag() = 0;
+	QString getFileName() const { return m_filename; };
 	
 	enum EditProperties{
 		Add = 1,
@@ -68,8 +71,6 @@ protected:
 	ArkData *m_data;
 	ArkWidget *m_arkwidget;
 	FileListView *m_flw;
-	
-	void showError();
 };
 
 #endif /* ARCH_H */

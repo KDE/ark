@@ -9,10 +9,16 @@
 #include <qstring.h>
 #include <qstrlist.h>
 
+
+// KDE includes
+#include <kprocess.h>
+
+// ark includes
+
 #include "arch.h"
 #include "arkdata.h"
-#include "arkprocess.h"
 #include "filelistview.h"
+
 
 class ArkWidget;
 
@@ -31,29 +37,35 @@ public slots:
 public:
 	TarArch( ArkData*, ArkWidget*, FileListView* );
 	virtual ~TarArch();
+	
 	/*virtual*/ unsigned char setOptions( bool p, bool l, bool o );
+	
 	virtual void openArch( QString );
 	virtual void createArch( QString );
+	
 	virtual int addFile( QStrList *);
+	virtual void deleteSelectedFiles();
+	virtual void deleteFiles( const QString& );
 	virtual void extractTo( QString );
 	virtual void extraction();
+	
 	const QStrList *getListing();
 	virtual QString unarchFile( int, QString );
-	virtual void deleteSelectedFiles();
+	
 	virtual int getEditFlag();
+	
 	QString getCompressor();
 	QString getUnCompressor();
 
 private:
-	char         *stdout_buf;
-	QStrList     *listing;
+	char          *stdout_buf;
+	QStrList      *listing;
 	QString       tmpfile;
 	bool          compressed;
-	ArkData *m_data;
-	ArkWidget *m_arkwidget;
-	ArkProcess    archProcess;
+	ArkData	      *m_data;
+	ArkWidget     *m_arkwidget;
 	KProcess      kproc;
-	FileListView *destination_flw;
+	FileListView  *destination_flw;
 
 	bool          perms, tolower, overwrite;
 	int           updateArch();

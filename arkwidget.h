@@ -48,7 +48,6 @@
 // ark includes
 #include "ar.h"
 #include "arch.h"
-#include "adddlg.h"
 #include "arkdata.h"
 #include "filelistview.h"
 #include "tar.h"
@@ -68,26 +67,28 @@ public:
 	void open_fail();
 	void open_ok( QString );
 	void showZip( QString name );
+	void reload();
 	
 protected slots:
 	void file_new();
 	void file_newWindow();
 	void file_open();
 	void file_openRecent( int );
+	void file_reload();
 	void file_close();
 	void file_quit();
 	
-	void getAddOptions();
-	void edit_add();
-	void edit_view();
-	void edit_delete();
-	void edit_extract();
-	void edit_view_last_shell_output();
 	void edit_select();
 	void edit_selectAll();
 	void edit_deselectAll();
 	void edit_invertSel();
+	void edit_view_last_shell_output();
 
+	void action_add();
+	void action_view();
+	void action_delete();
+	void action_extract();
+	
 	void options_dirs();
 	void options_keys();
 	void options_general();
@@ -115,16 +116,13 @@ private:
 	enum ArchType{ TAR_FORMAT, ZIP_FORMAT, AA_FORMAT, LHA_FORMAT };
 
 	Arch *arch;
-public:
-	FileListView *archiveContent;
 
 private:
-	QStrList *listing;
-	bool contextRow;
 	KPopupMenu *pop;
 	ArkData *m_data;
 	QTimer *statusBarTimer;
 	KAccel *accelerators;
+	FileListView *archiveContent;
 
 	QPopupMenu *editMenu, *actionMenu, *optionsMenu, *recentPopup;
 	int idActionMenu;
@@ -151,11 +149,10 @@ protected:
 	void newCaption(const QString& filename);
 	void createFileListView();
 	
-	int getArchType(QString archname);
+	int  getArchType(QString archname);
 	bool createArchive(QString name);
 	bool openArchive(QString name);
 
-	void deleteFile( int );
 	void showFile( int, int col=0 );
 
 	void saveProperties();

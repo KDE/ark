@@ -43,14 +43,15 @@
 #include <kkeydialog.h>
 #include <klocale.h>
 #include <kmenubar.h>
+#include <kmessagebox.h>
 #include <kstatusbar.h>
 #include <ktoolbar.h>
 #include <kwm.h>
 
 // ark includes
-#include "extractdlg.h"
 #include "arkwidget.h"
 #include "arkwidget.moc"
+#include "deleteDlg.h"
 #include "dirDlg.h"
 #include "generalOptDlg.h"
 #include "selectDlg.h"
@@ -102,9 +103,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 
 
 	arch=0;
-	listing=0;
-	contextRow = false;
-
+	
 	writeStatusMsg( i18n("Welcome to ark...") );
 
 	kdebug(0, 1601, "-ArkWidget::ArkWidget");
@@ -149,10 +148,10 @@ void ArkWidget::setupMenuBar()
 	accelerators->connectItem(KAccel::Close, this, SLOT(file_close()));
 	accelerators->connectItem(KAccel::Quit, this, SLOT(file_quit()));
 
-	accelerators->connectItem("Add_accel", this, SLOT(edit_add()));
-	accelerators->connectItem("Delete_accel", this, SLOT(edit_delete()));
-	accelerators->connectItem("Extract_accel", this, SLOT(edit_extract()));
-	accelerators->connectItem("View_accel", this, SLOT(edit_view()));
+	accelerators->connectItem("Add_accel", this, SLOT(action_add()));
+	accelerators->connectItem("Delete_accel", this, SLOT(action_delete()));
+	accelerators->connectItem("Extract_accel", this, SLOT(action_extract()));
+	accelerators->connectItem("View_accel", this, SLOT(action_view()));
 	accelerators->connectItem("Selection", this, SLOT(edit_select()));
 	accelerators->connectItem("SelectionAll", this, SLOT(edit_selectAll()));
 	accelerators->connectItem("DeselectionAll", this, SLOT(edit_deselectAll()));
@@ -182,6 +181,7 @@ void ArkWidget::setupMenuBar()
 	accelerators->changeMenuAccel(fileMenu, id, KAccel::Open );
 	id=fileMenu->insertItem( i18n( "Open &recent" ), recentPopup);
 	connect(recentPopup, SIGNAL(activated(int)), SLOT(file_openRecent(int)));
+	fileMenu->insertItem( i18n( "Relo&ad" ), this,  SLOT( file_reload()) );
 
 	fileMenu->insertSeparator();
 	id=fileMenu->insertItem( i18n( "&Close"), this, SLOT( file_close() ) );
@@ -196,7 +196,6 @@ void ArkWidget::setupMenuBar()
 	optionsMenu->insertItem( i18n( "&General..."), this, SLOT( options_general() ) );
 	optionsMenu->insertItem( i18n( "&Directories..."), this, SLOT( options_dirs() ) );
 	optionsMenu->insertItem( i18n( "&Keys..."), this, SLOT( options_keys() ) );
-	optionsMenu->insertItem( i18n( "&File Adding Options..."), this, SLOT( getAddOptions() ) );
 	optionsMenu->insertSeparator();
 	optionsMenu->insertItem( i18n( "&Save settings now..."), this, SLOT( options_saveNow() ) );
 	idSaveOnExit=optionsMenu->insertItem( i18n( "Save settings on e&xit..."), this, SLOT( options_saveOnExit() ) );
@@ -224,10 +223,10 @@ void ArkWidget::setupMenuBar()
 
 	pop = new KPopupMenu();
 	pop->setTitle( i18n("File Operations") );
-	pop->insertItem( i18n("Extract..."), this, SLOT( edit_extract() ) );
-	pop->insertItem( i18n("View file"), this, SLOT( edit_view() ) );
+	pop->insertItem( i18n("Extract..."), this, SLOT( action_extract() ) );
+	pop->insertItem( i18n("View file"), this, SLOT( action_view() ) );
 	pop->insertSeparator();
-	pop->insertItem( i18n("Delete file"), this, SLOT( edit_delete() ) );
+	pop->insertItem( i18n("Delete file"), this, SLOT( action_delete() ) );
 }
 
 void ArkWidget::createEditMenu( bool _enabled )
@@ -264,25 +263,25 @@ void ArkWidget::createActionMenu()
 	
 	actionMenu->clear();
 	if( flag & Arch::Add ){
-		idAdd=actionMenu->insertItem( i18n( "&Add..."), this, SLOT( edit_add() ) );
+		idAdd=actionMenu->insertItem( i18n( "&Add..."), this, SLOT( action_add() ) );
 		accelerators->changeMenuAccel(actionMenu, idAdd, "Add_accel" );
 	}
 	else idAdd = -1;
 
         if( flag & Arch::Delete ){
-		idDelete=actionMenu->insertItem( i18n( "&Delete..."), this, SLOT( edit_delete() ) );
+		idDelete=actionMenu->insertItem( i18n( "&Delete..."), this, SLOT( action_delete() ) );
 		accelerators->changeMenuAccel(actionMenu, idDelete, "Delete_accel" );
 	}
 	else idDelete = -1;
 	
         if( flag & Arch::Extract ){
-		idExtract=actionMenu->insertItem( i18n( "E&xtract..."), this, SLOT( edit_extract() ) );
+		idExtract=actionMenu->insertItem( i18n( "E&xtract..."), this, SLOT( action_extract() ) );
 		accelerators->changeMenuAccel(actionMenu, idExtract, "Extract_accel" );
 	}
 	else idExtract = -1;
 	
         if( flag & Arch::View ){
-		idView=actionMenu->insertItem( i18n( "&View..."), this, SLOT( edit_view() ) );
+		idView=actionMenu->insertItem( i18n( "&View..."), this, SLOT( action_view() ) );
 		accelerators->changeMenuAccel(actionMenu, idView, "View_accel" );
 	}
 	else idView = -1;
@@ -318,7 +317,7 @@ void ArkWidget::setupToolBar()
 
 	tb->insertButton( BarIcon("fileopen"), OPEN_BUTTON, SIGNAL( clicked() ), this, SLOT( file_open() ), TRUE, i18n("Open"));
 	tb->insertButton( BarIcon("home"), FAVORITE_BUTTON, SIGNAL( clicked() ), this, SLOT( showFavorite() ), TRUE, i18n("Goto Archive Dir"));
-	tb->insertButton( BarIcon("viewzoom"), EXTRACT_BUTTON, SIGNAL( clicked() ), this, SLOT( edit_extract() ), FALSE, i18n("Extract"));
+	tb->insertButton( BarIcon("viewzoom"), EXTRACT_BUTTON, SIGNAL( clicked() ), this, SLOT( action_extract() ), FALSE, i18n("Extract"));
 //	tb()->setItemEnabled( EXTRACT_BUTTON, false );
 
 	tb->insertSeparator();
@@ -377,7 +376,7 @@ void ArkWidget::file_new()
 			newCaption(file);
 		else
 		{
-			arkError( i18n( "Can't create archive of that type") );
+			KMessageBox::error( this, i18n( "Can't create archive of that type") );
 		}
 	}
 }
@@ -428,11 +427,23 @@ void ArkWidget::open_fail()
 {
 	kdebug(0, 1601, "+open_fail");
 
+	archiveContent->clear();
 	clearCurrentArchive();	
 
 	kdebug(0, 1601, "-open_fail");
 }
 
+void ArkWidget::file_reload()
+{
+	QString filename = arch->getFileName();
+	showZip( filename );
+}
+
+void ArkWidget::reload()
+{
+	file_reload();
+}
+	
 void ArkWidget::file_close()
 {
 	if( windowList->count() < 2 )
@@ -461,95 +472,15 @@ void ArkWidget::file_quit()
 
 // Edit menu /////////////////////////////////////////////////////////
 
-void ArkWidget::edit_add()
-{
-	arch->addFile( 0 );
-}
-
-void ArkWidget::edit_delete()
-{
-	// TODO: Let the user choose between "Selected files" / "Pattern"
-	arch->deleteSelectedFiles();
-}
-
-
-void ArkWidget::deleteFile( int /*pos*/ )
-{
-	arkWarning("Sorry, not implemented yet !");
-
-/*
-	if( pos != -1 && arch )
-	{
-		arch->deleteFile( pos ); // This will be better for the future
-		listing = (QStrList *)arch->getListing();
-		lb->clear();
-		setupHeaders();
-		lb->appendStrList( listing );
-	}
-*/
-}
-
-void ArkWidget::edit_extract()
-{
-	if( arch == 0 )
-		arkWarning( "extract should not be available here !");
-	else
-		arch->extraction();
-}
-
-void ArkWidget::edit_view()
-{
-/*
-	if( lb->currentItem() != -1 )
-	{
-		showFile( lb->currentItem() );
-	}
-*/
-}
-
-void ArkWidget::edit_view_last_shell_output()
-{
-	ShellOutputDlg* sod = new ShellOutputDlg( m_data, this );
-	sod->exec();
-}
-
-void ArkWidget::showFile( int /*index*/, int /*col*/ )
-{
-	QString tmp;
-	QString tname;
-	QString name;
-	QString fullname;
-
-	if( contextRow )  // Warning: ugly hack
-		return;
-/*
-	col++; // Don't ask.
-	tmp = listing->at( index );
-	tname = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
-
-	if( arch == 0 )
-	{
-		fullname = fav->path();
-		fullname+= "/";
-		fullname+= tname;
-		showZip( fullname );
-	}else{
-		fullname = "file:";
-		fullname += arch->unarchFile( index, tmpdir );
-		(void) new KRun ( fullname );
-	}
-*/
-}
-
 void ArkWidget::edit_select()
 {
-	SelectDlg *sd = new SelectDlg( m_data, m_data->getSelectRegExp(), this );
+	SelectDlg *sd = new SelectDlg( m_data, this );
 	if( sd->exec() ){
 		QString exp = sd->getRegExp();
 		m_data->setSelectRegExp( exp );
 
 		QRegExp reg_exp( exp, true, true );
-		KASSERT(reg_exp.isValid(), 0, 1601, "ArkWidget::edit_select: regular expression is not valid."); 
+		KASSERT(reg_exp.isValid(), 0, 1601, "ArkWidget::edit_select: regular expression is not valid.");
 		
 		FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
 
@@ -592,6 +523,80 @@ void ArkWidget::edit_invertSel()
 
 }
 
+void ArkWidget::edit_view_last_shell_output()
+{
+	ShellOutputDlg* sod = new ShellOutputDlg( m_data, this );
+	sod->exec();
+}
+
+
+// Action menu /////////////////////////////////////////////////////////
+
+void ArkWidget::action_add()
+{
+	arch->addFile( 0 );
+}
+
+void ArkWidget::action_delete()
+{
+	DeleteDlg *dd = new DeleteDlg( !archiveContent->isSelectionEmpty(), this );
+	if( dd->exec() ){
+		if( dd->isSelectionChecked() )
+			arch->deleteSelectedFiles();
+		else{
+			QString patt = dd->patterns();
+			if( patt.isEmpty() )
+				KMessageBox::error(this, "ark can't proceed with an empty file list");
+			else
+				arch->deleteFiles( patt );
+		}
+	}
+}
+
+void ArkWidget::action_extract()
+{
+	if( arch == 0 )
+		arkWarning( "extract should not be available here !");
+	else
+		arch->extraction();
+}
+
+void ArkWidget::action_view()
+{
+/*
+	if( lb->currentItem() != -1 )
+	{
+		showFile( lb->currentItem() );
+	}
+*/
+}
+
+void ArkWidget::showFile( int /*index*/, int /*col*/ )
+{
+	QString tmp;
+	QString tname;
+	QString name;
+	QString fullname;
+
+/*
+	col++; // Don't ask.
+	tmp = listing->at( index );
+	tname = tmp.right( tmp.length() - (tmp.findRev('\t')+1) );
+
+	if( arch == 0 )
+	{
+		fullname = fav->path();
+		fullname+= "/";
+		fullname+= tname;
+		showZip( fullname );
+	}else{
+		fullname = "file:";
+		fullname += arch->unarchFile( index, tmpdir );
+		(void) new KRun ( fullname );
+	}
+*/
+}
+
 // Options menu //////////////////////////////////////////////////////
 
 void ArkWidget::options_general()
@@ -611,23 +616,6 @@ void ArkWidget::options_dirs()
 void ArkWidget::options_keys()
 {
 	KKeyDialog::configureKeys(accelerators, this);
-}
-
-void ArkWidget::getAddOptions()
-{
-	if( arch )
-	{
-		AddOptionsDlg *afd = new AddOptionsDlg( this );
-		if( afd->exec() )
-		{
-			m_data->setaddPath( afd->storeFullPath() );
-			m_data->setonlyUpdate( afd->onlyUpdate() );
-		}
-		delete afd;
-		afd = 0;
-	}else{
-		writeStatusMsg(i18n( "Create or open an archive first"));
-	}
 }
 
 void ArkWidget::options_saveNow()
@@ -653,10 +641,6 @@ void ArkWidget::help()
 
 void ArkWidget::slotSelectionChanged()
 {
-	kdebug(0, 1601, "+slotSelectionChanged");
-	
-
-	kdebug(0, 1601, "-slotSelectionChanged");
 }
 
 // Drag & Drop ////////////////////////////////////////////////////////
@@ -704,7 +688,7 @@ void ArkWidget::dropEvent(QDropEvent* event )
 			if( retcode == UNSUPDIR )
 				arkWarning( i18n("Can't add directories with this archive type"));
 			else
-				arkError( i18n( "Error saving to archive"));
+				KMessageBox::error( this, i18n( "Error saving to archive"));
 		}
 	}
 
@@ -716,7 +700,6 @@ void ArkWidget::showFavorite()
 {
 	const QFileInfoList *flist;
 	QDir *fav;
-	QStrList *flisting = new QStrList;
 
 	clearCurrentArchive();
 
@@ -733,7 +716,7 @@ void ArkWidget::showFavorite()
 	fav = new QDir( m_data->getFavoriteDir() );
 	if( !fav->exists() )
 	{
-		arkError( i18n("Archive directory does not exist."));
+		KMessageBox::error( this, i18n("Archive directory does not exist."));
 		return;
 	}
 	flist = fav->entryInfoList();
@@ -773,9 +756,7 @@ void ArkWidget::showFavorite()
 	caption = i18n("ark - %1").arg(m_data->getFavoriteDir());
 	setCaption( caption );
 
-	listing = flisting;
 	delete fav;
-	delete flisting;
 
 	writeStatusMsg( i18n( "Archive Directory") );
 }
@@ -816,11 +797,6 @@ void ArkWidget::clearCurrentArchive()
 void ArkWidget::arkWarning(const QString& msg)
 {
         QMessageBox::warning(this, i18n("ark"), msg, i18n("OK"));
-}
-
-void ArkWidget::arkError(const QString& msg)
-{
-        QMessageBox::critical(this, i18n("ark"), msg, i18n("OK"));
 }
 
 void ArkWidget::slotStatusBarTimeout()
@@ -910,7 +886,7 @@ bool ArkWidget::createArchive( QString name )
 */		default:
 		{
 			return false;
-			arkError( i18n("Unknown archive format or corrupted archive") );
+			KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
 			clearCurrentArchive();
 		}
 	}
@@ -955,7 +931,7 @@ bool ArkWidget::openArchive( QString name )
 		{
 			ret = false;
 			break;
-			arkError( i18n("Unknown archive format or corrupted archive") );
+			KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
 			clearCurrentArchive();
 		}
 	}

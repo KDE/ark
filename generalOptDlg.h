@@ -29,6 +29,7 @@
 // Qt includes
 #include <qdialog.h>
 #include <qlineedit.h>
+#include <qpushbutton.h>
 
 // ark includes
 #include "arkdata.h"
@@ -36,15 +37,16 @@
 class GeneralDlg : public QDialog {
 	Q_OBJECT
 public:
-	GeneralDlg(  ArkData *d, QWidget *parent=0, const char *name=0 );
+	GeneralDlg(  ArkData *_d, QWidget *_parent=0, const char *_name=0 );
 	
 public slots:
-	void saveConfig();	
+	void saveConfig();
+	void tarChanged( const QString & );	
 	
 private:
-	ArkData *data;
-	
+	ArkData *m_data;
 	QLineEdit *tarLE;
+	QPushButton *ok;
 	
 	void initConfig();
 };

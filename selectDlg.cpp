@@ -38,14 +38,13 @@
 #include "selectDlg.h"
 #include "selectDlg.moc"
 
-#define BROWSE_WIDTH 40
 
-SelectDlg::SelectDlg( ArkData *_data, QString _pattern, QWidget *_parent, const char *_name )
+SelectDlg::SelectDlg( ArkData *_data, QWidget *_parent, const char *_name )
 	: QDialog( _parent, _name, true )
 {
 	m_data = _data;
 	
-	setCaption( i18n("ark - Selection") );
+	setCaption( i18n("Selection") );
 	QVBoxLayout *mainLayout = new QVBoxLayout( this, 10 );
 
 	/**
@@ -60,11 +59,12 @@ SelectDlg::SelectDlg( ArkData *_data, QString _pattern, QWidget *_parent, const 
 
 	m_ok = new QPushButton( i18n("OK"), this );	
 
+	QString pattern = m_data->getSelectRegExp();
 	m_regExp = new QLineEdit( this );
 	m_regExp->setFixedSize( m_regExp->sizeHint() );
-	m_regExp->setText( _pattern );
-	m_regExp->setSelection(0, _pattern.length() );
-	regExpChanged( _pattern );
+	m_regExp->setText( pattern );
+	m_regExp->setSelection(0, pattern.length() );
+	regExpChanged( pattern );
 	hbl1->addWidget( m_regExp );
 	connect( m_regExp, SIGNAL(textChanged(const QString&)), SLOT(regExpChanged(const QString&)) );
 	
@@ -92,7 +92,7 @@ SelectDlg::SelectDlg( ArkData *_data, QString _pattern, QWidget *_parent, const 
 void SelectDlg::saveConfig()
 {
 	if( !m_regExp->text().isEmpty() )
-		m_data->setTarCommand( m_regExp->text() );
+		m_data->setSelectRegExp( m_regExp->text() );
 	accept();
 }
 
