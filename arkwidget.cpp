@@ -33,6 +33,7 @@
 #include <sys/stat.h>
 
 // Qt includes
+#include <qapplication.h>
 #include <qlayout.h>
 #include <qstringlist.h>
 #include <qlabel.h>
@@ -60,17 +61,15 @@
 #include <kconfigdialog.h>
 #include <ktrader.h>
 #include <kurl.h>
+#include <kpopupmenu.h>
 
 // settings
 #include "settings.h"
 #include "general.h"
 #include "addition.h"
 #include "extraction.h"
-#include <kpopupmenu.h>
-#include <kdialog.h>
 
 // ark includes
-#include "arkapp.h"
 #include "selectDlg.h"
 #include "archiveformatdlg.h"
 #include "extractdlg.h"

@@ -26,7 +26,7 @@ libarkpart_la_COMPILE_FIRST = settings.h
 
 libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp \
                         filelistview.cpp arch.cpp selectDlg.cpp \
-                        shellOutputDlg.cpp rar.cpp \
+                        rar.cpp \
                         arkutils.cpp archiveformatdlg.cpp \
                         arkwidget.cpp searchbar.cpp extractdlg.cpp \
                         addition.ui extraction.ui general.ui \
