@@ -57,6 +57,6 @@ appsdir = $(kde_appsdir)/Utilities
 parts_DATA = arkpart.desktop
 partsdir = $(kde_servicesdir)
 
-#konqservice_DATA = arkservicemenu.desktop
-#konqservicedir = $(kde_datadir)/konqueror/servicemenus
+konqservice_DATA = arkservicemenu.desktop
+konqservicedir = $(kde_datadir)/konqueror/servicemenus
 
