@@ -634,8 +634,8 @@ bool ArkWidget::download(const KURL &url, QString &strFile)
       getArchType(url.path(), extension);
       mpTempFile = new KTempFile("/tmp/ark", extension);
       strFile = mpTempFile->name();
-      kdDebug(1601) << "Downloading " << url.path().local8Bit() << " as " <<
-	strFile.local8Bit() << endl;
+      kdDebug(1601) << "Downloading " << url.path() << " as " <<
+	strFile << endl;
     }
   return KIO::NetAccess::download(url, strFile);
 }
@@ -731,7 +731,7 @@ KURL ArkWidget::getCreateFilename(const QString & _caption,
 	return QString::null;
 
       kdDebug(1601) << "Trying to create an archive named " <<
-	strFile.local8Bit() << endl;
+	strFile << endl;
       if (stat(strFile.local8Bit(), &statbuffer) != -1)  // already exists!
 	{
 	  choice =
@@ -878,7 +878,7 @@ void ArkWidget::file_open(const KURL& url)
     if (download(url, strFile))
     {
         m_settings->clearShellOutput();
-        kdDebug(1601) << "Recent open: " << strFile.local8Bit() << endl;
+        kdDebug(1601) << "Recent open: " << strFile << endl;
         file_open(strFile);
     }
   }
@@ -1148,7 +1148,7 @@ void ArkWidget::fixEnables() // private
   bool bAddDirSupported = true;
   QString extension;
   enum ArchType archtype = getArchType(m_strArchName, extension);
-  if (archtype == ZOO_FORMAT || archtype == AA_FORMAT)
+  if (archtype == ZOO_FORMAT || archtype == AA_FORMAT || archtype == COMPRESSED_FORMAT)
     bAddDirSupported = false;
 
   if (arch)
@@ -1222,7 +1222,7 @@ void ArkWidget::file_close()
       if (mpTempFile)
 	{
 	  kdDebug(1601) << "Removing temp file " <<
-	    mpTempFile->name().local8Bit() << endl;
+	    mpTempFile->name() << endl;
 	  mpTempFile->unlink();
 	  delete mpTempFile;
 	  mpTempFile = NULL;
@@ -1472,7 +1472,7 @@ void ArkWidget::addFile(QStringList *list)
       for (QStringList::Iterator it = list->begin(); it != list->end(); ++it)
 	{
 	  QString str = *it;
-	  kdDebug(1601) << "Want to add " << str.local8Bit() << endl;
+	  kdDebug(1601) << "Want to add " << str<< endl;
 	  if (str.left(5) == QString("file:"))
 	    {
 	      bNotLocal = false;
@@ -1491,7 +1491,7 @@ void ArkWidget::addFile(QStringList *list)
     }
   arch->addFile(list);
 }
-
+#include <iostream.h>
 void ArkWidget::action_add_dir()
 {
   QString dirName
@@ -2269,12 +2269,10 @@ bool ArkWidget::badBzipName(const QString & _filename)
 ////////////////////// createArchive /////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-                                                                                     
+
 void ArkWidget::createArchive( const QString & _filename )
 {
-
   // make sure we can write there
-
   Arch * newArch = 0;
   QString extension;
   switch( getArchType( _filename, extension) )
