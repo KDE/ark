@@ -176,7 +176,7 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 	
 	kdDebug(1601) << "+ArkWidget::ArkWidget" << endl;
 	
-	ArkApplication::getInstance()->addWindow();
+	setArkInstanceId( ArkApplication::getInstance()->addWindow() );
 	
 	// Build the ark UI
 	kdDebug(1601) << "Build the GUI" << endl;
@@ -195,24 +195,10 @@ ArkWidget::ArkWidget( QWidget *, const char *name ) :
 
 ArkWidget::~ArkWidget()
 {
+	// Call common function from arkwidgetbase
+	cleanArkTmpDir();
+	
 	kdDebug(1601) << "-ArkWidget::~ArkWidget" << endl;
-	
-	ArkApplication::getInstance()->removeWindow();
-	
-	QString tmpdir = m_settings->getTmpDir();
-	QDir ltmpDir( m_strArchName );
-	QString viewdir = ltmpDir.dirName() + "/";
-
-	// delete the viwer temporary directory ( if exists ) and its contents
-	QString ex( "rm -rf "+ tmpdir + viewdir );
-  	system( QFile::encodeName( ex ) );
-
-	// delete main temporary directory if no more ark instances are open
-	if ( ! ArkApplication::getInstance()->windowCount() )
-	{
-		QString ex( "rm -rf "+ tmpdir );
-		system( QFile::encodeName( ex ) );
-	}
 }
 
 void 
@@ -1608,11 +1594,10 @@ ArkWidget::slotOpenWith()
 		m_extractList = new QStringList;
 		m_extractList->append(name);
 		
-		QDir ltmpDir( m_strArchName );
 		QString fullname;
 		fullname = "file:";
 		fullname += m_settings->getTmpDir();
-		fullname += ltmpDir.dirName();
+		fullname += QString::number( getArkInstanceId() );
 		fullname += "/";
 		fullname += name;
 		
@@ -1623,7 +1608,7 @@ ArkWidget::slotOpenWith()
 		if ( Utilities::diskHasSpace( m_settings->getTmpDir(), pItem->text( getSizeColumn() ).toInt() ) )
 		{
 			disableAll();
-			prepareViewFiles(m_extractList);
+			prepareViewFiles( m_extractList );
 		}
 	}
 }
@@ -1875,11 +1860,10 @@ ArkWidget::showFile( FileLVI *_pItem )
 {
 	QString name = _pItem->getFileName(); // no text(0)
 	
-	QDir ltmpDir( m_strArchName );
 	QString fullname;
 	fullname = "file:";
 	fullname += m_settings->getTmpDir();
-	fullname += ltmpDir.dirName();
+	fullname += QString::number( getArkInstanceId() );
 	fullname += "/";
 	fullname += name;
 
@@ -1889,11 +1873,10 @@ ArkWidget::showFile( FileLVI *_pItem )
 	m_extractList->append(name);
 	
 	m_strFileToView = fullname;
-	if (Utilities::diskHasSpace(m_settings->getTmpDir(),
-				_pItem->text(getSizeColumn()).toLong()))
+	if (Utilities::diskHasSpace( m_settings->getTmpDir(),	_pItem->text( getSizeColumn() ).toLong() ) )
 	{
 		disableAll();
-		prepareViewFiles(m_extractList);
+		prepareViewFiles( m_extractList );
 	}
 }
 

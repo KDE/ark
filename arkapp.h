@@ -61,7 +61,7 @@ class ArkApplication : public KUniqueApplication
 		
 		// keep track of windows so we know when to quit
 		int windowCount() { return m_windowCount; }
-		void addWindow() { ++m_windowCount; }
+		int addWindow() { ++m_windowCount; return m_windowCount; }
 		void removeWindow() { --m_windowCount;} 
 
 		// keep track of open archive names so we don't open one twice

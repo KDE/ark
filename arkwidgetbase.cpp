@@ -35,6 +35,7 @@
 // Ark includes
 #include "filelistview.h"
 #include "arch.h"
+#include "arkapp.h"
 #include "shellOutputDlg.h"
 #include "arksettings.h"
 #include "arkwidgetbase.h"
@@ -72,6 +73,34 @@ ArkWidgetBase::~ArkWidgetBase()
 	archiveContent = 0;
 	delete arch;
 	delete m_settings;
+}
+
+void
+ArkWidgetBase::cleanArkTmpDir( bool part )
+{
+	QString tmpdir = m_settings->getTmpDir();
+	
+	if(  part )
+	{
+		QString ex( "rm -rf "+ tmpdir );
+		system( QFile::encodeName( ex ) );
+		return;
+	}
+
+	ArkApplication::getInstance()->removeWindow();
+	QString viewdir = QString::number( getArkInstanceId() );
+	viewdir += "/";
+	
+	// delete the viwer temporary directory ( if exists ) and its contents
+	QString ex( "rm -rf "+ tmpdir + viewdir );
+	system( QFile::encodeName( ex ) );
+	
+	// delete main temporary directory if no more ark instances are open
+	if ( ! ArkApplication::getInstance()->windowCount() )
+	{
+		QString ex( "rm -rf "+ tmpdir );
+		system( QFile::encodeName( ex ) );
+	}
 }
 
 /**
@@ -219,10 +248,9 @@ ArkWidgetBase::prepareViewFiles(QStringList *fileList)
 {
 	// Ark can have two or more instances with same name files and diferent
 	// contents. Need specify wich compressed file we are viewing
-	QDir ltmpDir( m_strArchName );
 	QString destTmpDirectory;
 	destTmpDirectory = m_settings->getTmpDir();
-	destTmpDirectory += ltmpDir.dirName();
+	destTmpDirectory += QString::number( getArkInstanceId() );
 	
 	QDir dir( destTmpDirectory );
 	if( ! dir.exists( destTmpDirectory ) )
