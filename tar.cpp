@@ -99,17 +99,16 @@ TarArch::TarArch( ArkSettings *_settings, ArkWidgetBase *_gui,
 		directory.sprintf("ark.%d/", getpid());
 		tmpdir = locateLocal( "tmp", directory );
 
-      QString base = m_filename.right(m_filename.length()- 1 -
+		QString base = m_filename.right(m_filename.length()- 1 -
                                      m_filename.findRev("/"));
-      base = base.left(base.findRev("."));
+		base = base.left(base.findRev("."));
 
-      // build the temp file name
-
+		// build the temp file name
 		KTempFile *pTempFile = new KTempFile(tmpdir +
 				QString::fromLatin1("/temp_tar"),
 				QString::fromLatin1(".tar") );
 
-      tmpfile = pTempFile->name();
+		tmpfile = pTempFile->name();
 		delete pTempFile;
 		
 		kdDebug(1601) << "Tmpfile will be " << tmpfile << "\n" << endl;
@@ -177,7 +176,7 @@ void TarArch::updateProgress( KProcess *, char *_buffer, int _bufflen )
 
 QString TarArch::getCompressor()
 {
-    QString extension = m_filename.right( m_filename.length() -
+  QString extension = m_filename.right( m_filename.length() -
                                        m_filename.findRev('.') );
 
   if( extension == ".tgz" || extension == ".gz" )
