@@ -12,7 +12,7 @@
 
 #include "filelistview.h"
 #include "filelistview.moc"
-
+#include "arch.h"
 
 inline int max(int a, int b)
 {
@@ -30,23 +30,19 @@ QString FileLVI::getFileName()
     return text(0);
 }
 
-
-
 QString FileLVI::key(int column, bool ascending) const
 {
     // puts numeric-type data into a field of 10 for correct sorting.
     static QString s;
 
     QString columnName = parent->columnText(column);
-    if ( (columnName == i18n(" Size ")) ||
-	 (columnName == i18n(" Size Now ")) ||
-	 (columnName == i18n(" Packed ")) || 
-	 (columnName == i18n(" Length ")))       
-    {
+    if ( columnName == SIZE_STRING ||
+	 columnName == PACKED_STRING )
+      {
 	s.sprintf("%.10ld", atol(text(column)));
 	return s;
-    }
-    else if (columnName == i18n(" Ratio "))
+      }
+    else if (columnName == RATIO_STRING)
       {
 	char ratio[5];
 	strcpy(ratio, text(column));
@@ -64,7 +60,7 @@ QString FileLVI::key(int column, bool ascending) const
 
 
 FileListView::FileListView(QWidget *parent, const char* name)
-	: QListView(parent, name)
+	: KListView(parent, name)
 {
 	sortColumn = 0;
 	increasing = TRUE;
@@ -84,7 +80,7 @@ void FileListView::setSorting(int column, bool inc)
 		sortColumn = column;
 		increasing = inc;
 	}
-	QListView::setSorting(sortColumn, increasing);
+	KListView::setSorting(sortColumn, increasing);
 }
 
 QStringList * FileListView::selectedFilenames() const

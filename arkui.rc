@@ -16,8 +16,8 @@
     <Action name="adddir"/>
     <Action name="delete"/>
     <Action name="extract"/>
-    <Action name="open_with"/>
     <Action name="view"/>
+    <Action name="open_with"/>
   </Menu>
   <Menu name="edit"><text>&amp;Edit</text>
     <Action name="select"/>
@@ -51,9 +51,9 @@
 </ToolBar>   
 <Menu name="file_popup">
  <Action name="extract"/>
+ <Action name="delete"/>
  <Action name="popup_menu_view"/>
  <Action name="popup_menu_open_with"/>
- <Action name="delete"/>
 </Menu>
 <Menu name="archive_popup">
  <Action name="addfile"/>
@@ -64,6 +64,10 @@
  <Action name="file_new"/>
  <Action name="file_open"/>
  <Action name="close_arch"/>
+ <Separator/>
+ <Action name="options_show_menubar"/>
+ <Action name="options_show_toolbar"/>
+ <Action name="options_show_statusbar"/>
  <Separator/>
  <Action name="settings"/>
  <Action name="help"/>

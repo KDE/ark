@@ -93,9 +93,15 @@ void ExtractDlg::setupFirstTab()
 
 void ExtractDlg::setupSecondTab()
 {
+  if (m_archtype == LHA_FORMAT || m_archtype == AA_FORMAT)
+    return; // there are no extract options for LHA or AA
 
   QVBox *secondpage = new QVBox( this );
   secondpage->setMargin( 5 );
+
+  QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
+				       0, secondpage );
+
 
   // use m_archtype to determine what goes here... 
   // these are the advanced options
@@ -103,41 +109,55 @@ void ExtractDlg::setupSecondTab()
   switch(m_archtype)
     {
     case ZIP_FORMAT:
-      {
-	QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
-					     i18n("ZIP Options"), secondpage );
-	m_cbOverwrite = new QCheckBox(i18n("Overwrite files"), bg);
-	if (m_settings->getZipExtractOverwrite())
-	  m_cbOverwrite->setChecked(true);
-	m_cbPreservePerms = new QCheckBox(i18n("Preserve permissions"), bg);
-	m_cbToLower = new QCheckBox(i18n("Convert filenames to lowercase"),
-				    bg);
-	if (m_settings->getZipExtractLowerCase())
-	  m_cbToLower->setChecked(true);
-      }
+      bg->setTitle(i18n("ZIP Options"));
+
+      m_cbOverwrite = new QCheckBox(i18n("Overwrite files"), bg);
+      if (m_settings->getZipExtractOverwrite())
+	m_cbOverwrite->setChecked(true);
+
+      m_cbToLower = new QCheckBox(i18n("Convert filenames to lowercase"),
+				  bg);
+      if (m_settings->getZipExtractLowerCase())
+	m_cbToLower->setChecked(true);
       break;
     case TAR_FORMAT:
-      {
-	QButtonGroup *bg = new QButtonGroup( 1, QGroupBox::Horizontal,
-					     i18n("TAR Options"), secondpage );
-	m_cbOverwrite = new QCheckBox(i18n("Overwrite files"), bg);
-	if (m_settings->getZipExtractOverwrite())
-	  m_cbOverwrite->setChecked(true);
-	m_cbPreservePerms = new QCheckBox(i18n("Preserve permissions"), bg);
-	m_cbToLower = new QCheckBox(i18n("Convert filenames to lowercase"),
-				    bg);
-	if (m_settings->getZipExtractLowerCase())
-	  m_cbToLower->setChecked(true);
-      }
+      bg->setTitle(i18n("TAR Options"));
+
+      m_cbOverwrite = new QCheckBox(i18n("Overwrite files"), bg);
+      if (m_settings->getTarOverwriteFiles())
+	m_cbOverwrite->setChecked(true);
+
+      m_cbPreservePerms = new QCheckBox(i18n("Preserve permissions"), bg);
+      if (m_settings->getTarPreservePerms())
+	m_cbPreservePerms->setChecked(true);
+
       break;
-    case AA_FORMAT:
-    case LHA_FORMAT:
     case RAR_FORMAT:
+      bg->setTitle(i18n("RAR Options"));
+
+      m_cbOverwrite = new QCheckBox(i18n("Overwrite files"), bg);
+      if (m_settings->getRarOverwriteFiles())
+	m_cbOverwrite->setChecked(true);
+
+      m_cbToLower = new QCheckBox(i18n("Convert filenames to lowercase"),
+				  bg);
+      if (m_settings->getRarExtractLowerCase())
+	m_cbToLower->setChecked(true);
+
+      m_cbToUpper = new QCheckBox(i18n("Convert filenames to uppercase"),
+				  bg);
+      if (m_settings->getRarExtractUpperCase())
+	m_cbToUpper->setChecked(true);
+      break;
     case ZOO_FORMAT:
-    case UNKNOWN_FORMAT:
+      bg->setTitle(i18n("ZOO Options"));
+      m_cbOverwrite = new QCheckBox(i18n("Overwrite files"), bg);
+      if (m_settings->getZooOverwriteFiles())
+	m_cbOverwrite->setChecked(true);
       break;
     default:
       // shouldn't ever get here!
+      ASSERT(0);
       break;
     }
   
@@ -147,7 +167,7 @@ void ExtractDlg::setupSecondTab()
 
 void ExtractDlg::accept()
 {
-  //  kDebugInfo( 1601, "+ExtractDlg::accept");
+  kDebugInfo( 1601, "+ExtractDlg::accept");
   if (! QFileInfo(m_extractDirLE->text()).isDir())
   {
     QMessageBox::warning(this, i18n("Error"),
@@ -163,21 +183,27 @@ void ExtractDlg::accept()
   switch(m_archtype)
     {
     case ZIP_FORMAT:
-      {
-	m_settings->setZipExtractOverwrite(m_cbOverwrite->isChecked());
-	m_settings->setZipExtractLowerCase(m_cbToLower->isChecked());
-      }
+      m_settings->setZipExtractOverwrite(m_cbOverwrite->isChecked());
+      m_settings->setZipExtractLowerCase(m_cbToLower->isChecked());
       break;
     case TAR_FORMAT:
+      m_settings->setTarOverwriteFiles(m_cbOverwrite->isChecked());
+      m_settings->setTarPreservePerms(m_cbPreservePerms->isChecked());
       break;
     case AA_FORMAT:
     case LHA_FORMAT:
+      break; // do nothing
     case RAR_FORMAT:
+      m_settings->setRarOverwriteFiles(m_cbOverwrite->isChecked());
+      m_settings->setRarExtractLowerCase(m_cbToLower->isChecked());
+      m_settings->setRarExtractUpperCase(m_cbToUpper->isChecked());
+      break;
     case ZOO_FORMAT:
-    case UNKNOWN_FORMAT:
+      m_settings->setZooOverwriteFiles(m_cbOverwrite->isChecked());
       break;
     default:
       // shouldn't ever get here!
+      ASSERT(0);
       break;
     }
 

@@ -95,6 +95,7 @@ public slots:
   void file_open(const QString &);  // opens the specified archive
   void toggleToolBar();
   void toggleStatusBar();
+  void toggleMenuBar();
 
 protected slots:
   void file_new();
@@ -120,7 +121,8 @@ protected slots:
   void options_keys();
   void options_general();
   //  void options_saveOnExit();
-  //  void options_saveNow();
+  void options_saveNow();
+  void setHeader();
 
   //  void help();
 		
@@ -164,6 +166,9 @@ private: // methods
   QString askToCreateRealArchive();
   void createRealArchive(const QString &strFilename);
   QString getCreateFilename();
+
+  // complains if the filename has capital letters or is tbz or tbz2
+  bool badBzipName(const QString & _filename);
 
 protected:
   void arkWarning(const QString& msg);

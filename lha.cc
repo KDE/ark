@@ -49,12 +49,13 @@ LhaArch::LhaArch( ArkSettings *_settings, Viewer *_gui,
   : Arch(_settings, _gui, _fileName )
 {
   kDebugInfo(1601, "LhaArch constructor");
+  _settings->readLhaProperties();
   m_archiver_program = "lha";
 }
 
 void LhaArch::processLine( char *_line )
 {
-  char columns[12][80];
+  char columns[13][80];
   char filename[4096];
 
   if (QString::QString(_line).contains("[generic]") ) 
@@ -67,7 +68,7 @@ void LhaArch::processLine( char *_line )
     }
   else
     {
-      sscanf(_line, " %[-drwxst] %[0-9/] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
+      sscanf(_line, " %[-drlwxst] %[0-9/] %[0-9] %[0-9] %[0-9.%*] %10[-a-z0-9 ] %3[A-Za-z]%1[ ]%2[0-9 ]%1[ ]%5[ 0-9:]%1[ ]%[^\n]",
 	     columns[0], columns[1], columns[2], columns[3],
 	     columns[4], columns[5], columns[6], columns[10], columns[7],
 	     columns[11], columns[8], columns[9], filename);
@@ -82,12 +83,33 @@ void LhaArch::processLine( char *_line )
 
   kDebugInfo(1601, "New timestamp is %s", columns[6]);
 
+  // see if there was a link in filename
+  QString file = filename;
+  QString name, link;
+  bool bLink = false;
+  int pos = file.find(" -> ");
+  if (pos != -1)
+    {
+      bLink = true;
+      name = file.left(pos);
+      link = file.right(file.length()-pos-4);
+      kDebugInfo(1601, "Name is: %s\nLink is %s", (const char *)name,
+		 (const char *)link);
+    }
+  else
+    name = file;
+
   QStringList list;
-  list.append(QString::fromLocal8Bit(filename));
+  list.append(name.local8Bit());
   for (int i=0; i<7; i++)
     {
       list.append(QString::fromLocal8Bit(columns[i]));
     }
+  if (bLink)
+    list.append(link.local8Bit());
+  else
+    list.append("");
+
   m_gui->add(&list); // send to GUI
 }
 
@@ -124,14 +146,15 @@ void LhaArch::setHeaders()
 {
   kDebugInfo( 1601, "+LhaArch::setHeaders");
   QStringList list;
-  list.append(i18n(" Filename "));
-  list.append(i18n(" Permissions "));
-  list.append(i18n(" Owner/Group "));
-  list.append(i18n(" Packed "));
-  list.append(i18n(" Size "));
-  list.append(i18n(" Ratio "));
-  list.append(i18n(" CRC "));
-  list.append(i18n(" Timestamp "));
+  list.append(FILENAME_STRING);
+  list.append(PERMISSION_STRING);
+  list.append(OWNER_GROUP_STRING);
+  list.append(PACKED_STRING);
+  list.append(SIZE_STRING);
+  list.append(RATIO_STRING);
+  list.append(CRC_STRING);
+  list.append(TIMESTAMP_STRING);
+  list.append(LINK_STRING);
 
   // which columns to align right
   int *alignRightCols = new int[3];

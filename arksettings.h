@@ -52,6 +52,9 @@ public:
   void readRarProperties();
   void writeRarProperties();
 
+  void readLhaProperties();
+  void writeLhaProperties();
+
   enum DirPolicy {
     FAVORITE_DIR=1, FIXED_START_DIR,
     LAST_OPEN_DIR, FIXED_OPEN_DIR,
@@ -109,6 +112,9 @@ public:
   void clearShellOutput();
   QString * getLastShellOutput() const { return m_lastShellOutput; }
 
+  void setLhaGeneric(bool _b) { m_lhaAddGeneric = _b; }
+  bool getLhaGeneric() { return m_lhaAddGeneric; }
+
   void setZipExtractOverwrite(bool _b) { m_zipExtractOverwrite = _b; }
   bool getZipExtractOverwrite() { return m_zipExtractOverwrite; }
 	
@@ -136,14 +142,17 @@ public:
   void setTarOverwriteFiles(bool _b) { m_tarOverwrite = _b; }
   bool getTarOverwriteFiles() { return m_tarOverwrite; }
 
-  void setTarToLower(bool _b) { m_tarToLower = _b; }
-  bool getTarToLower() { return m_tarToLower; }
-
   void setZooOverwriteFiles(bool _b) { m_zooOverwrite = _b; }
   bool getZooOverwriteFiles() { return m_zooOverwrite; }
 
   void setRarOverwriteFiles(bool _b) { m_rarOverwrite = _b; }
   bool getRarOverwriteFiles() { return m_rarOverwrite; }
+
+  bool getRarExtractLowerCase() { return m_rarToLower;}
+  void setRarExtractLowerCase(bool _b) { m_rarToLower = _b; }
+
+  bool getRarExtractUpperCase() { return m_rarToUpper;}
+  void setRarExtractUpperCase(bool _b) { m_rarToUpper = _b; }
 
   void setTmpDir( QString _dir ) { m_tmpDir = _dir; }
   QString getTmpDir() const { return m_tmpDir; }	
@@ -181,23 +190,26 @@ public:
   bool m_saveOnExit;
 
   bool contextRow;
+
+  bool m_lhaAddGeneric;
 	
   bool m_zipExtractOverwrite;
   bool m_zipExtractJunkPaths;
   bool m_zipExtractLowerCase;
-	
+
   bool m_zipAddRecurseDirs;
   bool m_zipAddJunkDirs;
   bool m_zipAddMSDOS;
   bool m_zipAddConvertLF;
 
   bool m_tarPreservePerms;
-  bool m_tarToLower;
   bool m_tarOverwrite;
 
   bool m_zooOverwrite;
 
   bool m_rarOverwrite;
+  bool m_rarToLower;
+  bool m_rarToUpper;
 
   bool fullPath, replaceOnlyNewerFiles;
   QString m_regExp;

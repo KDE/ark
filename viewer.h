@@ -4,7 +4,9 @@
 // separate the archive classes in the backend from the GUI front-end.
 // It passes on all its messages to the ArkWidget class for this 
 // implementation.
-
+//
+// If you need to use the classes, just replace in your own viewer.
+//
 #ifndef __CVIEWER__H__
 #define __CVIEWER__H__
 

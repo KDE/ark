@@ -166,7 +166,7 @@ void ArkWidget::setupActions()
 				  SLOT(file_openRecent(const KURL&)),
 				  actionCollection());
   KConfig *kc = m_settings->getKConfig();
-  recent->loadEntries(kc);    // this doesn't seem to work!
+  recent->loadEntries(kc);
 
   (void)KStdAction::keyBindings();
 
@@ -238,15 +238,42 @@ void ArkWidget::setupActions()
 		    actionCollection(),
 		    "directories");
 
+#if 0
   (void)new KAction(i18n("&Keys..."), 0, this,
 		    SLOT(options_keys()),
 		    actionCollection(),
 		    "keys");
+#endif
 
+  KStdAction::showMenubar(this, SLOT(toggleMenuBar()), actionCollection());
   KStdAction::showToolbar(this, SLOT(toggleToolBar()), actionCollection());
   KStdAction::showStatusbar(this, SLOT(toggleStatusBar()), actionCollection());
+  KStdAction::saveOptions(this, SLOT(options_saveNow()), actionCollection());
+  KStdAction::keyBindings(this, SLOT(options_keys()), actionCollection());
 
   createGUI();
+}
+
+void ArkWidget::setHeader()
+{
+  // called after the QTimer goes off after toggling menu bar to hide it.
+  if (m_bIsArchiveOpen)
+    setCaption(m_strArchName);
+  else
+    setCaption("");
+}
+
+void ArkWidget::toggleMenuBar()
+{
+ if(menuBar()->isVisible())
+   {
+     menuBar()->hide();
+     setCaption(i18n("Use the right mouse button to bring back the menu"));
+     QTimer::singleShot(5000,this,SLOT(setHeader()));
+   }
+
+ else
+   menuBar()->show();
 }
 
 void ArkWidget::toggleToolBar()
@@ -629,7 +656,6 @@ void ArkWidget::file_openRecent(const KURL& url)
   {
     KIO::NetAccess::download(url, strFile); 
     m_settings->clearShellOutput();
-    recent->addURL(url);
     file_open(strFile);
     return;
   }
@@ -696,6 +722,8 @@ void ArkWidget::slotExtractDone()
 {
   kDebugInfo(1601, "+ArkWidget::slotExtractDone");
   QApplication::restoreOverrideCursor();
+  if ( !KOpenWithHandler::exists() )
+    (void) new KFileOpenWithHandler();
   if (m_bViewInProgress)
     {
       m_bViewInProgress = false;
@@ -1314,15 +1342,15 @@ void ArkWidget::options_dirs()
 
 void ArkWidget::options_keys()
 {
-  //  KKeyDialog::configureKeys(accelerators, this);
+    KKeyDialog::configureKeys(actionCollection(), xmlFile());
 }
 
-#if 0
 void ArkWidget::options_saveNow()
 {
   m_settings->writeConfigurationNow();
 }
 
+#if 0
 void ArkWidget::options_saveOnExit()
 {
   optionsMenu->setItemChecked(eMSaveOnExit,
@@ -1689,10 +1717,8 @@ ArchType ArkWidget::getArchType( QString archname )
       || (archname.right(7) == ".tar.bz")
       || (archname.right(8) == ".tar.bz2")
       || (archname.right(8) == ".tar.lzo")
-      || (archname.right(4) == ".tbz")
       || (archname.right(4) == ".tzo")
       || (archname.right(4) == ".taz")
-      || (archname.right(5) == ".tbz2")
       || (archname.right(4) == ".tar"))
   {
     return TAR_FORMAT;
@@ -1720,6 +1746,20 @@ ArchType ArkWidget::getArchType( QString archname )
   return UNKNOWN_FORMAT;
 }
 
+bool ArkWidget::badBzipName(const QString & _filename)
+{
+  if (_filename.right(3) == ".BZ" || _filename.right(4) == ".TBZ")
+    KMessageBox::error(this, i18n("Sorry, bzip doesn't like filename extensions that use capital letters.") );
+  else if (_filename.right(4) == ".tbz")
+    KMessageBox::error(this, i18n("Sorry, bzip doesn't like filename extensions that aren't exactly \".bz\"."));
+  else if (_filename.right(4) == ".BZ2" ||  _filename.right(5) == ".TBZ2")
+    KMessageBox::error(this, i18n("Sorry, bzip2 doesn't like filename extensions that use capital letters."));
+  else if (_filename.right(5) == ".tbz2")
+    KMessageBox::error(this, i18n("Sorry, bzip2 doesn't like filename extensions that aren't exactly \".bz\".") );
+  else
+    return false;
+  return true;
+}
 
 void ArkWidget::createArchive( const QString & _filename )
 {
@@ -1748,11 +1788,10 @@ void ArkWidget::createArchive( const QString & _filename )
       newArch = new ArArch( m_settings, m_viewer, _filename );
       break;
     default:
-      KMessageBox::error(this,
-			 i18n("Unknown archive format or corrupted archive") );
+      if (!badBzipName(_filename))
+	KMessageBox::error(this, i18n("Unknown archive format or corrupted archive") );
       return;
     }
-
   connect( newArch, SIGNAL(sigCreate(Arch *, bool, const QString &, int)),
 	   this, SLOT(slotCreate(Arch *, bool, const QString &, int)) );
   connect( newArch, SIGNAL(sigDelete(bool)), this, SLOT(slotDeleteDone(bool)));
@@ -1794,7 +1833,8 @@ void ArkWidget::openArchive(const QString & _filename )
       newArch = new ArArch( m_settings, m_viewer, _filename );
       break;
     default:
-      KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
+      if (!badBzipName(_filename))
+	KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
       // and just leave the old archive displayed
       return;
     }

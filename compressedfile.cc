@@ -51,11 +51,11 @@ void CompressedFile::setHeaders()
   kDebugInfo( 1601, "+CompressedFile::setHeaders");
   QStringList list;
 
-  list.append(i18n(" Filename "));
-  list.append(i18n(" Permissions ") );
-  list.append(i18n(" Owner ") );
-  list.append(i18n(" Group ") );
-  list.append(i18n(" Size ") );
+  list.append(FILENAME_STRING);
+  list.append(PERMISSION_STRING);
+  list.append(OWNER_STRING);
+  list.append(GROUP_STRING);
+  list.append(SIZE_STRING);
 
   // which columns to align right
   int *alignRightCols = new int[1];

@@ -123,11 +123,11 @@ void ZooArch::setHeaders()
 {
   kDebugInfo( 1601, "+ZooArch::setHeaders");
   QStringList list;
-  list.append(i18n(" Filename "));
-  list.append(i18n(" Ratio "));
-  list.append(i18n(" Length "));
-  list.append(i18n(" Size Now "));
-  list.append(i18n(" Timestamp "));
+  list.append(FILENAME_STRING);
+  list.append(RATIO_STRING);
+  list.append(SIZE_STRING);
+  list.append(PACKED_STRING);
+  list.append(TIMESTAMP_STRING);
 
   // which columns to align right
   int *alignRightCols = new int[3];

@@ -61,7 +61,7 @@ private: // data
   ArkSettings *m_settings;
   ArchType m_archtype;
   // advanced options 
-  QCheckBox *m_cbOverwrite, *m_cbPreservePerms, *m_cbToLower;
+  QCheckBox *m_cbOverwrite, *m_cbPreservePerms, *m_cbToLower, *m_cbToUpper;
 };
 
 

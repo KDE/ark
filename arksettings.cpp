@@ -44,6 +44,7 @@
 #define ZIP_GROUP "Zip"
 #define ZOO_GROUP "Zoo"
 #define RAR_GROUP "Rar"
+#define LHA_GROUP "Lha"
 
 #define FAVORITE_KEY "ArchiveDirectory"
 #define TAR_KEY "TarExe"
@@ -75,12 +76,14 @@
 #define SAVE_ON_EXIT_KEY "saveOnExit"
 
 #define PRESERVE_PERMS "preservePerms"
-#define TOLOWER "toLower"
 #define REPLACEONLYNEWER "replaceOnlyNewer"
 #define FULLPATHS "fullPaths"
 #define TAR_OVERWRITE "tarOverwrite"
 #define ZOO_OVERWRITE "zooOverwrite"
 #define RAR_OVERWRITE "rarOverwrite"
+#define RAR_UPPER "rarToUpper"
+#define RAR_LOWER "rarToLower"
+#define LHA_GENERIC "lhaGeneric"
 
 /**
  * Constructs an ArkSettings object by reading the ark config file
@@ -171,10 +174,17 @@ void ArkSettings::readTarProperties()
 	
   kc->setGroup( TAR_GROUP );
   m_tarPreservePerms = kc->readBoolEntry(PRESERVE_PERMS, false);
-  m_tarToLower = kc->readBoolEntry(TOLOWER, false);
   m_tarOverwrite = kc->readBoolEntry(TAR_OVERWRITE, false);
 
   kDebugInfo( 1601, "-readTarProperties");	
+}
+
+void ArkSettings::readLhaProperties()
+{
+  kDebugInfo(1601, "+readLhaProperties");
+  kc->setGroup(LHA_GROUP);
+  m_lhaAddGeneric = kc->readBoolEntry(LHA_GENERIC, false);
+  kDebugInfo(1601, "-readLhaProperties");
 }
 
 void ArkSettings::readZooProperties()
@@ -190,6 +200,8 @@ void ArkSettings::readRarProperties()
   kDebugInfo(1601, "+readRarProperties");
   kc->setGroup(RAR_GROUP);
   m_rarOverwrite = kc->readBoolEntry(RAR_OVERWRITE, false);
+  m_rarToLower = kc->readBoolEntry(RAR_LOWER, false);
+  m_rarToUpper = kc->readBoolEntry(RAR_UPPER, false);
   kDebugInfo(1601, "-readRarProperties");
 }
 
@@ -242,6 +254,7 @@ void ArkSettings::writeConfigurationNow()
   writeTarProperties();
   writeZooProperties();
   writeRarProperties();
+  writeLhaProperties();
 
   kc->setGroup( ARK_GROUP );
   kc->writeEntry( TAR_KEY, tar_exe );
@@ -301,7 +314,6 @@ void ArkSettings::writeTarProperties()
   kc->setGroup( TAR_GROUP );
 
   kc->writeEntry(PRESERVE_PERMS, m_tarPreservePerms);
-  kc->writeEntry(TOLOWER, m_tarToLower);
   kc->writeEntry(TAR_OVERWRITE, m_tarOverwrite);
 
   kDebugInfo(1601, "-ArkSettings::writeTarProperties");
@@ -315,11 +327,21 @@ void ArkSettings::writeZooProperties()
   kDebugInfo(1601, "-ArkSettings::writeZooProperties");
 }
 
+void ArkSettings::writeLhaProperties()
+{
+  kDebugInfo(1601, "+ArkSettings::writeLhaProperties");
+  kc->setGroup(LHA_GROUP);
+  kc->writeEntry(LHA_GENERIC, m_lhaAddGeneric);
+  kDebugInfo(1601, "-ArkSettings::writeLhaProperties");
+}
+
 void ArkSettings::writeRarProperties()
 {
   kDebugInfo(1601, "+ArkSettings::writeRarProperties");
   kc->setGroup(RAR_GROUP);
   kc->writeEntry(RAR_OVERWRITE, m_rarOverwrite);
+  kc->writeEntry(RAR_LOWER, m_rarToLower);
+  kc->writeEntry(RAR_UPPER, m_rarToUpper);
   kDebugInfo(1601, "-ArkSettings::writeRarProperties");
 }
 
@@ -417,8 +439,8 @@ void ArkSettings::setAddDirCfg(const QString& dir, int mode)
 const QString ArkSettings::getFilter()
 {
   return i18n(
-	      "*.zip *.tar.gz *.tar.Z *.tar.lzo *.tgz *.taz *.tzo *.tar.bz2 *.tbz2 *.tar.bz *.tbz *.tar *.lzh *.gz *.lzo *.Z *.bz *.bz2 *.zoo *.rar *.a|All valid archives\n"
-	      " *.tar.gz *.tar.Z *.tgz *.taz *.tzo *.tar.bz2 *.tbz2 *.tar.bz *.tar.lzo *.tbz|Compressed Tar archives\n"
+	      "*.zip *.tar.gz *.tar.Z *.tar.lzo *.tgz *.taz *.tzo *.tar.bz2 *.tar.bz *.tar *.lzh *.gz *.lzo *.Z *.bz *.bz2 *.zoo *.rar *.a|All valid archives\n"
+	      " *.tar.gz *.tar.Z *.tgz *.taz *.tzo *.tar.bz2 *.tar.bz *.tar.lzo *.tar |Compressed or Plain Tar archives\n"
 	      "*.zip|Zip archives (*.zip)\n"
 	      "*.lzh|Lha archives (*.lzh)\n"
 	      "*.zoo|Zoo archives (*.zoo)\n"

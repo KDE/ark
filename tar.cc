@@ -159,11 +159,11 @@ QString TarArch::getCompressor()
 
   if( extension == ".tgz" || extension == ".gz" ) 
     return QString( "gzip" );
-  if( extension == ".bz" || extension == ".tbz")
+  if( extension == ".bz")
     return QString( "bzip" );
   if( extension == ".Z" || extension == ".taz" )
     return QString( "compress" );
-  if( extension == ".bz2" || extension == ".tbz2" )
+  if( extension == ".bz2")
     return QString( "bzip2" );
   if( extension == ".lzo" || extension == ".tzo" )
     return QString( "lzop" );
@@ -177,11 +177,11 @@ QString TarArch::getUnCompressor()
   kDebugInfo(1601, "Extension: %s", (const char *)extension);
   if( extension == ".tgz" || extension == ".gz" ) 
     return QString( "gunzip" );
-  if( extension == ".bz" || extension == ".tbz")
+  if( extension == ".bz")
     return QString( "bunzip" );
   if( extension == ".Z" || extension == ".taz" )
     return QString( "uncompress" );
-  if( extension == ".bz2" || extension == ".tbz2")
+  if( extension == ".bz2")
     return QString( "bunzip2" );
   if( extension == ".lzo" || extension == ".tzo" )
     return QString( "lzop" );
@@ -313,12 +313,12 @@ void TarArch::setHeaders()
   kDebugInfo(1601, "+TarArch::setHeaders");
   QStringList list;
 
-  list.append(i18n(" Filename ") );
-  list.append(i18n(" Permissions ") );
-  list.append(i18n(" Owner/Group ") );
-  list.append(i18n(" Size ") );
-  list.append(i18n(" TimeStamp ") );
-  list.append(i18n(" Link "));
+  list.append(FILENAME_STRING);
+  list.append(PERMISSION_STRING);
+  list.append(OWNER_GROUP_STRING);
+  list.append(SIZE_STRING);
+  list.append(TIMESTAMP_STRING);
+  list.append(LINK_STRING);
 
   // which columns to align right
   int *alignRightCols = new int[2];
@@ -346,6 +346,7 @@ void TarArch::createTmp()
 	  KProcess *kp = new KProcess;
 	  kp->clearArguments();
 	  QString strUncompressor = getUnCompressor();
+	  kDebugInfo(1601, "Uncompressor is %s", (const char *)strUncompressor);
 	  *kp << strUncompressor;
 	  if (strUncompressor == "lzop")
 	    {
