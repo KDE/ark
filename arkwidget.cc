@@ -77,9 +77,9 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	filemenu->insertItem( i18n( "&Quit"), this, SLOT( quit() ), CTRL+Key_Q );
 	QPopupMenu *editmenu = new QPopupMenu;
 	editmenu->insertItem( i18n( "E&xtract..."), this, SLOT( extractFile() ) );
-	editmenu->insertItem( i18n( "&View"), this, SLOT( showFile() ) );
+	editmenu->insertItem( i18n( "&View file"), this, SLOT( showFile() ) );
 	editmenu->insertSeparator();
-	editmenu->insertItem( i18n( "&Delete"), this, SLOT( deleteFile() ) );
+	editmenu->insertItem( i18n( "&Delete file"), this, SLOT( deleteFile() ) );
 	QPopupMenu *optionsmenu = new QPopupMenu;
 	optionsmenu->insertItem( i18n( "&Set Archive Directory..."), this, SLOT( getFav() ) );
 	optionsmenu->insertItem( i18n( "Set &Tar Executable..."), this, SLOT( getTarExe() ) );
@@ -97,9 +97,9 @@ ArkWidget::ArkWidget( QWidget *, const char *name )
 	pop = new KPopupMenu( i18n("File Operations") );
 	// QPopupMenu pop;
 	pop->insertItem( i18n("Extract..."), this, SLOT( extractFile() ) );
-	pop->insertItem( i18n("View"), this, SLOT( showFile() ) );
+	pop->insertItem( i18n("View file"), this, SLOT( showFile() ) );
 	pop->insertSeparator();
-	pop->insertItem( i18n("Delete"), this, SLOT( deleteFile() ) );
+	pop->insertItem( i18n("Delete file"), this, SLOT( deleteFile() ) );
 
 	QPixmap pix;
 	QString pixpath;
