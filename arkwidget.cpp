@@ -1878,6 +1878,8 @@ ArkWidget::openArchive( const QString & _filename )
     connect( newArch, SIGNAL(sigExtract(bool)), this, SLOT(slotExtractDone()));
 
     disableAll();
+    archiveContent->setUpdatesEnabled( false );
+    arch = newArch;
     newArch->open();
 }
 
