@@ -80,11 +80,11 @@ ArkFactory::~ArkFactory()
 *This function is called each time when ark KParts component is needed
 *It's responsible for instantiating a new view object and returning it.
 */
-QObject *ArkFactory::create(QObject *parent, const char *name, const char*,
-                               const QStringList& )
+KParts::Part *ArkFactory::createPartObject(QWidget *parentWidget, const char *widgetName,
+                                           QObject *parent, const char *name, const char*,
+                                           const QStringList& )
 {
-    QObject *obj = new ArkPart((QWidget*)parent, name);
-    emit objectCreated(obj);
+    KParts::Part *obj = new ArkPart(parentWidget, widgetName, parent, name);
     return obj;
 }
 
@@ -124,13 +124,14 @@ KAboutData *ArkFactory::aboutData()
 *This constructor is responsible for initializing an object of ark KParts
 *component and creating its actions
 */
-ArkPart::ArkPart(QWidget *parent, const char *name)
+ArkPart::ArkPart(QWidget *parentWidget, const char *widgetName,
+                 QObject *parent, const char *name)
     : KParts::ReadOnlyPart(parent, name)
 {
     setInstance(ArkFactory::instance());
 
     //create an ark widget
-    awidget = new  ArkWidgetPart (parent);
+    awidget = new  ArkWidgetPart (parentWidget, widgetName);
     awidget->setFocus();
     setWidget(awidget);
 

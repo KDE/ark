@@ -47,13 +47,14 @@ class ArkWidgetPart;
 
 class ArkBrowserExtension;
 
-class ArkFactory : public KLibFactory
+class ArkFactory : public KParts::Factory
 {
     Q_OBJECT
 public:
     ArkFactory();
     virtual ~ArkFactory();
-    virtual QObject* create(QObject* parent = 0, const char* name = 0,
+    virtual KParts::Part* createPartObject(QWidget *parentWidget, const char *widgetName,
+                            QObject* parent = 0, const char* name = 0,
                             const char* classname = "QObject",
                             const QStringList &args = QStringList());
     static KInstance *instance();
@@ -67,7 +68,8 @@ class ArkPart: public KParts::ReadOnlyPart
 {
     Q_OBJECT
 public:
-    ArkPart(QWidget *parent = 0, const char *name = 0);
+    ArkPart(QWidget *parentWidget, const char *widgetName,
+            QObject *parent = 0, const char *name = 0);
     virtual ~ArkPart();
 
 protected:
