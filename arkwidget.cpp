@@ -2314,6 +2314,7 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName )
                                          _fileName)))
     {
         KMessageBox::error(this, i18n("Unknown archive format or corrupted archive") );
+        emit request_file_quit();
         return NULL;
     }
 
