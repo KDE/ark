@@ -101,7 +101,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 	if ( ArkApplication::getInstance()->isRestored() )
 	{
 		kdDebug( 1601 ) << "In main: Restore..." << endl;
-		RESTORE( ArkTopLevelWindow );
+		RESTORE( MainWindow );
 	}
 	kdDebug( 1601 ) << "Starting ark..." << endl;
 	

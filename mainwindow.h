@@ -1,29 +1,28 @@
-//  -*- mode: c++; c-basic-offset: 4; -*-
 /*
- 
+
   ark -- archiver for the KDE project
- 
+
   Copyright (C) 2002-2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
   Copyright (C) 2003: Helio Chissini de Castro <helio@conectiva.com>
- 
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
- 
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
- 
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- 
+
 */
 
-#ifndef ARKTOPLEVELWINDOW_H
-#define ARKTOPLEVELWINDOW_H
+#ifndef ARKMAINWINDOW_H
+#define ARKMAINWINDOW_H
 
 // QT includes
 #include <qstring.h>
@@ -36,17 +35,15 @@
 #include <kparts/part.h>
 #include <kprogress.h>
 
-// ark includes
-//#include "arkwidget.h"
 class ArkWidget;
 
 class
-ArkTopLevelWindow: public KParts::MainWindow
+MainWindow: public KParts::MainWindow
 {
     Q_OBJECT
 public:
-    ArkTopLevelWindow( QWidget *parent=0, const char *name=0 );
-    virtual ~ArkTopLevelWindow();
+    MainWindow( QWidget *parent=0, const char *name=0 );
+    virtual ~MainWindow();
 
     void setExtractOnly ( bool b );
     void extractTo( const KURL & targetDirectory, const KURL & archive, bool guessName );
@@ -112,4 +109,4 @@ private: // data
     QTimer *timer;
 };
 
-#endif /* ARKTOPLEVELWINDOW_H*/
+#endif /* ARKMAINWINDOW_H*/

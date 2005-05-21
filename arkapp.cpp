@@ -126,7 +126,7 @@ ArkApplication::newInstance()
     {
         if ( args->count() == 2 )
         {
-            ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
+            MainWindow *arkWin = new MainWindow();
 
             arkWin->extractTo( args->url( 0 ), args->url( 1 ), args->isSet( "guess-name" ) );
             return 0;
@@ -151,7 +151,7 @@ ArkApplication::newInstance()
             for ( int c = 0; c < args->count()-1 ; c++ )
                 URLList.append( args->url( c ) );
 
-            ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
+            MainWindow *arkWin = new MainWindow();
 
             arkWin->addToArchive( URLList, args->cwd(), args->url( args->count()-1 ) );
             return 0;
@@ -174,7 +174,7 @@ ArkApplication::newInstance()
         for ( int c = 1; c < args->count(); c++ )
             URLList.append( args->url( c ) );
 
-        ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
+        MainWindow *arkWin = new MainWindow();
 
         arkWin->addToArchive( URLList, args->cwd(), archiveName, !oneFile );
         return 0;
@@ -194,7 +194,7 @@ ArkApplication::newInstance()
             for ( int c = 0; c < args->count() ; c++ )
                 URLList.append( args->url( c ) );
 
-            ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
+            MainWindow *arkWin = new MainWindow();
 
             arkWin->addToArchive( URLList, args->cwd() );
             return 0;
@@ -212,7 +212,7 @@ ArkApplication::newInstance()
         {
             url = args->url(i);
         }
-        ArkTopLevelWindow *arkWin = new ArkTopLevelWindow();
+        MainWindow *arkWin = new MainWindow();
         arkWin->show();
         if(doAutoExtract)
         {
@@ -232,7 +232,7 @@ ArkApplication::newInstance()
 
 
 void
-ArkApplication::addOpenArk(const KURL & _arkname, ArkTopLevelWindow *_ptr)
+ArkApplication::addOpenArk(const KURL & _arkname, MainWindow *_ptr)
 {
     QString realName;
     if( _arkname.isLocalFile() )
@@ -264,7 +264,7 @@ void
 ArkApplication::raiseArk(const KURL & _arkname)
 {
     kdDebug( 1601 ) << "ArkApplication::raiseArk " << endl;
-    ArkTopLevelWindow *window;
+    MainWindow *window;
     QString realName;
     if( _arkname.isLocalFile() )
         realName = resolveFilename(_arkname.path());  // follow symlink

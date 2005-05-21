@@ -45,7 +45,7 @@
 #include "archiveformatinfo.h"
 #include "arkwidget.h"
 
-ArkTopLevelWindow::ArkTopLevelWindow( QWidget * /*parent*/, const char *name )
+MainWindow::MainWindow( QWidget * /*parent*/, const char *name )
 	: KParts::MainWindow(), progressDialog( 0 )
 {
     setXMLFile( "arkui.rc" );
@@ -98,7 +98,7 @@ ArkTopLevelWindow::ArkTopLevelWindow( QWidget * /*parent*/, const char *name )
 
 
 
-ArkTopLevelWindow::~ArkTopLevelWindow()
+MainWindow::~MainWindow()
 {
     ArkApplication::getInstance()->removeWindow();
     delete m_part;
@@ -107,7 +107,7 @@ ArkTopLevelWindow::~ArkTopLevelWindow()
 }
 
 void
-ArkTopLevelWindow::setupActions()
+MainWindow::setupActions()
 {
     newWindowAction = new KAction(i18n("New &Window"), "window_new", KShortcut(), this,
                                   SLOT(file_newWindow()), actionCollection(), "new_window");
@@ -135,7 +135,7 @@ ArkTopLevelWindow::setupActions()
 }
 
 void
-ArkTopLevelWindow::slotDisableActions()
+MainWindow::slotDisableActions()
 {
     openAction->setEnabled(false);
     newArchAction->setEnabled(false);
@@ -144,7 +144,7 @@ ArkTopLevelWindow::slotDisableActions()
 }
 
 void
-ArkTopLevelWindow::slotFixActionState( const bool & bHaveFiles )
+MainWindow::slotFixActionState( const bool & bHaveFiles )
 {
     openAction->setEnabled(true);
     newArchAction->setEnabled(true);
@@ -153,21 +153,21 @@ ArkTopLevelWindow::slotFixActionState( const bool & bHaveFiles )
 }
 
 void
-ArkTopLevelWindow::file_newWindow()
+MainWindow::file_newWindow()
 {
-    ArkTopLevelWindow *kw = new ArkTopLevelWindow;
+    MainWindow *kw = new MainWindow;
     kw->resize( 640, 300 );
     kw->show();
 }
 
 void
-ArkTopLevelWindow::file_new()
+MainWindow::file_new()
 {
     m_widget->file_new();
 }
 
 void
-ArkTopLevelWindow::file_reload()
+MainWindow::file_reload()
 {
     KURL url( m_part->url() );
     file_close();
@@ -175,7 +175,7 @@ ArkTopLevelWindow::file_reload()
 }
 
 void
-ArkTopLevelWindow::editToolbars()
+MainWindow::editToolbars()
 {
     saveMainWindowSettings( KGlobal::config(), QString::fromLatin1("MainWindow") );
     KEditToolbar dlg( factory(), this );
@@ -184,14 +184,14 @@ ArkTopLevelWindow::editToolbars()
 }
 
 void
-ArkTopLevelWindow::slotNewToolbarConfig()
+MainWindow::slotNewToolbarConfig()
 {
     createGUI( m_part );
     applyMainWindowSettings( KGlobal::config(), QString::fromLatin1("MainWindow") );
 }
 
 void
-ArkTopLevelWindow::slotConfigureKeyBindings()
+MainWindow::slotConfigureKeyBindings()
 {
     KKeyDialog dlg( true, this );
 
@@ -202,14 +202,14 @@ ArkTopLevelWindow::slotConfigureKeyBindings()
 }
 
 void
-ArkTopLevelWindow::slotArchivePopup( const QPoint &pPoint)
+MainWindow::slotArchivePopup( const QPoint &pPoint)
 {
     static_cast<KPopupMenu *>(factory()->container("archive_popup", this))->popup(pPoint);
 }
 
 // see if the ark is already open in another window
 bool
-ArkTopLevelWindow::arkAlreadyOpen( const KURL & url )
+MainWindow::arkAlreadyOpen( const KURL & url )
 {
     if (ArkApplication::getInstance()->isArkOpenAlready(url))
     {
@@ -229,7 +229,7 @@ ArkTopLevelWindow::arkAlreadyOpen( const KURL & url )
 
 
 void
-ArkTopLevelWindow::openURL( const KURL & url, bool tempFile )
+MainWindow::openURL( const KURL & url, bool tempFile )
 {
     if( !arkAlreadyOpen( url ) ) {
         if ( tempFile && url.isLocalFile() )
@@ -239,7 +239,7 @@ ArkTopLevelWindow::openURL( const KURL & url, bool tempFile )
 }
 
 KURL
-ArkTopLevelWindow::getOpenURL( bool addOnly, const QString & caption,
+MainWindow::getOpenURL( bool addOnly, const QString & caption,
                                const QString & startDir, const QString & suggestedName )
 {
     kdDebug( 1601 ) << "startDir is: " << startDir << endl;
@@ -301,7 +301,7 @@ ArkTopLevelWindow::getOpenURL( bool addOnly, const QString & caption,
 }
 
 void
-ArkTopLevelWindow::file_open()
+MainWindow::file_open()
 {
     KURL url = getOpenURL();
     if( !arkAlreadyOpen( url ) )
@@ -309,13 +309,13 @@ ArkTopLevelWindow::file_open()
 }
 
 void
-ArkTopLevelWindow::file_close()
+MainWindow::file_close()
 {
     m_part->closeURL();
 }
 
 void
-ArkTopLevelWindow::window_close()
+MainWindow::window_close()
 {
     file_close();
     slotSaveProperties();
@@ -324,26 +324,26 @@ ArkTopLevelWindow::window_close()
 }
 
 bool
-ArkTopLevelWindow::queryClose()
+MainWindow::queryClose()
 {
     window_close();
     return true;
 }
 
 void
-ArkTopLevelWindow::file_quit()
+MainWindow::file_quit()
 {
     window_close();
 }
 
 void
-ArkTopLevelWindow::slotSaveProperties()
+MainWindow::slotSaveProperties()
 {
     recent->saveEntries(kapp->config());
 }
 
 void
-ArkTopLevelWindow::saveProperties( KConfig* config )
+MainWindow::saveProperties( KConfig* config )
 {
     //TODO: make it work for URLS
     config->writePathEntry( "SMOpenedFile",m_widget->getArchName() );
@@ -352,7 +352,7 @@ ArkTopLevelWindow::saveProperties( KConfig* config )
 
 
 void
-ArkTopLevelWindow::readProperties( KConfig* config )
+MainWindow::readProperties( KConfig* config )
 {
     QString file = config->readPathEntry("SMOpenedFile");
     kdDebug(1601) << "ArkWidget::readProperties( KConfig* config ) file=" << file << endl;
@@ -361,39 +361,39 @@ ArkTopLevelWindow::readProperties( KConfig* config )
 }
 
 void
-ArkTopLevelWindow::slotAddRecentURL( const KURL & url )
+MainWindow::slotAddRecentURL( const KURL & url )
 {
     recent->addURL( url );
     recent->saveEntries(kapp->config());
 }
 
 void
-ArkTopLevelWindow::slotRemoveRecentURL( const KURL & url )
+MainWindow::slotRemoveRecentURL( const KURL & url )
 {
     recent->removeURL( url );
     recent->saveEntries(kapp->config());
 }
 
 void
-ArkTopLevelWindow::slotAddOpenArk( const KURL & _arkname )
+MainWindow::slotAddOpenArk( const KURL & _arkname )
 {
     ArkApplication::getInstance()->addOpenArk( _arkname, this );
 }
 
 void
-ArkTopLevelWindow::slotRemoveOpenArk( const KURL & _arkname )
+MainWindow::slotRemoveOpenArk( const KURL & _arkname )
 {
     ArkApplication::getInstance()->removeOpenArk( _arkname );
 }
 
 void
-ArkTopLevelWindow::setExtractOnly ( bool b )
+MainWindow::setExtractOnly ( bool b )
 {
     m_widget->setExtractOnly(  b );
 }
 
 void
-ArkTopLevelWindow::extractTo( const KURL & targetDirectory, const KURL & archive, bool guessName )
+MainWindow::extractTo( const KURL & targetDirectory, const KURL & archive, bool guessName )
 {
     startProgressDialog( i18n( "Extracting..." ) );
     m_widget->extractTo( targetDirectory, archive, guessName );
@@ -401,7 +401,7 @@ ArkTopLevelWindow::extractTo( const KURL & targetDirectory, const KURL & archive
 }
 
 void
-ArkTopLevelWindow::addToArchive( const KURL::List & filesToAdd, const QString & /*cwd*/,
+MainWindow::addToArchive( const KURL::List & filesToAdd, const QString & /*cwd*/,
                                  const KURL & archive, bool askForName )
 {
     KURL archiveFile;
@@ -440,7 +440,7 @@ ArkTopLevelWindow::addToArchive( const KURL::List & filesToAdd, const QString & 
 }
 
 void
-ArkTopLevelWindow::startProgressDialog( const QString & text )
+MainWindow::startProgressDialog( const QString & text )
 {
     if ( !progressDialog )
         progressDialog = new KProgressDialog( this, "progress_dialog", QString::null, text, false );
@@ -467,11 +467,11 @@ ArkTopLevelWindow::startProgressDialog( const QString & text )
 }
 
 void
-ArkTopLevelWindow::slotProgress()
+MainWindow::slotProgress()
 {
     progressDialog->progressBar()->setProgress( progressDialog->progressBar()->progress() + 4 );
 }
 
 
-#include "arktoplevelwindow.moc"
+#include "mainwindow.moc"
 
