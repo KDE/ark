@@ -1657,9 +1657,9 @@ ArkWidget::action_extract()
 
 
     ExtractDlg *dlg = new ExtractDlg(this, 0, m_url.fileName());
-    
+
     QString tmp; // for KFileDialog::getStartUrl()
-    
+
     if (m_extractOnly)
     {
       dlg->setURL( KURL::fromPathOrURL( QDir::currentDirPath() ) );
@@ -1680,6 +1680,11 @@ ArkWidget::action_extract()
     {
         dlg->disableSelectedFilesOption();
     }
+    else if ( m_nNumSelectedFiles > 1 )
+    {
+        dlg->setDefaultExtractOp( ExtractDlg::Selected );
+    }
+
     if (archiveContent->currentItem() == NULL)
     {
         dlg->disableCurrentFileOption();

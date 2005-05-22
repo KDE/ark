@@ -35,7 +35,6 @@
 #include <ktempdir.h>
 
 #include <qvbox.h>
-
 #include "arch.h"
 
 class QPoint;
@@ -45,6 +44,7 @@ class QLabel;
 class QListViewItem;
 class QDragMoveEvent;
 class QDropEvent;
+
 class KPopupMenu;
 class KProcess;
 class KConfig;
