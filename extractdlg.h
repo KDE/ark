@@ -59,6 +59,7 @@ public:
   KURL extractDir();
   void disableSelectedFilesOption();
   void disableCurrentFileOption() { m_radioCurrent->setEnabled(false); }
+  void setDefaultExtractOp( ExtractOp op );
   bool viewFolderAfterExtraction() const { return m_viewFolderAfterExtraction->isChecked(); }
   
   void setURL( const KURL& );

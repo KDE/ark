@@ -184,6 +184,22 @@ ExtractDlg::~ExtractDlg()
 	config->writeEntry( "OpenDestinationFolder", m_viewFolderAfterExtraction->isChecked() );
 }
 
+void 
+ExtractDlg::setDefaultExtractOp( ExtractOp op ) 
+{
+	switch ( op )
+	{
+		case Current:
+			m_radioCurrent->setChecked(   true );
+			break;
+		case Selected:
+			m_radioSelected->setChecked(  true );
+			break;
+		default:
+			m_radioAll->setChecked(  true );
+	}
+}
+
 void
 ExtractDlg::extractDirChanged(const QString &text )
 {

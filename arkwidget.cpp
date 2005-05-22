@@ -1680,6 +1680,10 @@ ArkWidget::action_extract()
     {
         dlg->disableSelectedFilesOption();
     }
+    else if (  m_nNumSelectedFiles > 1 )
+    {
+        dlg->setDefaultExtractOp(  ExtractDlg::Selected );
+    }
     if (archiveContent->currentItem() == NULL)
     {
         dlg->disableCurrentFileOption();
