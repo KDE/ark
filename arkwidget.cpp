@@ -73,7 +73,7 @@
 #include "arkapp.h"
 #include "selectDlg.h"
 #include "archiveformatdlg.h"
-#include "extractdlg.h"
+#include "extractiondialog.h"
 #include "arkwidget.h"
 #include "filelistview.h"
 #include "arkutils.h"
@@ -1536,6 +1536,9 @@ ArkWidget::prepareViewFiles( const QStringList & fileList )
 bool
 ArkWidget::reportExtractFailures( const QString & _dest, QStringList *_list )
 {
+// FIXME: Implement
+return false;
+/*
     // reports extract failures when Overwrite = False and the file
     // exists already in the destination directory.
     // If list is null, it means we are extracting all files.
@@ -1568,6 +1571,7 @@ ArkWidget::reportExtractFailures( const QString & _dest, QStringList *_list )
     }
     resumeBusy();
     return bRedoExtract;
+*/
 }
 
 QStringList
@@ -1617,14 +1621,8 @@ ArkWidget::existingFiles( const QString & _dest, QStringList & _list )
 bool
 ArkWidget::action_extract()
 {
-    kdDebug(1601) << "+action_extract" << endl;
-
-
     KURL fileToExtract;
-
     fileToExtract.setPath( arch->fileName() );
-
-    kdDebug(1601) << "Archive to extract: " << fileToExtract.prettyURL() << endl;
 
      //before we start, make sure the archive is still there
     if (!KIO::NetAccess::exists( fileToExtract.prettyURL(), true, this ) )
@@ -1632,7 +1630,6 @@ ArkWidget::action_extract()
         KMessageBox::error(0, i18n("The archive to extract from no longer exists."));
         return false;
     }
-
 
     //if more than one entry in the archive is root level, suggest a path prefix
     QString prefix;
@@ -1649,57 +1646,39 @@ ArkWidget::action_extract()
         if( i > 1 )
         {
           prefix = QChar( '/' ) + guessName( fileToExtract.path() );
-          kdDebug(1601) << "Archive requires extraction prefix: " << prefix << endl;
           break;
         }
       }
     }
 
+    // Should the extraction dialog show an option for extracting only selected files?
+    bool enableSelected = ( m_nNumSelectedFiles > 0 );
 
-    ExtractDlg *dlg = new ExtractDlg(this, 0, m_url.fileName());
+    // Default URL shown in the extraction dialog;
+    KURL defaultDir = KURL();
 
-    QString tmp; // for KFileDialog::getStartUrl()
-
-    if (m_extractOnly)
+    if ( m_extractOnly )
     {
-      dlg->setURL( KURL::fromPathOrURL( QDir::currentDirPath() ) );
+        defaultDir = KURL::fromPathOrURL( QDir::currentDirPath() );
     }
-    if (!prefix.isNull())
+    else if ( !prefix.isNull() )
     {
-      QString tmp;
-      KURL baseURL = KFileDialog::getStartURL( ":ArkExtractDir", tmp );
-      dlg->setURL( baseURL.url() + prefix );
+        QString tmp;
+        KURL baseURL = KFileDialog::getStartURL( ":ArkExtractDir", tmp );
+        defaultDir = baseURL.url() + prefix;
     }
 
-    // if they choose pattern, we have to tell arkwidget to select
-    // those files... once we're in the dialog code it's too late.
-    connect( dlg, SIGNAL( pattern( const QString & ) ), this, SLOT( selectByPattern( const QString & ) ) );
+    ExtractionDialog *dlg = new ExtractionDialog( this, 0, enableSelected, defaultDir, m_url.fileName() );
+
     bool bRedoExtract = false;
-
-    if (m_nNumSelectedFiles == 0)
-    {
-        dlg->disableSelectedFilesOption();
-    }
-    else if ( m_nNumSelectedFiles > 1 )
-    {
-        dlg->setDefaultExtractOp( ExtractDlg::Selected );
-    }
-
-    if (archiveContent->currentItem() == NULL)
-    {
-        dlg->disableCurrentFileOption();
-    }
 
     // list of files to be extracted
     m_extractList = new QStringList;
     if ( dlg->exec() )
     {
-        int extractOp = dlg->extractOp();
-        kdDebug(1601) << "Extract op: " << extractOp << endl;
-
         //m_extractURL will always be the location the user chose to
         //m_extract to, whether local or remote
-        m_extractURL = dlg->extractDir();
+        m_extractURL = dlg->extractionDirectory();
 
         //extractDir will either be the real, local extract dir,
         //or in case of a extract to remote location, a local tmp dir
@@ -1729,9 +1708,8 @@ ArkWidget::action_extract()
         // extractions.
         bool bOvwrt = Settings::extractOverwrite();
 
-        switch(extractOp)
+        if ( dlg->selectedOnly() == false )
         {
-        case ExtractDlg::All:
             if (!bOvwrt)  // send empty list to indicate we're extracting all
             {
                 bRedoExtract = reportExtractFailures(extractDir, m_extractList);
@@ -1748,40 +1726,23 @@ ArkWidget::action_extract()
                     arch->unarchFile(0, extractDir);
                 }
             }
-            break;
-        case ExtractDlg::Pattern:
-        case ExtractDlg::Selected:
-        case ExtractDlg::Current:
-            {
+        }
+        else
+        {
                 KIO::filesize_t nTotalSize = 0;
-                if (extractOp != ExtractDlg::Current )
+                // make a list to send to unarchFile
+                FileListView *flw = fileList();
+                FileLVI *flvi = (FileLVI*)flw->firstChild();
+                while (flvi)
                 {
-                    // make a list to send to unarchFile
-                    FileListView *flw = fileList();
-                    FileLVI *flvi = (FileLVI*)flw->firstChild();
-                    while (flvi)
+                    if ( flw->isSelected(flvi) )
                     {
-                        if ( flw->isSelected(flvi) )
-                        {
-                            kdDebug(1601) << "unarching " << flvi->fileName() << endl;
-                            QCString tmp = QFile::encodeName(flvi->fileName());
-                            m_extractList->append(tmp);
-                            nTotalSize += flvi->fileSize();
-                        }
-                        flvi = (FileLVI*)flvi->itemBelow();
+                        kdDebug(1601) << "unarching " << flvi->fileName() << endl;
+                        QCString tmp = QFile::encodeName(flvi->fileName());
+                        m_extractList->append(tmp);
+                        nTotalSize += flvi->fileSize();
                     }
-                }
-                else
-                {
-                    FileLVI *pItem = archiveContent->currentItem();
-                    if (pItem == 0)
-                    {
-                        kdDebug(1601) << "Can't seem to figure out which is current!" << endl;
-                        return true;
-                    }
-                    QString tmp = pItem->fileName();  // no text(0)
-                    nTotalSize += pItem->fileSize();
-                    m_extractList->append( QFile::encodeName(tmp) );
+                    flvi = (FileLVI*)flvi->itemBelow();
                 }
                 if (!bOvwrt)
                 {
@@ -1798,16 +1759,10 @@ ArkWidget::action_extract()
                         arch->unarchFile(m_extractList, extractDir); // extract selected files
                     }
                 }
-                break;
-            }
-        default:
-            Q_ASSERT(0);
-            // never happens
-            break;
         }
         if ( dlg->viewFolderAfterExtraction() )
         {
-            KRun::runURL( dlg->extractDir(), "inode/directory" );
+            KRun::runURL( dlg->extractionDirectory(), "inode/directory" );
         }
 
         delete dlg;
@@ -2053,7 +2008,6 @@ ArkWidget::slotSelectionChanged()
 void
 ArkWidget::updateStatusSelection()
 {
-    kdDebug( 1601 )<< "update Status Selection" << endl;
     m_nNumSelectedFiles = 0;
     m_nSizeOfSelectedFiles = 0;
 
@@ -2091,25 +2045,6 @@ ArkWidget::updateStatusSelection()
     fixEnables();
 }
 
-
-void
-ArkWidget::selectByPattern(const QString & _pattern) // slot
-{
-    // select all the files that match the pattern
-
-    FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
-    QRegExp *glob = new QRegExp(_pattern, true, true); // file globber
-
-    archiveContent->clearSelection();
-    while (flvi)
-    {
-        if (glob->search(flvi->fileName()) != -1)
-            archiveContent->setSelected(flvi, true);
-        flvi = (FileLVI*)flvi->itemBelow();
-    }
-
-    delete glob;
-}
 
 // Drag & Drop ////////////////////////////////////////////////////////
 

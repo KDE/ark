@@ -66,7 +66,7 @@ static KCmdLineOptions option[] =
 extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 {
 	KAboutData aboutData( "ark", I18N_NOOP( "Ark" ),
-			"2.5", I18N_NOOP("KDE Archiving tool"), 
+			"2.6", I18N_NOOP("KDE Archiving tool"), 
 			KAboutData::License_GPL,
 			I18N_NOOP( "(c) 1997-2005, The Various Ark Developers" ) );
 	
@@ -86,11 +86,6 @@ extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 	KCmdLineArgs::addCmdLineOptions( option );
 	KCmdLineArgs::addTempFileOption();
 	
-	kdDebug( 1601 ) << "Starting ark. argc=" << argc << "  First arg: " << (argc == 2 ? argv[1] : 0) << endl;
-    if( argc > 2 )
-        for( int c = 1; c<argc; c++ )
-            kdDebug( 1601 ) << "arg[" << c << "] " << argv[ c ] << endl;
-	
 	if ( !ArkApplication::start() )
 	{
 		// Already running!
@@ -103,7 +98,6 @@ extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 		kdDebug( 1601 ) << "In main: Restore..." << endl;
 		RESTORE( MainWindow );
 	}
-	kdDebug( 1601 ) << "Starting ark..." << endl;
 	
 	return ArkApplication::getInstance()->exec();
 }

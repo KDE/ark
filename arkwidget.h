@@ -158,7 +158,6 @@ protected slots:
     void slotExtractRemoteDone(KIO::Job *job);
     void slotAddDone(bool);
     void slotEditFinished(KProcess *);
-    void selectByPattern(const QString & _pattern);
 signals:
     void openURLRequest( const KURL & url );
     void request_file_quit();

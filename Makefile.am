@@ -28,9 +28,9 @@ libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp zip.cpp tar.cpp \
                         filelistview.cpp arch.cpp selectDlg.cpp lha.cpp \
                         shellOutputDlg.cpp compressedfile.cpp zoo.cpp rar.cpp \
                         ar.cpp arkutils.cpp archiveformatdlg.cpp \
-                        arkwidget.cpp searchbar.cpp extractdlg.cpp \
+                        arkwidget.cpp searchbar.cpp \
                         addition.ui extraction.ui general.ui \
-                        arkviewer.cpp sevenzip.cpp
+                        arkviewer.cpp sevenzip.cpp extractiondialog.cpp
 
 METASOURCES = AUTO
 
