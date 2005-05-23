@@ -63,6 +63,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 	}
 
 	QVBox *vbox = makeVBoxMainWidget();
+	vbox->setMinimumWidth( 480 );
 
 	QHBox *header = new QHBox( vbox );
 	header->layout()->setSpacing( 10 );
