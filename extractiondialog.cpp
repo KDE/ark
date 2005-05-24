@@ -149,6 +149,7 @@ void ExtractionDialog::accept()
 	}
 
 	m_extractionDirectory = p;
+	m_selectedOnly = m_selectedButton == 0? false : m_selectedButton->isChecked();
 
 	KDialogBase::accept();
 }
