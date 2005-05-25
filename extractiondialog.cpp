@@ -44,10 +44,12 @@
 #include <kurlcompletion.h>
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
+#include <kcombobox.h>
 #include <klineedit.h>
 #include <kdebug.h>
 
 #include "arkutils.h"
+#include "settings.h"
 
 ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
                                     bool enableSelected,
@@ -94,24 +96,36 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 
 	new QLabel( i18n( "Destination folder: " ), destDirBox );
 
-	m_urlRequester = new KURLRequester( destDirBox );
+	KHistoryCombo *combobox = new KHistoryCombo( true, destDirBox );
+	combobox->setHistoryItems( Settings::extractionHistory() );
+
+	KURLCompletion *comp = new KURLCompletion();
+	comp->setReplaceHome( true );
+	comp->setCompletionMode( KGlobalSettings::CompletionAuto );
+	combobox->setCompletionObject( comp );
+	combobox->setMaxCount( 20 );
+	combobox->setInsertionPolicy( QComboBox::AtTop );
+
+	m_urlRequester = new KURLRequester( combobox, destDirBox );
 	m_urlRequester->setMode( KFile::Directory );
 
 	if (!defaultExtractionDir.prettyURL().isEmpty() )
 	{
 		m_urlRequester->setKURL( defaultExtractionDir );
 	}
-	else
-	{
-		// FIXME: Have a sensible default
-		//m_urlRequester->setKURL( KGlobal::dirs()->
-	}
 
 	m_viewFolderAfterExtraction = new QCheckBox( i18n( "Open destination folder after extraction" ), vbox );
+	m_viewFolderAfterExtraction->setChecked( Settings::openDestinationFolder() );
+
+	connect( combobox, SIGNAL( returnPressed( const QString& ) ), combobox, SLOT( addToHistory( const QString& ) ) );
+	connect( combobox->lineEdit(), SIGNAL( textChanged( const QString& ) ),
+	         this, SLOT( extractDirChanged( const QString & ) ) );
 }
 
 ExtractionDialog::~ExtractionDialog()
 {
+	Settings::setExtractionHistory( ( static_cast<KHistoryCombo*>( m_urlRequester->comboBox() ) )->historyItems() );
+	Settings::setOpenDestinationFolder( m_viewFolderAfterExtraction->isChecked() );
 }
 
 void ExtractionDialog::accept()
@@ -119,7 +133,7 @@ void ExtractionDialog::accept()
 
 	KURLCompletion uc;
 	uc.setReplaceHome( true );
-	KURL p( uc.replacedPath( m_urlRequester->lineEdit()->text() ) );
+	KURL p( uc.replacedPath( m_urlRequester->comboBox()->currentText() ) );
 
 	//if p isn't local KIO and friends will complain later on
 	if ( p.isLocalFile() )
@@ -150,6 +164,8 @@ void ExtractionDialog::accept()
 
 	m_extractionDirectory = p;
 	m_selectedOnly = m_selectedButton == 0? false : m_selectedButton->isChecked();
+
+	static_cast<KHistoryCombo*>( m_urlRequester->comboBox() )->addToHistory( p.prettyURL() );
 
 	KDialogBase::accept();
 }

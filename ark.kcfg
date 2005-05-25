@@ -5,6 +5,9 @@
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
 	<kcfgfile name="arkrc"/>
 	<group name="generic">
+		<entry name="extractionHistory" type="StringList">
+			<label>Last folders used for extraction</label>
+		</entry>
 		<entry name="replaceOnlyWithNewer" type="Bool">
 			<label>Replace old files only with newer files</label>
 			<whatsthis>If this option is enabled and you add filenames that already exist in an archive, only replace the old files if the added files are newer than them</whatsthis>
@@ -74,6 +77,10 @@
 		<entry name="TarExe" type="String">
 			<label>Tar Command</label>
 			<default>tar</default>
+		</entry>
+		<entry name="OpenDestinationFolder" type="Bool">
+			<label>Open destination folder after extraction</label>
+			<default>false</default>
 		</entry>
 	</group>
 </kcfg>

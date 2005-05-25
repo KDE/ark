@@ -1654,8 +1654,15 @@ ArkWidget::action_extract()
     // Should the extraction dialog show an option for extracting only selected files?
     bool enableSelected = ( m_nNumSelectedFiles > 0 );
 
+    QString base = Settings::extractionHistory().first();
+    if ( base.isEmpty() )
+    {
+        // Perhaps the KDE Documents folder is a better choice?
+        base = QDir::homeDirPath();
+    }
+
     // Default URL shown in the extraction dialog;
-    KURL defaultDir = KURL();
+    KURL defaultDir( base );
 
     if ( m_extractOnly )
     {
@@ -1663,9 +1670,7 @@ ArkWidget::action_extract()
     }
     else if ( !prefix.isNull() )
     {
-        QString tmp;
-        KURL baseURL = KFileDialog::getStartURL( ":ArkExtractDir", tmp );
-        defaultDir = baseURL.url() + prefix;
+        defaultDir = KURL( QDir::cleanDirPath( base + prefix ) );
     }
 
     ExtractionDialog *dlg = new ExtractionDialog( this, 0, enableSelected, defaultDir, m_url.fileName() );
