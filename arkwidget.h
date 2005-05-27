@@ -232,7 +232,7 @@ private slots:
     void startDragSlotExtractDone( bool );
     void editSlotExtractDone();
     void editSlotAddDone( bool success );
-    void viewSlotExtractDone();
+    void viewSlotExtractDone( bool success );
     void openWithSlotExtractDone();
 
     void createRealArchiveSlotCreate( Arch * newArch, bool success,
