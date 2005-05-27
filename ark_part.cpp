@@ -22,6 +22,7 @@
 
 #include "ark_part.h"
 #include "arkfactory.h"
+#include "arkwidget.h"
 #include "settings.h"
 
 #include <kdebug.h>

@@ -1893,39 +1893,40 @@ void
 ArkWidget::action_view()
 {
     connect( arch, SIGNAL( sigExtract( bool ) ), this,
-             SLOT( viewSlotExtractDone() ) );
+             SLOT( viewSlotExtractDone( bool ) ) );
     busy( i18n( "Extracting file to view" ) );
     showCurrentFile();
 }
 
 void
-ArkWidget::viewSlotExtractDone()
+ArkWidget::viewSlotExtractDone( bool success )
 {
-    chmod( QFile::encodeName( m_strFileToView ), 0400 );
-    bool view = true;
-
-    if ( Settings::useIntegratedViewer() )
+    if ( success )
     {
-        ArkViewer * viewer = new ArkViewer( this, "viewer" );
+        chmod( QFile::encodeName( m_strFileToView ), 0400 );
+        bool view = true;
 
-        if ( !viewer->view( m_strFileToView ) )
+        if ( Settings::useIntegratedViewer() )
         {
-            kdDebug( 1601 ) << "ArkWidget::viewSlotExtractDone(): Internal Viewer can't view this file." << endl;
-            QString text = i18n( "The internal viewer is not able to display this file. Would you like to view it using an external program?" );
-            view = ( KMessageBox::warningYesNo( this, text ) == KMessageBox::Yes );
+            ArkViewer * viewer = new ArkViewer( this, "viewer" );
 
-            if ( view )
-                viewInExternalViewer( this, m_strFileToView );
+            if ( !viewer->view( m_strFileToView ) )
+            {
+                QString text = i18n( "The internal viewer is not able to display this file. Would you like to view it using an external program?" );
+                view = ( KMessageBox::warningYesNo( this, text ) == KMessageBox::Yes );
 
+                if ( view )
+                    viewInExternalViewer( this, m_strFileToView );
+            }
         }
-    }
-    else
-    {
-        viewInExternalViewer( this, m_strFileToView );
+        else
+        {
+            viewInExternalViewer( this, m_strFileToView );
+        }
     }
 
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this,
-                SLOT( viewSlotExtractDone( ) ) );
+                SLOT( viewSlotExtractDone( bool ) ) );
     // avoid race condition, don't do updates if application is exiting
     if( archiveContent )
     {

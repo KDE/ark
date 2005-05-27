@@ -22,8 +22,6 @@
 #ifndef __ark_part_h__
 #define __ark_part_h__
 
-#include "arkwidget.h"
-
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
 #include <kparts/statusbarextension.h>
@@ -35,6 +33,7 @@
 
 
 class KAboutData;
+class ArkWidget;
 
 
 class ArkBrowserExtension: public KParts::BrowserExtension
