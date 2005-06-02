@@ -34,6 +34,7 @@
 #include <kglobal.h>
 #include <kdebug.h>
 #include <kglobalsettings.h>
+#include <kmimetype.h>
 
 #include "filelistview.h"
 #include "arkwidget.h"
@@ -45,23 +46,6 @@
 FileLVI::FileLVI(KListView* lv)
   : KListViewItem(lv)
 {
-}
-
-/**
-* Gets the filename associated with this FileLVI.
-* This will return the filename of this entry, with any path information
-* present.
-* @return The filename associated with the FileLVI, stripped of any text
-* 	used for formatting
-* @warning Do NOT use text(0) for this purpose! This will get the filename
-* 	with extra spaces for fileIndent, and is just plain shoddy code.
-*/
-QString FileLVI::fileName() const
-{
-	if(fileIndent)
-		return text(0).mid(2);
-	else
-		return text(0);
 }
 
 /**
@@ -141,13 +125,12 @@ void FileLVI::setText(int column, const QString &text)
         if (text.findRev('/', -2) != -1)
         {
             QListViewItem::setText(0, QString("  ") + text);
-            fileIndent = true;
         }
         else
         {
             QListViewItem::setText(column, text);
-            fileIndent = false;
         }
+        m_entryName = text;
     }
     else if ( colName == sizeCol )
     {
@@ -327,7 +310,7 @@ FileListView::item(const QString& filename) const
 
 void FileListView::addItem( const QStringList & entries )
 {
-	FileLVI *flvi = new FileLVI(this);
+	FileLVI *flvi = new FileLVI( this );
 
 	int i = 0;
 	
@@ -336,6 +319,9 @@ void FileListView::addItem( const QStringList & entries )
 		flvi->setText(i, *it);
 		++i;
 	}
+	
+	KMimeType::Ptr mimeType = KMimeType::findByPath( entries.first(), 0, true );
+	flvi->setPixmap( 0, mimeType->pixmap( KIcon::Small ) );
 }
 
 #include "filelistview.moc"

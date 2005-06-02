@@ -54,7 +54,7 @@ class FileLVI : public KListViewItem
 public:
   FileLVI(KListView* lv);
 
-  QString fileName() const;
+  QString fileName() const { return m_entryName; }
   long fileSize() const;
   long packedFileSize() const;
   double ratio() const;
@@ -65,11 +65,11 @@ public:
   virtual void setText(int column, const QString &text);
 
 private:
-  bool fileIndent;
   long m_fileSize;
   long m_packedFileSize;
   double m_ratio;
   QDateTime m_timeStamp;
+  QString   m_entryName;
 };
 
 
