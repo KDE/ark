@@ -186,7 +186,7 @@ void ArkWidget::setHeaders( QStringList* _headers, int * _rightAlignCols, int _n
 
 	for ( int i = 0; i < _numColsToAlignRight; ++i )
 	{
-		archiveContent->setColumnAlignment( _rightAlignCols[ i ], Q3ListView::AlignRight );
+		archiveContent->setColumnAlignment( _rightAlignCols[ i ], Qt::AlignRight );
 	}
 }
 
@@ -253,7 +253,7 @@ ArkWidget::busy( const QString & text )
     if ( m_bBusy )
         return;
 
-    QApplication::setOverrideCursor( waitCursor );
+    QApplication::setOverrideCursor( Qt::waitCursor );
     m_bBusy = true;
 }
 
@@ -274,7 +274,7 @@ ArkWidget::resumeBusy()
         return;
 
     m_bBusyHold = false;
-    QApplication::setOverrideCursor( waitCursor );
+    QApplication::setOverrideCursor( Qt::waitCursor );
 }
 
 void
@@ -812,13 +812,13 @@ ArkWidget::getCreateFilename(const QString & _caption,
         strFile = url.path();
 
         if (strFile.isEmpty())
-            return QString::null;
+            return QString();
 
         //the user chose to save as the current archive
         //or wanted to create a new one with the same name
         //no need to do anything
         if (strFile == m_strArchName && m_bIsArchiveOpen)
-            return QString::null;
+            return QString();
 
         QStringList extensions = dlg.currentFilterMimeType()->patterns();
         QStringList::Iterator it = extensions.begin();
@@ -846,7 +846,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
             }
             else if ( choice == KMessageBox::Cancel )
             {
-                return QString::null;
+                return QString();
             }
             else
             {
@@ -859,7 +859,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
             KMessageBox::error( this,
                 i18n( "You do not have permission"
                       " to write to the directory %1" ).arg(url.directory() ) );
-            return QString::null;
+            return QString();
         }
     } // end of while loop
 
@@ -1434,7 +1434,7 @@ ArkWidget::action_delete()
         {
             for (QStringList::Iterator it = dirs.begin(); it != dirs.end(); ++it)
             {
-                QRegExp re = "^" + *it;
+                QRegExp re (  "^" + *it );
                 if (re.search(strFile) != -1)
                 {
                     bDel = true;
@@ -1864,7 +1864,7 @@ ArkWidget::slotEditFinished(KProcess *kp)
     QStringList::Iterator it = list.begin();
     QString filename = *it;
     QString path;
-    if (filename.contains('/') > 3)
+    if (filename.count('/') > 3)
     {
         kdDebug(1601) << "Filename is originally: " << filename << endl;
         int i = filename.find('/', 5);

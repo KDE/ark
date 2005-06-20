@@ -126,23 +126,23 @@ void FileLVI::setText(int column, const QString &text)
     {
         if (text.findRev('/', -2) != -1)
         {
-            QListViewItem::setText(0, QString("  ") + text);
+            Q3ListViewItem::setText(0, QString("  ") + text);
         }
         else
         {
-            QListViewItem::setText(column, text);
+            Q3ListViewItem::setText(column, text);
         }
         m_entryName = text;
     }
     else if ( colName == sizeCol )
     {
         m_fileSize = text.toLong();
-        QListViewItem::setText(column, KGlobal::locale()->formatNumber(m_fileSize, 0));
+        Q3ListViewItem::setText(column, KGlobal::locale()->formatNumber(m_fileSize, 0));
     }
     else if ( colName == packedStrCol )
     {
         m_packedFileSize = text.toLong();
-        QListViewItem::setText(column, KGlobal::locale()->formatNumber(m_packedFileSize, 0));
+        Q3ListViewItem::setText(column, KGlobal::locale()->formatNumber(m_packedFileSize, 0));
     }
     else if ( colName == ratioStrCol )
     {
