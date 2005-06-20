@@ -140,7 +140,7 @@ void CompressedFile::initData()
     {
         m_unarchiver_program = "uncompress";
         m_archiver_program = "compress";
-        m_defaultExtensions = ".Z";
+        m_defaultExtensions << ".Z";
     }
 
 }

@@ -33,7 +33,7 @@
 #include "mainwindow.h"
 
 // QT includes
-#include <qdict.h>
+#include <q3dict.h>
 
 // KDE includes
 #include <kuniqueapplication.h>
@@ -88,7 +88,7 @@ class ArkApplication : public KUniqueApplication
 		
 		// a hash to obtain the window associated with a filename.
 		// given a QString key, you get an ArkWidget * pointer.
-		QDict<MainWindow> m_windowsHash;
+		Q3Dict<MainWindow> m_windowsHash;
 		
 		static ArkApplication *mInstance; 
 };

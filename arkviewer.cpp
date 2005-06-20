@@ -26,14 +26,14 @@
 #include <kmimetype.h>
 #include <kdebug.h>
 
-#include <qvbox.h>
+#include <q3vbox.h>
 #include <qstring.h>
 #include <kurl.h>
 
 ArkViewer::ArkViewer( QWidget * parent, const char * name )
 	: KDialogBase( parent, name, false, QString::null, Close ), m_part( 0 )
 {
-	m_widget = new QVBox( this );
+	m_widget = new Q3VBox( this );
 
 	connect( this, SIGNAL( finished() ), this, SLOT( slotFinished() ) );
 

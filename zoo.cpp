@@ -34,6 +34,8 @@
 // QT includes
 #include <qfile.h>
 #include <qdir.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 // KDE includes
 #include <kdebug.h>
@@ -61,7 +63,7 @@ ZooArch::ZooArch( ArkWidget *gui, const QString & fileName )
   m_headerString = "----";
 }
 
-bool ZooArch::processLine( const QCString &line )
+bool ZooArch::processLine( const Q3CString &line )
 {
   const char *_line = ( const char * )line;
   char columns[11][80];

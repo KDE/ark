@@ -38,6 +38,10 @@
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <qdir.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QDragMoveEvent>
+#include <QDropEvent>
 
 // KDE includes
 #include <kdebug.h>
@@ -106,7 +110,7 @@ static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
 //----------------------------------------------------------------------
 
 ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
-        QVBox(parent, name), m_bBusy( false ), m_bBusyHold( false ),
+        Q3VBox(parent, name), m_bBusy( false ), m_bBusyHold( false ),
 	m_extractOnly( false ), m_extractRemote(false),
 	m_openAsMimeType(QString::null), m_pTempAddList(NULL),
 	m_bArchivePopupEnabled( false ),
@@ -182,7 +186,7 @@ void ArkWidget::setHeaders( QStringList* _headers, int * _rightAlignCols, int _n
 
 	for ( int i = 0; i < _numColsToAlignRight; ++i )
 	{
-		archiveContent->setColumnAlignment( _rightAlignCols[ i ], QListView::AlignRight );
+		archiveContent->setColumnAlignment( _rightAlignCols[ i ], Q3ListView::AlignRight );
 	}
 }
 
@@ -1743,7 +1747,7 @@ ArkWidget::action_extract()
                     if ( flw->isSelected(flvi) )
                     {
                         kdDebug(1601) << "unarching " << flvi->fileName() << endl;
-                        QCString tmp = QFile::encodeName(flvi->fileName());
+                        Q3CString tmp = QFile::encodeName(flvi->fileName());
                         m_extractList->append(tmp);
                         nTotalSize += flvi->fileSize();
                     }
@@ -1974,7 +1978,7 @@ ArkWidget::setArchivePopupEnabled( bool b )
 }
 
 void
-ArkWidget::doPopup( QListViewItem *pItem, const QPoint &pPoint, int nCol ) // slot
+ArkWidget::doPopup( Q3ListViewItem *pItem, const QPoint &pPoint, int nCol ) // slot
 // do the right-click popup menus
 {
     if ( nCol == 0 || !m_bArchivePopupEnabled )
@@ -2236,13 +2240,13 @@ ArkWidget::createFileListView()
 		archiveContent->setMultiSelection(true);
 		//archiveContent->show();
 		connect( archiveContent, SIGNAL( selectionChanged()), this, SLOT( slotSelectionChanged() ) );
-		connect( archiveContent, SIGNAL( rightButtonPressed(QListViewItem *, const QPoint &, int)),
-				this, SLOT(doPopup(QListViewItem *, const QPoint &, int)));
+		connect( archiveContent, SIGNAL( rightButtonPressed(Q3ListViewItem *, const QPoint &, int)),
+				this, SLOT(doPopup(Q3ListViewItem *, const QPoint &, int)));
 		connect( archiveContent, SIGNAL( startDragRequest( const QStringList & ) ),
 				this, SLOT( startDrag( const QStringList & ) ) );
-		connect( archiveContent, SIGNAL( executed(QListViewItem *, const QPoint &, int ) ),
+		connect( archiveContent, SIGNAL( executed(Q3ListViewItem *, const QPoint &, int ) ),
 				this, SLOT( viewFile() ) );
-		connect( archiveContent, SIGNAL( returnPressed(QListViewItem * ) ),
+		connect( archiveContent, SIGNAL( returnPressed(Q3ListViewItem * ) ),
 				this, SLOT( viewFile() ) );
     }
     archiveContent->clear();

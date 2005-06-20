@@ -30,7 +30,7 @@
 
 #include <qlabel.h>
 #include <qapplication.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
 
 SearchBar::SearchBar( QWidget* parent, KActionCollection* aC, const char * name )
 	: KListViewSearchLine( parent, 0, name )

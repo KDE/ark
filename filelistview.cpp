@@ -27,7 +27,9 @@
 
 // Qt includes
 #include <qpainter.h>
-#include <qwhatsthis.h>
+
+//Added by qt3to4:
+#include <QMouseEvent>
 
 // KDE includes
 #include <klocale.h>
@@ -75,10 +77,10 @@ QString FileLVI::key(int column, bool ascending) const
 {
     if ( 0 == column )
         return fileName();
-    return QListViewItem::key(column, ascending);
+    return Q3ListViewItem::key(column, ascending);
 }
 
-int FileLVI::compare( QListViewItem * i, int col, bool ascending ) const
+int FileLVI::compare( Q3ListViewItem * i, int col, bool ascending ) const
 {
     if ( col == 0 )
         return KListViewItem::compare( i, col, ascending );
@@ -149,15 +151,15 @@ void FileLVI::setText(int column, const QString &text)
             m_ratio = text.left(l).toDouble();
         else
             m_ratio = text.toDouble();
-        QListViewItem::setText(column, i18n("Packed Ratio", "%1 %").arg(KGlobal::locale()->formatNumber(m_ratio, 1)));
+        Q3ListViewItem::setText(column, i18n("Packed Ratio", "%1 %").arg(KGlobal::locale()->formatNumber(m_ratio, 1)));
     }
     else if ( colName == timeStampStrCol )
     {
-        m_timeStamp = QDateTime::fromString(text, ISODate);
-        QListViewItem::setText(column, KGlobal::locale()->formatDateTime(m_timeStamp));
+        m_timeStamp = QDateTime::fromString(text, Qt::ISODate);
+        Q3ListViewItem::setText(column, KGlobal::locale()->formatDateTime(m_timeStamp));
     }
     else
-        QListViewItem::setText(column, text);
+        Q3ListViewItem::setText(column, text);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -169,7 +171,7 @@ FileListView::FileListView(ArkWidget *baseArk, QWidget *parent,
 			   const char* name)
 	: KListView(parent, name), m_pParent(baseArk)
 {
-  QWhatsThis::add(this, i18n("This area is for displaying information about the files contained within an archive."));
+  this->setWhatsThis( i18n("This area is for displaying information about the files contained within an archive."));
 
   setMultiSelection( true );
   setSelectionModeExt( FileManager );
@@ -256,7 +258,7 @@ bool FileListView::isSelectionEmpty()
 void 
 FileListView::contentsMousePressEvent(QMouseEvent *e)
 {
-	if( e->button()==QMouseEvent::LeftButton )
+	if( e->button()==Qt::LeftButton )
 	{
 		m_bPressed = true;
 		presspos = e->pos();

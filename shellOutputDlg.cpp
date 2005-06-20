@@ -27,7 +27,7 @@
 
 // Qt includes
 #include <qlayout.h>
-#include <qtextedit.h>
+#include <q3textedit.h>
 #include <qstring.h>
 
 #include <klocale.h>
@@ -39,7 +39,7 @@ ShellOutputDlg::ShellOutputDlg( const QString& text, QWidget *_parent,
 				const char *_name )
 	: KDialogBase( _parent, _name, true, i18n( "Shell Output" ), KDialogBase::Ok, KDialogBase::Ok, true )
 {
-	m_outputViewer = new QTextEdit( this );
+	m_outputViewer = new Q3TextEdit( this );
 	m_outputViewer->setTextFormat( Qt::PlainText );
 	m_outputViewer->setReadOnly( true );
 

@@ -28,8 +28,10 @@
 #ifndef FILELISTVIEW_H
 #define FILELISTVIEW_H
 
-#include <qlistview.h>
+#include <q3listview.h>
 #include <qdatetime.h>
+//Added by qt3to4:
+#include <QMouseEvent>
 
 #include <klistview.h>
 
@@ -60,7 +62,7 @@ public:
   double ratio() const;
   QDateTime timeStamp() const;
 
-  int compare ( QListViewItem * i, int col, bool ascending ) const;
+  int compare ( Q3ListViewItem * i, int col, bool ascending ) const;
   virtual QString key(int column, bool) const;
   virtual void setText(int column, const QString &text);
 

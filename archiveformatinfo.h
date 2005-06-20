@@ -25,6 +25,8 @@
 
 #include "arch.h"
 #include <kmimetype.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 class ArchiveFormatInfo
 {
@@ -61,7 +63,7 @@ private:
 
     FormatInfo & find ( ArchType type );
 
-    typedef QValueList<FormatInfo> InfoList;
+    typedef Q3ValueList<FormatInfo> InfoList;
     InfoList m_formatInfos;
 
     bool m_lastExtensionUnknown;
