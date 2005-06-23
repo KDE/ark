@@ -32,6 +32,7 @@
 
 #include <q3vbox.h>
 #include <q3hbox.h>
+#include <q3buttongroup.h>
 #include <qlabel.h>
 #include <qradiobutton.h>
 #include <qlayout.h>
