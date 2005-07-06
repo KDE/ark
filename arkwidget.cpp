@@ -2122,7 +2122,7 @@ ArkWidget::dropAction( QStringList  & list )
             int nRet = KMessageBox::warningYesNoCancel(this,
                        i18n("Do you wish to add this to the current archive or open it as a new archive?"),
                        QString::null,
-                       i18n("Add"), i18n("Open"));
+                       i18n("&Add"), i18n("&Open"));
             if (KMessageBox::Yes == nRet) // add it
             {
                 if (m_bIsSimpleCompressedFile && (m_nNumFiles == 1))
