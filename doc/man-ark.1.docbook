@@ -1,0 +1,174 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
+<!ENTITY kappname "&ark;">
+<!ENTITY % English "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title>KDE User's Manual</title>
+<author><personname>
+<firstname>Lauri</firstname>
+<surname>Watts</surname>
+</personname>
+&Lauri.Watts.mail;</author>
+<date>February 25, 2005</date>
+<productname>K Desktop Environment</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle><command>&kappname;</command></refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname><command>ark</command></refname>
+<refpurpose>A &kde; archiving tool</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>ark</command>
+<group>
+<option>--extract</option>
+<option>--extract-to</option>
+<option>--add</option>
+<option>--add-to</option>
+<option>--guess-name</option>
+</group>
+<arg choice="opt">folder</arg>
+<arg choice="opt">files</arg>
+<arg choice="opt">archive</arg>
+<arg choice="opt">KDE Generic Options</arg>
+<arg choice="opt">Qt Generic Options</arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>Description</title>
+<para>&kappname; is a program for managing various archive formats
+within the &kde; environment. Archives can be viewed, extracted, created
+and modified from within &kappname;. The program can handle various
+formats such as <application>tar</application>,
+<application>gzip</application>, <application>bzip2</application>,
+<application>zip</application>, <application>rar</application> and
+<application>lha</application> (if appropriate command-line programs are
+installed). &kappname; can work closely with &konqueror; in the &kde;
+environment to handle archives, if you install the &konqueror;
+Integration plugin available in the kdeaddons package.</para>
+
+</refsect1>
+
+<refsect1>
+<title>Options</title>
+
+<variablelist>
+<varlistentry>
+<term><option>--extract</option></term>
+<listitem>
+<para>Open extract dialog, quit when finished</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--extract-to
+<replaceable>folder</replaceable>
+<replaceable>archive</replaceable></option></term>
+<listitem><para>Extract <replaceable>archive</replaceable> to
+<replaceable>folder</replaceable>.  Quit when finished. 
+<replaceable>folder</replaceable> will be created if it does not
+exist.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--add <replaceable>files</replaceable></option></term>
+<listitem>
+<para>Ask for the name of the archive to add
+<replaceable>files</replaceable> to. Quit when finished.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--add-to <replaceable>files</replaceable>
+<replaceable>archive</replaceable></option></term>
+<listitem>
+<para>Add <replaceable>files</replaceable> to
+<replaceable>archive</replaceable>.  Quit when finished. 
+<replaceable>archive</replaceable> will be created if it does not
+exist.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--guess-name <replaceable>folder</replaceable>
+<replaceable>archive</replaceable></option></term>
+<listitem>
+<para>Used with <option>--extract-to</option>.  When specified,
+<replaceable>archive</replaceable> will be extracted to a
+subfolder of <replaceable>folder</replaceable> whose name will be
+the name of <replaceable>archive without the
+filename extension.</replaceable></para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+<title>Environment</title>
+<variablelist>
+<varlistentry>
+<term>$<envar>PATH</envar></term>
+<listitem>
+<para>The commandline programs to deal with the archives you wish to
+handle in &kappname; must be available in your
+$<envar>PATH</envar>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title>Examples</title>
+
+<variablelist>
+<varlistentry>
+<term><userinput><command>ark</command> <option>--extract-to
+--guess-name</option> <parameter>.</parameter>
+<parameter>An-Archive.tar.bz2</parameter></userinput></term>
+<listitem>
+<para>Will extract <filename>An-Archive.tar.bz2</filename> into a
+folder named <filename class="directory">An-Archive</filename> in the
+current directory.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><userinput><command>ark</command> <option>--add-to</option>
+<filename>*.jpg</filename> <filename>pictures.tar.bz2</filename></userinput></term>
+<listitem>
+<para>Add all files ending in *.jpg to an archive named
+<filename>pictures.tar.bz2</filename>, creating it if it doesn't
+already exist.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title>See Also</title>
+<para>tar(1), gzip(1), bzip2(1), zip(1), rar(1), lha(1)</para>
+
+<para>More detailed user documentation is available from <ulink
+url="help:/ark">help:/ark</ulink>
+(either enter this <acronym>URL</acronym> into &konqueror;, or run
+<userinput><command>khelpcenter</command>
+<parameter>help:/ark</parameter></userinput>).</para>
+
+</refsect1>
+
+<refsect1>
+<title>Authors</title>
+<para>&ark; is maintained by
+<personname><firstname>Henrique</firstname><surname>Pinto</surname></personname> <email>stampede@coltec.ufmg.br</email></para>
+<para>This man page was written by &Lauri.Watts;
+&Lauri.Watts.mail; for &kde; 3.4.</para>
+</refsect1>
+
+</refentry>
