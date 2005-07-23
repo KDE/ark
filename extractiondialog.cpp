@@ -142,7 +142,7 @@ void ExtractionDialog::accept()
 		if ( !fi.isDir() && !fi.exists() )
 		{
 			QString ltext = i18n( "Create folder %1?").arg(p.path());
-			int createDir =  KMessageBox::questionYesNo( this, ltext, i18n( "Missing folder." ) );
+			int createDir =  KMessageBox::questionYesNo( this, ltext, i18n( "Missing Folder" ) , i18n("Create Folder"), i18n("Do Not Create"));
 			if( createDir == 4 )
 			{
 				return;
