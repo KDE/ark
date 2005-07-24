@@ -95,7 +95,7 @@ static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
     if ( KRun::isExecutable( mimetype ) )
     {
         QString text = i18n( "The file you're trying to view may be an executable. Running untrusted executables may compromise your system's security.\nAre you sure you want to run that file?" );
-        view = ( KMessageBox::warningYesNo( parent, text ) == KMessageBox::Yes );
+        view = ( KMessageBox::warningContinueCancel( parent, text, QString::null, i18n("Run Nevertheless") ) == KMessageBox::Continue );
     }
 
     if ( view )
@@ -837,7 +837,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
         {
             choice = KMessageBox::warningYesNoCancel(0,
                i18n("Archive already exists. Do you wish to overwrite it?"),
-               i18n("Archive Already Exists"));
+               i18n("Archive Already Exists"), i18n("Overwrite"), i18n("Do Not Overwrite"));
 
             if ( choice == KMessageBox::Yes )
             {
@@ -1105,7 +1105,7 @@ ArkWidget::askToCreateRealArchive()
     // returns filename if so
     KURL url;
     int choice =
-        KMessageBox::warningYesNo(0, i18n("You are currently working with a simple compressed file.\nWould you like to make it into an archive so that it can contain multiple files?\nIf so, you must choose a name for your new archive."), i18n("Warning"));
+        KMessageBox::warningYesNo(0, i18n("You are currently working with a simple compressed file.\nWould you like to make it into an archive so that it can contain multiple files?\nIf so, you must choose a name for your new archive."), i18n("Warning"),i18n("Make Into Archive"),i18n("Do Not Make"));
     if (choice == KMessageBox::Yes)
     {
         url = getCreateFilename( i18n("Create New Archive"),
@@ -1414,7 +1414,7 @@ ArkWidget::action_delete()
     if (!bDeletingDir)
     {
         // ask for confirmation
-        bDoDelete = KMessageBox::questionYesNo(this, i18n("Do you really want to delete the selected items?")) == KMessageBox::Yes;
+        bDoDelete = KMessageBox::warningContinueCancel(this, i18n("Do you really want to delete the selected items?"),QString::null,KStdGuiItem::del()) == KMessageBox::Continue;
     }
     if (!bDoDelete)
         return;
@@ -1917,7 +1917,7 @@ ArkWidget::viewSlotExtractDone( bool success )
             if ( !viewer->view( m_strFileToView ) )
             {
                 QString text = i18n( "The internal viewer is not able to display this file. Would you like to view it using an external program?" );
-                view = ( KMessageBox::warningYesNo( this, text ) == KMessageBox::Yes );
+                view = ( KMessageBox::warningYesNo( this, text, QString::null, i18n("View Externally"), i18n("Do Not View") ) == KMessageBox::Yes );
 
                 if ( view )
                     viewInExternalViewer( this, m_strFileToView );
@@ -2179,7 +2179,7 @@ ArkWidget::dropAction( QStringList  & list )
             str = (list.count() > 1)
                   ? i18n("There is no archive currently open. Do you wish to create one now for these files?")
                   : i18n("There is no archive currently open. Do you wish to create one now for this file?");
-            int nRet = KMessageBox::warningYesNo(this, str);
+            int nRet = KMessageBox::warningYesNo(this, str, QString::null, i18n("Create Archive"), i18n("Do Not Create"));
             if (nRet == KMessageBox::Yes) // yes
             {
                 file_new();
