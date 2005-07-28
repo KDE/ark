@@ -25,7 +25,7 @@
 
 // Qt includes
 #include <qlabel.h>
-#include <qvbox.h>
+#include <q3vbox.h>
 #include <qregexp.h>
 #include <qpushbutton.h>
 
@@ -43,7 +43,7 @@ SelectDlg::SelectDlg( QWidget *_parent, const char *_name )
     : KDialogBase( _parent, _name, true, i18n("Selection"),
                    KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok )
 {
-    QHBox * box = makeHBoxMainWidget();
+    Q3HBox * box = makeHBoxMainWidget();
 
     QLabel *l1;
     l1 = new QLabel( i18n("Select files:"), box );

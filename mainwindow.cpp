@@ -23,6 +23,9 @@
 
 // QT includes
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <QHBoxLayout>
 
 // KDE includes
 #include <kdebug.h>

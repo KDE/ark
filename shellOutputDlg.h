@@ -32,7 +32,7 @@
 
 class QWidget;
 class QString;
-class QTextEdit;
+class Q3TextEdit;
 
 class ShellOutputDlg : public KDialogBase
 {
@@ -41,7 +41,7 @@ class ShellOutputDlg : public KDialogBase
 		ShellOutputDlg( const QString& text, QWidget *parent=0, const char *name=0 );
 		~ShellOutputDlg();
 	private:
-		QTextEdit * m_outputViewer;
+		Q3TextEdit * m_outputViewer;
 };
 
 #endif /* SHELL_OUTPUT_DLG_H */

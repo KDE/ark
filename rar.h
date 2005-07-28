@@ -25,9 +25,11 @@
 #define RAR_H 
 
 #include "arch.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 class QString;
-class QCString;
+class Q3CString;
 class QStringList;
 
 class ArkWidget;
@@ -50,7 +52,7 @@ class RarArch : public Arch
                              bool viewFriendly = false );
 
   protected slots:
-    virtual bool processLine( const QCString & );
+    virtual bool processLine( const Q3CString & );
 
   private:
     void setHeaders();

@@ -50,14 +50,16 @@
 #define ARCH_H
 
 #include <qobject.h>
-#include <qptrlist.h> // Some very annoying hackery in arkwidgetpart
+#include <q3ptrlist.h> // Some very annoying hackery in arkwidgetpart
 #include <qregexp.h>
 #include <qstring.h>
+//Added by qt3to4:
+#include <Q3CString>
 #include <kurl.h>
 
 #include "filelistview.h"
 
-class QCString;
+class Q3CString;
 class QStringList;
 class KProcess;
 
@@ -146,7 +148,7 @@ class Arch : public QObject
 
     void slotReceivedOutput( KProcess *, char*, int );
 
-    virtual bool processLine( const QCString &line );
+    virtual bool processLine( const Q3CString &line );
     virtual void slotReceivedTOC( KProcess *, char *, int );
 
   signals:
@@ -159,7 +161,7 @@ class Arch : public QObject
   protected:  // data
     QString m_filename;
     QString m_lastShellOutput;
-    QCString m_buffer;
+    Q3CString m_buffer;
     ArkWidget *m_gui;
     bool m_bReadOnly; // for readonly archives
     bool m_error;
@@ -174,9 +176,9 @@ class Arch : public QObject
     QString m_unarchiver_program;
 
     // Archive parsing information
-    QCString m_headerString;
+    Q3CString m_headerString;
     bool m_header_removed, m_finished;
-    QPtrList<ArchColumns> m_archCols;
+    Q3PtrList<ArchColumns> m_archCols;
     int m_numCols, m_dateCol, m_fixYear, m_fixMonth, m_fixDay, m_fixTime;
     int m_repairYear, m_repairMonth, m_repairTime;
 };

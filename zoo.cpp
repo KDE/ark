@@ -34,6 +34,8 @@
 // QT includes
 #include <qfile.h>
 #include <qdir.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 // KDE includes
 #include <kdebug.h>
@@ -61,7 +63,7 @@ ZooArch::ZooArch( ArkWidget *gui, const QString & fileName )
   m_headerString = "----";
 }
 
-bool ZooArch::processLine( const QCString &line )
+bool ZooArch::processLine( const Q3CString &line )
 {
   const char *_line = ( const char * )line;
   char columns[11][80];
@@ -88,12 +90,12 @@ bool ZooArch::processLine( const QCString &line )
 
   QStringList list;
   list.append( QFile::decodeName( filename ) );
-  
+
   for ( int i=0; i<4; i++ )
   {
     list.append( QString::fromLocal8Bit( columns[i] ) );
   }
-  
+
   m_gui->fileList()->addItem( list ); // send to GUI
 
   return true;
@@ -175,7 +177,7 @@ void ZooArch::addFile( const QStringList &urls )
 
   KURL url( urls.first() );
   QDir::setCurrent( url.directory() );
-  
+
   QStringList::ConstIterator iter;
 
   for ( iter = urls.begin(); iter != urls.end(); ++iter )
@@ -203,7 +205,7 @@ void ZooArch::unarchFile( QStringList *fileList, const QString &destDir,
 {
   // if _fileList is empty, we extract all.
   // if _destDir is empty, abort with error.
-  
+
   if ( destDir.isEmpty() || destDir.isNull() )
   {
     kdError( 1601 ) << "There was no extract directory given." << endl;
@@ -262,7 +264,7 @@ void ZooArch::remove( QStringList *list )
   kp->clearArguments();
 
   *kp << m_archiver_program << "D" << m_filename;
-  
+
   QStringList::Iterator it;
   for ( it = list->begin(); it != list->end(); ++it )
   {
@@ -292,7 +294,7 @@ QString fixTime( const QString &_strTime )
 
   if ( strTime.contains("+") || strTime.contains("-") )
   {
-    QCharRef c = strTime.at( 8 );
+    QChar c = strTime.at( 8 );
     int offset = strTime.right( strTime.length() - 9 ).toInt();
     QString strHour = strTime.left( 2 );
     int nHour = strHour.toInt();

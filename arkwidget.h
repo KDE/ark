@@ -34,14 +34,18 @@
 #include <kio/job.h>
 #include <ktempdir.h>
 
-#include <qvbox.h>
+#include <q3vbox.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <QDragMoveEvent>
+#include <QDropEvent>
 #include "arch.h"
 
 class QPoint;
 class QString;
 class QStringList;
 class QLabel;
-class QListViewItem;
+class Q3ListViewItem;
 class QDragMoveEvent;
 class QDropEvent;
 
@@ -59,7 +63,7 @@ class FileLVI;
 class SearchBar;
 
 
-class ArkWidget : public QVBox
+class ArkWidget : public Q3VBox
 {
     Q_OBJECT
 public:
@@ -147,7 +151,7 @@ protected slots:
     void slotOpenWith();
     void action_edit();
 
-    void doPopup(QListViewItem *, const QPoint &, int); // right-click menus
+    void doPopup(Q3ListViewItem *, const QPoint &, int); // right-click menus
     void viewFile(); // doubleClick view files
 
     void slotSelectionChanged();
