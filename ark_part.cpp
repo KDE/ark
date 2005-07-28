@@ -152,7 +152,7 @@ ArkPart::setupActions()
     showSearchBar = new KToggleAction( i18n( "Show Search Bar" ), KShortcut(), actionCollection(), "options_show_search_bar" );
     showSearchBar->setCheckedState(i18n("Hide Search Bar"));
 
-    showSearchBar->setChecked( Settings::showSearchBar() );
+    showSearchBar->setChecked( ArkSettings::showSearchBar() );
 
     connect( showSearchBar, SIGNAL( toggled( bool ) ), awidget, SLOT( slotShowSearchBarToggled( bool ) ) );
 

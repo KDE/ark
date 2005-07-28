@@ -178,14 +178,14 @@ void RarArch::addFile( const QStringList & urls )
   kp->clearArguments();
   *kp << m_archiver_program;
 
-  if ( Settings::replaceOnlyWithNewer() )
+  if ( ArkSettings::replaceOnlyWithNewer() )
     *kp << "u";
   else
     *kp << "a";
 
-  if ( Settings::rarStoreSymlinks() )
+  if ( ArkSettings::rarStoreSymlinks() )
     *kp << "-ol";
-  if ( Settings::rarRecurseSubdirs() )
+  if ( ArkSettings::rarRecurseSubdirs() )
     *kp << "-r";
 
   *kp << m_filename;
@@ -229,7 +229,7 @@ void RarArch::unarchFile( QStringList *fileList, const QString & destDir,
   // extract (and maybe overwrite)
   *kp << m_unarchiver_program << "x";
 
-  if ( !Settings::extractOverwrite() )
+  if ( !ArkSettings::extractOverwrite() )
   {
     *kp << "-o+";
   }

@@ -206,7 +206,7 @@ void LhaArch::addFile( const QStringList &urls )
   *kp << m_archiver_program;
 
   QString strOptions;
-  if ( Settings::replaceOnlyWithNewer() )
+  if ( ArkSettings::replaceOnlyWithNewer() )
     strOptions = "u";
   else
     strOptions = "a";

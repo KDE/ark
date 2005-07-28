@@ -1,5 +1,5 @@
 File=ark.kcfg
-ClassName=Settings
+ClassName=ArkSettings
 Singleton=true
 Mutators=true
 SetUserTexts=true

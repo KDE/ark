@@ -82,7 +82,7 @@ TarArch::TarArch( ArkWidget *_gui,
     m_dotslash = false;
     m_filesToAdd = m_filesToRemove = QStringList();
     kdDebug(1601) << "+TarArch::TarArch" << endl;
-    m_archiver_program = Settings::tarExe();
+    m_archiver_program = ArkSettings::tarExe();
     m_unarchiver_program = QString::null;
     verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
@@ -615,7 +615,7 @@ void TarArch::addFile( const QStringList&  urls )
   // those in urls.
   m_bNotifyWhenDeleteFails = false;
   connect( this, SIGNAL( removeDone() ), this, SLOT( deleteOldFilesDone() ) );
-  deleteOldFiles(urls, Settings::replaceOnlyWithNewer());
+  deleteOldFiles(urls, ArkSettings::replaceOnlyWithNewer());
 }
 
 void TarArch::deleteOldFilesDone()
@@ -635,7 +635,7 @@ void TarArch::addFileCreateTempDone()
   KProcess *kp = new KProcess;
   *kp << m_archiver_program;
 
-  if( Settings::replaceOnlyWithNewer())
+  if( ArkSettings::replaceOnlyWithNewer())
     *kp << "uvf";
   else
     *kp << "rvf";
@@ -729,9 +729,9 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
     *kp << "--use-compress-program="+getUnCompressor();
 
   QString options = "-x";
-  if (!Settings::extractOverwrite())
+  if (!ArkSettings::extractOverwrite())
     options += "k";
-  if (Settings::preservePerms())
+  if (ArkSettings::preservePerms())
     options += "p";
   options += "f";
 

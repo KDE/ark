@@ -144,7 +144,7 @@ void ArArch::addFile( const QStringList &urls )
   kp->clearArguments();
   *kp << m_archiver_program;
 
-  if (Settings::replaceOnlyWithNewer())
+  if (ArkSettings::replaceOnlyWithNewer())
 	  *kp << "ru";
   else
 	  *kp << "r";

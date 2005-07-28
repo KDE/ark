@@ -129,14 +129,14 @@ void ZipArch::addDir( const QString & _dirName )
 {
   if ( !_dirName.isEmpty() )
   {
-    bool bOldRecVal = Settings::rarRecurseSubdirs();
+    bool bOldRecVal = ArkSettings::rarRecurseSubdirs();
     // must be true for add directory - otherwise why would user try?
-    Settings::setRarRecurseSubdirs( true );
+    ArkSettings::setRarRecurseSubdirs( true );
 
     QStringList list;
     list.append( _dirName );
     addFile( list );
-    Settings::setRarRecurseSubdirs( bOldRecVal ); // reset to old val
+    ArkSettings::setRarRecurseSubdirs( bOldRecVal ); // reset to old val
   }
 }
 
@@ -147,18 +147,18 @@ void ZipArch::addFile( const QStringList &urls )
 
   *kp << m_archiver_program;
 
-  if ( Settings::rarRecurseSubdirs() )
+  if ( ArkSettings::rarRecurseSubdirs() )
     *kp << "-r";
 
-  if ( Settings::rarStoreSymlinks() )
+  if ( ArkSettings::rarStoreSymlinks() )
     *kp << "-y";
 
-  if ( Settings::forceMSDOS() )
+  if ( ArkSettings::forceMSDOS() )
     *kp << "-k";
-  if ( Settings::convertLF2CRLF() )
+  if ( ArkSettings::convertLF2CRLF() )
     *kp << "-l";
 
-  if ( Settings::replaceOnlyWithNewer() )
+  if ( ArkSettings::replaceOnlyWithNewer() )
     *kp << "-u";
 
   *kp << m_filename;
@@ -203,13 +203,13 @@ void ZipArch::unarchFile( QStringList *fileList, const QString & destDir,
 
   *kp << m_unarchiver_program;
 
-  if ( Settings::extractJunkPaths() && !viewFriendly )
+  if ( ArkSettings::extractJunkPaths() && !viewFriendly )
     *kp << "-j" ;
 
-  if ( Settings::rarToLower() )
+  if ( ArkSettings::rarToLower() )
     *kp << "-L";
 
-  if ( Settings::extractOverwrite() )
+  if ( ArkSettings::extractOverwrite() )
     *kp << "-o";
 
   *kp << m_filename;

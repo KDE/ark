@@ -207,7 +207,7 @@ void SevenZipArch::unarchFile( QStringList *fileList, const QString & destDir,
   // extract (and maybe overwrite)
   *kp << m_unarchiver_program << "x";
 
-  if ( Settings::extractOverwrite() )
+  if ( ArkSettings::extractOverwrite() )
   {
     //*kp << "-ao";
   }

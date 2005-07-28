@@ -166,7 +166,7 @@ void ZooArch::addFile( const QStringList &urls )
   kp->clearArguments();
   *kp << m_archiver_program;
 
-  if ( Settings::replaceOnlyWithNewer() )
+  if ( ArkSettings::replaceOnlyWithNewer() )
     *kp << "-update";
   else
     *kp << "-add";
@@ -222,10 +222,15 @@ void ZooArch::unarchFile( QStringList *fileList, const QString &destDir,
 
   *kp << m_archiver_program;
 
-  if ( !Settings::extractOverwrite() )
-    *kp << "x";
-  else
+  if ( ArkSettings::extractOverwrite() )
+  {
     *kp << "xOOS";
+  }
+  else
+  {
+    *kp << "x";
+  }
+
   *kp << m_filename;
 
   // if the list is empty, no filenames go on the command line,

@@ -97,7 +97,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 	new QLabel( i18n( "Destination folder: " ), destDirBox );
 
 	KHistoryCombo *combobox = new KHistoryCombo( true, destDirBox );
-	combobox->setHistoryItems( Settings::extractionHistory() );
+	combobox->setHistoryItems( ArkSettings::extractionHistory() );
 
 	KURLCompletion *comp = new KURLCompletion();
 	comp->setReplaceHome( true );
@@ -115,7 +115,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 	}
 
 	m_viewFolderAfterExtraction = new QCheckBox( i18n( "Open destination folder after extraction" ), vbox );
-	m_viewFolderAfterExtraction->setChecked( Settings::openDestinationFolder() );
+	m_viewFolderAfterExtraction->setChecked( ArkSettings::openDestinationFolder() );
 
 	connect( combobox, SIGNAL( returnPressed( const QString& ) ), combobox, SLOT( addToHistory( const QString& ) ) );
 	connect( combobox->lineEdit(), SIGNAL( textChanged( const QString& ) ),
@@ -124,8 +124,8 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 
 ExtractionDialog::~ExtractionDialog()
 {
-	Settings::setExtractionHistory( ( static_cast<KHistoryCombo*>( m_urlRequester->comboBox() ) )->historyItems() );
-	Settings::setOpenDestinationFolder( m_viewFolderAfterExtraction->isChecked() );
+	ArkSettings::setExtractionHistory( ( static_cast<KHistoryCombo*>( m_urlRequester->comboBox() ) )->historyItems() );
+	ArkSettings::setOpenDestinationFolder( m_viewFolderAfterExtraction->isChecked() );
 }
 
 void ExtractionDialog::accept()

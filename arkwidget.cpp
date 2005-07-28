@@ -137,7 +137,7 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
 
     m_searchToolBar->setStretchableWidget( m_searchBar );
 
-    if ( !Settings::showSearchBar() )
+    if ( !ArkSettings::showSearchBar() )
         m_searchToolBar->hide();
 
     createFileListView();
@@ -156,7 +156,7 @@ ArkWidget::~ArkWidget()
     delete archiveContent;
     archiveContent = 0;
     delete arch;
-    Settings::writeConfig();
+    ArkSettings::writeConfig();
 }
 
 void ArkWidget::cleanArkTmpDir()
@@ -390,10 +390,10 @@ ArkWidget::convertSlotCreateDone( bool success )
         //////////////////////////////////////////////////////
         *it = QString::fromLatin1( "file:" )+ m_convert_tmpDir->name() + *it;
     }
-    bool bOldRecVal = Settings::rarRecurseSubdirs();
+    bool bOldRecVal = ArkSettings::rarRecurseSubdirs();
     connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( convertSlotAddDone( bool ) ) );
     arch->addFile( entries );
-    Settings::setRarRecurseSubdirs( bOldRecVal );
+    ArkSettings::setRarRecurseSubdirs( bOldRecVal );
 }
 
 void
@@ -529,7 +529,7 @@ ArkWidget::extractToSlotOpenDone( bool success )
     QStringList alreadyExisting = existingFiles( extractDir, empty );
     kdDebug( 1601 ) << "Already existing files count: " << existingFiles( extractDir, empty ).count() << endl;
     bool keepGoing = true;
-    if ( !Settings::extractOverwrite() && !alreadyExisting.isEmpty() )
+    if ( !ArkSettings::extractOverwrite() && !alreadyExisting.isEmpty() )
     {
        if ( alreadyExisting.count() == m_nNumFiles )
         {
@@ -1654,7 +1654,7 @@ ArkWidget::action_extract()
     // Should the extraction dialog show an option for extracting only selected files?
     bool enableSelected = ( m_nNumSelectedFiles > 0 );
 
-    QString base = Settings::extractionHistory().first();
+    QString base = ArkSettings::extractionHistory().first();
     if ( base.isEmpty() )
     {
         // Perhaps the KDE Documents folder is a better choice?
@@ -1711,7 +1711,7 @@ ArkWidget::action_extract()
 
         // if overwrite is false, then we need to check for failure of
         // extractions.
-        bool bOvwrt = Settings::extractOverwrite();
+        bool bOvwrt = ArkSettings::extractOverwrite();
 
         if ( dlg->selectedOnly() == false )
         {
@@ -1906,7 +1906,7 @@ ArkWidget::viewSlotExtractDone( bool success )
         chmod( QFile::encodeName( m_strFileToView ), 0400 );
         bool view = true;
 
-        if ( Settings::useIntegratedViewer() )
+        if ( ArkSettings::useIntegratedViewer() )
         {
             ArkViewer * viewer = new ArkViewer( this, "viewer" );
 
@@ -2442,12 +2442,12 @@ void ArkWidget::slotShowSearchBarToggled( bool b )
 	if ( b )
 	{
 		m_searchToolBar->show();
-		Settings::setShowSearchBar( true );
+		ArkSettings::setShowSearchBar( true );
 	}
 	else
 	{
 		m_searchToolBar->hide();
-		Settings::setShowSearchBar( false );
+		ArkSettings::setShowSearchBar( false );
 	}
 }
 
@@ -2458,7 +2458,7 @@ void ArkWidget::showSettings(){
   if(KConfigDialog::showDialog("settings"))
     return;
 
-  KConfigDialog *dialog = new KConfigDialog(this, "settings", Settings::self());
+  KConfigDialog *dialog = new KConfigDialog(this, "settings", ArkSettings::self());
 
   General* genPage = new General(0, "General");
   dialog->addPage(genPage, i18n("General"), "ark", i18n("General Settings"));
