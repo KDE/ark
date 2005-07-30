@@ -105,27 +105,27 @@ static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
 //
 //----------------------------------------------------------------------
 
-ArkWidget::ArkWidget( QWidget *parent, const char *name ) :
-        QVBox(parent, name), m_bBusy( false ), m_bBusyHold( false ),
-	m_extractOnly( false ), m_extractRemote(false),
-	m_openAsMimeType(QString::null), m_pTempAddList(NULL),
-	m_bArchivePopupEnabled( false ),
-	m_convert_tmpDir( NULL ), m_convertSuccess( false ),
-	m_createRealArchTmpDir( NULL ),	m_extractRemoteTmpDir( NULL ),
-	m_modified( false ), m_searchToolBar( 0 ), m_searchBar( 0 ),
-	arch( 0 ), archiveContent( 0 ),
-	m_archType( UNKNOWN_FORMAT ), m_nSizeOfFiles( 0 ),
-	m_nSizeOfSelectedFiles( 0 ), m_nNumFiles( 0 ), m_nNumSelectedFiles( 0 ),
-	m_bIsArchiveOpen( false ), m_bIsSimpleCompressedFile( false ),
-	m_bDropSourceIsSelf( false ), m_extractList( 0 )
+ArkWidget::ArkWidget( QWidget *parent, const char *name )
+   : QVBox(parent, name), m_bBusy( false ), m_bBusyHold( false ),
+     m_extractOnly( false ), m_extractRemote(false),
+     m_openAsMimeType(QString::null), m_pTempAddList(NULL),
+     m_bArchivePopupEnabled( false ),
+     m_convert_tmpDir( NULL ), m_convertSuccess( false ),
+     m_createRealArchTmpDir( NULL ),  m_extractRemoteTmpDir( NULL ),
+     m_modified( false ), m_searchToolBar( 0 ), m_searchBar( 0 ),
+     arch( 0 ), archiveContent( 0 ),
+     m_archType( UNKNOWN_FORMAT ), m_nSizeOfFiles( 0 ),
+     m_nSizeOfSelectedFiles( 0 ), m_nNumFiles( 0 ), m_nNumSelectedFiles( 0 ),
+     m_bIsArchiveOpen( false ), m_bIsSimpleCompressedFile( false ),
+     m_bDropSourceIsSelf( false ), m_extractList( 0 )
 {
     m_tmpDir = new KTempDir( locateLocal( "tmp", "ark" ) );
 
     if ( m_tmpDir->status() != 0 )
     {
-	    kdWarning( 1601 ) << "Could not create a temporary directory. status() returned "
-	                      << m_tmpDir->status() << "." << endl;
-	    m_tmpDir = NULL;
+       kdWarning( 1601 ) << "Could not create a temporary directory. status() returned "
+                         << m_tmpDir->status() << "." << endl;
+       m_tmpDir = NULL;
     }
 
     m_searchToolBar = new KToolBar( this, "searchBar" );
@@ -162,59 +162,59 @@ ArkWidget::~ArkWidget()
 void ArkWidget::cleanArkTmpDir()
 {
         removeDownloadedFiles();
-	if ( m_tmpDir )
-	{
-		m_tmpDir->unlink();
-		delete m_tmpDir;
-		m_tmpDir = NULL;
-	}
+   if ( m_tmpDir )
+   {
+      m_tmpDir->unlink();
+      delete m_tmpDir;
+      m_tmpDir = NULL;
+   }
 }
 
 void ArkWidget::setHeaders( QStringList* _headers, int * _rightAlignCols, int _numColsToAlignRight )
 {
-	clearHeaders();
+   clearHeaders();
 
-	for ( QStringList::Iterator it = _headers->begin(); it != _headers->end(); ++it )
-	{
-		QString str = *it;
-		archiveContent->addColumn( str );
-	}
+   for ( QStringList::Iterator it = _headers->begin(); it != _headers->end(); ++it )
+   {
+      QString str = *it;
+      archiveContent->addColumn( str );
+   }
 
-	for ( int i = 0; i < _numColsToAlignRight; ++i )
-	{
-		archiveContent->setColumnAlignment( _rightAlignCols[ i ], QListView::AlignRight );
-	}
+   for ( int i = 0; i < _numColsToAlignRight; ++i )
+   {
+      archiveContent->setColumnAlignment( _rightAlignCols[ i ], QListView::AlignRight );
+   }
 }
 
 void ArkWidget::clearHeaders()
 {
-	while ( archiveContent->columns() > 0 )
-	{
-		archiveContent->removeColumn( 0 );
-	}
+   while ( archiveContent->columns() > 0 )
+   {
+      archiveContent->removeColumn( 0 );
+   }
 }
 
 void ArkWidget::viewShellOutput()
 {
-	ShellOutputDlg* sod = new ShellOutputDlg( arch->getLastShellOutput(), this );
-	sod->exec();
-	delete sod;
+   ShellOutputDlg* sod = new ShellOutputDlg( arch->getLastShellOutput(), this );
+   sod->exec();
+   delete sod;
 }
 
 void ArkWidget::closeArch()
 {
-	if ( isArchiveOpen() )
-	{
-		delete arch;
-		arch = 0;
-		m_bIsArchiveOpen = false;
-	}
+   if ( isArchiveOpen() )
+   {
+      delete arch;
+      arch = 0;
+      m_bIsArchiveOpen = false;
+   }
 
-	if ( 0 != archiveContent )
-	{
-		archiveContent->clear();
-		clearHeaders();
-	}
+   if ( 0 != archiveContent )
+   {
+      archiveContent->clear();
+      clearHeaders();
+   }
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -1227,7 +1227,7 @@ ArkWidget::action_add()
         addList = fileDlg.selectedURLs();
         QStringList * list = new QStringList();
         //Here we pre-calculate the end of the list
-	KURL::List::ConstIterator endList = addList.end();
+   KURL::List::ConstIterator endList = addList.end();
         for (KURL::List::ConstIterator it = addList.begin(); it != endList; ++it)
             list->append( KURL::decode_string( (*it).url() ) );
 
@@ -1322,7 +1322,7 @@ ArkWidget::toLocalFile( const KURL& url )
 
     if(!url.isLocalFile())
     {
-	QString strURL = url.prettyURL();
+   QString strURL = url.prettyURL();
 
         QString tempfile = tmpDir();
         tempfile += strURL.right(strURL.length() - strURL.findRev("/") - 1);
@@ -1536,15 +1536,12 @@ ArkWidget::prepareViewFiles( const QStringList & fileList )
 bool
 ArkWidget::reportExtractFailures( const QString & _dest, QStringList *_list )
 {
-// FIXME: Implement
-return false;
-/*
     // reports extract failures when Overwrite = False and the file
     // exists already in the destination directory.
     // If list is null, it means we are extracting all files.
     // Otherwise the list contains the files we are to extract.
 
-    bool bRedoExtract = false;
+    bool redoExtraction = false;
     QString strFilename;
 
     QStringList list = *_list;
@@ -1552,26 +1549,22 @@ return false;
 
     int numFilesToReport = filesExisting.count();
 
-    kdDebug(1601) << "There are " << numFilesToReport << " files to report existing already." << endl;
-
     // now report on the contents
     holdBusy();
     if (numFilesToReport == 1)
     {
         kdDebug(1601) << "One to report" << endl;
         strFilename = filesExisting.first();
-        QString message =
-            i18n("%1 will not be extracted because it will overwrite an existing file.\nGo back to Extract Dialog?").arg(strFilename);
-        bRedoExtract = KMessageBox::questionYesNo(this, message) == KMessageBox::Yes;
+        QString message = i18n("%1 will not be extracted because it will overwrite an existing file.\nGo back to the Extraction Dialog?").arg(strFilename);
+        redoExtraction = (KMessageBox::questionYesNo(this, message) == KMessageBox::Yes);
     }
     else if (numFilesToReport != 0)
     {
-        ExtractFailureDlg *fDlg = new ExtractFailureDlg( &filesExisting, this );
-        bRedoExtract = !fDlg->exec();
+        QString message = i18n("Some files will not be extracted, because they would overwrite existing files.\nWould you like to go back to the extraction dialog?\n\nThe following files will not be extracted if you choose to continue:");
+        redoExtraction = (KMessageBox::questionYesNoList(this, message, filesExisting) == KMessageBox::Yes);
     }
     resumeBusy();
-    return bRedoExtract;
-*/
+    return redoExtraction;
 }
 
 QStringList
@@ -1994,7 +1987,7 @@ void
 ArkWidget::viewFile() // slot
 // show contents when double click
 {
-	emit action_view();
+   emit action_view();
 }
 
 
@@ -2228,22 +2221,22 @@ ArkWidget::arkWarning(const QString& msg)
 void
 ArkWidget::createFileListView()
 {
-	kdDebug(1601) << "ArkWidget::createFileListView" << endl;
-	//delete archiveContent;
-	if ( !archiveContent )
-	{
-		archiveContent = new FileListView(this, this);
-		archiveContent->setMultiSelection(true);
-		//archiveContent->show();
-		connect( archiveContent, SIGNAL( selectionChanged()), this, SLOT( slotSelectionChanged() ) );
-		connect( archiveContent, SIGNAL( rightButtonPressed(QListViewItem *, const QPoint &, int)),
-				this, SLOT(doPopup(QListViewItem *, const QPoint &, int)));
-		connect( archiveContent, SIGNAL( startDragRequest( const QStringList & ) ),
-				this, SLOT( startDrag( const QStringList & ) ) );
-		connect( archiveContent, SIGNAL( executed(QListViewItem *, const QPoint &, int ) ),
-				this, SLOT( viewFile() ) );
-		connect( archiveContent, SIGNAL( returnPressed(QListViewItem * ) ),
-				this, SLOT( viewFile() ) );
+   kdDebug(1601) << "ArkWidget::createFileListView" << endl;
+   //delete archiveContent;
+   if ( !archiveContent )
+   {
+      archiveContent = new FileListView(this, this);
+      archiveContent->setMultiSelection(true);
+      //archiveContent->show();
+      connect( archiveContent, SIGNAL( selectionChanged()), this, SLOT( slotSelectionChanged() ) );
+      connect( archiveContent, SIGNAL( rightButtonPressed(QListViewItem *, const QPoint &, int)),
+            this, SLOT(doPopup(QListViewItem *, const QPoint &, int)));
+      connect( archiveContent, SIGNAL( startDragRequest( const QStringList & ) ),
+            this, SLOT( startDrag( const QStringList & ) ) );
+      connect( archiveContent, SIGNAL( executed(QListViewItem *, const QPoint &, int ) ),
+            this, SLOT( viewFile() ) );
+      connect( archiveContent, SIGNAL( returnPressed(QListViewItem * ) ),
+            this, SLOT( viewFile() ) );
     }
     archiveContent->clear();
 }
@@ -2314,7 +2307,7 @@ ArkWidget::slotCreate(Arch * _newarch, bool _success, const QString & _filename,
         emit setWindowCaption( _filename );
         emit addRecentURL( u );
         createFileListView();
-	archiveContent->show();
+   archiveContent->show();
         m_bIsArchiveOpen = true;
         arch = _newarch;
         m_bIsSimpleCompressedFile =
@@ -2439,16 +2432,16 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
 
 void ArkWidget::slotShowSearchBarToggled( bool b )
 {
-	if ( b )
-	{
-		m_searchToolBar->show();
-		ArkSettings::setShowSearchBar( true );
-	}
-	else
-	{
-		m_searchToolBar->hide();
-		ArkSettings::setShowSearchBar( false );
-	}
+   if ( b )
+   {
+      m_searchToolBar->show();
+      ArkSettings::setShowSearchBar( true );
+   }
+   else
+   {
+      m_searchToolBar->hide();
+      ArkSettings::setShowSearchBar( false );
+   }
 }
 
 /**
@@ -2470,9 +2463,9 @@ void ArkWidget::showSettings(){
   offers = KTrader::self()->query( "KonqPopupMenu/Plugin", "Library == 'libarkplugin'" );
 
   if ( offers.isEmpty() )
-	  genPage->kcfg_KonquerorIntegration->setEnabled( false );
+     genPage->kcfg_KonquerorIntegration->setEnabled( false );
   else
-	  genPage->konqIntegrationLabel->setText( QString::null );
+     genPage->konqIntegrationLabel->setText( QString::null );
 
   dialog->show();
 }
