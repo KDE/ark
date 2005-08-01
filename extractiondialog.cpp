@@ -94,7 +94,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 
 	QHBox *destDirBox = new QHBox( vbox );
 
-	new QLabel( i18n( "Destination folder: " ), destDirBox );
+	new QLabel( i18n( "Destination folder:" ), destDirBox );
 
 	KHistoryCombo *combobox = new KHistoryCombo( true, destDirBox );
 	combobox->setHistoryItems( ArkSettings::extractionHistory() );
