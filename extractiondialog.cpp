@@ -94,7 +94,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 
 	Q3HBox *destDirBox = new Q3HBox( vbox );
 
-	new QLabel( i18n( "Destination folder: " ), destDirBox );
+	new QLabel( i18n( "Destination folder:" ), destDirBox );
 
 	KHistoryCombo *combobox = new KHistoryCombo( true, destDirBox );
 	combobox->setHistoryItems( Settings::extractionHistory() );
