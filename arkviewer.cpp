@@ -18,17 +18,23 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
- 
+
 #include "arkviewer.h"
 
 #include <klocale.h>
 #include <kparts/componentfactory.h>
 #include <kmimetype.h>
 #include <kdebug.h>
+#include <kurl.h>
+#include <kglobal.h>
+#include <kiconloader.h>
 
 #include <qvbox.h>
-#include <qstring.h>
-#include <kurl.h>
+#include <qlayout.h>
+#include <qlabel.h>
+#include <qframe.h>
+#include <qurl.h>
+
 
 ArkViewer::ArkViewer( QWidget * parent, const char * name )
 	: KDialogBase( parent, name, false, QString::null, Close ), m_part( 0 )
@@ -58,7 +64,7 @@ bool ArkViewer::view( const QString& filename )
 
 	KURL u( filename );
 
-	QString mimetype = KMimeType::findByURL( u, 0, true )->name();
+	KMimeType::Ptr mimetype = KMimeType::findByURL( u, 0, true );
 
 	setCaption( u.fileName() );
 
@@ -69,7 +75,21 @@ bool ArkViewer::view( const QString& filename )
 
 	kdDebug( 1601 ) << "ArkViewer::view(): mimetype = " << mimetype << endl;
 
-	m_part = KParts::ComponentFactory::createPartInstanceFromQuery<KParts::ReadOnlyPart>( mimetype, QString::null, m_widget, 0, this );
+	QFrame *header = new QFrame( m_widget );
+	QHBoxLayout *headerLayout = new QHBoxLayout( header );
+	headerLayout->setAutoAdd( true );
+
+	QLabel *iconLabel = new QLabel( header );
+	iconLabel->setPixmap( mimetype->pixmap( KIcon::Desktop ) );
+	iconLabel->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );
+
+	QVBox *headerRight = new QVBox( header );
+	new QLabel( QString( "<qt><b>%1</b></qt>" )
+	                     .arg( QUrl( filename ).fileName() ), headerRight
+	          );
+	new QLabel( mimetype->comment(), headerRight );
+
+	m_part = KParts::ComponentFactory::createPartInstanceFromQuery<KParts::ReadOnlyPart>( mimetype->name(), QString::null, m_widget, 0, this );
 
 	if ( m_part )
 	{
