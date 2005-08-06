@@ -92,13 +92,6 @@ TarArch::TarArch( ArkWidget *_gui,
 
     kdDebug(1601) << "TarArch::TarArch:  mimetype is " << m_fileMimeType << endl;
 
-    if ( m_fileMimeType == "application/x-tbz2" )
-    {
-        // ark treats .tar.bz2 as x-tbz, instead of duplicating the mimetype
-        // let's just alias it to the one we already handle.
-        m_fileMimeType = "application/x-tbz";
-    }
-
     if ( m_fileMimeType == "application/x-tar" )
     {
         compressed = false;
