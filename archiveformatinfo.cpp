@@ -51,6 +51,7 @@ void ArchiveFormatInfo::buildFormatInfos()
   addFormatInfo( TAR_FORMAT, "application/x-tzo", ".tar.lzo" );
   addFormatInfo( TAR_FORMAT, "application/x-tarz", ".tar.z" );
   addFormatInfo( TAR_FORMAT, "application/x-tbz", ".tar.bz2" );
+  addFormatInfo( TAR_FORMAT, "application/x-tbz2", ".tar.bz2" );
   // x-tar as the last one to get its comment for all the others, too
   addFormatInfo( TAR_FORMAT, "application/x-tar", ".tar" );
 
