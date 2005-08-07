@@ -126,6 +126,8 @@ TarArch::~TarArch()
 {
     if ( m_tmpDir )
         delete m_tmpDir;
+    if ( tarptr )
+        delete tarptr;
 }
 
 int TarArch::getEditFlag()
@@ -382,6 +384,7 @@ void TarArch::slotListingDone(KProcess *_kp)
   }
 
   delete _kp;
+  _kp = m_currentProcess = NULL;
 }
 
 void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
@@ -865,7 +868,7 @@ void TarArch::createTmpFinished( KProcess *_kp )
   createTmpInProgress = false;
   fclose(fd);
   delete _kp;
-  _kp = NULL;
+  _kp = m_currentProcess = NULL;
 
 
   kdDebug(1601) << "-TarArch::createTmpFinished" << endl;
@@ -878,7 +881,7 @@ void TarArch::updateFinished( KProcess *_kp )
   fclose(fd);
   updateInProgress = false;
   delete _kp;
-  _kp = NULL;
+  _kp = m_currentProcess = NULL;
 
   kdDebug(1601) << "-TarArch::updateFinished" << endl;
   emit updateDone();
