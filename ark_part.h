@@ -117,7 +117,6 @@ private:
     KAction *viewAction;
     KAction *helpAction;
     KAction *openWithAction;
-    KAction *selectAction;
     KAction *deselectAllAction;
     KAction *invertSelectionAction;
     KAction *editAction;

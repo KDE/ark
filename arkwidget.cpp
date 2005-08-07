@@ -71,7 +71,6 @@
 
 // ark includes
 #include "arkapp.h"
-#include "selectDlg.h"
 #include "archiveformatdlg.h"
 #include "extractiondialog.h"
 #include "arkwidget.h"
@@ -992,93 +991,6 @@ ArkWidget::file_close()
     m_url = KURL();
 }
 
-
-// Edit menu /////////////////////////////////////////////////////////
-
-void
-ArkWidget::edit_select()
-{
-    SelectDlg *sd = new SelectDlg( this );
-    if ( sd->exec() )
-    {
-        QString exp = sd->getRegExp();
-
-        QRegExp reg_exp( exp, true, true );
-        if (!reg_exp.isValid())
-            kdError(1601) <<
-            "ArkWidget::edit_select: regular expression is not valid." << endl;
-        else
-        {
-            // first deselect everything
-            archiveContent->clearSelection();
-            FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
-
-
-            // don't call the slot for each selection!
-            disconnect( archiveContent, SIGNAL( selectionChanged()),
-                        this, SLOT( slotSelectionChanged() ) );
-
-            while (flvi)
-            {
-                if ( reg_exp.search(flvi->fileName())==0 )
-                {
-                    archiveContent->setSelected(flvi, true);
-                }
-                flvi = (FileLVI*)flvi->itemBelow();
-            }
-            // restore the behavior
-            connect( archiveContent, SIGNAL( selectionChanged()),
-                     this, SLOT( slotSelectionChanged() ) );
-            updateStatusSelection();
-        }
-    }
-}
-
-void
-ArkWidget::edit_selectAll()
-{
-    FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
-
-    // don't call the slot for each selection!
-    disconnect( archiveContent, SIGNAL( selectionChanged()),
-                this, SLOT( slotSelectionChanged() ) );
-    while (flvi)
-    {
-        archiveContent->setSelected(flvi, true);
-        flvi = (FileLVI*)flvi->itemBelow();
-    }
-
-    // restore the behavior
-    connect( archiveContent, SIGNAL( selectionChanged()),
-             this, SLOT( slotSelectionChanged() ) );
-    updateStatusSelection();
-}
-
-void
-ArkWidget::edit_deselectAll()
-{
-    archiveContent->clearSelection();
-    updateStatusSelection();
-}
-
-void
-ArkWidget::edit_invertSel()
-{
-    FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
-    // don't call the slot for each selection!
-    disconnect( archiveContent, SIGNAL( selectionChanged()),
-                this, SLOT( slotSelectionChanged() ) );
-
-    while (flvi)
-    {
-        archiveContent->setSelected(flvi, !flvi->isSelected());
-        flvi = (FileLVI*)flvi->itemBelow();
-    }
-    // restore the behavior
-    connect( archiveContent, SIGNAL( selectionChanged()),
-             this, SLOT( slotSelectionChanged() ) );
-    updateStatusSelection();
-}
 
 KURL
 ArkWidget::askToCreateRealArchive()

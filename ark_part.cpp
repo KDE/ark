@@ -126,17 +126,11 @@ ArkPart::setupActions()
     editAction = new KAction(i18n("Edit &With..."), 0, awidget,
                              SLOT(action_edit()), actionCollection(), "edit");
 
-    selectAction =  new KAction(i18n("&Select..."), 0, awidget,
-                                SLOT(edit_select()),	actionCollection(), "select");
+    selectAllAction = KStdAction::selectAll(awidget->fileList(), SLOT(selectAll()), actionCollection(), "select_all");
 
-    selectAllAction = KStdAction::selectAll(awidget,
-                                            SLOT(edit_selectAll()), actionCollection(), "select_all");
+    deselectAllAction =  new KAction(i18n("&Unselect All"), 0, awidget->fileList(), SLOT(unselectAll()), actionCollection(), "deselect_all");
 
-    deselectAllAction =  new KAction(i18n("&Deselect All"), 0, awidget,
-                                     SLOT(edit_deselectAll()), actionCollection(), "deselect_all");
-
-    invertSelectionAction = new KAction(i18n("&Invert Selection"), 0, awidget,
-                                        SLOT(edit_invertSel()), actionCollection(), "invert_selection");
+    invertSelectionAction = new KAction(i18n("&Invert Selection"), 0, awidget->fileList(), SLOT(invertSelection()), actionCollection(), "invert_selection");
 
     saveAsAction = KStdAction::saveAs(this, SLOT(file_save_as()), actionCollection());
 
@@ -171,7 +165,6 @@ void ArkPart::fixEnables()
         bReadOnly = awidget->archive()->isReadOnly();
 
     saveAsAction->setEnabled(bHaveFiles);
-    selectAction->setEnabled(bHaveFiles);
     selectAllAction->setEnabled(bHaveFiles);
     deselectAllAction->setEnabled(bHaveFiles);
     invertSelectionAction->setEnabled(bHaveFiles);
@@ -194,7 +187,6 @@ void ArkPart::fixEnables()
 void ArkPart::initialEnables()
 {
     saveAsAction->setEnabled( false );
-    selectAction->setEnabled(false);
     selectAllAction->setEnabled(false);
     deselectAllAction->setEnabled(false);
     invertSelectionAction->setEnabled(false);
@@ -212,7 +204,6 @@ void ArkPart::initialEnables()
 void ArkPart::disableActions()
 {
     saveAsAction->setEnabled(false);
-    selectAction->setEnabled(false);
     selectAllAction->setEnabled(false);
     deselectAllAction->setEnabled(false);
     invertSelectionAction->setEnabled(false);

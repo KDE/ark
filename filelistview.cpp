@@ -175,7 +175,7 @@ FileListView::FileListView(ArkWidget *baseArk, QWidget *parent,
   setSelectionModeExt( FileManager );
   setDragEnabled( true );
   setItemsMovable( false );
-  
+
   m_bPressed = false;
 }
 
@@ -222,7 +222,7 @@ columnName FileListView::nameOfColumn( int index )
 QStringList FileListView::selectedFilenames() const
 {
 	QStringList files;
-	
+
 	FileLVI * flvi = (FileLVI*)firstChild();
 
 	while (flvi)
@@ -253,7 +253,7 @@ bool FileListView::isSelectionEmpty()
 	return true;
 }
 
-void 
+void
 FileListView::contentsMousePressEvent(QMouseEvent *e)
 {
 	if( e->button()==QMouseEvent::LeftButton )
@@ -261,18 +261,18 @@ FileListView::contentsMousePressEvent(QMouseEvent *e)
 		m_bPressed = true;
 		presspos = e->pos();
 	}
-	
+
 	KListView::contentsMousePressEvent(e);
 }
 
-void 
+void
 FileListView::contentsMouseReleaseEvent(QMouseEvent *e)
 {
 	m_bPressed = false;
 	KListView::contentsMouseReleaseEvent(e);
 }
 
-void 
+void
 FileListView::contentsMouseMoveEvent(QMouseEvent *e)
 {
 	if(!m_bPressed)
@@ -296,7 +296,7 @@ FileLVI*
 FileListView::item(const QString& filename) const
 {
 	FileLVI * flvi = (FileLVI*) firstChild();
-	
+
 	while (flvi)
 	{
 		QString curFilename = flvi->fileName();
@@ -304,7 +304,7 @@ FileListView::item(const QString& filename) const
 			return flvi;
 		flvi = (FileLVI*) flvi->nextSibling();
 	}
-	
+
 	return 0;
 }
 
@@ -313,15 +313,25 @@ void FileListView::addItem( const QStringList & entries )
 	FileLVI *flvi = new FileLVI( this );
 
 	int i = 0;
-	
+
 	for (QStringList::ConstIterator it = entries.begin(); it != entries.end(); ++it)
 	{
 		flvi->setText(i, *it);
 		++i;
 	}
-	
+
 	KMimeType::Ptr mimeType = KMimeType::findByPath( entries.first(), 0, true );
 	flvi->setPixmap( 0, mimeType->pixmap( KIcon::Small ) );
+}
+
+void FileListView::selectAll()
+{
+	QListView::selectAll( true );
+}
+
+void FileListView::unselectAll()
+{
+	QListView::selectAll( false );
 }
 
 #include "filelistview.moc"

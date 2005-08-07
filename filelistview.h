@@ -51,63 +51,66 @@ enum columnName { sizeCol = 1 , packedStrCol, ratioStrCol, timeStampStrCol, othe
 
 class FileLVI : public KListViewItem
 {
-public:
-  FileLVI(KListView* lv);
+    public:
+        FileLVI(KListView* lv);
 
-  QString fileName() const { return m_entryName; }
-  long fileSize() const;
-  long packedFileSize() const;
-  double ratio() const;
-  QDateTime timeStamp() const;
+        QString fileName() const { return m_entryName; }
+        long fileSize() const;
+        long packedFileSize() const;
+        double ratio() const;
+        QDateTime timeStamp() const;
 
-  int compare ( QListViewItem * i, int col, bool ascending ) const;
-  virtual QString key(int column, bool) const;
-  virtual void setText(int column, const QString &text);
+        int compare ( QListViewItem * i, int col, bool ascending ) const;
+        virtual QString key(int column, bool) const;
+        virtual void setText(int column, const QString &text);
 
-private:
-  long m_fileSize;
-  long m_packedFileSize;
-  double m_ratio;
-  QDateTime m_timeStamp;
-  QString   m_entryName;
+    private:
+        long m_fileSize;
+        long m_packedFileSize;
+        double m_ratio;
+        QDateTime m_timeStamp;
+        QString   m_entryName;
 };
 
 
 class FileListView : public KListView
 {
-  Q_OBJECT
-public:
-  FileListView(ArkWidget *baseArk, QWidget* parent = 0,
-	       const char* name = 0);
-  FileLVI *currentItem() {return ((FileLVI *) KListView::currentItem());}
-	
-	/**
-     * Returns the file item, or 0 if not found.
-     * @param filename The filename in question to reference in the archive
-     * @return The requested file's FileLVI
-     */
-  FileLVI *item(const QString& filename) const;
-  
-  QStringList selectedFilenames() const;
-  uint count();
-  bool isSelectionEmpty();
-  virtual int addColumn( const QString & label, int width = -1 );
-  virtual void removeColumn( int index );
-  columnName nameOfColumn( int index );
+    Q_OBJECT
+    public:
+        FileListView(ArkWidget *baseArk, QWidget* parent = 0, const char* name = 0);
+        FileLVI *currentItem() {return ((FileLVI *) KListView::currentItem());}
 
-  /**
-   * Adds a file and stats to the file listing
-   * @param entries A stringlist of the entries for each column of the list.
-   */
-  void addItem( const QStringList & entries );
+        QStringList selectedFilenames() const;
+        uint count();
+        bool isSelectionEmpty();
+        virtual int addColumn( const QString & label, int width = -1 );
+        virtual void removeColumn( int index );
+        columnName nameOfColumn( int index );
 
-signals:
-  void startDragRequest( const QStringList & fileList );
+        /**
+         * Returns the file item, or 0 if not found.
+         * @param filename The filename in question to reference in the archive
+         * @return The requested file's FileLVI
+         */
+        FileLVI* item(const QString& filename) const;
 
-protected:
-  void contentsMouseReleaseEvent(QMouseEvent *e);
-  void contentsMousePressEvent(QMouseEvent *e);
-  void contentsMouseMoveEvent(QMouseEvent *e);
+        /**
+         * Adds a file and stats to the file listing
+         * @param entries A stringlist of the entries for each column of the list.
+         */
+        void addItem( const QStringList & entries );
+
+    public slots:
+        void selectAll();
+        void unselectAll();
+
+    signals:
+        void startDragRequest( const QStringList & fileList );
+
+    protected:
+        void contentsMouseReleaseEvent(QMouseEvent *e);
+        void contentsMousePressEvent(QMouseEvent *e);
+        void contentsMouseMoveEvent(QMouseEvent *e);
 
 private:
   QMap<int, columnName> colMap;

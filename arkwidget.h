@@ -126,11 +126,6 @@ public slots:
     void showSettings();
 
 protected slots:
-    void edit_select();
-    void edit_selectAll();
-    void edit_deselectAll();
-    void edit_invertSel();
-
     void action_add();
     void action_add_dir();
     void action_view();
