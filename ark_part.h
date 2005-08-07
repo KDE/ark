@@ -125,7 +125,6 @@ private:
     // the following have different enable rules from the above KActions
     KAction *popupViewAction;
     KAction *popupOpenWithAction;
-    KAction *shellOutputAction;
     KToggleAction *showSearchBar;
 
 };

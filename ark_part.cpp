@@ -103,9 +103,6 @@ ArkPart::~ArkPart()
 void
 ArkPart::setupActions()
 {
-    shellOutputAction  = new KAction(i18n("&View Shell Output"), 0, awidget,
-                                     SLOT(edit_view_last_shell_output()), actionCollection(), "shell_output");
-
     addFileAction = new KAction(i18n("Add &File..."), "ark_addfile", 0, awidget,
                                 SLOT(action_add()), actionCollection(), "addfile");
 
@@ -142,7 +139,7 @@ ArkPart::setupActions()
                                         SLOT(edit_invertSel()), actionCollection(), "invert_selection");
 
     saveAsAction = KStdAction::saveAs(this, SLOT(file_save_as()), actionCollection());
-    
+
     //KStdAction::preferences(awidget, SLOT(showSettings()), actionCollection());
 
     ( void ) new KAction( i18n( "Configure &Ark..." ), "configure" , 0, awidget,
@@ -178,10 +175,6 @@ void ArkPart::fixEnables()
     selectAllAction->setEnabled(bHaveFiles);
     deselectAllAction->setEnabled(bHaveFiles);
     invertSelectionAction->setEnabled(bHaveFiles);
-    if ( awidget->archive() )
-        shellOutputAction->setEnabled(true);
-    else
-        shellOutputAction->setEnabled(false);
 
     deleteAction->setEnabled(bHaveFiles && awidget->numSelectedFiles() > 0
                              && awidget->archive() && !bReadOnly);
@@ -214,7 +207,6 @@ void ArkPart::initialEnables()
     addDirAction->setEnabled(false);
     openWithAction->setEnabled(false);
     editAction->setEnabled(false);
-    shellOutputAction->setEnabled(false);
 }
 
 void ArkPart::disableActions()
@@ -232,8 +224,6 @@ void ArkPart::disableActions()
     addDirAction->setEnabled(false);
     openWithAction->setEnabled(false);
     editAction->setEnabled(false);
-    shellOutputAction->setEnabled(false);
-
 }
 
 bool ArkPart::openURL( const KURL & url )

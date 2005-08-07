@@ -231,7 +231,8 @@ MainWindow::arkAlreadyOpen( const KURL & url )
 void
 MainWindow::openURL( const KURL & url, bool tempFile )
 {
-    if( !arkAlreadyOpen( url ) ) {
+    if( !arkAlreadyOpen( url ) )
+    {
         if ( tempFile && url.isLocalFile() )
             m_widget->deleteAfterUse( url.path() );
         m_part->openURL( url );

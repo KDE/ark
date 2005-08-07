@@ -80,7 +80,6 @@
 #include "archiveformatinfo.h"
 #include "compressedfile.h"
 #include "searchbar.h"
-#include "shellOutputDlg.h"
 #include "arkviewer.h"
 
 static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
@@ -192,13 +191,6 @@ void ArkWidget::clearHeaders()
    {
       archiveContent->removeColumn( 0 );
    }
-}
-
-void ArkWidget::viewShellOutput()
-{
-   ShellOutputDlg* sod = new ShellOutputDlg( arch->getLastShellOutput(), this );
-   sod->exec();
-   delete sod;
 }
 
 void ArkWidget::closeArch()
@@ -1086,12 +1078,6 @@ ArkWidget::edit_invertSel()
     connect( archiveContent, SIGNAL( selectionChanged()),
              this, SLOT( slotSelectionChanged() ) );
     updateStatusSelection();
-}
-
-void
-ArkWidget::edit_view_last_shell_output()
-{
-    viewShellOutput();
 }
 
 KURL

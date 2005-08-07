@@ -47,7 +47,6 @@ class QDropEvent;
 
 class KPopupMenu;
 class KProcess;
-class KConfig;
 class KURL;
 class KRun;
 class KTempFile;
@@ -55,7 +54,6 @@ class KTempDir;
 class KToolBar;
 
 class FileListView;
-class FileLVI;
 class SearchBar;
 
 
@@ -99,11 +97,6 @@ public:
     void clearHeaders();
 
     /**
-     * Brings up a dialog showing the results returned by the last cmdline tool.
-     */
-    void viewShellOutput();
-
-    /**
      * Miscellaneous tasks involved in closing an archive.
      */
     void closeArch();
@@ -127,7 +120,6 @@ public:
 
 public slots:
     void file_open( const KURL& url);
-    void edit_view_last_shell_output();
     virtual void file_close();
     virtual void file_new();
     void slotShowSearchBarToggled( bool b );

@@ -12,8 +12,6 @@
     <Action name="select_all"/>
     <Action name="deselect_all"/>
     <Action name="invert_selection"/>
-    <Separator lineSeparator="true"/>
-    <Action name="shell_output"/>
   </Menu>
   <Menu name="action"><text>&amp;Action</text>
     <Action name="addfile"/>
