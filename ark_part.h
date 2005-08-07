@@ -2,6 +2,7 @@
   Copyright (C)
 
   2001: Macadamian Technologies Inc (author: Jian Huang, jian@macadamian.com)
+  2005: Henrique Pinto <henrique.pinto@kdemail.net>
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -34,6 +35,11 @@
 class KAboutData;
 class ArkWidget;
 
+namespace KIO
+{
+	class Job;
+}
+
 
 class ArkBrowserExtension: public KParts::BrowserExtension
 {
@@ -51,10 +57,13 @@ public:
     ArkStatusBarExtension( KParts::ReadWritePart * parent );
     ~ArkStatusBarExtension();
 
+    void setProgress( unsigned long progress );
+    QPushButton* cancelButton() const { return m_cancelButton; }
+
 public slots:
     void slotSetStatusBarSelectedFiles( const QString & text );
     void slotSetStatusBarText( const QString & text );
-    void slotSetBusy( const QString & text );
+    void slotSetBusy( const QString & text, bool showCancelButton = false, bool detailedProgress = false );
     void slotSetReady();
     void slotProgress();
 
@@ -66,6 +75,7 @@ private:
     QLabel *m_pStatusLabelSelect; // How many files are selected
     QLabel *m_pStatusLabelTotal;  // How many files in archive
     QLabel *m_pBusyText;
+    QPushButton *m_cancelButton; // Cancel an operation
     KProgress *m_pProgressBar;
     QTimer *m_pTimer;
 };
@@ -89,6 +99,11 @@ public slots:
     bool saveFile();
     bool openURL( const KURL & url );
     bool closeURL();
+    void transferStarted( KIO::Job * );
+    void transferCompleted();
+    void transferCanceled( const QString& errMsg );
+    void progressInformation( KIO::Job *, unsigned long );
+    void cancelTransfer();
 
 signals:
     void fixActionState( const bool & bHaveFiles );
@@ -125,6 +140,7 @@ private:
     KAction *popupOpenWithAction;
     KToggleAction *showSearchBar;
 
+    KIO::Job *m_job;
 };
 
 #endif

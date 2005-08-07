@@ -3,6 +3,7 @@
 
   2001: Macadamian Technologies Inc (author: Jian Huang, jian@macadamian.com)
   2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
+  2005: Henrique Pinto <henrique.pinto@kdemail.net>
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -31,9 +32,11 @@
 #include <kaboutdata.h>
 #include <kxmlguifactory.h>
 #include <kstatusbar.h>
+#include <kiconloader.h>
 
 #include <qfile.h>
 #include <qtimer.h>
+#include <qpushbutton.h>
 
 KAboutData *ArkPart::createAboutData()
 {
@@ -95,6 +98,12 @@ ArkPart::ArkPart( QWidget *parentWidget, const char * /*widgetName*/, QObject *p
                  SLOT( slotSetBusy( const QString & ) ) );
     connect( awidget, SIGNAL( setReady() ), m_bar,
                  SLOT( slotSetReady() ) );
+    connect( this, SIGNAL( started(KIO::Job*) ), SLOT( transferStarted(KIO::Job*) ) );
+    connect( this, SIGNAL( completed() ), SLOT( transferCompleted() ) );
+    connect( this, SIGNAL( canceled(const QString&) ),
+             SLOT( transferCanceled(const QString&) ) );
+
+    setProgressInfoEnabled( false );
 }
 
 ArkPart::~ArkPart()
@@ -296,6 +305,62 @@ void ArkPart::slotFilePopup( const QPoint &pPoint )
         static_cast<KPopupMenu *>(factory()->container("file_popup", this))->popup(pPoint);
 }
 
+void ArkPart::transferStarted( KIO::Job *job )
+{
+    m_job = job;
+
+    m_bar->slotSetBusy( i18n( "Downloading %1..." ).arg( m_url.prettyURL() ),
+                        (job != 0), (job != 0) );
+
+    if ( job )
+    {
+        disableActions();
+        connect( job, SIGNAL( percent(KIO::Job*, unsigned long) ),
+                 SLOT( progressInformation(KIO::Job*, unsigned long) ) );
+        connect( m_bar->cancelButton(), SIGNAL( clicked() ),
+                 SLOT( cancelTransfer() ) );
+    }
+}
+
+void ArkPart::transferCompleted()
+{
+    if ( m_job )
+    {
+        disconnect( m_job, SIGNAL( percent(KIO::Job*, unsigned long) ),
+                    this, SLOT( progressInformation(KIO::Job*, unsigned long) ) );
+        m_job = 0;
+    }
+
+    m_bar->slotSetReady();
+}
+
+void ArkPart::transferCanceled( const QString& errMsg )
+{
+    m_job = 0;
+    if ( !errMsg.isEmpty() )
+    {
+        KMessageBox::error( awidget, errMsg );
+    }
+    initialEnables();
+    m_bar->slotSetReady();
+}
+
+void ArkPart::progressInformation( KIO::Job *, unsigned long progress )
+{
+    m_bar->setProgress( progress );
+}
+
+void ArkPart::cancelTransfer()
+{
+    disconnect( m_bar->cancelButton(), SIGNAL( clicked() ),
+                this, SLOT( cancelTransfer() ) );
+    if ( m_job )
+    {
+        m_job->kill( false );
+        transferCanceled( QString() );
+    }
+}
+
 ArkBrowserExtension::ArkBrowserExtension( KParts::ReadOnlyPart * parent, const char * name )
                 : KParts::BrowserExtension( parent, name )
 {
@@ -308,12 +373,14 @@ void ArkBrowserExtension::slotOpenURLRequested( const KURL & url )
 
 ArkStatusBarExtension::ArkStatusBarExtension( KParts::ReadWritePart * parent )
                 : KParts::StatusBarExtension( parent ),
-                  m_bBusy( false ), m_pTimer( NULL )
+                  m_bBusy( false ),
+                  m_pStatusLabelSelect( 0 ),
+                  m_pStatusLabelTotal( 0 ),
+                  m_pBusyText( 0 ),
+                  m_cancelButton( 0 ),
+                  m_pProgressBar( 0 ),
+                  m_pTimer( 0 )
 {
-    m_pProgressBar = NULL;
-    m_pBusyText = NULL;
-    m_pStatusLabelTotal = NULL;
-    m_pStatusLabelSelect = NULL;
 }
 
 ArkStatusBarExtension::~ArkStatusBarExtension()
@@ -341,6 +408,8 @@ void ArkStatusBarExtension::setupStatusBar()
     m_pStatusLabelSelect->setAlignment( AlignLeft );
     m_pStatusLabelSelect->setText(i18n( "0 files selected" ) );
 
+    m_cancelButton = new QPushButton( SmallIcon( "cancel" ), QString(), statusBar() );
+
     addStatusBarItem( m_pStatusLabelSelect, 3000, false );
     addStatusBarItem( m_pStatusLabelTotal, 3000, false );
 }
@@ -364,7 +433,7 @@ void ArkStatusBarExtension::slotSetStatusBarSelectedFiles( const QString & text 
     m_pStatusLabelSelect->setText( text );
 }
 
-void ArkStatusBarExtension::slotSetBusy( const QString & text )
+void ArkStatusBarExtension::slotSetBusy( const QString & text, bool showCancelButton, bool detailedProgress )
 {
     if ( m_bBusy || !statusBar() )
         return;
@@ -381,11 +450,20 @@ void ArkStatusBarExtension::slotSetBusy( const QString & text )
     if ( !m_pProgressBar )
     {
         m_pProgressBar = new KProgress( statusBar() );
-
-        m_pProgressBar->setTotalSteps( 0 );
-        m_pProgressBar->setPercentageVisible( false );
         m_pProgressBar->setFixedHeight( m_pBusyText->fontMetrics().height() );
     }
+
+    if ( !detailedProgress )
+    {
+        m_pProgressBar->setTotalSteps( 0 );
+        m_pProgressBar->setPercentageVisible( false );
+    }
+    else
+    {
+        m_pProgressBar->setTotalSteps(100);
+        m_pProgressBar->setPercentageVisible( true );
+    }
+
     m_pBusyText->setText( text );
 
     removeStatusBarItem( m_pStatusLabelSelect );
@@ -393,8 +471,15 @@ void ArkStatusBarExtension::slotSetBusy( const QString & text )
 
     addStatusBarItem( m_pBusyText, 5, true );
     addStatusBarItem( m_pProgressBar, 1, true );
+    if ( showCancelButton )
+    {
+        addStatusBarItem( m_cancelButton, 0, true );
+    }
 
-    m_pTimer->start( 200, FALSE );
+    if ( !detailedProgress )
+    {
+        m_pTimer->start( 200, FALSE );
+    }
     m_bBusy = true;
 }
 
@@ -409,6 +494,7 @@ void ArkStatusBarExtension::slotSetReady()
 
     removeStatusBarItem( m_pBusyText );
     removeStatusBarItem( m_pProgressBar );
+    removeStatusBarItem( m_cancelButton );
 
     addStatusBarItem( m_pStatusLabelSelect, 3000, false );
     addStatusBarItem( m_pStatusLabelTotal, 3000, false );
@@ -423,6 +509,14 @@ void ArkStatusBarExtension::slotProgress()
 
     setupStatusBar();
     m_pProgressBar->setProgress( m_pProgressBar->progress() + 4 );
+}
+
+void ArkStatusBarExtension::setProgress( unsigned long progress )
+{
+    if ( m_pProgressBar && ( m_pProgressBar->totalSteps() != 0 ) )
+    {
+        m_pProgressBar->setProgress( progress );
+    }
 }
 
 #include "ark_part.moc"
