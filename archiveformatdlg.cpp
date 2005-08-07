@@ -31,7 +31,8 @@
 ArchiveFormatDlg::ArchiveFormatDlg( QWidget * parent, const QString & defaultType )
                         :KDialogBase( parent, "archiveformatdialog", true,
                           i18n( "Choose Archive Format" ),
-                          KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok)
+                          KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok),
+                          m_combo( 0 )
 {
     QString defaultDescription = ArchiveFormatInfo::self()->descriptionForMimeType( defaultType );
     QString text;
@@ -60,7 +61,10 @@ ArchiveFormatDlg::ArchiveFormatDlg( QWidget * parent, const QString & defaultTyp
 
 QString ArchiveFormatDlg::mimeType()
 {
-    return ArchiveFormatInfo::self()->mimeTypeForDescription( m_combo->currentText() );
+    if (m_combo && !m_combo->currentText().isEmpty())
+        return ArchiveFormatInfo::self()->mimeTypeForDescription( m_combo->currentText() );
+    else
+        return QString();
 }
 
 #include "archiveformatdlg.moc"
