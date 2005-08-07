@@ -40,8 +40,7 @@ class SevenZipArch : public Arch
     virtual void addDir( const QString & );
 
     virtual void remove( QStringList * );
-    virtual void unarchFile( QStringList *, const QString & destDir = "",
-                             bool viewFriendly = false );
+    virtual void unarchFileInternal( );
 
   private:
     void setHeaders();

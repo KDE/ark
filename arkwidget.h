@@ -112,7 +112,7 @@ public:
     virtual void setArchivePopupEnabled( bool b );
 
     virtual void extractTo( const KURL & targetDirectory, const KURL & archive, bool bGuessName );
-    virtual void addToArchive( const KURL::List & filesToAdd, const KURL & archive = KURL() );
+    virtual bool addToArchive( const KURL::List & filesToAdd, const KURL & archive = KURL() );
     void convertTo( const KURL & u );
 
     bool isModified() { return m_modified; }
@@ -246,7 +246,7 @@ protected:
     void newCaption(const QString& filename);
     void createFileListView();
 
-    void createArchive(const QString & name);
+    bool createArchive(const QString & name);
     void openArchive(const QString & name);
 
     void showCurrentFile();

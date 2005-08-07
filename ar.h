@@ -52,8 +52,7 @@ public:
   virtual void addDir(const QString &) {} // never gets called
 
   virtual void remove(QStringList *);
-  virtual void unarchFile(QStringList *, const QString & _destDir="",
-			  bool viewFriendly=false);
+  virtual void unarchFileInternal();
 
 private:
   void setHeaders();

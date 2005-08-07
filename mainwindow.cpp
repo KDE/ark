@@ -38,6 +38,7 @@
 #include <kcombobox.h>
 #include <kio/netaccess.h>
 #include <kaccel.h>
+#include <kmessagebox.h>
 
 // ark includes
 #include "arkapp.h"
@@ -435,7 +436,9 @@ MainWindow::addToArchive( const KURL::List & filesToAdd, const QString & /*cwd*/
 
     bool exists = KIO::NetAccess::exists( archiveFile, false, m_widget );
     kdDebug( 1601 ) << archiveFile << endl;
-    m_widget->addToArchive( filesToAdd, archiveFile );
+
+    if ( !m_widget->addToArchive( filesToAdd, archiveFile ) )
+        file_quit();
     if ( exists )
         m_part->openURL( archiveFile );
 }
@@ -450,7 +453,7 @@ MainWindow::startProgressDialog( const QString & text )
 
 //    progressDialog->setWFlags( Qt::WType_TopLevel );
 
-    progressDialog->setAllowCancel( false );
+    progressDialog->setAllowCancel( true );
     progressDialog->setPlainCaption( i18n( "Please Wait" ) );
 
     progressDialog->progressBar()->setTotalSteps( 0 );
@@ -460,6 +463,7 @@ MainWindow::startProgressDialog( const QString & text )
     progressDialog->setMinimumDuration( 500 );
     progressDialog->show();
     KDialog::centerOnScreen( progressDialog );
+    connect( progressDialog, SIGNAL( cancelClicked() ), this, SLOT( window_close() ) );
 
     timer = new QTimer( this );
     connect( timer, SIGNAL( timeout() ), this, SLOT( slotProgress() ) );

@@ -100,7 +100,7 @@ void ZipArch::open()
   m_header_removed = false;
   m_finished = false;
 
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
 
   *kp << m_unarchiver_program << "-v" << m_filename;
 
@@ -142,10 +142,13 @@ void ZipArch::addDir( const QString & _dirName )
 
 void ZipArch::addFile( const QStringList &urls )
 {
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
 
   *kp << m_archiver_program;
+
+  if ( !m_password.isEmpty() )
+    *kp << "-P" << m_password;
 
   if ( ArkSettings::rarRecurseSubdirs() )
     *kp << "-r";
@@ -160,6 +163,8 @@ void ZipArch::addFile( const QStringList &urls )
 
   if ( ArkSettings::replaceOnlyWithNewer() )
     *kp << "-u";
+  else
+    
 
   *kp << m_filename;
 
@@ -186,24 +191,25 @@ void ZipArch::addFile( const QStringList &urls )
   }
 }
 
-void ZipArch::unarchFile( QStringList *fileList, const QString & destDir,
-                         bool viewFriendly )
+void ZipArch::unarchFileInternal()
 {
   // if fileList is empty, all files are extracted.
   // if destDir is empty, abort with error.
-
-  if ( destDir.isEmpty() || destDir.isNull() )
+  if ( m_destDir.isEmpty() || m_destDir.isNull() )
   {
     kdError( 1601 ) << "There was no extract directory given." << endl;
     return;
   }
 
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
 
   *kp << m_unarchiver_program;
 
-  if ( ArkSettings::extractJunkPaths() && !viewFriendly )
+  if ( !m_password.isEmpty() )
+    *kp << "-P" << m_password;
+
+  if ( ArkSettings::extractJunkPaths() && !m_viewFriendly )
     *kp << "-j" ;
 
   if ( ArkSettings::rarToLower() )
@@ -211,22 +217,24 @@ void ZipArch::unarchFile( QStringList *fileList, const QString & destDir,
 
   if ( ArkSettings::extractOverwrite() )
     *kp << "-o";
+  else
+    *kp << "-n";
 
   *kp << m_filename;
 
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
-  if ( fileList )
+  if ( m_fileList )
   {
     QStringList::Iterator it;
     
-    for ( it = fileList->begin(); it != fileList->end(); ++it )
+    for ( it = m_fileList->begin(); it != m_fileList->end(); ++it )
     {
       *kp << (*it);
     }
   }
 
-  *kp << "-d" << destDir;
+  *kp << "-d" << m_destDir;
 
   connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
            SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
@@ -242,12 +250,17 @@ void ZipArch::unarchFile( QStringList *fileList, const QString & destDir,
   }
 }
 
+bool ZipArch::passwordRequired()
+{
+    return m_lastShellOutput.findRev("unable to get password\n")!=-1 || m_lastShellOutput.endsWith("password inflating\n") || m_lastShellOutput.findRev("password incorrect--reenter:")!=-1 || m_lastShellOutput.endsWith("incorrect password\n");
+}
+
 void ZipArch::remove( QStringList *list )
 {
   if ( !list )
     return;
 
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
 
   *kp << m_archiver_program << "-d" << m_filename;

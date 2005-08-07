@@ -47,8 +47,7 @@ class ZooArch : public Arch
     virtual void addDir( const QString & );
 
     virtual void remove( QStringList * );
-    virtual void unarchFile( QStringList *, const QString & _destDir = "",
-                             bool viewFriendly = false );
+    virtual void unarchFileInternal();
 
   protected slots:
     virtual bool processLine( const QCString &line );

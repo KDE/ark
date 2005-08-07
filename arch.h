@@ -104,11 +104,15 @@ class Arch : public QObject
     virtual void addFile( const QStringList & ) = 0;
     virtual void addDir( const QString & ) = 0;
 
-    // unarch the files in the list or all files if the list is empty.
-    // if _destDir is empty, abort with error.
-    // viewFriendly forces certain options like directory junking required by view/edit
-    virtual void unarchFile( QStringList *, const QString & _destDir,
-                             bool viewFriendly = false ) = 0;
+    // unarch the files in m_fileList or all files if m_fileList is empty.
+    // if m_destDir is empty, abort with error.
+    // m_viewFriendly forces certain options like directory junking required by view/edit
+    virtual void unarchFileInternal() = 0;
+    // returns true if a password is required
+    virtual bool passwordRequired() { return false; }
+
+    void unarchFile( QStringList *, const QString & _destDir,
+                             bool viewFriendly = false );
 
     QString fileName() const { return m_filename; };
 
@@ -179,6 +183,12 @@ class Arch : public QObject
     QPtrList<ArchColumns> m_archCols;
     int m_numCols, m_dateCol, m_fixYear, m_fixMonth, m_fixDay, m_fixTime;
     int m_repairYear, m_repairMonth, m_repairTime;
+
+    KProcess *m_currentProcess;
+    QStringList *m_fileList;
+    QString m_destDir;
+    bool m_viewFriendly;
+    QCString m_password;
 };
 
 // Column header strings

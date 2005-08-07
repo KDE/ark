@@ -550,6 +550,8 @@ ArkWidget::extractToSlotOpenDone( bool success )
             return;
         }
     }
+    else
+        emit request_file_quit();
 }
 
 void
@@ -573,7 +575,7 @@ ArkWidget::extractToSlotExtractDone( bool success )
         emit request_file_quit();
 }
 
-void
+bool
 ArkWidget::addToArchive( const KURL::List & filesToAdd, const KURL & archive)
 {
     m_addToArchive_filesToAdd = filesToAdd;
@@ -599,14 +601,16 @@ ArkWidget::addToArchive( const KURL::List & filesToAdd, const KURL & archive)
 
         // TODO: remote Archives should be handled by createArchive
         if ( archive.isLocalFile() )
-            createArchive( archive.path() );
+            if ( !createArchive( archive.path() ) )
+                return false;
         else
-            createArchive( tmpDir() + archive.fileName() );
+            if ( createArchive( tmpDir() + archive.fileName() ) )
+                return false;
+    return true;
 
-
-        return;
     }
     connect( this, SIGNAL( openDone( bool ) ), this, SLOT( addToArchiveSlotOpenDone( bool ) ) );
+    return true;
 }
 
 void
@@ -2171,18 +2175,19 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName )
 //////////////////////////////////////////////////////////////////////
 
 
-void
+bool
 ArkWidget::createArchive( const QString & _filename )
 {
     Arch * newArch = getNewArchive( _filename );
     if ( !newArch )
-        return;
+        return false;
 
     busy( i18n( "Creating archive..." ) );
     connect( newArch, SIGNAL(sigCreate(Arch *, bool, const QString &, int) ),
              this, SLOT(slotCreate(Arch *, bool, const QString &, int) ) );
 
     newArch->create();
+    return true;
 }
 
 void

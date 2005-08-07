@@ -145,7 +145,7 @@ void TarArch::updateArch()
       else
           fd = NULL;
 
-      KProcess *kp = new KProcess;
+      KProcess *kp = m_currentProcess = new KProcess;
       kp->clearArguments();
       KProcess::Communication flag = KProcess::AllOutput;
       if ( getCompressor() == "lzop" )
@@ -243,7 +243,7 @@ TarArch::open()
     //
     // Now it's essential - used later to decide whether pathnames in the
     // tar archive are plain or start with "./"
-    KProcess *kp = new KProcess;
+    KProcess *kp = m_currentProcess = new KProcess;
 
     *kp << m_archiver_program;
 
@@ -497,7 +497,7 @@ void TarArch::createTmp()
             else
                 fd = NULL;
 
-            KProcess *kp = new KProcess;
+            KProcess *kp = m_currentProcess = new KProcess;
             kp->clearArguments();
             kdDebug(1601) << "Uncompressor is " << strUncompressor << endl;
             *kp << strUncompressor;
@@ -639,7 +639,7 @@ void TarArch::addFileCreateTempDone()
   disconnect( this, SIGNAL( createTempDone() ), this, SLOT( addFileCreateTempDone() ) );
   QStringList * urls = &m_filesToAdd;
 
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   *kp << m_archiver_program;
 
   if( ArkSettings::replaceOnlyWithNewer())
@@ -713,22 +713,21 @@ void TarArch::addFinishedUpdateDone()
   kdDebug(1601) << "-TarArch::addFinishedUpdateDone" << endl;
 }
 
-void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
-                         bool /* viewFriendly */)
+void TarArch::unarchFileInternal()
 {
   kdDebug(1601) << "+TarArch::unarchFile" << endl;
   QString dest;
 
-  if (_destDir.isEmpty() || _destDir.isNull())
+  if (m_destDir.isEmpty() || m_destDir.isNull())
     {
       kdError(1601) << "There was no extract directory given." << endl;
       return;
     }
-  else dest = _destDir;
+  else dest = m_destDir;
 
   QString tmp;
 
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
 
   *kp << m_archiver_program;
@@ -747,10 +746,10 @@ void TarArch::unarchFile(QStringList * _fileList, const QString & _destDir,
 
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
-  if (_fileList)
+  if (m_fileList)
     {
-      for ( QStringList::Iterator it = _fileList->begin();
-            it != _fileList->end(); ++it )
+      for ( QStringList::Iterator it = m_fileList->begin();
+            it != m_fileList->end(); ++it )
         {
 	    *kp << QString(m_dotslash ? "./" : "")+(*it);
 //	    *kp << (*it);/*.latin1() ;*/
@@ -788,7 +787,7 @@ void TarArch::removeCreateTempDone()
   disconnect( this, SIGNAL( createTempDone() ), this, SLOT( removeCreateTempDone() ) );
 
   QString name, tmp;
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program << "--delete" << "-f" ;
   if (compressed)

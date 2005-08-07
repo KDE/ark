@@ -108,7 +108,7 @@ void ZooArch::open()
   m_finished = false;
 
 
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   *kp << m_archiver_program << "l" << m_filename;
   connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
            SLOT( slotReceivedTOC(KProcess*, char*, int) ) );
@@ -162,7 +162,7 @@ void ZooArch::addDir( const QString & _dirName )
 
 void ZooArch::addFile( const QStringList &urls )
 {
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program;
 
@@ -198,13 +198,12 @@ void ZooArch::addFile( const QStringList &urls )
   }
 }
 
-void ZooArch::unarchFile( QStringList *fileList, const QString &destDir,
-                          bool /*viewFriendly*/)
+void ZooArch::unarchFileInternal()
 {
   // if _fileList is empty, we extract all.
   // if _destDir is empty, abort with error.
   
-  if ( destDir.isEmpty() || destDir.isNull() )
+  if ( m_destDir.isEmpty() || m_destDir.isNull() )
   {
     kdError( 1601 ) << "There was no extract directory given." << endl;
     return;
@@ -213,11 +212,11 @@ void ZooArch::unarchFile( QStringList *fileList, const QString &destDir,
   // zoo has no option to specify the destination directory
   // so we have to change to it.
 
-  bool ret = QDir::setCurrent( destDir );
+  bool ret = QDir::setCurrent( m_destDir );
   // We already checked the validity of the dir before coming here
   Q_ASSERT(ret);
 
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
 
   *kp << m_archiver_program;
@@ -235,10 +234,10 @@ void ZooArch::unarchFile( QStringList *fileList, const QString &destDir,
 
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
-  if (fileList)
+  if (m_fileList)
   {
     QStringList::Iterator it;
-    for ( it = fileList->begin(); it != fileList->end(); ++it )
+    for ( it = m_fileList->begin(); it != m_fileList->end(); ++it )
     {
       *kp << (*it);
     }
@@ -263,7 +262,7 @@ void ZooArch::remove( QStringList *list )
   if (!list)
     return;
 
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
 
   *kp << m_archiver_program << "D" << m_filename;

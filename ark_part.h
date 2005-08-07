@@ -31,7 +31,6 @@
 
 #include <qlabel.h>
 
-
 class KAboutData;
 class ArkWidget;
 

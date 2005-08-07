@@ -95,7 +95,7 @@ void ArArch::open()
 
   m_buffer = "";
 
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   *kp << m_archiver_program << "vt" << m_filename;
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
@@ -115,7 +115,7 @@ void ArArch::open()
 
 void ArArch::create()
 {
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program << "c" << m_filename;
 
@@ -140,7 +140,7 @@ void ArArch::create()
 void ArArch::addFile( const QStringList &urls )
 {
   kdDebug(1601) << "+ArArch::addFile" << endl;
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program;
 
@@ -177,20 +177,20 @@ void ArArch::addFile( const QStringList &urls )
   kdDebug(1601) << "-ArArch::addFile" << endl;
 }
 
-void ArArch::unarchFile(QStringList *_fileList, const QString & _destDir, bool )
+void ArArch::unarchFileInternal()
 {
-  // if _fileList is empty, we extract all.
-  // if _destDir is empty, abort with error.
+  // if m_fileList is empty, we extract all.
+  // if m_destDir is empty, abort with error.
 
   kdDebug(1601) << "+ArArch::unarchFile" << endl;
   QString dest;
 
-  if (_destDir.isEmpty() || _destDir.isNull())
+  if (m_destDir.isEmpty() || m_destDir.isNull())
     {
       kdError(1601) << "There was no extract directory given." << endl;
       return;
     }
-  else dest = _destDir;
+  else dest = m_destDir;
 
   // ar has no option to specify the destination directory
   // so I have to change to it.
@@ -199,7 +199,7 @@ void ArArch::unarchFile(QStringList *_fileList, const QString & _destDir, bool )
  // I already checked the validity of the dir before coming here
   Q_ASSERT(ret);
 
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
 
   *kp << m_archiver_program;
@@ -208,10 +208,10 @@ void ArArch::unarchFile(QStringList *_fileList, const QString & _destDir, bool )
 
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
-  if (_fileList)
+  if (m_fileList)
     {
-      for ( QStringList::Iterator it = _fileList->begin();
-	    it != _fileList->end(); ++it )
+      for ( QStringList::Iterator it = m_fileList->begin();
+	    it != m_fileList->end(); ++it )
 	{
 	  *kp << (*it);
 	}
@@ -239,7 +239,7 @@ void ArArch::remove(QStringList *list)
   if (!list)
     return;
 
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
 
   *kp << m_archiver_program << "d" << m_filename;

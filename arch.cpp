@@ -39,6 +39,7 @@
 #include <kmessagebox.h>
 #include <kmimetype.h>
 #include <klocale.h>
+#include <kpassdlg.h>
 #include <kprocess.h>
 #include <kstandarddirs.h>
 
@@ -68,13 +69,15 @@ Arch::Arch( ArkWidget *gui, const QString &filename )
     m_header_removed( false ), m_finished( false ),
     m_numCols( 0 ), m_dateCol( -1 ), m_fixYear( -1 ), m_fixMonth( -1 ),
     m_fixDay( -1 ), m_fixTime( -1 ), m_repairYear( -1 ), m_repairMonth( -1 ),
-    m_repairTime( -1 )
+    m_repairTime( -1 ), m_currentProcess( 0 )
 {
   m_archCols.setAutoDelete( true ); // To check: it still leaky here???
 }
 
 Arch::~Arch()
 {
+    if ( m_currentProcess )
+        m_currentProcess->kill();
 }
 
 void Arch::verifyUtilityIsAvailable( const QString &utility1,
@@ -115,7 +118,7 @@ void Arch::slotOpenExited( KProcess* _kp )
     emit sigOpen( this, false, QString::null, 0 );
 
   delete _kp;
-  _kp = 0;
+  _kp = m_currentProcess = 0;
 }
 
 void Arch::slotDeleteExited( KProcess *_kp )
@@ -141,7 +144,7 @@ void Arch::slotDeleteExited( KProcess *_kp )
 
   emit sigDelete( success );
   delete _kp;
-  _kp = 0;
+  _kp = m_currentProcess = 0;
 }
 
 void Arch::slotExtractExited( KProcess *_kp )
@@ -150,24 +153,54 @@ void Arch::slotExtractExited( KProcess *_kp )
 
   if( !success )
   {
-    QApplication::restoreOverrideCursor();
-    
-    QString msg = i18n( "The extraction operation failed." );
-    
-    if ( !getLastShellOutput().isNull() )
+    if ( passwordRequired() )
     {
-      msg += i18n( "\nUse \"Details\" to view the last shell output." );
-      KMessageBox::detailedError( m_gui, msg, getLastShellOutput() );
+        QString msg;
+        if ( !m_password.isEmpty() )
+            msg = i18n("The password was incorrect. ");
+        if (KPasswordDialog::getPassword( m_password, msg+i18n("You must enter a password to extract the file:") ) == KPasswordDialog::Accepted )
+        {
+            delete _kp;
+            _kp = m_currentProcess = 0;
+            clearShellOutput();
+            unarchFileInternal(); // try to extract the file again with a password
+            return;
+        }
+        emit sigExtract( true );
+        delete _kp;
+        _kp = m_currentProcess = 0;
+        return;
     }
-    else
+    else if ( m_password.isEmpty() || _kp->exitStatus() > 1 )
     {
-      KMessageBox::error( m_gui, msg );
+        QApplication::restoreOverrideCursor();
+        
+        QString msg = i18n( "The extraction operation failed." );
+        
+        if ( !getLastShellOutput().isNull() )
+        {
+            msg += i18n( "\nUse \"Details\" to view the last shell output." );
+            KMessageBox::detailedError( m_gui, msg, getLastShellOutput() );
+        }
+        else
+        {
+            KMessageBox::error( m_gui, msg );
+        }
     }
   }
-
+  m_password = "";
   emit sigExtract( success );
   delete _kp;
-  _kp = 0;
+  _kp = m_currentProcess = 0;
+}
+
+void Arch::unarchFile( QStringList *fileList, const QString & destDir,
+                         bool viewFriendly )
+{
+    m_fileList = fileList;
+    m_destDir = destDir;
+    m_viewFriendly = viewFriendly;
+    unarchFileInternal();
 }
 
 void Arch::slotAddExited( KProcess *_kp )
@@ -193,7 +226,7 @@ void Arch::slotAddExited( KProcess *_kp )
 
   emit sigAdd( success );
   delete _kp;
-  _kp = 0;
+  _kp = m_currentProcess = 0;
 }
 
 void Arch::slotReceivedOutput( KProcess*, char* data, int length )
@@ -359,5 +392,4 @@ Arch *Arch::archFactory( ArchType aType,
       return 0;
   }
 }
-
 #include "arch.moc"

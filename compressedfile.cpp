@@ -176,7 +176,7 @@ void CompressedFile::open()
 
   kdDebug(1601) << "Temp file name is " << m_tmpfile << endl;
 
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
   *kp << m_unarchiver_program << "-f" ;
   if ( m_unarchiver_program == "lzop")
@@ -288,7 +288,7 @@ void CompressedFile::addFile( const QStringList &urls )
 
   kdDebug(1601) << "File is " << file << endl;
 
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
 
   // lzop hack, see comment in tar.cpp createTmp()
@@ -340,19 +340,18 @@ void CompressedFile::slotAddDone(KProcess *_kp)
   slotAddExited(_kp);
 }
 
-void CompressedFile::unarchFile(QStringList *, const QString & _destDir,
-				bool /*viewFriendly*/)
+void CompressedFile::unarchFileInternal()
 {
-  if (_destDir != m_tmpdir)
+  if (m_destDir != m_tmpdir)
     {
       QString dest;
-      if (_destDir.isEmpty() || _destDir.isNull())
+      if (m_destDir.isEmpty() || m_destDir.isNull())
       {
           kdError(1601) << "There was no extract directory given." << endl;
           return;
       }
       else
-          dest=_destDir;
+          dest=m_destDir;
 
       KProcess proc;
       proc << "cp" << m_tmpfile << dest;

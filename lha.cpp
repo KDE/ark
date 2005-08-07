@@ -143,7 +143,7 @@ void LhaArch::open()
   m_finished = false;
 
 
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   *kp << m_archiver_program << "v" << m_filename;
   connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
            SLOT( slotReceivedTOC(KProcess*, char*, int) ) );
@@ -201,7 +201,7 @@ void LhaArch::addDir( const QString & dirName )
 
 void LhaArch::addFile( const QStringList &urls )
 {
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program;
 
@@ -237,29 +237,28 @@ void LhaArch::addFile( const QStringList &urls )
   }
 }
 
-void LhaArch::unarchFile( QStringList *fileList, const QString &destDir,
-                          bool /*viewFriendly*/ )
+void LhaArch::unarchFileInternal()
 {
   // if _fileList is empty, we extract all.
   // if _destDir is empty, abort with error.
 
-  if ( destDir.isEmpty() || destDir.isNull() )
+  if ( m_destDir.isEmpty() || m_destDir.isNull() )
   {
     kdError( 1601 ) << "There was no extract directory given." << endl;
     return;
   }
 
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
 
-  *kp << m_archiver_program << "xfw=" + destDir << m_filename;
+  *kp << m_archiver_program << "xfw=" + m_destDir << m_filename;
 
   // if the list is empty, no filenames go on the command line,
   // and we then extract everything in the archive.
-  if ( fileList )
+  if ( m_fileList )
   {
     QStringList::Iterator it;
-    for ( it = fileList->begin(); it != fileList->end(); ++it )
+    for ( it = m_fileList->begin(); it != m_fileList->end(); ++it )
     {
       *kp << ( *it );
     }
@@ -284,7 +283,7 @@ void LhaArch::remove( QStringList *list )
   if ( !list )
     return;
   
-  KProcess *kp = new KProcess;
+  KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
 
   *kp << m_archiver_program << "df" << m_filename;
