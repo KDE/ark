@@ -46,6 +46,7 @@
 #include <kmessagebox.h>
 #include <kcombobox.h>
 #include <klineedit.h>
+#include <kurlpixmapprovider.h>
 #include <kdebug.h>
 
 #include "arkutils.h"
@@ -97,6 +98,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 	new QLabel( i18n( "Destination folder:" ), destDirBox );
 
 	KHistoryCombo *combobox = new KHistoryCombo( true, destDirBox );
+	combobox->setPixmapProvider( new KURLPixmapProvider );
 	combobox->setHistoryItems( ArkSettings::extractionHistory() );
 
 	KURLCompletion *comp = new KURLCompletion();
@@ -165,7 +167,10 @@ void ExtractionDialog::accept()
 	m_extractionDirectory = p;
 	m_selectedOnly = m_selectedButton == 0? false : m_selectedButton->isChecked();
 
-	static_cast<KHistoryCombo*>( m_urlRequester->comboBox() )->addToHistory( p.prettyURL() );
+	KHistoryCombo *combo = static_cast<KHistoryCombo*>( m_urlRequester->comboBox() );
+	// If the item was already in the list, delete it from the list and readd it at the top
+	combo->removeFromHistory( p.prettyURL() );
+	combo->addToHistory( p.prettyURL() );
 
 	KDialogBase::accept();
 }
