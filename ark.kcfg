@@ -5,7 +5,7 @@
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
 	<kcfgfile name="arkrc"/>
 	<group name="generic">
-		<entry name="extractionHistory" type="StringList">
+		<entry name="extractionHistory" type="PathList">
 			<label>Last folders used for extraction</label>
 		</entry>
 		<entry name="replaceOnlyWithNewer" type="Bool">
