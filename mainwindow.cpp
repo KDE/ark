@@ -359,7 +359,7 @@ MainWindow::readProperties( KConfig* config )
     QString file = config->readPathEntry("SMOpenedFile");
     kdDebug(1601) << "ArkWidget::readProperties( KConfig* config ) file=" << file << endl;
     if ( !file.isEmpty() )
-        openURL( file );
+        openURL( KURL::fromPathOrURL( file ) );
 }
 
 void
