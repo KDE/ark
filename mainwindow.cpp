@@ -38,7 +38,6 @@
 #include <kcombobox.h>
 #include <kio/netaccess.h>
 #include <kaccel.h>
-#include <kmessagebox.h>
 
 // ark includes
 #include "arkapp.h"
