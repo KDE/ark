@@ -57,7 +57,7 @@
 // KDE includes
 #include <kapplication.h>
 #include <kdebug.h>
-#include <klargefile.h>
+#include <kde_file.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <ktempfile.h>

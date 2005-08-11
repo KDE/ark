@@ -63,7 +63,7 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <klocale.h>
-#include <klargefile.h>
+#include <kde_file.h>
 
 // Qt includes
 #include <qfile.h>
