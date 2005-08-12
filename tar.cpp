@@ -341,12 +341,14 @@ void TarArch::openSecondCreateTempDone()
     {
         kdDebug(1601)  << "Failed to uncompress and open." << endl;
         delete tarptr;
+        tarptr = NULL;
         emit sigOpen(this, false, QString::null, 0 );
     }
     else
     {
         processDir(tarptr->directory(), "");
         delete tarptr;
+        tarptr = NULL;
         // because we aren't using the KProcess method, we have to emit this
         // ourselves.
         emit sigOpen(this, true, m_filename,
