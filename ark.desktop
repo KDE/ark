@@ -74,4 +74,4 @@ SwallowExec=
 SwallowTitle=
 X-DCOP-ServiceType=Unique
 X-KDE-HasTempFileOption=true
-Categories=Qt;KDE;Utility;
+Categories=Qt;KDE;Utility;X-KDE-Utilities-File;
