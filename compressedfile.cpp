@@ -223,7 +223,7 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
   }
 
   delete _kp;
-  _kp = 0;
+  _kp = m_currentProcess = 0;
 
   if ( !bSuccess )
   {
