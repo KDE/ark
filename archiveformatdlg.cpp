@@ -24,9 +24,10 @@
 #include "arch.h"
 
 #include <klocale.h>
+#include <kvbox.h>
 
 #include <qlabel.h>
-#include <q3vbox.h>
+#include <Q3VBox>
 
 ArchiveFormatDlg::ArchiveFormatDlg( QWidget * parent, const QString & defaultType )
                         :KDialogBase( parent, "archiveformatdialog", true,
@@ -46,7 +47,8 @@ ArchiveFormatDlg::ArchiveFormatDlg( QWidget * parent, const QString & defaultTyp
                     "If this is not correct, please choose "
                     "the appropriate format." ).arg( defaultDescription );
 
-    Q3VBox * page = makeVBoxMainWidget();
+    //KVBox *page = makeVBoxMainWidget();
+    Q3VBox *page = makeVBoxMainWidget();
 
     QLabel * label;
     label = new QLabel( text, page );

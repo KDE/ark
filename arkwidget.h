@@ -33,8 +33,8 @@
 
 #include <kio/job.h>
 #include <ktempdir.h>
+#include <kvbox.h>
 
-#include <q3vbox.h>
 //Added by qt3to4:
 #include <QLabel>
 #include <QDragMoveEvent>
@@ -63,7 +63,7 @@ class FileLVI;
 class SearchBar;
 
 
-class ArkWidget : public Q3VBox
+class ArkWidget : public KVBox
 {
     Q_OBJECT
 public:
