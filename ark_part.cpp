@@ -33,6 +33,7 @@
 #include <kxmlguifactory.h>
 #include <kstatusbar.h>
 #include <kiconloader.h>
+#include <kio/netaccess.h>
 
 #include <qfile.h>
 #include <qtimer.h>
@@ -229,7 +230,7 @@ void ArkPart::disableActions()
 bool ArkPart::openURL( const KURL & url )
 {
     awidget->setRealURL( url );
-    return KParts::ReadWritePart::openURL( url );
+    return KParts::ReadWritePart::openURL( KIO::NetAccess::mostLocalURL( url, awidget ) );
 }
 
 bool ArkPart::openFile()
