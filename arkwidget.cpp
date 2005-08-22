@@ -168,30 +168,6 @@ void ArkWidget::cleanArkTmpDir()
    }
 }
 
-void ArkWidget::setHeaders( QStringList* _headers, int * _rightAlignCols, int _numColsToAlignRight )
-{
-   clearHeaders();
-
-   for ( QStringList::Iterator it = _headers->begin(); it != _headers->end(); ++it )
-   {
-      QString str = *it;
-      archiveContent->addColumn( str );
-   }
-
-   for ( int i = 0; i < _numColsToAlignRight; ++i )
-   {
-      archiveContent->setColumnAlignment( _rightAlignCols[ i ], QListView::AlignRight );
-   }
-}
-
-void ArkWidget::clearHeaders()
-{
-   while ( archiveContent->columns() > 0 )
-   {
-      archiveContent->removeColumn( 0 );
-   }
-}
-
 void ArkWidget::closeArch()
 {
    if ( isArchiveOpen() )
@@ -201,10 +177,10 @@ void ArkWidget::closeArch()
       m_bIsArchiveOpen = false;
    }
 
-   if ( 0 != archiveContent )
+   if ( archiveContent )
    {
       archiveContent->clear();
-      clearHeaders();
+      archiveContent->clearHeaders();
    }
 }
 
@@ -2144,15 +2120,15 @@ ArkWidget::createFileListView()
 }
 
 
-Arch * ArkWidget::getNewArchive( const QString & _fileName )
+Arch * ArkWidget::getNewArchive( const QString & _fileName, const QString& _mimetype )
 {
     Arch * newArch = 0;
 
-    QString type = KMimeType::findByURL( KURL::fromPathOrURL(_fileName) )->name();
+    QString type = _mimetype.isNull()? KMimeType::findByURL( KURL::fromPathOrURL(_fileName) )->name() : _mimetype;
     ArchType archtype = ArchiveFormatInfo::self()->archTypeForMimeType(type);
     kdDebug( 1601 ) << "archtype is recognised as: " << archtype << endl;
     if(0 == (newArch = Arch::archFactory(archtype, this,
-                                         _fileName)))
+                                         _fileName, _mimetype)))
     {
         KMessageBox::error(this, i18n("Unknown archive format or corrupted archive") );
         emit request_file_quit();
@@ -2164,6 +2140,9 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName )
         KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
         return NULL;
     }
+
+    connect( newArch, SIGNAL(headers(const ColumnList&)),
+             archiveContent, SLOT(setHeaders(const ColumnList&)));
 
     m_archType = archtype;
     archiveContent->setUpdatesEnabled(true);
@@ -2278,6 +2257,8 @@ ArkWidget::openArchive( const QString & _filename )
 
     connect( newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
              this, SLOT(slotOpen(Arch *, bool, const QString &,int)) );
+    connect( newArch, SIGNAL(headers(const ColumnList&)),
+             archiveContent, SLOT(setHeaders(const ColumnList&)));
 
     disableAll();
 

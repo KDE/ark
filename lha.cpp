@@ -118,12 +118,12 @@ bool LhaArch::processLine( const QCString &line )
 
   QStringList list;
   list.append( name );
-  
+
   for ( int i = 0; i < 7; i++ )
   {
     list.append( QString::fromLocal8Bit( columns[i] ) );
   }
-  
+
   if ( bLink )
     list.append( link );
   else
@@ -161,25 +161,17 @@ void LhaArch::open()
 
 void LhaArch::setHeaders()
 {
-  QStringList list;
-  list.append( FILENAME_STRING );
-  list.append( PERMISSION_STRING );
-  list.append( OWNER_GROUP_STRING );
-  list.append( PACKED_STRING );
-  list.append( SIZE_STRING );
-  list.append( RATIO_STRING );
-  list.append( CRC_STRING );
-  list.append( TIMESTAMP_STRING );
-  list.append( LINK_STRING );
-
-  // which columns to align right
-  int *alignRightCols = new int[3];
-  alignRightCols[0] = 3;
-  alignRightCols[1] = 4;
-  alignRightCols[2] = 5;
-
-  m_gui->setHeaders( &list, alignRightCols, 3 );
-  delete [] alignRightCols;
+  ColumnList list;
+  list.append( FILENAME_COLUMN);
+  list.append( PERMISSION_COLUMN);
+  list.append( OWNER_GROUP_COLUMN);
+  list.append( PACKED_COLUMN);
+  list.append( SIZE_COLUMN);
+  list.append( RATIO_COLUMN);
+  list.append( CRC_COLUMN);
+  list.append( TIMESTAMP_COLUMN);
+  list.append( LINK_COLUMN);
+  emit headers( list );
 }
 
 
@@ -282,12 +274,12 @@ void LhaArch::remove( QStringList *list )
 {
   if ( !list )
     return;
-  
+
   KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
 
   *kp << m_archiver_program << "df" << m_filename;
-  
+
   QStringList::Iterator it;
   for ( it = list->begin(); it != list->end(); ++it )
   {

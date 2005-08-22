@@ -56,7 +56,7 @@ RarArch::RarArch( ArkWidget *_gui, const QString & _fileName )
   // Check if rar is available
   bool have_rar = !KGlobal::dirs()->findExe( "rar" ).isNull();
 
-  if ( have_rar ) 
+  if ( have_rar )
   {
     // If it is, then use it as archiver and unarchiver
     m_archiver_program = m_unarchiver_program = "rar";
@@ -67,7 +67,7 @@ RarArch::RarArch( ArkWidget *_gui, const QString & _fileName )
     m_archiver_program = m_unarchiver_program = "unrar";
     setReadOnly( true );
   }
-  
+
   verifyUtilityIsAvailable( m_archiver_program );
 
   m_headerString = "-------------------------------------------------------------------------------";
@@ -117,7 +117,7 @@ void RarArch::open()
 
   KProcess *kp = m_currentProcess = new KProcess;
   *kp << m_archiver_program << "v" << "-c-" << m_filename;
-  
+
   connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
            SLOT( slotReceivedTOC(KProcess*, char*, int) ) );
   connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
@@ -134,25 +134,18 @@ void RarArch::open()
 
 void RarArch::setHeaders()
 {
-  QStringList list;
-  list.append( FILENAME_STRING );
-  list.append( SIZE_STRING );
-  list.append( PACKED_STRING );
-  list.append( RATIO_STRING );
-  list.append( TIMESTAMP_STRING );
-  list.append( PERMISSION_STRING );
-  list.append( CRC_STRING );
-  list.append( METHOD_STRING );
-  list.append( VERSION_STRING );
+  ColumnList list;
+  list.append( FILENAME_COLUMN );
+  list.append( SIZE_COLUMN );
+  list.append( PACKED_COLUMN );
+  list.append( RATIO_COLUMN );
+  list.append( TIMESTAMP_COLUMN );
+  list.append( PERMISSION_COLUMN );
+  list.append( CRC_COLUMN );
+  list.append( METHOD_COLUMN );
+  list.append( VERSION_COLUMN );
 
-  // which columns to align right
-  int *alignRightCols = new int[3];
-  alignRightCols[0] = 1;
-  alignRightCols[1] = 2;
-  alignRightCols[2] = 3;
-
-  m_gui->setHeaders( &list, alignRightCols, 3 );
-  delete [] alignRightCols;
+  emit headers( list );
 }
 
 void RarArch::create()
@@ -174,7 +167,7 @@ void RarArch::addDir( const QString & _dirName )
 void RarArch::addFile( const QStringList & urls )
 {
   KProcess *kp = m_currentProcess = new KProcess;
-  
+
   kp->clearArguments();
   *kp << m_archiver_program;
 
@@ -192,14 +185,14 @@ void RarArch::addFile( const QStringList & urls )
 
   KURL dir( urls.first() );
   QDir::setCurrent( dir.directory() );
-  
+
   QStringList::ConstIterator iter;
   for ( iter = urls.begin(); iter != urls.end(); ++iter )
   {
     KURL url( *iter );
     *kp << url.fileName();
   }
-  
+
   connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
            SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
   connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
@@ -283,7 +276,7 @@ void RarArch::remove( QStringList *list )
   kp->clearArguments();
 
   *kp << m_archiver_program << "d" << m_filename;
-  
+
   QStringList::Iterator it;
   for ( it = list->begin(); it != list->end(); ++it )
   {

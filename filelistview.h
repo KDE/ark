@@ -30,6 +30,8 @@
 
 #include <qlistview.h>
 #include <qdatetime.h>
+#include <qpair.h>
+#include <qvaluelist.h>
 
 #include <klistview.h>
 
@@ -72,6 +74,8 @@ class FileLVI : public KListViewItem
         QString   m_entryName;
 };
 
+typedef QValueList< QPair< QString, Qt::AlignmentFlags > > ColumnList;
+
 
 class FileListView : public KListView
 {
@@ -103,6 +107,8 @@ class FileListView : public KListView
     public slots:
         void selectAll();
         void unselectAll();
+        void setHeaders( const ColumnList& columns );
+        void clearHeaders();
 
     signals:
         void startDragRequest( const QStringList & fileList );

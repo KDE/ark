@@ -88,12 +88,12 @@ bool ZooArch::processLine( const QCString &line )
 
   QStringList list;
   list.append( QFile::decodeName( filename ) );
-  
+
   for ( int i=0; i<4; i++ )
   {
     list.append( QString::fromLocal8Bit( columns[i] ) );
   }
-  
+
   m_gui->fileList()->addItem( list ); // send to GUI
 
   return true;
@@ -126,21 +126,14 @@ void ZooArch::open()
 
 void ZooArch::setHeaders()
 {
-  QStringList list;
-  list.append( FILENAME_STRING );
-  list.append( RATIO_STRING );
-  list.append( SIZE_STRING );
-  list.append( PACKED_STRING );
-  list.append( TIMESTAMP_STRING );
+  ColumnList list;
+  list.append( FILENAME_COLUMN );
+  list.append( RATIO_COLUMN );
+  list.append( SIZE_COLUMN );
+  list.append( PACKED_COLUMN );
+  list.append( TIMESTAMP_COLUMN );
 
-  // which columns to align right
-  int *alignRightCols = new int[3];
-  alignRightCols[0] = 2;
-  alignRightCols[1] = 3;
-  alignRightCols[2] = 4;
-
-  m_gui->setHeaders( &list, alignRightCols, 3 );
-  delete [] alignRightCols;
+  emit headers( list );
 }
 
 
@@ -175,7 +168,7 @@ void ZooArch::addFile( const QStringList &urls )
 
   KURL url( urls.first() );
   QDir::setCurrent( url.directory() );
-  
+
   QStringList::ConstIterator iter;
 
   for ( iter = urls.begin(); iter != urls.end(); ++iter )
@@ -202,7 +195,7 @@ void ZooArch::unarchFileInternal()
 {
   // if _fileList is empty, we extract all.
   // if _destDir is empty, abort with error.
-  
+
   if ( m_destDir.isEmpty() || m_destDir.isNull() )
   {
     kdError( 1601 ) << "There was no extract directory given." << endl;
@@ -266,7 +259,7 @@ void ZooArch::remove( QStringList *list )
   kp->clearArguments();
 
   *kp << m_archiver_program << "D" << m_filename;
-  
+
   QStringList::Iterator it;
   for ( it = list->begin(); it != list->end(); ++it )
   {

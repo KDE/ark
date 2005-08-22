@@ -68,28 +68,16 @@ ZipArch::ZipArch( ArkWidget *_gui, const QString & _fileName )
 
 void ZipArch::setHeaders()
 {
-  QStringList list;
+  ColumnList list;
+  list.append( FILENAME_COLUMN );
+  list.append( SIZE_COLUMN );
+  list.append( METHOD_COLUMN );
+  list.append( PACKED_COLUMN );
+  list.append( RATIO_COLUMN );
+  list.append( TIMESTAMP_COLUMN );
+  list.append( CRC_COLUMN );
 
-  list.append( FILENAME_STRING );
-  list.append( SIZE_STRING );
-  list.append( METHOD_STRING );
-  list.append( PACKED_STRING );
-  list.append( RATIO_STRING );
-  list.append( TIMESTAMP_STRING );
-  list.append( CRC_STRING );
-
-  // which columns to align right
-  int *alignRightCols = new int[6];
-  alignRightCols[0] = 1;
-  alignRightCols[1] = 2;
-  alignRightCols[2] = 3;
-  alignRightCols[3] = 4;
-  alignRightCols[4] = 5;
-  alignRightCols[5] = 6;
-
-  m_gui->setHeaders( &list, alignRightCols, 6 );
-  delete [] alignRightCols;
-
+  emit headers( list );
 }
 
 void ZipArch::open()
@@ -164,7 +152,7 @@ void ZipArch::addFile( const QStringList &urls )
   if ( ArkSettings::replaceOnlyWithNewer() )
     *kp << "-u";
   else
-    
+
 
   *kp << m_filename;
 
@@ -227,7 +215,7 @@ void ZipArch::unarchFileInternal()
   if ( m_fileList )
   {
     QStringList::Iterator it;
-    
+
     for ( it = m_fileList->begin(); it != m_fileList->end(); ++it )
     {
       *kp << (*it);
@@ -264,7 +252,7 @@ void ZipArch::remove( QStringList *list )
   kp->clearArguments();
 
   *kp << m_archiver_program << "-d" << m_filename;
-  
+
   QStringList::Iterator it;
   for ( it = list->begin(); it != list->end(); ++it )
   {

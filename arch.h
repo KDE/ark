@@ -54,8 +54,7 @@
 #include <qregexp.h>
 #include <qstring.h>
 #include <kurl.h>
-
-#include "filelistview.h"
+#include <qpair.h>
 
 class QCString;
 class QStringList;
@@ -66,8 +65,9 @@ class ArkWidget;
 
 enum ArchType { UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
                 LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT, COMPRESSED_FORMAT,
-                SEVENZIP_FORMAT };
+                SEVENZIP_FORMAT/*, ACE_FORMAT*/ };
 
+typedef QValueList< QPair< QString, Qt::AlignmentFlags > > ColumnList;
 
 /**
  * Pure virtual base class for archives - provides a framework as well as
@@ -159,6 +159,7 @@ class Arch : public QObject
     void sigDelete( bool );
     void sigExtract( bool );
     void sigAdd( bool );
+    void headers( const ColumnList& columns );
 
   protected:  // data
     QString m_filename;
@@ -183,7 +184,6 @@ class Arch : public QObject
     QPtrList<ArchColumns> m_archCols;
     int m_numCols, m_dateCol, m_fixYear, m_fixMonth, m_fixDay, m_fixTime;
     int m_repairYear, m_repairMonth, m_repairTime;
-
     KProcess *m_currentProcess;
     QStringList *m_fileList;
     QString m_destDir;
@@ -191,20 +191,20 @@ class Arch : public QObject
     QCString m_password;
 };
 
-// Column header strings
+// Columns
 // don't forget to change common_texts.cpp if you change something here
-#define FILENAME_STRING i18n(" Filename ")
-#define PERMISSION_STRING i18n(" Permissions ")
-#define OWNER_GROUP_STRING i18n(" Owner/Group ")
-#define SIZE_STRING i18n(" Size ")
-#define TIMESTAMP_STRING i18n(" Timestamp ")
-#define LINK_STRING i18n(" Link ")
-#define PACKED_STRING i18n(" Size Now ")
-#define RATIO_STRING i18n(" Ratio ")
-#define CRC_STRING i18n("acronym for Cyclic Redundancy Check"," CRC ")
-#define METHOD_STRING i18n(" Method ")
-#define VERSION_STRING i18n(" Version ")
-#define OWNER_STRING i18n(" Owner ")
-#define GROUP_STRING i18n(" Group ")
+#define FILENAME_COLUMN    qMakePair( i18n(" Filename "),    Qt::AlignLeft  )
+#define PERMISSION_COLUMN  qMakePair( i18n(" Permissions "), Qt::AlignLeft  )
+#define OWNER_GROUP_COLUMN qMakePair( i18n(" Owner/Group "), Qt::AlignLeft  )
+#define SIZE_COLUMN        qMakePair( i18n(" Size "),        Qt::AlignRight )
+#define TIMESTAMP_COLUMN   qMakePair( i18n(" Timestamp "),   Qt::AlignRight )
+#define LINK_COLUMN        qMakePair( i18n(" Link "),        Qt::AlignLeft  )
+#define PACKED_COLUMN      qMakePair( i18n(" Size Now "),    Qt::AlignRight )
+#define RATIO_COLUMN       qMakePair( i18n(" Ratio "),       Qt::AlignRight )
+#define CRC_COLUMN         qMakePair( i18n("Cyclic Redundancy Check"," CRC "), Qt::AlignRight )
+#define METHOD_COLUMN      qMakePair( i18n(" Method "),  Qt::AlignLeft  )
+#define VERSION_COLUMN     qMakePair( i18n(" Version "), Qt::AlignLeft  )
+#define OWNER_COLUMN       qMakePair( i18n(" Owner "),   Qt::AlignLeft  )
+#define GROUP_COLUMN       qMakePair( i18n(" Group "),   Qt::AlignLeft  )
 
 #endif /* ARCH_H */

@@ -70,22 +70,14 @@ ArArch::ArArch( ArkWidget *_gui, const QString & _fileName )
 
 void ArArch::setHeaders()
 {
-  kdDebug(1601) << "+ArArch::setHeaders" << endl;
-  QStringList list;
-  list.append(FILENAME_STRING);
-  list.append(PERMISSION_STRING);
-  list.append(OWNER_GROUP_STRING);
-  list.append(SIZE_STRING);
-  list.append(TIMESTAMP_STRING);
+  ColumnList list;
+  list.append( FILENAME_COLUMN );
+  list.append( PERMISSION_COLUMN );
+  list.append( OWNER_GROUP_COLUMN );
+  list.append( SIZE_COLUMN );
+  list.append( TIMESTAMP_COLUMN );
 
-  // which columns to align right
-  int *alignRightCols = new int[1];
-  alignRightCols[0] = 3;
-
-  m_gui->setHeaders(&list, alignRightCols, 1);
-  delete [] alignRightCols;
-
-  kdDebug(1601) << "-ArArch::setHeaders" << endl;
+  emit headers( list );
 }
 
 void ArArch::open()

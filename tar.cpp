@@ -354,9 +354,6 @@ void TarArch::openSecondCreateTempDone()
         emit sigOpen(this, true, m_filename,
                 Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
     }
-
-
-    kdDebug(1601) << "-TarArch::open" << endl;
 }
 
 void TarArch::slotListingDone(KProcess *_kp)
@@ -375,8 +372,8 @@ void TarArch::slotListingDone(KProcess *_kp)
     {
       if (list.find(QRegExp(QString("\\s%1[/\\n]").arg(firstfile)))>=0)
       {
+        // archive doesn't have dot-slash
         m_dotslash = false;
-        kdDebug(1601) << k_funcinfo << "archive doesn't have dot-slash" << endl;
       }
       else
       {
@@ -393,7 +390,6 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
   // process a KTarDirectory. Called recursively for directories within
   // directories, etc. Prepends to filename root, for relative pathnames.
 {
-  // kdDebug(1601) << "+TarArch::processDir" << endl;
   QStringList list = tardir->entries();
 
   for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
@@ -438,46 +434,32 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
         processDir( (KTarDirectory *)tarEntry, name);
       kapp->processEvents(20);
     }
-  // kdDebug(1601) << "-TarArch::processDir" << endl;
 }
 
 void TarArch::create()
 {
-  kdDebug(1601) << "+TarArch::createArch" << endl;
-
   emit sigCreate(this, true, m_filename,
                  Arch::Extract | Arch::Delete | Arch::Add
                   | Arch::View);
-  kdDebug(1601) << "-TarArch::createArch" << endl;
 }
 
 void TarArch::setHeaders()
 {
-  kdDebug(1601) << "+TarArch::setHeaders" << endl;
-  QStringList list;
+  ColumnList list;
 
-  list.append(FILENAME_STRING);
-  list.append(PERMISSION_STRING);
-  list.append(OWNER_STRING);
-  list.append(GROUP_STRING);
-  list.append(SIZE_STRING);
-  list.append(TIMESTAMP_STRING);
-  list.append(LINK_STRING);
+  list.append(FILENAME_COLUMN);
+  list.append(PERMISSION_COLUMN);
+  list.append(OWNER_COLUMN);
+  list.append(GROUP_COLUMN);
+  list.append(SIZE_COLUMN);
+  list.append(TIMESTAMP_COLUMN);
+  list.append(LINK_COLUMN);
 
-  // which columns to align right
-  int *alignRightCols = new int[2];
-  alignRightCols[0] = 1;
-  alignRightCols[1] = 4;
-
-  m_gui->setHeaders(&list, alignRightCols, 2);
-  delete [] alignRightCols;
-
-  kdDebug(1601) << "-TarArch::setHeaders" << endl;
+  emit headers( list );
 }
 
 void TarArch::createTmp()
 {
-    kdDebug(1601) << "+TarArch::createTmp" << endl;
     if ( compressed )
     {
         if ( !QFile::exists(tmpfile) )
@@ -540,8 +522,6 @@ void TarArch::createTmp()
     {
         emit createTempDone();
     }
-
-    kdDebug(1601) << "-TarArch::createTmp" << endl;
 }
 
 void TarArch::createTmpProgress( KProcess * _proc, char *_buffer, int _bufflen )

@@ -47,12 +47,12 @@
 
 // ark includes
 #include "arkwidget.h"
+#include "filelistview.h"
 #include "compressedfile.h"
 
 // encapsulates the idea of a compressed file
 
-CompressedFile::CompressedFile( ArkWidget *_gui,
-		  const QString & _fileName, const QString & _openAsMimeType )
+CompressedFile::CompressedFile( ArkWidget *_gui, const QString & _fileName, const QString & _openAsMimeType )
   : Arch( _gui, _fileName )
 {
   m_tempDirectory = NULL;
@@ -83,23 +83,14 @@ CompressedFile::~CompressedFile()
 
 void CompressedFile::setHeaders()
 {
-  kdDebug(1601) << "+CompressedFile::setHeaders" << endl;
-  QStringList list;
+  ColumnList list;
+  list.append(FILENAME_COLUMN);
+  list.append(PERMISSION_COLUMN);
+  list.append(OWNER_COLUMN);
+  list.append(GROUP_COLUMN);
+  list.append(SIZE_COLUMN);
 
-  list.append(FILENAME_STRING);
-  list.append(PERMISSION_STRING);
-  list.append(OWNER_STRING);
-  list.append(GROUP_STRING);
-  list.append(SIZE_STRING);
-
-  // which columns to align right
-  int *alignRightCols = new int[1];
-  alignRightCols[0] = 3;
-
-  m_gui->setHeaders(&list, alignRightCols, 1);
-  delete [] alignRightCols;
-
-  kdDebug(1601) << "-CompressedFile::setHeaders" << endl;
+  emit headers(list);
 }
 
 void CompressedFile::initData()

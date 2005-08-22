@@ -334,4 +334,26 @@ void FileListView::unselectAll()
 	QListView::selectAll( false );
 }
 
+void FileListView::setHeaders( const ColumnList& columns )
+{
+	clearHeaders();
+
+	for ( ColumnList::const_iterator it = columns.constBegin();
+	      it != columns.constEnd();
+	      ++it )
+	{
+		QPair< QString, Qt::AlignmentFlags > pair = *it;
+		int colnum = addColumn( pair.first );
+		setColumnAlignment( colnum, pair.second );
+	}
+}
+
+void FileListView::clearHeaders()
+{
+	while ( columns() > 0 )
+	{
+		removeColumn( 0 );
+	}
+}
+
 #include "filelistview.moc"

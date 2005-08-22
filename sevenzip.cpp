@@ -21,7 +21,7 @@
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-  
+
 */
 
 #include <qdir.h>
@@ -44,15 +44,15 @@ SevenZipArch::SevenZipArch( ArkWidget *gui, const QString &filename )
   // Check if 7z is available
   bool have_7z = !KGlobal::dirs()->findExe( "7z" ).isNull();
 
-  if ( have_7z ) 
+  if ( have_7z )
     m_archiver_program = m_unarchiver_program = "7z";  // Use 7z
   else
     m_archiver_program = m_unarchiver_program = "7za"; // Try 7za
-    
+
   verifyUtilityIsAvailable( m_archiver_program );
-  
+
   m_headerString = "------------------";
-  
+
   m_repairYear = 5; m_fixMonth = 6; m_fixDay = 7; m_fixTime = 8;
   m_dateCol = 3;
   m_numCols = 5;
@@ -73,19 +73,14 @@ SevenZipArch::~SevenZipArch()
 
 void SevenZipArch::setHeaders()
 {
-  QStringList columns;
-  columns.append( FILENAME_STRING );
-  columns.append( SIZE_STRING );
-  columns.append( PACKED_STRING );
-  columns.append( TIMESTAMP_STRING );
-  columns.append( PERMISSION_STRING );
-  
-  int *rightAlignedColumns = new int[ 2 ];
-  rightAlignedColumns[ 0 ] = 1;
-  rightAlignedColumns[ 1 ] = 2;
+  ColumnList columns;
+  columns.append( FILENAME_COLUMN );
+  columns.append( SIZE_COLUMN );
+  columns.append( PACKED_COLUMN );
+  columns.append( TIMESTAMP_COLUMN );
+  columns.append( PERMISSION_COLUMN );
 
-  m_gui->setHeaders( &columns, rightAlignedColumns, 2 );
-  delete [] rightAlignedColumns;
+  emit headers( columns );
 }
 
 void SevenZipArch::open()
@@ -98,7 +93,7 @@ void SevenZipArch::open()
 
   KProcess *kp = m_currentProcess = new KProcess;
   *kp << m_archiver_program << "l" << m_filename;
-  
+
   connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
            SLOT( slotReceivedTOC(KProcess*, char*, int) ) );
   connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
@@ -122,22 +117,22 @@ void SevenZipArch::create()
 void SevenZipArch::addFile( const QStringList & urls )
 {
   KProcess *kp = m_currentProcess = new KProcess;
-  
+
   kp->clearArguments();
   *kp << m_archiver_program << "a" ;
 
   KURL url( urls.first() );
   QDir::setCurrent( url.directory() );
-  
+
   *kp << m_filename;
-  
+
   QStringList::ConstIterator iter;
   for ( iter = urls.begin(); iter != urls.end(); ++iter )
   {
     KURL url( *iter );
     *kp << url.fileName();
   }
-  
+
   connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
            SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
   connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
@@ -171,7 +166,7 @@ void SevenZipArch::remove( QStringList *list )
   kp->clearArguments();
 
   *kp << m_archiver_program << "d" << m_filename;
-  
+
   QStringList::Iterator it;
   for ( it = list->begin(); it != list->end(); ++it )
   {

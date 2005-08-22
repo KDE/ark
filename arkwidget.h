@@ -1,4 +1,3 @@
-//  -*- mode: c++; c-basic-offset: 4; -*-
 /*
 
   ark -- archiver for the KDE project
@@ -82,19 +81,6 @@ public:
     Arch * archive() const { return arch; }
     ArchType archiveType() const { return m_archType; }
     int numSelectedFiles() const { return m_nNumSelectedFiles; }
-
-    /**
-     * Sets up the column headers for the file list. Clears previous entries before adding new ones.
-     * @param _headers A list of headers to add.
-     * @param _rightAlignCols An array of ints representing the columns ro right-align
-     * @param _numColsToAlignRight Size of _rightAlignCols
-     */
-    void setHeaders( QStringList* _headers, int* _rightAlignCols, int _numColsToAlignRight );
-
-    /**
-     * Clears all headers from the file list.
-     */
-    void clearHeaders();
 
     /**
      * Miscellaneous tasks involved in closing an archive.
@@ -190,7 +176,7 @@ private: // methods
     // ask user whether to create a real archive from a compressed file
     // returns filename if so. Otherwise, empty.
     KURL askToCreateRealArchive();
-    Arch * getNewArchive( const QString & _fileName );
+    Arch * getNewArchive( const QString & _fileName, const QString& _mimetype = QString() );
     void createRealArchive( const QString &strFilename,
                             const QStringList & filesToAdd = QStringList() );
     KURL getCreateFilename( const QString & _caption,

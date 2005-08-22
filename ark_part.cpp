@@ -25,6 +25,7 @@
 #include "arkfactory.h"
 #include "arkwidget.h"
 #include "settings.h"
+#include "filelistview.h"
 
 #include <kdebug.h>
 #include <kpopupmenu.h>
