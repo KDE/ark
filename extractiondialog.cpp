@@ -66,13 +66,12 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 	}
 
 	QVBox *vbox = makeVBoxMainWidget();
-	vbox->setMinimumWidth( 480 );
 
 	QHBox *header = new QHBox( vbox );
 	header->layout()->setSpacing( 10 );
 
 	QLabel *icon = new QLabel( header );
-	icon->setPixmap( KGlobal::iconLoader()->loadIcon( "ark_extract", KIcon::Desktop ) );
+	icon->setPixmap( DesktopIcon( "ark_extract" ) );
 	icon->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );
 
 	if ( enableSelected )
@@ -95,7 +94,8 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 
 	QHBox *destDirBox = new QHBox( vbox );
 
-	new QLabel( i18n( "Destination folder:" ), destDirBox );
+	QLabel *destFolderLabel = new QLabel( i18n( "Destination folder: " ), destDirBox );
+	destFolderLabel->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Fixed );
 
 	KHistoryCombo *combobox = new KHistoryCombo( true, destDirBox );
 	combobox->setPixmapProvider( new KURLPixmapProvider );
@@ -109,6 +109,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 	combobox->setInsertionPolicy( QComboBox::AtTop );
 
 	m_urlRequester = new KURLRequester( combobox, destDirBox );
+	m_urlRequester->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
 	m_urlRequester->setMode( KFile::Directory );
 
 	if (!defaultExtractionDir.prettyURL().isEmpty() )
