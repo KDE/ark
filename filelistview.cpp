@@ -182,19 +182,19 @@ FileListView::FileListView(ArkWidget *baseArk, QWidget *parent,
 int FileListView::addColumn ( const QString & label, int width )
 {
     int index = KListView::addColumn( label, width );
-    if ( label == SIZE_STRING )
+    if ( label == SIZE_COLUMN.first )
     {
         colMap[ index ] = sizeCol;
     }
-    else if ( label == PACKED_STRING )
+	else if ( label == PACKED_COLUMN.first )
     {
         colMap[ index ] = packedStrCol;
     }
-    else if ( label == RATIO_STRING )
+	else if ( label == RATIO_COLUMN.first )
     {
         colMap[ index ] = ratioStrCol;
     }
-    else if ( label == TIMESTAMP_STRING )
+	else if ( label == TIMESTAMP_COLUMN.first )
     {
         colMap[ index ] = timeStampStrCol;
     }
