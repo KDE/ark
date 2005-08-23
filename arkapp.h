@@ -1,7 +1,4 @@
-//  -*-C++-*-           emacs magic for .h files
 /*
-
- $Id$
 
  ark -- archiver for the KDE project
 
@@ -27,8 +24,8 @@
 
 */
 
-#ifndef __ARKAPP_H__
-#define __ARKAPP_H__
+#ifndef ARKAPP_H
+#define ARKAPP_H
 
 #include "mainwindow.h"
 
@@ -58,39 +55,39 @@ class ArkApplication : public KUniqueApplication
 	public:
 		virtual int newInstance();
 		virtual ~ArkApplication() {}
-		
+
 		// keep track of windows so we know when to quit
 		int windowCount() { return m_windowCount; }
 		int addWindow() { ++m_windowCount; return m_windowCount; }
-		void removeWindow() { --m_windowCount;} 
+		void removeWindow() { --m_windowCount;}
 
 		// keep track of open archive names so we don't open one twice
 		// note that ArkWidget is not a pointer to const because raise()
 		// requires later a pointer to nonconst.
 		void addOpenArk(const KURL & _arkname, MainWindow * _ptr);
 		void removeOpenArk(const KURL & _arkname);
-		
+
 		bool isArkOpenAlready(const KURL & _arkname);
-		
+
 		void raiseArk(const KURL & _arkname);
-			
+
 		// use this function to access data from other modules.
 		static ArkApplication *getInstance();
-		
+
 	protected:
 		ArkApplication();
 
 	private:
 		QWidget *m_mainwidget;  // to be the parent of all ArkWidgets
 		int m_windowCount;
-		
+
 		QStringList openArksList;
-		
+
 		// a hash to obtain the window associated with a filename.
 		// given a QString key, you get an ArkWidget * pointer.
 		QDict<MainWindow> m_windowsHash;
-		
-		static ArkApplication *mInstance; 
+
+		static ArkApplication *mInstance;
 };
 
-#endif // __ARKAPP_H__
+#endif // ARKAPP_H

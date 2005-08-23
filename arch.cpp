@@ -47,6 +47,7 @@
 #include "arch.h"
 #include "arkwidget.h"
 #include "arkutils.h"
+#include "filelistview.h"
 
 // the archive types
 #include "tar.h"
@@ -101,7 +102,7 @@ void Arch::verifyUtilityIsAvailable( const QString &utility1,
 void Arch::slotOpenExited( KProcess* _kp )
 {
   int exitStatus = 100; // arbitrary bad exit status
-  
+
   if ( _kp->normalExit() )
     exitStatus = _kp->exitStatus();
 
@@ -128,9 +129,9 @@ void Arch::slotDeleteExited( KProcess *_kp )
   if ( !success )
   {
     QApplication::restoreOverrideCursor();
-    
+
     QString msg = i18n( "The deletion operation failed." );
-    
+
     if ( !getLastShellOutput().isNull() )
     {
       msg += i18n( "\nUse \"Details\" to view the last shell output." );
@@ -174,9 +175,9 @@ void Arch::slotExtractExited( KProcess *_kp )
     else if ( m_password.isEmpty() || _kp->exitStatus() > 1 )
     {
         QApplication::restoreOverrideCursor();
-        
+
         QString msg = i18n( "The extraction operation failed." );
-        
+
         if ( !getLastShellOutput().isNull() )
         {
             msg += i18n( "\nUse \"Details\" to view the last shell output." );
@@ -210,9 +211,9 @@ void Arch::slotAddExited( KProcess *_kp )
   if( !success )
   {
     QApplication::restoreOverrideCursor();
-    
+
     QString msg = i18n( "The addition operation failed." );
-    
+
     if ( !getLastShellOutput().isNull() )
     {
       msg += i18n( "\nUse \"Details\" to view the last shell output." );
@@ -288,7 +289,7 @@ void Arch::slotReceivedTOC( KProcess*, char* data, int length )
 
     m_buffer = "";
   }
-  
+
   if ( !m_finished )
     m_buffer.append( data + startChar);	// Append what's left of the buffer
 
@@ -345,12 +346,12 @@ bool Arch::processLine( const QCString &line )
   }
 
   QStringList list;
-  
+
   for ( int i = 0; i < m_numCols; ++i )
   {
     list.append( columns[ i ] );
   }
-  
+
   m_gui->fileList()->addItem( list ); // send the entry to the GUI
 
   return true;
@@ -368,25 +369,25 @@ Arch *Arch::archFactory( ArchType aType,
 
     case ZIP_FORMAT:
       return new ZipArch( parent, filename );
-    
+
     case LHA_FORMAT:
       return new LhaArch( parent, filename );
-    
+
     case COMPRESSED_FORMAT:
       return new CompressedFile( parent, filename, openAsMimeType );
-    
+
     case ZOO_FORMAT:
       return new ZooArch( parent, filename );
-    
+
     case RAR_FORMAT:
       return new RarArch( parent, filename );
-    
+
     case AA_FORMAT:
       return new ArArch( parent, filename );
-    
+
     case SEVENZIP_FORMAT:
       return new SevenZipArch( parent, filename );
-    
+
     case UNKNOWN_FORMAT:
     default:
       return 0;

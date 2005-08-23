@@ -20,8 +20,8 @@
 
 */
 
-#ifndef __ark_part_h__
-#define __ark_part_h__
+#ifndef ARK_PART_H
+#define ARK_PART_H
 
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
@@ -143,4 +143,4 @@ private:
     KIO::Job *m_job;
 };
 
-#endif
+#endif // ARK_PART_H

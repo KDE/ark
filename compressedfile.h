@@ -1,4 +1,3 @@
-//  -*-C++-*-           emacs magic for .h files
 /*
 
     ark: A program for modifying archives via a GUI.
@@ -23,10 +22,8 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#ifndef __COMPRESSED_FILE_H__
-#define __COMPRESSED_FILE_H__
-
-#include "filelistview.h"
+#ifndef COMPRESSED_FILE_H
+#define COMPRESSED_FILE_H
 
 class QString;
 class QCString;
@@ -37,12 +34,11 @@ class KTempDir;
 class Arch;
 class ArkWidget;
 
-//
 // This isn't *really* an archive, but having this class in the program
 // allows people to manage gzipped files if they want. If someone tries to
 // add a file, the gz-file must be empty (hozat? it could be empty by having
-// just been created). Otherwise, the user will be asked to create a REAL 
-// archive, and then the added file(s) and the original file will be 
+// just been created). Otherwise, the user will be asked to create a REAL
+// archive, and then the added file(s) and the original file will be
 // transferred to the new archive.
 //
 class CompressedFile : public Arch
@@ -51,10 +47,10 @@ class CompressedFile : public Arch
 public:
   CompressedFile( ArkWidget *_gui, const QString & _fileName, const QString &_openAsMimeType );
   virtual ~CompressedFile();
-	
+
   virtual void open();
   virtual void create();
-	
+
   virtual void addFile( const QStringList& );
   virtual void addDir(const QString &) { }
 
@@ -87,4 +83,4 @@ private:
 
 
 
-#endif // __COMPRESSED_FILE_H__
+#endif // COMPRESSED_FILE_H
