@@ -480,7 +480,7 @@ void ArkStatusBarExtension::slotSetBusy( const QString & text, bool showCancelBu
 
     if ( !detailedProgress )
     {
-        m_pTimer->start( 200, FALSE );
+        m_pTimer->start( 200, false );
     }
     m_bBusy = true;
 }

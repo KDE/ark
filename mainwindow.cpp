@@ -467,7 +467,7 @@ MainWindow::startProgressDialog( const QString & text )
     timer = new QTimer( this );
     connect( timer, SIGNAL( timeout() ), this, SLOT( slotProgress() ) );
 
-    timer->start( 200, FALSE );
+    timer->start( 200, false );
 }
 
 void
