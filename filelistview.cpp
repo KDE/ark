@@ -4,6 +4,7 @@
 
   Copyright (C)
 
+  2005: Henrique Pinto <henrique.pinto@kdemail.net>
   2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
   2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
   1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
@@ -219,19 +220,34 @@ columnName FileListView::nameOfColumn( int index )
     return colMap[ index ];
 }
 
-QStringList FileListView::selectedFilenames() const
+QStringList FileListView::selectedFilenames()
 {
 	QStringList files;
 
-	FileLVI * flvi = (FileLVI*)firstChild();
-
-	while (flvi)
+	QListViewItemIterator it( this, QListViewItemIterator::Selected );
+	while ( it.current() )
 	{
-		if( isSelected(flvi) )
-			files.append(flvi->fileName());
-		flvi = (FileLVI*)flvi->itemBelow();
+		FileLVI *item = static_cast<FileLVI*>( it.current() );
+		files += item->fileName();
+		++it;
 	}
+
 	return files;
+}
+
+QStringList FileListView::fileNames()
+{
+    QStringList files;
+
+    QListViewItemIterator it( this );
+    while ( it.current() )
+    {
+        FileLVI *item = static_cast<FileLVI*>( it.current() );
+        files += item->fileName();
+        ++it;
+    }
+
+    return files;
 }
 
 uint FileListView::count()
@@ -370,7 +386,7 @@ int FileListView::totalFiles()
 	return numFiles;
 }
 
-int FileListView::selectedFiles()
+int FileListView::selectedFilesCount()
 {
 	int numFiles = 0;
 

@@ -1234,85 +1234,30 @@ ArkWidget::action_delete()
     // a tar file - it actually deletes the contents of the directory
     // as well.
 
-    kdDebug(1601) << "+ArkWidget::action_delete" << endl;
-
     if (archiveContent->isSelectionEmpty())
+    {
         return; // shouldn't happen - delete should have been disabled!
-
-    bool bIsTar = (TAR_FORMAT == m_archType);
-    bool bDeletingDir = false;
-    QStringList list;
-    FileLVI* flvi = (FileLVI*)archiveContent->firstChild();
-    FileLVI* old_flvi;
-    QStringList dirs;
-
-    if (bIsTar)
-    {
-        // check if they're deleting a directory
-        while (flvi)
-        {
-            if ( archiveContent->isSelected(flvi) )
-            {
-                old_flvi = flvi;
-                flvi = (FileLVI*)flvi->itemBelow();
-                QString strFile = old_flvi->fileName();
-                list.append(strFile);
-                QString strTemp = old_flvi->text(1);
-                if (strTemp.left(1) == "d")
-                {
-                    bDeletingDir = true;
-                    dirs.append(strFile);
-                }
-            }
-            else
-                flvi = (FileLVI*)flvi->itemBelow();
-        }
-        if (bDeletingDir)
-        {
-            int nRet = KMessageBox::warningContinueCancel(this, i18n("If you delete a folder in a Tar archive, all the files in that\nfolder will also be deleted. Are you sure you wish to proceed?"), i18n("Warning"), KStdGuiItem::cont());
-            if (nRet == KMessageBox::Cancel)
-                return;
-        }
     }
 
-    bool bDoDelete = true;
-    if (!bDeletingDir)
+    QStringList list = archiveContent->selectedFilenames();
+
+    // ask for confirmation
+    if ( !KMessageBox::warningContinueCancel( this,
+                                              i18n( "Do you really want to delete the selected items?" ),
+                                              QString::null,
+                                              KStdGuiItem::del() )
+         == KMessageBox::Continue)
     {
-        // ask for confirmation
-        bDoDelete = KMessageBox::warningContinueCancel(this, i18n("Do you really want to delete the selected items?"),QString::null,KStdGuiItem::del()) == KMessageBox::Continue;
-    }
-    if (!bDoDelete)
         return;
+    }
 
-    // reset to the beginning to do the second sweep
-    flvi = (FileLVI*)archiveContent->firstChild();
-    while (flvi)
+    // Remove the entries from the list view
+    QListViewItemIterator it( archiveContent, QListViewItemIterator::Selected );
+    while ( it.current() )
     {
-        // if it's selected or, if it's a tar and we're deleting a directory
-        // and the file is in that directory, delete the listview item.
-        old_flvi = flvi;
-        flvi = (FileLVI*)flvi->itemBelow();
-        bool bDel = false;
-
-        QString strFile = old_flvi->fileName();
-        if (bIsTar && bDeletingDir)
-        {
-            for (QStringList::Iterator it = dirs.begin(); it != dirs.end(); ++it)
-            {
-                QRegExp re = "^" + *it;
-                if (re.search(strFile) != -1)
-                {
-                    bDel = true;
-                    break;
-                }
-            }
-        }
-        if (bDel || archiveContent->isSelected(old_flvi))
-        {
-            if (!bIsTar)
-                list.append(strFile);
-            delete old_flvi;
-        }
+        QListViewItem *item = it.current();
+        ++it;
+        delete item;
     }
 
     disableAll();
@@ -1451,15 +1396,7 @@ ArkWidget::existingFiles( const QString & _dest, QStringList & _list )
 
     if (_list.isEmpty())
     {
-        // make the list
-        FileListView *flw = fileList();
-        FileLVI *flvi = (FileLVI*)flw->firstChild();
-        while (flvi)
-        {
-            tmp = flvi->fileName();
-            _list.append(tmp);
-            flvi = (FileLVI*)flvi->itemBelow();
-        }
+        _list = archiveContent->fileNames();
     }
 
     QStringList existingFiles;
@@ -1583,19 +1520,14 @@ ArkWidget::action_extract()
         {
                 KIO::filesize_t nTotalSize = 0;
                 // make a list to send to unarchFile
-                FileListView *flw = fileList();
-                FileLVI *flvi = (FileLVI*)flw->firstChild();
-                while (flvi)
+                QStringList selectedFiles = archiveContent->selectedFilenames();
+                for ( QStringList::const_iterator it = selectedFiles.constBegin();
+                      it != selectedFiles.constEnd();
+                      ++it )
                 {
-                    if ( flw->isSelected(flvi) )
-                    {
-                        kdDebug(1601) << "unarching " << flvi->fileName() << endl;
-                        QCString tmp = QFile::encodeName(flvi->fileName());
-                        m_extractList->append(tmp);
-                        nTotalSize += flvi->fileSize();
-                    }
-                    flvi = (FileLVI*)flvi->itemBelow();
+                    m_extractList->append( QFile::encodeName( *it ) );
                 }
+
                 if (!bOvwrt)
                 {
                     bRedoExtract = reportExtractFailures(extractDir, m_extractList);
@@ -1787,12 +1719,10 @@ ArkWidget::viewSlotExtractDone( bool success )
 void
 ArkWidget::showCurrentFile()
 {
-    FileLVI *pItem = archiveContent->currentItem();
-
-    if ( pItem == NULL )
+    if ( !archiveContent->currentItem() )
         return;
 
-    QString name = pItem->fileName(); // no text(0)
+    QString name = archiveContent->currentItem()->fileName();
 
     QString fullname;
     fullname = "file:";
@@ -1805,7 +1735,7 @@ ArkWidget::showCurrentFile()
     extractList.append(name);
 
     m_strFileToView = fullname;
-    if (ArkUtils::diskHasSpace( tmpDir(), pItem->fileSize() ) )
+    if (ArkUtils::diskHasSpace( tmpDir(), archiveContent->currentItem()->fileSize() ) )
     {
         disableAll();
         prepareViewFiles( extractList );
@@ -1861,7 +1791,7 @@ ArkWidget::slotSelectionChanged()
 void
 ArkWidget::updateStatusSelection()
 {
-    m_nNumSelectedFiles = archiveContent->selectedFiles();
+    m_nNumSelectedFiles = archiveContent->selectedFilesCount();
     m_nSizeOfSelectedFiles = archiveContent->selectedSize();
 
     QString strInfo;

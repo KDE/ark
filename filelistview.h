@@ -1,4 +1,3 @@
-//  -*-C++-*-           emacs magic for .h files
 /*
 
   ark -- archiver for the KDE project
@@ -9,6 +8,7 @@
   1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
   2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
   2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
+  2005: Henrique Pinto <henrique.pinto@kdemail.net>
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -85,7 +85,8 @@ class FileListView : public KListView
         FileListView(ArkWidget *baseArk, QWidget* parent = 0, const char* name = 0);
         FileLVI *currentItem() {return ((FileLVI *) KListView::currentItem());}
 
-        QStringList selectedFilenames() const;
+        QStringList selectedFilenames();
+        QStringList fileNames();
         uint count();
         bool isSelectionEmpty();
         virtual int addColumn( const QString & label, int width = -1 );
@@ -105,9 +106,24 @@ class FileListView : public KListView
          */
         void addItem( const QStringList & entries );
 
+        /**
+         * Returns the number of files in the archive.
+         */
         int totalFiles();
-        int selectedFiles();
+
+        /**
+         * Returns the number of selected files.
+         */
+        int selectedFilesCount();
+
+        /**
+         * Return the sum of the sizes of all files in the archive.
+         */
         KIO::filesize_t totalSize();
+
+        /**
+         * Return the sum of the sizes of the selected files.
+         */
         KIO::filesize_t selectedSize();
 
     public slots:
