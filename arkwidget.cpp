@@ -191,20 +191,11 @@ void ArkWidget::closeArch()
 void
 ArkWidget::updateStatusTotals()
 {
-    m_nNumFiles = 0;
-    m_nSizeOfFiles = 0;
-    if (archiveContent)
-    {
-        FileLVI *pItem = (FileLVI *)archiveContent->firstChild();
-        while (pItem)
-        {
-            ++m_nNumFiles;
-            m_nSizeOfFiles += pItem->fileSize();
-            pItem = (FileLVI *)pItem->nextSibling();
-        }
-    }
+    m_nNumFiles    = archiveContent->totalFiles();
+    m_nSizeOfFiles = archiveContent->totalSize();
 
-    QString strInfo = i18n("%n file  %1", "%n files  %1", m_nNumFiles).arg(KIO::convertSize(m_nSizeOfFiles));
+    QString strInfo = i18n( "%n file  %1", "%n files  %1", m_nNumFiles )
+                          .arg( KIO::convertSize( m_nSizeOfFiles ) );
     emit setStatusBarText(strInfo);
 }
 
@@ -1503,24 +1494,9 @@ ArkWidget::action_extract()
     }
 
     //if more than one entry in the archive is root level, suggest a path prefix
-    QString prefix;
-    int i = 0;
-
-    for( FileLVI *pItem = (FileLVI *)archiveContent->firstChild();
-         pItem;
-         pItem = (FileLVI *)pItem->nextSibling() )
-    {
-      if( pItem->fileName().findRev( '/', -2 ) == -1 )
-      {
-        ++i;
-
-        if( i > 1 )
-        {
-          prefix = QChar( '/' ) + guessName( fileToExtract.path() );
-          break;
-        }
-      }
-    }
+    QString prefix = archiveContent->childCount() > 1 ?
+                         QChar( '/' ) + guessName( fileToExtract.path() )
+                         : QString();
 
     // Should the extraction dialog show an option for extracting only selected files?
     bool enableSelected = ( m_nNumSelectedFiles > 0 );
@@ -1885,22 +1861,9 @@ ArkWidget::slotSelectionChanged()
 void
 ArkWidget::updateStatusSelection()
 {
-    m_nNumSelectedFiles = 0;
-    m_nSizeOfSelectedFiles = 0;
+    m_nNumSelectedFiles = archiveContent->selectedFiles();
+    m_nSizeOfSelectedFiles = archiveContent->selectedSize();
 
-    if (archiveContent)
-    {
-        FileLVI * flvi = (FileLVI*)archiveContent->firstChild();
-        while (flvi)
-        {
-            if (flvi->isSelected())
-            {
-                ++m_nNumSelectedFiles;
-                m_nSizeOfSelectedFiles += flvi->fileSize();
-            }
-            flvi = (FileLVI*)flvi->itemBelow();
-        }
-    }
     QString strInfo;
     if (m_nNumSelectedFiles == 0)
     {

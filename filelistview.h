@@ -34,6 +34,7 @@
 #include <qvaluelist.h>
 
 #include <klistview.h>
+#include <kio/global.h>
 
 class QString;
 class QStringList;
@@ -103,6 +104,11 @@ class FileListView : public KListView
          * @param entries A stringlist of the entries for each column of the list.
          */
         void addItem( const QStringList & entries );
+
+        int totalFiles();
+        int selectedFiles();
+        KIO::filesize_t totalSize();
+        KIO::filesize_t selectedSize();
 
     public slots:
         void selectAll();

@@ -356,4 +356,62 @@ void FileListView::clearHeaders()
 	}
 }
 
+int FileListView::totalFiles()
+{
+	int numFiles = 0;
+
+	QListViewItemIterator it( this );
+	while ( it.current() )
+	{
+		++numFiles;
+		++it;
+	}
+
+	return numFiles;
+}
+
+int FileListView::selectedFiles()
+{
+	int numFiles = 0;
+
+	QListViewItemIterator it( this, QListViewItemIterator::Selected );
+	while ( it.current() )
+	{
+		++numFiles;
+		++it;
+	}
+
+	return numFiles;
+}
+
+KIO::filesize_t FileListView::totalSize()
+{
+	KIO::filesize_t size = 0;
+
+	QListViewItemIterator it(this);
+	while ( it.current() )
+	{
+		FileLVI *item = static_cast<FileLVI*>( it.current() );
+		size += item->fileSize();
+		++it;
+	}
+
+	return size;
+}
+
+KIO::filesize_t FileListView::selectedSize()
+{
+	KIO::filesize_t size = 0;
+
+	QListViewItemIterator it( this, QListViewItemIterator::Selected );
+	while ( it.current() )
+	{
+		FileLVI *item = static_cast<FileLVI*>( it.current() );
+		size += item->fileSize();
+		++it;
+	}
+
+	return size;
+}
+
 #include "filelistview.moc"
