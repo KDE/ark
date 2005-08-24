@@ -365,7 +365,8 @@ int FileListView::totalFiles()
 	QListViewItemIterator it( this );
 	while ( it.current() )
 	{
-		++numFiles;
+		if ( it.current()->childCount() == 0 )
+			++numFiles;
 		++it;
 	}
 
