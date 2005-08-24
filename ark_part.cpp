@@ -188,7 +188,10 @@ void ArkPart::fixEnables()
                              !bReadOnly && bAddDirSupported);
     extractAction->setEnabled(bHaveFiles);
 
-    bool b = ( bHaveFiles && awidget->numSelectedFiles() == 1 );
+    bool b = ( bHaveFiles
+               && (awidget->numSelectedFiles() == 1)
+               && (awidget->fileList()->currentItem()->childCount() == 0)
+             );
     viewAction->setEnabled( b );
     openWithAction->setEnabled( b );
     editAction->setEnabled( b && !bReadOnly ); // You can't edit files in read-only archives

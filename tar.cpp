@@ -360,7 +360,7 @@ void TarArch::slotListingDone(KProcess *_kp)
 {
   const QString list = getLastShellOutput();
   FileListView *flv = m_gui->fileList();
-  if (flv!=NULL && flv->count()>0)
+  if (flv!=NULL && flv->totalFiles()>0)
   {
     const QString firstfile = ((FileLVI *) flv->firstChild())->fileName();
     if (list.find(QRegExp(QString("\\s\\./%1[/\\n]").arg(firstfile)))>=0)

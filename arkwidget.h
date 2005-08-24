@@ -121,7 +121,7 @@ protected slots:
     void action_edit();
 
     void doPopup(QListViewItem *, const QPoint &, int); // right-click menus
-    void viewFile(); // doubleClick view files
+    void viewFile(QListViewItem*); // doubleClick view files
 
     void slotSelectionChanged();
     void slotOpen(Arch *, bool, const QString &, int);

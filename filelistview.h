@@ -28,7 +28,6 @@
 #ifndef FILELISTVIEW_H
 #define FILELISTVIEW_H
 
-#include <qlistview.h>
 #include <qdatetime.h>
 #include <qpair.h>
 #include <qvaluelist.h>
@@ -44,108 +43,113 @@ class QColorGroup;
 class QMouseEvent;
 class QPoint;
 
-class KListView;
-
-class ArkWidget;
-
-class FileListView;
-
 enum columnName { sizeCol = 1 , packedStrCol, ratioStrCol, timeStampStrCol, otherCol };
 
 class FileLVI : public KListViewItem
 {
-    public:
-        FileLVI(KListView* lv);
+	public:
+		FileLVI( KListView* lv ): KListViewItem( lv ) {}
+		FileLVI( KListViewItem* lvi ): KListViewItem( lvi ) {}
 
-        QString fileName() const { return m_entryName; }
-        long fileSize() const;
-        long packedFileSize() const;
-        double ratio() const;
-        QDateTime timeStamp() const;
+		QString fileName() const { return m_entryName; }
+		long fileSize() const { return m_fileSize; }
+		long packedFileSize() const { return m_packedFileSize; }
+		double ratio() const { return m_ratio; }
+		QDateTime timeStamp() const { return m_timeStamp; }
 
-        int compare ( QListViewItem * i, int col, bool ascending ) const;
-        virtual QString key(int column, bool) const;
-        virtual void setText(int column, const QString &text);
+		int compare ( QListViewItem * i, int col, bool ascending ) const;
+		virtual QString key(int column, bool) const;
+		virtual void setText(int column, const QString &text);
 
-    private:
-        long m_fileSize;
-        long m_packedFileSize;
-        double m_ratio;
-        QDateTime m_timeStamp;
-        QString   m_entryName;
+	private:
+		long      m_fileSize;
+		long      m_packedFileSize;
+		double    m_ratio;
+		QDateTime m_timeStamp;
+		QString   m_entryName;
 };
 
 typedef QValueList< QPair< QString, Qt::AlignmentFlags > > ColumnList;
 
-
-class FileListView : public KListView
+class FileListView: public KListView
 {
-    Q_OBJECT
-    public:
-        FileListView(ArkWidget *baseArk, QWidget* parent = 0, const char* name = 0);
-        FileLVI *currentItem() {return ((FileLVI *) KListView::currentItem());}
+	Q_OBJECT
+	public:
+		FileListView( QWidget *parent = 0, const char* name = 0 );
 
-        QStringList selectedFilenames();
-        QStringList fileNames();
-        uint count();
-        bool isSelectionEmpty();
-        virtual int addColumn( const QString & label, int width = -1 );
-        virtual void removeColumn( int index );
-        columnName nameOfColumn( int index );
+		FileLVI *currentItem() {return ((FileLVI *) KListView::currentItem());}
 
-        /**
-         * Returns the file item, or 0 if not found.
-         * @param filename The filename in question to reference in the archive
-         * @return The requested file's FileLVI
-         */
-        FileLVI* item(const QString& filename) const;
+		/**
+		 * Returns the full names of the selected files.
+		 */
+		QStringList selectedFilenames();
 
-        /**
-         * Adds a file and stats to the file listing
-         * @param entries A stringlist of the entries for each column of the list.
-         */
-        void addItem( const QStringList & entries );
+		/**
+		 * Return the full names of all files.
+		 */
+		QStringList fileNames();
 
-        /**
-         * Returns the number of files in the archive.
-         */
-        int totalFiles();
+		/**
+		 * Returns true if no file is selected
+		 */
+		bool isSelectionEmpty();
 
-        /**
-         * Returns the number of selected files.
-         */
-        int selectedFilesCount();
+		virtual int addColumn( const QString & label, int width = -1 );
+		virtual void removeColumn( int index );
+		columnName nameOfColumn( int index );
 
-        /**
-         * Return the sum of the sizes of all files in the archive.
-         */
-        KIO::filesize_t totalSize();
+		/**
+		 * Returns the file item, or 0 if not found.
+		 * @param filename The filename in question to reference in the archive
+		 * @return The requested file's FileLVI
+		 */
+		FileLVI* item(const QString& filename) const;
 
-        /**
-         * Return the sum of the sizes of the selected files.
-         */
-        KIO::filesize_t selectedSize();
+		/**
+		 * Adds a file and stats to the file listing
+		 * @param entries A stringlist of the entries for each column of the list.
+		 */
+		void addItem( const QStringList & entries );
 
-    public slots:
-        void selectAll();
-        void unselectAll();
-        void setHeaders( const ColumnList& columns );
-        void clearHeaders();
+		/**
+		 * Returns the number of files in the archive.
+		 */
+		int totalFiles();
 
-    signals:
-        void startDragRequest( const QStringList & fileList );
+		/**
+		 * Returns the number of selected files.
+		 */
+		int selectedFilesCount();
 
-    protected:
-        void contentsMouseReleaseEvent(QMouseEvent *e);
-        void contentsMousePressEvent(QMouseEvent *e);
-        void contentsMouseMoveEvent(QMouseEvent *e);
+		/**
+		 * Return the sum of the sizes of all files in the archive.
+		 */
+		KIO::filesize_t totalSize();
 
-private:
-  QMap<int, columnName> colMap;
-  ArkWidget *m_pParent;
+		/**
+		 * Return the sum of the sizes of the selected files.
+		 */
+		KIO::filesize_t selectedSize();
 
-  bool m_bPressed;
-  QPoint presspos;  // this will save the click pos to correctly recognize drag events
+	public slots:
+		void selectAll();
+		void unselectAll();
+		void setHeaders( const ColumnList& columns );
+		void clearHeaders();
+
+	signals:
+		void startDragRequest( const QStringList & fileList );
+
+	protected:
+		void contentsMouseReleaseEvent( QMouseEvent *e );
+		void contentsMousePressEvent( QMouseEvent *e );
+		void contentsMouseMoveEvent( QMouseEvent *e );
+
+	private:
+		FileLVI* findParent( const QString& fullname );
+		QMap<int, columnName> colMap;
+		bool m_bPressed;
+		QPoint presspos;  // this will save the click pos to correctly recognize drag events
 };
 
 #endif

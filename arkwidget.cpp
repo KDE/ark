@@ -1768,10 +1768,14 @@ ArkWidget::doPopup( QListViewItem *pItem, const QPoint &pPoint, int nCol ) // sl
 
 
 void
-ArkWidget::viewFile() // slot
+ArkWidget::viewFile( QListViewItem* item ) // slot
 // show contents when double click
 {
-   emit action_view();
+    // Preview, if it is a file
+    if ( item->childCount() == 0)
+        emit action_view();
+    else  // Change opened state if it is a dir
+        item->setOpen( !item->isOpen() );
 }
 
 
@@ -1993,21 +1997,20 @@ void
 ArkWidget::createFileListView()
 {
    kdDebug(1601) << "ArkWidget::createFileListView" << endl;
-   //delete archiveContent;
    if ( !archiveContent )
    {
-      archiveContent = new FileListView(this, this);
-      archiveContent->setMultiSelection(true);
-      //archiveContent->show();
-      connect( archiveContent, SIGNAL( selectionChanged()), this, SLOT( slotSelectionChanged() ) );
-      connect( archiveContent, SIGNAL( rightButtonPressed(QListViewItem *, const QPoint &, int)),
+      archiveContent = new FileListView(this);
+
+      connect( archiveContent, SIGNAL( selectionChanged() ),
+               this, SLOT( slotSelectionChanged() ) );
+      connect( archiveContent, SIGNAL( rightButtonPressed(QListViewItem *, const QPoint &, int) ),
             this, SLOT(doPopup(QListViewItem *, const QPoint &, int)));
       connect( archiveContent, SIGNAL( startDragRequest( const QStringList & ) ),
             this, SLOT( startDrag( const QStringList & ) ) );
       connect( archiveContent, SIGNAL( executed(QListViewItem *, const QPoint &, int ) ),
-            this, SLOT( viewFile() ) );
+            this, SLOT( viewFile(QListViewItem*) ) );
       connect( archiveContent, SIGNAL( returnPressed(QListViewItem * ) ),
-            this, SLOT( viewFile() ) );
+            this, SLOT( viewFile(QListViewItem*) ) );
     }
     archiveContent->clear();
 }

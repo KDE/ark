@@ -60,8 +60,6 @@ void ArkViewer::slotFinished()
 
 bool ArkViewer::view( const QString& filename )
 {
-	kdDebug( 1601 ) << "ArkViewer::view(): viewing " << filename << endl;
-
 	KURL u( filename );
 
 	KMimeType::Ptr mimetype = KMimeType::findByURL( u, 0, true );
@@ -72,8 +70,6 @@ bool ArkViewer::view( const QString& filename )
 	if (size.width() < 200)
 		size = QSize(560, 400);
 	setInitialSize( size );
-
-	kdDebug( 1601 ) << "ArkViewer::view(): mimetype = " << mimetype << endl;
 
 	QFrame *header = new QFrame( m_widget );
 	QHBoxLayout *headerLayout = new QHBoxLayout( header );
