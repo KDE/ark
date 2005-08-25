@@ -4,9 +4,9 @@ AM_CPPFLAGS = -D_LARGEFILE64_SOURCE $(all_includes)
 SUBDIRS = pics
 
 # The binary name. Changed from kzip to ark
-bin_PROGRAMS = 
+bin_PROGRAMS =
 kdeinit_LTLIBRARIES = ark.la
-lib_LTLIBRARIES = 
+lib_LTLIBRARIES =
 
 ark_la_SOURCES = main.cpp arkapp.cpp mainwindow.cpp
 ark_la_LDFLAGS = $(all_libraries) -module $(KDE_PLUGIN)
@@ -30,7 +30,8 @@ libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp zip.cpp tar.cpp \
                         ar.cpp arkutils.cpp archiveformatdlg.cpp \
                         arkwidget.cpp searchbar.cpp \
                         addition.ui extraction.ui general.ui \
-                        arkviewer.cpp sevenzip.cpp extractiondialog.cpp
+                        arkviewer.cpp sevenzip.cpp extractiondialog.cpp \
+                        ace.cpp
 
 METASOURCES = AUTO
 

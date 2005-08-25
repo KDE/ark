@@ -22,6 +22,7 @@
 
 #include "arch.h"
 #include "archiveformatinfo.h"
+#include "settings.h"
 
 #include <klocale.h>
 #include <kdebug.h>
@@ -77,6 +78,9 @@ void ArchiveFormatInfo::buildFormatInfos()
   addFormatInfo( AA_FORMAT, "application/x-archive",".a" );
 
   addFormatInfo( SEVENZIP_FORMAT, "application/x-7z", ".7z" );
+
+  if ( ArkSettings::aceSupport() )
+    addFormatInfo( ACE_FORMAT, "application/x-ace", ".ace" );
 }
 
 void ArchiveFormatInfo::addFormatInfo( ArchType type, QString mime, QString stdExt )

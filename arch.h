@@ -65,7 +65,7 @@ class ArkWidget;
 
 enum ArchType { UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
                 LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT, COMPRESSED_FORMAT,
-                SEVENZIP_FORMAT/*, ACE_FORMAT*/ };
+                SEVENZIP_FORMAT, ACE_FORMAT };
 
 typedef QValueList< QPair< QString, Qt::AlignmentFlags > > ColumnList;
 

@@ -82,5 +82,9 @@
 			<label>Open destination folder after extraction</label>
 			<default>false</default>
 		</entry>
+		<entry name="aceSupport" type="Bool">
+			<label>Enable experimental support for loading ACE files</label>
+			<default>false</default>
+		</entry>
 	</group>
 </kcfg>

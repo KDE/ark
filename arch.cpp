@@ -58,6 +58,7 @@
 #include "rar.h"
 #include "ar.h"
 #include "sevenzip.h"
+#include "ace.h"
 
 Arch::ArchColumns::ArchColumns( int col, QRegExp reg, int length, bool opt )
   : colRef( col ), pattern( reg ), maxLength( length ), optional( opt )
@@ -387,6 +388,9 @@ Arch *Arch::archFactory( ArchType aType,
 
     case SEVENZIP_FORMAT:
       return new SevenZipArch( parent, filename );
+
+    case ACE_FORMAT:
+      return new AceArch( parent, filename );
 
     case UNKNOWN_FORMAT:
     default:
