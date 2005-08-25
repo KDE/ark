@@ -115,12 +115,12 @@ void FileLVI::setText( int column, const QString &text )
 	else if ( colName == sizeCol )
 	{
 		m_fileSize = text.toLong();
-		QListViewItem::setText( column, KGlobal::locale()->formatNumber( m_fileSize, 0 ) );
+		QListViewItem::setText( column, KIO::convertSize( m_fileSize ) );
 	}
 	else if ( colName == packedStrCol )
 	{
 		m_packedFileSize = text.toLong();
-		QListViewItem::setText( column, KGlobal::locale()->formatNumber( m_packedFileSize, 0 ) );
+		QListViewItem::setText( column, KIO::convertSize( m_packedFileSize ) );
 	}
 	else if ( colName == ratioStrCol )
 	{
