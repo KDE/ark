@@ -78,6 +78,7 @@ public:
     QString tmpDir() const { return m_tmpDir ? m_tmpDir->name() : QString::null; }
 
     FileListView * fileList() const { return archiveContent; }
+    SearchBar    * searchBar() const { return m_searchBar; }
     Arch * archive() const { return arch; }
     ArchType archiveType() const { return m_archType; }
     int numSelectedFiles() const { return m_nNumSelectedFiles; }

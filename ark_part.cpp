@@ -26,6 +26,7 @@
 #include "arkwidget.h"
 #include "settings.h"
 #include "filelistview.h"
+#include "searchbar.h"
 
 #include <kdebug.h>
 #include <kpopupmenu.h>
@@ -187,6 +188,7 @@ void ArkPart::fixEnables()
     addDirAction->setEnabled(awidget->isArchiveOpen() &&
                              !bReadOnly && bAddDirSupported);
     extractAction->setEnabled(bHaveFiles);
+    awidget->searchBar()->setEnabled(bHaveFiles);
 
     bool b = ( bHaveFiles
                && (awidget->numSelectedFiles() == 1)
@@ -213,6 +215,8 @@ void ArkPart::initialEnables()
     addDirAction->setEnabled(false);
     openWithAction->setEnabled(false);
     editAction->setEnabled(false);
+
+    awidget->searchBar()->setEnabled(false);
 }
 
 void ArkPart::disableActions()
@@ -229,6 +233,7 @@ void ArkPart::disableActions()
     addDirAction->setEnabled(false);
     openWithAction->setEnabled(false);
     editAction->setEnabled(false);
+    awidget->searchBar()->setEnabled(false);
 }
 
 bool ArkPart::openURL( const KURL & url )

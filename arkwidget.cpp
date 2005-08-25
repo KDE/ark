@@ -1252,12 +1252,13 @@ ArkWidget::action_delete()
     }
 
     // Remove the entries from the list view
-    QListViewItemIterator it( archiveContent, QListViewItemIterator::Selected );
+    QListViewItemIterator it( archiveContent );
     while ( it.current() )
     {
-        QListViewItem *item = it.current();
-        ++it;
-        delete item;
+        if ( it.current()->isSelected() )
+            delete *it;
+        else
+            ++it;
     }
 
     disableAll();
