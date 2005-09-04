@@ -44,6 +44,19 @@
 // FileLVI implementation
 /////////////////////////////////////////////////////////////////////
 
+FileLVI::FileLVI( KListView* lv )
+	: KListViewItem( lv ), m_fileSize( 0 ), m_packedFileSize( 0 ),
+	  m_ratio( 0 ), m_timeStamp( QDateTime() ), m_entryName( QString() )
+{
+
+}
+
+FileLVI::FileLVI( KListViewItem* lvi )
+	: KListViewItem( lvi ), m_fileSize( 0 ), m_packedFileSize( 0 ),
+	  m_ratio( 0 ), m_timeStamp( QDateTime() ), m_entryName( QString() )
+{
+}
+
 QString FileLVI::key( int column, bool ascending ) const
 {
 	if ( column == 0 )
@@ -140,6 +153,22 @@ void FileLVI::setText( int column, const QString &text )
 	}
 	else
 		QListViewItem::setText(column, text);
+}
+
+static FileLVI* folderLVI( KListViewItem *parent, const QString& name )
+{
+	FileLVI *folder = new FileLVI( parent );
+	folder->setText( 0, name );
+	folder->setPixmap( 0, KMimeType::mimeType( "inode/directory" )->pixmap( KIcon::Small ) );
+	return folder;
+}
+
+static FileLVI* folderLVI( KListView *parent, const QString& name )
+{
+	FileLVI *folder = new FileLVI( parent );
+	folder->setText( 0, name );
+	folder->setPixmap( 0, KMimeType::mimeType( "inode/directory" )->pixmap( KIcon::Small ) );
+	return folder;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -419,8 +448,8 @@ KIO::filesize_t FileListView::selectedSize()
 
 FileLVI* FileListView::findParent( const QString& fullname )
 {
-	kdDebug( 1601 ) << "findParent: parent for " << fullname << endl;
 	QString name = fullname;
+
 	if ( name.endsWith( "/" ) )
 		name = name.left( name.length() -1 );
 	// Checks if this entry needs a parent
@@ -443,11 +472,7 @@ FileLVI* FileListView::findParent( const QString& fullname )
 	// If the list view does not contain the item, create it
 	if ( !item )
 	{
-		item = new FileLVI( this );
-		item->setText( 0, ancestorList[0] );
-		// TODO: Folder Icon
-
-		kdDebug( 1601 ) << "findParent: 	created " << ancestorList[0] << endl;
+		item = folderLVI( this, ancestorList[0] );
 	}
 
 	// We've already dealt with the first item, remove it
@@ -468,10 +493,7 @@ FileLVI* FileListView::findParent( const QString& fullname )
 
 		if ( !item )
 		{
-			kdDebug( 1601 ) << "findParent: 	created " << ancestorList[0] << endl;
-			item = new FileLVI( parent );
-			item->setText( 0, name );
-			// TODO: Folder icon
+			item = folderLVI( parent, name );
 		}
 
 		ancestorList.pop_front();
@@ -482,3 +504,4 @@ FileLVI* FileListView::findParent( const QString& fullname )
 }
 
 #include "filelistview.moc"
+// kate: space-indent off; tab-width 4;

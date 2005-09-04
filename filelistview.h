@@ -48,8 +48,8 @@ enum columnName { sizeCol = 1 , packedStrCol, ratioStrCol, timeStampStrCol, othe
 class FileLVI : public KListViewItem
 {
 	public:
-		FileLVI( KListView* lv ): KListViewItem( lv ) {}
-		FileLVI( KListViewItem* lvi ): KListViewItem( lvi ) {}
+		FileLVI( KListView* lv );
+		FileLVI( KListViewItem* lvi );
 
 		QString fileName() const { return m_entryName; }
 		long fileSize() const { return m_fileSize; }
@@ -58,8 +58,8 @@ class FileLVI : public KListViewItem
 		QDateTime timeStamp() const { return m_timeStamp; }
 
 		int compare ( QListViewItem * i, int col, bool ascending ) const;
-		virtual QString key(int column, bool) const;
-		virtual void setText(int column, const QString &text);
+		virtual QString key( int column, bool ) const;
+		virtual void setText( int column, const QString &text );
 
 	private:
 		long      m_fileSize;
@@ -153,3 +153,4 @@ class FileListView: public KListView
 };
 
 #endif
+// kate: space-indent off; tab-width 4;
