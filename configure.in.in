@@ -9,4 +9,3 @@ KDE_CHECK_FUNC_EXT(statfs, [
 ], [
   int statfs(const char *path, struct statfs *buffer)
 ], [STATFS])
-
