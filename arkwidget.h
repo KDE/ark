@@ -77,7 +77,7 @@ public:
 
     QString tmpDir() const { return m_tmpDir ? m_tmpDir->name() : QString::null; }
 
-    FileListView * fileList() const { return archiveContent; }
+    FileListView * fileList() const { return m_fileListView; }
     SearchBar    * searchBar() const { return m_searchBar; }
     Arch * archive() const { return arch; }
     ArchType archiveType() const { return m_archType; }
@@ -288,12 +288,12 @@ private: // data
     KToolBar  * m_searchToolBar;
     SearchBar * m_searchBar;
 
-    Arch *arch;
-    QString m_strArchName;
-    KURL m_realURL;
-    FileListView *archiveContent;
-    KURL m_url;
+    Arch   * arch;
+    QString  m_strArchName;
+    KURL     m_realURL;
+    KURL     m_url;
     ArchType m_archType;
+    FileListView * m_fileListView;
 
     KIO::filesize_t m_nSizeOfFiles;
     KIO::filesize_t m_nSizeOfSelectedFiles;

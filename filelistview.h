@@ -131,6 +131,11 @@ class FileListView: public KListView
 		 */
 		KIO::filesize_t selectedSize();
 
+		/**
+		 * Adjust the size of all columns to fit their content.
+		 */
+		void adjustColumns() { for ( int i = 0; i < columns(); ++i ) adjustColumn( i ); }
+
 	public slots:
 		void selectAll();
 		void unselectAll();
@@ -141,15 +146,17 @@ class FileListView: public KListView
 		void startDragRequest( const QStringList & fileList );
 
 	protected:
-		void contentsMouseReleaseEvent( QMouseEvent *e );
-		void contentsMousePressEvent( QMouseEvent *e );
-		void contentsMouseMoveEvent( QMouseEvent *e );
+		virtual void contentsMouseReleaseEvent( QMouseEvent *e );
+		virtual void contentsMousePressEvent( QMouseEvent *e );
+		virtual void contentsMouseMoveEvent( QMouseEvent *e );
 
 	private:
 		FileLVI* findParent( const QString& fullname );
-		QMap<int, columnName> colMap;
-		bool m_bPressed;
-		QPoint presspos;  // this will save the click pos to correctly recognize drag events
+		QStringList childrenOf( FileLVI* parent );
+
+		QMap<int, columnName> m_columnMap;
+		bool m_pressed;
+		QPoint m_presspos;  // this will save the click pos to correctly recognize drag events
 };
 
 #endif

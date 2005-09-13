@@ -1,5 +1,4 @@
 /*
-  -*- mode: c++; c-basic-offset: 4; indent-tabs-mode: nil -*-
 
 ark: A program for modifying archives via a GUI.
 
@@ -66,38 +65,61 @@ static KCmdLineOptions option[] =
 extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 {
 	KAboutData aboutData( "ark", I18N_NOOP( "Ark" ),
-			"2.6", I18N_NOOP("KDE Archiving tool"), 
-			KAboutData::License_GPL,
-			I18N_NOOP( "(c) 1997-2005, The Various Ark Developers" ) );
-	
-	aboutData.addAuthor( "Henrique Pinto", I18N_NOOP( "Maintainer" ), "henrique.pinto@kdemail.net" );
-	aboutData.addAuthor( "Helio Chissini de Castro", I18N_NOOP( "Former maintainer" ), "helio@conectiva.com.br" );
-	aboutData.addAuthor( "Georg Robbers", 0, "Georg.Robbers@urz.uni-hd.de" );
-	aboutData.addAuthor( "Roberto Selbach Teixeira", 0, "maragato@kde.org" );
-	aboutData.addAuthor( "Francois-Xavier Duranceau", 0, "duranceau@kde.org" );
-	aboutData.addAuthor( "Emily Ezust (Corel Corporation)", 0, "emilye@corel.com" );
-	aboutData.addAuthor( "Michael Jarrett (Corel Corporation)", 0, "michaelj@corel.com" );
-	aboutData.addAuthor( "Robert Palmbos", 0, "palm9744@kettering.edu" );
+	                      "2.6.0", I18N_NOOP( "KDE Archiving tool" ),
+	                      KAboutData::License_GPL,
+	                      I18N_NOOP( "(c) 1997-2005, The Various Ark Developers" )
+	                    );
 
-	aboutData.addCredit( "Bryce Corkins", I18N_NOOP( "Icons" ), "dbryce@attglobal.net" );
-	aboutData.addCredit( "Liam Smit", I18N_NOOP( "Ideas, help with the icons" ), "smitty@absamail.co.za" );
-	
+	aboutData.addAuthor( "Henrique Pinto",
+	                     I18N_NOOP( "Maintainer" ),
+	                     "henrique.pinto@kdemail.net" );
+	aboutData.addAuthor( "Helio Chissini de Castro",
+	                     I18N_NOOP( "Former maintainer" ),
+	                     "helio@kde.org" );
+	aboutData.addAuthor( "Georg Robbers",
+	                     0,
+	                     "Georg.Robbers@urz.uni-hd.de" );
+	aboutData.addAuthor( "Roberto Selbach Teixeira",
+	                     0,
+	                     "maragato@kde.org" );
+	aboutData.addAuthor( "Francois-Xavier Duranceau",
+	                     0,
+	                     "duranceau@kde.org" );
+	aboutData.addAuthor( "Emily Ezust (Corel Corporation)",
+	                     0,
+	                     "emilye@corel.com" );
+	aboutData.addAuthor( "Michael Jarrett (Corel Corporation)",
+	                     0,
+	                     "michaelj@corel.com" );
+	aboutData.addAuthor( "Robert Palmbos",
+	                     0,
+	                     "palm9744@kettering.edu" );
+
+	aboutData.addCredit( "Bryce Corkins",
+	                     I18N_NOOP( "Icons" ),
+	                     "dbryce@attglobal.net" );
+	aboutData.addCredit( "Liam Smit",
+	                     I18N_NOOP( "Ideas, help with the icons" ),
+	                     "smitty@absamail.co.za" );
+
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( option );
 	KCmdLineArgs::addTempFileOption();
-	
+
 	if ( !ArkApplication::start() )
 	{
 		// Already running!
 		kdDebug( 1601 ) << "Already running" << endl;
 		exit( 0 );
 	}
-	
+
 	if ( ArkApplication::getInstance()->isRestored() )
 	{
 		kdDebug( 1601 ) << "In main: Restore..." << endl;
 		RESTORE( MainWindow );
 	}
-	
+
 	return ArkApplication::getInstance()->exec();
 }
+
+// kate: space-indent off; tab-width 4;

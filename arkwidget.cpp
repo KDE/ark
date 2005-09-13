@@ -111,10 +111,10 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name )
      m_convert_tmpDir( NULL ), m_convertSuccess( false ),
      m_createRealArchTmpDir( NULL ),  m_extractRemoteTmpDir( NULL ),
      m_modified( false ), m_searchToolBar( 0 ), m_searchBar( 0 ),
-     arch( 0 ), archiveContent( 0 ),
-     m_archType( UNKNOWN_FORMAT ), m_nSizeOfFiles( 0 ),
-     m_nSizeOfSelectedFiles( 0 ), m_nNumFiles( 0 ), m_nNumSelectedFiles( 0 ),
-     m_bIsArchiveOpen( false ), m_bIsSimpleCompressedFile( false ),
+     arch( 0 ), m_archType( UNKNOWN_FORMAT ), m_fileListView( 0 ),
+     m_nSizeOfFiles( 0 ), m_nSizeOfSelectedFiles( 0 ), m_nNumFiles( 0 ),
+     m_nNumSelectedFiles( 0 ), m_bIsArchiveOpen( false ),
+     m_bIsSimpleCompressedFile( false ),
      m_bDropSourceIsSelf( false ), m_extractList( 0 )
 {
     m_tmpDir = new KTempDir( locateLocal( "tmp", "ark" ) );
@@ -140,7 +140,7 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name )
 
     createFileListView();
 
-    m_searchBar->setListView( archiveContent );
+    m_searchBar->setListView( m_fileListView );
 
     // enable DnD
     setAcceptDrops(true);
@@ -151,8 +151,8 @@ ArkWidget::~ArkWidget()
     cleanArkTmpDir();
     ready();
     delete m_pTempAddList;
-    delete archiveContent;
-    archiveContent = 0;
+    delete m_fileListView;
+    m_fileListView = 0;
     delete arch;
     ArkSettings::writeConfig();
 }
@@ -177,10 +177,10 @@ void ArkWidget::closeArch()
       m_bIsArchiveOpen = false;
    }
 
-   if ( archiveContent )
+   if ( m_fileListView )
    {
-      archiveContent->clear();
-      archiveContent->clearHeaders();
+      m_fileListView->clear();
+      m_fileListView->clearHeaders();
    }
 }
 
@@ -191,8 +191,8 @@ void ArkWidget::closeArch()
 void
 ArkWidget::updateStatusTotals()
 {
-    m_nNumFiles    = archiveContent->totalFiles();
-    m_nSizeOfFiles = archiveContent->totalSize();
+    m_nNumFiles    = m_fileListView->totalFiles();
+    m_nSizeOfFiles = m_fileListView->totalSize();
 
     QString strInfo = i18n( "%n file  %1", "%n files  %1", m_nNumFiles )
                           .arg( KIO::convertSize( m_nSizeOfFiles ) );
@@ -861,9 +861,9 @@ ArkWidget::slotExtractDone()
         delete m_extractList;
     m_extractList = 0;
 
-    if( archiveContent ) // avoid race condition, don't do updates if application is exiting
+    if( m_fileListView ) // avoid race condition, don't do updates if application is exiting
     {
-        archiveContent->setUpdatesEnabled(true);
+        m_fileListView->setUpdatesEnabled(true);
         fixEnables();
     }
 
@@ -932,7 +932,7 @@ void
 ArkWidget::disableAll() // private
 {
     emit disableAllActions();
-    archiveContent->setUpdatesEnabled(true);
+    m_fileListView->setUpdatesEnabled(true);
 }
 
 void
@@ -1164,8 +1164,8 @@ void
 ArkWidget::slotAddDone(bool _bSuccess)
 {
     disconnect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( slotAddDone( bool ) ) );
-    archiveContent->setUpdatesEnabled(true);
-    archiveContent->triggerUpdate();
+    m_fileListView->setUpdatesEnabled(true);
+    m_fileListView->triggerUpdate();
     ready();
 
     if (_bSuccess)
@@ -1234,12 +1234,12 @@ ArkWidget::action_delete()
     // a tar file - it actually deletes the contents of the directory
     // as well.
 
-    if (archiveContent->isSelectionEmpty())
+    if (m_fileListView->isSelectionEmpty())
     {
         return; // shouldn't happen - delete should have been disabled!
     }
 
-    QStringList list = archiveContent->selectedFilenames();
+    QStringList list = m_fileListView->selectedFilenames();
 
     // ask for confirmation
     if ( !KMessageBox::warningContinueCancel( this,
@@ -1252,7 +1252,7 @@ ArkWidget::action_delete()
     }
 
     // Remove the entries from the list view
-    QListViewItemIterator it( archiveContent );
+    QListViewItemIterator it( m_fileListView );
     while ( it.current() )
     {
         if ( it.current()->isSelected() )
@@ -1273,8 +1273,8 @@ ArkWidget::slotDeleteDone(bool _bSuccess)
 {
     disconnect( arch, SIGNAL( sigDelete( bool ) ), this, SLOT( slotDeleteDone( bool ) ) );
     kdDebug(1601) << "+ArkWidget::slotDeleteDone" << endl;
-    archiveContent->setUpdatesEnabled(true);
-    archiveContent->triggerUpdate();
+    m_fileListView->setUpdatesEnabled(true);
+    m_fileListView->triggerUpdate();
     if (_bSuccess)
     {
         m_modified = true;
@@ -1323,9 +1323,9 @@ ArkWidget::openWithSlotExtractDone()
             KRun::run( exec, list );
         }
     }
-    if( archiveContent )
+    if( m_fileListView )
     {
-        archiveContent->setUpdatesEnabled(true);
+        m_fileListView->setUpdatesEnabled(true);
         fixEnables();
     }
 
@@ -1397,7 +1397,7 @@ ArkWidget::existingFiles( const QString & _dest, QStringList & _list )
 
     if (_list.isEmpty())
     {
-        _list = archiveContent->fileNames();
+        _list = m_fileListView->fileNames();
     }
 
     QStringList existingFiles;
@@ -1432,8 +1432,8 @@ ArkWidget::action_extract()
     }
 
     //if more than one entry in the archive is root level, suggest a path prefix
-    QString prefix = archiveContent->childCount() > 1 ?
-                         QChar( '/' ) + guessName( fileToExtract.path() )
+    QString prefix = m_fileListView->childCount() > 1 ?
+                           QChar( '/' ) + guessName( realURL() )
                          : QString();
 
     // Should the extraction dialog show an option for extracting only selected files?
@@ -1453,12 +1453,8 @@ ArkWidget::action_extract()
     {
         defaultDir = KURL::fromPathOrURL( QDir::currentDirPath() );
     }
-    else if ( !prefix.isNull() )
-    {
-        defaultDir = KURL( QDir::cleanDirPath( base + prefix ) );
-    }
 
-    ExtractionDialog *dlg = new ExtractionDialog( this, 0, enableSelected, defaultDir, m_url.fileName() );
+    ExtractionDialog *dlg = new ExtractionDialog( this, 0, enableSelected, defaultDir, prefix,  m_url.fileName() );
 
     bool bRedoExtract = false;
 
@@ -1521,7 +1517,7 @@ ArkWidget::action_extract()
         {
                 KIO::filesize_t nTotalSize = 0;
                 // make a list to send to unarchFile
-                QStringList selectedFiles = archiveContent->selectedFilenames();
+                QStringList selectedFiles = m_fileListView->selectedFilenames();
                 for ( QStringList::const_iterator it = selectedFiles.constBegin();
                       it != selectedFiles.constEnd();
                       ++it )
@@ -1591,9 +1587,9 @@ ArkWidget::editSlotExtractDone()
     editStart();
 
     // avoid race condition, don't do updates if application is exiting
-    if( archiveContent )
+    if( m_fileListView )
     {
-        archiveContent->setUpdatesEnabled(true);
+        m_fileListView->setUpdatesEnabled(true);
         fixEnables();
     }
 }
@@ -1708,9 +1704,9 @@ ArkWidget::viewSlotExtractDone( bool success )
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this,
                 SLOT( viewSlotExtractDone( bool ) ) );
     // avoid race condition, don't do updates if application is exiting
-    if( archiveContent )
+    if( m_fileListView )
     {
-        archiveContent->setUpdatesEnabled(true);
+        m_fileListView->setUpdatesEnabled(true);
         fixEnables();
     }
     ready();
@@ -1720,10 +1716,10 @@ ArkWidget::viewSlotExtractDone( bool success )
 void
 ArkWidget::showCurrentFile()
 {
-    if ( !archiveContent->currentItem() )
+    if ( !m_fileListView->currentItem() )
         return;
 
-    QString name = archiveContent->currentItem()->fileName();
+    QString name = m_fileListView->currentItem()->fileName();
 
     QString fullname;
     fullname = "file:";
@@ -1736,7 +1732,7 @@ ArkWidget::showCurrentFile()
     extractList.append(name);
 
     m_strFileToView = fullname;
-    if (ArkUtils::diskHasSpace( tmpDir(), archiveContent->currentItem()->fileSize() ) )
+    if (ArkUtils::diskHasSpace( tmpDir(), m_fileListView->currentItem()->fileSize() ) )
     {
         disableAll();
         prepareViewFiles( extractList );
@@ -1757,8 +1753,8 @@ ArkWidget::doPopup( QListViewItem *pItem, const QPoint &pPoint, int nCol ) // sl
 {
     if ( nCol == 0 || !m_bArchivePopupEnabled )
     {
-        archiveContent->setCurrentItem(pItem);
-        archiveContent->setSelected(pItem, true);
+        m_fileListView->setCurrentItem(pItem);
+        m_fileListView->setSelected(pItem, true);
         emit signalFilePopup( pPoint );
     }
     else // clicked anywhere else but the name column
@@ -1796,8 +1792,8 @@ ArkWidget::slotSelectionChanged()
 void
 ArkWidget::updateStatusSelection()
 {
-    m_nNumSelectedFiles = archiveContent->selectedFilesCount();
-    m_nSizeOfSelectedFiles = archiveContent->selectedSize();
+    m_nNumSelectedFiles    = m_fileListView->selectedFilesCount();
+    m_nSizeOfSelectedFiles = m_fileListView->selectedSize();
 
     QString strInfo;
     if (m_nNumSelectedFiles == 0)
@@ -1981,7 +1977,7 @@ ArkWidget::startDragSlotExtractDone( bool )
         list.append( url );
     }
 
-    KURLDrag *drg = new KURLDrag(list, archiveContent->viewport(), "Ark Archive Drag" );
+    KURLDrag *drg = new KURLDrag(list, m_fileListView->viewport(), "Ark Archive Drag" );
     m_bDropSourceIsSelf = true;
     drg->dragCopy();
     m_bDropSourceIsSelf = false;
@@ -1998,22 +1994,22 @@ void
 ArkWidget::createFileListView()
 {
    kdDebug(1601) << "ArkWidget::createFileListView" << endl;
-   if ( !archiveContent )
+   if ( !m_fileListView )
    {
-      archiveContent = new FileListView(this);
+      m_fileListView = new FileListView(this);
 
-      connect( archiveContent, SIGNAL( selectionChanged() ),
+      connect( m_fileListView, SIGNAL( selectionChanged() ),
                this, SLOT( slotSelectionChanged() ) );
-      connect( archiveContent, SIGNAL( rightButtonPressed(QListViewItem *, const QPoint &, int) ),
+      connect( m_fileListView, SIGNAL( rightButtonPressed(QListViewItem *, const QPoint &, int) ),
             this, SLOT(doPopup(QListViewItem *, const QPoint &, int)));
-      connect( archiveContent, SIGNAL( startDragRequest( const QStringList & ) ),
+      connect( m_fileListView, SIGNAL( startDragRequest( const QStringList & ) ),
             this, SLOT( startDrag( const QStringList & ) ) );
-      connect( archiveContent, SIGNAL( executed(QListViewItem *, const QPoint &, int ) ),
+      connect( m_fileListView, SIGNAL( executed(QListViewItem *, const QPoint &, int ) ),
             this, SLOT( viewFile(QListViewItem*) ) );
-      connect( archiveContent, SIGNAL( returnPressed(QListViewItem * ) ),
+      connect( m_fileListView, SIGNAL( returnPressed(QListViewItem * ) ),
             this, SLOT( viewFile(QListViewItem*) ) );
     }
-    archiveContent->clear();
+    m_fileListView->clear();
 }
 
 
@@ -2039,10 +2035,10 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName, const QString& _mime
     }
 
     connect( newArch, SIGNAL(headers(const ColumnList&)),
-             archiveContent, SLOT(setHeaders(const ColumnList&)));
+             m_fileListView, SLOT(setHeaders(const ColumnList&)));
 
     m_archType = archtype;
-    archiveContent->setUpdatesEnabled(true);
+    m_fileListView->setUpdatesEnabled(true);
     return newArch;
 }
 
@@ -2086,7 +2082,7 @@ ArkWidget::slotCreate(Arch * _newarch, bool _success, const QString & _filename,
         emit setWindowCaption( _filename );
         emit addRecentURL( u );
         createFileListView();
-   archiveContent->show();
+   m_fileListView->show();
         m_bIsArchiveOpen = true;
         arch = _newarch;
         m_bIsSimpleCompressedFile =
@@ -2155,12 +2151,12 @@ ArkWidget::openArchive( const QString & _filename )
     connect( newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
              this, SLOT(slotOpen(Arch *, bool, const QString &,int)) );
     connect( newArch, SIGNAL(headers(const ColumnList&)),
-             archiveContent, SLOT(setHeaders(const ColumnList&)));
+             m_fileListView, SLOT(setHeaders(const ColumnList&)));
 
     disableAll();
 
     busy( i18n( "Opening the archive..." ) );
-    archiveContent->setUpdatesEnabled( false );
+    m_fileListView->setUpdatesEnabled( false );
     arch = newArch;
     newArch->open();
     emit addRecentURL( m_url );
@@ -2170,10 +2166,10 @@ void
 ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _filename, int )
 {
     ready();
-    archiveContent->setUpdatesEnabled(true);
-    archiveContent->triggerUpdate();
+    m_fileListView->setUpdatesEnabled(true);
+    m_fileListView->triggerUpdate();
 
-    archiveContent->show();
+    m_fileListView->show();
 
     if ( _success )
     {
@@ -2194,6 +2190,7 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
             extractOnlyOpenDone();
             return;
         }
+        m_fileListView->adjustColumns();
         emit addOpenArk( _filename );
     }
     else

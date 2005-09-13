@@ -188,9 +188,10 @@ FileListView::FileListView(QWidget *parent, const char* name)
 	setDragEnabled( true );
 	setItemsMovable( false );
 	setRootIsDecorated( true );
+	setShowSortIndicator( true );
+	setResizeMode( QListView::AllColumns );
 
-
-	m_bPressed = false;
+	m_pressed = false;
 }
 
 int FileListView::addColumn ( const QString & label, int width )
@@ -198,53 +199,81 @@ int FileListView::addColumn ( const QString & label, int width )
 	int index = KListView::addColumn( label, width );
 	if ( label == SIZE_COLUMN.first )
 	{
-		colMap[ index ] = sizeCol;
+		m_columnMap[ index ] = sizeCol;
 	}
 	else if ( label == PACKED_COLUMN.first )
 	{
-		colMap[ index ] = packedStrCol;
+		m_columnMap[ index ] = packedStrCol;
 	}
 	else if ( label == RATIO_COLUMN.first )
 	{
-		colMap[ index ] = ratioStrCol;
+		m_columnMap[ index ] = ratioStrCol;
 	}
 	else if ( label == TIMESTAMP_COLUMN.first )
 	{
-		colMap[ index ] = timeStampStrCol;
+		m_columnMap[ index ] = timeStampStrCol;
 	}
 	else
 	{
-		colMap[ index ] = otherCol;
+		m_columnMap[ index ] = otherCol;
 	}
 	return index;
 }
 
 void FileListView::removeColumn( int index )
 {
-	for ( unsigned int i = index; i < colMap.count() - 2; i++ )
+	for ( unsigned int i = index; i < m_columnMap.count() - 2; i++ )
 	{
-		colMap.replace( i, colMap[ i + 1 ] );
+		m_columnMap.replace( i, m_columnMap[ i + 1 ] );
 	}
 
-	colMap.remove( colMap[ colMap.count() - 1 ] );
+	m_columnMap.remove( m_columnMap[ m_columnMap.count() - 1 ] );
 	KListView::removeColumn( index );
 }
 
 columnName FileListView::nameOfColumn( int index )
 {
-	return colMap[ index ];
+	return m_columnMap[ index ];
 }
 
 QStringList FileListView::selectedFilenames()
 {
 	QStringList files;
 
-	QListViewItemIterator it( this, QListViewItemIterator::Selected );
-	while ( it.current() )
+	FileLVI *item = static_cast<FileLVI*>( firstChild() );
+
+	while ( item )
 	{
-		FileLVI *item = static_cast<FileLVI*>( it.current() );
-		files += item->fileName();
-		++it;
+		if ( item->isSelected() )
+		{
+			// If the item has children, add each child instead of the item
+			if ( item->childCount() > 0 )
+			{
+				files += childrenOf( item );
+
+				/* If we got here, then the logic for "going to the next item"
+				 * is a bit different: as we already dealt with all the children,
+				 * the "next item" is the next sibling of the current item, not
+				 * its first child. If the current item has no siblings, then
+				 * the next item is the next sibling of its parent, and so on.
+				 */
+				FileLVI *nitem = static_cast<FileLVI*>( item->nextSibling() );
+				while ( !nitem and item->parent() )
+				{
+					item = static_cast<FileLVI*>( item->parent() );
+					nitem = static_cast<FileLVI*>( item->parent()->nextSibling() );
+				}
+				item = nitem;
+				continue;
+			}
+			else
+			{
+				// If the item has no children, just add it to the list
+				files += item->fileName();
+			}
+		}
+		// Go to the next item
+		item = static_cast<FileLVI*>( item->itemBelow() );
 	}
 
 	return files;
@@ -284,8 +313,8 @@ FileListView::contentsMousePressEvent(QMouseEvent *e)
 {
 	if( e->button()==QMouseEvent::LeftButton )
 	{
-		m_bPressed = true;
-		presspos = e->pos();
+		m_pressed = true;
+		m_presspos = e->pos();
 	}
 
 	KListView::contentsMousePressEvent(e);
@@ -294,20 +323,20 @@ FileListView::contentsMousePressEvent(QMouseEvent *e)
 void
 FileListView::contentsMouseReleaseEvent(QMouseEvent *e)
 {
-	m_bPressed = false;
+	m_pressed = false;
 	KListView::contentsMouseReleaseEvent(e);
 }
 
 void
 FileListView::contentsMouseMoveEvent(QMouseEvent *e)
 {
-	if(!m_bPressed)
+	if(!m_pressed)
 	{
 		KListView::contentsMouseMoveEvent(e);
 	}
-	else if( ( presspos - e->pos() ).manhattanLength() > KGlobalSettings::dndEventDelay() )
+	else if( ( m_presspos - e->pos() ).manhattanLength() > KGlobalSettings::dndEventDelay() )
 	{
-		m_bPressed = false;	// Prevent triggering again
+		m_pressed = false;	// Prevent triggering again
 		if(isSelectionEmpty())
 		{
 			return;
@@ -501,6 +530,29 @@ FileLVI* FileListView::findParent( const QString& fullname )
 
 	item->setOpen( true );
 	return static_cast< FileLVI* >( item );
+}
+
+QStringList FileListView::childrenOf( FileLVI* parent )
+{
+	Q_ASSERT( parent );
+	QStringList children;
+
+	FileLVI *item = static_cast<FileLVI*>( parent->firstChild() );
+
+	while ( item )
+	{
+		if ( item->childCount() == 0 )
+		{
+			children += item->fileName();
+		}
+		else
+		{
+			children += childrenOf( item );
+		}
+		item = static_cast<FileLVI*>( item->nextSibling() );
+	}
+
+	return children;
 }
 
 #include "filelistview.moc"

@@ -1,5 +1,4 @@
-/**
- *
+/*
  * ark -- archiver for the KDE project
  *
  * Copyright (C)
@@ -55,10 +54,12 @@
 ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
                                     bool enableSelected,
                                     const KURL& defaultExtractionDir,
+                                    const QString &prefix,
                                     const QString &archiveName )
 	: KDialogBase( parent, name, true, i18n( "Extract" ), Ok | Cancel, Ok ),
 	  m_selectedButton( 0 ), m_allButton( 0 ),
-	  m_selectedOnly( enableSelected ), m_extractionDirectory( defaultExtractionDir )
+	  m_selectedOnly( enableSelected ), m_extractionDirectory( defaultExtractionDir ),
+	  m_defaultExtractionDir( defaultExtractionDir.prettyURL() ), m_prefix( prefix )
 {
 	if ( !archiveName.isNull() )
 	{
@@ -100,6 +101,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 	KHistoryCombo *combobox = new KHistoryCombo( true, destDirBox );
 	combobox->setPixmapProvider( new KURLPixmapProvider );
 	combobox->setHistoryItems( ArkSettings::extractionHistory() );
+	destFolderLabel->setBuddy( combobox );
 
 	KURLCompletion *comp = new KURLCompletion();
 	comp->setReplaceHome( true );
@@ -114,7 +116,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 
 	if (!defaultExtractionDir.prettyURL().isEmpty() )
 	{
-		m_urlRequester->setKURL( defaultExtractionDir );
+		m_urlRequester->setKURL( defaultExtractionDir.prettyURL() + prefix );
 	}
 
 	m_viewFolderAfterExtraction = new QCheckBox( i18n( "Open destination folder after extraction" ), vbox );
@@ -168,10 +170,17 @@ void ExtractionDialog::accept()
 	m_extractionDirectory = p;
 	m_selectedOnly = m_selectedButton == 0? false : m_selectedButton->isChecked();
 
+	// Determine what exactly should be added to the extraction combo list
+	QString historyURL = p.prettyURL();
+	if ( historyURL == KURL( m_defaultExtractionDir + m_prefix ).prettyURL() )
+	{
+		historyURL = m_defaultExtractionDir;
+	}
+
 	KHistoryCombo *combo = static_cast<KHistoryCombo*>( m_urlRequester->comboBox() );
 	// If the item was already in the list, delete it from the list and readd it at the top
-	combo->removeFromHistory( p.prettyURL() );
-	combo->addToHistory( p.prettyURL() );
+	combo->removeFromHistory( historyURL );
+	combo->addToHistory( historyURL );
 
 	KDialogBase::accept();
 }
@@ -182,4 +191,4 @@ void ExtractionDialog::extractDirChanged(const QString &text )
 }
 
 #include "extractiondialog.moc"
-
+// kate: space-indent off; tab-width 4;

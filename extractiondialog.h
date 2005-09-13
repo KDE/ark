@@ -48,6 +48,7 @@ class ExtractionDialog : public KDialogBase
 		ExtractionDialog( QWidget *parent = 0, const char *name = 0,
 		                  bool enableSelected = true,
 		                  const KURL &defaultExtractionDir = KURL(),
+		                  const QString &prefix = QString(),
 		                  const QString &archiveName = QString::null );
 
 		/**
@@ -87,7 +88,10 @@ class ExtractionDialog : public KDialogBase
 		bool           m_selectedOnly;
 		KURL           m_extractionDirectory;
 		KURLRequester *m_urlRequester;
+		QString        m_defaultExtractionDir;
+		QString        m_prefix;
 };
 
 #endif //  EXTRACTIONDIALOG_H
+// kate: space-indent off; tab-width 4;
 
