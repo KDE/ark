@@ -33,7 +33,7 @@
 #include <QGroupBox>
 #include <QLabel>
 #include <QRadioButton>
-#include <QLayout>
+#include <QHBoxLayout>
 
 #include <klocale.h>
 #include <kglobal.h>
@@ -78,10 +78,12 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 	if ( enableSelected )
 	{
 		KVBox *whichFiles = new KVBox( header );
-		whichFiles->layout()->setSpacing( 6 );
+		whichFiles->layout()->setSpacing( 2 );
 		new QLabel( QString( "<qt><b><font size=\"+1\">%1</font></b></qt>" )
 		            .arg( i18n( "Extract:" ) ), whichFiles );
-		QGroupBox *filesGroup = new QGroupBox( whichFiles );
+		QWidget *filesGroup = new QWidget( whichFiles );
+		QHBoxLayout *filesGroupLayout = new QHBoxLayout( filesGroup );
+		filesGroupLayout->setAutoAdd( true );
 		m_selectedButton = new QRadioButton( i18n( "Selected files only" ), filesGroup );
 		m_allButton      = new QRadioButton( i18n( "All files" ), filesGroup );
 
