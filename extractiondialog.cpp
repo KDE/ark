@@ -30,8 +30,7 @@
 #include "extractiondialog.h"
 
 #include <Q3VBox>
-#include <Q3HBox>
-#include <Q3HButtonGroup>
+#include <QGroupBox>
 #include <QLabel>
 #include <QRadioButton>
 #include <QLayout>
@@ -47,6 +46,7 @@
 #include <klineedit.h>
 #include <kurlpixmapprovider.h>
 #include <kdebug.h>
+#include <kvbox.h>
 
 #include "arkutils.h"
 #include "settings.h"
@@ -68,7 +68,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 
 	Q3VBox *vbox = makeVBoxMainWidget();
 
-	Q3HBox *header = new Q3HBox( vbox );
+	KHBox *header = new KHBox( vbox );
 	header->layout()->setSpacing( 10 );
 
 	QLabel *icon = new QLabel( header );
@@ -77,11 +77,11 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 
 	if ( enableSelected )
 	{
-		Q3VBox *whichFiles = new Q3VBox( header );
+		KVBox *whichFiles = new KVBox( header );
 		whichFiles->layout()->setSpacing( 6 );
 		new QLabel( QString( "<qt><b><font size=\"+1\">%1</font></b></qt>" )
 		            .arg( i18n( "Extract:" ) ), whichFiles );
-		Q3HButtonGroup *filesGroup = new Q3HButtonGroup( whichFiles );
+		QGroupBox *filesGroup = new QGroupBox( whichFiles );
 		m_selectedButton = new QRadioButton( i18n( "Selected files only" ), filesGroup );
 		m_allButton      = new QRadioButton( i18n( "All files" ), filesGroup );
 
@@ -93,7 +93,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 		            .arg( i18n( "Extract all files" ) ), header );
 	}
 
-	Q3HBox *destDirBox = new Q3HBox( vbox );
+	KHBox *destDirBox = new KHBox( vbox );
 
 	QLabel *destFolderLabel = new QLabel( i18n( "Destination folder: " ), destDirBox );
 	destFolderLabel->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Fixed );
