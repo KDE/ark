@@ -28,9 +28,11 @@
 #define LHA_H
 
 #include "arch.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 class QString;
-class QCString;
+class Q3CString;
 class QStringList;
 
 class ArkWidget;
@@ -52,7 +54,7 @@ class LhaArch : public Arch
     virtual void unarchFileInternal();
 
   protected slots:
-    virtual bool processLine( const QCString &line );
+    virtual bool processLine( const Q3CString &line );
 
   private:
     void setHeaders();

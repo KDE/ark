@@ -38,6 +38,9 @@
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <qdir.h>
+//Added by qt3to4:
+#include <QDragMoveEvent>
+#include <QDropEvent>
 
 // KDE includes
 #include <kdebug.h>
@@ -104,7 +107,7 @@ static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
 //----------------------------------------------------------------------
 
 ArkWidget::ArkWidget( QWidget *parent, const char *name )
-   : QVBox(parent, name), m_bBusy( false ), m_bBusyHold( false ),
+   : Q3VBox(parent, name), m_bBusy( false ), m_bBusyHold( false ),
      m_extractOnly( false ), m_extractRemote(false),
      m_openAsMimeType(QString::null), m_pTempAddList(NULL),
      m_bArchivePopupEnabled( false ),
@@ -207,7 +210,7 @@ ArkWidget::busy( const QString & text )
     if ( m_bBusy )
         return;
 
-    QApplication::setOverrideCursor( waitCursor );
+    QApplication::setOverrideCursor( Qt::waitCursor );
     m_bBusy = true;
 }
 
@@ -228,7 +231,7 @@ ArkWidget::resumeBusy()
         return;
 
     m_bBusyHold = false;
-    QApplication::setOverrideCursor( waitCursor );
+    QApplication::setOverrideCursor( Qt::waitCursor );
 }
 
 void
@@ -489,7 +492,7 @@ ArkWidget::extractToSlotOpenDone( bool success )
     bool keepGoing = true;
     if ( !ArkSettings::extractOverwrite() && !alreadyExisting.isEmpty() )
     {
-       if ( alreadyExisting.count() == m_nNumFiles )
+       if ( alreadyExisting.count() == getNumFilesInArchive() )
         {
             KMessageBox::error( this, i18n( "None of the files in the archive have been\n"
                                             "extracted since all of them already exist.") );
@@ -770,13 +773,13 @@ ArkWidget::getCreateFilename(const QString & _caption,
         strFile = url.path();
 
         if (strFile.isEmpty())
-            return QString::null;
+            return KURL();
 
         //the user chose to save as the current archive
         //or wanted to create a new one with the same name
         //no need to do anything
         if (strFile == m_strArchName && m_bIsArchiveOpen)
-            return QString::null;
+            return KURL();
 
         QStringList extensions = dlg.currentFilterMimeType()->patterns();
         QStringList::Iterator it = extensions.begin();
@@ -804,7 +807,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
             }
             else if ( choice == KMessageBox::Cancel )
             {
-                return QString::null;
+                return KURL();
             }
             else
             {
@@ -817,7 +820,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
             KMessageBox::error( this,
                 i18n( "You do not have permission"
                       " to write to the directory %1" ).arg(url.directory() ) );
-            return QString::null;
+            return KURL();
         }
     } // end of while loop
 
@@ -1252,7 +1255,7 @@ ArkWidget::action_delete()
     }
 
     // Remove the entries from the list view
-    QListViewItemIterator it( m_fileListView );
+    Q3ListViewItemIterator it( m_fileListView );
     while ( it.current() )
     {
         if ( it.current()->isSelected() )
@@ -1636,7 +1639,7 @@ ArkWidget::slotEditFinished(KProcess *kp)
     QStringList::Iterator it = list.begin();
     QString filename = *it;
     QString path;
-    if (filename.contains('/') > 3)
+    if (filename.count('/') > 3)
     {
         kdDebug(1601) << "Filename is originally: " << filename << endl;
         int i = filename.find('/', 5);
@@ -1748,7 +1751,7 @@ ArkWidget::setArchivePopupEnabled( bool b )
 }
 
 void
-ArkWidget::doPopup( QListViewItem *pItem, const QPoint &pPoint, int nCol ) // slot
+ArkWidget::doPopup( Q3ListViewItem *pItem, const QPoint &pPoint, int nCol ) // slot
 // do the right-click popup menus
 {
     if ( nCol == 0 || !m_bArchivePopupEnabled )
@@ -1765,7 +1768,7 @@ ArkWidget::doPopup( QListViewItem *pItem, const QPoint &pPoint, int nCol ) // sl
 
 
 void
-ArkWidget::viewFile( QListViewItem* item ) // slot
+ArkWidget::viewFile( Q3ListViewItem* item ) // slot
 // show contents when double click
 {
     // Preview, if it is a file
@@ -2000,14 +2003,14 @@ ArkWidget::createFileListView()
 
       connect( m_fileListView, SIGNAL( selectionChanged() ),
                this, SLOT( slotSelectionChanged() ) );
-      connect( m_fileListView, SIGNAL( rightButtonPressed(QListViewItem *, const QPoint &, int) ),
-            this, SLOT(doPopup(QListViewItem *, const QPoint &, int)));
+      connect( m_fileListView, SIGNAL( rightButtonPressed(Q3ListViewItem *, const QPoint &, int) ),
+            this, SLOT(doPopup(Q3ListViewItem *, const QPoint &, int)));
       connect( m_fileListView, SIGNAL( startDragRequest( const QStringList & ) ),
             this, SLOT( startDrag( const QStringList & ) ) );
-      connect( m_fileListView, SIGNAL( executed(QListViewItem *, const QPoint &, int ) ),
-            this, SLOT( viewFile(QListViewItem*) ) );
-      connect( m_fileListView, SIGNAL( returnPressed(QListViewItem * ) ),
-            this, SLOT( viewFile(QListViewItem*) ) );
+      connect( m_fileListView, SIGNAL( executed(Q3ListViewItem *, const QPoint &, int ) ),
+            this, SLOT( viewFile(Q3ListViewItem*) ) );
+      connect( m_fileListView, SIGNAL( returnPressed(Q3ListViewItem * ) ),
+            this, SLOT( viewFile(Q3ListViewItem*) ) );
     }
     m_fileListView->clear();
 }

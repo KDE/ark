@@ -50,13 +50,16 @@
 #define ARCH_H
 
 #include <qobject.h>
-#include <qptrlist.h> // Some very annoying hackery in arkwidgetpart
+#include <q3ptrlist.h> // Some very annoying hackery in arkwidgetpart
 #include <qregexp.h>
 #include <qstring.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3CString>
 #include <kurl.h>
 #include <qpair.h>
 
-class QCString;
+class Q3CString;
 class QStringList;
 class KProcess;
 
@@ -67,7 +70,7 @@ enum ArchType { UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
                 LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT, COMPRESSED_FORMAT,
                 SEVENZIP_FORMAT, ACE_FORMAT };
 
-typedef QValueList< QPair< QString, Qt::AlignmentFlags > > ColumnList;
+typedef Q3ValueList< QPair< QString, Qt::AlignmentFlag > > ColumnList;
 
 /**
  * Pure virtual base class for archives - provides a framework as well as
@@ -150,7 +153,7 @@ class Arch : public QObject
 
     void slotReceivedOutput( KProcess *, char*, int );
 
-    virtual bool processLine( const QCString &line );
+    virtual bool processLine( const Q3CString &line );
     virtual void slotReceivedTOC( KProcess *, char *, int );
 
   signals:
@@ -164,7 +167,7 @@ class Arch : public QObject
   protected:  // data
     QString m_filename;
     QString m_lastShellOutput;
-    QCString m_buffer;
+    Q3CString m_buffer;
     ArkWidget *m_gui;
     bool m_bReadOnly; // for readonly archives
     bool m_error;
@@ -179,16 +182,16 @@ class Arch : public QObject
     QString m_unarchiver_program;
 
     // Archive parsing information
-    QCString m_headerString;
+    Q3CString m_headerString;
     bool m_header_removed, m_finished;
-    QPtrList<ArchColumns> m_archCols;
+    Q3PtrList<ArchColumns> m_archCols;
     int m_numCols, m_dateCol, m_fixYear, m_fixMonth, m_fixDay, m_fixTime;
     int m_repairYear, m_repairMonth, m_repairTime;
     KProcess *m_currentProcess;
     QStringList *m_fileList;
     QString m_destDir;
     bool m_viewFriendly;
-    QCString m_password;
+    Q3CString m_password;
 };
 
 // Columns

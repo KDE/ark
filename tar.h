@@ -32,9 +32,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TAR_H
 
 #include <unistd.h>
+//Added by qt3to4:
+#include <Q3StrList>
 
 class QString;
-class QStrList;
+class Q3StrList;
 class KProcess;
 class KTempDir;
 class KTarDirectory;

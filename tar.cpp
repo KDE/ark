@@ -50,11 +50,14 @@
 // Qt includes
 #include <qdir.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3CString>
 
 // KDE includes
 #include <kapplication.h>
 #include <kdebug.h>
-#include <klargefile.h>
+#include <kde_file.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <ktempfile.h>
@@ -304,7 +307,7 @@ void TarArch::openFirstCreateTempDone()
         tarptr = new KTar(tmpfile);
     }
 
-    failed = !tarptr->open( IO_ReadOnly );
+    failed = !tarptr->open( QIODevice::ReadOnly );
     // failed is false for a tar.gz archive opened as tar.bz2 ?
     // but one should be able to open empty archives...
     // failed = failed || ( tarptr->directory()->entries().isEmpty();
@@ -331,7 +334,7 @@ void TarArch::openSecondCreateTempDone()
         if ( KMimeType::findByFileContent( tmpfile )->name() != "application/x-zerosize" )
         {
             tarptr = new KTar(tmpfile);
-            failed = !tarptr->open(IO_ReadOnly);
+            failed = !tarptr->open(QIODevice::ReadOnly);
         }
     }
 
@@ -423,7 +426,7 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
           strSize.sprintf("%d", ((KTarFile *)tarEntry)->size());
         }
       col_list.append(strSize);
-      QString timestamp = tarEntry->datetime().toString(ISODate);
+      QString timestamp = tarEntry->datetime().toString(Qt::ISODate);
       col_list.append(timestamp);
       col_list.append(tarEntry->symlink());
       m_gui->fileList()->addItem(col_list); // send the entry to the GUI
@@ -431,8 +434,8 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
       // if it isn't a file, it's a directory - process it.
       // remember that name is root + / + the name of the directory
       if (!tarEntry->isFile())
-        processDir( (KTarDirectory *)tarEntry, name);
-      kapp->processEvents(20);
+        processDir( (KTarDirectory *)tarEntry, name );
+      kapp->processEvents( QEventLoop::ExcludeUserInputEvents, 20 );
     }
 }
 
@@ -471,7 +474,7 @@ void TarArch::createTmp()
                 ( !originalFile.exists() || originalFile.size() == 0 ) )
             {
                 QFile temp( tmpfile );
-                temp.open( IO_ReadWrite );
+                temp.open( QIODevice::ReadWrite );
                 temp.close();
                 emit createTempDone();
                 return;
@@ -647,8 +650,8 @@ void TarArch::addFileCreateTempDone()
   }
 
   // debugging info
-  QValueList<QCString> list = kp->args();
-  QValueList<QCString>::Iterator strTemp;
+  QList<QByteArray> list = kp->args();
+  QList<QByteArray>::Iterator strTemp;
   for ( strTemp=list.begin(); strTemp != list.end(); ++strTemp )
     {
       kdDebug(1601) << *strTemp << " " << endl;

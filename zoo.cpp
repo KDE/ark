@@ -34,6 +34,8 @@
 // QT includes
 #include <qfile.h>
 #include <qdir.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 // KDE includes
 #include <kdebug.h>
@@ -61,7 +63,7 @@ ZooArch::ZooArch( ArkWidget *gui, const QString & fileName )
   m_headerString = "----";
 }
 
-bool ZooArch::processLine( const QCString &line )
+bool ZooArch::processLine( const Q3CString &line )
 {
   const char *_line = ( const char * )line;
   char columns[11][80];
@@ -289,7 +291,7 @@ QString fixTime( const QString &_strTime )
 
   if ( strTime.contains("+") || strTime.contains("-") )
   {
-    QCharRef c = strTime.at( 8 );
+    QChar c = strTime.at( 8 );
     int offset = strTime.right( strTime.length() - 9 ).toInt();
     QString strHour = strTime.left( 2 );
     int nHour = strHour.toInt();

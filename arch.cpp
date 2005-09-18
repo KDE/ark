@@ -33,6 +33,8 @@
 // QT includes
 #include <qapplication.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 // KDE includes
 #include <kdebug.h>
@@ -160,7 +162,7 @@ void Arch::slotExtractExited( KProcess *_kp )
         QString msg;
         if ( !m_password.isEmpty() )
             msg = i18n("The password was incorrect. ");
-        if (KPasswordDialog::getPassword( m_password, msg+i18n("You must enter a password to extract the file:") ) == KPasswordDialog::Accepted )
+        if ( KPasswordDialog::getPassword( m_gui, m_password, msg+i18n("You must enter a password to extract the file:") ) == KPasswordDialog::Accepted )
         {
             delete _kp;
             _kp = m_currentProcess = 0;
@@ -297,14 +299,14 @@ void Arch::slotReceivedTOC( KProcess*, char* data, int length )
   data[ length ] = c;
 }
 
-bool Arch::processLine( const QCString &line )
+bool Arch::processLine( const Q3CString &line )
 {
   QString columns[ 11 ];
   unsigned int pos = 0;
   int strpos, len;
 
   // Go through our columns, try to pick out data, return silently on failure
-  for ( QPtrListIterator <ArchColumns>col( m_archCols ); col.current(); ++col )
+  for ( Q3PtrListIterator <ArchColumns>col( m_archCols ); col.current(); ++col )
   {
     ArchColumns *curCol = *col;
 

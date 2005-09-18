@@ -33,7 +33,7 @@
 
 // KDE includes
 #include <kdebug.h>
-#include <klargefile.h>
+#include <kde_file.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
@@ -131,7 +131,7 @@ void CompressedFile::initData()
     {
         m_unarchiver_program = "uncompress";
         m_archiver_program = "compress";
-        m_defaultExtensions = ".Z";
+        m_defaultExtensions = QStringList( ".Z" );
     }
 
 }

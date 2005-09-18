@@ -30,7 +30,9 @@
 
 #include <qdatetime.h>
 #include <qpair.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
+//Added by qt3to4:
+#include <QMouseEvent>
 
 #include <klistview.h>
 #include <kio/global.h>
@@ -57,7 +59,7 @@ class FileLVI : public KListViewItem
 		double ratio() const { return m_ratio; }
 		QDateTime timeStamp() const { return m_timeStamp; }
 
-		int compare ( QListViewItem * i, int col, bool ascending ) const;
+		int compare ( Q3ListViewItem * i, int col, bool ascending ) const;
 		virtual QString key( int column, bool ) const;
 		virtual void setText( int column, const QString &text );
 
@@ -69,7 +71,7 @@ class FileLVI : public KListViewItem
 		QString   m_entryName;
 };
 
-typedef QValueList< QPair< QString, Qt::AlignmentFlags > > ColumnList;
+typedef Q3ValueList< QPair< QString, Qt::AlignmentFlag > > ColumnList;
 
 class FileListView: public KListView
 {

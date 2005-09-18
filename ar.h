@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <Q3CString>
 //  -*-C++-*-           emacs magic for .h files
 /*
 
@@ -31,7 +33,7 @@
 #define ARARCH_H
 
 class QString;
-class QCString;
+class Q3CString;
 class QStringList;
 
 class Arch;

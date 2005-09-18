@@ -217,7 +217,7 @@ QString ArchiveFormatInfo::findMimeType( const KURL & url )
 
     char buffer[ 0x200 ];
 
-    dev->open(  IO_ReadOnly );
+    dev->open(  QIODevice::ReadOnly );
     Q_LONG n = dev->readBlock( buffer, 0x200 );
     delete dev;
 
@@ -240,9 +240,9 @@ QString ArchiveFormatInfo::mimeTypeForDescription( const QString & description )
     {
         index = (*it).allDescriptions.findIndex( description );
         if ( index != -1 )
-            return (* (*it).mimeTypes.at( index ) );
+            return ( (*it).mimeTypes.at( index ) );
     }
-    return QString::null;
+    return QString();
 }
 
 QString ArchiveFormatInfo::descriptionForMimeType( const QString & mimeType )
@@ -253,9 +253,9 @@ QString ArchiveFormatInfo::descriptionForMimeType( const QString & mimeType )
     {
         index = (*it).mimeTypes.findIndex( mimeType );
         if ( index != -1 )
-            return (* (*it).allDescriptions.at( index ) );
+            return ( (*it).allDescriptions.at( index ) );
     }
-    return QString::null;
+    return QString();
 }
 
 QString ArchiveFormatInfo::defaultExtension( const QString & mimeType )
@@ -266,9 +266,9 @@ QString ArchiveFormatInfo::defaultExtension( const QString & mimeType )
     {
         index = (*it).mimeTypes.findIndex( mimeType );
         if ( index != -1 )
-            return (* (*it).defaultExtensions.at( index ) );
+            return ( (*it).defaultExtensions.at( index ) );
     }
-    return QString::null;
+    return QString();
 }
 
 bool ArchiveFormatInfo::wasUnknownExtension()

@@ -29,17 +29,19 @@
 #include <kglobal.h>
 #include <kiconloader.h>
 
-#include <qvbox.h>
+#include <q3vbox.h>
 #include <qlayout.h>
 #include <qlabel.h>
-#include <qframe.h>
-#include <qurl.h>
+#include <q3frame.h>
+#include <q3url.h>
+//Added by qt3to4:
+#include <QHBoxLayout>
 
 
 ArkViewer::ArkViewer( QWidget * parent, const char * name )
 	: KDialogBase( parent, name, false, QString::null, Close ), m_part( 0 )
 {
-	m_widget = new QVBox( this );
+	m_widget = new Q3VBox( this );
 
 	connect( this, SIGNAL( finished() ), this, SLOT( slotFinished() ) );
 
@@ -71,7 +73,7 @@ bool ArkViewer::view( const QString& filename )
 		size = QSize(560, 400);
 	setInitialSize( size );
 
-	QFrame *header = new QFrame( m_widget );
+	Q3Frame *header = new Q3Frame( m_widget );
 	QHBoxLayout *headerLayout = new QHBoxLayout( header );
 	headerLayout->setAutoAdd( true );
 
@@ -79,9 +81,9 @@ bool ArkViewer::view( const QString& filename )
 	iconLabel->setPixmap( mimetype->pixmap( KIcon::Desktop ) );
 	iconLabel->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );
 
-	QVBox *headerRight = new QVBox( header );
+	Q3VBox *headerRight = new Q3VBox( header );
 	new QLabel( QString( "<qt><b>%1</b></qt>" )
-	                     .arg( QUrl( filename ).fileName() ), headerRight
+	                     .arg( Q3Url( filename ).fileName() ), headerRight
 	          );
 	new QLabel( mimetype->comment(), headerRight );
 
