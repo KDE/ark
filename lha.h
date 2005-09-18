@@ -29,10 +29,10 @@
 
 #include "arch.h"
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 class QString;
-class Q3CString;
+class QByteArray;
 class QStringList;
 
 class ArkWidget;
@@ -54,7 +54,7 @@ class LhaArch : public Arch
     virtual void unarchFileInternal();
 
   protected slots:
-    virtual bool processLine( const Q3CString &line );
+    virtual bool processLine( const QByteArray &line );
 
   private:
     void setHeaders();

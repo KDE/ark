@@ -25,7 +25,7 @@
 #include "ark_part.h"
 #include "arkfactory.h"
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 KInstance* ArkFactory::s_instance = 0L;
 KAboutData* ArkFactory::s_about = 0L;
@@ -46,8 +46,8 @@ KParts::Part * ArkFactory::createPartObject( QWidget *parentWidget,
                   const QStringList &args )
 {
     bool readWrite = false; // for e.g. Browser/View or KParts::ReadOnlyPart
-    if ( Q3CString( classname ) == "KParts::ReadWritePart" 
-         || Q3CString( classname ) == "ArkPart" )
+    if ( QByteArray( classname ) == "KParts::ReadWritePart" 
+         || QByteArray( classname ) == "ArkPart" )
     {
             readWrite = true;
     }

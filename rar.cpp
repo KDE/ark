@@ -33,7 +33,7 @@
 #include <qfile.h>
 #include <qdir.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 // KDE includes
 #include <kdebug.h>
@@ -77,7 +77,7 @@ RarArch::RarArch( ArkWidget *_gui, const QString & _fileName )
   m_isFirstLine = true;
 }
 
-bool RarArch::processLine( const Q3CString &line )
+bool RarArch::processLine( const QByteArray &line )
 {
   if ( m_isFirstLine )
   {

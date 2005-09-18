@@ -38,7 +38,7 @@
 #include <qfile.h>
 #include <qdir.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 // KDE includes
 #include <kdebug.h>
@@ -64,7 +64,7 @@ LhaArch::LhaArch( ArkWidget *_gui, const QString & _fileName )
   m_headerString = "----";
 }
 
-bool LhaArch::processLine( const Q3CString &line )
+bool LhaArch::processLine( const QByteArray &line )
 {
   const char *_line = ( const char * ) line;
   char columns[13][80];

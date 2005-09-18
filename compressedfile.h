@@ -1,5 +1,5 @@
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 /*
 
     ark: A program for modifying archives via a GUI.
@@ -28,7 +28,7 @@
 #define COMPRESSED_FILE_H
 
 class QString;
-class Q3CString;
+class QByteArray;
 class QStringList;
 class KProcess;
 class KTempDir;

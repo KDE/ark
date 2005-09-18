@@ -34,7 +34,7 @@
 #include <qapplication.h>
 #include <qfile.h>
 //Added by qt3to4:
-#include <Q3CString>
+#include <QByteArray>
 
 // KDE includes
 #include <kdebug.h>
@@ -299,7 +299,7 @@ void Arch::slotReceivedTOC( KProcess*, char* data, int length )
   data[ length ] = c;
 }
 
-bool Arch::processLine( const Q3CString &line )
+bool Arch::processLine( const QByteArray &line )
 {
   QString columns[ 11 ];
   unsigned int pos = 0;

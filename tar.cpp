@@ -52,7 +52,7 @@
 #include <qregexp.h>
 //Added by qt3to4:
 #include <Q3ValueList>
-#include <Q3CString>
+#include <QByteArray>
 
 // KDE includes
 #include <kapplication.h>

@@ -59,7 +59,7 @@
 #include <kurl.h>
 #include <qpair.h>
 
-class Q3CString;
+class QByteArray;
 class QStringList;
 class KProcess;
 
@@ -153,7 +153,7 @@ class Arch : public QObject
 
     void slotReceivedOutput( KProcess *, char*, int );
 
-    virtual bool processLine( const Q3CString &line );
+    virtual bool processLine( const QByteArray &line );
     virtual void slotReceivedTOC( KProcess *, char *, int );
 
   signals:
@@ -167,7 +167,7 @@ class Arch : public QObject
   protected:  // data
     QString m_filename;
     QString m_lastShellOutput;
-    Q3CString m_buffer;
+    QByteArray m_buffer;
     ArkWidget *m_gui;
     bool m_bReadOnly; // for readonly archives
     bool m_error;
@@ -182,7 +182,7 @@ class Arch : public QObject
     QString m_unarchiver_program;
 
     // Archive parsing information
-    Q3CString m_headerString;
+    QByteArray m_headerString;
     bool m_header_removed, m_finished;
     Q3PtrList<ArchColumns> m_archCols;
     int m_numCols, m_dateCol, m_fixYear, m_fixMonth, m_fixDay, m_fixTime;
