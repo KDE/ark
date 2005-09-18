@@ -1439,7 +1439,8 @@ ArkWidget::action_extract()
     // Should the extraction dialog show an option for extracting only selected files?
     bool enableSelected = ( m_nNumSelectedFiles > 0 );
 
-    QString base = ArkSettings::extractionHistory().first();
+    QString base = ArkSettings::extractionHistory().isEmpty()?
+                       QString() : ArkSettings::extractionHistory().first();
     if ( base.isEmpty() )
     {
         // Perhaps the KDE Documents folder is a better choice?
