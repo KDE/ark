@@ -29,6 +29,7 @@
 // Qt includes
 #include <qpainter.h>
 #include <qwhatsthis.h>
+#include <qheader.h>
 
 // KDE includes
 #include <klocale.h>
@@ -190,6 +191,7 @@ FileListView::FileListView(QWidget *parent, const char* name)
 	setRootIsDecorated( true );
 	setShowSortIndicator( true );
 	setResizeMode( QListView::AllColumns );
+	header()->hide(); // Don't show the header until there is something to be shown in it
 
 	m_pressed = false;
 }
@@ -406,10 +408,13 @@ void FileListView::setHeaders( const ColumnList& columns )
 		int colnum = addColumn( pair.first );
 		setColumnAlignment( colnum, pair.second );
 	}
+
+	header()->show();
 }
 
 void FileListView::clearHeaders()
 {
+	header()->hide();
 	while ( columns() > 0 )
 	{
 		removeColumn( 0 );
