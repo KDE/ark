@@ -408,10 +408,13 @@ void FileListView::setHeaders( const ColumnList& columns )
 		int colnum = addColumn( pair.first );
 		setColumnAlignment( colnum, pair.second );
 	}
+
+	header()->show();
 }
 
 void FileListView::clearHeaders()
 {
+	header()->hide();
 	while ( columns() > 0 )
 	{
 		removeColumn( 0 );

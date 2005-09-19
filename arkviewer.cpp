@@ -86,6 +86,8 @@ bool ArkViewer::view( const QString& filename )
 
 	header->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum );
 
+	header->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum );
+
 	m_part = KParts::ComponentFactory::createPartInstanceFromQuery<KParts::ReadOnlyPart>( mimetype->name(), QString::null, m_widget, 0, this );
 
 	if ( m_part )
