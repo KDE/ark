@@ -32,12 +32,12 @@
 
 #include <kio/job.h>
 #include <ktempdir.h>
+#include <kvbox.h>
 
-#include <q3vbox.h>
-//Added by qt3to4:
 #include <QLabel>
 #include <QDragMoveEvent>
 #include <QDropEvent>
+
 #include "arch.h"
 
 class QPoint;
@@ -60,11 +60,11 @@ class FileListView;
 class SearchBar;
 
 
-class ArkWidget : public Q3VBox
+class ArkWidget : public KVBox
 {
     Q_OBJECT
 public:
-    ArkWidget( QWidget *parent=0, const char *name=0 );
+    ArkWidget( QWidget *parent = 0 );
     virtual ~ArkWidget();
 
     bool isArchiveOpen() const { return m_bIsArchiveOpen; }

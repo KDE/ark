@@ -69,9 +69,8 @@ ArkPart::ArkPart( QWidget *parentWidget, const char * /*widgetName*/, QObject *p
                   const char *name, const QStringList &, bool readWrite )
         : KParts::ReadWritePart(parent, name)
 {
-    kdDebug(1601)<<"ArkPart::ArkPart"<<endl;
     setInstance(ArkFactory::instance());
-    awidget = new  ArkWidget( parentWidget, "ArkWidget" );
+    awidget = new  ArkWidget( parentWidget );
 
     setWidget(awidget);
     connect( awidget, SIGNAL( fixActions() ), this, SLOT( fixEnables() ) );

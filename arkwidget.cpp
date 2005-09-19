@@ -106,8 +106,8 @@ static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
 //
 //----------------------------------------------------------------------
 
-ArkWidget::ArkWidget( QWidget *parent, const char *name )
-   : Q3VBox(parent, name), m_bBusy( false ), m_bBusyHold( false ),
+ArkWidget::ArkWidget( QWidget *parent )
+   : KVBox(parent), m_bBusy( false ), m_bBusyHold( false ),
      m_extractOnly( false ), m_extractRemote(false),
      m_openAsMimeType(QString::null), m_pTempAddList(NULL),
      m_bArchivePopupEnabled( false ),
