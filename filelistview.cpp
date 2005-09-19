@@ -29,8 +29,8 @@
 // Qt includes
 #include <qpainter.h>
 #include <q3whatsthis.h>
-//Added by qt3to4:
 #include <QMouseEvent>
+#include <Q3Header>
 
 // KDE includes
 #include <klocale.h>
