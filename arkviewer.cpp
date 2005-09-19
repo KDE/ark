@@ -39,6 +39,7 @@ ArkViewer::ArkViewer( QWidget * parent, const char * name )
 	: KDialogBase( parent, name, false, QString::null, Close ), m_part( 0 )
 {
 	m_widget = new KVBox( this );
+	m_widget->layout()->setSpacing( 10 );
 
 	connect( this, SIGNAL( finished() ), this, SLOT( slotFinished() ) );
 
@@ -83,8 +84,6 @@ bool ArkViewer::view( const QString& filename )
 	                     .arg( KURL( filename ).fileName() ), headerRight
 	          );
 	new QLabel( mimetype->comment(), headerRight );
-
-	header->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum );
 
 	header->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum );
 

@@ -192,6 +192,7 @@ FileListView::FileListView(QWidget *parent, const char* name)
 	setRootIsDecorated( true );
 	setShowSortIndicator( true );
 	setResizeMode( Q3ListView::AllColumns );
+	header()->hide(); // Don't show the header until there is something to be shown in it
 
 	m_pressed = false;
 }
