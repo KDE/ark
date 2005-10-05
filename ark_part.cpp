@@ -36,6 +36,7 @@
 #include <kstatusbar.h>
 #include <kiconloader.h>
 #include <kio/netaccess.h>
+#include <klocale.h>
 
 #include <qfile.h>
 #include <qtimer.h>
@@ -67,7 +68,7 @@ KAboutData *ArkPart::createAboutData()
 
 ArkPart::ArkPart( QWidget *parentWidget, const char * /*widgetName*/, QObject *parent,
                   const char *name, const QStringList &, bool readWrite )
-        : KParts::ReadWritePart(parent, name)
+        : KParts::ReadWritePart(parent)
 {
     setInstance(ArkFactory::instance());
     awidget = new  ArkWidget( parentWidget );
@@ -374,7 +375,7 @@ void ArkPart::cancelTransfer()
 }
 
 ArkBrowserExtension::ArkBrowserExtension( KParts::ReadOnlyPart * parent, const char * name )
-                : KParts::BrowserExtension( parent, name )
+                : KParts::BrowserExtension( parent )
 {
 }
 

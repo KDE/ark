@@ -179,12 +179,8 @@ static FileLVI* folderLVI( KListView *parent, const QString& name )
 
 
 FileListView::FileListView(QWidget *parent, const char* name)
-	: KListView(parent, name)
+	: KListView(parent)
 {
-	Q3WhatsThis::add( this,
-	                 i18n( "This area is for displaying information about the files contained within an archive." )
-	               );
-
 	setMultiSelection( true );
 	setSelectionModeExt( FileManager );
 	setDragEnabled( true );

@@ -41,6 +41,7 @@
 #include <kcombobox.h>
 #include <kio/netaccess.h>
 #include <kaccel.h>
+#include <kxmlguifactory.h>
 
 // ark includes
 #include "arkapp.h"

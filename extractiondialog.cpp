@@ -66,7 +66,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 		setCaption( i18n( "Extract Files From %1" ).arg( archiveName ) );
 	}
 
-	Q3VBox *vbox = makeVBoxMainWidget();
+	KVBox *vbox = makeVBoxMainWidget();
 
 	KHBox *header = new KHBox( vbox );
 	header->layout()->setSpacing( 10 );
