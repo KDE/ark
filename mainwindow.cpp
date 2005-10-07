@@ -34,7 +34,7 @@
 #include <kstatusbar.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kparts/componentfactory.h>
 #include <kparts/browserextension.h>
 #include <kkeydialog.h>
@@ -208,7 +208,7 @@ MainWindow::slotConfigureKeyBindings()
 void
 MainWindow::slotArchivePopup( const QPoint &pPoint)
 {
-    static_cast<KPopupMenu *>(factory()->container("archive_popup", this))->popup(pPoint);
+    static_cast<KMenu *>(factory()->container("archive_popup", this))->popup(pPoint);
 }
 
 // see if the ark is already open in another window

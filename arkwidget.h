@@ -48,7 +48,7 @@ class Q3ListViewItem;
 class QDragMoveEvent;
 class QDropEvent;
 
-class KPopupMenu;
+class KMenu;
 class KProcess;
 class KURL;
 class KRun;

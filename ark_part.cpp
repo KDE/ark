@@ -29,7 +29,7 @@
 #include "searchbar.h"
 
 #include <kdebug.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kmessagebox.h>
 #include <kaboutdata.h>
 #include <kxmlguifactory.h>
@@ -315,7 +315,7 @@ bool ArkPart::closeURL()
 void ArkPart::slotFilePopup( const QPoint &pPoint )
 {
     if ( factory() )
-        static_cast<KPopupMenu *>(factory()->container("file_popup", this))->popup(pPoint);
+        static_cast<KMenu *>(factory()->container("file_popup", this))->popup(pPoint);
 }
 
 void ArkPart::transferStarted( KIO::Job *job )

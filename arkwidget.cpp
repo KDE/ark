@@ -69,7 +69,7 @@
 #include "general.h"
 #include "addition.h"
 #include "extraction.h"
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kdialog.h>
 
 // ark includes
