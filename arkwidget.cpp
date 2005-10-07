@@ -2178,7 +2178,7 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
     if ( _success )
     {
         QFileInfo fi( _filename );
-        QString path = fi.dirPath( true );
+        QString path = fi.absolutePath();
 
         if ( !fi.isWritable() )
         {
