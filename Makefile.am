@@ -10,18 +10,18 @@ lib_LTLIBRARIES =
 
 ark_la_SOURCES = main.cpp arkapp.cpp mainwindow.cpp
 ark_la_LDFLAGS = $(all_libraries) -module $(KDE_PLUGIN)
-ark_la_LIBADD = libark_common.la $(LIB_KPARTS)
+ark_la_LIBADD = libark_common.la $(LIB_KPARTS) $(LIB_KDE3SUPPORT)
 ark_la_COMPILE_FIRST = settings.h
 
 noinst_LTLIBRARIES = libark_common.la
 
 libark_common_la_SOURCES = settings.kcfgc archiveformatinfo.cpp
 libark_common_la_LDFLAGS = $(all_libraries) -no-undefined
-libark_common_la_LIBADD  = $(LIB_KFILE)
+libark_common_la_LIBADD  = $(LIB_KFILE) $(LIB_KDE3SUPPORT)
 
 kde_module_LTLIBRARIES = libarkpart.la
 libarkpart_la_LDFLAGS = $(KDE_PLUGIN) $(all_libraries)
-libarkpart_la_LIBADD = libark_common.la $(LIB_KPARTS)
+libarkpart_la_LIBADD = libark_common.la $(LIB_KPARTS) $(LIB_KDE3SUPPORT)
 libarkpart_la_COMPILE_FIRST = settings.h
 
 libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp zip.cpp tar.cpp \

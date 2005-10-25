@@ -57,7 +57,7 @@
 #include <kprocess.h>
 #include <kfiledialog.h>
 #include <kdirselectdialog.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <klistviewsearchline.h>
 #include <ktoolbar.h>
 #include <kconfigdialog.h>
@@ -1826,7 +1826,7 @@ ArkWidget::updateStatusSelection()
 void
 ArkWidget::dragMoveEvent(QDragMoveEvent *e)
 {
-    if (KURLDrag::canDecode(e) && !m_bDropSourceIsSelf)
+    if (K3URLDrag::canDecode(e) && !m_bDropSourceIsSelf)
     {
         e->accept();
     }
@@ -1840,7 +1840,7 @@ ArkWidget::dropEvent(QDropEvent* e)
 
     KURL::List list;
 
-    if ( KURLDrag::decode( e, list ) )
+    if ( K3URLDrag::decode( e, list ) )
     {
         QStringList urlList = list.toStringList();
         dropAction( urlList );
@@ -1981,7 +1981,7 @@ ArkWidget::startDragSlotExtractDone( bool )
         list.append( url );
     }
 
-    KURLDrag *drg = new KURLDrag(list, m_fileListView->viewport(), "Ark Archive Drag" );
+    K3URLDrag *drg = new K3URLDrag(list, m_fileListView->viewport()/*, "Ark Archive Drag"*/ );
     m_bDropSourceIsSelf = true;
     drg->dragCopy();
     m_bDropSourceIsSelf = false;
