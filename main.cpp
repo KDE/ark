@@ -115,7 +115,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 		exit( 0 );
 	}
 
-	if ( ArkApplication::getInstance()->isRestored() )
+	if ( ArkApplication::getInstance()->isSessionRestored() )
 	{
 		kdDebug( 1601 ) << "In main: Restore..." << endl;
 		RESTORE( MainWindow );

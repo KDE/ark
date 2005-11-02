@@ -42,6 +42,7 @@
 #include <kio/netaccess.h>
 #include <kaccel.h>
 #include <kxmlguifactory.h>
+#include <kglobal.h>
 
 // ark includes
 #include "arkapp.h"
@@ -124,7 +125,7 @@ MainWindow::setupActions()
     closeAction = KStdAction::close(this, SLOT(file_close()), actionCollection(), "file_close");
 
     recent = KStdAction::openRecent(this, SLOT(openURL(const KURL&)), actionCollection());
-    recent->loadEntries(kapp->config());
+    recent->loadEntries(KGlobal::config());
 
     createStandardStatusBarAction();
 
@@ -344,7 +345,7 @@ MainWindow::file_quit()
 void
 MainWindow::slotSaveProperties()
 {
-    recent->saveEntries(kapp->config());
+    recent->saveEntries(KGlobal::config());
 }
 
 void
@@ -369,14 +370,14 @@ void
 MainWindow::slotAddRecentURL( const KURL & url )
 {
     recent->addURL( url );
-    recent->saveEntries(kapp->config());
+    recent->saveEntries(KGlobal::config());
 }
 
 void
 MainWindow::slotRemoveRecentURL( const KURL & url )
 {
     recent->removeURL( url );
-    recent->saveEntries(kapp->config());
+    recent->saveEntries(KGlobal::config());
 }
 
 void

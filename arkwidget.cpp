@@ -210,7 +210,7 @@ ArkWidget::busy( const QString & text )
     if ( m_bBusy )
         return;
 
-    QApplication::setOverrideCursor( Qt::waitCursor );
+    QApplication::setOverrideCursor( Qt::WaitCursor );
     m_bBusy = true;
 }
 
@@ -231,7 +231,7 @@ ArkWidget::resumeBusy()
         return;
 
     m_bBusyHold = false;
-    QApplication::setOverrideCursor( Qt::waitCursor );
+    QApplication::setOverrideCursor( Qt::WaitCursor );
 }
 
 void
