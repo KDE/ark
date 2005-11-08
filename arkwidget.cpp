@@ -893,7 +893,7 @@ ArkWidget::extractRemoteInitiateMoving( const KURL & target )
     srcDirURL.setPath( srcDir );
 
     QDir dir( srcDir );
-    dir.setFilter( QDir::All | QDir::Hidden );
+    dir.setFilter( QDir::TypeMask | QDir::Hidden );
     QStringList lst( dir.entryList() );
     lst.remove( "." );
     lst.remove( ".." );
@@ -1447,7 +1447,7 @@ ArkWidget::action_extract()
     if ( base.isEmpty() )
     {
         // Perhaps the KDE Documents folder is a better choice?
-        base = QDir::homeDirPath();
+        base = QDir::homePath();
     }
 
     // Default URL shown in the extraction dialog;
@@ -1455,7 +1455,7 @@ ArkWidget::action_extract()
 
     if ( m_extractOnly )
     {
-        defaultDir = KURL::fromPathOrURL( QDir::currentDirPath() );
+        defaultDir = KURL::fromPathOrURL( QDir::currentPath() );
     }
 
     ExtractionDialog *dlg = new ExtractionDialog( this, 0, enableSelected, defaultDir, prefix,  m_url.fileName() );
