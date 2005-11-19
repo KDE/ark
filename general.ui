@@ -65,7 +65,7 @@
                         <cstring>konqIntegrationLabel</cstring>
                     </property>
                     <property name="text">
-                        <string>&lt;font size="-1"&gt;&lt;i&gt;Konqueror integration is only available if you install the Konqueror integration plugin from the kdeaddons package.&lt;/i&gt;&lt;/font&gt;</string>
+			    <string>&lt;font size="-1"&gt;&lt;i&gt;Konqueror integration is only available&lt;br&gt; if you install the Konqueror integration&lt;br&gt; plugin from the kdeaddons package.&lt;/i&gt;&lt;/font&gt;</string>
                     </property>
                 </widget>
             </hbox>

@@ -67,8 +67,6 @@
 // settings
 #include "settings.h"
 #include "general.h"
-#include "addition.h"
-#include "extraction.h"
 #include <kmenu.h>
 #include <kdialog.h>
 
@@ -131,6 +129,7 @@ ArkWidget::ArkWidget( QWidget *parent )
 
     m_searchToolBar = new KToolBar( this, "searchBar" );
     m_searchToolBar->boxLayout()->setSpacing( KDialog::spacingHint() );
+    m_searchToolBar->setIconText( KToolBar::IconOnly );
 
     QLabel * l1 = new QLabel( i18n( "&Search:" ), m_searchToolBar, "kde toolbar widget" );
     m_searchBar = new SearchBar( m_searchToolBar, 0 );
@@ -2229,7 +2228,8 @@ void ArkWidget::slotShowSearchBarToggled( bool b )
 /**
  * Show Settings dialog.
  */
-void ArkWidget::showSettings(){
+void ArkWidget::showSettings()
+{
   if(KConfigDialog::showDialog("settings"))
     return;
 
@@ -2237,17 +2237,19 @@ void ArkWidget::showSettings(){
 
   General* genPage = new General(0, "General");
   dialog->addPage(genPage, i18n("General"), "ark", i18n("General Settings"));
-  dialog->addPage(new Addition(0, "Addition"), i18n("Addition"), "ark_addfile", i18n("File Addition Settings"));
-  dialog->addPage(new Extraction(0, "Extraction"), i18n("Extraction"), "ark_extract", i18n("Extraction Settings"));
 
   KTrader::OfferList offers;
 
   offers = KTrader::self()->query( "KonqPopupMenu/Plugin", "Library == 'libarkplugin'" );
 
   if ( offers.isEmpty() )
+  {
      genPage->kcfg_KonquerorIntegration->setEnabled( false );
+  }
   else
+  {
      genPage->konqIntegrationLabel->setText( QString::null );
+  }
 
   dialog->show();
 }
