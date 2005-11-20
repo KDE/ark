@@ -49,7 +49,7 @@
 // ark includes
 #include "arkwidget.h"
 #include "settings.h"
-#include "arch.h"
+#include "archive.h"
 #include "lha.h"
 #include "arkutils.h"
 #include "filelistview.h"

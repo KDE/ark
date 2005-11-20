@@ -46,7 +46,7 @@
 // ark includes
 #include "settings.h"
 #include "arkwidget.h"
-#include "arch.h"
+#include "archive.h"
 #include "zoo.h"
 #include "arkutils.h"
 #include "filelistview.h"

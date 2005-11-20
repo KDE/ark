@@ -25,7 +25,7 @@
 #ifndef ARK_ACE_H
 #define ARK_ACE_H
 
-#include "arch.h"
+#include "archive.h"
 
 class KProcess; // TODO: Remove me!
 

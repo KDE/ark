@@ -24,7 +24,7 @@
 #ifndef SEVENZIP_H
 #define SEVENZIP_H 
 
-#include "arch.h"
+#include "archive.h"
 
 class SevenZipArch : public Arch
 {

@@ -25,7 +25,7 @@ libarkpart_la_LIBADD = libark_common.la $(LIB_KPARTS) $(LIB_KDE3SUPPORT)
 libarkpart_la_COMPILE_FIRST = settings.h
 
 libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp zip.cpp tar.cpp \
-                        filelistview.cpp arch.cpp lha.cpp \
+                        filelistview.cpp archive.cpp lha.cpp \
                         compressedfile.cpp zoo.cpp rar.cpp \
                         ar.cpp arkutils.cpp archiveformatdlg.cpp \
                         arkwidget.cpp searchbar.cpp \

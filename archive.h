@@ -40,7 +40,7 @@
  *
  * To add a new archive type:
  * 1. Create a new header file and a source code module
- * 2. Add an entry to the ArchType enum in arch.h.
+ * 2. Add an entry to the ArchType enum in archive.h.
  * 3. Add appropriate types to buildFormatInfo() in archiveformatinfo.cpp
  *    and archFactory() in arch.cpp
  */

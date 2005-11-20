@@ -23,7 +23,7 @@
 #ifndef ARCHIVEFORMATINFO_H
 #define ARCHIVEFORMATINFO_H
 
-#include "arch.h"
+#include "archive.h"
 #include <kmimetype.h>
 //Added by qt3to4:
 #include <Q3ValueList>

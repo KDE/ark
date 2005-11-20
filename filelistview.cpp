@@ -40,7 +40,7 @@
 #include <kmimetype.h>
 
 #include "filelistview.h"
-#include "arch.h"
+#include "archive.h"
 
 /////////////////////////////////////////////////////////////////////
 // FileLVI implementation
@@ -178,8 +178,8 @@ static FileLVI* folderLVI( KListView *parent, const QString& name )
 /////////////////////////////////////////////////////////////////////
 
 
-FileListView::FileListView(QWidget *parent, const char* name)
-	: KListView(parent)
+FileListView::FileListView( QWidget *parent )
+	: KListView( parent )
 {
 	setMultiSelection( true );
 	setSelectionModeExt( FileManager );
@@ -189,7 +189,6 @@ FileListView::FileListView(QWidget *parent, const char* name)
 	setShowSortIndicator( true );
 	setResizeMode( Q3ListView::AllColumns );
 	header()->hide(); // Don't show the header until there is something to be shown in it
-
 	m_pressed = false;
 }
 

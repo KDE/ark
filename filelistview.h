@@ -77,7 +77,7 @@ class FileListView: public KListView
 {
 	Q_OBJECT
 	public:
-		FileListView( QWidget *parent = 0, const char* name = 0 );
+		FileListView( QWidget *parent = 0 );
 
 		FileLVI *currentItem() {return ((FileLVI *) KListView::currentItem());}
 

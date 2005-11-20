@@ -43,7 +43,7 @@ AceArch::AceArch( ArkWidget *gui, const QString &filename )
 	m_archiver_program = m_unarchiver_program = "/home/henrique/ArkTest/teste.sh";
 	verifyUtilityIsAvailable( m_archiver_program );
 
-	m_headerString = "Date    ³Time ³Packed     ³Size     ³Ratio³File";
+	m_headerString = "Date    Time Packed     Size     RatioFile";
 
 	m_repairYear = 5; m_fixMonth = 6; m_fixDay = 7; m_fixTime = 8;
 	m_dateCol = 3;
@@ -179,3 +179,4 @@ void AceArch::catchMeIfYouCan( KProcess*, char *buffer, int buflen )
 }
 
 #include "ace.moc"
+// kate: space-indent off; mixedindent off; indent-mode cstyle;

@@ -38,7 +38,7 @@
 #include <QDragMoveEvent>
 #include <QDropEvent>
 
-#include "arch.h"
+#include "archive.h"
 
 class QPoint;
 class QString;

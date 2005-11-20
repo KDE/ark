@@ -27,8 +27,7 @@
 #ifndef LHA_H
 #define LHA_H
 
-#include "arch.h"
-//Added by qt3to4:
+#include "archive.h"
 #include <QByteArray>
 
 class QString;

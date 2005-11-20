@@ -24,8 +24,7 @@
 #ifndef RAR_H
 #define RAR_H 
 
-#include "arch.h"
-//Added by qt3to4:
+#include "archive.h"
 #include <QByteArray>
 
 class QString;

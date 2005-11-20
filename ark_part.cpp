@@ -67,7 +67,7 @@ KAboutData *ArkPart::createAboutData()
 
 
 ArkPart::ArkPart( QWidget *parentWidget, const char * /*widgetName*/, QObject *parent,
-                  const char *name, const QStringList &, bool readWrite )
+				  const char */*name*/, const QStringList &, bool readWrite )
         : KParts::ReadWritePart(parent)
 {
     setInstance(ArkFactory::instance());
@@ -374,7 +374,7 @@ void ArkPart::cancelTransfer()
     }
 }
 
-ArkBrowserExtension::ArkBrowserExtension( KParts::ReadOnlyPart * parent, const char * name )
+ArkBrowserExtension::ArkBrowserExtension( KParts::ReadOnlyPart * parent, const char * /*name*/ )
                 : KParts::BrowserExtension( parent )
 {
 }

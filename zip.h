@@ -28,7 +28,7 @@
 #ifndef ZIPARCH_H
 #define ZIPARCH_H
 
-#include "arch.h"
+#include "archive.h"
 
 class QString;
 class QStringList;

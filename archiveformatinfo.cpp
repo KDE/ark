@@ -20,7 +20,7 @@
 
 */
 
-#include "arch.h"
+#include "archive.h"
 #include "archiveformatinfo.h"
 #include "settings.h"
 

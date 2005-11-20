@@ -46,7 +46,7 @@
 #include <kstandarddirs.h>
 
 // ark includes
-#include "arch.h"
+#include "archive.h"
 #include "arkwidget.h"
 #include "arkutils.h"
 #include "filelistview.h"
@@ -399,4 +399,4 @@ Arch *Arch::archFactory( ArchType aType,
       return 0;
   }
 }
-#include "arch.moc"
+#include "archive.moc"
