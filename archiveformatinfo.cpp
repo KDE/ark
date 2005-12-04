@@ -150,7 +150,8 @@ ArchiveFormatInfo::FormatInfo & ArchiveFormatInfo::find( ArchType type )
 
     FormatInfo info;
     info.type = type;
-    return ( *m_formatInfos.append( info ) );
+    m_formatInfos.append( info );
+    return m_formatInfos[m_formatInfos.size()-1];
 }
 
 ArchType ArchiveFormatInfo::archTypeByExtension( const QString & archname )

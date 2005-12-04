@@ -53,8 +53,6 @@
 #include <q3ptrlist.h> // Some very annoying hackery in arkwidgetpart
 #include <qregexp.h>
 #include <qstring.h>
-//Added by qt3to4:
-#include <Q3ValueList>
 #include <Q3CString>
 #include <kurl.h>
 #include <qpair.h>
@@ -70,7 +68,7 @@ enum ArchType { UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
                 LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT, COMPRESSED_FORMAT,
                 SEVENZIP_FORMAT, ACE_FORMAT };
 
-typedef Q3ValueList< QPair< QString, Qt::AlignmentFlag > > ColumnList;
+typedef QList< QPair< QString, Qt::AlignmentFlag > > ColumnList;
 
 /**
  * Pure virtual base class for archives - provides a framework as well as

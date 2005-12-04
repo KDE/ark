@@ -71,7 +71,7 @@ class FileLVI : public KListViewItem
 		QString   m_entryName;
 };
 
-typedef Q3ValueList< QPair< QString, Qt::AlignmentFlag > > ColumnList;
+typedef QList< QPair< QString, Qt::AlignmentFlag > > ColumnList;
 
 class FileListView: public KListView
 {
