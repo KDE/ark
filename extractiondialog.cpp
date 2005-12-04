@@ -29,7 +29,6 @@
 
 #include "extractiondialog.h"
 
-#include <Q3VBox>
 #include <QGroupBox>
 #include <QLabel>
 #include <QRadioButton>
