@@ -243,7 +243,8 @@ ArkApplication::addOpenArk(const KURL & _arkname, MainWindow *_ptr)
     else
         realName = _arkname.prettyURL();
     openArksList.append(realName);
-    m_windowsHash.replace(realName, _ptr);
+    m_windowsHash.remove(realName);
+    m_windowsHash[realName] = _ptr;
     kdDebug(1601) << "Saved ptr " << _ptr << " added open ark: " << realName << endl;
 }
 
