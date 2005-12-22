@@ -124,7 +124,7 @@ ArkPart::setupActions()
     extractAction = new KAction(i18n("E&xtract..."), "ark_extract", 0, awidget,
                                 SLOT(action_extract()),	actionCollection(), "extract");
 
-    deleteAction = new KAction(i18n("De&lete"), "ark_delete", 0, awidget,
+    deleteAction = new KAction(i18n("De&lete"), "ark_delete", KShortcut(Qt::Key_Delete), awidget,
                                SLOT(action_delete()), actionCollection(), "delete");
 
     viewAction = new KAction(i18n("to view something","&View"), "ark_view", 0, awidget,
