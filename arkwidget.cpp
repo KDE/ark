@@ -1242,11 +1242,13 @@ ArkWidget::action_delete()
     QStringList list = m_fileListView->selectedFilenames();
 
     // ask for confirmation
-    if ( !KMessageBox::warningContinueCancel( this,
+    if ( KMessageBox::warningContinueCancelList( this,
                                               i18n( "Do you really want to delete the selected items?" ),
+                                              list,
                                               QString::null,
-                                              KStdGuiItem::del() )
-         == KMessageBox::Continue)
+                                              KStdGuiItem::del(),
+                                              "confirmDelete" )
+         != KMessageBox::Continue)
     {
         return;
     }
