@@ -387,7 +387,7 @@ void TarArch::slotListingDone(KProcess *_kp)
   _kp = m_currentProcess = NULL;
 }
 
-void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
+void TarArch::processDir(const KArchiveDirectory *tardir, const QString & root)
   // process a KTarDirectory. Called recursively for directories within
   // directories, etc. Prepends to filename root, for relative pathnames.
 {
@@ -395,7 +395,7 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
 
   for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
     {
-      const KTarEntry* tarEntry = tardir->entry((*it));
+      const KArchiveEntry* tarEntry = tardir->entry((*it));
       if (tarEntry == NULL)
         return;
 
@@ -421,7 +421,7 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
       QString strSize = "0";
       if (tarEntry->isFile())
         {
-          strSize.sprintf("%d", ((KTarFile *)tarEntry)->size());
+          strSize.sprintf("%d", ((KArchiveFile *)tarEntry)->size());
         }
       col_list.append(strSize);
       QString timestamp = tarEntry->datetime().toString(Qt::ISODate);
@@ -432,7 +432,7 @@ void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
       // if it isn't a file, it's a directory - process it.
       // remember that name is root + / + the name of the directory
       if (!tarEntry->isFile())
-        processDir( (KTarDirectory *)tarEntry, name );
+        processDir( (KArchiveDirectory *)tarEntry, name );
       kapp->processEvents( QEventLoop::ExcludeUserInputEvents, 20 );
     }
 }
