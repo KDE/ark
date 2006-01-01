@@ -53,7 +53,6 @@
 #include <q3ptrlist.h> // Some very annoying hackery in arkwidgetpart
 #include <qregexp.h>
 #include <qstring.h>
-#include <Q3CString>
 #include <kurl.h>
 #include <qpair.h>
 
@@ -189,7 +188,7 @@ class Arch : public QObject
     QStringList *m_fileList;
     QString m_destDir;
     bool m_viewFriendly;
-    Q3CString m_password;
+    QByteArray m_password;
 };
 
 // Columns
