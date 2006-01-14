@@ -31,7 +31,7 @@ libarkpart_la_SOURCES = ark_part.cpp arkfactory.cpp zip.cpp tar.cpp \
                         arkwidget.cpp searchbar.cpp \
                         addition.ui extraction.ui general.ui \
                         arkviewer.cpp sevenzip.cpp extractiondialog.cpp \
-                        ace.cpp
+                        ace.cpp tarlistingthread.cpp
 
 METASOURCES = AUTO
 

@@ -10,6 +10,7 @@
  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
  2001: Roberto Selbach Teixeira <maragato@conectiva.com>
  2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
+ 2006: Henrique Pinto <henrique.pinto@kdemail.net>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -50,6 +51,7 @@
 // Qt includes
 #include <qdir.h>
 #include <qregexp.h>
+#include <qeventloop.h>
 
 // KDE includes
 #include <kapplication.h>
@@ -69,19 +71,16 @@
 #include "settings.h"
 #include "tar.h"
 #include "filelistview.h"
-
-static char *makeAccessString(mode_t mode);
+#include "tarlistingthread.h"
 
 TarArch::TarArch( ArkWidget *_gui,
                   const QString & _filename, const QString & _openAsMimeType)
-  : Arch( _gui, _filename), createTmpInProgress(false),
-    updateInProgress(false), deleteInProgress(false), fd(NULL),
-    m_pTmpProc( NULL ), m_pTmpProc2( NULL ), tarptr( NULL ), failed( false )
+  : Arch( _gui, _filename), m_tmpDir( 0 ), createTmpInProgress(false),
+    updateInProgress(false), deleteInProgress(false), fd(0),
+    m_pTmpProc( 0 ), m_pTmpProc2( 0 ), failed( false ), 
+    m_dotslash( false ), m_listingThread( 0 )
 {
-    m_tmpDir = NULL;
-    m_dotslash = false;
     m_filesToAdd = m_filesToRemove = QStringList();
-    kdDebug(1601) << "+TarArch::TarArch" << endl;
     m_archiver_program = ArkSettings::tarExe();
     m_unarchiver_program = QString::null;
     verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
@@ -119,25 +118,28 @@ TarArch::TarArch( ArkWidget *_gui,
 
         kdDebug(1601) << "Tmpfile will be " << tmpfile << "\n" << endl;
     }
-    kdDebug(1601) << "-TarArch::TarArch" << endl;
 }
 
 TarArch::~TarArch()
 {
-    if ( m_tmpDir )
-        delete m_tmpDir;
-    if ( tarptr )
-        delete tarptr;
+    delete m_tmpDir;
+    m_tmpDir = 0;
+
+    if ( m_listingThread && m_listingThread->finished() != true )
+    {
+      m_listingThread->wait();
+      delete m_listingThread;
+      m_listingThread = 0;
+    }
 }
 
 int TarArch::getEditFlag()
 {
-  return Arch::Extract;
+    return Arch::Extract;
 }
 
 void TarArch::updateArch()
 {
-  kdDebug(1601) << "+TarArch::updateArch" << endl;
   if (compressed)
     {
       updateInProgress = true;
@@ -175,7 +177,6 @@ void TarArch::updateArch()
           emit updateDone();
         }
     }
-  kdDebug(1601) << "-TarArch::updateArch" << endl;
 }
 
 void TarArch::updateProgress( KProcess * _proc, char *_buffer, int _bufflen )
@@ -234,13 +235,12 @@ QString TarArch::getUnCompressor()
 void
 TarArch::open()
 {
-    kdDebug(1601) << "+TarArch::open" << endl;
     if ( compressed )
         QFile::remove(tmpfile); // just to make sure
     setHeaders();
 
-//  m_shellErrorData = "";
     clearShellOutput();
+
     // might as well plunk the output of tar -tvf in the shell output window...
     //
     // Now it's essential - used later to decide whether pathnames in the
@@ -276,16 +276,8 @@ TarArch::open()
     // This unconfuses Extract Here somewhat
 
     if ( m_fileMimeType == "application/x-tgz"
-            || m_fileMimeType == "application/x-tbz" )
+            || m_fileMimeType == "application/x-tbz" || !compressed )
     {
-        QString type = ( m_fileMimeType == "application/x-tgz" )
-            ? "application/x-gzip" : "application/x-bzip2";
-        tarptr = new KTar ( m_filename, type );
-        openFirstCreateTempDone();
-    }
-    else if ( !compressed )
-    {
-        tarptr = new KTar( m_filename );
         openFirstCreateTempDone();
     }
     else
@@ -301,59 +293,11 @@ void TarArch::openFirstCreateTempDone()
             && ( m_fileMimeType != "application/x-tbz" ) )
     {
         disconnect( this, SIGNAL( createTempDone() ), this, SLOT( openFirstCreateTempDone() ) );
-        tarptr = new KTar(tmpfile);
     }
 
-    failed = !tarptr->open( IO_ReadOnly );
-    // failed is false for a tar.gz archive opened as tar.bz2 ?
-    // but one should be able to open empty archives...
-    // failed = failed || ( tarptr->directory()->entries().isEmpty();
-    if( failed && ( getUnCompressor() == QString("gunzip")
-                || getUnCompressor() == QString("bunzip2") ) )
-    {
-        delete tarptr;
-        tarptr = NULL;
-        connect( this, SIGNAL( createTempDone() ), this, SLOT( openSecondCreateTempDone() ) );
-        createTmp();
-    }
-    else
-        openSecondCreateTempDone();
-}
-
-void TarArch::openSecondCreateTempDone()
-{
-    if( failed && ( getUnCompressor() == QString("gunzip")
-                || getUnCompressor() == QString("bunzip2") ) )
-    {
-        disconnect( this, SIGNAL( createTempDone() ), this, SLOT( openSecondCreateTempDone() ) );
-        kdDebug(1601)  << "Creating KTar from failed IO_RW " << m_filename <<
-            " using uncompressor " << getUnCompressor() << endl;
-        if ( KMimeType::findByFileContent( tmpfile )->name() != "application/x-zerosize" )
-        {
-            tarptr = new KTar(tmpfile);
-            failed = !tarptr->open(IO_ReadOnly);
-        }
-    }
-
-    // sigOpen might lead to application exit, delete tarptr before sigOpen
-    // to avoid double deletion
-    if( failed )
-    {
-        kdDebug(1601)  << "Failed to uncompress and open." << endl;
-        delete tarptr;
-        tarptr = NULL;
-        emit sigOpen(this, false, QString::null, 0 );
-    }
-    else
-    {
-        processDir(tarptr->directory(), "");
-        delete tarptr;
-        tarptr = NULL;
-        // because we aren't using the KProcess method, we have to emit this
-        // ourselves.
-        emit sigOpen(this, true, m_filename,
-                Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
-    }
+    Q_ASSERT( !m_listingThread );
+    m_listingThread = new TarListingThread( this, m_filename );
+    m_listingThread->start();
 }
 
 void TarArch::slotListingDone(KProcess *_kp)
@@ -384,56 +328,6 @@ void TarArch::slotListingDone(KProcess *_kp)
 
   delete _kp;
   _kp = m_currentProcess = NULL;
-}
-
-void TarArch::processDir(const KTarDirectory *tardir, const QString & root)
-  // process a KTarDirectory. Called recursively for directories within
-  // directories, etc. Prepends to filename root, for relative pathnames.
-{
-  QStringList list = tardir->entries();
-
-  for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
-    {
-      const KTarEntry* tarEntry = tardir->entry((*it));
-      if (tarEntry == NULL)
-        return;
-
-      QStringList col_list;
-      QString name;
-      if (root.isEmpty() || root.isNull())
-        name = tarEntry->name();
-      else
-        name = root + tarEntry->name();
-      if ( !tarEntry->isFile() )
-        name += '/';
-      col_list.append( name );
-      QString perms = makeAccessString(tarEntry->permissions());
-      if (!tarEntry->isFile())
-        perms = "d" + perms;
-      else if (!tarEntry->symlink().isEmpty())
-        perms = "l" + perms;
-      else
-        perms = "-" + perms;
-      col_list.append(perms);
-      col_list.append( tarEntry->user() );
-      col_list.append( tarEntry->group() );
-      QString strSize = "0";
-      if (tarEntry->isFile())
-        {
-          strSize.sprintf("%d", ((KTarFile *)tarEntry)->size());
-        }
-      col_list.append(strSize);
-      QString timestamp = tarEntry->datetime().toString(ISODate);
-      col_list.append(timestamp);
-      col_list.append(tarEntry->symlink());
-      m_gui->fileList()->addItem(col_list); // send the entry to the GUI
-
-      // if it isn't a file, it's a directory - process it.
-      // remember that name is root + / + the name of the directory
-      if (!tarEntry->isFile())
-        processDir( (KTarDirectory *)tarEntry, name);
-      kapp->processEvents(20);
-    }
 }
 
 void TarArch::create()
@@ -597,7 +491,6 @@ void TarArch::deleteOldFiles(const QStringList &urls, bool bAddOnlyNew)
 
 void TarArch::addFile( const QStringList&  urls )
 {
-  kdDebug(1601) << "+TarArch::addFile" << ( urls.first() ) << endl;
   m_filesToAdd = urls;
   // tar is broken. If you add a file that's already there, it gives you
   // two entries for that name, whether you --append or --update. If you
@@ -667,14 +560,10 @@ void TarArch::addFileCreateTempDone()
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigAdd(false);
     }
-
-  kdDebug(1601) << "-TarArch::addFile" << endl;
 }
 
 void TarArch::slotAddFinished(KProcess *_kp)
 {
-  kdDebug(1601) << "+TarArch::slotAddFinished" << endl;
-
   disconnect( _kp, SIGNAL(processExited(KProcess*)), this,
               SLOT(slotAddFinished(KProcess*)));
   m_pTmpProc = _kp;
@@ -690,17 +579,14 @@ void TarArch::slotAddFinished(KProcess *_kp)
 
 void TarArch::addFinishedUpdateDone()
 {
-  kdDebug(1601) << "+TarArch::addFinishedUpdateDone" << endl;
   if ( compressed )
     disconnect( this, SIGNAL( updateDone() ), this, SLOT( addFinishedUpdateDone() ) );
   Arch::slotAddExited( m_pTmpProc ); // this will delete _kp
   m_pTmpProc = NULL;
-  kdDebug(1601) << "-TarArch::addFinishedUpdateDone" << endl;
 }
 
 void TarArch::unarchFileInternal()
 {
-  kdDebug(1601) << "+TarArch::unarchFile" << endl;
   QString dest;
 
   if (m_destDir.isEmpty() || m_destDir.isNull())
@@ -736,8 +622,7 @@ void TarArch::unarchFileInternal()
       for ( QStringList::Iterator it = m_fileList->begin();
             it != m_fileList->end(); ++it )
         {
-	    *kp << QString(m_dotslash ? "./" : "")+(*it);
-//	    *kp << (*it);/*.latin1() ;*/
+            *kp << QString(m_dotslash ? "./" : "")+(*it);
         }
     }
 
@@ -755,12 +640,10 @@ void TarArch::unarchFileInternal()
       emit sigExtract(false);
     }
 
-  kdDebug(1601) << "+TarArch::unarchFile" << endl;
 }
 
 void TarArch::remove(QStringList *list)
 {
-  kdDebug(1601) << "+Tar::remove" << endl;
   deleteInProgress = true;
   m_filesToRemove = *list;
   connect( this, SIGNAL( createTempDone() ), this, SLOT( removeCreateTempDone() ) );
@@ -784,8 +667,6 @@ void TarArch::removeCreateTempDone()
   for ( ; it != m_filesToRemove.end(); ++it )
     {
         *kp << QString(m_dotslash ? "./" : "")+(*it);
-//      kdDebug(1601) << *it << endl;
-//      *kp << *it;
     }
   m_filesToRemove = QStringList();
 
@@ -802,8 +683,6 @@ void TarArch::removeCreateTempDone()
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigDelete(false);
     }
-
-  kdDebug(1601) << "-Tar::remove" << endl;
 }
 
 void TarArch::slotDeleteExited(KProcess *_kp)
@@ -845,80 +724,51 @@ void TarArch::openFinished( KProcess * )
 
 void TarArch::createTmpFinished( KProcess *_kp )
 {
-  kdDebug(1601) << "+TarArch::createTmpFinished" << endl;
-
   createTmpInProgress = false;
   fclose(fd);
   delete _kp;
   _kp = m_currentProcess = NULL;
 
-
-  kdDebug(1601) << "-TarArch::createTmpFinished" << endl;
   emit createTempDone();
 }
 
 void TarArch::updateFinished( KProcess *_kp )
 {
-  kdDebug(1601) << "+TarArch::updateFinished" << endl;
   fclose(fd);
   updateInProgress = false;
   delete _kp;
   _kp = m_currentProcess = NULL;
 
-  kdDebug(1601) << "-TarArch::updateFinished" << endl;
   emit updateDone();
 }
 
-////////////////////////////////////////////////////////////////////////
-/////////////////// some helper functions
-///////////////////////////////////////////////////////////////////////
-
-// copied from KonqTreeViewItem::makeAccessString()
-static char *makeAccessString(mode_t mode)
+void TarArch::customEvent( QCustomEvent *ev )
 {
-  static char buffer[10];
+  if ( ev->type() == 65442 )
+  {
+    ListingEvent *event = static_cast<ListingEvent*>( ev );
+    switch ( event->status() )
+    {
+      case ListingEvent::Normal:
+        m_gui->fileList()->addItem( event->columns() );
+        break;
 
-  char uxbit,gxbit,oxbit;
+      case ListingEvent::Error:
+        m_listingThread->wait();
+        delete m_listingThread;
+        m_listingThread = 0;
+        emit sigOpen( this, false, QString::null, 0 );
+        break;
 
-  if ( (mode & (S_IXUSR|S_ISUID)) == (S_IXUSR|S_ISUID) )
-    uxbit = 's';
-  else if ( (mode & (S_IXUSR|S_ISUID)) == S_ISUID )
-    uxbit = 'S';
-  else if ( (mode & (S_IXUSR|S_ISUID)) == S_IXUSR )
-    uxbit = 'x';
-  else
-    uxbit = '-';
-
-  if ( (mode & (S_IXGRP|S_ISGID)) == (S_IXGRP|S_ISGID) )
-    gxbit = 's';
-  else if ( (mode & (S_IXGRP|S_ISGID)) == S_ISGID )
-    gxbit = 'S';
-  else if ( (mode & (S_IXGRP|S_ISGID)) == S_IXGRP )
-    gxbit = 'x';
-  else
-    gxbit = '-';
-
-  if ( (mode & (S_IXOTH|S_ISVTX)) == (S_IXOTH|S_ISVTX) )
-    oxbit = 't';
-  else if ( (mode & (S_IXOTH|S_ISVTX)) == S_ISVTX )
-    oxbit = 'T';
-  else if ( (mode & (S_IXOTH|S_ISVTX)) == S_IXOTH )
-    oxbit = 'x';
-  else
-    oxbit = '-';
-
-  buffer[0] = ((( mode & S_IRUSR ) == S_IRUSR ) ? 'r' : '-' );
-  buffer[1] = ((( mode & S_IWUSR ) == S_IWUSR ) ? 'w' : '-' );
-  buffer[2] = uxbit;
-  buffer[3] = ((( mode & S_IRGRP ) == S_IRGRP ) ? 'r' : '-' );
-  buffer[4] = ((( mode & S_IWGRP ) == S_IWGRP ) ? 'w' : '-' );
-  buffer[5] = gxbit;
-  buffer[6] = ((( mode & S_IROTH ) == S_IROTH ) ? 'r' : '-' );
-  buffer[7] = ((( mode & S_IWOTH ) == S_IWOTH ) ? 'w' : '-' );
-  buffer[8] = oxbit;
-  buffer[9] = 0;
-
-  return buffer;
+      case ListingEvent::ListingFinished:
+        m_listingThread->wait();
+        delete m_listingThread;
+        m_listingThread = 0;
+        emit sigOpen( this, true, m_filename,
+                      Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
+    }
+  }
 }
 
 #include "tar.moc"
+// kate: space-indent on;

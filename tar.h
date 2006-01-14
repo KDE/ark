@@ -1,4 +1,3 @@
-//  -*-C++-*-           emacs magic for .h files
 /*
 
 ark -- archiver for the KDE project
@@ -11,6 +10,7 @@ Copyright (C)
 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 2001: Roberto Selbach Teixeira <maragato@conectiva.com>
 2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
+2006: Henrique Pinto <henrique.pinto@kdemail.net>
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -33,14 +33,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <unistd.h>
 
+
 class QString;
 class QStrList;
+
 class KProcess;
 class KTempDir;
 class KTarDirectory;
+class KTar;
+
 class ArkWidget;
 class Arch;
-class KTar;
+class TarListingThread;
 
 // TarArch can read Tar files and Tar files compressed with gzip.
 // It doesn't yet know how to list Tar files compressed with other
@@ -51,78 +55,81 @@ class KTar;
 
 class TarArch : public Arch
 {
-  Q_OBJECT
-public:
-  TarArch( ArkWidget *_gui, const QString & _filename,
-            const QString & _openAsMimeType );
-  virtual ~TarArch();
+	Q_OBJECT
+	public:
+		TarArch( ArkWidget *_gui, const QString & _filename,
+		         const QString & _openAsMimeType );
+		virtual ~TarArch();
 
-  virtual void open();
-  virtual void create();
+		virtual void open();
+		virtual void create();
 
-  virtual void addFile( const QStringList & );
-    virtual void addDir( const QString & );
-    virtual void remove( QStringList* );
-    virtual void unarchFileInternal();
+		virtual void addFile( const QStringList & );
+		virtual void addDir( const QString & );
+		virtual void remove( QStringList* );
+		virtual void unarchFileInternal();
 
-  virtual int getEditFlag();
+		virtual int getEditFlag();
 
-  QString getCompressor();
-  QString getUnCompressor();
+		QString getCompressor();
+		QString getUnCompressor();
 
- public slots:
- void updateProgress( KProcess *_kp, char *_buffer, int _bufflen );
-  void openFinished( KProcess * );
-  void updateFinished( KProcess * );
-  void createTmpFinished( KProcess * );
-    void createTmpProgress( KProcess *_kp, char *_buffer, int _bufflen );
-    void slotAddFinished( KProcess * );
-    void slotListingDone( KProcess * );
-    void slotDeleteExited( KProcess * );
+	public slots:
+		void updateProgress( KProcess *_kp, char *_buffer, int _bufflen );
+		void openFinished( KProcess * );
+		void updateFinished( KProcess * );
+		void createTmpFinished( KProcess * );
+		void createTmpProgress( KProcess *_kp, char *_buffer, int _bufflen );
+		void slotAddFinished( KProcess * );
+		void slotListingDone( KProcess * );
+		void slotDeleteExited( KProcess * );
 
-signals:
-    void removeDone();
-    void createTempDone();
-    void updateDone();
+	signals:
+		void removeDone();
+		void createTempDone();
+		void updateDone();
 
-private slots:
-    void openFirstCreateTempDone();
-    void openSecondCreateTempDone();
-    void deleteOldFilesDone();
-    void addFileCreateTempDone();
-    void addFinishedUpdateDone();
-    void removeCreateTempDone();
-    void removeUpdateDone();
+	private slots:
+		void openFirstCreateTempDone();
+		void deleteOldFilesDone();
+		void addFileCreateTempDone();
+		void addFinishedUpdateDone();
+		void removeCreateTempDone();
+		void removeUpdateDone();
+		
+	protected:
+		void customEvent( QCustomEvent * );
 
-private:  // methods
-    void updateArch();
-    void createTmp();
-    void setHeaders();
-    void processDir( const KTarDirectory *tardir, const QString & root );
-    void deleteOldFiles( const QStringList &list, bool bAddOnlyNew );
-    QString getEntry( const QString & filename );
+	private:  // methods
+		void updateArch();
+		void createTmp();
+		void setHeaders();
+		void processDir( const KTarDirectory *tardir, const QString & root );
+		void deleteOldFiles( const QStringList &list, bool bAddOnlyNew );
+		QString getEntry( const QString & filename );
 
-private: // data
-    // if the tar is compressed, this is the temporary uncompressed tar.
-    KTempDir * m_tmpDir;
-    QString tmpfile;
-    QString m_fileMimeType;
-    bool compressed;
+	private: // data
+		// if the tar is compressed, this is the temporary uncompressed tar.
+		KTempDir * m_tmpDir;
+		QString tmpfile;
+		QString m_fileMimeType;
+		bool compressed;
 
-    // for use with createTmp and updateArch
-    bool createTmpInProgress;
-    bool updateInProgress;
+		// for use with createTmp and updateArch
+		bool createTmpInProgress;
+		bool updateInProgress;
 
-    // for use with deleteOldFiles
-    bool deleteInProgress;
-    FILE *fd;
-    QStringList m_filesToAdd;
-    QStringList m_filesToRemove;
-    KProcess * m_pTmpProc;
-    KProcess * m_pTmpProc2;
-    KTar *tarptr;
-    bool failed;
-    bool m_dotslash;
+		// for use with deleteOldFiles
+		bool deleteInProgress;
+		FILE *fd;
+		QStringList m_filesToAdd;
+		QStringList m_filesToRemove;
+		KProcess * m_pTmpProc;
+		KProcess * m_pTmpProc2;
+		bool failed;
+		bool m_dotslash;
+		TarListingThread *m_listingThread;
 };
 
 #endif /* TAR_H */
+
