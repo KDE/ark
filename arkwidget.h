@@ -50,7 +50,7 @@ class QDropEvent;
 
 class KMenu;
 class KProcess;
-class KURL;
+class KUrl;
 class KRun;
 class KTempFile;
 class KTempDir;
