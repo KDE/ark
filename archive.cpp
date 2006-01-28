@@ -41,7 +41,7 @@
 #include <kmessagebox.h>
 #include <kmimetype.h>
 #include <klocale.h>
-#include <kpassdlg.h>
+#include <kpassworddialog.h>
 #include <kprocess.h>
 #include <kstandarddirs.h>
 

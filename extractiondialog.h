@@ -36,7 +36,7 @@
 
 class QRadioButton;
 
-class KURLRequester;
+class KUrlRequester;
 
 class ExtractionDialog : public KDialogBase
 {
@@ -87,7 +87,7 @@ class ExtractionDialog : public KDialogBase
 		QCheckBox     *m_viewFolderAfterExtraction;
 		bool           m_selectedOnly;
 		KUrl           m_extractionDirectory;
-		KURLRequester *m_urlRequester;
+		KUrlRequester *m_urlRequester;
 		QString        m_defaultExtractionDir;
 		QString        m_prefix;
 };

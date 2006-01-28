@@ -28,7 +28,7 @@
 #include <kparts/statusbarextension.h>
 #include <kparts/factory.h>
 #include <kaction.h>
-#include <kprogress.h>
+#include <kprogressbar.h>
 
 #include <qlabel.h>
 

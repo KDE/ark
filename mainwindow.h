@@ -33,7 +33,7 @@
 #include <kmainwindow.h>
 #include <kparts/mainwindow.h>
 #include <kparts/part.h>
-#include <kprogress.h>
+#include <kprogressbar.h>
 
 class ArkWidget;
 

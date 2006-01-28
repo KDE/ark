@@ -100,18 +100,18 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 	destFolderLabel->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Fixed );
 
 	KHistoryCombo *combobox = new KHistoryCombo( true, destDirBox );
-	combobox->setPixmapProvider( new KURLPixmapProvider );
+	combobox->setPixmapProvider( new KUrlPixmapProvider );
 	combobox->setHistoryItems( ArkSettings::extractionHistory() );
 	destFolderLabel->setBuddy( combobox );
 
-	KURLCompletion *comp = new KURLCompletion();
+	KUrlCompletion *comp = new KUrlCompletion();
 	comp->setReplaceHome( true );
 	comp->setCompletionMode( KGlobalSettings::CompletionAuto );
 	combobox->setCompletionObject( comp );
 	combobox->setMaxCount( 20 );
 	combobox->setInsertionPolicy( QComboBox::AtTop );
 
-	m_urlRequester = new KURLRequester( combobox, destDirBox );
+	m_urlRequester = new KUrlRequester( combobox, destDirBox );
 	m_urlRequester->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
 	m_urlRequester->setMode( KFile::Directory );
 
@@ -137,7 +137,7 @@ ExtractionDialog::~ExtractionDialog()
 void ExtractionDialog::accept()
 {
 
-	KURLCompletion uc;
+	KUrlCompletion uc;
 	uc.setReplaceHome( true );
 	KUrl p( uc.replacedPath( m_urlRequester->comboBox()->currentText() ) );
 
