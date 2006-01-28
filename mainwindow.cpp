@@ -65,27 +65,27 @@ MainWindow::MainWindow( QWidget * /*parent*/, const char *name )
 
         connect( m_part->widget(), SIGNAL( request_file_quit() ), this, SLOT(  file_quit() ) );
         connect( KParts::BrowserExtension::childObject( m_part ), SIGNAL( openURLRequestDelayed
-                                              ( const KURL &, const KParts::URLArgs & ) ),
-                 m_part, SLOT( openURL( const KURL & ) ) );
+                                              ( const KUrl &, const KParts::URLArgs & ) ),
+                 m_part, SLOT( openURL( const KUrl & ) ) );
 
         m_widget->setArchivePopupEnabled( true );
         connect( m_part->widget(), SIGNAL( signalArchivePopup( const QPoint & ) ), this,
                  SLOT( slotArchivePopup( const QPoint & ) ) );
 
-        connect( m_part, SIGNAL( removeRecentURL( const KURL & ) ), this,
-                 SLOT( slotRemoveRecentURL( const KURL & ) ) );
-        connect( m_part, SIGNAL( addRecentURL( const KURL & ) ), this,
-                 SLOT( slotAddRecentURL( const KURL & ) ) );
+        connect( m_part, SIGNAL( removeRecentURL( const KUrl & ) ), this,
+                 SLOT( slotRemoveRecentURL( const KUrl & ) ) );
+        connect( m_part, SIGNAL( addRecentURL( const KUrl & ) ), this,
+                 SLOT( slotAddRecentURL( const KUrl & ) ) );
         connect( m_part, SIGNAL( fixActionState( const bool & ) ), this,
                  SLOT( slotFixActionState( const bool & ) ) );
         connect( m_widget, SIGNAL( disableAllActions() ), this,
                  SLOT( slotDisableActions() ) );
 
         ArkApplication::getInstance()->addWindow();
-        connect( m_widget, SIGNAL( removeOpenArk( const  KURL &) ), this,
-                 SLOT( slotRemoveOpenArk( const KURL & ) ) );
-        connect( m_widget, SIGNAL( addOpenArk( const  KURL & ) ), this,
-                 SLOT( slotAddOpenArk( const KURL & ) ) );
+        connect( m_widget, SIGNAL( removeOpenArk( const  KUrl &) ), this,
+                 SLOT( slotRemoveOpenArk( const KUrl & ) ) );
+        connect( m_widget, SIGNAL( addOpenArk( const  KUrl & ) ), this,
+                 SLOT( slotAddOpenArk( const KUrl & ) ) );
 
         setCentralWidget( m_part->widget() );
         createGUI( m_part );
@@ -124,7 +124,7 @@ MainWindow::setupActions()
                                SLOT(file_reload()), actionCollection(), "reload_arch");
     closeAction = KStdAction::close(this, SLOT(file_close()), actionCollection(), "file_close");
 
-    recent = KStdAction::openRecent(this, SLOT(openURL(const KURL&)), actionCollection());
+    recent = KStdAction::openRecent(this, SLOT(openURL(const KUrl&)), actionCollection());
     recent->loadEntries(KGlobal::config());
 
     createStandardStatusBarAction();
@@ -174,7 +174,7 @@ MainWindow::file_new()
 void
 MainWindow::file_reload()
 {
-    KURL url( m_part->url() );
+    KUrl url( m_part->url() );
     file_close();
     m_part->openURL( url );
 }
@@ -214,7 +214,7 @@ MainWindow::slotArchivePopup( const QPoint &pPoint)
 
 // see if the ark is already open in another window
 bool
-MainWindow::arkAlreadyOpen( const KURL & url )
+MainWindow::arkAlreadyOpen( const KUrl & url )
 {
     if (ArkApplication::getInstance()->isArkOpenAlready(url))
     {
@@ -234,7 +234,7 @@ MainWindow::arkAlreadyOpen( const KURL & url )
 
 
 void
-MainWindow::openURL( const KURL & url, bool tempFile )
+MainWindow::openURL( const KUrl & url, bool tempFile )
 {
     if( !arkAlreadyOpen( url ) )
     {
@@ -294,7 +294,7 @@ MainWindow::getOpenURL( bool addOnly, const QString & caption,
 
     dlg.exec();
 
-    KURL url;
+    KUrl url;
     url = dlg.selectedURL();
 
     if ( combo->currentItem() !=0 ) // i.e. != "Autodetect"
@@ -309,7 +309,7 @@ MainWindow::getOpenURL( bool addOnly, const QString & caption,
 void
 MainWindow::file_open()
 {
-    KURL url = getOpenURL();
+    KUrl url = getOpenURL();
     if( !arkAlreadyOpen( url ) )
         m_part->openURL( url );
 }
@@ -363,31 +363,31 @@ MainWindow::readProperties( KConfig* config )
     QString file = config->readPathEntry("SMOpenedFile");
     kdDebug(1601) << "ArkWidget::readProperties( KConfig* config ) file=" << file << endl;
     if ( !file.isEmpty() )
-        openURL( KURL::fromPathOrURL( file ) );
+        openURL( KUrl::fromPathOrURL( file ) );
 }
 
 void
-MainWindow::slotAddRecentURL( const KURL & url )
+MainWindow::slotAddRecentURL( const KUrl & url )
 {
     recent->addURL( url );
     recent->saveEntries(KGlobal::config());
 }
 
 void
-MainWindow::slotRemoveRecentURL( const KURL & url )
+MainWindow::slotRemoveRecentURL( const KUrl & url )
 {
     recent->removeURL( url );
     recent->saveEntries(KGlobal::config());
 }
 
 void
-MainWindow::slotAddOpenArk( const KURL & _arkname )
+MainWindow::slotAddOpenArk( const KUrl & _arkname )
 {
     ArkApplication::getInstance()->addOpenArk( _arkname, this );
 }
 
 void
-MainWindow::slotRemoveOpenArk( const KURL & _arkname )
+MainWindow::slotRemoveOpenArk( const KUrl & _arkname )
 {
     ArkApplication::getInstance()->removeOpenArk( _arkname );
 }
@@ -399,7 +399,7 @@ MainWindow::setExtractOnly ( bool b )
 }
 
 void
-MainWindow::extractTo( const KURL & targetDirectory, const KURL & archive, bool guessName )
+MainWindow::extractTo( const KUrl & targetDirectory, const KUrl & archive, bool guessName )
 {
     startProgressDialog( i18n( "Extracting..." ) );
     m_widget->extractTo( targetDirectory, archive, guessName );
@@ -407,10 +407,10 @@ MainWindow::extractTo( const KURL & targetDirectory, const KURL & archive, bool 
 }
 
 void
-MainWindow::addToArchive( const KURL::List & filesToAdd, const QString & /*cwd*/,
-                                 const KURL & archive, bool askForName )
+MainWindow::addToArchive( const KUrl::List & filesToAdd, const QString & /*cwd*/,
+                                 const KUrl & archive, bool askForName )
 {
-    KURL archiveFile;
+    KUrl archiveFile;
     if ( askForName || archive.isEmpty() )
     {
         // user definded actions in servicemus are being started by konq
@@ -419,7 +419,7 @@ MainWindow::addToArchive( const KURL::List & filesToAdd, const QString & /*cwd*/
         // sees a list of the archives in the diretory he is looking at.
         // makes it show the 'wrong' dir when being called from the commandline
         // like: /dira> ark -add /dirb/file, but well...
-        KURL cwdURL;
+        KUrl cwdURL;
         cwdURL.setPath( filesToAdd.first().path() );
         QString dir = cwdURL.directory( false );
 

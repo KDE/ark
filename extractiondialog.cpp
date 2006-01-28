@@ -52,7 +52,7 @@
 
 ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
                                     bool enableSelected,
-                                    const KURL& defaultExtractionDir,
+                                    const KUrl& defaultExtractionDir,
                                     const QString &prefix,
                                     const QString &archiveName )
 	: KDialogBase( parent, name, true, i18n( "Extract" ), Ok | Cancel, Ok ),
@@ -139,7 +139,7 @@ void ExtractionDialog::accept()
 
 	KURLCompletion uc;
 	uc.setReplaceHome( true );
-	KURL p( uc.replacedPath( m_urlRequester->comboBox()->currentText() ) );
+	KUrl p( uc.replacedPath( m_urlRequester->comboBox()->currentText() ) );
 
 	//if p isn't local KIO and friends will complain later on
 	if ( p.isLocalFile() )

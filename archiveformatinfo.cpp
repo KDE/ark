@@ -180,7 +180,7 @@ ArchType ArchiveFormatInfo::archTypeForMimeType( const QString & mimeType )
     return UNKNOWN_FORMAT;
 }
 
-ArchType ArchiveFormatInfo::archTypeForURL( const KURL & url )
+ArchType ArchiveFormatInfo::archTypeForURL( const KUrl & url )
 {
     m_lastExtensionUnknown = false;
 
@@ -206,7 +206,7 @@ ArchType ArchiveFormatInfo::archTypeForURL( const KURL & url )
 }
 
 
-QString ArchiveFormatInfo::findMimeType( const KURL & url )
+QString ArchiveFormatInfo::findMimeType( const KUrl & url )
 {
     QString mimeType = KMimeType::findByURL( url )->name();
     if ( mimeType != "application/x-bzip2" && mimeType != "application/x-gzip" )

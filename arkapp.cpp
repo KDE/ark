@@ -147,7 +147,7 @@ ArkApplication::newInstance()
         }
         else
         {
-            KURL::List URLList;
+            KUrl::List URLList;
             for ( int c = 0; c < args->count()-1 ; c++ )
                 URLList.append( args->url( c ) );
 
@@ -163,14 +163,14 @@ ArkApplication::newInstance()
         bool oneFile = (args->count() == 2 ) ;
 
         QString extension = args->arg( 0 );
-        KURL archiveName = args->url( 1 );  // the filename
+        KUrl archiveName = args->url( 1 );  // the filename
 
         // if more than one file -> use directory name
         if ( !oneFile )
             archiveName.setPath( archiveName.directory() );
 
         archiveName.setFileName( archiveName.fileName() + extension );
-        KURL::List URLList;
+        KUrl::List URLList;
         for ( int c = 1; c < args->count(); c++ )
             URLList.append( args->url( c ) );
 
@@ -190,7 +190,7 @@ ArkApplication::newInstance()
         }
         else
         {
-            KURL::List URLList;
+            KUrl::List URLList;
             for ( int c = 0; c < args->count() ; c++ )
                 URLList.append( args->url( c ) );
 
@@ -203,7 +203,7 @@ ArkApplication::newInstance()
 
 
     int i = 0;
-    KURL url;
+    KUrl url;
     bool doAutoExtract = args->isSet("extract");
     bool tempFile = KCmdLineArgs::isTempFileSet();
     do
@@ -232,7 +232,7 @@ ArkApplication::newInstance()
 
 
 void
-ArkApplication::addOpenArk(const KURL & _arkname, MainWindow *_ptr)
+ArkApplication::addOpenArk(const KUrl & _arkname, MainWindow *_ptr)
 {
     QString realName;
     if( _arkname.isLocalFile() )
@@ -249,7 +249,7 @@ ArkApplication::addOpenArk(const KURL & _arkname, MainWindow *_ptr)
 }
 
 void
-ArkApplication::removeOpenArk(const KURL & _arkname)
+ArkApplication::removeOpenArk(const KUrl & _arkname)
 {
     QString realName;
     if ( _arkname.isLocalFile() )
@@ -262,7 +262,7 @@ ArkApplication::removeOpenArk(const KURL & _arkname)
 }
 
 void
-ArkApplication::raiseArk(const KURL & _arkname)
+ArkApplication::raiseArk(const KUrl & _arkname)
 {
     kdDebug( 1601 ) << "ArkApplication::raiseArk " << endl;
     MainWindow *window;
@@ -281,7 +281,7 @@ ArkApplication::raiseArk(const KURL & _arkname)
 }
 
 bool
-ArkApplication::isArkOpenAlready(const KURL & _arkname)
+ArkApplication::isArkOpenAlready(const KUrl & _arkname)
 {
     QString realName;
     if ( _arkname.isLocalFile() )

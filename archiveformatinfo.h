@@ -38,9 +38,9 @@ public:
     QStringList allDescriptions();
     ArchType archTypeForMimeType( const QString & mimeType );
     ArchType archTypeByExtension( const QString & archname );
-    ArchType archTypeForURL( const KURL & url );
+    ArchType archTypeForURL( const KUrl & url );
     QString mimeTypeForDescription( const QString & description );
-    QString findMimeType( const KURL & url );
+    QString findMimeType( const KUrl & url );
     QString descriptionForMimeType( const QString & mimeType );
     QString defaultExtension( const QString & mimeType );
     bool wasUnknownExtension();

@@ -185,13 +185,13 @@ void RarArch::addFile( const QStringList & urls )
 
   *kp << m_filename;
 
-  KURL dir( urls.first() );
+  KUrl dir( urls.first() );
   QDir::setCurrent( dir.directory() );
 
   QStringList::ConstIterator iter;
   for ( iter = urls.begin(); iter != urls.end(); ++iter )
   {
-    KURL url( *iter );
+    KUrl url( *iter );
     *kp << url.fileName();
   }
 

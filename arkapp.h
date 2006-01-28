@@ -64,12 +64,12 @@ class ArkApplication : public KUniqueApplication
 		// keep track of open archive names so we don't open one twice
 		// note that ArkWidget is not a pointer to const because raise()
 		// requires later a pointer to nonconst.
-		void addOpenArk(const KURL & _arkname, MainWindow * _ptr);
-		void removeOpenArk(const KURL & _arkname);
+		void addOpenArk(const KUrl & _arkname, MainWindow * _ptr);
+		void removeOpenArk(const KUrl & _arkname);
 
-		bool isArkOpenAlready(const KURL & _arkname);
+		bool isArkOpenAlready(const KUrl & _arkname);
 
-		void raiseArk(const KURL & _arkname);
+		void raiseArk(const KUrl & _arkname);
 
 		// use this function to access data from other modules.
 		static ArkApplication *getInstance();

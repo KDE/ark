@@ -47,7 +47,7 @@ class ExtractionDialog : public KDialogBase
 		 */
 		ExtractionDialog( QWidget *parent = 0, const char *name = 0,
 		                  bool enableSelected = true,
-		                  const KURL &defaultExtractionDir = KURL(),
+		                  const KUrl &defaultExtractionDir = KURL(),
 		                  const QString &prefix = QString(),
 		                  const QString &archiveName = QString::null );
 
@@ -66,7 +66,7 @@ class ExtractionDialog : public KDialogBase
 		/**
 		 * Returns the directory the files should be extracted to.
 		 */
-		KURL extractionDirectory() const { return m_extractionDirectory; }
+		KUrl extractionDirectory() const { return m_extractionDirectory; }
 
 		/**
 		 * Returns true if the user wants the extraction folder to be opened after extraction
@@ -86,7 +86,7 @@ class ExtractionDialog : public KDialogBase
 		QRadioButton  *m_allButton;
 		QCheckBox     *m_viewFolderAfterExtraction;
 		bool           m_selectedOnly;
-		KURL           m_extractionDirectory;
+		KUrl           m_extractionDirectory;
 		KURLRequester *m_urlRequester;
 		QString        m_defaultExtractionDir;
 		QString        m_prefix;

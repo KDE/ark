@@ -160,7 +160,7 @@ void CompressedFile::open()
   m_tmpfile += extension();
   m_tmpfile = m_tmpdir + m_tmpfile;
 
-  KURL src, target;
+  KUrl src, target;
   src.setPath( m_filename );
   target.setPath( m_tmpfile );
   KIO::NetAccess::copy( m_filename, m_tmpfile, m_gui );
@@ -226,7 +226,7 @@ void CompressedFile::slotUncompressDone(KProcess *_kp)
   QStringList lst( dir.entryList() );
   lst.remove( ".." );
   lst.remove( "." );
-  KURL url;
+  KUrl url;
   url.setPath( m_tmpdir + lst.first() );
   m_tmpfile = url.path();
   KIO::UDSEntry udsInfo;
@@ -261,7 +261,7 @@ void CompressedFile::addFile( const QStringList &urls )
   Q_ASSERT(m_gui->getNumFilesInArchive() == 0);
   Q_ASSERT(urls.count() == 1);
 
-  KURL url = KURL::fromPathOrURL(urls.first());
+  KUrl url = KUrl::fromPathOrURL(urls.first());
   Q_ASSERT(url.isLocalFile());
 
   QString file;

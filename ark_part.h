@@ -47,7 +47,7 @@ class ArkBrowserExtension: public KParts::BrowserExtension
 public:
     ArkBrowserExtension( KParts::ReadOnlyPart * parent, const char * name = 0L );
 public slots:
-    void slotOpenURLRequested( const KURL & url );
+    void slotOpenURLRequested( const KUrl & url );
 };
 
 class ArkStatusBarExtension: public KParts::StatusBarExtension
@@ -97,7 +97,7 @@ public slots:
     void slotFilePopup( const QPoint & pPoint );
     void file_save_as();
     bool saveFile();
-    bool openURL( const KURL & url );
+    bool openURL( const KUrl & url );
     bool closeURL();
     void transferStarted( KIO::Job * );
     void transferCompleted();
@@ -107,8 +107,8 @@ public slots:
 
 signals:
     void fixActionState( const bool & bHaveFiles );
-    void removeRecentURL( const KURL & url );
-    void addRecentURL( const KURL & url );
+    void removeRecentURL( const KUrl & url );
+    void addRecentURL( const KUrl & url );
 
 protected:
     virtual bool openFile();  //Opening an archive file

@@ -168,14 +168,14 @@ void ZooArch::addFile( const QStringList &urls )
 
   *kp << m_filename;
 
-  KURL url( urls.first() );
+  KUrl url( urls.first() );
   QDir::setCurrent( url.directory() );
 
   QStringList::ConstIterator iter;
 
   for ( iter = urls.begin(); iter != urls.end(); ++iter )
   {
-    KURL fileURL( *iter );
+    KUrl fileURL( *iter );
     *kp << fileURL.fileName();
   }
 

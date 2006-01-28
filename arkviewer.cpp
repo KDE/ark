@@ -60,7 +60,7 @@ void ArkViewer::slotFinished()
 
 bool ArkViewer::view( const QString& filename )
 {
-	KURL u( filename );
+	KUrl u( filename );
 
 	KMimeType::Ptr mimetype = KMimeType::findByURL( u, 0, true );
 

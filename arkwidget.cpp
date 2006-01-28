@@ -258,7 +258,7 @@ ArkWidget::getSaveAsFileName()
     else
         defaultMimeType = m_openAsMimeType;
 
-    KURL u;
+    KUrl u;
     QString suggestedName;
     if ( m_realURL.isLocalFile() )
         suggestedName = m_realURL.url();
@@ -279,7 +279,7 @@ ArkWidget::getSaveAsFileName()
 }
 
 bool
-ArkWidget::file_save_as( const KURL & u )
+ArkWidget::file_save_as( const KUrl & u )
 {
     bool success = KIO::NetAccess::upload( m_strArchName, u, this );
     if ( m_modified && success )
@@ -288,7 +288,7 @@ ArkWidget::file_save_as( const KURL & u )
 }
 
 void
-ArkWidget::convertTo( const KURL & u )
+ArkWidget::convertTo( const KUrl & u )
 {
     busy( i18n( "Saving..." ) );
     m_convert_tmpDir =  new KTempDir( tmpDir() + "convtmp" );
@@ -395,7 +395,7 @@ ArkWidget::convertFinish()
 }
 
 bool
-ArkWidget::allowedArchiveName( const KURL & u )
+ArkWidget::allowedArchiveName( const KUrl & u )
 {
     if (u.isEmpty())
         return false;
@@ -411,7 +411,7 @@ ArkWidget::allowedArchiveName( const KURL & u )
 }
 
 void
-ArkWidget::extractTo( const KURL & targetDirectory, const KURL & archive, bool bGuessName )
+ArkWidget::extractTo( const KUrl & targetDirectory, const KUrl & archive, bool bGuessName )
 {
     m_extractTo_targetDirectory = targetDirectory;
 
@@ -436,7 +436,7 @@ ArkWidget::extractTo( const KURL & targetDirectory, const KURL & archive, bool b
 }
 
 const QString
-ArkWidget::guessName( const KURL &archive )
+ArkWidget::guessName( const KUrl &archive )
 {
   QString fileName = archive.fileName();
   QStringList list = KMimeType::findByPath( fileName )->patterns();
@@ -545,7 +545,7 @@ ArkWidget::extractToSlotExtractDone( bool success )
 }
 
 bool
-ArkWidget::addToArchive( const KURL::List & filesToAdd, const KURL & archive)
+ArkWidget::addToArchive( const KUrl::List & filesToAdd, const KUrl & archive)
 {
     m_addToArchive_filesToAdd = filesToAdd;
     m_addToArchive_archive = archive;
@@ -562,7 +562,7 @@ ArkWidget::addToArchive( const KURL::List & filesToAdd, const KURL & archive)
             if ( it == extensions.end() )
             {
                 file += ArchiveFormatInfo::self()->defaultExtension( m_openAsMimeType );
-                const_cast< KURL & >( archive ).setPath( file );
+                const_cast< KUrl & >( archive ).setPath( file );
             }
         }
 
@@ -610,7 +610,7 @@ ArkWidget::addToArchiveSlotOpenDone( bool success )
     if ( m_bIsSimpleCompressedFile && (m_nNumFiles == 1))
     {
         QString strFilename;
-        KURL url = askToCreateRealArchive();
+        KUrl url = askToCreateRealArchive();
         strFilename = url.path();
         if (!strFilename.isEmpty())
         {
@@ -640,16 +640,16 @@ ArkWidget::addToArchiveSlotOpenDone( bool success )
          it != list.end(); ++it)
     {
         QString str = *it;
-        KURL url( toLocalFile( str ) );
+        KUrl url( toLocalFile( str ) );
         *it = url.prettyURL();
     }
 */
-    KURL::List list = m_addToArchive_filesToAdd;
+    KUrl::List list = m_addToArchive_filesToAdd;
 
 
     // Remote URLs need to be downloaded.
-    KURL::List::Iterator end( list.end() );
-    for ( KURL::List::Iterator it = list.begin(); it != end; ++it )
+    KUrl::List::Iterator end( list.end() );
+    for ( KUrl::List::Iterator it = list.begin(); it != end; ++it )
     {
         if (!(*it).isLocalFile())
         {
@@ -684,7 +684,7 @@ void ArkWidget::setOpenAsMimeType( const QString & mimeType )
 }
 
 void
-ArkWidget::file_open(const KURL& url)
+ArkWidget::file_open(const KUrl& url)
 {
     if ( url.isEmpty() )
     {
@@ -751,7 +751,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
     int choice=0;
     bool fileExists = true;
     QString strFile;
-    KURL url;
+    KUrl url;
 
     KFileDialog dlg( ":ArkSaveAsDialog", QString::null, this, "SaveAsDialog", true );
     dlg.setCaption( _caption );
@@ -830,7 +830,7 @@ void
 ArkWidget::file_new()
 {
     QString strFile;
-    KURL url = getCreateFilename(i18n("Create New Archive") );
+    KUrl url = getCreateFilename(i18n("Create New Archive") );
     strFile = url.path();
     if (!strFile.isEmpty())
     {
@@ -882,10 +882,10 @@ ArkWidget::slotExtractDone()
 }
 
 void
-ArkWidget::extractRemoteInitiateMoving( const KURL & target )
+ArkWidget::extractRemoteInitiateMoving( const KUrl & target )
 {
-    KURL srcDirURL;
-    KURL src;
+    KUrl srcDirURL;
+    KUrl src;
     QString srcDir;
 
     srcDir = m_extractRemoteTmpDir->name();
@@ -897,7 +897,7 @@ ArkWidget::extractRemoteInitiateMoving( const KURL & target )
     lst.remove( "." );
     lst.remove( ".." );
 
-    KURL::List srcList;
+    KUrl::List srcList;
     for( QStringList::ConstIterator it = lst.begin(); it != lst.end() ; ++it)
     {
         src = srcDirURL;
@@ -970,7 +970,7 @@ ArkWidget::askToCreateRealArchive()
 {
     // ask user whether to create a real archive from a compressed file
     // returns filename if so
-    KURL url;
+    KUrl url;
     int choice =
         KMessageBox::warningYesNo(0, i18n("You are currently working with a simple compressed file.\nWould you like to make it into an archive so that it can contain multiple files?\nIf so, you must choose a name for your new archive."), i18n("Warning"),i18n("Make Into Archive"),i18n("Do Not Make"));
     if (choice == KMessageBox::Yes)
@@ -993,7 +993,7 @@ ArkWidget::createRealArchive( const QString & strFilename, const QStringList & f
     if ( !filesToAdd.isEmpty() )
         m_pTempAddList = new QStringList( filesToAdd );
     m_compressedFile = static_cast< CompressedFile * >( arch )->tempFileName();
-    KURL u1, u2;
+    KUrl u1, u2;
     u1.setPath( m_compressedFile );
     m_createRealArchTmpDir = new KTempDir( tmpDir() + "create_real_arch" );
     u2.setPath( m_createRealArchTmpDir->name() + u1.fileName() );
@@ -1079,7 +1079,7 @@ ArkWidget::action_add()
     if (m_bIsSimpleCompressedFile && (m_nNumFiles == 1))
     {
         QString strFilename;
-        KURL url = askToCreateRealArchive();
+        KUrl url = askToCreateRealArchive();
         strFilename = url.path();
         if (!strFilename.isEmpty())
         {
@@ -1094,20 +1094,20 @@ ArkWidget::action_add()
 
     if(fileDlg.exec())
     {
-        KURL::List addList;
+        KUrl::List addList;
         addList = fileDlg.selectedURLs();
         QStringList * list = new QStringList();
         //Here we pre-calculate the end of the list
-   KURL::List::ConstIterator endList = addList.end();
-        for (KURL::List::ConstIterator it = addList.begin(); it != endList; ++it)
-            list->append( KURL::decode_string( (*it).url() ) );
+   KUrl::List::ConstIterator endList = addList.end();
+        for (KUrl::List::ConstIterator it = addList.begin(); it != endList; ++it)
+            list->append( KUrl::decode_string( (*it).url() ) );
 
         if ( list->count() > 0 )
         {
             if ( m_bIsSimpleCompressedFile && list->count() > 1 )
             {
                 QString strFilename;
-                KURL url = askToCreateRealArchive();
+                KUrl url = askToCreateRealArchive();
                 strFilename = url.path();
                 if (!strFilename.isEmpty())
                 {
@@ -1146,11 +1146,11 @@ ArkWidget::addFile(QStringList *list)
 void
 ArkWidget::action_add_dir()
 {
-    KURL u = KDirSelectDialog::selectDirectory( ":ArkAddDir",
+    KUrl u = KDirSelectDialog::selectDirectory( ":ArkAddDir",
                                                 false, this,
                                                 i18n("Select Folder to Add"));
 
-    QString dir = KURL::decode_string( u.url(-1) );
+    QString dir = KUrl::decode_string( u.url(-1) );
     if ( !dir.isEmpty() )
     {
         busy( i18n( "Adding folder..." ) );
@@ -1174,7 +1174,7 @@ ArkWidget::slotAddDone(bool _bSuccess)
     {
         m_modified = true;
         //simulate reload
-        KURL u;
+        KUrl u;
         u.setPath( arch->fileName() );
         file_close();
         file_open( u );
@@ -1187,9 +1187,9 @@ ArkWidget::slotAddDone(bool _bSuccess)
 
 
 KURL
-ArkWidget::toLocalFile( const KURL& url )
+ArkWidget::toLocalFile( const KUrl& url )
 {
-    KURL localURL = url;
+    KUrl localURL = url;
 
     if(!url.isLocalFile())
     {
@@ -1198,7 +1198,7 @@ ArkWidget::toLocalFile( const KURL& url )
         QString tempfile = tmpDir();
         tempfile += strURL.right(strURL.length() - strURL.findRev("/") - 1);
         deleteAfterUse(tempfile);  // remember for deletion
-        KURL tempurl; tempurl.setPath( tempfile );
+        KUrl tempurl; tempurl.setPath( tempfile );
         if( !KIO::NetAccess::dircopy(url, tempurl, this) )
             return KURL();
         localURL = tempfile;
@@ -1307,8 +1307,8 @@ ArkWidget::openWithSlotExtractDone()
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this,
             SLOT( openWithSlotExtractDone() ) );
 
-    KURL::List list;
-    KURL url = m_strFileToView;
+    KUrl::List list;
+    KUrl url = m_strFileToView;
     list.append(url);
     KOpenWithDlg l( list, i18n("Open with:"), QString::null, (QWidget*)0L);
     if ( l.exec() )
@@ -1423,7 +1423,7 @@ ArkWidget::existingFiles( const QString & _dest, QStringList & _list )
 bool
 ArkWidget::action_extract()
 {
-    KURL fileToExtract;
+    KUrl fileToExtract;
     fileToExtract.setPath( arch->fileName() );
 
      //before we start, make sure the archive is still there
@@ -1450,11 +1450,11 @@ ArkWidget::action_extract()
     }
 
     // Default URL shown in the extraction dialog;
-    KURL defaultDir( base );
+    KUrl defaultDir( base );
 
     if ( m_extractOnly )
     {
-        defaultDir = KURL::fromPathOrURL( QDir::currentPath() );
+        defaultDir = KUrl::fromPathOrURL( QDir::currentPath() );
     }
 
     ExtractionDialog *dlg = new ExtractionDialog( this, 0, enableSelected, defaultDir, prefix,  m_url.fileName() );
@@ -1601,7 +1601,7 @@ void
 ArkWidget::editStart()
 {
     kdDebug(1601) << "Edit in progress..." << endl;
-    KURL::List list;
+    KUrl::List list;
     // edit will be in progress until the KProcess terminates.
     KOpenWithDlg l( list, i18n("Edit with:"),
             QString::null, (QWidget*)0L );
@@ -1837,7 +1837,7 @@ ArkWidget::dropEvent(QDropEvent* e)
 {
     kdDebug( 1601 ) << "+ArkWidget::dropEvent" << endl;
 
-    KURL::List list;
+    KUrl::List list;
 
     if ( K3URLDrag::decode( e, list ) )
     {
@@ -1892,7 +1892,7 @@ ArkWidget::dropAction( QStringList  & list )
                 if (m_bIsSimpleCompressedFile && (m_nNumFiles == 1))
                 {
                     QString strFilename;
-                    KURL url = askToCreateRealArchive();
+                    KUrl url = askToCreateRealArchive();
                     strFilename = url.path();
                     if (!strFilename.isEmpty())
                     {
@@ -1912,7 +1912,7 @@ ArkWidget::dropAction( QStringList  & list )
 
         // if I made it here, there's either no archive currently open
         // or they selected "Open".
-        KURL url = str;
+        KUrl url = str;
 
         emit openURLRequest( url );
     }
@@ -1923,7 +1923,7 @@ ArkWidget::dropAction( QStringList  & list )
             if (m_bIsSimpleCompressedFile && (m_nNumFiles == 1))
             {
                 QString strFilename;
-                KURL url = askToCreateRealArchive();
+                KUrl url = askToCreateRealArchive();
                 strFilename = url.path();
                 if (!strFilename.isEmpty())
                 {
@@ -1971,11 +1971,11 @@ ArkWidget::startDragSlotExtractDone( bool )
     disconnect( arch, SIGNAL( sigExtract( bool ) ),
                 this, SLOT( startDragSlotExtractDone( bool ) ) );
 
-    KURL::List list;
+    KUrl::List list;
 
     for (QStringList::Iterator it = mDragFiles.begin(); it != mDragFiles.end(); ++it)
     {
-        KURL url;
+        KUrl url;
         url.setPath( tmpDir() + *it );
         list.append( url );
     }
@@ -2020,7 +2020,7 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName, const QString& _mime
 {
     Arch * newArch = 0;
 
-    QString type = _mimetype.isNull()? KMimeType::findByURL( KURL::fromPathOrURL(_fileName) )->name() : _mimetype;
+    QString type = _mimetype.isNull()? KMimeType::findByURL( KUrl::fromPathOrURL(_fileName) )->name() : _mimetype;
     ArchType archtype = ArchiveFormatInfo::self()->archTypeForMimeType(type);
     kdDebug( 1601 ) << "archtype is recognised as: " << archtype << endl;
     if(0 == (newArch = Arch::archFactory(archtype, this,
@@ -2078,7 +2078,7 @@ ArkWidget::slotCreate(Arch * _newarch, bool _success, const QString & _filename,
         m_strArchName = _filename;
         // for the hack in compressedfile; needed when creating a compressedfile
         // then directly adding a file
-        KURL u;
+        KUrl u;
         u.setPath( _filename );
         setRealURL( u );
 

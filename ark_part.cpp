@@ -78,8 +78,8 @@ ArkPart::ArkPart( QWidget *parentWidget, const char * /*widgetName*/, QObject *p
     connect( awidget, SIGNAL( disableAllActions() ), this, SLOT( disableActions() ) );
     connect( awidget, SIGNAL( signalFilePopup( const QPoint& ) ), this, SLOT( slotFilePopup( const QPoint& ) ) );
     connect( awidget, SIGNAL( setWindowCaption( const QString & ) ), this, SIGNAL( setWindowCaption( const QString & ) ) );
-    connect( awidget, SIGNAL( removeRecentURL( const KURL & ) ), this, SIGNAL( removeRecentURL( const KURL & ) ) );
-    connect( awidget, SIGNAL( addRecentURL( const KURL & ) ), this, SIGNAL( addRecentURL( const KURL & ) ) );
+    connect( awidget, SIGNAL( removeRecentURL( const KUrl & ) ), this, SIGNAL( removeRecentURL( const KUrl & ) ) );
+    connect( awidget, SIGNAL( addRecentURL( const KUrl & ) ), this, SIGNAL( addRecentURL( const KUrl & ) ) );
 
     if( readWrite )
         setXMLFile( "ark_part.rc" );
@@ -92,8 +92,8 @@ ArkPart::ArkPart( QWidget *parentWidget, const char * /*widgetName*/, QObject *p
     setupActions();
 
     m_ext = new ArkBrowserExtension( this, "ArkBrowserExtension" );
-    connect( awidget, SIGNAL( openURLRequest( const KURL & ) ),
-             m_ext, SLOT( slotOpenURLRequested( const KURL & ) ) );
+    connect( awidget, SIGNAL( openURLRequest( const KUrl & ) ),
+             m_ext, SLOT( slotOpenURLRequested( const KUrl & ) ) );
 
     m_bar = new ArkStatusBarExtension( this );
     connect( awidget, SIGNAL( setStatusBarText( const QString & ) ), m_bar,
@@ -239,7 +239,7 @@ void ArkPart::disableActions()
     awidget->searchBar()->setEnabled(false);
 }
 
-bool ArkPart::openURL( const KURL & url )
+bool ArkPart::openURL( const KUrl & url )
 {
     awidget->setRealURL( url );
     return KParts::ReadWritePart::openURL( KIO::NetAccess::mostLocalURL( url, awidget ) );
@@ -247,7 +247,7 @@ bool ArkPart::openURL( const KURL & url )
 
 bool ArkPart::openFile()
 {
-    KURL url;
+    KUrl url;
     url.setPath( m_file );
     if( !QFile::exists( m_file ) )
     {
@@ -263,7 +263,7 @@ bool ArkPart::openFile()
 
 void ArkPart::file_save_as()
 {
-    KURL u = awidget->getSaveAsFileName();
+    KUrl u = awidget->getSaveAsFileName();
     if ( u.isEmpty() ) // user canceled
         return;
 
@@ -379,7 +379,7 @@ ArkBrowserExtension::ArkBrowserExtension( KParts::ReadOnlyPart * parent, const c
 {
 }
 
-void ArkBrowserExtension::slotOpenURLRequested( const KURL & url )
+void ArkBrowserExtension::slotOpenURLRequested( const KUrl & url )
 {
     emit openURLRequest( url, KParts::URLArgs() );
 }

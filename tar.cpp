@@ -552,7 +552,7 @@ void TarArch::deleteOldFiles(const QStringList &urls, bool bAddOnlyNew)
   QStringList::ConstIterator iter;
   for (iter = urls.begin(); iter != urls.end(); ++iter )
   {
-    KURL url( *iter );
+    KUrl url( *iter );
     // find the file entry in the archive listing
     const FileLVI * lv = m_gui->fileList()->item( url.fileName() );
     if ( !lv ) // it isn't in there, so skip it.
@@ -639,11 +639,11 @@ void TarArch::addFileCreateTempDone()
     *kp << m_filename;
 
   QStringList::ConstIterator iter;
-  KURL url( urls->first() );
+  KUrl url( urls->first() );
   QDir::setCurrent( url.directory() );
   for (iter = urls->begin(); iter != urls->end(); ++iter )
   {
-    KURL fileURL( *iter );
+    KUrl fileURL( *iter );
     *kp << fileURL.fileName();
   }
 

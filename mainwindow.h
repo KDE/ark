@@ -46,14 +46,14 @@ public:
     virtual ~MainWindow();
 
     void setExtractOnly ( bool b );
-    void extractTo( const KURL & targetDirectory, const KURL & archive, bool guessName );
-    void addToArchive( const KURL::List & filesToAdd, const QString & cwd = QString::null,
-                       const KURL & archive = KURL(), bool askForName = false );
+    void extractTo( const KUrl & targetDirectory, const KUrl & archive, bool guessName );
+    void addToArchive( const KUrl::List & filesToAdd, const QString & cwd = QString::null,
+                       const KUrl & archive = KURL(), bool askForName = false );
 
 public slots:
     void file_newWindow();
     void file_new();
-    void openURL( const KURL & url, bool tempFile = false );
+    void openURL( const KUrl & url, bool tempFile = false );
     void file_open();
     void file_reload();
     void editToolbars();
@@ -66,12 +66,12 @@ public slots:
     virtual void readProperties( KConfig* config );
     void slotSaveProperties();
     void slotArchivePopup( const QPoint &pPoint);
-    void slotRemoveRecentURL( const KURL &url );
-    void slotAddRecentURL( const KURL &url );
+    void slotRemoveRecentURL( const KUrl &url );
+    void slotAddRecentURL( const KUrl &url );
     void slotFixActionState( const bool & bHaveFiles );
     void slotDisableActions();
-    void slotAddOpenArk( const KURL & _arkname );
-    void slotRemoveOpenArk( const KURL & _arkname );
+    void slotAddOpenArk( const KUrl & _arkname );
+    void slotRemoveOpenArk( const KUrl & _arkname );
 
 protected:
     virtual bool queryClose(); // SM
@@ -82,9 +82,9 @@ private: // methods
     void setupMenuBar();
 
     void newCaption(const QString & filename);
-    bool arkAlreadyOpen( const KURL & url );
+    bool arkAlreadyOpen( const KUrl & url );
 
-    KURL getOpenURL( bool addOnly = false , const QString & caption = QString::null,
+    KUrl getOpenURL( bool addOnly = false , const QString & caption = QString::null,
                      const QString & startDir = QString::null,
                      const QString & suggestedName = QString::null );
 

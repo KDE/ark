@@ -121,7 +121,7 @@ void SevenZipArch::addFile( const QStringList & urls )
   kp->clearArguments();
   *kp << m_archiver_program << "a" ;
 
-  KURL url( urls.first() );
+  KUrl url( urls.first() );
   QDir::setCurrent( url.directory() );
 
   *kp << m_filename;
@@ -129,7 +129,7 @@ void SevenZipArch::addFile( const QStringList & urls )
   QStringList::ConstIterator iter;
   for ( iter = urls.begin(); iter != urls.end(); ++iter )
   {
-    KURL url( *iter );
+    KUrl url( *iter );
     *kp << url.fileName();
   }
 
