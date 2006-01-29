@@ -43,7 +43,7 @@
 #include <kaccel.h>
 #include <kxmlguifactory.h>
 #include <kglobal.h>
-
+#include <kprogressdialog.h>
 // ark includes
 #include "arkapp.h"
 #include "settings.h"
@@ -451,8 +451,11 @@ void
 MainWindow::startProgressDialog( const QString & text )
 {
     if ( !progressDialog )
-        progressDialog = new KProgressDialog( this, "progress_dialog", QString::null, text, false );
-    else
+	{
+        progressDialog = new KProgressDialog( this, QString::null, text, false );
+		progressDialog->setObjectName("progress_dialog");
+	}
+	else
         progressDialog->setLabel( text );
 
 //    progressDialog->setWFlags( Qt::WType_TopLevel );
@@ -460,8 +463,8 @@ MainWindow::startProgressDialog( const QString & text )
     progressDialog->setAllowCancel( true );
     progressDialog->setPlainCaption( i18n( "Please Wait" ) );
 
-    progressDialog->progressBar()->setTotalSteps( 0 );
-    progressDialog->progressBar()->setPercentageVisible( false );
+    progressDialog->progressBar()->setMaximum( 0 );
+    progressDialog->progressBar()->setTextVisible( false );
 
 //    progressDialog->setInitialSize( QSize(200,100), true );
     progressDialog->setMinimumDuration( 500 );
@@ -478,7 +481,7 @@ MainWindow::startProgressDialog( const QString & text )
 void
 MainWindow::slotProgress()
 {
-    progressDialog->progressBar()->setProgress( progressDialog->progressBar()->progress() + 4 );
+    progressDialog->progressBar()->setValue( progressDialog->progressBar()->value() + 4 );
 }
 
 

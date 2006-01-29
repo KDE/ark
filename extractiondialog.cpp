@@ -117,7 +117,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 
 	if (!defaultExtractionDir.prettyURL().isEmpty() )
 	{
-		m_urlRequester->setKURL( defaultExtractionDir.prettyURL() + prefix );
+		m_urlRequester->setKUrl( defaultExtractionDir.prettyURL() + prefix );
 	}
 
 	m_viewFolderAfterExtraction = new QCheckBox( i18n( "Open destination folder after extraction" ), vbox );

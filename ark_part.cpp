@@ -462,19 +462,19 @@ void ArkStatusBarExtension::slotSetBusy( const QString & text, bool showCancelBu
 
     if ( !m_pProgressBar )
     {
-        m_pProgressBar = new KProgress( statusBar() );
+        m_pProgressBar = new KProgressBar( statusBar() );
         m_pProgressBar->setFixedHeight( m_pBusyText->fontMetrics().height() );
     }
 
     if ( !detailedProgress )
     {
-        m_pProgressBar->setTotalSteps( 0 );
-        m_pProgressBar->setPercentageVisible( false );
+        m_pProgressBar->setMaximum( 0 );
+        m_pProgressBar->setTextVisible( false );
     }
     else
     {
-        m_pProgressBar->setTotalSteps(100);
-        m_pProgressBar->setPercentageVisible( true );
+        m_pProgressBar->setMaximum(100);
+        m_pProgressBar->setTextVisible( true );
     }
 
     m_pBusyText->setText( text );
@@ -503,7 +503,7 @@ void ArkStatusBarExtension::slotSetReady()
 
     setupStatusBar();
     m_pTimer->stop();
-    m_pProgressBar->setProgress( 0 );
+    m_pProgressBar->setValue( 0 );
 
     removeStatusBarItem( m_pBusyText );
     removeStatusBarItem( m_pProgressBar );
@@ -521,14 +521,14 @@ void ArkStatusBarExtension::slotProgress()
         return;
 
     setupStatusBar();
-    m_pProgressBar->setProgress( m_pProgressBar->progress() + 4 );
+    m_pProgressBar->setValue( m_pProgressBar->value() + 4 );
 }
 
 void ArkStatusBarExtension::setProgress( unsigned long progress )
 {
-    if ( m_pProgressBar && ( m_pProgressBar->totalSteps() != 0 ) )
+    if ( m_pProgressBar && ( m_pProgressBar->maximum() != 0 ) )
     {
-        m_pProgressBar->setProgress( progress );
+        m_pProgressBar->setValue( progress );
     }
 }
 

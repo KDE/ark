@@ -36,7 +36,7 @@
 #include <kprogressbar.h>
 
 class ArkWidget;
-
+class KProgressDialog;
 class
 MainWindow: public KParts::MainWindow
 {

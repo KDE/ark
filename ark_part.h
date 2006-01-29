@@ -76,7 +76,7 @@ private:
     QLabel *m_pStatusLabelTotal;  // How many files in archive
     QLabel *m_pBusyText;
     QPushButton *m_cancelButton; // Cancel an operation
-    KProgress *m_pProgressBar;
+    KProgressBar *m_pProgressBar;
     QTimer *m_pTimer;
 };
 
