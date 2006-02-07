@@ -82,7 +82,7 @@ TarArch::TarArch( ArkWidget *_gui,
     m_tmpDir = NULL;
     m_dotslash = false;
     m_filesToAdd = m_filesToRemove = QStringList();
-    kdDebug(1601) << "+TarArch::TarArch" << endl;
+    kDebug(1601) << "+TarArch::TarArch" << endl;
     m_archiver_program = ArkSettings::tarExe();
     m_unarchiver_program = QString::null;
     verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
@@ -91,7 +91,7 @@ TarArch::TarArch( ArkWidget *_gui,
     if ( m_fileMimeType.isNull() )
         m_fileMimeType = KMimeType::findByPath( _filename )->name();
 
-    kdDebug(1601) << "TarArch::TarArch:  mimetype is " << m_fileMimeType << endl;
+    kDebug(1601) << "TarArch::TarArch:  mimetype is " << m_fileMimeType << endl;
 
     if ( m_fileMimeType == "application/x-tbz2" )
     {
@@ -118,9 +118,9 @@ TarArch::TarArch( ArkWidget *_gui,
         tmpfile = pTempFile->name();
         delete pTempFile;
 
-        kdDebug(1601) << "Tmpfile will be " << tmpfile << "\n" << endl;
+        kDebug(1601) << "Tmpfile will be " << tmpfile << "\n" << endl;
     }
-    kdDebug(1601) << "-TarArch::TarArch" << endl;
+    kDebug(1601) << "-TarArch::TarArch" << endl;
 }
 
 TarArch::~TarArch()
@@ -138,7 +138,7 @@ int TarArch::getEditFlag()
 
 void TarArch::updateArch()
 {
-  kdDebug(1601) << "+TarArch::updateArch" << endl;
+  kDebug(1601) << "+TarArch::updateArch" << endl;
   if (compressed)
     {
       updateInProgress = true;
@@ -176,7 +176,7 @@ void TarArch::updateArch()
           emit updateDone();
         }
     }
-  kdDebug(1601) << "-TarArch::updateArch" << endl;
+  kDebug(1601) << "-TarArch::updateArch" << endl;
 }
 
 void TarArch::updateProgress( KProcess * _proc, char *_buffer, int _bufflen )
@@ -190,8 +190,8 @@ void TarArch::updateProgress( KProcess * _proc, char *_buffer, int _bufflen )
     {
       _proc->kill();
       KMessageBox::error(0, i18n("Trouble writing to the archive..."));
-      kdWarning( 1601 ) << "trouble updating tar archive" << endl;
-      //kdFatal( 1601 ) << "trouble updating tar archive" << endl;
+      kWarning( 1601 ) << "trouble updating tar archive" << endl;
+      //kFatal( 1601 ) << "trouble updating tar archive" << endl;
     }
 }
 
@@ -235,7 +235,7 @@ QString TarArch::getUnCompressor()
 void
 TarArch::open()
 {
-    kdDebug(1601) << "+TarArch::open" << endl;
+    kDebug(1601) << "+TarArch::open" << endl;
     if ( compressed )
         QFile::remove(tmpfile); // just to make sure
     setHeaders();
@@ -327,7 +327,7 @@ void TarArch::openSecondCreateTempDone()
                 || getUnCompressor() == QString("bunzip2") ) )
     {
         disconnect( this, SIGNAL( createTempDone() ), this, SLOT( openSecondCreateTempDone() ) );
-        kdDebug(1601)  << "Creating KTar from failed IO_RW " << m_filename <<
+        kDebug(1601)  << "Creating KTar from failed IO_RW " << m_filename <<
             " using uncompressor " << getUnCompressor() << endl;
         if ( KMimeType::findByFileContent( tmpfile )->name() != "application/x-zerosize" )
         {
@@ -340,7 +340,7 @@ void TarArch::openSecondCreateTempDone()
     // to avoid double deletion
     if( failed )
     {
-        kdDebug(1601)  << "Failed to uncompress and open." << endl;
+        kDebug(1601)  << "Failed to uncompress and open." << endl;
         delete tarptr;
         tarptr = NULL;
         emit sigOpen(this, false, QString::null, 0 );
@@ -367,7 +367,7 @@ void TarArch::slotListingDone(KProcess *_kp)
     if (list.find(QRegExp(QString("\\s\\./%1[/\\n]").arg(firstfile)))>=0)
     {
       m_dotslash = true;
-      kdDebug(1601) << k_funcinfo << "archive has dot-slash" << endl;
+      kDebug(1601) << k_funcinfo << "archive has dot-slash" << endl;
     }
     else
     {
@@ -378,7 +378,7 @@ void TarArch::slotListingDone(KProcess *_kp)
       }
       else
       {
-        kdDebug(1601) << k_funcinfo << "cannot match '" << firstfile << "' in listing!" << endl;
+        kDebug(1601) << k_funcinfo << "cannot match '" << firstfile << "' in listing!" << endl;
       }
     }
   }
@@ -487,7 +487,7 @@ void TarArch::createTmp()
 
             KProcess *kp = m_currentProcess = new KProcess;
             kp->clearArguments();
-            kdDebug(1601) << "Uncompressor is " << strUncompressor << endl;
+            kDebug(1601) << "Uncompressor is " << strUncompressor << endl;
             *kp << strUncompressor;
             KProcess::Communication flag = KProcess::AllOutput;
             if (strUncompressor == "lzop")
@@ -516,7 +516,7 @@ void TarArch::createTmp()
         else
         {
             emit createTempDone();
-            kdDebug(1601) << "Temp tar already there..." << endl;
+            kDebug(1601) << "Temp tar already there..." << endl;
         }
     }
     else
@@ -537,8 +537,8 @@ void TarArch::createTmpProgress( KProcess * _proc, char *_buffer, int _bufflen )
     {
       _proc->kill();
       KMessageBox::error(0, i18n("Trouble writing to the tempfile..."));
-      //kdFatal( 1601 ) << "Trouble writing to archive(createTmpProgress)" << endl;
-      kdWarning( 1601 ) << "Trouble writing to archive(createTmpProgress)" << endl;
+      //kFatal( 1601 ) << "Trouble writing to archive(createTmpProgress)" << endl;
+      kWarning( 1601 ) << "Trouble writing to archive(createTmpProgress)" << endl;
       //exit(99);
     }
 }
@@ -568,12 +568,12 @@ void TarArch::deleteOldFiles(const QStringList &urls, bool bAddOnlyNew)
       QDateTime addFileMTime = fileInfo.lastModified();
       QDateTime oldFileMTime = lv->timeStamp();
 
-      kdDebug(1601) << "Old file: " << oldFileMTime.date().year() << "-" <<
+      kDebug(1601) << "Old file: " << oldFileMTime.date().year() << "-" <<
         oldFileMTime.date().month() << "-" << oldFileMTime.date().day() <<
         " " << oldFileMTime.time().hour() << ":" <<
         oldFileMTime.time().minute() << ":" << oldFileMTime.time().second() <<
         endl;
-      kdDebug(1601) << "New file: " << addFileMTime.date().year()  << "-" <<
+      kDebug(1601) << "New file: " << addFileMTime.date().year()  << "-" <<
         addFileMTime.date().month()  << "-" << addFileMTime.date().day() <<
         " " << addFileMTime.time().hour()  << ":" <<
         addFileMTime.time().minute() << ":" << addFileMTime.time().second() <<
@@ -581,13 +581,13 @@ void TarArch::deleteOldFiles(const QStringList &urls, bool bAddOnlyNew)
 
       if (oldFileMTime >= addFileMTime)
       {
-        kdDebug(1601) << "Old time is newer or same" << endl;
+        kDebug(1601) << "Old time is newer or same" << endl;
         continue; // don't add this file to the list to be deleted.
       }
     }
     list.append(str);
 
-    kdDebug(1601) << "To delete: " << str << endl;
+    kDebug(1601) << "To delete: " << str << endl;
   }
   if(!list.isEmpty())
     remove(&list);
@@ -598,7 +598,7 @@ void TarArch::deleteOldFiles(const QStringList &urls, bool bAddOnlyNew)
 
 void TarArch::addFile( const QStringList&  urls )
 {
-  kdDebug(1601) << "+TarArch::addFile" << ( urls.first() ) << endl;
+  kDebug(1601) << "+TarArch::addFile" << ( urls.first() ) << endl;
   m_filesToAdd = urls;
   // tar is broken. If you add a file that's already there, it gives you
   // two entries for that name, whether you --append or --update. If you
@@ -652,7 +652,7 @@ void TarArch::addFileCreateTempDone()
   QList<QByteArray>::Iterator strTemp;
   for ( strTemp=list.begin(); strTemp != list.end(); ++strTemp )
     {
-      kdDebug(1601) << *strTemp << " " << endl;
+      kDebug(1601) << *strTemp << " " << endl;
     }
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
@@ -669,12 +669,12 @@ void TarArch::addFileCreateTempDone()
       emit sigAdd(false);
     }
 
-  kdDebug(1601) << "-TarArch::addFile" << endl;
+  kDebug(1601) << "-TarArch::addFile" << endl;
 }
 
 void TarArch::slotAddFinished(KProcess *_kp)
 {
-  kdDebug(1601) << "+TarArch::slotAddFinished" << endl;
+  kDebug(1601) << "+TarArch::slotAddFinished" << endl;
 
   disconnect( _kp, SIGNAL(processExited(KProcess*)), this,
               SLOT(slotAddFinished(KProcess*)));
@@ -691,22 +691,22 @@ void TarArch::slotAddFinished(KProcess *_kp)
 
 void TarArch::addFinishedUpdateDone()
 {
-  kdDebug(1601) << "+TarArch::addFinishedUpdateDone" << endl;
+  kDebug(1601) << "+TarArch::addFinishedUpdateDone" << endl;
   if ( compressed )
     disconnect( this, SIGNAL( updateDone() ), this, SLOT( addFinishedUpdateDone() ) );
   Arch::slotAddExited( m_pTmpProc ); // this will delete _kp
   m_pTmpProc = NULL;
-  kdDebug(1601) << "-TarArch::addFinishedUpdateDone" << endl;
+  kDebug(1601) << "-TarArch::addFinishedUpdateDone" << endl;
 }
 
 void TarArch::unarchFileInternal()
 {
-  kdDebug(1601) << "+TarArch::unarchFile" << endl;
+  kDebug(1601) << "+TarArch::unarchFile" << endl;
   QString dest;
 
   if (m_destDir.isEmpty() || m_destDir.isNull())
     {
-      kdError(1601) << "There was no extract directory given." << endl;
+      kError(1601) << "There was no extract directory given." << endl;
       return;
     }
   else dest = m_destDir;
@@ -727,7 +727,7 @@ void TarArch::unarchFileInternal()
     options += "p";
   options += "f";
 
-  kdDebug(1601) << "Options were: " << options << endl;
+  kDebug(1601) << "Options were: " << options << endl;
   *kp << options << m_filename << "-C" << dest;
 
   // if the list is empty, no filenames go on the command line,
@@ -756,12 +756,12 @@ void TarArch::unarchFileInternal()
       emit sigExtract(false);
     }
 
-  kdDebug(1601) << "+TarArch::unarchFile" << endl;
+  kDebug(1601) << "+TarArch::unarchFile" << endl;
 }
 
 void TarArch::remove(QStringList *list)
 {
-  kdDebug(1601) << "+Tar::remove" << endl;
+  kDebug(1601) << "+Tar::remove" << endl;
   deleteInProgress = true;
   m_filesToRemove = *list;
   connect( this, SIGNAL( createTempDone() ), this, SLOT( removeCreateTempDone() ) );
@@ -785,7 +785,7 @@ void TarArch::removeCreateTempDone()
   for ( ; it != m_filesToRemove.end(); ++it )
     {
         *kp << QString(m_dotslash ? "./" : "")+(*it);
-//      kdDebug(1601) << *it << endl;
+//      kDebug(1601) << *it << endl;
 //      *kp << *it;
     }
   m_filesToRemove = QStringList();
@@ -804,7 +804,7 @@ void TarArch::removeCreateTempDone()
       emit sigDelete(false);
     }
 
-  kdDebug(1601) << "-Tar::remove" << endl;
+  kDebug(1601) << "-Tar::remove" << endl;
 }
 
 void TarArch::slotDeleteExited(KProcess *_kp)
@@ -841,12 +841,12 @@ void TarArch::openFinished( KProcess * )
 {
   // do nothing
   // turn off busy light (when someone makes one)
-  kdDebug(1601) << "Open finshed" << endl;
+  kDebug(1601) << "Open finshed" << endl;
 }
 
 void TarArch::createTmpFinished( KProcess *_kp )
 {
-  kdDebug(1601) << "+TarArch::createTmpFinished" << endl;
+  kDebug(1601) << "+TarArch::createTmpFinished" << endl;
 
   createTmpInProgress = false;
   fclose(fd);
@@ -854,19 +854,19 @@ void TarArch::createTmpFinished( KProcess *_kp )
   _kp = m_currentProcess = NULL;
 
 
-  kdDebug(1601) << "-TarArch::createTmpFinished" << endl;
+  kDebug(1601) << "-TarArch::createTmpFinished" << endl;
   emit createTempDone();
 }
 
 void TarArch::updateFinished( KProcess *_kp )
 {
-  kdDebug(1601) << "+TarArch::updateFinished" << endl;
+  kDebug(1601) << "+TarArch::updateFinished" << endl;
   fclose(fd);
   updateInProgress = false;
   delete _kp;
   _kp = m_currentProcess = NULL;
 
-  kdDebug(1601) << "-TarArch::updateFinished" << endl;
+  kDebug(1601) << "-TarArch::updateFinished" << endl;
   emit updateDone();
 }
 

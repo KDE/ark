@@ -53,7 +53,7 @@ KParts::Part * ArkFactory::createPartObject( QWidget *parentWidget,
     }
     ArkPart* obj = new ArkPart( parentWidget, widgetName, parent, name,
                                 args, readWrite );
-        //kdDebug( 1601 ) << "classname is: " << QCString( classname ) << endl;
+        //kDebug( 1601 ) << "classname is: " << QCString( classname ) << endl;
         return obj;
 }
 

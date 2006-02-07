@@ -76,7 +76,7 @@ void AceArch::setHeaders()
 
 void AceArch::open()
 {
-	kdDebug(1601) << "+AceArch::open()" << endl;
+	kDebug(1601) << "+AceArch::open()" << endl;
 	setHeaders();
 
 	m_buffer = "";
@@ -87,7 +87,7 @@ void AceArch::open()
 	*kp << m_archiver_program << "v" << m_filename;
 	//kp->setUseShell( true );
 
-	kdDebug() << "AceArch::open(): kp->args(): " << kp->args() << endl;
+	kDebug() << "AceArch::open(): kp->args(): " << kp->args() << endl;
 
 	connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
 			 SLOT( slotReceivedTOC(KProcess*, char*, int) ) );
@@ -128,7 +128,7 @@ void AceArch::unarchFileInternal( )
 {
 	if ( m_destDir.isEmpty() || m_destDir.isNull() )
 	{
-		kdError( 1601 ) << "There was no extract directory given." << endl;
+		kError( 1601 ) << "There was no extract directory given." << endl;
 		return;
 	}
 
@@ -175,7 +175,7 @@ void AceArch::unarchFileInternal( )
 void AceArch::catchMeIfYouCan( KProcess*, char *buffer, int buflen )
 {
 	QString myBuf = QString::fromLatin1( buffer, buflen );
-	kdDebug(1601) << "	Wololo!:	" << myBuf << endl;
+	kDebug(1601) << "	Wololo!:	" << myBuf << endl;
 }
 
 #include "ace.moc"

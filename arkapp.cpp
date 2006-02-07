@@ -62,7 +62,7 @@ static QString resolveFilename(const QString & _arkname)
 			}
 			else if ( ENAMETOOLONG == errno )
 			{
-				kdDebug(1601) << "resolveFilename: have to reallocate - name too long!" << endl;
+				kDebug(1601) << "resolveFilename: have to reallocate - name too long!" << endl;
 				iter++;
 				delete [] buff;
 				continue;
@@ -88,7 +88,7 @@ static QString resolveFilename(const QString & _arkname)
 				int index = _arkname.findRev('/');
 				name = _arkname.left(index + 1) + name;
 			}
-			kdDebug(1601) << "Now resolve " << name << endl;
+			kDebug(1601) << "Now resolve " << name << endl;
 			
 			return resolveFilename( name );
 		}
@@ -238,14 +238,14 @@ ArkApplication::addOpenArk(const KUrl & _arkname, MainWindow *_ptr)
     if( _arkname.isLocalFile() )
     {
         realName = resolveFilename( _arkname.path() );  // follow symlink
-        kdDebug(1601) << " Real name of " << _arkname.prettyURL() << " is " << realName << endl;
+        kDebug(1601) << " Real name of " << _arkname.prettyURL() << " is " << realName << endl;
     }
     else
         realName = _arkname.prettyURL();
     openArksList.append(realName);
     m_windowsHash.remove(realName);
     m_windowsHash[realName] = _ptr;
-    kdDebug(1601) << "Saved ptr " << _ptr << " added open ark: " << realName << endl;
+    kDebug(1601) << "Saved ptr " << _ptr << " added open ark: " << realName << endl;
 }
 
 void
@@ -256,7 +256,7 @@ ArkApplication::removeOpenArk(const KUrl & _arkname)
         realName = resolveFilename( _arkname.path() );  // follow symlink
     else
         realName = _arkname.prettyURL();
-    kdDebug(1601) << "Removing name " << _arkname.prettyURL() << endl;
+    kDebug(1601) << "Removing name " << _arkname.prettyURL() << endl;
     openArksList.remove(realName);
     m_windowsHash.remove(realName);
 }
@@ -264,7 +264,7 @@ ArkApplication::removeOpenArk(const KUrl & _arkname)
 void
 ArkApplication::raiseArk(const KUrl & _arkname)
 {
-    kdDebug( 1601 ) << "ArkApplication::raiseArk " << endl;
+    kDebug( 1601 ) << "ArkApplication::raiseArk " << endl;
     MainWindow *window;
     QString realName;
     if( _arkname.isLocalFile() )
@@ -272,7 +272,7 @@ ArkApplication::raiseArk(const KUrl & _arkname)
     else
         realName = _arkname.prettyURL();
     window = m_windowsHash[realName];
-    kdDebug(1601) << "ArkApplication::raiseArk " << window << endl;
+    kDebug(1601) << "ArkApplication::raiseArk " << window << endl;
     // raise didn't seem to be enough. Not sure why!
     // This might be annoying though.
     //window->hide();

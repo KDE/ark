@@ -57,7 +57,7 @@ CompressedFile::CompressedFile( ArkWidget *_gui, const QString & _fileName, cons
 {
   m_tempDirectory = NULL;
   m_openAsMimeType = _openAsMimeType;
-  kdDebug(1601) << "CompressedFile constructor" << endl;
+  kDebug(1601) << "CompressedFile constructor" << endl;
   m_tempDirectory = new KTempDir( _gui->tmpDir()
                           + QString::fromLatin1( "compressed_file_temp" ) );
   m_tempDirectory->setAutoDelete( true );
@@ -147,7 +147,7 @@ QString CompressedFile::extension()
 
 void CompressedFile::open()
 {
-  kdDebug(1601) << "+CompressedFile::open" << endl;
+  kDebug(1601) << "+CompressedFile::open" << endl;
   setHeaders();
 
   // We copy the file into the temporary directory, uncompress it,
@@ -165,7 +165,7 @@ void CompressedFile::open()
   target.setPath( m_tmpfile );
   KIO::NetAccess::copy( m_filename, m_tmpfile, m_gui );
 
-  kdDebug(1601) << "Temp file name is " << m_tmpfile << endl;
+  kDebug(1601) << "Temp file name is " << m_tmpfile << endl;
 
   KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
@@ -183,7 +183,7 @@ void CompressedFile::open()
   */
   *kp << m_tmpfile;
 
-  kdDebug(1601) << "Command is " << m_unarchiver_program << " " << m_tmpfile<< endl;
+  kDebug(1601) << "Command is " << m_unarchiver_program << " " << m_tmpfile<< endl;
 
   connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
 	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
@@ -198,15 +198,15 @@ void CompressedFile::open()
       emit sigOpen(this, false, QString::null, 0 );
     }
 
-  kdDebug(1601) << "-CompressedFile::open" << endl;
+  kDebug(1601) << "-CompressedFile::open" << endl;
 }
 
 void CompressedFile::slotUncompressDone(KProcess *_kp)
 {
   bool bSuccess = false;
-  kdDebug(1601) << "normalExit = " << _kp->normalExit() << endl;
+  kDebug(1601) << "normalExit = " << _kp->normalExit() << endl;
   if( _kp->normalExit() )
-    kdDebug(1601) << "exitStatus = " << _kp->exitStatus() << endl;
+    kDebug(1601) << "exitStatus = " << _kp->exitStatus() << endl;
 
   if( _kp->normalExit() && (_kp->exitStatus()==0) )
   {
@@ -256,7 +256,7 @@ void CompressedFile::addFile( const QStringList &urls )
   // only used for adding ONE file to an EMPTY gzip file, i.e., one that
   // has just been created
 
-  kdDebug(1601) << "+CompressedFile::addFile" << endl;
+  kDebug(1601) << "+CompressedFile::addFile" << endl;
 
   Q_ASSERT(m_gui->getNumFilesInArchive() == 0);
   Q_ASSERT(urls.count() == 1);
@@ -275,9 +275,9 @@ void CompressedFile::addFile( const QStringList &urls )
 			 - file.findRev("/")-1);
   m_tmpfile = m_tmpdir + "/" + m_tmpfile;
 
-  kdDebug(1601) << "Temp file name is " << m_tmpfile << endl;
+  kDebug(1601) << "Temp file name is " << m_tmpfile << endl;
 
-  kdDebug(1601) << "File is " << file << endl;
+  kDebug(1601) << "File is " << file << endl;
 
   KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
@@ -308,7 +308,7 @@ void CompressedFile::addFile( const QStringList &urls )
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
     }
 
-  kdDebug(1601) << "-CompressedFile::addFile" << endl;
+  kDebug(1601) << "-CompressedFile::addFile" << endl;
 }
 
 void CompressedFile::slotAddInProgress(KProcess*, char* _buffer, int _bufflen)
@@ -338,7 +338,7 @@ void CompressedFile::unarchFileInternal()
       QString dest;
       if (m_destDir.isEmpty() || m_destDir.isNull())
       {
-          kdError(1601) << "There was no extract directory given." << endl;
+          kError(1601) << "There was no extract directory given." << endl;
           return;
       }
       else
@@ -353,7 +353,7 @@ void CompressedFile::unarchFileInternal()
 
 void CompressedFile::remove(QStringList *)
 {
-  kdDebug(1601) << "+CompressedFile::remove" << endl;
+  kDebug(1601) << "+CompressedFile::remove" << endl;
   QFile::remove(m_tmpfile);
 
   // delete the compressed file but then create it empty in case someone
@@ -364,7 +364,7 @@ void CompressedFile::remove(QStringList *)
 
   m_tmpfile = "";
   emit sigDelete(true);
-  kdDebug(1601) << "-CompressedFile::remove" << endl;
+  kDebug(1601) << "-CompressedFile::remove" << endl;
 }
 
 

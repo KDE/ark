@@ -83,7 +83,7 @@ bool ZooArch::processLine( const QByteArray &line )
                    ArkUtils::getMonth( columns[7] ), atoi( columns[3] ) );
 
   strlcpy( columns[3], strDate.ascii(), sizeof( columns[3]) );
-  kdDebug( 1601 ) << "New timestamp is " << columns[3] << endl;
+  kDebug( 1601 ) << "New timestamp is " << columns[3] << endl;
 
   strlcat( columns[3], " ", sizeof( columns[3] ) );
   strlcat( columns[3], fixTime( columns[4] ).ascii(), sizeof( columns[3] ) );
@@ -200,7 +200,7 @@ void ZooArch::unarchFileInternal()
 
   if ( m_destDir.isEmpty() || m_destDir.isNull() )
   {
-    kdError( 1601 ) << "There was no extract directory given." << endl;
+    kError( 1601 ) << "There was no extract directory given." << endl;
     return;
   }
 

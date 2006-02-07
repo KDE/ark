@@ -213,7 +213,7 @@ void RarArch::unarchFileInternal()
 {
   if ( m_destDir.isEmpty() || m_destDir.isNull() )
   {
-    kdError( 1601 ) << "There was no extract directory given." << endl;
+    kError( 1601 ) << "There was no extract directory given." << endl;
     return;
   }
 

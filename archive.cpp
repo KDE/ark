@@ -319,7 +319,7 @@ bool Arch::processLine( const QByteArray &line )
         continue; // More?
       else
       {
-        kdDebug(1601) << "processLine failed to match critical column" << endl;
+        kDebug(1601) << "processLine failed to match critical column" << endl;
         return false;
       }
     }

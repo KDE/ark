@@ -122,7 +122,7 @@ ArkWidget::ArkWidget( QWidget *parent )
 
     if ( m_tmpDir->status() != 0 )
     {
-       kdWarning( 1601 ) << "Could not create a temporary directory. status() returned "
+       kWarning( 1601 ) << "Could not create a temporary directory. status() returned "
                          << m_tmpDir->status() << "." << endl;
        m_tmpDir = NULL;
     }
@@ -301,7 +301,7 @@ ArkWidget::convertTo( const KUrl & u )
 void
 ArkWidget::convertSlotExtractDone( bool )
 {
-    kdDebug( 1601 ) << k_funcinfo << endl;
+    kDebug( 1601 ) << k_funcinfo << endl;
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( convertSlotExtractDone( bool ) ) );
     QTimer::singleShot( 0, this, SLOT( convertSlotCreate() ) );
 }
@@ -325,10 +325,10 @@ void
 ArkWidget::convertSlotCreateDone( bool success )
 {
     disconnect( this, SIGNAL( createDone( bool ) ), this, SLOT( convertSlotCreateDone( bool ) ) );
-    kdDebug( 1601 ) << k_funcinfo << endl;
+    kDebug( 1601 ) << k_funcinfo << endl;
     if ( !success )
     {
-        kdWarning( 1601 ) << "Error while converting. (convertSlotCreateDone)" << endl;
+        kWarning( 1601 ) << "Error while converting. (convertSlotCreateDone)" << endl;
         return;
     }
     QDir dir( m_convert_tmpDir->name() );
@@ -360,7 +360,7 @@ void
 ArkWidget::convertSlotAddDone( bool success )
 {
     disconnect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( convertSlotAddDone( bool ) ) );
-    kdDebug( 1601 ) << k_funcinfo << endl;
+    kDebug( 1601 ) << k_funcinfo << endl;
     m_convertSuccess = success;
     // needed ? (TarArch, lzo)
     QTimer::singleShot( 0, this, SLOT( convertFinish() ) );
@@ -369,7 +369,7 @@ ArkWidget::convertSlotAddDone( bool success )
 void
 ArkWidget::convertFinish()
 {
-    kdDebug( 1601 ) << k_funcinfo << endl;
+    kDebug( 1601 ) << k_funcinfo << endl;
     delete m_convert_tmpDir;
     m_convert_tmpDir = NULL;
 
@@ -390,7 +390,7 @@ ArkWidget::convertFinish()
     }
     else
     {
-        kdWarning( 1601 ) << "Error while converting (convertSlotAddDone)" << endl;
+        kWarning( 1601 ) << "Error while converting (convertSlotAddDone)" << endl;
     }
 }
 
@@ -478,7 +478,7 @@ ArkWidget::extractToSlotOpenDone( bool success )
 
         if ( m_extractRemoteTmpDir->status() != 0 )
         {
-            kdWarning(1601) << "Unable to create " << extractDir << endl;
+            kWarning(1601) << "Unable to create " << extractDir << endl;
             m_extractRemote = false;
             emit request_file_quit();
             return;
@@ -487,7 +487,7 @@ ArkWidget::extractToSlotOpenDone( bool success )
 
     QStringList empty;
     QStringList alreadyExisting = existingFiles( extractDir, empty );
-    kdDebug( 1601 ) << "Already existing files count: " << existingFiles( extractDir, empty ).count() << endl;
+    kDebug( 1601 ) << "Already existing files count: " << existingFiles( extractDir, empty ).count() << endl;
     bool keepGoing = true;
     if ( !ArkSettings::extractOverwrite() && !alreadyExisting.isEmpty() )
     {
@@ -529,7 +529,7 @@ ArkWidget::extractToSlotExtractDone( bool success )
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( extractToSlotExtractDone( bool ) ) );
     if ( !success )
     {
-        kdDebug( 1601 ) << "Last Shell Output" << arch->getLastShellOutput() << endl;
+        kDebug( 1601 ) << "Last Shell Output" << arch->getLastShellOutput() << endl;
         KMessageBox::error( this, i18n( "An error occurred while extracting the archive." ) );
         emit request_file_quit();
         return;
@@ -588,7 +588,7 @@ ArkWidget::addToArchiveSlotCreateDone( bool success )
     disconnect( this, SIGNAL( createDone( bool ) ), this, SLOT( addToArchiveSlotCreateDone( bool ) ) );
     if ( !success )
     {
-        kdDebug( 1601 ) << "Could not create the archive" << endl;
+        kDebug( 1601 ) << "Could not create the archive" << endl;
         emit request_file_quit();
         return;
     }
@@ -598,7 +598,7 @@ ArkWidget::addToArchiveSlotCreateDone( bool success )
 void
 ArkWidget::addToArchiveSlotOpenDone( bool success )
 {
-    kdDebug( 1601 ) << k_funcinfo << endl;
+    kDebug( 1601 ) << k_funcinfo << endl;
     disconnect( this, SIGNAL( openDone( bool ) ), this, SLOT( addToArchiveSlotOpenDone( bool ) ) );
     // TODO: handle dirs with addDir ( or better+easier: get rid of the need to do that entirely )
     if ( !success )
@@ -657,7 +657,7 @@ ArkWidget::addToArchiveSlotOpenDone( bool success )
         }
     }
 
-    kdDebug( 1601 ) << "Adding: " << list << endl;
+    kDebug( 1601 ) << "Adding: " << list << endl;
 
     connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( addToArchiveSlotAddDone( bool ) ) );
     arch->addFile( list.toStringList() );
@@ -666,7 +666,7 @@ ArkWidget::addToArchiveSlotOpenDone( bool success )
 void
 ArkWidget::addToArchiveSlotAddDone( bool success )
 {
-    kdDebug( 1601 ) << k_funcinfo << endl;
+    kDebug( 1601 ) << k_funcinfo << endl;
     disconnect( this, SLOT( addToArchiveSlotAddDone( bool ) ) );
     if ( !success )
     {
@@ -688,7 +688,7 @@ ArkWidget::file_open(const KUrl& url)
 {
     if ( url.isEmpty() )
     {
-        kdDebug( 1601 ) << "file_open: url empty" << endl;
+        kDebug( 1601 ) << "file_open: url empty" << endl;
         return;
     }
 
@@ -697,14 +697,14 @@ ArkWidget::file_open(const KUrl& url)
 
     if ( !url.isLocalFile() )
     {
-        kdWarning ( 1601 ) << url.prettyURL() << " is not a local URL in ArkWidget::file_open( KURL). Aborting. " << endl;
+        kWarning ( 1601 ) << url.prettyURL() << " is not a local URL in ArkWidget::file_open( KURL). Aborting. " << endl;
         return;
     }
 
 
     QString strFile = url.path();
 
-    kdDebug( 1601 ) << "File to open: " << strFile << endl;
+    kDebug( 1601 ) << "File to open: " << strFile << endl;
 
     QFileInfo fileInfo( strFile );
     if ( !fileInfo.exists() )
@@ -725,7 +725,7 @@ ArkWidget::file_open(const KUrl& url)
 
     if (strFile == m_strArchName && m_bIsArchiveOpen)
     {
-        kdDebug( 1601 ) << "file_open: strFile == m_strArchName" << endl;
+        kDebug( 1601 ) << "file_open: strFile == m_strArchName" << endl;
         return;
     }
 
@@ -791,7 +791,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
             url.setPath( strFile );
         }
 
-        kdDebug(1601) << "Trying to create an archive named " << strFile << endl;
+        kDebug(1601) << "Trying to create an archive named " << strFile << endl;
         fileExists = QFile::exists( strFile );
         if( fileExists )
         {
@@ -878,7 +878,7 @@ ArkWidget::slotExtractDone()
         emit request_file_quit();
     }
 
-    kdDebug(1601) << "-ArkWidget::slotExtractDone" << endl;
+    kDebug(1601) << "-ArkWidget::slotExtractDone" << endl;
 }
 
 void
@@ -1028,7 +1028,7 @@ ArkWidget::createRealArchiveSlotCreate( Arch * newArch, bool success,
 void
 ArkWidget::createRealArchiveSlotAddDone( bool success )
 {
-    kdDebug( 1601 ) << "createRealArchiveSlotAddDone+, success:" << success << endl;
+    kDebug( 1601 ) << "createRealArchiveSlotAddDone+, success:" << success << endl;
     disconnect( arch, SIGNAL( sigAdd( bool ) ), this,
                       SLOT( createRealArchiveSlotAddDone( bool ) ) );
 
@@ -1060,7 +1060,7 @@ ArkWidget::createRealArchiveSlotAddDone( bool success )
 void
 ArkWidget::createRealArchiveSlotAddFilesDone( bool success )
 {
-    //kdDebug( 1601 ) << "createRealArchiveSlotAddFilesDone+, success:" << success << endl;
+    //kDebug( 1601 ) << "createRealArchiveSlotAddFilesDone+, success:" << success << endl;
     disconnect( arch, SIGNAL( sigAdd( bool ) ), this,
                       SLOT( createRealArchiveSlotAddFilesDone( bool ) ) );
     delete m_pTempAddList;
@@ -1267,14 +1267,14 @@ ArkWidget::action_delete()
     busy( i18n( "Removing..." ) );
     connect( arch, SIGNAL( sigDelete( bool ) ), this, SLOT( slotDeleteDone( bool ) ) );
     arch->remove(&list);
-    kdDebug(1601) << "-ArkWidget::action_delete" << endl;
+    kDebug(1601) << "-ArkWidget::action_delete" << endl;
 }
 
 void
 ArkWidget::slotDeleteDone(bool _bSuccess)
 {
     disconnect( arch, SIGNAL( sigDelete( bool ) ), this, SLOT( slotDeleteDone( bool ) ) );
-    kdDebug(1601) << "+ArkWidget::slotDeleteDone" << endl;
+    kDebug(1601) << "+ArkWidget::slotDeleteDone" << endl;
     m_fileListView->setUpdatesEnabled(true);
     m_fileListView->triggerUpdate();
     if (_bSuccess)
@@ -1286,7 +1286,7 @@ ArkWidget::slotDeleteDone(bool _bSuccess)
     // disable the select all and extract options if there are no files left
     fixEnables();
     ready();
-    kdDebug(1601) << "-ArkWidget::slotDeleteDone" << endl;
+    kDebug(1601) << "-ArkWidget::slotDeleteDone" << endl;
 
 }
 
@@ -1370,7 +1370,7 @@ ArkWidget::reportExtractFailures( const QString & _dest, QStringList *_list )
     holdBusy();
     if (numFilesToReport == 1)
     {
-        kdDebug(1601) << "One to report" << endl;
+        kDebug(1601) << "One to report" << endl;
         strFilename = filesExisting.first();
         QString message = i18n("%1 will not be extracted because it will overwrite an existing file.\nGo back to the Extraction Dialog?").arg(strFilename);
         redoExtraction = (KMessageBox::questionYesNo(this, message) == KMessageBox::Yes);
@@ -1482,7 +1482,7 @@ ArkWidget::action_extract()
             m_extractRemote = true;
             if ( m_extractRemoteTmpDir->status() != 0 )
             {
-                kdWarning( 1601 ) << "Unable to create temporary directory" << extractDir << endl;
+                kWarning( 1601 ) << "Unable to create temporary directory" << extractDir << endl;
                 m_extractRemote = false;
                 delete dlg;
                 return false;
@@ -1600,7 +1600,7 @@ ArkWidget::editSlotExtractDone()
 void
 ArkWidget::editStart()
 {
-    kdDebug(1601) << "Edit in progress..." << endl;
+    kDebug(1601) << "Edit in progress..." << endl;
     KUrl::List list;
     // edit will be in progress until the KProcess terminates.
     KOpenWithDlg l( list, i18n("Edit with:"),
@@ -1622,7 +1622,7 @@ ArkWidget::editStart()
 void
 ArkWidget::slotEditFinished(KProcess *kp)
 {
-    kdDebug(1601) << "+ArkWidget::slotEditFinished" << endl;
+    kDebug(1601) << "+ArkWidget::slotEditFinished" << endl;
     connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( editSlotAddDone( bool ) ) );
     delete kp;
     QStringList list;
@@ -1641,10 +1641,10 @@ ArkWidget::slotEditFinished(KProcess *kp)
     QString path;
     if (filename.count('/') > 3)
     {
-        kdDebug(1601) << "Filename is originally: " << filename << endl;
+        kDebug(1601) << "Filename is originally: " << filename << endl;
         int i = filename.find('/', 5);
         path = filename.left(1+i);
-        kdDebug(1601) << "Changing to dir: " << path << endl;
+        kDebug(1601) << "Changing to dir: " << path << endl;
         QDir::setCurrent(path);
         filename = filename.right(filename.length()-i-1);
         // HACK!! We need a relative path. If I have "file:", it
@@ -1657,7 +1657,7 @@ ArkWidget::slotEditFinished(KProcess *kp)
     busy( i18n( "Readding edited file..." ) );
     arch->addFile( list );
 
-    kdDebug(1601) << "-ArkWidget::slotEditFinished" << endl;
+    kDebug(1601) << "-ArkWidget::slotEditFinished" << endl;
 }
 
 void
@@ -1729,7 +1729,7 @@ ArkWidget::showCurrentFile()
     fullname += tmpDir();
     fullname += name;
 
-    kdDebug(1601) << "File to be viewed: " << fullname << endl;
+    kDebug(1601) << "File to be viewed: " << fullname << endl;
 
     QStringList extractList;
     extractList.append(name);
@@ -1835,7 +1835,7 @@ ArkWidget::dragMoveEvent(QDragMoveEvent *e)
 void
 ArkWidget::dropEvent(QDropEvent* e)
 {
-    kdDebug( 1601 ) << "+ArkWidget::dropEvent" << endl;
+    kDebug( 1601 ) << "+ArkWidget::dropEvent" << endl;
 
     KUrl::List list;
 
@@ -1845,7 +1845,7 @@ ArkWidget::dropEvent(QDropEvent* e)
         dropAction( urlList );
     }
 
-    kdDebug(1601) << "-dropEvent" << endl;
+    kDebug(1601) << "-dropEvent" << endl;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -1996,7 +1996,7 @@ ArkWidget::arkWarning(const QString& msg)
 void
 ArkWidget::createFileListView()
 {
-   kdDebug(1601) << "ArkWidget::createFileListView" << endl;
+   kDebug(1601) << "ArkWidget::createFileListView" << endl;
    if ( !m_fileListView )
    {
       m_fileListView = new FileListView(this);
@@ -2022,7 +2022,7 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName, const QString& _mime
 
     QString type = _mimetype.isNull()? KMimeType::findByURL( KUrl::fromPathOrURL(_fileName) )->name() : _mimetype;
     ArchType archtype = ArchiveFormatInfo::self()->archTypeForMimeType(type);
-    kdDebug( 1601 ) << "archtype is recognised as: " << archtype << endl;
+    kDebug( 1601 ) << "archtype is recognised as: " << archtype << endl;
     if(0 == (newArch = Arch::archFactory(archtype, this,
                                          _fileName, _mimetype)))
     {
@@ -2068,7 +2068,7 @@ ArkWidget::createArchive( const QString & _filename )
 void
 ArkWidget::slotCreate(Arch * _newarch, bool _success, const QString & _filename, int)
 {
-    kdDebug( 1601 ) << k_funcinfo << endl;
+    kDebug( 1601 ) << k_funcinfo << endl;
     disconnect( _newarch, SIGNAL( sigCreate( Arch *, bool, const QString &, int ) ),
                 this, SLOT(slotCreate(Arch *, bool, const QString &, int) ) );
     ready();
@@ -2133,7 +2133,7 @@ ArkWidget::openArchive( const QString & _filename )
        archtype = info->archTypeForMimeType( m_openAsMimeType );
     }
 
-    kdDebug( 1601 ) << "m_openAsMimeType is: " << m_openAsMimeType << endl;
+    kDebug( 1601 ) << "m_openAsMimeType is: " << m_openAsMimeType << endl;
     if( 0 == ( newArch = Arch::archFactory( archtype, this,
                                             _filename, m_openAsMimeType) ) )
     {

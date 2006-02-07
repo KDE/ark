@@ -272,7 +272,7 @@ void ArkPart::file_save_as()
     else if ( awidget->file_save_as( u ) )
         m_ext->slotOpenURLRequested( u );
     else
-        kdWarning( 1601 ) <<  "Save As failed." << endl;
+        kWarning( 1601 ) <<  "Save As failed." << endl;
 }
 
 bool ArkPart::saveFile()

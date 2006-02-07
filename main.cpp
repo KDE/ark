@@ -111,13 +111,13 @@ extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 	if ( !ArkApplication::start() )
 	{
 		// Already running!
-		kdDebug( 1601 ) << "Already running" << endl;
+		kDebug( 1601 ) << "Already running" << endl;
 		exit( 0 );
 	}
 
 	if ( ArkApplication::getInstance()->isSessionRestored() )
 	{
-		kdDebug( 1601 ) << "In main: Restore..." << endl;
+		kDebug( 1601 ) << "In main: Restore..." << endl;
 		RESTORE( MainWindow );
 	}
 

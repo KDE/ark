@@ -97,7 +97,7 @@ MainWindow::MainWindow( QWidget * /*parent*/, const char *name )
         setAutoSaveSettings( "MainWindow" );
     }
     else
-        kdFatal( 1601 ) << "libark could not found. Aborting. " << endl;
+        kFatal( 1601 ) << "libark could not found. Aborting. " << endl;
 
 }
 
@@ -248,7 +248,7 @@ KURL
 MainWindow::getOpenURL( bool addOnly, const QString & caption,
                                const QString & startDir, const QString & suggestedName )
 {
-    kdDebug( 1601 ) << "startDir is: " << startDir << endl;
+    kDebug( 1601 ) << "startDir is: " << startDir << endl;
     QWidget * forceFormatWidget = new QWidget( this );
     QHBoxLayout * l = new QHBoxLayout( forceFormatWidget );
 
@@ -325,7 +325,7 @@ MainWindow::window_close()
 {
     file_close();
     slotSaveProperties();
-    //kdDebug(1601) << "-ArkWidget::window_close" << endl;
+    //kDebug(1601) << "-ArkWidget::window_close" << endl;
     close();
 }
 
@@ -361,7 +361,7 @@ void
 MainWindow::readProperties( KConfig* config )
 {
     QString file = config->readPathEntry("SMOpenedFile");
-    kdDebug(1601) << "ArkWidget::readProperties( KConfig* config ) file=" << file << endl;
+    kDebug(1601) << "ArkWidget::readProperties( KConfig* config ) file=" << file << endl;
     if ( !file.isEmpty() )
         openURL( KUrl::fromPathOrURL( file ) );
 }
@@ -431,7 +431,7 @@ MainWindow::addToArchive( const KUrl::List & filesToAdd, const QString & /*cwd*/
 
     if ( archiveFile.isEmpty() )
     {
-        kdDebug( 1601 ) << "no archive selected." << endl;
+        kDebug( 1601 ) << "no archive selected." << endl;
         file_quit();
         return;
     }
@@ -439,7 +439,7 @@ MainWindow::addToArchive( const KUrl::List & filesToAdd, const QString & /*cwd*/
     startProgressDialog( i18n( "Compressing..." ) );
 
     bool exists = KIO::NetAccess::exists( archiveFile, false, m_widget );
-    kdDebug( 1601 ) << archiveFile << endl;
+    kDebug( 1601 ) << archiveFile << endl;
 
     if ( !m_widget->addToArchive( filesToAdd, archiveFile ) )
         file_quit();

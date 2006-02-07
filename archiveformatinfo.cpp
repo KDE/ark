@@ -89,7 +89,7 @@ void ArchiveFormatInfo::addFormatInfo( ArchType type, QString mime, QString stdE
 
     KDesktopFile * desktopFile = new KDesktopFile( mime + ".desktop", true, "mime" );
     if( !desktopFile )
-        kdWarning( 1601 ) << "MimeType " << mime << " seems to be missing." << endl;
+        kWarning( 1601 ) << "MimeType " << mime << " seems to be missing." << endl;
     KMimeType mimeType( desktopFile );
     info.mimeTypes.append( mimeType.name() );
     info.extensions += mimeType.patterns();
@@ -191,7 +191,7 @@ ArchType ArchiveFormatInfo::archTypeForURL( const KUrl & url )
         return archTypeByExtension( url.path() );
 
     QString mimeType = KMimeType::findByURL( url, 0, true, true )->name();
-    kdDebug( 1601 ) << "find by url: " << mimeType << endl;
+    kDebug( 1601 ) << "find by url: " << mimeType << endl;
     if( mimeType == KMimeType::defaultMimeType() )
     {
         m_lastExtensionUnknown = true;

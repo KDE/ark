@@ -65,7 +65,7 @@ ArArch::ArArch( ArkWidget *_gui, const QString & _fileName )
   m_archCols.append(new ArchColumns(8, QRegExp("[0-9]+"), 5)); // Year
   m_archCols.append(new ArchColumns(0, QRegExp("[^\\s][^\\n]+"), 4096));// File
 
-  kdDebug(1601) << "ArArch constructor" << endl;
+  kDebug(1601) << "ArArch constructor" << endl;
 }
 
 void ArArch::setHeaders()
@@ -82,7 +82,7 @@ void ArArch::setHeaders()
 
 void ArArch::open()
 {
-  kdDebug(1601) << "+ArArch::open" << endl;
+  kDebug(1601) << "+ArArch::open" << endl;
   setHeaders();
 
   m_buffer = "";
@@ -102,7 +102,7 @@ void ArArch::open()
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigOpen(this, false, QString::null, 0 );
     }
-  kdDebug(1601) << "-ArArch::open" << endl;
+  kDebug(1601) << "-ArArch::open" << endl;
 }
 
 void ArArch::create()
@@ -131,7 +131,7 @@ void ArArch::create()
 
 void ArArch::addFile( const QStringList &urls )
 {
-  kdDebug(1601) << "+ArArch::addFile" << endl;
+  kDebug(1601) << "+ArArch::addFile" << endl;
   KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
   *kp << m_archiver_program;
@@ -166,7 +166,7 @@ void ArArch::addFile( const QStringList &urls )
       emit sigAdd(false);
     }
 
-  kdDebug(1601) << "-ArArch::addFile" << endl;
+  kDebug(1601) << "-ArArch::addFile" << endl;
 }
 
 void ArArch::unarchFileInternal()
@@ -174,12 +174,12 @@ void ArArch::unarchFileInternal()
   // if m_fileList is empty, we extract all.
   // if m_destDir is empty, abort with error.
 
-  kdDebug(1601) << "+ArArch::unarchFile" << endl;
+  kDebug(1601) << "+ArArch::unarchFile" << endl;
   QString dest;
 
   if (m_destDir.isEmpty() || m_destDir.isNull())
     {
-      kdError(1601) << "There was no extract directory given." << endl;
+      kError(1601) << "There was no extract directory given." << endl;
       return;
     }
   else dest = m_destDir;
@@ -226,7 +226,7 @@ void ArArch::unarchFileInternal()
 
 void ArArch::remove(QStringList *list)
 {
-  kdDebug(1601) << "+ArArch::remove" << endl;
+  kDebug(1601) << "+ArArch::remove" << endl;
 
   if (!list)
     return;
@@ -256,7 +256,7 @@ void ArArch::remove(QStringList *list)
       emit sigDelete(false);
     }
 
-  kdDebug(1601) << "-ArArch::remove" << endl;
+  kDebug(1601) << "-ArArch::remove" << endl;
 }
 
 

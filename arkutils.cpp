@@ -86,7 +86,7 @@ QString ArkUtils::getTimeStamp(const QString &_month,
   int nMonth = getMonth(month);
   int nDay = _day.toInt();
 
-  kdDebug(1601) << "Month is " << nMonth << ", Day is " << nDay << endl;
+  kDebug(1601) << "Month is " << nMonth << ", Day is " << nDay << endl;
 
   time_t t = time(0);
   if (t == -1)
@@ -184,7 +184,7 @@ ArkUtils::diskHasSpace(const QString &dir, KIO::filesize_t size)
   // check if disk has enough space to accommodate (a) new file(s) of
   // the given size in the partition containing the given directory
 {
-  kdDebug( 1601 ) << "diskHasSpace() " << "dir: " << dir << " Size: " << size << endl;
+  kDebug( 1601 ) << "diskHasSpace() " << "dir: " << dir << " Size: " << size << endl;
   
   struct STATFS buf;
   if (STATFS(QFile::encodeName(dir), &buf) == 0)
@@ -199,7 +199,7 @@ ArkUtils::diskHasSpace(const QString &dir, KIO::filesize_t size)
   else
   {
     // something bad happened
-    kdWarning( 1601 ) << "diskHasSpace() failed" << endl;
+    kWarning( 1601 ) << "diskHasSpace() failed" << endl;
     // Q_ASSERT(0);
   }
   return true;
