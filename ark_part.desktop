@@ -2,8 +2,10 @@
 Encoding=UTF-8
 MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tgz;application/x-tbz;application/x-zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-bzip2;application/x-jar;application/x-deb
 Comment=Archive Handling Tool
+Comment[fr]=Outil de manipulation d'archives
 Comment[x-test]=xxArchive Handling Toolxx
 Name=Archiver
+Name[fr]=Archiveur
 Name[x-test]=xxArchiverxx
 Exec=ark -caption "%c" %U
 Icon=ark
