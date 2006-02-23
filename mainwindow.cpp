@@ -283,7 +283,7 @@ MainWindow::getOpenURL( bool addOnly, const QString & caption,
     else
         dir = ":ArkOpenDir";
 
-    KFileDialog dlg( dir, filter, this, "filedialog", true, forceFormatWidget );
+    KFileDialog dlg( dir, filter, this, forceFormatWidget );
     dlg.setOperationMode( addOnly ? KFileDialog::Saving
                                   : KFileDialog::Opening );
 

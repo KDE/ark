@@ -753,7 +753,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
     QString strFile;
     KUrl url;
 
-    KFileDialog dlg( ":ArkSaveAsDialog", QString::null, this, "SaveAsDialog", true );
+    KFileDialog dlg( ":ArkSaveAsDialog", QString::null, this );
     dlg.setCaption( _caption );
     dlg.setOperationMode( KFileDialog::Saving );
     dlg.setMimeFilter( ArchiveFormatInfo::self()->supportedMimeTypes( allowCompressed ),
@@ -1088,7 +1088,7 @@ ArkWidget::action_add()
         return;
     }
 
-    KFileDialog fileDlg( ":ArkAddDir", QString::null, this, "adddlg", true );
+    KFileDialog fileDlg( ":ArkAddDir", QString::null, this );
     fileDlg.setMode( KFile::Mode( KFile::Files | KFile::ExistingOnly ) );
     fileDlg.setCaption(i18n("Select Files to Add"));
 
