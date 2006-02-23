@@ -244,7 +244,7 @@ MainWindow::openURL( const KUrl & url, bool tempFile )
     }
 }
 
-KURL
+KUrl
 MainWindow::getOpenURL( bool addOnly, const QString & caption,
                                const QString & startDir, const QString & suggestedName )
 {

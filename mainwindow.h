@@ -48,7 +48,7 @@ public:
     void setExtractOnly ( bool b );
     void extractTo( const KUrl & targetDirectory, const KUrl & archive, bool guessName );
     void addToArchive( const KUrl::List & filesToAdd, const QString & cwd = QString::null,
-                       const KUrl & archive = KURL(), bool askForName = false );
+                       const KUrl & archive = KUrl(), bool askForName = false );
 
 public slots:
     void file_newWindow();

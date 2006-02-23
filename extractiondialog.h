@@ -47,7 +47,7 @@ class ExtractionDialog : public KDialogBase
 		 */
 		ExtractionDialog( QWidget *parent = 0, const char *name = 0,
 		                  bool enableSelected = true,
-		                  const KUrl &defaultExtractionDir = KURL(),
+		                  const KUrl &defaultExtractionDir = KUrl(),
 		                  const QString &prefix = QString(),
 		                  const QString &archiveName = QString::null );
 

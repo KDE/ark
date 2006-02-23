@@ -249,7 +249,7 @@ ArkWidget::ready()
 ////////////////////// file_save_as //////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-KURL
+KUrl
 ArkWidget::getSaveAsFileName()
 {
     QString defaultMimeType;
@@ -697,7 +697,7 @@ ArkWidget::file_open(const KUrl& url)
 
     if ( !url.isLocalFile() )
     {
-        kWarning ( 1601 ) << url.prettyURL() << " is not a local URL in ArkWidget::file_open( KURL). Aborting. " << endl;
+        kWarning ( 1601 ) << url.prettyURL() << " is not a local URL in ArkWidget::file_open( KUrl). Aborting. " << endl;
         return;
     }
 
@@ -742,7 +742,7 @@ ArkWidget::file_open(const KUrl& url)
 
 // File menu /////////////////////////////////////////////////////////
 
-KURL
+KUrl
 ArkWidget::getCreateFilename(const QString & _caption,
                                   const QString & _defaultMimeType,
                                   bool allowCompressed,
@@ -772,13 +772,13 @@ ArkWidget::getCreateFilename(const QString & _caption,
         strFile = url.path();
 
         if (strFile.isEmpty())
-            return KURL();
+            return KUrl();
 
         //the user chose to save as the current archive
         //or wanted to create a new one with the same name
         //no need to do anything
         if (strFile == m_strArchName && m_bIsArchiveOpen)
-            return KURL();
+            return KUrl();
 
         QStringList extensions = dlg.currentFilterMimeType()->patterns();
         QStringList::Iterator it = extensions.begin();
@@ -806,7 +806,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
             }
             else if ( choice == KMessageBox::Cancel )
             {
-                return KURL();
+                return KUrl();
             }
             else
             {
@@ -819,7 +819,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
             KMessageBox::error( this,
                 i18n( "You do not have permission"
                       " to write to the directory %1" ).arg(url.directory() ) );
-            return KURL();
+            return KUrl();
         }
     } // end of while loop
 
@@ -961,11 +961,11 @@ ArkWidget::file_close()
     }
 
     m_strArchName = QString::null;
-    m_url = KURL();
+    m_url = KUrl();
 }
 
 
-KURL
+KUrl
 ArkWidget::askToCreateRealArchive()
 {
     // ask user whether to create a real archive from a compressed file
@@ -1135,7 +1135,7 @@ ArkWidget::addFile(QStringList *list)
     for (QStringList::Iterator it = list->begin(); it != list->end(); ++it)
     {
         QString str = *it;
-        *it = toLocalFile(KURL(str)).prettyURL();
+        *it = toLocalFile(KUrl(str)).prettyURL();
 
     }
 
@@ -1186,7 +1186,7 @@ ArkWidget::slotAddDone(bool _bSuccess)
 
 
 
-KURL
+KUrl
 ArkWidget::toLocalFile( const KUrl& url )
 {
     KUrl localURL = url;
@@ -1200,7 +1200,7 @@ ArkWidget::toLocalFile( const KUrl& url )
         deleteAfterUse(tempfile);  // remember for deletion
         KUrl tempurl; tempurl.setPath( tempfile );
         if( !KIO::NetAccess::dircopy(url, tempurl, this) )
-            return KURL();
+            return KUrl();
         localURL = tempfile;
     }
     return localURL;

@@ -173,7 +173,7 @@ void ExtractionDialog::accept()
 
 	// Determine what exactly should be added to the extraction combo list
 	QString historyURL = p.prettyURL();
-	if ( historyURL == KURL( m_defaultExtractionDir + m_prefix ).prettyURL() )
+	if ( historyURL == KUrl( m_defaultExtractionDir + m_prefix ).prettyURL() )
 	{
 		historyURL = m_defaultExtractionDir;
 	}

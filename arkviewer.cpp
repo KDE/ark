@@ -81,7 +81,7 @@ bool ArkViewer::view( const QString& filename )
 
 	KVBox *headerRight = new KVBox( header );
 	new QLabel( QString( "<qt><b>%1</b></qt>" )
-	                     .arg( KURL( filename ).fileName() ), headerRight
+	                     .arg( KUrl( filename ).fileName() ), headerRight
 	          );
 	new QLabel( mimetype->comment(), headerRight );
 
