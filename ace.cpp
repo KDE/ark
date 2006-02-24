@@ -41,7 +41,7 @@ AceArch::AceArch( ArkWidget *gui, const QString &filename )
 {
 	//m_archiver_program = m_unarchiver_program = "/usr/local/bin/unace";
 	m_archiver_program = m_unarchiver_program = "/home/henrique/ArkTest/teste.sh";
-	verifyUtilityIsAvailable( m_archiver_program );
+	verifyCompressUtilityIsAvailable( m_archiver_program );
 
 	m_headerString = "Date    ³Time ³Packed     ³Size     ³Ratio³File";
 

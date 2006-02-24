@@ -56,8 +56,7 @@ LhaArch::LhaArch( ArkWidget *_gui, const QString & _fileName )
   : Arch( _gui, _fileName )
 {
   m_archiver_program = "lha";
-  m_unarchiver_program = QString::null;
-  verifyUtilityIsAvailable( m_archiver_program, m_unarchiver_program );
+  verifyCompressUtilityIsAvailable( m_archiver_program);
 
   m_headerString = "----";
 }

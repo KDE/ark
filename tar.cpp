@@ -82,8 +82,7 @@ TarArch::TarArch( ArkWidget *_gui,
 {
     m_filesToAdd = m_filesToRemove = QStringList();
     m_archiver_program = ArkSettings::tarExe();
-    m_unarchiver_program = QString::null;
-    verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+    verifyCompressUtilityIsAvailable(m_archiver_program);
 
     m_fileMimeType = _openAsMimeType;
     if ( m_fileMimeType.isNull() )

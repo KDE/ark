@@ -60,15 +60,17 @@ RarArch::RarArch( ArkWidget *_gui, const QString & _fileName )
   {
     // If it is, then use it as archiver and unarchiver
     m_archiver_program = m_unarchiver_program = "rar";
+    verifyCompressUtilityIsAvailable( m_archiver_program );
   }
   else
   {
     // If rar is not available, try to use unrar to open the archive read-only
-    m_archiver_program = m_unarchiver_program = "unrar";
+    m_unarchiver_program = "unrar";
+    verifyUncompressUtilityIsAvailable( m_unarchiver_program );
     setReadOnly( true );
   }
 
-  verifyUtilityIsAvailable( m_archiver_program );
+
 
   m_headerString = "-------------------------------------------------------------------------------";
 

@@ -55,8 +55,7 @@ ZooArch::ZooArch( ArkWidget *gui, const QString & fileName )
   : Arch( gui, fileName )
 {
   m_archiver_program = "zoo";
-  m_unarchiver_program = QString::null;
-  verifyUtilityIsAvailable( m_archiver_program, m_unarchiver_program );
+  verifyCompressUtilityIsAvailable( m_archiver_program);
 
   m_headerString = "----";
 }

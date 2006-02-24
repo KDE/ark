@@ -49,8 +49,7 @@ ArArch::ArArch( ArkWidget *_gui, const QString & _fileName )
   : Arch(_gui, _fileName )
 {
   m_archiver_program = "ar";
-  m_unarchiver_program = QString::null;
-  verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
+  verifyCompressUtilityIsAvailable(m_archiver_program);
 
   // Do not set headerString - there is none for Ar
   m_numCols = 5;

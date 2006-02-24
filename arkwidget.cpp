@@ -2031,9 +2031,9 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName, const QString& _mime
         return NULL;
     }
 
-    if (!newArch->utilityIsAvailable())
+    if (!newArch->archUtilityIsAvailable())
     {
-        KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
+        KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getArchUtility()));
         return NULL;
     }
 
@@ -2143,9 +2143,9 @@ ArkWidget::openArchive( const QString & _filename )
         return;
     }
 
-    if (!newArch->utilityIsAvailable())
+    if (!newArch->unarchUtilityIsAvailable())
     {
-        KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
+        KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUnarchUtility()));
         return;
     }
 

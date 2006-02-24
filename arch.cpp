@@ -82,22 +82,20 @@ Arch::~Arch()
         m_currentProcess->kill();
 }
 
-void Arch::verifyUtilityIsAvailable( const QString &utility1,
-                                     const QString &utility2)
+//Check if a compress utility exists
+void Arch::verifyCompressUtilityIsAvailable(const QString &utility)
 {
-  // see if the utility is in the PATH of the user. If there is a
-  // second utility specified, it must also be present.
-  QString cmd1 = KGlobal::dirs()->findExe( utility1 );
+  // see if the utility is in the PATH of the user.
+  QString cmd = KGlobal::dirs()->findExe( utility );
+  m_bArchUtilityIsAvailable = !cmd.isEmpty();
+}
 
-  if( utility2.isNull() )
-  {
-    m_bUtilityIsAvailable = !cmd1.isEmpty();
-  }
-  else
-  {
-    QString cmd2 = KGlobal::dirs()->findExe( utility2 );
-    m_bUtilityIsAvailable = ( !cmd1.isEmpty() && !cmd2.isEmpty() );
-  }
+//Check if a utility can uncompress files
+void Arch::verifyUncompressUtilityIsAvailable(const QString &utility)
+{
+  // see if the utility is in the PATH of the user.
+  QString cmd = KGlobal::dirs()->findExe( utility );
+  m_bUnarchUtilityIsAvailable = !cmd.isEmpty();
 }
 
 void Arch::slotOpenExited( KProcess* _kp )

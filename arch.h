@@ -130,9 +130,17 @@ class Arch : public QObject
     void verifyUtilityIsAvailable( const QString &,
                                    const QString & = QString::null );
 
-    bool utilityIsAvailable() { return m_bUtilityIsAvailable; }
+    void Arch::verifyCompressUtilityIsAvailable(const QString &utility);
 
-    QString getUtility() { return m_archiver_program; }
+    void Arch::verifyUncompressUtilityIsAvailable(const QString &utility);
+
+    bool archUtilityIsAvailable() { return m_bArchUtilityIsAvailable; }
+
+    bool unarchUtilityIsAvailable() { return m_bUnarchUtilityIsAvailable; }
+
+    QString getArchUtility() { return m_archiver_program; }
+
+    QString getUnarchUtility() { return m_unarchiver_program; }
 
     void appendShellOutputData( const char * data ) { m_lastShellOutput.append( data ); }
     void clearShellOutput() { m_lastShellOutput.truncate( 0 ); }
@@ -172,8 +180,11 @@ class Arch : public QObject
     // lets tar delete unsuccessfully before adding without confusing the user
     bool m_bNotifyWhenDeleteFails;
 
-    // set to whether the archiving utility/utilities is/are in the user's PATH
-    bool m_bUtilityIsAvailable;
+    // set to whether if the compressing utility is in the user's PATH
+    bool m_bArchUtilityIsAvailable;
+
+    // set to whether if the uncompressing utility is in the user's PATH
+    bool m_bUnarchUtilityIsAvailable;
 
     QString m_archiver_program;
     QString m_unarchiver_program;
