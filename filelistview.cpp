@@ -261,9 +261,10 @@ QStringList FileListView::selectedFilenames()
 	{
 		if ( item->isSelected() )
 		{
-			// If the item has children, add each child instead of the item
+			// If the item has children, add each child and the item
 			if ( item->childCount() > 0 )
 			{
+				files += item->fileName();
 				files += childrenOf( item );
 
 				/* If we got here, then the logic for "going to the next item"
@@ -273,7 +274,7 @@ QStringList FileListView::selectedFilenames()
 				 * the next item is the next sibling of its parent, and so on.
 				 */
 				FileLVI *nitem = static_cast<FileLVI*>( item->nextSibling() );
-				while ( !nitem && item->parent() )
+				while ( !nitem && item->parent()&&item->parent()->nextSibling() )
 				{
 					item = static_cast<FileLVI*>( item->parent() );
 					nitem = static_cast<FileLVI*>( item->parent()->nextSibling() );
@@ -569,6 +570,7 @@ QStringList FileListView::childrenOf( FileLVI* parent )
 		}
 		else
 		{
+			children += item->fileName();
 			children += childrenOf( item );
 		}
 		item = static_cast<FileLVI*>( item->nextSibling() );
