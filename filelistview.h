@@ -61,12 +61,16 @@ class FileLVI : public KListViewItem
 		virtual QString key( int column, bool ) const;
 		virtual void setText( int column, const QString &text );
 
+		bool isDirectory() const { return m_isDirectory; }
+		void setIsDirectory( bool isDir ) { m_isDirectory = isDir; }
+
 	private:
 		long      m_fileSize;
 		long      m_packedFileSize;
 		double    m_ratio;
 		QDateTime m_timeStamp;
 		QString   m_entryName;
+		bool      m_isDirectory;
 };
 
 typedef QValueList< QPair< QString, Qt::AlignmentFlags > > ColumnList;

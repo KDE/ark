@@ -47,14 +47,14 @@
 
 FileLVI::FileLVI( KListView* lv )
 	: KListViewItem( lv ), m_fileSize( 0 ), m_packedFileSize( 0 ),
-	  m_ratio( 0 ), m_timeStamp( QDateTime() ), m_entryName( QString() )
+	  m_ratio( 0 ), m_timeStamp( QDateTime() ), m_entryName( QString() ), m_isDirectory( false )
 {
 
 }
 
 FileLVI::FileLVI( KListViewItem* lvi )
 	: KListViewItem( lvi ), m_fileSize( 0 ), m_packedFileSize( 0 ),
-	  m_ratio( 0 ), m_timeStamp( QDateTime() ), m_entryName( QString() )
+	  m_ratio( 0 ), m_timeStamp( QDateTime() ), m_entryName( QString() ), m_isDirectory( false )
 {
 }
 
@@ -68,10 +68,21 @@ QString FileLVI::key( int column, bool ascending ) const
 
 int FileLVI::compare( QListViewItem * i, int column, bool ascending ) const
 {
+	FileLVI * item = static_cast< FileLVI * >( i );
+
+	if ( item->isDirectory() and ( not this->isDirectory() ) )
+	{
+		return 1;
+	}
+	
+	if ( ( not item->isDirectory() ) and this->isDirectory() )
+	{
+		return -1;
+	}
+	
 	if ( column == 0 )
 		return KListViewItem::compare( i, column, ascending );
-
-	FileLVI * item = static_cast< FileLVI * >( i );
+	
 	columnName colName = ( static_cast< FileListView * > ( listView() ) )->nameOfColumn( column );
 	switch ( colName )
 	{
@@ -160,6 +171,7 @@ static FileLVI* folderLVI( KListViewItem *parent, const QString& name )
 {
 	FileLVI *folder = new FileLVI( parent );
 	folder->setText( 0, name );
+	folder->setIsDirectory( true );
 	folder->setPixmap( 0, KMimeType::mimeType( "inode/directory" )->pixmap( KIcon::Small ) );
 	return folder;
 }
@@ -168,6 +180,7 @@ static FileLVI* folderLVI( KListView *parent, const QString& name )
 {
 	FileLVI *folder = new FileLVI( parent );
 	folder->setText( 0, name );
+	folder->setIsDirectory( true );
 	folder->setPixmap( 0, KMimeType::mimeType( "inode/directory" )->pixmap( KIcon::Small ) );
 	return folder;
 }
@@ -507,6 +520,10 @@ FileLVI* FileListView::findParent( const QString& fullname )
 	if ( !item )
 	{
 		item = folderLVI( this, ancestorList[0] );
+	}
+	else
+	{
+		static_cast<FileLVI*>( item )->setIsDirectory( true );
 	}
 
 	// We've already dealt with the first item, remove it
