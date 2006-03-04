@@ -274,10 +274,11 @@ QStringList FileListView::selectedFilenames()
 				 * the next item is the next sibling of its parent, and so on.
 				 */
 				FileLVI *nitem = static_cast<FileLVI*>( item->nextSibling() );
-				while ( !nitem && item->parent()&&item->parent()->nextSibling() )
+				while ( !nitem && item->parent() )
 				{
 					item = static_cast<FileLVI*>( item->parent() );
-					nitem = static_cast<FileLVI*>( item->parent()->nextSibling() );
+					if ( item->parent() )
+						nitem = static_cast<FileLVI*>( item->parent()->nextSibling() );
 				}
 				item = nitem;
 				continue;
