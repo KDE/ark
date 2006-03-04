@@ -93,7 +93,6 @@ TarListingThread::~TarListingThread()
 
 void TarListingThread::run()
 {
-	kdDebug( 1601 ) << k_funcinfo << endl;
 	if (!m_archive->open( IO_ReadOnly ))
 	{
 		ListingEvent *ev = new ListingEvent( QStringList(), ListingEvent::Error );
@@ -129,7 +128,6 @@ void TarListingThread::processDir( const KTarDirectory *tardir, const QString & 
 		if ( !tarEntry->isFile() )
 			name += '/';
 		col_list.append( name );
-		kdDebug( 1601 ) << "Entry: " << name << endl;
 		QString perms = makeAccessString(tarEntry->permissions());
 		if (!tarEntry->isFile())
 			perms = "d" + perms;
