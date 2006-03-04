@@ -203,7 +203,7 @@ FileListView::FileListView(QWidget *parent, const char* name)
 	setItemsMovable( false );
 	setRootIsDecorated( true );
 	setShowSortIndicator( true );
-	setResizeMode( QListView::AllColumns );
+	setItemMargin( 3 );
 	header()->hide(); // Don't show the header until there is something to be shown in it
 
 	m_pressed = false;
@@ -423,6 +423,8 @@ void FileListView::setHeaders( const ColumnList& columns )
 		int colnum = addColumn( pair.first );
 		setColumnAlignment( colnum, pair.second );
 	}
+	
+	setResizeMode( QListView::LastColumn );
 
 	header()->show();
 }
