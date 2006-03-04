@@ -130,7 +130,6 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 ExtractionDialog::~ExtractionDialog()
 {
 	ArkSettings::setExtractionHistory( ( static_cast<KHistoryCombo*>( m_urlRequester->comboBox() ) )->historyItems() );
-	ArkSettings::setOpenDestinationFolder( m_viewFolderAfterExtraction->isChecked() );
 }
 
 void ExtractionDialog::accept()
@@ -181,6 +180,8 @@ void ExtractionDialog::accept()
 	// If the item was already in the list, delete it from the list and readd it at the top
 	combo->removeFromHistory( historyURL );
 	combo->addToHistory( historyURL );
+
+	ArkSettings::setOpenDestinationFolder( m_viewFolderAfterExtraction->isChecked() );
 
 	KDialogBase::accept();
 }

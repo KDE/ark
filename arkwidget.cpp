@@ -851,10 +851,10 @@ ArkWidget::extractOnlyOpenDone()
 }
 
 void
-ArkWidget::slotExtractDone()
+ArkWidget::slotExtractDone(bool success)
 {
     disconnect( arch, SIGNAL( sigExtract( bool ) ),
-                this, SLOT( slotExtractDone() ) );
+                this, SLOT( slotExtractDone(bool) ) );
     ready();
 
     if(m_extractList != 0)
@@ -874,6 +874,11 @@ ArkWidget::slotExtractDone()
     else if( m_extractOnly )
     {
         emit request_file_quit();
+    }
+
+    if ( success && ArkSettings::openDestinationFolder() )
+    {
+            KRun::runURL( m_extractURL, "inode/directory" );
     }
 
     kdDebug(1601) << "-ArkWidget::slotExtractDone" << endl;
@@ -1511,7 +1516,7 @@ ArkWidget::action_extract()
                 {
                     disableAll();
                     busy( i18n( "Extracting..." ) );
-                    connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( slotExtractDone() ) );
+                    connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( slotExtractDone(bool) ) );
                     arch->unarchFile(0, extractDir);
                 }
             }
@@ -1539,14 +1544,10 @@ ArkWidget::action_extract()
                         disableAll();
                         busy( i18n( "Extracting..." ) );
                         connect( arch, SIGNAL( sigExtract( bool ) ),
-                                 this, SLOT( slotExtractDone() ) );
+                                 this, SLOT( slotExtractDone(bool) ) );
                         arch->unarchFile(m_extractList, extractDir); // extract selected files
                     }
                 }
-        }
-        if ( dlg->viewFolderAfterExtraction() )
-        {
-            KRun::runURL( dlg->extractionDirectory(), "inode/directory" );
         }
 
         delete dlg;
