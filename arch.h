@@ -212,7 +212,7 @@ class Arch : public QObject
 #define LINK_COLUMN        qMakePair( i18n(" Link "),        Qt::AlignLeft  )
 #define PACKED_COLUMN      qMakePair( i18n(" Size Now "),    Qt::AlignRight )
 #define RATIO_COLUMN       qMakePair( i18n(" Ratio "),       Qt::AlignRight )
-#define CRC_COLUMN         qMakePair( i18n("Cyclic Redundancy Check"," CRC "), Qt::AlignRight )
+#define CRC_COLUMN         qMakePair( i18n("Cyclic Redundancy Check"," CRC "), Qt::AlignLeft )
 #define METHOD_COLUMN      qMakePair( i18n(" Method "),  Qt::AlignLeft  )
 #define VERSION_COLUMN     qMakePair( i18n(" Version "), Qt::AlignLeft  )
 #define OWNER_COLUMN       qMakePair( i18n(" Owner "),   Qt::AlignLeft  )

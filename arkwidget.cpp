@@ -207,6 +207,8 @@ ArkWidget::busy( const QString & text )
     if ( m_bBusy )
         return;
 
+    m_fileListView->setEnabled( false );
+
     QApplication::setOverrideCursor( waitCursor );
     m_bBusy = true;
 }
@@ -236,6 +238,8 @@ ArkWidget::ready()
 {
     if ( !m_bBusy )
         return;
+
+    m_fileListView->setEnabled( true );
 
     QApplication::restoreOverrideCursor();
     emit setReady();
