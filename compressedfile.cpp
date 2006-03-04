@@ -132,7 +132,7 @@ void CompressedFile::initData()
     if ( mimeType == "application/x-compress" )
     {
         m_unarchiver_program = KGlobal::dirs()->findExe( "uncompress" ).isNull()? "gunzip" : "uncompress";
-        m_archiver_program   = KGlobal::dirs()->findExe( "compress" ).isNull()? "gzip" : "compress";
+        m_archiver_program   = "compress";
         m_defaultExtensions  = ".Z";
     }
 
