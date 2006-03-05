@@ -50,6 +50,7 @@ SevenZipArch::SevenZipArch( ArkWidget *gui, const QString &filename )
     m_archiver_program = m_unarchiver_program = "7za"; // Try 7za
 
   verifyCompressUtilityIsAvailable( m_archiver_program );
+  verifyUncompressUtilityIsAvailable( m_unarchiver_program );
 
   m_headerString = "------------------";
 
