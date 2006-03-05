@@ -1687,6 +1687,12 @@ ArkWidget::viewSlotExtractDone( bool success )
 {
     if ( success )
     {
+
+        if(m_strFileToView.contains("../"))
+           m_strFileToView.remove("../");
+
+        kdDebug(1601) << "File to be viewed: " << m_strFileToView << endl;
+
         chmod( QFile::encodeName( m_strFileToView ), 0400 );
         bool view = true;
 
@@ -1734,7 +1740,7 @@ ArkWidget::showCurrentFile()
     fullname += tmpDir();
     fullname += name;
 
-    kdDebug(1601) << "File to be viewed: " << fullname << endl;
+    kdDebug(1601) << "File to be extracted: " << fullname << endl;
 
     QStringList extractList;
     extractList.append(name);
