@@ -61,6 +61,7 @@ RarArch::RarArch( ArkWidget *_gui, const QString & _fileName )
     // If it is, then use it as archiver and unarchiver
     m_archiver_program = m_unarchiver_program = "rar";
     verifyCompressUtilityIsAvailable( m_archiver_program );
+    verifyUncompressUtilityIsAvailable( m_unarchiver_program );
   }
   else
   {
