@@ -156,6 +156,8 @@ QString ArkUtils::fixYear(const QString& strYear)
   // Remember: this is used for file timestamps. There probably aren't any
   // files that were created before 1970, so that's our cutoff. Of course,
   // in 2070 we'll have some problems....
+  
+  if ( strYear.length() != 2 ) return strYear;
 
   bool ok;
   int y = strYear.toInt( &ok );

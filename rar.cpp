@@ -119,7 +119,7 @@ void RarArch::open()
   m_finished = false;
 
   KProcess *kp = m_currentProcess = new KProcess;
-  *kp << m_archiver_program << "v" << "-c-" << m_filename;
+  *kp << m_unarchiver_program << "v" << "-c-" << m_filename;
 
   connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
            SLOT( slotReceivedTOC(KProcess*, char*, int) ) );

@@ -33,6 +33,8 @@
 #include <qlabel.h>
 
 class KAboutData;
+class KPushButton;
+
 class ArkWidget;
 
 namespace KIO
@@ -58,7 +60,7 @@ public:
     ~ArkStatusBarExtension();
 
     void setProgress( unsigned long progress );
-    QPushButton* cancelButton() const { return m_cancelButton; }
+    KPushButton* cancelButton() const { return m_cancelButton; }
 
 public slots:
     void slotSetStatusBarSelectedFiles( const QString & text );
@@ -75,7 +77,7 @@ private:
     QLabel *m_pStatusLabelSelect; // How many files are selected
     QLabel *m_pStatusLabelTotal;  // How many files in archive
     QLabel *m_pBusyText;
-    QPushButton *m_cancelButton; // Cancel an operation
+    KPushButton *m_cancelButton; // Cancel an operation
     KProgress *m_pProgressBar;
     QTimer *m_pTimer;
 };

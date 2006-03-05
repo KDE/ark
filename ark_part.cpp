@@ -36,10 +36,10 @@
 #include <kstatusbar.h>
 #include <kiconloader.h>
 #include <kio/netaccess.h>
+#include <kpushbutton.h>
 
 #include <qfile.h>
 #include <qtimer.h>
-#include <qpushbutton.h>
 
 KAboutData *ArkPart::createAboutData()
 {
@@ -408,17 +408,17 @@ void ArkStatusBarExtension::setupStatusBar()
     m_pTimer = new QTimer( this );
     connect( m_pTimer, SIGNAL( timeout() ), this, SLOT( slotProgress() ) );
 
-    m_pStatusLabelTotal = new QLabel( statusBar() );
+    m_pStatusLabelTotal = new QLabel( statusBar(), "StatusLabelTotal" );
     m_pStatusLabelTotal->setFrameStyle( QFrame::NoFrame );
     m_pStatusLabelTotal->setAlignment( AlignRight );
     m_pStatusLabelTotal->setText( i18n( "Total: 0 files" ) );
 
-    m_pStatusLabelSelect = new QLabel( statusBar() );
+    m_pStatusLabelSelect = new QLabel( statusBar(), "StatusLabelSelect" );
     m_pStatusLabelSelect->setFrameStyle( QFrame::NoFrame );
     m_pStatusLabelSelect->setAlignment( AlignLeft );
     m_pStatusLabelSelect->setText(i18n( "0 files selected" ) );
 
-    m_cancelButton = new QPushButton( SmallIcon( "cancel" ), QString(), statusBar() );
+    m_cancelButton = new KPushButton( SmallIcon( "cancel" ), QString(), statusBar(), "CancelButton" );
 
     addStatusBarItem( m_pStatusLabelSelect, 3000, false );
     addStatusBarItem( m_pStatusLabelTotal, 3000, false );
