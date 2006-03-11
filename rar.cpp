@@ -225,7 +225,7 @@ void RarArch::unarchFileInternal()
   *kp << m_unarchiver_program << "x";
 
   if ( !m_password.isEmpty() )
-    *kp << "-p=" + m_password;
+    *kp << "-p" + m_password;
 
   if ( !ArkSettings::extractOverwrite() )
   {

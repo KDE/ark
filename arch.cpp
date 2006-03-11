@@ -166,7 +166,7 @@ void Arch::slotExtractExited( KProcess *_kp )
             unarchFileInternal(); // try to extract the file again with a password
             return;
         }
-	 m_password = "";
+        m_password = "";
         emit sigExtract( false );
         delete _kp;
         _kp = m_currentProcess = 0;
