@@ -1433,7 +1433,6 @@ bool
 ArkWidget::action_extract()
 {
     KURL fileToExtract;
-    bool enableSelected;
     fileToExtract.setPath( arch->fileName() );
 
      //before we start, make sure the archive is still there
@@ -1449,10 +1448,8 @@ ArkWidget::action_extract()
                          : QString();
 
     // Should the extraction dialog show an option for extracting only selected files?
-    if ( ( m_nNumSelectedFiles > 0 ) && m_fileListView->totalFiles() > 1)
-       enableSelected = true;
-    else
-       enableSelected = false;
+   bool enableSelected = ( m_nNumSelectedFiles > 0 ) &&
+        ( m_fileListView->totalFiles() > 1);
 
     QString base = ArkSettings::extractionHistory().isEmpty()?
                        QString() : ArkSettings::extractionHistory().first();
