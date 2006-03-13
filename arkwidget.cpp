@@ -58,7 +58,7 @@
 #include <kfiledialog.h>
 #include <kdirselectdialog.h>
 #include <k3urldrag.h>
-#include <klistviewsearchline.h>
+#include <k3listviewsearchline.h>
 #include <ktoolbar.h>
 #include <kconfigdialog.h>
 #include <ktrader.h>

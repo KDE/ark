@@ -46,15 +46,15 @@
 // FileLVI implementation
 /////////////////////////////////////////////////////////////////////
 
-FileLVI::FileLVI( KListView* lv )
-	: KListViewItem( lv ), m_fileSize( 0 ), m_packedFileSize( 0 ),
+FileLVI::FileLVI( K3ListView* lv )
+	: K3ListViewItem( lv ), m_fileSize( 0 ), m_packedFileSize( 0 ),
 	  m_ratio( 0 ), m_timeStamp( QDateTime() ), m_entryName( QString() )
 {
 
 }
 
-FileLVI::FileLVI( KListViewItem* lvi )
-	: KListViewItem( lvi ), m_fileSize( 0 ), m_packedFileSize( 0 ),
+FileLVI::FileLVI( K3ListViewItem* lvi )
+	: K3ListViewItem( lvi ), m_fileSize( 0 ), m_packedFileSize( 0 ),
 	  m_ratio( 0 ), m_timeStamp( QDateTime() ), m_entryName( QString() )
 {
 }
@@ -70,7 +70,7 @@ QString FileLVI::key( int column, bool ascending ) const
 int FileLVI::compare( Q3ListViewItem * i, int column, bool ascending ) const
 {
 	if ( column == 0 )
-		return KListViewItem::compare( i, column, ascending );
+		return K3ListViewItem::compare( i, column, ascending );
 
 	FileLVI * item = static_cast< FileLVI * >( i );
 	columnName colName = ( static_cast< FileListView * > ( listView() ) )->nameOfColumn( column );
@@ -109,7 +109,7 @@ int FileLVI::compare( Q3ListViewItem * i, int column, bool ascending ) const
 		}
 
 		default:
-			return KListViewItem::compare( i, column, ascending );
+			return K3ListViewItem::compare( i, column, ascending );
 	}
 }
 
@@ -157,7 +157,7 @@ void FileLVI::setText( int column, const QString &text )
 		Q3ListViewItem::setText(column, text);
 }
 
-static FileLVI* folderLVI( KListViewItem *parent, const QString& name )
+static FileLVI* folderLVI( K3ListViewItem *parent, const QString& name )
 {
 	FileLVI *folder = new FileLVI( parent );
 	folder->setText( 0, name );
@@ -165,7 +165,7 @@ static FileLVI* folderLVI( KListViewItem *parent, const QString& name )
 	return folder;
 }
 
-static FileLVI* folderLVI( KListView *parent, const QString& name )
+static FileLVI* folderLVI( K3ListView *parent, const QString& name )
 {
 	FileLVI *folder = new FileLVI( parent );
 	folder->setText( 0, name );
@@ -179,7 +179,7 @@ static FileLVI* folderLVI( KListView *parent, const QString& name )
 
 
 FileListView::FileListView( QWidget *parent )
-	: KListView( parent )
+	: K3ListView( parent )
 {
 	setMultiSelection( true );
 	setSelectionModeExt( FileManager );
@@ -194,7 +194,7 @@ FileListView::FileListView( QWidget *parent )
 
 int FileListView::addColumn ( const QString & label, int width )
 {
-	int index = KListView::addColumn( label, width );
+	int index = K3ListView::addColumn( label, width );
 	if ( label == SIZE_COLUMN.first )
 	{
 		m_columnMap[ index ] = sizeCol;
@@ -226,7 +226,7 @@ void FileListView::removeColumn( int index )
 	}
 
 	m_columnMap.remove( m_columnMap[ m_columnMap.count() - 1 ] );
-	KListView::removeColumn( index );
+	K3ListView::removeColumn( index );
 }
 
 columnName FileListView::nameOfColumn( int index )
@@ -315,14 +315,14 @@ FileListView::contentsMousePressEvent(QMouseEvent *e)
 		m_presspos = e->pos();
 	}
 
-	KListView::contentsMousePressEvent(e);
+	K3ListView::contentsMousePressEvent(e);
 }
 
 void
 FileListView::contentsMouseReleaseEvent(QMouseEvent *e)
 {
 	m_pressed = false;
-	KListView::contentsMouseReleaseEvent(e);
+	K3ListView::contentsMouseReleaseEvent(e);
 }
 
 void
@@ -330,7 +330,7 @@ FileListView::contentsMouseMoveEvent(QMouseEvent *e)
 {
 	if(!m_pressed)
 	{
-		KListView::contentsMouseMoveEvent(e);
+		K3ListView::contentsMouseMoveEvent(e);
 	}
 	else if( ( m_presspos - e->pos() ).manhattanLength() > KGlobalSettings::dndEventDelay() )
 	{
@@ -341,7 +341,7 @@ FileListView::contentsMouseMoveEvent(QMouseEvent *e)
 		}
 		QStringList dragFiles = selectedFilenames();
 		emit startDragRequest( dragFiles );
-		KListView::contentsMouseMoveEvent(e);
+		K3ListView::contentsMouseMoveEvent(e);
 	}
 }
 

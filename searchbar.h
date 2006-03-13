@@ -21,15 +21,15 @@
  *
  */
 
-#include <klistviewsearchline.h>
+#include <k3listviewsearchline.h>
 
 #include <qwidget.h>
 
-class KListView;
+class K3ListView;
 class KComboBox;
 class KActionCollection;
 
-class SearchBar: public KListViewSearchLine
+class SearchBar: public K3ListViewSearchLine
 {
 	Q_OBJECT
 	public:

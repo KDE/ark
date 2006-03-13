@@ -21,8 +21,8 @@
 
 #include "searchbar.h"
 
-#include <klistviewsearchline.h>
-#include <klistview.h>
+#include <k3listviewsearchline.h>
+#include <k3listview.h>
 #include <kcombobox.h>
 #include <klocale.h>
 #include <kaction.h>
@@ -33,7 +33,7 @@
 #include <q3valuelist.h>
 
 SearchBar::SearchBar( QWidget* parent, KActionCollection* aC, const char * name )
-	: KListViewSearchLine( parent, 0 )
+	: K3ListViewSearchLine( parent, 0 )
 {
 	KAction *resetSearch = new KAction( i18n( "Reset Search" ), QApplication::reverseLayout() ? "clear_left" : "locationbar_erase", 0, this, SLOT( clear() ), aC, "reset_search" );
 

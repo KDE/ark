@@ -34,7 +34,7 @@
 //Added by qt3to4:
 #include <QMouseEvent>
 
-#include <klistview.h>
+#include <k3listview.h>
 #include <kio/global.h>
 
 class QString;
@@ -47,11 +47,11 @@ class QPoint;
 
 enum columnName { sizeCol = 1 , packedStrCol, ratioStrCol, timeStampStrCol, otherCol };
 
-class FileLVI : public KListViewItem
+class FileLVI : public K3ListViewItem
 {
 	public:
-		FileLVI( KListView* lv );
-		FileLVI( KListViewItem* lvi );
+		FileLVI( K3ListView* lv );
+		FileLVI( K3ListViewItem* lvi );
 
 		QString fileName() const { return m_entryName; }
 		long fileSize() const { return m_fileSize; }
@@ -73,13 +73,13 @@ class FileLVI : public KListViewItem
 
 typedef QList< QPair< QString, Qt::AlignmentFlag > > ColumnList;
 
-class FileListView: public KListView
+class FileListView: public K3ListView
 {
 	Q_OBJECT
 	public:
 		FileListView( QWidget *parent = 0 );
 
-		FileLVI *currentItem() {return ((FileLVI *) KListView::currentItem());}
+		FileLVI *currentItem() {return ((FileLVI *) K3ListView::currentItem());}
 
 		/**
 		 * Returns the full names of the selected files.
