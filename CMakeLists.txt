@@ -2,6 +2,8 @@ kde4_header()
 
 add_subdirectory( pics ) 
 
+ADD_DEFINITIONS(-D_LARGEFILE64_SOURCE)
+
 include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
 
 set(libark_common_SRCS archiveformatinfo.cpp )
