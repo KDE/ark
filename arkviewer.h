@@ -33,7 +33,7 @@ class ArkViewer : public KDialogBase
 		ArkViewer( QWidget* parent = 0, const char * name = 0 );
 		~ArkViewer();
 
-		bool view( const QString& filename );
+		bool view( const KURL& filename );
 
 	protected slots:
 		void slotFinished();

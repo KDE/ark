@@ -59,13 +59,11 @@ void ArkViewer::slotFinished()
 	delayedDestruct();
 }
 
-bool ArkViewer::view( const QString& filename )
+bool ArkViewer::view( const KURL& filename )
 {
-	KURL u( filename );
+	KMimeType::Ptr mimetype = KMimeType::findByURL( filename, 0, true );
 
-	KMimeType::Ptr mimetype = KMimeType::findByURL( u, 0, true );
-
-	setCaption( u.fileName() );
+	setCaption( filename.fileName() );
 
 	QSize size = configDialogSize( "ArkViewer" );
 	if (size.width() < 200)
@@ -82,7 +80,7 @@ bool ArkViewer::view( const QString& filename )
 
 	QVBox *headerRight = new QVBox( header );
 	new QLabel( QString( "<qt><b>%1</b></qt>" )
-	                     .arg( QUrl( filename ).fileName() ), headerRight
+	                     .arg( filename.fileName() ), headerRight
 	          );
 	new QLabel( mimetype->comment(), headerRight );
 

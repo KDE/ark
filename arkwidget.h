@@ -258,6 +258,9 @@ private: // data
     // URL to extract to.
     KURL m_extractURL;
 
+     // URL to view
+    KURL m_viewURL;
+
     // the mimetype the user wants to open this archive as
     QString m_openAsMimeType;
 

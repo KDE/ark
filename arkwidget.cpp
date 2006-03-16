@@ -81,7 +81,7 @@
 #include "searchbar.h"
 #include "arkviewer.h"
 
-static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
+static void viewInExternalViewer( ArkWidget* parent, const KURL& filename )
 {
     QString mimetype = KMimeType::findByURL( filename )->name();
     bool view = true;
@@ -1317,8 +1317,7 @@ ArkWidget::openWithSlotExtractDone()
             SLOT( openWithSlotExtractDone() ) );
 
     KURL::List list;
-    KURL url = m_strFileToView;
-    list.append(url);
+    list.append(m_viewURL);
     KOpenWithDlg l( list, i18n("Open with:"), QString::null, (QWidget*)0L);
     if ( l.exec() )
     {
@@ -1614,7 +1613,7 @@ ArkWidget::editStart()
     if ( l.exec() )
     {
         KProcess *kp = new KProcess;
-        m_strFileToView = m_strFileToView.right(m_strFileToView.length() - 5 );
+
         *kp << l.text() << m_strFileToView;
         connect( kp, SIGNAL(processExited(KProcess *)),
                 this, SLOT(slotEditFinished(KProcess *)) );
@@ -1688,12 +1687,6 @@ ArkWidget::viewSlotExtractDone( bool success )
 {
     if ( success )
     {
-
-        if(m_strFileToView.contains("../"))
-           m_strFileToView.remove("../");
-
-        kdDebug(1601) << "File to be viewed: " << m_strFileToView << endl;
-
         chmod( QFile::encodeName( m_strFileToView ), 0400 );
         bool view = true;
 
@@ -1701,18 +1694,18 @@ ArkWidget::viewSlotExtractDone( bool success )
         {
             ArkViewer * viewer = new ArkViewer( this, "viewer" );
 
-            if ( !viewer->view( m_strFileToView ) )
+            if ( !viewer->view( m_viewURL ) )
             {
                 QString text = i18n( "The internal viewer is not able to display this file. Would you like to view it using an external program?" );
                 view = ( KMessageBox::warningYesNo( this, text, QString::null, i18n("View Externally"), i18n("Do Not View") ) == KMessageBox::Yes );
 
                 if ( view )
-                    viewInExternalViewer( this, m_strFileToView );
+                    viewInExternalViewer( this, m_viewURL );
             }
         }
         else
         {
-            viewInExternalViewer( this, m_strFileToView );
+            viewInExternalViewer( this, m_viewURL );
         }
     }
 
@@ -1736,17 +1729,21 @@ ArkWidget::showCurrentFile()
 
     QString name = m_fileListView->currentItem()->fileName();
 
-    QString fullname;
-    fullname = "file:";
-    fullname += tmpDir();
+    QString fullname = tmpDir();
     fullname += name;
 
-    kdDebug(1601) << "File to be extracted: " << fullname << endl;
+    if(fullname.contains("../"))
+        fullname.remove("../");
+
+    //Convert the QString filename to KURL to escape the bad characters
+    m_viewURL.setPath(fullname);
+
+    m_strFileToView = fullname;
+    kdDebug(1601) << "File to be extracted: " << m_viewURL << endl;
 
     QStringList extractList;
     extractList.append(name);
 
-    m_strFileToView = fullname;
     if (ArkUtils::diskHasSpace( tmpDir(), m_fileListView->currentItem()->fileSize() ) )
     {
         disableAll();
