@@ -1353,7 +1353,7 @@ ArkWidget::prepareViewFiles( const QStringList & fileList )
         it != fileList.end(); ++it)
         QFile::remove(destTmpDirectory + *it);
 
-    m_viewList = new QStringList;
+    m_viewList = new QStringList( fileList );
     arch->unarchFile( m_viewList, destTmpDirectory, true);
 }
 
