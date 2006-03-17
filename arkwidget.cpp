@@ -1353,9 +1353,8 @@ ArkWidget::prepareViewFiles( const QStringList & fileList )
         it != fileList.end(); ++it)
         QFile::remove(destTmpDirectory + *it);
 
-    QStringList * list = new QStringList( fileList );
-    arch->unarchFile( list, destTmpDirectory, true);
-    delete list;
+    m_viewList = new QStringList;
+    arch->unarchFile( m_viewList, destTmpDirectory, true);
 }
 
 bool
@@ -1711,6 +1710,9 @@ ArkWidget::viewSlotExtractDone( bool success )
 
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this,
                 SLOT( viewSlotExtractDone( bool ) ) );
+
+    delete m_viewList;
+
     // avoid race condition, don't do updates if application is exiting
     if( m_fileListView )
     {

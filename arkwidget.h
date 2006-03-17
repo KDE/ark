@@ -310,6 +310,7 @@ private: // data
 
     QStringList mDragFiles;
     QStringList *m_extractList;
+    QStringList *m_viewList;
     KTempDir *m_tmpDir;
 };
 
