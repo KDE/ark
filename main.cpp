@@ -94,6 +94,9 @@ extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 	aboutData.addAuthor( "Robert Palmbos",
 	                     0,
 	                     "palm9744@kettering.edu" );
+	aboutData.addAuthor( "Haris Kouzinopoulos",
+	                     0,
+	                     "haris@mpa.gr" );
 
 	aboutData.addCredit( "Bryce Corkins",
 	                     I18N_NOOP( "Icons" ),

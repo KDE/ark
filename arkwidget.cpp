@@ -1375,17 +1375,11 @@ ArkWidget::reportExtractFailures( const QString & _dest, QStringList *_list )
 
     // now report on the contents
     holdBusy();
-    if (numFilesToReport == 1)
+    if (numFilesToReport != 0)
     {
-        kdDebug(1601) << "One to report" << endl;
-        strFilename = filesExisting.first();
-        QString message = i18n("%1 will not be extracted because it will overwrite an existing file.\nGo back to the Extraction Dialog?").arg(strFilename);
-        redoExtraction = (KMessageBox::questionYesNo(this, message) == KMessageBox::Yes);
-    }
-    else if (numFilesToReport != 0)
-    {
-        QString message = i18n("Some files will not be extracted, because they would overwrite existing files.\nWould you like to go back to the extraction dialog?\n\nThe following files will not be extracted if you choose to continue:");
-        redoExtraction = (KMessageBox::questionYesNoList(this, message, filesExisting) == KMessageBox::Yes);
+        redoExtraction =  ( KMessageBox::Continue == KMessageBox::warningContinueCancelList( this,
+                    i18n( "The following files will not be extracted\nbecause they "
+                          "already exist:" ), filesExisting ) );
     }
     resumeBusy();
     return redoExtraction;
@@ -1415,7 +1409,9 @@ ArkWidget::existingFiles( const QString & _dest, QStringList & _list )
     {
         strFilename = *it;
         QString strFullName = strDestDir + strFilename;
-        if ( QFile::exists( strFullName ) )
+
+        // if the filename ends with an "/", it means it is a directory
+        if ( QFile::exists( strFullName ) && !strFilename.endsWith("/") )
         {
             existingFiles.append( strFilename );
         }
@@ -1512,7 +1508,7 @@ ArkWidget::action_extract()
                 bRedoExtract = reportExtractFailures(extractDir, m_extractList);
             }
 
-            if (!bRedoExtract) // if the user's OK with those failures, go ahead
+            if (bRedoExtract) // if the user's OK with those failures, go ahead
             {
                 // unless we have no space!
                 if ( ArkUtils::diskHasSpace( extractDir, m_nSizeOfFiles ) )
@@ -1540,7 +1536,7 @@ ArkWidget::action_extract()
                 {
                     bRedoExtract = reportExtractFailures(extractDir, m_extractList);
                 }
-                if (!bRedoExtract)
+                if (bRedoExtract)
                 {
                     if (ArkUtils::diskHasSpace(extractDir, nTotalSize))
                     {
