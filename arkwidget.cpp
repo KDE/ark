@@ -493,13 +493,6 @@ ArkWidget::extractToSlotOpenDone( bool success )
     bool keepGoing = true;
     if ( !ArkSettings::extractOverwrite() && !alreadyExisting.isEmpty() )
     {
-       if ( alreadyExisting.count() == m_nNumFiles )
-        {
-            KMessageBox::error( this, i18n( "None of the files in the archive have been\n"
-                                            "extracted since all of them already exist.") );
-            emit request_file_quit();
-            return;
-        }
         keepGoing = ( KMessageBox::Continue == KMessageBox::warningContinueCancelList( this,
                     i18n( "The following files will not be extracted\nbecause they "
                           "already exist:" ), alreadyExisting ) );
@@ -1377,7 +1370,7 @@ ArkWidget::reportExtractFailures( const QString & _dest, QStringList *_list )
     holdBusy();
     if (numFilesToReport != 0)
     {
-        redoExtraction =  ( KMessageBox::Continue == KMessageBox::warningContinueCancelList( this,
+        redoExtraction =  ( KMessageBox::Cancel == KMessageBox::warningContinueCancelList( this,
                     i18n( "The following files will not be extracted\nbecause they "
                           "already exist:" ), filesExisting ) );
     }
@@ -1508,7 +1501,7 @@ ArkWidget::action_extract()
                 bRedoExtract = reportExtractFailures(extractDir, m_extractList);
             }
 
-            if (bRedoExtract) // if the user's OK with those failures, go ahead
+            if (!bRedoExtract) // if the user's OK with those failures, go ahead
             {
                 // unless we have no space!
                 if ( ArkUtils::diskHasSpace( extractDir, m_nSizeOfFiles ) )
@@ -1536,7 +1529,7 @@ ArkWidget::action_extract()
                 {
                     bRedoExtract = reportExtractFailures(extractDir, m_extractList);
                 }
-                if (bRedoExtract)
+                if (!bRedoExtract)
                 {
                     if (ArkUtils::diskHasSpace(extractDir, nTotalSize))
                     {
