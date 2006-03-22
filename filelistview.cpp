@@ -161,7 +161,7 @@ static FileLVI* folderLVI( K3ListViewItem *parent, const QString& name )
 {
 	FileLVI *folder = new FileLVI( parent );
 	folder->setText( 0, name );
-	folder->setPixmap( 0, KMimeType::mimeType( "inode/directory" )->pixmap( KIcon::Small ) );
+	folder->setPixmap( 0, KMimeType::mimeType( "inode/directory" )->pixmap( K3Icon::Small ) );
 	return folder;
 }
 
@@ -169,7 +169,7 @@ static FileLVI* folderLVI( K3ListView *parent, const QString& name )
 {
 	FileLVI *folder = new FileLVI( parent );
 	folder->setText( 0, name );
-	folder->setPixmap( 0, KMimeType::mimeType( "inode/directory" )->pixmap( KIcon::Small ) );
+	folder->setPixmap( 0, KMimeType::mimeType( "inode/directory" )->pixmap( K3Icon::Small ) );
 	return folder;
 }
 
@@ -379,7 +379,7 @@ void FileListView::addItem( const QStringList & entries )
 	}
 
 	KMimeType::Ptr mimeType = KMimeType::findByPath( entries.first(), 0, true );
-	flvi->setPixmap( 0, mimeType->pixmap( KIcon::Small ) );
+	flvi->setPixmap( 0, mimeType->pixmap( K3Icon::Small ) );
 }
 
 void FileListView::selectAll()

@@ -76,7 +76,7 @@ bool ArkViewer::view( const QString& filename )
 	headerLayout->setAutoAdd( true );
 
 	QLabel *iconLabel = new QLabel( header );
-	iconLabel->setPixmap( mimetype->pixmap( KIcon::Desktop ) );
+	iconLabel->setPixmap( mimetype->pixmap( K3Icon::Desktop ) );
 	iconLabel->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );
 
 	KVBox *headerRight = new KVBox( header );
