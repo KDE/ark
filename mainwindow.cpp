@@ -369,14 +369,14 @@ MainWindow::readProperties( KConfig* config )
 void
 MainWindow::slotAddRecentURL( const KUrl & url )
 {
-    recent->addURL( url );
+    recent->addUrl( url );
     recent->saveEntries(KGlobal::config());
 }
 
 void
 MainWindow::slotRemoveRecentURL( const KUrl & url )
 {
-    recent->removeURL( url );
+    recent->removeUrl( url );
     recent->saveEntries(KGlobal::config());
 }
 
