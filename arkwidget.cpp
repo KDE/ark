@@ -128,14 +128,15 @@ ArkWidget::ArkWidget( QWidget *parent )
     }
 
     m_searchToolBar = new KToolBar( this, "searchBar" );
-    m_searchToolBar->boxLayout()->setSpacing( KDialog::spacingHint() );
-    m_searchToolBar->setIconText( KToolBar::IconOnly );
+#warning "kde4 porting ? m_searchToolBar->boxLayout()->setSpacing";	
+    //m_searchToolBar->boxLayout()->setSpacing( KDialog::spacingHint() );
+    m_searchToolBar-> setToolButtonStyle ( Qt::ToolButtonIconOnly );
 
     QLabel * l1 = new QLabel( i18n( "&Search:" ), m_searchToolBar, "kde toolbar widget" );
     m_searchBar = new SearchBar( m_searchToolBar, 0 );
     l1->setBuddy( m_searchBar );
-
-    m_searchToolBar->setStretchableWidget( m_searchBar );
+#warning "kde4: porting ? "
+    //m_searchToolBar->setStretchableWidget( m_searchBar );
 
     if ( !ArkSettings::showSearchBar() )
         m_searchToolBar->hide();
