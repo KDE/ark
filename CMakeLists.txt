@@ -17,7 +17,7 @@ kde4_automoc(${ark_KDEINIT_SRCS})
 
 kde4_add_kdeinit_executable( ark ${ark_KDEINIT_SRCS})
 
-target_link_libraries(kdeinit_ark  ${KDE4_KDE3SUPPORT_LIBRARIES} )
+target_link_libraries(kdeinit_ark  ${KDE4_KDE3SUPPORT_LIBS} )
 
 install_targets(${LIB_INSTALL_DIR} kdeinit_ark )
 
@@ -58,7 +58,7 @@ kde4_add_plugin(arkpart WITH_PREFIX ${arkpart_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} arkpart )
 
-target_link_libraries(arkpart  ${KDE4_KDE3SUPPORT_LIBRARIES} )
+target_link_libraries(arkpart  ${KDE4_KDE3SUPPORT_LIBS} )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 arkpart )
 
