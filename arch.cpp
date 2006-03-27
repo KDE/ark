@@ -133,8 +133,8 @@ void Arch::slotDeleteExited( KProcess *_kp )
 
     if ( !getLastShellOutput().isNull() )
     {
-      msg += i18n( "\nUse \"Details\" to view the last shell output." );
-      KMessageBox::detailedError( m_gui, msg, getLastShellOutput() );
+      QStringList list = QStringList::split( "\n", getLastShellOutput() );
+      KMessageBox::errorList( m_gui, msg, list );
     }
     else
     {
@@ -180,8 +180,9 @@ void Arch::slotExtractExited( KProcess *_kp )
 
         if ( !getLastShellOutput().isNull() )
         {
-            msg += i18n( "\nUse \"Details\" to view the last shell output." );
-            KMessageBox::detailedError( m_gui, msg, getLastShellOutput() );
+            //getLastShellOutput() is a QString. errorList is expecting QStringLists to show in multiple lines
+            QStringList list = QStringList::split( "\n", getLastShellOutput() );
+            KMessageBox::errorList( m_gui, msg, list );
         }
         else
         {
@@ -216,8 +217,8 @@ void Arch::slotAddExited( KProcess *_kp )
 
     if ( !getLastShellOutput().isNull() )
     {
-      msg += i18n( "\nUse \"Details\" to view the last shell output." );
-      KMessageBox::detailedError( m_gui, msg, getLastShellOutput() );
+      QStringList list = QStringList::split( "\n", getLastShellOutput() );
+      KMessageBox::errorList( m_gui, msg, list );
     }
     else
     {
