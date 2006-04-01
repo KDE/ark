@@ -42,8 +42,13 @@ class SevenZipArch : public Arch
     virtual void remove( QStringList * );
     virtual void unarchFileInternal( );
 
+  protected slots:
+    virtual bool processLine( const QCString& line );
+    virtual void slotReceivedTOC( KProcess*, char*, int );
+
   private:
     void setHeaders();
+    int m_nameColumnPos;
 };
 
 #endif // SEVENZIP_H
