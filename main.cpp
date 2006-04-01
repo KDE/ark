@@ -65,7 +65,7 @@ static KCmdLineOptions option[] =
 extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 {
 	KAboutData aboutData( "ark", I18N_NOOP( "Ark" ),
-	                      "2.6.2", I18N_NOOP( "KDE Archiving tool" ),
+	                      "2.6.3", I18N_NOOP( "KDE Archiving tool" ),
 	                      KAboutData::License_GPL,
 	                      I18N_NOOP( "(c) 1997-2006, The Various Ark Developers" )
 	                    );
@@ -73,6 +73,9 @@ extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 	aboutData.addAuthor( "Henrique Pinto",
 	                     I18N_NOOP( "Maintainer" ),
 	                     "henrique.pinto@kdemail.net" );
+	aboutData.addAuthor( "Haris Kouzinopoulos",
+	                     0,
+	                     "haris@mpa.gr" );
 	aboutData.addAuthor( "Helio Chissini de Castro",
 	                     I18N_NOOP( "Former maintainer" ),
 	                     "helio@kde.org" );
@@ -94,9 +97,6 @@ extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 	aboutData.addAuthor( "Robert Palmbos",
 	                     0,
 	                     "palm9744@kettering.edu" );
-	aboutData.addAuthor( "Haris Kouzinopoulos",
-	                     0,
-	                     "haris@mpa.gr" );
 
 	aboutData.addCredit( "Bryce Corkins",
 	                     I18N_NOOP( "Icons" ),
