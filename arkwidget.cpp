@@ -1298,40 +1298,42 @@ void
 ArkWidget::slotOpenWith()
 {
     connect( arch, SIGNAL( sigExtract( bool ) ), this,
-            SLOT( openWithSlotExtractDone() ) );
+            SLOT( openWithSlotExtractDone( bool ) ) );
 
     showCurrentFile();
 }
 
 void
-ArkWidget::openWithSlotExtractDone()
+ArkWidget::openWithSlotExtractDone( bool success )
 {
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this,
-            SLOT( openWithSlotExtractDone() ) );
+            SLOT( openWithSlotExtractDone( bool ) ) );
 
-    KURL::List list;
-    list.append(m_viewURL);
-    KOpenWithDlg l( list, i18n("Open with:"), QString::null, (QWidget*)0L);
-    if ( l.exec() )
+    if ( success )
     {
-        KService::Ptr service = l.service();
-        if ( !!service )
-        {
-            KRun::run( *service, list );
-        }
-        else
-        {
-            QString exec = l.text();
-            exec += " %f";
-            KRun::run( exec, list );
-        }
+      KURL::List list;
+      list.append(m_viewURL);
+      KOpenWithDlg l( list, i18n("Open with:"), QString::null, (QWidget*)0L);
+      if ( l.exec() )
+      {
+          KService::Ptr service = l.service();
+          if ( !!service )
+          {
+              KRun::run( *service, list );
+          }
+          else
+          {
+              QString exec = l.text();
+              exec += " %f";
+              KRun::run( exec, list );
+          }
+      }
+      if( m_fileListView )
+      {
+          m_fileListView->setUpdatesEnabled(true);
+          fixEnables();
+      }
     }
-    if( m_fileListView )
-    {
-        m_fileListView->setUpdatesEnabled(true);
-        fixEnables();
-    }
-
 }
 
 

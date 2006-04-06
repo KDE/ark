@@ -206,7 +206,7 @@ private slots:
     void editSlotExtractDone();
     void editSlotAddDone( bool success );
     void viewSlotExtractDone( bool success );
-    void openWithSlotExtractDone();
+    void openWithSlotExtractDone( bool success );
 
     void createRealArchiveSlotCreate( Arch * newArch, bool success,
                                       const QString & fileName, int nbr );

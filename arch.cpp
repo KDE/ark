@@ -135,6 +135,7 @@ void Arch::slotDeleteExited( KProcess *_kp )
     {
       QStringList list = QStringList::split( "\n", getLastShellOutput() );
       KMessageBox::errorList( m_gui, msg, list );
+      clearShellOutput();
     }
     else
     {
@@ -183,6 +184,7 @@ void Arch::slotExtractExited( KProcess *_kp )
             //getLastShellOutput() is a QString. errorList is expecting QStringLists to show in multiple lines
             QStringList list = QStringList::split( "\n", getLastShellOutput() );
             KMessageBox::errorList( m_gui, msg, list );
+            clearShellOutput();
         }
         else
         {
@@ -219,6 +221,7 @@ void Arch::slotAddExited( KProcess *_kp )
     {
       QStringList list = QStringList::split( "\n", getLastShellOutput() );
       KMessageBox::errorList( m_gui, msg, list );
+      clearShellOutput();
     }
     else
     {
