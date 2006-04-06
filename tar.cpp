@@ -461,15 +461,15 @@ void TarArch::deleteOldFiles(const QStringList &urls, bool bAddOnlyNew)
       QDateTime addFileMTime = fileInfo.lastModified();
       QDateTime oldFileMTime = lv->timeStamp();
 
-      kdDebug(1601) << "Old file: " << oldFileMTime.date().year() << "-" <<
-        oldFileMTime.date().month() << "-" << oldFileMTime.date().day() <<
-        " " << oldFileMTime.time().hour() << ":" <<
-        oldFileMTime.time().minute() << ":" << oldFileMTime.time().second() <<
+      kdDebug(1601) << "Old file: " << oldFileMTime.date().year() << '-' <<
+        oldFileMTime.date().month() << '-' << oldFileMTime.date().day() <<
+        ' ' << oldFileMTime.time().hour() << ':' <<
+        oldFileMTime.time().minute() << ':' << oldFileMTime.time().second() <<
         endl;
-      kdDebug(1601) << "New file: " << addFileMTime.date().year()  << "-" <<
-        addFileMTime.date().month()  << "-" << addFileMTime.date().day() <<
-        " " << addFileMTime.time().hour()  << ":" <<
-        addFileMTime.time().minute() << ":" << addFileMTime.time().second() <<
+      kdDebug(1601) << "New file: " << addFileMTime.date().year()  << '-' <<
+        addFileMTime.date().month()  << '-' << addFileMTime.date().day() <<
+        ' ' << addFileMTime.time().hour()  << ':' <<
+        addFileMTime.time().minute() << ':' << addFileMTime.time().second() <<
         endl;
 
       if (oldFileMTime >= addFileMTime)

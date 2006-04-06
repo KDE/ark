@@ -98,7 +98,7 @@ bool RarArch::processLine( const QCString &line )
   list << l2[ 2 ]; // ratio
 
   QStringList date =  QStringList::split( '-', l2[ 3 ] );
-  list << ArkUtils::fixYear( date[ 2 ].latin1() ) + "-" + date[ 1 ] + "-" + date [ 0 ] + " " + l2[4]; // date
+  list << ArkUtils::fixYear( date[ 2 ].latin1() ) + '-' + date[ 1 ] + '-' + date [ 0 ] + ' ' + l2[4]; // date
   list << l2[ 5 ]; // attributes
   list << l2[ 6 ]; // crc
   list << l2[ 7 ]; // method
