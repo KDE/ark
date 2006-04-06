@@ -1328,11 +1328,12 @@ ArkWidget::openWithSlotExtractDone( bool success )
               KRun::run( exec, list );
           }
       }
-      if( m_fileListView )
-      {
-          m_fileListView->setUpdatesEnabled(true);
-          fixEnables();
-      }
+    }
+
+    if( m_fileListView )
+    {
+        m_fileListView->setUpdatesEnabled(true);
+        fixEnables();
     }
 }
 
