@@ -37,6 +37,7 @@
 #include <kiconloader.h>
 #include <kio/netaccess.h>
 #include <kpushbutton.h>
+#include <ksqueezedtextlabel.h>
 
 #include <qfile.h>
 #include <qtimer.h>
@@ -408,7 +409,7 @@ void ArkStatusBarExtension::setupStatusBar()
     m_pTimer = new QTimer( this );
     connect( m_pTimer, SIGNAL( timeout() ), this, SLOT( slotProgress() ) );
 
-    m_pStatusLabelTotal = new QLabel( statusBar(), "StatusLabelTotal" );
+    m_pStatusLabelTotal = new KSqueezedTextLabel( statusBar(), "StatusLabelTotal" );
     m_pStatusLabelTotal->setFrameStyle( QFrame::NoFrame );
     m_pStatusLabelTotal->setAlignment( AlignRight );
     m_pStatusLabelTotal->setText( i18n( "Total: 0 files" ) );
