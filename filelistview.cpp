@@ -144,8 +144,8 @@ void FileLVI::setText( int column, const QString &text )
 			m_ratio = text.left(l).toDouble();
 		else
 			m_ratio = text.toDouble();
-		Q3ListViewItem::setText( column, i18n( "Packed Ratio", "%1 %" )
-		                                .arg(KGlobal::locale()->formatNumber( m_ratio, 1 ) )
+		Q3ListViewItem::setText( column, i18nc( "Packed Ratio", "%1 %" ,
+		                                 KGlobal::locale()->formatNumber( m_ratio, 1 ) )
 		                      );
 	}
 	else if ( colName == timeStampStrCol )

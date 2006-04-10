@@ -197,8 +197,8 @@ ArkWidget::updateStatusTotals()
     m_nNumFiles    = m_fileListView->totalFiles();
     m_nSizeOfFiles = m_fileListView->totalSize();
 
-    QString strInfo = i18n( "%n file  %1", "%n files  %1", m_nNumFiles )
-                          .arg( KIO::convertSize( m_nSizeOfFiles ) );
+    QString strInfo = i18np( "%n file  %1", "%n files  %1", m_nNumFiles ,
+                            KIO::convertSize( m_nSizeOfFiles ) );
     emit setStatusBarText(strInfo);
 }
 
@@ -426,7 +426,7 @@ ArkWidget::extractTo( const KUrl & targetDirectory, const KUrl & archive, bool b
     {
         if ( !KIO::NetAccess::mkdir( m_extractTo_targetDirectory, this ) )
         {
-            KMessageBox::error( 0, i18n( "Could not create the folder %1" ).arg(
+            KMessageBox::error( 0, i18n( "Could not create the folder %1" , 
                                                             targetDirectory.prettyURL() ) );
             emit request_file_quit();
             return;
@@ -462,7 +462,7 @@ ArkWidget::extractToSlotOpenDone( bool success )
     disconnect( this, SIGNAL( openDone( bool ) ), this, SLOT( extractToSlotOpenDone( bool ) ) );
     if ( !success )
     {
-        KMessageBox::error( this, i18n( "An error occurred while opening the archive %1." ).arg( m_url.prettyURL() ) );
+        KMessageBox::error( this, i18n( "An error occurred while opening the archive %1.", m_url.prettyURL() ) );
         emit request_file_quit();
         return;
     }
@@ -710,7 +710,7 @@ ArkWidget::file_open(const KUrl& url)
     QFileInfo fileInfo( strFile );
     if ( !fileInfo.exists() )
     {
-        KMessageBox::error(this, i18n("The archive %1 does not exist.").arg(strFile));
+        KMessageBox::error(this, i18n("The archive %1 does not exist.", strFile));
         emit removeRecentURL( m_realURL );
         return;
     }
@@ -819,7 +819,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
         {
             KMessageBox::error( this,
                 i18n( "You do not have permission"
-                      " to write to the directory %1" ).arg(url.directory() ) );
+                      " to write to the directory %1" , url.directory() ) );
             return KUrl();
         }
     } // end of while loop
@@ -1373,7 +1373,7 @@ ArkWidget::reportExtractFailures( const QString & _dest, QStringList *_list )
     {
         kDebug(1601) << "One to report" << endl;
         strFilename = filesExisting.first();
-        QString message = i18n("%1 will not be extracted because it will overwrite an existing file.\nGo back to the Extraction Dialog?").arg(strFilename);
+        QString message = i18n("%1 will not be extracted because it will overwrite an existing file.\nGo back to the Extraction Dialog?", strFilename);
         redoExtraction = (KMessageBox::questionYesNo(this, message) == KMessageBox::Yes);
     }
     else if (numFilesToReport != 0)
@@ -1806,14 +1806,14 @@ ArkWidget::updateStatusSelection()
     }
     else if (m_nNumSelectedFiles != 1)
     {
-        strInfo = i18n("%1 files selected  %2")
-                  .arg(KGlobal::locale()->formatNumber(m_nNumSelectedFiles, 0))
-                  .arg(KIO::convertSize(m_nSizeOfSelectedFiles));
+        strInfo = i18n("%1 files selected  %2",
+                   KGlobal::locale()->formatNumber(m_nNumSelectedFiles, 0),
+                   KIO::convertSize(m_nSizeOfSelectedFiles));
     }
     else
     {
-        strInfo = i18n("1 file selected  %2")
-                  .arg(KIO::convertSize(m_nSizeOfSelectedFiles));
+        strInfo = i18n("1 file selected  %2",
+                   KIO::convertSize(m_nSizeOfSelectedFiles));
     }
 
     emit setStatusBarSelectedFiles(strInfo);
@@ -2034,7 +2034,7 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName, const QString& _mime
 
     if (!newArch->utilityIsAvailable())
     {
-        KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
+        KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.", newArch->getUtility()));
         return NULL;
     }
 
@@ -2146,7 +2146,7 @@ ArkWidget::openArchive( const QString & _filename )
 
     if (!newArch->utilityIsAvailable())
     {
-        KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.").arg(newArch->getUtility()));
+        KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.", newArch->getUtility()));
         return;
     }
 
@@ -2201,7 +2201,7 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
     {
         emit removeRecentURL( m_realURL );
         emit setWindowCaption( QString::null );
-        KMessageBox::error( this, i18n( "An error occurred while trying to open the archive %1" ).arg( _filename ) );
+        KMessageBox::error( this, i18n( "An error occurred while trying to open the archive %1", _filename ) );
 
         if ( m_extractOnly )
             emit request_file_quit();

@@ -62,7 +62,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 {
 	if ( !archiveName.isNull() )
 	{
-		setCaption( i18n( "Extract Files From %1" ).arg( archiveName ) );
+		setCaption( i18n( "Extract Files From %1", archiveName ) );
 	}
 
 	KVBox *vbox = makeVBoxMainWidget();
@@ -147,7 +147,7 @@ void ExtractionDialog::accept()
 		QFileInfo fi( p.path() );
 		if ( !fi.isDir() && !fi.exists() )
 		{
-			QString ltext = i18n( "Create folder %1?").arg(p.path());
+			QString ltext = i18n( "Create folder %1?", p.path());
 			int createDir =  KMessageBox::questionYesNo( this, ltext, i18n( "Missing Folder" ) , i18n("Create Folder"), i18n("Do Not Create"));
 			if( createDir == 4 )
 			{
