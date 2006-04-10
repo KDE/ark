@@ -40,10 +40,10 @@
 #include <kkeydialog.h>
 #include <kcombobox.h>
 #include <kio/netaccess.h>
-#include <kaccel.h>
 #include <kxmlguifactory.h>
 #include <kglobal.h>
 #include <kprogressdialog.h>
+#include <kstdaccel.h>
 // ark includes
 #include "arkapp.h"
 #include "settings.h"
@@ -198,7 +198,7 @@ MainWindow::slotNewToolbarConfig()
 void
 MainWindow::slotConfigureKeyBindings()
 {
-    KKeyDialog dlg( true, this );
+    KKeyDialog dlg( KKeyChooser::AllActions, KKeyChooser::LetterShortcutsAllowed, this );
 
     dlg.insert( actionCollection() );
     dlg.insert( m_part->actionCollection() );
