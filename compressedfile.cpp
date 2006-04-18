@@ -165,8 +165,8 @@ void CompressedFile::open()
   KURL src, target;
   src.setPath( m_filename );
   target.setPath( m_tmpfile );
-  KIO::NetAccess::copy( m_filename, m_tmpfile, m_gui );
 
+  KIO::NetAccess::copy( src, target, m_gui );
   kdDebug(1601) << "Temp file name is " << m_tmpfile << endl;
 
   KProcess *kp = m_currentProcess = new KProcess;
