@@ -167,7 +167,10 @@ void CompressedFile::open()
   target.setPath( m_tmpfile );
 
   KIO::NetAccess::copy( src, target, m_gui );
-  kdDebug(1601) << "Temp file name is " << m_tmpfile << endl;
+  kdDebug(1601) << "Temp file name is " << target << endl;
+
+  if ( !KIO::NetAccess::exists( target, true, NULL ) )
+    return;
 
   KProcess *kp = m_currentProcess = new KProcess;
   kp->clearArguments();
