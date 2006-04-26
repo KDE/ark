@@ -133,7 +133,7 @@ protected slots:
     void slotCreate(Arch *, bool, const QString &, int);
     void slotDeleteDone(bool);
     void slotExtractDone();
-    void slotExtractRemoteDone(KIO::Job *job);
+    void slotExtractRemoteDone(KJob *job);
     void slotAddDone(bool);
     void slotEditFinished(KProcess *);
 signals:

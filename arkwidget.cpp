@@ -909,20 +909,20 @@ ArkWidget::extractRemoteInitiateMoving( const KUrl & target )
     m_extractURL.adjustPath( 1 );
 
     KIO::CopyJob *job = KIO::copy( srcList, target, this );
-    connect( job, SIGNAL(result(KIO::Job*)),
-            this, SLOT(slotExtractRemoteDone(KIO::Job*)) );
+    connect( job, SIGNAL(result(KJob*)),
+            this, SLOT(slotExtractRemoteDone(KJob*)) );
 
     m_extractRemote = false;
 }
 
 void
-ArkWidget::slotExtractRemoteDone(KIO::Job *job)
+ArkWidget::slotExtractRemoteDone(KJob *job)
 {
     delete m_extractRemoteTmpDir;
     m_extractRemoteTmpDir = NULL;
 
     if ( job->error() )
-        job->showErrorDialog();
+        static_cast<KIO::Job*>(job)->showErrorDialog();
 
     emit extractRemoteMovingDone();
 
