@@ -102,7 +102,7 @@ public slots:
     void transferStarted( KIO::Job * );
     void transferCompleted();
     void transferCanceled( const QString& errMsg );
-    void progressInformation( KIO::Job *, unsigned long );
+    void progressInformation( KJob *, unsigned long );
     void cancelTransfer();
 
 signals:

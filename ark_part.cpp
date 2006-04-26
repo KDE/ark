@@ -328,8 +328,8 @@ void ArkPart::transferStarted( KIO::Job *job )
     if ( job )
     {
         disableActions();
-        connect( job, SIGNAL( percent(KIO::Job*, unsigned long) ),
-                 SLOT( progressInformation(KIO::Job*, unsigned long) ) );
+        connect( job, SIGNAL( percent(KJob*, unsigned long) ),
+                 SLOT( progressInformation(KJob*, unsigned long) ) );
         connect( m_bar->cancelButton(), SIGNAL( clicked() ),
                  SLOT( cancelTransfer() ) );
     }
@@ -339,8 +339,8 @@ void ArkPart::transferCompleted()
 {
     if ( m_job )
     {
-        disconnect( m_job, SIGNAL( percent(KIO::Job*, unsigned long) ),
-                    this, SLOT( progressInformation(KIO::Job*, unsigned long) ) );
+        disconnect( m_job, SIGNAL( percent(KJob*, unsigned long) ),
+                    this, SLOT( progressInformation(KJob*, unsigned long) ) );
         m_job = 0;
     }
 
@@ -358,7 +358,7 @@ void ArkPart::transferCanceled( const QString& errMsg )
     m_bar->slotSetReady();
 }
 
-void ArkPart::progressInformation( KIO::Job *, unsigned long progress )
+void ArkPart::progressInformation( KJob *, unsigned long progress )
 {
     m_bar->setProgress( progress );
 }
