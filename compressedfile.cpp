@@ -64,8 +64,8 @@ CompressedFile::CompressedFile( ArkWidget *_gui, const QString & _fileName, cons
   m_tempDirectory->setAutoDelete( true );
   m_tmpdir = m_tempDirectory->name();
   initData();
-  verifyCompressUtilityIsAvailable(m_archiver_program);
-  verifyUncompressUtilityIsAvailable(m_unarchiver_program);
+  verifyCompressUtilityIsAvailable( m_archiver_program );
+  verifyUncompressUtilityIsAvailable( m_unarchiver_program );
 
   if (!QFile::exists(_fileName))
   {

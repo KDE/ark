@@ -83,7 +83,7 @@ Arch::~Arch()
 }
 
 //Check if a compress utility exists
-void Arch::verifyCompressUtilityIsAvailable(const QString &utility)
+void Arch::verifyCompressUtilityIsAvailable( const QString &utility )
 {
   // see if the utility is in the PATH of the user.
   QString cmd = KGlobal::dirs()->findExe( utility );
@@ -91,7 +91,7 @@ void Arch::verifyCompressUtilityIsAvailable(const QString &utility)
 }
 
 //Check if a utility can uncompress files
-void Arch::verifyUncompressUtilityIsAvailable(const QString &utility)
+void Arch::verifyUncompressUtilityIsAvailable( const QString &utility )
 {
   // see if the utility is in the PATH of the user.
   QString cmd = KGlobal::dirs()->findExe( utility );

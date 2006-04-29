@@ -130,9 +130,9 @@ class Arch : public QObject
     void verifyUtilityIsAvailable( const QString &,
                                    const QString & = QString::null );
 
-    void verifyCompressUtilityIsAvailable(const QString &utility);
+    void verifyCompressUtilityIsAvailable( const QString &utility );
 
-    void verifyUncompressUtilityIsAvailable(const QString &utility);
+    void verifyUncompressUtilityIsAvailable( const QString &utility );
 
     bool archUtilityIsAvailable() { return m_bArchUtilityIsAvailable; }
 

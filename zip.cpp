@@ -46,8 +46,8 @@ ZipArch::ZipArch( ArkWidget *_gui, const QString & _fileName )
 {
   m_archiver_program = "zip";
   m_unarchiver_program = "unzip";
-  verifyCompressUtilityIsAvailable( m_archiver_program);
-  verifyUncompressUtilityIsAvailable( m_unarchiver_program);
+  verifyCompressUtilityIsAvailable( m_archiver_program );
+  verifyUncompressUtilityIsAvailable( m_unarchiver_program );
 
   m_headerString = "----";
   m_repairYear = 9; m_fixMonth = 7; m_fixDay = 8; m_fixTime = 10;
