@@ -38,8 +38,6 @@ METASOURCES = AUTO
 rcdir = $(kde_datadir)/ark
 rc_DATA = arkui.rc ark_part.rc ark_part_readonly.rc
 
-messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/ark.pot
 
 KDE_ICON = ark
 
