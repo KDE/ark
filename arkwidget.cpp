@@ -128,11 +128,12 @@ ArkWidget::ArkWidget( QWidget *parent )
     }
 
     m_searchToolBar = new KToolBar( this, "searchBar" );
-#warning "kde4 porting ? m_searchToolBar->boxLayout()->setSpacing";	
+#warning "kde4 porting ? m_searchToolBar->boxLayout()->setSpacing";
     //m_searchToolBar->boxLayout()->setSpacing( KDialog::spacingHint() );
     m_searchToolBar-> setToolButtonStyle ( Qt::ToolButtonIconOnly );
 
-    QLabel * l1 = new QLabel( i18n( "&Search:" ), m_searchToolBar, "kde toolbar widget" );
+    QLabel * l1 = new QLabel( i18n( "&Search:" ), m_searchToolBar );
+    l1->setObjectName( "kde toolbar widget" );
     m_searchBar = new SearchBar( m_searchToolBar, 0 );
     l1->setBuddy( m_searchBar );
 #warning "kde4: porting ? "
@@ -426,7 +427,7 @@ ArkWidget::extractTo( const KUrl & targetDirectory, const KUrl & archive, bool b
     {
         if ( !KIO::NetAccess::mkdir( m_extractTo_targetDirectory, this ) )
         {
-            KMessageBox::error( 0, i18n( "Could not create the folder %1" , 
+            KMessageBox::error( 0, i18n( "Could not create the folder %1" ,
                                                             targetDirectory.prettyURL() ) );
             emit request_file_quit();
             return;
