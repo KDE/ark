@@ -364,14 +364,14 @@ void TarArch::slotListingDone(KProcess *_kp)
   if (flv!=NULL && flv->totalFiles()>0)
   {
     const QString firstfile = ((FileLVI *) flv->firstChild())->fileName();
-    if (list.find(QRegExp(QString("\\s\\./%1[/\\n]").arg(firstfile)))>=0)
+    if (list.contains(QRegExp(QString("\\s\\./%1[/\\n]").arg(firstfile))))
     {
       m_dotslash = true;
       kDebug(1601) << k_funcinfo << "archive has dot-slash" << endl;
     }
     else
     {
-      if (list.find(QRegExp(QString("\\s%1[/\\n]").arg(firstfile)))>=0)
+      if (list.contains(QRegExp(QString("\\s%1[/\\n]").arg(firstfile))))
       {
         // archive doesn't have dot-slash
         m_dotslash = false;
@@ -421,7 +421,7 @@ void TarArch::processDir(const KArchiveDirectory *tardir, const QString & root)
       QString strSize = "0";
       if (tarEntry->isFile())
         {
-          strSize.sprintf("%d", ((KArchiveFile *)tarEntry)->size());
+          strSize.sprintf("%ld", ( long int )((KArchiveFile *)tarEntry)->size());
         }
       col_list.append(strSize);
       QString timestamp = tarEntry->datetime().toString(Qt::ISODate);
