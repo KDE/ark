@@ -266,7 +266,7 @@ void RarArch::unarchFileInternal()
 
 bool RarArch::passwordRequired()
 {
-    return m_lastShellOutput.findRev("password incorrect ?)")+1;
+    return m_lastShellOutput.lastIndexOf("password incorrect ?)")+1;
 }
 
 void RarArch::remove( QStringList *list )

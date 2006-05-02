@@ -106,7 +106,7 @@ bool LhaArch::processLine( const QByteArray &line )
   QString file = filename;
   QString name, link;
   bool bLink = false;
-  int pos = file.find( " -> " );
+  int pos = file.indexOf( " -> " );
   if ( pos != -1 )
   {
     bLink = true;

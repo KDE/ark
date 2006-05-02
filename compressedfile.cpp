@@ -272,7 +272,7 @@ void CompressedFile::addFile( const QStringList &urls )
   proc.start(KProcess::Block);
 
   m_tmpfile = file.right(file.length()
-			 - file.findRev("/")-1);
+			 - file.lastIndexOf('/')-1);
   m_tmpfile = m_tmpdir + "/" + m_tmpfile;
 
   kDebug(1601) << "Temp file name is " << m_tmpfile << endl;

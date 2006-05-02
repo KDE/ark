@@ -121,7 +121,7 @@ void FileLVI::setText( int column, const QString &text )
 		QString name = text;
 		if ( name.endsWith( "/" ) )
 			name = name.left( name.length() - 1 );
-		int pos = name.findRev( '/' );
+		int pos = name.lastIndexOf( '/' );
 		if ( pos != -1 )
 			name = name.right( name.length() - pos - 1 );
 		Q3ListViewItem::setText( column, name );
@@ -487,7 +487,7 @@ FileLVI* FileListView::findParent( const QString& fullname )
 		return static_cast< FileLVI* >( 0 );
 
 	// Get a list of ancestors
-	QString parentFullname = name.left( name.findRev( '/' ) );
+	QString parentFullname = name.left( name.lastIndexOf( '/' ) );
 	QStringList ancestorList = QStringList::split( '/', parentFullname );
 
 	// Checks if the listview contains the first item in the list of ancestors

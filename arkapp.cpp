@@ -48,7 +48,7 @@ static QString resolveFilename(const QString & _arkname)
 	char *buff;
 	int nread;
 	int iter = 1;
-	
+
 	while ( true )
 	{
 		buff = new char[BUFSIZ*iter];
@@ -80,16 +80,16 @@ static QString resolveFilename(const QString & _arkname)
 			buff[nread] = '\0';  // readlink doesn't null terminate
 			QString name = QFile::decodeName( buff );
 			delete [] buff;
-			
+
 			// watch out for relative pathnames
 			if (name.at(0) != '/')
 			{
 				// copy the path from _arkname
-				int index = _arkname.findRev('/');
+				int index = _arkname.lastIndexOf('/');
 				name = _arkname.left(index + 1) + name;
 			}
 			kDebug(1601) << "Now resolve " << name << endl;
-			
+
 			return resolveFilename( name );
 		}
 	}

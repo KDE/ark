@@ -449,7 +449,7 @@ ArkWidget::guessName( const KUrl &archive )
     ext = (*it).remove( '*' );
     if ( fileName.endsWith( ext ) )
     {
-      fileName = fileName.left( fileName.findRev( ext ) );
+      fileName = fileName.left( fileName.lastIndexOf( ext ) );
       break;
     }
   }
@@ -1198,7 +1198,7 @@ ArkWidget::toLocalFile( const KUrl& url )
    QString strURL = url.prettyURL();
 
         QString tempfile = tmpDir();
-        tempfile += strURL.right(strURL.length() - strURL.findRev("/") - 1);
+        tempfile += strURL.right(strURL.length() - strURL.lastIndexOf('/') - 1);
         deleteAfterUse(tempfile);  // remember for deletion
         KUrl tempurl; tempurl.setPath( tempfile );
         if( !KIO::NetAccess::dircopy(url, tempurl, this) )
@@ -1644,7 +1644,7 @@ ArkWidget::slotEditFinished(KProcess *kp)
     if (filename.count('/') > 3)
     {
         kDebug(1601) << "Filename is originally: " << filename << endl;
-        int i = filename.find('/', 5);
+        int i = filename.indexOf('/', 5);
         path = filename.left(1+i);
         kDebug(1601) << "Changing to dir: " << path << endl;
         QDir::setCurrent(path);
