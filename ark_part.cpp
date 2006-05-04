@@ -134,18 +134,20 @@ ArkPart::setupActions()
                              SLOT(action_view()), actionCollection(), "view");
 
 
-    openWithAction = new KAction(i18n("&Open With..."), 0, awidget,
-                                 SLOT(slotOpenWith()), actionCollection(), "open_with");
+    openWithAction = new KAction(i18n("&Open With..."), actionCollection(), "open_with");
+    connect(openWithAction, SIGNAL(triggered(bool) ), awidget, SLOT(slotOpenWith()));
 
 
-    editAction = new KAction(i18n("Edit &With..."), 0, awidget,
-                             SLOT(action_edit()), actionCollection(), "edit");
+    editAction = new KAction(i18n("Edit &With..."), actionCollection(), "edit");
+    connect(editAction, SIGNAL(triggered(bool) ), awidget, SLOT(action_edit()));
 
     selectAllAction = KStdAction::selectAll(awidget->fileList(), SLOT(selectAll()), actionCollection(), "select_all");
 
-    deselectAllAction =  new KAction(i18n("&Unselect All"), 0, awidget->fileList(), SLOT(unselectAll()), actionCollection(), "deselect_all");
+    deselectAllAction = new KAction(i18n("&Unselect All"), actionCollection(), "deselect_all");
+    connect(deselectAllAction, SIGNAL(triggered(bool) ), awidget->fileList(), SLOT(unselectAll()));
 
-    invertSelectionAction = new KAction(i18n("&Invert Selection"), 0, awidget->fileList(), SLOT(invertSelection()), actionCollection(), "invert_selection");
+    invertSelectionAction = new KAction(i18n("&Invert Selection"), actionCollection(), "invert_selection");
+    connect(invertSelectionAction, SIGNAL(triggered(bool) ), awidget->fileList(), SLOT(invertSelection()));
 
     saveAsAction = KStdAction::saveAs(this, SLOT(file_save_as()), actionCollection());
 
