@@ -118,17 +118,17 @@ ArkPart::~ArkPart()
 void
 ArkPart::setupActions()
 {
-    addFileAction = new KAction(i18n("Add &File..."), "ark_addfile", 0, awidget,
-                                SLOT(action_add()), actionCollection(), "addfile");
+    addFileAction = new KAction(KIcon("ark_addfile"), i18n("Add &File..."), actionCollection(), "addfile");
+    connect(addFileAction, SIGNAL(triggered(bool)), awidget, SLOT(action_add()));
 
-    addDirAction = new KAction(i18n("Add Folde&r..."), "ark_adddir", 0, awidget,
-                               SLOT(action_add_dir()), actionCollection(), "adddir");
+    addDirAction = new KAction(KIcon("ark_adddir"), i18n("Add Folde&r..."), actionCollection(), "adddir");
+    connect(addDirAction, SIGNAL(triggered(bool)), awidget, SLOT(action_add_dir()));
 
-    extractAction = new KAction(i18n("E&xtract..."), "ark_extract", 0, awidget,
-                                SLOT(action_extract()),	actionCollection(), "extract");
+    extractAction = new KAction(KIcon("ark_extract"), i18n("E&xtract..."), actionCollection(), "extract");
+    connect(extractAction, SIGNAL(triggered(bool)), awidget, SLOT(action_extract()));
 
-    deleteAction = new KAction(i18n("De&lete"), "ark_delete", 0, awidget,
-                               SLOT(action_delete()), actionCollection(), "delete");
+    deleteAction = new KAction(KIcon("ark_delete"), i18n("De&lete"), actionCollection(), "delete");
+    connect(deleteAction, SIGNAL(triggered(bool)), awidget, SLOT(action_delete()));
 
     viewAction = new KAction(i18nc("to view something","&View"), "ark_view", 0, awidget,
                              SLOT(action_view()), actionCollection(), "view");
