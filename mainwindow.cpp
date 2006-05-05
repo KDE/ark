@@ -114,14 +114,15 @@ MainWindow::~MainWindow()
 void
 MainWindow::setupActions()
 {
-    newWindowAction = new KAction(i18n("New &Window"), "window_new", KShortcut(), this,
-                                  SLOT(file_newWindow()), actionCollection(), "new_window");
+    newWindowAction = new KAction(KIcon("window_new"), i18n("New &Window"), actionCollection(), "new_window");
+    connect(newWindowAction, SIGNAL(triggered(bool)), SLOT(file_newWindow()));
 
     newArchAction = KStdAction::openNew(this, SLOT(file_new()), actionCollection());
     openAction = KStdAction::open(this, SLOT(file_open()), actionCollection());
 
-    reloadAction = new KAction(i18n("Re&load"), "reload", KStdAccel::shortcut( KStdAccel::Reload ), this,
-                               SLOT(file_reload()), actionCollection(), "reload_arch");
+    reloadAction = new KAction(KIcon("reload"), i18n("Re&load"), actionCollection(), "reload_arch");
+    connect(reloadAction, SIGNAL(triggered(bool)), SLOT(file_reload()));
+    reloadAction->setShortcut(KStdAccel::shortcut( KStdAccel::Reload ));
     closeAction = KStdAction::close(this, SLOT(file_close()), actionCollection(), "file_close");
 
     recent = KStdAction::openRecent(this, SLOT(openURL(const KUrl&)), actionCollection());

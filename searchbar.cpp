@@ -35,7 +35,8 @@
 SearchBar::SearchBar( QWidget* parent, KActionCollection* aC, const char * name )
 	: K3ListViewSearchLine( parent, 0 )
 {
-	KAction *resetSearch = new KAction( i18n( "Reset Search" ), QApplication::reverseLayout() ? "clear_left" : "locationbar_erase", 0, this, SLOT( clear() ), aC, "reset_search" );
+	KAction *resetSearch = new KAction(KIcon(QApplication::reverseLayout() ? "clear_left" : "locationbar_erase"),  i18n( "Reset Search" ), aC, "reset_search" );
+	connect(resetSearch, SIGNAL(triggered(bool)), SLOT( clear() ));
 
 	parent->addAction( resetSearch );
 	resetSearch->setWhatsThis( i18n( "Reset Search\n"
