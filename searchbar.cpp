@@ -37,7 +37,7 @@ SearchBar::SearchBar( QWidget* parent, KActionCollection* aC, const char * name 
 {
 	KAction *resetSearch = new KAction( i18n( "Reset Search" ), QApplication::reverseLayout() ? "clear_left" : "locationbar_erase", 0, this, SLOT( clear() ), aC, "reset_search" );
 
-	resetSearch->plug( parent );
+	parent->addAction( resetSearch );
 	resetSearch->setWhatsThis( i18n( "Reset Search\n"
 	                                 "Resets the search bar, so that all archive entries are shown again." ) );
 }
