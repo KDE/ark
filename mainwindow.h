@@ -34,7 +34,7 @@
 #include <kparts/mainwindow.h>
 #include <kparts/part.h>
 #include <kprogressbar.h>
-
+#include <krecentfilesaction.h>
 class ArkWidget;
 class KProgressDialog;
 class
