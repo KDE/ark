@@ -29,6 +29,7 @@
 #include <kparts/factory.h>
 #include <kaction.h>
 #include <kprogressbar.h>
+#include <ktoggleaction.h>
 
 #include <qlabel.h>
 
@@ -85,8 +86,8 @@ class ArkPart: public KParts::ReadWritePart
 {
     Q_OBJECT
 public:
-    ArkPart( QWidget *parentWidget, const char *widgetName, QObject *parent,
-             const char *name, const QStringList &, bool readWrite );
+    ArkPart( QWidget *parentWidget, QObject *parent,
+             const QStringList &, bool readWrite );
     virtual ~ArkPart();
 
     static KAboutData* createAboutData();

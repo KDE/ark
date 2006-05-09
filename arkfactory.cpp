@@ -41,8 +41,8 @@ ArkFactory::~ArkFactory()
 }
 
 KParts::Part * ArkFactory::createPartObject( QWidget *parentWidget,
-                  const char *widgetName, QObject *parent,
-                  const char *name, const char *classname,
+                  QObject *parent,
+                  const char *classname,
                   const QStringList &args )
 {
     bool readWrite = false; // for e.g. Browser/View or KParts::ReadOnlyPart
@@ -51,7 +51,7 @@ KParts::Part * ArkFactory::createPartObject( QWidget *parentWidget,
     {
             readWrite = true;
     }
-    ArkPart* obj = new ArkPart( parentWidget, widgetName, parent, name,
+    ArkPart* obj = new ArkPart( parentWidget, parent,
                                 args, readWrite );
         //kDebug( 1601 ) << "classname is: " << QCString( classname ) << endl;
         return obj;

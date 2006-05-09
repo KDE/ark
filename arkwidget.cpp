@@ -420,7 +420,7 @@ ArkWidget::extractTo( const KUrl & targetDirectory, const KUrl & archive, bool b
     if ( bGuessName ) // suggest an extract directory based on archive name
     {
         const QString fileName = guessName( archive );
-        m_extractTo_targetDirectory.setPath( targetDirectory.path( 1 ) + fileName + '/' );
+        m_extractTo_targetDirectory.setPath( targetDirectory.path( KUrl::AddTrailingSlash ) + fileName + '/' );
     }
 
     if ( !KIO::NetAccess::exists( m_extractTo_targetDirectory, false, this ) )
@@ -907,7 +907,7 @@ ArkWidget::extractRemoteInitiateMoving( const KUrl & target )
         srcList.append( src );
     }
 
-    m_extractURL.adjustPath( 1 );
+    m_extractURL.adjustPath( KUrl::AddTrailingSlash );
 
     KIO::CopyJob *job = KIO::copy( srcList, target, this );
     connect( job, SIGNAL(result(KJob*)),
@@ -1152,7 +1152,7 @@ ArkWidget::action_add_dir()
                                                 false, this,
                                                 i18n("Select Folder to Add"));
 
-    QString dir = KUrl::decode_string( u.url(-1) );
+    QString dir = KUrl::decode_string( u.url( KUrl::RemoveTrailingSlash ) );
     if ( !dir.isEmpty() )
     {
         busy( i18n( "Adding folder..." ) );

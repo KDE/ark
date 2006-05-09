@@ -44,6 +44,7 @@
 #include <kglobal.h>
 #include <kprogressdialog.h>
 #include <kstdaccel.h>
+#include <kstdaction.h>
 // ark includes
 #include "arkapp.h"
 #include "settings.h"
@@ -54,11 +55,13 @@ MainWindow::MainWindow( QWidget * /*parent*/, const char *name )
 	: KParts::MainWindow(), progressDialog( 0 )
 {
     setXMLFile( "arkui.rc" );
-    m_part = KParts::ComponentFactory::createPartInstanceFromLibrary<KParts::ReadWritePart>( "libarkpart", this, name, this, "ArkPart");
+    m_part = KParts::ComponentFactory::createPartInstanceFromLibrary<KParts::ReadWritePart>( "libarkpart", this, this);
     if (m_part )
     {
+        m_part->setObjectName("ArkPart");
         //Since most of the functionality is still in ArkWidget:
         m_widget = static_cast< ArkWidget* >( m_part->widget() );
+ 	m_widget->setObjectName(name);
 
         setStandardToolBarMenuEnabled( true );
         setupActions();
