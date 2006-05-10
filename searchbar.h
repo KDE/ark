@@ -23,7 +23,7 @@
 
 #include <k3listviewsearchline.h>
 
-#include <qwidget.h>
+#include <QWidget>
 
 class K3ListView;
 class KComboBox;

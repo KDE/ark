@@ -28,7 +28,7 @@
 #include <kaction.h>
 #include <kactioncollection.h>
 
-#include <qlabel.h>
+#include <QLabel>
 #include <qapplication.h>
 #include <q3valuelist.h>
 

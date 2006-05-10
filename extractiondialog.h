@@ -29,7 +29,7 @@
 #ifndef EXTRACTIONDIALOG_H
 #define EXTRACTIONDIALOG_H
 
-#include <qcheckbox.h>
+#include <QCheckBox>
 
 #include <kurl.h>
 #include <kdialogbase.h>

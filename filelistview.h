@@ -28,7 +28,7 @@
 #ifndef FILELISTVIEW_H
 #define FILELISTVIEW_H
 
-#include <qdatetime.h>
+#include <QDateTime>
 #include <qpair.h>
 #include <q3valuelist.h>
 //Added by qt3to4:

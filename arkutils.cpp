@@ -66,7 +66,7 @@
 #include <kde_file.h>
 
 // Qt includes
-#include <qfile.h>
+#include <QFile>
 
 #include "arkutils.h"
 

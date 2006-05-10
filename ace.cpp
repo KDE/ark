@@ -22,7 +22,7 @@
 
 */
 
-#include <qdir.h>
+#include <QDir>
 
 #include <kglobal.h>
 #include <klocale.h>

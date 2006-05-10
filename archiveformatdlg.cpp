@@ -26,7 +26,7 @@
 #include <klocale.h>
 #include <kvbox.h>
 
-#include <qlabel.h>
+#include <QLabel>
 
 ArchiveFormatDlg::ArchiveFormatDlg( QWidget * parent, const QString & defaultType )
                         :KDialogBase( parent, "archiveformatdialog", true,

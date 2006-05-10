@@ -32,7 +32,7 @@
 
 // QT includes
 #include <qapplication.h>
-#include <qfile.h>
+#include <QFile>
 //Added by qt3to4:
 #include <QByteArray>
 

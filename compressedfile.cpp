@@ -29,7 +29,7 @@
 #include <fcntl.h>
 
 // Qt includes
-#include <qdir.h>
+#include <QDir>
 
 // KDE includes
 #include <kdebug.h>

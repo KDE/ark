@@ -48,8 +48,8 @@
 #include <stdlib.h>
 
 // Qt includes
-#include <qdir.h>
-#include <qregexp.h>
+#include <QDir>
+#include <QRegExp>
 #include <QByteArray>
 
 // KDE includes

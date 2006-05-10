@@ -33,11 +33,11 @@
 #include <sys/stat.h>
 
 // Qt includes
-#include <qlayout.h>
+#include <QLayout>
 #include <qstringlist.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qdir.h>
+#include <QLabel>
+#include <QCheckBox>
+#include <QDir>
 //Added by qt3to4:
 #include <QDragMoveEvent>
 #include <QDropEvent>

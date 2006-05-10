@@ -49,10 +49,10 @@
 #ifndef ARCH_H
 #define ARCH_H
 
-#include <qobject.h>
+#include <QObject>
 #include <q3ptrlist.h> // Some very annoying hackery in arkwidgetpart
-#include <qregexp.h>
-#include <qstring.h>
+#include <QRegExp>
+#include <QString>
 #include <kurl.h>
 #include <qpair.h>
 

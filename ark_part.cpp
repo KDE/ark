@@ -39,9 +39,9 @@
 #include <klocale.h>
 #include <kstdaction.h>
 
-#include <qfile.h>
-#include <qtimer.h>
-#include <qpushbutton.h>
+#include <QFile>
+#include <QTimer>
+#include <QPushButton>
 //Added by qt3to4:
 #include <QLabel>
 #include <Q3Frame>

@@ -31,7 +31,7 @@
 #include <kprogressbar.h>
 #include <ktoggleaction.h>
 
-#include <qlabel.h>
+#include <QLabel>
 
 class KAboutData;
 class ArkWidget;

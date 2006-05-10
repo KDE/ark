@@ -30,8 +30,8 @@
 #include <string>
 
 // QT includes
-#include <qfile.h>
-#include <qdir.h>
+#include <QFile>
+#include <QDir>
 //Added by qt3to4:
 #include <QByteArray>
 

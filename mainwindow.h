@@ -25,9 +25,9 @@
 #define ARKMAINWINDOW_H
 
 // QT includes
-#include <qstring.h>
+#include <QString>
 #include <q3popupmenu.h>
-#include <qtimer.h>
+#include <QTimer>
 
 // KDE includes
 #include <kmainwindow.h>

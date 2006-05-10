@@ -29,7 +29,7 @@
 #include <kdesktopfile.h>
 #include <kfilterdev.h>
 
-#include <qfile.h>
+#include <QFile>
 
 ArchiveFormatInfo * ArchiveFormatInfo::m_pSelf = 0;
 

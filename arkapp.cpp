@@ -30,7 +30,7 @@
 #include <kcmdlineargs.h>
 #include <klocale.h>
 #include <unistd.h>
-#include <qfile.h>
+#include <QFile>
 #include <errno.h>
 
 

@@ -32,7 +32,7 @@
 #ifndef ARKUTILS_H
 #define ARKUTILS_H
 
-#include <qstring.h>
+#include <QString>
 
 #include <kio/global.h>
 
