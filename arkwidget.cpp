@@ -62,6 +62,7 @@
 #include <ktoolbar.h>
 #include <kconfigdialog.h>
 #include <kurl.h>
+#include <kservicetypetrader.h>
 
 // settings
 #include "settings.h"
@@ -93,7 +94,7 @@ static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
     }
 
     if ( view )
-        KRun::runURL( filename, mimetype );
+        KRun::runUrl( filename, mimetype, 0L );
 
 }
 
@@ -1317,7 +1318,7 @@ ArkWidget::openWithSlotExtractDone()
         KService::Ptr service = l.service();
         if ( !!service )
         {
-            KRun::run( *service, list );
+            KRun::run( *service, list,this );
         }
         else
         {
@@ -1547,7 +1548,7 @@ ArkWidget::action_extract()
         }
         if ( dlg->viewFolderAfterExtraction() )
         {
-            KRun::runURL( dlg->extractionDirectory(), "inode/directory" );
+            KRun::runUrl( dlg->extractionDirectory(), "inode/directory",this );
         }
 
         delete dlg;
@@ -2239,9 +2240,9 @@ void ArkWidget::showSettings()
   General* genPage = new General(0, "General");
   dialog->addPage(genPage, i18n("General"), "ark", i18n("General Settings"));
 
-  KTrader::OfferList offers;
+  KService::List offers;
 
-  offers = KTrader::self()->query( "KonqPopupMenu/Plugin", "Library == 'libarkplugin'" );
+  offers = KServiceTypeTrader::self()->query( "KonqPopupMenu/Plugin", "Library == 'libarkplugin'" );
 
   if ( offers.isEmpty() )
   {
