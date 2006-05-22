@@ -261,7 +261,7 @@ void CompressedFile::addFile( const QStringList &urls )
   Q_ASSERT(m_gui->getNumFilesInArchive() == 0);
   Q_ASSERT(urls.count() == 1);
 
-  KUrl url = KUrl::fromPathOrURL(urls.first());
+  KUrl url = KUrl::fromPathOrUrl(urls.first());
   Q_ASSERT(url.isLocalFile());
 
   QString file;

@@ -295,7 +295,7 @@ bool ArkPart::closeURL()
   if ( !isReadWrite() || !awidget->isModified() || awidget->realURL().isLocalFile() )
     return closeArchive();
 
-  QString docName = awidget->realURL().prettyURL();
+  QString docName = awidget->realURL().prettyUrl();
 
   int res = KMessageBox::warningYesNoCancel( widget(),
           i18n( "The archive \"%1\" has been modified.\n"
@@ -325,7 +325,7 @@ void ArkPart::transferStarted( KIO::Job *job )
 {
     m_job = job;
 
-    m_bar->slotSetBusy( i18n( "Downloading %1...", m_url.prettyURL() ),
+    m_bar->slotSetBusy( i18n( "Downloading %1...", m_url.prettyUrl() ),
                         (job != 0), (job != 0) );
 
     if ( job )

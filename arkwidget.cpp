@@ -61,7 +61,6 @@
 #include <k3listviewsearchline.h>
 #include <ktoolbar.h>
 #include <kconfigdialog.h>
-#include <ktrader.h>
 #include <kurl.h>
 
 // settings
@@ -428,7 +427,7 @@ ArkWidget::extractTo( const KUrl & targetDirectory, const KUrl & archive, bool b
         if ( !KIO::NetAccess::mkdir( m_extractTo_targetDirectory, this ) )
         {
             KMessageBox::error( 0, i18n( "Could not create the folder %1" ,
-                                                            targetDirectory.prettyURL() ) );
+                                                            targetDirectory.prettyUrl() ) );
             emit request_file_quit();
             return;
         }
@@ -463,7 +462,7 @@ ArkWidget::extractToSlotOpenDone( bool success )
     disconnect( this, SIGNAL( openDone( bool ) ), this, SLOT( extractToSlotOpenDone( bool ) ) );
     if ( !success )
     {
-        KMessageBox::error( this, i18n( "An error occurred while opening the archive %1.", m_url.prettyURL() ) );
+        KMessageBox::error( this, i18n( "An error occurred while opening the archive %1.", m_url.prettyUrl() ) );
         emit request_file_quit();
         return;
     }
@@ -643,7 +642,7 @@ ArkWidget::addToArchiveSlotOpenDone( bool success )
     {
         QString str = *it;
         KUrl url( toLocalFile( str ) );
-        *it = url.prettyURL();
+        *it = url.prettyUrl();
     }
 */
     KUrl::List list = m_addToArchive_filesToAdd;
@@ -699,7 +698,7 @@ ArkWidget::file_open(const KUrl& url)
 
     if ( !url.isLocalFile() )
     {
-        kWarning ( 1601 ) << url.prettyURL() << " is not a local URL in ArkWidget::file_open( KUrl). Aborting. " << endl;
+        kWarning ( 1601 ) << url.prettyUrl() << " is not a local URL in ArkWidget::file_open( KUrl). Aborting. " << endl;
         return;
     }
 
@@ -1137,7 +1136,7 @@ ArkWidget::addFile(QStringList *list)
     for (QStringList::Iterator it = list->begin(); it != list->end(); ++it)
     {
         QString str = *it;
-        *it = toLocalFile(KUrl(str)).prettyURL();
+        *it = toLocalFile(KUrl(str)).prettyUrl();
 
     }
 
@@ -1159,7 +1158,7 @@ ArkWidget::action_add_dir()
         disableAll();
         u = toLocalFile(u);
         connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( slotAddDone( bool ) ) );
-        arch->addDir( u.prettyURL() );
+        arch->addDir( u.prettyUrl() );
     }
 
 }
@@ -1195,7 +1194,7 @@ ArkWidget::toLocalFile( const KUrl& url )
 
     if(!url.isLocalFile())
     {
-   QString strURL = url.prettyURL();
+   QString strURL = url.prettyUrl();
 
         QString tempfile = tmpDir();
         tempfile += strURL.right(strURL.length() - strURL.lastIndexOf('/') - 1);
@@ -1429,7 +1428,7 @@ ArkWidget::action_extract()
     fileToExtract.setPath( arch->fileName() );
 
      //before we start, make sure the archive is still there
-    if (!KIO::NetAccess::exists( fileToExtract.prettyURL(), true, this ) )
+    if (!KIO::NetAccess::exists( fileToExtract.prettyUrl(), true, this ) )
     {
         KMessageBox::error(0, i18n("The archive to extract from no longer exists."));
         return false;
@@ -1456,7 +1455,7 @@ ArkWidget::action_extract()
 
     if ( m_extractOnly )
     {
-        defaultDir = KUrl::fromPathOrURL( QDir::currentPath() );
+        defaultDir = KUrl::fromPathOrUrl( QDir::currentPath() );
     }
 
     ExtractionDialog *dlg = new ExtractionDialog( this, 0, enableSelected, defaultDir, prefix,  m_url.fileName() );
@@ -2022,7 +2021,7 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName, const QString& _mime
 {
     Arch * newArch = 0;
 
-    QString type = _mimetype.isNull()? KMimeType::findByURL( KUrl::fromPathOrURL(_fileName) )->name() : _mimetype;
+    QString type = _mimetype.isNull()? KMimeType::findByURL( KUrl::fromPathOrUrl(_fileName) )->name() : _mimetype;
     ArchType archtype = ArchiveFormatInfo::self()->archTypeForMimeType(type);
     kDebug( 1601 ) << "archtype is recognised as: " << archtype << endl;
     if(0 == (newArch = Arch::archFactory(archtype, this,

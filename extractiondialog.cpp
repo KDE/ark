@@ -58,7 +58,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 	: KDialogBase( parent, name, true, i18n( "Extract" ), Ok | Cancel, Ok ),
 	  m_selectedButton( 0 ), m_allButton( 0 ),
 	  m_selectedOnly( enableSelected ), m_extractionDirectory( defaultExtractionDir ),
-	  m_defaultExtractionDir( defaultExtractionDir.prettyURL() ), m_prefix( prefix )
+	  m_defaultExtractionDir( defaultExtractionDir.prettyUrl() ), m_prefix( prefix )
 {
 	if ( !archiveName.isNull() )
 	{
@@ -115,9 +115,9 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 	m_urlRequester->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
 	m_urlRequester->setMode( KFile::Directory );
 
-	if (!defaultExtractionDir.prettyURL().isEmpty() )
+	if (!defaultExtractionDir.prettyUrl().isEmpty() )
 	{
-		m_urlRequester->setKUrl( defaultExtractionDir.prettyURL() + prefix );
+		m_urlRequester->setKUrl( defaultExtractionDir.prettyUrl() + prefix );
 	}
 
 	m_viewFolderAfterExtraction = new QCheckBox( i18n( "Open destination folder after extraction" ), vbox );
@@ -172,8 +172,8 @@ void ExtractionDialog::accept()
 	m_selectedOnly = m_selectedButton == 0? false : m_selectedButton->isChecked();
 
 	// Determine what exactly should be added to the extraction combo list
-	QString historyURL = p.prettyURL();
-	if ( historyURL == KUrl( m_defaultExtractionDir + m_prefix ).prettyURL() )
+	QString historyURL = p.prettyUrl();
+	if ( historyURL == KUrl( m_defaultExtractionDir + m_prefix ).prettyUrl() )
 	{
 		historyURL = m_defaultExtractionDir;
 	}

@@ -230,7 +230,7 @@ MainWindow::arkAlreadyOpen( const KUrl & url )
         window_close();
 
         // notify the user what's going on
-        KMessageBox::information(0, i18n("The archive %1 is already open and has been raised.\nNote: if the filename does not match, it only means that one of the two is a symbolic link.", url.prettyURL()));
+        KMessageBox::information(0, i18n("The archive %1 is already open and has been raised.\nNote: if the filename does not match, it only means that one of the two is a symbolic link.", url.prettyUrl()));
         return true;
     }
     return false;
@@ -367,7 +367,7 @@ MainWindow::readProperties( KConfig* config )
     QString file = config->readPathEntry("SMOpenedFile");
     kDebug(1601) << "ArkWidget::readProperties( KConfig* config ) file=" << file << endl;
     if ( !file.isEmpty() )
-        openURL( KUrl::fromPathOrURL( file ) );
+        openURL( KUrl::fromPathOrUrl( file ) );
 }
 
 void

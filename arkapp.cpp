@@ -238,10 +238,10 @@ ArkApplication::addOpenArk(const KUrl & _arkname, MainWindow *_ptr)
     if( _arkname.isLocalFile() )
     {
         realName = resolveFilename( _arkname.path() );  // follow symlink
-        kDebug(1601) << " Real name of " << _arkname.prettyURL() << " is " << realName << endl;
+        kDebug(1601) << " Real name of " << _arkname.prettyUrl() << " is " << realName << endl;
     }
     else
-        realName = _arkname.prettyURL();
+        realName = _arkname.prettyUrl();
     openArksList.append(realName);
     m_windowsHash.remove(realName);
     m_windowsHash[realName] = _ptr;
@@ -255,8 +255,8 @@ ArkApplication::removeOpenArk(const KUrl & _arkname)
     if ( _arkname.isLocalFile() )
         realName = resolveFilename( _arkname.path() );  // follow symlink
     else
-        realName = _arkname.prettyURL();
-    kDebug(1601) << "Removing name " << _arkname.prettyURL() << endl;
+        realName = _arkname.prettyUrl();
+    kDebug(1601) << "Removing name " << _arkname.prettyUrl() << endl;
     openArksList.remove(realName);
     m_windowsHash.remove(realName);
 }
@@ -270,7 +270,7 @@ ArkApplication::raiseArk(const KUrl & _arkname)
     if( _arkname.isLocalFile() )
         realName = resolveFilename(_arkname.path());  // follow symlink
     else
-        realName = _arkname.prettyURL();
+        realName = _arkname.prettyUrl();
     window = m_windowsHash[realName];
     kDebug(1601) << "ArkApplication::raiseArk " << window << endl;
     // raise didn't seem to be enough. Not sure why!
@@ -287,7 +287,7 @@ ArkApplication::isArkOpenAlready(const KUrl & _arkname)
     if ( _arkname.isLocalFile() )
         realName = resolveFilename(_arkname.path());  // follow symlink
     else
-        realName = _arkname.prettyURL();
+        realName = _arkname.prettyUrl();
 	return ( openArksList.findIndex(realName) != -1 );
 }
 
