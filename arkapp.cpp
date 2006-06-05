@@ -25,7 +25,6 @@
 
 */
 
-#include <dcopclient.h>
 #include <kdebug.h>
 #include <kcmdlineargs.h>
 #include <klocale.h>
