@@ -55,11 +55,14 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
                                     const KUrl& defaultExtractionDir,
                                     const QString &prefix,
                                     const QString &archiveName )
-	: KDialogBase( parent, name, true, i18n( "Extract" ), Ok | Cancel, Ok ),
+	: KDialog( parent),
 	  m_selectedButton( 0 ), m_allButton( 0 ),
 	  m_selectedOnly( enableSelected ), m_extractionDirectory( defaultExtractionDir ),
 	  m_defaultExtractionDir( defaultExtractionDir.prettyUrl() ), m_prefix( prefix )
 {
+    setCaption( i18n( "Extract" ) );
+    setButtons( Ok | Cancel );
+    setDefaultButton( Ok );
 	if ( !archiveName.isNull() )
 	{
 		setCaption( i18n( "Extract Files From %1", archiveName ) );

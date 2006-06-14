@@ -22,10 +22,10 @@
 #ifndef ARCHIVEFORMATDLG_H
 #define ARCHIVEFORMATDLG_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kcombobox.h>
 
-class ArchiveFormatDlg: public KDialogBase
+class ArchiveFormatDlg: public KDialog
 {
     Q_OBJECT
 public:

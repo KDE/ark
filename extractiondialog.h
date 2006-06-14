@@ -32,13 +32,13 @@
 #include <QCheckBox>
 
 #include <kurl.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 class QRadioButton;
 
 class KUrlRequester;
 
-class ExtractionDialog : public KDialogBase
+class ExtractionDialog : public KDialog
 {
 	Q_OBJECT
 	public:

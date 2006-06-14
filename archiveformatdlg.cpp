@@ -29,11 +29,13 @@
 #include <QLabel>
 
 ArchiveFormatDlg::ArchiveFormatDlg( QWidget * parent, const QString & defaultType )
-                        :KDialogBase( parent, "archiveformatdialog", true,
-                          i18n( "Choose Archive Format" ),
-                          KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok),
+                        :KDialog( parent),
                           m_combo( 0 )
 {
+    setCaption( i18n( "Choose Archive Format" ) );
+    setModal( true );
+    setButtons( KDialog::Ok|KDialog::Cancel );
+    setDefaultButton( KDialog::Ok );
     QString defaultDescription = ArchiveFormatInfo::self()->descriptionForMimeType( defaultType );
     QString text;
     if ( defaultDescription.isNull() )
@@ -47,7 +49,8 @@ ArchiveFormatDlg::ArchiveFormatDlg( QWidget * parent, const QString & defaultTyp
                     "If this is not correct, please choose "
                     "the appropriate format.", defaultDescription );
 
-    KVBox * page = makeVBoxMainWidget();
+    KVBox * page = new KVBox( this );
+    setMainWidget( page );
 
     QLabel * label;
     label = new QLabel( text, page );

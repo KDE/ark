@@ -36,8 +36,9 @@
 
 
 ArkViewer::ArkViewer( QWidget * parent, const char * name )
-	: KDialogBase( parent, name, false, QString::null, Close ), m_part( 0 )
+	: KDialog( parent), m_part( 0 )
 {
+    setButtons( Close );
 	m_widget = new KVBox( this );
 	m_widget->layout()->setSpacing( 10 );
 

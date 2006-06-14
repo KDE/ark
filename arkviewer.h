@@ -22,10 +22,10 @@
  *
  */
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kparts/part.h>
 
-class ArkViewer : public KDialogBase
+class ArkViewer : public KDialog
 {
 	Q_OBJECT
 
