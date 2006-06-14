@@ -68,7 +68,8 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 		setCaption( i18n( "Extract Files From %1", archiveName ) );
 	}
 
-	KVBox *vbox = makeVBoxMainWidget();
+	KVBox *vbox = new KVBox( this );
+        setMainWidget( vbox );
 
 	KHBox *header = new KHBox( vbox );
 	header->layout()->setSpacing( 10 );
@@ -186,7 +187,7 @@ void ExtractionDialog::accept()
 	combo->removeFromHistory( historyURL );
 	combo->addToHistory( historyURL );
 
-	KDialogBase::accept();
+	KDialog::accept();
 }
 
 void ExtractionDialog::extractDirChanged(const QString &text )

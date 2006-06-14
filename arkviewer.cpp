@@ -49,7 +49,8 @@ ArkViewer::ArkViewer( QWidget * parent, const char * name )
 
 ArkViewer::~ArkViewer()
 {
-	saveDialogSize( "ArkViewer" );
+#warning "kde4: port it"
+    //saveDialogSize( "ArkViewer" );
 }
 
 void ArkViewer::slotFinished()
@@ -66,8 +67,8 @@ bool ArkViewer::view( const QString& filename )
 	KMimeType::Ptr mimetype = KMimeType::findByURL( u, 0, true );
 
 	setCaption( u.fileName() );
-
-	QSize size = configDialogSize( "ArkViewer" );
+#warning "kde4: port it"
+	QSize size = QSize();//configDialogSize( "ArkViewer" );
 	if (size.width() < 200)
 		size = QSize(560, 400);
 	setInitialSize( size );
