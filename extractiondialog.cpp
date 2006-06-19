@@ -192,7 +192,7 @@ void ExtractionDialog::accept()
 
 void ExtractionDialog::extractDirChanged(const QString &text )
 {
-	enableButtonOK(!text.isEmpty());
+	enableButtonOk(!text.isEmpty());
 }
 
 #include "extractiondialog.moc"
