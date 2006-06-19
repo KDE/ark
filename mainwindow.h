@@ -105,7 +105,7 @@ private: // data
     KAction *reloadAction;
     KRecentFilesAction *recent;
 
-    //progress dialog for konqs service menus / commmand line
+    //progress dialog for konqs service menus / command line
     KProgressDialog *progressDialog;
     QTimer *timer;
 };
