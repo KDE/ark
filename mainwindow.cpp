@@ -299,7 +299,7 @@ MainWindow::getOpenURL( bool addOnly, const QString & caption,
     dlg.exec();
 
     KUrl url;
-    url = dlg.selectedURL();
+    url = dlg.selectedUrl();
 
     if ( combo->currentItem() !=0 ) // i.e. != "Autodetect"
         m_widget->setOpenAsMimeType(

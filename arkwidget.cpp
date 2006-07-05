@@ -118,7 +118,7 @@ ArkWidget::ArkWidget( QWidget *parent )
      m_bIsSimpleCompressedFile( false ),
      m_bDropSourceIsSelf( false ), m_extractList( 0 )
 {
-    m_tmpDir = new KTempDir( locateLocal( "tmp", "ark" ) );
+    m_tmpDir = new KTempDir( KStandardDirs::locateLocal( "tmp", "ark" ) );
 
     if ( m_tmpDir->status() != 0 )
     {
@@ -755,7 +755,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
     QString strFile;
     KUrl url;
 
-    KFileDialog dlg( ":ArkSaveAsDialog", QString::null, this );
+    KFileDialog dlg( KUrl("kfiledialog://ArkSaveAsDialog"), QString::null, this );
     dlg.setCaption( _caption );
     dlg.setOperationMode( KFileDialog::Saving );
     dlg.setMimeFilter( ArchiveFormatInfo::self()->supportedMimeTypes( allowCompressed ),
@@ -770,7 +770,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
         // Also check for proper extensions.
     {
         dlg.exec();
-        url = dlg.selectedURL();
+        url = dlg.selectedUrl();
         strFile = url.path();
 
         if (strFile.isEmpty())
@@ -1090,14 +1090,14 @@ ArkWidget::action_add()
         return;
     }
 
-    KFileDialog fileDlg( ":ArkAddDir", QString::null, this );
+    KFileDialog fileDlg( KUrl("kfiledialog://ArkAddDir"), QString::null, this );
     fileDlg.setMode( KFile::Mode( KFile::Files | KFile::ExistingOnly ) );
     fileDlg.setCaption(i18n("Select Files to Add"));
 
     if(fileDlg.exec())
     {
         KUrl::List addList;
-        addList = fileDlg.selectedURLs();
+        addList = fileDlg.selectedUrls();
         QStringList * list = new QStringList();
         //Here we pre-calculate the end of the list
    KUrl::List::ConstIterator endList = addList.end();
@@ -1148,7 +1148,7 @@ ArkWidget::addFile(QStringList *list)
 void
 ArkWidget::action_add_dir()
 {
-    KUrl u = KDirSelectDialog::selectDirectory( ":ArkAddDir",
+    KUrl u = KDirSelectDialog::selectDirectory( KUrl("kfiledialog://ArkAddDir"),
                                                 false, this,
                                                 i18n("Select Folder to Add"));
 

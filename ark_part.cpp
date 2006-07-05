@@ -372,7 +372,7 @@ void ArkPart::cancelTransfer()
                 this, SLOT( cancelTransfer() ) );
     if ( m_job )
     {
-        m_job->kill( false );
+        m_job->kill( KJob::EmitResult  );
         transferCanceled( QString() );
     }
 }

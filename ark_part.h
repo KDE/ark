@@ -30,6 +30,7 @@
 #include <kaction.h>
 #include <kprogressbar.h>
 #include <ktoggleaction.h>
+#include <QPushButton>
 
 #include <QLabel>
 
