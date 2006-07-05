@@ -18,10 +18,10 @@ kde4_add_kdeinit_executable( ark ${ark_KDEINIT_SRCS})
 
 target_link_libraries(kdeinit_ark  ${KDE4_KDE3SUPPORT_LIBS} )
 
-install_targets(${LIB_INSTALL_DIR} kdeinit_ark )
+install(TARGETS kdeinit_ark  DESTINATION ${LIB_INSTALL_DIR})
 
 target_link_libraries( ark kdeinit_ark )
-install_targets(/bin ark )
+install(TARGETS ark  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 
@@ -59,15 +59,15 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} arkpart )
 
 target_link_libraries(arkpart  ${KDE4_KDE3SUPPORT_LIBS} )
 
-install_targets(${PLUGIN_INSTALL_DIR} arkpart )
+install(TARGETS arkpart  DESTINATION ${PLUGIN_INSTALL_DIR})
 
 
 ########### install files ###############
 
-install_files( ${XDG_APPS_DIR} FILES ark.desktop )
-install_files( ${KCFG_INSTALL_DIR} FILES ark.kcfg )
-install_files( ${SERVICES_INSTALL_DIR} FILES ark_part.desktop )
-install_files( ${DATA_INSTALL_DIR}/ark FILES arkui.rc ark_part.rc ark_part_readonly.rc )
+install( FILES ark.desktop  DESTINATION ${XDG_APPS_DIR})
+install( FILES ark.kcfg  DESTINATION ${KCFG_INSTALL_DIR})
+install( FILES ark_part.desktop  DESTINATION ${SERVICES_INSTALL_DIR})
+install( FILES arkui.rc ark_part.rc ark_part_readonly.rc  DESTINATION ${DATA_INSTALL_DIR}/ark)
 
 kde4_install_icons( ${ICON_INSTALL_DIR}  hicolor )
 
