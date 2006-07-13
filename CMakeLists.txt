@@ -1,3 +1,4 @@
+project(ark)
 
 add_subdirectory( pics ) 
 
