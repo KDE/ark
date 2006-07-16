@@ -131,9 +131,8 @@ ArkPart::setupActions()
     deleteAction = new KAction(KIcon("ark_delete"), i18n("De&lete"), actionCollection(), "delete");
     connect(deleteAction, SIGNAL(triggered(bool)), awidget, SLOT(action_delete()));
 
-    viewAction = new KAction(i18nc("to view something","&View"), "ark_view", 0, awidget,
-                             SLOT(action_view()), actionCollection(), "view");
-
+    viewAction = new KAction(KIcon("ark_view"), i18nc("to view something","&View"), actionCollection(), "view");
+    connect(viewAction, SIGNAL(triggered(bool)), awidget, SLOT(action_view()));
 
     openWithAction = new KAction(i18n("&Open With..."), actionCollection(), "open_with");
     connect(openWithAction, SIGNAL(triggered(bool) ), awidget, SLOT(slotOpenWith()));
@@ -154,8 +153,9 @@ ArkPart::setupActions()
 
     //KStdAction::preferences(awidget, SLOT(showSettings()), actionCollection());
 
-    ( void ) new KAction( i18n( "Configure &Ark..." ), "configure" , 0, awidget,
-                                       SLOT( showSettings() ), actionCollection(), "options_configure_ark" );
+    KAction *action = new KAction( KIcon("configure"), i18n( "Configure &Ark..." ),
+                                   actionCollection(), "options_configure_ark" );
+    connect(action, SIGNAL(triggered(bool) ), awidget, SLOT( showSettings() ));
 
 
     showSearchBar = new KToggleAction( i18n( "Show Search Bar" ), KShortcut(), actionCollection(), "options_show_search_bar" );
