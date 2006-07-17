@@ -266,7 +266,7 @@ MainWindow::getOpenURL( bool addOnly, const QString & caption,
     list = ArchiveFormatInfo::self()->allDescriptions();
     list.sort();
     list.prepend( i18n( "Autodetect (default)" ) );
-    combo->insertStringList( list );
+    combo->addItems( list );
 
     QString filter = ArchiveFormatInfo::self()->filter();
     if ( !suggestedName.isEmpty() )

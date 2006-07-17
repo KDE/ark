@@ -58,7 +58,7 @@ ArchiveFormatDlg::ArchiveFormatDlg( QWidget * parent, const QString & defaultTyp
     m_combo = new KComboBox( page );
     QStringList list = ArchiveFormatInfo::self()->allDescriptions();
     list.sort();
-    m_combo->insertStringList( list );
+    m_combo->addItems( list );
     m_combo->setCurrentItem( list.findIndex( defaultDescription ) );
 }
 
