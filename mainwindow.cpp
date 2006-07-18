@@ -425,7 +425,7 @@ MainWindow::addToArchive( const KUrl::List & filesToAdd, const QString & /*cwd*/
         // like: /dira> ark -add /dirb/file, but well...
         KUrl cwdURL;
         cwdURL.setPath( filesToAdd.first().path() );
-        QString dir = cwdURL.directory( false );
+        QString dir = cwdURL.directory( KUrl::AppendTrailingSlash );
 
         archiveFile = getOpenURL( true, i18n( "Select Archive to Add Files To" ),
                                   dir /*cwd*/, archive.fileName() );
