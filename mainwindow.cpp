@@ -301,7 +301,7 @@ MainWindow::getOpenURL( bool addOnly, const QString & caption,
     KUrl url;
     url = dlg.selectedUrl();
 
-    if ( combo->currentItem() !=0 ) // i.e. != "Autodetect"
+    if ( combo->currentIndex() !=0 ) // i.e. != "Autodetect"
         m_widget->setOpenAsMimeType(
             ArchiveFormatInfo::self()->mimeTypeForDescription( combo->currentText() ) );
     else
