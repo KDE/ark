@@ -272,7 +272,7 @@ MainWindow::getOpenURL( bool addOnly, const QString & caption,
     if ( !suggestedName.isEmpty() )
     {
         filter = QString::null;
-        combo->setCurrentItem( list.findIndex( ArchiveFormatInfo::self()->descriptionForMimeType(
+        combo->setCurrentIndex(list.findIndex( ArchiveFormatInfo::self()->descriptionForMimeType(
                                  KMimeType::findByPath( suggestedName, 0, true )->name() ) ) );
     }
 
@@ -281,11 +281,11 @@ MainWindow::getOpenURL( bool addOnly, const QString & caption,
     l->addWidget( label );
     l->addWidget( combo, 1 );
 
-    QString dir;
+    KUrl dir;
     if ( addOnly )
         dir = startDir;
     else
-        dir = ":ArkOpenDir";
+        dir = "kfiledialog://ArkOpenDir";
 
     KFileDialog dlg( dir, filter, this, forceFormatWidget );
     dlg.setOperationMode( addOnly ? KFileDialog::Saving
@@ -367,7 +367,7 @@ MainWindow::readProperties( KConfig* config )
     QString file = config->readPathEntry("SMOpenedFile");
     kDebug(1601) << "ArkWidget::readProperties( KConfig* config ) file=" << file << endl;
     if ( !file.isEmpty() )
-        openURL( KUrl::fromPathOrUrl( file ) );
+        openURL( file );
 }
 
 void
