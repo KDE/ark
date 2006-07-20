@@ -39,7 +39,7 @@
 #include <QDir>
 //Added by qt3to4:
 #include <QByteArray>
-
+#include <kdefakes.h>
 // KDE includes
 #include <kdebug.h>
 #include <klocale.h>

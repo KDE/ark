@@ -34,6 +34,7 @@
 // QT includes
 #include <QFile>
 #include <QDir>
+#include <kdefakes.h>
 //Added by qt3to4:
 #include <QByteArray>
 
