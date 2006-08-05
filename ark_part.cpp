@@ -38,6 +38,7 @@
 #include <kio/netaccess.h>
 #include <klocale.h>
 #include <kstdaction.h>
+#include <kicon.h>
 
 #include <QFile>
 #include <QTimer>

@@ -27,7 +27,7 @@
 #include <klocale.h>
 #include <kaction.h>
 #include <kactioncollection.h>
-
+#include <kicon.h>
 #include <QLabel>
 #include <qapplication.h>
 #include <q3valuelist.h>
