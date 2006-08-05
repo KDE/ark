@@ -45,6 +45,7 @@
 #include <kprogressdialog.h>
 #include <kstdaccel.h>
 #include <kstdaction.h>
+#include <kicon.h>
 // ark includes
 #include "arkapp.h"
 #include "settings.h"
