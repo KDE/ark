@@ -333,11 +333,11 @@ bool Arch::processLine( const QByteArray &line )
   if ( m_dateCol >= 0 )
   {
     QString year = ( m_repairYear >= 0 ) ?
-                   ArkUtils::fixYear( columns[ m_repairYear ].ascii())
+                   ArkUtils::fixYear( qPrintable(columns[ m_repairYear ]))
                    : columns[ m_fixYear ];
     QString month = ( m_repairMonth >= 0 ) ?
                    QString( "%1" )
-                   .arg( ArkUtils::getMonth( columns[ m_repairMonth ].ascii() ) )
+                   .arg( ArkUtils::getMonth( qPrintable( columns[ m_repairMonth ] ) ) )
                    : columns[ m_fixMonth ];
     QString timestamp = QString::fromLatin1( "%1-%2-%3 %4" )
                         .arg( year )

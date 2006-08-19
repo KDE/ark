@@ -100,7 +100,7 @@ bool LhaArch::processLine( const QByteArray &line )
   // make the time stamp sortable
   QString massagedTimeStamp = ArkUtils::getTimeStamp( columns[6], columns[7],
                                                       columns[8] );
-  strlcpy( columns[6], massagedTimeStamp.ascii(), sizeof( columns[6] ) );
+  strlcpy( columns[6], qPrintable(massagedTimeStamp), sizeof( columns[6] ) );
 
   // see if there was a link in filename
   QString file = filename;

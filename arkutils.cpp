@@ -81,7 +81,7 @@ QString ArkUtils::getTimeStamp(const QString &_month,
   // (five months' difference - e.g., if it's Apr, then get years up to Nov)
 
   char month[4];
-  strncpy(month, _month.ascii(), 3);
+  strncpy(month, qPrintable(_month), 3);
   month[3] = '\0';
   int nMonth = getMonth(month);
   int nDay = _day.toInt();

@@ -83,11 +83,11 @@ bool ZooArch::processLine( const QByteArray &line )
   strDate.sprintf( "%s-%.2d-%.2d", year.utf8().data(),
                    ArkUtils::getMonth( columns[7] ), atoi( columns[3] ) );
 
-  strlcpy( columns[3], strDate.ascii(), sizeof( columns[3]) );
+  strlcpy( columns[3], qPrintable(strDate), sizeof( columns[3]) );
   kDebug( 1601 ) << "New timestamp is " << columns[3] << endl;
 
   strlcat( columns[3], " ", sizeof( columns[3] ) );
-  strlcat( columns[3], fixTime( columns[4] ).ascii(), sizeof( columns[3] ) );
+  strlcat( columns[3], qPrintable(fixTime( columns[4] )), sizeof( columns[3] ) );
 
   QStringList list;
   list.append( QFile::decodeName( filename ) );
