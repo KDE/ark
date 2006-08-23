@@ -193,9 +193,9 @@ void Arch::slotExtractExited( KProcess *_kp )
     }
   }
   m_password = "";
-  emit sigExtract( success );
   delete _kp;
   _kp = m_currentProcess = 0;
+  emit sigExtract( success );
 }
 
 void Arch::unarchFile( QStringList *fileList, const QString & destDir,
