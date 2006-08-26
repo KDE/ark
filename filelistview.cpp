@@ -193,7 +193,6 @@ FileListView::FileListView(QWidget *parent, const char* name)
 
 	setMultiSelection( true );
 	setSelectionModeExt( FileManager );
-	setDragEnabled( true );
 	setItemsMovable( false );
 	setRootIsDecorated( true );
 	setShowSortIndicator( true );
