@@ -466,7 +466,7 @@ void ArkStatusBarExtension::slotSetBusy( const QString & text, bool showCancelBu
 
     if ( !m_pProgressBar )
     {
-        m_pProgressBar = new KProgressBar( statusBar() );
+        m_pProgressBar = new QProgressBar( statusBar() );
         m_pProgressBar->setFixedHeight( m_pBusyText->fontMetrics().height() );
     }
 

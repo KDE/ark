@@ -28,7 +28,7 @@
 #include <kparts/statusbarextension.h>
 #include <kparts/factory.h>
 #include <kaction.h>
-#include <kprogressbar.h>
+#include <qprogressbar.h>
 #include <ktoggleaction.h>
 #include <QPushButton>
 
@@ -78,7 +78,7 @@ private:
     QLabel *m_pStatusLabelTotal;  // How many files in archive
     QLabel *m_pBusyText;
     QPushButton *m_cancelButton; // Cancel an operation
-    KProgressBar *m_pProgressBar;
+    QProgressBar *m_pProgressBar;
     QTimer *m_pTimer;
 };
 
