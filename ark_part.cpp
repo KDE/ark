@@ -246,7 +246,7 @@ void ArkPart::disableActions()
 bool ArkPart::openURL( const KUrl & url )
 {
     awidget->setRealURL( url );
-    return KParts::ReadWritePart::openURL( KIO::NetAccess::mostLocalURL( url, awidget ) );
+    return KParts::ReadWritePart::openUrl( KIO::NetAccess::mostLocalUrl( url, awidget ) );
 }
 
 bool ArkPart::openFile()
@@ -288,7 +288,7 @@ bool ArkPart::closeArchive()
 {
     awidget->file_close();
     awidget->setModified( false );
-    return ReadWritePart::closeURL();
+    return ReadWritePart::closeUrl();
 }
 
 bool ArkPart::closeURL()
@@ -385,7 +385,7 @@ ArkBrowserExtension::ArkBrowserExtension( KParts::ReadOnlyPart * parent, const c
 
 void ArkBrowserExtension::slotOpenURLRequested( const KUrl & url )
 {
-    emit openURLRequest( url, KParts::URLArgs() );
+    emit openUrlRequest( url, KParts::URLArgs() );
 }
 
 ArkStatusBarExtension::ArkStatusBarExtension( KParts::ReadWritePart * parent )

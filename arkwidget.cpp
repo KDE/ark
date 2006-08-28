@@ -84,7 +84,7 @@
 
 static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
 {
-    QString mimetype = KMimeType::findByURL( filename )->name();
+    QString mimetype = KMimeType::findByUrl( filename )->name();
     bool view = true;
 
     if ( KRun::isExecutable( mimetype ) )
@@ -402,7 +402,7 @@ ArkWidget::allowedArchiveName( const KUrl & u )
     if (u.isEmpty())
         return false;
 
-    QString archMimeType = KMimeType::findByURL( m_url )->name();
+    QString archMimeType = KMimeType::findByUrl( m_url )->name();
     if ( !m_openAsMimeType.isNull() )
         archMimeType = m_openAsMimeType;
     QString newArchMimeType = KMimeType::findByPath( u.path() )->name();
@@ -2022,7 +2022,7 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName, const QString& _mime
 {
     Arch * newArch = 0;
 
-    QString type = _mimetype.isNull()? KMimeType::findByURL( KUrl::fromPathOrUrl(_fileName) )->name() : _mimetype;
+    QString type = _mimetype.isNull()? KMimeType::findByUrl( KUrl::fromPathOrUrl(_fileName) )->name() : _mimetype;
     ArchType archtype = ArchiveFormatInfo::self()->archTypeForMimeType(type);
     kDebug( 1601 ) << "archtype is recognised as: " << archtype << endl;
     if(0 == (newArch = Arch::archFactory(archtype, this,

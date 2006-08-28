@@ -64,7 +64,7 @@ bool ArkViewer::view( const QString& filename )
 {
 	KUrl u( filename );
 
-	KMimeType::Ptr mimetype = KMimeType::findByURL( u, 0, true );
+	KMimeType::Ptr mimetype = KMimeType::findByUrl( u, 0, true );
 
 	setCaption( u.fileName() );
 #warning "kde4: port it"
@@ -93,7 +93,7 @@ bool ArkViewer::view( const QString& filename )
 
 	if ( m_part )
 	{
-		m_part->openURL( filename );
+		m_part->openUrl( filename );
 		show();
 		return true;
 	}

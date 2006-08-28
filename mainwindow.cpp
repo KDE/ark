@@ -181,7 +181,7 @@ MainWindow::file_reload()
 {
     KUrl url( m_part->url() );
     file_close();
-    m_part->openURL( url );
+    m_part->openUrl( url );
 }
 
 void
@@ -245,7 +245,7 @@ MainWindow::openURL( const KUrl & url, bool tempFile )
     {
         if ( tempFile && url.isLocalFile() )
             m_widget->deleteAfterUse( url.path() );
-        m_part->openURL( url );
+        m_part->openUrl( url );
     }
 }
 
@@ -316,13 +316,13 @@ MainWindow::file_open()
 {
     KUrl url = getOpenURL();
     if( !arkAlreadyOpen( url ) )
-        m_part->openURL( url );
+        m_part->openUrl( url );
 }
 
 void
 MainWindow::file_close()
 {
-    m_part->closeURL();
+    m_part->closeUrl();
 }
 
 void
@@ -408,7 +408,7 @@ MainWindow::extractTo( const KUrl & targetDirectory, const KUrl & archive, bool 
 {
     startProgressDialog( i18n( "Extracting..." ) );
     m_widget->extractTo( targetDirectory, archive, guessName );
-    m_part->openURL( archive );
+    m_part->openUrl( archive );
 }
 
 void
@@ -449,7 +449,7 @@ MainWindow::addToArchive( const KUrl::List & filesToAdd, const QString & /*cwd*/
     if ( !m_widget->addToArchive( filesToAdd, archiveFile ) )
         file_quit();
     if ( exists )
-        m_part->openURL( archiveFile );
+        m_part->openUrl( archiveFile );
 }
 
 void

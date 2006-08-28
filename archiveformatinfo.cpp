@@ -190,7 +190,7 @@ ArchType ArchiveFormatInfo::archTypeForURL( const KUrl & url )
     if( !QFile::exists( url.path() ) )
         return archTypeByExtension( url.path() );
 
-    QString mimeType = KMimeType::findByURL( url, 0, true, true )->name();
+    QString mimeType = KMimeType::findByUrl( url, 0, true, true )->name();
     kDebug( 1601 ) << "find by url: " << mimeType << endl;
     if( mimeType == KMimeType::defaultMimeType() )
     {
@@ -208,7 +208,7 @@ ArchType ArchiveFormatInfo::archTypeForURL( const KUrl & url )
 
 QString ArchiveFormatInfo::findMimeType( const KUrl & url )
 {
-    QString mimeType = KMimeType::findByURL( url )->name();
+    QString mimeType = KMimeType::findByUrl( url )->name();
     if ( mimeType != "application/x-bzip2" && mimeType != "application/x-gzip" )
         return mimeType;
 
