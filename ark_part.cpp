@@ -291,7 +291,7 @@ bool ArkPart::closeArchive()
     return ReadWritePart::closeUrl();
 }
 
-bool ArkPart::closeURL()
+bool ArkPart::closeUrl()
 {
   if ( !isReadWrite() || !awidget->isModified() || awidget->realURL().isLocalFile() )
     return closeArchive();

@@ -100,7 +100,7 @@ public slots:
     void file_save_as();
     bool saveFile();
     bool openURL( const KUrl & url );
-    bool closeURL();
+    bool closeUrl();
     void transferStarted( KIO::Job * );
     void transferCompleted();
     void transferCanceled( const QString& errMsg );
