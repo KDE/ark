@@ -1091,7 +1091,7 @@ ArkWidget::action_add()
     }
 
     KFileDialog fileDlg( KUrl("kfiledialog://ArkAddDir"), QString::null, this );
-    fileDlg.setMode( KFile::Mode( KFile::Files | KFile::ExistingOnly ) );
+    fileDlg.setMode( KFile::Files | KFile::ExistingOnly );
     fileDlg.setCaption(i18n("Select Files to Add"));
 
     if(fileDlg.exec())
@@ -1456,7 +1456,7 @@ ArkWidget::action_extract()
 
     if ( m_extractOnly )
     {
-        defaultDir = KUrl::fromPathOrUrl( QDir::currentPath() );
+        defaultDir = KUrl::fromPath( QDir::currentPath() );
     }
 
     ExtractionDialog *dlg = new ExtractionDialog( this, 0, enableSelected, defaultDir, prefix,  m_url.fileName() );
@@ -2022,7 +2022,7 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName, const QString& _mime
 {
     Arch * newArch = 0;
 
-    QString type = _mimetype.isNull()? KMimeType::findByUrl( KUrl::fromPathOrUrl(_fileName) )->name() : _mimetype;
+    QString type = _mimetype.isNull()? KMimeType::findByUrl( KUrl::fromPath(_fileName) )->name() : _mimetype;
     ArchType archtype = ArchiveFormatInfo::self()->archTypeForMimeType(type);
     kDebug( 1601 ) << "archtype is recognised as: " << archtype << endl;
     if(0 == (newArch = Arch::archFactory(archtype, this,
