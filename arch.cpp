@@ -275,7 +275,7 @@ void Arch::slotReceivedTOC( KProcess*, char* data, int length )
       if ( m_header_removed && !m_finished )
       {
         if ( !processLine( m_buffer ) )
-        {kdDebug()<<"aaa"<<endl;
+        {
           // Have faith - maybe it wasn't a header?
           m_header_removed = false;
           m_error = true;
@@ -290,13 +290,13 @@ void Arch::slotReceivedTOC( KProcess*, char* data, int length )
     {
       m_finished = true;
     }
-kdDebug()<<"bbb"<<endl;
+
     m_buffer = "";
   }
-kdDebug()<<"ccc"<<endl;
+
   if ( !m_finished )
     m_buffer.append( data + startChar);	// Append what's left of the buffer
-kdDebug()<<"ddd"<<endl;
+
   data[ length ] = c;
 }
 
@@ -355,7 +355,7 @@ bool Arch::processLine( const QCString &line )
   {
     list.append( columns[ i ] );
   }
-kdDebug()<<list<<endl;
+
   m_gui->fileList()->addItem( list ); // send the entry to the GUI
 
   return true;
