@@ -75,7 +75,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 	                     "henrique.pinto@kdemail.net" );
 	aboutData.addAuthor( "Charis Kouzinopoulos",
 	                     0,
-	                     "haris@mpa.gr" );
+	                     "kouzinopoulos@gmail.com" );
 	aboutData.addAuthor( "Helio Chissini de Castro",
 	                     I18N_NOOP( "Former maintainer" ),
 	                     "helio@kde.org" );

@@ -164,10 +164,13 @@ void FileLVI::setText( int column, const QString &text )
 }
 
 static FileLVI* folderLVI( KListViewItem *parent, const QString& name )
-{
+{kdDebug()<<"111"<<endl;
 	FileLVI *folder = new FileLVI( parent );
+kdDebug()<<"222"<<endl;
 	folder->setText( 0, name );
-	folder->setPixmap( 0, KMimeType::mimeType( "inode/directory" )->pixmap( KIcon::Small ) );
+kdDebug()<<"333"<<endl;
+//	folder->setPixmap( 0, KMimeType::mimeType( "inode/directory" )->pixmap( KIcon::Small ) );
+kdDebug()<<"444"<<endl;
 	return folder;
 }
 
