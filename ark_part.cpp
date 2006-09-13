@@ -160,7 +160,7 @@ ArkPart::setupActions()
 
 
     showSearchBar = new KToggleAction( i18n( "Show Search Bar" ), KShortcut(), actionCollection(), "options_show_search_bar" );
-    showSearchBar->setCheckedState(i18n("Hide Search Bar"));
+    showSearchBar->setCheckedState(KGuiItem(i18n("Hide Search Bar")));
 
     showSearchBar->setChecked( ArkSettings::showSearchBar() );
 
