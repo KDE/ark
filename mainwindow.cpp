@@ -68,7 +68,7 @@ MainWindow::MainWindow( QWidget * /*parent*/, const char *name )
         setupActions();
 
         connect( m_part->widget(), SIGNAL( request_file_quit() ), this, SLOT(  file_quit() ) );
-        connect( KParts::BrowserExtension::childObject( m_part ), SIGNAL( openURLRequestDelayed
+        connect( KParts::BrowserExtension::childObject( m_part ), SIGNAL( openUrlRequestDelayed
                                               ( const KUrl &, const KParts::URLArgs & ) ),
                  m_part, SLOT( openURL( const KUrl & ) ) );
 
