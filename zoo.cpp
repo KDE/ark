@@ -80,7 +80,7 @@ bool ZooArch::processLine( const QByteArray &line )
   QString year = ArkUtils::fixYear( columns[8] );
 
   QString strDate;
-  strDate.sprintf( "%s-%.2d-%.2d", year.utf8().data(),
+  strDate.sprintf( "%s-%.2d-%.2d", year.toUtf8().data(),
                    ArkUtils::getMonth( columns[7] ), atoi( columns[3] ) );
 
   strlcpy( columns[3], qPrintable(strDate), sizeof( columns[3]) );
@@ -307,7 +307,7 @@ QString fixTime( const QString &_strTime )
           nHour += 24;
       }
       strTime = strTime.left( 8 );
-      strTime.sprintf( "%2.2d%s", nHour, strTime.right( 6 ).utf8().data() );
+      strTime.sprintf( "%2.2d%s", nHour, strTime.right( 6 ).toUtf8().data() );
     }
   }
   else

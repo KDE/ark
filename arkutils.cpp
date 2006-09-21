@@ -116,8 +116,8 @@ QString ArkUtils::getTimeStamp(const QString &_month,
 
   QString retval;
   retval.sprintf("%s-%.2d-%.2d %s",
-                 year.utf8().data(), nMonth, nDay,
-                 timestamp.utf8().data());
+                 year.toUtf8().data(), nMonth, nDay,
+                 timestamp.toUtf8().data());
   return retval;
 }
 
