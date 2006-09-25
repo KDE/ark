@@ -45,7 +45,7 @@
 #include <QPushButton>
 //Added by qt3to4:
 #include <QLabel>
-#include <Q3Frame>
+#include <QFrame>
 
 KAboutData *ArkPart::createAboutData()
 {
@@ -416,12 +416,12 @@ void ArkStatusBarExtension::setupStatusBar()
     connect( m_pTimer, SIGNAL( timeout() ), this, SLOT( slotProgress() ) );
 
     m_pStatusLabelTotal = new QLabel( statusBar() );
-    m_pStatusLabelTotal->setFrameStyle( Q3Frame::NoFrame );
+    m_pStatusLabelTotal->setFrameStyle( QFrame::NoFrame );
     m_pStatusLabelTotal->setAlignment( Qt::AlignRight );
     m_pStatusLabelTotal->setText( i18n( "Total: 0 files" ) );
 
     m_pStatusLabelSelect = new QLabel( statusBar() );
-    m_pStatusLabelSelect->setFrameStyle( Q3Frame::NoFrame );
+    m_pStatusLabelSelect->setFrameStyle( QFrame::NoFrame );
     m_pStatusLabelSelect->setAlignment( Qt::AlignLeft );
     m_pStatusLabelSelect->setText(i18n( "0 files selected" ) );
 
@@ -461,7 +461,7 @@ void ArkStatusBarExtension::slotSetBusy( const QString & text, bool showCancelBu
         m_pBusyText = new QLabel( statusBar() );
 
         m_pBusyText->setAlignment( Qt::AlignLeft );
-        m_pBusyText->setFrameStyle( Q3Frame::Panel | Q3Frame::Raised );
+        m_pBusyText->setFrameStyle( QFrame::Panel | QFrame::Raised );
     }
 
     if ( !m_pProgressBar )
@@ -495,7 +495,8 @@ void ArkStatusBarExtension::slotSetBusy( const QString & text, bool showCancelBu
 
     if ( !detailedProgress )
     {
-        m_pTimer->start( 200, false );
+        m_pTimer->start( 200);
+	m_pTimer->setSingleShot(false);
     }
     m_bBusy = true;
 }
