@@ -44,7 +44,6 @@ set(arkpart_PART_SRCS ${libark_common_SRCS}
    arkutils.cpp 
    archiveformatdlg.cpp 
    arkwidget.cpp 
-   searchbar.cpp 
    arkviewer.cpp 
    sevenzip.cpp 
    extractiondialog.cpp 

@@ -40,6 +40,7 @@
 
 #include "archive.h"
 
+class K3ListViewSearchLine;
 class QPoint;
 class QString;
 class QStringList;
@@ -57,7 +58,6 @@ class KTempDir;
 class KToolBar;
 
 class FileListView;
-class SearchBar;
 
 
 class ArkWidget : public KVBox
@@ -82,7 +82,7 @@ public:
     QString tmpDir() const { return m_tmpDir ? m_tmpDir->name() : QString::null; }
 
     FileListView * fileList() const { return m_fileListView; }
-    SearchBar    * searchBar() const { return m_searchBar; }
+    K3ListViewSearchLine    * searchBar() const { return m_searchBar; }
     Arch * archive() const { return arch; }
     ArchType archiveType() const { return m_archType; }
     int numSelectedFiles() const { return m_nNumSelectedFiles; }
@@ -290,7 +290,7 @@ private: // data
     bool m_modified;
 
     KToolBar  * m_searchToolBar;
-    SearchBar * m_searchBar;
+    K3ListViewSearchLine * m_searchBar;
 
     Arch   * arch;
     QString  m_strArchName;

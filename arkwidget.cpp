@@ -79,7 +79,6 @@
 #include "arkutils.h"
 #include "archiveformatinfo.h"
 #include "compressedfile.h"
-#include "searchbar.h"
 #include "arkviewer.h"
 
 static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
@@ -134,7 +133,7 @@ ArkWidget::ArkWidget( QWidget *parent )
 
     QLabel * l1 = new QLabel( i18n( "&Search:" ), m_searchToolBar );
     l1->setObjectName( "kde toolbar widget" );
-    m_searchBar = new SearchBar( m_searchToolBar, 0 );
+    m_searchBar = new K3ListViewSearchLine( m_searchToolBar, 0 );
     l1->setBuddy( m_searchBar );
 #warning "kde4: porting ? "
     //m_searchToolBar->setStretchableWidget( m_searchBar );

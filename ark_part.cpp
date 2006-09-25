@@ -26,7 +26,7 @@
 #include "arkwidget.h"
 #include "settings.h"
 #include "filelistview.h"
-#include "searchbar.h"
+#include <k3listviewsearchline.h>
 
 #include <kdebug.h>
 #include <kmenu.h>
