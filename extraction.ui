@@ -1,79 +1,71 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-<class>Extraction</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>Extraction</cstring>
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>Extraction</class>
+  <widget class="QWidget" name="Extraction" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>436</width>
+        <height>289</height>
+      </rect>
     </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>436</width>
-            <height>289</height>
-        </rect>
-    </property>
-    <vbox>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <widget class="QCheckBox">
-            <property name="name">
-                <cstring>kcfg_extractOverwrite</cstring>
-            </property>
-            <property name="text">
-                <string>O&amp;verwrite files (Zip, Tar, Zoo, Rar)</string>
-            </property>
+    <layout class="QVBoxLayout" >
+      <item>
+        <widget class="QCheckBox" name="kcfg_extractOverwrite" >
+          <property name="text" >
+            <string>O&amp;verwrite files (Zip, Tar, Zoo, Rar)</string>
+          </property>
         </widget>
-        <widget class="QCheckBox">
-            <property name="name">
-                <cstring>kcfg_preservePerms</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Preserve permissions (Tar)</string>
-            </property>
+      </item>
+      <item>
+        <widget class="QCheckBox" name="kcfg_preservePerms" >
+          <property name="text" >
+            <string>&amp;Preserve permissions (Tar)</string>
+          </property>
         </widget>
-        <widget class="QCheckBox">
-            <property name="name">
-                <cstring>kcfg_extractJunkPaths</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Ignore folder names (Zip)</string>
-            </property>
+      </item>
+      <item>
+        <widget class="QCheckBox" name="kcfg_extractJunkPaths" >
+          <property name="text" >
+            <string>&amp;Ignore folder names (Zip)</string>
+          </property>
         </widget>
-        <widget class="QCheckBox">
-            <property name="name">
-                <cstring>kcfg_rarToLower</cstring>
-            </property>
-            <property name="text">
-                <string>Convert file names to &amp;lowercase (Zip, Rar)</string>
-            </property>
+      </item>
+      <item>
+        <widget class="QCheckBox" name="kcfg_rarToLower" >
+          <property name="text" >
+            <string>Convert file names to &amp;lowercase (Zip, Rar)</string>
+          </property>
         </widget>
-        <widget class="QCheckBox">
-            <property name="name">
-                <cstring>kcfg_rarToUpper</cstring>
-            </property>
-            <property name="text">
-                <string>Convert file names to &amp;uppercase (Rar)</string>
-            </property>
+      </item>
+      <item>
+        <widget class="QCheckBox" name="kcfg_rarToUpper" >
+          <property name="text" >
+            <string>Convert file names to &amp;uppercase (Rar)</string>
+          </property>
         </widget>
-        <spacer>
-            <property name="name">
-                <cstring>spacer3</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>20</height>
-                </size>
-            </property>
+      </item>
+      <item>
+        <spacer name="spacer3" >
+          <property name="sizeHint" >
+            <size>
+              <width>20</width>
+              <height>20</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Vertical</enum>
+          </property>
         </spacer>
-    </vbox>
-</widget>
-<layoutdefaults spacing="6" margin="11"/>
-</UI>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+</ui>

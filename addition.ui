@@ -1,79 +1,71 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-<class>Addition</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>Addition</cstring>
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>Addition</class>
+  <widget class="QWidget" name="Addition" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>365</width>
+        <height>268</height>
+      </rect>
     </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>365</width>
-            <height>268</height>
-        </rect>
-    </property>
-    <vbox>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <widget class="QCheckBox">
-            <property name="name">
-                <cstring>kcfg_replaceOnlyWithNewer</cstring>
-            </property>
-            <property name="text">
-                <string>Replace old files only &amp;with newer files</string>
-            </property>
+    <layout class="QVBoxLayout" >
+      <item>
+        <widget class="QCheckBox" name="kcfg_replaceOnlyWithNewer" >
+          <property name="text" >
+            <string>Replace old files only &amp;with newer files</string>
+          </property>
         </widget>
-        <widget class="QCheckBox">
-            <property name="name">
-                <cstring>kcfg_forceMSDOS</cstring>
-            </property>
-            <property name="text">
-                <string>Force &amp;MS-DOS short filenames (Zip)</string>
-            </property>
+      </item>
+      <item>
+        <widget class="QCheckBox" name="kcfg_forceMSDOS" >
+          <property name="text" >
+            <string>Force &amp;MS-DOS short filenames (Zip)</string>
+          </property>
         </widget>
-        <widget class="QCheckBox">
-            <property name="name">
-                <cstring>kcfg_convertLF2CRLF</cstring>
-            </property>
-            <property name="text">
-                <string>Translate &amp;LF to DOS CRLF (Zip)</string>
-            </property>
+      </item>
+      <item>
+        <widget class="QCheckBox" name="kcfg_convertLF2CRLF" >
+          <property name="text" >
+            <string>Translate &amp;LF to DOS CRLF (Zip)</string>
+          </property>
         </widget>
-        <widget class="QCheckBox">
-            <property name="name">
-                <cstring>kcfg_rarStoreSymlinks</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Store symlinks as links (Zip, Rar)</string>
-            </property>
+      </item>
+      <item>
+        <widget class="QCheckBox" name="kcfg_rarStoreSymlinks" >
+          <property name="text" >
+            <string>&amp;Store symlinks as links (Zip, Rar)</string>
+          </property>
         </widget>
-        <widget class="QCheckBox">
-            <property name="name">
-                <cstring>kcfg_rarRecurseSubdirs</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Recursively add subfolders (Zip, Rar)</string>
-            </property>
+      </item>
+      <item>
+        <widget class="QCheckBox" name="kcfg_rarRecurseSubdirs" >
+          <property name="text" >
+            <string>&amp;Recursively add subfolders (Zip, Rar)</string>
+          </property>
         </widget>
-        <spacer>
-            <property name="name">
-                <cstring>spacer2</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>51</height>
-                </size>
-            </property>
+      </item>
+      <item>
+        <spacer name="spacer2" >
+          <property name="sizeHint" >
+            <size>
+              <width>20</width>
+              <height>51</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Vertical</enum>
+          </property>
         </spacer>
-    </vbox>
-</widget>
-<layoutdefaults spacing="6" margin="11"/>
-</UI>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+</ui>

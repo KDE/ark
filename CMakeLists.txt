@@ -15,6 +15,8 @@ set(ark_KDEINIT_SRCS main.cpp arkapp.cpp mainwindow.cpp ${libark_common_SRCS})
 
 kde4_automoc(${ark_KDEINIT_SRCS})
 
+kde4_add_ui_files(ark_KDEINIT_SRCS general.ui )
+
 kde4_add_kdeinit_executable( ark ${ark_KDEINIT_SRCS})
 
 target_link_libraries(kdeinit_ark  ${KDE4_KDE3SUPPORT_LIBS} )
@@ -51,7 +53,7 @@ set(arkpart_PART_SRCS ${libark_common_SRCS}
 
 kde4_automoc(${arkpart_PART_SRCS})
 
-kde4_add_ui3_files(arkpart_PART_SRCS general.ui )
+kde4_add_ui_files(arkpart_PART_SRCS general.ui )
 
 kde4_add_plugin(arkpart WITH_PREFIX ${arkpart_PART_SRCS})
 

@@ -39,6 +39,7 @@
 #include <QDropEvent>
 
 #include "archive.h"
+#include "ui_general.h"
 
 class K3ListViewSearchLine;
 class QPoint;
@@ -58,6 +59,14 @@ class KTempDir;
 class KToolBar;
 
 class FileListView;
+
+class General : public QWidget, public Ui::General
+{
+public:
+  General( QWidget *parent ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
 
 
 class ArkWidget : public KVBox

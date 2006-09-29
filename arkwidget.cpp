@@ -66,7 +66,6 @@
 
 // settings
 #include "settings.h"
-#include "general.h"
 #include <kmenu.h>
 #include <kdialog.h>
 
@@ -2236,7 +2235,7 @@ void ArkWidget::showSettings()
 
   KConfigDialog *dialog = new KConfigDialog(this, "settings", ArkSettings::self());
 
-  General* genPage = new General(0, "General");
+  General* genPage = new General(0);
   dialog->addPage(genPage, i18n("General"), "ark", i18n("General Settings"));
 
   KService::List offers;
