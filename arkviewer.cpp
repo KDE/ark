@@ -75,13 +75,14 @@ bool ArkViewer::view( const QString& filename )
 
 	QFrame *header = new QFrame( m_widget );
 	QHBoxLayout *headerLayout = new QHBoxLayout( header );
-	headerLayout->setAutoAdd( true );
 
 	QLabel *iconLabel = new QLabel( header );
+        headerLayout->addWidget(iconLabel);
 	iconLabel->setPixmap( mimetype->pixmap( K3Icon::Desktop ) );
 	iconLabel->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );
 
 	KVBox *headerRight = new KVBox( header );
+        headerLayout->addWidget(headerRight);
 	new QLabel( QString( "<qt><b>%1</b></qt>" )
 	                     .arg( KUrl( filename ).fileName() ), headerRight
 	          );

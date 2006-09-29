@@ -86,9 +86,10 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 		            .arg( i18n( "Extract:" ) ), whichFiles );
 		QWidget *filesGroup = new QWidget( whichFiles );
 		QHBoxLayout *filesGroupLayout = new QHBoxLayout( filesGroup );
-		filesGroupLayout->setAutoAdd( true );
 		m_selectedButton = new QRadioButton( i18n( "Selected files only" ), filesGroup );
+                filesGroupLayout->addWidget(m_selectedButton);
 		m_allButton      = new QRadioButton( i18n( "All files" ), filesGroup );
+                filesGroupLayout->addWidget(m_allButton);
 
 		m_selectedButton->setChecked( true );
 	}
