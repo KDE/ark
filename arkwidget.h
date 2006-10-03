@@ -54,7 +54,7 @@ class KMenu;
 class KProcess;
 class KUrl;
 class KRun;
-class KTempFile;
+class KTemporaryFile;
 class KTempDir;
 class KToolBar;
 

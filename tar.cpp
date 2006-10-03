@@ -58,7 +58,7 @@
 #include <kde_file.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kmimetype.h>
 #include <kstandarddirs.h>
 #include <ktempdir.h>
@@ -112,10 +112,13 @@ TarArch::TarArch( ArkWidget *_gui,
         m_tmpDir->setAutoDelete( true );
         m_tmpDir->qDir()->cd( m_tmpDir->name() );
         // build the temp file name
-        KTempFile *pTempFile = new KTempFile( m_tmpDir->name(),
-                QString::fromLatin1(".tar") );
+        KTemporaryFile *pTempFile = new KTemporaryFile();
+        pTempFile->setPrefix(m_tmpDir->name());
+        pTempFile->setSuffix(QString::fromLatin1(".tar"));
+        pTempFile->setAutoRemove(false);
+        pTempFile->open();
 
-        tmpfile = pTempFile->name();
+        tmpfile = pTempFile->fileName();
         delete pTempFile;
 
         kDebug(1601) << "Tmpfile will be " << tmpfile << "\n" << endl;
