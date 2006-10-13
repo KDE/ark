@@ -7,7 +7,7 @@ ADD_DEFINITIONS(-D_LARGEFILE64_SOURCE)
 
 
 set(libark_common_SRCS archiveformatinfo.cpp )
-kde4_add_kcfg_files(libark_common_SRCS settings.kcfgc)
+kde4_add_kcfg_files(libark_common libark_common_SRCS settings.kcfgc)
 
 ########### next target ###############
 
