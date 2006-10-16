@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tgz;application/x-tbz;application/x-tbz2;application/x-zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-bzip2;application/x-jar;application/x-deb
+MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tgz;application/x-tbz;application/x-tbz2;application/x-zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-bzip2;application/x-jar;application/x-deb;application/x-ace;application/x-7z;application/x-arc;application/x-arj;application/x-compress;application/x-cpio;application/x-pak
 Comment=Archive Handling Tool
 Comment[af]=Argief Handtering Program
 Comment[ar]=أداة للتعامل مغ الملقات المضغوطة
@@ -122,13 +122,7 @@ Name[wa]=Årtchiveu
 Name[xh]=Umenzi woshicilelo lukawonke-wonke noxwebhu lweMbali
 Name[zh_CN]=压缩存档工具
 Name[zu]=Umqulu
-Exec=ark -caption "%c" %i %m %U
 Icon=ark
-Path=
-DocPath=ark/index.html
 Type=Service
-Terminal=false
-SwallowExec=
-SwallowTitle=
-ServiceTypes=Browser/View
+ServiceTypes=KParts/ReadOnlyPart
 X-KDE-Library=libarkpart

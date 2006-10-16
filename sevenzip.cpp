@@ -45,11 +45,15 @@ SevenZipArch::SevenZipArch( ArkWidget *gui, const QString &filename )
 {
   // Check if 7z is available
   bool have_7z = !KGlobal::dirs()->findExe( "7z" ).isNull();
+  // Check if 7za is available
+  bool have_7za = !KGlobal::dirs()->findExe( "7za" ).isNull();
 
   if ( have_7z )
     m_archiver_program = m_unarchiver_program = "7z";  // Use 7z
-  else
+  else if ( have_7za )
     m_archiver_program = m_unarchiver_program = "7za"; // Try 7za
+  else
+    m_archiver_program = m_unarchiver_program = "7zr";
 
   verifyCompressUtilityIsAvailable( m_archiver_program );
   verifyUncompressUtilityIsAvailable( m_unarchiver_program );
