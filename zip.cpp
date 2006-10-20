@@ -152,7 +152,6 @@ void ZipArch::addFile( const QStringList &urls )
 
   if ( ArkSettings::replaceOnlyWithNewer() )
     *kp << "-u";
-  else
 
 
   *kp << m_filename;
