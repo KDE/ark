@@ -7,13 +7,13 @@ ADD_DEFINITIONS(-D_LARGEFILE64_SOURCE)
 
 
 set(libark_common_SRCS archiveformatinfo.cpp )
-kde4_add_kcfg_files(libark_common libark_common_SRCS settings.kcfgc)
+kde4_add_kcfg_files(libark_common_SRCS settings.kcfgc)
 
 ########### next target ###############
 
 set(ark_KDEINIT_SRCS main.cpp arkapp.cpp mainwindow.cpp ${libark_common_SRCS})
 
-kde4_automoc(ark ${ark_KDEINIT_SRCS})
+kde4_automoc(${ark_KDEINIT_SRCS})
 
 kde4_add_ui_files(ark_KDEINIT_SRCS general.ui )
 
@@ -51,7 +51,7 @@ set(arkpart_PART_SRCS ${libark_common_SRCS}
    extractiondialog.cpp 
    ace.cpp )
 
-kde4_automoc(arkpart ${arkpart_PART_SRCS})
+kde4_automoc(${arkpart_PART_SRCS})
 
 kde4_add_ui_files(arkpart_PART_SRCS general.ui )
 
