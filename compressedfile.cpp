@@ -60,7 +60,6 @@ CompressedFile::CompressedFile( ArkWidget *_gui, const QString & _fileName, cons
   kDebug(1601) << "CompressedFile constructor" << endl;
   m_tempDirectory = new KTempDir( _gui->tmpDir()
                           + QString::fromLatin1( "compressed_file_temp" ) );
-  m_tempDirectory->setAutoDelete( true );
   m_tmpdir = m_tempDirectory->name();
   initData();
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);

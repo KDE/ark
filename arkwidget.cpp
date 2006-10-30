@@ -116,6 +116,7 @@ ArkWidget::ArkWidget( QWidget *parent )
      m_bDropSourceIsSelf( false ), m_extractList( 0 )
 {
     m_tmpDir = new KTempDir( KStandardDirs::locateLocal( "tmp", "ark" ) );
+    m_tmpDir->setAutoRemove(false);
 
     if ( m_tmpDir->status() != 0 )
     {
@@ -291,7 +292,6 @@ ArkWidget::convertTo( const KUrl & u )
 {
     busy( i18n( "Saving..." ) );
     m_convert_tmpDir =  new KTempDir( tmpDir() + "convtmp" );
-    m_convert_tmpDir->setAutoDelete( true );
     connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( convertSlotExtractDone( bool ) ) );
     m_convert_saveAsURL = u;
     arch->unarchFile( 0, m_convert_tmpDir->name() );
@@ -470,7 +470,6 @@ ArkWidget::extractToSlotOpenDone( bool success )
     if ( !m_extractTo_targetDirectory.isLocalFile() )
     {
         m_extractRemoteTmpDir = new KTempDir( tmpDir() + "extremote" );
-        m_extractRemoteTmpDir->setAutoDelete( true );
 
         extractDir = m_extractRemoteTmpDir->name();
         m_extractRemote = true;
@@ -995,6 +994,7 @@ ArkWidget::createRealArchive( const QString & strFilename, const QStringList & f
     KUrl u1, u2;
     u1.setPath( m_compressedFile );
     m_createRealArchTmpDir = new KTempDir( tmpDir() + "create_real_arch" );
+    m_createRealArchTmpDir->setAutoRemove(false);
     u2.setPath( m_createRealArchTmpDir->name() + u1.fileName() );
     KIO::NetAccess::copy( u1, u2, this );
     m_compressedFile = "file:" + u2.path(); // AGAIN THE 5 SPACES Hack :-(
@@ -1475,7 +1475,6 @@ ArkWidget::action_extract()
         if ( !m_extractURL.isLocalFile() )
         {
             m_extractRemoteTmpDir = new KTempDir( tmpDir() + "extremote" );
-            m_extractRemoteTmpDir->setAutoDelete( true );
 
             extractDir = m_extractRemoteTmpDir->name();
             m_extractRemote = true;
