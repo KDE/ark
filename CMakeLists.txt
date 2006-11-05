@@ -57,7 +57,6 @@ kde4_add_ui_files(arkpart_PART_SRCS general.ui )
 
 kde4_add_plugin(arkpart WITH_PREFIX ${arkpart_PART_SRCS})
 
-kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} arkpart )
 
 target_link_libraries(arkpart  ${KDE4_KDE3SUPPORT_LIBS} )
 
