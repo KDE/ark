@@ -43,6 +43,10 @@
 #include <unistd.h>
 #include <config.h>
 
+#ifdef _HPUX_SOURCE
+#include <sys/vfs.h>
+#endif
+
 // for statfs:
 #ifdef BSD4_4
 #include <sys/mount.h>
