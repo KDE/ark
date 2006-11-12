@@ -14,6 +14,6 @@ Type=Application
 Terminal=false
 SwallowExec=
 SwallowTitle=
-X-DCOP-ServiceType=Unique
+X-DBUS-StartupType=Unique
 X-KDE-HasTempFileOption=true
 Categories=Qt;KDE;Utility;X-KDE-Utilities-File;
