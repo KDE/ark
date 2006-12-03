@@ -48,7 +48,7 @@
 #include <kmessagebox.h>
 #include <kio/netaccess.h>
 #include <kio/job.h>
-#include <kopenwith.h>
+#include <kopenwithdialog.h>
 #include <kmimemagic.h>
 #include <kmimetype.h>
 #include <kstandarddirs.h>
@@ -1313,7 +1313,7 @@ ArkWidget::openWithSlotExtractDone()
     KUrl::List list;
     KUrl url = m_strFileToView;
     list.append(url);
-    KOpenWithDlg l( list, i18n("Open with:"), QString::null, (QWidget*)0L);
+    KOpenWithDialog l( list, i18n("Open with:"), QString(), this);
     if ( l.exec() )
     {
         KService::Ptr service = l.service();
@@ -1605,8 +1605,7 @@ ArkWidget::editStart()
     kDebug(1601) << "Edit in progress..." << endl;
     KUrl::List list;
     // edit will be in progress until the KProcess terminates.
-    KOpenWithDlg l( list, i18n("Edit with:"),
-            QString::null, (QWidget*)0L );
+    KOpenWithDialog l( list, i18n("Edit with:"), QString(), this );
     if ( l.exec() )
     {
         KProcess *kp = new KProcess;
