@@ -4,8 +4,6 @@ add_subdirectory( pics )
 
 ADD_DEFINITIONS(-D_LARGEFILE64_SOURCE)
 
-
-
 set(libark_common_SRCS archiveformatinfo.cpp )
 kde4_add_kcfg_files(libark_common_SRCS settings.kcfgc)
 
@@ -25,9 +23,6 @@ install(TARGETS kdeinit_ark  DESTINATION ${LIB_INSTALL_DIR})
 
 target_link_libraries( ark kdeinit_ark )
 install(TARGETS ark  DESTINATION ${BIN_INSTALL_DIR} )
-
-########### next target ###############
-
 
 ########### next target ###############
 
