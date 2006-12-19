@@ -37,7 +37,7 @@
 #include <kiconloader.h>
 #include <kio/netaccess.h>
 #include <klocale.h>
-#include <kstdaction.h>
+#include <kstandardaction.h>
 #include <kicon.h>
 
 #include <QFile>
@@ -142,7 +142,7 @@ ArkPart::setupActions()
     editAction = new KAction(i18n("Edit &With..."), actionCollection(), "edit");
     connect(editAction, SIGNAL(triggered(bool) ), awidget, SLOT(action_edit()));
 
-    selectAllAction = KStdAction::selectAll(awidget->fileList(), SLOT(selectAll()), actionCollection(), "select_all");
+    selectAllAction = KStandardAction::selectAll(awidget->fileList(), SLOT(selectAll()), actionCollection(), "select_all");
 
     deselectAllAction = new KAction(i18n("&Unselect All"), actionCollection(), "deselect_all");
     connect(deselectAllAction, SIGNAL(triggered(bool) ), awidget->fileList(), SLOT(unselectAll()));
@@ -150,9 +150,9 @@ ArkPart::setupActions()
     invertSelectionAction = new KAction(i18n("&Invert Selection"), actionCollection(), "invert_selection");
     connect(invertSelectionAction, SIGNAL(triggered(bool) ), awidget->fileList(), SLOT(invertSelection()));
 
-    saveAsAction = KStdAction::saveAs(this, SLOT(file_save_as()), actionCollection());
+    saveAsAction = KStandardAction::saveAs(this, SLOT(file_save_as()), actionCollection());
 
-    //KStdAction::preferences(awidget, SLOT(showSettings()), actionCollection());
+    //KStandardAction::preferences(awidget, SLOT(showSettings()), actionCollection());
 
     KAction *action = new KAction( KIcon("configure"), i18n( "Configure &Ark..." ),
                                    actionCollection(), "options_configure_ark" );

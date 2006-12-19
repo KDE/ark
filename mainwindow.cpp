@@ -43,7 +43,7 @@
 #include <kglobal.h>
 #include <kprogressdialog.h>
 #include <kstdaccel.h>
-#include <kstdaction.h>
+#include <kstandardaction.h>
 #include <kicon.h>
 // ark includes
 #include "arkapp.h"
@@ -120,22 +120,22 @@ MainWindow::setupActions()
     newWindowAction = new KAction(KIcon("window_new"), i18n("New &Window"), actionCollection(), "new_window");
     connect(newWindowAction, SIGNAL(triggered(bool)), SLOT(file_newWindow()));
 
-    newArchAction = KStdAction::openNew(this, SLOT(file_new()), actionCollection());
-    openAction = KStdAction::open(this, SLOT(file_open()), actionCollection());
+    newArchAction = KStandardAction::openNew(this, SLOT(file_new()), actionCollection());
+    openAction = KStandardAction::open(this, SLOT(file_open()), actionCollection());
 
     reloadAction = new KAction(KIcon("reload"), i18n("Re&load"), actionCollection(), "reload_arch");
     connect(reloadAction, SIGNAL(triggered(bool)), SLOT(file_reload()));
     reloadAction->setShortcut(KStdAccel::shortcut( KStdAccel::Reload ));
-    closeAction = KStdAction::close(this, SLOT(file_close()), actionCollection(), "file_close");
+    closeAction = KStandardAction::close(this, SLOT(file_close()), actionCollection(), "file_close");
 
-    recent = KStdAction::openRecent(this, SLOT(openURL(const KUrl&)), actionCollection());
+    recent = KStandardAction::openRecent(this, SLOT(openURL(const KUrl&)), actionCollection());
     recent->loadEntries(KGlobal::config());
 
     createStandardStatusBarAction();
 
-    KStdAction::quit(this, SLOT(window_close()), actionCollection());
-    KStdAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
-    KStdAction::keyBindings(this, SLOT( slotConfigureKeyBindings()), actionCollection());
+    KStandardAction::quit(this, SLOT(window_close()), actionCollection());
+    KStandardAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
+    KStandardAction::keyBindings(this, SLOT( slotConfigureKeyBindings()), actionCollection());
 
     openAction->setEnabled( true );
     recent->setEnabled( true );
