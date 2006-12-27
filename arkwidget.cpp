@@ -799,7 +799,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
         {
             choice = KMessageBox::warningYesNoCancel(0,
                i18n("Archive already exists. Do you wish to overwrite it?"),
-               i18n("Archive Already Exists"), KStdGuiItem::overwrite(), KGuiItem(i18n("Do Not Overwrite")));
+               i18n("Archive Already Exists"), KStandardGuiItem::overwrite(), KGuiItem(i18n("Do Not Overwrite")));
 
             if ( choice == KMessageBox::Yes )
             {
@@ -1250,7 +1250,7 @@ ArkWidget::action_delete()
     if ( !KMessageBox::warningContinueCancel( this,
                                               i18n( "Do you really want to delete the selected items?" ),
                                               QString::null,
-                                              KStdGuiItem::del() )
+                                              KStandardGuiItem::del() )
          == KMessageBox::Continue)
     {
         return;

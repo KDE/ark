@@ -42,7 +42,7 @@
 #include <kxmlguifactory.h>
 #include <kglobal.h>
 #include <kprogressdialog.h>
-#include <kstdaccel.h>
+#include <kstandardshortcut.h>
 #include <kstandardaction.h>
 #include <kicon.h>
 // ark includes
@@ -125,7 +125,7 @@ MainWindow::setupActions()
 
     reloadAction = new KAction(KIcon("reload"), i18n("Re&load"), actionCollection(), "reload_arch");
     connect(reloadAction, SIGNAL(triggered(bool)), SLOT(file_reload()));
-    reloadAction->setShortcut(KStdAccel::shortcut( KStdAccel::Reload ));
+    reloadAction->setShortcut(KStandardShortcut::shortcut( KStandardShortcut::Reload ));
     closeAction = KStandardAction::close(this, SLOT(file_close()), actionCollection(), "file_close");
 
     recent = KStandardAction::openRecent(this, SLOT(openURL(const KUrl&)), actionCollection());

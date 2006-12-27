@@ -301,7 +301,7 @@ bool ArkPart::closeUrl()
   int res = KMessageBox::warningYesNoCancel( widget(),
           i18n( "The archive \"%1\" has been modified.\n"
                 "Do you want to save it?", docName ),
-          i18n( "Save Archive?" ), KStdGuiItem::save(), KStdGuiItem::discard() );
+          i18n( "Save Archive?" ), KStandardGuiItem::save(), KStandardGuiItem::discard() );
 
   switch ( res )
   {
