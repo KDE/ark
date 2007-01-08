@@ -162,8 +162,11 @@ void Arch::slotExtractExited( KProcess *_kp )
         QString msg;
         if ( !m_password.isEmpty() )
             msg = i18n("The password was incorrect. ");
-        if ( KPasswordDialog::getPassword( m_gui, m_password, msg+i18n("You must enter a password to extract the file:") ) == KPasswordDialog::Accepted )
+        KPasswordDialog dlg(m_gui);
+        dlg.setPrompt( msg+i18n("You must enter a password to extract the file:")  );
+        if( dlg.exec() == KPasswordDialog::Accepted )
         {
+            m_password=dlg.password().toLocal8Bit();
             delete _kp;
             _kp = m_currentProcess = 0;
             clearShellOutput();
