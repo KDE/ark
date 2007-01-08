@@ -45,6 +45,7 @@
 #include <kstandardshortcut.h>
 #include <kstandardaction.h>
 #include <kicon.h>
+#include <kactioncollection.h>
 // ark includes
 #include "arkapp.h"
 #include "settings.h"
@@ -117,16 +118,24 @@ MainWindow::~MainWindow()
 void
 MainWindow::setupActions()
 {
-    newWindowAction = new KAction(KIcon("window_new"), i18n("New &Window"), actionCollection(), "new_window");
+    newWindowAction = actionCollection()->addAction("new_window");
+    newWindowAction->setText(i18n("New &Window"));
+    newWindowAction->setIcon(KIcon("window_new"));
+
     connect(newWindowAction, SIGNAL(triggered(bool)), SLOT(file_newWindow()));
 
     newArchAction = KStandardAction::openNew(this, SLOT(file_new()), actionCollection());
     openAction = KStandardAction::open(this, SLOT(file_open()), actionCollection());
 
-    reloadAction = new KAction(KIcon("reload"), i18n("Re&load"), actionCollection(), "reload_arch");
+    reloadAction = actionCollection()->addAction("reload_arch");
+    reloadAction->setIcon(KIcon("reload"));
+    reloadAction->setText(i18n("Re&load"));
     connect(reloadAction, SIGNAL(triggered(bool)), SLOT(file_reload()));
-    reloadAction->setShortcut(KStandardShortcut::shortcut( KStandardShortcut::Reload ));
-    closeAction = KStandardAction::close(this, SLOT(file_close()), actionCollection(), "file_close");
+    reloadAction->setShortcuts(KStandardShortcut::shortcut( KStandardShortcut::Reload ));
+    
+    closeAction = KStandardAction::close(this, SLOT(file_close()), actionCollection());
+    actionCollection()->addAction("file_close",closeAction);
+
 
     recent = KStandardAction::openRecent(this, SLOT(openURL(const KUrl&)), actionCollection());
     recent->loadEntries(KGlobal::config());

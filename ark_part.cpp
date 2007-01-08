@@ -39,6 +39,7 @@
 #include <klocale.h>
 #include <kstandardaction.h>
 #include <kicon.h>
+#include <kactioncollection.h>
 
 #include <QFile>
 #include <QTimer>
@@ -120,46 +121,62 @@ ArkPart::~ArkPart()
 void
 ArkPart::setupActions()
 {
-    addFileAction = new KAction(KIcon("ark_addfile"), i18n("Add &File..."), actionCollection(), "addfile");
+    addFileAction = actionCollection()->addAction("addfile");
+    addFileAction->setIcon(KIcon("ark_addfile"));
+    addFileAction->setText(i18n("Add &File..."));
     connect(addFileAction, SIGNAL(triggered(bool)), awidget, SLOT(action_add()));
 
-    addDirAction = new KAction(KIcon("ark_adddir"), i18n("Add Folde&r..."), actionCollection(), "adddir");
+    addDirAction = actionCollection()->addAction("adddir");
+    addDirAction->setText(i18n("Add Folde&r..."));
+    addDirAction->setIcon(KIcon("ark_adddir"));
     connect(addDirAction, SIGNAL(triggered(bool)), awidget, SLOT(action_add_dir()));
 
-    extractAction = new KAction(KIcon("ark_extract"), i18n("E&xtract..."), actionCollection(), "extract");
+    extractAction =actionCollection()->addAction("extract");
+    extractAction->setText(i18n("E&xtract..."));
+    extractAction->setIcon(KIcon("ark_extract"));
     connect(extractAction, SIGNAL(triggered(bool)), awidget, SLOT(action_extract()));
 
-    deleteAction = new KAction(KIcon("ark_delete"), i18n("De&lete"), actionCollection(), "delete");
+    deleteAction  = new KAction(KIcon("ark_delete"), i18n("De&lete"), this);
+    actionCollection()->addAction("delete", deleteAction );
     connect(deleteAction, SIGNAL(triggered(bool)), awidget, SLOT(action_delete()));
 
-    viewAction = new KAction(KIcon("ark_view"), i18nc("to view something","&View"), actionCollection(), "view");
+    viewAction = actionCollection()->addAction("view");
+    viewAction->setText(i18nc("to view something","&View"));
+    viewAction->setIcon(KIcon("ark_view"));
     connect(viewAction, SIGNAL(triggered(bool)), awidget, SLOT(action_view()));
 
-    openWithAction = new KAction(i18n("&Open With..."), actionCollection(), "open_with");
+    openWithAction  = new KAction(i18n("&Open With..."), this);
+    actionCollection()->addAction("open_with", openWithAction );
     connect(openWithAction, SIGNAL(triggered(bool) ), awidget, SLOT(slotOpenWith()));
 
 
-    editAction = new KAction(i18n("Edit &With..."), actionCollection(), "edit");
+    editAction  = new KAction(i18n("Edit &With..."), this);
+    actionCollection()->addAction("edit", editAction );
     connect(editAction, SIGNAL(triggered(bool) ), awidget, SLOT(action_edit()));
 
-    selectAllAction = KStandardAction::selectAll(awidget->fileList(), SLOT(selectAll()), actionCollection(), "select_all");
+    selectAllAction = KStandardAction::selectAll(awidget->fileList(), SLOT(selectAll()), actionCollection());
+    actionCollection()->addAction("select_all", selectAllAction);
 
-    deselectAllAction = new KAction(i18n("&Unselect All"), actionCollection(), "deselect_all");
+    deselectAllAction  = new KAction(i18n("&Unselect All"), this);
+    actionCollection()->addAction("deselect_all", deselectAllAction );
     connect(deselectAllAction, SIGNAL(triggered(bool) ), awidget->fileList(), SLOT(unselectAll()));
 
-    invertSelectionAction = new KAction(i18n("&Invert Selection"), actionCollection(), "invert_selection");
+    invertSelectionAction  = new KAction(i18n("&Invert Selection"), this);
+    actionCollection()->addAction("invert_selection", invertSelectionAction );
     connect(invertSelectionAction, SIGNAL(triggered(bool) ), awidget->fileList(), SLOT(invertSelection()));
 
     saveAsAction = KStandardAction::saveAs(this, SLOT(file_save_as()), actionCollection());
 
     //KStandardAction::preferences(awidget, SLOT(showSettings()), actionCollection());
 
-    KAction *action = new KAction( KIcon("configure"), i18n( "Configure &Ark..." ),
-                                   actionCollection(), "options_configure_ark" );
+    QAction * action = actionCollection()->addAction("options_configure_ark");
+    action->setText(i18n( "Configure &Ark..." ));
+    action->setIcon( KIcon("configure"));
     connect(action, SIGNAL(triggered(bool) ), awidget, SLOT( showSettings() ));
 
 
-    showSearchBar = new KToggleAction( i18n( "Show Search Bar" ), KShortcut(), actionCollection(), "options_show_search_bar" );
+    showSearchBar  = new KToggleAction(i18n("Show Search Bar"), this);
+    actionCollection()->addAction("options_show_search_bar", showSearchBar );
     showSearchBar->setCheckedState(KGuiItem(i18n("Hide Search Bar")));
 
     showSearchBar->setChecked( ArkSettings::showSearchBar() );

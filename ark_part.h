@@ -124,18 +124,18 @@ private:
     ArkBrowserExtension *m_ext;
     ArkStatusBarExtension *m_bar;
 
-    KAction *saveAsAction;
-    KAction *addFileAction;
-    KAction *addDirAction;
-    KAction *extractAction;
-    KAction *deleteAction;
-    KAction *selectAllAction;
-    KAction *viewAction;
-    KAction *helpAction;
-    KAction *openWithAction;
-    KAction *deselectAllAction;
-    KAction *invertSelectionAction;
-    KAction *editAction;
+    QAction *saveAsAction;
+    QAction *addFileAction;
+    QAction *addDirAction;
+    QAction *extractAction;
+    QAction *deleteAction;
+    QAction *selectAllAction;
+    QAction *viewAction;
+    QAction *helpAction;
+    QAction *openWithAction;
+    QAction *deselectAllAction;
+    QAction *invertSelectionAction;
+    QAction *editAction;
 
     // the following have different enable rules from the above KActions
     KAction *popupViewAction;
