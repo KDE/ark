@@ -49,7 +49,6 @@
 #include <kio/netaccess.h>
 #include <kio/job.h>
 #include <kopenwithdialog.h>
-#include <kmimemagic.h>
 #include <kmimetype.h>
 #include <kstandarddirs.h>
 #include <ktempdir.h>
