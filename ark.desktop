@@ -2,6 +2,7 @@
 Encoding=UTF-8
 MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tgz;application/x-tbz;application/x-zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-bzip2;application/x-jar;application/x-deb
 GenericName=Archiving Tool
+GenericName[el]=Εργαλείο αρχειοθέτησης
 GenericName[fr]=Outil de manipulation d'archives
 GenericName[x-test]=xxArchiving Toolxx
 Name=Ark
