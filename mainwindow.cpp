@@ -281,7 +281,7 @@ MainWindow::getOpenURL( bool addOnly, const QString & caption,
     if ( !suggestedName.isEmpty() )
     {
         filter = QString::null;
-        combo->setCurrentIndex(list.findIndex( ArchiveFormatInfo::self()->descriptionForMimeType(
+        combo->setCurrentIndex(list.indexOf( ArchiveFormatInfo::self()->descriptionForMimeType(
                                  KMimeType::findByPath( suggestedName, 0, true )->name() ) ) );
     }
 
@@ -488,7 +488,8 @@ MainWindow::startProgressDialog( const QString & text )
     timer = new QTimer( this );
     connect( timer, SIGNAL( timeout() ), this, SLOT( slotProgress() ) );
 
-    timer->start( 200, false );
+    timer->setSingleShot( false );
+    timer->start( 200 );
 }
 
 void

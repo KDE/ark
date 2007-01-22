@@ -59,7 +59,7 @@ ArchiveFormatDlg::ArchiveFormatDlg( QWidget * parent, const QString & defaultTyp
     QStringList list = ArchiveFormatInfo::self()->allDescriptions();
     list.sort();
     m_combo->addItems( list );
-    m_combo->setCurrentIndex( list.findIndex( defaultDescription ) );
+    m_combo->setCurrentIndex( list.indexOf( defaultDescription ) );
 }
 
 QString ArchiveFormatDlg::mimeType()

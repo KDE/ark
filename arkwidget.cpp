@@ -335,8 +335,8 @@ ArkWidget::convertSlotCreateDone( bool success )
     }
     QDir dir( m_convert_tmpDir->name() );
     QStringList entries = dir.entryList();
-    entries.remove( ".." );
-    entries.remove( "." );
+    entries.removeAll( ".." );
+    entries.removeAll( "." );
     QStringList::Iterator it = entries.begin();
     for ( ; it != entries.end(); ++it )
     {
@@ -895,8 +895,8 @@ ArkWidget::extractRemoteInitiateMoving( const KUrl & target )
     QDir dir( srcDir );
     dir.setFilter( QDir::TypeMask | QDir::Hidden );
     QStringList lst( dir.entryList() );
-    lst.remove( "." );
-    lst.remove( ".." );
+    lst.removeAll( "." );
+    lst.removeAll( ".." );
 
     KUrl::List srcList;
     for( QStringList::ConstIterator it = lst.begin(); it != lst.end() ; ++it)
@@ -999,7 +999,7 @@ ArkWidget::createRealArchive( const QString & strFilename, const QStringList & f
     m_createRealArchTmpDir = new KTempDir( tmpDir() + "create_real_arch" );
     m_createRealArchTmpDir->setAutoRemove(false);
     u2.setPath( m_createRealArchTmpDir->name() + u1.fileName() );
-    KIO::NetAccess::copy( u1, u2, this );
+    KIO::NetAccess::file_copy( u1, u2, this );
     m_compressedFile = "file:" + u2.path(); // AGAIN THE 5 SPACES Hack :-(
     connect( newArch, SIGNAL( sigCreate( Arch *, bool, const QString &, int ) ),
              this, SLOT( createRealArchiveSlotCreate( Arch *, bool,
@@ -1102,7 +1102,7 @@ ArkWidget::action_add()
         //Here we pre-calculate the end of the list
    KUrl::List::ConstIterator endList = addList.end();
         for (KUrl::List::ConstIterator it = addList.begin(); it != endList; ++it)
-            list->append( KUrl::decode_string( (*it).url() ) );
+            list->append( QUrl::fromPercentEncoding( (*it).url().toLatin1() ) );
 
         if ( list->count() > 0 )
         {
@@ -1152,7 +1152,7 @@ ArkWidget::action_add_dir()
                                                 false, this,
                                                 i18n("Select Folder to Add"));
 
-    QString dir = KUrl::decode_string( u.url( KUrl::RemoveTrailingSlash ) );
+    QString dir = QUrl::fromPercentEncoding( u.url( KUrl::RemoveTrailingSlash ).toLatin1() );
     if ( !dir.isEmpty() )
     {
         busy( i18n( "Adding folder..." ) );

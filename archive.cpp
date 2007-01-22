@@ -272,7 +272,7 @@ void Arch::slotReceivedTOC( KProcess*, char* data, int length )
     {
       processLine( m_buffer );
     }
-    else if ( m_buffer.find( m_headerString ) == -1 )
+    else if ( m_buffer.indexOf( m_headerString ) == -1 )
     {
       if ( m_header_removed && !m_finished )
       {
@@ -313,7 +313,7 @@ bool Arch::processLine( const QByteArray &line )
   {
     ArchColumns *curCol = *col;
 
-    strpos = curCol->pattern.search( line, pos );
+    strpos = curCol->pattern.indexIn( line, pos );
     len = curCol->pattern.matchedLength();
 
     if ( ( strpos == -1 ) || ( len > curCol->maxLength ) )

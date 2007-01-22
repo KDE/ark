@@ -89,14 +89,14 @@ bool RarArch::processLine( const QByteArray &line )
 
   QStringList list;
 
-  QStringList l2 = QStringList::split( ' ', line );
+  QStringList l2 = QString(line).split( ' ' );
 
   list << m_entryFilename; // filename
   list << l2[ 0 ]; // size
   list << l2[ 1 ]; // packed
   list << l2[ 2 ]; // ratio
 
-  QStringList date =  QStringList::split( '-', l2[ 3 ] );
+  QStringList date =  l2[3].split( '-' );
   list << ArkUtils::fixYear( date[ 2 ].toAscii() ) + "-" + date[ 1 ] + "-" + date [ 0 ] + " " + l2[4]; // date
   list << l2[ 5 ]; // attributes
   list << l2[ 6 ]; // crc

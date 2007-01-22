@@ -222,7 +222,7 @@ void FileListView::removeColumn( int index )
 {
 	for ( int i = index; i < m_columnMap.count() - 2; i++ )
 	{
-		m_columnMap.replace( i, m_columnMap[ i + 1 ] );
+		m_columnMap.insert( i, m_columnMap[ i + 1 ] );
 	}
 
 	m_columnMap.remove( m_columnMap[ m_columnMap.count() - 1 ] );
@@ -488,7 +488,11 @@ FileLVI* FileListView::findParent( const QString& fullname )
 
 	// Get a list of ancestors
 	QString parentFullname = name.left( name.lastIndexOf( '/' ) );
-	QStringList ancestorList = QStringList::split( '/', parentFullname );
+	QStringList ancestorList;
+	if (parentFullname.isEmpty())
+		ancestorList = QStringList();
+	else
+		ancestorList = parentFullname.split( '/' );
 
 	// Checks if the listview contains the first item in the list of ancestors
 	Q3ListViewItem *item = firstChild();

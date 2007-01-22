@@ -256,7 +256,7 @@ ArkApplication::removeOpenArk(const KUrl & _arkname)
     else
         realName = _arkname.prettyUrl();
     kDebug(1601) << "Removing name " << _arkname.prettyUrl() << endl;
-    openArksList.remove(realName);
+    openArksList.removeAll(realName);
     m_windowsHash.remove(realName);
 }
 
@@ -287,7 +287,7 @@ ArkApplication::isArkOpenAlready(const KUrl & _arkname)
         realName = resolveFilename(_arkname.path());  // follow symlink
     else
         realName = _arkname.prettyUrl();
-	return ( openArksList.findIndex(realName) != -1 );
+	return ( openArksList.indexOf(realName) != -1 );
 }
 
 #include "arkapp.moc"

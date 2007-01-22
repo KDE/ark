@@ -173,7 +173,7 @@ ArchType ArchiveFormatInfo::archTypeForMimeType( const QString & mimeType )
     InfoList::Iterator it = m_formatInfos.begin();
     for( ; it != m_formatInfos.end(); ++it )
     {
-        int index = (*it).mimeTypes.findIndex( mimeType );
+        int index = (*it).mimeTypes.indexOf( mimeType );
         if( index != -1 )
             return (*it).type;
     }
@@ -219,7 +219,7 @@ QString ArchiveFormatInfo::findMimeType( const KUrl & url )
     char buffer[ 0x200 ];
 
     dev->open(  QIODevice::ReadOnly );
-    Q_LONG n = dev->readBlock( buffer, 0x200 );
+    Q_LONG n = dev->read( buffer, 0x200 );
     delete dev;
 
     if ( n == 0x200 && buffer[0] != 0 && !strncmp(buffer + 257, "ustar", 5) )
@@ -239,7 +239,7 @@ QString ArchiveFormatInfo::mimeTypeForDescription( const QString & description )
     int index;
     for( ; it != m_formatInfos.end(); ++it )
     {
-        index = (*it).allDescriptions.findIndex( description );
+        index = (*it).allDescriptions.indexOf( description );
         if ( index != -1 )
             return ( (*it).mimeTypes.at( index ) );
     }
@@ -252,7 +252,7 @@ QString ArchiveFormatInfo::descriptionForMimeType( const QString & mimeType )
     int index;
     for( ; it != m_formatInfos.end(); ++it )
     {
-        index = (*it).mimeTypes.findIndex( mimeType );
+        index = (*it).mimeTypes.indexOf( mimeType );
         if ( index != -1 )
             return ( (*it).allDescriptions.at( index ) );
     }
@@ -265,7 +265,7 @@ QString ArchiveFormatInfo::defaultExtension( const QString & mimeType )
     int index;
     for( ; it != m_formatInfos.end(); ++it )
     {
-        index = (*it).mimeTypes.findIndex( mimeType );
+        index = (*it).mimeTypes.indexOf( mimeType );
         if ( index != -1 )
             return ( (*it).defaultExtensions.at( index ) );
     }

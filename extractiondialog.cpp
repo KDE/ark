@@ -114,7 +114,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 	comp->setCompletionMode( KGlobalSettings::CompletionAuto );
 	combobox->setCompletionObject( comp );
 	combobox->setMaxCount( 20 );
-	combobox->setInsertionPolicy( QComboBox::AtTop );
+	combobox->setInsertPolicy( QComboBox::AtTop );
 
 	m_urlRequester = new KUrlRequester( combobox, destDirBox );
 	m_urlRequester->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
