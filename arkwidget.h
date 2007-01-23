@@ -146,7 +146,7 @@ protected slots:
     void slotAddDone(bool);
     void slotEditFinished(KProcess *);
 signals:
-    void openURLRequest( const KUrl & url );
+    void openUrlRequest( const KUrl & url );
     void request_file_quit();
     void setBusy( const QString & );
     void setReady();

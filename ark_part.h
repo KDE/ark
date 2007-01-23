@@ -49,7 +49,7 @@ class ArkBrowserExtension: public KParts::BrowserExtension
 public:
     ArkBrowserExtension( KParts::ReadOnlyPart * parent, const char * name = 0L );
 public slots:
-    void slotOpenURLRequested( const KUrl & url );
+    void slotOpenUrlRequested( const KUrl & url );
 };
 
 class ArkStatusBarExtension: public KParts::StatusBarExtension

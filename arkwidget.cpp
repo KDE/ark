@@ -380,14 +380,14 @@ ArkWidget::convertFinish()
     {
         if ( m_convert_saveAsURL.isLocalFile() )
         {
-            emit openURLRequest( m_convert_saveAsURL );
+            emit openUrlRequest( m_convert_saveAsURL );
         }
         else
         {
             KIO::NetAccess::upload( tmpDir()
                        + m_convert_saveAsURL.fileName(), m_convert_saveAsURL, this );
             // TODO: save bandwidth - we already have a local tmp file ...
-            emit openURLRequest( m_convert_saveAsURL );
+            emit openUrlRequest( m_convert_saveAsURL );
         }
     }
     else
@@ -1914,7 +1914,7 @@ ArkWidget::dropAction( QStringList  & list )
         // or they selected "Open".
         KUrl url = str;
 
-        emit openURLRequest( url );
+        emit openUrlRequest( url );
     }
     else
     {

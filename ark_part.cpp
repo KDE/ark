@@ -95,8 +95,8 @@ ArkPart::ArkPart( QWidget *parentWidget, QObject *parent,
     setupActions();
 
     m_ext = new ArkBrowserExtension( this, "ArkBrowserExtension" );
-    connect( awidget, SIGNAL( openURLRequest( const KUrl & ) ),
-             m_ext, SLOT( slotOpenURLRequested( const KUrl & ) ) );
+    connect( awidget, SIGNAL( openUrlRequest( const KUrl & ) ),
+             m_ext, SLOT( slotOpenUrlRequested( const KUrl & ) ) );
 
     m_bar = new ArkStatusBarExtension( this );
     connect( awidget, SIGNAL( setStatusBarText( const QString & ) ), m_bar,
@@ -291,7 +291,7 @@ void ArkPart::file_save_as()
     if ( !awidget->allowedArchiveName( u ) )
         awidget->convertTo( u );
     else if ( awidget->file_save_as( u ) )
-        m_ext->slotOpenURLRequested( u );
+        m_ext->slotOpenUrlRequested( u );
     else
         kWarning( 1601 ) <<  "Save As failed." << endl;
 }
@@ -400,7 +400,7 @@ ArkBrowserExtension::ArkBrowserExtension( KParts::ReadOnlyPart * parent, const c
 {
 }
 
-void ArkBrowserExtension::slotOpenURLRequested( const KUrl & url )
+void ArkBrowserExtension::slotOpenUrlRequested( const KUrl & url )
 {
     emit openUrlRequest( url, KParts::URLArgs() );
 }
