@@ -33,9 +33,9 @@ public:
         QObject *parent = 0, 
         const char *classname = "KParts::Part",
         const QStringList &args = QStringList() );
-    static KInstance* instance();
+    static const KComponentData &componentData();
    private:
-    static KInstance* s_instance;
+    static KComponentData *s_instance;
     static KAboutData* s_about;
     static int instanceNumber;
 };

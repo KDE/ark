@@ -138,7 +138,7 @@ MainWindow::setupActions()
 
 
     recent = KStandardAction::openRecent(this, SLOT(openURL(const KUrl&)), actionCollection());
-    recent->loadEntries(KGlobal::config());
+    recent->loadEntries(KGlobal::config().data());
 
     createStandardStatusBarAction();
 
@@ -195,7 +195,7 @@ MainWindow::file_reload()
 void
 MainWindow::editToolbars()
 {
-    saveMainWindowSettings( KGlobal::config(), QString::fromLatin1("MainWindow") );
+    saveMainWindowSettings( KGlobal::config().data(), QString::fromLatin1("MainWindow") );
     KEditToolbar dlg( factory(), this );
     connect(&dlg, SIGNAL( newToolbarConfig() ), this, SLOT( slotNewToolbarConfig() ));
     dlg.exec();
@@ -205,7 +205,7 @@ void
 MainWindow::slotNewToolbarConfig()
 {
     createGUI( m_part );
-    applyMainWindowSettings( KGlobal::config(), QString::fromLatin1("MainWindow") );
+    applyMainWindowSettings( KGlobal::config().data(), QString::fromLatin1("MainWindow") );
 }
 
 void
@@ -358,7 +358,7 @@ MainWindow::file_quit()
 void
 MainWindow::slotSaveProperties()
 {
-    recent->saveEntries(KGlobal::config());
+    recent->saveEntries(KGlobal::config().data());
 }
 
 void
@@ -383,14 +383,14 @@ void
 MainWindow::slotAddRecentURL( const KUrl & url )
 {
     recent->addUrl( url );
-    recent->saveEntries(KGlobal::config());
+    recent->saveEntries(KGlobal::config().data());
 }
 
 void
 MainWindow::slotRemoveRecentURL( const KUrl & url )
 {
     recent->removeUrl( url );
-    recent->saveEntries(KGlobal::config());
+    recent->saveEntries(KGlobal::config().data());
 }
 
 void
