@@ -20,14 +20,14 @@
 */
 
 #include <kaboutdata.h>
-#include <kinstance.h>
+#include <kcomponentdata.h>
 
 #include "ark_part.h"
 #include "arkfactory.h"
 //Added by qt3to4:
 #include <QByteArray>
 
-KInstance* ArkFactory::s_instance = 0L;
+KComponentData *ArkFactory::s_instance = 0L;
 KAboutData* ArkFactory::s_about = 0L;
 int ArkFactory::instanceNumber = 0;
 
@@ -57,14 +57,14 @@ KParts::Part * ArkFactory::createPartObject( QWidget *parentWidget,
         return obj;
 }
 
-KInstance* ArkFactory::instance()
+const KComponentData &ArkFactory::componentData()
 {
     instanceNumber++;
     if( !s_instance )
     {
         s_about = ArkPart::createAboutData();
-        s_instance = new KInstance( s_about );
+        s_instance = new KComponentData( s_about );
     }
-    return s_instance;
+    return *s_instance;
 }
 
