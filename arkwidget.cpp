@@ -47,7 +47,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kio/netaccess.h>
-#include <kio/job.h>
+#include <kio/copyjob.h>
 #include <kopenwithdialog.h>
 #include <kmimetype.h>
 #include <kstandarddirs.h>
