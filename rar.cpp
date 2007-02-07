@@ -44,7 +44,6 @@
 #include <kstandarddirs.h>
 
 // ark includes
-#include <config.h>
 #include "arkwidget.h"
 #include "archive.h"
 #include "settings.h"

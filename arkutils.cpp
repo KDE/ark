@@ -29,8 +29,6 @@
 
 */
 
-#include <config.h>
-
 // C includes
 #include <stdlib.h>
 #include <time.h>
@@ -39,9 +37,8 @@
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-                                         
+
 #include <unistd.h>
-#include <config.h>
 
 #ifdef _HPUX_SOURCE
 #include <sys/vfs.h>
@@ -189,7 +186,8 @@ ArkUtils::diskHasSpace(const QString &dir, KIO::filesize_t size)
   // the given size in the partition containing the given directory
 {
   kDebug( 1601 ) << "diskHasSpace() " << "dir: " << dir << " Size: " << size << endl;
-  
+
+  // TODO port to KDiskFreeSp
   struct STATFS buf;
   if (STATFS(QFile::encodeName(dir), &buf) == 0)
   {

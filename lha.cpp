@@ -25,8 +25,6 @@
 
 */
 
-#include <config.h>
-
 // C includes
 #include <stdio.h>
 #include <unistd.h>
@@ -37,7 +35,6 @@
 // QT includes
 #include <QFile>
 #include <QDir>
-//Added by qt3to4:
 #include <QByteArray>
 #include <kdefakes.h>
 // KDE includes
