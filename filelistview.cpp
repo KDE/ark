@@ -34,6 +34,7 @@
 
 // KDE includes
 #include <klocale.h>
+#include <kiconloader.h>
 #include <kglobal.h>
 #include <kdebug.h>
 #include <kglobalsettings.h>
@@ -161,7 +162,7 @@ static FileLVI* folderLVI( K3ListViewItem *parent, const QString& name )
 {
 	FileLVI *folder = new FileLVI( parent );
 	folder->setText( 0, name );
-	folder->setPixmap( 0, KMimeType::mimeType( "inode/directory" )->pixmap( K3Icon::Small ) );
+	folder->setPixmap( 0, KIconLoader::global()->loadMimeTypeIcon(KMimeType::mimeType( "inode/directory" )->iconName(), K3Icon::Small ) );
 	return folder;
 }
 
@@ -169,7 +170,7 @@ static FileLVI* folderLVI( K3ListView *parent, const QString& name )
 {
 	FileLVI *folder = new FileLVI( parent );
 	folder->setText( 0, name );
-	folder->setPixmap( 0, KMimeType::mimeType( "inode/directory" )->pixmap( K3Icon::Small ) );
+	folder->setPixmap( 0, KIconLoader::global()->loadMimeTypeIcon(KMimeType::mimeType( "inode/directory" )->iconName(), K3Icon::Small ) );
 	return folder;
 }
 
@@ -379,7 +380,7 @@ void FileListView::addItem( const QStringList & entries )
 	}
 
 	KMimeType::Ptr mimeType = KMimeType::findByPath( entries.first(), 0, true );
-	flvi->setPixmap( 0, mimeType->pixmap( K3Icon::Small ) );
+	flvi->setPixmap( 0, KIconLoader::global()->loadMimeTypeIcon(mimeType->iconName(), K3Icon::Small ) );
 }
 
 void FileListView::selectAll()
