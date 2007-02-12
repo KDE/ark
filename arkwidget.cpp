@@ -199,7 +199,7 @@ ArkWidget::updateStatusTotals()
     m_nNumFiles    = m_fileListView->totalFiles();
     m_nSizeOfFiles = m_fileListView->totalSize();
 
-    QString strInfo = i18np( "%n file  %1", "%n files  %1", m_nNumFiles ,
+    QString strInfo = i18np( "%1 file  %2", "%1 files  %2", m_nNumFiles ,
                             KIO::convertSize( m_nSizeOfFiles ) );
     emit setStatusBarText(strInfo);
 }
@@ -1803,16 +1803,12 @@ ArkWidget::updateStatusSelection()
     {
         strInfo = i18n("0 files selected");
     }
-    else if (m_nNumSelectedFiles != 1)
-    {
-        strInfo = i18n("%1 files selected  %2",
-                   KGlobal::locale()->formatNumber(m_nNumSelectedFiles, 0),
-                   KIO::convertSize(m_nSizeOfSelectedFiles));
-    }
     else
     {
-        strInfo = i18n("1 file selected  %2",
-                   KIO::convertSize(m_nSizeOfSelectedFiles));
+        strInfo = i18ncp("%2 is the total size of selected files",
+                         "1 files selected  %2", "%1 files selected  %2",
+                         m_nNumSelectedFiles,
+                         KIO::convertSize(m_nSizeOfSelectedFiles));
     }
 
     emit setStatusBarSelectedFiles(strInfo);
