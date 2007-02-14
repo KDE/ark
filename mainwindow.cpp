@@ -132,13 +132,13 @@ MainWindow::setupActions()
     reloadAction->setText(i18n("Re&load"));
     connect(reloadAction, SIGNAL(triggered(bool)), SLOT(file_reload()));
     reloadAction->setShortcuts(KStandardShortcut::shortcut( KStandardShortcut::Reload ));
-    
+
     closeAction = KStandardAction::close(this, SLOT(file_close()), actionCollection());
     actionCollection()->addAction("file_close",closeAction);
 
 
     recent = KStandardAction::openRecent(this, SLOT(openURL(const KUrl&)), actionCollection());
-    recent->loadEntries(KGlobal::config().data());
+    recent->loadEntries( KGlobal::config()->group( QString() ) );
 
     createStandardStatusBarAction();
 
@@ -195,7 +195,8 @@ MainWindow::file_reload()
 void
 MainWindow::editToolbars()
 {
-    saveMainWindowSettings( KGlobal::config().data(), QString::fromLatin1("MainWindow") );
+    KConfigGroup cg( KGlobal::config(), QString::fromLatin1("MainWindow") );
+    saveMainWindowSettings( cg );
     KEditToolbar dlg( factory(), this );
     connect(&dlg, SIGNAL( newToolbarConfig() ), this, SLOT( slotNewToolbarConfig() ));
     dlg.exec();
@@ -205,7 +206,7 @@ void
 MainWindow::slotNewToolbarConfig()
 {
     createGUI( m_part );
-    applyMainWindowSettings( KGlobal::config().data(), QString::fromLatin1("MainWindow") );
+    applyMainWindowSettings( KGlobal::config()->group( QString::fromLatin1("MainWindow") ) );
 }
 
 void
@@ -358,7 +359,7 @@ MainWindow::file_quit()
 void
 MainWindow::slotSaveProperties()
 {
-    recent->saveEntries(KGlobal::config().data());
+    recent->saveEntries(KGlobal::config()->group(QString()));
 }
 
 void
@@ -383,14 +384,14 @@ void
 MainWindow::slotAddRecentURL( const KUrl & url )
 {
     recent->addUrl( url );
-    recent->saveEntries(KGlobal::config().data());
+    recent->saveEntries(KGlobal::config()->group( QString() ));
 }
 
 void
 MainWindow::slotRemoveRecentURL( const KUrl & url )
 {
     recent->removeUrl( url );
-    recent->saveEntries(KGlobal::config().data());
+    recent->saveEntries( KGlobal::config()->group( QString() ));
 }
 
 void
