@@ -87,7 +87,7 @@ void ArchiveFormatInfo::addFormatInfo( ArchType type, QString mime, QString stdE
 {
     FormatInfo & info = find( type );
 
-    KDesktopFile * desktopFile = new KDesktopFile( mime + ".desktop", true, "mime" );
+    KDesktopFile * desktopFile = new KDesktopFile( "mime", mime + ".desktop" );
     if( !desktopFile )
         kWarning( 1601 ) << "MimeType " << mime << " seems to be missing." << endl;
     KMimeType mimeType( desktopFile );
