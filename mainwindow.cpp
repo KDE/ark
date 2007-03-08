@@ -120,7 +120,7 @@ MainWindow::setupActions()
 {
     newWindowAction = actionCollection()->addAction("new_window");
     newWindowAction->setText(i18n("New &Window"));
-    newWindowAction->setIcon(KIcon("window_new"));
+    newWindowAction->setIcon(KIcon("window-new"));
 
     connect(newWindowAction, SIGNAL(triggered(bool)), SLOT(file_newWindow()));
 
@@ -128,7 +128,7 @@ MainWindow::setupActions()
     openAction = KStandardAction::open(this, SLOT(file_open()), actionCollection());
 
     reloadAction = actionCollection()->addAction("reload_arch");
-    reloadAction->setIcon(KIcon("reload"));
+    reloadAction->setIcon(KIcon("view-refresh"));
     reloadAction->setText(i18n("Re&load"));
     connect(reloadAction, SIGNAL(triggered(bool)), SLOT(file_reload()));
     reloadAction->setShortcuts(KStandardShortcut::shortcut( KStandardShortcut::Reload ));
