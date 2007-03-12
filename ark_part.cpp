@@ -269,8 +269,8 @@ bool ArkPart::openURL( const KUrl & url )
 bool ArkPart::openFile()
 {
     KUrl url;
-    url.setPath( m_file );
-    if( !QFile::exists( m_file ) )
+    url.setPath( localFilePath() );
+    if( !QFile::exists( localFilePath() ) )
     {
         emit setWindowCaption(  QString::null );
         emit removeRecentURL( awidget->realURL() );
@@ -343,7 +343,7 @@ void ArkPart::transferStarted( KIO::Job *job )
 {
     m_job = job;
 
-    m_bar->slotSetBusy( i18n( "Downloading %1...", m_url.prettyUrl() ),
+    m_bar->slotSetBusy( i18n( "Downloading %1...", url().prettyUrl() ),
                         (job != 0), (job != 0) );
 
     if ( job )
