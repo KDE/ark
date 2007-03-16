@@ -330,7 +330,7 @@ void TarArch::openSecondCreateTempDone()
         disconnect( this, SIGNAL( createTempDone() ), this, SLOT( openSecondCreateTempDone() ) );
         kDebug(1601)  << "Creating KTar from failed IO_RW " << m_filename <<
             " using uncompressor " << getUnCompressor() << endl;
-        if ( KMimeType::findByFileContent( tmpfile )->name() != "application/x-zerosize" )
+        if ( QFileInfo(tmpfile).size() != 0 )
         {
             tarptr = new KTar(tmpfile);
             failed = !tarptr->open(QIODevice::ReadOnly);
