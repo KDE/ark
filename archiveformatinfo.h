@@ -47,7 +47,7 @@ public:
 
 private:
     void buildFormatInfos();
-    void addFormatInfo( ArchType type, QString mime, QString stdExt );
+    void addFormatInfo( ArchType type, const QString& mime, const QString& stdExt );
 
     struct FormatInfo
     {

@@ -83,21 +83,20 @@ void ArchiveFormatInfo::buildFormatInfos()
     addFormatInfo( ACE_FORMAT, "application/x-ace", ".ace" );
 }
 
-void ArchiveFormatInfo::addFormatInfo( ArchType type, QString mime, QString stdExt )
+void ArchiveFormatInfo::addFormatInfo( ArchType type, const QString& mime, const QString& stdExt )
 {
     FormatInfo & info = find( type );
 
-    KDesktopFile * desktopFile = new KDesktopFile( "mime", mime + ".desktop" );
-    if( !desktopFile )
+    KMimeType::Ptr mimeType = KMimeType::mimeType( mime );
+    if( !mimeType ) {
         kWarning( 1601 ) << "MimeType " << mime << " seems to be missing." << endl;
-    KMimeType mimeType( desktopFile );
-    info.mimeTypes.append( mimeType.name() );
-    info.extensions += mimeType.patterns();
-    info.defaultExtensions += stdExt;
-    info.allDescriptions.append( mimeType.comment() );
-    info.description = mimeType.comment();
-
-    delete desktopFile;
+    } else {
+        info.mimeTypes.append( mimeType->name() );
+        info.extensions += mimeType->patterns();
+        info.defaultExtensions += stdExt;
+        info.allDescriptions.append( mimeType->comment() );
+        info.description = mimeType->comment();
+    }
 }
 
 
