@@ -115,7 +115,7 @@ void CompressedFile::initData()
         m_archiver_program = "bzip";
         m_defaultExtensions << ".bz";
     }
-    if ( mimeType == "application/x-bzip2" )
+    if ( mimeType == "application/x-bzip" )
     {
         m_unarchiver_program = "bunzip2";
         m_archiver_program = "bzip2";

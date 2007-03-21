@@ -93,11 +93,11 @@ TarArch::TarArch( ArkWidget *_gui,
 
     kDebug(1601) << "TarArch::TarArch:  mimetype is " << m_fileMimeType << endl;
 
-    if ( m_fileMimeType == "application/x-tbz2" )
+    if ( m_fileMimeType == "application/x-bzip-compressed-tar2" )
     {
         // ark treats .tar.bz2 as x-tbz, instead of duplicating the mimetype
         // let's just alias it to the one we already handle.
-        m_fileMimeType = "application/x-tbz";
+        m_fileMimeType = "application/x-bzip-compressed-tar";
     }
 
     if ( m_fileMimeType == "application/x-tar" )
@@ -203,10 +203,10 @@ QString TarArch::getCompressor()
     if ( m_fileMimeType == "application/x-tarz" )
         return QString( "compress" );
 
-    if ( m_fileMimeType == "application/x-tgz" )
+    if ( m_fileMimeType == "application/x-compressed-tar" )
         return QString( "gzip" );
 
-    if (  m_fileMimeType == "application/x-tbz" )
+    if (  m_fileMimeType == "application/x-bzip-compressed-tar" )
         return QString( "bzip2" );
 
     if( m_fileMimeType == "application/x-tzo" )
@@ -221,10 +221,10 @@ QString TarArch::getUnCompressor()
     if ( m_fileMimeType == "application/x-tarz" )
         return QString( "uncompress" );
 
-    if ( m_fileMimeType == "application/x-tgz" )
+    if ( m_fileMimeType == "application/x-compressed-tar" )
         return QString( "gunzip" );
 
-    if (  m_fileMimeType == "application/x-tbz" )
+    if (  m_fileMimeType == "application/x-bzip-compressed-tar" )
         return QString( "bunzip2" );
 
     if( m_fileMimeType == "application/x-tzo" )
@@ -277,11 +277,11 @@ TarArch::open()
     // We list afterwards because we want the signals at the end
     // This unconfuses Extract Here somewhat
 
-    if ( m_fileMimeType == "application/x-tgz"
-            || m_fileMimeType == "application/x-tbz" )
+    if ( m_fileMimeType == "application/x-compressed-tar"
+            || m_fileMimeType == "application/x-bzip-compressed-tar" )
     {
-        QString type = ( m_fileMimeType == "application/x-tgz" )
-            ? "application/x-gzip" : "application/x-bzip2";
+        QString type = ( m_fileMimeType == "application/x-compressed-tar" )
+            ? "application/x-gzip" : "application/x-bzip";
         tarptr = new KTar ( m_filename, type );
         openFirstCreateTempDone();
     }
@@ -299,8 +299,8 @@ TarArch::open()
 
 void TarArch::openFirstCreateTempDone()
 {
-    if ( compressed && ( m_fileMimeType != "application/x-tgz" )
-            && ( m_fileMimeType != "application/x-tbz" ) )
+    if ( compressed && ( m_fileMimeType != "application/x-compressed-tar" )
+            && ( m_fileMimeType != "application/x-bzip-compressed-tar" ) )
     {
         disconnect( this, SIGNAL( createTempDone() ), this, SLOT( openFirstCreateTempDone() ) );
         tarptr = new KTar(tmpfile);

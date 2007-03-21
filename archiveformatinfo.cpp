@@ -48,23 +48,23 @@ ArchiveFormatInfo * ArchiveFormatInfo::self()
 
 void ArchiveFormatInfo::buildFormatInfos()
 {
-  addFormatInfo( TAR_FORMAT, "application/x-tgz", ".tar.gz" );
+  addFormatInfo( TAR_FORMAT, "application/x-compressed-tar", ".tar.gz" );
   addFormatInfo( TAR_FORMAT, "application/x-tzo", ".tar.lzo" );
   addFormatInfo( TAR_FORMAT, "application/x-tarz", ".tar.z" );
-  addFormatInfo( TAR_FORMAT, "application/x-tbz", ".tar.bz2" );
-  addFormatInfo( TAR_FORMAT, "application/x-tbz2", ".tar.bz2" );
+  addFormatInfo( TAR_FORMAT, "application/x-bzip-compressed-tar", ".tar.bz2" );
+  addFormatInfo( TAR_FORMAT, "application/x-bzip-compressed-tar2", ".tar.bz2" );
   // x-tar as the last one to get its comment for all the others, too
   addFormatInfo( TAR_FORMAT, "application/x-tar", ".tar" );
 
   addFormatInfo( LHA_FORMAT, "application/x-lha", ".lha" );
 
-  addFormatInfo( ZIP_FORMAT, "application/x-jar", ".jar" );
-  addFormatInfo( ZIP_FORMAT, "application/x-zip", ".zip" );
-  addFormatInfo( ZIP_FORMAT, "application/x-zip-compressed", ".zip" );
+  addFormatInfo( ZIP_FORMAT, "application/x-java-archive", ".jar" );
+  addFormatInfo( ZIP_FORMAT, "application/zip", ".zip" );
+  addFormatInfo( ZIP_FORMAT, "application/zip", ".zip" );
 
   addFormatInfo( COMPRESSED_FORMAT, "application/x-gzip", ".gz" );
   addFormatInfo( COMPRESSED_FORMAT, "application/x-bzip", ".bz" );
-  addFormatInfo( COMPRESSED_FORMAT, "application/x-bzip2", ".bz2" );
+  addFormatInfo( COMPRESSED_FORMAT, "application/x-bzip", ".bz2" );
   addFormatInfo( COMPRESSED_FORMAT, "application/x-lzop", ".lzo"  );
   addFormatInfo( COMPRESSED_FORMAT, "application/x-compress", ".Z" );
   find( COMPRESSED_FORMAT ).description = i18n( "Compressed File" );
@@ -72,12 +72,12 @@ void ArchiveFormatInfo::buildFormatInfos()
   addFormatInfo( ZOO_FORMAT, "application/x-zoo", ".zoo" );
 
   addFormatInfo( RAR_FORMAT, "application/x-rar", ".rar" );
-  addFormatInfo( RAR_FORMAT, "application/x-rar-compressed", ".rar" );
+  addFormatInfo( RAR_FORMAT, "application/x-rar", ".rar" );
 
   addFormatInfo( AA_FORMAT, "application/x-deb", ".deb" );
   addFormatInfo( AA_FORMAT, "application/x-archive",".a" );
 
-  addFormatInfo( SEVENZIP_FORMAT, "application/x-7z", ".7z" );
+  addFormatInfo( SEVENZIP_FORMAT, "application/x-7z-compressed", ".7z" );
 
   if ( ArkSettings::aceSupport() )
     addFormatInfo( ACE_FORMAT, "application/x-ace", ".ace" );
@@ -208,7 +208,7 @@ ArchType ArchiveFormatInfo::archTypeForURL( const KUrl & url )
 QString ArchiveFormatInfo::findMimeType( const KUrl & url )
 {
     QString mimeType = KMimeType::findByUrl( url )->name();
-    if ( mimeType != "application/x-bzip2" && mimeType != "application/x-gzip" )
+    if ( mimeType != "application/x-bzip" && mimeType != "application/x-gzip" )
         return mimeType;
 
     QIODevice * dev = KFilterDev::deviceForFile( url.path(), mimeType );
@@ -223,10 +223,10 @@ QString ArchiveFormatInfo::findMimeType( const KUrl & url )
 
     if ( n == 0x200 && buffer[0] != 0 && !strncmp(buffer + 257, "ustar", 5) )
     {
-        if (mimeType == "application/x-bzip2")
-            return "application/x-tbz";
+        if (mimeType == "application/x-bzip")
+            return "application/x-bzip-compressed-tar";
         else
-            return "application/x-tgz";
+            return "application/x-compressed-tar";
     }
 
     return mimeType;

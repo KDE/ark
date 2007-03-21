@@ -756,7 +756,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
     dlg.setCaption( _caption );
     dlg.setOperationMode( KFileDialog::Saving );
     dlg.setMimeFilter( ArchiveFormatInfo::self()->supportedMimeTypes( allowCompressed ),
-                       _defaultMimeType.isNull() ?  "application/x-tgz" : _defaultMimeType );
+                       _defaultMimeType.isNull() ?  "application/x-compressed-tar" : _defaultMimeType );
     if ( !_suggestedName.isEmpty() )
         dlg.setSelection( _suggestedName );
 
