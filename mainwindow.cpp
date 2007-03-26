@@ -213,8 +213,8 @@ MainWindow::slotConfigureKeyBindings()
 {
     KKeyDialog dlg( KKeyChooser::AllActions, KKeyChooser::LetterShortcutsAllowed, this );
 
-    dlg.insert( actionCollection() );
-    dlg.insert( m_part->actionCollection() );
+    dlg.addCollection( actionCollection() );
+    dlg.addCollection( m_part->actionCollection() );
 
     dlg.configure();
 }
