@@ -173,8 +173,8 @@
 	  changes will be lost.)
 	
 2000-03-06: Emily Ezust <emilye@corel.com>
-	* Got rid of KProcess data member in Arch - no need for it with the
-	  new way that KProcess does its work: we are always passing it 
+	* Got rid of K3Process data member in Arch - no need for it with the
+	  new way that K3Process does its work: we are always passing it 
 	  around to the functions that need it. This way we won't get
  	  confused when there are more than one processes happening.
 	* Made tar more asynchronous, redid the temp file creation & updating.
@@ -199,7 +199,7 @@
 	
 2000-02-22: Emily Ezust <emilye@corel.com>
 	* More work on the abstract base class for archives - moved lots of
-	  slots dealing with the KProcess from zip.cpp to arch.cpp
+	  slots dealing with the K3Process from zip.cpp to arch.cpp
 	* Some work on tar. Doesn't work yet.
 
 2000-02-16: Emily Ezust <emilye@corel.com>

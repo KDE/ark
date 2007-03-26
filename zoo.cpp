@@ -40,7 +40,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kprocess.h>
+#include <k3process.h>
 
 // ark includes
 #include "settings.h"
@@ -109,16 +109,16 @@ void ZooArch::open()
   m_finished = false;
 
 
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   *kp << m_archiver_program << "l" << m_filename;
-  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
-           SLOT( slotReceivedTOC(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( processExited(KProcess*) ),
-           SLOT( slotOpenExited(KProcess*) ) );
+  connect( kp, SIGNAL( receivedStdout(K3Process*, char*, int) ),
+           SLOT( slotReceivedTOC(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(K3Process*) ),
+           SLOT( slotOpenExited(K3Process*) ) );
 
-  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
     emit sigOpen( this, false, QString::null, 0 );
@@ -156,7 +156,7 @@ void ZooArch::addDir( const QString & _dirName )
 
 void ZooArch::addFile( const QStringList &urls )
 {
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   kp->clearArguments();
   *kp << m_archiver_program;
 
@@ -178,14 +178,14 @@ void ZooArch::addFile( const QStringList &urls )
     *kp << fileURL.fileName();
   }
 
-  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( processExited(KProcess*) ),
-           SLOT( slotAddExited(KProcess*) ) );
+  connect( kp, SIGNAL( receivedStdout(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(K3Process*) ),
+           SLOT( slotAddExited(K3Process*) ) );
 
-  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
     emit sigAdd( false );
@@ -210,7 +210,7 @@ void ZooArch::unarchFileInternal()
   // We already checked the validity of the dir before coming here
   Q_ASSERT(ret);
 
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   kp->clearArguments();
 
   *kp << m_archiver_program;
@@ -237,14 +237,14 @@ void ZooArch::unarchFileInternal()
     }
   }
 
-  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( processExited(KProcess*) ),
-           SLOT( slotExtractExited(KProcess*) ) );
+  connect( kp, SIGNAL( receivedStdout(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(K3Process*) ),
+           SLOT( slotExtractExited(K3Process*) ) );
 
-  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
     emit sigExtract( false );
@@ -256,7 +256,7 @@ void ZooArch::remove( QStringList *list )
   if (!list)
     return;
 
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   kp->clearArguments();
 
   *kp << m_archiver_program << "D" << m_filename;
@@ -268,14 +268,14 @@ void ZooArch::remove( QStringList *list )
     *kp << str;
   }
 
-  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( processExited(KProcess*) ),
-           SLOT( slotDeleteExited(KProcess*) ) );
+  connect( kp, SIGNAL( receivedStdout(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(K3Process*) ),
+           SLOT( slotDeleteExited(K3Process*) ) );
 
-  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
     emit sigDelete( false );

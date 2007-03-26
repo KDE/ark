@@ -30,7 +30,7 @@
 class QString;
 class QByteArray;
 class QStringList;
-class KProcess;
+class K3Process;
 class KTempDir;
 
 class Arch;
@@ -62,9 +62,9 @@ public:
   QString tempFileName(){ return m_tmpfile; }
 
 private slots:
-  void slotUncompressDone(KProcess *);
-  void slotAddInProgress(KProcess*, char*, int);
-  void slotAddDone(KProcess*);
+  void slotUncompressDone(K3Process *);
+  void slotAddInProgress(K3Process*, char*, int);
+  void slotAddDone(K3Process*);
 
 private:
   void initExtract( bool, bool, bool );

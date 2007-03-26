@@ -37,7 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class QString;
 class Q3StrList;
-class KProcess;
+class K3Process;
 class KTempDir;
 class KArchiveDirectory;
 class ArkWidget;
@@ -73,14 +73,14 @@ public:
   QString getUnCompressor();
 
  public slots:
- void updateProgress( KProcess *_kp, char *_buffer, int _bufflen );
-  void openFinished( KProcess * );
-  void updateFinished( KProcess * );
-  void createTmpFinished( KProcess * );
-    void createTmpProgress( KProcess *_kp, char *_buffer, int _bufflen );
-    void slotAddFinished( KProcess * );
-    void slotListingDone( KProcess * );
-    void slotDeleteExited( KProcess * );
+ void updateProgress( K3Process *_kp, char *_buffer, int _bufflen );
+  void openFinished( K3Process * );
+  void updateFinished( K3Process * );
+  void createTmpFinished( K3Process * );
+    void createTmpProgress( K3Process *_kp, char *_buffer, int _bufflen );
+    void slotAddFinished( K3Process * );
+    void slotListingDone( K3Process * );
+    void slotDeleteExited( K3Process * );
 
 signals:
     void removeDone();
@@ -120,8 +120,8 @@ private: // data
     FILE *fd;
     QStringList m_filesToAdd;
     QStringList m_filesToRemove;
-    KProcess * m_pTmpProc;
-    KProcess * m_pTmpProc2;
+    K3Process * m_pTmpProc;
+    K3Process * m_pTmpProc2;
     KTar *tarptr;
     bool failed;
     bool m_dotslash;

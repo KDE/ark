@@ -51,7 +51,7 @@ class QDragMoveEvent;
 class QDropEvent;
 
 class KMenu;
-class KProcess;
+class K3Process;
 class KUrl;
 class KRun;
 class KTemporaryFile;
@@ -144,7 +144,7 @@ protected slots:
     void slotExtractDone();
     void slotExtractRemoteDone(KJob *job);
     void slotAddDone(bool);
-    void slotEditFinished(KProcess *);
+    void slotEditFinished(K3Process *);
 signals:
     void openUrlRequest( const KUrl & url );
     void request_file_quit();

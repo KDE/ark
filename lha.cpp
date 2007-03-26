@@ -41,7 +41,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kprocess.h>
+#include <k3process.h>
 
 // ark includes
 #include "arkwidget.h"
@@ -142,16 +142,16 @@ void LhaArch::open()
   m_finished = false;
 
 
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   *kp << m_archiver_program << "v" << m_filename;
-  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
-           SLOT( slotReceivedTOC(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( processExited(KProcess*) ),
-           SLOT( slotOpenExited(KProcess*) ) );
+  connect( kp, SIGNAL( receivedStdout(K3Process*, char*, int) ),
+           SLOT( slotReceivedTOC(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(K3Process*) ),
+           SLOT( slotOpenExited(K3Process*) ) );
 
-  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
     emit sigOpen( this, false, QString::null, 0 );
@@ -192,7 +192,7 @@ void LhaArch::addDir( const QString & dirName )
 
 void LhaArch::addFile( const QStringList &urls )
 {
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   kp->clearArguments();
   *kp << m_archiver_program;
 
@@ -214,14 +214,14 @@ void LhaArch::addFile( const QStringList &urls )
     *kp << fileURL.fileName();
   }
 
-  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( processExited(KProcess*) ),
-           SLOT( slotAddExited(KProcess*) ) );
+  connect( kp, SIGNAL( receivedStdout(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(K3Process*) ),
+           SLOT( slotAddExited(K3Process*) ) );
 
-  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
     emit sigAdd( false );
@@ -239,7 +239,7 @@ void LhaArch::unarchFileInternal()
     return;
   }
 
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   kp->clearArguments();
 
   *kp << m_archiver_program << "xfw=" + m_destDir << m_filename;
@@ -255,14 +255,14 @@ void LhaArch::unarchFileInternal()
     }
   }
 
-  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( processExited(KProcess*) ),
-           SLOT( slotExtractExited(KProcess*) ) );
+  connect( kp, SIGNAL( receivedStdout(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(K3Process*) ),
+           SLOT( slotExtractExited(K3Process*) ) );
 
-  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
     emit sigExtract( false );
@@ -274,7 +274,7 @@ void LhaArch::remove( QStringList *list )
   if ( !list )
     return;
 
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   kp->clearArguments();
 
   *kp << m_archiver_program << "df" << m_filename;
@@ -285,14 +285,14 @@ void LhaArch::remove( QStringList *list )
     *kp << ( *it );
   }
 
-  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( processExited(KProcess*) ),
-           SLOT( slotDeleteExited(KProcess*) ) );
+  connect( kp, SIGNAL( receivedStdout(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(K3Process*) ),
+           SLOT( slotDeleteExited(K3Process*) ) );
 
-  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
     emit sigDelete( false );

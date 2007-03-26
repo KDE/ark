@@ -26,7 +26,7 @@
 */
 
 /* The following class is the base class for all of the archive types.
- * In order for it to work properly with the KProcess, you have to
+ * In order for it to work properly with the K3Process, you have to
  * connect the ProcessExited signal appropriately before spawning
  * the core operations. Then the signal that the process exited can
  * be intercepted by the viewer (in ark, ArkWidget) and dealt with
@@ -58,7 +58,7 @@
 
 class QByteArray;
 class QStringList;
-class KProcess;
+class K3Process;
 
 class FileListView;
 class ArkWidget;
@@ -143,15 +143,15 @@ class Arch : public QObject
                               const QString &openAsMimeType = QString::null );
 
   protected slots:
-    void slotOpenExited( KProcess* );
-    void slotExtractExited( KProcess* );
-    void slotDeleteExited( KProcess* );
-    void slotAddExited( KProcess* );
+    void slotOpenExited( K3Process* );
+    void slotExtractExited( K3Process* );
+    void slotDeleteExited( K3Process* );
+    void slotAddExited( K3Process* );
 
-    void slotReceivedOutput( KProcess *, char*, int );
+    void slotReceivedOutput( K3Process *, char*, int );
 
     virtual bool processLine( const QByteArray &line );
-    virtual void slotReceivedTOC( KProcess *, char *, int );
+    virtual void slotReceivedTOC( K3Process *, char *, int );
 
   signals:
     void sigOpen( Arch * archive, bool success, const QString &filename, int );
@@ -184,7 +184,7 @@ class Arch : public QObject
     Q3PtrList<ArchColumns> m_archCols;
     int m_numCols, m_dateCol, m_fixYear, m_fixMonth, m_fixDay, m_fixTime;
     int m_repairYear, m_repairMonth, m_repairTime;
-    KProcess *m_currentProcess;
+    K3Process *m_currentProcess;
     QStringList *m_fileList;
     QString m_destDir;
     bool m_viewFriendly;

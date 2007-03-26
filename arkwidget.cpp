@@ -52,7 +52,7 @@
 #include <kmimetype.h>
 #include <kstandarddirs.h>
 #include <ktempdir.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <kfiledialog.h>
 #include <kdirselectdialog.h>
 #include <k3urldrag.h>
@@ -1601,16 +1601,16 @@ ArkWidget::editStart()
 {
     kDebug(1601) << "Edit in progress..." << endl;
     KUrl::List list;
-    // edit will be in progress until the KProcess terminates.
+    // edit will be in progress until the K3Process terminates.
     KOpenWithDialog l( list, i18n("Edit with:"), QString(), this );
     if ( l.exec() )
     {
-        KProcess *kp = new KProcess;
+        K3Process *kp = new K3Process;
         m_strFileToView = m_strFileToView.right(m_strFileToView.length() - 5 );
         *kp << l.text() << m_strFileToView;
-        connect( kp, SIGNAL(processExited(KProcess *)),
-                this, SLOT(slotEditFinished(KProcess *)) );
-        if ( kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false )
+        connect( kp, SIGNAL(processExited(K3Process *)),
+                this, SLOT(slotEditFinished(K3Process *)) );
+        if ( kp->start(K3Process::NotifyOnExit, K3Process::AllOutput) == false )
         {
             KMessageBox::error(0, i18n("Trouble editing the file..."));
         }
@@ -1618,7 +1618,7 @@ ArkWidget::editStart()
 }
 
 void
-ArkWidget::slotEditFinished(KProcess *kp)
+ArkWidget::slotEditFinished(K3Process *kp)
 {
     kDebug(1601) << "+ArkWidget::slotEditFinished" << endl;
     connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( editSlotAddDone( bool ) ) );

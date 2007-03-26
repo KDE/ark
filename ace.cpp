@@ -29,7 +29,7 @@
 #include <kdebug.h>
 #include <kurl.h>
 #include <kmessagebox.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <kstandarddirs.h>
 
 #include "ace.h"
@@ -83,23 +83,23 @@ void AceArch::open()
 	m_header_removed = false;
 	m_finished = false;
 
-	KProcess *kp = m_currentProcess = new KProcess;
+	K3Process *kp = m_currentProcess = new K3Process;
 	*kp << m_archiver_program << "v" << m_filename;
 	//kp->setUseShell( true );
 
 	kDebug() << "AceArch::open(): kp->args(): " << kp->args() << endl;
 
-	connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
-			 SLOT( slotReceivedTOC(KProcess*, char*, int) ) );
-	connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
-			 SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-	connect( kp, SIGNAL( processExited(KProcess*) ),
-			 SLOT( slotOpenExited(KProcess*) ) );
+	connect( kp, SIGNAL( receivedStdout(K3Process*, char*, int) ),
+			 SLOT( slotReceivedTOC(K3Process*, char*, int) ) );
+	connect( kp, SIGNAL( receivedStderr(K3Process*, char*, int) ),
+			 SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+	connect( kp, SIGNAL( processExited(K3Process*) ),
+			 SLOT( slotOpenExited(K3Process*) ) );
 
-	connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
-			 this, SLOT( catchMeIfYouCan(KProcess*, char*, int) ) );
+	connect( kp, SIGNAL( receivedStdout(K3Process*, char*, int) ),
+			 this, SLOT( catchMeIfYouCan(K3Process*, char*, int) ) );
 
-	if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+	if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
 	{
 		KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
 		emit sigOpen( this, false, QString::null, 0 );
@@ -132,7 +132,7 @@ void AceArch::unarchFileInternal( )
 		return;
 	}
 
-	KProcess *kp = m_currentProcess = new KProcess;
+	K3Process *kp = m_currentProcess = new K3Process;
 	kp->clearArguments();
 
 	// extract (and maybe overwrite)
@@ -158,21 +158,21 @@ void AceArch::unarchFileInternal( )
 		}
 	}
 
-	connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
-			 SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-	connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
-			 SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-	connect( kp, SIGNAL( processExited(KProcess*) ),
-			 SLOT( slotExtractExited(KProcess*) ) );
+	connect( kp, SIGNAL( receivedStdout(K3Process*, char*, int) ),
+			 SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+	connect( kp, SIGNAL( receivedStderr(K3Process*, char*, int) ),
+			 SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+	connect( kp, SIGNAL( processExited(K3Process*) ),
+			 SLOT( slotExtractExited(K3Process*) ) );
 
-	if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+	if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
 	{
 		KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
 		emit sigExtract( false );
 	}
 }
 
-void AceArch::catchMeIfYouCan( KProcess*, char *buffer, int buflen )
+void AceArch::catchMeIfYouCan( K3Process*, char *buffer, int buflen )
 {
 	QString myBuf = QString::fromLatin1( buffer, buflen );
 	kDebug(1601) << "	Wololo!:	" << myBuf << endl;

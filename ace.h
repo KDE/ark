@@ -27,7 +27,7 @@
 
 #include "archive.h"
 
-class KProcess; // TODO: Remove me!
+class K3Process; // TODO: Remove me!
 
 class AceArch : public Arch
 {
@@ -46,7 +46,7 @@ class AceArch : public Arch
 		virtual void unarchFileInternal( );
 
 	private slots:
-		void catchMeIfYouCan( KProcess*, char*, int );
+		void catchMeIfYouCan( K3Process*, char*, int );
 
 	private:
 		void setHeaders();

@@ -38,7 +38,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kprocess.h>
+#include <k3process.h>
 
 // ark includes
 #include "arkwidget.h"
@@ -87,17 +87,17 @@ void ArArch::open()
 
   m_buffer = "";
 
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   *kp << m_archiver_program << "vt" << m_filename;
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedTOC(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStdout(K3Process*, char*, int)),
+	   this, SLOT(slotReceivedTOC(K3Process*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(K3Process*, char*, int)),
+	   this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
 
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotOpenExited(KProcess*)));
+  connect( kp, SIGNAL(processExited(K3Process*)), this,
+	   SLOT(slotOpenExited(K3Process*)));
 
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+  if (kp->start(K3Process::NotifyOnExit, K3Process::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigOpen(this, false, QString::null, 0 );
@@ -107,16 +107,16 @@ void ArArch::open()
 
 void ArArch::create()
 {
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   kp->clearArguments();
   *kp << m_archiver_program << "c" << m_filename;
 
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStdout(K3Process*, char*, int)),
+	   this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(K3Process*, char*, int)),
+	   this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
 
-  if (kp->start(KProcess::Block) == false)
+  if (kp->start(K3Process::Block) == false)
     {
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigCreate(this, false, m_filename,
@@ -132,7 +132,7 @@ void ArArch::create()
 void ArArch::addFile( const QStringList &urls )
 {
   kDebug(1601) << "+ArArch::addFile" << endl;
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   kp->clearArguments();
   *kp << m_archiver_program;
 
@@ -152,15 +152,15 @@ void ArArch::addFile( const QStringList &urls )
     *kp << fileURL.fileName();
   }
 
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStdout(K3Process*, char*, int)),
+	   this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(K3Process*, char*, int)),
+	   this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
 
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotAddExited(KProcess*)));
+  connect( kp, SIGNAL(processExited(K3Process*)), this,
+	   SLOT(slotAddExited(K3Process*)));
 
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+  if (kp->start(K3Process::NotifyOnExit, K3Process::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigAdd(false);
@@ -191,7 +191,7 @@ void ArArch::unarchFileInternal()
  // I already checked the validity of the dir before coming here
   Q_ASSERT(ret);
 
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   kp->clearArguments();
 
   *kp << m_archiver_program;
@@ -209,15 +209,15 @@ void ArArch::unarchFileInternal()
 	}
     }
 
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStdout(K3Process*, char*, int)),
+	   this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(K3Process*, char*, int)),
+	   this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
 
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotExtractExited(KProcess*)));
+  connect( kp, SIGNAL(processExited(K3Process*)), this,
+	   SLOT(slotExtractExited(K3Process*)));
 
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+  if (kp->start(K3Process::NotifyOnExit, K3Process::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigExtract(false);
@@ -231,7 +231,7 @@ void ArArch::remove(QStringList *list)
   if (!list)
     return;
 
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   kp->clearArguments();
 
   *kp << m_archiver_program << "d" << m_filename;
@@ -242,15 +242,15 @@ void ArArch::remove(QStringList *list)
       *kp << str;
     }
 
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-	   this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStdout(K3Process*, char*, int)),
+	   this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(K3Process*, char*, int)),
+	   this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
 
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-	   SLOT(slotDeleteExited(KProcess*)));
+  connect( kp, SIGNAL(processExited(K3Process*)), this,
+	   SLOT(slotDeleteExited(K3Process*)));
 
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+  if (kp->start(K3Process::NotifyOnExit, K3Process::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigDelete(false);

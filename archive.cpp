@@ -42,7 +42,7 @@
 #include <kmimetype.h>
 #include <klocale.h>
 #include <kpassworddialog.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <kstandarddirs.h>
 
 // ark includes
@@ -102,7 +102,7 @@ void Arch::verifyUtilityIsAvailable( const QString &utility1,
   }
 }
 
-void Arch::slotOpenExited( KProcess* _kp )
+void Arch::slotOpenExited( K3Process* _kp )
 {
   int exitStatus = 100; // arbitrary bad exit status
 
@@ -125,7 +125,7 @@ void Arch::slotOpenExited( KProcess* _kp )
   _kp = m_currentProcess = 0;
 }
 
-void Arch::slotDeleteExited( KProcess *_kp )
+void Arch::slotDeleteExited( K3Process *_kp )
 {
   bool success = ( _kp->normalExit() && ( _kp->exitStatus() == 0 ) );
 
@@ -151,7 +151,7 @@ void Arch::slotDeleteExited( KProcess *_kp )
   _kp = m_currentProcess = 0;
 }
 
-void Arch::slotExtractExited( KProcess *_kp )
+void Arch::slotExtractExited( K3Process *_kp )
 {
   bool success = ( _kp->normalExit() && ( _kp->exitStatus() == 0 ) );
 
@@ -210,7 +210,7 @@ void Arch::unarchFile( QStringList *fileList, const QString & destDir,
     unarchFileInternal();
 }
 
-void Arch::slotAddExited( KProcess *_kp )
+void Arch::slotAddExited( K3Process *_kp )
 {
   bool success = ( _kp->normalExit() && ( _kp->exitStatus() == 0 ) );
 
@@ -236,7 +236,7 @@ void Arch::slotAddExited( KProcess *_kp )
   _kp = m_currentProcess = 0;
 }
 
-void Arch::slotReceivedOutput( KProcess*, char* data, int length )
+void Arch::slotReceivedOutput( K3Process*, char* data, int length )
 {
   char c = data[ length ];
   data[ length ] = '\0';
@@ -246,7 +246,7 @@ void Arch::slotReceivedOutput( KProcess*, char* data, int length )
 }
 
 
-void Arch::slotReceivedTOC( KProcess*, char* data, int length )
+void Arch::slotReceivedTOC( K3Process*, char* data, int length )
 {
   char c = data[ length ];
   data[ length ] = '\0';

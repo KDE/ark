@@ -40,7 +40,7 @@
 #include <kglobal.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <kstandarddirs.h>
 
 // ark includes
@@ -116,17 +116,17 @@ void RarArch::open()
   m_header_removed = false;
   m_finished = false;
 
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   *kp << m_archiver_program << "v" << "-c-" << m_filename;
 
-  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
-           SLOT( slotReceivedTOC(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( processExited(KProcess*) ),
-           SLOT( slotOpenExited(KProcess*) ) );
+  connect( kp, SIGNAL( receivedStdout(K3Process*, char*, int) ),
+           SLOT( slotReceivedTOC(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(K3Process*) ),
+           SLOT( slotOpenExited(K3Process*) ) );
 
-  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
     emit sigOpen( this, false, QString::null, 0 );
@@ -167,7 +167,7 @@ void RarArch::addDir( const QString & _dirName )
 
 void RarArch::addFile( const QStringList & urls )
 {
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
 
   kp->clearArguments();
   *kp << m_archiver_program;
@@ -194,14 +194,14 @@ void RarArch::addFile( const QStringList & urls )
     *kp << url.fileName();
   }
 
-  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( processExited(KProcess*) ),
-           SLOT( slotAddExited(KProcess*) ) );
+  connect( kp, SIGNAL( receivedStdout(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(K3Process*) ),
+           SLOT( slotAddExited(K3Process*) ) );
 
-  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
     emit sigAdd( false );
@@ -216,7 +216,7 @@ void RarArch::unarchFileInternal()
     return;
   }
 
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   kp->clearArguments();
 
   // extract (and maybe overwrite)
@@ -249,14 +249,14 @@ void RarArch::unarchFileInternal()
 
   *kp << m_destDir ;
 
-  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( processExited(KProcess*) ),
-           SLOT( slotExtractExited(KProcess*) ) );
+  connect( kp, SIGNAL( receivedStdout(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(K3Process*) ),
+           SLOT( slotExtractExited(K3Process*) ) );
 
-  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
     emit sigExtract( false );
@@ -273,7 +273,7 @@ void RarArch::remove( QStringList *list )
   if ( !list )
     return;
 
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   kp->clearArguments();
 
   *kp << m_archiver_program << "d" << m_filename;
@@ -285,14 +285,14 @@ void RarArch::remove( QStringList *list )
     *kp << str;
   }
 
-  connect( kp, SIGNAL( receivedStdout(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( receivedStderr(KProcess*, char*, int) ),
-           SLOT( slotReceivedOutput(KProcess*, char*, int) ) );
-  connect( kp, SIGNAL( processExited(KProcess*) ),
-           SLOT( slotDeleteExited(KProcess*) ) );
+  connect( kp, SIGNAL( receivedStdout(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( receivedStderr(K3Process*, char*, int) ),
+           SLOT( slotReceivedOutput(K3Process*, char*, int) ) );
+  connect( kp, SIGNAL( processExited(K3Process*) ),
+           SLOT( slotDeleteExited(K3Process*) ) );
 
-  if ( !kp->start( KProcess::NotifyOnExit, KProcess::AllOutput ) )
+  if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
     emit sigDelete( false );

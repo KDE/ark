@@ -62,7 +62,7 @@
 #include <kmimetype.h>
 #include <kstandarddirs.h>
 #include <ktempdir.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <ktar.h>
 
 // ark includes
@@ -149,13 +149,13 @@ void TarArch::updateArch()
       else
           fd = NULL;
 
-      KProcess *kp = m_currentProcess = new KProcess;
+      K3Process *kp = m_currentProcess = new K3Process;
       kp->clearArguments();
-      KProcess::Communication flag = KProcess::AllOutput;
+      K3Process::Communication flag = K3Process::AllOutput;
       if ( getCompressor() == "lzop" )
       {
-        kp->setUsePty( KProcess::Stdin, false );
-        flag = KProcess::Stdout;
+        kp->setUsePty( K3Process::Stdin, false );
+        flag = K3Process::Stdout;
       }
       if ( !getCompressor().isNull() )
           *kp << getCompressor() << "-c" << tmpfile;
@@ -163,15 +163,15 @@ void TarArch::updateArch()
           *kp << "cat" << tmpfile;
 
 
-      connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-              this, SLOT(updateProgress( KProcess *, char *, int )));
-      connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-               (Arch *)this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+      connect(kp, SIGNAL(receivedStdout(K3Process*, char*, int)),
+              this, SLOT(updateProgress( K3Process *, char *, int )));
+      connect( kp, SIGNAL(receivedStderr(K3Process*, char*, int)),
+               (Arch *)this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
 
-      connect(kp, SIGNAL(processExited(KProcess *)),
-               this, SLOT(updateFinished(KProcess *)) );
+      connect(kp, SIGNAL(processExited(K3Process *)),
+               this, SLOT(updateFinished(K3Process *)) );
 
-      if ( !fd || kp->start(KProcess::NotifyOnExit, flag) == false)
+      if ( !fd || kp->start(K3Process::NotifyOnExit, flag) == false)
         {
           KMessageBox::error(0, i18n("Trouble writing to the archive..."));
           emit updateDone();
@@ -180,7 +180,7 @@ void TarArch::updateArch()
   kDebug(1601) << "-TarArch::updateArch" << endl;
 }
 
-void TarArch::updateProgress( KProcess * _proc, char *_buffer, int _bufflen )
+void TarArch::updateProgress( K3Process * _proc, char *_buffer, int _bufflen )
 {
   // we're trying to capture the output of a command like this
   //    gzip -c myarch.tar
@@ -247,7 +247,7 @@ TarArch::open()
     //
     // Now it's essential - used later to decide whether pathnames in the
     // tar archive are plain or start with "./"
-    KProcess *kp = m_currentProcess = new KProcess;
+    K3Process *kp = m_currentProcess = new K3Process;
 
     *kp << m_archiver_program;
 
@@ -262,14 +262,14 @@ TarArch::open()
     m_header_removed = false;
     m_finished = false;
 
-    connect(kp, SIGNAL(processExited(KProcess *)),
-            this, SLOT(slotListingDone(KProcess *)));
-    connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-        this, SLOT(slotReceivedOutput( KProcess *, char *, int )));
-    connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-        this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+    connect(kp, SIGNAL(processExited(K3Process *)),
+            this, SLOT(slotListingDone(K3Process *)));
+    connect(kp, SIGNAL(receivedStdout(K3Process*, char*, int)),
+        this, SLOT(slotReceivedOutput( K3Process *, char *, int )));
+    connect( kp, SIGNAL(receivedStderr(K3Process*, char*, int)),
+        this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
 
-    if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+    if (kp->start(K3Process::NotifyOnExit, K3Process::AllOutput) == false)
     {
         KMessageBox::error( 0, i18n("Could not start a subprocess.") );
     }
@@ -351,14 +351,14 @@ void TarArch::openSecondCreateTempDone()
         processDir(tarptr->directory(), "");
         delete tarptr;
         tarptr = NULL;
-        // because we aren't using the KProcess method, we have to emit this
+        // because we aren't using the K3Process method, we have to emit this
         // ourselves.
         emit sigOpen(this, true, m_filename,
                 Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
     }
 }
 
-void TarArch::slotListingDone(KProcess *_kp)
+void TarArch::slotListingDone(K3Process *_kp)
 {
   const QString list = getLastShellOutput();
   FileListView *flv = m_gui->fileList();
@@ -486,29 +486,29 @@ void TarArch::createTmp()
             else
                 fd = NULL;
 
-            KProcess *kp = m_currentProcess = new KProcess;
+            K3Process *kp = m_currentProcess = new K3Process;
             kp->clearArguments();
             kDebug(1601) << "Uncompressor is " << strUncompressor << endl;
             *kp << strUncompressor;
-            KProcess::Communication flag = KProcess::AllOutput;
+            K3Process::Communication flag = K3Process::AllOutput;
             if (strUncompressor == "lzop")
             {
                 // setting up a pty for lzop, since it doesn't like stdin to
                 // be /dev/null ( "no filename allowed when reading from stdin" )
                 // - but it used to work without this ? ( Feb 13, 2003 )
-                kp->setUsePty( KProcess::Stdin, false );
-                flag = KProcess::Stdout;
+                kp->setUsePty( K3Process::Stdin, false );
+                flag = K3Process::Stdout;
                 *kp << "-d";
             }
             *kp << "-c" << m_filename;
 
-            connect(kp, SIGNAL(processExited(KProcess *)),
-                    this, SLOT(createTmpFinished(KProcess *)));
-            connect(kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-                    this, SLOT(createTmpProgress( KProcess *, char *, int )));
-            connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-                    this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-            if (kp->start(KProcess::NotifyOnExit, flag ) == false)
+            connect(kp, SIGNAL(processExited(K3Process *)),
+                    this, SLOT(createTmpFinished(K3Process *)));
+            connect(kp, SIGNAL(receivedStdout(K3Process*, char*, int)),
+                    this, SLOT(createTmpProgress( K3Process *, char *, int )));
+            connect( kp, SIGNAL(receivedStderr(K3Process*, char*, int)),
+                    this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
+            if (kp->start(K3Process::NotifyOnExit, flag ) == false)
             {
                 KMessageBox::error(0, i18n("Unable to fork a decompressor"));
 		emit sigOpen( this, false, QString::null, 0 );
@@ -526,7 +526,7 @@ void TarArch::createTmp()
     }
 }
 
-void TarArch::createTmpProgress( KProcess * _proc, char *_buffer, int _bufflen )
+void TarArch::createTmpProgress( K3Process * _proc, char *_buffer, int _bufflen )
 {
   // we're trying to capture the output of a command like this
   //    gunzip -c myarch.tar.gz
@@ -626,7 +626,7 @@ void TarArch::addFileCreateTempDone()
   disconnect( this, SIGNAL( createTempDone() ), this, SLOT( addFileCreateTempDone() ) );
   QStringList * urls = &m_filesToAdd;
 
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   *kp << m_archiver_program;
 
   if( ArkSettings::replaceOnlyWithNewer())
@@ -656,15 +656,15 @@ void TarArch::addFileCreateTempDone()
       kDebug(1601) << *strTemp << " " << endl;
     }
 
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-           this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-           this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStdout(K3Process*, char*, int)),
+           this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(K3Process*, char*, int)),
+           this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
 
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-           SLOT(slotAddFinished(KProcess*)));
+  connect( kp, SIGNAL(processExited(K3Process*)), this,
+           SLOT(slotAddFinished(K3Process*)));
 
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+  if (kp->start(K3Process::NotifyOnExit, K3Process::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigAdd(false);
@@ -673,12 +673,12 @@ void TarArch::addFileCreateTempDone()
   kDebug(1601) << "-TarArch::addFile" << endl;
 }
 
-void TarArch::slotAddFinished(KProcess *_kp)
+void TarArch::slotAddFinished(K3Process *_kp)
 {
   kDebug(1601) << "+TarArch::slotAddFinished" << endl;
 
-  disconnect( _kp, SIGNAL(processExited(KProcess*)), this,
-              SLOT(slotAddFinished(KProcess*)));
+  disconnect( _kp, SIGNAL(processExited(K3Process*)), this,
+              SLOT(slotAddFinished(K3Process*)));
   m_pTmpProc = _kp;
   m_filesToAdd = QStringList();
   if ( compressed )
@@ -714,7 +714,7 @@ void TarArch::unarchFileInternal()
 
   QString tmp;
 
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   kp->clearArguments();
 
   *kp << m_archiver_program;
@@ -743,15 +743,15 @@ void TarArch::unarchFileInternal()
         }
     }
 
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-           this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-           this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStdout(K3Process*, char*, int)),
+           this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(K3Process*, char*, int)),
+           this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
 
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-           SLOT(slotExtractExited(KProcess*)));
+  connect( kp, SIGNAL(processExited(K3Process*)), this,
+           SLOT(slotExtractExited(K3Process*)));
 
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+  if (kp->start(K3Process::NotifyOnExit, K3Process::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigExtract(false);
@@ -774,7 +774,7 @@ void TarArch::removeCreateTempDone()
   disconnect( this, SIGNAL( createTempDone() ), this, SLOT( removeCreateTempDone() ) );
 
   QString name, tmp;
-  KProcess *kp = m_currentProcess = new KProcess;
+  K3Process *kp = m_currentProcess = new K3Process;
   kp->clearArguments();
   *kp << m_archiver_program << "--delete" << "-f" ;
   if (compressed)
@@ -791,15 +791,15 @@ void TarArch::removeCreateTempDone()
     }
   m_filesToRemove = QStringList();
 
-  connect( kp, SIGNAL(receivedStdout(KProcess*, char*, int)),
-           this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
-  connect( kp, SIGNAL(receivedStderr(KProcess*, char*, int)),
-           this, SLOT(slotReceivedOutput(KProcess*, char*, int)));
+  connect( kp, SIGNAL(receivedStdout(K3Process*, char*, int)),
+           this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
+  connect( kp, SIGNAL(receivedStderr(K3Process*, char*, int)),
+           this, SLOT(slotReceivedOutput(K3Process*, char*, int)));
 
-  connect( kp, SIGNAL(processExited(KProcess*)), this,
-           SLOT(slotDeleteExited(KProcess*)));
+  connect( kp, SIGNAL(processExited(K3Process*)), this,
+           SLOT(slotDeleteExited(K3Process*)));
 
-  if (kp->start(KProcess::NotifyOnExit, KProcess::AllOutput) == false)
+  if (kp->start(K3Process::NotifyOnExit, K3Process::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
       emit sigDelete(false);
@@ -808,7 +808,7 @@ void TarArch::removeCreateTempDone()
   kDebug(1601) << "-Tar::remove" << endl;
 }
 
-void TarArch::slotDeleteExited(KProcess *_kp)
+void TarArch::slotDeleteExited(K3Process *_kp)
 {
   m_pTmpProc2 = _kp;
   if ( compressed )
@@ -838,14 +838,14 @@ void TarArch::addDir(const QString & _dirName)
   addFile(list);
 }
 
-void TarArch::openFinished( KProcess * )
+void TarArch::openFinished( K3Process * )
 {
   // do nothing
   // turn off busy light (when someone makes one)
   kDebug(1601) << "Open finshed" << endl;
 }
 
-void TarArch::createTmpFinished( KProcess *_kp )
+void TarArch::createTmpFinished( K3Process *_kp )
 {
   kDebug(1601) << "+TarArch::createTmpFinished" << endl;
 
@@ -859,7 +859,7 @@ void TarArch::createTmpFinished( KProcess *_kp )
   emit createTempDone();
 }
 
-void TarArch::updateFinished( KProcess *_kp )
+void TarArch::updateFinished( K3Process *_kp )
 {
   kDebug(1601) << "+TarArch::updateFinished" << endl;
   fclose(fd);
