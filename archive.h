@@ -114,7 +114,7 @@ class Arch : public QObject
     void unarchFile( QStringList *, const QString & _destDir,
                              bool viewFriendly = false );
 
-    QString fileName() const { return m_filename; };
+    QString fileName() const { return m_filename; }
 
     enum EditProperties{ Add = 1, Delete = 2, Extract = 4,
                          View = 8, Integrity = 16 };
