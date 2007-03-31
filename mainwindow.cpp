@@ -36,7 +36,7 @@
 #include <kmenu.h>
 #include <kparts/componentfactory.h>
 #include <kparts/browserextension.h>
-#include <kkeydialog.h>
+#include <kshortcutsdialog.h>
 #include <kcombobox.h>
 #include <kio/netaccess.h>
 #include <kxmlguifactory.h>
@@ -211,7 +211,7 @@ MainWindow::slotNewToolbarConfig()
 void
 MainWindow::slotConfigureKeyBindings()
 {
-    KKeyDialog dlg( KKeyChooser::AllActions, KKeyChooser::LetterShortcutsAllowed, this );
+    KShortcutsDialog dlg( KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this );
 
     dlg.addCollection( actionCollection() );
     dlg.addCollection( m_part->actionCollection() );
