@@ -40,7 +40,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <kdebug.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
-#include <kdelibs_export.h>
 #include <klocale.h>
 
 // ark includes
