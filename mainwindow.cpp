@@ -196,7 +196,7 @@ void
 MainWindow::editToolbars()
 {
     saveMainWindowSettings( KGlobal::config()->group( QLatin1String( "MainWindow") ) );
-    KEditToolbar dlg( factory(), this );
+    KEditToolBar dlg( factory(), this );
     connect(&dlg, SIGNAL( newToolbarConfig() ), this, SLOT( slotNewToolbarConfig() ));
     dlg.exec();
 }
