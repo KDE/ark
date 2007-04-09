@@ -61,6 +61,7 @@
 #include <kconfigdialog.h>
 #include <kurl.h>
 #include <kservicetypetrader.h>
+#include <krun.h>
 
 // settings
 #include "settings.h"
