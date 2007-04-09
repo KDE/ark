@@ -41,7 +41,7 @@
 #include <kurlcompletion.h>
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
-#include <kcombobox.h>
+#include <khistorycombobox.h>
 #include <klineedit.h>
 #include <kurlpixmapprovider.h>
 #include <kdebug.h>
@@ -104,7 +104,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 	QLabel *destFolderLabel = new QLabel( i18n( "Destination folder: " ), destDirBox );
 	destFolderLabel->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Fixed );
 
-	KHistoryCombo *combobox = new KHistoryCombo( true, destDirBox );
+	KHistoryComboBox *combobox = new KHistoryComboBox( true, destDirBox );
 	combobox->setPixmapProvider( new KUrlPixmapProvider );
 	combobox->setHistoryItems( ArkSettings::extractionHistory() );
 	destFolderLabel->setBuddy( combobox );
@@ -135,7 +135,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 
 ExtractionDialog::~ExtractionDialog()
 {
-	ArkSettings::setExtractionHistory( ( static_cast<KHistoryCombo*>( m_urlRequester->comboBox() ) )->historyItems() );
+	ArkSettings::setExtractionHistory( ( static_cast<KHistoryComboBox*>( m_urlRequester->comboBox() ) )->historyItems() );
 	ArkSettings::setOpenDestinationFolder( m_viewFolderAfterExtraction->isChecked() );
 }
 
@@ -183,7 +183,7 @@ void ExtractionDialog::accept()
 		historyURL = m_defaultExtractionDir;
 	}
 
-	KHistoryCombo *combo = static_cast<KHistoryCombo*>( m_urlRequester->comboBox() );
+	KHistoryComboBox *combo = static_cast<KHistoryComboBox*>( m_urlRequester->comboBox() );
 	// If the item was already in the list, delete it from the list and readd it at the top
 	combo->removeFromHistory( historyURL );
 	combo->addToHistory( historyURL );
