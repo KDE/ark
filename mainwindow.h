@@ -26,7 +26,6 @@
 
 // QT includes
 #include <QString>
-#include <q3popupmenu.h>
 #include <QTimer>
 
 // KDE includes
