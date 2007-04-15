@@ -127,6 +127,8 @@ void FileLVI::setText( int column, const QString &text )
 		QString name = text;
 		if ( name.endsWith( "/" ) )
 			name = name.left( name.length() - 1 );
+		if ( name.startsWith( "/" ) )
+			name = name.mid( 1 );
 		int pos = name.findRev( '/' );
 		if ( pos != -1 )
 			name = name.right( name.length() - pos - 1 );
@@ -504,6 +506,8 @@ FileLVI* FileListView::findParent( const QString& fullname )
 
 	if ( name.endsWith( "/" ) )
 		name = name.left( name.length() -1 );
+	if ( name.startsWith( "/" ) )
+		name = name.mid( 1 );
 	// Checks if this entry needs a parent
 	if ( !name.contains( '/' ) )
 		return static_cast< FileLVI* >( 0 );
