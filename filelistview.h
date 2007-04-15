@@ -31,8 +31,6 @@
 #include <QDateTime>
 #include <qpair.h>
 #include <q3valuelist.h>
-//Added by qt3to4:
-#include <QMouseEvent>
 
 #include <k3listview.h>
 #include <kio/global.h>
