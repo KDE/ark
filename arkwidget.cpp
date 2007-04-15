@@ -144,6 +144,7 @@ ArkWidget::ArkWidget( QWidget *parent, const char *name )
 
     // enable DnD
     setAcceptDrops(true);
+    setFocusProxy(m_searchBar);
 }
 
 ArkWidget::~ArkWidget()
