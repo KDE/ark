@@ -135,12 +135,12 @@ void FileLVI::setText( int column, const QString &text )
 	}
 	else if ( colName == sizeCol )
 	{
-		m_fileSize = text.toLong();
+		m_fileSize = text.toULongLong();
 		QListViewItem::setText( column, KIO::convertSize( m_fileSize ) );
 	}
 	else if ( colName == packedStrCol )
 	{
-		m_packedFileSize = text.toLong();
+		m_packedFileSize = text.toULongLong();
 		QListViewItem::setText( column, KIO::convertSize( m_packedFileSize ) );
 	}
 	else if ( colName == ratioStrCol )
@@ -156,8 +156,13 @@ void FileLVI::setText( int column, const QString &text )
 	}
 	else if ( colName == timeStampStrCol )
 	{
-		m_timeStamp = QDateTime::fromString( text, ISODate );
-		QListViewItem::setText( column, KGlobal::locale()->formatDateTime( m_timeStamp ) );
+		if ( text.isEmpty() )
+			QListViewItem::setText(column, text);
+		else
+		{
+			m_timeStamp = QDateTime::fromString( text, ISODate );
+			QListViewItem::setText( column, KGlobal::locale()->formatDateTime( m_timeStamp ) );
+		}
 	}
 	else
 		QListViewItem::setText(column, text);
