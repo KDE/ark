@@ -54,8 +54,8 @@ class FileLVI : public K3ListViewItem
 		FileLVI( K3ListViewItem* lvi );
 
 		QString fileName() const { return m_entryName; }
-		long fileSize() const { return m_fileSize; }
-		long packedFileSize() const { return m_packedFileSize; }
+		KIO::filesize_t fileSize() const { return m_fileSize; }
+		KIO::filesize_t packedFileSize() const { return m_packedFileSize; }
 		double ratio() const { return m_ratio; }
 		QDateTime timeStamp() const { return m_timeStamp; }
 
@@ -64,8 +64,8 @@ class FileLVI : public K3ListViewItem
 		virtual void setText( int column, const QString &text );
 
 	private:
-		long      m_fileSize;
-		long      m_packedFileSize;
+		KIO::filesize_t m_fileSize;
+		KIO::filesize_t m_packedFileSize;
 		double    m_ratio;
 		QDateTime m_timeStamp;
 		QString   m_entryName;
