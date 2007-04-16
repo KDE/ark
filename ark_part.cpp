@@ -122,27 +122,27 @@ void
 ArkPart::setupActions()
 {
     addFileAction = actionCollection()->addAction("addfile");
-    addFileAction->setIcon(KIcon("ark_addfile"));
+    addFileAction->setIcon(KIcon("ark-addfile"));
     addFileAction->setText(i18n("Add &File..."));
     connect(addFileAction, SIGNAL(triggered(bool)), awidget, SLOT(action_add()));
 
     addDirAction = actionCollection()->addAction("adddir");
     addDirAction->setText(i18n("Add Folde&r..."));
-    addDirAction->setIcon(KIcon("ark_adddir"));
+    addDirAction->setIcon(KIcon("ark-adddir"));
     connect(addDirAction, SIGNAL(triggered(bool)), awidget, SLOT(action_add_dir()));
 
     extractAction =actionCollection()->addAction("extract");
     extractAction->setText(i18n("E&xtract..."));
-    extractAction->setIcon(KIcon("ark_extract"));
+    extractAction->setIcon(KIcon("ark-extract"));
     connect(extractAction, SIGNAL(triggered(bool)), awidget, SLOT(action_extract()));
 
-    deleteAction  = new KAction(KIcon("ark_delete"), i18n("De&lete"), this);
+    deleteAction  = new KAction(KIcon("ark-delete"), i18n("De&lete"), this);
     actionCollection()->addAction("delete", deleteAction );
     connect(deleteAction, SIGNAL(triggered(bool)), awidget, SLOT(action_delete()));
 
     viewAction = actionCollection()->addAction("view");
     viewAction->setText(i18nc("to view something","&View"));
-    viewAction->setIcon(KIcon("ark_view"));
+    viewAction->setIcon(KIcon("ark-view"));
     connect(viewAction, SIGNAL(triggered(bool)), awidget, SLOT(action_view()));
 
     openWithAction  = new KAction(i18n("&Open With..."), this);
