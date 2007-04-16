@@ -29,7 +29,7 @@
 #include <QTimer>
 
 // KDE includes
-#include <kmainwindow.h>
+#include <kxmlguiwindow.h>
 #include <kparts/mainwindow.h>
 #include <kparts/part.h>
 #include <krecentfilesaction.h>
