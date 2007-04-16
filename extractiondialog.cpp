@@ -75,7 +75,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
 	header->layout()->setSpacing( 10 );
 
 	QLabel *icon = new QLabel( header );
-	icon->setPixmap( DesktopIcon( "ark_extract" ) );
+	icon->setPixmap( DesktopIcon( "ark-extract" ) );
 	icon->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );
 
 	if ( enableSelected )
