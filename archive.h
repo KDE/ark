@@ -52,7 +52,7 @@
 #include <QObject>
 #include <q3ptrlist.h> // Some very annoying hackery in arkwidgetpart
 #include <QRegExp>
-#include <QString>
+
 #include <kurl.h>
 #include <qpair.h>
 

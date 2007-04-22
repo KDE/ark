@@ -25,7 +25,7 @@
 #define ARKMAINWINDOW_H
 
 // QT includes
-#include <QString>
+
 #include <QTimer>
 
 // KDE includes
