@@ -280,7 +280,7 @@ MainWindow::getOpenURL( bool addOnly, const QString & caption,
     QString filter = ArchiveFormatInfo::self()->filter();
     if ( !suggestedName.isEmpty() )
     {
-        filter = QString::null;
+        filter.clear();
         combo->setCurrentIndex(list.indexOf( ArchiveFormatInfo::self()->descriptionForMimeType(
                                  KMimeType::findByPath( suggestedName, 0, true )->name() ) ) );
     }
@@ -314,7 +314,7 @@ MainWindow::getOpenURL( bool addOnly, const QString & caption,
         m_widget->setOpenAsMimeType(
             ArchiveFormatInfo::self()->mimeTypeForDescription( combo->currentText() ) );
     else
-        m_widget->setOpenAsMimeType( QString::null );
+        m_widget->setOpenAsMimeType( QString() );
 
     return url;
 }
@@ -464,11 +464,11 @@ void
 MainWindow::startProgressDialog( const QString & text )
 {
     if ( !progressDialog )
-	{
-        progressDialog = new KProgressDialog( this, QString::null, text, false );
-		progressDialog->setObjectName("progress_dialog");
-	}
-	else
+    {
+        progressDialog = new KProgressDialog( this, QString(), text, false );
+        progressDialog->setObjectName("progress_dialog");
+    }
+    else
         progressDialog->setLabel( text );
 
 //    progressDialog->setWFlags( Qt::WType_TopLevel );

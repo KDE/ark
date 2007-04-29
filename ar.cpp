@@ -24,6 +24,11 @@
 
 */
 
+// ark includes
+#include "ar.h"
+#include "arkwidget.h"
+#include "settings.h"
+
 // C includes
 #include <stdio.h>
 #include <unistd.h>
@@ -40,16 +45,11 @@
 #include <kmessagebox.h>
 #include <k3process.h>
 
-// ark includes
-#include "arkwidget.h"
-#include "settings.h"
-#include "ar.h"
-
 ArArch::ArArch( ArkWidget *_gui, const QString & _fileName )
   : Arch(_gui, _fileName )
 {
   m_archiver_program = "ar";
-  m_unarchiver_program = QString::null;
+  m_unarchiver_program = QString();
   verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
   // Do not set headerString - there is none for Ar
@@ -100,7 +100,7 @@ void ArArch::open()
   if (kp->start(K3Process::NotifyOnExit, K3Process::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
-      emit sigOpen(this, false, QString::null, 0 );
+      emit sigOpen(this, false, QString(), 0 );
     }
   kDebug(1601) << "-ArArch::open" << endl;
 }

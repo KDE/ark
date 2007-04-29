@@ -46,7 +46,7 @@ public:
 
     void setExtractOnly ( bool b );
     void extractTo( const KUrl & targetDirectory, const KUrl & archive, bool guessName );
-    void addToArchive( const KUrl::List & filesToAdd, const QString & cwd = QString::null,
+    void addToArchive( const KUrl::List & filesToAdd, const QString & cwd = QString(),
                        const KUrl & archive = KUrl(), bool askForName = false );
 
 public slots:
@@ -83,9 +83,9 @@ private: // methods
     void newCaption(const QString & filename);
     bool arkAlreadyOpen( const KUrl & url );
 
-    KUrl getOpenURL( bool addOnly = false , const QString & caption = QString::null,
-                     const QString & startDir = QString::null,
-                     const QString & suggestedName = QString::null );
+    KUrl getOpenURL( bool addOnly = false , const QString & caption = QString(),
+                     const QString & startDir = QString(),
+                     const QString & suggestedName = QString() );
 
     void startProgressDialog( const QString & text );
 

@@ -23,6 +23,14 @@
 
 */
 
+// ark includes
+#include "rar.h"
+#include "arkwidget.h"
+#include "archive.h"
+#include "settings.h"
+#include "arkutils.h"
+#include "filelistview.h"
+
 // Std includes
 #include <sys/errno.h>
 #include <unistd.h>
@@ -42,14 +50,6 @@
 #include <kmessagebox.h>
 #include <k3process.h>
 #include <kstandarddirs.h>
-
-// ark includes
-#include "arkwidget.h"
-#include "archive.h"
-#include "settings.h"
-#include "rar.h"
-#include "arkutils.h"
-#include "filelistview.h"
 
 RarArch::RarArch( ArkWidget *_gui, const QString & _fileName )
   : Arch( _gui, _fileName )
@@ -96,7 +96,7 @@ bool RarArch::processLine( const QByteArray &line )
   list << l2[ 2 ]; // ratio
 
   QStringList date =  l2[3].split( '-' );
-  list << ArkUtils::fixYear( date[ 2 ].toAscii() ) + "-" + date[ 1 ] + "-" + date [ 0 ] + " " + l2[4]; // date
+  list << ArkUtils::fixYear( date[ 2 ].toAscii() ) + '-' + date[ 1 ] + '-' + date [ 0 ] + ' ' + l2[4]; // date
   list << l2[ 5 ]; // attributes
   list << l2[ 6 ]; // crc
   list << l2[ 7 ]; // method
@@ -129,7 +129,7 @@ void RarArch::open()
   if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
-    emit sigOpen( this, false, QString::null, 0 );
+    emit sigOpen( this, false, QString(), 0 );
   }
 }
 

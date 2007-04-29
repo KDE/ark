@@ -25,6 +25,14 @@
 
 */
 
+// ark includes
+#include "lha.h"
+#include "arkwidget.h"
+#include "settings.h"
+#include "archive.h"
+#include "arkutils.h"
+#include "filelistview.h"
+
 // C includes
 #include <stdio.h>
 #include <unistd.h>
@@ -43,19 +51,11 @@
 #include <kmessagebox.h>
 #include <k3process.h>
 
-// ark includes
-#include "arkwidget.h"
-#include "settings.h"
-#include "archive.h"
-#include "lha.h"
-#include "arkutils.h"
-#include "filelistview.h"
-
 LhaArch::LhaArch( ArkWidget *_gui, const QString & _fileName )
   : Arch( _gui, _fileName )
 {
   m_archiver_program = "lha";
-  m_unarchiver_program = QString::null;
+  m_unarchiver_program.clear();
   verifyUtilityIsAvailable( m_archiver_program, m_unarchiver_program );
 
   m_headerString = "----";
@@ -154,7 +154,7 @@ void LhaArch::open()
   if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
-    emit sigOpen( this, false, QString::null, 0 );
+    emit sigOpen( this, false, QString(), 0 );
   }
 }
 

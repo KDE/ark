@@ -24,6 +24,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 */
+#include "arkapp.h"
 
 #include <kdebug.h>
 #include <kcmdlineargs.h>
@@ -31,9 +32,6 @@
 #include <unistd.h>
 #include <QFile>
 #include <errno.h>
-
-
-#include "arkapp.h"
 
 ArkApplication *ArkApplication::mInstance = NULL;
 

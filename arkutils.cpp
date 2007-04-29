@@ -28,6 +28,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 */
+#include "arkutils.h"
 
 // C includes
 #include <stdlib.h>
@@ -69,7 +70,6 @@
 // Qt includes
 #include <QFile>
 
-#include "arkutils.h"
 
 QString ArkUtils::getTimeStamp(const QString &_month,
                             const QString &_day,
@@ -171,7 +171,7 @@ QString ArkUtils::fixYear(const QString& strYear)
     return QString::number( y );
   }
   else
-    return QString::null;
+    return QString();
 }
 
 bool

@@ -23,6 +23,11 @@
 
 */
 
+// ark includes
+#include "compressedfile.h"
+#include "arkwidget.h"
+#include "filelistview.h"
+
 // C includes
 #include <unistd.h>
 #include <stdlib.h>
@@ -44,11 +49,6 @@
 #include <kio/global.h>
 #include <kfileitem.h>
 #include <kapplication.h>
-
-// ark includes
-#include "arkwidget.h"
-#include "filelistview.h"
-#include "compressedfile.h"
 
 // encapsulates the idea of a compressed file
 
@@ -94,8 +94,8 @@ void CompressedFile::setHeaders()
 
 void CompressedFile::initData()
 {
-    m_unarchiver_program = QString::null;
-    m_archiver_program = QString::null;
+    m_unarchiver_program = QString();
+    m_archiver_program = QString();
 
     QString mimeType;
     if ( !m_openAsMimeType.isNull() )
@@ -140,7 +140,7 @@ QString CompressedFile::extension()
   QStringList::Iterator it = m_defaultExtensions.begin();
   for( ; it != m_defaultExtensions.end(); ++it )
     if( m_filename.endsWith( *it ) )
-        return QString::null;
+        return QString();
   return m_defaultExtensions.first();
 }
 
@@ -194,7 +194,7 @@ void CompressedFile::open()
   if (kp->start(K3Process::NotifyOnExit, K3Process::AllOutput) == false)
     {
       KMessageBox::error( 0, i18n("Could not start a subprocess.") );
-      emit sigOpen(this, false, QString::null, 0 );
+      emit sigOpen(this, false, QString(), 0 );
     }
 
   kDebug(1601) << "-CompressedFile::open" << endl;
@@ -217,7 +217,7 @@ void CompressedFile::slotUncompressDone(K3Process *_kp)
 
   if ( !bSuccess )
   {
-      emit sigOpen( this, false, QString::null, 0 );
+      emit sigOpen( this, false, QString(), 0 );
       return;
   }
 
@@ -272,7 +272,7 @@ void CompressedFile::addFile( const QStringList &urls )
 
   m_tmpfile = file.right(file.length()
 			 - file.lastIndexOf('/')-1);
-  m_tmpfile = m_tmpdir + "/" + m_tmpfile;
+  m_tmpfile = m_tmpdir + '/' + m_tmpfile;
 
   kDebug(1601) << "Temp file name is " << m_tmpfile << endl;
 

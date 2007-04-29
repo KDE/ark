@@ -29,6 +29,17 @@
 
 */
 
+// ark includes
+#include "arkwidget.h"
+#include "arkapp.h"
+#include "archiveformatdlg.h"
+#include "extractiondialog.h"
+#include "filelistview.h"
+#include "arkutils.h"
+#include "archiveformatinfo.h"
+#include "compressedfile.h"
+#include "arkviewer.h"
+
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -68,16 +79,6 @@
 #include <kmenu.h>
 #include <kdialog.h>
 
-// ark includes
-#include "arkapp.h"
-#include "archiveformatdlg.h"
-#include "extractiondialog.h"
-#include "arkwidget.h"
-#include "filelistview.h"
-#include "arkutils.h"
-#include "archiveformatinfo.h"
-#include "compressedfile.h"
-#include "arkviewer.h"
 
 static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
 {
@@ -86,8 +87,8 @@ static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
 
     if ( KRun::isExecutable( mimetype ) )
     {
-        QString text = i18n( "The file you're trying to view may be an executable. Running untrusted executables may compromise your system's security.\nAre you sure you want to run that file?" );
-        view = ( KMessageBox::warningContinueCancel( parent, text, QString::null, KGuiItem(i18n("Run Nevertheless")) ) == KMessageBox::Continue );
+        QString text = i18n( "The file you are trying to view may be an executable. Running untrusted executables may compromise your system's security.\nAre you sure you want to run that file?" );
+        view = ( KMessageBox::warningContinueCancel( parent, text, QString(), KGuiItem(i18n("Run Nevertheless")) ) == KMessageBox::Continue );
     }
 
     if ( view )
@@ -104,7 +105,7 @@ static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
 ArkWidget::ArkWidget( QWidget *parent )
    : KVBox(parent), m_bBusy( false ), m_bBusyHold( false ),
      m_extractOnly( false ), m_extractRemote(false),
-     m_openAsMimeType(QString::null), m_pTempAddList(NULL),
+     m_openAsMimeType( QString() ), m_pTempAddList(NULL),
      m_bArchivePopupEnabled( false ),
      m_convert_tmpDir( NULL ), m_convertSuccess( false ),
      m_createRealArchTmpDir( NULL ),  m_extractRemoteTmpDir( NULL ),
@@ -950,7 +951,7 @@ ArkWidget::file_close()
     if ( isArchiveOpen() )
     {
         closeArch();
-        emit setWindowCaption( QString::null );
+        emit setWindowCaption( QString() );
         emit removeOpenArk( m_strArchName );
         updateStatusTotals();
         updateStatusSelection();
@@ -961,7 +962,7 @@ ArkWidget::file_close()
         closeArch();
     }
 
-    m_strArchName = QString::null;
+    m_strArchName.clear();
     m_url = KUrl();
 }
 
@@ -976,11 +977,11 @@ ArkWidget::askToCreateRealArchive()
         KMessageBox::warningYesNo(0, i18n("You are currently working with a simple compressed file.\nWould you like to make it into an archive so that it can contain multiple files?\nIf so, you must choose a name for your new archive."), i18n("Warning"),KGuiItem(i18n("Make Into Archive")),KGuiItem(i18n("Do Not Make")));
     if (choice == KMessageBox::Yes)
     {
-        url = getCreateFilename( i18n("Create New Archive"),
-                                 QString::null, false );
+        url = getCreateFilename( i18n( "Create New Archive" ),
+                                 QString(), false );
     }
     else
-        url.setPath( QString::null );
+        url.setPath( QString() );
     return url;
 }
 
@@ -1248,7 +1249,7 @@ ArkWidget::action_delete()
     // ask for confirmation
     if ( !KMessageBox::warningContinueCancel( this,
                                               i18n( "Do you really want to delete the selected items?" ),
-                                              QString::null,
+                                              QString(),
                                               KStandardGuiItem::del() )
          == KMessageBox::Continue)
     {
@@ -1692,7 +1693,7 @@ ArkWidget::viewSlotExtractDone( bool success )
             if ( !viewer->view( m_strFileToView ) )
             {
                 QString text = i18n( "The internal viewer is not able to display this file. Would you like to view it using an external program?" );
-                view = ( KMessageBox::warningYesNo( this, text, QString::null, KGuiItem(i18n("View Externally")), KGuiItem(i18n("Do Not View")) ) == KMessageBox::Yes );
+                view = ( KMessageBox::warningYesNo( this, text, QString(), KGuiItem(i18n("View Externally")), KGuiItem(i18n("Do Not View")) ) == KMessageBox::Yes );
 
                 if ( view )
                     viewInExternalViewer( this, m_strFileToView );
@@ -1881,7 +1882,7 @@ ArkWidget::dropAction( QStringList  & list )
             // one or open it as the new current archive
             int nRet = KMessageBox::warningYesNoCancel(this,
                        i18n("Do you wish to add this to the current archive or open it as a new archive?"),
-                       QString::null,
+                       QString(),
                        KGuiItem(i18n("&Add")), KGuiItem(i18n("&Open")));
             if (KMessageBox::Yes == nRet) // add it
             {
@@ -1939,7 +1940,7 @@ ArkWidget::dropAction( QStringList  & list )
             str = (list.count() > 1)
                   ? i18n("There is no archive currently open. Do you wish to create one now for these files?")
                   : i18n("There is no archive currently open. Do you wish to create one now for this file?");
-            int nRet = KMessageBox::warningYesNo(this, str, QString::null, KGuiItem(i18n("Create Archive")), KGuiItem(i18n("Do Not Create")));
+            int nRet = KMessageBox::warningYesNo(this, str, QString(), KGuiItem(i18n("Create Archive")), KGuiItem(i18n("Do Not Create")));
             if (nRet == KMessageBox::Yes) // yes
             {
                 file_new();
@@ -2113,7 +2114,7 @@ ArkWidget::openArchive( const QString & _filename )
             ArchiveFormatDlg * dlg = new ArchiveFormatDlg( this, info->findMimeType( m_url ) );
             if ( !dlg->exec() == QDialog::Accepted )
             {
-                emit setWindowCaption( QString::null );
+                emit setWindowCaption( QString() );
                 emit removeRecentURL( m_realURL );
                 delete dlg;
                 file_close();
@@ -2133,7 +2134,7 @@ ArkWidget::openArchive( const QString & _filename )
     if( 0 == ( newArch = Arch::archFactory( archtype, this,
                                             _filename, m_openAsMimeType) ) )
     {
-        emit setWindowCaption( QString::null );
+        emit setWindowCaption( QString() );
         emit removeRecentURL( m_realURL );
         KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
         return;
@@ -2195,7 +2196,7 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
     else
     {
         emit removeRecentURL( m_realURL );
-        emit setWindowCaption( QString::null );
+        emit setWindowCaption( QString() );
         KMessageBox::error( this, i18n( "An error occurred while trying to open the archive %1", _filename ) );
 
         if ( m_extractOnly )
@@ -2244,7 +2245,7 @@ void ArkWidget::showSettings()
   }
   else
   {
-     genPage->konqIntegrationLabel->setText( QString::null );
+     genPage->konqIntegrationLabel->setText( QString() );
   }
 
   dialog->show();

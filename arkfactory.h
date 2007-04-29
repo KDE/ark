@@ -21,6 +21,7 @@
 
 #ifndef ARKFACTORY_H
 #define ARKFACTORY_H
+#include <KAboutData>
 #include <kparts/factory.h>
 
 class ArkFactory : public KParts::Factory

@@ -40,6 +40,12 @@
 // course, for tape backups, so this is not so surprising!      -Emily
 //
 
+// ark includes
+#include "tar.h"
+#include "arkwidget.h"
+#include "settings.h"
+#include "filelistview.h"
+
 // C includes
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -65,12 +71,6 @@
 #include <k3process.h>
 #include <ktar.h>
 
-// ark includes
-#include "arkwidget.h"
-#include "settings.h"
-#include "tar.h"
-#include "filelistview.h"
-
 static char *makeAccessString(mode_t mode);
 
 TarArch::TarArch( ArkWidget *_gui,
@@ -84,7 +84,7 @@ TarArch::TarArch( ArkWidget *_gui,
     m_filesToAdd = m_filesToRemove = QStringList();
     kDebug(1601) << "+TarArch::TarArch" << endl;
     m_archiver_program = ArkSettings::tarExe();
-    m_unarchiver_program = QString::null;
+    m_unarchiver_program = QString();
     verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
 
     m_fileMimeType = _openAsMimeType;
@@ -212,7 +212,7 @@ QString TarArch::getCompressor()
     if( m_fileMimeType == "application/x-tzo" )
         return QString( "lzop" );
 
-    return QString::null;
+    return QString();
 }
 
 
@@ -230,7 +230,7 @@ QString TarArch::getUnCompressor()
     if( m_fileMimeType == "application/x-tzo" )
         return QString( "lzop" );
 
-    return QString::null;
+    return QString();
 }
 
 void
@@ -344,7 +344,7 @@ void TarArch::openSecondCreateTempDone()
         kDebug(1601)  << "Failed to uncompress and open." << endl;
         delete tarptr;
         tarptr = NULL;
-        emit sigOpen(this, false, QString::null, 0 );
+        emit sigOpen(this, false, QString(), 0 );
     }
     else
     {
@@ -411,11 +411,11 @@ void TarArch::processDir(const KArchiveDirectory *tardir, const QString & root)
       col_list.append( name );
       QString perms = makeAccessString(tarEntry->permissions());
       if (!tarEntry->isFile())
-        perms = "d" + perms;
+        perms = 'd' + perms;
       else if (!tarEntry->symlink().isEmpty())
-        perms = "l" + perms;
+        perms = 'l' + perms;
       else
-        perms = "-" + perms;
+        perms = '-' + perms;
       col_list.append(perms);
       col_list.append( tarEntry->user() );
       col_list.append( tarEntry->group() );
@@ -511,7 +511,7 @@ void TarArch::createTmp()
             if (kp->start(K3Process::NotifyOnExit, flag ) == false)
             {
                 KMessageBox::error(0, i18n("Unable to fork a decompressor"));
-		emit sigOpen( this, false, QString::null, 0 );
+                emit sigOpen( this, false, QString(), 0 );
             }
         }
         else
@@ -723,10 +723,10 @@ void TarArch::unarchFileInternal()
 
   QString options = "-x";
   if (!ArkSettings::extractOverwrite())
-    options += "k";
+    options += 'k';
   if (ArkSettings::preservePerms())
-    options += "p";
-  options += "f";
+    options += 'p';
+  options += 'f';
 
   kDebug(1601) << "Options were: " << options << endl;
   *kp << options << m_filename << "-C" << dest;

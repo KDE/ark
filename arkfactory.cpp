@@ -18,13 +18,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 */
+#include "arkfactory.h"
+#include "ark_part.h"
 
 #include <kaboutdata.h>
 #include <kcomponentdata.h>
 
-#include "ark_part.h"
-#include "arkfactory.h"
-//Added by qt3to4:
 #include <QByteArray>
 
 KComponentData *ArkFactory::s_instance = 0L;

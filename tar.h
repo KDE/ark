@@ -31,12 +31,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef TAR_H
 #define TAR_H
 
+#include "archive.h"
+
+#include <cstdio>
 #include <unistd.h>
-//Added by qt3to4:
-#include <Q3StrList>
+
+#include <QStringList>
 
 class QString;
-class Q3StrList;
 class K3Process;
 class KTempDir;
 class KArchiveDirectory;

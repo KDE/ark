@@ -26,6 +26,9 @@
 
 */
 
+#include "filelistview.h"
+#include "archive.h"
+
 // Qt includes
 #include <qpainter.h>
 #include <q3whatsthis.h>
@@ -39,9 +42,6 @@
 #include <kdebug.h>
 #include <kglobalsettings.h>
 #include <kmimetype.h>
-
-#include "filelistview.h"
-#include "archive.h"
 
 /////////////////////////////////////////////////////////////////////
 // FileLVI implementation

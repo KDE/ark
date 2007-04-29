@@ -47,7 +47,7 @@ class ArkBrowserExtension: public KParts::BrowserExtension
 {
     Q_OBJECT
 public:
-    ArkBrowserExtension( KParts::ReadOnlyPart * parent, const char * name = 0L );
+    explicit ArkBrowserExtension( KParts::ReadOnlyPart * parent, const char * name = 0L );
 public slots:
     void slotOpenUrlRequested( const KUrl & url );
 };

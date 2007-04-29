@@ -25,6 +25,10 @@
 
 */
 
+// ark includes
+#include "zip.h"
+#include "arkwidget.h"
+#include "settings.h"
 
 // Qt includes
 #include <QDir>
@@ -34,12 +38,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <k3process.h>
-
-// ark includes
-#include "zip.h"
-#include "arkwidget.h"
-#include "settings.h"
-
 
 ZipArch::ZipArch( ArkWidget *_gui, const QString & _fileName )
   : Arch(  _gui, _fileName )
@@ -102,7 +100,7 @@ void ZipArch::open()
   if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
-    emit sigOpen( this, false, QString::null, 0 );
+    emit sigOpen( this, false, QString(), 0 );
   }
 }
 

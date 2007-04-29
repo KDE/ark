@@ -20,8 +20,8 @@
 
 */
 
-#include "archive.h"
 #include "archiveformatinfo.h"
+#include "archive.h"
 #include "settings.h"
 
 #include <klocale.h>
@@ -108,7 +108,7 @@ QString ArchiveFormatInfo::filter()
     for ( it = m_formatInfos.begin(); it != m_formatInfos.end(); ++it )
     {
         allExtensions += (*it).extensions;
-        filter += "\n" + (*it).extensions.join( " " ) + '|' + (*it).description;
+        filter += '\n' + (*it).extensions.join( " " ) + '|' + (*it).description;
     }
     return allExtensions.join( " " ) + '|' + i18n( "All Valid Archives\n" )
             + "*|" + i18n( "All Files" )

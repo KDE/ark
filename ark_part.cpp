@@ -272,7 +272,7 @@ bool ArkPart::openFile()
     url.setPath( localFilePath() );
     if( !QFile::exists( localFilePath() ) )
     {
-        emit setWindowCaption(  QString::null );
+        emit setWindowCaption( QString() );
         emit removeRecentURL( awidget->realURL() );
         return false;
     }

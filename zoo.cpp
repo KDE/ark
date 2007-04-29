@@ -23,6 +23,14 @@
 
 */
 
+// ark includes
+#include "zoo.h"
+#include "settings.h"
+#include "arkwidget.h"
+#include "archive.h"
+#include "arkutils.h"
+#include "filelistview.h"
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -42,21 +50,13 @@
 #include <kmessagebox.h>
 #include <k3process.h>
 
-// ark includes
-#include "settings.h"
-#include "arkwidget.h"
-#include "archive.h"
-#include "zoo.h"
-#include "arkutils.h"
-#include "filelistview.h"
-
 static QString fixTime( const QString &_strTime );
 
 ZooArch::ZooArch( ArkWidget *gui, const QString & fileName )
   : Arch( gui, fileName )
 {
   m_archiver_program = "zoo";
-  m_unarchiver_program = QString::null;
+  m_unarchiver_program = QString();
   verifyUtilityIsAvailable( m_archiver_program, m_unarchiver_program );
 
   m_headerString = "----";
@@ -121,7 +121,7 @@ void ZooArch::open()
   if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
-    emit sigOpen( this, false, QString::null, 0 );
+    emit sigOpen( this, false, QString(), 0 );
   }
 }
 

@@ -90,7 +90,7 @@ class Arch : public QObject
       int maxLength;
       bool optional;
 
-      ArchColumns( int col, QRegExp reg, int length = 64, bool opt = false );
+      ArchColumns( int col, const QRegExp &reg, int length = 64, bool opt = false );
     };
 
   public:
@@ -128,7 +128,7 @@ class Arch : public QObject
 
     // check to see if the utility exists in the PATH of the user
     void verifyUtilityIsAvailable( const QString &,
-                                   const QString & = QString::null );
+                                   const QString & = QString() );
 
     bool utilityIsAvailable() { return m_bUtilityIsAvailable; }
 
@@ -140,7 +140,7 @@ class Arch : public QObject
 
     static Arch *archFactory( ArchType aType, ArkWidget *parent,
                               const QString &filename,
-                              const QString &openAsMimeType = QString::null );
+                              const QString &openAsMimeType = QString() );
 
   protected slots:
     void slotOpenExited( K3Process* );
@@ -192,7 +192,6 @@ class Arch : public QObject
 };
 
 // Columns
-// don't forget to change common_texts.cpp if you change something here
 #define FILENAME_COLUMN    qMakePair( i18n(" Filename "),    Qt::AlignLeft  )
 #define PERMISSION_COLUMN  qMakePair( i18n(" Permissions "), Qt::AlignLeft  )
 #define OWNER_GROUP_COLUMN qMakePair( i18n(" Owner/Group "), Qt::AlignLeft  )

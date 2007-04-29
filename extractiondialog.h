@@ -45,11 +45,11 @@ class ExtractionDialog : public KDialog
 		/**
 		 * Constructor.
 		 */
-		ExtractionDialog( QWidget *parent = 0, const char *name = 0,
-		                  bool enableSelected = true,
-		                  const KUrl &defaultExtractionDir = KUrl(),
-		                  const QString &prefix = QString(),
-		                  const QString &archiveName = QString::null );
+		explicit ExtractionDialog( QWidget *parent = 0, const char *name = 0,
+		                           bool enableSelected = true,
+		                           const KUrl &defaultExtractionDir = KUrl(),
+		                           const QString &prefix = QString(),
+		                           const QString &archiveName = QString() );
 
 		/**
 		 * Destructor.

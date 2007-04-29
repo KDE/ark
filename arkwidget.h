@@ -88,7 +88,7 @@ public:
     const KUrl& realURL() const { return m_realURL; }
     void setRealURL( const KUrl& url ) { m_realURL = url; }
 
-    QString tmpDir() const { return m_tmpDir ? m_tmpDir->name() : QString::null; }
+    QString tmpDir() const { return m_tmpDir ? m_tmpDir->name() : QString(); }
 
     FileListView * fileList() const { return m_fileListView; }
     K3ListViewSearchLine    * searchBar() const { return m_searchBar; }
@@ -194,9 +194,9 @@ private: // methods
     void createRealArchive( const QString &strFilename,
                             const QStringList & filesToAdd = QStringList() );
     KUrl getCreateFilename( const QString & _caption,
-                            const QString & _defaultMimeType = QString::null,
+                            const QString & _defaultMimeType = QString(),
                             bool allowCompressed = true,
-                            const QString & _suggestedName = QString::null );
+                            const QString & _suggestedName = QString() );
 
     bool reportExtractFailures(const QString & _dest, QStringList *_list);
     QStringList existingFiles( const QString & _dest, QStringList & _list );

@@ -1,6 +1,3 @@
-//Added by qt3to4:
-#include <QByteArray>
-//  -*-C++-*-           emacs magic for .h files
 /*
 
  $Id$
@@ -31,6 +28,10 @@
 
 #ifndef ARARCH_H
 #define ARARCH_H
+
+#include "archive.h"
+#include <QStringList>
+#include <QByteArray>
 
 class QString;
 class QByteArray;

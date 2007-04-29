@@ -27,15 +27,17 @@
 #ifndef COMPRESSED_FILE_H
 #define COMPRESSED_FILE_H
 
+#include "archive.h"
+#include <cstdio>
+#include <QStringList>
+
 class QString;
 class QByteArray;
 class QStringList;
 class K3Process;
 class KTempDir;
 
-class Arch;
 class ArkWidget;
-
 // This isn't *really* an archive, but having this class in the program
 // allows people to manage gzipped files if they want. If someone tries to
 // add a file, the gz-file must be empty (hozat? it could be empty by having

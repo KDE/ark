@@ -26,14 +26,19 @@
 
 */
 
+// ark includes
+#include "archive.h"
+#include "arkwidget.h"
+#include "arkutils.h"
+#include "filelistview.h"
+
 // C includes
 #include <stdlib.h>
 #include <time.h>
 
 // QT includes
-#include <qapplication.h>
+#include <QApplication>
 #include <QFile>
-//Added by qt3to4:
 #include <QByteArray>
 
 // KDE includes
@@ -44,12 +49,6 @@
 #include <kpassworddialog.h>
 #include <k3process.h>
 #include <kstandarddirs.h>
-
-// ark includes
-#include "archive.h"
-#include "arkwidget.h"
-#include "arkutils.h"
-#include "filelistview.h"
 
 // the archive types
 #include "tar.h"
@@ -62,7 +61,7 @@
 #include "sevenzip.h"
 #include "ace.h"
 
-Arch::ArchColumns::ArchColumns( int col, QRegExp reg, int length, bool opt )
+Arch::ArchColumns::ArchColumns( int col, const QRegExp &reg, int length, bool opt )
   : colRef( col ), pattern( reg ), maxLength( length ), optional( opt )
 {
 }
@@ -119,7 +118,7 @@ void Arch::slotOpenExited( K3Process* _kp )
     emit sigOpen( this, true, m_filename,
                   Arch::Extract | Arch::Delete | Arch::Add | Arch::View );
   else
-    emit sigOpen( this, false, QString::null, 0 );
+    emit sigOpen( this, false, QString(), 0 );
 
   delete _kp;
   _kp = m_currentProcess = 0;

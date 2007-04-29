@@ -24,6 +24,10 @@
 
 */
 
+#include "sevenzip.h"
+#include "arkwidget.h"
+#include "settings.h"
+
 #include <QDir>
 
 #include <kglobal.h>
@@ -33,10 +37,6 @@
 #include <kmessagebox.h>
 #include <k3process.h>
 #include <kstandarddirs.h>
-
-#include "sevenzip.h"
-#include "arkwidget.h"
-#include "settings.h"
 
 SevenZipArch::SevenZipArch( ArkWidget *gui, const QString &filename )
   : Arch( gui, filename )
@@ -104,7 +104,7 @@ void SevenZipArch::open()
   if ( !kp->start( K3Process::NotifyOnExit, K3Process::AllOutput ) )
   {
     KMessageBox::error( 0, i18n( "Could not start a subprocess." ) );
-    emit sigOpen( this, false, QString::null, 0 );
+    emit sigOpen( this, false, QString(), 0 );
   }
 }
 

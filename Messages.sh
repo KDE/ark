@@ -1,2 +1,2 @@
 #! /bin/sh
-$XGETTEXT *.cpp -o $podir/ark.pot
+$XGETTEXT *.cpp archive.h -o $podir/ark.pot
