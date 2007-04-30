@@ -51,16 +51,16 @@ ZipArch::ZipArch( ArkWidget *_gui, const QString & _fileName )
   m_dateCol = 5;
   m_numCols = 7;
 
-  m_archCols.append( new ArchColumns( 1, QRegExp( "[0-9]+" ) ) );
-  m_archCols.append( new ArchColumns( 2, QRegExp( "[^\\s]+" ) ) );
-  m_archCols.append( new ArchColumns( 3, QRegExp( "[0-9]+" ) ) );
-  m_archCols.append( new ArchColumns( 4, QRegExp( "[0-9.]+%" ) ) );
-  m_archCols.append( new ArchColumns( 7, QRegExp( "[01][0-9]" ), 2 ) );
-  m_archCols.append( new ArchColumns( 8, QRegExp( "[0-3][0-9]" ), 2 ) );
-  m_archCols.append( new ArchColumns( 9, QRegExp( "[0-9][0-9]" ), 2 ) );
-  m_archCols.append( new ArchColumns( 10, QRegExp( "[0-9:]+" ), 6 ) );
-  m_archCols.append( new ArchColumns( 6, QRegExp( "[a-fA-F0-9]+ {2}" ) ) );
-  m_archCols.append( new ArchColumns( 0, QRegExp( "[^\\n]+" ), 4096 ) );
+  m_archCols.append( ArchColumns( 1, QRegExp( "[0-9]+" ) ) );
+  m_archCols.append( ArchColumns( 2, QRegExp( "[^\\s]+" ) ) );
+  m_archCols.append( ArchColumns( 3, QRegExp( "[0-9]+" ) ) );
+  m_archCols.append( ArchColumns( 4, QRegExp( "[0-9.]+%" ) ) );
+  m_archCols.append( ArchColumns( 7, QRegExp( "[01][0-9]" ), 2 ) );
+  m_archCols.append( ArchColumns( 8, QRegExp( "[0-3][0-9]" ), 2 ) );
+  m_archCols.append( ArchColumns( 9, QRegExp( "[0-9][0-9]" ), 2 ) );
+  m_archCols.append( ArchColumns( 10, QRegExp( "[0-9:]+" ), 6 ) );
+  m_archCols.append( ArchColumns( 6, QRegExp( "[a-fA-F0-9]+ {2}" ) ) );
+  m_archCols.append( ArchColumns( 0, QRegExp( "[^\\n]+" ), 4096 ) );
 
 }
 

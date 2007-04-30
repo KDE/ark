@@ -56,14 +56,14 @@ ArArch::ArArch( ArkWidget *_gui, const QString & _fileName )
   m_numCols = 5;
   m_dateCol = 4; m_fixYear = 8; m_repairMonth = 5; m_fixDay = 6; m_fixTime = 7;
 
-  m_archCols.append(new ArchColumns(1, QRegExp("[a-zA-Z-]+"), 12)); // Perms
-  m_archCols.append(new ArchColumns(2, QRegExp("[^\\s]+"), 128)); //User/grp
-  m_archCols.append(new ArchColumns(3, QRegExp("[0-9]+"))); // Size
-  m_archCols.append(new ArchColumns(5, QRegExp("[a-zA-Z]+"), 4)); // Month
-  m_archCols.append(new ArchColumns(6, QRegExp("[0-9]+"), 2)); // Day
-  m_archCols.append(new ArchColumns(7, QRegExp("[0-9:]+"), 6)); // Time
-  m_archCols.append(new ArchColumns(8, QRegExp("[0-9]+"), 5)); // Year
-  m_archCols.append(new ArchColumns(0, QRegExp("[^\\s][^\\n]+"), 4096));// File
+  m_archCols.append(ArchColumns(1, QRegExp("[a-zA-Z-]+"), 12)); // Perms
+  m_archCols.append(ArchColumns(2, QRegExp("[^\\s]+"), 128)); //User/grp
+  m_archCols.append(ArchColumns(3, QRegExp("[0-9]+"))); // Size
+  m_archCols.append(ArchColumns(5, QRegExp("[a-zA-Z]+"), 4)); // Month
+  m_archCols.append(ArchColumns(6, QRegExp("[0-9]+"), 2)); // Day
+  m_archCols.append(ArchColumns(7, QRegExp("[0-9:]+"), 6)); // Time
+  m_archCols.append(ArchColumns(8, QRegExp("[0-9]+"), 5)); // Year
+  m_archCols.append(ArchColumns(0, QRegExp("[^\\s][^\\n]+"), 4096));// File
 
   kDebug(1601) << "ArArch constructor" << endl;
 }

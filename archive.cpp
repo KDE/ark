@@ -74,7 +74,6 @@ Arch::Arch( ArkWidget *gui, const QString &filename )
     m_fixDay( -1 ), m_fixTime( -1 ), m_repairYear( -1 ), m_repairMonth( -1 ),
     m_repairTime( -1 ), m_currentProcess( 0 )
 {
-  m_archCols.setAutoDelete( true ); // To check: it still leaky here???
 }
 
 Arch::~Arch()
@@ -308,16 +307,14 @@ bool Arch::processLine( const QByteArray &line )
   int strpos, len;
 
   // Go through our columns, try to pick out data, return silently on failure
-  for ( Q3PtrListIterator <ArchColumns>col( m_archCols ); col.current(); ++col )
+  foreach( const ArchColumns &column, m_archCols )
   {
-    ArchColumns *curCol = *col;
+    strpos = column.pattern.indexIn( line, pos );
+    len    = column.pattern.matchedLength();
 
-    strpos = curCol->pattern.indexIn( line, pos );
-    len = curCol->pattern.matchedLength();
-
-    if ( ( strpos == -1 ) || ( len > curCol->maxLength ) )
+    if ( ( strpos == -1 ) || ( len > column.maxLength ) )
     {
-      if ( curCol->optional )
+      if ( column.optional )
         continue; // More?
       else
       {
@@ -328,7 +325,7 @@ bool Arch::processLine( const QByteArray &line )
 
     pos = strpos + len;
 
-    columns[ curCol->colRef ] = line.mid( strpos, len );
+    columns[ column.colRef ] = line.mid( strpos, len );
   }
 
 

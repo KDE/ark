@@ -50,11 +50,11 @@
 #define ARCH_H
 
 #include <QObject>
-#include <q3ptrlist.h> // Some very annoying hackery in arkwidgetpart
+#include <QList>
+#include <QPair>
 #include <QRegExp>
 
-#include <kurl.h>
-#include <qpair.h>
+#include <KUrl>
 
 class QByteArray;
 class QStringList;
@@ -181,7 +181,7 @@ class Arch : public QObject
     // Archive parsing information
     QByteArray m_headerString;
     bool m_header_removed, m_finished;
-    Q3PtrList<ArchColumns> m_archCols;
+    QList<ArchColumns> m_archCols;
     int m_numCols, m_dateCol, m_fixYear, m_fixMonth, m_fixDay, m_fixTime;
     int m_repairYear, m_repairMonth, m_repairTime;
     K3Process *m_currentProcess;

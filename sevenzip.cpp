@@ -57,14 +57,14 @@ SevenZipArch::SevenZipArch( ArkWidget *gui, const QString &filename )
   m_dateCol = 3;
   m_numCols = 5;
 
-  m_archCols.append( new ArchColumns( 5, QRegExp( "[0-2][0-9][0-9][0-9]" ), 4 ) ); // Year
-  m_archCols.append( new ArchColumns( 6, QRegExp( "[01][0-9]" ), 2 ) ); // Month
-  m_archCols.append( new ArchColumns( 7, QRegExp( "[0-3][0-9]" ), 2 ) ); // Day
-  m_archCols.append( new ArchColumns( 8, QRegExp( "[0-9:]+" ), 8 ) ); // Time
-  m_archCols.append( new ArchColumns( 4, QRegExp( "[^\\s]+" ) ) ); // Attributes
-  m_archCols.append( new ArchColumns( 1, QRegExp( "[0-9]+" ) ) ); // Size
-  m_archCols.append( new ArchColumns( 2, QRegExp( "[0-9]+" ) ) ); // Compressed Size
-  m_archCols.append( new ArchColumns( 0, QRegExp( "[^\\n]+" ), 4096 ) ); // Name
+  m_archCols.append( ArchColumns( 5, QRegExp( "[0-2][0-9][0-9][0-9]" ), 4 ) ); // Year
+  m_archCols.append( ArchColumns( 6, QRegExp( "[01][0-9]" ), 2 ) ); // Month
+  m_archCols.append( ArchColumns( 7, QRegExp( "[0-3][0-9]" ), 2 ) ); // Day
+  m_archCols.append( ArchColumns( 8, QRegExp( "[0-9:]+" ), 8 ) ); // Time
+  m_archCols.append( ArchColumns( 4, QRegExp( "[^\\s]+" ) ) ); // Attributes
+  m_archCols.append( ArchColumns( 1, QRegExp( "[0-9]+" ) ) ); // Size
+  m_archCols.append( ArchColumns( 2, QRegExp( "[0-9]+" ) ) ); // Compressed Size
+  m_archCols.append( ArchColumns( 0, QRegExp( "[^\\n]+" ), 4096 ) ); // Name
 }
 
 SevenZipArch::~SevenZipArch()
