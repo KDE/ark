@@ -362,18 +362,16 @@ MainWindow::slotSaveProperties()
 }
 
 void
-MainWindow::saveProperties( KConfig* config )
+MainWindow::saveProperties( KConfigGroup &config )
 {
-    //TODO: make it work for URLS
-    config->writePathEntry( "SMOpenedFile",m_widget->getArchName() );
-    config->sync();
+    config.writePathEntry( "SMOpenedFile",m_widget->getArchName() );
 }
 
 
 void
-MainWindow::readProperties( KConfig* config )
+MainWindow::readProperties( KConfigGroup &config )
 {
-    QString file = config->readPathEntry("SMOpenedFile");
+    QString file = config.readPathEntry( "SMOpenedFile" );
     kDebug(1601) << "ArkWidget::readProperties( KConfig* config ) file=" << file << endl;
     if ( !file.isEmpty() )
         openURL( file );

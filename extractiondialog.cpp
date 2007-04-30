@@ -50,7 +50,7 @@
 #include "arkutils.h"
 #include "settings.h"
 
-ExtractionDialog::ExtractionDialog( QWidget *parent, const char *name,
+ExtractionDialog::ExtractionDialog( QWidget *parent,
                                     bool enableSelected,
                                     const KUrl& defaultExtractionDir,
                                     const QString &prefix,

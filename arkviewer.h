@@ -30,7 +30,7 @@ class ArkViewer : public KDialog
 	Q_OBJECT
 
 	public:
-		explicit ArkViewer( QWidget* parent = 0, const char * name = 0 );
+		explicit ArkViewer( QWidget* parent = 0 );
 		~ArkViewer();
 
 		bool view( const QString& filename );

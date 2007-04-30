@@ -33,12 +33,10 @@
 #include <QHBoxLayout>
 #include <QFrame>
 #include <QLabel>
-
-
-ArkViewer::ArkViewer( QWidget * parent, const char * name )
+ArkViewer::ArkViewer( QWidget * parent )
 	: KDialog( parent), m_part( 0 )
 {
-    setButtons( Close );
+	setButtons( Close );
 	m_widget = new KVBox( this );
 	m_widget->layout()->setSpacing( 10 );
 

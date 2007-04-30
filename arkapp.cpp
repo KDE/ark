@@ -106,7 +106,6 @@ ArkApplication::ArkApplication()
   : KUniqueApplication(), m_windowCount(0)
 {
 	m_mainwidget = new QWidget;
-	setMainWidget(m_mainwidget);
 }
 
 int

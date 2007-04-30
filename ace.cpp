@@ -114,14 +114,17 @@ void AceArch::create()
 
 void AceArch::addFile( const QStringList & urls )
 {
+	Q_UNUSED( urls );
 }
 
 void AceArch::addDir( const QString & dirName )
 {
+	Q_UNUSED( dirName );
 }
 
 void AceArch::remove( QStringList *list )
 {
+	Q_UNUSED( list );
 }
 
 void AceArch::unarchFileInternal( )

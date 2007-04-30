@@ -73,6 +73,7 @@
 #include <kurl.h>
 #include <kservicetypetrader.h>
 #include <krun.h>
+#include <kio/jobuidelegate.h>
 
 // settings
 #include "settings.h"
@@ -910,6 +911,7 @@ ArkWidget::extractRemoteInitiateMoving( const KUrl & target )
     m_extractURL.adjustPath( KUrl::AddTrailingSlash );
 
     KIO::CopyJob *job = KIO::copy( srcList, target, this );
+    job->ui()->setWindow( this );
     connect( job, SIGNAL(result(KJob*)),
             this, SLOT(slotExtractRemoteDone(KJob*)) );
 
@@ -923,7 +925,7 @@ ArkWidget::slotExtractRemoteDone(KJob *job)
     m_extractRemoteTmpDir = NULL;
 
     if ( job->error() )
-        static_cast<KIO::Job*>(job)->showErrorDialog();
+        static_cast<KIO::Job*>( job )->ui()->showErrorMessage();
 
     emit extractRemoteMovingDone();
 
@@ -1460,7 +1462,7 @@ ArkWidget::action_extract()
         defaultDir = KUrl::fromPath( QDir::currentPath() );
     }
 
-    ExtractionDialog *dlg = new ExtractionDialog( this, 0, enableSelected, defaultDir, prefix,  m_url.fileName() );
+    ExtractionDialog *dlg = new ExtractionDialog( this, enableSelected, defaultDir, prefix,  m_url.fileName() );
 
     bool bRedoExtract = false;
 
@@ -1688,7 +1690,8 @@ ArkWidget::viewSlotExtractDone( bool success )
 
         if ( ArkSettings::useIntegratedViewer() )
         {
-            ArkViewer * viewer = new ArkViewer( this, "viewer" );
+            ArkViewer * viewer = new ArkViewer( this );
+            viewer->setObjectName( "ArkViewer" );
 
             if ( !viewer->view( m_strFileToView ) )
             {
