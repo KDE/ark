@@ -467,7 +467,7 @@ MainWindow::startProgressDialog( const QString & text )
         progressDialog->setObjectName("progress_dialog");
     }
     else
-        progressDialog->setLabel( text );
+        progressDialog->setLabelText( text );
 
 //    progressDialog->setWFlags( Qt::WType_TopLevel );
 
