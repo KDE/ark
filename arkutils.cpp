@@ -1,17 +1,14 @@
 /*
 
- $Id$
-
  ark -- archiver for the KDE project
 
- Copyright (C)
-
- 2002: Helio Chissini de Castro <helio@conectiva.com.br>
- 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
- 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
- 1999: Francois-Xavier Duranceau duranceau@kde.org
- 1997-1999: Rob Palmbos palm9744@kettering.edu
- 2003: Hans Petter Bieker <bieker@kde.org>
+ Copyright (C) 2005-2007 Henrique Pinto <henrique.pinto@kdemail.net>
+ Copyright (C) 2003 Hans Petter Bieker <bieker@kde.org>
+ Copyright (C) 2002 Helio Chissini de Castro <helio@conectiva.com.br>
+ Copyright (C) 2001 Corel Corporation (author: Michael Jarrett <michaelj@corel.com>)
+ Copyright (C) 1999-2000 Corel Corporation (author: Emily Ezust <emilye@corel.com>)
+ Copyright (C) 1999 Francois-Xavier Duranceau <duranceau@kde.org>
+ Copyright (C) 1997-1999 Rob Palmbos <palm9744@kettering.edu>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -28,6 +25,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 */
+
 #include "arkutils.h"
 
 // C includes
@@ -41,14 +39,10 @@
 
 #include <unistd.h>
 
-#ifdef _HPUX_SOURCE
-#include <sys/vfs.h>
-#endif
-
 // for statfs:
 #ifdef BSD4_4
 #include <sys/mount.h>
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(_HPUX_SOURCE)
 #include <sys/vfs.h>
 #elif defined(__sun)
 #include <sys/statvfs.h>
@@ -207,16 +201,13 @@ ArkUtils::diskHasSpace(const QString &dir, KIO::filesize_t size)
   return true;
 }
 
-KIO::filesize_t
-ArkUtils::getSizes(QStringList *list)
+KIO::filesize_t ArkUtils::getSizes(const QStringList &list)
 {
   KIO::filesize_t sum = 0;
-  QString str;
   KDE_struct_stat st;
 
-  for ( QStringList::Iterator it = list->begin(); it != list->end(); ++it)
+  foreach( QString str, list )
   {
-    str = *it;
     str = str.right(str.length()-5);
     if (KDE_stat(QFile::encodeName(str), &st ) < 0)
        continue;

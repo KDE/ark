@@ -1,17 +1,11 @@
-//  -*-C++-*-           emacs magic for .h files
 /*
-
- $Id$
-
  ark -- archiver for the KDE project
 
- Copyright (C)
-
- 1997-1999: Rob Palmbos palm9744@kettering.edu
- 1999: Francois-Xavier Duranceau duranceau@kde.org
- 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
- 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
- 2003: Hans Petter Bieker <bieker@kde.org>
+ Copyright (C) 1997-1999 Rob Palmbos <palm9744@kettering.edu>
+ Copyright (C) 1999 Francois-Xavier Duranceau <duranceau@kde.org>
+ Copyright (C) 1999-2000 Corel Corporation (author: Emily Ezust <emilye@corel.com>)
+ Copyright (C) 2001 Corel Corporation (author: Michael Jarrett <michaelj@corel.com>)
+ Copyright (C) 2003 Hans Petter Bieker <bieker@kde.org>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -50,7 +44,7 @@ namespace ArkUtils
                        const QString &year);
   bool haveDirPermissions(const QString &strFile);
   bool diskHasSpace(const QString &dir, KIO::filesize_t size);
-  KIO::filesize_t getSizes(QStringList *list);
+  KIO::filesize_t getSizes(const QStringList &list);
 }
 
 #endif

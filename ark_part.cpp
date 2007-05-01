@@ -1,9 +1,9 @@
 /*
-  Copyright (C)
+  Copyright (C) 
 
-  2001: Macadamian Technologies Inc (author: Jian Huang, jian@macadamian.com)
-  2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
-  2005: Henrique Pinto <henrique.pinto@kdemail.net>
+  Copyright (C) 2001 Macadamian Technologies Inc (author: Jian Huang <jian@macadamian.com>)
+  Copyright (C) 2003 Georg Robbers <Georg.Robbers@urz.uni-hd.de>
+  Copyright (C) 2005 Henrique Pinto <henrique.pinto@kdemail.net>
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License

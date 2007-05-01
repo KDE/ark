@@ -1,12 +1,9 @@
 /*
 
  ark -- archiver for the KDE project
-
- Copyright (C)
-
- 2002: Helio Chissini de Castro <helio@conectiva.com.br>
- 1999-2000: Corel Corporation (author: Emily Ezust  emilye@corel.com)
- 1999: Francois-Xavier Duranceau duranceau@kde.org
+ Copyright (C) 2002 Helio Chissini de Castro <helio@conectiva.com.br>
+ Copyright (C) 1999-2000 Corel Corporation (author: Emily Ezust <emilye@corel.com>)
+ Copyright (C) 1999 Francois-Xavier Duranceau <duranceau@kde.org>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License

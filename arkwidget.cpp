@@ -2,16 +2,14 @@
 
  ark -- archiver for the KDE project
 
- Copyright (C)
-
- 2004-2005: Henrique Pinto <henrique.pinto@kdemail.net>
- 2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
- 2002-2003: Helio Chissini de Castro <helio@conectiva.com.br>
- 2001-2002: Roberto Teixeira <maragato@kde.org>
- 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
- 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
- 1999: Francois-Xavier Duranceau duranceau@kde.org
- 1997-1999: Rob Palmbos palm9744@kettering.edu
+ Copyright (C) 2004-2005 Henrique Pinto <henrique.pinto@kdemail.net>
+ Copyright (C) 2003 Georg Robbers <Georg.Robbers@urz.uni-hd.de>
+ Copyright (C) 2002-2003 Helio Chissini de Castro <helio@conectiva.com.br>
+ Copyright (C) 2001-2002 Roberto Teixeira <maragato@kde.org>
+ Copyright (C) 2001 Corel Corporation (author: Michael Jarrett <michaelj@corel.com>)
+ Copyright (C) 1999-2000 Corel Corporation (author: Emily Ezust <emilye@corel.com>)
+ Copyright (C) 1999 Francois-Xavier Duranceau <duranceau@kde.org>
+ Copyright (C) 1997-1999 Rob Palmbos <palm9744@kettering.edu>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -1058,7 +1056,7 @@ ArkWidget::createRealArchiveSlotAddDone( bool success )
         connect( arch, SIGNAL( sigAdd( bool ) ), this,
                  SLOT( createRealArchiveSlotAddFilesDone( bool ) ) );
         // files were dropped in
-        addFile( m_pTempAddList );
+        addFile( *m_pTempAddList );
     }
 }
 
@@ -1101,15 +1099,13 @@ ArkWidget::action_add()
     {
         KUrl::List addList;
         addList = fileDlg.selectedUrls();
-        QStringList * list = new QStringList();
-        //Here we pre-calculate the end of the list
-   KUrl::List::ConstIterator endList = addList.end();
-        for (KUrl::List::ConstIterator it = addList.begin(); it != endList; ++it)
-            list->append( QUrl::fromPercentEncoding( (*it).url().toLatin1() ) );
+        QStringList list;
+        foreach( const KUrl &url, addList )
+            list << KUrl::fromPercentEncoding( url.url().toLatin1() );
 
-        if ( list->count() > 0 )
+        if ( list.count() > 0 )
         {
-            if ( m_bIsSimpleCompressedFile && list->count() > 1 )
+            if ( m_bIsSimpleCompressedFile && list.count() > 1 )
             {
                 QString strFilename;
                 KUrl url = askToCreateRealArchive();
@@ -1118,17 +1114,15 @@ ArkWidget::action_add()
                 {
                     createRealArchive(strFilename);
                 }
-                delete list;
                 return;
             }
             addFile( list );
         }
-        delete list;
     }
 }
 
 void
-ArkWidget::addFile(QStringList *list)
+ArkWidget::addFile( const QStringList &list )
 {
     if ( !ArkUtils::diskHasSpace( tmpDir(), ArkUtils::getSizes( list ) ) )
         return;
@@ -1137,15 +1131,14 @@ ArkWidget::addFile(QStringList *list)
     busy( i18n( "Adding files..." ) );
     // if they are URLs, we have to download them, replace the URLs
     // with filenames, and remember to delete the temporaries later.
-    for (QStringList::Iterator it = list->begin(); it != list->end(); ++it)
+    QStringList localList;
+    foreach( const QString &str, list )
     {
-        QString str = *it;
-        *it = toLocalFile(KUrl(str)).prettyUrl();
-
+        localList << toLocalFile( KUrl( str ) ).prettyUrl();
     }
 
     connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( slotAddDone( bool ) ) );
-    arch->addFile( ( *list ) );
+    arch->addFile( list );
 }
 
 void
@@ -1155,7 +1148,7 @@ ArkWidget::action_add_dir()
                                                 false, this,
                                                 i18n("Select Folder to Add"));
 
-    QString dir = QUrl::fromPercentEncoding( u.url( KUrl::RemoveTrailingSlash ).toLatin1() );
+    QString dir = KUrl::fromPercentEncoding( u.url( KUrl::RemoveTrailingSlash ).toLatin1() );
     if ( !dir.isEmpty() )
     {
         busy( i18n( "Adding folder..." ) );
@@ -1901,7 +1894,7 @@ ArkWidget::dropAction( QStringList  & list )
                     return;
                 }
 
-                addFile( &list );
+                addFile( list );
                 return;
             }
             else if (KMessageBox::Cancel == nRet) // cancel
@@ -1932,7 +1925,7 @@ ArkWidget::dropAction( QStringList  & list )
                 return;
             }
             // add the files to the open archive
-            addFile( &list );
+            addFile( list );
         }
         else
         {
@@ -1949,7 +1942,7 @@ ArkWidget::dropAction( QStringList  & list )
                 file_new();
                 if (isArchiveOpen()) // they still could have canceled!
                 {
-                    addFile( &list );
+                    addFile( list );
                 }
             }
             // else // basically a cancel on the drop.

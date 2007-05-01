@@ -2,9 +2,7 @@
 
  ark -- archiver for the KDE project
 
- Copyright (C)
-
- 2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ Copyright (C) 2000 Corel Corporation (author: Emily Ezust <emilye@corel.com>)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License

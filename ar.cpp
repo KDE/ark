@@ -2,11 +2,9 @@
 
  ark -- archiver for the KDE project
 
- Copyright (C)
-
- 1997-1999: Rob Palmbos palm9744@kettering.edu
- 2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
- 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
+ Copyright (C) 1997-1999 Rob Palmbos <palm9744@kettering.edu>
+ Copyright (C) 2000 Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ Copyright (C) 2001 Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License

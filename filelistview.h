@@ -2,13 +2,11 @@
 
   ark -- archiver for the KDE project
 
-  Copyright (C)
-
-  1999: Francois-Xavier Duranceau duranceau@kde.org
-  1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
-  2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
-  2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
-  2005: Henrique Pinto <henrique.pinto@kdemail.net>
+  Copyright (C) 1999 Francois-Xavier Duranceau <duranceau@kde.org>
+  Copyright (C) 1999-2000 Corel Corporation (author: Emily Ezust <emilye@corel.com>)
+  Copyright (C) 2001 Corel Corporation (author: Michael Jarrett <michaelj@corel.com>)
+  Copyright (C) 2003 Georg Robbers <Georg.Robbers@urz.uni-hd.de>
+  Copyright (C) 2005 Henrique Pinto <henrique.pinto@kdemail.net>
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
