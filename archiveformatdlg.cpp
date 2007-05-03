@@ -23,8 +23,8 @@
 #include "archiveformatinfo.h"
 #include "archive.h"
 
-#include <klocale.h>
-#include <kvbox.h>
+#include <KLocale>
+#include <KVBox>
 
 #include <QLabel>
 

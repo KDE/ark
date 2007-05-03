@@ -2,12 +2,12 @@
 
  ark -- archiver for the KDE project
 
- Copyright (C)
+ 
 
- 1997-1999: Rob Palmbos palm9744@kettering.edu
- 1999: Francois-Xavier Duranceau duranceau@kde.org
- 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
- 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
+ Copyright (C) 1997-1999: Rob Palmbos palm9744@kettering.edu
+ Copyright (C) 1999: Francois-Xavier Duranceau duranceau@kde.org
+ Copyright (C) 1999-2000: Corel Corporation (author: Emily Ezust, emilye@corel.com)
+ Copyright (C) 2001: Corel Corporation (author: Michael Jarrett, michaelj@corel.com)
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -34,10 +34,10 @@
 #include <QDir>
 
 // KDE includes
-#include <kdebug.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <k3process.h>
+#include <KDebug>
+#include <KLocale>
+#include <KMessageBox>
+#include <K3Process>
 
 ZipArch::ZipArch( ArkWidget *_gui, const QString & _fileName )
   : Arch(  _gui, _fileName )

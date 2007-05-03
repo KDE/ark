@@ -21,8 +21,8 @@
 #include "arkfactory.h"
 #include "ark_part.h"
 
-#include <kaboutdata.h>
-#include <kcomponentdata.h>
+#include <KAboutData>
+#include <KComponentData>
 
 #include <QByteArray>
 

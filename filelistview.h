@@ -27,10 +27,10 @@
 #define FILELISTVIEW_H
 
 #include <QDateTime>
-#include <qpair.h>
-#include <q3valuelist.h>
+#include <QPair>
+#include <Q3ValueList>
 
-#include <k3listview.h>
+#include <K3ListView>
 #include <kio/global.h>
 
 class QString;

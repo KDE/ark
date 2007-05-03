@@ -37,10 +37,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <stdlib.h>
 
 // KDE includes
-#include <kdebug.h>
-#include <kcmdlineargs.h>
-#include <kaboutdata.h>
-#include <klocale.h>
+#include <KDebug>
+#include <KCmdLineArgs>
+#include <KAboutData>
+#include <KLocale>
 
 // ark includes
 #include "arkapp.h"

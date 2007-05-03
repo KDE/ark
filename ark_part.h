@@ -25,11 +25,12 @@
 #include <kparts/browserextension.h>
 #include <kparts/statusbarextension.h>
 #include <kparts/factory.h>
-#include <kaction.h>
-#include <qprogressbar.h>
-#include <ktoggleaction.h>
-#include <QPushButton>
 
+#include <KAction>
+#include <KToggleAction>
+
+#include <QProgressBar>
+#include <QPushButton>
 #include <QLabel>
 
 class KAboutData;

@@ -24,7 +24,7 @@
 #define ARCHIVEFORMATINFO_H
 
 #include "archive.h"
-#include <kmimetype.h>
+#include <KMimeType>
 
 class ArchiveFormatInfo
 {

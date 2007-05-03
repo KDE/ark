@@ -27,32 +27,32 @@
 #include <QHBoxLayout>
 
 // KDE includes
-#include <kdebug.h>
-#include <klocale.h>
-#include <kedittoolbar.h>
-#include <kstatusbar.h>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
-#include <kmenu.h>
+#include <KDebug>
+#include <KLocale>
+#include <KEditToolBar>
+#include <KStatusBar>
+#include <KFileDialog>
+#include <KMessageBox>
+#include <KMenu>
 #include <kparts/componentfactory.h>
 #include <kparts/browserextension.h>
-#include <kshortcutsdialog.h>
-#include <kcombobox.h>
+#include <KShortcutsDialog>
+#include <KComboBox>
 #include <kio/netaccess.h>
 #include <kxmlguifactory.h>
-#include <kglobal.h>
-#include <kprogressdialog.h>
-#include <kstandardshortcut.h>
-#include <kstandardaction.h>
-#include <kicon.h>
-#include <kactioncollection.h>
+#include <KGlobal>
+#include <KProgressDialog>
+#include <KStandardShortcut>
+#include <KStandardAction>
+#include <KIcon>
+#include <KActionCollection>
 // ark includes
 #include "arkapp.h"
 #include "settings.h"
 #include "archiveformatinfo.h"
 #include "arkwidget.h"
 
-MainWindow::MainWindow( QWidget * /*parent*/, const char *name )
+MainWindow::MainWindow( QWidget * /*parent*/ )
 	: KParts::MainWindow(), progressDialog( 0 )
 {
     setXMLFile( "arkui.rc" );
@@ -62,7 +62,6 @@ MainWindow::MainWindow( QWidget * /*parent*/, const char *name )
         m_part->setObjectName("ArkPart");
         //Since most of the functionality is still in ArkWidget:
         m_widget = static_cast< ArkWidget* >( m_part->widget() );
- 	m_widget->setObjectName(name);
 
         setStandardToolBarMenuEnabled( true );
         setupActions();

@@ -35,18 +35,18 @@
 #include <QDir>
 
 // KDE includes
-#include <kdebug.h>
+#include <KDebug>
 #include <kde_file.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kstandarddirs.h>
-#include <ktempdir.h>
-#include <k3process.h>
-#include <kmimetype.h>
+#include <KLocale>
+#include <KMessageBox>
+#include <KStandardDirs>
+#include <KTempDir>
+#include <K3Process>
+#include <KMimeType>
 #include <kio/netaccess.h>
 #include <kio/global.h>
-#include <kfileitem.h>
-#include <kapplication.h>
+#include <KFileItem>
+#include <KApplication>
 
 // encapsulates the idea of a compressed file
 

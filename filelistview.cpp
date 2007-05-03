@@ -28,18 +28,18 @@
 #include "archive.h"
 
 // Qt includes
-#include <qpainter.h>
-#include <q3whatsthis.h>
+#include <QPainter>
+#include <Q3WhatsThis>
 #include <QMouseEvent>
 #include <Q3Header>
 
 // KDE includes
-#include <klocale.h>
-#include <kiconloader.h>
-#include <kglobal.h>
-#include <kdebug.h>
-#include <kglobalsettings.h>
-#include <kmimetype.h>
+#include <KLocale>
+#include <KIconLoader>
+#include <KGlobal>
+#include <KDebug>
+#include <KGlobalSettings>
+#include <KMimeType>
 
 /////////////////////////////////////////////////////////////////////
 // FileLVI implementation

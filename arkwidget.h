@@ -29,8 +29,8 @@
 #define ARKWIDGET_H
 
 #include <kio/job.h>
-#include <ktempdir.h>
-#include <kvbox.h>
+#include <KTempDir>
+#include <KVBox>
 
 #include <QLabel>
 #include <QDragMoveEvent>

@@ -24,9 +24,9 @@
 */
 #include "arkapp.h"
 
-#include <kdebug.h>
-#include <kcmdlineargs.h>
-#include <klocale.h>
+#include <KDebug>
+#include <KCmdLineArgs>
+#include <KLocale>
 #include <unistd.h>
 #include <QFile>
 #include <errno.h>

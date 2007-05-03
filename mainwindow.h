@@ -32,7 +32,7 @@
 #include <kxmlguiwindow.h>
 #include <kparts/mainwindow.h>
 #include <kparts/part.h>
-#include <krecentfilesaction.h>
+#include <KRecentFilesAction>
 
 class ArkWidget;
 class KProgressDialog;
@@ -41,7 +41,7 @@ MainWindow: public KParts::MainWindow
 {
     Q_OBJECT
 public:
-    MainWindow( QWidget *parent=0, const char *name=0 );
+    MainWindow( QWidget *parent=0 );
     virtual ~MainWindow();
 
     void setExtractOnly ( bool b );

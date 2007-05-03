@@ -30,7 +30,7 @@
 #include <QHash>
 
 // KDE includes
-#include <kuniqueapplication.h>
+#include <KUniqueApplication>
 
 class QString;
 class QStringList;

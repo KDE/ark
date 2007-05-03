@@ -26,13 +26,13 @@
 
 #include <QDir>
 
-#include <kglobal.h>
-#include <klocale.h>
-#include <kdebug.h>
-#include <kurl.h>
-#include <kmessagebox.h>
-#include <k3process.h>
-#include <kstandarddirs.h>
+#include <KGlobal>
+#include <KLocale>
+#include <KDebug>
+#include <KUrl>
+#include <KMessageBox>
+#include <K3Process>
+#include <KStandardDirs>
 
 AceArch::AceArch( ArkWidget *gui, const QString &filename )
 	: Arch( gui, filename )

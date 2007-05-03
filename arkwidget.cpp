@@ -52,31 +52,31 @@
 #include <QDropEvent>
 
 // KDE includes
-#include <kdebug.h>
-#include <klocale.h>
-#include <kmessagebox.h>
+#include <KDebug>
+#include <KLocale>
+#include <KMessageBox>
 #include <kio/netaccess.h>
 #include <kio/copyjob.h>
-#include <kopenwithdialog.h>
-#include <kmimetype.h>
-#include <kstandarddirs.h>
-#include <ktempdir.h>
-#include <k3process.h>
-#include <kfiledialog.h>
-#include <kdirselectdialog.h>
+#include <KOpenWithDialog>
+#include <KMimeType>
+#include <KStandardDirs>
+#include <KTempDir>
+#include <K3Process>
+#include <KFileDialog>
+#include <KDirSelectDialog>
 #include <k3urldrag.h>
-#include <k3listviewsearchline.h>
-#include <ktoolbar.h>
-#include <kconfigdialog.h>
-#include <kurl.h>
-#include <kservicetypetrader.h>
-#include <krun.h>
+#include <K3ListViewSearchLine>
+#include <KToolBar>
+#include <KConfigDialog>
+#include <KUrl>
+#include <KServiceTypeTrader>
+#include <KRun>
 #include <kio/jobuidelegate.h>
 
 // settings
 #include "settings.h"
-#include <kmenu.h>
-#include <kdialog.h>
+#include <KMenu>
+#include <KDialog>
 
 
 static void viewInExternalViewer( ArkWidget* parent, const QString& filename )

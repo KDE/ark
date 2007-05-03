@@ -57,17 +57,17 @@
 #include <QByteArray>
 
 // KDE includes
-#include <kapplication.h>
-#include <kdebug.h>
+#include <KApplication>
+#include <KDebug>
 #include <kde_file.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <ktemporaryfile.h>
-#include <kmimetype.h>
-#include <kstandarddirs.h>
-#include <ktempdir.h>
-#include <k3process.h>
-#include <ktar.h>
+#include <KLocale>
+#include <KMessageBox>
+#include <KTemporaryFile>
+#include <KMimeType>
+#include <KStandardDirs>
+#include <KTempDir>
+#include <K3Process>
+#include <KTar>
 
 static char *makeAccessString(mode_t mode);
 

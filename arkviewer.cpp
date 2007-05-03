@@ -21,18 +21,19 @@
 
 #include "arkviewer.h"
 
-#include <klocale.h>
+#include <KLocale>
 #include <kparts/componentfactory.h>
-#include <kmimetype.h>
-#include <kdebug.h>
-#include <kurl.h>
-#include <kglobal.h>
-#include <kiconloader.h>
-#include <kvbox.h>
+#include <KMimeType>
+#include <KDebug>
+#include <KUrl>
+#include <KGlobal>
+#include <KIconLoader>
+#include <KVBox>
 
 #include <QHBoxLayout>
 #include <QFrame>
 #include <QLabel>
+
 ArkViewer::ArkViewer( QWidget * parent )
 	: KDialog( parent), m_part( 0 )
 {

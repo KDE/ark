@@ -29,8 +29,8 @@
 
 #include <QCheckBox>
 
-#include <kurl.h>
-#include <kdialog.h>
+#include <KUrl>
+#include <KDialog>
 
 class QRadioButton;
 

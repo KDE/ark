@@ -43,10 +43,10 @@
 #include <QByteArray>
 
 // KDE includes
-#include <kdebug.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <k3process.h>
+#include <KDebug>
+#include <KLocale>
+#include <KMessageBox>
+#include <K3Process>
 
 static QString fixTime( const QString &_strTime );
 

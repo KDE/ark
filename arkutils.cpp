@@ -56,9 +56,9 @@
 #endif
 
 // KDE includes
-#include <kdebug.h>
-#include <kmessagebox.h>
-#include <klocale.h>
+#include <KDebug>
+#include <KMessageBox>
+#include <KLocale>
 #include <kde_file.h>
 
 // Qt includes

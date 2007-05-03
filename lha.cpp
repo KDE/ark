@@ -44,10 +44,10 @@
 #include <QByteArray>
 #include <kdefakes.h>
 // KDE includes
-#include <kdebug.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <k3process.h>
+#include <KDebug>
+#include <KLocale>
+#include <KMessageBox>
+#include <K3Process>
 
 LhaArch::LhaArch( ArkWidget *_gui, const QString & _fileName )
   : Arch( _gui, _fileName )

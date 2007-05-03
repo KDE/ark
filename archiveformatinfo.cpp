@@ -24,10 +24,10 @@
 #include "archive.h"
 #include "settings.h"
 
-#include <klocale.h>
-#include <kdebug.h>
-#include <kdesktopfile.h>
-#include <kfilterdev.h>
+#include <KLocale>
+#include <KDebug>
+#include <KDesktopFile>
+#include <KFilterDev>
 
 #include <QFile>
 

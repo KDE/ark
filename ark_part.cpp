@@ -1,5 +1,4 @@
 /*
-  Copyright (C) 
 
   Copyright (C) 2001 Macadamian Technologies Inc (author: Jian Huang <jian@macadamian.com>)
   Copyright (C) 2003 Georg Robbers <Georg.Robbers@urz.uni-hd.de>
@@ -26,25 +25,25 @@
 #include "arkwidget.h"
 #include "settings.h"
 #include "filelistview.h"
-#include <k3listviewsearchline.h>
 
-#include <kdebug.h>
-#include <kmenu.h>
-#include <kmessagebox.h>
-#include <kaboutdata.h>
+#include <K3ListViewSearchLine>
+
+#include <KDebug>
+#include <KMenu>
+#include <KMessageBox>
+#include <KAboutData>
 #include <kxmlguifactory.h>
-#include <kstatusbar.h>
-#include <kiconloader.h>
+#include <KStatusBar>
+#include <KIconLoader>
 #include <kio/netaccess.h>
-#include <klocale.h>
-#include <kstandardaction.h>
-#include <kicon.h>
-#include <kactioncollection.h>
+#include <KLocale>
+#include <KStandardAction>
+#include <KIcon>
+#include <KActionCollection>
 
 #include <QFile>
 #include <QTimer>
 #include <QPushButton>
-//Added by qt3to4:
 #include <QLabel>
 #include <QFrame>
 

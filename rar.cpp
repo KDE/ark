@@ -42,12 +42,12 @@
 #include <QByteArray>
 
 // KDE includes
-#include <kdebug.h>
-#include <kglobal.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <k3process.h>
-#include <kstandarddirs.h>
+#include <KDebug>
+#include <KGlobal>
+#include <KLocale>
+#include <KMessageBox>
+#include <K3Process>
+#include <KStandardDirs>
 
 RarArch::RarArch( ArkWidget *_gui, const QString & _fileName )
   : Arch( _gui, _fileName )

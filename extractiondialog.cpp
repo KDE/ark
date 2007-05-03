@@ -1,7 +1,6 @@
 /*
  * ark -- archiver for the KDE project
  *
- * Copyright (C) 
  *
  * Copyright (C) 2005 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2002 Helio Chissini de Castro <helio@conectiva.com.br>
@@ -34,18 +33,18 @@
 #include <QRadioButton>
 #include <QHBoxLayout>
 
-#include <klocale.h>
-#include <kglobal.h>
-#include <kiconloader.h>
-#include <kurlrequester.h>
-#include <kurlcompletion.h>
-#include <kstandarddirs.h>
-#include <kmessagebox.h>
-#include <khistorycombobox.h>
-#include <klineedit.h>
-#include <kurlpixmapprovider.h>
-#include <kdebug.h>
-#include <kvbox.h>
+#include <KLocale>
+#include <KGlobal>
+#include <KIconLoader>
+#include <KUrlRequester>
+#include <KUrlCompletion>
+#include <KStandardDirs>
+#include <KMessageBox>
+#include <KHistoryComboBox>
+#include <KLineEdit>
+#include <KUrlPixmapProvider>
+#include <KDebug>
+#include <KVBox>
 
 #include "arkutils.h"
 #include "settings.h"

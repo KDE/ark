@@ -40,13 +40,13 @@
 #include <QByteArray>
 
 // KDE includes
-#include <kdebug.h>
-#include <kmessagebox.h>
-#include <kmimetype.h>
-#include <klocale.h>
-#include <kpassworddialog.h>
-#include <k3process.h>
-#include <kstandarddirs.h>
+#include <KDebug>
+#include <KMessageBox>
+#include <KMimeType>
+#include <KLocale>
+#include <KPasswordDialog>
+#include <K3Process>
+#include <KStandardDirs>
 
 // the archive types
 #include "tar.h"
