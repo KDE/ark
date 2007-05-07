@@ -1320,7 +1320,7 @@ ArkWidget::openWithSlotExtractDone()
         {
             QString exec = l.text();
             exec += " %f";
-            KRun::run( exec, list );
+            KRun::run( exec, list, topLevelWidget());
         }
     }
     if( m_fileListView )
