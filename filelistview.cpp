@@ -29,10 +29,8 @@
 
 // Qt includes
 #include <QPainter>
-#include <Q3WhatsThis>
 #include <QMouseEvent>
 #include <Q3Header>
-
 // KDE includes
 #include <KLocale>
 #include <KIconLoader>
