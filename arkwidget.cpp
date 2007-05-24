@@ -159,7 +159,7 @@ ArkWidget::~ArkWidget()
     delete m_fileListView;
     m_fileListView = 0;
     delete arch;
-    ArkSettings::writeConfig();
+    ArkSettings::self()->writeConfig();
 }
 
 void ArkWidget::cleanArkTmpDir()
