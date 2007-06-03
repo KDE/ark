@@ -35,9 +35,6 @@
 
 class QString;
 class QStringList;
-class QRect;
-class QPainter;
-class QColorGroup;
 class QMouseEvent;
 class QPoint;
 

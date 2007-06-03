@@ -48,11 +48,9 @@ class Q3ListViewItem;
 class QDragMoveEvent;
 class QDropEvent;
 
-class KMenu;
 class K3Process;
 class KUrl;
 class KRun;
-class KTemporaryFile;
 class KTempDir;
 class KToolBar;
 
