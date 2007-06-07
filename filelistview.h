@@ -101,12 +101,6 @@ class FileListView: public K3ListView
 		FileLVI* item(const QString& filename) const;
 
 		/**
-		 * Adds a file and stats to the file listing
-		 * @param entries A stringlist of the entries for each column of the list.
-		 */
-		void addItem( const QStringList & entries );
-
-		/**
 		 * Returns the number of files in the archive.
 		 */
 		int totalFiles();
@@ -136,6 +130,12 @@ class FileListView: public K3ListView
 		void unselectAll();
 		void setHeaders( const ColumnList& columns );
 		void clearHeaders();
+
+		/**
+		 * Adds a file and stats to the file listing
+		 * @param entries A stringlist of the entries for each column of the list.
+		 */
+		void addItem( const QStringList & entries );
 
 	signals:
 		void startDragRequest( const QStringList & fileList );

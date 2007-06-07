@@ -426,7 +426,8 @@ void TarArch::processDir(const KArchiveDirectory *tardir, const QString & root)
       QString timestamp = tarEntry->datetime().toString(Qt::ISODate);
       col_list.append(timestamp);
       col_list.append(tarEntry->symlink());
-      m_gui->fileList()->addItem(col_list); // send the entry to the GUI
+      //m_gui->fileList()->addItem(col_list); // send the entry to the GUI
+      emit newEntry( col_list );
 
       // if it isn't a file, it's a directory - process it.
       // remember that name is root + / + the name of the directory

@@ -2078,7 +2078,7 @@ ArkWidget::slotCreate(Arch * _newarch, bool _success, const QString & _filename,
         emit setWindowCaption( _filename );
         emit addRecentURL( u );
         createFileListView();
-   m_fileListView->show();
+        m_fileListView->show();
         m_bIsArchiveOpen = true;
         arch = _newarch;
         m_bIsSimpleCompressedFile =
@@ -2148,6 +2148,8 @@ ArkWidget::openArchive( const QString & _filename )
              this, SLOT(slotOpen(Arch *, bool, const QString &,int)) );
     connect( newArch, SIGNAL(headers(const ColumnList&)),
              m_fileListView, SLOT(setHeaders(const ColumnList&)));
+    connect( newArch, SIGNAL( newEntry( const QStringList& ) ),
+             m_fileListView, SLOT( addItem( const QStringList& ) ) );
 
     disableAll();
 

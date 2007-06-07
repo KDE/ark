@@ -157,6 +157,7 @@ class Arch : public QObject
     void sigExtract( bool );
     void sigAdd( bool );
     void headers( const ColumnList& columns );
+    void newEntry( const QStringList& entry );
 
   protected:  // data
     QString m_filename;

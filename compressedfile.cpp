@@ -235,7 +235,8 @@ void CompressedFile::slotUncompressDone(K3Process *_kp)
   list << fileItem.user();
   list << fileItem.group();
   list << KIO::number( fileItem.size() );
-  m_gui->fileList()->addItem(list); // send to GUI
+  //m_gui->fileList()->addItem(list); // send to GUI
+  emit newEntry( list );
 
   emit sigOpen( this, bSuccess, m_filename,
                 Arch::Extract | Arch::Delete | Arch::Add | Arch::View );

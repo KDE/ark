@@ -352,7 +352,8 @@ bool Arch::processLine( const QByteArray &line )
     list.append( columns[ i ] );
   }
 
-  m_gui->fileList()->addItem( list ); // send the entry to the GUI
+  //m_gui->fileList()->addItem( list ); // send the entry to the GUI
+  emit newEntry( list );
 
   return true;
 }

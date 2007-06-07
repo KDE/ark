@@ -126,7 +126,8 @@ bool LhaArch::processLine( const QByteArray &line )
   else
     list.append( "" );
 
-  m_gui->fileList()->addItem( list ); // send to GUI
+  //m_gui->fileList()->addItem( list ); // send to GUI
+  emit newEntry( list );
 
   return true;
 }

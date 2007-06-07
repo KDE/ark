@@ -100,7 +100,8 @@ bool RarArch::processLine( const QByteArray &line )
   list << l2[ 7 ]; // method
   list << l2[ 8 ]; // Version
 
-  m_gui->fileList()->addItem( list ); // send to GUI
+  //m_gui->fileList()->addItem( list ); // send to GUI
+  emit newEntry( list );
 
   m_isFirstLine = true;
   return true;

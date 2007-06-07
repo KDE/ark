@@ -93,7 +93,8 @@ bool ZooArch::processLine( const QByteArray &line )
     list.append( QString::fromLocal8Bit( columns[i] ) );
   }
 
-  m_gui->fileList()->addItem( list ); // send to GUI
+  //m_gui->fileList()->addItem( list ); // send to GUI
+  emit newEntry( list );
 
   return true;
 }
