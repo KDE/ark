@@ -134,7 +134,6 @@ private:
     QAction *openWithAction;
     QAction *deselectAllAction;
     QAction *invertSelectionAction;
-    QAction *editAction;
 
     // the following have different enable rules from the above KActions
     KAction *popupViewAction;

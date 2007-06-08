@@ -57,7 +57,6 @@
 
 class QByteArray;
 class QStringList;
-class K3Process;
 
 class ArkWidget;
 
@@ -86,12 +85,13 @@ class Arch : public QObject
 
     virtual void open() = 0;
     virtual void create() = 0;
-    virtual void remove( QStringList * ) = 0;
+    virtual void remove( const QStringList & ) = 0;
 
     virtual void addFile( const QStringList & ) = 0;
     virtual void addDir( const QString & ) = 0;
 
-    virtual void extractFile( const QStringList &, const QString & _destDir ) = 0;
+    virtual void extractFile( const QString & fileName, const QString & destinationDir );
+    virtual void extractFiles( const QStringList & fileList, const QString & destinationDir ) = 0;
 
     virtual bool passwordRequired() { return false; }
 

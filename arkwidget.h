@@ -128,7 +128,6 @@ protected slots:
     void action_delete();
     bool action_extract();
     void slotOpenWith();
-    void action_edit();
 
     void doPopup(QTreeWidgetItem *, const QPoint &, int); // right-click menus
     void viewFile(QTreeWidgetItem*); // doubleClick view files
@@ -140,7 +139,6 @@ protected slots:
     void slotExtractDone();
     void slotExtractRemoteDone(KJob *job);
     void slotAddDone(bool);
-    void slotEditFinished(K3Process *);
 signals:
     void openUrlRequest( const KUrl & url );
     void request_file_quit();
@@ -199,7 +197,6 @@ private: // methods
 
     void extractOnlyOpenDone();
     void extractRemoteInitiateMoving( const KUrl & target );
-    void editStart();
 
     void busy( const QString & text );
     void holdBusy();
@@ -210,8 +207,6 @@ private: // methods
     const QString guessName( const KUrl & archive );
 
 private slots:
-    void editSlotExtractDone();
-    void editSlotAddDone( bool success );
     void viewSlotExtractDone( bool success );
     void openWithSlotExtractDone();
 

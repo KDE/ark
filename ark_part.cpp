@@ -147,11 +147,6 @@ ArkPart::setupActions()
     actionCollection()->addAction("open_with", openWithAction );
     connect(openWithAction, SIGNAL(triggered(bool) ), awidget, SLOT(slotOpenWith()));
 
-
-    editAction  = new KAction(i18n("Edit &With..."), this);
-    actionCollection()->addAction("edit", editAction );
-    connect(editAction, SIGNAL(triggered(bool) ), awidget, SLOT(action_edit()));
-
     selectAllAction = KStandardAction::selectAll(awidget->fileList(), SLOT(selectAll()), actionCollection());
     actionCollection()->addAction("select_all", selectAllAction);
 
@@ -218,7 +213,6 @@ void ArkPart::fixEnables()
              );
     viewAction->setEnabled( b );
     openWithAction->setEnabled( b );
-    editAction->setEnabled( b && !bReadOnly ); // You can't edit files in read-only archives
     emit fixActionState( bHaveFiles );
 }
 
@@ -236,7 +230,6 @@ void ArkPart::initialEnables()
     addFileAction->setEnabled(false);
     addDirAction->setEnabled(false);
     openWithAction->setEnabled(false);
-    editAction->setEnabled(false);
 
     awidget->searchBar()->setEnabled(false);
 }
@@ -254,7 +247,6 @@ void ArkPart::disableActions()
     addFileAction->setEnabled(false);
     addDirAction->setEnabled(false);
     openWithAction->setEnabled(false);
-    editAction->setEnabled(false);
     awidget->searchBar()->setEnabled(false);
 }
 

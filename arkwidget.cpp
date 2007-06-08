@@ -295,7 +295,7 @@ ArkWidget::convertTo( const KUrl & u )
     m_convert_tmpDir =  new KTempDir( tmpDir() + "convtmp" );
     connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( convertSlotExtractDone( bool ) ) );
     m_convert_saveAsURL = u;
-    arch->extractFile( QStringList(), m_convert_tmpDir->name() );
+    arch->extractFiles( QStringList(), m_convert_tmpDir->name() );
 }
 
 void
@@ -509,7 +509,7 @@ ArkWidget::extractToSlotOpenDone( bool success )
         {
             disableAll();
             connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( extractToSlotExtractDone( bool ) ) );
-            arch->extractFile( QStringList(), extractDir );
+            arch->extractFiles( QStringList(), extractDir );
         }
         else
         {
@@ -1261,7 +1261,7 @@ ArkWidget::action_delete()
     disableAll();
     busy( i18n( "Removing..." ) );
     connect( arch, SIGNAL( sigDelete( bool ) ), this, SLOT( slotDeleteDone( bool ) ) );
-    arch->remove(&list);
+    arch->remove(list);
     kDebug(1601) << "-ArkWidget::action_delete" << endl;
 }
 
@@ -1339,7 +1339,7 @@ ArkWidget::prepareViewFiles( const QStringList & fileList )
         it != fileList.end(); ++it)
         QFile::remove(destTmpDirectory + *it);
 
-    arch->extractFile( fileList, destTmpDirectory );
+    arch->extractFiles( fileList, destTmpDirectory );
 }
 
 bool
@@ -1503,7 +1503,7 @@ ArkWidget::action_extract()
                     disableAll();
                     busy( i18n( "Extracting..." ) );
                     connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( slotExtractDone() ) );
-                    arch->extractFile(QStringList(), extractDir);
+                    arch->extractFiles(QStringList(), extractDir);
                 }
             }
         }
@@ -1530,7 +1530,7 @@ ArkWidget::action_extract()
                         busy( i18n( "Extracting..." ) );
                         connect( arch, SIGNAL( sigExtract( bool ) ),
                                  this, SLOT( slotExtractDone() ) );
-                        arch->extractFile(selectedFiles, extractDir); // extract selected files
+                        arch->extractFiles(selectedFiles, extractDir); // extract selected files
                     }
                 }
         }
@@ -1554,107 +1554,6 @@ ArkWidget::action_extract()
     }
 
     return true;
-}
-
-void
-ArkWidget::action_edit()
-{
-    // begin an edit. This is like a view, but once the process exits,
-    // the file is put back into the archive. If the user tries to quit or
-    // close the archive, there will be a warning that any changes to the
-    // files open under "Edit" will be lost unless the archive remains open.
-    // [hmm, does that really make sense? I'll leave it for now.]
-
-    busy( i18n( "Extracting..." ) );
-    connect( arch, SIGNAL( sigExtract( bool ) ), this,
-                        SLOT( editSlotExtractDone() ) );
-    showCurrentFile();
-}
-
-void
-ArkWidget::editSlotExtractDone()
-{
-    disconnect( arch, SIGNAL( sigExtract( bool ) ),
-                this, SLOT( editSlotExtractDone() ) );
-    ready();
-    editStart();
-
-    // avoid race condition, don't do updates if application is exiting
-    if( m_fileListView )
-    {
-        m_fileListView->setUpdatesEnabled(true);
-        fixEnables();
-    }
-}
-
-void
-ArkWidget::editStart()
-{
-    kDebug(1601) << "Edit in progress..." << endl;
-    KUrl::List list;
-    // edit will be in progress until the K3Process terminates.
-    KOpenWithDialog l( list, i18n("Edit with:"), QString(), this );
-    if ( l.exec() )
-    {
-        K3Process *kp = new K3Process;
-        m_strFileToView = m_strFileToView.right(m_strFileToView.length() - 5 );
-        *kp << l.text() << m_strFileToView;
-        connect( kp, SIGNAL(processExited(K3Process *)),
-                this, SLOT(slotEditFinished(K3Process *)) );
-        if ( kp->start(K3Process::NotifyOnExit, K3Process::AllOutput) == false )
-        {
-            KMessageBox::error(0, i18n("Trouble editing the file..."));
-        }
-    }
-}
-
-void
-ArkWidget::slotEditFinished(K3Process *kp)
-{
-    kDebug(1601) << "+ArkWidget::slotEditFinished" << endl;
-    connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( editSlotAddDone( bool ) ) );
-    delete kp;
-    QStringList list;
-    // now put the file back into the archive.
-    list.append(m_strFileToView);
-    disableAll();
-
-
-    // BUG: this puts any edited file back at the archive toplevel...
-    // there's only one file, and it's in the temp directory.
-    // If the filename has more than three /'s then we should
-    // change to the first level directory so that the paths
-    // come out right.
-    QStringList::Iterator it = list.begin();
-    QString filename = *it;
-    QString path;
-    if (filename.count('/') > 3)
-    {
-        kDebug(1601) << "Filename is originally: " << filename << endl;
-        int i = filename.indexOf('/', 5);
-        path = filename.left(1+i);
-        kDebug(1601) << "Changing to dir: " << path << endl;
-        QDir::setCurrent(path);
-        filename = filename.right(filename.length()-i-1);
-        // HACK!! We need a relative path. If I have "file:", it
-        // will look like an absolute path. So five spaces here to get
-        // chopped off later....
-        filename = "     " + filename;
-        *it = filename;
-    }
-
-    busy( i18n( "Readding edited file..." ) );
-    arch->addFile( list );
-
-    kDebug(1601) << "-ArkWidget::slotEditFinished" << endl;
-}
-
-void
-ArkWidget::editSlotAddDone( bool success )
-{
-    ready();
-    disconnect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( editSlotAddDone( bool ) ) );
-    slotAddDone( success );
 }
 
 void

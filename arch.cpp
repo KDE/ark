@@ -45,7 +45,6 @@
 #include <KMimeType>
 #include <KLocale>
 #include <KPasswordDialog>
-#include <K3Process>
 #include <KStandardDirs>
 
 // the archive types
@@ -61,9 +60,16 @@ Arch::~Arch()
 {
 }
 
-Arch *Arch::archFactory( ArchType aType,
+void Arch::extractFile( const QString & fileName, const QString & destinationDir )
+{
+	QStringList l;
+	l << fileName;
+	extractFiles( l, destinationDir );
+}
+
+Arch *Arch::archFactory( ArchType /*aType*/,
                          ArkWidget *parent, const QString &filename,
-                         const QString &openAsMimeType )
+                         const QString &/*openAsMimeType*/ )
 {
 	return new LibArchiveHandler( parent, filename );
 }

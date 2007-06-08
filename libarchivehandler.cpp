@@ -194,11 +194,11 @@ void LibArchiveHandler::addDir( const QString & )
 {
 }
 
-void LibArchiveHandler::remove( QStringList* )
+void LibArchiveHandler::remove( const QStringList & )
 {
 }
 
-void LibArchiveHandler::extractFile( const QStringList & files, const QString& destinationDir )
+void LibArchiveHandler::extractFiles( const QStringList & files, const QString& destinationDir )
 {
 	ExtractionJob *job = new ExtractionJob( fileName(), files, destinationDir, this );
 	connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
