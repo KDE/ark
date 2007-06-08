@@ -1701,9 +1701,6 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName, const QString& _mime
         return NULL;
     }
 
-    connect( newArch, SIGNAL(headers(const ColumnList&)),
-             m_fileListView, SLOT(setHeaders(const ColumnList&)));
-
     m_archType = archtype;
     m_fileListView->setUpdatesEnabled(true);
     return newArch;
@@ -1811,8 +1808,6 @@ ArkWidget::openArchive( const QString & _filename )
 
     connect( newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
              this, SLOT(slotOpen(Arch *, bool, const QString &,int)) );
-    connect( newArch, SIGNAL(headers(const ColumnList&)),
-             m_fileListView, SLOT(setHeaders(const ColumnList&)));
     connect( newArch, SIGNAL( newEntry( const ArchiveEntry& ) ),
              m_fileListView, SLOT( addItem( const ArchiveEntry& ) ) );
 
