@@ -48,7 +48,6 @@ class QTreeWidgetItem;
 class QDragMoveEvent;
 class QDropEvent;
 
-class K3Process;
 class KUrl;
 class KRun;
 class KTempDir;
@@ -74,9 +73,6 @@ public:
 
     bool isArchiveOpen() const { return m_bIsArchiveOpen; }
     int getNumFilesInArchive() const { return m_nNumFiles; }
-
-    int getArkInstanceId() const { return m_arkInstanceId; }
-    void setArkInstanceId( int aid ) { m_arkInstanceId = aid; }
 
     void cleanArkTmpDir();
     virtual QString getArchName() const { return m_strArchName; }
@@ -294,7 +290,6 @@ private: // data
     KIO::filesize_t m_nSizeOfSelectedFiles;
     unsigned int m_nNumFiles;
     int m_nNumSelectedFiles;
-    int m_arkInstanceId;
 
     bool m_bIsArchiveOpen;
     bool m_bIsSimpleCompressedFile;
