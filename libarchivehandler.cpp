@@ -39,30 +39,46 @@ class ArchiveListingJob: public ThreadWeaver::Job
 {
 	public:
 		ArchiveListingJob( const QString& fileName, QObject *parent = 0 )
-			: Job( parent ), m_fileName( fileName )
+			: Job( parent ), m_fileName( fileName ), m_success( false )
 		{
 		}
 
 		QList<ArchiveEntry> entries() const { return m_entries; }
 
+		virtual bool success() const { return m_success; }
+
 	protected:
 		void run()
 		{
-			kDebug( 1601 ) << "Hi!" << endl;
+			m_success = listEntries();
+			kDebug( 1601 ) << k_funcinfo << "listEntries() returned " << m_success << endl;
+		}
+
+		bool listEntries()
+		{
 			struct archive *arch;
 			struct archive_entry *entry;
+			int result;
 
 			arch = archive_read_new();
-			archive_read_support_compression_all( arch );
-			archive_read_support_format_all( arch );
-			int res = archive_read_open_filename( arch, QFile::encodeName( m_fileName ), 4096 );
+			if ( !arch )
+				return false;
 
-			if ( res != ARCHIVE_OK )
+			result = archive_read_support_compression_all( arch );
+			if ( result != ARCHIVE_OK ) return false;
+
+			result = archive_read_support_format_all( arch );
+			if ( result != ARCHIVE_OK ) return false;
+
+			result = archive_read_open_filename( arch, QFile::encodeName( m_fileName ), 4096 );
+
+			if ( result != ARCHIVE_OK )
 			{
 				kDebug( 1601 ) << "Couldn't open the file '" << m_fileName << "', libarchive can't handle it." << endl;
+				return false;
 			}
 
-			while ( archive_read_next_header( arch, &entry ) == ARCHIVE_OK )
+			while ( ( result = archive_read_next_header( arch, &entry ) ) == ARCHIVE_OK )
 			{
 				kDebug( 1601 ) << "	libarchive gave us " << archive_entry_pathname( entry ) << endl;
 				ArchiveEntry e;
@@ -75,12 +91,19 @@ class ArchiveListingJob: public ThreadWeaver::Job
 				m_entries.append( e );
 				archive_read_data_skip( arch );
 			}
-			archive_read_finish( arch );
+
+			if ( result != ARCHIVE_EOF )
+			{
+				return false;
+			}
+
+			return archive_read_finish( arch ) == ARCHIVE_OK;
 		}
 
 	private:
 		QString m_fileName;
 		QList<ArchiveEntry> m_entries;
+		bool m_success;
 };
 
 class ExtractionJob: public ThreadWeaver::Job
@@ -178,8 +201,8 @@ void LibArchiveHandler::listingDone( ThreadWeaver::Job *job )
 		emit newEntry( entry );
 	}
 
+	emit sigOpen( this, job->success(), m_filename, Arch::View );
 	delete job;
-	emit sigOpen( this, true, m_filename, Arch::View );
 }
 
 void LibArchiveHandler::create()
