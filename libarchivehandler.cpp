@@ -24,6 +24,8 @@
  */
 
 #include "libarchivehandler.h"
+#include "settings.h"
+
 #include <archive.h>
 #include <archive_entry.h>
 
@@ -124,6 +126,23 @@ class ExtractionJob: public ThreadWeaver::Job
 		}
 
 	private:
+		int flags()
+		{
+			int result = ARCHIVE_EXTRACT_TIME;
+
+			if ( ArkSettings::preservePerms() )
+			{
+				result &= ARCHIVE_EXTRACT_PERM;
+			}
+
+			if ( !ArkSettings::extractOverwrite() )
+			{
+				result &= ARCHIVE_EXTRACT_NO_OVERWRITE;
+			}
+
+			return result;
+		}
+
 		bool extractFiles()
 		{
 			QDir::setCurrent( m_directory );
@@ -139,7 +158,7 @@ class ExtractionJob: public ThreadWeaver::Job
 			}
 
 			writer = archive_write_disk_new();
-			archive_write_disk_set_options( writer, ARCHIVE_EXTRACT_TIME );
+			archive_write_disk_set_options( writer, flags() );
 
 			archive_read_support_compression_all( arch );
 			archive_read_support_format_all( arch );
