@@ -49,8 +49,8 @@
 #include <KStandardDirs>
 
 // the archive types
-#include "tar.h"
 #include "libarchivehandler.h"
+//#include "tar.h"
 //#include "zip.h"
 //#include "lha.h"
 //#include "compressedfile.h"

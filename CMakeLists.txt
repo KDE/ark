@@ -36,8 +36,8 @@ set(arkpart_PART_SRCS ${libark_common_SRCS}
    arkviewer.cpp 
    extractiondialog.cpp
    arch.cpp 
-   tar.cpp 
    libarchivehandler.cpp
+   #tar.cpp 
    #zip.cpp 
    #lha.cpp 
    #compressedfile.cpp 
