@@ -160,13 +160,6 @@ signals:
     void createRealArchiveDone( bool );
     void extractRemoteMovingDone();
 
-protected:
-
-    // DND
-    void dragMoveEvent(QDragMoveEvent *e);
-    void dropEvent(QDropEvent* event);
-    void dropAction(QStringList & list);
-
 private: // methods
     // disabling/enabling of buttons and menu items
     void fixEnables();

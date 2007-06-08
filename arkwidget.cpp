@@ -60,10 +60,8 @@
 #include <KMimeType>
 #include <KStandardDirs>
 #include <KTempDir>
-#include <K3Process>
 #include <KFileDialog>
 #include <KDirSelectDialog>
-#include <k3urldrag.h>
 #include <KTreeWidgetSearchLine>
 #include <KToolBar>
 #include <KConfigDialog>
@@ -91,14 +89,7 @@ static void viewInExternalViewer( ArkWidget* parent, const QString& filename )
 
     if ( view )
         KRun::runUrl( filename, mimetype, 0L );
-
 }
-
-//----------------------------------------------------------------------
-//
-//  Class ArkWidget starts here
-//
-//----------------------------------------------------------------------
 
 ArkWidget::ArkWidget( QWidget *parent )
    : KVBox(parent), m_bBusy( false ), m_bBusyHold( false ),
@@ -187,12 +178,7 @@ void ArkWidget::closeArch()
    }
 }
 
-////////////////////////////////////////////////////////////////////
-///////////////////////// updateStatusTotals ///////////////////////
-////////////////////////////////////////////////////////////////////
-
-void
-ArkWidget::updateStatusTotals()
+void ArkWidget::updateStatusTotals()
 {
     m_nNumFiles    = m_fileListView->totalFiles();
     m_nSizeOfFiles = m_fileListView->totalSize();
@@ -202,8 +188,7 @@ ArkWidget::updateStatusTotals()
     emit setStatusBarText(strInfo);
 }
 
-void
-ArkWidget::busy( const QString & text )
+void ArkWidget::busy( const QString & text )
 {
     emit setBusy( text );
 
@@ -214,8 +199,7 @@ ArkWidget::busy( const QString & text )
     m_bBusy = true;
 }
 
-void
-ArkWidget::holdBusy()
+void ArkWidget::holdBusy()
 {
     if ( !m_bBusy || m_bBusyHold )
         return;
@@ -224,8 +208,7 @@ ArkWidget::holdBusy()
     QApplication::restoreOverrideCursor();
 }
 
-void
-ArkWidget::resumeBusy()
+void ArkWidget::resumeBusy()
 {
     if ( !m_bBusyHold )
         return;
@@ -234,8 +217,7 @@ ArkWidget::resumeBusy()
     QApplication::setOverrideCursor( Qt::WaitCursor );
 }
 
-void
-ArkWidget::ready()
+void ArkWidget::ready()
 {
     if ( !m_bBusy )
         return;
@@ -246,12 +228,7 @@ ArkWidget::ready()
     m_bBusy = false;
 }
 
-//////////////////////////////////////////////////////////////////////
-////////////////////// file_save_as //////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-KUrl
-ArkWidget::getSaveAsFileName()
+KUrl ArkWidget::getSaveAsFileName()
 {
     QString defaultMimeType;
     if ( m_openAsMimeType.isNull() )
@@ -279,8 +256,7 @@ ArkWidget::getSaveAsFileName()
     return u;
 }
 
-bool
-ArkWidget::file_save_as( const KUrl & u )
+bool ArkWidget::file_save_as( const KUrl & u )
 {
     bool success = KIO::NetAccess::upload( m_strArchName, u, this );
     if ( m_modified && success )
@@ -288,8 +264,7 @@ ArkWidget::file_save_as( const KUrl & u )
     return success;
 }
 
-void
-ArkWidget::convertTo( const KUrl & u )
+void ArkWidget::convertTo( const KUrl & u )
 {
     busy( i18n( "Saving..." ) );
     m_convert_tmpDir =  new KTempDir( tmpDir() + "convtmp" );
@@ -298,16 +273,14 @@ ArkWidget::convertTo( const KUrl & u )
     arch->extractFiles( QStringList(), m_convert_tmpDir->name() );
 }
 
-void
-ArkWidget::convertSlotExtractDone( bool )
+void ArkWidget::convertSlotExtractDone( bool )
 {
     kDebug( 1601 ) << k_funcinfo << endl;
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( convertSlotExtractDone( bool ) ) );
     QTimer::singleShot( 0, this, SLOT( convertSlotCreate() ) );
 }
 
-void
-ArkWidget::convertSlotCreate()
+void ArkWidget::convertSlotCreate()
 {
     file_close();
     connect( this, SIGNAL( createDone( bool ) ), this, SLOT( convertSlotCreateDone( bool ) ) );
@@ -320,9 +293,7 @@ ArkWidget::convertSlotCreate()
     createArchive( archToCreate );
 }
 
-
-void
-ArkWidget::convertSlotCreateDone( bool success )
+void ArkWidget::convertSlotCreateDone( bool success )
 {
     disconnect( this, SIGNAL( createDone( bool ) ), this, SLOT( convertSlotCreateDone( bool ) ) );
     kDebug( 1601 ) << k_funcinfo << endl;
@@ -356,8 +327,7 @@ ArkWidget::convertSlotCreateDone( bool success )
     ArkSettings::setRarRecurseSubdirs( bOldRecVal );
 }
 
-void
-ArkWidget::convertSlotAddDone( bool success )
+void ArkWidget::convertSlotAddDone( bool success )
 {
     disconnect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( convertSlotAddDone( bool ) ) );
     kDebug( 1601 ) << k_funcinfo << endl;
@@ -366,8 +336,7 @@ ArkWidget::convertSlotAddDone( bool success )
     QTimer::singleShot( 0, this, SLOT( convertFinish() ) );
 }
 
-void
-ArkWidget::convertFinish()
+void ArkWidget::convertFinish()
 {
     kDebug( 1601 ) << k_funcinfo << endl;
     delete m_convert_tmpDir;
@@ -394,8 +363,7 @@ ArkWidget::convertFinish()
     }
 }
 
-bool
-ArkWidget::allowedArchiveName( const KUrl & u )
+bool ArkWidget::allowedArchiveName( const KUrl & u )
 {
     if (u.isEmpty())
         return false;
@@ -410,8 +378,7 @@ ArkWidget::allowedArchiveName( const KUrl & u )
     return false;
 }
 
-void
-ArkWidget::extractTo( const KUrl & targetDirectory, const KUrl & archive, bool bGuessName )
+void ArkWidget::extractTo( const KUrl & targetDirectory, const KUrl & archive, bool bGuessName )
 {
     m_extractTo_targetDirectory = targetDirectory;
 
@@ -435,8 +402,7 @@ ArkWidget::extractTo( const KUrl & targetDirectory, const KUrl & archive, bool b
     connect( this, SIGNAL( openDone( bool ) ), this, SLOT( extractToSlotOpenDone( bool ) ) );
 }
 
-const QString
-ArkWidget::guessName( const KUrl &archive )
+const QString ArkWidget::guessName( const KUrl &archive )
 {
   QString fileName = archive.fileName();
   QStringList list = KMimeType::findByPath( fileName )->patterns();
@@ -455,8 +421,7 @@ ArkWidget::guessName( const KUrl &archive )
   return fileName;
 }
 
-void
-ArkWidget::extractToSlotOpenDone( bool success )
+void ArkWidget::extractToSlotOpenDone( bool success )
 {
     disconnect( this, SIGNAL( openDone( bool ) ), this, SLOT( extractToSlotOpenDone( bool ) ) );
     if ( !success )
@@ -522,8 +487,7 @@ ArkWidget::extractToSlotOpenDone( bool success )
         emit request_file_quit();
 }
 
-void
-ArkWidget::extractToSlotExtractDone( bool success )
+void ArkWidget::extractToSlotExtractDone( bool success )
 {
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( extractToSlotExtractDone( bool ) ) );
     if ( !success )
@@ -542,8 +506,7 @@ ArkWidget::extractToSlotExtractDone( bool success )
         emit request_file_quit();
 }
 
-bool
-ArkWidget::addToArchive( const KUrl::List & filesToAdd, const KUrl & archive)
+bool ArkWidget::addToArchive( const KUrl::List & filesToAdd, const KUrl & archive)
 {
     m_addToArchive_filesToAdd = filesToAdd;
     m_addToArchive_archive = archive;
@@ -580,8 +543,7 @@ ArkWidget::addToArchive( const KUrl::List & filesToAdd, const KUrl & archive)
     return true;
 }
 
-void
-ArkWidget::addToArchiveSlotCreateDone( bool success )
+void ArkWidget::addToArchiveSlotCreateDone( bool success )
 {
     disconnect( this, SIGNAL( createDone( bool ) ), this, SLOT( addToArchiveSlotCreateDone( bool ) ) );
     if ( !success )
@@ -593,8 +555,7 @@ ArkWidget::addToArchiveSlotCreateDone( bool success )
     addToArchiveSlotOpenDone( true );
 }
 
-void
-ArkWidget::addToArchiveSlotOpenDone( bool success )
+void ArkWidget::addToArchiveSlotOpenDone( bool success )
 {
     kDebug( 1601 ) << k_funcinfo << endl;
     disconnect( this, SIGNAL( openDone( bool ) ), this, SLOT( addToArchiveSlotOpenDone( bool ) ) );
@@ -661,8 +622,7 @@ ArkWidget::addToArchiveSlotOpenDone( bool success )
     arch->addFile( list.toStringList() );
 }
 
-void
-ArkWidget::addToArchiveSlotAddDone( bool success )
+void ArkWidget::addToArchiveSlotAddDone( bool success )
 {
     kDebug( 1601 ) << k_funcinfo << endl;
     disconnect( this, SLOT( addToArchiveSlotAddDone( bool ) ) );
@@ -681,8 +641,7 @@ void ArkWidget::setOpenAsMimeType( const QString & mimeType )
     m_openAsMimeType = mimeType;
 }
 
-void
-ArkWidget::file_open(const KUrl& url)
+void ArkWidget::file_open(const KUrl& url)
 {
     if ( url.isEmpty() )
     {
@@ -738,10 +697,7 @@ ArkWidget::file_open(const KUrl& url)
 }
 
 
-// File menu /////////////////////////////////////////////////////////
-
-KUrl
-ArkWidget::getCreateFilename(const QString & _caption,
+KUrl ArkWidget::getCreateFilename(const QString & _caption,
                                   const QString & _defaultMimeType,
                                   bool allowCompressed,
                                   const QString & _suggestedName )
@@ -824,8 +780,7 @@ ArkWidget::getCreateFilename(const QString & _caption,
     return url;
 }
 
-void
-ArkWidget::file_new()
+void ArkWidget::file_new()
 {
     QString strFile;
     KUrl url = getCreateFilename(i18n("Create New Archive") );
@@ -1705,143 +1660,6 @@ ArkWidget::updateStatusSelection()
     fixEnables();
 }
 
-
-// Drag & Drop ////////////////////////////////////////////////////////
-
-void
-ArkWidget::dragMoveEvent(QDragMoveEvent *e)
-{
-    if (K3URLDrag::canDecode(e) && !m_bDropSourceIsSelf)
-    {
-        e->accept();
-    }
-}
-
-
-void
-ArkWidget::dropEvent(QDropEvent* e)
-{
-    kDebug( 1601 ) << "+ArkWidget::dropEvent" << endl;
-
-    KUrl::List list;
-
-    if ( K3URLDrag::decode( e, list ) )
-    {
-        QStringList urlList = list.toStringList();
-        dropAction( urlList );
-    }
-
-    kDebug(1601) << "-dropEvent" << endl;
-}
-
-//////////////////////////////////////////////////////////////////////
-///////////////////////// dropAction /////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-void
-ArkWidget::dropAction( QStringList  & list )
-{
-    // Called by dropEvent
-
-    // The possibilities treated are as follows:
-    // drop a regular file into a window with
-    //   * an open archive - add it.
-    //   * no open archive - ask user to open an archive for adding file or cancel
-    // drop an archive into a window with
-    //   * an open archive - ask user to add to open archive or to open it freshly
-    //   * no open archive - open it
-    // drop many files (can be a mix of archives and regular) into a window with
-    //   * an open archive - add them.
-    //   * no open archive - ask user to open an archive for adding files or cancel
-
-    // and don't forget about gzip files.
-
-    QString str;
-    QStringList urls; // to be sent to addFile
-
-    str = list.first();
-
-    if ( 1 == list.count() &&
-         ( UNKNOWN_FORMAT != ArchiveFormatInfo::self()->archTypeByExtension( str ) ) )
-    {
-        // if there's one thing being dropped and it's an archive
-        if (isArchiveOpen())
-        {
-            // ask them if they want to add the dragged archive to the current
-            // one or open it as the new current archive
-            int nRet = KMessageBox::warningYesNoCancel(this,
-                       i18n("Do you wish to add this to the current archive or open it as a new archive?"),
-                       QString(),
-                       KGuiItem(i18n("&Add")), KGuiItem(i18n("&Open")));
-            if (KMessageBox::Yes == nRet) // add it
-            {
-                if (m_bIsSimpleCompressedFile && (m_nNumFiles == 1))
-                {
-                    QString strFilename;
-                    KUrl url = askToCreateRealArchive();
-                    strFilename = url.path();
-                    if (!strFilename.isEmpty())
-                    {
-                        createRealArchive( strFilename, list );
-                    }
-                    return;
-                }
-
-                addFile( list );
-                return;
-            }
-            else if (KMessageBox::Cancel == nRet) // cancel
-            {
-                return;
-            }
-        }
-
-        // if I made it here, there's either no archive currently open
-        // or they selected "Open".
-        KUrl url = str;
-
-        emit openUrlRequest( url );
-    }
-    else
-    {
-        if (isArchiveOpen())
-        {
-            if (m_bIsSimpleCompressedFile && (m_nNumFiles == 1))
-            {
-                QString strFilename;
-                KUrl url = askToCreateRealArchive();
-                strFilename = url.path();
-                if (!strFilename.isEmpty())
-                {
-                    createRealArchive( strFilename, list );
-                }
-                return;
-            }
-            // add the files to the open archive
-            addFile( list );
-        }
-        else
-        {
-            // no archive is open, so we ask if the user wants to open one
-            // for this/these file/files.
-
-            QString str;
-            str = (list.count() > 1)
-                  ? i18n("There is no archive currently open. Do you wish to create one now for these files?")
-                  : i18n("There is no archive currently open. Do you wish to create one now for this file?");
-            int nRet = KMessageBox::warningYesNo(this, str, QString(), KGuiItem(i18n("Create Archive")), KGuiItem(i18n("Do Not Create")));
-            if (nRet == KMessageBox::Yes) // yes
-            {
-                file_new();
-                if (isArchiveOpen()) // they still could have canceled!
-                {
-                    addFile( list );
-                }
-            }
-            // else // basically a cancel on the drop.
-        }
-    }
-}
 
 void
 ArkWidget::arkWarning(const QString& msg)
