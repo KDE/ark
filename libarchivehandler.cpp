@@ -37,6 +37,7 @@
 #include <QDir>
 #include <QList>
 #include <QStringList>
+#include <QDateTime>
 
 class ArchiveListingJob: public ThreadWeaver::Job
 {
@@ -85,11 +86,16 @@ class ArchiveListingJob: public ThreadWeaver::Job
 			{
 				ArchiveEntry e;
 				e[ FileName ] = QString( archive_entry_pathname( entry ) );
+				e[ OriginalFileName ] = QByteArray( archive_entry_pathname( entry ) );
+				e[ Owner ] = QString( archive_entry_uname( entry ) );
+				e[ Group ] = QString( archive_entry_gname( entry ) );
+				kDebug( 1601 ) << "Entry: " << e[ FileName ] << ", Owner = " << e[ Owner ] << endl;
 				e[ Size ] = ( qlonglong ) archive_entry_size( entry );
 				if ( archive_entry_symlink( entry ) )
 				{
 					e[ Link ] = archive_entry_symlink( entry );
 				}
+				e[ Timestamp ] = QDateTime::fromTime_t( archive_entry_mtime( entry ) );
 				m_entries.append( e );
 				archive_read_data_skip( arch );
 			}

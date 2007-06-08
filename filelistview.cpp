@@ -155,11 +155,15 @@ void FileListView::addItem( const ArchiveEntry & entry )
 
 	if ( entry.contains( Link ) )
 	{
-		item->setText( 2, entry[ Link ].toString() );
+		item->setText( 5, entry[ Link ].toString() );
 		QFont font;
 		font.setItalic( true );
 		item->setFont( 0, font );
 	}
+
+	item->setText( 2, entry[ Owner ].toString() );
+	item->setText( 3, entry[ Group ].toString() );
+	item->setText( 4, KGlobal::locale()->formatDateTime( entry[ Timestamp ].toDateTime(), KLocale::FancyShortDate, true ) );
 
 	KMimeType::Ptr mimeType = KMimeType::findByPath( entry[ FileName ].toString(), 0, true );
 	kDebug( 1601 ) << "MimeIcon = " << mimeType->iconName() << endl;
@@ -191,6 +195,9 @@ void FileListView::setHeaders()
 	QStringList l;
 	l << "Filename";
 	l << "Size";
+	l << "Owner";
+	l << "Group";
+	l << "Timestamp";
 	l << "Link";
 
 	setHeaderLabels( l );
