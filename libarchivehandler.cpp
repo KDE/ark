@@ -110,19 +110,32 @@ class ExtractionJob: public ThreadWeaver::Job
 {
 	public:
 		ExtractionJob( const QString & fileName, const QStringList & entries, const QString & baseDirectory, QObject *parent = 0 )
-			: ThreadWeaver::Job( parent ), m_fileName( fileName ), m_entries( entries ), m_directory( baseDirectory )
+			: ThreadWeaver::Job( parent ), m_fileName( fileName ), m_entries( entries ),
+			  m_directory( baseDirectory ), m_success( false )
 		{
 		}
 
-		bool success() const { return m_entries.size() == 0; }
+		bool success() const { return m_success; }
 	protected:
 		void run()
 		{
 			kDebug( 1601 ) << "ExtractionJob::run() will try to extract " << m_entries << endl;
+			m_success = extractFiles();
+		}
+
+	private:
+		bool extractFiles()
+		{
+			const bool extractAll = m_entries.isEmpty();
 			struct archive *arch;
 			struct archive_entry *entry;
 
 			arch = archive_read_new();
+			if ( !arch )
+			{
+				return false;
+			}
+
 			archive_read_support_compression_all( arch );
 			archive_read_support_format_all( arch );
 			int res = archive_read_open_filename( arch, QFile::encodeName( m_fileName ), 10240 );
@@ -130,12 +143,13 @@ class ExtractionJob: public ThreadWeaver::Job
 			if ( res != ARCHIVE_OK )
 			{
 				kDebug( 1601 ) << "Couldn't open the file '" << m_fileName << "', libarchive can't handle it." << endl;
+				return false;
 			}
 
 			while ( archive_read_next_header( arch, &entry ) == ARCHIVE_OK )
 			{
 				QString entryName = QFile::decodeName( archive_entry_pathname( entry ) );
-				if ( m_entries.contains( entryName ) )
+				if ( m_entries.contains( entryName ) || extractAll )
 				{
 					QString extrPath = m_directory + '/' + entryName;
 					copyData( arch, extrPath );
@@ -147,10 +161,9 @@ class ExtractionJob: public ThreadWeaver::Job
 					archive_read_data_skip( arch );
 				}
 			}
-			archive_read_finish( arch );
+			if ( m_entries.size() > 0 ) return false;
+			return archive_read_finish( arch ) == ARCHIVE_OK;
 		}
-
-	private:
 
 		void copyData( struct archive *arch, QString path )
 		{
@@ -174,6 +187,7 @@ class ExtractionJob: public ThreadWeaver::Job
 		QString     m_fileName;
 		QStringList m_entries;
 		QString     m_directory;
+		bool        m_success;
 };
 
 LibArchiveHandler::LibArchiveHandler( ArkWidget *gui, const QString &filename )
