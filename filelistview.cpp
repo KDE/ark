@@ -25,12 +25,13 @@
 */
 
 #include "filelistview.h"
-#include "archive.h"
 
 // Qt includes
 #include <QPainter>
 #include <QMouseEvent>
-#include <Q3Header>
+#include <QHeaderView>
+#include <QTreeWidgetItemIterator>
+#include <QFont>
 // KDE includes
 #include <KLocale>
 #include <KIconLoader>
@@ -39,209 +40,32 @@
 #include <KGlobalSettings>
 #include <KMimeType>
 
-/////////////////////////////////////////////////////////////////////
-// FileLVI implementation
-/////////////////////////////////////////////////////////////////////
-
-FileLVI::FileLVI( K3ListView* lv )
-	: K3ListViewItem( lv ), m_fileSize( 0 ), m_packedFileSize( 0 ),
-	  m_ratio( 0 ), m_timeStamp( QDateTime() ), m_entryName( QString() )
-{
-
-}
-
-FileLVI::FileLVI( K3ListViewItem* lvi )
-	: K3ListViewItem( lvi ), m_fileSize( 0 ), m_packedFileSize( 0 ),
-	  m_ratio( 0 ), m_timeStamp( QDateTime() ), m_entryName( QString() )
-{
-}
-
-QString FileLVI::key( int column, bool ascending ) const
-{
-	if ( column == 0 )
-		return fileName();
-	else
-		return Q3ListViewItem::key( column, ascending );
-}
-
-int FileLVI::compare( Q3ListViewItem * i, int column, bool ascending ) const
-{
-	if ( column == 0 )
-		return K3ListViewItem::compare( i, column, ascending );
-
-	FileLVI * item = static_cast< FileLVI * >( i );
-	columnName colName = ( static_cast< FileListView * > ( listView() ) )->nameOfColumn( column );
-	switch ( colName )
-	{
-		case sizeCol:
-		{
-			return ( m_fileSize < item->fileSize() ? -1 :
-			           ( m_fileSize > item->fileSize() ? 1 : 0 )
-			       );
-			break;
-		}
-
-		case ratioStrCol:
-		{
-			return ( m_ratio < item->ratio() ? -1 :
-			           ( m_ratio > item->ratio() ? 1 : 0 )
-			       );
-			break;
-		}
-
-		case packedStrCol:
-		{
-			return ( m_packedFileSize < item->packedFileSize() ? -1 :
-			           ( m_packedFileSize > item->packedFileSize() ? 1 : 0 )
-			       );
-			break;
-		}
-
-		case timeStampStrCol:
-		{
-			return ( m_timeStamp < item->timeStamp() ? -1 :
-			           ( m_timeStamp > item->timeStamp() ? 1 : 0 )
-			       );
-			break;
-		}
-
-		default:
-			return K3ListViewItem::compare( i, column, ascending );
-	}
-}
-
-void FileLVI::setText( int column, const QString &text )
-{
-	columnName colName = ( static_cast< FileListView * > ( listView() ) )->nameOfColumn( column );
-	if ( column == 0 )
-	{
-		QString name = text;
-		if ( name.endsWith( "/" ) )
-			name = name.left( name.length() - 1 );
-		if ( name.startsWith( "/" ) )
-			name = name.mid( 1 );
-		int pos = name.lastIndexOf( '/' );
-		if ( pos != -1 )
-			name = name.right( name.length() - pos - 1 );
-		Q3ListViewItem::setText( column, name );
-		m_entryName = text;
-	}
-	else if ( colName == sizeCol )
-	{
-		m_fileSize = text.toULongLong();
-		Q3ListViewItem::setText( column, KIO::convertSize( m_fileSize ) );
-	}
-	else if ( colName == packedStrCol )
-	{
-		m_packedFileSize = text.toULongLong();
-		Q3ListViewItem::setText( column, KIO::convertSize( m_packedFileSize ) );
-	}
-	else if ( colName == ratioStrCol )
-	{
-		int l = text.length() - 1;
-		if ( l>0 && text[l] == '%' )
-			m_ratio = text.left(l).toDouble();
-		else
-			m_ratio = text.toDouble();
-		Q3ListViewItem::setText( column, i18nc( "Packed Ratio", "%1 %" ,
-		                                 KGlobal::locale()->formatNumber( m_ratio, 1 ) )
-		                      );
-	}
-	else if ( colName == timeStampStrCol )
-	{
-	  	if ( text.isEmpty() )
-			Q3ListViewItem::setText(column, text);
-		else
-		{
-			m_timeStamp = QDateTime::fromString( text, Qt::ISODate );
-			Q3ListViewItem::setText( column, KGlobal::locale()->formatDateTime( m_timeStamp ) );
-		}
-	}
-	else
-		Q3ListViewItem::setText(column, text);
-}
-
-static FileLVI* folderLVI( K3ListViewItem *parent, const QString& name )
-{
-	FileLVI *folder = new FileLVI( parent );
-	folder->setText( 0, name );
-	folder->setPixmap( 0, KIconLoader::global()->loadMimeTypeIcon(KMimeType::mimeType( "inode/directory" )->iconName(), K3Icon::Small ) );
-	return folder;
-}
-
-static FileLVI* folderLVI( K3ListView *parent, const QString& name )
-{
-	FileLVI *folder = new FileLVI( parent );
-	folder->setText( 0, name );
-	folder->setPixmap( 0, KIconLoader::global()->loadMimeTypeIcon(KMimeType::mimeType( "inode/directory" )->iconName(), K3Icon::Small ) );
-	return folder;
-}
-
-/////////////////////////////////////////////////////////////////////
-// FileListView implementation
-/////////////////////////////////////////////////////////////////////
-
-
 FileListView::FileListView( QWidget *parent )
-	: K3ListView( parent )
+	: QTreeWidget( parent )
 {
-	setMultiSelection( true );
-	setSelectionModeExt( FileManager );
-	setDragEnabled( true );
-	setItemsMovable( false );
-	setRootIsDecorated( true );
+	setSelectionMode( QAbstractItemView::ExtendedSelection );
+	setHeaders();
+	/*
 	setShowSortIndicator( true );
 	setResizeMode( Q3ListView::AllColumns );
-	header()->hide(); // Don't show the header until there is something to be shown in it
-	m_pressed = false;
-}
-
-int FileListView::addColumn ( const QString & label, int width )
-{
-	int index = K3ListView::addColumn( label, width );
-	if ( label == SIZE_COLUMN.first )
-	{
-		m_columnMap[ index ] = sizeCol;
-	}
-	else if ( label == PACKED_COLUMN.first )
-	{
-		m_columnMap[ index ] = packedStrCol;
-	}
-	else if ( label == RATIO_COLUMN.first )
-	{
-		m_columnMap[ index ] = ratioStrCol;
-	}
-	else if ( label == TIMESTAMP_COLUMN.first )
-	{
-		m_columnMap[ index ] = timeStampStrCol;
-	}
-	else
-	{
-		m_columnMap[ index ] = otherCol;
-	}
-	return index;
-}
-
-void FileListView::removeColumn( int index )
-{
-	for ( int i = index; i < m_columnMap.count() - 2; i++ )
-	{
-		m_columnMap.insert( i, m_columnMap[ i + 1 ] );
-	}
-
-	m_columnMap.remove( m_columnMap[ m_columnMap.count() - 1 ] );
-	K3ListView::removeColumn( index );
-}
-
-columnName FileListView::nameOfColumn( int index )
-{
-	return m_columnMap[ index ];
+	m_pressed = false;*/
 }
 
 QStringList FileListView::selectedFilenames()
 {
 	QStringList files;
 
+	QTreeWidgetItemIterator it( this, QTreeWidgetItemIterator::Selected );
+	while ( *it )
+	{
+		ArchiveEntry e = m_entryMap[ *it ];
+		files << e[ FileName ].toString();
+		++it;
+	}
+
+	// TODO: this needs to be ported
+#warning "Reimplement this..."
+#if 0
 	FileLVI *item = static_cast<FileLVI*>( firstChild() );
 
 	while ( item )
@@ -277,6 +101,7 @@ QStringList FileListView::selectedFilenames()
 		// Go to the next item
 		item = static_cast<FileLVI*>( item->itemBelow() );
 	}
+#endif
 
 	return files;
 }
@@ -285,11 +110,12 @@ QStringList FileListView::fileNames()
 {
 	QStringList files;
 
-	Q3ListViewItemIterator it( this );
-	while ( it.current() )
+	QTreeWidgetItemIterator it( this );
+	while ( *it )
 	{
-		FileLVI *item = static_cast<FileLVI*>( it.current() );
-		files += item->fileName();
+		Q_ASSERT( m_entryMap.contains( *it ) );
+		ArchiveEntry entry = m_entryMap[ *it ];
+		files += entry[ FileName ].toString();
 		++it;
 	}
 
@@ -298,75 +124,48 @@ QStringList FileListView::fileNames()
 
 bool FileListView::isSelectionEmpty()
 {
-	FileLVI * flvi = (FileLVI*)firstChild();
-
-	while (flvi)
-	{
-		if( flvi->isSelected() )
-			return false;
-		else
-		flvi = (FileLVI*)flvi->itemBelow();
-	}
-	return true;
+	return selectedItems().size() == 0;
 }
 
-void
-FileListView::contentsMousePressEvent(QMouseEvent *e)
+ArchiveEntry FileListView::item( const QString& filename )
 {
-	if( e->button() == Qt::LeftButton )
+	QTreeWidgetItemIterator it( this );
+	while ( *it )
 	{
-		m_pressed = true;
-		m_presspos = e->pos();
-	}
-
-	K3ListView::contentsMousePressEvent(e);
-}
-
-void
-FileListView::contentsMouseReleaseEvent(QMouseEvent *e)
-{
-	m_pressed = false;
-	K3ListView::contentsMouseReleaseEvent(e);
-}
-
-void
-FileListView::contentsMouseMoveEvent(QMouseEvent *e)
-{
-	if(!m_pressed)
-	{
-		K3ListView::contentsMouseMoveEvent(e);
-	}
-	else if( ( m_presspos - e->pos() ).manhattanLength() > KGlobalSettings::dndEventDelay() )
-	{
-		m_pressed = false;	// Prevent triggering again
-		if(isSelectionEmpty())
+		Q_ASSERT( m_entryMap.contains( *it ) );
+		ArchiveEntry entry = m_entryMap[ *it ];
+		if ( entry[ FileName ].toString() == filename )
 		{
-			return;
+			return entry;
 		}
-		QStringList dragFiles = selectedFilenames();
-		emit startDragRequest( dragFiles );
-		K3ListView::contentsMouseMoveEvent(e);
+		++it;
 	}
+
+	return ArchiveEntry();
 }
 
-FileLVI*
-FileListView::item(const QString& filename) const
+void FileListView::addItem( const ArchiveEntry & entry )
 {
-	FileLVI * flvi = (FileLVI*) firstChild();
+	QTreeWidgetItem *item = new QTreeWidgetItem( this );
 
-	while (flvi)
+	m_entryMap[ item ] = entry;
+	item->setText( 0, entry[ FileName ].toString() );
+	if ( entry.contains( Size ) )
+		item->setText( 1, KIO::convertSize( entry[ Size ].toULongLong() ) );
+
+	if ( entry.contains( Link ) )
 	{
-		QString curFilename = flvi->fileName();
-		if (curFilename == filename)
-			return flvi;
-		flvi = (FileLVI*) flvi->nextSibling();
+		item->setText( 2, entry[ Link ].toString() );
+		QFont font;
+		font.setItalic( true );
+		item->setFont( 0, font );
 	}
 
-	return 0;
-}
-
-void FileListView::addItem( const QStringList & entries )
-{
+	KMimeType::Ptr mimeType = KMimeType::findByPath( entry[ FileName ].toString(), 0, true );
+	kDebug( 1601 ) << "MimeIcon = " << mimeType->iconName() << endl;
+	item->setIcon( 0, KIconLoader::global()->loadMimeTypeIcon(mimeType->iconName(), K3Icon::Small ) );
+#warning "Port me"
+#if 0
 	FileLVI *flvi, *parent = findParent( entries[0] );
 	if ( parent )
 		flvi = new FileLVI( parent );
@@ -384,64 +183,26 @@ void FileListView::addItem( const QStringList & entries )
 
 	KMimeType::Ptr mimeType = KMimeType::findByPath( entries.first(), 0, true );
 	flvi->setPixmap( 0, KIconLoader::global()->loadMimeTypeIcon(mimeType->iconName(), K3Icon::Small ) );
+#endif
 }
 
-void FileListView::selectAll()
+void FileListView::setHeaders()
 {
-	Q3ListView::selectAll( true );
-}
+	QStringList l;
+	l << "Filename";
+	l << "Size";
+	l << "Link";
 
-void FileListView::unselectAll()
-{
-	Q3ListView::selectAll( false );
-}
-
-void FileListView::setHeaders( const ColumnList& columns )
-{
-	clearHeaders();
-
-	for ( ColumnList::const_iterator it = columns.constBegin();
-	      it != columns.constEnd();
-	      ++it )
-	{
-		QPair< QString, Qt::AlignmentFlag > pair = *it;
-		int colnum = addColumn( pair.first );
-		setColumnAlignment( colnum, pair.second );
-	}
-
-	header()->show();
-}
-
-void FileListView::clearHeaders()
-{
-	header()->hide();
-	while ( columns() > 0 )
-	{
-		removeColumn( 0 );
-	}
+	setHeaderLabels( l );
+	header()->setResizeMode( QHeaderView::ResizeToContents );
 }
 
 int FileListView::totalFiles()
 {
 	int numFiles = 0;
 
-	Q3ListViewItemIterator it( this );
-	while ( it.current() )
-	{
-		if ( it.current()->childCount() == 0 )
-			++numFiles;
-		++it;
-	}
-
-	return numFiles;
-}
-
-int FileListView::selectedFilesCount()
-{
-	int numFiles = 0;
-
-	Q3ListViewItemIterator it( this, Q3ListViewItemIterator::Selected );
-	while ( it.current() )
+	QTreeWidgetItemIterator it( this, QTreeWidgetItemIterator::NoChildren );
+	while ( *it )
 	{
 		++numFiles;
 		++it;
@@ -450,15 +211,21 @@ int FileListView::selectedFilesCount()
 	return numFiles;
 }
 
+int FileListView::selectedFilesCount()
+{
+	return selectedItems().size();
+}
+
 KIO::filesize_t FileListView::totalSize()
 {
 	KIO::filesize_t size = 0;
 
-	Q3ListViewItemIterator it(this);
-	while ( it.current() )
+	QTreeWidgetItemIterator it( this, QTreeWidgetItemIterator::NoChildren );
+	while ( *it )
 	{
-		FileLVI *item = static_cast<FileLVI*>( it.current() );
-		size += item->fileSize();
+		Q_ASSERT( m_entryMap.contains( *it ) );
+		ArchiveEntry entry = m_entryMap[ *it ];
+		size += entry[ Size ].toULongLong();
 		++it;
 	}
 
@@ -469,20 +236,23 @@ KIO::filesize_t FileListView::selectedSize()
 {
 	KIO::filesize_t size = 0;
 
-	Q3ListViewItemIterator it( this, Q3ListViewItemIterator::Selected );
-	while ( it.current() )
+	QTreeWidgetItemIterator it( this, QTreeWidgetItemIterator::Selected );
+	while ( *it )
 	{
-		FileLVI *item = static_cast<FileLVI*>( it.current() );
-		size += item->fileSize();
+		Q_ASSERT( m_entryMap.contains( *it ) );
+		ArchiveEntry entry = m_entryMap[ *it ];
+		size += entry[ Size ].toULongLong();
 		++it;
 	}
 
 	return size;
 }
 
-FileLVI* FileListView::findParent( const QString& fullname )
+QTreeWidgetItem* FileListView::findParent( const QString& fullname )
 {
-	QString name = fullname;
+	return 0;
+#warning "Reimplement"
+	/*QString name = fullname;
 
 	if ( name.endsWith( "/" ) )
 		name = name.left( name.length() -1 );
@@ -540,15 +310,16 @@ FileLVI* FileListView::findParent( const QString& fullname )
 	}
 
 	item->setOpen( true );
-	return static_cast< FileLVI* >( item );
+	return static_cast< FileLVI* >( item );*/
 }
 
-QStringList FileListView::childrenOf( FileLVI* parent )
+QStringList FileListView::childrenOf( QTreeWidgetItem* parent )
 {
 	Q_ASSERT( parent );
 	QStringList children;
 
-	FileLVI *item = static_cast<FileLVI*>( parent->firstChild() );
+#warning Reimplement
+	/*FileLVI *item = static_cast<FileLVI*>( parent->firstChild() );
 
 	while ( item )
 	{
@@ -561,9 +332,14 @@ QStringList FileListView::childrenOf( FileLVI* parent )
 			children += childrenOf( item );
 		}
 		item = static_cast<FileLVI*>( item->nextSibling() );
-	}
+	}*/
 
 	return children;
+}
+
+ArchiveEntry FileListView::currentEntry() const
+{
+	return m_entryMap[ currentItem() ];
 }
 
 #include "filelistview.moc"

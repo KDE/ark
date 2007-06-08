@@ -25,7 +25,7 @@
 */
 
 // ark includes
-#include "archive.h"
+#include "arch.h"
 #include "arkwidget.h"
 #include "arkutils.h"
 #include "filelistview.h"
@@ -50,14 +50,15 @@
 
 // the archive types
 #include "tar.h"
-#include "zip.h"
-#include "lha.h"
-#include "compressedfile.h"
-#include "zoo.h"
-#include "rar.h"
-#include "ar.h"
-#include "sevenzip.h"
-#include "ace.h"
+#include "libarchivehandler.h"
+//#include "zip.h"
+//#include "lha.h"
+//#include "compressedfile.h"
+//#include "zoo.h"
+//#include "rar.h"
+//#include "ar.h"
+//#include "sevenzip.h"
+//#include "ace.h"
 
 Arch::ArchColumns::ArchColumns( int col, const QRegExp &reg, int length, bool opt )
   : colRef( col ), pattern( reg ), maxLength( length ), optional( opt )
@@ -365,7 +366,7 @@ Arch *Arch::archFactory( ArchType aType,
 {
   switch( aType )
   {
-    case TAR_FORMAT:
+    /*case TAR_FORMAT:
       return new TarArch( parent, filename, openAsMimeType );
 
     case ZIP_FORMAT:
@@ -390,11 +391,12 @@ Arch *Arch::archFactory( ArchType aType,
       return new SevenZipArch( parent, filename );
 
     case ACE_FORMAT:
-      return new AceArch( parent, filename );
+      return new AceArch( parent, filename );*/
 
     case UNKNOWN_FORMAT:
     default:
+      return new LibArchiveHandler( parent, filename );
       return 0;
   }
 }
-#include "archive.moc"
+#include "arch.moc"

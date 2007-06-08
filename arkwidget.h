@@ -36,15 +36,15 @@
 #include <QDragMoveEvent>
 #include <QDropEvent>
 
-#include "archive.h"
+#include "arch.h"
 #include "ui_general.h"
 
-class K3ListViewSearchLine;
+class KTreeWidgetSearchLine;
 class QPoint;
 class QString;
 class QStringList;
 class QLabel;
-class Q3ListViewItem;
+class QTreeWidgetItem;
 class QDragMoveEvent;
 class QDropEvent;
 
@@ -87,7 +87,7 @@ public:
     QString tmpDir() const { return m_tmpDir ? m_tmpDir->name() : QString(); }
 
     FileListView * fileList() const { return m_fileListView; }
-    K3ListViewSearchLine    * searchBar() const { return m_searchBar; }
+    KTreeWidgetSearchLine* searchBar() const { return m_searchBar; }
     Arch * archive() const { return arch; }
     ArchType archiveType() const { return m_archType; }
     int numSelectedFiles() const { return m_nNumSelectedFiles; }
@@ -130,8 +130,8 @@ protected slots:
     void slotOpenWith();
     void action_edit();
 
-    void doPopup(Q3ListViewItem *, const QPoint &, int); // right-click menus
-    void viewFile(Q3ListViewItem*); // doubleClick view files
+    void doPopup(QTreeWidgetItem *, const QPoint &, int); // right-click menus
+    void viewFile(QTreeWidgetItem*); // doubleClick view files
 
     void slotSelectionChanged();
     void slotOpen(Arch *, bool, const QString &, int);
@@ -210,8 +210,6 @@ private: // methods
     const QString guessName( const KUrl & archive );
 
 private slots:
-    void startDrag( const QStringList & fileList );
-    void startDragSlotExtractDone( bool );
     void editSlotExtractDone();
     void editSlotAddDone( bool success );
     void viewSlotExtractDone( bool success );
@@ -295,7 +293,7 @@ private: // data
     bool m_modified;
 
     KToolBar  * m_searchToolBar;
-    K3ListViewSearchLine * m_searchBar;
+    KTreeWidgetSearchLine* m_searchBar;
 
     Arch   * arch;
     QString  m_strArchName;

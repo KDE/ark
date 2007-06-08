@@ -1,0 +1,198 @@
+#include "libarchivehandler.h"
+#include <archive.h>
+#include <archive_entry.h>
+
+#include <kdebug.h>
+#include <ThreadWeaver/Job>
+#include <ThreadWeaver/Weaver>
+
+#include <QFile>
+#include <QList>
+#include <QStringList>
+
+class ArchiveListingJob: public ThreadWeaver::Job
+{
+	public:
+		ArchiveListingJob( const QString& fileName, QObject *parent = 0 )
+			: Job( parent ), m_fileName( fileName )
+		{
+		}
+
+		QList<ArchiveEntry> entries() const { return m_entries; }
+
+	protected:
+		void run()
+		{
+			kDebug( 1601 ) << "Hi!" << endl;
+			struct archive *arch;
+			struct archive_entry *entry;
+
+			arch = archive_read_new();
+			archive_read_support_compression_all( arch );
+			archive_read_support_format_all( arch );
+			int res = archive_read_open_filename( arch, QFile::encodeName( m_fileName ), 4096 );
+
+			if ( res != ARCHIVE_OK )
+			{
+				kDebug( 1601 ) << "Couldn't open the file '" << m_fileName << "', libarchive can't handle it." << endl;
+			}
+
+			while ( archive_read_next_header( arch, &entry ) == ARCHIVE_OK )
+			{
+				kDebug( 1601 ) << "	libarchive gave us " << archive_entry_pathname( entry ) << endl;
+				ArchiveEntry e;
+				e[ FileName ] = QString( archive_entry_pathname( entry ) );
+				e[ Size ] = ( qlonglong ) archive_entry_size( entry );
+				if ( archive_entry_symlink( entry ) )
+				{
+					e[ Link ] = archive_entry_symlink( entry );
+				}
+				m_entries.append( e );
+				archive_read_data_skip( arch );
+			}
+			archive_read_finish( arch );
+		}
+
+	private:
+		QString m_fileName;
+		QList<ArchiveEntry> m_entries;
+};
+
+class ExtractionJob: public ThreadWeaver::Job
+{
+	public:
+		ExtractionJob( const QString & fileName, const QStringList & entries, const QString & baseDirectory, QObject *parent = 0 )
+			: ThreadWeaver::Job( parent ), m_fileName( fileName ), m_entries( entries ), m_directory( baseDirectory )
+		{
+		}
+
+		bool success() const { return m_entries.size() == 0; }
+	protected:
+		void run()
+		{
+			kDebug( 1601 ) << "ExtractionJob::run() will try to extract " << m_entries << endl;
+			struct archive *arch;
+			struct archive_entry *entry;
+
+			arch = archive_read_new();
+			archive_read_support_compression_all( arch );
+			archive_read_support_format_all( arch );
+			int res = archive_read_open_filename( arch, QFile::encodeName( m_fileName ), 10240 );
+
+			if ( res != ARCHIVE_OK )
+			{
+				kDebug( 1601 ) << "Couldn't open the file '" << m_fileName << "', libarchive can't handle it." << endl;
+			}
+
+			while ( archive_read_next_header( arch, &entry ) == ARCHIVE_OK )
+			{
+				QString entryName = QFile::decodeName( archive_entry_pathname( entry ) );
+				if ( m_entries.contains( entryName ) )
+				{
+					QString extrPath = m_directory + '/' + entryName;
+					copyData( arch, extrPath );
+					m_entries.removeAll( entryName );
+				}
+				else
+				{
+					kDebug( 1601 ) << entryName << " matches no requested file. " << endl;
+					archive_read_data_skip( arch );
+				}
+			}
+			archive_read_finish( arch );
+		}
+
+	private:
+
+		void copyData( struct archive *arch, QString path )
+		{
+			QFile destFile( path );
+			if ( !destFile.open( QIODevice::WriteOnly ) )
+				return;
+
+			const void *buff = 0;
+			size_t size;
+			off_t  offset;
+
+			while ( archive_read_data_block( arch, &buff, &size, &offset ) == ARCHIVE_OK )
+			{
+				kDebug( 1601 )  << "	copyData: copying " << size << " from offset " << offset << endl;
+				destFile.write( static_cast<const char *>( buff ), size );
+			}
+
+			destFile.close();
+		}
+
+		QString     m_fileName;
+		QStringList m_entries;
+		QString     m_directory;
+};
+
+LibArchiveHandler::LibArchiveHandler( ArkWidget *gui, const QString &filename )
+	: Arch( gui, filename )
+{
+	kDebug( 1601 ) << "libarchive api version = " << archive_api_version() << endl;
+	m_bUtilityIsAvailable = true;
+}
+
+LibArchiveHandler::~LibArchiveHandler()
+{
+}
+
+void LibArchiveHandler::open()
+{
+	ArchiveListingJob *job = new ArchiveListingJob( fileName(), this );
+	connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
+	         this, SLOT( listingDone( ThreadWeaver::Job * ) ) );
+	ThreadWeaver::Weaver::instance()->enqueue( job );
+}
+
+void LibArchiveHandler::listingDone( ThreadWeaver::Job *job )
+{
+	foreach( ArchiveEntry entry, static_cast<ArchiveListingJob*>( job )->entries() )
+	{
+		emit newEntry( entry );
+	}
+
+	delete job;
+	emit sigOpen( this, true, m_filename, Arch::View );
+}
+
+void LibArchiveHandler::create()
+{
+}
+
+void LibArchiveHandler::addFile( const QStringList & )
+{
+}
+
+void LibArchiveHandler::addDir( const QString & )
+{
+}
+
+void LibArchiveHandler::remove( QStringList* )
+{
+}
+
+void LibArchiveHandler::unarchFileInternal()
+{
+}
+
+void LibArchiveHandler::unarchFile( QStringList *files, const QString& destinationDir, bool /*viewFriendly*/ )
+{
+	if ( files )
+	{
+		ExtractionJob *job = new ExtractionJob( fileName(), *files, destinationDir, this );
+		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
+		         this, SLOT( extractionDone( ThreadWeaver::Job * ) ) );
+		ThreadWeaver::Weaver::instance()->enqueue( job );
+	}
+}
+
+void LibArchiveHandler::extractionDone( ThreadWeaver::Job *job )
+{
+	emit sigExtract( job->success() );
+	delete job;
+}
+
+#include "libarchivehandler.moc"

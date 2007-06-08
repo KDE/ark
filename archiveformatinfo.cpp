@@ -21,7 +21,6 @@
 */
 
 #include "archiveformatinfo.h"
-#include "archive.h"
 #include "settings.h"
 
 #include <KLocale>

@@ -358,6 +358,8 @@ void TarArch::openSecondCreateTempDone()
 
 void TarArch::slotListingDone(K3Process *_kp)
 {
+#warning "reimplement"
+#if 0
   const QString list = getLastShellOutput();
   FileListView *flv = m_gui->fileList();
   if (flv!=NULL && flv->totalFiles()>0)
@@ -381,60 +383,61 @@ void TarArch::slotListingDone(K3Process *_kp)
       }
     }
   }
-
+#endif
   delete _kp;
   _kp = m_currentProcess = NULL;
+}
+
+ArchiveEntry TarArch::processEntry( const KArchiveEntry *entry, const QString & root )
+{
+	ArchiveEntry aentry;
+	aentry[ FileName ] = ( root.isEmpty()? root : root + '/' ) + entry->name();
+
+	QString perms = makeAccessString(entry->permissions());
+	if (!entry->isFile())
+		perms = 'd' + perms;
+	else if (!entry->symlink().isEmpty())
+		perms = 'l' + perms;
+	else
+		perms = '-' + perms;
+	aentry[ Permissions ] = perms;
+	aentry[ Owner ]       = entry->user();
+	aentry[ Group ]       = entry->group();
+
+	if ( entry->isFile() && entry->symlink().isEmpty() )
+	{
+		const KArchiveFile *fileEntry = static_cast<const KArchiveFile *>( entry );
+		aentry[ Size ] = QString::number( (long int) fileEntry->size() );
+	}
+
+	aentry[ Timestamp ] = entry->datetime().toString( Qt::ISODate );
+	if ( !entry->symlink().isEmpty() )
+		aentry[ Link ]      = entry->symlink();
+
+	return aentry;
 }
 
 void TarArch::processDir(const KArchiveDirectory *tardir, const QString & root)
   // process a KTarDirectory. Called recursively for directories within
   // directories, etc. Prepends to filename root, for relative pathnames.
 {
-  QStringList list = tardir->entries();
+	QStringList list = tardir->entries();
 
-  for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
-    {
-      const KArchiveEntry* tarEntry = tardir->entry((*it));
-      if (tarEntry == NULL)
-        return;
+	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it )
+	{
+		const KArchiveEntry* tarEntry = tardir->entry((*it));
+		if (tarEntry == NULL)
+			return;
 
-      QStringList col_list;
-      QString name;
-      if (root.isEmpty() || root.isNull())
-        name = tarEntry->name();
-      else
-        name = root + tarEntry->name();
-      if ( !tarEntry->isFile() )
-        name += '/';
-      col_list.append( name );
-      QString perms = makeAccessString(tarEntry->permissions());
-      if (!tarEntry->isFile())
-        perms = 'd' + perms;
-      else if (!tarEntry->symlink().isEmpty())
-        perms = 'l' + perms;
-      else
-        perms = '-' + perms;
-      col_list.append(perms);
-      col_list.append( tarEntry->user() );
-      col_list.append( tarEntry->group() );
-      QString strSize = "0";
-      if (tarEntry->isFile())
-        {
-          strSize.sprintf("%ld", ( long int )((KArchiveFile *)tarEntry)->size());
-        }
-      col_list.append(strSize);
-      QString timestamp = tarEntry->datetime().toString(Qt::ISODate);
-      col_list.append(timestamp);
-      col_list.append(tarEntry->symlink());
-      //m_gui->fileList()->addItem(col_list); // send the entry to the GUI
-      emit newEntry( col_list );
+		ArchiveEntry aentry = processEntry( tarEntry, root );
+		emit newEntry( aentry );
 
-      // if it isn't a file, it's a directory - process it.
-      // remember that name is root + / + the name of the directory
-      if (!tarEntry->isFile())
-        processDir( (KArchiveDirectory *)tarEntry, name );
-      kapp->processEvents( QEventLoop::ExcludeUserInputEvents, 20 );
-    }
+		// if it isn't a file, it's a directory - process it.
+		// remember that name is root + / + the name of the directory
+		if (!tarEntry->isFile())
+			processDir( (KArchiveDirectory *)tarEntry, aentry[ FileName ].toString() );
+		kapp->processEvents( QEventLoop::ExcludeUserInputEvents, 20 );
+	}
 }
 
 void TarArch::create()
@@ -547,6 +550,9 @@ void TarArch::deleteOldFiles(const QStringList &urls, bool bAddOnlyNew)
   // because tar is broken. Used when appending: see addFile.
 {
   QStringList list;
+#warning "Reimplement"
+  Q_ASSERT_X( false, "TarArch::deleteOldFiles", "This method must be reimplemented." );
+#if 0
   QString str;
 
   QStringList::ConstIterator iter;
@@ -589,6 +595,7 @@ void TarArch::deleteOldFiles(const QStringList &urls, bool bAddOnlyNew)
 
     kDebug(1601) << "To delete: " << str << endl;
   }
+#endif
   if(!list.isEmpty())
     remove(&list);
   else

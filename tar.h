@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef TAR_H
 #define TAR_H
 
-#include "archive.h"
+#include "arch.h"
 
 #include <cstdio>
 #include <unistd.h>
@@ -39,6 +39,7 @@ class QString;
 class K3Process;
 class KTempDir;
 class KArchiveDirectory;
+class KArchiveEntry;
 class ArkWidget;
 class Arch;
 class KTar;
@@ -100,6 +101,7 @@ private:  // methods
     void createTmp();
     void setHeaders();
     void processDir( const KArchiveDirectory *tardir, const QString & root );
+    ArchiveEntry processEntry( const KArchiveEntry *entry, const QString & root );
     void deleteOldFiles( const QStringList &list, bool bAddOnlyNew );
     QString getEntry( const QString & filename );
 

@@ -21,7 +21,7 @@
 
 #include "archiveformatdlg.h"
 #include "archiveformatinfo.h"
-#include "archive.h"
+#include "arch.h"
 
 #include <KLocale>
 #include <KVBox>

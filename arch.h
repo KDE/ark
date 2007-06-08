@@ -38,7 +38,7 @@
  *
  * To add a new archive type:
  * 1. Create a new header file and a source code module
- * 2. Add an entry to the ArchType enum in archive.h.
+ * 2. Add an entry to the ArchType enum in arch.h.
  * 3. Add appropriate types to buildFormatInfo() in archiveformatinfo.cpp
  *    and archFactory() in arch.cpp
  */
@@ -51,6 +51,7 @@
 #include <QList>
 #include <QPair>
 #include <QRegExp>
+#include <QVariant>
 
 #include <KUrl>
 
@@ -64,6 +65,11 @@ enum ArchType { UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
                 LHA_FORMAT, RAR_FORMAT, ZOO_FORMAT, COMPRESSED_FORMAT,
                 SEVENZIP_FORMAT, ACE_FORMAT };
 
+enum EntryMetaDataType { FileName = 0, OriginalFileName = 1, Permissions = 2, Owner = 3,
+                         Group = 4, Size = 5, CompressedSize = 6, Link = 7, Ratio = 8,
+                         CRC = 9, Method = 10, Version = 11, Timestamp = 12, Custom = 1048576 };
+
+typedef QHash<int, QVariant> ArchiveEntry;
 typedef QList< QPair< QString, Qt::AlignmentFlag > > ColumnList;
 
 /**
@@ -108,7 +114,7 @@ class Arch : public QObject
     // returns true if a password is required
     virtual bool passwordRequired() { return false; }
 
-    void unarchFile( QStringList *, const QString & _destDir,
+    virtual void unarchFile( QStringList *, const QString & _destDir,
                              bool viewFriendly = false );
 
     QString fileName() const { return m_filename; }
@@ -158,6 +164,7 @@ class Arch : public QObject
     void sigAdd( bool );
     void headers( const ColumnList& columns );
     void newEntry( const QStringList& entry );
+    void newEntry( const ArchiveEntry& entry );
 
   protected:  // data
     QString m_filename;

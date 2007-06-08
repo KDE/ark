@@ -26,8 +26,7 @@
 #include "settings.h"
 #include "filelistview.h"
 
-#include <K3ListViewSearchLine>
-
+#include <KTreeWidgetSearchLine>
 #include <KDebug>
 #include <KMenu>
 #include <KMessageBox>
@@ -156,9 +155,9 @@ ArkPart::setupActions()
     selectAllAction = KStandardAction::selectAll(awidget->fileList(), SLOT(selectAll()), actionCollection());
     actionCollection()->addAction("select_all", selectAllAction);
 
-    deselectAllAction  = new KAction(i18n("&Unselect All"), this);
+    deselectAllAction  = new KAction(i18n("&Clear Selection"), this);
     actionCollection()->addAction("deselect_all", deselectAllAction );
-    connect(deselectAllAction, SIGNAL(triggered(bool) ), awidget->fileList(), SLOT(unselectAll()));
+    connect(deselectAllAction, SIGNAL(triggered(bool) ), awidget->fileList(), SLOT(clearSelection()));
 
     invertSelectionAction  = new KAction(i18n("&Invert Selection"), this);
     actionCollection()->addAction("invert_selection", invertSelectionAction );
@@ -442,6 +441,7 @@ void ArkStatusBarExtension::setupStatusBar()
     m_pStatusLabelSelect->setText(i18n( "0 files selected" ) );
 
     m_cancelButton = new QPushButton( SmallIcon( "cancel" ), QString(), statusBar() );
+    m_cancelButton->setObjectName( "Status Bar cancel button" );
 
     addStatusBarItem( m_pStatusLabelSelect, 3000, false );
     addStatusBarItem( m_pStatusLabelTotal, 3000, false );

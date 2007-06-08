@@ -29,22 +29,23 @@ install(TARGETS ark  DESTINATION ${BIN_INSTALL_DIR} )
 set(arkpart_PART_SRCS ${libark_common_SRCS} 
    ark_part.cpp 
    arkfactory.cpp 
-   zip.cpp 
-   tar.cpp 
    filelistview.cpp 
-   archive.cpp 
-   lha.cpp 
-   compressedfile.cpp 
-   zoo.cpp 
-   rar.cpp 
-   ar.cpp 
    arkutils.cpp 
    archiveformatdlg.cpp 
    arkwidget.cpp 
    arkviewer.cpp 
-   sevenzip.cpp 
-   extractiondialog.cpp 
-   ace.cpp )
+   extractiondialog.cpp
+   arch.cpp 
+   tar.cpp 
+   libarchivehandler.cpp
+   #zip.cpp 
+   #lha.cpp 
+   #compressedfile.cpp 
+   #zoo.cpp 
+   #rar.cpp 
+   #ar.cpp 
+   #sevenzip.cpp
+   )
 
 kde4_automoc(${arkpart_PART_SRCS})
 
@@ -53,7 +54,7 @@ kde4_add_ui_files(arkpart_PART_SRCS general.ui )
 kde4_add_plugin(arkpart WITH_PREFIX ${arkpart_PART_SRCS})
 
 
-target_link_libraries(arkpart ${KDE4_KFILE_LIBS})
+target_link_libraries(arkpart ${KDE4_KFILE_LIBS} ${KDE4_THREADWEAVER_LIBRARIES} ${LIBARCHIVE_LIBRARY})
 
 install(TARGETS arkpart  DESTINATION ${PLUGIN_INSTALL_DIR})
 

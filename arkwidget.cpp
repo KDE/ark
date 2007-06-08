@@ -35,7 +35,6 @@
 #include "filelistview.h"
 #include "arkutils.h"
 #include "archiveformatinfo.h"
-#include "compressedfile.h"
 #include "arkviewer.h"
 
 #include <sys/types.h>
@@ -65,7 +64,7 @@
 #include <KFileDialog>
 #include <KDirSelectDialog>
 #include <k3urldrag.h>
-#include <K3ListViewSearchLine>
+#include <KTreeWidgetSearchLine>
 #include <KToolBar>
 #include <KConfigDialog>
 #include <KUrl>
@@ -134,7 +133,7 @@ ArkWidget::ArkWidget( QWidget *parent )
     l1->setObjectName( "kde toolbar widget" );
     m_searchToolBar->addWidget(l1);
 
-    m_searchBar = new K3ListViewSearchLine( m_searchToolBar , 0 );
+    m_searchBar = new KTreeWidgetSearchLine( m_searchToolBar , 0 );
     m_searchToolBar->addWidget(m_searchBar);
 
     l1->setBuddy( m_searchBar );
@@ -144,7 +143,7 @@ ArkWidget::ArkWidget( QWidget *parent )
 
     createFileListView();
 
-    m_searchBar->setListView( m_fileListView );
+    m_searchBar->addTreeWidget( m_fileListView );
 
     // enable DnD
     setAcceptDrops(true);
@@ -185,7 +184,6 @@ void ArkWidget::closeArch()
    if ( m_fileListView )
    {
       m_fileListView->clear();
-      m_fileListView->clearHeaders();
    }
 }
 
@@ -988,6 +986,8 @@ ArkWidget::askToCreateRealArchive()
 void
 ArkWidget::createRealArchive( const QString & strFilename, const QStringList & filesToAdd )
 {
+#warning reimplement?
+#if 0
     Arch * newArch = getNewArchive( strFilename );
     busy( i18n( "Creating archive..." ) );
     if ( !newArch )
@@ -1007,6 +1007,7 @@ ArkWidget::createRealArchive( const QString & strFilename, const QStringList & f
              const QString &, int ) ) );
     file_close();
     newArch->create();
+#endif
 }
 
 void
@@ -1165,7 +1166,6 @@ ArkWidget::slotAddDone(bool _bSuccess)
 {
     disconnect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( slotAddDone( bool ) ) );
     m_fileListView->setUpdatesEnabled(true);
-    m_fileListView->triggerUpdate();
     ready();
 
     if (_bSuccess)
@@ -1252,13 +1252,11 @@ ArkWidget::action_delete()
     }
 
     // Remove the entries from the list view
-    Q3ListViewItemIterator it( m_fileListView );
-    while ( it.current() )
+    QTreeWidgetItemIterator it( m_fileListView, QTreeWidgetItemIterator::Selected );
+    while ( *it )
     {
-        if ( it.current()->isSelected() )
-            delete *it;
-        else
-            ++it;
+        delete *it;
+        ++it;
     }
 
     disableAll();
@@ -1274,7 +1272,6 @@ ArkWidget::slotDeleteDone(bool _bSuccess)
     disconnect( arch, SIGNAL( sigDelete( bool ) ), this, SLOT( slotDeleteDone( bool ) ) );
     kDebug(1601) << "+ArkWidget::slotDeleteDone" << endl;
     m_fileListView->setUpdatesEnabled(true);
-    m_fileListView->triggerUpdate();
     if (_bSuccess)
     {
         m_modified = true;
@@ -1432,7 +1429,7 @@ ArkWidget::action_extract()
     }
 
     //if more than one entry in the archive is root level, suggest a path prefix
-    QString prefix = m_fileListView->childCount() > 1 ?
+    QString prefix = m_fileListView->topLevelItemCount() > 1 ?
                            QChar( '/' ) + guessName( realURL() )
                          : QString();
 
@@ -1719,7 +1716,8 @@ ArkWidget::showCurrentFile()
     if ( !m_fileListView->currentItem() )
         return;
 
-    QString name = m_fileListView->currentItem()->fileName();
+    ArchiveEntry entry = m_fileListView->currentEntry();
+    QString name = entry[ FileName ].toString();
 
     QString fullname;
     fullname = "file:";
@@ -1732,7 +1730,7 @@ ArkWidget::showCurrentFile()
     extractList.append(name);
 
     m_strFileToView = fullname;
-    if (ArkUtils::diskHasSpace( tmpDir(), m_fileListView->currentItem()->fileSize() ) )
+    if (ArkUtils::diskHasSpace( tmpDir(), entry[ Size ].toULongLong() ) )
     {
         disableAll();
         prepareViewFiles( extractList );
@@ -1748,13 +1746,13 @@ ArkWidget::setArchivePopupEnabled( bool b )
 }
 
 void
-ArkWidget::doPopup( Q3ListViewItem *pItem, const QPoint &pPoint, int nCol ) // slot
+ArkWidget::doPopup( QTreeWidgetItem *pItem, const QPoint &pPoint, int nCol ) // slot
 // do the right-click popup menus
 {
     if ( nCol == 0 || !m_bArchivePopupEnabled )
     {
         m_fileListView->setCurrentItem(pItem);
-        m_fileListView->setSelected(pItem, true);
+        pItem->setSelected( true );
         emit signalFilePopup( pPoint );
     }
     else // clicked anywhere else but the name column
@@ -1765,14 +1763,14 @@ ArkWidget::doPopup( Q3ListViewItem *pItem, const QPoint &pPoint, int nCol ) // s
 
 
 void
-ArkWidget::viewFile( Q3ListViewItem* item ) // slot
+ArkWidget::viewFile( QTreeWidgetItem* item ) // slot
 // show contents when double click
 {
     // Preview, if it is a file
     if ( item->childCount() == 0)
         emit action_view();
     else  // Change opened state if it is a dir
-        item->setOpen( !item->isOpen() );
+        item->setExpanded( !item->isExpanded() );
 }
 
 
@@ -1951,36 +1949,6 @@ ArkWidget::dropAction( QStringList  & list )
 }
 
 void
-ArkWidget::startDrag( const QStringList & fileList )
-{
-    mDragFiles = fileList;
-    connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( startDragSlotExtractDone( bool ) ) );
-    prepareViewFiles( fileList );
-}
-
-void
-ArkWidget::startDragSlotExtractDone( bool )
-{
-    disconnect( arch, SIGNAL( sigExtract( bool ) ),
-                this, SLOT( startDragSlotExtractDone( bool ) ) );
-
-    KUrl::List list;
-
-    for (QStringList::Iterator it = mDragFiles.begin(); it != mDragFiles.end(); ++it)
-    {
-        KUrl url;
-        url.setPath( tmpDir() + *it );
-        list.append( url );
-    }
-
-    K3URLDrag *drg = new K3URLDrag(list, m_fileListView->viewport()/*, "Ark Archive Drag"*/ );
-    m_bDropSourceIsSelf = true;
-    drg->dragCopy();
-    m_bDropSourceIsSelf = false;
-}
-
-
-void
 ArkWidget::arkWarning(const QString& msg)
 {
     KMessageBox::information(this, msg);
@@ -1994,16 +1962,12 @@ ArkWidget::createFileListView()
    {
       m_fileListView = new FileListView(this);
 
-      connect( m_fileListView, SIGNAL( selectionChanged() ),
+      connect( m_fileListView, SIGNAL( itemSelectionChanged() ),
                this, SLOT( slotSelectionChanged() ) );
-      connect( m_fileListView, SIGNAL( rightButtonPressed(Q3ListViewItem *, const QPoint &, int) ),
-            this, SLOT(doPopup(Q3ListViewItem *, const QPoint &, int)));
-      connect( m_fileListView, SIGNAL( startDragRequest( const QStringList & ) ),
-            this, SLOT( startDrag( const QStringList & ) ) );
-      connect( m_fileListView, SIGNAL( executed(Q3ListViewItem *, const QPoint &, int ) ),
-            this, SLOT( viewFile(Q3ListViewItem*) ) );
-      connect( m_fileListView, SIGNAL( returnPressed(Q3ListViewItem * ) ),
-            this, SLOT( viewFile(Q3ListViewItem*) ) );
+      connect( m_fileListView, SIGNAL( rightButtonPressed(QTreeWidgetItem *, const QPoint &, int) ),
+            this, SLOT(doPopup(QTreeWidgetItem *, const QPoint &, int)));
+      connect( m_fileListView, SIGNAL( itemActivated( QTreeWidgetItem *, int ) ),
+            this, SLOT( viewFile(QTreeWidgetItem*) ) );
     }
     m_fileListView->clear();
 }
@@ -2148,8 +2112,8 @@ ArkWidget::openArchive( const QString & _filename )
              this, SLOT(slotOpen(Arch *, bool, const QString &,int)) );
     connect( newArch, SIGNAL(headers(const ColumnList&)),
              m_fileListView, SLOT(setHeaders(const ColumnList&)));
-    connect( newArch, SIGNAL( newEntry( const QStringList& ) ),
-             m_fileListView, SLOT( addItem( const QStringList& ) ) );
+    connect( newArch, SIGNAL( newEntry( const ArchiveEntry& ) ),
+             m_fileListView, SLOT( addItem( const ArchiveEntry& ) ) );
 
     disableAll();
 
@@ -2165,7 +2129,6 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
 {
     ready();
     m_fileListView->setUpdatesEnabled(true);
-    m_fileListView->triggerUpdate();
 
     m_fileListView->show();
 
@@ -2188,7 +2151,6 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
             extractOnlyOpenDone();
             return;
         }
-        m_fileListView->adjustColumns();
         emit addOpenArk( _filename );
     }
     else

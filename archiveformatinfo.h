@@ -23,7 +23,7 @@
 #ifndef ARCHIVEFORMATINFO_H
 #define ARCHIVEFORMATINFO_H
 
-#include "archive.h"
+#include "arch.h"
 #include <KMimeType>
 
 class ArchiveFormatInfo
