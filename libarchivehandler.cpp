@@ -32,6 +32,7 @@
 #include <ThreadWeaver/Weaver>
 
 #include <QFile>
+#include <QDir>
 #include <QList>
 #include <QStringList>
 
@@ -80,7 +81,6 @@ class ArchiveListingJob: public ThreadWeaver::Job
 
 			while ( ( result = archive_read_next_header( arch, &entry ) ) == ARCHIVE_OK )
 			{
-				kDebug( 1601 ) << "	libarchive gave us " << archive_entry_pathname( entry ) << endl;
 				ArchiveEntry e;
 				e[ FileName ] = QString( archive_entry_pathname( entry ) );
 				e[ Size ] = ( qlonglong ) archive_entry_size( entry );
@@ -126,8 +126,10 @@ class ExtractionJob: public ThreadWeaver::Job
 	private:
 		bool extractFiles()
 		{
+			QDir::setCurrent( m_directory );
+
 			const bool extractAll = m_entries.isEmpty();
-			struct archive *arch;
+			struct archive *arch, *writer;
 			struct archive_entry *entry;
 
 			arch = archive_read_new();
@@ -135,6 +137,9 @@ class ExtractionJob: public ThreadWeaver::Job
 			{
 				return false;
 			}
+
+			writer = archive_write_disk_new();
+			archive_write_disk_set_options( writer, ARCHIVE_EXTRACT_TIME );
 
 			archive_read_support_compression_all( arch );
 			archive_read_support_format_all( arch );
@@ -151,8 +156,8 @@ class ExtractionJob: public ThreadWeaver::Job
 				QString entryName = QFile::decodeName( archive_entry_pathname( entry ) );
 				if ( m_entries.contains( entryName ) || extractAll )
 				{
-					QString extrPath = m_directory + '/' + entryName;
-					copyData( arch, extrPath );
+					if ( archive_write_header( writer, entry ) == ARCHIVE_OK )
+						copyData( arch, writer );
 					m_entries.removeAll( entryName );
 				}
 				else
@@ -165,23 +170,17 @@ class ExtractionJob: public ThreadWeaver::Job
 			return archive_read_finish( arch ) == ARCHIVE_OK;
 		}
 
-		void copyData( struct archive *arch, QString path )
+		void copyData( struct archive *source, struct archive *dest )
 		{
-			QFile destFile( path );
-			if ( !destFile.open( QIODevice::WriteOnly ) )
-				return;
-
 			const void *buff = 0;
 			size_t size;
 			off_t  offset;
 
-			while ( archive_read_data_block( arch, &buff, &size, &offset ) == ARCHIVE_OK )
+			while ( archive_read_data_block( source, &buff, &size, &offset ) == ARCHIVE_OK )
 			{
 				kDebug( 1601 )  << "	copyData: copying " << size << " from offset " << offset << endl;
-				destFile.write( static_cast<const char *>( buff ), size );
+				archive_write_data_block( dest, buff, size, offset );
 			}
-
-			destFile.close();
 		}
 
 		QString     m_fileName;

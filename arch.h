@@ -66,7 +66,7 @@ enum ArchType { UNKNOWN_FORMAT, ZIP_FORMAT, TAR_FORMAT, AA_FORMAT,
 
 enum EntryMetaDataType { FileName = 0, OriginalFileName = 1, Permissions = 2, Owner = 3,
                          Group = 4, Size = 5, CompressedSize = 6, Link = 7, Ratio = 8,
-                         CRC = 9, Method = 10, Version = 11, Timestamp = 12, Custom = 1048576 };
+                         CRC = 9, Method = 10, Version = 11, Timestamp = 12, IsDirectory = 13, Custom = 1048576 };
 
 typedef QHash<int, QVariant> ArchiveEntry;
 typedef QList< QPair< QString, Qt::AlignmentFlag > > ColumnList;
