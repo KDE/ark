@@ -77,48 +77,48 @@ typedef QList< QPair< QString, Qt::AlignmentFlag > > ColumnList;
  */
 class Arch : public QObject
 {
-  Q_OBJECT
+	Q_OBJECT
 
-  public:
-    Arch( ArkWidget *_viewer, const QString & _fileName );
-    virtual ~Arch();
+	public:
+		Arch( ArkWidget *_viewer, const QString & _fileName );
+		virtual ~Arch();
 
-    virtual void open() = 0;
-    virtual void create() = 0;
-    virtual void remove( const QStringList & ) = 0;
+		virtual void open() = 0;
+		virtual void create() = 0;
+		virtual void remove( const QStringList & ) = 0;
 
-    virtual void addFile( const QStringList & ) = 0;
-    virtual void addDir( const QString & ) = 0;
+		virtual void addFile( const QStringList & ) = 0;
+		virtual void addDir( const QString & ) = 0;
 
-    virtual void extractFile( const QString & fileName, const QString & destinationDir );
-    virtual void extractFiles( const QStringList & fileList, const QString & destinationDir ) = 0;
+		virtual void extractFile( const QString & fileName, const QString & destinationDir );
+		virtual void extractFiles( const QStringList & fileList, const QString & destinationDir ) = 0;
 
-    virtual bool passwordRequired() { return false; }
+		virtual bool passwordRequired() { return false; }
 
-    QString fileName() const { return m_filename; }
+		QString fileName() const { return m_filename; }
 
-    enum EditProperties{ Add = 1, Delete = 2, Extract = 4,
-                         View = 8, Integrity = 16 };
+		enum EditProperties{ Add = 1, Delete = 2, Extract = 4,
+				 View = 8, Integrity = 16 };
 
-    bool isReadOnly() { return m_readOnly; }
-    void setReadOnly( bool readOnly ) { m_readOnly = readOnly; }
+		bool isReadOnly() { return m_readOnly; }
+		void setReadOnly( bool readOnly ) { m_readOnly = readOnly; }
 
-    static Arch *archFactory( ArchType aType, ArkWidget *parent,
-                              const QString &filename,
-                              const QString &openAsMimeType = QString() );
+		static Arch *archFactory( ArchType aType, ArkWidget *parent,
+		                          const QString &filename,
+		                          const QString &openAsMimeType = QString() );
 
-  signals:
-    void sigOpen( Arch * archive, bool success, const QString &filename, int );
-    void sigCreate( Arch *, bool, const QString &, int );
-    void sigDelete( bool );
-    void sigExtract( bool );
-    void sigAdd( bool );
-    void newEntry( const ArchiveEntry& entry );
+	signals:
+		void opened( bool success );
+		void sigCreate( Arch *, bool, const QString &, int );
+		void sigDelete( bool );
+		void sigExtract( bool );
+		void sigAdd( bool );
+		void newEntry( const ArchiveEntry& entry );
 
-  protected:  // data
-    QString m_filename;
-    ArkWidget *m_gui;
-    bool m_readOnly; // for readonly archives
+	protected:
+		QString m_filename;
+		ArkWidget *m_gui;
+		bool m_readOnly; // for readonly archives
 };
 
 // Columns

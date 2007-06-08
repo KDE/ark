@@ -133,7 +133,7 @@ protected slots:
     void viewFile(QTreeWidgetItem*); // doubleClick view files
 
     void slotSelectionChanged();
-    void slotOpen(Arch *, bool, const QString &, int);
+    void slotOpened( bool success );
     void slotCreate(Arch *, bool, const QString &, int);
     void slotDeleteDone(bool);
     void slotExtractDone();

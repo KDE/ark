@@ -201,7 +201,7 @@ void LibArchiveHandler::listingDone( ThreadWeaver::Job *job )
 		emit newEntry( entry );
 	}
 
-	emit sigOpen( this, job->success(), m_filename, Arch::View );
+	emit opened( job->success() );
 	delete job;
 }
 

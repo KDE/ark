@@ -1806,8 +1806,8 @@ ArkWidget::openArchive( const QString & _filename )
 
     m_archType = archtype;
 
-    connect( newArch, SIGNAL(sigOpen(Arch *, bool, const QString &, int)),
-             this, SLOT(slotOpen(Arch *, bool, const QString &,int)) );
+    connect( newArch, SIGNAL( opened( bool ) ),
+             this, SLOT( slotOpened( bool ) ) );
     connect( newArch, SIGNAL( newEntry( const ArchiveEntry& ) ),
              m_fileListView, SLOT( addItem( const ArchiveEntry& ) ) );
 
@@ -1821,16 +1821,16 @@ ArkWidget::openArchive( const QString & _filename )
 }
 
 void
-ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _filename, int )
+ArkWidget::slotOpened( bool success )
 {
     ready();
     m_fileListView->setUpdatesEnabled(true);
 
     m_fileListView->show();
 
-    if ( _success )
+    if ( success )
     {
-        QFileInfo fi( _filename );
+        QFileInfo fi( arch->fileName() );
         QString path = fi.absolutePath();
 
         if ( !fi.isWritable() )
@@ -1847,20 +1847,20 @@ ArkWidget::slotOpen( Arch * /* _newarch */, bool _success, const QString & _file
             extractOnlyOpenDone();
             return;
         }
-        emit addOpenArk( _filename );
+        emit addOpenArk( arch->fileName() );
     }
     else
     {
         emit removeRecentURL( m_realURL );
         emit setWindowCaption( QString() );
-        KMessageBox::error( this, i18n( "An error occurred while trying to open the archive %1", _filename ) );
+        KMessageBox::error( this, i18n( "An error occurred while trying to open the archive %1", arch->fileName() ) );
 
         if ( m_extractOnly )
             emit request_file_quit();
     }
 
     fixEnables();
-    emit openDone( _success );
+    emit openDone( success );
 }
 
 
