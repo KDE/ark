@@ -80,22 +80,6 @@ class Arch : public QObject
 {
   Q_OBJECT
 
-  protected:
-    /**
-     * A struct representing column data. This makes it possible to abstract
-     * archive output, and save writing the same function for every archive
-     * type. It is also much more robust than sscanf (which was breaking).
-     */
-    struct ArchColumns
-    {
-      int colRef; // Which column to load to in processLine
-      QRegExp pattern;
-      int maxLength;
-      bool optional;
-
-      ArchColumns( int col, const QRegExp &reg, int length = 64, bool opt = false );
-    };
-
   public:
     Arch( ArkWidget *_viewer, const QString & _fileName );
     virtual ~Arch();
@@ -107,54 +91,21 @@ class Arch : public QObject
     virtual void addFile( const QStringList & ) = 0;
     virtual void addDir( const QString & ) = 0;
 
-    // unarch the files in m_fileList or all files if m_fileList is empty.
-    // if m_destDir is empty, abort with error.
-    // m_viewFriendly forces certain options like directory junking required by view/edit
-    virtual void unarchFileInternal() = 0;
-    // returns true if a password is required
-    virtual bool passwordRequired() { return false; }
+    virtual void extractFile( const QStringList &, const QString & _destDir ) = 0;
 
-    virtual void unarchFile( QStringList *, const QString & _destDir,
-                             bool viewFriendly = false );
+    virtual bool passwordRequired() { return false; }
 
     QString fileName() const { return m_filename; }
 
     enum EditProperties{ Add = 1, Delete = 2, Extract = 4,
                          View = 8, Integrity = 16 };
 
-    // is the archive readonly?
-    bool isReadOnly() { return m_bReadOnly; }
-    void setReadOnly( bool bVal ) { m_bReadOnly = bVal; }
-
-    bool isError() { return m_error; }
-    void resetError() { m_error = false; }
-
-    // check to see if the utility exists in the PATH of the user
-    void verifyUtilityIsAvailable( const QString &,
-                                   const QString & = QString() );
-
-    bool utilityIsAvailable() { return m_bUtilityIsAvailable; }
-
-    QString getUtility() { return m_archiver_program; }
-
-    void appendShellOutputData( const char * data ) { m_lastShellOutput.append( data ); }
-    void clearShellOutput() { m_lastShellOutput.truncate( 0 ); }
-    const QString& getLastShellOutput() const { return m_lastShellOutput; }
+    bool isReadOnly() { return m_readOnly; }
+    void setReadOnly( bool readOnly ) { m_readOnly = readOnly; }
 
     static Arch *archFactory( ArchType aType, ArkWidget *parent,
                               const QString &filename,
                               const QString &openAsMimeType = QString() );
-
-  protected slots:
-    void slotOpenExited( K3Process* );
-    void slotExtractExited( K3Process* );
-    void slotDeleteExited( K3Process* );
-    void slotAddExited( K3Process* );
-
-    void slotReceivedOutput( K3Process *, char*, int );
-
-    virtual bool processLine( const QByteArray &line );
-    virtual void slotReceivedTOC( K3Process *, char *, int );
 
   signals:
     void sigOpen( Arch * archive, bool success, const QString &filename, int );
@@ -162,38 +113,12 @@ class Arch : public QObject
     void sigDelete( bool );
     void sigExtract( bool );
     void sigAdd( bool );
-    void headers( const ColumnList& columns );
-    void newEntry( const QStringList& entry );
     void newEntry( const ArchiveEntry& entry );
 
   protected:  // data
     QString m_filename;
-    QString m_lastShellOutput;
-    QByteArray m_buffer;
     ArkWidget *m_gui;
-    bool m_bReadOnly; // for readonly archives
-    bool m_error;
-
-    // lets tar delete unsuccessfully before adding without confusing the user
-    bool m_bNotifyWhenDeleteFails;
-
-    // set to whether the archiving utility/utilities is/are in the user's PATH
-    bool m_bUtilityIsAvailable;
-
-    QString m_archiver_program;
-    QString m_unarchiver_program;
-
-    // Archive parsing information
-    QByteArray m_headerString;
-    bool m_header_removed, m_finished;
-    QList<ArchColumns> m_archCols;
-    int m_numCols, m_dateCol, m_fixYear, m_fixMonth, m_fixDay, m_fixTime;
-    int m_repairYear, m_repairMonth, m_repairTime;
-    K3Process *m_currentProcess;
-    QStringList *m_fileList;
-    QString m_destDir;
-    bool m_viewFriendly;
-    QByteArray m_password;
+    bool m_readOnly; // for readonly archives
 };
 
 // Columns

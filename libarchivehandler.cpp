@@ -157,7 +157,6 @@ LibArchiveHandler::LibArchiveHandler( ArkWidget *gui, const QString &filename )
 	: Arch( gui, filename )
 {
 	kDebug( 1601 ) << "libarchive api version = " << archive_api_version() << endl;
-	m_bUtilityIsAvailable = true;
 }
 
 LibArchiveHandler::~LibArchiveHandler()
@@ -199,19 +198,12 @@ void LibArchiveHandler::remove( QStringList* )
 {
 }
 
-void LibArchiveHandler::unarchFileInternal()
+void LibArchiveHandler::extractFile( const QStringList & files, const QString& destinationDir )
 {
-}
-
-void LibArchiveHandler::unarchFile( QStringList *files, const QString& destinationDir, bool /*viewFriendly*/ )
-{
-	if ( files )
-	{
-		ExtractionJob *job = new ExtractionJob( fileName(), *files, destinationDir, this );
-		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
-		         this, SLOT( extractionDone( ThreadWeaver::Job * ) ) );
-		ThreadWeaver::Weaver::instance()->enqueue( job );
-	}
+	ExtractionJob *job = new ExtractionJob( fileName(), files, destinationDir, this );
+	connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
+	         this, SLOT( extractionDone( ThreadWeaver::Job * ) ) );
+	ThreadWeaver::Weaver::instance()->enqueue( job );
 }
 
 void LibArchiveHandler::extractionDone( ThreadWeaver::Job *job )

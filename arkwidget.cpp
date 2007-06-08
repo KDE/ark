@@ -295,7 +295,7 @@ ArkWidget::convertTo( const KUrl & u )
     m_convert_tmpDir =  new KTempDir( tmpDir() + "convtmp" );
     connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( convertSlotExtractDone( bool ) ) );
     m_convert_saveAsURL = u;
-    arch->unarchFile( 0, m_convert_tmpDir->name() );
+    arch->extractFile( QStringList(), m_convert_tmpDir->name() );
 }
 
 void
@@ -509,7 +509,7 @@ ArkWidget::extractToSlotOpenDone( bool success )
         {
             disableAll();
             connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( extractToSlotExtractDone( bool ) ) );
-            arch->unarchFile( 0, extractDir );
+            arch->extractFile( QStringList(), extractDir );
         }
         else
         {
@@ -528,7 +528,6 @@ ArkWidget::extractToSlotExtractDone( bool success )
     disconnect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( extractToSlotExtractDone( bool ) ) );
     if ( !success )
     {
-        kDebug( 1601 ) << "Last Shell Output" << arch->getLastShellOutput() << endl;
         KMessageBox::error( this, i18n( "An error occurred while extracting the archive." ) );
         emit request_file_quit();
         return;
@@ -1340,9 +1339,7 @@ ArkWidget::prepareViewFiles( const QStringList & fileList )
         it != fileList.end(); ++it)
         QFile::remove(destTmpDirectory + *it);
 
-    QStringList * list = new QStringList( fileList );
-    arch->unarchFile( list, destTmpDirectory, true);
-    delete list;
+    arch->extractFile( fileList, destTmpDirectory );
 }
 
 bool
@@ -1506,14 +1503,13 @@ ArkWidget::action_extract()
                     disableAll();
                     busy( i18n( "Extracting..." ) );
                     connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( slotExtractDone() ) );
-                    arch->unarchFile(0, extractDir);
+                    arch->extractFile(QStringList(), extractDir);
                 }
             }
         }
         else
         {
                 KIO::filesize_t nTotalSize = 0;
-                // make a list to send to unarchFile
                 QStringList selectedFiles = m_fileListView->selectedFilenames();
                 for ( QStringList::const_iterator it = selectedFiles.constBegin();
                       it != selectedFiles.constEnd();
@@ -1534,7 +1530,7 @@ ArkWidget::action_extract()
                         busy( i18n( "Extracting..." ) );
                         connect( arch, SIGNAL( sigExtract( bool ) ),
                                  this, SLOT( slotExtractDone() ) );
-                        arch->unarchFile(m_extractList, extractDir); // extract selected files
+                        arch->extractFile(selectedFiles, extractDir); // extract selected files
                     }
                 }
         }
@@ -1988,12 +1984,6 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName, const QString& _mime
         return NULL;
     }
 
-    if (!newArch->utilityIsAvailable())
-    {
-        KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.", newArch->getUtility()));
-        return NULL;
-    }
-
     connect( newArch, SIGNAL(headers(const ColumnList&)),
              m_fileListView, SLOT(setHeaders(const ColumnList&)));
 
@@ -2097,12 +2087,6 @@ ArkWidget::openArchive( const QString & _filename )
         emit setWindowCaption( QString() );
         emit removeRecentURL( m_realURL );
         KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
-        return;
-    }
-
-    if (!newArch->utilityIsAvailable())
-    {
-        KMessageBox::error(this, i18n("The utility %1 is not in your PATH.\nPlease install it or contact your system administrator.", newArch->getUtility()));
         return;
     }
 
