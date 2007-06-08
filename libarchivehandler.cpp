@@ -208,8 +208,8 @@ class ExtractionJob: public ThreadWeaver::Job
 		bool        m_success;
 };
 
-LibArchiveHandler::LibArchiveHandler( ArkWidget *gui, const QString &filename )
-	: Arch( gui, filename )
+LibArchiveHandler::LibArchiveHandler( const QString &filename )
+	: Arch( filename )
 {
 	kDebug( 1601 ) << "libarchive api version = " << archive_api_version() << endl;
 }

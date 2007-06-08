@@ -37,7 +37,7 @@ class LibArchiveHandler: public Arch
 {
 	Q_OBJECT
 	public:
-		LibArchiveHandler( ArkWidget *gui, const QString &filename );
+		LibArchiveHandler( const QString &filename );
 		virtual ~LibArchiveHandler();
 
 		virtual void open();

@@ -50,9 +50,8 @@
 // the archive types
 #include "libarchivehandler.h"
 
-Arch::Arch( ArkWidget *gui, const QString &filename )
-  : m_filename( filename ), m_gui( gui ),
-    m_readOnly( false )
+Arch::Arch( const QString &filename )
+	: m_filename( filename ), m_readOnly( false )
 {
 }
 
@@ -68,9 +67,9 @@ void Arch::extractFile( const QString & fileName, const QString & destinationDir
 }
 
 Arch *Arch::archFactory( ArchType /*aType*/,
-                         ArkWidget *parent, const QString &filename,
+                         const QString &filename,
                          const QString &/*openAsMimeType*/ )
 {
-	return new LibArchiveHandler( parent, filename );
+	return new LibArchiveHandler( filename );
 }
 #include "arch.moc"

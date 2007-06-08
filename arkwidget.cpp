@@ -1693,8 +1693,7 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName, const QString& _mime
     QString type = _mimetype.isNull()? KMimeType::findByUrl( KUrl::fromPath(_fileName) )->name() : _mimetype;
     ArchType archtype = ArchiveFormatInfo::self()->archTypeForMimeType(type);
     kDebug( 1601 ) << "archtype is recognised as: " << archtype << endl;
-    if(0 == (newArch = Arch::archFactory(archtype, this,
-                                         _fileName, _mimetype)))
+    if(0 == (newArch = Arch::archFactory(archtype, _fileName, _mimetype)))
     {
         KMessageBox::error(this, i18n("Unknown archive format or corrupted archive") );
         emit request_file_quit();
@@ -1795,8 +1794,7 @@ ArkWidget::openArchive( const QString & _filename )
     }
 
     kDebug( 1601 ) << "m_openAsMimeType is: " << m_openAsMimeType << endl;
-    if( 0 == ( newArch = Arch::archFactory( archtype, this,
-                                            _filename, m_openAsMimeType) ) )
+    if( 0 == ( newArch = Arch::archFactory( archtype, _filename, m_openAsMimeType) ) )
     {
         emit setWindowCaption( QString() );
         emit removeRecentURL( m_realURL );

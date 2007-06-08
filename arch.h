@@ -6,6 +6,7 @@
  Copyright (C) 1999 Francois-Xavier Duranceau <duranceau@kde.org>
  Copyright (C) 1999-2000 Corel Corporation (author: Emily Ezust <emilye@corel.com>)
  Copyright (C) 2001 Corel Corporation (author: Michael Jarrett <michaelj@corel.com>)
+ Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -23,27 +24,6 @@
 
 */
 
-/* The following class is the base class for all of the archive types.
- * In order for it to work properly with the K3Process, you have to
- * connect the ProcessExited signal appropriately before spawning
- * the core operations. Then the signal that the process exited can
- * be intercepted by the viewer (in ark, ArkWidget) and dealt with
- * appropriately. See LhaArch or ZipArch for a good model. Don't use
- * TarArch or CompressedFile as models - they're too complicated!
- *
- * Don't forget to set m_archiver_program and m_unarchiver_program
- * and add a call to
- *     verifyUtilityIsAvailable(m_archiver_program, m_unarchiver_program);
- * in the constructor of your class. It's OK to leave out the second argument.
- *
- * To add a new archive type:
- * 1. Create a new header file and a source code module
- * 2. Add an entry to the ArchType enum in arch.h.
- * 3. Add appropriate types to buildFormatInfo() in archiveformatinfo.cpp
- *    and archFactory() in arch.cpp
- */
-
-
 #ifndef ARCH_H
 #define ARCH_H
 
@@ -55,7 +35,6 @@
 
 #include <KUrl>
 
-class QByteArray;
 class QStringList;
 
 class ArkWidget;
@@ -80,7 +59,7 @@ class Arch : public QObject
 	Q_OBJECT
 
 	public:
-		Arch( ArkWidget *_viewer, const QString & _fileName );
+		Arch( const QString & _fileName );
 		virtual ~Arch();
 
 		virtual void open() = 0;
@@ -103,7 +82,7 @@ class Arch : public QObject
 		bool isReadOnly() { return m_readOnly; }
 		void setReadOnly( bool readOnly ) { m_readOnly = readOnly; }
 
-		static Arch *archFactory( ArchType aType, ArkWidget *parent,
+		static Arch *archFactory( ArchType aType,
 		                          const QString &filename,
 		                          const QString &openAsMimeType = QString() );
 
@@ -117,7 +96,6 @@ class Arch : public QObject
 
 	protected:
 		QString m_filename;
-		ArkWidget *m_gui;
 		bool m_readOnly; // for readonly archives
 };
 
