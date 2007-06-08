@@ -54,8 +54,6 @@
 #include <KDebug>
 #include <KLocale>
 #include <KMessageBox>
-#include <kio/netaccess.h>
-#include <kio/copyjob.h>
 #include <KOpenWithDialog>
 #include <KMimeType>
 #include <KStandardDirs>
@@ -68,7 +66,9 @@
 #include <KUrl>
 #include <KServiceTypeTrader>
 #include <KRun>
-#include <kio/jobuidelegate.h>
+#include <KIO/JobUiDelegate>
+#include <KIO/NetAccess>
+#include <KIO/CopyJob>
 
 // settings
 #include "settings.h"
@@ -1414,7 +1414,7 @@ ArkWidget::action_extract()
     {
         //m_extractURL will always be the location the user chose to
         //m_extract to, whether local or remote
-        m_extractURL = dlg->extractionDirectory();
+        m_extractURL = KIO::NetAccess::mostLocalUrl( dlg->extractionDirectory(), this );
 
         //extractDir will either be the real, local extract dir,
         //or in case of a extract to remote location, a local tmp dir
