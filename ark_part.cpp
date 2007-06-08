@@ -49,7 +49,7 @@
 KAboutData *ArkPart::createAboutData()
 {
     KAboutData *about = new KAboutData("ark", I18N_NOOP("ark"),
-                                       "1.0",
+                                       "3.0",
                                        I18N_NOOP("Ark KParts Component"),
                                        KAboutData::License_GPL,
                                        I18N_NOOP( "(c) 1997-2003, The Various Ark Developers" ));
@@ -67,8 +67,7 @@ KAboutData *ArkPart::createAboutData()
 
 
 
-ArkPart::ArkPart( QWidget *parentWidget, QObject *parent,
-				  const QStringList &, bool readWrite )
+ArkPart::ArkPart( QWidget *parentWidget, QObject *parent, const QStringList &, bool readWrite )
         : KParts::ReadWritePart(parent)
 {
     setComponentData(ArkFactory::componentData());

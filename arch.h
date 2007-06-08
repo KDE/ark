@@ -58,10 +58,17 @@ class Arch : public QObject
 {
 	Q_OBJECT
 
-	public:
+	protected:
+		/* Creates an object representing an archive for _fileName */
 		Arch( const QString & _fileName );
+
+	public:
 		virtual ~Arch();
 
+		/* Starts an open() operation.
+		 * This should list all archive entries ( by emmiting newEntry() ) and then emit
+		 * opened() so that the GUI can know that the operation is over.
+		 */
 		virtual void open() = 0;
 		virtual void create() = 0;
 		virtual void remove( const QStringList & ) = 0;
@@ -75,9 +82,6 @@ class Arch : public QObject
 		virtual bool passwordRequired() { return false; }
 
 		QString fileName() const { return m_filename; }
-
-		enum EditProperties{ Add = 1, Delete = 2, Extract = 4,
-				 View = 8, Integrity = 16 };
 
 		bool isReadOnly() { return m_readOnly; }
 		void setReadOnly( bool readOnly ) { m_readOnly = readOnly; }
