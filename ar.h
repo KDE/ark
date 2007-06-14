@@ -26,7 +26,6 @@
 #define ARARCH_H
 
 #include "archive.h"
-#include <QStringList>
 #include <QByteArray>
 
 class QString;
