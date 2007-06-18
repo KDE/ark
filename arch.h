@@ -31,6 +31,7 @@
 #include <QList>
 #include <QPair>
 #include <QRegExp>
+#include <QHash>
 #include <QVariant>
 
 #include <KUrl>

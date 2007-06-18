@@ -1821,6 +1821,7 @@ ArkWidget::openArchive( const QString & _filename )
 void
 ArkWidget::slotOpened( bool success )
 {
+    kDebug( 1601 ) << k_funcinfo << " success = " << success << endl;
     ready();
     m_fileListView->setUpdatesEnabled(true);
 

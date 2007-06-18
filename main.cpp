@@ -43,6 +43,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <KLocale>
 
 // ark includes
+#include "arch.h"
 #include "arkapp.h"
 
 static KCmdLineOptions option[] =
@@ -105,6 +106,8 @@ extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( option );
 	KCmdLineArgs::addTempFileOption();
+
+	qRegisterMetaType<ArchiveEntry>( "ArchiveEntry" );
 
 	if ( !ArkApplication::start() )
 	{

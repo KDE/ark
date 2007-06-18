@@ -24,6 +24,7 @@
  */
 
 #include "libarchivehandler.h"
+#include "jobs.h"
 #include "settings.h"
 
 #include <archive.h>
@@ -38,81 +39,6 @@
 #include <QList>
 #include <QStringList>
 #include <QDateTime>
-
-class ArchiveListingJob: public ThreadWeaver::Job
-{
-	public:
-		ArchiveListingJob( const QString& fileName, QObject *parent = 0 )
-			: Job( parent ), m_fileName( fileName ), m_success( false )
-		{
-		}
-
-		QList<ArchiveEntry> entries() const { return m_entries; }
-
-		virtual bool success() const { return m_success; }
-
-	protected:
-		void run()
-		{
-			m_success = listEntries();
-			kDebug( 1601 ) << k_funcinfo << "listEntries() returned " << m_success << endl;
-		}
-
-		bool listEntries()
-		{
-			struct archive *arch;
-			struct archive_entry *entry;
-			int result;
-
-			arch = archive_read_new();
-			if ( !arch )
-				return false;
-
-			result = archive_read_support_compression_all( arch );
-			if ( result != ARCHIVE_OK ) return false;
-
-			result = archive_read_support_format_all( arch );
-			if ( result != ARCHIVE_OK ) return false;
-
-			result = archive_read_open_filename( arch, QFile::encodeName( m_fileName ), 4096 );
-
-			if ( result != ARCHIVE_OK )
-			{
-				kDebug( 1601 ) << "Couldn't open the file '" << m_fileName << "', libarchive can't handle it." << endl;
-				return false;
-			}
-
-			while ( ( result = archive_read_next_header( arch, &entry ) ) == ARCHIVE_OK )
-			{
-				ArchiveEntry e;
-				e[ FileName ] = QString( archive_entry_pathname( entry ) );
-				e[ OriginalFileName ] = QByteArray( archive_entry_pathname( entry ) );
-				e[ Owner ] = QString( archive_entry_uname( entry ) );
-				e[ Group ] = QString( archive_entry_gname( entry ) );
-				kDebug( 1601 ) << "Entry: " << e[ FileName ] << ", Owner = " << e[ Owner ] << endl;
-				e[ Size ] = ( qlonglong ) archive_entry_size( entry );
-				if ( archive_entry_symlink( entry ) )
-				{
-					e[ Link ] = archive_entry_symlink( entry );
-				}
-				e[ Timestamp ] = QDateTime::fromTime_t( archive_entry_mtime( entry ) );
-				m_entries.append( e );
-				archive_read_data_skip( arch );
-			}
-
-			if ( result != ARCHIVE_EOF )
-			{
-				return false;
-			}
-
-			return archive_read_finish( arch ) == ARCHIVE_OK;
-		}
-
-	private:
-		QString m_fileName;
-		QList<ArchiveEntry> m_entries;
-		bool m_success;
-};
 
 class ExtractionJob: public ThreadWeaver::Job
 {
@@ -226,19 +152,17 @@ LibArchiveHandler::~LibArchiveHandler()
 
 void LibArchiveHandler::open()
 {
-	ArchiveListingJob *job = new ArchiveListingJob( fileName(), this );
+	ListingJob *job = new ListingJob( new LibArchiveInterface( fileName(), this ) );
+
 	connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
 	         this, SLOT( listingDone( ThreadWeaver::Job * ) ) );
+	connect( job, SIGNAL( entry( const ArchiveEntry & ) ),
+	         this, SIGNAL( newEntry( const ArchiveEntry & ) ) );
 	ThreadWeaver::Weaver::instance()->enqueue( job );
 }
 
 void LibArchiveHandler::listingDone( ThreadWeaver::Job *job )
 {
-	foreach( ArchiveEntry entry, static_cast<ArchiveListingJob*>( job )->entries() )
-	{
-		emit newEntry( entry );
-	}
-
 	emit opened( job->success() );
 	delete job;
 }
@@ -271,6 +195,71 @@ void LibArchiveHandler::extractionDone( ThreadWeaver::Job *job )
 {
 	emit sigExtract( job->success() );
 	delete job;
+}
+
+LibArchiveInterface::LibArchiveInterface( const QString & filename, QObject *parent )
+	: ReadOnlyArchiveInterface( filename, parent )
+{
+}
+
+LibArchiveInterface::~LibArchiveInterface()
+{
+}
+
+bool LibArchiveInterface::list()
+{
+	struct archive *arch;
+	struct archive_entry *aentry;
+	int result;
+
+	arch = archive_read_new();
+	if ( !arch )
+		return false;
+
+	result = archive_read_support_compression_all( arch );
+	if ( result != ARCHIVE_OK ) return false;
+
+	result = archive_read_support_format_all( arch );
+	if ( result != ARCHIVE_OK ) return false;
+
+	result = archive_read_open_filename( arch, QFile::encodeName( filename() ), 10240 );
+
+	if ( result != ARCHIVE_OK )
+	{
+		error( QString( "Couldn't open the file '%1', libarchive can't handle it." ).arg( filename() ), QString() );
+		return false;
+	}
+
+	while ( ( result = archive_read_next_header( arch, &aentry ) ) == ARCHIVE_OK )
+	{
+		ArchiveEntry e;
+		e[ FileName ] = QString( archive_entry_pathname( aentry ) );
+		e[ OriginalFileName ] = QByteArray( archive_entry_pathname( aentry ) );
+		e[ Owner ] = QString( archive_entry_uname( aentry ) );
+		e[ Group ] = QString( archive_entry_gname( aentry ) );
+		kDebug( 1601 ) << "Entry: " << e[ FileName ] << ", Owner = " << e[ Owner ] << endl;
+		e[ Size ] = ( qlonglong ) archive_entry_size( aentry );
+		if ( archive_entry_symlink( aentry ) )
+		{
+			e[ Link ] = archive_entry_symlink( aentry );
+		}
+		e[ Timestamp ] = QDateTime::fromTime_t( archive_entry_mtime( aentry ) );
+		entry( e );
+		archive_read_data_skip( arch );
+	}
+
+	if ( result != ARCHIVE_EOF )
+	{
+		return false;
+	}
+
+	return archive_read_finish( arch ) == ARCHIVE_OK;
+}
+
+bool LibArchiveInterface::copyFiles( const QStringList & files, const QString & destinationDirectory )
+{
+	error( "Not implemented yet", QString() );
+	return false;
 }
 
 #include "libarchivehandler.moc"

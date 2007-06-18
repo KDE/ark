@@ -146,6 +146,7 @@ ArchiveEntry FileListView::item( const QString& filename )
 
 void FileListView::addItem( const ArchiveEntry & entry )
 {
+	kDebug( 1601 ) << k_funcinfo << endl;
 	QTreeWidgetItem *item = new QTreeWidgetItem( this );
 
 	m_entryMap[ item ] = entry;

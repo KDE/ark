@@ -23,46 +23,60 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LIBARCHIVEHANDLER_H
-#define LIBARCHIVEHANDLER_H
+#ifndef JOBS_H
+#define JOBS_H
 
-#include "arch.h"
+#include <ThreadWeaver/Job>
+#include <ThreadWeaver/Weaver>
+
 #include "archiveinterface.h"
+#include <QList>
 
-namespace ThreadWeaver
-{
-	class Job;
-} // namespace ThreadWeaver
-
-class LibArchiveInterface: public ReadOnlyArchiveInterface
+class ListingJobHelper: public QObject, public ArchiveObserver
 {
 	Q_OBJECT
 	public:
-		LibArchiveInterface( const QString & filename, QObject *parent = 0 );
-		~LibArchiveInterface();
+		ListingJobHelper( ReadOnlyArchiveInterface *archive, QObject *parent = 0 );
+		~ListingJobHelper();
 
-		bool list();
-		bool copyFiles( const QStringList & files, const QString & destinationDirectory );
-};
+		bool getTheListing();
 
-class LibArchiveHandler: public Arch
-{
-	Q_OBJECT
-	public:
-		LibArchiveHandler( const QString &filename );
-		virtual ~LibArchiveHandler();
+		void onError( const QString & message, const QString & details );
+		void onEntry( const ArchiveEntry & archiveEntry );
+		void onProgress( double );
 
-		virtual void open();
-		virtual void create();
-
-		virtual void addFile( const QStringList & );
-		virtual void addDir( const QString & );
-		virtual void remove( const QStringList & );
-		virtual void extractFiles( const QStringList & files, const QString& destinationDir );
+	signals:
+		void entry( const ArchiveEntry & );
+		void progress( double );
 
 	private slots:
-		void listingDone( ThreadWeaver::Job* );
-		void extractionDone( ThreadWeaver::Job* );
+		void entryslot( const ArchiveEntry & );
+
+	private:
+		ReadOnlyArchiveInterface *m_archive;
 };
 
-#endif // LIBARCHIVEHANDLER_H
+class ListingJob: public ThreadWeaver::Job
+{
+	Q_OBJECT
+	public:
+		ListingJob( ReadOnlyArchiveInterface *archive, QObject *parent = 0 );
+		~ListingJob();
+
+		bool success() const { return m_success; }
+	protected:
+		void run();
+
+	signals:
+		void entry( const ArchiveEntry & );
+		//void entries( const QList<ArchiveEntry & );
+		void progress( double );
+
+	private:
+		QList<ArchiveEntry>       m_entries;
+		ListingJobHelper         *m_helper;
+		ReadOnlyArchiveInterface *m_archive;
+		bool                      m_success;
+};
+
+#endif // JOBS_H
