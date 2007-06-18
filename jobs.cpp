@@ -24,6 +24,7 @@
  */
 
 #include "jobs.h"
+#include "jobs_p.h"
 #include <kdebug.h>
 
 ListingJob::ListingJob( ReadOnlyArchiveInterface *archive, QObject *parent )
@@ -39,7 +40,7 @@ ListingJob::~ListingJob()
 
 void ListingJob::run()
 {
-	m_helper = new ListingJobHelper( m_archive );
+	m_helper = new ArchiveJobHelper( m_archive );
 	connect( m_helper, SIGNAL( entry( const ArchiveEntry & ) ),
 	         this, SIGNAL( entry( const ArchiveEntry & ) ) );
 	connect( m_helper, SIGNAL( progress( double ) ),
@@ -47,16 +48,39 @@ void ListingJob::run()
 	m_success = m_helper->getTheListing();
 }
 
-ListingJobHelper::ListingJobHelper( ReadOnlyArchiveInterface *archive, QObject *parent )
+ExtractionJob::ExtractionJob( ReadOnlyArchiveInterface *archive, const QStringList & files, const QString & destinationDirectory, QObject *parent )
+	: ThreadWeaver::Job( parent ), m_archive( archive ), m_files( files ), m_destinationDirectory( destinationDirectory ),
+	  m_helper( 0 ), m_success( false )
+{
+
+}
+
+ExtractionJob::~ExtractionJob()
+{
+	delete m_helper;
+	m_helper = 0;
+}
+
+void ExtractionJob::run()
+{
+	m_helper = new ArchiveJobHelper( m_archive );
+	connect( m_helper, SIGNAL( progress( double ) ),
+	         this, SIGNAL( progress( double ) ) );
+	m_archive->registerObserver( m_helper );
+	m_success = m_archive->copyFiles( m_files, m_destinationDirectory );
+	m_archive->removeObserver( m_helper );
+}
+
+ArchiveJobHelper::ArchiveJobHelper( ReadOnlyArchiveInterface *archive, QObject *parent )
 	: QObject( parent ), m_archive( archive )
 {
 }
 
-ListingJobHelper::~ListingJobHelper()
+ArchiveJobHelper::~ArchiveJobHelper()
 {
 }
 
-bool ListingJobHelper::getTheListing()
+bool ArchiveJobHelper::getTheListing()
 {
 	m_archive->registerObserver( this );
 	bool result = m_archive->list();
@@ -64,25 +88,26 @@ bool ListingJobHelper::getTheListing()
 	return result;
 }
 
-void ListingJobHelper::onError( const QString & message, const QString & details )
+void ArchiveJobHelper::onError( const QString & message, const QString & details )
 {
 	// TODO: do something
 }
 
-void ListingJobHelper::onEntry( const ArchiveEntry & archiveEntry )
+void ArchiveJobHelper::onEntry( const ArchiveEntry & archiveEntry )
 {
 	emit entry( archiveEntry );
 }
 
-void ListingJobHelper::onProgress( double d )
+void ArchiveJobHelper::onProgress( double d )
 {
 	emit progress( d );
 }
 
 
-void ListingJobHelper::entryslot( const ArchiveEntry & e )
+void ArchiveJobHelper::entryslot( const ArchiveEntry & e )
 {
 	kDebug( 1601 ) << k_funcinfo << "Entry: " << e[ FileName ] << ", Owner = " << e[ Owner ] << endl;
 }
 
 #include "jobs.moc"
+#include "jobs_p.moc"

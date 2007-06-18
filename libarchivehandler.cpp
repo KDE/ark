@@ -40,106 +40,6 @@
 #include <QStringList>
 #include <QDateTime>
 
-class ExtractionJob: public ThreadWeaver::Job
-{
-	public:
-		ExtractionJob( const QString & fileName, const QStringList & entries, const QString & baseDirectory, QObject *parent = 0 )
-			: ThreadWeaver::Job( parent ), m_fileName( fileName ), m_entries( entries ),
-			  m_directory( baseDirectory ), m_success( false )
-		{
-		}
-
-		bool success() const { return m_success; }
-	protected:
-		void run()
-		{
-			kDebug( 1601 ) << "ExtractionJob::run() will try to extract " << m_entries << endl;
-			m_success = extractFiles();
-		}
-
-	private:
-		int flags()
-		{
-			int result = ARCHIVE_EXTRACT_TIME;
-
-			if ( ArkSettings::preservePerms() )
-			{
-				result &= ARCHIVE_EXTRACT_PERM;
-			}
-
-			if ( !ArkSettings::extractOverwrite() )
-			{
-				result &= ARCHIVE_EXTRACT_NO_OVERWRITE;
-			}
-
-			return result;
-		}
-
-		bool extractFiles()
-		{
-			QDir::setCurrent( m_directory );
-
-			const bool extractAll = m_entries.isEmpty();
-			struct archive *arch, *writer;
-			struct archive_entry *entry;
-
-			arch = archive_read_new();
-			if ( !arch )
-			{
-				return false;
-			}
-
-			writer = archive_write_disk_new();
-			archive_write_disk_set_options( writer, flags() );
-
-			archive_read_support_compression_all( arch );
-			archive_read_support_format_all( arch );
-			int res = archive_read_open_filename( arch, QFile::encodeName( m_fileName ), 10240 );
-
-			if ( res != ARCHIVE_OK )
-			{
-				kDebug( 1601 ) << "Couldn't open the file '" << m_fileName << "', libarchive can't handle it." << endl;
-				return false;
-			}
-
-			while ( archive_read_next_header( arch, &entry ) == ARCHIVE_OK )
-			{
-				QString entryName = QFile::decodeName( archive_entry_pathname( entry ) );
-				if ( m_entries.contains( entryName ) || extractAll )
-				{
-					if ( archive_write_header( writer, entry ) == ARCHIVE_OK )
-						copyData( arch, writer );
-					m_entries.removeAll( entryName );
-				}
-				else
-				{
-					kDebug( 1601 ) << entryName << " matches no requested file. " << endl;
-					archive_read_data_skip( arch );
-				}
-			}
-			if ( m_entries.size() > 0 ) return false;
-			return archive_read_finish( arch ) == ARCHIVE_OK;
-		}
-
-		void copyData( struct archive *source, struct archive *dest )
-		{
-			const void *buff = 0;
-			size_t size;
-			off_t  offset;
-
-			while ( archive_read_data_block( source, &buff, &size, &offset ) == ARCHIVE_OK )
-			{
-				kDebug( 1601 )  << "	copyData: copying " << size << " from offset " << offset << endl;
-				archive_write_data_block( dest, buff, size, offset );
-			}
-		}
-
-		QString     m_fileName;
-		QStringList m_entries;
-		QString     m_directory;
-		bool        m_success;
-};
-
 LibArchiveHandler::LibArchiveHandler( const QString &filename )
 	: Arch( filename )
 {
@@ -185,7 +85,7 @@ void LibArchiveHandler::remove( const QStringList & )
 
 void LibArchiveHandler::extractFiles( const QStringList & files, const QString& destinationDir )
 {
-	ExtractionJob *job = new ExtractionJob( fileName(), files, destinationDir, this );
+	ExtractionJob *job = new ExtractionJob( new LibArchiveInterface( fileName(), this ), files, destinationDir, this );
 	connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
 	         this, SLOT( extractionDone( ThreadWeaver::Job * ) ) );
 	ThreadWeaver::Weaver::instance()->enqueue( job );
@@ -258,8 +158,81 @@ bool LibArchiveInterface::list()
 
 bool LibArchiveInterface::copyFiles( const QStringList & files, const QString & destinationDirectory )
 {
-	error( "Not implemented yet", QString() );
-	return false;
+	QDir::setCurrent( destinationDirectory );
+
+	const bool extractAll = files.isEmpty();
+	struct archive *arch, *writer;
+	struct archive_entry *entry;
+
+	QStringList entries = files;
+
+	arch = archive_read_new();
+	if ( !arch )
+	{
+		return false;
+	}
+
+	writer = archive_write_disk_new();
+	archive_write_disk_set_options( writer, extractionFlags() );
+
+	archive_read_support_compression_all( arch );
+	archive_read_support_format_all( arch );
+	int res = archive_read_open_filename( arch, QFile::encodeName( filename() ), 10240 );
+
+	if ( res != ARCHIVE_OK )
+	{
+		kDebug( 1601 ) << "Couldn't open the file '" << filename() << "', libarchive can't handle it." << endl;
+		return false;
+	}
+
+	while ( archive_read_next_header( arch, &entry ) == ARCHIVE_OK )
+	{
+		QString entryName = QFile::decodeName( archive_entry_pathname( entry ) );
+		if ( entries.contains( entryName ) || extractAll )
+		{
+			if ( archive_write_header( writer, entry ) == ARCHIVE_OK )
+				copyData( arch, writer );
+			entries.removeAll( entryName );
+		}
+		else
+		{
+			kDebug( 1601 ) << entryName << " matches no requested file. " << endl;
+			archive_read_data_skip( arch );
+		}
+	}
+	if ( entries.size() > 0 ) return false;
+	return archive_read_finish( arch ) == ARCHIVE_OK;
+}
+
+
+int LibArchiveInterface::extractionFlags() const
+{
+	int result = ARCHIVE_EXTRACT_TIME;
+
+	if ( ArkSettings::preservePerms() )
+	{
+		result &= ARCHIVE_EXTRACT_PERM;
+	}
+
+	if ( !ArkSettings::extractOverwrite() )
+	{
+		result &= ARCHIVE_EXTRACT_NO_OVERWRITE;
+	}
+
+	return result;
+}
+
+void LibArchiveInterface::copyData( struct archive *source, struct archive *dest )
+{
+	const void *buff = 0;
+	size_t size;
+	off_t  offset;
+
+	while ( archive_read_data_block( source, &buff, &size, &offset ) == ARCHIVE_OK )
+	{
+		kDebug( 1601 )  << "	copyData: copying " << size << " from offset " << offset << endl;
+		archive_write_data_block( dest, buff, size, offset );
+	}
 }
 
 #include "libarchivehandler.moc"

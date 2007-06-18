@@ -32,29 +32,7 @@
 #include "archiveinterface.h"
 #include <QList>
 
-class ListingJobHelper: public QObject, public ArchiveObserver
-{
-	Q_OBJECT
-	public:
-		ListingJobHelper( ReadOnlyArchiveInterface *archive, QObject *parent = 0 );
-		~ListingJobHelper();
-
-		bool getTheListing();
-
-		void onError( const QString & message, const QString & details );
-		void onEntry( const ArchiveEntry & archiveEntry );
-		void onProgress( double );
-
-	signals:
-		void entry( const ArchiveEntry & );
-		void progress( double );
-
-	private slots:
-		void entryslot( const ArchiveEntry & );
-
-	private:
-		ReadOnlyArchiveInterface *m_archive;
-};
+class ArchiveJobHelper;
 
 class ListingJob: public ThreadWeaver::Job
 {
@@ -74,8 +52,31 @@ class ListingJob: public ThreadWeaver::Job
 
 	private:
 		QList<ArchiveEntry>       m_entries;
-		ListingJobHelper         *m_helper;
+		ArchiveJobHelper         *m_helper;
 		ReadOnlyArchiveInterface *m_archive;
+		bool                      m_success;
+};
+
+class ExtractionJob: public ThreadWeaver::Job
+{
+	Q_OBJECT
+	public:
+		ExtractionJob( ReadOnlyArchiveInterface *archive, const QStringList & files, const QString & destinationDirectory, QObject *parent = 0 );
+		~ExtractionJob();
+
+		bool success() const { return m_success; }
+
+	protected:
+		void run();
+
+	signals:
+		void progress( double p );
+
+	private:
+		ReadOnlyArchiveInterface *m_archive;
+		QStringList               m_files;
+		QString                   m_destinationDirectory;
+		ArchiveJobHelper         *m_helper;
 		bool                      m_success;
 };
 
