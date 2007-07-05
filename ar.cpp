@@ -106,7 +106,6 @@ void ArArch::open()
 void ArArch::create()
 {
   K3Process *kp = m_currentProcess = new K3Process;
-  kp->clearArguments();
   *kp << m_archiver_program << "c" << m_filename;
 
   connect( kp, SIGNAL(receivedStdout(K3Process*, char*, int)),

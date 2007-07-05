@@ -265,20 +265,16 @@ void CompressedFile::addFile( const QStringList &urls )
   QString file;
   file = url.path();
 
-  K3Process proc;
-  proc << "cp" << file << m_tmpdir;
-  proc.start(K3Process::Block);
+  m_tmpfile = m_tmpdir + '/' + file.mid(file.lastIndexOf('/')+1);
 
-  m_tmpfile = file.right(file.length()
-			 - file.lastIndexOf('/')-1);
-  m_tmpfile = m_tmpdir + '/' + m_tmpfile;
+  QFile::remove(m_tmpfile);
+  QFile::copy(file, m_tmpfile);
 
   kDebug(1601) << "Temp file name is " << m_tmpfile << endl;
 
   kDebug(1601) << "File is " << file << endl;
 
   K3Process *kp = m_currentProcess = new K3Process;
-  kp->clearArguments();
 
   // lzop hack, see comment in tar.cpp createTmp()
   if ( m_archiver_program == "lzop")
@@ -333,18 +329,15 @@ void CompressedFile::unarchFileInternal()
 {
   if (m_destDir != m_tmpdir)
     {
-      QString dest;
-      if (m_destDir.isEmpty() || m_destDir.isNull())
+      if (m_destDir.isEmpty())
       {
           kError(1601) << "There was no extract directory given." << endl;
           return;
       }
-      else
-          dest=m_destDir;
 
-      K3Process proc;
-      proc << "cp" << m_tmpfile << dest;
-      proc.start(K3Process::Block);
+      QString dest = m_destDir + '/' + m_tmpfile.mid(m_tmpfile.lastIndexOf('/')+1);
+      QFile::remove(dest);
+      QFile::copy(m_tmpfile, dest);
     }
   emit sigExtract(true);
 }
