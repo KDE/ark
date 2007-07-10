@@ -61,7 +61,7 @@ class ExtractionJob: public ThreadWeaver::Job
 {
 	Q_OBJECT
 	public:
-		ExtractionJob( ReadOnlyArchiveInterface *archive, const QStringList & files, const QString & destinationDirectory, QObject *parent = 0 );
+		ExtractionJob( ReadOnlyArchiveInterface *archive, const QList<QVariant> & files, const QString & destinationDirectory, QObject *parent = 0 );
 		~ExtractionJob();
 
 		bool success() const { return m_success; }
@@ -74,7 +74,7 @@ class ExtractionJob: public ThreadWeaver::Job
 
 	private:
 		ReadOnlyArchiveInterface *m_archive;
-		QStringList               m_files;
+		QList<QVariant>           m_files;
 		QString                   m_destinationDirectory;
 		ArchiveJobHelper         *m_helper;
 		bool                      m_success;

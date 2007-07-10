@@ -42,7 +42,7 @@ class LibArchiveInterface: public ReadOnlyArchiveInterface
 		~LibArchiveInterface();
 
 		bool list();
-		bool copyFiles( const QStringList & files, const QString & destinationDirectory );
+		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory );
 
 	private:
 		int extractionFlags() const;

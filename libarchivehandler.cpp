@@ -85,7 +85,13 @@ void LibArchiveHandler::remove( const QStringList & )
 
 void LibArchiveHandler::extractFiles( const QStringList & files, const QString& destinationDir )
 {
-	ExtractionJob *job = new ExtractionJob( new LibArchiveInterface( fileName(), this ), files, destinationDir, this );
+	QList<QVariant> entries;
+	foreach( QString file, files )
+	{
+		entries << file;
+	}
+
+	ExtractionJob *job = new ExtractionJob( new LibArchiveInterface( fileName(), this ), entries, destinationDir, this );
 	connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
 	         this, SLOT( extractionDone( ThreadWeaver::Job * ) ) );
 	ThreadWeaver::Weaver::instance()->enqueue( job );
@@ -156,7 +162,7 @@ bool LibArchiveInterface::list()
 	return archive_read_finish( arch ) == ARCHIVE_OK;
 }
 
-bool LibArchiveInterface::copyFiles( const QStringList & files, const QString & destinationDirectory )
+bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory )
 {
 	QDir::setCurrent( destinationDirectory );
 
@@ -164,7 +170,12 @@ bool LibArchiveInterface::copyFiles( const QStringList & files, const QString & 
 	struct archive *arch, *writer;
 	struct archive_entry *entry;
 
-	QStringList entries = files;
+	QStringList entries;
+
+	foreach( QVariant f, files )
+	{
+		entries << f.toString();
+	}
 
 	arch = archive_read_new();
 	if ( !arch )

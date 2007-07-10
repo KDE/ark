@@ -48,7 +48,7 @@ void ListingJob::run()
 	m_success = m_helper->getTheListing();
 }
 
-ExtractionJob::ExtractionJob( ReadOnlyArchiveInterface *archive, const QStringList & files, const QString & destinationDirectory, QObject *parent )
+ExtractionJob::ExtractionJob( ReadOnlyArchiveInterface *archive, const QList<QVariant> & files, const QString & destinationDirectory, QObject *parent )
 	: ThreadWeaver::Job( parent ), m_archive( archive ), m_files( files ), m_destinationDirectory( destinationDirectory ),
 	  m_helper( 0 ), m_success( false )
 {

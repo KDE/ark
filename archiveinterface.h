@@ -58,7 +58,7 @@ class ReadOnlyArchiveInterface: public QObject
 
 		virtual bool open() { return true; }
 		virtual bool list() = 0;
-		virtual bool copyFiles( const QStringList & files, const QString & destinationDirectory ) = 0;
+		virtual bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory ) = 0;
 
 	protected:
 		void error( const QString & message, const QString & details );
