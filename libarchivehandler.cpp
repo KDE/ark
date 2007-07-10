@@ -83,15 +83,9 @@ void LibArchiveHandler::remove( const QStringList & )
 {
 }
 
-void LibArchiveHandler::extractFiles( const QStringList & files, const QString& destinationDir )
+void LibArchiveHandler::extractFiles( const QList<QVariant> & files, const QString& destinationDir )
 {
-	QList<QVariant> entries;
-	foreach( QString file, files )
-	{
-		entries << file;
-	}
-
-	ExtractionJob *job = new ExtractionJob( new LibArchiveInterface( fileName(), this ), entries, destinationDir, this );
+	ExtractionJob *job = new ExtractionJob( new LibArchiveInterface( fileName(), this ), files, destinationDir, this );
 	connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
 	         this, SLOT( extractionDone( ThreadWeaver::Job * ) ) );
 	ThreadWeaver::Weaver::instance()->enqueue( job );

@@ -59,9 +59,9 @@ Arch::~Arch()
 {
 }
 
-void Arch::extractFile( const QString & fileName, const QString & destinationDir )
+void Arch::extractFile( const QVariant & fileName, const QString & destinationDir )
 {
-	QStringList l;
+	QList<QVariant> l;
 	l << fileName;
 	extractFiles( l, destinationDir );
 }

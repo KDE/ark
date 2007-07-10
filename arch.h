@@ -77,8 +77,8 @@ class Arch : public QObject
 		virtual void addFile( const QStringList & ) = 0;
 		virtual void addDir( const QString & ) = 0;
 
-		virtual void extractFile( const QString & fileName, const QString & destinationDir );
-		virtual void extractFiles( const QStringList & fileList, const QString & destinationDir ) = 0;
+		virtual void extractFile( const QVariant & fileName, const QString & destinationDir );
+		virtual void extractFiles( const QList<QVariant> & fileList, const QString & destinationDir ) = 0;
 
 		virtual bool passwordRequired() { return false; }
 

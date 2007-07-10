@@ -62,7 +62,7 @@ class LibArchiveHandler: public Arch
 		virtual void addFile( const QStringList & );
 		virtual void addDir( const QString & );
 		virtual void remove( const QStringList & );
-		virtual void extractFiles( const QStringList & files, const QString& destinationDir );
+		virtual void extractFiles( const QList<QVariant> & files, const QString& destinationDir );
 
 	private slots:
 		void listingDone( ThreadWeaver::Job* );

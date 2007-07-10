@@ -270,7 +270,7 @@ void ArkWidget::convertTo( const KUrl & u )
     m_convert_tmpDir =  new KTempDir( tmpDir() + "convtmp" );
     connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( convertSlotExtractDone( bool ) ) );
     m_convert_saveAsURL = u;
-    arch->extractFiles( QStringList(), m_convert_tmpDir->name() );
+    arch->extractFiles( QList<QVariant>(), m_convert_tmpDir->name() );
 }
 
 void ArkWidget::convertSlotExtractDone( bool )
@@ -474,7 +474,7 @@ void ArkWidget::extractToSlotOpenDone( bool success )
         {
             disableAll();
             connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( extractToSlotExtractDone( bool ) ) );
-            arch->extractFiles( QStringList(), extractDir );
+            arch->extractFiles( QList<QVariant>(), extractDir );
         }
         else
         {
@@ -1289,12 +1289,16 @@ ArkWidget::prepareViewFiles( const QStringList & fileList )
     QString destTmpDirectory;
     destTmpDirectory = tmpDir();
 
+    QList<QVariant> files;
     // Make sure to delete previous file already there...
-    for(QStringList::ConstIterator it = fileList.begin();
-        it != fileList.end(); ++it)
-        QFile::remove(destTmpDirectory + *it);
+    foreach( const QString &name, fileList )
+    {
+        QFile::remove( destTmpDirectory + name );
+        files << name;
+    }
 
-    arch->extractFiles( fileList, destTmpDirectory );
+
+    arch->extractFiles( files, destTmpDirectory );
 }
 
 bool
@@ -1458,7 +1462,7 @@ ArkWidget::action_extract()
                     disableAll();
                     busy( i18n( "Extracting..." ) );
                     connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( slotExtractDone() ) );
-                    arch->extractFiles(QStringList(), extractDir);
+                    arch->extractFiles(QList<QVariant>(), extractDir);
                 }
             }
         }
@@ -1466,11 +1470,11 @@ ArkWidget::action_extract()
         {
                 KIO::filesize_t nTotalSize = 0;
                 QStringList selectedFiles = m_fileListView->selectedFilenames();
-                for ( QStringList::const_iterator it = selectedFiles.constBegin();
-                      it != selectedFiles.constEnd();
-                      ++it )
+                QList<QVariant> files;
+                foreach( const QString& file, selectedFiles )
                 {
-                    m_extractList->append( QFile::encodeName( *it ) );
+                    m_extractList->append( QFile::encodeName( file ) );
+                    files << file;
                 }
 
                 if (!bOvwrt)
@@ -1485,7 +1489,7 @@ ArkWidget::action_extract()
                         busy( i18n( "Extracting..." ) );
                         connect( arch, SIGNAL( sigExtract( bool ) ),
                                  this, SLOT( slotExtractDone() ) );
-                        arch->extractFiles(selectedFiles, extractDir); // extract selected files
+                        arch->extractFiles(files, extractDir); // extract selected files
                     }
                 }
         }
