@@ -85,8 +85,6 @@ class Arch : public QObject
 		QString fileName() const { return m_filename; }
 
 		bool isReadOnly() { return m_readOnly; }
-		void setReadOnly( bool readOnly ) { m_readOnly = readOnly; }
-
 		static Arch *archFactory( ArchType aType,
 		                          const QString &filename,
 		                          const QString &openAsMimeType = QString() );
@@ -100,6 +98,8 @@ class Arch : public QObject
 		void newEntry( const ArchiveEntry& entry );
 
 	protected:
+		void setReadOnly( bool readOnly ) { m_readOnly = readOnly; }
+
 		QString m_filename;
 		bool m_readOnly; // for readonly archives
 };

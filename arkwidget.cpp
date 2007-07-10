@@ -1833,12 +1833,8 @@ ArkWidget::slotOpened( bool success )
 
     if ( success )
     {
-        QFileInfo fi( arch->fileName() );
-        QString path = fi.absolutePath();
-
-        if ( !fi.isWritable() )
+        if ( arch->isReadOnly() )
         {
-            arch->setReadOnly(true);
             KMessageBox::information(this, i18n("This archive is read-only. If you want to save it under a new name, go to the File menu and select Save As."), i18n("Information"), "ReadOnlyArchive");
         }
         updateStatusTotals();

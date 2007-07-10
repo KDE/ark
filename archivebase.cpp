@@ -40,6 +40,8 @@
 ArchiveBase::ArchiveBase( ReadOnlyArchiveInterface *archive )
 	: Arch( archive? archive->filename() : QString()  ), m_iface( archive )
 {
+	Q_ASSERT( archive );
+	setReadOnly( archive->isReadOnly() );
 }
 
 ArchiveBase::~ArchiveBase()
