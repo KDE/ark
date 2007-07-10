@@ -11,8 +11,6 @@ kde4_add_kcfg_files(libark_common_SRCS settings.kcfgc)
 
 set(ark_KDEINIT_SRCS main.cpp arkapp.cpp mainwindow.cpp ${libark_common_SRCS})
 
-#kde4_automoc(${ark_KDEINIT_SRCS})
-
 kde4_add_ui_files(ark_KDEINIT_SRCS general.ui )
 
 kde4_add_kdeinit_executable( ark ${ark_KDEINIT_SRCS})
@@ -49,8 +47,6 @@ set(arkpart_PART_SRCS ${libark_common_SRCS}
    #ar.cpp 
    #sevenzip.cpp
    )
-
-#kde4_automoc(${arkpart_PART_SRCS})
 
 kde4_add_ui_files(arkpart_PART_SRCS general.ui )
 
