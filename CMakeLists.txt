@@ -46,8 +46,6 @@ set(arkpart_PART_SRCS ${libark_common_SRCS}
    extractiondialog.cpp 
    ace.cpp )
 
-kde4_automoc(${arkpart_PART_SRCS})
-
 kde4_add_ui_files(arkpart_PART_SRCS general.ui )
 
 kde4_add_plugin(arkpart WITH_PREFIX ${arkpart_PART_SRCS})
