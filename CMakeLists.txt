@@ -11,7 +11,6 @@ kde4_add_kcfg_files(libark_common_SRCS settings.kcfgc)
 
 set(ark_KDEINIT_SRCS main.cpp arkapp.cpp mainwindow.cpp ${libark_common_SRCS})
 
-kde4_automoc(${ark_KDEINIT_SRCS})
 
 kde4_add_ui_files(ark_KDEINIT_SRCS general.ui )
 
