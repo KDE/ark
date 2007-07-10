@@ -46,64 +46,61 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "arch.h"
 #include "arkapp.h"
 
-static KCmdLineOptions option[] =
-{
-    { "extract", I18N_NOOP( "Open extract dialog, quit when finished" ), 0 },
-    { "extract-to", I18N_NOOP( "Extract 'archive' to 'folder'. Quit when finished.\n"
-                               "'folder' will be created if it does not exist."), 0 },
-    { "add", I18N_NOOP( "Ask for the name of the archive to add 'files' to. Quit when finished." ), 0 },
-    { "add-to", I18N_NOOP( "Add 'files' to 'archive'. Quit when finished.\n'archive' "
-                           "will be created if it does not exist." ), 0 },
-    { "guess-name", I18N_NOOP( "Used with '--extract-to'. When specified, 'archive'\n"
-                               "will be extracted to a subfolder of 'folder'\n"
-                               "whose name will be the name of 'archive' without the filename extension."), 0 },
-    { "+[folder]", I18N_NOOP( "Folder to extract to" ), 0 },
-    { "+[files]", I18N_NOOP( "Files to be added" ), 0 },
-    { "+[archive]", I18N_NOOP( "Open 'archive'" ), 0 },
-    KCmdLineLastOption
-};
-
 extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 {
-	KAboutData aboutData( "ark", I18N_NOOP( "Ark" ),
-	                      "2.9.9001", I18N_NOOP( "KDE Archiving tool" ),
+	KAboutData aboutData( "ark", 0, ki18n( "Ark" ),
+	                      "2.9.999", ki18n( "KDE Archiving tool" ),
 	                      KAboutData::License_GPL,
-	                      I18N_NOOP( "(c) 1997-2005, The Various Ark Developers" )
+	                      ki18n( "(c) 1997-2007, The Various Ark Developers" )
 	                    );
 
-	aboutData.addAuthor( "Henrique Pinto",
-	                     I18N_NOOP( "Maintainer" ),
+	aboutData.addAuthor( ki18n("Henrique Pinto"),
+	                     ki18n( "Maintainer" ),
 	                     "henrique.pinto@kdemail.net" );
-	aboutData.addAuthor( "Helio Chissini de Castro",
-	                     I18N_NOOP( "Former maintainer" ),
+	aboutData.addAuthor( ki18n("Helio Chissini de Castro"),
+	                     ki18n( "Former maintainer" ),
 	                     "helio@kde.org" );
-	aboutData.addAuthor( "Georg Robbers",
-	                     0,
+	aboutData.addAuthor( ki18n("Georg Robbers"),
+	                     KLocalizedString(),
 	                     "Georg.Robbers@urz.uni-hd.de" );
-	aboutData.addAuthor( "Roberto Selbach Teixeira",
-	                     0,
+	aboutData.addAuthor( ki18n("Roberto Selbach Teixeira"),
+	                     KLocalizedString(),
 	                     "maragato@kde.org" );
-	aboutData.addAuthor( "Francois-Xavier Duranceau",
-	                     0,
+	aboutData.addAuthor( ki18n("Francois-Xavier Duranceau"),
+	                     KLocalizedString(),
 	                     "duranceau@kde.org" );
-	aboutData.addAuthor( "Emily Ezust (Corel Corporation)",
-	                     0,
+	aboutData.addAuthor( ki18n("Emily Ezust (Corel Corporation)"),
+	                     KLocalizedString(),
 	                     "emilye@corel.com" );
-	aboutData.addAuthor( "Michael Jarrett (Corel Corporation)",
-	                     0,
+	aboutData.addAuthor( ki18n("Michael Jarrett (Corel Corporation)"),
+	                     KLocalizedString(),
 	                     "michaelj@corel.com" );
-	aboutData.addAuthor( "Robert Palmbos",
-	                     0,
+	aboutData.addAuthor( ki18n("Robert Palmbos"),
+	                     KLocalizedString(),
 	                     "palm9744@kettering.edu" );
 
-	aboutData.addCredit( "Bryce Corkins",
-	                     I18N_NOOP( "Icons" ),
+	aboutData.addCredit( ki18n("Bryce Corkins"),
+	                     ki18n( "Icons" ),
 	                     "dbryce@attglobal.net" );
-	aboutData.addCredit( "Liam Smit",
-	                     I18N_NOOP( "Ideas, help with the icons" ),
+	aboutData.addCredit( ki18n("Liam Smit"),
+	                     ki18n( "Ideas, help with the icons" ),
 	                     "smitty@absamail.co.za" );
 
 	KCmdLineArgs::init( argc, argv, &aboutData );
+
+	KCmdLineOptions option;
+	option.add("extract", ki18n( "Open extract dialog, quit when finished" ));
+	option.add("extract-to", ki18n( "Extract 'archive' to 'folder'. Quit when finished.\n"
+                               "'folder' will be created if it does not exist."));
+	option.add("add", ki18n( "Ask for the name of the archive to add 'files' to. Quit when finished." ));
+	option.add("add-to", ki18n( "Add 'files' to 'archive'. Quit when finished.\n'archive' "
+                           "will be created if it does not exist." ));
+	option.add("guess-name", ki18n( "Used with '--extract-to'. When specified, 'archive'\n"
+                               "will be extracted to a subfolder of 'folder'\n"
+                               "whose name will be the name of 'archive' without the filename extension."));
+	option.add("+[folder]", ki18n( "Folder to extract to" ));
+	option.add("+[files]", ki18n( "Files to be added" ));
+	option.add("+[archive]", ki18n( "Open 'archive'" ));
 	KCmdLineArgs::addCmdLineOptions( option );
 	KCmdLineArgs::addTempFileOption();
 

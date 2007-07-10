@@ -48,19 +48,19 @@
 
 KAboutData *ArkPart::createAboutData()
 {
-    KAboutData *about = new KAboutData("ark", I18N_NOOP("ark"),
-                                       "3.0",
-                                       I18N_NOOP("Ark KParts Component"),
-                                       KAboutData::License_GPL,
-                                       I18N_NOOP( "(c) 1997-2003, The Various Ark Developers" ));
-    about->addAuthor("Robert Palmbos",0, "palm9744@kettering.edu");
-    about->addAuthor("Francois-Xavier Duranceau",0, "duranceau@kde.org");
-    about->addAuthor("Corel Corporation (author: Emily Ezust)",0,
-                     "emilye@corel.com");
-    about->addAuthor("Corel Corporation (author: Michael Jarrett)", 0,
-                     "michaelj@corel.com");
-    about->addAuthor("Jian Huang");
-    about->addAuthor( "Roberto Teixeira", 0, "maragato@kde.org" );
+    KAboutData *about = new KAboutData( "ark", 0, ki18n( "ark" ),
+                                        "3.0",
+                                        ki18n( "Ark KParts Component" ),
+                                        KAboutData::License_GPL,
+                                        ki18n(  "(c) 1997-2007, The Various Ark Developers" ) );
+    about->addAuthor( ki18n( "Robert Palmbos" ),KLocalizedString(), "palm9744@kettering.edu" );
+    about->addAuthor( ki18n( "Francois-Xavier Duranceau" ),KLocalizedString(), "duranceau@kde.org" );
+    about->addAuthor( ki18n( "Corel Corporation (author: Emily Ezust)" ),KLocalizedString(),
+                      "emilye@corel.com" );
+    about->addAuthor( ki18n( "Corel Corporation (author: Michael Jarrett)" ), KLocalizedString(),
+                      "michaelj@corel.com" );
+    about->addAuthor( ki18n( "Jian Huang" ) );
+    about->addAuthor(  ki18n( "Roberto Teixeira" ), KLocalizedString(), "maragato@kde.org" );
 
     return about;
 }
