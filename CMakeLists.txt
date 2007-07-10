@@ -39,6 +39,7 @@ set(arkpart_PART_SRCS ${libark_common_SRCS}
    archiveinterface.cpp
    libarchivehandler.cpp
    jobs.cpp
+   archivebase.cpp
    #tar.cpp 
    #zip.cpp 
    #lha.cpp 

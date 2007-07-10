@@ -23,8 +23,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LIBARCHIVEHANDLER_H
-#define LIBARCHIVEHANDLER_H
+#ifndef ARCHIVEBASE_H
+#define ARCHIVEBASE_H
 
 #include "arch.h"
 #include "archiveinterface.h"
@@ -34,19 +34,32 @@ namespace ThreadWeaver
 	class Job;
 } // namespace ThreadWeaver
 
-class LibArchiveInterface: public ReadOnlyArchiveInterface
+class ArchiveBase: public Arch
 {
 	Q_OBJECT
 	public:
-		LibArchiveInterface( const QString & filename, QObject *parent = 0 );
-		~LibArchiveInterface();
+		/*
+		 * Creates an Arch to operate on the given interface.
+		 * This takes ownership of the interface, which is deleted
+		 * on the destructor.
+		 */
+		ArchiveBase( ReadOnlyArchiveInterface *archive );
+		virtual ~ArchiveBase();
 
-		bool list();
-		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory );
+		virtual void open();
+		virtual void create();
+
+		virtual void addFile( const QStringList & );
+		virtual void addDir( const QString & );
+		virtual void remove( const QStringList & );
+		virtual void extractFiles( const QList<QVariant> & files, const QString& destinationDir );
+
+	private slots:
+		void listingDone( ThreadWeaver::Job* );
+		void extractionDone( ThreadWeaver::Job* );
 
 	private:
-		int extractionFlags() const;
-		void copyData( struct archive *source, struct archive *dest );
+		ReadOnlyArchiveInterface *m_iface;
 };
 
-#endif // LIBARCHIVEHANDLER_H
+#endif // ARCHIVEBASE_H

@@ -26,9 +26,8 @@
 
 // ark includes
 #include "arch.h"
-#include "arkwidget.h"
+#include "archivebase.h"
 #include "arkutils.h"
-#include "filelistview.h"
 
 // C includes
 #include <stdlib.h>
@@ -70,6 +69,6 @@ Arch *Arch::archFactory( ArchType /*aType*/,
                          const QString &filename,
                          const QString &/*openAsMimeType*/ )
 {
-	return new LibArchiveHandler( filename );
+	return new ArchiveBase( new LibArchiveInterface( filename ) );
 }
 #include "arch.moc"

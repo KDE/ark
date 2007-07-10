@@ -40,63 +40,6 @@
 #include <QStringList>
 #include <QDateTime>
 
-LibArchiveHandler::LibArchiveHandler( const QString &filename )
-	: Arch( filename )
-{
-	kDebug( 1601 ) << "libarchive api version = " << archive_api_version() << endl;
-}
-
-LibArchiveHandler::~LibArchiveHandler()
-{
-}
-
-void LibArchiveHandler::open()
-{
-	ListingJob *job = new ListingJob( new LibArchiveInterface( fileName(), this ) );
-
-	connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
-	         this, SLOT( listingDone( ThreadWeaver::Job * ) ) );
-	connect( job, SIGNAL( entry( const ArchiveEntry & ) ),
-	         this, SIGNAL( newEntry( const ArchiveEntry & ) ) );
-	ThreadWeaver::Weaver::instance()->enqueue( job );
-}
-
-void LibArchiveHandler::listingDone( ThreadWeaver::Job *job )
-{
-	emit opened( job->success() );
-	delete job;
-}
-
-void LibArchiveHandler::create()
-{
-}
-
-void LibArchiveHandler::addFile( const QStringList & )
-{
-}
-
-void LibArchiveHandler::addDir( const QString & )
-{
-}
-
-void LibArchiveHandler::remove( const QStringList & )
-{
-}
-
-void LibArchiveHandler::extractFiles( const QList<QVariant> & files, const QString& destinationDir )
-{
-	ExtractionJob *job = new ExtractionJob( new LibArchiveInterface( fileName(), this ), files, destinationDir, this );
-	connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
-	         this, SLOT( extractionDone( ThreadWeaver::Job * ) ) );
-	ThreadWeaver::Weaver::instance()->enqueue( job );
-}
-
-void LibArchiveHandler::extractionDone( ThreadWeaver::Job *job )
-{
-	emit sigExtract( job->success() );
-	delete job;
-}
-
 LibArchiveInterface::LibArchiveInterface( const QString & filename, QObject *parent )
 	: ReadOnlyArchiveInterface( filename, parent )
 {
