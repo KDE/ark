@@ -27,11 +27,9 @@
 // ark includes
 #include "arch.h"
 #include "archivebase.h"
-#include "arkutils.h"
 
 // C includes
-#include <stdlib.h>
-#include <time.h>
+#include <cstdlib>
 
 // QT includes
 #include <QApplication>

@@ -36,6 +36,8 @@
 
 #include <KUrl>
 
+#include "kerfuffle_export.h"
+
 class QStringList;
 
 class ArkWidget;
@@ -55,7 +57,7 @@ typedef QList< QPair< QString, Qt::AlignmentFlag > > ColumnList;
  * Pure virtual base class for archives - provides a framework as well as
  * useful common functionality.
  */
-class Arch : public QObject
+class KERFUFFLE_EXPORT Arch : public QObject
 {
 	Q_OBJECT
 

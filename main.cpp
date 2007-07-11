@@ -43,7 +43,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <KLocale>
 
 // ark includes
-#include "arch.h"
+#include "kerfuffle/arch.h"
 #include "arkapp.h"
 
 extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )

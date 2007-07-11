@@ -36,7 +36,7 @@
 #include <QDragMoveEvent>
 #include <QDropEvent>
 
-#include "arch.h"
+#include "kerfuffle/arch.h"
 #include "ui_general.h"
 
 class KTreeWidgetSearchLine;

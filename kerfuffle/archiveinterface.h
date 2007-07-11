@@ -31,6 +31,7 @@
 #include <QString>
 
 #include "arch.h"
+#include "kerfuffle_export.h"
 
 class ArchiveObserver
 {
@@ -43,7 +44,7 @@ class ArchiveObserver
 		virtual void onProgress( double ) = 0;
 };
 
-class ReadOnlyArchiveInterface: public QObject
+class KERFUFFLE_EXPORT ReadOnlyArchiveInterface: public QObject
 {
 	Q_OBJECT
 	public:
@@ -53,8 +54,8 @@ class ReadOnlyArchiveInterface: public QObject
 		QString filename() const { return m_filename; }
 		virtual bool isReadOnly() const { return true; }
 
-		void registerObserver( ArchiveObserver *observer );
-		void removeObserver( ArchiveObserver *observer );
+		void KDE_NO_EXPORT registerObserver( ArchiveObserver *observer );
+		void KDE_NO_EXPORT removeObserver( ArchiveObserver *observer );
 
 		virtual bool open() { return true; }
 		virtual bool list() = 0;

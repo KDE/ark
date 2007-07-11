@@ -33,7 +33,7 @@
 
 #include <kio/global.h>
 
-#include "arch.h"
+#include "kerfuffle/arch.h"
 
 class QString;
 class QStringList;
