@@ -124,12 +124,6 @@ MainWindow::setupActions()
     newArchAction = KStandardAction::openNew(this, SLOT(file_new()), actionCollection());
     openAction = KStandardAction::open(this, SLOT(file_open()), actionCollection());
 
-    reloadAction = actionCollection()->addAction("reload_arch");
-    reloadAction->setIcon(KIcon("view-refresh"));
-    reloadAction->setText(i18n("Re&load"));
-    connect(reloadAction, SIGNAL(triggered(bool)), SLOT(file_reload()));
-    reloadAction->setShortcuts(KStandardShortcut::shortcut( KStandardShortcut::Reload ));
-
     closeAction = KStandardAction::close(this, SLOT(file_close()), actionCollection());
     actionCollection()->addAction("file_close",closeAction);
 
@@ -146,7 +140,6 @@ MainWindow::setupActions()
     openAction->setEnabled( true );
     recent->setEnabled( true );
     closeAction->setEnabled( false );
-    reloadAction->setEnabled( false );
 }
 
 void
@@ -155,7 +148,6 @@ MainWindow::slotDisableActions()
     openAction->setEnabled(false);
     newArchAction->setEnabled(false);
     closeAction->setEnabled(false);
-    reloadAction->setEnabled(false);
 }
 
 void
@@ -164,7 +156,6 @@ MainWindow::slotFixActionState( const bool & bHaveFiles )
     openAction->setEnabled(true);
     newArchAction->setEnabled(true);
     closeAction->setEnabled(bHaveFiles);
-    reloadAction->setEnabled(bHaveFiles);
 }
 
 void
@@ -179,14 +170,6 @@ void
 MainWindow::file_new()
 {
     m_widget->file_new();
-}
-
-void
-MainWindow::file_reload()
-{
-    KUrl url( m_part->url() );
-    file_close();
-    m_part->openUrl( url );
 }
 
 void

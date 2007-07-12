@@ -54,7 +54,6 @@ public slots:
     void file_new();
     void openURL( const KUrl & url, bool tempFile = false );
     void file_open();
-    void file_reload();
     void editToolbars();
     void window_close();
     void file_quit();
@@ -100,7 +99,6 @@ private: // data
     QAction *newArchAction;
     QAction *openAction;
     QAction *closeAction;
-    QAction *reloadAction;
     KRecentFilesAction *recent;
 
     //progress dialog for konqs service menus / command line
