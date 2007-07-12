@@ -26,25 +26,20 @@
 #ifndef ARKUTILS_H
 #define ARKUTILS_H
 
-
-
 #include <kio/global.h>
 
 class QStringList;
 
-// various functions for massaging timestamps
 namespace ArkUtils
 {
-  int getYear(int theMonth, int thisYear, int thisMonth);
-  int getMonth(const char *strMonth);
-  QString fixYear(const QString& strYear);
+	// Check if the dir is writable
+	bool haveDirPermissions( const QString &strFile );
 
-  QString getTimeStamp(const QString &month,
-                       const QString &day,
-                       const QString &year);
-  bool haveDirPermissions(const QString &strFile);
-  bool diskHasSpace(const QString &dir, KIO::filesize_t size);
-  KIO::filesize_t getSizes(const QStringList &list);
+	// check if disk has enough space to accommodate (a) new file(s) of
+	// the given size in the partition containing the given directory
+	bool diskHasSpace( const QString &dir, KIO::filesize_t size );
+
+	KIO::filesize_t getSizes( const QStringList &list );
 }
 
 #endif

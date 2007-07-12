@@ -63,155 +63,48 @@
 
 // Qt includes
 #include <QFile>
+#include <QFileInfo>
 
 
-QString ArkUtils::getTimeStamp(const QString &_month,
-                            const QString &_day,
-                            const QString &_yearOrTime)
+bool ArkUtils::haveDirPermissions( const QString &strFile )
 {
-  // Make the date format sortable.
-  // Month is in _month, day is in _day.
-  // In _yearOrTime is either a year or a time.
-  // If it's March, we'll see the year for all dates up to October 1999.
-  // (five months' difference - e.g., if it's Apr, then get years up to Nov)
-
-  char month[4];
-  strncpy(month, qPrintable(_month), 3);
-  month[3] = '\0';
-  int nMonth = getMonth(month);
-  int nDay = _day.toInt();
-
-  kDebug(1601) << "Month is " << nMonth << ", Day is " << nDay << endl;
-
-  time_t t = time(0);
-  if (t == -1)
-    exit(1);
-  struct tm *now = localtime(&t);
-  int thisYear = now->tm_year + 1900;
-  int thisMonth = now->tm_mon + 1;
-
-  QString year, timestamp;
-
-  if (_yearOrTime.contains(":"))
-    // it has a timestamp so we have to figure out the year
-    {
-      year.sprintf("%d", ArkUtils::getYear(nMonth, thisYear, thisMonth));
-      timestamp = _yearOrTime;
-    }
-  else
-    {
-      year = _yearOrTime;
-      if (year.right(1) == " ")
-        year = year.left(4);
-      if (year.left(1) == " ")
-        year = year.right(4);
-
-      timestamp = "??:??";
-    }
-
-  QString retval;
-  retval.sprintf("%s-%.2d-%.2d %s",
-                 year.toUtf8().data(), nMonth, nDay,
-                 timestamp.toUtf8().data());
-  return retval;
+	return QFileInfo( QFile::encodeName( strFile ) ).isWritable();
 }
 
-int ArkUtils::getMonth(const char *strMonth)
-  // returns numeric value for three-char month string
+bool ArkUtils::diskHasSpace( const QString &dir, KIO::filesize_t size )
 {
-  static char months[13][4] = { "", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-  int nIndex;
-  for (nIndex = 1; nIndex < 13; ++nIndex)
-    {
-      if (0 == strcmp(strMonth, months[nIndex]))
-        return nIndex;
-    }
-  return 0;
+	// TODO: Do we need this function at all?
+	// TODO port to KDiskFreeSpace
+	struct STATFS buf;
+	if ( STATFS( QFile::encodeName( dir ), &buf ) == 0 )
+	{
+		double nAvailable = (double)buf.f_bavail * buf.f_bsize;
+		if ( nAvailable < (double)size )
+		{
+			KMessageBox::error( 0, i18n("You have run out of disk space.") );
+			return false;
+		}
+	}
+	else
+	{
+		// something bad happened
+		kWarning( 1601 ) << "diskHasSpace() failed" << endl;
+		// Q_ASSERT(0);
+	}
+	return true;
 }
 
-// This function gets the year from an LHA or ls -l timestamp.
-// Note: LHA doesn't seem to display the year if the file is more
-// than 6 months into the future, so this will fail to give the correct
-// year (of course it is hoped that there are not too many files lying
-// around from the future).
-
-int ArkUtils::getYear(int theMonth, int thisYear, int thisMonth)
+KIO::filesize_t ArkUtils::getSizes( const QStringList &list )
 {
-  int monthDiff = QABS(thisMonth - theMonth);
-  if (monthDiff > 6)
-    return (thisYear - 1);
-  else
-    return thisYear;
-}
+	KIO::filesize_t sum = 0;
+	KDE_struct_stat st;
 
-QString ArkUtils::fixYear(const QString& strYear)
-{
-  // returns 4-digit year by guessing from two-char year string.
-  // Remember: this is used for file timestamps. There probably aren't any
-  // files that were created before 1970, so that's our cutoff. Of course,
-  // in 2070 we'll have some problems....
-
-  bool ok;
-  int y = strYear.toInt( &ok );
-
-  if ( ok )
-  {
-    if ( y > 70 )
-      y += 1900;
-    else
-      y += 2000;
-
-    return QString::number( y );
-  }
-  else
-    return QString();
-}
-
-bool
-ArkUtils::haveDirPermissions( const QString &strFile )
-{
-  return ( access( QFile::encodeName( strFile ), W_OK ) == 0 );
-}
-
-bool
-ArkUtils::diskHasSpace(const QString &dir, KIO::filesize_t size)
-  // check if disk has enough space to accommodate (a) new file(s) of
-  // the given size in the partition containing the given directory
-{
-  kDebug( 1601 ) << "diskHasSpace() " << "dir: " << dir << " Size: " << size << endl;
-
-  // TODO port to KDiskFreeSp
-  struct STATFS buf;
-  if (STATFS(QFile::encodeName(dir), &buf) == 0)
-  {
-    double nAvailable = (double)buf.f_bavail * buf.f_bsize;
-    if ( nAvailable < (double)size )
-    {
-      KMessageBox::error(0, i18n("You have run out of disk space."));
-      return false;
-    }
-  }
-  else
-  {
-    // something bad happened
-    kWarning( 1601 ) << "diskHasSpace() failed" << endl;
-    // Q_ASSERT(0);
-  }
-  return true;
-}
-
-KIO::filesize_t ArkUtils::getSizes(const QStringList &list)
-{
-  KIO::filesize_t sum = 0;
-  KDE_struct_stat st;
-
-  foreach( QString str, list )
-  {
-    str = str.right(str.length()-5);
-    if (KDE_stat(QFile::encodeName(str), &st ) < 0)
-       continue;
-    sum += st.st_size;
-  }
-  return sum;
+	foreach( QString str, list )
+	{
+		str = str.right( str.length()-5 );
+		if ( KDE_stat( QFile::encodeName( str ), &st ) < 0 )
+			continue;
+		sum += st.st_size;
+	}
+	return sum;
 }

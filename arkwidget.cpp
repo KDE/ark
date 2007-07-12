@@ -584,25 +584,8 @@ void ArkWidget::addToArchiveSlotOpenDone( bool success )
         }
     }
 
-/*    QStringList list = m_addToArchive_filesToAdd.toStringList();
-    if ( !ArkUtils::diskHasSpace( tmpDir(), ArkUtils::getSizes( &list ) ) )
-    {
-        KMessageBox::error( this, i18n( "Not enough free disc space to extract the archive." ) );
-        emit request_file_quit();
-        return;
-    }*/
-
     disableAll();
-    // if they are URLs, we have to download them, replace the URLs
-    // with filenames, and remember to delete the temporaries later.
-/*    for ( QStringList::Iterator it = list.begin();
-         it != list.end(); ++it)
-    {
-        QString str = *it;
-        KUrl url( toLocalFile( str ) );
-        *it = url.prettyUrl();
-    }
-*/
+
     KUrl::List list = m_addToArchive_filesToAdd;
 
 
