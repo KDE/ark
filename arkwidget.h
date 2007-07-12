@@ -209,13 +209,6 @@ private slots:
     void convertSlotAddDone( bool success );
     void convertFinish();
 
-    void extractToSlotOpenDone( bool success );
-    void extractToSlotExtractDone( bool success );
-
-    void addToArchiveSlotOpenDone( bool success );
-    void addToArchiveSlotCreateDone( bool success );
-    void addToArchiveSlotAddDone( bool success );
-
 protected:
     void arkWarning(const QString& msg);
     void arkError(const QString& msg);
