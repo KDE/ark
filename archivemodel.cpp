@@ -149,7 +149,6 @@ QModelIndex ArchiveModel::parent( const QModelIndex &index ) const
 
 int ArchiveModel::rowCount( const QModelIndex &parent ) const
 {
-	kDebug( 1601 ) << k_funcinfo << "parent.column() is " << parent.column() << endl;
 	if ( parent.column() <= 0 )
 	{
 		ArchiveNode *parentNode = parent.isValid()? static_cast<ArchiveNode*>( parent.internalPointer() ) : m_rootNode;
@@ -184,8 +183,6 @@ void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 
 	ArchiveNode *node = new ArchiveNode( parent, entry );
 	parent->entries().append( node );
-
-	kDebug( 1601 ) << "New entry for: " << entry[ FileName ] << endl;
 
 	endInsertRows();
 }

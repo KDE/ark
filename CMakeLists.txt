@@ -24,6 +24,12 @@ install(TARGETS ark  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### next target ###############
 
+set(archivemodeltest_SRCS modeltest.cpp archivemodel.cpp)
+kde4_add_executable(archivemodeltest ${archivemodeltest_SRCS})
+target_link_libraries(archivemodeltest ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} kerfuffle)
+
+########### next target ###############
+
 set(arkpart_PART_SRCS ${libark_common_SRCS} 
     ark_part.cpp 
     arkfactory.cpp 
@@ -33,6 +39,7 @@ set(arkpart_PART_SRCS ${libark_common_SRCS}
     arkwidget.cpp 
     arkviewer.cpp 
     extractiondialog.cpp
+    archivemodel.cpp
    )
 
 kde4_add_ui_files(arkpart_PART_SRCS general.ui )
