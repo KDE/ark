@@ -66,7 +66,7 @@ class ArkApplication : public KUniqueApplication
 		// given a QString key, you get a MainWindow * pointer.
 		QHash<QString, MainWindow*> m_windowsHash;
 
-		static ArkApplication *mInstance;
+		static ArkApplication *m_instance;
 };
 
 #endif // ARKAPP_H

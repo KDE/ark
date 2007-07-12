@@ -32,7 +32,7 @@
 #include <KCmdLineArgs>
 #include <KLocale>
 
-ArkApplication *ArkApplication::mInstance = NULL;
+ArkApplication *ArkApplication::m_instance = NULL;
 
 // a helper function to follow a symlink and obtain the real filename
 // Used in the ArkApplication functions that use the archive filename
@@ -51,11 +51,11 @@ static QString resolveFilename( const QString & filename )
 
 ArkApplication * ArkApplication::getInstance()
 {
-	if (mInstance == NULL)
+	if ( !m_instance )
 	{
-		mInstance = new ArkApplication();
+		m_instance = new ArkApplication;
 	}
-	return mInstance;
+	return m_instance;
 }
 
 ArkApplication::ArkApplication()
@@ -215,16 +215,13 @@ ArkApplication::removeOpenArk(const KUrl & _arkname)
 void
 ArkApplication::raiseArk(const KUrl & _arkname)
 {
-    kDebug( 1601 ) << "ArkApplication::raiseArk " << endl;
-    MainWindow *window;
     QString realName;
     if( _arkname.isLocalFile() )
         realName = resolveFilename(_arkname.path());  // follow symlink
     else
         realName = _arkname.prettyUrl();
-    window = m_windowsHash[realName];
-    kDebug(1601) << "ArkApplication::raiseArk " << window << endl;
-    window->raise();
+    if ( m_windowsHash.contains( realName ) )
+        m_windowsHash[realName]->raise();
 }
 
 bool
