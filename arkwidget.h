@@ -74,13 +74,11 @@ public:
     bool isArchiveOpen() const { return m_bIsArchiveOpen; }
     int getNumFilesInArchive() const { return m_nNumFiles; }
 
-    void cleanArkTmpDir();
     virtual QString getArchName() const { return m_strArchName; }
 
     const KUrl& realURL() const { return m_realURL; }
     void setRealURL( const KUrl& url ) { m_realURL = url; }
 
-    QString tmpDir() const { return m_tmpDir ? m_tmpDir->name() : QString(); }
 
     FileListView * fileList() const { return m_fileListView; }
     KTreeWidgetSearchLine* searchBar() const { return m_searchBar; }
@@ -166,6 +164,9 @@ private: // methods
     void updateStatusTotals();
     void addFile( const QStringList &list );
     void removeDownloadedFiles();
+
+    void cleanArkTmpDir();
+    QString tmpDir() const { return m_tmpDir ? m_tmpDir->name() : QString(); }
 
     // make sure that str is a local file/dir
     KUrl toLocalFile(const KUrl& url);
