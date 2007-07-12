@@ -2,6 +2,7 @@
 
  ark -- archiver for the KDE project
 
+ Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  Copyright (C) 2002-2003 Helio Chissini de Castro <helio@conectiva.com.br>
  Copyright (C) 2003 Georg Robbers <Georg.Robbers@urz.uni-hd.de>
  Copyright (C) 1999-2000 Corel Corporation (author: Emily Ezust <emilye@corel.com>)
@@ -24,72 +25,29 @@
 */
 #include "arkapp.h"
 
+#include <QFile>
+#include <QFileInfo>
+
 #include <KDebug>
 #include <KCmdLineArgs>
 #include <KLocale>
-#include <unistd.h>
-#include <QFile>
-#include <errno.h>
 
 ArkApplication *ArkApplication::mInstance = NULL;
 
 // a helper function to follow a symlink and obtain the real filename
 // Used in the ArkApplication functions that use the archive filename
 // to make sure an archive isn't opened twice in different windows
-// Now, readlink only gives one level so this function recurses.
-
-static QString resolveFilename(const QString & _arkname)
+static QString resolveFilename( const QString & filename )
 {
-	char *buff;
-	int nread;
-	int iter = 1;
+	QFileInfo fi( filename );
 
-	while ( true )
+	while ( fi.isSymLink() )
 	{
-		buff = new char[BUFSIZ*iter];
-		nread = readlink( QFile::encodeName(_arkname), buff, BUFSIZ);
-		if (-1 == nread)
-		{
-			if ( EINVAL == errno )  // not a symbolic link. Stopping condition.
-			{
-				delete [] buff;
-				return _arkname;
-			}
-			else if ( ENAMETOOLONG == errno )
-			{
-				kDebug(1601) << "resolveFilename: have to reallocate - name too long!" << endl;
-				iter++;
-				delete [] buff;
-				continue;
-			}
-			else
-			{
-				delete [] buff;
-				// the other errors will be taken care of already in simply
-				// // opening the archive (i.e., the user will be notified)
-				return "";
-			}
-		}
-      else
-		{
-			buff[nread] = '\0';  // readlink doesn't null terminate
-			QString name = QFile::decodeName( buff );
-			delete [] buff;
-
-			// watch out for relative pathnames
-			if (name.at(0) != '/')
-			{
-				// copy the path from _arkname
-				int index = _arkname.lastIndexOf('/');
-				name = _arkname.left(index + 1) + name;
-			}
-			kDebug(1601) << "Now resolve " << name << endl;
-
-			return resolveFilename( name );
-		}
+		fi = QFileInfo( fi.symLinkTarget() );
 	}
-}
 
+	return fi.absoluteFilePath();
+}
 
 ArkApplication * ArkApplication::getInstance()
 {
@@ -267,10 +225,6 @@ ArkApplication::raiseArk(const KUrl & _arkname)
         realName = _arkname.prettyUrl();
     window = m_windowsHash[realName];
     kDebug(1601) << "ArkApplication::raiseArk " << window << endl;
-    // raise didn't seem to be enough. Not sure why!
-    // This might be annoying though.
-    //window->hide();
-    //window->show();
     window->raise();
 }
 
