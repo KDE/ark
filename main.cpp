@@ -89,18 +89,7 @@ extern "C" KDE_EXPORT int kdemain( int argc, char *argv[]  )
 	KCmdLineArgs::init( argc, argv, &aboutData );
 
 	KCmdLineOptions option;
-	option.add("extract", ki18n( "Open extract dialog, quit when finished" ));
-	option.add("extract-to", ki18n( "Extract 'archive' to 'folder'. Quit when finished.\n"
-                               "'folder' will be created if it does not exist."));
-	option.add("add", ki18n( "Ask for the name of the archive to add 'files' to. Quit when finished." ));
-	option.add("add-to", ki18n( "Add 'files' to 'archive'. Quit when finished.\n'archive' "
-                           "will be created if it does not exist." ));
-	option.add("guess-name", ki18n( "Used with '--extract-to'. When specified, 'archive'\n"
-                               "will be extracted to a subfolder of 'folder'\n"
-                               "whose name will be the name of 'archive' without the filename extension."));
-	option.add("+[folder]", ki18n( "Folder to extract to" ));
-	option.add("+[files]", ki18n( "Files to be added" ));
-	option.add("+[archive]", ki18n( "Open 'archive'" ));
+	option.add("+[url]", ki18n( "URL to an archive to be opened" ));
 	KCmdLineArgs::addCmdLineOptions( option );
 	KCmdLineArgs::addTempFileOption();
 
