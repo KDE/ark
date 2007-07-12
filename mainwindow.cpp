@@ -112,13 +112,7 @@ MainWindow::~MainWindow()
 void
 MainWindow::setupActions()
 {
-    newWindowAction = actionCollection()->addAction("new_window");
-    newWindowAction->setText(i18n("New &Window"));
-    newWindowAction->setIcon(KIcon("window-new"));
-
-    connect(newWindowAction, SIGNAL(triggered(bool)), SLOT(file_newWindow()));
-
-    newArchAction = KStandardAction::openNew(this, SLOT(file_new()), actionCollection());
+    newArchAction = KStandardAction::openNew(this, SLOT(file_newWindow()), actionCollection());
     openAction = KStandardAction::open(this, SLOT(file_open()), actionCollection());
 
     recent = KStandardAction::openRecent(this, SLOT(openURL(const KUrl&)), actionCollection());
@@ -154,12 +148,6 @@ MainWindow::file_newWindow()
     MainWindow *kw = new MainWindow;
     kw->resize( 640, 300 );
     kw->show();
-}
-
-void
-MainWindow::file_new()
-{
-    m_widget->file_new();
 }
 
 void

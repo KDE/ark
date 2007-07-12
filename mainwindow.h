@@ -46,7 +46,6 @@ MainWindow: public KParts::MainWindow
 
 	public slots:
 		void file_newWindow();
-		void file_new();
 		void openURL( const KUrl & url, bool tempFile = false );
 		void file_open();
 		void editToolbars();
@@ -83,7 +82,6 @@ MainWindow: public KParts::MainWindow
 		KParts::ReadWritePart *m_part;
 		ArkWidget *m_widget; //the parts widget
 
-		QAction *newWindowAction;
 		QAction *newArchAction;
 		QAction *openAction;
 		KRecentFilesAction *recent;
