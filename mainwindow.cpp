@@ -65,7 +65,7 @@ MainWindow::MainWindow( QWidget * /*parent*/ )
         setStandardToolBarMenuEnabled( true );
         setupActions();
 
-        connect( m_part->widget(), SIGNAL( request_file_quit() ), this, SLOT(  file_quit() ) );
+        connect( m_part->widget(), SIGNAL( request_file_quit() ), this, SLOT(  window_close() ) );
         connect( KParts::BrowserExtension::childObject( m_part ), SIGNAL( openUrlRequestDelayed
                                               ( const KUrl &, const KParts::URLArgs & ) ),
                  m_part, SLOT( openURL( const KUrl & ) ) );
@@ -121,10 +121,6 @@ MainWindow::setupActions()
     newArchAction = KStandardAction::openNew(this, SLOT(file_new()), actionCollection());
     openAction = KStandardAction::open(this, SLOT(file_open()), actionCollection());
 
-    closeAction = KStandardAction::close(this, SLOT(file_close()), actionCollection());
-    actionCollection()->addAction("file_close",closeAction);
-
-
     recent = KStandardAction::openRecent(this, SLOT(openURL(const KUrl&)), actionCollection());
     recent->loadEntries(KGlobal::config()->group( QString() ));
 
@@ -136,7 +132,6 @@ MainWindow::setupActions()
 
     openAction->setEnabled( true );
     recent->setEnabled( true );
-    closeAction->setEnabled( false );
 }
 
 void
@@ -144,7 +139,6 @@ MainWindow::slotDisableActions()
 {
     openAction->setEnabled(false);
     newArchAction->setEnabled(false);
-    closeAction->setEnabled(false);
 }
 
 void
@@ -152,7 +146,6 @@ MainWindow::slotFixActionState( const bool & bHaveFiles )
 {
     openAction->setEnabled(true);
     newArchAction->setEnabled(true);
-    closeAction->setEnabled(bHaveFiles);
 }
 
 void
@@ -238,7 +231,6 @@ KUrl
 MainWindow::getOpenURL( bool addOnly, const QString & caption,
                                const QString & startDir, const QString & suggestedName )
 {
-    kDebug( 1601 ) << "startDir is: " << startDir << endl;
     QWidget * forceFormatWidget = new QWidget( this );
     QHBoxLayout * l = new QHBoxLayout( forceFormatWidget );
 
@@ -305,17 +297,10 @@ MainWindow::file_open()
 }
 
 void
-MainWindow::file_close()
-{
-    m_part->closeUrl();
-}
-
-void
 MainWindow::window_close()
 {
-    file_close();
+    m_part->closeUrl();
     slotSaveProperties();
-    //kDebug(1601) << "-ArkWidget::window_close" << endl;
     close();
 }
 
@@ -324,12 +309,6 @@ MainWindow::queryClose()
 {
     window_close();
     return true;
-}
-
-void
-MainWindow::file_quit()
-{
-    window_close();
 }
 
 void
@@ -349,7 +328,6 @@ void
 MainWindow::readProperties( KConfigGroup &config )
 {
     QString file = config.readPathEntry( "SMOpenedFile" );
-    kDebug(1601) << "ArkWidget::readProperties( KConfig* config ) file=" << file << endl;
     if ( !file.isEmpty() )
         openURL( file );
 }
