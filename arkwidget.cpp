@@ -378,29 +378,6 @@ bool ArkWidget::allowedArchiveName( const KUrl & u )
     return false;
 }
 
-void ArkWidget::extractTo( const KUrl & targetDirectory, const KUrl & archive, bool bGuessName )
-{
-    m_extractTo_targetDirectory = targetDirectory;
-
-    if ( bGuessName ) // suggest an extract directory based on archive name
-    {
-        const QString fileName = guessName( archive );
-        m_extractTo_targetDirectory.setPath( targetDirectory.path( KUrl::AddTrailingSlash ) + fileName + '/' );
-    }
-
-    if ( !KIO::NetAccess::exists( m_extractTo_targetDirectory, false, this ) )
-    {
-        if ( !KIO::NetAccess::mkdir( m_extractTo_targetDirectory, this ) )
-        {
-            KMessageBox::error( 0, i18n( "Could not create the folder %1" ,
-                                                            targetDirectory.prettyUrl() ) );
-            emit request_file_quit();
-            return;
-        }
-    }
-
-    connect( this, SIGNAL( openDone( bool ) ), this, SLOT( extractToSlotOpenDone( bool ) ) );
-}
 
 const QString ArkWidget::guessName( const KUrl &archive )
 {
@@ -504,43 +481,6 @@ void ArkWidget::extractToSlotExtractDone( bool success )
     }
     else
         emit request_file_quit();
-}
-
-bool ArkWidget::addToArchive( const KUrl::List & filesToAdd, const KUrl & archive)
-{
-    m_addToArchive_filesToAdd = filesToAdd;
-    m_addToArchive_archive = archive;
-    if ( !KIO::NetAccess::exists( archive, false, this ) )
-    {
-        if ( !m_openAsMimeType.isEmpty() )
-        {
-            QStringList extensions = KMimeType::mimeType( m_openAsMimeType )->patterns();
-            QStringList::Iterator it = extensions.begin();
-            QString file = archive.path();
-            for ( ; it != extensions.end() && !file.endsWith( ( *it ).remove( '*' ) ); ++it )
-                ;
-
-            if ( it == extensions.end() )
-            {
-                file += ArchiveFormatInfo::self()->defaultExtension( m_openAsMimeType );
-                const_cast< KUrl & >( archive ).setPath( file );
-            }
-        }
-
-        connect( this, SIGNAL( createDone( bool ) ), this, SLOT( addToArchiveSlotCreateDone( bool ) ) );
-
-        // TODO: remote Archives should be handled by createArchive
-        if ( archive.isLocalFile() )
-            if ( !createArchive( archive.path() ) )
-                 return false;
-        else
-            if ( !createArchive( tmpDir() + archive.fileName() ) )
-                 return false;
-    return true;
-
-    }
-    connect( this, SIGNAL( openDone( bool ) ), this, SLOT( addToArchiveSlotOpenDone( bool ) ) );
-    return true;
 }
 
 void ArkWidget::addToArchiveSlotCreateDone( bool success )

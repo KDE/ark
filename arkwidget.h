@@ -101,8 +101,6 @@ public:
     void prepareViewFiles( const QStringList & fileList );
     virtual void setArchivePopupEnabled( bool b );
 
-    virtual void extractTo( const KUrl & targetDirectory, const KUrl & archive, bool bGuessName );
-    virtual bool addToArchive( const KUrl::List & filesToAdd, const KUrl & archive = KUrl() );
     void convertTo( const KUrl & u );
 
     bool isModified() { return m_modified; }
