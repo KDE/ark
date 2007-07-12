@@ -35,18 +35,15 @@
 class QString;
 class QStringList;
 
-// This class follows the singleton pattern.
 class ArkApplication : public KUniqueApplication
 {
 	Q_OBJECT
+	protected:
+		ArkApplication();
 	public:
-		virtual int newInstance();
 		virtual ~ArkApplication() {}
 
-		// keep track of windows so we know when to quit
-		int windowCount() { return m_windowCount; }
-		int addWindow() { ++m_windowCount; return m_windowCount; }
-		void removeWindow() { --m_windowCount;}
+		virtual int newInstance();
 
 		// keep track of open archive names so we don't open one twice
 		// note that ArkWidget is not a pointer to const because raise()
@@ -61,12 +58,9 @@ class ArkApplication : public KUniqueApplication
 		// use this function to access data from other modules.
 		static ArkApplication *getInstance();
 
-	protected:
-		ArkApplication();
 
 	private:
 		QWidget *m_mainwidget;  // to be the parent of all ArkWidgets
-		int m_windowCount;
 
 		QStringList openArksList;
 

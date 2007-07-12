@@ -101,7 +101,7 @@ ArkApplication * ArkApplication::getInstance()
 }
 
 ArkApplication::ArkApplication()
-  : KUniqueApplication(), m_windowCount(0)
+  : KUniqueApplication()
 {
 	m_mainwidget = new QWidget;
 }

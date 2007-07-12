@@ -84,7 +84,6 @@ MainWindow::MainWindow( QWidget * /*parent*/ )
         connect( m_widget, SIGNAL( disableAllActions() ), this,
                  SLOT( slotDisableActions() ) );
 
-        ArkApplication::getInstance()->addWindow();
         connect( m_widget, SIGNAL( removeOpenArk( const  KUrl &) ), this,
                  SLOT( slotRemoveOpenArk( const KUrl & ) ) );
         connect( m_widget, SIGNAL( addOpenArk( const  KUrl & ) ), this,
@@ -108,7 +107,6 @@ MainWindow::MainWindow( QWidget * /*parent*/ )
 
 MainWindow::~MainWindow()
 {
-    ArkApplication::getInstance()->removeWindow();
     delete m_part;
     delete progressDialog;
     progressDialog = 0;
