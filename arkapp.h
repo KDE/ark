@@ -35,16 +35,6 @@
 class QString;
 class QStringList;
 
-class EqualKey
-{
-	public:
-		bool operator()(const QString & str1, const QString & str2) const
-		{
-			return (str1 == str2);
-		}
-};
-
-
 // This class follows the singleton pattern.
 class ArkApplication : public KUniqueApplication
 {
