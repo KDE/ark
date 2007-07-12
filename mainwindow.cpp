@@ -41,7 +41,6 @@
 #include <kio/netaccess.h>
 #include <kxmlguifactory.h>
 #include <KGlobal>
-#include <KProgressDialog>
 #include <KStandardShortcut>
 #include <KStandardAction>
 #include <KIcon>
@@ -53,7 +52,7 @@
 #include "arkwidget.h"
 
 MainWindow::MainWindow( QWidget * /*parent*/ )
-	: KParts::MainWindow(), progressDialog( 0 )
+	: KParts::MainWindow()
 {
     setXMLFile( "arkui.rc" );
     m_part = KParts::ComponentFactory::createPartInstanceFromLibrary<KParts::ReadWritePart>( "libarkpart", this, this);
@@ -108,8 +107,6 @@ MainWindow::MainWindow( QWidget * /*parent*/ )
 MainWindow::~MainWindow()
 {
     delete m_part;
-    delete progressDialog;
-    progressDialog = 0;
 }
 
 void
@@ -382,100 +379,6 @@ MainWindow::slotRemoveOpenArk( const KUrl & _arkname )
 {
     ArkApplication::getInstance()->removeOpenArk( _arkname );
 }
-
-void
-MainWindow::setExtractOnly ( bool b )
-{
-    m_widget->setExtractOnly(  b );
-}
-
-void
-MainWindow::extractTo( const KUrl & targetDirectory, const KUrl & archive, bool guessName )
-{
-    startProgressDialog( i18n( "Extracting..." ) );
-    m_widget->extractTo( targetDirectory, archive, guessName );
-    m_part->openUrl( archive );
-}
-
-void
-MainWindow::addToArchive( const KUrl::List & filesToAdd, const QString & /*cwd*/,
-                                 const KUrl & archive, bool askForName )
-{
-    KUrl archiveFile;
-    if ( askForName || archive.isEmpty() )
-    {
-        // user definded actions in servicemus are being started by konq
-        // from konqis working directory, not from the one being shown when
-        // the popupmenu was requested; work around that so the user
-        // sees a list of the archives in the diretory he is looking at.
-        // makes it show the 'wrong' dir when being called from the commandline
-        // like: /dira> ark -add /dirb/file, but well...
-        KUrl cwdURL;
-        cwdURL.setPath( filesToAdd.first().path() );
-        QString dir = cwdURL.directory( KUrl::AppendTrailingSlash );
-
-        archiveFile = getOpenURL( true, i18n( "Select Archive to Add Files To" ),
-                                  dir /*cwd*/, archive.fileName() );
-    }
-    else
-        archiveFile = archive;
-
-    if ( archiveFile.isEmpty() )
-    {
-        kDebug( 1601 ) << "no archive selected." << endl;
-        file_quit();
-        return;
-    }
-
-    startProgressDialog( i18n( "Compressing..." ) );
-
-    bool exists = KIO::NetAccess::exists( archiveFile, false, m_widget );
-    kDebug( 1601 ) << archiveFile << endl;
-
-    if ( !m_widget->addToArchive( filesToAdd, archiveFile ) )
-        file_quit();
-    if ( exists )
-        m_part->openUrl( archiveFile );
-}
-
-void
-MainWindow::startProgressDialog( const QString & text )
-{
-    if ( !progressDialog )
-    {
-        progressDialog = new KProgressDialog( this, QString(), text, false );
-        progressDialog->setObjectName("progress_dialog");
-    }
-    else
-        progressDialog->setLabelText( text );
-
-//    progressDialog->setWFlags( Qt::WType_TopLevel );
-
-    progressDialog->setAllowCancel( true );
-    progressDialog->setPlainCaption( i18n( "Please Wait" ) );
-
-    progressDialog->progressBar()->setMaximum( 0 );
-    progressDialog->progressBar()->setTextVisible( false );
-
-//    progressDialog->setInitialSize( QSize(200,100), true );
-    progressDialog->setMinimumDuration( 500 );
-    progressDialog->show();
-    KDialog::centerOnScreen( progressDialog );
-    connect( progressDialog, SIGNAL( cancelClicked() ), this, SLOT( window_close() ) );
-
-    timer = new QTimer( this );
-    connect( timer, SIGNAL( timeout() ), this, SLOT( slotProgress() ) );
-
-    timer->setSingleShot( false );
-    timer->start( 200 );
-}
-
-void
-MainWindow::slotProgress()
-{
-    progressDialog->progressBar()->setValue( progressDialog->progressBar()->value() + 4 );
-}
-
 
 #include "mainwindow.moc"
 

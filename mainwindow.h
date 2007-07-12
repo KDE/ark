@@ -35,7 +35,7 @@
 #include <KRecentFilesAction>
 
 class ArkWidget;
-class KProgressDialog;
+
 class
 MainWindow: public KParts::MainWindow
 {
@@ -43,11 +43,6 @@ MainWindow: public KParts::MainWindow
 public:
     MainWindow( QWidget *parent=0 );
     virtual ~MainWindow();
-
-    void setExtractOnly ( bool b );
-    void extractTo( const KUrl & targetDirectory, const KUrl & archive, bool guessName );
-    void addToArchive( const KUrl::List & filesToAdd, const QString & cwd = QString(),
-                       const KUrl & archive = KUrl(), bool askForName = false );
 
 public slots:
     void file_newWindow();
@@ -86,11 +81,6 @@ private: // methods
                      const QString & startDir = QString(),
                      const QString & suggestedName = QString() );
 
-    void startProgressDialog( const QString & text );
-
-private slots:
-    void slotProgress();
-
 private: // data
     KParts::ReadWritePart *m_part;
     ArkWidget *m_widget; //the parts widget
@@ -100,10 +90,6 @@ private: // data
     QAction *openAction;
     QAction *closeAction;
     KRecentFilesAction *recent;
-
-    //progress dialog for konqs service menus / command line
-    KProgressDialog *progressDialog;
-    QTimer *timer;
 };
 
 #endif /* ARKMAINWINDOW_H*/
