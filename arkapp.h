@@ -60,8 +60,6 @@ class ArkApplication : public KUniqueApplication
 
 
 	private:
-		QWidget *m_mainwidget;  // to be the parent of all ArkWidgets
-
 		QStringList openArksList;
 
 		// a hash to obtain the window associated with a filename.

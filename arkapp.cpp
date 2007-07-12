@@ -61,7 +61,6 @@ ArkApplication * ArkApplication::getInstance()
 ArkApplication::ArkApplication()
   : KUniqueApplication()
 {
-	m_mainwidget = new QWidget;
 }
 
 int
