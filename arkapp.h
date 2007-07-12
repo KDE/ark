@@ -1,6 +1,7 @@
 /*
 
  ark -- archiver for the KDE project
+ Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  Copyright (C) 2002 Helio Chissini de Castro <helio@conectiva.com.br>
  Copyright (C) 1999-2000 Corel Corporation (author: Emily Ezust <emilye@corel.com>)
  Copyright (C) 1999 Francois-Xavier Duranceau <duranceau@kde.org>
@@ -33,7 +34,6 @@
 #include <KUniqueApplication>
 
 class QString;
-class QStringList;
 
 class ArkApplication : public KUniqueApplication
 {
@@ -60,8 +60,6 @@ class ArkApplication : public KUniqueApplication
 
 
 	private:
-		QStringList openArksList;
-
 		// a hash to obtain the window associated with a filename.
 		// given a QString key, you get a MainWindow * pointer.
 		QHash<QString, MainWindow*> m_windowsHash;

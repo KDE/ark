@@ -37,16 +37,23 @@ ArkApplication *ArkApplication::m_instance = NULL;
 // a helper function to follow a symlink and obtain the real filename
 // Used in the ArkApplication functions that use the archive filename
 // to make sure an archive isn't opened twice in different windows
-static QString resolveFilename( const QString & filename )
+static QString resolveFilename( const KUrl & url )
 {
-	QFileInfo fi( filename );
-
-	while ( fi.isSymLink() )
+	if ( !url.isLocalFile() )
 	{
-		fi = QFileInfo( fi.symLinkTarget() );
+		return url.prettyUrl();
 	}
+	else
+	{
+		QFileInfo fi( url.path() );
 
-	return fi.absoluteFilePath();
+		while ( fi.isSymLink() )
+		{
+			fi = QFileInfo( fi.symLinkTarget() );
+		}
+
+		return fi.absoluteFilePath();
+	}
 }
 
 ArkApplication * ArkApplication::getInstance()
@@ -63,176 +70,141 @@ ArkApplication::ArkApplication()
 {
 }
 
-int
-ArkApplication::newInstance()
+int ArkApplication::newInstance()
 {
+	// If we are restored by session management, we don't need to open
+	// another window on startup.
+	if ( restoringSession() )
+		return 0;
 
-    // If we are restored by session management, we don't need to open
-    // another window on startup.
-    if (restoringSession()) return 0;
+	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+	if ( args->isSet( "extract-to" ) )
+	{
+		if ( args->count() == 2 )
+		{
+			MainWindow *arkWin = new MainWindow();
 
-    if ( args->isSet( "extract-to" ) )
-    {
-        if ( args->count() == 2 )
-        {
-            MainWindow *arkWin = new MainWindow();
+			arkWin->extractTo( args->url( 0 ), args->url( 1 ), args->isSet( "guess-name" ) );
+		}
+		else
+		{
+		    KCmdLineArgs::usageError( i18n( "Wrong number of arguments specified" ) );
+		}
+		return 0;
+	}
 
-            arkWin->extractTo( args->url( 0 ), args->url( 1 ), args->isSet( "guess-name" ) );
-            return 0;
-        }
-        else
-        {
-            KCmdLineArgs::usageError( i18n( "Wrong number of arguments specified" ) );
-            return 0;
-        }
-    }
+	if ( args->isSet( "add-to" ) && ( !args->isSet( "add" ) ) )
+	{
+		if ( args->count() < 2 )
+		{
+			KCmdLineArgs::usageError( i18n( "You need to specify at least one file to be added to the archive." ) );
+		}
+		else
+		{
+			KUrl::List urlList;
+			for ( int c = 0; c < args->count()-1 ; c++ )
+				urlList.append( args->url( c ) );
 
-    if ( args->isSet( "add-to" ) && ( !args->isSet( "add" ) ) )
-    {
-        if ( args->count() < 2 )
-        {
-            KCmdLineArgs::usageError( i18n( "You need to specify at least one file to be added to the archive." ) );
-            return 0;
-        }
-        else
-        {
-            KUrl::List URLList;
-            for ( int c = 0; c < args->count()-1 ; c++ )
-                URLList.append( args->url( c ) );
+			MainWindow *arkWin = new MainWindow();
 
-            MainWindow *arkWin = new MainWindow();
+			arkWin->addToArchive( urlList, args->cwd(), args->url( args->count()-1 ) );
+		}
+		return 0;
+	}
 
-            arkWin->addToArchive( URLList, args->cwd(), args->url( args->count()-1 ) );
-            return 0;
-        }
-    }
+	if ( args->isSet( "add" ) && args->isSet( "add-to" ) )   // HACK
+	{
+		bool oneFile = (args->count() == 2 ) ;
 
-    if ( args->isSet( "add" ) && args->isSet( "add-to" ) )   // HACK
-    {
-        bool oneFile = (args->count() == 2 ) ;
+		QString extension = args->arg( 0 );
+		KUrl archiveName = args->url( 1 );  // the filename
 
-        QString extension = args->arg( 0 );
-        KUrl archiveName = args->url( 1 );  // the filename
+		// if more than one file -> use directory name
+		if ( !oneFile )
+			archiveName.setPath( archiveName.directory() );
 
-        // if more than one file -> use directory name
-        if ( !oneFile )
-            archiveName.setPath( archiveName.directory() );
+		archiveName.setFileName( archiveName.fileName() + extension );
+		KUrl::List urlList;
+		for ( int c = 1; c < args->count(); c++ )
+			urlList.append( args->url( c ) );
 
-        archiveName.setFileName( archiveName.fileName() + extension );
-        KUrl::List URLList;
-        for ( int c = 1; c < args->count(); c++ )
-            URLList.append( args->url( c ) );
+		MainWindow *arkWin = new MainWindow();
 
-        MainWindow *arkWin = new MainWindow();
-
-        arkWin->addToArchive( URLList, args->cwd(), archiveName, !oneFile );
-        return 0;
-    }
+		arkWin->addToArchive( urlList, args->cwd(), archiveName, !oneFile );
+		return 0;
+	}
 
 
-    if ( args->isSet( "add" ) && ( !args->isSet( "add-to" ) ) )
-    {
-        if ( args->count() < 1 )
-        {
-            KCmdLineArgs::usageError( i18n( "You need to specify at least one file to be added to the archive." ) );
-            return 0;
-        }
-        else
-        {
-            KUrl::List URLList;
-            for ( int c = 0; c < args->count() ; c++ )
-                URLList.append( args->url( c ) );
+	if ( args->isSet( "add" ) && ( !args->isSet( "add-to" ) ) )
+	{
+		if ( args->count() < 1 )
+		{
+			KCmdLineArgs::usageError( i18n( "You need to specify at least one file to be added to the archive." ) );
+		}
+		else
+		{
+			KUrl::List urlList;
+			for ( int c = 0; c < args->count() ; c++ )
+				urlList.append( args->url( c ) );
 
-            MainWindow *arkWin = new MainWindow();
+			MainWindow *arkWin = new MainWindow();
 
-            arkWin->addToArchive( URLList, args->cwd() );
-            return 0;
-        }
-    }
+			arkWin->addToArchive( urlList, args->cwd() );
+		}
+		return 0;
+	}
 
 
-    int i = 0;
-    KUrl url;
-    bool doAutoExtract = args->isSet("extract");
-    bool tempFile = KCmdLineArgs::isTempFileSet();
-    do
-    {
-        if (args->count() > 0)
-        {
-            url = args->url(i);
-        }
-        MainWindow *arkWin = new MainWindow();
-        arkWin->show();
-        if(doAutoExtract)
-        {
-            arkWin->setExtractOnly(true);
-        }
-        if (!url.isEmpty())
-        {
-            arkWin->openURL(url, tempFile);
-        }
+	int i = 0;
+	KUrl url;
+	bool doAutoExtract = args->isSet( "extract" );
+	bool tempFile = KCmdLineArgs::isTempFileSet();
+	do
+	{
+		if (args->count() > 0)
+		{
+			url = args->url(i);
+		}
+		MainWindow *arkWin = new MainWindow();
+		arkWin->show();
+		if( doAutoExtract )
+		{
+			arkWin->setExtractOnly(true);
+		}
+		if ( !url.isEmpty() )
+		{
+			arkWin->openURL(url, tempFile);
+		}
 
-        ++i;
-    } while  (i < args->count());
+		++i;
+	} while  ( i < args->count() );
 
-    args->clear();
-    return 0;
+	args->clear();
+	return 0;
 }
 
 
-void
-ArkApplication::addOpenArk(const KUrl & _arkname, MainWindow *_ptr)
+void ArkApplication::addOpenArk(const KUrl & url, MainWindow *_ptr)
 {
-    QString realName;
-    if( _arkname.isLocalFile() )
-    {
-        realName = resolveFilename( _arkname.path() );  // follow symlink
-        kDebug(1601) << " Real name of " << _arkname.prettyUrl() << " is " << realName << endl;
-    }
-    else
-        realName = _arkname.prettyUrl();
-    openArksList.append(realName);
-    m_windowsHash.remove(realName);
-    m_windowsHash[realName] = _ptr;
-    kDebug(1601) << "Saved ptr " << _ptr << " added open ark: " << realName << endl;
+	m_windowsHash.insert( resolveFilename( url ), _ptr );
 }
 
-void
-ArkApplication::removeOpenArk(const KUrl & _arkname)
+void ArkApplication::removeOpenArk( const KUrl & url )
 {
-    QString realName;
-    if ( _arkname.isLocalFile() )
-        realName = resolveFilename( _arkname.path() );  // follow symlink
-    else
-        realName = _arkname.prettyUrl();
-    kDebug(1601) << "Removing name " << _arkname.prettyUrl() << endl;
-    openArksList.removeAll(realName);
-    m_windowsHash.remove(realName);
+	m_windowsHash.remove( resolveFilename( url ) );
 }
 
-void
-ArkApplication::raiseArk(const KUrl & _arkname)
+void ArkApplication::raiseArk( const KUrl & url )
 {
-    QString realName;
-    if( _arkname.isLocalFile() )
-        realName = resolveFilename(_arkname.path());  // follow symlink
-    else
-        realName = _arkname.prettyUrl();
-    if ( m_windowsHash.contains( realName ) )
-        m_windowsHash[realName]->raise();
+	QString realName = resolveFilename( url );
+	if ( m_windowsHash.contains( realName ) )
+		m_windowsHash[realName]->raise();
 }
 
-bool
-ArkApplication::isArkOpenAlready(const KUrl & _arkname)
+bool ArkApplication::isArkOpenAlready( const KUrl & url )
 {
-    QString realName;
-    if ( _arkname.isLocalFile() )
-        realName = resolveFilename(_arkname.path());  // follow symlink
-    else
-        realName = _arkname.prettyUrl();
-	return ( openArksList.indexOf(realName) != -1 );
+	return m_windowsHash.contains( resolveFilename( url ) );
 }
 
 #include "arkapp.moc"
