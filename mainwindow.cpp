@@ -112,7 +112,7 @@ MainWindow::~MainWindow()
 void
 MainWindow::setupActions()
 {
-    newArchAction = KStandardAction::openNew(this, SLOT(file_newWindow()), actionCollection());
+    newArchAction = KStandardAction::openNew(this, SLOT(slotNew()), actionCollection());
     openAction = KStandardAction::open(this, SLOT(file_open()), actionCollection());
 
     recent = KStandardAction::openRecent(this, SLOT(openURL(const KUrl&)), actionCollection());
@@ -142,11 +142,9 @@ MainWindow::slotFixActionState( const bool & bHaveFiles )
     newArchAction->setEnabled(true);
 }
 
-void
-MainWindow::file_newWindow()
+void MainWindow::slotNew()
 {
     MainWindow *kw = new MainWindow;
-    kw->resize( 640, 300 );
     kw->show();
 }
 

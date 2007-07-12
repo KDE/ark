@@ -45,7 +45,6 @@ MainWindow: public KParts::MainWindow
 		virtual ~MainWindow();
 
 	public slots:
-		void file_newWindow();
 		void openURL( const KUrl & url, bool tempFile = false );
 		void file_open();
 		void editToolbars();
@@ -66,7 +65,10 @@ MainWindow: public KParts::MainWindow
 	protected:
 		virtual bool queryClose(); // SM
 
-	private: // methods
+
+	private slots:
+		void slotNew();
+	private:
 		// disabling/enabling of buttons and menu items
 		void setupActions();
 		void setupMenuBar();
@@ -78,7 +80,6 @@ MainWindow: public KParts::MainWindow
 		                 const QString & startDir = QString(),
 		                 const QString & suggestedName = QString() );
 
-	private: // data
 		KParts::ReadWritePart *m_part;
 		ArkWidget *m_widget; //the parts widget
 
