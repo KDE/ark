@@ -41,13 +41,14 @@ class ArchiveJobHelper: public QObject, public ArchiveObserver
 
 		bool getTheListing();
 
-		void onError( const QString & message, const QString & details );
+		void onError( const QString & message, const QString & details = QString() );
 		void onEntry( const ArchiveEntry & archiveEntry );
 		void onProgress( double );
 
 	signals:
 		void entry( const ArchiveEntry & );
 		void progress( double );
+		void error( const QString & message, const QString & details );
 
 	private slots:
 		void entryslot( const ArchiveEntry & );

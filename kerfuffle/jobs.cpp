@@ -90,7 +90,7 @@ bool ArchiveJobHelper::getTheListing()
 
 void ArchiveJobHelper::onError( const QString & message, const QString & details )
 {
-	// TODO: do something
+	emit error( message, details );
 }
 
 void ArchiveJobHelper::onEntry( const ArchiveEntry & archiveEntry )

@@ -96,6 +96,7 @@ class KERFUFFLE_EXPORT Arch : public QObject
 		void sigExtract( bool );
 		void sigAdd( bool );
 		void newEntry( const ArchiveEntry& entry );
+		void error( const QString& error, const QString& details );
 
 	protected:
 		void setReadOnly( bool readOnly ) { m_readOnly = readOnly; }
@@ -103,20 +104,5 @@ class KERFUFFLE_EXPORT Arch : public QObject
 		QString m_filename;
 		bool m_readOnly; // for readonly archives
 };
-
-// Columns
-#define FILENAME_COLUMN    qMakePair( i18n(" Filename "),    Qt::AlignLeft  )
-#define PERMISSION_COLUMN  qMakePair( i18n(" Permissions "), Qt::AlignLeft  )
-#define OWNER_GROUP_COLUMN qMakePair( i18n(" Owner/Group "), Qt::AlignLeft  )
-#define SIZE_COLUMN        qMakePair( i18n(" Size "),        Qt::AlignRight )
-#define TIMESTAMP_COLUMN   qMakePair( i18n(" Timestamp "),   Qt::AlignRight )
-#define LINK_COLUMN        qMakePair( i18n(" Link "),        Qt::AlignLeft  )
-#define PACKED_COLUMN      qMakePair( i18n(" Size Now "),    Qt::AlignRight )
-#define RATIO_COLUMN       qMakePair( i18n(" Ratio "),       Qt::AlignRight )
-#define CRC_COLUMN         qMakePair( i18nc("Cyclic Redundancy Check"," CRC "), Qt::AlignRight )
-#define METHOD_COLUMN      qMakePair( i18n(" Method "),  Qt::AlignLeft  )
-#define VERSION_COLUMN     qMakePair( i18n(" Version "), Qt::AlignLeft  )
-#define OWNER_COLUMN       qMakePair( i18n(" Owner "),   Qt::AlignLeft  )
-#define GROUP_COLUMN       qMakePair( i18n(" Group "),   Qt::AlignLeft  )
 
 #endif /* ARCH_H */

@@ -58,6 +58,8 @@ void ArchiveBase::open()
 	         this, SLOT( listingDone( ThreadWeaver::Job * ) ) );
 	connect( job, SIGNAL( entry( const ArchiveEntry & ) ),
 	         this, SIGNAL( newEntry( const ArchiveEntry & ) ) );
+	connect( job, SIGNAL( error( const QString&, const QString& ) ),
+	         this, SIGNAL( error( const QString&, const QString& ) ) );
 	ThreadWeaver::Weaver::instance()->enqueue( job );
 }
 
@@ -88,6 +90,8 @@ void ArchiveBase::extractFiles( const QList<QVariant> & files, const QString& de
 	ExtractionJob *job = new ExtractionJob( m_iface, files, destinationDir, this );
 	connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
 	         this, SLOT( extractionDone( ThreadWeaver::Job * ) ) );
+	connect( job, SIGNAL( error( const QString&, const QString& ) ),
+	         this, SIGNAL( error( const QString&, const QString& ) ) );
 	ThreadWeaver::Weaver::instance()->enqueue( job );
 }
 
