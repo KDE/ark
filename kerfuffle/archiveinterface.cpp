@@ -25,6 +25,7 @@
  */
 
 #include "archiveinterface.h"
+#include "observer.h"
 
 ReadOnlyArchiveInterface::ReadOnlyArchiveInterface( const QString & filename, QObject *parent )
 	: QObject( parent ), m_filename( filename )

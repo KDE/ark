@@ -29,8 +29,10 @@
 #include <ThreadWeaver/Job>
 #include <ThreadWeaver/Weaver>
 
-#include "archiveinterface.h"
 #include <QList>
+
+#include "observer.h"
+#include "archiveinterface.h"
 
 class ArchiveJobHelper: public QObject, public ArchiveObserver
 {

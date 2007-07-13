@@ -33,16 +33,7 @@
 #include "arch.h"
 #include "kerfuffle_export.h"
 
-class ArchiveObserver
-{
-	public:
-		ArchiveObserver() {}
-		virtual ~ArchiveObserver() {}
-
-		virtual void onError( const QString & message, const QString & details ) = 0;
-		virtual void onEntry( const ArchiveEntry & archiveEntry ) = 0;
-		virtual void onProgress( double ) = 0;
-};
+class ArchiveObserver;
 
 class KERFUFFLE_EXPORT ReadOnlyArchiveInterface: public QObject
 {
