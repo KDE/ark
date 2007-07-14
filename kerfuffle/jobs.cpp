@@ -45,6 +45,8 @@ void ListingJob::run()
 	         this, SIGNAL( entry( const ArchiveEntry & ) ) );
 	connect( m_helper, SIGNAL( progress( double ) ),
 	         this, SIGNAL( progress( double ) ) );
+	connect( m_helper, SIGNAL( error( const QString&, const QString& ) ),
+	         this, SIGNAL( error( const QString&, const QString& ) ) );
 	m_success = m_helper->getTheListing();
 }
 
@@ -66,6 +68,8 @@ void ExtractionJob::run()
 	m_helper = new ArchiveJobHelper( m_archive );
 	connect( m_helper, SIGNAL( progress( double ) ),
 	         this, SIGNAL( progress( double ) ) );
+	connect( m_helper, SIGNAL( error( const QString&, const QString& ) ),
+	         this, SIGNAL( error( const QString&, const QString& ) ) );
 	m_archive->registerObserver( m_helper );
 	m_success = m_archive->copyFiles( m_files, m_destinationDirectory );
 	m_archive->removeObserver( m_helper );

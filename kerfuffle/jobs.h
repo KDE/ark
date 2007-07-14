@@ -49,6 +49,7 @@ class ListingJob: public ThreadWeaver::Job
 		void entry( const ArchiveEntry & );
 		//void entries( const QList<ArchiveEntry & );
 		void progress( double );
+		void error( const QString& errorMessage, const QString& details );
 
 	private:
 		QList<ArchiveEntry>       m_entries;
@@ -71,6 +72,7 @@ class ExtractionJob: public ThreadWeaver::Job
 
 	signals:
 		void progress( double p );
+		void error( const QString& errorMessage, const QString& details );
 
 	private:
 		ReadOnlyArchiveInterface *m_archive;

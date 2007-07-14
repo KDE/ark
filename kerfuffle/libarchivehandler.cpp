@@ -80,7 +80,6 @@ bool LibArchiveInterface::list()
 		e[ OriginalFileName ] = QByteArray( archive_entry_pathname( aentry ) );
 		e[ Owner ] = QString( archive_entry_uname( aentry ) );
 		e[ Group ] = QString( archive_entry_gname( aentry ) );
-		kDebug( 1601 ) << "Entry: " << e[ FileName ] << ", Owner = " << e[ Owner ] << endl;
 		e[ Size ] = ( qlonglong ) archive_entry_size( aentry );
 		if ( archive_entry_symlink( aentry ) )
 		{
@@ -144,7 +143,6 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 		}
 		else
 		{
-			kDebug( 1601 ) << entryName << " matches no requested file. " << endl;
 			archive_read_data_skip( arch );
 		}
 	}
@@ -178,7 +176,6 @@ void LibArchiveInterface::copyData( struct archive *source, struct archive *dest
 
 	while ( archive_read_data_block( source, &buff, &size, &offset ) == ARCHIVE_OK )
 	{
-		kDebug( 1601 )  << "	copyData: copying " << size << " from offset " << offset << endl;
 		archive_write_data_block( dest, buff, size, offset );
 	}
 }
