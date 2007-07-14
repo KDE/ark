@@ -30,16 +30,25 @@ class ArchiveNode
 {
 	public:
 		ArchiveNode( ArchiveDirNode *parent, const ArchiveEntry & entry )
-			: m_entry( entry ), m_parent( parent )
+			: m_parent( parent ), m_row( -1 )
 		{
+			setEntry( entry );
 		}
 
 		virtual ~ArchiveNode() {}
 
 		ArchiveEntry entry() const { return m_entry; }
+		void setEntry( const ArchiveEntry & entry )
+		{
+			m_entry = entry;
+			QStringList pieces = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts );
+			m_name = pieces.isEmpty()? QString() : pieces.last();
+		}
+
 		ArchiveDirNode *parent() const { return m_parent; }
 
-		int row() const;
+		int row();
+		QString name() const { return m_name; }
 
 		virtual bool isDir() const { return false; }
 
@@ -47,6 +56,8 @@ class ArchiveNode
 	private:
 		ArchiveEntry    m_entry;
 		ArchiveDirNode *m_parent;
+		QString         m_name;
+		int             m_row;
 };
 
 class ArchiveDirNode: public ArchiveNode
@@ -66,15 +77,30 @@ class ArchiveDirNode: public ArchiveNode
 
 		virtual bool isDir() const { return true; }
 
+		ArchiveNode* find( const QString & name )
+		{
+			foreach( ArchiveNode *node, m_entries )
+			{
+				if ( node->name() == name )
+				{
+					return node;
+				}
+			}
+			return 0;
+		}
+
 	private:
 		QList<ArchiveNode*> m_entries;
 };
 
-int ArchiveNode::row() const
+int ArchiveNode::row()
 {
+	if ( m_row != -1 ) return m_row;
+
 	if ( parent() )
 	{
-		return parent()->entries().indexOf( const_cast<ArchiveNode*>( this ) );
+		m_row = parent()->entries().indexOf( const_cast<ArchiveNode*>( this ) );
+		return m_row;
 	}
 	return 0;
 }
@@ -107,7 +133,7 @@ QVariant ArchiveModel::data( const QModelIndex &index, int role ) const
 		switch ( role )
 		{
 			case Qt::DisplayRole:
-				return node->entry()[ FileName ];
+				return node->name();
 			default:
 				return QVariant();
 		}
@@ -144,6 +170,8 @@ QModelIndex ArchiveModel::index( int row, int column, const QModelIndex &parent 
 	{
 		ArchiveDirNode *parentNode = parent.isValid()? static_cast<ArchiveDirNode*>( parent.internalPointer() ) : m_rootNode;
 
+		Q_ASSERT( parentNode->isDir() );
+
 		ArchiveNode *item = parentNode->entries().value( row, 0 );
 		if ( item )
 		{
@@ -159,6 +187,7 @@ QModelIndex ArchiveModel::parent( const QModelIndex &index ) const
 	if ( index.isValid() )
 	{
 		ArchiveNode *item = static_cast<ArchiveNode*>( index.internalPointer() );
+		Q_ASSERT( item );
 		if ( item->parent() && ( item->parent() != m_rootNode ) )
 		{
 			return createIndex( item->parent()->row(), 0, item->parent() );
@@ -190,19 +219,77 @@ int ArchiveModel::columnCount( const QModelIndex &parent ) const
 	return 1; // TODO: Completely bogus
 }
 
+ArchiveDirNode* ArchiveModel::parentFor( const ArchiveEntry& entry )
+{
+	QStringList pieces = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts );
+	pieces.removeLast();
+
+	ArchiveDirNode *parent = m_rootNode;
+
+	foreach( QString piece, pieces )
+	{
+		ArchiveNode *node = parent->find( piece );
+		if ( !node )
+		{
+			ArchiveEntry e;
+			e[ FileName ] = parent->entry()[ FileName ].toString() + '/' + piece;
+			node = new ArchiveDirNode( parent, e );
+		}
+		if ( !node->isDir() )
+		{
+			ArchiveEntry e( node->entry() );
+			int index = parent->entries().indexOf( node );
+			delete node;
+			node = new ArchiveDirNode( parent, e );
+			parent->entries()[ index ] = node;
+		}
+		parent = static_cast<ArchiveDirNode*>( node );
+	}
+
+	return parent;
+}
+QModelIndex ArchiveModel::indexForNode( ArchiveNode *node )
+{
+	Q_ASSERT( node );
+	if ( node != m_rootNode )
+	{
+		Q_ASSERT( node->parent() );
+		Q_ASSERT( node->parent()->isDir() );
+		return createIndex( node->row(), 0, node );
+	}
+	return QModelIndex();
+}
+
 void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 {
 	/// 1. Find Parent Node
 
-	ArchiveDirNode *parent  = m_rootNode; // TODO: Don't make everyone child of the root, obey the hierarchy
-	QModelIndex parentIndex = QModelIndex();
+	ArchiveDirNode *parent  = parentFor( entry ); // TODO: Don't make everyone child of the root, obey the hierarchy
+	QModelIndex parentIndex = indexForNode( parent );
+
 
 	/// 2. Create an ArchiveNode
 
-	beginInsertRows( parentIndex, m_rootNode->entries().count(), m_rootNode->entries().count() );
+	QString name = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts ).last();
+	ArchiveNode *node = parent->find( name );
+	if ( node )
+	{
+		node->setEntry( entry );
+	}
+	else
+	{
+		beginInsertRows( parentIndex, m_rootNode->entries().count(), m_rootNode->entries().count() );
 
-	ArchiveNode *node = new ArchiveNode( parent, entry );
-	parent->entries().append( node );
+		if ( entry[ FileName ].toString().endsWith( '/' ) )
+		{
+			node = new ArchiveDirNode( parent, entry );
+		}
+		else
+		{
+			node = new ArchiveNode( parent, entry );
+		}
+		parent->entries().append( node );
 
-	endInsertRows();
+		endInsertRows();
+	}
 }

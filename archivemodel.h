@@ -24,7 +24,7 @@
 #include <QAbstractItemModel>
 #include "kerfuffle/arch.h"
 
-class Arch;
+class ArchiveNode;
 class ArchiveDirNode;
 
 class ArchiveModel: public QAbstractItemModel
@@ -48,6 +48,9 @@ class ArchiveModel: public QAbstractItemModel
 		void slotNewEntry( const ArchiveEntry& entry );
 
 	private:
+		ArchiveDirNode* parentFor( const ArchiveEntry& entry );
+		QModelIndex indexForNode( ArchiveNode *node );
+
 		Arch *m_archive;
 		ArchiveDirNode *m_rootNode;
 };
