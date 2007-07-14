@@ -11,6 +11,24 @@ set(kerfuffle_SRCS ${libark_common_SRCS}
     libarchivehandler.cpp
     jobs.cpp
     archivebase.cpp
+    bkplugin.cpp
+    bk/bkAdd.c
+    bk/bkCache.c
+    bk/bkDelete.c
+    bk/bkError.c
+    bk/bkExtract.c
+    bk/bkGet.c
+    bk/bkLink.c
+    bk/bkMangle.c
+    bk/bkMisc.c
+    bk/bkPath.c
+    bk/bkRead7x.c
+    bk/bkRead.c
+    bk/bkSet.c
+    bk/bkSort.c
+    bk/bkTime.c
+    bk/bkWrite7x.c
+    bk/bkWrite.c
    )
 
 kde4_add_library(kerfuffle SHARED ${kerfuffle_SRCS})

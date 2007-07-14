@@ -24,15 +24,12 @@
  */
 
 #include "libarchivehandler.h"
-#include "jobs.h"
 #include "settings.h"
 
 #include <archive.h>
 #include <archive_entry.h>
 
 #include <kdebug.h>
-#include <ThreadWeaver/Job>
-#include <ThreadWeaver/Weaver>
 
 #include <QFile>
 #include <QDir>

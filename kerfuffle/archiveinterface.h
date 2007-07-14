@@ -53,7 +53,7 @@ class KERFUFFLE_EXPORT ReadOnlyArchiveInterface: public QObject
 		virtual bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory ) = 0;
 
 	protected:
-		void error( const QString & message, const QString & details );
+		void error( const QString & message, const QString & details = QString() );
 		void entry( const ArchiveEntry & archiveEntry );
 		void progress( double );
 

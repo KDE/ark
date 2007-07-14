@@ -46,6 +46,7 @@
 
 // the archive types
 #include "libarchivehandler.h"
+#include "bkplugin.h"
 
 Arch::Arch( const QString &filename )
 	: m_filename( filename ), m_readOnly( false )
@@ -67,6 +68,10 @@ Arch *Arch::archFactory( ArchType /*aType*/,
                          const QString &filename,
                          const QString &/*openAsMimeType*/ )
 {
+	if ( filename.endsWith( ".iso" ) )
+	{
+		return new ArchiveBase( new BKInterface( filename ) );
+	}
 	return new ArchiveBase( new LibArchiveInterface( filename ) );
 }
 #include "arch.moc"

@@ -1,0 +1,1 @@
+void maybeUpdateProgress(VolInfo* volInfo);
