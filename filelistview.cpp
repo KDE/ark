@@ -146,7 +146,6 @@ ArchiveEntry FileListView::item( const QString& filename )
 
 void FileListView::addItem( const ArchiveEntry & entry )
 {
-	kDebug( 1601 ) << k_funcinfo << endl;
 	QTreeWidgetItem *item = new QTreeWidgetItem( this );
 
 	m_entryMap[ item ] = entry;
@@ -167,7 +166,6 @@ void FileListView::addItem( const ArchiveEntry & entry )
 	item->setText( 4, KGlobal::locale()->formatDateTime( entry[ Timestamp ].toDateTime(), KLocale::FancyShortDate, true ) );
 
 	KMimeType::Ptr mimeType = KMimeType::findByPath( entry[ FileName ].toString(), 0, true );
-	kDebug( 1601 ) << "MimeIcon = " << mimeType->iconName() << endl;
 	item->setIcon( 0, KIconLoader::global()->loadMimeTypeIcon(mimeType->iconName(), K3Icon::Small ) );
 #warning "Port me"
 #if 0
