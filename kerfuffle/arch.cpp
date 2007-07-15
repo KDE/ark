@@ -46,9 +46,6 @@
 #include <KStandardDirs>
 #include <KLibLoader>
 
-// the archive types
-#include "bkplugin.h"
-
 Arch::Arch( const QString &filename )
 	: m_filename( filename ), m_readOnly( false )
 {
@@ -69,12 +66,9 @@ Arch *Arch::archFactory( ArchType /*aType*/,
                          const QString &filename,
                          const QString &/*openAsMimeType*/ )
 {
-	if ( filename.endsWith( ".iso" ) )
-	{
-		return new ArchiveBase( new BKInterface( filename ) );
-	}
-	//return new ArchiveBase( new LibArchiveInterface( filename ) );
-	KLibrary *lib = KLibLoader::self()->library( QFile::encodeName( "kerfuffle_libarchive" ), QLibrary::ExportExternalSymbolsHint );
+	QString libraryName = filename.endsWith( ".iso" )? "kerfuffle_bk" : "kerfuffle_libarchive";
+
+	KLibrary *lib = KLibLoader::self()->library( QFile::encodeName( libraryName ), QLibrary::ExportExternalSymbolsHint );
 	if ( lib )
 	{
 		ArchiveFactory *( *pluginFactory )() = ( ArchiveFactory *( * )() )lib->resolveFunction( "pluginFactory" );

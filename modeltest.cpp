@@ -32,7 +32,7 @@ int main( int argc, char **argv )
 
 	qRegisterMetaType<ArchiveEntry>( "ArchiveEntry" );
 
-	ArchiveModel model( Arch::archFactory( UNKNOWN_FORMAT, "/home/kde-devel/ark_test.tar.gz", "wololo" ) );
+	ArchiveModel model( Arch::archFactory( UNKNOWN_FORMAT, "/home/kde-devel/ark_test.iso", "wololo" ) );
 	QTreeView view;
 	view.setModel( &model );
 	view.show();

@@ -1,4 +1,5 @@
 #include "bkplugin.h"
+#include "kerfuffle/archivefactory.h"
 #include <kdebug.h>
 
 BKInterface::BKInterface( const QString & filename, QObject *parent )
@@ -94,4 +95,6 @@ bool BKInterface::browse( BkFileBase* base, const QString& prefix )
 
 	return true;
 }
+
+KERFUFFLE_PLUGIN_FACTORY( BKInterface );
 

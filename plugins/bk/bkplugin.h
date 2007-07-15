@@ -1,10 +1,10 @@
 #ifndef BKPLUGIN_H
 #define BKPLUGIN_H
 
-#include "archiveinterface.h"
+#include "kerfuffle/archiveinterface.h"
 extern "C"
 {
-#include "bk/bk.h"
+#include "bk.h"
 }
 
 class BKInterface: public ReadOnlyArchiveInterface

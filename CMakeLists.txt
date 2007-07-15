@@ -61,5 +61,5 @@ install( FILES arkui.rc ark_part.rc ark_part_readonly.rc  DESTINATION ${DATA_INS
 
 kde4_install_icons( ${ICON_INSTALL_DIR} )
 
-#add_subdirectory( plugins )
+add_subdirectory( plugins )
 add_subdirectory( kerfuffle )
