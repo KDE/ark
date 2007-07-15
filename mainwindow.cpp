@@ -51,6 +51,8 @@
 #include "archiveformatinfo.h"
 #include "arkwidget.h"
 
+static const char * const recentFilesConfigGroup = "Recent Files";
+
 MainWindow::MainWindow( QWidget * /*parent*/ )
 	: KParts::MainWindow()
 {
@@ -106,6 +108,7 @@ MainWindow::MainWindow( QWidget * /*parent*/ )
 
 MainWindow::~MainWindow()
 {
+    recent->saveEntries( KGlobal::config()->group( recentFilesConfigGroup ) );
     delete m_part;
 }
 
@@ -116,7 +119,7 @@ MainWindow::setupActions()
     openAction = KStandardAction::open(this, SLOT(file_open()), actionCollection());
 
     recent = KStandardAction::openRecent(this, SLOT(openURL(const KUrl&)), actionCollection());
-    recent->loadEntries(KGlobal::config()->group( QString() ));
+    recent->loadEntries( KGlobal::config()->group( recentFilesConfigGroup ) );
 
     createStandardStatusBarAction();
 
@@ -300,7 +303,7 @@ MainWindow::queryClose()
 void
 MainWindow::slotSaveProperties()
 {
-    recent->saveEntries( KGlobal::config()->group( QString() ) );
+    recent->saveEntries( KGlobal::config()->group( recentFilesConfigGroup ) );
 }
 
 void
@@ -322,14 +325,14 @@ void
 MainWindow::slotAddRecentURL( const KUrl & url )
 {
     recent->addUrl( url );
-    recent->saveEntries( KGlobal::config()->group( QString() ) );
+    recent->saveEntries( KGlobal::config()->group( recentFilesConfigGroup ) );
 }
 
 void
 MainWindow::slotRemoveRecentURL( const KUrl & url )
 {
     recent->removeUrl( url );
-    recent->saveEntries( KGlobal::config()->group( QString() ) );
+    recent->saveEntries( KGlobal::config()->group( recentFilesConfigGroup ) );
 }
 
 void
