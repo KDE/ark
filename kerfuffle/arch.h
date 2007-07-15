@@ -49,7 +49,6 @@ enum EntryMetaDataType { FileName = 0, OriginalFileName = 1, Permissions = 2, Ow
                          CRC = 9, Method = 10, Version = 11, Timestamp = 12, IsDirectory = 13, Custom = 1048576 };
 
 typedef QHash<int, QVariant> ArchiveEntry;
-typedef QList< QPair< QString, Qt::AlignmentFlag > > ColumnList;
 
 /**
  * Pure virtual base class for archives - provides a framework as well as

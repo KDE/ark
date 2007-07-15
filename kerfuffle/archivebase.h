@@ -28,13 +28,14 @@
 
 #include "arch.h"
 #include "archiveinterface.h"
+#include "kerfuffle_export.h"
 
 namespace ThreadWeaver
 {
 	class Job;
 } // namespace ThreadWeaver
 
-class ArchiveBase: public Arch
+class KERFUFFLE_EXPORT ArchiveBase: public Arch
 {
 	Q_OBJECT
 	public:

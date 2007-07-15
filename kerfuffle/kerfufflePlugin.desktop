@@ -1,0 +1,15 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=ServiceType
+X-KDE-ServiceType=Kerfuffle/Plugin
+Comment=Plugin for handling of archive formats for the Kerfuffle library
+
+# Priority. The greater the better.
+[PropertyDef::X-KDE-Priority]
+Type=int
+
+# Revision of the plugin API.
+[PropertyDef::X-KDE-Kerfuffle-APIRevision]
+Type=int
+
+

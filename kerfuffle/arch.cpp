@@ -27,6 +27,7 @@
 // ark includes
 #include "arch.h"
 #include "archivebase.h"
+#include "archivefactory.h"
 
 // C includes
 #include <cstdlib>
@@ -43,9 +44,10 @@
 #include <KLocale>
 #include <KPasswordDialog>
 #include <KStandardDirs>
+#include <KLibLoader>
 
 // the archive types
-#include "libarchivehandler.h"
+//#include "libarchivehandler.h"
 #include "bkplugin.h"
 
 Arch::Arch( const QString &filename )
@@ -72,6 +74,19 @@ Arch *Arch::archFactory( ArchType /*aType*/,
 	{
 		return new ArchiveBase( new BKInterface( filename ) );
 	}
-	return new ArchiveBase( new LibArchiveInterface( filename ) );
+	//return new ArchiveBase( new LibArchiveInterface( filename ) );
+	KLibrary *lib = KLibLoader::self()->library( QFile::encodeName( "kerfuffle_libarchive" ), QLibrary::ExportExternalSymbolsHint );
+	if ( lib )
+	{
+		ArchiveFactory *( *pluginFactory )() = ( ArchiveFactory *( * )() )lib->resolveFunction( "pluginFactory" );
+		if ( pluginFactory )
+		{
+			ArchiveFactory *factory = pluginFactory(); // TODO: cache these
+			Arch *arch = factory->createArchive( filename, 0 );
+			delete factory;
+			return arch;
+		}
+	}
+	return 0;
 }
 #include "arch.moc"
