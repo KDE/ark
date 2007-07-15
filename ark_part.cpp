@@ -21,7 +21,6 @@
 */
 
 #include "ark_part.h"
-#include "arkfactory.h"
 #include "arkwidget.h"
 #include "settings.h"
 #include "filelistview.h"
@@ -31,10 +30,12 @@
 #include <KMenu>
 #include <KMessageBox>
 #include <KAboutData>
-#include <kxmlguifactory.h>
+#include <KXMLGUIFactory>
+#include <KParts/Factory>
+#include <KParts/GenericFactory>
 #include <KStatusBar>
 #include <KIconLoader>
-#include <kio/netaccess.h>
+#include <KIO/NetAccess>
 #include <KLocale>
 #include <KStandardAction>
 #include <KIcon>
@@ -45,6 +46,9 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QFrame>
+
+typedef KParts::GenericFactory<ArkPart> ArkFactory;
+K_EXPORT_COMPONENT_FACTORY( libarkpart, ArkFactory );
 
 KAboutData *ArkPart::createAboutData()
 {
@@ -67,7 +71,7 @@ KAboutData *ArkPart::createAboutData()
 
 
 
-ArkPart::ArkPart( QWidget *parentWidget, QObject *parent, const QStringList &, bool readWrite )
+ArkPart::ArkPart( QWidget *parentWidget, QObject *parent, const QStringList & )
         : KParts::ReadWritePart(parent)
 {
     setComponentData(ArkFactory::componentData());
@@ -81,13 +85,14 @@ ArkPart::ArkPart( QWidget *parentWidget, QObject *parent, const QStringList &, b
     connect( awidget, SIGNAL( removeRecentURL( const KUrl & ) ), this, SIGNAL( removeRecentURL( const KUrl & ) ) );
     connect( awidget, SIGNAL( addRecentURL( const KUrl & ) ), this, SIGNAL( addRecentURL( const KUrl & ) ) );
 
-    if( readWrite )
+    // TODO: do something here...
+    if( true /*readWrite*/ )
         setXMLFile( "ark_part.rc" );
     else
     {
         setXMLFile( "ark_part_readonly.rc" );
     }
-    setReadWrite( readWrite );
+    //setReadWrite( readWrite );
 
     setupActions();
 

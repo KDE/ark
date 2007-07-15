@@ -32,7 +32,6 @@ target_link_libraries(archivemodeltest ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBS} $
 
 set(arkpart_PART_SRCS ${libark_common_SRCS} 
     ark_part.cpp 
-    arkfactory.cpp 
     filelistview.cpp 
     arkutils.cpp 
     archiveformatdlg.cpp 

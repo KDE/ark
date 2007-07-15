@@ -87,7 +87,7 @@ class ArkPart: public KParts::ReadWritePart
     Q_OBJECT
 public:
     ArkPart( QWidget *parentWidget, QObject *parent,
-             const QStringList &, bool readWrite );
+             const QStringList & );
     virtual ~ArkPart();
 
     static KAboutData* createAboutData();
