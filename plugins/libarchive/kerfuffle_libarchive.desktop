@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+ServiceTypes=Kerfuffle/Plugin;
+X-KDE-Library=kerfuffle_libarchive_plugin
+X-KDE-PluginInfo-Author=Henrique Pinto
+X-KDE-PluginInfo-Email=henrique.pinto@kdemail.net
+X-KDE-PluginInfo-Name=kerfuffle_libarchive_plugin
+X-KDE-PluginInfo-Version=0.0.1
+X-KDE-PluginInfo-Website=http://www.kde.org
+X-KDE-PluginInfo-License=BSD
+Name=LibArchive plugin for Kerfuffle
+MimeType=application/x-zip;
