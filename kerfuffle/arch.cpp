@@ -41,13 +41,14 @@
 #include <KDebug>
 #include <KMessageBox>
 #include <KMimeType>
+#include <KMimeTypeTrader>
 #include <KLocale>
 #include <KPasswordDialog>
 #include <KStandardDirs>
 #include <KLibLoader>
 
 Arch::Arch( const QString &filename )
-	: m_filename( filename ), m_readOnly( false )
+	: QObject( 0 ), m_filename( filename ), m_readOnly( false )
 {
 }
 
@@ -66,20 +67,27 @@ Arch *Arch::archFactory( ArchType /*aType*/,
                          const QString &filename,
                          const QString &/*openAsMimeType*/ )
 {
-	QString libraryName = filename.endsWith( ".iso" )? "kerfuffle_bk" : "kerfuffle_libarchive";
+	QString mimeType = KMimeType::findByPath( filename )->name();
+	KService::List offers = KMimeTypeTrader::self()->query( mimeType, "Kerfuffle/Plugin", "(exist Library)" );
 
-	KLibrary *lib = KLibLoader::self()->library( QFile::encodeName( libraryName ), QLibrary::ExportExternalSymbolsHint );
-	if ( lib )
+	if ( !offers.isEmpty() )
 	{
-		ArchiveFactory *( *pluginFactory )() = ( ArchiveFactory *( * )() )lib->resolveFunction( "pluginFactory" );
-		if ( pluginFactory )
+		QString libraryName = offers[ 0 ]->library();
+		kDebug( 1601 ) << k_funcinfo << "Loading library " << libraryName << " for handling mimetype " << mimeType << endl;
+		KLibrary *lib = KLibLoader::self()->library( QFile::encodeName( libraryName ), QLibrary::ExportExternalSymbolsHint );
+		if ( lib )
 		{
-			ArchiveFactory *factory = pluginFactory(); // TODO: cache these
-			Arch *arch = factory->createArchive( filename, 0 );
-			delete factory;
-			return arch;
+			ArchiveFactory *( *pluginFactory )() = ( ArchiveFactory *( * )() )lib->resolveFunction( "pluginFactory" );
+			if ( pluginFactory )
+			{
+				ArchiveFactory *factory = pluginFactory(); // TODO: cache these
+				Arch *arch = factory->createArchive( filename, 0 );
+				delete factory;
+				return arch;
+			}
 		}
 	}
+	kDebug( 1601 ) << k_funcinfo << "Couldn't find a library for mimetype " << mimeType << endl;
 	return 0;
 }
 #include "arch.moc"
