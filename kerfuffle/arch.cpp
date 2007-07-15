@@ -47,7 +47,6 @@
 #include <KLibLoader>
 
 // the archive types
-//#include "libarchivehandler.h"
 #include "bkplugin.h"
 
 Arch::Arch( const QString &filename )
