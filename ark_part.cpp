@@ -73,32 +73,32 @@ ArkPart::ArkPart( QWidget *parentWidget, QObject *parent, const QStringList & )
 	: KParts::ReadWritePart( parent )
 {
 	setComponentData( ArkFactory::componentData() );
-	awidget = new  ArkWidget( parentWidget );
+	m_widget = new  ArkWidget( parentWidget );
 
-	setWidget( awidget );
-	connect( awidget, SIGNAL( fixActions() ), this, SLOT( fixEnables() ) );
-	connect( awidget, SIGNAL( disableAllActions() ), this, SLOT( disableActions() ) );
-	connect( awidget, SIGNAL( signalFilePopup( const QPoint& ) ), this, SLOT( slotFilePopup( const QPoint& ) ) );
-	connect( awidget, SIGNAL( setWindowCaption( const QString & ) ), this, SIGNAL( setWindowCaption( const QString & ) ) );
-	connect( awidget, SIGNAL( removeRecentURL( const KUrl & ) ), this, SIGNAL( removeRecentURL( const KUrl & ) ) );
-	connect( awidget, SIGNAL( addRecentURL( const KUrl & ) ), this, SIGNAL( addRecentURL( const KUrl & ) ) );
+	setWidget( m_widget );
+	connect( m_widget, SIGNAL( fixActions() ), this, SLOT( fixEnables() ) );
+	connect( m_widget, SIGNAL( disableAllActions() ), this, SLOT( disableActions() ) );
+	connect( m_widget, SIGNAL( signalFilePopup( const QPoint& ) ), this, SLOT( slotFilePopup( const QPoint& ) ) );
+	connect( m_widget, SIGNAL( setWindowCaption( const QString & ) ), this, SIGNAL( setWindowCaption( const QString & ) ) );
+	connect( m_widget, SIGNAL( removeRecentURL( const KUrl & ) ), this, SIGNAL( removeRecentURL( const KUrl & ) ) );
+	connect( m_widget, SIGNAL( addRecentURL( const KUrl & ) ), this, SIGNAL( addRecentURL( const KUrl & ) ) );
 
 	setXMLFile( "ark_part.rc" );
 
 	setupActions();
 
 	m_ext = new ArkBrowserExtension( this, "ArkBrowserExtension" );
-	connect( awidget, SIGNAL( openUrlRequest( const KUrl & ) ),
+	connect( m_widget, SIGNAL( openUrlRequest( const KUrl & ) ),
 			m_ext, SLOT( slotOpenUrlRequested( const KUrl & ) ) );
 
 	m_bar = new ArkStatusBarExtension( this );
-	connect( awidget, SIGNAL( setStatusBarText( const QString & ) ), m_bar,
+	connect( m_widget, SIGNAL( setStatusBarText( const QString & ) ), m_bar,
 			SLOT( slotSetStatusBarText( const QString & ) ) );
-	connect( awidget, SIGNAL( setStatusBarSelectedFiles( const QString & ) ), m_bar,
+	connect( m_widget, SIGNAL( setStatusBarSelectedFiles( const QString & ) ), m_bar,
 			SLOT( slotSetStatusBarSelectedFiles( const QString & ) ) );
-	connect( awidget, SIGNAL( setBusy( const QString & ) ), m_bar,
+	connect( m_widget, SIGNAL( setBusy( const QString & ) ), m_bar,
 			SLOT( slotSetBusy( const QString & ) ) );
-	connect( awidget, SIGNAL( setReady() ), m_bar,
+	connect( m_widget, SIGNAL( setReady() ), m_bar,
 			SLOT( slotSetReady() ) );
 	connect( this, SIGNAL( started(KIO::Job*) ), SLOT( transferStarted(KIO::Job*) ) );
 	connect( this, SIGNAL( completed() ), SLOT( transferCompleted() ) );
@@ -117,48 +117,48 @@ void ArkPart::setupActions()
 	addFileAction = actionCollection()->addAction("addfile");
 	addFileAction->setIcon(KIcon("ark-addfile"));
 	addFileAction->setText(i18n("Add &File..."));
-	connect(addFileAction, SIGNAL(triggered(bool)), awidget, SLOT(action_add()));
+	connect(addFileAction, SIGNAL(triggered(bool)), m_widget, SLOT(action_add()));
 
 	addDirAction = actionCollection()->addAction("adddir");
 	addDirAction->setText(i18n("Add Folde&r..."));
 	addDirAction->setIcon(KIcon("ark-adddir"));
-	connect(addDirAction, SIGNAL(triggered(bool)), awidget, SLOT(action_add_dir()));
+	connect(addDirAction, SIGNAL(triggered(bool)), m_widget, SLOT(action_add_dir()));
 
 	extractAction =actionCollection()->addAction("extract");
 	extractAction->setText(i18n("E&xtract..."));
 	extractAction->setIcon(KIcon("ark-extract"));
-	connect(extractAction, SIGNAL(triggered(bool)), awidget, SLOT(action_extract()));
+	connect(extractAction, SIGNAL(triggered(bool)), m_widget, SLOT(action_extract()));
 
 	deleteAction  = new KAction(KIcon("ark-delete"), i18n("De&lete"), this);
 	actionCollection()->addAction("delete", deleteAction );
-	connect(deleteAction, SIGNAL(triggered(bool)), awidget, SLOT(action_delete()));
+	connect(deleteAction, SIGNAL(triggered(bool)), m_widget, SLOT(action_delete()));
 
 	viewAction = actionCollection()->addAction("view");
 	viewAction->setText(i18nc("to view something","&View"));
 	viewAction->setIcon(KIcon("ark-view"));
-	connect(viewAction, SIGNAL(triggered(bool)), awidget, SLOT(action_view()));
+	connect(viewAction, SIGNAL(triggered(bool)), m_widget, SLOT(action_view()));
 
 	openWithAction  = new KAction(i18n("&Open With..."), this);
 	actionCollection()->addAction("open_with", openWithAction );
-	connect(openWithAction, SIGNAL(triggered(bool) ), awidget, SLOT(slotOpenWith()));
+	connect(openWithAction, SIGNAL(triggered(bool) ), m_widget, SLOT(slotOpenWith()));
 
-	selectAllAction = KStandardAction::selectAll(awidget->fileList(), SLOT(selectAll()), actionCollection());
+	selectAllAction = KStandardAction::selectAll(m_widget->fileList(), SLOT(selectAll()), actionCollection());
 	actionCollection()->addAction("select_all", selectAllAction);
 
 	deselectAllAction  = new KAction(i18n("&Clear Selection"), this);
 	actionCollection()->addAction("deselect_all", deselectAllAction );
-	connect(deselectAllAction, SIGNAL(triggered(bool) ), awidget->fileList(), SLOT(clearSelection()));
+	connect(deselectAllAction, SIGNAL(triggered(bool) ), m_widget->fileList(), SLOT(clearSelection()));
 
 	invertSelectionAction  = new KAction(i18n("&Invert Selection"), this);
 	actionCollection()->addAction("invert_selection", invertSelectionAction );
-	connect(invertSelectionAction, SIGNAL(triggered(bool) ), awidget->fileList(), SLOT(invertSelection()));
+	connect(invertSelectionAction, SIGNAL(triggered(bool) ), m_widget->fileList(), SLOT(invertSelection()));
 
-	//KStandardAction::preferences(awidget, SLOT(showSettings()), actionCollection());
+	//KStandardAction::preferences(m_widget, SLOT(showSettings()), actionCollection());
 
 	QAction * action = actionCollection()->addAction("options_configure_ark");
 	action->setText(i18n( "Configure &Ark..." ));
 	action->setIcon( KIcon("configure"));
-	connect(action, SIGNAL(triggered(bool) ), awidget, SLOT( showSettings() ));
+	connect(action, SIGNAL(triggered(bool) ), m_widget, SLOT( showSettings() ));
 
 
 	showSearchBar  = new KToggleAction(i18n("Show Search Bar"), this);
@@ -167,7 +167,7 @@ void ArkPart::setupActions()
 
 	showSearchBar->setChecked( ArkSettings::showSearchBar() );
 
-	connect( showSearchBar, SIGNAL( toggled( bool ) ), awidget, SLOT( slotShowSearchBarToggled( bool ) ) );
+	connect( showSearchBar, SIGNAL( toggled( bool ) ), m_widget, SLOT( slotShowSearchBarToggled( bool ) ) );
 
 	initialEnables();
 }
@@ -175,33 +175,33 @@ void ArkPart::setupActions()
 
 void ArkPart::fixEnables()
 {
-	bool bHaveFiles = ( awidget->getNumFilesInArchive() > 0 );
+	bool bHaveFiles = ( m_widget->getNumFilesInArchive() > 0 );
 	bool bReadOnly = false;
 	bool bAddDirSupported = true;
-	if ( awidget->archiveType() == ZOO_FORMAT || awidget->archiveType() == AA_FORMAT
-	     || awidget->archiveType() == COMPRESSED_FORMAT )
+	if ( m_widget->archiveType() == ZOO_FORMAT || m_widget->archiveType() == AA_FORMAT
+	     || m_widget->archiveType() == COMPRESSED_FORMAT )
 	{
 		bAddDirSupported = false;
 	}
 
-	if ( awidget->archive() )
+	if ( m_widget->archive() )
 	{
-		bReadOnly = awidget->archive()->isReadOnly();
+		bReadOnly = m_widget->archive()->isReadOnly();
 	}
 
 	selectAllAction->setEnabled( bHaveFiles );
 	deselectAllAction->setEnabled( bHaveFiles );
 	invertSelectionAction->setEnabled( bHaveFiles );
 
-	deleteAction->setEnabled( bHaveFiles && awidget->numSelectedFiles() > 0
-	                          && awidget->archive() && !bReadOnly );
-	addFileAction->setEnabled( awidget->isArchiveOpen() && !bReadOnly );
-	addDirAction->setEnabled( awidget->isArchiveOpen() && !bReadOnly && bAddDirSupported );
+	deleteAction->setEnabled( bHaveFiles && m_widget->numSelectedFiles() > 0
+	                          && m_widget->archive() && !bReadOnly );
+	addFileAction->setEnabled( m_widget->isArchiveOpen() && !bReadOnly );
+	addDirAction->setEnabled( m_widget->isArchiveOpen() && !bReadOnly && bAddDirSupported );
 	extractAction->setEnabled( bHaveFiles );
-	awidget->searchBar()->setEnabled( bHaveFiles );
+	m_widget->searchBar()->setEnabled( bHaveFiles );
 
-	bool isAnEntrySelected = ( bHaveFiles && (awidget->numSelectedFiles() == 1)
-	                           && (awidget->fileList()->currentItem()->childCount() == 0) );
+	bool isAnEntrySelected = ( bHaveFiles && (m_widget->numSelectedFiles() == 1)
+	                           && (m_widget->fileList()->currentItem()->childCount() == 0) );
 	viewAction->setEnabled( isAnEntrySelected );
 	openWithAction->setEnabled( isAnEntrySelected );
 	emit fixActionState( bHaveFiles );
@@ -221,7 +221,7 @@ void ArkPart::initialEnables()
 	addDirAction->setEnabled( false );
 	openWithAction->setEnabled( false );
 
-	awidget->searchBar()->setEnabled( false );
+	m_widget->searchBar()->setEnabled( false );
 }
 
 void ArkPart::disableActions()
@@ -236,13 +236,13 @@ void ArkPart::disableActions()
 	addFileAction->setEnabled( false );
 	addDirAction->setEnabled( false );
 	openWithAction->setEnabled( false );
-	awidget->searchBar()->setEnabled( false );
+	m_widget->searchBar()->setEnabled( false );
 }
 
 bool ArkPart::openURL( const KUrl & url )
 {
-	awidget->setRealURL( url );
-	return KParts::ReadWritePart::openUrl( KIO::NetAccess::mostLocalUrl( url, awidget ) );
+	m_widget->setRealURL( url );
+	return KParts::ReadWritePart::openUrl( KIO::NetAccess::mostLocalUrl( url, m_widget ) );
 }
 
 bool ArkPart::openFile()
@@ -252,12 +252,12 @@ bool ArkPart::openFile()
 	if( !QFile::exists( localFilePath() ) )
 	{
 		emit setWindowCaption( QString() );
-		emit removeRecentURL( awidget->realURL() );
+		emit removeRecentURL( m_widget->realURL() );
 		return false;
 	}
-	emit addRecentURL( awidget->realURL() );
-	awidget->setModified( false );
-	awidget->file_open( url );
+	emit addRecentURL( m_widget->realURL() );
+	m_widget->setModified( false );
+	m_widget->file_open( url );
 	return true;
 }
 
@@ -268,8 +268,8 @@ bool ArkPart::saveFile()
 
 bool ArkPart::closeArchive()
 {
-	awidget->file_close();
-	awidget->setModified( false );
+	m_widget->file_close();
+	m_widget->setModified( false );
 	return ReadWritePart::closeUrl();
 }
 
@@ -317,7 +317,7 @@ void ArkPart::transferCanceled( const QString& errMsg )
 	m_job = 0;
 	if ( !errMsg.isEmpty() )
 	{
-		KMessageBox::error( awidget, errMsg );
+		KMessageBox::error( m_widget, errMsg );
 	}
 	initialEnables();
 	m_bar->slotSetReady();

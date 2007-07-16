@@ -118,7 +118,7 @@ class ArkPart: public KParts::ReadWritePart
 		void init();
 
 	private:
-		ArkWidget  *awidget;
+		ArkWidget  *m_widget;
 		ArkBrowserExtension *m_ext;
 		ArkStatusBarExtension *m_bar;
 
