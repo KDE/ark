@@ -96,7 +96,6 @@ ArkWidget::ArkWidget( QWidget *parent )
      m_extractOnly( false ), m_extractRemote(false),
      m_openAsMimeType( QString() ), m_pTempAddList(NULL),
      m_bArchivePopupEnabled( false ),
-     m_convert_tmpDir( NULL ), m_convertSuccess( false ),
      m_createRealArchTmpDir( NULL ),  m_extractRemoteTmpDir( NULL ),
      m_modified( false ), m_searchToolBar( 0 ), m_searchBar( 0 ),
      arch( 0 ), m_archType( UNKNOWN_FORMAT ), m_fileListView( 0 ),
@@ -254,113 +253,6 @@ KUrl ArkWidget::getSaveAsFileName()
     }
     while ( true );
     return u;
-}
-
-bool ArkWidget::file_save_as( const KUrl & u )
-{
-    bool success = KIO::NetAccess::upload( m_strArchName, u, this );
-    if ( m_modified && success )
-        m_modified = false;
-    return success;
-}
-
-void ArkWidget::convertTo( const KUrl & u )
-{
-    busy( i18n( "Saving..." ) );
-    m_convert_tmpDir =  new KTempDir( tmpDir() + "convtmp" );
-    connect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( convertSlotExtractDone( bool ) ) );
-    m_convert_saveAsURL = u;
-    arch->extractFiles( QList<QVariant>(), m_convert_tmpDir->name() );
-}
-
-void ArkWidget::convertSlotExtractDone( bool )
-{
-    kDebug( 1601 ) << k_funcinfo << endl;
-    disconnect( arch, SIGNAL( sigExtract( bool ) ), this, SLOT( convertSlotExtractDone( bool ) ) );
-    QTimer::singleShot( 0, this, SLOT( convertSlotCreate() ) );
-}
-
-void ArkWidget::convertSlotCreate()
-{
-    file_close();
-    connect( this, SIGNAL( createDone( bool ) ), this, SLOT( convertSlotCreateDone( bool ) ) );
-    QString archToCreate;
-    if ( m_convert_saveAsURL.isLocalFile() )
-        archToCreate = m_convert_saveAsURL.path();
-    else
-        archToCreate = tmpDir() + m_convert_saveAsURL.fileName();
-
-    createArchive( archToCreate );
-}
-
-void ArkWidget::convertSlotCreateDone( bool success )
-{
-    disconnect( this, SIGNAL( createDone( bool ) ), this, SLOT( convertSlotCreateDone( bool ) ) );
-    kDebug( 1601 ) << k_funcinfo << endl;
-    if ( !success )
-    {
-        kWarning( 1601 ) << "Error while converting. (convertSlotCreateDone)" << endl;
-        return;
-    }
-    QDir dir( m_convert_tmpDir->name() );
-    QStringList entries = dir.entryList();
-    entries.removeAll( ".." );
-    entries.removeAll( "." );
-    QStringList::Iterator it = entries.begin();
-    for ( ; it != entries.end(); ++it )
-    {
-        ///////////////////////////////////////////////////////
-        // BIG TODO: get rid of 'the assume                  //
-        // 'file:/', do some  black magic                    //
-        // to find the basedir, chdir there,                 //
-        // and break the rest of the world'                  //
-        // hack. See also action_edit ...                    //
-        // addFile should be:                                //
-        // addFile( const QString & baseDir,                 //
-        //          const QStringList & filesToAdd )         //
-        //////////////////////////////////////////////////////
-        *it = QString::fromLatin1( "file:" )+ m_convert_tmpDir->name() + *it;
-    }
-    bool bOldRecVal = ArkSettings::rarRecurseSubdirs();
-    connect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( convertSlotAddDone( bool ) ) );
-    arch->addFile( entries );
-    ArkSettings::setRarRecurseSubdirs( bOldRecVal );
-}
-
-void ArkWidget::convertSlotAddDone( bool success )
-{
-    disconnect( arch, SIGNAL( sigAdd( bool ) ), this, SLOT( convertSlotAddDone( bool ) ) );
-    kDebug( 1601 ) << k_funcinfo << endl;
-    m_convertSuccess = success;
-    // needed ? (TarArch, lzo)
-    QTimer::singleShot( 0, this, SLOT( convertFinish() ) );
-}
-
-void ArkWidget::convertFinish()
-{
-    kDebug( 1601 ) << k_funcinfo << endl;
-    delete m_convert_tmpDir;
-    m_convert_tmpDir = NULL;
-
-    ready();
-    if ( m_convertSuccess )
-    {
-        if ( m_convert_saveAsURL.isLocalFile() )
-        {
-            emit openUrlRequest( m_convert_saveAsURL );
-        }
-        else
-        {
-            KIO::NetAccess::upload( tmpDir()
-                       + m_convert_saveAsURL.fileName(), m_convert_saveAsURL, this );
-            // TODO: save bandwidth - we already have a local tmp file ...
-            emit openUrlRequest( m_convert_saveAsURL );
-        }
-    }
-    else
-    {
-        kWarning( 1601 ) << "Error while converting (convertSlotAddDone)" << endl;
-    }
 }
 
 bool ArkWidget::allowedArchiveName( const KUrl & u )

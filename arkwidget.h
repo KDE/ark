@@ -94,14 +94,11 @@ public:
     virtual void setExtractOnly(bool extOnly) { m_extractOnly = extOnly; }
     virtual void deleteAfterUse( const QString& path );
     bool allowedArchiveName( const KUrl & u );
-    bool file_save_as( const KUrl & u );
     virtual KUrl getSaveAsFileName();
     virtual void setOpenAsMimeType( const QString & mimeType );
     QString & openAsMimeType(){ return m_openAsMimeType; }
     void prepareViewFiles( const QStringList & fileList );
     virtual void setArchivePopupEnabled( bool b );
-
-    void convertTo( const KUrl & u );
 
     bool isModified() { return m_modified; }
     void setModified( bool b ) { m_modified = b; }
@@ -203,12 +200,6 @@ private slots:
     void createRealArchiveSlotAddDone( bool success );
     void createRealArchiveSlotAddFilesDone( bool success );
 
-    void convertSlotExtractDone( bool success );
-    void convertSlotCreate();
-    void convertSlotCreateDone( bool success );
-    void convertSlotAddDone( bool success );
-    void convertFinish();
-
 protected:
     void arkWarning(const QString& msg);
     void arkError(const QString& msg);
@@ -253,10 +244,6 @@ private: // data
     QStringList mpDownloadedList;
 
     bool m_bArchivePopupEnabled;
-
-    KTempDir * m_convert_tmpDir;
-    KUrl m_convert_saveAsURL;
-    bool m_convertSuccess;
 
     KUrl m_extractTo_targetDirectory;
 

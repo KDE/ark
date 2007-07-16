@@ -96,7 +96,6 @@ public slots:
     void fixEnables();//rename to slotFixEnables()...
     void disableActions();
     void slotFilePopup( const QPoint & pPoint );
-    void file_save_as();
     bool saveFile();
     bool openURL( const KUrl & url );
     bool closeUrl();
@@ -123,7 +122,6 @@ private:
     ArkBrowserExtension *m_ext;
     ArkStatusBarExtension *m_bar;
 
-    QAction *saveAsAction;
     QAction *addFileAction;
     QAction *addDirAction;
     QAction *extractAction;

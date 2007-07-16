@@ -4,9 +4,6 @@
     <Action name="select_all" icon="ark_selectall"/>
 </ActionProperties>
 <MenuBar>
- <Menu name="file"><text>&amp;File</text>
-    <Action name="file_save_as"/>
- </Menu>
  <Menu name="edit"><text>&amp;Edit</text>
     <Action name="select"/>
     <Action name="select_all"/>

@@ -162,8 +162,6 @@ ArkPart::setupActions()
     actionCollection()->addAction("invert_selection", invertSelectionAction );
     connect(invertSelectionAction, SIGNAL(triggered(bool) ), awidget->fileList(), SLOT(invertSelection()));
 
-    saveAsAction = KStandardAction::saveAs(this, SLOT(file_save_as()), actionCollection());
-
     //KStandardAction::preferences(awidget, SLOT(showSettings()), actionCollection());
 
     QAction * action = actionCollection()->addAction("options_configure_ark");
@@ -197,7 +195,6 @@ void ArkPart::fixEnables()
     if (awidget->archive())
         bReadOnly = awidget->archive()->isReadOnly();
 
-    saveAsAction->setEnabled(bHaveFiles);
     selectAllAction->setEnabled(bHaveFiles);
     deselectAllAction->setEnabled(bHaveFiles);
     invertSelectionAction->setEnabled(bHaveFiles);
@@ -222,7 +219,6 @@ void ArkPart::fixEnables()
 
 void ArkPart::initialEnables()
 {
-    saveAsAction->setEnabled( false );
     selectAllAction->setEnabled(false);
     deselectAllAction->setEnabled(false);
     invertSelectionAction->setEnabled(false);
@@ -240,7 +236,6 @@ void ArkPart::initialEnables()
 
 void ArkPart::disableActions()
 {
-    saveAsAction->setEnabled(false);
     selectAllAction->setEnabled(false);
     deselectAllAction->setEnabled(false);
     invertSelectionAction->setEnabled(false);
@@ -276,20 +271,6 @@ bool ArkPart::openFile()
     return true;
 }
 
-void ArkPart::file_save_as()
-{
-    KUrl u = awidget->getSaveAsFileName();
-    if ( u.isEmpty() ) // user canceled
-        return;
-
-    if ( !awidget->allowedArchiveName( u ) )
-        awidget->convertTo( u );
-    else if ( awidget->file_save_as( u ) )
-        m_ext->slotOpenUrlRequested( u );
-    else
-        kWarning( 1601 ) <<  "Save As failed." << endl;
-}
-
 bool ArkPart::saveFile()
 {
     return true;
@@ -304,27 +285,7 @@ bool ArkPart::closeArchive()
 
 bool ArkPart::closeUrl()
 {
-  if ( !isReadWrite() || !awidget->isModified() || awidget->realURL().isLocalFile() )
     return closeArchive();
-
-  QString docName = awidget->realURL().prettyUrl();
-
-  int res = KMessageBox::warningYesNoCancel( widget(),
-          i18n( "The archive \"%1\" has been modified.\n"
-                "Do you want to save it?", docName ),
-          i18n( "Save Archive?" ), KStandardGuiItem::save(), KStandardGuiItem::discard() );
-
-  switch ( res )
-  {
-    case KMessageBox::Yes :
-        return awidget->file_save_as( awidget->realURL() ) && closeArchive();
-
-    case KMessageBox::No :
-        return closeArchive();
-
-    default : // case KMessageBox::Cancel
-        return false;
-  }
 }
 
 void ArkPart::slotFilePopup( const QPoint &pPoint )
