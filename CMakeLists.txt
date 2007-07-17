@@ -34,7 +34,6 @@ set(arkpart_PART_SRCS ${libark_common_SRCS}
     ark_part.cpp 
     filelistview.cpp 
     arkutils.cpp 
-    archiveformatdlg.cpp 
     arkwidget.cpp 
     arkviewer.cpp 
     extractiondialog.cpp

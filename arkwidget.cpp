@@ -30,7 +30,6 @@
 // ark includes
 #include "arkwidget.h"
 #include "arkapp.h"
-#include "archiveformatdlg.h"
 #include "extractiondialog.h"
 #include "filelistview.h"
 #include "arkutils.h"
