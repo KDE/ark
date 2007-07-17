@@ -3,7 +3,6 @@
 <MenuBar>
   <Menu name="file"><text>&amp;File</text>
     <Action name="new_window"/>
-    <Action name="reload_arch"/>
     <Merge/>
    </Menu>
    <Menu name="settings" >
