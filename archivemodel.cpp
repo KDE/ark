@@ -280,7 +280,7 @@ void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 	{
 		beginInsertRows( parentIndex, m_rootNode->entries().count(), m_rootNode->entries().count() );
 
-		if ( entry[ FileName ].toString().endsWith( '/' ) )
+		if ( entry[ FileName ].toString().endsWith( '/' ) || ( entry.contains( IsDirectory ) && entry[ IsDirectory ].toBool() ) )
 		{
 			node = new ArchiveDirNode( parent, entry );
 		}
