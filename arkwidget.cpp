@@ -96,7 +96,7 @@ ArkWidget::ArkWidget( QWidget *parent )
      m_extractOnly( false ), m_extractRemote(false),
      m_openAsMimeType( QString() ), m_pTempAddList(NULL),
      m_bArchivePopupEnabled( false ),
-     m_createRealArchTmpDir( NULL ),  m_extractRemoteTmpDir( NULL ),
+     m_extractRemoteTmpDir( NULL ),
      m_modified( false ), m_searchToolBar( 0 ), m_searchBar( 0 ),
      arch( 0 ), m_archType( UNKNOWN_FORMAT ), m_fileListView( 0 ),
      m_nSizeOfFiles( 0 ), m_nSizeOfSelectedFiles( 0 ), m_nNumFiles( 0 ),
@@ -570,117 +570,6 @@ ArkWidget::file_close()
     m_strArchName.clear();
     m_url = KUrl();
 }
-
-
-KUrl
-ArkWidget::askToCreateRealArchive()
-{
-    // ask user whether to create a real archive from a compressed file
-    // returns filename if so
-    KUrl url;
-    int choice =
-        KMessageBox::warningYesNo(0, i18n("You are currently working with a simple compressed file.\nWould you like to make it into an archive so that it can contain multiple files?\nIf so, you must choose a name for your new archive."), i18n("Warning"),KGuiItem(i18n("Make Into Archive")),KGuiItem(i18n("Do Not Make")));
-    if (choice == KMessageBox::Yes)
-    {
-        url = getCreateFilename( i18n( "Create New Archive" ),
-                                 QString(), false );
-    }
-    else
-        url.setPath( QString() );
-    return url;
-}
-
-void
-ArkWidget::createRealArchive( const QString & strFilename, const QStringList & filesToAdd )
-{
-#warning reimplement?
-#if 0
-    Arch * newArch = getNewArchive( strFilename );
-    busy( i18n( "Creating archive..." ) );
-    if ( !newArch )
-        return;
-    if ( !filesToAdd.isEmpty() )
-        m_pTempAddList = new QStringList( filesToAdd );
-    m_compressedFile = static_cast< CompressedFile * >( arch )->tempFileName();
-    KUrl u1, u2;
-    u1.setPath( m_compressedFile );
-    m_createRealArchTmpDir = new KTempDir( tmpDir() + "create_real_arch" );
-    m_createRealArchTmpDir->setAutoRemove(false);
-    u2.setPath( m_createRealArchTmpDir->name() + u1.fileName() );
-    KIO::NetAccess::file_copy( u1, u2, this );
-    m_compressedFile = "file:" + u2.path(); // AGAIN THE 5 SPACES Hack :-(
-    connect( newArch, SIGNAL( sigCreate( Arch *, bool, const QString &, int ) ),
-             this, SLOT( createRealArchiveSlotCreate( Arch *, bool,
-             const QString &, int ) ) );
-    file_close();
-    newArch->create();
-#endif
-}
-
-void
-ArkWidget::createRealArchiveSlotCreate( Arch * newArch, bool success,
-                                             const QString & fileName, int nbr )
-{
-    slotCreate( newArch, success, fileName, nbr );
-
-    if ( !success )
-        return;
-
-    QStringList listForCompressedFile;
-    listForCompressedFile.append(m_compressedFile);
-    disableAll();
-
-    connect( newArch, SIGNAL( sigAdd( bool ) ), this,
-                      SLOT( createRealArchiveSlotAddDone( bool ) ) );
-
-    newArch->addFile(listForCompressedFile);
-}
-
-void
-ArkWidget::createRealArchiveSlotAddDone( bool success )
-{
-    kDebug( 1601 ) << "createRealArchiveSlotAddDone+, success:" << success << endl;
-    disconnect( arch, SIGNAL( sigAdd( bool ) ), this,
-                      SLOT( createRealArchiveSlotAddDone( bool ) ) );
-
-    m_createRealArchTmpDir->unlink();
-    delete m_createRealArchTmpDir;
-    m_createRealArchTmpDir = NULL;
-
-
-    if ( !success )
-        return;
-
-    ready();
-
-    if ( m_pTempAddList == NULL )
-    {
-        // now get the files to be added
-        // we don't know which files to add yet
-        action_add();
-    }
-    else
-    {
-        connect( arch, SIGNAL( sigAdd( bool ) ), this,
-                 SLOT( createRealArchiveSlotAddFilesDone( bool ) ) );
-        // files were dropped in
-        addFile( *m_pTempAddList );
-    }
-}
-
-void
-ArkWidget::createRealArchiveSlotAddFilesDone( bool success )
-{
-    //kDebug( 1601 ) << "createRealArchiveSlotAddFilesDone+, success:" << success << endl;
-    disconnect( arch, SIGNAL( sigAdd( bool ) ), this,
-                      SLOT( createRealArchiveSlotAddFilesDone( bool ) ) );
-    delete m_pTempAddList;
-    m_pTempAddList = NULL;
-    emit createRealArchiveDone( success );
-}
-
-
-
 
 // Action menu /////////////////////////////////////////////////////////
 

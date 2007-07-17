@@ -146,7 +146,6 @@ signals:
     void addOpenArk( const KUrl & );
     void createDone( bool );
     void openDone( bool );
-    void createRealArchiveDone( bool );
     void extractRemoteMovingDone();
 
 private: // methods
@@ -168,10 +167,7 @@ private: // methods
 
     // ask user whether to create a real archive from a compressed file
     // returns filename if so. Otherwise, empty.
-    KUrl askToCreateRealArchive();
     Arch * getNewArchive( const QString & _fileName, const QString& _mimetype = QString() );
-    void createRealArchive( const QString &strFilename,
-                            const QStringList & filesToAdd = QStringList() );
     KUrl getCreateFilename( const QString & _caption,
                             const QString & _defaultMimeType = QString(),
                             bool allowCompressed = true,
@@ -194,11 +190,6 @@ private: // methods
 private slots:
     void viewSlotExtractDone( bool success );
     void openWithSlotExtractDone();
-
-    void createRealArchiveSlotCreate( Arch * newArch, bool success,
-                                      const QString & fileName, int nbr );
-    void createRealArchiveSlotAddDone( bool success );
-    void createRealArchiveSlotAddFilesDone( bool success );
 
 protected:
     void arkWarning(const QString& msg);
@@ -250,7 +241,6 @@ private: // data
     KUrl::List m_addToArchive_filesToAdd;
     KUrl m_addToArchive_archive;
 
-    KTempDir * m_createRealArchTmpDir;
     KTempDir * m_extractRemoteTmpDir;
 
     bool m_modified;
