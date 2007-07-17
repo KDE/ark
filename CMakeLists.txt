@@ -53,10 +53,10 @@ install(TARGETS arkpart  DESTINATION ${PLUGIN_INSTALL_DIR})
 
 ########### install files ###############
 
-install( FILES ark.desktop  DESTINATION ${XDG_APPS_DIR})
-install( FILES ark.kcfg  DESTINATION ${KCFG_INSTALL_DIR})
-install( FILES ark_part.desktop  DESTINATION ${SERVICES_INSTALL_DIR})
-install( FILES arkui.rc ark_part.rc ark_part_readonly.rc  DESTINATION ${DATA_INSTALL_DIR}/ark)
+install( FILES ark.desktop          DESTINATION ${XDG_APPS_DIR} )
+install( FILES ark.kcfg             DESTINATION ${KCFG_INSTALL_DIR} )
+install( FILES ark_part.desktop     DESTINATION ${SERVICES_INSTALL_DIR} )
+install( FILES arkui.rc ark_part.rc DESTINATION ${DATA_INSTALL_DIR}/ark )
 
 kde4_install_icons( ${ICON_INSTALL_DIR} )
 
