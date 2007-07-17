@@ -101,7 +101,6 @@ ArkWidget::ArkWidget( QWidget *parent )
      arch( 0 ), m_archType( UNKNOWN_FORMAT ), m_fileListView( 0 ),
      m_nSizeOfFiles( 0 ), m_nSizeOfSelectedFiles( 0 ), m_nNumFiles( 0 ),
      m_nNumSelectedFiles( 0 ), m_bIsArchiveOpen( false ),
-     m_bIsSimpleCompressedFile( false ),
      m_bDropSourceIsSelf( false ), m_extractList( 0 )
 {
     m_tmpDir = new KTempDir( KStandardDirs::locateLocal( "tmp", "ark" ) );
@@ -688,18 +687,6 @@ ArkWidget::createRealArchiveSlotAddFilesDone( bool success )
 void
 ArkWidget::action_add()
 {
-    if (m_bIsSimpleCompressedFile && (m_nNumFiles == 1))
-    {
-        QString strFilename;
-        KUrl url = askToCreateRealArchive();
-        strFilename = url.path();
-        if (!strFilename.isEmpty())
-        {
-            createRealArchive(strFilename);
-        }
-        return;
-    }
-
     KFileDialog fileDlg( KUrl("kfiledialog://ArkAddDir"), QString::null, this );
     fileDlg.setMode( KFile::Files | KFile::ExistingOnly );
     fileDlg.setCaption(i18n("Select Files to Add"));
@@ -714,17 +701,6 @@ ArkWidget::action_add()
 
         if ( list.count() > 0 )
         {
-            if ( m_bIsSimpleCompressedFile && list.count() > 1 )
-            {
-                QString strFilename;
-                KUrl url = askToCreateRealArchive();
-                strFilename = url.path();
-                if (!strFilename.isEmpty())
-                {
-                    createRealArchive(strFilename);
-                }
-                return;
-            }
             addFile( list );
         }
     }
@@ -1406,8 +1382,6 @@ ArkWidget::slotCreate(Arch * _newarch, bool _success, const QString & _filename,
         m_fileListView->show();
         m_bIsArchiveOpen = true;
         arch = _newarch;
-        m_bIsSimpleCompressedFile =
-            (m_archType == COMPRESSED_FORMAT);
         fixEnables();
     }
     else
@@ -1493,7 +1467,6 @@ ArkWidget::slotOpened( bool success )
         }
         updateStatusTotals();
         m_bIsArchiveOpen = true;
-        m_bIsSimpleCompressedFile = ( m_archType == COMPRESSED_FORMAT );
 
         if ( m_extractOnly )
         {

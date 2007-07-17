@@ -271,7 +271,6 @@ private: // data
     int m_nNumSelectedFiles;
 
     bool m_bIsArchiveOpen;
-    bool m_bIsSimpleCompressedFile;
     bool m_bDropSourceIsSelf;
 
     QStringList mDragFiles;
