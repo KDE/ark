@@ -148,8 +148,15 @@ MainWindow::slotFixActionState( const bool & bHaveFiles )
 
 void MainWindow::slotNew()
 {
-    MainWindow *kw = new MainWindow;
-    kw->show();
+    if ( m_widget->isArchiveOpen() )
+    {
+        MainWindow *kw = new MainWindow;
+        kw->show();
+    }
+    else
+    {
+        m_widget->file_new();
+    }
 }
 
 void
