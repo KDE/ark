@@ -1,15 +1,14 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="ark" version="9">
+<kpartgui name="ark" version="12">
 <MenuBar>
   <Menu name="file"><text>&amp;File</text>
     <Action name="new_window"/>
     <Action name="reload_arch"/>
     <Merge/>
    </Menu>
-  <Menu name="settings">
-    <DefineGroup name="settings_show" append="show_merge"/>
-    <DefineGroup name="settings_configure" append="configure_merge"/>
-  </Menu>
+   <Menu name="settings" >
+     <DefineGroup append="show_merge" name="show_merge" />
+   </Menu>
   <Merge/>
 </MenuBar>
 <Menu name="archive_popup">

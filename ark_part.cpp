@@ -153,21 +153,15 @@ void ArkPart::setupActions()
 	actionCollection()->addAction("invert_selection", invertSelectionAction );
 	connect(invertSelectionAction, SIGNAL(triggered(bool) ), m_widget->fileList(), SLOT(invertSelection()));
 
-	//KStandardAction::preferences(m_widget, SLOT(showSettings()), actionCollection());
-
-	QAction * action = actionCollection()->addAction("options_configure_ark");
-	action->setText(i18n( "Configure &Ark..." ));
-	action->setIcon( KIcon("configure"));
-	connect(action, SIGNAL(triggered(bool) ), m_widget, SLOT( showSettings() ));
-
-
 	showSearchBar  = new KToggleAction(i18n("Show Search Bar"), this);
 	actionCollection()->addAction("options_show_search_bar", showSearchBar );
-	showSearchBar->setCheckedState(KGuiItem(i18n("Hide Search Bar")));
-
 	showSearchBar->setChecked( ArkSettings::showSearchBar() );
-
 	connect( showSearchBar, SIGNAL( toggled( bool ) ), m_widget, SLOT( slotShowSearchBarToggled( bool ) ) );
+
+
+	QAction *preferences = KStandardAction::preferences(m_widget, SLOT(showSettings()), actionCollection());
+	preferences->setText(i18n( "Configure &Ark..." ));
+	actionCollection()->addAction( "preferences", preferences );
 
 	initialEnables();
 }

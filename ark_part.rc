@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="ark_kparts" version="8">
+<kpartgui name="ark_kparts" version="14">
 <ActionProperties>
     <Action name="select_all" icon="ark_selectall"/>
 </ActionProperties>
@@ -19,14 +19,9 @@
     <Action name="open_with"/>
     <Action name="edit"/>
   </Menu>
- <Menu noMerge="1" name="settings">
-    <text>&amp;Settings</text>
-    <Merge name="StandardToolBarMenuHandler"/>
-    <Action name="options_show_search_bar" group="settings_show"/>
-    <Separator/>
-    <Action name="options_configure_keybinding" group="settings_configure"/>
-    <Action name="options_configure_toolbars" group="settings_configure"/>
-    <Action name="options_configure_ark" group="settings_configure"/>
+ <Menu name="settings"><text>&amp;Settings</text>
+    <Action name="options_show_search_bar" group="show_merge"/>
+    <Action name="preferences" group="configure_merge"/>
  </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar">
