@@ -11,6 +11,8 @@
 class ArchiveFactory
 {
 	public:
+		ArchiveFactory() {}
+		virtual ~ArchiveFactory() {}
 		virtual Arch* createArchive( const QString& filename, QObject *parent ) = 0;
 };
 
