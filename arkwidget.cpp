@@ -296,55 +296,22 @@ void ArkWidget::setOpenAsMimeType( const QString & mimeType )
 
 void ArkWidget::file_open(const KUrl& url)
 {
-    if ( url.isEmpty() )
-    {
-        kDebug( 1601 ) << "file_open: url empty" << endl;
-        return;
-    }
-
-    if ( isArchiveOpen() )
-        file_close();  // close old arch. If we don't, our temp file is wrong!
-
-    if ( !url.isLocalFile() )
-    {
-        kWarning ( 1601 ) << url.prettyUrl() << " is not a local URL in ArkWidget::file_open( KUrl). Aborting. " << endl;
-        return;
-    }
-
-
     QString strFile = url.path();
 
     kDebug( 1601 ) << "File to open: " << strFile << endl;
 
-    QFileInfo fileInfo( strFile );
-    if ( !fileInfo.exists() )
-    {
-        KMessageBox::error(this, i18n("The archive %1 does not exist.", strFile));
-        emit removeRecentURL( m_realURL );
-        return;
-    }
-    else if ( !fileInfo.isReadable() )
+    Q_ASSERT( QFileInfo( strFile ).exists() );
+
+    if ( !QFileInfo( strFile ).isReadable() )
     {
         KMessageBox::error(this, i18n("You do not have permission to access that archive.") );
         emit removeRecentURL( m_realURL );
         return;
     }
 
-    // see if the user is just opening the same file that's already
-    // open (erm...)
-
-    if (strFile == m_strArchName && m_bIsArchiveOpen)
-    {
-        kDebug( 1601 ) << "file_open: strFile == m_strArchName" << endl;
-        return;
-    }
-
-    // no errors if we made it this far.
-
     // Set the current archive filename to the filename
     m_strArchName = strFile;
     m_url = url;
-    //arch->clearShellOutput();
 
     openArchive( strFile );
 }

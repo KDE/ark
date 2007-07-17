@@ -249,8 +249,8 @@ bool ArkPart::openFile()
 		emit removeRecentURL( m_widget->realURL() );
 		return false;
 	}
+	closeArchive();
 	emit addRecentURL( m_widget->realURL() );
-	m_widget->setModified( false );
 	m_widget->file_open( url );
 	return true;
 }
