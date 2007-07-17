@@ -330,7 +330,7 @@ KUrl ArkWidget::getCreateFilename(const QString & _caption,
     KFileDialog dlg( KUrl("kfiledialog://ArkSaveAsDialog"), QString::null, this );
     dlg.setCaption( _caption );
     dlg.setOperationMode( KFileDialog::Saving );
-    dlg.setMimeFilter( ArchiveFormatInfo::self()->supportedMimeTypes( allowCompressed ),
+    dlg.setMimeFilter( Arch::supportedMimeTypes(),
                        _defaultMimeType.isNull() ?  "application/x-compressed-tar" : _defaultMimeType );
     if ( !_suggestedName.isEmpty() )
         dlg.setSelection( _suggestedName );
@@ -1254,43 +1254,14 @@ ArkWidget::slotCreate(Arch * _newarch, bool _success, const QString & _filename,
 void
 ArkWidget::openArchive( const QString & _filename )
 {
-    Arch *newArch = 0;
-    ArchType archtype;
-    ArchiveFormatInfo * info = ArchiveFormatInfo::self();
-    if ( m_openAsMimeType.isNull() )
-    {
-        archtype = info->archTypeForURL( m_url );
-        if ( info->wasUnknownExtension() )
-        {
-            ArchiveFormatDlg * dlg = new ArchiveFormatDlg( this, info->findMimeType( m_url ) );
-            if ( !dlg->exec() == QDialog::Accepted )
-            {
-                emit setWindowCaption( QString() );
-                emit removeRecentURL( m_realURL );
-                delete dlg;
-                file_close();
-                return;
-            }
-            m_openAsMimeType = dlg->mimeType();
-            archtype = info->archTypeForMimeType( m_openAsMimeType );
-            delete dlg;
-        }
-    }
-    else
-    {
-       archtype = info->archTypeForMimeType( m_openAsMimeType );
-    }
-
-    kDebug( 1601 ) << "m_openAsMimeType is: " << m_openAsMimeType << endl;
-    if( 0 == ( newArch = Arch::archFactory( archtype, _filename, m_openAsMimeType) ) )
+    Arch *newArch = Arch::archFactory( UNKNOWN_FORMAT, _filename, m_openAsMimeType);
+    if ( !newArch )
     {
         emit setWindowCaption( QString() );
         emit removeRecentURL( m_realURL );
         KMessageBox::error( this, i18n("Unknown archive format or corrupted archive") );
         return;
     }
-
-    m_archType = archtype;
 
     connect( newArch, SIGNAL( opened( bool ) ),
              this, SLOT( slotOpened( bool ) ) );

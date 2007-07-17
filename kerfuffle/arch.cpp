@@ -42,6 +42,7 @@
 #include <KMessageBox>
 #include <KMimeType>
 #include <KMimeTypeTrader>
+#include <KServiceTypeTrader>
 #include <KLocale>
 #include <KPasswordDialog>
 #include <KStandardDirs>
@@ -90,4 +91,26 @@ Arch *Arch::archFactory( ArchType /*aType*/,
 	kDebug( 1601 ) << k_funcinfo << "Couldn't find a library for mimetype " << mimeType << endl;
 	return 0;
 }
+
+QStringList Arch::supportedMimeTypes()
+{
+	QStringList supported;
+	KService::List offers = KServiceTypeTrader::self()->query( "Kerfuffle/Plugin", "(exist Library)" );
+
+	kDebug( 1601 ) << k_funcinfo << "returned " << offers.count() << " offers" << endl;
+
+	foreach( KService::Ptr service, offers )
+	{
+		kDebug( 1601 ) << k_funcinfo << "	Service " << service->name() << " has service types " << service->serviceTypes() << endl;
+		foreach( const QString& mimeType, service->serviceTypes() )
+		{
+			if ( !mimeType.contains( "Kerfuffle" ) )
+			{
+				supported << mimeType;
+			}
+		}
+	}
+	return supported;
+}
+
 #include "arch.moc"

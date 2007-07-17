@@ -29,6 +29,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QStringList>
 #include <QPair>
 #include <QRegExp>
 #include <QHash>
@@ -87,6 +88,7 @@ class KERFUFFLE_EXPORT Arch : public QObject
 		static Arch *archFactory( ArchType aType,
 		                          const QString &filename,
 		                          const QString &openAsMimeType = QString() );
+		static QStringList supportedMimeTypes();
 
 	signals:
 		void opened( bool success );

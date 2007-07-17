@@ -49,6 +49,7 @@
 #include "arkapp.h"
 #include "settings.h"
 #include "archiveformatinfo.h"
+#include "kerfuffle/arch.h"
 #include "arkwidget.h"
 
 static const char * const recentFilesConfigGroup = "Recent Files";
@@ -216,71 +217,10 @@ MainWindow::openURL( const KUrl & url, bool tempFile )
     }
 }
 
-KUrl
-MainWindow::getOpenURL( bool addOnly, const QString & caption,
-                               const QString & startDir, const QString & suggestedName )
-{
-    QWidget * forceFormatWidget = new QWidget( this );
-    QHBoxLayout * l = new QHBoxLayout( forceFormatWidget );
-
-    QLabel * label = new QLabel( forceFormatWidget );
-    label->setText( i18n( "Open &as:" ) );
-    label->adjustSize();
-
-    KComboBox * combo = new KComboBox( forceFormatWidget );
-
-    QStringList list;
-    list = ArchiveFormatInfo::self()->allDescriptions();
-    list.sort();
-    list.prepend( i18n( "Autodetect (default)" ) );
-    combo->addItems( list );
-
-    QString filter = ArchiveFormatInfo::self()->filter();
-    if ( !suggestedName.isEmpty() )
-    {
-        filter.clear();
-        combo->setCurrentIndex(list.indexOf( ArchiveFormatInfo::self()->descriptionForMimeType(
-                                 KMimeType::findByPath( suggestedName, 0, true )->name() ) ) );
-    }
-
-    label->setBuddy( combo );
-
-    l->addWidget( label );
-    l->addWidget( combo, 1 );
-
-    KUrl dir;
-    if ( addOnly )
-        dir = startDir;
-    else
-        dir = "kfiledialog://ArkOpenDir";
-
-    KFileDialog dlg( dir, filter, this, forceFormatWidget );
-    dlg.setOperationMode( addOnly ? KFileDialog::Saving
-                                  : KFileDialog::Opening );
-
-    dlg.setCaption( addOnly ? caption : i18n("Open") );
-    dlg.setMode( addOnly ? ( KFile::File | KFile::ExistingOnly )
-                                  :  KFile::File );
-    dlg.setSelection( suggestedName );
-
-    dlg.exec();
-
-    KUrl url;
-    url = dlg.selectedUrl();
-
-    if ( combo->currentIndex() !=0 ) // i.e. != "Autodetect"
-        m_widget->setOpenAsMimeType(
-            ArchiveFormatInfo::self()->mimeTypeForDescription( combo->currentText() ) );
-    else
-        m_widget->setOpenAsMimeType( QString() );
-
-    return url;
-}
-
 void
 MainWindow::file_open()
 {
-    KUrl url = getOpenURL();
+    KUrl url = KFileDialog::getOpenUrl( KUrl( "kfiledialog:://ArkOpenDir" ), Arch::supportedMimeTypes().join(" "), this, i18n( "Open" ) );
     if( !arkAlreadyOpen( url ) )
         m_part->openUrl( url );
 }

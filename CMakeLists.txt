@@ -15,7 +15,7 @@ kde4_add_ui_files(ark_KDEINIT_SRCS general.ui )
 
 kde4_add_kdeinit_executable( ark ${ark_KDEINIT_SRCS})
 
-target_link_libraries(kdeinit_ark ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KPARTS_LIBS})
+target_link_libraries(kdeinit_ark ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KPARTS_LIBS} kerfuffle)
 
 install(TARGETS kdeinit_ark  DESTINATION ${LIB_INSTALL_DIR})
 

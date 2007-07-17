@@ -76,10 +76,6 @@ MainWindow: public KParts::MainWindow
 		void newCaption(const QString & filename);
 		bool arkAlreadyOpen( const KUrl & url );
 
-		KUrl getOpenURL( bool addOnly = false , const QString & caption = QString(),
-		                 const QString & startDir = QString(),
-		                 const QString & suggestedName = QString() );
-
 		KParts::ReadWritePart *m_part;
 		ArkWidget *m_widget; //the parts widget
 
