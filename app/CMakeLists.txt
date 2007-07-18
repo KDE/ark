@@ -3,11 +3,11 @@ set( ark_SRCS main.cpp
               mainwindow.cpp
    )
 
-kde4_add_executable( arknew ${ark_SRCS} )
+kde4_add_executable( ark ${ark_SRCS} )
 
-target_link_libraries( arknew ${KDE4_KPARTS_LIBS} )
+target_link_libraries( ark ${KDE4_KPARTS_LIBS} )
 
-install( TARGETS arknew  DESTINATION ${BIN_INSTALL_DIR} )
+install( TARGETS ark  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### install files ###############
 

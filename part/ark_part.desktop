@@ -4,5 +4,5 @@ Icon=ark
 Name=Archiver
 Comment=Archive Handling Tool
 ServiceTypes=Browser/View
-X-KDE-Library=libarkpart-new
+X-KDE-Library=libarkpart
 Type=Service

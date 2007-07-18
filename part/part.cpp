@@ -37,14 +37,14 @@
 #include <QSplitter>
 
 typedef KParts::GenericFactory<Part> Factory;
-K_EXPORT_COMPONENT_FACTORY( libarkpartnew, Factory );
+K_EXPORT_COMPONENT_FACTORY( libarkpart, Factory );
 
 Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	: KParts::ReadWritePart( parent ), m_model( new ArchiveModel( this ) )
 {
 	Q_UNUSED( args );
 	setComponentData( Factory::componentData() );
-	setXMLFile( "ark_part_new.rc" );
+	setXMLFile( "ark_part.rc" );
 
 	QSplitter *mainWidget = new QSplitter( Qt::Horizontal, parentWidget );
 	setWidget( mainWidget );

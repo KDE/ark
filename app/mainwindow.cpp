@@ -35,7 +35,7 @@ MainWindow::MainWindow( QWidget * )
 	: KParts::MainWindow( )
 {
 	setXMLFile( "arkui.rc" );
-	m_part = KParts::ComponentFactory::createPartInstanceFromLibrary<KParts::ReadWritePart>( "libarkpartnew", this, this );
+	m_part = KParts::ComponentFactory::createPartInstanceFromLibrary<KParts::ReadWritePart>( "libarkpart", this, this );
 	if ( !m_part )
 	{
 		KMessageBox::error( this, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
