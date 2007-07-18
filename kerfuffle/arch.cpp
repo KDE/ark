@@ -64,11 +64,11 @@ void Arch::extractFile( const QVariant & fileName, const QString & destinationDi
 	extractFiles( l, destinationDir );
 }
 
-Arch *Arch::archFactory( ArchType /*aType*/,
-                         const QString &filename,
-                         const QString &/*openAsMimeType*/ )
+Arch *Arch::factory( const QString & filename,
+                         const QString & requestedMimeType )
 {
-	QString mimeType = KMimeType::findByPath( filename )->name();
+	qRegisterMetaType<ArchiveEntry>( "ArchiveEntry" );
+	QString mimeType = requestedMimeType.isEmpty()? KMimeType::findByPath( filename )->name() : requestedMimeType;
 	KService::List offers = KMimeTypeTrader::self()->query( mimeType, "Kerfuffle/Plugin", "(exist Library)" );
 
 	if ( !offers.isEmpty() )
@@ -112,5 +112,6 @@ QStringList Arch::supportedMimeTypes()
 	}
 	return supported;
 }
+
 
 #include "arch.moc"

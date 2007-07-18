@@ -85,9 +85,7 @@ class KERFUFFLE_EXPORT Arch : public QObject
 		QString fileName() const { return m_filename; }
 
 		bool isReadOnly() { return m_readOnly; }
-		static Arch *archFactory( ArchType aType,
-		                          const QString &filename,
-		                          const QString &openAsMimeType = QString() );
+		static Arch *factory( const QString & filename, const QString & requestedMimeType = QString() );
 		static QStringList supportedMimeTypes();
 
 	signals:

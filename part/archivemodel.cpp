@@ -22,7 +22,11 @@
 #include "kerfuffle/arch.h"
 
 #include <QList>
+#include <QPixmap>
+
 #include <KLocale>
+#include <KMimeType>
+#include <KIconLoader>
 
 class ArchiveDirNode;
 
@@ -53,6 +57,7 @@ class ArchiveNode
 		virtual bool isDir() const { return false; }
 
 
+		QPixmap         m_icon;
 	private:
 		ArchiveEntry    m_entry;
 		ArchiveDirNode *m_parent;
@@ -66,6 +71,7 @@ class ArchiveDirNode: public ArchiveNode
 		ArchiveDirNode( ArchiveDirNode *parent, const ArchiveEntry & entry )
 			: ArchiveNode( parent, entry )
 		{
+			m_icon = KIconLoader::global()->loadMimeTypeIcon( KMimeType::mimeType( "inode/directory" )->iconName(), K3Icon::Small );
 		}
 
 		~ArchiveDirNode()
@@ -134,6 +140,13 @@ QVariant ArchiveModel::data( const QModelIndex &index, int role ) const
 		{
 			case Qt::DisplayRole:
 				return node->name();
+			case Qt::DecorationRole:
+				if ( node->m_icon.isNull() )
+				{
+					KMimeType::Ptr mimeType = KMimeType::findByPath( node->entry()[ FileName ].toString(), 0, true );
+					node->m_icon = KIconLoader::global()->loadMimeTypeIcon( mimeType->iconName(), K3Icon::Small );
+				}
+				return node->m_icon;
 			default:
 				return QVariant();
 		}

@@ -1180,16 +1180,14 @@ Arch * ArkWidget::getNewArchive( const QString & _fileName, const QString& _mime
     Arch * newArch = 0;
 
     QString type = _mimetype.isNull()? KMimeType::findByUrl( KUrl::fromPath(_fileName) )->name() : _mimetype;
-    ArchType archtype = ArchiveFormatInfo::self()->archTypeForMimeType(type);
-    kDebug( 1601 ) << "archtype is recognised as: " << archtype << endl;
-    if(0 == (newArch = Arch::archFactory(archtype, _fileName, _mimetype)))
+    if(0 == (newArch = Arch::factory(_fileName, _mimetype)))
     {
         KMessageBox::error(this, i18n("Unknown archive format or corrupted archive") );
         emit request_file_quit();
         return NULL;
     }
 
-    m_archType = archtype;
+    m_archType = UNKNOWN_FORMAT;
     m_fileListView->setUpdatesEnabled(true);
     return newArch;
 }
@@ -1253,7 +1251,7 @@ ArkWidget::slotCreate(Arch * _newarch, bool _success, const QString & _filename,
 void
 ArkWidget::openArchive( const QString & _filename )
 {
-    Arch *newArch = Arch::archFactory( UNKNOWN_FORMAT, _filename, m_openAsMimeType);
+    Arch *newArch = Arch::factory( _filename, m_openAsMimeType);
     if ( !newArch )
     {
         emit setWindowCaption( QString() );
