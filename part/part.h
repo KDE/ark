@@ -26,6 +26,7 @@
 
 class ArchiveModel;
 class QTreeView;
+class QAction;
 class KAboutData;
 
 class Part: public KParts::ReadWritePart, public Interface
@@ -45,10 +46,15 @@ class Part: public KParts::ReadWritePart, public Interface
 	private slots:
 		void slotLoadingStarted();
 		void slotLoadingFinished();
+		void slotPreview();
+		void updateActions();
 
 	private:
+		void setupActions();
+
 		ArchiveModel *m_model;
 		QTreeView    *m_view;
+		QAction      *m_previewAction;
 
 };
 

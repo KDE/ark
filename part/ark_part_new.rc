@@ -1,7 +1,12 @@
 <!DOCTYPE kpartgui>
 <kpartgui name="ark_part" version="1">
 <MenuBar>
+	<Menu name="action">
+		<text>&amp;Action</text>
+		<Action name="preview"/>
+	</Menu>
 </MenuBar>
 <ToolBar name="mainToolBar">
+	<Action name="preview"/>
 </ToolBar>
 </kpartgui>

@@ -25,9 +25,13 @@
 #include <KApplication>
 #include <KAboutData>
 #include <KDebug>
+#include <KActionCollection>
+#include <KIcon>
 
 #include <QTreeView>
 #include <QCursor>
+#include <QAction>
+#include <kdebug.h>
 
 typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY( libarkpartnew, Factory );
@@ -38,17 +42,39 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	Q_UNUSED( args );
 	setComponentData( Factory::componentData() );
 	setXMLFile( "ark_part_new.rc" );
+
 	setWidget( m_view );
 	m_view->setModel( m_model );
+
+	setupActions();
 
 	connect( m_model, SIGNAL( loadingStarted() ),
 	         this, SLOT( slotLoadingStarted() ) );
 	connect( m_model, SIGNAL( loadingFinished() ),
 	         this, SLOT( slotLoadingFinished() ) );
+	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
+	         this, SLOT( updateActions() ) );
 }
 
 Part::~Part()
 {
+}
+
+void Part::setupActions()
+{
+	m_previewAction = actionCollection()->addAction( "preview" );
+	m_previewAction->setText( i18nc( "to preview a file inside an archive", "Pre&view" ) );
+	m_previewAction->setIcon( KIcon( "ark-view" ) );
+	m_previewAction->setStatusTip( i18n( "Click to preview the selected file" ) );
+	connect( m_previewAction, SIGNAL( triggered( bool ) ),
+	         this, SLOT( slotPreview() ) );
+
+	updateActions();
+}
+
+void Part::updateActions()
+{
+	m_previewAction->setEnabled( m_view->selectionModel()->currentIndex().isValid() );
 }
 
 KAboutData* Part::createAboutData()
@@ -82,4 +108,8 @@ void Part::slotLoadingStarted()
 void Part::slotLoadingFinished()
 {
 	QApplication::restoreOverrideCursor();
+}
+
+void Part::slotPreview()
+{
 }
