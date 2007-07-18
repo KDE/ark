@@ -56,8 +56,19 @@ class ArchiveNode
 
 		virtual bool isDir() const { return false; }
 
+		QPixmap icon()
+		{
+			if ( m_icon.isNull() )
+			{
+				KMimeType::Ptr mimeType = KMimeType::findByPath( m_entry[ FileName ].toString(), 0, true );
+				m_icon = KIconLoader::global()->loadMimeTypeIcon( mimeType->iconName(), K3Icon::Small );
+			}
+			return m_icon;
+		}
 
+	protected:
 		QPixmap         m_icon;
+
 	private:
 		ArchiveEntry    m_entry;
 		ArchiveDirNode *m_parent;
@@ -141,12 +152,7 @@ QVariant ArchiveModel::data( const QModelIndex &index, int role ) const
 			case Qt::DisplayRole:
 				return node->name();
 			case Qt::DecorationRole:
-				if ( node->m_icon.isNull() )
-				{
-					KMimeType::Ptr mimeType = KMimeType::findByPath( node->entry()[ FileName ].toString(), 0, true );
-					node->m_icon = KIconLoader::global()->loadMimeTypeIcon( mimeType->iconName(), K3Icon::Small );
-				}
-				return node->m_icon;
+				return node->icon();
 			default:
 				return QVariant();
 		}
