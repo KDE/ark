@@ -48,6 +48,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void slotLoadingStarted();
 		void slotLoadingFinished();
 		void slotPreview();
+		void slotError( const QString& errorMessage, const QString& details );
 		void updateActions();
 		void selectionChanged();
 

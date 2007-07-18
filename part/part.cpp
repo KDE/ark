@@ -28,8 +28,8 @@
 #include <KDebug>
 #include <KActionCollection>
 #include <KIcon>
-#include <KHBox>
 #include <KDebug>
+#include <KMessageBox>
 
 #include <QTreeView>
 #include <QCursor>
@@ -60,6 +60,8 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	         this, SLOT( slotLoadingStarted() ) );
 	connect( m_model, SIGNAL( loadingFinished() ),
 	         this, SLOT( slotLoadingFinished() ) );
+	connect( m_model, SIGNAL( error( const QString&, const QString& ) ),
+	         this, SLOT( slotError( const QString&, const QString& ) ) );
 }
 
 Part::~Part()
@@ -134,4 +136,16 @@ void Part::slotLoadingFinished()
 
 void Part::slotPreview()
 {
+}
+
+void Part::slotError( const QString& errorMessage, const QString& details )
+{
+	if ( details.isEmpty() )
+	{
+		KMessageBox::error( widget(), errorMessage );
+	}
+	else
+	{
+		KMessageBox::detailedError( widget(), errorMessage, details );
+	}
 }
