@@ -42,6 +42,10 @@ class Part: public KParts::ReadWritePart, public Interface
 
 		QStringList supportedMimeTypes() const;
 
+	private slots:
+		void slotLoadingStarted();
+		void slotLoadingFinished();
+
 	private:
 		ArchiveModel *m_model;
 		QTreeView    *m_view;

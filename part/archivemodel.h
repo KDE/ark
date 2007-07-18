@@ -46,6 +46,10 @@ class ArchiveModel: public QAbstractItemModel
 
 		void setArchive( Arch *archive );
 
+	signals:
+		void loadingStarted();
+		void loadingFinished();
+
 	private slots:
 		void slotNewEntry( const ArchiveEntry& entry );
 

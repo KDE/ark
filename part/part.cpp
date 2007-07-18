@@ -22,8 +22,12 @@
 #include "archivemodel.h"
 
 #include <KParts/GenericFactory>
+#include <KApplication>
 #include <KAboutData>
+#include <KDebug>
+
 #include <QTreeView>
+#include <QCursor>
 
 typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY( libarkpartnew, Factory );
@@ -36,6 +40,11 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	setXMLFile( "ark_part_new.rc" );
 	setWidget( m_view );
 	m_view->setModel( m_model );
+
+	connect( m_model, SIGNAL( loadingStarted() ),
+	         this, SLOT( slotLoadingStarted() ) );
+	connect( m_model, SIGNAL( loadingFinished() ),
+	         this, SLOT( slotLoadingFinished() ) );
 }
 
 Part::~Part()
@@ -63,4 +72,14 @@ bool Part::saveFile()
 QStringList Part::supportedMimeTypes() const
 {
 	return Arch::supportedMimeTypes();
+}
+
+void Part::slotLoadingStarted()
+{
+	QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
+}
+
+void Part::slotLoadingFinished()
+{
+	QApplication::restoreOverrideCursor();
 }
