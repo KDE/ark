@@ -116,4 +116,4 @@ Terminal=false
 SwallowExec=
 SwallowTitle=
 ServiceTypes=Browser/View
-X-KDE-Library=libarkpart
+X-KDE-Library=liboldarkpart

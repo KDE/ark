@@ -48,7 +48,7 @@
 #include <QFrame>
 
 typedef KParts::GenericFactory<ArkPart> ArkFactory;
-K_EXPORT_COMPONENT_FACTORY( libarkpart, ArkFactory );
+K_EXPORT_COMPONENT_FACTORY( liboldarkpart, ArkFactory );
 
 KAboutData *ArkPart::createAboutData()
 {

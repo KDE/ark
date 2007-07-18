@@ -58,7 +58,7 @@ MainWindow::MainWindow( QWidget * /*parent*/ )
 	: KParts::MainWindow()
 {
     setXMLFile( "arkui.rc" );
-    m_part = KParts::ComponentFactory::createPartInstanceFromLibrary<KParts::ReadWritePart>( "libarkpart", this, this);
+    m_part = KParts::ComponentFactory::createPartInstanceFromLibrary<KParts::ReadWritePart>( "liboldarkpart", this, this);
     if (m_part )
     {
         m_part->setObjectName("ArkPart");
