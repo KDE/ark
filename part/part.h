@@ -50,6 +50,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void updateActions();
 
 	private:
+		void setupView();
 		void setupActions();
 
 		ArchiveModel *m_model;

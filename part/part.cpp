@@ -44,7 +44,7 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	setXMLFile( "ark_part_new.rc" );
 
 	setWidget( m_view );
-	m_view->setModel( m_model );
+	setupView();
 
 	setupActions();
 
@@ -52,12 +52,18 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	         this, SLOT( slotLoadingStarted() ) );
 	connect( m_model, SIGNAL( loadingFinished() ),
 	         this, SLOT( slotLoadingFinished() ) );
-	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
-	         this, SLOT( updateActions() ) );
 }
 
 Part::~Part()
 {
+}
+
+void Part::setupView()
+{
+	m_view->setSelectionMode( QAbstractItemView::ExtendedSelection );
+	m_view->setModel( m_model );
+	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
+	         this, SLOT( updateActions() ) );
 }
 
 void Part::setupActions()
