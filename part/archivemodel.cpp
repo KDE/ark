@@ -151,9 +151,27 @@ QVariant ArchiveModel::data( const QModelIndex &index, int role ) const
 		switch ( role )
 		{
 			case Qt::DisplayRole:
-				return node->name();
+				if ( index.column() == 0 )
+				{
+					return node->name();
+				}
+				else
+				{
+					if ( node->isDir() )
+					{
+						return QVariant();
+					}
+					else
+					{
+						return node->entry()[ Size ];
+					}
+				}
 			case Qt::DecorationRole:
-				return node->icon();
+				if ( index.column() == 0 )
+				{
+					return node->icon();
+				}
+				return QVariant();
 			default:
 				return QVariant();
 		}
@@ -179,6 +197,8 @@ QVariant ArchiveModel::headerData( int section, Qt::Orientation, int role ) cons
 		{
 			case 0:
 				return i18n( "Name" );
+			case 1:
+				return i18n( "Size" );
 		}
 	}
 	return QVariant();
@@ -247,7 +267,7 @@ int ArchiveModel::columnCount( const QModelIndex &parent ) const
 	{
 		return static_cast<ArchiveNode*>( parent.internalPointer() )->entry().size();
 	}
-	return 1; // TODO: Completely bogus
+	return 2; // TODO: Completely bogus
 }
 
 ArchiveDirNode* ArchiveModel::parentFor( const ArchiveEntry& entry )
