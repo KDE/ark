@@ -54,7 +54,6 @@ bool BKInterface::list()
 	if(rc <= 0) return false;
 
 
-	kDebug( 1601 ) << k_funcinfo << "Let's browse!" << endl;
 	bool result = browse( BK_BASE_PTR( &( volInfo.dirTree ) ) );
 
 	bk_destroy_vol_info( &volInfo );
@@ -78,8 +77,6 @@ bool BKInterface::browse( BkFileBase* base, const QString& prefix )
 		e[ FileName ] = fullpath;
 		e[ OriginalFileName ] = fullpath;
 
-		kDebug( 1601 ) << k_funcinfo << "Browsing " << base->name << endl;
-		kDebug( 1601 ) << k_funcinfo << "         which " << ( IS_DIR( base->posixFileMode )? "is " : "is not " ) << " a dir. " << endl;
 		if ( IS_SYMLINK( base->posixFileMode ) )
 		{
 			e[ Link ] = QByteArray( BK_SYMLINK_PTR( base )->target );
@@ -102,7 +99,6 @@ bool BKInterface::browse( BkFileBase* base, const QString& prefix )
 	if ( IS_DIR( base->posixFileMode ) )
 	{
 		BkFileBase *child = BK_DIR_PTR( base )->children;
-		kDebug( 1601 ) << k_funcinfo << "children is " << ( long long ) child << endl;
 		while ( child )
 		{
 			if ( !browse( child, fullpath ) )
