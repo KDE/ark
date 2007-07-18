@@ -83,7 +83,7 @@ ArkPart::ArkPart( QWidget *parentWidget, QObject *parent, const QStringList & )
 	connect( m_widget, SIGNAL( removeRecentURL( const KUrl & ) ), this, SIGNAL( removeRecentURL( const KUrl & ) ) );
 	connect( m_widget, SIGNAL( addRecentURL( const KUrl & ) ), this, SIGNAL( addRecentURL( const KUrl & ) ) );
 
-	setXMLFile( "ark_part.rc" );
+	setXMLFile( "oldark_part.rc" );
 
 	setupActions();
 

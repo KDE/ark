@@ -1,4 +1,4 @@
-File=ark.kcfg
+File=oldark.kcfg
 ClassName=ArkSettings
 Singleton=true
 Mutators=true

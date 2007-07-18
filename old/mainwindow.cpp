@@ -57,7 +57,7 @@ static const char * const recentFilesConfigGroup = "Recent Files";
 MainWindow::MainWindow( QWidget * /*parent*/ )
 	: KParts::MainWindow()
 {
-    setXMLFile( "arkui.rc" );
+    setXMLFile( "oldarkui.rc" );
     m_part = KParts::ComponentFactory::createPartInstanceFromLibrary<KParts::ReadWritePart>( "liboldarkpart", this, this);
     if (m_part )
     {

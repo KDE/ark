@@ -46,7 +46,7 @@ install(TARGETS oldarkpart  DESTINATION ${PLUGIN_INSTALL_DIR})
 
 ########### install files ###############
 
-#install( FILES ark.desktop          DESTINATION ${XDG_APPS_DIR} )
-#install( FILES ark.kcfg             DESTINATION ${KCFG_INSTALL_DIR} )
-install( FILES ark_part.desktop     DESTINATION ${SERVICES_INSTALL_DIR} )
-install( FILES arkui.rc ark_part.rc DESTINATION ${DATA_INSTALL_DIR}/ark )
+install( FILES oldark.desktop          DESTINATION ${XDG_APPS_DIR} )
+install( FILES oldark.kcfg             DESTINATION ${KCFG_INSTALL_DIR} )
+install( FILES oldark_part.desktop     DESTINATION ${SERVICES_INSTALL_DIR} )
+install( FILES oldarkui.rc oldark_part.rc DESTINATION ${DATA_INSTALL_DIR}/ark )
