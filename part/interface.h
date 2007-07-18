@@ -18,27 +18,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
-#ifndef BKPLUGIN_H
-#define BKPLUGIN_H
+#ifndef INTERFACE_H
+#define INTERFACE_H
 
-#include "kerfuffle/archiveinterface.h"
-extern "C"
-{
-#include "bk.h"
-}
+#include <QStringList>
+#include <QtPlugin>
 
-class BKInterface: public ReadOnlyArchiveInterface
+class Interface
 {
-	Q_OBJECT
 	public:
-		BKInterface( const QString & filename, QObject *parent = 0 );
-		~BKInterface();
+		virtual ~Interface() {}
 
-		bool list();
-		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory );
-
-	private:
-		bool browse( BkFileBase* base, const QString& prefix = QString() );
+		virtual QStringList supportedMimeTypes() const = 0;
 };
 
-#endif // BKPLUGIN_H
+Q_DECLARE_INTERFACE( Interface, "org.kde.kerfuffle.partinterface/0.42" );
+
+#endif // INTERFACE_H
