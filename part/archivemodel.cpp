@@ -357,6 +357,8 @@ void ArchiveModel::setArchive( Arch *archive )
 			 this, SLOT( slotNewEntry( const ArchiveEntry& ) ) );
 		connect( m_archive, SIGNAL( opened( bool ) ),
 		         this, SIGNAL( loadingFinished() ) );
+		connect( m_archive, SIGNAL( error( const QString&, const QString& ) ),
+		         this, SIGNAL( error( const QString&, const QString& ) ) );
 		emit loadingStarted();
 		m_archive->open();
 	}

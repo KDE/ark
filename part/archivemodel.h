@@ -51,6 +51,7 @@ class ArchiveModel: public QAbstractItemModel
 	signals:
 		void loadingStarted();
 		void loadingFinished();
+		void error( const QString& error, const QString& details );
 
 	private slots:
 		void slotNewEntry( const ArchiveEntry& entry );
