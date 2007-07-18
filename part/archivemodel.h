@@ -31,7 +31,7 @@ class ArchiveModel: public QAbstractItemModel
 {
 	Q_OBJECT
 	public:
-		ArchiveModel( Arch *archive, QObject *parent = 0 );
+		ArchiveModel( QObject *parent = 0 );
 		~ArchiveModel();
 
 		QVariant data( const QModelIndex &index, int role ) const;
@@ -43,6 +43,8 @@ class ArchiveModel: public QAbstractItemModel
 		QModelIndex parent( const QModelIndex &index ) const;
 		int rowCount( const QModelIndex &parent = QModelIndex() ) const;
 		int columnCount( const QModelIndex &parent = QModelIndex() ) const;
+
+		void setArchive( Arch *archive );
 
 	private slots:
 		void slotNewEntry( const ArchiveEntry& entry );

@@ -87,7 +87,7 @@ class ArchiveDirNode: public ArchiveNode
 
 		~ArchiveDirNode()
 		{
-			qDeleteAll( m_entries );
+			clear();
 		}
 
 		QList<ArchiveNode*>& entries() { return m_entries; }
@@ -106,6 +106,12 @@ class ArchiveDirNode: public ArchiveNode
 			return 0;
 		}
 
+		void clear()
+		{
+			qDeleteAll( m_entries );
+			m_entries.clear();
+		}
+
 	private:
 		QList<ArchiveNode*> m_entries;
 };
@@ -122,15 +128,10 @@ int ArchiveNode::row()
 	return 0;
 }
 
-ArchiveModel::ArchiveModel( Arch *archive, QObject *parent )
-	: QAbstractItemModel( parent ), m_archive( archive ),
+ArchiveModel::ArchiveModel( QObject *parent )
+	: QAbstractItemModel( parent ), m_archive( 0 ),
 	  m_rootNode( new ArchiveDirNode( 0, ArchiveEntry() ) )
 {
-	m_archive->setParent( this );
-
-	connect( m_archive, SIGNAL( newEntry( const ArchiveEntry& ) ),
-	         this, SLOT( slotNewEntry( const ArchiveEntry& ) ) );
-	m_archive->open();
 }
 
 ArchiveModel::~ArchiveModel()
@@ -311,4 +312,19 @@ void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 
 		endInsertRows();
 	}
+}
+
+void ArchiveModel::setArchive( Arch *archive )
+{
+	m_archive = archive;
+	m_rootNode->clear();
+	if ( m_archive )
+	{
+		m_archive->setParent( this );
+
+		connect( m_archive, SIGNAL( newEntry( const ArchiveEntry& ) ),
+			 this, SLOT( slotNewEntry( const ArchiveEntry& ) ) );
+		m_archive->open();
+	}
+	reset();
 }
