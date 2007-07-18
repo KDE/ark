@@ -7,11 +7,7 @@ ADD_DEFINITIONS(-D_LARGEFILE64_SOURCE)
 
 set(arkpart_PART_SRCS
 	part.cpp 
-	#filelistview.cpp 
-	#arkutils.cpp 
-	#arkwidget.cpp 
-	#arkviewer.cpp 
-	#extractiondialog.cpp
+	infopanel.cpp
 	archivemodel.cpp
     )
 

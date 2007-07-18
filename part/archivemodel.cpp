@@ -216,6 +216,17 @@ QModelIndex ArchiveModel::parent( const QModelIndex &index ) const
 	return QModelIndex();
 }
 
+ArchiveEntry ArchiveModel::entryForIndex( const QModelIndex &index )
+{
+	if ( index.isValid() )
+	{
+		ArchiveNode *item = static_cast<ArchiveNode*>( index.internalPointer() );
+		Q_ASSERT( item );
+		return item->entry();
+	}
+	return ArchiveEntry();
+}
+
 int ArchiveModel::rowCount( const QModelIndex &parent ) const
 {
 	if ( parent.column() <= 0 )

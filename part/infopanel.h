@@ -18,48 +18,28 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
-#ifndef PART_H
-#define PART_H
+#ifndef INFOPANEL_H
+#define INFOPANEL_H
 
-#include <KParts/Part>
-#include "interface.h"
+#include <QWidget>
+#include "kerfuffle/arch.h"
 
-class ArchiveModel;
-class InfoPanel;
-class QTreeView;
-class QAction;
-class KAboutData;
+class QLabel;
 
-class Part: public KParts::ReadWritePart, public Interface
+class InfoPanel: public QWidget
 {
 	Q_OBJECT
-	Q_INTERFACES( Interface )
 	public:
-		Part( QWidget *parentWidget, QObject *parent, const QStringList & );
-		~Part();
-		static KAboutData* createAboutData();
+		InfoPanel( QWidget *parent = 0 );
+		~InfoPanel();
 
-		virtual bool openFile();
-		virtual bool saveFile();
-
-		QStringList supportedMimeTypes() const;
-
-	private slots:
-		void slotLoadingStarted();
-		void slotLoadingFinished();
-		void slotPreview();
-		void updateActions();
-		void selectionChanged();
-
+		void setEntry( const ArchiveEntry& entry );
 	private:
-		void setupView();
-		void setupActions();
+		void setDefaultValues();
 
-		ArchiveModel *m_model;
-		QTreeView    *m_view;
-		QAction      *m_previewAction;
-		InfoPanel    *m_infoPanel;
-
+		QLabel *m_icon;
+		QLabel *m_name;
+		QLabel *m_mimetype;
 };
 
-#endif // PART_H
+#endif // INFOPANEL_H

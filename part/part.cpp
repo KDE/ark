@@ -20,6 +20,7 @@
  */
 #include "part.h"
 #include "archivemodel.h"
+#include "infopanel.h"
 
 #include <KParts/GenericFactory>
 #include <KApplication>
@@ -27,25 +28,32 @@
 #include <KDebug>
 #include <KActionCollection>
 #include <KIcon>
+#include <KHBox>
+#include <KDebug>
 
 #include <QTreeView>
 #include <QCursor>
 #include <QAction>
-#include <kdebug.h>
+#include <QSplitter>
 
 typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY( libarkpartnew, Factory );
 
 Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
-	: KParts::ReadWritePart( parent ), m_model( new ArchiveModel( this ) ), m_view( new QTreeView( parentWidget ) )
+	: KParts::ReadWritePart( parent ), m_model( new ArchiveModel( this ) )
 {
 	Q_UNUSED( args );
 	setComponentData( Factory::componentData() );
 	setXMLFile( "ark_part_new.rc" );
 
-	setWidget( m_view );
-	setupView();
+	QSplitter *mainWidget = new QSplitter( Qt::Horizontal, parentWidget );
+	setWidget( mainWidget );
+	m_view = new QTreeView( parentWidget );
+	m_infoPanel = new InfoPanel( parentWidget );
+	mainWidget->addWidget( m_view );
+	mainWidget->addWidget( m_infoPanel );
 
+	setupView();
 	setupActions();
 
 	connect( m_model, SIGNAL( loadingStarted() ),
@@ -64,6 +72,8 @@ void Part::setupView()
 	m_view->setModel( m_model );
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
 	         this, SLOT( updateActions() ) );
+	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
+	         this, SLOT( selectionChanged() ) );
 }
 
 void Part::setupActions()
@@ -81,6 +91,11 @@ void Part::setupActions()
 void Part::updateActions()
 {
 	m_previewAction->setEnabled( m_view->selectionModel()->currentIndex().isValid() );
+}
+
+void Part::selectionChanged()
+{
+	m_infoPanel->setEntry( m_model->entryForIndex( m_view->selectionModel()->currentIndex() ) );
 }
 
 KAboutData* Part::createAboutData()
