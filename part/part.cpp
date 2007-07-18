@@ -107,6 +107,7 @@ bool Part::openFile()
 {
 	Arch *archive = Arch::factory( localFilePath() );
 	m_model->setArchive( archive );
+	m_infoPanel->setEntry( ArchiveEntry() );
 
 	return ( archive != 0 );
 }
