@@ -45,6 +45,7 @@ class ArchiveModel: public QAbstractItemModel
 		int columnCount( const QModelIndex &parent = QModelIndex() ) const;
 
 		void setArchive( Arch *archive );
+		Arch *archive() const { return m_archive; }
 
 		ArchiveEntry entryForIndex( const QModelIndex &index );
 

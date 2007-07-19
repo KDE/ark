@@ -60,6 +60,12 @@
       <layout class="QVBoxLayout" >
        <item>
         <widget class="QLabel" name="extractAllLabel" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text" >
           <string>&lt;font size=+2>&lt;b>Extract All Files&lt;/b>&lt;/font></string>
          </property>
@@ -87,6 +93,9 @@
            <widget class="QRadioButton" name="selectedFilesButton" >
             <property name="text" >
              <string>Selected Files Only</string>
+            </property>
+            <property name="checked" >
+             <bool>true</bool>
             </property>
            </widget>
           </item>

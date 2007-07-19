@@ -38,6 +38,8 @@ class ExtractionDialog: public KDialog
 		ExtractionDialog( QWidget *parent = 0 );
 		~ExtractionDialog();
 
+		void showSelectedFilesOption();
+
 	private:
 		ExtractionDialogUI *m_ui;
 };

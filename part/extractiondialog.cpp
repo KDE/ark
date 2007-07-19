@@ -38,12 +38,21 @@ ExtractionDialog::ExtractionDialog( QWidget *parent )
 	setCaption( i18n( "Extract" ) );
 	m_ui->iconLabel->setPixmap( DesktopIcon( "ark-extract" ) );
 	m_ui->iconLabel->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );
+
+	m_ui->filesToExtractGroupBox->hide();
+	m_ui->extractAllLabel->show();
 }
 
 ExtractionDialog::~ExtractionDialog()
 {
 	delete m_ui;
 	m_ui = 0;
+}
+
+void ExtractionDialog::showSelectedFilesOption()
+{
+	m_ui->filesToExtractGroupBox->show();
+	m_ui->extractAllLabel->hide();
 }
 
 #include "extractiondialog.moc"

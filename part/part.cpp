@@ -106,6 +106,7 @@ void Part::setupActions()
 void Part::updateActions()
 {
 	m_previewAction->setEnabled( m_view->selectionModel()->currentIndex().isValid() );
+	m_extractFilesAction->setEnabled( m_model->archive() );
 }
 
 void Part::selectionChanged()
@@ -123,6 +124,7 @@ bool Part::openFile()
 	Arch *archive = Arch::factory( localFilePath() );
 	m_model->setArchive( archive );
 	m_infoPanel->setEntry( ArchiveEntry() );
+	updateActions();
 
 	return ( archive != 0 );
 }
@@ -202,7 +204,13 @@ void Part::slotExtractFiles()
 		const ArchiveEntry & entry = m_model->entryForIndex( index );
 		kDebug( 1601 ) << k_funcinfo << "Entry: " << entry[ FileName ].toString() << endl;
 	}
+
 	ExtractionDialog dialog;
+	if ( m_view->selectionModel()->selectedRows().count() > 0 )
+	{
+		dialog.showSelectedFilesOption();
+	}
+
 	if ( dialog.exec() )
 	{
 		kDebug( 1601 ) << k_funcinfo << "implement me!" << endl;
