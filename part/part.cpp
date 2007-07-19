@@ -78,6 +78,8 @@ void Part::setupView()
 	         this, SLOT( updateActions() ) );
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
 	         this, SLOT( selectionChanged() ) );
+	connect( m_view, SIGNAL( activated( const QModelIndex & ) ),
+	         this, SLOT( slotPreview( const QModelIndex & ) ) );
 }
 
 void Part::setupActions()
@@ -138,8 +140,13 @@ void Part::slotLoadingFinished()
 
 void Part::slotPreview()
 {
+	slotPreview( m_view->selectionModel()->currentIndex() );
+}
+
+void Part::slotPreview( const QModelIndex & index )
+{
 	Q_ASSERT( m_previewDir == 0 );
-	const ArchiveEntry& entry =  m_model->entryForIndex( m_view->selectionModel()->currentIndex() );
+	const ArchiveEntry& entry =  m_model->entryForIndex( index );
 	if ( !entry.isEmpty() )
 	{
 		m_previewDir = new KTempDir();

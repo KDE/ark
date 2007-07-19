@@ -22,6 +22,7 @@
 #define PART_H
 
 #include <KParts/Part>
+#include <QModelIndex>
 #include "interface.h"
 
 class ArchiveModel;
@@ -49,6 +50,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void slotLoadingStarted();
 		void slotLoadingFinished();
 		void slotPreview();
+		void slotPreview( const QModelIndex & index );
 		void slotPreviewExtracted( bool success );
 		void slotError( const QString& errorMessage, const QString& details );
 		void updateActions();
