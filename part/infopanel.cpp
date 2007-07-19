@@ -27,21 +27,16 @@
 #include <KLocale>
 #include <KMimeType>
 #include <KIconLoader>
+#include <KIO/NetAccess>
 
 InfoPanel::InfoPanel( QWidget *parent )
-	: QWidget( parent ), m_icon( new QLabel( this ) ), m_name( new QLabel( this ) ), m_mimetype( new QLabel( this ) )
+	: QFrame( parent )
 {
-	QVBoxLayout *layout = new QVBoxLayout;
-	layout->addWidget( m_icon );
-	layout->addWidget( m_name );
-	layout->addWidget( m_mimetype );
-	layout->addStretch();
-	setLayout( layout );
+	setupUi( this );
 	setDefaultValues();
-
-	m_icon->setAlignment( Qt::AlignCenter );
-	m_name->setAlignment( Qt::AlignCenter );
-	m_mimetype->setAlignment( Qt::AlignCenter );
+	iconLabel->setFixedHeight( K3Icon::SizeEnormous );
+	iconLabel->setMinimumWidth( K3Icon::SizeEnormous );
+	setMaximumWidth( 2 * K3Icon::SizeEnormous );
 }
 
 InfoPanel::~InfoPanel()
@@ -51,9 +46,11 @@ InfoPanel::~InfoPanel()
 void InfoPanel::setDefaultValues()
 {
 	KMimeType::Ptr defaultMime = KMimeType::defaultMimeTypePtr();
-	m_icon->setPixmap( KIconLoader::global()->loadMimeTypeIcon( defaultMime->iconName(), K3Icon::Desktop ) );
-	m_name->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( i18n( "No file selected" ) ) );
-	m_mimetype->setText( QString() );
+	iconLabel->setPixmap( KIconLoader::global()->loadMimeTypeIcon( defaultMime->iconName(), K3Icon::Desktop, K3Icon::SizeEnormous ) );
+	fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( i18n( "No file selected" ) ) );
+	additionalInfo->setText( QString() );
+	hideMetaData();
+	hideActions();
 }
 
 void InfoPanel::setEntry( const ArchiveEntry& entry )
@@ -65,12 +62,67 @@ void InfoPanel::setEntry( const ArchiveEntry& entry )
 	else
 	{
 		KMimeType::Ptr mimeType = KMimeType::findByPath( entry[ FileName ].toString(), 0, true );
-		m_icon->setPixmap( KIconLoader::global()->loadMimeTypeIcon( mimeType->iconName(), K3Icon::Desktop ) );
+		iconLabel->setPixmap( KIconLoader::global()->loadMimeTypeIcon( mimeType->iconName(), K3Icon::Desktop, K3Icon::SizeEnormous ) );
+
 		QStringList nameParts = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts );
 		QString name = ( nameParts.count() > 0 )? nameParts.last() : entry[ FileName ].toString();
-		m_name->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( name ) );
-		m_mimetype->setText( mimeType->comment() );
+		fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( name ) );
+		additionalInfo->setText( mimeType->comment() );
+
+		metadataLabel->setText( metadataTextFor( entry ) );
+		showMetaData();
 	}
+}
+
+void InfoPanel::showMetaData()
+{
+	firstSeparator->show();
+	metadataLabel->show();
+}
+
+void InfoPanel::hideMetaData()
+{
+	firstSeparator->hide();
+	metadataLabel->hide();
+}
+
+void InfoPanel::showActions()
+{
+	secondSeparator->show();
+	actionsLabel->show();
+}
+
+void InfoPanel::hideActions()
+{
+	secondSeparator->hide();
+	actionsLabel->hide();
+}
+
+QString InfoPanel::metadataTextFor( const ArchiveEntry& entry )
+{
+	QString text;
+
+	if ( entry.contains( Size ) )
+	{
+		text += QString( "<b>%1:</b> %2<br/>" ).arg( i18n( "Size" ) ).arg( KIO::convertSize( entry[ Size ].toULongLong() ) );
+	}
+
+	if ( entry.contains( Owner ) )
+	{
+		text += QString( "<b>%1:</b> %2<br/>" ).arg( i18n( "Owner" ) ).arg( entry[ Owner ].toString() );
+	}
+
+	if ( entry.contains( Group ) )
+	{
+		text += QString( "<b>%1:</b> %2<br/>" ).arg( i18n( "Group" ) ).arg( entry[ Group ].toString() );
+	}
+
+	if ( text.isEmpty() )
+	{
+		text = i18n( "No metadata available for this file." );
+	}
+
+	return text;
 }
 
 #include "infopanel.moc"

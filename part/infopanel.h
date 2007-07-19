@@ -21,12 +21,13 @@
 #ifndef INFOPANEL_H
 #define INFOPANEL_H
 
-#include <QWidget>
+#include <QFrame>
 #include "kerfuffle/arch.h"
+#include "ui_infopanel.h"
 
 class QLabel;
 
-class InfoPanel: public QWidget
+class InfoPanel: public QFrame, Ui::InformationPanel
 {
 	Q_OBJECT
 	public:
@@ -34,12 +35,17 @@ class InfoPanel: public QWidget
 		~InfoPanel();
 
 		void setEntry( const ArchiveEntry& entry );
+
 	private:
 		void setDefaultValues();
 
-		QLabel *m_icon;
-		QLabel *m_name;
-		QLabel *m_mimetype;
+		void showMetaData();
+		void hideMetaData();
+
+		void showActions();
+		void hideActions();
+
+		QString metadataTextFor( const ArchiveEntry& entry );
 };
 
 #endif // INFOPANEL_H

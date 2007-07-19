@@ -75,6 +75,7 @@ void Part::setupView()
 {
 	m_view->setSelectionMode( QAbstractItemView::ExtendedSelection );
 	m_view->setModel( m_model );
+	m_view->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
 	         this, SLOT( updateActions() ) );
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
