@@ -29,6 +29,7 @@ class InfoPanel;
 class QTreeView;
 class QAction;
 class KAboutData;
+class KTempDir;
 
 class Part: public KParts::ReadWritePart, public Interface
 {
@@ -48,6 +49,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void slotLoadingStarted();
 		void slotLoadingFinished();
 		void slotPreview();
+		void slotPreviewExtracted( bool success );
 		void slotError( const QString& errorMessage, const QString& details );
 		void updateActions();
 		void selectionChanged();
@@ -60,7 +62,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		QTreeView    *m_view;
 		QAction      *m_previewAction;
 		InfoPanel    *m_infoPanel;
-
+		KTempDir     *m_previewDir;
 };
 
 #endif // PART_H

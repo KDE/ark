@@ -48,9 +48,12 @@ class ArchiveModel: public QAbstractItemModel
 
 		ArchiveEntry entryForIndex( const QModelIndex &index );
 
+		void extractFile( const QVariant& fileName, const QString & destinationDir );
+
 	signals:
 		void loadingStarted();
 		void loadingFinished();
+		void extractionFinished( bool success );
 		void error( const QString& error, const QString& details );
 
 	private slots:

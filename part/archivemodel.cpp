@@ -359,8 +359,21 @@ void ArchiveModel::setArchive( Arch *archive )
 		         this, SIGNAL( loadingFinished() ) );
 		connect( m_archive, SIGNAL( error( const QString&, const QString& ) ),
 		         this, SIGNAL( error( const QString&, const QString& ) ) );
+		connect( m_archive, SIGNAL( sigExtract( bool ) ),
+		         this, SIGNAL( extractionFinished( bool ) ) );
 		emit loadingStarted();
 		m_archive->open();
 	}
 	reset();
 }
+
+void ArchiveModel::extractFile( const QVariant& fileName, const QString & destinationDir )
+{
+	if ( !m_archive )
+	{
+		emit extractionFinished( false );
+		return;
+	}
+	m_archive->extractFile( fileName, destinationDir );
+}
+void extractFile( const QVariant& fileName, const QString & destinationDir );

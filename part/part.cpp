@@ -21,6 +21,7 @@
 #include "part.h"
 #include "archivemodel.h"
 #include "infopanel.h"
+#include "arkviewer.h"
 
 #include <KParts/GenericFactory>
 #include <KApplication>
@@ -28,6 +29,7 @@
 #include <KDebug>
 #include <KActionCollection>
 #include <KIcon>
+#include <KTempDir>
 #include <KDebug>
 #include <KMessageBox>
 
@@ -40,7 +42,7 @@ typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY( libarkpart, Factory );
 
 Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
-	: KParts::ReadWritePart( parent ), m_model( new ArchiveModel( this ) )
+	: KParts::ReadWritePart( parent ), m_model( new ArchiveModel( this ) ), m_previewDir( 0 )
 {
 	Q_UNUSED( args );
 	setComponentData( Factory::componentData() );
@@ -136,6 +138,32 @@ void Part::slotLoadingFinished()
 
 void Part::slotPreview()
 {
+	Q_ASSERT( m_previewDir == 0 );
+	const ArchiveEntry& entry =  m_model->entryForIndex( m_view->selectionModel()->currentIndex() );
+	if ( !entry.isEmpty() )
+	{
+		m_previewDir = new KTempDir();
+		connect( m_model, SIGNAL( extractionFinished( bool ) ),
+		         this, SLOT( slotPreviewExtracted( bool ) ) );
+		m_model->extractFile( entry[ FileName ], m_previewDir->name() );
+	}
+}
+
+void Part::slotPreviewExtracted( bool success )
+{
+	disconnect( m_model, SIGNAL( extractionFinished( bool ) ),
+	            this, SLOT( slotPreviewExtracted( bool ) ) );
+	if ( success )
+	{
+		ArkViewer viewer( widget() );
+		const ArchiveEntry& entry =  m_model->entryForIndex( m_view->selectionModel()->currentIndex() );
+		if ( !viewer.view( m_previewDir->name() + '/' + entry[ FileName ].toString() ) )
+		{
+			KMessageBox::sorry( widget(), i18n( "The internal viewer cannot preview this file." ) );
+		}
+	}
+	delete m_previewDir;
+	m_previewDir = 0;
 }
 
 void Part::slotError( const QString& errorMessage, const QString& details )

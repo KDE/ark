@@ -8,6 +8,7 @@ ADD_DEFINITIONS(-D_LARGEFILE64_SOURCE)
 set(arkpart_PART_SRCS
 	part.cpp 
 	infopanel.cpp
+	arkviewer.cpp
 	archivemodel.cpp
     )
 
