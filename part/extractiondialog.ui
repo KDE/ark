@@ -1,0 +1,143 @@
+<ui version="4.0" >
+ <author>Henrique Pinto &lt;henrique.pinto@kdemail.net></author>
+ <class>ExtractionDialog</class>
+ <widget class="QWidget" name="ExtractionDialog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>480</width>
+    <height>196</height>
+   </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize" >
+   <size>
+    <width>480</width>
+    <height>50</height>
+   </size>
+  </property>
+  <property name="windowTitle" >
+   <string>Extraction Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <item>
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QLabel" name="iconLabel" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Minimum" hsizetype="Minimum" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>256</width>
+         <height>256</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="pixmap" >
+        <pixmap>../../../../../../home/kde-devel/ark-trunk/pics/ox32-action-ark_extract.png</pixmap>
+       </property>
+       <property name="scaledContents" >
+        <bool>false</bool>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" >
+       <item>
+        <widget class="QLabel" name="extractAllLabel" >
+         <property name="text" >
+          <string>&lt;font size=+2>&lt;b>Extract All Files&lt;/b>&lt;/font></string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="filesToExtractGroupBox" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="title" >
+          <string>Extract:</string>
+         </property>
+         <property name="flat" >
+          <bool>false</bool>
+         </property>
+         <property name="checkable" >
+          <bool>false</bool>
+         </property>
+         <layout class="QVBoxLayout" >
+          <item>
+           <widget class="QRadioButton" name="selectedFilesButton" >
+            <property name="text" >
+             <string>Selected Files Only</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="allFilesButton" >
+            <property name="text" >
+             <string>All Files</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QLabel" name="destDirLabel" >
+       <property name="text" >
+        <string>Destination Folder:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KUrlRequester" name="destDirRequester" >
+       <property name="statusTip" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="openFolderCheckBox" >
+     <property name="text" >
+      <string>Open destination folder after extraction</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

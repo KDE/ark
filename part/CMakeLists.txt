@@ -10,11 +10,12 @@ set(arkpart_PART_SRCS
 	infopanel.cpp
 	arkviewer.cpp
 	archivemodel.cpp
+	extractiondialog.cpp
     )
 
 #kde4_add_kcfg_files(arkpart_PART_SRCS settings.kcfgc)
 
-#kde4_add_ui_files(arkpart_PART_SRCS general.ui )
+kde4_add_ui_files(arkpart_PART_SRCS extractiondialog.ui )
 
 kde4_add_plugin(arkpart WITH_PREFIX ${arkpart_PART_SRCS})
 

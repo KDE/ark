@@ -22,6 +22,7 @@
 #include "archivemodel.h"
 #include "infopanel.h"
 #include "arkviewer.h"
+#include "extractiondialog.h"
 
 #include <KParts/GenericFactory>
 #include <KApplication>
@@ -90,6 +91,13 @@ void Part::setupActions()
 	m_previewAction->setStatusTip( i18n( "Click to preview the selected file" ) );
 	connect( m_previewAction, SIGNAL( triggered( bool ) ),
 	         this, SLOT( slotPreview() ) );
+
+	m_extractFilesAction = actionCollection()->addAction( "extract" );
+	m_extractFilesAction->setText( i18n( "E&xtract..." ) );
+	m_extractFilesAction->setIcon( KIcon( "ark-extract" ) );
+	m_extractFilesAction->setStatusTip( i18n( "Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones" ) );
+	connect( m_extractFilesAction, SIGNAL( triggered( bool ) ),
+	         this, SLOT( slotExtractFiles() ) );
 
 	updateActions();
 }
@@ -182,5 +190,20 @@ void Part::slotError( const QString& errorMessage, const QString& details )
 	else
 	{
 		KMessageBox::detailedError( widget(), errorMessage, details );
+	}
+}
+
+void Part::slotExtractFiles()
+{
+	kDebug( 1601 ) << k_funcinfo << endl;
+	foreach( const QModelIndex &index, m_view->selectionModel()->selectedRows() )
+	{
+		const ArchiveEntry & entry = m_model->entryForIndex( index );
+		kDebug( 1601 ) << k_funcinfo << "Entry: " << entry[ FileName ].toString() << endl;
+	}
+	ExtractionDialog dialog;
+	if ( dialog.exec() )
+	{
+		kDebug( 1601 ) << k_funcinfo << "implement me!" << endl;
 	}
 }

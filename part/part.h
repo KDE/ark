@@ -53,6 +53,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void slotPreview( const QModelIndex & index );
 		void slotPreviewExtracted( bool success );
 		void slotError( const QString& errorMessage, const QString& details );
+		void slotExtractFiles();
 		void updateActions();
 		void selectionChanged();
 
@@ -63,6 +64,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		ArchiveModel *m_model;
 		QTreeView    *m_view;
 		QAction      *m_previewAction;
+		QAction      *m_extractFilesAction;
 		InfoPanel    *m_infoPanel;
 		KTempDir     *m_previewDir;
 };

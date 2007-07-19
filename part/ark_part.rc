@@ -4,9 +4,11 @@
 	<Menu name="action">
 		<text>&amp;Action</text>
 		<Action name="preview"/>
+		<Action name="extract"/>
 	</Menu>
 </MenuBar>
 <ToolBar name="mainToolBar">
 	<Action name="preview"/>
+	<Action name="extract"/>
 </ToolBar>
 </kpartgui>
