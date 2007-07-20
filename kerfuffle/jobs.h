@@ -23,13 +23,14 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef JOBS_H
-#define JOBS_H
+#ifndef KERFUFFLE_INTERNAL_JOBS_H
+#define KERFUFFLE_INTERNAL_JOBS_H
 
 #include <ThreadWeaver/Job>
 #include <ThreadWeaver/Weaver>
 
 #include "archiveinterface.h"
+#include "observer.h"
 #include <QList>
 
 class ArchiveJobHelper;
@@ -83,4 +84,29 @@ class ExtractionJob: public ThreadWeaver::Job
 		bool                      m_preservePaths;
 };
 
-#endif // JOBS_H
+class ArchiveJobHelper: public QObject, public ArchiveObserver
+{
+	Q_OBJECT
+	public:
+		ArchiveJobHelper( ReadOnlyArchiveInterface *archive, QObject *parent = 0 );
+		~ArchiveJobHelper();
+
+		bool getTheListing();
+
+		void onError( const QString & message, const QString & details = QString() );
+		void onEntry( const ArchiveEntry & archiveEntry );
+		void onProgress( double );
+
+	signals:
+		void entry( const ArchiveEntry & );
+		void progress( double );
+		void error( const QString & message, const QString & details );
+
+	private slots:
+		void entryslot( const ArchiveEntry & );
+
+	private:
+		ReadOnlyArchiveInterface *m_archive;
+};
+
+#endif // KERFUFFLE_INTERNAL_JOBS_H

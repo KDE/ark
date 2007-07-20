@@ -24,7 +24,6 @@
  */
 
 #include "jobs.h"
-#include "jobs_p.h"
 #include <kdebug.h>
 
 ListingJob::ListingJob( ReadOnlyArchiveInterface *archive, QObject *parent )
@@ -114,4 +113,3 @@ void ArchiveJobHelper::entryslot( const ArchiveEntry & e )
 }
 
 #include "jobs.moc"
-#include "jobs_p.moc"
