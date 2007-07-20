@@ -95,6 +95,10 @@ void InfoPanel::setIndex( const QModelIndex& index )
 		{
 			additionalInfo->setText( i18np( "One item", "%1 items", m_model->childCount( index ) ) );
 		}
+		else if ( entry.contains( Link ) )
+		{
+			additionalInfo->setText( i18n( "Symbolic Link" ) );
+		}
 		else
 		{
 			additionalInfo->setText( KIO::convertSize( entry[ Size ].toULongLong() ) );
@@ -159,6 +163,11 @@ QString InfoPanel::metadataTextFor( const QModelIndex &index )
 	if ( entry.contains( Group ) )
 	{
 		text += i18n( "<b>Group:</b> %1<br/>", entry[ Group ].toString() );
+	}
+
+	if ( entry.contains( Link ) )
+	{
+		text += i18n( "<b>Target:</b> %1<br/", entry[ Link ].toString() );
 	}
 
 	return text;
