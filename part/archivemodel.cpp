@@ -28,6 +28,7 @@
 #include <KLocale>
 #include <KMimeType>
 #include <KIconLoader>
+#include <KIO/NetAccess>
 
 class ArchiveDirNode;
 
@@ -158,13 +159,13 @@ QVariant ArchiveModel::data( const QModelIndex &index, int role ) const
 				}
 				else
 				{
-					if ( node->isDir() )
+					if ( node->isDir() || node->entry().contains( Link ) )
 					{
 						return QVariant();
 					}
 					else
 					{
-						return node->entry()[ Size ];
+						return KIO::convertSize( node->entry()[ Size ].toULongLong() );
 					}
 				}
 			case Qt::DecorationRole:
