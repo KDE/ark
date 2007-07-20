@@ -76,6 +76,7 @@ Part::~Part()
 void Part::setupView()
 {
 	m_view->setSelectionMode( QAbstractItemView::ExtendedSelection );
+	m_view->setSelectionBehavior( QAbstractItemView::SelectRows );
 	m_view->setModel( m_model );
 	m_view->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 	m_view->setAlternatingRowColors( true );
@@ -116,7 +117,7 @@ void Part::setupActions()
 
 void Part::updateActions()
 {
-	m_previewAction->setEnabled( isPreviewable( m_view->selectionModel()->currentIndex() ) );
+	m_previewAction->setEnabled( ( m_view->selectionModel()->selectedRows().count() == 1 ) &&isPreviewable( m_view->selectionModel()->currentIndex() ) );
 	m_extractFilesAction->setEnabled( m_model->archive() );
 	m_addFilesAction->setEnabled( m_model->archive() && ( ! m_model->archive()->isReadOnly() ) );
 }
