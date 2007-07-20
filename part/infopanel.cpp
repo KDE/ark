@@ -19,7 +19,7 @@
  *
  */
 #include "infopanel.h"
-#include "kerfuffle/arch.h"
+#include "kerfuffle/archive.h"
 
 #include <QLabel>
 #include <QVBoxLayout>
@@ -28,6 +28,8 @@
 #include <KMimeType>
 #include <KIconLoader>
 #include <KIO/NetAccess>
+
+using namespace Kerfuffle;
 
 InfoPanel::InfoPanel( QWidget *parent )
 	: QFrame( parent )
@@ -53,7 +55,7 @@ void InfoPanel::setDefaultValues()
 	hideActions();
 }
 
-void InfoPanel::setEntry( const ArchiveEntry& entry )
+void InfoPanel::setEntry( const Kerfuffle::ArchiveEntry& entry )
 {
 	if ( entry.isEmpty() )
 	{
@@ -98,7 +100,7 @@ void InfoPanel::hideActions()
 	actionsLabel->hide();
 }
 
-QString InfoPanel::metadataTextFor( const ArchiveEntry& entry )
+QString InfoPanel::metadataTextFor( const Kerfuffle::ArchiveEntry& entry )
 {
 	QString text;
 

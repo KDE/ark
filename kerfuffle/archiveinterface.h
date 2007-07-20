@@ -30,41 +30,46 @@
 #include <QStringList>
 #include <QString>
 
-#include "arch.h"
+#include "archive.h"
 #include "kerfuffle_export.h"
 
-class ArchiveObserver;
-
-class KERFUFFLE_EXPORT ReadOnlyArchiveInterface: public QObject
+namespace Kerfuffle
 {
-	Q_OBJECT
-	public:
-		ReadOnlyArchiveInterface( const QString & filename, QObject *parent = 0 );
-		virtual ~ReadOnlyArchiveInterface();
+	class ArchiveObserver;
 
-		QString filename() const { return m_filename; }
-		virtual bool isReadOnly() const { return true; }
+	class KERFUFFLE_EXPORT ReadOnlyArchiveInterface: public QObject
+	{
+		Q_OBJECT
+		public:
+			ReadOnlyArchiveInterface( const QString & filename, QObject *parent = 0 );
+			virtual ~ReadOnlyArchiveInterface();
 
-		void KDE_NO_EXPORT registerObserver( ArchiveObserver *observer );
-		void KDE_NO_EXPORT removeObserver( ArchiveObserver *observer );
+			QString filename() const { return m_filename; }
+			virtual bool isReadOnly() const { return true; }
 
-		virtual bool open() { return true; }
-		virtual bool list() = 0;
-		virtual bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths ) = 0;
+			void KDE_NO_EXPORT registerObserver( ArchiveObserver *observer );
+			void KDE_NO_EXPORT removeObserver( ArchiveObserver *observer );
 
-	protected:
-		void error( const QString & message, const QString & details = QString() );
-		void entry( const ArchiveEntry & archiveEntry );
-		void progress( double );
+			virtual bool open() { return true; }
+			virtual bool list() = 0;
+			virtual bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths ) = 0;
 
-	private:
-		QList<ArchiveObserver*> m_observers;
-		QString m_filename;
-};
-/*
-class ReadWriteArchiveInterface: public ReadOnlyArchiveInterface
-{
-	Q_OBJECT
-};
-*/
+		protected:
+			void error( const QString & message, const QString & details = QString() );
+			void entry( const ArchiveEntry & archiveEntry );
+			void progress( double );
+
+		private:
+			QList<ArchiveObserver*> m_observers;
+			QString m_filename;
+	};
+	/*
+	class ReadWriteArchiveInterface: public ReadOnlyArchiveInterface
+	{
+		Q_OBJECT
+	};
+	*/
+
+} // namespace Kerfuffle
+
 #endif // ARCHIVEINTERFACE_H

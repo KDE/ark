@@ -22,54 +22,51 @@
  * ( INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#include "archiveinterface.h"
-#include "observer.h"
+#include "jobs.h"
+#include "internaljobs.h"
 
 namespace Kerfuffle
 {
-	ReadOnlyArchiveInterface::ReadOnlyArchiveInterface( const QString & filename, QObject *parent )
-		: QObject( parent ), m_filename( filename )
+	ListJob::ListJob( ReadOnlyArchiveInterface *interface, QObject *parent )
+		: KJob( parent ), m_archive( interface )
 	{
 	}
 
-	ReadOnlyArchiveInterface::~ReadOnlyArchiveInterface()
+	void ListJob::start()
+	{
+		InternalListingJob *job = new InternalListingJob( m_archive, this );
+		// TODO: connects
+		connect( job, SIGNAL( entry( const ArchiveEntry& ) ),
+		         this, SIGNAL( newEntry( const ArchiveEntry & ) ) );
+		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
+		         this, SLOT( done( ThreadWeaver::Job* ) ) );
+		ThreadWeaver::Weaver::instance()->enqueue( job );
+	}
+
+	void ListJob::done( ThreadWeaver::Job *job )
+	{
+		emitResult();
+	}
+
+	ExtractJob::ExtractJob( const QList<QVariant>& files, const QString& destinationDir,
+	                        bool preservePaths, ReadOnlyArchiveInterface *interface, QObject *parent )
+		: KJob( parent ), m_files( files ), m_destinationDir( destinationDir ), m_preservePaths( preservePaths ),  m_archive( interface )
 	{
 	}
 
-	void ReadOnlyArchiveInterface::error( const QString & message, const QString & details )
+	void ExtractJob::start()
 	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onError( message, details );
-		}
+		InternalExtractJob *job = new InternalExtractJob( m_archive, m_files, m_destinationDir, m_preservePaths, this );
+
+		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
+		         this, SLOT( done( ThreadWeaver::Job* ) ) );
+
+		ThreadWeaver::Weaver::instance()->enqueue( job );
 	}
 
-	void ReadOnlyArchiveInterface::entry( const ArchiveEntry & archiveEntry )
+	void ExtractJob::done( ThreadWeaver::Job *job )
 	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onEntry( archiveEntry );
-		}
+		emitResult();
 	}
 
-	void ReadOnlyArchiveInterface::progress( double p )
-	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onProgress( p );
-		}
-	}
-
-	void ReadOnlyArchiveInterface::registerObserver( ArchiveObserver *observer )
-	{
-		m_observers.append( observer );
-	}
-
-	void ReadOnlyArchiveInterface::removeObserver( ArchiveObserver *observer )
-	{
-		m_observers.removeAll( observer );
-	}
 } // namespace Kerfuffle
-
-#include "archiveinterface.moc"

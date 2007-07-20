@@ -22,54 +22,60 @@
  * ( INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#ifndef JOBS_H
+#define JOBS_H
 
+#include "kerfuffle_export.h"
 #include "archiveinterface.h"
-#include "observer.h"
+#include "archive.h"
+
+#include <KJob>
+#include <QList>
+#include <QVariant>
+#include <QString>
+
+namespace ThreadWeaver
+{
+	class Job;
+} // namespace ThreadWeaver
 
 namespace Kerfuffle
 {
-	ReadOnlyArchiveInterface::ReadOnlyArchiveInterface( const QString & filename, QObject *parent )
-		: QObject( parent ), m_filename( filename )
+	class KERFUFFLE_EXPORT ListJob: public KJob
 	{
-	}
+		Q_OBJECT
+		public:
+			ListJob( ReadOnlyArchiveInterface *interface, QObject *parent = 0 );
 
-	ReadOnlyArchiveInterface::~ReadOnlyArchiveInterface()
-	{
-	}
+			void start();
 
-	void ReadOnlyArchiveInterface::error( const QString & message, const QString & details )
-	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onError( message, details );
-		}
-	}
+		signals:
+			void newEntry( const ArchiveEntry & );
+			void error( const QString& errorMessage, const QString& details );
 
-	void ReadOnlyArchiveInterface::entry( const ArchiveEntry & archiveEntry )
-	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onEntry( archiveEntry );
-		}
-	}
+		private slots:
+			void done( ThreadWeaver::Job* );
 
-	void ReadOnlyArchiveInterface::progress( double p )
-	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onProgress( p );
-		}
-	}
+		private:
+			ReadOnlyArchiveInterface *m_archive;
+	};
 
-	void ReadOnlyArchiveInterface::registerObserver( ArchiveObserver *observer )
+	class KERFUFFLE_EXPORT ExtractJob: public KJob
 	{
-		m_observers.append( observer );
-	}
+		Q_OBJECT
+		public:
+			ExtractJob( const QList<QVariant> & files, const QString& destinationDir, bool preservePaths, ReadOnlyArchiveInterface *interface, QObject *parent = 0 );
 
-	void ReadOnlyArchiveInterface::removeObserver( ArchiveObserver *observer )
-	{
-		m_observers.removeAll( observer );
-	}
+			void start();
+
+		private slots:
+			void done( ThreadWeaver::Job * );
+		private:
+			QList<QVariant>           m_files;
+			QString                   m_destinationDir;
+			bool                      m_preservePaths;
+			ReadOnlyArchiveInterface *m_archive;
+	};
 } // namespace Kerfuffle
 
-#include "archiveinterface.moc"
+#endif // JOBS_H

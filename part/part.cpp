@@ -23,6 +23,7 @@
 #include "infopanel.h"
 #include "arkviewer.h"
 #include "extractiondialog.h"
+#include "kerfuffle/jobs.h"
 
 #include <KParts/GenericFactory>
 #include <KApplication>
@@ -121,7 +122,7 @@ KAboutData* Part::createAboutData()
 
 bool Part::openFile()
 {
-	Arch *archive = Arch::factory( localFilePath() );
+	Kerfuffle::Archive *archive = Kerfuffle::factory( localFilePath() );
 	m_model->setArchive( archive );
 	m_infoPanel->setEntry( ArchiveEntry() );
 	updateActions();
@@ -136,7 +137,7 @@ bool Part::saveFile()
 
 QStringList Part::supportedMimeTypes() const
 {
-	return Arch::supportedMimeTypes();
+	return Kerfuffle::supportedMimeTypes();
 }
 
 void Part::slotLoadingStarted()
@@ -161,17 +162,16 @@ void Part::slotPreview( const QModelIndex & index )
 	if ( !entry.isEmpty() )
 	{
 		m_previewDir = new KTempDir();
-		connect( m_model, SIGNAL( extractionFinished( bool ) ),
-		         this, SLOT( slotPreviewExtracted( bool ) ) );
-		m_model->extractFile( entry[ OriginalFileName ], m_previewDir->name(), false );
+		ExtractJob *job = m_model->extractFile( entry[ OriginalFileName ], m_previewDir->name(), false );
+		connect( job, SIGNAL( result( KJob* ) ),
+		         this, SLOT( slotPreviewExtracted( KJob* ) ) );
+		job->start();
 	}
 }
 
-void Part::slotPreviewExtracted( bool success )
+void Part::slotPreviewExtracted( KJob *job )
 {
-	disconnect( m_model, SIGNAL( extractionFinished( bool ) ),
-	            this, SLOT( slotPreviewExtracted( bool ) ) );
-	if ( success )
+	if ( !job->error() )
 	{
 		ArkViewer viewer( widget() );
 		const ArchiveEntry& entry =  m_model->entryForIndex( m_view->selectionModel()->currentIndex() );
@@ -183,6 +183,7 @@ void Part::slotPreviewExtracted( bool success )
 	}
 	delete m_previewDir;
 	m_previewDir = 0;
+	delete job;
 }
 
 void Part::slotError( const QString& errorMessage, const QString& details )

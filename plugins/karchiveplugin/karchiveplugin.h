@@ -22,6 +22,8 @@
 #define KARCHIVEPLUGIN_H
 #include "kerfuffle/archiveinterface.h"
 
+using namespace Kerfuffle;
+
 class KArchive;
 class KArchiveEntry;
 class KArchiveDirectory;

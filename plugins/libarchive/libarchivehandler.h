@@ -28,6 +28,8 @@
 
 #include "kerfuffle/archiveinterface.h"
 
+using namespace Kerfuffle;
+
 namespace ThreadWeaver
 {
 	class Job;

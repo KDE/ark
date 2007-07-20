@@ -27,10 +27,13 @@
 
 class ArchiveModel;
 class InfoPanel;
+
 class QTreeView;
 class QAction;
+
 class KAboutData;
 class KTempDir;
+class KJob;
 
 class Part: public KParts::ReadWritePart, public Interface
 {
@@ -51,7 +54,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void slotLoadingFinished();
 		void slotPreview();
 		void slotPreview( const QModelIndex & index );
-		void slotPreviewExtracted( bool success );
+		void slotPreviewExtracted( KJob* );
 		void slotError( const QString& errorMessage, const QString& details );
 		void slotExtractFiles();
 		void updateActions();

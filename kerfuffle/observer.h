@@ -22,15 +22,22 @@
 #ifndef OBSERVER_H
 #define OBSERVER_H
 
-class ArchiveObserver
-{
-	public:
-		ArchiveObserver() {}
-		virtual ~ArchiveObserver() {}
+#include "archive.h"
 
-		virtual void onError( const QString & message, const QString & details ) = 0;
-		virtual void onEntry( const ArchiveEntry & archiveEntry ) = 0;
-		virtual void onProgress( double ) = 0;
-};
+namespace Kerfuffle
+{
+
+	class ArchiveObserver
+	{
+		public:
+			ArchiveObserver() {}
+			virtual ~ArchiveObserver() {}
+
+			virtual void onError( const QString & message, const QString & details ) = 0;
+			virtual void onEntry( const ArchiveEntry & archiveEntry ) = 0;
+			virtual void onProgress( double ) = 0;
+	};
+
+} // namespace Kerfuffle
 
 #endif // OBSERVER_H

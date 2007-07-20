@@ -26,8 +26,9 @@
 #ifndef ARCHIVEBASE_H
 #define ARCHIVEBASE_H
 
-#include "arch.h"
+#include "archive.h"
 #include "archiveinterface.h"
+#include "jobs.h"
 #include "kerfuffle_export.h"
 
 namespace ThreadWeaver
@@ -35,32 +36,30 @@ namespace ThreadWeaver
 	class Job;
 } // namespace ThreadWeaver
 
-class KERFUFFLE_EXPORT ArchiveBase: public Arch
+namespace Kerfuffle
 {
-	Q_OBJECT
-	public:
-		/*
-		 * Creates an Arch to operate on the given interface.
-		 * This takes ownership of the interface, which is deleted
-		 * on the destructor.
-		 */
-		ArchiveBase( ReadOnlyArchiveInterface *archive );
-		virtual ~ArchiveBase();
+	class KERFUFFLE_EXPORT ArchiveBase: public QObject, public Archive
+	{
+		Q_OBJECT
+		public:
+			/*
+			 * Creates an Arch to operate on the given interface.
+			 * This takes ownership of the interface, which is deleted
+			 * on the destructor.
+			 */
+			ArchiveBase( ReadOnlyArchiveInterface *archive );
+			virtual ~ArchiveBase();
 
-		virtual void open();
-		virtual void create();
+			virtual KJob* open();
+			virtual KJob* create();
+			virtual ListJob* list();
+			virtual KJob* deleteFiles( const QList<QVariant> & files );
+			virtual KJob* addFiles( const QList<KUrl> & files );
+			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, bool preservePaths = false );
 
-		virtual void addFile( const QStringList & );
-		virtual void addDir( const QString & );
-		virtual void remove( const QStringList & );
-		virtual void extractFiles( const QList<QVariant> & files, const QString& destinationDir, bool preservePaths );
-
-	private slots:
-		void listingDone( ThreadWeaver::Job* );
-		void extractionDone( ThreadWeaver::Job* );
-
-	private:
-		ReadOnlyArchiveInterface *m_iface;
-};
+		private:
+			ReadOnlyArchiveInterface *m_iface;
+	};
+} // namespace Kerfuffle
 
 #endif // ARCHIVEBASE_H

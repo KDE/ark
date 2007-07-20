@@ -33,80 +33,85 @@
 #include "observer.h"
 #include <QList>
 
-class ArchiveJobHelper;
 
-class ListingJob: public ThreadWeaver::Job
+namespace Kerfuffle
 {
-	Q_OBJECT
-	public:
-		ListingJob( ReadOnlyArchiveInterface *archive, QObject *parent = 0 );
-		~ListingJob();
+	class ArchiveJobHelper;
 
-		bool success() const { return m_success; }
-	protected:
-		void run();
+	class InternalListingJob: public ThreadWeaver::Job
+	{
+		Q_OBJECT
+		public:
+			InternalListingJob( ReadOnlyArchiveInterface *archive, QObject *parent = 0 );
+			~InternalListingJob();
 
-	signals:
-		void entry( const ArchiveEntry & );
-		//void entries( const QList<ArchiveEntry & );
-		void progress( double );
-		void error( const QString& errorMessage, const QString& details );
+			bool success() const { return m_success; }
+		protected:
+			void run();
 
-	private:
-		QList<ArchiveEntry>       m_entries;
-		ArchiveJobHelper         *m_helper;
-		ReadOnlyArchiveInterface *m_archive;
-		bool                      m_success;
-};
+		signals:
+			void entry( const ArchiveEntry & );
+			//void entries( const QList<ArchiveEntry & );
+			void progress( double );
+			void error( const QString& errorMessage, const QString& details );
 
-class ExtractionJob: public ThreadWeaver::Job
-{
-	Q_OBJECT
-	public:
-		ExtractionJob( ReadOnlyArchiveInterface *archive, const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths = false, QObject *parent = 0 );
-		~ExtractionJob();
+		private:
+			QList<ArchiveEntry>       m_entries;
+			ArchiveJobHelper         *m_helper;
+			ReadOnlyArchiveInterface *m_archive;
+			bool                      m_success;
+	};
 
-		bool success() const { return m_success; }
+	class InternalExtractJob: public ThreadWeaver::Job
+	{
+		Q_OBJECT
+		public:
+			InternalExtractJob( ReadOnlyArchiveInterface *archive, const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths = false, QObject *parent = 0 );
+			~InternalExtractJob();
 
-	protected:
-		void run();
+			bool success() const { return m_success; }
 
-	signals:
-		void progress( double p );
-		void error( const QString& errorMessage, const QString& details );
+		protected:
+			void run();
 
-	private:
-		ReadOnlyArchiveInterface *m_archive;
-		QList<QVariant>           m_files;
-		QString                   m_destinationDirectory;
-		ArchiveJobHelper         *m_helper;
-		bool                      m_success;
-		bool                      m_preservePaths;
-};
+		signals:
+			void progress( double p );
+			void error( const QString& errorMessage, const QString& details );
 
-class ArchiveJobHelper: public QObject, public ArchiveObserver
-{
-	Q_OBJECT
-	public:
-		ArchiveJobHelper( ReadOnlyArchiveInterface *archive, QObject *parent = 0 );
-		~ArchiveJobHelper();
+		private:
+			ReadOnlyArchiveInterface *m_archive;
+			QList<QVariant>           m_files;
+			QString                   m_destinationDirectory;
+			ArchiveJobHelper         *m_helper;
+			bool                      m_success;
+			bool                      m_preservePaths;
+	};
 
-		bool getTheListing();
+	class ArchiveJobHelper: public QObject, public ArchiveObserver
+	{
+		Q_OBJECT
+		public:
+			ArchiveJobHelper( ReadOnlyArchiveInterface *archive, QObject *parent = 0 );
+			~ArchiveJobHelper();
 
-		void onError( const QString & message, const QString & details = QString() );
-		void onEntry( const ArchiveEntry & archiveEntry );
-		void onProgress( double );
+			bool getTheListing();
 
-	signals:
-		void entry( const ArchiveEntry & );
-		void progress( double );
-		void error( const QString & message, const QString & details );
+			void onError( const QString & message, const QString & details = QString() );
+			void onEntry( const ArchiveEntry & archiveEntry );
+			void onProgress( double );
 
-	private slots:
-		void entryslot( const ArchiveEntry & );
+		signals:
+			void entry( const ArchiveEntry & );
+			void progress( double );
+			void error( const QString & message, const QString & details );
 
-	private:
-		ReadOnlyArchiveInterface *m_archive;
-};
+		private slots:
+				void entryslot( const ArchiveEntry & );
+
+		private:
+			ReadOnlyArchiveInterface *m_archive;
+	};
+
+} // namespace Kerfuffle
 
 #endif // KERFUFFLE_INTERNAL_JOBS_H

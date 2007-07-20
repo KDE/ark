@@ -19,7 +19,8 @@
  *
  */
 #include "archivemodel.h"
-#include "kerfuffle/arch.h"
+#include "kerfuffle/archive.h"
+#include "kerfuffle/jobs.h"
 
 #include <QList>
 #include <QPixmap>
@@ -345,35 +346,31 @@ void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 	}
 }
 
-void ArchiveModel::setArchive( Arch *archive )
+void ArchiveModel::setArchive( Kerfuffle::Archive *archive )
 {
+	delete m_archive;
 	m_archive = archive;
 	m_rootNode->clear();
 	if ( m_archive )
 	{
-		m_archive->setParent( this );
+		Kerfuffle::ListJob *job = m_archive->list(); // TODO: call "open" or "create"?
 
-		connect( m_archive, SIGNAL( newEntry( const ArchiveEntry& ) ),
+		connect( job, SIGNAL( newEntry( const ArchiveEntry& ) ),
 			 this, SLOT( slotNewEntry( const ArchiveEntry& ) ) );
-		connect( m_archive, SIGNAL( opened( bool ) ),
+
+		connect( job, SIGNAL( result( KJob * ) ),
 		         this, SIGNAL( loadingFinished() ) );
-		connect( m_archive, SIGNAL( error( const QString&, const QString& ) ),
-		         this, SIGNAL( error( const QString&, const QString& ) ) );
-		connect( m_archive, SIGNAL( sigExtract( bool ) ),
-		         this, SIGNAL( extractionFinished( bool ) ) );
+
 		emit loadingStarted();
-		m_archive->open();
+		job->start();
 	}
 	reset();
 }
 
-void ArchiveModel::extractFile( const QVariant& fileName, const QString & destinationDir, bool preservePaths )
+ExtractJob* ArchiveModel::extractFile( const QVariant& fileName, const QString & destinationDir, bool preservePaths )
 {
-	if ( !m_archive )
-	{
-		emit extractionFinished( false );
-		return;
-	}
-	
-	m_archive->extractFile( fileName, destinationDir, preservePaths );
+	Q_ASSERT( m_archive );
+	QList<QVariant> files;
+	files << fileName;
+	return m_archive->copyFiles( files, destinationDir, preservePaths );
 }

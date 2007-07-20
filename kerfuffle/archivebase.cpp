@@ -37,70 +37,70 @@
 #include <QStringList>
 #include <QDateTime>
 
-ArchiveBase::ArchiveBase( ReadOnlyArchiveInterface *archive )
-	: Arch( archive->filename()  ), m_iface( archive )
+namespace Kerfuffle
 {
-	Q_ASSERT( archive );
-	archive->setParent( this );
-	setReadOnly( archive->isReadOnly() );
-}
+	ArchiveBase::ArchiveBase( ReadOnlyArchiveInterface *archive )
+		: QObject(), Archive(), m_iface( archive )
+	{
+		Q_ASSERT( archive );
+		archive->setParent( this );
+		//setReadOnly( archive->isReadOnly() );
+	}
 
-ArchiveBase::~ArchiveBase()
-{
-	delete m_iface;
-	m_iface = 0;
-}
+	ArchiveBase::~ArchiveBase()
+	{
+		delete m_iface;
+		m_iface = 0;
+	}
 
-void ArchiveBase::open()
-{
-	ListingJob *job = new ListingJob( m_iface, this );
+	/*
+	void ArchiveBase::extractFiles( const QList<QVariant> & files, const QString& destinationDir, bool preservePaths )
+	{
+		ExtractionJob *job = new ExtractionJob( m_iface, files, destinationDir, preservePaths, this );
+		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
+		         this, SLOT( extractionDone( ThreadWeaver::Job * ) ) );
+		connect( job, SIGNAL( error( const QString&, const QString& ) ),
+		         this, SIGNAL( error( const QString&, const QString& ) ) );
+		ThreadWeaver::Weaver::instance()->enqueue( job );
+	}
 
-	connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
-	         this, SLOT( listingDone( ThreadWeaver::Job * ) ) );
-	connect( job, SIGNAL( entry( const ArchiveEntry & ) ),
-	         this, SIGNAL( newEntry( const ArchiveEntry & ) ) );
-	connect( job, SIGNAL( error( const QString&, const QString& ) ),
-	         this, SIGNAL( error( const QString&, const QString& ) ) );
-	ThreadWeaver::Weaver::instance()->enqueue( job );
-}
+	void ArchiveBase::extractionDone( ThreadWeaver::Job *job )
+	{
+		emit sigExtract( job->success() );
+		delete job;
+	}
+	*/
 
-void ArchiveBase::listingDone( ThreadWeaver::Job *job )
-{
-	emit opened( job->success() );
-	delete job;
-}
+	KJob* ArchiveBase::open()
+	{
+		return 0;
+	}
 
-void ArchiveBase::create()
-{
-}
+	KJob* ArchiveBase::create()
+	{
+		return 0;
+	}
 
-void ArchiveBase::addFile( const QStringList & )
-{
-}
+	ListJob* ArchiveBase::list()
+	{
+		return new ListJob( m_iface, this );
+	}
 
-void ArchiveBase::addDir( const QString & )
-{
-}
+	KJob* ArchiveBase::deleteFiles( const QList<QVariant> & files )
+	{
+		return 0;
+	}
 
-void ArchiveBase::remove( const QStringList & )
-{
-}
+	KJob* ArchiveBase::addFiles( const QList<KUrl> & files )
+	{
+		return 0;
+	}
 
-void ArchiveBase::extractFiles( const QList<QVariant> & files, const QString& destinationDir, bool preservePaths )
-{
-	ExtractionJob *job = new ExtractionJob( m_iface, files, destinationDir, preservePaths, this );
-	connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
-	         this, SLOT( extractionDone( ThreadWeaver::Job * ) ) );
-	connect( job, SIGNAL( error( const QString&, const QString& ) ),
-	         this, SIGNAL( error( const QString&, const QString& ) ) );
-	ThreadWeaver::Weaver::instance()->enqueue( job );
-}
+	ExtractJob* ArchiveBase::copyFiles( const QList<QVariant> & files, const QString & destinationDir, bool preservePaths )
+	{
+		return new ExtractJob( files, destinationDir, preservePaths, m_iface, this );
+	}
 
-void ArchiveBase::extractionDone( ThreadWeaver::Job *job )
-{
-	emit sigExtract( job->success() );
-	delete job;
-}
-
+} // namespace Kerfuffle
 
 #include "archivebase.moc"

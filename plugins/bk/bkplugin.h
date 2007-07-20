@@ -27,6 +27,8 @@ extern "C"
 #include "bk.h"
 }
 
+using namespace Kerfuffle;
+
 class BKInterface: public ReadOnlyArchiveInterface
 {
 	Q_OBJECT

@@ -22,10 +22,12 @@
 #define ARCHIVEMODEL_H
 
 #include <QAbstractItemModel>
-#include "kerfuffle/arch.h"
+#include "kerfuffle/archive.h"
 
 class ArchiveNode;
 class ArchiveDirNode;
+
+using namespace Kerfuffle;
 
 class ArchiveModel: public QAbstractItemModel
 {
@@ -44,12 +46,12 @@ class ArchiveModel: public QAbstractItemModel
 		int rowCount( const QModelIndex &parent = QModelIndex() ) const;
 		int columnCount( const QModelIndex &parent = QModelIndex() ) const;
 
-		void setArchive( Arch *archive );
-		Arch *archive() const { return m_archive; }
+		void setArchive( Kerfuffle::Archive *archive );
+		Kerfuffle::Archive *archive() const { return m_archive; }
 
 		ArchiveEntry entryForIndex( const QModelIndex &index );
 
-		void extractFile( const QVariant& fileName, const QString & destinationDir, bool preservePaths = false );
+		ExtractJob* extractFile( const QVariant& fileName, const QString & destinationDir, bool preservePaths = false );
 
 	signals:
 		void loadingStarted();
@@ -64,7 +66,7 @@ class ArchiveModel: public QAbstractItemModel
 		ArchiveDirNode* parentFor( const ArchiveEntry& entry );
 		QModelIndex indexForNode( ArchiveNode *node );
 
-		Arch *m_archive;
+		Kerfuffle::Archive *m_archive;
 		ArchiveDirNode *m_rootNode;
 };
 

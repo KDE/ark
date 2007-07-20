@@ -22,30 +22,33 @@
 #define ARCHIVEFACTORY_H
 
 #include "kerfuffle_export.h"
-#include "arch.h"
+#include "archive.h"
 #include "archivebase.h"
 #include <QString>
 #include <QObject>
 
 
-class ArchiveFactory
+namespace Kerfuffle
 {
-	public:
-		ArchiveFactory() {}
-		virtual ~ArchiveFactory() {}
-		virtual Arch* createArchive( const QString& filename, QObject *parent ) = 0;
-};
+	class ArchiveFactory
+	{
+		public:
+			ArchiveFactory() {}
+			virtual ~ArchiveFactory() {}
+			virtual Kerfuffle::Archive* createArchive( const QString& filename, QObject *parent ) = 0;
+	};
 
-template<class T> class ArchiveInterfaceFactory: public ArchiveFactory
-{
-	public:
-		Arch* createArchive( const QString& filename, QObject *parent = 0 )
-		{
-			return new ArchiveBase( new T( filename, parent ) );
-		}
-};
+	template<class T> class ArchiveInterfaceFactory: public ArchiveFactory
+	{
+		public:
+			Kerfuffle::Archive* createArchive( const QString& filename, QObject *parent = 0 )
+			{
+				return new ArchiveBase( new T( filename, parent ) );
+			}
+	};
+} // namespace Kerfuffle
 
 #define KERFUFFLE_PLUGIN_FACTORY( classname ) \
-	extern "C" { KERFUFFLE_EXPORT ArchiveFactory *pluginFactory() { return new ArchiveInterfaceFactory<classname>(); } }
+	extern "C" { KERFUFFLE_EXPORT Kerfuffle::ArchiveFactory *pluginFactory() { return new Kerfuffle::ArchiveInterfaceFactory<classname>(); } }
 
 #endif // ARCHIVEFACTORY_H

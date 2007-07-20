@@ -22,54 +22,46 @@
  * ( INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#ifndef KERFUFFLE_ARCHIVE_H
+#define KERFUFFLE_ARCHIVE_H
 
-#include "archiveinterface.h"
-#include "observer.h"
+#include "kerfuffle_export.h"
+
+#include <QString>
+#include <QStringList>
+#include <QHash>
+
+#include <KUrl>
+
+class KJob;
 
 namespace Kerfuffle
 {
-	ReadOnlyArchiveInterface::ReadOnlyArchiveInterface( const QString & filename, QObject *parent )
-		: QObject( parent ), m_filename( filename )
-	{
-	}
+	class ListJob;
+	class ExtractJob;
 
-	ReadOnlyArchiveInterface::~ReadOnlyArchiveInterface()
-	{
-	}
+	enum EntryMetaDataType { FileName = 0, OriginalFileName = 1, Permissions = 2, Owner = 3,
+		Group = 4, Size = 5, CompressedSize = 6, Link = 7, Ratio = 8,
+		CRC = 9, Method = 10, Version = 11, Timestamp = 12, IsDirectory = 13, Custom = 1048576 };
 
-	void ReadOnlyArchiveInterface::error( const QString & message, const QString & details )
-	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onError( message, details );
-		}
-	}
+	typedef QHash<int, QVariant> ArchiveEntry;
 
-	void ReadOnlyArchiveInterface::entry( const ArchiveEntry & archiveEntry )
+	class KERFUFFLE_EXPORT Archive
 	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onEntry( archiveEntry );
-		}
-	}
+		public:
+			virtual ~Archive() {}
 
-	void ReadOnlyArchiveInterface::progress( double p )
-	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onProgress( p );
-		}
-	}
+			virtual KJob* open() = 0;
+			virtual KJob* create() = 0;
+			virtual ListJob* list() = 0;
+			virtual KJob* deleteFiles( const QList<QVariant> & files ) = 0;
+			virtual KJob* addFiles( const QList<KUrl> & files ) = 0;
+			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, bool preservePaths = false ) = 0;
+	};
 
-	void ReadOnlyArchiveInterface::registerObserver( ArchiveObserver *observer )
-	{
-		m_observers.append( observer );
-	}
-
-	void ReadOnlyArchiveInterface::removeObserver( ArchiveObserver *observer )
-	{
-		m_observers.removeAll( observer );
-	}
+	Archive* factory( const QString & filename, const QString & requestedMimeType = QString() ) KERFUFFLE_EXPORT;
+	QStringList supportedMimeTypes() KERFUFFLE_EXPORT;
 } // namespace Kerfuffle
 
-#include "archiveinterface.moc"
+
+#endif // KERFUFFLE_ARCHIVE_H

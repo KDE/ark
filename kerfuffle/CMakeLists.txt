@@ -5,9 +5,11 @@ ADD_DEFINITIONS(-D_LARGEFILE64_SOURCE)
 ########### next target ###############
 
 set(kerfuffle_SRCS
-    arch.cpp 
+	#arch.cpp 
+    archive.cpp
     archiveinterface.cpp
     internaljobs.cpp
+    jobs.cpp
     archivebase.cpp
    )
 
