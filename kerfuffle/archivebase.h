@@ -54,7 +54,7 @@ namespace Kerfuffle
 			virtual KJob* create();
 			virtual ListJob* list();
 			virtual KJob* deleteFiles( const QList<QVariant> & files );
-			virtual KJob* addFiles( const QList<KUrl> & files );
+			virtual AddJob* addFiles( const QList<KUrl> & files );
 			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, bool preservePaths = false );
 
 			virtual bool isReadOnly();

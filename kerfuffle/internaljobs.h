@@ -51,7 +51,6 @@ namespace Kerfuffle
 
 		signals:
 			void entry( const ArchiveEntry & );
-			//void entries( const QList<ArchiveEntry & );
 			void progress( double );
 			void error( const QString& errorMessage, const QString& details );
 
@@ -85,6 +84,30 @@ namespace Kerfuffle
 			ArchiveJobHelper         *m_helper;
 			bool                      m_success;
 			bool                      m_preservePaths;
+	};
+
+	class InternalAddJob: public ThreadWeaver::Job
+	{
+		Q_OBJECT
+		public:
+			InternalAddJob( ReadWriteArchiveInterface *archive, const QList<KUrl> & files, QObject *parent = 0 );
+			~InternalAddJob();
+
+			bool success() const { return m_success; }
+
+		protected:
+			void run();
+
+		signals:
+			void entry( const ArchiveEntry & );
+			void progress( double );
+			void error( const QString& errorMessage, const QString& details );
+
+		private:
+			QList<KUrl>                m_files;
+			ReadWriteArchiveInterface *m_archive;
+			ArchiveJobHelper          *m_helper;
+			bool                       m_success;
 	};
 
 	class ArchiveJobHelper: public QObject, public ArchiveObserver

@@ -78,9 +78,10 @@ namespace Kerfuffle
 		return 0;
 	}
 
-	KJob* ArchiveBase::addFiles( const QList<KUrl> & files )
+	AddJob* ArchiveBase::addFiles( const QList<KUrl> & files )
 	{
-		return 0;
+		Q_ASSERT( !m_iface->isReadOnly() );
+		return new AddJob( files, static_cast<ReadWriteArchiveInterface*>( m_iface ), this );
 	}
 
 	ExtractJob* ArchiveBase::copyFiles( const QList<QVariant> & files, const QString & destinationDir, bool preservePaths )

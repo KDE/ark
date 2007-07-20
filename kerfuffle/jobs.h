@@ -79,6 +79,24 @@ namespace Kerfuffle
 			bool                      m_preservePaths;
 			ReadOnlyArchiveInterface *m_archive;
 	};
+
+	class KERFUFFLE_EXPORT AddJob: public KJob
+	{
+		Q_OBJECT
+		public:
+			AddJob( const QList<KUrl> & files, ReadWriteArchiveInterface *interface, QObject *parent = 0 );
+
+			void start();
+
+		private slots:
+			void done( ThreadWeaver::Job * );
+			void progress( double );
+
+		private:
+			QList<KUrl>                m_files;
+			ReadWriteArchiveInterface *m_archive;
+
+	};
 } // namespace Kerfuffle
 
 #endif // JOBS_H

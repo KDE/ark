@@ -85,4 +85,25 @@ namespace Kerfuffle
 		setPercent( static_cast<unsigned long>( 100.0*p ) );
 	}
 
+	AddJob::AddJob( const QList<KUrl> & files, ReadWriteArchiveInterface *interface, QObject *parent )
+		: KJob( parent ), m_files( files ), m_archive( interface )
+	{
+	}
+
+	void AddJob::start()
+	{
+		// TODO: implement it
+		emitResult();
+	}
+
+	void AddJob::done( ThreadWeaver::Job *job )
+	{
+		emitResult();
+	}
+
+	void AddJob::progress( double p )
+	{
+		setPercent( static_cast<unsigned long>( 100.0*p ) );
+	}
+
 } // namespace Kerfuffle

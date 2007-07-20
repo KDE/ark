@@ -78,6 +78,33 @@ namespace Kerfuffle
 		m_archive->removeObserver( m_helper );
 	}
 
+	InternalAddJob::InternalAddJob( ReadWriteArchiveInterface *archive, const QList<KUrl> & files, QObject *parent )
+		: ThreadWeaver::Job( parent ), m_files( files ), m_archive( archive ), m_helper( 0 ), m_success( false )
+	{
+	}
+
+	InternalAddJob::~InternalAddJob()
+	{
+		delete m_helper;
+		m_helper = 0;
+	}
+
+	void InternalAddJob::run()
+	{
+		m_helper = new ArchiveJobHelper( m_archive );
+
+		connect( m_helper, SIGNAL( entry( const ArchiveEntry & ) ),
+			 this, SIGNAL( entry( const ArchiveEntry & ) ) );
+		connect( m_helper, SIGNAL( progress( double ) ),
+			 this, SIGNAL( progress( double ) ) );
+		connect( m_helper, SIGNAL( error( const QString&, const QString& ) ),
+			 this, SIGNAL( error( const QString&, const QString& ) ) );
+
+		m_archive->registerObserver( m_helper );
+		m_success = m_archive->addFiles( m_files );
+		m_archive->removeObserver( m_helper );
+	}
+
 	ArchiveJobHelper::ArchiveJobHelper( ReadOnlyArchiveInterface *archive, QObject *parent )
 		: QObject( parent ), m_archive( archive )
 	{
