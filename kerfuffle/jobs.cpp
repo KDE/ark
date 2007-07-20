@@ -41,6 +41,8 @@ namespace Kerfuffle
 		         this, SIGNAL( newEntry( const ArchiveEntry & ) ) );
 		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
 		         this, SLOT( done( ThreadWeaver::Job* ) ) );
+		connect( job, SIGNAL( progress( double ) ),
+		         this, SLOT( progress( double ) ) );
 		ThreadWeaver::Weaver::instance()->enqueue( job );
 	}
 
@@ -62,6 +64,8 @@ namespace Kerfuffle
 
 		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
 		         this, SLOT( done( ThreadWeaver::Job* ) ) );
+		connect( job, SIGNAL( progress( double ) ),
+		         this, SLOT( progress( double ) ) );
 
 		ThreadWeaver::Weaver::instance()->enqueue( job );
 	}
@@ -69,6 +73,16 @@ namespace Kerfuffle
 	void ExtractJob::done( ThreadWeaver::Job *job )
 	{
 		emitResult();
+	}
+
+	void ExtractJob::progress( double p )
+	{
+		setPercent( static_cast<unsigned long>( 100.0*p ) );
+	}
+
+	void ListJob::progress( double p )
+	{
+		setPercent( static_cast<unsigned long>( 100.0*p ) );
 	}
 
 } // namespace Kerfuffle

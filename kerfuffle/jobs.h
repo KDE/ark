@@ -55,6 +55,7 @@ namespace Kerfuffle
 
 		private slots:
 			void done( ThreadWeaver::Job* );
+			void progress( double );
 
 		private:
 			ReadOnlyArchiveInterface *m_archive;
@@ -70,6 +71,8 @@ namespace Kerfuffle
 
 		private slots:
 			void done( ThreadWeaver::Job * );
+			void progress( double );
+
 		private:
 			QList<QVariant>           m_files;
 			QString                   m_destinationDir;
