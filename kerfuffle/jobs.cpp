@@ -34,6 +34,7 @@ namespace Kerfuffle
 
 	void ListJob::start()
 	{
+		emit description( this, QString( "Listing entries in the archive '%1'" ).arg( m_archive->filename() ) );
 		InternalListingJob *job = new InternalListingJob( m_archive, this );
 		// TODO: connects
 		connect( job, SIGNAL( entry( const ArchiveEntry& ) ),
@@ -56,6 +57,7 @@ namespace Kerfuffle
 
 	void ExtractJob::start()
 	{
+		emit description( this, QString( "Extracting %1 files from the archive '%1'" ).arg( m_files.count() ).arg( m_archive->filename() ) );
 		InternalExtractJob *job = new InternalExtractJob( m_archive, m_files, m_destinationDir, m_preservePaths, this );
 
 		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
