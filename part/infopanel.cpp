@@ -79,23 +79,32 @@ void InfoPanel::setIndex( const QModelIndex& index )
 	{
 		const ArchiveEntry& entry = m_model->entryForIndex( index );
 
+		KMimeType::Ptr mimeType;
+
 		if ( entry[ IsDirectory ].toBool() )
 		{
-			iconLabel->setPixmap( EnormousMimeIcon( KMimeType::mimeType( "inode/directory" )->iconName() ) );
+			mimeType = KMimeType::mimeType( "inode/directory" );
+		}
+		else
+		{
+			mimeType = KMimeType::findByPath( entry[ FileName ].toString(), 0, true );
+		}
+
+		iconLabel->setPixmap( EnormousMimeIcon( mimeType->iconName() ) );
+		if ( entry[ IsDirectory ].toBool() )
+		{
 			additionalInfo->setText( i18np( "One item", "%1 items", m_model->childCount( index ) ) );
 		}
 		else
 		{
-			KMimeType::Ptr mimeType = KMimeType::findByPath( entry[ FileName ].toString(), 0, true );
-			iconLabel->setPixmap( EnormousMimeIcon( mimeType->iconName() ) );
-			additionalInfo->setText( mimeType->comment() );
+			additionalInfo->setText( KIO::convertSize( entry[ Size ].toULongLong() ) );
 		}
 
 		QStringList nameParts = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts );
 		QString name = ( nameParts.count() > 0 )? nameParts.last() : entry[ FileName ].toString();
 		fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( name ) );
 
-		metadataLabel->setText( metadataTextFor( entry ) );
+		metadataLabel->setText( metadataTextFor( index ) );
 		showMetaData();
 	}
 }
@@ -124,28 +133,32 @@ void InfoPanel::hideActions()
 	actionsLabel->hide();
 }
 
-QString InfoPanel::metadataTextFor( const Kerfuffle::ArchiveEntry& entry )
+QString InfoPanel::metadataTextFor( const QModelIndex &index )
 {
+	const ArchiveEntry& entry = m_model->entryForIndex( index );
 	QString text;
 
-	if ( entry.contains( Size ) )
+	KMimeType::Ptr mimeType;
+
+	if ( entry[ IsDirectory ].toBool() )
 	{
-		text += QString( "<b>%1:</b> %2<br/>" ).arg( i18n( "Size" ) ).arg( KIO::convertSize( entry[ Size ].toULongLong() ) );
+		mimeType = KMimeType::mimeType( "inode/directory" );
 	}
+	else
+	{
+		mimeType = KMimeType::findByPath( entry[ FileName ].toString(), 0, true );
+	}
+
+	text += i18n( "<b>Type:</b> %1<br/>",  mimeType->comment() );
 
 	if ( entry.contains( Owner ) )
 	{
-		text += QString( "<b>%1:</b> %2<br/>" ).arg( i18n( "Owner" ) ).arg( entry[ Owner ].toString() );
+		text += i18n( "<b>Owner:</b> %1<br/>", entry[ Owner ].toString() );
 	}
 
 	if ( entry.contains( Group ) )
 	{
-		text += QString( "<b>%1:</b> %2<br/>" ).arg( i18n( "Group" ) ).arg( entry[ Group ].toString() );
-	}
-
-	if ( text.isEmpty() )
-	{
-		text = i18n( "No metadata available for this file." );
+		text += i18n( "<b>Group:</b> %1<br/>", entry[ Group ].toString() );
 	}
 
 	return text;

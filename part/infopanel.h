@@ -46,7 +46,7 @@ class InfoPanel: public QFrame, Ui::InformationPanel
 		void showActions();
 		void hideActions();
 
-		QString metadataTextFor( const Kerfuffle::ArchiveEntry& entry );
+		QString metadataTextFor( const QModelIndex & );
 
 		ArchiveModel *m_model;
 };
