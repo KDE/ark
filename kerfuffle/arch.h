@@ -77,8 +77,8 @@ class KERFUFFLE_EXPORT Arch : public QObject
 		virtual void addFile( const QStringList & ) = 0;
 		virtual void addDir( const QString & ) = 0;
 
-		virtual void extractFile( const QVariant & fileName, const QString & destinationDir );
-		virtual void extractFiles( const QList<QVariant> & fileList, const QString & destinationDir ) = 0;
+		virtual void extractFile( const QVariant & fileName, const QString & destinationDir, bool preservePaths = false );
+		virtual void extractFiles( const QList<QVariant> & fileList, const QString & destinationDir, bool preservePaths = false ) = 0;
 
 		virtual bool passwordRequired() { return false; }
 

@@ -50,7 +50,7 @@ class KERFUFFLE_EXPORT ReadOnlyArchiveInterface: public QObject
 
 		virtual bool open() { return true; }
 		virtual bool list() = 0;
-		virtual bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory ) = 0;
+		virtual bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths ) = 0;
 
 	protected:
 		void error( const QString & message, const QString & details = QString() );

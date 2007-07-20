@@ -61,7 +61,7 @@ bool BKInterface::list()
 	return result;
 }
 
-bool BKInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory )
+bool BKInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
 {
 	error( "Not implemented yet" );
 	return false;

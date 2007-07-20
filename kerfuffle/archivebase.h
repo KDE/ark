@@ -53,7 +53,7 @@ class KERFUFFLE_EXPORT ArchiveBase: public Arch
 		virtual void addFile( const QStringList & );
 		virtual void addDir( const QString & );
 		virtual void remove( const QStringList & );
-		virtual void extractFiles( const QList<QVariant> & files, const QString& destinationDir );
+		virtual void extractFiles( const QList<QVariant> & files, const QString& destinationDir, bool preservePaths );
 
 	private slots:
 		void listingDone( ThreadWeaver::Job* );

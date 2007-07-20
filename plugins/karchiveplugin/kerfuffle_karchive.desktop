@@ -13,4 +13,4 @@ X-KDE-Priority=117
 X-KDE-Kerfuffle-APIRevision=1
 Name=kerfuffle_karchive
 Comment=KArchive plugin for Kerfuffle
-MimeType=application/zip;application/x-zip-compressed;
+MimeType=application/zip;application/x-zip-compressed;application/x-tar;application/x-compressed-tar;

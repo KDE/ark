@@ -49,7 +49,7 @@ class ArchiveModel: public QAbstractItemModel
 
 		ArchiveEntry entryForIndex( const QModelIndex &index );
 
-		void extractFile( const QVariant& fileName, const QString & destinationDir );
+		void extractFile( const QVariant& fileName, const QString & destinationDir, bool preservePaths = false );
 
 	signals:
 		void loadingStarted();

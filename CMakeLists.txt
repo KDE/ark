@@ -5,7 +5,7 @@ add_subdirectory( app )
 add_subdirectory( pics )
 add_subdirectory( plugins )
 add_subdirectory( kerfuffle )
-add_subdirectory( old )
+#add_subdirectory( old )
 
 
 

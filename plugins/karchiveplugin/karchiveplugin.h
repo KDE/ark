@@ -34,7 +34,7 @@ class KArchiveInterface: public ReadOnlyArchiveInterface
 		~KArchiveInterface();
 
 		bool list();
-		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory );
+		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths );
 
 	private:
 		bool browseArchive( KArchive *archive );
@@ -42,6 +42,10 @@ class KArchiveInterface: public ReadOnlyArchiveInterface
 		bool processDir( const KArchiveDirectory *dir, const QString & prefix = QString() );
 
 		void createEntryFor( const KArchiveEntry *aentry, const QString& prefix );
+
+		KArchive *archive();
+
+		KArchive *m_archive;
 };
 
 #endif // KARCHIVEPLUGIN_H

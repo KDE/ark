@@ -163,7 +163,7 @@ void Part::slotPreview( const QModelIndex & index )
 		m_previewDir = new KTempDir();
 		connect( m_model, SIGNAL( extractionFinished( bool ) ),
 		         this, SLOT( slotPreviewExtracted( bool ) ) );
-		m_model->extractFile( entry[ FileName ], m_previewDir->name() );
+		m_model->extractFile( entry[ FileName ], m_previewDir->name(), false );
 	}
 }
 
@@ -175,7 +175,8 @@ void Part::slotPreviewExtracted( bool success )
 	{
 		ArkViewer viewer( widget() );
 		const ArchiveEntry& entry =  m_model->entryForIndex( m_view->selectionModel()->currentIndex() );
-		if ( !viewer.view( m_previewDir->name() + '/' + entry[ FileName ].toString() ) )
+		QString name = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts ).last();
+		if ( !viewer.view( m_previewDir->name() + '/' + name ) )
 		{
 			KMessageBox::sorry( widget(), i18n( "The internal viewer cannot preview this file." ) );
 		}

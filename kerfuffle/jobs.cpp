@@ -50,9 +50,9 @@ void ListingJob::run()
 	m_success = m_helper->getTheListing();
 }
 
-ExtractionJob::ExtractionJob( ReadOnlyArchiveInterface *archive, const QList<QVariant> & files, const QString & destinationDirectory, QObject *parent )
+ExtractionJob::ExtractionJob( ReadOnlyArchiveInterface *archive, const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths, QObject *parent )
 	: ThreadWeaver::Job( parent ), m_archive( archive ), m_files( files ), m_destinationDirectory( destinationDirectory ),
-	  m_helper( 0 ), m_success( false )
+	  m_helper( 0 ), m_success( false ), m_preservePaths( preservePaths )
 {
 
 }
@@ -71,7 +71,7 @@ void ExtractionJob::run()
 	connect( m_helper, SIGNAL( error( const QString&, const QString& ) ),
 	         this, SIGNAL( error( const QString&, const QString& ) ) );
 	m_archive->registerObserver( m_helper );
-	m_success = m_archive->copyFiles( m_files, m_destinationDirectory );
+	m_success = m_archive->copyFiles( m_files, m_destinationDirectory, m_preservePaths );
 	m_archive->removeObserver( m_helper );
 }
 

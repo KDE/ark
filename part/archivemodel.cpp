@@ -367,13 +367,13 @@ void ArchiveModel::setArchive( Arch *archive )
 	reset();
 }
 
-void ArchiveModel::extractFile( const QVariant& fileName, const QString & destinationDir )
+void ArchiveModel::extractFile( const QVariant& fileName, const QString & destinationDir, bool preservePaths )
 {
 	if ( !m_archive )
 	{
 		emit extractionFinished( false );
 		return;
 	}
-	m_archive->extractFile( fileName, destinationDir );
+	
+	m_archive->extractFile( fileName, destinationDir, preservePaths );
 }
-void extractFile( const QVariant& fileName, const QString & destinationDir );

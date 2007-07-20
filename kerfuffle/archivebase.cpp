@@ -86,9 +86,9 @@ void ArchiveBase::remove( const QStringList & )
 {
 }
 
-void ArchiveBase::extractFiles( const QList<QVariant> & files, const QString& destinationDir )
+void ArchiveBase::extractFiles( const QList<QVariant> & files, const QString& destinationDir, bool preservePaths )
 {
-	ExtractionJob *job = new ExtractionJob( m_iface, files, destinationDir, this );
+	ExtractionJob *job = new ExtractionJob( m_iface, files, destinationDir, preservePaths, this );
 	connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
 	         this, SLOT( extractionDone( ThreadWeaver::Job * ) ) );
 	connect( job, SIGNAL( error( const QString&, const QString& ) ),

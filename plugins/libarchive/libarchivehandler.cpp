@@ -96,8 +96,14 @@ bool LibArchiveInterface::list()
 	return archive_read_finish( arch ) == ARCHIVE_OK;
 }
 
-bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory )
+bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
 {
+	if ( !preservePaths )
+	{
+		error( "Extraction discarding paths is not supported yet." );
+		return false;
+	}
+
 	QDir::setCurrent( destinationDirectory );
 
 	const bool extractAll = files.isEmpty();

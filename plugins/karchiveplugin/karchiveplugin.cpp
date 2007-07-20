@@ -21,36 +21,80 @@
 #include "karchiveplugin.h"
 #include "kerfuffle/archivefactory.h"
 #include <KZip>
-#include <memory>
+#include <KTar>
+#include <KMimeType>
 
 KArchiveInterface::KArchiveInterface( const QString & filename, QObject *parent )
-	: ReadOnlyArchiveInterface( filename, parent )
+	: ReadOnlyArchiveInterface( filename, parent ), m_archive( 0 )
 {
 }
 
 KArchiveInterface::~KArchiveInterface()
 {
+	delete m_archive;
+	m_archive = 0;
+}
+
+KArchive *KArchiveInterface::archive()
+{
+	if ( m_archive == 0 )
+	{
+		KMimeType::Ptr mimeType = KMimeType::findByPath( filename() );
+
+		if ( mimeType->is( "application/zip" ) )
+		{
+			m_archive = new KZip( filename() );
+		}
+		else
+		{
+			m_archive = new KTar( filename() );
+		}
+
+	}
+	return m_archive;
 }
 
 bool KArchiveInterface::list()
 {
-	std::auto_ptr<KArchive> archive( new KZip( filename() ) );
-
-	if ( !archive->open( QIODevice::ReadOnly ) )
+	if ( !archive()->open( QIODevice::ReadOnly ) )
 	{
 		error( QString( "Couldn't open the archive '%1' for reading" ).arg( filename() ) );
 		return false;
 	}
 	else
 	{
-		return browseArchive( archive.get() );
+		return browseArchive( archive() );
 	}
 }
 
-bool KArchiveInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory )
+bool KArchiveInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
 {
-	error( "Not implemented yet" );
-	return false;
+	if ( preservePaths )
+	{
+		error( "Extraction preserving paths is not implemented yet." );
+		return false;
+	}
+	foreach( const QVariant & file, files )
+	{
+		const KArchiveEntry *archiveEntry = archive()->directory()->entry( file.toString() );
+		if ( !archiveEntry )
+		{
+			error( QString( "File '%1' not found in the archive" ).arg( file.toString() ) );
+			return false;
+		}
+
+		// TODO: handle errors, copyTo fails silently
+		if ( archiveEntry->isDirectory() )
+		{
+			static_cast<const KArchiveDirectory*>( archiveEntry )->copyTo( destinationDirectory );
+		}
+		else
+		{
+			static_cast<const KArchiveFile*>( archiveEntry )->copyTo( destinationDirectory );
+		}
+	}
+
+	return true;
 }
 
 bool KArchiveInterface::browseArchive( KArchive *archive )

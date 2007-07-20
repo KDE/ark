@@ -57,11 +57,16 @@ Arch::~Arch()
 {
 }
 
-void Arch::extractFile( const QVariant & fileName, const QString & destinationDir )
+void Arch::extractFile( const QVariant & fileName, const QString & destinationDir, bool preservePaths )
 {
 	QList<QVariant> l;
 	l << fileName;
-	extractFiles( l, destinationDir );
+	extractFiles( l, destinationDir, preservePaths );
+}
+
+static bool comparePlugins( const KService::Ptr &p1, const KService::Ptr &p2 )
+{
+	return ( p1->property( "X-KDE-Priority" ).toInt() ) > ( p2->property( "X-KDE-Priority" ).toInt() );
 }
 
 Arch *Arch::factory( const QString & filename,
@@ -70,6 +75,8 @@ Arch *Arch::factory( const QString & filename,
 	qRegisterMetaType<ArchiveEntry>( "ArchiveEntry" );
 	QString mimeType = requestedMimeType.isEmpty()? KMimeType::findByPath( filename )->name() : requestedMimeType;
 	KService::List offers = KMimeTypeTrader::self()->query( mimeType, "Kerfuffle/Plugin", "(exist Library)" );
+
+	qSort( offers.begin(), offers.end(), comparePlugins );
 
 	if ( !offers.isEmpty() )
 	{

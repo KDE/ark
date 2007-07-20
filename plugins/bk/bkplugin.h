@@ -35,7 +35,7 @@ class BKInterface: public ReadOnlyArchiveInterface
 		~BKInterface();
 
 		bool list();
-		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory );
+		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths );
 
 	private:
 		bool browse( BkFileBase* base, const QString& prefix = QString() );

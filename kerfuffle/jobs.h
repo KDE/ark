@@ -62,7 +62,7 @@ class ExtractionJob: public ThreadWeaver::Job
 {
 	Q_OBJECT
 	public:
-		ExtractionJob( ReadOnlyArchiveInterface *archive, const QList<QVariant> & files, const QString & destinationDirectory, QObject *parent = 0 );
+		ExtractionJob( ReadOnlyArchiveInterface *archive, const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths = false, QObject *parent = 0 );
 		~ExtractionJob();
 
 		bool success() const { return m_success; }
@@ -80,6 +80,7 @@ class ExtractionJob: public ThreadWeaver::Job
 		QString                   m_destinationDirectory;
 		ArchiveJobHelper         *m_helper;
 		bool                      m_success;
+		bool                      m_preservePaths;
 };
 
 #endif // JOBS_H
