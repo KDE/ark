@@ -23,6 +23,7 @@
 
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QFileInfo>
 
 #include <KLocale>
 #include <KMimeType>
@@ -60,7 +61,8 @@ void InfoPanel::setDefaultValues()
 	}
 	else
 	{
-		fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( i18n( "No file selected" ) ) );
+		QFileInfo archiveInfo( m_model->archive()->fileName() );
+		fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( archiveInfo.fileName() ) );
 		additionalInfo->setText( QString() );
 	}
 	hideMetaData();

@@ -89,6 +89,11 @@ namespace Kerfuffle
 		return new ExtractJob( files, destinationDir, preservePaths, m_iface, this );
 	}
 
+	QString ArchiveBase::fileName()
+	{
+		return m_iface->filename();
+	}
+
 } // namespace Kerfuffle
 
 #include "archivebase.moc"
