@@ -6,9 +6,6 @@
 		<Action name="file_open_recent"/>
 		<Merge/>
 	</Menu>
-	<Menu name="settings" >
-		<DefineGroup append="show_merge" name="show_merge" />
-	</Menu>
 	<Merge/>
 </MenuBar>
 <ToolBar noMerge="1" name="mainToolBar">

@@ -39,6 +39,9 @@ class MainWindow: public KParts::MainWindow
 		void openUrl( const KUrl& url );
 		void quit();
 
+		void editKeyBindings();
+		void editToolbars();
+
 	private:
 		void setupActions();
 

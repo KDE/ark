@@ -2,6 +2,8 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
+ * Copyright (C) 2003: Helio Chissini de Castro <helio@conectiva.com>
+ * Copyright (C) 2002-2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,6 +32,8 @@
 #include <KFileDialog>
 #include <KRecentFilesAction>
 #include <KGlobal>
+#include <KEditToolBar>
+#include <KShortcutsDialog>
 
 MainWindow::MainWindow( QWidget * )
 	: KParts::MainWindow( )
@@ -79,6 +83,29 @@ void MainWindow::setupActions()
 	m_recentFilesAction->loadEntries( KGlobal::config()->group( "Recent Files" ) );
 	connect( m_recentFilesAction, SIGNAL( triggered() ),
 	         this, SLOT( openArchive() ) );
+
+	createStandardStatusBarAction();
+
+	KStandardAction::configureToolbars( this, SLOT( editToolbars() ), actionCollection() );
+	KStandardAction::keyBindings( this, SLOT( editKeyBindings() ), actionCollection() );
+}
+
+void MainWindow::editKeyBindings()
+{
+	KShortcutsDialog dlg( KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this );
+	dlg.addCollection( actionCollection() );
+	dlg.addCollection( m_part->actionCollection() );
+
+	dlg.configure();
+}
+
+void MainWindow::editToolbars()
+{
+	saveMainWindowSettings( KGlobal::config()->group( QLatin1String( "MainWindow") ) );
+	KEditToolBar dlg( factory(), this );
+	dlg.exec();
+	createGUI( m_part );
+	applyMainWindowSettings( KGlobal::config()->group( QLatin1String("MainWindow") ) );
 }
 
 void MainWindow::openArchive()
