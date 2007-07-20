@@ -101,6 +101,12 @@ void Part::setupActions()
 	connect( m_extractFilesAction, SIGNAL( triggered( bool ) ),
 	         this, SLOT( slotExtractFiles() ) );
 
+	m_addFilesAction = actionCollection()->addAction( "add" );
+	m_addFilesAction->setIcon( KIcon( "ark-addfile" ) );
+	m_addFilesAction->setText( i18n( "Add &File..." ) );
+	connect( m_addFilesAction, SIGNAL( triggered( bool ) ),
+	         this, SLOT( slotAddFiles() ) );
+
 	updateActions();
 }
 
@@ -108,6 +114,7 @@ void Part::updateActions()
 {
 	m_previewAction->setEnabled( m_view->selectionModel()->currentIndex().isValid() );
 	m_extractFilesAction->setEnabled( m_model->archive() );
+	m_addFilesAction->setEnabled( m_model->archive() && ( ! m_model->archive()->isReadOnly() ) );
 }
 
 void Part::selectionChanged()
@@ -217,4 +224,9 @@ void Part::slotExtractFiles()
 	{
 		kDebug( 1601 ) << k_funcinfo << "implement me!" << endl;
 	}
+}
+
+void Part::slotAddFiles()
+{
+	kDebug( 1601 ) << k_funcinfo << endl;
 }

@@ -3,12 +3,14 @@
 <MenuBar>
 	<Menu name="action">
 		<text>&amp;Action</text>
-		<Action name="preview"/>
+		<Action name="add"/>
 		<Action name="extract"/>
+		<Action name="preview"/>
 	</Menu>
 </MenuBar>
 <ToolBar name="mainToolBar">
-	<Action name="preview"/>
+	<Action name="add"/>
 	<Action name="extract"/>
+	<Action name="preview"/>
 </ToolBar>
 </kpartgui>

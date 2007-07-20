@@ -57,6 +57,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void slotPreviewExtracted( KJob* );
 		void slotError( const QString& errorMessage, const QString& details );
 		void slotExtractFiles();
+		void slotAddFiles();
 		void updateActions();
 		void selectionChanged();
 
@@ -68,6 +69,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		QTreeView    *m_view;
 		QAction      *m_previewAction;
 		QAction      *m_extractFilesAction;
+		QAction      *m_addFilesAction;
 		InfoPanel    *m_infoPanel;
 		KTempDir     *m_previewDir;
 };
