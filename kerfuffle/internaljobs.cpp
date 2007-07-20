@@ -23,7 +23,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "jobs.h"
+#include "internaljobs.h"
 #include <kdebug.h>
 
 ListingJob::ListingJob( ReadOnlyArchiveInterface *archive, QObject *parent )
@@ -112,4 +112,4 @@ void ArchiveJobHelper::entryslot( const ArchiveEntry & e )
 	kDebug( 1601 ) << k_funcinfo << "Entry: " << e[ FileName ] << ", Owner = " << e[ Owner ] << endl;
 }
 
-#include "jobs.moc"
+#include "internaljobs.moc"

@@ -7,7 +7,7 @@ ADD_DEFINITIONS(-D_LARGEFILE64_SOURCE)
 set(kerfuffle_SRCS
     arch.cpp 
     archiveinterface.cpp
-    jobs.cpp
+    internaljobs.cpp
     archivebase.cpp
    )
 
