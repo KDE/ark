@@ -19,9 +19,12 @@
  *
  */
 #include "extractiondialog.h"
+#include "settings.h"
 
 #include <KLocale>
 #include <KIconLoader>
+
+#include <QDir>
 
 ExtractionDialogUI::ExtractionDialogUI( QWidget *parent )
 	: QFrame( parent )
@@ -40,7 +43,21 @@ ExtractionDialog::ExtractionDialog( QWidget *parent )
 	m_ui->iconLabel->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );
 
 	m_ui->filesToExtractGroupBox->hide();
+	m_ui->allFilesButton->setChecked( true );
 	m_ui->extractAllLabel->show();
+
+	m_ui->destDirRequester->setMode( KFile::Directory | KFile::ExistingOnly | KFile::LocalOnly );
+
+	if ( ArkSettings::lastExtractionFolder().isEmpty() )
+	{
+		m_ui->destDirRequester->setPath( QDir::currentPath() );
+	}
+	else
+	{
+		m_ui->destDirRequester->setPath( ArkSettings::lastExtractionFolder() );
+	}
+
+	m_ui->openFolderCheckBox->setChecked( ArkSettings::openDestinationFolderAfterExtraction() );
 }
 
 ExtractionDialog::~ExtractionDialog()
@@ -52,7 +69,23 @@ ExtractionDialog::~ExtractionDialog()
 void ExtractionDialog::showSelectedFilesOption()
 {
 	m_ui->filesToExtractGroupBox->show();
+	m_ui->selectedFilesButton->setChecked( true );
 	m_ui->extractAllLabel->hide();
+}
+
+bool ExtractionDialog::extractAllFiles()
+{
+	return m_ui->allFilesButton->isChecked();
+}
+
+bool ExtractionDialog::openDestinationAfterExtraction()
+{
+	return m_ui->openFolderCheckBox->isChecked();
+}
+
+KUrl ExtractionDialog::destinationDirectory()
+{
+	return m_ui->destDirRequester->url();
 }
 
 #include "extractiondialog.moc"

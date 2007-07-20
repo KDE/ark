@@ -16,6 +16,8 @@ set(arkpart_PART_SRCS
 kde4_add_ui_files(arkpart_PART_SRCS extractiondialog.ui )
 kde4_add_ui_files(arkpart_PART_SRCS infopanel.ui )
 
+kde4_add_kcfg_files(arkpart_PART_SRCS settings.kcfgc)
+
 kde4_add_plugin(arkpart WITH_PREFIX ${arkpart_PART_SRCS})
 
 
@@ -27,4 +29,5 @@ install(TARGETS arkpart  DESTINATION ${PLUGIN_INSTALL_DIR})
 ########### install files ###############
 
 install( FILES ark_part.desktop     DESTINATION ${SERVICES_INSTALL_DIR} )
-install( FILES ark_part.rc DESTINATION ${DATA_INSTALL_DIR}/ark )
+install( FILES ark_part.rc          DESTINATION ${DATA_INSTALL_DIR}/ark )
+install( FILES ark.kcfg             DESTINATION ${KCFG_INSTALL_DIR} )

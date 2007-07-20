@@ -40,6 +40,10 @@ class ExtractionDialog: public KDialog
 
 		void showSelectedFilesOption();
 
+		bool extractAllFiles();
+		bool openDestinationAfterExtraction();
+		KUrl destinationDirectory();
+
 	private:
 		ExtractionDialogUI *m_ui;
 };

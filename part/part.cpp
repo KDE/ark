@@ -24,6 +24,7 @@
 #include "arkviewer.h"
 #include "extractiondialog.h"
 #include "kerfuffle/jobs.h"
+#include "settings.h"
 
 #include <KParts/GenericFactory>
 #include <KApplication>
@@ -222,7 +223,11 @@ void Part::slotExtractFiles()
 
 	if ( dialog.exec() )
 	{
-		kDebug( 1601 ) << k_funcinfo << "implement me!" << endl;
+		kDebug( 1601 ) << k_funcinfo << "Extract all files: " << dialog.extractAllFiles() << endl;
+		kDebug( 1601 ) << k_funcinfo << "Open destination : " << dialog.openDestinationAfterExtraction() << endl;
+		kDebug( 1601 ) << k_funcinfo << "Destination Url  : " << dialog.destinationDirectory() << endl;
+		ArkSettings::setOpenDestinationFolderAfterExtraction( dialog.openDestinationAfterExtraction() );
+		ArkSettings::setLastExtractionFolder( dialog.destinationDirectory().path() );
 	}
 }
 
