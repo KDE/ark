@@ -70,6 +70,15 @@ namespace Kerfuffle
 	{
 		m_observers.removeAll( observer );
 	}
+
+	ReadWriteArchiveInterface::ReadWriteArchiveInterface( const QString & filename, QObject *parent )
+		: ReadOnlyArchiveInterface( filename, parent )
+	{
+	}
+
+	ReadWriteArchiveInterface::~ReadWriteArchiveInterface()
+	{
+	}
 } // namespace Kerfuffle
 
 #include "archiveinterface.moc"

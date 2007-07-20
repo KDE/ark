@@ -63,12 +63,19 @@ namespace Kerfuffle
 			QList<ArchiveObserver*> m_observers;
 			QString m_filename;
 	};
-	/*
-	class ReadWriteArchiveInterface: public ReadOnlyArchiveInterface
+
+	class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterface
 	{
 		Q_OBJECT
+		public:
+			ReadWriteArchiveInterface( const QString & filename, QObject *parent = 0 );
+			virtual ~ReadWriteArchiveInterface();
+
+			virtual bool isReadOnly() const { return false; } // TODO: Bogus, should check if we also can actually write to the file
+
+			virtual bool addFiles( const QList<KUrl> & files ) = 0;
+			virtual bool deleteFiles( const QList<QVariant> & files ) = 0;
 	};
-	*/
 
 } // namespace Kerfuffle
 
