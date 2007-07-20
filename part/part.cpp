@@ -163,7 +163,7 @@ void Part::slotPreview( const QModelIndex & index )
 		m_previewDir = new KTempDir();
 		connect( m_model, SIGNAL( extractionFinished( bool ) ),
 		         this, SLOT( slotPreviewExtracted( bool ) ) );
-		m_model->extractFile( entry[ FileName ], m_previewDir->name(), false );
+		m_model->extractFile( entry[ OriginalFileName ], m_previewDir->name(), false );
 	}
 }
 

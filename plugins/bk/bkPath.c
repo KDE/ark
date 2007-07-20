@@ -165,6 +165,8 @@ int makeNewPathFromString(const char* strPath, NewPath* pathPath)
     int pathStrLen;
     
     pathStrLen = strlen(strPath);
+    pathPath->numChildren = 0;
+    pathPath->children = NULL;
     
     if(strPath[0] != '/')
         return BKERROR_MISFORMED_PATH;

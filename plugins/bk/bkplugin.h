@@ -39,6 +39,8 @@ class BKInterface: public ReadOnlyArchiveInterface
 
 	private:
 		bool browse( BkFileBase* base, const QString& prefix = QString() );
+
+		VolInfo m_volInfo;
 };
 
 #endif // BKPLUGIN_H

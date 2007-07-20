@@ -20,7 +20,9 @@
  */
 #include "bkplugin.h"
 #include "kerfuffle/archivefactory.h"
-#include <kdebug.h>
+
+#include <QFile>
+#include <KDebug>
 
 BKInterface::BKInterface( const QString & filename, QObject *parent )
 	: ReadOnlyArchiveInterface( filename, parent )
@@ -29,42 +31,48 @@ BKInterface::BKInterface( const QString & filename, QObject *parent )
 
 BKInterface::~BKInterface()
 {
+	bk_destroy_vol_info( &m_volInfo );
 }
 
 bool BKInterface::list()
 {
-	VolInfo volInfo;
 	int rc;
 
-	rc = bk_init_vol_info( &volInfo, true );
+	rc = bk_init_vol_info( &m_volInfo, true );
 	if ( rc <= 0 ) return false;
 
-	rc = bk_open_image( &volInfo, filename().toAscii().constData() );
+	rc = bk_open_image( &m_volInfo, filename().toAscii().constData() );
 	if ( rc <= 0 ) return false;
 
-	rc = bk_read_vol_info( &volInfo );
+	rc = bk_read_vol_info( &m_volInfo );
 	if ( rc <= 0 ) return false;
 
-	if(volInfo.filenameTypes & FNTYPE_ROCKRIDGE)
-		rc = bk_read_dir_tree( &volInfo, FNTYPE_ROCKRIDGE, true, 0 );
-	else if(volInfo.filenameTypes & FNTYPE_JOLIET)
-		rc = bk_read_dir_tree( &volInfo, FNTYPE_JOLIET, false, 0 );
+	if(m_volInfo.filenameTypes & FNTYPE_ROCKRIDGE)
+		rc = bk_read_dir_tree( &m_volInfo, FNTYPE_ROCKRIDGE, true, 0 );
+	else if(m_volInfo.filenameTypes & FNTYPE_JOLIET)
+		rc = bk_read_dir_tree( &m_volInfo, FNTYPE_JOLIET, false, 0 );
 	else
-		rc = bk_read_dir_tree( &volInfo, FNTYPE_9660, false, 0 );
+		rc = bk_read_dir_tree( &m_volInfo, FNTYPE_9660, false, 0 );
 	if(rc <= 0) return false;
 
-
-	bool result = browse( BK_BASE_PTR( &( volInfo.dirTree ) ) );
-
-	bk_destroy_vol_info( &volInfo );
-
-	return result;
+	return browse( BK_BASE_PTR( &( m_volInfo.dirTree ) ) );
 }
 
 bool BKInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
 {
-	error( "Not implemented yet" );
-	return false;
+	foreach( const QVariant& file, files )
+	{
+		int rc;
+
+		kDebug( 1601 ) << k_funcinfo << "Trying to extract " << file.toByteArray() << endl;
+		rc = bk_extract( &m_volInfo, file.toByteArray(), QFile::encodeName( destinationDirectory ), true, 0 );
+		if ( rc <= 0 )
+		{
+			error( QString( "Couldn't extract '%1'" ).arg( file.toString() ) );
+			return false;
+		}
+	}
+	return true;
 }
 
 bool BKInterface::browse( BkFileBase* base, const QString& prefix )
@@ -75,7 +83,7 @@ bool BKInterface::browse( BkFileBase* base, const QString& prefix )
 	{
 		ArchiveEntry e;
 		e[ FileName ] = fullpath;
-		e[ OriginalFileName ] = fullpath;
+		e[ OriginalFileName ] = '/'+fullpath;
 
 		if ( IS_SYMLINK( base->posixFileMode ) )
 		{
