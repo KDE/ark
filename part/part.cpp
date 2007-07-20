@@ -113,9 +113,14 @@ void Part::setupActions()
 
 void Part::updateActions()
 {
-	m_previewAction->setEnabled( m_view->selectionModel()->currentIndex().isValid() );
+	m_previewAction->setEnabled( isPreviewable( m_view->selectionModel()->currentIndex() ) );
 	m_extractFilesAction->setEnabled( m_model->archive() );
 	m_addFilesAction->setEnabled( m_model->archive() && ( ! m_model->archive()->isReadOnly() ) );
+}
+
+bool Part::isPreviewable( const QModelIndex & index )
+{
+	return index.isValid() && ( !m_model->entryForIndex( index )[ IsDirectory ].toBool() );
 }
 
 void Part::selectionChanged()

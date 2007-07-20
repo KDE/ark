@@ -64,6 +64,7 @@ class Part: public KParts::ReadWritePart, public Interface
 	private:
 		void setupView();
 		void setupActions();
+		bool isPreviewable( const QModelIndex & index );
 
 		ArchiveModel *m_model;
 		QTreeView    *m_view;
