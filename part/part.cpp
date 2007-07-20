@@ -78,6 +78,9 @@ void Part::setupView()
 	m_view->setSelectionMode( QAbstractItemView::ExtendedSelection );
 	m_view->setModel( m_model );
 	m_view->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+	m_view->setAlternatingRowColors( true );
+	m_view->setAnimated( true );
+
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
 	         this, SLOT( updateActions() ) );
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
