@@ -53,23 +53,10 @@ namespace Kerfuffle
 		m_iface = 0;
 	}
 
-	/*
-	void ArchiveBase::extractFiles( const QList<QVariant> & files, const QString& destinationDir, bool preservePaths )
+	bool ArchiveBase::isReadOnly()
 	{
-		ExtractionJob *job = new ExtractionJob( m_iface, files, destinationDir, preservePaths, this );
-		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
-		         this, SLOT( extractionDone( ThreadWeaver::Job * ) ) );
-		connect( job, SIGNAL( error( const QString&, const QString& ) ),
-		         this, SIGNAL( error( const QString&, const QString& ) ) );
-		ThreadWeaver::Weaver::instance()->enqueue( job );
+		return m_iface->isReadOnly();
 	}
-
-	void ArchiveBase::extractionDone( ThreadWeaver::Job *job )
-	{
-		emit sigExtract( job->success() );
-		delete job;
-	}
-	*/
 
 	KJob* ArchiveBase::open()
 	{

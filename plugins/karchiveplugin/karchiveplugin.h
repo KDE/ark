@@ -28,7 +28,7 @@ class KArchive;
 class KArchiveEntry;
 class KArchiveDirectory;
 
-class KArchiveInterface: public ReadOnlyArchiveInterface
+class KArchiveInterface: public ReadWriteArchiveInterface
 {
 	Q_OBJECT
 	public:
@@ -37,6 +37,9 @@ class KArchiveInterface: public ReadOnlyArchiveInterface
 
 		bool list();
 		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths );
+
+		bool addFiles( const QList<KUrl> & files );
+		bool deleteFiles( const QList<QVariant> & files );
 
 	private:
 		bool browseArchive( KArchive *archive );

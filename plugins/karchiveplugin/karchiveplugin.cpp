@@ -20,13 +20,18 @@
  */
 #include "karchiveplugin.h"
 #include "kerfuffle/archivefactory.h"
+
 #include <KZip>
 #include <KTar>
 #include <KMimeType>
+#include <KDebug>
+
+#include <QFileInfo>
 
 KArchiveInterface::KArchiveInterface( const QString & filename, QObject *parent )
-	: ReadOnlyArchiveInterface( filename, parent ), m_archive( 0 )
+	: ReadWriteArchiveInterface( filename, parent ), m_archive( 0 )
 {
+	kDebug( 1601 ) << k_funcinfo << endl;
 }
 
 KArchiveInterface::~KArchiveInterface()
@@ -56,6 +61,7 @@ KArchive *KArchiveInterface::archive()
 
 bool KArchiveInterface::list()
 {
+	kDebug( 1601 ) << k_funcinfo << endl;
 	if ( !archive()->open( QIODevice::ReadOnly ) )
 	{
 		error( QString( "Couldn't open the archive '%1' for reading" ).arg( filename() ) );
@@ -136,6 +142,37 @@ void KArchiveInterface::createEntryFor( const KArchiveEntry *aentry, const QStri
 		e[ Size ] = static_cast<const KArchiveFile*>( aentry )->size();
 	}
 	entry( e );
+}
+
+bool KArchiveInterface::addFiles( const QList<KUrl> & files )
+{
+	foreach( const KUrl &url, files )
+	{
+		Q_ASSERT( url.isLocalFile() );
+		QFileInfo fi( url.path() );
+		Q_ASSERT( fi.exists() );
+
+		if ( fi.isDir() )
+		{
+			if ( !archive()->addLocalDirectory( url.path(), fi.fileName() ) )
+			{
+				return false;
+			}
+		}
+		else
+		{
+			if ( !archive()->addLocalFile( url.path(), fi.fileName() ) )
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+bool KArchiveInterface::deleteFiles( const QList<QVariant> & files )
+{
+	return false;
 }
 
 KERFUFFLE_PLUGIN_FACTORY( KArchiveInterface );
