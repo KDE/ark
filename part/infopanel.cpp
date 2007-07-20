@@ -31,8 +31,13 @@
 
 using namespace Kerfuffle;
 
-InfoPanel::InfoPanel( QWidget *parent )
-	: QFrame( parent )
+static QPixmap EnormousMimeIcon( const QString& mimeName )
+{
+	return KIconLoader::global()->loadMimeTypeIcon( mimeName, K3Icon::Desktop, K3Icon::SizeEnormous );
+}
+
+InfoPanel::InfoPanel( ArchiveModel *model, QWidget *parent )
+	: QFrame( parent ), m_model( model )
 {
 	setupUi( this );
 	setDefaultValues();
@@ -47,29 +52,46 @@ InfoPanel::~InfoPanel()
 
 void InfoPanel::setDefaultValues()
 {
-	KMimeType::Ptr defaultMime = KMimeType::defaultMimeTypePtr();
-	iconLabel->setPixmap( KIconLoader::global()->loadMimeTypeIcon( defaultMime->iconName(), K3Icon::Desktop, K3Icon::SizeEnormous ) );
-	fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( i18n( "No file selected" ) ) );
-	additionalInfo->setText( QString() );
+	iconLabel->setPixmap( KIconLoader::global()->loadIcon( "ark", K3Icon::Desktop, K3Icon::SizeEnormous ) );
+	if ( !m_model->archive() )
+	{
+		fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( i18n( "No archive loaded" ) ) );
+		additionalInfo->setText( QString() );
+	}
+	else
+	{
+		fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( i18n( "No file selected" ) ) );
+		additionalInfo->setText( QString() );
+	}
 	hideMetaData();
 	hideActions();
 }
 
-void InfoPanel::setEntry( const Kerfuffle::ArchiveEntry& entry )
+void InfoPanel::setIndex( const QModelIndex& index )
 {
-	if ( entry.isEmpty() )
+	if ( !index.isValid() )
 	{
 		setDefaultValues();
 	}
 	else
 	{
-		KMimeType::Ptr mimeType = KMimeType::findByPath( entry[ FileName ].toString(), 0, true );
-		iconLabel->setPixmap( KIconLoader::global()->loadMimeTypeIcon( mimeType->iconName(), K3Icon::Desktop, K3Icon::SizeEnormous ) );
+		const ArchiveEntry& entry = m_model->entryForIndex( index );
+
+		if ( entry[ IsDirectory ].toBool() )
+		{
+			iconLabel->setPixmap( EnormousMimeIcon( KMimeType::mimeType( "inode/directory" )->iconName() ) );
+			additionalInfo->setText( i18np( "One item", "%1 items", m_model->childCount( index ) ) );
+		}
+		else
+		{
+			KMimeType::Ptr mimeType = KMimeType::findByPath( entry[ FileName ].toString(), 0, true );
+			iconLabel->setPixmap( EnormousMimeIcon( mimeType->iconName() ) );
+			additionalInfo->setText( mimeType->comment() );
+		}
 
 		QStringList nameParts = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts );
 		QString name = ( nameParts.count() > 0 )? nameParts.last() : entry[ FileName ].toString();
 		fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( name ) );
-		additionalInfo->setText( mimeType->comment() );
 
 		metadataLabel->setText( metadataTextFor( entry ) );
 		showMetaData();

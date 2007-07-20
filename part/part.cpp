@@ -53,7 +53,7 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	QSplitter *mainWidget = new QSplitter( Qt::Horizontal, parentWidget );
 	setWidget( mainWidget );
 	m_view = new QTreeView( parentWidget );
-	m_infoPanel = new InfoPanel( parentWidget );
+	m_infoPanel = new InfoPanel( m_model, parentWidget );
 	mainWidget->addWidget( m_view );
 	mainWidget->addWidget( m_infoPanel );
 
@@ -119,7 +119,7 @@ void Part::updateActions()
 
 void Part::selectionChanged()
 {
-	m_infoPanel->setEntry( m_model->entryForIndex( m_view->selectionModel()->currentIndex() ) );
+	m_infoPanel->setIndex( m_view->selectionModel()->currentIndex() );
 }
 
 KAboutData* Part::createAboutData()
@@ -131,7 +131,7 @@ bool Part::openFile()
 {
 	Kerfuffle::Archive *archive = Kerfuffle::factory( localFilePath() );
 	m_model->setArchive( archive );
-	m_infoPanel->setEntry( ArchiveEntry() );
+	m_infoPanel->setIndex( QModelIndex() );
 	updateActions();
 
 	return ( archive != 0 );

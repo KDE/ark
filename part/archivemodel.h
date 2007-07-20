@@ -50,6 +50,7 @@ class ArchiveModel: public QAbstractItemModel
 		Kerfuffle::Archive *archive() const { return m_archive; }
 
 		ArchiveEntry entryForIndex( const QModelIndex &index );
+		int childCount( const QModelIndex &index );
 
 		ExtractJob* extractFile( const QVariant& fileName, const QString & destinationDir, bool preservePaths = false );
 

@@ -23,6 +23,7 @@
 
 #include <QFrame>
 #include "kerfuffle/archive.h"
+#include "archivemodel.h"
 #include "ui_infopanel.h"
 
 class QLabel;
@@ -31,10 +32,10 @@ class InfoPanel: public QFrame, Ui::InformationPanel
 {
 	Q_OBJECT
 	public:
-		InfoPanel( QWidget *parent = 0 );
+		InfoPanel( ArchiveModel *model, QWidget *parent = 0 );
 		~InfoPanel();
 
-		void setEntry( const Kerfuffle::ArchiveEntry& entry );
+		void setIndex( const QModelIndex & );
 
 	private:
 		void setDefaultValues();
@@ -46,6 +47,8 @@ class InfoPanel: public QFrame, Ui::InformationPanel
 		void hideActions();
 
 		QString metadataTextFor( const Kerfuffle::ArchiveEntry& entry );
+
+		ArchiveModel *m_model;
 };
 
 #endif // INFOPANEL_H

@@ -248,6 +248,21 @@ ArchiveEntry ArchiveModel::entryForIndex( const QModelIndex &index )
 	return ArchiveEntry();
 }
 
+int ArchiveModel::childCount( const QModelIndex &index )
+{
+	if ( index.isValid() )
+	{
+		ArchiveNode *item = static_cast<ArchiveNode*>( index.internalPointer() );
+		Q_ASSERT( item );
+		if ( item->isDir() )
+		{
+			return static_cast<ArchiveDirNode*>( item )->entries().count();
+		}
+		return 0;
+	}
+	return -1;
+}
+
 int ArchiveModel::rowCount( const QModelIndex &parent ) const
 {
 	if ( parent.column() <= 0 )
