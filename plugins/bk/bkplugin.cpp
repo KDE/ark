@@ -95,10 +95,7 @@ bool BKInterface::browse( BkFileBase* base, const QString& prefix )
 		}
 		if ( IS_DIR( base->posixFileMode ) )
 		{
-			if ( !QString( base->name ).endsWith( '/' ) )
-			{
-				e[ FileName ] = e[ FileName ].toString() + '/';
-			}
+			e[ IsDirectory ] = true;
 		}
 
 		entry( e );
