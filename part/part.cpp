@@ -37,6 +37,7 @@
 #include <KDebug>
 #include <KMessageBox>
 #include <KVBox>
+#include <KRun>
 
 #include <QTreeView>
 #include <QCursor>
@@ -254,7 +255,7 @@ void Part::slotExtractFiles()
 		ExtractJob *job = m_model->extractFiles( files, dialog.destinationDirectory().path(), false );
 		m_jobTracker->registerJob( job );
 
-		connect( job, SIGNAL( done( KJob* ) ),
+		connect( job, SIGNAL( result( KJob* ) ),
 		         this, SLOT( slotExtractionDone( KJob * ) ) );
 
 		job->start();
@@ -274,9 +275,20 @@ QList<QVariant> Part::selectedFiles()
 	return files;
 }
 
-void Part::slotExtractionDone( KJob* )
+void Part::slotExtractionDone( KJob* job )
 {
 	kDebug( 1601 ) << k_funcinfo << endl;
+	if ( job->error() )
+	{
+		// TODO: do something
+	}
+	else
+	{
+		if ( ArkSettings::openDestinationFolderAfterExtraction() )
+		{
+			KRun::runUrl( KUrl( ArkSettings::lastExtractionFolder() ), "inode/directory", widget() );
+		}
+	}
 }
 
 void Part::slotAddFiles()
