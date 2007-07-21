@@ -25,6 +25,8 @@
 #include "jobs.h"
 #include "internaljobs.h"
 
+#include <KLocale>
+
 namespace Kerfuffle
 {
 	ListJob::ListJob( ReadOnlyArchiveInterface *interface, QObject *parent )
@@ -34,7 +36,7 @@ namespace Kerfuffle
 
 	void ListJob::start()
 	{
-		emit description( this, QString( "Listing entries in the archive '%1'" ).arg( m_archive->filename() ) );
+		emit description( this, i18n( "Listing entries in the archive '%1'", m_archive->filename() ) );
 		InternalListingJob *job = new InternalListingJob( m_archive, this );
 		// TODO: connects
 		connect( job, SIGNAL( entry( const ArchiveEntry& ) ),
@@ -59,7 +61,16 @@ namespace Kerfuffle
 
 	void ExtractJob::start()
 	{
-		emit description( this, QString( "Extracting %1 files from the archive '%1'" ).arg( m_files.count() ).arg( m_archive->filename() ) );
+		KLocalizedString desc;
+		if ( m_files.count() == 0 )
+		{
+			desc = ki18n( "Extracting all files from the archive '%1'" );
+		}
+		else
+		{
+			desc = ki18np( "Extracting one file from the archive %2", "Extracting %1 files from the archive '%2'" ).subs( m_files.count() );
+		}
+		emit description( this, desc.subs( m_archive->filename() ).toString() );
 		InternalExtractJob *job = new InternalExtractJob( m_archive, m_files, m_destinationDir, m_preservePaths, this );
 
 		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
