@@ -377,6 +377,11 @@ void ArchiveModel::setArchive( Kerfuffle::Archive *archive )
 		connect( job, SIGNAL( result( KJob * ) ),
 		         this, SIGNAL( loadingFinished() ) );
 
+		if ( m_jobTracker )
+		{
+			m_jobTracker->registerJob( job );
+		}
+
 		emit loadingStarted();
 		job->start();
 	}
@@ -385,8 +390,13 @@ void ArchiveModel::setArchive( Kerfuffle::Archive *archive )
 
 ExtractJob* ArchiveModel::extractFile( const QVariant& fileName, const QString & destinationDir, bool preservePaths )
 {
-	Q_ASSERT( m_archive );
 	QList<QVariant> files;
 	files << fileName;
+	return extractFiles( files, destinationDir, preservePaths );
+}
+
+ExtractJob* ArchiveModel::extractFiles( const QList<QVariant>& files, const QString & destinationDir, bool preservePaths )
+{
+	Q_ASSERT( m_archive );
 	return m_archive->copyFiles( files, destinationDir, preservePaths );
 }

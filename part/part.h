@@ -27,6 +27,7 @@
 
 class ArchiveModel;
 class InfoPanel;
+class JobTracker;
 
 class QTreeView;
 class QAction;
@@ -57,6 +58,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void slotPreviewExtracted( KJob* );
 		void slotError( const QString& errorMessage, const QString& details );
 		void slotExtractFiles();
+		void slotExtractionDone( KJob* );
 		void slotAddFiles();
 		void updateActions();
 		void selectionChanged();
@@ -65,6 +67,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void setupView();
 		void setupActions();
 		bool isPreviewable( const QModelIndex & index );
+		QList<QVariant> selectedFiles();
 
 		ArchiveModel *m_model;
 		QTreeView    *m_view;
@@ -73,6 +76,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		QAction      *m_addFilesAction;
 		InfoPanel    *m_infoPanel;
 		KTempDir     *m_previewDir;
+		JobTracker   *m_jobTracker;
 };
 
 #endif // PART_H

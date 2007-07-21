@@ -25,6 +25,7 @@
 #include "extractiondialog.h"
 #include "kerfuffle/jobs.h"
 #include "settings.h"
+#include "jobtracker.h"
 
 #include <KParts/GenericFactory>
 #include <KApplication>
@@ -35,11 +36,13 @@
 #include <KTempDir>
 #include <KDebug>
 #include <KMessageBox>
+#include <KVBox>
 
 #include <QTreeView>
 #include <QCursor>
 #include <QAction>
 #include <QSplitter>
+#include <QVBoxLayout>
 
 typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY( libarkpart, Factory );
@@ -51,12 +54,18 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	setComponentData( Factory::componentData() );
 	setXMLFile( "ark_part.rc" );
 
-	QSplitter *mainWidget = new QSplitter( Qt::Horizontal, parentWidget );
+
+
+	KVBox *mainWidget = new KVBox( parentWidget );
 	setWidget( mainWidget );
-	m_view = new QTreeView( parentWidget );
-	m_infoPanel = new InfoPanel( m_model, parentWidget );
-	mainWidget->addWidget( m_view );
-	mainWidget->addWidget( m_infoPanel );
+
+	m_jobTracker = new JobTracker( mainWidget );
+
+	QSplitter *splitter = new QSplitter( Qt::Horizontal, mainWidget );
+	m_view = new QTreeView( mainWidget );
+	m_infoPanel = new InfoPanel( m_model, mainWidget );
+	splitter->addWidget( m_view );
+	splitter->addWidget( m_infoPanel );
 
 	setupView();
 	setupActions();
@@ -67,6 +76,8 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	         this, SLOT( slotLoadingFinished() ) );
 	connect( m_model, SIGNAL( error( const QString&, const QString& ) ),
 	         this, SLOT( slotError( const QString&, const QString& ) ) );
+
+	m_model->setJobTracker( m_jobTracker );
 }
 
 Part::~Part()
@@ -180,6 +191,7 @@ void Part::slotPreview( const QModelIndex & index )
 	{
 		m_previewDir = new KTempDir();
 		ExtractJob *job = m_model->extractFile( entry[ OriginalFileName ], m_previewDir->name(), false );
+		m_jobTracker->registerJob( job );
 		connect( job, SIGNAL( result( KJob* ) ),
 		         this, SLOT( slotPreviewExtracted( KJob* ) ) );
 		job->start();
@@ -237,7 +249,34 @@ void Part::slotExtractFiles()
 		kDebug( 1601 ) << k_funcinfo << "Destination Url  : " << dialog.destinationDirectory() << endl;
 		ArkSettings::setOpenDestinationFolderAfterExtraction( dialog.openDestinationAfterExtraction() );
 		ArkSettings::setLastExtractionFolder( dialog.destinationDirectory().path() );
+
+		QList<QVariant> files = selectedFiles();
+		ExtractJob *job = m_model->extractFiles( files, dialog.destinationDirectory().path(), false );
+		m_jobTracker->registerJob( job );
+
+		connect( job, SIGNAL( done( KJob* ) ),
+		         this, SLOT( slotExtractionDone( KJob * ) ) );
+
+		job->start();
 	}
+}
+
+QList<QVariant> Part::selectedFiles()
+{
+	QList<QVariant> files;
+
+	foreach( const QModelIndex & index, m_view->selectionModel()->selectedRows() )
+	{
+		const ArchiveEntry& entry = m_model->entryForIndex( index );
+		files << entry[ OriginalFileName ];
+	}
+
+	return files;
+}
+
+void Part::slotExtractionDone( KJob* )
+{
+	kDebug( 1601 ) << k_funcinfo << endl;
 }
 
 void Part::slotAddFiles()

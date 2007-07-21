@@ -22,6 +22,7 @@
 #define ARCHIVEMODEL_H
 
 #include <QAbstractItemModel>
+#include <kjobtrackerinterface.h>
 #include "kerfuffle/archive.h"
 
 class ArchiveNode;
@@ -53,6 +54,9 @@ class ArchiveModel: public QAbstractItemModel
 		int childCount( const QModelIndex &index );
 
 		ExtractJob* extractFile( const QVariant& fileName, const QString & destinationDir, bool preservePaths = false );
+		ExtractJob* extractFiles( const QList<QVariant>& files, const QString & destinationDir, bool preservePaths = false );
+
+		void setJobTracker( KJobTrackerInterface *tracker ) { m_jobTracker = tracker; }
 
 	signals:
 		void loadingStarted();
@@ -69,6 +73,7 @@ class ArchiveModel: public QAbstractItemModel
 
 		Kerfuffle::Archive *m_archive;
 		ArchiveDirNode *m_rootNode;
+		KJobTrackerInterface *m_jobTracker;
 };
 
 #endif // ARCHIVEMODEL_H
