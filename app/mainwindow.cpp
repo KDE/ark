@@ -67,6 +67,8 @@ MainWindow::~MainWindow()
 	{
 		m_recentFilesAction->saveEntries( KGlobal::config()->group( "Recent Files" ) );
 	}
+	delete m_part;
+	m_part = 0;
 }
 
 void MainWindow::setupActions()
