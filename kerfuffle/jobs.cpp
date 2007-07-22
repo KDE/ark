@@ -77,6 +77,8 @@ namespace Kerfuffle
 		         this, SLOT( done( ThreadWeaver::Job* ) ) );
 		connect( job, SIGNAL( progress( double ) ),
 		         this, SLOT( progress( double ) ) );
+		connect( job, SIGNAL( error( const QString&, const QString& ) ),
+		         this, SLOT( error( const QString&, const QString& ) ) );
 
 		ThreadWeaver::Weaver::instance()->enqueue( job );
 	}
@@ -89,6 +91,13 @@ namespace Kerfuffle
 	void ExtractJob::progress( double p )
 	{
 		setPercent( static_cast<unsigned long>( 100.0*p ) );
+	}
+
+	void ExtractJob::error( const QString& errorMessage, const QString& details )
+	{
+		Q_UNUSED( details );
+		setError( 1 );
+		setErrorText( errorMessage );
 	}
 
 	void ListJob::progress( double p )

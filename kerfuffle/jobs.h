@@ -72,6 +72,7 @@ namespace Kerfuffle
 		private slots:
 			void done( ThreadWeaver::Job * );
 			void progress( double );
+			void error( const QString&, const QString& );
 
 		private:
 			QList<QVariant>           m_files;
