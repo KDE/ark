@@ -103,8 +103,13 @@ namespace Kerfuffle
 
 	void AddJob::start()
 	{
-		// TODO: implement it
-		emitResult();
+		emit description( this, i18np( "Adding one file to the archive", "Adding %1 files to the archive", m_files.count() ) );
+		InternalAddJob *job = new InternalAddJob( m_archive, m_files, this );
+		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
+		         this, SLOT( done( ThreadWeaver::Job* ) ) );
+		connect( job, SIGNAL( progress( double ) ),
+		         this, SLOT( progress( double ) ) );
+		ThreadWeaver::Weaver::instance()->enqueue( job );
 	}
 
 	void AddJob::done( ThreadWeaver::Job *job )
