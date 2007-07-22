@@ -38,7 +38,7 @@ class KArchiveInterface: public ReadWriteArchiveInterface
 		bool list();
 		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths );
 
-		bool addFiles( const QList<KUrl> & files );
+		bool addFiles( const QStringList & files );
 		bool deleteFiles( const QList<QVariant> & files );
 
 	private:

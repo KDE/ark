@@ -144,24 +144,23 @@ void KArchiveInterface::createEntryFor( const KArchiveEntry *aentry, const QStri
 	entry( e );
 }
 
-bool KArchiveInterface::addFiles( const QList<KUrl> & files )
+bool KArchiveInterface::addFiles( const QStringList & files )
 {
-	foreach( const KUrl &url, files )
+	foreach( const QString &path, files )
 	{
-		Q_ASSERT( url.isLocalFile() );
-		QFileInfo fi( url.path() );
+		QFileInfo fi( path );
 		Q_ASSERT( fi.exists() );
 
 		if ( fi.isDir() )
 		{
-			if ( !archive()->addLocalDirectory( url.path(), fi.fileName() ) )
+			if ( !archive()->addLocalDirectory( path, fi.fileName() ) )
 			{
 				return false;
 			}
 		}
 		else
 		{
-			if ( !archive()->addLocalFile( url.path(), fi.fileName() ) )
+			if ( !archive()->addLocalFile( path, fi.fileName() ) )
 			{
 				return false;
 			}
