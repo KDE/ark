@@ -214,6 +214,10 @@ void Part::slotPreviewExtracted( KJob *job )
 			KMessageBox::sorry( widget(), i18n( "The internal viewer cannot preview this file." ) );
 		}
 	}
+	else
+	{
+		KMessageBox::error( widget(), job->errorString() );
+	}
 	delete m_previewDir;
 	m_previewDir = 0;
 	delete job;
@@ -276,6 +280,7 @@ void Part::slotExtractionDone( KJob* job )
 	if ( job->error() )
 	{
 		// TODO: do something
+		KMessageBox::error( widget(), job->errorString() );
 	}
 	else
 	{
