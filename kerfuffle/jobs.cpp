@@ -96,7 +96,7 @@ namespace Kerfuffle
 		setPercent( static_cast<unsigned long>( 100.0*p ) );
 	}
 
-	AddJob::AddJob( const QList<KUrl> & files, ReadWriteArchiveInterface *interface, QObject *parent )
+	AddJob::AddJob( const QStringList & files, ReadWriteArchiveInterface *interface, QObject *parent )
 		: KJob( parent ), m_files( files ), m_archive( interface )
 	{
 	}

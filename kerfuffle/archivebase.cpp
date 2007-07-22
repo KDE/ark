@@ -78,7 +78,7 @@ namespace Kerfuffle
 		return 0;
 	}
 
-	AddJob* ArchiveBase::addFiles( const QList<KUrl> & files )
+	AddJob* ArchiveBase::addFiles( const QStringList & files )
 	{
 		Q_ASSERT( !m_iface->isReadOnly() );
 		return new AddJob( files, static_cast<ReadWriteArchiveInterface*>( m_iface ), this );

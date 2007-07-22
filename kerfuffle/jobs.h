@@ -84,7 +84,7 @@ namespace Kerfuffle
 	{
 		Q_OBJECT
 		public:
-			AddJob( const QList<KUrl> & files, ReadWriteArchiveInterface *interface, QObject *parent = 0 );
+			AddJob( const QStringList & files, ReadWriteArchiveInterface *interface, QObject *parent = 0 );
 
 			void start();
 
@@ -93,7 +93,7 @@ namespace Kerfuffle
 			void progress( double );
 
 		private:
-			QList<KUrl>                m_files;
+			QStringList                m_files;
 			ReadWriteArchiveInterface *m_archive;
 
 	};

@@ -73,7 +73,7 @@ namespace Kerfuffle
 
 			virtual bool isReadOnly() const { return false; } // TODO: Bogus, should check if we also can actually write to the file
 
-			virtual bool addFiles( const QList<KUrl> & files ) = 0;
+			virtual bool addFiles( const QStringList & files ) = 0;
 			virtual bool deleteFiles( const QList<QVariant> & files ) = 0;
 	};
 

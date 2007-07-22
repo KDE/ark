@@ -90,7 +90,7 @@ namespace Kerfuffle
 	{
 		Q_OBJECT
 		public:
-			InternalAddJob( ReadWriteArchiveInterface *archive, const QList<KUrl> & files, QObject *parent = 0 );
+			InternalAddJob( ReadWriteArchiveInterface *archive, const QStringList & files, QObject *parent = 0 );
 			~InternalAddJob();
 
 			bool success() const { return m_success; }
@@ -104,7 +104,7 @@ namespace Kerfuffle
 			void error( const QString& errorMessage, const QString& details );
 
 		private:
-			QList<KUrl>                m_files;
+			QStringList                m_files;
 			ReadWriteArchiveInterface *m_archive;
 			ArchiveJobHelper          *m_helper;
 			bool                       m_success;
