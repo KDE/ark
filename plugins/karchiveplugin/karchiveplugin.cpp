@@ -25,6 +25,7 @@
 #include <KTar>
 #include <KMimeType>
 #include <KDebug>
+#include <KLocale>
 
 #include <QFileInfo>
 
@@ -64,7 +65,7 @@ bool KArchiveInterface::list()
 	kDebug( 1601 ) << k_funcinfo << endl;
 	if ( !archive()->open( QIODevice::ReadOnly ) )
 	{
-		error( QString( "Couldn't open the archive '%1' for reading" ).arg( filename() ) );
+		error( i18n( "Could not open the archive '%1' for reading", filename() ) );
 		return false;
 	}
 	else
@@ -146,8 +147,24 @@ void KArchiveInterface::createEntryFor( const KArchiveEntry *aentry, const QStri
 
 bool KArchiveInterface::addFiles( const QStringList & files )
 {
+	kDebug( 1601 ) << k_funcinfo << "Starting..." << endl;
+	delete m_archive;
+	m_archive = 0;
+	/*if ( archive()->isOpen() )
+	{
+		archive()->close();
+	}*/
+	if ( !archive()->open( QIODevice::WriteOnly ) )
+	{
+		error( i18n( "Could not open the archive '%1' for writing.", filename() ) );
+		return false;
+	}
+
+	kDebug( 1601 ) << k_funcinfo << "Archive opened for writing..." << endl;
+	kDebug( 1601 ) << k_funcinfo << "Will add " << files.count() << " files" << endl;
 	foreach( const QString &path, files )
 	{
+		kDebug( 1601 ) << k_funcinfo << "Adding " << path << endl;
 		QFileInfo fi( path );
 		Q_ASSERT( fi.exists() );
 
@@ -155,6 +172,7 @@ bool KArchiveInterface::addFiles( const QStringList & files )
 		{
 			if ( !archive()->addLocalDirectory( path, fi.fileName() ) )
 			{
+				error( i18n( "Could not add the directory %1 to the archive", path ) );
 				return false;
 			}
 		}
@@ -162,10 +180,14 @@ bool KArchiveInterface::addFiles( const QStringList & files )
 		{
 			if ( !archive()->addLocalFile( path, fi.fileName() ) )
 			{
+				error( i18n( "Could not add the file %1 to the archive", path ) );
 				return false;
 			}
 		}
 	}
+	kDebug( 1601 ) << k_funcinfo << "Closing the archive" << endl;
+	archive()->close();
+	kDebug( 1601 ) << k_funcinfo << "Done" << endl;
 	return true;
 }
 
