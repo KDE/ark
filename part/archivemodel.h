@@ -56,6 +56,8 @@ class ArchiveModel: public QAbstractItemModel
 		ExtractJob* extractFile( const QVariant& fileName, const QString & destinationDir, bool preservePaths = false );
 		ExtractJob* extractFiles( const QList<QVariant>& files, const QString & destinationDir, bool preservePaths = false );
 
+		AddJob* addFiles( const QStringList & paths );
+
 		void setJobTracker( KJobTrackerInterface *tracker ) { m_jobTracker = tracker; }
 
 	signals:

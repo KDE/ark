@@ -400,3 +400,11 @@ ExtractJob* ArchiveModel::extractFiles( const QList<QVariant>& files, const QStr
 	Q_ASSERT( m_archive );
 	return m_archive->copyFiles( files, destinationDir, preservePaths );
 }
+
+AddJob* ArchiveModel::addFiles( const QStringList & paths )
+{
+	Q_ASSERT( m_archive );
+	AddJob *job = m_archive->addFiles( paths );
+	m_jobTracker->registerJob( job );
+	return job;
+}

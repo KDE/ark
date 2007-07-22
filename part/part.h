@@ -62,6 +62,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void slotAddFiles();
 		void updateActions();
 		void selectionChanged();
+		void adjustColumns( const QModelIndex & topleft, const QModelIndex& bottomRight );
 
 	private:
 		void setupView();

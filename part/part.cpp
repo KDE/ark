@@ -38,6 +38,7 @@
 #include <KMessageBox>
 #include <KVBox>
 #include <KRun>
+#include <KFileDialog>
 
 #include <QTreeView>
 #include <QCursor>
@@ -100,6 +101,8 @@ void Part::setupView()
 	         this, SLOT( selectionChanged() ) );
 	connect( m_view, SIGNAL( activated( const QModelIndex & ) ),
 	         this, SLOT( slotPreview( const QModelIndex & ) ) );
+	connect( m_model, SIGNAL( dataChanged( const QModelIndex &, const QModelIndex& ) ),
+	         this, SLOT( adjustColumns( const QModelIndex &, const QModelIndex& ) ) );
 }
 
 void Part::setupActions()
@@ -131,7 +134,7 @@ void Part::updateActions()
 {
 	m_previewAction->setEnabled( ( m_view->selectionModel()->selectedRows().count() == 1 ) &&isPreviewable( m_view->selectionModel()->currentIndex() ) );
 	m_extractFilesAction->setEnabled( m_model->archive() );
-	m_addFilesAction->setEnabled( m_model->archive() && ( ! m_model->archive()->isReadOnly() ) );
+	m_addFilesAction->setEnabled( m_model->archive() && ( !m_model->archive()->isReadOnly() ) );
 }
 
 bool Part::isPreviewable( const QModelIndex & index )
@@ -231,11 +234,6 @@ void Part::slotError( const QString& errorMessage, const QString& details )
 void Part::slotExtractFiles()
 {
 	kDebug( 1601 ) << k_funcinfo << endl;
-	foreach( const QModelIndex &index, m_view->selectionModel()->selectedRows() )
-	{
-		const ArchiveEntry & entry = m_model->entryForIndex( index );
-		kDebug( 1601 ) << k_funcinfo << "Entry: " << entry[ FileName ].toString() << endl;
-	}
 
 	ExtractionDialog dialog;
 	if ( m_view->selectionModel()->selectedRows().count() > 0 )
@@ -245,9 +243,6 @@ void Part::slotExtractFiles()
 
 	if ( dialog.exec() )
 	{
-		kDebug( 1601 ) << k_funcinfo << "Extract all files: " << dialog.extractAllFiles() << endl;
-		kDebug( 1601 ) << k_funcinfo << "Open destination : " << dialog.openDestinationAfterExtraction() << endl;
-		kDebug( 1601 ) << k_funcinfo << "Destination Url  : " << dialog.destinationDirectory() << endl;
 		ArkSettings::setOpenDestinationFolderAfterExtraction( dialog.openDestinationAfterExtraction() );
 		ArkSettings::setLastExtractionFolder( dialog.destinationDirectory().path() );
 
@@ -291,7 +286,28 @@ void Part::slotExtractionDone( KJob* job )
 	}
 }
 
+void Part::adjustColumns( const QModelIndex & topleft, const QModelIndex& bottomRight )
+{
+	kDebug( 1601 ) << k_funcinfo << endl;
+	int firstColumn= topleft.column();
+	int lastColumn = bottomRight.column();
+	do
+	{
+		m_view->resizeColumnToContents(firstColumn);
+		firstColumn++;
+	} while (firstColumn < lastColumn);
+}
+
 void Part::slotAddFiles()
 {
 	kDebug( 1601 ) << k_funcinfo << endl;
+	QStringList filesToAdd = KFileDialog::getOpenFileNames( KUrl( "kfiledialog:///ArkAddFiles" ), QString(), widget(), i18n( "Add Files" ) );
+
+	if ( !filesToAdd.isEmpty() )
+	{
+		AddJob *job = m_model->addFiles( filesToAdd );
+		connect( job, SIGNAL( result( KJob* ) ),
+		         this, SLOT( slotAddFilesDone( KJob* ) ) );
+		job->start();
+	}
 }
