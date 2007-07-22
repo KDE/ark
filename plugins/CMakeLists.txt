@@ -1,5 +1,8 @@
 if (LIBARCHIVE_FOUND)
 	add_subdirectory( libarchive )
 endif (LIBARCHIVE_FOUND)
+if (LIBZIP_FOUND)
+	add_subdirectory( libzipplugin )
+endif (LIBZIP_FOUND)
 add_subdirectory( bk )
 add_subdirectory( karchiveplugin )

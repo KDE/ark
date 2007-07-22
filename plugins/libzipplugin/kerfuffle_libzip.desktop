@@ -1,0 +1,16 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+ServiceTypes=Kerfuffle/Plugin
+X-KDE-Library=kerfuffle_libzip
+X-KDE-PluginInfo-Author=Henrique Pinto
+X-KDE-PluginInfo-Email=henrique.pinto@kdemail.net
+X-KDE-PluginInfo-Name=kerfuffle_libzip
+X-KDE-PluginInfo-Version=0.0.1
+X-KDE-PluginInfo-Website=http://www.kde.org
+X-KDE-PluginInfo-License=BSD
+X-KDE-Priority=150
+X-KDE-Kerfuffle-APIRevision=1
+Name=kerfuffle_libzip
+Comment=libzip plugin for Kerfuffle
+MimeType=application/zip;application/x-zip-compressed;
