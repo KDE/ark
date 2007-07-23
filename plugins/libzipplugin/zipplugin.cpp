@@ -25,6 +25,12 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 		~LibZipInterface()
 		{
+			kDebug( 1601 ) << k_funcinfo << endl;
+			if ( m_archive )
+			{
+				zip_close( m_archive );
+				m_archive = 0;
+			}
 		}
 
 		bool open()
@@ -39,6 +45,36 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			return true;
 		}
 
+		void emitEntryForIndex( int index )
+		{
+			struct zip_stat stat;
+			if ( zip_stat_index( m_archive, index, 0, &stat ) != 0 )
+			{
+				error( i18n( "An error occured while trying to read entry #%1 of the archive", index ) );
+				return;
+			}
+
+			ArchiveEntry e;
+
+			e[ FileName ]         = QString( stat.name );
+			e[ OriginalFileName ] = QByteArray( stat.name );
+			e[ CRC ]              = stat.crc;
+			e[ Size ]             = static_cast<qulonglong>( stat.size );
+			e[ Timestamp ]        = QDateTime::fromTime_t( stat.mtime );
+			e[ CompressedSize ]   = static_cast<qulonglong>( stat.comp_size );
+			e[ Method ]           = stat.comp_method;
+			/*
+			const char *comment = zip_get_file_comment( m_archive, index, 0, 0 );
+			if ( comment )
+			{
+				e[ Comment ] = QString( comment );
+			}
+			*/
+
+			entry( e );
+			kDebug( 1601 ) << k_funcinfo << "Entry for index " << index << " emmited." << endl;
+		}
+
 		bool list()
 		{
 			if ( !open() ) // TODO: open should be called by the user, not by us
@@ -50,31 +86,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 			for ( int index = 0; index < zip_get_num_files( m_archive ); ++index )
 			{
-				struct zip_stat stat;
-				if ( zip_stat_index( m_archive, index, 0, &stat ) != 0 )
-				{
-					error( i18n( "An error occured while trying to read entry #%1 of the archive", index ) );
-					continue;
-				}
-
-				ArchiveEntry e;
-
-				e[ FileName ]         = QString( stat.name );
-				e[ OriginalFileName ] = QByteArray( stat.name );
-				e[ CRC ]              = stat.crc;
-				e[ Size ]             = static_cast<qulonglong>( stat.size );
-				e[ Timestamp ]        = QDateTime::fromTime_t( stat.mtime );
-				e[ CompressedSize ]   = static_cast<qulonglong>( stat.comp_size );
-				e[ Method ]           = stat.comp_method;
-				const char *comment = zip_get_file_comment( m_archive, index, 0, 0 );
-
-				if ( comment )
-				{
-					e[ Comment ] = QString( comment );
-				}
-
-				entry( e );
-
+				emitEntryForIndex( index );
 				progress( ( index+1 ) * 1.0/zip_get_num_files( m_archive ) );
 			}
 			return true;
@@ -142,7 +154,43 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 		bool addFiles( const QStringList & files )
 		{
-			return false;
+			kDebug( 1601 ) << k_funcinfo << "adding " << files.count() << " files"<< endl;
+			progress( 0.0 );
+			int processed = 0;
+			foreach( const QString & file, files )
+			{
+				kDebug( 1601 ) << k_funcinfo << "Adding " << file << endl;
+				QFileInfo fi( file );
+				if ( fi.isDir() )
+				{
+					error( i18n( "Adding directories is not supported yet, sorry." ) );
+					return false;
+				}
+
+				kDebug( 1601 ) << k_funcinfo << file << " is not a dir, good" << endl;
+
+				struct zip_source *source = zip_source_file( m_archive, fi.absoluteFilePath().toLocal8Bit(), 0, -1 );
+				if ( !source )
+				{
+					error( i18n( "Could not read from the input file '%1'", file ) );
+					return false;
+				}
+
+				kDebug( 1601 ) << k_funcinfo << "We have a valid source for " << file << endl;
+
+				int index;
+				if (  ( index = zip_add( m_archive, fi.fileName().toLocal8Bit(), source ) ) < 0 )
+				{
+					error( i18n( "Could not add the file %1 to the archive.", fi.fileName() ) );
+				}
+
+				kDebug( 1601 ) << k_funcinfo << file << " was added to the archive, index is " << index << endl;
+
+				emitEntryForIndex( index );
+				progress( ( ++processed )*1.0/files.count() );
+			}
+			kDebug( 1601 ) << k_funcinfo << "And we're done :)" << endl;
+			return true;
 		}
 
 		bool deleteFiles( const QList<QVariant> & files )
