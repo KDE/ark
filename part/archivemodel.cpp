@@ -331,13 +331,11 @@ QModelIndex ArchiveModel::indexForNode( ArchiveNode *node )
 void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 {
 	/// 1. Find Parent Node
-
 	ArchiveDirNode *parent  = parentFor( entry ); // TODO: Don't make everyone child of the root, obey the hierarchy
 	QModelIndex parentIndex = indexForNode( parent );
 
 
 	/// 2. Create an ArchiveNode
-
 	QString name = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts ).last();
 	ArchiveNode *node = parent->find( name );
 	if ( node )
@@ -406,5 +404,7 @@ AddJob* ArchiveModel::addFiles( const QStringList & paths )
 	Q_ASSERT( m_archive );
 	AddJob *job = m_archive->addFiles( paths );
 	m_jobTracker->registerJob( job );
+	connect( job, SIGNAL( newEntry( const ArchiveEntry& ) ),
+		 this, SLOT( slotNewEntry( const ArchiveEntry& ) ) );
 	return job;
 }

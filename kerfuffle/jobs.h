@@ -89,6 +89,10 @@ namespace Kerfuffle
 
 			void start();
 
+		signals:
+			void newEntry( const ArchiveEntry & );
+			void error( const QString& errorMessage, const QString& details );
+
 		private slots:
 			void done( ThreadWeaver::Job * );
 			void progress( double );
