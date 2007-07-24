@@ -16,7 +16,7 @@ kde4_add_ui_files(ark_KDEINIT_SRCS general.ui )
 
 kde4_add_kdeinit_executable( ark ${ark_KDEINIT_SRCS})
 
-target_link_libraries(kdeinit_ark  ${KDE4_KDE3SUPPORT_LIBS} )
+target_link_libraries(kdeinit_ark  ${KDE4_KDEUI_LIBS} ${KDE4_KDE3SUPPORT_LIBS} )
 
 install(TARGETS kdeinit_ark  DESTINATION ${LIB_INSTALL_DIR})
 
@@ -50,7 +50,7 @@ kde4_add_ui_files(arkpart_PART_SRCS general.ui )
 kde4_add_plugin(arkpart WITH_PREFIX ${arkpart_PART_SRCS})
 
 
-target_link_libraries(arkpart ${KDE4_KFILE_LIBS})
+target_link_libraries(arkpart ${KDE4_KFILE_LIBS} ${KDE4_KDEUI_LIBS})
 
 install(TARGETS arkpart  DESTINATION ${PLUGIN_INSTALL_DIR})
 
