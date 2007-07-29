@@ -124,8 +124,16 @@ void Part::setupActions()
 	m_addFilesAction = actionCollection()->addAction( "add" );
 	m_addFilesAction->setIcon( KIcon( "ark-addfile" ) );
 	m_addFilesAction->setText( i18n( "Add &File..." ) );
+	m_addFilesAction->setStatusTip( i18n( "Click to add files to the archive" ) );
 	connect( m_addFilesAction, SIGNAL( triggered( bool ) ),
 	         this, SLOT( slotAddFiles() ) );
+
+	m_deleteFilesAction = actionCollection()->addAction( "delete" );
+	m_deleteFilesAction->setIcon( KIcon( "ark-delete" ) );
+	m_deleteFilesAction->setText( i18n( "De&lete" ) );
+	m_deleteFilesAction->setStatusTip( i18n( "Click to delete the selected files" ) );
+	connect( m_deleteFilesAction, SIGNAL( triggered( bool ) ),
+	         this, SLOT( slotDeleteFiles() ) );
 
 	updateActions();
 }
@@ -135,6 +143,8 @@ void Part::updateActions()
 	m_previewAction->setEnabled( ( m_view->selectionModel()->selectedRows().count() == 1 ) &&isPreviewable( m_view->selectionModel()->currentIndex() ) );
 	m_extractFilesAction->setEnabled( m_model->archive() );
 	m_addFilesAction->setEnabled( m_model->archive() && ( !m_model->archive()->isReadOnly() ) );
+	m_deleteFilesAction->setEnabled( ( m_view->selectionModel()->selectedRows().count() > 0 )
+	                                 && ( m_model->archive() && ( !m_model->archive()->isReadOnly() ) ) );
 }
 
 bool Part::isPreviewable( const QModelIndex & index )
@@ -315,4 +325,9 @@ void Part::slotAddFiles()
 		         this, SLOT( slotAddFilesDone( KJob* ) ) );
 		job->start();
 	}
+}
+
+void Part::slotDeleteFiles()
+{
+	kDebug( 1601 ) << k_funcinfo << endl;
 }

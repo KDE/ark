@@ -102,6 +102,27 @@ namespace Kerfuffle
 			ReadWriteArchiveInterface *m_archive;
 
 	};
+
+	class KERFUFFLE_EXPORT DeleteJob: public KJob
+	{
+		Q_OBJECT
+		public:
+			DeleteJob( const QList<QVariant>& files, ReadWriteArchiveInterface *interface, QObject *parent = 0 );
+
+			void start();
+
+		signals:
+			void entryDeleted( const QString & entry );
+			void error( const QString& errorMessage, const QString& details );
+
+		private slots:
+			void done( ThreadWeaver::Job * );
+			void progress( double );
+
+		private:
+			QList<QVariant>            m_files;
+			ReadWriteArchiveInterface *m_archive;
+	};
 } // namespace Kerfuffle
 
 #endif // JOBS_H

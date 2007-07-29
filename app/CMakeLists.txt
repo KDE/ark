@@ -11,5 +11,5 @@ install( TARGETS ark  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### install files ###############
 
-install( FILES ark.desktop DESTINATION ${XDG_APPS_DIR} )
+install( FILES ark.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
 install( FILES arkui.rc    DESTINATION ${DATA_INSTALL_DIR}/ark )

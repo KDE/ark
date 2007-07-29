@@ -63,6 +63,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			e[ Timestamp ]        = QDateTime::fromTime_t( stat.mtime );
 			e[ CompressedSize ]   = static_cast<qulonglong>( stat.comp_size );
 			e[ Method ]           = stat.comp_method;
+			// TODO: zip_get_file_comment returns junk sometimes, find out why
 			/*
 			const char *comment = zip_get_file_comment( m_archive, index, 0, 0 );
 			if ( comment )
@@ -195,7 +196,18 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 		bool deleteFiles( const QList<QVariant> & files )
 		{
-			return false;
+			foreach( const QVariant& file, files )
+			{
+				int index = zip_name_locate( m_archive, file.toByteArray(), 0 );
+				if ( index < 0 )
+				{
+					error( i18n( "Could not find a file named %1 in the archive.", file.toString() ) );
+					return false;
+				}
+				zip_delete( m_archive, index );
+				// TODO: emit some signal to inform the model of the deleted entry
+			}
+			return true;
 		}
 
 	private:

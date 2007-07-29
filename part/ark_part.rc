@@ -4,12 +4,14 @@
 	<Menu name="action">
 		<text>&amp;Action</text>
 		<Action name="add"/>
+		<Action name="delete"/>
 		<Action name="extract"/>
 		<Action name="preview"/>
 	</Menu>
 </MenuBar>
 <ToolBar name="mainToolBar">
 	<Action name="add"/>
+	<Action name="delete"/>
 	<Action name="extract"/>
 	<Action name="preview"/>
 </ToolBar>

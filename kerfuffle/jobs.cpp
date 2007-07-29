@@ -133,4 +133,25 @@ namespace Kerfuffle
 		setPercent( static_cast<unsigned long>( 100.0*p ) );
 	}
 
+	DeleteJob::DeleteJob( const QList<QVariant>& files, ReadWriteArchiveInterface *interface, QObject *parent )
+		: KJob( parent ), m_files( files ), m_archive( interface )
+	{
+	}
+
+	void DeleteJob::start()
+	{
+		emit description( this, i18np( "Deleting one file from the archive", "Deleting %n files from the archive", m_files.count() ) );
+		done( 0 );
+	}
+
+	void DeleteJob::done( ThreadWeaver::Job *job )
+	{
+		emitResult();
+	}
+
+	void DeleteJob::progress( double p )
+	{
+		setPercent( static_cast<unsigned long>( 100.0*p ) );
+	}
+
 } // namespace Kerfuffle
