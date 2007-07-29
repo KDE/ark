@@ -38,14 +38,29 @@ namespace Kerfuffle
 {
 	class ArchiveJobHelper;
 
-	class InternalListingJob: public ThreadWeaver::Job
+	class InternalJob: public ThreadWeaver::Job
+	{
+		Q_OBJECT
+		public:
+			InternalJob( QObject *parent = 0 );
+			~InternalJob();
+
+			bool success() const { return m_success; }
+
+		protected:
+			void setSuccess( bool success ) { m_success = success; }
+
+		private:
+			bool m_success;
+	};
+
+	class InternalListingJob: public InternalJob
 	{
 		Q_OBJECT
 		public:
 			InternalListingJob( ReadOnlyArchiveInterface *archive, QObject *parent = 0 );
 			~InternalListingJob();
 
-			bool success() const { return m_success; }
 		protected:
 			void run();
 
@@ -58,17 +73,14 @@ namespace Kerfuffle
 			QList<ArchiveEntry>       m_entries;
 			ArchiveJobHelper         *m_helper;
 			ReadOnlyArchiveInterface *m_archive;
-			bool                      m_success;
 	};
 
-	class InternalExtractJob: public ThreadWeaver::Job
+	class InternalExtractJob: public InternalJob
 	{
 		Q_OBJECT
 		public:
 			InternalExtractJob( ReadOnlyArchiveInterface *archive, const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths = false, QObject *parent = 0 );
 			~InternalExtractJob();
-
-			bool success() const { return m_success; }
 
 		protected:
 			void run();
@@ -82,18 +94,15 @@ namespace Kerfuffle
 			QList<QVariant>           m_files;
 			QString                   m_destinationDirectory;
 			ArchiveJobHelper         *m_helper;
-			bool                      m_success;
 			bool                      m_preservePaths;
 	};
 
-	class InternalAddJob: public ThreadWeaver::Job
+	class InternalAddJob: public InternalJob
 	{
 		Q_OBJECT
 		public:
 			InternalAddJob( ReadWriteArchiveInterface *archive, const QStringList & files, QObject *parent = 0 );
 			~InternalAddJob();
-
-			bool success() const { return m_success; }
 
 		protected:
 			void run();
@@ -107,7 +116,26 @@ namespace Kerfuffle
 			QStringList                m_files;
 			ReadWriteArchiveInterface *m_archive;
 			ArchiveJobHelper          *m_helper;
-			bool                       m_success;
+	};
+
+	class InternalDeleteJob: public InternalJob
+	{
+		Q_OBJECT
+		public:
+			InternalDeleteJob( ReadWriteArchiveInterface *archive, const QList<QVariant> & entries, QObject *parent = 0 );
+			~InternalDeleteJob();
+
+		protected:
+			void run();
+
+		signals:
+			void entryRemoved( const QString& path );
+
+		private:
+			QList<QVariant>            m_entries;
+			ReadWriteArchiveInterface *m_archive;
+			ArchiveJobHelper          *m_helper;
+
 	};
 
 	class ArchiveJobHelper: public QObject, public ArchiveObserver
@@ -121,15 +149,14 @@ namespace Kerfuffle
 
 			void onError( const QString & message, const QString & details = QString() );
 			void onEntry( const ArchiveEntry & archiveEntry );
+			void onEntryRemoved( const QString & path );
 			void onProgress( double );
 
 		signals:
 			void entry( const ArchiveEntry & );
 			void progress( double );
 			void error( const QString & message, const QString & details );
-
-		private slots:
-				void entryslot( const ArchiveEntry & );
+			void entryRemoved( const QString & path );
 
 		private:
 			ReadOnlyArchiveInterface *m_archive;

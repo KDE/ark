@@ -58,6 +58,7 @@ namespace Kerfuffle
 			void error( const QString & message, const QString & details = QString() );
 			void entry( const ArchiveEntry & archiveEntry );
 			void progress( double );
+			void entryRemoved( const QString& path );
 
 		private:
 			QList<ArchiveObserver*> m_observers;

@@ -53,7 +53,7 @@ namespace Kerfuffle
 			virtual KJob* open();
 			virtual KJob* create();
 			virtual ListJob* list();
-			virtual KJob* deleteFiles( const QList<QVariant> & files );
+			virtual DeleteJob* deleteFiles( const QList<QVariant> & files );
 			virtual AddJob* addFiles( const QStringList & files );
 			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, bool preservePaths = false );
 

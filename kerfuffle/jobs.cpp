@@ -113,13 +113,16 @@ namespace Kerfuffle
 	void AddJob::start()
 	{
 		emit description( this, i18np( "Adding one file to the archive", "Adding %1 files to the archive", m_files.count() ) );
+		
 		InternalAddJob *job = new InternalAddJob( m_archive, m_files, this );
+		
 		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
 		         this, SLOT( done( ThreadWeaver::Job* ) ) );
 		connect( job, SIGNAL( progress( double ) ),
 		         this, SLOT( progress( double ) ) );
 		connect( job, SIGNAL( entry( const ArchiveEntry& ) ),
 		         this, SIGNAL( newEntry( const ArchiveEntry & ) ) );
+		
 		ThreadWeaver::Weaver::instance()->enqueue( job );
 	}
 
@@ -141,7 +144,15 @@ namespace Kerfuffle
 	void DeleteJob::start()
 	{
 		emit description( this, i18np( "Deleting one file from the archive", "Deleting %n files from the archive", m_files.count() ) );
-		done( 0 );
+
+		InternalDeleteJob *job = new InternalDeleteJob( m_archive, m_files, this );
+
+		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
+		         this, SLOT( done( ThreadWeaver::Job* ) ) );
+		connect( job, SIGNAL( progress( double ) ),
+		         this, SLOT( progress( double ) ) );
+
+		ThreadWeaver::Weaver::instance()->enqueue( job );
 	}
 
 	void DeleteJob::done( ThreadWeaver::Job *job )

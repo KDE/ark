@@ -330,4 +330,8 @@ void Part::slotAddFiles()
 void Part::slotDeleteFiles()
 {
 	kDebug( 1601 ) << k_funcinfo << endl;
+	DeleteJob *job = m_model->deleteFiles( selectedFiles() );
+	connect( job, SIGNAL( result( KJob* ) ),
+	         this, SLOT( slotDeleteFilesDone( KJob* ) ) );
+	job->start();
 }

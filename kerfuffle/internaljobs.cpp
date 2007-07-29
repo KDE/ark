@@ -29,9 +29,17 @@
 
 namespace Kerfuffle
 {
+	InternalJob::InternalJob( QObject *parent )
+		: ThreadWeaver::Job( parent ), m_success( false )
+	{
+	}
+
+	InternalJob::~InternalJob()
+	{
+	}
 
 	InternalListingJob::InternalListingJob( ReadOnlyArchiveInterface *archive, QObject *parent )
-		: ThreadWeaver::Job( parent ), m_helper( 0 ), m_archive( archive ), m_success( false )
+		: InternalJob( parent ), m_helper( 0 ), m_archive( archive )
 	{
 	}
 
@@ -50,12 +58,12 @@ namespace Kerfuffle
 			 this, SIGNAL( progress( double ) ) );
 		connect( m_helper, SIGNAL( error( const QString&, const QString& ) ),
 			 this, SIGNAL( error( const QString&, const QString& ) ) );
-		m_success = m_helper->getTheListing();
+		setSuccess( m_helper->getTheListing() );
 	}
 
 	InternalExtractJob::InternalExtractJob( ReadOnlyArchiveInterface *archive, const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths, QObject *parent )
-		: ThreadWeaver::Job( parent ), m_archive( archive ), m_files( files ), m_destinationDirectory( destinationDirectory ),
-		  m_helper( 0 ), m_success( false ), m_preservePaths( preservePaths )
+		: InternalJob( parent ), m_archive( archive ), m_files( files ), m_destinationDirectory( destinationDirectory ),
+		  m_helper( 0 ), m_preservePaths( preservePaths )
 	{
 
 	}
@@ -74,12 +82,12 @@ namespace Kerfuffle
 		connect( m_helper, SIGNAL( error( const QString&, const QString& ) ),
 			 this, SIGNAL( error( const QString&, const QString& ) ) );
 		m_archive->registerObserver( m_helper );
-		m_success = m_archive->copyFiles( m_files, m_destinationDirectory, m_preservePaths );
+		setSuccess( m_archive->copyFiles( m_files, m_destinationDirectory, m_preservePaths ) );
 		m_archive->removeObserver( m_helper );
 	}
 
 	InternalAddJob::InternalAddJob( ReadWriteArchiveInterface *archive, const QStringList & files, QObject *parent )
-		: ThreadWeaver::Job( parent ), m_files( files ), m_archive( archive ), m_helper( 0 ), m_success( false )
+		: InternalJob( parent ), m_files( files ), m_archive( archive ), m_helper( 0 )
 	{
 	}
 
@@ -101,7 +109,35 @@ namespace Kerfuffle
 			 this, SIGNAL( error( const QString&, const QString& ) ) );
 
 		m_archive->registerObserver( m_helper );
-		m_success = m_archive->addFiles( m_files );
+		setSuccess( m_archive->addFiles( m_files ) );
+		m_archive->removeObserver( m_helper );
+	}
+
+	InternalDeleteJob::InternalDeleteJob( ReadWriteArchiveInterface *archive, const QList<QVariant> & entries, QObject *parent )
+		: InternalJob( parent ), m_entries( entries ), m_archive( archive ), m_helper( 0 )
+	{
+	}
+
+	InternalDeleteJob::~InternalDeleteJob()
+	{
+		delete m_helper;
+		m_helper = 0;
+	}
+
+	void InternalDeleteJob::run()
+	{
+		m_helper = new ArchiveJobHelper( m_archive );
+
+		// TODO: Connect the signals
+		connect( m_helper, SIGNAL( entryRemoved( const QString& ) ),
+		         this, SIGNAL( entryRemoved( const QString& ) ) );
+		connect( m_helper, SIGNAL( progress( double ) ),
+			 this, SIGNAL( progress( double ) ) );
+		connect( m_helper, SIGNAL( error( const QString&, const QString& ) ),
+			 this, SIGNAL( error( const QString&, const QString& ) ) );
+
+		m_archive->registerObserver( m_helper );
+		setSuccess( m_archive->deleteFiles( m_entries ) );
 		m_archive->removeObserver( m_helper );
 	}
 
@@ -137,11 +173,11 @@ namespace Kerfuffle
 		emit progress( d );
 	}
 
-
-	void ArchiveJobHelper::entryslot( const ArchiveEntry & e )
+	void ArchiveJobHelper::onEntryRemoved( const QString & path )
 	{
-		kDebug( 1601 ) << k_funcinfo << "Entry: " << e[ FileName ] << ", Owner = " << e[ Owner ] << endl;
+		emit entryRemoved( path );
 	}
+
 
 } // namespace Kerfuffle
 

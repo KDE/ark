@@ -73,9 +73,13 @@ namespace Kerfuffle
 		return new ListJob( m_iface, this );
 	}
 
-	KJob* ArchiveBase::deleteFiles( const QList<QVariant> & files )
+	DeleteJob* ArchiveBase::deleteFiles( const QList<QVariant> & files )
 	{
-		return 0;
+		if ( m_iface->isReadOnly() )
+		{
+			return 0;
+		}
+		return new DeleteJob( files, static_cast<ReadWriteArchiveInterface*>( m_iface ), this );
 	}
 
 	AddJob* ArchiveBase::addFiles( const QStringList & files )

@@ -328,6 +328,11 @@ QModelIndex ArchiveModel::indexForNode( ArchiveNode *node )
 	return QModelIndex();
 }
 
+void ArchiveModel::slotEntryRemoved( const QString & path )
+{
+	// TODO: Do something
+}
+
 void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 {
 	/// 1. Find Parent Node
@@ -407,4 +412,18 @@ AddJob* ArchiveModel::addFiles( const QStringList & paths )
 	connect( job, SIGNAL( newEntry( const ArchiveEntry& ) ),
 		 this, SLOT( slotNewEntry( const ArchiveEntry& ) ) );
 	return job;
+}
+
+DeleteJob* ArchiveModel::deleteFiles( const QList<QVariant> & files )
+{
+	Q_ASSERT( m_archive );
+	if ( !m_archive->isReadOnly() )
+	{
+		DeleteJob *job = m_archive->deleteFiles( files );
+		m_jobTracker->registerJob( job );
+		connect( job, SIGNAL( entryRemoved( const QString & ) ),
+		         this, SLOT( slotEntryRemoved( const QString & ) ) );
+		return job;
+	}
+	return 0;
 }

@@ -39,6 +39,7 @@ namespace Kerfuffle
 {
 	class ListJob;
 	class ExtractJob;
+	class DeleteJob;
 	class AddJob;
 
 	enum EntryMetaDataType { FileName = 0, OriginalFileName = 1, Permissions = 2, Owner = 3,
@@ -55,11 +56,11 @@ namespace Kerfuffle
 			virtual QString fileName() = 0;
 			virtual bool isReadOnly() = 0;
 			
-			virtual KJob* open() = 0;
-			virtual KJob* create() = 0;
-			virtual ListJob* list() = 0;
-			virtual KJob* deleteFiles( const QList<QVariant> & files ) = 0;
-			virtual AddJob* addFiles( const QStringList & files ) = 0;
+			virtual KJob*       open() = 0;
+			virtual KJob*       create() = 0;
+			virtual ListJob*    list() = 0;
+			virtual DeleteJob*  deleteFiles( const QList<QVariant> & files ) = 0;
+			virtual AddJob*     addFiles( const QStringList & files ) = 0;
 			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, bool preservePaths = false ) = 0;
 	};
 

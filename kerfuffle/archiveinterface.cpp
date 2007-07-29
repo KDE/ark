@@ -53,6 +53,14 @@ namespace Kerfuffle
 		}
 	}
 
+	void ReadOnlyArchiveInterface::entryRemoved( const QString & path )
+	{
+		foreach( ArchiveObserver *observer, m_observers )
+		{
+			observer->onEntryRemoved( path );
+		}
+	}
+
 	void ReadOnlyArchiveInterface::progress( double p )
 	{
 		foreach( ArchiveObserver *observer, m_observers )

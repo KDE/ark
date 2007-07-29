@@ -57,6 +57,7 @@ class ArchiveModel: public QAbstractItemModel
 		ExtractJob* extractFiles( const QList<QVariant>& files, const QString & destinationDir, bool preservePaths = false );
 
 		AddJob* addFiles( const QStringList & paths );
+		DeleteJob* deleteFiles( const QList<QVariant> & files );
 
 		void setJobTracker( KJobTrackerInterface *tracker ) { m_jobTracker = tracker; }
 
@@ -68,6 +69,7 @@ class ArchiveModel: public QAbstractItemModel
 
 	private slots:
 		void slotNewEntry( const ArchiveEntry& entry );
+		void slotEntryRemoved( const QString & path );
 
 	private:
 		ArchiveDirNode* parentFor( const ArchiveEntry& entry );

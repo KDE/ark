@@ -73,7 +73,6 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			*/
 
 			entry( e );
-			kDebug( 1601 ) << k_funcinfo << "Entry for index " << index << " emmited." << endl;
 		}
 
 		bool list()
@@ -206,6 +205,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				}
 				zip_delete( m_archive, index );
 				// TODO: emit some signal to inform the model of the deleted entry
+				entryRemoved( file.toString() );
 			}
 			return true;
 		}
