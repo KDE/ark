@@ -112,7 +112,7 @@ namespace Kerfuffle
 			void start();
 
 		signals:
-			void entryDeleted( const QString & entry );
+			void entryRemoved( const QString & entry );
 			void error( const QString& errorMessage, const QString& details );
 
 		private slots:

@@ -151,6 +151,8 @@ namespace Kerfuffle
 		         this, SLOT( done( ThreadWeaver::Job* ) ) );
 		connect( job, SIGNAL( progress( double ) ),
 		         this, SLOT( progress( double ) ) );
+		connect( job, SIGNAL( entryRemoved( const QString& ) ),
+		         this, SIGNAL( entryRemoved( const QString& ) ) );
 
 		ThreadWeaver::Weaver::instance()->enqueue( job );
 	}

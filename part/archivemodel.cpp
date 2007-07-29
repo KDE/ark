@@ -108,6 +108,25 @@ class ArchiveDirNode: public ArchiveNode
 			return 0;
 		}
 
+		ArchiveNode* findByPath( const QString & path )
+		{
+			QStringList pieces = path.split( '/' );
+			if ( pieces.isEmpty() )
+			{
+				return 0;
+			}
+
+			ArchiveNode *next = find( pieces[ 0 ] );
+
+			if ( pieces.count() == 1 )
+			{
+				return next;
+			}
+			if ( next->isDir() )
+				return static_cast<ArchiveDirNode*>( next )->findByPath( pieces.join( "/" ) );
+			return 0;
+		}
+
 		void clear()
 		{
 			qDeleteAll( m_entries );
@@ -331,6 +350,19 @@ QModelIndex ArchiveModel::indexForNode( ArchiveNode *node )
 void ArchiveModel::slotEntryRemoved( const QString & path )
 {
 	// TODO: Do something
+	ArchiveNode *entry = m_rootNode->findByPath( path );
+	if ( entry )
+	{
+		ArchiveDirNode *parent = entry->parent();
+		QModelIndex index = indexForNode( entry );
+
+		beginRemoveRows( indexForNode( parent ), entry->row(), entry->row() );
+
+		delete parent->entries()[ entry->row() ];
+		parent->entries()[ entry->row() ] = 0;
+
+		endRemoveRows();
+	}
 }
 
 void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
