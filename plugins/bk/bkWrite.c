@@ -1,8 +1,8 @@
-/******************************* LICENCE **************************************
+/******************************* LICENSE **************************************
 * Any code in this file may be redistributed or modified under the terms of
-* the GNU General Public Licence as published by the Free Software 
-* Foundation; version 2 of the licence.
-****************************** END LICENCE ***********************************/
+* the GNU General Public License as published by the Free Software 
+* Foundation; version 2 of the license.
+****************************** END LICENSE ***********************************/
 
 /******************************************************************************
 * Author:
@@ -1128,7 +1128,7 @@ int writeDr(VolInfo* volInfo, BaseToWrite* node, time_t recordingTime, bool isAD
 
 /******************************************************************************
 * writeElToritoBootCatalog()
-* Write the el torito boot catalog (validation entry and inital/default entry).
+* Write the el torito boot catalog (validation entry and initial/default entry).
 * Returns the offset where the boot record sector number should
 * be written (7.3.1).
 * */
@@ -1560,7 +1560,7 @@ int writeLongNM(VolInfo* volInfo, BaseToWrite* node)
     CErecord[2] = 28; /* length */
     CErecord[3] = 1; /* version */
     write733ToByteArray(CErecord + 4, startPos / NBYTES_LOGICAL_BLOCK); /* block location */
-    /* i'm always using 1 logical block per name */
+    /* i am always using 1 logical block per name */
     write733ToByteArray(CErecord + 12, 0); /* offset to start */
     write733ToByteArray(CErecord + 20, lenOfCE); /* length */
     
@@ -1787,7 +1787,7 @@ int writePathTableRecordsOnLevel(VolInfo* volInfo, const DirToWrite* dir,
             if( IS_DIR(child->posixFileMode) )
             {
                 if(thisLevel == targetLevel - 2)
-                /* am now going throught the list of dirs where the parent is */
+                /* am now going through the list of dirs where the parent is */
                 {
                     if(targetLevel != 2)
                     /* first and second level have the same parent: 1 */
@@ -2296,25 +2296,25 @@ int writeVolDescriptor(VolInfo* volInfo, off_t rootDrLocation,
     if(rc <= 0)
         return rc;
     
-    /* location of occurence of type l path table */
+    /* location of occurrence of type l path table */
     anUnsigned = lPathTableLoc / NBYTES_LOGICAL_BLOCK;
     rc = write731(volInfo, anUnsigned);
     if(rc <= 0)
         return rc;
     
-    /* location of optional occurence of type l path table */
+    /* location of optional occurrence of type l path table */
     anUnsigned = 0;
     rc = write731(volInfo, anUnsigned);
     if(rc <= 0)
         return rc;
     
-    /* location of occurence of type m path table */
+    /* location of occurrence of type m path table */
     anUnsigned = mPathTableLoc / NBYTES_LOGICAL_BLOCK;
     rc = write732(volInfo, anUnsigned);
     if(rc <= 0)
         return rc;
     
-    /* location of optional occurence of type m path table */
+    /* location of optional occurrence of type m path table */
     anUnsigned = 0;
     rc = write732(volInfo, anUnsigned);
     if(rc <= 0)

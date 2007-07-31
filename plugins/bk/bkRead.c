@@ -1,8 +1,8 @@
-/******************************* LICENCE **************************************
+/******************************* LICENSE **************************************
 * Any code in this file may be redistributed or modified under the terms of
-* the GNU General Public Licence as published by the Free Software 
-* Foundation; version 2 of the licence.
-****************************** END LICENCE ***********************************/
+* the GNU General Public License as published by the Free Software 
+* Foundation; version 2 of the license.
+****************************** END LICENSE ***********************************/
 
 /******************************************************************************
 * Author:
@@ -771,7 +771,7 @@ int readFileInfo(VolInfo* volInfo, BkFile* file, int filenameType,
     * but apparently when executed by the bios that's not a problem.
     * However, if i ever want to read that file myself, i need 
     * the length proper.
-    * So i'm looking for a file that starts in the same logical sector as the
+    * So i am looking for a file that starts in the same logical sector as the
     * boot record from the initial/default entry. */
     if(volInfo->bootMediaType == BOOT_MEDIA_NO_EMULATION && 
        locExtent == volInfo->bootRecordOffset / NBYTES_LOGICAL_BLOCK)

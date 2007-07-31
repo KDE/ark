@@ -69,7 +69,7 @@
 #define BKERROR_NO_SPECIAL_FILES                 -1027
 #define BKERROR_NO_SPECIAL_FILES_TEXT            "Special files (device files and such) are not supported"
 #define BKERROR_NO_POSIX_PRESENT                 -1028
-#define BKERROR_NO_POSIX_PRESENT_TEXT            "No posix extentions found"
+#define BKERROR_NO_POSIX_PRESENT_TEXT            "No posix extensions found"
 #define BKERROR_EXTRACT_ABSENT_BOOT_RECORD       -1029
 #define BKERROR_EXTRACT_ABSENT_BOOT_RECORD_TEXT  "Cannot extract boot record because there isn't one one the image"
 #define BKERROR_EXTRACT_UNKNOWN_BOOT_MEDIA       -1030

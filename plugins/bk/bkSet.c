@@ -1,8 +1,8 @@
-/******************************* LICENCE **************************************
+/******************************* LICENSE **************************************
 * Any code in this file may be redistributed or modified under the terms of
-* the GNU General Public Licence as published by the Free Software 
-* Foundation; version 2 of the licence.
-****************************** END LICENCE ***********************************/
+* the GNU General Public License as published by the Free Software 
+* Foundation; version 2 of the license.
+****************************** END LICENSE ***********************************/
 
 /******************************************************************************
 * Author:
@@ -30,7 +30,7 @@ void bk_cancel_operation(VolInfo* volInfo)
 
 /*******************************************************************************
 * bk_destroy_vol_info()
-* Frees any memory refered to by volinfo.
+* Frees any memory referred to by volinfo.
 * If an image was open for reading closes it.
 * Does not reinitialize the structure.
 * */
