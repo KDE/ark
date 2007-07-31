@@ -47,7 +47,7 @@
 #include <QVBoxLayout>
 
 typedef KParts::GenericFactory<Part> Factory;
-K_EXPORT_COMPONENT_FACTORY( libarkpart, Factory );
+K_EXPORT_COMPONENT_FACTORY( libarkpart, Factory )
 
 Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	: KParts::ReadWritePart( parent ), m_model( new ArchiveModel( this ) ), m_previewDir( 0 )
