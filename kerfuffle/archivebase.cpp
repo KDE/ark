@@ -25,7 +25,6 @@
 
 #include "archivebase.h"
 #include "internaljobs.h"
-#include "settings.h"
 
 #include <kdebug.h>
 #include <ThreadWeaver/Job>
