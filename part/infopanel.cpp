@@ -167,7 +167,7 @@ QString InfoPanel::metadataTextFor( const QModelIndex &index )
 
 	if ( entry.contains( Link ) )
 	{
-		text += i18n( "<b>Target:</b> %1<br/", entry[ Link ].toString() );
+		text += i18n( "<b>Target:</b> %1<br/>", entry[ Link ].toString() );
 	}
 
 	return text;
