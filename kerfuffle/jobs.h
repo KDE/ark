@@ -91,11 +91,11 @@ namespace Kerfuffle
 
 		signals:
 			void newEntry( const ArchiveEntry & );
-			void error( const QString& errorMessage, const QString& details );
 
 		private slots:
 			void done( ThreadWeaver::Job * );
 			void progress( double );
+			void error( const QString&, const QString& );
 
 		private:
 			QStringList                m_files;

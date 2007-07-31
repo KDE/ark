@@ -299,7 +299,6 @@ void Part::slotExtractionDone( KJob* job )
 	kDebug( 1601 ) << k_funcinfo << endl;
 	if ( job->error() )
 	{
-		// TODO: do something
 		KMessageBox::error( widget(), job->errorString() );
 	}
 	else
@@ -351,6 +350,15 @@ void Part::slotAddDir()
 		connect( job, SIGNAL( result( KJob* ) ),
 		         this, SLOT( slotAddFilesDone( KJob* ) ) );
 		job->start();
+	}
+}
+
+void Part::slotAddFilesDone( KJob* job )
+{
+	kDebug( 1601 ) << k_funcinfo << endl;
+	if ( job->error() )
+	{
+		KMessageBox::error( widget(), job->errorString() );
 	}
 }
 

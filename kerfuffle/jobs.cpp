@@ -122,6 +122,8 @@ namespace Kerfuffle
 		         this, SLOT( progress( double ) ) );
 		connect( job, SIGNAL( entry( const ArchiveEntry& ) ),
 		         this, SIGNAL( newEntry( const ArchiveEntry & ) ) );
+		connect( job, SIGNAL( error( const QString&, const QString& ) ),
+		         this, SLOT( error( const QString&, const QString& ) ) );
 		
 		ThreadWeaver::Weaver::instance()->enqueue( job );
 	}
@@ -134,6 +136,14 @@ namespace Kerfuffle
 	void AddJob::progress( double p )
 	{
 		setPercent( static_cast<unsigned long>( 100.0*p ) );
+	}
+
+	void AddJob::error( const QString& errorMessage, const QString& details )
+	{
+		kDebug( 1601 ) << k_funcinfo << endl;
+		Q_UNUSED( details );
+		setError( 1 );
+		setErrorText( errorMessage );
 	}
 
 	DeleteJob::DeleteJob( const QList<QVariant>& files, ReadWriteArchiveInterface *interface, QObject *parent )

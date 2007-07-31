@@ -61,6 +61,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void slotExtractionDone( KJob* );
 		void slotAddFiles();
 		void slotAddDir();
+		void slotAddFilesDone( KJob* );
 		void slotDeleteFiles();
 		void updateActions();
 		void selectionChanged();
