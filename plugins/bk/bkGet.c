@@ -12,6 +12,7 @@
 * 
 ******************************************************************************/
 
+#include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
 
@@ -19,6 +20,7 @@
 #include "bkInternal.h"
 #include "bkError.h"
 #include "bkGet.h"
+#include "bkPath.h"
 
 /*******************************************************************************
 * bk_estimate_iso_size()
@@ -58,6 +60,41 @@ int bk_get_dir_from_string(const VolInfo* volInfo, const char* pathStr,
                            BkDir** dirFoundPtr)
 {
     return getDirFromString(&(volInfo->dirTree), pathStr, dirFoundPtr);
+}
+
+/*******************************************************************************
+* bk_get_permissions()
+* public function
+* gets the permissions (not all of the posix info) for an item (file, dir, etc.)
+* */
+int bk_get_permissions(VolInfo* volInfo, const char* pathAndName, 
+                       mode_t* permissions)
+{
+    int rc;
+    NewPath srcPath;
+    BkFileBase* base;
+    bool itemFound;
+    
+    if(permissions == NULL)
+        return BKERROR_GET_PERM_BAD_PARAM;
+    
+    rc = makeNewPathFromString(pathAndName, &srcPath);
+    if(rc <= 0)
+    {
+        freePathContents(&srcPath);
+        return rc;
+    }
+    
+    itemFound = findBaseByNewPath(&srcPath, &(volInfo->dirTree), &base);
+    
+    freePathContents(&srcPath);
+    
+    if(!itemFound)
+        return BKERROR_ITEM_NOT_FOUND_ON_IMAGE;
+    
+    *permissions = base->posixFileMode & 0777;
+    
+    return 1;
 }
 
 /*******************************************************************************

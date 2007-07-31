@@ -18,6 +18,7 @@
 #include <stdio.h>
 
 #include "bk.h"
+#include "bkSet.h"
 #include "bkDelete.h"
 #include "bkPath.h"
 #include "bkError.h"
@@ -108,6 +109,10 @@ int bk_rename(VolInfo* volInfo, const char* srcPathAndName,
         return BKERROR_RENAME_ROOT;
     }
     
+    if( strcmp(srcPath.children[srcPath.numChildren - 1], newName) == 0 )
+    /* rename to the same name, ignore silently */
+        return 1;
+    
     /* i want the parent directory */
     srcPath.numChildren--;
     dirFound = findDirByNewPath(&srcPath, &(volInfo->dirTree), &parentDir);
@@ -123,6 +128,9 @@ int bk_rename(VolInfo* volInfo, const char* srcPathAndName,
     child = parentDir->children;
     while(child != NULL && !done)
     {
+        if(itemIsInDir(newName, parentDir))
+            return BKERROR_DUPLICATE_RENAME;
+        
         if(strcmp(child->name, srcPath.children[srcPath.numChildren - 1]) == 0)
         {
             strcpy(child->name, newName);
@@ -216,6 +224,42 @@ void bk_set_follow_symlinks(VolInfo* volInfo, bool doFollow)
 }
 
 /*******************************************************************************
+* bk_get_sermissions()
+* public function
+* sets the permissions (not all of the posix info) for an item (file, dir, etc.)
+* */
+int bk_set_permissions(VolInfo* volInfo, const char* pathAndName, 
+                       mode_t permissions)
+{
+    int rc;
+    NewPath srcPath;
+    BkFileBase* base;
+    bool itemFound;
+    
+    rc = makeNewPathFromString(pathAndName, &srcPath);
+    if(rc <= 0)
+    {
+        freePathContents(&srcPath);
+        return rc;
+    }
+    
+    itemFound = findBaseByNewPath(&srcPath, &(volInfo->dirTree), &base);
+    
+    freePathContents(&srcPath);
+    
+    if(!itemFound)
+        return BKERROR_ITEM_NOT_FOUND_ON_IMAGE;
+    
+    /* set all permission bits in posixFileMode to 0 */
+    base->posixFileMode &= ~0777;
+    
+    /* copy permissions into posixFileMode */
+    base->posixFileMode |= permissions & 0777;
+    
+    return 1;
+}
+
+/*******************************************************************************
 * bk_set_publisher()
 * Copies publisher into volInfo, a maximum of 128 characters.
 * */
@@ -231,4 +275,24 @@ void bk_set_publisher(VolInfo* volInfo, const char* publisher)
 void bk_set_vol_name(VolInfo* volInfo, const char* volName)
 {
     strncpy(volInfo->volId, volName, 32);
+}
+
+/*******************************************************************************
+* itemIsInDir()
+* checks the contents of a directory (files and dirs) to see whether it
+* has an item named 
+* */
+bool itemIsInDir(const char* name, const BkDir* dir)
+{
+    BkFileBase* child;
+    
+    child = dir->children;
+    while(child != NULL)
+    {
+        if(strcmp(child->name, name) == 0)
+            return true;
+        child = child->next;
+    }
+    
+    return false;
 }

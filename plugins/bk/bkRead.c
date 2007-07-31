@@ -44,7 +44,7 @@
 * returns number of chars appended
 * destMaxLen doesn't include '\0'
 * if maxSrcLen is -1 tries to copy all of it */
-int appendStringIfHaveRoom(char* dest, char* src, int destMaxLen, 
+int appendStringIfHaveRoom(char* dest, const char* src, int destMaxLen, 
                            int destCharsAlreadyUsed, int maxSrcLen)
 {
     int srcLen;
@@ -303,11 +303,13 @@ int bk_read_vol_info(VolInfo* volInfo)
                 volInfo->bootMediaType = BOOT_MEDIA_2_88_FLOPPY;
             else if(bootMediaType == 4)
             {
+                /* !! print warning */
                 printf("hard disk boot emulation not supported\n");
                 volInfo->bootMediaType = BOOT_MEDIA_NONE;
             }
             else
             {
+                /* !! print warning */
                 printf("unknown boot media type on iso\n");
                 volInfo->bootMediaType = BOOT_MEDIA_NONE;
             }
@@ -340,6 +342,7 @@ int bk_read_vol_info(VolInfo* volInfo)
                                         NBYTES_LOGICAL_BLOCK;
         }
         else
+            /* !! print warning */
             printf("err, boot record not el torito\n");
         
         /* go to the sector after the boot record */
@@ -500,8 +503,8 @@ int readDir(VolInfo* volInfo, BkDir* dir, int filenameType,
         BK_BASE_PTR(dir)->name[lenFileId9660] = '\0';
         
         /* record 9660 name for writing later */
-        strncpy(BK_BASE_PTR(dir)->original9660name, BK_BASE_PTR(dir)->name, 12);
-        BK_BASE_PTR(dir)->original9660name[12] = '\0';
+        strncpy(BK_BASE_PTR(dir)->original9660name, BK_BASE_PTR(dir)->name, 14);
+        BK_BASE_PTR(dir)->original9660name[14] = '\0';
         
         /* skip padding field if it's there */
         if(lenFileId9660 % 2 == 0)
@@ -627,8 +630,8 @@ int readDirContents(VolInfo* volInfo, BkDir* dir, unsigned size,
                     int filenameType, bool keepPosixPermissions)
 {
     int rc;
-    int bytesRead = 0;
-    int childrenBytesRead;
+    unsigned bytesRead = 0;
+    unsigned childrenBytesRead;
     BkFileBase** nextChild; /* pointer to pointer to modify pointer :) */
     
     /* skip self and parent */
@@ -798,6 +801,7 @@ int readFileInfo(VolInfo* volInfo, BkFile* file, int filenameType,
         return BKERROR_READ_GENERIC;
     nameAsOnDisk[lenFileId9660] = '\0';
     
+    /* removeCrapFromFilename(nameAsOnDisk, lenFileId9660); */
     
     strncpy(BK_BASE_PTR(file)->name, nameAsOnDisk, NCHARS_FILE_ID_MAX_STORE - 1);
     BK_BASE_PTR(file)->name[NCHARS_FILE_ID_MAX_STORE - 1] = '\0';
@@ -880,6 +884,7 @@ int readFileInfo(VolInfo* volInfo, BkFile* file, int filenameType,
     /* the file is actually a symbolic link */
     {
         strcpy((*specialFile)->name, BK_BASE_PTR(file)->name);
+        strcpy((*specialFile)->original9660name, BK_BASE_PTR(file)->original9660name);
         /* apparently permissions for symbolic links are never used */
         (*specialFile)->posixFileMode = 0120777;
     }
@@ -918,7 +923,7 @@ int readFileInfo(VolInfo* volInfo, BkFile* file, int filenameType,
 * readPosixFileMode()
 * looks for the PX system use field and gets the permissions field out of it
 * */
-int readPosixFileMode(VolInfo* volInfo, unsigned* posixFileMode, unsigned lenSU)
+int readPosixFileMode(VolInfo* volInfo, unsigned* posixFileMode, int lenSU)
 {
     off_t origPos;
     unsigned char* suFields;
@@ -1000,7 +1005,7 @@ int readPosixFileMode(VolInfo* volInfo, unsigned* posixFileMode, unsigned lenSU)
 * this directory record, the function returns a failure.
 * Leaves the file pointer where it was.
 */
-int readRockridgeFilename(VolInfo* volInfo, char* dest, unsigned lenSU, 
+int readRockridgeFilename(VolInfo* volInfo, char* dest, int lenSU, 
                           unsigned numCharsReadAlready)
 {
     off_t origPos;
@@ -1096,7 +1101,7 @@ int readRockridgeFilename(VolInfo* volInfo, char* dest, unsigned lenSU,
 }
 
 /* if no SL record is found does not return failure */
-int readRockridgeSymlink(VolInfo* volInfo, BkSymLink** dest, unsigned lenSU)
+int readRockridgeSymlink(VolInfo* volInfo, BkSymLink** dest, int lenSU)
 {
     off_t origPos;
     unsigned char* suFields;

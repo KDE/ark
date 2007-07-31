@@ -20,6 +20,11 @@
 #ifndef bk_h
 #define bk_h
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #include <stdbool.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -206,6 +211,9 @@ int bk_add_boot_record(VolInfo* volInfo, const char* srcPathAndName,
                        int bootMediaType);
 int bk_add(VolInfo* volInfo, const char* srcPathAndName, 
            const char* destPathStr, void(*progressFunction)(VolInfo*));
+int bk_add_as(VolInfo* volInfo, const char* srcPathAndName, 
+              const char* destPathStr, const char* nameToUse, 
+              void(*progressFunction)(VolInfo*));
 int bk_create_dir(VolInfo* volInfo, const char* destPathStr, 
                   const char* newDirName);
 
@@ -219,12 +227,17 @@ int bk_extract_boot_record(VolInfo* volInfo, const char* destPathAndName,
 int bk_extract(VolInfo* volInfo, const char* srcPathAndName, 
                const char* destDir, bool keepPermissions, 
                void(*progressFunction)(VolInfo*));
+int bk_extract_as(VolInfo* volInfo, const char* srcPathAndName, 
+                  const char* destDir, const char* nameToUse,
+                  bool keepPermissions, void(*progressFunction)(VolInfo*));
 
 /* getters */
 off_t bk_estimate_iso_size(const VolInfo* volInfo, int filenameTypes);
 time_t bk_get_creation_time(const VolInfo* volInfo);
 int bk_get_dir_from_string(const VolInfo* volInfo, const char* pathStr, 
                            BkDir** dirFoundPtr);
+int bk_get_permissions(VolInfo* volInfo, const char* pathAndName, 
+                       mode_t* permissions);
 const char* bk_get_publisher(const VolInfo* volInfo);
 const char* bk_get_volume_name(const VolInfo* volInfo);
 const char* bk_get_error_string(int errorId);
@@ -237,6 +250,8 @@ int bk_rename(VolInfo* volInfo, const char* srcPathAndName,
               const char* newName);
 int bk_set_boot_file(VolInfo* volInfo, const char* srcPathAndName);
 void bk_set_follow_symlinks(VolInfo* volInfo, bool doFollow);
+int bk_set_permissions(VolInfo* volInfo, const char* pathAndName, 
+                       mode_t permissions);
 void bk_set_publisher(VolInfo* volInfo, const char* publisher);
 void bk_set_vol_name(VolInfo* volInfo, const char* volName);
 
@@ -251,5 +266,9 @@ int bk_read_vol_info(VolInfo* volInfo);
 int bk_write_image(const char* newImagePathAndName, VolInfo* volInfo, 
                    time_t creationTime, int filenameTypes, 
                    void(*progressFunction)(VolInfo*, double));
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

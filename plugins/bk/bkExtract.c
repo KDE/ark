@@ -117,6 +117,14 @@ int bk_extract(VolInfo* volInfo, const char* srcPathAndName,
                const char* destDir, bool keepPermissions, 
                void(*progressFunction)(VolInfo*))
 {
+    return bk_extract_as(volInfo, srcPathAndName, destDir, NULL, 
+                         keepPermissions, progressFunction);
+}
+
+int bk_extract_as(VolInfo* volInfo, const char* srcPathAndName, 
+                  const char* destDir, const char* nameToUse,
+                  bool keepPermissions, void(*progressFunction)(VolInfo*))
+{
     int rc;
     NewPath srcPath;
     BkDir* parentDir;
@@ -149,14 +157,14 @@ int bk_extract(VolInfo* volInfo, const char* srcPathAndName,
     }
     
     rc = extract(volInfo, parentDir, srcPath.children[srcPath.numChildren - 1], 
-                 destDir, keepPermissions);
-    if(rc <= 0)
-    {
-        freePathContents(&srcPath);
-        return rc;
-    }
+                 destDir, nameToUse, keepPermissions);
     
     freePathContents(&srcPath);
+    
+    if(rc <= 0)
+    {
+        return rc;
+    }
     
     return 1;
 }
@@ -203,7 +211,7 @@ int copyByteBlock(VolInfo* volInfo, int src, int dest, unsigned numBytes)
 }
 
 int extract(VolInfo* volInfo, BkDir* parentDir, char* nameToExtract, 
-            const char* destDir, bool keepPermissions)
+            const char* destDir, const char* nameToUse, bool keepPermissions)
 {
     BkFileBase* child;
     int rc;
@@ -219,20 +227,22 @@ int extract(VolInfo* volInfo, BkDir* parentDir, char* nameToExtract,
             if( IS_DIR(child->posixFileMode) )
             {
                 rc = extractDir(volInfo, BK_DIR_PTR(child), destDir, 
-                                keepPermissions);
+                                nameToUse, keepPermissions);
             }
             else if ( IS_REG_FILE(child->posixFileMode) )
             {
                 rc = extractFile(volInfo, BK_FILE_PTR(child), destDir, 
-                                 keepPermissions);
+                                 nameToUse, keepPermissions);
             }
             else if ( IS_SYMLINK(child->posixFileMode) )
             {
-                rc = extractSymlink(volInfo, BK_SYMLINK_PTR(child), destDir);
+                rc = extractSymlink(BK_SYMLINK_PTR(child), destDir, 
+                                    nameToUse);
             }
             else
             {
-                printf("trying to extract something that's not a file, symlink or directory, ignored\n");fflush(NULL);
+                printf("trying to extract something that's not a file, "
+                       "symlink or directory, ignored\n");fflush(NULL);
             }
             
             if(rc <= 0)
@@ -267,7 +277,7 @@ int extract(VolInfo* volInfo, BkDir* parentDir, char* nameToExtract,
 }
 
 int extractDir(VolInfo* volInfo, BkDir* srcDir, const char* destDir, 
-               bool keepPermissions)
+               const char* nameToUse, bool keepPermissions)
 {
     int rc;
     BkFileBase* child;
@@ -278,14 +288,20 @@ int extractDir(VolInfo* volInfo, BkDir* srcDir, const char* destDir,
     
     /* CREATE destination dir on filesystem */
     /* 1 for '\0' */
-    newDestDir = malloc(strlen(destDir) + strlen(BK_BASE_PTR(srcDir)->name) + 2);
+    if(nameToUse == NULL)
+        newDestDir = malloc(strlen(destDir) + strlen(BK_BASE_PTR(srcDir)->name) + 2);
+    else
+        newDestDir = malloc(strlen(destDir) + strlen(nameToUse) + 2);
     if(newDestDir == NULL)
         return BKERROR_OUT_OF_MEMORY;
     
     strcpy(newDestDir, destDir);
     if(destDir[strlen(destDir) - 1] != '/')
         strcat(newDestDir, "/");
-    strcat(newDestDir, BK_BASE_PTR(srcDir)->name);
+    if(nameToUse == NULL)
+        strcat(newDestDir, BK_BASE_PTR(srcDir)->name);
+    else
+        strcat(newDestDir, nameToUse);
     
     if(keepPermissions)
         destDirPerms = BK_BASE_PTR(BK_BASE_PTR(srcDir))->posixFileMode;
@@ -313,7 +329,8 @@ int extractDir(VolInfo* volInfo, BkDir* srcDir, const char* destDir,
     child = srcDir->children;
     while(child != NULL)
     {
-        rc = extract(volInfo, srcDir, child->name, newDestDir, keepPermissions);
+        rc = extract(volInfo, srcDir, child->name, newDestDir, 
+                     NULL, keepPermissions);
         if(rc <= 0)
         {
             free(newDestDir);
@@ -330,7 +347,7 @@ int extractDir(VolInfo* volInfo, BkDir* srcDir, const char* destDir,
 }
 
 int extractFile(VolInfo* volInfo, BkFile* srcFileInTree, const char* destDir, 
-                bool keepPermissions)
+                const char* nameToUse, bool keepPermissions)
 {
     int srcFile;
     bool srcFileWasOpened;
@@ -351,10 +368,23 @@ int extractFile(VolInfo* volInfo, BkFile* srcFileInTree, const char* destDir,
         if(srcFile == -1)
             return BKERROR_OPEN_READ_FAILED;
         srcFileWasOpened = true;
+        
+        /* UPDATE the file's size, in case it's changed since we added it */
+        struct stat statStruct;
+        
+        rc = stat(srcFileInTree->pathAndName, &statStruct);
+        if(rc != 0)
+            return BKERROR_STAT_FAILED;
+        
+        srcFileInTree->size = statStruct.st_size;
+        /* UPDATE the file's size, in case it's changed since we added it */
     }
     
-    destPathAndName = malloc(strlen(destDir) + 
-                             strlen(BK_BASE_PTR(srcFileInTree)->name) + 2);
+    if(nameToUse == NULL)
+        destPathAndName = malloc(strlen(destDir) + 
+                                 strlen(BK_BASE_PTR(srcFileInTree)->name) + 2);
+    else
+        destPathAndName = malloc(strlen(destDir) + strlen(nameToUse) + 2);
     if(destPathAndName == NULL)
     {
         if(srcFileWasOpened)
@@ -365,7 +395,10 @@ int extractFile(VolInfo* volInfo, BkFile* srcFileInTree, const char* destDir,
     strcpy(destPathAndName, destDir);
     if(destDir[strlen(destDir) - 1] != '/')
         strcat(destPathAndName, "/");
-    strcat(destPathAndName, BK_BASE_PTR(srcFileInTree)->name);
+    if(nameToUse == NULL)
+        strcat(destPathAndName, BK_BASE_PTR(srcFileInTree)->name);
+    else
+        strcat(destPathAndName, nameToUse);
     
     if(access(destPathAndName, F_OK) == 0)
     {
@@ -416,20 +449,27 @@ int extractFile(VolInfo* volInfo, BkFile* srcFileInTree, const char* destDir,
     return 1;
 }
 
-int extractSymlink(VolInfo* volInfo, BkSymLink* srcLink, const char* destDir)
+int extractSymlink(BkSymLink* srcLink, const char* destDir, 
+                   const char* nameToUse)
 {
     char* destPathAndName;
     int rc;
     
-    destPathAndName = malloc(strlen(destDir) + 
-                             strlen(BK_BASE_PTR(srcLink)->name) + 2);
+    if(nameToUse == NULL)
+        destPathAndName = malloc(strlen(destDir) + 
+                                 strlen(BK_BASE_PTR(srcLink)->name) + 2);
+    else
+        destPathAndName = malloc(strlen(destDir) + strlen(nameToUse) + 2);
     if(destPathAndName == NULL)
         return BKERROR_OUT_OF_MEMORY;
     
     strcpy(destPathAndName, destDir);
     if(destDir[strlen(destDir) - 1] != '/')
         strcat(destPathAndName, "/");
-    strcat(destPathAndName, BK_BASE_PTR(srcLink)->name);
+    if(nameToUse == NULL)
+        strcat(destPathAndName, BK_BASE_PTR(srcLink)->name);
+    else
+        strcat(destPathAndName, nameToUse);
     
     if(access(destPathAndName, F_OK) == 0)
     {

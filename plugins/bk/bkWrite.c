@@ -87,6 +87,7 @@ int bk_write_image(const char* newImagePathAndName, VolInfo* volInfo,
         freeDirToWriteContents(&newTree);
         return rc;
     }
+    
     printf("opening '%s' for writing\n", newImagePathAndName);fflush(NULL);
     volInfo->imageForWriting = open(newImagePathAndName, 
                                     O_WRONLY | O_CREAT | O_TRUNC, 
@@ -403,10 +404,11 @@ int bk_write_image(const char* newImagePathAndName, VolInfo* volInfo,
 * */
 int bootInfoTableChecksum(int oldImage, FileToWrite* file, unsigned* checksum)
 {
-    int rc;
+    ssize_t rc;
+    int rc2;
     int srcFile;
     unsigned char* contents;
-    int count;
+    unsigned count;
     
     if(file->size % 4 != 0)
         return BKERROR_WRITE_BOOT_FILE_4;
@@ -421,7 +423,7 @@ int bootInfoTableChecksum(int oldImage, FileToWrite* file, unsigned* checksum)
         lseek(oldImage, file->offset, SEEK_SET);
         
         rc = read(oldImage, contents, file->size);
-        if(rc != file->size)
+        if(rc == -1 || rc != (int)(file->size))
         {
             free(contents);
             return BKERROR_READ_GENERIC;
@@ -438,15 +440,15 @@ int bootInfoTableChecksum(int oldImage, FileToWrite* file, unsigned* checksum)
         }
         
         rc = read(srcFile, contents, file->size);
-        if(rc != file->size)
+        if(rc == -1 || rc != (int)(file->size))
         {
             close(srcFile);
             free(contents);
             return BKERROR_READ_GENERIC;
         }
         
-        rc = close(srcFile);
-        if(rc < 0)
+        rc2 = close(srcFile);
+        if(rc2 < 0)
         {
             free(contents);
             return BKERROR_EXOTIC;
@@ -600,6 +602,9 @@ int writeByteBlockFromFile(int src, VolInfo* volInfo, unsigned numBytes)
     
     for(count = 0; count < numBlocks; count++)
     {
+        if(volInfo->stopOperation)
+            return BKERROR_OPER_CANCELED_BY_USER;
+
         rc = read(src, volInfo->readWriteBuffer, READ_WRITE_BUFFER_SIZE);
         if(rc != READ_WRITE_BUFFER_SIZE)
             return BKERROR_READ_GENERIC;
@@ -725,7 +730,7 @@ int writeDir(VolInfo* volInfo, DirToWrite* dir, int parentLbNum,
     if(filenameTypes & FNTYPE_JOLIET)
         dir->dataLength2 = wcSeekTell(volInfo) - startPos;
     else
-        dir->base.dataLength = wcSeekTell(volInfo) - startPos;
+        dir->dataLength = wcSeekTell(volInfo) - startPos;
     
     /* write subdirectories */
     child = dir->children;
@@ -736,13 +741,13 @@ int writeDir(VolInfo* volInfo, DirToWrite* dir, int parentLbNum,
             if(filenameTypes & FNTYPE_JOLIET)
             {
                 rc = writeDir(volInfo, DIRTW_PTR(child), dir->extentNumber2, 
-                              dir->dataLength2, dir->base.posixFileMode, recordingTime,
+                              dir->dataLength2, BASETW_PTR(dir)->posixFileMode, recordingTime,
                               filenameTypes, false);
             }
             else
             {
-                rc = writeDir(volInfo, DIRTW_PTR(child), dir->base.extentNumber, 
-                              dir->base.dataLength, dir->base.posixFileMode, recordingTime,
+                rc = writeDir(volInfo, DIRTW_PTR(child), BASETW_PTR(dir)->extentNumber, 
+                              dir->dataLength, BASETW_PTR(dir)->posixFileMode, recordingTime,
                               filenameTypes, false);
             }
             if(rc < 0)
@@ -772,11 +777,11 @@ int writeDir(VolInfo* volInfo, DirToWrite* dir, int parentLbNum,
     }
     else
     {
-        rc = write733(volInfo, dir->base.extentNumber);
+        rc = write733(volInfo, BASETW_PTR(dir)->extentNumber);
         if(rc <= 0)
             return rc;
         
-        rc = write733(volInfo, dir->base.dataLength);
+        rc = write733(volInfo, dir->dataLength);
         if(rc <= 0)
             return rc;
     }
@@ -803,11 +808,11 @@ int writeDir(VolInfo* volInfo, DirToWrite* dir, int parentLbNum,
         }
         else
         {
-            rc = write733(volInfo, dir->base.extentNumber);
+            rc = write733(volInfo, BASETW_PTR(dir)->extentNumber);
             if(rc <= 0)
                 return rc;
             
-            rc = write733(volInfo, dir->base.dataLength);
+            rc = write733(volInfo, dir->dataLength);
             if(rc <= 0)
                 return rc;
         }
@@ -851,7 +856,7 @@ int writeDir(VolInfo* volInfo, DirToWrite* dir, int parentLbNum,
                 if(rc <= 0)
                     return rc;
                 
-                rc = write733(volInfo, child->dataLength);
+                rc = write733(volInfo, DIRTW_PTR(child)->dataLength);
                 if(rc <= 0)
                     return rc;
             }
@@ -866,7 +871,7 @@ int writeDir(VolInfo* volInfo, DirToWrite* dir, int parentLbNum,
     if(filenameTypes & FNTYPE_JOLIET)
         return dir->dataLength2;
     else
-        return dir->base.dataLength;
+        return dir->dataLength;
 }
 
 /******************************************************************************
@@ -1217,6 +1222,7 @@ int writeElToritoVd(VolInfo* volInfo, off_t* bootCatalogSectorNumberOffset)
     /* unused 32 bytes, must be 0 (bzero at start took care of this) */
     /* boot catalog location, 4 byte intel format. written later. */
     *bootCatalogSectorNumberOffset = wcSeekTell(volInfo) + 71;
+    /*write731ToByteArray(&(buffer[71]), bootCatalogSectorNumber);*/
     /* the rest of this sector is unused, must be set to 0 */
     /* END SETUP BOOT record volume descriptor sector */
     
@@ -1231,6 +1237,7 @@ int writeElToritoVd(VolInfo* volInfo, off_t* bootCatalogSectorNumberOffset)
 * writeFileContents()
 * Write file contents into an extent and also write the file's location and 
 * size into the directory records back in the tree.
+* Also write location and size for symbolic links.
 * */
 int writeFileContents(VolInfo* volInfo, DirToWrite* dir, int filenameTypes)
 {
@@ -1270,8 +1277,6 @@ int writeFileContents(VolInfo* volInfo, DirToWrite* dir, int filenameTypes)
                 }
             }
             
-            child->dataLength = FILETW_PTR(child)->size;
-            
             if(volInfo->bootMediaType != BOOT_MEDIA_NONE && 
                volInfo->bootRecordIsVisible &&
                FILETW_PTR(child)->origFile == volInfo->bootRecordOnImage)
@@ -1299,19 +1304,29 @@ int writeFileContents(VolInfo* volInfo, DirToWrite* dir, int filenameTypes)
                           SEEK_SET);
                     
                     rc = writeByteBlockFromFile(volInfo->imageForReading, 
-                                             volInfo, FILETW_PTR(child)->size);
+                                                volInfo, FILETW_PTR(child)->size);
                     if(rc < 0)
                         return rc;
                 }
                 else
                 /* copy file from fs to new image */
                 {
+                    /* UPDATE the file's size, in case it's changed since we added it */
+                    struct stat statStruct;
+                    
+                    rc = stat(FILETW_PTR(child)->pathAndName, &statStruct);
+                    if(rc != 0)
+                        return BKERROR_STAT_FAILED;
+                    
+                    FILETW_PTR(child)->size = statStruct.st_size;
+                    /* UPDATE the file's size, in case it's changed since we added it */
+                    
                     srcFile = open(FILETW_PTR(child)->pathAndName, O_RDONLY);
                     if(srcFile == -1)
                         return BKERROR_OPEN_READ_FAILED;
                     
                     rc = writeByteBlockFromFile(srcFile, 
-                                             volInfo, FILETW_PTR(child)->size);
+                                                volInfo, FILETW_PTR(child)->size);
                     if(rc < 0)
                     {
                         close(srcFile);
@@ -1374,7 +1389,7 @@ int writeFileContents(VolInfo* volInfo, DirToWrite* dir, int filenameTypes)
             if(rc <= 0)
                 return rc;
             
-            rc = write733(volInfo, child->dataLength);
+            rc = write733(volInfo, FILETW_PTR(child)->size);
             if(rc <= 0)
                 return rc;
             
@@ -1387,7 +1402,7 @@ int writeFileContents(VolInfo* volInfo, DirToWrite* dir, int filenameTypes)
                 if(rc <= 0)
                     return rc;
                 
-                rc = write733(volInfo, child->dataLength);
+                rc = write733(volInfo, FILETW_PTR(child)->size);
                 if(rc <= 0)
                     return rc;
             }
@@ -1400,6 +1415,38 @@ int writeFileContents(VolInfo* volInfo, DirToWrite* dir, int filenameTypes)
             rc = writeFileContents(volInfo, DIRTW_PTR(child), filenameTypes);
             if(rc < 0)
                 return rc;
+        }
+        else if( IS_SYMLINK(child->posixFileMode) )
+        {
+            /* WRITE symlink location and size (0) */
+            endPos = wcSeekTell(volInfo);
+            
+            wcSeekSet(volInfo, child->extentLocationOffset);
+            
+            rc = write733(volInfo, 0);
+            if(rc <= 0)
+                return rc;
+            
+            rc = write733(volInfo, 0);
+            if(rc <= 0)
+                return rc;
+            
+            if(filenameTypes & FNTYPE_JOLIET)
+            /* also update location and size on joliet tree */
+            {
+                wcSeekSet(volInfo, child->extentLocationOffset2);
+                
+                rc = write733(volInfo, 0);
+                if(rc <= 0)
+                    return rc;
+                
+                rc = write733(volInfo, 0);
+                if(rc <= 0)
+                    return rc;
+            }
+            
+            wcSeekSet(volInfo, endPos);
+            /* END WRITE symlink location and size (0)  */
         }
         
         child = child->next;
@@ -1862,6 +1909,13 @@ int writeRockPX(VolInfo* volInfo, unsigned posixFileMode, bool isADir)
     write733ToByteArray(&(record[4]), posixFileMode);
     
     /* POSIX file links */
+    /*
+    * this i think is number of subdirectories + 2 (self and parent)
+    * and 1 for a file
+    * it's probably not used on read-only filesystems
+    * to add it, i would need to pass the number of links in a parent dir
+    * recursively in writeDir(). brrrrr.
+    */
     if(isADir)
         posixFileLinks = 2;
     else

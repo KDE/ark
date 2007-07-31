@@ -217,7 +217,7 @@ int mangleDir(const BkDir* origDir, DirToWrite* newDir, int filenameTypes)
     
     haveCollisions = true;
     numTimesTried = 0;
-    while(haveCollisions && numTimesTried < 500) /* random big number */
+    while(haveCollisions && numTimesTried < 50000) /* random big number */
     {
         haveCollisions = false;
         
@@ -345,7 +345,7 @@ void mangleNameFor9660(const char* origName, char* newName, bool isADir)
     /* make sure base doesn't contain part of the extension */
     if(dot_p != NULL)
     {
-        /*//!! test this*/
+        /* !! test this */
         if(i > dot_p - origName)
             i = dot_p - origName;
     }
@@ -519,7 +519,7 @@ void mangleNameForJoliet(const char* origName, char* newName, bool appendHash)
     /* END ASSEMBLE name */
     
     if(appendHash)
-        printf("joliet mangle '%s' -> '%s', len %d\n", origName, newName, strlen(newName));
+        printf("joliet mangle '%s' -> '%s'\n", origName, newName);
 }
 
 /******************************************************************************
@@ -583,7 +583,7 @@ void shortenNameFor9660(const char* origName, char* newName)
     /* make sure base doesn't contain part of the extension */
     if(dot_p != NULL)
     {
-        /*//!! test this to make sure it works*/
+        /* !! test this to make sure it works */
         if(i > dot_p - origName)
             i = dot_p - origName;
     }

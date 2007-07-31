@@ -22,7 +22,7 @@
 struct MessageStruct
 {
     int number;
-    char* text;
+    const char* text;
 };
 
 const struct MessageStruct messageStructs[] = 
@@ -72,6 +72,8 @@ const struct MessageStruct messageStructs[] =
     { BKERROR_SYMLINK_TARGET_TOO_LONG, BKERROR_SYMLINK_TARGET_TOO_LONG_TEXT },
     { BKERROR_HARD_LINK_CALL_PARAMS, BKERROR_HARD_LINK_CALL_PARAMS_TEXT },
     { BKERROR_NAME_INVALID, BKERROR_NAME_INVALID_TEXT },
+    { BKERROR_DUPLICATE_RENAME, BKERROR_DUPLICATE_RENAME_TEXT },
+    { BKERROR_GET_PERM_BAD_PARAM, BKERROR_GET_PERM_BAD_PARAM_TEXT },
     
     { BKWARNING_OPER_PARTLY_FAILED, BKWARNING_OPER_PARTLY_FAILED_TEXT },
     

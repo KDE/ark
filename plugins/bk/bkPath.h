@@ -4,6 +4,7 @@
 #include "bkInternal.h"
 
 bool findDirByNewPath(const NewPath* path, BkDir* tree, BkDir** dir);
+bool findBaseByNewPath(NewPath* path, BkDir* tree, BkFileBase** base);
 void freeDirToWriteContents(DirToWrite* dir);
 void freePathContents(NewPath* path);
 int getLastNameFromPath(const char* srcPathAndName, char* lastName);
