@@ -74,7 +74,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			struct zip_stat stat;
 			if ( zip_stat_index( m_archive, index, 0, &stat ) != 0 )
 			{
-				error( i18n( "An error occured while trying to read entry #%1 of the archive", index ) );
+				error( i18n( "An error occurred while trying to read entry #%1 of the archive", index ) );
 				return;
 			}
 
