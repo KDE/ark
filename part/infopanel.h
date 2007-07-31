@@ -32,7 +32,7 @@ class InfoPanel: public QFrame, Ui::InformationPanel
 {
 	Q_OBJECT
 	public:
-		InfoPanel( ArchiveModel *model, QWidget *parent = 0 );
+		explicit InfoPanel( ArchiveModel *model, QWidget *parent = 0 );
 		~InfoPanel();
 
 		void setIndex( const QModelIndex & );

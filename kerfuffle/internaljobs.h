@@ -58,7 +58,7 @@ namespace Kerfuffle
 	{
 		Q_OBJECT
 		public:
-			InternalListingJob( ReadOnlyArchiveInterface *archive, QObject *parent = 0 );
+			explicit InternalListingJob( ReadOnlyArchiveInterface *archive, QObject *parent = 0 );
 			~InternalListingJob();
 
 		protected:
@@ -142,7 +142,7 @@ namespace Kerfuffle
 	{
 		Q_OBJECT
 		public:
-			ArchiveJobHelper( ReadOnlyArchiveInterface *archive, QObject *parent = 0 );
+			explicit ArchiveJobHelper( ReadOnlyArchiveInterface *archive, QObject *parent = 0 );
 			~ArchiveJobHelper();
 
 			bool getTheListing();

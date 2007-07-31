@@ -32,7 +32,7 @@ class KArchiveInterface: public ReadWriteArchiveInterface
 {
 	Q_OBJECT
 	public:
-		KArchiveInterface( const QString & filename, QObject *parent = 0 );
+		explicit KArchiveInterface( const QString & filename, QObject *parent = 0 );
 		~KArchiveInterface();
 
 		bool list();

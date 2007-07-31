@@ -41,7 +41,7 @@ namespace Kerfuffle
 	{
 		Q_OBJECT
 		public:
-			ReadOnlyArchiveInterface( const QString & filename, QObject *parent = 0 );
+			explicit ReadOnlyArchiveInterface( const QString & filename, QObject *parent = 0 );
 			virtual ~ReadOnlyArchiveInterface();
 
 			QString filename() const { return m_filename; }
@@ -69,7 +69,7 @@ namespace Kerfuffle
 	{
 		Q_OBJECT
 		public:
-			ReadWriteArchiveInterface( const QString & filename, QObject *parent = 0 );
+			explicit ReadWriteArchiveInterface( const QString & filename, QObject *parent = 0 );
 			virtual ~ReadWriteArchiveInterface();
 
 			virtual bool isReadOnly() const;

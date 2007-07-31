@@ -39,7 +39,7 @@ class LibArchiveInterface: public ReadOnlyArchiveInterface
 {
 	Q_OBJECT
 	public:
-		LibArchiveInterface( const QString & filename, QObject *parent = 0 );
+		explicit LibArchiveInterface( const QString & filename, QObject *parent = 0 );
 		~LibArchiveInterface();
 
 		bool list();

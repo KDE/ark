@@ -45,7 +45,7 @@ namespace Kerfuffle
 	{
 		Q_OBJECT
 		public:
-			ListJob( ReadOnlyArchiveInterface *interface, QObject *parent = 0 );
+			explicit ListJob( ReadOnlyArchiveInterface *interface, QObject *parent = 0 );
 
 			void start();
 
