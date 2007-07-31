@@ -196,4 +196,4 @@ bool KArchiveInterface::deleteFiles( const QList<QVariant> & files )
 	return false;
 }
 
-KERFUFFLE_PLUGIN_FACTORY( KArchiveInterface );
+KERFUFFLE_PLUGIN_FACTORY( KArchiveInterface )

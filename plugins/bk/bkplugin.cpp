@@ -117,5 +117,5 @@ bool BKInterface::browse( BkFileBase* base, const QString& prefix )
 	return true;
 }
 
-KERFUFFLE_PLUGIN_FACTORY( BKInterface );
+KERFUFFLE_PLUGIN_FACTORY( BKInterface )
 

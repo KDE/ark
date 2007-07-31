@@ -240,4 +240,4 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 #include "zipplugin.moc"
 
-KERFUFFLE_PLUGIN_FACTORY( LibZipInterface );
+KERFUFFLE_PLUGIN_FACTORY( LibZipInterface )

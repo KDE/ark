@@ -185,6 +185,6 @@ void LibArchiveInterface::copyData( struct archive *source, struct archive *dest
 	}
 }
 
-KERFUFFLE_PLUGIN_FACTORY( LibArchiveInterface );
+KERFUFFLE_PLUGIN_FACTORY( LibArchiveInterface )
 
 #include "libarchivehandler.moc"
