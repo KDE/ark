@@ -60,6 +60,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void slotExtractFiles();
 		void slotExtractionDone( KJob* );
 		void slotAddFiles();
+		void slotAddDir();
 		void slotDeleteFiles();
 		void updateActions();
 		void selectionChanged();
@@ -76,6 +77,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		QAction      *m_previewAction;
 		QAction      *m_extractFilesAction;
 		QAction      *m_addFilesAction;
+		QAction      *m_addDirAction;
 		QAction      *m_deleteFilesAction;
 		InfoPanel    *m_infoPanel;
 		KTempDir     *m_previewDir;

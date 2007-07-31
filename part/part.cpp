@@ -128,6 +128,13 @@ void Part::setupActions()
 	connect( m_addFilesAction, SIGNAL( triggered( bool ) ),
 	         this, SLOT( slotAddFiles() ) );
 
+	m_addDirAction = actionCollection()->addAction( "add-dir" );
+	m_addDirAction->setIcon( KIcon( "ark-adddir" ) );
+	m_addDirAction->setText( i18n( "Add Fo&lder..." ) );
+	m_addDirAction->setStatusTip( i18n( "Click to add a folder to the archive" ) );
+	connect( m_addDirAction, SIGNAL( triggered( bool ) ),
+	         this, SLOT( slotAddDir() ) );
+
 	m_deleteFilesAction = actionCollection()->addAction( "delete" );
 	m_deleteFilesAction->setIcon( KIcon( "ark-delete" ) );
 	m_deleteFilesAction->setText( i18n( "De&lete" ) );
@@ -140,11 +147,14 @@ void Part::setupActions()
 
 void Part::updateActions()
 {
+	bool isWritable = m_model->archive() && ( !m_model->archive()->isReadOnly() );
+
 	m_previewAction->setEnabled( ( m_view->selectionModel()->selectedRows().count() == 1 ) &&isPreviewable( m_view->selectionModel()->currentIndex() ) );
 	m_extractFilesAction->setEnabled( m_model->archive() );
-	m_addFilesAction->setEnabled( m_model->archive() && ( !m_model->archive()->isReadOnly() ) );
+	m_addFilesAction->setEnabled( isWritable );
+	m_addDirAction->setEnabled( isWritable );
 	m_deleteFilesAction->setEnabled( ( m_view->selectionModel()->selectedRows().count() > 0 )
-	                                 && ( m_model->archive() && ( !m_model->archive()->isReadOnly() ) ) );
+	                                 && isWritable );
 }
 
 bool Part::isPreviewable( const QModelIndex & index )
@@ -321,6 +331,23 @@ void Part::slotAddFiles()
 	if ( !filesToAdd.isEmpty() )
 	{
 		AddJob *job = m_model->addFiles( filesToAdd );
+		connect( job, SIGNAL( result( KJob* ) ),
+		         this, SLOT( slotAddFilesDone( KJob* ) ) );
+		job->start();
+	}
+}
+
+void Part::slotAddDir()
+{
+	kDebug( 1601 ) << k_funcinfo << endl;
+	QString dirToAdd = KFileDialog::getExistingDirectory( KUrl( "kfiledialog:///ArkAddFiles" ), widget(), i18n( "Add Folder" ) );
+
+	if ( !dirToAdd.isEmpty() )
+	{
+		QStringList list;
+		list << dirToAdd;
+
+		AddJob *job = m_model->addFiles( list );
 		connect( job, SIGNAL( result( KJob* ) ),
 		         this, SLOT( slotAddFilesDone( KJob* ) ) );
 		job->start();

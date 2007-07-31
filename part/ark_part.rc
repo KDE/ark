@@ -4,6 +4,7 @@
 	<Menu name="action">
 		<text>&amp;Action</text>
 		<Action name="add"/>
+		<Action name="add-dir"/>
 		<Action name="delete"/>
 		<Action name="extract"/>
 		<Action name="preview"/>
@@ -11,6 +12,7 @@
 </MenuBar>
 <ToolBar name="mainToolBar">
 	<Action name="add"/>
+	<Action name="add-dir"/>
 	<Action name="delete"/>
 	<Action name="extract"/>
 	<Action name="preview"/>
