@@ -143,7 +143,7 @@ namespace Kerfuffle
 
 	void DeleteJob::start()
 	{
-		emit description( this, i18np( "Deleting one file from the archive", "Deleting %n files from the archive", m_files.count() ) );
+		emit description( this, i18np( "Deleting one file from the archive", "Deleting %1 files from the archive", m_files.count() ) );
 
 		InternalDeleteJob *job = new InternalDeleteJob( m_archive, m_files, this );
 
