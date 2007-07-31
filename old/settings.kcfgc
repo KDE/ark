@@ -1,5 +1,0 @@
-File=oldark.kcfg
-ClassName=ArkSettings
-Singleton=true
-Mutators=true
-SetUserTexts=true
