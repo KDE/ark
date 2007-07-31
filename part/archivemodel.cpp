@@ -100,7 +100,7 @@ class ArchiveDirNode: public ArchiveNode
 		{
 			foreach( ArchiveNode *node, m_entries )
 			{
-				if ( node->name() == name )
+				if ( node && ( node->name() == name ) )
 				{
 					return node;
 				}
