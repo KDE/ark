@@ -34,7 +34,6 @@
 #include <KActionCollection>
 #include <KIcon>
 #include <KTempDir>
-#include <KDebug>
 #include <KMessageBox>
 #include <KVBox>
 #include <KRun>
