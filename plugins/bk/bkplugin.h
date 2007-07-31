@@ -30,7 +30,7 @@ class BKInterface: public ReadOnlyArchiveInterface
 {
 	Q_OBJECT
 	public:
-		BKInterface( const QString & filename, QObject *parent = 0 );
+		explicit BKInterface( const QString & filename, QObject *parent = 0 );
 		~BKInterface();
 
 		bool list();
