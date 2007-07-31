@@ -26,6 +26,8 @@
 #include "archiveinterface.h"
 #include "observer.h"
 
+#include <QFileInfo>
+
 namespace Kerfuffle
 {
 	ReadOnlyArchiveInterface::ReadOnlyArchiveInterface( const QString & filename, QObject *parent )
@@ -86,6 +88,11 @@ namespace Kerfuffle
 
 	ReadWriteArchiveInterface::~ReadWriteArchiveInterface()
 	{
+	}
+
+	bool ReadWriteArchiveInterface::isReadOnly() const
+	{
+		return ! QFileInfo( filename() ).isWritable();
 	}
 } // namespace Kerfuffle
 
