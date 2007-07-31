@@ -1,3 +1,5 @@
+#ifndef BKERROR_H
+#define BKERROR_H
 /******************************************************************************
 * errnum.h
 * this file contains #defined ints for return codes (errors and warnings)
@@ -123,3 +125,4 @@
 /* do not make up #defines with numbers lower then this */
 #define BKERROR_END                              -1000000
 #define BKERROR_END_TEXT                         "Double oops, unusable error number used"
+#endif

@@ -1,3 +1,5 @@
+#ifndef BKWRITE7X_H
+#define BKWRITE7X_H
 /*******************************************************************************
 * bkWrite7x
 * functions to write simple variables as described in sections 7.x of iso9660
@@ -15,3 +17,4 @@ void write731ToByteArray(unsigned char* dest, unsigned value);
 int write732(VolInfo* volInfo, unsigned value);
 int write733(VolInfo* volInfo, unsigned value);
 void write733ToByteArray(unsigned char* dest, unsigned value);
+#endif

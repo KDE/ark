@@ -1,3 +1,5 @@
+#ifndef BKREAD_H
+#define BKREAD_H
 int appendStringIfHaveRoom(char* dest, const char* src, int destMaxLen, 
                            int destCharsAlreadyUsed, int maxSrcLen);
 bool dirDrFollows(int image);
@@ -17,3 +19,4 @@ int readRockridgeSymlink(VolInfo* volInfo, BkSymLink** dest, int lenSU);
 void removeCrapFromFilename(char* filename, int length);
 int skipDR(int image);
 void stripSpacesFromEndOfString(char* str);
+#endif

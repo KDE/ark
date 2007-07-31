@@ -22,10 +22,7 @@
 #define BKPLUGIN_H
 
 #include "kerfuffle/archiveinterface.h"
-extern "C"
-{
 #include "bk.h"
-}
 
 using namespace Kerfuffle;
 
