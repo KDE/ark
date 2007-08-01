@@ -27,7 +27,6 @@
 
 class ArchiveModel;
 class InfoPanel;
-class JobTracker;
 
 class QTreeView;
 class QAction;
@@ -35,6 +34,7 @@ class QAction;
 class KAboutData;
 class KTempDir;
 class KJob;
+class KJobTrackerInterface;
 
 class Part: public KParts::ReadWritePart, public Interface
 {
@@ -73,16 +73,16 @@ class Part: public KParts::ReadWritePart, public Interface
 		bool isPreviewable( const QModelIndex & index );
 		QList<QVariant> selectedFiles();
 
-		ArchiveModel *m_model;
-		QTreeView    *m_view;
-		QAction      *m_previewAction;
-		QAction      *m_extractFilesAction;
-		QAction      *m_addFilesAction;
-		QAction      *m_addDirAction;
-		QAction      *m_deleteFilesAction;
-		InfoPanel    *m_infoPanel;
-		KTempDir     *m_previewDir;
-		JobTracker   *m_jobTracker;
+		ArchiveModel         *m_model;
+		QTreeView            *m_view;
+		QAction              *m_previewAction;
+		QAction              *m_extractFilesAction;
+		QAction              *m_addFilesAction;
+		QAction              *m_addDirAction;
+		QAction              *m_deleteFilesAction;
+		InfoPanel            *m_infoPanel;
+		KTempDir             *m_previewDir;
+		KJobTrackerInterface *m_jobTracker;
 };
 
 #endif // PART_H
