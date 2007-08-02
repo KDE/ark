@@ -3,6 +3,10 @@ Encoding=UTF-8
 Type=ServiceType
 X-KDE-ServiceType=Kerfuffle/Plugin
 Comment=Plugin for handling of archive formats for the Kerfuffle library
+Comment[pt]='Plugin' para lidar com os formatos de pacotes da biblioteca Kerfuffle
+Comment[pt_BR]='Plugin' para lidar com os formatos de pacotes da biblioteca Kerfuffle
+Comment[sv]=Insticksprogram för hantering av arkivformat för Kerfuffle-biblioteket
+Comment[zh_TW]=處理 Kerfuffle 函式庫壓縮格式的外掛程式
 
 # Priority. The greater the better.
 [PropertyDef::X-KDE-Priority]
