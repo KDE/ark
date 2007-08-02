@@ -42,7 +42,7 @@ namespace Kerfuffle
 {
 	Archive *factory( const QString & filename, const QString & requestedMimeType )
 	{
-		kDebug( 1601 ) << k_funcinfo << endl;
+		kDebug( 1601 ) << k_funcinfo ;
 		qRegisterMetaType<ArchiveEntry>( "ArchiveEntry" );
 		QString mimeType = requestedMimeType.isEmpty()? KMimeType::findByPath( filename )->name() : requestedMimeType;
 		KService::List offers = KMimeTypeTrader::self()->query( mimeType, "Kerfuffle/Plugin", "(exist Library)" );
@@ -54,7 +54,7 @@ namespace Kerfuffle
 			QString libraryName = offers[ 0 ]->library();
 			KLibrary *lib = KLibLoader::self()->library( QFile::encodeName( libraryName ), QLibrary::ExportExternalSymbolsHint );
 
-			kDebug( 1601 ) << k_funcinfo << "Loading library " << libraryName << endl;
+			kDebug( 1601 ) << k_funcinfo << "Loading library " << libraryName ;
 			if ( lib )
 			{
 				ArchiveFactory *( *pluginFactory )() = ( ArchiveFactory *( * )() )lib->resolveFunction( "pluginFactory" );
@@ -66,9 +66,9 @@ namespace Kerfuffle
 					return arch;
 				}
 			}
-			kDebug( 1601 ) << k_funcinfo << "Couldn't load library " << libraryName << endl;
+			kDebug( 1601 ) << k_funcinfo << "Couldn't load library " << libraryName ;
 		}
-		kDebug( 1601 ) << k_funcinfo << "Couldn't find a library capable of handling " << filename << endl;
+		kDebug( 1601 ) << k_funcinfo << "Couldn't find a library capable of handling " << filename ;
 		return 0;
 	}
 

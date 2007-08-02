@@ -140,7 +140,7 @@ namespace Kerfuffle
 
 	void AddJob::error( const QString& errorMessage, const QString& details )
 	{
-		kDebug( 1601 ) << k_funcinfo << endl;
+		kDebug( 1601 ) << k_funcinfo ;
 		Q_UNUSED( details );
 		setError( 1 );
 		setErrorText( errorMessage );

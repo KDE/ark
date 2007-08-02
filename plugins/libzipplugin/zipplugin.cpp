@@ -49,7 +49,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 		~LibZipInterface()
 		{
-			kDebug( 1601 ) << k_funcinfo << endl;
+			kDebug( 1601 ) << k_funcinfo ;
 			if ( m_archive )
 			{
 				zip_close( m_archive );
@@ -132,11 +132,11 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
 		{
-			kDebug( 1601 ) << k_funcinfo << endl;
+			kDebug( 1601 ) << k_funcinfo ;
 			int processed = 0;
 			foreach( const QVariant &entry, files )
 			{
-				kDebug( 1601 ) << "Trying to extract " << entry.toString() << endl;
+				kDebug( 1601 ) << "Trying to extract " << entry.toString() ;
 
 				// 1. Find the entry in the archive
 				struct zip_file *file = zip_fopen( m_archive, entry.toByteArray(), 0 );
@@ -159,7 +159,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				int readBytes = -1;
 				while ( ( readBytes = zip_fread( file, &buffer, 65536 ) ) != -1 )
 				{
-					kDebug( 1601 ) << k_funcinfo << "Read " << readBytes << " bytes." << endl;
+					kDebug( 1601 ) << k_funcinfo << "Read " << readBytes << " bytes." ;
 					if ( readBytes == 0 )
 					{
 						break;
@@ -178,12 +178,12 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 		bool addFiles( const QStringList & files )
 		{
-			kDebug( 1601 ) << k_funcinfo << "adding " << files.count() << " files"<< endl;
+			kDebug( 1601 ) << k_funcinfo << "adding " << files.count() << " files";
 			progress( 0.0 );
 			int processed = 0;
 			foreach( const QString & file, files )
 			{
-				kDebug( 1601 ) << k_funcinfo << "Adding " << file << endl;
+				kDebug( 1601 ) << k_funcinfo << "Adding " << file ;
 				QFileInfo fi( file );
 				if ( fi.isDir() )
 				{
@@ -191,7 +191,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 					return false;
 				}
 
-				kDebug( 1601 ) << k_funcinfo << file << " is not a dir, good" << endl;
+				kDebug( 1601 ) << k_funcinfo << file << " is not a dir, good" ;
 
 				struct zip_source *source = zip_source_file( m_archive, fi.absoluteFilePath().toLocal8Bit(), 0, -1 );
 				if ( !source )
@@ -200,7 +200,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 					return false;
 				}
 
-				kDebug( 1601 ) << k_funcinfo << "We have a valid source for " << file << endl;
+				kDebug( 1601 ) << k_funcinfo << "We have a valid source for " << file ;
 
 				int index;
 				if (  ( index = zip_add( m_archive, fi.fileName().toLocal8Bit(), source ) ) < 0 )
@@ -208,12 +208,12 @@ class LibZipInterface: public ReadWriteArchiveInterface
 					error( i18n( "Could not add the file %1 to the archive.", fi.fileName() ) );
 				}
 
-				kDebug( 1601 ) << k_funcinfo << file << " was added to the archive, index is " << index << endl;
+				kDebug( 1601 ) << k_funcinfo << file << " was added to the archive, index is " << index ;
 
 				emitEntryForIndex( index );
 				progress( ( ++processed )*1.0/files.count() );
 			}
-			kDebug( 1601 ) << k_funcinfo << "And we're done :)" << endl;
+			kDebug( 1601 ) << k_funcinfo << "And we're done :)" ;
 			return true;
 		}
 

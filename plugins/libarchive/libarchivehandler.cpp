@@ -132,7 +132,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 
 	if ( res != ARCHIVE_OK )
 	{
-		kDebug( 1601 ) << "Couldn't open the file '" << filename() << "', libarchive can't handle it." << endl;
+		kDebug( 1601 ) << "Couldn't open the file '" << filename() << "', libarchive can't handle it." ;
 		return false;
 	}
 

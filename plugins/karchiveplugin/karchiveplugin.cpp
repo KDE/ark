@@ -32,7 +32,7 @@
 KArchiveInterface::KArchiveInterface( const QString & filename, QObject *parent )
 	: ReadWriteArchiveInterface( filename, parent ), m_archive( 0 )
 {
-	kDebug( 1601 ) << k_funcinfo << endl;
+	kDebug( 1601 ) << k_funcinfo ;
 }
 
 KArchiveInterface::~KArchiveInterface()
@@ -62,7 +62,7 @@ KArchive *KArchiveInterface::archive()
 
 bool KArchiveInterface::list()
 {
-	kDebug( 1601 ) << k_funcinfo << endl;
+	kDebug( 1601 ) << k_funcinfo ;
 	if ( !archive()->open( QIODevice::ReadOnly ) )
 	{
 		error( i18n( "Could not open the archive '%1' for reading", filename() ) );
@@ -147,7 +147,7 @@ void KArchiveInterface::createEntryFor( const KArchiveEntry *aentry, const QStri
 
 bool KArchiveInterface::addFiles( const QStringList & files )
 {
-	kDebug( 1601 ) << k_funcinfo << "Starting..." << endl;
+	kDebug( 1601 ) << k_funcinfo << "Starting..." ;
 	delete m_archive;
 	m_archive = 0;
 	/*if ( archive()->isOpen() )
@@ -160,11 +160,11 @@ bool KArchiveInterface::addFiles( const QStringList & files )
 		return false;
 	}
 
-	kDebug( 1601 ) << k_funcinfo << "Archive opened for writing..." << endl;
-	kDebug( 1601 ) << k_funcinfo << "Will add " << files.count() << " files" << endl;
+	kDebug( 1601 ) << k_funcinfo << "Archive opened for writing..." ;
+	kDebug( 1601 ) << k_funcinfo << "Will add " << files.count() << " files" ;
 	foreach( const QString &path, files )
 	{
-		kDebug( 1601 ) << k_funcinfo << "Adding " << path << endl;
+		kDebug( 1601 ) << k_funcinfo << "Adding " << path ;
 		QFileInfo fi( path );
 		Q_ASSERT( fi.exists() );
 
@@ -185,9 +185,9 @@ bool KArchiveInterface::addFiles( const QStringList & files )
 			}
 		}
 	}
-	kDebug( 1601 ) << k_funcinfo << "Closing the archive" << endl;
+	kDebug( 1601 ) << k_funcinfo << "Closing the archive" ;
 	archive()->close();
-	kDebug( 1601 ) << k_funcinfo << "Done" << endl;
+	kDebug( 1601 ) << k_funcinfo << "Done" ;
 	return true;
 }
 
