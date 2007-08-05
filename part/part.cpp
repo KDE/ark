@@ -44,6 +44,7 @@
 #include <QAction>
 #include <QSplitter>
 #include <QVBoxLayout>
+#include <QTimer>
 
 typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY( libarkpart, Factory )
@@ -55,12 +56,8 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	setComponentData( Factory::componentData() );
 	setXMLFile( "ark_part.rc" );
 
-
-
 	KVBox *mainWidget = new KVBox( parentWidget );
 	setWidget( mainWidget );
-
-	m_jobTracker = new JobTracker( mainWidget );
 
 	QSplitter *splitter = new QSplitter( Qt::Horizontal, mainWidget );
 	m_view = new QTreeView( mainWidget );
@@ -78,11 +75,20 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	connect( m_model, SIGNAL( error( const QString&, const QString& ) ),
 	         this, SLOT( slotError( const QString&, const QString& ) ) );
 
-	m_model->setJobTracker( m_jobTracker );
+	m_statusBarExtension = new KParts::StatusBarExtension( this );
+	QTimer::singleShot( 0, this, SLOT( createJobTracker() ) );
 }
 
 Part::~Part()
 {
+}
+
+void Part::createJobTracker()
+{
+	m_jobTracker = new JobTracker;
+	m_model->setJobTracker( m_jobTracker );
+	m_statusBarExtension->addStatusBarItem( m_jobTracker->widget(), 0, true );
+	m_jobTracker->widget()->hide();
 }
 
 void Part::setupView()

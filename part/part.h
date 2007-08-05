@@ -22,6 +22,7 @@
 #define PART_H
 
 #include <KParts/Part>
+#include <KParts/StatusBarExtension>
 #include <QModelIndex>
 #include "interface.h"
 
@@ -34,7 +35,7 @@ class QAction;
 class KAboutData;
 class KTempDir;
 class KJob;
-class KJobTrackerInterface;
+class KAbstractWidgetJobTracker;
 
 class Part: public KParts::ReadWritePart, public Interface
 {
@@ -66,6 +67,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void updateActions();
 		void selectionChanged();
 		void adjustColumns( const QModelIndex & topleft, const QModelIndex& bottomRight );
+		void createJobTracker();
 
 	private:
 		void setupView();
@@ -82,7 +84,9 @@ class Part: public KParts::ReadWritePart, public Interface
 		QAction              *m_deleteFilesAction;
 		InfoPanel            *m_infoPanel;
 		KTempDir             *m_previewDir;
-		KJobTrackerInterface *m_jobTracker;
+
+		KAbstractWidgetJobTracker  *m_jobTracker;
+		KParts::StatusBarExtension *m_statusBarExtension;
 };
 
 #endif // PART_H

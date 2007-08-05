@@ -27,16 +27,10 @@ JobTrackerWidget::JobTrackerWidget( QWidget *parent )
 	: QFrame( parent )
 {
 	setupUi( this );
-
-	iconLabel->setPixmap( DesktopIcon( "ark" ) );
-	iconLabel->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );
-
-	setMaximumHeight( K3Icon::SizeHuge );
-
 }
 
 JobTracker::JobTracker( QWidget *parent )
-	: KJobTrackerInterface( parent )
+	: KAbstractWidgetJobTracker( parent )
 {
 	m_ui = new JobTrackerWidget( parent );
 	m_ui->hide();

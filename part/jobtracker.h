@@ -22,7 +22,7 @@
 #define JOBTRACKER_H
 
 #include <QFrame>
-#include <kjobtrackerinterface.h>
+#include <kabstractwidgetjobtracker.h>
 #include "ui_jobtracker.h"
 
 class JobTrackerWidget: public QFrame, public Ui::JobTrackerWidget
@@ -32,13 +32,13 @@ class JobTrackerWidget: public QFrame, public Ui::JobTrackerWidget
 	JobTrackerWidget( QWidget *parent = 0 );
 };
 
-class JobTracker: public KJobTrackerInterface
+class JobTracker: public KAbstractWidgetJobTracker
 {
 	Q_OBJECT
 	public:
 		JobTracker( QWidget *parent = 0 );
 
-		QWidget *widget() const { return m_ui; }
+		QWidget *widget() { return m_ui; }
 
 		virtual void registerJob( KJob *job );
 		virtual void unregisterJob( KJob *job );
