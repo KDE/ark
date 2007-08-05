@@ -49,6 +49,7 @@ void JobTracker::infoMessage( KJob *job, const QString &plain, const QString &ri
 	Q_UNUSED( job );
 	Q_UNUSED( rich );
 	m_ui->informationLabel->setText( plain );
+	m_ui->informationLabel->show();
 }
 
 void JobTracker::warning( KJob *job, const QString &plain, const QString &rich )
@@ -62,6 +63,7 @@ void JobTracker::registerJob( KJob *job )
 {
 	KJobTrackerInterface::registerJob( job );
 	m_ui->show();
+	m_ui->informationLabel->hide();
 }
 
 void JobTracker::unregisterJob( KJob *job )

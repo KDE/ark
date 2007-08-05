@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>332</width>
+    <width>370</width>
     <height>25</height>
    </rect>
   </property>
@@ -54,7 +54,7 @@
    <item>
     <widget class="QProgressBar" name="progressBar" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+      <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
