@@ -78,6 +78,6 @@ void JobTracker::timeOut()
 void JobTracker::finished( KJob *job )
 {
 	QTimer::singleShot( 1500, this, SLOT( timeOut() ) );
-	m_ui->informationLabel->setText( i18n( "Done!" ) );
+	m_ui->informationLabel->setText( i18n( "Operation finished." ) );
 	KJobTrackerInterface::unregisterJob( job );
 }
