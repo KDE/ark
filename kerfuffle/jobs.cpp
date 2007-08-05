@@ -36,7 +36,7 @@ namespace Kerfuffle
 
 	void ListJob::start()
 	{
-		emit description( this, i18n( "Listing entries in the archive '%1'", m_archive->filename() ) );
+		emit description( this, i18n( "Listing entries" ) );
 		InternalListingJob *job = new InternalListingJob( m_archive, this );
 		// TODO: connects
 		connect( job, SIGNAL( entry( const ArchiveEntry& ) ),
@@ -61,16 +61,16 @@ namespace Kerfuffle
 
 	void ExtractJob::start()
 	{
-		KLocalizedString desc;
+		QString desc;
 		if ( m_files.count() == 0 )
 		{
-			desc = ki18n( "Extracting all files from the archive '%1'" );
+			desc = i18n( "Extracting all files" );
 		}
 		else
 		{
-			desc = ki18np( "Extracting one file from the archive %2", "Extracting %1 files from the archive '%2'" ).subs( m_files.count() );
+			desc = i18np( "Extracting one file", "Extracting %1 files", m_files.count() );
 		}
-		emit description( this, desc.subs( m_archive->filename() ).toString() );
+		emit description( this, desc );
 		InternalExtractJob *job = new InternalExtractJob( m_archive, m_files, m_destinationDir, m_preservePaths, this );
 
 		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
@@ -112,7 +112,7 @@ namespace Kerfuffle
 
 	void AddJob::start()
 	{
-		emit description( this, i18np( "Adding one file to the archive", "Adding %1 files to the archive", m_files.count() ) );
+		emit description( this, i18np( "Adding a file", "Adding %1 files", m_files.count() ) );
 		
 		InternalAddJob *job = new InternalAddJob( m_archive, m_files, this );
 		
@@ -153,7 +153,7 @@ namespace Kerfuffle
 
 	void DeleteJob::start()
 	{
-		emit description( this, i18np( "Deleting one file from the archive", "Deleting %1 files from the archive", m_files.count() ) );
+		emit description( this, i18np( "Deleting a file from the archive", "Deleting %1 files", m_files.count() ) );
 
 		InternalDeleteJob *job = new InternalDeleteJob( m_archive, m_files, this );
 
