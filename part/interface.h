@@ -30,6 +30,7 @@ class Interface
 		virtual ~Interface() {}
 
 		virtual QStringList supportedMimeTypes() const = 0;
+		virtual QStringList supportedWriteMimeTypes() const = 0;
 };
 
 Q_DECLARE_INTERFACE( Interface, "org.kde.kerfuffle.partinterface/0.42" )

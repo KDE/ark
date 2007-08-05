@@ -35,6 +35,7 @@ class MainWindow: public KParts::MainWindow
 		~MainWindow();
 
 	private slots:
+		void newArchive();
 		void openArchive();
 		void openUrl( const KUrl& url );
 		void quit();

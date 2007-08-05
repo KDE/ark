@@ -10,6 +10,7 @@
 </MenuBar>
 <ToolBar noMerge="1" name="mainToolBar">
 	<text>Main Toolbar</text>
+	<Action name="file_new"/>
 	<Action name="file_open_recent"/>
 </ToolBar>
 </kpartgui>

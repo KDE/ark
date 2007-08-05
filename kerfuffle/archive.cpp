@@ -89,4 +89,23 @@ namespace Kerfuffle
 		}
 		return supported;
 	}
+
+	QStringList supportedWriteMimeTypes()
+	{
+		QStringList supported;
+		KService::List offers = KServiceTypeTrader::self()->query( "Kerfuffle/Plugin", "(exist Library) and ([X-KDE-Kerfuffle-ReadWrite] == true)" );
+
+		foreach( KService::Ptr service, offers )
+		{
+			foreach( const QString& mimeType, service->serviceTypes() )
+			{
+				if ( !mimeType.contains( "Kerfuffle" ) )
+				{
+					supported << mimeType;
+				}
+			}
+		}
+		kDebug( 1601 ) << k_funcinfo << "Returning" << supported;
+		return supported;
+	}
 } // namespace Kerfuffle

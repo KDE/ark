@@ -66,6 +66,7 @@ namespace Kerfuffle
 
 	Archive* factory( const QString & filename, const QString & requestedMimeType = QString() ) KERFUFFLE_EXPORT;
 	QStringList supportedMimeTypes() KERFUFFLE_EXPORT;
+	QStringList supportedWriteMimeTypes() KERFUFFLE_EXPORT;
 } // namespace Kerfuffle
 
 

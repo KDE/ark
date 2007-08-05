@@ -26,7 +26,7 @@
 
 using namespace Kerfuffle;
 
-class BKInterface: public ReadOnlyArchiveInterface
+class BKInterface: public ReadWriteArchiveInterface
 {
 	Q_OBJECT
 	public:
@@ -35,6 +35,9 @@ class BKInterface: public ReadOnlyArchiveInterface
 
 		bool list();
 		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths );
+
+		bool addFiles( const QStringList & files );
+		bool deleteFiles( const QList<QVariant> & files );
 
 	private:
 		bool browse( BkFileBase* base, const QString& prefix = QString() );

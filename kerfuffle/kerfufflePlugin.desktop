@@ -16,4 +16,8 @@ Type=int
 [PropertyDef::X-KDE-Kerfuffle-APIRevision]
 Type=int
 
+# Is the plugin read-write or not? (i.e., can it create archives?)
+[PropertyDef::X-KDE-Kerfuffle-ReadWrite]
+Type=bool
+
 

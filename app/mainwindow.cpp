@@ -73,6 +73,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupActions()
 {
+	KStandardAction::openNew( this, SLOT( newArchive() ), actionCollection() );
 	KStandardAction::open( this, SLOT( openArchive() ), actionCollection() );
 	KStandardAction::quit( this, SLOT( quit() ), actionCollection() );
 
@@ -137,5 +138,18 @@ void MainWindow::openUrl( const KUrl& url )
 
 void MainWindow::quit()
 {
-	kapp->closeAllWindows();
+	close();
+}
+
+void MainWindow::newArchive()
+{
+	Interface *iface = qobject_cast<Interface*>( m_part );
+	Q_ASSERT( iface );
+	QStringList mimeTypes = iface->supportedWriteMimeTypes();
+
+	kDebug( 1601 ) << k_funcinfo << "Supported mimetypes are" << mimeTypes.join( " " );
+
+	QString saveFile = KFileDialog::getSaveFileName( KUrl( "kfiledialog:///ArkNewDir" ),
+	                                                 mimeTypes.join( " " ) );
+	openUrl( KUrl( saveFile ) );
 }

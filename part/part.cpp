@@ -197,6 +197,11 @@ QStringList Part::supportedMimeTypes() const
 	return Kerfuffle::supportedMimeTypes();
 }
 
+QStringList Part::supportedWriteMimeTypes() const
+{
+	return Kerfuffle::supportedWriteMimeTypes();
+}
+
 void Part::slotLoadingStarted()
 {
 	QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );

@@ -50,6 +50,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		virtual bool saveFile();
 
 		QStringList supportedMimeTypes() const;
+		QStringList supportedWriteMimeTypes() const;
 
 	private slots:
 		void slotLoadingStarted();

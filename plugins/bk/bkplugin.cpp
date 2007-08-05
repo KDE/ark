@@ -25,7 +25,7 @@
 #include <KDebug>
 
 BKInterface::BKInterface( const QString & filename, QObject *parent )
-	: ReadOnlyArchiveInterface( filename, parent )
+	: ReadWriteArchiveInterface( filename, parent )
 {
 }
 
@@ -115,6 +115,14 @@ bool BKInterface::browse( BkFileBase* base, const QString& prefix )
 	}
 
 	return true;
+}
+
+bool BKInterface::addFiles( const QStringList & files )
+{
+}
+
+bool BKInterface::deleteFiles( const QList<QVariant> & files )
+{
 }
 
 KERFUFFLE_PLUGIN_FACTORY( BKInterface )
