@@ -217,7 +217,7 @@ QVariant ArchiveModel::headerData( int section, Qt::Orientation, int role ) cons
 		switch ( section )
 		{
 			case 0:
-				return i18n( "Name" );
+				return i18nc( "Name of a file inside an archive", "Name" );
 			case 1:
 				return i18n( "Size" );
 		}
