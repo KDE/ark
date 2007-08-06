@@ -27,6 +27,7 @@
 #include "observer.h"
 
 #include <QFileInfo>
+#include <QDir>
 
 namespace Kerfuffle
 {
@@ -92,7 +93,15 @@ namespace Kerfuffle
 
 	bool ReadWriteArchiveInterface::isReadOnly() const
 	{
-		return ! QFileInfo( filename() ).isWritable();
+		QFileInfo fileInfo( filename() );
+		if ( fileInfo.exists() )
+		{
+			return ! fileInfo.isWritable();
+		}
+		else
+		{
+			return !fileInfo.dir().exists(); // TODO: Should also check if we can create a file in that directory
+		}
 	}
 } // namespace Kerfuffle
 

@@ -52,6 +52,8 @@ class Part: public KParts::ReadWritePart, public Interface
 		QStringList supportedMimeTypes() const;
 		QStringList supportedWriteMimeTypes() const;
 
+		bool busy() const { return m_busy; }
+
 	private slots:
 		void slotLoadingStarted();
 		void slotLoadingFinished();
@@ -85,6 +87,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		QAction              *m_deleteFilesAction;
 		InfoPanel            *m_infoPanel;
 		KTempDir             *m_previewDir;
+		bool                  m_busy;
 
 		KAbstractWidgetJobTracker  *m_jobTracker;
 		KParts::StatusBarExtension *m_statusBarExtension;

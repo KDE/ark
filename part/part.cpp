@@ -50,7 +50,7 @@ typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY( libarkpart, Factory )
 
 Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
-	: KParts::ReadWritePart( parent ), m_model( new ArchiveModel( this ) ), m_previewDir( 0 )
+	: KParts::ReadWritePart( parent ), m_model( new ArchiveModel( this ) ), m_previewDir( 0 ), m_busy( false )
 {
 	Q_UNUSED( args );
 	setComponentData( Factory::componentData() );
@@ -154,11 +154,12 @@ void Part::updateActions()
 {
 	bool isWritable = m_model->archive() && ( !m_model->archive()->isReadOnly() );
 
-	m_previewAction->setEnabled( ( m_view->selectionModel()->selectedRows().count() == 1 ) &&isPreviewable( m_view->selectionModel()->currentIndex() ) );
-	m_extractFilesAction->setEnabled( m_model->archive() );
-	m_addFilesAction->setEnabled( isWritable );
-	m_addDirAction->setEnabled( isWritable );
-	m_deleteFilesAction->setEnabled( ( m_view->selectionModel()->selectedRows().count() > 0 )
+	m_previewAction->setEnabled( !busy() && ( m_view->selectionModel()->selectedRows().count() == 1 )
+	                             && isPreviewable( m_view->selectionModel()->currentIndex() ) );
+	m_extractFilesAction->setEnabled( !busy() && m_model->archive() );
+	m_addFilesAction->setEnabled( !busy() && isWritable );
+	m_addDirAction->setEnabled( !busy() && isWritable );
+	m_deleteFilesAction->setEnabled( !busy() && ( m_view->selectionModel()->selectedRows().count() > 0 )
 	                                 && isWritable );
 }
 
@@ -205,11 +206,13 @@ QStringList Part::supportedWriteMimeTypes() const
 void Part::slotLoadingStarted()
 {
 	QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
+	m_busy = true;
 }
 
 void Part::slotLoadingFinished()
 {
 	QApplication::restoreOverrideCursor();
+	m_busy = false;
 }
 
 void Part::slotPreview()
