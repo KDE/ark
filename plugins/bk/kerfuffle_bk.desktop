@@ -15,6 +15,7 @@ X-KDE-Kerfuffle-ReadWrite=true
 Name=kerfuffle_bk
 Name[sv]=Kerfuffle Bk
 Comment=bkisofs plugin for Kerfuffle
+Comment[ja]=Kerfuffle のための bkisofs プラグイン
 Comment[pt]='Plugin' do bkisofs para o Kerfuffle
 Comment[pt_BR]='Plugin' do bkisofs para o Kerfuffle
 Comment[sv]=Bkisofs-insticksprogram för Kerfuffle

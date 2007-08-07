@@ -14,6 +14,7 @@ X-KDE-Kerfuffle-APIRevision=1
 Name=kerfuffle_libarchive
 Name[sv]=Kerfuffle Libarchive
 Comment=LibArchive Plugin for Kerfuffle
+Comment[ja]=Kerfuffle のための LibArchive プラグイン
 Comment[pt]='Plugin' de LibArchive para o Kerfuffle
 Comment[pt_BR]='Plugin' de LibArchive para o Kerfuffle
 Comment[sv]=Libarchive-insticksprogram för Kerfuffle

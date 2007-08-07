@@ -15,6 +15,7 @@ X-KDE-Kerfuffle-ReadWrite=true
 Name=kerfuffle_libzip
 Name[sv]=Kerfuffle Libzip
 Comment=libzip plugin for Kerfuffle
+Comment[ja]=Kerfuffle のための libzip プラグイン
 Comment[pt]='Plugin' da 'libzip' para o Kerfuffle
 Comment[pt_BR]='Plugin' da 'libzip' para o Kerfuffle
 Comment[sv]=Libzip-insticksprogram för Kerfuffle
