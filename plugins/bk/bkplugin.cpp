@@ -119,10 +119,12 @@ bool BKInterface::browse( BkFileBase* base, const QString& prefix )
 
 bool BKInterface::addFiles( const QStringList & files )
 {
+  return false;
 }
 
 bool BKInterface::deleteFiles( const QList<QVariant> & files )
 {
+  return false;
 }
 
 KERFUFFLE_PLUGIN_FACTORY( BKInterface )
