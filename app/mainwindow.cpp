@@ -58,7 +58,10 @@ MainWindow::MainWindow( QWidget * )
 		resize( 640, 480 );
 	}
 	setAutoSaveSettings( "MainWindow" );
+
 	
+	connect( m_part, SIGNAL( busy() ), this, SLOT( updateActions() ) );
+	connect( m_part, SIGNAL( ready() ), this, SLOT( updateActions() ) );
 }
 
 MainWindow::~MainWindow()
@@ -73,8 +76,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupActions()
 {
-	KStandardAction::openNew( this, SLOT( newArchive() ), actionCollection() );
-	KStandardAction::open( this, SLOT( openArchive() ), actionCollection() );
+	m_newAction = KStandardAction::openNew( this, SLOT( newArchive() ), actionCollection() );
+	m_openAction = KStandardAction::open( this, SLOT( openArchive() ), actionCollection() );
 	KStandardAction::quit( this, SLOT( quit() ), actionCollection() );
 
 	m_recentFilesAction = KStandardAction::openRecent( this, SLOT( openUrl( const KUrl& ) ), actionCollection() );
@@ -91,6 +94,14 @@ void MainWindow::setupActions()
 
 	KStandardAction::configureToolbars( this, SLOT( editToolbars() ), actionCollection() );
 	KStandardAction::keyBindings( this, SLOT( editKeyBindings() ), actionCollection() );
+}
+
+void MainWindow::updateActions()
+{
+	Interface *iface = qobject_cast<Interface*>( m_part );
+	m_newAction->setEnabled( !iface->isBusy() );
+	m_openAction->setEnabled( !iface->isBusy() );
+	m_recentFilesAction->setEnabled( !iface->isBusy() );
 }
 
 void MainWindow::editKeyBindings()

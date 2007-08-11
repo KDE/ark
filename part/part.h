@@ -52,7 +52,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		QStringList supportedMimeTypes() const;
 		QStringList supportedWriteMimeTypes() const;
 
-		bool busy() const { return m_busy; }
+		bool isBusy() const { return m_busy; }
 
 	private slots:
 		void slotLoadingStarted();
@@ -71,6 +71,10 @@ class Part: public KParts::ReadWritePart, public Interface
 		void selectionChanged();
 		void adjustColumns( const QModelIndex & topleft, const QModelIndex& bottomRight );
 		void createJobTracker();
+
+	signals:
+		void busy();
+		void ready();
 
 	private:
 		void setupView();

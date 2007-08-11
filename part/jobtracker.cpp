@@ -30,7 +30,7 @@ JobTrackerWidget::JobTrackerWidget( QWidget *parent )
 }
 
 JobTracker::JobTracker( QWidget *parent )
-	: KAbstractWidgetJobTracker( parent )
+	: KAbstractWidgetJobTracker( parent ), m_currentJob( 0 )
 {
 	m_ui = new JobTrackerWidget( parent );
 	m_ui->hide();
@@ -64,11 +64,13 @@ void JobTracker::registerJob( KJob *job )
 	KJobTrackerInterface::registerJob( job );
 	m_ui->show();
 	m_ui->informationLabel->hide();
+	m_currentJob = job;
 }
 
 void JobTracker::unregisterJob( KJob *job )
 {
 	m_ui->hide();
+	m_currentJob = 0;
 	KJobTrackerInterface::unregisterJob( job );
 }
 

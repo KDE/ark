@@ -35,6 +35,7 @@ class MainWindow: public KParts::MainWindow
 		~MainWindow();
 
 	private slots:
+		void updateActions();
 		void newArchive();
 		void openArchive();
 		void openUrl( const KUrl& url );
@@ -48,6 +49,8 @@ class MainWindow: public KParts::MainWindow
 
 		KParts::ReadWritePart *m_part;
 		KRecentFilesAction    *m_recentFilesAction;
+		QAction               *m_openAction;
+		QAction               *m_newAction;
 };
 
 #endif // MAINWINDOW_H

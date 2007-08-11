@@ -99,6 +99,7 @@ void Part::setupView()
 	m_view->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 	m_view->setAlternatingRowColors( true );
 	m_view->setAnimated( true );
+	m_view->setColumnWidth( 0, 150 );
 
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
 	         this, SLOT( updateActions() ) );
@@ -154,12 +155,12 @@ void Part::updateActions()
 {
 	bool isWritable = m_model->archive() && ( !m_model->archive()->isReadOnly() );
 
-	m_previewAction->setEnabled( !busy() && ( m_view->selectionModel()->selectedRows().count() == 1 )
+	m_previewAction->setEnabled( !isBusy() && ( m_view->selectionModel()->selectedRows().count() == 1 )
 	                             && isPreviewable( m_view->selectionModel()->currentIndex() ) );
-	m_extractFilesAction->setEnabled( !busy() && m_model->archive() );
-	m_addFilesAction->setEnabled( !busy() && isWritable );
-	m_addDirAction->setEnabled( !busy() && isWritable );
-	m_deleteFilesAction->setEnabled( !busy() && ( m_view->selectionModel()->selectedRows().count() > 0 )
+	m_extractFilesAction->setEnabled( !isBusy() && ( m_model->rowCount() > 0 ) );
+	m_addFilesAction->setEnabled( !isBusy() && isWritable );
+	m_addDirAction->setEnabled( !isBusy() && isWritable );
+	m_deleteFilesAction->setEnabled( !isBusy() && ( m_view->selectionModel()->selectedRows().count() > 0 )
 	                                 && isWritable );
 }
 
@@ -207,12 +208,15 @@ void Part::slotLoadingStarted()
 {
 	QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
 	m_busy = true;
+	emit busy();
 }
 
 void Part::slotLoadingFinished()
 {
 	QApplication::restoreOverrideCursor();
 	m_busy = false;
+	m_view->resizeColumnToContents( 0 );
+	emit ready();
 }
 
 void Part::slotPreview()
