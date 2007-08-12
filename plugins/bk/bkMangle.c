@@ -8,6 +8,8 @@
 * Author:
 * Andrew Smith, http://littlesvr.ca/misc/contactandrew.php
 *
+* Copyright 2005-2007 Andrew Smith <andrew-smith@mail.ru>
+*
 * Contributors:
 * The Samba Project - http://samba.org/
 * - most of the filename mangling code
