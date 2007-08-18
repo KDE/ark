@@ -16,6 +16,7 @@ Name=kerfuffle_bk
 Name[sv]=Kerfuffle Bk
 Comment=bkisofs plugin for Kerfuffle
 Comment[es]=Extensión bkisofs para Kerfuffle
+Comment[he]=תוסף bkisofs עבור Kerfuffle
 Comment[ja]=Kerfuffle のための bkisofs プラグイン
 Comment[pt]='Plugin' do bkisofs para o Kerfuffle
 Comment[pt_BR]='Plugin' do bkisofs para o Kerfuffle

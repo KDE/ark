@@ -15,6 +15,7 @@ Name=kerfuffle_karchive
 Name[sv]=Kerfuffle Karchive
 Comment=KArchive plugin for Kerfuffle
 Comment[es]=Extensión KArchive para Kerfuffle
+Comment[he]=תוסף KArchive  עבור Kerfuffle
 Comment[ja]=Kerfuffle のための KArchive プラグイン
 Comment[pt]='Plugin' do KArchive para o Kerfuffle
 Comment[pt_BR]='Plugin' do KArchive para o Kerfuffle
