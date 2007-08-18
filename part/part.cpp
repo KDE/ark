@@ -171,7 +171,7 @@ bool Part::isPreviewable( const QModelIndex & index )
 
 void Part::selectionChanged()
 {
-	m_infoPanel->setIndex( m_view->selectionModel()->currentIndex() );
+	m_infoPanel->setIndexes( m_view->selectionModel()->selectedRows() );
 }
 
 KAboutData* Part::createAboutData()

@@ -113,6 +113,31 @@ void InfoPanel::setIndex( const QModelIndex& index )
 	}
 }
 
+void InfoPanel::setIndexes( const QModelIndexList &list )
+{
+	if ( list.size() == 0 )
+	{
+		setIndex( QModelIndex() );
+	}
+	else if ( list.size() == 1 )
+	{
+		setIndex( list[ 0 ] );
+	}
+	else
+	{
+		// TODO: set the icon
+		fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( i18np( "One file selected", "%1 files selected", list.size() ) ) );
+		quint64 totalSize = 0;
+		foreach( const QModelIndex& index, list )
+		{
+			const ArchiveEntry& entry = m_model->entryForIndex( index );
+			totalSize += entry[ Size ].toULongLong();
+		}
+		additionalInfo->setText( KIO::convertSize( totalSize ) );
+		hideMetaData();
+	}
+}
+
 void InfoPanel::showMetaData()
 {
 	firstSeparator->show();

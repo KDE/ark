@@ -36,6 +36,7 @@ class InfoPanel: public QFrame, Ui::InformationPanel
 		~InfoPanel();
 
 		void setIndex( const QModelIndex & );
+		void setIndexes( const QModelIndexList &list );
 
 	private:
 		void setDefaultValues();
