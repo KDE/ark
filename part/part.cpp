@@ -274,7 +274,7 @@ void Part::slotError( const QString& errorMessage, const QString& details )
 
 void Part::slotExtractFiles()
 {
-	kDebug( 1601 ) << k_funcinfo ;
+	kDebug( 1601 ) ;
 
 	ExtractionDialog dialog;
 	if ( m_view->selectionModel()->selectedRows().count() > 0 )
@@ -313,7 +313,7 @@ QList<QVariant> Part::selectedFiles()
 
 void Part::slotExtractionDone( KJob* job )
 {
-	kDebug( 1601 ) << k_funcinfo ;
+	kDebug( 1601 ) ;
 	if ( job->error() )
 	{
 		KMessageBox::error( widget(), job->errorString() );
@@ -329,7 +329,7 @@ void Part::slotExtractionDone( KJob* job )
 
 void Part::adjustColumns( const QModelIndex & topleft, const QModelIndex& bottomRight )
 {
-	kDebug( 1601 ) << k_funcinfo ;
+	kDebug( 1601 ) ;
 	int firstColumn= topleft.column();
 	int lastColumn = bottomRight.column();
 	do
@@ -341,7 +341,7 @@ void Part::adjustColumns( const QModelIndex & topleft, const QModelIndex& bottom
 
 void Part::slotAddFiles()
 {
-	kDebug( 1601 ) << k_funcinfo ;
+	kDebug( 1601 ) ;
 	QStringList filesToAdd = KFileDialog::getOpenFileNames( KUrl( "kfiledialog:///ArkAddFiles" ), QString(), widget(), i18n( "Add Files" ) );
 
 	if ( !filesToAdd.isEmpty() )
@@ -355,7 +355,7 @@ void Part::slotAddFiles()
 
 void Part::slotAddDir()
 {
-	kDebug( 1601 ) << k_funcinfo ;
+	kDebug( 1601 ) ;
 	QString dirToAdd = KFileDialog::getExistingDirectory( KUrl( "kfiledialog:///ArkAddFiles" ), widget(), i18n( "Add Folder" ) );
 
 	if ( !dirToAdd.isEmpty() )
@@ -372,7 +372,7 @@ void Part::slotAddDir()
 
 void Part::slotAddFilesDone( KJob* job )
 {
-	kDebug( 1601 ) << k_funcinfo ;
+	kDebug( 1601 ) ;
 	if ( job->error() )
 	{
 		KMessageBox::error( widget(), job->errorString() );
@@ -381,7 +381,7 @@ void Part::slotAddFilesDone( KJob* job )
 
 void Part::slotDeleteFiles()
 {
-	kDebug( 1601 ) << k_funcinfo ;
+	kDebug( 1601 ) ;
 	DeleteJob *job = m_model->deleteFiles( selectedFiles() );
 	connect( job, SIGNAL( result( KJob* ) ),
 	         this, SLOT( slotDeleteFilesDone( KJob* ) ) );

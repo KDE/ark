@@ -158,7 +158,7 @@ void MainWindow::newArchive()
 	Q_ASSERT( iface );
 	QStringList mimeTypes = iface->supportedWriteMimeTypes();
 
-	kDebug( 1601 ) << k_funcinfo << "Supported mimetypes are" << mimeTypes.join( " " );
+	kDebug( 1601 ) << "Supported mimetypes are" << mimeTypes.join( " " );
 
 	QString saveFile = KFileDialog::getSaveFileName( KUrl( "kfiledialog:///ArkNewDir" ),
 	                                                 mimeTypes.join( " " ) );
