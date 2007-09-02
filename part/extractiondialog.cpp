@@ -39,7 +39,7 @@ ExtractionDialog::ExtractionDialog( QWidget *parent )
 	setMainWidget( m_ui );
 	setButtons( Ok | Cancel );
 	setCaption( i18n( "Extract" ) );
-	m_ui->iconLabel->setPixmap( DesktopIcon( "ark-extract" ) );
+	m_ui->iconLabel->setPixmap( DesktopIcon( "archive-extract" ) );
 	m_ui->iconLabel->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );
 
 	m_ui->filesToExtractGroupBox->hide();

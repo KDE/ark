@@ -115,34 +115,34 @@ void Part::setupActions()
 {
 	m_previewAction = actionCollection()->addAction( "preview" );
 	m_previewAction->setText( i18nc( "to preview a file inside an archive", "Pre&view" ) );
-	m_previewAction->setIcon( KIcon( "ark-view" ) );
+	m_previewAction->setIcon( KIcon( "document-preview-archive" ) );
 	m_previewAction->setStatusTip( i18n( "Click to preview the selected file" ) );
 	connect( m_previewAction, SIGNAL( triggered( bool ) ),
 	         this, SLOT( slotPreview() ) );
 
 	m_extractFilesAction = actionCollection()->addAction( "extract" );
 	m_extractFilesAction->setText( i18n( "E&xtract..." ) );
-	m_extractFilesAction->setIcon( KIcon( "ark-extract" ) );
+	m_extractFilesAction->setIcon( KIcon( "archive-extract" ) );
 	m_extractFilesAction->setStatusTip( i18n( "Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones" ) );
 	connect( m_extractFilesAction, SIGNAL( triggered( bool ) ),
 	         this, SLOT( slotExtractFiles() ) );
 
 	m_addFilesAction = actionCollection()->addAction( "add" );
-	m_addFilesAction->setIcon( KIcon( "ark-addfile" ) );
+	m_addFilesAction->setIcon( KIcon( "list-add-file-archive" ) );
 	m_addFilesAction->setText( i18n( "Add &File..." ) );
 	m_addFilesAction->setStatusTip( i18n( "Click to add files to the archive" ) );
 	connect( m_addFilesAction, SIGNAL( triggered( bool ) ),
 	         this, SLOT( slotAddFiles() ) );
 
 	m_addDirAction = actionCollection()->addAction( "add-dir" );
-	m_addDirAction->setIcon( KIcon( "ark-adddir" ) );
+	m_addDirAction->setIcon( KIcon( "list-add-directory-archive" ) );
 	m_addDirAction->setText( i18n( "Add Fo&lder..." ) );
 	m_addDirAction->setStatusTip( i18n( "Click to add a folder to the archive" ) );
 	connect( m_addDirAction, SIGNAL( triggered( bool ) ),
 	         this, SLOT( slotAddDir() ) );
 
 	m_deleteFilesAction = actionCollection()->addAction( "delete" );
-	m_deleteFilesAction->setIcon( KIcon( "ark-delete" ) );
+	m_deleteFilesAction->setIcon( KIcon( "list-remove-file-archive" ) );
 	m_deleteFilesAction->setText( i18n( "De&lete" ) );
 	m_deleteFilesAction->setStatusTip( i18n( "Click to delete the selected files" ) );
 	connect( m_deleteFilesAction, SIGNAL( triggered( bool ) ),
