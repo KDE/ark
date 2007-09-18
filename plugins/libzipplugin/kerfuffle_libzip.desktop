@@ -26,5 +26,6 @@ Comment[pt]='Plugin' da 'libzip' para o Kerfuffle
 Comment[pt_BR]='Plugin' da 'libzip' para o Kerfuffle
 Comment[sv]=Libzip-insticksprogram för Kerfuffle
 Comment[ta]=கெர்ஃபஃபில் க்கு லிப்ஜிப் சொருகி
+Comment[zh_CN]=Kerfuffle 的 libzip 插件
 Comment[zh_TW]=Kerfuffle 的 libzip 外掛程式
 MimeType=application/zip;application/x-zip-compressed;

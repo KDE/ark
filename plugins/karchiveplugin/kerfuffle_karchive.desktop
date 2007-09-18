@@ -25,5 +25,6 @@ Comment[pt]='Plugin' do KArchive para o Kerfuffle
 Comment[pt_BR]='Plugin' do KArchive para o Kerfuffle
 Comment[sv]=Karchive-insticksprogram för Kerfuffle
 Comment[ta]=கெர்ஃபஃபில் க்கு கேஆர்கைவ் சொருகி
+Comment[zh_CN]=Kerfuffle 的 KArchive 插件
 Comment[zh_TW]=Kerfuffle 的 KArchive 外掛程式
 MimeType=application/zip;application/x-zip-compressed;application/x-tar;application/x-compressed-tar;

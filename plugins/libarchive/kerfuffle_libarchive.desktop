@@ -25,5 +25,6 @@ Comment[pt]='Plugin' de LibArchive para o Kerfuffle
 Comment[pt_BR]='Plugin' de LibArchive para o Kerfuffle
 Comment[sv]=Libarchive-insticksprogram för Kerfuffle
 Comment[ta]=கெர்ஃபஃபில் க்கு லிப்ஆர்கைவ் சொருகி
+Comment[zh_CN]=Kerfuffle 的 LibArchive 插件
 Comment[zh_TW]=Kerfuffle 的 LibArchive 外掛程式
 MimeType=application/x-tar;application/x-compressed-tar;application/x-bzip-compressed-tar;application/x-tarz;
