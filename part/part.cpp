@@ -87,8 +87,8 @@ void Part::createJobTracker()
 {
 	m_jobTracker = new JobTracker;
 	m_model->setJobTracker( m_jobTracker );
-	m_statusBarExtension->addStatusBarItem( m_jobTracker->widget(), 0, true );
-	m_jobTracker->widget()->hide();
+	m_statusBarExtension->addStatusBarItem( m_jobTracker->widget(0), 0, true );
+	m_jobTracker->widget(0)->hide();
 }
 
 void Part::setupView()
