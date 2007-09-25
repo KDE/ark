@@ -128,21 +128,21 @@ void Part::setupActions()
 	         this, SLOT( slotExtractFiles() ) );
 
 	m_addFilesAction = actionCollection()->addAction( "add" );
-	m_addFilesAction->setIcon( KIcon( "list-add-file-archive" ) );
+	m_addFilesAction->setIcon( KIcon( "archive-insert" ) );
 	m_addFilesAction->setText( i18n( "Add &File..." ) );
 	m_addFilesAction->setStatusTip( i18n( "Click to add files to the archive" ) );
 	connect( m_addFilesAction, SIGNAL( triggered( bool ) ),
 	         this, SLOT( slotAddFiles() ) );
 
 	m_addDirAction = actionCollection()->addAction( "add-dir" );
-	m_addDirAction->setIcon( KIcon( "list-add-directory-archive" ) );
+	m_addDirAction->setIcon( KIcon( "archive-insert-directory" ) );
 	m_addDirAction->setText( i18n( "Add Fo&lder..." ) );
 	m_addDirAction->setStatusTip( i18n( "Click to add a folder to the archive" ) );
 	connect( m_addDirAction, SIGNAL( triggered( bool ) ),
 	         this, SLOT( slotAddDir() ) );
 
 	m_deleteFilesAction = actionCollection()->addAction( "delete" );
-	m_deleteFilesAction->setIcon( KIcon( "list-remove-file-archive" ) );
+	m_deleteFilesAction->setIcon( KIcon( "archive-remove" ) );
 	m_deleteFilesAction->setText( i18n( "De&lete" ) );
 	m_deleteFilesAction->setStatusTip( i18n( "Click to delete the selected files" ) );
 	connect( m_deleteFilesAction, SIGNAL( triggered( bool ) ),
