@@ -3,6 +3,7 @@ Encoding=UTF-8
 Type=ServiceType
 X-KDE-ServiceType=Kerfuffle/Plugin
 Comment=Plugin for handling of archive formats for the Kerfuffle library
+Comment[ar]=ملحق للتحكم بهيئات اﻷرشيف لمكتبة Kerfuffle
 Comment[el]=Πρόσθετο χειρισμού μορφών αρχειοθήκης για τη βιβλιοθήκη Kerfuffle
 Comment[es]=Extensión para manejar formatos de archivo de la biblioteca Kerfuffle
 Comment[he]=תוסף לניהול פורמטי ארכיונים לספריית Kerfuffle 
