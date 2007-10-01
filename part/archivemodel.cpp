@@ -63,7 +63,7 @@ class ArchiveNode
 			if ( m_icon.isNull() )
 			{
 				KMimeType::Ptr mimeType = KMimeType::findByPath( m_entry[ FileName ].toString(), 0, true );
-				m_icon = KIconLoader::global()->loadMimeTypeIcon( mimeType->iconName(), K3Icon::Small );
+				m_icon = KIconLoader::global()->loadMimeTypeIcon( mimeType->iconName(), KIconLoader::Small );
 			}
 			return m_icon;
 		}
@@ -84,7 +84,7 @@ class ArchiveDirNode: public ArchiveNode
 		ArchiveDirNode( ArchiveDirNode *parent, const ArchiveEntry & entry )
 			: ArchiveNode( parent, entry )
 		{
-			m_icon = KIconLoader::global()->loadMimeTypeIcon( KMimeType::mimeType( "inode/directory" )->iconName(), K3Icon::Small );
+			m_icon = KIconLoader::global()->loadMimeTypeIcon( KMimeType::mimeType( "inode/directory" )->iconName(), KIconLoader::Small );
 		}
 
 		~ArchiveDirNode()

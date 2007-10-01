@@ -34,7 +34,7 @@ using namespace Kerfuffle;
 
 static QPixmap EnormousMimeIcon( const QString& mimeName )
 {
-	return KIconLoader::global()->loadMimeTypeIcon( mimeName, K3Icon::Desktop, K3Icon::SizeEnormous );
+	return KIconLoader::global()->loadMimeTypeIcon( mimeName, KIconLoader::Desktop, KIconLoader::SizeEnormous );
 }
 
 InfoPanel::InfoPanel( ArchiveModel *model, QWidget *parent )
@@ -42,9 +42,9 @@ InfoPanel::InfoPanel( ArchiveModel *model, QWidget *parent )
 {
 	setupUi( this );
 	setDefaultValues();
-	iconLabel->setFixedHeight( K3Icon::SizeEnormous );
-	iconLabel->setMinimumWidth( K3Icon::SizeEnormous );
-	setMaximumWidth( 2 * K3Icon::SizeEnormous );
+	iconLabel->setFixedHeight( KIconLoader::SizeEnormous );
+	iconLabel->setMinimumWidth( KIconLoader::SizeEnormous );
+	setMaximumWidth( 2 * KIconLoader::SizeEnormous );
 }
 
 InfoPanel::~InfoPanel()
@@ -53,7 +53,7 @@ InfoPanel::~InfoPanel()
 
 void InfoPanel::setDefaultValues()
 {
-	iconLabel->setPixmap( KIconLoader::global()->loadIcon( "ark", K3Icon::Desktop, K3Icon::SizeEnormous ) );
+	iconLabel->setPixmap( KIconLoader::global()->loadIcon( "ark", KIconLoader::Desktop, KIconLoader::SizeEnormous ) );
 	if ( !m_model->archive() )
 	{
 		fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( i18n( "No archive loaded" ) ) );
