@@ -25,6 +25,7 @@
 #include "jobs.h"
 #include "internaljobs.h"
 
+#include <kdebug.h>
 #include <KLocale>
 
 namespace Kerfuffle

@@ -32,6 +32,7 @@
 #include <KFileDialog>
 #include <KRecentFilesAction>
 #include <KGlobal>
+#include <KDebug>
 #include <KEditToolBar>
 #include <KShortcutsDialog>
 
