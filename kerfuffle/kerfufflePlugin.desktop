@@ -6,6 +6,7 @@ Comment=Plugin for handling of archive formats for the Kerfuffle library
 Comment[ar]=ملحق للتحكم بهيئات اﻷرشيف لمكتبة Kerfuffle
 Comment[el]=Πρόσθετο χειρισμού μορφών αρχειοθήκης για τη βιβλιοθήκη Kerfuffle
 Comment[es]=Extensión para manejar formatos de archivo de la biblioteca Kerfuffle
+Comment[et]=Kerfuffle'i teegi arhiivifailide haldamise plugin
 Comment[he]=תוסף לניהול פורמטי ארכיונים לספריית Kerfuffle 
 Comment[ja]=Kerfuffle ライブラリのアーカイブ形式を扱うプラグイン
 Comment[ko]=Kerfuffle 라이브러리를 위한 압축 파일 플러그인
