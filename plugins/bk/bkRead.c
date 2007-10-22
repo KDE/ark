@@ -944,8 +944,10 @@ int readPosixFileMode(VolInfo* volInfo, unsigned* posixFileMode, int lenSU)
     origPos = lseek(volInfo->imageForReading, 0, SEEK_CUR);
     
     rc = read(volInfo->imageForReading, suFields, lenSU);
-    if(rc != lenSU)
+    if(rc != lenSU) {
+        free (lenSU);
         return BKERROR_READ_GENERIC;
+    }
     
     count = 0;
     foundPosix = false;
