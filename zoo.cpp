@@ -54,8 +54,9 @@ static QString fixTime( const QString &_strTime );
 ZooArch::ZooArch( ArkWidget *gui, const QString & fileName )
   : Arch( gui, fileName )
 {
-  m_archiver_program = "zoo";
+  m_archiver_program = m_unarchiver_program = "zoo";
   verifyCompressUtilityIsAvailable( m_archiver_program );
+  verifyUncompressUtilityIsAvailable( m_unarchiver_program );
 
   m_headerString = "----";
 }
