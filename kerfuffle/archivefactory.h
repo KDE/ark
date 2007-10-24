@@ -49,6 +49,6 @@ namespace Kerfuffle
 } // namespace Kerfuffle
 
 #define KERFUFFLE_PLUGIN_FACTORY( classname ) \
-	extern "C" { KERFUFFLE_EXPORT Kerfuffle::ArchiveFactory *pluginFactory() { return new Kerfuffle::ArchiveInterfaceFactory<classname>(); } }
+	extern "C" { KDE_EXPORT Kerfuffle::ArchiveFactory *pluginFactory() { return new Kerfuffle::ArchiveInterfaceFactory<classname>(); } }
 
 #endif // ARCHIVEFACTORY_H
