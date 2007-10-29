@@ -31,6 +31,7 @@
 #include <KApplication>
 #include <KAboutData>
 #include <KDebug>
+#include <KAction>
 #include <KActionCollection>
 #include <KIcon>
 #include <KTempDir>
