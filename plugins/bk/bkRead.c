@@ -945,7 +945,7 @@ int readPosixFileMode(VolInfo* volInfo, unsigned* posixFileMode, int lenSU)
     
     rc = read(volInfo->imageForReading, suFields, lenSU);
     if(rc != lenSU) {
-        free (lenSU);
+        free (suFields);
         return BKERROR_READ_GENERIC;
     }
     
