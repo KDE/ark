@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-compressed-tar;application/x-bzip-compressed-tar;application/zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-bzip;application/x-java-archive;application/x-deb
+MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-compressed-tar;application/x-bzip-compressed-tar;application/zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-bzip;application/x-java-archive;application/x-deb;
 GenericName=Archiving Tool
 GenericName[af]=Argiveer Program
 GenericName[ar]=أداة أرشفة
