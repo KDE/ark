@@ -82,7 +82,7 @@ bool RarArch::processLine( const QCString &line )
 {
   if ( m_isFirstLine )
   {
-    m_entryFilename = line;
+    m_entryFilename = QString::fromLocal8Bit( line );
     m_entryFilename.remove( 0, 1 );
     m_isFirstLine = false;
     return true;

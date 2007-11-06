@@ -327,7 +327,7 @@ bool Arch::processLine( const QCString &line )
 
     pos = strpos + len;
 
-    columns[ curCol->colRef ] = line.mid( strpos, len );
+    columns[curCol->colRef] = QString::fromLocal8Bit( line.mid(strpos, len) );
   }
 
 

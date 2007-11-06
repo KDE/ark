@@ -142,7 +142,7 @@ class Arch : public QObject
 
     QString getUnarchUtility() { return m_unarchiver_program; }
 
-    void appendShellOutputData( const char * data ) { m_lastShellOutput.append( data ); }
+    void appendShellOutputData( const char * data ) { m_lastShellOutput.append( QString::fromLocal8Bit( data ) ); }
     void clearShellOutput() { m_lastShellOutput.truncate( 0 ); }
     const QString& getLastShellOutput() const { return m_lastShellOutput; }
 
