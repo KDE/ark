@@ -226,6 +226,8 @@ void RarArch::unarchFileInternal()
 
   if ( !m_password.isEmpty() )
     *kp << "-p" + m_password;
+  else
+    *kp << "-p-";
 
   if ( !ArkSettings::extractOverwrite() )
   {
