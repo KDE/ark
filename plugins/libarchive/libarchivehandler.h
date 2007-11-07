@@ -30,11 +30,6 @@
 
 using namespace Kerfuffle;
 
-namespace ThreadWeaver
-{
-	class Job;
-} // namespace ThreadWeaver
-
 class LibArchiveInterface: public ReadOnlyArchiveInterface
 {
 	Q_OBJECT

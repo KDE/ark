@@ -26,7 +26,6 @@
 #include "archivemodel.h"
 #include "ui_infopanel.h"
 
-class QLabel;
 
 class InfoPanel: public QFrame, Ui::InformationPanel
 {
