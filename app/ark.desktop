@@ -73,4 +73,4 @@ Terminal=false
 X-DBUS-StartupType=Unique
 X-KDE-HasTempFileOption=true
 Categories=Qt;KDE;Utility;X-KDE-Utilities-File;
-X-KDE-InitialPreference=3
+InitialPreference=3
