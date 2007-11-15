@@ -1,7 +1,6 @@
 [Desktop Entry]
-Encoding=UTF-8
 Type=Service
-ServiceTypes=Kerfuffle/Plugin
+X-KDE-ServiceTypes=Kerfuffle/Plugin
 X-KDE-Library=kerfuffle_bk
 X-KDE-PluginInfo-Author=Henrique Pinto
 X-KDE-PluginInfo-Email=henrique.pinto@kdemail.net

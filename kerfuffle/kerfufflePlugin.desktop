@@ -1,5 +1,4 @@
 [Desktop Entry]
-Encoding=UTF-8
 Type=ServiceType
 X-KDE-ServiceType=Kerfuffle/Plugin
 Comment=Plugin for handling of archive formats for the Kerfuffle library

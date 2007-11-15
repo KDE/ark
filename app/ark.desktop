@@ -1,6 +1,5 @@
 [Desktop Entry]
-Encoding=UTF-8
-MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-compressed-tar;application/x-bzip-compressed-tar;application/zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-bzip;application/x-java-archive;application/x-deb;
+MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-compressed-tar;application/x-bzip-compressed-tar;application/zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-java-archive;application/x-deb;
 GenericName=Archiving Tool
 GenericName[af]=Argiveer Program
 GenericName[ar]=أداة أرشفة
@@ -68,13 +67,10 @@ Name[ta]=ஆர்க்
 Name[x-test]=xxArkxx
 Exec=ark -caption "%c" %U
 Icon=ark
-Path=
-DocPath=ark/index.html
+X-DocPath=ark/index.html
 Type=Application
 Terminal=false
-SwallowExec=
-SwallowTitle=
 X-DBUS-StartupType=Unique
 X-KDE-HasTempFileOption=true
 Categories=Qt;KDE;Utility;X-KDE-Utilities-File;
-InitialPreference=3
+X-KDE-InitialPreference=3

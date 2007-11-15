@@ -1,5 +1,4 @@
 [Desktop Entry]
-Encoding=UTF-8
 Icon=ark
 Name=Archiver
 Name[af]=Argifeerder
@@ -113,6 +112,6 @@ Comment[x-test]=xxArchive Handling Toolxx
 Comment[xh]=Isixhobo sokuphatha i Archive
 Comment[zh_CN]=压缩归档处理工具
 Comment[zh_TW]=壓縮檔處理工具
-ServiceTypes=Browser/View
+X-KDE-ServiceTypes=Browser/View
 X-KDE-Library=libarkpart
 Type=Service
