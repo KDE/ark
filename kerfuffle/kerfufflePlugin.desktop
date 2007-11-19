@@ -3,6 +3,7 @@ Type=ServiceType
 X-KDE-ServiceType=Kerfuffle/Plugin
 Comment=Plugin for handling of archive formats for the Kerfuffle library
 Comment[ar]=ملحق للتحكم بهيئات اﻷرشيف لمكتبة Kerfuffle
+Comment[ca]=Connector per gestionar els formats d'arxiu per la biblioteca Kerfuffle
 Comment[el]=Πρόσθετο χειρισμού μορφών αρχειοθήκης για τη βιβλιοθήκη Kerfuffle
 Comment[es]=Complemento para manejar formatos de archivo de la biblioteca Kerfuffle
 Comment[et]=Kerfuffle'i teegi arhiivifailide haldamise plugin
