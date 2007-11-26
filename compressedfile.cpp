@@ -361,11 +361,9 @@ void CompressedFile::remove(QStringList *)
   kdDebug(1601) << "+CompressedFile::remove" << endl;
   QFile::remove(m_tmpfile);
 
-  // delete the compressed file but then create it empty in case someone
+  // do not delete but truncate the compressed file in case someone
   // does a reload and finds it no longer exists!
-  QFile::remove(m_filename);
-
-  ::close(::open(QFile::encodeName(m_filename), O_WRONLY | O_CREAT | O_EXCL));
+  truncate(QFile::encodeName(m_filename), 0);
 
   m_tmpfile = "";
   emit sigDelete(true);
