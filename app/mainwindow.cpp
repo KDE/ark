@@ -39,6 +39,8 @@
 MainWindow::MainWindow( QWidget * )
 	: KParts::MainWindow( )
 {
+	QApplication::setWindowIcon( KIcon( "utilities-file-archiver" ) );
+	setWindowIcon( KIcon( "utilities-file-archiver" ) );
 	setXMLFile( "arkui.rc" );
 	m_part = KParts::ComponentFactory::createPartInstanceFromLibrary<KParts::ReadWritePart>( "libarkpart", this, this );
 	if ( !m_part )

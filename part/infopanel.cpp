@@ -53,7 +53,7 @@ InfoPanel::~InfoPanel()
 
 void InfoPanel::setDefaultValues()
 {
-	iconLabel->setPixmap( KIconLoader::global()->loadIcon( "ark", KIconLoader::Desktop, KIconLoader::SizeEnormous ) );
+	iconLabel->setPixmap( KIconLoader::global()->loadIcon( "utilities-file-archiver", KIconLoader::Desktop, KIconLoader::SizeEnormous ) );
 	if ( !m_model->archive() )
 	{
 		fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( i18n( "No archive loaded" ) ) );
