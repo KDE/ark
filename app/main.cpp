@@ -79,6 +79,8 @@ int main( int argc, char **argv )
 
 	KApplication application;
 
+	QApplication::setWindowIcon( KIcon( "utilities-file-archiver" ) );
+
 	if ( application.isSessionRestored() )
 	{
 		RESTORE( MainWindow );
