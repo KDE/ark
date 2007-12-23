@@ -20,6 +20,7 @@
  */
 #include <KApplication>
 #include <KCmdLineArgs>
+#include <KDebug>
 #include <KLocale>
 #include <KAboutData>
 #include <QByteArray>
@@ -87,9 +88,17 @@ int main( int argc, char **argv )
 	}
 	else
 	{
-		// TODO open the url if the user supplied one
 		MainWindow *window = new MainWindow;
-		window->show();
+
+		// open any given URLs
+		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+		for (int i = 0; i < args->count(); i++)
+ 		{
+			kDebug() << "trying to open" << args->url(i);
+ 			window->openUrl(args->url(i));
+		}
+
+ 		window->show();
 	}
 
 	return application.exec();

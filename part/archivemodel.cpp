@@ -151,7 +151,8 @@ int ArchiveNode::row()
 
 ArchiveModel::ArchiveModel( QObject *parent )
 	: QAbstractItemModel( parent ), m_archive( 0 ),
-	  m_rootNode( new ArchiveDirNode( 0, ArchiveEntry() ) )
+	  m_rootNode( new ArchiveDirNode( 0, ArchiveEntry() ) ),
+	  m_jobTracker(0)
 {
 }
 

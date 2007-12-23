@@ -34,11 +34,13 @@ class MainWindow: public KParts::MainWindow
 		MainWindow( QWidget *parent = 0 );
 		~MainWindow();
 
+	public slots:
+		void openUrl( const KUrl& url );
+
 	private slots:
 		void updateActions();
 		void newArchive();
 		void openArchive();
-		void openUrl( const KUrl& url );
 		void quit();
 
 		void editKeyBindings();
