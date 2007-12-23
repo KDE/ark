@@ -134,9 +134,9 @@ void KArchiveInterface::createEntryFor( const KArchiveEntry *aentry, const QStri
 	e[ Group ]            = aentry->group();
 	e[ IsDirectory ]      = aentry->isDirectory();
 	e[ Timestamp ]        = aentry->datetime();
-	if ( !aentry->symlink().isEmpty() )
+	if ( !aentry->symLinkTarget().isEmpty() )
 	{
-		e[ Link ]             = aentry->symlink();
+		e[ Link ]             = aentry->symLinkTarget();
 	}
 	if ( aentry->isFile() )
 	{

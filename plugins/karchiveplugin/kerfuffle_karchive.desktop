@@ -35,4 +35,4 @@ Comment[ta]=கெர்ஃபஃபில் க்கு கேஆர்கை
 Comment[x-test]=xxKArchive plugin for Kerfufflexx
 Comment[zh_CN]=Kerfuffle 的 KArchive 插件
 Comment[zh_TW]=Kerfuffle 的 KArchive 外掛程式
-MimeType=application/zip;application/x-zip-compressed;application/x-tar;application/x-compressed-tar;
+MimeType=application/zip;application/x-zip-compressed;application/x-tar;application/x-compressed-tar;application/x-bzip-compressed-tar
