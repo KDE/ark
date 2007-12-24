@@ -1,6 +1,10 @@
-#if (LIBARCHIVE_FOUND)
-#	add_subdirectory( libarchive )
-#endif (LIBARCHIVE_FOUND)
+macro_optional_find_package(LibArchive)
+
+macro_log_feature(LIBARCHIVE_FOUND "LibArchive" "A library for dealing with a wide variety of archive file formats" "http://people.freebsd.org/~kientzle/libarchive/" FALSE "" "Adds support for a variety of archive formats to Ark")
+
+if (LIBARCHIVE_FOUND)
+	add_subdirectory( libarchive )
+endif (LIBARCHIVE_FOUND)
 
 if (LIBZIP_FOUND)
 	add_subdirectory( libzipplugin )

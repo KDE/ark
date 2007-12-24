@@ -15,7 +15,7 @@ set(kerfuffle_SRCS
 
 kde4_add_library(kerfuffle SHARED ${kerfuffle_SRCS})
 
-target_link_libraries(kerfuffle ${KDE4_KFILE_LIBS} ${KDE4_THREADWEAVER_LIBRARIES} ${LIBARCHIVE_LIBRARY} ${KDE4_KPARTS_LIBS})
+target_link_libraries(kerfuffle ${KDE4_KFILE_LIBS} ${KDE4_THREADWEAVER_LIBRARIES} ${KDE4_KPARTS_LIBS})
 
 set_target_properties(kerfuffle PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION})
 

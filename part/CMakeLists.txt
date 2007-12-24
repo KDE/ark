@@ -23,7 +23,7 @@ kde4_add_kcfg_files(arkpart_PART_SRCS settings.kcfgc)
 kde4_add_plugin(arkpart WITH_PREFIX ${arkpart_PART_SRCS})
 
 
-target_link_libraries(arkpart kerfuffle ${KDE4_KFILE_LIBS} ${KDE4_THREADWEAVER_LIBRARIES} ${LIBARCHIVE_LIBRARY} ${KDE4_KPARTS_LIBS})
+target_link_libraries(arkpart kerfuffle ${KDE4_KFILE_LIBS} ${KDE4_THREADWEAVER_LIBRARIES} ${KDE4_KPARTS_LIBS})
 
 install(TARGETS arkpart  DESTINATION ${PLUGIN_INSTALL_DIR})
 
