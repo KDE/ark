@@ -180,7 +180,7 @@ bool KArchiveInterface::addFiles( const QStringList & files )
 		{
 			if ( !archive()->addLocalFile( path, fi.fileName() ) )
 			{
-				error( i18n( "Could not add the file %1 to the archive", path ) );
+				error( i18n( "Could not add the file %1 to the archive.", path ) );
 				return false;
 			}
 		}
