@@ -440,11 +440,16 @@ ExtractJob* ArchiveModel::extractFiles( const QList<QVariant>& files, const QStr
 AddJob* ArchiveModel::addFiles( const QStringList & paths )
 {
 	Q_ASSERT( m_archive );
-	AddJob *job = m_archive->addFiles( paths );
-	m_jobTracker->registerJob( job );
-	connect( job, SIGNAL( newEntry( const ArchiveEntry& ) ),
-		 this, SLOT( slotNewEntry( const ArchiveEntry& ) ) );
-	return job;
+
+    if ( !m_archive->isReadOnly())
+    {
+        AddJob *job = m_archive->addFiles( paths );
+        m_jobTracker->registerJob( job );
+        connect( job, SIGNAL( newEntry( const ArchiveEntry& ) ),
+            this, SLOT( slotNewEntry( const ArchiveEntry& ) ) );
+        return job;
+    }
+    return 0;
 }
 
 DeleteJob* ArchiveModel::deleteFiles( const QList<QVariant> & files )
