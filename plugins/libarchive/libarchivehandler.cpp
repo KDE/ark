@@ -93,7 +93,11 @@ bool LibArchiveInterface::list()
 		return false;
 	}
 
+#if (ARCHIVE_API_VERSION>1)
 	return archive_read_finish( arch ) == ARCHIVE_OK;
+#else
+	return true;
+#endif
 }
 
 bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
@@ -151,7 +155,12 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 		}
 	}
 	if ( entries.size() > 0 ) return false;
+
+#if (ARCHIVE_API_VERSION>1)
 	return archive_read_finish( arch ) == ARCHIVE_OK;
+#else
+	return true;
+#endif
 }
 
 
