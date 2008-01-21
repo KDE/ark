@@ -83,7 +83,7 @@ bool BKInterface::browse( BkFileBase* base, const QString& prefix )
 	{
 		ArchiveEntry e;
 		e[ FileName ] = fullpath;
-		e[ OriginalFileName ] = '/'+fullpath;
+		e[ InternalID ] = '/'+fullpath;
 
 		if ( IS_SYMLINK( base->posixFileMode ) )
 		{

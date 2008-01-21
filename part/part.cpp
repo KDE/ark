@@ -232,7 +232,7 @@ void Part::slotPreview( const QModelIndex & index )
 	if ( !entry.isEmpty() )
 	{
 		m_previewDir = new KTempDir();
-		ExtractJob *job = m_model->extractFile( entry[ OriginalFileName ], m_previewDir->name(), false );
+		ExtractJob *job = m_model->extractFile( entry[ InternalID ], m_previewDir->name(), false );
 		m_jobTracker->registerJob( job );
 		connect( job, SIGNAL( result( KJob* ) ),
 		         this, SLOT( slotPreviewExtracted( KJob* ) ) );
@@ -306,7 +306,7 @@ QList<QVariant> Part::selectedFiles()
 	foreach( const QModelIndex & index, m_view->selectionModel()->selectedRows() )
 	{
 		const ArchiveEntry& entry = m_model->entryForIndex( index );
-		files << entry[ OriginalFileName ];
+		files << entry[ InternalID ];
 	}
 
 	return files;

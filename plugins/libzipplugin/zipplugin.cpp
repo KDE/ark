@@ -80,13 +80,13 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 			ArchiveEntry e;
 
-			e[ FileName ]         = QString( stat.name );
-			e[ OriginalFileName ] = QByteArray( stat.name );
-			e[ CRC ]              = stat.crc;
-			e[ Size ]             = static_cast<qulonglong>( stat.size );
-			e[ Timestamp ]        = QDateTime::fromTime_t( stat.mtime );
-			e[ CompressedSize ]   = static_cast<qulonglong>( stat.comp_size );
-			e[ Method ]           = stat.comp_method;
+			e[ FileName ]       = QString( stat.name );
+			e[ InternalID ]     = QByteArray( stat.name );
+			e[ CRC ]            = stat.crc;
+			e[ Size ]           = static_cast<qulonglong>( stat.size );
+			e[ Timestamp ]      = QDateTime::fromTime_t( stat.mtime );
+			e[ CompressedSize ] = static_cast<qulonglong>( stat.comp_size );
+			e[ Method ]         = stat.comp_method;
 			// TODO: zip_get_file_comment returns junk sometimes, find out why
 			/*
 			const char *comment = zip_get_file_comment( m_archive, index, 0, 0 );

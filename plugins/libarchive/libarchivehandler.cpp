@@ -75,7 +75,7 @@ bool LibArchiveInterface::list()
 	{
 		ArchiveEntry e;
 		e[ FileName ] = QString( archive_entry_pathname( aentry ) );
-		e[ OriginalFileName ] = QByteArray( archive_entry_pathname( aentry ) );
+		e[ InternalID ] = QByteArray( archive_entry_pathname( aentry ) );
 		e[ Owner ] = QString( archive_entry_uname( aentry ) );
 		e[ Group ] = QString( archive_entry_gname( aentry ) );
 		e[ Size ] = ( qlonglong ) archive_entry_size( aentry );
