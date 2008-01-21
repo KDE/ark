@@ -18,4 +18,4 @@ if(NOT WIN32)
   add_subdirectory( bk )
 endif(NOT WIN32)
 
-add_subdirectory( karchiveplugin )
+#add_subdirectory( karchiveplugin )
