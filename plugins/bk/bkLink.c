@@ -34,7 +34,7 @@ int addToHardLinkTable(VolInfo* volInfo, off_t position, char* pathAndName,
     if(*newLink == NULL)
         return BKERROR_OUT_OF_MEMORY;
     
-    bzero(*newLink, sizeof(BkHardLink));
+    memset(*newLink, 0, sizeof(BkHardLink));
     
     (*newLink)->onImage = onImage;
     (*newLink)->position = position;

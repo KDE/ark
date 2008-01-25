@@ -129,7 +129,7 @@ int mangleDir(const BkDir* origDir, DirToWrite* newDir, int filenameTypes)
             if(*currentNewChild == NULL)
                 return BKERROR_OUT_OF_MEMORY;
             
-            bzero(*currentNewChild, sizeof(DirToWrite));
+            memset(*currentNewChild, 0, sizeof(DirToWrite));
         }
         else if( IS_REG_FILE(currentOrigChild->posixFileMode) )
         {
@@ -137,7 +137,7 @@ int mangleDir(const BkDir* origDir, DirToWrite* newDir, int filenameTypes)
             if(*currentNewChild == NULL)
                 return BKERROR_OUT_OF_MEMORY;
             
-            bzero(*currentNewChild, sizeof(FileToWrite));
+            memset(*currentNewChild, 0, sizeof(FileToWrite));
         }
         else if( IS_SYMLINK(currentOrigChild->posixFileMode) )
         {
@@ -145,7 +145,7 @@ int mangleDir(const BkDir* origDir, DirToWrite* newDir, int filenameTypes)
             if(*currentNewChild == NULL)
                 return BKERROR_OUT_OF_MEMORY;
             
-            bzero(*currentNewChild, sizeof(SymLinkToWrite));
+            memset(*currentNewChild, 0, sizeof(SymLinkToWrite));
         }
         else
             return BKERROR_NO_SPECIAL_FILES;

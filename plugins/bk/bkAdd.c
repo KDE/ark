@@ -82,7 +82,7 @@ int add(VolInfo* volInfo, const char* srcPathAndName, BkDir* destDir,
         if(newDir == NULL)
             return BKERROR_OUT_OF_MEMORY;
         
-        bzero(newDir, sizeof(BkDir));
+        memset(newDir, 0, sizeof(BkDir));
         
         strcpy(BK_BASE_PTR(newDir)->name, lastName);
         
@@ -115,7 +115,7 @@ int add(VolInfo* volInfo, const char* srcPathAndName, BkDir* destDir,
         if(newFile == NULL)
             return BKERROR_OUT_OF_MEMORY;
         
-        bzero(newFile, sizeof(BkFile));
+        memset(newFile, 0, sizeof(BkFile));
         
         strcpy(BK_BASE_PTR(newFile)->name, lastName);
         
@@ -170,7 +170,7 @@ int add(VolInfo* volInfo, const char* srcPathAndName, BkDir* destDir,
         if(newSymLink == NULL)
             return BKERROR_OUT_OF_MEMORY;
         
-        bzero(newSymLink, sizeof(BkSymLink));
+        memset(newSymLink, 0, sizeof(BkSymLink));
         
         strcpy(BK_BASE_PTR(newSymLink)->name, lastName);
         

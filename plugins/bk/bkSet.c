@@ -63,7 +63,7 @@ void bk_destroy_vol_info(VolInfo* volInfo)
 * */
 int bk_init_vol_info(VolInfo* volInfo, bool scanForDuplicateFiles)
 {
-    bzero(volInfo, sizeof(VolInfo));
+    memset(volInfo, 0, sizeof(VolInfo));
     
     volInfo->dirTree.base.posixFileMode = 040755;
     volInfo->posixFileDefaults = 0100644;

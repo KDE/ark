@@ -78,7 +78,7 @@ int bk_write_image(const char* newImagePathAndName, VolInfo* volInfo,
     
     /* because mangleDir works on dir's children i need to 
     * copy the root manually */
-    bzero(&newTree, sizeof(DirToWrite));
+    memset(&newTree, 0, sizeof(DirToWrite));
     newTree.base.posixFileMode = volInfo->dirTree.base.posixFileMode;
     
     printf("mangling\n");fflush(NULL);
@@ -1140,7 +1140,7 @@ int writeElToritoBootCatalog(VolInfo* volInfo,
     unsigned char buffer[NBYTES_LOGICAL_BLOCK];
     int rc;
     
-    bzero(buffer, NBYTES_LOGICAL_BLOCK);
+    memset(buffer, 0, NBYTES_LOGICAL_BLOCK);
     
     if(wcSeekTell(volInfo) % NBYTES_LOGICAL_BLOCK != 0)
     /* file pointer not at sector boundary */
@@ -1149,8 +1149,8 @@ int writeElToritoBootCatalog(VolInfo* volInfo,
     /* SETUP VALIDATION entry (first 20 bytes of boot catalog) */
     /* header, must be 1 */
     buffer[0] = 1;
-    /* platform id, 0 for x86 (bzero at start took care of this) */
-    /* 2 bytes reserved, must be 0 (bzero at start took care of this) */
+    /* platform id, 0 for x86 (memset at start took care of this) */
+    /* 2 bytes reserved, must be 0 (memset at start took care of this) */
     /* 24 bytes id string for manufacturer/developer of cdrom */
     strncpy((char*)&(buffer[4]), "Edited with ISO Master", 22);
     /* key byte 0x55 */
@@ -1206,22 +1206,22 @@ int writeElToritoVd(VolInfo* volInfo, off_t* bootCatalogSectorNumberOffset)
     char buffer[NBYTES_LOGICAL_BLOCK];
     int rc;
     
-    bzero(buffer, NBYTES_LOGICAL_BLOCK);
+    memset(buffer, 0, NBYTES_LOGICAL_BLOCK);
     
     if(wcSeekTell(volInfo) % NBYTES_LOGICAL_BLOCK != 0)
     /* file pointer not at sector boundary */
         return BKERROR_SANITY;
     
     /* SETUP BOOT record volume descriptor sector */
-    /* boot record indicator, must be 0 (bzero at start took care of this) */
+    /* boot record indicator, must be 0 (memset at start took care of this) */
     /* iso9660 identifier, must be "CD001" */
     strncpy((char*)buffer + 1, "CD001", 5);
     /* version, must be 1 */
     buffer[6] = 1;
     /* boot system identifier, must be 32 bytes "EL TORITO SPECIFICATION" 
-    * padded with 0x00 (bzero at start took care of this) */
+    * padded with 0x00 (memset at start took care of this) */
     strncpy(&(buffer[7]), "EL TORITO SPECIFICATION", 23);
-    /* unused 32 bytes, must be 0 (bzero at start took care of this) */
+    /* unused 32 bytes, must be 0 (memset at start took care of this) */
     /* boot catalog location, 4 byte intel format. written later. */
     *bootCatalogSectorNumberOffset = wcSeekTell(volInfo) + 71;
     /*write731ToByteArray(&(buffer[71]), bootCatalogSectorNumber);*/
@@ -1359,7 +1359,7 @@ int writeFileContents(VolInfo* volInfo, DirToWrite* dir, int filenameTypes)
                 unsigned char bootInfoTable[56];
                 unsigned checksum;
                 
-                bzero(bootInfoTable, 56);
+                memset(bootInfoTable, 0, 56);
                 
                 /* go to the offset in the file where the boot info table is */
                 wcSeekSet(volInfo, child->extentNumber * 
@@ -1927,7 +1927,7 @@ int writeRockPX(VolInfo* volInfo, unsigned posixFileMode, bool isADir)
     /* END POSIX file links */
     
     /* posix file user id, posix file group id */
-    bzero(&(record[20]), 16);
+    memset(&(record[20]), 0, 16);
     
     rc = wcWrite(volInfo, (char*)record, 36);
     if(rc <= 0)
