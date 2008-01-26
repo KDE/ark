@@ -185,7 +185,6 @@ bool Part::openFile()
 	Kerfuffle::Archive *archive = Kerfuffle::factory( localFilePath() );
 	m_model->setArchive( archive );
 	m_infoPanel->setIndex( QModelIndex() );
-	updateActions();
 
 	return ( archive != 0 );
 }
@@ -209,6 +208,7 @@ void Part::slotLoadingStarted()
 {
 	QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
 	m_busy = true;
+	updateActions();
 	emit busy();
 }
 
@@ -217,6 +217,7 @@ void Part::slotLoadingFinished()
 	QApplication::restoreOverrideCursor();
 	m_busy = false;
 	m_view->resizeColumnToContents( 0 );
+	updateActions();
 	emit ready();
 }
 
