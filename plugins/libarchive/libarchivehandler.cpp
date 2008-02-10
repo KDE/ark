@@ -116,7 +116,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 
 	QStringList entries;
 
-	foreach( QVariant f, files )
+	foreach( const QVariant &f, files )
 	{
 		entries << f.toString();
 	}

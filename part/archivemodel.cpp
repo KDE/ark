@@ -314,7 +314,7 @@ ArchiveDirNode* ArchiveModel::parentFor( const ArchiveEntry& entry )
 
 	ArchiveDirNode *parent = m_rootNode;
 
-	foreach( QString piece, pieces )
+	foreach( const QString &piece, pieces )
 	{
 		ArchiveNode *node = parent->find( piece );
 		if ( !node )
