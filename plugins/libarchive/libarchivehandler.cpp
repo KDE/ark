@@ -67,7 +67,7 @@ bool LibArchiveInterface::list()
 
 	if ( result != ARCHIVE_OK )
 	{
-		error( QString( "Couldn't open the file '%1', libarchive can't handle it." ).arg( filename() ), QString() );
+		error( QString( "Could not open the file '%1', libarchive cannot handle it." ).arg( filename() ), QString() );
 		return false;
 	}
 

@@ -89,7 +89,7 @@
 #define BKERROR_NO_POSIX_PRESENT                 -1028
 #define BKERROR_NO_POSIX_PRESENT_TEXT            "No posix extensions found"
 #define BKERROR_EXTRACT_ABSENT_BOOT_RECORD       -1029
-#define BKERROR_EXTRACT_ABSENT_BOOT_RECORD_TEXT  "Cannot extract boot record because there isn't one one the image"
+#define BKERROR_EXTRACT_ABSENT_BOOT_RECORD_TEXT  "Cannot extract boot record because there is none on the image"
 #define BKERROR_EXTRACT_UNKNOWN_BOOT_MEDIA       -1030
 #define BKERROR_EXTRACT_UNKNOWN_BOOT_MEDIA_TEXT  "Unable to extract boot record of unknown media type"
 #define BKERROR_ADD_UNKNOWN_BOOT_MEDIA           -1031
