@@ -16,6 +16,7 @@ endif (LIBZIP_FOUND)
 if(NOT WIN32)
   # stdbool.h
   add_subdirectory( bk )
+  add_subdirectory( rarplugin )
 endif(NOT WIN32)
 
 #add_subdirectory( karchiveplugin )
