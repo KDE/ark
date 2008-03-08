@@ -26,7 +26,6 @@
 #include <QDateTime>
 #include <KProcess>
 #include <KStandardDirs>
-#include <KMessageBox>
 #include <KDebug>
 #include <KLocale>
 
@@ -41,7 +40,7 @@ RARInterface::RARInterface( const QString & filename, QObject *parent )
  	bool have_rar = !m_rarpath.isNull();
  	bool have_unrar = !m_unrarpath.isNull();
 	if (!have_rar||!have_unrar) {
-		KMessageBox::error( 0, i18n( "Neither rar or unrar are available in your PATH." ) );
+		error(i18n( "Neither rar or unrar are available in your PATH." ));
 		return;
 	}
 	if (!have_rar){

@@ -122,7 +122,7 @@ class ArchiveDirNode: public ArchiveNode
 			{
 				return next;
 			}
-			if ( next->isDir() )
+			if ( next && next->isDir() )
 				return static_cast<ArchiveDirNode*>( next )->findByPath( pieces.join( "/" ) );
 			return 0;
 		}
@@ -220,7 +220,7 @@ QVariant ArchiveModel::headerData( int section, Qt::Orientation, int role ) cons
 			case 0:
 				return i18nc( "Name of a file inside an archive", "Name" );
 			case 1:
-				return i18n( "Size" );
+				return i18nc( "Uncompressed size of a file inside an archive", "Size" );
 		}
 	}
 	return QVariant();
@@ -368,12 +368,18 @@ void ArchiveModel::slotEntryRemoved( const QString & path )
 
 void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 {
-	/// 1. Find Parent Node
+	/// 1. Skip already created nodes
+	if (m_rootNode){
+		ArchiveNode *existing = m_rootNode->findByPath( entry[ FileName ].toString() );
+		if ( existing )
+			return;
+	}
+
+	/// 2. Find Parent Node
 	ArchiveDirNode *parent  = parentFor( entry ); // TODO: Don't make everyone child of the root, obey the hierarchy
 	QModelIndex parentIndex = indexForNode( parent );
 
-
-	/// 2. Create an ArchiveNode
+	/// 3. Create an ArchiveNode
 	QString name = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts ).last();
 	ArchiveNode *node = parent->find( name );
 	if ( node )
