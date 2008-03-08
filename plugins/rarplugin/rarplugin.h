@@ -40,7 +40,7 @@ class RARInterface: public ReadWriteArchiveInterface
 		bool deleteFiles( const QList<QVariant> & files );
 
 	private:
-		void processLine( const QString &line);
+		void processListLine( const QString &line);
 		QString m_headerString, m_entryFilename;
 		bool m_isFirstLine, m_incontent;
 		QString m_filename, m_rarpath, m_unrarpath;

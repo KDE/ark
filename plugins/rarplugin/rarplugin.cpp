@@ -72,13 +72,13 @@ bool RARInterface::list()
 		return false;
 	}
 	while (kp.canReadLine()){
-		processLine( kp.readLine());
+		processListLine( kp.readLine());
 	}
 	kDebug( 1601 ) << "Finished reading rar output";
 	return true;
 }
 
-void RARInterface::processLine(const QString& line)
+void RARInterface::processListLine(const QString& line)
 {
 	// skip the heading
 	if (!m_incontent){
@@ -94,14 +94,15 @@ void RARInterface::processLine(const QString& line)
 
 	// rar gives one line for the filename and a line after it with some file properties
 	if ( m_isFirstLine ) {
-		m_entryFilename = line ;
-		m_entryFilename.remove( 0, 1 );
+		m_entryFilename = line;
+		m_entryFilename.chop(1); // handle newline
+		m_entryFilename.remove( 0, 1 ); // and the dumb spaces in front
 		m_isFirstLine = false;
 		return;
 	}
-	kDebug( 1601 ) << "Rar output: " << line ;
 
-	QStringList fileprops = line.split(' ');
+	QStringList fileprops = line.split(' ', QString::SkipEmptyParts);
+	kDebug( 1601 ) << m_entryFilename << " : " << fileprops ;
 	ArchiveEntry e;
 	e[ FileName ] = m_entryFilename;
 	e[ Size ] = fileprops[ 0 ];
@@ -110,11 +111,13 @@ void RARInterface::processLine(const QString& line)
 	QDateTime ts (QDate::fromString(fileprops[ 3 ], "dd-mm-yy"),
 		QTime::fromString(fileprops[ 4 ], "hh:mm"));
 	e[ Timestamp] = ts;
-	e[ Permissions ] = fileprops[ 5 ];
+	e[ IsDirectory ] = fileprops[ 5 ].startsWith('d');
+	e[ Permissions ] = fileprops[ 5 ].remove(0,1);
 	e[ CRC ] = fileprops[ 6 ];
 	e[ Method ] = fileprops[ 7 ];
+	fileprops[ 8 ].chop(1); // handle newline
 	e[ Version ] = fileprops[ 8 ];
-	kDebug( 1601 ) << "Rar parsed: " << e ;
+	kDebug( 1601 ) << "Added entry: " << e ;
 	entry(e);
 	m_isFirstLine = true;
 	return;
@@ -123,28 +126,44 @@ void RARInterface::processLine(const QString& line)
 
 bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
 {
+	kDebug( 1601 ) << "Will try to extract " << files << " to " << destinationDirectory << (preservePaths? " with paths":"");
+	KProcess kp;
+	kp.setOutputChannelMode(KProcess::MergedChannels);
+	kp << m_unrarpath;
+	if (preservePaths) {
+		kp << "x"; 
+	} else {
+		kp << "e";
+	}
 	foreach( const QVariant& file, files )
 	{
-		int rc;
-
-		kDebug( 1601 ) << "Trying to extract " << file.toByteArray() ;
-		//rc = bk_extract( &m_volInfo, file.toByteArray(), QFile::encodeName( destinationDirectory ), true, 0 );
-		//if ( rc <= 0 )
-		//{
-		//	error( QString( "Could not extract '%1'" ).arg( file.toString() ) );
-		//	return false;
-		//}
+		kp << file.toString();
 	}
+	kp << m_filename;
+	kp.start();
+	if (!kp.waitForStarted()){
+		kDebug( 1601 ) << "Rar did not start";
+		return false;
+	}
+	if (!kp.waitForFinished()) {
+		kDebug( 1601 ) << "Rar did not finish";
+		return false;
+	}
+	kDebug( 1601 ) << "Finished reading rar output";
+	return true;
+
 	return true;
 }
 
 bool RARInterface::addFiles( const QStringList & files )
 {
+	kDebug( 1601 ) << "Will try to add " << files << " to " << m_filename;
   return false;
 }
 
 bool RARInterface::deleteFiles( const QList<QVariant> & files )
 {
+	kDebug( 1601 ) << "Will try to delete " << files << " from " << m_filename;
   return false;
 }
 
