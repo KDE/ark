@@ -80,7 +80,7 @@
           </sizepolicy>
          </property>
          <property name="title" >
-          <string>Extract:</string>
+          <string>Extract</string>
          </property>
          <property name="flat" >
           <bool>false</bool>
@@ -92,7 +92,7 @@
           <item>
            <widget class="QRadioButton" name="selectedFilesButton" >
             <property name="text" >
-             <string>Selected Files Only</string>
+             <string>Selected files only</string>
             </property>
             <property name="checked" >
              <bool>true</bool>
@@ -102,7 +102,7 @@
           <item>
            <widget class="QRadioButton" name="allFilesButton" >
             <property name="text" >
-             <string>All Files</string>
+             <string>All files</string>
             </property>
            </widget>
           </item>
@@ -118,7 +118,7 @@
      <item>
       <widget class="QLabel" name="destDirLabel" >
        <property name="text" >
-        <string>Destination Folder:</string>
+        <string>Destination folder:</string>
        </property>
       </widget>
      </item>
