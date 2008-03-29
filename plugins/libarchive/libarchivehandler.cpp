@@ -30,6 +30,8 @@
 #include <archive.h>
 #include <archive_entry.h>
 
+#include <sys/stat.h>
+
 #include <kdebug.h>
 
 #include <QFile>
@@ -79,6 +81,7 @@ bool LibArchiveInterface::list()
 		e[ Owner ] = QString( archive_entry_uname( aentry ) );
 		e[ Group ] = QString( archive_entry_gname( aentry ) );
 		e[ Size ] = ( qlonglong ) archive_entry_size( aentry );
+		e[ IsDirectory ] = S_ISDIR( archive_entry_mode( aentry ) ); // see stat(2)
 		if ( archive_entry_symlink( aentry ) )
 		{
 			e[ Link ] = archive_entry_symlink( aentry );
@@ -102,12 +105,6 @@ bool LibArchiveInterface::list()
 
 bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
 {
-	if ( !preservePaths )
-	{
-		error( "Extraction discarding paths is not supported yet." );
-		return false;
-	}
-
 	QDir::setCurrent( destinationDirectory );
 
 	const bool extractAll = files.isEmpty();
@@ -145,8 +142,13 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 		QString entryName = QFile::decodeName( archive_entry_pathname( entry ) );
 		if ( entries.contains( entryName ) || extractAll )
 		{
+			if( !preservePaths )
+				archive_entry_set_pathname( entry, QFile::encodeName( QFileInfo( entryName ).fileName() ).constData() );
+
 			if ( archive_write_header( writer, entry ) == ARCHIVE_OK )
 				copyData( arch, writer );
+
+			archive_entry_clear( entry );
 			entries.removeAll( entryName );
 		}
 		else
@@ -167,6 +169,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 int LibArchiveInterface::extractionFlags() const
 {
 	int result = ARCHIVE_EXTRACT_TIME;
+	result &= ARCHIVE_EXTRACT_SECURE_NODOTDOT;
 
 	// TODO: Don't use arksettings here
 	/*if ( ArkSettings::preservePerms() )
@@ -184,13 +187,20 @@ int LibArchiveInterface::extractionFlags() const
 
 void LibArchiveInterface::copyData( struct archive *source, struct archive *dest )
 {
-	const void *buff = 0;
-	size_t size;
-	off_t  offset;
+	char buff[ARCHIVE_DEFAULT_BYTES_PER_BLOCK];
+	ssize_t readBytes;
 
-	while ( archive_read_data_block( source, &buff, &size, &offset ) == ARCHIVE_OK )
+	readBytes = archive_read_data( source, buff, sizeof(buff) );
+	while(readBytes > 0)
 	{
-		archive_write_data_block( dest, buff, size, offset );
+	   /* int writeBytes = */ 
+		archive_write_data( dest, buff, readBytes );
+		if( archive_errno( dest ) != ARCHIVE_OK ) {
+			kDebug() << "Error while extracting..." << archive_error_string( dest ) << "(error nb =" << archive_errno( dest ) << ')';
+			return;
+		}
+
+		readBytes = archive_read_data( source, buff, sizeof(buff) );
 	}
 }
 
