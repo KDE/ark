@@ -104,12 +104,13 @@ void RARInterface::processListLine(const QString& line)
 	kDebug( 1601 ) << m_entryFilename << " : " << fileprops ;
 	ArchiveEntry e;
 	e[ FileName ] = m_entryFilename;
+	e[ InternalID ] = m_entryFilename.toUtf8();
 	e[ Size ] = fileprops[ 0 ];
 	e[ CompressedSize] = fileprops[ 1 ];
 	e[ Ratio ] = fileprops[ 2 ];
 	QDateTime ts (QDate::fromString(fileprops[ 3 ], "dd-mm-yy"),
 		QTime::fromString(fileprops[ 4 ], "hh:mm"));
-	e[ Timestamp] = ts;
+	e[ Timestamp ] = ts;
 	e[ IsDirectory ] = fileprops[ 5 ].startsWith('d');
 	e[ Permissions ] = fileprops[ 5 ].remove(0,1);
 	e[ CRC ] = fileprops[ 6 ];
@@ -125,7 +126,7 @@ void RARInterface::processListLine(const QString& line)
 
 bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
 {
-	kDebug( 1601 ) << "Will try to extract " << files << " to " << destinationDirectory << (preservePaths? " with paths":"");
+	kDebug( 1601 ) << files  << destinationDirectory << (preservePaths? " with paths":"");
 	KProcess kp;
 	kp.setOutputChannelMode(KProcess::MergedChannels);
 	kp << m_unrarpath;
@@ -134,11 +135,13 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 	} else {
 		kp << "e";
 	}
+	kp << m_filename;
 	foreach( const QVariant& file, files )
 	{
+		kDebug( 1601 ) << file.toString();
 		kp << file.toString();
 	}
-	kp << m_filename;
+	kp << destinationDirectory;
 	kp.start();
 	if (!kp.waitForStarted()){
 		kDebug( 1601 ) << "Rar did not start";
