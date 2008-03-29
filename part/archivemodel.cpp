@@ -25,6 +25,7 @@
 #include <QList>
 #include <QPixmap>
 
+#include <KDebug>
 #include <KLocale>
 #include <KMimeType>
 #include <KIconLoader>
@@ -123,7 +124,10 @@ class ArchiveDirNode: public ArchiveNode
 				return next;
 			}
 			if ( next && next->isDir() )
+			{
+				//pieces.removeAt(0);
 				return static_cast<ArchiveDirNode*>( next )->findByPath( pieces.join( "/" ) );
+			}
 			return 0;
 		}
 
@@ -322,14 +326,15 @@ ArchiveDirNode* ArchiveModel::parentFor( const ArchiveEntry& entry )
 			ArchiveEntry e;
 			e[ FileName ] = parent->entry()[ FileName ].toString() + '/' + piece;
 			node = new ArchiveDirNode( parent, e );
+			parent->entries().append( node );
 		}
 		if ( !node->isDir() )
 		{
 			ArchiveEntry e( node->entry() );
-			int index = parent->entries().indexOf( node );
-			delete node;
 			node = new ArchiveDirNode( parent, e );
-			parent->entries()[ index ] = node;
+			//Maybe we have both a file and a directory of the same name
+			// We avoid removing previous entries unless necessary
+			parent->entries().append( node );
 		}
 		parent = static_cast<ArchiveDirNode*>( node );
 	}
@@ -368,17 +373,22 @@ void ArchiveModel::slotEntryRemoved( const QString & path )
 
 void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 {
+	kDebug (1601) << entry; 
 	/// 1. Skip already created nodes
 	if (m_rootNode){
 		ArchiveNode *existing = m_rootNode->findByPath( entry[ FileName ].toString() );
-		if ( existing )
+		if ( existing ) {
+			kDebug (1601) << "Skipping entry creation for" << entry[FileName].toString(); 
 			return;
+		}
 	}
 
-	/// 2. Find Parent Node
-	ArchiveDirNode *parent  = parentFor( entry ); // TODO: Don't make everyone child of the root, obey the hierarchy
-	QModelIndex parentIndex = indexForNode( parent );
+	/// 2. Find Parent Node, creating missing ArchiveDirNodes in the process
+	ArchiveDirNode *parent  = parentFor( entry ); 
 
+	// TODO: Don't make everyone child of the root, obey the hierarchy
+	QModelIndex parentIndex = indexForNode( parent );
+	
 	/// 3. Create an ArchiveNode
 	QString name = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts ).last();
 	ArchiveNode *node = parent->find( name );
