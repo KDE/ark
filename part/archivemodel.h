@@ -74,6 +74,11 @@ class ArchiveModel: public QAbstractItemModel
 	private:
 		ArchiveDirNode* parentFor( const ArchiveEntry& entry );
 		QModelIndex indexForNode( ArchiveNode *node );
+		/**
+		 * Insert the node @p node into the model, ensuring all views are notified
+		 * of the change.
+		 */
+		void insertNode( ArchiveNode *node );
 
 		Kerfuffle::Archive *m_archive;
 		ArchiveDirNode *m_rootNode;

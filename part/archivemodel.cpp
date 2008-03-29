@@ -326,7 +326,7 @@ ArchiveDirNode* ArchiveModel::parentFor( const ArchiveEntry& entry )
 			ArchiveEntry e;
 			e[ FileName ] = parent->entry()[ FileName ].toString() + '/' + piece;
 			node = new ArchiveDirNode( parent, e );
-			parent->entries().append( node );
+			insertNode( node );
 		}
 		if ( !node->isDir() )
 		{
@@ -334,7 +334,7 @@ ArchiveDirNode* ArchiveModel::parentFor( const ArchiveEntry& entry )
 			node = new ArchiveDirNode( parent, e );
 			//Maybe we have both a file and a directory of the same name
 			// We avoid removing previous entries unless necessary
-			parent->entries().append( node );
+			insertNode( node );
 		}
 		parent = static_cast<ArchiveDirNode*>( node );
 	}
@@ -385,9 +385,6 @@ void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 
 	/// 2. Find Parent Node, creating missing ArchiveDirNodes in the process
 	ArchiveDirNode *parent  = parentFor( entry ); 
-
-	// TODO: Don't make everyone child of the root, obey the hierarchy
-	QModelIndex parentIndex = indexForNode( parent );
 	
 	/// 3. Create an ArchiveNode
 	QString name = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts ).last();
@@ -398,8 +395,6 @@ void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 	}
 	else
 	{
-		beginInsertRows( parentIndex, m_rootNode->entries().count(), m_rootNode->entries().count() );
-
 		if ( entry[ FileName ].toString().endsWith( '/' ) || ( entry.contains( IsDirectory ) && entry[ IsDirectory ].toBool() ) )
 		{
 			node = new ArchiveDirNode( parent, entry );
@@ -408,10 +403,18 @@ void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 		{
 			node = new ArchiveNode( parent, entry );
 		}
-		parent->entries().append( node );
-
-		endInsertRows();
+		insertNode( node );
 	}
+}
+
+void ArchiveModel::insertNode( ArchiveNode *node )
+{
+	Q_ASSERT(node);
+	ArchiveDirNode *parent = node->parent();
+	Q_ASSERT(parent);
+	beginInsertRows( indexForNode( parent ), parent->entries().count(), parent->entries().count() );
+	parent->entries().append( node );
+	endInsertRows();
 }
 
 void ArchiveModel::setArchive( Kerfuffle::Archive *archive )
