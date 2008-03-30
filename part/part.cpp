@@ -259,7 +259,6 @@ void Part::slotPreviewExtracted( KJob *job )
 	}
 	delete m_previewDir;
 	m_previewDir = 0;
-	delete job;
 }
 
 void Part::slotError( const QString& errorMessage, const QString& details )
