@@ -14,6 +14,7 @@ X-KDE-Kerfuffle-ReadWrite=true
 Name=kerfuffle_rar
 Name[x-test]=xxkerfuffle_rarxx
 Comment=rar plugin for Kerfuffle
+Comment[da]=rar-plugin til Kerfuffle
 Comment[es]=Complemento rar para Kerfuffle
 Comment[ga]=Breiseán rar le haghaidh Kerfuffle
 Comment[ja]=Kerfuffle のための rar プラグイン
