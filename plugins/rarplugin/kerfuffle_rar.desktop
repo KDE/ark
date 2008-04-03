@@ -23,5 +23,6 @@ Comment[ko]=Kerfuffle을 위한 RAR 플러그인
 Comment[pt]='Plugin' do RAR para o Kerfuffle
 Comment[pt_BR]=Plugin rar para a Kerfuffle
 Comment[x-test]=xxrar plugin for Kerfufflexx
+Comment[zh_CN]=Kerfuffle 的 rar 插件
 Comment[zh_TW]=Kerfuffle 的 rar 外掛程式
 MimeType=application/rar;application/x-rar
