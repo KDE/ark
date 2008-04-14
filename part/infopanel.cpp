@@ -56,13 +56,13 @@ void InfoPanel::setDefaultValues()
 	iconLabel->setPixmap( KIconLoader::global()->loadIcon( "utilities-file-archiver", KIconLoader::Desktop, KIconLoader::SizeEnormous ) );
 	if ( !m_model->archive() )
 	{
-		fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( i18n( "No archive loaded" ) ) );
+		fileName->setText( QString( "<center><font size=+1><b>%1</b></font></center>" ).arg( i18n( "No archive loaded" ) ) );
 		additionalInfo->setText( QString() );
 	}
 	else
 	{
 		QFileInfo archiveInfo( m_model->archive()->fileName() );
-		fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( archiveInfo.fileName() ) );
+		fileName->setText( QString( "<center><font size=+1><b>%1</b></font></center>" ).arg( archiveInfo.fileName() ) );
 		additionalInfo->setText( QString() );
 	}
 	hideMetaData();
@@ -106,7 +106,7 @@ void InfoPanel::setIndex( const QModelIndex& index )
 
 		QStringList nameParts = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts );
 		QString name = ( nameParts.count() > 0 )? nameParts.last() : entry[ FileName ].toString();
-		fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( name ) );
+		fileName->setText( QString( "<center><font size=+1><b>%1</b></font></center>" ).arg( name ) );
 
 		metadataLabel->setText( metadataTextFor( index ) );
 		showMetaData();
@@ -126,7 +126,7 @@ void InfoPanel::setIndexes( const QModelIndexList &list )
 	else
 	{
 		// TODO: set the icon
-		fileName->setText( QString( "<font size=+1><b>%1</b></font>" ).arg( i18np( "One file selected", "%1 files selected", list.size() ) ) );
+		fileName->setText( QString( "<center><font size=+1><b>%1</b></font></center>" ).arg( i18np( "One file selected", "%1 files selected", list.size() ) ) );
 		quint64 totalSize = 0;
 		foreach( const QModelIndex& index, list )
 		{
