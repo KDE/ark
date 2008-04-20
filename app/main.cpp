@@ -70,6 +70,7 @@ int main( int argc, char **argv )
 	                     ki18n( "bkisofs code" ),
 	                     QByteArray(),
 	                     "http://littlesvr.ca/misc/contactandrew.php" );
+	aboutData.setProgramIconName( "utilities-file-archiver" );
 
 	KCmdLineArgs::init( argc, argv, &aboutData );
 
@@ -79,8 +80,6 @@ int main( int argc, char **argv )
 	KCmdLineArgs::addTempFileOption();
 
 	KApplication application;
-
-	QApplication::setWindowIcon( KIcon( "utilities-file-archiver" ) );
 
 	if ( application.isSessionRestored() )
 	{
