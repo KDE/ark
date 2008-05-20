@@ -77,7 +77,7 @@ namespace Kerfuffle
 		QStringList supported;
 		KService::List offers = KServiceTypeTrader::self()->query( "Kerfuffle/Plugin", "(exist Library)" );
 
-		foreach( KService::Ptr service, offers )
+		foreach( const KService::Ptr& service, offers )
 		{
 			foreach( const QString& mimeType, service->serviceTypes() )
 			{
@@ -95,7 +95,7 @@ namespace Kerfuffle
 		QStringList supported;
 		KService::List offers = KServiceTypeTrader::self()->query( "Kerfuffle/Plugin", "(exist Library) and ([X-KDE-Kerfuffle-ReadWrite] == true)" );
 
-		foreach( KService::Ptr service, offers )
+		foreach( const KService::Ptr& service, offers )
 		{
 			foreach( const QString& mimeType, service->serviceTypes() )
 			{
