@@ -7,7 +7,7 @@ kde4_add_executable( ark ${ark_SRCS} )
 
 target_link_libraries( ark ${KDE4_KPARTS_LIBS} )
 
-install( TARGETS ark  DESTINATION ${BIN_INSTALL_DIR} )
+install( TARGETS ark  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
