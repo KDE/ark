@@ -39,7 +39,7 @@ RARInterface::RARInterface( const QString & filename, QObject *parent )
 	m_unrarpath = KStandardDirs::findExe( "unrar" );
  	bool have_rar = !m_rarpath.isNull();
  	bool have_unrar = !m_unrarpath.isNull();
-	if (!have_rar||!have_unrar) {
+	if (!have_rar && !have_unrar) {
 		error(i18n( "Neither rar or unrar are available in your PATH." ));
 		return;
 	}
@@ -59,7 +59,9 @@ RARInterface::~RARInterface()
 bool RARInterface::list()
 {
 	KProcess kp;
-	kp << m_unrarpath << "v" << "-c-" << m_filename;
+	if (!m_unrarpath.isNull()) kp << m_unrarpath << "v" << "-c-" << m_filename;
+	else if (!m_rarpath.isNull()) kp << m_rarpath << "v" << "-c-" << m_filename;
+	else return false;
 	kp.setOutputChannelMode(KProcess::MergedChannels);
 	kp.start();
 	if (!kp.waitForStarted()){
@@ -129,7 +131,9 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 	kDebug( 1601 ) << files  << destinationDirectory << (preservePaths? " with paths":"");
 	KProcess kp;
 	kp.setOutputChannelMode(KProcess::MergedChannels);
-	kp << m_unrarpath;
+	if (!m_unrarpath.isNull()) kp << m_unrarpath;
+	else if (!m_rarpath.isNull()) kp << m_rarpath;
+	else return false;
 	if (preservePaths) {
 		kp << "x"; 
 	} else {
@@ -152,8 +156,6 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 		return false;
 	}
 	kDebug( 1601 ) << "Finished reading rar output";
-	return true;
-
 	return true;
 }
 
