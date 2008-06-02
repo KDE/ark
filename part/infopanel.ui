@@ -35,7 +35,7 @@
    <item>
     <widget class="QLabel" name="fileName" >
      <property name="text" >
-      <string>&lt;font size=+2>&lt;b>Filename&lt;/b>&lt;/font></string>
+      <string>&lt;font size=&quot;+2&quot;>&lt;b>Filename&lt;/b>&lt;/font></string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignCenter</set>

@@ -67,7 +67,7 @@
           </sizepolicy>
          </property>
          <property name="text" >
-          <string>&lt;font size=+2>&lt;b>Extract All Files&lt;/b>&lt;/font></string>
+          <string>&lt;font size=&quot;+2&quot;>&lt;b>Extract All Files&lt;/b>&lt;/font></string>
          </property>
         </widget>
        </item>
