@@ -15,6 +15,7 @@ Name=kerfuffle_rar
 Name[sv]=Kerfuffle Rar
 Name[x-test]=xxkerfuffle_rarxx
 Comment=rar plugin for Kerfuffle
+Comment[ca]=Connector del rar pel Kerfuffle
 Comment[da]=rar-plugin til Kerfuffle
 Comment[de]=RAR-Modul für Kerfuffle
 Comment[el]=πρόσθετο rar για τη Kerfuffle
