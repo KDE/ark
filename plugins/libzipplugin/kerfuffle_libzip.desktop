@@ -19,6 +19,7 @@ Name[x-test]=xxkerfuffle_libzipxx
 Comment=libzip plugin for Kerfuffle
 Comment[ar]=libzip ملحق لـ Kerfuffle
 Comment[ca]=Connector del libzip pel Kerfuffle
+Comment[cs]=modul libzip pro Kerfuffle
 Comment[da]=libzip-plugin til Kerfuffle
 Comment[de]=libzip Modul für Kerfuffle
 Comment[el]=πρόσθετο libzip για τη Kerfuffle
