@@ -233,7 +233,7 @@ void Part::slotPreview( const QModelIndex & index )
 	if ( !entry.isEmpty() )
 	{
 		m_previewDir = new KTempDir();
-		ExtractJob *job = m_model->extractFile( entry[ InternalID ], m_previewDir->name(), true );
+		ExtractJob *job = m_model->extractFile( entry[ InternalID ], m_previewDir->name(), false );
 		m_jobTracker->registerJob( job );
 		connect( job, SIGNAL( result( KJob* ) ),
 		         this, SLOT( slotPreviewExtracted( KJob* ) ) );
