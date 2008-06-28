@@ -88,6 +88,10 @@ int main( int argc, char **argv )
 	else
 	{
 		MainWindow *window = new MainWindow;
+		if(!window->loadPart()) // if loading the part fails
+		{
+			return -1;
+		}
 
 		// open any given URLs
 		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();

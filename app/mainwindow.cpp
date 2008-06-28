@@ -23,7 +23,8 @@
 #include "mainwindow.h"
 #include "part/interface.h"
 
-#include <KParts/ComponentFactory>
+#include <KPluginLoader>
+#include <KPluginFactory>
 #include <KMessageBox>
 #include <KApplication>
 #include <KLocale>
@@ -40,29 +41,15 @@ MainWindow::MainWindow( QWidget * )
 	: KParts::MainWindow( )
 {
 	setXMLFile( "arkui.rc" );
-	m_part = KParts::ComponentFactory::createPartInstanceFromLibrary<KParts::ReadWritePart>( "libarkpart", this, this );
-	if ( !m_part )
-	{
-		KMessageBox::error( this, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
-		return;
-	}
 
 	setupActions();
 	statusBar();
-
-	m_part->setObjectName( "ArkPart" );
-	setCentralWidget( m_part->widget() );
-	createGUI( m_part );
 
 	if ( !initialGeometrySet() )
 	{
 		resize( 640, 480 );
 	}
 	setAutoSaveSettings( "MainWindow" );
-
-	
-	connect( m_part, SIGNAL( busy() ), this, SLOT( updateActions() ) );
-	connect( m_part, SIGNAL( ready() ), this, SLOT( updateActions() ) );
 }
 
 MainWindow::~MainWindow()
@@ -73,6 +60,28 @@ MainWindow::~MainWindow()
 	}
 	delete m_part;
 	m_part = 0;
+}
+
+bool MainWindow::loadPart()
+{
+	KPluginFactory *factory = KPluginLoader("libarkpart").factory();
+	if(factory) {
+		m_part = static_cast<KParts::ReadWritePart*>( factory->create<KParts::ReadWritePart>(this) );
+	}
+	if ( !factory || !m_part )
+	{
+		KMessageBox::error( this, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
+		return false;
+	}
+
+	m_part->setObjectName( "ArkPart" );
+	setCentralWidget( m_part->widget() );
+	createGUI( m_part );
+
+	connect( m_part, SIGNAL( busy() ), this, SLOT( updateActions() ) );
+	connect( m_part, SIGNAL( ready() ), this, SLOT( updateActions() ) );
+
+	return true;	
 }
 
 void MainWindow::setupActions()
