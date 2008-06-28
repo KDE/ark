@@ -26,6 +26,7 @@
 #include <KMimeType>
 #include <KDebug>
 #include <KLocale>
+#include <QDir>
 
 #include <QFileInfo>
 
@@ -82,13 +83,9 @@ bool KArchiveInterface::copyFiles( const QList<QVariant> & files, const QString 
 		return false;
 	}
 
-	if ( preservePaths )
-	{
-		error( "Extraction preserving paths is not implemented yet." );
-		return false;
-	}
 	foreach( const QVariant & file, files )
 	{
+		QString realDestination = destinationDirectory;
 		const KArchiveEntry *archiveEntry = archive()->directory()->entry( file.toString() );
 		if ( !archiveEntry )
 		{
@@ -97,14 +94,21 @@ bool KArchiveInterface::copyFiles( const QList<QVariant> & files, const QString 
 		}
 
 		// TODO: handle errors, copyTo fails silently
+		if ( preservePaths ) {
+			QFileInfo fi( file.toString() );
+			QDir dest( destinationDirectory );
+			QString filepath = archiveEntry->isDirectory() ? fi.filePath() : fi.path();
+			dest.mkpath( filepath );
+			realDestination = dest.absolutePath() + "/" + filepath;
+		}
 		if ( archiveEntry->isDirectory() )
 		{
-			kDebug() << "Calling copyTo(" << destinationDirectory << ") for " << archiveEntry->name();
-			static_cast<const KArchiveDirectory*>( archiveEntry )->copyTo( destinationDirectory );
+			kDebug() << "Calling copyTo(" << realDestination << ") for " << archiveEntry->name();
+			static_cast<const KArchiveDirectory*>( archiveEntry )->copyTo( realDestination );
 		}
 		else
 		{
-			static_cast<const KArchiveFile*>( archiveEntry )->copyTo( destinationDirectory );
+			static_cast<const KArchiveFile*>( archiveEntry )->copyTo( realDestination );
 		}
 	}
 
