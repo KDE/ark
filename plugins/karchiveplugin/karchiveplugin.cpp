@@ -63,7 +63,7 @@ KArchive *KArchiveInterface::archive()
 bool KArchiveInterface::list()
 {
 	kDebug( 1601 ) ;
-	if ( !archive()->open( QIODevice::ReadOnly ) )
+	if ( !archive()->isOpen() && !archive()->open( QIODevice::ReadOnly ) )
 	{
 		error( i18n( "Could not open the archive '%1' for reading", filename() ) );
 		return false;
@@ -76,6 +76,12 @@ bool KArchiveInterface::list()
 
 bool KArchiveInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
 {
+	if ( !archive()->isOpen() && !archive()->open( QIODevice::ReadOnly ) )
+	{
+		error( i18n( "Could not open the archive '%1' for reading", filename() ) );
+		return false;
+	}
+
 	if ( preservePaths )
 	{
 		error( "Extraction preserving paths is not implemented yet." );
@@ -93,6 +99,7 @@ bool KArchiveInterface::copyFiles( const QList<QVariant> & files, const QString 
 		// TODO: handle errors, copyTo fails silently
 		if ( archiveEntry->isDirectory() )
 		{
+			kDebug() << "Calling copyTo(" << destinationDirectory << ") for " << archiveEntry->name();
 			static_cast<const KArchiveDirectory*>( archiveEntry )->copyTo( destinationDirectory );
 		}
 		else
@@ -128,7 +135,7 @@ void KArchiveInterface::createEntryFor( const KArchiveEntry *aentry, const QStri
 {
 	ArchiveEntry e;
 	e[ FileName ]         = prefix.isEmpty()? aentry->name() : prefix + '/' + aentry->name();
-	e[ OriginalFileName ] = e[ FileName ];
+	e[ InternalID ]       = e[ FileName ];
 	e[ Permissions ]      = aentry->permissions();
 	e[ Owner ]            = aentry->user();
 	e[ Group ]            = aentry->group();
@@ -148,13 +155,13 @@ void KArchiveInterface::createEntryFor( const KArchiveEntry *aentry, const QStri
 bool KArchiveInterface::addFiles( const QStringList & files )
 {
 	kDebug( 1601 ) << "Starting..." ;
-	delete m_archive;
-	m_archive = 0;
-	/*if ( archive()->isOpen() )
+//	delete m_archive;
+//	m_archive = 0;
+	if ( archive()->isOpen() )
 	{
 		archive()->close();
-	}*/
-	if ( !archive()->open( QIODevice::WriteOnly ) )
+	}
+	if ( !archive()->open( QIODevice::ReadWrite ) )
 	{
 		error( i18n( "Could not open the archive '%1' for writing.", filename() ) );
 		return false;
@@ -170,7 +177,13 @@ bool KArchiveInterface::addFiles( const QStringList & files )
 
 		if ( fi.isDir() )
 		{
-			if ( !archive()->addLocalDirectory( path, fi.fileName() ) )
+			if ( archive()->addLocalDirectory( path, fi.fileName() ) )
+			{
+				const KArchiveEntry *entry = archive()->directory()->entry( fi.fileName() );
+				createEntryFor( entry, "" );
+				processDir( (KArchiveDirectory*) archive()->directory()->entry( fi.fileName() ), fi.fileName() );
+			} 
+			else
 			{
 				error( i18n( "Could not add the directory %1 to the archive", path ) );
 				return false;
@@ -178,7 +191,12 @@ bool KArchiveInterface::addFiles( const QStringList & files )
 		}
 		else
 		{
-			if ( !archive()->addLocalFile( path, fi.fileName() ) )
+			if ( archive()->addLocalFile( path, fi.fileName() ) )
+			{ 
+				const KArchiveEntry *entry = archive()->directory()->entry( fi.fileName() );
+				createEntryFor( entry, "" );
+			} 
+			else 	
 			{
 				error( i18n( "Could not add the file %1 to the archive.", path ) );
 				return false;
