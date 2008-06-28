@@ -325,6 +325,7 @@ ArchiveDirNode* ArchiveModel::parentFor( const ArchiveEntry& entry )
 		{
 			ArchiveEntry e;
 			e[ FileName ] = parent->entry()[ FileName ].toString() + '/' + piece;
+			e[ IsDirectory ] = true;
 			node = new ArchiveDirNode( parent, e );
 			insertNode( node );
 		}
