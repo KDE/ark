@@ -38,4 +38,4 @@ Comment[uk]=Втулка rar для Kerfuffle
 Comment[x-test]=xxrar plugin for Kerfufflexx
 Comment[zh_CN]=Kerfuffle 的 rar 插件
 Comment[zh_TW]=Kerfuffle 的 rar 外掛程式
-MimeType=application/rar;application/x-rar
+MimeType=application/rar;application/x-rar;
