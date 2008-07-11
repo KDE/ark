@@ -288,9 +288,10 @@ void Part::slotExtractFiles()
 	{
 		ArkSettings::setOpenDestinationFolderAfterExtraction( dialog.openDestinationAfterExtraction() );
 		ArkSettings::setLastExtractionFolder( dialog.destinationDirectory().path() );
+		ArkSettings::self()->writeConfig();
 
 		QList<QVariant> files = selectedFiles();
-		ExtractJob *job = m_model->extractFiles( files, dialog.destinationDirectory().path(), false );
+		ExtractJob *job = m_model->extractFiles( files, dialog.destinationDirectory().path(), true );
 		m_jobTracker->registerJob( job );
 
 		connect( job, SIGNAL( result( KJob* ) ),
