@@ -1,6 +1,7 @@
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/.. )
 set( ark_SRCS main.cpp
               mainwindow.cpp
+			  batchextract.cpp
    )
 
 kde4_add_executable( ark ${ark_SRCS} )
