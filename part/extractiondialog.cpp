@@ -32,11 +32,15 @@ ExtractionDialogUI::ExtractionDialogUI( QWidget *parent )
 	setupUi( this );
 }
 
-ExtractionDialog::ExtractionDialog( QWidget *parent )
-	: KDialog( parent )
+ExtractionDialog::ExtractionDialog(QWidget *parent )
+	: KDirSelectDialog()
 {
 	m_ui = new ExtractionDialogUI( this );
-	setMainWidget( m_ui );
+	//setMainWidget( m_ui );
+	
+	//m_ui->information->setText(QString("The root has %1 files.").arg(model.rowCount()));
+
+	mainWidget()->layout()->addWidget(m_ui);
 	setButtons( Ok | Cancel );
 	setCaption( i18n( "Extract" ) );
 	m_ui->iconLabel->setPixmap( DesktopIcon( "archive-extract" ) );
@@ -46,18 +50,33 @@ ExtractionDialog::ExtractionDialog( QWidget *parent )
 	m_ui->allFilesButton->setChecked( true );
 	m_ui->extractAllLabel->show();
 
-	m_ui->destDirRequester->setMode( KFile::Directory | KFile::ExistingOnly | KFile::LocalOnly );
+	//m_ui->recentFolders->addItems( ArkSettings::recentExtractionFolders() );
 
-	if ( ArkSettings::lastExtractionFolder().isEmpty() )
+	if ( ArkSettings::recentExtractionFolders().isEmpty() )
 	{
-		m_ui->destDirRequester->setPath( QDir::currentPath() );
+		setCurrentUrl( QDir::currentPath() );
 	}
 	else
 	{
-		m_ui->destDirRequester->setPath( ArkSettings::lastExtractionFolder() );
+		setCurrentUrl( ArkSettings::recentExtractionFolders().last() );
 	}
 
 	m_ui->openFolderCheckBox->setChecked( ArkSettings::openDestinationFolderAfterExtraction() );
+}
+
+void ExtractionDialog::setCurrentUrl(const QString& url)
+{
+	KDirSelectDialog::setCurrentUrl(url);
+}
+
+void ExtractionDialog::setSubfolder(QString subfolder)
+{
+	m_ui->subfolder->setText(subfolder);
+}
+
+QString ExtractionDialog::subFolder() const
+{
+	return m_ui->subfolder->text();
 }
 
 ExtractionDialog::~ExtractionDialog()
@@ -85,7 +104,7 @@ bool ExtractionDialog::openDestinationAfterExtraction()
 
 KUrl ExtractionDialog::destinationDirectory()
 {
-	return m_ui->destDirRequester->url();
+	return url().path();
 }
 
 #include "extractiondialog.moc"

@@ -21,8 +21,13 @@
 #ifndef EXTRACTIONDIALOG_H
 #define EXTRACTIONDIALOG_H
 
+
+#include <KDirSelectDialog>
+
 #include <KDialog>
 #include "ui_extractiondialog.h"
+
+#include "archivemodel.h"
 
 class ExtractionDialogUI: public QFrame, public Ui::ExtractionDialog
 {
@@ -31,7 +36,7 @@ class ExtractionDialogUI: public QFrame, public Ui::ExtractionDialog
 		ExtractionDialogUI( QWidget *parent = 0 );
 };
 
-class ExtractionDialog: public KDialog
+class ExtractionDialog: public KDirSelectDialog
 {
 	Q_OBJECT
 	public:
@@ -43,9 +48,15 @@ class ExtractionDialog: public KDialog
 		bool extractAllFiles();
 		bool openDestinationAfterExtraction();
 		KUrl destinationDirectory();
+		QString subFolder() const;
+
+	public Q_SLOTS:
+		void setCurrentUrl(const QString& url);
+		void setSubfolder(QString subfolder);
 
 	private:
 		ExtractionDialogUI *m_ui;
+
 };
 
 #endif // EXTRACTIONDIALOG_H

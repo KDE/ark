@@ -5,7 +5,7 @@ set( ark_SRCS main.cpp
 
 kde4_add_executable( ark ${ark_SRCS} )
 
-target_link_libraries( ark ${KDE4_KPARTS_LIBS} )
+target_link_libraries( ark ${KDE4_KFILE_LIBS} ${KDE4_KPARTS_LIBS} )
 
 install( TARGETS ark  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 

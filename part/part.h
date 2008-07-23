@@ -63,6 +63,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void slotError( const QString& errorMessage, const QString& details );
 		void slotExtractFiles();
 		void slotExtractionDone( KJob* );
+		void slotQuickExtractFiles(QAction*);
 		void slotAddFiles();
 		void slotAddDir();
 		void slotAddFilesDone( KJob* );
@@ -79,6 +80,7 @@ class Part: public KParts::ReadWritePart, public Interface
 	private:
 		void setupView();
 		void setupActions();
+		QString detectSubfolder();
 		bool isPreviewable( const QModelIndex & index );
 		QList<QVariant> selectedFiles();
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>480</width>
-    <height>196</height>
+    <height>422</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -25,13 +25,13 @@
   <property name="windowTitle" >
    <string>Extraction Dialog</string>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout" name="verticalLayout_2" >
    <item>
-    <layout class="QHBoxLayout" >
+    <layout class="QHBoxLayout" name="horizontalLayout" >
      <item>
       <widget class="QLabel" name="iconLabel" >
        <property name="sizePolicy" >
-        <sizepolicy vsizetype="Minimum" hsizetype="Minimum" >
+        <sizepolicy vsizetype="Maximum" hsizetype="Minimum" >
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -46,7 +46,7 @@
         <string/>
        </property>
        <property name="pixmap" >
-        <pixmap>../../../../../../home/kde-devel/ark-trunk/pics/ox32-action-ark_extract.png</pixmap>
+        <pixmap>../../../../../kde-devel/ark-trunk/pics/ox32-action-ark_extract.png</pixmap>
        </property>
        <property name="scaledContents" >
         <bool>false</bool>
@@ -57,96 +57,122 @@
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" >
-       <item>
-        <widget class="QLabel" name="extractAllLabel" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text" >
-          <string>&lt;font size=&quot;+2&quot;>&lt;b>Extract All Files&lt;/b>&lt;/font></string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="filesToExtractGroupBox" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="title" >
-          <string>Extract</string>
-         </property>
-         <property name="flat" >
-          <bool>false</bool>
-         </property>
-         <property name="checkable" >
-          <bool>false</bool>
-         </property>
-         <layout class="QVBoxLayout" >
-          <item>
-           <widget class="QRadioButton" name="selectedFilesButton" >
-            <property name="text" >
-             <string>Selected files only</string>
-            </property>
-            <property name="checked" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="allFilesButton" >
-            <property name="text" >
-             <string>All files</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" >
-     <item>
-      <widget class="QLabel" name="destDirLabel" >
+      <widget class="QLabel" name="extractAllLabel" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text" >
-        <string>Destination folder:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="KUrlRequester" name="destDirRequester" >
-       <property name="statusTip" >
-        <string/>
+        <string>&lt;font size="+2">&lt;b>Extract All Files&lt;/b>&lt;/font></string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="openFolderCheckBox" >
-     <property name="text" >
-      <string>Open destination folder after extraction</string>
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
+     <property name="title" >
+      <string>Options</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout" >
+      <property name="fieldGrowthPolicy" >
+       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+      </property>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="subFolderLabel" >
+        <property name="text" >
+         <string>Extraction into subfolder</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="QLineEdit" name="subfolder" />
+      </item>
+      <item row="4" column="1" >
+       <widget class="QCheckBox" name="openFolderCheckBox" >
+        <property name="layoutDirection" >
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="text" >
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" >
+       <widget class="QCheckBox" name="preservePaths" >
+        <property name="layoutDirection" >
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="text" >
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="QLabel" name="subFolderLabel_2" >
+        <property name="text" >
+         <string>Preserve paths when extracting</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" >
+       <widget class="QLabel" name="subFolderLabel_3" >
+        <property name="text" >
+         <string>Open destination folder after extraction</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="filesToExtractGroupBox" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title" >
+      <string>Extract</string>
+     </property>
+     <property name="flat" >
+      <bool>false</bool>
+     </property>
+     <property name="checkable" >
+      <bool>false</bool>
+     </property>
+     <layout class="QVBoxLayout" >
+      <item>
+       <widget class="QRadioButton" name="selectedFilesButton" >
+        <property name="text" >
+         <string>Selected files only</string>
+        </property>
+        <property name="checked" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="allFilesButton" >
+        <property name="text" >
+         <string>All files</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

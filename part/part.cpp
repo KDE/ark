@@ -32,6 +32,7 @@
 #include <KAboutData>
 #include <KDebug>
 #include <KAction>
+#include <KSelectAction>
 #include <KActionCollection>
 #include <KIcon>
 #include <KTempDir>
@@ -40,12 +41,14 @@
 #include <KRun>
 #include <KFileDialog>
 
+
 #include <QTreeView>
 #include <QCursor>
 #include <QAction>
 #include <QSplitter>
 #include <QVBoxLayout>
 #include <QTimer>
+#include <QMenu>
 
 typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY( libarkpart, Factory )
@@ -163,6 +166,26 @@ void Part::updateActions()
 	m_addDirAction->setEnabled( !isBusy() && isWritable );
 	m_deleteFilesAction->setEnabled( !isBusy() && ( m_view->selectionModel()->selectedRows().count() > 0 )
 	                                 && isWritable );
+
+	QMenu *m = new QMenu("Recent folders");
+	connect(m, SIGNAL(triggered(QAction*)),
+			this, SLOT(slotQuickExtractFiles(QAction*)));
+	QAction *header = m->addAction(i18n("Quick extract to..."));
+	header->setEnabled(false);
+	header->setIcon(KIcon( "archive-extract" ) );
+	for(int i = 0; i < ArkSettings::recentExtractionFolders().size(); ++i)
+	{
+		m->addAction(ArkSettings::recentExtractionFolders().at(i));
+		
+	}
+	if (m_extractFilesAction->menu()) delete m_extractFilesAction->menu();
+	m_extractFilesAction->setMenu(m);
+
+}
+
+void Part::slotQuickExtractFiles(QAction *triggeredAction)
+{
+	kDebug() << "Extract to " << triggeredAction->text();
 }
 
 bool Part::isPreviewable( const QModelIndex & index )
@@ -274,6 +297,31 @@ void Part::slotError( const QString& errorMessage, const QString& details )
 	}
 }
 
+QString Part::detectSubfolder()
+{
+	if (!m_model) return QString();
+
+	if (m_model->rowCount() == 1)
+	{
+		//this is probably an archive with one single folder included
+		//retrieve the root node and make sure
+		QModelIndex i = m_model->index(0,0);
+		ArchiveEntry root = m_model->entryForIndex(i);
+
+		if (root[IsDirectory].toBool())
+		{
+			return root[FileName].toString();
+		}
+		
+	}
+	else
+	{
+		if (!m_model->archive()) return QString();
+		QFileInfo f(m_model->archive()->fileName());
+		return f.baseName();
+	}
+}
+
 void Part::slotExtractFiles()
 {
 	kDebug( 1601 ) ;
@@ -284,11 +332,15 @@ void Part::slotExtractFiles()
 		dialog.showSelectedFilesOption();
 	}
 
+	QString subfolder = detectSubfolder();
+	dialog.setSubfolder(subfolder);
+
 	if ( dialog.exec() )
 	{
 		ArkSettings::setOpenDestinationFolderAfterExtraction( dialog.openDestinationAfterExtraction() );
 		ArkSettings::setLastExtractionFolder( dialog.destinationDirectory().path() );
 		ArkSettings::self()->writeConfig();
+		//updateActions();
 
 		QList<QVariant> files = selectedFiles();
 		ExtractJob *job = m_model->extractFiles( files, dialog.destinationDirectory().path(), true );
