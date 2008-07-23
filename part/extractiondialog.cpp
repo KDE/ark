@@ -32,8 +32,9 @@ ExtractionDialogUI::ExtractionDialogUI( QWidget *parent )
 	setupUi( this );
 }
 
-ExtractionDialog::ExtractionDialog(QWidget *parent )
-	: KDirSelectDialog()
+ExtractionDialog::ExtractionDialog(QVariantMap& arguments, QWidget *parent )
+	: KDirSelectDialog(),
+	arguments(arguments)
 {
 	m_ui = new ExtractionDialogUI( this );
 	//setMainWidget( m_ui );
@@ -52,59 +53,44 @@ ExtractionDialog::ExtractionDialog(QWidget *parent )
 
 	//m_ui->recentFolders->addItems( ArkSettings::recentExtractionFolders() );
 
-	if ( ArkSettings::lastExtractionFolder().isEmpty() )
+	setCurrentUrl( KUrl( arguments.value("destination", QDir::currentPath()).toString()));
+
+	connect( this, SIGNAL(accepted()),
+			this, SLOT(updateArguments()));
+
+	m_ui->preservePaths->setChecked(arguments.value("preservePaths", true).toBool());
+
+	m_ui->openFolderCheckBox->setChecked(arguments.value("openDestinationAfterExtraction", false).toBool());
+
+	m_ui->subfolder->setText(arguments.value("subfolder").toString());
+
+	if (arguments.value("showSelectedFiles", false).toBool())
 	{
-		setCurrentUrl( QDir::currentPath() );
+		m_ui->filesToExtractGroupBox->show();
+		m_ui->selectedFilesButton->setChecked( true );
+		m_ui->extractAllLabel->hide();
 	}
+
+}
+
+void ExtractionDialog::updateArguments()
+{
+	arguments["subfolder"] = m_ui->subfolder->text();
+	arguments["destination"] = url().path();
+	arguments["preservePaths"] = m_ui->preservePaths->isChecked();
+	arguments["openDestinationAfterExtraction"] = m_ui->openFolderCheckBox->isChecked();
+
+	if (m_ui->allFilesButton->isChecked())
+		arguments["extract"] = "allFiles";
 	else
-	{
-		setCurrentUrl( ArkSettings::lastExtractionFolder() );
-	}
+		arguments["extract"] = "selectedFiles";
 
-	m_ui->openFolderCheckBox->setChecked( ArkSettings::openDestinationFolderAfterExtraction() );
-}
-
-void ExtractionDialog::setCurrentUrl(const QString& url)
-{
-	KDirSelectDialog::setCurrentUrl(url);
-}
-
-void ExtractionDialog::setSubfolder(QString subfolder)
-{
-	m_ui->subfolder->setText(subfolder);
-}
-
-QString ExtractionDialog::subfolder() const
-{
-	return m_ui->subfolder->text();
 }
 
 ExtractionDialog::~ExtractionDialog()
 {
 	delete m_ui;
 	m_ui = 0;
-}
-
-void ExtractionDialog::showSelectedFilesOption()
-{
-	m_ui->filesToExtractGroupBox->show();
-	m_ui->selectedFilesButton->setChecked( true );
-	m_ui->extractAllLabel->hide();
-}
-
-bool ExtractionDialog::extractAllFiles()
-{
-	return m_ui->allFilesButton->isChecked();
-}
-
-bool ExtractionDialog::openDestinationAfterExtraction()
-{
-	return m_ui->openFolderCheckBox->isChecked();
-}
-
-KUrl ExtractionDialog::destinationDirectory()
-{
-	return url().path();
 }
 
 #include "extractiondialog.moc"
