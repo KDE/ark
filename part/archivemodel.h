@@ -47,14 +47,20 @@ class ArchiveModel: public QAbstractItemModel
 		int rowCount( const QModelIndex &parent = QModelIndex() ) const;
 		int columnCount( const QModelIndex &parent = QModelIndex() ) const;
 
+		//drag and drop related
+		Qt::DropActions supportedDropActions () const;
+		QStringList mimeTypes () const;
+		QMimeData * mimeData ( const QModelIndexList & indexes ) const;
+
+
 		void setArchive( Kerfuffle::Archive *archive );
 		Kerfuffle::Archive *archive() const { return m_archive; }
 
 		ArchiveEntry entryForIndex( const QModelIndex &index );
 		int childCount( const QModelIndex &index );
 
-		ExtractJob* extractFile( const QVariant& fileName, const QString & destinationDir, bool preservePaths = false );
-		ExtractJob* extractFiles( const QList<QVariant>& files, const QString & destinationDir, bool preservePaths = false );
+		ExtractJob* extractFile( const QVariant& fileName, const QString & destinationDir, bool preservePaths = false ) const;
+		ExtractJob* extractFiles( const QList<QVariant>& files, const QString & destinationDir, bool preservePaths = false ) const;
 
 		AddJob* addFiles( const QStringList & paths );
 		DeleteJob* deleteFiles( const QList<QVariant> & files );

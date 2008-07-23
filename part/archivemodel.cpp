@@ -25,6 +25,8 @@
 #include <QList>
 #include <QPixmap>
 #include <QFont>
+#include <QMimeData>
+#include <QDir>
 
 #include <KDebug>
 #include <KLocale>
@@ -214,9 +216,11 @@ QVariant ArchiveModel::data( const QModelIndex &index, int role ) const
 
 Qt::ItemFlags ArchiveModel::flags( const QModelIndex &index ) const
 {
+	Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index);
+
 	if ( index.isValid() )
 	{
-		return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+		return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | defaultFlags;
 	}
 
 	return 0;
@@ -311,11 +315,52 @@ int ArchiveModel::rowCount( const QModelIndex &parent ) const
 
 int ArchiveModel::columnCount( const QModelIndex &parent ) const
 {
+	return 2; // TODO: Completely bogus
 	if ( parent.isValid() )
 	{
 		return static_cast<ArchiveNode*>( parent.internalPointer() )->entry().size();
 	}
-	return 2; // TODO: Completely bogus
+}
+
+Qt::DropActions ArchiveModel::supportedDropActions () const
+{
+	return Qt::CopyAction;
+}
+
+QStringList ArchiveModel::mimeTypes () const
+{
+	return QStringList() << QLatin1String("text/uri-list")
+		<< QLatin1String( "text/plain" )
+		<< QLatin1String( "application/x-kde-urilist" );
+}
+
+QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
+{
+	QVariantList files;
+
+	//1. Prepare the temp path
+	bool ret = QDir::temp().mkpath("kdeark-drag-temp");
+	if (!ret) return NULL;
+	QString tempPath = QDir::tempPath() + "/kdeark-drag-temp";
+	Q_ASSERT(QFile::exists(tempPath));
+
+	//2. Populate the internal list of files
+	foreach ( const QModelIndex &index, indexes ) {
+		
+		//to limit only one index per row
+		if (index.column() != 0) continue;
+
+		files << static_cast<ArchiveNode*>( index.internalPointer() )->entry()[ InternalID ];
+	}
+
+	kDebug() << "Extracting " << files << "to" << tempPath;
+	ExtractJob *job = extractFiles(files, tempPath, false);
+	job->start();
+
+	KUrl::List urls;
+	QMimeData *data = new QMimeData();
+	urls.populateMimeData( data );
+	return data;
 }
 
 ArchiveDirNode* ArchiveModel::parentFor( const ArchiveEntry& entry )
@@ -451,14 +496,14 @@ void ArchiveModel::setArchive( Kerfuffle::Archive *archive )
 	reset();
 }
 
-ExtractJob* ArchiveModel::extractFile( const QVariant& fileName, const QString & destinationDir, bool preservePaths )
+ExtractJob* ArchiveModel::extractFile( const QVariant& fileName, const QString & destinationDir, bool preservePaths ) const
 {
 	QList<QVariant> files;
 	files << fileName;
 	return extractFiles( files, destinationDir, preservePaths );
 }
 
-ExtractJob* ArchiveModel::extractFiles( const QList<QVariant>& files, const QString & destinationDir, bool preservePaths )
+ExtractJob* ArchiveModel::extractFiles( const QList<QVariant>& files, const QString & destinationDir, bool preservePaths ) const
 {
 	Q_ASSERT( m_archive );
 	return m_archive->copyFiles( files, destinationDir, preservePaths );

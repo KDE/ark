@@ -106,6 +106,12 @@ void Part::setupView()
 	m_view->setColumnWidth( 0, 150 );
 	m_view->setAllColumnsShowFocus( true );
 
+	//drag and drop
+	m_view->setDragDropMode(QAbstractItemView::DragDrop);
+	m_view->setDragEnabled(true);
+	m_view->setAcceptDrops(true);
+	m_view->setDropIndicatorShown(true);
+
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
 	         this, SLOT( updateActions() ) );
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
