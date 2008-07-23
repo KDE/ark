@@ -20,14 +20,25 @@
  */
 
 #include "batchextract.h"
+#include <KParts/ComponentFactory>
+#include <KLibLoader>
+#include <KMessageBox>
 
 BatchExtract::BatchExtract(QWidget *parent)
 	: KDialog(parent)
 {
+	m_part = KParts::ComponentFactory::createPartInstanceFromLibrary<KParts::ReadWritePart>( "libarkpart", NULL, this );
+	if ( !m_part )
+	{
+		KMessageBox::error( this, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
+		return;
+	}
+	m_part->setObjectName( "ArkPart" );
 
 }
 
 BatchExtract::~BatchExtract()
 {
-
+	delete m_part;
+	m_part = 0;
 }

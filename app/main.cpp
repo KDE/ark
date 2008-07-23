@@ -26,6 +26,7 @@
 #include <QByteArray>
 
 #include "mainwindow.h"
+#include "batchextract.h"
 
 int main( int argc, char **argv )
 {
@@ -79,6 +80,7 @@ int main( int argc, char **argv )
 	KCmdLineOptions option;
 	option.add("+[url]", ki18n( "URL of an archive to be opened" ));
 	option.add("extract", ki18n("Show the extract dialog after opening archive"));
+	option.add("batch", ki18n("Use the batch interface instead of the usual dialog"));
 	KCmdLineArgs::addCmdLineOptions( option );
 	KCmdLineArgs::addTempFileOption();
 
@@ -90,27 +92,44 @@ int main( int argc, char **argv )
 	}
 	else
 	{
-		MainWindow *window = new MainWindow;
-		if(!window->loadPart()) // if loading the part fails
-		{
-			return -1;
-		}
-
 		// open any given URLs
 		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-		if (args->count())
- 		{
-			kDebug() << "trying to open" << args->url(0);
 
-			if (args->isSet("extract"))
+		if (args->isSet("batch"))
+		{
+			for (int i = 0; i < args->count(); ++i)
 			{
-				window->setShowExtractDialog(true);
+
+			}
+			BatchExtract *batchExtractDialog = new BatchExtract();
+
+			batchExtractDialog->show();
+		}
+		else
+		{
+
+			MainWindow *window = new MainWindow;
+			if(!window->loadPart()) // if loading the part fails
+			{
+				return -1;
 			}
 
- 			window->openUrl(args->url(0));
-		}
 
- 		window->show();
+			if (args->count())
+			{
+				kDebug() << "trying to open" << args->url(0);
+
+				if (args->isSet("extract"))
+				{
+					window->setShowExtractDialog(true);
+				}
+
+				window->openUrl(args->url(0));
+			}
+
+			window->show();
+
+		}
 	}
 
 	return application.exec();
