@@ -25,14 +25,33 @@
 
 #include <kwidgetjobtracker.h>
 #include <KDebug>
+#include <KLocale>
+
 #include <QFileInfo>
 #include <QDir>
 
 #include <QCoreApplication>
 
-void BatchExtraction::addExtraction(Kerfuffle::ExtractJob *job)
+void BatchExtraction::addExtraction(QString filename, QString destinationFolder)
 {
+	Kerfuffle::Archive *archive = Kerfuffle::factory(filename);
+	if (archive == NULL) return; // FIXME: an error
+
+	QString finalDestination;
+	if (destinationFolder.isEmpty()) {
+		finalDestination = QFileInfo(filename).dir().absolutePath();
+	} else {
+		finalDestination = destinationFolder;
+	}
+
+	Kerfuffle::ExtractJob *job = archive->copyFiles(
+			QVariantList(), //extract all files
+			finalDestination, //extract to current folder
+			true //preserve paths
+			);
+
 	addSubjob(job);
+	fileNames[job] = qMakePair(filename, finalDestination);
 	connect(job, SIGNAL(percent(KJob*, unsigned long)),
 			this, SLOT(forwardProgress(KJob *, unsigned long)));
 
@@ -42,6 +61,12 @@ void BatchExtraction::start()
 {
 	initialJobCount = subjobs().size();
 	if (!initialJobCount) return;
+
+	emit description(this,
+			"Extracting file...",
+			qMakePair(i18n("Source archive"), fileNames.value(subjobs().at(0)).first),
+			qMakePair(i18n("Destination"), fileNames.value(subjobs().at(0)).second)
+			);
 
 	subjobs().at(0)->start();
 }
@@ -55,17 +80,23 @@ void BatchExtraction::slotResult( KJob *job )
 	}
 	else
 	{
+		emit description(this,
+				"Extracting file...",
+				qMakePair(i18n("Source archive"), fileNames.value(subjobs().at(0)).first),
+				qMakePair(i18n("Destination"), fileNames.value(subjobs().at(0)).second)
+				);
 		subjobs().at(0)->start();
 	}
 }
 
 void BatchExtraction::forwardProgress(KJob *job, unsigned long percent)
 {
+	Q_UNUSED(job);
 	int jobPart = 100 / initialJobCount;
 	setPercent( jobPart * (initialJobCount - subjobs().size()) + percent / initialJobCount );
 }
 
-BatchExtract::BatchExtract(QObject *parent)
+BatchExtract::BatchExtract(QObject *)
 {
 
 }
@@ -87,24 +118,7 @@ bool BatchExtract::startExtraction()
 
 	foreach (QString filename, inputs)
 	{
-
-		Kerfuffle::Archive *archive = Kerfuffle::factory(filename);
-		if (archive == NULL) continue;
-
-		QString finalDestination;
-		if (destinationFolder.isEmpty()) {
-			finalDestination = QFileInfo(filename).dir().absolutePath();
-		} else {
-			finalDestination = destinationFolder;
-		}
-
-		Kerfuffle::ExtractJob *job = archive->copyFiles(
-				QVariantList(), //extract all files
-				finalDestination, //extract to current folder
-				true //preserve paths
-				);
-
-		allJobs->addExtraction(job);
+		allJobs->addExtraction(filename, destinationFolder);
 	}
 	tracker->registerJob(allJobs);
 

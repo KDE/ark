@@ -26,6 +26,8 @@
 #include <KParts/ReadWritePart>
 #include <KUrl>
 #include <KDialog>
+#include <QMap>
+#include <QPair>
 #include <kcompositejob.h>
 #include "kerfuffle/jobs.h"
 
@@ -38,7 +40,7 @@ class BatchExtraction : public KCompositeJob
 	Q_OBJECT
 
 	public:
-		void addExtraction(class Kerfuffle::ExtractJob *job);
+		void addExtraction(QString filename, QString destinationFolder = QString());
 		void start();
 
 	private slots:
@@ -47,6 +49,7 @@ class BatchExtraction : public KCompositeJob
 
 	private:
 		int initialJobCount;
+		QMap<class KJob *, QPair<QString,QString> > fileNames;
 
 };
 
@@ -54,6 +57,7 @@ class BatchExtraction : public KCompositeJob
 class BatchExtract : public QObject
 {
 	Q_OBJECT
+
 	public:
 		BatchExtract( QObject *parent = 0 );
 		~BatchExtract();
