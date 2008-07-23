@@ -24,14 +24,22 @@
 #include <KIconLoader>
 
 #include <QDir>
+
+#include "ui_extractiondialog.h"
+
 namespace Kerfuffle
 {
 
-	ExtractionDialogUI::ExtractionDialogUI( QWidget *parent )
-		: QFrame( parent )
+	class ExtractionDialogUI: public QFrame, public Ui::ExtractionDialog
 	{
-		setupUi( this );
-	}
+		Q_OBJECT
+		public:
+			ExtractionDialogUI( QWidget *parent = 0 )
+				: QFrame( parent )
+			{
+				setupUi( this );
+			}
+	};
 
 	ExtractionDialog::ExtractionDialog(QWidget *parent )
 		: KDirSelectDialog()

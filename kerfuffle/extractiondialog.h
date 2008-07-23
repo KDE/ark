@@ -26,18 +26,9 @@
 #include <KDirSelectDialog>
 
 #include <KDialog>
-#include "ui_extractiondialog.h"
 
 namespace Kerfuffle
 {
-
-	class ExtractionDialogUI: public QFrame, public Ui::ExtractionDialog
-	{
-		Q_OBJECT
-		public:
-			ExtractionDialogUI( QWidget *parent = 0 );
-	};
-
 	class KERFUFFLE_EXPORT ExtractionDialog: public KDirSelectDialog
 	{
 		Q_OBJECT
@@ -59,7 +50,7 @@ namespace Kerfuffle
 			void setSubfolder(QString subfolder);
 
 		private:
-			ExtractionDialogUI *m_ui;
+			class ExtractionDialogUI *m_ui;
 
 	};
 }
