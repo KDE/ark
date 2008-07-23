@@ -20,21 +20,42 @@
  */
 
 #include "batchextract.h"
-#include <KParts/ComponentFactory>
-#include <KLibLoader>
+#include <KPluginLoader>
+#include <KPluginFactory>
 #include <KMessageBox>
+#include <KLocale>
+#include "part/interface.h"
 
 BatchExtract::BatchExtract(QWidget *parent)
-	: KDialog(parent)
+	: KDialog(parent),
+	m_part(NULL),
+	arkInterface(NULL)
 {
-	m_part = KParts::ComponentFactory::createPartInstanceFromLibrary<KParts::ReadWritePart>( "libarkpart", NULL, this );
-	if ( !m_part )
+
+}
+
+bool BatchExtract::loadPart()
+{
+	KPluginFactory *factory = KPluginLoader("libarkpart").factory();
+	if(factory) {
+		m_part = static_cast<KParts::ReadWritePart*>( factory->create<KParts::ReadWritePart>(NULL) );
+	}
+	if ( !factory || !m_part )
 	{
 		KMessageBox::error( this, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
-		return;
+		return false;
 	}
 	m_part->setObjectName( "ArkPart" );
 
+	arkInterface = qobject_cast<Interface*>(m_part);
+
+	if (!arkInterface)
+	{
+		KMessageBox::error( this, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
+		return false;
+	}
+
+	return true;
 }
 
 BatchExtract::~BatchExtract()

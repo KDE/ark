@@ -27,22 +27,27 @@
 #include <KUrl>
 #include <KDialog>
 
+class Interface;
+
 class BatchExtract: public KDialog
 {
 	Q_OBJECT
 	public:
 		BatchExtract( QWidget *parent = 0 );
 		~BatchExtract();
+		bool loadPart();
 
 	public slots:
 		//void openUrl( const KUrl& url );
 		//void setShowExtractDialog(bool);
+		void slotExtractUrl();
 
 	private slots:
 
 	private:
 		KParts::ReadWritePart *m_part;
 		KParts::OpenUrlArguments m_openArgs;
+		Interface *arkInterface;
 };
 
 #endif // BATCHEXTRACT_H

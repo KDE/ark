@@ -103,6 +103,11 @@ int main( int argc, char **argv )
 			}
 			BatchExtract *batchExtractDialog = new BatchExtract();
 
+			if (!batchExtractDialog->loadPart())
+			{
+				return -1;
+			}
+
 			batchExtractDialog->show();
 		}
 		else
