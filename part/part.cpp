@@ -22,7 +22,7 @@
 #include "archivemodel.h"
 #include "infopanel.h"
 #include "arkviewer.h"
-#include "extractiondialog.h"
+#include "kerfuffle/extractiondialog.h"
 #include "kerfuffle/jobs.h"
 #include "settings.h"
 #include "jobtracker.h"
@@ -379,7 +379,7 @@ void Part::slotExtractFiles()
 	kDebug( 1601 ) ;
 	//TODO: return if there are no model currently set
 
-	ExtractionDialog dialog;
+	Kerfuffle::ExtractionDialog dialog;
 	if ( m_view->selectionModel()->selectedRows().count() > 0 )
 	{
 		dialog.showSelectedFilesOption();

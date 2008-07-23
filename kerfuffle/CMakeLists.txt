@@ -1,3 +1,8 @@
+include_directories(
+                     ${CMAKE_CURRENT_SOURCE_DIR}/..
+                     ${CMAKE_CURRENT_BINARY_DIR}/..
+                   )
+
 ADD_DEFINITIONS(-D_LARGEFILE64_SOURCE)
 
 #kde4_add_kcfg_files(libark_common_SRCS ../settings.kcfgc)
@@ -11,7 +16,10 @@ set(kerfuffle_SRCS
     internaljobs.cpp
     jobs.cpp
     archivebase.cpp
+	extractiondialog.cpp
    )
+
+kde4_add_ui_files(kerfuffle_SRCS extractiondialog.ui )
 
 kde4_add_library(kerfuffle SHARED ${kerfuffle_SRCS})
 

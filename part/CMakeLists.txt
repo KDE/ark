@@ -10,11 +10,9 @@ set(arkpart_PART_SRCS
 	infopanel.cpp
 	arkviewer.cpp
 	archivemodel.cpp
-	extractiondialog.cpp
 	jobtracker.cpp
     )
 
-kde4_add_ui_files(arkpart_PART_SRCS extractiondialog.ui )
 kde4_add_ui_files(arkpart_PART_SRCS infopanel.ui )
 kde4_add_ui_files(arkpart_PART_SRCS jobtracker.ui )
 

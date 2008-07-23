@@ -21,44 +21,47 @@
 #ifndef EXTRACTIONDIALOG_H
 #define EXTRACTIONDIALOG_H
 
+#include "kerfuffle_export.h"
 
 #include <KDirSelectDialog>
 
 #include <KDialog>
 #include "ui_extractiondialog.h"
 
-#include "archivemodel.h"
-
-class ExtractionDialogUI: public QFrame, public Ui::ExtractionDialog
+namespace Kerfuffle
 {
-	Q_OBJECT
-	public:
-		ExtractionDialogUI( QWidget *parent = 0 );
-};
 
-class ExtractionDialog: public KDirSelectDialog
-{
-	Q_OBJECT
-	public:
-		ExtractionDialog( QWidget *parent = 0 );
-		~ExtractionDialog();
+	class ExtractionDialogUI: public QFrame, public Ui::ExtractionDialog
+	{
+		Q_OBJECT
+		public:
+			ExtractionDialogUI( QWidget *parent = 0 );
+	};
 
-		void showSelectedFilesOption();
-		void singleFolderArchiveWarningOption();
+	class KERFUFFLE_EXPORT ExtractionDialog: public KDirSelectDialog
+	{
+		Q_OBJECT
+		public:
+			ExtractionDialog( QWidget *parent = 0 );
+			~ExtractionDialog();
 
-		bool extractAllFiles();
-		bool openDestinationAfterExtraction();
-		bool extractToSubfolder();
-		KUrl destinationDirectory();
-		QString subfolder() const;
+			void showSelectedFilesOption();
+			void singleFolderArchiveWarningOption();
 
-	public Q_SLOTS:
-		void setCurrentUrl(const QString& url);
-		void setSubfolder(QString subfolder);
+			bool extractAllFiles();
+			bool openDestinationAfterExtraction();
+			bool extractToSubfolder();
+			KUrl destinationDirectory();
+			QString subfolder() const;
 
-	private:
-		ExtractionDialogUI *m_ui;
+		public Q_SLOTS:
+			void setCurrentUrl(const QString& url);
+			void setSubfolder(QString subfolder);
 
-};
+		private:
+			ExtractionDialogUI *m_ui;
+
+	};
+}
 
 #endif // EXTRACTIONDIALOG_H
