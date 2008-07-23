@@ -195,6 +195,11 @@ QString InfoPanel::metadataTextFor( const QModelIndex &index )
 		text += i18n( "<b>Target:</b> %1<br/>", entry[ Link ].toString() );
 	}
 
+	if ( entry.contains( IsPasswordProtected ) && entry[ IsPasswordProtected ].toBool() )
+	{
+		text += i18n( "<b>Password protected:</b> Yes<br/>");
+	}
+
 	return text;
 }
 
