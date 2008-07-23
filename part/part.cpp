@@ -50,6 +50,59 @@
 #include <QVBoxLayout>
 #include <QTimer>
 #include <QMenu>
+#include <QMouseEvent>
+#include <QMimeData>
+#include <QtDBus/QtDBus>
+
+
+
+class CustomTreeView : public QTreeView
+{
+	public:
+
+		QPoint dragStartPosition;
+
+		CustomTreeView(QWidget *parent = 0)
+			: QTreeView(parent)
+		{
+
+		}
+
+		void mousePressEvent(QMouseEvent *event)
+		{
+			QTreeView::mousePressEvent(event);
+
+			if (event->button() == Qt::LeftButton)
+				dragStartPosition = event->pos();
+		}
+
+		void mouseMoveEvent(QMouseEvent *event)
+		{
+			if (!(event->buttons() & Qt::LeftButton) ||
+					(event->pos() - dragStartPosition).manhattanLength()
+					< QApplication::startDragDistance()) {
+				QTreeView::mouseMoveEvent(event);
+				return;
+			}
+
+			QDrag *drag = new QDrag(this);
+			QMimeData *mimeData = new QMimeData;
+
+			mimeData->setData("application/x-kde-extractdrag", 
+					QDBusConnection::sessionBus().baseService().toUtf8()
+					);
+			drag->setMimeData(mimeData);
+
+			Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction);
+
+		}
+
+		bool x11Event ( XEvent * event ) 
+		{
+			kDebug() << event;
+			return false;
+		}
+};
 
 typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY( libarkpart, Factory )
@@ -65,7 +118,7 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	setWidget( mainWidget );
 
 	QSplitter *splitter = new QSplitter( Qt::Horizontal, mainWidget );
-	m_view = new QTreeView( mainWidget );
+	m_view = new CustomTreeView( mainWidget );
 	m_infoPanel = new InfoPanel( m_model, mainWidget );
 	splitter->addWidget( m_view );
 	splitter->addWidget( m_infoPanel );
@@ -81,6 +134,9 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	         this, SLOT( slotError( const QString&, const QString& ) ) );
 
 	m_statusBarExtension = new KParts::StatusBarExtension( this );
+
+	QDBusConnection::sessionBus().registerObject("/", this, QDBusConnection::ExportAllSlots);
+
 	QTimer::singleShot( 0, this, SLOT( createJobTracker() ) );
 }
 
@@ -96,6 +152,18 @@ void Part::createJobTracker()
 	m_jobTracker->widget(0)->hide();
 }
 
+void Part::extractDragTo(QString localPath)
+{
+	QList<QVariant> files = selectedFiles();
+	ExtractJob *job = m_model->extractFiles( files, localPath, false );
+	m_jobTracker->registerJob( job );
+
+	connect( job, SIGNAL( result( KJob* ) ),
+			this, SLOT( slotExtractionDone( KJob * ) ) );
+
+	job->start();
+}
+
 void Part::setupView()
 {
 	m_view->setSelectionMode( QAbstractItemView::ExtendedSelection );
@@ -107,10 +175,10 @@ void Part::setupView()
 	m_view->setAllColumnsShowFocus( true );
 
 	//drag and drop
-	m_view->setDragDropMode(QAbstractItemView::DragDrop);
+	//m_view->setDragDropMode(QAbstractItemView::DragDrop);
 	m_view->setDragEnabled(true);
-	m_view->setAcceptDrops(true);
-	m_view->setDropIndicatorShown(true);
+	//m_view->setAcceptDrops(true);
+	//m_view->setDropIndicatorShown(true);
 
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
 	         this, SLOT( updateActions() ) );
