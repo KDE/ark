@@ -32,12 +32,9 @@ class Interface
 		virtual QStringList supportedMimeTypes() const = 0;
 		virtual QStringList supportedWriteMimeTypes() const = 0;
 
-		virtual bool extract(QVariantMap arguments, class KJobTrackerInterface *tracker = 0) = 0;
-		virtual bool showExtractionDialog(QVariantMap& arguments) = 0;
-
 		virtual bool isBusy() const = 0;
 };
 
-Q_DECLARE_INTERFACE( Interface, "org.kde.kerfuffle.partinterface/0.43" )
+Q_DECLARE_INTERFACE( Interface, "org.kde.kerfuffle.partinterface/0.42" )
 
 #endif // INTERFACE_H

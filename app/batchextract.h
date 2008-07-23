@@ -27,43 +27,27 @@
 #include <KUrl>
 #include <KDialog>
 
-#include <kwidgetjobtracker.h>
-
 class Interface;
 
-class BatchExtract: public KWidgetJobTracker
+class BatchExtract: public KDialog
 {
 	Q_OBJECT
-
 	public:
 		BatchExtract( QWidget *parent = 0 );
 		~BatchExtract();
 		bool loadPart();
-		void setInputFiles(QStringList files);
-		void setInputFiles(QString file);
-		void setDestinationDirectory(QString destination);
-		virtual void finished(KJob *job);
-		virtual void registerJob (KJob *job);
 
 	public slots:
 		//void openUrl( const KUrl& url );
-		void setShowExtractDialog(bool);
-		void loadNextJob();
-		void startCompression();
-
-
+		//void setShowExtractDialog(bool);
+		void slotExtractUrl();
 
 	private slots:
 
 	private:
-		void timerEvent ( class QTimerEvent * event );
-
 		KParts::ReadWritePart *m_part;
-		Interface *m_arkInterface;
-		QVariantMap m_arguments;
-		QStringList m_inputFiles;
-		bool m_showExtractDialog;
-		int m_extractionTimerId;
+		KParts::OpenUrlArguments m_openArgs;
+		Interface *arkInterface;
 };
 
 #endif // BATCHEXTRACT_H

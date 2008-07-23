@@ -201,17 +201,29 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 {
 	kDebug() << "Extract to " << triggeredAction->data().toString();
 
-	QVariantMap arguments;
+	QString userDestination = triggeredAction->data().toString();
+	QString finalDestinationDirectory;
+	QString detectedSubfolder = detectSubfolder();
 
-	arguments["destination"] = triggeredAction->data().toString();
 	if (!isSingleFolderArchive())
 	{
-		arguments["subfolder"] = detectSubfolder();
+		finalDestinationDirectory = userDestination + 
+			QDir::separator() + detectedSubfolder;
+		QDir( userDestination ).mkdir(detectedSubfolder);
 	}
+	else finalDestinationDirectory = userDestination;
 
-	extract(arguments);
+	QList<QVariant> files = selectedFiles();
+	ExtractJob *job = m_model->extractFiles( files, finalDestinationDirectory, true );
+	m_jobTracker->registerJob( job );
+
+	connect( job, SIGNAL( result( KJob* ) ),
+			this, SLOT( slotExtractionDone( KJob * ) ) );
+
+	job->start();
 
 }
+
 bool Part::isPreviewable( const QModelIndex & index )
 {
 	return index.isValid() && ( !m_model->entryForIndex( index )[ IsDirectory ].toBool() );
@@ -346,16 +358,12 @@ QString Part::detectSubfolder()
 {
 	if (!m_model) return QString();
 
-
 	if (isSingleFolderArchive())
 	{
 		QModelIndex i = m_model->index(0,0);
 		ArchiveEntry root = m_model->entryForIndex(i);
 
-		QString detected = root[FileName].toString();
-		if (detected.right(1) == QDir::separator())
-			detected.chop(1);
-		return detected;
+		return root[FileName].toString();
 		
 	}
 	else
@@ -371,72 +379,44 @@ void Part::slotExtractFiles()
 	kDebug( 1601 ) ;
 	//TODO: return if there are no model currently set
 
-	QVariantMap arguments;
-	arguments["showSelectedFiles"] = (m_view->selectionModel()->selectedRows().count() > 0);
-	arguments["subfolder"] = detectSubfolder();
-	arguments["isSingleFolderArchive"] = isSingleFolderArchive();
-	arguments["files"] = selectedFiles();
-	arguments["openDestinationFolderAfterExtraction"] = ArkSettings::openDestinationFolderAfterExtraction();
-
-	if (ArkSettings::lastExtractionFolder().isEmpty() )
-		arguments["destination"] = QDir::currentPath();
-	else
-		arguments["destination"] = ArkSettings::lastExtractionFolder();
-
-	bool userAccepted = showExtractionDialog(arguments);
-
-	if ( userAccepted )
+	ExtractionDialog dialog;
+	if ( m_view->selectionModel()->selectedRows().count() > 0 )
 	{
+		dialog.showSelectedFilesOption();
+	}
+
+	QString detectedSubfolder = detectSubfolder();
+	dialog.setSubfolder(detectedSubfolder);
+
+	if ( dialog.exec() )
+	{
+		ArkSettings::setOpenDestinationFolderAfterExtraction( dialog.openDestinationAfterExtraction() );
+		ArkSettings::setLastExtractionFolder( dialog.destinationDirectory().path() );
+
 		ArkSettings::self()->writeConfig();
 
 		//this is done to update the quick extract menu
 		updateActions();
 
-		bool success = extract(arguments);
+		QString destinationDirectory;
+		if (!isSingleFolderArchive())
+		{
+			destinationDirectory =  dialog.destinationDirectory().path() + 
+				QDir::separator() + dialog.subfolder();
+			QDir(dialog.destinationDirectory().path()).mkdir(dialog.subfolder());
+		}
+		else destinationDirectory = dialog.destinationDirectory().path();
 
-	}
-}
-
-bool Part::extract(QVariantMap arguments, KJobTrackerInterface *tracker)
-{
-	QString destinationDirectory;
-
-	//if the subfolder key is set, we want this into a new folder no matter what.
-	if (!arguments.value("subfolder").toString().isEmpty())
-	{
-		//so create the new directory
-		QDir(arguments.value("destination").toString()).mkpath(arguments.value("subfolder").toString());
-
-		//and create the final path string
-		destinationDirectory = arguments.value("destination").toString() + 
-			QDir::separator() + arguments.value("subfolder").toString();
-
-	}
-	//if not, we just extract into the destination dir previously used
-	else destinationDirectory = arguments.value("destination").toString();
-
-	ExtractJob *job = m_model->extractFiles( qVariantValue<QVariantList>(arguments.value("files")) ,
-			destinationDirectory, 
-			arguments.value("preservePaths", true).toBool() );
-
-	if (tracker)
-		tracker->registerJob( job );
-	else
+		QList<QVariant> files = selectedFiles();
+		ExtractJob *job = m_model->extractFiles( files, destinationDirectory, true );
 		m_jobTracker->registerJob( job );
 
-	connect( job, SIGNAL( result( KJob* ) ),
-			this, SLOT( slotExtractionDone( KJob * ) ) );
+		connect( job, SIGNAL( result( KJob* ) ),
+		         this, SLOT( slotExtractionDone( KJob * ) ) );
 
-	job->start();
-	return true;
+		job->start();
+	}
 }
-
-bool Part::showExtractionDialog(QVariantMap& arguments)
-{
-	ExtractionDialog dialog(arguments);
-	return dialog.exec();
-}
-
 
 QList<QVariant> Part::selectedFiles()
 {

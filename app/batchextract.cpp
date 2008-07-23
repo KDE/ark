@@ -25,128 +25,37 @@
 #include <KMessageBox>
 #include <KLocale>
 #include "part/interface.h"
-#include <KDebug>
-#include <QTimer>
-
-#include <QCoreApplication>
-
 
 BatchExtract::BatchExtract(QWidget *parent)
-	: KWidgetJobTracker(parent),
+	: KDialog(parent),
 	m_part(NULL),
-	m_arkInterface(NULL)
+	arkInterface(NULL)
 {
+
 }
 
 bool BatchExtract::loadPart()
 {
 	KPluginFactory *factory = KPluginLoader("libarkpart").factory();
 	if(factory) {
-		m_part = static_cast<KParts::ReadWritePart*>( factory->create<KParts::ReadWritePart>(this) );
+		m_part = static_cast<KParts::ReadWritePart*>( factory->create<KParts::ReadWritePart>(NULL) );
 	}
 	if ( !factory || !m_part )
 	{
-		KMessageBox::error( NULL, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
+		KMessageBox::error( this, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
 		return false;
 	}
 	m_part->setObjectName( "ArkPart" );
 
-	m_arkInterface = qobject_cast<Interface*>(m_part);
+	arkInterface = qobject_cast<Interface*>(m_part);
 
-	if (!m_arkInterface)
+	if (!arkInterface)
 	{
-		KMessageBox::error( NULL, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
+		KMessageBox::error( this, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
 		return false;
 	}
-	m_part->widget()->setVisible(false);
 
 	return true;
-}
-
-void BatchExtract::setInputFiles(QStringList files)
-{
-	m_inputFiles = files;
-}
-
-void BatchExtract::loadNextJob()
-{
-	if (m_inputFiles.isEmpty())
-	{
-		kDebug() << "OK DONE";
-		QCoreApplication::quit();
-		return;
-	}
-
-	if (m_showExtractDialog)
-	{
-		if (m_inputFiles.size() > 1)
-		{
-			m_arguments["extract"] = "batch";
-			m_arguments["input"] = m_inputFiles;
-		}
-		else
-		{
-			m_arguments["input"] = m_inputFiles.first();
-		}
-		bool userAccepted = m_arkInterface->showExtractionDialog(m_arguments);
-
-		//return unfinished signal
-		if (!userAccepted)
-			return;
-
-		//we show the extractdialog only before the first job
-		m_showExtractDialog = false;
-	}
-
-	kDebug() << "Starting listing...";
-	m_part->openUrl(m_inputFiles.takeFirst());
-	m_extractionTimerId = startTimer(150);
-
-}
-
-void BatchExtract::timerEvent ( class QTimerEvent * event )
-{
-	kDebug() << "waiting";
-	if (!m_arkInterface->isBusy())
-	{
-		kDebug() << "Starting compression";
-		startCompression();
-		killTimer(m_extractionTimerId);
-	}
-}
-
-void BatchExtract::startCompression()
-{
-	m_arkInterface->extract(m_arguments, this);
-}
-
-void BatchExtract::finished(KJob *job)
-{
-	KWidgetJobTracker::finished(job);
-	kDebug() << "job finished...";
-	loadNextJob();
-}
-
-void BatchExtract::registerJob (KJob *job)
-{
-	kDebug() << "Registering " << job;
-	KWidgetJobTracker::registerJob(job);
-	//setAutoDelete(job, false);
-}
-
-void BatchExtract::setDestinationDirectory(QString destination)
-{
-	m_arguments["destination"] = destination;
-}
-
-void BatchExtract::setInputFiles(QString file)
-{
-	setInputFiles(QStringList() << file);
-}
-
-void BatchExtract::setShowExtractDialog(bool value)
-{
-	m_showExtractDialog = value;
 }
 
 BatchExtract::~BatchExtract()
@@ -154,5 +63,3 @@ BatchExtract::~BatchExtract()
 	delete m_part;
 	m_part = 0;
 }
-
-#include <batchextract.moc>

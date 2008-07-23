@@ -40,15 +40,22 @@ class ExtractionDialog: public KDirSelectDialog
 {
 	Q_OBJECT
 	public:
-		ExtractionDialog( QVariantMap& arguments, QWidget *parent = 0 );
+		ExtractionDialog( QWidget *parent = 0 );
 		~ExtractionDialog();
 
-	private Q_SLOTS:
-		void updateArguments();
+		void showSelectedFilesOption();
+
+		bool extractAllFiles();
+		bool openDestinationAfterExtraction();
+		KUrl destinationDirectory();
+		QString subfolder() const;
+
+	public Q_SLOTS:
+		void setCurrentUrl(const QString& url);
+		void setSubfolder(QString subfolder);
 
 	private:
 		ExtractionDialogUI *m_ui;
-		QVariantMap& arguments;
 
 };
 

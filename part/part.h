@@ -52,9 +52,6 @@ class Part: public KParts::ReadWritePart, public Interface
 		QStringList supportedMimeTypes() const;
 		QStringList supportedWriteMimeTypes() const;
 
-		virtual bool extract(QVariantMap arguments, KJobTrackerInterface *tracker = 0);
-		virtual bool showExtractionDialog(QVariantMap& arguments);
-
 		bool isBusy() const { return m_busy; }
 
 	private slots:
