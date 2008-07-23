@@ -32,22 +32,29 @@ class Interface;
 class BatchExtract: public KDialog
 {
 	Q_OBJECT
+
 	public:
 		BatchExtract( QWidget *parent = 0 );
 		~BatchExtract();
 		bool loadPart();
+		void setInputFiles(QStringList files);
+		void setInputFiles(QString file);
+		void setDestinationDirectory(QString destination);
 
 	public slots:
 		//void openUrl( const KUrl& url );
-		//void setShowExtractDialog(bool);
-		//void slotExtractUrl();
+		void setShowExtractDialog(bool);
+		void startNextJob();
+
 
 	private slots:
 
 	private:
 		KParts::ReadWritePart *m_part;
-		KParts::OpenUrlArguments m_openArgs;
-		Interface *arkInterface;
+		Interface *m_arkInterface;
+		QVariantMap m_arguments;
+		QStringList m_inputFiles;
+		bool m_showExtractDialog;
 };
 
 #endif // BATCHEXTRACT_H

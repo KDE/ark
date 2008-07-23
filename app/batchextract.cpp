@@ -25,11 +25,41 @@
 #include <KMessageBox>
 #include <KLocale>
 #include "part/interface.h"
+#include <KDebug>
+#include <QTimer>
+
+
+#include <kwidgetjobtracker.h>
+
+class BatchJobTracker : public KWidgetJobTracker
+{
+	public:
+		BatchJobTracker(QWidget *parent)
+			: KWidgetJobTracker(parent)
+	{
+
+	}
+
+	signals:
+		void jobFinished(); 
+
+
+	public:
+
+		virtual void finished (KJob *job)
+		{
+			kDebug() << "Job finished...";
+			KWidgetJobTracker::finished(job);
+			BatchExtract *batchDialog = qobject_cast<BatchExtract*>(parent());
+			Q_ASSERT(batchDialog);
+			QTimer::singleShot( 0, batchDialog, SLOT( startNextJob() ) );
+		}
+};
 
 BatchExtract::BatchExtract(QWidget *parent)
 	: KDialog(parent),
 	m_part(NULL),
-	arkInterface(NULL)
+	m_arkInterface(NULL)
 {
 
 }
@@ -38,7 +68,7 @@ bool BatchExtract::loadPart()
 {
 	KPluginFactory *factory = KPluginLoader("libarkpart").factory();
 	if(factory) {
-		m_part = static_cast<KParts::ReadWritePart*>( factory->create<KParts::ReadWritePart>(NULL) );
+		m_part = static_cast<KParts::ReadWritePart*>( factory->create<KParts::ReadWritePart>(this) );
 	}
 	if ( !factory || !m_part )
 	{
@@ -47,15 +77,71 @@ bool BatchExtract::loadPart()
 	}
 	m_part->setObjectName( "ArkPart" );
 
-	arkInterface = qobject_cast<Interface*>(m_part);
+	m_arkInterface = qobject_cast<Interface*>(m_part);
 
-	if (!arkInterface)
+	if (!m_arkInterface)
 	{
 		KMessageBox::error( this, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
 		return false;
 	}
+	m_part->widget()->setVisible(false);
 
 	return true;
+}
+
+void BatchExtract::setInputFiles(QStringList files)
+{
+	m_inputFiles = files;
+}
+
+void BatchExtract::startNextJob()
+{
+	if (m_inputFiles.isEmpty())
+	{
+		//return finish signal
+		return;
+	}
+
+	if (m_showExtractDialog)
+	{
+		if (m_inputFiles.size() > 1)
+		{
+			m_arguments["extract"] = "batch";
+			m_arguments["input"] = m_inputFiles;
+		}
+		else
+		{
+			m_arguments["input"] = m_inputFiles.first();
+		}
+		bool userAccepted = m_arkInterface->showExtractionDialog(m_arguments);
+
+		//return unfinished signal
+		if (!userAccepted)
+			return;
+
+		//we show the extractdialog only before the first job
+		m_showExtractDialog = false;
+	}
+
+	m_part->openUrl(m_inputFiles.takeFirst());
+
+	BatchJobTracker *tracker = new BatchJobTracker(this);
+	m_arkInterface->extract(m_arguments, tracker);
+}
+
+void BatchExtract::setDestinationDirectory(QString destination)
+{
+	m_arguments["destination"] = destination;
+}
+
+void BatchExtract::setInputFiles(QString file)
+{
+	setInputFiles(QStringList() << file);
+}
+
+void BatchExtract::setShowExtractDialog(bool value)
+{
+	m_showExtractDialog = value;
 }
 
 BatchExtract::~BatchExtract()
@@ -63,3 +149,5 @@ BatchExtract::~BatchExtract()
 	delete m_part;
 	m_part = 0;
 }
+
+#include <batchextract.moc>

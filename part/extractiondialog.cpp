@@ -43,7 +43,15 @@ ExtractionDialog::ExtractionDialog(QVariantMap& arguments, QWidget *parent )
 
 	mainWidget()->layout()->addWidget(m_ui);
 	setButtons( Ok | Cancel );
-	setCaption( i18n( "Extract" ) );
+
+	if (arguments.value("extract", QString()).toString() == "batch")
+	{
+		setCaption( i18n( "Extracting %1..." ).arg( arguments.value("input", QStringList()).toStringList().join(", ") ));
+	}
+	else
+		setCaption( i18n( "Extracting %1..." ).arg( arguments.value("input", QString()).toString()));
+
+
 	m_ui->iconLabel->setPixmap( DesktopIcon( "archive-extract" ) );
 	m_ui->iconLabel->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );
 

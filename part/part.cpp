@@ -397,7 +397,7 @@ void Part::slotExtractFiles()
 	}
 }
 
-bool Part::extract(QVariantMap arguments)
+bool Part::extract(QVariantMap arguments, KJobTrackerInterface *tracker)
 {
 	QString destinationDirectory;
 
@@ -419,7 +419,10 @@ bool Part::extract(QVariantMap arguments)
 			destinationDirectory, 
 			arguments.value("preservePaths", true).toBool() );
 
-	m_jobTracker->registerJob( job );
+	if (tracker)
+		tracker->registerJob( job );
+	else
+		m_jobTracker->registerJob( job );
 
 	connect( job, SIGNAL( result( KJob* ) ),
 			this, SLOT( slotExtractionDone( KJob * ) ) );

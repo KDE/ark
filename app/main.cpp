@@ -97,10 +97,13 @@ int main( int argc, char **argv )
 
 		if (args->isSet("batch"))
 		{
+			QStringList input;
+
 			for (int i = 0; i < args->count(); ++i)
 			{
-
+				input << args->url(i).path();
 			}
+
 			BatchExtract *batchExtractDialog = new BatchExtract();
 
 			if (!batchExtractDialog->loadPart())
@@ -108,7 +111,16 @@ int main( int argc, char **argv )
 				return -1;
 			}
 
+			batchExtractDialog->setInputFiles(input);
+			
+			if (args->isSet("extract"))
+			{
+				batchExtractDialog->setShowExtractDialog(true);
+			}
+
 			batchExtractDialog->show();
+			batchExtractDialog->startNextJob();
+
 		}
 		else
 		{
