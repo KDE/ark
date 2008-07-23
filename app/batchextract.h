@@ -35,17 +35,23 @@ class KJobTrackerInterface;
 
 class BatchExtraction : public KCompositeJob
 {
+	Q_OBJECT
+
 	public:
 		void addExtraction(class Kerfuffle::ExtractJob *job);
 		void start();
+
+	private slots:
+		void forwardProgress(KJob *job, unsigned long percent);
+
 };
 
 
-class BatchExtract: public KDialog
+class BatchExtract : public QObject
 {
 	Q_OBJECT
 	public:
-		BatchExtract( QWidget *parent = 0 );
+		BatchExtract( QObject *parent = 0 );
 		~BatchExtract();
 
 		void showExtractDialog();

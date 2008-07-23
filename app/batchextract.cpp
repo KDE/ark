@@ -26,9 +26,14 @@
 #include <kwidgetjobtracker.h>
 #include <KDebug>
 
+#include <QCoreApplication>
+
 void BatchExtraction::addExtraction(Kerfuffle::ExtractJob *job)
 {
 	addSubjob(job);
+	connect(job, SIGNAL(percent(KJob*, unsigned long)),
+			this, SLOT(forwardProgress(KJob *, unsigned long)));
+
 }
 
 void BatchExtraction::start()
@@ -40,8 +45,12 @@ void BatchExtraction::start()
 	emitResult();
 }
 
-BatchExtract::BatchExtract(QWidget *parent)
-	: KDialog(parent)
+void BatchExtraction::forwardProgress(KJob *job, unsigned long percent)
+{
+	setPercent(percent);
+}
+
+BatchExtract::BatchExtract(QObject *parent)
 {
 
 }
@@ -71,13 +80,20 @@ bool BatchExtract::performExtraction()
 		allJobs->addExtraction(job);
 	}
 	tracker->registerJob(allJobs);
-	allJobs->start();
+
+	connect(allJobs, SIGNAL(finished(KJob*)),
+			QCoreApplication::instance(), SLOT(quit()));
+
+	allJobs->exec();
+	kDebug() << "Quitting";
+	delete tracker;
+	QCoreApplication::instance()->exit();
 	return true;
 }
 
 void BatchExtract::showExtractDialog()
 {
-	Kerfuffle::ExtractionDialog dialog(this);
+	Kerfuffle::ExtractionDialog dialog(NULL);
 	dialog.exec();
 }
 

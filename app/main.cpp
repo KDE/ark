@@ -97,21 +97,19 @@ int main( int argc, char **argv )
 
 		if (args->isSet("batch"))
 		{
-			BatchExtract *batchExtractDialog = new BatchExtract();
+			BatchExtract batchExtract;
 
 			for (int i = 0; i < args->count(); ++i)
 			{
-				batchExtractDialog->addInput(args->url(i));
+				batchExtract.addInput(args->url(i));
 			}
-
-			batchExtractDialog->show();
 
 			if (args->isSet("extract"))
 			{
-				batchExtractDialog->showExtractDialog();
+				batchExtract.showExtractDialog();
 			}
 
-			batchExtractDialog->performExtraction();
+			batchExtract.performExtraction();
 		}
 		else
 		{
