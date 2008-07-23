@@ -6,21 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
+    <width>308</width>
     <height>422</height>
    </rect>
   </property>
   <property name="sizePolicy" >
-   <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+   <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
-  </property>
-  <property name="minimumSize" >
-   <size>
-    <width>480</width>
-    <height>50</height>
-   </size>
   </property>
   <property name="windowTitle" >
    <string>Extraction Dialog</string>
@@ -82,57 +76,71 @@
      <property name="title" >
       <string>Options</string>
      </property>
-     <layout class="QFormLayout" name="formLayout" >
-      <property name="fieldGrowthPolicy" >
-       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-      </property>
+     <layout class="QGridLayout" name="gridLayout" >
       <item row="0" column="0" >
        <widget class="QLabel" name="subFolderLabel" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text" >
          <string>Extraction into subfolder</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="1" >
-       <widget class="QCheckBox" name="openFolderCheckBox" >
-        <property name="layoutDirection" >
-         <enum>Qt::RightToLeft</enum>
+      <item row="1" column="0" >
+       <widget class="KLineEdit" name="subfolder" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <property name="text" >
-         <string/>
+        <property name="showClearButton" stdset="0" >
+         <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item row="3" column="1" >
-       <widget class="QCheckBox" name="preservePaths" >
-        <property name="layoutDirection" >
-         <enum>Qt::RightToLeft</enum>
+      <item row="2" column="0" >
+       <widget class="QCheckBox" name="openFolderCheckBox" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <property name="text" >
-         <string/>
+         <string>Open destination folder after extraction</string>
         </property>
        </widget>
       </item>
       <item row="3" column="0" >
-       <widget class="QLabel" name="subFolderLabel_2" >
+       <widget class="QCheckBox" name="preservePaths" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text" >
          <string>Preserve paths when extracting</string>
         </property>
        </widget>
       </item>
       <item row="4" column="0" >
-       <widget class="QLabel" name="subFolderLabel_3" >
-        <property name="text" >
-         <string>Open destination folder after extraction</string>
+       <spacer name="verticalSpacer" >
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
         </property>
-       </widget>
-      </item>
-      <item row="0" column="1" >
-       <widget class="KLineEdit" name="subfolder" >
-        <property name="showClearButton" stdset="0" >
-         <bool>true</bool>
+        <property name="sizeHint" stdset="0" >
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
         </property>
-       </widget>
+       </spacer>
       </item>
      </layout>
     </widget>
@@ -140,7 +148,7 @@
    <item>
     <widget class="QGroupBox" name="filesToExtractGroupBox" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
+      <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -157,6 +165,12 @@
      <layout class="QVBoxLayout" >
       <item>
        <widget class="QRadioButton" name="selectedFilesButton" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text" >
          <string>Selected files only</string>
         </property>
@@ -167,6 +181,12 @@
       </item>
       <item>
        <widget class="QRadioButton" name="allFilesButton" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text" >
          <string>All files</string>
         </property>
