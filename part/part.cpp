@@ -357,12 +357,16 @@ QString Part::detectSubfolder()
 {
 	if (!m_model) return QString();
 
+
 	if (isSingleFolderArchive())
 	{
 		QModelIndex i = m_model->index(0,0);
 		ArchiveEntry root = m_model->entryForIndex(i);
 
-		return root[FileName].toString();
+		QString detected = root[FileName].toString();
+		if (detected.right(1) == QDir::separator())
+			detected.chop(1);
+		return detected;
 		
 	}
 	else
@@ -383,6 +387,7 @@ void Part::slotExtractFiles()
 	arguments["subfolder"] = detectSubfolder();
 	arguments["isSingleFolderArchive"] = isSingleFolderArchive();
 	arguments["files"] = selectedFiles();
+	arguments["openDestinationFolderAfterExtraction"] = ArkSettings::openDestinationFolderAfterExtraction();
 
 	if (ArkSettings::lastExtractionFolder().isEmpty() )
 		arguments["destination"] = QDir::currentPath();
@@ -405,25 +410,32 @@ void Part::slotExtractFiles()
 
 bool Part::extract(QVariantMap arguments)
 {
-	/*
 	QString destinationDirectory;
-	if (!isSingleFolderArchive())
+
+	//if the subfolder key is set, we want this into a new folder no matter what.
+	if (!arguments.value("subfolder").toString().isEmpty())
 	{
-		destinationDirectory =  dialog.destinationDirectory().path() + 
-			QDir::separator() + dialog.subfolder();
-		QDir(dialog.destinationDirectory().path()).mkdir(dialog.subfolder());
+		//so create the new directory
+		QDir(arguments.value("destination").toString()).mkpath(arguments.value("subfolder").toString());
+
+		//and create the final path string
+		destinationDirectory = arguments.value("destination").toString() + 
+			QDir::separator() + arguments.value("subfolder").toString();
+
 	}
-	else destinationDirectory = dialog.destinationDirectory().path();
+	//if not, we just extract into the destination dir previously used
+	else destinationDirectory = arguments.value("destination").toString();
 
+	ExtractJob *job = m_model->extractFiles( qVariantValue<QVariantList>(arguments.value("files")) ,
+			destinationDirectory, 
+			arguments.value("preservePaths", true).toBool() );
 
-	ExtractJob *job = m_model->extractFiles( files, destinationDirectory, true );
 	m_jobTracker->registerJob( job );
 
 	connect( job, SIGNAL( result( KJob* ) ),
 			this, SLOT( slotExtractionDone( KJob * ) ) );
 
 	job->start();
-	*/
 	return true;
 }
 

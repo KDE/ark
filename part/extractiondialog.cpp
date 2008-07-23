@@ -62,7 +62,6 @@ ExtractionDialog::ExtractionDialog(QVariantMap& arguments, QWidget *parent )
 
 	m_ui->openFolderCheckBox->setChecked(arguments.value("openDestinationAfterExtraction", false).toBool());
 
-	m_ui->subfolder->setText(arguments.value("subfolder").toString());
 
 	if (arguments.value("showSelectedFiles", false).toBool())
 	{
@@ -71,11 +70,31 @@ ExtractionDialog::ExtractionDialog(QVariantMap& arguments, QWidget *parent )
 		m_ui->extractAllLabel->hide();
 	}
 
+	if (arguments.value("isSingleFolderArchive", false).toBool())
+	{
+		m_ui->singleFolderGroup->setChecked(false);
+		m_ui->singleFolderWarning->show();
+	}
+	else
+	{
+		m_ui->singleFolderGroup->setChecked(true);
+		m_ui->singleFolderWarning->hide();
+	}
+
+	QPalette warningPalette = m_ui->singleFolderWarning->palette();
+	warningPalette.setColor(QPalette::Disabled, QPalette::Text, warningPalette.color(QPalette::Active, QPalette::Text));
+	m_ui->singleFolderWarning->setPalette(warningPalette);
+
+	m_ui->subfolder->setText(arguments.value("subfolder").toString());
+
 }
 
 void ExtractionDialog::updateArguments()
 {
-	arguments["subfolder"] = m_ui->subfolder->text();
+	if (m_ui->singleFolderGroup->isChecked())
+		arguments["subfolder"] = m_ui->subfolder->text();
+	else
+		arguments["subfolder"] = QString();
 	arguments["destination"] = url().path();
 	arguments["preservePaths"] = m_ui->preservePaths->isChecked();
 	arguments["openDestinationAfterExtraction"] = m_ui->openFolderCheckBox->isChecked();
