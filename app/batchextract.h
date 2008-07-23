@@ -26,8 +26,20 @@
 #include <KParts/ReadWritePart>
 #include <KUrl>
 #include <KDialog>
+#include <kcompositejob.h>
+#include "kerfuffle/jobs.h"
+
 
 class Interface;
+class KJobTrackerInterface;
+
+class BatchExtraction : public KCompositeJob
+{
+	public:
+		void addExtraction(class Kerfuffle::ExtractJob *job);
+		void start();
+};
+
 
 class BatchExtract: public KDialog
 {
@@ -35,19 +47,17 @@ class BatchExtract: public KDialog
 	public:
 		BatchExtract( QWidget *parent = 0 );
 		~BatchExtract();
-		bool loadPart();
+
+		void showExtractDialog();
 
 	public slots:
-		//void openUrl( const KUrl& url );
+		void addInput( const KUrl& url );
 		//void setShowExtractDialog(bool);
-		void slotExtractUrl(){}
-
-	private slots:
+		bool performExtraction();
 
 	private:
-		KParts::ReadWritePart *m_part;
-		KParts::OpenUrlArguments m_openArgs;
-		Interface *arkInterface;
+		QStringList inputs;
+		KJobTrackerInterface *tracker;
 };
 
 #endif // BATCHEXTRACT_H

@@ -20,46 +20,70 @@
  */
 
 #include "batchextract.h"
-#include <KPluginLoader>
-#include <KPluginFactory>
-#include <KMessageBox>
-#include <KLocale>
-#include "part/interface.h"
+
+#include "kerfuffle/extractiondialog.h"
+
+#include <kwidgetjobtracker.h>
+#include <KDebug>
+
+void BatchExtraction::addExtraction(Kerfuffle::ExtractJob *job)
+{
+	addSubjob(job);
+}
+
+void BatchExtraction::start()
+{
+	foreach (KJob *job, subjobs())
+	{
+		job->exec();
+	}
+	emitResult();
+}
 
 BatchExtract::BatchExtract(QWidget *parent)
-	: KDialog(parent),
-	m_part(NULL),
-	arkInterface(NULL)
+	: KDialog(parent)
 {
 
 }
 
-bool BatchExtract::loadPart()
+void BatchExtract::addInput( const KUrl& url )
 {
-	KPluginFactory *factory = KPluginLoader("libarkpart").factory();
-	if(factory) {
-		m_part = static_cast<KParts::ReadWritePart*>( factory->create<KParts::ReadWritePart>(NULL) );
-	}
-	if ( !factory || !m_part )
+	inputs << url.path();
+}
+
+bool BatchExtract::performExtraction()
+{
+	BatchExtraction *allJobs = new BatchExtraction();
+	tracker = new KWidgetJobTracker(NULL);
+
+	foreach (QString filename, inputs)
 	{
-		KMessageBox::error( this, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
-		return false;
+
+		Kerfuffle::Archive *archive = Kerfuffle::factory(filename);
+		if (archive == NULL) continue;
+
+		Kerfuffle::ExtractJob *job = archive->copyFiles(
+				QVariantList(), //extract all files
+				".", //extract to current folder
+				true //preserve paths
+				);
+
+		allJobs->addExtraction(job);
 	}
-	m_part->setObjectName( "ArkPart" );
-
-	arkInterface = qobject_cast<Interface*>(m_part);
-
-	if (!arkInterface)
-	{
-		KMessageBox::error( this, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
-		return false;
-	}
-
+	tracker->registerJob(allJobs);
+	allJobs->start();
 	return true;
+}
+
+void BatchExtract::showExtractDialog()
+{
+	Kerfuffle::ExtractionDialog dialog(this);
+	dialog.exec();
 }
 
 BatchExtract::~BatchExtract()
 {
-	delete m_part;
-	m_part = 0;
+
 }
+
+#include <batchextract.moc>

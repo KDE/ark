@@ -97,18 +97,21 @@ int main( int argc, char **argv )
 
 		if (args->isSet("batch"))
 		{
-			for (int i = 0; i < args->count(); ++i)
-			{
-
-			}
 			BatchExtract *batchExtractDialog = new BatchExtract();
 
-			if (!batchExtractDialog->loadPart())
+			for (int i = 0; i < args->count(); ++i)
 			{
-				return -1;
+				batchExtractDialog->addInput(args->url(i));
 			}
 
 			batchExtractDialog->show();
+
+			if (args->isSet("extract"))
+			{
+				batchExtractDialog->showExtractDialog();
+			}
+
+			batchExtractDialog->performExtraction();
 		}
 		else
 		{
