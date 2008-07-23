@@ -60,7 +60,7 @@ ExtractionDialog::ExtractionDialog(QVariantMap& arguments, QWidget *parent )
 
 	m_ui->preservePaths->setChecked(arguments.value("preservePaths", true).toBool());
 
-	m_ui->openFolderCheckBox->setChecked(arguments.value("openDestinationAfterExtraction", false).toBool());
+	m_ui->openFolderCheckBox->setChecked(arguments.value("openDestinationFolderAfterExtraction", false).toBool());
 
 
 	if (arguments.value("showSelectedFiles", false).toBool())
@@ -97,7 +97,7 @@ void ExtractionDialog::updateArguments()
 		arguments["subfolder"] = QString();
 	arguments["destination"] = url().path();
 	arguments["preservePaths"] = m_ui->preservePaths->isChecked();
-	arguments["openDestinationAfterExtraction"] = m_ui->openFolderCheckBox->isChecked();
+	arguments["openDestinationFolderAfterExtraction"] = m_ui->openFolderCheckBox->isChecked();
 
 	if (m_ui->allFilesButton->isChecked())
 		arguments["extract"] = "allFiles";

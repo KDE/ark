@@ -201,26 +201,15 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 {
 	kDebug() << "Extract to " << triggeredAction->data().toString();
 
-	QString userDestination = triggeredAction->data().toString();
-	QString finalDestinationDirectory;
-	QString detectedSubfolder = detectSubfolder();
+	QVariantMap arguments;
 
+	arguments["destination"] = triggeredAction->data().toString();
 	if (!isSingleFolderArchive())
 	{
-		finalDestinationDirectory = userDestination + 
-			QDir::separator() + detectedSubfolder;
-		QDir( userDestination ).mkdir(detectedSubfolder);
+		arguments["subfolder"] = detectSubfolder();
 	}
-	else finalDestinationDirectory = userDestination;
 
-	QList<QVariant> files = selectedFiles();
-	ExtractJob *job = m_model->extractFiles( files, finalDestinationDirectory, true );
-	m_jobTracker->registerJob( job );
-
-	connect( job, SIGNAL( result( KJob* ) ),
-			this, SLOT( slotExtractionDone( KJob * ) ) );
-
-	job->start();
+	extract(arguments);
 
 }
 bool Part::isPreviewable( const QModelIndex & index )
