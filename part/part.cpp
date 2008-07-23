@@ -245,6 +245,11 @@ bool Part::openFile()
 	m_model->setArchive( archive );
 	m_infoPanel->setIndex( QModelIndex() );
 
+	if (archive != 0 && arguments().metaData()["showExtractDialog"] == "true")
+	{
+		QTimer::singleShot( 0, this, SLOT( slotExtractFiles() ) );
+	}
+
 	return ( archive != 0 );
 }
 
@@ -372,6 +377,7 @@ QString Part::detectSubfolder()
 void Part::slotExtractFiles()
 {
 	kDebug( 1601 ) ;
+	//TODO: return if there are no model currently set
 
 	ExtractionDialog dialog;
 	if ( m_view->selectionModel()->selectedRows().count() > 0 )

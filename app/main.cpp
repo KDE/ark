@@ -78,6 +78,7 @@ int main( int argc, char **argv )
 
 	KCmdLineOptions option;
 	option.add("+[url]", ki18n( "URL of an archive to be opened" ));
+	option.add("extract", ki18n("Show the extract dialog after opening archive"));
 	KCmdLineArgs::addCmdLineOptions( option );
 	KCmdLineArgs::addTempFileOption();
 
@@ -97,10 +98,16 @@ int main( int argc, char **argv )
 
 		// open any given URLs
 		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-		for (int i = 0; i < args->count(); i++)
+		if (args->count())
  		{
-			kDebug() << "trying to open" << args->url(i);
- 			window->openUrl(args->url(i));
+			kDebug() << "trying to open" << args->url(0);
+
+			if (args->isSet("extract"))
+			{
+				window->setShowExtractDialog(true);
+			}
+
+ 			window->openUrl(args->url(0));
 		}
 
  		window->show();

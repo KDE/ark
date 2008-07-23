@@ -146,6 +146,8 @@ void MainWindow::openUrl( const KUrl& url )
 {
 	if ( !url.isEmpty() )
 	{
+		m_part->setArguments(m_openArgs);
+
 		if ( m_part->openUrl( url ) )
 		{
 			m_recentFilesAction->addUrl( url );
@@ -154,6 +156,18 @@ void MainWindow::openUrl( const KUrl& url )
 		{
 			m_recentFilesAction->removeUrl( url );
 		}
+	}
+}
+
+void MainWindow::setShowExtractDialog(bool option)
+{
+	if (option)
+	{
+		m_openArgs.metaData()["showExtractDialog"] = "true";
+	}
+	else
+	{
+		m_openArgs.metaData().remove("showExtractDialog");
 	}
 }
 
