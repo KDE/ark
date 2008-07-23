@@ -42,7 +42,7 @@ class RARInterface: public ReadWriteArchiveInterface
 	private:
 		void processListLine( const QString &line);
 		QString m_headerString, m_entryFilename;
-		bool m_isFirstLine, m_incontent;
+		bool m_isFirstLine, m_incontent, m_isPasswordProtected;
 		QString m_filename, m_rarpath, m_unrarpath;
 };
 

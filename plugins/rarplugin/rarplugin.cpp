@@ -97,7 +97,11 @@ void RARInterface::processListLine(const QString& line)
 	if ( m_isFirstLine ) {
 		m_entryFilename = line;
 		m_entryFilename.chop(1); // handle newline
-		m_entryFilename.remove( 0, 1 ); // and the dumb spaces in front
+		if (m_entryFilename.at(0) == '*')
+			m_isPasswordProtected = true;
+		else
+			m_isPasswordProtected = false;
+		m_entryFilename.remove( 0, 1 ); // and the spaces in front
 		m_isFirstLine = false;
 		return;
 	}
@@ -119,6 +123,7 @@ void RARInterface::processListLine(const QString& line)
 	e[ Method ] = fileprops[ 7 ];
 	fileprops[ 8 ].chop(1); // handle newline
 	e[ Version ] = fileprops[ 8 ];
+	e[ IsPasswordProtected] = m_isPasswordProtected;
 	kDebug( 1601 ) << "Added entry: " << e ;
 	entry(e);
 	m_isFirstLine = true;
