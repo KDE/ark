@@ -354,7 +354,7 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 	}
 
 	kDebug() << "Extracting " << files << "to" << tempPath;
-	ExtractJob *job = extractFiles(files, tempPath, false);
+	ExtractJob *job = extractFiles(files, tempPath, true);
 	job->start();
 
 	KUrl::List urls;
