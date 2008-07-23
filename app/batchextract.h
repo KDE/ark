@@ -58,13 +58,13 @@ class BatchExtract : public QObject
 		BatchExtract( QObject *parent = 0 );
 		~BatchExtract();
 
-		void showExtractDialog();
+		bool showExtractDialog();
 		void setDestinationFolder(QString folder);
 
 	public slots:
 		void addInput( const KUrl& url );
 		//void setShowExtractDialog(bool);
-		bool performExtraction();
+		bool startExtraction();
 
 	private:
 		QStringList inputs;

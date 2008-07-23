@@ -76,6 +76,7 @@ namespace Kerfuffle
 
 		m_ui->singleFolderGroup->setChecked(true);
 		m_ui->singleFolderWarning->hide();
+		m_ui->separateSubfolders->hide();
 
 		//we want the warning text to show through even if the groupbox is disabled
 		QPalette warningPalette = m_ui->singleFolderWarning->palette();
@@ -88,6 +89,13 @@ namespace Kerfuffle
 	{
 		m_ui->singleFolderGroup->setChecked(false);
 		m_ui->singleFolderWarning->show();
+	}
+
+	void ExtractionDialog::batchModeOption()
+	{
+		m_ui->separateSubfolders->show();
+		m_ui->singleFolderGroup->hide();
+		m_ui->extractAllLabel->setText(i18n("Extract multiple archives"));
 	}
 
 	void ExtractionDialog::setCurrentUrl(const QString& url)

@@ -87,57 +87,44 @@ int main( int argc, char **argv )
 
 	KApplication application;
 
-	if ( application.isSessionRestored() )
-	{
+	if ( application.isSessionRestored() ) {
 		RESTORE( MainWindow );
-	}
-	else
-	{
+	} else {
 		// open any given URLs
 		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-		if (args->isSet("batch"))
-		{
+		if (args->isSet("batch")) {
 			BatchExtract batchExtract;
 
-			for (int i = 0; i < args->count(); ++i)
-			{
+			for (int i = 0; i < args->count(); ++i) {
 				batchExtract.addInput(args->url(i));
 			}
 
-			if (args->isSet("extract"))
-			{
-				batchExtract.showExtractDialog();
+			if (args->isSet("extract")) {
+				if (!batchExtract.showExtractDialog()) {
+					return 0;
+				}
 			}
 
 			batchExtract.setDestinationFolder(args->getOption("destination"));
 
-			batchExtract.performExtraction();
-		}
-		else
-		{
+			batchExtract.startExtraction();
+		} else {
 
 			MainWindow *window = new MainWindow;
-			if(!window->loadPart()) // if loading the part fails
-			{
+			if(!window->loadPart()) { // if loading the part fails 
 				return -1;
 			}
 
-
-			if (args->count())
-			{
+			if (args->count()) {
 				kDebug() << "trying to open" << args->url(0);
 
-				if (args->isSet("extract"))
-				{
+				if (args->isSet("extract")) {
 					window->setShowExtractDialog(true);
 				}
-
 				window->openUrl(args->url(0));
 			}
-
 			window->show();
-
 		}
 	}
 

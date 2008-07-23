@@ -38,6 +38,7 @@ namespace Kerfuffle
 
 			void showSelectedFilesOption();
 			void singleFolderArchiveWarningOption();
+			void batchModeOption();
 
 			bool extractAllFiles();
 			bool openDestinationAfterExtraction();

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>308</width>
+    <width>314</width>
     <height>422</height>
    </rect>
   </property>
@@ -119,33 +119,7 @@ p, li { white-space: pre-wrap; }
       <string>Options</string>
      </property>
      <layout class="QGridLayout" name="gridLayout" >
-      <item row="2" column="0" >
-       <widget class="QCheckBox" name="openFolderCheckBox" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text" >
-         <string>Open destination folder after extraction</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" >
-       <widget class="QCheckBox" name="preservePaths" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text" >
-         <string>Preserve paths when extracting</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" >
+      <item row="5" column="0" >
        <spacer name="verticalSpacer" >
         <property name="orientation" >
          <enum>Qt::Vertical</enum>
@@ -158,12 +132,40 @@ p, li { white-space: pre-wrap; }
         </property>
        </spacer>
       </item>
+      <item row="2" column="0" >
+       <widget class="QCheckBox" name="openFolderCheckBox" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text" >
+         <string>Open &amp;destination folder after extraction</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="QCheckBox" name="preservePaths" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text" >
+         <string>&amp;Preserve paths when extracting</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" >
+       <widget class="QCheckBox" name="separateSubfolders" >
+        <property name="text" >
+         <string>Extract &amp;archives into separate subfolders</string>
+        </property>
+       </widget>
+      </item>
      </layout>
-     <zorder>openFolderCheckBox</zorder>
-     <zorder>preservePaths</zorder>
-     <zorder>singleFolderGroup</zorder>
-     <zorder>subFolderLabel</zorder>
-     <zorder>subfolder</zorder>
     </widget>
    </item>
    <item>

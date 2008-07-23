@@ -80,7 +80,7 @@ void BatchExtract::setDestinationFolder(QString folder)
 	destinationFolder = folder;
 }
 
-bool BatchExtract::performExtraction()
+bool BatchExtract::startExtraction()
 {
 	BatchExtraction *allJobs = new BatchExtraction();
 	tracker = new KWidgetJobTracker(NULL);
@@ -115,10 +115,20 @@ bool BatchExtract::performExtraction()
 	return true;
 }
 
-void BatchExtract::showExtractDialog()
+bool BatchExtract::showExtractDialog()
 {
 	Kerfuffle::ExtractionDialog dialog(NULL);
-	dialog.exec();
+	if (inputs.size() > 1) {
+		dialog.batchModeOption();
+	}
+
+	dialog.setCurrentUrl(QDir::currentPath());
+	bool ret = dialog.exec();
+	if (!ret) return false;
+
+	setDestinationFolder(dialog.destinationDirectory().path());
+
+	return true;
 }
 
 BatchExtract::~BatchExtract()
