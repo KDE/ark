@@ -29,39 +29,12 @@
 #include <QTimer>
 
 
-#include <kwidgetjobtracker.h>
-
-class BatchJobTracker : public KWidgetJobTracker
-{
-	public:
-		BatchJobTracker(QWidget *parent)
-			: KWidgetJobTracker(parent)
-	{
-
-	}
-
-	signals:
-		void jobFinished(); 
-
-
-	public:
-
-		virtual void finished (KJob *job)
-		{
-			kDebug() << "Job finished...";
-			KWidgetJobTracker::finished(job);
-			BatchExtract *batchDialog = qobject_cast<BatchExtract*>(parent());
-			Q_ASSERT(batchDialog);
-			QTimer::singleShot( 0, batchDialog, SLOT( startNextJob() ) );
-		}
-};
 
 BatchExtract::BatchExtract(QWidget *parent)
-	: KDialog(parent),
+	: KWidgetJobTracker(parent),
 	m_part(NULL),
 	m_arkInterface(NULL)
 {
-
 }
 
 bool BatchExtract::loadPart()
@@ -72,7 +45,7 @@ bool BatchExtract::loadPart()
 	}
 	if ( !factory || !m_part )
 	{
-		KMessageBox::error( this, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
+		KMessageBox::error( NULL, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
 		return false;
 	}
 	m_part->setObjectName( "ArkPart" );
@@ -81,7 +54,7 @@ bool BatchExtract::loadPart()
 
 	if (!m_arkInterface)
 	{
-		KMessageBox::error( this, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
+		KMessageBox::error( NULL, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
 		return false;
 	}
 	m_part->widget()->setVisible(false);
@@ -124,9 +97,20 @@ void BatchExtract::startNextJob()
 	}
 
 	m_part->openUrl(m_inputFiles.takeFirst());
+	m_arkInterface->extract(m_arguments, this);
+}
 
-	BatchJobTracker *tracker = new BatchJobTracker(this);
-	m_arkInterface->extract(m_arguments, tracker);
+void BatchExtract::finished(KJob *job)
+{
+	kDebug() << "job finished...";
+	startNextJob();
+}
+
+void BatchExtract::registerJob (KJob *job)
+{
+	kDebug() << "Registering " << job;
+	KWidgetJobTracker::registerJob(job);
+	setAutoDelete(job, false);
 }
 
 void BatchExtract::setDestinationDirectory(QString destination)

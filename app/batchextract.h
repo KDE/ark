@@ -27,9 +27,11 @@
 #include <KUrl>
 #include <KDialog>
 
+#include <kwidgetjobtracker.h>
+
 class Interface;
 
-class BatchExtract: public KDialog
+class BatchExtract: public KWidgetJobTracker
 {
 	Q_OBJECT
 
@@ -40,11 +42,14 @@ class BatchExtract: public KDialog
 		void setInputFiles(QStringList files);
 		void setInputFiles(QString file);
 		void setDestinationDirectory(QString destination);
+		virtual void finished(KJob *job);
+		virtual void registerJob (KJob *job);
 
 	public slots:
 		//void openUrl( const KUrl& url );
 		void setShowExtractDialog(bool);
 		void startNextJob();
+
 
 
 	private slots:
