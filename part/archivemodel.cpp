@@ -27,6 +27,7 @@
 #include <QFont>
 #include <QMimeData>
 #include <QDir>
+#include <QtDBus/QtDBus>
 
 #include <KDebug>
 #include <KLocale>
@@ -332,19 +333,24 @@ QStringList ArchiveModel::mimeTypes () const
 	QString archiveName = m_archive->fileName();
 	QString ext = QFileInfo(archiveName).suffix().toUpper();
 
+	QStringList types;
+
+	types << "application/x-kde-extractdrag";
+
 	if (ext == "TAR" ||
 			ext == "ZIP" ||
 			archiveName.right(6).toUpper() == "TAR.GZ")
-		return QStringList() << QLatin1String("text/uri-list")
+		types << QLatin1String("text/uri-list")
 			<< QLatin1String( "text/plain" )
 			<< QLatin1String( "application/x-kde-urilist" );
-	else
-		return QStringList();
+
+	return types;
 }
 
 QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 {
-	kDebug() << "here";
+
+	//prepare the fallback kio_slave filenames
 	QStringList files;
 
 	QString archiveName = m_archive->fileName();
@@ -361,7 +367,7 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 		archiveName.append("/");
 	}
 
-	//2. Populate the internal list of files
+	//Populate the internal list of files
 	foreach ( const QModelIndex &index, indexes ) {
 		
 		//to limit only one index per row
@@ -371,10 +377,16 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 		files << file;
 	}
 
-	KUrl::List list(files);
+	KUrl::List kiolist(files);
 
+	//prepare the dbus-based drag/drop mimedata
 	QMimeData *data = new QMimeData();
-	list.populateMimeData(data);
+	data->setData("application/x-kde-extractdrag", 
+			QDBusConnection::sessionBus().baseService().toUtf8()
+			);
+
+
+	kiolist.populateMimeData(data);
 	return data;
 }
 

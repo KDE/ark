@@ -55,7 +55,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		bool isBusy() const { return m_busy; }
 
 	public slots:
-		void extractDragTo(QString localPath);
+		void extractSelectedFilesTo(QString localPath);
 
 	private slots:
 		void slotLoadingStarted();
