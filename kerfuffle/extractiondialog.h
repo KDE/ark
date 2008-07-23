@@ -36,9 +36,10 @@ namespace Kerfuffle
 			ExtractionDialog( QWidget *parent = 0 );
 			~ExtractionDialog();
 
-			void showSelectedFilesOption();
-			void singleFolderArchiveWarningOption();
+			void setShowSelectedFiles(bool);
+			void setSingleFolderArchiveWarning(bool);
 			void batchModeOption();
+			void setOpenDestinationFolderAfterExtraction(bool);
 
 			bool extractAllFiles();
 			bool openDestinationAfterExtraction();

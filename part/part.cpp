@@ -382,16 +382,29 @@ void Part::slotExtractFiles()
 	Kerfuffle::ExtractionDialog dialog;
 	if ( m_view->selectionModel()->selectedRows().count() > 0 )
 	{
-		dialog.showSelectedFilesOption();
+		dialog.setShowSelectedFiles(true);
 	}
 
 	if (isSingleFolderArchive())
 	{
-		dialog.singleFolderArchiveWarningOption();
+		dialog.setSingleFolderArchiveWarning(true);
 	}
 
 	QString detectedSubfolder = detectSubfolder();
 	dialog.setSubfolder(detectedSubfolder);
+
+
+	if ( ArkSettings::lastExtractionFolder().isEmpty() )
+	{
+		dialog.setCurrentUrl( QDir::currentPath() );
+	}
+	else
+	{
+		dialog.setCurrentUrl( ArkSettings::lastExtractionFolder() );
+	}
+
+	dialog.setOpenDestinationFolderAfterExtraction( ArkSettings::openDestinationFolderAfterExtraction() );
+
 
 	if ( dialog.exec() )
 	{
@@ -417,7 +430,7 @@ void Part::slotExtractFiles()
 		m_jobTracker->registerJob( job );
 
 		connect( job, SIGNAL( result( KJob* ) ),
-		         this, SLOT( slotExtractionDone( KJob * ) ) );
+				this, SLOT( slotExtractionDone( KJob * ) ) );
 
 		job->start();
 	}

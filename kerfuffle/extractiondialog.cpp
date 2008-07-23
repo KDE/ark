@@ -60,22 +60,8 @@ namespace Kerfuffle
 
 		//m_ui->recentFolders->addItems( ArkSettings::recentExtractionFolders() );
 
-		/*
-		   if ( ArkSettings::lastExtractionFolder().isEmpty() )
-		   {
-		   setCurrentUrl( QDir::currentPath() );
-		   }
-		   else
-		   {
-		   setCurrentUrl( ArkSettings::lastExtractionFolder() );
-		   }
+		setSingleFolderArchiveWarning(false);
 
-		   m_ui->openFolderCheckBox->setChecked( ArkSettings::openDestinationFolderAfterExtraction() );
-
-*/
-
-		m_ui->singleFolderGroup->setChecked(true);
-		m_ui->singleFolderWarning->hide();
 		m_ui->separateSubfolders->hide();
 
 		//we want the warning text to show through even if the groupbox is disabled
@@ -85,10 +71,15 @@ namespace Kerfuffle
 
 	}
 
-	void ExtractionDialog::singleFolderArchiveWarningOption()
+	void ExtractionDialog::setSingleFolderArchiveWarning(bool value)
 	{
-		m_ui->singleFolderGroup->setChecked(false);
-		m_ui->singleFolderWarning->show();
+		if (value) {
+			m_ui->singleFolderGroup->setChecked(false);
+			m_ui->singleFolderWarning->show();
+		} else {
+			m_ui->singleFolderGroup->setChecked(true);
+			m_ui->singleFolderWarning->hide();
+		}
 	}
 
 	void ExtractionDialog::batchModeOption()
@@ -119,11 +110,17 @@ namespace Kerfuffle
 		m_ui = 0;
 	}
 
-	void ExtractionDialog::showSelectedFilesOption()
+	void ExtractionDialog::setShowSelectedFiles(bool value)
 	{
-		m_ui->filesToExtractGroupBox->show();
-		m_ui->selectedFilesButton->setChecked( true );
-		m_ui->extractAllLabel->hide();
+		if (value) {
+			m_ui->filesToExtractGroupBox->show();
+			m_ui->selectedFilesButton->setChecked( true );
+			m_ui->extractAllLabel->hide();
+		} else  {
+			m_ui->filesToExtractGroupBox->hide();
+			m_ui->selectedFilesButton->setChecked( false );
+			m_ui->extractAllLabel->show();
+		}
 	}
 
 	bool ExtractionDialog::extractAllFiles()
@@ -134,6 +131,11 @@ namespace Kerfuffle
 	bool ExtractionDialog::extractToSubfolder()
 	{
 		return m_ui->singleFolderGroup->isChecked();
+	}
+
+	void ExtractionDialog::setOpenDestinationFolderAfterExtraction(bool value)
+	{
+		m_ui->openFolderCheckBox->setChecked(value);
 	}
 
 	bool ExtractionDialog::openDestinationAfterExtraction()
