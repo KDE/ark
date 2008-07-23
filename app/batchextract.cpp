@@ -38,10 +38,10 @@ void BatchExtraction::addExtraction(Kerfuffle::ExtractJob *job)
 
 void BatchExtraction::start()
 {
-	foreach (KJob *job, subjobs())
-	{
-		job->start();
-	}
+	initialJobCount = subjobs().size();
+	if (!initialJobCount) return;
+
+	subjobs().at(0)->start();
 }
 
 void BatchExtraction::slotResult( KJob *job )
@@ -51,11 +51,16 @@ void BatchExtraction::slotResult( KJob *job )
 	{
 		emitResult();
 	}
+	else
+	{
+		subjobs().at(0)->start();
+	}
 }
 
 void BatchExtraction::forwardProgress(KJob *job, unsigned long percent)
 {
-	setPercent(percent);
+	int jobPart = 100 / initialJobCount;
+	setPercent( jobPart * (initialJobCount - subjobs().size()) + percent / initialJobCount );
 }
 
 BatchExtract::BatchExtract(QObject *parent)
