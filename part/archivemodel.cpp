@@ -329,20 +329,37 @@ Qt::DropActions ArchiveModel::supportedDropActions () const
 
 QStringList ArchiveModel::mimeTypes () const
 {
-	return QStringList() << QLatin1String("text/uri-list")
-		<< QLatin1String( "text/plain" )
-		<< QLatin1String( "application/x-kde-urilist" );
+	QString archiveName = m_archive->fileName();
+	QString ext = QFileInfo(archiveName).suffix().toUpper();
+
+	if (ext == "TAR" ||
+			ext == "ZIP" ||
+			archiveName.right(6).toUpper() == "TAR.GZ")
+		return QStringList() << QLatin1String("text/uri-list")
+			<< QLatin1String( "text/plain" )
+			<< QLatin1String( "application/x-kde-urilist" );
+	else
+		return QStringList();
 }
 
 QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 {
-	QVariantList files;
+	kDebug() << "here";
+	QStringList files;
 
-	//1. Prepare the temp path
-	bool ret = QDir::temp().mkpath("kdeark-drag-temp");
-	if (!ret) return NULL;
-	QString tempPath = QDir::tempPath() + "/kdeark-drag-temp";
-	Q_ASSERT(QFile::exists(tempPath));
+	QString archiveName = m_archive->fileName();
+	QString ext = QFileInfo(archiveName).suffix().toUpper();
+	if (ext == "TAR") {
+		archiveName.prepend("tar:");
+	} else if (ext == "ZIP") {
+		archiveName.prepend("zip:");
+	} else if (archiveName.right(6).toUpper() == "TAR.GZ") {
+			archiveName.prepend("tar:");
+	} else return NULL;
+
+	if (archiveName.right(1) != "/") {
+		archiveName.append("/");
+	}
 
 	//2. Populate the internal list of files
 	foreach ( const QModelIndex &index, indexes ) {
@@ -350,16 +367,14 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 		//to limit only one index per row
 		if (index.column() != 0) continue;
 
-		files << static_cast<ArchiveNode*>( index.internalPointer() )->entry()[ InternalID ];
+		QString file = archiveName + static_cast<ArchiveNode*>( index.internalPointer() )->entry()[ InternalID ].toString();
+		files << file;
 	}
 
-	kDebug() << "Extracting " << files << "to" << tempPath;
-	ExtractJob *job = extractFiles(files, tempPath, true);
-	job->start();
+	KUrl::List list(files);
 
-	KUrl::List urls;
 	QMimeData *data = new QMimeData();
-	urls.populateMimeData( data );
+	list.populateMimeData(data);
 	return data;
 }
 
