@@ -87,6 +87,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			e[ Timestamp ]      = QDateTime::fromTime_t( stat.mtime );
 			e[ CompressedSize ] = static_cast<qulonglong>( stat.comp_size );
 			e[ Method ]         = stat.comp_method;
+			e[ IsPasswordProtected ] = stat.encryption_method? true : false;
 			// TODO: zip_get_file_comment returns junk sometimes, find out why
 			/*
 			const char *comment = zip_get_file_comment( m_archive, index, 0, 0 );
