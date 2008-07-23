@@ -48,18 +48,22 @@ class BatchExtract: public KWidgetJobTracker
 	public slots:
 		//void openUrl( const KUrl& url );
 		void setShowExtractDialog(bool);
-		void startNextJob();
+		void loadNextJob();
+		void startCompression();
 
 
 
 	private slots:
 
 	private:
+		void timerEvent ( class QTimerEvent * event );
+
 		KParts::ReadWritePart *m_part;
 		Interface *m_arkInterface;
 		QVariantMap m_arguments;
 		QStringList m_inputFiles;
 		bool m_showExtractDialog;
+		int m_extractionTimerId;
 };
 
 #endif // BATCHEXTRACT_H

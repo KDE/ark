@@ -23,7 +23,6 @@
 
 #include <QStringList>
 #include <QtPlugin>
-#include <kjobtrackerinterface.h>
 
 class Interface
 {
@@ -33,7 +32,7 @@ class Interface
 		virtual QStringList supportedMimeTypes() const = 0;
 		virtual QStringList supportedWriteMimeTypes() const = 0;
 
-		virtual bool extract(QVariantMap arguments, KJobTrackerInterface *tracker = 0) = 0;
+		virtual bool extract(QVariantMap arguments, class KJobTrackerInterface *tracker = 0) = 0;
 		virtual bool showExtractionDialog(QVariantMap& arguments) = 0;
 
 		virtual bool isBusy() const = 0;

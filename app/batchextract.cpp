@@ -28,6 +28,7 @@
 #include <KDebug>
 #include <QTimer>
 
+#include <QCoreApplication>
 
 
 BatchExtract::BatchExtract(QWidget *parent)
@@ -67,11 +68,12 @@ void BatchExtract::setInputFiles(QStringList files)
 	m_inputFiles = files;
 }
 
-void BatchExtract::startNextJob()
+void BatchExtract::loadNextJob()
 {
 	if (m_inputFiles.isEmpty())
 	{
-		//return finish signal
+		kDebug() << "OK DONE";
+		QCoreApplication::quit();
 		return;
 	}
 
@@ -96,21 +98,40 @@ void BatchExtract::startNextJob()
 		m_showExtractDialog = false;
 	}
 
+	kDebug() << "Starting listing...";
 	m_part->openUrl(m_inputFiles.takeFirst());
+	m_extractionTimerId = startTimer(150);
+
+}
+
+void BatchExtract::timerEvent ( class QTimerEvent * event )
+{
+	kDebug() << "waiting";
+	if (!m_arkInterface->isBusy())
+	{
+		kDebug() << "Starting compression";
+		startCompression();
+		killTimer(m_extractionTimerId);
+	}
+}
+
+void BatchExtract::startCompression()
+{
 	m_arkInterface->extract(m_arguments, this);
 }
 
 void BatchExtract::finished(KJob *job)
 {
+	KWidgetJobTracker::finished(job);
 	kDebug() << "job finished...";
-	startNextJob();
+	loadNextJob();
 }
 
 void BatchExtract::registerJob (KJob *job)
 {
 	kDebug() << "Registering " << job;
 	KWidgetJobTracker::registerJob(job);
-	setAutoDelete(job, false);
+	//setAutoDelete(job, false);
 }
 
 void BatchExtract::setDestinationDirectory(QString destination)
