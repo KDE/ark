@@ -59,6 +59,7 @@ class BatchExtract : public QObject
 		~BatchExtract();
 
 		void showExtractDialog();
+		void setDestinationFolder(QString folder);
 
 	public slots:
 		void addInput( const KUrl& url );
@@ -68,6 +69,7 @@ class BatchExtract : public QObject
 	private:
 		QStringList inputs;
 		KJobTrackerInterface *tracker;
+		QString destinationFolder;
 };
 
 #endif // BATCHEXTRACT_H

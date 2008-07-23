@@ -25,6 +25,8 @@
 
 #include <kwidgetjobtracker.h>
 #include <KDebug>
+#include <QFileInfo>
+#include <QDir>
 
 #include <QCoreApplication>
 
@@ -73,6 +75,11 @@ void BatchExtract::addInput( const KUrl& url )
 	inputs << url.path();
 }
 
+void BatchExtract::setDestinationFolder(QString folder)
+{
+	destinationFolder = folder;
+}
+
 bool BatchExtract::performExtraction()
 {
 	BatchExtraction *allJobs = new BatchExtraction();
@@ -84,9 +91,16 @@ bool BatchExtract::performExtraction()
 		Kerfuffle::Archive *archive = Kerfuffle::factory(filename);
 		if (archive == NULL) continue;
 
+		QString finalDestination;
+		if (destinationFolder.isEmpty()) {
+			finalDestination = QFileInfo(filename).dir().absolutePath();
+		} else {
+			finalDestination = destinationFolder;
+		}
+
 		Kerfuffle::ExtractJob *job = archive->copyFiles(
 				QVariantList(), //extract all files
-				".", //extract to current folder
+				finalDestination, //extract to current folder
 				true //preserve paths
 				);
 

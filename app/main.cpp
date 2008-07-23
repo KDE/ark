@@ -81,6 +81,7 @@ int main( int argc, char **argv )
 	option.add("+[url]", ki18n( "URL of an archive to be opened" ));
 	option.add("extract", ki18n("Show the extract dialog after opening archive"));
 	option.add("batch", ki18n("Use the batch interface instead of the usual dialog"));
+	option.add("destination <file>", ki18n("Destination folder to extract to."));
 	KCmdLineArgs::addCmdLineOptions( option );
 	KCmdLineArgs::addTempFileOption();
 
@@ -108,6 +109,8 @@ int main( int argc, char **argv )
 			{
 				batchExtract.showExtractDialog();
 			}
+
+			batchExtract.setDestinationFolder(args->getOption("destination"));
 
 			batchExtract.performExtraction();
 		}
