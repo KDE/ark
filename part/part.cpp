@@ -173,11 +173,14 @@ void Part::updateActions()
 	QAction *header = m->addAction(i18n("Quick extract to..."));
 	header->setEnabled(false);
 	header->setIcon(KIcon( "archive-extract" ) );
+
+	/*
 	for(int i = 0; i < ArkSettings::recentExtractionFolders().size(); ++i)
 	{
 		m->addAction(ArkSettings::recentExtractionFolders().at(i));
 		
 	}
+	*/
 	if (m_extractFilesAction->menu()) delete m_extractFilesAction->menu();
 	m_extractFilesAction->setMenu(m);
 

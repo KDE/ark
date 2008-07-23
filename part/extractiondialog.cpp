@@ -52,13 +52,13 @@ ExtractionDialog::ExtractionDialog(QWidget *parent )
 
 	//m_ui->recentFolders->addItems( ArkSettings::recentExtractionFolders() );
 
-	if ( ArkSettings::recentExtractionFolders().isEmpty() )
+	if ( ArkSettings::lastExtractionFolder().isEmpty() )
 	{
 		setCurrentUrl( QDir::currentPath() );
 	}
 	else
 	{
-		setCurrentUrl( ArkSettings::recentExtractionFolders().last() );
+		setCurrentUrl( ArkSettings::lastExtractionFolder() );
 	}
 
 	m_ui->openFolderCheckBox->setChecked( ArkSettings::openDestinationFolderAfterExtraction() );
