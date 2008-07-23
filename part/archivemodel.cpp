@@ -24,6 +24,7 @@
 
 #include <QList>
 #include <QPixmap>
+#include <QFont>
 
 #include <KDebug>
 #include <KLocale>
@@ -198,6 +199,12 @@ QVariant ArchiveModel::data( const QModelIndex &index, int role ) const
 					return node->icon();
 				}
 				return QVariant();
+			case Qt::FontRole:
+				{
+					QFont f;
+					f.setItalic(node->entry()[ IsPasswordProtected ].toBool());
+					return f;
+				}
 			default:
 				return QVariant();
 		}
