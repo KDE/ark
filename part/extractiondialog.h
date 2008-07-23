@@ -44,9 +44,11 @@ class ExtractionDialog: public KDirSelectDialog
 		~ExtractionDialog();
 
 		void showSelectedFilesOption();
+		void singleFolderArchiveWarningOption();
 
 		bool extractAllFiles();
 		bool openDestinationAfterExtraction();
+		bool extractToSubfolder();
 		KUrl destinationDirectory();
 		QString subfolder() const;
 

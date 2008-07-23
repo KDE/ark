@@ -385,6 +385,11 @@ void Part::slotExtractFiles()
 		dialog.showSelectedFilesOption();
 	}
 
+	if (isSingleFolderArchive())
+	{
+		dialog.singleFolderArchiveWarningOption();
+	}
+
 	QString detectedSubfolder = detectSubfolder();
 	dialog.setSubfolder(detectedSubfolder);
 

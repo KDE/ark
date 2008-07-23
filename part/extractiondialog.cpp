@@ -62,6 +62,22 @@ ExtractionDialog::ExtractionDialog(QWidget *parent )
 	}
 
 	m_ui->openFolderCheckBox->setChecked( ArkSettings::openDestinationFolderAfterExtraction() );
+
+
+	m_ui->singleFolderGroup->setChecked(true);
+	m_ui->singleFolderWarning->hide();
+
+	//we want the warning text to show through even if the groupbox is disabled
+	QPalette warningPalette = m_ui->singleFolderWarning->palette();
+	warningPalette.setColor(QPalette::Disabled, QPalette::Text, warningPalette.color(QPalette::Active, QPalette::Text));
+	m_ui->singleFolderWarning->setPalette(warningPalette);
+
+}
+
+void ExtractionDialog::singleFolderArchiveWarningOption()
+{
+	m_ui->singleFolderGroup->setChecked(false);
+	m_ui->singleFolderWarning->show();
 }
 
 void ExtractionDialog::setCurrentUrl(const QString& url)
@@ -95,6 +111,11 @@ void ExtractionDialog::showSelectedFilesOption()
 bool ExtractionDialog::extractAllFiles()
 {
 	return m_ui->allFilesButton->isChecked();
+}
+
+bool ExtractionDialog::extractToSubfolder()
+{
+	return m_ui->singleFolderGroup->isChecked();
 }
 
 bool ExtractionDialog::openDestinationAfterExtraction()

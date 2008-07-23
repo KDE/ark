@@ -40,7 +40,7 @@ class BatchExtract: public KDialog
 	public slots:
 		//void openUrl( const KUrl& url );
 		//void setShowExtractDialog(bool);
-		void slotExtractUrl();
+		void slotExtractUrl(){}
 
 	private slots:
 
