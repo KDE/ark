@@ -40,9 +40,17 @@ void BatchExtraction::start()
 {
 	foreach (KJob *job, subjobs())
 	{
-		job->exec();
+		job->start();
 	}
-	emitResult();
+}
+
+void BatchExtraction::slotResult( KJob *job )
+{
+	KCompositeJob::slotResult(job);
+	if (!subjobs().size())
+	{
+		emitResult();
+	}
 }
 
 void BatchExtraction::forwardProgress(KJob *job, unsigned long percent)
@@ -84,10 +92,7 @@ bool BatchExtract::performExtraction()
 	connect(allJobs, SIGNAL(finished(KJob*)),
 			QCoreApplication::instance(), SLOT(quit()));
 
-	allJobs->exec();
-	kDebug() << "Quitting";
-	delete tracker;
-	QCoreApplication::instance()->exit();
+	allJobs->start();
 	return true;
 }
 

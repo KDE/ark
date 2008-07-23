@@ -43,6 +43,7 @@ class BatchExtraction : public KCompositeJob
 
 	private slots:
 		void forwardProgress(KJob *job, unsigned long percent);
+		void slotResult( KJob *job );
 
 };
 
