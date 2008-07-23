@@ -64,7 +64,13 @@ void JobTracker::registerJob( KJob *job )
 	KJobTrackerInterface::registerJob( job );
 	m_ui->show();
 	m_ui->informationLabel->hide();
+	m_ui->progressBar->show();
 	m_currentJob = job;
+}
+
+void JobTracker::percent (KJob *job, unsigned long 	percent	)
+{
+	m_ui->progressBar->setValue(percent);
 }
 
 void JobTracker::unregisterJob( KJob *job )
@@ -83,5 +89,7 @@ void JobTracker::finished( KJob *job )
 {
 	QTimer::singleShot( 1500, this, SLOT( timeOut() ) );
 	m_ui->informationLabel->setText( i18n( "Operation finished." ) );
+	m_ui->informationLabel->show();
+	m_ui->progressBar->hide();
 	KJobTrackerInterface::unregisterJob( job );
 }

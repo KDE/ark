@@ -50,6 +50,8 @@ class JobTracker: public KAbstractWidgetJobTracker
 		virtual void infoMessage( KJob *job, const QString &plain, const QString &rich );
 		virtual void warning( KJob *job, const QString &plain, const QString &rich );
 
+		virtual void percent (KJob *job, unsigned long 	percent	);
+
 	private slots:
 		void timeOut();
 
