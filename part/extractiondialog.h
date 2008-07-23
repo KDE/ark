@@ -48,7 +48,7 @@ class ExtractionDialog: public KDirSelectDialog
 		bool extractAllFiles();
 		bool openDestinationAfterExtraction();
 		KUrl destinationDirectory();
-		QString subFolder() const;
+		QString subfolder() const;
 
 	public Q_SLOTS:
 		void setCurrentUrl(const QString& url);

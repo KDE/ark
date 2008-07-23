@@ -74,7 +74,7 @@ void ExtractionDialog::setSubfolder(QString subfolder)
 	m_ui->subfolder->setText(subfolder);
 }
 
-QString ExtractionDialog::subFolder() const
+QString ExtractionDialog::subfolder() const
 {
 	return m_ui->subfolder->text();
 }

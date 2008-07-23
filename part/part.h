@@ -80,6 +80,7 @@ class Part: public KParts::ReadWritePart, public Interface
 	private:
 		void setupView();
 		void setupActions();
+		bool isSingleFolderArchive();
 		QString detectSubfolder();
 		bool isPreviewable( const QModelIndex & index );
 		QList<QVariant> selectedFiles();
