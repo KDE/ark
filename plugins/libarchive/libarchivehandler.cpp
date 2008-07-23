@@ -42,7 +42,8 @@
 
 LibArchiveInterface::LibArchiveInterface( const QString & filename, QObject *parent )
 	: ReadOnlyArchiveInterface( filename, parent ),
-	cachedArchiveEntryCount(-1)
+	cachedArchiveEntryCount(0),
+	extractedFilesSize(0)
 {
 }
 
@@ -75,6 +76,7 @@ bool LibArchiveInterface::list()
 	}
 	
 	cachedArchiveEntryCount = 0;
+	extractedFilesSize = 0;
 
 	while ( ( result = archive_read_next_header( arch, &aentry ) ) == ARCHIVE_OK )
 	{
@@ -90,10 +92,14 @@ bool LibArchiveInterface::list()
 			e[ Link ] = archive_entry_symlink( aentry );
 		}
 		e[ Timestamp ] = QDateTime::fromTime_t( archive_entry_mtime( aentry ) );
+
+		extractedFilesSize += ( qlonglong ) archive_entry_size( aentry );
+
 		entry( e );
-		archive_read_data_skip( arch );
 		cachedArchiveEntryCount++;
+		archive_read_data_skip( arch );
 	}
+
 
 	if ( result != ARCHIVE_EOF )
 	{
@@ -141,10 +147,10 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 		return false;
 	}
 
-	int entryNr = 0, totalCount = -1;
+	int entryNr = 0, totalCount = 0;
 	if (extractAll)
 	{
-		if (cachedArchiveEntryCount == -1)
+		if (!cachedArchiveEntryCount)
 		{
 			progress(0);
 			//TODO: once information progress has been implemented, send
@@ -155,6 +161,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 	}
 	else
 		totalCount = files.size();
+	currentExtractedFilesSize = 0;
 
 	while ( archive_read_next_header( arch, &entry ) == ARCHIVE_OK )
 	{
@@ -166,9 +173,15 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 				archive_entry_set_pathname( entry, QFile::encodeName( QFileInfo( entryName ).fileName() ).constData() );
 
 			if ( archive_write_header( writer, entry ) == ARCHIVE_OK )
-				copyData( arch, writer );
+				//if the whole archive is extracted and the total filesize is
+				//available, we use partial progress
+				copyData( arch, writer, (extractAll && extractedFilesSize) ); 
+			
 
-			if (cachedArchiveEntryCount != -1)
+			//if we only partially extract the archive and the number of
+			//archive entries is available we use a simple progress based on
+			//number of items extracted
+			if (!extractAll && cachedArchiveEntryCount)
 			{
 				++entryNr;
 				progress(float(entryNr) / totalCount);
@@ -210,7 +223,7 @@ int LibArchiveInterface::extractionFlags() const
 	return result;
 }
 
-void LibArchiveInterface::copyData( struct archive *source, struct archive *dest )
+void LibArchiveInterface::copyData( struct archive *source, struct archive *dest, bool partialprogress )
 {
 	char buff[ARCHIVE_DEFAULT_BYTES_PER_BLOCK];
 	ssize_t readBytes;
@@ -223,6 +236,12 @@ void LibArchiveInterface::copyData( struct archive *source, struct archive *dest
 		if( archive_errno( dest ) != ARCHIVE_OK ) {
 			kDebug() << "Error while extracting..." << archive_error_string( dest ) << "(error nb =" << archive_errno( dest ) << ')';
 			return;
+		}
+
+
+		if (partialprogress) {
+			currentExtractedFilesSize += readBytes;
+			progress(float(currentExtractedFilesSize) / extractedFilesSize);
 		}
 
 		readBytes = archive_read_data( source, buff, sizeof(buff) );

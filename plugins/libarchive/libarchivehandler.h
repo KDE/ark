@@ -42,8 +42,10 @@ class LibArchiveInterface: public ReadOnlyArchiveInterface
 
 	private:
 		int extractionFlags() const;
-		void copyData( struct archive *source, struct archive *dest );
+		void copyData( struct archive *source, struct archive *dest, bool partialprogress = true );
 		int cachedArchiveEntryCount;
+		qlonglong extractedFilesSize;
+		qlonglong currentExtractedFilesSize;
 };
 
 #endif // LIBARCHIVEHANDLER_H
