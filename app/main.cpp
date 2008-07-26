@@ -119,7 +119,7 @@ int main( int argc, char **argv )
 			if (args->count()) {
 				kDebug() << "trying to open" << args->url(0);
 
-				if (args->isSet("extract")) {
+				if (args->isSet("dialog")) {
 					window->setShowExtractDialog(true);
 				}
 				window->openUrl(args->url(0));
