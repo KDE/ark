@@ -60,8 +60,19 @@ namespace Kerfuffle
 			virtual bool isReadOnly();
 			virtual QString fileName();
 
+			virtual bool isSingleFolderArchive();
+			virtual QString subfolderName();
+
+		private slots:
+			void onListFinished(KJob*);
+
 		private:
 			ReadOnlyArchiveInterface *m_iface;
+			bool m_hasBeenListed;
+			bool m_isSingleFolderArchive;
+			QString m_subfolderName;
+			qlonglong m_extractedFilesSize;
+
 	};
 } // namespace Kerfuffle
 

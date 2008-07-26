@@ -39,7 +39,9 @@
 namespace Kerfuffle
 {
 	ArchiveBase::ArchiveBase( ReadOnlyArchiveInterface *archive )
-		: QObject(), Archive(), m_iface( archive )
+		: QObject(), Archive(), m_iface( archive ),
+		m_hasBeenListed(false),
+		m_isSingleFolderArchive(false)
 	{
 		Q_ASSERT( archive );
 		archive->setParent( this );
@@ -69,7 +71,15 @@ namespace Kerfuffle
 
 	ListJob* ArchiveBase::list()
 	{
-		return new ListJob( m_iface, this );
+		ListJob *job = new ListJob( m_iface, this );
+
+		//if this job has not been listed before, we grab the opportunity to
+		//collect some information about the archive
+		if (!m_hasBeenListed) {
+			connect(job, SIGNAL(result(KJob*)),
+					this, SLOT(onListFinished(KJob*)));
+		}
+		return job;
 	}
 
 	DeleteJob* ArchiveBase::deleteFiles( const QList<QVariant> & files )
@@ -96,6 +106,33 @@ namespace Kerfuffle
 	{
 		return m_iface->filename();
 	}
+
+	void ArchiveBase::onListFinished(KJob* job)
+	{
+		ListJob *ljob = qobject_cast<ListJob*>(job);
+		m_extractedFilesSize = ljob->extractedFilesSize();
+		m_isSingleFolderArchive = ljob->isSingleFolderArchive();
+		m_subfolderName = ljob->subfolderName();
+		if (m_subfolderName.isEmpty()) {
+			m_subfolderName = QFileInfo(fileName()).baseName();
+		}
+
+		m_hasBeenListed = true;
+	}
+
+	bool ArchiveBase::isSingleFolderArchive()
+	{
+		if (!m_hasBeenListed) list()->exec();
+		return m_isSingleFolderArchive;
+	}
+
+	QString ArchiveBase::subfolderName()
+	{
+		if (!m_hasBeenListed) list()->exec();
+		return m_subfolderName;
+	}
+
+
 
 } // namespace Kerfuffle
 

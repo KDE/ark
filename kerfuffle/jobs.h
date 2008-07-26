@@ -48,6 +48,9 @@ namespace Kerfuffle
 			explicit ListJob( ReadOnlyArchiveInterface *interface, QObject *parent = 0 );
 
 			void start();
+			bool isSingleFolderArchive() { return m_isSingleFolderArchive; }
+			QString subfolderName() { return m_subfolderName; }
+			qlonglong extractedFilesSize() { return m_extractedFilesSize; }
 
 		signals:
 			void newEntry( const ArchiveEntry & );
@@ -56,9 +59,14 @@ namespace Kerfuffle
 		private slots:
 			void done( ThreadWeaver::Job* );
 			void progress( double );
+			void onNewEntry(const ArchiveEntry&);
 
 		private:
 			ReadOnlyArchiveInterface *m_archive;
+			bool m_isSingleFolderArchive;
+			QString m_subfolderName;
+			QString m_previousEntry;
+			qlonglong m_extractedFilesSize;
 	};
 
 	class KERFUFFLE_EXPORT ExtractJob: public KJob

@@ -37,13 +37,15 @@ namespace Kerfuffle
 			~ExtractionDialog();
 
 			void setShowSelectedFiles(bool);
-			void setSingleFolderArchiveWarning(bool);
+			void setSingleFolderArchive(bool);
 			void batchModeOption();
 			void setOpenDestinationFolderAfterExtraction(bool);
+			void setAutoSubfolder(bool value);
 
 			bool extractAllFiles();
 			bool openDestinationAfterExtraction();
 			bool extractToSubfolder();
+			bool autoSubfolders();
 			KUrl destinationDirectory();
 			QString subfolder() const;
 

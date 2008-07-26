@@ -32,14 +32,12 @@
 
 #include <QCoreApplication>
 
-void BatchExtraction::addExtraction(QString filename, QString destinationFolder)
+void BatchExtractJob::addExtraction(Kerfuffle::Archive* archive, QString destinationFolder)
 {
-	Kerfuffle::Archive *archive = Kerfuffle::factory(filename);
-	if (archive == NULL) return; // FIXME: an error
 
 	QString finalDestination;
 	if (destinationFolder.isEmpty()) {
-		finalDestination = QFileInfo(filename).dir().absolutePath();
+		finalDestination = QDir::currentPath();
 	} else {
 		finalDestination = destinationFolder;
 	}
@@ -51,13 +49,13 @@ void BatchExtraction::addExtraction(QString filename, QString destinationFolder)
 			);
 
 	addSubjob(job);
-	fileNames[job] = qMakePair(filename, finalDestination);
+	fileNames[job] = qMakePair(archive->fileName(), finalDestination);
 	connect(job, SIGNAL(percent(KJob*, unsigned long)),
 			this, SLOT(forwardProgress(KJob *, unsigned long)));
 
 }
 
-void BatchExtraction::start()
+void BatchExtractJob::start()
 {
 	initialJobCount = subjobs().size();
 	if (!initialJobCount) return;
@@ -71,7 +69,7 @@ void BatchExtraction::start()
 	subjobs().at(0)->start();
 }
 
-void BatchExtraction::slotResult( KJob *job )
+void BatchExtractJob::slotResult( KJob *job )
 {
 	KCompositeJob::slotResult(job);
 	if (!subjobs().size())
@@ -89,36 +87,54 @@ void BatchExtraction::slotResult( KJob *job )
 	}
 }
 
-void BatchExtraction::forwardProgress(KJob *job, unsigned long percent)
+void BatchExtractJob::forwardProgress(KJob *job, unsigned long percent)
 {
 	Q_UNUSED(job);
 	int jobPart = 100 / initialJobCount;
 	setPercent( jobPart * (initialJobCount - subjobs().size()) + percent / initialJobCount );
 }
 
-BatchExtract::BatchExtract(QObject *)
+BatchExtract::BatchExtract(QObject *) 
+	: destinationFolder(QDir::currentPath()),
+	autoSubfolders(true)
+
 {
 
 }
 
-void BatchExtract::addInput( const KUrl& url )
+bool BatchExtract::addInput( const KUrl& url )
 {
-	inputs << url.path();
+	Kerfuffle::Archive *archive = Kerfuffle::factory(url.path());
+	if (archive == NULL) return false;
+
+	inputs << archive;
+	return true;
 }
 
 void BatchExtract::setDestinationFolder(QString folder)
 {
-	destinationFolder = folder;
+	if (!folder.isEmpty())
+		destinationFolder = folder;
+}
+
+void BatchExtract::setAutoSubfolder(bool value)
+{
+	autoSubfolders = value;
+}
+
+void BatchExtract::setSubfolder(QString subfolder)
+{
+	this->subfolder = subfolder;
 }
 
 bool BatchExtract::startExtraction()
 {
-	BatchExtraction *allJobs = new BatchExtraction();
+	BatchExtractJob *allJobs = new BatchExtractJob();
 	tracker = new KWidgetJobTracker(NULL);
 
-	foreach (QString filename, inputs)
+	foreach (Kerfuffle::Archive *archive, inputs)
 	{
-		allJobs->addExtraction(filename, destinationFolder);
+		allJobs->addExtraction(archive, destinationFolder);
 	}
 	tracker->registerJob(allJobs);
 
@@ -137,10 +153,34 @@ bool BatchExtract::showExtractDialog()
 	}
 
 	dialog.setCurrentUrl(QDir::currentPath());
+	dialog.setAutoSubfolder(autoSubfolders);
+
+	if (subfolder.isEmpty() && inputs.size() == 1) {
+		if (inputs.at(0)->isSingleFolderArchive()) {
+			dialog.setSingleFolderArchive(true);
+		}
+		dialog.setSubfolder(inputs.at(0)->subfolderName());
+#if 0
+		QFileInfo fi(inputs.at(0)->fileName());
+		QString base = fi.completeBaseName();
+
+		//special case for tar.gz files
+		if (base.right(4).toUpper() == ".TAR")
+			base.chop(4);
+		
+		dialog.setSubfolder(base);
+#endif
+	}
+	else {
+		dialog.setSubfolder(subfolder);
+	}
+
 	bool ret = dialog.exec();
 	if (!ret) return false;
 
 	setDestinationFolder(dialog.destinationDirectory().path());
+	subfolder = dialog.subfolder();
+	autoSubfolders = dialog.autoSubfolders();
 
 	return true;
 }

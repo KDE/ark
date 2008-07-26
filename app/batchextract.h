@@ -30,17 +30,18 @@
 #include <QPair>
 #include <kcompositejob.h>
 #include "kerfuffle/jobs.h"
+#include "kerfuffle/archive.h"
 
 
 class Interface;
 class KJobTrackerInterface;
 
-class BatchExtraction : public KCompositeJob
+class BatchExtractJob : public KCompositeJob
 {
 	Q_OBJECT
 
 	public:
-		void addExtraction(QString filename, QString destinationFolder = QString());
+		void addExtraction(Kerfuffle::Archive* archive, QString destinationFolder = QString());
 		void start();
 
 	private slots:
@@ -64,16 +65,20 @@ class BatchExtract : public QObject
 
 		bool showExtractDialog();
 		void setDestinationFolder(QString folder);
+		void setAutoSubfolder(bool value);
+		void setSubfolder(QString subfolder);
 
 	public slots:
-		void addInput( const KUrl& url );
+		bool addInput( const KUrl& url );
 		//void setShowExtractDialog(bool);
 		bool startExtraction();
 
 	private:
-		QStringList inputs;
+		QList<Kerfuffle::Archive*> inputs;
 		KJobTrackerInterface *tracker;
 		QString destinationFolder;
+		QString subfolder;
+		bool autoSubfolders;
 };
 
 #endif // BATCHEXTRACT_H

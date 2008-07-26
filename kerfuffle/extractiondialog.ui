@@ -58,8 +58,15 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="font" >
+        <font>
+         <pointsize>15</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text" >
-        <string>&lt;font size="+2">&lt;b>Extract All Files&lt;/b>&lt;/font></string>
+        <string>Extract All Files</string>
        </property>
       </widget>
      </item>
@@ -68,7 +75,7 @@
    <item>
     <widget class="QGroupBox" name="singleFolderGroup" >
      <property name="title" >
-      <string>Extraction into subfolder...</string>
+      <string>&amp;Extraction into subfolder...</string>
      </property>
      <property name="checkable" >
       <bool>true</bool>
@@ -91,7 +98,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="singleFolderWarning" >
+       <widget class="QLabel" name="singleFolder" >
         <property name="text" >
          <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 &lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
@@ -159,9 +166,9 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="4" column="0" >
-       <widget class="QCheckBox" name="separateSubfolders" >
+       <widget class="QCheckBox" name="autoSubfolders" >
         <property name="text" >
-         <string>Extract &amp;archives into separate subfolders</string>
+         <string>&amp;Automatically create subfolders</string>
         </property>
        </widget>
       </item>
@@ -195,7 +202,7 @@ p, li { white-space: pre-wrap; }
          </sizepolicy>
         </property>
         <property name="text" >
-         <string>Selected files only</string>
+         <string>&amp;Selected files only</string>
         </property>
         <property name="checked" >
          <bool>true</bool>
@@ -211,7 +218,7 @@ p, li { white-space: pre-wrap; }
          </sizepolicy>
         </property>
         <property name="text" >
-         <string>All files</string>
+         <string>All &amp;files</string>
         </property>
        </widget>
       </item>

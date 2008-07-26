@@ -79,9 +79,12 @@ int main( int argc, char **argv )
 
 	KCmdLineOptions option;
 	option.add("+[url]", ki18n( "URL of an archive to be opened" ));
-	option.add("dialog", ki18n("Show the extract dialog after opening archive"));
-	option.add("batch", ki18n("Use the batch interface instead of the usual dialog"));
-	option.add("destination <file>", ki18n("Destination folder to extract to."));
+	option.add("d").add("dialog", ki18n("Show the extract dialog after opening archive"));
+	option.add("o").add("destination <directory>", ki18n("Destination folder to extract to. Defaults to current path if not specified."));
+	option.add("b").add("batch", ki18n("Use the batch interface instead of the usual dialog. This option is implied if more than one url is specified"));
+	option.add(":", ki18n("Options for batch extraction:"));
+	option.add("a").add("autosubfolder", ki18n("Archive contents will be read, and if detected to not be a single folder archive, a subfolder by the name of the archive will be created."));
+	option.add("s").add("subfolder <directory>", ki18n("Create a subfolder under the destination directory and extract here."));
 	KCmdLineArgs::addCmdLineOptions( option );
 	KCmdLineArgs::addTempFileOption();
 
@@ -93,20 +96,28 @@ int main( int argc, char **argv )
 		// open any given URLs
 		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-		if (args->isSet("batch")) {
+		if (args->isSet("batch") || args->count() > 1) {
 			BatchExtract batchExtract;
 
 			for (int i = 0; i < args->count(); ++i) {
 				batchExtract.addInput(args->url(i));
 			}
 
+			if (args->isSet("autosubfolder")) {
+				batchExtract.setAutoSubfolder(true);
+			}
+
+			if (args->isSet("subfolder")) {
+				batchExtract.setSubfolder(args->getOption("subfolder"));
+			}
+
+			batchExtract.setDestinationFolder(args->getOption("destination"));
+
 			if (args->isSet("dialog")) {
 				if (!batchExtract.showExtractDialog()) {
 					return 0;
 				}
 			}
-
-			batchExtract.setDestinationFolder(args->getOption("destination"));
 
 			batchExtract.startExtraction();
 		} else {

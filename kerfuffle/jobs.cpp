@@ -27,11 +27,14 @@
 
 #include <kdebug.h>
 #include <KLocale>
+#include <QDir>
 
 namespace Kerfuffle
 {
 	ListJob::ListJob( ReadOnlyArchiveInterface *interface, QObject *parent )
-		: KJob( parent ), m_archive( interface )
+		: KJob( parent ), m_archive( interface ),
+		m_isSingleFolderArchive(true),
+		m_extractedFilesSize(0)
 	{
 	}
 
@@ -42,12 +45,39 @@ namespace Kerfuffle
 		// TODO: connects
 		connect( job, SIGNAL( entry( const ArchiveEntry& ) ),
 		         this, SIGNAL( newEntry( const ArchiveEntry & ) ) );
+		connect(job, SIGNAL(entry(const ArchiveEntry&)),
+				this, SLOT(onNewEntry(const ArchiveEntry&)));
 		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
 		         this, SLOT( done( ThreadWeaver::Job* ) ) );
 		connect( job, SIGNAL( progress( double ) ),
 		         this, SLOT( progress( double ) ) );
 		ThreadWeaver::Weaver::instance()->enqueue( job );
 	}
+
+	void ListJob::onNewEntry(const ArchiveEntry& entry)
+	{
+		m_extractedFilesSize += entry[ Size ].toLongLong();
+		if (m_isSingleFolderArchive)
+		{
+			QString filename = entry[ FileName ].toString();
+			if (m_previousEntry.isEmpty()) {
+				//store the root path of the filename
+				m_previousEntry = filename.split(QDir::separator()).first();
+			}
+			else {
+				QString newRoot = filename.split(QDir::separator()).first();
+				if (m_previousEntry != newRoot) {
+					m_isSingleFolderArchive = false;
+					m_subfolderName.clear();
+				}
+				else {
+					m_previousEntry = newRoot;
+					m_subfolderName = newRoot;
+				}
+			}
+		}
+	}
+
 
 	void ListJob::done( ThreadWeaver::Job *job )
 	{

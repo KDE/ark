@@ -62,6 +62,10 @@ namespace Kerfuffle
 			virtual DeleteJob*  deleteFiles( const QList<QVariant> & files ) = 0;
 			virtual AddJob*     addFiles( const QStringList & files ) = 0;
 			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, bool preservePaths = false ) = 0;
+
+			virtual bool isSingleFolderArchive() = 0;
+			virtual QString subfolderName() = 0;
+
 	};
 
 	KERFUFFLE_EXPORT Archive* factory( const QString & filename, const QString & requestedMimeType = QString() );

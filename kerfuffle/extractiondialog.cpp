@@ -60,31 +60,32 @@ namespace Kerfuffle
 
 		//m_ui->recentFolders->addItems( ArkSettings::recentExtractionFolders() );
 
-		setSingleFolderArchiveWarning(false);
+		setSingleFolderArchive(false);
 
-		m_ui->separateSubfolders->hide();
+		m_ui->autoSubfolders->hide();
 
 		//we want the warning text to show through even if the groupbox is disabled
-		QPalette warningPalette = m_ui->singleFolderWarning->palette();
+		QPalette warningPalette = m_ui->singleFolder->palette();
 		warningPalette.setColor(QPalette::Disabled, QPalette::Text, warningPalette.color(QPalette::Active, QPalette::Text));
-		m_ui->singleFolderWarning->setPalette(warningPalette);
+		m_ui->singleFolder->setPalette(warningPalette);
 
 	}
 
-	void ExtractionDialog::setSingleFolderArchiveWarning(bool value)
+	void ExtractionDialog::setSingleFolderArchive(bool value)
 	{
 		if (value) {
 			m_ui->singleFolderGroup->setChecked(false);
-			m_ui->singleFolderWarning->show();
+			m_ui->singleFolder->show();
 		} else {
 			m_ui->singleFolderGroup->setChecked(true);
-			m_ui->singleFolderWarning->hide();
+			m_ui->singleFolder->hide();
 		}
 	}
 
 	void ExtractionDialog::batchModeOption()
 	{
-		m_ui->separateSubfolders->show();
+		m_ui->autoSubfolders->show();
+		m_ui->autoSubfolders->setEnabled(true);
 		m_ui->singleFolderGroup->hide();
 		m_ui->extractAllLabel->setText(i18n("Extract multiple archives"));
 	}
@@ -126,6 +127,16 @@ namespace Kerfuffle
 	bool ExtractionDialog::extractAllFiles()
 	{
 		return m_ui->allFilesButton->isChecked();
+	}
+
+	void ExtractionDialog::setAutoSubfolder(bool value)
+	{
+		m_ui->autoSubfolders->setChecked(value);
+	}
+
+	bool ExtractionDialog::autoSubfolders()
+	{
+		return m_ui->autoSubfolders->isChecked();
 	}
 
 	bool ExtractionDialog::extractToSubfolder()

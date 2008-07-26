@@ -364,38 +364,14 @@ void Part::slotError( const QString& errorMessage, const QString& details )
 
 bool Part::isSingleFolderArchive()
 {
-	if (m_model->rowCount() == 1)
-	{
-		QModelIndex i = m_model->index(0,0);
-		ArchiveEntry root = m_model->entryForIndex(i);
-
-		if (root[IsDirectory].toBool())
-		{
-			return true;
-		}
-		
-	}
-	return false;
+	return m_model->archive()->isSingleFolderArchive();
 }
 
 QString Part::detectSubfolder()
 {
 	if (!m_model) return QString();
 
-	if (isSingleFolderArchive())
-	{
-		QModelIndex i = m_model->index(0,0);
-		ArchiveEntry root = m_model->entryForIndex(i);
-
-		return root[FileName].toString();
-		
-	}
-	else
-	{
-		if (!m_model->archive()) return QString();
-		QFileInfo f(m_model->archive()->fileName());
-		return f.baseName();
-	}
+	return m_model->archive()->subfolderName();
 }
 
 void Part::slotExtractFiles()
@@ -411,7 +387,7 @@ void Part::slotExtractFiles()
 
 	if (isSingleFolderArchive())
 	{
-		dialog.setSingleFolderArchiveWarning(true);
+		dialog.setSingleFolderArchive(true);
 	}
 
 	QString detectedSubfolder = detectSubfolder();
