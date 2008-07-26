@@ -79,7 +79,7 @@ int main( int argc, char **argv )
 
 	KCmdLineOptions option;
 	option.add("+[url]", ki18n( "URL of an archive to be opened" ));
-	option.add("extract", ki18n("Show the extract dialog after opening archive"));
+	option.add("dialog", ki18n("Show the extract dialog after opening archive"));
 	option.add("batch", ki18n("Use the batch interface instead of the usual dialog"));
 	option.add("destination <file>", ki18n("Destination folder to extract to."));
 	KCmdLineArgs::addCmdLineOptions( option );
@@ -100,7 +100,7 @@ int main( int argc, char **argv )
 				batchExtract.addInput(args->url(i));
 			}
 
-			if (args->isSet("extract")) {
+			if (args->isSet("dialog")) {
 				if (!batchExtract.showExtractDialog()) {
 					return 0;
 				}
