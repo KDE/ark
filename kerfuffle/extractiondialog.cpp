@@ -149,6 +149,17 @@ namespace Kerfuffle
 		m_ui->openFolderCheckBox->setChecked(value);
 	}
 
+	void ExtractionDialog::setPreservePaths(bool value)
+	{
+		m_ui->preservePaths->setChecked(value);
+	}
+
+	bool ExtractionDialog::preservePaths()
+	{
+		return m_ui->preservePaths->isChecked();
+	}
+
+
 	bool ExtractionDialog::openDestinationAfterExtraction()
 	{
 		return m_ui->openFolderCheckBox->isChecked();

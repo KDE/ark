@@ -114,7 +114,14 @@ namespace Kerfuffle
 		m_isSingleFolderArchive = ljob->isSingleFolderArchive();
 		m_subfolderName = ljob->subfolderName();
 		if (m_subfolderName.isEmpty()) {
-			m_subfolderName = QFileInfo(fileName()).baseName();
+			QFileInfo fi(fileName());
+			QString base = fi.completeBaseName();
+
+			//special case for tar.gz/bzip2 files
+			if (base.right(4).toUpper() == ".TAR")
+				base.chop(4);
+
+			m_subfolderName = base;
 		}
 
 		m_hasBeenListed = true;

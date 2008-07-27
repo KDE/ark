@@ -41,7 +41,7 @@ class BatchExtractJob : public KCompositeJob
 	Q_OBJECT
 
 	public:
-		void addExtraction(Kerfuffle::Archive* archive, QString destinationFolder = QString());
+		void addExtraction(Kerfuffle::Archive* archive, bool preservePaths = true, QString destinationFolder = QString());
 		void start();
 
 	private slots:
@@ -67,6 +67,7 @@ class BatchExtract : public QObject
 		void setDestinationFolder(QString folder);
 		void setAutoSubfolder(bool value);
 		void setSubfolder(QString subfolder);
+		void setPreservePaths(bool value);
 
 	public slots:
 		bool addInput( const KUrl& url );
@@ -79,6 +80,7 @@ class BatchExtract : public QObject
 		QString destinationFolder;
 		QString subfolder;
 		bool autoSubfolders;
+		bool m_preservePaths;
 };
 
 #endif // BATCHEXTRACT_H

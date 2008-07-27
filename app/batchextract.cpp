@@ -32,7 +32,7 @@
 
 #include <QCoreApplication>
 
-void BatchExtractJob::addExtraction(Kerfuffle::Archive* archive, QString destinationFolder)
+void BatchExtractJob::addExtraction(Kerfuffle::Archive* archive,bool preservePaths, QString destinationFolder)
 {
 
 	QString finalDestination;
@@ -45,7 +45,7 @@ void BatchExtractJob::addExtraction(Kerfuffle::Archive* archive, QString destina
 	Kerfuffle::ExtractJob *job = archive->copyFiles(
 			QVariantList(), //extract all files
 			finalDestination, //extract to current folder
-			true //preserve paths
+			preservePaths //preserve paths
 			);
 
 	addSubjob(job);
@@ -96,7 +96,8 @@ void BatchExtractJob::forwardProgress(KJob *job, unsigned long percent)
 
 BatchExtract::BatchExtract(QObject *) 
 	: destinationFolder(QDir::currentPath()),
-	autoSubfolders(true)
+	autoSubfolders(true),
+	m_preservePaths(true)
 
 {
 
@@ -122,6 +123,10 @@ void BatchExtract::setAutoSubfolder(bool value)
 	autoSubfolders = value;
 }
 
+void BatchExtract::setPreservePaths(bool value)
+{
+	m_preservePaths = value;
+}
 void BatchExtract::setSubfolder(QString subfolder)
 {
 	this->subfolder = subfolder;
@@ -134,7 +139,7 @@ bool BatchExtract::startExtraction()
 
 	foreach (Kerfuffle::Archive *archive, inputs)
 	{
-		allJobs->addExtraction(archive, destinationFolder);
+		allJobs->addExtraction(archive, m_preservePaths, destinationFolder);
 	}
 	tracker->registerJob(allJobs);
 
@@ -154,22 +159,13 @@ bool BatchExtract::showExtractDialog()
 
 	dialog.setCurrentUrl(QDir::currentPath());
 	dialog.setAutoSubfolder(autoSubfolders);
+	dialog.setPreservePaths(m_preservePaths);
 
 	if (subfolder.isEmpty() && inputs.size() == 1) {
 		if (inputs.at(0)->isSingleFolderArchive()) {
 			dialog.setSingleFolderArchive(true);
 		}
 		dialog.setSubfolder(inputs.at(0)->subfolderName());
-#if 0
-		QFileInfo fi(inputs.at(0)->fileName());
-		QString base = fi.completeBaseName();
-
-		//special case for tar.gz files
-		if (base.right(4).toUpper() == ".TAR")
-			base.chop(4);
-		
-		dialog.setSubfolder(base);
-#endif
 	}
 	else {
 		dialog.setSubfolder(subfolder);
@@ -181,6 +177,7 @@ bool BatchExtract::showExtractDialog()
 	setDestinationFolder(dialog.destinationDirectory().path());
 	subfolder = dialog.subfolder();
 	autoSubfolders = dialog.autoSubfolders();
+	m_preservePaths = dialog.preservePaths();
 
 	return true;
 }

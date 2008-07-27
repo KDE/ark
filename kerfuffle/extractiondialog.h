@@ -38,6 +38,7 @@ namespace Kerfuffle
 
 			void setShowSelectedFiles(bool);
 			void setSingleFolderArchive(bool);
+			void setPreservePaths(bool);
 			void batchModeOption();
 			void setOpenDestinationFolderAfterExtraction(bool);
 			void setAutoSubfolder(bool value);
@@ -46,6 +47,7 @@ namespace Kerfuffle
 			bool openDestinationAfterExtraction();
 			bool extractToSubfolder();
 			bool autoSubfolders();
+			bool preservePaths();
 			KUrl destinationDirectory();
 			QString subfolder() const;
 
