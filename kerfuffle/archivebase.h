@@ -62,6 +62,9 @@ namespace Kerfuffle
 
 			virtual bool isSingleFolderArchive();
 			virtual QString subfolderName();
+			virtual bool isPasswordProtected();
+
+			virtual void setPassword(QString password);
 
 		private slots:
 			void onListFinished(KJob*);
@@ -70,6 +73,7 @@ namespace Kerfuffle
 			ReadOnlyArchiveInterface *m_iface;
 			bool m_hasBeenListed;
 			bool m_isSingleFolderArchive;
+			bool m_isPasswordProtected;
 			QString m_subfolderName;
 			qlonglong m_extractedFilesSize;
 

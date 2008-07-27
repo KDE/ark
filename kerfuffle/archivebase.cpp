@@ -112,6 +112,7 @@ namespace Kerfuffle
 		ListJob *ljob = qobject_cast<ListJob*>(job);
 		m_extractedFilesSize = ljob->extractedFilesSize();
 		m_isSingleFolderArchive = ljob->isSingleFolderArchive();
+		m_isPasswordProtected = ljob->isPasswordProtected();
 		m_subfolderName = ljob->subfolderName();
 		if (m_subfolderName.isEmpty()) {
 			QFileInfo fi(fileName());
@@ -133,12 +134,22 @@ namespace Kerfuffle
 		return m_isSingleFolderArchive;
 	}
 
+	bool ArchiveBase::isPasswordProtected()
+	{
+		if (!m_hasBeenListed) list()->exec();
+		return m_isPasswordProtected;
+	}
+
 	QString ArchiveBase::subfolderName()
 	{
 		if (!m_hasBeenListed) list()->exec();
 		return m_subfolderName;
 	}
 
+	void ArchiveBase::setPassword(QString password)
+	{
+		m_iface->setPassword(password);
+	}
 
 
 } // namespace Kerfuffle

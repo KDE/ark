@@ -53,16 +53,19 @@ namespace Kerfuffle
 			virtual bool open() { return true; }
 			virtual bool list() = 0;
 			virtual bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths ) = 0;
+			void setPassword(QString password) { m_password = password; }
 
 		protected:
 			void error( const QString & message, const QString & details = QString() );
 			void entry( const ArchiveEntry & archiveEntry );
 			void progress( double );
 			void entryRemoved( const QString& path );
+			QString password() { return m_password; }
 
 		private:
 			QList<ArchiveObserver*> m_observers;
 			QString m_filename;
+			QString m_password;
 	};
 
 	class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterface

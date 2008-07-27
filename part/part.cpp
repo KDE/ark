@@ -53,6 +53,7 @@
 #include <QMouseEvent>
 #include <QMimeData>
 #include <QtDBus/QtDBus>
+#include <QInputDialog>
 
 typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY( libarkpart, Factory )
@@ -377,7 +378,8 @@ QString Part::detectSubfolder()
 void Part::slotExtractFiles()
 {
 	kDebug( 1601 ) ;
-	//TODO: return if there are no model currently set
+	if (!m_model) return;
+
 
 	Kerfuffle::ExtractionDialog dialog;
 	if ( m_view->selectionModel()->selectedRows().count() > 0 )
@@ -390,9 +392,7 @@ void Part::slotExtractFiles()
 		dialog.setSingleFolderArchive(true);
 	}
 
-	QString detectedSubfolder = detectSubfolder();
-	dialog.setSubfolder(detectedSubfolder);
-
+	dialog.setSubfolder(detectSubfolder());
 
 	if ( ArkSettings::lastExtractionFolder().isEmpty() )
 	{
@@ -405,6 +405,9 @@ void Part::slotExtractFiles()
 
 	dialog.setOpenDestinationFolderAfterExtraction( ArkSettings::openDestinationFolderAfterExtraction() );
 
+	//TODO: remember this in arksettings
+	dialog.setPreservePaths(true);
+
 
 	if ( dialog.exec() )
 	{
@@ -416,8 +419,13 @@ void Part::slotExtractFiles()
 		//this is done to update the quick extract menu
 		updateActions();
 
+		if (m_model->archive()->isPasswordProtected()) {
+			QString pass = QInputDialog::getText(NULL, i18n("Password required"), i18n("This archive contains one or more password protected files. Please enter the password to extract these."), QLineEdit::Password);
+			m_model->archive()->setPassword(pass);
+		}
+
 		QString destinationDirectory;
-		if (!isSingleFolderArchive())
+		if (dialog.extractToSubfolder())
 		{
 			destinationDirectory =  dialog.destinationDirectory().path() + 
 				QDir::separator() + dialog.subfolder();
@@ -426,7 +434,7 @@ void Part::slotExtractFiles()
 		else destinationDirectory = dialog.destinationDirectory().path();
 
 		QList<QVariant> files = selectedFiles();
-		ExtractJob *job = m_model->extractFiles( files, destinationDirectory, true );
+		ExtractJob *job = m_model->extractFiles( files, destinationDirectory, dialog.preservePaths() );
 		m_jobTracker->registerJob( job );
 
 		connect( job, SIGNAL( result( KJob* ) ),

@@ -49,6 +49,7 @@ namespace Kerfuffle
 
 			void start();
 			bool isSingleFolderArchive() { return m_isSingleFolderArchive; }
+			bool isPasswordProtected() { return m_isPasswordProtected; }
 			QString subfolderName() { return m_subfolderName; }
 			qlonglong extractedFilesSize() { return m_extractedFilesSize; }
 
@@ -64,6 +65,7 @@ namespace Kerfuffle
 		private:
 			ReadOnlyArchiveInterface *m_archive;
 			bool m_isSingleFolderArchive;
+			bool m_isPasswordProtected;
 			QString m_subfolderName;
 			QString m_previousEntry;
 			qlonglong m_extractedFilesSize;

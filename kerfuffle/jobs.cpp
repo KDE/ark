@@ -34,7 +34,8 @@ namespace Kerfuffle
 	ListJob::ListJob( ReadOnlyArchiveInterface *interface, QObject *parent )
 		: KJob( parent ), m_archive( interface ),
 		m_isSingleFolderArchive(true),
-		m_extractedFilesSize(0)
+		m_extractedFilesSize(0),
+		m_isPasswordProtected(false)
 	{
 	}
 
@@ -57,6 +58,7 @@ namespace Kerfuffle
 	void ListJob::onNewEntry(const ArchiveEntry& entry)
 	{
 		m_extractedFilesSize += entry[ Size ].toLongLong();
+		m_isPasswordProtected |= entry [ IsPasswordProtected ].toBool();
 		if (m_isSingleFolderArchive)
 		{
 			QString filename = entry[ FileName ].toString();

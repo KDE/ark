@@ -65,6 +65,9 @@ namespace Kerfuffle
 
 			virtual bool isSingleFolderArchive() = 0;
 			virtual QString subfolderName() = 0;
+			virtual bool isPasswordProtected() = 0;
+
+			virtual void setPassword(QString password) = 0;
 
 	};
 

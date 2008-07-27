@@ -144,11 +144,16 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 	if (!m_unrarpath.isNull()) kp << m_unrarpath;
 	else if (!m_rarpath.isNull()) kp << m_rarpath;
 	else return false;
+	kDebug() << preservePaths;
 	if (preservePaths) {
 		kp << "x"; 
 	} else {
 		kp << "e";
 	}
+
+	kp << "-p-";
+	kp << "-p" + password();
+
 	kp << m_filename;
 	foreach( const QVariant& file, files )
 	{
