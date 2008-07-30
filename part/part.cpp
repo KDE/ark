@@ -41,6 +41,7 @@
 #include <KRun>
 #include <KFileDialog>
 #include <KConfigGroup>
+#include <KPasswordDialog>
 
 
 #include <QTreeView>
@@ -420,8 +421,12 @@ void Part::slotExtractFiles()
 		updateActions();
 
 		if (m_model->archive()->isPasswordProtected()) {
-			QString pass = QInputDialog::getText(NULL, i18n("Password required"), i18n("This archive contains one or more password protected files. Please enter the password to extract these."), QLineEdit::Password);
-			m_model->archive()->setPassword(pass);
+			KPasswordDialog dlg( NULL );
+			dlg.setPrompt( i18n("This archive contains one or more password protected files. Please enter the password to extract these."));
+			if( !dlg.exec() )
+				return; //the user canceled
+			m_model->archive()->setPassword(dlg.password());
+
 		}
 
 		QString destinationDirectory;
