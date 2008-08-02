@@ -26,6 +26,7 @@
 #include "kerfuffle/jobs.h"
 #include "settings.h"
 #include "jobtracker.h"
+#include "dnddbusinterface.h"
 
 #include <KParts/GenericFactory>
 #include <KApplication>
@@ -87,7 +88,8 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 
 	m_statusBarExtension = new KParts::StatusBarExtension( this );
 
-	QDBusConnection::sessionBus().registerObject("/", this, QDBusConnection::ExportAllSlots);
+	new DndExtractAdaptor(this);
+	QDBusConnection::sessionBus().registerObject("/", this);
 
 	QTimer::singleShot( 0, this, SLOT( createJobTracker() ) );
 }

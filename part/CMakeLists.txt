@@ -11,6 +11,7 @@ set(arkpart_PART_SRCS
 	arkviewer.cpp
 	archivemodel.cpp
 	jobtracker.cpp
+	dnddbusinterface.cpp
     )
 
 kde4_add_ui_files(arkpart_PART_SRCS infopanel.ui )
