@@ -152,7 +152,7 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 	}
 
 	kp << "-p-";
-	kp << "-p" + password();
+	if ( !password().isEmpty() ) kp << "-p" + password();
 
 	kp << m_filename;
 	foreach( const QVariant& file, files )
