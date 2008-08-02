@@ -89,7 +89,7 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	m_statusBarExtension = new KParts::StatusBarExtension( this );
 
 	new DndExtractAdaptor(this);
-	QDBusConnection::sessionBus().registerObject("/", this);
+	QDBusConnection::sessionBus().registerObject("/DndExtract", this);
 
 	QTimer::singleShot( 0, this, SLOT( createJobTracker() ) );
 }
@@ -108,7 +108,9 @@ void Part::createJobTracker()
 
 void Part::extractSelectedFilesTo(QString localPath)
 {
+	if (!m_model) return;
 	QList<QVariant> files = selectedFiles();
+	if (files.isEmpty()) return;
 	ExtractJob *job = m_model->extractFiles( files, localPath, false );
 	m_jobTracker->registerJob( job );
 

@@ -33,9 +33,9 @@ DndExtractAdaptor::~DndExtractAdaptor()
     // destructor
 }
 
-void DndExtractAdaptor::extractSelectedFilesTo()
+void DndExtractAdaptor::extractSelectedFilesTo(const QString &path)
 {
     // handle method call org.kde.DndExtract.extractSelectedFilesTo
-    QMetaObject::invokeMethod(parent(), "extractSelectedFilesTo");
+    QMetaObject::invokeMethod(parent(), "extractSelectedFilesTo", Q_ARG(QString, path));
 }
 

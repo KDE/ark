@@ -9,8 +9,8 @@
  * before re-generating it.
  */
 
-#ifndef DNDDBUSINTERFACE_H_1217637250
-#define DNDDBUSINTERFACE_H_1217637250
+#ifndef DNDDBUSINTERFACE_H_1217639736
+#define DNDDBUSINTERFACE_H_1217639736
 
 #include <QtCore/QObject>
 #include <QtDBus/QtDBus>
@@ -30,7 +30,9 @@ class DndExtractAdaptor: public QDBusAbstractAdaptor
     Q_CLASSINFO("D-Bus Interface", "org.kde.DndExtract")
     Q_CLASSINFO("D-Bus Introspection", ""
 "  <interface name=\"org.kde.DndExtract\" >\n"
-"    <method name=\"extractSelectedFilesTo\" />\n"
+"    <method name=\"extractSelectedFilesTo\" >\n"
+"      <arg direction=\"in\" type=\"s\" name=\"path\" />\n"
+"    </method>\n"
 "  </interface>\n"
         "")
 public:
@@ -39,7 +41,7 @@ public:
 
 public: // PROPERTIES
 public Q_SLOTS: // METHODS
-    void extractSelectedFilesTo();
+    void extractSelectedFilesTo(const QString &path);
 Q_SIGNALS: // SIGNALS
 };
 
