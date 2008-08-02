@@ -322,7 +322,7 @@ void Part::slotPreview()
 
 void Part::slotPreview( const QModelIndex & index )
 {
-	Q_ASSERT( m_previewDir == 0 );
+	if ( m_previewDir ) return;
 	if ( !isPreviewable( index ) ) return;
 	const ArchiveEntry& entry =  m_model->entryForIndex( index );
 	if ( !entry.isEmpty() )
