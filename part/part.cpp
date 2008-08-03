@@ -140,8 +140,11 @@ void Part::setupView()
 	         this, SLOT( updateActions() ) );
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
 	         this, SLOT( selectionChanged() ) );
-	connect( m_view, SIGNAL( activated( const QModelIndex & ) ),
+
+	//TODO: subclass the itemview and fix an actual eventhandler
+	connect( m_view, SIGNAL( doubleClicked( const QModelIndex & ) ),
 	         this, SLOT( slotPreview( const QModelIndex & ) ) );
+
 	connect( m_model, SIGNAL( dataChanged( const QModelIndex &, const QModelIndex& ) ),
 	         this, SLOT( adjustColumns( const QModelIndex &, const QModelIndex& ) ) );
 }
