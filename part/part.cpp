@@ -458,15 +458,20 @@ void Part::slotExtractFiles()
 
 QList<QVariant> Part::selectedFiles()
 {
-	QList<QVariant> files;
+	QStringList toSort;
 
 	foreach( const QModelIndex & index, m_view->selectionModel()->selectedRows() )
 	{
 		const ArchiveEntry& entry = m_model->entryForIndex( index );
-		files << entry[ InternalID ];
+		toSort << entry[ InternalID ].toString();
 	}
 
-	return files;
+	toSort.sort();
+	QVariantList ret;
+	foreach (QString i, toSort) {
+		ret << i;
+	}
+	return ret;
 }
 
 void Part::slotExtractionDone( KJob* job )
