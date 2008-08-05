@@ -111,7 +111,7 @@ void Part::createJobTracker()
 void Part::extractSelectedFilesTo(QString localPath)
 {
 	if (!m_model) return;
-	QList<QVariant> files = selectedFiles();
+	QList<QVariant> files = selectedFilesWithParents();
 	if (files.isEmpty()) return;
 	ExtractJob *job = m_model->extractFiles( files, localPath, false );
 	m_jobTracker->registerJob( job );
@@ -248,7 +248,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 	}
 	else finalDestinationDirectory = userDestination;
 
-	QList<QVariant> files = selectedFiles();
+	QList<QVariant> files = selectedFilesWithParents();
 	ExtractJob *job = m_model->extractFiles( files, finalDestinationDirectory, true );
 	m_jobTracker->registerJob( job );
 
@@ -447,7 +447,8 @@ void Part::slotExtractFiles()
 		}
 		else destinationDirectory = dialog.destinationDirectory().path();
 
-		QList<QVariant> files = selectedFiles();
+		QList<QVariant> files = selectedFilesWithParents();
+		kDebug( 1601 ) << "Selected " << files;
 		ExtractJob *job = m_model->extractFiles( files, destinationDirectory, dialog.preservePaths() );
 		m_jobTracker->registerJob( job );
 
@@ -456,6 +457,32 @@ void Part::slotExtractFiles()
 
 		job->start();
 	}
+}
+
+QList<QVariant> Part::selectedFilesWithParents()
+{
+	QStringList toSort;
+
+	foreach( const QModelIndex & index, m_view->selectionModel()->selectedRows() )
+	{
+		QModelIndex parent = index.parent();
+		while (parent.isValid()) {
+			if (!m_view->selectionModel()->selectedRows().contains(parent)) {
+				const ArchiveEntry& entry = m_model->entryForIndex( parent );
+				toSort << entry[ InternalID ].toString();
+			}
+			parent = parent.parent();
+		}
+		const ArchiveEntry& entry = m_model->entryForIndex( index );
+		toSort << entry[ InternalID ].toString();
+	}
+
+	toSort.sort();
+	QVariantList ret;
+	foreach (QString i, toSort) {
+		ret << i;
+	}
+	return ret;
 }
 
 QList<QVariant> Part::selectedFiles()

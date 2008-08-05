@@ -36,6 +36,7 @@
 #include <QByteArray>
 #include <QFile>
 #include <QDir>
+#include <QFileInfo>
 
 using namespace Kerfuffle;
 
@@ -91,6 +92,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			e[ CompressedSize ] = static_cast<qulonglong>( stat.comp_size );
 			e[ Method ]         = stat.comp_method;
 			e[ IsPasswordProtected ] = stat.encryption_method? true : false;
+
 			//TODO: why the hell does the following line cause the entries to
 			//be password protected
 			//e[ IsDirectory ] = (filename.right(1) == "/");
@@ -141,6 +143,10 @@ class LibZipInterface: public ReadWriteArchiveInterface
 		bool extractEntry(struct zip_file *file, QVariant entry, const QString & destinationDirectory, bool preservePaths )
 		{
 			if (entry.toString().right(1) == "/") { // if a folder
+
+				//if we don't preserve paths we don't create any folders
+				if (!preservePaths) return true;
+
 				if (!QDir(destinationDirectory).mkpath(entry.toString())) {
 					error( i18n( "Could not create path" ) );
 					zip_fclose( file );
@@ -150,12 +156,22 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				return true;
 			}
 
+
 			// 2. Open the destination file
 			QFile destinationFile( destinationFileName( entry.toString(), destinationDirectory, preservePaths ) );
 
+			//create the path if it doesn't exist already
+			if (preservePaths) {
+				QDir dest(destinationDirectory);
+				QFileInfo fi(destinationFile.fileName());
+				if (!dest.exists(fi.path())) {
+					dest.mkpath(fi.path());
+				}
+			}
+
 			if ( !destinationFile.open( QIODevice::WriteOnly ) )
 			{
-				error( i18n( "Could not write to the destination file %1", entry.toString()) );
+				error( i18n( "Could not write to the destination file %1, path %2", entry.toString(), destinationFile.fileName()) );
 				return false;
 			}
 
