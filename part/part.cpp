@@ -96,6 +96,8 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 
 Part::~Part()
 {
+    delete m_previewDir;
+    m_previewDir = 0;
 }
 
 void Part::createJobTracker()
