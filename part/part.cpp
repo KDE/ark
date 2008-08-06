@@ -317,6 +317,7 @@ void Part::slotLoadingFinished()
 	QApplication::restoreOverrideCursor();
 	m_busy = false;
 	m_view->resizeColumnToContents( 0 );
+	m_view->expandToDepth(0);
 	updateActions();
 	emit ready();
 }
