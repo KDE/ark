@@ -56,6 +56,7 @@
 #include <QMimeData>
 #include <QtDBus/QtDBus>
 #include <QInputDialog>
+#include <QHeaderView>
 
 typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY( libarkpart, Factory )
@@ -129,7 +130,7 @@ void Part::setupView()
 	m_view->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 	m_view->setAlternatingRowColors( true );
 	m_view->setAnimated( true );
-	m_view->setColumnWidth( 0, 150 );
+	m_view->header()->setResizeMode(0, QHeaderView::ResizeToContents);
 	m_view->setAllColumnsShowFocus( true );
 
 	//drag and drop
