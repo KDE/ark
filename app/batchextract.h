@@ -43,6 +43,7 @@ class BatchExtractJob : public KCompositeJob
 	public:
 		void addExtraction(Kerfuffle::Archive* archive, bool preservePaths = true, QString destinationFolder = QString());
 		void start();
+		void setAutoSubfolder(bool value);
 
 	private slots:
 		void forwardProgress(KJob *job, unsigned long percent);
@@ -51,6 +52,7 @@ class BatchExtractJob : public KCompositeJob
 	private:
 		int initialJobCount;
 		QMap<class KJob *, QPair<QString,QString> > fileNames;
+		bool autoSubfolders;
 
 };
 
