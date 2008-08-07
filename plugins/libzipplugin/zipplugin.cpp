@@ -22,8 +22,8 @@
  * ( INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "kerfuffle/archiveinterface.h"
-#include "kerfuffle/archivefactory.h"
+
+#include <QString>
 
 //TODO:
 //a ninjatrick to redefine off_t to 32bit inside this file because libzip is
@@ -32,6 +32,9 @@
 //but for now this will probably do
 #define __off_t_defined
 typedef quint32 off_t;
+
+#include "kerfuffle/archiveinterface.h"
+#include "kerfuffle/archivefactory.h"
 
 #include <zip.h>
 
