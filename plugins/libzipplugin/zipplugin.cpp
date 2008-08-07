@@ -122,6 +122,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 		bool list()
 		{
+			kDebug( 1601 );
 			if ( !open() ) // TODO: open should be called by the user, not by us
 			{
 				return false;
@@ -191,7 +192,6 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			int readBytes = -1;
 			while ( ( readBytes = zip_fread( file, &buffer, 65536 ) ) != -1 )
 			{
-				kDebug( 1601 ) << "Read " << readBytes << " bytes." ;
 				if ( readBytes == 0 )
 				{
 					break;
@@ -208,12 +208,17 @@ class LibZipInterface: public ReadWriteArchiveInterface
 		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
 		{
 			kDebug( 1601 ) ;
+			if (!m_archive) {
+				if (!open()) {
+					return false;
+				}
+			}
+
 			int processed = 0;
 			if (!files.isEmpty()) {
 
 				foreach( const QVariant &entry, files )
 				{
-					kDebug( 1601 ) << "Trying to extract " << entry.toString() ;
 
 					// 1. Find the entry in the archive
 					struct zip_file *file = zip_fopen( m_archive, entry.toByteArray(), 0 );
@@ -227,12 +232,13 @@ class LibZipInterface: public ReadWriteArchiveInterface
 						return false;
 					}
 
+					kDebug( 1601 ) << "Extracted " << entry.toString() ;
+
 					progress( ( ++processed )*1.0/files.count() );
 				}
 			} else  {
 				for ( int index = 0; index < zip_get_num_files( m_archive ); ++index )
 				{
-					kDebug( 1601 ) << "Trying to extract entry with index" << index ;
 
 					// 1. Find the entry in the archive
 					struct zip_file *file = zip_fopen_index( m_archive, index, 0 );
@@ -245,6 +251,8 @@ class LibZipInterface: public ReadWriteArchiveInterface
 					if (!extractEntry(file, QString(zip_get_name(m_archive, index, 0)), destinationDirectory, preservePaths)) {
 						return false;
 					}
+
+					kDebug( 1601 ) << "Extracted entry with index" << index ;
 
 					progress( ( index+1 ) * 1.0/zip_get_num_files( m_archive ) );
 				}
