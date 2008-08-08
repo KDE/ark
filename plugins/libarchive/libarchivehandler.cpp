@@ -41,7 +41,8 @@
 #include <QDateTime>
 
 LibArchiveInterface::LibArchiveInterface( const QString & filename, QObject *parent )
-	: ReadOnlyArchiveInterface( filename, parent )
+	: ReadOnlyArchiveInterface( filename, parent ),
+	cachedArchiveEntryCount(-1)
 {
 }
 
@@ -72,6 +73,8 @@ bool LibArchiveInterface::list()
 		error( QString( "Could not open the file '%1', libarchive cannot handle it." ).arg( filename() ), QString() );
 		return false;
 	}
+	
+	cachedArchiveEntryCount = 0;
 
 	while ( ( result = archive_read_next_header( arch, &aentry ) ) == ARCHIVE_OK )
 	{
@@ -89,6 +92,7 @@ bool LibArchiveInterface::list()
 		e[ Timestamp ] = QDateTime::fromTime_t( archive_entry_mtime( aentry ) );
 		entry( e );
 		archive_read_data_skip( arch );
+		cachedArchiveEntryCount++;
 	}
 
 	if ( result != ARCHIVE_EOF )
@@ -137,17 +141,38 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 		return false;
 	}
 
+	int entryNr = 0, totalCount = -1;
+	if (extractAll)
+	{
+		if (cachedArchiveEntryCount == -1)
+		{
+			progress(0);
+			//TODO: once information progress has been implemented, send
+			//feedback here that the archive is being read
+			list();
+		}
+		totalCount = cachedArchiveEntryCount;
+	}
+	else
+		totalCount = files.size();
+
 	while ( archive_read_next_header( arch, &entry ) == ARCHIVE_OK )
 	{
 		QString entryName = QFile::decodeName( archive_entry_pathname( entry ) );
 		if ( entries.contains( entryName ) || extractAll )
 		{
+
 			if( !preservePaths )
 				archive_entry_set_pathname( entry, QFile::encodeName( QFileInfo( entryName ).fileName() ).constData() );
 
 			if ( archive_write_header( writer, entry ) == ARCHIVE_OK )
 				copyData( arch, writer );
 
+			if (cachedArchiveEntryCount != -1)
+			{
+				++entryNr;
+				progress(float(entryNr) / totalCount);
+			}
 			archive_entry_clear( entry );
 			entries.removeAll( entryName );
 		}

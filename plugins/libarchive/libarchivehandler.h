@@ -43,6 +43,7 @@ class LibArchiveInterface: public ReadOnlyArchiveInterface
 	private:
 		int extractionFlags() const;
 		void copyData( struct archive *source, struct archive *dest );
+		int cachedArchiveEntryCount;
 };
 
 #endif // LIBARCHIVEHANDLER_H
