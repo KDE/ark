@@ -181,21 +181,43 @@ QVariant ArchiveModel::data( const QModelIndex &index, int role ) const
 		switch ( role )
 		{
 			case Qt::DisplayRole:
-				if ( index.column() == 0 )
-				{
-					return node->name();
-				}
-				else
-				{
-					if ( node->isDir() || node->entry().contains( Link ) )
-					{
+				switch (index.column()) {
+					case 0: //filename
+						return node->name();
+					case 1: //size
+						if ( node->isDir() || node->entry().contains( Link ) )
+						{
+							return QVariant();
+						}
+						else
+						{
+							return KIO::convertSize( node->entry()[ Size ].toULongLong() );
+						}
+					case 2:
+						if ( node->isDir() || node->entry().contains( Link ) )
+						{
+							return QVariant();
+						}
+						else
+						{
+							return KIO::convertSize( node->entry()[ CompressedSize ].toULongLong() );
+						}
+					case 3:
+						if ( node->isDir() || node->entry().contains( Link ) )
+						{
+							return QVariant();
+						}
+						else
+						{
+							qulonglong compressedSize = node->entry()[ CompressedSize ].toULongLong();
+							qulonglong size = node->entry()[ Size ].toULongLong();
+							return QString::number( int(100 * float(size - compressedSize) / size) ) + " %";
+						}
+
+					default:
 						return QVariant();
-					}
-					else
-					{
-						return KIO::convertSize( node->entry()[ Size ].toULongLong() );
-					}
 				}
+				break;
 			case Qt::DecorationRole:
 				if ( index.column() == 0 )
 				{
@@ -237,6 +259,10 @@ QVariant ArchiveModel::headerData( int section, Qt::Orientation, int role ) cons
 				return i18nc( "Name of a file inside an archive", "Name" );
 			case 1:
 				return i18nc( "Uncompressed size of a file inside an archive", "Size" );
+			case 2:
+				return i18nc( "Compressed size of a file inside an archive", "Compressed" );
+			case 3:
+				return i18nc( "Compression rate of file", "Rate" );
 		}
 	}
 	return QVariant();
@@ -316,7 +342,7 @@ int ArchiveModel::rowCount( const QModelIndex &parent ) const
 
 int ArchiveModel::columnCount( const QModelIndex &parent ) const
 {
-	return 2; // TODO: Completely bogus
+	return 4; // TODO: Completely bogus
 	if ( parent.isValid() )
 	{
 		return static_cast<ArchiveNode*>( parent.internalPointer() )->entry().size();
