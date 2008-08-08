@@ -43,6 +43,7 @@
 #include <KFileDialog>
 #include <KConfigGroup>
 #include <KPasswordDialog>
+#include <KMessageBox>
 
 
 #include <QTreeView>
@@ -277,9 +278,19 @@ KAboutData* Part::createAboutData()
 
 bool Part::openFile()
 {
+	if (!QFileInfo(localFilePath()).exists()) {
+		KMessageBox::sorry(NULL, i18n("Error opening archive: the file '%1' was not found.", localFilePath()), i18n("Error opening archive"));
+		return false;
+	}
+
 	Kerfuffle::Archive *archive = Kerfuffle::factory( localFilePath() );
 	m_model->setArchive( archive );
 	m_infoPanel->setIndex( QModelIndex() );
+
+	if (!archive) {
+		KMessageBox::sorry(NULL, i18n("Ark was not able to open the archive '%1'. No library capable of handling the file was found.", localFilePath()), i18n("Error opening archive"));
+		return false;
+	}
 
 	if (archive != 0 && arguments().metaData()["showExtractDialog"] == "true")
 	{
