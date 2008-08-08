@@ -46,6 +46,7 @@
 #include <QSplitter>
 #include <QVBoxLayout>
 #include <QTimer>
+#include <QHeaderView>
 
 typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY( libarkpart, Factory )
@@ -82,6 +83,8 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 
 Part::~Part()
 {
+    delete m_previewDir;
+    m_previewDir = 0;
 }
 
 void Part::createJobTracker()
@@ -99,15 +102,18 @@ void Part::setupView()
 	m_view->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 	m_view->setAlternatingRowColors( true );
 	m_view->setAnimated( true );
-	m_view->setColumnWidth( 0, 150 );
+	m_view->header()->setResizeMode(0, QHeaderView::ResizeToContents);
 	m_view->setAllColumnsShowFocus( true );
 
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
 	         this, SLOT( updateActions() ) );
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
 	         this, SLOT( selectionChanged() ) );
-	connect( m_view, SIGNAL( activated( const QModelIndex & ) ),
+
+	//TODO: subclass the itemview and fix an actual eventhandler
+	connect( m_view, SIGNAL( doubleClicked( const QModelIndex & ) ),
 	         this, SLOT( slotPreview( const QModelIndex & ) ) );
+
 	connect( m_model, SIGNAL( dataChanged( const QModelIndex &, const QModelIndex& ) ),
 	         this, SLOT( adjustColumns( const QModelIndex &, const QModelIndex& ) ) );
 }
@@ -217,6 +223,7 @@ void Part::slotLoadingFinished()
 	QApplication::restoreOverrideCursor();
 	m_busy = false;
 	m_view->resizeColumnToContents( 0 );
+	m_view->expandToDepth(0);
 	updateActions();
 	emit ready();
 }
@@ -301,17 +308,48 @@ void Part::slotExtractFiles()
 	}
 }
 
+QList<QVariant> Part::selectedFilesWithParents()
+{
+	QStringList toSort;
+
+	foreach( const QModelIndex & index, m_view->selectionModel()->selectedRows() )
+	{
+		QModelIndex parent = index.parent();
+		while (parent.isValid()) {
+			if (!m_view->selectionModel()->selectedRows().contains(parent)) {
+				const ArchiveEntry& entry = m_model->entryForIndex( parent );
+				toSort << entry[ InternalID ].toString();
+			}
+			parent = parent.parent();
+		}
+		const ArchiveEntry& entry = m_model->entryForIndex( index );
+		toSort << entry[ InternalID ].toString();
+	}
+
+	toSort.sort();
+	QVariantList ret;
+	foreach (QString i, toSort) {
+		ret << i;
+	}
+	return ret;
+}
+
 QList<QVariant> Part::selectedFiles()
 {
-	QList<QVariant> files;
+	QStringList toSort;
 
 	foreach( const QModelIndex & index, m_view->selectionModel()->selectedRows() )
 	{
 		const ArchiveEntry& entry = m_model->entryForIndex( index );
-		files << entry[ InternalID ];
+		toSort << entry[ InternalID ].toString();
 	}
 
-	return files;
+	toSort.sort();
+	QVariantList ret;
+	foreach (QString i, toSort) {
+		ret << i;
+	}
+	return ret;
 }
 
 void Part::slotExtractionDone( KJob* job )

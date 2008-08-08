@@ -22,6 +22,17 @@
  * ( INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+#include <QString>
+
+//TODO:
+//a ninjatrick to redefine off_t to 32bit inside this file because libzip is
+//usually compiled with off_t to 32bit. in the long run libzip should be
+//compiled according to bugs.kde.org bug #167018
+//but for now this will probably do
+#define __off_t_defined
+typedef quint32 off_t;
+
 #include "kerfuffle/archiveinterface.h"
 #include "kerfuffle/archivefactory.h"
 
@@ -35,6 +46,8 @@
 #include <QFileInfo>
 #include <QByteArray>
 #include <QFile>
+#include <QDir>
+#include <QFileInfo>
 
 using namespace Kerfuffle;
 
@@ -78,9 +91,11 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				return;
 			}
 
+			QString filename = QString( stat.name );
+
 			ArchiveEntry e;
 
-			e[ FileName ]       = QString( stat.name );
+			e[ FileName ]       = filename;
 			e[ InternalID ]     = QByteArray( stat.name );
 			e[ CRC ]            = stat.crc;
 			e[ Size ]           = static_cast<qulonglong>( stat.size );
@@ -101,6 +116,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 		bool list()
 		{
+			kDebug( 1601 );
 			if ( !open() ) // TODO: open should be called by the user, not by us
 			{
 				return false;
@@ -130,48 +146,110 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			return name;
 		}
 
+		bool extractEntry(struct zip_file *file, QVariant entry, const QString & destinationDirectory, bool preservePaths )
+		{
+			if (entry.toString().right(1) == "/") { // if a folder
+
+				//if we don't preserve paths we don't create any folders
+				if (!preservePaths) return true;
+
+				if (!QDir(destinationDirectory).mkpath(entry.toString())) {
+					error( i18n( "Could not create path" ) );
+					zip_fclose( file );
+					return false;
+				}
+				zip_fclose( file );
+				return true;
+			}
+
+
+			// 2. Open the destination file
+			QFile destinationFile( destinationFileName( entry.toString(), destinationDirectory, preservePaths ) );
+
+			//create the path if it doesn't exist already
+			if (preservePaths) {
+				QDir dest(destinationDirectory);
+				QFileInfo fi(destinationFile.fileName());
+				if (!dest.exists(fi.path())) {
+					dest.mkpath(fi.path());
+				}
+			}
+
+			if ( !destinationFile.open( QIODevice::WriteOnly ) )
+			{
+				error( i18n( "Could not write to the destination file %1, path %2", entry.toString(), destinationFile.fileName()) );
+				return false;
+			}
+
+			// 3. Copy the data
+			char buffer[ 65536 ];
+			int readBytes = -1;
+			while ( ( readBytes = zip_fread( file, &buffer, 65536 ) ) != -1 )
+			{
+				if ( readBytes == 0 )
+				{
+					break;
+				}
+				destinationFile.write( buffer, readBytes );
+			}
+
+			// 4. Close the files
+			zip_fclose( file );
+			destinationFile.close();
+			return true;
+		}
+
 		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
 		{
 			kDebug( 1601 ) ;
+			if (!m_archive) {
+				if (!open()) {
+					return false;
+				}
+			}
+
 			int processed = 0;
-			foreach( const QVariant &entry, files )
-			{
-				kDebug( 1601 ) << "Trying to extract " << entry.toString() ;
+			if (!files.isEmpty()) {
 
-				// 1. Find the entry in the archive
-				struct zip_file *file = zip_fopen( m_archive, entry.toByteArray(), 0 );
-				if ( !file )
+				foreach( const QVariant &entry, files )
 				{
-					error( i18n( "Could not locate file '%1' in the archive", entry.toString() ) );
-					return false;
-				}
 
-				// 2. Open the destination file
-				QFile destinationFile( destinationFileName( entry.toString(), destinationDirectory, preservePaths ) );
-				if ( !destinationFile.open( QIODevice::WriteOnly ) )
-				{
-					error( i18n( "Could not write to the destination file" ) );
-					return false;
-				}
-
-				// 3. Copy the data
-				char buffer[ 65536 ];
-				int readBytes = -1;
-				while ( ( readBytes = zip_fread( file, &buffer, 65536 ) ) != -1 )
-				{
-					kDebug( 1601 ) << "Read " << readBytes << " bytes." ;
-					if ( readBytes == 0 )
+					// 1. Find the entry in the archive
+					struct zip_file *file = zip_fopen( m_archive, entry.toByteArray(), 0 );
+					if ( !file )
 					{
-						break;
+						error( i18n( "Could not locate file '%1' in the archive", entry.toString() ) );
+						return false;
 					}
-					destinationFile.write( buffer, readBytes );
+
+					if (!extractEntry(file, entry, destinationDirectory, preservePaths)) {
+						return false;
+					}
+
+					kDebug( 1601 ) << "Extracted " << entry.toString() ;
+
+					progress( ( ++processed )*1.0/files.count() );
 				}
+			} else  {
+				for ( int index = 0; index < zip_get_num_files( m_archive ); ++index )
+				{
 
-				// 4. Close the files
-				zip_fclose( file );
-				destinationFile.close();
+					// 1. Find the entry in the archive
+					struct zip_file *file = zip_fopen_index( m_archive, index, 0 );
+					if ( !file )
+					{
+						error( i18n( "Could not locate file #%1 in the archive", index ) );
+						return false;
+					}
+					
+					if (!extractEntry(file, QString(zip_get_name(m_archive, index, 0)), destinationDirectory, preservePaths)) {
+						return false;
+					}
 
-				progress( ( ++processed )*1.0/files.count() );
+					kDebug( 1601 ) << "Extracted entry with index" << index ;
+
+					progress( ( index+1 ) * 1.0/zip_get_num_files( m_archive ) );
+				}
 			}
 			return true;
 		}
