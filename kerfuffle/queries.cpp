@@ -20,6 +20,7 @@
  */
 
 #include "queries.h"
+#include <QMessageBox>
 
 namespace Kerfuffle
 {
@@ -36,7 +37,8 @@ namespace Kerfuffle
 
 	void Query::waitForResponse()
 	{
-		m_responseCondition.wait(&m_responseMutex);
+		m_responseMutex.lock();
+		m_responseMutex.unlock();
 	}
 
 	void Query::setResponse(QVariant response)
@@ -54,7 +56,10 @@ namespace Kerfuffle
 
 	void OverwriteQuery::execute()
 	{
-		//show dialog
+		int ret = QMessageBox::question(NULL, "File already exists", 
+				QString("The file %1 already exists. Overwrite?").arg(
+				m_data.value("filename").toString()), QMessageBox::Yes | QMessageBox::No);
+		setResponse((ret == QMessageBox::Yes));
 	}
 
 

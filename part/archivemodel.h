@@ -24,6 +24,7 @@
 #include <QAbstractItemModel>
 #include <kjobtrackerinterface.h>
 #include "kerfuffle/archive.h"
+#include "kerfuffle/queries.h"
 
 class ArchiveNode;
 class ArchiveDirNode;
@@ -76,6 +77,7 @@ class ArchiveModel: public QAbstractItemModel
 	private slots:
 		void slotNewEntry( const ArchiveEntry& entry );
 		void slotEntryRemoved( const QString & path );
+		void slotUserQuery(Query *query);
 
 	private:
 		ArchiveDirNode* parentFor( const ArchiveEntry& entry );

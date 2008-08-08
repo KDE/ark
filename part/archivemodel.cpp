@@ -477,6 +477,11 @@ void ArchiveModel::slotEntryRemoved( const QString & path )
 	}
 }
 
+void ArchiveModel::slotUserQuery(Query *query)
+{
+	query->execute();
+}
+
 void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 {
 	kDebug (1601) << entry; 
@@ -559,7 +564,10 @@ ExtractJob* ArchiveModel::extractFile( const QVariant& fileName, const QString &
 ExtractJob* ArchiveModel::extractFiles( const QList<QVariant>& files, const QString & destinationDir, bool preservePaths ) const
 {
 	Q_ASSERT( m_archive );
-	return m_archive->copyFiles( files, destinationDir, preservePaths );
+	ExtractJob *newJob = m_archive->copyFiles( files, destinationDir, preservePaths );
+	connect(newJob, SIGNAL(userQuery(Query*)),
+			this, SLOT(slotUserQuery(Query*)));
+	return newJob;
 }
 
 AddJob* ArchiveModel::addFiles( const QStringList & paths )
@@ -572,6 +580,10 @@ AddJob* ArchiveModel::addFiles( const QStringList & paths )
         m_jobTracker->registerJob( job );
         connect( job, SIGNAL( newEntry( const ArchiveEntry& ) ),
             this, SLOT( slotNewEntry( const ArchiveEntry& ) ) );
+		connect(job, SIGNAL(userQuery(Query*)),
+				this, SLOT(slotUserQuery(Query*)));
+
+
         return job;
     }
     return 0;
@@ -586,6 +598,9 @@ DeleteJob* ArchiveModel::deleteFiles( const QList<QVariant> & files )
 		m_jobTracker->registerJob( job );
 		connect( job, SIGNAL( entryRemoved( const QString & ) ),
 		         this, SLOT( slotEntryRemoved( const QString & ) ) );
+
+		connect(job, SIGNAL(userQuery(Query*)),
+				this, SLOT(slotUserQuery(Query*)));
 		return job;
 	}
 	return 0;

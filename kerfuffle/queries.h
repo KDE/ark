@@ -22,6 +22,8 @@
 #ifndef _QUERIES_H_
 #define _QUERIES_H_
 
+#include "kerfuffle_export.h"
+
 #include <QString>
 #include <QHash>
 #include <QWaitCondition>
@@ -33,9 +35,8 @@ namespace Kerfuffle
 
 	typedef QHash<QString, QVariant> QueryData;
 
-	class Query : public QObject
+	class KERFUFFLE_EXPORT Query
 	{
-		Q_OBJECT
 
 		public:
 			/**
@@ -57,6 +58,7 @@ namespace Kerfuffle
 			 * Protected constructor
 			 */
 			Query();
+			virtual ~Query() {}
 
 			void setResponse(QVariant response);
 
@@ -69,7 +71,7 @@ namespace Kerfuffle
 
 	};
 
-	class OverwriteQuery : public Query
+	class KERFUFFLE_EXPORT OverwriteQuery : public Query
 	{
 		public:
 			OverwriteQuery(QString filename);

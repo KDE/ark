@@ -26,6 +26,7 @@
 #include "libarchivehandler.h"
 //#include "settings.h"
 #include "kerfuffle/archivefactory.h"
+#include "kerfuffle/queries.h"
 
 #include <archive.h>
 #include <archive_entry.h>
@@ -166,11 +167,31 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 	while ( archive_read_next_header( arch, &entry ) == ARCHIVE_OK )
 	{
 		QString entryName = QFile::decodeName( archive_entry_pathname( entry ) );
+
 		if ( entries.contains( entryName ) || extractAll )
 		{
+			QFileInfo entryFI( entryName );
 
 			if( !preservePaths )
-				archive_entry_set_pathname( entry, QFile::encodeName( QFileInfo( entryName ).fileName() ).constData() );
+				archive_entry_set_pathname( entry, QFile::encodeName( entryFI.fileName() ).constData() );
+
+			bool exists;
+			if (preservePaths)
+				exists = entryFI.exists();
+			else
+				exists = QFileInfo(entryFI.fileName()).exists();
+
+			if (exists) {
+				Kerfuffle::OverwriteQuery query(entryName);
+				emit userQuery(&query);
+				query.waitForResponse();
+
+				if (!query.response().toBool()) {
+					entries.removeAll( entryName );
+					archive_read_data_skip( arch );
+					continue;
+				}
+			}
 
 			if ( archive_write_header( writer, entry ) == ARCHIVE_OK )
 				//if the whole archive is extracted and the total filesize is
