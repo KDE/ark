@@ -34,11 +34,16 @@ RARInterface::RARInterface( const QString & filename, QObject *parent )
 {
 	kDebug( 1601 ) << "Rar plugin opening " << filename ;
 	m_filename=filename;
+	
+	m_unrarpath = KStandardDirs::findExe( "unrar" );
+	if (m_unrarpath.isNull())	
+	{
+		m_unrarpath = KStandardDirs::findExe( "unrar-free" );
+	}
+	bool have_unrar = !m_unrarpath.isNull();
 
 	m_rarpath = KStandardDirs::findExe( "rar" );
-	m_unrarpath = KStandardDirs::findExe( "unrar" );
- 	bool have_rar = !m_rarpath.isNull();
- 	bool have_unrar = !m_unrarpath.isNull();
+	bool have_rar = !m_rarpath.isNull();
 	if (!have_rar && !have_unrar) {
 		error(i18n( "Neither rar or unrar are available in your PATH." ));
 		return;
