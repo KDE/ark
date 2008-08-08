@@ -17,6 +17,7 @@ set(kerfuffle_SRCS
     jobs.cpp
     archivebase.cpp
 	extractiondialog.cpp
+	queries.cpp
    )
 
 kde4_add_ui_files(kerfuffle_SRCS extractiondialog.ui )
