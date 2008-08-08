@@ -79,8 +79,8 @@ bool LibArchiveInterface::list()
 	while ( ( result = archive_read_next_header( arch, &aentry ) ) == ARCHIVE_OK )
 	{
 		ArchiveEntry e;
-		e[ FileName ] = QString( archive_entry_pathname( aentry ) );
-		e[ InternalID ] = QByteArray( archive_entry_pathname( aentry ) );
+		e[ FileName ] = QString::fromWCharArray(archive_entry_pathname_w( aentry ));
+		e[ InternalID ] = e[ FileName ];
 		e[ Owner ] = QString( archive_entry_uname( aentry ) );
 		e[ Group ] = QString( archive_entry_gname( aentry ) );
 		e[ Size ] = ( qlonglong ) archive_entry_size( aentry );
