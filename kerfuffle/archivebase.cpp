@@ -25,6 +25,7 @@
 
 #include "archivebase.h"
 #include "internaljobs.h"
+#include "queries.h"
 
 #include <kdebug.h>
 #include <ThreadWeaver/Job>
@@ -88,18 +89,28 @@ namespace Kerfuffle
 		{
 			return 0;
 		}
-		return new DeleteJob( files, static_cast<ReadWriteArchiveInterface*>( m_iface ), this );
+		DeleteJob *newJob = new DeleteJob( files, static_cast<ReadWriteArchiveInterface*>( m_iface ), this );
+
+		connect(m_iface, SIGNAL(userQuery(Query*)),
+				newJob, SIGNAL(userQuery(Query*)));
+		return newJob;
 	}
 
 	AddJob* ArchiveBase::addFiles( const QStringList & files )
 	{
 		Q_ASSERT( !m_iface->isReadOnly() );
-		return new AddJob( files, static_cast<ReadWriteArchiveInterface*>( m_iface ), this );
+		AddJob *newJob = new AddJob( files, static_cast<ReadWriteArchiveInterface*>( m_iface ), this );
+		connect(m_iface, SIGNAL(userQuery(Query*)),
+				newJob, SIGNAL(userQuery(Query*)));
+		return newJob;
 	}
 
 	ExtractJob* ArchiveBase::copyFiles( const QList<QVariant> & files, const QString & destinationDir, bool preservePaths )
 	{
-		return new ExtractJob( files, destinationDir, preservePaths, m_iface, this );
+		ExtractJob *newJob = new ExtractJob( files, destinationDir, preservePaths, m_iface, this );
+		connect(m_iface, SIGNAL(userQuery(Query*)),
+				newJob, SIGNAL(userQuery(Query*)));
+		return newJob;
 	}
 
 	QString ArchiveBase::fileName()

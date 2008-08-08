@@ -28,6 +28,7 @@
 #include "kerfuffle_export.h"
 #include "archiveinterface.h"
 #include "archive.h"
+#include "queries.h"
 
 #include <KJob>
 #include <QList>
@@ -79,6 +80,9 @@ namespace Kerfuffle
 
 			void start();
 
+		signals:
+			void userQuery( Query* );
+
 		private slots:
 			void done( ThreadWeaver::Job * );
 			void progress( double );
@@ -101,6 +105,7 @@ namespace Kerfuffle
 
 		signals:
 			void newEntry( const ArchiveEntry & );
+			void userQuery( Query* );
 
 		private slots:
 			void done( ThreadWeaver::Job * );
@@ -124,6 +129,7 @@ namespace Kerfuffle
 		signals:
 			void entryRemoved( const QString & entry );
 			void error( const QString& errorMessage, const QString& details );
+			void userQuery( Query* );
 
 		private slots:
 			void done( ThreadWeaver::Job * );
