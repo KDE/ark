@@ -78,7 +78,7 @@ bool RARInterface::list()
 		return false;
 	}
 	while (kp.canReadLine()){
-		processListLine( kp.readLine());
+		processListLine(QString::fromLocal8Bit(kp.readLine()));
 	}
 	kDebug( 1601 ) << "Finished reading rar output";
 	return true;
@@ -111,14 +111,14 @@ void RARInterface::processListLine(const QString& line)
 	kDebug( 1601 ) << m_entryFilename << " : " << fileprops ;
 	ArchiveEntry e;
 	e[ FileName ] = m_entryFilename;
-	e[ InternalID ] = m_entryFilename.toUtf8();
+	e[ InternalID ] = m_entryFilename;
 	e[ Size ] = fileprops[ 0 ];
 	e[ CompressedSize] = fileprops[ 1 ];
 	e[ Ratio ] = fileprops[ 2 ];
 	QDateTime ts (QDate::fromString(fileprops[ 3 ], "dd-mm-yy"),
 		QTime::fromString(fileprops[ 4 ], "hh:mm"));
 	e[ Timestamp ] = ts;
-	e[ IsDirectory ] = fileprops[ 5 ].startsWith('d');
+	e[ IsDirectory ] = (bool)(fileprops[ 5 ].contains('d', Qt::CaseInsensitive));
 	e[ Permissions ] = fileprops[ 5 ].remove(0,1);
 	e[ CRC ] = fileprops[ 6 ];
 	e[ Method ] = fileprops[ 7 ];
