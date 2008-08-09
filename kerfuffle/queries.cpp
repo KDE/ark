@@ -22,6 +22,10 @@
 #include "queries.h"
 #include <QMessageBox>
 
+#include <KLocale>
+
+#include <kio/renamedialog.h>
+
 namespace Kerfuffle
 {
 
@@ -56,10 +60,28 @@ namespace Kerfuffle
 
 	void OverwriteQuery::execute()
 	{
-		int ret = QMessageBox::question(NULL, "File already exists", 
-				QString("The file %1 already exists. Overwrite?").arg(
-				m_data.value("filename").toString()), QMessageBox::Yes | QMessageBox::No);
-		setResponse((ret == QMessageBox::Yes));
+		KIO::RenameDialog dialog(
+				NULL,
+				i18n("File already exists"), 
+				KUrl(m_data.value("filename").toString()),
+				KUrl(m_data.value("filename").toString()),
+				(KIO::RenameDialog_Mode)(KIO::M_OVERWRITE | KIO::M_MULTI));
+		dialog.exec();
+
+		setResponse(dialog.result());
+	}
+
+	bool OverwriteQuery::responseCancelled()
+	{
+		return m_data.value("response").toInt() == KIO::R_CANCEL;
+	}
+	bool OverwriteQuery::responseOverwriteAll()
+	{
+		return m_data.value("response").toInt() == KIO::R_OVERWRITE_ALL;
+	}
+	bool OverwriteQuery::responseOverwrite()
+	{
+		return m_data.value("response").toInt() == KIO::R_OVERWRITE;
 	}
 
 

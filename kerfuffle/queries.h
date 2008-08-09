@@ -76,6 +76,9 @@ namespace Kerfuffle
 		public:
 			OverwriteQuery(QString filename);
 			void execute();
+			bool responseCancelled();
+			bool responseOverwriteAll();
+			bool responseOverwrite();
 	};
 
 }
