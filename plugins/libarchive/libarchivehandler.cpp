@@ -44,7 +44,8 @@
 LibArchiveInterface::LibArchiveInterface( const QString & filename, QObject *parent )
 	: ReadOnlyArchiveInterface( filename, parent ),
 	cachedArchiveEntryCount(0),
-	extractedFilesSize(0)
+	extractedFilesSize(0),
+	overwriteAll(false)
 {
 }
 
@@ -175,21 +176,26 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 			if( !preservePaths )
 				archive_entry_set_pathname( entry, QFile::encodeName( entryFI.fileName() ).constData() );
 
-			bool exists;
-			if (preservePaths)
-				exists = entryFI.exists();
-			else
-				exists = QFileInfo(entryFI.fileName()).exists();
+			if (!overwriteAll) {
+				bool exists;
+				if (preservePaths)
+					exists = entryFI.exists();
+				else
+					exists = QFileInfo(entryFI.fileName()).exists();
 
-			if (exists) {
-				Kerfuffle::OverwriteQuery query(entryName);
-				emit userQuery(&query);
-				query.waitForResponse();
+				if (exists) {
+					Kerfuffle::OverwriteQuery query(entryName);
+					emit userQuery(&query);
+					query.waitForResponse();
 
-				if (!query.response().toBool()) {
-					entries.removeAll( entryName );
-					archive_read_data_skip( arch );
-					continue;
+					if (query.responseCancelled()) {
+						entries.removeAll( entryName );
+						archive_read_data_skip( arch );
+						break;
+					}
+
+					if (query.responseOverwriteAll())
+						overwriteAll = true;
 				}
 			}
 

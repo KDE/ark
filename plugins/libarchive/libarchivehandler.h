@@ -46,6 +46,7 @@ class LibArchiveInterface: public ReadOnlyArchiveInterface
 		int cachedArchiveEntryCount;
 		qlonglong extractedFilesSize;
 		qlonglong currentExtractedFilesSize;
+		bool overwriteAll;
 };
 
 #endif // LIBARCHIVEHANDLER_H
