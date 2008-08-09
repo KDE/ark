@@ -278,10 +278,16 @@ KAboutData* Part::createAboutData()
 
 bool Part::openFile()
 {
+
+
+	//TODO: uncomment me!
+	//once a solution is found for creating new files.
+#if 0
 	if (!QFileInfo(localFilePath()).exists()) {
 		KMessageBox::sorry(NULL, i18n("Error opening archive: the file '%1' was not found.", localFilePath()), i18n("Error opening archive"));
 		return false;
 	}
+#endif
 
 	Kerfuffle::Archive *archive = Kerfuffle::factory( localFilePath() );
 	m_model->setArchive( archive );
@@ -296,6 +302,7 @@ bool Part::openFile()
 	{
 		QTimer::singleShot( 0, this, SLOT( slotExtractFiles() ) );
 	}
+
 
 	return ( archive != 0 );
 }
