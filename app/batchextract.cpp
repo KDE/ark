@@ -127,7 +127,7 @@ void BatchExtractJob::forwardProgress(KJob *job, unsigned long percent)
 
 BatchExtract::BatchExtract(QObject *) 
 	: destinationFolder(QDir::currentPath()),
-	autoSubfolders(true),
+	autoSubfolders(false),
 	m_preservePaths(true)
 
 {
@@ -209,7 +209,11 @@ bool BatchExtract::showExtractDialog()
 		dialog.batchModeOption();
 	}
 
-	dialog.setCurrentUrl(QDir::currentPath());
+	if (destinationFolder.isEmpty())
+		dialog.setCurrentUrl(QDir::currentPath());
+	else
+		dialog.setCurrentUrl(destinationFolder);
+
 	dialog.setAutoSubfolder(autoSubfolders);
 	dialog.setPreservePaths(m_preservePaths);
 
