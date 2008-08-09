@@ -2,7 +2,7 @@
 Type=Service
 ServiceTypes=KonqPopupMenu/Plugin
 MimeType=application/x-gzip;application/x-lha;application/x-tar;application/x-tgz;application/x-tbz;application/x-tbz2;application/x-zip;application/zip;application/x-bzip;application/x-tzo;application/x-lzop;application/x-rar;application/x-zoo;application/x-tarz;application/x-archive;application/x-bzip2;application/x-jar;application/x-deb;application/x-ace;application/x-7z;application/x-arc;application/x-arj;application/x-compress;application/x-cpio;application/x-pak;application/x-zip-compressed;application/x-compressed-tar;
-Actions=arkExtractHere;
+Actions=arkAutoExtractHere;arkExtractTo;arkExtractHere;
 #X-KDE-Submenu=Extract me beautiful
 X-KDE-Priority=TopLevel
 X-KDE-StartupNotify=false
@@ -11,5 +11,14 @@ X-KDE-StartupNotify=false
 [Desktop Action arkExtractHere]
 Name=Extract archive here
 Icon=ark
-#Exec=/home/harald/kde/bin/ark --batch %F
-Exec=/home/harald/kde/bin/ark --batch %F --destination %d
+Exec=/home/harald/kde/bin/ark --batch --destination %d %F 
+
+[Desktop Action arkExtractTo]
+Name=Extract archive to...
+Icon=ark
+Exec=/home/harald/kde/bin/ark --batch --destination %d --dialog %F
+
+[Desktop Action arkAutoExtractHere]
+Name=Extract archive here, autodetect subfolder
+Icon=ark
+Exec=/home/harald/kde/bin/ark --batch --destination %d --autosubfolder %F
