@@ -11,7 +11,7 @@ X-KDE-StartupNotify=false
 [Desktop Action arkExtractHere]
 Name=Extract archive here
 Icon=ark
-Exec=/home/harald/kde/bin/ark --batch --destination %d %F 
+Exec=/home/harald/kde/bin/ark --batch --destination %d %F
 
 [Desktop Action arkExtractTo]
 Name=Extract archive to...
