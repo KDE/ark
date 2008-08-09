@@ -31,7 +31,9 @@
 #include <kcompositejob.h>
 #include "kerfuffle/jobs.h"
 #include "kerfuffle/archive.h"
+#include "kerfuffle/queries.h"
 
+using Kerfuffle::Query;
 
 class Interface;
 class KJobTrackerInterface;
@@ -48,6 +50,7 @@ class BatchExtractJob : public KCompositeJob
 	private slots:
 		void forwardProgress(KJob *job, unsigned long percent);
 		void slotResult( KJob *job );
+		void slotUserQuery(Query *query);
 
 	private:
 		int initialJobCount;

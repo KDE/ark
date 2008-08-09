@@ -58,6 +58,9 @@ void BatchExtractJob::addExtraction(Kerfuffle::Archive* archive,bool preservePat
 			preservePaths //preserve paths
 			);
 
+	connect(job, SIGNAL(userQuery(Query*)),
+			this, SLOT(slotUserQuery(Query*)));
+
 	kDebug( 1601 ) << QString("Registering job from archive %1, to %2, preservePaths %3").arg(archive->fileName()).arg(autoDestination).arg(preservePaths);
 
 
@@ -66,6 +69,11 @@ void BatchExtractJob::addExtraction(Kerfuffle::Archive* archive,bool preservePat
 	connect(job, SIGNAL(percent(KJob*, unsigned long)),
 			this, SLOT(forwardProgress(KJob *, unsigned long)));
 
+}
+
+void BatchExtractJob::slotUserQuery(Query *query)
+{
+	query->execute();
 }
 
 void BatchExtract::setAutoSubfolder(bool value)
