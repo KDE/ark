@@ -21,6 +21,7 @@
  */
 #include "rarplugin.h"
 #include "kerfuffle/archivefactory.h"
+#include "kerfuffle/queries.h"
 
 #include <QFile>
 #include <QDateTime>
@@ -161,15 +162,40 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 		kp << file.toString();
 	}
 	kp << destinationDirectory;
+
 	kp.start();
 	if (!kp.waitForStarted()){
 		kDebug( 1601 ) << "Rar did not start";
 		return false;
 	}
-	if (!kp.waitForFinished()) {
-		kDebug( 1601 ) << "Rar did not finish";
-		return false;
+
+	while (kp.waitForReadyRead()) {
+		QStringList lines = QString(kp.readAll()).split("\n");
+		foreach(QString line, lines) {
+			if (line.contains("already exists")) {
+				QString filename = line.left(line.indexOf("already exists"));
+				kDebug( 1601 ) << "Existing file detected: " << filename;
+				Kerfuffle::OverwriteQuery query(filename);
+				emit userQuery(&query);
+				query.waitForResponse();
+
+				if (query.responseCancelled())
+					kp.write("q\n");
+				else if (query.responseOverwriteAll())
+					kp.write("a\n");
+				else if (query.responseOverwrite())
+					kp.write("y\n");
+			}
+		}
 	}
+
+	if (kp.state() != QProcess::NotRunning) {
+		kDebug( 1601 ) << "Rar is unexpectedly still running";
+		if (!kp.waitForFinished()) {
+			return false;
+		}
+	}
+
 	kDebug( 1601 ) << "Finished reading rar output";
 	return true;
 }
