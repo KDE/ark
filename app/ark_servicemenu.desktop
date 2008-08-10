@@ -11,14 +11,14 @@ X-KDE-StartupNotify=false
 [Desktop Action arkExtractHere]
 Name=Extract archive here
 Icon=ark
-Exec=/home/harald/kde/bin/ark --batch --destination %d %F
+Exec=/home/harald/kde/bin/ark --batch --autodestination %F 
 
 [Desktop Action arkExtractTo]
 Name=Extract archive to...
 Icon=ark
-Exec=/home/harald/kde/bin/ark --batch --destination %d --dialog %F
+Exec=/home/harald/kde/bin/ark --batch --autodestination --dialog %F
 
 [Desktop Action arkAutoExtractHere]
 Name=Extract archive here, autodetect subfolder
 Icon=ark
-Exec=/home/harald/kde/bin/ark --batch --destination %d --autosubfolder %F
+Exec=/home/harald/kde/bin/ark --batch --autodestination --autosubfolder %F

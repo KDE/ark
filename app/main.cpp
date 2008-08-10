@@ -24,6 +24,7 @@
 #include <KLocale>
 #include <KAboutData>
 #include <QByteArray>
+#include <QFileInfo>
 
 #include "mainwindow.h"
 #include "batchextract.h"
@@ -83,6 +84,7 @@ int main( int argc, char **argv )
 	option.add("o").add("destination <directory>", ki18n("Destination folder to extract to. Defaults to current path if not specified."));
 	option.add("b").add("batch", ki18n("Use the batch interface instead of the usual dialog. This option is implied if more than one url is specified"));
 	option.add(":", ki18n("Options for batch extraction:"));
+	option.add("e").add("autodestination", ki18n("The destination argument will be set to the path of the first file supplied."));
 	option.add("a").add("autosubfolder", ki18n("Archive contents will be read, and if detected to not be a single folder archive, a subfolder by the name of the archive will be created."));
 	option.add("s").add("subfolder <directory>", ki18n("Create a subfolder under the destination directory and extract here."));
 	KCmdLineArgs::addCmdLineOptions( option );
@@ -104,14 +106,25 @@ int main( int argc, char **argv )
 			}
 
 			if (args->isSet("autosubfolder")) {
+				kDebug( 1601 ) << "Setting autosubfolder";
 				batchExtract.setAutoSubfolder(true);
 			}
 
 			if (args->isSet("subfolder")) {
+				kDebug( 1601 ) << "Setting subfolder to " << args->getOption("subfolder");
 				batchExtract.setSubfolder(args->getOption("subfolder"));
 			}
 
-			batchExtract.setDestinationFolder(args->getOption("destination"));
+			if (args->isSet("autodestination")) {
+				QString autopath = QFileInfo(args->url(0).path()).path();
+				kDebug( 1601 ) << "By autodestination, setting path to " << autopath;
+				batchExtract.setDestinationFolder(autopath);
+			}
+
+			if (args->isSet("destination")) {
+				kDebug( 1601 ) << "Setting destination to " << args->getOption("destination");
+				batchExtract.setDestinationFolder(args->getOption("destination"));
+			}
 
 			if (args->isSet("dialog")) {
 				if (!batchExtract.showExtractDialog()) {
