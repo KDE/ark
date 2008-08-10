@@ -10,15 +10,24 @@ X-KDE-StartupNotify=false
 
 [Desktop Action arkExtractHere]
 Name=Extract archive here
+Name[pt]=Extrair o pacote para aqui
+Name[pt_BR]=Extrair o arquivo aqui
+Name[uk]=Видобути архів сюди
 Icon=ark
-Exec=/home/harald/kde/bin/ark --batch --autodestination %F 
+Exec=/home/harald/kde/bin/ark --batch --autodestination %F
 
 [Desktop Action arkExtractTo]
 Name=Extract archive to...
+Name[pt]=Extrair o pacote para...
+Name[pt_BR]=Extrair o arquivo para
+Name[uk]=Видобути архів до...
 Icon=ark
 Exec=/home/harald/kde/bin/ark --batch --autodestination --dialog %F
 
 [Desktop Action arkAutoExtractHere]
 Name=Extract archive here, autodetect subfolder
+Name[pt]=Extrair o pacote para aqui, detectar automaticamente a sub-pasta
+Name[pt_BR]=Extrair o arquivo aqui, com detecção automática da subpasta
+Name[uk]=Видобути архів сюди, автоматично визначити підтеку
 Icon=ark
 Exec=/home/harald/kde/bin/ark --batch --autodestination --autosubfolder %F
