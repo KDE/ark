@@ -416,6 +416,26 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 	return data;
 }
 
+bool ArchiveModel::dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent )
+{
+	if (action == Qt::IgnoreAction)
+         return true;
+
+	if (!data->hasFormat("text/uri-list"))
+		return false;
+
+	QStringList paths;
+	foreach(const QUrl &url, data->urls()) {
+		paths << url.path();
+	}
+
+	//TODO: if this job fails, no error will be displayeed to the user!!!
+	addFiles(paths)->start();
+
+	kDebug() << "Yes it's a drop!" << paths;
+	return true;
+}
+
 ArchiveDirNode* ArchiveModel::parentFor( const ArchiveEntry& entry )
 {
 	QStringList pieces = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts );

@@ -20,6 +20,7 @@
  */
 #include "part.h"
 #include "archivemodel.h"
+#include "archiveview.h"
 #include "infopanel.h"
 #include "arkviewer.h"
 #include "kerfuffle/extractiondialog.h"
@@ -46,7 +47,6 @@
 #include <KMessageBox>
 
 
-#include <QTreeView>
 #include <QCursor>
 #include <QAction>
 #include <QSplitter>
@@ -73,7 +73,7 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	setWidget( mainWidget );
 
 	QSplitter *splitter = new QSplitter( Qt::Horizontal, mainWidget );
-	m_view = new QTreeView( mainWidget );
+	m_view = new ArchiveView( mainWidget );
 	m_infoPanel = new InfoPanel( m_model, mainWidget );
 	splitter->addWidget( m_view );
 	splitter->addWidget( m_infoPanel );
@@ -126,28 +126,22 @@ void Part::extractSelectedFilesTo(QString localPath)
 
 void Part::setupView()
 {
-	m_view->setSelectionMode( QAbstractItemView::ExtendedSelection );
 	m_view->setModel( m_model );
-	m_view->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
-	m_view->setAlternatingRowColors( true );
-	m_view->setAnimated( true );
+	//For some reason, it's not possible to do this before setting the model.
+	//TODO: why?
 	m_view->header()->setResizeMode(0, QHeaderView::ResizeToContents);
-	m_view->setAllColumnsShowFocus( true );
-
-	//drag and drop
-	//m_view->setDragDropMode(QAbstractItemView::DragDrop);
-	m_view->setDragEnabled(true);
-	//m_view->setAcceptDrops(true);
-	//m_view->setDropIndicatorShown(true);
 
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
 	         this, SLOT( updateActions() ) );
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
 	         this, SLOT( selectionChanged() ) );
 
-	//TODO: subclass the itemview and fix an actual eventhandler
+	//TODO: fix an actual eventhandler
 	connect( m_view, SIGNAL( doubleClicked( const QModelIndex & ) ),
 	         this, SLOT( slotPreview( const QModelIndex & ) ) );
+
+	connect( m_model, SIGNAL( dataChanged( const QModelIndex &, const QModelIndex& ) ),
+	         this, SLOT( adjustColumns( const QModelIndex &, const QModelIndex& ) ) );
 
 	connect( m_model, SIGNAL( dataChanged( const QModelIndex &, const QModelIndex& ) ),
 	         this, SLOT( adjustColumns( const QModelIndex &, const QModelIndex& ) ) );

@@ -10,6 +10,7 @@ set(arkpart_PART_SRCS
 	infopanel.cpp
 	arkviewer.cpp
 	archivemodel.cpp
+	archiveview.cpp
 	jobtracker.cpp
 	dnddbusinterface.cpp
     )

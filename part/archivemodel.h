@@ -53,6 +53,8 @@ class ArchiveModel: public QAbstractItemModel
 		QStringList mimeTypes () const;
 		QMimeData * mimeData ( const QModelIndexList & indexes ) const;
 
+		virtual bool dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent );
+
 
 		void setArchive( Kerfuffle::Archive *archive );
 		Kerfuffle::Archive *archive() const { return m_archive; }
@@ -73,6 +75,7 @@ class ArchiveModel: public QAbstractItemModel
 		void loadingFinished();
 		void extractionFinished( bool success );
 		void error( const QString& error, const QString& details );
+		void startedAddFilesJob ( KJob *job);
 
 	private slots:
 		void slotNewEntry( const ArchiveEntry& entry );
