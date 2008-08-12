@@ -49,9 +49,9 @@ class ArchiveModel: public QAbstractItemModel
 		int columnCount( const QModelIndex &parent = QModelIndex() ) const;
 
 		//drag and drop related
-		Qt::DropActions supportedDropActions () const;
-		QStringList mimeTypes () const;
-		QMimeData * mimeData ( const QModelIndexList & indexes ) const;
+		virtual Qt::DropActions supportedDropActions () const;
+		virtual QStringList mimeTypes () const;
+		virtual QMimeData * mimeData ( const QModelIndexList & indexes ) const;
 
 		virtual bool dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent );
 

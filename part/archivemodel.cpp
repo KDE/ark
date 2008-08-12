@@ -129,7 +129,7 @@ class ArchiveDirNode: public ArchiveNode
 			}
 			if ( next && next->isDir() )
 			{
-				//pieces.removeAt(0);
+				pieces.removeAt(0);
 				return static_cast<ArchiveDirNode*>( next )->findByPath( pieces.join( "/" ) );
 			}
 			return 0;
@@ -351,24 +351,20 @@ int ArchiveModel::columnCount( const QModelIndex &parent ) const
 
 Qt::DropActions ArchiveModel::supportedDropActions () const
 {
-	return Qt::CopyAction;
+	return Qt::CopyAction | Qt::MoveAction;
 }
 
 QStringList ArchiveModel::mimeTypes () const
 {
-	QString archiveName = m_archive->fileName();
-	QString ext = QFileInfo(archiveName).suffix().toUpper();
-
 	QStringList types;
 
-	types << "application/x-kde-extractdrag";
 
-	if (ext == "TAR" ||
-			ext == "ZIP" ||
-			archiveName.right(6).toUpper() == "TAR.GZ")
-		types << QLatin1String("text/uri-list")
-			<< QLatin1String( "text/plain" )
-			<< QLatin1String( "application/x-kde-urilist" );
+	types << QString("text/uri-list")
+		<< QString( "text/plain" )
+		<< QString( "text/x-moz-url" )
+		<< QString( "application/x-kde-urilist" );
+
+	types << "application/x-kde-extractdrag";
 
 	return types;
 }
@@ -376,6 +372,7 @@ QStringList ArchiveModel::mimeTypes () const
 QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 {
 
+	kDebug (1601) ;
 	//prepare the fallback kio_slave filenames
 	QStringList files;
 
@@ -387,7 +384,7 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 		archiveName.prepend("zip:");
 	} else if (archiveName.right(6).toUpper() == "TAR.GZ") {
 			archiveName.prepend("tar:");
-	} else return NULL;
+	};
 
 	if (archiveName.right(1) != "/") {
 		archiveName.append("/");
@@ -402,6 +399,8 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 		QString file = archiveName + static_cast<ArchiveNode*>( index.internalPointer() )->entry()[ InternalID ].toString();
 		files << file;
 	}
+
+	kDebug(1601) << "Sending out mimedata: " << files;
 
 	KUrl::List kiolist(files);
 
@@ -418,8 +417,9 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 
 bool ArchiveModel::dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent )
 {
-	if (action == Qt::IgnoreAction)
-         return true;
+	kDebug (1601) << "Fuckings";
+	//if (action == Qt::IgnoreAction)
+         //return true;
 
 	if (!data->hasFormat("text/uri-list"))
 		return false;
@@ -482,6 +482,7 @@ QModelIndex ArchiveModel::indexForNode( ArchiveNode *node )
 void ArchiveModel::slotEntryRemoved( const QString & path )
 {
 	// TODO: Do something
+	kDebug (1601) << "Removed node at path " << path;
 	ArchiveNode *entry = m_rootNode->findByPath( path );
 	if ( entry )
 	{
@@ -494,7 +495,8 @@ void ArchiveModel::slotEntryRemoved( const QString & path )
 		parent->entries()[ entry->row() ] = 0;
 
 		endRemoveRows();
-	}
+	} else
+		kDebug (1601) << "Did not find the removed node";
 }
 
 void ArchiveModel::slotUserQuery(Query *query)
@@ -509,7 +511,9 @@ void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 	if (m_rootNode){
 		ArchiveNode *existing = m_rootNode->findByPath( entry[ FileName ].toString() );
 		if ( existing ) {
-			kDebug (1601) << "Skipping entry creation for" << entry[FileName].toString(); 
+			kDebug (1601) << "Refreshing entry for" << entry[FileName].toString(); 
+			//TODO: benchmark whether it's a bad idea to reset the entry here.
+			existing->setEntry(entry);
 			return;
 		}
 	}

@@ -127,9 +127,6 @@ void Part::extractSelectedFilesTo(QString localPath)
 void Part::setupView()
 {
 	m_view->setModel( m_model );
-	//For some reason, it's not possible to do this before setting the model.
-	//TODO: why?
-	m_view->header()->setResizeMode(0, QHeaderView::ResizeToContents);
 
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
 	         this, SLOT( updateActions() ) );
@@ -143,8 +140,6 @@ void Part::setupView()
 	connect( m_model, SIGNAL( dataChanged( const QModelIndex &, const QModelIndex& ) ),
 	         this, SLOT( adjustColumns( const QModelIndex &, const QModelIndex& ) ) );
 
-	connect( m_model, SIGNAL( dataChanged( const QModelIndex &, const QModelIndex& ) ),
-	         this, SLOT( adjustColumns( const QModelIndex &, const QModelIndex& ) ) );
 }
 
 void Part::setupActions()

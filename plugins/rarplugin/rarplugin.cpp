@@ -152,7 +152,7 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 		kp << "e";
 	}
 
-	kp << "-p-";
+	kp << "-p-"; // do not query for password
 	if ( !password().isEmpty() ) kp << "-p" + password();
 
 	kp << m_filename;
@@ -203,7 +203,6 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 			return false;
 		}
 	}
-
 	kDebug( 1601 ) << "Finished reading rar output";
 	return true;
 }
@@ -216,6 +215,10 @@ bool RARInterface::addFiles( const QStringList & files )
 
 	if (!m_rarpath.isNull()) kp << m_rarpath << "a" << "-c-" << m_filename;
 	else return false;
+
+
+	kp << "-ep"; // discard paths from input filename
+
 
 	foreach( const QString& file, files )
 	{
@@ -241,11 +244,7 @@ bool RARInterface::addFiles( const QStringList & files )
 		}
 	}
 
-
-	if (!kp.waitForFinished()) {
-		kDebug( 1601 ) << "Rar did not finish";
-		return false;
-	}
+	list();
 
 	kDebug( 1601 ) << "Finished adding files";
 
@@ -255,7 +254,37 @@ bool RARInterface::addFiles( const QStringList & files )
 bool RARInterface::deleteFiles( const QList<QVariant> & files )
 {
 	kDebug( 1601 ) << "Will try to delete " << files << " from " << m_filename;
-  return false;
+
+	KProcess kp;
+
+	if (!m_rarpath.isNull()) kp << m_rarpath << "d" << m_filename;
+	else return false;
+
+	foreach( const QVariant& file, files )
+	{
+		kDebug( 1601 ) << file;
+		kp << file.toString();
+	}
+
+	kp.setOutputChannelMode(KProcess::MergedChannels);
+	kp.start();
+	if (!kp.waitForStarted()){
+		kDebug( 1601 ) << "Rar did not start";
+		return false;
+	}
+
+	if (!kp.waitForFinished()) {
+		kDebug( 1601 ) << "Rar did not finish";
+		return false;
+	}
+
+	foreach( const QVariant& file, files )
+	{
+		kDebug( 1601 ) << file;
+		entryRemoved(file.toString());
+	}
+	
+	return false;
 }
 
 KERFUFFLE_PLUGIN_FACTORY( RARInterface )

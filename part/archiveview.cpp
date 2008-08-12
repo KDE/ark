@@ -29,32 +29,49 @@
 ArchiveView::ArchiveView(QWidget *parent)
 	: QTreeView(parent)
 {
+
+}
+
+void ArchiveView::setModel(QAbstractItemModel *model)
+{
+	kDebug (1601) ;
+	QTreeView::setModel(model);
 	setSelectionMode( QAbstractItemView::ExtendedSelection );
 	setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 	setAlternatingRowColors( true );
 	setAnimated( true );
-	header()->setResizeMode(0, QHeaderView::ResizeToContents);
 	setAllColumnsShowFocus( true );
+	header()->setResizeMode(0, QHeaderView::ResizeToContents);
 
 	//drag and drop
 	setDragEnabled(true);
 	setAcceptDrops(true);
 	setDropIndicatorShown(true);
 	setDragDropMode(QAbstractItemView::DragDrop);
-
 }
+
 
 void ArchiveView::dragEnterEvent ( QDragEnterEvent * event )
 {
 	//TODO: if no model, trigger some mechanism to create one automatically!
-	if (!model()) return;
-	if (event->mimeData()->hasFormat("text/uri-list"))
-         event->acceptProposedAction();
+	kDebug(1601) << event;
+
+	QTreeView::dragEnterEvent(event);
+	return;
+}
+
+void ArchiveView::dropEvent ( QDropEvent * event )
+{
+	kDebug(1601) << event;
+	QTreeView::dropEvent(event);
+	return;
 }
 
 void ArchiveView::dragMoveEvent ( QDragMoveEvent * event )
 {
-	if (!model()) return;
+	QTreeView::dragMoveEvent(event);
+	if (event->mimeData()->hasFormat("text/uri-list"))
+         event->acceptProposedAction();
+	return;
 	kDebug() << indexAt(event->pos());
-	event->acceptProposedAction();
 }
