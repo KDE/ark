@@ -11,38 +11,47 @@ X-KDE-StartupNotify=false
 [Desktop Action arkExtractHere]
 Name=Extract archive here
 Name[es]=Extraer archivo aquí
+Name[et]=Paki arhiiv siia lahti
 Name[ga]=Bain an chartlann amach agus cuir é anseo
 Name[gl]=Extrair o arquivo aquí
+Name[km]=ស្រង់​ប័ណ្ណសារ​ចេញ​នៅ​ទីនេះ
 Name[nds]=Archiev hier utpacken
 Name[pt]=Extrair o pacote para aqui
 Name[pt_BR]=Extrair o arquivo aqui
 Name[sv]=Packa upp arkiv här
 Name[uk]=Видобути архів сюди
+Name[zh_TW]=在此解壓縮
 Icon=ark
 Exec=/home/harald/kde/bin/ark --batch --autodestination %F
 
 [Desktop Action arkExtractTo]
 Name=Extract archive to...
 Name[es]=Extraer archivo en...
+Name[et]=Paki arhiiv lahti...
 Name[ga]=Bain an chartlann amach go...
 Name[gl]=Extrair o arquivo en...
+Name[km]=ស្រង់​ប័ណ្ណសារ​ចេញ​ទៅ...
 Name[nds]=Archiev utpacken as...
 Name[pt]=Extrair o pacote para...
 Name[pt_BR]=Extrair o arquivo para
 Name[sv]=Packa upp arkiv i...
 Name[uk]=Видобути архів до...
+Name[zh_TW]=解壓縮到...
 Icon=ark
 Exec=/home/harald/kde/bin/ark --batch --autodestination --dialog %F
 
 [Desktop Action arkAutoExtractHere]
 Name=Extract archive here, autodetect subfolder
 Name[es]=Extraer archivo aquí, autodetectar subcarpeta
+Name[et]=Paki arhiiv siia lahti, tuvasta automaatselt alamkataloog
 Name[ga]=Bain an chartlann amach agus cuir é anseo, braith fofhillteán go huathoibríoch
 Name[gl]=Extrair o arquivo aquí, detectar o subcartafol
+Name[km]=ស្រង់​ប័ណ្ណសារ​ចេញ​នៅ​ទីនេះ រក​ឃើញ​ថត​រង​ដោយ​ស្វ័យ​ប្រវត្តិ
 Name[nds]=Archiev hier utpacken, Ünnerorner autom. finnen
 Name[pt]=Extrair o pacote para aqui, detectar automaticamente a sub-pasta
 Name[pt_BR]=Extrair o arquivo aqui, com detecção automática da subpasta
 Name[sv]=Packa upp arkiv här, detektera underkatalog automatiskt
 Name[uk]=Видобути архів сюди, автоматично визначити підтеку
+Name[zh_TW]=在此解壓縮，自動偵測子資料夾
 Icon=ark
 Exec=/home/harald/kde/bin/ark --batch --autodestination --autosubfolder %F
