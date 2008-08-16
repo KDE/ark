@@ -35,6 +35,10 @@ class MainWindow: public KParts::MainWindow
 		~MainWindow();
 		bool loadPart();
 
+		void dragEnterEvent ( class QDragEnterEvent * event );
+		void dropEvent ( class QDropEvent * event );
+		void dragMoveEvent ( class QDragMoveEvent * event );
+
 	public slots:
 		void openUrl( const KUrl& url );
 		void setShowExtractDialog(bool);
