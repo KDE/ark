@@ -42,7 +42,7 @@
 #include <QDateTime>
 
 LibArchiveInterface::LibArchiveInterface( const QString & filename, QObject *parent )
-	: ReadOnlyArchiveInterface( filename, parent ),
+	: ReadWriteArchiveInterface( filename, parent ),
 	cachedArchiveEntryCount(0),
 	extractedFilesSize(0),
 	overwriteAll(false)
@@ -273,6 +273,43 @@ void LibArchiveInterface::copyData( struct archive *source, struct archive *dest
 
 		readBytes = archive_read_data( source, buff, sizeof(buff) );
 	}
+}
+
+bool LibArchiveInterface::addFiles( const QStringList & files )
+{
+	struct archive *arch, *writer;
+	struct archive_entry *entry;
+	int ret;
+
+	error("No worky yet - wait a few commits!");
+	return false;
+
+#if 0
+	arch = archive_write_new();
+	
+	archive_write_set_compression_gzip(arch);
+	archive_write_set_format_ustar(arch);
+
+	ret = archive_write_open_filename(arch, QFile::encodeName( filename() ));
+
+	foreach(const QString& file, files) {
+
+		entry = archive_entry_new();
+
+		
+
+
+	}
+
+	ret = archive_write_finish(arch);
+#endif
+
+}
+
+
+bool LibArchiveInterface::deleteFiles( const QList<QVariant> & files )
+{
+	return false;
 }
 
 KERFUFFLE_PLUGIN_FACTORY( LibArchiveInterface )
