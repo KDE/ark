@@ -75,7 +75,7 @@ class ArchiveModel: public QAbstractItemModel
 		void loadingFinished();
 		void extractionFinished( bool success );
 		void error( const QString& error, const QString& details );
-		void startedAddFilesJob ( KJob *job);
+		void droppedFiles(const QStringList& files);
 
 	private slots:
 		void slotNewEntry( const ArchiveEntry& entry );

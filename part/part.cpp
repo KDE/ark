@@ -85,6 +85,8 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	         this, SLOT( slotLoadingStarted() ) );
 	connect( m_model, SIGNAL( loadingFinished() ),
 	         this, SLOT( slotLoadingFinished() ) );
+	connect( m_model, SIGNAL( droppedFiles(const QStringList&) ),
+	         this, SLOT( slotAddFiles(const QStringList&) ) );
 	connect( m_model, SIGNAL( error( const QString&, const QString& ) ),
 	         this, SLOT( slotError( const QString&, const QString& ) ) );
 
@@ -540,10 +542,9 @@ void Part::adjustColumns( const QModelIndex & topleft, const QModelIndex& bottom
 	} while (firstColumn < lastColumn);
 }
 
-void Part::slotAddFiles()
+void Part::slotAddFiles(const QStringList& filesToAdd)
 {
 	kDebug( 1601 ) ;
-	QStringList filesToAdd = KFileDialog::getOpenFileNames( KUrl( "kfiledialog:///ArkAddFiles" ), QString(), widget(), i18n( "Add Files" ) );
 
 	if ( !filesToAdd.isEmpty() )
 	{
@@ -552,6 +553,15 @@ void Part::slotAddFiles()
 		         this, SLOT( slotAddFilesDone( KJob* ) ) );
 		job->start();
 	}
+}
+
+void Part::slotAddFiles()
+{
+	kDebug( 1601 ) ;
+	QStringList filesToAdd = KFileDialog::getOpenFileNames( KUrl( "kfiledialog:///ArkAddFiles" ), QString(), widget(), i18n( "Add Files" ) );
+
+	slotAddFiles( filesToAdd);
+
 }
 
 void Part::slotAddDir()
