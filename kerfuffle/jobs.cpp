@@ -34,8 +34,8 @@ namespace Kerfuffle
 	ListJob::ListJob( ReadOnlyArchiveInterface *interface, QObject *parent )
 		: KJob( parent ), m_archive( interface ),
 		m_isSingleFolderArchive(true),
-		m_extractedFilesSize(0),
-		m_isPasswordProtected(false)
+		m_isPasswordProtected(false),
+		m_extractedFilesSize(0)
 	{
 	}
 
@@ -83,6 +83,7 @@ namespace Kerfuffle
 
 	void ListJob::done( ThreadWeaver::Job *job )
 	{
+		Q_UNUSED(job  );
 		emitResult();
 	}
 
@@ -118,6 +119,7 @@ namespace Kerfuffle
 
 	void ExtractJob::done( ThreadWeaver::Job *job )
 	{
+		Q_UNUSED(job  );
 		emitResult();
 	}
 
@@ -163,6 +165,8 @@ namespace Kerfuffle
 
 	void AddJob::done( ThreadWeaver::Job *job )
 	{
+		Q_UNUSED(job  );
+		kDebug( 1601 ) ;
 		emitResult();
 	}
 
@@ -174,6 +178,7 @@ namespace Kerfuffle
 	void AddJob::error( const QString& errorMessage, const QString& details )
 	{
 		kDebug( 1601 ) ;
+		//TODO: why is this unused?
 		Q_UNUSED( details );
 		setError( 1 );
 		setErrorText( errorMessage );
@@ -202,6 +207,7 @@ namespace Kerfuffle
 
 	void DeleteJob::done( ThreadWeaver::Job *job )
 	{
+		Q_UNUSED(job  );
 		emitResult();
 	}
 

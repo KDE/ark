@@ -70,6 +70,7 @@ void JobTracker::registerJob( KJob *job )
 
 void JobTracker::percent (KJob *job, unsigned long 	percent	)
 {
+	Q_UNUSED(job );
 	m_ui->progressBar->setValue(percent);
 }
 

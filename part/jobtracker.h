@@ -38,7 +38,7 @@ class JobTracker: public KAbstractWidgetJobTracker
 	public:
 		JobTracker( QWidget *parent = 0 );
 
-		QWidget *widget(KJob *job) { return m_ui; }
+		QWidget *widget(KJob *) { return m_ui; }
 		virtual void registerJob( KJob *job );
 		virtual void unregisterJob( KJob *job );
 

@@ -53,6 +53,12 @@ namespace Kerfuffle
 		{
 			QString libraryName = offers[ 0 ]->library();
 			KLibrary *lib = KLibLoader::self()->library( QFile::encodeName( libraryName ), QLibrary::ExportExternalSymbolsHint );
+			//TODO: get rid of the deprecated klibloader::self
+#if 0
+			
+			KPluginLoader loader(offers.at(0));
+			KPluginFactory *factory = loader.factory();
+#endif
 
 			kDebug( 1601 ) << "Loading library " << libraryName ;
 			if ( lib )

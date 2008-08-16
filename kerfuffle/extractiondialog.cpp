@@ -43,6 +43,9 @@ namespace Kerfuffle
 	ExtractionDialog::ExtractionDialog(QWidget *parent )
 		: KDirSelectDialog()
 	{
+		//TODO: send the parent pointer to superclass
+		Q_UNUSED(parent  );
+
 		m_ui = new ExtractionDialogUI( this );
 		//setMainWidget( m_ui );
 

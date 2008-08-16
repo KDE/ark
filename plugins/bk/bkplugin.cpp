@@ -60,6 +60,7 @@ bool BKInterface::list()
 
 bool BKInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
 {
+	Q_UNUSED(preservePaths  );
 	foreach( const QVariant& file, files )
 	{
 		int rc;
@@ -119,11 +120,13 @@ bool BKInterface::browse( BkFileBase* base, const QString& prefix )
 
 bool BKInterface::addFiles( const QStringList & files )
 {
+	Q_UNUSED(files  );
   return false;
 }
 
 bool BKInterface::deleteFiles( const QList<QVariant> & files )
 {
+	Q_UNUSED(files  );
   return false;
 }
 
