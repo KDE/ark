@@ -99,7 +99,7 @@ namespace Kerfuffle
 	AddJob* ArchiveBase::addFiles( const QStringList & files )
 	{
 		Q_ASSERT( !m_iface->isReadOnly() );
-		AddJob *newJob = new AddJob( files, static_cast<ReadWriteArchiveInterface*>( m_iface ), this );
+		AddJob *newJob = new AddJob(QString(), files, static_cast<ReadWriteArchiveInterface*>( m_iface ), this );
 		connect(m_iface, SIGNAL(userQuery(Query*)),
 				newJob, SIGNAL(userQuery(Query*)));
 		return newJob;

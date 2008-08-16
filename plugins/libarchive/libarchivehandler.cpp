@@ -275,7 +275,7 @@ void LibArchiveInterface::copyData( struct archive *source, struct archive *dest
 	}
 }
 
-bool LibArchiveInterface::addFiles( const QStringList & files )
+bool LibArchiveInterface::addFiles(const QString& path, const QStringList & files )
 {
 	struct archive *arch, *writer;
 	struct archive_entry *entry;

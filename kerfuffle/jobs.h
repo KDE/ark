@@ -99,7 +99,7 @@ namespace Kerfuffle
 	{
 		Q_OBJECT
 		public:
-			AddJob( const QStringList & files, ReadWriteArchiveInterface *interface, QObject *parent = 0 );
+			AddJob(const QString& path, const QStringList & files, ReadWriteArchiveInterface *interface, QObject *parent = 0 );
 
 			void start();
 
@@ -114,6 +114,7 @@ namespace Kerfuffle
 
 		private:
 			QStringList                m_files;
+			QString 				m_path;
 			ReadWriteArchiveInterface *m_archive;
 
 	};

@@ -40,7 +40,7 @@ class LibArchiveInterface: public ReadWriteArchiveInterface
 		bool list();
 		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths );
 
-		bool addFiles( const QStringList & files );
+		bool addFiles(const QString& path, const QStringList & files );
 		bool deleteFiles( const QList<QVariant> & files );
 
 	private:

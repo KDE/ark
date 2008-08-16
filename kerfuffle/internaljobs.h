@@ -101,7 +101,7 @@ namespace Kerfuffle
 	{
 		Q_OBJECT
 		public:
-			InternalAddJob( ReadWriteArchiveInterface *archive, const QStringList & files, QObject *parent = 0 );
+			InternalAddJob( ReadWriteArchiveInterface *archive, const QString& path, const QStringList & files, QObject *parent = 0 );
 			~InternalAddJob();
 
 		protected:
@@ -114,6 +114,7 @@ namespace Kerfuffle
 
 		private:
 			QStringList                m_files;
+			QString m_path;
 			ReadWriteArchiveInterface *m_archive;
 			ArchiveJobHelper          *m_helper;
 	};

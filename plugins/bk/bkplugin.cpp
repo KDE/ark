@@ -118,7 +118,7 @@ bool BKInterface::browse( BkFileBase* base, const QString& prefix )
 	return true;
 }
 
-bool BKInterface::addFiles( const QStringList & files )
+bool BKInterface::addFiles( const QString& path, const QStringList & files )
 {
 	Q_UNUSED(files  );
   return false;

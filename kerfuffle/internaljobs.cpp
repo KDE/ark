@@ -86,8 +86,8 @@ namespace Kerfuffle
 		m_archive->removeObserver( m_helper );
 	}
 
-	InternalAddJob::InternalAddJob( ReadWriteArchiveInterface *archive, const QStringList & files, QObject *parent )
-		: InternalJob( parent ), m_files( files ), m_archive( archive ), m_helper( 0 )
+	InternalAddJob::InternalAddJob( ReadWriteArchiveInterface *archive, const QString& path, const QStringList & files, QObject *parent )
+		: InternalJob( parent ), m_files( files ), m_path(path), m_archive( archive ), m_helper( 0 )
 	{
 	}
 
@@ -109,7 +109,7 @@ namespace Kerfuffle
 			 this, SIGNAL( error( const QString&, const QString& ) ) );
 
 		m_archive->registerObserver( m_helper );
-		setSuccess( m_archive->addFiles( m_files ) );
+		setSuccess( m_archive->addFiles( m_path, m_files ) );
 		m_archive->removeObserver( m_helper );
 	}
 

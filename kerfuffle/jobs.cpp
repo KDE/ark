@@ -140,8 +140,8 @@ namespace Kerfuffle
 		setPercent( static_cast<unsigned long>( 100.0*p ) );
 	}
 
-	AddJob::AddJob( const QStringList & files, ReadWriteArchiveInterface *interface, QObject *parent )
-		: KJob( parent ), m_files( files ), m_archive( interface )
+	AddJob::AddJob( const QString& path, const QStringList & files, ReadWriteArchiveInterface *interface, QObject *parent )
+		: KJob( parent ), m_files( files ), m_path(path), m_archive( interface )
 	{
 	}
 
@@ -149,7 +149,7 @@ namespace Kerfuffle
 	{
 		emit description( this, i18np( "Adding a file", "Adding %1 files", m_files.count() ) );
 		
-		InternalAddJob *job = new InternalAddJob( m_archive, m_files, this );
+		InternalAddJob *job = new InternalAddJob( m_archive, m_path, m_files, this );
 		
 		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
 		         this, SLOT( done( ThreadWeaver::Job* ) ) );

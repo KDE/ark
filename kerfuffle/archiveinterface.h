@@ -82,7 +82,7 @@ namespace Kerfuffle
 
 			virtual bool isReadOnly() const;
 
-			virtual bool addFiles( const QStringList & files ) = 0;
+			virtual bool addFiles( const QString& path, const QStringList & files ) = 0;
 			virtual bool deleteFiles( const QList<QVariant> & files ) = 0;
 	};
 

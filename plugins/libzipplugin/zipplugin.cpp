@@ -260,7 +260,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			return true;
 		}
 
-		bool addFiles( const QStringList & files )
+		bool addFiles( const QString& path, const QStringList & files )
 		{
 			kDebug( 1601 ) << "adding " << files.count() << " files";
 			progress( 0.0 );
