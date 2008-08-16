@@ -47,6 +47,17 @@ namespace Kerfuffle
 		QString mimeType = requestedMimeType.isEmpty()? KMimeType::findByPath( filename )->name() : requestedMimeType;
 		KService::List offers = KMimeTypeTrader::self()->query( mimeType, "Kerfuffle/Plugin", "(exist Library)" );
 
+		if ( offers.isEmpty()) {
+
+			kDebug( 1601 ) << "Trying to find the mimetype by looking at file content";
+
+			int acc;
+			QString mimeType = KMimeType::findByFileContent( filename, &acc )->name();
+			kDebug(1601) << mimeType << acc;
+			offers = KMimeTypeTrader::self()->query( mimeType, "Kerfuffle/Plugin", "(exist Library)" );
+
+		}
+
 		qSort( offers.begin(), offers.end(), comparePlugins );
 
 		if ( !offers.isEmpty() )
