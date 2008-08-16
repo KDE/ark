@@ -234,7 +234,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 int LibArchiveInterface::extractionFlags() const
 {
 	int result = ARCHIVE_EXTRACT_TIME;
-	result &= ARCHIVE_EXTRACT_SECURE_NODOTDOT;
+	result |= ARCHIVE_EXTRACT_SECURE_NODOTDOT;
 
 	// TODO: Don't use arksettings here
 	/*if ( ArkSettings::preservePerms() )
