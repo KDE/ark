@@ -216,7 +216,7 @@ void Part::updateActions()
 	KConfigGroup conf( KGlobal::config(), "DirSelect Dialog" );
 	QStringList dirHistory = conf.readPathEntry( "History Items", QStringList() );
 
-	for(int i = 0; i < dirHistory.size(); ++i)
+	for(int i = 0; i < qMin(10, dirHistory.size()); ++i)
 	{
 		QAction *newAction = m->addAction(KUrl(dirHistory.at(i)).path());
 		newAction->setData(KUrl(dirHistory.at(i)).path());
