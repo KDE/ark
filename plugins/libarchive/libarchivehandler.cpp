@@ -223,6 +223,8 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 	}
 	if ( entries.size() > 0 ) return false;
 
+	archive_write_finish( writer );
+
 #if (ARCHIVE_API_VERSION>1)
 	return archive_read_finish( arch ) == ARCHIVE_OK;
 #else
