@@ -458,7 +458,14 @@ void Part::slotExtractFiles()
 		}
 		else destinationDirectory = dialog.destinationDirectory().path();
 
-		QList<QVariant> files = selectedFilesWithParents();
+		QList<QVariant> files;
+
+		//if the user has chosen to extract only selected entries, fetch these
+		//from the listview
+		if (!dialog.extractAllFiles()) {
+			files = selectedFilesWithParents();
+		}
+
 		kDebug( 1601 ) << "Selected " << files;
 		ExtractJob *job = m_model->extractFiles( files, destinationDirectory, dialog.preservePaths() );
 		m_jobTracker->registerJob( job );
