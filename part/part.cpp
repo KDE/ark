@@ -114,10 +114,16 @@ void Part::createJobTracker()
 
 void Part::extractSelectedFilesTo(QString localPath)
 {
+	kDebug( 1601 ) << "Extract to " << localPath;
 	if (!m_model) return;
+
+	//TODO: this should just create the selected items at the target
+	//destination, and not include the parent folders.
 	QList<QVariant> files = selectedFilesWithParents();
 	if (files.isEmpty()) return;
-	ExtractJob *job = m_model->extractFiles( files, localPath, false );
+
+	kDebug( 1601 ) << "selected files are " << files;
+	ExtractJob *job = m_model->extractFiles( files, localPath, true );
 	m_jobTracker->registerJob( job );
 
 	connect( job, SIGNAL( result( KJob* ) ),
@@ -485,14 +491,17 @@ QList<QVariant> Part::selectedFilesWithParents()
 	{
 		QModelIndex parent = index.parent();
 		while (parent.isValid()) {
-			if (!m_view->selectionModel()->selectedRows().contains(parent)) {
-				const ArchiveEntry& entry = m_model->entryForIndex( parent );
-				toSort << entry[ InternalID ].toString();
+
+			const ArchiveEntry& entry = m_model->entryForIndex( parent );
+			QString parentString = entry[ InternalID ].toString();
+
+			if (!toSort.contains(parentString)) {
+				toSort << parentString;
 			}
+
 			parent = parent.parent();
 		}
-		const ArchiveEntry& entry = m_model->entryForIndex( index );
-		toSort << entry[ InternalID ].toString();
+		toSort << m_model->entryForIndex( index )[ InternalID ].toString();
 	}
 
 	toSort.sort();

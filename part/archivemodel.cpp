@@ -406,7 +406,7 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 
 	//prepare the dbus-based drag/drop mimedata
 	QMimeData *data = new QMimeData();
-	data->setData("application/x-kde-extractdrag", 
+	data->setData("application/x-kde-dndextract", 
 			QDBusConnection::sessionBus().baseService().toUtf8()
 			);
 
