@@ -72,7 +72,7 @@ class ArchiveModel: public QAbstractItemModel
 
 	signals:
 		void loadingStarted();
-		void loadingFinished();
+		void loadingFinished(KJob *);
 		void extractionFinished( bool success );
 		void error( const QString& error, const QString& details );
 		void droppedFiles(const QStringList& files);

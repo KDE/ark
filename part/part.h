@@ -59,7 +59,7 @@ class Part: public KParts::ReadWritePart, public Interface
 
 	private slots:
 		void slotLoadingStarted();
-		void slotLoadingFinished();
+		void slotLoadingFinished(KJob *job);
 		void slotPreview();
 		void slotPreview( const QModelIndex & index );
 		void slotPreviewExtracted( KJob* );

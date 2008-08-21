@@ -62,6 +62,7 @@ namespace Kerfuffle
 			void done( ThreadWeaver::Job* );
 			void progress( double );
 			void onNewEntry(const ArchiveEntry&);
+			void onError(const QString& errorMessage, const QString& details);
 
 		private:
 			ReadOnlyArchiveInterface *m_archive;

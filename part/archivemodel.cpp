@@ -564,7 +564,7 @@ void ArchiveModel::setArchive( Kerfuffle::Archive *archive )
 			 this, SLOT( slotNewEntry( const ArchiveEntry& ) ) );
 
 		connect( job, SIGNAL( result( KJob * ) ),
-		         this, SIGNAL( loadingFinished() ) );
+		         this, SIGNAL( loadingFinished(KJob *) ) );
 
 		if ( m_jobTracker )
 		{

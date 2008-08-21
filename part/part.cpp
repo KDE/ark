@@ -83,8 +83,8 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 
 	connect( m_model, SIGNAL( loadingStarted() ),
 	         this, SLOT( slotLoadingStarted() ) );
-	connect( m_model, SIGNAL( loadingFinished() ),
-	         this, SLOT( slotLoadingFinished() ) );
+	connect( m_model, SIGNAL( loadingFinished(KJob *) ),
+	         this, SLOT( slotLoadingFinished(KJob *) ) );
 	connect( m_model, SIGNAL( droppedFiles(const QStringList&) ),
 	         this, SLOT( slotAddFiles(const QStringList&) ) );
 	connect( m_model, SIGNAL( error( const QString&, const QString& ) ),
@@ -327,8 +327,10 @@ void Part::slotLoadingStarted()
 	emit busy();
 }
 
-void Part::slotLoadingFinished()
+void Part::slotLoadingFinished(KJob *job)
 {
+	if (job->error())
+		kDebug( 1601 ) << "Job returned error: " << job->errorText() ;
 	QApplication::restoreOverrideCursor();
 	m_busy = false;
 	m_view->resizeColumnToContents( 0 );

@@ -46,6 +46,9 @@ namespace Kerfuffle
 		// TODO: connects
 		connect( job, SIGNAL( entry( const ArchiveEntry& ) ),
 		         this, SIGNAL( newEntry( const ArchiveEntry & ) ) );
+
+		connect( job, SIGNAL( error( const QString&, const QString& ) ),
+		         this, SLOT( onError( const QString&, const QString& ) ) );
 		connect(job, SIGNAL(entry(const ArchiveEntry&)),
 				this, SLOT(onNewEntry(const ArchiveEntry&)));
 		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
@@ -80,10 +83,16 @@ namespace Kerfuffle
 		}
 	}
 
+	void ListJob::onError(const QString& errorMessage, const QString& details)
+	{
+		Q_UNUSED(details);
+		setErrorText(errorMessage);
+	}
 
 	void ListJob::done( ThreadWeaver::Job *job )
 	{
 		Q_UNUSED(job  );
+		setError(!job->success());
 		emitResult();
 	}
 
