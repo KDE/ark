@@ -76,7 +76,7 @@ namespace Kerfuffle
 	{
 		Q_OBJECT
 		public:
-			ExtractJob( const QList<QVariant> & files, const QString& destinationDir, bool preservePaths, ReadOnlyArchiveInterface *interface, QObject *parent = 0 );
+			ExtractJob( const QList<QVariant> & files, const QString& destinationDir, Archive::CopyFlags flags, ReadOnlyArchiveInterface *interface, QObject *parent = 0 );
 
 			void start();
 
@@ -91,7 +91,7 @@ namespace Kerfuffle
 		private:
 			QList<QVariant>           m_files;
 			QString                   m_destinationDir;
-			bool                      m_preservePaths;
+			Archive::CopyFlags m_flags;
 			ReadOnlyArchiveInterface *m_archive;
 	};
 

@@ -88,8 +88,8 @@ namespace Kerfuffle
 	}
 
 	ExtractJob::ExtractJob( const QList<QVariant>& files, const QString& destinationDir,
-	                        bool preservePaths, ReadOnlyArchiveInterface *interface, QObject *parent )
-		: KJob( parent ), m_files( files ), m_destinationDir( destinationDir ), m_preservePaths( preservePaths ),  m_archive( interface )
+	                        Archive::CopyFlags flags, ReadOnlyArchiveInterface *interface, QObject *parent )
+		: KJob( parent ), m_files( files ), m_destinationDir( destinationDir ), m_flags(flags),  m_archive( interface )
 	{
 	}
 
@@ -105,7 +105,7 @@ namespace Kerfuffle
 			desc = i18np( "Extracting one file", "Extracting %1 files", m_files.count() );
 		}
 		emit description( this, desc );
-		InternalExtractJob *job = new InternalExtractJob( m_archive, m_files, m_destinationDir, m_preservePaths, this );
+		InternalExtractJob *job = new InternalExtractJob( m_archive, m_files, m_destinationDir, m_flags, this );
 
 		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
 		         this, SLOT( done( ThreadWeaver::Job* ) ) );

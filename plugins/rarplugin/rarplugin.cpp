@@ -137,9 +137,12 @@ void RARInterface::processListLine(const QString& line)
 
 }
 
-bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
+bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, Archive::CopyFlags flags )
 {
+	const bool preservePaths = flags & Archive::PreservePaths;
+
 	kDebug( 1601 ) << files  << destinationDirectory << (preservePaths? " with paths":"");
+
 	KProcess kp;
 	kp.setOutputChannelMode(KProcess::MergedChannels);
 	if (!m_unrarpath.isNull()) kp << m_unrarpath;

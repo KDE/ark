@@ -52,10 +52,14 @@ void BatchExtractJob::addExtraction(Kerfuffle::Archive* archive,bool preservePat
 		}
 	}
 
+	Kerfuffle::Archive::CopyFlags flags;
+	if (preservePaths)
+		flags |= Kerfuffle::Archive::PreservePaths;
+
 	Kerfuffle::ExtractJob *job = archive->copyFiles(
 			QVariantList(), //extract all files
 			autoDestination, //extract to folder
-			preservePaths //preserve paths
+			flags
 			);
 
 	connect(job, SIGNAL(userQuery(Query*)),

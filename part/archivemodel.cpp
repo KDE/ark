@@ -577,17 +577,17 @@ void ArchiveModel::setArchive( Kerfuffle::Archive *archive )
 	reset();
 }
 
-ExtractJob* ArchiveModel::extractFile( const QVariant& fileName, const QString & destinationDir, bool preservePaths ) const
+ExtractJob* ArchiveModel::extractFile( const QVariant& fileName, const QString & destinationDir, Archive::CopyFlags flags ) const
 {
 	QList<QVariant> files;
 	files << fileName;
-	return extractFiles( files, destinationDir, preservePaths );
+	return extractFiles( files, destinationDir, flags );
 }
 
-ExtractJob* ArchiveModel::extractFiles( const QList<QVariant>& files, const QString & destinationDir, bool preservePaths ) const
+ExtractJob* ArchiveModel::extractFiles( const QList<QVariant>& files, const QString & destinationDir, Kerfuffle::Archive::CopyFlags flags ) const
 {
 	Q_ASSERT( m_archive );
-	ExtractJob *newJob = m_archive->copyFiles( files, destinationDir, preservePaths );
+	ExtractJob *newJob = m_archive->copyFiles( files, destinationDir, flags );
 	connect(newJob, SIGNAL(userQuery(Query*)),
 			this, SLOT(slotUserQuery(Query*)));
 	return newJob;

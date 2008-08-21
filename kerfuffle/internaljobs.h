@@ -79,7 +79,7 @@ namespace Kerfuffle
 	{
 		Q_OBJECT
 		public:
-			InternalExtractJob( ReadOnlyArchiveInterface *archive, const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths = false, QObject *parent = 0 );
+			InternalExtractJob( ReadOnlyArchiveInterface *archive, const QList<QVariant> & files, const QString & destinationDirectory, Archive::CopyFlags flags, QObject *parent = 0 );
 			~InternalExtractJob();
 
 		protected:
@@ -94,7 +94,7 @@ namespace Kerfuffle
 			QList<QVariant>           m_files;
 			QString                   m_destinationDirectory;
 			ArchiveJobHelper         *m_helper;
-			bool                      m_preservePaths;
+			Archive::CopyFlags m_flags;
 	};
 
 	class InternalAddJob: public InternalJob

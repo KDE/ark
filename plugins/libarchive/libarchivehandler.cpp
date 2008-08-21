@@ -115,11 +115,12 @@ bool LibArchiveInterface::list()
 #endif
 }
 
-bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
+bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, Archive::CopyFlags flags )
 {
 	QDir::setCurrent( destinationDirectory );
 
 	const bool extractAll = files.isEmpty();
+	const bool preservePaths = flags & Archive::PreservePaths;
 	struct archive *arch, *writer;
 	struct archive_entry *entry;
 

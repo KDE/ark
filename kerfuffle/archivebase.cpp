@@ -105,9 +105,9 @@ namespace Kerfuffle
 		return newJob;
 	}
 
-	ExtractJob* ArchiveBase::copyFiles( const QList<QVariant> & files, const QString & destinationDir, bool preservePaths )
+	ExtractJob* ArchiveBase::copyFiles( const QList<QVariant> & files, const QString & destinationDir, Archive::CopyFlags flags )
 	{
-		ExtractJob *newJob = new ExtractJob( files, destinationDir, preservePaths, m_iface, this );
+		ExtractJob *newJob = new ExtractJob( files, destinationDir, flags, m_iface, this );
 		connect(m_iface, SIGNAL(userQuery(Query*)),
 				newJob, SIGNAL(userQuery(Query*)));
 		return newJob;

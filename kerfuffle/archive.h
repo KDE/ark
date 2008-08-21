@@ -51,6 +51,13 @@ namespace Kerfuffle
 	class KERFUFFLE_EXPORT Archive
 	{
 		public:
+
+			enum CopyFlag {
+				PreservePaths = 0x0,
+				TruncateCommonBase = 0x1
+			};
+			Q_DECLARE_FLAGS(CopyFlags, CopyFlag);
+
 			virtual ~Archive() {}
 
 			virtual QString fileName() = 0;
@@ -61,7 +68,7 @@ namespace Kerfuffle
 			virtual ListJob*    list() = 0;
 			virtual DeleteJob*  deleteFiles( const QList<QVariant> & files ) = 0;
 			virtual AddJob*     addFiles( const QStringList & files ) = 0;
-			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, bool preservePaths = false ) = 0;
+			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, Archive::CopyFlags flags) = 0;
 
 			virtual bool isSingleFolderArchive() = 0;
 			virtual QString subfolderName() = 0;
@@ -70,6 +77,8 @@ namespace Kerfuffle
 			virtual void setPassword(QString password) = 0;
 
 	};
+
+	Q_DECLARE_OPERATORS_FOR_FLAGS(Archive::CopyFlags);
 
 	KERFUFFLE_EXPORT Archive* factory( const QString & filename, const QString & requestedMimeType = QString() );
 	KERFUFFLE_EXPORT QStringList supportedMimeTypes();

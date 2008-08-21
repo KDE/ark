@@ -123,7 +123,7 @@ void Part::extractSelectedFilesTo(QString localPath)
 	if (files.isEmpty()) return;
 
 	kDebug( 1601 ) << "selected files are " << files;
-	ExtractJob *job = m_model->extractFiles( files, localPath, true );
+	ExtractJob *job = m_model->extractFiles( files, localPath, Archive::PreservePaths );
 	m_jobTracker->registerJob( job );
 
 	connect( job, SIGNAL( result( KJob* ) ),
@@ -248,7 +248,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 	else finalDestinationDirectory = userDestination;
 
 	QList<QVariant> files = selectedFilesWithParents();
-	ExtractJob *job = m_model->extractFiles( files, finalDestinationDirectory, true );
+	ExtractJob *job = m_model->extractFiles( files, finalDestinationDirectory, Archive::PreservePaths );
 	m_jobTracker->registerJob( job );
 
 	connect( job, SIGNAL( result( KJob* ) ),
@@ -350,7 +350,7 @@ void Part::slotPreview( const QModelIndex & index )
 	if ( !entry.isEmpty() )
 	{
 		m_previewDir = new KTempDir();
-		ExtractJob *job = m_model->extractFile( entry[ InternalID ], m_previewDir->name(), false );
+		ExtractJob *job = m_model->extractFile( entry[ InternalID ], m_previewDir->name(), Archive::CopyFlags() );
 		m_jobTracker->registerJob( job );
 		connect( job, SIGNAL( result( KJob* ) ),
 		         this, SLOT( slotPreviewExtracted( KJob* ) ) );
@@ -473,7 +473,12 @@ void Part::slotExtractFiles()
 		}
 
 		kDebug( 1601 ) << "Selected " << files;
-		ExtractJob *job = m_model->extractFiles( files, destinationDirectory, dialog.preservePaths() );
+		
+		Kerfuffle::Archive::CopyFlags flags;
+		if (dialog.preservePaths())
+			flags |= Kerfuffle::Archive::PreservePaths;
+
+		ExtractJob *job = m_model->extractFiles( files, destinationDirectory, flags );
 		m_jobTracker->registerJob( job );
 
 		connect( job, SIGNAL( result( KJob* ) ),

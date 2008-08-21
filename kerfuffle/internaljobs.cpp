@@ -61,9 +61,9 @@ namespace Kerfuffle
 		setSuccess( m_helper->getTheListing() );
 	}
 
-	InternalExtractJob::InternalExtractJob( ReadOnlyArchiveInterface *archive, const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths, QObject *parent )
+	InternalExtractJob::InternalExtractJob( ReadOnlyArchiveInterface *archive, const QList<QVariant> & files, const QString & destinationDirectory, Archive::CopyFlags flags, QObject *parent )
 		: InternalJob( parent ), m_archive( archive ), m_files( files ), m_destinationDirectory( destinationDirectory ),
-		  m_helper( 0 ), m_preservePaths( preservePaths )
+		  m_helper( 0 ), m_flags(flags)
 	{
 
 	}
@@ -82,7 +82,7 @@ namespace Kerfuffle
 		connect( m_helper, SIGNAL( error( const QString&, const QString& ) ),
 			 this, SIGNAL( error( const QString&, const QString& ) ) );
 		m_archive->registerObserver( m_helper );
-		setSuccess( m_archive->copyFiles( m_files, m_destinationDirectory, m_preservePaths ) );
+		setSuccess( m_archive->copyFiles( m_files, m_destinationDirectory, m_flags ) );
 		m_archive->removeObserver( m_helper );
 	}
 

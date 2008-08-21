@@ -58,9 +58,11 @@ bool BKInterface::list()
 	return browse( BK_BASE_PTR( &( m_volInfo.dirTree ) ) );
 }
 
-bool BKInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths )
+bool BKInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, Archive::CopyFlags flags )
 {
-	Q_UNUSED(preservePaths  );
+	//TODO: this var should be used!
+	const bool preservePaths = flags & Archive::PreservePaths;
+
 	foreach( const QVariant& file, files )
 	{
 		int rc;
