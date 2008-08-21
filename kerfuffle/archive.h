@@ -56,7 +56,7 @@ namespace Kerfuffle
 				PreservePaths = 0x0,
 				TruncateCommonBase = 0x1
 			};
-			Q_DECLARE_FLAGS(CopyFlags, CopyFlag);
+			Q_DECLARE_FLAGS(CopyFlags, CopyFlag)
 
 			virtual ~Archive() {}
 
@@ -78,7 +78,7 @@ namespace Kerfuffle
 
 	};
 
-	Q_DECLARE_OPERATORS_FOR_FLAGS(Archive::CopyFlags);
+	Q_DECLARE_OPERATORS_FOR_FLAGS(Archive::CopyFlags)
 
 	KERFUFFLE_EXPORT Archive* factory( const QString & filename, const QString & requestedMimeType = QString() );
 	KERFUFFLE_EXPORT QStringList supportedMimeTypes();
