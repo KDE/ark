@@ -88,7 +88,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		QString detectSubfolder();
 		bool isPreviewable( const QModelIndex & index );
 		QList<QVariant> selectedFiles();
-		QList<QVariant> selectedFilesWithParents();
+		QList<QVariant> selectedFilesWithChildren();
 
 		ArchiveModel         *m_model;
 		QTreeView            *m_view;

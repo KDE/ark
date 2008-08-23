@@ -117,13 +117,11 @@ void Part::extractSelectedFilesTo(QString localPath)
 	kDebug( 1601 ) << "Extract to " << localPath;
 	if (!m_model) return;
 
-	//TODO: this should just create the selected items at the target
-	//destination, and not include the parent folders.
-	QList<QVariant> files = selectedFiles();
+	QList<QVariant> files = selectedFilesWithChildren();
 	if (files.isEmpty()) return;
 
 	kDebug( 1601 ) << "selected files are " << files;
-	ExtractJob *job = m_model->extractFiles( files, localPath, Archive::PreservePaths );
+	ExtractJob *job = m_model->extractFiles( files, localPath, Archive::PreservePaths | Archive::TruncateCommonBase );
 	m_jobTracker->registerJob( job );
 
 	connect( job, SIGNAL( result( KJob* ) ),
@@ -499,25 +497,29 @@ void Part::slotExtractFiles()
 	}
 }
 
-QList<QVariant> Part::selectedFilesWithParents()
+QList<QVariant> Part::selectedFilesWithChildren()
 {
+	Q_ASSERT(m_model);
+
 	QStringList toSort;
+	QModelIndexList toIterate = m_view->selectionModel()->selectedRows();
 
-	foreach( const QModelIndex & index, m_view->selectionModel()->selectedRows() )
-	{
-		QModelIndex parent = index.parent();
-		while (parent.isValid()) {
+	for (int i = 0; i < toIterate.size(); ++i) {
 
-			const ArchiveEntry& entry = m_model->entryForIndex( parent );
-			QString parentString = entry[ InternalID ].toString();
+		QModelIndex index = toIterate.at(i);
 
-			if (!toSort.contains(parentString)) {
-				toSort << parentString;
-			}
-
-			parent = parent.parent();
+		for (int j = 0; j < m_model->rowCount(index); ++j) {
+			QModelIndex child = m_model->index(j, 0, index);
+			if (!toIterate.contains(child))
+				toIterate << child;
 		}
-		toSort << m_model->entryForIndex( index )[ InternalID ].toString();
+
+	}
+
+	foreach( const QModelIndex & index, toIterate )
+	{
+		const ArchiveEntry& entry = m_model->entryForIndex( index );
+		toSort << entry[ InternalID ].toString();
 	}
 
 	toSort.sort();

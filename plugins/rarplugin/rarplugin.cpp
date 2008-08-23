@@ -143,6 +143,10 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 
 	kDebug( 1601 ) << files  << destinationDirectory << (preservePaths? " with paths":"");
 
+	QString commonBase;
+	if (flags & Archive::TruncateCommonBase)
+		commonBase = findCommonBase(files);
+
 	KProcess kp;
 	kp.setOutputChannelMode(KProcess::MergedChannels);
 	if (!m_unrarpath.isNull()) kp << m_unrarpath;
@@ -157,6 +161,9 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 
 	kp << "-p-"; // do not query for password
 	if ( !password().isEmpty() ) kp << "-p" + password();
+
+	if (!commonBase.isEmpty())
+		kp << "-ap" + commonBase;
 
 	kp << m_filename;
 	foreach( const QVariant& file, files )

@@ -128,10 +128,18 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 	
 	QStringList entries;
 
-	foreach( const QVariant &f, files )
-	{
+	foreach( const QVariant &f, files ) {
 		entries << f.toString();
 	}
+
+	QString commonBase;
+	if (flags & Archive::TruncateCommonBase)
+		commonBase = findCommonBase(files);
+
+	//A trailing slash is very very very important here
+	Q_ASSERT(commonBase.isEmpty() || commonBase.right(1) == "/");
+
+	kDebug() << "Found common base " << commonBase;
 
 	arch = archive_read_new();
 	if ( !arch )
@@ -185,6 +193,9 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 			QString fn = entryFI.fileName();
 			QByteArray encodedFn = QFile::encodeName(fn);
 
+			QByteArray encTruncatedFilename;
+			QString truncatedFilename;
+
 			if( !preservePaths ) {
 
 				//empty filenames (ie dirs) should have been skipped already,
@@ -193,6 +204,11 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 
 				archive_entry_set_pathname( entry, encodedFn.constData() );
 				//kDebug(1601) << "After set pathname " << QFile::decodeName(archive_entry_pathname(entry));
+			} else if (!commonBase.isEmpty()) {
+				truncatedFilename = entryName.remove(0, commonBase.size());
+				kDebug( 1601 ) << "Truncated filename: " << truncatedFilename;
+				encTruncatedFilename = QFile::encodeName(truncatedFilename);
+				archive_entry_set_pathname( entry, encTruncatedFilename.constData() );
 			}
 
 			if (!overwriteAll) {
