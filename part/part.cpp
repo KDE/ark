@@ -351,6 +351,15 @@ void Part::slotPreview( const QModelIndex & index )
 	const ArchiveEntry& entry =  m_model->entryForIndex( index );
 	if ( !entry.isEmpty() )
 	{
+		if (entry.contains(IsPasswordProtected) && entry[IsPasswordProtected].toBool())
+		{
+			KPasswordDialog dlg( NULL );
+			dlg.setPrompt( i18n("This file is password protected. Please enter the password to extract the file."));
+			if( !dlg.exec() )
+				return; //the user canceled
+			m_model->archive()->setPassword(dlg.password());
+		}
+
 		m_previewDir = new KTempDir();
 		ExtractJob *job = m_model->extractFile( entry[ InternalID ], m_previewDir->name(), Archive::CopyFlags() );
 		m_jobTracker->registerJob( job );
