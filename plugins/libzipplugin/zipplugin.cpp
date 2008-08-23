@@ -96,17 +96,14 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			ArchiveEntry e;
 
 			e[ FileName ]       = filename;
-			e[ InternalID ]     = QFile::decodeName( stat.name );
+			e[ InternalID ]     = filename;
 			e[ CRC ]            = stat.crc;
 			e[ Size ]           = static_cast<qulonglong>( stat.size );
 			e[ Timestamp ]      = QDateTime::fromTime_t( stat.mtime );
 			e[ CompressedSize ] = static_cast<qulonglong>( stat.comp_size );
 			e[ Method ]         = stat.comp_method;
 			e[ IsPasswordProtected ] = stat.encryption_method? true : false;
-
-			//TODO: why the hell does the following line cause the entries to
-			//be password protected
-			//e[ IsDirectory ] = (filename.right(1) == "/");
+			e[ IsDirectory ] = (filename.right(1) == "/");
 
 			// TODO: zip_get_file_comment returns junk sometimes, find out why
 			/*
