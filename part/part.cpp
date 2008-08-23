@@ -119,7 +119,7 @@ void Part::extractSelectedFilesTo(QString localPath)
 
 	//TODO: this should just create the selected items at the target
 	//destination, and not include the parent folders.
-	QList<QVariant> files = selectedFilesWithParents();
+	QList<QVariant> files = selectedFiles();
 	if (files.isEmpty()) return;
 
 	kDebug( 1601 ) << "selected files are " << files;
@@ -247,7 +247,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 	}
 	else finalDestinationDirectory = userDestination;
 
-	QList<QVariant> files = selectedFilesWithParents();
+	QList<QVariant> files = selectedFiles();
 	ExtractJob *job = m_model->extractFiles( files, finalDestinationDirectory, Archive::PreservePaths );
 	m_jobTracker->registerJob( job );
 
@@ -471,7 +471,7 @@ void Part::slotExtractFiles()
 		//if the user has chosen to extract only selected entries, fetch these
 		//from the listview
 		if (!dialog.extractAllFiles()) {
-			files = selectedFilesWithParents();
+			files = selectedFiles();
 		}
 
 		kDebug( 1601 ) << "Selected " << files;

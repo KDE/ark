@@ -82,6 +82,14 @@ namespace Kerfuffle
 		connect( m_helper, SIGNAL( error( const QString&, const QString& ) ),
 			 this, SIGNAL( error( const QString&, const QString& ) ) );
 		m_archive->registerObserver( m_helper );
+
+		kDebug() << "Starting extraction with selected files "
+			<< m_files
+			<< " Destination dir " << m_destinationDirectory
+			<< " Preserve paths: " << (m_flags & Archive::PreservePaths)
+			<< " Truncate common base: " << (m_flags & Archive::TruncateCommonBase)
+					;
+
 		setSuccess( m_archive->copyFiles( m_files, m_destinationDirectory, m_flags ) );
 		m_archive->removeObserver( m_helper );
 	}

@@ -53,8 +53,8 @@ namespace Kerfuffle
 		public:
 
 			enum CopyFlag {
-				PreservePaths = 0x0,
-				TruncateCommonBase = 0x1
+				PreservePaths = 0x1,
+				TruncateCommonBase = 0x2
 			};
 			Q_DECLARE_FLAGS(CopyFlags, CopyFlag)
 

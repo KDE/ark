@@ -120,11 +120,12 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 {
 	QDir::setCurrent( destinationDirectory );
 
+
 	const bool extractAll = files.isEmpty();
-	const bool preservePaths = flags & Archive::PreservePaths;
+	const bool preservePaths = (flags & Archive::PreservePaths);
 	struct archive *arch, *writer;
 	struct archive_entry *entry;
-
+	
 	QStringList entries;
 
 	foreach( const QVariant &f, files )
@@ -169,14 +170,30 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 
 	while ( archive_read_next_header( arch, &entry ) == ARCHIVE_OK )
 	{
+		//we skip directories of not preserving paths
+		if (!preservePaths && S_ISDIR(archive_entry_mode( entry ))) {
+			archive_read_data_skip( arch );
+			continue;
+		}
+
 		QString entryName = QFile::decodeName( archive_entry_pathname( entry ) );
 
 		if ( entries.contains( entryName ) || extractAll )
 		{
 			QFileInfo entryFI( entryName );
 
-			if( !preservePaths )
-				archive_entry_set_pathname( entry, QFile::encodeName( entryFI.fileName() ).constData() );
+			QString fn = entryFI.fileName();
+			QByteArray encodedFn = QFile::encodeName(fn);
+
+			if( !preservePaths ) {
+
+				//empty filenames (ie dirs) should have been skipped already,
+				//so asserting
+				Q_ASSERT(!fn.isEmpty());
+
+				archive_entry_set_pathname( entry, encodedFn.constData() );
+				//kDebug(1601) << "After set pathname " << QFile::decodeName(archive_entry_pathname(entry));
+			}
 
 			if (!overwriteAll) {
 				bool exists;
@@ -201,10 +218,16 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 				}
 			}
 
-			if ( archive_write_header( writer, entry ) == ARCHIVE_OK )
+			int header_response;
+			kDebug(1601) << "Writing entry " << fn;
+			if ( (header_response = archive_write_header( writer, entry )) == ARCHIVE_OK )
 				//if the whole archive is extracted and the total filesize is
 				//available, we use partial progress
 				copyData( arch, writer, (extractAll && extractedFilesSize) ); 
+			else {
+				kDebug( 1601 ) << "Writing header failed with error code " << header_response
+				<< "While attempting to write " << fn;
+			}
 			
 
 			//if we only partially extract the archive and the number of
