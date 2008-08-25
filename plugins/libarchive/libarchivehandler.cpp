@@ -123,6 +123,8 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 
 	const bool extractAll = files.isEmpty();
 	const bool preservePaths = (flags & Archive::PreservePaths);
+	overwriteAll = false; //we reset this per extract operation
+
 	struct archive *arch, *writer;
 	struct archive_entry *entry;
 	
@@ -203,22 +205,19 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 				Q_ASSERT(!fn.isEmpty());
 
 				archive_entry_set_pathname( entry, encodedFn.constData() );
-				//kDebug(1601) << "After set pathname " << QFile::decodeName(archive_entry_pathname(entry));
+				entryFI = QFileInfo(fn);
+
 			} else if (!commonBase.isEmpty()) {
 				truncatedFilename = entryName.remove(0, commonBase.size());
 				kDebug( 1601 ) << "Truncated filename: " << truncatedFilename;
 				encTruncatedFilename = QFile::encodeName(truncatedFilename);
 				archive_entry_set_pathname( entry, encTruncatedFilename.constData() );
+
+				entryFI = QFileInfo(truncatedFilename);
 			}
 
 			if (!overwriteAll) {
-				bool exists;
-				if (preservePaths)
-					exists = entryFI.exists();
-				else
-					exists = QFileInfo(entryFI.fileName()).exists();
-
-				if (exists) {
+				if (entryFI.exists()) {
 					Kerfuffle::OverwriteQuery query(entryName);
 					emit userQuery(&query);
 					query.waitForResponse();
