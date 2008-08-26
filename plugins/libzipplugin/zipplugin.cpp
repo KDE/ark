@@ -91,12 +91,12 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				return;
 			}
 
-			QString filename = QString( stat.name );
+			QString filename = QFile::decodeName( stat.name );
 
 			ArchiveEntry e;
 
 			e[ FileName ]       = filename;
-			e[ InternalID ]     = QByteArray( stat.name );
+			e[ InternalID ]     = QFile::decodeName( stat.name );
 			e[ CRC ]            = stat.crc;
 			e[ Size ]           = static_cast<qulonglong>( stat.size );
 			e[ Timestamp ]      = QDateTime::fromTime_t( stat.mtime );
@@ -215,7 +215,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				{
 
 					// 1. Find the entry in the archive
-					struct zip_file *file = zip_fopen( m_archive, entry.toByteArray(), 0 );
+					struct zip_file *file = zip_fopen( m_archive, QFile::encodeName(entry.toString()), 0 );
 					if ( !file )
 					{
 						error( i18n( "Could not locate file '%1' in the archive", entry.toString() ) );
@@ -242,7 +242,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 						return false;
 					}
 					
-					if (!extractEntry(file, QString(zip_get_name(m_archive, index, 0)), destinationDirectory, preservePaths)) {
+					if (!extractEntry(file, QFile::decodeName(zip_get_name(m_archive, index, 0)), destinationDirectory, preservePaths)) {
 						return false;
 					}
 

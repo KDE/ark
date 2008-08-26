@@ -297,7 +297,14 @@ void Part::slotExtractFiles()
 		ArkSettings::setLastExtractionFolder( dialog.destinationDirectory().path() );
 		ArkSettings::self()->writeConfig();
 
-		QList<QVariant> files = selectedFiles();
+ 		QList<QVariant> files;
+ 
+ 		//if the user has chosen to extract only selected entries, fetch these
+ 		//from the listview
+ 		if (!dialog.extractAllFiles()) {
+ 			files = selectedFilesWithParents();
+ 		}
+ 
 		ExtractJob *job = m_model->extractFiles( files, dialog.destinationDirectory().path(), true );
 		m_jobTracker->registerJob( job );
 

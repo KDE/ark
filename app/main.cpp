@@ -37,8 +37,11 @@ int main( int argc, char **argv )
 	                      "http://utils.kde.org/projects/ark"
 	                    );
 
-	aboutData.addAuthor( ki18n("Henrique Pinto"),
+	aboutData.addAuthor( ki18n("Harald Hvaal"),
 	                     ki18n( "Maintainer" ),
+	                     "haraldhv@stud.ntnu.no" );
+	aboutData.addAuthor( ki18n("Henrique Pinto"),
+	                     ki18n( "Former Maintainer" ),
 	                     "henrique.pinto@kdemail.net" );
 	aboutData.addAuthor( ki18n("Helio Chissini de Castro"),
 	                     ki18n( "Former maintainer" ),

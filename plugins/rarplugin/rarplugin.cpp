@@ -166,8 +166,46 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 
 bool RARInterface::addFiles( const QStringList & files )
 {
-	kDebug( 1601 ) << "Will try to add " << files << " to " << m_filename;
-  return false;
+	kDebug( 1601 ) << "Will try to add " << files << " to " << m_filename << " using " << m_rarpath;
+
+	KProcess kp;
+
+	if (!m_rarpath.isNull()) kp << m_rarpath << "a" << "-c-" << m_filename;
+	else return false;
+
+	foreach( const QString& file, files )
+	{
+		kDebug( 1601 ) << file;
+		kp << file;
+	}
+
+	kp.setOutputChannelMode(KProcess::MergedChannels);
+	kp.start();
+	if (!kp.waitForStarted()){
+		kDebug( 1601 ) << "Rar did not start";
+		return false;
+	}
+
+	//for debug output:
+	while (kp.waitForReadyRead()) {
+		QStringList lines = QString(kp.readAll()).split("\n");
+		foreach(QString line, lines) {
+			int pos = line.indexOf('%');
+			if (pos < 2 || pos == -1) continue;
+			int percentage = line.mid(pos - 2, 2).toInt();
+			progress(float(percentage) / 100);
+		}
+	}
+
+
+	if (!kp.waitForFinished()) {
+		kDebug( 1601 ) << "Rar did not finish";
+		return false;
+	}
+
+	kDebug( 1601 ) << "Finished adding files";
+
+	return true;
 }
 
 bool RARInterface::deleteFiles( const QList<QVariant> & files )

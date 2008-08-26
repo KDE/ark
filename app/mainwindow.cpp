@@ -37,6 +37,9 @@
 #include <KEditToolBar>
 #include <KShortcutsDialog>
 
+#include <QDragEnterEvent>
+#include <QDragMoveEvent>
+
 MainWindow::MainWindow( QWidget * )
 	: KParts::MainWindow( )
 {
@@ -50,6 +53,8 @@ MainWindow::MainWindow( QWidget * )
 		resize( 640, 480 );
 	}
 	setAutoSaveSettings( "MainWindow" );
+
+	setAcceptDrops(true);
 }
 
 MainWindow::~MainWindow()
@@ -60,6 +65,39 @@ MainWindow::~MainWindow()
 	}
 	delete m_part;
 	m_part = 0;
+}
+
+void MainWindow::dragEnterEvent ( QDragEnterEvent * event )
+{
+	kDebug(1601) << event;
+	if (event->mimeData()->hasUrls() &&
+			event->mimeData()->urls().count() == 1)
+         event->acceptProposedAction();
+	return;
+}
+
+void MainWindow::dropEvent ( QDropEvent * event )
+{
+	kDebug(1601) << event;
+	
+	//should be checked before the actual drop
+	Q_ASSERT(event->mimeData()->hasUrls());
+	Q_ASSERT(event->mimeData()->urls().count() == 1);
+
+	event->acceptProposedAction();
+
+	openUrl(event->mimeData()->urls().at(0));
+}
+
+void MainWindow::dragMoveEvent ( QDragMoveEvent * event )
+{
+	kDebug(1601) << event;
+
+	//should be checked before the drag
+	Q_ASSERT(event->mimeData()->hasUrls());
+	Q_ASSERT(event->mimeData()->urls().count() == 1);
+
+	event->acceptProposedAction();
 }
 
 bool MainWindow::loadPart()
