@@ -46,6 +46,7 @@ class LibArchiveInterface: public ReadWriteArchiveInterface
 	private:
 		int extractionFlags() const;
 		void copyData( struct archive *source, struct archive *dest, bool partialprogress = true );
+		void copyData( QString filename, struct archive *dest, bool partialprogress = true );
 		int cachedArchiveEntryCount;
 		qlonglong extractedFilesSize;
 		qlonglong currentExtractedFilesSize;

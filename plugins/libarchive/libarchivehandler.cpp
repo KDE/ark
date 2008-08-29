@@ -292,6 +292,37 @@ int LibArchiveInterface::extractionFlags() const
 	return result;
 }
 
+void LibArchiveInterface::copyData( QString filename, struct archive *dest, bool partialprogress )
+{
+	char buff[ARCHIVE_DEFAULT_BYTES_PER_BLOCK];
+	ssize_t readBytes;
+	QFile file(filename);
+
+	if (!file.open(QIODevice::ReadOnly))
+		return;
+
+	readBytes = file.read( buff, sizeof(buff) );
+	while(readBytes > 0)
+	{
+	   /* int writeBytes = */ 
+		archive_write_data( dest, buff, readBytes );
+		if( archive_errno( dest ) != ARCHIVE_OK ) {
+			kDebug() << "Error while writing..." << archive_error_string( dest ) << "(error nb =" << archive_errno( dest ) << ')';
+			return;
+		}
+
+
+		if (partialprogress) {
+			currentExtractedFilesSize += readBytes;
+			progress(float(currentExtractedFilesSize) / extractedFilesSize);
+		}
+
+		readBytes = file.read( buff, sizeof(buff) );
+	}
+
+	file.close();
+}
+
 void LibArchiveInterface::copyData( struct archive *source, struct archive *dest, bool partialprogress )
 {
 	char buff[ARCHIVE_DEFAULT_BYTES_PER_BLOCK];
@@ -319,32 +350,80 @@ void LibArchiveInterface::copyData( struct archive *source, struct archive *dest
 
 bool LibArchiveInterface::addFiles(const QString& path, const QStringList & files )
 {
-	struct archive *arch, *writer;
+	struct archive *arch_reader, *arch_writer;
 	struct archive_entry *entry;
 	int ret;
 
-	error("No worky yet - wait a few commits!");
-	return false;
+	QString tempFilename = filename() + ".arkWriting";
 
-#if 0
-	arch = archive_write_new();
+	//*********initialize the reader
+	arch_reader = archive_read_new();
+	if ( !arch_reader )
+	{
+		return false;
+	}
+
+	archive_read_support_compression_all( arch_reader );
+	archive_read_support_format_all( arch_reader );
+	int res = archive_read_open_filename( arch_reader, QFile::encodeName( filename() ), 10240 );
+
+	//*********initialize the writer
+	arch_writer = archive_write_new();
+	if ( !arch_writer )
+	{
+		return false;
+	}
 	
-	archive_write_set_compression_gzip(arch);
-	archive_write_set_format_ustar(arch);
+	archive_write_set_compression_gzip(arch_writer);
+	archive_write_set_format_ustar(arch_writer);
 
-	ret = archive_write_open_filename(arch, QFile::encodeName( filename() ));
+	ret = archive_write_open_filename(arch_writer, QFile::encodeName( tempFilename ));
 
-	foreach(const QString& file, files) {
 
+	//********** copy all elements from previous archive to new archive
+	int header_response;
+	while ( archive_read_next_header( arch_reader, &entry ) == ARCHIVE_OK )
+	{
+		//kDebug(1601) << "Writing entry " << fn;
+		if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )
+			//if the whole archive is extracted and the total filesize is
+			//available, we use partial progress
+			copyData( arch_reader, arch_writer, false); 
+		else {
+			kDebug( 1601 ) << "Writing header failed with error code " << header_response;
+		}
+
+		archive_entry_clear( entry );
+	}
+
+	foreach(const QString& selectedFile, files) {
+
+		struct stat st;
+		QFileInfo info(selectedFile);
 		entry = archive_entry_new();
 
-		
+		stat(QFile::encodeName(selectedFile).constData(), &st);
+		archive_entry_copy_stat(entry, &st);
+		archive_entry_copy_pathname( entry, QFile::encodeName(info.fileName()).constData() );
 
+		kDebug( 1601 ) << "Writing new entry " << archive_entry_pathname(entry);
+		if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )
+			//if the whole archive is extracted and the total filesize is
+			//available, we use partial progress
+			copyData( selectedFile, arch_writer, false); 
+		else {
+			kDebug( 1601 ) << "Writing header failed with error code " << header_response;
+			kDebug() << "Error while writing..." << archive_error_string( arch_writer ) << "(error nb =" << archive_errno( arch_writer ) << ')';
+		}
+
+		archive_entry_clear( entry );
 
 	}
 
-	ret = archive_write_finish(arch);
-#endif
+	ret = archive_write_finish(arch_writer);
+	archive_read_finish( arch_reader ) == ARCHIVE_OK;
+
+	return true;
 
 }
 
