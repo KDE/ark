@@ -360,26 +360,29 @@ bool LibArchiveInterface::addFiles(const QString& path, const QStringList & file
 	struct archive *arch_reader, *arch_writer;
 	struct archive_entry *entry;
 	int ret;
+	int header_response;
 	int destArchiveOpened = false;
-	//const bool creatingNewFile = !QFileInfo(filename()).exists();
+	const bool creatingNewFile = !QFileInfo(filename()).exists();
 
 	QString tempFilename = filename() + ".arkWriting";
 
-	//*********initialize the reader
-	arch_reader = archive_read_new();
-	if ( !arch_reader )
-	{
-		error(i18n("The archive reader could not be initialized."));
-		return false;
-	}
+	if (!creatingNewFile) {
+		//*********initialize the reader
+		arch_reader = archive_read_new();
+		if ( !arch_reader )
+		{
+			error(i18n("The archive reader could not be initialized."));
+			return false;
+		}
 
-	archive_read_support_compression_all( arch_reader );
-	archive_read_support_format_all( arch_reader );
-	ret = archive_read_open_filename( arch_reader, QFile::encodeName( filename() ), 10240 );
-	if ( ret != ARCHIVE_OK )
-	{
-		error(i18n("The source file could not be read."));
-		return false;
+		archive_read_support_compression_all( arch_reader );
+		archive_read_support_format_all( arch_reader );
+		ret = archive_read_open_filename( arch_reader, QFile::encodeName( filename() ), 10240 );
+		if ( ret != ARCHIVE_OK )
+		{
+			error(i18n("The source file could not be read."));
+			return false;
+		}
 	}
 
 	//*********initialize the writer
@@ -390,65 +393,101 @@ bool LibArchiveInterface::addFiles(const QString& path, const QStringList & file
 		return false;
 	}
 
-	switch (archive_compression(arch_reader)) {
-		case ARCHIVE_COMPRESSION_GZIP:
+	if (creatingNewFile) {
+		if (filename().right(2).toUpper() == "GZ") {
+			kDebug(1601) << "Detected gzip compression for new file";
 			ret = archive_write_set_compression_gzip(arch_writer);
-			break;
-		case ARCHIVE_COMPRESSION_BZIP2:
+		} else if (filename().right(3).toUpper() == "BZ2") {
+			kDebug(1601) << "Detected bzip2 compression for new file";
 			ret = archive_write_set_compression_bzip2(arch_writer);
-			break;
-		default:
-			error(i18n("The compression type '%1' is not supported by Ark.", QString(archive_compression_name(arch_reader))));
-			return false;
-	}
-	if (ret != ARCHIVE_OK) {
-		error(i18n("Setting compression failed with the error '%1'", QString(archive_error_string( arch_writer ))));
-		return false;
-	}
-
-
-
-	//********** copy all elements from previous archive to new archive
-	int header_response;
-	while ( archive_read_next_header( arch_reader, &entry ) == ARCHIVE_OK )
-	{
-
-		if (!destArchiveOpened) {
-
-			ret = archive_write_set_format(arch_writer, archive_format(arch_reader));
-
-			//if setting the format did not succeed, try to fallback to the
-			//base format
-			if (ret != ARCHIVE_OK) {
-				ret = archive_write_set_format(arch_writer, archive_format(arch_reader) & ARCHIVE_FORMAT_BASE_MASK);
-			}
-
-			if (ret != ARCHIVE_OK) {
-				error(i18n("Setting format %2 failed with the error '%1'", QString(archive_error_string( arch_writer )), archive_format(arch_reader)));
-				return false;
-			}
-
-			//we do not open the write archive before here because we need a
-			//call to read_next_header for the right format to be detected
-			ret = archive_write_open_filename(arch_writer, QFile::encodeName( tempFilename ));
-			if (ret != ARCHIVE_OK) {
-				error(i18n("Opening the archive for writing failed with error message '%1'", QString(archive_error_string( arch_writer ))));
-				return false;
-			}
-			destArchiveOpened = true;
+		} else {
+			kDebug(1601) << "Falling back to gzip";
+			ret = archive_write_set_compression_gzip(arch_writer);
 		}
 
-		//kDebug(1601) << "Writing entry " << fn;
-		if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )
-			//if the whole archive is extracted and the total filesize is
-			//available, we use partial progress
-			copyData( arch_reader, arch_writer, false); 
-		else {
-			kDebug( 1601 ) << "Writing header failed with error code " << header_response;
+		if (ret != ARCHIVE_OK) {
+			error(i18n("Setting compression failed with the error '%1'", QString(archive_error_string( arch_writer ))));
 			return false;
 		}
 
-		archive_entry_clear( entry );
+		//pax_restricted is the libarchive default, let's go with that.
+		archive_write_set_format_pax_restricted(arch_writer);
+
+		if (ret != ARCHIVE_OK) {
+			error(i18n("Setting format failed with the error '%1'", QString(archive_error_string( arch_writer ))));
+			return false;
+		}
+
+		ret = archive_write_open_filename(arch_writer, QFile::encodeName( filename() ));
+		if (ret != ARCHIVE_OK) {
+			error(i18n("Opening the archive for writing failed with error message '%1'", QString(archive_error_string( arch_writer ))));
+			return false;
+		}
+
+		destArchiveOpened = true;
+
+
+	} else {
+		switch (archive_compression(arch_reader)) {
+			case ARCHIVE_COMPRESSION_GZIP:
+				ret = archive_write_set_compression_gzip(arch_writer);
+				break;
+			case ARCHIVE_COMPRESSION_BZIP2:
+				ret = archive_write_set_compression_bzip2(arch_writer);
+				break;
+			default:
+				error(i18n("The compression type '%1' is not supported by Ark.", QString(archive_compression_name(arch_reader))));
+				return false;
+		}
+		if (ret != ARCHIVE_OK) {
+			error(i18n("Setting compression failed with the error '%1'", QString(archive_error_string( arch_writer ))));
+			return false;
+		}
+
+
+
+
+		//********** copy all elements from previous archive to new archive
+		while ( archive_read_next_header( arch_reader, &entry ) == ARCHIVE_OK )
+		{
+
+			if (!destArchiveOpened) {
+
+				ret = archive_write_set_format(arch_writer, archive_format(arch_reader));
+
+				//if setting the format did not succeed, try to fallback to the
+				//base format
+				if (ret != ARCHIVE_OK) {
+					ret = archive_write_set_format(arch_writer, archive_format(arch_reader) & ARCHIVE_FORMAT_BASE_MASK);
+				}
+
+				if (ret != ARCHIVE_OK) {
+					error(i18n("Setting format %2 failed with the error '%1'", QString(archive_error_string( arch_writer )), archive_format(arch_reader)));
+					return false;
+				}
+
+				//we do not open the write archive before here because we need a
+				//call to read_next_header for the right format to be detected
+				ret = archive_write_open_filename(arch_writer, QFile::encodeName( tempFilename ));
+				if (ret != ARCHIVE_OK) {
+					error(i18n("Opening the archive for writing failed with error message '%1'", QString(archive_error_string( arch_writer ))));
+					return false;
+				}
+				destArchiveOpened = true;
+			}
+
+			//kDebug(1601) << "Writing entry " << fn;
+			if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )
+				//if the whole archive is extracted and the total filesize is
+				//available, we use partial progress
+				copyData( arch_reader, arch_writer, false); 
+			else {
+				kDebug( 1601 ) << "Writing header failed with error code " << header_response;
+				return false;
+			}
+
+			archive_entry_clear( entry );
+		}
 	}
 
 	foreach(const QString& selectedFile, files) {
@@ -477,13 +516,16 @@ bool LibArchiveInterface::addFiles(const QString& path, const QStringList & file
 	}
 
 	ret = archive_write_finish(arch_writer);
-	archive_read_finish( arch_reader );
 
-	//everything seems OK, so we remove the source file and replace it with
-	//the new one.
-	//TODO: do some extra checks to see if this is really OK
-	QFile::remove(filename());
-	QFile::rename(tempFilename, filename());
+	if (!creatingNewFile) {
+		archive_read_finish( arch_reader );
+
+		//everything seems OK, so we remove the source file and replace it with
+		//the new one.
+		//TODO: do some extra checks to see if this is really OK
+		QFile::remove(filename());
+		QFile::rename(tempFilename, filename());
+	}
 
 	return true;
 
