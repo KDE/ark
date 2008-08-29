@@ -80,11 +80,9 @@ void MainWindow::dropEvent ( QDropEvent * event )
 {
 	kDebug(1601) << event;
 	
-	//should be checked before the actual drop
-	Q_ASSERT(event->mimeData()->hasUrls());
-	Q_ASSERT(event->mimeData()->urls().count() == 1);
-
-	event->acceptProposedAction();
+	if (event->mimeData()->hasUrls() &&
+			event->mimeData()->urls().count() == 1)
+         event->acceptProposedAction();
 
 	openUrl(event->mimeData()->urls().at(0));
 }
@@ -93,11 +91,9 @@ void MainWindow::dragMoveEvent ( QDragMoveEvent * event )
 {
 	kDebug(1601) << event;
 
-	//should be checked before the drag
-	Q_ASSERT(event->mimeData()->hasUrls());
-	Q_ASSERT(event->mimeData()->urls().count() == 1);
-
-	event->acceptProposedAction();
+	if (event->mimeData()->hasUrls() &&
+			event->mimeData()->urls().count() == 1)
+         event->acceptProposedAction();
 }
 
 bool MainWindow::loadPart()
