@@ -261,7 +261,6 @@ QVariant ArchiveModel::headerData( int section, Qt::Orientation, int role ) cons
 
 		int columnId = m_showColumns.at(section);
 
-		//TODO: complete the columns
 		switch ( columnId )
 		{
 			case FileName:
@@ -272,6 +271,23 @@ QVariant ArchiveModel::headerData( int section, Qt::Orientation, int role ) cons
 				return i18nc( "Compressed size of a file inside an archive", "Compressed" );
 			case Ratio:
 				return i18nc( "Compression rate of file", "Rate" );
+			case Owner:
+				return i18nc( "File's owner username", "Owner" );
+			case Group:
+				return i18nc( "File's group", "Group" );
+			case Permissions:
+				return i18nc( "File permissions", "Mode" );
+			case CRC:
+				return i18nc( "CRC hash code", "CRC" );
+			case Method:
+				return i18nc( "Compression method", "Method" );
+			case Version:
+				//TODO: what exactly is a file version?
+				return i18nc( "File version", "Version" );
+			case Timestamp:
+				return i18nc( "Timestamp", "Time" );
+			case Comment:
+				return i18nc( "File comment", "Comment" );
 			default:
 				return i18nc( "Unnamed column", "??" );
 
@@ -532,7 +548,6 @@ void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 			<< Permissions
 			<< Owner
 			<< Group
-			<< Link
 			<< Ratio
 			<< CRC
 			<< Method
