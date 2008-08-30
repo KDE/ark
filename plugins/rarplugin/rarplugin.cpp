@@ -24,6 +24,7 @@
 #include "kerfuffle/queries.h"
 
 #include <QFile>
+#include <QDir>
 #include <QDateTime>
 #include <KProcess>
 #include <KStandardDirs>
@@ -113,6 +114,8 @@ void RARInterface::processListLine(const QString& line)
 	}
 
 	QStringList fileprops = line.split(' ', QString::SkipEmptyParts);
+	m_entryFilename = QDir::fromNativeSeparators(m_entryFilename);
+
 	kDebug( 1601 ) << m_entryFilename << " : " << fileprops ;
 	ArchiveEntry e;
 	e[ FileName ] = m_entryFilename;

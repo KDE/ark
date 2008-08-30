@@ -57,7 +57,7 @@ LibArchiveInterface::~LibArchiveInterface()
 void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry) {
 
 	ArchiveEntry e;
-	e[ FileName ] = QString::fromWCharArray(archive_entry_pathname_w( aentry ));
+	e[ FileName ] = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w( aentry )));
 	e[ InternalID ] = e[ FileName ];
 	e[ Owner ] = QString( archive_entry_uname( aentry ) );
 	e[ Group ] = QString( archive_entry_gname( aentry ) );
@@ -193,7 +193,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 			continue;
 		}
 
-		QString entryName = QFile::decodeName( archive_entry_pathname( entry ) );
+		QString entryName = QDir::fromNativeSeparators(QFile::decodeName( archive_entry_pathname( entry ) ));
 
 		if ( entries.contains( entryName ) || extractAll )
 		{

@@ -24,6 +24,7 @@
 #include "kerfuffle/archivefactory.h"
 
 #include <QFile>
+#include <QDir>
 #include <QDateTime>
 #include <KProcess>
 #include <KStandardDirs>
@@ -105,7 +106,7 @@ void p7zipInterface::processLine(int& state, const QString& line)
 		case 1: // beginning of a file detail
 			if (line.startsWith("Path ="))
 			{
-				QString entryFilename = line.mid( 6).trimmed();
+				QString entryFilename = QDir::fromNativeSeparators(line.mid( 6).trimmed());
 				m_currentArchiveEntry[FileName] = entryFilename;
 				m_currentArchiveEntry[InternalID] = entryFilename;
 				state = 2;

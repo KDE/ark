@@ -91,7 +91,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				return;
 			}
 
-			QString filename = QFile::decodeName( stat.name );
+			QString filename = QDir::fromNativeSeparators(QFile::decodeName( stat.name ));
 
 			ArchiveEntry e;
 
@@ -248,7 +248,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 						return false;
 					}
 					
-					if (!extractEntry(file, QFile::decodeName(zip_get_name(m_archive, index, 0)), destinationDirectory, preservePaths)) {
+					if (!extractEntry(file, QDir::fromNativeSeparators(QFile::decodeName(zip_get_name(m_archive, index, 0))), destinationDirectory, preservePaths)) {
 						return false;
 					}
 
