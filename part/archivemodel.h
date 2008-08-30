@@ -91,6 +91,7 @@ class ArchiveModel: public QAbstractItemModel
 		 */
 		void insertNode( ArchiveNode *node );
 
+		QList<int> m_showColumns;
 		Kerfuffle::Archive *m_archive;
 		ArchiveDirNode *m_rootNode;
 		KJobTrackerInterface *m_jobTracker;

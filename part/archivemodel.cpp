@@ -181,43 +181,47 @@ QVariant ArchiveModel::data( const QModelIndex &index, int role ) const
 		switch ( role )
 		{
 			case Qt::DisplayRole:
-				switch (index.column()) {
-					case 0: //filename
-						return node->name();
-					case 1: //size
-						if ( node->isDir() || node->entry().contains( Link ) )
-						{
-							return QVariant();
-						}
-						else
-						{
-							return KIO::convertSize( node->entry()[ Size ].toULongLong() );
-						}
-					case 2:
-						if ( node->isDir() || node->entry().contains( Link ) )
-						{
-							return QVariant();
-						}
-						else
-						{
-							return KIO::convertSize( node->entry()[ CompressedSize ].toULongLong() );
-						}
-					case 3:
-						if ( node->isDir() || node->entry().contains( Link ) )
-						{
-							return QVariant();
-						}
-						else
-						{
-							qulonglong compressedSize = node->entry()[ CompressedSize ].toULongLong();
-							qulonglong size = node->entry()[ Size ].toULongLong();
-							return QString::number( int(100 * float(size - compressedSize) / size) ) + " %";
-						}
+				{
+					//TODO: complete the columns
+					int columnId = m_showColumns.at(index.column());
+					switch (columnId) {
+						case FileName:
+							return node->name();
+						case Size:
+							if ( node->isDir() || node->entry().contains( Link ) )
+							{
+								return QVariant();
+							}
+							else
+							{
+								return KIO::convertSize( node->entry()[ Size ].toULongLong() );
+							}
+						case CompressedSize:
+							if ( node->isDir() || node->entry().contains( Link ) )
+							{
+								return QVariant();
+							}
+							else
+							{
+								return KIO::convertSize( node->entry()[ CompressedSize ].toULongLong() );
+							}
+						case Ratio:
+							if ( node->isDir() || node->entry().contains( Link ) )
+							{
+								return QVariant();
+							}
+							else
+							{
+								qulonglong compressedSize = node->entry()[ CompressedSize ].toULongLong();
+								qulonglong size = node->entry()[ Size ].toULongLong();
+								return QString::number( int(100 * float(size - compressedSize) / size) ) + " %";
+							}
 
-					default:
-						return QVariant();
+						default:
+							return node->entry().value(columnId);
+					}
+					break;
 				}
-				break;
 			case Qt::DecorationRole:
 				if ( index.column() == 0 )
 				{
@@ -253,16 +257,24 @@ QVariant ArchiveModel::headerData( int section, Qt::Orientation, int role ) cons
 {
 	if ( role == Qt::DisplayRole )
 	{
-		switch ( section )
+		Q_ASSERT(section < m_showColumns.size());
+
+		int columnId = m_showColumns.at(section);
+
+		//TODO: complete the columns
+		switch ( columnId )
 		{
-			case 0:
+			case FileName:
 				return i18nc( "Name of a file inside an archive", "Name" );
-			case 1:
+			case Size:
 				return i18nc( "Uncompressed size of a file inside an archive", "Size" );
-			case 2:
+			case CompressedSize:
 				return i18nc( "Compressed size of a file inside an archive", "Compressed" );
-			case 3:
+			case Ratio:
 				return i18nc( "Compression rate of file", "Rate" );
+			default:
+				return i18nc( "Unnamed column", "??" );
+
 		}
 	}
 	return QVariant();
@@ -342,7 +354,7 @@ int ArchiveModel::rowCount( const QModelIndex &parent ) const
 
 int ArchiveModel::columnCount( const QModelIndex &parent ) const
 {
-	return 4; // TODO: Completely bogus
+	return m_showColumns.size();
 	if ( parent.isValid() )
 	{
 		return static_cast<ArchiveNode*>( parent.internalPointer() )->entry().size();
@@ -506,6 +518,42 @@ void ArchiveModel::slotUserQuery(Query *query)
 void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 {
 	kDebug (1601) << entry; 
+
+	//if there are no addidional columns registered, then have a look at the
+	//entry and populate some
+	if (m_showColumns.isEmpty()) {
+
+		//these are the columns we are interested in showing in the display
+		static const QList<int> columnsForDisplay = 
+			QList<int>()
+			<< FileName
+			<< Size
+			<< CompressedSize
+			<< Permissions
+			<< Owner
+			<< Group
+			<< Link
+			<< Ratio
+			<< CRC
+			<< Method
+			<< Version
+			<< Timestamp
+			<< Comment;
+
+		QList<int> toInsert;
+
+		foreach(int column, columnsForDisplay) {
+			if (entry.contains(column))
+				toInsert << column;
+		}
+		beginInsertColumns(QModelIndex(), 0, toInsert.size() - 1 );
+		m_showColumns << toInsert;
+		endInsertColumns();
+
+		kDebug( 1601 ) << "Show columns detected: " << m_showColumns;
+
+	}
+
 	/// 1. Skip already created nodes
 	if (m_rootNode){
 		ArchiveNode *existing = m_rootNode->findByPath( entry[ FileName ].toString() );
@@ -556,6 +604,11 @@ void ArchiveModel::setArchive( Kerfuffle::Archive *archive )
 	delete m_archive;
 	m_archive = archive;
 	m_rootNode->clear();
+
+	beginRemoveColumns(QModelIndex(), 0, m_showColumns.size() - 1);
+	m_showColumns.clear();
+	endRemoveColumns();
+
 	if ( m_archive )
 	{
 		Kerfuffle::ListJob *job = m_archive->list(); // TODO: call "open" or "create"?
