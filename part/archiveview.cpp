@@ -56,22 +56,34 @@ void ArchiveView::dragEnterEvent ( QDragEnterEvent * event )
 	//TODO: if no model, trigger some mechanism to create one automatically!
 	kDebug(1601) << event;
 
+	if (event->source() == this) {
+		//we don't support internal drops yet.
+		return;
+	}
+
 	QTreeView::dragEnterEvent(event);
-	return;
 }
 
 void ArchiveView::dropEvent ( QDropEvent * event )
 {
 	kDebug(1601) << event;
+
+	if (event->source() == this) {
+		//we don't support internal drops yet.
+		return;
+	}
+
 	QTreeView::dropEvent(event);
-	return;
 }
 
 void ArchiveView::dragMoveEvent ( QDragMoveEvent * event )
 {
+	if (event->source() == this) {
+		//we don't support internal drops yet.
+		return;
+	}
+
 	QTreeView::dragMoveEvent(event);
 	if (event->mimeData()->hasFormat("text/uri-list"))
          event->acceptProposedAction();
-	return;
-	kDebug() << indexAt(event->pos());
 }
