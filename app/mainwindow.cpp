@@ -40,6 +40,13 @@
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 
+static bool isValidArchiveDrag(const QMimeData *data)
+{
+	return
+	data->hasUrls() &&
+	data->urls().count() == 1;
+}
+
 MainWindow::MainWindow( QWidget * )
 	: KParts::MainWindow( )
 {
@@ -70,8 +77,8 @@ MainWindow::~MainWindow()
 void MainWindow::dragEnterEvent ( QDragEnterEvent * event )
 {
 	kDebug(1601) << event;
-	if (event->mimeData()->hasUrls() &&
-			event->mimeData()->urls().count() == 1)
+	if (event->source() == NULL &&
+			isValidArchiveDrag(event->mimeData()))
          event->acceptProposedAction();
 	return;
 }
@@ -80,10 +87,12 @@ void MainWindow::dropEvent ( QDropEvent * event )
 {
 	kDebug(1601) << event;
 	
-	if (event->mimeData()->hasUrls() &&
-			event->mimeData()->urls().count() == 1)
+	if (event->source() == NULL &&
+			isValidArchiveDrag(event->mimeData()))
          event->acceptProposedAction();
 
+	//TODO: if this call provokes a message box the drag will still be going
+	//while the box is onscreen. looks buggy, do something about it
 	openUrl(event->mimeData()->urls().at(0));
 }
 
@@ -91,8 +100,8 @@ void MainWindow::dragMoveEvent ( QDragMoveEvent * event )
 {
 	kDebug(1601) << event;
 
-	if (event->mimeData()->hasUrls() &&
-			event->mimeData()->urls().count() == 1)
+	if (event->source() == NULL &&
+			isValidArchiveDrag(event->mimeData()))
          event->acceptProposedAction();
 }
 
