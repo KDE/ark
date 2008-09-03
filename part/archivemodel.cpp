@@ -403,6 +403,7 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 	kDebug (1601) ;
 	//prepare the fallback kio_slave filenames
 	QStringList files;
+	bool noFallback = false;
 
 	QString archiveName = m_archive->fileName();
 	QString ext = QFileInfo(archiveName).suffix().toUpper();
@@ -412,7 +413,8 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 		archiveName.prepend("zip:");
 	} else if (archiveName.right(6).toUpper() == "TAR.GZ") {
 			archiveName.prepend("tar:");
-	};
+	} else
+		noFallback = true;
 
 	if (archiveName.right(1) != "/") {
 		archiveName.append("/");
@@ -428,8 +430,6 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 		files << file;
 	}
 
-	kDebug(1601) << "Sending out mimedata: " << files;
-
 	KUrl::List kiolist(files);
 
 	//prepare the dbus-based drag/drop mimedata
@@ -439,7 +439,8 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 			);
 
 
-	kiolist.populateMimeData(data);
+	if (!noFallback)
+		kiolist.populateMimeData(data);
 	return data;
 }
 
