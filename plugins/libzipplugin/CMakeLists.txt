@@ -4,6 +4,10 @@ include_directories( ${LIBZIP_INCLUDE_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR}/../..
                    )
 
+if (LIBZIP_COMPILED_WITH_32BIT_OFF_T)
+   remove_definitions(-D_FILE_OFFSET_BITS=64)
+endif (LIBZIP_COMPILED_WITH_32BIT_OFF_T)
+
 ########### next target ###############
 
 set(kerfuffle_libzip_SRCS zipplugin.cpp)

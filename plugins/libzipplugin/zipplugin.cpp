@@ -25,14 +25,6 @@
 
 #include <QString>
 
-//TODO:
-//a ninjatrick to redefine off_t to 32bit inside this file because libzip is
-//usually compiled with off_t to 32bit. in the long run libzip should be
-//compiled according to bugs.kde.org bug #167018
-//but for now this will probably do
-#define __off_t_defined
-typedef quint32 off_t;
-
 #include "kerfuffle/archiveinterface.h"
 #include "kerfuffle/archivefactory.h"
 
