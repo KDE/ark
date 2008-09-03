@@ -28,6 +28,7 @@
 
 #include "mainwindow.h"
 #include "batchextract.h"
+#include "addtoarchive.h"
 
 int main( int argc, char **argv )
 {
@@ -102,7 +103,28 @@ int main( int argc, char **argv )
 		// open any given URLs
 		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-		if (args->isSet("batch") || args->count() > 1) {
+		if (args->isSet("add") || args->isSet("add-to")) {
+
+			//once the job has been started this interface can be safely
+			//deleted
+			AddToArchive addInterface;
+
+			for (int i = 0; i < args->count(); ++i) {
+
+				//TODO: use the returned value here?
+				addInterface.addInput(args->url(i));
+
+
+			}
+			if (args->isSet("add-to")) {
+				addInterface.setFilename(args->getOption("add-to"));
+			}
+
+			addInterface.startAdding();
+
+		} else if (args->isSet("batch") || args->count() > 1) {
+			//once the job has been started this interface can be safely
+			//deleted
 			BatchExtract batchExtract;
 
 			for (int i = 0; i < args->count(); ++i) {

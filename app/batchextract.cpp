@@ -244,7 +244,6 @@ bool BatchExtract::showExtractDialog()
 
 BatchExtract::~BatchExtract()
 {
-
 }
 
 #include <batchextract.moc>
