@@ -620,9 +620,8 @@ void ArchiveModel::setArchive( Kerfuffle::Archive *archive )
 	m_archive = archive;
 	m_rootNode->clear();
 
-	beginRemoveColumns(QModelIndex(), 0, m_showColumns.size() - 1);
+	// TODO: make sure if it's ok to not have calls to beginRemoveColumns here
 	m_showColumns.clear();
-	endRemoveColumns();
 
 	if ( m_archive )
 	{
