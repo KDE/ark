@@ -80,11 +80,12 @@ int main( int argc, char **argv )
 	aboutData.setProgramIconName( "utilities-file-archiver" );
 
 	KCmdLineArgs::init( argc, argv, &aboutData );
-
 	KCmdLineOptions option;
 	option.add("+[url]", ki18n( "URL of an archive to be opened" ));
 	option.add("d").add("dialog", ki18n("Show the extract dialog after opening archive"));
 	option.add("o").add("destination <directory>", ki18n("Destination folder to extract to. Defaults to current path if not specified."));
+	option.add("c").add("add", ki18n("Query the user for an archive filename and add specified files to it. Quit when finished."));
+	option.add("t").add("add-to <filename>", ki18n("Add the specified files to 'filename'. Create archive if it does not exist. Quit when finished."));
 	option.add("b").add("batch", ki18n("Use the batch interface instead of the usual dialog. This option is implied if more than one url is specified"));
 	option.add(":", ki18n("Options for batch extraction:"));
 	option.add("e").add("autodestination", ki18n("The destination argument will be set to the path of the first file supplied."));
