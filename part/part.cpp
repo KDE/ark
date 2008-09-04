@@ -524,7 +524,7 @@ QList<QVariant> Part::selectedFilesWithChildren()
 
 	toSort.sort();
 	QVariantList ret;
-	foreach (QString i, toSort) {
+	foreach (const QString &i, toSort) {
 		ret << i;
 	}
 	return ret;
@@ -542,7 +542,7 @@ QList<QVariant> Part::selectedFiles()
 
 	toSort.sort();
 	QVariantList ret;
-	foreach (QString i, toSort) {
+	foreach (const QString &i, toSort) {
 		ret << i;
 	}
 	return ret;

@@ -207,7 +207,7 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 	}
 
 	QStringList args = kp.program();
-	foreach (QString s, args)
+	foreach (const QString &s, args)
 		kDebug( 1601 ) << s;
 	
 	kp.start();
@@ -265,7 +265,7 @@ bool p7zipInterface::addFiles( const QString& path, const QStringList & files )
 	QString warningMessages;
 	while (kp.waitForReadyRead()) {
 		QStringList lines = QString(kp.readAll()).split("\n");
-		foreach(QString line, lines) {
+		foreach(const QString &line, lines) {
 			if (line.startsWith("Compressing"))
 			{
 				fileCount += 1;

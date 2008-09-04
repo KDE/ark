@@ -184,7 +184,7 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 
 	while (kp.waitForReadyRead()) {
 		QStringList lines = QString(kp.readAll()).split("\n");
-		foreach(QString line, lines) {
+		foreach(const QString &line, lines) {
 
 			//read the percentage
 			int pos = line.indexOf('%');
@@ -249,7 +249,7 @@ bool RARInterface::addFiles(const QString& path, const QStringList & files )
 	//for debug output:
 	while (kp.waitForReadyRead()) {
 		QStringList lines = QString(kp.readAll()).split("\n");
-		foreach(QString line, lines) {
+		foreach(const QString &line, lines) {
 			int pos = line.indexOf('%');
 			if (pos < 2 || pos == -1) continue;
 			int percentage = line.mid(pos - 2, 2).toInt();

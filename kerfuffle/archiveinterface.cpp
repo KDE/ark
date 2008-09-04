@@ -93,7 +93,7 @@ namespace Kerfuffle
 			if (common.size() > 1) {
 				common.removeLast(); //We don't need the filename
 
-				foreach(const QVariant selectedEntry, files) {
+				foreach(const QVariant &selectedEntry, files) {
 					QStringList parts = selectedEntry.toString().split("/", QString::SkipEmptyParts);
 					for (int i = common.size() - 1; i > -1; --i) {
 						if (common.at(i) != parts.at(i))
