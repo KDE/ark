@@ -83,7 +83,7 @@ namespace Kerfuffle
 			 this, SIGNAL( error( const QString&, const QString& ) ) );
 		m_archive->registerObserver( m_helper );
 
-		kDebug() << "Starting extraction with selected files "
+		kDebug(1601) << "Starting extraction with selected files "
 			<< m_files
 			<< " Destination dir " << m_destinationDirectory
 			<< " Preserve paths: " << (m_flags & Archive::PreservePaths)

@@ -148,7 +148,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 	//A trailing slash is very very very important here
 	Q_ASSERT(commonBase.isEmpty() || commonBase.right(1) == "/");
 
-	kDebug() << "Found common base " << commonBase;
+	kDebug(1601) << "Found common base " << commonBase;
 
 	arch = archive_read_new();
 	if ( !arch )
