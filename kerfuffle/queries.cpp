@@ -65,8 +65,10 @@ namespace Kerfuffle
 				i18n("File already exists"), 
 				KUrl(m_data.value("filename").toString()),
 				KUrl(m_data.value("filename").toString()),
-				(KIO::RenameDialog_Mode)(KIO::M_OVERWRITE | KIO::M_MULTI));
+				(KIO::RenameDialog_Mode)(KIO::M_OVERWRITE | KIO::M_MULTI | KIO::M_SKIP));
 		dialog.exec();
+
+		m_data["newFilename"] = dialog.newDestUrl().path();
 
 		setResponse(dialog.result());
 	}
@@ -84,5 +86,19 @@ namespace Kerfuffle
 		return m_data.value("response").toInt() == KIO::R_OVERWRITE;
 	}
 
+	bool OverwriteQuery::responseRename()
+	{
+		return m_data.value("response").toInt() == KIO::R_RENAME;
+	}
+
+	bool OverwriteQuery::responseSkip()
+	{
+		return m_data.value("response").toInt() == KIO::R_SKIP;
+	}
+
+	QString OverwriteQuery::newFilename()
+	{
+		return m_data.value("newFilename").toString();
+	}
 
 }

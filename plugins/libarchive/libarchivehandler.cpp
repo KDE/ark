@@ -187,8 +187,10 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 
 	while ( archive_read_next_header( arch, &entry ) == ARCHIVE_OK )
 	{
+		const bool entryIsDir = S_ISDIR(archive_entry_mode( entry ));
+
 		//we skip directories of not preserving paths
-		if (!preservePaths && S_ISDIR(archive_entry_mode( entry ))) {
+		if (!preservePaths && entryIsDir) {
 			archive_read_data_skip( arch );
 			continue;
 		}
@@ -223,7 +225,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 				entryFI = QFileInfo(truncatedFilename);
 			}
 
-			if (!overwriteAll) {
+			if (!overwriteAll & !entryIsDir) {
 				if (entryFI.exists()) {
 					Kerfuffle::OverwriteQuery query(entryName);
 					emit userQuery(&query);
@@ -232,8 +234,21 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 					if (query.responseCancelled()) {
 						entries.removeAll( entryName );
 						archive_read_data_skip( arch );
+						archive_entry_clear( entry );
 						break;
 					}
+					if (query.responseSkip()) {
+						entries.removeAll( entryName );
+						archive_read_data_skip( arch );
+						archive_entry_clear( entry );
+						continue;
+					}
+
+					if (query.responseRename()) {
+						QString newName = query.newFilename();
+						archive_entry_copy_pathname(entry, QFile::encodeName(newName).constData());
+					}
+
 
 					if (query.responseOverwriteAll())
 						overwriteAll = true;

@@ -79,6 +79,9 @@ namespace Kerfuffle
 			bool responseCancelled();
 			bool responseOverwriteAll();
 			bool responseOverwrite();
+			bool responseRename();
+			bool responseSkip();
+			QString newFilename();
 	};
 
 }

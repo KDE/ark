@@ -31,6 +31,8 @@
 #include <QDir>
 
 #include <QCoreApplication>
+#include <QApplication>
+#include <QDesktopWidget>
 
 void BatchExtractJob::addExtraction(Kerfuffle::Archive* archive,bool preservePaths, QString destinationFolder)
 {
@@ -196,6 +198,16 @@ bool BatchExtract::startExtraction()
 		allJobs->addExtraction(archive, m_preservePaths, finalDestination);
 	}
 	tracker->registerJob(allJobs);
+
+	//center the progress widget on screen
+	QWidget *assignedWidget = qobject_cast<KWidgetJobTracker*>(tracker)->widget(allJobs);
+	if (assignedWidget) {
+		QRect rect = assignedWidget->geometry();
+		QRect screen = QApplication::desktop()->screenGeometry(QApplication::desktop()->primaryScreen());
+		rect.moveCenter(screen.center());
+		assignedWidget->setGeometry(rect);
+	}
+
 
 	connect(allJobs, SIGNAL(finished(KJob*)),
 			QCoreApplication::instance(), SLOT(quit()));
