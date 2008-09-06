@@ -25,6 +25,15 @@
 
 #include <QString>
 
+
+#ifdef LIBZIP_COMPILED_WITH_32BIT_OFF_T
+
+#define __off_t_defined
+typedef quint32 off_t;
+
+#endif /* LIBZIP_COMPILED_WITH_32BIT_OFF_T */
+
+
 #include "kerfuffle/archiveinterface.h"
 #include "kerfuffle/archivefactory.h"
 

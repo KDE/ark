@@ -4,8 +4,14 @@ include_directories( ${LIBZIP_INCLUDE_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR}/../..
                    )
 
+set (LIBZIP_COMPILED_WITH_32BIT_OFF_T ON CACHE BOOL "Whether the system libzip library is compiled with 32bits off_t" )
+
 if (LIBZIP_COMPILED_WITH_32BIT_OFF_T)
-   remove_definitions(-D_FILE_OFFSET_BITS=64)
+
+	# this doesn't work correctly yet
+	#remove_definitions(-D_FILE_OFFSET_BITS=64)
+
+   add_definitions(-DLIBZIP_COMPILED_WITH_32BIT_OFF_T)
 endif (LIBZIP_COMPILED_WITH_32BIT_OFF_T)
 
 ########### next target ###############
