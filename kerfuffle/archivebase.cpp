@@ -24,7 +24,6 @@
  */
 
 #include "archivebase.h"
-#include "internaljobs.h"
 #include "queries.h"
 
 #include <kdebug.h>
