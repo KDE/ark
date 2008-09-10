@@ -98,7 +98,9 @@ namespace Kerfuffle
 	{
 		Q_OBJECT
 		public:
-			ExtractJob( const QList<QVariant> & files, const QString& destinationDir, Archive::CopyFlags flags, ReadOnlyArchiveInterface *interface, QObject *parent = 0 );
+			ExtractJob( const QList<QVariant> & files, const QString&
+					destinationDir, Archive::CopyFlags flags,
+					ReadOnlyArchiveInterface *interface, QObject *parent = 0 );
 
 			void doWork();
 
@@ -112,8 +114,9 @@ namespace Kerfuffle
 	{
 		Q_OBJECT
 		public:
-			AddJob(const QString& path, const QStringList & files, ReadWriteArchiveInterface *interface, QObject *parent = 0 );
-
+			AddJob(const QString& path, const QStringList & files,
+					ReadWriteArchiveInterface *interface, QObject *parent = 0
+					);
 			void doWork();
 
 		private:
@@ -126,8 +129,8 @@ namespace Kerfuffle
 	{
 		Q_OBJECT
 		public:
-			DeleteJob( const QList<QVariant>& files, ReadWriteArchiveInterface *interface, QObject *parent = 0 );
-
+			DeleteJob( const QList<QVariant>& files, ReadWriteArchiveInterface
+					*interface, QObject *parent = 0 );
 			void doWork();
 
 		private:
