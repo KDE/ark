@@ -24,6 +24,7 @@
  */
 #include "jobs.h"
 #include "internaljobs.h"
+#include "threading.h"
 
 #include <kdebug.h>
 #include <KLocale>
@@ -31,15 +32,30 @@
 
 namespace Kerfuffle
 {
+
+
+	Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
+		: KJob(parent),
+		m_interface(interface)
+	{
+
+	}
+
+	void Job::start()
+	{
+		ThreadExecution *thread = new ThreadExecution(this);
+		ThreadWeaver::Weaver::instance()->enqueue( thread );
+	}
+
 	ListJob::ListJob( ReadOnlyArchiveInterface *interface, QObject *parent )
-		: KJob( parent ), m_archive( interface ),
+		: Job( interface, parent ), m_archive( interface ),
 		m_isSingleFolderArchive(true),
 		m_isPasswordProtected(false),
 		m_extractedFilesSize(0)
 	{
 	}
 
-	void ListJob::start()
+	void ListJob::doWork()
 	{
 		emit description( this, i18n( "Listing entries" ) );
 		InternalListingJob *job = new InternalListingJob( m_archive, this );
@@ -98,11 +114,11 @@ namespace Kerfuffle
 
 	ExtractJob::ExtractJob( const QList<QVariant>& files, const QString& destinationDir,
 	                        Archive::CopyFlags flags, ReadOnlyArchiveInterface *interface, QObject *parent )
-		: KJob( parent ), m_files( files ), m_destinationDir( destinationDir ), m_flags(flags),  m_archive( interface )
+		: Job(interface,  parent ), m_files( files ), m_destinationDir( destinationDir ), m_flags(flags),  m_archive( interface )
 	{
 	}
 
-	void ExtractJob::start()
+	void ExtractJob::doWork()
 	{
 		QString desc;
 		if ( m_files.count() == 0 )
@@ -150,11 +166,11 @@ namespace Kerfuffle
 	}
 
 	AddJob::AddJob( const QString& path, const QStringList & files, ReadWriteArchiveInterface *interface, QObject *parent )
-		: KJob( parent ), m_files( files ), m_path(path), m_archive( interface )
+		: Job( interface, parent ), m_files( files ), m_path(path), m_archive( interface )
 	{
 	}
 
-	void AddJob::start()
+	void AddJob::doWork()
 	{
 		emit description( this, i18np( "Adding a file", "Adding %1 files", m_files.count() ) );
 		
@@ -194,11 +210,11 @@ namespace Kerfuffle
 	}
 
 	DeleteJob::DeleteJob( const QList<QVariant>& files, ReadWriteArchiveInterface *interface, QObject *parent )
-		: KJob( parent ), m_files( files ), m_archive( interface )
+		: Job( interface, parent ), m_files( files ), m_archive( interface )
 	{
 	}
 
-	void DeleteJob::start()
+	void DeleteJob::doWork()
 	{
 		emit description( this, i18np( "Deleting a file from the archive", "Deleting %1 files", m_files.count() ) );
 

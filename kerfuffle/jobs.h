@@ -42,21 +42,40 @@ namespace ThreadWeaver
 
 namespace Kerfuffle
 {
-	class KERFUFFLE_EXPORT ListJob: public KJob
+	class KERFUFFLE_EXPORT Job: public KJob
+	{
+		Q_OBJECT
+		//we friend the Archive class to let it create jobs
+		friend class Archive;
+
+		public:
+			void start();
+			virtual void doWork() = 0;
+
+		signals:
+			void userQuery( Query* );
+			void newEntry( const ArchiveEntry & );
+			void error( const QString& errorMessage, const QString& details );
+
+		protected:
+			Job(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
+
+		private:
+			ReadOnlyArchiveInterface* m_interface;
+
+	};
+
+	class KERFUFFLE_EXPORT ListJob: public Job
 	{
 		Q_OBJECT
 		public:
 			explicit ListJob( ReadOnlyArchiveInterface *interface, QObject *parent = 0 );
 
-			void start();
+			void doWork();
 			bool isSingleFolderArchive() { return m_isSingleFolderArchive; }
 			bool isPasswordProtected() { return m_isPasswordProtected; }
 			QString subfolderName() { return m_subfolderName; }
 			qlonglong extractedFilesSize() { return m_extractedFilesSize; }
-
-		signals:
-			void newEntry( const ArchiveEntry & );
-			void error( const QString& errorMessage, const QString& details );
 
 		private slots:
 			void done( ThreadWeaver::Job* );
@@ -73,16 +92,13 @@ namespace Kerfuffle
 			qlonglong m_extractedFilesSize;
 	};
 
-	class KERFUFFLE_EXPORT ExtractJob: public KJob
+	class KERFUFFLE_EXPORT ExtractJob: public Job
 	{
 		Q_OBJECT
 		public:
 			ExtractJob( const QList<QVariant> & files, const QString& destinationDir, Archive::CopyFlags flags, ReadOnlyArchiveInterface *interface, QObject *parent = 0 );
 
-			void start();
-
-		signals:
-			void userQuery( Query* );
+			void doWork();
 
 		private slots:
 			void done( ThreadWeaver::Job * );
@@ -96,17 +112,13 @@ namespace Kerfuffle
 			ReadOnlyArchiveInterface *m_archive;
 	};
 
-	class KERFUFFLE_EXPORT AddJob: public KJob
+	class KERFUFFLE_EXPORT AddJob: public Job
 	{
 		Q_OBJECT
 		public:
 			AddJob(const QString& path, const QStringList & files, ReadWriteArchiveInterface *interface, QObject *parent = 0 );
 
-			void start();
-
-		signals:
-			void newEntry( const ArchiveEntry & );
-			void userQuery( Query* );
+			void doWork();
 
 		private slots:
 			void done( ThreadWeaver::Job * );
@@ -120,18 +132,16 @@ namespace Kerfuffle
 
 	};
 
-	class KERFUFFLE_EXPORT DeleteJob: public KJob
+	class KERFUFFLE_EXPORT DeleteJob: public Job
 	{
 		Q_OBJECT
 		public:
 			DeleteJob( const QList<QVariant>& files, ReadWriteArchiveInterface *interface, QObject *parent = 0 );
 
-			void start();
+			void doWork();
 
 		signals:
 			void entryRemoved( const QString & entry );
-			void error( const QString& errorMessage, const QString& details );
-			void userQuery( Query* );
 
 		private slots:
 			void done( ThreadWeaver::Job * );
