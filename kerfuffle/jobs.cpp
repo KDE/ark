@@ -74,6 +74,8 @@ namespace Kerfuffle
 		m_isPasswordProtected(false),
 		m_extractedFilesSize(0)
 	{
+		connect(this, SIGNAL(newEntry( const ArchiveEntry&)),
+				this, SLOT(onNewEntry( const ArchiveEntry&)));
 	}
 
 	void ListJob::doWork()
