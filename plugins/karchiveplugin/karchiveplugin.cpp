@@ -89,7 +89,7 @@ bool KArchiveInterface::copyFiles( const QList<QVariant> & files, const QString 
 		const KArchiveEntry *archiveEntry = archive()->directory()->entry( file.toString() );
 		if ( !archiveEntry )
 		{
-			error( QString( "File '%1' not found in the archive" ).arg( file.toString() ) );
+			error( i18n( "File '%1' not found in the archive" ,file.toString() ) );
 			return false;
 		}
 
@@ -99,7 +99,7 @@ bool KArchiveInterface::copyFiles( const QList<QVariant> & files, const QString 
 			QDir dest( destinationDirectory );
 			QString filepath = archiveEntry->isDirectory() ? fi.filePath() : fi.path();
 			dest.mkpath( filepath );
-			realDestination = dest.absolutePath() + "/" + filepath;
+			realDestination = dest.absolutePath() + '/' + filepath;
 		}
 		if ( archiveEntry->isDirectory() )
 		{
