@@ -29,6 +29,7 @@
 #include "archiveinterface.h"
 #include "archive.h"
 #include "queries.h"
+#include "observer.h"
 
 #include <KJob>
 #include <QList>
@@ -42,7 +43,7 @@ namespace ThreadWeaver
 
 namespace Kerfuffle
 {
-	class KERFUFFLE_EXPORT Job: public KJob
+	class KERFUFFLE_EXPORT Job: public KJob, public ArchiveObserver
 	{
 		Q_OBJECT
 		//we friend the Archive class to let it create jobs
@@ -52,15 +53,20 @@ namespace Kerfuffle
 			void start();
 			virtual void doWork() = 0;
 
+			//abstract implemented methods from observer
+			virtual void onError( const QString & message, const QString & details );
+			virtual void onEntry( const ArchiveEntry & archiveEntry );
+			virtual void onProgress( double );
+			virtual void onEntryRemoved( const QString & path );
+
 		signals:
 			void userQuery( Query* );
 			void newEntry( const ArchiveEntry & );
 			void error( const QString& errorMessage, const QString& details );
+			void entryRemoved( const QString & entry );
 
 		protected:
 			Job(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
-
-		private:
 			ReadOnlyArchiveInterface* m_interface;
 
 	};
@@ -78,13 +84,9 @@ namespace Kerfuffle
 			qlonglong extractedFilesSize() { return m_extractedFilesSize; }
 
 		private slots:
-			void done( ThreadWeaver::Job* );
-			void progress( double );
 			void onNewEntry(const ArchiveEntry&);
-			void onError(const QString& errorMessage, const QString& details);
 
 		private:
-			ReadOnlyArchiveInterface *m_archive;
 			bool m_isSingleFolderArchive;
 			bool m_isPasswordProtected;
 			QString m_subfolderName;
@@ -100,16 +102,10 @@ namespace Kerfuffle
 
 			void doWork();
 
-		private slots:
-			void done( ThreadWeaver::Job * );
-			void progress( double );
-			void error( const QString&, const QString& );
-
 		private:
 			QList<QVariant>           m_files;
 			QString                   m_destinationDir;
 			Archive::CopyFlags m_flags;
-			ReadOnlyArchiveInterface *m_archive;
 	};
 
 	class KERFUFFLE_EXPORT AddJob: public Job
@@ -120,15 +116,9 @@ namespace Kerfuffle
 
 			void doWork();
 
-		private slots:
-			void done( ThreadWeaver::Job * );
-			void progress( double );
-			void error( const QString&, const QString& );
-
 		private:
 			QStringList                m_files;
 			QString 				m_path;
-			ReadWriteArchiveInterface *m_archive;
 
 	};
 
@@ -140,16 +130,8 @@ namespace Kerfuffle
 
 			void doWork();
 
-		signals:
-			void entryRemoved( const QString & entry );
-
-		private slots:
-			void done( ThreadWeaver::Job * );
-			void progress( double );
-
 		private:
 			QList<QVariant>            m_files;
-			ReadWriteArchiveInterface *m_archive;
 	};
 } // namespace Kerfuffle
 

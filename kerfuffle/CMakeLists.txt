@@ -13,7 +13,6 @@ set(kerfuffle_SRCS
 	#arch.cpp 
     archive.cpp
     archiveinterface.cpp
-    internaljobs.cpp
     jobs.cpp
 	threading.cpp
     archivebase.cpp

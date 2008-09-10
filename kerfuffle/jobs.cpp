@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
+ * Copyright (c) 2008 Harald Hvaal <haraldhv )@@@( stud(dot)ntnu.no>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,7 +24,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include "jobs.h"
-#include "internaljobs.h"
 #include "threading.h"
 
 #include <kdebug.h>
@@ -47,8 +47,29 @@ namespace Kerfuffle
 		ThreadWeaver::Weaver::instance()->enqueue( thread );
 	}
 
+	void Job::onError( const QString & message, const QString & details )
+	{
+		setError(1);
+		setErrorText(message);
+	}
+
+	void Job::onEntry( const ArchiveEntry & archiveEntry )
+	{
+		emit newEntry( archiveEntry );
+	}
+
+	void Job::onProgress( double value )
+	{
+		setPercent( static_cast<unsigned long>( 100.0*value ) );
+	}
+
+	void Job::onEntryRemoved( const QString & path )
+	{
+		emit entryRemoved( path );
+	}
+
 	ListJob::ListJob( ReadOnlyArchiveInterface *interface, QObject *parent )
-		: Job( interface, parent ), m_archive( interface ),
+		: Job( interface, parent ),
 		m_isSingleFolderArchive(true),
 		m_isPasswordProtected(false),
 		m_extractedFilesSize(0)
@@ -58,20 +79,12 @@ namespace Kerfuffle
 	void ListJob::doWork()
 	{
 		emit description( this, i18n( "Listing entries" ) );
-		InternalListingJob *job = new InternalListingJob( m_archive, this );
-		// TODO: connects
-		connect( job, SIGNAL( entry( const ArchiveEntry& ) ),
-		         this, SIGNAL( newEntry( const ArchiveEntry & ) ) );
+		m_interface->registerObserver( this );
+		bool result = m_interface->list();
+		m_interface->removeObserver( this );
 
-		connect( job, SIGNAL( error( const QString&, const QString& ) ),
-		         this, SLOT( onError( const QString&, const QString& ) ) );
-		connect(job, SIGNAL(entry(const ArchiveEntry&)),
-				this, SLOT(onNewEntry(const ArchiveEntry&)));
-		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
-		         this, SLOT( done( ThreadWeaver::Job* ) ) );
-		connect( job, SIGNAL( progress( double ) ),
-		         this, SLOT( progress( double ) ) );
-		ThreadWeaver::Weaver::instance()->enqueue( job );
+		setError(!result);
+		emitResult();
 	}
 
 	void ListJob::onNewEntry(const ArchiveEntry& entry)
@@ -99,22 +112,9 @@ namespace Kerfuffle
 		}
 	}
 
-	void ListJob::onError(const QString& errorMessage, const QString& details)
-	{
-		Q_UNUSED(details);
-		setErrorText(errorMessage);
-	}
-
-	void ListJob::done( ThreadWeaver::Job *job )
-	{
-		Q_UNUSED(job  );
-		setError(!job->success());
-		emitResult();
-	}
-
 	ExtractJob::ExtractJob( const QList<QVariant>& files, const QString& destinationDir,
 	                        Archive::CopyFlags flags, ReadOnlyArchiveInterface *interface, QObject *parent )
-		: Job(interface,  parent ), m_files( files ), m_destinationDir( destinationDir ), m_flags(flags),  m_archive( interface )
+		: Job(interface,  parent ), m_files( files ), m_destinationDir( destinationDir ), m_flags(flags)
 	{
 	}
 
@@ -130,87 +130,48 @@ namespace Kerfuffle
 			desc = i18np( "Extracting one file", "Extracting %1 files", m_files.count() );
 		}
 		emit description( this, desc );
-		InternalExtractJob *job = new InternalExtractJob( m_archive, m_files, m_destinationDir, m_flags, this );
 
-		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
-		         this, SLOT( done( ThreadWeaver::Job* ) ) );
-		connect( job, SIGNAL( progress( double ) ),
-		         this, SLOT( progress( double ) ) );
-		connect( job, SIGNAL( error( const QString&, const QString& ) ),
-		         this, SLOT( error( const QString&, const QString& ) ) );
+		m_interface->registerObserver( this );
 
-		ThreadWeaver::Weaver::instance()->enqueue( job );
-	}
+		kDebug(1601) << "Starting extraction with selected files "
+			<< m_files
+			<< " Destination dir " << m_destinationDir
+			<< " Preserve paths: " << (m_flags & Archive::PreservePaths)
+			<< " Truncate common base: " << (m_flags & Archive::TruncateCommonBase)
+					;
 
-	void ExtractJob::done( ThreadWeaver::Job *job )
-	{
-		Q_UNUSED(job  );
+		setError( !m_interface->copyFiles( m_files, m_destinationDir, m_flags ) );
+		m_interface->removeObserver( this );
+
 		emitResult();
-	}
 
-	void ExtractJob::progress( double p )
-	{
-		setPercent( static_cast<unsigned long>( 100.0*p ) );
-	}
-
-	void ExtractJob::error( const QString& errorMessage, const QString& details )
-	{
-		Q_UNUSED( details );
-		setError( 1 );
-		setErrorText( errorMessage );
-	}
-
-	void ListJob::progress( double p )
-	{
-		setPercent( static_cast<unsigned long>( 100.0*p ) );
 	}
 
 	AddJob::AddJob( const QString& path, const QStringList & files, ReadWriteArchiveInterface *interface, QObject *parent )
-		: Job( interface, parent ), m_files( files ), m_path(path), m_archive( interface )
+		: Job( interface, parent ), m_files( files ), m_path(path)
 	{
 	}
 
 	void AddJob::doWork()
 	{
 		emit description( this, i18np( "Adding a file", "Adding %1 files", m_files.count() ) );
-		
-		InternalAddJob *job = new InternalAddJob( m_archive, m_path, m_files, this );
-		
-		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
-		         this, SLOT( done( ThreadWeaver::Job* ) ) );
-		connect( job, SIGNAL( progress( double ) ),
-		         this, SLOT( progress( double ) ) );
-		connect( job, SIGNAL( entry( const ArchiveEntry& ) ),
-		         this, SIGNAL( newEntry( const ArchiveEntry & ) ) );
-		connect( job, SIGNAL( error( const QString&, const QString& ) ),
-		         this, SLOT( error( const QString&, const QString& ) ) );
-		
-		ThreadWeaver::Weaver::instance()->enqueue( job );
-	}
 
-	void AddJob::done( ThreadWeaver::Job *job )
-	{
-		Q_UNUSED(job  );
-		kDebug( 1601 ) ;
+		ReadWriteArchiveInterface *m_writeInterface =
+			qobject_cast<ReadWriteArchiveInterface*>
+			(m_interface);
+
+		Q_ASSERT(m_writeInterface);
+		
+		m_writeInterface->registerObserver( this );
+		setError( !m_writeInterface->addFiles( m_path, m_files ) );
+		m_writeInterface->removeObserver( this );
+
 		emitResult();
-	}
 
-	void AddJob::progress( double p )
-	{
-		setPercent( static_cast<unsigned long>( 100.0*p ) );
-	}
-
-	void AddJob::error( const QString& errorMessage, const QString& details )
-	{
-		kDebug( 1601 ) ;
-		//TODO: why is this unused?
-		Q_UNUSED( details );
-		setError( 1 );
-		setErrorText( errorMessage );
 	}
 
 	DeleteJob::DeleteJob( const QList<QVariant>& files, ReadWriteArchiveInterface *interface, QObject *parent )
-		: Job( interface, parent ), m_files( files ), m_archive( interface )
+		: Job( interface, parent ), m_files( files )
 	{
 	}
 
@@ -218,27 +179,17 @@ namespace Kerfuffle
 	{
 		emit description( this, i18np( "Deleting a file from the archive", "Deleting %1 files", m_files.count() ) );
 
-		InternalDeleteJob *job = new InternalDeleteJob( m_archive, m_files, this );
+		ReadWriteArchiveInterface *m_writeInterface =
+			qobject_cast<ReadWriteArchiveInterface*>
+			(m_interface);
 
-		connect( job, SIGNAL( done( ThreadWeaver::Job* ) ),
-		         this, SLOT( done( ThreadWeaver::Job* ) ) );
-		connect( job, SIGNAL( progress( double ) ),
-		         this, SLOT( progress( double ) ) );
-		connect( job, SIGNAL( entryRemoved( const QString& ) ),
-		         this, SIGNAL( entryRemoved( const QString& ) ) );
+		Q_ASSERT(m_writeInterface);
+		
+		m_writeInterface->registerObserver( this );
+		setError( !m_writeInterface->deleteFiles( m_files ) );
+		m_writeInterface->removeObserver( this );
 
-		ThreadWeaver::Weaver::instance()->enqueue( job );
-	}
-
-	void DeleteJob::done( ThreadWeaver::Job *job )
-	{
-		Q_UNUSED(job  );
 		emitResult();
-	}
-
-	void DeleteJob::progress( double p )
-	{
-		setPercent( static_cast<unsigned long>( 100.0*p ) );
 	}
 
 } // namespace Kerfuffle
