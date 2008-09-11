@@ -10,6 +10,7 @@ X-KDE-StartupNotify=false
 
 [Desktop Action arkExtractHere]
 Name=Extract archive here
+Name[el]=Εξαγωγή αρχειοθήκης εδώ
 Name[es]=Extraer archivo aquí
 Name[et]=Paki arhiiv siia lahti
 Name[ga]=Bain an chartlann amach agus cuir é anseo
@@ -26,6 +27,7 @@ Exec=/home/harald/kde/bin/ark --batch --autodestination %F
 
 [Desktop Action arkExtractTo]
 Name=Extract archive to...
+Name[el]=Εξαγωγή αρχειοθήκης σε...
 Name[es]=Extraer archivo en...
 Name[et]=Paki arhiiv lahti...
 Name[ga]=Bain an chartlann amach go...
@@ -43,6 +45,7 @@ Exec=/home/harald/kde/bin/ark --batch --autodestination --dialog %F
 
 [Desktop Action arkAutoExtractHere]
 Name=Extract archive here, autodetect subfolder
+Name[el]=Εξαγωγή αρχειοθήκης εδώ, αυτόματη επιλογή υποφακέλου
 Name[es]=Extraer archivo aquí, autodetectar subcarpeta
 Name[et]=Paki arhiiv siia lahti, tuvasta automaatselt alamkataloog
 Name[ga]=Bain an chartlann amach agus cuir é anseo, braith fofhillteán go huathoibríoch

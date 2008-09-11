@@ -14,6 +14,7 @@ X-KDE-Kerfuffle-ReadWrite=true
 Name=kerfuffle_7zip
 Name[sv]=Kerfuffle 7zip
 Comment=7zip plugin for Kerfuffle
+Comment[el]=πρόσθετο 7zip για τη Kerfuffle
 Comment[es]=Complemento 7zip para Kerfuffle
 Comment[et]=Kerfuffle'i 7zip'i plugin
 Comment[ga]=Breiseán 7zip le haghaidh Kerfuffle
