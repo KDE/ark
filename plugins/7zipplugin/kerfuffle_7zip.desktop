@@ -26,5 +26,6 @@ Comment[pt_BR]=Plug-in 7zip para a Kerfuffle
 Comment[sv]=7zip-insticksprogram för Kerfuffle
 Comment[tr]=Kerfuffle için 7zip eklentisi
 Comment[uk]=Додаток 7zip для Kerfuffle
+Comment[zh_CN]=Kerfuffle 的 7zip 插件
 Comment[zh_TW]=Kerfuffle 的 7zip 外掛程式
 MimeType=application/x-7z-compressed;
