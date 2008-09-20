@@ -34,6 +34,9 @@
 #include "queries.h"
 #include "kerfuffle_export.h"
 
+#include <kio/job.h>
+#include <kio/jobclasses.h>
+
 namespace Kerfuffle
 {
 	class ArchiveObserver;
@@ -63,6 +66,7 @@ namespace Kerfuffle
 			void entryRemoved( const QString& path );
 			QString password() { return m_password; }
 			QString findCommonBase(const QVariantList& files);
+			void expandDirectories( QStringList &files );
 
 		signals:
 			void userQuery( Query* );
@@ -72,6 +76,21 @@ namespace Kerfuffle
 			QList<ArchiveObserver*> m_observers;
 			QString m_filename;
 			QString m_password;
+	};
+
+	//used by the expandDirectories function
+	class RecursiveListHelper : public QObject
+	{
+		Q_OBJECT
+
+		public:
+			RecursiveListHelper() :
+				QObject(NULL) {}
+			QStringList results;
+
+		public slots:
+			void entries (KIO::Job *job, const KIO::UDSEntryList &list);
+
 	};
 
 	class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterface

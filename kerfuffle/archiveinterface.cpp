@@ -111,6 +111,35 @@ namespace Kerfuffle
 		return commonBase;
 	}
 
+	void ReadOnlyArchiveInterface::expandDirectories( QStringList &files )
+	{
+		for(int i = 0; i < files.size(); ++i) {
+			const QString& item = files.at(i);
+			if (QFileInfo(item).isDir()) {
+				KIO::ListJob *listJob = KIO::listRecursive(item, KIO::HideProgressInfo);
+				RecursiveListHelper helper;
+				connect(listJob, SIGNAL(entries (KIO::Job *, const KIO::UDSEntryList &)),
+						&helper, SLOT(entries (KIO::Job *, const KIO::UDSEntryList &)));
+				listJob->exec();
+
+				foreach(const QString& result, helper.results) {
+					files.insert(i + 1, item + "/" + result);
+					++i;
+				}
+				
+			}
+		}
+	}
+
+	void RecursiveListHelper::entries (KIO::Job *job, const KIO::UDSEntryList &list)
+	{
+		foreach( const KIO::UDSEntry& entry, list) {
+			QString value = entry.stringValue(KIO::UDSEntry::UDS_NAME);
+			if (value == ".." || value == ".") continue;
+			results.append(value);
+		}
+	}
+
 	ReadWriteArchiveInterface::ReadWriteArchiveInterface( const QString & filename, QObject *parent )
 		: ReadOnlyArchiveInterface( filename, parent )
 	{
