@@ -41,7 +41,9 @@ void ArchiveView::setModel(QAbstractItemModel *model)
 	setAlternatingRowColors( true );
 	setAnimated( true );
 	setAllColumnsShowFocus( true );
-	header()->setResizeMode(0, QHeaderView::ResizeToContents);
+
+	if (header() && header()->visualIndex(0) != -1)
+		header()->setResizeMode(0, QHeaderView::ResizeToContents);
 
 	//drag and drop
 	setDragEnabled(true);
