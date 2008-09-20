@@ -24,8 +24,8 @@ Name[tr]=Arşivi buraya aç
 Name[uk]=Видобути архів сюди
 Name[zh_CN]=在此解压缩归档
 Name[zh_TW]=在此解壓縮
-Icon=ark
-Exec=/home/harald/kde/bin/ark --batch --autodestination %F
+Icon=utilities-file-archiver
+Exec=ark --batch --autodestination %F
 
 [Desktop Action arkExtractTo]
 Name=Extract archive to...
@@ -44,8 +44,8 @@ Name[tr]=Arşivi buraya aç...
 Name[uk]=Видобути архів до...
 Name[zh_CN]=解压缩归档到...
 Name[zh_TW]=解壓縮到...
-Icon=ark
-Exec=/home/harald/kde/bin/ark --batch --autodestination --dialog %F
+Icon=utilities-file-archiver
+Exec=ark --batch --autodestination --dialog %F
 
 [Desktop Action arkAutoExtractHere]
 Name=Extract archive here, autodetect subfolder
@@ -63,5 +63,5 @@ Name[tr]=Arşivi buraya aç, alt dizinleri otomatik olarak belirle
 Name[uk]=Видобути архів сюди, автоматично визначити підтеку
 Name[zh_CN]=在此解压缩归档，自动探测子文件夹
 Name[zh_TW]=在此解壓縮，自動偵測子資料夾
-Icon=ark
-Exec=/home/harald/kde/bin/ark --batch --autodestination --autosubfolder %F
+Icon=utilities-file-archiver
+Exec=ark --batch --autodestination --autosubfolder %F

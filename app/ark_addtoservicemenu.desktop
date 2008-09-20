@@ -9,15 +9,15 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action addToRar]
 Name=RAR archive
-Icon=ark
-Exec=/home/harald/kde/bin/ark --changetofirstpath --add --autofilename rar %F
+Icon=utilities-file-archiver
+Exec=ark --changetofirstpath --add --autofilename rar %F
 
 [Desktop Action addToTar]
 Name=Gzip-compressed tar archive
-Icon=ark
-Exec=/home/harald/kde/bin/ark --changetofirstpath --add --autofilename tar.gz %F
+Icon=utilities-file-archiver
+Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
 [Desktop Action addTo]
 Name=Compress to...
-Icon=ark
-Exec=/home/harald/kde/bin/ark --add-to --autodestination --dialog %F
+Icon=utilities-file-archiver
+Exec=ark --add-to --autodestination --dialog %F
