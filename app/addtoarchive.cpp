@@ -23,9 +23,11 @@
 #include <kdebug.h>
 #include <QCoreApplication>
 #include <kwidgetjobtracker.h>
+#include <QFileInfo>
+#include <QDir>
 
 AddToArchive::AddToArchive(QObject *parent)
-	: QObject(parent)
+	: QObject(parent), m_changeToFirstPath(false)
 {
 
 }
@@ -34,22 +36,38 @@ AddToArchive::~AddToArchive()
 {
 
 }
-bool AddToArchive::addInput( const KUrl& url )
+bool AddToArchive::addInput( const KUrl& url)
 {
-	kDebug( 1601 );
 	m_inputs << url.path();
 	return true;
 }
-
 
 bool AddToArchive::startAdding( void )
 {
 	kDebug( 1601 );
 	Kerfuffle::Archive *archive = Kerfuffle::factory(m_filename);
-	//TODO: a proper error is needed here
+
+	//TODO: needs error
 	if (archive == NULL) {
 		QCoreApplication::instance()->quit();
 		return false;
+	}
+
+	if (!m_inputs.size()) {
+		//TODO: needs error
+		return false;
+	}
+
+	if (m_changeToFirstPath) {
+		QString firstEntry = m_inputs.first();
+		
+		QDir stripDir = QFileInfo(firstEntry).dir();
+		for (int i = 0; i < m_inputs.size(); ++i) {
+			m_inputs[i] = stripDir.relativeFilePath(m_inputs.at(i));
+		}
+
+		QDir::setCurrent(stripDir.path());
+
 	}
 
 	Kerfuffle::AddJob *job = 

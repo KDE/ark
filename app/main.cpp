@@ -85,10 +85,12 @@ int main( int argc, char **argv )
 	option.add("+[url]", ki18n( "URL of an archive to be opened" ));
 	option.add("d").add("dialog", ki18n("Show the extract dialog after opening archive"));
 	option.add("o").add("destination <directory>", ki18n("Destination folder to extract to. Defaults to current path if not specified."));
+	option.add(":", ki18n("Options for adding files"));
 	option.add("c").add("add", ki18n("Query the user for an archive filename and add specified files to it. Quit when finished."));
 	option.add("t").add("add-to <filename>", ki18n("Add the specified files to 'filename'. Create archive if it does not exist. Quit when finished."));
-	option.add("b").add("batch", ki18n("Use the batch interface instead of the usual dialog. This option is implied if more than one url is specified"));
+	option.add("p").add("changetofirstpath", ki18n("Change the current dir to the first entry and add all other entries relative to this one."));
 	option.add(":", ki18n("Options for batch extraction:"));
+	option.add("b").add("batch", ki18n("Use the batch interface instead of the usual dialog. This option is implied if more than one url is specified"));
 	option.add("e").add("autodestination", ki18n("The destination argument will be set to the path of the first file supplied."));
 	option.add("a").add("autosubfolder", ki18n("Archive contents will be read, and if detected to not be a single folder archive, a subfolder by the name of the archive will be created."));
 	option.add("s").add("subfolder <directory>", ki18n("Create a subfolder under the destination directory and extract here."));
@@ -109,15 +111,18 @@ int main( int argc, char **argv )
 			//deleted
 			AddToArchive addInterface;
 
+			if (args->isSet("changetofirstpath")) {
+				addInterface.setChangeToFirstPath(true);
+			}
+
+			if (args->isSet("add-to")) {
+				addInterface.setFilename(args->getOption("add-to"));
+			}
+
 			for (int i = 0; i < args->count(); ++i) {
 
 				//TODO: use the returned value here?
 				addInterface.addInput(args->url(i));
-
-
-			}
-			if (args->isSet("add-to")) {
-				addInterface.setFilename(args->getOption("add-to"));
 			}
 
 			addInterface.startAdding();

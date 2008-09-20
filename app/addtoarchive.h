@@ -45,15 +45,18 @@ class AddToArchive : public QObject
 
 		bool showExtractDialog();
 		void setPreservePaths(bool value);
+		void setChangeToFirstPath(bool value) { m_changeToFirstPath = value; }
 
 	public slots:
-		bool addInput( const KUrl& url );
+		bool addInput( const KUrl& url);
 		void setFilename( const KUrl& path ) { m_filename = path.path(); }
 		bool startAdding();
 
 	private:
 		QString m_filename;
+		QString m_strippedPath;
 		QStringList m_inputs;
+		bool m_changeToFirstPath;
 
 };
 
