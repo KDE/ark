@@ -45,16 +45,38 @@ bool AddToArchive::addInput( const KUrl& url)
 bool AddToArchive::startAdding( void )
 {
 	kDebug( 1601 );
-	Kerfuffle::Archive *archive = Kerfuffle::factory(m_filename);
+
+	if (!m_inputs.size()) {
+		//TODO: needs error
+		return false;
+	}
+
+	Kerfuffle::Archive *archive;
+	if (!m_filename.isEmpty()) {
+		 archive = Kerfuffle::factory(m_filename);
+		 kDebug( 1601 ) << "Set filename to " + m_filename;
+	}
+	else {
+		
+		if (m_autoFilenameSuffix.isEmpty()) {
+			//TODO: needs error
+			return false;
+		}
+
+		QString base;
+		QFileInfo fi(m_inputs.first());
+		base = fi.absoluteFilePath().split("/", QString::SkipEmptyParts).last();
+		QString finalName = base + "." + m_autoFilenameSuffix;
+
+		kDebug( 1601 ) << "Autoset filename to " + finalName;
+		archive = Kerfuffle::factory(finalName);
+		
+	}
+
 
 	//TODO: needs error
 	if (archive == NULL) {
 		QCoreApplication::instance()->quit();
-		return false;
-	}
-
-	if (!m_inputs.size()) {
-		//TODO: needs error
 		return false;
 	}
 

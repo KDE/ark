@@ -89,6 +89,7 @@ int main( int argc, char **argv )
 	option.add("c").add("add", ki18n("Query the user for an archive filename and add specified files to it. Quit when finished."));
 	option.add("t").add("add-to <filename>", ki18n("Add the specified files to 'filename'. Create archive if it does not exist. Quit when finished."));
 	option.add("p").add("changetofirstpath", ki18n("Change the current dir to the first entry and add all other entries relative to this one."));
+	option.add("f").add("autofilename <suffix>", ki18n("Automatically choose a filename, with the selected suffix (for example rar, tar.gz, zip or any other supported types)"));
 	option.add(":", ki18n("Options for batch extraction:"));
 	option.add("b").add("batch", ki18n("Use the batch interface instead of the usual dialog. This option is implied if more than one url is specified"));
 	option.add("e").add("autodestination", ki18n("The destination argument will be set to the path of the first file supplied."));
@@ -117,6 +118,10 @@ int main( int argc, char **argv )
 
 			if (args->isSet("add-to")) {
 				addInterface.setFilename(args->getOption("add-to"));
+			}
+
+			if (args->isSet("autofilename")) {
+				addInterface.setAutoFilenameSuffix(args->getOption("autofilename"));
 			}
 
 			for (int i = 0; i < args->count(); ++i) {

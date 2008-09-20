@@ -50,11 +50,13 @@ class AddToArchive : public QObject
 	public slots:
 		bool addInput( const KUrl& url);
 		void setFilename( const KUrl& path ) { m_filename = path.path(); }
+		void setAutoFilenameSuffix( const QString& suffix ) { m_autoFilenameSuffix = suffix; }
 		bool startAdding();
 
 	private:
 		QString m_filename;
 		QString m_strippedPath;
+		QString m_autoFilenameSuffix;
 		QStringList m_inputs;
 		bool m_changeToFirstPath;
 
