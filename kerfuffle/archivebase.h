@@ -70,6 +70,7 @@ namespace Kerfuffle
 			void onListFinished(KJob*);
 
 		private:
+			void listIfNotListed();
 			ReadOnlyArchiveInterface *m_iface;
 			bool m_hasBeenListed;
 			bool m_isSingleFolderArchive;

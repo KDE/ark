@@ -35,6 +35,7 @@
 #include <QList>
 #include <QStringList>
 #include <QDateTime>
+#include <QEventLoop>
 
 namespace Kerfuffle
 {
@@ -138,21 +139,35 @@ namespace Kerfuffle
 		m_hasBeenListed = true;
 	}
 
+	void ArchiveBase::listIfNotListed()
+	{
+		if (!m_hasBeenListed) {
+			KJob *job = list();
+
+			QEventLoop loop( this );
+
+			connect( job, SIGNAL( result( KJob* ) ),
+					&loop, SLOT( quit() ) );
+			job->start();
+			loop.exec();
+		}
+	}
+
 	bool ArchiveBase::isSingleFolderArchive()
 	{
-		if (!m_hasBeenListed) list()->exec();
+		listIfNotListed();
 		return m_isSingleFolderArchive;
 	}
 
 	bool ArchiveBase::isPasswordProtected()
 	{
-		if (!m_hasBeenListed) list()->exec();
+		listIfNotListed();
 		return m_isPasswordProtected;
 	}
 
 	QString ArchiveBase::subfolderName()
 	{
-		if (!m_hasBeenListed) list()->exec();
+		listIfNotListed();
 		return m_subfolderName;
 	}
 
