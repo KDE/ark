@@ -381,6 +381,13 @@ bool LibArchiveInterface::addFiles(const QString& path, const QStringList & file
 
 	QString tempFilename = filename() + ".arkWriting";
 
+	QStringList expandedFiles = files;
+
+	kDebug( 1601 ) << "Before expanding: " << expandedFiles << QDir::currentPath();
+	expandDirectories(expandedFiles);
+
+	kDebug( 1601 ) << "After expanding: " << expandedFiles;
+
 	if (!creatingNewFile) {
 		//*********initialize the reader
 		arch_reader = archive_read_new();
@@ -505,7 +512,7 @@ bool LibArchiveInterface::addFiles(const QString& path, const QStringList & file
 		}
 	}
 
-	foreach(const QString& selectedFile, files) {
+	foreach(const QString& selectedFile, expandedFiles) {
 
 		struct stat st;
 		QFileInfo info(selectedFile);
@@ -513,7 +520,7 @@ bool LibArchiveInterface::addFiles(const QString& path, const QStringList & file
 
 		stat(QFile::encodeName(selectedFile).constData(), &st);
 		archive_entry_copy_stat(entry, &st);
-		archive_entry_copy_pathname( entry, QFile::encodeName(info.fileName()).constData() );
+		archive_entry_copy_pathname( entry, QFile::encodeName(selectedFile).constData() );
 
 		kDebug( 1601 ) << "Writing new entry " << archive_entry_pathname(entry);
 		if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )

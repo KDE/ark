@@ -116,7 +116,9 @@ namespace Kerfuffle
 		for(int i = 0; i < files.size(); ++i) {
 			const QString& item = files.at(i);
 			if (QFileInfo(item).isDir()) {
-				KIO::ListJob *listJob = KIO::listRecursive(item, KIO::HideProgressInfo);
+				QString absolutePath = QFileInfo(item).absolutePath();
+				Q_ASSERT(QFileInfo(absolutePath).exists());
+				KIO::ListJob *listJob = KIO::listRecursive(absolutePath, KIO::HideProgressInfo);
 				RecursiveListHelper helper;
 				connect(listJob, SIGNAL(entries (KIO::Job *, const KIO::UDSEntryList &)),
 						&helper, SLOT(entries (KIO::Job *, const KIO::UDSEntryList &)));
