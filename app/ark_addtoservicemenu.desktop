@@ -4,20 +4,47 @@ ServiceTypes=KonqPopupMenu/Plugin
 MimeType=all/all;
 Actions=addTo;addToRar;addToTar;
 X-KDE-Submenu=Compress
+X-KDE-Submenu[es]=Comprimir
+X-KDE-Submenu[gl]=Comprimir
+X-KDE-Submenu[pt]=Comprimir
+X-KDE-Submenu[pt_BR]=Comprimir
+X-KDE-Submenu[uk]=Стиснути
+X-KDE-Submenu[zh_TW]=壓縮
 X-KDE-StartupNotify=false
 X-KDE-Priority=TopLevel
 
 [Desktop Action addToRar]
 Name=RAR archive
+Name[es]=Archivo comprimido RAR
+Name[gl]=Arquivo RAR
+Name[pt]=Pacote RAR
+Name[pt_BR]=Pacote RAR
+Name[sv]=RAR-arkiv
+Name[uk]=Архів RAR
+Name[zh_TW]=RAR 壓縮檔
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename rar %F
 
 [Desktop Action addToTar]
 Name=Gzip-compressed tar archive
+Name[es]=Archivo tar comprimido con gzip
+Name[gl]=Arquivo tar comprimido con Gzip
+Name[pt]=Pacote TAR comprimido com o GZip
+Name[pt_BR]=Pacote TAR comprimido com o GZip
+Name[sv]=Gzip-komprimerat tar-arkiv
+Name[uk]=Стиснутий gzip архів tar
+Name[zh_TW]=tar.gz 壓縮檔
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
 [Desktop Action addTo]
 Name=Compress to...
+Name[es]=Comprimir en...
+Name[gl]=Comprimir en...
+Name[pt]=Comprimir para...
+Name[pt_BR]=Comprimir para...
+Name[sv]=Komprimera till...
+Name[uk]=Стиснути у...
+Name[zh_TW]=壓縮為...
 Icon=utilities-file-archiver
 Exec=ark --add-to --autodestination --dialog %F
