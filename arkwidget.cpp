@@ -566,11 +566,15 @@ ArkWidget::addToArchive( const KURL::List & filesToAdd, const KURL & archive)
 
         // TODO: remote Archives should be handled by createArchive
         if ( archive.isLocalFile() )
+        {
             if ( !createArchive( archive.path() ) )
                  return false;
+        }
         else
+        {
             if ( !createArchive( tmpDir() + archive.fileName() ) )
                  return false;
+        }
     return true;
 
     }
