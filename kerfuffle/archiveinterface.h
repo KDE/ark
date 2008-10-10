@@ -103,6 +103,8 @@ namespace Kerfuffle
 
 			virtual bool isReadOnly() const;
 
+			//see archive.h for a list of what the compressionoptions might
+			//contain
 			virtual bool addFiles( const QStringList & files, const CompressionOptions& options ) = 0;
 			virtual bool deleteFiles( const QList<QVariant> & files ) = 0;
 	};

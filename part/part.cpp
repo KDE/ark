@@ -578,10 +578,16 @@ void Part::adjustColumns( const QModelIndex & topleft, const QModelIndex& bottom
 void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 {
 	kDebug( 1601 ) << "Adding " << filesToAdd << " to " << path;
+	kDebug( 1601 ) << "Warning, for now the path argument is not implemented";
 
 	if ( !filesToAdd.isEmpty() )
 	{
-		AddJob *job = m_model->addFiles( filesToAdd);
+		CompressionOptions options;
+		QString firstPath = QFileInfo(filesToAdd.first()).path();
+		kDebug( 1601 ) << "Detected relative path to be " << firstPath;
+		options["GlobalWorkDir"] = firstPath;
+
+		AddJob *job = m_model->addFiles( filesToAdd, options);
 		connect( job, SIGNAL( result( KJob* ) ),
 		         this, SLOT( slotAddFilesDone( KJob* ) ) );
 		job->start();

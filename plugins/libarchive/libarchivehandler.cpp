@@ -530,17 +530,22 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 			archive_entry_clear( entry );
 		}
 	}
+	QString globalWorkdir = options.value("GlobalWorkDir").toString();
+	if (!globalWorkdir.isEmpty()) {
+		kDebug( 1601 ) << "GlobalWorkDir is set, changing dir to " << globalWorkdir;
+		QDir::setCurrent(globalWorkdir);
+	}
 
 	//**************** now write the new files
 	foreach(const QString& selectedFile, expandedFiles) {
 
 		struct stat st;
-		QFileInfo info(selectedFile);
+		QFileInfo info(QDir::current().relativeFilePath(selectedFile));
 		entry = archive_entry_new();
 
 		stat(QFile::encodeName(selectedFile).constData(), &st);
 		archive_entry_copy_stat(entry, &st);
-		archive_entry_copy_pathname( entry, QFile::encodeName(selectedFile).constData() );
+		archive_entry_copy_pathname( entry, QFile::encodeName(info.filePath()).constData() );
 
 		kDebug( 1601 ) << "Writing new entry " << archive_entry_pathname(entry);
 		if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )
@@ -576,6 +581,7 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 
 bool LibArchiveInterface::deleteFiles( const QList<QVariant> & files )
 {
+	error( i18n( "Sorry, deleting files are not supported yet with this type of archive." ));
 	return false;
 }
 

@@ -46,6 +46,8 @@ bool AddToArchive::startAdding( void )
 {
 	kDebug( 1601 );
 
+	Kerfuffle::CompressionOptions options;
+
 	if (!m_inputs.size()) {
 		//TODO: needs error
 		return false;
@@ -65,7 +67,14 @@ bool AddToArchive::startAdding( void )
 
 		QString base;
 		QFileInfo fi(m_inputs.first());
-		base = fi.absoluteFilePath().split("/", QString::SkipEmptyParts).last();
+		//base = fi.absoluteFilePath().split("/", QString::SkipEmptyParts).last();
+
+		base = fi.absoluteFilePath();
+
+		if (base.right(1) == "/") {
+			base.chop(1);
+		}
+
 		QString finalName = base + "." + m_autoFilenameSuffix;
 
 		kDebug( 1601 ) << "Autoset filename to " + finalName;
@@ -82,18 +91,27 @@ bool AddToArchive::startAdding( void )
 
 	if (m_changeToFirstPath) {
 		QString firstEntry = m_inputs.first();
+
+		//we chop off "/" at the end. if not QFileInfo will be confused about
+		//whether its a directory or not.
+		if (firstEntry.right(1) == "/")
+			firstEntry.chop(1);
+
+		QFileInfo firstFI = QFileInfo(firstEntry);
 		
-		QDir stripDir = QFileInfo(firstEntry).dir();
+		QDir stripDir = firstFI.dir();
+
 		for (int i = 0; i < m_inputs.size(); ++i) {
-			m_inputs[i] = stripDir.relativeFilePath(m_inputs.at(i));
+			m_inputs[i] = stripDir.absoluteFilePath(m_inputs.at(i));
 		}
 
-		QDir::setCurrent(stripDir.path());
+		options["GlobalWorkDir"] = stripDir.path();
+		kDebug( 1601 ) << "Setting GlobalWorkDir to " << stripDir.path();
 
 	}
 
 	Kerfuffle::AddJob *job = 
-		archive->addFiles(m_inputs);
+		archive->addFiles(m_inputs, options);
 
 
 	KJobTrackerInterface *tracker = new KWidgetJobTracker(NULL);

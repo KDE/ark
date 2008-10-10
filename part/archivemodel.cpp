@@ -460,7 +460,10 @@ bool ArchiveModel::dropMimeData ( const QMimeData * data, Qt::DropAction action,
 		paths << url.path();
 	}
 
+	//for now, this code is not used because adding files to paths inside the
+	//archive is not supported yet. need a solution for this later.
 	QString path;
+#if 0
 	if (parent.isValid()) {
 		QModelIndex droppedOnto = index(row, column, parent);
 		if (entryForIndex(droppedOnto).value(IsDirectory).toBool()) {
@@ -473,6 +476,8 @@ bool ArchiveModel::dropMimeData ( const QMimeData * data, Qt::DropAction action,
 	}
 
 	kDebug( 1601 ) << "Dropped onto " << path;
+
+#endif
 
 	emit droppedFiles(paths, path);
 

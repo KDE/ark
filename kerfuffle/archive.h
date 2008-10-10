@@ -74,7 +74,21 @@ namespace Kerfuffle
 			virtual KJob*       create() = 0;
 			virtual ListJob*    list() = 0;
 			virtual DeleteJob*  deleteFiles( const QList<QVariant> & files ) = 0;
+
+			/**
+			 * Compression options that should be handled by all interfaces:
+			 *
+			 * GlobalWorkDir - Change to this dir before adding the new files.
+			 * The path names should then be added relative to this directory.
+			 *
+			 * TODO: find a way to actually add files to specific locations in
+			 * the archive
+			 * (not supported yet) GlobalPathInArchive - a path relative to the
+			 * archive root where the files will be added under
+			 *
+			 */
 			virtual AddJob*     addFiles( const QStringList & files, const CompressionOptions& options = CompressionOptions()) = 0;
+
 			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, Archive::CopyFlags flags) = 0;
 
 			virtual bool isSingleFolderArchive() = 0;
