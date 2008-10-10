@@ -44,7 +44,6 @@
 #include <KFileDialog>
 #include <KConfigGroup>
 #include <KPasswordDialog>
-#include <KMessageBox>
 
 
 #include <QCursor>

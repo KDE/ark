@@ -26,15 +26,17 @@
 #include <kwidgetjobtracker.h>
 #include <KDebug>
 #include <KLocale>
+#include <KMessageBox>
+#include <KGlobal>
 
 #include <QFileInfo>
 #include <QDir>
-
 #include <QCoreApplication>
 #include <QApplication>
 #include <QDesktopWidget>
 
-void BatchExtractJob::addExtraction(Kerfuffle::Archive* archive,bool preservePaths, QString destinationFolder)
+
+void BatchExtract::addExtraction(Kerfuffle::Archive* archive,bool preservePaths, QString destinationFolder)
 {
 	kDebug( 1601 );
 
@@ -77,7 +79,7 @@ void BatchExtractJob::addExtraction(Kerfuffle::Archive* archive,bool preservePat
 
 }
 
-void BatchExtractJob::slotUserQuery(Query *query)
+void BatchExtract::slotUserQuery(Query *query)
 {
 	query->execute();
 }
@@ -87,29 +89,66 @@ void BatchExtract::setAutoSubfolder(bool value)
 	autoSubfolders = value;
 }
 
-void BatchExtractJob::start()
+void BatchExtract::start()
 {
 	kDebug( 1601 );
 
-	initialJobCount = subjobs().size();
-	if (!initialJobCount) return;
 
+	if (!subfolder.isEmpty()) {
+		kDebug( 1601 ) << "Creating subfolder" << subfolder;
+		QDir dest(destinationFolder);
+		dest.mkpath(subfolder);
+		destinationFolder += "/" + subfolder;
+	}
+
+	foreach (Kerfuffle::Archive *archive, inputs)
+	{
+		QString finalDestination;
+		if (destinationFolder.isEmpty()) {
+			finalDestination = QDir::currentPath();
+		} else {
+			finalDestination = destinationFolder;
+		}
+
+		addExtraction(archive, m_preservePaths, finalDestination);
+	}
+	tracker = new KWidgetJobTracker(NULL);
+	tracker->registerJob(this);
+
+	//center the progress widget on screen
+	QWidget *assignedWidget = qobject_cast<KWidgetJobTracker*>(tracker)->widget(this);
+	if (assignedWidget) {
+		QRect rect = assignedWidget->geometry();
+		QRect screen = QApplication::desktop()->screenGeometry(QApplication::desktop()->primaryScreen());
+		rect.moveCenter(screen.center());
+		assignedWidget->setGeometry(rect);
+	}
 	emit description(this,
 			"Extracting file...",
 			qMakePair(i18n("Source archive"), fileNames.value(subjobs().at(0)).first),
 			qMakePair(i18n("Destination"), fileNames.value(subjobs().at(0)).second)
 			);
 
+	initialJobCount = subjobs().size();
+	if (!initialJobCount) return;
+
 	kDebug( 1601 ) << "Starting first job";
 
 	subjobs().at(0)->start();
 }
 
-void BatchExtractJob::slotResult( KJob *job )
+void BatchExtract::slotResult( KJob *job )
 {
 	kDebug( 1601 );
-	//TODO: handle a job error here!
 	KCompositeJob::slotResult(job);
+
+	if ( job->error() )
+	{
+		KMessageBox::error( NULL, job->errorText());
+		emitResult();
+		return;
+	}
+
 	if (!subjobs().size())
 	{
 		emitResult();
@@ -125,16 +164,16 @@ void BatchExtractJob::slotResult( KJob *job )
 	}
 }
 
-void BatchExtractJob::forwardProgress(KJob *job, unsigned long percent)
+void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
 {
 	Q_UNUSED(job);
 	int jobPart = 100 / initialJobCount;
 	setPercent( jobPart * (initialJobCount - subjobs().size()) + percent / initialJobCount );
 }
 
-BatchExtract::BatchExtract(QObject *) 
-	: destinationFolder(QDir::currentPath()),
-	autoSubfolders(false),
+BatchExtract::BatchExtract() 
+	: autoSubfolders(false),
+	destinationFolder(QDir::currentPath()),
 	m_preservePaths(true)
 
 {
@@ -157,11 +196,6 @@ void BatchExtract::setDestinationFolder(QString folder)
 		destinationFolder = folder;
 }
 
-void BatchExtractJob::setAutoSubfolder(bool value)
-{
-	autoSubfolders = value;
-}
-
 void BatchExtract::setPreservePaths(bool value)
 {
 	m_preservePaths = value;
@@ -169,52 +203,6 @@ void BatchExtract::setPreservePaths(bool value)
 void BatchExtract::setSubfolder(QString subfolder)
 {
 	this->subfolder = subfolder;
-}
-
-bool BatchExtract::startExtraction()
-{
-	kDebug( 1601 );
-
-	BatchExtractJob *allJobs = new BatchExtractJob();
-	tracker = new KWidgetJobTracker(NULL);
-
-	allJobs->setAutoSubfolder(autoSubfolders);
-
-	if (!subfolder.isEmpty()) {
-		kDebug( 1601 ) << "Creating subfolder" << subfolder;
-		QDir dest(destinationFolder);
-		dest.mkpath(subfolder);
-		destinationFolder += "/" + subfolder;
-	}
-
-	foreach (Kerfuffle::Archive *archive, inputs)
-	{
-		QString finalDestination;
-		if (destinationFolder.isEmpty()) {
-			finalDestination = QDir::currentPath();
-		} else {
-			finalDestination = destinationFolder;
-		}
-
-		allJobs->addExtraction(archive, m_preservePaths, finalDestination);
-	}
-	tracker->registerJob(allJobs);
-
-	//center the progress widget on screen
-	QWidget *assignedWidget = qobject_cast<KWidgetJobTracker*>(tracker)->widget(allJobs);
-	if (assignedWidget) {
-		QRect rect = assignedWidget->geometry();
-		QRect screen = QApplication::desktop()->screenGeometry(QApplication::desktop()->primaryScreen());
-		rect.moveCenter(screen.center());
-		assignedWidget->setGeometry(rect);
-	}
-
-
-	connect(allJobs, SIGNAL(finished(KJob*)),
-			QCoreApplication::instance(), SLOT(quit()));
-
-	allJobs->start();
-	return true;
 }
 
 bool BatchExtract::showExtractDialog()
@@ -258,10 +246,6 @@ bool BatchExtract::showExtractDialog()
 	m_preservePaths = dialog.preservePaths();
 
 	return true;
-}
-
-BatchExtract::~BatchExtract()
-{
 }
 
 #include <batchextract.moc>

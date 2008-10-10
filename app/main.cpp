@@ -135,40 +135,40 @@ int main( int argc, char **argv )
 		} else if (args->isSet("batch") || args->count() > 1) {
 			//once the job has been started this interface can be safely
 			//deleted
-			BatchExtract batchExtract;
+			BatchExtract *batchExtract = new BatchExtract();
 
 			for (int i = 0; i < args->count(); ++i) {
-				batchExtract.addInput(args->url(i));
+				batchExtract->addInput(args->url(i));
 			}
 
 			if (args->isSet("autosubfolder")) {
 				kDebug( 1601 ) << "Setting autosubfolder";
-				batchExtract.setAutoSubfolder(true);
+				batchExtract->setAutoSubfolder(true);
 			}
 
 			if (args->isSet("subfolder")) {
 				kDebug( 1601 ) << "Setting subfolder to " << args->getOption("subfolder");
-				batchExtract.setSubfolder(args->getOption("subfolder"));
+				batchExtract->setSubfolder(args->getOption("subfolder"));
 			}
 
 			if (args->isSet("autodestination")) {
 				QString autopath = QFileInfo(args->url(0).path()).path();
 				kDebug( 1601 ) << "By autodestination, setting path to " << autopath;
-				batchExtract.setDestinationFolder(autopath);
+				batchExtract->setDestinationFolder(autopath);
 			}
 
 			if (args->isSet("destination")) {
 				kDebug( 1601 ) << "Setting destination to " << args->getOption("destination");
-				batchExtract.setDestinationFolder(args->getOption("destination"));
+				batchExtract->setDestinationFolder(args->getOption("destination"));
 			}
 
 			if (args->isSet("dialog")) {
-				if (!batchExtract.showExtractDialog()) {
+				if (!batchExtract->showExtractDialog()) {
 					return 0;
 				}
 			}
 
-			batchExtract.startExtraction();
+			batchExtract->start();
 		} else {
 
 			MainWindow *window = new MainWindow;

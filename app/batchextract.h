@@ -38,14 +38,16 @@ using Kerfuffle::Query;
 class Interface;
 class KJobTrackerInterface;
 
-class BatchExtractJob : public KCompositeJob
+class BatchExtract : public KCompositeJob
 {
 	Q_OBJECT
 
 	public:
+		BatchExtract();
 		void addExtraction(Kerfuffle::Archive* archive, bool preservePaths = true, QString destinationFolder = QString());
 		void start();
 		void setAutoSubfolder(bool value);
+		bool addInput( const KUrl& url );
 
 	private slots:
 		void forwardProgress(KJob *job, unsigned long percent);
@@ -57,35 +59,22 @@ class BatchExtractJob : public KCompositeJob
 		QMap<class KJob *, QPair<QString,QString> > fileNames;
 		bool autoSubfolders;
 
-};
 
-
-class BatchExtract : public QObject
-{
-	Q_OBJECT
-
-	public:
-		BatchExtract( QObject *parent = 0 );
-		~BatchExtract();
-
-		bool showExtractDialog();
-		void setDestinationFolder(QString folder);
-		void setAutoSubfolder(bool value);
-		void setSubfolder(QString subfolder);
-		void setPreservePaths(bool value);
-
-	public slots:
-		bool addInput( const KUrl& url );
-		//void setShowExtractDialog(bool);
-		bool startExtraction();
-
-	private:
 		QList<Kerfuffle::Archive*> inputs;
 		KJobTrackerInterface *tracker;
 		QString destinationFolder;
 		QString subfolder;
-		bool autoSubfolders;
 		bool m_preservePaths;
+
+	public:
+		bool showExtractDialog();
+		void setDestinationFolder(QString folder);
+		void setSubfolder(QString subfolder);
+		void setPreservePaths(bool value);
+
+	public slots:
+
 };
+
 
 #endif // BATCHEXTRACT_H
