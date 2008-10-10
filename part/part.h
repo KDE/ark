@@ -89,6 +89,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		bool isPreviewable( const QModelIndex & index );
 		QList<QVariant> selectedFiles();
 		QList<QVariant> selectedFilesWithChildren();
+		QString lastExtractionFolder;
 
 		ArchiveModel         *m_model;
 		QTreeView            *m_view;

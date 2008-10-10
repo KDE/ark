@@ -429,14 +429,7 @@ void Part::slotExtractFiles()
 
 	dialog.setSubfolder(detectSubfolder());
 
-	if ( ArkSettings::lastExtractionFolder().isEmpty() )
-	{
-		dialog.setCurrentUrl( QDir::currentPath() );
-	}
-	else
-	{
-		dialog.setCurrentUrl( ArkSettings::lastExtractionFolder() );
-	}
+	dialog.setCurrentUrl( QFileInfo(m_model->archive()->fileName()).path() );
 
 	dialog.setOpenDestinationFolderAfterExtraction( ArkSettings::openDestinationFolderAfterExtraction() );
 
@@ -447,7 +440,7 @@ void Part::slotExtractFiles()
 	if ( dialog.exec() )
 	{
 		ArkSettings::setOpenDestinationFolderAfterExtraction( dialog.openDestinationAfterExtraction() );
-		ArkSettings::setLastExtractionFolder( dialog.destinationDirectory().path() );
+		lastExtractionFolder = dialog.destinationDirectory().path();
 
 		ArkSettings::self()->writeConfig();
 
@@ -558,7 +551,7 @@ void Part::slotExtractionDone( KJob* job )
 	{
 		if ( ArkSettings::openDestinationFolderAfterExtraction() )
 		{
-			KRun::runUrl( KUrl( ArkSettings::lastExtractionFolder() ), "inode/directory", widget() );
+			KRun::runUrl( KUrl( lastExtractionFolder ), "inode/directory", widget() );
 		}
 	}
 }
