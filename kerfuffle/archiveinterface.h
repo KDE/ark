@@ -66,6 +66,7 @@ namespace Kerfuffle
 			void entryRemoved( const QString& path );
 			QString password() { return m_password; }
 			QString findCommonBase(const QVariantList& files);
+			QString findCommonBase(const QStringList& files);
 			void expandDirectories( QStringList &files );
 
 		signals:

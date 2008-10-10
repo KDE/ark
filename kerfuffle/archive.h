@@ -67,7 +67,7 @@ namespace Kerfuffle
 			virtual KJob*       create() = 0;
 			virtual ListJob*    list() = 0;
 			virtual DeleteJob*  deleteFiles( const QList<QVariant> & files ) = 0;
-			virtual AddJob*     addFiles( const QStringList & files ) = 0;
+			virtual AddJob*     addFiles( const QStringList & files, const QString& path = QString()) = 0;
 			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, Archive::CopyFlags flags) = 0;
 
 			virtual bool isSingleFolderArchive() = 0;

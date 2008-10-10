@@ -65,7 +65,7 @@ class ArchiveModel: public QAbstractItemModel
 		ExtractJob* extractFile( const QVariant& fileName, const QString & destinationDir, Archive::CopyFlags flags ) const;
 		ExtractJob* extractFiles( const QList<QVariant>& files, const QString & destinationDir, Kerfuffle::Archive::CopyFlags flags ) const;
 
-		AddJob* addFiles( const QStringList & paths );
+		AddJob* addFiles( const QStringList & paths, const QString& path = QString() );
 		DeleteJob* deleteFiles( const QList<QVariant> & files );
 
 		void setJobTracker( KJobTrackerInterface *tracker ) { m_jobTracker = tracker; }
@@ -75,7 +75,7 @@ class ArchiveModel: public QAbstractItemModel
 		void loadingFinished(KJob *);
 		void extractionFinished( bool success );
 		void error( const QString& error, const QString& details );
-		void droppedFiles(const QStringList& files);
+		void droppedFiles(const QStringList& files, const QString& path = QString());
 
 	private slots:
 		void slotNewEntry( const ArchiveEntry& entry );

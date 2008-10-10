@@ -83,11 +83,38 @@ namespace Kerfuffle
 		m_observers.removeAll( observer );
 	}
 
+	QString ReadOnlyArchiveInterface::findCommonBase(const QStringList& files)
+	{
+		QString commonBase;
+
+		//we loop through all items and find the highest common folder they share
+		if (files.size() > 1) {
+			QStringList common = files.first().split("/", QString::SkipEmptyParts);
+			if (common.size() > 1) {
+				common.removeLast(); //We don't need the filename
+
+				foreach(const QString &selectedEntry, files) {
+					QStringList parts = selectedEntry.split("/", QString::SkipEmptyParts);
+					for (int i = common.size() - 1; i > -1; --i) {
+						if (common.at(i) != parts.at(i))
+							common.removeLast();
+					}
+				}
+				commonBase = common.join("/") + "/";
+			}
+		}
+		else if (files.size() == 1) { 
+			QStringList parts = files.first().split("/", QString::SkipEmptyParts);
+			parts.removeLast(); //take of the filename
+			return parts.join("/") + "/";
+		}
+		return commonBase;
+	}
+
 	QString ReadOnlyArchiveInterface::findCommonBase(const QVariantList& files)
 	{
 		QString commonBase;
 
-		//if we have lots of selected items and the TruncateCommonBase flag is set,
 		//we loop through all items and find the highest common folder they share
 		if (files.size() > 1) {
 			QStringList common = files.first().toString().split("/", QString::SkipEmptyParts);

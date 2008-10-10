@@ -451,9 +451,6 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 bool ArchiveModel::dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent )
 {
 	Q_UNUSED( action );
-	Q_UNUSED(parent  );
-	Q_UNUSED( column );
-	Q_UNUSED( row );
 
 	if (!data->hasUrls())
 		return false;
@@ -463,7 +460,21 @@ bool ArchiveModel::dropMimeData ( const QMimeData * data, Qt::DropAction action,
 		paths << url.path();
 	}
 
-	emit droppedFiles(paths);
+	QString path;
+	if (parent.isValid()) {
+		QModelIndex droppedOnto = index(row, column, parent);
+		if (entryForIndex(droppedOnto).value(IsDirectory).toBool()) {
+			kDebug() << "Using entry";
+			path = entryForIndex(droppedOnto).value(FileName).toString();
+		}
+		else {
+			path = entryForIndex(parent).value(FileName).toString();
+		}
+	}
+
+	kDebug( 1601 ) << "Dropped onto " << path;
+
+	emit droppedFiles(paths, path);
 
 	return true;
 }
@@ -666,13 +677,13 @@ ExtractJob* ArchiveModel::extractFiles( const QList<QVariant>& files, const QStr
 	return newJob;
 }
 
-AddJob* ArchiveModel::addFiles( const QStringList & paths )
+AddJob* ArchiveModel::addFiles( const QStringList & filenames, const QString& path )
 {
 	Q_ASSERT( m_archive );
 
     if ( !m_archive->isReadOnly())
     {
-        AddJob *job = m_archive->addFiles( paths );
+        AddJob *job = m_archive->addFiles( filenames, path );
         m_jobTracker->registerJob( job );
         connect( job, SIGNAL( newEntry( const ArchiveEntry& ) ),
             this, SLOT( slotNewEntry( const ArchiveEntry& ) ) );

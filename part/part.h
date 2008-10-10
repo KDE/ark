@@ -68,7 +68,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void slotExtractionDone( KJob* );
 		void slotQuickExtractFiles(QAction*);
 		void slotAddFiles();
-		void slotAddFiles(const QStringList& files);
+		void slotAddFiles(const QStringList& files, const QString& path = QString());
 		void slotAddDir();
 		void slotAddFilesDone( KJob* );
 		void slotDeleteFiles();

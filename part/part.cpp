@@ -84,8 +84,8 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	         this, SLOT( slotLoadingStarted() ) );
 	connect( m_model, SIGNAL( loadingFinished(KJob *) ),
 	         this, SLOT( slotLoadingFinished(KJob *) ) );
-	connect( m_model, SIGNAL( droppedFiles(const QStringList&) ),
-	         this, SLOT( slotAddFiles(const QStringList&) ) );
+	connect( m_model, SIGNAL( droppedFiles(const QStringList&, const QString&) ),
+	         this, SLOT( slotAddFiles(const QStringList&, const QString&) ) );
 	connect( m_model, SIGNAL( error( const QString&, const QString& ) ),
 	         this, SLOT( slotError( const QString&, const QString& ) ) );
 
@@ -575,13 +575,13 @@ void Part::adjustColumns( const QModelIndex & topleft, const QModelIndex& bottom
 	} while (firstColumn < lastColumn);
 }
 
-void Part::slotAddFiles(const QStringList& filesToAdd)
+void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 {
-	kDebug( 1601 ) ;
+	kDebug( 1601 ) << "Adding " << filesToAdd << " to " << path;
 
 	if ( !filesToAdd.isEmpty() )
 	{
-		AddJob *job = m_model->addFiles( filesToAdd );
+		AddJob *job = m_model->addFiles( filesToAdd, path );
 		connect( job, SIGNAL( result( KJob* ) ),
 		         this, SLOT( slotAddFilesDone( KJob* ) ) );
 		job->start();
