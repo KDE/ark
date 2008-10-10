@@ -108,6 +108,7 @@ void BatchExtractJob::start()
 void BatchExtractJob::slotResult( KJob *job )
 {
 	kDebug( 1601 );
+	//TODO: handle a job error here!
 	KCompositeJob::slotResult(job);
 	if (!subjobs().size())
 	{
@@ -247,7 +248,12 @@ bool BatchExtract::showExtractDialog()
 	if (!ret) return false;
 
 	setDestinationFolder(dialog.destinationDirectory().path());
-	subfolder = dialog.subfolder();
+
+
+	if (dialog.extractToSubfolder()) {
+		subfolder = dialog.subfolder();
+	}
+
 	autoSubfolders = dialog.autoSubfolders();
 	m_preservePaths = dialog.preservePaths();
 
