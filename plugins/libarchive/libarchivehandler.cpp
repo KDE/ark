@@ -531,10 +531,11 @@ bool LibArchiveInterface::addFiles(const QString& path, const QStringList & file
 		}
 	}
 
+	//**************** now write the new files
 	foreach(const QString& selectedFile, expandedFiles) {
 
 		struct stat st;
-		QFileInfo info(selectedFile);
+		QFileInfo info(path + selectedFile);
 		entry = archive_entry_new();
 
 		stat(QFile::encodeName(selectedFile).constData(), &st);
