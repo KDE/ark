@@ -125,6 +125,7 @@ bool LibArchiveInterface::list()
 
 bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, Archive::CopyFlags flags )
 {
+	kDebug( 1601 ) << "Changing current directory to " << destinationDirectory;
 	QDir::setCurrent( destinationDirectory );
 
 
@@ -132,6 +133,8 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 	const bool preservePaths = (flags & Archive::PreservePaths);
 	overwriteAll = false; //we reset this per extract operation
 
+	//TODO: don't leak these if the extraction fails with an error in the
+	//middle
 	struct archive *arch, *writer;
 	struct archive_entry *entry;
 	
@@ -195,36 +198,52 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 			continue;
 		}
 
+		//entryName is the name inside the archive, full path
 		QString entryName = QDir::fromNativeSeparators(QFile::decodeName( archive_entry_pathname( entry ) ));
+
+		if (entryName.at(0) == '/') {
+			//for now we just can't handle absolute filenames in a tar archive.
+			//TODO: find out what to do here!!
+			error(i18n("This archive contains archive entries with absolute paths, which are not yet supported by ark."));
+			return false;
+		}
 
 		if ( entries.contains( entryName ) || extractAll )
 		{
+			// entryFI is the fileinfo pointing to where the file will be
+			// written from the archive
 			QFileInfo entryFI( entryName );
+			//kDebug( 1601 ) << "setting path to " << archive_entry_pathname( entry );
+			
+			QString fileWithoutPath = entryFI.fileName();
 
-			QString fn = entryFI.fileName();
-			QByteArray encodedFn = QFile::encodeName(fn);
-
-			QByteArray encTruncatedFilename;
-			QString truncatedFilename;
-
+			//if we DON'T preserve paths, we cut the path and set the entryFI
+			//fileinfo to the one without the path
 			if( !preservePaths ) {
 
 				//empty filenames (ie dirs) should have been skipped already,
 				//so asserting
-				Q_ASSERT(!fn.isEmpty());
+				Q_ASSERT(!fileWithoutPath.isEmpty());
 
-				archive_entry_set_pathname( entry, encodedFn.constData() );
-				entryFI = QFileInfo(fn);
+				archive_entry_copy_pathname( entry, QFile::encodeName(fileWithoutPath).constData() );
+				entryFI = QFileInfo(fileWithoutPath);
 
+				//OR, if the commonBase has been set, then we remove this
+				//common base from the filename
 			} else if (!commonBase.isEmpty()) {
+				QString truncatedFilename;
 				truncatedFilename = entryName.remove(0, commonBase.size());
 				kDebug( 1601 ) << "Truncated filename: " << truncatedFilename;
-				encTruncatedFilename = QFile::encodeName(truncatedFilename);
-				archive_entry_set_pathname( entry, encTruncatedFilename.constData() );
+				archive_entry_copy_pathname( entry, QFile::encodeName(truncatedFilename).constData() );
 
 				entryFI = QFileInfo(truncatedFilename);
+			} else  {
+				//this is the more normal case. We just set the pathname to
+				//wherever entryFI points to.
+				//archive_entry_copy_pathname( entry, QFile::encodeName(entryFI.filePath()).constData() );
 			}
 
+			//now check if the file about to be written already exists
 			if (!overwriteAll & !entryIsDir) {
 				if (entryFI.exists()) {
 					Kerfuffle::OverwriteQuery query(entryName);
@@ -256,14 +275,14 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 			}
 
 			int header_response;
-			kDebug(1601) << "Writing entry " << fn;
+			kDebug(1601) << "Writing " << fileWithoutPath << " to " << archive_entry_pathname(entry);
 			if ( (header_response = archive_write_header( writer, entry )) == ARCHIVE_OK )
 				//if the whole archive is extracted and the total filesize is
 				//available, we use partial progress
 				copyData( arch, writer, (extractAll && extractedFilesSize) ); 
 			else {
 				kDebug( 1601 ) << "Writing header failed with error code " << header_response
-				<< "While attempting to write " << fn;
+				<< "While attempting to write " << fileWithoutPath;
 			}
 			
 
