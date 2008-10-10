@@ -228,14 +228,19 @@ bool RARInterface::addFiles( const QStringList & files, const CompressionOptions
 	if (!m_rarpath.isNull()) kp << m_rarpath << "a" << "-c-" << m_filename;
 	else return false;
 
-
-	kp << "-ep"; // discard paths from input filename
-
+	QString workPath = options.value("GlobalWorkDir").toString();
+	if (!workPath.isEmpty()) {
+		QDir::setCurrent(workPath);
+	}
 
 	foreach( const QString& file, files )
 	{
+		if (!workPath.isEmpty()) {
+			kp << QDir::current().relativeFilePath(file);
+		}
+		else
+			kp << file;
 		kDebug( 1601 ) << file;
-		kp << file;
 	}
 
 	kp.setOutputChannelMode(KProcess::MergedChannels);
