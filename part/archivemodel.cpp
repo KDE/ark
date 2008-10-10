@@ -257,7 +257,11 @@ QVariant ArchiveModel::headerData( int section, Qt::Orientation, int role ) cons
 {
 	if ( role == Qt::DisplayRole )
 	{
-		Q_ASSERT(section < m_showColumns.size());
+		if (section >= m_showColumns.size()) {
+			kDebug( 1601 ) << "WEIRD: showColumns.size = " << m_showColumns.size()
+				<< " and section = " << section;
+			return QVariant();
+		}
 
 		int columnId = m_showColumns.at(section);
 
@@ -621,8 +625,6 @@ void ArchiveModel::setArchive( Kerfuffle::Archive *archive )
 	m_archive = archive;
 	m_rootNode->clear();
 
-	// TODO: make sure if it's ok to not have calls to beginRemoveColumns here
-	m_showColumns.clear();
 
 	if ( m_archive )
 	{
@@ -640,6 +642,9 @@ void ArchiveModel::setArchive( Kerfuffle::Archive *archive )
 		}
 
 		emit loadingStarted();
+
+		// TODO: make sure if it's ok to not have calls to beginRemoveColumns here
+		m_showColumns.clear();
 		job->start();
 	}
 	reset();
