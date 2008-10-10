@@ -114,14 +114,14 @@ namespace Kerfuffle
 	{
 		Q_OBJECT
 		public:
-			AddJob(const QString& path, const QStringList & files,
+			AddJob(const QStringList & files, const CompressionOptions& options,
 					ReadWriteArchiveInterface *interface, QObject *parent = 0
 					);
 			void doWork();
 
 		private:
 			QStringList                m_files;
-			QString 				m_path;
+			CompressionOptions m_options;
 
 	};
 

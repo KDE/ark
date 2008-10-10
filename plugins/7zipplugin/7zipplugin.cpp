@@ -230,9 +230,9 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 	return true;
 }
 
-bool p7zipInterface::addFiles( const QString& path, const QStringList & files )
+bool p7zipInterface::addFiles( const QStringList & files, const CompressionOptions& options )
 {
-	kDebug( 1601 ) << "Will try to add path " << path << " files " << files << " to " << m_filename << " using " << m_exepath;
+	kDebug( 1601 ) << "Will try to add files " << files << " to " << m_filename << " using " << m_exepath;
 
 	if (m_exepath.isNull())
 	{

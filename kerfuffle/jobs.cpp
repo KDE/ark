@@ -149,8 +149,8 @@ namespace Kerfuffle
 
 	}
 
-	AddJob::AddJob( const QString& path, const QStringList & files, ReadWriteArchiveInterface *interface, QObject *parent )
-		: Job( interface, parent ), m_files( files ), m_path(path)
+	AddJob::AddJob( const QStringList& files, const CompressionOptions& options , ReadWriteArchiveInterface *interface, QObject *parent )
+		: Job( interface, parent ), m_files( files ), m_options(options)
 	{
 	}
 
@@ -165,7 +165,7 @@ namespace Kerfuffle
 		Q_ASSERT(m_writeInterface);
 		
 		m_writeInterface->registerObserver( this );
-		setError( !m_writeInterface->addFiles( m_path, m_files ) );
+		setError( !m_writeInterface->addFiles( m_files, m_options ) );
 		m_writeInterface->removeObserver( this );
 
 		emitResult();

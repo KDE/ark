@@ -48,6 +48,13 @@ namespace Kerfuffle
 
 	typedef QHash<int, QVariant> ArchiveEntry;
 
+	/**
+	These are the extra options for doing the compression. Naming convention
+	is CamelCase with either Global, or the compression type (such as Zip,
+	Rar, etc), followed by the property name used
+	 */
+	typedef QHash<QString, QVariant> CompressionOptions;
+
 	class KERFUFFLE_EXPORT Archive
 	{
 		public:
@@ -67,7 +74,7 @@ namespace Kerfuffle
 			virtual KJob*       create() = 0;
 			virtual ListJob*    list() = 0;
 			virtual DeleteJob*  deleteFiles( const QList<QVariant> & files ) = 0;
-			virtual AddJob*     addFiles( const QStringList & files, const QString& path = QString()) = 0;
+			virtual AddJob*     addFiles( const QStringList & files, const CompressionOptions& options = CompressionOptions()) = 0;
 			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, Archive::CopyFlags flags) = 0;
 
 			virtual bool isSingleFolderArchive() = 0;

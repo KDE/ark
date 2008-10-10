@@ -389,7 +389,7 @@ void LibArchiveInterface::copyData( struct archive *source, struct archive *dest
 	}
 }
 
-bool LibArchiveInterface::addFiles(const QString& path, const QStringList & files )
+bool LibArchiveInterface::addFiles( const QStringList & files, const CompressionOptions& options )
 {
 	struct archive *arch_reader, *arch_writer;
 	struct archive_entry *entry;
@@ -535,7 +535,7 @@ bool LibArchiveInterface::addFiles(const QString& path, const QStringList & file
 	foreach(const QString& selectedFile, expandedFiles) {
 
 		struct stat st;
-		QFileInfo info(path + selectedFile);
+		QFileInfo info(selectedFile);
 		entry = archive_entry_new();
 
 		stat(QFile::encodeName(selectedFile).constData(), &st);

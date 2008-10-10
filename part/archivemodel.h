@@ -65,7 +65,7 @@ class ArchiveModel: public QAbstractItemModel
 		ExtractJob* extractFile( const QVariant& fileName, const QString & destinationDir, Archive::CopyFlags flags ) const;
 		ExtractJob* extractFiles( const QList<QVariant>& files, const QString & destinationDir, Kerfuffle::Archive::CopyFlags flags ) const;
 
-		AddJob* addFiles( const QStringList & paths, const QString& path = QString() );
+		AddJob* addFiles( const QStringList & paths, const CompressionOptions& options = CompressionOptions() );
 		DeleteJob* deleteFiles( const QList<QVariant> & files );
 
 		void setJobTracker( KJobTrackerInterface *tracker ) { m_jobTracker = tracker; }

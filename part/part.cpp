@@ -581,7 +581,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 
 	if ( !filesToAdd.isEmpty() )
 	{
-		AddJob *job = m_model->addFiles( filesToAdd, path );
+		AddJob *job = m_model->addFiles( filesToAdd);
 		connect( job, SIGNAL( result( KJob* ) ),
 		         this, SLOT( slotAddFilesDone( KJob* ) ) );
 		job->start();

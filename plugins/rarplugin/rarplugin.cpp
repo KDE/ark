@@ -219,7 +219,7 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 	return true;
 }
 
-bool RARInterface::addFiles(const QString& path, const QStringList & files )
+bool RARInterface::addFiles( const QStringList & files, const CompressionOptions& options )
 {
 	kDebug( 1601 ) << "Will try to add " << files << " to " << m_filename << " using " << m_rarpath;
 

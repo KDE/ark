@@ -677,13 +677,13 @@ ExtractJob* ArchiveModel::extractFiles( const QList<QVariant>& files, const QStr
 	return newJob;
 }
 
-AddJob* ArchiveModel::addFiles( const QStringList & filenames, const QString& path )
+AddJob* ArchiveModel::addFiles( const QStringList & filenames, const CompressionOptions& options )
 {
 	Q_ASSERT( m_archive );
 
     if ( !m_archive->isReadOnly())
     {
-        AddJob *job = m_archive->addFiles( filenames, path );
+        AddJob *job = m_archive->addFiles(filenames, options);
         m_jobTracker->registerJob( job );
         connect( job, SIGNAL( newEntry( const ArchiveEntry& ) ),
             this, SLOT( slotNewEntry( const ArchiveEntry& ) ) );
