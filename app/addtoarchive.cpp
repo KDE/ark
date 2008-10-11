@@ -20,6 +20,7 @@
  */
 
 #include "addtoarchive.h"
+#include "kerfuffle/adddialog.h"
 #include <kdebug.h>
 #include <QCoreApplication>
 #include <kwidgetjobtracker.h>
@@ -36,9 +37,41 @@ AddToArchive::~AddToArchive()
 {
 
 }
+
+bool AddToArchive::showAddDialog( void )
+{
+	Kerfuffle::AddDialog dialog(KUrl(m_firstPath),
+			"",
+			NULL,
+			NULL);
+	bool ret = dialog.exec();
+
+	if (ret) {
+		kDebug( 1601 ) << "Dialog succeeded, returned url " <<
+			dialog.selectedUrl();
+		setFilename(dialog.selectedUrl());
+	}
+	return ret;
+}
+
 bool AddToArchive::addInput( const KUrl& url)
 {
 	m_inputs << url.path();
+
+	if (m_firstPath.isEmpty()) {
+		QString firstEntry = url.path();
+
+		//we chop off "/" at the end. if not QFileInfo will be confused about
+		//whether its a directory or not.
+		if (firstEntry.right(1) == "/")
+			firstEntry.chop(1);
+
+		QFileInfo firstFI = QFileInfo(firstEntry);
+		
+		m_firstPath = firstFI.dir().absolutePath();
+
+	}
+
 	return true;
 }
 
@@ -65,9 +98,13 @@ bool AddToArchive::startAdding( void )
 			return false;
 		}
 
+		if (m_firstPath.isEmpty()) {
+			//TODO: needs error
+			return false;
+		}
+
 		QString base;
 		QFileInfo fi(m_inputs.first());
-		//base = fi.absoluteFilePath().split("/", QString::SkipEmptyParts).last();
 
 		base = fi.absoluteFilePath();
 
@@ -90,16 +127,12 @@ bool AddToArchive::startAdding( void )
 	}
 
 	if (m_changeToFirstPath) {
-		QString firstEntry = m_inputs.first();
+		if (m_firstPath.isEmpty()) {
+			//TODO: needs error
+			return false;
+		}
 
-		//we chop off "/" at the end. if not QFileInfo will be confused about
-		//whether its a directory or not.
-		if (firstEntry.right(1) == "/")
-			firstEntry.chop(1);
-
-		QFileInfo firstFI = QFileInfo(firstEntry);
-		
-		QDir stripDir = firstFI.dir();
+		QDir stripDir = QDir(m_firstPath);
 
 		for (int i = 0; i < m_inputs.size(); ++i) {
 			m_inputs[i] = stripDir.absoluteFilePath(m_inputs.at(i));

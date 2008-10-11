@@ -17,10 +17,11 @@ set(kerfuffle_SRCS
 	threading.cpp
     archivebase.cpp
 	extractiondialog.cpp
+	adddialog.cpp
 	queries.cpp
    )
 
-kde4_add_ui_files(kerfuffle_SRCS extractiondialog.ui )
+kde4_add_ui_files(kerfuffle_SRCS extractiondialog.ui adddialog.ui )
 
 kde4_add_library(kerfuffle SHARED ${kerfuffle_SRCS})
 

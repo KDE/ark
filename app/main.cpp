@@ -83,7 +83,7 @@ int main( int argc, char **argv )
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineOptions option;
 	option.add("+[url]", ki18n( "URL of an archive to be opened" ));
-	option.add("d").add("dialog", ki18n("Show the extract dialog after opening archive"));
+	option.add("d").add("dialog", ki18n("Show a dialog for specifying the options for the operation (extract/add)"));
 	option.add("o").add("destination <directory>", ki18n("Destination folder to extract to. Defaults to current path if not specified."));
 	option.add(":", ki18n("Options for adding files"));
 	option.add("c").add("add", ki18n("Query the user for an archive filename and add specified files to it. Quit when finished."));
@@ -120,6 +120,7 @@ int main( int argc, char **argv )
 				addInterface.setFilename(args->getOption("add-to"));
 			}
 
+
 			if (args->isSet("autofilename")) {
 				addInterface.setAutoFilenameSuffix(args->getOption("autofilename"));
 			}
@@ -128,6 +129,12 @@ int main( int argc, char **argv )
 
 				//TODO: use the returned value here?
 				addInterface.addInput(args->url(i));
+			}
+
+			if (args->isSet("dialog")) {
+				if (!addInterface.showAddDialog()) {
+					return 0;
+				}
 			}
 
 			addInterface.startAdding();

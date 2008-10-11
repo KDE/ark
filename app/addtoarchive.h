@@ -43,7 +43,7 @@ class AddToArchive : public QObject
 		AddToArchive( QObject *parent = 0 );
 		~AddToArchive();
 
-		bool showExtractDialog();
+		bool showAddDialog();
 		void setPreservePaths(bool value);
 		void setChangeToFirstPath(bool value) { m_changeToFirstPath = value; }
 
@@ -57,6 +57,7 @@ class AddToArchive : public QObject
 		QString m_filename;
 		QString m_strippedPath;
 		QString m_autoFilenameSuffix;
+		QString m_firstPath;
 		QStringList m_inputs;
 		bool m_changeToFirstPath;
 
