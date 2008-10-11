@@ -603,13 +603,7 @@ void Part::slotAddDir()
 
 	if ( !dirToAdd.isEmpty() )
 	{
-		QStringList list;
-		list << dirToAdd;
-
-		AddJob *job = m_model->addFiles( list );
-		connect( job, SIGNAL( result( KJob* ) ),
-		         this, SLOT( slotAddFilesDone( KJob* ) ) );
-		job->start();
+		slotAddFiles(QStringList() << dirToAdd);
 	}
 }
 
