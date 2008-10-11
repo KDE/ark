@@ -36,7 +36,8 @@ namespace Kerfuffle
 			}
 	};
 
-	AddDialog::AddDialog(const KUrl & 	startDir, 
+	AddDialog::AddDialog(const QStringList& itemsToAdd,
+			const KUrl & 	startDir, 
 					const QString & 	filter, 
 					QWidget * 	parent, 
 					QWidget * 	widget
@@ -50,6 +51,12 @@ namespace Kerfuffle
 
 		m_ui = new AddDialogUI( this );
 		mainWidget()->layout()->addWidget(m_ui);
+
+		foreach(const QString& item, itemsToAdd) {
+			m_ui->groupCompressFiles->layout()->addWidget(
+					new QLabel(item));
+		}
+
 
 		//These extra options will be implemented in a 4.2+ version of
 		//ark

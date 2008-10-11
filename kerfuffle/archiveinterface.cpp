@@ -141,6 +141,13 @@ namespace Kerfuffle
 
 	void ReadOnlyArchiveInterface::expandDirectories( QStringList &files )
 	{
+		static bool onlyOnce = false;
+		if (!onlyOnce) {
+			qRegisterMetaType<KIO::filesize_t>("KIO::filesize_t");
+			qRegisterMetaType<KIO::UDSEntryList>("KIO::UDSEntryList");
+			onlyOnce = true;
+		}
+
 		for(int i = 0; i < files.size(); ++i) {
 			const QString& item = files.at(i);
 			if (QFileInfo(item).isDir()) {

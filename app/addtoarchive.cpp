@@ -40,7 +40,9 @@ AddToArchive::~AddToArchive()
 
 bool AddToArchive::showAddDialog( void )
 {
-	Kerfuffle::AddDialog dialog(KUrl(m_firstPath),
+	Kerfuffle::AddDialog dialog(
+			m_inputs,
+			KUrl(m_firstPath),
 			"",
 			NULL,
 			NULL);

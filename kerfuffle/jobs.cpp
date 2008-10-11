@@ -38,7 +38,11 @@ namespace Kerfuffle
 		: KJob(parent),
 		m_interface(interface)
 	{
-
+		static bool onlyOnce = false;
+		if (!onlyOnce) {
+			qRegisterMetaType<QPair<QString, QString> >("QPair<QString,QString>");
+			onlyOnce = true;
+		}
 	}
 
 	void Job::start()

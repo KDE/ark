@@ -35,6 +35,14 @@
 #include <QApplication>
 #include <QDesktopWidget>
 
+BatchExtract::BatchExtract() 
+	: autoSubfolders(false),
+	destinationFolder(QDir::currentPath()),
+	m_preservePaths(true)
+
+{
+}
+
 
 void BatchExtract::addExtraction(Kerfuffle::Archive* archive,bool preservePaths, QString destinationFolder)
 {
@@ -169,15 +177,6 @@ void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
 	Q_UNUSED(job);
 	int jobPart = 100 / initialJobCount;
 	setPercent( jobPart * (initialJobCount - subjobs().size()) + percent / initialJobCount );
-}
-
-BatchExtract::BatchExtract() 
-	: autoSubfolders(false),
-	destinationFolder(QDir::currentPath()),
-	m_preservePaths(true)
-
-{
-
 }
 
 bool BatchExtract::addInput( const KUrl& url )
