@@ -101,7 +101,14 @@ void InfoPanel::setIndex( const QModelIndex& index )
 		}
 		else
 		{
-			additionalInfo->setText( KIO::convertSize( entry[ Size ].toULongLong() ) );
+			if ( entry.contains( Size ) )
+			{
+				additionalInfo->setText( KIO::convertSize( entry[ Size ].toULongLong() ) );
+			}
+			else {
+				additionalInfo->setText( i18n("Unknown size") );
+
+			}
 		}
 
 		QStringList nameParts = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts );
