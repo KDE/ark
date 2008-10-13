@@ -1,0 +1,16 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=Kerfuffle/Plugin
+X-KDE-Library=kerfuffle_libgz
+X-KDE-PluginInfo-Author=Harald Hvaal
+X-KDE-PluginInfo-Email=haraldhv@stud.ntnu.no
+X-KDE-PluginInfo-Name=kerfuffle_libgz
+X-KDE-PluginInfo-Version=0.0.1
+X-KDE-PluginInfo-Website=http://www.kde.org
+X-KDE-PluginInfo-License=BSD
+X-KDE-Priority=100
+X-KDE-Kerfuffle-APIRevision=1
+X-KDE-Kerfuffle-ReadWrite=true
+Name=kerfuffle_libgz
+Comment=libgz plugin for Kerfuffle
+MimeType=application/x-gzip;
