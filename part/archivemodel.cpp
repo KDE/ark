@@ -554,7 +554,7 @@ void ArchiveModel::slotUserQuery(Query *query)
 
 void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 {
-	kDebug (1601) << entry; 
+	//kDebug (1601) << entry; 
 
 	//if there are no addidional columns registered, then have a look at the
 	//entry and populate some

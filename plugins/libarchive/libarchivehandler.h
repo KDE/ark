@@ -54,6 +54,7 @@ class LibArchiveInterface: public ReadWriteArchiveInterface
 		qlonglong extractedFilesSize;
 		qlonglong currentExtractedFilesSize;
 		bool overwriteAll;
+		bool m_emitNoEntries;
 };
 
 #endif // LIBARCHIVEHANDLER_H

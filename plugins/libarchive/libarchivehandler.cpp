@@ -102,7 +102,7 @@ bool LibArchiveInterface::list()
 
 	while ( ( result = archive_read_next_header( arch, &aentry ) ) == ARCHIVE_OK )
 	{
-		emitEntryFromArchiveEntry(aentry);
+		if (!m_emitNoEntries) emitEntryFromArchiveEntry(aentry);
 		extractedFilesSize += ( qlonglong ) archive_entry_size( aentry );
 
 		cachedArchiveEntryCount++;
@@ -115,6 +115,8 @@ bool LibArchiveInterface::list()
 		error(i18n("The archive reading failed with message: %1").arg( archive_error_string(arch) ));
 		return false;
 	}
+
+	m_emitNoEntries = false;
 
 #if (ARCHIVE_API_VERSION>1)
 	return archive_read_finish( arch ) == ARCHIVE_OK;
@@ -180,6 +182,8 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 			progress(0);
 			//TODO: once information progress has been implemented, send
 			//feedback here that the archive is being read
+			kDebug( 1601 ) << "For getting progress information, the archive will be listed once";
+			m_emitNoEntries = true;
 			list();
 		}
 		totalCount = cachedArchiveEntryCount;
@@ -275,7 +279,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 			}
 
 			int header_response;
-			kDebug(1601) << "Writing " << fileWithoutPath << " to " << archive_entry_pathname(entry);
+			//kDebug(1601) << "Writing " << fileWithoutPath << " to " << archive_entry_pathname(entry);
 			if ( (header_response = archive_write_header( writer, entry )) == ARCHIVE_OK )
 				//if the whole archive is extracted and the total filesize is
 				//available, we use partial progress
