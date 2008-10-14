@@ -37,6 +37,11 @@
 
 class ArchiveDirNode;
 
+//used to speed up the loading of large archives
+static ArchiveNode* previousMatch = NULL;
+static QStringList previousPieces;
+
+
 class ArchiveNode
 {
 	public:
@@ -59,7 +64,6 @@ class ArchiveNode
 		ArchiveDirNode *parent() const { return m_parent; }
 
 		int row();
-		QString name() const { return m_name; }
 
 		virtual bool isDir() const { return false; }
 
@@ -72,6 +76,7 @@ class ArchiveNode
 			}
 			return m_icon;
 		}
+		QString         m_name;
 
 	protected:
 		QPixmap         m_icon;
@@ -79,9 +84,9 @@ class ArchiveNode
 	private:
 		ArchiveEntry    m_entry;
 		ArchiveDirNode *m_parent;
-		QString         m_name;
 		int             m_row;
 };
+
 
 class ArchiveDirNode: public ArchiveNode
 {
@@ -91,6 +96,7 @@ class ArchiveDirNode: public ArchiveNode
 		{
 			m_icon = KIconLoader::global()->loadMimeTypeIcon( KMimeType::mimeType( "inode/directory" )->iconName(), KIconLoader::Small );
 		}
+
 
 		~ArchiveDirNode()
 		{
@@ -105,7 +111,7 @@ class ArchiveDirNode: public ArchiveNode
 		{
 			foreach( ArchiveNode *node, m_entries )
 			{
-				if ( node && ( node->name() == name ) )
+				if ( node && ( node->m_name == name ) )
 				{
 					return node;
 				}
@@ -113,24 +119,23 @@ class ArchiveDirNode: public ArchiveNode
 			return 0;
 		}
 
-		ArchiveNode* findByPath( const QString & path )
+		ArchiveNode* findByPath( const QStringList & pieces, int index = 0)
 		{
-			QStringList pieces = path.split( '/' );
-			if ( pieces.isEmpty() )
+
+			if ( index == pieces.count() )
 			{
 				return 0;
 			}
 
-			ArchiveNode *next = find( pieces[ 0 ] );
+			ArchiveNode *next = find( pieces.at(index) );
 
-			if ( pieces.count() == 1 )
+			if ( index == pieces.count() - 1)
 			{
 				return next;
 			}
 			if ( next && next->isDir() )
 			{
-				pieces.removeAt(0);
-				return static_cast<ArchiveDirNode*>( next )->findByPath( pieces.join( "/" ) );
+				return static_cast<ArchiveDirNode*>( next )->findByPath( pieces, index + 1);
 			}
 			return 0;
 		}
@@ -186,7 +191,7 @@ QVariant ArchiveModel::data( const QModelIndex &index, int role ) const
 					int columnId = m_showColumns.at(index.column());
 					switch (columnId) {
 						case FileName:
-							return node->name();
+							return node->m_name;
 						case Size:
 							if ( node->isDir() || node->entry().contains( Link ) )
 							{
@@ -489,6 +494,31 @@ ArchiveDirNode* ArchiveModel::parentFor( const ArchiveEntry& entry )
 	QStringList pieces = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts );
 	pieces.removeLast();
 
+	if (previousMatch) {
+
+		//the number of path elements must be the same for the shortcut
+		//to work
+		if (previousPieces.count() == pieces.count()) {
+
+			bool equal = true;
+
+			//make sure all the pieces match up
+			for (int i = 0; i < previousPieces.count(); ++i) {
+				if (previousPieces.at(i) != pieces.at(i)) {
+					equal = false;
+					break;
+				}
+			}
+
+			//if match return it
+			if (equal) {
+				return static_cast<ArchiveDirNode*>(previousMatch);
+
+			}
+		}
+
+	}
+
 	ArchiveDirNode *parent = m_rootNode;
 
 	foreach( const QString &piece, pieces )
@@ -513,6 +543,9 @@ ArchiveDirNode* ArchiveModel::parentFor( const ArchiveEntry& entry )
 		parent = static_cast<ArchiveDirNode*>( node );
 	}
 
+	previousMatch = parent;
+	previousPieces = pieces;
+
 	return parent;
 }
 QModelIndex ArchiveModel::indexForNode( ArchiveNode *node )
@@ -531,7 +564,7 @@ void ArchiveModel::slotEntryRemoved( const QString & path )
 {
 	// TODO: Do something
 	kDebug (1601) << "Removed node at path " << path;
-	ArchiveNode *entry = m_rootNode->findByPath( path );
+	ArchiveNode *entry = m_rootNode->findByPath( path.split("/") );
 	if ( entry )
 	{
 		ArchiveDirNode *parent = entry->parent();
@@ -592,7 +625,7 @@ void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 
 	/// 1. Skip already created nodes
 	if (m_rootNode){
-		ArchiveNode *existing = m_rootNode->findByPath( entry[ FileName ].toString() );
+		ArchiveNode *existing = m_rootNode->findByPath( entry[ FileName ].toString().split("/") );
 		if ( existing ) {
 			kDebug (1601) << "Refreshing entry for" << entry[FileName].toString(); 
 			//TODO: benchmark whether it's a bad idea to reset the entry here.
