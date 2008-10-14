@@ -42,8 +42,6 @@
 #include <QDir>
 #include <QFileInfo>
 
-static int BUFLEN = 16384;
-
 using namespace Kerfuffle;
 
 class LibGzipInterface: public ReadWriteArchiveInterface
@@ -93,7 +91,7 @@ class LibGzipInterface: public ReadWriteArchiveInterface
 		}
 		void gz_uncompress(gzFile in, FILE* out)
 		{
-			char buf[BUFLEN];
+			char buf[16384];
 			int len;
 			int err;
 
