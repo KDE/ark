@@ -5,6 +5,7 @@ MimeType=all/all;
 Actions=addTo;addToRar;addToTar;
 X-KDE-Submenu=Compress
 X-KDE-Submenu[es]=Comprimir
+X-KDE-Submenu[fr]=Compresser
 X-KDE-Submenu[gl]=Comprimir
 X-KDE-Submenu[ja]=圧縮
 X-KDE-Submenu[km]=បង្ហាប់
@@ -22,6 +23,7 @@ X-KDE-Priority=TopLevel
 [Desktop Action addToRar]
 Name=RAR archive
 Name[es]=Archivo comprimido RAR
+Name[fr]=Archive RAR
 Name[gl]=Arquivo RAR
 Name[ja]=RAR アーカイブ
 Name[km]=ប័ណ្ណសារ RAR
@@ -40,6 +42,7 @@ Exec=ark --changetofirstpath --add --autofilename rar %F
 [Desktop Action addToTar]
 Name=Gzip-compressed tar archive
 Name[es]=Archivo tar comprimido con gzip
+Name[fr]=Archive tar compressée par GZip
 Name[gl]=Arquivo tar comprimido con Gzip
 Name[ja]=gzip で圧縮された TAR アーカイブ
 Name[km]=ប័ណ្ណសារ​ Gzip-compressed tar
@@ -58,6 +61,7 @@ Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 [Desktop Action addTo]
 Name=Compress to...
 Name[es]=Comprimir en...
+Name[fr]=Compresser vers...
 Name[gl]=Comprimir en...
 Name[ja]=圧縮...
 Name[km]=បង្ហាប់​ទៅ...
