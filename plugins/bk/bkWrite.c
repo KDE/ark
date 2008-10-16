@@ -652,7 +652,7 @@ int writeDir(VolInfo* volInfo, DirToWrite* dir, int parentLbNum,
     if(wcSeekTell(volInfo) % NBYTES_LOGICAL_BLOCK != 0)
         return BKERROR_SANITY;
     
-    /* names other then 9660 are not used for self and parent */
+    /* names other than 9660 are not used for self and parent */
     selfDir.base.name9660[0] = 0x00;
     selfDir.base.posixFileMode = dir->base.posixFileMode;
     

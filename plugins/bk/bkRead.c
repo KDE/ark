@@ -101,7 +101,7 @@ int bk_open_image(VolInfo* volInfo, const char* filename)
 
 /*******************************************************************************
 * bk_read_dir_tree()
-* filenameType can be only one (do not | more then one)
+* filenameType can be only one (do not | more than one)
 * */
 int bk_read_dir_tree(VolInfo* volInfo, int filenameType, 
                      bool keepPosixPermissions, 
@@ -445,7 +445,7 @@ bool haveNextRecordInSector(int image)
 * Reads a directory record for a directory (not a file)
 * Do not use this to read self or parent records unless it's the following:
 * - if the root dr (inside vd) is read, it's filename will be ""
-* filenameType can be only one (do not | more then one)
+* filenameType can be only one (do not | more than one)
 *
 * note to self: directory identifiers do not end with ";1"
 *
