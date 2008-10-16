@@ -285,7 +285,7 @@ int mangleDir(const BkDir* origDir, DirToWrite* newDir, int filenameTypes)
 * mangleNameFor9660()
 * Convert a long filename into an ISO9660 acceptable form: 
 * see charIsValid9660(), 8 chars max for directories and 8.3 chars
-* for files. Extension is kept if it's shorter then 4 chars.
+* for files. Extension is kept if it's shorter than 4 chars.
 * 3 chars from the original name are kept, the rest is filled with ~XXXX where
 * the XXXX is a random string (but still with valid characters).
 * */

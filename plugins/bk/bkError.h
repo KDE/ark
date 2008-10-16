@@ -138,7 +138,7 @@
 #define BKWARNING_OPER_PARTLY_FAILED             -10001
 #define BKWARNING_OPER_PARTLY_FAILED_TEXT        "Operation was only partially successful or perhaps completely unsuccessful"
 
-/* do not make up #defines with numbers lower then this */
+/* do not make up #defines with numbers lower than this */
 #define BKERROR_END                              -1000000
 #define BKERROR_END_TEXT                         "Double oops, unusable error number used"
 #endif
