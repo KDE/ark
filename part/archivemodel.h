@@ -56,7 +56,7 @@ class ArchiveModel: public QAbstractItemModel
 		virtual bool dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent );
 
 
-		void setArchive( Kerfuffle::Archive *archive );
+		KJob* setArchive( Kerfuffle::Archive *archive );
 		Kerfuffle::Archive *archive() const { return m_archive; }
 
 		ArchiveEntry entryForIndex( const QModelIndex &index );
@@ -67,8 +67,6 @@ class ArchiveModel: public QAbstractItemModel
 
 		AddJob* addFiles( const QStringList & paths, const CompressionOptions& options = CompressionOptions() );
 		DeleteJob* deleteFiles( const QList<QVariant> & files );
-
-		void setJobTracker( KJobTrackerInterface *tracker ) { m_jobTracker = tracker; }
 
 	signals:
 		void loadingStarted();

@@ -22,6 +22,7 @@
 
 #include <KIconLoader>
 #include <QTimer>
+#include <KDebug>
 
 JobTrackerWidget::JobTrackerWidget( QWidget *parent )
 	: QFrame( parent )
@@ -33,7 +34,7 @@ JobTracker::JobTracker( QWidget *parent )
 	: KAbstractWidgetJobTracker( parent ), m_currentJob( 0 )
 {
 	m_ui = new JobTrackerWidget( parent );
-	m_ui->hide();
+	resetUi();
 }
 
 void JobTracker::description( KJob *job, const QString &title, const QPair< QString, QString > &f1, const QPair< QString, QString > &f2 )
@@ -42,6 +43,7 @@ void JobTracker::description( KJob *job, const QString &title, const QPair< QStr
 	Q_UNUSED( f1 );
 	Q_UNUSED( f2 );
 	m_ui->descriptionLabel->setText( QString( "<b>%1</b>" ).arg( title ) );
+	m_ui->descriptionLabel->show();
 }
 
 void JobTracker::infoMessage( KJob *job, const QString &plain, const QString &rich )
@@ -71,24 +73,31 @@ void JobTracker::registerJob( KJob *job )
 void JobTracker::percent (KJob *job, unsigned long 	percent	)
 {
 	Q_UNUSED(job );
+	m_ui->progressBar->setMaximum(100);
+	m_ui->progressBar->setMinimum(0);
 	m_ui->progressBar->setValue(percent);
 }
 
 void JobTracker::unregisterJob( KJob *job )
 {
-	m_ui->hide();
+	kDebug( 1601 );
+	resetUi();
 	m_currentJob = 0;
 	KJobTrackerInterface::unregisterJob( job );
 }
 
-void JobTracker::timeOut()
+void JobTracker::resetUi()
 {
 	m_ui->hide();
+	m_ui->descriptionLabel->hide();
+	m_ui->informationLabel->hide();
+	m_ui->progressBar->setMaximum(0);
+	m_ui->progressBar->setMinimum(0);
 }
 
 void JobTracker::finished( KJob *job )
 {
-	QTimer::singleShot( 1500, this, SLOT( timeOut() ) );
+	QTimer::singleShot( 1500, this, SLOT( resetUi() ) );
 	m_ui->informationLabel->setText( i18n( "Operation finished." ) );
 	m_ui->informationLabel->show();
 	m_ui->progressBar->hide();

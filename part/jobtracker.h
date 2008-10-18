@@ -53,7 +53,7 @@ class JobTracker: public KAbstractWidgetJobTracker
 		virtual void percent (KJob *job, unsigned long 	percent	);
 
 	private slots:
-		void timeOut();
+		void resetUi();
 
 	private:
 		JobTrackerWidget *m_ui;

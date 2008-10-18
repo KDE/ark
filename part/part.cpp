@@ -62,7 +62,8 @@ typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY( libarkpart, Factory )
 
 Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
-	: KParts::ReadWritePart( parent ), m_model( new ArchiveModel( this ) ), m_previewDir( 0 ), m_busy( false )
+	: KParts::ReadWritePart( parent ), m_model( new ArchiveModel( this ) ), m_previewDir( 0 ), m_busy( false ),
+	m_jobTracker(NULL)
 {
 	Q_UNUSED( args );
 	setComponentData( Factory::componentData() );
@@ -94,7 +95,6 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	new DndExtractAdaptor(this);
 	QDBusConnection::sessionBus().registerObject("/DndExtract", this);
 
-	QTimer::singleShot( 0, this, SLOT( createJobTracker() ) );
 }
 
 Part::~Part()
@@ -103,12 +103,14 @@ Part::~Part()
     m_previewDir = 0;
 }
 
-void Part::createJobTracker()
+void Part::registerJob(KJob* job)
 {
-	m_jobTracker = new JobTracker;
-	m_model->setJobTracker( m_jobTracker );
+	if (!m_jobTracker) {
+		m_jobTracker = new JobTracker();
 	m_statusBarExtension->addStatusBarItem( m_jobTracker->widget(0), 0, true );
-	m_jobTracker->widget(0)->hide();
+		m_jobTracker->widget(job)->show();
+	}
+	m_jobTracker->registerJob(job);
 }
 
 void Part::extractSelectedFilesTo(QString localPath)
@@ -121,7 +123,7 @@ void Part::extractSelectedFilesTo(QString localPath)
 
 	kDebug( 1601 ) << "selected files are " << files;
 	ExtractJob *job = m_model->extractFiles( files, localPath, Archive::PreservePaths | Archive::TruncateCommonBase );
-	m_jobTracker->registerJob( job );
+	registerJob( job );
 
 	connect( job, SIGNAL( result( KJob* ) ),
 			this, SLOT( slotExtractionDone( KJob * ) ) );
@@ -246,7 +248,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 
 	QList<QVariant> files = selectedFiles();
 	ExtractJob *job = m_model->extractFiles( files, finalDestinationDirectory, Archive::PreservePaths );
-	m_jobTracker->registerJob( job );
+	registerJob( job );
 
 	connect( job, SIGNAL( result( KJob* ) ),
 			this, SLOT( slotExtractionDone( KJob * ) ) );
@@ -284,7 +286,10 @@ bool Part::openFile()
 #endif
 
 	Kerfuffle::Archive *archive = Kerfuffle::factory( localFilePath() );
-	m_model->setArchive( archive );
+	
+	KJob *job = m_model->setArchive( archive );
+	registerJob(job);
+	job->start();
 	m_infoPanel->setIndex( QModelIndex() );
 
 	if (!archive) {
@@ -359,7 +364,7 @@ void Part::slotPreview( const QModelIndex & index )
 
 		m_previewDir = new KTempDir();
 		ExtractJob *job = m_model->extractFile( entry[ InternalID ], m_previewDir->name(), Archive::CopyFlags() );
-		m_jobTracker->registerJob( job );
+		registerJob( job );
 		connect( job, SIGNAL( result( KJob* ) ),
 		         this, SLOT( slotPreviewExtracted( KJob* ) ) );
 		job->start();
@@ -480,7 +485,7 @@ void Part::slotExtractFiles()
 			flags |= Kerfuffle::Archive::PreservePaths;
 
 		ExtractJob *job = m_model->extractFiles( files, destinationDirectory, flags );
-		m_jobTracker->registerJob( job );
+		registerJob( job );
 
 		connect( job, SIGNAL( result( KJob* ) ),
 				this, SLOT( slotExtractionDone( KJob * ) ) );
@@ -583,6 +588,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 		AddJob *job = m_model->addFiles( filesToAdd, options);
 		connect( job, SIGNAL( result( KJob* ) ),
 		         this, SLOT( slotAddFilesDone( KJob* ) ) );
+		registerJob(job);
 		job->start();
 	}
 }
@@ -622,5 +628,6 @@ void Part::slotDeleteFiles()
 	DeleteJob *job = m_model->deleteFiles( selectedFiles() );
 	connect( job, SIGNAL( result( KJob* ) ),
 	         this, SLOT( slotDeleteFilesDone( KJob* ) ) );
+	registerJob(job);
 	job->start();
 }

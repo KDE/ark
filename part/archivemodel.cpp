@@ -164,8 +164,7 @@ int ArchiveNode::row()
 
 ArchiveModel::ArchiveModel( QObject *parent )
 	: QAbstractItemModel( parent ), m_archive( 0 ),
-	  m_rootNode( new ArchiveDirNode( 0, ArchiveEntry() ) ),
-	  m_jobTracker(0)
+	m_rootNode( new ArchiveDirNode( 0, ArchiveEntry() ) )
 {
 }
 
@@ -668,16 +667,18 @@ void ArchiveModel::insertNode( ArchiveNode *node )
 	endInsertRows();
 }
 
-void ArchiveModel::setArchive( Kerfuffle::Archive *archive )
+KJob* ArchiveModel::setArchive( Kerfuffle::Archive *archive )
 {
 	delete m_archive;
 	m_archive = archive;
 	m_rootNode->clear();
 
 
+	Kerfuffle::ListJob *job = NULL;
+
 	if ( m_archive )
 	{
-		Kerfuffle::ListJob *job = m_archive->list(); // TODO: call "open" or "create"?
+		job = m_archive->list(); // TODO: call "open" or "create"?
 
 		connect( job, SIGNAL( newEntry( const ArchiveEntry& ) ),
 			 this, SLOT( slotNewEntry( const ArchiveEntry& ) ) );
@@ -685,18 +686,13 @@ void ArchiveModel::setArchive( Kerfuffle::Archive *archive )
 		connect( job, SIGNAL( result( KJob * ) ),
 		         this, SIGNAL( loadingFinished(KJob *) ) );
 
-		if ( m_jobTracker )
-		{
-			m_jobTracker->registerJob( job );
-		}
-
 		emit loadingStarted();
 
 		// TODO: make sure if it's ok to not have calls to beginRemoveColumns here
 		m_showColumns.clear();
-		job->start();
 	}
 	reset();
+	return job;
 }
 
 ExtractJob* ArchiveModel::extractFile( const QVariant& fileName, const QString & destinationDir, Archive::CopyFlags flags ) const
@@ -722,7 +718,6 @@ AddJob* ArchiveModel::addFiles( const QStringList & filenames, const Compression
     if ( !m_archive->isReadOnly())
     {
         AddJob *job = m_archive->addFiles(filenames, options);
-        m_jobTracker->registerJob( job );
         connect( job, SIGNAL( newEntry( const ArchiveEntry& ) ),
             this, SLOT( slotNewEntry( const ArchiveEntry& ) ) );
 		connect(job, SIGNAL(userQuery(Query*)),
@@ -740,7 +735,6 @@ DeleteJob* ArchiveModel::deleteFiles( const QList<QVariant> & files )
 	if ( !m_archive->isReadOnly() )
 	{
 		DeleteJob *job = m_archive->deleteFiles( files );
-		m_jobTracker->registerJob( job );
 		connect( job, SIGNAL( entryRemoved( const QString & ) ),
 		         this, SLOT( slotEntryRemoved( const QString & ) ) );
 

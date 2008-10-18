@@ -75,7 +75,6 @@ class Part: public KParts::ReadWritePart, public Interface
 		void updateActions();
 		void selectionChanged();
 		void adjustColumns( const QModelIndex & topleft, const QModelIndex& bottomRight );
-		void createJobTracker();
 
 	signals:
 		void busy();
@@ -89,6 +88,9 @@ class Part: public KParts::ReadWritePart, public Interface
 		bool isPreviewable( const QModelIndex & index );
 		QList<QVariant> selectedFiles();
 		QList<QVariant> selectedFilesWithChildren();
+		void registerJob(KJob *job);
+
+
 		QString lastExtractionFolder;
 
 		ArchiveModel         *m_model;

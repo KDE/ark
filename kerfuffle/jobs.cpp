@@ -84,13 +84,14 @@ namespace Kerfuffle
 
 	void ListJob::doWork()
 	{
-		emit description( this, i18n( "Listing entries" ) );
+		emit description( this, i18n( "Loading archive..." ) );
 		m_interface->registerObserver( this );
 		bool result = m_interface->list();
 		m_interface->removeObserver( this );
 
 		setError(!result);
 		emitResult();
+		kDebug( 1601 ) << "Finished";
 	}
 
 	void ListJob::onNewEntry(const ArchiveEntry& entry)

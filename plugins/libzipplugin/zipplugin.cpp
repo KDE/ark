@@ -126,7 +126,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				return false;
 			}
 
-			progress( 0.0 );
+			//progress( 0.0 );
 
 			for ( int index = 0; index < zip_get_num_files( m_archive ); ++index )
 			{
