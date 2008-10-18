@@ -52,7 +52,6 @@ namespace Kerfuffle
 		//m_ui->information->setText(QString("The root has %1 files.").arg(model.rowCount()));
 
 		mainWidget()->layout()->addWidget(m_ui);
-		setButtons( Ok | Cancel );
 		setCaption( i18n( "Extract" ) );
 		m_ui->iconLabel->setPixmap( DesktopIcon( "archive-extract" ) );
 		m_ui->iconLabel->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );
