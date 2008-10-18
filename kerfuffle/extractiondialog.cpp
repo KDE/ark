@@ -22,6 +22,8 @@
 
 #include <KLocale>
 #include <KIconLoader>
+#include <KMessageBox>
+#include <KStandardDirs>
 
 #include <QDir>
 
@@ -47,9 +49,6 @@ namespace Kerfuffle
 		Q_UNUSED(parent  );
 
 		m_ui = new ExtractionDialogUI( this );
-		//setMainWidget( m_ui );
-
-		//m_ui->information->setText(QString("The root has %1 files.").arg(model.rowCount()));
 
 		mainWidget()->layout()->addWidget(m_ui);
 		setCaption( i18n( "Extract" ) );
@@ -59,8 +58,6 @@ namespace Kerfuffle
 		m_ui->filesToExtractGroupBox->hide();
 		m_ui->allFilesButton->setChecked( true );
 		m_ui->extractAllLabel->show();
-
-		//m_ui->recentFolders->addItems( ArkSettings::recentExtractionFolders() );
 
 		setSingleFolderArchive(false);
 
@@ -90,6 +87,37 @@ namespace Kerfuffle
 		m_ui->autoSubfolders->setEnabled(true);
 		m_ui->singleFolderGroup->hide();
 		m_ui->extractAllLabel->setText(i18n("Extract multiple archives"));
+	}
+
+	void ExtractionDialog::accept()
+	{
+		if (m_ui->subfolder->text().contains("/"))
+		{
+			KMessageBox::error(NULL, i18n("Sorry, the subfolder name may not contain the character '/'."));
+			return;
+		}
+
+		if (!QFileInfo(url().path()).exists())
+		{
+
+			QString ltext = i18n( "Create folder %1?", url().path());
+			int createDir =  KMessageBox::questionYesNo( this, ltext, i18n( "Missing Folder" ) , KGuiItem(i18n("Create Folder")), KGuiItem(i18n("Do Not Create")));
+			if( createDir == KMessageBox::No )
+			{
+				return;
+			}
+
+			// create directory using filename, make sure it has trailing slash
+			url().adjustPath( KUrl::AddTrailingSlash);
+			if( !KStandardDirs::makeDir( url().path() ) )
+			{
+				KMessageBox::error( this, i18n( "The folder could not be created. Please check permissions." ) );
+				return;
+			}
+		}
+
+		KDirSelectDialog::accept();
+
 	}
 
 	void ExtractionDialog::setCurrentUrl(const QString& url)

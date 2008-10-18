@@ -50,6 +50,7 @@ namespace Kerfuffle
 			bool preservePaths();
 			KUrl destinationDirectory();
 			QString subfolder() const;
+			virtual void accept();
 
 		public Q_SLOTS:
 			void setCurrentUrl(const QString& url);
