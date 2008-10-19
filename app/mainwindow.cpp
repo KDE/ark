@@ -77,6 +77,10 @@ MainWindow::~MainWindow()
 void MainWindow::dragEnterEvent ( QDragEnterEvent * event )
 {
 	kDebug(1601) << event;
+
+	Interface *iface = qobject_cast<Interface*>( m_part );
+	if (iface->isBusy()) return;
+
 	if (event->source() == NULL &&
 			isValidArchiveDrag(event->mimeData()))
          event->acceptProposedAction();
@@ -86,6 +90,9 @@ void MainWindow::dragEnterEvent ( QDragEnterEvent * event )
 void MainWindow::dropEvent ( QDropEvent * event )
 {
 	kDebug(1601) << event;
+
+	Interface *iface = qobject_cast<Interface*>( m_part );
+	if (iface->isBusy()) return;
 	
 	if (event->source() == NULL &&
 			isValidArchiveDrag(event->mimeData()))
@@ -99,6 +106,9 @@ void MainWindow::dropEvent ( QDropEvent * event )
 void MainWindow::dragMoveEvent ( QDragMoveEvent * event )
 {
 	kDebug(1601) << event;
+
+	Interface *iface = qobject_cast<Interface*>( m_part );
+	if (iface->isBusy()) return;
 
 	if (event->source() == NULL &&
 			isValidArchiveDrag(event->mimeData()))
