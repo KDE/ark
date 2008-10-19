@@ -75,6 +75,9 @@ class Part: public KParts::ReadWritePart, public Interface
 		void updateActions();
 		void selectionChanged();
 		void adjustColumns( const QModelIndex & topleft, const QModelIndex& bottomRight );
+		void setBusyGui();
+		void setReadyGui();
+
 
 	signals:
 		void busy();

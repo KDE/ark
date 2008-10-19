@@ -229,5 +229,12 @@ void MainWindow::newArchive()
 
 	QString saveFile = KFileDialog::getSaveFileName( KUrl( "kfiledialog:///ArkNewDir" ),
 	                                                 mimeTypes.join( " " ) );
+
+	m_openArgs.metaData()["createNewArchive"] = "true";
+
 	openUrl( KUrl( saveFile ) );
+
+	m_openArgs.metaData().remove("showExtractDialog");
+	m_openArgs.metaData().remove("createNewArchive");
+
 }

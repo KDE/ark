@@ -55,7 +55,7 @@
 #include <QMouseEvent>
 #include <QMimeData>
 #include <QtDBus/QtDBus>
-#include <QInputDialog>
+#include <KInputDialog>
 #include <QHeaderView>
 
 typedef KParts::GenericFactory<Part> Factory;
@@ -90,6 +90,11 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 	connect( m_model, SIGNAL( error( const QString&, const QString& ) ),
 	         this, SLOT( slotError( const QString&, const QString& ) ) );
 
+	connect(this, SIGNAL(busy()),
+			this, SLOT(setBusyGui()));
+	connect(this, SIGNAL(ready()),
+			this, SLOT(setReadyGui()));
+
 	m_statusBarExtension = new KParts::StatusBarExtension( this );
 
 	new DndExtractAdaptor(this);
@@ -111,6 +116,9 @@ void Part::registerJob(KJob* job)
 		m_jobTracker->widget(job)->show();
 	}
 	m_jobTracker->registerJob(job);
+	emit busy();
+	connect(job, SIGNAL(finished(KJob*)),
+			this, SIGNAL(ready()));
 }
 
 void Part::extractSelectedFilesTo(QString localPath)
@@ -275,33 +283,65 @@ KAboutData* Part::createAboutData()
 bool Part::openFile()
 {
 
+	if (arguments().metaData()["createNewArchive"] == "true")
+	{
 
-	//TODO: uncomment me!
-	//once a solution is found for creating new files.
-#if 0
-	if (!QFileInfo(localFilePath()).exists()) {
-		KMessageBox::sorry(NULL, i18n("Error opening archive: the file '%1' was not found.", localFilePath()), i18n("Error opening archive"));
-		return false;
+		if (QFileInfo(localFilePath()).exists()) {
+			int overWrite =  KMessageBox::questionYesNo( NULL, i18n("The file '%1' already exists. Would you like to open it instead?", localFilePath()), i18n("File exists") , KGuiItem(i18n("Open file")), KGuiItem(i18n("Cancel")));
+			if( overWrite == KMessageBox::No )
+			{
+				return false;
+			}
+		}
+
 	}
-#endif
+	else
+	{
+		if (!QFileInfo(localFilePath()).exists()) {
+			KMessageBox::sorry(NULL, i18n("Error opening archive: the file '%1' was not found.", localFilePath()), i18n("Error opening archive"));
+			return false;
+		}
+
+	}
 
 	Kerfuffle::Archive *archive = Kerfuffle::factory( localFilePath() );
+
+	if (!archive) {
+		bool ok;
+
+		QString item;
+
+		if (arguments().metaData()["createNewArchive"] == "true")
+			item = KInputDialog::getItem(i18n("Unable to determine archive type"),
+				i18n("Ark was unable to automatically determine the archive type of the filename. Please use a standard file extension (such as zip, rar or tar.gz), or manually choose one from the following mimetypes."), supportedWriteMimeTypes(), 0, false, &ok);
+		else
+			item = KInputDialog::getItem(i18n("Unable to determine archive type"),
+				i18n("Ark was unable to automatically determine the archive type of the filename. Please choose the correct one from one of the following mimetypes."), supportedMimeTypes(), 0, false, &ok);
+
+
+
+
+		if (!ok || item.isEmpty())
+			return false;
+
+		archive = Kerfuffle::factory( localFilePath(), item);
+
+	}
+
+	if (!archive) {
+		KMessageBox::sorry(NULL, i18n("Ark was not able to open the archive '%1'. No library capable of handling the file was found.", localFilePath()), i18n("Error opening archive"));
+		return false;
+	}
 	
 	KJob *job = m_model->setArchive( archive );
 	registerJob(job);
 	job->start();
 	m_infoPanel->setIndex( QModelIndex() );
 
-	if (!archive) {
-		KMessageBox::sorry(NULL, i18n("Ark was not able to open the archive '%1'. No library capable of handling the file was found.", localFilePath()), i18n("Error opening archive"));
-		return false;
-	}
-
 	if (archive != 0 && arguments().metaData()["showExtractDialog"] == "true")
 	{
 		QTimer::singleShot( 0, this, SLOT( slotExtractFiles() ) );
 	}
-
 
 	return ( archive != 0 );
 }
@@ -323,22 +363,30 @@ QStringList Part::supportedWriteMimeTypes() const
 
 void Part::slotLoadingStarted()
 {
-	QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
-	m_busy = true;
-	updateActions();
-	emit busy();
 }
 
 void Part::slotLoadingFinished(KJob *job)
 {
 	if (job->error())
-		kDebug( 1601 ) << "Job returned error: " << job->errorText() ;
-	QApplication::restoreOverrideCursor();
-	m_busy = false;
+		KMessageBox::sorry(NULL, i18n("Reading the archive '%1' failed with the error '%2'", localFilePath(), job->errorText()), i18n("Error opening archive"));
 	m_view->resizeColumnToContents( 0 );
 	m_view->expandToDepth(0);
+}
+
+void Part::setReadyGui()
+{
+	QApplication::restoreOverrideCursor();
+	m_busy = false;
+	m_view->setEnabled(true);
 	updateActions();
-	emit ready();
+}
+
+void Part::setBusyGui()
+{
+	QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
+	m_busy = true;
+	m_view->setEnabled(false);
+	updateActions();
 }
 
 void Part::slotPreview()
