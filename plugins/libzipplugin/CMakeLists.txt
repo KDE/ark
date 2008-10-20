@@ -5,6 +5,9 @@ include_directories( ${LIBZIP_INCLUDE_DIR}
                    )
 
 set (LIBZIP_COMPILED_WITH_32BIT_OFF_T ON CACHE BOOL "Whether the system libzip library is compiled with 32bits off_t" )
+if(WIN32)
+set (LIBZIP_COMPILED_WITH_32BIT_OFF_T OFF CACHE BOOL "Whether the system libzip library is compiled with 32bits off_t" )
+endif(WIN32)
 
 if (LIBZIP_COMPILED_WITH_32BIT_OFF_T)
 
