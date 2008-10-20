@@ -57,7 +57,11 @@ LibArchiveInterface::~LibArchiveInterface()
 void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry) {
 
 	ArchiveEntry e;
+#ifdef _MSC_VER
+	e[ FileName ] = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w( aentry )));
+#else
 	e[ FileName ] = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w( aentry )));
+#endif
 	e[ InternalID ] = e[ FileName ];
 	e[ Owner ] = QString( archive_entry_uname( aentry ) );
 	e[ Group ] = QString( archive_entry_gname( aentry ) );
