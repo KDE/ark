@@ -79,7 +79,11 @@ bool LibArchiveInterface::list()
 	while ( ( result = archive_read_next_header( arch, &aentry ) ) == ARCHIVE_OK )
 	{
 		ArchiveEntry e;
+#ifdef _MSC_VER
+		e[ FileName ] = QString::fromUtf16((ushort*)archive_entry_pathname_w( aentry ));
+#else
 		e[ FileName ] = QString::fromWCharArray(archive_entry_pathname_w( aentry ));
+#endif
 		e[ InternalID ] = e[ FileName ];
 		e[ Owner ] = QString( archive_entry_uname( aentry ) );
 		e[ Group ] = QString( archive_entry_gname( aentry ) );
