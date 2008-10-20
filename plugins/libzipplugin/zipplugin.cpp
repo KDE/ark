@@ -26,7 +26,6 @@
 #include <QString>
 
 #ifdef LIBZIP_COMPILED_WITH_32BIT_OFF_T
-#error test
 //TODO:
 //a ninjatrick to redefine off_t to 32bit inside this file because libzip is
 //usually compiled with off_t to 32bit. in the long run libzip should be
