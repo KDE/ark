@@ -672,6 +672,8 @@ KJob* ArchiveModel::setArchive( Kerfuffle::Archive *archive )
 	delete m_archive;
 	m_archive = archive;
 	m_rootNode->clear();
+	previousMatch = 0;
+	previousPieces = QStringList();
 
 
 	Kerfuffle::ListJob *job = NULL;
