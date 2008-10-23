@@ -146,6 +146,8 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 
 	kDebug( 1601 ) << files  << destinationDirectory << (preservePaths? " with paths":"");
 
+	QDir::setCurrent(destinationDirectory);
+
 	QString commonBase;
 	if (flags & Archive::TruncateCommonBase)
 		commonBase = findCommonBase(files);
@@ -173,7 +175,7 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 		kDebug( 1601 ) << file.toString();
 		kp << file.toString();
 	}
-	kp << destinationDirectory;
+	//kp << destinationDirectory;
 
 	kp.start();
 	if (!kp.waitForStarted()){
