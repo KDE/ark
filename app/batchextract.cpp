@@ -37,7 +37,7 @@
 
 BatchExtract::BatchExtract() 
 	: autoSubfolders(false),
-	destinationFolder(QDir::currentPath()),
+	destinationFolder(),
 	m_preservePaths(true)
 
 {
