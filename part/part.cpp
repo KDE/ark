@@ -44,6 +44,7 @@
 #include <KFileDialog>
 #include <KConfigGroup>
 #include <KPasswordDialog>
+#include <KStandardDirs>
 
 
 #include <QCursor>
@@ -514,7 +515,12 @@ void Part::slotExtractFiles()
 		{
 			destinationDirectory =  dialog.destinationDirectory().path() + 
 				QDir::separator() + dialog.subfolder();
-			QDir(dialog.destinationDirectory().path()).mkdir(dialog.subfolder());
+
+			if( !KStandardDirs::makeDir( destinationDirectory) )
+			{
+				KMessageBox::error( NULL, i18n( "The folder '%1' could not be created. Please check permissions.", destinationDirectory ) );
+				return;
+			}
 		}
 		else destinationDirectory = dialog.destinationDirectory().path();
 
