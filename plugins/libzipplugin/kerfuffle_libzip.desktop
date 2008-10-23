@@ -10,7 +10,6 @@ X-KDE-PluginInfo-Website=http://www.kde.org
 X-KDE-PluginInfo-License=BSD
 X-KDE-Priority=150
 X-KDE-Kerfuffle-APIRevision=1
-X-KDE-Kerfuffle-ReadWrite=true
 Name=kerfuffle_libzip
 Name[sv]=Kerfuffle Libzip
 Name[ta]=கெர்ஃபஃபில் லிப்ஜிப்

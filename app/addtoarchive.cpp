@@ -19,13 +19,20 @@
  *
  */
 
-#include "addtoarchive.h"
-#include "kerfuffle/adddialog.h"
-#include <kdebug.h>
-#include <QCoreApplication>
-#include <kwidgetjobtracker.h>
 #include <QFileInfo>
 #include <QDir>
+#include <QCoreApplication>
+
+#include <kdebug.h>
+#include <kwidgetjobtracker.h>
+#include <kmessagebox.h>
+#include <klocale.h>
+
+#include "addtoarchive.h"
+#include "kerfuffle/adddialog.h"
+
+
+
 
 AddToArchive::AddToArchive(QObject *parent)
 	: QObject(parent), m_changeToFirstPath(false)
@@ -84,7 +91,7 @@ bool AddToArchive::startAdding( void )
 	Kerfuffle::CompressionOptions options;
 
 	if (!m_inputs.size()) {
-		//TODO: needs error
+		KMessageBox::error( NULL, i18n("No input files were given.") );
 		return false;
 	}
 
@@ -96,12 +103,12 @@ bool AddToArchive::startAdding( void )
 	else {
 		
 		if (m_autoFilenameSuffix.isEmpty()) {
-			//TODO: needs error
+			KMessageBox::error( NULL, i18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.tz) with the --autofilename argument.") );
 			return false;
 		}
 
 		if (m_firstPath.isEmpty()) {
-			//TODO: needs error
+			kDebug( 1601 ) << "Weird, this should not happen. no firstpath defined. aborting";
 			return false;
 		}
 
@@ -122,15 +129,15 @@ bool AddToArchive::startAdding( void )
 	}
 
 
-	//TODO: needs error
 	if (archive == NULL) {
+		KMessageBox::error( NULL, i18n("Failed to create the new archive. Permissions might not be sufficient.") );
 		QCoreApplication::instance()->quit();
 		return false;
 	}
 
 	if (m_changeToFirstPath) {
 		if (m_firstPath.isEmpty()) {
-			//TODO: needs error
+			kDebug( 1601 ) << "Weird, this should not happen. no firstpath defined. aborting";
 			return false;
 		}
 
