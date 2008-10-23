@@ -6,13 +6,13 @@
     <x>0</x>
     <y>0</y>
     <width>565</width>
-    <height>202</height>
+    <height>113</height>
    </rect>
   </property>
   <property name="minimumSize" >
    <size>
     <width>0</width>
-    <height>100</height>
+    <height>0</height>
    </size>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout" >
@@ -24,16 +24,60 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="minimumSize" >
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
      <property name="title" >
       <string>Files/folders to compress</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2" />
+     <layout class="QVBoxLayout" name="verticalLayout_2" >
+      <item>
+       <widget class="QListView" name="compressList" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="autoFillBackground" >
+         <bool>false</bool>
+        </property>
+        <property name="frameShape" >
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow" >
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="lineWidth" >
+         <number>0</number>
+        </property>
+        <property name="editTriggers" >
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="selectionMode" >
+         <enum>QAbstractItemView::NoSelection</enum>
+        </property>
+        <property name="iconSize" >
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="textElideMode" >
+         <enum>Qt::ElideMiddle</enum>
+        </property>
+        <property name="verticalScrollMode" >
+         <enum>QAbstractItemView::ScrollPerPixel</enum>
+        </property>
+        <property name="resizeMode" >
+         <enum>QListView::Adjust</enum>
+        </property>
+        <property name="viewMode" >
+         <enum>QListView::IconMode</enum>
+        </property>
+        <property name="uniformItemSizes" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>

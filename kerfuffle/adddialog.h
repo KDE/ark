@@ -42,6 +42,7 @@ namespace Kerfuffle
 
 		private:
 			class AddDialogUI *m_ui;
+			void setupIconList(const QStringList& itemsToAdd);
 
 	};
 

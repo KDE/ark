@@ -20,6 +20,10 @@
  *
  */
 
+#include <QStandardItemModel>
+
+#include <kfileplacesmodel.h>
+
 #include "adddialog.h"
 #include "ui_adddialog.h"
 #include "kerfuffle/archive.h"
@@ -52,17 +56,38 @@ namespace Kerfuffle
 		m_ui = new AddDialogUI( this );
 		mainWidget()->layout()->addWidget(m_ui);
 
-		foreach(const QString& item, itemsToAdd) {
-			m_ui->groupCompressFiles->layout()->addWidget(
-					new QLabel(item));
-		}
-
+		setupIconList(itemsToAdd);
 
 		//These extra options will be implemented in a 4.2+ version of
 		//ark
 		m_ui->groupExtraOptions->hide();
 
 		setMimeFilter(Kerfuffle::supportedWriteMimeTypes());
+
+	}
+
+	void AddDialog::setupIconList(const QStringList& itemsToAdd)
+	{
+		//groupCompressFiles->addWidget(
+		QStandardItemModel* listModel = new QStandardItemModel(this);
+		QStringList sortedList(itemsToAdd);
+		sortedList.sort();
+
+		Q_FOREACH(const QString& urlString, sortedList) {
+			KUrl url(urlString);
+
+			QStandardItem* item = new QStandardItem;
+			item->setText(url.fileName());
+
+			QString iconName = KMimeType::iconNameForUrl(url);
+			item->setIcon(KIcon(iconName));
+
+			item->setData(QVariant(url), KFilePlacesModel::UrlRole);
+
+			listModel->appendRow(item);
+		}
+
+		m_ui->compressList->setModel(listModel);
 
 	}
 
