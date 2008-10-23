@@ -139,7 +139,7 @@ int main( int argc, char **argv )
 
 			addInterface.startAdding();
 
-		} else if (args->isSet("batch") || args->count() > 1) {
+		} else if (args->isSet("batch")) {
 			//once the job has been started this interface can be safely
 			//deleted
 			BatchExtract *batchExtract = new BatchExtract();
