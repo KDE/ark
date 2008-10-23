@@ -152,8 +152,8 @@ void Part::setupView()
 	connect( m_view, SIGNAL( doubleClicked( const QModelIndex & ) ),
 	         this, SLOT( slotPreview( const QModelIndex & ) ) );
 
-	connect( m_model, SIGNAL( dataChanged( const QModelIndex &, const QModelIndex& ) ),
-	         this, SLOT( adjustColumns( const QModelIndex &, const QModelIndex& ) ) );
+	//connect( m_model, SIGNAL( dataChanged( const QModelIndex &, const QModelIndex& ) ),
+	         //this, SLOT( adjustColumns( const QModelIndex &, const QModelIndex& ) ) );
 
 }
 
@@ -367,9 +367,9 @@ void Part::slotLoadingStarted()
 
 void Part::slotLoadingFinished(KJob *job)
 {
+	kDebug( 1601 );
 	if (job->error())
 		KMessageBox::sorry(NULL, i18n("Reading the archive '%1' failed with the error '%2'", localFilePath(), job->errorText()), i18n("Error opening archive"));
-	m_view->resizeColumnToContents( 0 );
 	m_view->expandToDepth(0);
 }
 
@@ -523,7 +523,7 @@ void Part::slotExtractFiles()
 		//if the user has chosen to extract only selected entries, fetch these
 		//from the listview
 		if (!dialog.extractAllFiles()) {
-			files = selectedFiles();
+			files = selectedFilesWithChildren();
 		}
 
 		kDebug( 1601 ) << "Selected " << files;
