@@ -24,6 +24,7 @@
 #include <KIconLoader>
 #include <KMessageBox>
 #include <KStandardDirs>
+#include <KDebug>
 
 #include <QDir>
 
@@ -97,7 +98,7 @@ namespace Kerfuffle
 			return;
 		}
 
-		if (!QFileInfo(url().path()).exists())
+		if (!KStandardDirs::exists(url().path(KUrl::AddTrailingSlash)))
 		{
 
 			QString ltext = i18n( "Create folder %1?", url().path());
@@ -107,14 +108,25 @@ namespace Kerfuffle
 				return;
 			}
 
-			// create directory using filename, make sure it has trailing slash
-			url().adjustPath( KUrl::AddTrailingSlash);
-			if( !KStandardDirs::makeDir( url().path() ) )
+			if( !KStandardDirs::makeDir( url().path( KUrl::AddTrailingSlash) ) )
 			{
 				KMessageBox::error( this, i18n( "The folder could not be created. Please check permissions." ) );
 				return;
 			}
 		}
+
+		QString pathWithSubfolder = url().path(KUrl::AddTrailingSlash) + subfolder() + "/";
+		kDebug (1601) << pathWithSubfolder << " exists: " << KStandardDirs::exists(pathWithSubfolder);
+		if (extractToSubfolder() && KStandardDirs::exists(pathWithSubfolder)) {
+				int overWrite = KMessageBox::questionYesNo( NULL, i18n("The folder '%1' already exists. Are you sure you want to extract here?",pathWithSubfolder ), i18n("Folder exists") , KGuiItem(i18n("Extract here")), KGuiItem(i18n("Cancel")));
+				if( overWrite == KMessageBox::No )
+				{
+					//TODO: choosing retry should also be possible, so one does
+					//not have to do the procedure one more time.
+					return;
+				}
+		}
+		
 
 		KDirSelectDialog::accept();
 
@@ -197,7 +209,7 @@ namespace Kerfuffle
 
 	KUrl ExtractionDialog::destinationDirectory()
 	{
-		return url().path();
+		return url().path(KUrl::AddTrailingSlash);
 	}
 
 }

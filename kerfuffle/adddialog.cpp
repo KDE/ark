@@ -68,7 +68,6 @@ namespace Kerfuffle
 
 	void AddDialog::setupIconList(const QStringList& itemsToAdd)
 	{
-		//groupCompressFiles->addWidget(
 		QStandardItemModel* listModel = new QStandardItemModel(this);
 		QStringList sortedList(itemsToAdd);
 		sortedList.sort();
