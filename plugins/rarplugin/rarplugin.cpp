@@ -195,7 +195,7 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 			}
 
 			if (line.contains("already exists")) {
-				QString filename = line.left(line.indexOf("already exists"));
+				QString filename = line.left(line.indexOf(" already exists"));
 				kDebug( 1601 ) << "Existing file detected: " << filename;
 				Kerfuffle::OverwriteQuery query(filename);
 				emit userQuery(&query);
