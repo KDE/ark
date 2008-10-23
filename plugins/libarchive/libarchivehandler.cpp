@@ -63,8 +63,13 @@ void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry
 	e[ FileName ] = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w( aentry )));
 #endif
 	e[ InternalID ] = e[ FileName ];
-	e[ Owner ] = QString( archive_entry_uname( aentry ) );
-	e[ Group ] = QString( archive_entry_gname( aentry ) );
+
+	QString owner = QString( archive_entry_uname( aentry ) );
+	if (!owner.isEmpty()) e[ Owner ] = owner;
+
+	QString group = QString( archive_entry_gname( aentry ) );
+	if (!group.isEmpty()) e[ Group ] = group;
+
 	e[ Size ] = ( qlonglong ) archive_entry_size( aentry );
 	e[ IsDirectory ] = S_ISDIR( archive_entry_mode( aentry ) ); // see stat(2)
 	if ( archive_entry_symlink( aentry ) )
