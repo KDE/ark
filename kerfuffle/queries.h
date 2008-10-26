@@ -84,6 +84,16 @@ namespace Kerfuffle
 			QString newFilename();
 	};
 
+	class KERFUFFLE_EXPORT PasswordNeededQuery : public Query
+	{
+		public:
+			PasswordNeededQuery(QString archiveFilename, bool incorrectTryAgain = false);
+			void execute();
+
+			bool responseCancelled();
+			QString password();
+	};
+
 }
 
 #endif /* ifndef _QUERIES_H_ */

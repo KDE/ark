@@ -43,9 +43,7 @@
 #include <KRun>
 #include <KFileDialog>
 #include <KConfigGroup>
-#include <KPasswordDialog>
 #include <KStandardDirs>
-
 
 #include <QCursor>
 #include <QAction>
@@ -402,15 +400,6 @@ void Part::slotPreview( const QModelIndex & index )
 	const ArchiveEntry& entry =  m_model->entryForIndex( index );
 	if ( !entry.isEmpty() )
 	{
-		if (entry.contains(IsPasswordProtected) && entry[IsPasswordProtected].toBool())
-		{
-			KPasswordDialog dlg( NULL );
-			dlg.setPrompt( i18n("This file is password protected. Please enter the password to extract the file."));
-			if( !dlg.exec() )
-				return; //the user canceled
-			m_model->archive()->setPassword(dlg.password());
-		}
-
 		m_previewDir = new KTempDir();
 		ExtractJob *job = m_model->extractFile( entry[ InternalID ], m_previewDir->name(), Archive::CopyFlags() );
 		registerJob( job );
@@ -500,15 +489,6 @@ void Part::slotExtractFiles()
 
 		//this is done to update the quick extract menu
 		updateActions();
-
-		if (m_model->archive()->isPasswordProtected()) {
-			KPasswordDialog dlg( NULL );
-			dlg.setPrompt( i18n("This archive contains one or more password protected files. Please enter the password to extract these."));
-			if( !dlg.exec() )
-				return; //the user canceled
-			m_model->archive()->setPassword(dlg.password());
-
-		}
 
 		QString destinationDirectory;
 		if (dialog.extractToSubfolder())

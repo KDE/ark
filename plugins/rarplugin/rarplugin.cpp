@@ -152,6 +152,8 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 	if (flags & Archive::TruncateCommonBase)
 		commonBase = findCommonBase(files);
 
+startprocess:
+
 	KProcess kp;
 	kp.setOutputChannelMode(KProcess::MergedChannels);
 	if (!m_unrarpath.isNull()) kp << m_unrarpath;
@@ -177,6 +179,7 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 	}
 	//kp << destinationDirectory;
 
+
 	kp.start();
 	if (!kp.waitForStarted()){
 		kDebug( 1601 ) << "Rar did not start";
@@ -184,8 +187,9 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 	}
 
 	while (kp.waitForReadyRead()) {
-		QStringList lines = QString(kp.readAll()).split("\n");
-		foreach(const QString &line, lines) {
+
+		while (kp.canReadLine()) {
+			const QString line = kp.readLine();
 
 			//read the percentage
 			int pos = line.indexOf('%');
@@ -208,7 +212,30 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 				else if (query.responseOverwrite())
 					kp.write("y\n");
 			}
+
+			if (line.contains("password incorrect")) {
+				QString filename = line.right(line.count() - line.indexOf(" for "));
+				filename.chop(1);
+				kDebug( 1601 ) << "Password protected file detected: " << filename;
+				Kerfuffle::PasswordNeededQuery query(filename, !password().isEmpty());
+				emit userQuery(&query);
+				query.waitForResponse();
+
+				kp.terminate();
+				kp.waitForFinished();
+
+				if (query.responseCancelled()) {
+					error(i18n("Password input cancelled by user."));
+					return false;
+				}
+
+				kDebug( 1601 ) << "Restarting process...";
+				setPassword(query.password());
+				goto startprocess;
+			}
+
 		}
+
 	}
 
 	if (kp.state() != QProcess::NotRunning) {

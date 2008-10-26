@@ -23,6 +23,7 @@
 #include <QMessageBox>
 
 #include <KLocale>
+#include <KPasswordDialog>
 
 #include <kio/renamedialog.h>
 
@@ -99,6 +100,42 @@ namespace Kerfuffle
 	QString OverwriteQuery::newFilename()
 	{
 		return m_data.value("newFilename").toString();
+	}
+
+	PasswordNeededQuery::PasswordNeededQuery(QString archiveFilename, bool incorrectTryAgain)
+	{
+		m_data["archiveFilename"] = archiveFilename;
+		m_data["incorrectTryAgain"] = incorrectTryAgain;
+	}
+
+	void PasswordNeededQuery::execute()
+	{
+		KPasswordDialog dlg( NULL );
+		dlg.setPrompt( i18n("The archive '%1'is password protected. Please enter the password to extract the file.", 
+					m_data.value("archiveFilename").toString()));
+
+		if (m_data.value("incorrectTryAgain").toBool()) {
+			dlg.showErrorMessage(i18n("Incorrect password, please try again."), KPasswordDialog::PasswordError);
+		}
+
+		if( !dlg.exec() )
+		{
+			setResponse(false);
+			return;
+		}
+
+		m_data["password"] = dlg.password();
+		setResponse(true);
+	}
+
+	QString PasswordNeededQuery::password()
+	{
+		return m_data.value("password").toString();
+	}
+
+	bool PasswordNeededQuery::responseCancelled()
+	{
+		return !m_data.value("response").toBool();
 	}
 
 }
