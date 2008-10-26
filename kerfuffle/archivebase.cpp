@@ -107,7 +107,11 @@ namespace Kerfuffle
 
 	ExtractJob* ArchiveBase::copyFiles( const QList<QVariant> & files, const QString & destinationDir, Archive::CopyFlags flags )
 	{
-		ExtractJob *newJob = new ExtractJob( files, destinationDir, flags, m_iface, this );
+		Archive::CopyFlags newFlags = flags;
+		if (isPasswordProtected())
+			newFlags |= PasswordProtectedHint;
+
+		ExtractJob *newJob = new ExtractJob( files, destinationDir, newFlags, m_iface, this );
 		connect(m_iface, SIGNAL(userQuery(Query*)),
 				newJob, SIGNAL(userQuery(Query*)));
 		return newJob;

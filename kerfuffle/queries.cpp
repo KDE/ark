@@ -111,7 +111,7 @@ namespace Kerfuffle
 	void PasswordNeededQuery::execute()
 	{
 		KPasswordDialog dlg( NULL );
-		dlg.setPrompt( i18n("The archive '%1'is password protected. Please enter the password to extract the file.", 
+		dlg.setPrompt( i18n("The archive '%1' is password protected. Please enter the password to extract the file.", 
 					m_data.value("archiveFilename").toString()));
 
 		if (m_data.value("incorrectTryAgain").toBool()) {

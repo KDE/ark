@@ -152,6 +152,23 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 	if (flags & Archive::TruncateCommonBase)
 		commonBase = findCommonBase(files);
 
+
+	//if we get a hint about this being a password protected archive, ask about
+	//the password in advance.
+	if (flags & Archive::PasswordProtectedHint) {
+		kDebug( 1601 ) << "Password hint enabled, querying user";
+
+		Kerfuffle::PasswordNeededQuery query(filename());
+		emit userQuery(&query);
+		query.waitForResponse();
+
+		if (query.responseCancelled()) {
+			error(i18n("Password input cancelled by user."));
+			return false;
+		}
+		setPassword(query.password());
+	}
+
 startprocess:
 
 	KProcess kp;
@@ -214,10 +231,7 @@ startprocess:
 			}
 
 			if (line.contains("password incorrect")) {
-				QString filename = line.right(line.count() - line.indexOf(" for "));
-				filename.chop(1);
-				kDebug( 1601 ) << "Password protected file detected: " << filename;
-				Kerfuffle::PasswordNeededQuery query(filename, !password().isEmpty());
+				Kerfuffle::PasswordNeededQuery query(filename(), !password().isEmpty());
 				emit userQuery(&query);
 				query.waitForResponse();
 

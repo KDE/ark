@@ -61,7 +61,8 @@ namespace Kerfuffle
 
 			enum CopyFlag {
 				PreservePaths = 0x1,
-				TruncateCommonBase = 0x2
+				TruncateCommonBase = 0x2,
+				PasswordProtectedHint = 0x4
 			};
 			Q_DECLARE_FLAGS(CopyFlags, CopyFlag)
 
