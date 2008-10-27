@@ -31,6 +31,7 @@ class InfoPanel;
 
 class QTreeView;
 class QAction;
+class KAction;
 
 class KAboutData;
 class KTempDir;
@@ -99,7 +100,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		ArchiveModel         *m_model;
 		QTreeView            *m_view;
 		QAction              *m_previewAction;
-		QAction              *m_extractFilesAction;
+		KAction              *m_extractFilesAction;
 		QAction              *m_addFilesAction;
 		QAction              *m_addDirAction;
 		QAction              *m_deleteFilesAction;
