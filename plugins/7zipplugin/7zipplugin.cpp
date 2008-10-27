@@ -241,7 +241,7 @@ bool p7zipInterface::addFiles( const QStringList & files, const CompressionOptio
 
 	KProcess kp;
 	kp << m_exepath << "a";
-	kp << "-bd"; // supress percentage indicator
+	kp << "-bd"; // suppress percentage indicator
 	kp << m_filename;
 
 
