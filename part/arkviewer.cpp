@@ -29,6 +29,9 @@
 #include <KGlobal>
 #include <KIconLoader>
 #include <KVBox>
+#include <KMessageBox>
+#include <KRun>
+#include <KIO/NetAccess>
 
 #include <QHBoxLayout>
 #include <QFrame>
@@ -90,7 +93,31 @@ void ArkViewer::slotFinished()
 	delayedDestruct();
 }
 
-bool ArkViewer::view( const QString& filename )
+void ArkViewer::view( const QString& filename, QWidget *parent )
+{
+	KService::Ptr viewer = ArkViewer::getViewer( filename );
+
+	if ( viewer.isNull() )
+	{
+		KMessageBox::sorry( parent, i18n( "The internal viewer cannot preview this file." ) );
+	}
+	else if ( viewer->hasServiceType( "KParts/ReadOnlyPart" ) )
+	{
+		ArkViewer( parent ).viewInInternalViewer( filename );
+	}
+	else // Try to open it in an external application
+	{
+		KUrl fileUrl( filename );
+		KRun::runUrl( fileUrl, KMimeType::findByUrl( fileUrl, 0, true, true )->name(), parent );
+		return;
+	}
+
+	// Unlink the temp file (not used by the external viewer since KRun will do that for us at
+	// the right moment
+	KIO::NetAccess::del( KUrl( filename ), parent );
+}
+
+bool ArkViewer::viewInInternalViewer( const QString& filename )
 {
 	KUrl u( filename );
 
@@ -137,5 +164,28 @@ bool ArkViewer::view( const QString& filename )
 		return false;
 	}
 }
+
+KService::Ptr ArkViewer::getViewer( const QString& filename )
+{
+	KMimeType::Ptr mimetype = KMimeType::findByUrl( KUrl( filename ), 0, true );
+	// Try to get a read-only kpart for the internal viewer
+	KService::List offers = KMimeTypeTrader::self()->query( mimetype->name(), QString::fromLatin1( "KParts/ReadOnlyPart" ) );
+
+	// If we can't find a kpart, try to get an external application
+	if ( offers.size() == 0 )
+	{
+		offers = KMimeTypeTrader::self()->query( mimetype->name(), QString::fromLatin1( "Application" ) );
+	}
+
+	if ( offers.size() > 0 )
+	{
+		return offers.first();
+	}
+	else
+	{
+		return KService::Ptr();
+	}
+}
+
 
 #include "arkviewer.moc"

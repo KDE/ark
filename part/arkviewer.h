@@ -24,21 +24,26 @@
 
 #include <KDialog>
 #include <KParts/ReadOnlyPart>
+#include <KService>
 
 class ArkViewer : public KDialog
 {
 	Q_OBJECT
 
 	public:
-		explicit ArkViewer( QWidget* parent = 0 );
 		~ArkViewer();
 
-		bool view( const QString& filename );
+		static void view( const QString& filename, QWidget* parent = 0 );
 
 	protected slots:
 		void slotFinished();
 
 	private:
+		explicit ArkViewer( QWidget* parent = 0 );
+
+		static KService::Ptr getViewer( const QString& filename );
+		bool viewInInternalViewer( const QString& filename );
+
 		KParts::ReadOnlyPart *m_part;
 		QWidget *m_widget;
 };

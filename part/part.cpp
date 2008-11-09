@@ -44,6 +44,7 @@
 #include <KFileDialog>
 #include <KConfigGroup>
 #include <KStandardDirs>
+#include <KIO/NetAccess>
 
 #include <QCursor>
 #include <QAction>
@@ -396,12 +397,14 @@ void Part::slotPreview()
 
 void Part::slotPreview( const QModelIndex & index )
 {
-	if ( m_previewDir ) return;
+	if ( !m_previewDir )
+	{
+		m_previewDir = new KTempDir();
+	}
 	if ( !isPreviewable( index ) ) return;
 	const ArchiveEntry& entry =  m_model->entryForIndex( index );
 	if ( !entry.isEmpty() )
 	{
-		m_previewDir = new KTempDir();
 		ExtractJob *job = m_model->extractFile( entry[ InternalID ], m_previewDir->name(), Archive::CopyFlags() );
 		registerJob( job );
 		connect( job, SIGNAL( result( KJob* ) ),
@@ -414,20 +417,16 @@ void Part::slotPreviewExtracted( KJob *job )
 {
 	if ( !job->error() )
 	{
-		ArkViewer viewer( widget() );
+		//ArkViewer viewer( widget() );
 		const ArchiveEntry& entry =  m_model->entryForIndex( m_view->selectionModel()->currentIndex() );
 		QString name = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts ).last();
-		if ( !viewer.view( m_previewDir->name() + '/' + name ) )
-		{
-			KMessageBox::sorry( widget(), i18n( "The internal viewer cannot preview this file." ) );
-		}
+		QString fullName = m_previewDir->name() + '/' + name;
+		ArkViewer::view( fullName, widget() );
 	}
 	else
 	{
 		KMessageBox::error( widget(), job->errorString() );
 	}
-	delete m_previewDir;
-	m_previewDir = 0;
 }
 
 void Part::slotError( const QString& errorMessage, const QString& details )
