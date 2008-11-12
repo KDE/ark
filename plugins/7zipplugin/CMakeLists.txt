@@ -11,6 +11,9 @@ set(kerfuffle_7zip_SRCS 7zipplugin.cpp)
 kde4_add_plugin(kerfuffle_7zip ${kerfuffle_7zip_SRCS})
 
 target_link_libraries(kerfuffle_7zip  ${KDE4_KDECORE_LIBS} ${KDE4_KIO_LIBS} kerfuffle )
+if (UNIX)
+   target_link_libraries(kerfuffle_7zip ${KDE4_KPTY_LIBRARY})
+endif (UNIX)
 
 install(TARGETS kerfuffle_7zip  DESTINATION ${PLUGIN_INSTALL_DIR} )
 

@@ -30,7 +30,13 @@
 #include <KStandardDirs>
 #include <KDebug>
 #include <KLocale>
+#include <QEventLoop>
+#include <QThread>
 
+#if !defined(Q_OS_WIN)
+#include <kptyprocess.h>
+#include <kptydevice.h>
+#endif
 
 p7zipInterface::p7zipInterface( const QString & filename, QObject *parent )
 	: ReadWriteArchiveInterface( filename, parent ),
@@ -62,34 +68,126 @@ bool p7zipInterface::list()
 {
 	if (m_exepath.isNull())
 		return false;
+		
+	#if defined(Q_OS_WIN)
+	KProcess kp(QThread::currentThread());
+	kp.setOutputChannelMode( KProcess::MergedChannels );
+	#else
+	KPtyProcess kp(QThread::currentThread());
+	kp.setOutputChannelMode( KProcess::SeparateChannels );
+	#endif
 
-	KProcess kp;
-	kp << m_exepath << "l" << "-slt" << m_filename;
-	kp.setOutputChannelMode(KProcess::MergedChannels);
+	m_process = &kp;
 
-	kp.start();
+	connect( m_process, SIGNAL( started() ), SLOT( started() ) );
+	connect( m_process, SIGNAL( readyReadStandardOutput() ), SLOT( readFromStdout() ) );
+	connect( m_process, SIGNAL( readyReadStandardError() ), SLOT( readFromStderr() ) );
 
-	if (!kp.waitForStarted()){
-		kDebug( 1601 ) << m_exepath << "did not start";
-		return false;
-	}
+	qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
+	connect( m_process, SIGNAL( finished( int, QProcess::ExitStatus ) ), SLOT( finished( int, QProcess::ExitStatus ) ) );
 
+	QStringList args;
+	args << "l" << "-slt" << m_filename;
 
-	if (!kp.waitForFinished()) {
+	#if defined(Q_OS_WIN)
+	m_process->start( m_exepath, args, QIODevice::ReadWrite | QIODevice::Unbuffered );
+	bool ret = m_process->waitForFinished( -1 ) ? 0 : 1;
+	#else
+	m_process->setProgram( m_exepath, args );
+	m_process->setNextOpenMode( QIODevice::ReadWrite | QIODevice::Unbuffered );
+	m_process->start();
+	QEventLoop loop;
+	m_loop = &loop;
+	bool ret = loop.exec( QEventLoop::WaitForMoreEvents );
+	m_loop = 0;
+	m_process = 0;
+	#endif
+
+	if (ret) {
 		kDebug( 1601 ) << m_exepath << "failed to finish";
 		return false;
 	}
 
-	int state = 0;
-	while (kp.canReadLine())
-	{
-		processLine(state, QString::fromLocal8Bit(kp.readLine()));
-	}
-
 	kDebug( 1601 ) << m_exepath << "finished";
+
 	return true;
 }
 
+void p7zipInterface::started()
+{
+	m_state = 0;
+}
+
+void p7zipInterface::readFromStdout()
+{
+	if ( !m_process )
+		return;
+		
+	m_stdOutData += m_process->readAllStandardOutput();
+
+	// process all lines until the last '\n'
+	int indx = m_stdOutData.lastIndexOf('\n');
+	QString leftString = QString::fromLocal8Bit(m_stdOutData.left(indx + 1));
+	QStringList lines = leftString.split( "\n", QString::SkipEmptyParts );
+	foreach(const QString &line, lines)
+	{
+		processLine(m_state, line);
+	}
+	m_stdOutData.remove(0, indx + 1);
+
+	kDebug( 1601 ) << "leftOver" << m_stdOutData;
+
+	if (m_stdOutData.contains("Enter password"))
+	{
+		Kerfuffle::PasswordNeededQuery query(filename());
+		emit userQuery(&query);
+		query.waitForResponse();
+
+		if (query.responseCancelled()) {
+			error(i18n("Password input cancelled by user."));
+			m_process->kill();
+			return;
+		}
+		setPassword(query.password());
+		writeToProcess(password().toLocal8Bit().append('\r'));
+	}
+}
+
+void p7zipInterface::readFromStderr()
+{
+	if ( !m_process )
+		return;
+	
+	m_stdErrData += m_process->readAllStandardError();
+	if ( !m_stdErrData.isEmpty() )
+	{
+		m_process->kill();
+		return;
+	}
+}
+
+void p7zipInterface::finished( int exitCode, QProcess::ExitStatus exitStatus)
+{
+	if ( !m_process )
+		return;
+
+	if ( m_loop )
+	{
+		m_loop->exit( exitStatus == QProcess::CrashExit ? 1 : 0 );
+	}
+}
+
+void p7zipInterface::writeToProcess( const QByteArray &data )
+{
+	if ( !m_process || data.isNull() )
+		return;
+
+#if defined(Q_OS_WIN)
+	m_process->write( data );
+#else
+	m_process->pty()->write( data );
+#endif
+}
 
 void p7zipInterface::processLine(int& state, const QString& line)
 {
@@ -101,7 +199,13 @@ void p7zipInterface::processLine(int& state, const QString& line)
 				kDebug( 1601 ) << "Archive name: " << line.right(line.size() - 16).trimmed() ;
 			}
 			else if (line.startsWith("----------"))
+			{
 				state = 1;
+			}
+			else if (line.contains("Error:"))
+			{
+				error(line);
+			}
 			break;
 		case 1: // beginning of a file detail
 			if (line.startsWith("Path ="))
@@ -184,50 +288,58 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 		return false;
 	}
 	
-	KProcess kp;
-	kp.setOutputChannelMode(KProcess::MergedChannels);
-	kp << m_exepath;
+	#if defined(Q_OS_WIN)
+	KProcess kp(QThread::currentThread());
+	kp.setOutputChannelMode( KProcess::MergedChannels );
+	#else
+	KPtyProcess kp(QThread::currentThread());
+	kp.setOutputChannelMode( KProcess::SeparateChannels );
+	#endif
+	
+	m_process = &kp;
+
+	connect( m_process, SIGNAL( started() ), SLOT( started() ) );
+	connect( m_process, SIGNAL( readyReadStandardOutput() ), SLOT( readFromStdout() ) );
+	connect( m_process, SIGNAL( readyReadStandardError() ), SLOT( readFromStderr() ) );
+
+	qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
+	connect( m_process, SIGNAL( finished( int, QProcess::ExitStatus ) ), SLOT( finished( int, QProcess::ExitStatus ) ) );
+	
+	QStringList args;
 	if (preservePaths)
 	{
-		kp << "x"; 
+		args << "x"; 
 	} else
 	{
-		kp << "e";
+		args << "e";
 	}
+	args << "-bd";
 
-	if ( !password().isEmpty() ) kp << "-p" + password();
+	if ( !password().isEmpty() ) args << "-p" + password();
 	
-	kp << "-o" + destinationDirectory;
-	kp << m_filename;
+	args << "-o" + destinationDirectory;
+	args << m_filename;
 
 	foreach( const QVariant& file, files )
 	{
-		kDebug( 1601 ) << file.toString().trimmed();
-		kp << file.toString().trimmed();
+		args << file.toString().trimmed();
 	}
 
-	QStringList args = kp.program();
-	foreach (const QString &s, args)
-		kDebug( 1601 ) << s;
-	
-	kp.start();
+	#if defined(Q_OS_WIN)
+	m_process->start( m_exepath, args, QIODevice::ReadWrite | QIODevice::Unbuffered );
+	bool ret = m_process->waitForFinished( -1 ) ? 0 : 1;
+	#else
+	m_process->setProgram( m_exepath, args );
+	m_process->setNextOpenMode( QIODevice::ReadWrite | QIODevice::Unbuffered );
+	m_process->start();
+	QEventLoop loop;
+	m_loop = &loop;
+	bool ret = loop.exec( QEventLoop::WaitForMoreEvents );
+	m_loop = 0;
+	m_process = 0;
+	#endif
 
-	if (!kp.waitForStarted())
-	{
-		kDebug( 1601 ) << m_exepath << "did not start";
-		return false;
-	}
-	if (!kp.waitForFinished())
-	{
-		kDebug( 1601 ) << m_exepath << " did not finish";
-		return false;
-	}
-
-	while (kp.canReadLine())
-		kDebug( 1601 ) << kp.readLine();
-
-	kDebug( 1601 ) << "Finished reading output";
-	return true;
+	return !ret;
 }
 
 bool p7zipInterface::addFiles( const QStringList & files, const CompressionOptions& options )

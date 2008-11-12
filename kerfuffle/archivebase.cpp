@@ -73,6 +73,8 @@ namespace Kerfuffle
 	ListJob* ArchiveBase::list()
 	{
 		ListJob *job = new ListJob( m_iface, this );
+		connect(m_iface, SIGNAL(userQuery(Query*)),
+				job, SIGNAL(userQuery(Query*)));
 
 		//if this job has not been listed before, we grab the opportunity to
 		//collect some information about the archive

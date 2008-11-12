@@ -22,8 +22,11 @@
 #define SEVENZIPPLUGIN_H
 
 #include "kerfuffle/archiveinterface.h"
+#include <QProcess>
 class QByteArray;
 class KProcess;
+class KPtyProcess;
+class QEventLoop;
 
 using namespace Kerfuffle;
 
@@ -43,9 +46,27 @@ class p7zipInterface: public ReadWriteArchiveInterface
 
 	private:
 		void processLine(int& state, const QString& line);
+		void writeToProcess( const QByteArray &data );
 		QString m_filename;
 		QString m_exepath;
 		ArchiveEntry m_currentArchiveEntry;
+		QByteArray m_stdOutData;
+		QByteArray m_stdErrData;
+		QEventLoop *m_loop;
+		int m_state;
+
+
+	#if defined(Q_OS_WIN)
+		KProcess *m_process;
+	#else
+		KPtyProcess *m_process;
+	#endif
+
+	private slots:
+		void started();
+		void readFromStdout();
+		void readFromStderr();
+		void finished( int exitCode, QProcess::ExitStatus exitStatus );
 };
 
 #endif // SEVENZIPPLUGIN_H

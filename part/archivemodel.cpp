@@ -688,6 +688,8 @@ KJob* ArchiveModel::setArchive( Kerfuffle::Archive *archive )
 		connect( job, SIGNAL( result( KJob * ) ),
 		         this, SIGNAL( loadingFinished(KJob *) ) );
 
+		connect(job, SIGNAL(userQuery(Query*)), this, SLOT(slotUserQuery(Query*)));
+
 		emit loadingStarted();
 
 		// TODO: make sure if it's ok to not have calls to beginRemoveColumns here
