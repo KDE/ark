@@ -29,5 +29,6 @@ Comment[sv]=Libgz-insticksprogram för Kerfuffle
 Comment[tr]=Kerfuffle için libgz eklentisi
 Comment[uk]=Додаток libgz для Kerfuffle
 Comment[x-test]=xxlibgz plugin for Kerfufflexx
+Comment[zh_CN]=Kerfuffle 的 libgz 插件
 Comment[zh_TW]=Kerfuffle 的 libgz 外掛程式
 MimeType=application/x-gzip;
