@@ -594,7 +594,7 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 
 bool LibArchiveInterface::deleteFiles( const QList<QVariant> & files )
 {
-	error( i18n( "Sorry, deleting files are not supported yet with this type of archive." ));
+	error( i18n( "Sorry, deleting files is not supported yet with this type of archive." ));
 	return false;
 }
 
