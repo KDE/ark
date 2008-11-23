@@ -54,19 +54,25 @@ namespace Kerfuffle
 
 	//---
 
-	OverwriteQuery::OverwriteQuery( QString filename)
+	OverwriteQuery::OverwriteQuery( QString filename) : m_noRenameMode(false)
 	{
 		m_data["filename"] = filename;
 	}
 
 	void OverwriteQuery::execute()
 	{
+		KIO::RenameDialog_Mode mode = (KIO::RenameDialog_Mode)(KIO::M_OVERWRITE | KIO::M_MULTI | KIO::M_SKIP);
+		if (m_noRenameMode)
+		{
+			mode = (KIO::RenameDialog_Mode)(mode | KIO::M_NORENAME);
+		}
+		
 		KIO::RenameDialog dialog(
 				NULL,
 				i18n("File already exists"), 
 				KUrl(m_data.value("filename").toString()),
 				KUrl(m_data.value("filename").toString()),
-				(KIO::RenameDialog_Mode)(KIO::M_OVERWRITE | KIO::M_MULTI | KIO::M_SKIP));
+				mode);
 		dialog.exec();
 
 		m_data["newFilename"] = dialog.newDestUrl().path();
@@ -101,6 +107,17 @@ namespace Kerfuffle
 	{
 		return m_data.value("newFilename").toString();
 	}
+	
+	void OverwriteQuery::setNoRenameMode(bool enableNoRenameMode)
+	{
+		m_noRenameMode = enableNoRenameMode;
+	}
+	
+	bool OverwriteQuery::noRenameMode()
+	{
+		return m_noRenameMode;
+	}
+
 
 	PasswordNeededQuery::PasswordNeededQuery(QString archiveFilename, bool incorrectTryAgain)
 	{

@@ -82,6 +82,11 @@ namespace Kerfuffle
 			bool responseRename();
 			bool responseSkip();
 			QString newFilename();
+			
+			void setNoRenameMode(bool enableNoRenameMode);
+			bool noRenameMode();
+		private:
+			bool m_noRenameMode;
 	};
 
 	class KERFUFFLE_EXPORT PasswordNeededQuery : public Query

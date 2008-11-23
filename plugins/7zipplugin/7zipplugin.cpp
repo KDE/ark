@@ -80,7 +80,7 @@ bool p7zipInterface::list()
 	m_process = &kp;
 
 	connect( m_process, SIGNAL( started() ), SLOT( started() ) );
-	connect( m_process, SIGNAL( readyReadStandardOutput() ), SLOT( readFromStdout() ) );
+	connect( m_process, SIGNAL( readyReadStandardOutput() ), SLOT( listReadStdout() ) );
 	connect( m_process, SIGNAL( readyReadStandardError() ), SLOT( readFromStderr() ) );
 
 	qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
@@ -118,7 +118,7 @@ void p7zipInterface::started()
 	m_state = 0;
 }
 
-void p7zipInterface::readFromStdout()
+void p7zipInterface::listReadStdout()
 {
 	if ( !m_process )
 		return;
@@ -131,13 +131,13 @@ void p7zipInterface::readFromStdout()
 	QStringList lines = leftString.split( "\n", QString::SkipEmptyParts );
 	foreach(const QString &line, lines)
 	{
-		processLine(m_state, line);
+		listProcessLine(m_state, line);
 	}
 	m_stdOutData.remove(0, indx + 1);
 
 	kDebug( 1601 ) << "leftOver" << m_stdOutData;
 
-	if (m_stdOutData.contains("Enter password"))
+	if (m_stdOutData.startsWith("Enter password (will not be echoed) :"))
 	{
 		Kerfuffle::PasswordNeededQuery query(filename());
 		emit userQuery(&query);
@@ -159,6 +159,9 @@ void p7zipInterface::readFromStderr()
 		return;
 	
 	m_stdErrData += m_process->readAllStandardError();
+	
+	kDebug( 1601 ) << "ERROR:" << m_stdErrData;
+	
 	if ( !m_stdErrData.isEmpty() )
 	{
 		m_process->kill();
@@ -189,7 +192,7 @@ void p7zipInterface::writeToProcess( const QByteArray &data )
 #endif
 }
 
-void p7zipInterface::processLine(int& state, const QString& line)
+void p7zipInterface::listProcessLine(int& state, const QString& line)
 {
 	switch (state)
 	{
@@ -281,11 +284,61 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 {
 	const bool preservePaths = flags & Archive::PreservePaths;
 
-	kDebug( 1601 ) << files  << destinationDirectory << (preservePaths? " with paths":"");
+	kDebug( 1601 ) << "extract" << files  << "to" << destinationDirectory << (preservePaths? " with paths":"");
 	
 	if (m_exepath.isNull())
 	{
 		return false;
+	}
+	
+	QList<QString> overwriteList;
+	bool overwriteAll = false;
+	if (files.count() == 0)
+	{
+		overwriteAll = true;
+	}
+	else
+	{
+		for (int i = 0; i < files.count(); i++)
+		{
+			if (overwriteAll)
+			{
+				overwriteList << files[i].toString();
+			}
+			else
+			{
+				QString filepath(destinationDirectory + '/' + files[i].toString());
+				kDebug( 1601 ) << "checking" << filepath;
+				if (QFile::exists(filepath))
+				{
+					Kerfuffle::OverwriteQuery query(filepath);
+					query.setNoRenameMode(true);
+					emit userQuery(&query);
+					query.waitForResponse();
+					if (query.responseOverwrite())
+					{
+						overwriteList << files[i].toString();
+					}
+					else if (query.responseSkip())
+					{
+						// do not add to overwriteList
+					}
+					else if (query.responseOverwriteAll())
+					{
+						overwriteAll = true;
+						overwriteList << files[i].toString();
+					}
+					else if (query.responseCancelled())
+					{
+						return false;
+					}
+				}
+				else
+				{
+					overwriteList << files[i].toString();
+				}
+			}
+		}
 	}
 	
 	#if defined(Q_OS_WIN)
@@ -299,7 +352,7 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 	m_process = &kp;
 
 	connect( m_process, SIGNAL( started() ), SLOT( started() ) );
-	connect( m_process, SIGNAL( readyReadStandardOutput() ), SLOT( readFromStdout() ) );
+	connect( m_process, SIGNAL( readyReadStandardOutput() ), SLOT( copyReadStdout() ) );
 	connect( m_process, SIGNAL( readyReadStandardError() ), SLOT( readFromStderr() ) );
 
 	qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
@@ -309,10 +362,22 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 	if (preservePaths)
 	{
 		args << "x"; 
-	} else
+	}
+	else
 	{
 		args << "e";
 	}
+	
+	if (overwriteAll || overwriteList.count() > 0)
+	{
+		args << "-y";
+	}
+	else
+	{
+		// nothing to extract, just return
+		return true;
+	}
+	
 	args << "-bd";
 
 	if ( !password().isEmpty() ) args << "-p" + password();
@@ -320,9 +385,9 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 	args << "-o" + destinationDirectory;
 	args << m_filename;
 
-	foreach( const QVariant& file, files )
+	foreach( const QString& file, overwriteList )
 	{
-		args << file.toString().trimmed();
+		args << file.trimmed();
 	}
 
 	#if defined(Q_OS_WIN)
@@ -340,6 +405,46 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 	#endif
 
 	return !ret;
+}
+
+void p7zipInterface::copyReadStdout()
+{
+	if ( !m_process )
+		return;
+		
+	m_stdOutData += m_process->readAllStandardOutput();
+
+	// process all lines until the last '\n'
+	int indx = m_stdOutData.lastIndexOf('\n');
+	QString leftString = QString::fromLocal8Bit(m_stdOutData.left(indx + 1));
+	QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
+	
+	//kDebug( 1601 ) << "lines:" << lines;
+	
+	for (int i = 0; i < lines.size(); i++)
+	{
+		const QString &line = lines[i];
+		if (line.startsWith("Extracting"))
+		{
+			// TODO: update progress
+		}
+	}
+	m_stdOutData.remove(0, indx + 1);
+
+	if (m_stdOutData.startsWith("Enter password (will not be echoed) :"))
+	{
+		Kerfuffle::PasswordNeededQuery query(filename());
+		emit userQuery(&query);
+		query.waitForResponse();
+
+		if (query.responseCancelled()) {
+			error(i18n("Password input cancelled by user."));
+			m_process->kill();
+			return;
+		}
+		setPassword(query.password());
+		writeToProcess(password().toLocal8Bit().append('\r'));
+	}
 }
 
 bool p7zipInterface::addFiles( const QStringList & files, const CompressionOptions& options )

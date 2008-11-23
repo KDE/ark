@@ -45,7 +45,7 @@ class p7zipInterface: public ReadWriteArchiveInterface
 		bool deleteFiles( const QList<QVariant> & files );
 
 	private:
-		void processLine(int& state, const QString& line);
+		void listProcessLine(int& state, const QString& line);
 		void writeToProcess( const QByteArray &data );
 		QString m_filename;
 		QString m_exepath;
@@ -55,7 +55,6 @@ class p7zipInterface: public ReadWriteArchiveInterface
 		QEventLoop *m_loop;
 		int m_state;
 
-
 	#if defined(Q_OS_WIN)
 		KProcess *m_process;
 	#else
@@ -64,7 +63,8 @@ class p7zipInterface: public ReadWriteArchiveInterface
 
 	private slots:
 		void started();
-		void readFromStdout();
+		void listReadStdout();
+		void copyReadStdout();
 		void readFromStderr();
 		void finished( int exitCode, QProcess::ExitStatus exitStatus );
 };
