@@ -419,7 +419,18 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 	kDebug( 1601 ) << "Before expanding: " << expandedFiles << QDir::currentPath();
 	expandDirectories(expandedFiles);
 
+	QString globalWorkdir = options.value("GlobalWorkDir").toString();
+	if (!globalWorkdir.isEmpty()) {
+		kDebug( 1601 ) << "GlobalWorkDir is set, changing dir to " << globalWorkdir;
+		QDir::setCurrent(globalWorkdir);
+	}
+
 	kDebug( 1601 ) << "After expanding: " << expandedFiles;
+	for (int i = 0; i < expandedFiles.size(); ++i) {
+		bool trailingSlash = expandedFiles.at(i).endsWith('/');
+		expandedFiles[i] = QDir::current().relativeFilePath(expandedFiles.at(i)) + (trailingSlash ? "/" : "");
+	}
+
 
 	if (!creatingNewFile) {
 		//*********initialize the reader
@@ -505,7 +516,8 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 		//********** copy all elements from previous archive to new archive
 		while ( archive_read_next_header( arch_reader, &entry ) == ARCHIVE_OK )
 		{
-
+			//we delay the opening until here because we want to read an entry
+			//first so we can determine what format to use.
 			if (!destArchiveOpened) {
 
 				ret = archive_write_set_format(arch_writer, archive_format(arch_reader));
@@ -531,6 +543,12 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 				destArchiveOpened = true;
 			}
 
+			if (expandedFiles.contains(archive_entry_pathname(entry))) {
+				archive_read_data_skip( arch_reader );
+				kDebug( 1601 ) << "Entry already existing, will be refresh: ===> " << archive_entry_pathname(entry);
+				continue;
+			}
+
 			//kDebug(1601) << "Writing entry " << fn;
 			if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )
 				//if the whole archive is extracted and the total filesize is
@@ -544,22 +562,16 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 			archive_entry_clear( entry );
 		}
 	}
-	QString globalWorkdir = options.value("GlobalWorkDir").toString();
-	if (!globalWorkdir.isEmpty()) {
-		kDebug( 1601 ) << "GlobalWorkDir is set, changing dir to " << globalWorkdir;
-		QDir::setCurrent(globalWorkdir);
-	}
 
 	//**************** now write the new files
 	foreach(const QString& selectedFile, expandedFiles) {
 
 		struct stat st;
-		QFileInfo info(QDir::current().relativeFilePath(selectedFile));
 		entry = archive_entry_new();
 
 		stat(QFile::encodeName(selectedFile).constData(), &st);
 		archive_entry_copy_stat(entry, &st);
-		archive_entry_copy_pathname( entry, QFile::encodeName(info.filePath()).constData() );
+		archive_entry_copy_pathname( entry, QFile::encodeName(selectedFile).constData() );
 
 		kDebug( 1601 ) << "Writing new entry " << archive_entry_pathname(entry);
 		if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )

@@ -36,6 +36,7 @@
 
 #include <kio/job.h>
 #include <kio/jobclasses.h>
+#include <kfileitem.h>
 
 namespace Kerfuffle
 {
@@ -85,9 +86,10 @@ namespace Kerfuffle
 		Q_OBJECT
 
 		public:
-			RecursiveListHelper() :
-				QObject(NULL) {}
-			QStringList results;
+			RecursiveListHelper(QString listDir) :
+				QObject(NULL), m_listDir(listDir) {}
+			QList<KFileItem> results;
+			QString m_listDir;
 
 		public slots:
 			void entries (KIO::Job *job, const KIO::UDSEntryList &list);

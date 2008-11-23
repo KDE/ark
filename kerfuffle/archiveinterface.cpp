@@ -26,6 +26,7 @@
 #include "archiveinterface.h"
 #include "observer.h"
 #include <kdebug.h>
+#include <kfileitem.h>
 
 #include <QFileInfo>
 #include <QDir>
@@ -156,13 +157,16 @@ namespace Kerfuffle
 				Q_ASSERT(QFileInfo(absolutePath).exists());
 				kDebug( 1601 ) << "Calling listRecursive on " << absolutePath;
 				KIO::ListJob *listJob = KIO::listRecursive(absolutePath, KIO::HideProgressInfo);
-				RecursiveListHelper helper;
+				RecursiveListHelper helper(absolutePath);
 				connect(listJob, SIGNAL(entries (KIO::Job *, const KIO::UDSEntryList &)),
 						&helper, SLOT(entries (KIO::Job *, const KIO::UDSEntryList &)));
 				listJob->exec();
 
-				foreach(const QString& result, helper.results) {
-					files.insert(i + 1, absolutePath + result);
+				foreach(const KFileItem& result, helper.results) {
+					QString final = absolutePath + result.name();
+					if (result.isDir() && !final.endsWith("/"))
+						final += '/';
+					files.insert(i + 1, final);
 					++i;
 				}
 				
@@ -173,9 +177,11 @@ namespace Kerfuffle
 	void RecursiveListHelper::entries (KIO::Job *job, const KIO::UDSEntryList &list)
 	{
 		foreach( const KIO::UDSEntry& entry, list) {
+			KFileItem item(entry, m_listDir);
+
 			QString value = entry.stringValue(KIO::UDSEntry::UDS_NAME);
-			if (value == ".." || value == ".") continue;
-			results.append(value);
+			if (item.name() == ".." || item.name() ==  ".") continue;
+			results.append(item);
 		}
 	}
 
