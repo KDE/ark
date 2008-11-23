@@ -424,8 +424,8 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 	} else
 		noFallback = true;
 
-	if (archiveName.right(1) != "/") {
-		archiveName.append("/");
+	if (!archiveName.endsWith('/')) {
+		archiveName.append('/');
 	}
 
 	//Populate the internal list of files
@@ -564,7 +564,7 @@ void ArchiveModel::slotEntryRemoved( const QString & path )
 {
 	// TODO: Do something
 	kDebug (1601) << "Removed node at path " << path;
-	ArchiveNode *entry = m_rootNode->findByPath( path.split("/") );
+	ArchiveNode *entry = m_rootNode->findByPath( path.split('/') );
 	if ( entry )
 	{
 		ArchiveDirNode *parent = entry->parent();
@@ -630,7 +630,7 @@ void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 
 	/// 1. Skip already created nodes
 	if (m_rootNode){
-		ArchiveNode *existing = m_rootNode->findByPath( entry[ FileName ].toString().split("/") );
+		ArchiveNode *existing = m_rootNode->findByPath( entry[ FileName ].toString().split('/') );
 		if ( existing ) {
 			kDebug (1601) << "Refreshing entry for" << entry[FileName].toString(); 
 			//TODO: benchmark whether it's a bad idea to reset the entry here.

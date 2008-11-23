@@ -295,7 +295,7 @@ bool RARInterface::addFiles( const QStringList & files, const CompressionOptions
 
 	//for debug output:
 	while (kp.waitForReadyRead()) {
-		QStringList lines = QString(kp.readAll()).split("\n");
+		QStringList lines = QString(kp.readAll()).split('\n');
 		foreach(const QString &line, lines) {
 			int pos = line.indexOf('%');
 			if (pos < 2 || pos == -1) continue;

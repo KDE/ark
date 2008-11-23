@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
+#include "addtoarchive.h"
+#include "kerfuffle/adddialog.h"
 
 #include <QFileInfo>
 #include <QDir>
@@ -28,8 +30,6 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 
-#include "addtoarchive.h"
-#include "kerfuffle/adddialog.h"
 
 
 
@@ -109,11 +109,11 @@ bool AddToArchive::startAdding( void )
 
 		base = fi.absoluteFilePath();
 
-		if (base.right(1) == "/") {
+		if (base.endsWith('/')) {
 			base.chop(1);
 		}
 
-		QString finalName = base + "." + m_autoFilenameSuffix;
+		QString finalName = base + '.' + m_autoFilenameSuffix;
 
 		kDebug( 1601 ) << "Autoset filename to " + finalName;
 		archive = Kerfuffle::factory(finalName);

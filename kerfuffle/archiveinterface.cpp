@@ -89,24 +89,24 @@ namespace Kerfuffle
 
 		//we loop through all items and find the highest common folder they share
 		if (files.size() > 1) {
-			QStringList common = files.first().split("/", QString::SkipEmptyParts);
+			QStringList common = files.first().split('/', QString::SkipEmptyParts);
 			if (common.size() > 1) {
 				common.removeLast(); //We don't need the filename
 
 				foreach(const QString &selectedEntry, files) {
-					QStringList parts = selectedEntry.split("/", QString::SkipEmptyParts);
+					QStringList parts = selectedEntry.split('/', QString::SkipEmptyParts);
 					for (int i = common.size() - 1; i > -1; --i) {
 						if (common.at(i) != parts.at(i))
 							common.removeLast();
 					}
 				}
-				commonBase = common.join("/") + "/";
+				commonBase = common.join("/") + '/';
 			}
 		}
 		else if (files.size() == 1) { 
-			QStringList parts = files.first().split("/", QString::SkipEmptyParts);
+			QStringList parts = files.first().split('/', QString::SkipEmptyParts);
 			parts.removeLast(); //take of the filename
-			return parts.join("/") + "/";
+			return parts.join("/") + '/';
 		}
 		return commonBase;
 	}
@@ -117,24 +117,24 @@ namespace Kerfuffle
 
 		//we loop through all items and find the highest common folder they share
 		if (files.size() > 1) {
-			QStringList common = files.first().toString().split("/", QString::SkipEmptyParts);
+			QStringList common = files.first().toString().split('/', QString::SkipEmptyParts);
 			if (common.size() > 1) {
 				common.removeLast(); //We don't need the filename
 
 				foreach(const QVariant &selectedEntry, files) {
-					QStringList parts = selectedEntry.toString().split("/", QString::SkipEmptyParts);
+					QStringList parts = selectedEntry.toString().split('/', QString::SkipEmptyParts);
 					for (int i = common.size() - 1; i > -1; --i) {
 						if (common.at(i) != parts.at(i))
 							common.removeLast();
 					}
 				}
-				commonBase = common.join("/") + "/";
+				commonBase = common.join("/") + '/';
 			}
 		}
 		else if (files.size() == 1) { 
-			QStringList parts = files.first().toString().split("/", QString::SkipEmptyParts);
+			QStringList parts = files.first().toString().split('/', QString::SkipEmptyParts);
 			parts.removeLast(); //take of the filename
-			return parts.join("/") + "/";
+			return parts.join("/") + '/';
 		}
 		return commonBase;
 	}

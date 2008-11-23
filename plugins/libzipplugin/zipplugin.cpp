@@ -43,12 +43,10 @@ typedef quint32 off_t;
 #include <KDebug>
 
 #include <QDateTime>
-#include <QString>
 #include <QFileInfo>
 #include <QByteArray>
 #include <QFile>
 #include <QDir>
-#include <QFileInfo>
 
 using namespace Kerfuffle;
 

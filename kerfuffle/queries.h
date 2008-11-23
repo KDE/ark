@@ -74,7 +74,7 @@ namespace Kerfuffle
 	class KERFUFFLE_EXPORT OverwriteQuery : public Query
 	{
 		public:
-			OverwriteQuery(QString filename);
+			explicit OverwriteQuery(QString filename);
 			void execute();
 			bool responseCancelled();
 			bool responseOverwriteAll();
@@ -92,7 +92,7 @@ namespace Kerfuffle
 	class KERFUFFLE_EXPORT PasswordNeededQuery : public Query
 	{
 		public:
-			PasswordNeededQuery(QString archiveFilename, bool incorrectTryAgain = false);
+			explicit PasswordNeededQuery(QString archiveFilename, bool incorrectTryAgain = false);
 			void execute();
 
 			bool responseCancelled();

@@ -128,7 +128,7 @@ void p7zipInterface::listReadStdout()
 	// process all lines until the last '\n'
 	int indx = m_stdOutData.lastIndexOf('\n');
 	QString leftString = QString::fromLocal8Bit(m_stdOutData.left(indx + 1));
-	QStringList lines = leftString.split( "\n", QString::SkipEmptyParts );
+	QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
 	foreach(const QString &line, lines)
 	{
 		listProcessLine(m_state, line);
@@ -481,7 +481,7 @@ bool p7zipInterface::addFiles( const QStringList & files, const CompressionOptio
 	bool hasWarning = false;
 	QString warningMessages;
 	while (kp.waitForReadyRead()) {
-		QStringList lines = QString(kp.readAll()).split("\n");
+		QStringList lines = QString(kp.readAll()).split('\n');
 		foreach(const QString &line, lines) {
 			if (line.startsWith("Compressing"))
 			{

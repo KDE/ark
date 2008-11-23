@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
-#ifndef SEVENZIPPLUGIN_H
-#define SEVENZIPPLUGIN_H
+#ifndef _7ZIPPLUGIN_H
+#define _7ZIPPLUGIN_H
 
 #include "kerfuffle/archiveinterface.h"
 #include <QProcess>

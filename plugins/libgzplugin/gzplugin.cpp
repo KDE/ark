@@ -23,7 +23,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <QString>
 
 #include "kerfuffle/archiveinterface.h"
 #include "kerfuffle/archivefactory.h"
@@ -40,7 +39,6 @@
 #include <QByteArray>
 #include <QFile>
 #include <QDir>
-#include <QFileInfo>
 
 using namespace Kerfuffle;
 
@@ -115,8 +113,8 @@ class LibGzipInterface: public ReadWriteArchiveInterface
 
 			Q_UNUSED(files);
 			QString outputFilename = destinationDirectory;
-			if (destinationDirectory.right(1) != "/")
-				outputFilename += "/";
+			if (!destinationDirectory.endsWith('/'))
+				outputFilename += '/';
 			outputFilename += uncompressedFilename();
 
 

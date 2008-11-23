@@ -59,7 +59,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive,bool preservePaths,
 			QDir dest(destinationFolder);
 			dest.mkdir(subfolder);
 
-			autoDestination = destinationFolder + "/" + subfolder;
+			autoDestination = destinationFolder + '/' + subfolder;
 
 		}
 	}
@@ -106,7 +106,7 @@ void BatchExtract::start()
 		kDebug( 1601 ) << "Creating subfolder" << subfolder;
 		QDir dest(destinationFolder);
 		dest.mkpath(subfolder);
-		destinationFolder += "/" + subfolder;
+		destinationFolder += '/' + subfolder;
 	}
 
 	foreach (Kerfuffle::Archive *archive, inputs)

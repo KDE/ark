@@ -19,14 +19,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
-
-#include <QStandardItemModel>
-
-#include <kfileplacesmodel.h>
-
+ 
 #include "adddialog.h"
 #include "ui_adddialog.h"
 #include "kerfuffle/archive.h"
+
+#include <QStandardItemModel>
+#include <kfileplacesmodel.h>
+
 
 namespace Kerfuffle
 {
