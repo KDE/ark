@@ -1,0 +1,6 @@
+A few rules that need to be followed in the codebase
+
+*** Trailing slashes in filenames
+All filenames emitted from plugins should have trailing slashes appended
+to directory names. The ark internals can then always assume that a path
+with a slash appended will be a directory and not a file.

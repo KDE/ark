@@ -84,6 +84,7 @@ void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry
 
 bool LibArchiveInterface::list()
 {
+	kDebug (1601);
 	struct archive *arch;
 	struct archive_entry *aentry;
 	int result;

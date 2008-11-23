@@ -547,6 +547,8 @@ QList<QVariant> Part::selectedFilesWithChildren()
 
 	}
 
+	//TODO: this needs to be fixed so that it does not assume that the
+	//InternalID is an actual filename, because sometimes it isn't
 	foreach( const QModelIndex & index, toIterate )
 	{
 		const ArchiveEntry& entry = m_model->entryForIndex( index );
@@ -614,12 +616,25 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 
 	if ( !filesToAdd.isEmpty() )
 	{
+
+		QStringList cleanFilesToAdd(filesToAdd);
+		for (int i = 0; i < cleanFilesToAdd.size(); ++i) {
+			QString& file = cleanFilesToAdd[i];
+			if (QFileInfo(file).isDir()) {
+				if (file.right(1) != "/") file += "/";
+			}
+		}
+
 		CompressionOptions options;
-		QString firstPath = QFileInfo(filesToAdd.first()).path();
+
+		QString firstPath = cleanFilesToAdd.first();
+		if (firstPath.right(1) == "/") firstPath.chop(1);
+		firstPath = QFileInfo(firstPath).dir().absolutePath();
+
 		kDebug( 1601 ) << "Detected relative path to be " << firstPath;
 		options["GlobalWorkDir"] = firstPath;
 
-		AddJob *job = m_model->addFiles( filesToAdd, options);
+		AddJob *job = m_model->addFiles( cleanFilesToAdd, options);
 		connect( job, SIGNAL( result( KJob* ) ),
 		         this, SLOT( slotAddFilesDone( KJob* ) ) );
 		registerJob(job);

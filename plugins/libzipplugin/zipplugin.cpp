@@ -64,11 +64,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 		~LibZipInterface()
 		{
 			kDebug( 1601 ) ;
-			if ( m_archive )
-			{
-				zip_close( m_archive );
-				m_archive = 0;
-			}
+			close();
 		}
 
 		bool open()
@@ -80,7 +76,17 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				error( i18n( "Could not open the archive '%1'", filename() ) );
 				return false;
 			}
+			kDebug( 1601 ) << "Opened file " << filename();
 			return true;
+		}
+
+		void close()
+		{
+			if ( m_archive )
+			{
+				zip_close( m_archive );
+				m_archive = 0;
+			}
 		}
 
 		void emitEntryForIndex( int index )
@@ -133,6 +139,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				emitEntryForIndex( index );
 				progress( ( index+1 ) * 1.0/zip_get_num_files( m_archive ) );
 			}
+			close();
 			return true;
 		}
 
@@ -258,47 +265,74 @@ class LibZipInterface: public ReadWriteArchiveInterface
 					progress( ( index+1 ) * 1.0/zip_get_num_files( m_archive ) );
 				}
 			}
+			close();
 			return true;
 		}
 
 		bool addFiles( const QStringList & files, const CompressionOptions& options )
 		{
 			kDebug( 1601 ) << "adding " << files.count() << " files";
-			progress( 0.0 );
-			int processed = 0;
-			foreach( const QString & file, files )
-			{
-				kDebug( 1601 ) << "Adding " << file ;
-				QFileInfo fi( file );
-				if ( fi.isDir() )
-				{
-					error( i18n( "Adding directories is not supported yet, sorry." ) );
+
+			if (!m_archive) {
+				if (!open()) {
 					return false;
 				}
+			}
 
-				kDebug( 1601 ) << file << " is not a dir, good" ;
+			QStringList expandedFiles = files;
 
-				struct zip_source *source = zip_source_file( m_archive, fi.absoluteFilePath().toLocal8Bit(), 0, -1 );
+			kDebug( 1601 ) << "Before expanding: " << expandedFiles << QDir::currentPath();
+			expandDirectories(expandedFiles);
+
+			kDebug( 1601 ) << "After expanding: " << expandedFiles;
+
+			QString globalWorkdir = options.value("GlobalWorkDir").toString();
+			if (!globalWorkdir.isEmpty()) {
+				kDebug( 1601 ) << "GlobalWorkDir is set, changing dir to " << globalWorkdir;
+				QDir::setCurrent(globalWorkdir);
+			}
+
+			int processed = 0;
+			foreach( const QString & file, expandedFiles )
+			{
+
+				QString relativeName = QDir::current().relativeFilePath(file);
+				if (relativeName.isEmpty()) {
+					//probably trying to add the current directory to the, with
+					//the GlobalWorkdir set to the same value. 
+					kDebug( 1601 ) << "Skipping empty relative-entry";
+					continue;
+
+				}
+
+				if (QFileInfo(relativeName).isDir())
+					if (relativeName.right(1) != "/")
+						relativeName += "/";
+
+				kDebug( 1601 ) << "Adding " << file ;
+
+				struct zip_source *source = zip_source_file( m_archive, file.toLocal8Bit(), 0, -1 );
 				if ( !source )
 				{
+					kDebug( 1601 ) << "Read error " << zip_strerror(m_archive);
 					error( i18n( "Could not read from the input file '%1'", file ) );
 					return false;
 				}
 
-				kDebug( 1601 ) << "We have a valid source for " << file ;
 
 				int index;
-				if (  ( index = zip_add( m_archive, fi.fileName().toLocal8Bit(), source ) ) < 0 )
+				if (  ( index = zip_add( m_archive, QFile::encodeName(relativeName), source ) ) < 0 )
 				{
-					error( i18n( "Could not add the file %1 to the archive.", fi.fileName() ) );
+					error( i18n( "Could not add the file %1 to the archive.", file) );
 				}
 
 				kDebug( 1601 ) << file << " was added to the archive, index is " << index ;
 
 				emitEntryForIndex( index );
-				progress( ( ++processed )*1.0/files.count() );
+				progress( ( ++processed )*1.0/expandedFiles.count() );
 			}
 			kDebug( 1601 ) << "And we're done :)" ;
+			close();
 			return true;
 		}
 
@@ -316,6 +350,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				// TODO: emit some signal to inform the model of the deleted entry
 				entryRemoved( file.toString() );
 			}
+			close();
 			return true;
 		}
 

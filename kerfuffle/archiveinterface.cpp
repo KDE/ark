@@ -152,6 +152,7 @@ namespace Kerfuffle
 			const QString& item = files.at(i);
 			if (QFileInfo(item).isDir()) {
 				QString absolutePath = QFileInfo(item).absoluteFilePath();
+				if (absolutePath.right(1) != "/") absolutePath += "/";
 				Q_ASSERT(QFileInfo(absolutePath).exists());
 				kDebug( 1601 ) << "Calling listRecursive on " << absolutePath;
 				KIO::ListJob *listJob = KIO::listRecursive(absolutePath, KIO::HideProgressInfo);
@@ -161,7 +162,7 @@ namespace Kerfuffle
 				listJob->exec();
 
 				foreach(const QString& result, helper.results) {
-					files.insert(i + 1, item + "/" + result);
+					files.insert(i + 1, absolutePath + result);
 					++i;
 				}
 				

@@ -26,6 +26,7 @@
 #include "archivefactory.h"
 
 #include <QFile>
+#include <QFileInfo>
 
 #include <KDebug>
 #include <KMimeType>
@@ -78,7 +79,7 @@ namespace Kerfuffle
 				if ( pluginFactory )
 				{
 					ArchiveFactory *factory = pluginFactory(); // TODO: cache these
-					Archive *arch = factory->createArchive( filename, 0 );
+					Archive *arch = factory->createArchive( QFileInfo(filename).absoluteFilePath(), 0 );
 					delete factory;
 					return arch;
 				}

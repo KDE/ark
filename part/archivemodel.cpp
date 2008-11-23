@@ -434,7 +434,7 @@ QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
 		//to limit only one index per row
 		if (index.column() != 0) continue;
 
-		QString file = archiveName + static_cast<ArchiveNode*>( index.internalPointer() )->entry()[ InternalID ].toString();
+		QString file = archiveName + static_cast<ArchiveNode*>( index.internalPointer() )->entry()[ FileName ].toString();
 		files << file;
 	}
 
@@ -491,6 +491,7 @@ bool ArchiveModel::dropMimeData ( const QMimeData * data, Qt::DropAction action,
 ArchiveDirNode* ArchiveModel::parentFor( const ArchiveEntry& entry )
 {
 	QStringList pieces = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts );
+	if (pieces.isEmpty()) return NULL;
 	pieces.removeLast();
 
 	if (previousMatch) {
@@ -587,6 +588,11 @@ void ArchiveModel::slotUserQuery(Query *query)
 void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 {
 	//kDebug (1601) << entry; 
+	
+	if (entry[FileName].toString().isEmpty()) {
+		kDebug( 1601 ) << "Weird, received empty entry (no filename) - skipping";
+		return;
+	}
 
 	//if there are no addidional columns registered, then have a look at the
 	//entry and populate some
@@ -634,7 +640,7 @@ void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 	}
 
 	/// 2. Find Parent Node, creating missing ArchiveDirNodes in the process
-	ArchiveDirNode *parent  = parentFor( entry ); 
+	ArchiveDirNode *parent = parentFor( entry ); 
 	
 	/// 3. Create an ArchiveNode
 	QString name = entry[ FileName ].toString().split( '/', QString::SkipEmptyParts ).last();

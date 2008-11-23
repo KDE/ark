@@ -68,16 +68,8 @@ bool AddToArchive::addInput( const KUrl& url)
 	m_inputs << url.path();
 
 	if (m_firstPath.isEmpty()) {
-		QString firstEntry = url.path();
-
-		//we chop off "/" at the end. if not QFileInfo will be confused about
-		//whether its a directory or not.
-		if (firstEntry.right(1) == "/")
-			firstEntry.chop(1);
-
-		QFileInfo firstFI = QFileInfo(firstEntry);
-		
-		m_firstPath = firstFI.dir().absolutePath();
+		QString firstEntry = url.path(KUrl::RemoveTrailingSlash);
+		m_firstPath = QFileInfo(firstEntry).dir().absolutePath();
 
 	}
 
