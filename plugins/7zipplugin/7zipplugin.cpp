@@ -135,7 +135,7 @@ void p7zipInterface::listReadStdout()
 	}
 	m_stdOutData.remove(0, indx + 1);
 
-	kDebug( 1601 ) << "leftOver" << m_stdOutData;
+	//kDebug( 1601 ) << "leftOver" << m_stdOutData;
 
 	if (m_stdOutData.startsWith("Enter password (will not be echoed) :"))
 	{
@@ -237,7 +237,18 @@ void p7zipInterface::listProcessLine(int& state, const QString& line)
 			else if (line.startsWith("Attributes = "))
 			{
 				QString attributes = line.mid(13).trimmed();
-				m_currentArchiveEntry[ IsDirectory ] = attributes.startsWith('D');
+				
+				bool isDirectory = attributes.startsWith('D');
+				m_currentArchiveEntry[ IsDirectory ] = isDirectory;
+				if (isDirectory)
+				{
+					QString directoryName = m_currentArchiveEntry[FileName].toString();
+					if (!directoryName.endsWith('/'))
+					{
+						m_currentArchiveEntry[FileName] = m_currentArchiveEntry[InternalID] = directoryName + '/';
+					}
+				}
+				
 				m_currentArchiveEntry[ Permissions ] = attributes.mid(1);
 			}
 			else if (line.startsWith("CRC = "))

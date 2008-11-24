@@ -66,8 +66,8 @@ RARInterface::~RARInterface()
 bool RARInterface::list()
 {
 	KProcess kp;
-	if (!m_unrarpath.isNull()) kp << m_unrarpath << "v" << "-c-" << m_filename;
-	else if (!m_rarpath.isNull()) kp << m_rarpath << "v" << "-c-" << m_filename;
+	if (!m_rarpath.isNull()) kp << m_rarpath << "v" << "-c-" << m_filename;
+	else if (!m_unrarpath.isNull()) kp << m_unrarpath << "v" << "-c-" << m_filename;
 	else return false;
 	kp.setOutputChannelMode(KProcess::MergedChannels);
 	kp.start();
@@ -115,6 +115,11 @@ void RARInterface::processListLine(const QString& line)
 
 	QStringList fileprops = line.split(' ', QString::SkipEmptyParts);
 	m_entryFilename = QDir::fromNativeSeparators(m_entryFilename);
+	bool isDirectory = (bool)(fileprops[ 5 ].contains('d', Qt::CaseInsensitive));
+	if (isDirectory && !m_entryFilename.endsWith('/'))
+	{
+		m_entryFilename += '/';
+	}
 
 	kDebug( 1601 ) << m_entryFilename << " : " << fileprops ;
 	ArchiveEntry e;
@@ -126,7 +131,7 @@ void RARInterface::processListLine(const QString& line)
 	QDateTime ts (QDate::fromString(fileprops[ 3 ], "dd-mm-yy"),
 		QTime::fromString(fileprops[ 4 ], "hh:mm"));
 	e[ Timestamp ] = ts;
-	e[ IsDirectory ] = (bool)(fileprops[ 5 ].contains('d', Qt::CaseInsensitive));
+	e[ IsDirectory ] = isDirectory;
 	e[ Permissions ] = fileprops[ 5 ].remove(0,1);
 	e[ CRC ] = fileprops[ 6 ];
 	e[ Method ] = fileprops[ 7 ];
