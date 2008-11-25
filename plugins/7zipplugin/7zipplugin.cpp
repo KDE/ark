@@ -128,7 +128,7 @@ void p7zipInterface::listReadStdout()
 	// process all lines until the last '\n'
 	int indx = m_stdOutData.lastIndexOf('\n');
 	QString leftString = QString::fromLocal8Bit(m_stdOutData.left(indx + 1));
-	QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
+	QStringList lines = leftString.split( '\n' );
 	foreach(const QString &line, lines)
 	{
 		listProcessLine(m_state, line);
@@ -259,24 +259,18 @@ void p7zipInterface::listProcessLine(int& state, const QString& line)
 			{
 				QString method = line.mid(9).trimmed();
 				m_currentArchiveEntry[ Method ] = method;
-				bool isPasswordProtected = method.contains("AES");
+			}
+			else if (line.startsWith("Encrypted = "))
+			{
+				bool isPasswordProtected = (line.at(12) == '+');
 				m_currentArchiveEntry[ IsPasswordProtected ] = isPasswordProtected;
 			}
 			else if (line.startsWith("Block = "))
 			{
 				// do nothing
 			}
-			else 	// assume end of file details
+			else if (line.isEmpty()) // assume end of file details
 			{
-				if (m_currentArchiveEntry.contains(Size) && m_currentArchiveEntry.contains(CompressedSize))
-				{
-					m_currentArchiveEntry[ Ratio ] = m_currentArchiveEntry[ CompressedSize ].toDouble() / m_currentArchiveEntry[Size].toDouble();
-				}
-				else
-				{
-					m_currentArchiveEntry[ Ratio ] = 0.0;
-				}
-
 				if (m_currentArchiveEntry.contains(FileName))
 				{
 					entry(m_currentArchiveEntry);

@@ -207,7 +207,15 @@ QVariant ArchiveModel::data( const QModelIndex &index, int role ) const
 							}
 							else
 							{
-								return KIO::convertSize( node->entry()[ CompressedSize ].toULongLong() );
+								qulonglong compressedSize = node->entry()[ CompressedSize ].toULongLong();
+								if (compressedSize != 0)
+								{
+									return KIO::convertSize( compressedSize );
+								}
+								else
+								{
+									return QVariant();
+								}
 							}
 						case Ratio:
 							if ( node->isDir() || node->entry().contains( Link ) )
@@ -218,7 +226,15 @@ QVariant ArchiveModel::data( const QModelIndex &index, int role ) const
 							{
 								qulonglong compressedSize = node->entry()[ CompressedSize ].toULongLong();
 								qulonglong size = node->entry()[ Size ].toULongLong();
-								return QString::number( int(100 * float(size - compressedSize) / size) ) + " %";
+								if (compressedSize == 0 || size == 0)
+								{
+									return QVariant();
+								}
+								else
+								{
+									int ratio = int(100 * ((double)size - compressedSize) / size);
+									return QString::number( ratio ) + " %";
+								}
 							}
 
 						default:
