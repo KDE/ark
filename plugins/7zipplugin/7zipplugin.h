@@ -47,6 +47,9 @@ class p7zipInterface: public ReadWriteArchiveInterface
 	private:
 		void listProcessLine(int& state, const QString& line);
 		void writeToProcess( const QByteArray &data );
+		bool create7zipProcess();
+		bool execute7zipProcess(const QStringList & args);
+		bool handlePasswordPrompt(QByteArray &message);
 		QString m_filename;
 		QString m_exepath;
 		ArchiveEntry m_currentArchiveEntry;
@@ -54,6 +57,12 @@ class p7zipInterface: public ReadWriteArchiveInterface
 		QByteArray m_stdErrData;
 		QEventLoop *m_loop;
 		int m_state;
+		QStringList m_errorMessages;
+		QList<QVariant> m_archiveContents;
+		
+		unsigned int m_totalFilesCount;
+		unsigned int m_progressFilesCount;
+		
 
 	#if defined(Q_OS_WIN)
 		KProcess *m_process;
@@ -65,6 +74,8 @@ class p7zipInterface: public ReadWriteArchiveInterface
 		void started();
 		void listReadStdout();
 		void copyReadStdout();
+		void addReadStdout();
+		void deleteReadStdout();
 		void readFromStderr();
 		void finished( int exitCode, QProcess::ExitStatus exitStatus );
 };
