@@ -12,6 +12,10 @@ kde4_add_plugin(kerfuffle_rar ${kerfuffle_rar_SRCS})
 
 target_link_libraries(kerfuffle_rar  ${KDE4_KDECORE_LIBS} ${KDE4_KIO_LIBS} kerfuffle )
 
+if (UNIX)
+   target_link_libraries(kerfuffle_rar ${KDE4_KPTY_LIBRARY})
+endif (UNIX)
+
 install(TARGETS kerfuffle_rar  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 

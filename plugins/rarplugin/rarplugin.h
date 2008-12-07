@@ -23,6 +23,11 @@
 #define RARPLUGIN_H
 
 #include "kerfuffle/archiveinterface.h"
+#include <QProcess>
+class QByteArray;
+class KProcess;
+class KPtyProcess;
+class QEventLoop;
 
 using namespace Kerfuffle;
 
@@ -41,10 +46,31 @@ class RARInterface: public ReadWriteArchiveInterface
 
 	private:
 		void processListLine( const QString &line);
+		bool createRarProcess();
+		bool executeRarProcess(const QString& rarPath, const QStringList & args);
+		bool handlePasswordPrompt(const QByteArray &message);
+		bool handleOverwritePrompt(const QByteArray &message);
+		void writeToProcess( const QByteArray &data );
 
 		QString m_headerString, m_entryFilename;
 		bool m_isFirstLine, m_incontent, m_isPasswordProtected;
 		QString m_filename, m_rarpath, m_unrarpath;
+		ArchiveEntry m_currentArchiveEntry;
+		QByteArray m_stdOutData;
+		//QByteArray m_stdErrData;
+		QEventLoop *m_loop;
+		KPtyProcess *m_process;
+		QString m_newFilename;
+		QList<QVariant> m_archiveContents;
+
+	private slots:
+		void started();
+		void listReadStdout();
+		void copyReadStdout();
+		void addReadStdout();
+		void deleteReadStdout();
+		void readFromStderr();
+		void finished( int exitCode, QProcess::ExitStatus exitStatus );
 };
 
 #endif // RARPLUGIN_H
