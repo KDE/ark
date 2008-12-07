@@ -231,7 +231,7 @@ void p7zipInterface::listProcessLine(int& state, const QString& line)
 				QString method = line.mid(9).trimmed();
 				m_currentArchiveEntry[ Method ] = method;
 			}
-			else if (line.startsWith("Encrypted = "))
+			else if (line.startsWith("Encrypted = ") && line.size() >= 13)
 			{
 				bool isPasswordProtected = (line.at(12) == '+');
 				m_currentArchiveEntry[ IsPasswordProtected ] = isPasswordProtected;
@@ -529,7 +529,7 @@ void p7zipInterface::deleteReadStdout()
 
 bool p7zipInterface::create7zipProcess()
 {
-	if (m_exepath.isNull())
+	if (m_exepath.isEmpty())
 		return false;
 	if (m_process)
 		return false;
@@ -560,8 +560,10 @@ bool p7zipInterface::execute7zipProcess(const QStringList & args)
 	m_loop = &loop;
 	bool ret = loop.exec( QEventLoop::WaitForMoreEvents );
 	m_loop = 0;
-	m_process = NULL;
 	#endif
+	
+	delete m_process;
+	m_process = NULL;
 
 	if (!m_errorMessages.empty() && !m_errorMessages.contains(NO_7ZIPPLUGIN_NO_ERROR))
 	{

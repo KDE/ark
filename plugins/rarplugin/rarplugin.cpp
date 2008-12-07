@@ -247,7 +247,7 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 					overwriteAll = true;
 					overwriteList << filesList->at(i).toString();
 				}
-				else if (query.responseSkip())
+				else if (query.responseCancelled())
 				{
 					return false;
 				}
