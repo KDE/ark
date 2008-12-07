@@ -293,8 +293,12 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 	args << m_filename;
 	foreach( const QVariant& file, overwriteList )
 	{
-		kDebug( 1601 ) << file.toString();
-		args << file.toString();
+		QString filename = file.toString();
+		if (!filename.endsWith('/'))
+		{
+			kDebug( 1601 ) << file.toString();
+			args << file.toString();
+		}
 	}
 	//args << destinationDirectory;
 	
