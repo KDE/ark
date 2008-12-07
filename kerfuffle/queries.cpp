@@ -24,6 +24,7 @@
 
 #include <KLocale>
 #include <KPasswordDialog>
+#include <QApplication>
 
 #include <kio/renamedialog.h>
 
@@ -61,6 +62,8 @@ namespace Kerfuffle
 
 	void OverwriteQuery::execute()
 	{
+		QApplication::setOverrideCursor( QCursor( Qt::ArrowCursor ) );
+		
 		KIO::RenameDialog_Mode mode = (KIO::RenameDialog_Mode)(KIO::M_OVERWRITE | KIO::M_MULTI | KIO::M_SKIP);
 		if (m_noRenameMode)
 		{
@@ -78,6 +81,8 @@ namespace Kerfuffle
 		m_data["newFilename"] = dialog.newDestUrl().path();
 
 		setResponse(dialog.result());
+		
+		QApplication::restoreOverrideCursor();
 	}
 
 	bool OverwriteQuery::responseCancelled()
@@ -127,6 +132,8 @@ namespace Kerfuffle
 
 	void PasswordNeededQuery::execute()
 	{
+		QApplication::setOverrideCursor( QCursor( Qt::ArrowCursor ) );
+		
 		KPasswordDialog dlg( NULL );
 		dlg.setPrompt( i18n("The archive '%1' is password protected. Please enter the password to extract the file.", 
 					m_data.value("archiveFilename").toString()));
@@ -143,6 +150,8 @@ namespace Kerfuffle
 
 		m_data["password"] = dlg.password();
 		setResponse(true);
+		
+		QApplication::restoreOverrideCursor();
 	}
 
 	QString PasswordNeededQuery::password()
