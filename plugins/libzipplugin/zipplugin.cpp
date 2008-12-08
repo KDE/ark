@@ -304,8 +304,8 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				}
 
 				if (QFileInfo(relativeName).isDir())
-					if (relativeName.right(1) != "/")
-						relativeName += "/";
+					if (!relativeName.endsWith('/'))
+						relativeName += '/';
 
 				kDebug( 1601 ) << "Adding " << file ;
 

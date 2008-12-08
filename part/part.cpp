@@ -621,7 +621,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 		for (int i = 0; i < cleanFilesToAdd.size(); ++i) {
 			QString& file = cleanFilesToAdd[i];
 			if (QFileInfo(file).isDir()) {
-				if (file.right(1) != "/") file += "/";
+				if (!file.endsWith('/')) file += '/';
 			}
 		}
 

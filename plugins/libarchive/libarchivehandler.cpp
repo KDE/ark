@@ -31,7 +31,7 @@
 #include <archive.h>
 #include <archive_entry.h>
 
-#include <sys/stat.h>
+#include <kde_file.h>
 
 #include <kdebug.h>
 #include <KLocale>
@@ -103,7 +103,7 @@ bool LibArchiveInterface::list()
 
 	if ( result != ARCHIVE_OK )
 	{
-		error( i18n( "Could not open the file '%1', libarchive cannot handle it." ).arg( filename() ), QString() );
+		error( i18n( "Could not open the file '%1', libarchive cannot handle it.", filename() ), QString() );
 		return false;
 	}
 	
@@ -566,10 +566,10 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 	//**************** now write the new files
 	foreach(const QString& selectedFile, expandedFiles) {
 
-		struct stat st;
+		KDE_struct_stat st;
 		entry = archive_entry_new();
 
-		stat(QFile::encodeName(selectedFile).constData(), &st);
+		KDE_stat(QFile::encodeName(selectedFile).constData(), &st);
 		archive_entry_copy_stat(entry, &st);
 		archive_entry_copy_pathname( entry, QFile::encodeName(selectedFile).constData() );
 

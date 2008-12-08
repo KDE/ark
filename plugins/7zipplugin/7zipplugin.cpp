@@ -509,7 +509,7 @@ void p7zipInterface::deleteReadStdout()
 	QString leftString = QString::fromLocal8Bit(m_stdOutData.left(indx + 1));
 	QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
 	
-	foreach (const QString line, lines)
+	foreach (const QString& line, lines)
 	{
 		kDebug( 1601 ) << line;
 		if (line.contains("error", Qt::CaseInsensitive))
