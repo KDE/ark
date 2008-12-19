@@ -74,6 +74,14 @@ namespace Kerfuffle
 		}
 	}
 
+	void ReadOnlyArchiveInterface::info( const QString& info)
+	{
+		foreach( ArchiveObserver *observer, m_observers )
+		{
+			observer->onInfo( info);
+		}
+	}
+
 	void ReadOnlyArchiveInterface::registerObserver( ArchiveObserver *observer )
 	{
 		m_observers.append( observer );

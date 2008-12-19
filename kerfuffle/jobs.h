@@ -55,6 +55,7 @@ namespace Kerfuffle
 
 			//abstract implemented methods from observer
 			virtual void onError( const QString & message, const QString & details );
+			virtual void onInfo( const QString & info);
 			virtual void onEntry( const ArchiveEntry & archiveEntry );
 			virtual void onProgress( double );
 			virtual void onEntryRemoved( const QString & path );

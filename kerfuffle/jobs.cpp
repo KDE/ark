@@ -67,6 +67,11 @@ namespace Kerfuffle
 		setPercent( static_cast<unsigned long>( 100.0*value ) );
 	}
 
+	void Job::onInfo( const QString& info )
+	{
+		emit infoMessage(this, info);
+	}
+
 	void Job::onEntryRemoved( const QString & path )
 	{
 		emit entryRemoved( path );

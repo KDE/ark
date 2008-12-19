@@ -36,6 +36,7 @@ namespace Kerfuffle
 			virtual void onError( const QString & message, const QString & details ) = 0;
 			virtual void onEntry( const ArchiveEntry & archiveEntry ) = 0;
 			virtual void onProgress( double ) = 0;
+			virtual void onInfo( const QString& message) = 0;
 			virtual void onEntryRemoved( const QString & path ) = 0;
 	};
 

@@ -64,6 +64,7 @@ namespace Kerfuffle
 			void error( const QString & message, const QString & details = QString() );
 			void entry( const ArchiveEntry & archiveEntry );
 			void progress( double );
+			void info( const QString& info);
 			void entryRemoved( const QString& path );
 			QString password() { return m_password; }
 			QString findCommonBase(const QVariantList& files);
