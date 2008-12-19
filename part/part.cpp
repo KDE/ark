@@ -370,7 +370,8 @@ void Part::slotLoadingFinished(KJob *job)
 {
 	kDebug( 1601 );
 	if (job->error())
-		KMessageBox::sorry(NULL, i18n("Reading the archive '%1' failed with the error '%2'", localFilePath(), job->errorText()), i18n("Error opening archive"));
+		if (arguments().metaData()["createNewArchive"] != "true")
+			KMessageBox::sorry(NULL, i18n("Reading the archive '%1' failed with the error '%2'", localFilePath(), job->errorText()), i18n("Error opening archive"));
 	m_view->expandToDepth(0);
 }
 
