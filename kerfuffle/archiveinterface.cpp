@@ -148,6 +148,11 @@ namespace Kerfuffle
 		return commonBase;
 	}
 
+	KJob* ReadOnlyArchiveInterface::listRecursiveTo(QString folder, QStringList& list)
+	{
+		return NULL;
+	}
+
 	void ReadOnlyArchiveInterface::expandDirectories( QStringList &files )
 	{
 		static bool onlyOnce = false;
@@ -188,7 +193,6 @@ namespace Kerfuffle
 			KFileItem item(entry, m_listDir);
 
 			QString value = entry.stringValue(KIO::UDSEntry::UDS_NAME);
-			if (item.name() == ".." || item.name() ==  ".") continue;
 			results.append(item);
 		}
 	}

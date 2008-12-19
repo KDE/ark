@@ -70,6 +70,7 @@ namespace Kerfuffle
 			QString findCommonBase(const QVariantList& files);
 			QString findCommonBase(const QStringList& files);
 			void expandDirectories( QStringList &files );
+			KJob* listRecursiveTo(QString folder, QStringList& list);
 
 		signals:
 			void userQuery( Query* );

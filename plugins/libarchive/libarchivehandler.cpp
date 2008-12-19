@@ -27,6 +27,7 @@
 //#include "settings.h"
 #include "kerfuffle/archivefactory.h"
 #include "kerfuffle/queries.h"
+#include "kerfuffle/recursivelister.h"
 
 #include <archive.h>
 #include <archive_entry.h>
@@ -46,7 +47,8 @@ LibArchiveInterface::LibArchiveInterface( const QString & filename, QObject *par
 	: ReadWriteArchiveInterface( filename, parent ),
 	cachedArchiveEntryCount(0),
 	extractedFilesSize(0),
-	overwriteAll(false)
+	overwriteAll(false),
+	m_emitNoEntries(false)
 {
 }
 
@@ -126,8 +128,6 @@ bool LibArchiveInterface::list()
 		return false;
 	}
 
-	m_emitNoEntries = false;
-
 #if (ARCHIVE_API_VERSION>1)
 	return archive_read_finish( arch ) == ARCHIVE_OK;
 #else
@@ -195,6 +195,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 			kDebug( 1601 ) << "For getting progress information, the archive will be listed once";
 			m_emitNoEntries = true;
 			list();
+			m_emitNoEntries = false;
 		}
 		totalCount = cachedArchiveEntryCount;
 	}
@@ -407,17 +408,13 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 {
 	struct archive *arch_reader, *arch_writer;
 	struct archive_entry *entry;
-	int ret;
 	int header_response;
-	int destArchiveOpened = false;
+	int ret;
 	const bool creatingNewFile = !QFileInfo(filename()).exists();
 
 	QString tempFilename = filename() + ".arkWriting";
 
-	QStringList expandedFiles = files;
-
-	kDebug( 1601 ) << "Before expanding: " << expandedFiles << QDir::currentPath();
-	expandDirectories(expandedFiles);
+	kDebug( 1601 ) << "Current path " << QDir::currentPath();
 
 	QString globalWorkdir = options.value("GlobalWorkDir").toString();
 	if (!globalWorkdir.isEmpty()) {
@@ -425,11 +422,7 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 		QDir::setCurrent(globalWorkdir);
 	}
 
-	kDebug( 1601 ) << "After expanding: " << expandedFiles;
-	for (int i = 0; i < expandedFiles.size(); ++i) {
-		bool trailingSlash = expandedFiles.at(i).endsWith('/');
-		expandedFiles[i] = QDir::current().relativeFilePath(expandedFiles.at(i)) + (trailingSlash ? "/" : "");
-	}
+	m_writtenFiles.clear();
 
 
 	if (!creatingNewFile) {
@@ -459,6 +452,9 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 		return false;
 	}
 
+	//pax_restricted is the libarchive default, let's go with that.
+	archive_write_set_format_pax_restricted(arch_writer);
+
 	if (creatingNewFile) {
 		if (filename().right(2).toUpper() == "GZ") {
 			kDebug(1601) << "Detected gzip compression for new file";
@@ -476,22 +472,10 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 			return false;
 		}
 
-		//pax_restricted is the libarchive default, let's go with that.
-		archive_write_set_format_pax_restricted(arch_writer);
-
 		if (ret != ARCHIVE_OK) {
 			error(i18n("Setting format failed with the error '%1'", QString(archive_error_string( arch_writer ))));
 			return false;
 		}
-
-		ret = archive_write_open_filename(arch_writer, QFile::encodeName( filename() ));
-		if (ret != ARCHIVE_OK) {
-			error(i18n("Opening the archive for writing failed with error message '%1'", QString(archive_error_string( arch_writer ))));
-			return false;
-		}
-
-		destArchiveOpened = true;
-
 
 	} else {
 		switch (archive_compression(arch_reader)) {
@@ -509,41 +493,42 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 			error(i18n("Setting compression failed with the error '%1'", QString(archive_error_string( arch_writer ))));
 			return false;
 		}
+	}
 
+	ret = archive_write_open_filename(arch_writer, QFile::encodeName( tempFilename ));
+	if (ret != ARCHIVE_OK) {
+		error(i18n("Opening the archive for writing failed with error message '%1'", QString(archive_error_string( arch_writer ))));
+		return false;
+	}
 
+	entry = archive_entry_new();
 
-
-		//********** copy all elements from previous archive to new archive
-		while ( archive_read_next_header( arch_reader, &entry ) == ARCHIVE_OK )
-		{
-			//we delay the opening until here because we want to read an entry
-			//first so we can determine what format to use.
-			if (!destArchiveOpened) {
-
-				ret = archive_write_set_format(arch_writer, archive_format(arch_reader));
-
-				//if setting the format did not succeed, try to fallback to the
-				//base format
-				if (ret != ARCHIVE_OK) {
-					ret = archive_write_set_format(arch_writer, archive_format(arch_reader) & ARCHIVE_FORMAT_BASE_MASK);
-				}
-
-				if (ret != ARCHIVE_OK) {
-					error(i18n("Setting format %2 failed with the error '%1'", QString(archive_error_string( arch_writer )), archive_format(arch_reader)));
-					return false;
-				}
-
-				//we do not open the write archive before here because we need a
-				//call to read_next_header for the right format to be detected
-				ret = archive_write_open_filename(arch_writer, QFile::encodeName( tempFilename ));
-				if (ret != ARCHIVE_OK) {
-					error(i18n("Opening the archive for writing failed with error message '%1'", QString(archive_error_string( arch_writer ))));
-					return false;
-				}
-				destArchiveOpened = true;
+	//**************** first write the new files
+	foreach(const QString& selectedFile, files) {
+		writeFile(selectedFile, arch_writer, entry);
+		if (QFileInfo(selectedFile).isDir()) {
+			RecursiveLister lister(selectedFile);
+			lister.start();
+			//lister.wait();
+			while (1) {
+				KFileItem item = lister.getNextFile();
+				if (item.isNull()) break;
+				writeFile(item.localPath() + item.name() + 
+						(item.isDir() ? "/" : "")
+						, arch_writer, entry);
+				
 			}
 
-			if (expandedFiles.contains(archive_entry_pathname(entry))) {
+		}
+	}
+
+	//and if we have old elements...
+	if (!creatingNewFile) {
+		//********** copy old elements from previous archive to new archive
+		while ( archive_read_next_header( arch_reader, &entry ) == ARCHIVE_OK )
+		{
+
+			if (m_writtenFiles.contains(QFile::decodeName(archive_entry_pathname(entry)))) {
 				archive_read_data_skip( arch_reader );
 				kDebug( 1601 ) << "Entry already existing, will be refresh: ===> " << archive_entry_pathname(entry);
 				continue;
@@ -551,6 +536,7 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 
 			//kDebug(1601) << "Writing entry " << fn;
 			if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )
+
 				//if the whole archive is extracted and the total filesize is
 				//available, we use partial progress
 				copyData( arch_reader, arch_writer, false); 
@@ -563,31 +549,6 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 		}
 	}
 
-	//**************** now write the new files
-	foreach(const QString& selectedFile, expandedFiles) {
-
-		KDE_struct_stat st;
-		entry = archive_entry_new();
-
-		KDE_stat(QFile::encodeName(selectedFile).constData(), &st);
-		archive_entry_copy_stat(entry, &st);
-		archive_entry_copy_pathname( entry, QFile::encodeName(selectedFile).constData() );
-
-		kDebug( 1601 ) << "Writing new entry " << archive_entry_pathname(entry);
-		if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )
-			//if the whole archive is extracted and the total filesize is
-			//available, we use partial progress
-			copyData( selectedFile, arch_writer, false); 
-		else {
-			kDebug( 1601 ) << "Writing header failed with error code " << header_response;
-			kDebug() << "Error while writing..." << archive_error_string( arch_writer ) << "(error nb =" << archive_errno( arch_writer ) << ')';
-		}
-
-		emitEntryFromArchiveEntry(entry);
-		archive_entry_clear( entry );
-
-	}
-
 	ret = archive_write_finish(arch_writer);
 
 	if (!creatingNewFile) {
@@ -597,10 +558,39 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 		//the new one.
 		//TODO: do some extra checks to see if this is really OK
 		QFile::remove(filename());
-		QFile::rename(tempFilename, filename());
 	}
 
+	QFile::rename(tempFilename, filename());
 	return true;
+
+}
+
+void LibArchiveInterface::writeFile(const QString& fileName, struct archive* arch_writer, struct archive_entry* entry)
+{
+	KDE_struct_stat st;
+	int header_response;
+
+	bool trailingSlash = fileName.endsWith('/');
+	QString relativeName = QDir::current().relativeFilePath(fileName) + (trailingSlash ? "/" : "");
+
+	KDE_stat(QFile::encodeName(relativeName).constData(), &st);
+	archive_entry_copy_stat(entry, &st);
+	archive_entry_copy_pathname( entry, QFile::encodeName(relativeName).constData() );
+
+	kDebug( 1601 ) << "Writing new entry " << archive_entry_pathname(entry);
+	if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )
+		//if the whole archive is extracted and the total filesize is
+		//available, we use partial progress
+		copyData( fileName, arch_writer, false); 
+	else {
+		kDebug( 1601 ) << "Writing header failed with error code " << header_response;
+		kDebug() << "Error while writing..." << archive_error_string( arch_writer ) << "(error nb =" << archive_errno( arch_writer ) << ')';
+	}
+
+	m_writtenFiles.push_back(relativeName);
+
+	emitEntryFromArchiveEntry(entry);
+	archive_entry_clear( entry );
 
 }
 
