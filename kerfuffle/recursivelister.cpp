@@ -24,6 +24,7 @@
 #include <kio/jobclasses.h>
 #include <kdebug.h>
 
+#define KIO_IS_NOT_THREADSAFE
 
 namespace Kerfuffle
 {
@@ -40,36 +41,39 @@ namespace Kerfuffle
 		qRegisterMetaType<KIO::UDSEntryList>("KIO::UDSEntryList");
 
 		kDebug( 1601 ) << m_listDirectory;
-		KIO::ListJob *listJob = KIO::listRecursive(m_listDirectory, KIO::HideProgressInfo);
-		m_listJob = listJob;
-		connect(listJob, SIGNAL(entries (KIO::Job *, const KIO::UDSEntryList &)),
+		m_listJob = KIO::listRecursive(m_listDirectory, KIO::HideProgressInfo);
+		connect(m_listJob, SIGNAL(entries (KIO::Job *, const KIO::UDSEntryList &)),
 				this, SLOT(slotEntry (KIO::Job *, const KIO::UDSEntryList &)),
 				Qt::DirectConnection);
 		connect(this, SIGNAL(finished()),
 				this, SLOT(wakeWaiters()),
 				Qt::DirectConnection);
 
-		listJob->exec();
+		m_listJob->exec();
+		kDebug (1601) << "finished";
 	}
 
 	void RecursiveLister::slotEntry(KIO::Job *job, const KIO::UDSEntryList& list)
 	{
+		kDebug (1601);
 		foreach( const KIO::UDSEntry& entry, list) {
 			KFileItem item(entry, m_listDirectory);
 			if (item.name() == ".." || item.name() ==  ".") continue;
 			m_entries.push_back(item);
-			//kDebug (1601) << item.localPath() + item.name();
+			kDebug (1601) << item.localPath() + item.name();
 		}
 		wakeWaiters();
 	}
 
 	void RecursiveLister::wakeWaiters()
 	{
+		kDebug (1601);
 		m_fileIsReady.wakeAll();
 	}
 
 	KFileItem RecursiveLister::getNextFile()
 	{
+		kDebug (1601);
 		//first, check if there are any items available, if so take one.
 		if (m_entryIndex < m_entries.size())
 		{
@@ -80,9 +84,16 @@ namespace Kerfuffle
 
 		//no items available, maybe we need to wait?
 		if (!isFinished()) {
+#ifndef KIO_IS_NOT_THREADSAFE
 			m_waitLock.lock();
+			kDebug (1601) << "will wait";
 			m_fileIsReady.wait(&m_waitLock);
+			kDebug (1601) << "through";
 			m_waitLock.unlock();
+#else
+			kDebug (1601) << "Waiting until the whole job is finished";
+			wait();
+#endif
 		}
 
 		//ok, we have waited, let's see if there's something left for us

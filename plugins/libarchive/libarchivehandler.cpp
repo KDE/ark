@@ -406,7 +406,7 @@ void LibArchiveInterface::copyData( struct archive *source, struct archive *dest
 
 bool LibArchiveInterface::addFiles( const QStringList & files, const CompressionOptions& options )
 {
-	struct archive *arch_reader, *arch_writer;
+	struct archive *arch_reader = NULL, *arch_writer = NULL;
 	struct archive_entry *entry;
 	int header_response;
 	int ret;
@@ -421,6 +421,20 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 		kDebug( 1601 ) << "GlobalWorkDir is set, changing dir to " << globalWorkdir;
 		QDir::setCurrent(globalWorkdir);
 	}
+
+#if 0
+	RecursiveLister l1("/home/harald/PDF/");
+	RecursiveLister l2("/home/harald/PDF/");
+	RecursiveLister l3("/home/harald/PDF/");
+	l1.start();
+	l2.start();
+	l3.start();
+	l1.wait();
+	l2.wait();
+	l3.wait();
+	return false;
+#endif
+
 
 	m_writtenFiles.clear();
 
@@ -505,17 +519,29 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 
 	//**************** first write the new files
 	foreach(const QString& selectedFile, files) {
-		writeFile(selectedFile, arch_writer, entry);
+		bool success;
+		success = writeFile(selectedFile, arch_writer, entry);
+		if (!success){
+			return false;
+		}
 		if (QFileInfo(selectedFile).isDir()) {
 			RecursiveLister lister(selectedFile);
-			lister.start();
-			//lister.wait();
+			
+			//TODO: this is NOT the correct way to use RecursiveLister, but
+			//until problems regarding thread safety and KIO have been resolved
+			//somehow, this will do all the listing before compressing. This is
+			//a performance loss. refer to bug #178347
+			lister.run();
+
 			while (1) {
 				KFileItem item = lister.getNextFile();
 				if (item.isNull()) break;
-				writeFile(item.localPath() + item.name() + 
+				success = writeFile(item.localPath() + item.name() + 
 						(item.isDir() ? "/" : "")
 						, arch_writer, entry);
+				if (!success){
+					return false;
+				}
 				
 			}
 
@@ -565,7 +591,7 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 
 }
 
-void LibArchiveInterface::writeFile(const QString& fileName, struct archive* arch_writer, struct archive_entry* entry)
+bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arch_writer, struct archive_entry* entry)
 {
 	KDE_struct_stat st;
 	int header_response;
@@ -585,12 +611,14 @@ void LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
 	else {
 		kDebug( 1601 ) << "Writing header failed with error code " << header_response;
 		kDebug() << "Error while writing..." << archive_error_string( arch_writer ) << "(error nb =" << archive_errno( arch_writer ) << ')';
+		return false;
 	}
 
 	m_writtenFiles.push_back(relativeName);
 
 	emitEntryFromArchiveEntry(entry);
 	archive_entry_clear( entry );
+	return true;
 
 }
 

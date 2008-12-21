@@ -48,7 +48,7 @@ class LibArchiveInterface: public ReadWriteArchiveInterface
 		void copyData( struct archive *source, struct archive *dest, bool partialprogress = true );
 		void copyData( QString filename, struct archive *dest, bool partialprogress = true );
 		void emitEntryFromArchiveEntry(struct archive_entry *entry);
-		void writeFile(const QString& fileName, struct archive* arch, struct archive_entry* entry);
+		bool writeFile(const QString& fileName, struct archive* arch, struct archive_entry* entry);
 
 
 		int cachedArchiveEntryCount;

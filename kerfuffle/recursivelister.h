@@ -51,9 +51,9 @@ namespace Kerfuffle
 			QString m_listDirectory;
 			QList<KFileItem> m_entries;
 			int m_entryIndex;
-			class KJob *m_listJob;
 			QMutex m_waitLock;
 			QWaitCondition m_fileIsReady;
+			KIO::ListJob *m_listJob;
 
 	};
 }
