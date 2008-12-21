@@ -65,7 +65,11 @@ bool AddToArchive::showAddDialog( void )
 
 bool AddToArchive::addInput( const KUrl& url)
 {
-	m_inputs << url.path();
+	m_inputs << url.path(
+			QFileInfo(url.path()).isDir() ? 
+			KUrl::AddTrailingSlash :
+			KUrl::RemoveTrailingSlash
+			);
 
 	if (m_firstPath.isEmpty()) {
 		QString firstEntry = url.path(KUrl::RemoveTrailingSlash);
