@@ -4,6 +4,7 @@ ServiceTypes=KonqPopupMenu/Plugin
 MimeType=all/all;
 Actions=addTo;addToRar;addToTar;
 X-KDE-Submenu=Compress
+X-KDE-Submenu[ca]=Compressió
 X-KDE-Submenu[el]=Συμπίεση
 X-KDE-Submenu[es]=Comprimir
 X-KDE-Submenu[et]=Paki
@@ -15,9 +16,11 @@ X-KDE-Submenu[lv]=Saspiest
 X-KDE-Submenu[nb]=Komprimer
 X-KDE-Submenu[nds]=Komprimeren
 X-KDE-Submenu[nl]=Comprimeren
+X-KDE-Submenu[pa]=ਕੰਪਰੈੱਸ
 X-KDE-Submenu[pt]=Comprimir
 X-KDE-Submenu[pt_BR]=Compactar
 X-KDE-Submenu[ro]=Comprimă
+X-KDE-Submenu[sl]=Stisni
 X-KDE-Submenu[th]=บีบข้อมูล
 X-KDE-Submenu[tr]=Sıkıştır
 X-KDE-Submenu[uk]=Стиснути
@@ -29,6 +32,7 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action addToRar]
 Name=RAR archive
+Name[ca]=Arxiu RAR
 Name[el]=Αρχειοθήκη RAR
 Name[es]=Archivo comprimido RAR
 Name[et]=RAR-arhiiv
@@ -44,6 +48,7 @@ Name[pa]=RAR ਅਕਾਇਵ
 Name[pt]=Pacote RAR
 Name[pt_BR]=Arquivo RAR
 Name[ro]=Arhivă RAR
+Name[sl]=Arhiv RAR
 Name[sv]=RAR-arkiv
 Name[th]=แฟ้มจัดเก็บแบบบีบอัด RAR
 Name[tr]=RAR arşivi
@@ -56,6 +61,7 @@ Exec=ark --changetofirstpath --add --autofilename rar %F
 
 [Desktop Action addToTar]
 Name=Gzip-compressed tar archive
+Name[ca]=Arxiu «tar» comprimit amb «gzip»
 Name[el]=Αρχειοθήκη tar συμπιεσμένη με Gzip
 Name[es]=Archivo tar comprimido con gzip
 Name[et]=Gzip-tihendusega tar-arhiiv
@@ -71,6 +77,7 @@ Name[pa]=ਜੀ-ਜ਼ਿੱਪ-ਕੰਪਰੈੱਸ ਟਾਰ ਅਕਾਇਵ
 Name[pt]=Pacote TAR comprimido com o GZip
 Name[pt_BR]=Arquivo TAR compactado com o Gzip
 Name[ro]=Arhivă tar comprimată cu gzip
+Name[sl]=Arhiv tar stisnjen z gzip
 Name[sv]=Gzip-komprimerat tar-arkiv
 Name[th]=แฟ้มจัดเก็บ tar แบบบีบอัดด้วย Gzip
 Name[tr]=Tar.gz arşivi
@@ -83,6 +90,7 @@ Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
 [Desktop Action addTo]
 Name=Compress to...
+Name[ca]=Comprimeix a...
 Name[el]=Συμπίεση σε...
 Name[es]=Comprimir en...
 Name[et]=Paki asukohta...
@@ -98,6 +106,7 @@ Name[pa]=ਕੰਪਰੈੱਸ ਕਰੋ...
 Name[pt]=Comprimir para...
 Name[pt_BR]=Compactar para...
 Name[ro]=Comprimă în...
+Name[sl]=Stisni v ...
 Name[sv]=Komprimera till...
 Name[th]=บีบข้อมูลไปยัง...
 Name[tr]=Farklı sıkıştır...

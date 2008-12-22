@@ -10,6 +10,7 @@ X-KDE-StartupNotify=false
 
 [Desktop Action arkExtractHere]
 Name=Extract archive here
+Name[ca]=Extreu l'arxiu aquí
 Name[el]=Εξαγωγή αρχειοθήκης εδώ
 Name[es]=Extraer archivo aquí
 Name[et]=Paki arhiiv siia lahti
@@ -26,6 +27,7 @@ Name[pa]=ਅਕਾਇਵ ਇੱਥੇ ਖੋਲ੍ਹੋ
 Name[pt]=Extrair o pacote para aqui
 Name[pt_BR]=Extrair o arquivo aqui
 Name[ro]=Extrage arhiva aici
+Name[sl]=Izvleci arhiv sem
 Name[sv]=Packa upp arkiv här
 Name[th]=คลายแฟ้มจัดเก็บไว้ที่นี่
 Name[tr]=Arşivi Buraya Aç
@@ -38,6 +40,7 @@ Exec=ark --batch --autodestination %F
 
 [Desktop Action arkExtractTo]
 Name=Extract archive to...
+Name[ca]=Extreu l'arxiu a...
 Name[el]=Εξαγωγή αρχειοθήκης σε...
 Name[es]=Extraer archivo en...
 Name[et]=Paki arhiiv lahti...
@@ -55,6 +58,7 @@ Name[pt]=Extrair o pacote para...
 Name[pt_BR]=Extrair o arquivo para...
 Name[ro]=Extrage arhiva în...
 Name[ru]=Распаковать в...
+Name[sl]=Izvleci arhiv v ...
 Name[sv]=Packa upp arkiv i...
 Name[th]=คลายแฟ้มจัดเก็บไปยัง...
 Name[tr]=Arşivi Farklı Bir Konuma Aç...
@@ -67,6 +71,7 @@ Exec=ark --batch --autodestination --dialog %F
 
 [Desktop Action arkAutoExtractHere]
 Name=Extract archive here, autodetect subfolder
+Name[ca]=Extreu l'arxiu aquí, detecta automàticament la subcarpeta
 Name[el]=Εξαγωγή αρχειοθήκης εδώ, αυτόματη επιλογή υποφακέλου
 Name[es]=Extraer archivo aquí, autodetectar subcarpeta
 Name[et]=Paki arhiiv siia lahti, tuvasta automaatselt alamkataloog
@@ -83,6 +88,7 @@ Name[pa]=ਅਕਾਇਵ ਇੱਥੇ ਖੋਲ੍ਹੋ, ਸਬ-ਫੋਲਡਰ
 Name[pt]=Extrair o pacote para aqui, detectar automaticamente a sub-pasta
 Name[pt_BR]=Extrair o arquivo aqui, com detecção automática da subpasta
 Name[ro]=Extrage arhiva aici, autodetectează subdosarul
+Name[sl]=Izvleci arhiv sem in samodejno zaznaj podmapo
 Name[sv]=Packa upp arkiv här, detektera underkatalog automatiskt
 Name[th]=คลายแฟ้มจัดเก็บไว้ที่นี่, และตรวจสอบโฟลเดอร์ย่อยอัตโนมัติ
 Name[tr]=Arşivi Buraya Aç, Dizin Yapısını Koru
