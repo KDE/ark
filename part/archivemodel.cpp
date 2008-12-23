@@ -588,8 +588,9 @@ void ArchiveModel::slotEntryRemoved( const QString & path )
 
 		beginRemoveRows( indexForNode( parent ), entry->row(), entry->row() );
 
-		delete parent->entries()[ entry->row() ];
-		parent->entries()[ entry->row() ] = 0;
+		//delete parent->entries()[ entry->row() ];
+		//parent->entries()[ entry->row() ] = 0;
+		delete parent->entries().takeAt(entry->row());
 
 		endRemoveRows();
 	} else

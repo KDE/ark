@@ -371,6 +371,9 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 		bool deleteFiles( const QList<QVariant> & files )
 		{
+			if (!m_archive)
+				open();
+
 			foreach( const QVariant& file, files )
 			{
 				int index = zip_name_locate( m_archive, file.toByteArray(), 0 );
