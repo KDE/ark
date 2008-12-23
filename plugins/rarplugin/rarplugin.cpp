@@ -140,12 +140,12 @@ void RARInterface::processListLine(const QString& line)
 
 	// rar gives one line for the filename and a line after it with some file properties
 	if ( m_isFirstLine ) {
-		m_entryFilename = line.trimmed();
+		m_internalId = line.trimmed();
 		//m_entryFilename.chop(1); // handle newline
-		if (!m_entryFilename.isEmpty() && m_entryFilename.at(0) == '*')
+		if (!m_internalId.isEmpty() && m_internalId.at(0) == '*')
 		{
 			m_isPasswordProtected = true;
-			m_entryFilename.remove( 0, 1 ); // and the spaces in front
+			m_internalId.remove( 0, 1 ); // and the spaces in front
 		}
 		else
 			m_isPasswordProtected = false;
@@ -155,9 +155,11 @@ void RARInterface::processListLine(const QString& line)
 	}
 
 	QStringList fileprops = line.split(' ', QString::SkipEmptyParts);
-	m_entryFilename = QDir::fromNativeSeparators(m_entryFilename);
+	m_internalId = QDir::fromNativeSeparators(m_internalId);
 	bool isDirectory = (bool)(fileprops[ 5 ].contains('d', Qt::CaseInsensitive));
-	if (isDirectory && !m_entryFilename.endsWith('/'))
+
+	m_entryFilename = m_internalId;
+	if (isDirectory && !m_internalId.endsWith('/'))
 	{
 		m_entryFilename += '/';
 	}
@@ -165,7 +167,7 @@ void RARInterface::processListLine(const QString& line)
 	kDebug( 1601 ) << m_entryFilename << " : " << fileprops ;
 	ArchiveEntry e;
 	e[ FileName ] = m_entryFilename;
-	e[ InternalID ] = m_entryFilename;
+	e[ InternalID ] = m_internalId;
 	e[ Size ] = fileprops[ 0 ];
 	e[ CompressedSize] = fileprops[ 1 ];
 	e[ Ratio ] = fileprops[ 2 ];

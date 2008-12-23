@@ -52,7 +52,7 @@ class RARInterface: public ReadWriteArchiveInterface
 		bool handleOverwritePrompt(const QByteArray &message);
 		void writeToProcess( const QByteArray &data );
 
-		QString m_headerString, m_entryFilename;
+		QString m_headerString, m_entryFilename, m_internalId;
 		bool m_isFirstLine, m_incontent, m_isPasswordProtected;
 		QString m_filename, m_rarpath, m_unrarpath;
 		ArchiveEntry m_currentArchiveEntry;
