@@ -377,6 +377,7 @@ void Part::slotLoadingFinished(KJob *job)
 
 void Part::setReadyGui()
 {
+	kDebug( 1601 );
 	QApplication::restoreOverrideCursor();
 	m_busy = false;
 	m_view->setEnabled(true);
@@ -385,6 +386,7 @@ void Part::setReadyGui()
 
 void Part::setBusyGui()
 {
+	kDebug( 1601 );
 	QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
 	m_busy = true;
 	m_view->setEnabled(false);
@@ -428,6 +430,7 @@ void Part::slotPreviewExtracted( KJob *job )
 	{
 		KMessageBox::error( widget(), job->errorString() );
 	}
+	setReadyGui();
 }
 
 void Part::slotError( const QString& errorMessage, const QString& details )
