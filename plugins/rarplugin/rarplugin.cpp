@@ -332,9 +332,6 @@ void RARInterface::copyReadStdout()
 bool RARInterface::addFiles( const QStringList & files, const CompressionOptions& options )
 {
 	kDebug( 1601 ) << "Will try to add " << files << " to " << m_filename << " using " << m_rarpath;
-	
-	if (!QFile::exists(m_filename))
-		return true;
 
 	QString workPath = options.value("GlobalWorkDir").toString();
 	if (!workPath.isEmpty()) {
