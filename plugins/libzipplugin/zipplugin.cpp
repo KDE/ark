@@ -36,6 +36,7 @@ typedef quint32 off_t;
 
 #include "kerfuffle/archiveinterface.h"
 #include "kerfuffle/archivefactory.h"
+#include "kerfuffle/recursivelister.h"
 
 #include <zip.h>
 
@@ -130,7 +131,6 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				return false;
 			}
 
-			//progress( 0.0 );
 
 			for ( int index = 0; index < zip_get_num_files( m_archive ); ++index )
 			{
@@ -277,13 +277,6 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				}
 			}
 
-			QStringList expandedFiles = files;
-
-			kDebug( 1601 ) << "Before expanding: " << expandedFiles << QDir::currentPath();
-			expandDirectories(expandedFiles);
-
-			kDebug( 1601 ) << "After expanding: " << expandedFiles;
-
 			QString globalWorkdir = options.value("GlobalWorkDir").toString();
 			if (!globalWorkdir.isEmpty()) {
 				kDebug( 1601 ) << "GlobalWorkDir is set, changing dir to " << globalWorkdir;
@@ -291,7 +284,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			}
 
 			int processed = 0;
-			foreach( const QString & file, expandedFiles )
+			foreach( const QString & file, files )
 			{
 
 				QString relativeName = QDir::current().relativeFilePath(file);
@@ -304,34 +297,76 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				}
 
 				if (QFileInfo(relativeName).isDir())
+				{
 					if (!relativeName.endsWith('/'))
 						relativeName += '/';
 
-				kDebug( 1601 ) << "Adding " << file ;
+					int result = writeFile(file, relativeName);
+					if (result < 0) {
+						kDebug( 1601 ) << "Error while compressing " << relativeName;
+						return false;
+					}
 
-				struct zip_source *source = zip_source_file( m_archive, file.toLocal8Bit(), 0, -1 );
-				if ( !source )
-				{
-					kDebug( 1601 ) << "Read error " << zip_strerror(m_archive);
-					error( i18n( "Could not read from the input file '%1'", file ) );
-					return false;
+					RecursiveLister lister(file);
+					//TODO: refer to bug #178347
+					lister.run();
+
+
+					while (1) {
+						KFileItem item = lister.getNextFile();
+						if (item.isNull()) break;
+
+						result = writeFile(file + item.name(),
+								relativeName + item.name() + 
+								(item.isDir() ? "/" : ""));
+						if (result < 0) {
+							kDebug( 1601 ) << "Error while compressing " << relativeName;
+							return false;
+						}
+
+					}
+				}
+				else {
+					int result = writeFile(file, relativeName);
+					if (result < 0) {
+						kDebug( 1601 ) << "Error while compressing " << relativeName;
+						return false;
+					}
+
 				}
 
-
-				int index;
-				if (  ( index = zip_add( m_archive, QFile::encodeName(relativeName), source ) ) < 0 )
-				{
-					error( i18n( "Could not add the file %1 to the archive.", file) );
-				}
-
-				kDebug( 1601 ) << file << " was added to the archive, index is " << index ;
-
-				emitEntryForIndex( index );
-				progress( ( ++processed )*1.0/expandedFiles.count() );
+				if (files.count() > 1)
+					progress( ( ++processed )*1.0/files.count() );
 			}
+
 			kDebug( 1601 ) << "And we're done :)" ;
 			close();
 			return true;
+		}
+
+		int writeFile(QString file, QString nameInArchive)
+		{
+			kDebug( 1601 ) << "Adding " << file  << " as " << nameInArchive;
+
+			struct zip_source *source = zip_source_file( m_archive, QFile::encodeName(file).constData(), 0, -1 );
+
+			if ( !source )
+			{
+				kDebug( 1601 ) << "Read error " << zip_strerror(m_archive);
+				error( i18n( "Could not read from the input file '%1'", file ) );
+				return false;
+			}
+
+
+			int index;
+			if (  ( index = zip_add( m_archive, QFile::encodeName(nameInArchive), source ) ) < 0 )
+			{
+				error( i18n( "Could not add the file %1 to the archive.", file) );
+			}
+
+			emitEntryForIndex( index );
+			return index;
+
 		}
 
 		bool deleteFiles( const QList<QVariant> & files )
