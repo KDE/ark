@@ -120,7 +120,8 @@ void RARInterface::listReadStdout()
 	}
 	m_stdOutData.remove(0, indx + 1);
 
-	kDebug( 1601 ) << "leftOver" << m_stdOutData;
+	if (!m_stdOutData.isEmpty())
+		kDebug( 1601 ) << "leftOver" << m_stdOutData;
 }
 
 void RARInterface::processListLine(const QString& line)
