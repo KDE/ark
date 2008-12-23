@@ -422,20 +422,6 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 		QDir::setCurrent(globalWorkdir);
 	}
 
-#if 0
-	RecursiveLister l1("/home/harald/PDF/");
-	RecursiveLister l2("/home/harald/PDF/");
-	RecursiveLister l3("/home/harald/PDF/");
-	l1.start();
-	l2.start();
-	l3.start();
-	l1.wait();
-	l2.wait();
-	l3.wait();
-	return false;
-#endif
-
-
 	m_writtenFiles.clear();
 
 
