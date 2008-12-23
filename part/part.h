@@ -73,6 +73,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void slotAddDir();
 		void slotAddFilesDone( KJob* );
 		void slotDeleteFiles();
+		void slotDeleteFilesDone( KJob* );
 		void updateActions();
 		void selectionChanged();
 		void adjustColumns( const QModelIndex & topleft, const QModelIndex& bottomRight );

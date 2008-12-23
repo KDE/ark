@@ -672,6 +672,15 @@ void Part::slotAddFilesDone( KJob* job )
 	}
 }
 
+void Part::slotDeleteFilesDone( KJob* job )
+{
+	kDebug( 1601 ) ;
+	if ( job->error() )
+	{
+		KMessageBox::error( widget(), job->errorString() );
+	}
+}
+
 void Part::slotDeleteFiles()
 {
 	kDebug( 1601 ) ;
