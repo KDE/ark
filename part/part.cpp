@@ -536,7 +536,6 @@ QList<QVariant> Part::selectedFilesWithChildren()
 {
 	Q_ASSERT(m_model);
 
-	QStringList toSort;
 	QModelIndexList toIterate = m_view->selectionModel()->selectedRows();
 
 	for (int i = 0; i < toIterate.size(); ++i) {
@@ -551,18 +550,12 @@ QList<QVariant> Part::selectedFilesWithChildren()
 
 	}
 
-	//TODO: this needs to be fixed so that it does not assume that the
-	//InternalID is an actual filename, because sometimes it isn't
+	QVariantList ret;
 	foreach( const QModelIndex & index, toIterate )
 	{
 		const ArchiveEntry& entry = m_model->entryForIndex( index );
-		toSort << entry[ InternalID ].toString();
-	}
-
-	toSort.sort();
-	QVariantList ret;
-	foreach (const QString &i, toSort) {
-		ret << i;
+		if (entry.contains( InternalID ))
+				ret << entry[ InternalID ];
 	}
 	return ret;
 }
@@ -687,7 +680,7 @@ void Part::slotDeleteFilesDone( KJob* job )
 void Part::slotDeleteFiles()
 {
 	kDebug( 1601 ) ;
-	DeleteJob *job = m_model->deleteFiles( selectedFiles() );
+	DeleteJob *job = m_model->deleteFiles( selectedFilesWithChildren() );
 	connect( job, SIGNAL( result( KJob* ) ),
 	         this, SLOT( slotDeleteFilesDone( KJob* ) ) );
 	registerJob(job);

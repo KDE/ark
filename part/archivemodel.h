@@ -79,6 +79,7 @@ class ArchiveModel: public QAbstractItemModel
 		void slotNewEntry( const ArchiveEntry& entry );
 		void slotEntryRemoved( const QString & path );
 		void slotUserQuery(Query *query);
+		void slotCleanupEmptyDirs();
 
 	private:
 		ArchiveDirNode* parentFor( const ArchiveEntry& entry );

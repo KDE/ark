@@ -28,6 +28,7 @@
 #include <QMimeData>
 #include <QDir>
 #include <QtDBus/QtDBus>
+#include <QPersistentModelIndex>
 
 #include <KDebug>
 #include <KLocale>
@@ -46,7 +47,7 @@ class ArchiveNode
 {
 	public:
 		ArchiveNode( ArchiveDirNode *parent, const ArchiveEntry & entry )
-			: m_parent( parent ), m_row( -1 )
+			: m_parent( parent )
 		{
 			setEntry( entry );
 		}
@@ -84,7 +85,6 @@ class ArchiveNode
 	private:
 		ArchiveEntry    m_entry;
 		ArchiveDirNode *m_parent;
-		int             m_row;
 };
 
 
@@ -152,12 +152,9 @@ class ArchiveDirNode: public ArchiveNode
 
 int ArchiveNode::row()
 {
-	if ( m_row != -1 ) return m_row;
-
 	if ( parent() )
 	{
-		m_row = parent()->entries().indexOf( const_cast<ArchiveNode*>( this ) );
-		return m_row;
+		return parent()->entries().indexOf( const_cast<ArchiveNode*>( this ) );
 	}
 	return 0;
 }
@@ -580,7 +577,7 @@ void ArchiveModel::slotEntryRemoved( const QString & path )
 {
 	// TODO: Do something
 	kDebug (1601) << "Removed node at path " << path;
-	ArchiveNode *entry = m_rootNode->findByPath( path.split('/') );
+	ArchiveNode *entry = m_rootNode->findByPath( path.split('/', QString::SkipEmptyParts) );
 	if ( entry )
 	{
 		ArchiveDirNode *parent = entry->parent();
@@ -765,9 +762,52 @@ DeleteJob* ArchiveModel::deleteFiles( const QList<QVariant> & files )
 		connect( job, SIGNAL( entryRemoved( const QString & ) ),
 		         this, SLOT( slotEntryRemoved( const QString & ) ) );
 
+		connect(job, SIGNAL(finished(KJob*)),
+		         this, SLOT( slotCleanupEmptyDirs() ) );
+
 		connect(job, SIGNAL(userQuery(Query*)),
 				this, SLOT(slotUserQuery(Query*)));
 		return job;
 	}
 	return 0;
+}
+
+void ArchiveModel::slotCleanupEmptyDirs()
+{
+	kDebug (1601);
+	QList<QPersistentModelIndex> queue;
+	QList<QPersistentModelIndex> nodesToDelete;
+
+	//add root nodes
+	for (int i = 0; i < rowCount(); ++i) {
+		queue.append(QPersistentModelIndex(index(i, 0)));
+	}
+
+	//breadth-first traverse
+	while(!queue.isEmpty())
+	{
+		QPersistentModelIndex node = queue.takeFirst();
+		ArchiveEntry entry = entryForIndex(node);
+		//kDebug(1601) << "Trying " << entry[FileName].toString();
+
+		if ( !hasChildren(node) ) {
+			if (!entry.contains( InternalID )) {
+				nodesToDelete << node;
+			}
+		} else {
+			for (int i = 0; i < rowCount(node); ++i) {
+				queue.append(QPersistentModelIndex(index(i, 0, node)));
+			}
+		}
+	}
+	foreach(const QPersistentModelIndex& node, nodesToDelete) {
+		ArchiveNode *rawNode = static_cast<ArchiveNode*>( node.internalPointer() );
+		kDebug() << "Delete with parent entries " << rawNode->parent()->entries() << " and row " << rawNode->row();
+		beginRemoveRows(parent(node), rawNode->row(), rawNode->row());
+		delete rawNode->parent()->entries().takeAt(rawNode->row());
+		endRemoveRows();
+		//kDebug(1601) << "Removed entry " << entry[FileName].toString();
+	}
+	return;
+
 }
