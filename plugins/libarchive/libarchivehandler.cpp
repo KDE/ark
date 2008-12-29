@@ -611,8 +611,100 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
 
 bool LibArchiveInterface::deleteFiles( const QList<QVariant> & files )
 {
-	error( i18n( "Sorry, deleting files is not supported yet with this type of archive." ));
-	return false;
+	struct archive *arch_reader = NULL, *arch_writer = NULL;
+	struct archive_entry *entry;
+	int header_response;
+	int ret;
+
+	QString tempFilename = filename() + ".arkWriting";
+
+	arch_reader = archive_read_new();
+	if ( !arch_reader )
+	{
+		error(i18n("The archive reader could not be initialized."));
+		return false;
+	}
+
+	archive_read_support_compression_all( arch_reader );
+	archive_read_support_format_all( arch_reader );
+	ret = archive_read_open_filename( arch_reader, QFile::encodeName( filename() ), 10240 );
+	if ( ret != ARCHIVE_OK )
+	{
+		error(i18n("The source file could not be read."));
+		return false;
+	}
+
+	//*********initialize the writer
+	arch_writer = archive_write_new();
+	if ( !arch_writer )
+	{
+		error(i18n("The archive writer could not be initialized."));
+		return false;
+	}
+
+	//pax_restricted is the libarchive default, let's go with that.
+	archive_write_set_format_pax_restricted(arch_writer);
+
+	switch (archive_compression(arch_reader)) {
+		case ARCHIVE_COMPRESSION_GZIP:
+			ret = archive_write_set_compression_gzip(arch_writer);
+			break;
+		case ARCHIVE_COMPRESSION_BZIP2:
+			ret = archive_write_set_compression_bzip2(arch_writer);
+			break;
+		default:
+			error(i18n("The compression type '%1' is not supported by Ark.", QString(archive_compression_name(arch_reader))));
+			return false;
+	}
+	if (ret != ARCHIVE_OK) {
+		error(i18n("Setting compression failed with the error '%1'", QString(archive_error_string( arch_writer ))));
+		return false;
+	}
+
+	ret = archive_write_open_filename(arch_writer, QFile::encodeName( tempFilename ));
+	if (ret != ARCHIVE_OK) {
+		error(i18n("Opening the archive for writing failed with error message '%1'", QString(archive_error_string( arch_writer ))));
+		return false;
+	}
+
+	entry = archive_entry_new();
+
+	//********** copy old elements from previous archive to new archive
+	while ( archive_read_next_header( arch_reader, &entry ) == ARCHIVE_OK )
+	{
+
+		if (files.contains(QFile::decodeName(archive_entry_pathname(entry)))) {
+			archive_read_data_skip( arch_reader );
+			kDebug( 1601 ) << "Entry to be deleted, skipping" << archive_entry_pathname(entry);
+			entryRemoved(QFile::decodeName(archive_entry_pathname(entry)));
+			continue;
+		}
+
+		//kDebug(1601) << "Writing entry " << fn;
+		if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )
+
+			//if the whole archive is extracted and the total filesize is
+			//available, we use partial progress
+			copyData( arch_reader, arch_writer, false); 
+		else {
+			kDebug( 1601 ) << "Writing header failed with error code " << header_response;
+			return false;
+		}
+
+		archive_entry_clear( entry );
+	}
+
+	ret = archive_write_finish(arch_writer);
+
+	archive_read_finish( arch_reader );
+
+	//everything seems OK, so we remove the source file and replace it with
+	//the new one.
+	//TODO: do some extra checks to see if this is really OK
+	QFile::remove(filename());
+
+	QFile::rename(tempFilename, filename());
+	return true;
 }
 
 KERFUFFLE_PLUGIN_FACTORY( LibArchiveInterface )
