@@ -110,13 +110,6 @@ Part::~Part()
 
 void Part::registerJob(KJob* job)
 {
-	/*
-	if (!m_jobTracker) {
-		m_jobTracker = new JobTracker();
-	m_statusBarExtension->addStatusBarItem( m_jobTracker->widget(0), 0, true );
-		m_jobTracker->widget(job)->show();
-	}
-	*/
 	KIO::getJobTracker()->registerJob(job);
 	emit busy();
 	connect(job, SIGNAL(finished(KJob*)),

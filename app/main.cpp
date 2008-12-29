@@ -25,6 +25,7 @@
 #include <KAboutData>
 #include <QByteArray>
 #include <QFileInfo>
+#include <QEventLoop>
 
 #include "mainwindow.h"
 #include "batchextract.h"
@@ -110,34 +111,38 @@ int main( int argc, char **argv )
 
 			//once the job has been started this interface can be safely
 			//deleted
-			AddToArchive addInterface;
+			AddToArchive *addToArchiveJob = new AddToArchive();
 
 			if (args->isSet("changetofirstpath")) {
-				addInterface.setChangeToFirstPath(true);
+				addToArchiveJob->setChangeToFirstPath(true);
 			}
 
 			if (args->isSet("add-to")) {
-				addInterface.setFilename(args->getOption("add-to"));
+				addToArchiveJob->setFilename(args->getOption("add-to"));
 			}
 
 
 			if (args->isSet("autofilename")) {
-				addInterface.setAutoFilenameSuffix(args->getOption("autofilename"));
+				addToArchiveJob->setAutoFilenameSuffix(args->getOption("autofilename"));
 			}
 
 			for (int i = 0; i < args->count(); ++i) {
 
 				//TODO: use the returned value here?
-				addInterface.addInput(args->url(i));
+				addToArchiveJob->addInput(args->url(i));
 			}
 
 			if (args->isSet("dialog")) {
-				if (!addInterface.showAddDialog()) {
+				if (!addToArchiveJob->showAddDialog()) {
 					return 0;
 				}
 			}
 
-			addInterface.startAdding();
+			addToArchiveJob->start();
+
+			QObject::connect(addToArchiveJob, SIGNAL(finished(KJob*)),
+					QCoreApplication::instance(), SLOT(quit()));
+
 
 		} else if (args->isSet("batch")) {
 			//once the job has been started this interface can be safely
@@ -194,6 +199,7 @@ int main( int argc, char **argv )
 			window->show();
 		}
 	}
+	kDebug (1601) << "Entering application loop";
 
 	return application.exec();
 

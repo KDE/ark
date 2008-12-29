@@ -120,17 +120,8 @@ void BatchExtract::start()
 
 		addExtraction(archive, m_preservePaths, finalDestination);
 	}
-	tracker = new KWidgetJobTracker(NULL);
-	tracker->registerJob(this);
+	KIO::getJobTracker()->registerJob(this);
 
-	//center the progress widget on screen
-	QWidget *assignedWidget = qobject_cast<KWidgetJobTracker*>(tracker)->widget(this);
-	if (assignedWidget) {
-		QRect rect = assignedWidget->geometry();
-		QRect screen = QApplication::desktop()->screenGeometry(QApplication::desktop()->primaryScreen());
-		rect.moveCenter(screen.center());
-		assignedWidget->setGeometry(rect);
-	}
 	emit description(this,
 			"Extracting file...",
 			qMakePair(i18n("Source archive"), fileNames.value(subjobs().at(0)).first),

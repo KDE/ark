@@ -26,16 +26,13 @@
 #include <QCoreApplication>
 
 #include <kdebug.h>
-#include <kwidgetjobtracker.h>
+#include <kjobtrackerinterface.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 
 
-
-
-
 AddToArchive::AddToArchive(QObject *parent)
-	: QObject(parent), m_changeToFirstPath(false)
+	: KJob(parent), m_changeToFirstPath(false)
 {
 
 }
@@ -80,7 +77,7 @@ bool AddToArchive::addInput( const KUrl& url)
 	return true;
 }
 
-bool AddToArchive::startAdding( void )
+void AddToArchive::start( void )
 {
 	kDebug( 1601 );
 
@@ -88,7 +85,7 @@ bool AddToArchive::startAdding( void )
 
 	if (!m_inputs.size()) {
 		KMessageBox::error( NULL, i18n("No input files were given.") );
-		return false;
+		return;
 	}
 
 	Kerfuffle::Archive *archive;
@@ -100,12 +97,12 @@ bool AddToArchive::startAdding( void )
 		
 		if (m_autoFilenameSuffix.isEmpty()) {
 			KMessageBox::error( NULL, i18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.tz) with the --autofilename argument.") );
-			return false;
+			return;
 		}
 
 		if (m_firstPath.isEmpty()) {
 			kDebug( 1601 ) << "Weird, this should not happen. no firstpath defined. aborting";
-			return false;
+			return;
 		}
 
 		QString base;
@@ -128,13 +125,13 @@ bool AddToArchive::startAdding( void )
 	if (archive == NULL) {
 		KMessageBox::error( NULL, i18n("Failed to create the new archive. Permissions might not be sufficient.") );
 		QCoreApplication::instance()->quit();
-		return false;
+		return ;
 	}
 
 	if (m_changeToFirstPath) {
 		if (m_firstPath.isEmpty()) {
 			kDebug( 1601 ) << "Weird, this should not happen. no firstpath defined. aborting";
-			return false;
+			return;
 		}
 
 		QDir stripDir = QDir(m_firstPath);
@@ -151,14 +148,23 @@ bool AddToArchive::startAdding( void )
 	Kerfuffle::AddJob *job = 
 		archive->addFiles(m_inputs, options);
 
-
-	KJobTrackerInterface *tracker = new KWidgetJobTracker(NULL);
-	tracker->registerJob(job);
+	KIO::getJobTracker()->registerJob(job);
 
 	connect(job, SIGNAL(finished(KJob*)),
-			QCoreApplication::instance(), SLOT(quit()));
+			this, SLOT(slotFinished(KJob*)));
 
 	job->start();
 
-	return false;
+	return;
+}
+
+void AddToArchive::slotFinished(KJob *job)
+{
+	kDebug( 1601 );
+	if ( job->error() )
+	{
+		KMessageBox::error( NULL, job->errorText());
+	}
+	emitResult();
+
 }

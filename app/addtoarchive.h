@@ -26,6 +26,7 @@
 #include <KParts/ReadWritePart>
 #include <KUrl>
 #include <KDialog>
+#include <KJob>
 #include "kerfuffle/jobs.h"
 #include "kerfuffle/archive.h"
 #include "kerfuffle/queries.h"
@@ -35,7 +36,7 @@ using Kerfuffle::Query;
 class Interface;
 class KJobTrackerInterface;
 
-class AddToArchive : public QObject
+class AddToArchive : public KJob
 {
 	Q_OBJECT
 
@@ -51,7 +52,10 @@ class AddToArchive : public QObject
 		bool addInput( const KUrl& url);
 		void setFilename( const KUrl& path ) { m_filename = path.path(); }
 		void setAutoFilenameSuffix( const QString& suffix ) { m_autoFilenameSuffix = suffix; }
-		bool startAdding();
+		void start();
+
+	private slots:
+		void slotFinished(KJob*);
 
 	private:
 		QString m_filename;

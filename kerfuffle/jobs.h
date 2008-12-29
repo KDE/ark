@@ -51,7 +51,6 @@ namespace Kerfuffle
 
 		public:
 			void start();
-			virtual void doWork() = 0;
 
 			//abstract implemented methods from observer
 			virtual void onError( const QString & message, const QString & details );
@@ -59,6 +58,9 @@ namespace Kerfuffle
 			virtual void onEntry( const ArchiveEntry & archiveEntry );
 			virtual void onProgress( double );
 			virtual void onEntryRemoved( const QString & path );
+
+		public slots:
+			virtual void doWork() = 0;
 
 		signals:
 			void userQuery( Query* );

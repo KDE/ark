@@ -29,6 +29,7 @@
 #include <kdebug.h>
 #include <KLocale>
 #include <QDir>
+#include <QTimer>
 
 namespace Kerfuffle
 {
@@ -48,7 +49,7 @@ namespace Kerfuffle
 	void Job::start()
 	{
 		ThreadExecution *thread = new ThreadExecution(this);
-		ThreadWeaver::Weaver::instance()->enqueue( thread );
+		thread->start();
 	}
 
 	void Job::onError( const QString & message, const QString & details )
@@ -162,6 +163,7 @@ namespace Kerfuffle
 	AddJob::AddJob( const QStringList& files, const CompressionOptions& options , ReadWriteArchiveInterface *interface, QObject *parent )
 		: Job( interface, parent ), m_files( files ), m_options(options)
 	{
+		kDebug( 1601 );
 	}
 
 	void AddJob::doWork()

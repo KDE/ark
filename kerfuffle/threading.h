@@ -29,11 +29,12 @@
 #include <ThreadWeaver/Job>
 #include <ThreadWeaver/Weaver>
 #include "jobs.h"
+#include <QThread>
 
 namespace Kerfuffle
 {
 
-	class ThreadExecution : public ThreadWeaver::Job
+	class ThreadExecution : public QThread
 	{
 		public:
 			ThreadExecution(Kerfuffle::Job *job);
