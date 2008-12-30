@@ -24,6 +24,7 @@
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <kdebug.h>
+#include <QMouseEvent>
 
 
 ArchiveView::ArchiveView(QWidget *parent)
@@ -87,4 +88,10 @@ void ArchiveView::dragMoveEvent ( QDragMoveEvent * event )
 	QTreeView::dragMoveEvent(event);
 	if (event->mimeData()->hasFormat("text/uri-list"))
          event->acceptProposedAction();
+}
+
+void ArchiveView::mouseDoubleClickEvent(QMouseEvent* event)
+{
+	if (event->button() == Qt::LeftButton)
+		QAbstractItemView::mouseDoubleClickEvent(event);
 }
