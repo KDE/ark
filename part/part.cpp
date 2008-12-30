@@ -634,6 +634,8 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 		options["GlobalWorkDir"] = firstPath;
 
 		AddJob *job = m_model->addFiles( cleanFilesToAdd, options);
+		if (!job) return;
+
 		connect( job, SIGNAL( result( KJob* ) ),
 		         this, SLOT( slotAddFilesDone( KJob* ) ) );
 		registerJob(job);

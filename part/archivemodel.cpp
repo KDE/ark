@@ -737,7 +737,7 @@ ExtractJob* ArchiveModel::extractFiles( const QList<QVariant>& files, const QStr
 
 AddJob* ArchiveModel::addFiles( const QStringList & filenames, const CompressionOptions& options )
 {
-	Q_ASSERT( m_archive );
+	if (!m_archive) return NULL;
 
     if ( !m_archive->isReadOnly())
     {
