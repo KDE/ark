@@ -205,6 +205,8 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 
 	while ( archive_read_next_header( arch, &entry ) == ARCHIVE_OK )
 	{
+        //retry with renamed entry, fire an overwrite query again if the new entry also exists
+retry:
 		const bool entryIsDir = S_ISDIR(archive_entry_mode( entry ));
 
 		//we skip directories of not preserving paths
@@ -281,6 +283,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 					if (query.responseRename()) {
 						QString newName = query.newFilename();
 						archive_entry_copy_pathname(entry, QFile::encodeName(newName).constData());
+                        goto retry;
 					}
 
 
