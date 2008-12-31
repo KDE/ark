@@ -78,7 +78,7 @@ namespace Kerfuffle
 				mode);
 		dialog.exec();
 
-		m_data["newFilename"] = dialog.newDestUrl().path();
+		m_data["newFilename"] = dialog.newDestUrl().fileName();
 
 		setResponse(dialog.result());
 		
