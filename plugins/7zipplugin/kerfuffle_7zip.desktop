@@ -16,6 +16,7 @@ Name[sv]=Kerfuffle 7zip
 Name[x-test]=xxkerfuffle_7zipxx
 Comment=7zip plugin for Kerfuffle
 Comment[ca]=Connector del 7zip per al Kerfuffle
+Comment[de]=7zip Modul für Kerfuffle
 Comment[el]=πρόσθετο 7zip για τη Kerfuffle
 Comment[es]=Complemento 7zip para Kerfuffle
 Comment[et]=Kerfuffle'i 7zip'i plugin

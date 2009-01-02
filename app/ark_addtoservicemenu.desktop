@@ -5,6 +5,7 @@ MimeType=all/all;
 Actions=addTo;addToRar;addToTar;
 X-KDE-Submenu=Compress
 X-KDE-Submenu[ca]=Compressió
+X-KDE-Submenu[de]=Komprimieren
 X-KDE-Submenu[el]=Συμπίεση
 X-KDE-Submenu[es]=Comprimir
 X-KDE-Submenu[et]=Paki
@@ -34,6 +35,7 @@ X-KDE-Priority=TopLevel
 [Desktop Action addToRar]
 Name=RAR archive
 Name[ca]=Arxiu RAR
+Name[de]=RAR Archiv
 Name[el]=Αρχειοθήκη RAR
 Name[es]=Archivo comprimido RAR
 Name[et]=RAR-arhiiv
@@ -64,6 +66,7 @@ Exec=ark --changetofirstpath --add --autofilename rar %F
 [Desktop Action addToTar]
 Name=Gzip-compressed tar archive
 Name[ca]=Arxiu «tar» comprimit amb «gzip»
+Name[de]=Gzip komprimiertes tar-Archiv
 Name[el]=Αρχειοθήκη tar συμπιεσμένη με Gzip
 Name[es]=Archivo tar comprimido con gzip
 Name[et]=Gzip-tihendusega tar-arhiiv
@@ -94,6 +97,7 @@ Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 [Desktop Action addTo]
 Name=Compress to...
 Name[ca]=Comprimeix a...
+Name[de]=Komprimieren nach...
 Name[el]=Συμπίεση σε...
 Name[es]=Comprimir en...
 Name[et]=Paki asukohta...
