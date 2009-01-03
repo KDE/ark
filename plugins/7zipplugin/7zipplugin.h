@@ -50,7 +50,6 @@ class p7zipInterface: public ReadWriteArchiveInterface
 		bool create7zipProcess();
 		bool execute7zipProcess(const QStringList & args);
 		bool handlePasswordPrompt(QByteArray &message);
-		QString m_filename;
 		QString m_exepath;
 		ArchiveEntry m_currentArchiveEntry;
 		QByteArray m_stdOutData;

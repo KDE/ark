@@ -45,7 +45,6 @@ RARInterface::RARInterface( const QString & filename, QObject *parent )
 	m_process(NULL)
 {
 	kDebug( 1601 ) << "Rar plugin opening " << filename ;
-	m_filename=filename;
 	
 	m_unrarpath = KStandardDirs::findExe( "unrar" );
 	if (m_unrarpath.isNull())	
@@ -77,7 +76,7 @@ bool RARInterface::list()
 {
 	kDebug( 1601 );
 	
-	if (!QFile::exists(m_filename))
+	if (!QFile::exists(filename()))
 		return true;
 
 	if (!createRarProcess())
@@ -97,7 +96,7 @@ bool RARInterface::list()
 	else if (!m_unrarpath.isNull()) exePath = m_unrarpath;
 	else return false;
 	
-	args << "v" << "-c-" << m_filename;
+	args << "v" << "-c-" << filename();
 
 	m_archiveContents.clear();
 	return executeRarProcess(exePath, args);
@@ -293,7 +292,7 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 	if (!commonBase.isEmpty())
 		args << "-ap" + commonBase;
 
-	args << m_filename;
+	args << filename();
 	foreach( const QVariant& file, overwriteList )
 	{
 		QString filename = file.toString();
@@ -334,7 +333,7 @@ void RARInterface::copyReadStdout()
 
 bool RARInterface::addFiles( const QStringList & files, const CompressionOptions& options )
 {
-	kDebug( 1601 ) << "Will try to add " << files << " to " << m_filename << " using " << m_rarpath;
+	kDebug( 1601 ) << "Will try to add " << files << " to " << filename() << " using " << m_rarpath;
 
 	QString workPath = options.value("GlobalWorkDir").toString();
 	if (!workPath.isEmpty()) {
@@ -357,7 +356,7 @@ bool RARInterface::addFiles( const QStringList & files, const CompressionOptions
 	if (!m_rarpath.isNull()) exePath = m_rarpath;
 	else return false;
 	
-	 args << "a" << "-c-" << m_filename;
+	 args << "a" << "-c-" << filename();
 	foreach( const QString& file, files )
 	{
 		if (!workPath.isEmpty()) {
@@ -400,9 +399,9 @@ void RARInterface::addReadStdout()
 
 bool RARInterface::deleteFiles( const QList<QVariant> & files )
 {
-	kDebug( 1601 ) << "Will try to delete " << files << " from " << m_filename;
+	kDebug( 1601 ) << "Will try to delete " << files << " from " << filename();
 	
-	if (!QFile::exists(m_filename))
+	if (!QFile::exists(filename()))
 		return true;
 
 	if (!createRarProcess())
@@ -421,7 +420,7 @@ bool RARInterface::deleteFiles( const QList<QVariant> & files )
 	if (!m_rarpath.isNull()) exePath = m_rarpath;
 	else return false;
 	
-	args << "d" << m_filename;
+	args << "d" << filename();
 	foreach( const QVariant& file, files )
 	{
 		kDebug( 1601 ) << file;

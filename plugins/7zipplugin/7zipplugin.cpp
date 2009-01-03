@@ -43,10 +43,9 @@ const QString NO_7ZIPPLUGIN_NO_ERROR("7ZIPPLUGIN_NO_ERROR");
 
 p7zipInterface::p7zipInterface( const QString & filename, QObject *parent ) :
 	ReadWriteArchiveInterface( filename, parent ),
-	m_filename(filename),
 	m_process(NULL)
 {
-	kDebug( 1601 ) << "7zipplugin opening " << filename ;
+	kDebug( 1601 ) << "7zipplugin opening " << filename;
 	
 	m_exepath = KStandardDirs::findExe( "7z" );
 	if (m_exepath.isNull())	
@@ -72,7 +71,7 @@ bool p7zipInterface::list()
 {
 	kDebug( 1601 );
 	
-	if (!QFile::exists(m_filename))
+	if (!QFile::exists(filename()))
 		return true;
 	
 	if (!create7zipProcess())
@@ -86,7 +85,7 @@ bool p7zipInterface::list()
 	connect( m_process, SIGNAL( finished( int, QProcess::ExitStatus ) ), SLOT( finished( int, QProcess::ExitStatus ) ) );
 
 	QStringList args;
-	args << "l" << "-slt" << m_filename;
+	args << "l" << "-slt" << filename();
 
 	return execute7zipProcess(args);
 }
@@ -341,7 +340,7 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 	if ( !password().isEmpty() ) args << "-p" + password();
 	
 	args << "-o" + destinationDirectory;
-	args << m_filename;
+	args << filename();
 
 	foreach( const QString& file, overwriteList )
 	{
@@ -411,7 +410,7 @@ bool p7zipInterface::addFiles( const QStringList & files, const CompressionOptio
 	connect( m_process, SIGNAL( finished( int, QProcess::ExitStatus ) ), SLOT( finished( int, QProcess::ExitStatus ) ) );
 
 	QStringList args;
-	args << "a" << "-bd" << m_filename;
+	args << "a" << "-bd" << filename();
 	foreach( const QString& file, files )
 	{
 		args << file;
@@ -474,7 +473,7 @@ bool p7zipInterface::deleteFiles( const QList<QVariant> & files )
 	connect( m_process, SIGNAL( finished( int, QProcess::ExitStatus ) ), SLOT( finished( int, QProcess::ExitStatus ) ) );
 
 	QStringList args;
-	args << "d" << "-bd" << m_filename;
+	args << "d" << "-bd" << filename();
 	foreach( const QVariant& file, files )
 	{
 		args << file.toString();

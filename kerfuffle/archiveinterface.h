@@ -49,16 +49,16 @@ namespace Kerfuffle
 			explicit ReadOnlyArchiveInterface( const QString & filename, QObject *parent = 0 );
 			virtual ~ReadOnlyArchiveInterface();
 
-			QString filename() const { return m_filename; }
-			virtual bool isReadOnly() const { return true; }
+			const QString& filename() const;
+			virtual bool isReadOnly() const;
 
 			void KDE_NO_EXPORT registerObserver( ArchiveObserver *observer );
 			void KDE_NO_EXPORT removeObserver( ArchiveObserver *observer );
 
-			virtual bool open() { return true; }
+			virtual bool open();
 			virtual bool list() = 0;
 			virtual bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, Archive::CopyFlags flags ) = 0;
-			void setPassword(QString password) { m_password = password; }
+			void setPassword(QString password);
 
 		protected:
 			void error( const QString & message, const QString & details = QString() );
@@ -66,7 +66,7 @@ namespace Kerfuffle
 			void progress( double );
 			void info( const QString& info);
 			void entryRemoved( const QString& path );
-			QString password() { return m_password; }
+			const QString& password() const;
 			QString findCommonBase(const QVariantList& files);
 			QString findCommonBase(const QStringList& files);
 			void expandDirectories( QStringList &files );

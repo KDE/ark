@@ -54,7 +54,7 @@ class RARInterface: public ReadWriteArchiveInterface
 
 		QString m_headerString, m_entryFilename, m_internalId;
 		bool m_isFirstLine, m_incontent, m_isPasswordProtected;
-		QString m_filename, m_rarpath, m_unrarpath;
+		QString m_rarpath, m_unrarpath;
 		ArchiveEntry m_currentArchiveEntry;
 		QByteArray m_stdOutData;
 		//QByteArray m_stdErrData;

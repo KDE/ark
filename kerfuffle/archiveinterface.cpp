@@ -42,6 +42,31 @@ namespace Kerfuffle
 	{
 	}
 
+	const QString& ReadOnlyArchiveInterface::filename() const
+	{
+		return m_filename;
+	}
+
+	bool ReadOnlyArchiveInterface::isReadOnly() const
+	{
+		return true;
+	}
+
+	bool ReadOnlyArchiveInterface::open()
+	{
+		return true;
+	}
+
+	void ReadOnlyArchiveInterface::setPassword(QString password)
+	{
+		m_password = password;
+	}
+
+	const QString& ReadOnlyArchiveInterface::password() const
+	{
+		return m_password;
+	}
+
 	void ReadOnlyArchiveInterface::error( const QString & message, const QString & details )
 	{
 		foreach( ArchiveObserver *observer, m_observers )
