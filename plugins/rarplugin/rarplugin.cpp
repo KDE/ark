@@ -45,9 +45,9 @@ RARInterface::RARInterface( const QString & filename, QObject *parent )
 	m_process(NULL)
 {
 	kDebug( 1601 ) << "Rar plugin opening " << filename ;
-	
+
 	m_unrarpath = KStandardDirs::findExe( "unrar" );
-	if (m_unrarpath.isNull())	
+	if (m_unrarpath.isNull())
 	{
 		m_unrarpath = KStandardDirs::findExe( "unrar-free" );
 	}
@@ -60,7 +60,7 @@ RARInterface::RARInterface( const QString & filename, QObject *parent )
 		return;
 	}
 	if (!have_rar){
-		// set read-only mode	
+		// set read-only mode
 	}
 
 	m_headerString = "-----------------------------------------";
@@ -75,7 +75,7 @@ RARInterface::~RARInterface()
 bool RARInterface::list()
 {
 	kDebug( 1601 );
-	
+
 	if (!QFile::exists(filename()))
 		return true;
 
@@ -91,11 +91,11 @@ bool RARInterface::list()
 
 	QString exePath;
 	QStringList args;
-	
+
 	if (!m_rarpath.isNull()) exePath = m_rarpath;
 	else if (!m_unrarpath.isNull()) exePath = m_unrarpath;
 	else return false;
-	
+
 	args << "v" << "-c-" << filename();
 
 	m_archiveContents.clear();
@@ -106,13 +106,13 @@ void RARInterface::listReadStdout()
 {
 	if ( !m_process )
 		return;
-		
+
 	m_stdOutData += m_process->readAllStandardOutput();
 
 	// process all lines until the last '\n'
 	int indx = m_stdOutData.lastIndexOf('\n');
 	QString leftString = QString::fromLocal8Bit(m_stdOutData.left(indx + 1));
-	QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
+	const QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
 	foreach(const QString &line, lines)
 	{kDebug( 1601 ) << "line" << line;
 		processListLine(line);
@@ -148,7 +148,7 @@ void RARInterface::processListLine(const QString& line)
 		}
 		else
 			m_isPasswordProtected = false;
-		
+
 		m_isFirstLine = false;
 		return;
 	}
@@ -182,7 +182,7 @@ void RARInterface::processListLine(const QString& line)
 	kDebug( 1601 ) << "Added entry: " << e ;
 	entry(e);
 	m_isFirstLine = true;
-	
+
 	m_archiveContents << m_entryFilename;
 	return;
 
@@ -216,7 +216,7 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 		}
 		setPassword(query.password());
 	}
-	
+
 	QStringList overwriteList;
 	const QList<QVariant>* filesList = (files.count() == 0)? &m_archiveContents : &files;
 	bool overwriteAll = false;
@@ -273,19 +273,19 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 
 	QString exePath;
 	QStringList args;
-	
+
 	if (!m_rarpath.isNull()) exePath = m_rarpath;
 	else if (!m_unrarpath.isNull()) exePath = m_unrarpath;
 	else return false;
-	
+
 	if (preservePaths) {
-		args << "x"; 
+		args << "x";
 	} else {
 		args << "e";
 	}
-	
+
 	args << "-y";   // yes to all overwrite queries
-	
+
 	//args << "-p-"; // do not query for password
 	if ( !password().isEmpty() ) args << "-p" + password();
 
@@ -303,7 +303,7 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 		}
 	}
 	//args << destinationDirectory;
-	
+
 	return executeRarProcess(exePath, args);
 }
 
@@ -311,13 +311,13 @@ void RARInterface::copyReadStdout()
 {
 	if ( !m_process )
 		return;
-		
+
 	m_stdOutData += m_process->readAllStandardOutput();
 
 	// process all lines until the last '\n'
 	int indx = m_stdOutData.lastIndexOf('\n');
 	QString leftString = QString::fromLocal8Bit(m_stdOutData.left(indx + 1));
-	QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
+	const QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
 	foreach(const QString &line, lines)
 	{
 		kDebug( 1601 ) << "line" << line;
@@ -339,7 +339,7 @@ bool RARInterface::addFiles( const QStringList & files, const CompressionOptions
 	if (!workPath.isEmpty()) {
 		QDir::setCurrent(workPath);
 	}
-	
+
 	if (!createRarProcess())
 	{
 		return false;
@@ -352,10 +352,10 @@ bool RARInterface::addFiles( const QStringList & files, const CompressionOptions
 
 	QString exePath;
 	QStringList args;
-	
+
 	if (!m_rarpath.isNull()) exePath = m_rarpath;
 	else return false;
-	
+
 	 args << "a" << "-c-" << filename();
 	foreach( const QString& file, files )
 	{
@@ -380,13 +380,13 @@ void RARInterface::addReadStdout()
 {
 	if ( !m_process )
 		return;
-		
+
 	m_stdOutData += m_process->readAllStandardOutput();
 
 	// process all lines until the last '\n'
 	int indx = m_stdOutData.lastIndexOf('\n');
 	QString leftString = QString::fromLocal8Bit(m_stdOutData.left(indx + 1));
-	QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
+	const QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
 	foreach(const QString &line, lines)
 	{
 		int pos = line.indexOf('%');
@@ -400,7 +400,7 @@ void RARInterface::addReadStdout()
 bool RARInterface::deleteFiles( const QList<QVariant> & files )
 {
 	kDebug( 1601 ) << "Will try to delete " << files << " from " << filename();
-	
+
 	if (!QFile::exists(filename()))
 		return true;
 
@@ -416,10 +416,10 @@ bool RARInterface::deleteFiles( const QList<QVariant> & files )
 
 	QString exePath;
 	QStringList args;
-	
+
 	if (!m_rarpath.isNull()) exePath = m_rarpath;
 	else return false;
-	
+
 	args << "d" << filename();
 	foreach( const QVariant& file, files )
 	{
@@ -438,7 +438,7 @@ bool RARInterface::deleteFiles( const QList<QVariant> & files )
 			entryRemoved(file.toString());
 		}
 	}
-	
+
 	return result;
 }
 
@@ -446,13 +446,13 @@ void RARInterface::deleteReadStdout()
 {
 	if ( !m_process )
 		return;
-		
+
 	m_stdOutData += m_process->readAllStandardOutput();
 
 	// process all lines until the last '\n'
 	int indx = m_stdOutData.lastIndexOf('\n');
 	QString leftString = QString::fromLocal8Bit(m_stdOutData.left(indx + 1));
-	QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
+	const QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
 	foreach(const QString &line, lines)
 	{
 		kDebug( 1601 ) << line;
@@ -469,10 +469,10 @@ bool RARInterface::createRarProcess()
 {
 	if (m_process)
 		return false;
-	
+
 	m_process = new KPtyProcess;
 	m_process->setOutputChannelMode( KProcess::SeparateChannels );
-	
+
 	if (QMetaType::type("QProcess::ExitStatus") == 0)
 		qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
 	return true;
@@ -484,9 +484,9 @@ bool RARInterface::executeRarProcess(const QString& rarPath, const QStringList &
 	{
 		return false;
 	}
-	
+
 	kDebug( 1601 ) << rarPath << args;
-	
+
 	m_process->setProgram( rarPath, args );
 	m_process->setNextOpenMode( QIODevice::ReadWrite | QIODevice::Unbuffered );
 	m_process->start();
@@ -494,7 +494,7 @@ bool RARInterface::executeRarProcess(const QString& rarPath, const QStringList &
 	m_loop = &loop;
 	bool ret = loop.exec( QEventLoop::WaitForMoreEvents );
 	m_loop = 0;
-	
+
 	delete m_process;
 	m_process = NULL;
 
@@ -533,9 +533,9 @@ void RARInterface::finished( int exitCode, QProcess::ExitStatus exitStatus)
 {
 	if ( !m_process )
 		return;
-		
+
 	progress(1.0);
-	
+
 	if ( m_loop )
 	{
 		m_loop->exit( exitStatus == QProcess::CrashExit ? 1 : 0 );
@@ -546,11 +546,11 @@ void RARInterface::readFromStderr()
 {
 	if ( !m_process )
 		return;
-	
+
 	QByteArray stdErrData = m_process->readAllStandardError();
-	
+
 	kDebug( 1601 ) << "ERROR" << stdErrData.size() << stdErrData;
-	
+
 	if ( !stdErrData.isEmpty() )
 	{
 		if (handlePasswordPrompt(stdErrData))
@@ -596,7 +596,7 @@ bool RARInterface::handleOverwritePrompt(const QByteArray &message)
 		Kerfuffle::OverwriteQuery query(filename);
 		emit userQuery(&query);
 		query.waitForResponse();
-		
+
 		if (query.responseCancelled())
 			writeToProcess(QByteArray("Q\r"));
 		else if (query.responseOverwriteAll())
@@ -608,7 +608,7 @@ bool RARInterface::handleOverwritePrompt(const QByteArray &message)
 			writeToProcess(QByteArray("R\r"));
 			m_newFilename = query.newFilename();
 		}
-		
+
 		return true;
 	}
 	else if (line.contains(RAR_ENTER_NEW_NAME_PROMPT_STR) && !m_newFilename.isEmpty())

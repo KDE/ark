@@ -46,13 +46,13 @@ p7zipInterface::p7zipInterface( const QString & filename, QObject *parent ) :
 	m_process(NULL)
 {
 	kDebug( 1601 ) << "7zipplugin opening " << filename;
-	
+
 	m_exepath = KStandardDirs::findExe( "7z" );
-	if (m_exepath.isNull())	
+	if (m_exepath.isNull())
 	{
 		m_exepath = KStandardDirs::findExe( "7za" );
 	}
-	if (m_exepath.isNull())	
+	if (m_exepath.isNull())
 	{
 		m_exepath = KStandardDirs::findExe( "7zr" );
 	}
@@ -70,10 +70,10 @@ p7zipInterface::~p7zipInterface()
 bool p7zipInterface::list()
 {
 	kDebug( 1601 );
-	
+
 	if (!QFile::exists(filename()))
 		return true;
-	
+
 	if (!create7zipProcess())
 	{
 		return false;
@@ -100,13 +100,13 @@ void p7zipInterface::listReadStdout()
 {
 	if ( !m_process )
 		return;
-		
+
 	m_stdOutData += m_process->readAllStandardOutput();
 
 	// process all lines until the last '\n'
 	int indx = m_stdOutData.lastIndexOf('\n');
 	QString leftString = QString::fromLocal8Bit(m_stdOutData.left(indx + 1));
-	QStringList lines = leftString.split( '\n' );
+	const QStringList lines = leftString.split( '\n' );
 	foreach(const QString &line, lines)
 	{
 		listProcessLine(m_state, line);
@@ -122,11 +122,11 @@ void p7zipInterface::readFromStderr()
 {
 	if ( !m_process )
 		return;
-	
+
 	m_stdErrData += m_process->readAllStandardError();
-	
+
 	kDebug( 1601 ) << "ERROR:" << m_stdErrData;
-	
+
 	if ( !m_stdErrData.isEmpty() )
 	{
 		m_process->kill();
@@ -138,9 +138,9 @@ void p7zipInterface::finished( int exitCode, QProcess::ExitStatus exitStatus)
 {
 	if ( !m_process )
 		return;
-		
+
 	progress(1.0);
-	
+
 	if ( m_loop )
 	{
 		m_loop->exit( exitStatus == QProcess::CrashExit ? 1 : 0 );
@@ -207,7 +207,7 @@ void p7zipInterface::listProcessLine(int& state, const QString& line)
 			else if (line.startsWith("Attributes = "))
 			{
 				QString attributes = line.mid(13).trimmed();
-				
+
 				bool isDirectory = attributes.startsWith('D');
 				m_currentArchiveEntry[ IsDirectory ] = isDirectory;
 				if (isDirectory)
@@ -218,7 +218,7 @@ void p7zipInterface::listProcessLine(int& state, const QString& line)
 						m_currentArchiveEntry[FileName] = m_currentArchiveEntry[InternalID] = directoryName + '/';
 					}
 				}
-				
+
 				m_currentArchiveEntry[ Permissions ] = attributes.mid(1);
 			}
 			else if (line.startsWith("CRC = "))
@@ -245,13 +245,13 @@ void p7zipInterface::listProcessLine(int& state, const QString& line)
 				{
 					entry(m_currentArchiveEntry);
 				}
-				
+
 				state = 1;
 			}
 			break;
 
 		default:
-			break;	
+			break;
 	}
 }
 
@@ -260,7 +260,7 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 	const bool preservePaths = flags & Archive::PreservePaths;
 
 	kDebug( 1601 ) << "extract" << files  << "to" << destinationDirectory << (preservePaths? " with paths":"");
-	
+
 	QStringList overwriteList;
 	const QList<QVariant>* filesList = (files.count() == 0)? &m_archiveContents : &files;
 	bool overwriteAll = false;
@@ -314,17 +314,17 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 	connect( m_process, SIGNAL( readyReadStandardOutput() ), SLOT( copyReadStdout() ) );
 	connect( m_process, SIGNAL( readyReadStandardError() ), SLOT( readFromStderr() ) );
 	connect( m_process, SIGNAL( finished( int, QProcess::ExitStatus ) ), SLOT( finished( int, QProcess::ExitStatus ) ) );
-	
+
 	QStringList args;
 	if (preservePaths)
 	{
-		args << "x"; 
+		args << "x";
 	}
 	else
 	{
 		args << "e";
 	}
-	
+
 	if (overwriteList.count() > 0)
 	{
 		args << "-y";
@@ -334,11 +334,11 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 		// nothing to extract, just return
 		return true;
 	}
-	
+
 	args << "-bd";
 
 	if ( !password().isEmpty() ) args << "-p" + password();
-	
+
 	args << "-o" + destinationDirectory;
 	args << filename();
 
@@ -349,7 +349,7 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 
 	m_progressFilesCount = 0;
 	m_totalFilesCount = overwriteList.count();
-	
+
 	return execute7zipProcess(args);
 }
 
@@ -357,16 +357,16 @@ void p7zipInterface::copyReadStdout()
 {
 	if ( !m_process )
 		return;
-		
+
 	m_stdOutData += m_process->readAllStandardOutput();
 
 	// process all lines until the last '\n'
 	int indx = m_stdOutData.lastIndexOf('\n');
 	QString leftString = QString::fromLocal8Bit(m_stdOutData.left(indx + 1));
-	QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
-	
+	const QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
+
 	//kDebug( 1601 ) << "lines:" << lines;
-	
+
 	for (int i = 0; i < lines.size(); i++)
 	{
 		const QString &line = lines[i];
@@ -377,7 +377,7 @@ void p7zipInterface::copyReadStdout()
 				progress(0.9);
 			else
 				progress((double)m_progressFilesCount / m_totalFilesCount);
-			
+
 			// check for error
 			int errorIndex = line.lastIndexOf("     ");
 			if (errorIndex > 0)
@@ -428,14 +428,14 @@ void p7zipInterface::addReadStdout()
 {
 	if ( !m_process )
 		return;
-		
+
 	m_stdOutData += m_process->readAllStandardOutput();
 
 	// process all lines until the last '\n'
 	int indx = m_stdOutData.lastIndexOf('\n');
 	QString leftString = QString::fromLocal8Bit(m_stdOutData.left(indx + 1));
-	QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
-	
+	const QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
+
 	foreach (const QString &line, lines)
 	{
 		if (line.startsWith("Compressing"))
@@ -491,7 +491,7 @@ bool p7zipInterface::deleteFiles( const QList<QVariant> & files )
 			entryRemoved(file.toString());
 		}
 	}
-	
+
 	kDebug( 1601 ) << m_errorMessages;
 	return returnSuccess;
 }
@@ -500,14 +500,14 @@ void p7zipInterface::deleteReadStdout()
 {
 	if ( !m_process )
 		return;
-		
+
 	m_stdOutData += m_process->readAllStandardOutput();
 
 	// process all lines until the last '\n'
 	int indx = m_stdOutData.lastIndexOf('\n');
 	QString leftString = QString::fromLocal8Bit(m_stdOutData.left(indx + 1));
-	QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
-	
+	const QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
+
 	foreach (const QString& line, lines)
 	{
 		kDebug( 1601 ) << line;
@@ -532,7 +532,7 @@ bool p7zipInterface::create7zipProcess()
 		return false;
 	if (m_process)
 		return false;
-	
+
 	#if defined(Q_OS_WIN)
 	m_process = new KProcess; //QThread::currentThread());
 	m_process->setOutputChannelMode( KProcess::MergedChannels );
@@ -540,7 +540,7 @@ bool p7zipInterface::create7zipProcess()
 	m_process = new KPtyProcess; //QThread::currentThread());
 	m_process->setOutputChannelMode( KProcess::SeparateChannels );
 	#endif
-	
+
 	if (QMetaType::type("QProcess::ExitStatus") == 0)
 		qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
 	return true;
@@ -560,7 +560,7 @@ bool p7zipInterface::execute7zipProcess(const QStringList & args)
 	bool ret = loop.exec( QEventLoop::WaitForMoreEvents );
 	m_loop = 0;
 	#endif
-	
+
 	delete m_process;
 	m_process = NULL;
 
@@ -585,7 +585,7 @@ bool p7zipInterface::handlePasswordPrompt(QByteArray &message)
 	{
 		// remove the prompt as it has been handled
 		message.replace(P7ZIP_PASSWORD_PROMPT_STR, "");
-		
+
 		Kerfuffle::PasswordNeededQuery query(filename());
 		emit userQuery(&query);
 		query.waitForResponse();

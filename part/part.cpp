@@ -230,7 +230,7 @@ void Part::updateActions()
 	}
 
 	KConfigGroup conf( KGlobal::config(), "DirSelect Dialog" );
-	QStringList dirHistory = conf.readPathEntry( "History Items", QStringList() );
+	const QStringList dirHistory = conf.readPathEntry( "History Items", QStringList() );
 
 	for(int i = 0; i < qMin(10, dirHistory.size()); ++i)
 	{
@@ -251,7 +251,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 
 	if (!isSingleFolderArchive())
 	{
-		finalDestinationDirectory = userDestination + 
+		finalDestinationDirectory = userDestination +
 			QDir::separator() + detectedSubfolder;
 		QDir( userDestination ).mkdir(detectedSubfolder);
 	}
@@ -335,7 +335,7 @@ bool Part::openFile()
 		KMessageBox::sorry(NULL, i18n("Ark was not able to open the archive '%1'. No library capable of handling the file was found.", localFilePath()), i18n("Error opening archive"));
 		return false;
 	}
-	
+
 	KJob *job = m_model->setArchive( archive );
 	registerJob(job);
 	job->start();
@@ -499,7 +499,7 @@ void Part::slotExtractFiles()
 		QString destinationDirectory;
 		if (dialog.extractToSubfolder())
 		{
-			destinationDirectory =  dialog.destinationDirectory().path() + 
+			destinationDirectory =  dialog.destinationDirectory().path() +
 				QDir::separator() + dialog.subfolder();
 
 			if( !KStandardDirs::makeDir( destinationDirectory) )
@@ -519,7 +519,7 @@ void Part::slotExtractFiles()
 		}
 
 		kDebug( 1601 ) << "Selected " << files;
-		
+
 		Kerfuffle::Archive::CopyFlags flags;
 		if (dialog.preservePaths())
 			flags |= Kerfuffle::Archive::PreservePaths;
@@ -646,7 +646,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 void Part::slotAddFiles()
 {
 	kDebug( 1601 ) ;
-	QStringList filesToAdd = KFileDialog::getOpenFileNames( KUrl( "kfiledialog:///ArkAddFiles" ), QString(), widget(), i18n( "Add Files" ) );
+	const QStringList filesToAdd = KFileDialog::getOpenFileNames( KUrl( "kfiledialog:///ArkAddFiles" ), QString(), widget(), i18n( "Add Files" ) );
 
 	slotAddFiles( filesToAdd);
 
