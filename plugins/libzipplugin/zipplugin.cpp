@@ -98,18 +98,24 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			}
 
 			QString filename = QDir::fromNativeSeparators(QFile::decodeName( stat.name ));
+			bool isDirectory = (filename.right(1) == "/");
+			QString crcHex;
+			if (!isDirectory)
+			{
+				crcHex.sprintf("%08X", stat.crc);
+			}
 
 			ArchiveEntry e;
 
 			e[ FileName ]       = filename;
 			e[ InternalID ]     = filename;
-			e[ CRC ]            = stat.crc;
+			e[ CRC ]            = crcHex;
 			e[ Size ]           = static_cast<qulonglong>( stat.size );
 			e[ Timestamp ]      = QDateTime::fromTime_t( stat.mtime );
 			e[ CompressedSize ] = static_cast<qulonglong>( stat.comp_size );
-			e[ Method ]         = stat.comp_method;
+			e[ Method ]         = getCompressionMethodName(stat.comp_method);
 			e[ IsPasswordProtected ] = stat.encryption_method? true : false;
-			e[ IsDirectory ] = (filename.right(1) == "/");
+			e[ IsDirectory ] = isDirectory;
 
 			// TODO: zip_get_file_comment returns junk sometimes, find out why
 			/*
@@ -121,6 +127,52 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			*/
 
 			entry( e );
+		}
+
+		// Returns the name of the compression method as defined in zip.h
+		QString getCompressionMethodName(unsigned short method)
+		{
+			switch (method)
+			{
+				case ZIP_CM_DEFAULT:
+					return "DEFAULT";
+				case ZIP_CM_STORE:
+					return "STORE";
+				case ZIP_CM_SHRINK:
+					return "SHRINK";
+				case ZIP_CM_REDUCE_1:
+					return "REDUCE_1";
+				case ZIP_CM_REDUCE_2:
+					return "REDUCE_2";
+				case ZIP_CM_REDUCE_3:
+					return "REDUCE_3";
+				case ZIP_CM_REDUCE_4:
+					return "REDUCE_4";
+				case ZIP_CM_IMPLODE:
+					return "IMPLODE";
+				case ZIP_CM_DEFLATE:
+					return "DEFLATE";
+
+				// using constants because some of these may not be defined in older zip.h
+				case 9: // ZIP_CM_DEFLATE64:
+					return "DEFLATE64";
+				case 10: // ZIP_CM_PKWARE_IMPLODE:
+					return "PKWARE_IMPLODE";
+				case 12: // ZIP_CM_BZIP2:
+					return "BZIP2";
+				case 14: // ZIP_CM_LZMA:
+					return "LZMA";
+				case 18: // ZIP_CM_TERSE:
+					return "TERSE";
+				case 19: // ZIP_CM_LZ77:
+					return "LZ77";
+				case 97: // ZIP_CM_WAVPACK:
+					return "WAVPACK";
+				case 98: // ZIP_CM_PPMD:
+					return "PPMD";
+				default:
+					return QString("%1-UNKNOWN").arg(method);
+			}
 		}
 
 		bool list()
