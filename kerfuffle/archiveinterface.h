@@ -67,10 +67,6 @@ namespace Kerfuffle
 			void info( const QString& info);
 			void entryRemoved( const QString& path );
 			const QString& password() const;
-			QString findCommonBase(const QVariantList& files);
-			QString findCommonBase(const QStringList& files);
-			void expandDirectories( QStringList &files );
-			KJob* listRecursiveTo(QString folder, QStringList& list);
 
 		signals:
 			void userQuery( Query* );
@@ -80,22 +76,6 @@ namespace Kerfuffle
 			QList<ArchiveObserver*> m_observers;
 			QString m_filename;
 			QString m_password;
-	};
-
-	//used by the expandDirectories function
-	class RecursiveListHelper : public QObject
-	{
-		Q_OBJECT
-
-		public:
-			RecursiveListHelper(QString listDir) :
-				QObject(NULL), m_listDir(listDir) {}
-			QList<KFileItem> results;
-			QString m_listDir;
-
-		public slots:
-			void entries (KIO::Job *job, const KIO::UDSEntryList &list);
-
 	};
 
 	class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterface
