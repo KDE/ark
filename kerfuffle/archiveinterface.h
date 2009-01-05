@@ -57,8 +57,8 @@ namespace Kerfuffle
 
 			virtual bool open();
 			virtual bool list() = 0;
-			virtual bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, Archive::CopyFlags flags ) = 0;
 			void setPassword(QString password);
+			virtual bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options ) = 0;
 
 		protected:
 			void error( const QString & message, const QString & details = QString() );

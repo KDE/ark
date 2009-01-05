@@ -62,8 +62,8 @@ class ArchiveModel: public QAbstractItemModel
 		ArchiveEntry entryForIndex( const QModelIndex &index );
 		int childCount( const QModelIndex &index );
 
-		ExtractJob* extractFile( const QVariant& fileName, const QString & destinationDir, Archive::CopyFlags flags ) const;
-		ExtractJob* extractFiles( const QList<QVariant>& files, const QString & destinationDir, Kerfuffle::Archive::CopyFlags flags ) const;
+		ExtractJob* extractFile( const QVariant& fileName, const QString & destinationDir, ExtractionOptions options = ExtractionOptions()) const;
+		ExtractJob* extractFiles( const QList<QVariant>& files, const QString & destinationDir, const Kerfuffle::ExtractionOptions options = ExtractionOptions()	) const;
 
 		AddJob* addFiles( const QStringList & paths, const CompressionOptions& options = CompressionOptions() );
 		DeleteJob* deleteFiles( const QList<QVariant> & files );

@@ -55,7 +55,7 @@ namespace Kerfuffle
 			virtual ListJob* list();
 			virtual DeleteJob* deleteFiles( const QList<QVariant> & files );
 			virtual AddJob* addFiles( const QStringList & files, const CompressionOptions& options = CompressionOptions() );
-			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, Archive::CopyFlags flags );
+			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, ExtractionOptions options );
 
 			virtual bool isReadOnly();
 			virtual QString fileName();

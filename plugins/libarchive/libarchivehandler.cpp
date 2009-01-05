@@ -135,14 +135,14 @@ bool LibArchiveInterface::list()
 #endif
 }
 
-bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, Archive::CopyFlags flags )
+bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
 {
 	kDebug( 1601 ) << "Changing current directory to " << destinationDirectory;
 	QDir::setCurrent( destinationDirectory );
 
 
 	const bool extractAll = files.isEmpty();
-	const bool preservePaths = (flags & Archive::PreservePaths);
+	const bool preservePaths = options.value("PreservePaths").toBool();
 	overwriteAll = false; //we reset this per extract operation
 
 	//TODO: don't leak these if the extraction fails with an error in the
@@ -151,7 +151,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 	struct archive_entry *entry;
 	
 	QString commonBase;
-	if (flags & Archive::TruncateCommonBase)
+	if (options.value("TruncateCommonBase").toBool())
 	{
 #if 0
 		Q_ASSERT(files.size() == 1);

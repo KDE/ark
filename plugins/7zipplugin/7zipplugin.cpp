@@ -255,9 +255,9 @@ void p7zipInterface::listProcessLine(int& state, const QString& line)
 	}
 }
 
-bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, Archive::CopyFlags flags )
+bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
 {
-	const bool preservePaths = flags & Archive::PreservePaths;
+	const bool preservePaths = options.value("PreservePaths").toBool();
 
 	kDebug( 1601 ) << "extract" << files  << "to" << destinationDirectory << (preservePaths? " with paths":"");
 

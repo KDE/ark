@@ -64,14 +64,14 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive,bool preservePaths,
 		}
 	}
 
-	Kerfuffle::Archive::CopyFlags flags;
+	Kerfuffle::ExtractionOptions options;
 	if (preservePaths)
-		flags |= Kerfuffle::Archive::PreservePaths;
+		options["PreservePaths"] = true;
 
 	Kerfuffle::ExtractJob *job = archive->copyFiles(
 			QVariantList(), //extract all files
 			autoDestination, //extract to folder
-			flags
+			options
 			);
 
 	connect(job, SIGNAL(userQuery(Query*)),

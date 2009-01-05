@@ -107,7 +107,7 @@ class LibGzipInterface: public ReadWriteArchiveInterface
 			if (gzclose(in) != Z_OK) error("failed gzclose");
 		}
 
-		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, Archive::CopyFlags flags )
+		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
 		{
 			kDebug( 1601 ) ;
 

@@ -260,11 +260,11 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			return true;
 		}
 
-		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, Archive::CopyFlags flags )
+		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
 		{
 			kDebug( 1601 ) ;
 
-			const bool preservePaths = flags & Archive::PreservePaths;
+			const bool preservePaths = options.value("PreservePaths").toBool();
 
 			if (!m_archive) {
 				if (!open()) {

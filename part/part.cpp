@@ -132,7 +132,11 @@ void Part::extractSelectedFilesTo(QString localPath)
 	if (files.isEmpty()) return;
 
 	kDebug( 1601 ) << "selected files are " << files;
-	ExtractJob *job = m_model->extractFiles( files, localPath, Archive::PreservePaths | Archive::TruncateCommonBase );
+	Kerfuffle::ExtractionOptions options;
+	options["PreservePaths"] = true;
+	options["TruncateCommonBase"] = true;
+
+	ExtractJob *job = m_model->extractFiles( files, localPath, options);
 	registerJob( job );
 
 	connect( job, SIGNAL( result( KJob* ) ),
@@ -257,8 +261,10 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 	}
 	else finalDestinationDirectory = userDestination;
 
+	Kerfuffle::ExtractionOptions options;
+	options["PreservePaths"] = true;
 	QList<QVariant> files = selectedFiles();
-	ExtractJob *job = m_model->extractFiles( files, finalDestinationDirectory, Archive::PreservePaths );
+	ExtractJob *job = m_model->extractFiles( files, finalDestinationDirectory, options );
 	registerJob( job );
 
 	connect( job, SIGNAL( result( KJob* ) ),
@@ -410,7 +416,7 @@ void Part::slotPreview( const QModelIndex & index )
 	const ArchiveEntry& entry =  m_model->entryForIndex( index );
 	if ( !entry.isEmpty() )
 	{
-		ExtractJob *job = m_model->extractFile( entry[ InternalID ], m_previewDir->name(), Archive::CopyFlags() );
+		ExtractJob *job = m_model->extractFile( entry[ InternalID ], m_previewDir->name());
 		registerJob( job );
 		connect( job, SIGNAL( result( KJob* ) ),
 		         this, SLOT( slotPreviewExtracted( KJob* ) ) );
@@ -519,12 +525,13 @@ void Part::slotExtractFiles()
 		}
 
 		kDebug( 1601 ) << "Selected " << files;
+		
+		Kerfuffle::ExtractionOptions options;
 
-		Kerfuffle::Archive::CopyFlags flags;
 		if (dialog.preservePaths())
-			flags |= Kerfuffle::Archive::PreservePaths;
+			options["PreservePaths"] = true;
 
-		ExtractJob *job = m_model->extractFiles( files, destinationDirectory, flags );
+		ExtractJob *job = m_model->extractFiles( files, destinationDirectory, options );
 		registerJob( job );
 
 		connect( job, SIGNAL( result( KJob* ) ),

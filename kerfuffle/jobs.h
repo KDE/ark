@@ -102,15 +102,16 @@ namespace Kerfuffle
 		Q_OBJECT
 		public:
 			ExtractJob( const QList<QVariant> & files, const QString&
-					destinationDir, Archive::CopyFlags flags,
+					destinationDir, ExtractionOptions options,
 					ReadOnlyArchiveInterface *interface, QObject *parent = 0 );
 
 			void doWork();
 
 		private:
+			void fillInDefaultValues(ExtractionOptions& options);
 			QList<QVariant>           m_files;
 			QString                   m_destinationDir;
-			Archive::CopyFlags m_flags;
+			ExtractionOptions m_options;
 	};
 
 	class KERFUFFLE_EXPORT AddJob: public Job

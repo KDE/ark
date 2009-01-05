@@ -126,8 +126,8 @@ namespace Kerfuffle
 	}
 
 	ExtractJob::ExtractJob( const QList<QVariant>& files, const QString& destinationDir,
-	                        Archive::CopyFlags flags, ReadOnlyArchiveInterface *interface, QObject *parent )
-		: Job(interface,  parent ), m_files( files ), m_destinationDir( destinationDir ), m_flags(flags)
+	                        ExtractionOptions options, ReadOnlyArchiveInterface *interface, QObject *parent )
+		: Job(interface,  parent ), m_files( files ), m_destinationDir( destinationDir ), m_options(options)
 	{
 	}
 
@@ -146,18 +146,23 @@ namespace Kerfuffle
 
 		m_interface->registerObserver( this );
 
+		fillInDefaultValues(m_options);
+
 		kDebug(1601) << "Starting extraction with selected files "
 			<< m_files
 			<< " Destination dir " << m_destinationDir
-			<< " Preserve paths: " << (m_flags & Archive::PreservePaths)
-			<< " Truncate common base: " << (m_flags & Archive::TruncateCommonBase)
+			<< " Preserve paths: " << m_options.value("PreservePaths").toBool()
 					;
 
-		setError( !m_interface->copyFiles( m_files, m_destinationDir, m_flags ) );
+		setError( !m_interface->copyFiles( m_files, m_destinationDir, m_options ) );
 		m_interface->removeObserver( this );
 
 		emitResult();
 
+	}
+	void ExtractJob::fillInDefaultValues(ExtractionOptions& options)
+	{
+		if (!options.contains("PreservePaths")) options["PreservePaths"] = false;
 	}
 
 	AddJob::AddJob( const QStringList& files, const CompressionOptions& options , ReadWriteArchiveInterface *interface, QObject *parent )

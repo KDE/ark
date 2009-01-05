@@ -188,22 +188,21 @@ void RARInterface::processListLine(const QString& line)
 
 }
 
-bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, Archive::CopyFlags flags )
+bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
 {
-	const bool preservePaths = flags & Archive::PreservePaths;
+	const bool preservePaths = options.value("PreservePaths").toBool();
 
 	kDebug( 1601 ) << files  << destinationDirectory << (preservePaths? " with paths":"");
 
 	QDir::setCurrent(destinationDirectory);
 
 	QString commonBase;
-	if (flags & Archive::TruncateCommonBase)
-		commonBase = findCommonBase(files);
+	//if (flags.value("TruncateCommonBase").toBool())
 
 
 	//if we get a hint about this being a password protected archive, ask about
 	//the password in advance.
-	if (flags & Archive::PasswordProtectedHint) {
+	if (options.value("PasswordProtectedHint").toBool()) {
 		kDebug( 1601 ) << "Password hint enabled, querying user";
 
 		Kerfuffle::PasswordNeededQuery query(filename());

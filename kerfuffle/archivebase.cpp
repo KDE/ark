@@ -107,13 +107,13 @@ namespace Kerfuffle
 		return newJob;
 	}
 
-	ExtractJob* ArchiveBase::copyFiles( const QList<QVariant> & files, const QString & destinationDir, Archive::CopyFlags flags )
+	ExtractJob* ArchiveBase::copyFiles( const QList<QVariant> & files, const QString & destinationDir, ExtractionOptions options )
 	{
-		Archive::CopyFlags newFlags = flags;
+		ExtractionOptions newOptions = options;
 		if (isPasswordProtected())
-			newFlags |= PasswordProtectedHint;
+			newOptions["PasswordProtectedHint"] = true;
 
-		ExtractJob *newJob = new ExtractJob( files, destinationDir, newFlags, m_iface, this );
+		ExtractJob *newJob = new ExtractJob( files, destinationDir, newOptions, m_iface, this );
 		connect(m_iface, SIGNAL(userQuery(Query*)),
 				newJob, SIGNAL(userQuery(Query*)));
 		return newJob;

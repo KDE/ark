@@ -34,7 +34,7 @@ class BKInterface: public ReadWriteArchiveInterface
 		~BKInterface();
 
 		bool list();
-		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, Archive::CopyFlags flags);
+		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options);
 
 		bool addFiles( const QStringList & files, const CompressionOptions& options );
 		bool deleteFiles( const QList<QVariant> & files );

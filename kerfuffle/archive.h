@@ -54,17 +54,11 @@ namespace Kerfuffle
 	Rar, etc), followed by the property name used
 	 */
 	typedef QHash<QString, QVariant> CompressionOptions;
+	typedef QHash<QString, QVariant> ExtractionOptions;
 
 	class KERFUFFLE_EXPORT Archive
 	{
 		public:
-
-			enum CopyFlag {
-				PreservePaths = 0x1,
-				TruncateCommonBase = 0x2,
-				PasswordProtectedHint = 0x4
-			};
-			Q_DECLARE_FLAGS(CopyFlags, CopyFlag)
 
 			virtual ~Archive() {}
 
@@ -90,7 +84,7 @@ namespace Kerfuffle
 			 */
 			virtual AddJob*     addFiles( const QStringList & files, const CompressionOptions& options = CompressionOptions()) = 0;
 
-			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, Archive::CopyFlags flags) = 0;
+			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, ExtractionOptions options = ExtractionOptions()) = 0;
 
 			virtual bool isSingleFolderArchive() = 0;
 			virtual QString subfolderName() = 0;
@@ -99,8 +93,6 @@ namespace Kerfuffle
 			virtual void setPassword(QString password) = 0;
 
 	};
-
-	Q_DECLARE_OPERATORS_FOR_FLAGS(Archive::CopyFlags)
 
 	KERFUFFLE_EXPORT Archive* factory( const QString & filename, const QString & requestedMimeType = QString() );
 	KERFUFFLE_EXPORT QStringList supportedMimeTypes();
