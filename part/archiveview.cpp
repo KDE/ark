@@ -52,6 +52,14 @@ void ArchiveView::setModel(QAbstractItemModel *model)
 	setDragDropMode(QAbstractItemView::DragDrop);
 }
 
+void ArchiveView::startDrag( Qt::DropActions supportedActions )
+{
+	kDebug( 1601 ) << "Singling out the current selection...";
+	//selectionModel()->setCurrentIndex(currentIndex(), QItemSelectionModel::Clear);
+	selectionModel()->setCurrentIndex(currentIndex(), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+	QTreeView::startDrag(supportedActions);
+}
+
 
 void ArchiveView::dragEnterEvent ( QDragEnterEvent * event )
 {

@@ -150,20 +150,19 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 	struct archive *arch, *writer;
 	struct archive_entry *entry;
 	
-	QStringList entries;
-
-	foreach( const QVariant &f, files ) {
-		entries << f.toString();
-	}
-
 	QString commonBase;
 	if (flags & Archive::TruncateCommonBase)
-		commonBase = findCommonBase(files);
+	{
+#if 0
+		Q_ASSERT(files.size() == 1);
+		QString draggedItem = files.at(0).toString();
 
-	//A trailing slash is very very very important here
-	Q_ASSERT(commonBase.isEmpty() || commonBase.right(1) == "/");
-
-	kDebug(1601) << "Found common base " << commonBase;
+		QStringList parts = draggedItem.split('/', QString::SkipEmptyParts);
+		parts.removeLast();
+		commonBase = parts.join("/") + "/";
+		kDebug(1601) << "Set common base " << commonBase;
+#endif
+	}
 
 	arch = archive_read_new();
 	if ( !arch )
@@ -225,7 +224,7 @@ retry:
 			return false;
 		}
 
-		if ( entries.contains( entryName ) || extractAll )
+		if ( files.contains( entryName ) || extractAll )
 		{
 			// entryFI is the fileinfo pointing to where the file will be
 			// written from the archive
@@ -268,13 +267,11 @@ retry:
 					query.waitForResponse();
 
 					if (query.responseCancelled()) {
-						entries.removeAll( entryName );
 						archive_read_data_skip( arch );
 						archive_entry_clear( entry );
 						break;
 					}
 					if (query.responseSkip()) {
-						entries.removeAll( entryName );
 						archive_read_data_skip( arch );
 						archive_entry_clear( entry );
 						continue;
@@ -313,14 +310,12 @@ retry:
 				progress(float(entryNr) / totalCount);
 			}
 			archive_entry_clear( entry );
-			entries.removeAll( entryName );
 		}
 		else
 		{
 			archive_read_data_skip( arch );
 		}
 	}
-	if ( entries.size() > 0 ) return false;
 
 	archive_write_finish( writer );
 

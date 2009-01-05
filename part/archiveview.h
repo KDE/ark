@@ -33,6 +33,7 @@ class ArchiveView : public QTreeView
 		virtual void dragEnterEvent ( class QDragEnterEvent * event );
 		virtual void dropEvent ( class QDropEvent * event );
 		virtual void dragMoveEvent ( class QDragMoveEvent * event );
+		virtual void startDrag( Qt::DropActions supportedActions );
 
 		virtual void mouseDoubleClickEvent(class QMouseEvent*);
 
