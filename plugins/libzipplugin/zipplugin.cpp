@@ -207,8 +207,14 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			return name;
 		}
 
-		bool extractEntry(struct zip_file *file, QVariant entry, const QString & destinationDirectory, bool preservePaths )
+		bool extractEntry(struct zip_file *file, QVariant entry, const QString & destinationDirectory, bool preservePaths , QString rootNode)
 		{
+			if (!rootNode.isEmpty()) {
+				QString truncatedFilename;
+				truncatedFilename = entry.toString().remove(0, rootNode.size());
+				kDebug( 1601 ) << "Truncated filename: " << truncatedFilename;
+				entry = truncatedFilename;
+			}
 			if (entry.toString().right(1) == "/") { // if a folder
 
 				//if we don't preserve paths we don't create any folders
@@ -266,6 +272,13 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 			const bool preservePaths = options.value("PreservePaths").toBool();
 
+			QString rootNode;
+			if (options.contains("RootNode"))
+			{
+				rootNode = options.value("RootNode").toString();
+				kDebug(1601) << "Set root node " << rootNode;
+			}
+
 			if (!m_archive) {
 				if (!open()) {
 					return false;
@@ -274,7 +287,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 			int processed = 0;
 			if (!files.isEmpty()) {
-
+				///////////if only extract specified files
 				foreach( const QVariant &entry, files )
 				{
 
@@ -286,7 +299,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 						return false;
 					}
 
-					if (!extractEntry(file, entry, destinationDirectory, preservePaths)) {
+					if (!extractEntry(file, entry, destinationDirectory, preservePaths, rootNode)) {
 						return false;
 					}
 
@@ -295,6 +308,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 					progress( ( ++processed )*1.0/files.count() );
 				}
 			} else  {
+				/////////////////if extract all files
 				for ( int index = 0; index < zip_get_num_files( m_archive ); ++index )
 				{
 
@@ -306,7 +320,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 						return false;
 					}
 					
-					if (!extractEntry(file, QDir::fromNativeSeparators(QFile::decodeName(zip_get_name(m_archive, index, 0))), destinationDirectory, preservePaths)) {
+					if (!extractEntry(file, QDir::fromNativeSeparators(QFile::decodeName(zip_get_name(m_archive, index, 0))), destinationDirectory, preservePaths, rootNode)) {
 						return false;
 					}
 

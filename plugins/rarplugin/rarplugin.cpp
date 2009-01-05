@@ -196,9 +196,12 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 
 	QDir::setCurrent(destinationDirectory);
 
-	QString commonBase;
-	//if (flags.value("TruncateCommonBase").toBool())
-
+	QString rootNode;
+	if (options.contains("RootNode"))
+	{
+		rootNode = options.value("RootNode").toString();
+		kDebug(1601) << "Set root node " << rootNode;
+	}
 
 	//if we get a hint about this being a password protected archive, ask about
 	//the password in advance.
@@ -288,8 +291,8 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 	//args << "-p-"; // do not query for password
 	if ( !password().isEmpty() ) args << "-p" + password();
 
-	if (!commonBase.isEmpty())
-		args << "-ap" + commonBase;
+	if (!rootNode.isEmpty())
+		args << "-ap" + rootNode;
 
 	args << filename();
 	foreach( const QVariant& file, overwriteList )

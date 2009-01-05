@@ -128,13 +128,32 @@ void Part::extractSelectedFilesTo(QString localPath)
 	kDebug( 1601 ) << "Extract to " << localPath;
 	if (!m_model) return;
 
+	if (m_view->selectionModel()->selectedRows().count() != 1) {
+		m_view->selectionModel()->setCurrentIndex(m_view->currentIndex(), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+	}
+	if (m_view->selectionModel()->selectedRows().count() != 1) return;
+
+	QVariant internalRoot;
+	kDebug(1601 ) << "valid " << m_view->currentIndex().parent().isValid();
+	if (m_view->currentIndex().parent().isValid())
+		internalRoot = m_model->entryForIndex(m_view->currentIndex().parent()).value(InternalID);
+
+	if (internalRoot.isNull()) {
+		//we have the special case valid parent, but the parent does not
+		//actually correspond to an item in the archive, but an automatically
+		//created folder. for now, we will just use the filename of the node
+		//instead, but for plugins that rely on a non-filename value as the
+		//InternalId, this WILL break things. TODO find a solution
+		internalRoot = m_model->entryForIndex(m_view->currentIndex().parent()).value(FileName);
+	}
+
 	QList<QVariant> files = selectedFilesWithChildren();
 	if (files.isEmpty()) return;
 
 	kDebug( 1601 ) << "selected files are " << files;
 	Kerfuffle::ExtractionOptions options;
 	options["PreservePaths"] = true;
-	options["TruncateCommonBase"] = true;
+	if (!internalRoot.isNull()) options["RootNode"] = internalRoot;
 
 	ExtractJob *job = m_model->extractFiles( files, localPath, options);
 	registerJob( job );

@@ -151,7 +151,7 @@ namespace Kerfuffle
 		kDebug(1601) << "Starting extraction with selected files "
 			<< m_files
 			<< " Destination dir " << m_destinationDir
-			<< " Preserve paths: " << m_options.value("PreservePaths").toBool()
+			<< " And options " << m_options
 					;
 
 		setError( !m_interface->copyFiles( m_files, m_destinationDir, m_options ) );
