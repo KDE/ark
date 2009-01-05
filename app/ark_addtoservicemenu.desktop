@@ -36,6 +36,7 @@ X-KDE-Priority=TopLevel
 [Desktop Action addToRar]
 Name=RAR archive
 Name[ca]=Arxiu RAR
+Name[da]=RAR arkiv
 Name[de]=RAR Archiv
 Name[el]=Αρχειοθήκη RAR
 Name[es]=Archivo comprimido RAR

@@ -16,6 +16,7 @@ Name[sv]=Kerfuffle Libgz
 Name[x-test]=xxkerfuffle_libgzxx
 Comment=libgz plugin for Kerfuffle
 Comment[ca]=Connector del libgz pel Kerfuffle
+Comment[da]=libgz-plugin til Kerfuffle
 Comment[de]=libgz Modul für Kerfuffle
 Comment[el]=πρόσθετο libgz για τη Kerfuffle
 Comment[es]=Complemento libgz para Kerfuffle
