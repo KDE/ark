@@ -42,12 +42,12 @@
 
 using namespace Kerfuffle;
 
-class LibGzipInterface: public ReadWriteArchiveInterface
+class LibGzipInterface: public ReadOnlyArchiveInterface
 {
 	Q_OBJECT
 	public:
 		LibGzipInterface( const QString & filename, QObject *parent )
-			: ReadWriteArchiveInterface( filename, parent )
+			: ReadOnlyArchiveInterface( filename, parent )
 		{
 		}
 
@@ -137,16 +137,6 @@ class LibGzipInterface: public ReadWriteArchiveInterface
 			return true;
 		}
 
-		bool addFiles( const QStringList & files, const CompressionOptions& options )
-		{
-			kDebug( 1601 ) << "adding " << files.count() << " files";
-			return false;
-		}
-
-		bool deleteFiles( const QList<QVariant> & files )
-		{
-			return false;
-		}
 };
 
 #include "gzplugin.moc"
