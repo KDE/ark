@@ -22,7 +22,7 @@ endif (LIBZIP_FOUND)
 
 if(NOT WIN32)
   # stdbool.h
-  add_subdirectory( bk )
+  #add_subdirectory( bk )
   add_subdirectory( rarplugin )
   add_subdirectory( 7zipplugin )
 endif(NOT WIN32)
