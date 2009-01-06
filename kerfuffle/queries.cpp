@@ -108,6 +108,11 @@ namespace Kerfuffle
 		return m_data.value("response").toInt() == KIO::R_SKIP;
 	}
 
+	bool OverwriteQuery::responseAutoSkip()
+	{
+		return m_data.value("response").toInt() == KIO::R_AUTO_SKIP;
+	}
+
 	QString OverwriteQuery::newFilename()
 	{
 		return m_data.value("newFilename").toString();
@@ -145,11 +150,12 @@ namespace Kerfuffle
 		if( !dlg.exec() )
 		{
 			setResponse(false);
-			return;
 		}
-
-		m_data["password"] = dlg.password();
-		setResponse(true);
+		else
+		{
+			m_data["password"] = dlg.password();
+			setResponse(true);
+		}
 		
 		QApplication::restoreOverrideCursor();
 	}

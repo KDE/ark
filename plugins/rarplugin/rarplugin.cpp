@@ -220,46 +220,73 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 
 	QStringList overwriteList;
 	const QList<QVariant>* filesList = (files.count() == 0)? &m_archiveContents : &files;
-	bool overwriteAll = false;
+	QStringList overwriteAllDirectories;
+	QStringList autoSkipDirectories;
+	QStringList skipList;
 
 	for (int i = 0; i < filesList->count(); i++)
 	{
-		if (overwriteAll)
+		QString filepath(destinationDirectory + '/' + filesList->at(i).toString());
+		QFileInfo currentFileInfo(filepath);
+
+		if ( overwriteAllDirectories.contains(currentFileInfo.canonicalPath()) ||
+			overwriteAllDirectories.contains(currentFileInfo.canonicalFilePath()))
 		{
 			overwriteList << filesList->at(i).toString();
 		}
-		else
+		else if (autoSkipDirectories.contains(currentFileInfo.canonicalPath())
+				|| autoSkipDirectories.contains(currentFileInfo.canonicalFilePath()))
 		{
-			QString filepath(destinationDirectory + '/' + filesList->at(i).toString());
-			if (QFile::exists(filepath))
-			{
-				Kerfuffle::OverwriteQuery query(filepath);
-				query.setNoRenameMode(true);
-				emit userQuery(&query);
-				query.waitForResponse();
-				if (query.responseOverwrite())
-				{
-					overwriteList << filesList->at(i).toString();
-				}
-				else if (query.responseSkip())
-				{
-					// do not add to overwriteList
-				}
-				else if (query.responseOverwriteAll())
-				{
-					overwriteAll = true;
-					overwriteList << filesList->at(i).toString();
-				}
-				else if (query.responseCancelled())
-				{
-					return true;
-				}
-			}
-			else
+			skipList << currentFileInfo.canonicalFilePath();
+		}
+		else if (currentFileInfo.exists())
+		{
+			Kerfuffle::OverwriteQuery query(filepath);
+			query.setNoRenameMode(true);
+			emit userQuery(&query);
+			query.waitForResponse();
+			if (query.responseOverwrite())
 			{
 				overwriteList << filesList->at(i).toString();
 			}
+			else if (query.responseSkip())
+			{
+				skipList << currentFileInfo.canonicalFilePath();
+			}
+			else if (query.responseAutoSkip())
+			{
+				if (currentFileInfo.isDir())
+				{
+					autoSkipDirectories << currentFileInfo.canonicalFilePath();
+				}
+				else
+				{
+					autoSkipDirectories << currentFileInfo.canonicalPath();
+				}
+				kDebug( 1601 ) << "adding auto skip" << autoSkipDirectories.at(autoSkipDirectories.size()-1);
+				skipList << currentFileInfo.canonicalFilePath();
+			}
+			else if (query.responseOverwriteAll())
+			{
+				kDebug( 1601 ) << "adding overwrite all" << currentFileInfo.canonicalPath();
+				overwriteAllDirectories << currentFileInfo.canonicalPath();
+				overwriteList << filesList->at(i).toString();
+			}
+			else if (query.responseCancelled())
+			{
+				return true;
+			}
 		}
+		else
+		{
+			overwriteList << filesList->at(i).toString();
+		}
+	}
+	kDebug( 1601 ) << overwriteList;
+	if (overwriteList.isEmpty() && !skipList.isEmpty())
+	{
+		// all files skipped
+		return true;
 	}
 
 	if (!createRarProcess())
