@@ -58,10 +58,12 @@ class RARInterface: public ReadWriteArchiveInterface
 		ArchiveEntry m_currentArchiveEntry;
 		QByteArray m_stdOutData;
 		//QByteArray m_stdErrData;
+		QStringList m_errorMessages;
 		QEventLoop *m_loop;
 		KPtyProcess *m_process;
 		QString m_newFilename;
 		QList<QVariant> m_archiveContents;
+		bool m_userCancelled;
 
 	private slots:
 		void started();

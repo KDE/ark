@@ -61,6 +61,7 @@ class p7zipInterface: public ReadWriteArchiveInterface
 		
 		unsigned int m_totalFilesCount;
 		unsigned int m_progressFilesCount;
+		bool m_userCancelled;
 		
 
 	#if defined(Q_OS_WIN)
