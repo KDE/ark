@@ -47,7 +47,6 @@ LibArchiveInterface::LibArchiveInterface( const QString & filename, QObject *par
 	: ReadWriteArchiveInterface( filename, parent ),
 	cachedArchiveEntryCount(0),
 	extractedFilesSize(0),
-	overwriteAll(false),
 	m_emitNoEntries(false)
 {
 }
@@ -143,7 +142,8 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 
 	const bool extractAll = files.isEmpty();
 	const bool preservePaths = options.value("PreservePaths").toBool();
-	overwriteAll = false; //we reset this per extract operation
+	QStringList overwriteAllDirectories;  // directories to overwrite all files (not recursive)
+	QStringList autoSkipDirectories;  // directories to skipp all files (not recursive)
 
 	//TODO: don't leak these if the extraction fails with an error in the
 	//middle
@@ -210,7 +210,7 @@ retry:
 		//entryName is the name inside the archive, full path
 		QString entryName = QDir::fromNativeSeparators(QFile::decodeName( archive_entry_pathname( entry ) ));
 
-		if (entryName.at(0) == '/') {
+		if (entryName.startsWith('/')) {
 			//for now we just can't handle absolute filenames in a tar archive.
 			//TODO: find out what to do here!!
 			error(i18n("This archive contains archive entries with absolute paths, which are not yet supported by ark."));
@@ -252,8 +252,16 @@ retry:
 				//archive_entry_copy_pathname( entry, QFile::encodeName(entryFI.filePath()).constData() );
 			}
 
+			// skip if the file is in one of the auto skip directories
+			if (autoSkipDirectories.contains(entryFI.canonicalPath())) {
+				archive_read_data_skip( arch );
+				archive_entry_clear( entry );
+				continue;
+			}
+
 			//now check if the file about to be written already exists
-			if (!overwriteAll & !entryIsDir) {
+			if (!entryIsDir &&
+				!overwriteAllDirectories.contains(entryFI.canonicalPath())) {
 				if (entryFI.exists()) {
 					Kerfuffle::OverwriteQuery query(entryName);
 					emit userQuery(&query);
@@ -270,6 +278,13 @@ retry:
 						continue;
 					}
 
+					if (query.responseAutoSkip()) {
+						archive_read_data_skip( arch );
+						archive_entry_clear( entry );
+						autoSkipDirectories << entryFI.canonicalPath();
+						continue;
+					}
+
 					if (query.responseRename()) {
 						QString newName = query.newFilename();
 						archive_entry_copy_pathname(entry, QFile::encodeName(newName).constData());
@@ -278,7 +293,7 @@ retry:
 
 
 					if (query.responseOverwriteAll())
-						overwriteAll = true;
+						overwriteAllDirectories << entryFI.canonicalPath();
 				}
 			}
 
