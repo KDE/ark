@@ -157,6 +157,13 @@ void RARInterface::processListLine(const QString& line)
 	m_internalId = QDir::fromNativeSeparators(m_internalId);
 	bool isDirectory = (bool)(fileprops[ 5 ].contains('d', Qt::CaseInsensitive));
 
+	QDateTime ts (QDate::fromString(fileprops[ 3 ], "dd-MM-yy"),
+		QTime::fromString(fileprops[ 4 ], "hh:mm"));
+	// rar output date with 2 digit year but QDate takes is as 19??
+	// let's take 1950 is cut-off; similar to KDateTime
+	if (ts.date().year() < 1950)
+		ts = ts.addYears(100);
+
 	m_entryFilename = m_internalId;
 	if (isDirectory && !m_internalId.endsWith('/'))
 	{
@@ -170,8 +177,6 @@ void RARInterface::processListLine(const QString& line)
 	e[ Size ] = fileprops[ 0 ];
 	e[ CompressedSize] = fileprops[ 1 ];
 	e[ Ratio ] = fileprops[ 2 ];
-	QDateTime ts (QDate::fromString(fileprops[ 3 ], "dd-mm-yy"),
-		QTime::fromString(fileprops[ 4 ], "hh:mm"));
 	e[ Timestamp ] = ts;
 	e[ IsDirectory ] = isDirectory;
 	e[ Permissions ] = fileprops[ 5 ].remove(0,1);
