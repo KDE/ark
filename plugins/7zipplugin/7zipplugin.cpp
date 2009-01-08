@@ -325,7 +325,7 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 			overwriteList << filesList->at(i).toString();
 		}
 	}
-	kDebug( 1601 ) << overwriteList;
+
 	if (overwriteList.isEmpty() && !skipList.isEmpty())
 	{
 		// all files skipped

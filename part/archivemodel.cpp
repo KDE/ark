@@ -234,6 +234,12 @@ QVariant ArchiveModel::data( const QModelIndex &index, int role ) const
 								}
 							}
 
+						case Timestamp:
+							{
+								const QDateTime timeStamp = node->entry().value(Timestamp).toDateTime();
+								return  KGlobal::locale()->formatDateTime(timeStamp);
+							}
+
 						default:
 							return node->entry().value(columnId);
 					}
