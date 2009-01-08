@@ -143,7 +143,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 	const bool extractAll = files.isEmpty();
 	const bool preservePaths = options.value("PreservePaths").toBool();
 	QStringList overwriteAllDirectories;  // directories to overwrite all files (not recursive)
-	QStringList autoSkipDirectories;  // directories to skipp all files (not recursive)
+	QStringList skipAllDirectories;  // directories to skipp all files (not recursive)
 
 	//TODO: don't leak these if the extraction fails with an error in the
 	//middle
@@ -253,7 +253,7 @@ retry:
 			}
 
 			// skip if the file is in one of the auto skip directories
-			if (autoSkipDirectories.contains(entryFI.canonicalPath())) {
+			if (skipAllDirectories.contains(entryFI.canonicalPath())) {
 				archive_read_data_skip( arch );
 				archive_entry_clear( entry );
 				continue;
@@ -281,7 +281,7 @@ retry:
 					if (query.responseAutoSkip()) {
 						archive_read_data_skip( arch );
 						archive_entry_clear( entry );
-						autoSkipDirectories << entryFI.canonicalPath();
+						skipAllDirectories << entryFI.canonicalPath();
 						continue;
 					}
 
@@ -298,7 +298,7 @@ retry:
 			}
 
 			int header_response;
-			//kDebug(1601) << "Writing " << fileWithoutPath << " to " << archive_entry_pathname(entry);
+			kDebug(1601) << "Writing " << fileWithoutPath << " to " << archive_entry_pathname(entry);
 			if ( (header_response = archive_write_header( writer, entry )) == ARCHIVE_OK )
 				//if the whole archive is extracted and the total filesize is
 				//available, we use partial progress
