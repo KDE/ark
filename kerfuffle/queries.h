@@ -81,6 +81,7 @@ namespace Kerfuffle
 			bool responseOverwrite();
 			bool responseRename();
 			bool responseSkip();
+			bool responseAutoSkip();
 			QString newFilename();
 			
 			void setNoRenameMode(bool enableNoRenameMode);

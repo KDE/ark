@@ -39,7 +39,6 @@
 #endif
 
 const QByteArray P7ZIP_PASSWORD_PROMPT_STR("Enter password (will not be echoed) :");
-const QString NO_7ZIPPLUGIN_NO_ERROR("7ZIPPLUGIN_NO_ERROR");
 
 p7zipInterface::p7zipInterface( const QString & filename, QObject *parent ) :
 	ReadWriteArchiveInterface( filename, parent ),
@@ -94,6 +93,7 @@ void p7zipInterface::started()
 {
 	m_state = 0;
 	m_errorMessages.clear();
+	m_userCancelled = false;
 }
 
 void p7zipInterface::listReadStdout()
@@ -263,46 +263,73 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 
 	QStringList overwriteList;
 	const QList<QVariant>* filesList = (files.count() == 0)? &m_archiveContents : &files;
-	bool overwriteAll = false;
+	QStringList overwriteAllDirectories;
+	QStringList autoSkipDirectories;
+	QStringList skipList;
 
 	for (int i = 0; i < filesList->count(); i++)
 	{
-		if (overwriteAll)
+		QString filepath(destinationDirectory + '/' + filesList->at(i).toString());
+		QFileInfo currentFileInfo(filepath);
+
+		if ( overwriteAllDirectories.contains(currentFileInfo.canonicalPath()) ||
+			overwriteAllDirectories.contains(currentFileInfo.canonicalFilePath()))
 		{
 			overwriteList << filesList->at(i).toString();
 		}
-		else
+		else if (autoSkipDirectories.contains(currentFileInfo.canonicalPath())
+				|| autoSkipDirectories.contains(currentFileInfo.canonicalFilePath()))
 		{
-			QString filepath(destinationDirectory + '/' + filesList->at(i).toString());
-			if (QFile::exists(filepath))
-			{
-				Kerfuffle::OverwriteQuery query(filepath);
-				query.setNoRenameMode(true);
-				emit userQuery(&query);
-				query.waitForResponse();
-				if (query.responseOverwrite())
-				{
-					overwriteList << filesList->at(i).toString();
-				}
-				else if (query.responseSkip())
-				{
-					// do not add to overwriteList
-				}
-				else if (query.responseOverwriteAll())
-				{
-					overwriteAll = true;
-					overwriteList << filesList->at(i).toString();
-				}
-				else if (query.responseCancelled())
-				{
-					return false;
-				}
-			}
-			else
+			skipList << currentFileInfo.canonicalFilePath();
+		}
+		else if (currentFileInfo.exists())
+		{
+			Kerfuffle::OverwriteQuery query(filepath);
+			query.setNoRenameMode(true);
+			emit userQuery(&query);
+			query.waitForResponse();
+			if (query.responseOverwrite())
 			{
 				overwriteList << filesList->at(i).toString();
 			}
+			else if (query.responseSkip())
+			{
+				skipList << currentFileInfo.canonicalFilePath();
+			}
+			else if (query.responseAutoSkip())
+			{
+				if (currentFileInfo.isDir())
+				{
+					autoSkipDirectories << currentFileInfo.canonicalFilePath();
+				}
+				else
+				{
+					autoSkipDirectories << currentFileInfo.canonicalPath();
+				}
+				kDebug( 1601 ) << "adding auto skip" << autoSkipDirectories.at(autoSkipDirectories.size()-1);
+				skipList << currentFileInfo.canonicalFilePath();
+			}
+			else if (query.responseOverwriteAll())
+			{
+				kDebug( 1601 ) << "adding overwrite all" << currentFileInfo.canonicalPath();
+				overwriteAllDirectories << currentFileInfo.canonicalPath();
+				overwriteList << filesList->at(i).toString();
+			}
+			else if (query.responseCancelled())
+			{
+				return true;
+			}
 		}
+		else
+		{
+			overwriteList << filesList->at(i).toString();
+		}
+	}
+
+	if (overwriteList.isEmpty() && !skipList.isEmpty())
+	{
+		// all files skipped
+		return true;
 	}
 
 	if (!create7zipProcess())
@@ -409,11 +436,20 @@ bool p7zipInterface::addFiles( const QStringList & files, const CompressionOptio
 	connect( m_process, SIGNAL( readyReadStandardError() ), SLOT( readFromStderr() ) );
 	connect( m_process, SIGNAL( finished( int, QProcess::ExitStatus ) ), SLOT( finished( int, QProcess::ExitStatus ) ) );
 
+	QString workPath = options.value("GlobalWorkDir").toString();
+	if (!workPath.isEmpty()) {
+		QDir::setCurrent(workPath);
+	}
+	
 	QStringList args;
 	args << "a" << "-bd" << filename();
 	foreach( const QString& file, files )
 	{
-		args << file;
+		if (!workPath.isEmpty()) {
+			args << QDir::current().relativeFilePath(file);
+		}
+		else
+			args << file;
 	}
 	m_progressFilesCount = 0;
 	m_totalFilesCount = files.count();
@@ -564,12 +600,12 @@ bool p7zipInterface::execute7zipProcess(const QStringList & args)
 	delete m_process;
 	m_process = NULL;
 
-	if (!m_errorMessages.empty() && !m_errorMessages.contains(NO_7ZIPPLUGIN_NO_ERROR))
+	if (!m_errorMessages.empty())
 	{
 		error(m_errorMessages.join("\n"));
 		return false;
 	}
-	else if (ret) {
+	else if (ret && !m_userCancelled) {
 		error(i18n("Unknown error when extracting files"));
 		return false;
 	}
@@ -592,7 +628,7 @@ bool p7zipInterface::handlePasswordPrompt(QByteArray &message)
 
 		if (query.responseCancelled()) {
 			m_process->kill();
-			m_errorMessages << NO_7ZIPPLUGIN_NO_ERROR;
+			m_userCancelled = true;
 		}
 		else
 		{

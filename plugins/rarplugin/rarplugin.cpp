@@ -213,54 +213,80 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 		query.waitForResponse();
 
 		if (query.responseCancelled()) {
-			error(i18n("Password input cancelled by user."));
-			return false;
+			return true;
 		}
 		setPassword(query.password());
 	}
 
 	QStringList overwriteList;
 	const QList<QVariant>* filesList = (files.count() == 0)? &m_archiveContents : &files;
-	bool overwriteAll = false;
+	QStringList overwriteAllDirectories;
+	QStringList autoSkipDirectories;
+	QStringList skipList;
 
 	for (int i = 0; i < filesList->count(); i++)
 	{
-		if (overwriteAll)
+		QString filepath(destinationDirectory + '/' + filesList->at(i).toString());
+		QFileInfo currentFileInfo(filepath);
+
+		if ( overwriteAllDirectories.contains(currentFileInfo.canonicalPath()) ||
+			overwriteAllDirectories.contains(currentFileInfo.canonicalFilePath()))
 		{
 			overwriteList << filesList->at(i).toString();
 		}
-		else
+		else if (autoSkipDirectories.contains(currentFileInfo.canonicalPath())
+				|| autoSkipDirectories.contains(currentFileInfo.canonicalFilePath()))
 		{
-			QString filepath(destinationDirectory + '/' + filesList->at(i).toString());
-			if (QFile::exists(filepath))
-			{
-				Kerfuffle::OverwriteQuery query(filepath);
-				query.setNoRenameMode(true);
-				emit userQuery(&query);
-				query.waitForResponse();
-				if (query.responseOverwrite())
-				{
-					overwriteList << filesList->at(i).toString();
-				}
-				else if (query.responseSkip())
-				{
-					// do not add to overwriteList
-				}
-				else if (query.responseOverwriteAll())
-				{
-					overwriteAll = true;
-					overwriteList << filesList->at(i).toString();
-				}
-				else if (query.responseCancelled())
-				{
-					return false;
-				}
-			}
-			else
+			skipList << currentFileInfo.canonicalFilePath();
+		}
+		else if (currentFileInfo.exists())
+		{
+			Kerfuffle::OverwriteQuery query(filepath);
+			query.setNoRenameMode(true);
+			emit userQuery(&query);
+			query.waitForResponse();
+			if (query.responseOverwrite())
 			{
 				overwriteList << filesList->at(i).toString();
 			}
+			else if (query.responseSkip())
+			{
+				skipList << currentFileInfo.canonicalFilePath();
+			}
+			else if (query.responseAutoSkip())
+			{
+				if (currentFileInfo.isDir())
+				{
+					autoSkipDirectories << currentFileInfo.canonicalFilePath();
+				}
+				else
+				{
+					autoSkipDirectories << currentFileInfo.canonicalPath();
+				}
+				kDebug( 1601 ) << "adding auto skip" << autoSkipDirectories.at(autoSkipDirectories.size()-1);
+				skipList << currentFileInfo.canonicalFilePath();
+			}
+			else if (query.responseOverwriteAll())
+			{
+				kDebug( 1601 ) << "adding overwrite all" << currentFileInfo.canonicalPath();
+				overwriteAllDirectories << currentFileInfo.canonicalPath();
+				overwriteList << filesList->at(i).toString();
+			}
+			else if (query.responseCancelled())
+			{
+				return true;
+			}
 		}
+		else
+		{
+			overwriteList << filesList->at(i).toString();
+		}
+	}
+	
+	if (overwriteList.isEmpty() && !skipList.isEmpty())
+	{
+		// all files skipped
+		return true;
 	}
 
 	if (!createRarProcess())
@@ -499,13 +525,12 @@ bool RARInterface::executeRarProcess(const QString& rarPath, const QStringList &
 
 	delete m_process;
 	m_process = NULL;
-
-	/*if (!m_errorMessages.empty() && !m_errorMessages.contains(NO_7ZIPPLUGIN_NO_ERROR))
+	if (!m_errorMessages.isEmpty())
 	{
 		error(m_errorMessages.join("\n"));
 		return false;
 	}
-	else*/ if (ret) {
+	else if (ret && !m_userCancelled) {
 		error(i18n("Unknown error when extracting files"));
 		return false;
 	}
@@ -528,7 +553,8 @@ void RARInterface::writeToProcess( const QByteArray &data )
 void RARInterface::started()
 {
 	//m_state = 0;
-	//m_errorMessages.clear();
+	m_errorMessages.clear();
+	m_userCancelled = false;
 }
 
 void RARInterface::finished( int exitCode, QProcess::ExitStatus exitStatus)
@@ -560,7 +586,9 @@ void RARInterface::readFromStderr()
 		//else if (handleOverwritePrompt(stdErrData))
 		//	return;
 		else
-			m_process->kill();
+		{
+			m_errorMessages << QString::fromLocal8Bit(stdErrData);
+		}
 	}
 }
 
@@ -573,8 +601,8 @@ bool RARInterface::handlePasswordPrompt(const QByteArray &message)
 		query.waitForResponse();
 
 		if (query.responseCancelled()) {
+			m_userCancelled = true;
 			m_process->kill();
-			//m_errorMessages << NO_7ZIPPLUGIN_NO_ERROR;
 		}
 		else
 		{
