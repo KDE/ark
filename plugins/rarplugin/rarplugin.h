@@ -52,6 +52,11 @@ class RARInterface: public ReadWriteArchiveInterface
 		bool handleOverwritePrompt(const QByteArray &message);
 		void writeToProcess( const QByteArray &data );
 
+		enum RarMode  {
+			List, Copy, Add, Delete
+		};
+		RarMode m_mode;
+
 		QString m_headerString, m_entryFilename, m_internalId;
 		bool m_isFirstLine, m_incontent, m_isPasswordProtected;
 		QString m_rarpath, m_unrarpath;
@@ -67,10 +72,7 @@ class RARInterface: public ReadWriteArchiveInterface
 
 	private slots:
 		void started();
-		void listReadStdout();
-		void copyReadStdout();
-		void addReadStdout();
-		void deleteReadStdout();
+		void readStdout();
 		void readFromStderr();
 		void finished( int exitCode, QProcess::ExitStatus exitStatus );
 };
