@@ -68,6 +68,7 @@ namespace Kerfuffle
 
 		private slots:
 			void onListFinished(KJob*);
+			void onAddFinished(KJob*);
 
 		private:
 			void listIfNotListed();

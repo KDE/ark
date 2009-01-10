@@ -104,6 +104,8 @@ namespace Kerfuffle
 		AddJob *newJob = new AddJob(files, options, static_cast<ReadWriteArchiveInterface*>( m_iface ), this );
 		connect(m_iface, SIGNAL(userQuery(Query*)),
 				newJob, SIGNAL(userQuery(Query*)));
+		connect(newJob, SIGNAL(result(KJob*)),
+				this, SLOT(onAddFinished(KJob*)));
 		return newJob;
 	}
 
@@ -122,6 +124,19 @@ namespace Kerfuffle
 	QString ArchiveBase::fileName()
 	{
 		return m_iface->filename();
+	}
+
+	void ArchiveBase::onAddFinished(KJob* job)
+	{
+		//if the archive was previously a single folder archive and an add job
+		//has successfully finished, then it is no longer a single folder
+		//archive (for the current implementation, which does not allow adding
+		//folders/files other places than the root.
+		//TODO: handle the case of creating a new file and singlefolderarchive
+		//then.
+		if (m_isSingleFolderArchive && !job->error()) {
+			m_isSingleFolderArchive = false;
+		}
 	}
 
 	void ArchiveBase::onListFinished(KJob* job)
