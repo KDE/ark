@@ -73,7 +73,7 @@ bool RARInterface::list()
 		kDebug( 1601 ) << "Rar did not start";
 		return false;
 	}
-	if (!kp.waitForFinished()) {
+	if (!kp.waitForFinished(-1)) {
 		kDebug( 1601 ) << "Rar did not finish";
 		return false;
 	}
@@ -156,7 +156,7 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 		kDebug( 1601 ) << "Rar did not start";
 		return false;
 	}
-	if (!kp.waitForFinished()) {
+	if (!kp.waitForFinished(-1)) {
 		kDebug( 1601 ) << "Rar did not finish";
 		return false;
 	}
@@ -198,7 +198,7 @@ bool RARInterface::addFiles( const QStringList & files )
 	}
 
 
-	if (!kp.waitForFinished()) {
+	if (!kp.waitForFinished(-1)) {
 		kDebug( 1601 ) << "Rar did not finish";
 		return false;
 	}
