@@ -207,7 +207,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			return name;
 		}
 
-		bool extractEntry(struct zip_file *file, QVariant entry, const QString & destinationDirectory, bool preservePaths , QString rootNode, QStringList& overwriteAllDirectories, QStringList& autoSkipDirectories)
+		bool extractEntry(struct zip_file *file, QVariant entry, const QString & destinationDirectory, bool preservePaths , QString rootNode, QStringList& overwriteAllDirectories, QStringList& autoSkipDirectories, bool& userCancelled)
 		{
 			if (!rootNode.isEmpty()) {
 				QString truncatedFilename;
@@ -231,9 +231,9 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 			QString destinationFilePath = destinationFileName( entry.toString(), destinationDirectory, preservePaths );
 
-			if (!checkOverwrite(destinationFilePath, overwriteAllDirectories, autoSkipDirectories))
+			if (!checkOverwrite(destinationFilePath, overwriteAllDirectories, autoSkipDirectories, userCancelled))
 			{
-				return true;
+				return (userCancelled) ? false : true;
 			}
 
 			// 2. Open the destination file
@@ -274,7 +274,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 		// TODO: too many repeated overwrite query codes, perhaps common them under Kerfuffle::OverwriteQuery?
 		// Returns true if the file is to be overwritten
-		bool checkOverwrite(QString & filename, QStringList& overwriteAllDirectories, QStringList& autoSkipDirectories)
+		bool checkOverwrite(QString & filename, QStringList& overwriteAllDirectories, QStringList& autoSkipDirectories, bool& userCancelled)
 		{
 			QFileInfo currentFileInfo(filename);
 
@@ -283,12 +283,14 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			{
 				return true;
 			}
-			else if (autoSkipDirectories.contains(currentFileInfo.canonicalPath())
+
+			if (autoSkipDirectories.contains(currentFileInfo.canonicalPath())
 					|| autoSkipDirectories.contains(currentFileInfo.canonicalFilePath()))
 			{
 				return false;
 			}
-			else if (currentFileInfo.exists())
+
+			if (currentFileInfo.exists())
 			{
 				Kerfuffle::OverwriteQuery query(filename);
 				emit userQuery(&query);
@@ -301,10 +303,6 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				if (query.responseOverwrite())
 				{
 					return true;
-				}
-				else if (query.responseSkip())
-				{
-					return false;
 				}
 				else if (query.responseAutoSkip())
 				{
@@ -325,6 +323,11 @@ class LibZipInterface: public ReadWriteArchiveInterface
 					return true;
 				}
 				else if (query.responseCancelled())
+				{
+					userCancelled = true;
+					return false;
+				}
+				else // query.responseSkip()
 				{
 					return false;
 				}
@@ -356,6 +359,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 
 			QStringList overwriteAllDirectories;
 			QStringList autoSkipDirectories;
+			bool userCancelled = false;
 			int processed = 0;
 			if (!files.isEmpty()) {
 				///////////if only extract specified files
@@ -370,8 +374,8 @@ class LibZipInterface: public ReadWriteArchiveInterface
 						return false;
 					}
 
-					if (!extractEntry(file, entry, destinationDirectory, preservePaths, rootNode, overwriteAllDirectories, autoSkipDirectories)) {
-						return false;
+					if (!extractEntry(file, entry, destinationDirectory, preservePaths, rootNode, overwriteAllDirectories, autoSkipDirectories, userCancelled)) {
+						return (userCancelled) ? true : false;
 					}
 
 					kDebug( 1601 ) << "Extracted " << entry.toString() ;
@@ -391,8 +395,8 @@ class LibZipInterface: public ReadWriteArchiveInterface
 						return false;
 					}
 					
-					if (!extractEntry(file, QDir::fromNativeSeparators(QFile::decodeName(zip_get_name(m_archive, index, 0))), destinationDirectory, preservePaths, rootNode, overwriteAllDirectories, autoSkipDirectories)) {
-						return false;
+					if (!extractEntry(file, QDir::fromNativeSeparators(QFile::decodeName(zip_get_name(m_archive, index, 0))), destinationDirectory, preservePaths, rootNode, overwriteAllDirectories, autoSkipDirectories, userCancelled)) {
+						return (userCancelled) ? true : false;
 					}
 
 					kDebug( 1601 ) << "Extracted entry with index" << index ;
