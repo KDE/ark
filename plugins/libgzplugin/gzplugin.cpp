@@ -107,6 +107,32 @@ class LibGzipInterface: public ReadOnlyArchiveInterface
 			if (gzclose(in) != Z_OK) error("failed gzclose");
 		}
 
+		bool overwriteCheck(QString& filename)
+		{
+			while (QFile::exists(filename))
+			{
+				Kerfuffle::OverwriteQuery query(filename);
+				query.setMultiMode(false);	// for single file mode
+				emit userQuery(&query);
+				query.waitForResponse();
+
+				if (query.responseCancelled() || query.responseSkip())
+				{
+					return false;
+				}
+				else if (query.responseOverwrite())
+				{
+					break;
+				}
+				else if (query.responseRename())
+				{
+					filename = query.newFilename();
+				}
+			}
+
+			return true;
+		}
+
 		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
 		{
 			kDebug( 1601 ) ;
@@ -117,6 +143,8 @@ class LibGzipInterface: public ReadOnlyArchiveInterface
 				outputFilename += '/';
 			outputFilename += uncompressedFilename();
 
+			if (!overwriteCheck(outputFilename))
+				return true;	// just return as success
 
 			FILE  *out;
 			gzFile in;

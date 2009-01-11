@@ -207,7 +207,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			return name;
 		}
 
-		bool extractEntry(struct zip_file *file, QVariant entry, const QString & destinationDirectory, bool preservePaths , QString rootNode)
+		bool extractEntry(struct zip_file *file, QVariant entry, const QString & destinationDirectory, bool preservePaths , QString rootNode, QStringList& overwriteAllDirectories, QStringList& autoSkipDirectories, bool& userCancelled)
 		{
 			if (!rootNode.isEmpty()) {
 				QString truncatedFilename;
@@ -229,9 +229,15 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				return true;
 			}
 
+			QString destinationFilePath = destinationFileName( entry.toString(), destinationDirectory, preservePaths );
+
+			if (!checkOverwrite(destinationFilePath, overwriteAllDirectories, autoSkipDirectories, userCancelled))
+			{
+				return (userCancelled) ? false : true;
+			}
 
 			// 2. Open the destination file
-			QFile destinationFile( destinationFileName( entry.toString(), destinationDirectory, preservePaths ) );
+			QFile destinationFile( destinationFilePath );
 
 			//create the path if it doesn't exist already
 			if (preservePaths) {
@@ -266,6 +272,72 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			return true;
 		}
 
+		// TODO: too many repeated overwrite query codes, perhaps common them under Kerfuffle::OverwriteQuery?
+		// Returns true if the file is to be overwritten
+		bool checkOverwrite(QString & filename, QStringList& overwriteAllDirectories, QStringList& autoSkipDirectories, bool& userCancelled)
+		{
+			QFileInfo currentFileInfo(filename);
+
+			if ( overwriteAllDirectories.contains(currentFileInfo.canonicalPath()) ||
+				overwriteAllDirectories.contains(currentFileInfo.canonicalFilePath()))
+			{
+				return true;
+			}
+
+			if (autoSkipDirectories.contains(currentFileInfo.canonicalPath())
+					|| autoSkipDirectories.contains(currentFileInfo.canonicalFilePath()))
+			{
+				return false;
+			}
+
+			if (currentFileInfo.exists())
+			{
+				Kerfuffle::OverwriteQuery query(filename);
+				emit userQuery(&query);
+				query.waitForResponse();
+				if (query.responseRename())
+				{
+					filename = query.newFilename();
+					return true;
+				}
+				if (query.responseOverwrite())
+				{
+					return true;
+				}
+				else if (query.responseAutoSkip())
+				{
+					if (currentFileInfo.isDir())
+					{
+						autoSkipDirectories << currentFileInfo.canonicalFilePath();
+					}
+					else
+					{
+						autoSkipDirectories << currentFileInfo.canonicalPath();
+					}
+					return false;
+				}
+				else if (query.responseOverwriteAll())
+				{
+					kDebug( 1601 ) << "adding overwrite all" << currentFileInfo.canonicalPath();
+					overwriteAllDirectories << currentFileInfo.canonicalPath();
+					return true;
+				}
+				else if (query.responseCancelled())
+				{
+					userCancelled = true;
+					return false;
+				}
+				else // query.responseSkip()
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return true;
+			}
+		}
+
 		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
 		{
 			kDebug( 1601 ) ;
@@ -285,6 +357,9 @@ class LibZipInterface: public ReadWriteArchiveInterface
 				}
 			}
 
+			QStringList overwriteAllDirectories;
+			QStringList autoSkipDirectories;
+			bool userCancelled = false;
 			int processed = 0;
 			if (!files.isEmpty()) {
 				///////////if only extract specified files
@@ -299,8 +374,8 @@ class LibZipInterface: public ReadWriteArchiveInterface
 						return false;
 					}
 
-					if (!extractEntry(file, entry, destinationDirectory, preservePaths, rootNode)) {
-						return false;
+					if (!extractEntry(file, entry, destinationDirectory, preservePaths, rootNode, overwriteAllDirectories, autoSkipDirectories, userCancelled)) {
+						return (userCancelled) ? true : false;
 					}
 
 					kDebug( 1601 ) << "Extracted " << entry.toString() ;
@@ -320,8 +395,8 @@ class LibZipInterface: public ReadWriteArchiveInterface
 						return false;
 					}
 					
-					if (!extractEntry(file, QDir::fromNativeSeparators(QFile::decodeName(zip_get_name(m_archive, index, 0))), destinationDirectory, preservePaths, rootNode)) {
-						return false;
+					if (!extractEntry(file, QDir::fromNativeSeparators(QFile::decodeName(zip_get_name(m_archive, index, 0))), destinationDirectory, preservePaths, rootNode, overwriteAllDirectories, autoSkipDirectories, userCancelled)) {
+						return (userCancelled) ? true : false;
 					}
 
 					kDebug( 1601 ) << "Extracted entry with index" << index ;

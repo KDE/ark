@@ -54,7 +54,6 @@ class LibArchiveInterface: public ReadWriteArchiveInterface
 		int cachedArchiveEntryCount;
 		qlonglong extractedFilesSize;
 		qlonglong currentExtractedFilesSize;
-		bool overwriteAll;
 		bool m_emitNoEntries;
 		QStringList m_writtenFiles;
 };
