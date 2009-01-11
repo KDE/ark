@@ -86,8 +86,11 @@ namespace Kerfuffle
 			
 			void setNoRenameMode(bool enableNoRenameMode);
 			bool noRenameMode();
+			void setMultiMode(bool enableMultiMode);
+			bool multiMode();
 		private:
 			bool m_noRenameMode;
+			bool m_multiMode;
 	};
 
 	class KERFUFFLE_EXPORT PasswordNeededQuery : public Query

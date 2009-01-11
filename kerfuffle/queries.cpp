@@ -55,7 +55,9 @@ namespace Kerfuffle
 
 	//---
 
-	OverwriteQuery::OverwriteQuery( QString filename) : m_noRenameMode(false)
+	OverwriteQuery::OverwriteQuery( QString filename) :
+		m_noRenameMode(false),
+		m_multiMode(true)
 	{
 		m_data["filename"] = filename;
 	}
@@ -64,10 +66,14 @@ namespace Kerfuffle
 	{
 		QApplication::setOverrideCursor( QCursor( Qt::ArrowCursor ) );
 		
-		KIO::RenameDialog_Mode mode = (KIO::RenameDialog_Mode)(KIO::M_OVERWRITE | KIO::M_MULTI | KIO::M_SKIP);
+		KIO::RenameDialog_Mode mode = (KIO::RenameDialog_Mode)(KIO::M_OVERWRITE | KIO::M_SKIP);
 		if (m_noRenameMode)
 		{
 			mode = (KIO::RenameDialog_Mode)(mode | KIO::M_NORENAME);
+		}
+		if (m_multiMode)
+		{
+			mode = (KIO::RenameDialog_Mode)(mode | KIO::M_MULTI);
 		}
 		
 		KIO::RenameDialog dialog(
@@ -128,6 +134,15 @@ namespace Kerfuffle
 		return m_noRenameMode;
 	}
 
+	void OverwriteQuery::setMultiMode(bool enableMultiMode)
+	{
+		m_multiMode = enableMultiMode;
+	}
+	
+	bool OverwriteQuery::multiMode()
+	{
+		return m_multiMode;
+	}
 
 	PasswordNeededQuery::PasswordNeededQuery(QString archiveFilename, bool incorrectTryAgain)
 	{
