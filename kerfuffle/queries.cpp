@@ -43,14 +43,14 @@ namespace Kerfuffle
 
 	void Query::waitForResponse()
 	{
-		m_responseMutex.lock();
+		m_responseCondition.wait(&m_responseMutex);
 		m_responseMutex.unlock();
 	}
 
 	void Query::setResponse(QVariant response)
 	{
 		m_data["response"] = response;
-		m_responseMutex.unlock();
+		m_responseCondition.wakeAll();
 	}
 
 	//---
