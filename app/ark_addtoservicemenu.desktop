@@ -5,6 +5,7 @@ MimeType=all/all;
 Actions=addTo;addToRar;addToTar;
 X-KDE-Submenu=Compress
 X-KDE-Submenu[ca]=Compressió
+X-KDE-Submenu[cs]=Zkomprimovat
 X-KDE-Submenu[da]=Komprimér
 X-KDE-Submenu[de]=Komprimieren
 X-KDE-Submenu[el]=Συμπίεση
@@ -38,6 +39,7 @@ X-KDE-Priority=TopLevel
 [Desktop Action addToRar]
 Name=RAR archive
 Name[ca]=Arxiu RAR
+Name[cs]=Rar archív
 Name[da]=RAR arkiv
 Name[de]=RAR Archiv
 Name[el]=Αρχειοθήκη RAR
