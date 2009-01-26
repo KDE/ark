@@ -5,6 +5,8 @@ set( ark_SRCS main.cpp
 			  addtoarchive.cpp
    )
 
+kde4_add_app_icon(ark_SRCS "${KDE4_INSTALL_DIR}/share/icons/oxygen/*/apps/utilities-file-archiver.png")
+
 kde4_add_executable( ark ${ark_SRCS} )
 
 target_link_libraries( ark kerfuffle ${KDE4_KFILE_LIBS} ${KDE4_KPARTS_LIBS} )
