@@ -101,6 +101,8 @@ int main( int argc, char **argv )
 
 	KApplication application;
 
+	application.setQuitOnLastWindowClosed(false);
+
 	if ( application.isSessionRestored() ) {
 		RESTORE( MainWindow );
 	} else {
@@ -112,6 +114,8 @@ int main( int argc, char **argv )
 			//once the job has been started this interface can be safely
 			//deleted
 			AddToArchive *addToArchiveJob = new AddToArchive();
+			application.connect(addToArchiveJob, SIGNAL(finished(KJob*)),
+					&application, SLOT(quit()));
 
 			if (args->isSet("changetofirstpath")) {
 				addToArchiveJob->setChangeToFirstPath(true);
@@ -147,40 +151,42 @@ int main( int argc, char **argv )
 		} else if (args->isSet("batch")) {
 			//once the job has been started this interface can be safely
 			//deleted
-			BatchExtract *batchExtract = new BatchExtract();
+			BatchExtract *batchJob = new BatchExtract();
+			application.connect(batchJob, SIGNAL(finished(KJob*)),
+					&application, SLOT(quit()));
 
 			for (int i = 0; i < args->count(); ++i) {
-				batchExtract->addInput(args->url(i));
+				batchJob->addInput(args->url(i));
 			}
 
 			if (args->isSet("autosubfolder")) {
 				kDebug( 1601 ) << "Setting autosubfolder";
-				batchExtract->setAutoSubfolder(true);
+				batchJob->setAutoSubfolder(true);
 			}
 
 			if (args->isSet("subfolder")) {
 				kDebug( 1601 ) << "Setting subfolder to " << args->getOption("subfolder");
-				batchExtract->setSubfolder(args->getOption("subfolder"));
+				batchJob->setSubfolder(args->getOption("subfolder"));
 			}
 
 			if (args->isSet("autodestination")) {
 				QString autopath = QFileInfo(args->url(0).path()).path();
 				kDebug( 1601 ) << "By autodestination, setting path to " << autopath;
-				batchExtract->setDestinationFolder(autopath);
+				batchJob->setDestinationFolder(autopath);
 			}
 
 			if (args->isSet("destination")) {
 				kDebug( 1601 ) << "Setting destination to " << args->getOption("destination");
-				batchExtract->setDestinationFolder(args->getOption("destination"));
+				batchJob->setDestinationFolder(args->getOption("destination"));
 			}
 
 			if (args->isSet("dialog")) {
-				if (!batchExtract->showExtractDialog()) {
+				if (!batchJob->showExtractDialog()) {
 					return 0;
 				}
 			}
 
-			batchExtract->start();
+			batchJob->start();
 		} else {
 
 			MainWindow *window = new MainWindow;

@@ -150,10 +150,12 @@ void BatchExtract::slotResult( KJob *job )
 
 	if (!subjobs().size())
 	{
+		kDebug(1601) << "Finished, emitting the result";
 		emitResult();
 	}
 	else
 	{
+		kDebug(1601) << "Starting the next job";
 		emit description(this,
 				"Extracting file...",
 				qMakePair(i18n("Source archive"), fileNames.value(subjobs().at(0)).first),
