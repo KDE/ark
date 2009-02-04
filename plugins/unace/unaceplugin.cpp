@@ -64,6 +64,9 @@ bool UnAceInterface::list()
 		}
 	}
 
+  if ( !started )
+    error( i18n( "Couldn't launch <tt>unace</tt>. Make sure you have that tool installed and available." ) );
+
 	return started && (unace.exitStatus() == QProcess::NormalExit) && (unace.exitCode() == 0);
 }
 
