@@ -1,0 +1,20 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=Kerfuffle/Plugin
+X-KDE-Library=kerfuffle_unace
+X-KDE-PluginInfo-Author=Rafał Rzepecki
+X-KDE-PluginInfo-Email=divided.mind@gmail.com
+X-KDE-PluginInfo-Name=kerfuffle_unace
+X-KDE-PluginInfo-Version=0.0.1
+X-KDE-PluginInfo-Website=http://www.kde.org
+X-KDE-PluginInfo-License=GPL
+X-KDE-Priority=100
+X-KDE-Kerfuffle-APIRevision=1
+X-KDE-Kerfuffle-ReadWrite=false
+Name=unACE for Kerfuffle
+Name[pl]=unACE dla Kerfuffle
+Name[x-test]=xxunACE for Kerfufflexx
+Comment=plugin for unpacking ACE archives
+Comment[x-test]=xxplugin for unpacking ACE archivesxx
+Comment[pl]=wtyczka umożliwiająca rozpakowywanie archiwów ACE
+MimeType=application/x-ace;

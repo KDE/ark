@@ -25,6 +25,7 @@ if(NOT WIN32)
   #add_subdirectory( bk )
   add_subdirectory( rarplugin )
   add_subdirectory( 7zipplugin )
+	add_subdirectory( unace )
 endif(NOT WIN32)
 
 #add_subdirectory( karchiveplugin )
