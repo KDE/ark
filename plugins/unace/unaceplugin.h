@@ -35,6 +35,10 @@ class UnAceInterface : public ReadOnlyArchiveInterface
 
 		virtual bool list();
 		virtual bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options );
+
+	private:
+		bool processListLine( const QByteArray &bytes );
+		bool m_hadHeader;
 };
 
 #endif

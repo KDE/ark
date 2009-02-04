@@ -19,6 +19,14 @@
  *
  */
 
+#include <QEventLoop>
+#include <QThread>
+
+#include <KDebug>
+#include <KLocale>
+#include <KProcess>
+
+#include <kerfuffle/archive.h>
 #include <kerfuffle/archivefactory.h>
 
 #include "unaceplugin.h"
@@ -32,7 +40,65 @@ UnAceInterface::~UnAceInterface()
 
 bool UnAceInterface::list()
 {
-	return false;
+	KProcess unace;
+	QStringList args;
+	args << "l" << filename();
+	unace.setProgram( "unace", args );
+	unace.setOutputChannelMode( KProcess::OnlyStdoutChannel );
+
+	m_hadHeader = false;
+	unace.start();
+	bool started = unace.waitForStarted();
+	while ( unace.state() == KProcess::Running ) {
+		unace.waitForReadyRead();
+		while ( unace.canReadLine() ) {
+			char buf[1024];
+			qint64 lineLength = unace.readLine( buf, sizeof(buf) );
+
+			if ( buf[lineLength - 1] == '\n' )
+				lineLength--;
+
+			const QByteArray bytes( buf, lineLength );
+			kDebug() << "line read: " << bytes;
+			if ( !processListLine( bytes ) )
+				return false;
+		}
+	}
+
+	return started && (unace.exitStatus() == QProcess::NormalExit) && (unace.exitCode() == 0);
+}
+
+bool UnAceInterface::processListLine( const QByteArray &bytes )
+{
+	const QList<QByteArray> fields( bytes.split('\xb3') );
+	if ( fields.size() != 6 )
+		// this is not the listing yet
+		return true;
+
+	const char *EXPECTED_HEADER[] = { "Date    ", "Time ", "Packed     ", "Size     ", "Ratio", "File            " };
+
+	if ( !m_hadHeader ) { // header should follow, let's check if it's as expected
+		for ( int i = 0; i < 6; i++ )
+			if ( fields[i] != EXPECTED_HEADER[i] ) {
+				error( i18n( "Unexpected output from the unace process." ) );
+				return false;
+			}
+		m_hadHeader = true;
+		return true;
+	}
+
+	ArchiveEntry the_entry;
+	const QString timestamp = QString::fromAscii( fields[0] ) + " " +	QString::fromAscii(fields[1]);
+
+	the_entry[Timestamp] = QDateTime::fromString( timestamp, "dd.MM.yy HH:mm" );
+	the_entry[CompressedSize] = QString::fromAscii( fields[2] ).toLongLong();
+	the_entry[Size] = QString::fromAscii( fields[3] ).toLongLong();
+	the_entry[Ratio] = QString::fromAscii( fields[4] ).left( fields[4].size() - 1 ).toInt();
+	the_entry[FileName] = QString::fromUtf8( fields[5] ).mid( 1 );
+
+	kDebug() << the_entry;
+	entry( the_entry );
+	return true;
 }
 
 bool UnAceInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
@@ -43,4 +109,3 @@ bool UnAceInterface::copyFiles( const QList<QVariant> & files, const QString & d
 #include "unaceplugin.moc"
 
 KERFUFFLE_PLUGIN_FACTORY( UnAceInterface )
-
