@@ -49,6 +49,7 @@ namespace Kerfuffle
 			explicit ReadOnlyArchiveInterface( const QString & filename, QObject *parent = 0 );
 			virtual ~ReadOnlyArchiveInterface();
 
+			/** Return the filename of currently handled archive. */
 			const QString& filename() const;
 			virtual bool isReadOnly() const;
 
@@ -56,12 +57,45 @@ namespace Kerfuffle
 			void KDE_NO_EXPORT removeObserver( ArchiveObserver *observer );
 
 			virtual bool open();
+
+			/**
+			 * List archive contents.
+			 * This runs the process of reading archive contents.
+			 * When subclassing, you can block as long as you need, the function runs
+			 * in its own thread.
+			 * @returns whether the listing succeeded.
+			 * @note If returning false, make sure to call error() beforewards to notify
+			 * the user of the error condition.
+			 */
 			virtual bool list() = 0;
 			void setPassword(QString password);
+
+			/**
+			 * Extract files from archive.
+			 * Globally recognized extraction options:
+			 * @li PreservePaths - preserve file paths (extract flat if false)
+			 * @li RootNode - node in the archive which will correspond to the @arg destinationDirectory
+			 * When subclassing, you can block as long as you need, the function runs
+			 * in its own thread.
+			 * @returns whether the listing succeeded.
+			 * @note If returning false, make sure to call error() beforewards to notify
+			 * the user of the error condition.
+			 */
 			virtual bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options ) = 0;
 
 		protected:
+			/**
+			 * Communicate an error.
+			 * Sets message of error for user to read and understand. It will be
+			 * displayed once the job has returned false.
+			 */
 			void error( const QString & message, const QString & details = QString() );
+
+			/**
+			 * Notify observers of a new archive entry.
+			 * The interface should call this function whenever a new archive entry
+			 * is read. @note Remember that directories should have filename ending with /.
+			 */
 			void entry( const ArchiveEntry & archiveEntry );
 			void progress( double );
 			void info( const QString& info);
