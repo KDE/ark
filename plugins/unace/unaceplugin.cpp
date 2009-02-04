@@ -104,7 +104,48 @@ bool UnAceInterface::processListLine( const QByteArray &bytes )
 
 bool UnAceInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
 {
-	return false;
+	if ( files.size() > 0 ) { // TODO
+		error( i18n( "Only extracting full archive is currently supported." ) );
+		return false;
+	}
+
+	if ( !options.contains( "PreservePaths" ) || !options["PreservePaths"].toBool() ) { // TODO
+		error( i18n( "Only extracting while preserving paths is currently supported." ) );
+		return false;
+	}
+
+	if ( options.contains( "RootNode" ) ) { // TODO
+		error( i18n( "Extracting with root node other than default is not currently supported." ) );
+		return false;
+	}
+
+	KProcess unace;
+	QStringList args;
+	args << "x" << filename();
+	unace.setProgram( "unace", args );
+	unace.setOutputChannelMode( KProcess::SeparateChannels );
+	unace.setWorkingDirectory( destinationDirectory );
+
+	unace.start();
+	bool started = unace.waitForStarted();
+	if ( !started ) {
+		error( i18n( "Couldn't launch <tt>unace</tt>. Make sure you have that tool installed and available." ) );
+		return false;
+	}
+
+	unace.waitForFinished();
+
+	if ( unace.exitStatus() != QProcess::NormalExit ) {
+		error( i18n( "<tt>unace</tt> crashed unexpectedly." ) );
+		return false;
+	}
+
+	if ( unace.exitCode() != 0 ) {
+		error( i18n( "<tt>unace</tt> has encountered error when extracting:<pre>%1</pre>", QString::fromUtf8( unace.readAllStandardError() ) ) );
+		return false;
+	}
+
+	return true;
 }
 
 #include "unaceplugin.moc"
