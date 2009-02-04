@@ -59,7 +59,6 @@ bool UnAceInterface::list()
 				lineLength--;
 
 			const QByteArray bytes( buf, lineLength );
-			kDebug() << "line read: " << bytes;
 			if ( !processListLine( bytes ) )
 				return false;
 		}
@@ -96,7 +95,6 @@ bool UnAceInterface::processListLine( const QByteArray &bytes )
 	the_entry[Ratio] = QString::fromAscii( fields[4] ).left( fields[4].size() - 1 ).toInt();
 	the_entry[FileName] = QString::fromUtf8( fields[5] ).mid( 1 );
 
-	kDebug() << the_entry;
 	entry( the_entry );
 	return true;
 }
