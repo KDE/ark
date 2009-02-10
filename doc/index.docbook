@@ -126,7 +126,7 @@ button in the toolbar or use the shortcut <keycombo action="simul">&Ctrl;
 This dialog allows you to select where you will extract files to. The default 
 location is the folder the archive is in.</para>
 <para>You can specify to extract the files into a subfolder. The default name of this 
-subfolder ist the first part of the archive name, but you can edit it to your needs.
+subfolder is the first part of the archive name, but you can edit it to your needs.
 If you want to preserve paths when extracting, select this option.
 You may also choose to open the destination folder
 in &konqueror; or &dolphin; once the extraction is complete.</para>
@@ -217,7 +217,7 @@ present in the archive.</para>
 </listitem>
 </varlistentry>
 -->
-<!-- TODO: Entry seems to have disappearead, confirm that it's not just 
+<!-- TODO: Entry seems to have disappeared, confirm that it's not just 
 hidden because I don't have lha installed
 <varlistentry>
 <term><guilabel>Keep entries generic (Lha)</guilabel></term>
