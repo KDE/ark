@@ -44,7 +44,14 @@ namespace Kerfuffle
 		m_loop(NULL)
 	{
 
+	}
 
+	void CliInterface::cacheParameterList()
+	{
+		m_param = parameterList();
+		Q_ASSERT(m_param.contains(ExtractProgram));
+		Q_ASSERT(m_param.contains(ListProgram));
+		Q_ASSERT(m_param.contains(PreservePathSwitch));
 	}
 
 	CliInterface::~CliInterface()
@@ -54,11 +61,9 @@ namespace Kerfuffle
 
 	bool CliInterface::list()
 	{
-		ParameterList param = parameterList();
+		cacheParameterList();
 
-		Q_ASSERT(param.contains(ListProgram));
-
-		bool ret = findProgramInPath(param.value(ListProgram).toString());
+		bool ret = findProgramInPath(m_param.value(ListProgram).toString());
 		if (!ret) {
 			error("TODO could not find program");
 			return false;
@@ -70,7 +75,7 @@ namespace Kerfuffle
 			return false;
 		}
 
-		QStringList args = param.value(ListArgs).toStringList();
+		QStringList args = m_param.value(ListArgs).toStringList();
 		substituteListVariables(args);
 
 		executeProcess(m_program, args);
@@ -81,11 +86,10 @@ namespace Kerfuffle
 	bool CliInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
 	{
 		kDebug( 1601) ;
-		ParameterList param = parameterList();
+		cacheParameterList();
 
-		Q_ASSERT(param.contains(ExtractProgram));
 
-		bool ret = findProgramInPath(param.value(ExtractProgram).toString());
+		bool ret = findProgramInPath(m_param.value(ExtractProgram).toString());
 		if (!ret) {
 			error("TODO could not find program");
 			return false;
@@ -98,7 +102,7 @@ namespace Kerfuffle
 		}
 
 		//start preparing the argument list
-		QStringList args = param.value(ExtractArgs).toStringList();
+		QStringList args = m_param.value(ExtractArgs).toStringList();
 
 		//now replace the various elements in the list
 		for (int i = 0; i < args.size(); ++i) {
@@ -109,9 +113,8 @@ namespace Kerfuffle
 			}
 
 			if (argument == "$PreservePathSwitch") {
-				Q_ASSERT(param.contains(PreservePathSwitch));
 
-				QStringList replacementFlags = param.value(PreservePathSwitch).toStringList();
+				QStringList replacementFlags = m_param.value(PreservePathSwitch).toStringList();
 				Q_ASSERT(replacementFlags.size() == 2);
 
 				bool preservePaths = options.value("PreservePaths").toBool();
@@ -149,12 +152,14 @@ namespace Kerfuffle
 
 	bool CliInterface::addFiles( const QStringList & files, const CompressionOptions& options )
 	{
+		cacheParameterList();
 
 		return false;
 	}
 
 	bool CliInterface::deleteFiles( const QList<QVariant> & files )
 	{
+		cacheParameterList();
 
 		return false;
 	}
@@ -269,6 +274,17 @@ namespace Kerfuffle
 		QString leftString = QString::fromLocal8Bit(m_stdOutData.left(indx + 1));
 		const QStringList lines = leftString.split( QRegExp("[\\n\\010]"), QString::SkipEmptyParts );
 		foreach(const QString &line, lines) {
+
+			if (m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool())
+			{
+				//read the percentage
+				int pos = line.indexOf('%');
+				if (pos != -1 && pos > 1) {
+					int percentage = line.mid(pos - 2, 2).toInt();
+					progress(float(percentage) / 100);
+					continue;
+				}
+			}
 
 			readListLine(line);
 

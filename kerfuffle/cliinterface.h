@@ -34,6 +34,15 @@ namespace Kerfuffle
 	};
 
 	enum CliInterfaceParameters {
+		
+		///////////////[ COMMON ]/////////////
+		
+		/**
+		 * Bool (default false)
+		 * Will look for the %-sign in the stdout while working, in the form of
+		 * (2%, 14%, 35%, etc etc), and report progress based upon this
+		 */
+		CaptureProgress = 0,
 
 		///////////////[ LIST ]/////////////
 
@@ -42,7 +51,7 @@ namespace Kerfuffle
 		 * The name to the program that will handle listing of this
 		 * archive (eg "rar"). Will be searched for in PATH
 		 */
-		ListProgram = 0,
+		ListProgram,
 		/**
 		 * QStringList
 		 * The arguments that are passed to the program above for
@@ -157,6 +166,7 @@ namespace Kerfuffle
 
 			bool createProcess();
 			bool executeProcess(const QString& path, const QStringList & args);
+			void cacheParameterList();
 
 			QStringList m_errorMessages;
 			QByteArray m_stdOutData;
@@ -166,6 +176,7 @@ namespace Kerfuffle
 			KPtyProcess *m_process;
 			QString m_program;
 			QEventLoop *m_loop;
+			ParameterList m_param;
 
 		private slots:
 			void started();

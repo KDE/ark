@@ -48,6 +48,7 @@ class CliPlugin: public CliInterface
 			static ParameterList p;
 			if (p.isEmpty()) {
 
+				p[CaptureProgress] = true;
 				p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = "rar";
 
 				p[ListArgs] = QStringList() << "v" << "-c-" << "$Archive";
