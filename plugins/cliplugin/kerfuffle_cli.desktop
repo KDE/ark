@@ -1,15 +1,15 @@
 [Desktop Entry]
 Type=Service
 X-KDE-ServiceTypes=Kerfuffle/Plugin
-X-KDE-Library=kerfuffle_cli
-X-KDE-PluginInfo-Author=Harald Hvaal
-X-KDE-PluginInfo-Email=haraldhv@stud.ntnu.no
-X-KDE-PluginInfo-Name=kerfuffle_cli
+X-KDE-Library=TODO kerfuffle_cli
+X-KDE-PluginInfo-Author=TODO Your name
+X-KDE-PluginInfo-Email=TODO Your email
+X-KDE-PluginInfo-Name=TODO kerfuffle_cli
 X-KDE-PluginInfo-Version=0.0.1
 X-KDE-PluginInfo-Website=http://www.kde.org
-X-KDE-PluginInfo-License=GPLv2
-X-KDE-Priority=120
+X-KDE-PluginInfo-License=GPLv3
+X-KDE-Priority=100
 X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=true
-Name=CLI-based archive interface plugin
-MimeType=application/x-rar;
+Name=TODO archive plugin
+MimeType=TODO;

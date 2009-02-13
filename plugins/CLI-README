@@ -1,0 +1,21 @@
+In this folder is a general template of what one needs to imlement
+support for a plugin using the cli interface in ark.
+
+Here are the steps.
+
+1. First, create a copy of the cliplugin folder
+2. Change plugins/CMakeLists.txt to include the new subfolder
+3. Rename the kerfuffle_cli.desktop to a unique name, for example
+kerfuffle_rar.desktop.
+4. Fill in the parts in the desktop marked with TODO
+5. Update the plugins/yourplugin/CMakeLists.txt file, replacing all
+instances of kerfuffle_cli with kerfuffle_yourplugin (where yourplugin
+		must be a unique plugin name)
+6. Implement/modify cliplugin.cpp to fit your archive type.
+Refer to kerfuffle/cliinterface.h for explanations on the values that
+needs to be implemented. The class name does not need to be changed
+
+Then finally, email the plugin to the ark maintainer for a code review before
+it is commited to trunk :D
+
+Have fun

@@ -326,7 +326,6 @@ namespace Kerfuffle
 				//read the percentage
 				int pos = line.indexOf('%');
 				if (pos != -1 && pos > 1) {
-					kDebug( 1601 ) << "looking in " << line;
 					int percentage = line.mid(pos - 2, 2).toInt();
 					progress(float(percentage) / 100);
 					continue;
