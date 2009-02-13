@@ -77,6 +77,9 @@ namespace Kerfuffle
 		 * $Archive - the path of the archive
 		 * $Files - the files selected to be extracted, if any
 		 * $PreservePathSwitch - the flag for extracting with full paths
+		 * $RootNodeSwitch - the internal work dir in the archive (for example
+		 * when the user has dragged a folder from the archive and wants it
+		 * extracted relative to it)
 		 */
 		ExtractArgs,
 		/**
@@ -101,6 +104,14 @@ namespace Kerfuffle
 		 * stringlist ("--preservePaths", "")
 		 */
 		PreservePathSwitch,
+		/**
+		 * QStringList (default empty)
+		 * The format of the root node switch. The variable $Path will be
+		 * substituted for the path string.
+		 * Example: ("--internalPath=$Path)
+		 * or ("--path", "$Path")
+		 */
+		RootNodeSwitch,
 		
 
 
@@ -148,6 +159,12 @@ namespace Kerfuffle
 		Q_OBJECT
 
 		public:
+
+			enum OperationMode  {
+				List, Copy, Add, Delete
+			};
+			OperationMode m_mode;
+
 			explicit CliInterface( const QString& filename, QObject *parent = 0);
 			virtual ~CliInterface();
 

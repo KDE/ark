@@ -52,8 +52,9 @@ class CliPlugin: public CliInterface
 				p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = "rar";
 
 				p[ListArgs] = QStringList() << "v" << "-c-" << "$Archive";
-				p[ExtractArgs] = QStringList() << "$PreservePathSwitch" << "$Archive" << "$Files";
+				p[ExtractArgs] = QStringList() << "$PreservePathSwitch" << "$RootNodeSwitch" << "$Archive" << "$Files";
 				p[PreservePathSwitch] = QStringList() << "x" << "e";
+				p[RootNodeSwitch] = QStringList() << "-ap$Path";
 
 			}
 			return p;

@@ -52,6 +52,7 @@ namespace Kerfuffle
 		Q_ASSERT(m_param.contains(ExtractProgram));
 		Q_ASSERT(m_param.contains(ListProgram));
 		Q_ASSERT(m_param.contains(PreservePathSwitch));
+		Q_ASSERT(m_param.contains(RootNodeSwitch));
 	}
 
 	CliInterface::~CliInterface()
@@ -62,6 +63,7 @@ namespace Kerfuffle
 	bool CliInterface::list()
 	{
 		cacheParameterList();
+		m_mode = List;
 
 		bool ret = findProgramInPath(m_param.value(ListProgram).toString());
 		if (!ret) {
@@ -88,6 +90,8 @@ namespace Kerfuffle
 		kDebug( 1601) ;
 		cacheParameterList();
 
+		m_mode = Copy;
+
 
 		bool ret = findProgramInPath(m_param.value(ExtractProgram).toString());
 		if (!ret) {
@@ -107,6 +111,7 @@ namespace Kerfuffle
 		//now replace the various elements in the list
 		for (int i = 0; i < args.size(); ++i) {
 			QString argument = args.at(i);
+			kDebug(1601) << "Processing argument " << argument;
 
 			if (argument == "$Archive") {
 				args[i] = filename();
@@ -124,25 +129,63 @@ namespace Kerfuffle
 				else
 					theReplacement = replacementFlags.at(1);
 
-				if (theReplacement.isEmpty())
+				if (theReplacement.isEmpty()) {
 					args.removeAt(i);
+					--i; //decrement to compensate for the variable we removed
+				}
 				else
+					//but in this case we don't have to decrement, we just
+					//replace it
 					args[i] = theReplacement;
 			}
 
+			if (argument == "$RootNodeSwitch") {
+
+				//if the RootNodeSwitch argument has been added, we at least
+				//assume that the format of the switch has been added as well
+				Q_ASSERT(m_param.contains(RootNodeSwitch));
+
+				//we will decrement i afterwards
+				args.removeAt(i);
+
+				QString rootNode;
+				if (options.contains("RootNode"))
+				{
+					rootNode = options.value("RootNode").toString();
+					kDebug(1601) << "Set root node " << rootNode;
+				}
+
+				if (!rootNode.isEmpty()) {
+					QStringList theSwitch = m_param.value(RootNodeSwitch).toStringList();
+					for (int j = 0; j < theSwitch.size(); ++j) {
+						//get the argument part
+						QString newArg = theSwitch.at(j);
+
+						//substitute the $Path
+						newArg.replace("$Path", rootNode);
+
+						//put it in the arg list
+						args.insert(i+j, newArg);
+						++i;
+
+					}
+				}
+				--i; //decrement to compensate for the variable we replaced
+
+			}
+
+
 			if (argument == "$Files") {
 				args.removeAt(i);
-				for (int j = 0; j < files.count(); ++j)
+				for (int j = 0; j < files.count(); ++j) {
 					args.insert(i + j, files.at(j).toString());
-
+					++i;
+				}
+				--i;
 			}
 		}
 
-		QString globalWorkdir = options.value("GlobalWorkDir").toString();
-		if (!globalWorkdir.isEmpty()) {
-			kDebug( 1601 ) << "GlobalWorkDir is set, changing dir to " << globalWorkdir;
-			QDir::setCurrent(globalWorkdir);
-		}
+		QDir::setCurrent(destinationDirectory);
 
 		executeProcess(m_program, args);
 
@@ -154,12 +197,15 @@ namespace Kerfuffle
 	{
 		cacheParameterList();
 
+		m_mode = Add;
+
 		return false;
 	}
 
 	bool CliInterface::deleteFiles( const QList<QVariant> & files )
 	{
 		cacheParameterList();
+		m_mode = Delete;
 
 		return false;
 	}
@@ -275,11 +321,12 @@ namespace Kerfuffle
 		const QStringList lines = leftString.split( QRegExp("[\\n\\010]"), QString::SkipEmptyParts );
 		foreach(const QString &line, lines) {
 
-			if (m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool())
+			if ((m_mode == Copy || m_mode == Add) && m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool())
 			{
 				//read the percentage
 				int pos = line.indexOf('%');
 				if (pos != -1 && pos > 1) {
+					kDebug( 1601 ) << "looking in " << line;
 					int percentage = line.mid(pos - 2, 2).toInt();
 					progress(float(percentage) / 100);
 					continue;
@@ -300,9 +347,6 @@ namespace Kerfuffle
 		return !m_program.isEmpty();
 	}
 
-	void CliInterface::substituteCopyVariables(QStringList& params, const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options)
-	{
-	}
 
 	void CliInterface::substituteListVariables(QStringList& params)
 	{
