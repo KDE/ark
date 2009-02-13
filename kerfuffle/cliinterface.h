@@ -67,7 +67,7 @@ namespace Kerfuffle
 		 * substituted:
 		 * $Archive - the path of the archive
 		 * $Files - the files selected to be extracted, if any
-		 * $PreservePathFlag - the flag for extracting with full paths
+		 * $PreservePathSwitch - the flag for extracting with full paths
 		 */
 		ExtractArgs,
 		/**
@@ -78,6 +78,20 @@ namespace Kerfuffle
 		 * paths "foo" and "foo/bar" will be sent to the program.
 		 */
 		NoTrailingSlashes,
+		/**
+		 * QStringList
+		 * This should be a qstringlist with either two elements. The first
+		 * string is what PreservePathSwitch in the ExtractArgs will be replaced
+		 * with if PreservePath is True/enabled. The second is for the disabled
+		 * case. An empty string means that the argument will not be used in
+		 * that case.
+		 * Example: for rar, "x" means extract with full paths, and "e" means
+		 * extract without full paths. in this case we will use the stringlist
+		 * ("x", "e"). Or, for another format that might use the switch
+		 * "--extractFull" for preservePaths, and nothing otherwise: we use the
+		 * stringlist ("--preservePaths", "")
+		 */
+		PreservePathSwitch,
 		
 
 
@@ -134,6 +148,7 @@ namespace Kerfuffle
 			virtual bool deleteFiles( const QList<QVariant> & files );
 
 			virtual ParameterList parameterList() const = 0;
+			virtual bool readListLine(QString line) = 0;
 
 		private:
 			bool findProgramInPath(const QString& program);

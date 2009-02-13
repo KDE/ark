@@ -80,6 +80,7 @@ namespace Kerfuffle
 
 	bool CliInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
 	{
+		kDebug( 1601) ;
 		ParameterList param = parameterList();
 
 		Q_ASSERT(param.contains(ExtractProgram));
@@ -96,8 +97,43 @@ namespace Kerfuffle
 			return false;
 		}
 
+		//start preparing the argument list
 		QStringList args = param.value(ExtractArgs).toStringList();
-		substituteCopyVariables(args, files, destinationDirectory, options);
+
+		//now replace the various elements in the list
+		for (int i = 0; i < args.size(); ++i) {
+			QString argument = args.at(i);
+
+			if (argument == "$Archive") {
+				args[i] = filename();
+			}
+
+			if (argument == "$PreservePathSwitch") {
+				Q_ASSERT(param.contains(PreservePathSwitch));
+
+				QStringList replacementFlags = param.value(PreservePathSwitch).toStringList();
+				Q_ASSERT(replacementFlags.size() == 2);
+
+				bool preservePaths = options.value("PreservePaths").toBool();
+				QString theReplacement;
+				if (preservePaths)
+					theReplacement = replacementFlags.at(0);
+				else
+					theReplacement = replacementFlags.at(1);
+
+				if (theReplacement.isEmpty())
+					args.removeAt(i);
+				else
+					args[i] = theReplacement;
+			}
+
+			if (argument == "$Files") {
+				args.removeAt(i);
+				for (int j = 0; j < files.count(); ++j)
+					args.insert(i + j, files.at(j).toString());
+
+			}
+		}
 
 		QString globalWorkdir = options.value("GlobalWorkDir").toString();
 		if (!globalWorkdir.isEmpty()) {
@@ -143,9 +179,8 @@ namespace Kerfuffle
 
 	bool CliInterface::executeProcess(const QString& path, const QStringList & args)
 	{
-		Q_ASSERT(!path.isEmpty());
-
 		kDebug( 1601 ) << "Executing " << path << args;
+		Q_ASSERT(!path.isEmpty());
 
 		m_process->setProgram( path, args );
 		m_process->setNextOpenMode( QIODevice::ReadWrite | QIODevice::Unbuffered );
@@ -235,7 +270,7 @@ namespace Kerfuffle
 		const QStringList lines = leftString.split( QRegExp("[\\n\\010]"), QString::SkipEmptyParts );
 		foreach(const QString &line, lines) {
 
-			kDebug( 1601 ) << line;
+			readListLine(line);
 
 		}
 
@@ -251,20 +286,6 @@ namespace Kerfuffle
 
 	void CliInterface::substituteCopyVariables(QStringList& params, const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options)
 	{
-		for (int i = 0; i < params.size(); ++i) {
-			QString parameter = params.at(i);
-
-			if (parameter == "$Archive") {
-				params[i] = filename();
-			}
-
-			if (parameter == "$Files") {
-				params.removeAt(i);
-				for (int j = 0; j < files.count(); ++j)
-					params.insert(i + j, files.at(j).toString());
-
-			}
-		}
 	}
 
 	void CliInterface::substituteListVariables(QStringList& params)

@@ -143,6 +143,8 @@ void BatchExtract::slotResult( KJob *job )
 
 	if ( job->error() )
 	{
+		kDebug(1601) << "There was en error, " << job->errorText();
+		//TODO: why does this exit immediately
 		KMessageBox::error( NULL, job->errorText());
 		emitResult();
 		return;
