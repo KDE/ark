@@ -71,7 +71,7 @@ namespace Kerfuffle
 		}
 
 		QStringList args = param.value(ListArgs).toStringList();
-		substituteVariables(args);
+		substituteListVariables(args);
 
 		executeProcess(m_program, args);
 
@@ -80,7 +80,34 @@ namespace Kerfuffle
 
 	bool CliInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
 	{
-		return false;
+		ParameterList param = parameterList();
+
+		Q_ASSERT(param.contains(ExtractProgram));
+
+		bool ret = findProgramInPath(param.value(ExtractProgram).toString());
+		if (!ret) {
+			error("TODO could not find program");
+			return false;
+		}
+
+		ret = createProcess();
+		if (!ret) {
+			error("TODO could not find program");
+			return false;
+		}
+
+		QStringList args = param.value(ExtractArgs).toStringList();
+		substituteCopyVariables(args, files, destinationDirectory, options);
+
+		QString globalWorkdir = options.value("GlobalWorkDir").toString();
+		if (!globalWorkdir.isEmpty()) {
+			kDebug( 1601 ) << "GlobalWorkDir is set, changing dir to " << globalWorkdir;
+			QDir::setCurrent(globalWorkdir);
+		}
+
+		executeProcess(m_program, args);
+
+		return true;
 	}
 
 
@@ -222,7 +249,25 @@ namespace Kerfuffle
 		return !m_program.isEmpty();
 	}
 
-	void CliInterface::substituteVariables(QStringList& params)
+	void CliInterface::substituteCopyVariables(QStringList& params, const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options)
+	{
+		for (int i = 0; i < params.size(); ++i) {
+			QString parameter = params.at(i);
+
+			if (parameter == "$Archive") {
+				params[i] = filename();
+			}
+
+			if (parameter == "$Files") {
+				params.removeAt(i);
+				for (int j = 0; j < files.count(); ++j)
+					params.insert(i + j, files.at(j).toString());
+
+			}
+		}
+	}
+
+	void CliInterface::substituteListVariables(QStringList& params)
 	{
 		for (int i = 0; i < params.size(); ++i) {
 			QString parameter = params.at(i);

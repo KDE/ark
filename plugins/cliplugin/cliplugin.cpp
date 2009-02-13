@@ -19,33 +19,39 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
-#include "cliplugin.h"
+#include "kerfuffle/cliinterface.h"
 #include "kerfuffle/archivefactory.h"
 
 using namespace Kerfuffle;
 
-CliPlugin::CliPlugin( const QString & filename, QObject *parent )
-	: CliInterface( filename, parent )
+class CliPlugin: public CliInterface
 {
+	public:
+		explicit CliPlugin( const QString & filename, QObject *parent = 0 )
+			: CliInterface( filename, parent )
+		{
 
-}
+		}
 
-CliPlugin::~CliPlugin()
-{
+		virtual ~CliPlugin()
+		{
 
-}
+		}
 
-ParameterList CliPlugin::parameterList() const
-{
-	static ParameterList p;
-	if (p.isEmpty()) {
+		virtual ParameterList parameterList() const
+		{
+			static ParameterList p;
+			if (p.isEmpty()) {
 
-		p[ListProgram] = "rar";
-		p[ListArgs] = QStringList() << "v" << "-c-" << "$Archive";
+				p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = "rar";
 
-	}
-	return p;
-}
+				p[ListArgs] = QStringList() << "v" << "-c-" << "$Archive";
+				p[ExtractArgs] = QStringList() << "v" << "-c-" << "$Archive" << "$Files";
+
+			}
+			return p;
+		}
+};
 
 KERFUFFLE_PLUGIN_FACTORY(CliPlugin)
 

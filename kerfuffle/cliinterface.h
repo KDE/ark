@@ -31,17 +31,12 @@ namespace Kerfuffle
 {
 
 	enum CliInterfaceExtractOptions {
-		/**
-		 * When passing directories to the extract program, do not
-		 * include trailing slashes
-		 * e.g. if the user selected "foo/" and "foo/bar" in the gui, the
-		 * paths "foo" and "foo/bar" will be sent to the program.
-		 * The default is to include trailing slashes
-		 */
-		NoTrailingSlashes = 0
 	};
 
 	enum CliInterfaceParameters {
+
+		///////////////[ LIST ]/////////////
+
 		/**
 		 * QString
 		 * The name to the program that will handle listing of this
@@ -56,6 +51,9 @@ namespace Kerfuffle
 		 * $Archive - the path of the archive
 		 */
 		ListArgs,
+
+		///////////////[ EXTRACT ]/////////////
+
 		/**
 		 * QString
 		 * The name to the program that will handle extracting of this
@@ -69,14 +67,22 @@ namespace Kerfuffle
 		 * substituted:
 		 * $Archive - the path of the archive
 		 * $Files - the files selected to be extracted, if any
+		 * $PreservePathFlag - the flag for extracting with full paths
 		 */
 		ExtractArgs,
 		/**
-		 * QVariantList
-		 * A list of additional options for the extract operation, see
-		 * the CliInterfaceExtractOptions enum above.
+		 * Bool (default false)
+		 * When passing directories to the extract program, do not
+		 * include trailing slashes
+		 * e.g. if the user selected "foo/" and "foo/bar" in the gui, the
+		 * paths "foo" and "foo/bar" will be sent to the program.
 		 */
-		ExtractOptions,
+		NoTrailingSlashes,
+		
+
+
+		///////////////[ DELETE ]/////////////
+
 		/**
 		 * QString
 		 * The name to the program that will handle deleting of elements in this
@@ -97,6 +103,9 @@ namespace Kerfuffle
 		 * The name to the program that will handle adding in this
 		 * archive format (eg "rar"). Will be searched for in PATH
 		 */
+
+		///////////////[ ADD ]/////////////
+
 		AddProgram,
 		/**
 		 * QStringList
@@ -128,7 +137,8 @@ namespace Kerfuffle
 
 		private:
 			bool findProgramInPath(const QString& program);
-			void substituteVariables(QStringList& params);
+			void substituteCopyVariables(QStringList& params, const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options);
+			void substituteListVariables(QStringList& params);
 
 			bool createProcess();
 			bool executeProcess(const QString& path, const QStringList & args);
