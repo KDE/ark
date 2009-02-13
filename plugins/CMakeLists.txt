@@ -28,4 +28,6 @@ if(NOT WIN32)
 	add_subdirectory( unace )
 endif(NOT WIN32)
 
+add_subdirectory( cliplugin )
+
 #add_subdirectory( karchiveplugin )
