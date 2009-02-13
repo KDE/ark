@@ -29,5 +29,6 @@ if(NOT WIN32)
 endif(NOT WIN32)
 
 add_subdirectory( clirarplugin )
+add_subdirectory( cli7zplugin )
 
 #add_subdirectory( karchiveplugin )

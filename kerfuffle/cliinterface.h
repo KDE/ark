@@ -187,7 +187,6 @@ namespace Kerfuffle
 
 			QStringList m_errorMessages;
 			QByteArray m_stdOutData;
-			QList<QVariant> m_archiveContents;
 			bool m_userCancelled;
 
 			KPtyProcess *m_process;
