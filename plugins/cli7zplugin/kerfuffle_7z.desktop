@@ -13,6 +13,7 @@ X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=true
 Name=7zip archive plugin
 Name[ga]=Breiseán cartlainne 7zip
+Name[pt]='Plugin' de pacotes '7zip'
 Name[pt_BR]=Plug-in de arquivos 7zip
 Name[sv]=Insticksprogram för 7zip arkiv
 Name[uk]=Додаток для архівів 7zip

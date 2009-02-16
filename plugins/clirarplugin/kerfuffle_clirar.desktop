@@ -13,6 +13,7 @@ X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=true
 Name=RAR archive plugin
 Name[ga]=Breiseán cartlainne RAR
+Name[pt]='Plugin' de pacotes RAR
 Name[pt_BR]=Plug-in de arquivos RAR
 Name[sv]=Insticksprogram för RAR-arkiv
 Name[uk]=Додаток для архівів RAR
