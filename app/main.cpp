@@ -103,16 +103,28 @@ int main( int argc, char **argv )
 
 	application.setQuitOnLastWindowClosed(false);
 
+	//session restoring
 	if ( application.isSessionRestored() ) {
-		RESTORE( MainWindow );
-	} else {
+		MainWindow* window = NULL;
+		if (KMainWindow::canBeRestored(1)) {
+			window = new MainWindow;
+			window->restore(1);
+			if (!window->loadPart()) {
+				delete window;
+				window = NULL;
+			}
+		}
+
+		if (window == NULL) {
+			return -1;
+		}
+	} else { //new ark window (no restored session)
+
 		// open any given URLs
 		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
 		if (args->isSet("add") || args->isSet("add-to")) {
 
-			//once the job has been started this interface can be safely
-			//deleted
 			AddToArchive *addToArchiveJob = new AddToArchive();
 			application.connect(addToArchiveJob, SIGNAL(finished(KJob*)),
 					&application, SLOT(quit()));
