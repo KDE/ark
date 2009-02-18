@@ -55,6 +55,8 @@ class CliPlugin: public CliInterface
 				p[PreservePathSwitch] = QStringList() << "x" << "e";
 				p[RootNodeSwitch] = QStringList() << "-ap$Path";
 
+				p[FileExistsExpression] = "^(.+) already exists. Overwrite it";
+
 			}
 			return p;
 		}

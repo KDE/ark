@@ -26,6 +26,7 @@
 #include "kerfuffle_export.h"
 #include <kptyprocess.h>
 #include <QEventLoop>
+#include <QRegExp>
 
 namespace Kerfuffle
 {
@@ -112,8 +113,22 @@ namespace Kerfuffle
 		 * or ("--path", "$Path")
 		 */
 		RootNodeSwitch,
-		
-
+		/**
+		 * QString
+		 * This is a regexp, defining how to recognize a "File already exists"
+		 * prompt when extracting. It should have one captured string, which is
+		 * the filename of the file/folder that already exists.
+		 */
+		FileExistsExpression,
+		/**
+		 * int
+		 * This sets on what output channel the FileExistsExpression regex
+		 * should be applied on, in other words, on what stream the "file
+		 * exists" output will appear in. Values accepted:
+		 * 0 - Standard error, stderr (default)
+		 * 1 - Standard output, stdout
+		 */
+		FileExistsMode,
 
 		///////////////[ DELETE ]/////////////
 
@@ -184,10 +199,11 @@ namespace Kerfuffle
 			bool createProcess();
 			bool executeProcess(const QString& path, const QStringList & args);
 			void cacheParameterList();
+			bool checkForFileExistsMessage(const QString& line);
 
-			QStringList m_errorMessages;
-			QByteArray m_stdOutData;
+			QByteArray m_stdOutData, m_stdErrData;
 			bool m_userCancelled;
+			QRegExp m_existsPattern;
 
 			KPtyProcess *m_process;
 			QString m_program;

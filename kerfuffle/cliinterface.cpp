@@ -53,6 +53,7 @@ namespace Kerfuffle
 		Q_ASSERT(m_param.contains(ListProgram));
 		Q_ASSERT(m_param.contains(PreservePathSwitch));
 		Q_ASSERT(m_param.contains(RootNodeSwitch));
+		Q_ASSERT(m_param.contains(FileExistsExpression));
 	}
 
 	CliInterface::~CliInterface()
@@ -266,7 +267,6 @@ namespace Kerfuffle
 	void CliInterface::started()
 	{
 		//m_state = 0;
-		m_errorMessages.clear();
 		m_userCancelled = false;
 	}
 
@@ -288,21 +288,23 @@ namespace Kerfuffle
 		if ( !m_process )
 			return;
 
-		QByteArray stdErrData = m_process->readAllStandardError();
+		m_stdErrData += m_process->readAllStandardError();
 
-		kDebug( 1601 ) << "ERROR" << stdErrData.size() << stdErrData;
+		// process all lines until the last '\n'
+		int indx = m_stdErrData.lastIndexOf('\n');
+		if (indx == -1) return;
 
-		if ( !stdErrData.isEmpty() )
-		{
-			//if (handlePasswordPrompt(stdErrData))
-				//return;
-			//else if (handleOverwritePrompt(stdErrData))
-			//	return;
-			//else
-			{
-				m_errorMessages << QString::fromLocal8Bit(stdErrData);
-			}
+		QString leftString = QString::fromLocal8Bit(m_stdErrData.left(indx + 1));
+		const QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
+		foreach(const QString &line, lines) {
+
+			if (m_param.value(FileExistsMode, 0).toInt() == 0 && checkForFileExistsMessage(line))
+				continue;
+
+
 		}
+
+		m_stdErrData.remove(0, indx + 1);
 	}
 
 	void CliInterface::readStdout()
@@ -332,6 +334,12 @@ namespace Kerfuffle
 				}
 			}
 
+			if (m_mode == Copy) {
+
+				if (m_param.value(FileExistsMode, 0).toInt() == 1 && checkForFileExistsMessage(line))
+					continue;
+			}
+
 			readListLine(line);
 
 		}
@@ -344,6 +352,27 @@ namespace Kerfuffle
 	{
 		m_program = KStandardDirs::findExe( program );
 		return !m_program.isEmpty();
+	}
+
+	bool CliInterface::checkForFileExistsMessage(const QString& line)
+	{
+		kDebug(1601);
+
+		if (m_existsPattern.isEmpty()) {
+			m_existsPattern.setPattern(m_param.value(FileExistsExpression).toString());
+		}
+		if (m_existsPattern.indexIn(line) != -1) {
+			kDebug(1601) << "Detected file existing!! Filename " << m_existsPattern.cap(1);
+
+			Kerfuffle::OverwriteQuery query(m_existsPattern.cap(1));
+			query.setNoRenameMode(true);
+			emit userQuery(&query);
+			query.waitForResponse();
+
+			return true;
+		}
+
+		return false;
 	}
 
 
