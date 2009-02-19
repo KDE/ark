@@ -77,7 +77,7 @@ bool UnAceInterface::processListLine( const QByteArray &bytes )
 		// this is not the listing yet
 		return true;
 
-	const char *EXPECTED_HEADER[] = { "Date    ", "Time ", "Packed     ", "Size     ", "Ratio", "File            " };
+	const char* const EXPECTED_HEADER[] = { "Date    ", "Time ", "Packed     ", "Size     ", "Ratio", "File            " };
 
 	if ( !m_hadHeader ) { // header should follow, let's check if it's as expected
 		for ( int i = 0; i < 6; i++ )
