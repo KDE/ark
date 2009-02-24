@@ -12,6 +12,7 @@ X-KDE-Priority=100
 X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=true
 Name=7zip archive plugin
+Name[es]=Complemento de archivo comprimido 7zip
 Name[et]=7zip arhiivi plugin
 Name[ga]=Breiseán cartlainne 7zip
 Name[ja]=7zip アーカイブ用プラグイン
