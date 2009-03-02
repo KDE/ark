@@ -25,6 +25,7 @@
 #include <KLocale>
 #include <KPasswordDialog>
 #include <QApplication>
+#include <kdebug.h>
 
 #include <kio/renamedialog.h>
 
@@ -43,14 +44,21 @@ namespace Kerfuffle
 
 	void Query::waitForResponse()
 	{
-		m_responseCondition.wait(&m_responseMutex);
-		m_responseMutex.unlock();
+		kDebug(1601);
+
+		//if there is no response set yet, wait
+		if (!m_data.contains("response"))
+			m_responseCondition.wait(&m_responseMutex);
+
 	}
 
 	void Query::setResponse(QVariant response)
 	{
+		kDebug(1601);
+
 		m_data["response"] = response;
 		m_responseCondition.wakeAll();
+		m_responseMutex.unlock();
 	}
 
 	//---
