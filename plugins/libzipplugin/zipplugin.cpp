@@ -36,7 +36,7 @@ typedef quint32 off_t;
 
 #include "kerfuffle/archiveinterface.h"
 #include "kerfuffle/archivefactory.h"
-#include "kerfuffle/recursivelister.h"
+#include <QDirIterator>
 
 #include <zip.h>
 
@@ -427,8 +427,8 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			int processed = 0;
 			foreach( const QString & file, files )
 			{
-
 				QString relativeName = QDir::current().relativeFilePath(file);
+				kDebug(1601) << "file: " << file << relativeName;
 				if (relativeName.isEmpty()) {
 					//probably trying to add the current directory to the, with
 					//the GlobalWorkdir set to the same value. 
@@ -448,20 +448,17 @@ class LibZipInterface: public ReadWriteArchiveInterface
 						return false;
 					}
 
-					RecursiveLister lister(file);
-					//TODO: refer to bug #178347
-					lister.run();
+					QDirIterator it(file, QDirIterator::Subdirectories);
 
+					while (it.hasNext()) {
+						QString path = it.next();
+						if (it.fileName() == ".." || it.fileName() == ".") continue;
 
-					while (1) {
-						KFileItem item = lister.getNextFile();
-						if (item.isNull()) break;
-
-						result = writeFile(file + item.name(),
-								relativeName + item.name() + 
-								(item.isDir() ? "/" : ""));
+						result = writeFile(path,
+								QDir::current().relativeFilePath(path) + 
+								(it.fileInfo().isDir() ? "/" : ""));
 						if (result < 0) {
-							kDebug( 1601 ) << "Error while compressing " << relativeName;
+							kDebug( 1601 ) << "Error while compressing " << relativeName << it.fileName();
 							return false;
 						}
 
@@ -495,7 +492,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			{
 				kDebug( 1601 ) << "Read error " << zip_strerror(m_archive);
 				error( i18n( "Could not read from the input file '%1'", file ) );
-				return false;
+				return -1;
 			}
 
 
@@ -503,6 +500,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			if (  ( index = zip_add( m_archive, QFile::encodeName(nameInArchive), source ) ) < 0 )
 			{
 				error( i18n( "Could not add the file %1 to the archive.", file) );
+				return -1;
 			}
 
 			emitEntryForIndex( index );

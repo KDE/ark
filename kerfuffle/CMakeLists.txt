@@ -17,7 +17,6 @@ set(kerfuffle_SRCS
 	threading.cpp
     archivebase.cpp
 	extractiondialog.cpp
-	recursivelister.cpp
 	adddialog.cpp
 	queries.cpp
 	cliinterface.cpp

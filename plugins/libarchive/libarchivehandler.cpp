@@ -27,7 +27,7 @@
 //#include "settings.h"
 #include "kerfuffle/archivefactory.h"
 #include "kerfuffle/queries.h"
-#include "kerfuffle/recursivelister.h"
+#include <QDirIterator>
 
 #include <archive.h>
 #include <archive_entry.h>
@@ -517,19 +517,15 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 			return false;
 		}
 		if (QFileInfo(selectedFile).isDir()) {
-			RecursiveLister lister(selectedFile);
-			
-			//TODO: this is NOT the correct way to use RecursiveLister, but
-			//until problems regarding thread safety and KIO have been resolved
-			//somehow, this will do all the listing before compressing. This is
-			//a performance loss. refer to bug #178347
-			lister.run();
 
-			while (1) {
-				KFileItem item = lister.getNextFile();
-				if (item.isNull()) break;
-				success = writeFile(item.localPath() + item.name() + 
-						(item.isDir() ? "/" : "")
+			QDirIterator it(selectedFile, QDirIterator::Subdirectories);
+
+			while (it.hasNext()) {
+				QString path = it.next();
+				if (it.fileName() == ".." || it.fileName() == ".") continue;
+
+				success = writeFile(path + 
+						(it.fileInfo().isDir() ? "/" : "")
 						, arch_writer, entry);
 				if (!success){
 					return false;
