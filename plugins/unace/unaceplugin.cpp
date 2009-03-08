@@ -65,7 +65,7 @@ bool UnAceInterface::list()
 	}
 
   if ( !started )
-    error( i18n( "Couldn't launch <tt>unace</tt>. Make sure you have that tool installed and available." ) );
+    error( i18n( "Unable to launch <tt>unace</tt>. Make sure you have that tool installed and available." ) );
 
 	return started && (unace.exitStatus() == QProcess::NormalExit) && (unace.exitCode() == 0);
 }
@@ -129,7 +129,7 @@ bool UnAceInterface::copyFiles( const QList<QVariant> & files, const QString & d
 	unace.start();
 	bool started = unace.waitForStarted();
 	if ( !started ) {
-		error( i18n( "Couldn't launch <tt>unace</tt>. Make sure you have that tool installed and available." ) );
+		error( i18n( "Unable to launch <tt>unace</tt>. Make sure you have that tool installed and available." ) );
 		return false;
 	}
 

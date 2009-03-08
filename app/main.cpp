@@ -92,7 +92,7 @@ int main( int argc, char **argv )
 	option.add("p").add("changetofirstpath", ki18n("Change the current dir to the first entry and add all other entries relative to this one."));
 	option.add("f").add("autofilename <suffix>", ki18n("Automatically choose a filename, with the selected suffix (for example rar, tar.gz, zip or any other supported types)"));
 	option.add(":", ki18n("Options for batch extraction:"));
-	option.add("b").add("batch", ki18n("Use the batch interface instead of the usual dialog. This option is implied if more than one url is specified"));
+	option.add("b").add("batch", ki18n("Use the batch interface instead of the usual dialog. This option is implied if more than one url is specified."));
 	option.add("e").add("autodestination", ki18n("The destination argument will be set to the path of the first file supplied."));
 	option.add("a").add("autosubfolder", ki18n("Archive contents will be read, and if detected to not be a single folder archive, a subfolder by the name of the archive will be created."));
 	option.add("s").add("subfolder <directory>", ki18n("Create a subfolder under the destination directory and extract here."));

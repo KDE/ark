@@ -94,7 +94,7 @@ namespace Kerfuffle
 	{
 		if (m_ui->subfolder->text().contains("/"))
 		{
-			KMessageBox::error(NULL, i18n("Sorry, the subfolder name may not contain the character '/'."));
+			KMessageBox::error(NULL, i18n("The subfolder name may not contain the character '/'."));
 			return;
 		}
 
