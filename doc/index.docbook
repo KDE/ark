@@ -32,8 +32,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2008-08-03</date>
-<releaseinfo>2.10.999</releaseinfo>
+<date>2009-01-24</date>
+<releaseinfo>2.12</releaseinfo>
 
 <abstract>
 <para>&ark; is an archive manager for &kde;.</para></abstract>
@@ -75,7 +75,7 @@ installed).</para>
 menu. You can also open archive files by dragging and dropping from
 &konqueror; or &dolphin;. Archive files should be associated with &ark;, so you can
 also <mousebutton>right</mousebutton> click a file in &konqueror; or &dolphin; and
-select <guimenuitem>Open with &ark;</guimenuitem> to open it.</para>
+select <guimenuitem>Open with &ark;</guimenuitem> to open it or select an extract action for this file.</para>
 
 </sect1>
 
@@ -103,20 +103,35 @@ selected file(s) from the archive.</para>
 specify on disk.</para>
 </listitem>
 <listitem>
-<para><guimenuitem>Preview</guimenuitem> will open the file in the integrated viewer.</para>
+<para><guimenuitem>Preview</guimenuitem> will open the file in the associated viewer.</para>
 </listitem>
 </itemizedlist>
 
 </sect1>
-
 <sect1 id="ark-extract">
 <title>Extracting Archives</title>
 
 <para>Once an archive has been opened in &ark;, it can be extracted. To
-extract files from an archive, you can select
+quick extract files from an archive, you can select
 <guimenuitem>Extract...</guimenuitem> from the
-<guimenu>Action</guimenu> menu. The <guilabel>Extract</guilabel>
-dialog allows you to select where you will extract files to. You can
+<guimenu>Action</guimenu> menu. This opens a submenu with previously accessed folders,
+and you can select to quick extract into any of them. Clicking on the check mark at 
+the right side of the <guibutton>Extract</guibutton> button in the toolbar performes the same action. 
+</para>
+<para>
+To open the <guilabel>Extract</guilabel> dialog click the <guibutton>Extract</guibutton> 
+button in the toolbar or use the shortcut <keycombo action="simul">&Ctrl;
+<keycap>E</keycap></keycombo>.
+
+This dialog allows you to select where you will extract files to. The default 
+location is the folder the archive is in.</para>
+<para>You can specify to extract the files into a subfolder. The default name of this 
+subfolder is the first part of the archive name, but you can edit it to your needs.
+If you want to preserve paths when extracting, select this option.
+You may also choose to open the destination folder
+in &konqueror; or &dolphin; once the extraction is complete.</para>
+
+<para>If a file in the archive list is highlighted, you can
 also select which files to extract:</para>
 
 <itemizedlist>
@@ -130,11 +145,6 @@ archive.</para>
 </listitem> 
 </itemizedlist>
 
-<para>You can specify the folder to extract files to in the
-<guilabel>Destination folder</guilabel> text box.  The default location is the
-folder the archive is in. You may also choose to open the destination folder
-in &konqueror; or &dolphin; once the extraction is complete.</para>
-
 </sect1>
 
 <sect1 id="ark-create">
@@ -147,7 +157,9 @@ menu.</para>
 <para>You can then type the name of the archive, with the appropriate
 extension (<literal role="extension">tar.gz</literal>, <literal
 role="extension">zip</literal>, <literal role="extension">bz2</literal>
-&etc;). To add files to the archive, choose <guimenuitem>Add
+&etc;) or select a supported format in the <guilabel>Filter</guilabel> combo box
+and check the <guilabel>Automatically select filename extension</guilabel> option.
+To add files to the archive, choose <guimenuitem>Add
 File...</guimenuitem> from the <guimenu>Action</guimenu> menu. If you
 want to add an entire folder to an archive, choose <guimenuitem>Add
 Folder...</guimenuitem> from the <guimenu>Action</guimenu> menu.</para>
@@ -205,7 +217,7 @@ present in the archive.</para>
 </listitem>
 </varlistentry>
 -->
-<!-- TODO: Entry seems to have disappearead, confirm that it's not just 
+<!-- TODO: Entry seems to have disappeared, confirm that it's not just 
 hidden because I don't have lha installed
 <varlistentry>
 <term><guilabel>Keep entries generic (Lha)</guilabel></term>
@@ -527,30 +539,14 @@ archive.</action></para>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut><keycombo action="simul">&Ctrl;<keycap>E</keycap></keycombo></shortcut>
 <guimenu>Action</guimenu>
-<guimenuitem>Extract</guimenuitem> <!-- in 4.2 <guisubmenu>Extract...</guisubmenu>-->
+<guisubmenu>Extract...</guisubmenu>
+<guimenuitem>Quick extract to...</guimenuitem>
 </menuchoice></term>
 <listitem>
-<!--this has changed in 4.2-->
-<para>Shows the <guilabel>Extract</guilabel> dialog box, which allows
-you to <action>select where you will extract files</action> to. You can
-also select which files to extract:</para>
-
-<itemizedlist>
-<listitem>
-<para><guimenuitem>Selected files only</guimenuitem> extracts only the files
-which have been selected.</para>
-</listitem>
-<listitem>
-<para><guimenuitem>All files</guimenuitem> extracts the entire contents of the
-archive.</para>
-</listitem> 
-</itemizedlist>
-
-<para>You can specify the folder to extract files to in the
-<guilabel>Destination folder</guilabel> text box.  The default location is the
-folder the archive is in. You may also choose to open the destination folder
-in &konqueror; or &dolphin; once the extraction is complete.</para>
+<para>This opens a submenu with previously accessed folders,
+and you can select to quick extract into any of them.</para>
 </listitem> 
 </varlistentry>
 
