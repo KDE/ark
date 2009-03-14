@@ -24,7 +24,7 @@
 
 #include "archiveinterface.h"
 #include "kerfuffle_export.h"
-#include <kptyprocess.h>
+#include <KProcess>
 #include <QEventLoop>
 #include <QRegExp>
 
@@ -129,6 +129,18 @@ namespace Kerfuffle
 		 * 1 - Standard output, stdout
 		 */
 		FileExistsMode,
+		/**
+		 * QStringList
+		 * The various responses that can be supplied as a response to the
+		 * "file exists" prompt. The various items are to be supplied in the
+		 * following order:
+		 * index 0 - Yes (overwrite)
+		 * index 1 - No (skip/do not overwrite)
+		 * index 2 - All (overwrite all)
+		 * index 3 - Cancel operation
+		 * index 4 - Do not overwrite any files (autoskip)
+		 */
+		FileExistsInput,
 
 		///////////////[ DELETE ]/////////////
 
@@ -201,11 +213,11 @@ namespace Kerfuffle
 			void cacheParameterList();
 			bool checkForFileExistsMessage(const QString& line);
 
-			QByteArray m_stdOutData, m_stdErrData;
+			QByteArray m_stdOutData;
 			bool m_userCancelled;
 			QRegExp m_existsPattern;
 
-			KPtyProcess *m_process;
+			KProcess *m_process;
 			QString m_program;
 			QEventLoop *m_loop;
 			ParameterList m_param;
@@ -213,7 +225,6 @@ namespace Kerfuffle
 		private slots:
 			void started();
 			void readStdout();
-			void readFromStderr();
 			void finished( int exitCode, QProcess::ExitStatus exitStatus );
 
 	};

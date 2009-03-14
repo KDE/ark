@@ -54,6 +54,7 @@ class CliPlugin: public CliInterface
 				p[ExtractArgs] = QStringList() << "$PreservePathSwitch" << "$RootNodeSwitch" << "$Archive" << "$Files";
 				p[PreservePathSwitch] = QStringList() << "x" << "e";
 				p[RootNodeSwitch] = QStringList() << "-w$Path";
+				p[FileExistsExpression] = "^(.+) already exists. Overwrite it";
 
 			}
 			return p;

@@ -31,6 +31,7 @@
 #include <KLocale>
 #include <QEventLoop>
 #include <QThread>
+#include <QTimer>
 #include <KProcess>
 #include <kptyprocess.h>
 #include <kptydevice.h>
@@ -54,6 +55,7 @@ namespace Kerfuffle
 		Q_ASSERT(m_param.contains(PreservePathSwitch));
 		Q_ASSERT(m_param.contains(RootNodeSwitch));
 		Q_ASSERT(m_param.contains(FileExistsExpression));
+		Q_ASSERT(m_param.contains(FileExistsInput));
 	}
 
 	CliInterface::~CliInterface()
@@ -213,15 +215,15 @@ namespace Kerfuffle
 
 	bool CliInterface::createProcess()
 	{
+		kDebug(1601);
 		if (m_process)
 			return false;
 
-		m_process = new KPtyProcess;
-		m_process->setOutputChannelMode( KProcess::SeparateChannels );
+		m_process = new KProcess;
+		m_process->setOutputChannelMode( KProcess::MergedChannels );
 
 		connect( m_process, SIGNAL( started() ), SLOT( started() ) );
 		connect( m_process, SIGNAL( readyReadStandardOutput() ), SLOT( readStdout() ) );
-		connect( m_process, SIGNAL( readyReadStandardError() ), SLOT( readFromStderr() ) );
 		connect( m_process, SIGNAL( finished( int, QProcess::ExitStatus ) ), SLOT( finished( int, QProcess::ExitStatus ) ) );
 
 		if (QMetaType::type("QProcess::ExitStatus") == 0)
@@ -237,10 +239,12 @@ namespace Kerfuffle
 		m_process->setProgram( path, args );
 		m_process->setNextOpenMode( QIODevice::ReadWrite | QIODevice::Unbuffered );
 		m_process->start();
-		QEventLoop loop;
-		m_loop = &loop;
-		bool ret = loop.exec( QEventLoop::WaitForMoreEvents );
-		m_loop = 0;
+		m_process->waitForFinished(-1);
+		//QEventLoop loop;
+		//m_loop = &loop;
+
+		//bool ret = loop.exec( QEventLoop::WaitForMoreEvents );
+		//m_loop = 0;
 
 		delete m_process;
 		m_process = NULL;
@@ -272,56 +276,80 @@ namespace Kerfuffle
 
 	void CliInterface::finished( int exitCode, QProcess::ExitStatus exitStatus)
 	{
+		kDebug(1601);
 		if ( !m_process )
 			return;
 
 		progress(1.0);
 
+		return;
 		if ( m_loop )
 		{
 			m_loop->exit( exitStatus == QProcess::CrashExit ? 1 : 0 );
 		}
 	}
 
-	void CliInterface::readFromStderr()
-	{
-		if ( !m_process )
-			return;
-
-		m_stdErrData += m_process->readAllStandardError();
-
-		// process all lines until the last '\n'
-		int indx = m_stdErrData.lastIndexOf('\n');
-		if (indx == -1) return;
-
-		QString leftString = QString::fromLocal8Bit(m_stdErrData.left(indx + 1));
-		const QStringList lines = leftString.split( '\n', QString::SkipEmptyParts );
-		foreach(const QString &line, lines) {
-
-			if (m_param.value(FileExistsMode, 0).toInt() == 0 && checkForFileExistsMessage(line))
-				continue;
-
-
-		}
-
-		m_stdErrData.remove(0, indx + 1);
-	}
-
 	void CliInterface::readStdout()
 	{
-		if ( !m_process )
+		//a quick note for any new hackers: Yes, this function is not
+		//very pretty, but it has become like this for reasons. You are
+		//very welcome to find a better implementation for this, but
+		//please consider the following points:
+		//
+		//- standard output comes in unpredictable chunks, this is why
+		//you can never know if the last part of the output is a complete line or not
+		//- because of eventloop magic and the process running in its
+		//own thread, the readStdOut might be called at any time, even
+		//while it's busy processing the last call (this last case
+		//happens when another eventloop is created somewhere (eg
+		//Query::execute) and the readyReadStandardOutput signal is
+		//picked up there)
+		//- console applications are not really consistent about what
+		//characters they send out (newline, backspace, carriage return,
+		//etc), so keep in mind that this function is supposed to handle
+		//all those special cases and be the lowest common denominator
+
+		if ( !m_process ) {
 			return;
+		}
 
-		m_stdOutData += m_process->readAllStandardOutput();
+		//if another function is already accessing this function, then we
+		//assume that it will finish processing also the lines we just added.
+		static QMutex thisFuncMutex;
+		bool tryLock = thisFuncMutex.tryLock();
 
-		// process all lines until the last '\n' or backspace
-		int indx = m_stdOutData.lastIndexOf('\010');
-		if (indx == -1) indx = m_stdOutData.lastIndexOf('\n');
-		if (indx == -1) return;
+		if (!tryLock)  {
+			return;
+		}
 
-		QString leftString = QString::fromLocal8Bit(m_stdOutData.left(indx + 1));
-		const QStringList lines = leftString.split( QRegExp("[\\n\\010]"), QString::SkipEmptyParts );
-		foreach(const QString &line, lines) {
+		QByteArray dd = m_process->readAllStandardOutput();
+
+		//for simplicity, we replace all carriage return characters to newlines
+		dd.replace('\015', '\n');
+
+		//same thing with backspaces. 
+		//TODO: whether this is a safe assumption or not needs to be
+		//determined
+		dd.replace('\010', '\n');
+
+		m_stdOutData += dd;
+
+		//if there is no newline, we leave the data like this for now.
+		if (!m_stdOutData.contains('\n')) {
+			kDebug(1601) << "No new line, we leave it like this for now";
+			thisFuncMutex.unlock();
+			return;
+		}
+
+		QList<QByteArray> list = m_stdOutData.split('\n');
+
+		//because the last line might be incomplete we leave it for now
+		QByteArray lastLine = list.takeLast();
+		m_stdOutData = lastLine;
+
+		foreach( const QByteArray& line, list) {
+
+			if (line.isEmpty()) continue;
 
 			if ((m_mode == Copy || m_mode == Add) && m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool())
 			{
@@ -336,15 +364,20 @@ namespace Kerfuffle
 
 			if (m_mode == Copy) {
 
-				if (m_param.value(FileExistsMode, 0).toInt() == 1 && checkForFileExistsMessage(line))
+				if (checkForFileExistsMessage(line))
 					continue;
 			}
 
-			readListLine(line);
+			if (m_mode == List) {
+				readListLine(line);
+				continue;
+			}
 
 		}
 
-		m_stdOutData.remove(0, indx + 1);
+		thisFuncMutex.unlock();
+		QTimer::singleShot(0, this, SLOT(readStdout()));
+
 	}
 
 
@@ -356,8 +389,6 @@ namespace Kerfuffle
 
 	bool CliInterface::checkForFileExistsMessage(const QString& line)
 	{
-		kDebug(1601);
-
 		if (m_existsPattern.isEmpty()) {
 			m_existsPattern.setPattern(m_param.value(FileExistsExpression).toString());
 		}
@@ -367,7 +398,32 @@ namespace Kerfuffle
 			Kerfuffle::OverwriteQuery query(m_existsPattern.cap(1));
 			query.setNoRenameMode(true);
 			emit userQuery(&query);
+			kDebug(1601) << "Waiting response";
 			query.waitForResponse();
+
+			kDebug(1601) << "Finished response";
+
+			QString responseToProcess;
+			QStringList choices = m_param.value(FileExistsInput).toStringList();
+
+			if (query.responseOverwrite())
+				responseToProcess = choices.at(0);
+			else if (query.responseSkip())
+				responseToProcess = choices.at(1);
+			else if (query.responseOverwriteAll())
+				responseToProcess = choices.at(2);
+			else if (query.responseCancelled())
+				responseToProcess = choices.at(3);
+			else if (query.responseAutoSkip())
+				responseToProcess = choices.at(4);
+
+			Q_ASSERT(!responseToProcess.isEmpty());
+
+			responseToProcess += '\n';
+
+			kDebug(1601) << "Writing " << responseToProcess;
+
+			m_process->write(responseToProcess.toLocal8Bit());
 
 			return true;
 		}
