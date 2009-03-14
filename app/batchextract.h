@@ -44,6 +44,7 @@ class BatchExtract : public KCompositeJob
 
 	public:
 		BatchExtract();
+		virtual ~BatchExtract();
 		void addExtraction(Kerfuffle::Archive* archive, bool preservePaths = true, QString destinationFolder = QString());
 		void start();
 		void setAutoSubfolder(bool value);

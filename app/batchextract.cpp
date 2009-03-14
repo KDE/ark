@@ -43,6 +43,12 @@ BatchExtract::BatchExtract()
 {
 }
 
+BatchExtract::~BatchExtract()
+{
+	kDebug(1601) << "Dying";
+	KIO::getJobTracker()->unregisterJob(this);
+}
+
 
 void BatchExtract::addExtraction(Kerfuffle::Archive* archive,bool preservePaths, QString destinationFolder)
 {
