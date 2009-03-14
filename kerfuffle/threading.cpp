@@ -24,6 +24,9 @@
  */
 
 #include "threading.h"
+#include <QApplication>
+#include <QTimer>
+#include <kdebug.h>
 
 namespace Kerfuffle
 {
@@ -35,8 +38,26 @@ namespace Kerfuffle
 
 	void ThreadExecution::run()
 	{
-		//perform the work in this thread!
-		m_job->doWork();
+		kDebug(1601) << "Run";
+		//schedule to perform the work in this thread
+		QTimer::singleShot(0, m_job, SLOT(doWork()));
+
+		//and when finished, quit the event loop
+		connect(m_job, SIGNAL(finished(KJob*)),
+				this, SLOT(cleanUp()));
+
+		//start the event loop
+		exec();
+
+		kDebug(1601) << "Finished exec";
+	}
+	
+	void ThreadExecution::cleanUp()
+	{
+		kDebug(1601);
+
+		//exit the event loop
+		quit();
 	}
 
 }

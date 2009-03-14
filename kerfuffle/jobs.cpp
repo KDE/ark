@@ -30,13 +30,15 @@
 #include <KLocale>
 #include <QDir>
 #include <QTimer>
+#include <QApplication>
+
+#define KERFUFFLE_NOJOBTHREADING
 
 namespace Kerfuffle
 {
 
-
 	Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
-		: KJob(parent),
+		: KJob(NULL),
 		m_interface(interface)
 	{
 		static bool onlyOnce = false;
@@ -44,12 +46,23 @@ namespace Kerfuffle
 			qRegisterMetaType<QPair<QString, QString> >("QPair<QString,QString>");
 			onlyOnce = true;
 		}
+
+		setCapabilities(KJob::Killable | KJob::Suspendable);
 	}
 
 	void Job::start()
 	{
+#ifdef KERFUFFLE_NOJOBTHREADING
+		QTimer::singleShot(0, this, SLOT(doWork()));
+#else
 		ThreadExecution *thread = new ThreadExecution(this);
+
+		//we want the event handling to happen in the work thread to avoid
+		//unsafe data access due to events while work is being done
+		moveToThread(thread);
+
 		thread->start();
+#endif
 	}
 
 	void Job::onError( const QString & message, const QString & details )
@@ -94,10 +107,14 @@ namespace Kerfuffle
 		m_interface->registerObserver( this );
 		bool result = m_interface->list();
 		m_interface->removeObserver( this );
+		
 
 		setError(!result);
 		emitResult();
-		kDebug( 1601 ) << "Finished";
+
+#ifndef KERFUFFLE_NOJOBTHREADING
+		moveToThread(QApplication::instance()->thread());
+#endif
 	}
 
 	void ListJob::onNewEntry(const ArchiveEntry& entry)
@@ -158,6 +175,9 @@ namespace Kerfuffle
 		m_interface->removeObserver( this );
 
 		emitResult();
+#ifndef KERFUFFLE_NOJOBTHREADING
+		moveToThread(QApplication::instance()->thread());
+#endif
 
 	}
 	void ExtractJob::fillInDefaultValues(ExtractionOptions& options)
@@ -186,6 +206,9 @@ namespace Kerfuffle
 		m_writeInterface->removeObserver( this );
 
 		emitResult();
+#ifndef KERFUFFLE_NOJOBTHREADING
+		moveToThread(QApplication::instance()->thread());
+#endif
 
 	}
 
@@ -209,6 +232,9 @@ namespace Kerfuffle
 		m_writeInterface->removeObserver( this );
 
 		emitResult();
+#ifndef KERFUFFLE_NOJOBTHREADING
+		moveToThread(QApplication::instance()->thread());
+#endif
 	}
 
 } // namespace Kerfuffle

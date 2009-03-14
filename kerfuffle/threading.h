@@ -26,8 +26,6 @@
 #ifndef _THREADING_H_
 #define _THREADING_H_
 
-#include <ThreadWeaver/Job>
-#include <ThreadWeaver/Weaver>
 #include "jobs.h"
 #include <QThread>
 
@@ -36,6 +34,11 @@ namespace Kerfuffle
 
 	class ThreadExecution : public QThread
 	{
+		Q_OBJECT
+
+		private slots:
+			void cleanUp();
+
 		public:
 			ThreadExecution(Kerfuffle::Job *job);
 
