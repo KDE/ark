@@ -24,5 +24,6 @@ Name[sr]=Прикључак РАР архива
 Name[sr@latin]=Priključak RAR arhiva
 Name[sv]=Insticksprogram för RAR-arkiv
 Name[uk]=Додаток для архівів RAR
+Name[x-test]=xxRAR archive pluginxx
 Name[zh_TW]=RAR 壓縮檔外掛程式
 MimeType=application/x-rar;
