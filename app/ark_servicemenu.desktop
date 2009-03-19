@@ -11,6 +11,7 @@ X-KDE-StartupNotify=false
 [Desktop Action arkExtractHere]
 Name=Extract archive here
 Name[ca]=Extreu l'arxiu aquí
+Name[cs]=Rozbalit archiv zde
 Name[da]=Udpak arkiv her
 Name[de]=Archiv hierher auspacken
 Name[el]=Εξαγωγή αρχειοθήκης εδώ
@@ -52,6 +53,7 @@ Exec=ark --batch --autodestination %F
 [Desktop Action arkExtractTo]
 Name=Extract archive to...
 Name[ca]=Extreu l'arxiu a...
+Name[cs]=Rozbalit archiv do...
 Name[da]=Udpak arkiv til...
 Name[de]=Archiv auspacken nach...
 Name[el]=Εξαγωγή αρχειοθήκης σε...
@@ -93,6 +95,7 @@ Exec=ark --batch --autodestination --dialog %F
 [Desktop Action arkAutoExtractHere]
 Name=Extract archive here, autodetect subfolder
 Name[ca]=Extreu l'arxiu aquí, detecta automàticament la subcarpeta
+Name[cs]=Rozbalit archiv zde, automaticky detekovat podsložku
 Name[da]=Udpak arkiv her, find automatisk undermappe
 Name[de]=Archiv hierher auspacken, Unterordner selbstständig ermitteln
 Name[el]=Εξαγωγή αρχειοθήκης εδώ, αυτόματη επιλογή υποφακέλου
