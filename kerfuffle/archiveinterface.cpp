@@ -107,6 +107,22 @@ namespace Kerfuffle
 		}
 	}
 
+	void ReadOnlyArchiveInterface::finished(bool result)
+	{
+		foreach( ArchiveObserver *observer, m_observers )
+		{
+			observer->onFinished( result );
+		}
+	}
+
+	void ReadOnlyArchiveInterface::userQuery(Query *query)
+	{
+		foreach( ArchiveObserver *observer, m_observers )
+		{
+			observer->onUserQuery( query );
+		}
+	}
+
 	void ReadOnlyArchiveInterface::registerObserver( ArchiveObserver *observer )
 	{
 		m_observers.append( observer );

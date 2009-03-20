@@ -38,6 +38,8 @@ namespace Kerfuffle
 			virtual void onProgress( double ) = 0;
 			virtual void onInfo( const QString& message) = 0;
 			virtual void onEntryRemoved( const QString & path ) = 0;
+			virtual void onFinished( bool result ) = 0;
+			virtual void onUserQuery( class Query *query ) = 0;
 	};
 
 } // namespace Kerfuffle

@@ -225,7 +225,7 @@ namespace Kerfuffle
 		private slots:
 			void started();
 			void readStdout();
-			void finished( int exitCode, QProcess::ExitStatus exitStatus );
+			void processFinished( int exitCode, QProcess::ExitStatus exitStatus );
 
 	};
 

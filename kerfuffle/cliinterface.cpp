@@ -90,6 +90,7 @@ namespace Kerfuffle
 
 	bool CliInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
 	{
+
 		kDebug( 1601) ;
 		cacheParameterList();
 
@@ -216,15 +217,16 @@ namespace Kerfuffle
 	bool CliInterface::createProcess()
 	{
 		kDebug(1601);
-		if (m_process)
-			return false;
+		//if (m_process)
+			//return false;
 
 		m_process = new KProcess;
 		m_process->setOutputChannelMode( KProcess::MergedChannels );
 
-		connect( m_process, SIGNAL( started() ), SLOT( started() ) );
-		connect( m_process, SIGNAL( readyReadStandardOutput() ), SLOT( readStdout() ) );
-		connect( m_process, SIGNAL( finished( int, QProcess::ExitStatus ) ), SLOT( finished( int, QProcess::ExitStatus ) ) );
+		connect( m_process, SIGNAL( started() ), SLOT( started() ), Qt::DirectConnection  );
+		connect( m_process, SIGNAL( readyReadStandardOutput() ), SLOT( readStdout() ), Qt::DirectConnection );
+		connect( m_process, SIGNAL( finished( int, QProcess::ExitStatus ) ), SLOT( processFinished( int, QProcess::ExitStatus ) ) ,
+				Qt::DirectConnection);
 
 		if (QMetaType::type("QProcess::ExitStatus") == 0)
 			qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
@@ -239,15 +241,6 @@ namespace Kerfuffle
 		m_process->setProgram( path, args );
 		m_process->setNextOpenMode( QIODevice::ReadWrite | QIODevice::Unbuffered );
 		m_process->start();
-		m_process->waitForFinished(-1);
-		//QEventLoop loop;
-		//m_loop = &loop;
-
-		//bool ret = loop.exec( QEventLoop::WaitForMoreEvents );
-		//m_loop = 0;
-
-		delete m_process;
-		m_process = NULL;
 		/*
 		   if (!m_errorMessages.isEmpty())
 		   {
@@ -274,23 +267,27 @@ namespace Kerfuffle
 		m_userCancelled = false;
 	}
 
-	void CliInterface::finished( int exitCode, QProcess::ExitStatus exitStatus)
+	void CliInterface::processFinished( int exitCode, QProcess::ExitStatus exitStatus)
 	{
 		kDebug(1601);
-		if ( !m_process )
-			return;
 
 		progress(1.0);
 
+		finished(true);
+
+		m_process = NULL;
 		return;
+
 		if ( m_loop )
 		{
 			m_loop->exit( exitStatus == QProcess::CrashExit ? 1 : 0 );
 		}
+
 	}
 
 	void CliInterface::readStdout()
 	{
+
 		//a quick note for any new hackers: Yes, this function is not
 		//very pretty, but it has become like this for reasons. You are
 		//very welcome to find a better implementation for this, but
@@ -397,7 +394,7 @@ namespace Kerfuffle
 
 			Kerfuffle::OverwriteQuery query(m_existsPattern.cap(1));
 			query.setNoRenameMode(true);
-			emit userQuery(&query);
+			userQuery(&query);
 			kDebug(1601) << "Waiting response";
 			query.waitForResponse();
 
