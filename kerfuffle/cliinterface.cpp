@@ -44,7 +44,8 @@ namespace Kerfuffle
 		m_process(NULL),
 		m_loop(NULL)
 	{
-
+		//because this interface uses the event loop
+		setWaitForFinishedSignal(true);
 	}
 
 	void CliInterface::cacheParameterList()

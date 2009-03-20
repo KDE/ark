@@ -34,7 +34,7 @@
 namespace Kerfuffle
 {
 	ReadOnlyArchiveInterface::ReadOnlyArchiveInterface( const QString & filename, QObject *parent )
-		: QObject( parent ), m_filename( filename )
+		: QObject( parent ), m_filename( filename ), m_waitForFinishedSignal(false)
 	{
 	}
 
@@ -140,6 +140,11 @@ namespace Kerfuffle
 
 	ReadWriteArchiveInterface::~ReadWriteArchiveInterface()
 	{
+	}
+
+	void ReadOnlyArchiveInterface::setWaitForFinishedSignal(bool value)
+	{
+		m_waitForFinishedSignal = value;
 	}
 
 	bool ReadWriteArchiveInterface::isReadOnly() const
