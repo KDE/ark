@@ -32,7 +32,7 @@
 #include <QTimer>
 #include <QApplication>
 
-#define KERFUFFLE_NOJOBTHREADING
+//#define KERFUFFLE_NOJOBTHREADING
 
 namespace Kerfuffle
 {
