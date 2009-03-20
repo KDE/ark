@@ -123,7 +123,9 @@ namespace Kerfuffle
 	{
 		emit description( this, i18n( "Loading archive..." ) );
 		m_interface->registerObserver( this );
-		m_interface->list();
+		bool ret = m_interface->list();
+
+		if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
 	}
 
 	void ListJob::onNewEntry(const ArchiveEntry& entry)
@@ -180,7 +182,8 @@ namespace Kerfuffle
 			<< " And options " << m_options
 					;
 
-		m_interface->copyFiles( m_files, m_destinationDir, m_options );
+		bool ret = m_interface->copyFiles( m_files, m_destinationDir, m_options );
+		if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
 
 	}
 	void ExtractJob::fillInDefaultValues(ExtractionOptions& options)
@@ -205,8 +208,9 @@ namespace Kerfuffle
 		Q_ASSERT(m_writeInterface);
 		
 		m_writeInterface->registerObserver( this );
-		m_writeInterface->addFiles( m_files, m_options );
+		bool ret = m_writeInterface->addFiles( m_files, m_options );
 
+		if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
 	}
 
 	DeleteJob::DeleteJob( const QList<QVariant>& files, ReadWriteArchiveInterface *interface, QObject *parent )
@@ -225,7 +229,9 @@ namespace Kerfuffle
 		Q_ASSERT(m_writeInterface);
 		
 		m_writeInterface->registerObserver( this );
-		m_writeInterface->deleteFiles( m_files );
+		bool ret = m_writeInterface->deleteFiles( m_files );
+
+		if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
 	}
 
 } // namespace Kerfuffle

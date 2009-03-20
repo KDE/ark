@@ -60,6 +60,9 @@ namespace Kerfuffle
 			void setPassword(QString password);
 			virtual bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options ) = 0;
 
+			bool waitForFinishedSignal() { return m_waitForFinishedSignal; }
+			void finished(bool result);
+
 		protected:
 			void error( const QString & message, const QString & details = QString() );
 			void entry( const ArchiveEntry & archiveEntry );
@@ -67,14 +70,22 @@ namespace Kerfuffle
 			void info( const QString& info);
 			void entryRemoved( const QString& path );
 			const QString& password() const;
-			void finished(bool result);
 			void userQuery( Query* );
+			/**
+			 * Setting this option to true will not exit the tread with the
+			 * exit of the various functions, but rather when finished(bool) is
+			 * called. Doing this one can use the event loop easily while doing
+			 * the operation.
+			 */
+			void setWaitForFinishedSignal(bool value);
+
 
 
 		private:
 			QList<ArchiveObserver*> m_observers;
 			QString m_filename;
 			QString m_password;
+			bool m_waitForFinishedSignal;
 	};
 
 	class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterface
