@@ -90,6 +90,24 @@ namespace Kerfuffle
 	{
 		emit entryRemoved( path );
 	}
+	
+	void Job::onFinished(bool result)
+	{
+		kDebug(1601);
+		m_interface->removeObserver( this );
+
+		setError(!result);
+		emitResult();
+
+#ifndef KERFUFFLE_NOJOBTHREADING
+		moveToThread(QApplication::instance()->thread());
+#endif
+	}
+
+	void Job::onUserQuery(Query *query)
+	{
+		emit userQuery(query);
+	}
 
 	ListJob::ListJob( ReadOnlyArchiveInterface *interface, QObject *parent )
 		: Job( interface, parent ),
@@ -105,16 +123,7 @@ namespace Kerfuffle
 	{
 		emit description( this, i18n( "Loading archive..." ) );
 		m_interface->registerObserver( this );
-		bool result = m_interface->list();
-		m_interface->removeObserver( this );
-		
-
-		setError(!result);
-		emitResult();
-
-#ifndef KERFUFFLE_NOJOBTHREADING
-		moveToThread(QApplication::instance()->thread());
-#endif
+		m_interface->list();
 	}
 
 	void ListJob::onNewEntry(const ArchiveEntry& entry)
@@ -171,13 +180,7 @@ namespace Kerfuffle
 			<< " And options " << m_options
 					;
 
-		setError( !m_interface->copyFiles( m_files, m_destinationDir, m_options ) );
-		m_interface->removeObserver( this );
-
-		emitResult();
-#ifndef KERFUFFLE_NOJOBTHREADING
-		moveToThread(QApplication::instance()->thread());
-#endif
+		m_interface->copyFiles( m_files, m_destinationDir, m_options );
 
 	}
 	void ExtractJob::fillInDefaultValues(ExtractionOptions& options)
@@ -202,13 +205,7 @@ namespace Kerfuffle
 		Q_ASSERT(m_writeInterface);
 		
 		m_writeInterface->registerObserver( this );
-		setError( !m_writeInterface->addFiles( m_files, m_options ) );
-		m_writeInterface->removeObserver( this );
-
-		emitResult();
-#ifndef KERFUFFLE_NOJOBTHREADING
-		moveToThread(QApplication::instance()->thread());
-#endif
+		m_writeInterface->addFiles( m_files, m_options );
 
 	}
 
@@ -228,13 +225,7 @@ namespace Kerfuffle
 		Q_ASSERT(m_writeInterface);
 		
 		m_writeInterface->registerObserver( this );
-		setError( !m_writeInterface->deleteFiles( m_files ) );
-		m_writeInterface->removeObserver( this );
-
-		emitResult();
-#ifndef KERFUFFLE_NOJOBTHREADING
-		moveToThread(QApplication::instance()->thread());
-#endif
+		m_writeInterface->deleteFiles( m_files );
 	}
 
 } // namespace Kerfuffle

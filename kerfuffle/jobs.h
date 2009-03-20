@@ -58,6 +58,8 @@ namespace Kerfuffle
 			virtual void onEntry( const ArchiveEntry & archiveEntry );
 			virtual void onProgress( double );
 			virtual void onEntryRemoved( const QString & path );
+			virtual void onFinished(bool result);
+			virtual void onUserQuery( class Query *query );
 
 		public slots:
 			virtual void doWork() = 0;

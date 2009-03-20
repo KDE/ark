@@ -67,8 +67,7 @@ namespace Kerfuffle
 			void info( const QString& info);
 			void entryRemoved( const QString& path );
 			const QString& password() const;
-
-		signals:
+			void finished(bool result);
 			void userQuery( Query* );
 
 
