@@ -43,37 +43,6 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action addToZip]
 Name=ZIP archive
-Name[ca]=Arxiu ZIP
-Name[cs]=Zip archív
-Name[da]=ZIP arkiv
-Name[de]=ZIP Archiv
-Name[el]=Αρχειοθήκη ZIP
-Name[es]=Archivo comprimido ZIP
-Name[et]=ZIP-arhiiv
-Name[eu]=ZIP Artxiboa
-Name[fr]=Archive ZIP
-Name[ga]=Cartlann ZIP
-Name[gl]=Arquivo ZIP
-Name[it]=Archivio ZIP
-Name[ja]=ZIP アーカイブ
-Name[km]=ប័ណ្ណសារ ZIP
-Name[ko]=ZIP 압축 파일
-Name[lv]=ZIP arhīvs
-Name[nb]=ZIP-arkiv
-Name[nds]=ZIP-Archiev
-Name[nl]=ZIP-archief
-Name[pa]=ZIP ਅਕਾਇਵ
-Name[pt]=Pacote ZIP
-Name[pt_BR]=Arquivo ZIP
-Name[ro]=Arhivă ZIP
-Name[sl]=Arhiv ZIP
-Name[sr@latin]=ZIP arhiva
-Name[sv]=ZIP-arkiv
-Name[tr]=ZIP arşivi
-Name[uk]=Архів ZIP
-Name[x-test]=xxZIP archivexx
-Name[zh_CN]=ZIP 归档
-Name[zh_TW]=ZIP 壓縮檔
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename zip %F
 
