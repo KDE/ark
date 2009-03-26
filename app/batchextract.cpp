@@ -41,6 +41,7 @@ BatchExtract::BatchExtract()
 	m_preservePaths(true)
 
 {
+	setCapabilities(KJob::Killable);
 }
 
 BatchExtract::~BatchExtract()

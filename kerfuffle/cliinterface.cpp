@@ -361,7 +361,7 @@ namespace Kerfuffle
 
 		//if there is no newline, we leave the data like this for now.
 		if (!m_stdOutData.contains('\n')) {
-			kDebug(1601) << "No new line, we leave it like this for now";
+			//kDebug(1601) << "No new line, we leave it like this for now";
 			thisFuncMutex.unlock();
 			return;
 		}
@@ -466,6 +466,28 @@ namespace Kerfuffle
 			return true;
 		}
 
+		return false;
+	}
+
+	bool CliInterface::doKill()
+	{
+		if (m_process) {
+			m_process->terminate();
+			if (!m_process->waitForFinished())
+				m_process->kill();
+			m_process->waitForFinished();
+			return true;
+		}
+		return false;
+	}
+
+	bool CliInterface::doSuspend()
+	{
+		return false;
+	}
+
+	bool CliInterface::doResume()
+	{
 		return false;
 	}
 

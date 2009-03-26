@@ -86,6 +86,10 @@ namespace Kerfuffle
 			bool waitForFinishedSignal() { return m_waitForFinishedSignal; }
 			void finished(bool result);
 
+			virtual bool doKill();
+			virtual bool doSuspend();
+			virtual bool doResume();
+
 		protected:
 			/**
 			 * Communicate an error.

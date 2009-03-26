@@ -115,6 +115,24 @@ namespace Kerfuffle
 		}
 	}
 
+	bool ReadOnlyArchiveInterface::doKill()
+	{
+		//default implementation
+		return false;
+	}
+
+	bool ReadOnlyArchiveInterface::doSuspend()
+	{
+		//default implementation
+		return false;
+	}
+
+	bool ReadOnlyArchiveInterface::doResume()
+	{
+		//default implementation
+		return false;
+	}
+
 	void ReadOnlyArchiveInterface::userQuery(Query *query)
 	{
 		foreach( ArchiveObserver *observer, m_observers )

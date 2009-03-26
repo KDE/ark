@@ -47,7 +47,7 @@ namespace Kerfuffle
 			onlyOnce = true;
 		}
 
-		setCapabilities(KJob::Killable | KJob::Suspendable);
+		setCapabilities(KJob::Killable);
 	}
 
 	void Job::start()
@@ -107,6 +107,15 @@ namespace Kerfuffle
 	void Job::onUserQuery(Query *query)
 	{
 		emit userQuery(query);
+	}
+
+	bool Job::doKill()
+	{
+		kDebug(1601);
+		bool ret = m_interface->doKill();
+		if (!ret)
+			kDebug(1601) << "Killing does not seem to be supported here.";
+		return ret;
 	}
 
 	ListJob::ListJob( ReadOnlyArchiveInterface *interface, QObject *parent )

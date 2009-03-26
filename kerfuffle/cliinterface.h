@@ -213,6 +213,10 @@ namespace Kerfuffle
 			void cacheParameterList();
 			bool checkForFileExistsMessage(const QString& line);
 
+			bool doKill();
+			bool doSuspend();
+			bool doResume();
+
 			QByteArray m_stdOutData;
 			bool m_userCancelled;
 			QRegExp m_existsPattern;

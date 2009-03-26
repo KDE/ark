@@ -74,6 +74,8 @@ namespace Kerfuffle
 			Job(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
 			ReadOnlyArchiveInterface* m_interface;
 
+			virtual bool doKill();
+
 	};
 
 	class KERFUFFLE_EXPORT ListJob: public Job
