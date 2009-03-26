@@ -29,6 +29,7 @@
 #include <kjobtrackerinterface.h>
 #include <kmessagebox.h>
 #include <klocale.h>
+#include <KStandardDirs>
 
 
 AddToArchive::AddToArchive(QObject *parent)
@@ -115,6 +116,14 @@ void AddToArchive::start( void )
 		}
 
 		QString finalName = base + '.' + m_autoFilenameSuffix;
+		
+		//if file already exists, append a number to the base until it doesnt
+		//exist
+		int appendNumber = 0;
+		while (KStandardDirs::exists(finalName)) {
+			++appendNumber;
+			finalName = base + '_' + QString::number(appendNumber) + '.' + m_autoFilenameSuffix;
+		}
 
 		kDebug( 1601 ) << "Autoset filename to " + finalName;
 		archive = Kerfuffle::factory(finalName);
