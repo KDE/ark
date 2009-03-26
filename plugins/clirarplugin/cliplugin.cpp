@@ -64,6 +64,8 @@ class CliPlugin: public CliInterface
 					<< "Q" //cancel
 					;
 
+				p[AddArgs] = QStringList() << "a" << "$Archive" << "$Files";
+
 			}
 			return p;
 		}

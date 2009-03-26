@@ -69,15 +69,9 @@ namespace Kerfuffle
 		cacheParameterList();
 		m_mode = List;
 
-		bool ret = findProgramInPath(m_param.value(ListProgram).toString());
+		bool ret = findProgramAndCreateProcess(m_param.value(ListProgram).toString());
 		if (!ret) {
-			error("TODO could not find program");
-			return false;
-		}
-
-		ret = createProcess();
-		if (!ret) {
-			error("TODO could not find program");
+			finished(false);
 			return false;
 		}
 
@@ -98,18 +92,11 @@ namespace Kerfuffle
 		m_mode = Copy;
 
 
-		bool ret = findProgramInPath(m_param.value(ExtractProgram).toString());
+		bool ret = findProgramAndCreateProcess(m_param.value(ExtractProgram).toString());
 		if (!ret) {
-			error("TODO could not find program");
+			finished(false);
 			return false;
 		}
-
-		ret = createProcess();
-		if (!ret) {
-			error("TODO could not find program");
-			return false;
-		}
-
 		//start preparing the argument list
 		QStringList args = m_param.value(ExtractArgs).toStringList();
 
@@ -204,7 +191,47 @@ namespace Kerfuffle
 
 		m_mode = Add;
 
-		return false;
+		bool ret = findProgramAndCreateProcess(m_param.value(ListProgram).toString());
+		if (!ret) {
+			finished(false);
+			return false;
+		}
+
+		QString globalWorkdir = options.value("GlobalWorkDir").toString();
+		if (!globalWorkdir.isEmpty()) {
+			kDebug( 1601 ) << "GlobalWorkDir is set, changing dir to " << globalWorkdir;
+			QDir::setCurrent(globalWorkdir);
+		}
+
+		//start preparing the argument list
+		QStringList args = m_param.value(AddArgs).toStringList();
+
+		//now replace the various elements in the list
+		for (int i = 0; i < args.size(); ++i) {
+			QString argument = args.at(i);
+			kDebug(1601) << "Processing argument " << argument;
+
+			if (argument == "$Archive") {
+				args[i] = filename();
+			}
+
+			if (argument == "$Files") {
+				args.removeAt(i);
+				for (int j = 0; j < files.count(); ++j) {
+
+					QString relativeName = QDir::current().relativeFilePath(files.at(j));
+
+					args.insert(i + j, relativeName);
+					++i;
+				}
+				--i;
+			}
+
+		}
+
+		executeProcess(m_program, args);
+
+		return true;
 	}
 
 	bool CliInterface::deleteFiles( const QList<QVariant> & files )
@@ -379,10 +406,23 @@ namespace Kerfuffle
 	}
 
 
-	bool CliInterface::findProgramInPath(const QString& program)
+	bool CliInterface::findProgramAndCreateProcess(const QString& program)
 	{
 		m_program = KStandardDirs::findExe( program );
-		return !m_program.isEmpty();
+		bool ret = !m_program.isEmpty();
+		if (!ret) {
+			error(i18n("Failed to locate program '%1' in PATH.", program));
+			return false;
+		}
+
+		ret = createProcess();
+		if (!ret) {
+			error(i18n("Found program '%1', but failed to initalise the process.", program));
+			return false;
+		}
+
+		return true;
+
 	}
 
 	bool CliInterface::checkForFileExistsMessage(const QString& line)
@@ -393,7 +433,7 @@ namespace Kerfuffle
 		if (m_existsPattern.indexIn(line) != -1) {
 			kDebug(1601) << "Detected file existing!! Filename " << m_existsPattern.cap(1);
 
-			Kerfuffle::OverwriteQuery query(m_existsPattern.cap(1));
+			Kerfuffle::OverwriteQuery query(QDir::current().path() + "/" + m_existsPattern.cap(1));
 			query.setNoRenameMode(true);
 			userQuery(&query);
 			kDebug(1601) << "Waiting response";

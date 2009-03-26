@@ -204,7 +204,7 @@ namespace Kerfuffle
 			virtual bool readListLine(QString line) = 0;
 
 		private:
-			bool findProgramInPath(const QString& program);
+			bool findProgramAndCreateProcess(const QString& program);
 			void substituteCopyVariables(QStringList& params, const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options);
 			void substituteListVariables(QStringList& params);
 
