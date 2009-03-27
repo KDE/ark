@@ -43,6 +43,11 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action addToZip]
 Name=ZIP archive
+Name[ga]=Cartlann ZIP
+Name[pt]=Pacote ZIP
+Name[pt_BR]=Pacote ZIP
+Name[uk]=Архів ZIP
+Name[zh_TW]=ZIP 壓縮檔
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename zip %F
 
