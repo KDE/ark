@@ -6,7 +6,7 @@ macro_log_feature(LIBZIP_FOUND "LibZip" "A library for reading, creating, and mo
 
 macro_log_feature(LIBARCHIVE_FOUND "LibArchive" "A library for dealing with a wide variety of archive file formats" "http://people.freebsd.org/~kientzle/libarchive/" FALSE "" "Required for among others tar, tar.gz, tar.bz2 formats in Ark. Make sure it is compiled with gzip support.")
 
-macro_log_feature(ZLIB_FOUND "Gzip" "Zlib is used for the .gz format" "http://people.freebsd.org/~kientzle/libarchive/" FALSE "" "Required for the .gz format support in Ark")
+macro_log_feature(ZLIB_FOUND "zlib" "zlib is used for the .gz format" "http://www.zlib.net" FALSE "" "Required for the .gz format support in Ark")
 
 if (ZLIB_FOUND)
 	add_subdirectory(libgzplugin)
