@@ -514,7 +514,6 @@ void Part::slotExtractFiles()
 	if ( dialog.exec() )
 	{
 		ArkSettings::setOpenDestinationFolderAfterExtraction( dialog.openDestinationAfterExtraction() );
-		lastExtractionFolder = dialog.destinationDirectory().path();
 
 		ArkSettings::self()->writeConfig();
 
@@ -532,8 +531,18 @@ void Part::slotExtractFiles()
 				KMessageBox::error( NULL, i18n( "The folder '%1' could not be created. Please check permissions.", destinationDirectory ) );
 				return;
 			}
+
+			lastExtractionFolder = destinationDirectory;
 		}
-		else destinationDirectory = dialog.destinationDirectory().path();
+		else
+		{
+			destinationDirectory = dialog.destinationDirectory().path();
+
+			if (isSingleFolderArchive())
+				lastExtractionFolder = destinationDirectory + QDir::separator() + detectSubfolder();
+			else
+				lastExtractionFolder = destinationDirectory;
+		}
 
 		QList<QVariant> files;
 
@@ -617,7 +626,10 @@ void Part::slotExtractionDone( KJob* job )
 	{
 		if ( ArkSettings::openDestinationFolderAfterExtraction() )
 		{
-			KRun::runUrl( KUrl( lastExtractionFolder ), "inode/directory", widget() );
+			KUrl destinationFolder( lastExtractionFolder );
+			destinationFolder.cleanPath();
+
+			KRun::runUrl( destinationFolder, "inode/directory", widget() );
 		}
 	}
 }
