@@ -49,6 +49,7 @@ namespace Kerfuffle
 		//if there is no response set yet, wait
 		if (!m_data.contains("response"))
 			m_responseCondition.wait(&m_responseMutex);
+		m_responseMutex.unlock();
 
 	}
 
@@ -58,7 +59,6 @@ namespace Kerfuffle
 
 		m_data["response"] = response;
 		m_responseCondition.wakeAll();
-		m_responseMutex.unlock();
 	}
 
 	//---
