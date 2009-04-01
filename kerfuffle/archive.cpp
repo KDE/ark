@@ -99,7 +99,7 @@ namespace Kerfuffle
 		{
 			foreach( const QString& mimeType, service->serviceTypes() )
 			{
-				if ( !mimeType.contains( "Kerfuffle" ) )
+				if ( !mimeType.contains( "Kerfuffle" ) && !supported.contains( mimeType ) )
 				{
 					supported << mimeType;
 				}
