@@ -41,6 +41,7 @@ class ArchiveDirNode;
 //used to speed up the loading of large archives
 static ArchiveNode* previousMatch = NULL;
 static QStringList previousPieces;
+static int currentSortColumn = 0;
 
 
 class ArchiveNode
@@ -54,9 +55,24 @@ class ArchiveNode
 
 		virtual ~ArchiveNode() {}
 
-		static bool compare(const ArchiveNode* a, const ArchiveNode* b)
+		static bool compareAscending(const ArchiveNode* a, const ArchiveNode* b)
 		{
-			return (a->m_name < b->m_name);
+			if (currentSortColumn == FileName)
+				return (a->m_name < b->m_name);
+			else if (currentSortColumn == Size)
+				return (a->entry()[currentSortColumn].toInt() < b->entry()[currentSortColumn].toInt());
+			else
+				return (a->entry()[currentSortColumn].toString() < b->entry()[currentSortColumn].toString());
+		}
+
+		static bool compareDescending(const ArchiveNode* a, const ArchiveNode* b)
+		{
+			if (currentSortColumn == FileName)
+				return (a->m_name > b->m_name);
+			else if (currentSortColumn == Size)
+				return (a->entry()[currentSortColumn].toInt() > b->entry()[currentSortColumn].toInt());
+			else
+				return (a->entry()[currentSortColumn].toString() > b->entry()[currentSortColumn].toString());
 		}
 
 		ArchiveEntry entry() const { return m_entry; }
@@ -154,15 +170,6 @@ class ArchiveDirNode: public ArchiveNode
 					store->append(static_cast<ArchiveDirNode*>(node));
 					static_cast<ArchiveDirNode*>(node)->returnDirNodes(store);
 				}
-			}
-		}
-
-		void sort()
-		{
-			QList<ArchiveDirNode*> dirNodes;
-			returnDirNodes(&dirNodes);
-			foreach(ArchiveDirNode* dir, dirNodes) {
-				qSort(dir->entries().begin(), dir->entries().end(),ArchiveNode::compare );
 			}
 		}
 
@@ -433,8 +440,24 @@ int ArchiveModel::columnCount( const QModelIndex &parent ) const
 void ArchiveModel::sort ( int column, Qt::SortOrder order )
 {
 	kDebug(1601);
-	m_rootNode->sort();
-	reset();
+	QList<ArchiveDirNode*> dirNodes;
+	m_rootNode->returnDirNodes(&dirNodes);
+
+	foreach(ArchiveDirNode* dir, dirNodes) {
+
+		Q_ASSERT(m_showColumns.size() > column);
+		currentSortColumn = m_showColumns.at(column);
+
+		if (order == Qt::AscendingOrder)
+			qSort(dir->entries().begin(), dir->entries().end(),ArchiveNode::compareAscending );
+		else
+			qSort(dir->entries().begin(), dir->entries().end(),ArchiveNode::compareDescending );
+
+		emit dataChanged(
+				index(0, 0, indexForNode(dir)),
+				index(dir->entries().size() - 1, 0, indexForNode(dir)));
+	}
+
 }
 
 Qt::DropActions ArchiveModel::supportedDropActions () const

@@ -86,6 +86,8 @@ class ArchiveModel: public QAbstractItemModel
 	private:
 		ArchiveDirNode* parentFor( const ArchiveEntry& entry );
 		QModelIndex indexForNode( ArchiveNode *node );
+		static bool compareAscending(const QModelIndex& a, const QModelIndex& b);
+		static bool compareDescending(const QModelIndex& a, const QModelIndex& b);
 		/**
 		 * Insert the node @p node into the model, ensuring all views are notified
 		 * of the change.

@@ -401,6 +401,7 @@ void Part::slotLoadingFinished(KJob *job)
 	if (job->error())
 		if (arguments().metaData()["createNewArchive"] != "true")
 			KMessageBox::sorry(NULL, i18n("Reading the archive '%1' failed with the error '%2'", localFilePath(), job->errorText()), i18n("Error opening archive"));
+	m_view->sortByColumn(0, Qt::AscendingOrder);
 	m_view->expandToDepth(0);
 }
 
