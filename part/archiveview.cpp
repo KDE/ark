@@ -42,6 +42,7 @@ void ArchiveView::setModel(QAbstractItemModel *model)
 	setAlternatingRowColors( true );
 	setAnimated( true );
 	setAllColumnsShowFocus( true );
+	setSortingEnabled(true);
 
 	header()->setResizeMode(QHeaderView::ResizeToContents);
 

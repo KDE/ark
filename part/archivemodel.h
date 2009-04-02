@@ -48,6 +48,8 @@ class ArchiveModel: public QAbstractItemModel
 		int rowCount( const QModelIndex &parent = QModelIndex() ) const;
 		int columnCount( const QModelIndex &parent = QModelIndex() ) const;
 
+		virtual void sort ( int column, Qt::SortOrder order = Qt::AscendingOrder );
+
 		//drag and drop related
 		virtual Qt::DropActions supportedDropActions () const;
 		virtual QStringList mimeTypes () const;

@@ -168,6 +168,8 @@ void Part::setupView()
 {
 	m_view->setModel( m_model );
 
+	m_view->setSortingEnabled(true);
+
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
 	         this, SLOT( updateActions() ) );
 	connect( m_view->selectionModel(), SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
