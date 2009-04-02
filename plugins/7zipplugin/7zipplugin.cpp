@@ -286,7 +286,7 @@ bool p7zipInterface::copyFiles( const QList<QVariant> & files, const QString & d
 		{
 			Kerfuffle::OverwriteQuery query(filepath);
 			query.setNoRenameMode(true);
-			emit userQuery(&query);
+			userQuery(&query);
 			query.waitForResponse();
 			if (query.responseOverwrite())
 			{
@@ -623,7 +623,7 @@ bool p7zipInterface::handlePasswordPrompt(QByteArray &message)
 		message.replace(P7ZIP_PASSWORD_PROMPT_STR, "");
 
 		Kerfuffle::PasswordNeededQuery query(filename());
-		emit userQuery(&query);
+		userQuery(&query);
 		query.waitForResponse();
 
 		if (query.responseCancelled()) {

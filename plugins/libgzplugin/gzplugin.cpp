@@ -113,7 +113,7 @@ class LibGzipInterface: public ReadOnlyArchiveInterface
 			{
 				Kerfuffle::OverwriteQuery query(filename);
 				query.setMultiMode(false);	// for single file mode
-				emit userQuery(&query);
+				userQuery(&query);
 				query.waitForResponse();
 
 				if (query.responseCancelled() || query.responseSkip())

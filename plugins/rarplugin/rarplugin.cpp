@@ -223,7 +223,7 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 		kDebug( 1601 ) << "Password hint enabled, querying user";
 
 		Kerfuffle::PasswordNeededQuery query(filename());
-		emit userQuery(&query);
+		userQuery(&query);
 		query.waitForResponse();
 
 		if (query.responseCancelled()) {
@@ -257,7 +257,7 @@ bool RARInterface::copyFiles( const QList<QVariant> & files, const QString & des
 		{
 			Kerfuffle::OverwriteQuery query(filepath);
 			query.setNoRenameMode(true);
-			emit userQuery(&query);
+			userQuery(&query);
 			query.waitForResponse();
 			if (query.responseOverwrite())
 			{
@@ -537,7 +537,7 @@ bool RARInterface::handlePasswordPrompt(const QByteArray &message)
 	if (message.contains(RAR_PASSWORD_PROMPT_STR))
 	{
 		Kerfuffle::PasswordNeededQuery query(filename());
-		emit userQuery(&query);
+		userQuery(&query);
 		query.waitForResponse();
 
 		if (query.responseCancelled()) {
@@ -564,7 +564,7 @@ bool RARInterface::handleOverwritePrompt(const QByteArray &message)
 	if (line.contains(RAR_OVERWRITE_PROMPT_STR)) {
 		QString filename = line.left(line.indexOf(RAR_OVERWRITE_PROMPT_STR)).trimmed();
 		Kerfuffle::OverwriteQuery query(filename);
-		emit userQuery(&query);
+		userQuery(&query);
 		query.waitForResponse();
 
 		if (query.responseCancelled())
