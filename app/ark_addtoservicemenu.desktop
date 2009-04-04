@@ -50,6 +50,7 @@ Name[pt]=Pacote ZIP
 Name[pt_BR]=Arquivo ZIP
 Name[sv]=ZIP-arkiv
 Name[uk]=Архів ZIP
+Name[x-test]=xxZIP archivexx
 Name[zh_TW]=ZIP 壓縮檔
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename zip %F
