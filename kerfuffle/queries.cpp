@@ -83,12 +83,17 @@ namespace Kerfuffle
 		{
 			mode = (KIO::RenameDialog_Mode)(mode | KIO::M_MULTI);
 		}
-		
+
+		KUrl sourceUrl(m_data.value("filename").toString());
+		KUrl destUrl(m_data.value("filename").toString());
+		sourceUrl.cleanPath();
+		destUrl.cleanPath();
+
 		KIO::RenameDialog dialog(
 				NULL,
-				i18n("File already exists"), 
-				KUrl(m_data.value("filename").toString()),
-				KUrl(m_data.value("filename").toString()),
+				i18n("File already exists"),
+				sourceUrl,
+				destUrl,
 				mode);
 		dialog.exec();
 
