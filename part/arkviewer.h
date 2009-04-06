@@ -23,6 +23,7 @@
  */
 
 #include <KDialog>
+#include <KParts/BrowserExtension>
 #include <KParts/ReadOnlyPart>
 #include <KService>
 
@@ -37,6 +38,7 @@ class ArkViewer : public KDialog
 
 	protected slots:
 		void slotFinished();
+		void slotOpenUrlRequestDelayed( const KUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments );
 
 	private:
 		explicit ArkViewer( QWidget* parent = 0 );
