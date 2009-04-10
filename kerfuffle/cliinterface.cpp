@@ -33,8 +33,6 @@
 #include <QThread>
 #include <QTimer>
 #include <KProcess>
-#include <kptyprocess.h>
-#include <kptydevice.h>
 
 namespace Kerfuffle
 {

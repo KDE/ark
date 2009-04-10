@@ -584,10 +584,6 @@ bool p7zipInterface::create7zipProcess()
 
 bool p7zipInterface::execute7zipProcess(const QStringList & args)
 {
-	#if defined(Q_OS_WIN)
-	m_process->start( m_exepath, args, QIODevice::ReadWrite | QIODevice::Unbuffered );
-	bool ret = m_process->waitForFinished( -1 ) ? 0 : 1;
-	#else
 	m_process->setProgram( m_exepath, args );
 	m_process->setNextOpenMode( QIODevice::ReadWrite | QIODevice::Unbuffered );
 	m_process->start();
@@ -595,7 +591,6 @@ bool p7zipInterface::execute7zipProcess(const QStringList & args)
 	m_loop = &loop;
 	bool ret = loop.exec( QEventLoop::WaitForMoreEvents );
 	m_loop = 0;
-	#endif
 
 	delete m_process;
 	m_process = NULL;
