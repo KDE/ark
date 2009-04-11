@@ -75,7 +75,7 @@ class ArchiveNode
 				return (a->entry()[currentSortColumn].toString() > b->entry()[currentSortColumn].toString());
 		}
 
-		ArchiveEntry entry() const { return m_entry; }
+		const ArchiveEntry &entry() const { return m_entry; }
 		void setEntry( const ArchiveEntry & entry )
 		{
 			m_entry = entry;
