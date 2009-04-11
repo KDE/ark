@@ -78,7 +78,9 @@ class ArchiveModel: public QAbstractItemModel
 		void droppedFiles(const QStringList& files, const QString& path = QString());
 
 	private slots:
+		void slotNewEntryFromSetArchive( const ArchiveEntry& entry );
 		void slotNewEntry( const ArchiveEntry& entry );
+		void slotLoadingFinished(KJob *job);
 		void slotEntryRemoved( const QString & path );
 		void slotUserQuery(Query *query);
 		void slotCleanupEmptyDirs();
@@ -92,8 +94,11 @@ class ArchiveModel: public QAbstractItemModel
 		 * Insert the node @p node into the model, ensuring all views are notified
 		 * of the change.
 		 */
-		void insertNode( ArchiveNode *node );
+		enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
+		void insertNode( ArchiveNode *node, InsertBehaviour behaviour = NotifyViews );
+		void newEntry(const ArchiveEntry& entry, InsertBehaviour behaviour);
 
+		QList<ArchiveEntry> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
 		QList<int> m_showColumns;
 		Kerfuffle::Archive *m_archive;
 		ArchiveDirNode *m_rootNode;

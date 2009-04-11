@@ -662,10 +662,22 @@ void ArchiveModel::slotUserQuery(Query *query)
 	query->execute();
 }
 
+void ArchiveModel::slotNewEntryFromSetArchive( const ArchiveEntry& entry )
+{
+	// we cache all entries that appear when opening a new archive
+	// so we can all them together once it's done, this is a huge
+	// performance improvement because we save from doing lots of
+	// begin/endInsertRows
+	m_newArchiveEntries.push_back(entry);
+}
+
 void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 {
-	//kDebug (1601) << entry; 
-	
+	newEntry(entry, NotifyViews);
+}
+
+void ArchiveModel::newEntry(const ArchiveEntry& entry, InsertBehaviour behaviour)
+{
 	if (entry[FileName].toString().isEmpty()) {
 		kDebug( 1601 ) << "Weird, received empty entry (no filename) - skipping";
 		return;
@@ -736,18 +748,30 @@ void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 		{
 			node = new ArchiveNode( parent, entry );
 		}
-		insertNode( node );
+		insertNode( node, behaviour );
 	}
 }
 
-void ArchiveModel::insertNode( ArchiveNode *node )
+void ArchiveModel::slotLoadingFinished(KJob *job)
+{
+	//kDebug (1601) << entry; 
+	foreach(const ArchiveEntry &entry, m_newArchiveEntries) {
+		newEntry(entry, DoNotNotifyViews);
+	}
+	reset();
+	m_newArchiveEntries.clear();
+	
+	emit loadingFinished(job);
+}
+
+void ArchiveModel::insertNode( ArchiveNode *node, InsertBehaviour behaviour )
 {
 	Q_ASSERT(node);
 	ArchiveDirNode *parent = node->parent();
 	Q_ASSERT(parent);
-	beginInsertRows( indexForNode( parent ), parent->entries().count(), parent->entries().count() );
+	if (behaviour == NotifyViews) beginInsertRows( indexForNode( parent ), parent->entries().count(), parent->entries().count() );
 	parent->entries().append( node );
-	endInsertRows();
+	if (behaviour == NotifyViews) endInsertRows();
 }
 
 KJob* ArchiveModel::setArchive( Kerfuffle::Archive *archive )
@@ -761,15 +785,16 @@ KJob* ArchiveModel::setArchive( Kerfuffle::Archive *archive )
 
 	Kerfuffle::ListJob *job = NULL;
 
+	m_newArchiveEntries.clear();
 	if ( m_archive )
 	{
 		job = m_archive->list(); // TODO: call "open" or "create"?
 
 		connect( job, SIGNAL( newEntry( const ArchiveEntry& ) ),
-			 this, SLOT( slotNewEntry( const ArchiveEntry& ) ) );
+			 this, SLOT( slotNewEntryFromSetArchive( const ArchiveEntry& ) ) );
 
 		connect( job, SIGNAL( result( KJob * ) ),
-		         this, SIGNAL( loadingFinished(KJob *) ) );
+		         this, SLOT( slotLoadingFinished(KJob *) ) );
 
 		connect(job, SIGNAL(userQuery(Query*)), this, SLOT(slotUserQuery(Query*)));
 
