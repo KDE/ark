@@ -27,45 +27,51 @@
 #include <KUrl>
 #include <KDialog>
 #include <KJob>
-#include "kerfuffle/jobs.h"
-#include "kerfuffle/archive.h"
-#include "kerfuffle/queries.h"
+#include "kerfuffle_export.h"
+#include "jobs.h"
+#include "archive.h"
+#include "queries.h"
 
 using Kerfuffle::Query;
 
 class Interface;
 class KJobTrackerInterface;
 
-class AddToArchive : public KJob
+namespace Kerfuffle
 {
-	Q_OBJECT
 
-	public:
-		AddToArchive( QObject *parent = 0 );
-		~AddToArchive();
+	class KERFUFFLE_EXPORT AddToArchive : public KJob
+	{
+		Q_OBJECT
 
-		bool showAddDialog();
-		void setPreservePaths(bool value);
-		void setChangeToFirstPath(bool value) { m_changeToFirstPath = value; }
+		public:
+			AddToArchive( QObject *parent = 0 );
+			~AddToArchive();
 
-	public slots:
-		bool addInput( const KUrl& url);
-		void setFilename( const KUrl& path ) { m_filename = path.path(); }
-		void setAutoFilenameSuffix( const QString& suffix ) { m_autoFilenameSuffix = suffix; }
-		void start();
+			bool showAddDialog();
+			void setPreservePaths(bool value);
+			void setChangeToFirstPath(bool value) { m_changeToFirstPath = value; }
 
-	private slots:
-		void slotFinished(KJob*);
+		public slots:
+			bool addInput( const KUrl& url);
+			void setFilename( const KUrl& path ) { m_filename = path.path(); }
+			void setAutoFilenameSuffix( const QString& suffix ) { m_autoFilenameSuffix = suffix; }
+			void start();
 
-	private:
-		QString m_filename;
-		QString m_strippedPath;
-		QString m_autoFilenameSuffix;
-		QString m_firstPath;
-		QStringList m_inputs;
-		bool m_changeToFirstPath;
+		private slots:
+			void slotFinished(KJob*);
 
-};
+		private:
+			QString m_filename;
+			QString m_strippedPath;
+			QString m_autoFilenameSuffix;
+			QString m_firstPath;
+			QStringList m_inputs;
+			bool m_changeToFirstPath;
+
+	};
+
+}
 
 #endif // ADDTOARCHIVE_H
 

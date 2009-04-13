@@ -29,53 +29,59 @@
 #include <QMap>
 #include <QPair>
 #include <kcompositejob.h>
-#include "kerfuffle/jobs.h"
-#include "kerfuffle/archive.h"
-#include "kerfuffle/queries.h"
+#include "jobs.h"
+#include "archive.h"
+#include "queries.h"
+#include "kerfuffle_export.h"
 
 using Kerfuffle::Query;
 
 class Interface;
 class KJobTrackerInterface;
 
-class BatchExtract : public KCompositeJob
+namespace Kerfuffle
 {
-	Q_OBJECT
 
-	public:
-		BatchExtract();
-		virtual ~BatchExtract();
-		void addExtraction(Kerfuffle::Archive* archive, bool preservePaths = true, QString destinationFolder = QString());
-		void start();
-		void setAutoSubfolder(bool value);
-		bool addInput( const KUrl& url );
+	class KERFUFFLE_EXPORT BatchExtract : public KCompositeJob
+	{
+		Q_OBJECT
 
-	private slots:
-		void forwardProgress(KJob *job, unsigned long percent);
-		void slotResult( KJob *job );
-		void slotUserQuery(Query *query);
+		public:
+			BatchExtract();
+			virtual ~BatchExtract();
+			void addExtraction(Kerfuffle::Archive* archive, bool preservePaths = true, QString destinationFolder = QString());
+			void start();
+			void setAutoSubfolder(bool value);
+			bool addInput( const KUrl& url );
 
-	private:
-		int initialJobCount;
-		QMap<class KJob *, QPair<QString,QString> > fileNames;
-		bool autoSubfolders;
+		private slots:
+			void forwardProgress(KJob *job, unsigned long percent);
+			void slotResult( KJob *job );
+			void slotUserQuery(Query *query);
+
+		private:
+			int initialJobCount;
+			QMap<class KJob *, QPair<QString,QString> > fileNames;
+			bool autoSubfolders;
 
 
-		QList<Kerfuffle::Archive*> inputs;
-		KJobTrackerInterface *tracker;
-		QString destinationFolder;
-		QString subfolder;
-		bool m_preservePaths;
+			QList<Kerfuffle::Archive*> inputs;
+			KJobTrackerInterface *tracker;
+			QString destinationFolder;
+			QString subfolder;
+			bool m_preservePaths;
 
-	public:
-		bool showExtractDialog();
-		void setDestinationFolder(QString folder);
-		void setSubfolder(QString subfolder);
-		void setPreservePaths(bool value);
+		public:
+			bool showExtractDialog();
+			void setDestinationFolder(QString folder);
+			void setSubfolder(QString subfolder);
+			void setPreservePaths(bool value);
 
-	public slots:
+		public slots:
 
-};
+	};
+
+}
 
 
 #endif // BATCHEXTRACT_H

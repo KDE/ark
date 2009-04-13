@@ -28,8 +28,10 @@
 #include <QEventLoop>
 
 #include "mainwindow.h"
-#include "batchextract.h"
-#include "addtoarchive.h"
+#include "kerfuffle/batchextract.h"
+#include "kerfuffle/addtoarchive.h"
+using Kerfuffle::BatchExtract;
+using Kerfuffle::AddToArchive;
 
 int main( int argc, char **argv )
 {

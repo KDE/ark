@@ -1,8 +1,6 @@
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/.. )
 set( ark_SRCS main.cpp
               mainwindow.cpp
-			  batchextract.cpp
-			  addtoarchive.cpp
    )
 
 kde4_add_app_icon(ark_SRCS "${KDE4_INSTALL_DIR}/share/icons/oxygen/*/apps/utilities-file-archiver.png")
