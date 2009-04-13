@@ -129,6 +129,52 @@ namespace Kerfuffle
 					args[i] = theReplacement;
 			}
 
+			if (argument == "$PasswordSwitch") {
+
+				//if the PasswordSwitch argument has been added, we at least
+				//assume that the format of the switch has been added as well
+				Q_ASSERT(m_param.contains(PasswordSwitch));
+
+				//we will decrement i afterwards
+				args.removeAt(i);
+
+				//if we get a hint about this being a password protected archive, ask about
+				//the password in advance.
+				if (options.value("PasswordProtectedHint").toBool() && password().isEmpty()) {
+					kDebug( 1601 ) << "Password hint enabled, querying user";
+
+					Kerfuffle::PasswordNeededQuery query(filename());
+					userQuery(&query);
+					query.waitForResponse();
+
+					if (query.responseCancelled()) {
+						finished(false);
+						return false;
+					}
+					setPassword(query.password());
+				}
+
+				QString pass = password();
+
+				if (!pass.isEmpty()) {
+					QStringList theSwitch = m_param.value(PasswordSwitch).toStringList();
+					for (int j = 0; j < theSwitch.size(); ++j) {
+						//get the argument part
+						QString newArg = theSwitch.at(j);
+
+						//substitute the $Path
+						newArg.replace("$Password", pass);
+
+						//put it in the arg list
+						args.insert(i+j, newArg);
+						++i;
+
+					}
+				}
+				--i; //decrement to compensate for the variable we replaced
+
+			}
+
 			if (argument == "$RootNodeSwitch") {
 
 				//if the RootNodeSwitch argument has been added, we at least

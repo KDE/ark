@@ -81,6 +81,9 @@ namespace Kerfuffle
 		 * $RootNodeSwitch - the internal work dir in the archive (for example
 		 * when the user has dragged a folder from the archive and wants it
 		 * extracted relative to it)
+		 * $PasswordSwitch - the switch setting the password. Note that this
+		 * will not be inserted unless the listing function has emitted an
+		 * entry with the IsPasswordProtected property set to true.
 		 */
 		ExtractArgs,
 		/**
@@ -113,6 +116,17 @@ namespace Kerfuffle
 		 * or ("--path", "$Path")
 		 */
 		RootNodeSwitch,
+		/**
+		 * QStringList (default empty)
+		 * The format of the root node switch. The variable $Password will be
+		 * substituted for the password string. NOTE: supplying passwords
+		 * through a virtual terminal is not supported (yet?), because this
+		 * is not cross platform compatible. As of KDE 4.3 there are no plans to
+		 * change this.
+		 * Example: ("-p$Password)
+		 * or ("--password", "$Password")
+		 */
+		PasswordSwitch,
 		/**
 		 * QString
 		 * This is a regexp, defining how to recognize a "File already exists"
