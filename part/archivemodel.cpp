@@ -345,7 +345,7 @@ QVariant ArchiveModel::headerData( int section, Qt::Orientation, int role ) cons
 				//TODO: what exactly is a file version?
 				return i18nc( "File version", "Version" );
 			case Timestamp:
-				return i18nc( "Timestamp", "Time" );
+				return i18nc( "Timestamp", "Date" );
 			case Comment:
 				return i18nc( "File comment", "Comment" );
 			default:
