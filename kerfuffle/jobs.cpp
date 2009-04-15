@@ -165,10 +165,6 @@ namespace Kerfuffle
 					m_isSingleFolderArchive = true;
 			}
 		}
-
-		kDebug(1601) << "File: " << filename;
-		kDebug(1601) << "Current root directory: " << m_previousEntry;
-		kDebug(1601) << "Single-folder archive: " << m_isSingleFolderArchive;
 	}
 
 	ExtractJob::ExtractJob( const QList<QVariant>& files, const QString& destinationDir,
