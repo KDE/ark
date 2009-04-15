@@ -120,7 +120,7 @@ namespace Kerfuffle
 
 			QString finalName = base + '.' + m_autoFilenameSuffix;
 			
-			//if file already exists, append a number to the base until it doesnt
+			//if file already exists, append a number to the base until it doesn't
 			//exist
 			int appendNumber = 0;
 			while (KStandardDirs::exists(finalName)) {
