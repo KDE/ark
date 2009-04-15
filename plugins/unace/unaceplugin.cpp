@@ -19,6 +19,8 @@
  *
  */
 
+#include "unaceplugin.h"
+
 #include <QEventLoop>
 #include <QThread>
 
@@ -28,8 +30,6 @@
 
 #include <kerfuffle/archive.h>
 #include <kerfuffle/archivefactory.h>
-
-#include "unaceplugin.h"
 
 UnAceInterface::UnAceInterface( const QString & filename, QObject *parent )
 		: ReadOnlyArchiveInterface( filename, parent )

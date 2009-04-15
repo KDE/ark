@@ -32,7 +32,6 @@
 #include <QEventLoop>
 #include <QThread>
 #include <QTimer>
-#include <KProcess>
 
 namespace Kerfuffle
 {

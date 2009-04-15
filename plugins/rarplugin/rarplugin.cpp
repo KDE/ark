@@ -32,7 +32,6 @@
 #include <KLocale>
 #include <QEventLoop>
 #include <QThread>
-#include <KProcess>
 #include <kptyprocess.h>
 #include <kptydevice.h>
 
