@@ -615,7 +615,7 @@ bool p7zipInterface::handlePasswordPrompt(QByteArray &message)
 	if (message.contains(P7ZIP_PASSWORD_PROMPT_STR))
 	{
 		// remove the prompt as it has been handled
-		message.replace(P7ZIP_PASSWORD_PROMPT_STR, "");
+		message.remove(P7ZIP_PASSWORD_PROMPT_STR);
 
 		Kerfuffle::PasswordNeededQuery query(filename());
 		userQuery(&query);

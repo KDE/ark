@@ -476,7 +476,7 @@ namespace Kerfuffle
 		if (m_existsPattern.indexIn(line) != -1) {
 			kDebug(1601) << "Detected file existing!! Filename " << m_existsPattern.cap(1);
 
-			Kerfuffle::OverwriteQuery query(QDir::current().path() + "/" + m_existsPattern.cap(1));
+			Kerfuffle::OverwriteQuery query(QDir::current().path() + '/' + m_existsPattern.cap(1));
 			query.setNoRenameMode(true);
 			userQuery(&query);
 			kDebug(1601) << "Waiting response";

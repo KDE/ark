@@ -90,7 +90,7 @@ bool UnAceInterface::processListLine( const QByteArray &bytes )
 	}
 
 	ArchiveEntry the_entry;
-	const QString timestamp = QString::fromAscii( fields[0] ) + " " +	QString::fromAscii(fields[1]);
+	const QString timestamp = QString::fromAscii( fields[0] ) + ' ' +	QString::fromAscii(fields[1]);
 
 	the_entry[Timestamp] = QDateTime::fromString( timestamp, "dd.MM.yy HH:mm" );
 	the_entry[CompressedSize] = QString::fromAscii( fields[2] ).toLongLong();
