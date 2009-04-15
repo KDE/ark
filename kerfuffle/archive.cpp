@@ -105,6 +105,8 @@ namespace Kerfuffle
 				}
 			}
 		}
+
+		supported.sort();
 		return supported;
 	}
 
@@ -123,6 +125,8 @@ namespace Kerfuffle
 				}
 			}
 		}
+
+		supported.sort();
 		kDebug( 1601 ) << "Returning" << supported;
 		return supported;
 	}
