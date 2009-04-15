@@ -108,7 +108,7 @@ void ArkViewer::view( const QString& filename, QWidget *parent )
 	else // Try to open it in an external application
 	{
 		KUrl fileUrl( filename );
-		KRun::runUrl( fileUrl, KMimeType::findByUrl( fileUrl, 0, true, true )->name(), parent );
+		KRun::runUrl( fileUrl, KMimeType::findByUrl( fileUrl, 0, true )->name(), parent );
 		return;
 	}
 
