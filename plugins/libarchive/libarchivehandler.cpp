@@ -123,7 +123,7 @@ bool LibArchiveInterface::list()
 
 	if ( result != ARCHIVE_EOF )
 	{
-		error(i18n("The archive reading failed with message: %1").arg( archive_error_string(arch) ));
+		error( i18n("The archive reading failed with message: %1", archive_error_string(arch)) );
 		return false;
 	}
 
