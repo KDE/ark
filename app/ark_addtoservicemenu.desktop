@@ -4,6 +4,7 @@ ServiceTypes=KonqPopupMenu/Plugin
 MimeType=all/all;
 Actions=addTo;addToRar;addToTar;addToZip;
 X-KDE-Submenu=Compress
+X-KDE-Submenu[bg]=Компресиране
 X-KDE-Submenu[ca]=Compressió
 X-KDE-Submenu[cs]=Zkomprimovat
 X-KDE-Submenu[da]=Komprimér
@@ -59,6 +60,7 @@ Exec=ark --changetofirstpath --add --autofilename zip %F
 
 [Desktop Action addToRar]
 Name=RAR archive
+Name[bg]=RAR архив
 Name[ca]=Arxiu RAR
 Name[cs]=Rar archív
 Name[da]=RAR arkiv
@@ -99,6 +101,7 @@ Exec=ark --changetofirstpath --add --autofilename rar %F
 
 [Desktop Action addToTar]
 Name=Gzip-compressed tar archive
+Name[bg]=Gzip архив
 Name[ca]=Arxiu «tar» comprimit amb «gzip»
 Name[da]=Gzip-komprimeret tar-arkiv
 Name[de]=Gzip komprimiertes tar-Archiv
@@ -138,6 +141,7 @@ Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
 [Desktop Action addTo]
 Name=Compress to...
+Name[bg]=Компресиране в...
 Name[ca]=Comprimeix a...
 Name[da]=Komprimér til...
 Name[de]=Komprimieren nach...

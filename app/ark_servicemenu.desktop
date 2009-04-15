@@ -10,6 +10,7 @@ X-KDE-StartupNotify=false
 
 [Desktop Action arkExtractHere]
 Name=Extract archive here
+Name[bg]=Извличне тук
 Name[ca]=Extreu l'arxiu aquí
 Name[da]=Udpak arkiv her
 Name[de]=Archiv hierher auspacken
@@ -49,6 +50,7 @@ Exec=ark --batch --autodestination %F
 
 [Desktop Action arkExtractTo]
 Name=Extract archive to...
+Name[bg]=Извличане в...
 Name[ca]=Extreu l'arxiu a...
 Name[da]=Udpak arkiv til...
 Name[de]=Archiv auspacken nach...
@@ -88,6 +90,7 @@ Exec=ark --batch --autodestination --dialog %F
 
 [Desktop Action arkAutoExtractHere]
 Name=Extract archive here, autodetect subfolder
+Name[bg]=Извличане тук, автоматична поддиректория
 Name[ca]=Extreu l'arxiu aquí, detecta automàticament la subcarpeta
 Name[da]=Udpak arkiv her, find automatisk undermappe
 Name[de]=Archiv hierher auspacken, Unterordner selbstständig ermitteln
