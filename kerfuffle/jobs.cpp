@@ -90,7 +90,7 @@ namespace Kerfuffle
 	{
 		emit entryRemoved( path );
 	}
-	
+
 	void Job::onFinished(bool result)
 	{
 		kDebug(1601);
@@ -132,29 +132,34 @@ namespace Kerfuffle
 	{
 		m_extractedFilesSize += entry[ Size ].toLongLong();
 		m_isPasswordProtected |= entry [ IsPasswordProtected ].toBool();
-		if (m_isSingleFolderArchive)
+
+		QString filename = entry[ FileName ].toString();
+		QString fileBaseRoot = filename.split(QDir::separator()).first();
+
+		if (m_previousEntry.isEmpty()) // Set the root path of the filename
 		{
-			QString filename = entry[ FileName ].toString();
-			if (m_previousEntry.isEmpty()) {
-				//store the root path of the filename
-				m_previousEntry = filename.split(QDir::separator()).first();
+			m_previousEntry = fileBaseRoot;
+			m_subfolderName = fileBaseRoot;
+			m_isSingleFolderArchive = entry[ IsDirectory ].toBool();
+		}
+		else
+		{
+			if (m_previousEntry != fileBaseRoot)
+			{
+				m_isSingleFolderArchive = false;
+				m_subfolderName.clear();
 			}
-			else {
-				QString newRoot = filename.split(QDir::separator()).first();
-				if (m_previousEntry != newRoot) {
-					m_isSingleFolderArchive = false;
-					m_subfolderName.clear();
-				}
-				else {
-					m_previousEntry = newRoot;
-					m_subfolderName = newRoot;
-				}
+			else
+			{
+				// The state may change only if the folder's files were added before itself
+				if (entry[ IsDirectory ].toBool())
+					m_isSingleFolderArchive = true;
 			}
 		}
 	}
 
 	ExtractJob::ExtractJob( const QList<QVariant>& files, const QString& destinationDir,
-	                        ExtractionOptions options, ReadOnlyArchiveInterface *interface, QObject *parent )
+				ExtractionOptions options, ReadOnlyArchiveInterface *interface, QObject *parent )
 		: Job(interface,  parent ), m_files( files ), m_destinationDir( destinationDir ), m_options(options)
 	{
 	}
@@ -206,7 +211,7 @@ namespace Kerfuffle
 			(m_interface);
 
 		Q_ASSERT(m_writeInterface);
-		
+
 		m_writeInterface->registerObserver( this );
 		bool ret = m_writeInterface->addFiles( m_files, m_options );
 
@@ -227,7 +232,7 @@ namespace Kerfuffle
 			(m_interface);
 
 		Q_ASSERT(m_writeInterface);
-		
+
 		m_writeInterface->registerObserver( this );
 		bool ret = m_writeInterface->deleteFiles( m_files );
 
