@@ -264,7 +264,7 @@ retry:
 				!overwriteAllDirectories.contains(entryFI.canonicalPath())) {
 				if (entryFI.exists()) {
 					Kerfuffle::OverwriteQuery query(entryName);
-					emit userQuery(&query);
+					userQuery(&query);
 					query.waitForResponse();
 
 					if (query.responseCancelled()) {

@@ -73,8 +73,6 @@ namespace Kerfuffle
 	ListJob* ArchiveBase::list()
 	{
 		ListJob *job = new ListJob( m_iface, this );
-		connect(m_iface, SIGNAL(userQuery(Query*)),
-				job, SIGNAL(userQuery(Query*)));
 
 		//if this job has not been listed before, we grab the opportunity to
 		//collect some information about the archive
@@ -93,8 +91,6 @@ namespace Kerfuffle
 		}
 		DeleteJob *newJob = new DeleteJob( files, static_cast<ReadWriteArchiveInterface*>( m_iface ), this );
 
-		connect(m_iface, SIGNAL(userQuery(Query*)),
-				newJob, SIGNAL(userQuery(Query*)));
 		return newJob;
 	}
 
@@ -102,8 +98,6 @@ namespace Kerfuffle
 	{
 		Q_ASSERT( !m_iface->isReadOnly() );
 		AddJob *newJob = new AddJob(files, options, static_cast<ReadWriteArchiveInterface*>( m_iface ), this );
-		connect(m_iface, SIGNAL(userQuery(Query*)),
-				newJob, SIGNAL(userQuery(Query*)));
 		connect(newJob, SIGNAL(result(KJob*)),
 				this, SLOT(onAddFinished(KJob*)));
 		return newJob;
@@ -116,8 +110,6 @@ namespace Kerfuffle
 			newOptions["PasswordProtectedHint"] = true;
 
 		ExtractJob *newJob = new ExtractJob( files, destinationDir, newOptions, m_iface, this );
-		connect(m_iface, SIGNAL(userQuery(Query*)),
-				newJob, SIGNAL(userQuery(Query*)));
 		return newJob;
 	}
 

@@ -293,7 +293,7 @@ class LibZipInterface: public ReadWriteArchiveInterface
 			if (currentFileInfo.exists())
 			{
 				Kerfuffle::OverwriteQuery query(filename);
-				emit userQuery(&query);
+				userQuery(&query);
 				query.waitForResponse();
 				if (query.responseRename())
 				{
