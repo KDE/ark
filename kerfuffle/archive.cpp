@@ -90,7 +90,7 @@ namespace Kerfuffle
 		return 0;
 	}
 
-	QStringList supportedMimeTypes(QString constraint)
+	QStringList supportedMimeTypes()
 	{
 		QString constraint( "(exist Library)" );
 		QLatin1String basePartService( "Kerfuffle/Plugin" );
@@ -115,7 +115,7 @@ namespace Kerfuffle
 		return supported;
 	}
 
-	QStringList supportedWriteMimeTypes(QString constraint)
+	QStringList supportedWriteMimeTypes()
 	{
 		QString constraint( "(exist Library) and ([X-KDE-Kerfuffle-ReadWrite] == true)" );
 		QLatin1String basePartService( "Kerfuffle/Plugin" );
