@@ -90,44 +90,53 @@ namespace Kerfuffle
 		return 0;
 	}
 
-	QStringList supportedMimeTypes()
+	QStringList supportedMimeTypes(QString constraint)
 	{
-		QStringList supported;
-		KService::List offers = KServiceTypeTrader::self()->query( "Kerfuffle/Plugin", "(exist Library)" );
+		QString constraint( "(exist Library)" );
+		QLatin1String basePartService( "Kerfuffle/Plugin" );
 
-		foreach( const KService::Ptr& service, offers )
+		KService::List offers = KServiceTypeTrader::self()->query( basePartService, constraint );
+		KService::List::ConstIterator it = offers.constBegin();
+		KService::List::ConstIterator itEnd = offers.constEnd();
+
+		QStringList supported;
+
+		for ( ; it != itEnd; ++it )
 		{
-			foreach( const QString& mimeType, service->serviceTypes() )
-			{
-				if ( !mimeType.contains( "Kerfuffle" ) && !supported.contains( mimeType ) )
-				{
-					supported << mimeType;
-				}
-			}
+			KService::Ptr service = *it;
+			QStringList mimeTypes = service->serviceTypes();
+			foreach( const QString& mimeType, mimeTypes )
+				if ( mimeType != basePartService && !supported.contains(mimeType) )
+					supported.append( mimeType );
 		}
 
-		supported.sort();
+		kDebug( 1601 ) << "Returning" << supported;
+
 		return supported;
 	}
 
-	QStringList supportedWriteMimeTypes()
+	QStringList supportedWriteMimeTypes(QString constraint)
 	{
-		QStringList supported;
-		KService::List offers = KServiceTypeTrader::self()->query( "Kerfuffle/Plugin", "(exist Library) and ([X-KDE-Kerfuffle-ReadWrite] == true)" );
+		QString constraint( "(exist Library) and ([X-KDE-Kerfuffle-ReadWrite] == true)" );
+		QLatin1String basePartService( "Kerfuffle/Plugin" );
 
-		foreach( const KService::Ptr& service, offers )
+		KService::List offers = KServiceTypeTrader::self()->query( basePartService, constraint );
+		KService::List::ConstIterator it = offers.constBegin();
+		KService::List::ConstIterator itEnd = offers.constEnd();
+
+		QStringList supported;
+
+		for ( ; it != itEnd; ++it )
 		{
-			foreach( const QString& mimeType, service->serviceTypes() )
-			{
-				if ( !mimeType.contains( "Kerfuffle" ) && !supported.contains( mimeType ) )
-				{
-					supported << mimeType;
-				}
-			}
+			KService::Ptr service = *it;
+			QStringList mimeTypes = service->serviceTypes();
+			foreach( const QString& mimeType, mimeTypes )
+				if ( mimeType != basePartService && !supported.contains(mimeType) )
+					supported.append( mimeType );
 		}
 
-		supported.sort();
 		kDebug( 1601 ) << "Returning" << supported;
+
 		return supported;
 	}
 } // namespace Kerfuffle
