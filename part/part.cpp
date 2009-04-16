@@ -334,21 +334,39 @@ bool Part::openFile()
 	Kerfuffle::Archive *archive = Kerfuffle::factory( localFile );
 
 	if (!archive) {
-		bool ok;
-
-		QString item;
-
+		QStringList mimeTypeList;
+		QHash<QString, QString> mimeTypes;
+	
 		if (arguments().metaData()["createNewArchive"] == "true")
-			item = KInputDialog::getItem( i18n("Unable to determine archive type"),
-				i18n("Ark was unable to automatically determine the archive type of the filename. Please use a standard file extension (such as zip, rar or tar.gz), or manually choose one from the following mimetypes."), supportedWriteMimeTypes(), 0, false, &ok );
+			mimeTypeList = supportedWriteMimeTypes();
 		else
-			item = KInputDialog::getItem( i18n("Unable to determine archive type"),
-				i18n("Ark was unable to automatically determine the archive type of the filename. Please choose the correct one from one of the following mimetypes."), supportedMimeTypes(), 0, false, &ok );
+			mimeTypeList = supportedMimeTypes();
+
+		foreach( const QString& mime, mimeTypeList )
+		{
+			KMimeType::Ptr mimePtr( KMimeType::mimeType(mime) );
+			if (mimePtr)
+			{
+				// Key = "application/zip", Value = "Zip Archive"
+				mimeTypes[mime] = mimePtr->comment();
+			}
+		}
+
+		QStringList mimeComments( mimeTypes.values() );
+		mimeComments.sort();
+
+		bool ok;
+		QString item( KInputDialog::getItem(i18n("Unable to determine archive type"),
+											i18n("Ark was unable to determine the archive type of the filename.\n\nPlease choose the correct archive type below."),
+											mimeComments,
+											0,
+											false,
+											&ok) );
 
 		if (!ok || item.isEmpty())
 			return false;
 
-		archive = Kerfuffle::factory( localFile, item );
+		archive = Kerfuffle::factory( localFile, mimeTypes.key(item) );
 	}
 
 	if (!archive) {
