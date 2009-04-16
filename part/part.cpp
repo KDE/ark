@@ -325,7 +325,7 @@ bool Part::openFile()
 	}
 	else
 	{
-		if (!QFileInfo(localFilePath()).exists()) {
+		if (!QFileInfo(localFile).exists()) {
 			KMessageBox::sorry( NULL, i18n("Error opening archive: the file '%1' was not found.", localFile), i18n("Error opening archive") );
 			return false;
 		}
