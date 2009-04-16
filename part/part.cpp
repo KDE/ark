@@ -312,10 +312,12 @@ KAboutData* Part::createAboutData()
 
 bool Part::openFile()
 {
+	const QString localFile( localFilePath() );
+
 	if (arguments().metaData()["createNewArchive"] == "true")
 	{
-		if (QFileInfo(localFilePath()).exists()) {
-			int overWrite =  KMessageBox::questionYesNo( NULL, i18n("The file '%1' already exists. Would you like to open it instead?", localFilePath()), i18n("File exists") , KGuiItem(i18n("Open file")), KGuiItem(i18n("Cancel")));
+		if (QFileInfo(localFile).exists()) {
+			int overWrite =  KMessageBox::questionYesNo( NULL, i18n("The file '%1' already exists. Would you like to open it instead?", localFile), i18n("File exists") , KGuiItem(i18n("Open file")), KGuiItem(i18n("Cancel")));
 
 			if (overWrite == KMessageBox::No)
 				return false;
@@ -324,12 +326,12 @@ bool Part::openFile()
 	else
 	{
 		if (!QFileInfo(localFilePath()).exists()) {
-			KMessageBox::sorry( NULL, i18n("Error opening archive: the file '%1' was not found.", localFilePath()), i18n("Error opening archive") );
+			KMessageBox::sorry( NULL, i18n("Error opening archive: the file '%1' was not found.", localFile), i18n("Error opening archive") );
 			return false;
 		}
 	}
 
-	Kerfuffle::Archive *archive = Kerfuffle::factory( localFilePath() );
+	Kerfuffle::Archive *archive = Kerfuffle::factory( localFile );
 
 	if (!archive) {
 		bool ok;
@@ -346,11 +348,11 @@ bool Part::openFile()
 		if (!ok || item.isEmpty())
 			return false;
 
-		archive = Kerfuffle::factory( localFilePath(), item );
+		archive = Kerfuffle::factory( localFile, item );
 	}
 
 	if (!archive) {
-		KMessageBox::sorry( NULL, i18n("Ark was not able to open the archive '%1'. No library capable of handling the file was found.", localFilePath()), i18n("Error opening archive") );
+		KMessageBox::sorry( NULL, i18n("Ark was not able to open the archive '%1'. No library capable of handling the file was found.", localFile), i18n("Error opening archive") );
 		return false;
 	}
 
