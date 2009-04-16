@@ -231,6 +231,7 @@ void Part::updateActions()
 
 	m_previewAction->setEnabled( !isBusy() && ( m_view->selectionModel()->selectedRows().count() == 1 )
 	                             && isPreviewable( m_view->selectionModel()->currentIndex() ) );
+	kDebug( 1601 ) << isBusy() << m_model->rowCount();
 	m_extractFilesAction->setEnabled( !isBusy() && ( m_model->rowCount() > 0 ) );
 	m_addFilesAction->setEnabled( !isBusy() && isWritable );
 	m_addDirAction->setEnabled( !isBusy() && isWritable );
@@ -414,6 +415,7 @@ void Part::slotLoadingFinished(KJob *job)
 			KMessageBox::sorry(NULL, i18n("Reading the archive '%1' failed with the error '%2'", localFilePath(), job->errorText()), i18n("Error opening archive"));
 	m_view->sortByColumn(0, Qt::AscendingOrder);
 	m_view->expandToDepth(0);
+	updateActions();
 }
 
 void Part::setReadyGui()
