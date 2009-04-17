@@ -65,7 +65,6 @@ namespace Kerfuffle
                     mimeType = "application/x-lzma";
                 }
 
-                kDebug() << "miaomiao" << mimeType;
 		KService::List offers = KMimeTypeTrader::self()->query( mimeType, "Kerfuffle/Plugin", "(exist Library)" );
 
 		if ( offers.isEmpty()) {
