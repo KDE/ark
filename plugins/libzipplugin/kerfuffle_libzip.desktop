@@ -58,4 +58,4 @@ Comment[uk]=Додаток libzip для Kerfuffle
 Comment[x-test]=xxlibzip plugin for Kerfufflexx
 Comment[zh_CN]=Kerfuffle 的 libzip 插件
 Comment[zh_TW]=Kerfuffle 的 libzip 外掛程式
-MimeType=application/zip;application/x-zip-compressed;
+MimeType=application/x-java-archive;application/x-jar;application/zip;application/x-zip-compressed;
