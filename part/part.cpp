@@ -178,12 +178,11 @@ void Part::setupView()
 	         this, SLOT( selectionChanged() ) );
 
 	//TODO: fix an actual eventhandler
-	connect( m_view, SIGNAL( doubleClicked( const QModelIndex & ) ),
+	connect( m_view, SIGNAL( itemTriggered( const QModelIndex & ) ),
 	         this, SLOT( slotPreview( const QModelIndex & ) ) );
 
 	//connect( m_model, SIGNAL( dataChanged( const QModelIndex &, const QModelIndex& ) ),
 	         //this, SLOT( adjustColumns( const QModelIndex &, const QModelIndex& ) ) );
-
 }
 
 void Part::setupActions()

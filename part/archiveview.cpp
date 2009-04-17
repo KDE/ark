@@ -20,17 +20,40 @@
  */
 
 #include "archiveview.h"
+#include <QApplication>
 #include <QHeaderView>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
-#include <kdebug.h>
 #include <QMouseEvent>
-
+#include <KDebug>
+#include <KGlobalSettings>
 
 ArchiveView::ArchiveView(QWidget *parent)
 	: QTreeView(parent)
 {
+	connect(this, SIGNAL(clicked(const QModelIndex&)),
+		SLOT(slotClicked(const QModelIndex&)));
+	connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
+		SLOT(slotDoubleClicked(const QModelIndex&)));
+}
 
+void ArchiveView::slotClicked(const QModelIndex& index)
+{
+	if (KGlobalSettings::singleClick())
+	{
+		// If the user is pressing shift or control, more than one item is being selected
+		const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
+		if ((modifier & Qt::ShiftModifier) || (modifier & Qt::ControlModifier))
+			return;
+
+		emit itemTriggered(index);
+	}
+}
+
+void ArchiveView::slotDoubleClicked(const QModelIndex& index)
+{
+	if (!KGlobalSettings::singleClick())
+		emit itemTriggered(index);
 }
 
 void ArchiveView::setModel(QAbstractItemModel *model)
