@@ -44,19 +44,30 @@ namespace Kerfuffle
 	Archive *factory( const QString & filename, const QString & requestedMimeType )
 	{
 		kDebug( 1601 ) ;
+
 		qRegisterMetaType<ArchiveEntry>( "ArchiveEntry" );
-		QString mimeType = requestedMimeType.isEmpty()? KMimeType::findByPath( filename )->name() : requestedMimeType;
+
+		QString mimeType;
+		if (requestedMimeType.isEmpty())
+		{
+			QFileInfo info( filename );
+			if (info.exists())
+				mimeType = KMimeType::findByFileContent( filename )->name();
+			else
+				mimeType = KMimeType::findByPath( filename )->name();
+		}
+		else
+			mimeType = requestedMimeType;
+
 		KService::List offers = KMimeTypeTrader::self()->query( mimeType, "Kerfuffle/Plugin", "(exist Library)" );
 
 		if ( offers.isEmpty()) {
-
 			kDebug( 1601 ) << "Trying to find the mimetype by looking at file content";
 
 			int acc;
 			QString mimeType = KMimeType::findByFileContent( filename, &acc )->name();
 			kDebug(1601) << mimeType << acc;
 			offers = KMimeTypeTrader::self()->query( mimeType, "Kerfuffle/Plugin", "(exist Library)" );
-
 		}
 
 		qSort( offers.begin(), offers.end(), comparePlugins );
@@ -67,7 +78,7 @@ namespace Kerfuffle
 			KLibrary *lib = KLibLoader::self()->library( QFile::encodeName( libraryName ), QLibrary::ExportExternalSymbolsHint );
 			//TODO: get rid of the deprecated klibloader::self
 #if 0
-			
+
 			KPluginLoader loader(offers.at(0));
 			KPluginFactory *factory = loader.factory();
 #endif
