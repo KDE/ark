@@ -67,11 +67,12 @@ namespace Kerfuffle
 		else
 			mimeType = requestedMimeType;
 
-                // FIXME: temporary work around for .xz format, to be removed when standard
-                // mimetypes include "application/x-xz"
-                if (filename.toUpper().endsWith(".XZ")) {
-                    mimeType = "application/x-lzma";
-                }
+		// FIXME: temporary work around for .xz format, to be removed when standard
+		// mimetypes include "application/x-xz"
+		if (filename.toUpper().endsWith(".XZ"))
+		{
+			mimeType = "application/x-lzma";
+		}
 
 		KService::List offers = KMimeTypeTrader::self()->query( mimeType, "Kerfuffle/Plugin", "(exist Library)" );
 
