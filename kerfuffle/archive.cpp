@@ -39,16 +39,11 @@ static bool comparePlugins( const KService::Ptr &p1, const KService::Ptr &p2 )
 	return ( p1->property( "X-KDE-Priority" ).toInt() ) > ( p2->property( "X-KDE-Priority" ).toInt() );
 }
 
-namespace Kerfuffle
+static QString findMimeType( const QString & filename, const QString & defaultMimeType )
 {
-	Archive *factory( const QString & filename, const QString & requestedMimeType )
-	{
-		kDebug( 1601 ) ;
-
-		qRegisterMetaType<ArchiveEntry>( "ArchiveEntry" );
-
 		QString mimeType;
-		if (requestedMimeType.isEmpty())
+
+		if (defaultMimeType.isEmpty())
 		{
 			QFileInfo info( filename );
 			if (info.exists())
@@ -65,7 +60,9 @@ namespace Kerfuffle
 			}
 		}
 		else
-			mimeType = requestedMimeType;
+		{
+			mimeType = defaultMimeType;
+		}
 
 		// FIXME: temporary work around for .xz format, to be removed when standard
 		// mimetypes include "application/x-xz"
@@ -73,6 +70,19 @@ namespace Kerfuffle
 		{
 			mimeType = "application/x-lzma";
 		}
+
+		return mimeType;
+}
+
+namespace Kerfuffle
+{
+	Archive *factory( const QString & filename, const QString & requestedMimeType )
+	{
+		kDebug( 1601 ) ;
+
+		qRegisterMetaType<ArchiveEntry>( "ArchiveEntry" );
+
+		QString mimeType( findMimeType(filename, requestedMimeType) );
 
 		KService::List offers = KMimeTypeTrader::self()->query( mimeType, "Kerfuffle/Plugin", "(exist Library)" );
 
