@@ -94,6 +94,8 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 			this, SLOT(setBusyGui()));
 	connect(this, SIGNAL(ready()),
 			this, SLOT(setReadyGui()));
+	connect(this, SIGNAL(completed()),
+			this, SLOT(setWindowTitleFromArchive()));
 
 	m_statusBarExtension = new KParts::StatusBarExtension( this );
 
@@ -336,7 +338,7 @@ bool Part::openFile()
 	if (!archive) {
 		QStringList mimeTypeList;
 		QHash<QString, QString> mimeTypes;
-	
+
 		if (arguments().metaData()["createNewArchive"] == "true")
 			mimeTypeList = supportedWriteMimeTypes();
 		else
@@ -433,6 +435,11 @@ void Part::setBusyGui()
 	m_busy = true;
 	m_view->setEnabled(false);
 	updateActions();
+}
+
+void Part::setWindowTitleFromArchive()
+{
+	emit setWindowCaption( url().fileName() );
 }
 
 void Part::slotPreview()
@@ -568,7 +575,7 @@ void Part::slotExtractFiles()
 		}
 
 		kDebug( 1601 ) << "Selected " << files;
-		
+
 		Kerfuffle::ExtractionOptions options;
 
 		if (dialog.preservePaths())

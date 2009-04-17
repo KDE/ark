@@ -79,7 +79,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void adjustColumns( const QModelIndex & topleft, const QModelIndex& bottomRight );
 		void setBusyGui();
 		void setReadyGui();
-
+		void setWindowTitleFromArchive();
 
 	signals:
 		void busy();
