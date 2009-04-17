@@ -39,6 +39,12 @@ class ArchiveView : public QTreeView
 
 		void setModel(QAbstractItemModel *model);
 
+	protected slots:
+		void slotClicked( const QModelIndex & index );
+		void slotDoubleClicked( const QModelIndex & index );
+
+	signals:
+		void itemTriggered( const QModelIndex & index );
 };
 
 #endif /* _ARCHIVEVIEW_H_ */
