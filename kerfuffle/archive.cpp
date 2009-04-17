@@ -52,9 +52,17 @@ namespace Kerfuffle
 		{
 			QFileInfo info( filename );
 			if (info.exists())
+			{
 				mimeType = KMimeType::findByFileContent( filename )->name();
+
+				// Try findByPath if findByFileContent didn't find a useful mimetype
+				if (mimeType == "application/octet-stream")
+					mimeType = KMimeType::findByPath( filename )->name();
+			}
 			else
+			{
 				mimeType = KMimeType::findByPath( filename )->name();
+			}
 		}
 		else
 			mimeType = requestedMimeType;
