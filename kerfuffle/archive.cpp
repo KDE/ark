@@ -25,6 +25,7 @@
 #include "archive.h"
 #include "archivefactory.h"
 
+#include <QByteArray>
 #include <QFile>
 #include <QFileInfo>
 
@@ -39,39 +40,23 @@ static bool comparePlugins( const KService::Ptr &p1, const KService::Ptr &p2 )
 	return ( p1->property( "X-KDE-Priority" ).toInt() ) > ( p2->property( "X-KDE-Priority" ).toInt() );
 }
 
-static QString findMimeType( const QString & filename, const QString & defaultMimeType )
+static QString determineMimeType( const QString & filename, const QString & defaultMimeType )
 {
-		QString mimeType;
+	if (!defaultMimeType.isEmpty())
+		return defaultMimeType;
 
-		if (defaultMimeType.isEmpty())
-		{
-			QFileInfo info( filename );
-			if (info.exists())
-			{
-				mimeType = KMimeType::findByFileContent( filename )->name();
+	if (!QFile::exists( filename ))
+		return KMimeType::findByPath( filename )->name();
 
-				// Try findByPath if findByFileContent didn't find a useful mimetype
-				if (mimeType == "application/octet-stream")
-					mimeType = KMimeType::findByPath( filename )->name();
-			}
-			else
-			{
-				mimeType = KMimeType::findByPath( filename )->name();
-			}
-		}
-		else
-		{
-			mimeType = defaultMimeType;
-		}
+	QFile file( filename );
+	if (!file.open( QIODevice::ReadOnly ))
+		return QString();
 
-		// FIXME: temporary work around for .xz format, to be removed when standard
-		// mimetypes include "application/x-xz"
-		if (filename.toUpper().endsWith(".XZ"))
-		{
-			mimeType = "application/x-lzma";
-		}
+	const qint64 maxSize = 0x100000; // 1MB
+	qint64 bufferSize = qMin( maxSize, file.size() );
+	QByteArray buffer = file.read( bufferSize );
 
-		return mimeType;
+	return KMimeType::findByNameAndContent( filename, buffer )->name();
 }
 
 namespace Kerfuffle
@@ -82,7 +67,9 @@ namespace Kerfuffle
 
 		qRegisterMetaType<ArchiveEntry>( "ArchiveEntry" );
 
-		QString mimeType( findMimeType(filename, requestedMimeType) );
+		QString mimeType = determineMimeType( filename, requestedMimeType );
+		if (mimeType.isEmpty())
+			return 0L;
 
 		KService::List offers = KMimeTypeTrader::self()->query( mimeType, "Kerfuffle/Plugin", "(exist Library)" );
 
