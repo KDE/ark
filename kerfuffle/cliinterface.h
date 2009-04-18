@@ -256,6 +256,7 @@ namespace Kerfuffle
 			QString m_program;
 			QEventLoop *m_loop;
 			ParameterList m_param;
+			QVariantList m_removedFiles;
 
 		private slots:
 			void started();

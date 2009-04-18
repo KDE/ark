@@ -284,7 +284,43 @@ namespace Kerfuffle
 		cacheParameterList();
 		m_mode = Delete;
 
-		return false;
+		bool ret = findProgramAndCreateProcess(m_param.value(DeleteProgram).toString());
+		if (!ret) {
+			failOperation();
+			return false;
+		}
+
+		//start preparing the argument list
+		QStringList args = m_param.value(DeleteArgs).toStringList();
+
+		//now replace the various elements in the list
+		for (int i = 0; i < args.size(); ++i) {
+			QString argument = args.at(i);
+			kDebug(1601) << "Processing argument " << argument;
+
+			if (argument == "$Archive") {
+				args[i] = filename();
+			}
+
+			if (argument == "$Files") {
+				args.removeAt(i);
+				for (int j = 0; j < files.count(); ++j) {
+
+					//QString relativeName = QDir::current().relativeFilePath(files.at(j));
+
+					args.insert(i + j, files.at(j).toString());
+					++i;
+				}
+				--i;
+			}
+
+		}
+
+		m_removedFiles = files;
+
+		executeProcess(m_program, args);
+
+		return true;
 	}
 
 	bool CliInterface::createProcess()
@@ -346,6 +382,14 @@ namespace Kerfuffle
 		//about here
 		if (!m_process)
 			return;
+
+		if (m_mode == Delete)
+		{
+			foreach(const QVariant& v, m_removedFiles) {
+				entryRemoved(v.toString());
+			}
+
+		}
 
 		m_process = NULL;
 		progress(1.0);

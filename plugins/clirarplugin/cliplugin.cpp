@@ -56,6 +56,8 @@ class CliPlugin: public CliInterface
 				p[RootNodeSwitch] = QStringList() << "-ap$Path";
 				p[PasswordSwitch] = QStringList() << "-p$Password";
 
+				p[DeleteArgs] = QStringList() << "d" << "$Archive" << "$Files";
+
 				p[FileExistsExpression] = "^(.+) already exists. Overwrite it";
 				p[FileExistsInput] = QStringList()
 					<< "Y" //overwrite
