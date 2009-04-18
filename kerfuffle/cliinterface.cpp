@@ -33,6 +33,8 @@
 #include <QThread>
 #include <QTimer>
 
+#include <QApplication>
+
 namespace Kerfuffle
 {
 
@@ -68,7 +70,7 @@ namespace Kerfuffle
 
 		bool ret = findProgramAndCreateProcess(m_param.value(ListProgram).toString());
 		if (!ret) {
-			finished(false);
+			failOperation();
 			return false;
 		}
 
@@ -91,7 +93,7 @@ namespace Kerfuffle
 
 		bool ret = findProgramAndCreateProcess(m_param.value(ExtractProgram).toString());
 		if (!ret) {
-			finished(false);
+			failOperation();
 			return false;
 		}
 		//start preparing the argument list
@@ -147,7 +149,7 @@ namespace Kerfuffle
 					query.waitForResponse();
 
 					if (query.responseCancelled()) {
-						finished(false);
+						failOperation();
 						return false;
 					}
 					setPassword(query.password());
@@ -236,7 +238,7 @@ namespace Kerfuffle
 
 		bool ret = findProgramAndCreateProcess(m_param.value(ListProgram).toString());
 		if (!ret) {
-			finished(false);
+			failOperation();
 			return false;
 		}
 
@@ -288,10 +290,8 @@ namespace Kerfuffle
 	bool CliInterface::createProcess()
 	{
 		kDebug(1601);
-		//if (m_process)
-			//return false;
 
-		m_process = new KProcess;
+		m_process = new KProcess(this);
 		m_process->setOutputChannelMode( KProcess::MergedChannels );
 
 		connect( m_process, SIGNAL( started() ), SLOT( started() ), Qt::DirectConnection  );
@@ -342,23 +342,27 @@ namespace Kerfuffle
 	{
 		kDebug(1601);
 
-		progress(1.0);
-
-		finished(true);
+		//if the m_process pointer is gone, then there is nothing to worry
+		//about here
+		if (!m_process)
+			return;
 
 		m_process = NULL;
-		return;
+		progress(1.0);
+		finished(true);
+	}
 
-		if ( m_loop )
-		{
-			m_loop->exit( exitStatus == QProcess::CrashExit ? 1 : 0 );
-		}
-
+	void CliInterface::failOperation()
+	{
+		kDebug(1601);
+		KProcess *p = m_process;
+		m_process = NULL;
+		p->terminate();
+		finished(false);
 	}
 
 	void CliInterface::readStdout()
 	{
-
 		//a quick note for any new hackers: Yes, this function is not
 		//very pretty, but it has become like this for reasons. You are
 		//very welcome to find a better implementation for this, but
@@ -380,6 +384,10 @@ namespace Kerfuffle
 		if ( !m_process ) {
 			return;
 		}
+		//if the process is still not finished (m_process is appearantly not
+		//set to NULL if here), then the operation should definitely not be in
+		//the main thread as this would freeze everything. assert this.
+		Q_ASSERT(QObject::thread() != QApplication::instance()->thread());
 
 		//if another function is already accessing this function, then we
 		//assume that it will finish processing also the lines we just added.
@@ -432,8 +440,24 @@ namespace Kerfuffle
 
 			if (m_mode == Copy) {
 
+				
+				if (checkForErrorMessage(line, WrongPasswordPatterns)) {
+					kDebug(1601) << "Wrong password!";
+					error(i18n("Sorry, incorrect password."));
+					failOperation();
+					return;
+				}
+
+				if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
+					kDebug(1601) << "Error in extraction!!";
+					error(i18n("Extraction failed because of an unexpected error."));
+					failOperation();
+					return;
+				}
+
 				if (checkForFileExistsMessage(line))
 					continue;
+
 			}
 
 			if (m_mode == List) {
@@ -509,6 +533,34 @@ namespace Kerfuffle
 			return true;
 		}
 
+		return false;
+	}
+
+	bool CliInterface::checkForErrorMessage(const QString& line, int parameterIndex)
+	{
+		static QHash<int, QList<QRegExp> > patternCache;
+		QList<QRegExp> patterns;
+
+		kDebug() << line;
+
+		if (patternCache.contains(parameterIndex)) {
+			patterns = patternCache.value(parameterIndex);
+		}
+		else {
+			if (!m_param.contains(parameterIndex))
+				return false;
+
+			foreach(const QString& rawPattern, m_param.value(parameterIndex).toStringList()) {
+				patterns << QRegExp(rawPattern);
+			}
+			patternCache[parameterIndex] = patterns;
+		}
+
+		foreach(const QRegExp& pattern, patterns) {
+			if (pattern.indexIn(line) != -1) {
+				return true;
+			}
+		}
 		return false;
 	}
 

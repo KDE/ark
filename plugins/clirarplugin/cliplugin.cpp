@@ -66,7 +66,9 @@ class CliPlugin: public CliInterface
 					;
 
 				p[AddArgs] = QStringList() << "a" << "$Archive" << "$Files";
-				
+
+				p[WrongPasswordPatterns] = QStringList() << "password incorrect";
+				p[ExtractionFailedPatterns] = QStringList() << "CRC failed";
 
 			}
 			return p;

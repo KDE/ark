@@ -174,13 +174,27 @@ namespace Kerfuffle
 		 */
 		DeleteArgs,
 		/**
+		 * QStringList
+		 * Default: empty
+		 * A list of regexp patterns that will cause the extraction to exit
+		 * with a general fail message
+		 */
+		ExtractionFailedPatterns,
+		/**
+		 * QStringList
+		 * Default: empty
+		 * A list of regexp patterns that will alert the user that the password
+		 * was wrong.
+		 */
+		WrongPasswordPatterns,
+
+		///////////////[ ADD ]/////////////
+
+		/**
 		 * QString
 		 * The name to the program that will handle adding in this
 		 * archive format (eg "rar"). Will be searched for in PATH
 		 */
-
-		///////////////[ ADD ]/////////////
-
 		AddProgram,
 		/**
 		 * QStringList
@@ -226,6 +240,9 @@ namespace Kerfuffle
 			bool executeProcess(const QString& path, const QStringList & args);
 			void cacheParameterList();
 			bool checkForFileExistsMessage(const QString& line);
+			bool checkForErrorMessage(const QString& line, int parameterIndex);
+
+			void failOperation();
 
 			bool doKill();
 			bool doSuspend();
