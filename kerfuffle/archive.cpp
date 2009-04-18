@@ -25,6 +25,7 @@
 #include "archive.h"
 #include "archivefactory.h"
 
+#include <QByteArray>
 #include <QFile>
 #include <QFileInfo>
 
@@ -39,6 +40,25 @@ static bool comparePlugins( const KService::Ptr &p1, const KService::Ptr &p2 )
 	return ( p1->property( "X-KDE-Priority" ).toInt() ) > ( p2->property( "X-KDE-Priority" ).toInt() );
 }
 
+static QString determineMimeType( const QString & filename, const QString & defaultMimeType )
+{
+	if (!defaultMimeType.isEmpty())
+		return defaultMimeType;
+
+	if (!QFile::exists( filename ))
+		return KMimeType::findByPath( filename )->name();
+
+	QFile file( filename );
+	if (!file.open( QIODevice::ReadOnly ))
+		return QString();
+
+	const qint64 maxSize = 0x100000; // 1MB
+	qint64 bufferSize = qMin( maxSize, file.size() );
+	QByteArray buffer = file.read( bufferSize );
+
+	return KMimeType::findByNameAndContent( filename, buffer )->name();
+}
+
 namespace Kerfuffle
 {
 	Archive *factory( const QString & filename, const QString & requestedMimeType )
@@ -47,17 +67,9 @@ namespace Kerfuffle
 
 		qRegisterMetaType<ArchiveEntry>( "ArchiveEntry" );
 
-		QString mimeType;
-		if (requestedMimeType.isEmpty())
-		{
-			QFileInfo info( filename );
-			if (info.exists())
-				mimeType = KMimeType::findByFileContent( filename )->name();
-			else
-				mimeType = KMimeType::findByPath( filename )->name();
-		}
-		else
-			mimeType = requestedMimeType;
+		QString mimeType = determineMimeType( filename, requestedMimeType );
+		if (mimeType.isEmpty())
+			return 0L;
 
 		KService::List offers = KMimeTypeTrader::self()->query( mimeType, "Kerfuffle/Plugin", "(exist Library)" );
 
