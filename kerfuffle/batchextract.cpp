@@ -148,15 +148,25 @@ namespace Kerfuffle
 	void BatchExtract::slotResult( KJob *job )
 	{
 		kDebug( 1601 );
-		KCompositeJob::slotResult(job);
-
 		if ( job->error() )
 		{
 			kDebug(1601) << "There was en error, " << job->errorText();
-			//TODO: why does this exit immediately
-			KMessageBox::error( NULL, job->errorText());
+
+			setErrorText(job->errorText());
+			setError(job->error());
+
+			removeSubjob(job);
+
+			KMessageBox::error( NULL, job->errorText().isEmpty() ? 
+					i18n("There was an error during extraction.") : job->errorText()
+					);
+
 			emitResult();
+
 			return;
+		}
+		else {
+			removeSubjob(job);
 		}
 
 		if (!subjobs().size())
