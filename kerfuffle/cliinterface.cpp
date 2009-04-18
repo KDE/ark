@@ -487,7 +487,7 @@ namespace Kerfuffle
 				
 				if (checkForErrorMessage(line, WrongPasswordPatterns)) {
 					kDebug(1601) << "Wrong password!";
-					error(i18n("Sorry, incorrect password."));
+					error(i18n("Incorrect password."));
 					failOperation();
 					return;
 				}
