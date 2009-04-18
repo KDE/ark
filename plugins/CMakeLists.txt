@@ -27,7 +27,7 @@ if (ZLIB_FOUND)
 	add_subdirectory( libgzplugin )
 endif (ZLIB_FOUND)
 
-add_subdirectory( 7zipplugin )
+#add_subdirectory( 7zipplugin )
 add_subdirectory( clirarplugin )
 add_subdirectory( cli7zplugin )
 add_subdirectory( unace )
@@ -35,7 +35,7 @@ add_subdirectory( unace )
 if(NOT WIN32)
   # stdbool.h
   #add_subdirectory( bk )
-  add_subdirectory( rarplugin )
+  #add_subdirectory( rarplugin )
 endif(NOT WIN32)
 
 #add_subdirectory( karchiveplugin )
