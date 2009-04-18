@@ -59,6 +59,10 @@ namespace Kerfuffle
 
 		//we want the event handling to happen in the work thread to avoid
 		//unsafe data access due to events while work is being done
+		kDebug() << "Moving from " << QObject::thread() << " to " << thread;
+		m_previousInterfaceParent = m_interface->parent();
+		m_interface->setParent(NULL);
+		m_interface->moveToThread(thread);
 		moveToThread(thread);
 
 		thread->start();
@@ -97,11 +101,15 @@ namespace Kerfuffle
 		m_interface->removeObserver( this );
 
 		setError(!result);
-		emitResult();
 
 #ifndef KERFUFFLE_NOJOBTHREADING
+		kDebug() << "Moving from " << QObject::thread()<< " to " << QApplication::instance()->thread();
+		m_interface->moveToThread(QApplication::instance()->thread());
+		m_interface->setParent(m_previousInterfaceParent);
 		moveToThread(QApplication::instance()->thread());
 #endif
+
+		emitResult();
 	}
 
 	void Job::onUserQuery(Query *query)

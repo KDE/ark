@@ -73,6 +73,7 @@ namespace Kerfuffle
 		protected:
 			Job(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
 			ReadOnlyArchiveInterface* m_interface;
+			QObject *m_previousInterfaceParent;
 
 			virtual bool doKill();
 
