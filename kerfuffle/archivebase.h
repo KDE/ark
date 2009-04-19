@@ -31,11 +31,6 @@
 #include "jobs.h"
 #include "kerfuffle_export.h"
 
-namespace ThreadWeaver
-{
-	class Job;
-} // namespace ThreadWeaver
-
 namespace Kerfuffle
 {
 	class KERFUFFLE_EXPORT ArchiveBase: public QObject, public Archive
