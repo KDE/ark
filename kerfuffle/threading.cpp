@@ -26,14 +26,13 @@
 #include "threading.h"
 #include <QApplication>
 #include <QTimer>
-#include <kdebug.h>
+#include <KDebug>
 
 namespace Kerfuffle
 {
 	ThreadExecution::ThreadExecution(Kerfuffle::Job *job)
 		: m_job(job)
 	{
-
 	}
 
 	void ThreadExecution::run()
@@ -44,20 +43,13 @@ namespace Kerfuffle
 
 		//and when finished, quit the event loop
 		connect(m_job, SIGNAL(finished(KJob*)),
-				this, SLOT(cleanUp()));
+				this, SLOT(quit()));
 
 		//start the event loop
 		exec();
 
 		kDebug(1601) << "Finished exec";
 	}
-	
-	void ThreadExecution::cleanUp()
-	{
-		kDebug(1601);
-
-		//exit the event loop
-		quit();
-	}
-
 }
+
+#include "threading.moc"

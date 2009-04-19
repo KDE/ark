@@ -31,23 +31,19 @@
 
 namespace Kerfuffle
 {
-
 	class ThreadExecution : public QThread
 	{
 		Q_OBJECT
 
-		private slots:
-			void cleanUp();
-
 		public:
 			ThreadExecution(Kerfuffle::Job *job);
 
-		private:
+		protected:
 			void run();
-			
+
+		private:
 			Kerfuffle::Job *m_job;
 	};
-
 }
 
 #endif /* _THREADING_H_ */
