@@ -43,8 +43,14 @@ class ArchiveView : public QTreeView
 		void slotClicked( const QModelIndex & index );
 		void slotDoubleClicked( const QModelIndex & index );
 
+	private slots:
+		void updateMouseButtons();
+
 	signals:
 		void itemTriggered( const QModelIndex & index );
+
+	private:
+		Qt::MouseButtons m_mouseButtons; // FIXME: workaround until Qt-issue 176832 is resolved
 };
 
 #endif /* _ARCHIVEVIEW_H_ */
