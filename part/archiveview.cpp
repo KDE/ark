@@ -30,17 +30,29 @@
 
 ArchiveView::ArchiveView(QWidget *parent)
 	: QTreeView(parent)
+	, m_mouseButtons(Qt::NoButton)
 {
+	connect(this, SIGNAL(pressed(QModelIndex)),
+		SLOT(updateMouseButtons()));
 	connect(this, SIGNAL(clicked(const QModelIndex&)),
 		SLOT(slotClicked(const QModelIndex&)));
 	connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
 		SLOT(slotDoubleClicked(const QModelIndex&)));
 }
 
+// FIXME: this is a workaround taken from Dolphin until Qt-issue 176832 is resolved
+void ArchiveView::updateMouseButtons()
+{
+	m_mouseButtons = QApplication::mouseButtons();
+}
+
 void ArchiveView::slotClicked(const QModelIndex& index)
 {
 	if (KGlobalSettings::singleClick())
 	{
+		if (m_mouseButtons != Qt::LeftButton) // FIXME: see Qt-issue 176832
+			return;
+
 		// If the user is pressing shift or control, more than one item is being selected
 		const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
 		if ((modifier & Qt::ShiftModifier) || (modifier & Qt::ControlModifier))
@@ -119,7 +131,7 @@ void ArchiveView::dragMoveEvent ( QDragMoveEvent * event )
 
 	QTreeView::dragMoveEvent(event);
 	if (event->mimeData()->hasFormat("text/uri-list"))
-         event->acceptProposedAction();
+		event->acceptProposedAction();
 }
 
 void ArchiveView::mouseDoubleClickEvent(QMouseEvent* event)
