@@ -26,16 +26,14 @@
 #include "archivebase.h"
 #include "queries.h"
 
-#include <kdebug.h>
-#include <ThreadWeaver/Job>
-#include <ThreadWeaver/Weaver>
-
-#include <QFile>
+#include <QDateTime>
 #include <QDir>
+#include <QEventLoop>
+#include <QFile>
 #include <QList>
 #include <QStringList>
-#include <QDateTime>
-#include <QEventLoop>
+
+#include <KDebug>
 
 namespace Kerfuffle
 {
