@@ -38,8 +38,9 @@ namespace Kerfuffle
 {
 
 	Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
-		: KJob(NULL),
-		m_interface(interface)
+		: KJob(NULL)
+		, m_interface(interface)
+		, m_workerThread(0)
 	{
 		static bool onlyOnce = false;
 		if (!onlyOnce) {
@@ -50,22 +51,28 @@ namespace Kerfuffle
 		setCapabilities(KJob::Killable);
 	}
 
+	Job::~Job()
+	{
+		delete m_workerThread;
+		m_workerThread = 0;
+	}
+
 	void Job::start()
 	{
 #ifdef KERFUFFLE_NOJOBTHREADING
 		QTimer::singleShot(0, this, SLOT(doWork()));
 #else
-		ThreadExecution *thread = new ThreadExecution(this);
+		m_workerThread = new ThreadExecution(this);
 
 		//we want the event handling to happen in the work thread to avoid
 		//unsafe data access due to events while work is being done
-		kDebug() << "Moving from " << QObject::thread() << " to " << thread;
+		kDebug() << "Moving from " << QObject::thread() << " to " << m_workerThread;
 		m_previousInterfaceParent = m_interface->parent();
 		m_interface->setParent(NULL);
-		m_interface->moveToThread(thread);
-		moveToThread(thread);
+		m_interface->moveToThread(m_workerThread);
+		moveToThread(m_workerThread);
 
-		thread->start();
+		m_workerThread->start();
 #endif
 	}
 

@@ -38,6 +38,8 @@
 
 namespace Kerfuffle
 {
+	class ThreadExecution;
+
 	class KERFUFFLE_EXPORT Job: public KJob, public ArchiveObserver
 	{
 		Q_OBJECT
@@ -67,8 +69,11 @@ namespace Kerfuffle
 
 		protected:
 			Job(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
+			virtual ~Job();
+
 			ReadOnlyArchiveInterface* m_interface;
 			QObject *m_previousInterfaceParent;
+			ThreadExecution *m_workerThread;
 
 			virtual bool doKill();
 
