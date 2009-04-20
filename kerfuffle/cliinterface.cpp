@@ -60,7 +60,6 @@ namespace Kerfuffle
 
 	CliInterface::~CliInterface()
 	{
-
 	}
 
 	bool CliInterface::list()
@@ -394,6 +393,7 @@ namespace Kerfuffle
 
 		}
 
+		delete m_process;
 		m_process = NULL;
 		progress(1.0);
 		finished(true);
