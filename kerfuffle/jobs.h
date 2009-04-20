@@ -36,11 +36,6 @@
 #include <QVariant>
 #include <QString>
 
-namespace ThreadWeaver
-{
-	class Job;
-} // namespace ThreadWeaver
-
 namespace Kerfuffle
 {
 	class KERFUFFLE_EXPORT Job: public KJob, public ArchiveObserver
