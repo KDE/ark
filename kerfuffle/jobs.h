@@ -43,8 +43,6 @@ namespace Kerfuffle
 	class KERFUFFLE_EXPORT Job: public KJob, public ArchiveObserver
 	{
 		Q_OBJECT
-		//we friend the Archive class to let it create jobs
-		friend class Archive;
 
 		public:
 			void start();
