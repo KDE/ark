@@ -25,7 +25,6 @@
 #include "kerfuffle/archiveinterface.h"
 #include <QProcess>
 class QByteArray;
-class KProcess;
 class KPtyProcess;
 class QEventLoop;
 

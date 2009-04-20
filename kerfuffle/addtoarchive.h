@@ -35,7 +35,6 @@
 using Kerfuffle::Query;
 
 class Interface;
-class KJobTrackerInterface;
 
 namespace Kerfuffle
 {

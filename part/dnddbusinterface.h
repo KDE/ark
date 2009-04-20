@@ -14,12 +14,9 @@
 
 #include <QtCore/QObject>
 #include <QtDBus/QtDBus>
-class QByteArray;
 template<class T> class QList;
 template<class Key, class Value> class QMap;
 class QString;
-class QStringList;
-class QVariant;
 
 /*
  * Adaptor class for interface org.kde.DndExtract
