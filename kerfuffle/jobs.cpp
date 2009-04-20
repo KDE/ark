@@ -58,6 +58,11 @@ namespace Kerfuffle
 		m_workerThread = 0;
 	}
 
+	ReadOnlyArchiveInterface *Job::interface()
+	{
+		return m_interface;
+	}
+
 	void Job::start()
 	{
 #ifdef KERFUFFLE_NOJOBTHREADING

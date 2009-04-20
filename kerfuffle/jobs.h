@@ -48,6 +48,7 @@ namespace Kerfuffle
 
 		public:
 			void start();
+			ReadOnlyArchiveInterface *interface();
 
 			//abstract implemented methods from observer
 			virtual void onError( const QString & message, const QString & details );
