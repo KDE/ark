@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
+ * Copyright (c) 2009  Raphael Kubo da Costa <kubito@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,150 +23,123 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-#include "kerfuffle/archiveinterface.h"
+#include "gzplugin.h"
 #include "kerfuffle/archivefactory.h"
 
-#include <zlib.h>
-#include <stdio.h>
-
-#include <KLocale>
-#include <KDebug>
-
-#include <QDateTime>
-#include <QString>
-#include <QFileInfo>
 #include <QByteArray>
 #include <QFile>
-#include <QDir>
+#include <QFileInfo>
+#include <QString>
 
-using namespace Kerfuffle;
+#include <KDebug>
+#include <KFilterDev>
+#include <KLocale>
 
-class LibGzipInterface: public ReadOnlyArchiveInterface
+LibGzipInterface::LibGzipInterface( const QString & filename, QObject *parent)
+		: Kerfuffle::ReadOnlyArchiveInterface( filename, parent )
 {
-	Q_OBJECT
-	public:
-		LibGzipInterface( const QString & filename, QObject *parent )
-			: ReadOnlyArchiveInterface( filename, parent )
-		{
-		}
+	kDebug( 1601 ) << filename;
+}
 
-		~LibGzipInterface()
-		{
-			kDebug( 1601 ) ;
-		}
+LibGzipInterface::~LibGzipInterface()
+{
+	kDebug( 1601 );
+}
 
-		QString uncompressedFilename()
-		{
-			QString fn = QFileInfo(filename()).fileName();
-			if (fn.right(3).toUpper() == ".GZ") {
-				fn.chop(3);
-				return fn;
-			}
+bool LibGzipInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, Kerfuffle::ExtractionOptions options )
+{
+	Q_UNUSED( files );
+	Q_UNUSED( options );
 
-			//we need to return something...
-			return filename() + ".gzUncompressed";
-		}
+	QString outputFileName = destinationDirectory;
+	if (!destinationDirectory.endsWith('/'))
+		outputFileName += '/';
+	outputFileName += uncompressedFileName();
 
-		bool list()
-		{
-			kDebug( 1601 );
-			QString file = uncompressedFilename();
+	outputFileName = overwriteFileName( outputFileName );
+	if (outputFileName.isEmpty())
+		return true;
 
-			Q_ASSERT(!file.isEmpty());
+	kDebug( 1601 ) << "Extracting to" << outputFileName;
 
-			ArchiveEntry e;
+	QFile outputFile( outputFileName );
+	if (!outputFile.open( QIODevice::WriteOnly ))
+	{
+		kDebug( 1601 ) << "Failed to open output file" << outputFile.errorString();
+		error( i18n("Ark could not extract %1.", outputFile.fileName()) );
 
-			e[ FileName ]       = file;
-			e[ InternalID ]     = file;
-			//e[ Size ]           = static_cast<qulonglong>( stat.size );
-			//e[ Timestamp ]      = QDateTime::fromTime_t( stat.mtime );
-			//e[ CompressedSize ] = static_cast<qulonglong>( stat.comp_size );
+		return false;
+	}
 
-			entry( e );
+	QIODevice *device = KFilterDev::deviceForFile( filename(), "application/x-gzip", false );
+	if (!device)
+	{
+		kDebug( 1601 ) << "Could not create KFilterDev";
+		error( i18n("Ark could not open %1 for extraction.", filename()) );
 
-			return true;
-		}
-		void gz_uncompress(gzFile in, FILE* out)
-		{
-			char buf[16384];
-			int len;
-			int err;
+		return false;
+	}
 
-			for (;;) {
-				len = gzread(in, buf, sizeof(buf));
-				if (len < 0) error (gzerror(in, &err));
-				if (len == 0) break;
+	device->open( QIODevice::ReadOnly );
+	outputFile.write( device->readAll() );
 
-				if ((int)fwrite(buf, 1, (unsigned)len, out) != len) {
-					error("failed fwrite");
-				}
-			}
-			if (fclose(out)) error("failed fclose");
+	delete device;
 
-			if (gzclose(in) != Z_OK) error("failed gzclose");
-		}
+	return true;
+}
 
-		bool overwriteCheck(QString& filename)
-		{
-			while (QFile::exists(filename))
-			{
-				Kerfuffle::OverwriteQuery query(filename);
-				query.setMultiMode(false);	// for single file mode
-				userQuery(&query);
-				query.waitForResponse();
+bool LibGzipInterface::list()
+{
+	kDebug( 1601 );
 
-				if (query.responseCancelled() || query.responseSkip())
-				{
-					return false;
-				}
-				else if (query.responseOverwrite())
-				{
-					break;
-				}
-				else if (query.responseRename())
-				{
-					filename = query.newFilename();
-				}
-			}
+	QString filename = uncompressedFileName();
 
-			return true;
-		}
+	Kerfuffle::ArchiveEntry e;
 
-		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
-		{
-			kDebug( 1601 ) ;
+	e[Kerfuffle::FileName] = filename;
+	e[Kerfuffle::InternalID] = filename;
 
-			Q_UNUSED(files);
-			QString outputFilename = destinationDirectory;
-			if (!destinationDirectory.endsWith('/'))
-				outputFilename += '/';
-			outputFilename += uncompressedFilename();
+	entry( e );
 
-			if (!overwriteCheck(outputFilename))
-				return true;	// just return as success
+	return true;
+}
 
-			FILE  *out;
-			gzFile in;
+QString LibGzipInterface::overwriteFileName( QString& filename )
+{
+	QString newFileName( filename );
 
-			in = gzopen(QFile::encodeName(filename()).data(), "rb");
-			if (in == NULL) {
-				return false;
-			}
+	while (QFile::exists( newFileName ))
+	{
+		Kerfuffle::OverwriteQuery query( newFileName );
 
-			out = fopen(QFile::encodeName(outputFilename).data(), "wb");
-			if (out == NULL) {
-				return false;
-			}
-			gz_uncompress(in, out);
+		query.setMultiMode(false);
+		userQuery(&query);
+		query.waitForResponse();
 
+		if ((query.responseCancelled()) || (query.responseSkip()))
+			return QString();
+		else if (query.responseOverwrite())
+			break;
+		else if (query.responseRename())
+			newFileName = query.newFilename();
+	}
 
+	return newFileName;
+}
 
-			return true;
-		}
+const QString LibGzipInterface::uncompressedFileName() const
+{
+	QString uncompressedName( QFileInfo(filename()).fileName() );
 
-};
+	if (uncompressedName.endsWith(".gz", Qt::CaseInsensitive))
+	{
+		uncompressedName.chop(3);
+		return uncompressedName;
+	}
 
-#include "gzplugin.moc"
+	return uncompressedName + ".uncompressed";
+}
 
 KERFUFFLE_PLUGIN_FACTORY( LibGzipInterface )
+
+#include "gzplugin.moc"
