@@ -23,20 +23,21 @@
  * ( INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #include "jobs.h"
 #include "threading.h"
 
-#include <kdebug.h>
-#include <KLocale>
+#include <QApplication>
 #include <QDir>
 #include <QTimer>
-#include <QApplication>
+
+#include <KDebug>
+#include <KLocale>
 
 //#define KERFUFFLE_NOJOBTHREADING
 
 namespace Kerfuffle
 {
-
 	Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
 		: KJob(NULL)
 		, m_interface(interface)
@@ -260,7 +261,10 @@ namespace Kerfuffle
 		m_writeInterface->registerObserver( this );
 		bool ret = m_writeInterface->deleteFiles( m_files );
 
+		emitResult();
 		if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
 	}
 
 } // namespace Kerfuffle
+
+#include "jobs.moc"
