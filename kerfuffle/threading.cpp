@@ -42,7 +42,7 @@ namespace Kerfuffle
 		QTimer::singleShot(0, m_job, SLOT(doWork()));
 
 		//and when finished, quit the event loop
-		connect(m_job, SIGNAL(finished(KJob*)),
+		connect(m_job, SIGNAL(result(KJob*)),
 				this, SLOT(quit()));
 
 		//start the event loop
