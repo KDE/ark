@@ -39,7 +39,7 @@
 namespace Kerfuffle
 {
 	Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
-		: KJob(NULL)
+		: KJob(parent)
 		, m_interface(interface)
 		, m_workerThread(0)
 	{
@@ -54,13 +54,10 @@ namespace Kerfuffle
 
 	Job::~Job()
 	{
+#ifndef KERFUFFLE_NOJOBTHREADING
 		delete m_workerThread;
 		m_workerThread = 0;
-	}
-
-	ReadOnlyArchiveInterface *Job::interface()
-	{
-		return m_interface;
+#endif
 	}
 
 	void Job::start()
@@ -68,15 +65,7 @@ namespace Kerfuffle
 #ifdef KERFUFFLE_NOJOBTHREADING
 		QTimer::singleShot(0, this, SLOT(doWork()));
 #else
-		//we want the event handling to happen in the work thread to avoid
-		//unsafe data access due to events while work is being done
-		kDebug() << "Moving from " << QObject::thread() << " to " << m_workerThread;
-
-		m_previousInterfaceParent = m_interface->parent();
-
 		m_workerThread = new ThreadExecution(this);
-		connect(m_workerThread, SIGNAL(finished()), this, SLOT(setPreviousParent()));
-		connect(m_workerThread, SIGNAL(terminated()), this, SLOT(setPreviousParent()));
 		m_workerThread->start();
 #endif
 	}
@@ -115,18 +104,8 @@ namespace Kerfuffle
 		m_interface->removeObserver( this );
 
 		setError(!result);
-	}
 
-	void Job::setPreviousParent()
-	{
-		kDebug(1601);
-
-#ifndef KERFUFFLE_NOJOBTHREADING
-		Q_ASSERT(m_interface->thread() != m_workerThread);
-		Q_ASSERT(m_previousInterfaceParent);
-
-		m_interface->setParent(m_previousInterfaceParent);
-#endif
+		emitResult();
 	}
 
 	void Job::onUserQuery(Query *query)
@@ -159,7 +138,6 @@ namespace Kerfuffle
 		m_interface->registerObserver( this );
 		bool ret = m_interface->list();
 
-		emitResult();
 		if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
 	}
 
@@ -224,7 +202,6 @@ namespace Kerfuffle
 
 		bool ret = m_interface->copyFiles( m_files, m_destinationDir, m_options );
 
-		emitResult();
 		if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
 
 	}
@@ -252,7 +229,6 @@ namespace Kerfuffle
 		m_writeInterface->registerObserver( this );
 		bool ret = m_writeInterface->addFiles( m_files, m_options );
 
-		emitResult();
 		if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
 	}
 
@@ -274,7 +250,6 @@ namespace Kerfuffle
 		m_writeInterface->registerObserver( this );
 		bool ret = m_writeInterface->deleteFiles( m_files );
 
-		emitResult();
 		if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
 	}
 

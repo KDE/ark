@@ -46,7 +46,6 @@ namespace Kerfuffle
 
 		public:
 			void start();
-			ReadOnlyArchiveInterface *interface();
 
 			//abstract implemented methods from observer
 			virtual void onError( const QString & message, const QString & details );
@@ -65,14 +64,10 @@ namespace Kerfuffle
 			ReadOnlyArchiveInterface* m_interface;
 
 		private:
-			QObject *m_previousInterfaceParent;
 			ThreadExecution *m_workerThread;
 
 		public slots:
 			virtual void doWork() = 0;
-
-		private slots:
-			void setPreviousParent();
 
 		signals:
 			void entryRemoved( const QString & entry );

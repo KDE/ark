@@ -24,41 +24,25 @@
  */
 
 #include "threading.h"
-#include <QApplication>
-#include <QTimer>
 #include <KDebug>
 
 namespace Kerfuffle
 {
 	ThreadExecution::ThreadExecution(Kerfuffle::Job *job)
 		: m_job(job)
-		, m_interface(job->interface())
 	{
-		m_interface->setParent(NULL);
-		m_interface->moveToThread(this);
-
-		moveToThread(this);
+		connect(m_job, SIGNAL(result(KJob*)), this, SLOT(quit()));
 	}
 
 	void ThreadExecution::run()
 	{
 		kDebug(1601) << "Run";
-		//schedule to perform the work in this thread
-		QTimer::singleShot(0, m_job, SLOT(doWork()));
 
-		//and when finished, quit the event loop
-		connect(m_job, SIGNAL(result(KJob*)), this, SLOT(slotJobFinished()));
-		connect(m_job, SIGNAL(result(KJob*)), this, SLOT(quit()));
+		m_job->doWork();
 
-		//start the event loop
 		exec();
 
 		kDebug(1601) << "Finished exec";
-	}
-
-	void ThreadExecution::slotJobFinished()
-	{
-		m_interface->moveToThread(QApplication::instance()->thread());
 	}
 }
 
