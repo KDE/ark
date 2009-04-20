@@ -75,8 +75,8 @@ namespace Kerfuffle
 		m_previousInterfaceParent = m_interface->parent();
 
 		m_workerThread = new ThreadExecution(this);
-		connect(m_workerThread, SIGNAL(finished()), this, SLOT(returnToMainThread()));
-		connect(m_workerThread, SIGNAL(terminated()), this, SLOT(returnToMainThread()));
+		connect(m_workerThread, SIGNAL(finished()), this, SLOT(setPreviousParent()));
+		connect(m_workerThread, SIGNAL(terminated()), this, SLOT(setPreviousParent()));
 		m_workerThread->start();
 #endif
 	}
@@ -117,9 +117,9 @@ namespace Kerfuffle
 		setError(!result);
 	}
 
-	void Job::returnToMainThread()
+	void Job::setPreviousParent()
 	{
-		kDebug();
+		kDebug(1601);
 
 #ifndef KERFUFFLE_NOJOBTHREADING
 		Q_ASSERT(m_interface->thread() != m_workerThread);

@@ -61,7 +61,7 @@ namespace Kerfuffle
 			virtual void doWork() = 0;
 
 		private slots:
-			void returnToMainThread();
+			void setPreviousParent();
 
 		signals:
 			void userQuery( Query* );
