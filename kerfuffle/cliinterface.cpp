@@ -327,7 +327,7 @@ namespace Kerfuffle
 	{
 		kDebug(1601);
 
-		m_process = new KProcess(this);
+		m_process = new KProcess();
 		m_process->setOutputChannelMode( KProcess::MergedChannels );
 
 		connect( m_process, SIGNAL( started() ), SLOT( started() ), Qt::DirectConnection  );
@@ -434,7 +434,7 @@ namespace Kerfuffle
 		//if the process is still not finished (m_process is appearantly not
 		//set to NULL if here), then the operation should definitely not be in
 		//the main thread as this would freeze everything. assert this.
-		Q_ASSERT(QObject::thread() != QApplication::instance()->thread());
+		Q_ASSERT(QThread::currentThread() != QApplication::instance()->thread());
 
 		//if another function is already accessing this function, then we
 		//assume that it will finish processing also the lines we just added.
