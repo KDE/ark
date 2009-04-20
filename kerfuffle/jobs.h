@@ -62,6 +62,9 @@ namespace Kerfuffle
 		public slots:
 			virtual void doWork() = 0;
 
+		private slots:
+			void returnToMainThread();
+
 		signals:
 			void userQuery( Query* );
 			void newEntry( const ArchiveEntry & );
@@ -74,10 +77,11 @@ namespace Kerfuffle
 
 			ReadOnlyArchiveInterface* m_interface;
 			QObject *m_previousInterfaceParent;
-			ThreadExecution *m_workerThread;
 
 			virtual bool doKill();
 
+		private:
+			ThreadExecution *m_workerThread;
 	};
 
 	class KERFUFFLE_EXPORT ListJob: public Job

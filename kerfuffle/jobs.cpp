@@ -68,16 +68,15 @@ namespace Kerfuffle
 #ifdef KERFUFFLE_NOJOBTHREADING
 		QTimer::singleShot(0, this, SLOT(doWork()));
 #else
-		m_workerThread = new ThreadExecution(this);
-
 		//we want the event handling to happen in the work thread to avoid
 		//unsafe data access due to events while work is being done
 		kDebug() << "Moving from " << QObject::thread() << " to " << m_workerThread;
-		m_previousInterfaceParent = m_interface->parent();
-		m_interface->setParent(NULL);
-		m_interface->moveToThread(m_workerThread);
-		moveToThread(m_workerThread);
 
+		m_previousInterfaceParent = m_interface->parent();
+
+		m_workerThread = new ThreadExecution(this);
+		connect(m_workerThread, SIGNAL(finished()), this, SLOT(returnToMainThread()));
+		connect(m_workerThread, SIGNAL(terminated()), this, SLOT(returnToMainThread()));
 		m_workerThread->start();
 #endif
 	}
@@ -116,15 +115,18 @@ namespace Kerfuffle
 		m_interface->removeObserver( this );
 
 		setError(!result);
+	}
+
+	void Job::returnToMainThread()
+	{
+		kDebug();
 
 #ifndef KERFUFFLE_NOJOBTHREADING
-		kDebug() << "Moving from " << QObject::thread()<< " to " << QApplication::instance()->thread();
-		m_interface->moveToThread(QApplication::instance()->thread());
-		m_interface->setParent(m_previousInterfaceParent);
-		moveToThread(QApplication::instance()->thread());
-#endif
+		Q_ASSERT(m_interface->thread() != m_workerThread);
+		Q_ASSERT(m_previousInterfaceParent);
 
-		emitResult();
+		m_interface->setParent(m_previousInterfaceParent);
+#endif
 	}
 
 	void Job::onUserQuery(Query *query)
@@ -157,6 +159,7 @@ namespace Kerfuffle
 		m_interface->registerObserver( this );
 		bool ret = m_interface->list();
 
+		emitResult();
 		if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
 	}
 
@@ -220,6 +223,8 @@ namespace Kerfuffle
 					;
 
 		bool ret = m_interface->copyFiles( m_files, m_destinationDir, m_options );
+
+		emitResult();
 		if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
 
 	}
@@ -247,6 +252,7 @@ namespace Kerfuffle
 		m_writeInterface->registerObserver( this );
 		bool ret = m_writeInterface->addFiles( m_files, m_options );
 
+		emitResult();
 		if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
 	}
 

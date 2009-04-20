@@ -43,6 +43,10 @@ namespace Kerfuffle
 
 		private:
 			Kerfuffle::Job *m_job;
+			QObject *m_interface;
+
+		private slots:
+			void slotJobFinished();
 	};
 }
 
