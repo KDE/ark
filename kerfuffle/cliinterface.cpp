@@ -331,8 +331,7 @@ namespace Kerfuffle
 
 		connect( m_process, SIGNAL( started() ), SLOT( started() ), Qt::DirectConnection  );
 		connect( m_process, SIGNAL( readyReadStandardOutput() ), SLOT( readStdout() ), Qt::DirectConnection );
-		connect( m_process, SIGNAL( finished( int, QProcess::ExitStatus ) ), SLOT( processFinished( int, QProcess::ExitStatus ) ) ,
-				Qt::DirectConnection);
+		connect( m_process, SIGNAL( finished( int, QProcess::ExitStatus ) ), SLOT( processFinished( int, QProcess::ExitStatus ) ), Qt::DirectConnection );
 
 		if (QMetaType::type("QProcess::ExitStatus") == 0)
 			qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
@@ -431,6 +430,7 @@ namespace Kerfuffle
 		if ( !m_process ) {
 			return;
 		}
+
 		//if the process is still not finished (m_process is appearantly not
 		//set to NULL if here), then the operation should definitely not be in
 		//the main thread as this would freeze everything. assert this.
@@ -515,8 +515,7 @@ namespace Kerfuffle
 		}
 
 		thisFuncMutex.unlock();
-		QTimer::singleShot(0, this, SLOT(readStdout()));
-
+		readStdout();
 	}
 
 
