@@ -57,6 +57,17 @@ namespace Kerfuffle
 			virtual void onFinished(bool result);
 			virtual void onUserQuery( class Query *query );
 
+		protected:
+			Job(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
+			virtual ~Job();
+			virtual bool doKill();
+
+			ReadOnlyArchiveInterface* m_interface;
+
+		private:
+			QObject *m_previousInterfaceParent;
+			ThreadExecution *m_workerThread;
+
 		public slots:
 			virtual void doWork() = 0;
 
@@ -64,27 +75,16 @@ namespace Kerfuffle
 			void setPreviousParent();
 
 		signals:
-			void userQuery( Query* );
-			void newEntry( const ArchiveEntry & );
-			void error( const QString& errorMessage, const QString& details );
 			void entryRemoved( const QString & entry );
-
-		protected:
-			Job(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
-			virtual ~Job();
-
-			ReadOnlyArchiveInterface* m_interface;
-			QObject *m_previousInterfaceParent;
-
-			virtual bool doKill();
-
-		private:
-			ThreadExecution *m_workerThread;
+			void error( const QString& errorMessage, const QString& details );
+			void newEntry( const ArchiveEntry & );
+			void userQuery( Query* );
 	};
 
 	class KERFUFFLE_EXPORT ListJob: public Job
 	{
 		Q_OBJECT
+
 		public:
 			explicit ListJob( ReadOnlyArchiveInterface *interface, QObject *parent = 0 );
 
@@ -94,20 +94,21 @@ namespace Kerfuffle
 			QString subfolderName() { return m_subfolderName; }
 			qlonglong extractedFilesSize() { return m_extractedFilesSize; }
 
-		private slots:
-			void onNewEntry(const ArchiveEntry&);
-
 		private:
 			bool m_isSingleFolderArchive;
 			bool m_isPasswordProtected;
 			QString m_subfolderName;
 			QString m_previousEntry;
 			qlonglong m_extractedFilesSize;
+
+		private slots:
+			void onNewEntry(const ArchiveEntry&);
 	};
 
 	class KERFUFFLE_EXPORT ExtractJob: public Job
 	{
 		Q_OBJECT
+
 		public:
 			ExtractJob( const QList<QVariant> & files, const QString&
 					destinationDir, ExtractionOptions options,
@@ -117,14 +118,15 @@ namespace Kerfuffle
 
 		private:
 			void fillInDefaultValues(ExtractionOptions& options);
-			QList<QVariant>           m_files;
-			QString                   m_destinationDir;
+			QList<QVariant> m_files;
+			QString m_destinationDir;
 			ExtractionOptions m_options;
 	};
 
 	class KERFUFFLE_EXPORT AddJob: public Job
 	{
 		Q_OBJECT
+
 		public:
 			AddJob(const QStringList & files, const CompressionOptions& options,
 					ReadWriteArchiveInterface *interface, QObject *parent = 0
@@ -132,7 +134,7 @@ namespace Kerfuffle
 			void doWork();
 
 		private:
-			QStringList                m_files;
+			QStringList m_files;
 			CompressionOptions m_options;
 
 	};
@@ -140,13 +142,14 @@ namespace Kerfuffle
 	class KERFUFFLE_EXPORT DeleteJob: public Job
 	{
 		Q_OBJECT
+
 		public:
 			DeleteJob( const QList<QVariant>& files, ReadWriteArchiveInterface
 					*interface, QObject *parent = 0 );
 			void doWork();
 
 		private:
-			QList<QVariant>            m_files;
+			QList<QVariant> m_files;
 	};
 } // namespace Kerfuffle
 
