@@ -374,8 +374,11 @@ namespace Kerfuffle
 		m_userCancelled = false;
 	}
 
-	void CliInterface::processFinished( int exitCode, QProcess::ExitStatus exitStatus)
+	void CliInterface::processFinished( int exitCode, QProcess::ExitStatus exitStatus )
 	{
+		Q_UNUSED( exitCode );
+		Q_UNUSED( exitStatus );
+
 		kDebug(1601);
 
 		//if the m_process pointer is gone, then there is nothing to worry
