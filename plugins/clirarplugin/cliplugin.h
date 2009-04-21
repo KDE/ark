@@ -34,6 +34,7 @@ class CliPlugin : public Kerfuffle::CliInterface
 
 		virtual ~CliPlugin();
 
+	protected:
 		virtual Kerfuffle::ParameterList parameterList() const;
 
 		virtual bool readListLine(QString line);
@@ -46,8 +47,6 @@ class CliPlugin : public Kerfuffle::CliInterface
 		bool m_isFirstLine;
 
 		bool m_isInContentListing;
-
-		bool m_isPasswordProtected;
 };
 
 #endif // CLIPLUGIN_H

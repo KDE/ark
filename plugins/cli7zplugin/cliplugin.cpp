@@ -42,6 +42,7 @@ class CliPlugin: public CliInterface
 
 		}
 
+	protected:
 		virtual ParameterList parameterList() const
 		{
 			static ParameterList p;
@@ -136,8 +137,8 @@ class CliPlugin: public CliInterface
 					}
 					else if (line.startsWith("Encrypted = ") && line.size() >= 13)
 					{
-						bool isPasswordProtected = (line.at(12) == '+');
-						m_currentArchiveEntry[ IsPasswordProtected ] = isPasswordProtected;
+						setPasswordProtected((line.at(12) == '+'));
+						m_currentArchiveEntry[ IsPasswordProtected ] = isPasswordProtected();
 					}
 					else if (line.startsWith("Block = "))
 					{

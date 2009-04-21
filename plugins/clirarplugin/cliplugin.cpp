@@ -99,12 +99,12 @@ bool CliPlugin::readListLine(QString line)
 		m_internalId = line.trimmed();
 		//m_entryFilename.chop(1); // handle newline
 		if (!m_internalId.isEmpty() && m_internalId.at(0) == '*')
-			{
-			m_isPasswordProtected = true;
+		{
+			setPasswordProtected(true);
 			m_internalId.remove( 0, 1 ); // and the spaces in front
-			}
+		}
 		else
-			m_isPasswordProtected = false;
+			setPasswordProtected(false);
 
 		m_isFirstLine = false;
 		return true;
@@ -140,7 +140,7 @@ bool CliPlugin::readListLine(QString line)
 	e[ CRC ] = fileprops[ 6 ];
 	e[ Method ] = fileprops[ 7 ];
 	e[ Version ] = fileprops[ 8 ];
-	e[ IsPasswordProtected] = m_isPasswordProtected;
+	e[ IsPasswordProtected] = isPasswordProtected();
 	kDebug( 1601 ) << "Added entry: " << e ;
 
 	entry(e);
