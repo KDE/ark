@@ -14,6 +14,7 @@ X-KDE-Kerfuffle-APIRevision=1
 Name=kerfuffle_liblzma
 Name[sv]=Kerfuffle Liblzma
 Comment=liblzma plugin for Kerfuffle
+Comment[et]=Kerfuffle'i liblzma plugin
 Comment[pt]='Plugin' da 'liblzma' para o Kerfuffle
 Comment[pt_BR]='Plugin' da 'liblzma' para o Kerfuffle
 Comment[sv]=Liblzma-insticksprogram för Kerfuffle
