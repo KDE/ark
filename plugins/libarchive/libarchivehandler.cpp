@@ -491,6 +491,9 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 			case ARCHIVE_COMPRESSION_BZIP2:
 				ret = archive_write_set_compression_bzip2(arch_writer);
 				break;
+			case ARCHIVE_COMPRESSION_NONE:
+				ret = archive_write_set_compression_none(arch_writer);
+				break;
 			default:
 				error(i18n("The compression type '%1' is not supported by Ark.", QString(archive_compression_name(arch_reader))));
 				return false;
@@ -653,6 +656,9 @@ bool LibArchiveInterface::deleteFiles( const QList<QVariant> & files )
 			break;
 		case ARCHIVE_COMPRESSION_BZIP2:
 			ret = archive_write_set_compression_bzip2(arch_writer);
+			break;
+		case ARCHIVE_COMPRESSION_NONE:
+			ret = archive_write_set_compression_none(arch_writer);
 			break;
 		default:
 			error(i18n("The compression type '%1' is not supported by Ark.", QString(archive_compression_name(arch_reader))));
