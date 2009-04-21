@@ -55,6 +55,7 @@ namespace Kerfuffle
 	Job::~Job()
 	{
 #ifndef KERFUFFLE_NOJOBTHREADING
+		m_workerThread->wait();
 		delete m_workerThread;
 		m_workerThread = 0;
 #endif
