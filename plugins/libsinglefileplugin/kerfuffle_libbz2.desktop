@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=Kerfuffle/Plugin
+X-KDE-Library=kerfuffle_libbz2
+X-KDE-PluginInfo-Author=Raphael Kubo da Costa
+X-KDE-PluginInfo-Email=kubito@gmail.com
+X-KDE-PluginInfo-Name=kerfuffle_libbz2
+X-KDE-PluginInfo-Version=0.0.1
+X-KDE-PluginInfo-Website=http://www.kde.org
+X-KDE-PluginInfo-License=BSD
+X-KDE-Priority=100
+X-KDE-Kerfuffle-APIRevision=1
+#X-KDE-Kerfuffle-ReadWrite=true
+Name=kerfuffle_libbz2
+Name[x-test]=xxkerfuffle_libbz2xx
+Comment=libbz2 plugin for Kerfuffle
+MimeType=application/x-bzip;
