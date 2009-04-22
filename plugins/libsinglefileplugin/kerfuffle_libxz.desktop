@@ -12,6 +12,5 @@ X-KDE-Priority=100
 X-KDE-Kerfuffle-APIRevision=1
 #X-KDE-Kerfuffle-ReadWrite=true
 Name=kerfuffle_libxz
-Name[x-test]=xxkerfuffle_libxzxx
 Comment=libxz plugin for Kerfuffle
 MimeType=application/x-lzma;application/x-xz;
