@@ -51,7 +51,7 @@ namespace Kerfuffle
 		setOperationMode(KFileDialog::Saving);
 		setMode(KFile::File |
 				KFile::LocalOnly );
-		setCaption("Compress to archive");
+		setCaption(i18n("Compress to archive"));
 
 		m_ui = new AddDialogUI( this );
 		mainWidget()->layout()->addWidget(m_ui);
