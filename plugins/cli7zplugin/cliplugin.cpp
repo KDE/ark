@@ -24,6 +24,8 @@
 #include "kerfuffle/cliinterface.h"
 
 #include <QDir>
+#include <QLatin1String>
+#include <QString>
 
 #include <KDebug>
 
@@ -64,11 +66,11 @@ bool CliPlugin::readListLine(QString line)
 	switch (m_state)
 	{
 		case 0: // header
-			if (line.startsWith("Listing archive:"))
+			if (line.startsWith(QLatin1String("Listing archive:")))
 			{
 				kDebug( 1601 ) << "Archive name: " << line.right(line.size() - 16).trimmed();
 			}
-			else if (line.startsWith("----------"))
+			else if (line.startsWith(QLatin1String("----------")))
 			{
 				m_state = 1;
 			}
@@ -79,7 +81,7 @@ bool CliPlugin::readListLine(QString line)
 			}
 			break;
 		case 1: // beginning of a file detail
-			if (line.startsWith("Path ="))
+			if (line.startsWith(QLatin1String("Path =")))
 			{
 				m_currentArchiveEntry.clear();
 				QString entryFilename = QDir::fromNativeSeparators(line.mid( 6).trimmed());
@@ -90,20 +92,20 @@ bool CliPlugin::readListLine(QString line)
 			break;
 
 		case 2: // file details
-			if (line.startsWith("Size = "))
+			if (line.startsWith(QLatin1String("Size = ")))
 			{
 				m_currentArchiveEntry[ Size ] = line.mid( 7).trimmed();
 			}
-			else if (line.startsWith("Packed Size = "))
+			else if (line.startsWith(QLatin1String("Packed Size = ")))
 			{
 				m_currentArchiveEntry[ CompressedSize ] = line.mid( 14).trimmed();
 			}
-			else if (line.startsWith("Modified = "))
+			else if (line.startsWith(QLatin1String("Modified = ")))
 			{
 				QDateTime ts = QDateTime::fromString(line.mid(11).trimmed(), "yyyy-MM-dd hh:mm:ss");
 				m_currentArchiveEntry[ Timestamp ] = ts;
 			}
-			else if (line.startsWith("Attributes = "))
+			else if (line.startsWith(QLatin1String("Attributes = ")))
 			{
 				QString attributes = line.mid(13).trimmed();
 
@@ -120,21 +122,21 @@ bool CliPlugin::readListLine(QString line)
 
 				m_currentArchiveEntry[ Permissions ] = attributes.mid(1);
 			}
-			else if (line.startsWith("CRC = "))
+			else if (line.startsWith(QLatin1String("CRC = ")))
 			{
 				m_currentArchiveEntry[ CRC ] = line.mid(6).trimmed();
 			}
-			else if (line.startsWith("Method = "))
+			else if (line.startsWith(QLatin1String("Method = ")))
 			{
 				QString method = line.mid(9).trimmed();
 				m_currentArchiveEntry[ Method ] = method;
 			}
-			else if (line.startsWith("Encrypted = ") && line.size() >= 13)
+			else if (line.startsWith(QLatin1String("Encrypted = ")) && line.size() >= 13)
 			{
 				setPasswordProtected((line.at(12) == '+'));
 				m_currentArchiveEntry[ IsPasswordProtected ] = isPasswordProtected();
 			}
-			else if (line.startsWith("Block = "))
+			else if (line.startsWith(QLatin1String("Block = ")))
 			{
 				if (m_currentArchiveEntry.contains(FileName))
 				{
