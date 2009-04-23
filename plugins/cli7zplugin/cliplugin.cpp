@@ -117,6 +117,8 @@ bool CliPlugin::readListLine(QString line)
 					if (!directoryName.endsWith('/'))
 					{
 						m_currentArchiveEntry[FileName] = m_currentArchiveEntry[InternalID] = directoryName + '/';
+						bool isPasswordProtected = (line.at(12) == '+');
+						m_currentArchiveEntry[ IsPasswordProtected ] = isPasswordProtected;
 					}
 				}
 
@@ -133,8 +135,8 @@ bool CliPlugin::readListLine(QString line)
 			}
 			else if (line.startsWith(QLatin1String("Encrypted = ")) && line.size() >= 13)
 			{
-				setPasswordProtected((line.at(12) == '+'));
-				m_currentArchiveEntry[ IsPasswordProtected ] = isPasswordProtected();
+				bool isPasswordProtected = (line.at(12) == '+');
+				m_currentArchiveEntry[ IsPasswordProtected ] = isPasswordProtected;
 			}
 			else if (line.startsWith(QLatin1String("Block = ")))
 			{

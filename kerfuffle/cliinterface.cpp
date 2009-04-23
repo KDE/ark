@@ -41,8 +41,7 @@ namespace Kerfuffle
 	CliInterface::CliInterface( const QString& filename, QObject *parent)
 		: ReadWriteArchiveInterface(filename, parent),
 		m_process(NULL),
-		m_loop(NULL),
-		m_isPasswordProtected(false)
+		m_loop(NULL)
 	{
 		//because this interface uses the event loop
 		setWaitForFinishedSignal(true);
@@ -321,16 +320,6 @@ namespace Kerfuffle
 		executeProcess(m_program, args);
 
 		return true;
-	}
-
-	bool CliInterface::isPasswordProtected()
-	{
-		return m_isPasswordProtected;
-	}
-
-	void CliInterface::setPasswordProtected(bool isPasswordProtected)
-	{
-		m_isPasswordProtected = isPasswordProtected;
 	}
 
 	bool CliInterface::createProcess()

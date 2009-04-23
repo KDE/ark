@@ -214,6 +214,7 @@ namespace Kerfuffle
 		Q_OBJECT
 
 		public:
+
 			enum OperationMode  {
 				List, Copy, Add, Delete
 			};
@@ -227,12 +228,8 @@ namespace Kerfuffle
 			virtual bool addFiles( const QStringList & files, const CompressionOptions& options );
 			virtual bool deleteFiles( const QList<QVariant> & files );
 
-			bool isPasswordProtected();
-
-		protected:
 			virtual ParameterList parameterList() const = 0;
 			virtual bool readListLine(QString line) = 0;
-			void setPasswordProtected(bool isPasswordProtected);
 
 		private:
 			bool findProgramAndCreateProcess(const QString& program);
@@ -261,12 +258,11 @@ namespace Kerfuffle
 			ParameterList m_param;
 			QVariantList m_removedFiles;
 
-			bool m_isPasswordProtected;
-
 		private slots:
 			void started();
 			void readStdout();
 			void processFinished( int exitCode, QProcess::ExitStatus exitStatus );
+
 	};
 
 }
