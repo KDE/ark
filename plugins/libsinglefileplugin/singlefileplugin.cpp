@@ -23,8 +23,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "kerfuffle/archivefactory.h"
 #include "singlefileplugin.h"
+#include "kerfuffle/archivefactory.h"
 
 #include <QByteArray>
 #include <QFile>
