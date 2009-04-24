@@ -17,5 +17,6 @@ Comment=libxz plugin for Kerfuffle
 Comment[pt]='Plugin' da 'libxz' para o Kerfuffle
 Comment[pt_BR]='Plugin' da 'libxz' para o Kerfuffle
 Comment[sv]=Libxz-insticksprogram för Kerfuffle
+Comment[tr]=Kerfuffle için libxz eklentisi
 Comment[uk]=Додаток libxz для Kerfuffle
 MimeType=application/x-lzma;application/x-xz;
