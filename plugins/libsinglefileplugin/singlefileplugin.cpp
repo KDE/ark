@@ -81,7 +81,26 @@ bool LibSingleFileInterface::copyFiles( const QList<QVariant> & files, const QSt
 	}
 
 	device->open( QIODevice::ReadOnly );
-	outputFile.write( device->readAll() );
+
+	qint64 bytesRead;
+	QByteArray dataChunk( 1024*16, '\0' ); // 16Kb
+
+	while (true)
+	{
+		bytesRead = device->read( dataChunk.data(), dataChunk.size() );
+
+		if (bytesRead == -1)
+		{
+			error( i18n("There was an error while reading %1 during extraction.", filename()) );
+			break;
+		}
+		else if (bytesRead == 0)
+		{
+			break;
+		}
+
+		outputFile.write( dataChunk.data(), bytesRead );
+	}
 
 	delete device;
 
