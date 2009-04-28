@@ -12,6 +12,7 @@ X-KDE-Priority=100
 X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=false
 Name=unACE for Kerfuffle
+Name[de]=unACE-Modul für Kerfuffle
 Name[es]=unACE para Kerfuffle
 Name[et]=Kerfuffle'i unACE-plugin
 Name[eu]=Kerfuffle-rentzako unACE

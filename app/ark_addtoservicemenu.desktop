@@ -44,6 +44,7 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action addToZip]
 Name=ZIP archive
+Name[de]=ZIP-Archiv
 Name[es]=Archivo comprimido ZIP
 Name[et]=ZIP-arhiiv
 Name[ga]=Cartlann ZIP
@@ -66,7 +67,7 @@ Name[bg]=RAR архив
 Name[ca]=Arxiu RAR
 Name[cs]=Rar archív
 Name[da]=RAR arkiv
-Name[de]=RAR Archiv
+Name[de]=RAR-Archiv
 Name[el]=Αρχειοθήκη RAR
 Name[es]=Archivo comprimido RAR
 Name[et]=RAR-arhiiv
@@ -106,7 +107,7 @@ Name=Gzip-compressed tar archive
 Name[bg]=Gzip архив
 Name[ca]=Arxiu «tar» comprimit amb «gzip»
 Name[da]=Gzip-komprimeret tar-arkiv
-Name[de]=Gzip komprimiertes tar-Archiv
+Name[de]=Gzip-komprimiertes tar-Archiv
 Name[el]=Αρχειοθήκη tar συμπιεσμένη με Gzip
 Name[es]=Archivo tar comprimido con gzip
 Name[et]=Gzip-tihendusega tar-arhiiv

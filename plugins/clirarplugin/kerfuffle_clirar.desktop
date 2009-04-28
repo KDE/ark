@@ -12,6 +12,7 @@ X-KDE-Priority=120
 X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=true
 Name=RAR archive plugin
+Name[de]=RAR-Archiv-Modul
 Name[es]=Complemento de archivo comprimido RAR
 Name[et]=RAR-arhiivi plugin
 Name[ga]=Breiseán cartlainne RAR
