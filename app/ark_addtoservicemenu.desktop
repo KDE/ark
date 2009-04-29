@@ -45,6 +45,7 @@ X-KDE-Priority=TopLevel
 [Desktop Action addToZip]
 Name=ZIP archive
 Name[de]=ZIP-Archiv
+Name[el]=Αρχειοθήκη ZIP
 Name[es]=Archivo comprimido ZIP
 Name[et]=ZIP-arhiiv
 Name[ga]=Cartlann ZIP
