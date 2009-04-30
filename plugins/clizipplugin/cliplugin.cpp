@@ -32,7 +32,6 @@ class CliPlugin: public CliInterface
 	public:
 		explicit CliPlugin( const QString & filename, QObject *parent = 0 )
 			: CliInterface( filename, parent ),
-			m_isFirstLine(true),
 			m_incontent(false)
 		{
 
@@ -48,10 +47,11 @@ class CliPlugin: public CliInterface
 			static ParameterList p;
 			if (p.isEmpty()) {
 
-				p[CaptureProgress] = true;
-				p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = "rar";
+				p[CaptureProgress] = false;
+				p[ListProgram] = p[ExtractProgram] = "unzip";
+				p[DeleteProgram] = p[AddProgram] = "zip";
 
-				p[ListArgs] = QStringList() << "v" << "-c-" << "$Archive";
+				p[ListArgs] = QStringList() << "-l" << "-v" << "$Archive";
 				p[ExtractArgs] = QStringList() << "-p-" << "$PreservePathSwitch" << "$PasswordSwitch" << "$RootNodeSwitch" << "$Archive" << "$Files";
 				p[PreservePathSwitch] = QStringList() << "x" << "e";
 				p[RootNodeSwitch] = QStringList() << "-ap$Path";
@@ -72,7 +72,7 @@ class CliPlugin: public CliInterface
 
 				p[WrongPasswordPatterns] = QStringList() << "password incorrect";
 				p[ExtractionFailedPatterns] = QStringList() << "CRC failed";
-		}
+			}
 			return p;
 		}
 
@@ -85,7 +85,7 @@ class CliPlugin: public CliInterface
 		bool readListLine(QString line)
 		{
 
-			const QString m_headerString = "-----------------------------------------";
+			const QString m_headerString = "--------";
 			// skip the heading
 			if (!m_incontent){
 				if (line.startsWith(m_headerString) )

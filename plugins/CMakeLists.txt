@@ -15,5 +15,6 @@ endif (LIBZIP_FOUND)
 
 add_subdirectory( clirarplugin )
 add_subdirectory( cli7zplugin )
+add_subdirectory( clizipplugin )
 add_subdirectory( libsinglefileplugin )
 add_subdirectory( unace )

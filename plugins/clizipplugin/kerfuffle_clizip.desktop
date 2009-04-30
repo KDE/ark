@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=Kerfuffle/Plugin
+X-KDE-Library=kerfuffle_clizip
+X-KDE-PluginInfo-Author=Harald Hvaal
+X-KDE-PluginInfo-Email=haraldhv@stud.ntnu.no
+X-KDE-PluginInfo-Name=kerfuffle_clizip
+X-KDE-PluginInfo-Version=0.0.1
+X-KDE-PluginInfo-Website=http://www.kde.org
+X-KDE-PluginInfo-License=GPLv3
+X-KDE-Priority=160
+X-KDE-Kerfuffle-APIRevision=1
+X-KDE-Kerfuffle-ReadWrite=true
+Name=ZIP archive plugin
+MimeType=application/x-java-archive;application/x-jar;application/zip;application/x-zip-compressed;
