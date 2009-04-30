@@ -60,6 +60,9 @@ namespace Kerfuffle
 
 	CliInterface::~CliInterface()
 	{
+		if (m_process)
+			delete m_process;
+		m_process = NULL;
 	}
 
 	bool CliInterface::list()
@@ -326,7 +329,9 @@ namespace Kerfuffle
 	{
 		kDebug(1601);
 
+		if (m_process) delete m_process;
 		m_process = new KProcess();
+		m_stdOutData.clear();
 		m_process->setOutputChannelMode( KProcess::MergedChannels );
 
 		connect( m_process, SIGNAL( started() ), SLOT( started() ), Qt::DirectConnection  );
@@ -392,9 +397,22 @@ namespace Kerfuffle
 
 		}
 
-		delete m_process;
-		m_process = NULL;
+		//first make sure all whole lines left
+		//to handle have been processed
+		readStdout();
+
+		//there should still be a last part left in the output by now, and also
+		//no newline in the data because all lines should have been handled by
+		//the function above. assert this
+		Q_ASSERT(!m_stdOutData.isEmpty());
+		Q_ASSERT(!m_stdOutData.contains('\n'));
+
+		//handle the remaining line
+		handleLine(m_stdOutData);
+
 		progress(1.0);
+
+		//and we're finished
 		finished(true);
 	}
 
@@ -403,31 +421,24 @@ namespace Kerfuffle
 		kDebug(1601);
 		KProcess *p = m_process;
 		m_process = NULL;
-		p->terminate();
+		if (p) p->terminate();
 		finished(false);
 	}
 
 	void CliInterface::readStdout()
 	{
-		//a quick note for any new hackers: Yes, this function is not
-		//very pretty, but it has become like this for reasons. You are
-		//very welcome to find a better implementation for this, but
-		//please consider the following points:
-		//
+		//when hacking this function, please remember the following:
 		//- standard output comes in unpredictable chunks, this is why
 		//you can never know if the last part of the output is a complete line or not
-		//- because of eventloop magic and the process running in its
-		//own thread, the readStdOut might be called at any time, even
-		//while it's busy processing the last call (this last case
-		//happens when another eventloop is created somewhere (eg
-		//Query::execute) and the readyReadStandardOutput signal is
-		//picked up there)
 		//- console applications are not really consistent about what
 		//characters they send out (newline, backspace, carriage return,
 		//etc), so keep in mind that this function is supposed to handle
 		//all those special cases and be the lowest common denominator
 
-		if ( !m_process ) {
+		Q_ASSERT(m_process);
+
+		if (!m_process->bytesAvailable()) {
+			//if process has no more data, we can just bail out
 			return;
 		}
 
@@ -436,14 +447,6 @@ namespace Kerfuffle
 		//the main thread as this would freeze everything. assert this.
 		Q_ASSERT(QThread::currentThread() != QApplication::instance()->thread());
 
-		//if another function is already accessing this function, then we
-		//assume that it will finish processing also the lines we just added.
-		static QMutex thisFuncMutex;
-		bool tryLock = thisFuncMutex.tryLock();
-
-		if (!tryLock)  {
-			return;
-		}
 
 		QByteArray dd = m_process->readAllStandardOutput();
 
@@ -460,11 +463,19 @@ namespace Kerfuffle
 		//if there is no newline, we leave the data like this for now.
 		if (!m_stdOutData.contains('\n')) {
 			//kDebug(1601) << "No new line, we leave it like this for now";
-			thisFuncMutex.unlock();
 			return;
 		}
 
 		QList<QByteArray> list = m_stdOutData.split('\n');
+
+		//since QByteArray::split has no SkipEmptyParts functionality, we will
+		//have to simulate this:
+		for (int i = 0; i < list.size(); ++i) {
+			if (list.at(i).isEmpty()) {
+				list.removeAt(i);
+				--i;
+			}
+		}
 
 		//because the last line might be incomplete we leave it for now
 		QByteArray lastLine = list.takeLast();
@@ -472,50 +483,53 @@ namespace Kerfuffle
 
 		foreach( const QByteArray& line, list) {
 
-			if (line.isEmpty()) continue;
-
-			if ((m_mode == Copy || m_mode == Add) && m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool())
-			{
-				//read the percentage
-				int pos = line.indexOf('%');
-				if (pos != -1 && pos > 1) {
-					int percentage = line.mid(pos - 2, 2).toInt();
-					progress(float(percentage) / 100);
-					continue;
-				}
-			}
-
-			if (m_mode == Copy) {
-
-				
-				if (checkForErrorMessage(line, WrongPasswordPatterns)) {
-					kDebug(1601) << "Wrong password!";
-					error(i18n("Incorrect password."));
-					failOperation();
-					return;
-				}
-
-				if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
-					kDebug(1601) << "Error in extraction!!";
-					error(i18n("Extraction failed because of an unexpected error."));
-					failOperation();
-					return;
-				}
-
-				if (checkForFileExistsMessage(line))
-					continue;
-
-			}
-
-			if (m_mode == List) {
-				readListLine(line);
-				continue;
-			}
+			if (!line.isEmpty())
+				handleLine(line);
 
 		}
 
-		thisFuncMutex.unlock();
-		readStdout();
+	}
+
+	void CliInterface::handleLine(const QString& line)
+	{
+		if ((m_mode == Copy || m_mode == Add) && m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool())
+		{
+			//read the percentage
+			int pos = line.indexOf('%');
+			if (pos != -1 && pos > 1) {
+				int percentage = line.mid(pos - 2, 2).toInt();
+				progress(float(percentage) / 100);
+				return;
+			}
+		}
+
+		if (m_mode == Copy) {
+
+
+			if (checkForErrorMessage(line, WrongPasswordPatterns)) {
+				kDebug(1601) << "Wrong password!";
+				error(i18n("Incorrect password."));
+				failOperation();
+				return;
+			}
+
+			if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
+				kDebug(1601) << "Error in extraction!!";
+				error(i18n("Extraction failed because of an unexpected error."));
+				failOperation();
+				return;
+			}
+
+			if (checkForFileExistsMessage(line))
+				return;
+
+		}
+
+		if (m_mode == List) {
+			readListLine(line);
+			return;
+		}
+
 	}
 
 

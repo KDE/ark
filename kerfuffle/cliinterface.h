@@ -241,6 +241,7 @@ namespace Kerfuffle
 			void cacheParameterList();
 			bool checkForFileExistsMessage(const QString& line);
 			bool checkForErrorMessage(const QString& line, int parameterIndex);
+			void handleLine(const QString& line);
 
 			void failOperation();
 
