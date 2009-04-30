@@ -61,7 +61,7 @@ namespace Kerfuffle
 			virtual ~Job();
 			virtual bool doKill();
 
-			ReadOnlyArchiveInterface* m_interface;
+			ReadOnlyArchiveInterface *m_interface;
 
 		private:
 			ThreadExecution *m_workerThread;
