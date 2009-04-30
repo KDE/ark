@@ -601,8 +601,6 @@ namespace Kerfuffle
 		static QHash<int, QList<QRegExp> > patternCache;
 		QList<QRegExp> patterns;
 
-		kDebug() << line;
-
 		if (patternCache.contains(parameterIndex)) {
 			patterns = patternCache.value(parameterIndex);
 		}
