@@ -204,11 +204,14 @@ namespace Kerfuffle
 		bool ret = m_interface->copyFiles( m_files, m_destinationDir, m_options );
 
 		if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
-
 	}
+
 	void ExtractJob::fillInDefaultValues(ExtractionOptions& options)
 	{
-		if (!options.contains("PreservePaths")) options["PreservePaths"] = false;
+		if (!options.contains("PreservePaths"))
+		{
+			options["PreservePaths"] = false;
+		}
 	}
 
 	AddJob::AddJob( const QStringList& files, const CompressionOptions& options , ReadWriteArchiveInterface *interface, QObject *parent )
@@ -249,11 +252,10 @@ namespace Kerfuffle
 		Q_ASSERT(m_writeInterface);
 
 		m_writeInterface->registerObserver( this );
-		bool ret = m_writeInterface->deleteFiles( m_files );
+		int ret = m_writeInterface->deleteFiles( m_files );
 
 		if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
 	}
-
 } // namespace Kerfuffle
 
 #include "jobs.moc"
