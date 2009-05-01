@@ -2,7 +2,7 @@
 Type=Service
 ServiceTypes=KonqPopupMenu/Plugin
 MimeType=all/all;
-Actions=addTo;addToRar;addToTar;addToZip;
+Actions=compressHere;compressAsZip;compressAsRar;compressAsTar;compressTo
 X-KDE-Submenu=Compress
 X-KDE-Submenu[bg]=Компресиране
 X-KDE-Submenu[ca]=Compressió
@@ -43,9 +43,15 @@ X-KDE-Submenu[zh_TW]=壓縮
 X-KDE-StartupNotify=false
 X-KDE-Priority=TopLevel
 
-[Desktop Action addToZip]
-Name=ZIP archive
-Name[de]=ZIP-Archiv
+[Desktop Action compressHere]
+Name=Here
+Name[de]=Hierher
+Icon=utilities-file-archiver
+Exec=ark --changetofirstpath --add --autofilename tar.gz %F
+
+[Desktop Action compressAsZip]
+Name=As ZIP Archive
+Name[de]=Als ZIP-Archiv
 Name[el]=Αρχειοθήκη ZIP
 Name[es]=Archivo comprimido ZIP
 Name[et]=ZIP-arhiiv
@@ -64,13 +70,13 @@ Name[zh_TW]=ZIP 壓縮檔
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename zip %F
 
-[Desktop Action addToRar]
-Name=RAR archive
+[Desktop Action compressAsRar]
+Name=As RAR Archive
 Name[bg]=RAR архив
 Name[ca]=Arxiu RAR
 Name[cs]=Rar archív
 Name[da]=RAR arkiv
-Name[de]=RAR-Archiv
+Name[de]=Als RAR-Archiv
 Name[el]=Αρχειοθήκη RAR
 Name[es]=Archivo comprimido RAR
 Name[et]=RAR-arhiiv
@@ -106,12 +112,12 @@ Name[zh_TW]=RAR 壓縮檔
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename rar %F
 
-[Desktop Action addToTar]
-Name=Gzip-compressed tar archive
+[Desktop Action compressAsTar]
+Name=As ZIP/TAR Archive
 Name[bg]=Gzip архив
 Name[ca]=Arxiu «tar» comprimit amb «gzip»
 Name[da]=Gzip-komprimeret tar-arkiv
-Name[de]=Gzip-komprimiertes tar-Archiv
+Name[de]=Als ZIP/TAR-Archiv
 Name[el]=Αρχειοθήκη tar συμπιεσμένη με Gzip
 Name[es]=Archivo tar comprimido con gzip
 Name[et]=Gzip-tihendusega tar-arhiiv
@@ -147,7 +153,7 @@ Name[zh_TW]=tar.gz 壓縮檔
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
-[Desktop Action addTo]
+[Desktop Action compressTo]
 Name=Compress to...
 Name[bg]=Компресиране в...
 Name[ca]=Comprimeix a...
