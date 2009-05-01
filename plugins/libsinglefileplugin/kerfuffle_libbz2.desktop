@@ -23,4 +23,5 @@ Comment[pt_BR]=Plug-in libgz2 para o Kerfuffle
 Comment[sv]=Libbz2-insticksprogram för Kerfuffle
 Comment[tr]=Kerfuffle için libbz2 eklentisi
 Comment[uk]=Додаток libbz2 для Kerfuffle
+Comment[zh_TW]=Kerfuffle 的 libbz2 外掛程式
 MimeType=application/x-bzip;
