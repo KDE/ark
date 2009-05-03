@@ -31,6 +31,7 @@ X-KDE-Submenu[pt]=Comprimir
 X-KDE-Submenu[pt_BR]=Compactar
 X-KDE-Submenu[ro]=Comprimă
 X-KDE-Submenu[ru]=Упаковать
+X-KDE-Submenu[sk]=Komprimovať
 X-KDE-Submenu[sl]=Stisni
 X-KDE-Submenu[sr]=Компресовање
 X-KDE-Submenu[sr@latin]=Kompresovanje
@@ -45,21 +46,37 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action compressHere]
 Name=Here
+Name[pt]=Aqui
+Name[pt_BR]=Aqui
+Name[sv]=Här
+Name[uk]=Сюди
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
 [Desktop Action compressAsZip]
 Name=As ZIP Archive
+Name[pt]=Como Pacote ZIP
+Name[pt_BR]=Como Pacote ZIP
+Name[sv]=Som ZIP-arkiv
+Name[uk]=Як архів ZIP
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename zip %F
 
 [Desktop Action compressAsRar]
 Name=As RAR Archive
+Name[pt]=Como Pacote RAR
+Name[pt_BR]=Como Pacote RAR
+Name[sv]=Som RAR-arkiv
+Name[uk]=Як архів RAR
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename rar %F
 
 [Desktop Action compressAsTar]
 Name=As ZIP/TAR Archive
+Name[pt]=Como Pacote ZIP/TAR
+Name[pt_BR]=Como Pacote ZIP/TAR
+Name[sv]=Som ZIP/TAR-arkiv
+Name[uk]=Як архів ZIP/TAR
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
@@ -91,6 +108,7 @@ Name[pt]=Comprimir para...
 Name[pt_BR]=Compactar para...
 Name[ro]=Comprimă în...
 Name[ru]=Упаковать в файл...
+Name[sk]=Komprimovať do...
 Name[sl]=Stisni v ...
 Name[sr]=Компресуј у...
 Name[sr@latin]=Kompresuj u...

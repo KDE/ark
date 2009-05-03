@@ -10,15 +10,27 @@ X-KDE-StartupNotify=false
 
 [Desktop Action arkExtractHere]
 Name=Extract Archive Here
+Name[pt]=Extrair o Pacote para Aqui
+Name[pt_BR]=Extrair o Pacote para Aqui
+Name[sv]=Packa upp arkiv här
+Name[uk]=Видобути архів сюди
 Icon=utilities-file-archiver
 Exec=ark --batch --autodestination %F
 
 [Desktop Action arkExtractTo]
 Name=Extract Archive to...
+Name[pt]=Extrair o Pacote Para...
+Name[pt_BR]=Extrair o Pacote Para...
+Name[sv]=Packa upp arkiv i...
+Name[uk]=Видобути архів до...
 Icon=utilities-file-archiver
 Exec=ark --batch --autodestination --dialog %F
 
 [Desktop Action arkAutoExtractHere]
 Name=Extract Archive Here, Autodetect Subfolder
+Name[pt]=Extrair o Pacote Aqui com Detecção da Sub-Pasta
+Name[pt_BR]=Extrair o Pacote Aqui com Detecção da Sub-Pasta
+Name[sv]=Packa upp arkiv här, detektera underkatalog automatiskt
+Name[uk]=Видобути архів сюди, автоматично визначити підтеку
 Icon=utilities-file-archiver
 Exec=ark --batch --autodestination --autosubfolder %F
