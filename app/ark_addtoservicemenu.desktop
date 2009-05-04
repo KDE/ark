@@ -46,36 +46,44 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action compressHere]
 Name=Here
+Name[es]=Aquí
 Name[pt]=Aqui
 Name[pt_BR]=Aqui
 Name[sv]=Här
+Name[tr]=Buraya
 Name[uk]=Сюди
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
 [Desktop Action compressAsZip]
 Name=As ZIP Archive
+Name[es]=Como archivo comprimido ZIP
 Name[pt]=Como Pacote ZIP
 Name[pt_BR]=Como Pacote ZIP
 Name[sv]=Som ZIP-arkiv
+Name[tr]=ZIP Arşivi Olarak
 Name[uk]=Як архів ZIP
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename zip %F
 
 [Desktop Action compressAsRar]
 Name=As RAR Archive
+Name[es]=Como archivo comprimido RAR
 Name[pt]=Como Pacote RAR
 Name[pt_BR]=Como Pacote RAR
 Name[sv]=Som RAR-arkiv
+Name[tr]=RAR Arşivi Olarak
 Name[uk]=Як архів RAR
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename rar %F
 
 [Desktop Action compressAsTar]
 Name=As ZIP/TAR Archive
+Name[es]=Como archivo comprimido ZIP/TAR
 Name[pt]=Como Pacote ZIP/TAR
 Name[pt_BR]=Como Pacote ZIP/TAR
 Name[sv]=Som ZIP/TAR-arkiv
+Name[tr]=ZIP/TAR Arşivi Olarak
 Name[uk]=Як архів ZIP/TAR
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename tar.gz %F
