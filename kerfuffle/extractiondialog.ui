@@ -75,7 +75,7 @@
    <item>
     <widget class="QGroupBox" name="singleFolderGroup" >
      <property name="title" >
-      <string>&amp;Extraction into subfolder...</string>
+      <string>&amp;Extraction into subfolder:</string>
      </property>
      <property name="checkable" >
       <bool>true</bool>
