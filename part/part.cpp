@@ -743,6 +743,12 @@ void Part::slotDeleteFilesDone( KJob* job )
 void Part::slotDeleteFiles()
 {
 	kDebug( 1601 ) ;
+	
+	int reallyDelete =  KMessageBox::questionYesNo( NULL, i18n("Deleting these files is not undoable. Are you sure you want to do this?"), i18n("Delete files") , KGuiItem(i18n("Delete files")), KGuiItem(i18n("Cancel")));
+
+	if (reallyDelete == KMessageBox::No)
+		return;
+
 	DeleteJob *job = m_model->deleteFiles( selectedFilesWithChildren() );
 	connect( job, SIGNAL( result( KJob* ) ),
 	         this, SLOT( slotDeleteFilesDone( KJob* ) ) );
