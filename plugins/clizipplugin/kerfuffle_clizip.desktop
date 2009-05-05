@@ -13,6 +13,7 @@ X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=true
 Name=ZIP archive plugin
 Name[es]=Complemento de archivo comprimido ZIP
+Name[et]=ZIP-arhiivi plugin
 Name[pt]='Plugin' de pacotes ZIP
 Name[pt_BR]='Plugin' de pacotes ZIP
 Name[sv]=Insticksprogram för ZIP-arkiv
