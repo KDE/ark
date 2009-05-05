@@ -195,7 +195,7 @@ void Part::setupActions()
 	         this, SLOT( slotPreview() ) );
 
 	m_extractFilesAction = actionCollection()->addAction( "extract" );
-	m_extractFilesAction->setText( i18n( "E&xtract..." ) );
+	m_extractFilesAction->setText( i18n( "E&xtract" ) );
 	m_extractFilesAction->setIcon( KIcon( "archive-extract" ) );
 	m_extractFilesAction->setStatusTip( i18n( "Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones" ) );
 	m_extractFilesAction->setShortcut(QString("Ctrl+E"));
@@ -245,7 +245,7 @@ void Part::updateActions()
 		m_extractFilesAction->setMenu(m);
 		connect(m, SIGNAL(triggered(QAction*)),
 				this, SLOT(slotQuickExtractFiles(QAction*)));
-		QAction *header = m->addAction(i18n("Quick extract to..."));
+		QAction *header = m->addAction(i18n("Quick Extract To..."));
 		header->setEnabled(false);
 		header->setIcon(KIcon( "archive-extract" ) );
 	}
@@ -318,7 +318,7 @@ bool Part::openFile()
 	if (arguments().metaData()["createNewArchive"] == "true")
 	{
 		if (QFileInfo(localFile).exists()) {
-			int overWrite =  KMessageBox::questionYesNo( NULL, i18n("The file '%1' already exists. Would you like to open it instead?", localFile), i18n("File exists") , KGuiItem(i18n("Open file")), KGuiItem(i18n("Cancel")));
+			int overWrite =  KMessageBox::questionYesNo( NULL, i18n("The file '%1' already exists. Would you like to open it instead?", localFile), i18n("File Exists") , KGuiItem(i18n("Open File")), KGuiItem(i18n("Cancel")));
 
 			if (overWrite == KMessageBox::No)
 				return false;
@@ -327,7 +327,7 @@ bool Part::openFile()
 	else
 	{
 		if (!QFileInfo(localFile).exists()) {
-			KMessageBox::sorry( NULL, i18n("Error opening archive: the file '%1' was not found.", localFile), i18n("Error opening archive") );
+			KMessageBox::sorry( NULL, i18n("Error opening archive: the file '%1' was not found.", localFile), i18n("Error Opening Archive") );
 			return false;
 		}
 	}
@@ -357,7 +357,7 @@ bool Part::openFile()
 		mimeComments.sort();
 
 		bool ok;
-		QString item( KInputDialog::getItem(i18n("Unable to determine archive type"),
+		QString item( KInputDialog::getItem(i18n("Unable to Determine Archive Type"),
 											i18n("Ark was unable to determine the archive type of the filename.\n\nPlease choose the correct archive type below."),
 											mimeComments,
 											0,
@@ -371,7 +371,7 @@ bool Part::openFile()
 	}
 
 	if (!archive) {
-		KMessageBox::sorry( NULL, i18n("Ark was not able to open the archive '%1'. No library capable of handling the file was found.", localFile), i18n("Error opening archive") );
+		KMessageBox::sorry( NULL, i18n("Ark was not able to open the archive '%1'. No library capable of handling the file was found.", localFile), i18n("Error Opening Archive") );
 		return false;
 	}
 
@@ -412,7 +412,7 @@ void Part::slotLoadingFinished(KJob *job)
 	kDebug( 1601 );
 	if (job->error())
 		if (arguments().metaData()["createNewArchive"] != "true")
-			KMessageBox::sorry(NULL, i18n("Reading the archive '%1' failed with the error '%2'", localFilePath(), job->errorText()), i18n("Error opening archive"));
+			KMessageBox::sorry(NULL, i18n("Reading the archive '%1' failed with the error '%2'", localFilePath(), job->errorText()), i18n("Error Opening Archive"));
 	m_view->sortByColumn(0, Qt::AscendingOrder);
 	m_view->expandToDepth(0);
 	updateActions();
