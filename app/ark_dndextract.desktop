@@ -2,5 +2,5 @@
 Type=Service
 X-KDE-ServiceTypes=KonqDndPopupMenu/Plugin
 X-KDE-Library=libextracthere
-Name=Ark extract here
+Name=Ark Extract Here
 MimeType=application/x-compressed-tar;
