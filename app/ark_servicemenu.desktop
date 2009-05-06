@@ -13,22 +13,16 @@ Name=Extract Archive Here
 Name[es]=Extraer archivo comprimido aquí
 Name[et]=Paki arhiiv siia lahti
 Name[pt]=Extrair o Pacote para Aqui
-Name[pt_BR]=Extrair o Pacote para Aqui
+Name[pt_BR]=Extrair arquivo aqui
 Name[sv]=Packa upp arkiv här
 Name[tr]=Arşivi Buraya Aç
 Name[uk]=Видобути архів сюди
+Name[zh_TW]=在此解壓縮
 Icon=utilities-file-archiver
 Exec=ark --batch --autodestination %F
 
 [Desktop Action arkExtractTo]
 Name=Extract Archive To...
-Name[es]=Extraer archivo comprimido en...
-Name[et]=Paki arhiiv lahti...
-Name[pt]=Extrair o Pacote Para...
-Name[pt_BR]=Extrair o Pacote Para...
-Name[sv]=Packa upp arkiv i...
-Name[tr]=Arşivi Farklı Bir Konuma Aç...
-Name[uk]=Видобути архів до...
 Icon=utilities-file-archiver
 Exec=ark --batch --autodestination --dialog %F
 
@@ -37,9 +31,10 @@ Name=Extract Archive Here, Autodetect Subfolder
 Name[es]=Extraer archivo comprimido aquí, autodetectar subcarpeta
 Name[et]=Paki arhiiv siia lahti, tuvasta automaatselt alamkataloog
 Name[pt]=Extrair o Pacote Aqui com Detecção da Sub-Pasta
-Name[pt_BR]=Extrair o Pacote Aqui com Detecção da Sub-Pasta
+Name[pt_BR]=Extrair arquivo aqui, detectar automaticamente a subpasta
 Name[sv]=Packa upp arkiv här, detektera underkatalog automatiskt
 Name[tr]=Arşivi Buraya Aç, Dizin Yapısını Koru
 Name[uk]=Видобути архів сюди, автоматично визначити підтеку
+Name[zh_TW]=在此解壓縮，自動偵測子資料夾
 Icon=utilities-file-archiver
 Exec=ark --batch --autodestination --autosubfolder %F
