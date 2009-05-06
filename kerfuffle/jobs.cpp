@@ -107,7 +107,7 @@ namespace Kerfuffle
 		setError(!result);
 
 		if (errorString().isEmpty())
-			setErrorText(i18n("Sorry, an error occured while performing the operation."));
+			setErrorText(i18n("An error occurred while performing the operation."));
 
 		emitResult();
 	}
