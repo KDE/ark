@@ -397,18 +397,8 @@ namespace Kerfuffle
 
 		}
 
-		//first make sure all whole lines left
-		//to handle have been processed
-		readStdout();
-
-		//there should still be a last part left in the output by now, and also
-		//no newline in the data because all lines should have been handled by
-		//the function above. assert this
-		Q_ASSERT(!m_stdOutData.isEmpty());
-		Q_ASSERT(!m_stdOutData.contains('\n'));
-
-		//handle the remaining line
-		handleLine(m_stdOutData);
+		//handle all the remaining data in the process
+		readStdout(true);
 
 		progress(1.0);
 
@@ -419,13 +409,14 @@ namespace Kerfuffle
 	void CliInterface::failOperation()
 	{
 		kDebug(1601);
-		KProcess *p = m_process;
-		m_process = NULL;
-		if (p) p->terminate();
+		//KProcess *p = m_process;
+		//m_process = NULL;
+		//if (p) p->terminate();
+		m_process->terminate();
 		finished(false);
 	}
 
-	void CliInterface::readStdout()
+	void CliInterface::readStdout(bool handleAll)
 	{
 		//when hacking this function, please remember the following:
 		//- standard output comes in unpredictable chunks, this is why
@@ -461,25 +452,24 @@ namespace Kerfuffle
 		m_stdOutData += dd;
 
 		//if there is no newline, we leave the data like this for now.
-		if (!m_stdOutData.contains('\n')) {
+		//if handleAll is true, then we will also handle the last line of the
+		//data
+		if (!m_stdOutData.contains('\n') && !handleAll) {
 			//kDebug(1601) << "No new line, we leave it like this for now";
 			return;
 		}
 
 		QList<QByteArray> list = m_stdOutData.split('\n');
 
-		//since QByteArray::split has no SkipEmptyParts functionality, we will
-		//have to simulate this:
-		for (int i = 0; i < list.size(); ++i) {
-			if (list.at(i).isEmpty()) {
-				list.removeAt(i);
-				--i;
-			}
+		if (handleAll) {
+			m_stdOutData.clear();
 		}
-
-		//because the last line might be incomplete we leave it for now
-		QByteArray lastLine = list.takeLast();
-		m_stdOutData = lastLine;
+		else {
+			//because the last line might be incomplete we leave it for now
+			//note, this last line may be an empty string if the stdoutdata ends
+			//with a newline
+			m_stdOutData = list.takeLast();
+		}
 
 		foreach( const QByteArray& line, list) {
 
@@ -509,6 +499,7 @@ namespace Kerfuffle
 			if (checkForErrorMessage(line, WrongPasswordPatterns)) {
 				kDebug(1601) << "Wrong password!";
 				error(i18n("Incorrect password."));
+				setPassword(QString());
 				failOperation();
 				return;
 			}
