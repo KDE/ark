@@ -33,7 +33,7 @@ class CliPlugin: public CliInterface
 	public:
 		explicit CliPlugin( const QString & filename, QObject *parent = 0 )
 			: CliInterface( filename, parent ),
-			m_incontent(false)
+			m_status(PreHeader)
 		{
 
 		}
@@ -49,10 +49,11 @@ class CliPlugin: public CliInterface
 			if (p.isEmpty()) {
 
 				p[CaptureProgress] = false;
-				p[ListProgram] = p[ExtractProgram] = "unzip";
+				p[ListProgram] = "zipinfo";
+				p[ExtractProgram] = "unzip";
 				p[DeleteProgram] = p[AddProgram] = "zip";
 
-				p[ListArgs] = QStringList() << "-l" << "-v" << "$Archive";
+				p[ListArgs] = QStringList() << "-v" << "$Archive";
 				p[ExtractArgs] = QStringList() << "-p-" << "$PreservePathSwitch" << "$PasswordSwitch" << "$RootNodeSwitch" << "$Archive" << "$Files";
 				p[PreservePathSwitch] = QStringList() << "x" << "e";
 				p[RootNodeSwitch] = QStringList() << "-ap$Path";
@@ -82,57 +83,66 @@ class CliPlugin: public CliInterface
 
 		bool m_isFirstLine, m_incontent, m_isPasswordProtected;
 		QString m_entryFilename, m_internalId;
+		ArchiveEntry m_currentEntry;
+		
+		enum ReadStatus {
+			PreHeader = 0,
+			Header,
+			EntryHeader,
+			EntryBody
+		};
+		
+		ReadStatus m_status;
 
 		bool readListLine(QString line)
 		{
 
 			const QString m_headerString = "--------";
-			// skip the heading
-			if (!m_incontent){
-				if (line.startsWith(m_headerString) )
-					m_incontent = true;
-				return true;
+			QString trimmed = line.trimmed();
+
+			switch (m_status) {
+				case PreHeader:
+					if (line.startsWith(m_headerString))
+						m_status = Header;
+					break;
+				case Header:
+					if (line.startsWith(m_headerString))
+						m_status = EntryHeader;
+					break;
+				case EntryHeader:
+					if (!trimmed.isEmpty()) {
+						m_currentEntry[FileName] = trimmed;
+						m_status = EntryBody;
+					}
+					break;
+				case EntryBody:
+					if (line.startsWith(m_headerString)) {
+						m_status = EntryHeader;
+						entry(m_currentEntry);
+						m_currentEntry = ArchiveEntry();
+					} else {
+						handleDataLine(trimmed);
+					}
+					break;
+
 			}
-			// catch final line
-			if (line.startsWith(m_headerString) ) {
-				m_incontent = false;
-				return true;
-			}
+			return true;
+		}
 
-			// rar gives one line for the filename and a line after it with some file properties
-			if ( m_isFirstLine ) {
-				m_internalId = line.trimmed();
-				//m_entryFilename.chop(1); // handle newline
-				if (!m_internalId.isEmpty() && m_internalId.at(0) == '*')
-				{
-					m_isPasswordProtected = true;
-					m_internalId.remove( 0, 1 ); // and the spaces in front
-				}
-				else
-					m_isPasswordProtected = false;
+		void handleDataLine(QString line)
+		{
+			static QRegExp pattern("^(.+):\\s+(.+)$");
 
-				m_isFirstLine = false;
-				return true;
-			}
+			if (pattern.indexIn(line) == -1)
+				return;
 
-			QStringList fileprops = line.split(' ', QString::SkipEmptyParts);
-			m_internalId = QDir::fromNativeSeparators(m_internalId);
-			bool isDirectory = (bool)(fileprops[ 5 ].contains('d', Qt::CaseInsensitive));
+			QString field = pattern.cap(1);
+			QString value = pattern.cap(2);
 
-			QDateTime ts (QDate::fromString(fileprops[ 3 ], "dd-MM-yy"),
-					QTime::fromString(fileprops[ 4 ], "hh:mm"));
-			// rar output date with 2 digit year but QDate takes is as 19??
-			// let's take 1950 is cut-off; similar to KDateTime
-			if (ts.date().year() < 1950)
-				ts = ts.addYears(100);
+			if (line.startsWith("compressed size"))
+				m_currentEntry[CompressedSize] = 100;
 
-			m_entryFilename = m_internalId;
-			if (isDirectory && !m_internalId.endsWith('/'))
-			{
-				m_entryFilename += '/';
-			}
-
-			//kDebug( 1601 ) << m_entryFilename << " : " << fileprops ;
+#if 0
 			ArchiveEntry e;
 			e[ FileName ] = m_entryFilename;
 			e[ InternalID ] = m_internalId;
@@ -146,11 +156,7 @@ class CliPlugin: public CliInterface
 			e[ Method ] = fileprops[ 7 ];
 			e[ Version ] = fileprops[ 8 ];
 			e[ IsPasswordProtected] = m_isPasswordProtected;
-			kDebug( 1601 ) << "Added entry: " << e ;
-
-			entry(e);
-			m_isFirstLine = true;
-			return true;
+#endif
 		}
 };
 
