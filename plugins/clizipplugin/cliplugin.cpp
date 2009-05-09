@@ -33,7 +33,7 @@ class CliPlugin: public CliInterface
 	public:
 		explicit CliPlugin( const QString & filename, QObject *parent = 0 )
 			: CliInterface( filename, parent ),
-			m_status(PreHeader)
+			m_status(Header)
 		{
 
 		}
@@ -53,27 +53,27 @@ class CliPlugin: public CliInterface
 				p[ExtractProgram] = "unzip";
 				p[DeleteProgram] = p[AddProgram] = "zip";
 
-				p[ListArgs] = QStringList() << "-v" << "$Archive";
-				p[ExtractArgs] = QStringList() << "-p-" << "$PreservePathSwitch" << "$PasswordSwitch" << "$RootNodeSwitch" << "$Archive" << "$Files";
-				p[PreservePathSwitch] = QStringList() << "x" << "e";
+				p[ListArgs] = QStringList() << "-l" << "$Archive";
+				p[ExtractArgs] = QStringList() << "$PreservePathSwitch" << "$PasswordSwitch" << "$RootNodeSwitch" << "$Archive" << "$Files";
+				p[PreservePathSwitch] = QStringList() << "" << "-j";
 				p[RootNodeSwitch] = QStringList() << "-ap$Path";
-				p[PasswordSwitch] = QStringList() << "-p$Password";
+				p[PasswordSwitch] = QStringList() << "-P$Password";
 
-				p[DeleteArgs] = QStringList() << "d" << "$Archive" << "$Files";
+				p[DeleteArgs] = QStringList() << "-d" << "$Archive" << "$Files";
 
-				p[FileExistsExpression] = "^(.+) already exists. Overwrite it";
+				p[FileExistsExpression] = "^replace (.+)?";
 				p[FileExistsInput] = QStringList()
-					<< "Y" //overwrite
-					<< "N" //skip
+					<< "y" //overwrite
+					<< "n" //skip
 					<< "A" //overwrite all
-					<< "E" //autoskip
-					<< "Q" //cancel
+					<< "N" //autoskip
+					<< "N" //cancel
 					;
 
-				p[AddArgs] = QStringList() << "a" << "$Archive" << "$Files";
+				p[AddArgs] = QStringList() << "$Archive" << "$Files";
 
-				p[WrongPasswordPatterns] = QStringList() << "password incorrect";
-				p[ExtractionFailedPatterns] = QStringList() << "CRC failed";
+				p[WrongPasswordPatterns] = QStringList() << "incorrect password";
+				//p[ExtractionFailedPatterns] = QStringList() << "CRC failed";
 			}
 			return p;
 		}
@@ -81,50 +81,41 @@ class CliPlugin: public CliInterface
 
 
 
-		bool m_isFirstLine, m_incontent, m_isPasswordProtected;
 		QString m_entryFilename, m_internalId;
 		ArchiveEntry m_currentEntry;
 		
 		enum ReadStatus {
-			PreHeader = 0,
-			Header,
-			EntryHeader,
-			EntryBody
+			Header = 0,
+			Entry
 		};
 		
 		ReadStatus m_status;
 
 		bool readListLine(QString line)
 		{
+			static QRegExp entryPattern(
+					"^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(.+)$");
 
-			const QString m_headerString = "--------";
-			QString trimmed = line.trimmed();
-
+			int i;
 			switch (m_status) {
-				case PreHeader:
-					if (line.startsWith(m_headerString))
-						m_status = Header;
-					break;
 				case Header:
-					if (line.startsWith(m_headerString))
-						m_status = EntryHeader;
+					m_status = Entry;
 					break;
-				case EntryHeader:
-					if (!trimmed.isEmpty()) {
-						m_currentEntry[FileName] = trimmed;
-						m_status = EntryBody;
+				case Entry:
+					i = entryPattern.indexIn(line);
+					if (i != -1) {
+						ArchiveEntry e;
+						e[Permissions] = entryPattern.cap(1);
+						e[Owner] = entryPattern.cap(3);
+						e[Size] = entryPattern.cap(4).toInt();
+						QString status = entryPattern.cap(5);
+						if (status[0].isUpper())
+							e[IsPasswordProtected] = true;
+						e[CompressedSize] = entryPattern.cap(6).toInt();
+						e[FileName] = e[InternalID] = entryPattern.cap(10);
+						entry(e);
 					}
 					break;
-				case EntryBody:
-					if (line.startsWith(m_headerString)) {
-						m_status = EntryHeader;
-						entry(m_currentEntry);
-						m_currentEntry = ArchiveEntry();
-					} else {
-						handleDataLine(trimmed);
-					}
-					break;
-
 			}
 			return true;
 		}
