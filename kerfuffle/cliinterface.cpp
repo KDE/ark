@@ -224,6 +224,7 @@ namespace Kerfuffle
 			}
 		}
 
+		kDebug(1601) << "Setting current dir to " << destinationDirectory;
 		QDir::setCurrent(destinationDirectory);
 
 		executeProcess(m_program, args);
@@ -238,7 +239,7 @@ namespace Kerfuffle
 
 		m_mode = Add;
 
-		bool ret = findProgramAndCreateProcess(m_param.value(ListProgram).toString());
+		bool ret = findProgramAndCreateProcess(m_param.value(AddProgram).toString());
 		if (!ret) {
 			failOperation();
 			return false;
@@ -401,6 +402,11 @@ namespace Kerfuffle
 		readStdout(true);
 
 		progress(1.0);
+
+		if (m_mode == Add) {
+			list();
+			return;
+		}
 
 		//and we're finished
 		finished(true);
