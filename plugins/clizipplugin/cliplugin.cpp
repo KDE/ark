@@ -70,7 +70,7 @@ class CliPlugin: public CliInterface
 					<< "N" //cancel
 					;
 
-				p[AddArgs] = QStringList() << "$Archive" << "$Files";
+				p[AddArgs] = QStringList() << "-r" << "$Archive" << "$Files";
 
 				p[WrongPasswordPatterns] = QStringList() << "incorrect password";
 				//p[ExtractionFailedPatterns] = QStringList() << "CRC failed";
