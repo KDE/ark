@@ -51,10 +51,22 @@ ParameterList CliPlugin::parameterList() const
 		p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = "7z";
 
 		p[ListArgs] = QStringList() << "l" << "-slt" << "$Archive";
-		p[ExtractArgs] = QStringList() << "$PreservePathSwitch" << "$RootNodeSwitch" << "$Archive" << "$Files";
+		p[ExtractArgs] = QStringList() << "$PreservePathSwitch" << "$PasswordSwitch" << "$RootNodeSwitch" << "$Archive" << "$Files";
 		p[PreservePathSwitch] = QStringList() << "x" << "e";
 		p[RootNodeSwitch] = QStringList() << "-w$Path";
-		p[FileExistsExpression] = "^(.+) already exists. Overwrite it";
+		p[PasswordSwitch] = QStringList() << "-p$Password";
+		p[FileExistsExpression] = "already exists. Overwrite with";
+		p[WrongPasswordPatterns] = QStringList() << "Wrong password";
+		p[AddArgs] = QStringList() << "a" << "$Archive" << "$Files";
+		p[DeleteArgs] = QStringList() << "d" << "$Archive" << "$Files";
+
+		p[FileExistsInput] = QStringList()
+			<< "Y" //overwrite
+			<< "N" //skip
+			<< "A" //overwrite all
+			<< "S" //autoskip
+			<< "Q" //cancel
+			;
 
 	}
 
