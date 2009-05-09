@@ -1,10 +1,7 @@
-#ifndef ARKVIEWER_H
-#define ARKVIEWER_H
-
 /*
  * ark: A program for modifying archives via a GUI.
  *
- * Copyright (C) 2004-2007, Henrique Pinto <henrique.pinto@kdemail.net>
+ * Copyright (C) 2004-2008, Henrique Pinto <henrique.pinto@kdemail.net>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
+
+#ifndef ARKVIEWER_H
+#define ARKVIEWER_H
 
 #include <KDialog>
 #include <KParts/BrowserExtension>

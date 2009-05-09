@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
+ * Copyright (C) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
