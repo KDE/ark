@@ -494,7 +494,7 @@ namespace Kerfuffle
 		foreach( const QByteArray& line, lines) {
 
 			if (!line.isEmpty())
-				handleLine(line);
+				handleLine(QString::fromLocal8Bit(line));
 
 		}
 
