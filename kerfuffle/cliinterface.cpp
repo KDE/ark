@@ -457,15 +457,29 @@ namespace Kerfuffle
 
 		m_stdOutData += dd;
 
-		//if there is no newline, we leave the data like this for now.
-		//if handleAll is true, then we will also handle the last line of the
-		//data
-		if (!m_stdOutData.contains('\n') && !handleAll) {
-			//kDebug(1601) << "No new line, we leave it like this for now";
+
+		QList<QByteArray> lines = m_stdOutData.split('\n');
+
+		//The reason for this check is that archivers often do not end
+		//queries (such as file exists, wrong password) on a new line, but
+		//freeze waiting for input. So we check for errors on the last line in
+		//all cases.
+		bool foundErrorMessage = 
+				(checkForErrorMessage(lines.last(), WrongPasswordPatterns) ||
+				checkForErrorMessage(lines.last(), ExtractionFailedPatterns) || 
+				checkForFileExistsMessage(lines.last()));
+
+		if (foundErrorMessage)
+			handleAll = true;
+
+		//this is complex, here's an explanation:
+		//if there is no newline, then there is no guaranteed full line to
+		//handle in the output. The exception is that it is supposed to handle
+		//all the data, OR if there's been an error message found in the
+		//partial data.
+		if (lines.size() == 1 && !handleAll) {
 			return;
 		}
-
-		QList<QByteArray> list = m_stdOutData.split('\n');
 
 		if (handleAll) {
 			m_stdOutData.clear();
@@ -474,10 +488,10 @@ namespace Kerfuffle
 			//because the last line might be incomplete we leave it for now
 			//note, this last line may be an empty string if the stdoutdata ends
 			//with a newline
-			m_stdOutData = list.takeLast();
+			m_stdOutData = lines.takeLast();
 		}
 
-		foreach( const QByteArray& line, list) {
+		foreach( const QByteArray& line, lines) {
 
 			if (!line.isEmpty())
 				handleLine(line);
@@ -517,7 +531,7 @@ namespace Kerfuffle
 				return;
 			}
 
-			if (checkForFileExistsMessage(line))
+			if (handleFileExistsMessage(line))
 				return;
 
 		}
@@ -557,40 +571,51 @@ namespace Kerfuffle
 		if (m_existsPattern.indexIn(line) != -1) {
 			kDebug(1601) << "Detected file existing!! Filename " << m_existsPattern.cap(1);
 
-			Kerfuffle::OverwriteQuery query(QDir::current().path() + '/' + m_existsPattern.cap(1));
-			query.setNoRenameMode(true);
-			userQuery(&query);
-			kDebug(1601) << "Waiting response";
-			query.waitForResponse();
-
-			kDebug(1601) << "Finished response";
-
-			QString responseToProcess;
-			QStringList choices = m_param.value(FileExistsInput).toStringList();
-
-			if (query.responseOverwrite())
-				responseToProcess = choices.at(0);
-			else if (query.responseSkip())
-				responseToProcess = choices.at(1);
-			else if (query.responseOverwriteAll())
-				responseToProcess = choices.at(2);
-			else if (query.responseCancelled())
-				responseToProcess = choices.at(3);
-			else if (query.responseAutoSkip())
-				responseToProcess = choices.at(4);
-
-			Q_ASSERT(!responseToProcess.isEmpty());
-
-			responseToProcess += '\n';
-
-			kDebug(1601) << "Writing " << responseToProcess;
-
-			m_process->write(responseToProcess.toLocal8Bit());
-
+			handleFileExistsMessage(m_existsPattern.cap(1));
 			return true;
 		}
 
 		return false;
+	}
+	
+	bool CliInterface::handleFileExistsMessage(const QString& line)
+	{
+		if (!checkForFileExistsMessage(line))
+			return false;
+
+		QString filename = m_existsPattern.cap(1);
+
+		Kerfuffle::OverwriteQuery query(QDir::current().path() + '/' + filename);
+		query.setNoRenameMode(true);
+		userQuery(&query);
+		kDebug(1601) << "Waiting response";
+		query.waitForResponse();
+
+		kDebug(1601) << "Finished response";
+
+		QString responseToProcess;
+		QStringList choices = m_param.value(FileExistsInput).toStringList();
+
+		if (query.responseOverwrite())
+			responseToProcess = choices.at(0);
+		else if (query.responseSkip())
+			responseToProcess = choices.at(1);
+		else if (query.responseOverwriteAll())
+			responseToProcess = choices.at(2);
+		else if (query.responseCancelled())
+			responseToProcess = choices.at(3);
+		else if (query.responseAutoSkip())
+			responseToProcess = choices.at(4);
+
+		Q_ASSERT(!responseToProcess.isEmpty());
+
+		responseToProcess += '\n';
+
+		kDebug(1601) << "Writing " << responseToProcess;
+
+		m_process->write(responseToProcess.toLocal8Bit());
+		
+		return true;
 	}
 
 	bool CliInterface::checkForErrorMessage(const QString& line, int parameterIndex)

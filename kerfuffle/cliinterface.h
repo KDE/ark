@@ -240,6 +240,7 @@ namespace Kerfuffle
 			bool executeProcess(const QString& path, const QStringList & args);
 			void cacheParameterList();
 			bool checkForFileExistsMessage(const QString& line);
+			bool handleFileExistsMessage(const QString& filename);
 			bool checkForErrorMessage(const QString& line, int parameterIndex);
 			void handleLine(const QString& line);
 
