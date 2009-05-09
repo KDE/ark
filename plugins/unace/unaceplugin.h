@@ -22,22 +22,21 @@
 #ifndef _UNACE_PLUGIN_H_
 #define _UNACE_PLUGIN_H_
 
-#include <kerfuffle/archiveinterface.h>
+#include <kerfuffle/archivefactory.h>
+#include <kerfuffle/cliinterface.h>
 
 using namespace Kerfuffle;
 
-class UnAceInterface : public ReadOnlyArchiveInterface
+class UnAceInterface : public CliInterface
 {
 	Q_OBJECT
 	public:
 		explicit UnAceInterface( const QString & filename, QObject *parent = 0 );
-		virtual ~UnAceInterface();
 
-		virtual bool list();
-		virtual bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options );
+		bool readListLine(QString line);
+		virtual ParameterList parameterList() const;
 
 	private:
-		bool processListLine( const QByteArray &bytes );
 		bool m_hadHeader;
 };
 

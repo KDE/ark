@@ -21,131 +21,92 @@
 
 #include "unaceplugin.h"
 
-#include <QEventLoop>
-#include <QThread>
-
 #include <KDebug>
 #include <KLocale>
-#include <KProcess>
 
 #include <kerfuffle/archive.h>
 #include <kerfuffle/archivefactory.h>
 
 UnAceInterface::UnAceInterface( const QString & filename, QObject *parent )
-		: ReadOnlyArchiveInterface( filename, parent )
-{}
-
-UnAceInterface::~UnAceInterface()
-{}
-
-bool UnAceInterface::list()
+		: CliInterface ( filename, parent ),
+		m_hadHeader(false)
 {
-	KProcess unace;
-	QStringList args;
-	args << "l" << filename();
-	unace.setProgram( "unace", args );
-	unace.setOutputChannelMode( KProcess::OnlyStdoutChannel );
 
-	m_hadHeader = false;
-	unace.start();
-	bool started = unace.waitForStarted();
-	while ( unace.state() == KProcess::Running ) {
-		unace.waitForReadyRead();
-		while ( unace.canReadLine() ) {
-			char buf[1024];
-			qint64 lineLength = unace.readLine( buf, sizeof(buf) );
-
-			if ( buf[lineLength - 1] == '\n' )
-				lineLength--;
-
-			const QByteArray bytes( buf, lineLength );
-			if ( !processListLine( bytes ) )
-				return false;
-		}
-	}
-
-  if ( !started )
-    error( i18n( "Unable to launch <tt>unace</tt>. Make sure you have that tool installed and available." ) );
-
-	return started && (unace.exitStatus() == QProcess::NormalExit) && (unace.exitCode() == 0);
 }
 
-bool UnAceInterface::processListLine( const QByteArray &bytes )
+bool UnAceInterface::readListLine( QString line )
 {
-	const QList<QByteArray> fields( bytes.split('\xb3') );
-	if ( fields.size() != 6 )
-		// this is not the listing yet
-		return true;
+	static QRegExp header(
+			"^\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+$");
 
-	const char* const EXPECTED_HEADER[] = { "Date    ", "Time ", "Packed     ", "Size     ", "Ratio", "File            " };
+	static QRegExp pattern(
+			"^(\\S+\\s\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+$");
+	kDebug() << line << pattern.indexIn(line) << header.indexIn(line);
+
+	const char* const EXPECTED_HEADER[] = { "Date", "Time", "Packed", "Size", "Ratio", "File" };
 
 	if ( !m_hadHeader ) { // header should follow, let's check if it's as expected
-		for ( int i = 0; i < 6; i++ )
-			if ( fields[i] != EXPECTED_HEADER[i] ) {
+		if ( header.indexIn(line) == -1 )
+			// this is not the listing yet
+			return true;
+
+		for ( int i = 1; i <= 6; i++ )
+			if ( header.cap(i) != EXPECTED_HEADER[i - 1] ) {
 				error( i18n( "Unexpected output from the unace process." ) );
 				return false;
 			}
+		kDebug() << "foudn header";
 		m_hadHeader = true;
 		return true;
 	}
 
+	if ( pattern.indexIn(line) == -1 )
+		// this is not the listing yet
+		return true;
+
 	ArchiveEntry the_entry;
-	const QString timestamp = QString::fromAscii( fields[0] ) + ' ' +	QString::fromAscii(fields[1]);
+	const QString timestamp = pattern.cap(1);
 
 	the_entry[Timestamp] = QDateTime::fromString( timestamp, "dd.MM.yy HH:mm" );
-	the_entry[CompressedSize] = QString::fromAscii( fields[2] ).toLongLong();
-	the_entry[Size] = QString::fromAscii( fields[3] ).toLongLong();
-	the_entry[Ratio] = QString::fromAscii( fields[4] ).left( fields[4].size() - 1 ).toInt();
-	the_entry[FileName] = QString::fromUtf8( fields[5] ).mid( 1 );
+	the_entry[CompressedSize] = pattern.cap(2).toLongLong();
+	the_entry[Size] = pattern.cap(3).toLongLong();
+	the_entry[Ratio] = pattern.cap(4).left( pattern.cap(4).size() - 1 ).toInt();
+	the_entry[FileName] = the_entry[InternalID] = pattern.cap(5);
 
 	entry( the_entry );
 	return true;
 }
 
-bool UnAceInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
+ParameterList UnAceInterface::parameterList() const
 {
-	if ( files.size() > 0 ) { // TODO
-		error( i18n( "Only extracting full archive is currently supported." ) );
-		return false;
+	static ParameterList p;
+	if (p.isEmpty()) {
+
+		p[CaptureProgress] = false;
+		p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = "unace";
+
+		p[ListArgs] = QStringList() << "l" << "$Archive";
+		p[ExtractArgs] = QStringList() << "$PreservePathSwitch" << "$Archive" << "$Files";
+		p[PreservePathSwitch] = QStringList() << "x" << "e";
+		p[RootNodeSwitch] = QStringList() << "";
+		p[PasswordSwitch] = QStringList() << "";
+
+		p[DeleteArgs] = QStringList() << "";
+		p[AddArgs] = QStringList() << "";
+		p[ExtractionFailedPatterns] = QStringList() << "CRC failed";
+
+		p[FileExistsExpression] = "^\\s+File already exists: (.+)$";
+		p[FileExistsInput] = QStringList()
+			<< "Y" //overwrite
+			<< "N" //skip
+			<< "A" //overwrite all
+			<< "N" //autoskip
+			<< "C" //cancel
+			;
+
 	}
+	return p;
 
-	if ( !options.contains( "PreservePaths" ) || !options["PreservePaths"].toBool() ) { // TODO
-		error( i18n( "Only extracting while preserving paths is currently supported." ) );
-		return false;
-	}
-
-	if ( options.contains( "RootNode" ) ) { // TODO
-		error( i18n( "Extracting with root node other than default is not currently supported." ) );
-		return false;
-	}
-
-	KProcess unace;
-	QStringList args;
-	args << "x" << filename();
-	unace.setProgram( "unace", args );
-	unace.setOutputChannelMode( KProcess::SeparateChannels );
-	unace.setWorkingDirectory( destinationDirectory );
-
-	unace.start();
-	bool started = unace.waitForStarted();
-	if ( !started ) {
-		error( i18n( "Unable to launch <tt>unace</tt>. Make sure you have that tool installed and available." ) );
-		return false;
-	}
-
-	unace.waitForFinished();
-
-	if ( unace.exitStatus() != QProcess::NormalExit ) {
-		error( i18n( "<tt>unace</tt> crashed unexpectedly." ) );
-		return false;
-	}
-
-	if ( unace.exitCode() != 0 ) {
-		error( i18n( "<tt>unace</tt> has encountered error when extracting:<pre>%1</pre>", QString::fromUtf8( unace.readAllStandardError() ) ) );
-		return false;
-	}
-
-	return true;
 }
 
 #include "unaceplugin.moc"
