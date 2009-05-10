@@ -23,5 +23,6 @@ Comment[pt_BR]=Plug-in libxz para o Kerfuffle
 Comment[sv]=Libxz-insticksprogram för Kerfuffle
 Comment[tr]=Kerfuffle için libxz eklentisi
 Comment[uk]=Додаток libxz для Kerfuffle
+Comment[zh_CN]=Kerfuffle 的 libxz 插件
 Comment[zh_TW]=Kerfuffle 的 libxz 外掛程式
 MimeType=application/x-lzma;application/x-xz;

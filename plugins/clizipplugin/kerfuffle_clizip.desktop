@@ -19,5 +19,6 @@ Name[pt_BR]=Plug-in de arquivos ZIP
 Name[sv]=Insticksprogram för ZIP-arkiv
 Name[tr]=ZIP arşivi eklentisi
 Name[uk]=Додаток для архівів ZIP
+Name[zh_CN]=ZIP 归档插件
 Name[zh_TW]=ZIP 壓縮檔外掛程式
 MimeType=application/x-java-archive;application/x-jar;application/zip;application/x-zip-compressed;
