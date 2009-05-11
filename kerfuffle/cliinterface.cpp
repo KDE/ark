@@ -52,7 +52,6 @@ namespace Kerfuffle
 		Q_ASSERT(m_param.contains(ExtractProgram));
 		Q_ASSERT(m_param.contains(ListProgram));
 		Q_ASSERT(m_param.contains(PreservePathSwitch));
-		Q_ASSERT(m_param.contains(RootNodeSwitch));
 		Q_ASSERT(m_param.contains(FileExistsExpression));
 		Q_ASSERT(m_param.contains(FileExistsInput));
 	}

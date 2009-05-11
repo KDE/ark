@@ -57,9 +57,8 @@ class CliPlugin: public CliInterface
 				p[DeleteProgram] = p[AddProgram] = "zip";
 
 				p[ListArgs] = QStringList() << "-l" << "$Archive";
-				p[ExtractArgs] = QStringList() << "$PreservePathSwitch" << "$PasswordSwitch" << "$RootNodeSwitch" << "$Archive" << "$Files";
+				p[ExtractArgs] = QStringList() << "$PreservePathSwitch" << "$PasswordSwitch" << "$Archive" << "$Files";
 				p[PreservePathSwitch] = QStringList() << "" << "-j";
-				p[RootNodeSwitch] = QStringList() << "-ap$Path";
 				p[PasswordSwitch] = QStringList() << "-P$Password";
 
 				p[DeleteArgs] = QStringList() << "-d" << "$Archive" << "$Files";
