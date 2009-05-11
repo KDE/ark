@@ -28,6 +28,7 @@
 #include <KLocale>
 #include <KMessageBox>
 #include <KGlobal>
+#include <KStandardDirs>
 
 #include <QFileInfo>
 #include <QDir>
@@ -66,9 +67,24 @@ namespace Kerfuffle
 
 				kDebug( 1601 ) << "Creating subfolder" << subfolder << "under" << destinationFolder;
 				QDir dest(destinationFolder);
-				dest.mkdir(subfolder);
 
-				autoDestination = destinationFolder + '/' + subfolder;
+				QString subfolderName = subfolder;
+				//remove the final slash if it's there
+				if (subfolderName.right(1) == "/") subfolderName.chop(1);
+
+				QString base = subfolderName;
+
+				//if file already exists, append a number to the base until it doesn't
+				//exist
+				int appendNumber = 0;
+				while (dest.exists(subfolderName + "/")) {
+					++appendNumber;
+					subfolderName = base + '_' + QString::number(appendNumber);
+				}
+
+				dest.mkdir(subfolderName);
+
+				autoDestination = destinationFolder + '/' + subfolderName;
 
 			}
 		}
