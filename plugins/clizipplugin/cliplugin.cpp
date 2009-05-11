@@ -18,12 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
+
 #include "kerfuffle/cliinterface.h"
 #include "kerfuffle/archivefactory.h"
 
 #include <QDir>
+#include <QLatin1String>
 #include <QString>
 #include <QStringList>
+
 #include <KDebug>
 
 using namespace Kerfuffle;
@@ -130,7 +133,7 @@ class CliPlugin: public CliInterface
 			QString field = pattern.cap(1);
 			QString value = pattern.cap(2);
 
-			if (line.startsWith("compressed size"))
+			if (line.startsWith(QLatin1String("compressed size")))
 				m_currentEntry[CompressedSize] = 100;
 
 #if 0
