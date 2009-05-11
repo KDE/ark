@@ -23,7 +23,7 @@ class ExtractHereDndPlugin : public KonqDndPopupMenuPlugin
 				QList<QAction*>& userActions);
 	private:
 		KUrl m_dest;
-		KonqPopupMenuInformation m_info;
+		QList<KUrl> m_urls;
 };
 
 #endif /* _EXTRACTHEREDNDPLUGIN_H_ */

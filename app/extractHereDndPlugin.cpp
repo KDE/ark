@@ -8,6 +8,7 @@
 #include <KPluginLoader>
 #include <KApplication>
 #include <KLocale>
+#include <kfileitemlistproperties.h>
 
 using Kerfuffle::BatchExtract;
 
@@ -24,7 +25,7 @@ void ExtractHereDndPlugin::slotTriggered()
 	batchJob->setAutoSubfolder(true);
 	batchJob->setDestinationFolder(m_dest.path());
 	batchJob->setPreservePaths(true);
-	foreach(const KUrl& url, m_info.urlList()) {
+	foreach(const KUrl& url, m_urls) {
 		batchJob->addInput(url);
 	}
 
@@ -46,24 +47,22 @@ void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
 	kDebug() << "plugin setup";
 	QString extractHereMessage = i18n("Extract here");
 
-#if 0
 	if (!Kerfuffle::supportedMimeTypes().contains(popupMenuInfo.mimeType())) {
 		kDebug(1601) << "Unsupported file" << popupMenuInfo.mimeType() << Kerfuffle::supportedMimeTypes();
 		return;
 	}
 
-	//kDebug() << "Plugin executed" 
+	kDebug() << "Plugin executed";
 		//<< popupMenuInfo.mimeGroup()
 		//<< popupMenuInfo.mimeType();
 
-	KAction *action = new KAction("&Extract here", menu);
+	KAction *action = new KAction(KIcon("archive-extract"), extractHereMessage, NULL);
 	connect(action, SIGNAL(triggered()),
 			this, SLOT(slotTriggered()));
 
-	menu->addAction(action);
+	userActions.append(action);
 	m_dest = destination;
-	m_info = popupMenuInfo;
-#endif
+	m_urls = popupMenuInfo.urlList();
 
 }
 

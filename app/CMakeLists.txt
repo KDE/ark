@@ -12,7 +12,6 @@ target_link_libraries( ark kerfuffle ${KDE4_KFILE_LIBS} ${KDE4_KPARTS_LIBS} )
 install( TARGETS ark  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### konqueror ark_extract_here plugin ###############
-if( false )
 find_package(LibKonq REQUIRED)
 set(extracthere_SRCS extractHereDndPlugin.cpp)
 kde4_add_plugin(extracthere WITH_PREFIX ${extracthere_SRCS})
@@ -20,7 +19,6 @@ target_link_libraries(extracthere kerfuffle ${KDE4_KDECORE_LIBS} ${KDE4_KPARTS_L
 include_directories(${LIBKONQ_INCLUDE_DIR})
 install( TARGETS extracthere DESTINATION ${PLUGIN_INSTALL_DIR} )
 install( FILES ark_dndextract.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
-endif( false )
 ########### install files ###############
 install(FILES ark_addtoservicemenu.desktop ark_servicemenu.desktop DESTINATION ${SERVICES_INSTALL_DIR}/ServiceMenus)
 install( FILES ark.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
