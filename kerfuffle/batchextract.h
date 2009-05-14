@@ -22,25 +22,22 @@
 #ifndef BATCHEXTRACT_H
 #define BATCHEXTRACT_H
 
-#include <KParts/MainWindow>
-#include <KParts/ReadWritePart>
-#include <KUrl>
-#include <KDialog>
-#include <QMap>
-#include <QPair>
-#include <kcompositejob.h>
-#include "jobs.h"
-#include "archive.h"
-#include "queries.h"
 #include "kerfuffle_export.h"
 
-using Kerfuffle::Query;
+#include <QtCore/QMap>
+#include <QtCore/QPair>
+#include <QtCore/QString>
+
+#include <kcompositejob.h>
 
 class Interface;
 class KJobTrackerInterface;
+class KUrl;
 
 namespace Kerfuffle
 {
+	class Archive;
+	class Query;
 
 	class KERFUFFLE_EXPORT BatchExtract : public KCompositeJob
 	{
@@ -49,39 +46,31 @@ namespace Kerfuffle
 		public:
 			BatchExtract();
 			virtual ~BatchExtract();
-			void addExtraction(Kerfuffle::Archive* archive, bool preservePaths = true, QString destinationFolder = QString());
+			void addExtraction(Archive* archive, bool preservePaths = true, QString destinationFolder = QString());
 			void start();
 			void setAutoSubfolder(bool value);
 			bool addInput( const KUrl& url );
-
-		private slots:
-			void forwardProgress(KJob *job, unsigned long percent);
-			void slotResult( KJob *job );
-			void slotUserQuery(Query *query);
-
-		private:
-			int initialJobCount;
-			QMap<class KJob *, QPair<QString,QString> > fileNames;
-			bool autoSubfolders;
-
-
-			QList<Kerfuffle::Archive*> inputs;
-			KJobTrackerInterface *tracker;
-			QString destinationFolder;
-			QString subfolder;
-			bool m_preservePaths;
-
-		public:
 			bool showExtractDialog();
 			void setDestinationFolder(QString folder);
 			void setSubfolder(QString subfolder);
 			void setPreservePaths(bool value);
 
-		public slots:
+		private slots:
+			void forwardProgress(KJob *job, unsigned long percent);
+			void slotResult(KJob *job);
+			void slotUserQuery(Query *query);
 
+		private:
+			int initialJobCount;
+			QMap<KJob*, QPair<QString,QString> > fileNames;
+			bool autoSubfolders;
+
+			QList<Archive*> inputs;
+			KJobTrackerInterface *tracker;
+			QString destinationFolder;
+			QString subfolder;
+			bool m_preservePaths;
 	};
-
 }
-
 
 #endif // BATCHEXTRACT_H

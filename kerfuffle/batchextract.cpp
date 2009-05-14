@@ -20,7 +20,17 @@
  */
 
 #include "batchextract.h"
+
+#include "archive.h"
 #include "extractiondialog.h"
+#include "jobs.h"
+#include "queries.h"
+
+#include <QFileInfo>
+#include <QDir>
+#include <QCoreApplication>
+#include <QApplication>
+#include <QDesktopWidget>
 
 #include <KDebug>
 #include <KGlobal>
@@ -28,12 +38,6 @@
 #include <KMessageBox>
 #include <KIO/RenameDialog>
 #include <kwidgetjobtracker.h>
-
-#include <QFileInfo>
-#include <QDir>
-#include <QCoreApplication>
-#include <QApplication>
-#include <QDesktopWidget>
 
 namespace Kerfuffle
 {
@@ -83,11 +87,9 @@ namespace Kerfuffle
 				options
 				);
 
-		connect(job, SIGNAL(userQuery(Query*)),
-				this, SLOT(slotUserQuery(Query*)));
+		connect(job, SIGNAL(userQuery(Query*)), this, SLOT(slotUserQuery(Query*)));
 
 		kDebug( 1601 ) << QString("Registering job from archive %1, to %2, preservePaths %3").arg(archive->fileName()).arg(autoDestination).arg(preservePaths);
-
 
 		addSubjob(job);
 		fileNames[job] = qMakePair(archive->fileName(), destinationFolder);
@@ -110,7 +112,6 @@ namespace Kerfuffle
 	{
 		kDebug( 1601 );
 
-
 		if (!subfolder.isEmpty()) {
 			kDebug( 1601 ) << "Creating subfolder" << subfolder;
 			QDir dest(destinationFolder);
@@ -129,6 +130,7 @@ namespace Kerfuffle
 
 			addExtraction(archive, m_preservePaths, finalDestination);
 		}
+
 		KIO::getJobTracker()->registerJob(this);
 
 		emit description(this,
