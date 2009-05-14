@@ -20,15 +20,14 @@
  */
 
 #include "batchextract.h"
-
 #include "extractiondialog.h"
 
-#include <kwidgetjobtracker.h>
 #include <KDebug>
+#include <KGlobal>
 #include <KLocale>
 #include <KMessageBox>
-#include <KGlobal>
-#include <KStandardDirs>
+#include <KIO/RenameDialog>
+#include <kwidgetjobtracker.h>
 
 #include <QFileInfo>
 #include <QDir>
@@ -53,8 +52,7 @@ namespace Kerfuffle
 		KIO::getJobTracker()->unregisterJob(this);
 	}
 
-
-	void BatchExtract::addExtraction(Kerfuffle::Archive* archive,bool preservePaths, QString destinationFolder)
+	void BatchExtract::addExtraction(Kerfuffle::Archive* archive, bool preservePaths, QString destinationFolder)
 	{
 		kDebug( 1601 );
 
@@ -62,30 +60,16 @@ namespace Kerfuffle
 
 		if (autoSubfolders) {
 			if (!archive->isSingleFolderArchive()) {
+				QDir destinationDir(destinationFolder);
+				QString subfolderName = archive->subfolderName();
 
-				QString subfolder = archive->subfolderName();
+				if (destinationDir.exists(subfolderName))
+					subfolderName = KIO::RenameDialog::suggestName(destinationFolder, subfolderName);
 
-				kDebug( 1601 ) << "Creating subfolder" << subfolder << "under" << destinationFolder;
-				QDir dest(destinationFolder);
-
-				QString subfolderName = subfolder;
-				//remove the final slash if it's there
-				if (subfolderName.right(1) == "/") subfolderName.chop(1);
-
-				QString base = subfolderName;
-
-				//if file already exists, append a number to the base until it doesn't
-				//exist
-				int appendNumber = 0;
-				while (dest.exists(subfolderName + "/")) {
-					++appendNumber;
-					subfolderName = base + '_' + QString::number(appendNumber);
-				}
-
-				dest.mkdir(subfolderName);
+				kDebug( 1601 ) << "Auto-creating subfolder" << subfolderName << "under" << destinationFolder;
+				destinationDir.mkdir(subfolderName);
 
 				autoDestination = destinationFolder + '/' + subfolderName;
-
 			}
 		}
 
