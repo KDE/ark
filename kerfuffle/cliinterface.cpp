@@ -416,7 +416,8 @@ namespace Kerfuffle
 		//KProcess *p = m_process;
 		//m_process = NULL;
 		//if (p) p->terminate();
-		m_process->terminate();
+		if (m_process)
+			m_process->terminate();
 		finished(false);
 	}
 
