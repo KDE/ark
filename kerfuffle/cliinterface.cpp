@@ -39,8 +39,7 @@ namespace Kerfuffle
 
 	CliInterface::CliInterface( const QString& filename, QObject *parent)
 		: ReadWriteArchiveInterface(filename, parent),
-		m_process(NULL),
-		m_loop(NULL)
+		m_process(0)
 	{
 		//because this interface uses the event loop
 		setWaitForFinishedSignal(true);
@@ -58,9 +57,8 @@ namespace Kerfuffle
 
 	CliInterface::~CliInterface()
 	{
-		if (m_process)
-			delete m_process;
-		m_process = NULL;
+		delete m_process;
+		m_process = 0;
 	}
 
 	bool CliInterface::list()
@@ -328,7 +326,11 @@ namespace Kerfuffle
 	{
 		kDebug(1601);
 
-		if (m_process) delete m_process;
+		if (m_process) {
+			delete m_process;
+			m_process = 0;
+		}
+
 		m_process = new KProcess();
 		m_stdOutData.clear();
 		m_process->setOutputChannelMode( KProcess::MergedChannels );
@@ -350,21 +352,6 @@ namespace Kerfuffle
 		m_process->setProgram( path, args );
 		m_process->setNextOpenMode( QIODevice::ReadWrite | QIODevice::Unbuffered );
 		m_process->start();
-		/*
-		   if (!m_errorMessages.isEmpty())
-		   {
-		   error(m_errorMessages.join("\n"));
-		   return false;
-		   }
-		   else if (ret && !m_userCancelled) {
-		   error(i18n("Unknown error when extracting files"));
-		   return false;
-		   }
-		   else
-		   {
-		   return true;
-		   }
-		   */
 
 		return true;
 	}
@@ -413,11 +400,10 @@ namespace Kerfuffle
 	void CliInterface::failOperation()
 	{
 		kDebug(1601);
-		//KProcess *p = m_process;
-		//m_process = NULL;
-		//if (p) p->terminate();
+
 		if (m_process)
 			m_process->terminate();
+
 		finished(false);
 	}
 
@@ -443,7 +429,6 @@ namespace Kerfuffle
 		//the main thread as this would freeze everything. assert this.
 		Q_ASSERT(QThread::currentThread() != QApplication::instance()->thread());
 
-
 		QByteArray dd = m_process->readAllStandardOutput();
 
 		//for simplicity, we replace all carriage return characters to newlines
@@ -455,7 +440,6 @@ namespace Kerfuffle
 		dd.replace('\010', '\n');
 
 		m_stdOutData += dd;
-
 
 		QList<QByteArray> lines = m_stdOutData.split('\n');
 
@@ -539,9 +523,7 @@ namespace Kerfuffle
 			readListLine(line);
 			return;
 		}
-
 	}
-
 
 	bool CliInterface::findProgramAndCreateProcess(const QString& program)
 	{
@@ -559,7 +541,6 @@ namespace Kerfuffle
 		}
 
 		return true;
-
 	}
 
 	bool CliInterface::checkForFileExistsMessage(const QString& line)
@@ -647,11 +628,15 @@ namespace Kerfuffle
 	{
 		if (m_process) {
 			m_process->terminate();
+
 			if (!m_process->waitForFinished())
 				m_process->kill();
+
 			m_process->waitForFinished();
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -665,7 +650,6 @@ namespace Kerfuffle
 		return false;
 	}
 
-
 	void CliInterface::substituteListVariables(QStringList& params)
 	{
 		for (int i = 0; i < params.size(); ++i) {
@@ -674,10 +658,8 @@ namespace Kerfuffle
 			if (parameter == "$Archive") {
 				params[i] = filename();
 			}
-
 		}
 	}
-
 }
 
 #include "cliinterface.moc"

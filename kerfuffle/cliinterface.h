@@ -23,13 +23,13 @@
 
 #include "archiveinterface.h"
 #include "kerfuffle_export.h"
-#include <KProcess>
-#include <QEventLoop>
-#include <QRegExp>
+#include <QtCore/QProcess>
+#include <QtCore/QRegExp>
+
+class KProcess;
 
 namespace Kerfuffle
 {
-
 	enum CliInterfaceExtractOptions {
 	};
 
@@ -255,17 +255,14 @@ namespace Kerfuffle
 
 			KProcess *m_process;
 			QString m_program;
-			QEventLoop *m_loop;
 			ParameterList m_param;
 			QVariantList m_removedFiles;
 
 		private slots:
 			void started();
 			void readStdout(bool handleAll=false);
-			void processFinished( int exitCode, QProcess::ExitStatus exitStatus );
-
+			void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
 	};
-
 }
 
 #endif /* _CLIINTERFACE_H_ */
