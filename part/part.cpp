@@ -182,8 +182,8 @@ void Part::setupView()
 	connect( m_view, SIGNAL( itemTriggered( const QModelIndex & ) ),
 	         this, SLOT( slotPreview( const QModelIndex & ) ) );
 
-	//connect( m_model, SIGNAL( dataChanged( const QModelIndex &, const QModelIndex& ) ),
-	         //this, SLOT( adjustColumns( const QModelIndex &, const QModelIndex& ) ) );
+	connect( m_model, SIGNAL( columnsInserted( const QModelIndex &, int, int ) ),
+			 this, SLOT( adjustColumns() ) );
 }
 
 void Part::setupActions()
@@ -411,11 +411,17 @@ void Part::slotLoadingStarted()
 void Part::slotLoadingFinished(KJob *job)
 {
 	kDebug( 1601 );
+
 	if (job->error())
 		if (arguments().metaData()["createNewArchive"] != "true")
 			KMessageBox::sorry(NULL, i18n("Reading the archive '%1' failed with the error '%2'", localFilePath(), job->errorText()), i18n("Error Opening Archive"));
+
 	m_view->sortByColumn(0, Qt::AscendingOrder);
 	m_view->expandToDepth(0);
+
+	// After loading all files, resize the columns to fit all fields
+	m_view->header()->resizeSections(QHeaderView::ResizeToContents);
+
 	updateActions();
 }
 
@@ -656,16 +662,11 @@ void Part::slotExtractionDone( KJob* job )
 	}
 }
 
-void Part::adjustColumns( const QModelIndex & topleft, const QModelIndex& bottomRight )
+void Part::adjustColumns()
 {
-	kDebug( 1601 ) ;
-	int firstColumn= topleft.column();
-	int lastColumn = bottomRight.column();
-	do
-	{
-		m_view->resizeColumnToContents(firstColumn);
-		firstColumn++;
-	} while (firstColumn < lastColumn);
+	kDebug( 1601 );
+
+	m_view->header()->setResizeMode(0, QHeaderView::ResizeToContents);
 }
 
 void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
@@ -709,7 +710,6 @@ void Part::slotAddFiles()
 	const QStringList filesToAdd = KFileDialog::getOpenFileNames( KUrl( "kfiledialog:///ArkAddFiles" ), QString(), widget(), i18n( "Add Files" ) );
 
 	slotAddFiles( filesToAdd);
-
 }
 
 void Part::slotAddDir()

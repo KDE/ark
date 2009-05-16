@@ -77,7 +77,7 @@ class Part: public KParts::ReadWritePart, public Interface
 		void slotDeleteFilesDone( KJob* );
 		void updateActions();
 		void selectionChanged();
-		void adjustColumns( const QModelIndex & topleft, const QModelIndex& bottomRight );
+		void adjustColumns();
 		void setBusyGui();
 		void setReadyGui();
 		void setWindowTitleFromArchive();

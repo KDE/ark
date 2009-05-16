@@ -79,8 +79,6 @@ void ArchiveView::setModel(QAbstractItemModel *model)
 	setAllColumnsShowFocus( true );
 	setSortingEnabled(true);
 
-	header()->setResizeMode(QHeaderView::ResizeToContents);
-
 	//drag and drop
 	setDragEnabled(true);
 	setAcceptDrops(true);
