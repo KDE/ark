@@ -41,7 +41,7 @@ bool UnAceInterface::readListLine( QString line )
 			"^\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+$");
 
 	static QRegExp pattern(
-			"^(\\S+\\s\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+$");
+			"^(\\S+\\s\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s*$");
 	kDebug() << line << pattern.indexIn(line) << header.indexIn(line);
 
 	const char* const EXPECTED_HEADER[] = { "Date", "Time", "Packed", "Size", "Ratio", "File" };
@@ -56,7 +56,7 @@ bool UnAceInterface::readListLine( QString line )
 				error( i18n( "Unexpected output from the unace process." ) );
 				return false;
 			}
-		kDebug() << "foudn header";
+		kDebug() << "found header";
 		m_hadHeader = true;
 		return true;
 	}
