@@ -2,11 +2,10 @@
 <kpartgui name="ark" version="12">
 <MenuBar>
 	<Menu name="file"><text>&amp;File</text>
-		<Action name="new_window"/>
+		<Action name="file_new"/>
+		<Action name="file_open"/>
 		<Action name="file_open_recent"/>
-		<Merge/>
 	</Menu>
-	<Merge/>
 </MenuBar>
 <ToolBar noMerge="1" name="mainToolBar">
 	<text>Main Toolbar</text>
