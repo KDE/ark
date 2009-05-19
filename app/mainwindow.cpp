@@ -158,8 +158,6 @@ void MainWindow::setupActions()
 
 	KStandardAction::configureToolbars( this, SLOT( editToolbars() ), actionCollection() );
 	KStandardAction::keyBindings( this, SLOT( editKeyBindings() ), actionCollection() );
-
-	m_recentFilesAction->setEnabled(true);
 }
 
 void MainWindow::updateActions()
