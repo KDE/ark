@@ -63,22 +63,14 @@ namespace Kerfuffle
 		setSingleFolderArchive(false);
 
 		m_ui->autoSubfolders->hide();
-
-		//we want the warning text to show through even if the groupbox is disabled
-		QPalette warningPalette = m_ui->singleFolder->palette();
-		warningPalette.setColor(QPalette::Disabled, QPalette::Text, warningPalette.color(QPalette::Active, QPalette::Text));
-		m_ui->singleFolder->setPalette(warningPalette);
-
 	}
 
 	void ExtractionDialog::setSingleFolderArchive(bool value)
 	{
 		if (value) {
 			m_ui->singleFolderGroup->setChecked(false);
-			m_ui->singleFolder->show();
 		} else {
 			m_ui->singleFolderGroup->setChecked(true);
-			m_ui->singleFolder->hide();
 		}
 	}
 
