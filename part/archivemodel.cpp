@@ -458,7 +458,6 @@ void ArchiveModel::sort ( int column, Qt::SortOrder order )
 				index(0, 0, indexForNode(dir)),
 				index(dir->entries().size() - 1, 0, indexForNode(dir)));
 	}
-
 }
 
 Qt::DropActions ArchiveModel::supportedDropActions () const
@@ -470,19 +469,16 @@ QStringList ArchiveModel::mimeTypes () const
 {
 	QStringList types;
 
-
 	types << QString("text/uri-list")
 		<< QString( "text/plain" )
 		<< QString( "text/x-moz-url" )
-		<< QString( "application/x-kde-urilist" );
-
-	types << "application/x-kde-extractdrag";
+		<< QString( "application/x-kde-urilist" )
+		<< QString( "application/x-kde-extractdrag" );
 
 	return types;
 }
 
 QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
-{
 
 	kDebug (1601) ;
 	//prepare the fallback kio_slave filenames
@@ -892,6 +888,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
 			}
 		}
 	}
+
 	foreach(const QPersistentModelIndex& node, nodesToDelete) {
 		ArchiveNode *rawNode = static_cast<ArchiveNode*>( node.internalPointer() );
 		kDebug() << "Delete with parent entries " << rawNode->parent()->entries() << " and row " << rawNode->row();
@@ -900,6 +897,4 @@ void ArchiveModel::slotCleanupEmptyDirs()
 		endRemoveRows();
 		//kDebug(1601) << "Removed entry " << entry[FileName].toString();
 	}
-	return;
-
 }
