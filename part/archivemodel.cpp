@@ -479,7 +479,7 @@ QStringList ArchiveModel::mimeTypes () const
 }
 
 QMimeData * ArchiveModel::mimeData ( const QModelIndexList & indexes ) const
-
+{
 	kDebug (1601) ;
 	//prepare the fallback kio_slave filenames
 	QStringList files;
