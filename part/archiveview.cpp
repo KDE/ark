@@ -131,9 +131,3 @@ void ArchiveView::dragMoveEvent ( QDragMoveEvent * event )
 	if (event->mimeData()->hasFormat("text/uri-list"))
 		event->acceptProposedAction();
 }
-
-void ArchiveView::mouseDoubleClickEvent(QMouseEvent* event)
-{
-	if (event->button() == Qt::LeftButton)
-		QAbstractItemView::mouseDoubleClickEvent(event);
-}
