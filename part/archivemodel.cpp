@@ -676,9 +676,9 @@ void ArchiveModel::slotNewEntry( const ArchiveEntry& entry )
 	newEntry(entry, NotifyViews);
 }
 
-void ArchiveModel::newEntry(const ArchiveEntry& entry, InsertBehaviour behaviour)
+void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour behaviour)
 {
-	if (entry[FileName].toString().isEmpty()) {
+	if (receivedEntry[FileName].toString().isEmpty()) {
 		kDebug( 1601 ) << "Weird, received empty entry (no filename) - skipping";
 		return;
 	}
@@ -706,7 +706,7 @@ void ArchiveModel::newEntry(const ArchiveEntry& entry, InsertBehaviour behaviour
 		QList<int> toInsert;
 
 		foreach(int column, columnsForDisplay) {
-			if (entry.contains(column))
+			if (receivedEntry.contains(column))
 				toInsert << column;
 		}
 		beginInsertColumns(QModelIndex(), 0, toInsert.size() - 1 );
@@ -715,6 +715,16 @@ void ArchiveModel::newEntry(const ArchiveEntry& entry, InsertBehaviour behaviour
 
 		kDebug( 1601 ) << "Show columns detected: " << m_showColumns;
 
+	}
+
+	//make a copy
+	ArchiveEntry entry = receivedEntry;
+	
+	//#194241: Filenames such as "./file" should be displayed as "file"
+	if (entry[FileName].toString().startsWith("./")) {
+		if (!entry.contains(InternalID))
+			kDebug(1601) << "Warning, there is no internalID";
+		entry[FileName] = entry[FileName].toString().remove(0, 2);
 	}
 
 	/// 1. Skip already created nodes
