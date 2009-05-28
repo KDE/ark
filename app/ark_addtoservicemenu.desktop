@@ -2,7 +2,7 @@
 Type=Service
 ServiceTypes=KonqPopupMenu/Plugin
 MimeType=all/all;
-Actions=compressHere;compressAsZip;compressAsRar;compressAsTar;compressTo
+Actions=compressHere;compressAsZip;compressAsRar;compressAsTar;compressTo;
 X-KDE-Submenu=Compress
 X-KDE-Submenu[bg]=Компресиране
 X-KDE-Submenu[ca]=Compressió
