@@ -63,7 +63,7 @@ class CliPlugin: public CliInterface
 
 				p[DeleteArgs] = QStringList() << "-d" << "$Archive" << "$Files";
 
-				p[FileExistsExpression] = "^replace (.+)?";
+				p[FileExistsExpression] = "^replace (.+)\\?";
 				p[FileExistsInput] = QStringList()
 					<< "y" //overwrite
 					<< "n" //skip
