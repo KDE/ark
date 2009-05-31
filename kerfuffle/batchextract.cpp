@@ -134,7 +134,7 @@ namespace Kerfuffle
 		KIO::getJobTracker()->registerJob(this);
 
 		emit description(this,
-				"Extracting file...",
+				i18n("Extracting file..."),
 				qMakePair(i18n("Source archive"), fileNames.value(subjobs().at(0)).first),
 				qMakePair(i18n("Destination"), fileNames.value(subjobs().at(0)).second)
 				);
@@ -180,7 +180,7 @@ namespace Kerfuffle
 		{
 			kDebug(1601) << "Starting the next job";
 			emit description(this,
-					"Extracting file...",
+					i18n("Extracting file..."),
 					qMakePair(i18n("Source archive"), fileNames.value(subjobs().at(0)).first),
 					qMakePair(i18n("Destination"), fileNames.value(subjobs().at(0)).second)
 					);
