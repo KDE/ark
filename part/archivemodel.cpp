@@ -29,6 +29,7 @@
 #include <QMimeData>
 #include <QDir>
 #include <QtDBus/QtDBus>
+#include <QLatin1String>
 #include <QPersistentModelIndex>
 
 #include <KDebug>
@@ -722,7 +723,7 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
 	
 	//#194241: Filenames such as "./file" should be displayed as "file"
 	QString entryFileName( entry[FileName].toString() );
-	if (entryFileName.startsWith("./")) {
+	if (entryFileName.startsWith(QLatin1String("./"))) {
 		if (entryFileName == "./") // Stop here, this would create an empty entry
 			return;
 
