@@ -721,10 +721,15 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
 	ArchiveEntry entry = receivedEntry;
 	
 	//#194241: Filenames such as "./file" should be displayed as "file"
-	if (entry[FileName].toString().startsWith("./")) {
+	QString entryFileName( entry[FileName].toString() );
+	if (entryFileName.startsWith("./")) {
+		if (entryFileName == "./") // Stop here, this would create an empty entry
+			return;
+
 		if (!entry.contains(InternalID))
 			kDebug(1601) << "Warning, there is no internalID";
-		entry[FileName] = entry[FileName].toString().remove(0, 2);
+
+		entry[FileName] = entryFileName.remove(0, 2);
 	}
 
 	/// 1. Skip already created nodes
