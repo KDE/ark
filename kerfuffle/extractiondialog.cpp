@@ -54,7 +54,6 @@ namespace Kerfuffle
 		mainWidget()->layout()->addWidget(m_ui);
 		setCaption( i18n( "Extract" ) );
 		m_ui->iconLabel->setPixmap( DesktopIcon( "archive-extract" ) );
-		m_ui->iconLabel->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Minimum );
 
 		m_ui->filesToExtractGroupBox->hide();
 		m_ui->allFilesButton->setChecked( true );

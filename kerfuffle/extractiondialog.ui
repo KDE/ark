@@ -25,7 +25,7 @@
      <item>
       <widget class="QLabel" name="iconLabel" >
        <property name="sizePolicy" >
-        <sizepolicy vsizetype="Maximum" hsizetype="Minimum" >
+        <sizepolicy vsizetype="Minimum" hsizetype="Fixed" >
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
