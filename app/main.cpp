@@ -216,9 +216,8 @@ int main( int argc, char **argv )
 			window->show();
 		}
 	}
+
 	kDebug (1601) << "Entering application loop";
 
 	return application.exec();
-
-
 }
