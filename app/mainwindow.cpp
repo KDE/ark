@@ -247,5 +247,4 @@ void MainWindow::newArchive()
 
 	m_openArgs.metaData().remove("showExtractDialog");
 	m_openArgs.metaData().remove("createNewArchive");
-
 }
