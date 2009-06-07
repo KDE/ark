@@ -31,6 +31,7 @@
 #include <QCoreApplication>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QPointer>
 
 #include <KDebug>
 #include <KGlobal>
@@ -224,41 +225,40 @@ namespace Kerfuffle
 	{
 		kDebug( 1601 );
 
-		Kerfuffle::ExtractionDialog dialog(NULL);
+		QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog(NULL);
 		if (inputs.size() > 1) {
-			dialog.batchModeOption();
+			dialog->batchModeOption();
 		}
 
 		if (destinationFolder.isEmpty())
-			dialog.setCurrentUrl(QDir::currentPath());
+			dialog->setCurrentUrl(QDir::currentPath());
 		else
-			dialog.setCurrentUrl(destinationFolder);
+			dialog->setCurrentUrl(destinationFolder);
 
-		dialog.setAutoSubfolder(autoSubfolders);
-		dialog.setPreservePaths(m_preservePaths);
+		dialog->setAutoSubfolder(autoSubfolders);
+		dialog->setPreservePaths(m_preservePaths);
 
 		if (subfolder.isEmpty() && inputs.size() == 1) {
 			if (inputs.at(0)->isSingleFolderArchive()) {
-				dialog.setSingleFolderArchive(true);
+				dialog->setSingleFolderArchive(true);
 			}
-			dialog.setSubfolder(inputs.at(0)->subfolderName());
+			dialog->setSubfolder(inputs.at(0)->subfolderName());
 		}
 		else {
-			dialog.setSubfolder(subfolder);
+			dialog->setSubfolder(subfolder);
 		}
 
-		bool ret = dialog.exec();
+		bool ret = dialog->exec();
 		if (!ret) return false;
 
-		setDestinationFolder(dialog.destinationDirectory().path());
+		setDestinationFolder(dialog->destinationDirectory().path());
 
-
-		if (dialog.extractToSubfolder()) {
-			subfolder = dialog.subfolder();
+		if (dialog->extractToSubfolder()) {
+			subfolder = dialog->subfolder();
 		}
 
-		autoSubfolders = dialog.autoSubfolders();
-		m_preservePaths = dialog.preservePaths();
+		autoSubfolders = dialog->autoSubfolders();
+		m_preservePaths = dialog->preservePaths();
 
 		return true;
 	}

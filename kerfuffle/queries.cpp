@@ -20,18 +20,18 @@
  */
 
 #include "queries.h"
-#include <QMessageBox>
 
 #include <KLocale>
 #include <KPasswordDialog>
-#include <QApplication>
 #include <kdebug.h>
-
 #include <kio/renamedialog.h>
+
+#include <QApplication>
+#include <QMessageBox>
+#include <QPointer>
 
 namespace Kerfuffle
 {
-
 	Query::Query()
 	{
 		m_responseMutex.lock();
@@ -50,7 +50,6 @@ namespace Kerfuffle
 		if (!m_data.contains("response"))
 			m_responseCondition.wait(&m_responseMutex);
 		m_responseMutex.unlock();
-
 	}
 
 	void Query::setResponse(QVariant response)
@@ -60,8 +59,6 @@ namespace Kerfuffle
 		m_data["response"] = response;
 		m_responseCondition.wakeAll();
 	}
-
-	//---
 
 	OverwriteQuery::OverwriteQuery( QString filename) :
 		m_noRenameMode(false),
@@ -89,17 +86,17 @@ namespace Kerfuffle
 		sourceUrl.cleanPath();
 		destUrl.cleanPath();
 
-		KIO::RenameDialog dialog(
-				NULL,
-				i18n("File already exists"),
-				sourceUrl,
-				destUrl,
-				mode);
-		dialog.exec();
+		QPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
+			NULL,
+			i18n("File already exists"),
+			sourceUrl,
+			destUrl,
+			mode);
+		dialog->exec();
 
-		m_data["newFilename"] = dialog.newDestUrl().path();
+		m_data["newFilename"] = dialog->newDestUrl().path();
 
-		setResponse(dialog.result());
+		setResponse(dialog->result());
 		
 		QApplication::restoreOverrideCursor();
 	}
@@ -167,24 +164,23 @@ namespace Kerfuffle
 	{
 		QApplication::setOverrideCursor( QCursor( Qt::ArrowCursor ) );
 		
-		KPasswordDialog dlg( NULL );
-		dlg.setPrompt( i18n("The archive '%1' is password protected. Please enter the password to extract the file.", 
-					m_data.value("archiveFilename").toString()));
+		QPointer<KPasswordDialog> dlg = new KPasswordDialog( NULL );
+		dlg->setPrompt( i18n("The archive '%1' is password protected. Please enter the password to extract the file.", m_data.value("archiveFilename").toString()) );
 
 		if (m_data.value("incorrectTryAgain").toBool()) {
-			dlg.showErrorMessage(i18n("Incorrect password, please try again."), KPasswordDialog::PasswordError);
+			dlg->showErrorMessage(i18n("Incorrect password, please try again."), KPasswordDialog::PasswordError);
 		}
 
-		if( !dlg.exec() )
+		if (!dlg->exec())
 		{
 			setResponse(false);
 		}
 		else
 		{
-			m_data["password"] = dlg.password();
+			m_data["password"] = dlg->password();
 			setResponse(true);
 		}
-		
+
 		QApplication::restoreOverrideCursor();
 	}
 
@@ -197,5 +193,4 @@ namespace Kerfuffle
 	{
 		return !m_data.value("response").toBool();
 	}
-
 }

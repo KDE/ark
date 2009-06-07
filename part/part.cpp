@@ -58,6 +58,7 @@
 #include <QtDBus/QtDBus>
 #include <KInputDialog>
 #include <QHeaderView>
+#include <QPointer>
 
 typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY( libarkpart, Factory )
@@ -519,31 +520,30 @@ void Part::slotExtractFiles()
 	kDebug( 1601 ) ;
 	if (!m_model) return;
 
+	QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog();
 
-	Kerfuffle::ExtractionDialog dialog;
 	if ( m_view->selectionModel()->selectedRows().count() > 0 )
 	{
-		dialog.setShowSelectedFiles(true);
+		dialog->setShowSelectedFiles(true);
 	}
 
 	if (isSingleFolderArchive())
 	{
-		dialog.setSingleFolderArchive(true);
+		dialog->setSingleFolderArchive(true);
 	}
 
-	dialog.setSubfolder(detectSubfolder());
+	dialog->setSubfolder(detectSubfolder());
 
-	dialog.setCurrentUrl( QFileInfo(m_model->archive()->fileName()).path() );
+	dialog->setCurrentUrl( QFileInfo(m_model->archive()->fileName()).path() );
 
-	dialog.setOpenDestinationFolderAfterExtraction( ArkSettings::openDestinationFolderAfterExtraction() );
+	dialog->setOpenDestinationFolderAfterExtraction( ArkSettings::openDestinationFolderAfterExtraction() );
 
 	//TODO: remember this in arksettings
-	dialog.setPreservePaths(true);
+	dialog->setPreservePaths(true);
 
-
-	if ( dialog.exec() )
+	if ( dialog->exec() )
 	{
-		ArkSettings::setOpenDestinationFolderAfterExtraction( dialog.openDestinationAfterExtraction() );
+		ArkSettings::setOpenDestinationFolderAfterExtraction( dialog->openDestinationAfterExtraction() );
 
 		ArkSettings::self()->writeConfig();
 
@@ -551,10 +551,10 @@ void Part::slotExtractFiles()
 		updateActions();
 
 		QString destinationDirectory;
-		if (dialog.extractToSubfolder())
+		if (dialog->extractToSubfolder())
 		{
-			destinationDirectory =  dialog.destinationDirectory().path() +
-				QDir::separator() + dialog.subfolder();
+			destinationDirectory =  dialog->destinationDirectory().path() +
+				QDir::separator() + dialog->subfolder();
 
 			if( !KStandardDirs::makeDir( destinationDirectory) )
 			{
@@ -566,7 +566,7 @@ void Part::slotExtractFiles()
 		}
 		else
 		{
-			destinationDirectory = dialog.destinationDirectory().path();
+			destinationDirectory = dialog->destinationDirectory().path();
 
 			if (isSingleFolderArchive())
 				lastExtractionFolder = destinationDirectory + QDir::separator() + detectSubfolder();
@@ -578,7 +578,7 @@ void Part::slotExtractFiles()
 
 		//if the user has chosen to extract only selected entries, fetch these
 		//from the listview
-		if (!dialog.extractAllFiles()) {
+		if (!dialog->extractAllFiles()) {
 			files = selectedFilesWithChildren();
 		}
 
@@ -586,7 +586,7 @@ void Part::slotExtractFiles()
 
 		Kerfuffle::ExtractionOptions options;
 
-		if (dialog.preservePaths())
+		if (dialog->preservePaths())
 			options["PreservePaths"] = true;
 
 		ExtractJob *job = m_model->extractFiles( files, destinationDirectory, options );

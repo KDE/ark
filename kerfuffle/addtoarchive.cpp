@@ -25,6 +25,7 @@
 
 #include <QFileInfo>
 #include <QDir>
+#include <QPointer>
 
 #include <KConfig>
 #include <kdebug.h>
@@ -46,20 +47,20 @@ namespace Kerfuffle
 
 	bool AddToArchive::showAddDialog( void )
 	{
-		Kerfuffle::AddDialog dialog(
-				m_inputs, // itemsToAdd
-				KUrl(m_firstPath), // startDir
-				"", // filter
-				NULL, // parent
-				NULL); // widget
+		QPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
+			m_inputs, // itemsToAdd
+			KUrl(m_firstPath), // startDir
+			"", // filter
+			NULL, // parent
+			NULL); // widget
 
-		bool ret = dialog.exec();
+		bool ret = dialog->exec();
 
 		if (ret) {
-			kDebug( 1601 ) << "Returned URL:" << dialog.selectedUrl();
-			kDebug( 1601 ) << "Returned mime:" << dialog.currentMimeFilter();
-			setFilename(dialog.selectedUrl());
-			setMimeType(dialog.currentMimeFilter());
+			kDebug( 1601 ) << "Returned URL:" << dialog->selectedUrl();
+			kDebug( 1601 ) << "Returned mime:" << dialog->currentMimeFilter();
+			setFilename(dialog->selectedUrl());
+			setMimeType(dialog->currentMimeFilter());
 		}
 
 		return ret;

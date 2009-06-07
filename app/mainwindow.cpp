@@ -40,6 +40,7 @@
 
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
+#include <QPointer>
 
 static bool isValidArchiveDrag(const QMimeData *data)
 {
@@ -179,11 +180,14 @@ void MainWindow::editKeyBindings()
 
 void MainWindow::editToolbars()
 {
-	saveMainWindowSettings( KGlobal::config()->group( QLatin1String( "MainWindow") ) );
-	KEditToolBar dlg( factory(), this );
-	dlg.exec();
+	saveMainWindowSettings( KGlobal::config()->group( QLatin1String( "MainWindow" ) ) );
+
+	QPointer<KEditToolBar> dlg = new KEditToolBar( factory(), this );
+	dlg->exec();
+
 	createGUI( m_part );
-	applyMainWindowSettings( KGlobal::config()->group( QLatin1String("MainWindow") ) );
+
+	applyMainWindowSettings( KGlobal::config()->group( QLatin1String( "MainWindow" ) ) );
 }
 
 void MainWindow::openArchive()
