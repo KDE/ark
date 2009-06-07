@@ -18,6 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
+
 #include "addtoarchive.h"
 #include "adddialog.h"
 
@@ -33,17 +34,13 @@
 
 namespace Kerfuffle
 {
-
-
 	AddToArchive::AddToArchive(QObject *parent)
 		: KJob(parent), m_changeToFirstPath(false)
 	{
-
 	}
 
 	AddToArchive::~AddToArchive()
 	{
-
 	}
 
 	bool AddToArchive::showAddDialog( void )
@@ -98,7 +95,6 @@ namespace Kerfuffle
 			kDebug( 1601 ) << "Set filename to " + m_filename;
 		}
 		else {
-			
 			if (m_autoFilenameSuffix.isEmpty()) {
 				KMessageBox::error( NULL, i18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.tz) with the --autofilename argument.") );
 				return;
@@ -129,10 +125,8 @@ namespace Kerfuffle
 			}
 
 			kDebug( 1601 ) << "Autoset filename to " + finalName;
-			archive = Kerfuffle::factory(finalName);
-			
+			archive = Kerfuffle::factory(finalName, m_mimeType);
 		}
-
 
 		if (archive == NULL) {
 			KMessageBox::error( NULL, i18n("Failed to create the new archive. Permissions might not be sufficient.") );
@@ -173,12 +167,12 @@ namespace Kerfuffle
 	void AddToArchive::slotFinished(KJob *job)
 	{
 		kDebug( 1601 );
+
 		if ( job->error() )
 		{
 			KMessageBox::error( NULL, job->errorText());
 		}
+
 		emitResult();
-
 	}
-
 }

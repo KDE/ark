@@ -26,7 +26,6 @@
 #include <QStandardItemModel>
 #include <kfileplacesmodel.h>
 
-
 namespace Kerfuffle
 {
 	class AddDialogUI: public QWidget, public Ui::AddDialog
@@ -88,5 +87,4 @@ namespace Kerfuffle
 		m_ui->compressList->setModel(listModel);
 
 	}
-
 }

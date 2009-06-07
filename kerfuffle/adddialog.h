@@ -18,6 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
+
 #ifndef _ADDDIALOG_H_
 #define _ADDDIALOG_H_
 
@@ -27,7 +28,6 @@
 
 namespace Kerfuffle
 {
-
 	class KERFUFFLE_EXPORT AddDialog : public KFileDialog
 	{
 		public:
@@ -44,6 +44,6 @@ namespace Kerfuffle
 			void setupIconList(const QStringList& itemsToAdd);
 
 	};
-
 }
+
 #endif 

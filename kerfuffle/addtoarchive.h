@@ -38,7 +38,6 @@ class Interface;
 
 namespace Kerfuffle
 {
-
 	class KERFUFFLE_EXPORT AddToArchive : public KJob
 	{
 		Q_OBJECT
@@ -67,9 +66,7 @@ namespace Kerfuffle
 			QString m_firstPath;
 			QStringList m_inputs;
 			bool m_changeToFirstPath;
-
 	};
-
 }
 
 #endif // ADDTOARCHIVE_H

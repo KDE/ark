@@ -19,6 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
+
 #include <KApplication>
 #include <KCmdLineArgs>
 #include <KDebug>
@@ -31,6 +32,7 @@
 #include "mainwindow.h"
 #include "kerfuffle/batchextract.h"
 #include "kerfuffle/addtoarchive.h"
+
 using Kerfuffle::BatchExtract;
 using Kerfuffle::AddToArchive;
 
@@ -109,6 +111,7 @@ int main( int argc, char **argv )
 	//session restoring
 	if ( application.isSessionRestored() ) {
 		MainWindow* window = NULL;
+
 		if (KMainWindow::canBeRestored(1)) {
 			window = new MainWindow;
 			window->restore(1);
@@ -122,12 +125,10 @@ int main( int argc, char **argv )
 			return -1;
 		}
 	} else { //new ark window (no restored session)
-
 		// open any given URLs
 		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
 		if (args->isSet("add") || args->isSet("add-to")) {
-
 			AddToArchive *addToArchiveJob = new AddToArchive();
 			application.connect(addToArchiveJob, SIGNAL(finished(KJob*)),
 					&application, SLOT(quit()));
@@ -140,13 +141,11 @@ int main( int argc, char **argv )
 				addToArchiveJob->setFilename(args->getOption("add-to"));
 			}
 
-
 			if (args->isSet("autofilename")) {
 				addToArchiveJob->setAutoFilenameSuffix(args->getOption("autofilename"));
 			}
 
 			for (int i = 0; i < args->count(); ++i) {
-
 				//TODO: use the returned value here?
 				addToArchiveJob->addInput(args->url(i));
 			}
@@ -161,8 +160,6 @@ int main( int argc, char **argv )
 
 			QObject::connect(addToArchiveJob, SIGNAL(finished(KJob*)),
 					QCoreApplication::instance(), SLOT(quit()));
-
-
 		} else if (args->isSet("batch")) {
 			//once the job has been started this interface can be safely
 			//deleted
@@ -203,7 +200,6 @@ int main( int argc, char **argv )
 
 			batchJob->start();
 		} else {
-
 			MainWindow *window = new MainWindow;
 			if(!window->loadPart()) { // if loading the part fails 
 				return -1;
