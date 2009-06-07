@@ -104,6 +104,9 @@ int main( int argc, char **argv )
 	KCmdLineArgs::addCmdLineOptions( option );
 	KCmdLineArgs::addTempFileOption();
 
+	// We call application.exec() only when not using batch creation/extraction
+	bool startApplication = true;
+
 	KApplication application;
 
 	application.setQuitOnLastWindowClosed(false);
@@ -129,9 +132,9 @@ int main( int argc, char **argv )
 		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
 		if (args->isSet("add") || args->isSet("add-to")) {
+			startApplication = false;
+
 			AddToArchive *addToArchiveJob = new AddToArchive();
-			application.connect(addToArchiveJob, SIGNAL(finished(KJob*)),
-					&application, SLOT(quit()));
 
 			if (args->isSet("changetofirstpath")) {
 				addToArchiveJob->setChangeToFirstPath(true);
@@ -157,15 +160,12 @@ int main( int argc, char **argv )
 			}
 
 			addToArchiveJob->start();
-
-			QObject::connect(addToArchiveJob, SIGNAL(finished(KJob*)),
-					QCoreApplication::instance(), SLOT(quit()));
 		} else if (args->isSet("batch")) {
+			startApplication = false;
+
 			//once the job has been started this interface can be safely
 			//deleted
 			BatchExtract *batchJob = new BatchExtract();
-			application.connect(batchJob, SIGNAL(finished(KJob*)),
-					&application, SLOT(quit()));
 
 			for (int i = 0; i < args->count(); ++i) {
 				batchJob->addInput(args->url(i));
@@ -217,7 +217,10 @@ int main( int argc, char **argv )
 		}
 	}
 
-	kDebug (1601) << "Entering application loop";
+	if (startApplication) {
+		kDebug (1601) << "Entering application loop";
+		return application.exec();
+	}
 
-	return application.exec();
+	return 0;
 }
