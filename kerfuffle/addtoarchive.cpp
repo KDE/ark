@@ -58,6 +58,7 @@ namespace Kerfuffle
 				dialog.selectedUrl();
 			setFilename(dialog.selectedUrl());
 		}
+
 		return ret;
 	}
 
@@ -72,7 +73,6 @@ namespace Kerfuffle
 		if (m_firstPath.isEmpty()) {
 			QString firstEntry = url.path(KUrl::RemoveTrailingSlash);
 			m_firstPath = QFileInfo(firstEntry).dir().absolutePath();
-
 		}
 
 		return true;
