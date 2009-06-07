@@ -148,7 +148,6 @@ namespace Kerfuffle
 
 			options["GlobalWorkDir"] = stripDir.path();
 			kDebug( 1601 ) << "Setting GlobalWorkDir to " << stripDir.path();
-
 		}
 
 		Kerfuffle::AddJob *job = 
@@ -160,8 +159,6 @@ namespace Kerfuffle
 				this, SLOT(slotFinished(KJob*)));
 
 		job->start();
-
-		return;
 	}
 
 	void AddToArchive::slotFinished(KJob *job)
