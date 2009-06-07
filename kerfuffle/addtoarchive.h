@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2008 Harald Hvaal <haraldhv (at@at) stud.ntnu.no>
+ * Copyright (C) 2009 Raphael Kubo da Costa <kubito@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -53,6 +54,7 @@ namespace Kerfuffle
 		public slots:
 			bool addInput( const KUrl& url);
 			void setFilename( const KUrl& path ) { m_filename = path.path(); }
+			void setMimeType( const QString & mimeType ) { m_mimeType = mimeType; }
 			void setAutoFilenameSuffix( const QString& suffix ) { m_autoFilenameSuffix = suffix; }
 			void start();
 
@@ -64,6 +66,7 @@ namespace Kerfuffle
 			QString m_strippedPath;
 			QString m_autoFilenameSuffix;
 			QString m_firstPath;
+			QString m_mimeType;
 			QStringList m_inputs;
 			bool m_changeToFirstPath;
 	};

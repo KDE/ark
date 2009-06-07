@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2008 Harald Hvaal <haraldhv atatatat stud.ntnu.no>
+ * Copyright (C) 2009 Raphael Kubo da Costa <kubito@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,8 +24,11 @@
 #include "ui_adddialog.h"
 #include "kerfuffle/archive.h"
 
+#include <KConfigGroup>
+#include <KFilePlacesModel>
+#include <KGlobal>
+
 #include <QStandardItemModel>
-#include <kfileplacesmodel.h>
 
 namespace Kerfuffle
 {
@@ -39,17 +43,20 @@ namespace Kerfuffle
 	};
 
 	AddDialog::AddDialog(const QStringList& itemsToAdd,
-			const KUrl & 	startDir, 
-					const QString & 	filter, 
-					QWidget * 	parent, 
-					QWidget * 	widget
+					const KUrl & startDir,
+					const QString &	filter,
+					QWidget * parent,
+					QWidget * widget
 					)
 		: KFileDialog(startDir, filter, parent, widget)
 	{
 		setOperationMode(KFileDialog::Saving);
-		setMode(KFile::File |
-				KFile::LocalOnly );
+		setMode(KFile::File | KFile::LocalOnly );
 		setCaption(i18n("Compress to Archive"));
+
+		loadConfiguration();
+
+		connect( this, SIGNAL( okClicked() ), SLOT( updateDefaultMimeType() ) );
 
 		m_ui = new AddDialogUI( this );
 		mainWidget()->layout()->addWidget(m_ui);
@@ -59,15 +66,27 @@ namespace Kerfuffle
 		//These extra options will be implemented in a 4.2+ version of
 		//ark
 		m_ui->groupExtraOptions->hide();
+	}
 
-		setMimeFilter(Kerfuffle::supportedWriteMimeTypes());
+	void AddDialog::loadConfiguration()
+	{
+		m_config = KConfigGroup( KGlobal::config()->group( "AddDialog" ) );
 
+		QString defaultMimeType = "application/x-compressed-tar";
+		QStringList writeMimeTypes = Kerfuffle::supportedWriteMimeTypes();
+		QString lastMimeType = m_config.readEntry( "LastMimeType", defaultMimeType );
+
+		if (writeMimeTypes.contains( lastMimeType ))
+			setMimeFilter( writeMimeTypes, lastMimeType );
+		else
+			setMimeFilter( writeMimeTypes, defaultMimeType );
 	}
 
 	void AddDialog::setupIconList(const QStringList& itemsToAdd)
 	{
 		QStandardItemModel* listModel = new QStandardItemModel(this);
 		QStringList sortedList(itemsToAdd);
+
 		sortedList.sort();
 
 		Q_FOREACH(const QString& urlString, sortedList) {
@@ -85,6 +104,12 @@ namespace Kerfuffle
 		}
 
 		m_ui->compressList->setModel(listModel);
+	}
 
+	void AddDialog::updateDefaultMimeType()
+	{
+		m_config.writeEntry( "LastMimeType", currentMimeFilter() );
 	}
 }
+
+#include "adddialog.moc"

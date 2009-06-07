@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2008 Harald Hvaal <haraldhv atatatat stud.ntnu.no>
+ * Copyright (C) 2009 Raphael Kubo da Costa <kubito@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,25 +25,32 @@
 
 #include "kerfuffle_export.h"
 
+#include <KConfigGroup>
 #include <KFileDialog>
 
 namespace Kerfuffle
 {
 	class KERFUFFLE_EXPORT AddDialog : public KFileDialog
 	{
-		public:
-			AddDialog(const QStringList& itemsToAdd,
-					const KUrl & 	startDir, 
-					const QString & 	filter, 
-					QWidget * 	parent, 
-					QWidget * 	widget = 0	 
-					);
+		Q_OBJECT
 
+		public:
+			AddDialog(const QStringList & itemsToAdd,
+					const KUrl & startDir,
+					const QString & filter,
+					QWidget * parent,
+					QWidget * widget = 0
+					);
 
 		private:
 			class AddDialogUI *m_ui;
+			KConfigGroup m_config;
+
+			void loadConfiguration();
 			void setupIconList(const QStringList& itemsToAdd);
 
+		private slots:
+			void updateDefaultMimeType();
 	};
 }
 

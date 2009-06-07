@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2008 Harald Hvaal <haraldhv (at@at) stud.ntnu.no>
+ * Copyright (C) 2009 Raphael Kubo da Costa <kubito@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,8 +25,8 @@
 
 #include <QFileInfo>
 #include <QDir>
-#include <QCoreApplication>
 
+#include <KConfig>
 #include <kdebug.h>
 #include <kjobtrackerinterface.h>
 #include <kmessagebox.h>
@@ -55,15 +56,16 @@ namespace Kerfuffle
 		bool ret = dialog.exec();
 
 		if (ret) {
-			kDebug( 1601 ) << "Dialog succeeded, returned url " <<
-				dialog.selectedUrl();
+			kDebug( 1601 ) << "Returned URL:" << dialog.selectedUrl();
+			kDebug( 1601 ) << "Returned mime:" << dialog.currentMimeFilter();
 			setFilename(dialog.selectedUrl());
+			setMimeType(dialog.currentMimeFilter());
 		}
 
 		return ret;
 	}
 
-	bool AddToArchive::addInput( const KUrl& url)
+	bool AddToArchive::addInput( const KUrl& url )
 	{
 		m_inputs << url.path(
 				QFileInfo(url.path()).isDir() ? 
@@ -79,6 +81,8 @@ namespace Kerfuffle
 		return true;
 	}
 
+	// TODO: If this class should ever be called outside main.cpp,
+	//       the returns should be preceded by emitResult().
 	void AddToArchive::start( void )
 	{
 		kDebug( 1601 );
@@ -92,7 +96,7 @@ namespace Kerfuffle
 
 		Kerfuffle::Archive *archive;
 		if (!m_filename.isEmpty()) {
-			archive = Kerfuffle::factory(m_filename);
+			archive = Kerfuffle::factory(m_filename, m_mimeType);
 			kDebug( 1601 ) << "Set filename to " + m_filename;
 		}
 		else {
@@ -129,10 +133,10 @@ namespace Kerfuffle
 			archive = Kerfuffle::factory(finalName, m_mimeType);
 		}
 
-		if (archive == NULL) {
+		// TODO Post-4.3 string freeze: the check for read-only must cause a separate error
+		if (archive == NULL || archive->isReadOnly()) {
 			KMessageBox::error( NULL, i18n("Failed to create the new archive. Permissions might not be sufficient.") );
-			QCoreApplication::instance()->quit();
-			return ;
+			return;
 		}
 
 		if (m_changeToFirstPath) {

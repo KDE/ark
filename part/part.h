@@ -96,7 +96,6 @@ class Part: public KParts::ReadWritePart, public Interface
 		QList<QVariant> selectedFilesWithChildren();
 		void registerJob(KJob *job);
 
-
 		QString lastExtractionFolder;
 
 		ArchiveModel         *m_model;
