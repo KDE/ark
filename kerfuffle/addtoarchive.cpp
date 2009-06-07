@@ -156,7 +156,7 @@ namespace Kerfuffle
 
 		KIO::getJobTracker()->registerJob(job);
 
-		connect(job, SIGNAL(finished(KJob*)),
+		connect(job, SIGNAL(result(KJob*)),
 				this, SLOT(slotFinished(KJob*)));
 
 		job->start();
