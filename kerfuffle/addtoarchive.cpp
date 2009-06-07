@@ -46,11 +46,12 @@ namespace Kerfuffle
 	bool AddToArchive::showAddDialog( void )
 	{
 		Kerfuffle::AddDialog dialog(
-				m_inputs,
-				KUrl(m_firstPath),
-				"",
-				NULL,
-				NULL);
+				m_inputs, // itemsToAdd
+				KUrl(m_firstPath), // startDir
+				"", // filter
+				NULL, // parent
+				NULL); // widget
+
 		bool ret = dialog.exec();
 
 		if (ret) {
