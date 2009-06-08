@@ -45,8 +45,8 @@
 LibArchiveInterface::LibArchiveInterface( const QString & filename, QObject *parent )
 	: ReadWriteArchiveInterface( filename, parent ),
 	m_cachedArchiveEntryCount(0),
-	m_extractedFilesSize(0),
-	m_emitNoEntries(false)
+	m_emitNoEntries(false),
+	m_extractedFilesSize(0)
 {
 }
 
@@ -91,7 +91,6 @@ bool LibArchiveInterface::list()
 		archive_read_data_skip( arch );
 	}
 
-
 	if ( result != ARCHIVE_EOF )
 	{
 		error( i18n("The archive reading failed with message: %1", archive_error_string(arch)) );
@@ -112,7 +111,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 
 	const bool extractAll = files.isEmpty();
 	const bool preservePaths = options.value("PreservePaths").toBool();
-	QStringList m_overwriteAllDirectories;  // directories to overwrite all files (not recursive)
+	QStringList overwriteAllDirectories;  // directories to overwrite all files (not recursive)
 	QStringList skipAllDirectories;  // directories to skipp all files (not recursive)
 
 	//TODO: don't leak these if the extraction fails with an error in the
@@ -199,7 +198,6 @@ retry:
 			//if we DON'T preserve paths, we cut the path and set the entryFI
 			//fileinfo to the one without the path
 			if( !preservePaths ) {
-
 				//empty filenames (ie dirs) should have been skipped already,
 				//so asserting
 				Q_ASSERT(!fileWithoutPath.isEmpty());
@@ -231,7 +229,7 @@ retry:
 
 			//now check if the file about to be written already exists
 			if (!entryIsDir &&
-				!m_overwriteAllDirectories.contains(entryFI.canonicalPath())) {
+				!overwriteAllDirectories.contains(entryFI.canonicalPath())) {
 				if (entryFI.exists()) {
 					Kerfuffle::OverwriteQuery query(entryName);
 					userQuery(&query);
@@ -263,7 +261,7 @@ retry:
 
 
 					if (query.responseOverwriteAll())
-						m_overwriteAllDirectories << entryFI.canonicalPath();
+						overwriteAllDirectories << entryFI.canonicalPath();
 				}
 			}
 
@@ -277,7 +275,6 @@ retry:
 				kDebug( 1601 ) << "Writing header failed with error code " << header_response
 				<< "While attempting to write " << fileWithoutPath;
 			}
-			
 
 			//if we only partially extract the archive and the number of
 			//archive entries is available we use a simple progress based on
