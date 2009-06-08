@@ -27,21 +27,20 @@
 #include "libarchivehandler.h"
 #include "kerfuffle/archivefactory.h"
 #include "kerfuffle/queries.h"
-#include <QDirIterator>
 
 #include <archive.h>
 #include <archive_entry.h>
 
+#include <KDebug>
+#include <KLocale>
 #include <kde_file.h>
 
-#include <kdebug.h>
-#include <KLocale>
-
-#include <QFile>
+#include <QDateTime>
 #include <QDir>
+#include <QDirIterator>
+#include <QFile>
 #include <QList>
 #include <QStringList>
-#include <QDateTime>
 
 LibArchiveInterface::LibArchiveInterface( const QString & filename, QObject *parent )
 	: ReadWriteArchiveInterface( filename, parent ),
@@ -55,8 +54,8 @@ LibArchiveInterface::~LibArchiveInterface()
 {
 }
 
-void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry) {
-
+void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry)
+{
 	ArchiveEntry e;
 #ifdef _MSC_VER
 	e[ FileName ] = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w( aentry )));
@@ -80,7 +79,6 @@ void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry
 	e[ Timestamp ] = QDateTime::fromTime_t( archive_entry_mtime( aentry ) );
 
 	entry(e);
-
 }
 
 bool LibArchiveInterface::list()
@@ -138,7 +136,6 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 {
 	kDebug( 1601 ) << "Changing current directory to " << destinationDirectory;
 	QDir::setCurrent( destinationDirectory );
-
 
 	const bool extractAll = files.isEmpty();
 	const bool preservePaths = options.value("PreservePaths").toBool();
@@ -334,7 +331,6 @@ retry:
 #endif
 }
 
-
 int LibArchiveInterface::extractionFlags() const
 {
 	int result = ARCHIVE_EXTRACT_TIME;
@@ -373,7 +369,6 @@ void LibArchiveInterface::copyData( QString filename, struct archive *dest, bool
 			return;
 		}
 
-
 		if (partialprogress) {
 			currentExtractedFilesSize += readBytes;
 			progress(float(currentExtractedFilesSize) / extractedFilesSize);
@@ -399,7 +394,6 @@ void LibArchiveInterface::copyData( struct archive *source, struct archive *dest
 			kDebug() << "Error while extracting..." << archive_error_string( dest ) << "(error nb =" << archive_errno( dest ) << ')';
 			return;
 		}
-
 
 		if (partialprogress) {
 			currentExtractedFilesSize += readBytes;
@@ -429,7 +423,6 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 	}
 
 	m_writtenFiles.clear();
-
 
 	if (!creatingNewFile) {
 		//*********initialize the reader
@@ -515,12 +508,14 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 	//**************** first write the new files
 	foreach(const QString& selectedFile, files) {
 		bool success;
+
 		success = writeFile(selectedFile, arch_writer, entry);
+
 		if (!success){
 			return false;
 		}
-		if (QFileInfo(selectedFile).isDir()) {
 
+		if (QFileInfo(selectedFile).isDir()) {
 			QDirIterator it(selectedFile, QDirIterator::Subdirectories);
 
 			while (it.hasNext()) {
@@ -533,9 +528,7 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 				if (!success){
 					return false;
 				}
-				
 			}
-
 		}
 	}
 
@@ -544,7 +537,6 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 		//********** copy old elements from previous archive to new archive
 		while ( archive_read_next_header( arch_reader, &entry ) == ARCHIVE_OK )
 		{
-
 			if (m_writtenFiles.contains(QFile::decodeName(archive_entry_pathname(entry)))) {
 				archive_read_data_skip( arch_reader );
 				kDebug( 1601 ) << "Entry already existing, will be refresh: ===> " << archive_entry_pathname(entry);
@@ -553,7 +545,6 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 
 			//kDebug(1601) << "Writing entry " << fn;
 			if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )
-
 				//if the whole archive is extracted and the total filesize is
 				//available, we use partial progress
 				copyData( arch_reader, arch_writer, false); 
@@ -578,8 +569,8 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 	}
 
 	QFile::rename(tempFilename, filename());
-	return true;
 
+	return true;
 }
 
 bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arch_writer, struct archive_entry* entry)
@@ -609,10 +600,9 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
 
 	emitEntryFromArchiveEntry(entry);
 	archive_entry_clear( entry );
+
 	return true;
-
 }
-
 
 bool LibArchiveInterface::deleteFiles( const QList<QVariant> & files )
 {
@@ -664,6 +654,7 @@ bool LibArchiveInterface::deleteFiles( const QList<QVariant> & files )
 			error(i18n("The compression type '%1' is not supported by Ark.", QString(archive_compression_name(arch_reader))));
 			return false;
 	}
+
 	if (ret != ARCHIVE_OK) {
 		error(i18n("Setting compression failed with the error '%1'", QString(archive_error_string( arch_writer ))));
 		return false;
@@ -680,7 +671,6 @@ bool LibArchiveInterface::deleteFiles( const QList<QVariant> & files )
 	//********** copy old elements from previous archive to new archive
 	while ( archive_read_next_header( arch_reader, &entry ) == ARCHIVE_OK )
 	{
-
 		if (files.contains(QFile::decodeName(archive_entry_pathname(entry)))) {
 			archive_read_data_skip( arch_reader );
 			kDebug( 1601 ) << "Entry to be deleted, skipping" << archive_entry_pathname(entry);
