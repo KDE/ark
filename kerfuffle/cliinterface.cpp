@@ -21,22 +21,21 @@
 
 #include "cliinterface.h"
 
-#include <QFile>
-#include <QDir>
-#include <QDateTime>
 #include <KProcess>
 #include <KStandardDirs>
 #include <KDebug>
 #include <KLocale>
+
+#include <QApplication>
+#include <QDateTime>
+#include <QDir>
 #include <QEventLoop>
+#include <QFile>
 #include <QThread>
 #include <QTimer>
 
-#include <QApplication>
-
 namespace Kerfuffle
 {
-
 	CliInterface::CliInterface( const QString& filename, QObject *parent)
 		: ReadWriteArchiveInterface(filename, parent),
 		m_process(0)
@@ -82,18 +81,17 @@ namespace Kerfuffle
 
 	bool CliInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
 	{
-
 		kDebug( 1601) ;
 		cacheParameterList();
 
 		m_mode = Copy;
-
 
 		bool ret = findProgramAndCreateProcess(m_param.value(ExtractProgram).toString());
 		if (!ret) {
 			failOperation();
 			return false;
 		}
+
 		//start preparing the argument list
 		QStringList args = m_param.value(ExtractArgs).toStringList();
 
@@ -129,7 +127,6 @@ namespace Kerfuffle
 			}
 
 			if (argument == "$PasswordSwitch") {
-
 				//if the PasswordSwitch argument has been added, we at least
 				//assume that the format of the switch has been added as well
 				Q_ASSERT(m_param.contains(PasswordSwitch));
@@ -171,11 +168,9 @@ namespace Kerfuffle
 					}
 				}
 				--i; //decrement to compensate for the variable we replaced
-
 			}
 
 			if (argument == "$RootNodeSwitch") {
-
 				//if the RootNodeSwitch argument has been added, we at least
 				//assume that the format of the switch has been added as well
 				Q_ASSERT(m_param.contains(RootNodeSwitch));
@@ -206,9 +201,7 @@ namespace Kerfuffle
 					}
 				}
 				--i; //decrement to compensate for the variable we replaced
-
 			}
-
 
 			if (argument == "$Files") {
 				args.removeAt(i);
@@ -227,7 +220,6 @@ namespace Kerfuffle
 
 		return true;
 	}
-
 
 	bool CliInterface::addFiles( const QStringList & files, const CompressionOptions& options )
 	{
@@ -270,7 +262,6 @@ namespace Kerfuffle
 				}
 				--i;
 			}
-
 		}
 
 		executeProcess(m_program, args);
@@ -312,7 +303,6 @@ namespace Kerfuffle
 				}
 				--i;
 			}
-
 		}
 
 		m_removedFiles = files;
@@ -341,6 +331,7 @@ namespace Kerfuffle
 
 		if (QMetaType::type("QProcess::ExitStatus") == 0)
 			qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
+
 		return true;
 	}
 
@@ -355,7 +346,6 @@ namespace Kerfuffle
 
 		return true;
 	}
-
 
 	void CliInterface::started()
 	{
@@ -380,7 +370,6 @@ namespace Kerfuffle
 			foreach(const QVariant& v, m_removedFiles) {
 				entryRemoved(v.toString());
 			}
-
 		}
 
 		//handle all the remaining data in the process
@@ -475,12 +464,9 @@ namespace Kerfuffle
 		}
 
 		foreach( const QByteArray& line, lines) {
-
 			if (!line.isEmpty())
 				handleLine(QString::fromLocal8Bit(line));
-
 		}
-
 	}
 
 	void CliInterface::handleLine(const QString& line)
@@ -497,8 +483,6 @@ namespace Kerfuffle
 		}
 
 		if (m_mode == Copy) {
-
-
 			if (checkForErrorMessage(line, WrongPasswordPatterns)) {
 				kDebug(1601) << "Wrong password!";
 				error(i18n("Incorrect password."));
@@ -516,7 +500,6 @@ namespace Kerfuffle
 
 			if (handleFileExistsMessage(line))
 				return;
-
 		}
 
 		if (m_mode == List) {
