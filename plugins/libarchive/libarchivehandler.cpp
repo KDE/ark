@@ -111,8 +111,6 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 
 	const bool extractAll = files.isEmpty();
 	const bool preservePaths = options.value("PreservePaths").toBool();
-	QStringList overwriteAllDirectories;  // directories to overwrite all files (not recursive)
-	QStringList skipAllDirectories;  // directories to skipp all files (not recursive)
 
 	//TODO: don't leak these if the extraction fails with an error in the
 	//middle
@@ -164,6 +162,9 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 		totalCount = files.size();
 	m_currentExtractedFilesSize = 0;
 
+	bool overwriteAll = false; // Whether to overwrite all files
+	bool skipAll = false; // Whether to skip all files
+
 	while ( archive_read_next_header( arch, &entry ) == ARCHIVE_OK )
 	{
         //retry with renamed entry, fire an overwrite query again if the new entry also exists
@@ -214,23 +215,16 @@ retry:
 				archive_entry_copy_pathname( entry, QFile::encodeName(truncatedFilename).constData() );
 
 				entryFI = QFileInfo(truncatedFilename);
-			} else  {
-				//this is the more normal case. We just set the pathname to
-				//wherever entryFI points to.
-				//archive_entry_copy_pathname( entry, QFile::encodeName(entryFI.filePath()).constData() );
-			}
-
-			// skip if the file is in one of the auto skip directories
-			if (skipAllDirectories.contains(entryFI.canonicalPath())) {
-				archive_read_data_skip( arch );
-				archive_entry_clear( entry );
-				continue;
 			}
 
 			//now check if the file about to be written already exists
-			if (!entryIsDir &&
-				!overwriteAllDirectories.contains(entryFI.canonicalPath())) {
-				if (entryFI.exists()) {
+			if (!entryIsDir && entryFI.exists()) {
+				if (skipAll) {
+					archive_read_data_skip( arch );
+					archive_entry_clear( entry );
+					continue;
+				}
+				else if (!overwriteAll && !skipAll) {
 					Kerfuffle::OverwriteQuery query(entryName);
 					userQuery(&query);
 					query.waitForResponse();
@@ -240,28 +234,25 @@ retry:
 						archive_entry_clear( entry );
 						break;
 					}
-					if (query.responseSkip()) {
+					else if (query.responseSkip()) {
 						archive_read_data_skip( arch );
 						archive_entry_clear( entry );
 						continue;
 					}
-
-					if (query.responseAutoSkip()) {
+					else if (query.responseAutoSkip()) {
 						archive_read_data_skip( arch );
 						archive_entry_clear( entry );
-						skipAllDirectories << entryFI.canonicalPath();
+						skipAll = true;
 						continue;
 					}
-
-					if (query.responseRename()) {
+					else if (query.responseRename()) {
 						QString newName = query.newFilename();
 						archive_entry_copy_pathname(entry, QFile::encodeName(newName).constData());
-                        goto retry;
+						goto retry;
 					}
-
-
-					if (query.responseOverwriteAll())
-						overwriteAllDirectories << entryFI.canonicalPath();
+					else if (query.responseOverwriteAll()) {
+						overwriteAll = true;
+					}
 				}
 			}
 
