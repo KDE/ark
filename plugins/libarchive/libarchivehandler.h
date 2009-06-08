@@ -28,35 +28,36 @@
 #define LIBARCHIVEHANDLER_H
 
 #include "kerfuffle/archiveinterface.h"
+#include <QList>
+#include <QStringList>
 
 using namespace Kerfuffle;
 
 class LibArchiveInterface: public ReadWriteArchiveInterface
 {
 	Q_OBJECT
+
 	public:
 		explicit LibArchiveInterface( const QString & filename, QObject *parent = 0 );
 		~LibArchiveInterface();
 
 		bool list();
 		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options );
-
 		bool addFiles( const QStringList & files, const CompressionOptions& options );
 		bool deleteFiles( const QList<QVariant> & files );
 
 	private:
+		void emitEntryFromArchiveEntry( struct archive_entry *entry );
 		int extractionFlags() const;
 		void copyData( struct archive *source, struct archive *dest, bool partialprogress = true );
 		void copyData( QString filename, struct archive *dest, bool partialprogress = true );
-		void emitEntryFromArchiveEntry(struct archive_entry *entry);
-		bool writeFile(const QString& fileName, struct archive* arch, struct archive_entry* entry);
+		bool writeFile( const QString& fileName, struct archive* arch, struct archive_entry* entry );
 
-
-		int cachedArchiveEntryCount;
-		qlonglong extractedFilesSize;
-		qlonglong currentExtractedFilesSize;
-		bool overwriteAll;
+		int m_cachedArchiveEntryCount;
+		qlonglong m_currentExtractedFilesSize;
 		bool m_emitNoEntries;
+		qlonglong m_extractedFilesSize;
+		bool m_overwriteAll;
 		QStringList m_writtenFiles;
 };
 

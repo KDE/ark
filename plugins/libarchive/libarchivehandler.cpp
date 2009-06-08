@@ -44,41 +44,14 @@
 
 LibArchiveInterface::LibArchiveInterface( const QString & filename, QObject *parent )
 	: ReadWriteArchiveInterface( filename, parent ),
-	cachedArchiveEntryCount(0),
-	extractedFilesSize(0),
+	m_cachedArchiveEntryCount(0),
+	m_extractedFilesSize(0),
 	m_emitNoEntries(false)
 {
 }
 
 LibArchiveInterface::~LibArchiveInterface()
 {
-}
-
-void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry)
-{
-	ArchiveEntry e;
-#ifdef _MSC_VER
-	e[ FileName ] = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w( aentry )));
-#else
-	e[ FileName ] = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w( aentry )));
-#endif
-	e[ InternalID ] = e[ FileName ];
-
-	QString owner = QString( archive_entry_uname( aentry ) );
-	if (!owner.isEmpty()) e[ Owner ] = owner;
-
-	QString group = QString( archive_entry_gname( aentry ) );
-	if (!group.isEmpty()) e[ Group ] = group;
-
-	e[ Size ] = ( qlonglong ) archive_entry_size( aentry );
-	e[ IsDirectory ] = S_ISDIR( archive_entry_mode( aentry ) ); // see stat(2)
-	if ( archive_entry_symlink( aentry ) )
-	{
-		e[ Link ] = archive_entry_symlink( aentry );
-	}
-	e[ Timestamp ] = QDateTime::fromTime_t( archive_entry_mtime( aentry ) );
-
-	entry(e);
 }
 
 bool LibArchiveInterface::list()
@@ -106,15 +79,15 @@ bool LibArchiveInterface::list()
 		return false;
 	}
 	
-	cachedArchiveEntryCount = 0;
-	extractedFilesSize = 0;
+	m_cachedArchiveEntryCount = 0;
+	m_extractedFilesSize = 0;
 
 	while ( ( result = archive_read_next_header( arch, &aentry ) ) == ARCHIVE_OK )
 	{
 		if (!m_emitNoEntries) emitEntryFromArchiveEntry(aentry);
-		extractedFilesSize += ( qlonglong ) archive_entry_size( aentry );
+		m_extractedFilesSize += ( qlonglong ) archive_entry_size( aentry );
 
-		cachedArchiveEntryCount++;
+		m_cachedArchiveEntryCount++;
 		archive_read_data_skip( arch );
 	}
 
@@ -139,7 +112,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 
 	const bool extractAll = files.isEmpty();
 	const bool preservePaths = options.value("PreservePaths").toBool();
-	QStringList overwriteAllDirectories;  // directories to overwrite all files (not recursive)
+	QStringList m_overwriteAllDirectories;  // directories to overwrite all files (not recursive)
 	QStringList skipAllDirectories;  // directories to skipp all files (not recursive)
 
 	//TODO: don't leak these if the extraction fails with an error in the
@@ -176,7 +149,7 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 	int entryNr = 0, totalCount = 0;
 	if (extractAll)
 	{
-		if (!cachedArchiveEntryCount)
+		if (!m_cachedArchiveEntryCount)
 		{
 			progress(0);
 			//TODO: once information progress has been implemented, send
@@ -186,11 +159,11 @@ bool LibArchiveInterface::copyFiles( const QList<QVariant> & files, const QStrin
 			list();
 			m_emitNoEntries = false;
 		}
-		totalCount = cachedArchiveEntryCount;
+		totalCount = m_cachedArchiveEntryCount;
 	}
 	else
 		totalCount = files.size();
-	currentExtractedFilesSize = 0;
+	m_currentExtractedFilesSize = 0;
 
 	while ( archive_read_next_header( arch, &entry ) == ARCHIVE_OK )
 	{
@@ -258,7 +231,7 @@ retry:
 
 			//now check if the file about to be written already exists
 			if (!entryIsDir &&
-				!overwriteAllDirectories.contains(entryFI.canonicalPath())) {
+				!m_overwriteAllDirectories.contains(entryFI.canonicalPath())) {
 				if (entryFI.exists()) {
 					Kerfuffle::OverwriteQuery query(entryName);
 					userQuery(&query);
@@ -290,7 +263,7 @@ retry:
 
 
 					if (query.responseOverwriteAll())
-						overwriteAllDirectories << entryFI.canonicalPath();
+						m_overwriteAllDirectories << entryFI.canonicalPath();
 				}
 			}
 
@@ -299,7 +272,7 @@ retry:
 			if ( (header_response = archive_write_header( writer, entry )) == ARCHIVE_OK )
 				//if the whole archive is extracted and the total filesize is
 				//available, we use partial progress
-				copyData( arch, writer, (extractAll && extractedFilesSize) ); 
+				copyData( arch, writer, (extractAll && m_extractedFilesSize) ); 
 			else {
 				kDebug( 1601 ) << "Writing header failed with error code " << header_response
 				<< "While attempting to write " << fileWithoutPath;
@@ -309,7 +282,7 @@ retry:
 			//if we only partially extract the archive and the number of
 			//archive entries is available we use a simple progress based on
 			//number of items extracted
-			if (!extractAll && cachedArchiveEntryCount)
+			if (!extractAll && m_cachedArchiveEntryCount)
 			{
 				++entryNr;
 				progress(float(entryNr) / totalCount);
@@ -329,79 +302,6 @@ retry:
 #else
 	return true;
 #endif
-}
-
-int LibArchiveInterface::extractionFlags() const
-{
-	int result = ARCHIVE_EXTRACT_TIME;
-	result |= ARCHIVE_EXTRACT_SECURE_NODOTDOT;
-
-	// TODO: Don't use arksettings here
-	/*if ( ArkSettings::preservePerms() )
-	{
-		result &= ARCHIVE_EXTRACT_PERM;
-	}
-
-	if ( !ArkSettings::extractOverwrite() )
-	{
-		result &= ARCHIVE_EXTRACT_NO_OVERWRITE;
-	}*/
-
-	return result;
-}
-
-void LibArchiveInterface::copyData( QString filename, struct archive *dest, bool partialprogress )
-{
-	char buff[ARCHIVE_DEFAULT_BYTES_PER_BLOCK];
-	ssize_t readBytes;
-	QFile file(filename);
-
-	if (!file.open(QIODevice::ReadOnly))
-		return;
-
-	readBytes = file.read( buff, sizeof(buff) );
-	while(readBytes > 0)
-	{
-	   /* int writeBytes = */ 
-		archive_write_data( dest, buff, readBytes );
-		if( archive_errno( dest ) != ARCHIVE_OK ) {
-			kDebug() << "Error while writing..." << archive_error_string( dest ) << "(error nb =" << archive_errno( dest ) << ')';
-			return;
-		}
-
-		if (partialprogress) {
-			currentExtractedFilesSize += readBytes;
-			progress(float(currentExtractedFilesSize) / extractedFilesSize);
-		}
-
-		readBytes = file.read( buff, sizeof(buff) );
-	}
-
-	file.close();
-}
-
-void LibArchiveInterface::copyData( struct archive *source, struct archive *dest, bool partialprogress )
-{
-	char buff[ARCHIVE_DEFAULT_BYTES_PER_BLOCK];
-	ssize_t readBytes;
-
-	readBytes = archive_read_data( source, buff, sizeof(buff) );
-	while(readBytes > 0)
-	{
-	   /* int writeBytes = */ 
-		archive_write_data( dest, buff, readBytes );
-		if( archive_errno( dest ) != ARCHIVE_OK ) {
-			kDebug() << "Error while extracting..." << archive_error_string( dest ) << "(error nb =" << archive_errno( dest ) << ')';
-			return;
-		}
-
-		if (partialprogress) {
-			currentExtractedFilesSize += readBytes;
-			progress(float(currentExtractedFilesSize) / extractedFilesSize);
-		}
-
-		readBytes = archive_read_data( source, buff, sizeof(buff) );
-	}
 }
 
 bool LibArchiveInterface::addFiles( const QStringList & files, const CompressionOptions& options )
@@ -522,7 +422,7 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 				QString path = it.next();
 				if (it.fileName() == ".." || it.fileName() == ".") continue;
 
-				success = writeFile(path + 
+				success = writeFile(path +
 						(it.fileInfo().isDir() ? "/" : "")
 						, arch_writer, entry);
 				if (!success){
@@ -547,7 +447,7 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 			if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )
 				//if the whole archive is extracted and the total filesize is
 				//available, we use partial progress
-				copyData( arch_reader, arch_writer, false); 
+				copyData( arch_reader, arch_writer, false);
 			else {
 				kDebug( 1601 ) << "Writing header failed with error code " << header_response;
 				return false;
@@ -569,37 +469,6 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 	}
 
 	QFile::rename(tempFilename, filename());
-
-	return true;
-}
-
-bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arch_writer, struct archive_entry* entry)
-{
-	KDE_struct_stat st;
-	int header_response;
-
-	bool trailingSlash = fileName.endsWith('/');
-	QString relativeName = QDir::current().relativeFilePath(fileName) + (trailingSlash ? "/" : "");
-
-	KDE_stat(QFile::encodeName(relativeName).constData(), &st);
-	archive_entry_copy_stat(entry, &st);
-	archive_entry_copy_pathname( entry, QFile::encodeName(relativeName).constData() );
-
-	kDebug( 1601 ) << "Writing new entry " << archive_entry_pathname(entry);
-	if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )
-		//if the whole archive is extracted and the total filesize is
-		//available, we use partial progress
-		copyData( fileName, arch_writer, false); 
-	else {
-		kDebug( 1601 ) << "Writing header failed with error code " << header_response;
-		kDebug() << "Error while writing..." << archive_error_string( arch_writer ) << "(error nb =" << archive_errno( arch_writer ) << ')';
-		return false;
-	}
-
-	m_writtenFiles.push_back(relativeName);
-
-	emitEntryFromArchiveEntry(entry);
-	archive_entry_clear( entry );
 
 	return true;
 }
@@ -683,7 +552,7 @@ bool LibArchiveInterface::deleteFiles( const QList<QVariant> & files )
 
 			//if the whole archive is extracted and the total filesize is
 			//available, we use partial progress
-			copyData( arch_reader, arch_writer, false); 
+			copyData( arch_reader, arch_writer, false);
 		else {
 			kDebug( 1601 ) << "Writing header failed with error code " << header_response;
 			return false;
@@ -700,8 +569,139 @@ bool LibArchiveInterface::deleteFiles( const QList<QVariant> & files )
 	//the new one.
 	//TODO: do some extra checks to see if this is really OK
 	QFile::remove(filename());
-
 	QFile::rename(tempFilename, filename());
+
+	return true;
+}
+
+void LibArchiveInterface::emitEntryFromArchiveEntry( struct archive_entry *aentry )
+{
+	ArchiveEntry e;
+#ifdef _MSC_VER
+	e[ FileName ] = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w( aentry )));
+#else
+	e[ FileName ] = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w( aentry )));
+#endif
+	e[ InternalID ] = e[ FileName ];
+
+	QString owner = QString( archive_entry_uname( aentry ) );
+	if (!owner.isEmpty()) e[ Owner ] = owner;
+
+	QString group = QString( archive_entry_gname( aentry ) );
+	if (!group.isEmpty()) e[ Group ] = group;
+
+	e[ Size ] = ( qlonglong ) archive_entry_size( aentry );
+	e[ IsDirectory ] = S_ISDIR( archive_entry_mode( aentry ) ); // see stat(2)
+	if ( archive_entry_symlink( aentry ) )
+	{
+		e[ Link ] = archive_entry_symlink( aentry );
+	}
+	e[ Timestamp ] = QDateTime::fromTime_t( archive_entry_mtime( aentry ) );
+
+	entry(e);
+}
+
+int LibArchiveInterface::extractionFlags() const
+{
+	int result = ARCHIVE_EXTRACT_TIME;
+	result |= ARCHIVE_EXTRACT_SECURE_NODOTDOT;
+
+	// TODO: Don't use arksettings here
+	/*if ( ArkSettings::preservePerms() )
+	{
+		result &= ARCHIVE_EXTRACT_PERM;
+	}
+
+	if ( !ArkSettings::extractOverwrite() )
+	{
+		result &= ARCHIVE_EXTRACT_NO_OVERWRITE;
+	}*/
+
+	return result;
+}
+
+void LibArchiveInterface::copyData( QString filename, struct archive *dest, bool partialprogress )
+{
+	char buff[ARCHIVE_DEFAULT_BYTES_PER_BLOCK];
+	ssize_t readBytes;
+	QFile file(filename);
+
+	if (!file.open(QIODevice::ReadOnly))
+		return;
+
+	readBytes = file.read( buff, sizeof(buff) );
+	while(readBytes > 0)
+	{
+	   /* int writeBytes = */ 
+		archive_write_data( dest, buff, readBytes );
+		if( archive_errno( dest ) != ARCHIVE_OK ) {
+			kDebug() << "Error while writing..." << archive_error_string( dest ) << "(error nb =" << archive_errno( dest ) << ')';
+			return;
+		}
+
+		if (partialprogress) {
+			m_currentExtractedFilesSize += readBytes;
+			progress(float(m_currentExtractedFilesSize) / m_extractedFilesSize);
+		}
+
+		readBytes = file.read( buff, sizeof(buff) );
+	}
+
+	file.close();
+}
+
+void LibArchiveInterface::copyData( struct archive *source, struct archive *dest, bool partialprogress )
+{
+	char buff[ARCHIVE_DEFAULT_BYTES_PER_BLOCK];
+	ssize_t readBytes;
+
+	readBytes = archive_read_data( source, buff, sizeof(buff) );
+	while(readBytes > 0)
+	{
+	   /* int writeBytes = */ 
+		archive_write_data( dest, buff, readBytes );
+		if( archive_errno( dest ) != ARCHIVE_OK ) {
+			kDebug() << "Error while extracting..." << archive_error_string( dest ) << "(error nb =" << archive_errno( dest ) << ')';
+			return;
+		}
+
+		if (partialprogress) {
+			m_currentExtractedFilesSize += readBytes;
+			progress(float(m_currentExtractedFilesSize) / m_extractedFilesSize);
+		}
+
+		readBytes = archive_read_data( source, buff, sizeof(buff) );
+	}
+}
+
+bool LibArchiveInterface::writeFile( const QString& fileName, struct archive* arch_writer, struct archive_entry* entry )
+{
+	KDE_struct_stat st;
+	int header_response;
+
+	bool trailingSlash = fileName.endsWith('/');
+	QString relativeName = QDir::current().relativeFilePath(fileName) + (trailingSlash ? "/" : "");
+
+	KDE_stat(QFile::encodeName(relativeName).constData(), &st);
+	archive_entry_copy_stat(entry, &st);
+	archive_entry_copy_pathname( entry, QFile::encodeName(relativeName).constData() );
+
+	kDebug( 1601 ) << "Writing new entry " << archive_entry_pathname(entry);
+	if ( (header_response = archive_write_header( arch_writer, entry )) == ARCHIVE_OK )
+		//if the whole archive is extracted and the total filesize is
+		//available, we use partial progress
+		copyData( fileName, arch_writer, false); 
+	else {
+		kDebug( 1601 ) << "Writing header failed with error code " << header_response;
+		kDebug() << "Error while writing..." << archive_error_string( arch_writer ) << "(error nb =" << archive_errno( arch_writer ) << ')';
+		return false;
+	}
+
+	m_writtenFiles.push_back(relativeName);
+
+	emitEntryFromArchiveEntry(entry);
+	archive_entry_clear( entry );
+
 	return true;
 }
 
