@@ -49,7 +49,8 @@ ParameterList CliPlugin::parameterList() const
 
 	if (p.isEmpty()) {
 		p[CaptureProgress] = true;
-		p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = "rar";
+		p[ListProgram] = p[ExtractProgram] = "unrar";
+		p[DeleteProgram] = p[AddProgram] = "rar";
 
 		p[ListArgs] = QStringList() << "v" << "-c-" << "$Archive";
 		p[ExtractArgs] = QStringList() << "-p-" << "$PreservePathSwitch" << "$PasswordSwitch" << "$RootNodeSwitch" << "$Archive" << "$Files";
