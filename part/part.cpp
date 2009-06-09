@@ -108,6 +108,8 @@ Part::Part( QWidget *parentWidget, QObject *parent, const QStringList& args )
 
 Part::~Part()
 {
+	m_extractFilesAction->menu()->deleteLater();
+
     delete m_previewDir;
     m_previewDir = 0;
 }
@@ -265,8 +267,6 @@ void Part::updateActions()
 		QAction *newAction = m->addAction(KUrl(dirHistory.at(i)).path());
 		newAction->setData(KUrl(dirHistory.at(i)).path());
 	}
-
-
 }
 
 void Part::slotQuickExtractFiles(QAction *triggeredAction)
