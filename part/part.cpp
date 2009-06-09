@@ -338,7 +338,7 @@ bool Part::openFile()
 
 	// TODO Post 4.3 string freeze:
 	//      the isReadOnly check must be separate; see addtoarchive.cpp
-	if (!archive || (arguments().metaData()["createNewArchive"] == "true" && !archive->isReadOnly())) {
+	if (!archive || (arguments().metaData()["createNewArchive"] == "true" && archive->isReadOnly())) {
 		QStringList mimeTypeList;
 		QHash<QString, QString> mimeTypes;
 
