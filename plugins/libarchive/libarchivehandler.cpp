@@ -606,7 +606,7 @@ int LibArchiveInterface::extractionFlags() const
 	return result;
 }
 
-void LibArchiveInterface::copyData( QString filename, struct archive *dest, bool partialprogress )
+void LibArchiveInterface::copyData( const QString& filename, struct archive *dest, bool partialprogress )
 {
 	char buff[ARCHIVE_DEFAULT_BYTES_PER_BLOCK];
 	ssize_t readBytes;
