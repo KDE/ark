@@ -363,7 +363,6 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 			error(i18n("Setting format failed with the error '%1'", QString(archive_error_string( arch_writer ))));
 			return false;
 		}
-
 	} else {
 		switch (archive_compression(arch_reader)) {
 			case ARCHIVE_COMPRESSION_GZIP:
@@ -399,12 +398,11 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 
 		success = writeFile(selectedFile, arch_writer, entry);
 
-		if (!success){
+		if (!success)
 			return false;
-		}
 
 		if (QFileInfo(selectedFile).isDir()) {
-			QDirIterator it(selectedFile, QDirIterator::Subdirectories);
+			QDirIterator it(selectedFile, QDir::AllEntries | QDir::Readable | QDir::Hidden, QDirIterator::Subdirectories);
 
 			while (it.hasNext()) {
 				QString path = it.next();
@@ -413,9 +411,9 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 				success = writeFile(path +
 						(it.fileInfo().isDir() ? "/" : "")
 						, arch_writer, entry);
-				if (!success){
+
+				if (!success)
 					return false;
-				}
 			}
 		}
 	}
