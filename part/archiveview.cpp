@@ -29,105 +29,104 @@
 #include <KGlobalSettings>
 
 ArchiveView::ArchiveView(QWidget *parent)
-	: QTreeView(parent)
-	, m_mouseButtons(Qt::NoButton)
+        : QTreeView(parent)
+        , m_mouseButtons(Qt::NoButton)
 {
-	connect(this, SIGNAL(pressed(QModelIndex)),
-		SLOT(updateMouseButtons()));
-	connect(this, SIGNAL(clicked(const QModelIndex&)),
-		SLOT(slotClicked(const QModelIndex&)));
-	connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-		SLOT(slotDoubleClicked(const QModelIndex&)));
+    connect(this, SIGNAL(pressed(QModelIndex)),
+            SLOT(updateMouseButtons()));
+    connect(this, SIGNAL(clicked(const QModelIndex&)),
+            SLOT(slotClicked(const QModelIndex&)));
+    connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
+            SLOT(slotDoubleClicked(const QModelIndex&)));
 }
 
 // FIXME: this is a workaround taken from Dolphin until Qt-issue 176832 is resolved
 void ArchiveView::updateMouseButtons()
 {
-	m_mouseButtons = QApplication::mouseButtons();
+    m_mouseButtons = QApplication::mouseButtons();
 }
 
 void ArchiveView::slotClicked(const QModelIndex& index)
 {
-	if (KGlobalSettings::singleClick())
-	{
-		if (m_mouseButtons != Qt::LeftButton) // FIXME: see Qt-issue 176832
-			return;
+    if (KGlobalSettings::singleClick()) {
+        if (m_mouseButtons != Qt::LeftButton) // FIXME: see Qt-issue 176832
+            return;
 
-		// If the user is pressing shift or control, more than one item is being selected
-		const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
-		if ((modifier & Qt::ShiftModifier) || (modifier & Qt::ControlModifier))
-			return;
+        // If the user is pressing shift or control, more than one item is being selected
+        const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
+        if ((modifier & Qt::ShiftModifier) || (modifier & Qt::ControlModifier))
+            return;
 
-		emit itemTriggered(index);
-	}
+        emit itemTriggered(index);
+    }
 }
 
 void ArchiveView::slotDoubleClicked(const QModelIndex& index)
 {
-	if (!KGlobalSettings::singleClick())
-		emit itemTriggered(index);
+    if (!KGlobalSettings::singleClick())
+        emit itemTriggered(index);
 }
 
 void ArchiveView::setModel(QAbstractItemModel *model)
 {
-	kDebug (1601) ;
-	QTreeView::setModel(model);
-	setSelectionMode( QAbstractItemView::ExtendedSelection );
-	setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
-	setAlternatingRowColors( true );
-	setAnimated( true );
-	setAllColumnsShowFocus( true );
-	setSortingEnabled(true);
+    kDebug(1601) ;
+    QTreeView::setModel(model);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    setAlternatingRowColors(true);
+    setAnimated(true);
+    setAllColumnsShowFocus(true);
+    setSortingEnabled(true);
 
-	//drag and drop
-	setDragEnabled(true);
-	setAcceptDrops(true);
-	setDropIndicatorShown(true);
-	setDragDropMode(QAbstractItemView::DragDrop);
+    //drag and drop
+    setDragEnabled(true);
+    setAcceptDrops(true);
+    setDropIndicatorShown(true);
+    setDragDropMode(QAbstractItemView::DragDrop);
 }
 
-void ArchiveView::startDrag( Qt::DropActions supportedActions )
+void ArchiveView::startDrag(Qt::DropActions supportedActions)
 {
-	kDebug( 1601 ) << "Singling out the current selection...";
-	//selectionModel()->setCurrentIndex(currentIndex(), QItemSelectionModel::Clear);
-	selectionModel()->setCurrentIndex(currentIndex(), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
-	QTreeView::startDrag(supportedActions);
+    kDebug(1601) << "Singling out the current selection...";
+    //selectionModel()->setCurrentIndex(currentIndex(), QItemSelectionModel::Clear);
+    selectionModel()->setCurrentIndex(currentIndex(), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+    QTreeView::startDrag(supportedActions);
 }
 
 
-void ArchiveView::dragEnterEvent ( QDragEnterEvent * event )
+void ArchiveView::dragEnterEvent(QDragEnterEvent * event)
 {
-	//TODO: if no model, trigger some mechanism to create one automatically!
-	kDebug(1601) << event;
+    //TODO: if no model, trigger some mechanism to create one automatically!
+    kDebug(1601) << event;
 
-	if (event->source() == this) {
-		//we don't support internal drops yet.
-		return;
-	}
+    if (event->source() == this) {
+        //we don't support internal drops yet.
+        return;
+    }
 
-	QTreeView::dragEnterEvent(event);
+    QTreeView::dragEnterEvent(event);
 }
 
-void ArchiveView::dropEvent ( QDropEvent * event )
+void ArchiveView::dropEvent(QDropEvent * event)
 {
-	kDebug(1601) << event;
+    kDebug(1601) << event;
 
-	if (event->source() == this) {
-		//we don't support internal drops yet.
-		return;
-	}
+    if (event->source() == this) {
+        //we don't support internal drops yet.
+        return;
+    }
 
-	QTreeView::dropEvent(event);
+    QTreeView::dropEvent(event);
 }
 
-void ArchiveView::dragMoveEvent ( QDragMoveEvent * event )
+void ArchiveView::dragMoveEvent(QDragMoveEvent * event)
 {
-	if (event->source() == this) {
-		//we don't support internal drops yet.
-		return;
-	}
+    if (event->source() == this) {
+        //we don't support internal drops yet.
+        return;
+    }
 
-	QTreeView::dragMoveEvent(event);
-	if (event->mimeData()->hasFormat("text/uri-list"))
-		event->acceptProposedAction();
+    QTreeView::dragMoveEvent(event);
+    if (event->mimeData()->hasFormat("text/uri-list"))
+        event->acceptProposedAction();
 }

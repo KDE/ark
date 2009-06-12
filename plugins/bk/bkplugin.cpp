@@ -24,113 +24,104 @@
 #include <QFile>
 #include <KDebug>
 
-BKInterface::BKInterface( const QString & filename, QObject *parent )
-	: ReadWriteArchiveInterface( filename, parent )
+BKInterface::BKInterface(const QString & filename, QObject *parent)
+        : ReadWriteArchiveInterface(filename, parent)
 {
 }
 
 BKInterface::~BKInterface()
 {
-	bk_destroy_vol_info( &m_volInfo );
+    bk_destroy_vol_info(&m_volInfo);
 }
 
 bool BKInterface::list()
 {
-	int rc;
+    int rc;
 
-	rc = bk_init_vol_info( &m_volInfo, true );
-	if ( rc <= 0 ) return false;
+    rc = bk_init_vol_info(&m_volInfo, true);
+    if (rc <= 0) return false;
 
-	rc = bk_open_image( &m_volInfo, filename().toAscii().constData() );
-	if ( rc <= 0 ) return false;
+    rc = bk_open_image(&m_volInfo, filename().toAscii().constData());
+    if (rc <= 0) return false;
 
-	rc = bk_read_vol_info( &m_volInfo );
-	if ( rc <= 0 ) return false;
+    rc = bk_read_vol_info(&m_volInfo);
+    if (rc <= 0) return false;
 
-	if(m_volInfo.filenameTypes & FNTYPE_ROCKRIDGE)
-		rc = bk_read_dir_tree( &m_volInfo, FNTYPE_ROCKRIDGE, true, 0 );
-	else if(m_volInfo.filenameTypes & FNTYPE_JOLIET)
-		rc = bk_read_dir_tree( &m_volInfo, FNTYPE_JOLIET, false, 0 );
-	else
-		rc = bk_read_dir_tree( &m_volInfo, FNTYPE_9660, false, 0 );
-	if(rc <= 0) return false;
+    if (m_volInfo.filenameTypes & FNTYPE_ROCKRIDGE)
+        rc = bk_read_dir_tree(&m_volInfo, FNTYPE_ROCKRIDGE, true, 0);
+    else if (m_volInfo.filenameTypes & FNTYPE_JOLIET)
+        rc = bk_read_dir_tree(&m_volInfo, FNTYPE_JOLIET, false, 0);
+    else
+        rc = bk_read_dir_tree(&m_volInfo, FNTYPE_9660, false, 0);
+    if (rc <= 0) return false;
 
-	return browse( BK_BASE_PTR( &( m_volInfo.dirTree ) ) );
+    return browse(BK_BASE_PTR(&(m_volInfo.dirTree)));
 }
 
-bool BKInterface::copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options )
+bool BKInterface::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options)
 {
-	//TODO: this var should be used!
-	const bool preservePaths = flags & Archive::PreservePaths;
+    //TODO: this var should be used!
+    const bool preservePaths = flags & Archive::PreservePaths;
 
-	foreach( const QVariant& file, files )
-	{
-		int rc;
+    foreach(const QVariant& file, files) {
+        int rc;
 
-		kDebug( 1601 ) << "Trying to extract " << file.toByteArray() ;
-		rc = bk_extract( &m_volInfo, file.toByteArray(), QFile::encodeName( destinationDirectory ), true, 0 );
-		if ( rc <= 0 )
-		{
-			error( QString( "Could not extract '%1'" ).arg( file.toString() ) );
-			return false;
-		}
-	}
-	return true;
+        kDebug(1601) << "Trying to extract " << file.toByteArray() ;
+        rc = bk_extract(&m_volInfo, file.toByteArray(), QFile::encodeName(destinationDirectory), true, 0);
+        if (rc <= 0) {
+            error(QString("Could not extract '%1'").arg(file.toString()));
+            return false;
+        }
+    }
+    return true;
 }
 
-bool BKInterface::browse( BkFileBase* base, const QString& prefix )
+bool BKInterface::browse(BkFileBase* base, const QString& prefix)
 {
-	QString name( base->name );
-	QString fullpath = prefix.isEmpty()? name : prefix + '/' + name;
-	if ( !name.isEmpty() )
-	{
-		ArchiveEntry e;
-		e[ FileName ] = fullpath;
-		e[ InternalID ] = '/'+fullpath;
+    QString name(base->name);
+    QString fullpath = prefix.isEmpty() ? name : prefix + '/' + name;
+    if (!name.isEmpty()) {
+        ArchiveEntry e;
+        e[ FileName ] = fullpath;
+        e[ InternalID ] = '/' + fullpath;
 
-		if ( IS_SYMLINK( base->posixFileMode ) )
-		{
-			e[ Link ] = QByteArray( BK_SYMLINK_PTR( base )->target );
-		}
-		if ( IS_REG_FILE( base->posixFileMode ) )
-		{
-			e[ Size ] = ( qulonglong ) BK_FILE_PTR( base )->size;
-		}
-		if ( IS_DIR( base->posixFileMode ) )
-		{
-			e[ IsDirectory ] = true;
-		}
+        if (IS_SYMLINK(base->posixFileMode)) {
+            e[ Link ] = QByteArray(BK_SYMLINK_PTR(base)->target);
+        }
+        if (IS_REG_FILE(base->posixFileMode)) {
+            e[ Size ] = (qulonglong) BK_FILE_PTR(base)->size;
+        }
+        if (IS_DIR(base->posixFileMode)) {
+            e[ IsDirectory ] = true;
+        }
 
-		entry( e );
-	}
+        entry(e);
+    }
 
-	if ( IS_DIR( base->posixFileMode ) )
-	{
-		BkFileBase *child = BK_DIR_PTR( base )->children;
-		while ( child )
-		{
-			if ( !browse( child, fullpath ) )
-			{
-				return false;
-			}
-			child = child->next;
-		}
-	}
+    if (IS_DIR(base->posixFileMode)) {
+        BkFileBase *child = BK_DIR_PTR(base)->children;
+        while (child) {
+            if (!browse(child, fullpath)) {
+                return false;
+            }
+            child = child->next;
+        }
+    }
 
-	return true;
+    return true;
 }
 
-bool BKInterface::addFiles( const QStringList & files, const CompressionOptions& options )
+bool BKInterface::addFiles(const QStringList & files, const CompressionOptions& options)
 {
-	Q_UNUSED(files  );
-  return false;
+    Q_UNUSED(files);
+    return false;
 }
 
-bool BKInterface::deleteFiles( const QList<QVariant> & files )
+bool BKInterface::deleteFiles(const QList<QVariant> & files)
 {
-	Q_UNUSED(files  );
-  return false;
+    Q_UNUSED(files);
+    return false;
 }
 
-KERFUFFLE_PLUGIN_FACTORY( BKInterface )
+KERFUFFLE_PLUGIN_FACTORY(BKInterface)
 

@@ -28,17 +28,17 @@
 
 #include <QString>
 
-LibBzip2Interface::LibBzip2Interface( const QString & filename, QObject *parent )
-	: LibSingleFileInterface( filename, parent )
+LibBzip2Interface::LibBzip2Interface(const QString & filename, QObject *parent)
+        : LibSingleFileInterface(filename, parent)
 {
-	m_mimeType = "application/x-bzip";
-	m_possibleExtensions.append(".bz2");
+    m_mimeType = "application/x-bzip";
+    m_possibleExtensions.append(".bz2");
 }
 
 LibBzip2Interface::~LibBzip2Interface()
 {
 }
 
-KERFUFFLE_PLUGIN_FACTORY( LibBzip2Interface )
+KERFUFFLE_PLUGIN_FACTORY(LibBzip2Interface)
 
 #include "bz2plugin.moc"

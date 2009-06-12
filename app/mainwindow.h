@@ -30,37 +30,37 @@ class KRecentFilesAction;
 
 class MainWindow: public KParts::MainWindow
 {
-	Q_OBJECT
-	public:
-		MainWindow( QWidget *parent = 0 );
-		~MainWindow();
-		bool loadPart();
+    Q_OBJECT
+public:
+    MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+    bool loadPart();
 
-		void dragEnterEvent ( class QDragEnterEvent * event );
-		void dropEvent ( class QDropEvent * event );
-		void dragMoveEvent ( class QDragMoveEvent * event );
+    void dragEnterEvent(class QDragEnterEvent * event);
+    void dropEvent(class QDropEvent * event);
+    void dragMoveEvent(class QDragMoveEvent * event);
 
-	public slots:
-		void openUrl( const KUrl& url );
-		void setShowExtractDialog(bool);
+public slots:
+    void openUrl(const KUrl& url);
+    void setShowExtractDialog(bool);
 
-	private slots:
-		void updateActions();
-		void newArchive();
-		void openArchive();
-		void quit();
+private slots:
+    void updateActions();
+    void newArchive();
+    void openArchive();
+    void quit();
 
-		void editKeyBindings();
-		void editToolbars();
+    void editKeyBindings();
+    void editToolbars();
 
-	private:
-		void setupActions();
+private:
+    void setupActions();
 
-		KParts::ReadWritePart *m_part;
-		KRecentFilesAction    *m_recentFilesAction;
-		QAction               *m_openAction;
-		QAction               *m_newAction;
-		KParts::OpenUrlArguments m_openArgs;
+    KParts::ReadWritePart *m_part;
+    KRecentFilesAction    *m_recentFilesAction;
+    QAction               *m_openAction;
+    QAction               *m_newAction;
+    KParts::OpenUrlArguments m_openArgs;
 };
 
 #endif // MAINWINDOW_H

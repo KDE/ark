@@ -1,6 +1,6 @@
 /******************************* LICENSE **************************************
 * Any code in this file may be redistributed or modified under the terms of
-* the GNU General Public License as published by the Free Software 
+* the GNU General Public License as published by the Free Software
 * Foundation; version 2 of the license.
 ****************************** END LICENSE ***********************************/
 
@@ -11,7 +11,7 @@
 * Copyright 2005-2007 Andrew Smith <andrew-smith@mail.ru>
 *
 * Contributors:
-* 
+*
 ******************************************************************************/
 
 #include <stdbool.h>
@@ -34,9 +34,8 @@
 void bk_delete_boot_record(VolInfo* volInfo)
 {
     volInfo->bootMediaType = BOOT_MEDIA_NONE;
-    
-    if(volInfo->bootRecordPathAndName != NULL)
-    {
+
+    if (volInfo->bootRecordPathAndName != NULL) {
         free(volInfo->bootRecordPathAndName);
         volInfo->bootRecordPathAndName = NULL;
     }
@@ -48,34 +47,31 @@ int bk_delete(VolInfo* volInfo, const char* pathAndName)
     NewPath path;
     bool dirFound;
     BkDir* parentDir;
-    
-    if(path.numChildren == 0)
-    {
+
+    if (path.numChildren == 0) {
         freePathContents(&path);
         return BKERROR_DELETE_ROOT;
     }
-    
+
     rc = makeNewPathFromString(pathAndName, &path);
-    if(rc <= 0)
-    {
+    if (rc <= 0) {
         freePathContents(&path);
         return rc;
     }
-    
+
     /* i want the parent directory */
     path.numChildren--;
     dirFound = findDirByNewPath(&path, &(volInfo->dirTree), &parentDir);
     path.numChildren++;
-    if(!dirFound)
-    {
+    if (!dirFound) {
         freePathContents(&path);
         return BKERROR_DIR_NOT_FOUND_ON_IMAGE;
     }
-    
+
     deleteNode(volInfo, parentDir, path.children[path.numChildren - 1]);
-    
+
     freePathContents(&path);
-    
+
     return 1;
 }
 
@@ -83,31 +79,26 @@ void deleteNode(VolInfo* volInfo, BkDir* parentDir, char* nodeToDeleteName)
 {
     BkFileBase** childPtr;
     BkFileBase* nodeToFree;
-    
+
     childPtr = &(parentDir->children);
-    while(*childPtr != NULL)
-    {
-        if( strcmp((*childPtr)->name, nodeToDeleteName) == 0 )
-        {
+    while (*childPtr != NULL) {
+        if (strcmp((*childPtr)->name, nodeToDeleteName) == 0) {
             nodeToFree = *childPtr;
-            
+
             *childPtr = (*childPtr)->next;
-            
-            if( IS_DIR(nodeToFree->posixFileMode) )
-            {
+
+            if (IS_DIR(nodeToFree->posixFileMode)) {
                 deleteDirContents(volInfo, BK_DIR_PTR(nodeToFree));
-            }
-            else if ( IS_REG_FILE(nodeToFree->posixFileMode) )
-            {
+            } else if (IS_REG_FILE(nodeToFree->posixFileMode)) {
                 deleteRegFileContents(volInfo, BK_FILE_PTR(nodeToFree));
             }
             /* else the free below will be enough */
-            
+
             free(nodeToFree);
-            
+
             break;
         }
-        
+
         childPtr = &((*childPtr)->next);
     }
 }
@@ -121,14 +112,13 @@ void deleteDirContents(VolInfo* volInfo, BkDir* dir)
 {
     BkFileBase* child;
     BkFileBase* nextChild;
-    
+
     child = dir->children;
-    while(child != NULL)
-    {
+    while (child != NULL) {
         nextChild = child->next;
-        
+
         deleteNode(volInfo, dir, child->name);
-        
+
         child = nextChild;
     }
 }
@@ -136,16 +126,14 @@ void deleteDirContents(VolInfo* volInfo, BkDir* dir)
 /* delete the contents of the BkFile structure, not the actual file contents */
 void deleteRegFileContents(VolInfo* volInfo, BkFile* file)
 {
-    if( file->onImage )
-        free( file->pathAndName );
-    
+    if (file->onImage)
+        free(file->pathAndName);
+
     /* check whether file is being used as a boot record */
-    if(volInfo->bootMediaType != BOOT_MEDIA_NONE &&
-       volInfo->bootMediaType == BOOT_MEDIA_NO_EMULATION)
-    {
-        if(volInfo->bootRecordIsVisible && 
-           volInfo->bootRecordOnImage == file)
-        {
+    if (volInfo->bootMediaType != BOOT_MEDIA_NONE &&
+            volInfo->bootMediaType == BOOT_MEDIA_NO_EMULATION) {
+        if (volInfo->bootRecordIsVisible &&
+                volInfo->bootRecordOnImage == file) {
             /* and stop using it. perhaps insert a hook here one day to
             * let the user know the boot record has been/will be deleted */
             bk_delete_boot_record(volInfo);

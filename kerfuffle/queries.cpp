@@ -32,157 +32,152 @@
 
 namespace Kerfuffle
 {
-	Query::Query()
-	{
-		m_responseMutex.lock();
-	}
+Query::Query()
+{
+    m_responseMutex.lock();
+}
 
-	QVariant Query::response()
-	{
-		return m_data.value("response");
-	}
+QVariant Query::response()
+{
+    return m_data.value("response");
+}
 
-	void Query::waitForResponse()
-	{
-		kDebug(1601);
+void Query::waitForResponse()
+{
+    kDebug(1601);
 
-		//if there is no response set yet, wait
-		if (!m_data.contains("response"))
-			m_responseCondition.wait(&m_responseMutex);
-		m_responseMutex.unlock();
-	}
+    //if there is no response set yet, wait
+    if (!m_data.contains("response"))
+        m_responseCondition.wait(&m_responseMutex);
+    m_responseMutex.unlock();
+}
 
-	void Query::setResponse(QVariant response)
-	{
-		kDebug(1601);
+void Query::setResponse(QVariant response)
+{
+    kDebug(1601);
 
-		m_data["response"] = response;
-		m_responseCondition.wakeAll();
-	}
+    m_data["response"] = response;
+    m_responseCondition.wakeAll();
+}
 
-	OverwriteQuery::OverwriteQuery( QString filename) :
-		m_noRenameMode(false),
-		m_multiMode(true)
-	{
-		m_data["filename"] = filename;
-	}
+OverwriteQuery::OverwriteQuery(QString filename) :
+        m_noRenameMode(false),
+        m_multiMode(true)
+{
+    m_data["filename"] = filename;
+}
 
-	void OverwriteQuery::execute()
-	{
-		KIO::RenameDialog_Mode mode = (KIO::RenameDialog_Mode)(KIO::M_OVERWRITE | KIO::M_SKIP);
-		if (m_noRenameMode)
-		{
-			mode = (KIO::RenameDialog_Mode)(mode | KIO::M_NORENAME);
-		}
-		if (m_multiMode)
-		{
-			mode = (KIO::RenameDialog_Mode)(mode | KIO::M_MULTI);
-		}
+void OverwriteQuery::execute()
+{
+    KIO::RenameDialog_Mode mode = (KIO::RenameDialog_Mode)(KIO::M_OVERWRITE | KIO::M_SKIP);
+    if (m_noRenameMode) {
+        mode = (KIO::RenameDialog_Mode)(mode | KIO::M_NORENAME);
+    }
+    if (m_multiMode) {
+        mode = (KIO::RenameDialog_Mode)(mode | KIO::M_MULTI);
+    }
 
-		KUrl sourceUrl(m_data.value("filename").toString());
-		KUrl destUrl(m_data.value("filename").toString());
-		sourceUrl.cleanPath();
-		destUrl.cleanPath();
+    KUrl sourceUrl(m_data.value("filename").toString());
+    KUrl destUrl(m_data.value("filename").toString());
+    sourceUrl.cleanPath();
+    destUrl.cleanPath();
 
-		QPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
-			NULL,
-			i18n("File already exists"),
-			sourceUrl,
-			destUrl,
-			mode);
-		dialog->exec();
+    QPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
+        NULL,
+        i18n("File already exists"),
+        sourceUrl,
+        destUrl,
+        mode);
+    dialog->exec();
 
-		m_data["newFilename"] = dialog->newDestUrl().path();
+    m_data["newFilename"] = dialog->newDestUrl().path();
 
-		setResponse(dialog->result());
-	}
+    setResponse(dialog->result());
+}
 
-	bool OverwriteQuery::responseCancelled()
-	{
-		return m_data.value("response").toInt() == KIO::R_CANCEL;
-	}
-	bool OverwriteQuery::responseOverwriteAll()
-	{
-		return m_data.value("response").toInt() == KIO::R_OVERWRITE_ALL;
-	}
-	bool OverwriteQuery::responseOverwrite()
-	{
-		return m_data.value("response").toInt() == KIO::R_OVERWRITE;
-	}
+bool OverwriteQuery::responseCancelled()
+{
+    return m_data.value("response").toInt() == KIO::R_CANCEL;
+}
+bool OverwriteQuery::responseOverwriteAll()
+{
+    return m_data.value("response").toInt() == KIO::R_OVERWRITE_ALL;
+}
+bool OverwriteQuery::responseOverwrite()
+{
+    return m_data.value("response").toInt() == KIO::R_OVERWRITE;
+}
 
-	bool OverwriteQuery::responseRename()
-	{
-		return m_data.value("response").toInt() == KIO::R_RENAME;
-	}
+bool OverwriteQuery::responseRename()
+{
+    return m_data.value("response").toInt() == KIO::R_RENAME;
+}
 
-	bool OverwriteQuery::responseSkip()
-	{
-		return m_data.value("response").toInt() == KIO::R_SKIP;
-	}
+bool OverwriteQuery::responseSkip()
+{
+    return m_data.value("response").toInt() == KIO::R_SKIP;
+}
 
-	bool OverwriteQuery::responseAutoSkip()
-	{
-		return m_data.value("response").toInt() == KIO::R_AUTO_SKIP;
-	}
+bool OverwriteQuery::responseAutoSkip()
+{
+    return m_data.value("response").toInt() == KIO::R_AUTO_SKIP;
+}
 
-	QString OverwriteQuery::newFilename()
-	{
-		return m_data.value("newFilename").toString();
-	}
-	
-	void OverwriteQuery::setNoRenameMode(bool enableNoRenameMode)
-	{
-		m_noRenameMode = enableNoRenameMode;
-	}
-	
-	bool OverwriteQuery::noRenameMode()
-	{
-		return m_noRenameMode;
-	}
+QString OverwriteQuery::newFilename()
+{
+    return m_data.value("newFilename").toString();
+}
 
-	void OverwriteQuery::setMultiMode(bool enableMultiMode)
-	{
-		m_multiMode = enableMultiMode;
-	}
-	
-	bool OverwriteQuery::multiMode()
-	{
-		return m_multiMode;
-	}
+void OverwriteQuery::setNoRenameMode(bool enableNoRenameMode)
+{
+    m_noRenameMode = enableNoRenameMode;
+}
 
-	PasswordNeededQuery::PasswordNeededQuery(QString archiveFilename, bool incorrectTryAgain)
-	{
-		m_data["archiveFilename"] = archiveFilename;
-		m_data["incorrectTryAgain"] = incorrectTryAgain;
-	}
+bool OverwriteQuery::noRenameMode()
+{
+    return m_noRenameMode;
+}
 
-	void PasswordNeededQuery::execute()
-	{
-		QPointer<KPasswordDialog> dlg = new KPasswordDialog( NULL );
-		dlg->setPrompt( i18n("The archive '%1' is password protected. Please enter the password to extract the file.", m_data.value("archiveFilename").toString()) );
+void OverwriteQuery::setMultiMode(bool enableMultiMode)
+{
+    m_multiMode = enableMultiMode;
+}
 
-		if (m_data.value("incorrectTryAgain").toBool()) {
-			dlg->showErrorMessage(i18n("Incorrect password, please try again."), KPasswordDialog::PasswordError);
-		}
+bool OverwriteQuery::multiMode()
+{
+    return m_multiMode;
+}
 
-		if (!dlg->exec())
-		{
-			setResponse(false);
-		}
-		else
-		{
-			m_data["password"] = dlg->password();
-			setResponse(true);
-		}
-	}
+PasswordNeededQuery::PasswordNeededQuery(QString archiveFilename, bool incorrectTryAgain)
+{
+    m_data["archiveFilename"] = archiveFilename;
+    m_data["incorrectTryAgain"] = incorrectTryAgain;
+}
 
-	QString PasswordNeededQuery::password()
-	{
-		return m_data.value("password").toString();
-	}
+void PasswordNeededQuery::execute()
+{
+    QPointer<KPasswordDialog> dlg = new KPasswordDialog(NULL);
+    dlg->setPrompt(i18n("The archive '%1' is password protected. Please enter the password to extract the file.", m_data.value("archiveFilename").toString()));
 
-	bool PasswordNeededQuery::responseCancelled()
-	{
-		return !m_data.value("response").toBool();
-	}
+    if (m_data.value("incorrectTryAgain").toBool()) {
+        dlg->showErrorMessage(i18n("Incorrect password, please try again."), KPasswordDialog::PasswordError);
+    }
+
+    if (!dlg->exec()) {
+        setResponse(false);
+    } else {
+        m_data["password"] = dlg->password();
+        setResponse(true);
+    }
+}
+
+QString PasswordNeededQuery::password()
+{
+    return m_data.value("password").toString();
+}
+
+bool PasswordNeededQuery::responseCancelled()
+{
+    return !m_data.value("response").toBool();
+}
 }

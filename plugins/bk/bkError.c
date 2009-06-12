@@ -1,6 +1,6 @@
 /******************************* LICENSE **************************************
 * Any code in this file may be redistributed or modified under the terms of
-* the GNU General Public License as published by the Free Software 
+* the GNU General Public License as published by the Free Software
 * Foundation; version 2 of the license.
 ****************************** END LICENSE ***********************************/
 
@@ -11,7 +11,7 @@
 * Copyright 2005-2007 Andrew Smith <andrew-smith@mail.ru>
 *
 * Contributors:
-* 
+*
 ******************************************************************************/
 
 #include <stdio.h>
@@ -21,14 +21,12 @@
 #include "bkInternal.h"
 #include "bkError.h"
 
-struct MessageStruct
-{
+struct MessageStruct {
     int number;
     const char* text;
 };
 
-const struct MessageStruct messageStructs[] = 
-{
+const struct MessageStruct messageStructs[] = {
     { BKERROR_READ_GENERIC, BKERROR_READ_GENERIC_TEXT },
     { BKERROR_DIR_NOT_FOUND_ON_IMAGE, BKERROR_DIR_NOT_FOUND_ON_IMAGE_TEXT },
     { BKERROR_MAX_NAME_LENGTH_EXCEEDED, BKERROR_MAX_NAME_LENGTH_EXCEEDED_TEXT },
@@ -76,24 +74,23 @@ const struct MessageStruct messageStructs[] =
     { BKERROR_NAME_INVALID, BKERROR_NAME_INVALID_TEXT },
     { BKERROR_DUPLICATE_RENAME, BKERROR_DUPLICATE_RENAME_TEXT },
     { BKERROR_GET_PERM_BAD_PARAM, BKERROR_GET_PERM_BAD_PARAM_TEXT },
-    
+
     { BKWARNING_OPER_PARTLY_FAILED, BKWARNING_OPER_PARTLY_FAILED_TEXT },
-    
+
     { BKERROR_END, BKERROR_END_TEXT }
 };
 
 const char* bk_get_error_string(int errorId)
 {
     int count;
-    
-    for(count = 0; messageStructs[count].number != BKERROR_END; count++)
-    {
-        if(messageStructs[count].number == errorId)
+
+    for (count = 0; messageStructs[count].number != BKERROR_END; count++) {
+        if (messageStructs[count].number == errorId)
             break;
     }
-    
-    if(messageStructs[count].number == BKERROR_END)
+
+    if (messageStructs[count].number == BKERROR_END)
         printf("unknown error %d used\n", errorId);
-    
+
     return messageStructs[count].text;
 }

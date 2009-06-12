@@ -35,29 +35,29 @@ using namespace Kerfuffle;
 
 class LibArchiveInterface: public ReadWriteArchiveInterface
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		explicit LibArchiveInterface( const QString & filename, QObject *parent = 0 );
-		~LibArchiveInterface();
+public:
+    explicit LibArchiveInterface(const QString & filename, QObject *parent = 0);
+    ~LibArchiveInterface();
 
-		bool list();
-		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options );
-		bool addFiles( const QStringList & files, const CompressionOptions& options );
-		bool deleteFiles( const QList<QVariant> & files );
+    bool list();
+    bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options);
+    bool addFiles(const QStringList & files, const CompressionOptions& options);
+    bool deleteFiles(const QList<QVariant> & files);
 
-	private:
-		void emitEntryFromArchiveEntry( struct archive_entry *entry );
-		int extractionFlags() const;
-		void copyData( const QString& filename, struct archive *dest, bool partialprogress = true );
-		void copyData( struct archive *source, struct archive *dest, bool partialprogress = true );
-		bool writeFile( const QString& fileName, struct archive* arch, struct archive_entry* entry );
+private:
+    void emitEntryFromArchiveEntry(struct archive_entry *entry);
+    int extractionFlags() const;
+    void copyData(const QString& filename, struct archive *dest, bool partialprogress = true);
+    void copyData(struct archive *source, struct archive *dest, bool partialprogress = true);
+    bool writeFile(const QString& fileName, struct archive* arch, struct archive_entry* entry);
 
-		int m_cachedArchiveEntryCount;
-		qlonglong m_currentExtractedFilesSize;
-		bool m_emitNoEntries;
-		qlonglong m_extractedFilesSize;
-		QStringList m_writtenFiles;
+    int m_cachedArchiveEntryCount;
+    qlonglong m_currentExtractedFilesSize;
+    bool m_emitNoEntries;
+    qlonglong m_extractedFilesSize;
+    QStringList m_writtenFiles;
 };
 
 #endif // LIBARCHIVEHANDLER_H

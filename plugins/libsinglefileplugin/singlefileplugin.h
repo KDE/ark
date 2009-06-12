@@ -30,21 +30,21 @@
 
 class LibSingleFileInterface : public Kerfuffle::ReadOnlyArchiveInterface
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		LibSingleFileInterface( const QString & filename, QObject *parent );
-		virtual ~LibSingleFileInterface();
+public:
+    LibSingleFileInterface(const QString & filename, QObject *parent);
+    virtual ~LibSingleFileInterface();
 
-		virtual bool list();
-		virtual bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, Kerfuffle::ExtractionOptions options );
+    virtual bool list();
+    virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, Kerfuffle::ExtractionOptions options);
 
-	protected:
-		const QString uncompressedFileName() const;
-		QString overwriteFileName( QString& filename );
+protected:
+    const QString uncompressedFileName() const;
+    QString overwriteFileName(QString& filename);
 
-		QString m_mimeType;
-		QStringList m_possibleExtensions;
+    QString m_mimeType;
+    QStringList m_possibleExtensions;
 };
 
 #endif // SINGLEFILEPLUGIN_H

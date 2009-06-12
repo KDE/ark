@@ -26,29 +26,29 @@
 
 class ArchiveView : public QTreeView
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		ArchiveView(QWidget *parent);
-		virtual void dragEnterEvent ( class QDragEnterEvent * event );
-		virtual void dropEvent ( class QDropEvent * event );
-		virtual void dragMoveEvent ( class QDragMoveEvent * event );
-		virtual void startDrag( Qt::DropActions supportedActions );
+public:
+    ArchiveView(QWidget *parent);
+    virtual void dragEnterEvent(class QDragEnterEvent * event);
+    virtual void dropEvent(class QDropEvent * event);
+    virtual void dragMoveEvent(class QDragMoveEvent * event);
+    virtual void startDrag(Qt::DropActions supportedActions);
 
-		void setModel(QAbstractItemModel *model);
+    void setModel(QAbstractItemModel *model);
 
-	protected slots:
-		void slotClicked( const QModelIndex & index );
-		void slotDoubleClicked( const QModelIndex & index );
+protected slots:
+    void slotClicked(const QModelIndex & index);
+    void slotDoubleClicked(const QModelIndex & index);
 
-	private slots:
-		void updateMouseButtons();
+private slots:
+    void updateMouseButtons();
 
-	signals:
-		void itemTriggered( const QModelIndex & index );
+signals:
+    void itemTriggered(const QModelIndex & index);
 
-	private:
-		Qt::MouseButtons m_mouseButtons; // FIXME: workaround until Qt-issue 176832 is resolved
+private:
+    Qt::MouseButtons m_mouseButtons; // FIXME: workaround until Qt-issue 176832 is resolved
 };
 
 #endif /* _ARCHIVEVIEW_H_ */

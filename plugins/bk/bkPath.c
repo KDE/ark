@@ -1,6 +1,6 @@
 /******************************* LICENSE **************************************
 * Any code in this file may be redistributed or modified under the terms of
-* the GNU General Public License as published by the Free Software 
+* the GNU General Public License as published by the Free Software
 * Foundation; version 2 of the license.
 ****************************** END LICENSE ***********************************/
 
@@ -32,26 +32,24 @@ bool findBaseByNewPath(NewPath* path, BkDir* tree, BkFileBase** base)
     BkDir* parentDir;
     bool dirFound;
     BkFileBase* child;
-    
+
     /* parent directory */
     path->numChildren--;
     dirFound = findDirByNewPath(path, tree, &parentDir);
     path->numChildren++;
-    if(!dirFound)
+    if (!dirFound)
         return false;
-    
+
     child = parentDir->children;
-    while(child != NULL)
-    {
-        if(strcmp(child->name, path->children[path->numChildren - 1]) == 0)
-        {
+    while (child != NULL) {
+        if (strcmp(child->name, path->children[path->numChildren - 1]) == 0) {
             *base = child;
             return true;
         }
-        
+
         child = child->next;
     }
-    
+
     return false;
 }
 
@@ -60,31 +58,29 @@ bool findDirByNewPath(const NewPath* path, BkDir* tree, BkDir** dir)
     bool dirFound;
     unsigned count;
     BkFileBase* child;
-    
+
     *dir = tree;
-    for(count = 0; count < path->numChildren; count++)
-    /* each directory in the path */
+    for (count = 0; count < path->numChildren; count++)
+        /* each directory in the path */
     {
         child = (*dir)->children;
         dirFound = false;
-        while(child != NULL && !dirFound)
-        /* find the directory */
+        while (child != NULL && !dirFound)
+            /* find the directory */
         {
-            if(strcmp(child->name, path->children[count]) == 0)
-            {
-                if( !IS_DIR(child->posixFileMode) )
+            if (strcmp(child->name, path->children[count]) == 0) {
+                if (!IS_DIR(child->posixFileMode))
                     return false;
-                
+
                 dirFound = true;
                 *dir = BK_DIR_PTR(child);
-            }
-            else
+            } else
                 child = child->next;
         }
-        if(!dirFound)
+        if (!dirFound)
             return false;
     }
-    
+
     return true;
 }
 
@@ -96,24 +92,20 @@ void freeDirToWriteContents(DirToWrite* dir)
 {
     BaseToWrite* currentChild;
     BaseToWrite* nextChild;
-    
+
     currentChild = dir->children;
-    while(currentChild != NULL)
-    {
+    while (currentChild != NULL) {
         nextChild = currentChild->next;
-        
-        if( IS_DIR(currentChild->posixFileMode) )
-        {
+
+        if (IS_DIR(currentChild->posixFileMode)) {
             freeDirToWriteContents(DIRTW_PTR(currentChild));
-        }
-        else if( IS_REG_FILE(currentChild->posixFileMode) )
-        {
-            if(!FILETW_PTR(currentChild)->onImage)
+        } else if (IS_REG_FILE(currentChild->posixFileMode)) {
+            if (!FILETW_PTR(currentChild)->onImage)
                 free(FILETW_PTR(currentChild)->pathAndName);
         }
-        
+
         free(currentChild);
-        
+
         currentChild = nextChild;
     }
 }
@@ -121,18 +113,17 @@ void freeDirToWriteContents(DirToWrite* dir)
 void freePathContents(NewPath* path)
 {
     unsigned count;
-    
-    for(count = 0; count < path->numChildren; count++)
-    {
+
+    for (count = 0; count < path->numChildren; count++) {
         /* if the path was not allocated properly (maybe ran out of memory)
         * the first unallocated item is null */
-        if(path->children[count] == NULL)
+        if (path->children[count] == NULL)
             break;
-        
+
         free(path->children[count]);
     }
-    
-    if(path->children != NULL)
+
+    if (path->children != NULL)
         free(path->children);
 }
 
@@ -144,48 +135,40 @@ int getLastNameFromPath(const char* srcPathAndName, char* lastName)
     int firstCharIndex;
     bool lastCharFound;
     int count2;
-    
+
     srcLen = strlen(srcPathAndName);
-    
+
     /* FIND the last name */
     lastCharIndex = srcLen;
     lastCharFound = false;
-    for(count = srcLen; count >= 0; count--)
-    {
-        if(srcPathAndName[count] != '/')
-        {
-            if(!lastCharFound)
-            {
+    for (count = srcLen; count >= 0; count--) {
+        if (srcPathAndName[count] != '/') {
+            if (!lastCharFound) {
                 lastCharIndex = count;
                 lastCharFound = true;
 
                 firstCharIndex = lastCharIndex;
-            }
-            else
-            {
+            } else {
                 firstCharIndex = count;
             }
-        }
-        else
-        {
-            if(lastCharFound)
+        } else {
+            if (lastCharFound)
                 break;
         }
     }
-    if(!lastCharFound)
+    if (!lastCharFound)
         return BKERROR_MISFORMED_PATH;
     /* END FIND the last name */
-    
-    if(lastCharIndex - firstCharIndex > NCHARS_FILE_ID_MAX_STORE - 1)
+
+    if (lastCharIndex - firstCharIndex > NCHARS_FILE_ID_MAX_STORE - 1)
         return BKERROR_MAX_NAME_LENGTH_EXCEEDED;
-    
+
     /* copy the name */
-    for(count = firstCharIndex, count2 = 0; count <= lastCharIndex; count++, count2++)
-    {
+    for (count = firstCharIndex, count2 = 0; count <= lastCharIndex; count++, count2++) {
         lastName[count2] = srcPathAndName[count];
     }
     lastName[count2] = '\0';
-    
+
     return 1;
 }
 
@@ -193,69 +176,62 @@ int makeNewPathFromString(const char* strPath, NewPath* pathPath)
 {
     int count;
     int pathStrLen;
-    
+
     pathStrLen = strlen(strPath);
     pathPath->numChildren = 0;
     pathPath->children = NULL;
-    
-    if(strPath[0] != '/')
+
+    if (strPath[0] != '/')
         return BKERROR_MISFORMED_PATH;
-    
+
     /* count number of children */
-    for(count = 1; count < pathStrLen; count++)
-    {
-        if(strPath[count] != '/' && strPath[count - 1] == '/')
+    for (count = 1; count < pathStrLen; count++) {
+        if (strPath[count] != '/' && strPath[count - 1] == '/')
             pathPath->numChildren++;
     }
-    
-    if(pathPath->numChildren == 0)
-    {
+
+    if (pathPath->numChildren == 0) {
         pathPath->children = NULL;
         return 1;
     }
-    
+
     pathPath->children = (char**)malloc(sizeof(char*) * pathPath->numChildren);
-    if(pathPath->children == NULL)
+    if (pathPath->children == NULL)
         return BKERROR_OUT_OF_MEMORY;
-    
+
     unsigned numChildrenDone = 0;
     int nextChildLen = 0;
     const char* nextChild = &(strPath[1]);
-    for(count = 1; count <= pathStrLen; count++)
-    {
-        if(strPath[count] == '/' || (strPath[count] == '\0' && strPath[count - 1] != '/'))
-        {
-            if(strPath[count] == '/' && strPath[count - 1] == '/')
-            /* double slash */
+    for (count = 1; count <= pathStrLen; count++) {
+        if (strPath[count] == '/' || (strPath[count] == '\0' && strPath[count - 1] != '/')) {
+            if (strPath[count] == '/' && strPath[count - 1] == '/')
+                /* double slash */
             {
                 nextChild = &(strPath[count + 1]);
                 continue;
-            }
-            else
-            /* this is the end of the string or the slash following a dir name  */
+            } else
+                /* this is the end of the string or the slash following a dir name  */
             {
                 pathPath->children[numChildrenDone] = (char*)malloc(nextChildLen + 1);
-                if(pathPath->children[numChildrenDone] == NULL)
+                if (pathPath->children[numChildrenDone] == NULL)
                     return BKERROR_OUT_OF_MEMORY;
-                
+
                 strncpy(pathPath->children[numChildrenDone], nextChild, nextChildLen);
                 pathPath->children[numChildrenDone][nextChildLen] = '\0';
-                
+
                 numChildrenDone++;
                 nextChildLen = 0;
-                
+
                 nextChild = &(strPath[count + 1]);
             }
-        }
-        else
-        {
+        } else {
             nextChildLen++;
         }
     }
-    
-    if(numChildrenDone != pathPath->numChildren)
+
+    if (numChildrenDone != pathPath->numChildren)
         return BKERROR_SANITY;
-    
+
     return 1;
 }
 
@@ -267,16 +243,15 @@ bool nameIsValid(const char* name)
 {
     int count;
     int nameLen;
-    
+
     nameLen = strlen(name);
-    
-    for(count = 0; count < nameLen; count++)
-    {
+
+    for (count = 0; count < nameLen; count++) {
         /* can be any ascii char between decimal 32 and 126 except '/' (47) */
-        if(name[count] < 32 || name[count] > 126 || name[count] == 47)
+        if (name[count] < 32 || name[count] > 126 || name[count] == 47)
             return false;
     }
-    
+
     return true;
 }
 
@@ -285,66 +260,56 @@ void printDirToWrite(DirToWrite* dir, int level, int filenameTypes)
 {
     BaseToWrite* child;
     int count;
-    
+
     child = dir->children;
-    while(child != NULL)
-    {
-        if(IS_DIR(child->posixFileMode))
-        {
-            if(filenameTypes & FNTYPE_9660)
-            {
-                for(count = 0; count < level; count ++)
+    while (child != NULL) {
+        if (IS_DIR(child->posixFileMode)) {
+            if (filenameTypes & FNTYPE_9660) {
+                for (count = 0; count < level; count ++)
                     printf("  ");
-                printf("dir9 '%s'\n", child->name9660);fflush(NULL);
+                printf("dir9 '%s'\n", child->name9660); fflush(NULL);
             }
-            
-            if(filenameTypes & FNTYPE_JOLIET)
-            {
-                for(count = 0; count < level; count ++)
+
+            if (filenameTypes & FNTYPE_JOLIET) {
+                for (count = 0; count < level; count ++)
                     printf("  ");
-                printf("dirJ '%s'\n", child->nameJoliet);fflush(NULL);
+                printf("dirJ '%s'\n", child->nameJoliet); fflush(NULL);
             }
-            
-            if(filenameTypes & FNTYPE_ROCKRIDGE)
-            {
-                for(count = 0; count < level; count ++)
+
+            if (filenameTypes & FNTYPE_ROCKRIDGE) {
+                for (count = 0; count < level; count ++)
                     printf("  ");
-                printf("dirR '%s'\n", child->nameRock);fflush(NULL);
+                printf("dirR '%s'\n", child->nameRock); fflush(NULL);
             }
-            
+
             printDirToWrite(DIRTW_PTR(child), level + 1, filenameTypes);
         }
-        
+
         child = child->next;
     }
-    
+
     child = dir->children;
-    while(child != NULL)
-    {
-        if(!IS_DIR(child->posixFileMode))
-        {
-            if(filenameTypes & FNTYPE_9660)
-            {
-                for(count = 0; count < level; count ++)
+    while (child != NULL) {
+        if (!IS_DIR(child->posixFileMode)) {
+            if (filenameTypes & FNTYPE_9660) {
+                for (count = 0; count < level; count ++)
                     printf("  ");
-                printf("file9 '%s'\n", child->name9660);fflush(NULL);
+                printf("file9 '%s'\n", child->name9660); fflush(NULL);
             }
-            
-            if(filenameTypes & FNTYPE_JOLIET)
-            {
-                for(count = 0; count < level; count ++)
+
+            if (filenameTypes & FNTYPE_JOLIET) {
+                for (count = 0; count < level; count ++)
                     printf("  ");
-                printf("fileJ '%s'\n", child->nameJoliet);fflush(NULL);
+                printf("fileJ '%s'\n", child->nameJoliet); fflush(NULL);
             }
-            
-            if(filenameTypes & FNTYPE_ROCKRIDGE)
-            {
-                for(count = 0; count < level; count ++)
+
+            if (filenameTypes & FNTYPE_ROCKRIDGE) {
+                for (count = 0; count < level; count ++)
                     printf("  ");
-                printf("fileR '%s'\n", child->nameRock);fflush(NULL);
+                printf("fileR '%s'\n", child->nameRock); fflush(NULL);
             }
         }
-        
+
         child = child->next;
     }
 }

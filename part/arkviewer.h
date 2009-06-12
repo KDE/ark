@@ -29,25 +29,25 @@
 
 class ArkViewer : public KDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		~ArkViewer();
+public:
+    ~ArkViewer();
 
-		static void view( const QString& filename, QWidget* parent = 0 );
+    static void view(const QString& filename, QWidget* parent = 0);
 
-	protected slots:
-		void slotFinished();
-		void slotOpenUrlRequestDelayed( const KUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments );
+protected slots:
+    void slotFinished();
+    void slotOpenUrlRequestDelayed(const KUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments);
 
-	private:
-		explicit ArkViewer( QWidget* parent = 0 );
+private:
+    explicit ArkViewer(QWidget* parent = 0);
 
-		static KService::Ptr getViewer( const QString& filename );
-		bool viewInInternalViewer( const QString& filename );
+    static KService::Ptr getViewer(const QString& filename);
+    bool viewInInternalViewer(const QString& filename);
 
-		KParts::ReadOnlyPart *m_part;
-		QWidget *m_widget;
+    KParts::ReadOnlyPart *m_part;
+    QWidget *m_widget;
 };
 
 #endif // ARKVIEWER_H

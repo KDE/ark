@@ -28,21 +28,21 @@ using namespace Kerfuffle;
 
 class BKInterface: public ReadWriteArchiveInterface
 {
-	Q_OBJECT
-	public:
-		explicit BKInterface( const QString & filename, QObject *parent = 0 );
-		~BKInterface();
+    Q_OBJECT
+public:
+    explicit BKInterface(const QString & filename, QObject *parent = 0);
+    ~BKInterface();
 
-		bool list();
-		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options);
+    bool list();
+    bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options);
 
-		bool addFiles( const QStringList & files, const CompressionOptions& options );
-		bool deleteFiles( const QList<QVariant> & files );
+    bool addFiles(const QStringList & files, const CompressionOptions& options);
+    bool deleteFiles(const QList<QVariant> & files);
 
-	private:
-		bool browse( BkFileBase* base, const QString& prefix = QString() );
+private:
+    bool browse(BkFileBase* base, const QString& prefix = QString());
 
-		VolInfo m_volInfo;
+    VolInfo m_volInfo;
 };
 
 #endif // BKPLUGIN_H

@@ -41,76 +41,78 @@ class KAbstractWidgetJobTracker;
 
 class Part: public KParts::ReadWritePart, public Interface
 {
-	Q_OBJECT
-	Q_INTERFACES( Interface )
-	public:
-		Part( QWidget *parentWidget, QObject *parent, const QStringList & );
-		~Part();
-		static KAboutData* createAboutData();
+    Q_OBJECT
+    Q_INTERFACES(Interface)
+public:
+    Part(QWidget *parentWidget, QObject *parent, const QStringList &);
+    ~Part();
+    static KAboutData* createAboutData();
 
-		virtual bool openFile();
-		virtual bool saveFile();
+    virtual bool openFile();
+    virtual bool saveFile();
 
-		QStringList supportedMimeTypes() const;
-		QStringList supportedWriteMimeTypes() const;
+    QStringList supportedMimeTypes() const;
+    QStringList supportedWriteMimeTypes() const;
 
-		bool isBusy() const { return m_busy; }
+    bool isBusy() const {
+        return m_busy;
+    }
 
-	public slots:
-		void extractSelectedFilesTo(QString localPath);
+public slots:
+    void extractSelectedFilesTo(QString localPath);
 
-	private slots:
-		void slotLoadingStarted();
-		void slotLoadingFinished(KJob *job);
-		void slotPreview();
-		void slotPreview( const QModelIndex & index );
-		void slotPreviewExtracted( KJob* );
-		void slotError( const QString& errorMessage, const QString& details );
-		void slotExtractFiles();
-		void slotExtractionDone( KJob* );
-		void slotQuickExtractFiles(QAction*);
-		void slotAddFiles();
-		void slotAddFiles(const QStringList& files, const QString& path = QString());
-		void slotAddDir();
-		void slotAddFilesDone( KJob* );
-		void slotDeleteFiles();
-		void slotDeleteFilesDone( KJob* );
-		void updateActions();
-		void selectionChanged();
-		void adjustColumns();
-		void setBusyGui();
-		void setReadyGui();
-		void setWindowTitleFromArchive();
+private slots:
+    void slotLoadingStarted();
+    void slotLoadingFinished(KJob *job);
+    void slotPreview();
+    void slotPreview(const QModelIndex & index);
+    void slotPreviewExtracted(KJob*);
+    void slotError(const QString& errorMessage, const QString& details);
+    void slotExtractFiles();
+    void slotExtractionDone(KJob*);
+    void slotQuickExtractFiles(QAction*);
+    void slotAddFiles();
+    void slotAddFiles(const QStringList& files, const QString& path = QString());
+    void slotAddDir();
+    void slotAddFilesDone(KJob*);
+    void slotDeleteFiles();
+    void slotDeleteFilesDone(KJob*);
+    void updateActions();
+    void selectionChanged();
+    void adjustColumns();
+    void setBusyGui();
+    void setReadyGui();
+    void setWindowTitleFromArchive();
 
-	signals:
-		void busy();
-		void ready();
+signals:
+    void busy();
+    void ready();
 
-	private:
-		void setupView();
-		void setupActions();
-		bool isSingleFolderArchive();
-		QString detectSubfolder();
-		bool isPreviewable( const QModelIndex & index );
-		QList<QVariant> selectedFiles();
-		QList<QVariant> selectedFilesWithChildren();
-		void registerJob(KJob *job);
+private:
+    void setupView();
+    void setupActions();
+    bool isSingleFolderArchive();
+    QString detectSubfolder();
+    bool isPreviewable(const QModelIndex & index);
+    QList<QVariant> selectedFiles();
+    QList<QVariant> selectedFilesWithChildren();
+    void registerJob(KJob *job);
 
-		QString lastExtractionFolder;
+    QString lastExtractionFolder;
 
-		ArchiveModel         *m_model;
-		QTreeView            *m_view;
-		QAction              *m_previewAction;
-		KAction              *m_extractFilesAction;
-		QAction              *m_addFilesAction;
-		QAction              *m_addDirAction;
-		QAction              *m_deleteFilesAction;
-		InfoPanel            *m_infoPanel;
-		KTempDir             *m_previewDir;
-		bool                  m_busy;
+    ArchiveModel         *m_model;
+    QTreeView            *m_view;
+    QAction              *m_previewAction;
+    KAction              *m_extractFilesAction;
+    QAction              *m_addFilesAction;
+    QAction              *m_addDirAction;
+    QAction              *m_deleteFilesAction;
+    InfoPanel            *m_infoPanel;
+    KTempDir             *m_previewDir;
+    bool                  m_busy;
 
-		KAbstractWidgetJobTracker  *m_jobTracker;
-		KParts::StatusBarExtension *m_statusBarExtension;
+    KAbstractWidgetJobTracker  *m_jobTracker;
+    KParts::StatusBarExtension *m_statusBarExtension;
 };
 
 #endif // PART_H

@@ -37,131 +37,126 @@
 #include <KServiceTypeTrader>
 #include <KLibLoader>
 
-static bool comparePlugins( const KService::Ptr &p1, const KService::Ptr &p2 )
+static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
 {
-	return ( p1->property( "X-KDE-Priority" ).toInt() ) > ( p2->property( "X-KDE-Priority" ).toInt() );
+    return (p1->property("X-KDE-Priority").toInt()) > (p2->property("X-KDE-Priority").toInt());
 }
 
-static QString determineMimeType( const QString & filename, const QString & defaultMimeType )
+static QString determineMimeType(const QString & filename, const QString & defaultMimeType)
 {
-	if (!defaultMimeType.isEmpty())
-		return defaultMimeType;
+    if (!defaultMimeType.isEmpty())
+        return defaultMimeType;
 
-	if (!QFile::exists( filename ))
-		return KMimeType::findByPath( filename )->name();
+    if (!QFile::exists(filename))
+        return KMimeType::findByPath(filename)->name();
 
-	QFile file( filename );
-	if (!file.open( QIODevice::ReadOnly ))
-		return QString();
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly))
+        return QString();
 
-	const qint64 maxSize = 0x100000; // 1MB
-	qint64 bufferSize = qMin( maxSize, file.size() );
-	QByteArray buffer = file.read( bufferSize );
+    const qint64 maxSize = 0x100000; // 1MB
+    qint64 bufferSize = qMin(maxSize, file.size());
+    QByteArray buffer = file.read(bufferSize);
 
-	return KMimeType::findByNameAndContent( filename, buffer )->name();
+    return KMimeType::findByNameAndContent(filename, buffer)->name();
 }
 
 namespace Kerfuffle
 {
-	Archive *factory( const QString & filename, const QString & requestedMimeType )
-	{
-		kDebug( 1601 ) ;
+Archive *factory(const QString & filename, const QString & requestedMimeType)
+{
+    kDebug(1601) ;
 
-		qRegisterMetaType<ArchiveEntry>( "ArchiveEntry" );
+    qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 
-		QString mimeType = determineMimeType( filename, requestedMimeType );
-		if (mimeType.isEmpty())
-			return 0L;
+    QString mimeType = determineMimeType(filename, requestedMimeType);
+    if (mimeType.isEmpty())
+        return 0L;
 
-		KService::List offers = KMimeTypeTrader::self()->query( mimeType, "Kerfuffle/Plugin", "(exist Library)" );
+    KService::List offers = KMimeTypeTrader::self()->query(mimeType, "Kerfuffle/Plugin", "(exist Library)");
 
-		if ( offers.isEmpty()) {
-			kDebug( 1601 ) << "Trying to find the mimetype by looking at file content";
+    if (offers.isEmpty()) {
+        kDebug(1601) << "Trying to find the mimetype by looking at file content";
 
-			int acc;
-			QString mimeType = KMimeType::findByFileContent( filename, &acc )->name();
-			kDebug(1601) << mimeType << acc;
-			offers = KMimeTypeTrader::self()->query( mimeType, "Kerfuffle/Plugin", "(exist Library)" );
-		}
+        int acc;
+        QString mimeType = KMimeType::findByFileContent(filename, &acc)->name();
+        kDebug(1601) << mimeType << acc;
+        offers = KMimeTypeTrader::self()->query(mimeType, "Kerfuffle/Plugin", "(exist Library)");
+    }
 
-		qSort( offers.begin(), offers.end(), comparePlugins );
+    qSort(offers.begin(), offers.end(), comparePlugins);
 
-		if ( !offers.isEmpty() )
-		{
-			QString libraryName = offers[ 0 ]->library();
-			KLibrary *lib = KLibLoader::self()->library( QFile::encodeName( libraryName ), QLibrary::ExportExternalSymbolsHint );
-			//TODO: get rid of the deprecated klibloader::self
+    if (!offers.isEmpty()) {
+        QString libraryName = offers[ 0 ]->library();
+        KLibrary *lib = KLibLoader::self()->library(QFile::encodeName(libraryName), QLibrary::ExportExternalSymbolsHint);
+        //TODO: get rid of the deprecated klibloader::self
 #if 0
 
-			KPluginLoader loader(offers.at(0));
-			KPluginFactory *factory = loader.factory();
+        KPluginLoader loader(offers.at(0));
+        KPluginFactory *factory = loader.factory();
 #endif
 
-			kDebug( 1601 ) << "Loading library " << libraryName ;
-			if ( lib )
-			{
-				ArchiveFactory *( *pluginFactory )() = ( ArchiveFactory *( * )() )lib->resolveFunction( "pluginFactory" );
-				if ( pluginFactory )
-				{
-					ArchiveFactory *factory = pluginFactory(); // TODO: cache these
-					Archive *arch = factory->createArchive( QFileInfo(filename).absoluteFilePath(), 0 );
-					delete factory;
-					return arch;
-				}
-			}
-			kDebug( 1601 ) << "Couldn't load library " << libraryName ;
-		}
-		kDebug( 1601 ) << "Couldn't find a library capable of handling " << filename ;
-		return 0;
-	}
+        kDebug(1601) << "Loading library " << libraryName ;
+        if (lib) {
+            ArchiveFactory *(*pluginFactory)() = (ArchiveFactory * (*)())lib->resolveFunction("pluginFactory");
+            if (pluginFactory) {
+                ArchiveFactory *factory = pluginFactory(); // TODO: cache these
+                Archive *arch = factory->createArchive(QFileInfo(filename).absoluteFilePath(), 0);
+                delete factory;
+                return arch;
+            }
+        }
+        kDebug(1601) << "Couldn't load library " << libraryName ;
+    }
+    kDebug(1601) << "Couldn't find a library capable of handling " << filename ;
+    return 0;
+}
 
-	QStringList supportedMimeTypes()
-	{
-		QString constraint( "(exist Library)" );
-		QLatin1String basePartService( "Kerfuffle/Plugin" );
+QStringList supportedMimeTypes()
+{
+    QString constraint("(exist Library)");
+    QLatin1String basePartService("Kerfuffle/Plugin");
 
-		KService::List offers = KServiceTypeTrader::self()->query( basePartService, constraint );
-		KService::List::ConstIterator it = offers.constBegin();
-		KService::List::ConstIterator itEnd = offers.constEnd();
+    KService::List offers = KServiceTypeTrader::self()->query(basePartService, constraint);
+    KService::List::ConstIterator it = offers.constBegin();
+    KService::List::ConstIterator itEnd = offers.constEnd();
 
-		QStringList supported;
+    QStringList supported;
 
-		for ( ; it != itEnd; ++it )
-		{
-			KService::Ptr service = *it;
-			QStringList mimeTypes = service->serviceTypes();
-			foreach( const QString& mimeType, mimeTypes )
-				if ( mimeType != basePartService && !supported.contains(mimeType) )
-					supported.append( mimeType );
-		}
+    for (; it != itEnd; ++it) {
+        KService::Ptr service = *it;
+        QStringList mimeTypes = service->serviceTypes();
+        foreach(const QString& mimeType, mimeTypes)
+        if (mimeType != basePartService && !supported.contains(mimeType))
+            supported.append(mimeType);
+    }
 
-		kDebug( 1601 ) << "Returning" << supported;
+    kDebug(1601) << "Returning" << supported;
 
-		return supported;
-	}
+    return supported;
+}
 
-	QStringList supportedWriteMimeTypes()
-	{
-		QString constraint( "(exist Library) and ([X-KDE-Kerfuffle-ReadWrite] == true)" );
-		QLatin1String basePartService( "Kerfuffle/Plugin" );
+QStringList supportedWriteMimeTypes()
+{
+    QString constraint("(exist Library) and ([X-KDE-Kerfuffle-ReadWrite] == true)");
+    QLatin1String basePartService("Kerfuffle/Plugin");
 
-		KService::List offers = KServiceTypeTrader::self()->query( basePartService, constraint );
-		KService::List::ConstIterator it = offers.constBegin();
-		KService::List::ConstIterator itEnd = offers.constEnd();
+    KService::List offers = KServiceTypeTrader::self()->query(basePartService, constraint);
+    KService::List::ConstIterator it = offers.constBegin();
+    KService::List::ConstIterator itEnd = offers.constEnd();
 
-		QStringList supported;
+    QStringList supported;
 
-		for ( ; it != itEnd; ++it )
-		{
-			KService::Ptr service = *it;
-			QStringList mimeTypes = service->serviceTypes();
-			foreach( const QString& mimeType, mimeTypes )
-				if ( mimeType != basePartService && !supported.contains(mimeType) )
-					supported.append( mimeType );
-		}
+    for (; it != itEnd; ++it) {
+        KService::Ptr service = *it;
+        QStringList mimeTypes = service->serviceTypes();
+        foreach(const QString& mimeType, mimeTypes)
+        if (mimeType != basePartService && !supported.contains(mimeType))
+            supported.append(mimeType);
+    }
 
-		kDebug( 1601 ) << "Returning" << supported;
+    kDebug(1601) << "Returning" << supported;
 
-		return supported;
-	}
+    return supported;
+}
 } // namespace Kerfuffle

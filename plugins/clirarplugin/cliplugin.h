@@ -27,27 +27,27 @@
 
 class CliPlugin : public Kerfuffle::CliInterface
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		explicit CliPlugin( const QString & filename, QObject *parent = 0 );
+public:
+    explicit CliPlugin(const QString & filename, QObject *parent = 0);
 
-		virtual ~CliPlugin();
+    virtual ~CliPlugin();
 
-		virtual Kerfuffle::ParameterList parameterList() const;
+    virtual Kerfuffle::ParameterList parameterList() const;
 
-		virtual bool readListLine(QString line);
+    virtual bool readListLine(QString line);
 
-	protected:
-		QString m_entryFilename;
+protected:
+    QString m_entryFilename;
 
-		QString m_internalId;
+    QString m_internalId;
 
-		bool m_isFirstLine;
+    bool m_isFirstLine;
 
-		bool m_isInContentListing;
+    bool m_isInContentListing;
 
-		bool m_isPasswordProtected;
+    bool m_isPasswordProtected;
 };
 
 #endif // CLIPLUGIN_H

@@ -34,150 +34,140 @@
 
 namespace Kerfuffle
 {
-	ReadOnlyArchiveInterface::ReadOnlyArchiveInterface( const QString & filename, QObject *parent )
-		: QObject( parent ), m_filename( filename ), m_waitForFinishedSignal(false)
-	{
-	}
+ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(const QString & filename, QObject *parent)
+        : QObject(parent), m_filename(filename), m_waitForFinishedSignal(false)
+{
+}
 
-	ReadOnlyArchiveInterface::~ReadOnlyArchiveInterface()
-	{
-	}
+ReadOnlyArchiveInterface::~ReadOnlyArchiveInterface()
+{
+}
 
-	const QString& ReadOnlyArchiveInterface::filename() const
-	{
-		return m_filename;
-	}
+const QString& ReadOnlyArchiveInterface::filename() const
+{
+    return m_filename;
+}
 
-	bool ReadOnlyArchiveInterface::isReadOnly() const
-	{
-		return true;
-	}
+bool ReadOnlyArchiveInterface::isReadOnly() const
+{
+    return true;
+}
 
-	bool ReadOnlyArchiveInterface::open()
-	{
-		return true;
-	}
+bool ReadOnlyArchiveInterface::open()
+{
+    return true;
+}
 
-	void ReadOnlyArchiveInterface::setPassword(QString password)
-	{
-		m_password = password;
-	}
+void ReadOnlyArchiveInterface::setPassword(QString password)
+{
+    m_password = password;
+}
 
-	const QString& ReadOnlyArchiveInterface::password() const
-	{
-		return m_password;
-	}
+const QString& ReadOnlyArchiveInterface::password() const
+{
+    return m_password;
+}
 
-	void ReadOnlyArchiveInterface::error( const QString & message, const QString & details )
-	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onError( message, details );
-		}
-	}
+void ReadOnlyArchiveInterface::error(const QString & message, const QString & details)
+{
+    foreach(ArchiveObserver *observer, m_observers) {
+        observer->onError(message, details);
+    }
+}
 
-	void ReadOnlyArchiveInterface::entry( const ArchiveEntry & archiveEntry )
-	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onEntry( archiveEntry );
-		}
-	}
+void ReadOnlyArchiveInterface::entry(const ArchiveEntry & archiveEntry)
+{
+    foreach(ArchiveObserver *observer, m_observers) {
+        observer->onEntry(archiveEntry);
+    }
+}
 
-	void ReadOnlyArchiveInterface::entryRemoved( const QString & path )
-	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onEntryRemoved( path );
-		}
-	}
+void ReadOnlyArchiveInterface::entryRemoved(const QString & path)
+{
+    foreach(ArchiveObserver *observer, m_observers) {
+        observer->onEntryRemoved(path);
+    }
+}
 
-	void ReadOnlyArchiveInterface::progress( double p )
-	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onProgress( p );
-		}
-	}
+void ReadOnlyArchiveInterface::progress(double p)
+{
+    foreach(ArchiveObserver *observer, m_observers) {
+        observer->onProgress(p);
+    }
+}
 
-	void ReadOnlyArchiveInterface::info( const QString& info)
-	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onInfo( info);
-		}
-	}
+void ReadOnlyArchiveInterface::info(const QString& info)
+{
+    foreach(ArchiveObserver *observer, m_observers) {
+        observer->onInfo(info);
+    }
+}
 
-	void ReadOnlyArchiveInterface::finished(bool result)
-	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onFinished( result );
-		}
-	}
+void ReadOnlyArchiveInterface::finished(bool result)
+{
+    foreach(ArchiveObserver *observer, m_observers) {
+        observer->onFinished(result);
+    }
+}
 
-	bool ReadOnlyArchiveInterface::doKill()
-	{
-		//default implementation
-		return false;
-	}
+bool ReadOnlyArchiveInterface::doKill()
+{
+    //default implementation
+    return false;
+}
 
-	bool ReadOnlyArchiveInterface::doSuspend()
-	{
-		//default implementation
-		return false;
-	}
+bool ReadOnlyArchiveInterface::doSuspend()
+{
+    //default implementation
+    return false;
+}
 
-	bool ReadOnlyArchiveInterface::doResume()
-	{
-		//default implementation
-		return false;
-	}
+bool ReadOnlyArchiveInterface::doResume()
+{
+    //default implementation
+    return false;
+}
 
-	void ReadOnlyArchiveInterface::userQuery(Query *query)
-	{
-		foreach( ArchiveObserver *observer, m_observers )
-		{
-			observer->onUserQuery( query );
-		}
-	}
+void ReadOnlyArchiveInterface::userQuery(Query *query)
+{
+    foreach(ArchiveObserver *observer, m_observers) {
+        observer->onUserQuery(query);
+    }
+}
 
-	void ReadOnlyArchiveInterface::registerObserver( ArchiveObserver *observer )
-	{
-		m_observers.append( observer );
-	}
+void ReadOnlyArchiveInterface::registerObserver(ArchiveObserver *observer)
+{
+    m_observers.append(observer);
+}
 
-	void ReadOnlyArchiveInterface::removeObserver( ArchiveObserver *observer )
-	{
-		m_observers.removeAll( observer );
-	}
+void ReadOnlyArchiveInterface::removeObserver(ArchiveObserver *observer)
+{
+    m_observers.removeAll(observer);
+}
 
-	ReadWriteArchiveInterface::ReadWriteArchiveInterface( const QString & filename, QObject *parent )
-		: ReadOnlyArchiveInterface( filename, parent )
-	{
-	}
+ReadWriteArchiveInterface::ReadWriteArchiveInterface(const QString & filename, QObject *parent)
+        : ReadOnlyArchiveInterface(filename, parent)
+{
+}
 
-	ReadWriteArchiveInterface::~ReadWriteArchiveInterface()
-	{
-	}
+ReadWriteArchiveInterface::~ReadWriteArchiveInterface()
+{
+}
 
-	void ReadOnlyArchiveInterface::setWaitForFinishedSignal(bool value)
-	{
-		m_waitForFinishedSignal = value;
-	}
+void ReadOnlyArchiveInterface::setWaitForFinishedSignal(bool value)
+{
+    m_waitForFinishedSignal = value;
+}
 
-	bool ReadWriteArchiveInterface::isReadOnly() const
-	{
-		QFileInfo fileInfo( filename() );
-		if ( fileInfo.exists() )
-		{
-			return ! fileInfo.isWritable();
-		}
-		else
-		{
-			return !fileInfo.dir().exists(); // TODO: Should also check if we can create a file in that directory
-		}
-	}
+bool ReadWriteArchiveInterface::isReadOnly() const
+{
+    QFileInfo fileInfo(filename());
+    if (fileInfo.exists()) {
+        return ! fileInfo.isWritable();
+    } else {
+        return !fileInfo.dir().exists(); // TODO: Should also check if we can create a file in that directory
+    }
+}
 
 } // namespace Kerfuffle
 

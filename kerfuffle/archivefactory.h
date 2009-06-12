@@ -30,25 +30,24 @@
 
 namespace Kerfuffle
 {
-	class ArchiveFactory
-	{
-		public:
-			ArchiveFactory() {}
-			virtual ~ArchiveFactory() {}
-			virtual Kerfuffle::Archive* createArchive( const QString& filename, QObject *parent ) = 0;
-	};
+class ArchiveFactory
+{
+public:
+    ArchiveFactory() {}
+    virtual ~ArchiveFactory() {}
+    virtual Kerfuffle::Archive* createArchive(const QString& filename, QObject *parent) = 0;
+};
 
-	template<class T> class ArchiveInterfaceFactory: public ArchiveFactory
-	{
-		public:
-			Kerfuffle::Archive* createArchive( const QString& filename, QObject *parent = 0 )
-			{
-				return new ArchiveBase( new T( filename, parent ) );
-			}
-	};
+template<class T> class ArchiveInterfaceFactory: public ArchiveFactory
+{
+public:
+    Kerfuffle::Archive* createArchive(const QString& filename, QObject *parent = 0) {
+        return new ArchiveBase(new T(filename, parent));
+    }
+};
 } // namespace Kerfuffle
 
 #define KERFUFFLE_PLUGIN_FACTORY( classname ) \
-	extern "C" { KDE_EXPORT Kerfuffle::ArchiveFactory *pluginFactory() { return new Kerfuffle::ArchiveInterfaceFactory<classname>(); } }
+    extern "C" { KDE_EXPORT Kerfuffle::ArchiveFactory *pluginFactory() { return new Kerfuffle::ArchiveInterfaceFactory<classname>(); } }
 
 #endif // ARCHIVEFACTORY_H

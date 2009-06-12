@@ -1,6 +1,6 @@
 /******************************* LICENSE **************************************
 * Any code in this file may be redistributed or modified under the terms of
-* the GNU General Public License as published by the Free Software 
+* the GNU General Public License as published by the Free Software
 * Foundation; version 2 of the license.
 ****************************** END LICENSE ***********************************/
 
@@ -11,7 +11,7 @@
 * Copyright 2005-2007 Andrew Smith <andrew-smith@mail.ru>
 *
 * Contributors:
-* 
+*
 ******************************************************************************/
 
 #ifndef BKERROR_H
@@ -47,7 +47,7 @@
 #define BKERROR_OPENDIR_FAILED                   -1007
 #define BKERROR_OPENDIR_FAILED_TEXT              "Failed to open directory for listing"
 #define BKERROR_EXOTIC                           -1008
-#define BKERROR_EXOTIC_TEXT                      "Some really exotic problem happened"                      
+#define BKERROR_EXOTIC_TEXT                      "Some really exotic problem happened"
 #define BKERROR_FIXME                            -1009
 #define BKERROR_FIXME_TEXT                       "Incomplete/broken something that the author needs to fix, please report bug"
 #define BKERROR_FILE_NOT_FOUND_ON_IMAGE          -1010

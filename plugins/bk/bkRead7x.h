@@ -1,6 +1,6 @@
 /******************************* LICENSE **************************************
 * Any code in this file may be redistributed or modified under the terms of
-* the GNU General Public License as published by the Free Software 
+* the GNU General Public License as published by the Free Software
 * Foundation; version 2 of the license.
 ****************************** END LICENSE ***********************************/
 
@@ -11,7 +11,7 @@
 * Copyright 2005-2007 Andrew Smith <andrew-smith@mail.ru>
 *
 * Contributors:
-* 
+*
 ******************************************************************************/
 
 #ifndef BKREAD7X_H
@@ -20,7 +20,7 @@
 * bkRead7x
 * functions to read simple variables as described in sections 7.x of iso9660
 * not including filenames (7.4, 7.5, 7.6)
-* 
+*
 * if they are stored in both byte orders, the appropriate one is read into
 * the parameter but the return is 2x the size of that variable
 *

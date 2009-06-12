@@ -28,18 +28,18 @@
 
 #include <QString>
 
-LibXzInterface::LibXzInterface( const QString & filename, QObject *parent )
-	: LibSingleFileInterface( filename, parent )
+LibXzInterface::LibXzInterface(const QString & filename, QObject *parent)
+        : LibSingleFileInterface(filename, parent)
 {
-	m_mimeType = "application/x-lzma";
-	m_possibleExtensions.append(".lzma");
-	m_possibleExtensions.append(".xz");
+    m_mimeType = "application/x-lzma";
+    m_possibleExtensions.append(".lzma");
+    m_possibleExtensions.append(".xz");
 }
 
 LibXzInterface::~LibXzInterface()
 {
 }
 
-KERFUFFLE_PLUGIN_FACTORY( LibXzInterface )
+KERFUFFLE_PLUGIN_FACTORY(LibXzInterface)
 
 #include "xzplugin.moc"

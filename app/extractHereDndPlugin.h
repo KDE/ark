@@ -31,20 +31,20 @@
 
 class ExtractHereDndPlugin : public KonqDndPopupMenuPlugin
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	private slots:
-		void slotTriggered();
+private slots:
+    void slotTriggered();
 
-	public:
-		ExtractHereDndPlugin(QObject* parent, const QVariantList&);
+public:
+    ExtractHereDndPlugin(QObject* parent, const QVariantList&);
 
-		virtual void setup(const KFileItemListProperties& popupMenuInfo,
-				KUrl destination,
-				QList<QAction*>& userActions);
-	private:
-		KUrl m_dest;
-		QList<KUrl> m_urls;
+    virtual void setup(const KFileItemListProperties& popupMenuInfo,
+                       KUrl destination,
+                       QList<QAction*>& userActions);
+private:
+    KUrl m_dest;
+    QList<KUrl> m_urls;
 };
 
 #endif /* _EXTRACTHEREDNDPLUGIN_H_ */

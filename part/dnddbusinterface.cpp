@@ -22,7 +22,7 @@
  */
 
 DndExtractAdaptor::DndExtractAdaptor(QObject *parent)
-    : QDBusAbstractAdaptor(parent)
+        : QDBusAbstractAdaptor(parent)
 {
     // constructor
     setAutoRelaySignals(true);

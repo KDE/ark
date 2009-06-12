@@ -1,6 +1,6 @@
 /******************************* LICENSE **************************************
 * Any code in this file may be redistributed or modified under the terms of
-* the GNU General Public License as published by the Free Software 
+* the GNU General Public License as published by the Free Software
 * Foundation; version 2 of the license.
 ****************************** END LICENSE ***********************************/
 
@@ -11,7 +11,7 @@
 * Copyright 2005-2007 Andrew Smith <andrew-smith@mail.ru>
 *
 * Contributors:
-* 
+*
 ******************************************************************************/
 
 /******************************************************************************
@@ -34,9 +34,9 @@ int write711(VolInfo* volInfo, unsigned char value)
 int write721(VolInfo* volInfo, unsigned short value)
 {
     unsigned char preparedValue[2];
-    
+
     write721ToByteArray(preparedValue, value);
-    
+
     return wcWrite(volInfo, (char*)preparedValue, 2);
 }
 
@@ -49,31 +49,31 @@ void write721ToByteArray(unsigned char* dest, unsigned short value)
 int write722(VolInfo* volInfo, unsigned short value)
 {
     char preparedValue[2];
-    
+
     preparedValue[0] = (value >> 8) & 0xFF;
     preparedValue[1] = value & 0xFF;
-    
+
     return wcWrite(volInfo, preparedValue, 2);
 }
 
 int write723(VolInfo* volInfo, unsigned short value)
 {
     char preparedValue[4];
-    
+
     preparedValue[0] = value & 0xFF;
     preparedValue[1] = (value >> 8) & 0xFF;
     preparedValue[2] = preparedValue[1];
     preparedValue[3] = preparedValue[0];
-    
+
     return wcWrite(volInfo, preparedValue, 4);
 }
 
 int write731(VolInfo* volInfo, unsigned value)
 {
     unsigned char preparedValue[4];
-    
+
     write731ToByteArray(preparedValue, value);
-    
+
     return wcWrite(volInfo, (char*)preparedValue, 4);
 }
 
@@ -88,21 +88,21 @@ void write731ToByteArray(unsigned char* dest, unsigned value)
 int write732(VolInfo* volInfo, unsigned value)
 {
     char preparedValue[4];
-    
+
     preparedValue[0] = (value >> 24);
     preparedValue[1] = (value >> 16) & 0xFF;
     preparedValue[2] = (value >> 8) & 0xFF;
     preparedValue[3] = value & 0xFF;
-    
+
     return wcWrite(volInfo, preparedValue, 4);
 }
 
 int write733(VolInfo* volInfo, unsigned value)
 {
     char preparedValue[8];
-    
+
     write733ToByteArray((unsigned char*)preparedValue, value);
-    
+
     return wcWrite(volInfo, preparedValue, 8);
 }
 

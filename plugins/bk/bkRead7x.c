@@ -1,6 +1,6 @@
 /******************************* LICENSE **************************************
 * Any code in this file may be redistributed or modified under the terms of
-* the GNU General Public License as published by the Free Software 
+* the GNU General Public License as published by the Free Software
 * Foundation; version 2 of the license.
 ****************************** END LICENSE ***********************************/
 
@@ -11,7 +11,7 @@
 * Copyright 2005-2007 Andrew Smith <andrew-smith@mail.ru>
 *
 * Contributors:
-* 
+*
 ******************************************************************************/
 
 #include <unistd.h>
@@ -29,15 +29,15 @@ int read721(int image, unsigned short* value)
 {
     int rc;
     unsigned char array[2];
-    
+
     rc = read(image, array, 2);
-    if(rc != 2)
+    if (rc != 2)
         return rc;
-    
+
     *value = array[1];
     *value <<= 8;
     *value |= array[0];
-    
+
     return rc;
 }
 
@@ -45,11 +45,11 @@ int read731(int image, unsigned* value)
 {
     int rc;
     unsigned char array[4];
-    
+
     rc = read(image, array, 4);
-    if(rc != 4)
+    if (rc != 4)
         return rc;
-    
+
     *value = array[3];
     *value <<= 8;
     *value |= array[2];
@@ -57,7 +57,7 @@ int read731(int image, unsigned* value)
     *value |= array[1];
     *value <<= 8;
     *value |= array[0];
-    
+
     return rc;
 }
 
@@ -65,13 +65,13 @@ int read733(int image, unsigned* value)
 {
     int rc;
     unsigned char both[8];
-    
+
     rc = read(image, &both, 8);
-    if(rc != 8)
+    if (rc != 8)
         return rc;
-    
+
     read733FromCharArray(both, value);
-    
+
     return rc;
 }
 

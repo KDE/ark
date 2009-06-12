@@ -26,15 +26,15 @@
 
 class Interface
 {
-	public:
-		virtual ~Interface() {}
+public:
+    virtual ~Interface() {}
 
-		virtual QStringList supportedMimeTypes() const = 0;
-		virtual QStringList supportedWriteMimeTypes() const = 0;
+    virtual QStringList supportedMimeTypes() const = 0;
+    virtual QStringList supportedWriteMimeTypes() const = 0;
 
-		virtual bool isBusy() const = 0;
+    virtual bool isBusy() const = 0;
 };
 
-Q_DECLARE_INTERFACE( Interface, "org.kde.kerfuffle.partinterface/0.42" )
+Q_DECLARE_INTERFACE(Interface, "org.kde.kerfuffle.partinterface/0.42")
 
 #endif // INTERFACE_H

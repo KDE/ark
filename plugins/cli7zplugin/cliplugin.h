@@ -28,19 +28,19 @@
 
 class CliPlugin : public Kerfuffle::CliInterface
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		explicit CliPlugin( const QString & filename, QObject *parent = 0 );
-		virtual ~CliPlugin();
+public:
+    explicit CliPlugin(const QString & filename, QObject *parent = 0);
+    virtual ~CliPlugin();
 
-	protected:
-		virtual Kerfuffle::ParameterList parameterList() const;
-		virtual bool readListLine(QString line);
+protected:
+    virtual Kerfuffle::ParameterList parameterList() const;
+    virtual bool readListLine(QString line);
 
-	private:
-		Kerfuffle::ArchiveEntry m_currentArchiveEntry;
-		int m_state;
+private:
+    Kerfuffle::ArchiveEntry m_currentArchiveEntry;
+    int m_state;
 };
 
 #endif // CLIPLUGIN_H

@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
- 
+
 #include "adddialog.h"
 #include "ui_adddialog.h"
 #include "kerfuffle/archive.h"
@@ -32,84 +32,83 @@
 
 namespace Kerfuffle
 {
-	class AddDialogUI: public QWidget, public Ui::AddDialog
-	{
-		public:
-			AddDialogUI( QWidget *parent = 0 )
-				: QWidget( parent )
-			{
-				setupUi( this );
-			}
-	};
+class AddDialogUI: public QWidget, public Ui::AddDialog
+{
+public:
+    AddDialogUI(QWidget *parent = 0)
+            : QWidget(parent) {
+        setupUi(this);
+    }
+};
 
-	AddDialog::AddDialog(const QStringList& itemsToAdd,
-					const KUrl & startDir,
-					const QString &	filter,
-					QWidget * parent,
-					QWidget * widget
-					)
-		: KFileDialog(startDir, filter, parent, widget)
-	{
-		setOperationMode(KFileDialog::Saving);
-		setMode(KFile::File | KFile::LocalOnly );
-		setCaption(i18n("Compress to Archive"));
+AddDialog::AddDialog(const QStringList& itemsToAdd,
+                     const KUrl & startDir,
+                     const QString & filter,
+                     QWidget * parent,
+                     QWidget * widget
+                    )
+        : KFileDialog(startDir, filter, parent, widget)
+{
+    setOperationMode(KFileDialog::Saving);
+    setMode(KFile::File | KFile::LocalOnly);
+    setCaption(i18n("Compress to Archive"));
 
-		loadConfiguration();
+    loadConfiguration();
 
-		connect( this, SIGNAL( okClicked() ), SLOT( updateDefaultMimeType() ) );
+    connect(this, SIGNAL(okClicked()), SLOT(updateDefaultMimeType()));
 
-		m_ui = new AddDialogUI( this );
-		mainWidget()->layout()->addWidget(m_ui);
+    m_ui = new AddDialogUI(this);
+    mainWidget()->layout()->addWidget(m_ui);
 
-		setupIconList(itemsToAdd);
+    setupIconList(itemsToAdd);
 
-		//These extra options will be implemented in a 4.2+ version of
-		//ark
-		m_ui->groupExtraOptions->hide();
-	}
+    //These extra options will be implemented in a 4.2+ version of
+    //ark
+    m_ui->groupExtraOptions->hide();
+}
 
-	void AddDialog::loadConfiguration()
-	{
-		m_config = KConfigGroup( KGlobal::config()->group( "AddDialog" ) );
+void AddDialog::loadConfiguration()
+{
+    m_config = KConfigGroup(KGlobal::config()->group("AddDialog"));
 
-		QString defaultMimeType = "application/x-compressed-tar";
-		QStringList writeMimeTypes = Kerfuffle::supportedWriteMimeTypes();
-		QString lastMimeType = m_config.readEntry( "LastMimeType", defaultMimeType );
+    QString defaultMimeType = "application/x-compressed-tar";
+    QStringList writeMimeTypes = Kerfuffle::supportedWriteMimeTypes();
+    QString lastMimeType = m_config.readEntry("LastMimeType", defaultMimeType);
 
-		if (writeMimeTypes.contains( lastMimeType ))
-			setMimeFilter( writeMimeTypes, lastMimeType );
-		else
-			setMimeFilter( writeMimeTypes, defaultMimeType );
-	}
+    if (writeMimeTypes.contains(lastMimeType))
+        setMimeFilter(writeMimeTypes, lastMimeType);
+    else
+        setMimeFilter(writeMimeTypes, defaultMimeType);
+}
 
-	void AddDialog::setupIconList(const QStringList& itemsToAdd)
-	{
-		QStandardItemModel* listModel = new QStandardItemModel(this);
-		QStringList sortedList(itemsToAdd);
+void AddDialog::setupIconList(const QStringList& itemsToAdd)
+{
+    QStandardItemModel* listModel = new QStandardItemModel(this);
+    QStringList sortedList(itemsToAdd);
 
-		sortedList.sort();
+    sortedList.sort();
 
-		Q_FOREACH(const QString& urlString, sortedList) {
-			KUrl url(urlString);
+    Q_FOREACH(const QString& urlString, sortedList) {
+        KUrl url(urlString);
 
-			QStandardItem* item = new QStandardItem;
-			item->setText(url.fileName());
+        QStandardItem* item = new QStandardItem;
+        item->setText(url.fileName());
 
-			QString iconName = KMimeType::iconNameForUrl(url);
-			item->setIcon(KIcon(iconName));
+        QString iconName = KMimeType::iconNameForUrl(url);
+        item->setIcon(KIcon(iconName));
 
-			item->setData(QVariant(url), KFilePlacesModel::UrlRole);
+        item->setData(QVariant(url), KFilePlacesModel::UrlRole);
 
-			listModel->appendRow(item);
-		}
+        listModel->appendRow(item);
+    }
 
-		m_ui->compressList->setModel(listModel);
-	}
+    m_ui->compressList->setModel(listModel);
+}
 
-	void AddDialog::updateDefaultMimeType()
-	{
-		m_config.writeEntry( "LastMimeType", currentMimeFilter() );
-	}
+void AddDialog::updateDefaultMimeType()
+{
+    m_config.writeEntry("LastMimeType", currentMimeFilter());
+}
 }
 
 #include "adddialog.moc"

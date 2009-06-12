@@ -30,27 +30,27 @@ class KArchiveDirectory;
 
 class KArchiveInterface: public ReadWriteArchiveInterface
 {
-	Q_OBJECT
-	public:
-		explicit KArchiveInterface( const QString & filename, QObject *parent = 0 );
-		~KArchiveInterface();
+    Q_OBJECT
+public:
+    explicit KArchiveInterface(const QString & filename, QObject *parent = 0);
+    ~KArchiveInterface();
 
-		bool list();
-		bool copyFiles( const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths );
+    bool list();
+    bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths);
 
-		bool addFiles( const QStringList & files );
-		bool deleteFiles( const QList<QVariant> & files );
+    bool addFiles(const QStringList & files);
+    bool deleteFiles(const QList<QVariant> & files);
 
-	private:
-		bool browseArchive( KArchive *archive );
+private:
+    bool browseArchive(KArchive *archive);
 
-		bool processDir( const KArchiveDirectory *dir, const QString & prefix = QString() );
+    bool processDir(const KArchiveDirectory *dir, const QString & prefix = QString());
 
-		void createEntryFor( const KArchiveEntry *aentry, const QString& prefix );
+    void createEntryFor(const KArchiveEntry *aentry, const QString& prefix);
 
-		KArchive *archive();
+    KArchive *archive();
 
-		KArchive *m_archive;
+    KArchive *m_archive;
 };
 
 #endif // KARCHIVEPLUGIN_H

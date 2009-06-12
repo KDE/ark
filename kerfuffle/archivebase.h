@@ -34,48 +34,48 @@
 
 namespace Kerfuffle
 {
-	class KERFUFFLE_EXPORT ArchiveBase: public QObject, public Archive
-	{
-		Q_OBJECT
-		public:
-			/*
-			 * Creates an Arch to operate on the given interface.
-			 * This takes ownership of the interface, which is deleted
-			 * on the destructor.
-			 */
-			ArchiveBase( ReadOnlyArchiveInterface *archive );
-			virtual ~ArchiveBase();
+class KERFUFFLE_EXPORT ArchiveBase: public QObject, public Archive
+{
+    Q_OBJECT
+public:
+    /*
+     * Creates an Arch to operate on the given interface.
+     * This takes ownership of the interface, which is deleted
+     * on the destructor.
+     */
+    ArchiveBase(ReadOnlyArchiveInterface *archive);
+    virtual ~ArchiveBase();
 
-			virtual KJob* open();
-			virtual KJob* create();
-			virtual ListJob* list();
-			virtual DeleteJob* deleteFiles( const QList<QVariant> & files );
-			virtual AddJob* addFiles( const QStringList & files, const CompressionOptions& options = CompressionOptions() );
-			virtual ExtractJob* copyFiles( const QList<QVariant> & files, const QString & destinationDir, ExtractionOptions options );
+    virtual KJob* open();
+    virtual KJob* create();
+    virtual ListJob* list();
+    virtual DeleteJob* deleteFiles(const QList<QVariant> & files);
+    virtual AddJob* addFiles(const QStringList & files, const CompressionOptions& options = CompressionOptions());
+    virtual ExtractJob* copyFiles(const QList<QVariant> & files, const QString & destinationDir, ExtractionOptions options);
 
-			virtual bool isReadOnly();
-			virtual QString fileName();
+    virtual bool isReadOnly();
+    virtual QString fileName();
 
-			virtual bool isSingleFolderArchive();
-			virtual QString subfolderName();
-			virtual bool isPasswordProtected();
+    virtual bool isSingleFolderArchive();
+    virtual QString subfolderName();
+    virtual bool isPasswordProtected();
 
-			virtual void setPassword(QString password);
+    virtual void setPassword(QString password);
 
-		private slots:
-			void onListFinished(KJob*);
-			void onAddFinished(KJob*);
+private slots:
+    void onListFinished(KJob*);
+    void onAddFinished(KJob*);
 
-		private:
-			void listIfNotListed();
-			ReadOnlyArchiveInterface *m_iface;
-			bool m_hasBeenListed;
-			bool m_isSingleFolderArchive;
-			bool m_isPasswordProtected;
-			QString m_subfolderName;
-			qlonglong m_extractedFilesSize;
+private:
+    void listIfNotListed();
+    ReadOnlyArchiveInterface *m_iface;
+    bool m_hasBeenListed;
+    bool m_isSingleFolderArchive;
+    bool m_isPasswordProtected;
+    QString m_subfolderName;
+    qlonglong m_extractedFilesSize;
 
-	};
+};
 } // namespace Kerfuffle
 
 #endif // ARCHIVEBASE_H

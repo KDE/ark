@@ -30,11 +30,11 @@
 
 class LibXzInterface : public LibSingleFileInterface
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		LibXzInterface( const QString & filename, QObject *parent );
-		virtual ~LibXzInterface();
+public:
+    LibXzInterface(const QString & filename, QObject *parent);
+    virtual ~LibXzInterface();
 };
 
 #endif // XZPLUGIN_H

@@ -28,22 +28,22 @@
 
 namespace Kerfuffle
 {
-	ThreadExecution::ThreadExecution(Kerfuffle::Job *job)
-		: m_job(job)
-	{
-		connect(m_job, SIGNAL(result(KJob*)), this, SLOT(quit()));
-	}
+ThreadExecution::ThreadExecution(Kerfuffle::Job *job)
+        : m_job(job)
+{
+    connect(m_job, SIGNAL(result(KJob*)), this, SLOT(quit()));
+}
 
-	void ThreadExecution::run()
-	{
-		kDebug(1601) << "Run";
+void ThreadExecution::run()
+{
+    kDebug(1601) << "Run";
 
-		m_job->doWork();
+    m_job->doWork();
 
-		exec();
+    exec();
 
-		kDebug(1601) << "Finished exec";
-	}
+    kDebug(1601) << "Finished exec";
+}
 }
 
 #include "threading.moc"

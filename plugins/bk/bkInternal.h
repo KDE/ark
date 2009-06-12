@@ -1,6 +1,6 @@
 /******************************* LICENSE **************************************
 * Any code in this file may be redistributed or modified under the terms of
-* the GNU General Public License as published by the Free Software 
+* the GNU General Public License as published by the Free Software
 * Foundation; version 2 of the license.
 ****************************** END LICENSE ***********************************/
 
@@ -11,7 +11,7 @@
 * Copyright 2005-2007 Andrew Smith <andrew-smith@mail.ru>
 *
 * Contributors:
-* 
+*
 ******************************************************************************/
 
 /********************************* PURPOSE ************************************
@@ -45,15 +45,13 @@
 
 #define WRITE_CACHE_SIZE 1048576
 
-typedef struct
-{
+typedef struct {
     unsigned numChildren;
     char** children;
-    
+
 } NewPath;
 
-typedef struct BaseToWrite
-{
+typedef struct BaseToWrite {
     char name9660[15]; /* 8.3 + ";1" max */
     char nameRock[NCHARS_FILE_ID_MAX_STORE];
     char nameJoliet[NCHARS_FILE_ID_MAX_JOLIET];
@@ -62,44 +60,41 @@ typedef struct BaseToWrite
     unsigned extentNumber; /* extent number */
     off_t extentLocationOffset2; /* for svd (joliet) */
     off_t offsetForCE; /* if the name won't fit inside the directory record */
-    
+
     struct BaseToWrite* next;
-    
+
 } BaseToWrite;
 
-typedef struct DirToWrite
-{
+typedef struct DirToWrite {
     BaseToWrite base;
-    
+
     unsigned extentNumber2; /* for svd (joliet) */
     unsigned dataLength; /* bytes, including blank */
     unsigned dataLength2; /* for svd (joliet) */
     struct BaseToWrite* children;
-    
+
 } DirToWrite;
 
-typedef struct FileToWrite
-{
+typedef struct FileToWrite {
     BaseToWrite base;
-    
+
     unsigned size; /* in bytes */
     BkHardLink* location; /* basically a copy of the following variables */
     bool onImage;
     unsigned offset; /* if on image, in bytes */
     char* pathAndName; /* if on filesystem, full path + filename
                        * is to be freed by whenever the File is freed */
-    BkFile* origFile; /* this pointer only has one purpose: to potentially 
+    BkFile* origFile; /* this pointer only has one purpose: to potentially
                       * identify this file as the boot record. it will never
                       * be dereferenced, just compared to. */
-    
+
 } FileToWrite;
 
-typedef struct SymLinkToWrite
-{
+typedef struct SymLinkToWrite {
     BaseToWrite base;
-    
+
     char target[NCHARS_SYMLINK_TARGET_MAX];
-    
+
 } SymLinkToWrite;
 
 #endif

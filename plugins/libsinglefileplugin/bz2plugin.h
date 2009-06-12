@@ -30,11 +30,11 @@
 
 class LibBzip2Interface : public LibSingleFileInterface
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		LibBzip2Interface( const QString & filename, QObject *parent );
-		virtual ~LibBzip2Interface();
+public:
+    LibBzip2Interface(const QString & filename, QObject *parent);
+    virtual ~LibBzip2Interface();
 };
 
 #endif // BZ2PLUGIN_H

@@ -34,76 +34,78 @@ using namespace Kerfuffle;
 
 class ArchiveModel: public QAbstractItemModel
 {
-	Q_OBJECT
-	public:
-		ArchiveModel( QObject *parent = 0 );
-		~ArchiveModel();
+    Q_OBJECT
+public:
+    ArchiveModel(QObject *parent = 0);
+    ~ArchiveModel();
 
-		QVariant data( const QModelIndex &index, int role ) const;
-		Qt::ItemFlags flags( const QModelIndex &index ) const;
-		QVariant headerData( int section, Qt::Orientation orientation,
-		                     int role = Qt::DisplayRole ) const;
-		QModelIndex index( int row, int column,
-		                   const QModelIndex &parent = QModelIndex() ) const;
-		QModelIndex parent( const QModelIndex &index ) const;
-		int rowCount( const QModelIndex &parent = QModelIndex() ) const;
-		int columnCount( const QModelIndex &parent = QModelIndex() ) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    QVariant headerData(int section, Qt::Orientation orientation,
+                        int role = Qt::DisplayRole) const;
+    QModelIndex index(int row, int column,
+                      const QModelIndex &parent = QModelIndex()) const;
+    QModelIndex parent(const QModelIndex &index) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
-		virtual void sort ( int column, Qt::SortOrder order = Qt::AscendingOrder );
+    virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
-		//drag and drop related
-		virtual Qt::DropActions supportedDropActions () const;
-		virtual QStringList mimeTypes () const;
-		virtual QMimeData * mimeData ( const QModelIndexList & indexes ) const;
+    //drag and drop related
+    virtual Qt::DropActions supportedDropActions() const;
+    virtual QStringList mimeTypes() const;
+    virtual QMimeData * mimeData(const QModelIndexList & indexes) const;
 
-		virtual bool dropMimeData ( const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent );
+    virtual bool dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent);
 
 
-		KJob* setArchive( Kerfuffle::Archive *archive );
-		Kerfuffle::Archive *archive() const { return m_archive; }
+    KJob* setArchive(Kerfuffle::Archive *archive);
+    Kerfuffle::Archive *archive() const {
+        return m_archive;
+    }
 
-		ArchiveEntry entryForIndex( const QModelIndex &index );
-		int childCount( const QModelIndex &index );
+    ArchiveEntry entryForIndex(const QModelIndex &index);
+    int childCount(const QModelIndex &index);
 
-		ExtractJob* extractFile( const QVariant& fileName, const QString & destinationDir, ExtractionOptions options = ExtractionOptions()) const;
-		ExtractJob* extractFiles( const QList<QVariant>& files, const QString & destinationDir, const Kerfuffle::ExtractionOptions options = ExtractionOptions()	) const;
+    ExtractJob* extractFile(const QVariant& fileName, const QString & destinationDir, ExtractionOptions options = ExtractionOptions()) const;
+    ExtractJob* extractFiles(const QList<QVariant>& files, const QString & destinationDir, const Kerfuffle::ExtractionOptions options = ExtractionOptions()) const;
 
-		AddJob* addFiles( const QStringList & paths, const CompressionOptions& options = CompressionOptions() );
-		DeleteJob* deleteFiles( const QList<QVariant> & files );
+    AddJob* addFiles(const QStringList & paths, const CompressionOptions& options = CompressionOptions());
+    DeleteJob* deleteFiles(const QList<QVariant> & files);
 
-	signals:
-		void loadingStarted();
-		void loadingFinished(KJob *);
-		void extractionFinished( bool success );
-		void error( const QString& error, const QString& details );
-		void droppedFiles(const QStringList& files, const QString& path = QString());
+signals:
+    void loadingStarted();
+    void loadingFinished(KJob *);
+    void extractionFinished(bool success);
+    void error(const QString& error, const QString& details);
+    void droppedFiles(const QStringList& files, const QString& path = QString());
 
-	private slots:
-		void slotNewEntryFromSetArchive( const ArchiveEntry& entry );
-		void slotNewEntry( const ArchiveEntry& entry );
-		void slotLoadingFinished(KJob *job);
-		void slotEntryRemoved( const QString & path );
-		void slotUserQuery(Query *query);
-		void slotCleanupEmptyDirs();
+private slots:
+    void slotNewEntryFromSetArchive(const ArchiveEntry& entry);
+    void slotNewEntry(const ArchiveEntry& entry);
+    void slotLoadingFinished(KJob *job);
+    void slotEntryRemoved(const QString & path);
+    void slotUserQuery(Query *query);
+    void slotCleanupEmptyDirs();
 
-	private:
-		ArchiveDirNode* parentFor( const ArchiveEntry& entry );
-		QModelIndex indexForNode( ArchiveNode *node );
-		static bool compareAscending(const QModelIndex& a, const QModelIndex& b);
-		static bool compareDescending(const QModelIndex& a, const QModelIndex& b);
-		/**
-		 * Insert the node @p node into the model, ensuring all views are notified
-		 * of the change.
-		 */
-		enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
-		void insertNode( ArchiveNode *node, InsertBehaviour behaviour = NotifyViews );
-		void newEntry(const ArchiveEntry& entry, InsertBehaviour behaviour);
+private:
+    ArchiveDirNode* parentFor(const ArchiveEntry& entry);
+    QModelIndex indexForNode(ArchiveNode *node);
+    static bool compareAscending(const QModelIndex& a, const QModelIndex& b);
+    static bool compareDescending(const QModelIndex& a, const QModelIndex& b);
+    /**
+     * Insert the node @p node into the model, ensuring all views are notified
+     * of the change.
+     */
+    enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
+    void insertNode(ArchiveNode *node, InsertBehaviour behaviour = NotifyViews);
+    void newEntry(const ArchiveEntry& entry, InsertBehaviour behaviour);
 
-		QList<ArchiveEntry> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
-		QList<int> m_showColumns;
-		Kerfuffle::Archive *m_archive;
-		ArchiveDirNode *m_rootNode;
-		KJobTrackerInterface *m_jobTracker;
+    QList<ArchiveEntry> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
+    QList<int> m_showColumns;
+    Kerfuffle::Archive *m_archive;
+    ArchiveDirNode *m_rootNode;
+    KJobTrackerInterface *m_jobTracker;
 };
 
 #endif // ARCHIVEMODEL_H

@@ -34,56 +34,56 @@
 using Kerfuffle::BatchExtract;
 
 K_PLUGIN_FACTORY(ExtractHerePluginFactory,
-		registerPlugin<ExtractHereDndPlugin>();
-		)
+                 registerPlugin<ExtractHereDndPlugin>();
+                )
 K_EXPORT_PLUGIN(ExtractHerePluginFactory("stupidname"))
 
 void ExtractHereDndPlugin::slotTriggered()
 {
-	kDebug() << "Preparing job";
-	BatchExtract *batchJob = new BatchExtract();
+    kDebug() << "Preparing job";
+    BatchExtract *batchJob = new BatchExtract();
 
-	batchJob->setAutoSubfolder(true);
-	batchJob->setDestinationFolder(m_dest.path());
-	batchJob->setPreservePaths(true);
-	foreach(const KUrl& url, m_urls) {
-		batchJob->addInput(url);
-	}
+    batchJob->setAutoSubfolder(true);
+    batchJob->setDestinationFolder(m_dest.path());
+    batchJob->setPreservePaths(true);
+    foreach(const KUrl& url, m_urls) {
+        batchJob->addInput(url);
+    }
 
-	batchJob->start();
-	kDebug() << "Started job";
+    batchJob->start();
+    kDebug() << "Started job";
 
 }
 
-	ExtractHereDndPlugin::ExtractHereDndPlugin(QObject* parent, const QVariantList&)
-: KonqDndPopupMenuPlugin(parent)
+ExtractHereDndPlugin::ExtractHereDndPlugin(QObject* parent, const QVariantList&)
+        : KonqDndPopupMenuPlugin(parent)
 {
 }
 
 void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
-		KUrl destination,
-		QList<QAction*>& userActions)
+                                 KUrl destination,
+                                 QList<QAction*>& userActions)
 {
 
-	kDebug() << "plugin setup";
-	QString extractHereMessage = i18n("Extract here");
+    kDebug() << "plugin setup";
+    QString extractHereMessage = i18n("Extract here");
 
-	if (!Kerfuffle::supportedMimeTypes().contains(popupMenuInfo.mimeType())) {
-		kDebug(1601) << "Unsupported file" << popupMenuInfo.mimeType() << Kerfuffle::supportedMimeTypes();
-		return;
-	}
+    if (!Kerfuffle::supportedMimeTypes().contains(popupMenuInfo.mimeType())) {
+        kDebug(1601) << "Unsupported file" << popupMenuInfo.mimeType() << Kerfuffle::supportedMimeTypes();
+        return;
+    }
 
-	kDebug() << "Plugin executed";
-		//<< popupMenuInfo.mimeGroup()
-		//<< popupMenuInfo.mimeType();
+    kDebug() << "Plugin executed";
+    //<< popupMenuInfo.mimeGroup()
+    //<< popupMenuInfo.mimeType();
 
-	KAction *action = new KAction(KIcon("archive-extract"), extractHereMessage, NULL);
-	connect(action, SIGNAL(triggered()),
-			this, SLOT(slotTriggered()));
+    KAction *action = new KAction(KIcon("archive-extract"), extractHereMessage, NULL);
+    connect(action, SIGNAL(triggered()),
+            this, SLOT(slotTriggered()));
 
-	userActions.append(action);
-	m_dest = destination;
-	m_urls = popupMenuInfo.urlList();
+    userActions.append(action);
+    m_dest = destination;
+    m_urls = popupMenuInfo.urlList();
 
 }
 

@@ -39,37 +39,45 @@ class Interface;
 
 namespace Kerfuffle
 {
-	class KERFUFFLE_EXPORT AddToArchive : public KJob
-	{
-		Q_OBJECT
+class KERFUFFLE_EXPORT AddToArchive : public KJob
+{
+    Q_OBJECT
 
-		public:
-			AddToArchive( QObject *parent = 0 );
-			~AddToArchive();
+public:
+    AddToArchive(QObject *parent = 0);
+    ~AddToArchive();
 
-			bool showAddDialog();
-			void setPreservePaths(bool value);
-			void setChangeToFirstPath(bool value) { m_changeToFirstPath = value; }
+    bool showAddDialog();
+    void setPreservePaths(bool value);
+    void setChangeToFirstPath(bool value) {
+        m_changeToFirstPath = value;
+    }
 
-		public slots:
-			bool addInput( const KUrl& url);
-			void setFilename( const KUrl& path ) { m_filename = path.path(); }
-			void setMimeType( const QString & mimeType ) { m_mimeType = mimeType; }
-			void setAutoFilenameSuffix( const QString& suffix ) { m_autoFilenameSuffix = suffix; }
-			void start();
+public slots:
+    bool addInput(const KUrl& url);
+    void setFilename(const KUrl& path) {
+        m_filename = path.path();
+    }
+    void setMimeType(const QString & mimeType) {
+        m_mimeType = mimeType;
+    }
+    void setAutoFilenameSuffix(const QString& suffix) {
+        m_autoFilenameSuffix = suffix;
+    }
+    void start();
 
-		private slots:
-			void slotFinished(KJob*);
+private slots:
+    void slotFinished(KJob*);
 
-		private:
-			QString m_filename;
-			QString m_strippedPath;
-			QString m_autoFilenameSuffix;
-			QString m_firstPath;
-			QString m_mimeType;
-			QStringList m_inputs;
-			bool m_changeToFirstPath;
-	};
+private:
+    QString m_filename;
+    QString m_strippedPath;
+    QString m_autoFilenameSuffix;
+    QString m_firstPath;
+    QString m_mimeType;
+    QStringList m_inputs;
+    bool m_changeToFirstPath;
+};
 }
 
 #endif // ADDTOARCHIVE_H

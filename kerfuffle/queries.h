@@ -33,75 +33,75 @@
 namespace Kerfuffle
 {
 
-	typedef QHash<QString, QVariant> QueryData;
+typedef QHash<QString, QVariant> QueryData;
 
-	class KERFUFFLE_EXPORT Query
-	{
+class KERFUFFLE_EXPORT Query
+{
 
-		public:
-			/**
-			 * Execute the response. Will happen in the GUI thread, so it's
-			 * safe to use widgets/gui elements here. Must call setResponse
-			 * when done.
-			 */
-			virtual void execute() = 0;
+public:
+    /**
+     * Execute the response. Will happen in the GUI thread, so it's
+     * safe to use widgets/gui elements here. Must call setResponse
+     * when done.
+     */
+    virtual void execute() = 0;
 
-			/**
-			 * Will block until the response have been set
-			 */
-			void waitForResponse();
+    /**
+     * Will block until the response have been set
+     */
+    void waitForResponse();
 
-			QVariant response();
+    QVariant response();
 
-		protected:
-			/**
-			 * Protected constructor
-			 */
-			Query();
-			virtual ~Query() {}
+protected:
+    /**
+     * Protected constructor
+     */
+    Query();
+    virtual ~Query() {}
 
-			void setResponse(QVariant response);
+    void setResponse(QVariant response);
 
-			QueryData m_data;
+    QueryData m_data;
 
-		private:
-			QWaitCondition m_responseCondition;
-			QMutex m_responseMutex;
+private:
+    QWaitCondition m_responseCondition;
+    QMutex m_responseMutex;
 
 
-	};
+};
 
-	class KERFUFFLE_EXPORT OverwriteQuery : public Query
-	{
-		public:
-			explicit OverwriteQuery(QString filename);
-			void execute();
-			bool responseCancelled();
-			bool responseOverwriteAll();
-			bool responseOverwrite();
-			bool responseRename();
-			bool responseSkip();
-			bool responseAutoSkip();
-			QString newFilename();
-			
-			void setNoRenameMode(bool enableNoRenameMode);
-			bool noRenameMode();
-			void setMultiMode(bool enableMultiMode);
-			bool multiMode();
-		private:
-			bool m_noRenameMode;
-			bool m_multiMode;
-	};
+class KERFUFFLE_EXPORT OverwriteQuery : public Query
+{
+public:
+    explicit OverwriteQuery(QString filename);
+    void execute();
+    bool responseCancelled();
+    bool responseOverwriteAll();
+    bool responseOverwrite();
+    bool responseRename();
+    bool responseSkip();
+    bool responseAutoSkip();
+    QString newFilename();
 
-	class KERFUFFLE_EXPORT PasswordNeededQuery : public Query
-	{
-		public:
-			explicit PasswordNeededQuery(QString archiveFilename, bool incorrectTryAgain = false);
-			void execute();
+    void setNoRenameMode(bool enableNoRenameMode);
+    bool noRenameMode();
+    void setMultiMode(bool enableMultiMode);
+    bool multiMode();
+private:
+    bool m_noRenameMode;
+    bool m_multiMode;
+};
 
-			bool responseCancelled();
-			QString password();
-	};
+class KERFUFFLE_EXPORT PasswordNeededQuery : public Query
+{
+public:
+    explicit PasswordNeededQuery(QString archiveFilename, bool incorrectTryAgain = false);
+    void execute();
+
+    bool responseCancelled();
+    QString password();
+};
 
 }
 

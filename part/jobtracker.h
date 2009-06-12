@@ -28,37 +28,41 @@
 
 class JobTrackerWidget: public QFrame, public Ui::JobTrackerWidget
 {
-	Q_OBJECT
-	public:
-	JobTrackerWidget( QWidget *parent = 0 );
+    Q_OBJECT
+public:
+    JobTrackerWidget(QWidget *parent = 0);
 };
 
 class JobTracker: public KAbstractWidgetJobTracker
 {
-	Q_OBJECT
-	public:
-		JobTracker( QWidget *parent = 0 );
+    Q_OBJECT
+public:
+    JobTracker(QWidget *parent = 0);
 
-		QWidget *widget(KJob *) { return m_ui; }
-		virtual void registerJob( KJob *job );
-		virtual void unregisterJob( KJob *job );
+    QWidget *widget(KJob *) {
+        return m_ui;
+    }
+    virtual void registerJob(KJob *job);
+    virtual void unregisterJob(KJob *job);
 
-		KJob *currentJob() const { return m_currentJob; }
+    KJob *currentJob() const {
+        return m_currentJob;
+    }
 
-	protected slots:
-		virtual void finished( KJob *job );
-		virtual void description( KJob *job, const QString &title, const QPair< QString, QString > &f1, const QPair< QString, QString > &f2 );
-		virtual void infoMessage( KJob *job, const QString &plain, const QString &rich );
-		virtual void warning( KJob *job, const QString &plain, const QString &rich );
+protected slots:
+    virtual void finished(KJob *job);
+    virtual void description(KJob *job, const QString &title, const QPair< QString, QString > &f1, const QPair< QString, QString > &f2);
+    virtual void infoMessage(KJob *job, const QString &plain, const QString &rich);
+    virtual void warning(KJob *job, const QString &plain, const QString &rich);
 
-		virtual void percent (KJob *job, unsigned long 	percent	);
+    virtual void percent(KJob *job, unsigned long  percent);
 
-	private slots:
-		void resetUi();
+private slots:
+    void resetUi();
 
-	private:
-		JobTrackerWidget *m_ui;
-		KJob             *m_currentJob;
+private:
+    JobTrackerWidget *m_ui;
+    KJob             *m_currentJob;
 };
 
 #endif // JOBTRACKER_H

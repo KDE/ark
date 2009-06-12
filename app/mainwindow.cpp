@@ -44,211 +44,201 @@
 
 static bool isValidArchiveDrag(const QMimeData *data)
 {
-	return
-	data->hasUrls() &&
-	data->urls().count() == 1;
+    return
+        data->hasUrls() &&
+        data->urls().count() == 1;
 }
 
-MainWindow::MainWindow( QWidget * )
-	: KParts::MainWindow( )
+MainWindow::MainWindow(QWidget *)
+        : KParts::MainWindow()
 {
-	setXMLFile( "arkui.rc" );
+    setXMLFile("arkui.rc");
 
-	setupActions();
-	statusBar();
+    setupActions();
+    statusBar();
 
-	if ( !initialGeometrySet() )
-	{
-		resize( 640, 480 );
-	}
-	setAutoSaveSettings( "MainWindow" );
+    if (!initialGeometrySet()) {
+        resize(640, 480);
+    }
+    setAutoSaveSettings("MainWindow");
 
-	setAcceptDrops(true);
+    setAcceptDrops(true);
 }
 
 MainWindow::~MainWindow()
 {
-	if ( m_recentFilesAction )
-	{
-		m_recentFilesAction->saveEntries( KGlobal::config()->group( "Recent Files" ) );
-	}
-	delete m_part;
-	m_part = 0;
+    if (m_recentFilesAction) {
+        m_recentFilesAction->saveEntries(KGlobal::config()->group("Recent Files"));
+    }
+    delete m_part;
+    m_part = 0;
 }
 
-void MainWindow::dragEnterEvent ( QDragEnterEvent * event )
+void MainWindow::dragEnterEvent(QDragEnterEvent * event)
 {
-	kDebug(1601) << event;
+    kDebug(1601) << event;
 
-	Interface *iface = qobject_cast<Interface*>( m_part );
-	if (iface->isBusy()) return;
+    Interface *iface = qobject_cast<Interface*>(m_part);
+    if (iface->isBusy()) return;
 
-	if (event->source() == NULL &&
-			isValidArchiveDrag(event->mimeData()))
-         event->acceptProposedAction();
-	return;
+    if (event->source() == NULL &&
+            isValidArchiveDrag(event->mimeData()))
+        event->acceptProposedAction();
+    return;
 }
 
-void MainWindow::dropEvent ( QDropEvent * event )
+void MainWindow::dropEvent(QDropEvent * event)
 {
-	kDebug(1601) << event;
+    kDebug(1601) << event;
 
-	Interface *iface = qobject_cast<Interface*>( m_part );
-	if (iface->isBusy()) return;
-	
-	if (event->source() == NULL &&
-			isValidArchiveDrag(event->mimeData()))
-         event->acceptProposedAction();
+    Interface *iface = qobject_cast<Interface*>(m_part);
+    if (iface->isBusy()) return;
 
-	//TODO: if this call provokes a message box the drag will still be going
-	//while the box is onscreen. looks buggy, do something about it
-	openUrl(event->mimeData()->urls().at(0));
+    if (event->source() == NULL &&
+            isValidArchiveDrag(event->mimeData()))
+        event->acceptProposedAction();
+
+    //TODO: if this call provokes a message box the drag will still be going
+    //while the box is onscreen. looks buggy, do something about it
+    openUrl(event->mimeData()->urls().at(0));
 }
 
-void MainWindow::dragMoveEvent ( QDragMoveEvent * event )
+void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 {
-	kDebug(1601) << event;
+    kDebug(1601) << event;
 
-	Interface *iface = qobject_cast<Interface*>( m_part );
-	if (iface->isBusy()) return;
+    Interface *iface = qobject_cast<Interface*>(m_part);
+    if (iface->isBusy()) return;
 
-	if (event->source() == NULL &&
-			isValidArchiveDrag(event->mimeData()))
-         event->acceptProposedAction();
+    if (event->source() == NULL &&
+            isValidArchiveDrag(event->mimeData()))
+        event->acceptProposedAction();
 }
 
 bool MainWindow::loadPart()
 {
-	KPluginFactory *factory = KPluginLoader("libarkpart").factory();
-	if(factory) {
-		m_part = static_cast<KParts::ReadWritePart*>( factory->create<KParts::ReadWritePart>(this) );
-	}
-	if ( !factory || !m_part )
-	{
-		KMessageBox::error( this, i18n( "Unable to find Ark's KPart component, please check your installation." ) );
-		return false;
-	}
+    KPluginFactory *factory = KPluginLoader("libarkpart").factory();
+    if (factory) {
+        m_part = static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this));
+    }
+    if (!factory || !m_part) {
+        KMessageBox::error(this, i18n("Unable to find Ark's KPart component, please check your installation."));
+        return false;
+    }
 
-	m_part->setObjectName( "ArkPart" );
-	setCentralWidget( m_part->widget() );
-	createGUI( m_part );
+    m_part->setObjectName("ArkPart");
+    setCentralWidget(m_part->widget());
+    createGUI(m_part);
 
-	connect( m_part, SIGNAL( busy() ), this, SLOT( updateActions() ) );
-	connect( m_part, SIGNAL( ready() ), this, SLOT( updateActions() ) );
+    connect(m_part, SIGNAL(busy()), this, SLOT(updateActions()));
+    connect(m_part, SIGNAL(ready()), this, SLOT(updateActions()));
 
-	return true;	
+    return true;
 }
 
 void MainWindow::setupActions()
 {
-	m_newAction = KStandardAction::openNew( this, SLOT( newArchive() ), actionCollection() );
-	m_openAction = KStandardAction::open( this, SLOT( openArchive() ), actionCollection() );
-	KStandardAction::quit( this, SLOT( quit() ), actionCollection() );
+    m_newAction = KStandardAction::openNew(this, SLOT(newArchive()), actionCollection());
+    m_openAction = KStandardAction::open(this, SLOT(openArchive()), actionCollection());
+    KStandardAction::quit(this, SLOT(quit()), actionCollection());
 
-	m_recentFilesAction = KStandardAction::openRecent( this, SLOT( openUrl( const KUrl& ) ), actionCollection() );
-	m_recentFilesAction->setToolBarMode( KRecentFilesAction::MenuMode );
-	m_recentFilesAction->setToolButtonPopupMode( QToolButton::DelayedPopup );
-	m_recentFilesAction->setIconText( i18nc( "action, to open an archive", "Open" ) );
-	m_recentFilesAction->setStatusTip( i18n( "Click to open an archive, click and hold to open a recently-opened archive" ) );
-	m_recentFilesAction->setToolTip( i18n( "Open an archive" ) );
-	m_recentFilesAction->loadEntries( KGlobal::config()->group( "Recent Files" ) );
-	connect( m_recentFilesAction, SIGNAL( triggered() ),
-	         this, SLOT( openArchive() ) );
+    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openUrl(const KUrl&)), actionCollection());
+    m_recentFilesAction->setToolBarMode(KRecentFilesAction::MenuMode);
+    m_recentFilesAction->setToolButtonPopupMode(QToolButton::DelayedPopup);
+    m_recentFilesAction->setIconText(i18nc("action, to open an archive", "Open"));
+    m_recentFilesAction->setStatusTip(i18n("Click to open an archive, click and hold to open a recently-opened archive"));
+    m_recentFilesAction->setToolTip(i18n("Open an archive"));
+    m_recentFilesAction->loadEntries(KGlobal::config()->group("Recent Files"));
+    connect(m_recentFilesAction, SIGNAL(triggered()),
+            this, SLOT(openArchive()));
 
-	createStandardStatusBarAction();
+    createStandardStatusBarAction();
 
-	KStandardAction::configureToolbars( this, SLOT( editToolbars() ), actionCollection() );
-	KStandardAction::keyBindings( this, SLOT( editKeyBindings() ), actionCollection() );
+    KStandardAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
+    KStandardAction::keyBindings(this, SLOT(editKeyBindings()), actionCollection());
 }
 
 void MainWindow::updateActions()
 {
-	Interface *iface = qobject_cast<Interface*>( m_part );
-	m_newAction->setEnabled( !iface->isBusy() );
-	m_openAction->setEnabled( !iface->isBusy() );
-	m_recentFilesAction->setEnabled( !iface->isBusy() );
+    Interface *iface = qobject_cast<Interface*>(m_part);
+    m_newAction->setEnabled(!iface->isBusy());
+    m_openAction->setEnabled(!iface->isBusy());
+    m_recentFilesAction->setEnabled(!iface->isBusy());
 }
 
 void MainWindow::editKeyBindings()
 {
-	KShortcutsDialog dlg( KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this );
-	dlg.addCollection( actionCollection() );
-	dlg.addCollection( m_part->actionCollection() );
+    KShortcutsDialog dlg(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
+    dlg.addCollection(actionCollection());
+    dlg.addCollection(m_part->actionCollection());
 
-	dlg.configure();
+    dlg.configure();
 }
 
 void MainWindow::editToolbars()
 {
-	saveMainWindowSettings( KGlobal::config()->group( QLatin1String( "MainWindow" ) ) );
+    saveMainWindowSettings(KGlobal::config()->group(QLatin1String("MainWindow")));
 
-	QPointer<KEditToolBar> dlg = new KEditToolBar( factory(), this );
-	dlg->exec();
+    QPointer<KEditToolBar> dlg = new KEditToolBar(factory(), this);
+    dlg->exec();
 
-	createGUI( m_part );
+    createGUI(m_part);
 
-	applyMainWindowSettings( KGlobal::config()->group( QLatin1String( "MainWindow" ) ) );
+    applyMainWindowSettings(KGlobal::config()->group(QLatin1String("MainWindow")));
 }
 
 void MainWindow::openArchive()
 {
-	Interface *iface = qobject_cast<Interface*>( m_part );
-	Q_ASSERT( iface );
-	KUrl url = KFileDialog::getOpenUrl( KUrl( "kfiledialog:///ArkOpenDir"),
-	                                    iface->supportedMimeTypes().join( " " ),
-	                                    this );
-	openUrl( url );
+    Interface *iface = qobject_cast<Interface*>(m_part);
+    Q_ASSERT(iface);
+    KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///ArkOpenDir"),
+                                       iface->supportedMimeTypes().join(" "),
+                                       this);
+    openUrl(url);
 }
 
-void MainWindow::openUrl( const KUrl& url )
+void MainWindow::openUrl(const KUrl& url)
 {
-	if ( !url.isEmpty() )
-	{
-		m_part->setArguments(m_openArgs);
+    if (!url.isEmpty()) {
+        m_part->setArguments(m_openArgs);
 
-		if ( m_part->openUrl( url ) )
-		{
-			m_recentFilesAction->addUrl( url );
-		}
-		else
-		{
-			m_recentFilesAction->removeUrl( url );
-		}
-	}
+        if (m_part->openUrl(url)) {
+            m_recentFilesAction->addUrl(url);
+        } else {
+            m_recentFilesAction->removeUrl(url);
+        }
+    }
 }
 
 void MainWindow::setShowExtractDialog(bool option)
 {
-	if (option)
-	{
-		m_openArgs.metaData()["showExtractDialog"] = "true";
-	}
-	else
-	{
-		m_openArgs.metaData().remove("showExtractDialog");
-	}
+    if (option) {
+        m_openArgs.metaData()["showExtractDialog"] = "true";
+    } else {
+        m_openArgs.metaData().remove("showExtractDialog");
+    }
 }
 
 void MainWindow::quit()
 {
-	close();
+    close();
 }
 
 void MainWindow::newArchive()
 {
-	Interface *iface = qobject_cast<Interface*>( m_part );
-	Q_ASSERT( iface );
-	QStringList mimeTypes = iface->supportedWriteMimeTypes();
+    Interface *iface = qobject_cast<Interface*>(m_part);
+    Q_ASSERT(iface);
+    QStringList mimeTypes = iface->supportedWriteMimeTypes();
 
-	kDebug( 1601 ) << "Supported mimetypes are" << mimeTypes.join( " " );
+    kDebug(1601) << "Supported mimetypes are" << mimeTypes.join(" ");
 
-	QString saveFile = KFileDialog::getSaveFileName( KUrl( "kfiledialog:///ArkNewDir" ),
-	                                                 mimeTypes.join( " " ) );
+    QString saveFile = KFileDialog::getSaveFileName(KUrl("kfiledialog:///ArkNewDir"),
+                       mimeTypes.join(" "));
 
-	m_openArgs.metaData()["createNewArchive"] = "true";
+    m_openArgs.metaData()["createNewArchive"] = "true";
 
-	openUrl( KUrl( saveFile ) );
+    openUrl(KUrl(saveFile));
 
-	m_openArgs.metaData().remove("showExtractDialog");
-	m_openArgs.metaData().remove("createNewArchive");
+    m_openArgs.metaData().remove("showExtractDialog");
+    m_openArgs.metaData().remove("createNewArchive");
 }

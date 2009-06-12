@@ -26,12 +26,12 @@ class DndExtractAdaptor: public QDBusAbstractAdaptor
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.DndExtract")
     Q_CLASSINFO("D-Bus Introspection", ""
-"  <interface name=\"org.kde.DndExtract\" >\n"
-"    <method name=\"extractSelectedFilesTo\" >\n"
-"      <arg direction=\"in\" type=\"s\" name=\"path\" />\n"
-"    </method>\n"
-"  </interface>\n"
-        "")
+                "  <interface name=\"org.kde.DndExtract\" >\n"
+                "    <method name=\"extractSelectedFilesTo\" >\n"
+                "      <arg direction=\"in\" type=\"s\" name=\"path\" />\n"
+                "    </method>\n"
+                "  </interface>\n"
+                "")
 public:
     DndExtractAdaptor(QObject *parent);
     virtual ~DndExtractAdaptor();

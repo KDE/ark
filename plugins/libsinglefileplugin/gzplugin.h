@@ -30,11 +30,11 @@
 
 class LibGzipInterface : public LibSingleFileInterface
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		LibGzipInterface( const QString & filename, QObject *parent );
-		virtual ~LibGzipInterface();
+public:
+    LibGzipInterface(const QString & filename, QObject *parent);
+    virtual ~LibGzipInterface();
 };
 
 #endif // GZPLUGIN_H

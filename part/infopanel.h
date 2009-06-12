@@ -29,26 +29,26 @@
 
 class InfoPanel: public QFrame, Ui::InformationPanel
 {
-	Q_OBJECT
-	public:
-		explicit InfoPanel( ArchiveModel *model, QWidget *parent = 0 );
-		~InfoPanel();
+    Q_OBJECT
+public:
+    explicit InfoPanel(ArchiveModel *model, QWidget *parent = 0);
+    ~InfoPanel();
 
-		void setIndex( const QModelIndex & );
-		void setIndexes( const QModelIndexList &list );
+    void setIndex(const QModelIndex &);
+    void setIndexes(const QModelIndexList &list);
 
-	private:
-		void setDefaultValues();
+private:
+    void setDefaultValues();
 
-		void showMetaData();
-		void hideMetaData();
+    void showMetaData();
+    void hideMetaData();
 
-		void showActions();
-		void hideActions();
+    void showActions();
+    void hideActions();
 
-		QString metadataTextFor( const QModelIndex & );
+    QString metadataTextFor(const QModelIndex &);
 
-		ArchiveModel *m_model;
+    ArchiveModel *m_model;
 };
 
 #endif // INFOPANEL_H

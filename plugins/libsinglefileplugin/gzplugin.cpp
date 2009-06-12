@@ -28,17 +28,17 @@
 
 #include <QString>
 
-LibGzipInterface::LibGzipInterface( const QString & filename, QObject *parent )
-	: LibSingleFileInterface( filename, parent )
+LibGzipInterface::LibGzipInterface(const QString & filename, QObject *parent)
+        : LibSingleFileInterface(filename, parent)
 {
-	m_mimeType = "application/x-gzip";
-	m_possibleExtensions.append(".gz");
+    m_mimeType = "application/x-gzip";
+    m_possibleExtensions.append(".gz");
 }
 
 LibGzipInterface::~LibGzipInterface()
 {
 }
 
-KERFUFFLE_PLUGIN_FACTORY( LibGzipInterface )
+KERFUFFLE_PLUGIN_FACTORY(LibGzipInterface)
 
 #include "gzplugin.moc"

@@ -36,146 +36,144 @@
 
 namespace Kerfuffle
 {
-	AddToArchive::AddToArchive(QObject *parent)
-		: KJob(parent), m_changeToFirstPath(false)
-	{
-	}
+AddToArchive::AddToArchive(QObject *parent)
+        : KJob(parent), m_changeToFirstPath(false)
+{
+}
 
-	AddToArchive::~AddToArchive()
-	{
-	}
+AddToArchive::~AddToArchive()
+{
+}
 
-	bool AddToArchive::showAddDialog( void )
-	{
-		QPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
-			m_inputs, // itemsToAdd
-			KUrl(m_firstPath), // startDir
-			"", // filter
-			NULL, // parent
-			NULL); // widget
+bool AddToArchive::showAddDialog(void)
+{
+    QPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
+        m_inputs, // itemsToAdd
+        KUrl(m_firstPath), // startDir
+        "", // filter
+        NULL, // parent
+        NULL); // widget
 
-		bool ret = dialog->exec();
+    bool ret = dialog->exec();
 
-		if (ret) {
-			kDebug( 1601 ) << "Returned URL:" << dialog->selectedUrl();
-			kDebug( 1601 ) << "Returned mime:" << dialog->currentMimeFilter();
-			setFilename(dialog->selectedUrl());
-			setMimeType(dialog->currentMimeFilter());
-		}
+    if (ret) {
+        kDebug(1601) << "Returned URL:" << dialog->selectedUrl();
+        kDebug(1601) << "Returned mime:" << dialog->currentMimeFilter();
+        setFilename(dialog->selectedUrl());
+        setMimeType(dialog->currentMimeFilter());
+    }
 
-		return ret;
-	}
+    return ret;
+}
 
-	bool AddToArchive::addInput( const KUrl& url )
-	{
-		m_inputs << url.path(
-				QFileInfo(url.path()).isDir() ? 
-				KUrl::AddTrailingSlash :
-				KUrl::RemoveTrailingSlash
-				);
+bool AddToArchive::addInput(const KUrl& url)
+{
+    m_inputs << url.path(
+        QFileInfo(url.path()).isDir() ?
+        KUrl::AddTrailingSlash :
+        KUrl::RemoveTrailingSlash
+    );
 
-		if (m_firstPath.isEmpty()) {
-			QString firstEntry = url.path(KUrl::RemoveTrailingSlash);
-			m_firstPath = QFileInfo(firstEntry).dir().absolutePath();
-		}
+    if (m_firstPath.isEmpty()) {
+        QString firstEntry = url.path(KUrl::RemoveTrailingSlash);
+        m_firstPath = QFileInfo(firstEntry).dir().absolutePath();
+    }
 
-		return true;
-	}
+    return true;
+}
 
-	// TODO: If this class should ever be called outside main.cpp,
-	//       the returns should be preceded by emitResult().
-	void AddToArchive::start( void )
-	{
-		kDebug( 1601 );
+// TODO: If this class should ever be called outside main.cpp,
+//       the returns should be preceded by emitResult().
+void AddToArchive::start(void)
+{
+    kDebug(1601);
 
-		Kerfuffle::CompressionOptions options;
+    Kerfuffle::CompressionOptions options;
 
-		if (!m_inputs.size()) {
-			KMessageBox::error( NULL, i18n("No input files were given.") );
-			return;
-		}
+    if (!m_inputs.size()) {
+        KMessageBox::error(NULL, i18n("No input files were given."));
+        return;
+    }
 
-		Kerfuffle::Archive *archive;
-		if (!m_filename.isEmpty()) {
-			archive = Kerfuffle::factory(m_filename, m_mimeType);
-			kDebug( 1601 ) << "Set filename to " + m_filename;
-		}
-		else {
-			if (m_autoFilenameSuffix.isEmpty()) {
-				KMessageBox::error( NULL, i18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.tz) with the --autofilename argument.") );
-				return;
-			}
+    Kerfuffle::Archive *archive;
+    if (!m_filename.isEmpty()) {
+        archive = Kerfuffle::factory(m_filename, m_mimeType);
+        kDebug(1601) << "Set filename to " + m_filename;
+    } else {
+        if (m_autoFilenameSuffix.isEmpty()) {
+            KMessageBox::error(NULL, i18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.tz) with the --autofilename argument."));
+            return;
+        }
 
-			if (m_firstPath.isEmpty()) {
-				kDebug( 1601 ) << "Weird, this should not happen. no firstpath defined. aborting";
-				return;
-			}
+        if (m_firstPath.isEmpty()) {
+            kDebug(1601) << "Weird, this should not happen. no firstpath defined. aborting";
+            return;
+        }
 
-			QString base;
-			QFileInfo fi(m_inputs.first());
+        QString base;
+        QFileInfo fi(m_inputs.first());
 
-			base = fi.absoluteFilePath();
+        base = fi.absoluteFilePath();
 
-			if (base.endsWith('/')) {
-				base.chop(1);
-			}
+        if (base.endsWith('/')) {
+            base.chop(1);
+        }
 
-			QString finalName = base + '.' + m_autoFilenameSuffix;
-			
-			//if file already exists, append a number to the base until it doesn't
-			//exist
-			int appendNumber = 0;
-			while (KStandardDirs::exists(finalName)) {
-				++appendNumber;
-				finalName = base + '_' + QString::number(appendNumber) + '.' + m_autoFilenameSuffix;
-			}
+        QString finalName = base + '.' + m_autoFilenameSuffix;
 
-			kDebug( 1601 ) << "Autoset filename to " + finalName;
-			archive = Kerfuffle::factory(finalName, m_mimeType);
-		}
+        //if file already exists, append a number to the base until it doesn't
+        //exist
+        int appendNumber = 0;
+        while (KStandardDirs::exists(finalName)) {
+            ++appendNumber;
+            finalName = base + '_' + QString::number(appendNumber) + '.' + m_autoFilenameSuffix;
+        }
 
-		// TODO Post-4.3 string freeze: the check for read-only must cause a separate error
-		if (archive == NULL || archive->isReadOnly()) {
-			KMessageBox::error( NULL, i18n("Failed to create the new archive. Permissions might not be sufficient.") );
-			return;
-		}
+        kDebug(1601) << "Autoset filename to " + finalName;
+        archive = Kerfuffle::factory(finalName, m_mimeType);
+    }
 
-		if (m_changeToFirstPath) {
-			if (m_firstPath.isEmpty()) {
-				kDebug( 1601 ) << "Weird, this should not happen. no firstpath defined. aborting";
-				return;
-			}
+    // TODO Post-4.3 string freeze: the check for read-only must cause a separate error
+    if (archive == NULL || archive->isReadOnly()) {
+        KMessageBox::error(NULL, i18n("Failed to create the new archive. Permissions might not be sufficient."));
+        return;
+    }
 
-			QDir stripDir = QDir(m_firstPath);
+    if (m_changeToFirstPath) {
+        if (m_firstPath.isEmpty()) {
+            kDebug(1601) << "Weird, this should not happen. no firstpath defined. aborting";
+            return;
+        }
 
-			for (int i = 0; i < m_inputs.size(); ++i) {
-				m_inputs[i] = stripDir.absoluteFilePath(m_inputs.at(i));
-			}
+        QDir stripDir = QDir(m_firstPath);
 
-			options["GlobalWorkDir"] = stripDir.path();
-			kDebug( 1601 ) << "Setting GlobalWorkDir to " << stripDir.path();
-		}
+        for (int i = 0; i < m_inputs.size(); ++i) {
+            m_inputs[i] = stripDir.absoluteFilePath(m_inputs.at(i));
+        }
 
-		Kerfuffle::AddJob *job = 
-			archive->addFiles(m_inputs, options);
+        options["GlobalWorkDir"] = stripDir.path();
+        kDebug(1601) << "Setting GlobalWorkDir to " << stripDir.path();
+    }
 
-		KIO::getJobTracker()->registerJob(job);
+    Kerfuffle::AddJob *job =
+        archive->addFiles(m_inputs, options);
 
-		connect(job, SIGNAL(result(KJob*)),
-				this, SLOT(slotFinished(KJob*)));
+    KIO::getJobTracker()->registerJob(job);
 
-		job->start();
-	}
+    connect(job, SIGNAL(result(KJob*)),
+            this, SLOT(slotFinished(KJob*)));
 
-	void AddToArchive::slotFinished(KJob *job)
-	{
-		kDebug( 1601 );
+    job->start();
+}
 
-		if ( job->error() )
-		{
-			KMessageBox::error( NULL, job->errorText());
-		}
+void AddToArchive::slotFinished(KJob *job)
+{
+    kDebug(1601);
 
-		emitResult();
-	}
+    if (job->error()) {
+        KMessageBox::error(NULL, job->errorText());
+    }
+
+    emitResult();
+}
 }

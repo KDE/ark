@@ -1,6 +1,6 @@
 /******************************* LICENSE **************************************
 * Any code in this file may be redistributed or modified under the terms of
-* the GNU General Public License as published by the Free Software 
+* the GNU General Public License as published by the Free Software
 * Foundation; version 2 of the license.
 ****************************** END LICENSE ***********************************/
 
@@ -11,7 +11,7 @@
 * Copyright 2005-2007 Andrew Smith <andrew-smith@mail.ru>
 *
 * Contributors:
-* 
+*
 ******************************************************************************/
 
 #include <string.h>
@@ -39,18 +39,17 @@ void bk_cancel_operation(VolInfo* volInfo)
 void bk_destroy_vol_info(VolInfo* volInfo)
 {
     deleteDirContents(volInfo, &(volInfo->dirTree));
-    
-    if(volInfo->bootRecordPathAndName != NULL)
+
+    if (volInfo->bootRecordPathAndName != NULL)
         free(volInfo->bootRecordPathAndName);
-    
-    if(volInfo->imageForReading > 0)
+
+    if (volInfo->imageForReading > 0)
         close(volInfo->imageForReading);
-    
+
     BkHardLink* currentLink;
     BkHardLink* nextLink;
     currentLink = volInfo->fileLocations;
-    while(currentLink != NULL)
-    {
+    while (currentLink != NULL) {
         nextLink = currentLink->next;
         free(currentLink);
         currentLink = nextLink;
@@ -64,13 +63,13 @@ void bk_destroy_vol_info(VolInfo* volInfo)
 int bk_init_vol_info(VolInfo* volInfo, bool scanForDuplicateFiles)
 {
     memset(volInfo, 0, sizeof(VolInfo));
-    
+
     volInfo->dirTree.base.posixFileMode = 040755;
     volInfo->posixFileDefaults = 0100644;
     volInfo->posixDirDefaults = 040755;
-    
+
     volInfo->scanForDuplicateFiles = scanForDuplicateFiles;
-    
+
     return 1;
 }
 
@@ -78,7 +77,7 @@ int bk_init_vol_info(VolInfo* volInfo, bool scanForDuplicateFiles)
 * bk_rename()
 * Rename the file/dir.
 * */
-int bk_rename(VolInfo* volInfo, const char* srcPathAndName, 
+int bk_rename(VolInfo* volInfo, const char* srcPathAndName,
               const char* newName)
 {
     int rc;
@@ -88,64 +87,59 @@ int bk_rename(VolInfo* volInfo, const char* srcPathAndName,
     BkFileBase* child;
     bool done;
     int newNameLen;
-    
+
     newNameLen = strlen(newName);
-    
-    if(newNameLen > NCHARS_FILE_ID_MAX_STORE - 1)
+
+    if (newNameLen > NCHARS_FILE_ID_MAX_STORE - 1)
         return BKERROR_MAX_NAME_LENGTH_EXCEEDED;
-    if(newNameLen == 0)
+    if (newNameLen == 0)
         return BKERROR_BLANK_NAME;
-    if( !nameIsValid(newName) )
+    if (!nameIsValid(newName))
         return BKERROR_NAME_INVALID_CHAR;
-    
+
     rc = makeNewPathFromString(srcPathAndName, &srcPath);
-    if(rc <= 0)
-    {
+    if (rc <= 0) {
         freePathContents(&srcPath);
         return rc;
     }
-    
-    if(srcPath.numChildren == 0)
-    {
+
+    if (srcPath.numChildren == 0) {
         freePathContents(&srcPath);
         return BKERROR_RENAME_ROOT;
     }
-    
-    if( strcmp(srcPath.children[srcPath.numChildren - 1], newName) == 0 )
-    /* rename to the same name, ignore silently */
+
+    if (strcmp(srcPath.children[srcPath.numChildren - 1], newName) == 0)
+        /* rename to the same name, ignore silently */
         return 1;
-    
+
     /* i want the parent directory */
     srcPath.numChildren--;
     dirFound = findDirByNewPath(&srcPath, &(volInfo->dirTree), &parentDir);
     srcPath.numChildren++;
-    if(!dirFound)
-    {
+    if (!dirFound) {
         freePathContents(&srcPath);
         return BKERROR_DIR_NOT_FOUND_ON_IMAGE;
     }
-    
+
     done = false;
-    
+
     child = parentDir->children;
-    while(child != NULL && !done)
-    {
-        if(itemIsInDir(newName, parentDir))
+    while (child != NULL && !done) {
+        if (itemIsInDir(newName, parentDir))
             return BKERROR_DUPLICATE_RENAME;
-        
-        if(strcmp(child->name, srcPath.children[srcPath.numChildren - 1]) == 0)
-        {
+
+        if (strcmp(child->name, srcPath.children[srcPath.numChildren - 1]) == 0) {
             strcpy(child->name, newName);
-            
+
             done = true;
         }
-        
+
         child = child->next;
     }
-    
+
     freePathContents(&srcPath);
-    
-    if(done)
+
+    if (done)
         return 1;
     else
         return BKERROR_ITEM_NOT_FOUND_ON_IMAGE;
@@ -162,61 +156,55 @@ int bk_set_boot_file(VolInfo* volInfo, const char* srcPathAndName)
     BkDir* srcDirInTree;
     BkFileBase* child;
     bool found;
-    
+
     rc = makeNewPathFromString(srcPathAndName, &path);
-    if(rc <= 0)
-    {
+    if (rc <= 0) {
         freePathContents(&path);
         return rc;
     }
-    
+
     path.numChildren--;
     found = findDirByNewPath(&path, &(volInfo->dirTree), &srcDirInTree);
-    if(!found)
+    if (!found)
         return BKERROR_DIR_NOT_FOUND_ON_IMAGE;
     path.numChildren++;
-    
+
     /* FIND the file */
     found = false;
     child = srcDirInTree->children;
-    while(child != NULL && !found)
-    {
-        if(strcmp(child->name, path.children[path.numChildren - 1]) == 0)
-        {
-            if( !IS_REG_FILE(child->posixFileMode) )
-            {
+    while (child != NULL && !found) {
+        if (strcmp(child->name, path.children[path.numChildren - 1]) == 0) {
+            if (!IS_REG_FILE(child->posixFileMode)) {
                 freePathContents(&path);
                 return BKERROR_NOT_REG_FILE_FOR_BR;
             }
-            
+
             found = true;
-            
+
             volInfo->bootMediaType = BOOT_MEDIA_NO_EMULATION;
-            
+
             volInfo->bootRecordSize = BK_FILE_PTR(child)->size;
-            
-            if(volInfo->bootRecordPathAndName != NULL)
-            {
+
+            if (volInfo->bootRecordPathAndName != NULL) {
                 free(volInfo->bootRecordPathAndName);
                 volInfo->bootRecordPathAndName = NULL;
             }
-            
+
             volInfo->bootRecordIsVisible = true;
-            
+
             volInfo->bootRecordOnImage = BK_FILE_PTR(child);
         }
-        
+
         child = child->next;
     }
-    if(!found)
-    {
+    if (!found) {
         freePathContents(&path);
         return BKERROR_FILE_NOT_FOUND_ON_IMAGE;
     }
     /* END FIND the file */
-    
+
     freePathContents(&path);
-    
+
     return 1;
 }
 
@@ -230,34 +218,33 @@ void bk_set_follow_symlinks(VolInfo* volInfo, bool doFollow)
 * public function
 * sets the permissions (not all of the posix info) for an item (file, dir, etc.)
 * */
-int bk_set_permissions(VolInfo* volInfo, const char* pathAndName, 
+int bk_set_permissions(VolInfo* volInfo, const char* pathAndName,
                        mode_t permissions)
 {
     int rc;
     NewPath srcPath;
     BkFileBase* base;
     bool itemFound;
-    
+
     rc = makeNewPathFromString(pathAndName, &srcPath);
-    if(rc <= 0)
-    {
+    if (rc <= 0) {
         freePathContents(&srcPath);
         return rc;
     }
-    
+
     itemFound = findBaseByNewPath(&srcPath, &(volInfo->dirTree), &base);
-    
+
     freePathContents(&srcPath);
-    
-    if(!itemFound)
+
+    if (!itemFound)
         return BKERROR_ITEM_NOT_FOUND_ON_IMAGE;
-    
+
     /* set all permission bits in posixFileMode to 0 */
     base->posixFileMode &= ~0777;
-    
+
     /* copy permissions into posixFileMode */
     base->posixFileMode |= permissions & 0777;
-    
+
     return 1;
 }
 
@@ -282,19 +269,18 @@ void bk_set_vol_name(VolInfo* volInfo, const char* volName)
 /*******************************************************************************
 * itemIsInDir()
 * checks the contents of a directory (files and dirs) to see whether it
-* has an item named 
+* has an item named
 * */
 bool itemIsInDir(const char* name, const BkDir* dir)
 {
     BkFileBase* child;
-    
+
     child = dir->children;
-    while(child != NULL)
-    {
-        if(strcmp(child->name, name) == 0)
+    while (child != NULL) {
+        if (strcmp(child->name, name) == 0)
             return true;
         child = child->next;
     }
-    
+
     return false;
 }

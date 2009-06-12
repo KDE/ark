@@ -30,28 +30,28 @@
 
 namespace Kerfuffle
 {
-	class KERFUFFLE_EXPORT AddDialog : public KFileDialog
-	{
-		Q_OBJECT
+class KERFUFFLE_EXPORT AddDialog : public KFileDialog
+{
+    Q_OBJECT
 
-		public:
-			AddDialog(const QStringList & itemsToAdd,
-					const KUrl & startDir,
-					const QString & filter,
-					QWidget * parent,
-					QWidget * widget = 0
-					);
+public:
+    AddDialog(const QStringList & itemsToAdd,
+              const KUrl & startDir,
+              const QString & filter,
+              QWidget * parent,
+              QWidget * widget = 0
+             );
 
-		private:
-			class AddDialogUI *m_ui;
-			KConfigGroup m_config;
+private:
+    class AddDialogUI *m_ui;
+    KConfigGroup m_config;
 
-			void loadConfiguration();
-			void setupIconList(const QStringList& itemsToAdd);
+    void loadConfiguration();
+    void setupIconList(const QStringList& itemsToAdd);
 
-		private slots:
-			void updateDefaultMimeType();
-	};
+private slots:
+    void updateDefaultMimeType();
+};
 }
 
-#endif 
+#endif

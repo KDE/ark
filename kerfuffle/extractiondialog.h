@@ -30,37 +30,37 @@
 
 namespace Kerfuffle
 {
-	class KERFUFFLE_EXPORT ExtractionDialog: public KDirSelectDialog
-	{
-		Q_OBJECT
-		public:
-			ExtractionDialog( QWidget *parent = 0 );
-			~ExtractionDialog();
+class KERFUFFLE_EXPORT ExtractionDialog: public KDirSelectDialog
+{
+    Q_OBJECT
+public:
+    ExtractionDialog(QWidget *parent = 0);
+    ~ExtractionDialog();
 
-			void setShowSelectedFiles(bool);
-			void setSingleFolderArchive(bool);
-			void setPreservePaths(bool);
-			void batchModeOption();
-			void setOpenDestinationFolderAfterExtraction(bool);
-			void setAutoSubfolder(bool value);
+    void setShowSelectedFiles(bool);
+    void setSingleFolderArchive(bool);
+    void setPreservePaths(bool);
+    void batchModeOption();
+    void setOpenDestinationFolderAfterExtraction(bool);
+    void setAutoSubfolder(bool value);
 
-			bool extractAllFiles();
-			bool openDestinationAfterExtraction();
-			bool extractToSubfolder();
-			bool autoSubfolders();
-			bool preservePaths();
-			KUrl destinationDirectory();
-			QString subfolder() const;
-			virtual void accept();
+    bool extractAllFiles();
+    bool openDestinationAfterExtraction();
+    bool extractToSubfolder();
+    bool autoSubfolders();
+    bool preservePaths();
+    KUrl destinationDirectory();
+    QString subfolder() const;
+    virtual void accept();
 
-		public Q_SLOTS:
-			void setCurrentUrl(const QString& url);
-			void setSubfolder(QString subfolder);
+public Q_SLOTS:
+    void setCurrentUrl(const QString& url);
+    void setSubfolder(QString subfolder);
 
-		private:
-			class ExtractionDialogUI *m_ui;
+private:
+    class ExtractionDialogUI *m_ui;
 
-	};
+};
 }
 
 #endif // EXTRACTIONDIALOG_H

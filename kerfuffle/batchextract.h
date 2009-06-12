@@ -36,41 +36,41 @@ class KUrl;
 
 namespace Kerfuffle
 {
-	class Archive;
-	class Query;
+class Archive;
+class Query;
 
-	class KERFUFFLE_EXPORT BatchExtract : public KCompositeJob
-	{
-		Q_OBJECT
+class KERFUFFLE_EXPORT BatchExtract : public KCompositeJob
+{
+    Q_OBJECT
 
-		public:
-			BatchExtract();
-			virtual ~BatchExtract();
-			void addExtraction(Archive* archive, bool preservePaths = true, QString destinationFolder = QString());
-			void start();
-			void setAutoSubfolder(bool value);
-			bool addInput( const KUrl& url );
-			bool showExtractDialog();
-			void setDestinationFolder(QString folder);
-			void setSubfolder(QString subfolder);
-			void setPreservePaths(bool value);
+public:
+    BatchExtract();
+    virtual ~BatchExtract();
+    void addExtraction(Archive* archive, bool preservePaths = true, QString destinationFolder = QString());
+    void start();
+    void setAutoSubfolder(bool value);
+    bool addInput(const KUrl& url);
+    bool showExtractDialog();
+    void setDestinationFolder(QString folder);
+    void setSubfolder(QString subfolder);
+    void setPreservePaths(bool value);
 
-		private slots:
-			void forwardProgress(KJob *job, unsigned long percent);
-			void slotResult(KJob *job);
-			void slotUserQuery(Query *query);
+private slots:
+    void forwardProgress(KJob *job, unsigned long percent);
+    void slotResult(KJob *job);
+    void slotUserQuery(Query *query);
 
-		private:
-			int initialJobCount;
-			QMap<KJob*, QPair<QString,QString> > fileNames;
-			bool autoSubfolders;
+private:
+    int initialJobCount;
+    QMap<KJob*, QPair<QString, QString> > fileNames;
+    bool autoSubfolders;
 
-			QList<Archive*> inputs;
-			KJobTrackerInterface *tracker;
-			QString destinationFolder;
-			QString subfolder;
-			bool m_preservePaths;
-	};
+    QList<Archive*> inputs;
+    KJobTrackerInterface *tracker;
+    QString destinationFolder;
+    QString subfolder;
+    bool m_preservePaths;
+};
 }
 
 #endif // BATCHEXTRACT_H
