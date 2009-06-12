@@ -69,7 +69,7 @@ bool BKInterface::copyFiles(const QList<QVariant> & files, const QString & desti
         kDebug(1601) << "Trying to extract " << file.toByteArray() ;
         rc = bk_extract(&m_volInfo, file.toByteArray(), QFile::encodeName(destinationDirectory), true, 0);
         if (rc <= 0) {
-            error(QString("Could not extract '%1'").arg(file.toString()));
+            error(i18n("Could not extract '%1'",file.toString()));
             return false;
         }
     }
