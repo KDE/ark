@@ -402,7 +402,7 @@ bool LibArchiveInterface::addFiles( const QStringList & files, const Compression
 			return false;
 
 		if (QFileInfo(selectedFile).isDir()) {
-			QDirIterator it(selectedFile, QDir::AllEntries | QDir::Readable | QDir::Hidden, QDirIterator::Subdirectories);
+			QDirIterator it(selectedFile, QDir::AllEntries | QDir::Readable | QDir::Hidden | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
 
 			while (it.hasNext()) {
 				QString path = it.next();
