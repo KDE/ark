@@ -118,7 +118,7 @@ public:
         return true;
     }
 
-    void handleDataLine(QString line) {
+    void handleDataLine(const QString& line) {
         static QRegExp pattern("^(.+):\\s+(.+)$");
 
         if (pattern.indexIn(line) == -1)

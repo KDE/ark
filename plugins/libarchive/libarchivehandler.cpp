@@ -635,7 +635,7 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
     KDE_struct_stat st;
     int header_response;
 
-    bool trailingSlash = fileName.endsWith('/');
+    const bool trailingSlash = fileName.endsWith('/');
     QString relativeName = QDir::current().relativeFilePath(fileName) + (trailingSlash ? "/" : "");
 
     KDE_stat(QFile::encodeName(relativeName).constData(), &st);

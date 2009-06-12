@@ -105,7 +105,7 @@ bool LibSingleFileInterface::list()
 {
     kDebug(1601);
 
-    QString filename = uncompressedFileName();
+    const QString filename = uncompressedFileName();
 
     Kerfuffle::ArchiveEntry e;
 
