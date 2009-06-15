@@ -47,6 +47,7 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action compressHere]
 Name=Here
+Name[da]=Her
 Name[de]=Hier
 Name[es]=Aquí
 Name[et]=Siia
@@ -69,6 +70,7 @@ Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
 [Desktop Action compressAsZip]
 Name=As ZIP Archive
+Name[da]=Som ZIP-arkiv
 Name[de]=Als ZIP-Archiv
 Name[es]=Como archivo comprimido ZIP
 Name[et]=ZIP-arhiivina
@@ -90,6 +92,7 @@ Exec=ark --changetofirstpath --add --autofilename zip %F
 
 [Desktop Action compressAsRar]
 Name=As RAR Archive
+Name[da]=Som RAR-arkiv
 Name[de]=Als RAR-Archiv
 Name[es]=Como archivo comprimido RAR
 Name[et]=RAR-arhiivina
@@ -111,6 +114,7 @@ Exec=ark --changetofirstpath --add --autofilename rar %F
 
 [Desktop Action compressAsTar]
 Name=As ZIP/TAR Archive
+Name[da]=Som ZIP-/TAR-arkiv
 Name[de]=Als ZIP/TAR-Archiv
 Name[es]=Como archivo comprimido ZIP/TAR
 Name[et]=ZIP/TAR-arhiivina
@@ -132,6 +136,7 @@ Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
 [Desktop Action compressTo]
 Name=Compress To...
+Name[da]=Komprimér til...
 Name[de]=Komprimieren nach...
 Name[es]=Comprimir en...
 Name[et]=Paki asukohta...

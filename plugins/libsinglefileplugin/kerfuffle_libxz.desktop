@@ -15,6 +15,7 @@ Name=kerfuffle_libxz
 Name[sv]=Kerfuffle Libxz
 Name[x-test]=xxkerfuffle_libxzxx
 Comment=libxz plugin for Kerfuffle
+Comment[da]=libxz-plugin til Kerfuffle
 Comment[de]=libxz-Modul für Kerfuffle
 Comment[el]=πρόσθετο libxz για τo Kerfuffle
 Comment[es]=Complemento libxz para Kerfuffle

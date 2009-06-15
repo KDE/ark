@@ -15,6 +15,7 @@ Name=kerfuffle_libbz2
 Name[sv]=Kerfuffle Libbz2
 Name[x-test]=xxkerfuffle_libbz2xx
 Comment=libbz2 plugin for Kerfuffle
+Comment[da]=libbz2-plugin til Kerfuffle
 Comment[de]=libgz2-Modul für Kerfuffle
 Comment[el]=πρόσθετο libz2 για τo Kerfuffle
 Comment[es]=Complemento libbz2 para Kerfuffle

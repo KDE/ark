@@ -10,6 +10,7 @@ X-KDE-StartupNotify=false
 
 [Desktop Action arkExtractHere]
 Name=Extract Archive Here
+Name[da]=Udpak arkiv her
 Name[de]=Archiv hierher auspacken
 Name[es]=Extraer archivo comprimido aquí
 Name[et]=Paki arhiiv siia lahti
@@ -31,6 +32,7 @@ Exec=ark --batch --autodestination %F
 
 [Desktop Action arkExtractTo]
 Name=Extract Archive To...
+Name[da]=Udpak arkiv til...
 Name[de]=Archiv auspacken nach...
 Name[es]=Extraer archivo comprimido en...
 Name[et]=Paki arhiiv lahti...
@@ -51,6 +53,7 @@ Exec=ark --batch --autodestination --dialog %F
 
 [Desktop Action arkAutoExtractHere]
 Name=Extract Archive Here, Autodetect Subfolder
+Name[da]=Udpak arkiv her og find automatisk undermappe
 Name[de]=Archiv hierher auspacken, Unterordner selbstständig ermitteln
 Name[es]=Extraer archivo comprimido aquí, autodetectar subcarpeta
 Name[et]=Paki arhiiv siia lahti, tuvasta automaatselt alamkataloog
