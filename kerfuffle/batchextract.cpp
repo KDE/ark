@@ -248,8 +248,8 @@ bool BatchExtract::showExtractDialog()
         m_subfolder = dialog->subfolder();
     }
 
-    m_autoSubfolders = dialog->autoSubfolders();
-    m_preservePaths = dialog->preservePaths();
+    setAutoSubfolder(dialog->autoSubfolders());
+    setPreservePaths(dialog->preservePaths());
 
     return true;
 }
