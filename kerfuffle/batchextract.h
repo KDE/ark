@@ -61,14 +61,14 @@ private slots:
     void slotUserQuery(Query *query);
 
 private:
-    int initialJobCount;
-    QMap<KJob*, QPair<QString, QString> > fileNames;
-    bool autoSubfolders;
+    int m_initialJobCount;
+    QMap<KJob*, QPair<QString, QString> > m_fileNames;
+    bool m_autoSubfolders;
 
-    QList<Archive*> inputs;
-    KJobTrackerInterface *tracker;
-    QString destinationFolder;
-    QString subfolder;
+    QList<Archive*> m_inputs;
+    //KJobTrackerInterface *m_tracker;
+    QString m_destinationFolder;
+    QString m_subfolder;
     bool m_preservePaths;
 };
 }

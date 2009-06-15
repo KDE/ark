@@ -43,8 +43,7 @@
 namespace Kerfuffle
 {
 BatchExtract::BatchExtract()
-        : autoSubfolders(false),
-        destinationFolder(),
+        : m_autoSubfolders(false),
         m_preservePaths(true)
 
 {
@@ -63,7 +62,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive, bool preservePaths
 
     QString autoDestination = destinationFolder;
 
-    if (autoSubfolders) {
+    if (m_autoSubfolders) {
         if (!archive->isSingleFolderArchive()) {
             QDir destinationDir(destinationFolder);
             QString subfolderName = archive->subfolderName();
@@ -93,7 +92,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive, bool preservePaths
     kDebug(1601) << QString("Registering job from archive %1, to %2, preservePaths %3").arg(archive->fileName()).arg(autoDestination).arg(preservePaths);
 
     addSubjob(job);
-    fileNames[job] = qMakePair(archive->fileName(), destinationFolder);
+    m_fileNames[job] = qMakePair(archive->fileName(), destinationFolder);
     connect(job, SIGNAL(percent(KJob*, unsigned long)),
             this, SLOT(forwardProgress(KJob *, unsigned long)));
 
@@ -106,26 +105,26 @@ void BatchExtract::slotUserQuery(Query *query)
 
 void BatchExtract::setAutoSubfolder(bool value)
 {
-    autoSubfolders = value;
+    m_autoSubfolders = value;
 }
 
 void BatchExtract::start()
 {
     kDebug(1601);
 
-    if (!subfolder.isEmpty()) {
-        kDebug(1601) << "Creating subfolder" << subfolder;
-        QDir dest(destinationFolder);
-        dest.mkpath(subfolder);
-        destinationFolder += '/' + subfolder;
+    if (!m_subfolder.isEmpty()) {
+        kDebug(1601) << "Creating subfolder" << m_subfolder;
+        QDir dest(m_destinationFolder);
+        dest.mkpath(m_subfolder);
+        m_destinationFolder += '/' + m_subfolder;
     }
 
-    foreach(Kerfuffle::Archive *archive, inputs) {
+    foreach(Kerfuffle::Archive *archive, m_inputs) {
         QString finalDestination;
-        if (destinationFolder.isEmpty()) {
+        if (m_destinationFolder.isEmpty()) {
             finalDestination = QDir::currentPath();
         } else {
-            finalDestination = destinationFolder;
+            finalDestination = m_destinationFolder;
         }
 
         addExtraction(archive, m_preservePaths, finalDestination);
@@ -135,12 +134,12 @@ void BatchExtract::start()
 
     emit description(this,
                      i18n("Extracting file..."),
-                     qMakePair(i18n("Source archive"), fileNames.value(subjobs().at(0)).first),
-                     qMakePair(i18n("Destination"), fileNames.value(subjobs().at(0)).second)
+                     qMakePair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
+                     qMakePair(i18n("Destination"), m_fileNames.value(subjobs().at(0)).second)
                     );
 
-    initialJobCount = subjobs().size();
-    if (!initialJobCount) return;
+    m_initialJobCount = subjobs().size();
+    if (!m_initialJobCount) return;
 
     kDebug(1601) << "Starting first job";
 
@@ -176,8 +175,8 @@ void BatchExtract::slotResult(KJob *job)
         kDebug(1601) << "Starting the next job";
         emit description(this,
                          i18n("Extracting file..."),
-                         qMakePair(i18n("Source archive"), fileNames.value(subjobs().at(0)).first),
-                         qMakePair(i18n("Destination"), fileNames.value(subjobs().at(0)).second)
+                         qMakePair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
+                         qMakePair(i18n("Destination"), m_fileNames.value(subjobs().at(0)).second)
                         );
         subjobs().at(0)->start();
     }
@@ -186,8 +185,8 @@ void BatchExtract::slotResult(KJob *job)
 void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
 {
     Q_UNUSED(job);
-    int jobPart = 100 / initialJobCount;
-    setPercent(jobPart *(initialJobCount - subjobs().size()) + percent / initialJobCount);
+    int jobPart = 100 / m_initialJobCount;
+    setPercent(jobPart *(m_initialJobCount - subjobs().size()) + percent / m_initialJobCount);
 }
 
 bool BatchExtract::addInput(const KUrl& url)
@@ -196,14 +195,14 @@ bool BatchExtract::addInput(const KUrl& url)
     Kerfuffle::Archive *archive = Kerfuffle::factory(url.path());
     if (archive == NULL) return false;
 
-    inputs << archive;
+    m_inputs << archive;
     return true;
 }
 
 void BatchExtract::setDestinationFolder(QString folder)
 {
     if (!folder.isEmpty())
-        destinationFolder = folder;
+        m_destinationFolder = folder;
 }
 
 void BatchExtract::setPreservePaths(bool value)
@@ -212,7 +211,7 @@ void BatchExtract::setPreservePaths(bool value)
 }
 void BatchExtract::setSubfolder(QString subfolder)
 {
-    this->subfolder = subfolder;
+    m_subfolder = subfolder;
 }
 
 bool BatchExtract::showExtractDialog()
@@ -220,25 +219,25 @@ bool BatchExtract::showExtractDialog()
     kDebug(1601);
 
     QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog(NULL);
-    if (inputs.size() > 1) {
+    if (m_inputs.size() > 1) {
         dialog->batchModeOption();
     }
 
-    if (destinationFolder.isEmpty())
+    if (m_destinationFolder.isEmpty())
         dialog->setCurrentUrl(QDir::currentPath());
     else
-        dialog->setCurrentUrl(destinationFolder);
+        dialog->setCurrentUrl(m_destinationFolder);
 
-    dialog->setAutoSubfolder(autoSubfolders);
+    dialog->setAutoSubfolder(m_autoSubfolders);
     dialog->setPreservePaths(m_preservePaths);
 
-    if (subfolder.isEmpty() && inputs.size() == 1) {
-        if (inputs.at(0)->isSingleFolderArchive()) {
+    if (m_subfolder.isEmpty() && m_inputs.size() == 1) {
+        if (m_inputs.at(0)->isSingleFolderArchive()) {
             dialog->setSingleFolderArchive(true);
         }
-        dialog->setSubfolder(inputs.at(0)->subfolderName());
+        dialog->setSubfolder(m_inputs.at(0)->subfolderName());
     } else {
-        dialog->setSubfolder(subfolder);
+        dialog->setSubfolder(m_subfolder);
     }
 
     bool ret = dialog->exec();
@@ -247,10 +246,10 @@ bool BatchExtract::showExtractDialog()
     setDestinationFolder(dialog->destinationDirectory().path());
 
     if (dialog->extractToSubfolder()) {
-        subfolder = dialog->subfolder();
+        m_subfolder = dialog->subfolder();
     }
 
-    autoSubfolders = dialog->autoSubfolders();
+    m_autoSubfolders = dialog->autoSubfolders();
     m_preservePaths = dialog->preservePaths();
 
     return true;
