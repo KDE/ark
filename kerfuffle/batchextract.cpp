@@ -78,8 +78,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive, bool preservePaths
     }
 
     Kerfuffle::ExtractionOptions options;
-    if (preservePaths)
-        options["PreservePaths"] = true;
+    options["PreservePaths"] = preservePaths;
 
     Kerfuffle::ExtractJob *job = archive->copyFiles(
                                      QVariantList(), //extract all files
