@@ -26,7 +26,9 @@
 extern "C" {
 #endif
 
+#ifndef __cplusplus
 #include <stdbool.h>
+#endif
 #include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
