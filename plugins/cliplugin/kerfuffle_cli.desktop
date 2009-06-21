@@ -12,6 +12,7 @@ X-KDE-Priority=100
 X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=true
 Name=TODO archive plugin
+Name[ca]=Connector per arxius TODO
 Name[da]=Arkiv-plugin for gøremål
 Name[el]=πρόσθετο αρχειοθήκης προς υλοποίηση
 Name[es]=Complemento de archivo comprimido XXX
