@@ -327,6 +327,9 @@ bool LibArchiveInterface::addFiles(const QStringList & files, const CompressionO
         } else if (filename().right(3).toUpper() == "BZ2") {
             kDebug(1601) << "Detected bzip2 compression for new file";
             ret = archive_write_set_compression_bzip2(arch_writer);
+        } else if (filename().right(3).toUpper() == "TAR") {
+            kDebug(1601) << "Detected no compression for new file (pure tar)";
+            ret = archive_write_set_compression_none(arch_writer);
         } else {
             kDebug(1601) << "Falling back to gzip";
             ret = archive_write_set_compression_gzip(arch_writer);
