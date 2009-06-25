@@ -65,7 +65,7 @@ namespace Kerfuffle
 {
 Archive *factory(const QString & filename, const QString & requestedMimeType)
 {
-    kDebug(1601) ;
+    kDebug() ;
 
     qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 
@@ -76,11 +76,11 @@ Archive *factory(const QString & filename, const QString & requestedMimeType)
     KService::List offers = KMimeTypeTrader::self()->query(mimeType, "Kerfuffle/Plugin", "(exist Library)");
 
     if (offers.isEmpty()) {
-        kDebug(1601) << "Trying to find the mimetype by looking at file content";
+        kDebug() << "Trying to find the mimetype by looking at file content";
 
         int acc;
         QString mimeType = KMimeType::findByFileContent(filename, &acc)->name();
-        kDebug(1601) << mimeType << acc;
+        kDebug() << mimeType << acc;
         offers = KMimeTypeTrader::self()->query(mimeType, "Kerfuffle/Plugin", "(exist Library)");
     }
 
@@ -96,7 +96,7 @@ Archive *factory(const QString & filename, const QString & requestedMimeType)
         KPluginFactory *factory = loader.factory();
 #endif
 
-        kDebug(1601) << "Loading library " << libraryName ;
+        kDebug() << "Loading library " << libraryName ;
         if (lib) {
             ArchiveFactory *(*pluginFactory)() = (ArchiveFactory * (*)())lib->resolveFunction("pluginFactory");
             if (pluginFactory) {
@@ -106,9 +106,9 @@ Archive *factory(const QString & filename, const QString & requestedMimeType)
                 return arch;
             }
         }
-        kDebug(1601) << "Couldn't load library " << libraryName ;
+        kDebug() << "Couldn't load library " << libraryName ;
     }
-    kDebug(1601) << "Couldn't find a library capable of handling " << filename ;
+    kDebug() << "Couldn't find a library capable of handling " << filename ;
     return 0;
 }
 
@@ -131,7 +131,7 @@ QStringList supportedMimeTypes()
             supported.append(mimeType);
     }
 
-    kDebug(1601) << "Returning" << supported;
+    kDebug() << "Returning" << supported;
 
     return supported;
 }
@@ -155,7 +155,7 @@ QStringList supportedWriteMimeTypes()
             supported.append(mimeType);
     }
 
-    kDebug(1601) << "Returning" << supported;
+    kDebug() << "Returning" << supported;
 
     return supported;
 }

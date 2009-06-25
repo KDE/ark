@@ -36,13 +36,13 @@ ThreadExecution::ThreadExecution(Kerfuffle::Job *job)
 
 void ThreadExecution::run()
 {
-    kDebug(1601) << "Run";
+    kDebug() << "Run";
 
     m_job->doWork();
 
     exec();
 
-    kDebug(1601) << "Finished exec";
+    kDebug() << "Finished exec";
 }
 }
 

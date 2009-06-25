@@ -52,13 +52,13 @@ BatchExtract::BatchExtract()
 
 BatchExtract::~BatchExtract()
 {
-    kDebug(1601) << "Dying";
+    kDebug() << "Dying";
     KIO::getJobTracker()->unregisterJob(this);
 }
 
 void BatchExtract::addExtraction(Kerfuffle::Archive* archive, bool preservePaths, QString destinationFolder)
 {
-    kDebug(1601);
+    kDebug();
 
     QString autoDestination = destinationFolder;
 
@@ -70,7 +70,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive, bool preservePaths
             if (destinationDir.exists(subfolderName))
                 subfolderName = KIO::RenameDialog::suggestName(destinationFolder, subfolderName);
 
-            kDebug(1601) << "Auto-creating subfolder" << subfolderName << "under" << destinationFolder;
+            kDebug() << "Auto-creating subfolder" << subfolderName << "under" << destinationFolder;
             destinationDir.mkdir(subfolderName);
 
             autoDestination = destinationFolder + '/' + subfolderName;
@@ -88,7 +88,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive, bool preservePaths
 
     connect(job, SIGNAL(userQuery(Query*)), this, SLOT(slotUserQuery(Query*)));
 
-    kDebug(1601) << QString("Registering job from archive %1, to %2, preservePaths %3").arg(archive->fileName()).arg(autoDestination).arg(preservePaths);
+    kDebug() << QString("Registering job from archive %1, to %2, preservePaths %3").arg(archive->fileName()).arg(autoDestination).arg(preservePaths);
 
     addSubjob(job);
     m_fileNames[job] = qMakePair(archive->fileName(), destinationFolder);
@@ -108,10 +108,10 @@ void BatchExtract::setAutoSubfolder(bool value)
 
 void BatchExtract::start()
 {
-    kDebug(1601);
+    kDebug();
 
     if (!m_subfolder.isEmpty()) {
-        kDebug(1601) << "Creating subfolder" << m_subfolder;
+        kDebug() << "Creating subfolder" << m_subfolder;
         QDir dest(m_destinationFolder);
         dest.mkpath(m_subfolder);
         m_destinationFolder += '/' + m_subfolder;
@@ -139,16 +139,16 @@ void BatchExtract::start()
     m_initialJobCount = subjobs().size();
     if (!m_initialJobCount) return;
 
-    kDebug(1601) << "Starting first job";
+    kDebug() << "Starting first job";
 
     subjobs().at(0)->start();
 }
 
 void BatchExtract::slotResult(KJob *job)
 {
-    kDebug(1601);
+    kDebug();
     if (job->error()) {
-        kDebug(1601) << "There was en error, " << job->errorText();
+        kDebug() << "There was en error, " << job->errorText();
 
         setErrorText(job->errorText());
         setError(job->error());
@@ -167,10 +167,10 @@ void BatchExtract::slotResult(KJob *job)
     }
 
     if (!subjobs().size()) {
-        kDebug(1601) << "Finished, emitting the result";
+        kDebug() << "Finished, emitting the result";
         emitResult();
     } else {
-        kDebug(1601) << "Starting the next job";
+        kDebug() << "Starting the next job";
         emit description(this,
                          i18n("Extracting file..."),
                          qMakePair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
@@ -189,7 +189,7 @@ void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
 
 bool BatchExtract::addInput(const KUrl& url)
 {
-    kDebug(1601);
+    kDebug();
     Kerfuffle::Archive *archive = Kerfuffle::factory(url.path());
     if (archive == NULL) return false;
 
@@ -214,7 +214,7 @@ void BatchExtract::setSubfolder(QString subfolder)
 
 bool BatchExtract::showExtractDialog()
 {
-    kDebug(1601);
+    kDebug();
 
     QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog(NULL);
     if (m_inputs.size() > 1) {

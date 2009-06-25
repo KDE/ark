@@ -66,7 +66,7 @@ bool BKInterface::copyFiles(const QList<QVariant> & files, const QString & desti
     foreach(const QVariant& file, files) {
         int rc;
 
-        kDebug(1601) << "Trying to extract " << file.toByteArray() ;
+        kDebug() << "Trying to extract " << file.toByteArray() ;
         rc = bk_extract(&m_volInfo, file.toByteArray(), QFile::encodeName(destinationDirectory), true, 0);
         if (rc <= 0) {
             error(i18n("Could not extract '%1'",file.toString()));

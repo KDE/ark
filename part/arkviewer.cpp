@@ -52,7 +52,7 @@ public:
     }
 
     void mousePressEvent(QMouseEvent *event) {
-        kDebug(1601) ;
+        kDebug() ;
         if (event->button() == Qt::LeftButton) {
             QDrag *drag = new QDrag(this);
             QMimeData *mimeData = new QMimeData;
@@ -162,7 +162,7 @@ bool ArkViewer::viewInInternalViewer(const QString& filename)
 
 void ArkViewer::slotOpenUrlRequestDelayed(const KUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments)
 {
-    kDebug(1601) << "Opening URL: " << url;
+    kDebug() << "Opening URL: " << url;
 
     Q_UNUSED(arguments);
     Q_UNUSED(browserArguments);

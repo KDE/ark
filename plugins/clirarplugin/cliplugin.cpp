@@ -125,7 +125,7 @@ bool CliPlugin::readListLine(QString line)
         m_entryFilename += '/';
     }
 
-    //kDebug( 1601 ) << m_entryFilename << " : " << fileprops ;
+    //kDebug() << m_entryFilename << " : " << fileprops ;
     ArchiveEntry e;
     e[ FileName ] = m_entryFilename;
     e[ InternalID ] = m_internalId;
@@ -139,7 +139,7 @@ bool CliPlugin::readListLine(QString line)
     e[ Method ] = fileprops[ 7 ];
     e[ Version ] = fileprops[ 8 ];
     e[ IsPasswordProtected] = m_isPasswordProtected;
-    kDebug(1601) << "Added entry: " << e ;
+    kDebug() << "Added entry: " << e ;
 
     entry(e);
     m_isFirstLine = true;

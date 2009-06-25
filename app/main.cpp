@@ -166,23 +166,23 @@ int main(int argc, char **argv)
             }
 
             if (args->isSet("autosubfolder")) {
-                kDebug(1601) << "Setting autosubfolder";
+                kDebug() << "Setting autosubfolder";
                 batchJob->setAutoSubfolder(true);
             }
 
             if (args->isSet("subfolder")) {
-                kDebug(1601) << "Setting subfolder to " << args->getOption("subfolder");
+                kDebug() << "Setting subfolder to " << args->getOption("subfolder");
                 batchJob->setSubfolder(args->getOption("subfolder"));
             }
 
             if (args->isSet("autodestination")) {
                 QString autopath = QFileInfo(args->url(0).path()).path();
-                kDebug(1601) << "By autodestination, setting path to " << autopath;
+                kDebug() << "By autodestination, setting path to " << autopath;
                 batchJob->setDestinationFolder(autopath);
             }
 
             if (args->isSet("destination")) {
-                kDebug(1601) << "Setting destination to " << args->getOption("destination");
+                kDebug() << "Setting destination to " << args->getOption("destination");
                 batchJob->setDestinationFolder(args->getOption("destination"));
             }
 
@@ -211,6 +211,6 @@ int main(int argc, char **argv)
         }
     }
 
-    kDebug(1601) << "Entering application loop";
+    kDebug() << "Entering application loop";
     return application.exec();
 }

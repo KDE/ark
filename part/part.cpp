@@ -131,7 +131,7 @@ void Part::registerJob(KJob* job)
 
 void Part::extractSelectedFilesTo(QString localPath)
 {
-    kDebug(1601) << "Extract to " << localPath;
+    kDebug() << "Extract to " << localPath;
     if (!m_model) return;
 
     if (m_view->selectionModel()->selectedRows().count() != 1) {
@@ -140,7 +140,7 @@ void Part::extractSelectedFilesTo(QString localPath)
     if (m_view->selectionModel()->selectedRows().count() != 1) return;
 
     QVariant internalRoot;
-    kDebug(1601) << "valid " << m_view->currentIndex().parent().isValid();
+    kDebug() << "valid " << m_view->currentIndex().parent().isValid();
     if (m_view->currentIndex().parent().isValid())
         internalRoot = m_model->entryForIndex(m_view->currentIndex().parent()).value(InternalID);
 
@@ -156,7 +156,7 @@ void Part::extractSelectedFilesTo(QString localPath)
     QList<QVariant> files = selectedFilesWithChildren();
     if (files.isEmpty()) return;
 
-    kDebug(1601) << "selected files are " << files;
+    kDebug() << "selected files are " << files;
     Kerfuffle::ExtractionOptions options;
     options["PreservePaths"] = true;
     if (!internalRoot.isNull()) options["RootNode"] = internalRoot;
@@ -402,7 +402,7 @@ void Part::slotLoadingStarted()
 
 void Part::slotLoadingFinished(KJob *job)
 {
-    kDebug(1601);
+    kDebug();
 
     if (job->error())
         if (arguments().metaData()["createNewArchive"] != "true")
@@ -419,7 +419,7 @@ void Part::slotLoadingFinished(KJob *job)
 
 void Part::setReadyGui()
 {
-    kDebug(1601);
+    kDebug();
     QApplication::restoreOverrideCursor();
     m_busy = false;
     m_view->setEnabled(true);
@@ -428,7 +428,7 @@ void Part::setReadyGui()
 
 void Part::setBusyGui()
 {
-    kDebug(1601);
+    kDebug();
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     m_busy = true;
     m_view->setEnabled(false);
@@ -498,7 +498,7 @@ QString Part::detectSubfolder()
 
 void Part::slotExtractFiles()
 {
-    kDebug(1601) ;
+    kDebug() ;
     if (!m_model) return;
 
     QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog();
@@ -556,7 +556,7 @@ void Part::slotExtractFiles()
             files = selectedFilesWithChildren();
         }
 
-        kDebug(1601) << "Selected " << files;
+        kDebug() << "Selected " << files;
 
         Kerfuffle::ExtractionOptions options;
 
@@ -619,7 +619,7 @@ QList<QVariant> Part::selectedFiles()
 
 void Part::slotExtractionDone(KJob* job)
 {
-    kDebug(1601) ;
+    kDebug() ;
     if (job->error()) {
         KMessageBox::error(widget(), job->errorString());
     } else {
@@ -634,15 +634,15 @@ void Part::slotExtractionDone(KJob* job)
 
 void Part::adjustColumns()
 {
-    kDebug(1601);
+    kDebug();
 
     m_view->header()->setResizeMode(0, QHeaderView::ResizeToContents);
 }
 
 void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 {
-    kDebug(1601) << "Adding " << filesToAdd << " to " << path;
-    kDebug(1601) << "Warning, for now the path argument is not implemented";
+    kDebug() << "Adding " << filesToAdd << " to " << path;
+    kDebug() << "Warning, for now the path argument is not implemented";
 
     if (!filesToAdd.isEmpty()) {
 
@@ -660,7 +660,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
         if (firstPath.right(1) == "/") firstPath.chop(1);
         firstPath = QFileInfo(firstPath).dir().absolutePath();
 
-        kDebug(1601) << "Detected relative path to be " << firstPath;
+        kDebug() << "Detected relative path to be " << firstPath;
         options["GlobalWorkDir"] = firstPath;
 
         AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
@@ -675,7 +675,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 
 void Part::slotAddFiles()
 {
-    kDebug(1601) ;
+    kDebug() ;
     const QStringList filesToAdd = KFileDialog::getOpenFileNames(KUrl("kfiledialog:///ArkAddFiles"), QString(), widget(), i18n("Add Files"));
 
     slotAddFiles(filesToAdd);
@@ -683,7 +683,7 @@ void Part::slotAddFiles()
 
 void Part::slotAddDir()
 {
-    kDebug(1601) ;
+    kDebug() ;
     QString dirToAdd = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///ArkAddFiles"), widget(), i18n("Add Folder"));
 
     if (!dirToAdd.isEmpty()) {
@@ -693,7 +693,7 @@ void Part::slotAddDir()
 
 void Part::slotAddFilesDone(KJob* job)
 {
-    kDebug(1601) ;
+    kDebug() ;
     if (job->error()) {
         KMessageBox::error(widget(), job->errorString());
     }
@@ -701,7 +701,7 @@ void Part::slotAddFilesDone(KJob* job)
 
 void Part::slotDeleteFilesDone(KJob* job)
 {
-    kDebug(1601) ;
+    kDebug() ;
     if (job->error()) {
         KMessageBox::error(widget(), job->errorString());
     }
@@ -709,7 +709,7 @@ void Part::slotDeleteFilesDone(KJob* job)
 
 void Part::slotDeleteFiles()
 {
-    kDebug(1601) ;
+    kDebug() ;
 
     int reallyDelete =  KMessageBox::questionYesNo(NULL, i18n("Deleting these files is not undoable. Are you sure you want to do this?"), i18n("Delete files") , KGuiItem(i18n("Delete files")), KGuiItem(i18n("Cancel")));
 

@@ -44,7 +44,7 @@ QVariant Query::response()
 
 void Query::waitForResponse()
 {
-    kDebug(1601);
+    kDebug();
 
     //if there is no response set yet, wait
     if (!m_data.contains("response"))
@@ -54,7 +54,7 @@ void Query::waitForResponse()
 
 void Query::setResponse(QVariant response)
 {
-    kDebug(1601);
+    kDebug();
 
     m_data["response"] = response;
     m_responseCondition.wakeAll();

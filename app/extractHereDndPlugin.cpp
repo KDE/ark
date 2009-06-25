@@ -69,7 +69,7 @@ void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
     QString extractHereMessage = i18n("Extract here");
 
     if (!Kerfuffle::supportedMimeTypes().contains(popupMenuInfo.mimeType())) {
-        kDebug(1601) << "Unsupported file" << popupMenuInfo.mimeType() << Kerfuffle::supportedMimeTypes();
+        kDebug() << "Unsupported file" << popupMenuInfo.mimeType() << Kerfuffle::supportedMimeTypes();
         return;
     }
 

@@ -78,11 +78,11 @@ bool CliPlugin::readListLine(QString line)
     switch (m_state) {
     case 0: // header
         if (line.startsWith(QLatin1String("Listing archive:"))) {
-            kDebug(1601) << "Archive name: " << line.right(line.size() - 16).trimmed();
+            kDebug() << "Archive name: " << line.right(line.size() - 16).trimmed();
         } else if (line.startsWith(QLatin1String("----------"))) {
             m_state = 1;
         } else if (line.contains("Error:")) {
-            kDebug(1601) << line.mid(6);
+            kDebug() << line.mid(6);
             //m_errorMessages << line.mid(6);
         }
         break;

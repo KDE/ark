@@ -76,7 +76,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::dragEnterEvent(QDragEnterEvent * event)
 {
-    kDebug(1601) << event;
+    kDebug() << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) return;
@@ -89,7 +89,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent * event)
 
 void MainWindow::dropEvent(QDropEvent * event)
 {
-    kDebug(1601) << event;
+    kDebug() << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) return;
@@ -105,7 +105,7 @@ void MainWindow::dropEvent(QDropEvent * event)
 
 void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 {
-    kDebug(1601) << event;
+    kDebug() << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) return;
@@ -230,7 +230,7 @@ void MainWindow::newArchive()
     Q_ASSERT(iface);
     QStringList mimeTypes = iface->supportedWriteMimeTypes();
 
-    kDebug(1601) << "Supported mimetypes are" << mimeTypes.join(" ");
+    kDebug() << "Supported mimetypes are" << mimeTypes.join(" ");
 
     QString saveFile = KFileDialog::getSaveFileName(KUrl("kfiledialog:///ArkNewDir"),
                        mimeTypes.join(" "));

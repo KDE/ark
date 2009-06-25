@@ -102,7 +102,7 @@ void ExtractionDialog::accept()
     }
 
     QString pathWithSubfolder = url().path(KUrl::AddTrailingSlash) + subfolder() + '/';
-    kDebug(1601) << pathWithSubfolder << " exists: " << KStandardDirs::exists(pathWithSubfolder);
+    kDebug() << pathWithSubfolder << " exists: " << KStandardDirs::exists(pathWithSubfolder);
     if (extractToSubfolder() && KStandardDirs::exists(pathWithSubfolder)) {
         int overWrite = KMessageBox::questionYesNo(NULL, i18n("The folder '%1' already exists. Are you sure you want to extract here?", pathWithSubfolder), i18n("Folder exists") , KGuiItem(i18n("Extract here")), KGuiItem(i18n("Cancel")));
         if (overWrite == KMessageBox::No) {

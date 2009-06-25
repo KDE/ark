@@ -102,7 +102,7 @@ void Job::onEntryRemoved(const QString & path)
 
 void Job::onFinished(bool result)
 {
-    kDebug(1601);
+    kDebug();
     m_interface->removeObserver(this);
 
     setError(!result);
@@ -120,10 +120,10 @@ void Job::onUserQuery(Query *query)
 
 bool Job::doKill()
 {
-    kDebug(1601);
+    kDebug();
     bool ret = m_interface->doKill();
     if (!ret)
-        kDebug(1601) << "Killing does not seem to be supported here.";
+        kDebug() << "Killing does not seem to be supported here.";
     return ret;
 }
 
@@ -190,7 +190,7 @@ void ExtractJob::doWork()
 
     fillInDefaultValues(m_options);
 
-    kDebug(1601) << "Starting extraction with selected files "
+    kDebug() << "Starting extraction with selected files "
     << m_files
     << " Destination dir " << m_destinationDir
     << " And options " << m_options
@@ -211,7 +211,7 @@ void ExtractJob::fillInDefaultValues(ExtractionOptions& options)
 AddJob::AddJob(const QStringList& files, const CompressionOptions& options , ReadWriteArchiveInterface *interface, QObject *parent)
         : Job(interface, parent), m_files(files), m_options(options)
 {
-    kDebug(1601);
+    kDebug();
 }
 
 void AddJob::doWork()

@@ -81,7 +81,7 @@ bool CliInterface::list()
 
 bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options)
 {
-    kDebug(1601) ;
+    kDebug() ;
     cacheParameterList();
 
     m_mode = Copy;
@@ -98,7 +98,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
     //now replace the various elements in the list
     for (int i = 0; i < args.size(); ++i) {
         QString argument = args.at(i);
-        kDebug(1601) << "Processing argument " << argument;
+        kDebug() << "Processing argument " << argument;
 
         if (argument == "$Archive") {
             args[i] = filename();
@@ -136,7 +136,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
             //if we get a hint about this being a password protected archive, ask about
             //the password in advance.
             if (options.value("PasswordProtectedHint").toBool() && password().isEmpty()) {
-                kDebug(1601) << "Password hint enabled, querying user";
+                kDebug() << "Password hint enabled, querying user";
 
                 Kerfuffle::PasswordNeededQuery query(filename());
                 userQuery(&query);
@@ -180,7 +180,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
             QString rootNode;
             if (options.contains("RootNode")) {
                 rootNode = options.value("RootNode").toString();
-                kDebug(1601) << "Set root node " << rootNode;
+                kDebug() << "Set root node " << rootNode;
             }
 
             if (!rootNode.isEmpty()) {
@@ -211,7 +211,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
         }
     }
 
-    kDebug(1601) << "Setting current dir to " << destinationDirectory;
+    kDebug() << "Setting current dir to " << destinationDirectory;
     QDir::setCurrent(destinationDirectory);
 
     executeProcess(m_program, args);
@@ -233,7 +233,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
 
     QString globalWorkdir = options.value("GlobalWorkDir").toString();
     if (!globalWorkdir.isEmpty()) {
-        kDebug(1601) << "GlobalWorkDir is set, changing dir to " << globalWorkdir;
+        kDebug() << "GlobalWorkDir is set, changing dir to " << globalWorkdir;
         QDir::setCurrent(globalWorkdir);
     }
 
@@ -243,7 +243,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
     //now replace the various elements in the list
     for (int i = 0; i < args.size(); ++i) {
         QString argument = args.at(i);
-        kDebug(1601) << "Processing argument " << argument;
+        kDebug() << "Processing argument " << argument;
 
         if (argument == "$Archive") {
             args[i] = filename();
@@ -284,7 +284,7 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
     //now replace the various elements in the list
     for (int i = 0; i < args.size(); ++i) {
         QString argument = args.at(i);
-        kDebug(1601) << "Processing argument " << argument;
+        kDebug() << "Processing argument " << argument;
 
         if (argument == "$Archive") {
             args[i] = filename();
@@ -312,7 +312,7 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
 
 bool CliInterface::createProcess()
 {
-    kDebug(1601);
+    kDebug();
 
     if (m_process) {
         delete m_process;
@@ -335,7 +335,7 @@ bool CliInterface::createProcess()
 
 bool CliInterface::executeProcess(const QString& path, const QStringList & args)
 {
-    kDebug(1601) << "Executing " << path << args;
+    kDebug() << "Executing " << path << args;
     Q_ASSERT(!path.isEmpty());
 
     m_process->setProgram(path, args);
@@ -356,7 +356,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     Q_UNUSED(exitCode);
     Q_UNUSED(exitStatus);
 
-    kDebug(1601);
+    kDebug();
 
     //if the m_process pointer is gone, then there is nothing to worry
     //about here
@@ -385,7 +385,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
 
 void CliInterface::failOperation()
 {
-    kDebug(1601);
+    kDebug();
 
     if (m_process)
         m_process->terminate();
@@ -479,7 +479,7 @@ void CliInterface::handleLine(const QString& line)
 
     if (m_mode == Copy) {
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
-            kDebug(1601) << "Wrong password!";
+            kDebug() << "Wrong password!";
             error(i18n("Incorrect password."));
             setPassword(QString());
             failOperation();
@@ -487,7 +487,7 @@ void CliInterface::handleLine(const QString& line)
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
-            kDebug(1601) << "Error in extraction!!";
+            kDebug() << "Error in extraction!!";
             error(i18n("Extraction failed because of an unexpected error."));
             failOperation();
             return;
@@ -527,7 +527,7 @@ bool CliInterface::checkForFileExistsMessage(const QString& line)
         m_existsPattern.setPattern(m_param.value(FileExistsExpression).toString());
     }
     if (m_existsPattern.indexIn(line) != -1) {
-        kDebug(1601) << "Detected file existing!! Filename " << m_existsPattern.cap(1);
+        kDebug() << "Detected file existing!! Filename " << m_existsPattern.cap(1);
         return true;
     }
 
@@ -544,10 +544,10 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
     Kerfuffle::OverwriteQuery query(QDir::current().path() + '/' + filename);
     query.setNoRenameMode(true);
     userQuery(&query);
-    kDebug(1601) << "Waiting response";
+    kDebug() << "Waiting response";
     query.waitForResponse();
 
-    kDebug(1601) << "Finished response";
+    kDebug() << "Finished response";
 
     QString responseToProcess;
     QStringList choices = m_param.value(FileExistsInput).toStringList();
@@ -567,7 +567,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
 
     responseToProcess += '\n';
 
-    kDebug(1601) << "Writing " << responseToProcess;
+    kDebug() << "Writing " << responseToProcess;
 
     m_process->write(responseToProcess.toLocal8Bit());
 

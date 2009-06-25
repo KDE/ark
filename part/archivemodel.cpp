@@ -283,7 +283,7 @@ QVariant ArchiveModel::headerData(int section, Qt::Orientation, int role) const
 {
     if (role == Qt::DisplayRole) {
         if (section >= m_showColumns.size()) {
-            kDebug(1601) << "WEIRD: showColumns.size = " << m_showColumns.size()
+            kDebug() << "WEIRD: showColumns.size = " << m_showColumns.size()
             << " and section = " << section;
             return QVariant();
         }
@@ -397,7 +397,7 @@ int ArchiveModel::columnCount(const QModelIndex &parent) const
 
 void ArchiveModel::sort(int column, Qt::SortOrder order)
 {
-    kDebug(1601);
+    kDebug();
     QList<ArchiveDirNode*> dirNodes;
     m_rootNode->returnDirNodes(&dirNodes);
 
@@ -437,7 +437,7 @@ QStringList ArchiveModel::mimeTypes() const
 
 QMimeData * ArchiveModel::mimeData(const QModelIndexList & indexes) const
 {
-    kDebug(1601) ;
+    kDebug() ;
     //prepare the fallback kio_slave filenames
     QStringList files;
     bool noFallback = false;
@@ -510,7 +510,7 @@ bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, i
         }
     }
 
-    kDebug(1601) << "Dropped onto " << path;
+    kDebug() << "Dropped onto " << path;
 
 #endif
 
@@ -591,7 +591,7 @@ QModelIndex ArchiveModel::indexForNode(ArchiveNode *node)
 void ArchiveModel::slotEntryRemoved(const QString & path)
 {
     // TODO: Do something
-    kDebug(1601) << "Removed node at path " << path;
+    kDebug() << "Removed node at path " << path;
     ArchiveNode *entry = m_rootNode->findByPath(path.split('/', QString::SkipEmptyParts));
     if (entry) {
         ArchiveDirNode *parent = entry->parent();
@@ -605,7 +605,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
 
         endRemoveRows();
     } else
-        kDebug(1601) << "Did not find the removed node";
+        kDebug() << "Did not find the removed node";
 }
 
 void ArchiveModel::slotUserQuery(Query *query)
@@ -630,7 +630,7 @@ void ArchiveModel::slotNewEntry(const ArchiveEntry& entry)
 void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour behaviour)
 {
     if (receivedEntry[FileName].toString().isEmpty()) {
-        kDebug(1601) << "Weird, received empty entry (no filename) - skipping";
+        kDebug() << "Weird, received empty entry (no filename) - skipping";
         return;
     }
 
@@ -664,7 +664,7 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
         m_showColumns << toInsert;
         endInsertColumns();
 
-        kDebug(1601) << "Show columns detected: " << m_showColumns;
+        kDebug() << "Show columns detected: " << m_showColumns;
 
     }
 
@@ -678,7 +678,7 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
             return;
 
         if (!entry.contains(InternalID))
-            kDebug(1601) << "Warning, there is no internalID";
+            kDebug() << "Warning, there is no internalID";
 
         entry[FileName] = entryFileName.remove(0, 2);
     }
@@ -687,7 +687,7 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
     if (m_rootNode) {
         ArchiveNode *existing = m_rootNode->findByPath(entry[ FileName ].toString().split('/'));
         if (existing) {
-            kDebug(1601) << "Refreshing entry for" << entry[FileName].toString();
+            kDebug() << "Refreshing entry for" << entry[FileName].toString();
             //TODO: benchmark whether it's a bad idea to reset the entry here.
             existing->setEntry(entry);
             return;
@@ -714,7 +714,7 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
 
 void ArchiveModel::slotLoadingFinished(KJob *job)
 {
-    //kDebug (1601) << entry;
+    //kDebug() << entry;
     foreach(const ArchiveEntry &entry, m_newArchiveEntries) {
         newEntry(entry, DoNotNotifyViews);
     }
@@ -819,7 +819,7 @@ DeleteJob* ArchiveModel::deleteFiles(const QList<QVariant> & files)
 
 void ArchiveModel::slotCleanupEmptyDirs()
 {
-    kDebug(1601);
+    kDebug();
     QList<QPersistentModelIndex> queue;
     QList<QPersistentModelIndex> nodesToDelete;
 
@@ -832,7 +832,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
     while (!queue.isEmpty()) {
         QPersistentModelIndex node = queue.takeFirst();
         ArchiveEntry entry = entryForIndex(node);
-        //kDebug(1601) << "Trying " << entry[FileName].toString();
+        //kDebug() << "Trying " << entry[FileName].toString();
 
         if (!hasChildren(node)) {
             if (!entry.contains(InternalID)) {
@@ -851,6 +851,6 @@ void ArchiveModel::slotCleanupEmptyDirs()
         beginRemoveRows(parent(node), rawNode->row(), rawNode->row());
         delete rawNode->parent()->entries().takeAt(rawNode->row());
         endRemoveRows();
-        //kDebug(1601) << "Removed entry " << entry[FileName].toString();
+        //kDebug() << "Removed entry " << entry[FileName].toString();
     }
 }

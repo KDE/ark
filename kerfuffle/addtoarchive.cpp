@@ -57,8 +57,8 @@ bool AddToArchive::showAddDialog(void)
     bool ret = dialog->exec();
 
     if (ret) {
-        kDebug(1601) << "Returned URL:" << dialog->selectedUrl();
-        kDebug(1601) << "Returned mime:" << dialog->currentMimeFilter();
+        kDebug() << "Returned URL:" << dialog->selectedUrl();
+        kDebug() << "Returned mime:" << dialog->currentMimeFilter();
         setFilename(dialog->selectedUrl());
         setMimeType(dialog->currentMimeFilter());
     }
@@ -86,7 +86,7 @@ bool AddToArchive::addInput(const KUrl& url)
 //       the returns should be preceded by emitResult().
 void AddToArchive::start(void)
 {
-    kDebug(1601);
+    kDebug();
 
     Kerfuffle::CompressionOptions options;
 
@@ -98,7 +98,7 @@ void AddToArchive::start(void)
     Kerfuffle::Archive *archive;
     if (!m_filename.isEmpty()) {
         archive = Kerfuffle::factory(m_filename, m_mimeType);
-        kDebug(1601) << "Set filename to " + m_filename;
+        kDebug() << "Set filename to " + m_filename;
     } else {
         if (m_autoFilenameSuffix.isEmpty()) {
             KMessageBox::error(NULL, i18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.tz) with the --autofilename argument."));
@@ -106,7 +106,7 @@ void AddToArchive::start(void)
         }
 
         if (m_firstPath.isEmpty()) {
-            kDebug(1601) << "Weird, this should not happen. no firstpath defined. aborting";
+            kDebug() << "Weird, this should not happen. no firstpath defined. aborting";
             return;
         }
 
@@ -129,7 +129,7 @@ void AddToArchive::start(void)
             finalName = base + '_' + QString::number(appendNumber) + '.' + m_autoFilenameSuffix;
         }
 
-        kDebug(1601) << "Autoset filename to " + finalName;
+        kDebug() << "Autoset filename to " + finalName;
         archive = Kerfuffle::factory(finalName, m_mimeType);
     }
 
@@ -141,7 +141,7 @@ void AddToArchive::start(void)
 
     if (m_changeToFirstPath) {
         if (m_firstPath.isEmpty()) {
-            kDebug(1601) << "Weird, this should not happen. no firstpath defined. aborting";
+            kDebug() << "Weird, this should not happen. no firstpath defined. aborting";
             return;
         }
 
@@ -152,7 +152,7 @@ void AddToArchive::start(void)
         }
 
         options["GlobalWorkDir"] = stripDir.path();
-        kDebug(1601) << "Setting GlobalWorkDir to " << stripDir.path();
+        kDebug() << "Setting GlobalWorkDir to " << stripDir.path();
     }
 
     Kerfuffle::AddJob *job =
@@ -168,7 +168,7 @@ void AddToArchive::start(void)
 
 void AddToArchive::slotFinished(KJob *job)
 {
-    kDebug(1601);
+    kDebug();
 
     if (job->error()) {
         KMessageBox::error(NULL, job->errorText());
