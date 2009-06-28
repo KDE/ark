@@ -30,6 +30,7 @@
 #include <KIconLoader>
 #include <KVBox>
 #include <KMessageBox>
+#include <KPushButton>
 #include <KRun>
 #include <KIO/NetAccess>
 
@@ -39,7 +40,6 @@
 #include <QDrag>
 #include <QMimeData>
 #include <QMouseEvent>
-
 
 class DraggableIcon : public QLabel
 {
@@ -64,7 +64,6 @@ public:
             drag->exec();
         }
     }
-
 };
 
 
@@ -108,6 +107,18 @@ void ArkViewer::view(const QString& filename, QWidget *parent)
     // Unlink the temp file (not used by the external viewer since KRun will do that for us at
     // the right moment
     KIO::NetAccess::del(KUrl(filename), parent);
+}
+
+void ArkViewer::keyPressEvent(QKeyEvent *event)
+{
+    KPushButton *defButton = button(defaultButton());
+
+    // Only handle the event the usual way if the default button has focus
+    // Otherwise, pressing enter on KatePart still closes the dialog, for example.
+    if ((defButton) && (defButton->hasFocus()))
+        KDialog::keyPressEvent(event);
+
+    event->accept();
 }
 
 bool ArkViewer::viewInInternalViewer(const QString& filename)
