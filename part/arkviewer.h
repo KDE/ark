@@ -36,6 +36,9 @@ public:
 
     static void view(const QString& filename, QWidget* parent = 0);
 
+protected:
+    virtual void keyPressEvent(QKeyEvent *event);
+
 protected slots:
     void slotFinished();
     void slotOpenUrlRequestDelayed(const KUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments);
