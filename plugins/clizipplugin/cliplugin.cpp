@@ -77,9 +77,6 @@ public:
         return p;
     }
 
-
-
-
     QString m_entryFilename, m_internalId;
     ArchiveEntry m_currentEntry;
 
@@ -104,6 +101,7 @@ public:
             if (i != -1) {
                 ArchiveEntry e;
                 e[Permissions] = entryPattern.cap(1);
+                e[IsDirectory] = (entryPattern.cap(1).at(0) == 'd');
                 e[Owner] = entryPattern.cap(3);
                 e[Size] = entryPattern.cap(4).toInt();
                 QString status = entryPattern.cap(5);
