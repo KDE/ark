@@ -115,35 +115,6 @@ public:
         }
         return true;
     }
-
-    void handleDataLine(const QString& line) {
-        static QRegExp pattern("^(.+):\\s+(.+)$");
-
-        if (pattern.indexIn(line) == -1)
-            return;
-
-        QString field = pattern.cap(1);
-        QString value = pattern.cap(2);
-
-        if (line.startsWith(QLatin1String("compressed size")))
-            m_currentEntry[CompressedSize] = 100;
-
-#if 0
-        ArchiveEntry e;
-        e[ FileName ] = m_entryFilename;
-        e[ InternalID ] = m_internalId;
-        e[ Size ] = fileprops[ 0 ];
-        e[ CompressedSize] = fileprops[ 1 ];
-        e[ Ratio ] = fileprops[ 2 ];
-        e[ Timestamp ] = ts;
-        e[ IsDirectory ] = isDirectory;
-        e[ Permissions ] = fileprops[ 5 ].remove(0, 1);
-        e[ CRC ] = fileprops[ 6 ];
-        e[ Method ] = fileprops[ 7 ];
-        e[ Version ] = fileprops[ 8 ];
-        e[ IsPasswordProtected] = m_isPasswordProtected;
-#endif
-    }
 };
 
 KERFUFFLE_PLUGIN_FACTORY(CliPlugin)
