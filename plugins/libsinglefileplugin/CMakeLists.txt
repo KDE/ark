@@ -10,7 +10,7 @@ set(kerfuffle_singlefile_SRCS singlefileplugin.cpp)
 #
 macro_optional_find_package(ZLIB)
 
-macro_log_feature(ZLIB_FOUND "zlib" "zlib is used for the .gz format" "http://www.zlib.net" FALSE "" "Required for the .gz format support in Ark")
+macro_log_feature(ZLIB_FOUND "ZLib" "The Zlib compression library" "http://www.zlib.net" FALSE "" "Required for the .gz format support in Ark")
 
 if (ZLIB_FOUND)
 	set(kerfuffle_libgz_SRCS gzplugin.cpp ${kerfuffle_singlefile_SRCS})
@@ -29,7 +29,7 @@ endif (ZLIB_FOUND)
 #
 macro_optional_find_package(BZip2)
 
-macro_log_feature(BZIP2_FOUND "bzip2" "bzip2 is used for the .bz2 format" "http://www.bzip2.org" FALSE "" "Required for the .bz2 format support in Ark")
+macro_log_feature(BZIP2_FOUND "BZip2" "A high-quality data compressor" "http://www.bzip.org" FALSE "" "Required for the .bz2 format support in Ark")
 
 if (BZIP2_FOUND)
 	set(kerfuffle_libbz2_SRCS bz2plugin.cpp ${kerfuffle_singlefile_SRCS})
