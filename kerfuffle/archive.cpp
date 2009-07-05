@@ -63,15 +63,16 @@ static QString determineMimeType(const QString & filename, const QString & defau
 
 namespace Kerfuffle
 {
+
 Archive *factory(const QString & filename, const QString & requestedMimeType)
 {
-    kDebug() ;
+    kDebug();
 
     qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 
     QString mimeType = determineMimeType(filename, requestedMimeType);
     if (mimeType.isEmpty())
-        return 0L;
+        return NULL;
 
     KService::List offers = KMimeTypeTrader::self()->query(mimeType, "Kerfuffle/Plugin", "(exist Library)");
 
@@ -96,9 +97,10 @@ Archive *factory(const QString & filename, const QString & requestedMimeType)
         KPluginFactory *factory = loader.factory();
 #endif
 
-        kDebug() << "Loading library " << libraryName ;
+        kDebug() << "Loading library " << libraryName;
         if (lib) {
             ArchiveFactory *(*pluginFactory)() = (ArchiveFactory * (*)())lib->resolveFunction("pluginFactory");
+
             if (pluginFactory) {
                 ArchiveFactory *factory = pluginFactory(); // TODO: cache these
                 Archive *arch = factory->createArchive(QFileInfo(filename).absoluteFilePath(), 0);
@@ -106,10 +108,12 @@ Archive *factory(const QString & filename, const QString & requestedMimeType)
                 return arch;
             }
         }
+
         kDebug() << "Couldn't load library " << libraryName ;
     }
+
     kDebug() << "Couldn't find a library capable of handling " << filename ;
-    return 0;
+    return NULL;
 }
 
 QStringList supportedMimeTypes()
@@ -126,9 +130,12 @@ QStringList supportedMimeTypes()
     for (; it != itEnd; ++it) {
         KService::Ptr service = *it;
         QStringList mimeTypes = service->serviceTypes();
-        foreach(const QString& mimeType, mimeTypes)
-        if (mimeType != basePartService && !supported.contains(mimeType))
-            supported.append(mimeType);
+
+        foreach (const QString& mimeType, mimeTypes) {
+            if (mimeType != basePartService && !supported.contains(mimeType)) {
+                supported.append(mimeType);
+            }
+        }
     }
 
     kDebug() << "Returning" << supported;
@@ -150,13 +157,17 @@ QStringList supportedWriteMimeTypes()
     for (; it != itEnd; ++it) {
         KService::Ptr service = *it;
         QStringList mimeTypes = service->serviceTypes();
-        foreach(const QString& mimeType, mimeTypes)
-        if (mimeType != basePartService && !supported.contains(mimeType))
-            supported.append(mimeType);
+
+        foreach (const QString& mimeType, mimeTypes) {
+            if (mimeType != basePartService && !supported.contains(mimeType)) {
+                supported.append(mimeType);
+            }
+        }
     }
 
     kDebug() << "Returning" << supported;
 
     return supported;
 }
+
 } // namespace Kerfuffle
