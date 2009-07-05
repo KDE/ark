@@ -42,11 +42,8 @@ static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
     return (p1->property("X-KDE-Priority").toInt()) > (p2->property("X-KDE-Priority").toInt());
 }
 
-static QString determineMimeType(const QString & filename, const QString & fixedMimeType)
+static QString determineMimeType(const QString & filename)
 {
-    if (!fixedMimeType.isEmpty())
-        return fixedMimeType;
-
     if (!QFile::exists(filename))
         return KMimeType::findByPath(filename)->name();
 
@@ -65,7 +62,7 @@ static KService::List findPluginOffers(const QString& filename, const QString& f
 {
     KService::List offers;
 
-    QString mimeType = determineMimeType(filename, fixedMimeType);
+    QString mimeType = fixedMimeType.isEmpty() ? determineMimeType(filename) : fixedMimeType;
 
     if (!mimeType.isEmpty()) {
         offers = KMimeTypeTrader::self()->query(mimeType, "Kerfuffle/Plugin", "(exist Library)");
