@@ -33,7 +33,7 @@ class LibBzip2Interface : public LibSingleFileInterface
     Q_OBJECT
 
 public:
-    LibBzip2Interface(const QString & filename, QObject *parent = 0);
+    LibBzip2Interface(const QString & filename, QObject *parent);
     virtual ~LibBzip2Interface();
 };
 

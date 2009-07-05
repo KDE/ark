@@ -33,7 +33,7 @@ class LibGzipInterface : public LibSingleFileInterface
     Q_OBJECT
 
 public:
-    LibGzipInterface(const QString & filename, QObject *parent = 0);
+    LibGzipInterface(const QString & filename, QObject *parent);
     virtual ~LibGzipInterface();
 };
 

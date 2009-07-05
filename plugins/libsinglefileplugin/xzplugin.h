@@ -33,7 +33,7 @@ class LibXzInterface : public LibSingleFileInterface
     Q_OBJECT
 
 public:
-    LibXzInterface(const QString & filename, QObject *parent = 0);
+    LibXzInterface(const QString & filename, QObject *parent);
     virtual ~LibXzInterface();
 };
 
