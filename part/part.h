@@ -44,7 +44,7 @@ class Part: public KParts::ReadWritePart, public Interface
     Q_OBJECT
     Q_INTERFACES(Interface)
 public:
-    Part(QWidget *parentWidget, QObject *parent, const QStringList &);
+    Part(QWidget *parentWidget, QObject *parent, const QVariantList &);
     ~Part();
     static KAboutData* createAboutData();
 

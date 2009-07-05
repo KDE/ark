@@ -60,15 +60,16 @@
 #include <QHeaderView>
 #include <QPointer>
 
-typedef KParts::GenericFactory<Part> Factory;
-K_EXPORT_COMPONENT_FACTORY(libarkpart, Factory)
+K_PLUGIN_FACTORY( ArkPartFactory, registerPlugin< Part >(); )
+K_EXPORT_PLUGIN( ArkPartFactory("arkpart") )
 
-Part::Part(QWidget *parentWidget, QObject *parent, const QStringList& args)
+Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
         : KParts::ReadWritePart(parent), m_model(new ArchiveModel(this)), m_previewDir(0), m_busy(false),
         m_jobTracker(NULL)
 {
     Q_UNUSED(args);
-    setComponentData(Factory::componentData());
+
+    setComponentData(ArkPartFactory::componentData());
     setXMLFile("ark_part.rc");
 
     KVBox *mainWidget = new KVBox(parentWidget);
