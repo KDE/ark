@@ -124,5 +124,5 @@ Comment[x-test]=xxArchive Handling Toolxx
 Comment[zh_CN]=压缩归档处理工具
 Comment[zh_TW]=壓縮檔處理工具
 X-KDE-ServiceTypes=Browser/View
-X-KDE-Library=libarkpart
+X-KDE-Library=arkpart
 Type=Service

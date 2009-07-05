@@ -117,7 +117,7 @@ void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 
 bool MainWindow::loadPart()
 {
-    KPluginFactory *factory = KPluginLoader("libarkpart").factory();
+    KPluginFactory *factory = KPluginLoader("arkpart").factory();
     if (factory) {
         m_part = static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this));
     }

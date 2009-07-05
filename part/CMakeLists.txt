@@ -20,7 +20,7 @@ kde4_add_ui_files(arkpart_PART_SRCS jobtracker.ui )
 
 kde4_add_kcfg_files(arkpart_PART_SRCS settings.kcfgc)
 
-kde4_add_plugin(arkpart WITH_PREFIX ${arkpart_PART_SRCS})
+kde4_add_plugin(arkpart ${arkpart_PART_SRCS})
 
 
 target_link_libraries(arkpart kerfuffle ${KDE4_KFILE_LIBS} ${KDE4_KPARTS_LIBS})
