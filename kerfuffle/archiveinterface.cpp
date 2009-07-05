@@ -34,9 +34,11 @@
 
 namespace Kerfuffle
 {
-ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(const QString & filename, QObject *parent)
-        : QObject(parent), m_filename(filename), m_waitForFinishedSignal(false)
+ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVariantList & args)
+        : QObject(parent), m_waitForFinishedSignal(false)
 {
+    kDebug();
+    m_filename = args.first().toString();
 }
 
 ReadOnlyArchiveInterface::~ReadOnlyArchiveInterface()
@@ -145,8 +147,8 @@ void ReadOnlyArchiveInterface::removeObserver(ArchiveObserver *observer)
     m_observers.removeAll(observer);
 }
 
-ReadWriteArchiveInterface::ReadWriteArchiveInterface(const QString & filename, QObject *parent)
-        : ReadOnlyArchiveInterface(filename, parent)
+ReadWriteArchiveInterface::ReadWriteArchiveInterface(QObject *parent, const QVariantList & args)
+        : ReadOnlyArchiveInterface(parent, args)
 {
 }
 

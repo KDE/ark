@@ -20,8 +20,8 @@
  */
 
 #include "cliplugin.h"
-#include "kerfuffle/archivefactory.h"
 #include "kerfuffle/cliinterface.h"
+#include "kerfuffle/kerfuffle_export.h"
 
 #include <QDateTime>
 #include <QDir>
@@ -32,8 +32,8 @@
 
 using namespace Kerfuffle;
 
-CliPlugin::CliPlugin(const QString & filename, QObject *parent)
-        : CliInterface(filename, parent)
+CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
+        : CliInterface(parent, args)
         , m_isFirstLine(true)
         , m_isInContentListing(false)
 {
@@ -146,6 +146,6 @@ bool CliPlugin::readListLine(QString line)
     return true;
 }
 
-KERFUFFLE_PLUGIN_FACTORY(CliPlugin)
+KERFUFFLE_EXPORT_PLUGIN(CliPlugin)
 
 #include "cliplugin.moc"

@@ -219,7 +219,7 @@ public:
     };
     OperationMode m_mode;
 
-    explicit CliInterface(const QString& filename, QObject *parent = 0);
+    explicit CliInterface(QObject *parent, const QVariantList & args);
     virtual ~CliInterface();
 
     virtual bool list();

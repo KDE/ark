@@ -36,8 +36,8 @@
 
 namespace Kerfuffle
 {
-CliInterface::CliInterface(const QString& filename, QObject *parent)
-        : ReadWriteArchiveInterface(filename, parent),
+CliInterface::CliInterface(QObject *parent, const QVariantList & args)
+        : ReadWriteArchiveInterface(parent, args),
         m_process(0)
 {
     //because this interface uses the event loop

@@ -24,12 +24,12 @@
  */
 
 #include "bz2plugin.h"
-#include "kerfuffle/archivefactory.h"
+#include "kerfuffle/kerfuffle_export.h"
 
 #include <QString>
 
-LibBzip2Interface::LibBzip2Interface(const QString & filename, QObject *parent)
-        : LibSingleFileInterface(filename, parent)
+LibBzip2Interface::LibBzip2Interface(QObject *parent, const QVariantList & args)
+        : LibSingleFileInterface(parent, args)
 {
     m_mimeType = "application/x-bzip";
     m_possibleExtensions.append(".bz2");
@@ -39,6 +39,6 @@ LibBzip2Interface::~LibBzip2Interface()
 {
 }
 
-KERFUFFLE_PLUGIN_FACTORY(LibBzip2Interface)
+KERFUFFLE_EXPORT_PLUGIN(LibBzip2Interface)
 
 #include "bz2plugin.moc"

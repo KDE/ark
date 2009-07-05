@@ -31,7 +31,7 @@ class CliPlugin : public Kerfuffle::CliInterface
     Q_OBJECT
 
 public:
-    explicit CliPlugin(const QString & filename, QObject *parent = 0);
+    explicit CliPlugin(QObject *parent, const QVariantList & args);
     virtual ~CliPlugin();
 
 protected:

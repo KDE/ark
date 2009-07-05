@@ -24,7 +24,7 @@
  */
 
 #include "singlefileplugin.h"
-#include "kerfuffle/archivefactory.h"
+#include "kerfuffle/kerfuffle_export.h"
 
 #include <QByteArray>
 #include <QFile>
@@ -35,15 +35,13 @@
 #include <KFilterDev>
 #include <KLocale>
 
-LibSingleFileInterface::LibSingleFileInterface(const QString & filename, QObject *parent)
-        : Kerfuffle::ReadOnlyArchiveInterface(filename, parent)
+LibSingleFileInterface::LibSingleFileInterface(QObject *parent, const QVariantList & args)
+        : Kerfuffle::ReadOnlyArchiveInterface(parent, args)
 {
-    kDebug() << filename;
 }
 
 LibSingleFileInterface::~LibSingleFileInterface()
 {
-    kDebug();
 }
 
 bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, Kerfuffle::ExtractionOptions options)

@@ -30,6 +30,7 @@
 #include <QObject>
 #include <QStringList>
 #include <QString>
+#include <QVariantList>
 
 #include "archive.h"
 #include "queries.h"
@@ -47,7 +48,7 @@ class KERFUFFLE_EXPORT ReadOnlyArchiveInterface: public QObject
 {
     Q_OBJECT
 public:
-    explicit ReadOnlyArchiveInterface(const QString & filename, QObject *parent = 0);
+    explicit ReadOnlyArchiveInterface(QObject *parent, const QVariantList & args);
     virtual ~ReadOnlyArchiveInterface();
 
     /** Return the filename of currently handled archive. */
@@ -120,8 +121,6 @@ protected:
      */
     void setWaitForFinishedSignal(bool value);
 
-
-
 private:
     QList<ArchiveObserver*> m_observers;
     QString m_filename;
@@ -133,7 +132,7 @@ class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterfac
 {
     Q_OBJECT
 public:
-    explicit ReadWriteArchiveInterface(const QString & filename, QObject *parent = 0);
+    explicit ReadWriteArchiveInterface(QObject *parent, const QVariantList & args);
     virtual ~ReadWriteArchiveInterface();
 
     virtual bool isReadOnly() const;

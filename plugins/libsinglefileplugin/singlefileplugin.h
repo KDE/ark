@@ -33,7 +33,7 @@ class LibSingleFileInterface : public Kerfuffle::ReadOnlyArchiveInterface
     Q_OBJECT
 
 public:
-    LibSingleFileInterface(const QString & filename, QObject *parent);
+    LibSingleFileInterface(QObject *parent, const QVariantList & args);
     virtual ~LibSingleFileInterface();
 
     virtual bool list();

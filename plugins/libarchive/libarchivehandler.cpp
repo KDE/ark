@@ -25,7 +25,7 @@
  */
 
 #include "libarchivehandler.h"
-#include "kerfuffle/archivefactory.h"
+#include "kerfuffle/kerfuffle_export.h"
 #include "kerfuffle/queries.h"
 
 #include <archive.h>
@@ -42,8 +42,8 @@
 #include <QList>
 #include <QStringList>
 
-LibArchiveInterface::LibArchiveInterface(const QString & filename, QObject *parent)
-        : ReadWriteArchiveInterface(filename, parent),
+LibArchiveInterface::LibArchiveInterface(QObject *parent, const QVariantList & args)
+        : ReadWriteArchiveInterface(parent, args),
         m_cachedArchiveEntryCount(0),
         m_emitNoEntries(false),
         m_extractedFilesSize(0)
@@ -664,6 +664,6 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
     return true;
 }
 
-KERFUFFLE_PLUGIN_FACTORY(LibArchiveInterface)
+KERFUFFLE_EXPORT_PLUGIN(LibArchiveInterface)
 
 #include "libarchivehandler.moc"

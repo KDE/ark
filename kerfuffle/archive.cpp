@@ -25,17 +25,18 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include "archive.h"
-#include "archivefactory.h"
+#include "archivebase.h"
+#include "archiveinterface.h"
 
 #include <QByteArray>
 #include <QFile>
 #include <QFileInfo>
 
 #include <KDebug>
+#include <KPluginLoader>
 #include <KMimeType>
 #include <KMimeTypeTrader>
 #include <KServiceTypeTrader>
-#include <KLibLoader>
 
 static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
 {
@@ -83,33 +84,30 @@ Archive *factory(const QString & filename, const QString & fixedMimeType)
 
     KService::List offers = findPluginOffers(filename, fixedMimeType);
 
-    if (!offers.isEmpty()) {
-        QString libraryName = offers[ 0 ]->library();
-        KLibrary *lib = KLibLoader::self()->library(QFile::encodeName(libraryName), QLibrary::ExportExternalSymbolsHint);
-        //TODO: get rid of the deprecated klibloader::self
-#if 0
-
-        KPluginLoader loader(offers.at(0));
-        KPluginFactory *factory = loader.factory();
-#endif
-
-        kDebug() << "Loading library " << libraryName;
-        if (lib) {
-            ArchiveFactory *(*pluginFactory)() = (ArchiveFactory * (*)())lib->resolveFunction("pluginFactory");
-
-            if (pluginFactory) {
-                ArchiveFactory *factory = pluginFactory(); // TODO: cache these
-                Archive *arch = factory->createArchive(QFileInfo(filename).absoluteFilePath(), 0);
-                delete factory;
-                return arch;
-            }
-        }
-
-        kDebug() << "Couldn't load library " << libraryName ;
+    if (offers.isEmpty()) {
+        kDebug() << "Could not find a plugin to handle" << filename;
+        return NULL;
     }
 
-    kDebug() << "Couldn't find a library capable of handling " << filename ;
-    return NULL;
+    QString pluginName = offers.first()->library();
+    kDebug() << "Loading plugin" << pluginName;
+
+    KPluginFactory *factory = KPluginLoader(pluginName).factory();
+    if (!factory) {
+        kDebug() << "Invalid plugin factory for" << pluginName;
+        return NULL;
+    }
+
+    QVariantList args;
+    args.append(QVariant(QFileInfo(filename).absoluteFilePath()));
+
+    ReadOnlyArchiveInterface *iface = factory->create<ReadOnlyArchiveInterface>(0, args);
+    if (!iface) {
+        kDebug() << "Could not create plugin instance" << pluginName << "for" << filename;
+        return NULL;
+    }
+
+    return new ArchiveBase(iface);;
 }
 
 QStringList supportedMimeTypes()

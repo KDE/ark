@@ -24,12 +24,12 @@
  */
 
 #include "gzplugin.h"
-#include "kerfuffle/archivefactory.h"
+#include "kerfuffle/kerfuffle_export.h"
 
 #include <QString>
 
-LibGzipInterface::LibGzipInterface(const QString & filename, QObject *parent)
-        : LibSingleFileInterface(filename, parent)
+LibGzipInterface::LibGzipInterface(QObject *parent, const QVariantList & args)
+        : LibSingleFileInterface(parent, args)
 {
     m_mimeType = "application/x-gzip";
     m_possibleExtensions.append(".gz");
@@ -39,6 +39,6 @@ LibGzipInterface::~LibGzipInterface()
 {
 }
 
-KERFUFFLE_PLUGIN_FACTORY(LibGzipInterface)
+KERFUFFLE_EXPORT_PLUGIN(LibGzipInterface)
 
 #include "gzplugin.moc"

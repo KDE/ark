@@ -22,6 +22,7 @@
 
 /* needed for KDE_EXPORT and KDE_IMPORT macros */
 #include <kdemacros.h>
+#include <kpluginfactory.h>
 
 #ifndef KERFUFFLE_EXPORT
 # if defined(MAKE_KERFUFFLE_LIB)
@@ -36,5 +37,9 @@
 # ifndef KERFUFFLE_EXPORT_DEPRECATED
 #  define KERFUFFLE_EXPORT_DEPRECATED KDE_DEPRECATED KERFUFFLE_EXPORT
 # endif
+
+#define KERFUFFLE_EXPORT_PLUGIN(p) \
+    K_PLUGIN_FACTORY( ArkPluginFactory, registerPlugin< p >(); ) \
+    K_EXPORT_PLUGIN( ArkPluginFactory("p") )
 
 #endif

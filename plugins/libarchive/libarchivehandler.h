@@ -38,7 +38,7 @@ class LibArchiveInterface: public ReadWriteArchiveInterface
     Q_OBJECT
 
 public:
-    explicit LibArchiveInterface(const QString & filename, QObject *parent = 0);
+    explicit LibArchiveInterface(QObject *parent, const QVariantList & args);
     ~LibArchiveInterface();
 
     bool list();

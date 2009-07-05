@@ -24,12 +24,12 @@
  */
 
 #include "xzplugin.h"
-#include "kerfuffle/archivefactory.h"
+#include "kerfuffle/kerfuffle_export.h"
 
 #include <QString>
 
-LibXzInterface::LibXzInterface(const QString & filename, QObject *parent)
-        : LibSingleFileInterface(filename, parent)
+LibXzInterface::LibXzInterface(QObject *parent, const QVariantList & args)
+        : LibSingleFileInterface(parent, args)
 {
     m_mimeType = "application/x-lzma";
     m_possibleExtensions.append(".lzma");
@@ -40,6 +40,6 @@ LibXzInterface::~LibXzInterface()
 {
 }
 
-KERFUFFLE_PLUGIN_FACTORY(LibXzInterface)
+KERFUFFLE_EXPORT_PLUGIN(LibXzInterface)
 
 #include "xzplugin.moc"

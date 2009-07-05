@@ -20,7 +20,7 @@
  */
 
 #include "kerfuffle/cliinterface.h"
-#include "kerfuffle/archivefactory.h"
+#include "kerfuffle/kerfuffle_export.h"
 
 #include <QDir>
 #include <QLatin1String>
@@ -34,8 +34,8 @@ using namespace Kerfuffle;
 class CliPlugin: public CliInterface
 {
 public:
-    explicit CliPlugin(const QString & filename, QObject *parent = 0)
-            : CliInterface(filename, parent),
+    explicit CliPlugin(QObject *parent, const QVariantList & args)
+            : CliInterface(parent, args),
             m_status(Header) {
 
     }
@@ -117,5 +117,5 @@ public:
     }
 };
 
-KERFUFFLE_PLUGIN_FACTORY(CliPlugin)
+KERFUFFLE_EXPORT_PLUGIN(CliPlugin)
 
