@@ -96,7 +96,7 @@ public:
 
 };
 
-KERFUFFLE_EXPORT Archive* factory(const QString & filename, const QString & requestedMimeType = QString());
+KERFUFFLE_EXPORT Archive* factory(const QString & filename, const QString & fixedMimeType = QString());
 KERFUFFLE_EXPORT QStringList supportedMimeTypes();
 KERFUFFLE_EXPORT QStringList supportedWriteMimeTypes();
 } // namespace Kerfuffle

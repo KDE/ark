@@ -42,10 +42,10 @@ static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
     return (p1->property("X-KDE-Priority").toInt()) > (p2->property("X-KDE-Priority").toInt());
 }
 
-static QString determineMimeType(const QString & filename, const QString & defaultMimeType)
+static QString determineMimeType(const QString & filename, const QString & fixedMimeType)
 {
-    if (!defaultMimeType.isEmpty())
-        return defaultMimeType;
+    if (!fixedMimeType.isEmpty())
+        return fixedMimeType;
 
     if (!QFile::exists(filename))
         return KMimeType::findByPath(filename)->name();
@@ -61,31 +61,30 @@ static QString determineMimeType(const QString & filename, const QString & defau
     return KMimeType::findByNameAndContent(filename, buffer)->name();
 }
 
+static KService::List findPluginOffers(const QString& filename, const QString& fixedMimeType)
+{
+    KService::List offers;
+
+    QString mimeType = determineMimeType(filename, fixedMimeType);
+
+    if (!mimeType.isEmpty()) {
+        offers = KMimeTypeTrader::self()->query(mimeType, "Kerfuffle/Plugin", "(exist Library)");
+        qSort(offers.begin(), offers.end(), comparePlugins);
+    }
+
+    return offers;
+}
+
 namespace Kerfuffle
 {
 
-Archive *factory(const QString & filename, const QString & requestedMimeType)
+Archive *factory(const QString & filename, const QString & fixedMimeType)
 {
     kDebug();
 
     qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 
-    QString mimeType = determineMimeType(filename, requestedMimeType);
-    if (mimeType.isEmpty())
-        return NULL;
-
-    KService::List offers = KMimeTypeTrader::self()->query(mimeType, "Kerfuffle/Plugin", "(exist Library)");
-
-    if (offers.isEmpty()) {
-        kDebug() << "Trying to find the mimetype by looking at file content";
-
-        int acc;
-        QString mimeType = KMimeType::findByFileContent(filename, &acc)->name();
-        kDebug() << mimeType << acc;
-        offers = KMimeTypeTrader::self()->query(mimeType, "Kerfuffle/Plugin", "(exist Library)");
-    }
-
-    qSort(offers.begin(), offers.end(), comparePlugins);
+    KService::List offers = findPluginOffers(filename, fixedMimeType);
 
     if (!offers.isEmpty()) {
         QString libraryName = offers[ 0 ]->library();
