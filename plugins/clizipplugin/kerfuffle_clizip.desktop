@@ -12,6 +12,7 @@ X-KDE-Priority=160
 X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=true
 Name=ZIP archive plugin
+Name[ar]=ملحق أرشيف ZIP
 Name[ca]=Connector per arxius ZIP
 Name[da]=ZIP arkiv-plugin
 Name[de]=ZIP-Archiv-Modul
