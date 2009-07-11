@@ -65,7 +65,7 @@
    <item>
     <widget class="QLabel" name="metadataLabel" >
      <property name="text" >
-      <string>Metadata Label</string>
+      <string comment="KDE::DoNotExtract">Metadata Label</string>
      </property>
      <property name="margin" >
       <number>10</number>
@@ -85,7 +85,7 @@
    <item>
     <widget class="QLabel" name="actionsLabel" >
      <property name="text" >
-      <string>ActionsLabel</string>
+      <string comment="KDE::DoNotExtract">ActionsLabel</string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignCenter</set>
