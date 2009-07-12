@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Service
 X-KDE-ServiceTypes=Kerfuffle/Plugin
-X-KDE-Library=kerfuffle_7z
+X-KDE-Library=kerfuffle_cli7z
 X-KDE-PluginInfo-Author=Harald Hvaal
 X-KDE-PluginInfo-Email=haraldhv@stud.ntnu.no
 X-KDE-PluginInfo-Name=kerfuffle_7z
