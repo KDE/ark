@@ -161,8 +161,14 @@ int main(int argc, char **argv)
             BatchExtract *batchJob = new BatchExtract;
             application.connect(batchJob, SIGNAL(result(KJob*)), SLOT(quit()));
 
+            bool hasValidJobs = true;
             for (int i = 0; i < args->count(); ++i) {
-                batchJob->addInput(args->url(i));
+                hasValidJobs = batchJob->addInput(args->url(i));
+            }
+
+            if (!hasValidJobs) {
+                delete batchJob;
+                return -1;
             }
 
             if (args->isSet("autosubfolder")) {

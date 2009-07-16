@@ -110,6 +110,8 @@ void BatchExtract::start()
 {
     kDebug(1601);
 
+    Q_ASSERT(hasSubjobs());
+
     if (!m_subfolder.isEmpty()) {
         kDebug(1601) << "Creating subfolder" << m_subfolder;
         QDir dest(m_destinationFolder);
