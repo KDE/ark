@@ -139,7 +139,6 @@ void BatchExtract::start()
                     );
 
     m_initialJobCount = subjobs().size();
-    if (!m_initialJobCount) return;
 
     kDebug(1601) << "Starting first job";
 
