@@ -191,8 +191,12 @@ void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
 bool BatchExtract::addInput(const KUrl& url)
 {
     kDebug(1601);
+
     Kerfuffle::Archive *archive = Kerfuffle::factory(url.path());
-    if (archive == NULL) return false;
+
+    if ((archive == NULL) || (!QFileInfo(url.path()).exists())) {
+        return false;
+    }
 
     m_inputs << archive;
     return true;
