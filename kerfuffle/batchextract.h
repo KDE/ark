@@ -27,6 +27,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QPair>
 #include <QtCore/QString>
+#include <QtCore/QStringList>
 
 #include <kcompositejob.h>
 
@@ -57,6 +58,7 @@ public:
 
 private slots:
     void forwardProgress(KJob *job, unsigned long percent);
+    void showFailedFiles();
     void slotResult(KJob *job);
     void slotUserQuery(Query *query);
 
@@ -67,6 +69,7 @@ private:
 
     QList<Archive*> m_inputs;
     QString m_destinationFolder;
+    QStringList m_failedFiles;
     QString m_subfolder;
     bool m_preservePaths;
 };

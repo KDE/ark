@@ -45,15 +45,17 @@ namespace Kerfuffle
 BatchExtract::BatchExtract()
         : m_autoSubfolders(false),
         m_preservePaths(true)
-
 {
     setCapabilities(KJob::Killable);
+
+    connect(this, SIGNAL(result(KJob*)), SLOT(showFailedFiles()));
 }
 
 BatchExtract::~BatchExtract()
 {
-    kDebug() << "Dying";
-    KIO::getJobTracker()->unregisterJob(this);
+    if (!m_inputs.isEmpty()) {
+        KIO::getJobTracker()->unregisterJob(this);
+    }
 }
 
 void BatchExtract::addExtraction(Kerfuffle::Archive* archive, bool preservePaths, QString destinationFolder)
@@ -108,7 +110,11 @@ void BatchExtract::setAutoSubfolder(bool value)
 
 void BatchExtract::start()
 {
-    kDebug();
+    // If none of the archives could be loaded, there is no subjob to run
+    if (m_inputs.isEmpty()) {
+        emitResult();
+        return;
+    }
 
     if (!m_subfolder.isEmpty()) {
         kDebug() << "Creating subfolder" << m_subfolder;
@@ -137,11 +143,17 @@ void BatchExtract::start()
                     );
 
     m_initialJobCount = subjobs().size();
-    if (!m_initialJobCount) return;
 
     kDebug() << "Starting first job";
 
     subjobs().at(0)->start();
+}
+
+void BatchExtract::showFailedFiles()
+{
+    if (!m_failedFiles.isEmpty()) {
+        KMessageBox::informationList(0, i18n("The following files could not be extracted:"), m_failedFiles);
+    }
 }
 
 void BatchExtract::slotResult(KJob *job)
@@ -189,11 +201,15 @@ void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
 
 bool BatchExtract::addInput(const KUrl& url)
 {
-    kDebug();
     Kerfuffle::Archive *archive = Kerfuffle::factory(url.path());
-    if (archive == NULL) return false;
 
-    m_inputs << archive;
+    if ((archive == NULL) || (!QFileInfo(url.path()).exists())) {
+        m_failedFiles.append(url.fileName());
+        return false;
+    }
+
+    m_inputs.append(archive);
+
     return true;
 }
 

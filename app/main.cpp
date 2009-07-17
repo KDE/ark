@@ -32,7 +32,7 @@
 
 #include <QByteArray>
 #include <QFileInfo>
-#include <QEventLoop>
+#include <QTimer>
 
 using Kerfuffle::AddToArchive;
 using Kerfuffle::BatchExtract;
@@ -133,7 +133,7 @@ int main(int argc, char **argv)
 
         if (args->isSet("add") || args->isSet("add-to")) {
             AddToArchive *addToArchiveJob = new AddToArchive;
-            application.connect(addToArchiveJob, SIGNAL(result(KJob*)), SLOT(quit()));
+            application.connect(addToArchiveJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);
 
             if (args->isSet("changetofirstpath")) {
                 addToArchiveJob->setChangeToFirstPath(true);
@@ -160,10 +160,8 @@ int main(int argc, char **argv)
 
             addToArchiveJob->start();
         } else if (args->isSet("batch")) {
-            //once the job has been started this interface can be safely
-            //deleted
             BatchExtract *batchJob = new BatchExtract;
-            application.connect(batchJob, SIGNAL(result(KJob*)), SLOT(quit()));
+            application.connect(batchJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);
 
             for (int i = 0; i < args->count(); ++i) {
                 batchJob->addInput(args->url(i));
