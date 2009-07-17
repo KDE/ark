@@ -66,7 +66,6 @@ private:
     bool m_autoSubfolders;
 
     QList<Archive*> m_inputs;
-    //KJobTrackerInterface *m_tracker;
     QString m_destinationFolder;
     QString m_subfolder;
     bool m_preservePaths;
