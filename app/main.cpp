@@ -20,21 +20,22 @@
  *
  */
 
-#include <KApplication>
-#include <KCmdLineArgs>
-#include <KDebug>
-#include <KLocale>
-#include <KAboutData>
-#include <QByteArray>
-#include <QFileInfo>
-#include <QEventLoop>
-
 #include "mainwindow.h"
 #include "kerfuffle/batchextract.h"
 #include "kerfuffle/addtoarchive.h"
 
-using Kerfuffle::BatchExtract;
+#include <KAboutData>
+#include <KApplication>
+#include <KCmdLineArgs>
+#include <KDebug>
+#include <KLocale>
+
+#include <QByteArray>
+#include <QFileInfo>
+#include <QEventLoop>
+
 using Kerfuffle::AddToArchive;
+using Kerfuffle::BatchExtract;
 
 int main(int argc, char **argv)
 {
