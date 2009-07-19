@@ -24,6 +24,7 @@
 #include "archiveview.h"
 #include "infopanel.h"
 #include "arkviewer.h"
+#include "kerfuffle/archive.h"
 #include "kerfuffle/extractiondialog.h"
 #include "kerfuffle/jobs.h"
 #include "settings.h"
@@ -335,9 +336,9 @@ bool Part::openFile()
         QHash<QString, QString> mimeTypes;
 
         if (arguments().metaData()["createNewArchive"] == "true")
-            mimeTypeList = supportedWriteMimeTypes();
+            mimeTypeList = Kerfuffle::supportedWriteMimeTypes();
         else
-            mimeTypeList = supportedMimeTypes();
+            mimeTypeList = Kerfuffle::supportedMimeTypes();
 
         foreach(const QString& mime, mimeTypeList) {
             KMimeType::Ptr mimePtr(KMimeType::mimeType(mime));
@@ -384,16 +385,6 @@ bool Part::openFile()
 bool Part::saveFile()
 {
     return true;
-}
-
-QStringList Part::supportedMimeTypes() const
-{
-    return Kerfuffle::supportedMimeTypes();
-}
-
-QStringList Part::supportedWriteMimeTypes() const
-{
-    return Kerfuffle::supportedWriteMimeTypes();
 }
 
 void Part::slotLoadingStarted()

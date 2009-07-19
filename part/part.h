@@ -51,9 +51,6 @@ public:
     virtual bool openFile();
     virtual bool saveFile();
 
-    QStringList supportedMimeTypes() const;
-    QStringList supportedWriteMimeTypes() const;
-
     bool isBusy() const {
         return m_busy;
     }

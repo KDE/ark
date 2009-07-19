@@ -29,9 +29,6 @@ class Interface
 public:
     virtual ~Interface() {}
 
-    virtual QStringList supportedMimeTypes() const = 0;
-    virtual QStringList supportedWriteMimeTypes() const = 0;
-
     virtual bool isBusy() const = 0;
 };
 

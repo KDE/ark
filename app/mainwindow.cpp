@@ -22,6 +22,7 @@
  *
  */
 #include "mainwindow.h"
+#include "kerfuffle/archive.h"
 #include "part/interface.h"
 
 #include <KPluginLoader>
@@ -192,7 +193,7 @@ void MainWindow::openArchive()
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
     KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///ArkOpenDir"),
-                                       iface->supportedMimeTypes().join(" "),
+                                       Kerfuffle::supportedMimeTypes().join(" "),
                                        this);
     openUrl(url);
 }
@@ -228,7 +229,7 @@ void MainWindow::newArchive()
 {
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
-    QStringList mimeTypes = iface->supportedWriteMimeTypes();
+    QStringList mimeTypes = Kerfuffle::supportedWriteMimeTypes();
 
     kDebug() << "Supported mimetypes are" << mimeTypes.join(" ");
 
