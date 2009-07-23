@@ -51,8 +51,17 @@ public:
     explicit ReadOnlyArchiveInterface(QObject *parent, const QVariantList & args);
     virtual ~ReadOnlyArchiveInterface();
 
-    /** Return the filename of currently handled archive. */
+    /**
+     * Returns the filename of the archive currently being handled.
+     */
     const QString& filename() const;
+
+    /**
+     * Returns whether the file can only be read.
+     *
+     * @return @c true  The file cannot be written.
+     * @return @c false The file can be read and written.
+     */
     virtual bool isReadOnly() const;
 
     void KDE_NO_EXPORT registerObserver(ArchiveObserver *observer);
