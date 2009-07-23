@@ -43,10 +43,35 @@ class ExtractJob;
 class DeleteJob;
 class AddJob;
 
-enum EntryMetaDataType { FileName = 0, InternalID = 1, Permissions = 2, Owner = 3,
-                         Group = 4, Size = 5, CompressedSize = 6, Link = 7, Ratio = 8,
-                         CRC = 9, Method = 10, Version = 11, Timestamp = 12, IsDirectory = 13, Comment = 14, IsPasswordProtected = 15, Custom = 1048576
-                       };
+/**
+ * Meta data related to one entry in a compressed archive.
+ *
+ * When creating a plugin, information about every single entry in
+ * an archive is contained in an ArchiveEntry class, and metadata
+ * is set with the entries in this enum.
+ *
+ * Please notice that not all archive formats support all the properties
+ * below, so set those that are avaliable.
+ */
+enum EntryMetaDataType {
+    FileName,            /**< The entry's file name */
+    InternalID,          /**< The entry's ID for Ark's internal manipulation */
+    Permissions,         /**< The entry's permissions */
+    Owner,               /**< The user the entry belongs to */
+    Group,               /**< The user group the entry belongs to */
+    Size,                /**< The entry's original size */
+    CompressedSize,      /**< The compressed size for the entry */
+    Link,                /**< The entry is a symbolic link */
+    Ratio,               /**< The compression ratio for the entry */
+    CRC,                 /**< The entry's CRC */
+    Method,              /**< The compression method used on the entry */
+    Version,             /**< The archiver version needed to extract the entry */
+    Timestamp,           /**< The timestamp for the current entry */
+    IsDirectory,         /**< The entry is a directory */
+    Comment,
+    IsPasswordProtected, /**< The entry is password-protected */
+    Custom = 1048576
+};
 
 typedef QHash<int, QVariant> ArchiveEntry;
 
