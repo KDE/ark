@@ -68,7 +68,7 @@ public:
      *
      * @see setAutoSubfolder
      */
-    void addExtraction(Archive* archive, QString destinationFolder = QString());
+    void addExtraction(Archive* archive, QString destinationFolder);
 
     /**
      * Starts the extraction of all files.
