@@ -263,8 +263,7 @@ bool BatchExtract::showExtractDialog()
         dialog->setSubfolder(m_subfolder);
     }
 
-    bool ret = dialog->exec();
-    if (!ret) {
+    if (!dialog->exec()) {
         return false;
     }
 
