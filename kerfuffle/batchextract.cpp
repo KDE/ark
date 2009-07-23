@@ -223,6 +223,7 @@ void BatchExtract::setPreservePaths(bool value)
 {
     m_preservePaths = value;
 }
+
 void BatchExtract::setSubfolder(QString subfolder)
 {
     m_subfolder = subfolder;
