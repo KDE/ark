@@ -70,6 +70,28 @@ public:
      */
     void start();
 
+    /**
+     * Whether to automatically create a folder inside the destination
+     * directory if the archive has more than one directory or file
+     * at top level.
+     *
+     * @return @c true  Create the subdirectory automatically.
+     * @return @c false Do not create the subdirectory automatically.
+     */
+    bool autoSubfolder();
+
+    /**
+     * Set whether a folder should be created when necessary so
+     * the archive is extracted to it.
+     *
+     * If set to @c true, when the archive does not consist of a
+     * single folder with the other files and directories inside,
+     * a directory will be automatically created inside the destination
+     * directory and the archive will be extracted there.
+     *
+     * @param value Whether to create this directory automatically
+     *              when needed.
+     */
     void setAutoSubfolder(bool value);
 
     /**

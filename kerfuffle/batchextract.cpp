@@ -43,7 +43,7 @@
 namespace Kerfuffle
 {
 BatchExtract::BatchExtract()
-        : m_autoSubfolders(false),
+        : m_autoSubfolder(false),
         m_preservePaths(true)
 {
     setCapabilities(KJob::Killable);
@@ -64,7 +64,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive, QString destinatio
 
     QString autoDestination = destinationFolder;
 
-    if (m_autoSubfolders) {
+    if (autoSubfolder()) {
         if (!archive->isSingleFolderArchive()) {
             QDir destinationDir(destinationFolder);
             QString subfolderName = archive->subfolderName();
@@ -103,9 +103,14 @@ void BatchExtract::slotUserQuery(Query *query)
     query->execute();
 }
 
+bool BatchExtract::autoSubfolder()
+{
+    return m_autoSubfolder;
+}
+
 void BatchExtract::setAutoSubfolder(bool value)
 {
-    m_autoSubfolders = value;
+    m_autoSubfolder = value;
 }
 
 void BatchExtract::start()
@@ -248,7 +253,7 @@ bool BatchExtract::showExtractDialog()
     else
         dialog->setCurrentUrl(m_destinationFolder);
 
-    dialog->setAutoSubfolder(m_autoSubfolders);
+    dialog->setAutoSubfolder(autoSubfolder());
     dialog->setPreservePaths(m_preservePaths);
 
     if (m_subfolder.isEmpty() && m_inputs.size() == 1) {
