@@ -24,16 +24,13 @@
 
 #include "kerfuffle_export.h"
 
+#include <kcompositejob.h>
+#include <KUrl>
+
 #include <QtCore/QMap>
 #include <QtCore/QPair>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-
-#include <kcompositejob.h>
-
-class Interface;
-class KJobTrackerInterface;
-class KUrl;
 
 namespace Kerfuffle
 {
