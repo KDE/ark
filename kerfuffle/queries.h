@@ -37,7 +37,6 @@ typedef QHash<QString, QVariant> QueryData;
 
 class KERFUFFLE_EXPORT Query
 {
-
 public:
     /**
      * Execute the response. Will happen in the GUI thread, so it's
@@ -67,8 +66,6 @@ protected:
 private:
     QWaitCondition m_responseCondition;
     QMutex m_responseMutex;
-
-
 };
 
 class KERFUFFLE_EXPORT OverwriteQuery : public Query
