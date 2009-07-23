@@ -45,11 +45,38 @@ class KERFUFFLE_EXPORT BatchExtract : public KCompositeJob
     Q_OBJECT
 
 public:
+    /**
+     * Creates a new BatchExtract object.
+     */
     BatchExtract();
+
+    /**
+     * Destroys a BatchExtract object.
+     */
     virtual ~BatchExtract();
+
     void addExtraction(Archive* archive, bool preservePaths = true, QString destinationFolder = QString());
+
+    /**
+     * Starts the extraction of all files.
+     *
+     * Each extraction job is started after the last one finishes.
+     * The jobs are executed in the order they were added via addInput.
+     */
     void start();
+
     void setAutoSubfolder(bool value);
+
+    /**
+     * Adds a file to the list of files that will be extracted.
+     *
+     * @param url The file that will be added to the list.
+     *
+     * @return @c true  The file exists and a suitable plugin
+     *                  could be found for it.
+     * @return @c false The file does not exist or a suitable
+     *                  plugin could not be found.
+     */
     bool addInput(const KUrl& url);
     bool showExtractDialog();
     void setDestinationFolder(QString folder);
