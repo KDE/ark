@@ -252,7 +252,7 @@ bool BatchExtract::showExtractDialog()
     }
 
     dialog->setAutoSubfolder(autoSubfolder());
-    dialog->setPreservePaths(m_preservePaths);
+    dialog->setPreservePaths(preservePaths());
 
     if (m_subfolder.isEmpty() && m_inputs.size() == 1) {
         if (m_inputs.at(0)->isSingleFolderArchive()) {
