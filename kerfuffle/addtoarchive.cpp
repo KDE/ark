@@ -45,6 +45,26 @@ AddToArchive::~AddToArchive()
 {
 }
 
+void AddToArchive::setAutoFilenameSuffix(const QString& suffix)
+{
+    m_autoFilenameSuffix = suffix;
+}
+
+void AddToArchive::setChangeToFirstPath(bool value)
+{
+    m_changeToFirstPath = value;
+}
+
+void AddToArchive::setFilename(const KUrl& path)
+{
+    m_filename = path.path();
+}
+
+void AddToArchive::setMimeType(const QString & mimeType)
+{
+    m_mimeType = mimeType;
+}
+
 bool AddToArchive::showAddDialog(void)
 {
     QPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(

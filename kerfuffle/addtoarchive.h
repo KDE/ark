@@ -49,21 +49,13 @@ public:
 
     bool showAddDialog();
     void setPreservePaths(bool value);
-    void setChangeToFirstPath(bool value) {
-        m_changeToFirstPath = value;
-    }
+    void setChangeToFirstPath(bool value);
 
 public slots:
     bool addInput(const KUrl& url);
-    void setFilename(const KUrl& path) {
-        m_filename = path.path();
-    }
-    void setMimeType(const QString & mimeType) {
-        m_mimeType = mimeType;
-    }
-    void setAutoFilenameSuffix(const QString& suffix) {
-        m_autoFilenameSuffix = suffix;
-    }
+    void setAutoFilenameSuffix(const QString& suffix);
+    void setFilename(const KUrl& path);
+    void setMimeType(const QString & mimeType);
     void start();
 
 private slots:
