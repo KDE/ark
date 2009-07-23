@@ -156,6 +156,11 @@ ReadWriteArchiveInterface::~ReadWriteArchiveInterface()
 {
 }
 
+bool ReadOnlyArchiveInterface::waitForFinishedSignal()
+{
+    return m_waitForFinishedSignal;
+}
+
 void ReadOnlyArchiveInterface::setWaitForFinishedSignal(bool value)
 {
     m_waitForFinishedSignal = value;

@@ -94,9 +94,7 @@ public:
      */
     virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options) = 0;
 
-    bool waitForFinishedSignal() {
-        return m_waitForFinishedSignal;
-    }
+    bool waitForFinishedSignal();
     void finished(bool result);
 
     virtual bool doKill();
