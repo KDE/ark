@@ -23,19 +23,10 @@
 #ifndef ADDTOARCHIVE_H
 #define ADDTOARCHIVE_H
 
-#include <KParts/MainWindow>
-#include <KParts/ReadWritePart>
-#include <KUrl>
-#include <KDialog>
-#include <KJob>
 #include "kerfuffle_export.h"
-#include "jobs.h"
-#include "archive.h"
-#include "queries.h"
 
-using Kerfuffle::Query;
-
-class Interface;
+#include <KJob>
+#include <KUrl>
 
 namespace Kerfuffle
 {

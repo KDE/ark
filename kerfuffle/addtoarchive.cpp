@@ -22,10 +22,8 @@
 
 #include "addtoarchive.h"
 #include "adddialog.h"
-
-#include <QFileInfo>
-#include <QDir>
-#include <QPointer>
+#include "archive.h"
+#include "jobs.h"
 
 #include <KConfig>
 #include <kdebug.h>
@@ -33,6 +31,10 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <KStandardDirs>
+
+#include <QFileInfo>
+#include <QDir>
+#include <QPointer>
 
 namespace Kerfuffle
 {
