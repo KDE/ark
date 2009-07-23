@@ -114,7 +114,7 @@ protected:
     const QString& password() const;
     void userQuery(Query*);
     /**
-     * Setting this option to true will not exit the tread with the
+     * Setting this option to true will not exit the thread with the
      * exit of the various functions, but rather when finished(bool) is
      * called. Doing this one can use the event loop easily while doing
      * the operation.
