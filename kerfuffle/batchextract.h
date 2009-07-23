@@ -60,7 +60,7 @@ public:
      */
     virtual ~BatchExtract();
 
-    void addExtraction(Archive* archive, bool preservePaths = true, QString destinationFolder = QString());
+    void addExtraction(Archive* archive, QString destinationFolder = QString());
 
     /**
      * Starts the extraction of all files.
@@ -86,6 +86,26 @@ public:
     bool showExtractDialog();
     void setDestinationFolder(QString folder);
     void setSubfolder(QString subfolder);
+
+    /**
+     * Whether all files should be extracted to the same directory,
+     * even if they're in different directories in the archive.
+     *
+     * This is also known as "flat" extraction.
+     *
+     * @return @c true  Paths should be preserved.
+     * @return @c false Paths should be ignored.
+     */
+    bool preservePaths();
+
+    /**
+     * Set whether paths should be preserved during extraction.
+     *
+     * When it is set to false, all files are extracted to a single
+     * directory, regardless of their hierarchy in the archive.
+     *
+     * @param value Whether to preserve paths.
+     */
     void setPreservePaths(bool value);
 
 private slots:

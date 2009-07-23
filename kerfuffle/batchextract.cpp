@@ -58,7 +58,7 @@ BatchExtract::~BatchExtract()
     }
 }
 
-void BatchExtract::addExtraction(Kerfuffle::Archive* archive, bool preservePaths, QString destinationFolder)
+void BatchExtract::addExtraction(Kerfuffle::Archive* archive, QString destinationFolder)
 {
     kDebug();
 
@@ -80,7 +80,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive, bool preservePaths
     }
 
     Kerfuffle::ExtractionOptions options;
-    options["PreservePaths"] = preservePaths;
+    options["PreservePaths"] = preservePaths();
 
     Kerfuffle::ExtractJob *job = archive->copyFiles(
                                      QVariantList(), //extract all files
@@ -90,7 +90,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive, bool preservePaths
 
     connect(job, SIGNAL(userQuery(Query*)), this, SLOT(slotUserQuery(Query*)));
 
-    kDebug() << QString("Registering job from archive %1, to %2, preservePaths %3").arg(archive->fileName()).arg(autoDestination).arg(preservePaths);
+    kDebug() << QString("Registering job from archive %1, to %2, preservePaths %3").arg(archive->fileName()).arg(autoDestination).arg(preservePaths());
 
     addSubjob(job);
     m_fileNames[job] = qMakePair(archive->fileName(), destinationFolder);
@@ -131,7 +131,7 @@ void BatchExtract::start()
             finalDestination = m_destinationFolder;
         }
 
-        addExtraction(archive, m_preservePaths, finalDestination);
+        addExtraction(archive, finalDestination);
     }
 
     KIO::getJobTracker()->registerJob(this);
@@ -211,6 +211,11 @@ bool BatchExtract::addInput(const KUrl& url)
     m_inputs.append(archive);
 
     return true;
+}
+
+bool BatchExtract::preservePaths()
+{
+    return m_preservePaths;
 }
 
 void BatchExtract::setDestinationFolder(QString folder)
