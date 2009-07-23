@@ -60,8 +60,6 @@ BatchExtract::~BatchExtract()
 
 void BatchExtract::addExtraction(Kerfuffle::Archive* archive, QString destinationFolder)
 {
-    kDebug();
-
     QString autoDestination = destinationFolder;
 
     if (autoSubfolder()) {
@@ -225,8 +223,9 @@ bool BatchExtract::preservePaths()
 
 void BatchExtract::setDestinationFolder(QString folder)
 {
-    if (!folder.isEmpty())
+    if (!folder.isEmpty()) {
         m_destinationFolder = folder;
+    }
 }
 
 void BatchExtract::setPreservePaths(bool value)
@@ -241,17 +240,16 @@ void BatchExtract::setSubfolder(QString subfolder)
 
 bool BatchExtract::showExtractDialog()
 {
-    kDebug();
-
     QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog(NULL);
     if (m_inputs.size() > 1) {
         dialog->batchModeOption();
     }
 
-    if (m_destinationFolder.isEmpty())
+    if (m_destinationFolder.isEmpty()) {
         dialog->setCurrentUrl(QDir::currentPath());
-    else
+    } else {
         dialog->setCurrentUrl(m_destinationFolder);
+    }
 
     dialog->setAutoSubfolder(autoSubfolder());
     dialog->setPreservePaths(m_preservePaths);
@@ -266,7 +264,9 @@ bool BatchExtract::showExtractDialog()
     }
 
     bool ret = dialog->exec();
-    if (!ret) return false;
+    if (!ret) {
+        return false;
+    }
 
     setDestinationFolder(dialog->destinationDirectory().path());
 
