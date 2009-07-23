@@ -47,7 +47,7 @@ class AddJob;
  * Meta data related to one entry in a compressed archive.
  *
  * When creating a plugin, information about every single entry in
- * an archive is contained in an ArchiveEntry class, and metadata
+ * an archive is contained in an ArchiveEntry, and metadata
  * is set with the entries in this enum.
  *
  * Please notice that not all archive formats support all the properties
