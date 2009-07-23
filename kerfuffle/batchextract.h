@@ -60,6 +60,14 @@ public:
      */
     virtual ~BatchExtract();
 
+    /**
+     * Creates an ExtractJob for the given @p archive and put it on the queue.
+     *
+     * @param archive           The archive that will be extracted.
+     * @param destinationFolder The location the archive will be extracted.
+     *
+     * @see setAutoSubfolder
+     */
     void addExtraction(Archive* archive, QString destinationFolder = QString());
 
     /**
