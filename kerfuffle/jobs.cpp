@@ -146,6 +146,21 @@ void ListJob::doWork()
     if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
 }
 
+qlonglong ListJob::extractedFilesSize()
+{
+    return m_extractedFilesSize;
+}
+
+bool ListJob::isPasswordProtected()
+{
+    return m_isPasswordProtected;
+}
+
+bool ListJob::isSingleFolderArchive()
+{
+    return m_isSingleFolderArchive;
+}
+
 void ListJob::onNewEntry(const ArchiveEntry& entry)
 {
     m_extractedFilesSize += entry[ Size ].toLongLong();
@@ -168,6 +183,11 @@ void ListJob::onNewEntry(const ArchiveEntry& entry)
                 m_isSingleFolderArchive = true;
         }
     }
+}
+
+QString ListJob::subfolderName() 
+{
+    return m_subfolderName;
 }
 
 ExtractJob::ExtractJob(const QList<QVariant>& files, const QString& destinationDir,

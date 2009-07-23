@@ -39,15 +39,11 @@ class JobTracker: public KAbstractWidgetJobTracker
 public:
     JobTracker(QWidget *parent = 0);
 
-    QWidget *widget(KJob *) {
-        return m_ui;
-    }
+    QWidget *widget(KJob *);
     virtual void registerJob(KJob *job);
     virtual void unregisterJob(KJob *job);
 
-    KJob *currentJob() const {
-        return m_currentJob;
-    }
+    KJob *currentJob() const;
 
 protected slots:
     virtual void finished(KJob *job);

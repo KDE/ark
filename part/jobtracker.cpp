@@ -38,6 +38,11 @@ JobTracker::JobTracker(QWidget *parent)
     resetUi();
 }
 
+KJob* JobTracker::currentJob() const
+{
+    return m_currentJob;
+}
+
 void JobTracker::description(KJob *job, const QString &title, const QPair< QString, QString > &f1, const QPair< QString, QString > &f2)
 {
     Q_UNUSED(job);
@@ -103,4 +108,9 @@ void JobTracker::finished(KJob *job)
     m_ui->informationLabel->show();
     m_ui->progressBar->hide();
     KJobTrackerInterface::unregisterJob(job);
+}
+
+QWidget* JobTracker::widget(KJob *)
+{
+    return m_ui;
 }

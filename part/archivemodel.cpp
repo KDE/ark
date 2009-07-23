@@ -734,6 +734,11 @@ void ArchiveModel::insertNode(ArchiveNode *node, InsertBehaviour behaviour)
     if (behaviour == NotifyViews) endInsertRows();
 }
 
+Kerfuffle::Archive* ArchiveModel::archive() const
+{
+    return m_archive;
+}
+
 KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
 {
     delete m_archive;

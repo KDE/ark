@@ -58,11 +58,8 @@ public:
 
     virtual bool dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent);
 
-
     KJob* setArchive(Kerfuffle::Archive *archive);
-    Kerfuffle::Archive *archive() const {
-        return m_archive;
-    }
+    Kerfuffle::Archive *archive() const;
 
     ArchiveEntry entryForIndex(const QModelIndex &index);
     int childCount(const QModelIndex &index);

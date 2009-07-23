@@ -51,9 +51,7 @@ public:
     virtual bool openFile();
     virtual bool saveFile();
 
-    bool isBusy() const {
-        return m_busy;
-    }
+    bool isBusy() const;
 
 public slots:
     void extractSelectedFilesTo(QString localPath);

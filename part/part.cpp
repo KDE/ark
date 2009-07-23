@@ -387,6 +387,11 @@ bool Part::saveFile()
     return true;
 }
 
+bool Part::isBusy() const
+{
+    return m_busy;
+}
+
 void Part::slotLoadingStarted()
 {
 }
