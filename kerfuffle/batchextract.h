@@ -32,6 +32,14 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 
+/**
+ * This class schedules the extraction of all given compressed archives.
+ *
+ * Like AddToArchive, this class does not need the GUI to be active, and
+ * provides the functionality avaliable from the --batch command-line option.
+ *
+ * @author Harald Hvaal <haraldhv@stud.ntnu.no>
+ */
 namespace Kerfuffle
 {
 class Archive;

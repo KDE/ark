@@ -28,6 +28,17 @@
 #include <KJob>
 #include <KUrl>
 
+/**
+ * Compresses all input files into an archive.
+ *
+ * This is a job class that creates a compressed archive
+ * with all the given input files.
+ *
+ * It provides the functionality for the --add command-line
+ * option, and does not need the GUI to be running.
+ *
+ * @author Harald Hvaal <haraldhv@stud.ntnu.no>
+ */
 namespace Kerfuffle
 {
 class KERFUFFLE_EXPORT AddToArchive : public KJob
