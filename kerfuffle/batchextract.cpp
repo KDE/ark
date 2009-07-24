@@ -119,19 +119,19 @@ void BatchExtract::start()
         return;
     }
 
-    if (!m_subfolder.isEmpty()) {
-        kDebug() << "Creating subfolder" << m_subfolder;
-        QDir dest(m_destinationFolder);
-        dest.mkpath(m_subfolder);
-        m_destinationFolder += '/' + m_subfolder;
+    if (!subfolder().isEmpty()) {
+        kDebug() << "Creating subfolder" << subfolder();
+        QDir dest(destinationFolder());
+        dest.mkpath(subfolder());
+        m_destinationFolder += '/' + subfolder();
     }
 
     foreach(Kerfuffle::Archive *archive, m_inputs) {
         QString finalDestination;
-        if (m_destinationFolder.isEmpty()) {
+        if (destinationFolder().isEmpty()) {
             finalDestination = QDir::currentPath();
         } else {
-            finalDestination = m_destinationFolder;
+            finalDestination = destinationFolder();
         }
 
         addExtraction(archive, finalDestination);
@@ -221,8 +221,14 @@ bool BatchExtract::preservePaths()
     return m_preservePaths;
 }
 
+QString BatchExtract::destinationFolder()
+{
+    return m_destinationFolder;
+}
+
 void BatchExtract::setDestinationFolder(QString folder)
 {
+    // TODO: check whether the directory is valid
     if (!folder.isEmpty()) {
         m_destinationFolder = folder;
     }
@@ -231,6 +237,11 @@ void BatchExtract::setDestinationFolder(QString folder)
 void BatchExtract::setPreservePaths(bool value)
 {
     m_preservePaths = value;
+}
+
+QString BatchExtract::subfolder()
+{
+    return m_subfolder;
 }
 
 void BatchExtract::setSubfolder(QString subfolder)
@@ -245,22 +256,22 @@ bool BatchExtract::showExtractDialog()
         dialog->batchModeOption();
     }
 
-    if (m_destinationFolder.isEmpty()) {
+    if (destinationFolder().isEmpty()) {
         dialog->setCurrentUrl(QDir::currentPath());
     } else {
-        dialog->setCurrentUrl(m_destinationFolder);
+        dialog->setCurrentUrl(destinationFolder());
     }
 
     dialog->setAutoSubfolder(autoSubfolder());
     dialog->setPreservePaths(preservePaths());
 
-    if (m_subfolder.isEmpty() && m_inputs.size() == 1) {
+    if (subfolder().isEmpty() && m_inputs.size() == 1) {
         if (m_inputs.at(0)->isSingleFolderArchive()) {
             dialog->setSingleFolderArchive(true);
         }
         dialog->setSubfolder(m_inputs.at(0)->subfolderName());
     } else {
-        dialog->setSubfolder(m_subfolder);
+        dialog->setSubfolder(subfolder());
     }
 
     if (!dialog->exec()) {
@@ -270,7 +281,7 @@ bool BatchExtract::showExtractDialog()
     setDestinationFolder(dialog->destinationDirectory().path());
 
     if (dialog->extractToSubfolder()) {
-        m_subfolder = dialog->subfolder();
+        setSubfolder(dialog()->subfolder());
     }
 
     setAutoSubfolder(dialog->autoSubfolders());

@@ -113,8 +113,47 @@ public:
      *                  plugin could not be found.
      */
     bool addInput(const KUrl& url);
+
+    /**
+     * Shows the extract options dialog before extracting the files.
+     *
+     * @return @c true  The user has set some options and clicked OK.
+     * @return @c false The user has canceled extraction.
+     */
     bool showExtractDialog();
+
+    /**
+     * Returns the destination directory where the archives
+     * will be extracted to.
+     *
+     * @return The destination directory.
+     */
+    QString destinationFolder();
+
+    /**
+     * Sets the directory the archives will be extracted to.
+     * If @c setSubfolder has been used, the final destination
+     * directory will be the concatenation of both.
+     *
+     * @param folder The directory that will be used.
+     */
     void setDestinationFolder(QString folder);
+
+    /**
+     * Returns the subdirectory into which the archives
+     * will be extracted, if it has been set.
+     *
+     * @return The subdirectory that will be used, or an
+     *         empty @c QString if none has been set.
+     */
+    QString subfolder();
+
+    /**
+     * Force the creation of a subdirectory inside the destination
+     * directory, so that the archives are extracted into it.
+     *
+     * @param subfolder The subdirectory that will be created.
+     */
     void setSubfolder(QString subfolder);
 
     /**
