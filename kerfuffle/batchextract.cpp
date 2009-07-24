@@ -281,7 +281,7 @@ bool BatchExtract::showExtractDialog()
     setDestinationFolder(dialog->destinationDirectory().path());
 
     if (dialog->extractToSubfolder()) {
-        setSubfolder(dialog()->subfolder());
+        setSubfolder(dialog->subfolder());
     }
 
     setAutoSubfolder(dialog->autoSubfolders());

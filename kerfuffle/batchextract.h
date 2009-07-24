@@ -204,7 +204,7 @@ private slots:
 private:
     int m_initialJobCount;
     QMap<KJob*, QPair<QString, QString> > m_fileNames;
-    bool m_autoSubfolders;
+    bool m_autoSubfolder;
 
     QList<Archive*> m_inputs;
     QString m_destinationFolder;
