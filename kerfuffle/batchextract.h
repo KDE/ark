@@ -178,9 +178,27 @@ public:
     void setPreservePaths(bool value);
 
 private slots:
+    /**
+     * Updates the percentage of the job that has been completed.
+     */
     void forwardProgress(KJob *job, unsigned long percent);
+
+    /**
+     * Shows a dialog with a list of all the files that could not
+     * be successfully extracted.
+     */
     void showFailedFiles();
+
+    /**
+     * Shows an error message if the current job hasn't finished
+     * successfully, and advances to the next extraction job if
+     * there are more.
+     */
     void slotResult(KJob *job);
+
+    /**
+     * Shows a query dialog, which may happen when a file already exists.
+     */
     void slotUserQuery(Query *query);
 
 private:
