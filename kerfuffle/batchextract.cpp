@@ -52,8 +52,9 @@ BatchExtract::BatchExtract()
 
 BatchExtract::~BatchExtract()
 {
-    kDebug(1601) << "Dying";
-    KIO::getJobTracker()->unregisterJob(this);
+    if (!m_inputs.isEmpty()) {
+        KIO::getJobTracker()->unregisterJob(this);
+    }
 }
 
 void BatchExtract::addExtraction(Kerfuffle::Archive* archive, bool preservePaths, QString destinationFolder)
@@ -108,9 +109,11 @@ void BatchExtract::setAutoSubfolder(bool value)
 
 void BatchExtract::start()
 {
-    kDebug(1601);
-
-    Q_ASSERT(hasSubjobs());
+    // If none of the archives could be loaded, there is no subjob to run
+    if (m_inputs.isEmpty()) {
+        emitResult();
+        return;
+    }
 
     if (!m_subfolder.isEmpty()) {
         kDebug(1601) << "Creating subfolder" << m_subfolder;
