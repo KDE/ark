@@ -161,7 +161,7 @@ bool LibArchiveInterface::copyFiles(const QList<QVariant> & files, const QString
     retry:
         const bool entryIsDir = S_ISDIR(archive_entry_mode(entry));
 
-        //we skip directories of not preserving paths
+        //we skip directories if not preserving paths
         if (!preservePaths && entryIsDir) {
             archive_read_data_skip(arch);
             continue;
@@ -240,15 +240,30 @@ bool LibArchiveInterface::copyFiles(const QList<QVariant> & files, const QString
                 }
             }
 
+            //if there is an already existing directory:
+            if (entryIsDir && entryFI.exists()) {
+                if (entryFI.isWritable()) {
+                    kDebug(1601) << "Warning, existing, but writable dir";
+                } else {
+                    kDebug(1601) << "Warning, existing, but non-writable dir. skipping";
+                    archive_entry_clear(entry);
+                    archive_read_data_skip(arch);
+                    continue;
+                }
+            }
+ 
+
             int header_response;
             kDebug(1601) << "Writing " << fileWithoutPath << " to " << archive_entry_pathname(entry);
             if ((header_response = archive_write_header(writer, entry)) == ARCHIVE_OK)
                 //if the whole archive is extracted and the total filesize is
                 //available, we use partial progress
                 copyData(arch, writer, (extractAll && m_extractedFilesSize));
-            else {
+            else if (header_response == ARCHIVE_WARN) {
+                kDebug() << "Warning while writing " << entryName;
+            } else {
                 kDebug(1601) << "Writing header failed with error code " << header_response
-                << "While attempting to write " << fileWithoutPath;
+                    << "While attempting to write " << entryName;
             }
 
             //if we only partially extract the archive and the number of
