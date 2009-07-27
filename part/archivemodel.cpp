@@ -590,7 +590,6 @@ QModelIndex ArchiveModel::indexForNode(ArchiveNode *node)
 
 void ArchiveModel::slotEntryRemoved(const QString & path)
 {
-    // TODO: Do something
     kDebug() << "Removed node at path " << path;
     ArchiveNode *entry = m_rootNode->findByPath(path.split('/', QString::SkipEmptyParts));
     if (entry) {
