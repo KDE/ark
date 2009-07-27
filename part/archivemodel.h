@@ -27,6 +27,9 @@
 #include "kerfuffle/archive.h"
 #include "kerfuffle/queries.h"
 
+using Kerfuffle::ArchiveEntry;
+using Kerfuffle::Query;
+
 class ArchiveNode;
 class ArchiveDirNode;
 
@@ -76,11 +79,11 @@ signals:
     void droppedFiles(const QStringList& files, const QString& path = QString());
 
 private slots:
-    void slotNewEntryFromSetArchive(const Kerfuffle::ArchiveEntry& entry);
-    void slotNewEntry(const Kerfuffle::ArchiveEntry& entry);
+    void slotNewEntryFromSetArchive(const ArchiveEntry& entry);
+    void slotNewEntry(const ArchiveEntry& entry);
     void slotLoadingFinished(KJob *job);
     void slotEntryRemoved(const QString & path);
-    void slotUserQuery(Kerfuffle::Query *query);
+    void slotUserQuery(Query *query);
     void slotCleanupEmptyDirs();
 
 private:
