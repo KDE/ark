@@ -862,3 +862,5 @@ void ArchiveModel::slotCleanupEmptyDirs()
         //kDebug() << "Removed entry " << entry[FileName].toString();
     }
 }
+
+#include "archivemodel.moc"
