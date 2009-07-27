@@ -678,8 +678,9 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
         if (entryFileName == "./") // Stop here, this would create an empty entry
             return;
 
-        if (!entry.contains(InternalID))
+        if (!entry.contains(InternalID)) {
             kDebug() << "Warning, there is no internalID";
+        }
 
         entry[FileName] = entryFileName.remove(0, 2);
     }
