@@ -605,8 +605,9 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
         delete parent->entries().takeAt(entry->row());
 
         endRemoveRows();
-    } else
+    } else {
         kDebug() << "Did not find the removed node";
+    }
 }
 
 void ArchiveModel::slotUserQuery(Query *query)
