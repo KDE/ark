@@ -521,6 +521,18 @@ bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, i
     return true;
 }
 
+// For a rationale, see bug #194241
+QString ArchiveModel::cleanFileName(const QString& fileName)
+{
+    QString cleanName(fileName);
+
+    if (cleanName.startsWith(QLatin1String("./"))) {
+        cleanName.remove(0, 2);
+    }
+
+    return cleanName;
+}
+
 ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
 {
     QStringList pieces = entry[ FileName ].toString().split('/', QString::SkipEmptyParts);
@@ -593,7 +605,13 @@ QModelIndex ArchiveModel::indexForNode(ArchiveNode *node)
 void ArchiveModel::slotEntryRemoved(const QString & path)
 {
     kDebug() << "Removed node at path " << path;
-    ArchiveNode *entry = m_rootNode->findByPath(path.split('/', QString::SkipEmptyParts));
+
+    QString entryFileName(cleanFileName(path));
+    if (entryFileName.isEmpty()) {
+        return;
+    }
+
+    ArchiveNode *entry = m_rootNode->findByPath(entryFileName.split('/', QString::SkipEmptyParts));
     if (entry) {
         ArchiveDirNode *parent = entry->parent();
         QModelIndex index = indexForNode(entry);
@@ -674,17 +692,11 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
     ArchiveEntry entry = receivedEntry;
 
     //#194241: Filenames such as "./file" should be displayed as "file"
-    QString entryFileName(entry[FileName].toString());
-    if (entryFileName.startsWith(QLatin1String("./"))) {
-        if (entryFileName == "./") // Stop here, this would create an empty entry
-            return;
-
-        if (!entry.contains(InternalID)) {
-            kDebug() << "Warning, there is no internalID";
-        }
-
-        entry[FileName] = entryFileName.remove(0, 2);
+    QString entryFileName = cleanFileName(entry[FileName].toString());
+    if (entryFileName.isEmpty()) { // The entry contains only "./"
+        return;
     }
+    entry[FileName] = entryFileName;
 
     /// 1. Skip already created nodes
     if (m_rootNode) {

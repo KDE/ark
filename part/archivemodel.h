@@ -87,6 +87,17 @@ private slots:
     void slotCleanupEmptyDirs();
 
 private:
+    /**
+     * Strips file names that start with './'.
+     *
+     * For more information, see bug 194241.
+     *
+     * @param fileName The file name that will be stripped.
+     *
+     * @return @p fileName without the leading './'
+     */
+    QString cleanFileName(const QString& fileName);
+
     ArchiveDirNode* parentFor(const Kerfuffle::ArchiveEntry& entry);
     QModelIndex indexForNode(ArchiveNode *node);
     static bool compareAscending(const QModelIndex& a, const QModelIndex& b);
