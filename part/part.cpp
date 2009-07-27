@@ -61,6 +61,8 @@
 #include <QHeaderView>
 #include <QPointer>
 
+using namespace Kerfuffle;
+
 typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY(arkpart, Factory)
 

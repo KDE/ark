@@ -30,8 +30,6 @@
 class ArchiveNode;
 class ArchiveDirNode;
 
-using namespace Kerfuffle;
-
 class ArchiveModel: public QAbstractItemModel
 {
     Q_OBJECT
@@ -61,14 +59,14 @@ public:
     KJob* setArchive(Kerfuffle::Archive *archive);
     Kerfuffle::Archive *archive() const;
 
-    ArchiveEntry entryForIndex(const QModelIndex &index);
+    Kerfuffle::ArchiveEntry entryForIndex(const QModelIndex &index);
     int childCount(const QModelIndex &index);
 
-    ExtractJob* extractFile(const QVariant& fileName, const QString & destinationDir, ExtractionOptions options = ExtractionOptions()) const;
-    ExtractJob* extractFiles(const QList<QVariant>& files, const QString & destinationDir, const Kerfuffle::ExtractionOptions options = ExtractionOptions()) const;
+    Kerfuffle::ExtractJob* extractFile(const QVariant& fileName, const QString & destinationDir, Kerfuffle::ExtractionOptions options = Kerfuffle::ExtractionOptions()) const;
+    Kerfuffle::ExtractJob* extractFiles(const QList<QVariant>& files, const QString & destinationDir, const Kerfuffle::ExtractionOptions options = Kerfuffle::ExtractionOptions()) const;
 
-    AddJob* addFiles(const QStringList & paths, const CompressionOptions& options = CompressionOptions());
-    DeleteJob* deleteFiles(const QList<QVariant> & files);
+    Kerfuffle::AddJob* addFiles(const QStringList & paths, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
+    Kerfuffle::DeleteJob* deleteFiles(const QList<QVariant> & files);
 
 signals:
     void loadingStarted();
@@ -78,15 +76,15 @@ signals:
     void droppedFiles(const QStringList& files, const QString& path = QString());
 
 private slots:
-    void slotNewEntryFromSetArchive(const ArchiveEntry& entry);
-    void slotNewEntry(const ArchiveEntry& entry);
+    void slotNewEntryFromSetArchive(const Kerfuffle::ArchiveEntry& entry);
+    void slotNewEntry(const Kerfuffle::ArchiveEntry& entry);
     void slotLoadingFinished(KJob *job);
     void slotEntryRemoved(const QString & path);
-    void slotUserQuery(Query *query);
+    void slotUserQuery(Kerfuffle::Query *query);
     void slotCleanupEmptyDirs();
 
 private:
-    ArchiveDirNode* parentFor(const ArchiveEntry& entry);
+    ArchiveDirNode* parentFor(const Kerfuffle::ArchiveEntry& entry);
     QModelIndex indexForNode(ArchiveNode *node);
     static bool compareAscending(const QModelIndex& a, const QModelIndex& b);
     static bool compareDescending(const QModelIndex& a, const QModelIndex& b);
@@ -96,9 +94,9 @@ private:
      */
     enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
     void insertNode(ArchiveNode *node, InsertBehaviour behaviour = NotifyViews);
-    void newEntry(const ArchiveEntry& entry, InsertBehaviour behaviour);
+    void newEntry(const Kerfuffle::ArchiveEntry& entry, InsertBehaviour behaviour);
 
-    QList<ArchiveEntry> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
+    QList<Kerfuffle::ArchiveEntry> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
     QList<int> m_showColumns;
     Kerfuffle::Archive *m_archive;
     ArchiveDirNode *m_rootNode;

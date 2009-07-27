@@ -38,6 +38,8 @@
 #include <KIconLoader>
 #include <KIO/NetAccess>
 
+using namespace Kerfuffle;
+
 class ArchiveDirNode;
 
 //used to speed up the loading of large archives
