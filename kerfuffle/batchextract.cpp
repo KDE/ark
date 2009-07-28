@@ -55,23 +55,20 @@ BatchExtract::~BatchExtract()
     }
 }
 
-void BatchExtract::addExtraction(Kerfuffle::Archive* archive, QString destinationFolder)
+void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
 {
-    QString autoDestination = destinationFolder;
+    QString destination = destinationFolder();
 
-    if (autoSubfolder()) {
-        if (!archive->isSingleFolderArchive()) {
-            QDir destinationDir(destinationFolder);
-            QString subfolderName = archive->subfolderName();
+    if ((autoSubfolder()) && (!archive->isSingleFolderArchive())) {
+        QDir d(destination);
+        QString subfolderName = archive->subfolderName();
 
-            if (destinationDir.exists(subfolderName))
-                subfolderName = KIO::RenameDialog::suggestName(destinationFolder, subfolderName);
+        if (d.exists(subfolderName))
+            subfolderName = KIO::RenameDialog::suggestName(destination, subfolderName);
 
-            kDebug() << "Auto-creating subfolder" << subfolderName << "under" << destinationFolder;
-            destinationDir.mkdir(subfolderName);
+        d.mkdir(subfolderName);
 
-            autoDestination = destinationFolder + '/' + subfolderName;
-        }
+        destination += '/' + subfolderName;
     }
 
     Kerfuffle::ExtractionOptions options;
@@ -79,16 +76,16 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive, QString destinatio
 
     Kerfuffle::ExtractJob *job = archive->copyFiles(
                                      QVariantList(), //extract all files
-                                     autoDestination, //extract to folder
+                                     destination, //extract to folder
                                      options
                                  );
 
     connect(job, SIGNAL(userQuery(Query*)), this, SLOT(slotUserQuery(Query*)));
 
-    kDebug() << QString("Registering job from archive %1, to %2, preservePaths %3").arg(archive->fileName()).arg(autoDestination).arg(preservePaths());
+    kDebug() << QString("Registering job from archive %1, to %2, preservePaths %3").arg(archive->fileName()).arg(destination).arg(preservePaths());
 
     addSubjob(job);
-    m_fileNames[job] = qMakePair(archive->fileName(), destinationFolder);
+    m_fileNames[job] = qMakePair(archive->fileName(), destination);
     connect(job, SIGNAL(percent(KJob*, unsigned long)),
             this, SLOT(forwardProgress(KJob *, unsigned long)));
 }
@@ -124,14 +121,7 @@ void BatchExtract::start()
     }
 
     foreach(Kerfuffle::Archive *archive, m_inputs) {
-        QString finalDestination;
-        if (destinationFolder().isEmpty()) {
-            finalDestination = QDir::currentPath();
-        } else {
-            finalDestination = destinationFolder();
-        }
-
-        addExtraction(archive, finalDestination);
+        addExtraction(archive);
     }
 
     KIO::getJobTracker()->registerJob(this);
