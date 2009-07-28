@@ -32,9 +32,9 @@
 
 using namespace Kerfuffle;
 
-static QPixmap EnormousMimeIcon(const QString& mimeName)
+static QPixmap getMimeIcon(const QString& mimeName)
 {
-    return KIconLoader::global()->loadMimeTypeIcon(mimeName, KIconLoader::Desktop, KIconLoader::SizeEnormous);
+    return KIconLoader::global()->loadMimeTypeIcon(mimeName, KIconLoader::Desktop, KIconLoader::SizeHuge);
 }
 
 InfoPanel::InfoPanel(ArchiveModel *model, QWidget *parent)
@@ -50,7 +50,7 @@ InfoPanel::~InfoPanel()
 
 void InfoPanel::setDefaultValues()
 {
-    iconLabel->setPixmap(KIconLoader::global()->loadIcon("utilities-file-archiver", KIconLoader::Desktop, KIconLoader::SizeEnormous));
+    iconLabel->setPixmap(KIconLoader::global()->loadIcon("utilities-file-archiver", KIconLoader::Desktop, KIconLoader::SizeHuge));
     if (!m_model->archive()) {
         fileName->setText(QString("<center><font size=+1><b>%1</b></font></center>").arg(i18n("No archive loaded")));
         additionalInfo->setText(QString());
@@ -78,7 +78,7 @@ void InfoPanel::setIndex(const QModelIndex& index)
             mimeType = KMimeType::findByPath(entry[ FileName ].toString(), 0, true);
         }
 
-        iconLabel->setPixmap(EnormousMimeIcon(mimeType->iconName()));
+        iconLabel->setPixmap(getMimeIcon(mimeType->iconName()));
         if (entry[ IsDirectory ].toBool()) {
             additionalInfo->setText(i18np("One item", "%1 items", m_model->childCount(index)));
         } else if (entry.contains(Link)) {
