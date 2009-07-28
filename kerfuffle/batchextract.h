@@ -32,6 +32,11 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 
+namespace Kerfuffle
+{
+class Archive;
+class Query;
+
 /**
  * This class schedules the extraction of all given compressed archives.
  *
@@ -40,11 +45,6 @@
  *
  * @author Harald Hvaal <haraldhv@stud.ntnu.no>
  */
-namespace Kerfuffle
-{
-class Archive;
-class Query;
-
 class KERFUFFLE_EXPORT BatchExtract : public KCompositeJob
 {
     Q_OBJECT
