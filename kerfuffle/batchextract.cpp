@@ -225,8 +225,7 @@ QString BatchExtract::destinationFolder()
 
 void BatchExtract::setDestinationFolder(QString folder)
 {
-    // TODO: check whether the directory is valid
-    if (!folder.isEmpty()) {
+    if (QFileInfo(folder).isDir()) {
         m_destinationFolder = folder;
     }
 }

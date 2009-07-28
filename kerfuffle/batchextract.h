@@ -132,8 +132,12 @@ public:
 
     /**
      * Sets the directory the archives will be extracted to.
+     *
      * If @c setSubfolder has been used, the final destination
      * directory will be the concatenation of both.
+     *
+     * If @p folder does not exist, the current destination
+     * folder will not change.
      *
      * @param folder The directory that will be used.
      */
