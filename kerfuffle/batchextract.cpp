@@ -26,11 +26,8 @@
 #include "jobs.h"
 #include "queries.h"
 
-#include <QFileInfo>
 #include <QDir>
-#include <QCoreApplication>
-#include <QApplication>
-#include <QDesktopWidget>
+#include <QFileInfo>
 #include <QPointer>
 
 #include <KDebug>
