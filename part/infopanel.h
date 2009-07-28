@@ -18,14 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
+
 #ifndef INFOPANEL_H
 #define INFOPANEL_H
 
-#include <QFrame>
 #include "kerfuffle/archive.h"
 #include "archivemodel.h"
 #include "ui_infopanel.h"
 
+#include <QFrame>
 
 class InfoPanel: public QFrame, Ui::InformationPanel
 {
