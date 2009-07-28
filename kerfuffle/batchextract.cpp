@@ -26,16 +26,16 @@
 #include "jobs.h"
 #include "queries.h"
 
-#include <QDir>
-#include <QFileInfo>
-#include <QPointer>
-
 #include <KDebug>
 #include <KGlobal>
 #include <KLocale>
 #include <KMessageBox>
 #include <KIO/RenameDialog>
 #include <kwidgetjobtracker.h>
+
+#include <QDir>
+#include <QFileInfo>
+#include <QPointer>
 
 namespace Kerfuffle
 {
