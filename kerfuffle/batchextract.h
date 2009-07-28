@@ -61,7 +61,7 @@ public:
     virtual ~BatchExtract();
 
     /**
-     * Creates an ExtractJob for the given @p archive and put it on the queue.
+     * Creates an ExtractJob for the given @p archive and puts it on the queue.
      *
      * @param archive           The archive that will be extracted.
      * @param destinationFolder The location the archive will be extracted.
@@ -149,7 +149,7 @@ public:
     QString subfolder();
 
     /**
-     * Force the creation of a subdirectory inside the destination
+     * Forces the creation of a subdirectory inside the destination
      * directory, so that the archives are extracted into it.
      *
      * @param subfolder The subdirectory that will be created.
@@ -168,7 +168,7 @@ public:
     bool preservePaths();
 
     /**
-     * Set whether paths should be preserved during extraction.
+     * Sets whether paths should be preserved during extraction.
      *
      * When it is set to false, all files are extracted to a single
      * directory, regardless of their hierarchy in the archive.
