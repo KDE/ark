@@ -126,7 +126,9 @@ public:
      * Returns the destination directory where the archives
      * will be extracted to.
      *
-     * @return The destination directory.
+     * @return The destination directory. If no directory has been manually
+     *         set with setDestinationFolder, QDir::currentPath() will be
+     *         returned.
      */
     QString destinationFolder();
 

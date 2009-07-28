@@ -220,7 +220,11 @@ bool BatchExtract::preservePaths()
 
 QString BatchExtract::destinationFolder()
 {
-    return m_destinationFolder;
+    if (m_destinationFolder.isEmpty()) {
+        return QDir::currentPath();
+    } else {
+        return m_destinationFolder;
+    }
 }
 
 void BatchExtract::setDestinationFolder(QString folder)
@@ -252,13 +256,8 @@ bool BatchExtract::showExtractDialog()
         dialog->batchModeOption();
     }
 
-    if (destinationFolder().isEmpty()) {
-        dialog->setCurrentUrl(QDir::currentPath());
-    } else {
-        dialog->setCurrentUrl(destinationFolder());
-    }
-
     dialog->setAutoSubfolder(autoSubfolder());
+    dialog->setCurrentUrl(destinationFolder());
     dialog->setPreservePaths(preservePaths());
 
     if (subfolder().isEmpty() && m_inputs.size() == 1) {
