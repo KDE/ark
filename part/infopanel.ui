@@ -24,9 +24,6 @@
      <property name="text" >
       <string/>
      </property>
-     <property name="pixmap" >
-      <pixmap>../../../../../../home/kde-devel/ark-trunk/pics/ox32-action-ark_view.png</pixmap>
-     </property>
      <property name="alignment" >
       <set>Qt::AlignCenter</set>
      </property>
