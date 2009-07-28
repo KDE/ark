@@ -74,20 +74,17 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
     Kerfuffle::ExtractionOptions options;
     options["PreservePaths"] = preservePaths();
 
-    Kerfuffle::ExtractJob *job = archive->copyFiles(
-                                     QVariantList(), //extract all files
-                                     destination, //extract to folder
-                                     options
-                                 );
-
-    connect(job, SIGNAL(userQuery(Query*)), this, SLOT(slotUserQuery(Query*)));
+    Kerfuffle::ExtractJob *job = archive->copyFiles(QVariantList(), destination, options);
 
     kDebug() << QString("Registering job from archive %1, to %2, preservePaths %3").arg(archive->fileName()).arg(destination).arg(preservePaths());
 
     addSubjob(job);
+
     m_fileNames[job] = qMakePair(archive->fileName(), destination);
+
     connect(job, SIGNAL(percent(KJob*, unsigned long)),
             this, SLOT(forwardProgress(KJob *, unsigned long)));
+    connect(job, SIGNAL(userQuery(Query*)), this, SLOT(slotUserQuery(Query*)));
 }
 
 void BatchExtract::slotUserQuery(Query *query)
