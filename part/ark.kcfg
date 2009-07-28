@@ -10,4 +10,8 @@
 			<default>false</default>
 		</entry>
 	</group>
+    <group name="MainWindow">
+        <entry name="splitterSizes" type="IntList" />
+        <entry name="splitterSizesWithBothWidgets" type="IntList" />
+    </group>
 </kcfg>

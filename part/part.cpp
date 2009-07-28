@@ -41,11 +41,11 @@
 #include <KIcon>
 #include <KTempDir>
 #include <KMessageBox>
-#include <KVBox>
 #include <KRun>
 #include <KFileDialog>
 #include <KConfigGroup>
 #include <KStandardDirs>
+#include <KToggleAction>
 #include <KIO/NetAccess>
 
 #include <QCursor>
@@ -67,24 +67,33 @@ typedef KParts::GenericFactory<Part> Factory;
 K_EXPORT_COMPONENT_FACTORY(arkpart, Factory)
 
 Part::Part(QWidget *parentWidget, QObject *parent, const QStringList& args)
-        : KParts::ReadWritePart(parent), m_model(new ArchiveModel(this)), m_previewDir(0), m_busy(false),
-        m_jobTracker(NULL)
+        : KParts::ReadWritePart(parent),
+          m_model(new ArchiveModel(this)),
+          m_splitter(0),
+          m_previewDir(0),
+          m_busy(false),
+          m_jobTracker(0)
 {
     Q_UNUSED(args);
     setComponentData(Factory::componentData());
-    setXMLFile("ark_part.rc");
 
-    KVBox *mainWidget = new KVBox(parentWidget);
-    setWidget(mainWidget);
+    m_splitter = new QSplitter(Qt::Horizontal, parentWidget);
+    setWidget(m_splitter);
 
-    QSplitter *splitter = new QSplitter(Qt::Horizontal, mainWidget);
-    m_view = new ArchiveView(mainWidget);
-    m_infoPanel = new InfoPanel(m_model, mainWidget);
-    splitter->addWidget(m_view);
-    splitter->addWidget(m_infoPanel);
+    m_view = new ArchiveView(m_splitter);
+    m_infoPanel = new InfoPanel(m_model, m_splitter);
+
+    QList<int> splitterSizes = ArkSettings::splitterSizes();
+    if (splitterSizes.isEmpty()) {
+        splitterSizes.append(200);
+        splitterSizes.append(100);
+    }
+    m_splitter->setSizes(splitterSizes);
 
     setupView();
     setupActions();
+
+    connect(m_splitter, SIGNAL(splitterMoved(int, int)), SLOT(slotUpdateSplitterSizes()));
 
     connect(m_model, SIGNAL(loadingStarted()),
             this, SLOT(slotLoadingStarted()));
@@ -107,6 +116,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QStringList& args)
     new DndExtractAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/DndExtract", this);
 
+    setXMLFile("ark_part.rc");
 }
 
 Part::~Part()
@@ -194,6 +204,12 @@ void Part::setupView()
 
 void Part::setupActions()
 {
+    KToggleAction *showInfoPanelAction = new KToggleAction(i18n("Show information panel"), this);
+    actionCollection()->addAction("show-infopanel", showInfoPanelAction);
+    showInfoPanelAction->setChecked(m_splitter->sizes().at(1) > 0);
+    connect(showInfoPanelAction, SIGNAL(triggered(bool)),
+            this, SLOT(slotToggleInfoPanel(bool)));
+
     m_previewAction = actionCollection()->addAction("preview");
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
     m_previewAction->setIcon(KIcon("document-preview-archive"));
@@ -719,4 +735,26 @@ void Part::slotDeleteFiles()
             this, SLOT(slotDeleteFilesDone(KJob*)));
     registerJob(job);
     job->start();
+}
+
+void Part::slotToggleInfoPanel(bool visible)
+{
+    QList<int> splitterSizes;
+
+    if (visible) {
+        splitterSizes = ArkSettings::splitterSizesWithBothWidgets();
+    } else {
+        splitterSizes = m_splitter->sizes();
+        ArkSettings::setSplitterSizesWithBothWidgets(splitterSizes);
+        splitterSizes[1] = 0;
+    }
+
+    m_splitter->setSizes(splitterSizes);
+    slotUpdateSplitterSizes();
+}
+
+void Part::slotUpdateSplitterSizes()
+{
+    ArkSettings::setSplitterSizes(m_splitter->sizes());
+    ArkSettings::self()->writeConfig();
 }

@@ -30,6 +30,7 @@
 class ArchiveModel;
 class InfoPanel;
 
+class QSplitter;
 class QTreeView;
 class QAction;
 class KAction;
@@ -72,6 +73,8 @@ private slots:
     void slotAddFilesDone(KJob*);
     void slotDeleteFiles();
     void slotDeleteFilesDone(KJob*);
+    void slotUpdateSplitterSizes();
+    void slotToggleInfoPanel(bool);
     void updateActions();
     void selectionChanged();
     void adjustColumns();
@@ -103,6 +106,7 @@ private:
     QAction              *m_addDirAction;
     QAction              *m_deleteFilesAction;
     InfoPanel            *m_infoPanel;
+    QSplitter            *m_splitter;
     KTempDir             *m_previewDir;
     bool                  m_busy;
 
