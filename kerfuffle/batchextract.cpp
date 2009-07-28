@@ -178,7 +178,7 @@ void BatchExtract::slotResult(KJob *job)
         removeSubjob(job);
     }
 
-    if (!subjobs().size()) {
+    if (!hasSubjobs()) {
         kDebug() << "Finished, emitting the result";
         emitResult();
     } else {
