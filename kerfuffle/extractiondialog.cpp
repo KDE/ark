@@ -180,7 +180,6 @@ bool ExtractionDialog::preservePaths()
     return m_ui->preservePaths->isChecked();
 }
 
-
 bool ExtractionDialog::openDestinationAfterExtraction()
 {
     return m_ui->openFolderCheckBox->isChecked();
