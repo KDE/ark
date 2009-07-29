@@ -548,25 +548,7 @@ void Part::slotExtractFiles()
         //this is done to update the quick extract menu
         updateActions();
 
-        QString destinationDirectory;
-        if (dialog->extractToSubfolder()) {
-            destinationDirectory =  dialog->destinationDirectory().path() +
-                                    QDir::separator() + dialog->subfolder();
-
-            if (!KStandardDirs::makeDir(destinationDirectory)) {
-                KMessageBox::error(NULL, i18n("The folder '%1' could not be created. Please check permissions.", destinationDirectory));
-                return;
-            }
-
-            lastExtractionFolder = destinationDirectory;
-        } else {
-            destinationDirectory = dialog->destinationDirectory().path();
-
-            if (isSingleFolderArchive())
-                lastExtractionFolder = destinationDirectory + QDir::separator() + detectSubfolder();
-            else
-                lastExtractionFolder = destinationDirectory;
-        }
+        m_destinationDirectory = dialog->destinationDirectory().path();
 
         QList<QVariant> files;
 
@@ -583,7 +565,7 @@ void Part::slotExtractFiles()
         if (dialog->preservePaths())
             options["PreservePaths"] = true;
 
-        ExtractJob *job = m_model->extractFiles(files, destinationDirectory, options);
+        ExtractJob *job = m_model->extractFiles(files, m_destinationDirectory, options);
         registerJob(job);
 
         connect(job, SIGNAL(result(KJob*)),
@@ -639,12 +621,12 @@ QList<QVariant> Part::selectedFiles()
 
 void Part::slotExtractionDone(KJob* job)
 {
-    kDebug() ;
+    kDebug();
     if (job->error()) {
         KMessageBox::error(widget(), job->errorString());
     } else {
         if (ArkSettings::openDestinationFolderAfterExtraction()) {
-            KUrl destinationFolder(lastExtractionFolder);
+            KUrl destinationFolder(m_destinationDirectory);
             destinationFolder.cleanPath();
 
             KRun::runUrl(destinationFolder, "inode/directory", widget());

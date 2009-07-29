@@ -97,8 +97,6 @@ private:
     QList<QVariant> selectedFilesWithChildren();
     void registerJob(KJob *job);
 
-    QString lastExtractionFolder;
-
     ArchiveModel         *m_model;
     QTreeView            *m_view;
     QAction              *m_previewAction;
@@ -110,6 +108,7 @@ private:
     QSplitter            *m_splitter;
     KTempDir             *m_previewDir;
     bool                  m_busy;
+    QString               m_destinationDirectory;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;

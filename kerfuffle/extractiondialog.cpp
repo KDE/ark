@@ -97,13 +97,19 @@ void ExtractionDialog::accept()
         }
     }
 
-    QString pathWithSubfolder = url().path(KUrl::AddTrailingSlash) + subfolder() + '/';
-    kDebug() << pathWithSubfolder << " exists: " << KStandardDirs::exists(pathWithSubfolder);
-    if (extractToSubfolder() && KStandardDirs::exists(pathWithSubfolder)) {
-        int overWrite = KMessageBox::questionYesNo(NULL, i18n("The folder '%1' already exists. Are you sure you want to extract here?", pathWithSubfolder), i18n("Folder exists") , KGuiItem(i18n("Extract here")), KGuiItem(i18n("Cancel")));
-        if (overWrite == KMessageBox::No) {
-            //TODO: choosing retry should also be possible, so one does
-            //not have to do the procedure one more time.
+    if (extractToSubfolder()) {
+        QString pathWithSubfolder = url().path(KUrl::AddTrailingSlash) + subfolder() + '/';
+
+        if (KStandardDirs::exists(pathWithSubfolder)) {
+            int overwrite = KMessageBox::questionYesNo(0, i18n("The folder '%1' already exists. Are you sure you want to extract here?", pathWithSubfolder), i18n("Folder exists"), KGuiItem(i18n("Extract here")), KGuiItem(i18n("Cancel")));
+
+            if (overwrite == KMessageBox::No) {
+                //TODO: choosing retry should also be possible, so one does
+                //not have to do the procedure one more time.
+                return;
+            }
+        } else if (!KStandardDirs::makeDir(pathWithSubfolder)) {
+            KMessageBox::error(NULL, i18n("The folder '%1' could not be created. Please check permissions.", pathWithSubfolder));
             return;
         }
     }
