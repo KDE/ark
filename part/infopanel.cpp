@@ -41,32 +41,52 @@ InfoPanel::InfoPanel(ArchiveModel *model, QWidget *parent)
         : QFrame(parent), m_model(model)
 {
     setupUi(this);
-    setDefaultValues();
+
+    updateWithDefaults();
 }
 
 InfoPanel::~InfoPanel()
 {
 }
 
-void InfoPanel::setDefaultValues()
+void InfoPanel::updateWithDefaults()
 {
     iconLabel->setPixmap(KIconLoader::global()->loadIcon("utilities-file-archiver", KIconLoader::Desktop, KIconLoader::SizeHuge));
-    if (!m_model->archive()) {
+
+    QString currentFileName = prettyFileName();
+
+    if (currentFileName.isEmpty()) {
         fileName->setText(QString("<center><font size=+1><b>%1</b></font></center>").arg(i18n("No archive loaded")));
-        additionalInfo->setText(QString());
     } else {
-        QFileInfo archiveInfo(m_model->archive()->fileName());
-        fileName->setText(QString("<center><font size=+1><b>%1</b></font></center>").arg(archiveInfo.fileName()));
-        additionalInfo->setText(QString());
+        fileName->setText(QString("<center><font size=+1><b>%1</b></font></center>").arg(currentFileName));
     }
+
+    additionalInfo->setText(QString());
     hideMetaData();
     hideActions();
+}
+
+QString InfoPanel::prettyFileName()
+{
+    if (m_prettyFileName.isEmpty()) {
+        if (m_model->archive()) {
+            QFileInfo fileInfo(m_model->archive()->fileName());
+            return fileInfo.fileName();
+        }
+    }
+
+    return m_prettyFileName;
+}
+
+void InfoPanel::setPrettyFileName(const QString& fileName)
+{
+    m_prettyFileName = fileName;
 }
 
 void InfoPanel::setIndex(const QModelIndex& index)
 {
     if (!index.isValid()) {
-        setDefaultValues();
+        updateWithDefaults();
     } else {
         const ArchiveEntry& entry = m_model->entryForIndex(index);
 

@@ -110,7 +110,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QStringList& args)
     connect(this, SIGNAL(ready()),
             this, SLOT(setReadyGui()));
     connect(this, SIGNAL(completed()),
-            this, SLOT(setWindowTitleFromArchive()));
+            this, SLOT(setFileNameFromArchive()));
 
     m_statusBarExtension = new KParts::StatusBarExtension(this);
 
@@ -450,9 +450,14 @@ void Part::setBusyGui()
     updateActions();
 }
 
-void Part::setWindowTitleFromArchive()
+void Part::setFileNameFromArchive()
 {
-    emit setWindowCaption(url().fileName());
+    QString prettyName = url().fileName();
+
+    m_infoPanel->setPrettyFileName(prettyName);
+    m_infoPanel->updateWithDefaults();
+
+    emit setWindowCaption(prettyName);
 }
 
 void Part::slotPreview()

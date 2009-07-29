@@ -81,7 +81,7 @@ private slots:
     void adjustColumns();
     void setBusyGui();
     void setReadyGui();
-    void setWindowTitleFromArchive();
+    void setFileNameFromArchive();
 
 signals:
     void busy();
