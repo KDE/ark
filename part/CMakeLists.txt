@@ -3,8 +3,6 @@ include_directories(
                      ${CMAKE_CURRENT_BINARY_DIR}/..
                    )
 
-ADD_DEFINITIONS(-D_LARGEFILE64_SOURCE)
-
 set(arkpart_PART_SRCS
 	part.cpp 
 	infopanel.cpp

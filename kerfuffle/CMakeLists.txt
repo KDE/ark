@@ -3,8 +3,6 @@ include_directories(
                      ${CMAKE_CURRENT_BINARY_DIR}/..
                    )
 
-ADD_DEFINITIONS(-D_LARGEFILE64_SOURCE)
-
 #kde4_add_kcfg_files(libark_common_SRCS ../settings.kcfgc)
 
 ########### next target ###############
