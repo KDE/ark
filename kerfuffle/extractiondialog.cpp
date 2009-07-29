@@ -43,11 +43,8 @@ public:
 };
 
 ExtractionDialog::ExtractionDialog(QWidget *parent)
-        : KDirSelectDialog()
+        : KDirSelectDialog(KUrl(), false, parent)
 {
-    //TODO: send the parent pointer to superclass
-    Q_UNUSED(parent);
-
     m_ui = new ExtractionDialogUI(this);
 
     mainWidget()->layout()->addWidget(m_ui);
