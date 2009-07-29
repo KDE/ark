@@ -122,8 +122,9 @@ bool Job::doKill()
 {
     kDebug();
     bool ret = m_interface->doKill();
-    if (!ret)
+    if (!ret) {
         kDebug() << "Killing does not seem to be supported here.";
+    }
     return ret;
 }
 
