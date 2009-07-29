@@ -147,23 +147,6 @@ public:
     void setDestinationFolder(QString folder);
 
     /**
-     * Returns the subdirectory into which the archives
-     * will be extracted, if it has been set.
-     *
-     * @return The subdirectory that will be used, or an
-     *         empty @c QString if none has been set.
-     */
-    QString subfolder();
-
-    /**
-     * Forces the creation of a subdirectory inside the destination
-     * directory, so that the archives are extracted into it.
-     *
-     * @param subfolder The subdirectory that will be created.
-     */
-    void setSubfolder(QString subfolder);
-
-    /**
      * Whether all files should be extracted to the same directory,
      * even if they're in different directories in the archive.
      *
@@ -216,7 +199,6 @@ private:
     QList<Archive*> m_inputs;
     QString m_destinationFolder;
     QStringList m_failedFiles;
-    QString m_subfolder;
     bool m_preservePaths;
 };
 }

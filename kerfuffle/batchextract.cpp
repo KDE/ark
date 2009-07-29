@@ -226,19 +226,10 @@ void BatchExtract::setPreservePaths(bool value)
     m_preservePaths = value;
 }
 
-QString BatchExtract::subfolder()
-{
-    return m_subfolder;
-}
-
-void BatchExtract::setSubfolder(QString subfolder)
-{
-    m_subfolder = subfolder;
-}
-
 bool BatchExtract::showExtractDialog()
 {
     QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog(NULL);
+
     if (m_inputs.size() > 1) {
         dialog->batchModeOption();
     }
