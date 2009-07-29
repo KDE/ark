@@ -35,7 +35,7 @@ class KERFUFFLE_EXPORT ExtractionDialog: public KDirSelectDialog
     Q_OBJECT
 public:
     ExtractionDialog(QWidget *parent = 0);
-    ~ExtractionDialog();
+    virtual ~ExtractionDialog();
 
     void setShowSelectedFiles(bool);
     void setSingleFolderArchive(bool);
