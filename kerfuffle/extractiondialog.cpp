@@ -85,7 +85,6 @@ void ExtractionDialog::accept()
     }
 
     if (!KStandardDirs::exists(url().path(KUrl::AddTrailingSlash))) {
-
         QString ltext = i18n("Create folder %1?", url().path());
         int createDir =  KMessageBox::questionYesNo(this, ltext, i18n("Missing Folder") , KGuiItem(i18n("Create Folder")), KGuiItem(i18n("Do Not Create")));
         if (createDir == KMessageBox::No) {
