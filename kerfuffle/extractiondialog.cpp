@@ -187,7 +187,11 @@ bool ExtractionDialog::openDestinationAfterExtraction()
 
 KUrl ExtractionDialog::destinationDirectory()
 {
-    return url().path(KUrl::AddTrailingSlash);
+    if (extractToSubfolder()) {
+        return url().path(KUrl::AddTrailingSlash) + subfolder() + '/';
+    } else {
+        return url().path(KUrl::AddTrailingSlash);
+    }
 }
 
 }
