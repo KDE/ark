@@ -112,9 +112,7 @@ void ExtractionDialog::accept()
         }
     }
 
-
     KDirSelectDialog::accept();
-
 }
 
 void ExtractionDialog::setCurrentUrl(const QString& url)
