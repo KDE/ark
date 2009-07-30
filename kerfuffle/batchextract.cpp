@@ -161,9 +161,11 @@ void BatchExtract::slotResult(KJob *job)
     }
 
     if (!hasSubjobs()) {
-        KUrl destination(destinationFolder());
-        destination.cleanPath();
-        KRun::runUrl(destination, "inode/directory", 0);
+        if (openDestinationAfterExtraction()) {
+            KUrl destination(destinationFolder());
+            destination.cleanPath();
+            KRun::runUrl(destination, "inode/directory", 0);
+        }
 
         kDebug() << "Finished, emitting the result";
         emitResult();
