@@ -212,8 +212,9 @@ bool BatchExtract::openDestinationAfterExtraction()
 
 void BatchExtract::setDestinationFolder(QString folder)
 {
-    if (!folder.isEmpty())
+    if (QFileInfo(folder).isDir()) {
         m_destinationFolder = folder;
+    }
 }
 
 void BatchExtract::setOpenDestinationAfterExtraction(bool value)
