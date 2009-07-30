@@ -57,9 +57,13 @@ public Q_SLOTS:
     void setCurrentUrl(const QString& url);
     void setSubfolder(QString subfolder);
 
-private:
-    class ExtractionDialogUI *m_ui;
+private Q_SLOTS:
+    void writeSettings();
 
+private:
+    void loadSettings();
+
+    class ExtractionDialogUI *m_ui;
 };
 }
 
