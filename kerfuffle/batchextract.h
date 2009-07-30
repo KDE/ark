@@ -50,6 +50,7 @@ public:
     void start();
     void setAutoSubfolder(bool value);
     bool addInput(const KUrl& url);
+    QString destinationFolder();
     bool openDestinationAfterExtraction();
     bool showExtractDialog();
     void setDestinationFolder(QString folder);

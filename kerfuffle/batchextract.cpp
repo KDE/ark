@@ -117,14 +117,7 @@ void BatchExtract::start()
     }
 
     foreach(Kerfuffle::Archive *archive, m_inputs) {
-        QString finalDestination;
-        if (m_destinationFolder.isEmpty()) {
-            finalDestination = QDir::currentPath();
-        } else {
-            finalDestination = m_destinationFolder;
-        }
-
-        addExtraction(archive, m_preservePaths, finalDestination);
+        addExtraction(archive, m_preservePaths, destinationFolder());
     }
 
     KIO::getJobTracker()->registerJob(this);
@@ -166,7 +159,7 @@ void BatchExtract::slotResult(KJob *job)
 
     if (!subjobs().size()) {
         if (openDestinationAfterExtraction()) {
-            KUrl destination(m_destinationFolder);
+            KUrl destination(destinationFolder());
             destination.cleanPath();
             KRun::runUrl(destination, "inode/directory", 0);
         }
@@ -210,6 +203,15 @@ bool BatchExtract::openDestinationAfterExtraction()
     return m_openDestinationAfterExtraction;
 }
 
+QString BatchExtract::destinationFolder()
+{
+    if (m_destinationFolder.isEmpty()) {
+        return QDir::currentPath();
+    } else {
+        return m_destinationFolder;
+    }
+}
+
 void BatchExtract::setDestinationFolder(QString folder)
 {
     if (QFileInfo(folder).isDir()) {
@@ -236,12 +238,8 @@ bool BatchExtract::showExtractDialog()
         dialog->batchModeOption();
     }
 
-    if (m_destinationFolder.isEmpty())
-        dialog->setCurrentUrl(QDir::currentPath());
-    else
-        dialog->setCurrentUrl(m_destinationFolder);
-
     dialog->setAutoSubfolder(m_autoSubfolders);
+    dialog->setCurrentUrl(destinationFolder());
     dialog->setPreservePaths(m_preservePaths);
 
     if (m_inputs.size() == 1) {
