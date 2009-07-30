@@ -18,7 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
+
 #include "extractiondialog.h"
+#include "settings.h"
 
 #include <KLocale>
 #include <KIconLoader>
@@ -58,6 +60,16 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
     setSingleFolderArchive(false);
 
     m_ui->autoSubfolders->hide();
+
+    loadSettings();
+
+    connect(this, SIGNAL(finished(int)), SLOT(writeSettings()));
+}
+
+void ExtractionDialog::loadSettings()
+{
+    setOpenDestinationFolderAfterExtraction(ArkSettings::openDestinationFolderAfterExtraction());
+    setPreservePaths(ArkSettings::preservePaths());
 }
 
 void ExtractionDialog::setSingleFolderArchive(bool value)
@@ -198,6 +210,12 @@ KUrl ExtractionDialog::destinationDirectory()
     } else {
         return url().path(KUrl::AddTrailingSlash);
     }
+}
+
+void ExtractionDialog::writeSettings()
+{
+    ArkSettings::setOpenDestinationFolderAfterExtraction(openDestinationAfterExtraction());
+    ArkSettings::setPreservePaths(preservePaths());
 }
 
 }

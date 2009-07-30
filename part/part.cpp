@@ -535,16 +535,7 @@ void Part::slotExtractFiles()
 
     dialog->setCurrentUrl(QFileInfo(m_model->archive()->fileName()).path());
 
-    dialog->setOpenDestinationFolderAfterExtraction(ArkSettings::openDestinationFolderAfterExtraction());
-
-    //TODO: remember this in arksettings
-    dialog->setPreservePaths(true);
-
     if (dialog->exec()) {
-        ArkSettings::setOpenDestinationFolderAfterExtraction(dialog->openDestinationAfterExtraction());
-
-        ArkSettings::self()->writeConfig();
-
         //this is done to update the quick extract menu
         updateActions();
 

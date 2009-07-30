@@ -9,9 +9,13 @@
 			<label>Open destination folder after extraction</label>
 			<default>false</default>
 		</entry>
+		<entry name="preservePaths" type="Bool">
+			<label>Preserve paths when extracting</label>
+			<default>true</default>
+		</entry>
 	</group>
-    <group name="MainWindow">
-        <entry name="splitterSizes" type="IntList" />
-        <entry name="splitterSizesWithBothWidgets" type="IntList" />
-    </group>
+	<group name="MainWindow">
+		<entry name="splitterSizes" type="IntList" />
+		<entry name="splitterSizesWithBothWidgets" type="IntList" />
+	</group>
 </kcfg>
