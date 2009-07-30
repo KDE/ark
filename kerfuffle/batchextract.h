@@ -147,6 +147,23 @@ public:
     void setDestinationFolder(QString folder);
 
     /**
+     * Returns whether the destination folder should
+     * be open after all archives are extracted.
+     *
+     * @return @c true  Open the destination folder.
+     * @return @c false Do not open the destination folder.
+     */
+    bool openDestinationAfterExtraction();
+
+    /**
+     * Whether to open the destination folder after
+     * all archives are extracted.
+     *
+     * @param value Whether to open the destination.
+     */
+    void setOpenDestinationAfterExtraction(bool value);
+
+    /**
      * Whether all files should be extracted to the same directory,
      * even if they're in different directories in the archive.
      *
@@ -200,6 +217,7 @@ private:
     QString m_destinationFolder;
     QStringList m_failedFiles;
     bool m_preservePaths;
+    bool m_openDestinationAfterExtraction;
 };
 }
 

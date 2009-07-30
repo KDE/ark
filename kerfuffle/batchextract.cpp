@@ -30,6 +30,7 @@
 #include <KGlobal>
 #include <KLocale>
 #include <KMessageBox>
+#include <KRun>
 #include <KIO/RenameDialog>
 #include <kwidgetjobtracker.h>
 
@@ -41,7 +42,8 @@ namespace Kerfuffle
 {
 BatchExtract::BatchExtract()
         : m_autoSubfolder(false),
-        m_preservePaths(true)
+        m_preservePaths(true),
+        m_openDestinationAfterExtraction(false)
 {
     setCapabilities(KJob::Killable);
 
@@ -159,6 +161,10 @@ void BatchExtract::slotResult(KJob *job)
     }
 
     if (!hasSubjobs()) {
+        KUrl destination(destinationFolder());
+        destination.cleanPath();
+        KRun::runUrl(destination, "inode/directory", 0);
+
         kDebug() << "Finished, emitting the result";
         emitResult();
     } else {
@@ -193,6 +199,11 @@ bool BatchExtract::addInput(const KUrl& url)
     return true;
 }
 
+bool BatchExtract::openDestinationAfterExtraction()
+{
+    return m_openDestinationAfterExtraction;
+}
+
 bool BatchExtract::preservePaths()
 {
     return m_preservePaths;
@@ -212,6 +223,11 @@ void BatchExtract::setDestinationFolder(QString folder)
     if (QFileInfo(folder).isDir()) {
         m_destinationFolder = folder;
     }
+}
+
+void BatchExtract::setOpenDestinationAfterExtraction(bool value)
+{
+    m_openDestinationAfterExtraction = value;
 }
 
 void BatchExtract::setPreservePaths(bool value)
@@ -244,6 +260,7 @@ bool BatchExtract::showExtractDialog()
 
     setAutoSubfolder(dialog->autoSubfolders());
     setDestinationFolder(dialog->destinationDirectory().path());
+    setOpenDestinationAfterExtraction(dialog->openDestinationAfterExtraction());
     setPreservePaths(dialog->preservePaths());
 
     return true;
