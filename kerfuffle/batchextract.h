@@ -50,8 +50,10 @@ public:
     void start();
     void setAutoSubfolder(bool value);
     bool addInput(const KUrl& url);
+    bool openDestinationAfterExtraction();
     bool showExtractDialog();
     void setDestinationFolder(QString folder);
+    void setOpenDestinationAfterExtraction(bool value);
     void setPreservePaths(bool value);
 
 private slots:
@@ -68,6 +70,7 @@ private:
     //KJobTrackerInterface *m_tracker;
     QString m_destinationFolder;
     bool m_preservePaths;
+    bool m_openDestinationAfterExtraction;
 };
 }
 
