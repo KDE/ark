@@ -3,3 +3,5 @@ ClassName=ArkSettings
 Singleton=true
 Mutators=true
 SetUserTexts=true
+IncludeFiles=\"kerfuffle/kerfuffle_export.h\"
+Visibility=KERFUFFLE_EXPORT

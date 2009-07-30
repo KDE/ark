@@ -26,7 +26,7 @@
 #include "arkviewer.h"
 #include "kerfuffle/extractiondialog.h"
 #include "kerfuffle/jobs.h"
-#include "settings.h"
+#include "kerfuffle/settings.h"
 #include "jobtracker.h"
 #include "dnddbusinterface.h"
 

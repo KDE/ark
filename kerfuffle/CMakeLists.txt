@@ -24,6 +24,8 @@ set(kerfuffle_SRCS
 	cliinterface.cpp
    )
 
+kde4_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
+
 kde4_add_ui_files(kerfuffle_SRCS extractiondialog.ui adddialog.ui )
 
 kde4_add_library(kerfuffle SHARED ${kerfuffle_SRCS})
@@ -39,3 +41,4 @@ set_target_properties(kerfuffle PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERS
 install(TARGETS kerfuffle ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES kerfufflePlugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR})
+install(FILES ark.kcfg                DESTINATION ${KCFG_INSTALL_DIR})
