@@ -3,12 +3,9 @@ include_directories(
                      ${CMAKE_CURRENT_BINARY_DIR}/..
                    )
 
-#kde4_add_kcfg_files(libark_common_SRCS ../settings.kcfgc)
-
 ########### next target ###############
 
 set(kerfuffle_SRCS
-	#arch.cpp 
     archive.cpp
     archiveinterface.cpp
     jobs.cpp
