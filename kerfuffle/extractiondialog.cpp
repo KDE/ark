@@ -223,6 +223,7 @@ void ExtractionDialog::writeSettings()
 {
     ArkSettings::setOpenDestinationFolderAfterExtraction(openDestinationAfterExtraction());
     ArkSettings::setPreservePaths(preservePaths());
+    ArkSettings::self()->writeConfig();
 }
 
 }
