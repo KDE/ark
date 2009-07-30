@@ -51,7 +51,7 @@ class AddJob;
  * is set with the entries in this enum.
  *
  * Please notice that not all archive formats support all the properties
- * below, so set those that are avaliable.
+ * below, so set those that are available.
  */
 enum EntryMetaDataType {
     FileName,            /**< The entry's file name */
