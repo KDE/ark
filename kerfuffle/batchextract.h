@@ -52,7 +52,6 @@ public:
     bool addInput(const KUrl& url);
     bool showExtractDialog();
     void setDestinationFolder(QString folder);
-    void setSubfolder(QString subfolder);
     void setPreservePaths(bool value);
 
 private slots:
@@ -68,7 +67,6 @@ private:
     QList<Archive*> m_inputs;
     //KJobTrackerInterface *m_tracker;
     QString m_destinationFolder;
-    QString m_subfolder;
     bool m_preservePaths;
 };
 }
