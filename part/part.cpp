@@ -211,6 +211,8 @@ void Part::setupActions()
     connect(showInfoPanelAction, SIGNAL(triggered(bool)),
             this, SLOT(slotToggleInfoPanel(bool)));
 
+    m_saveAsAction = KStandardAction::saveAs(this, SLOT(slotSaveAs()), actionCollection());
+
     m_previewAction = actionCollection()->addAction("preview");
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
     m_previewAction->setIcon(KIcon("document-preview-archive"));
@@ -736,4 +738,42 @@ void Part::slotUpdateSplitterSizes()
 {
     ArkSettings::setSplitterSizes(m_splitter->sizes());
     ArkSettings::self()->writeConfig();
+}
+
+void Part::slotSaveAs()
+{
+    KUrl saveUrl = KFileDialog::getSaveUrl(KUrl("kfiledialog:///ArkSaveAs/" + url().fileName()), QString(), widget());
+
+    if ((saveUrl.isValid()) && (!saveUrl.isEmpty())) {
+        if (KIO::NetAccess::exists(saveUrl, KIO::NetAccess::DestinationSide, widget())) {
+            int overwrite = KMessageBox::warningContinueCancel(widget(),
+                                                               i18n("A file named <b>%1</b> already exists. Are you sure you want to overwrite it?", saveUrl.fileName()),
+                                                               QString(),
+                                                               KGuiItem(i18n("Overwrite")));
+
+            if (overwrite != KMessageBox::Continue) {
+                return;
+            }
+        }
+
+        KUrl srcUrl = KUrl::fromPath(localFilePath());
+
+        if (!QFile::exists(localFilePath())) {
+            if (url().isLocalFile()) {
+                KMessageBox::error(widget(),
+                                   i18n("The file <b>%1</b> cannot be copied to the specified location. The archive does not exist anymore.", localFilePath()));
+
+                return;
+            } else {
+                srcUrl = url();
+            }
+        }
+
+        KIO::Job *copyJob = KIO::file_copy(srcUrl, saveUrl, -1, KIO::Overwrite);
+
+        if (!KIO::NetAccess::synchronousRun(copyJob, widget())) {
+            KMessageBox::error(widget(),
+                               i18n("The archive could not be saved as <b>%1</b>. Try to save it in another location.", saveUrl.pathOrUrl()));
+        }
+    }
 }

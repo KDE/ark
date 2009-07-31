@@ -76,6 +76,7 @@ private slots:
     void slotDeleteFilesDone(KJob*);
     void slotUpdateSplitterSizes();
     void slotToggleInfoPanel(bool);
+    void slotSaveAs();
     void updateActions();
     void selectionChanged();
     void adjustColumns();
@@ -104,6 +105,7 @@ private:
     KAction              *m_addFilesAction;
     KAction              *m_addDirAction;
     KAction              *m_deleteFilesAction;
+    KAction              *m_saveAsAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
     KTempDir             *m_previewDir;
