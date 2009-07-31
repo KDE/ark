@@ -102,14 +102,9 @@ void Job::onEntryRemoved(const QString & path)
 
 void Job::onFinished(bool result)
 {
-    kDebug();
+    kDebug() << result;
+
     m_interface->removeObserver(this);
-
-    setError(!result);
-
-    if (errorString().isEmpty()) {
-        setErrorText(i18n("An error occurred while performing the operation."));
-    }
 
     emitResult();
 }
