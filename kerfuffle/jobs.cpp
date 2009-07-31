@@ -107,8 +107,9 @@ void Job::onFinished(bool result)
 
     setError(!result);
 
-    if (errorString().isEmpty())
+    if (errorString().isEmpty()) {
         setErrorText(i18n("An error occurred while performing the operation."));
+    }
 
     emitResult();
 }
@@ -144,7 +145,9 @@ void ListJob::doWork()
     m_interface->registerObserver(this);
     bool ret = m_interface->list();
 
-    if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
+    if (!m_interface->waitForFinishedSignal()) {
+        m_interface->finished(ret);
+    }
 }
 
 qlonglong ListJob::extractedFilesSize()
@@ -211,15 +214,16 @@ void ExtractJob::doWork()
 
     fillInDefaultValues(m_options);
 
-    kDebug() << "Starting extraction with selected files "
-    << m_files
-    << " Destination dir " << m_destinationDir
-    << " And options " << m_options
-    ;
+    kDebug() << "Starting extraction with selected files:"
+             << m_files
+             << "Destination dir:" << m_destinationDir
+             << "Options:" << m_options;
 
     bool ret = m_interface->copyFiles(m_files, m_destinationDir, m_options);
 
-    if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
+    if (!m_interface->waitForFinishedSignal()) {
+        m_interface->finished(ret);
+    }
 }
 
 void ExtractJob::fillInDefaultValues(ExtractionOptions& options)
@@ -248,7 +252,9 @@ void AddJob::doWork()
     m_writeInterface->registerObserver(this);
     bool ret = m_writeInterface->addFiles(m_files, m_options);
 
-    if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
+    if (!m_interface->waitForFinishedSignal()) {
+        m_interface->finished(ret);
+    }
 }
 
 DeleteJob::DeleteJob(const QList<QVariant>& files, ReadWriteArchiveInterface *interface, QObject *parent)
@@ -269,7 +275,9 @@ void DeleteJob::doWork()
     m_writeInterface->registerObserver(this);
     int ret = m_writeInterface->deleteFiles(m_files);
 
-    if (!m_interface->waitForFinishedSignal()) m_interface->finished(ret);
+    if (!m_interface->waitForFinishedSignal()) {
+        m_interface->finished(ret);
+    }
 }
 } // namespace Kerfuffle
 
