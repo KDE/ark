@@ -99,11 +99,11 @@ private:
 
     ArchiveModel         *m_model;
     QTreeView            *m_view;
-    QAction              *m_previewAction;
+    KAction              *m_previewAction;
     KAction              *m_extractFilesAction;
-    QAction              *m_addFilesAction;
-    QAction              *m_addDirAction;
-    QAction              *m_deleteFilesAction;
+    KAction              *m_addFilesAction;
+    KAction              *m_addDirAction;
+    KAction              *m_deleteFilesAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
     KTempDir             *m_previewDir;
