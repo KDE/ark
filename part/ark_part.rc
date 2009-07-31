@@ -9,10 +9,10 @@
 		<Action name="extract"/>
 		<Action name="preview"/>
 	</Menu>
-    <Menu name="settings">
-        <!-- This is a hack: we cannot use append from a KPart -->
-        <Action name="show-infopanel" group="extra_settings"/>
-    </Menu>
+	<Menu name="settings">
+		<!-- This is a hack: we cannot use append from a KPart -->
+		<Action name="show-infopanel" group="extra_settings"/>
+	</Menu>
 </MenuBar>
 <ToolBar name="mainToolBar">
 	<Action name="add"/>

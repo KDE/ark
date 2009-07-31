@@ -7,10 +7,10 @@
 		<Action name="file_open_recent"/>
 	</Menu>
 	<Merge/>
-    <Menu name="settings"><text>&amp;Settings</text>
-        <!-- This is a hack: we cannot use append from a KPart -->
-        <DefineGroup name="extra_settings" append="show_merge"/>
-    </Menu>
+	<Menu name="settings"><text>&amp;Settings</text>
+		<!-- This is a hack: we cannot use append from a KPart -->
+		<DefineGroup name="extra_settings" append="show_merge"/>
+	</Menu>
 </MenuBar>
 <ToolBar noMerge="1" name="mainToolBar">
 	<text>Main Toolbar</text>
