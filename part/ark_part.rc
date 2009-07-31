@@ -10,8 +10,8 @@
 		<Action name="preview"/>
 	</Menu>
 	<Menu name="settings">
-		<!-- This is a hack: we cannot use append from a KPart -->
-		<Action name="show-infopanel" group="extra_settings"/>
+		<text>&amp;Settings</text>
+		<Action name="show-infopanel" group="settings_show"/>
 	</Menu>
 </MenuBar>
 <ToolBar name="mainToolBar">

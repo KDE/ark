@@ -4,9 +4,8 @@
 	<Menu name="file">
 	</Menu>
 	<Merge/>
-	<Menu name="settings"><text>&amp;Settings</text>
-		<!-- This is a hack: we cannot use append from a KPart -->
-		<DefineGroup name="extra_settings" append="show_merge"/>
+	<Menu name="settings">
+		<DefineGroup name="settings_show" append="show_merge"/>
 	</Menu>
 </MenuBar>
 <ToolBar noMerge="1" name="mainToolBar">
