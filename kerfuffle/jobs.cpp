@@ -35,8 +35,6 @@
 #include <KDebug>
 #include <KLocale>
 
-//#define KERFUFFLE_NOJOBTHREADING
-
 namespace Kerfuffle
 {
 Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
@@ -55,21 +53,15 @@ Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
 
 Job::~Job()
 {
-#ifndef KERFUFFLE_NOJOBTHREADING
     m_workerThread->wait();
     delete m_workerThread;
     m_workerThread = 0;
-#endif
 }
 
 void Job::start()
 {
-#ifdef KERFUFFLE_NOJOBTHREADING
-    QTimer::singleShot(0, this, SLOT(doWork()));
-#else
     m_workerThread = new ThreadExecution(this);
     m_workerThread->start();
-#endif
 }
 
 void Job::onError(const QString & message, const QString & details)
