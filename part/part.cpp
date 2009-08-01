@@ -245,6 +245,7 @@ void Part::setupActions()
     m_deleteFilesAction = actionCollection()->addAction("delete");
     m_deleteFilesAction->setIcon(KIcon("archive-remove"));
     m_deleteFilesAction->setText(i18n("De&lete"));
+    m_deleteFilesAction->setShortcut(Qt::Key_Delete);
     m_deleteFilesAction->setStatusTip(i18n("Click to delete the selected files"));
     connect(m_deleteFilesAction, SIGNAL(triggered(bool)),
             this, SLOT(slotDeleteFiles()));
