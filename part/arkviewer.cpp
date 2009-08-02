@@ -87,6 +87,7 @@ void ArkViewer::slotFinished()
 {
     delete m_part;
     m_part = 0;
+
     delayedDestruct();
 }
 

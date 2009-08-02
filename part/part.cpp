@@ -473,8 +473,13 @@ void Part::slotPreview(const QModelIndex & index)
     if (!m_previewDir) {
         m_previewDir = new KTempDir();
     }
-    if (!isPreviewable(index)) return;
+
+    if (!isPreviewable(index)) {
+        return;
+    }
+
     const ArchiveEntry& entry =  m_model->entryForIndex(index);
+
     if (!entry.isEmpty()) {
         ExtractJob *job = m_model->extractFile(entry[ InternalID ], m_previewDir->name());
         registerJob(job);
