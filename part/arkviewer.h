@@ -32,7 +32,7 @@ class ArkViewer : public KDialog
     Q_OBJECT
 
 public:
-    ~ArkViewer();
+    virtual ~ArkViewer();
 
     static void view(const QString& filename, QWidget* parent = 0);
 
