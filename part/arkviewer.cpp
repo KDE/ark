@@ -151,8 +151,6 @@ bool ArkViewer::viewInInternalViewer(const QString& filename)
 
     header->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
 
-
-    //m_part = KParts::ComponentFactory::createPartInstanceFromQuery<KParts::ReadOnlyPart>( mimetype->name(), QString(), m_widget, this );
     m_part = KMimeTypeTrader::self()->createPartInstanceFromQuery<KParts::ReadOnlyPart>(mimetype->name(),
              m_widget,
              this);
