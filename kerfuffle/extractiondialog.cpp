@@ -97,21 +97,8 @@ void ExtractionDialog::accept()
         return;
     }
 
-    if (!KStandardDirs::exists(url().path(KUrl::AddTrailingSlash))) {
-        QString ltext = i18n("Create folder %1?", url().path());
-        int createDir =  KMessageBox::questionYesNo(this, ltext, i18n("Missing Folder") , KGuiItem(i18n("Create Folder")), KGuiItem(i18n("Do Not Create")));
-        if (createDir == KMessageBox::No) {
-            return;
-        }
-
-        if (!KStandardDirs::makeDir(url().path(KUrl::AddTrailingSlash))) {
-            KMessageBox::error(this, i18n("The folder could not be created. Please check permissions."));
-            return;
-        }
-    }
-
     if (extractToSubfolder()) {
-        QString pathWithSubfolder = url().path(KUrl::AddTrailingSlash) + subfolder();
+        QString pathWithSubfolder = url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder();
 
         if (KIO::NetAccess::exists(pathWithSubfolder, KIO::NetAccess::SourceSide, 0)) {
             if (QFileInfo(pathWithSubfolder).isDir()) {
@@ -216,9 +203,9 @@ bool ExtractionDialog::openDestinationAfterExtraction()
 KUrl ExtractionDialog::destinationDirectory()
 {
     if (extractToSubfolder()) {
-        return url().path(KUrl::AddTrailingSlash) + subfolder() + '/';
+        return url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder() + '/';
     } else {
-        return url().path(KUrl::AddTrailingSlash);
+        return url().pathOrUrl(KUrl::AddTrailingSlash);
     }
 }
 
