@@ -495,7 +495,7 @@ bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, i
 
     QStringList paths;
     foreach(const QUrl &url, data->urls()) {
-        paths << url.path();
+        paths << url.toLocalFile();
     }
 
     //for now, this code is not used because adding files to paths inside the

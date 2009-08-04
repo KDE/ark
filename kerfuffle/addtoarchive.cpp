@@ -59,7 +59,7 @@ void AddToArchive::setChangeToFirstPath(bool value)
 
 void AddToArchive::setFilename(const KUrl& path)
 {
-    m_filename = path.path();
+    m_filename = path.pathOrUrl();
 }
 
 void AddToArchive::setMimeType(const QString & mimeType)
@@ -90,14 +90,14 @@ bool AddToArchive::showAddDialog(void)
 
 bool AddToArchive::addInput(const KUrl& url)
 {
-    m_inputs << url.path(
-        QFileInfo(url.path()).isDir() ?
+    m_inputs << url.pathOrUrl(
+        QFileInfo(url.pathOrUrl()).isDir() ?
         KUrl::AddTrailingSlash :
         KUrl::RemoveTrailingSlash
     );
 
     if (m_firstPath.isEmpty()) {
-        QString firstEntry = url.path(KUrl::RemoveTrailingSlash);
+        QString firstEntry = url.pathOrUrl(KUrl::RemoveTrailingSlash);
         m_firstPath = QFileInfo(firstEntry).dir().absolutePath();
     }
 
