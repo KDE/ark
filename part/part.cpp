@@ -261,8 +261,8 @@ void Part::updateActions()
     const QStringList dirHistory = conf.readPathEntry("History Items", QStringList());
 
     for (int i = 0; i < qMin(10, dirHistory.size()); ++i) {
-        QAction *newAction = m->addAction(KUrl(dirHistory.at(i)).path());
-        newAction->setData(KUrl(dirHistory.at(i)).path());
+        QAction *newAction = m->addAction(KUrl(dirHistory.at(i)).pathOrUrl());
+        newAction->setData(KUrl(dirHistory.at(i)).pathOrUrl());
     }
 }
 
@@ -519,7 +519,7 @@ void Part::slotExtractFiles()
         //this is done to update the quick extract menu
         updateActions();
 
-        m_destinationDirectory = dialog->destinationDirectory().path();
+        m_destinationDirectory = dialog->destinationDirectory().pathOrUrl();
 
         QList<QVariant> files;
 

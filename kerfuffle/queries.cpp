@@ -90,7 +90,7 @@ void OverwriteQuery::execute()
         mode);
     dialog->exec();
 
-    m_data["newFilename"] = dialog->newDestUrl().path();
+    m_data["newFilename"] = dialog->newDestUrl().pathOrUrl();
 
     setResponse(dialog->result());
 }

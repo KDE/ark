@@ -44,7 +44,7 @@ void ExtractHereDndPlugin::slotTriggered()
     BatchExtract *batchJob = new BatchExtract();
 
     batchJob->setAutoSubfolder(true);
-    batchJob->setDestinationFolder(m_dest.path());
+    batchJob->setDestinationFolder(m_dest.pathOrUrl());
     batchJob->setPreservePaths(true);
     foreach(const KUrl& url, m_urls) {
         batchJob->addInput(url);

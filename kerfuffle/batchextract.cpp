@@ -188,9 +188,9 @@ bool BatchExtract::addInput(const KUrl& url)
 {
     kDebug(1601);
 
-    Kerfuffle::Archive *archive = Kerfuffle::factory(url.path());
+    Kerfuffle::Archive *archive = Kerfuffle::factory(url.pathOrUrl());
 
-    if ((archive == NULL) || (!QFileInfo(url.path()).exists())) {
+    if ((archive == NULL) || (!QFileInfo(url.pathOrUrl()).exists())) {
         return false;
     }
 
@@ -253,7 +253,7 @@ bool BatchExtract::showExtractDialog()
     if (!ret) return false;
 
     setAutoSubfolder(dialog->autoSubfolders());
-    setDestinationFolder(dialog->destinationDirectory().path());
+    setDestinationFolder(dialog->destinationDirectory().pathOrUrl());
     setOpenDestinationAfterExtraction(dialog->openDestinationAfterExtraction());
     setPreservePaths(dialog->preservePaths());
 
