@@ -257,6 +257,7 @@ bool BatchExtract::showExtractDialog()
     }
 
     if (!dialog->exec()) {
+        delete dialog;
         return false;
     }
 
@@ -264,6 +265,8 @@ bool BatchExtract::showExtractDialog()
     setDestinationFolder(dialog->destinationDirectory().pathOrUrl());
     setOpenDestinationAfterExtraction(dialog->openDestinationAfterExtraction());
     setPreservePaths(dialog->preservePaths());
+
+    delete dialog;
 
     return true;
 }

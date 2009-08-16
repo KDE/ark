@@ -93,6 +93,8 @@ void OverwriteQuery::execute()
     m_data["newFilename"] = dialog->newDestUrl().pathOrUrl();
 
     setResponse(dialog->result());
+
+    delete dialog;
 }
 
 bool OverwriteQuery::responseCancelled()
@@ -169,6 +171,8 @@ void PasswordNeededQuery::execute()
         m_data["password"] = dlg->password();
         setResponse(true);
     }
+
+    delete dlg;
 }
 
 QString PasswordNeededQuery::password()
