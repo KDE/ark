@@ -544,6 +544,8 @@ void Part::slotExtractFiles()
 
         job->start();
     }
+
+    delete dialog;
 }
 
 QList<QVariant> Part::selectedFilesWithChildren()

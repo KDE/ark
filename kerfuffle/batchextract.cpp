@@ -249,13 +249,17 @@ bool BatchExtract::showExtractDialog()
         dialog->setSubfolder(m_inputs.at(0)->subfolderName());
     }
 
-    bool ret = dialog->exec();
-    if (!ret) return false;
+    if (!dialog->exec()) {
+        delete dialog;
+        return false;
+    }
 
     setAutoSubfolder(dialog->autoSubfolders());
     setDestinationFolder(dialog->destinationDirectory().pathOrUrl());
     setOpenDestinationAfterExtraction(dialog->openDestinationAfterExtraction());
     setPreservePaths(dialog->preservePaths());
+
+    delete dialog;
 
     return true;
 }

@@ -185,6 +185,8 @@ void MainWindow::editToolbars()
     createGUI(m_part);
 
     applyMainWindowSettings(KGlobal::config()->group(QLatin1String("MainWindow")));
+
+    delete dlg;
 }
 
 void MainWindow::openArchive()
