@@ -85,6 +85,8 @@ bool AddToArchive::showAddDialog(void)
         setMimeType(dialog->currentMimeFilter());
     }
 
+    delete dialog;
+
     return ret;
 }
 
