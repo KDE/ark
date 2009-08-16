@@ -28,6 +28,7 @@
 #include <KFilePlacesModel>
 #include <KGlobal>
 
+#include <QFileInfo>
 #include <QStandardItemModel>
 
 namespace Kerfuffle
@@ -61,6 +62,11 @@ AddDialog::AddDialog(const QStringList& itemsToAdd,
     mainWidget()->layout()->addWidget(m_ui);
 
     setupIconList(itemsToAdd);
+
+    // Set up a default name if there's only one file to compress
+    if (itemsToAdd.size() == 1) {
+        setSelection(QFileInfo(itemsToAdd.first()).baseName());
+    }
 
     //These extra options will be implemented in a 4.2+ version of
     //ark
