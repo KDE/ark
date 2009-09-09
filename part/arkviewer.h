@@ -40,7 +40,6 @@ protected:
     virtual void keyPressEvent(QKeyEvent *event);
 
 protected slots:
-    void slotFinished();
     void slotOpenUrlRequestDelayed(const KUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments);
 
 private:
