@@ -74,20 +74,11 @@ ArkViewer::ArkViewer(QWidget * parent)
     m_widget = new KVBox(this);
     m_widget->layout()->setSpacing(10);
 
-    connect(this, SIGNAL(finished()), this, SLOT(slotFinished()));
-
     setMainWidget(m_widget);
 }
 
 ArkViewer::~ArkViewer()
 {
-}
-
-void ArkViewer::slotFinished()
-{
-    delete m_part;
-    m_part = 0;
-    delayedDestruct();
 }
 
 void ArkViewer::view(const QString& filename, QWidget *parent)
