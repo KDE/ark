@@ -37,6 +37,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QPointer>
+#include <QTimer>
 
 namespace Kerfuffle
 {
@@ -105,6 +106,11 @@ void BatchExtract::setAutoSubfolder(bool value)
 }
 
 void BatchExtract::start()
+{
+    QTimer::singleShot(0, this, SLOT(slotStartJob()));
+}
+
+void BatchExtract::slotStartJob()
 {
     // If none of the archives could be loaded, there is no subjob to run
     if (m_inputs.isEmpty()) {

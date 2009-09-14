@@ -72,10 +72,7 @@ public:
     void addExtraction(Archive* archive);
 
     /**
-     * Starts the extraction of all files.
-     *
-     * Each extraction job is started after the last one finishes.
-     * The jobs are executed in the order they were added via addInput.
+     * A wrapper that calls slotStartJob() when the event loop has started.
      */
     void start();
 
@@ -207,6 +204,14 @@ private slots:
      * Shows a query dialog, which may happen when a file already exists.
      */
     void slotUserQuery(Query *query);
+
+    /**
+     * Does the real work for start() and extracts all scheduled files.
+     *
+     * Each extraction job is started after the last one finishes.
+     * The jobs are executed in the order they were added via addInput().
+     */
+    void slotStartJob();
 
 private:
     int m_initialJobCount;

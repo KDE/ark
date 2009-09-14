@@ -62,6 +62,7 @@ public slots:
 
 private slots:
     void slotFinished(KJob*);
+    void slotStartJob();
 
 private:
     QString m_filename;

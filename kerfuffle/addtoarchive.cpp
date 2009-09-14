@@ -35,6 +35,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QPointer>
+#include <QTimer>
 
 namespace Kerfuffle
 {
@@ -106,9 +107,14 @@ bool AddToArchive::addInput(const KUrl& url)
     return true;
 }
 
+void AddToArchive::start()
+{
+    QTimer::singleShot(0, this, SLOT(slotStartJob()));
+}
+
 // TODO: If this class should ever be called outside main.cpp,
 //       the returns should be preceded by emitResult().
-void AddToArchive::start(void)
+void AddToArchive::slotStartJob(void)
 {
     kDebug();
 
