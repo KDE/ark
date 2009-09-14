@@ -26,23 +26,25 @@
 #include "threading.h"
 #include <KDebug>
 
+#include <QTimer>
+
 namespace Kerfuffle
 {
 ThreadExecution::ThreadExecution(Kerfuffle::Job *job)
         : m_job(job)
 {
-    connect(m_job, SIGNAL(result(KJob*)), this, SLOT(quit()));
 }
 
 void ThreadExecution::run()
 {
-    kDebug() << "Run";
+    connect(m_job, SIGNAL(result(KJob*)), this, SLOT(quit()), Qt::DirectConnection);
 
-    m_job->doWork();
+    QTimer doWorkTimer;
+    doWorkTimer.setSingleShot(true);
+    connect(&doWorkTimer, SIGNAL(timeout()), m_job, SLOT(doWork()), Qt::DirectConnection);
+    doWorkTimer.start(0);
 
     exec();
-
-    kDebug() << "Finished exec";
 }
 }
 
