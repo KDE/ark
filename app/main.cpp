@@ -32,7 +32,6 @@
 
 #include <QByteArray>
 #include <QFileInfo>
-#include <QTimer>
 
 using Kerfuffle::AddToArchive;
 using Kerfuffle::BatchExtract;
