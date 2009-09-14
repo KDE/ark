@@ -107,7 +107,7 @@ Archive *factory(const QString & filename, const QString & fixedMimeType)
         return NULL;
     }
 
-    return new ArchiveBase(iface);;
+    return new ArchiveBase(iface);
 }
 
 QStringList supportedMimeTypes()
