@@ -558,9 +558,9 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
         responseToProcess = choices.at(1);
     else if (query.responseOverwriteAll())
         responseToProcess = choices.at(2);
-    else if (query.responseCancelled())
-        responseToProcess = choices.at(3);
     else if (query.responseAutoSkip())
+        responseToProcess = choices.at(3);
+    else if (query.responseCancelled())
         responseToProcess = choices.at(4);
 
     Q_ASSERT(!responseToProcess.isEmpty());
