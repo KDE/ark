@@ -514,7 +514,7 @@ bool CliInterface::findProgramAndCreateProcess(const QString& program)
 
     ret = createProcess();
     if (!ret) {
-        error(i18n("Found program '%1', but failed to initalise the process.", program));
+        error(i18n("Found program '%1', but failed to initialize the process.", program));
         return false;
     }
 
