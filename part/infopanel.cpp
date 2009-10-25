@@ -108,7 +108,7 @@ void InfoPanel::setIndexes(const QModelIndexList &list)
     } else if (list.size() == 1) {
         setIndex(list[ 0 ]);
     } else {
-        // TODO: set the icon
+        iconLabel->setPixmap(KIconLoader::global()->loadIcon("utilities-file-archiver", KIconLoader::Desktop, KIconLoader::Desktop, KIconLoader::SizeHuge));
         fileName->setText(QString("<center><font size=+1><b>%1</b></font></center>").arg(i18np("One file selected", "%1 files selected", list.size())));
         quint64 totalSize = 0;
         foreach(const QModelIndex& index, list) {
