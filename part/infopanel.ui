@@ -1,11 +1,12 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>InformationPanel</class>
  <widget class="QWidget" name="InformationPanel" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>240</width>
+    <width>118</width>
     <height>300</height>
    </rect>
   </property>
@@ -30,15 +31,24 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="fileName" >
-     <property name="text" >
-      <string>&lt;font size=&quot;+2&quot;>&lt;b>Filename&lt;/b>&lt;/font></string>
+    <widget class="KSqueezedTextLabel" name="fileName">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
      </property>
-     <property name="alignment" >
+     <property name="text">
+      <string>KSqueezedTextLabel</string>
+     </property>
+     <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
-     <property name="wordWrap" >
+     <property name="wordWrap">
       <bool>true</bool>
+     </property>
+     <property name="textElideMode">
+      <enum>Qt::ElideRight</enum>
      </property>
     </widget>
    </item>
@@ -104,6 +114,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KSqueezedTextLabel</class>
+   <extends>QLabel</extends>
+   <header>ksqueezedtextlabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
