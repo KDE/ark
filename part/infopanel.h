@@ -37,9 +37,29 @@ public:
     void setIndex(const QModelIndex &);
     void setIndexes(const QModelIndexList &list);
 
-private:
-    void setDefaultValues();
+    /**
+     * Returns the file name that is displayed on the info panel.
+     *
+     * @return The current file name. If no pretty name has been
+     *         set, it returns the name of the loaded archive.
+     */
+    QString prettyFileName();
 
+    /**
+     * Sets a different file name for the current open archive.
+     *
+     * This is particularly useful when a temporary archive (from
+     * a remote location) is loaded, and the window title shows the
+     * remote file name and the info panel, by default, would show
+     * the name of the temporary downloaded file.
+     *
+     * @param fileName The new file name.
+     */
+    void setPrettyFileName(const QString& fileName);
+
+    void updateWithDefaults();
+
+private:
     void showMetaData();
     void hideMetaData();
 
@@ -49,6 +69,7 @@ private:
     QString metadataTextFor(const QModelIndex &);
 
     ArchiveModel *m_model;
+    QString m_prettyFileName;
 };
 
 #endif // INFOPANEL_H
