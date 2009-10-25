@@ -59,7 +59,8 @@ public:
     static bool compareAscending(const ArchiveNode* a, const ArchiveNode* b) {
         if (currentSortColumn == FileName)
             return (a->m_name < b->m_name);
-        else if (currentSortColumn == Size)
+        else if ((currentSortColumn == Size) ||
+                 (currentSortColumn == CompressedSize))
             return (a->entry()[currentSortColumn].toInt() < b->entry()[currentSortColumn].toInt());
         else
             return (a->entry()[currentSortColumn].toString() < b->entry()[currentSortColumn].toString());
@@ -68,7 +69,8 @@ public:
     static bool compareDescending(const ArchiveNode* a, const ArchiveNode* b) {
         if (currentSortColumn == FileName)
             return (a->m_name > b->m_name);
-        else if (currentSortColumn == Size)
+        else if ((currentSortColumn == Size) ||
+                 (currentSortColumn == CompressedSize))
             return (a->entry()[currentSortColumn].toInt() > b->entry()[currentSortColumn].toInt());
         else
             return (a->entry()[currentSortColumn].toString() > b->entry()[currentSortColumn].toString());
