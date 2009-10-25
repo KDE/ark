@@ -42,9 +42,6 @@ InfoPanel::InfoPanel(ArchiveModel *model, QWidget *parent)
 {
     setupUi(this);
     setDefaultValues();
-    iconLabel->setFixedHeight(KIconLoader::SizeEnormous);
-    iconLabel->setMinimumWidth(KIconLoader::SizeEnormous);
-    setMaximumWidth(2 * KIconLoader::SizeEnormous);
 }
 
 InfoPanel::~InfoPanel()
