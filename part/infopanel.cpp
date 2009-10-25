@@ -42,6 +42,14 @@ InfoPanel::InfoPanel(ArchiveModel *model, QWidget *parent)
 {
     setupUi(this);
 
+    // Make the file name font bigger than the rest
+    QFont fnt = fileName->font();
+    if (fnt.pointSize() > -1)
+        fnt.setPointSize(fnt.pointSize() + 1);
+    else
+        fnt.setPixelSize(fnt.pixelSize() + 3);
+    fileName->setFont(fnt);
+
     updateWithDefaults();
 }
 
@@ -56,9 +64,9 @@ void InfoPanel::updateWithDefaults()
     QString currentFileName = prettyFileName();
 
     if (currentFileName.isEmpty()) {
-        fileName->setText(QString("<center><font size=+1><b>%1</b></font></center>").arg(i18n("No archive loaded")));
+        fileName->setText(i18n("No archive loaded"));
     } else {
-        fileName->setText(QString("<center><font size=+1><b>%1</b></font></center>").arg(currentFileName));
+        fileName->setText(currentFileName);
     }
 
     additionalInfo->setText(QString());
@@ -114,7 +122,7 @@ void InfoPanel::setIndex(const QModelIndex& index)
 
         QStringList nameParts = entry[ FileName ].toString().split('/', QString::SkipEmptyParts);
         QString name = (nameParts.count() > 0) ? nameParts.last() : entry[ FileName ].toString();
-        fileName->setText(QString("<center><font size=+1><b>%1</b></font></center>").arg(name));
+        fileName->setText(name);
 
         metadataLabel->setText(metadataTextFor(index));
         showMetaData();
@@ -128,8 +136,8 @@ void InfoPanel::setIndexes(const QModelIndexList &list)
     } else if (list.size() == 1) {
         setIndex(list[ 0 ]);
     } else {
-        iconLabel->setPixmap(KIconLoader::global()->loadIcon("utilities-file-archiver", KIconLoader::Desktop, KIconLoader::Desktop, KIconLoader::SizeHuge));
-        fileName->setText(QString("<center><font size=+1><b>%1</b></font></center>").arg(i18np("One file selected", "%1 files selected", list.size())));
+        iconLabel->setPixmap(KIconLoader::global()->loadIcon("utilities-file-archiver", KIconLoader::Desktop, KIconLoader::SizeHuge));
+        fileName->setText(i18np("One file selected", "%1 files selected", list.size()));
         quint64 totalSize = 0;
         foreach(const QModelIndex& index, list) {
             const ArchiveEntry& entry = m_model->entryForIndex(index);
