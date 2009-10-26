@@ -60,8 +60,11 @@
 #include <QHeaderView>
 #include <QPointer>
 
-typedef KParts::GenericFactory<Part> Factory;
+typedef KParts::GenericFactory<Ark::Part> Factory;
 K_EXPORT_COMPONENT_FACTORY(libarkpart, Factory)
+
+namespace Ark
+{
 
 Part::Part(QWidget *parentWidget, QObject *parent, const QStringList& args)
         : KParts::ReadWritePart(parent), m_model(new ArchiveModel(this)), m_previewDir(0), m_busy(false),
@@ -702,3 +705,5 @@ void Part::slotDeleteFiles()
     registerJob(job);
     job->start();
 }
+
+} // namespace Ark
