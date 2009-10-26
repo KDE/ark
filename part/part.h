@@ -41,6 +41,9 @@ class KTempDir;
 class KJob;
 class KAbstractWidgetJobTracker;
 
+namespace Ark
+{
+
 class Part: public KParts::ReadWritePart, public Interface
 {
     Q_OBJECT
@@ -115,5 +118,7 @@ private:
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;
 };
+
+} // namespace Ark
 
 #endif // PART_H

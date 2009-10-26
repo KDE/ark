@@ -64,8 +64,11 @@
 
 using namespace Kerfuffle;
 
-typedef KParts::GenericFactory<Part> Factory;
+typedef KParts::GenericFactory<Ark::Part> Factory;
 K_EXPORT_COMPONENT_FACTORY(arkpart, Factory)
+
+namespace Ark
+{
 
 Part::Part(QWidget *parentWidget, QObject *parent, const QStringList& args)
         : KParts::ReadWritePart(parent),
@@ -785,3 +788,5 @@ void Part::slotSaveAs()
         }
     }
 }
+
+} // namespace Ark
