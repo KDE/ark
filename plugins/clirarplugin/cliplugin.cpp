@@ -91,6 +91,7 @@ bool CliPlugin::readListLine(const QString &line)
 
     // catch final line
     if (line.startsWith(m_headerString)) {
+        m_isFirstLine = true;
         m_isInContentListing = false;
         return true;
     }
