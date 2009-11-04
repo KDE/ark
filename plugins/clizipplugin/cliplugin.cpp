@@ -88,7 +88,7 @@ public:
 
     ReadStatus m_status;
 
-    bool readListLine(QString line) {
+    bool readListLine(const QString &line) {
         static QRegExp entryPattern(
             "^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(.+)$");
 

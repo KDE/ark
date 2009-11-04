@@ -36,7 +36,7 @@ public:
 
 protected:
     virtual Kerfuffle::ParameterList parameterList() const;
-    virtual bool readListLine(QString line);
+    virtual bool readListLine(const QString &line);
 
 private:
     Kerfuffle::ArchiveEntry m_currentArchiveEntry;

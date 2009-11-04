@@ -73,7 +73,7 @@ ParameterList CliPlugin::parameterList() const
     return p;
 }
 
-bool CliPlugin::readListLine(QString line)
+bool CliPlugin::readListLine(const QString &line)
 {
     switch (m_state) {
     case 0: // header
