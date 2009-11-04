@@ -228,7 +228,7 @@ public:
     virtual bool deleteFiles(const QList<QVariant> & files);
 
     virtual ParameterList parameterList() const = 0;
-    virtual bool readListLine(QString line) = 0;
+    virtual bool readListLine(const QString &line) = 0;
 
 private:
     bool findProgramAndCreateProcess(const QString& program);

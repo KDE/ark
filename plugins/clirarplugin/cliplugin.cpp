@@ -78,7 +78,7 @@ ParameterList CliPlugin::parameterList() const
     return p;
 }
 
-bool CliPlugin::readListLine(QString line)
+bool CliPlugin::readListLine(const QString &line)
 {
     const QString m_headerString = "-----------------------------------------";
 

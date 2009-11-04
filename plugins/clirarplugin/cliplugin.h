@@ -36,7 +36,7 @@ public:
 
     virtual Kerfuffle::ParameterList parameterList() const;
 
-    virtual bool readListLine(QString line);
+    virtual bool readListLine(const QString &line);
 
 protected:
     QString m_entryFilename;
