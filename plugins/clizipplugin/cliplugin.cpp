@@ -24,6 +24,7 @@
 
 #include <QDir>
 #include <QLatin1String>
+#include <QRegExp>
 #include <QString>
 #include <QStringList>
 
