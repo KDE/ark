@@ -30,6 +30,7 @@
 #include <KIconLoader>
 #include <KVBox>
 #include <KMessageBox>
+#include <KProgressDialog>
 #include <KPushButton>
 #include <KRun>
 #include <KIO/NetAccess>
@@ -79,6 +80,22 @@ ArkViewer::ArkViewer(QWidget * parent)
 
 ArkViewer::~ArkViewer()
 {
+}
+
+void ArkViewer::closeEvent(QCloseEvent *event)
+{
+    KProgressDialog progressDialog(this,
+                                   i18n("Closing preview"),
+                                   i18n("Please wait while the preview is being closed..."));
+
+    progressDialog.setMinimumDuration(500);
+    progressDialog.setModal(true);
+    progressDialog.setAllowCancel(false);
+    progressDialog.progressBar()->setRange(0, 0);
+
+    m_part->closeUrl();
+
+    KDialog::closeEvent(event);
 }
 
 void ArkViewer::view(const QString& filename, QWidget *parent)

@@ -37,6 +37,7 @@ public:
     static void view(const QString& filename, QWidget* parent = 0);
 
 protected:
+    virtual void closeEvent(QCloseEvent *event);
     virtual void keyPressEvent(QKeyEvent *event);
 
 protected slots:
