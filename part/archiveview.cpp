@@ -40,7 +40,7 @@ ArchiveView::ArchiveView(QWidget *parent)
             SLOT(slotDoubleClicked(const QModelIndex&)));
 }
 
-// FIXME: this is a workaround taken from Dolphin until Qt-issue 176832 is resolved
+// FIXME: this is a workaround taken from Dolphin until Qt-issue 177399 is resolved
 void ArchiveView::updateMouseButtons()
 {
     m_mouseButtons = QApplication::mouseButtons();
