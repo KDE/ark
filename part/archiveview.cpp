@@ -32,7 +32,7 @@ ArchiveView::ArchiveView(QWidget *parent)
         : QTreeView(parent)
         , m_mouseButtons(Qt::NoButton)
 {
-    connect(this, SIGNAL(pressed(QModelIndex)),
+    connect(this, SIGNAL(pressed(const QModelIndex&)),
             SLOT(updateMouseButtons()));
     connect(this, SIGNAL(clicked(const QModelIndex&)),
             SLOT(slotClicked(const QModelIndex&)));
