@@ -49,7 +49,7 @@ void ArchiveView::updateMouseButtons()
 void ArchiveView::slotClicked(const QModelIndex& index)
 {
     if (KGlobalSettings::singleClick()) {
-        if (m_mouseButtons != Qt::LeftButton) // FIXME: see Qt-issue 176832
+        if (m_mouseButtons != Qt::LeftButton) // FIXME: see Qt-issue 177399
             return;
 
         // If the user is pressing shift or control, more than one item is being selected
