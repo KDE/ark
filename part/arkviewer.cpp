@@ -84,16 +84,18 @@ ArkViewer::~ArkViewer()
 
 void ArkViewer::closeEvent(QCloseEvent *event)
 {
-    KProgressDialog progressDialog(this,
-                                   i18n("Closing preview"),
-                                   i18n("Please wait while the preview is being closed..."));
+    if (m_part) {
+        KProgressDialog progressDialog(this,
+                                       i18n("Closing preview"),
+                                       i18n("Please wait while the preview is being closed..."));
 
-    progressDialog.setMinimumDuration(500);
-    progressDialog.setModal(true);
-    progressDialog.setAllowCancel(false);
-    progressDialog.progressBar()->setRange(0, 0);
+        progressDialog.setMinimumDuration(500);
+        progressDialog.setModal(true);
+        progressDialog.setAllowCancel(false);
+        progressDialog.progressBar()->setRange(0, 0);
 
-    m_part->closeUrl();
+        m_part->closeUrl();
+    }
 
     KDialog::closeEvent(event);
 }
