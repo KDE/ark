@@ -27,6 +27,8 @@
 #include <KParts/ReadOnlyPart>
 #include <KService>
 
+#include <QPointer>
+
 class ArkViewer : public KDialog
 {
     Q_OBJECT
@@ -49,7 +51,7 @@ private:
     static KService::Ptr getViewer(const QString& filename);
     bool viewInInternalViewer(const QString& filename);
 
-    KParts::ReadOnlyPart *m_part;
+    QPointer<KParts::ReadOnlyPart> m_part;
     QWidget *m_widget;
 };
 
