@@ -51,7 +51,7 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
     m_ui = new ExtractionDialogUI(this);
 
     mainWidget()->layout()->addWidget(m_ui);
-    setCaption(i18n("Extract"));
+    setCaption(i18nc("@title:window", "Extract"));
     m_ui->iconLabel->setPixmap(DesktopIcon("archive-extract"));
 
     m_ui->filesToExtractGroupBox->hide();

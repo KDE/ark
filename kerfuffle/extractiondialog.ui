@@ -158,7 +158,7 @@
       </sizepolicy>
      </property>
      <property name="title" >
-      <string>Extract</string>
+      <string comment="@title:group">Extract</string>
      </property>
      <property name="flat" >
       <bool>false</bool>
