@@ -45,25 +45,25 @@ KJob* JobTracker::currentJob() const
 
 void JobTracker::description(KJob *job, const QString &title, const QPair< QString, QString > &f1, const QPair< QString, QString > &f2)
 {
-    Q_UNUSED(job);
-    Q_UNUSED(f1);
-    Q_UNUSED(f2);
+    Q_UNUSED(job)
+    Q_UNUSED(f1)
+    Q_UNUSED(f2)
     m_ui->descriptionLabel->setText(QString("<b>%1</b>").arg(title));
     m_ui->descriptionLabel->show();
 }
 
 void JobTracker::infoMessage(KJob *job, const QString &plain, const QString &rich)
 {
-    Q_UNUSED(job);
-    Q_UNUSED(rich);
+    Q_UNUSED(job)
+    Q_UNUSED(rich)
     m_ui->informationLabel->setText(plain);
     m_ui->informationLabel->show();
 }
 
 void JobTracker::warning(KJob *job, const QString &plain, const QString &rich)
 {
-    Q_UNUSED(job);
-    Q_UNUSED(rich);
+    Q_UNUSED(job)
+    Q_UNUSED(rich)
     m_ui->informationLabel->setText(plain);
 }
 
@@ -78,7 +78,7 @@ void JobTracker::registerJob(KJob *job)
 
 void JobTracker::percent(KJob *job, unsigned long  percent)
 {
-    Q_UNUSED(job);
+    Q_UNUSED(job)
     m_ui->progressBar->setMaximum(100);
     m_ui->progressBar->setMinimum(0);
     m_ui->progressBar->setValue(percent);

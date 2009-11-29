@@ -113,13 +113,13 @@ bool BKInterface::browse(BkFileBase* base, const QString& prefix)
 
 bool BKInterface::addFiles(const QStringList & files, const CompressionOptions& options)
 {
-    Q_UNUSED(files);
+    Q_UNUSED(files)
     return false;
 }
 
 bool BKInterface::deleteFiles(const QList<QVariant> & files)
 {
-    Q_UNUSED(files);
+    Q_UNUSED(files)
     return false;
 }
 

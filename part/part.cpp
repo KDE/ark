@@ -78,7 +78,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QStringList& args)
           m_busy(false),
           m_jobTracker(0)
 {
-    Q_UNUSED(args);
+    Q_UNUSED(args)
     setComponentData(Factory::componentData());
 
     m_splitter = new QSplitter(Qt::Horizontal, parentWidget);

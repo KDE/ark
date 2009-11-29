@@ -46,8 +46,8 @@ LibSingleFileInterface::~LibSingleFileInterface()
 
 bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, Kerfuffle::ExtractionOptions options)
 {
-    Q_UNUSED(files);
-    Q_UNUSED(options);
+    Q_UNUSED(files)
+    Q_UNUSED(options)
 
     QString outputFileName = destinationDirectory;
     if (!destinationDirectory.endsWith('/'))

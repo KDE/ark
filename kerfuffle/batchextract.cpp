@@ -188,7 +188,7 @@ void BatchExtract::slotResult(KJob *job)
 
 void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
 {
-    Q_UNUSED(job);
+    Q_UNUSED(job)
     int jobPart = 100 / m_initialJobCount;
     setPercent(jobPart *(m_initialJobCount - subjobs().size()) + percent / m_initialJobCount);
 }
