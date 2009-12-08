@@ -12,6 +12,7 @@ X-KDE-Priority=120
 X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=true
 Name=7zip archive plugin
+Name[ar]=ملحق أرشيف 7zip
 Name[ca]=Connector per arxius 7zip
 Name[cs]=Modul pro 7zip archív
 Name[da]=7zip arkiv-plugin

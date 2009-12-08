@@ -3,6 +3,7 @@ Type=Service
 X-KDE-ServiceTypes=KonqDndPopupMenu/Plugin
 X-KDE-Library=libextracthere
 Name=Ark Extract Here
+Name[ar]=أرك استخرج هنا
 Name[ca]=Extracció de l'Ark aquí
 Name[cs]=Rozbalit Arkem sem
 Name[da]=Pak ud med Ark her
