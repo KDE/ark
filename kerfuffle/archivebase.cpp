@@ -40,6 +40,7 @@ namespace Kerfuffle
 ArchiveBase::ArchiveBase(ReadOnlyArchiveInterface *archive)
         : QObject(), Archive(), m_iface(archive),
         m_hasBeenListed(false),
+        m_isPasswordProtected(false),
         m_isSingleFolderArchive(false)
 {
     Q_ASSERT(archive);

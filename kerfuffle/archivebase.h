@@ -70,8 +70,8 @@ private:
     void listIfNotListed();
     ReadOnlyArchiveInterface *m_iface;
     bool m_hasBeenListed;
-    bool m_isSingleFolderArchive;
     bool m_isPasswordProtected;
+    bool m_isSingleFolderArchive;
     QString m_subfolderName;
     qlonglong m_extractedFilesSize;
 
