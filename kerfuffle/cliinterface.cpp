@@ -65,8 +65,7 @@ bool CliInterface::list()
     cacheParameterList();
     m_mode = List;
 
-    bool ret = findProgramAndCreateProcess(m_param.value(ListProgram).toString());
-    if (!ret) {
+    if (!findProgramAndCreateProcess(m_param.value(ListProgram).toString())) {
         failOperation();
         return false;
     }
@@ -86,8 +85,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
 
     m_mode = Copy;
 
-    bool ret = findProgramAndCreateProcess(m_param.value(ExtractProgram).toString());
-    if (!ret) {
+    if (!findProgramAndCreateProcess(m_param.value(ExtractProgram).toString())) {
         failOperation();
         return false;
     }
@@ -225,8 +223,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
 
     m_mode = Add;
 
-    bool ret = findProgramAndCreateProcess(m_param.value(AddProgram).toString());
-    if (!ret) {
+    if (!findProgramAndCreateProcess(m_param.value(AddProgram).toString())) {
         failOperation();
         return false;
     }
@@ -272,8 +269,7 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
     cacheParameterList();
     m_mode = Delete;
 
-    bool ret = findProgramAndCreateProcess(m_param.value(DeleteProgram).toString());
-    if (!ret) {
+    if (!findProgramAndCreateProcess(m_param.value(DeleteProgram).toString())) {
         failOperation();
         return false;
     }
@@ -506,14 +502,13 @@ void CliInterface::handleLine(const QString& line)
 bool CliInterface::findProgramAndCreateProcess(const QString& program)
 {
     m_program = KStandardDirs::findExe(program);
-    bool ret = !m_program.isEmpty();
-    if (!ret) {
+
+    if (m_program.isEmpty()) {
         error(i18n("Failed to locate program '%1' in PATH.", program));
         return false;
     }
 
-    ret = createProcess();
-    if (!ret) {
+    if (!createProcess()) {
         error(i18n("Found program '%1', but failed to initialize the process.", program));
         return false;
     }
