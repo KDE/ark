@@ -490,7 +490,7 @@ QMimeData * ArchiveModel::mimeData(const QModelIndexList & indexes) const
         //to limit only one index per row
         if (index.column() != 0) continue;
 
-        QString file = archiveName + static_cast<ArchiveNode*>(index.internalPointer())->entry()[ FileName ].toString();
+        const QString file = archiveName + static_cast<ArchiveNode*>(index.internalPointer())->entry()[ FileName ].toString();
         files << file;
     }
 
@@ -631,7 +631,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
 {
     kDebug() << "Removed node at path " << path;
 
-    QString entryFileName(cleanFileName(path));
+    const QString entryFileName(cleanFileName(path));
     if (entryFileName.isEmpty()) {
         return;
     }

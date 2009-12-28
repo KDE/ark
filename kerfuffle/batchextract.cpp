@@ -63,7 +63,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
     QString destination = destinationFolder();
 
     if ((autoSubfolder()) && (!archive->isSingleFolderArchive())) {
-        QDir d(destination);
+        const QDir d(destination);
         QString subfolderName = archive->subfolderName();
 
         if (d.exists(subfolderName))

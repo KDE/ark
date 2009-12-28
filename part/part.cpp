@@ -296,9 +296,9 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 {
     kDebug() << "Extract to " << triggeredAction->data().toString();
 
-    QString userDestination = triggeredAction->data().toString();
+    const QString userDestination = triggeredAction->data().toString();
     QString finalDestinationDirectory;
-    QString detectedSubfolder = detectSubfolder();
+    const QString detectedSubfolder = detectSubfolder();
 
     if (!isSingleFolderArchive()) {
         finalDestinationDirectory = userDestination +
@@ -458,7 +458,7 @@ void Part::setBusyGui()
 
 void Part::setFileNameFromArchive()
 {
-    QString prettyName = url().fileName();
+    const QString prettyName = url().fileName();
 
     m_infoPanel->setPrettyFileName(prettyName);
     m_infoPanel->updateWithDefaults();
@@ -690,7 +690,7 @@ void Part::slotAddFiles()
 void Part::slotAddDir()
 {
     kDebug() ;
-    QString dirToAdd = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///ArkAddFiles"), widget(), i18n("Add Folder"));
+    const QString dirToAdd = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///ArkAddFiles"), widget(), i18n("Add Folder"));
 
     if (!dirToAdd.isEmpty()) {
         slotAddFiles(QStringList() << dirToAdd);
@@ -717,7 +717,7 @@ void Part::slotDeleteFiles()
 {
     kDebug() ;
 
-    int reallyDelete =  KMessageBox::questionYesNo(NULL, i18n("Deleting these files is not undoable. Are you sure you want to do this?"), i18n("Delete files") , KGuiItem(i18n("Delete files")), KGuiItem(i18n("Cancel")));
+    const int reallyDelete = KMessageBox::questionYesNo(NULL, i18n("Deleting these files is not undoable. Are you sure you want to do this?"), i18n("Delete files") , KGuiItem(i18n("Delete files")), KGuiItem(i18n("Cancel")));
 
     if (reallyDelete == KMessageBox::No)
         return;

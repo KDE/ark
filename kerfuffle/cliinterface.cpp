@@ -534,7 +534,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
     if (!checkForFileExistsMessage(line))
         return false;
 
-    QString filename = m_existsPattern.cap(1);
+    const QString filename = m_existsPattern.cap(1);
 
     Kerfuffle::OverwriteQuery query(QDir::current().path() + '/' + filename);
     query.setNoRenameMode(true);
@@ -545,7 +545,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
     kDebug() << "Finished response";
 
     QString responseToProcess;
-    QStringList choices = m_param.value(FileExistsInput).toStringList();
+    const QStringList choices = m_param.value(FileExistsInput).toStringList();
 
     if (query.responseOverwrite())
         responseToProcess = choices.at(0);
@@ -623,7 +623,7 @@ bool CliInterface::doResume()
 void CliInterface::substituteListVariables(QStringList& params)
 {
     for (int i = 0; i < params.size(); ++i) {
-        QString parameter = params.at(i);
+        const QString parameter = params.at(i);
 
         if (parameter == "$Archive") {
             params[i] = filename();

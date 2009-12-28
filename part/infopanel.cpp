@@ -61,7 +61,7 @@ void InfoPanel::updateWithDefaults()
 {
     iconLabel->setPixmap(KIconLoader::global()->loadIcon("utilities-file-archiver", KIconLoader::Desktop, KIconLoader::SizeHuge));
 
-    QString currentFileName = prettyFileName();
+    const QString currentFileName = prettyFileName();
 
     if (currentFileName.isEmpty()) {
         fileName->setText(i18n("No archive loaded"));
@@ -120,8 +120,8 @@ void InfoPanel::setIndex(const QModelIndex& index)
             }
         }
 
-        QStringList nameParts = entry[ FileName ].toString().split('/', QString::SkipEmptyParts);
-        QString name = (nameParts.count() > 0) ? nameParts.last() : entry[ FileName ].toString();
+        const QStringList nameParts = entry[ FileName ].toString().split('/', QString::SkipEmptyParts);
+        const QString name = (nameParts.count() > 0) ? nameParts.last() : entry[ FileName ].toString();
         fileName->setText(name);
 
         metadataLabel->setText(metadataTextFor(index));

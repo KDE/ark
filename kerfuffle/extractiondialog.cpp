@@ -98,7 +98,7 @@ void ExtractionDialog::accept()
     }
 
     if (extractToSubfolder()) {
-        QString pathWithSubfolder = url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder();
+        const QString pathWithSubfolder = url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder();
 
         if (KIO::NetAccess::exists(pathWithSubfolder, KIO::NetAccess::SourceSide, 0)) {
             if (QFileInfo(pathWithSubfolder).isDir()) {

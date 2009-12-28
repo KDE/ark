@@ -43,7 +43,7 @@ static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
     return (p1->property("X-KDE-Priority").toInt()) > (p2->property("X-KDE-Priority").toInt());
 }
 
-static QString determineMimeType(const QString & filename)
+static QString determineMimeType(const QString& filename)
 {
     if (!QFile::exists(filename))
         return KMimeType::findByPath(filename)->name();
@@ -53,8 +53,8 @@ static QString determineMimeType(const QString & filename)
         return QString();
 
     const qint64 maxSize = 0x100000; // 1MB
-    qint64 bufferSize = qMin(maxSize, file.size());
-    QByteArray buffer = file.read(bufferSize);
+    const qint64 bufferSize = qMin(maxSize, file.size());
+    const QByteArray buffer = file.read(bufferSize);
 
     return KMimeType::findByNameAndContent(filename, buffer)->name();
 }
@@ -63,7 +63,7 @@ static KService::List findPluginOffers(const QString& filename, const QString& f
 {
     KService::List offers;
 
-    QString mimeType = fixedMimeType.isEmpty() ? determineMimeType(filename) : fixedMimeType;
+    const QString mimeType = fixedMimeType.isEmpty() ? determineMimeType(filename) : fixedMimeType;
 
     if (!mimeType.isEmpty()) {
         offers = KMimeTypeTrader::self()->query(mimeType, "Kerfuffle/Plugin", "(exist Library)");
@@ -76,23 +76,23 @@ static KService::List findPluginOffers(const QString& filename, const QString& f
 namespace Kerfuffle
 {
 
-Archive *factory(const QString & filename, const QString & fixedMimeType)
+Archive *factory(const QString& filename, const QString& fixedMimeType)
 {
     kDebug();
 
     qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 
-    KService::List offers = findPluginOffers(filename, fixedMimeType);
+    const KService::List offers = findPluginOffers(filename, fixedMimeType);
 
     if (offers.isEmpty()) {
         kDebug() << "Could not find a plugin to handle" << filename;
         return NULL;
     }
 
-    QString pluginName = offers.first()->library();
+    const QString pluginName = offers.first()->library();
     kDebug() << "Loading plugin" << pluginName;
 
-    KPluginFactory *factory = KPluginLoader(pluginName).factory();
+    KPluginFactory * const factory = KPluginLoader(pluginName).factory();
     if (!factory) {
         kDebug() << "Invalid plugin factory for" << pluginName;
         return NULL;
@@ -101,7 +101,7 @@ Archive *factory(const QString & filename, const QString & fixedMimeType)
     QVariantList args;
     args.append(QVariant(QFileInfo(filename).absoluteFilePath()));
 
-    ReadOnlyArchiveInterface *iface = factory->create<ReadOnlyArchiveInterface>(0, args);
+    ReadOnlyArchiveInterface * const iface = factory->create<ReadOnlyArchiveInterface>(0, args);
     if (!iface) {
         kDebug() << "Could not create plugin instance" << pluginName << "for" << filename;
         return NULL;
@@ -112,10 +112,10 @@ Archive *factory(const QString & filename, const QString & fixedMimeType)
 
 QStringList supportedMimeTypes()
 {
-    QString constraint("(exist Library)");
-    QLatin1String basePartService("Kerfuffle/Plugin");
+    const QString constraint("(exist Library)");
+    const QLatin1String basePartService("Kerfuffle/Plugin");
 
-    KService::List offers = KServiceTypeTrader::self()->query(basePartService, constraint);
+    const KService::List offers = KServiceTypeTrader::self()->query(basePartService, constraint);
     KService::List::ConstIterator it = offers.constBegin();
     KService::List::ConstIterator itEnd = offers.constEnd();
 
@@ -139,10 +139,10 @@ QStringList supportedMimeTypes()
 
 QStringList supportedWriteMimeTypes()
 {
-    QString constraint("(exist Library) and ([X-KDE-Kerfuffle-ReadWrite] == true)");
-    QLatin1String basePartService("Kerfuffle/Plugin");
+    const QString constraint("(exist Library) and ([X-KDE-Kerfuffle-ReadWrite] == true)");
+    const QLatin1String basePartService("Kerfuffle/Plugin");
 
-    KService::List offers = KServiceTypeTrader::self()->query(basePartService, constraint);
+    const KService::List offers = KServiceTypeTrader::self()->query(basePartService, constraint);
     KService::List::ConstIterator it = offers.constBegin();
     KService::List::ConstIterator itEnd = offers.constEnd();
 

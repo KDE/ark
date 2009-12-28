@@ -77,9 +77,9 @@ void AddDialog::loadConfiguration()
 {
     m_config = KConfigGroup(KGlobal::config()->group("AddDialog"));
 
-    QString defaultMimeType = "application/x-compressed-tar";
-    QStringList writeMimeTypes = Kerfuffle::supportedWriteMimeTypes();
-    QString lastMimeType = m_config.readEntry("LastMimeType", defaultMimeType);
+    const QString defaultMimeType = "application/x-compressed-tar";
+    const QStringList writeMimeTypes = Kerfuffle::supportedWriteMimeTypes();
+    const QString lastMimeType = m_config.readEntry("LastMimeType", defaultMimeType);
 
     if (writeMimeTypes.contains(lastMimeType))
         setMimeFilter(writeMimeTypes, lastMimeType);
