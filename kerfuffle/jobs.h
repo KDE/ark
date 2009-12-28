@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
- * Copyright (c) 2008-2009 Harald Hvaal <haraldhv )@@@( stud(dot)ntnu.no>
+ * Copyright (c) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (c) 2009 Raphael Kubo da Costa <kubito@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
