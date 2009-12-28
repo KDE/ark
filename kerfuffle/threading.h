@@ -23,8 +23,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _THREADING_H_
-#define _THREADING_H_
+#ifndef THREADING_H
+#define THREADING_H
 
 #include "jobs.h"
 #include <QThread>
@@ -46,4 +46,4 @@ private:
 };
 }
 
-#endif /* _THREADING_H_ */
+#endif /* THREADING_H */
