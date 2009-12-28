@@ -23,8 +23,9 @@
  * ( INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef KERFUFFLE_ARCHIVE_H
-#define KERFUFFLE_ARCHIVE_H
+
+#ifndef ARCHIVE_H
+#define ARCHIVE_H
 
 #include "kerfuffle_export.h"
 
@@ -127,4 +128,4 @@ KERFUFFLE_EXPORT QStringList supportedWriteMimeTypes();
 } // namespace Kerfuffle
 
 
-#endif // KERFUFFLE_ARCHIVE_H
+#endif // ARCHIVE_H

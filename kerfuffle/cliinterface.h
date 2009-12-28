@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
-#ifndef _CLIINTERFACE_H_
-#define _CLIINTERFACE_H_
+#ifndef CLIINTERFACE_H
+#define CLIINTERFACE_H
 
 #include "archiveinterface.h"
 #include "kerfuffle_export.h"
@@ -265,4 +265,4 @@ private slots:
 };
 }
 
-#endif /* _CLIINTERFACE_H_ */
+#endif /* CLIINTERFACE_H */

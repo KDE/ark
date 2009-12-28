@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef _ARCHIVEVIEW_H_
-#define _ARCHIVEVIEW_H_
+#ifndef ARCHIVEVIEW_H
+#define ARCHIVEVIEW_H
 
 #include <QTreeView>
 
@@ -51,4 +51,4 @@ private:
     Qt::MouseButtons m_mouseButtons; // FIXME: workaround until Qt-issue 177399 is resolved
 };
 
-#endif /* _ARCHIVEVIEW_H_ */
+#endif /* ARCHIVEVIEW_H */

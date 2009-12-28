@@ -20,8 +20,8 @@
  *
  */
 
-#ifndef _ADDDIALOG_H_
-#define _ADDDIALOG_H_
+#ifndef ADDDIALOG_H
+#define ADDDIALOG_H
 
 #include "kerfuffle_export.h"
 
