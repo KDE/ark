@@ -54,7 +54,7 @@ public:
     /**
      * Returns the filename of the archive currently being handled.
      */
-    const QString& filename() const;
+    const QString filename() const;
 
     /**
      * Returns whether the file can only be read.
@@ -118,7 +118,7 @@ protected:
     void progress(double);
     void info(const QString& info);
     void entryRemoved(const QString& path);
-    const QString& password() const;
+    const QString password() const;
     void userQuery(Query*);
     /**
      * Setting this option to true will not exit the thread with the
