@@ -53,8 +53,8 @@ public:
     virtual AddJob* addFiles(const QStringList & files, const CompressionOptions& options = CompressionOptions());
     virtual ExtractJob* copyFiles(const QList<QVariant> & files, const QString & destinationDir, ExtractionOptions options);
 
-    virtual bool isReadOnly();
-    virtual QString fileName();
+    virtual bool isReadOnly() const;
+    virtual QString fileName() const;
 
     virtual bool isSingleFolderArchive();
     virtual QString subfolderName();

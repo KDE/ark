@@ -84,7 +84,7 @@ public:
      * @return @c true  Create the subdirectory automatically.
      * @return @c false Do not create the subdirectory automatically.
      */
-    bool autoSubfolder();
+    bool autoSubfolder() const;
 
     /**
      * Set whether a folder should be created when necessary so
@@ -128,7 +128,7 @@ public:
      *         set with setDestinationFolder, QDir::currentPath() will be
      *         returned.
      */
-    QString destinationFolder();
+    QString destinationFolder() const;
 
     /**
      * Sets the directory the archives will be extracted to.
@@ -141,7 +141,7 @@ public:
      *
      * @param folder The directory that will be used.
      */
-    void setDestinationFolder(QString folder);
+    void setDestinationFolder(const QString& folder);
 
     /**
      * Returns whether the destination folder should
@@ -150,7 +150,7 @@ public:
      * @return @c true  Open the destination folder.
      * @return @c false Do not open the destination folder.
      */
-    bool openDestinationAfterExtraction();
+    bool openDestinationAfterExtraction() const;
 
     /**
      * Whether to open the destination folder after
@@ -169,7 +169,7 @@ public:
      * @return @c true  Paths should be preserved.
      * @return @c false Paths should be ignored.
      */
-    bool preservePaths();
+    bool preservePaths() const;
 
     /**
      * Sets whether paths should be preserved during extraction.

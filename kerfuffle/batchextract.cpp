@@ -95,7 +95,7 @@ void BatchExtract::slotUserQuery(Query *query)
     query->execute();
 }
 
-bool BatchExtract::autoSubfolder()
+bool BatchExtract::autoSubfolder() const
 {
     return m_autoSubfolder;
 }
@@ -207,17 +207,17 @@ bool BatchExtract::addInput(const KUrl& url)
     return true;
 }
 
-bool BatchExtract::openDestinationAfterExtraction()
+bool BatchExtract::openDestinationAfterExtraction() const
 {
     return m_openDestinationAfterExtraction;
 }
 
-bool BatchExtract::preservePaths()
+bool BatchExtract::preservePaths() const
 {
     return m_preservePaths;
 }
 
-QString BatchExtract::destinationFolder()
+QString BatchExtract::destinationFolder() const
 {
     if (m_destinationFolder.isEmpty()) {
         return QDir::currentPath();
@@ -226,7 +226,7 @@ QString BatchExtract::destinationFolder()
     }
 }
 
-void BatchExtract::setDestinationFolder(QString folder)
+void BatchExtract::setDestinationFolder(const QString& folder)
 {
     if (QFileInfo(folder).isDir()) {
         m_destinationFolder = folder;

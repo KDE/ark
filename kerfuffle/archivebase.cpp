@@ -54,7 +54,7 @@ ArchiveBase::~ArchiveBase()
     m_iface = 0;
 }
 
-bool ArchiveBase::isReadOnly()
+bool ArchiveBase::isReadOnly() const
 {
     return m_iface->isReadOnly();
 }
@@ -112,7 +112,7 @@ ExtractJob* ArchiveBase::copyFiles(const QList<QVariant> & files, const QString 
     return newJob;
 }
 
-QString ArchiveBase::fileName()
+QString ArchiveBase::fileName() const
 {
     return m_iface->filename();
 }
