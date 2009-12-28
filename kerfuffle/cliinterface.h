@@ -30,8 +30,6 @@ class KProcess;
 
 namespace Kerfuffle
 {
-enum CliInterfaceExtractOptions {
-};
 
 enum CliInterfaceParameters {
 
@@ -232,7 +230,6 @@ public:
 
 private:
     bool findProgramAndCreateProcess(const QString& program);
-    void substituteCopyVariables(QStringList& params, const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options);
     void substituteListVariables(QStringList& params);
 
     bool createProcess();
