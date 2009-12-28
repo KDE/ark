@@ -217,7 +217,7 @@ public:
     enum OperationMode  {
         List, Copy, Add, Delete
     };
-    OperationMode m_mode;
+    OperationMode m_operationMode;
 
     explicit CliInterface(QObject *parent, const QVariantList & args);
     virtual ~CliInterface();

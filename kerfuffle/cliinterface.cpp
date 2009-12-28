@@ -63,7 +63,7 @@ CliInterface::~CliInterface()
 bool CliInterface::list()
 {
     cacheParameterList();
-    m_mode = List;
+    m_operationMode = List;
 
     if (!findProgramAndCreateProcess(m_param.value(ListProgram).toString())) {
         failOperation();
@@ -83,7 +83,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
     kDebug() ;
     cacheParameterList();
 
-    m_mode = Copy;
+    m_operationMode = Copy;
 
     if (!findProgramAndCreateProcess(m_param.value(ExtractProgram).toString())) {
         failOperation();
@@ -221,7 +221,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
 {
     cacheParameterList();
 
-    m_mode = Add;
+    m_operationMode = Add;
 
     if (!findProgramAndCreateProcess(m_param.value(AddProgram).toString())) {
         failOperation();
@@ -267,7 +267,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
 bool CliInterface::deleteFiles(const QList<QVariant> & files)
 {
     cacheParameterList();
-    m_mode = Delete;
+    m_operationMode = Delete;
 
     if (!findProgramAndCreateProcess(m_param.value(DeleteProgram).toString())) {
         failOperation();
@@ -359,7 +359,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     if (!m_process)
         return;
 
-    if (m_mode == Delete) {
+    if (m_operationMode == Delete) {
         foreach(const QVariant& v, m_removedFiles) {
             entryRemoved(v.toString());
         }
@@ -370,7 +370,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
 
     progress(1.0);
 
-    if (m_mode == Add) {
+    if (m_operationMode == Add) {
         list();
         return;
     }
@@ -463,7 +463,7 @@ void CliInterface::readStdout(bool handleAll)
 
 void CliInterface::handleLine(const QString& line)
 {
-    if ((m_mode == Copy || m_mode == Add) && m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool()) {
+    if ((m_operationMode == Copy || m_operationMode == Add) && m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool()) {
         //read the percentage
         int pos = line.indexOf('%');
         if (pos != -1 && pos > 1) {
@@ -473,7 +473,7 @@ void CliInterface::handleLine(const QString& line)
         }
     }
 
-    if (m_mode == Copy) {
+    if (m_operationMode == Copy) {
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             kDebug() << "Wrong password!";
             error(i18n("Incorrect password."));
@@ -493,7 +493,7 @@ void CliInterface::handleLine(const QString& line)
             return;
     }
 
-    if (m_mode == List) {
+    if (m_operationMode == List) {
         readListLine(line);
         return;
     }
