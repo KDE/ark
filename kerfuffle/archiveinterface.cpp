@@ -45,7 +45,7 @@ ReadOnlyArchiveInterface::~ReadOnlyArchiveInterface()
 {
 }
 
-const QString ReadOnlyArchiveInterface::filename() const
+QString ReadOnlyArchiveInterface::filename() const
 {
     return m_filename;
 }
@@ -65,7 +65,7 @@ void ReadOnlyArchiveInterface::setPassword(QString password)
     m_password = password;
 }
 
-const QString ReadOnlyArchiveInterface::password() const
+QString ReadOnlyArchiveInterface::password() const
 {
     return m_password;
 }
