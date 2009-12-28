@@ -90,8 +90,8 @@ public:
 
     virtual ~Archive() {}
 
-    virtual QString fileName() = 0;
-    virtual bool isReadOnly() = 0;
+    virtual QString fileName() const = 0;
+    virtual bool isReadOnly()  const = 0;
 
     virtual KJob*       open() = 0;
     virtual KJob*       create() = 0;
