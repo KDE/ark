@@ -497,8 +497,8 @@ void Part::slotPreviewExtracted(KJob *job)
     if (!job->error()) {
         //ArkViewer viewer( widget() );
         const ArchiveEntry& entry =  m_model->entryForIndex(m_view->selectionModel()->currentIndex());
-        QString name = entry[ FileName ].toString().split('/', QString::SkipEmptyParts).last();
-        QString fullName = m_previewDir->name() + '/' + name;
+        const QString name = entry[ FileName ].toString().split('/', QString::SkipEmptyParts).last();
+        const QString fullName = m_previewDir->name() + '/' + name;
         ArkViewer::view(fullName, widget());
     } else {
         KMessageBox::error(widget(), job->errorString());
