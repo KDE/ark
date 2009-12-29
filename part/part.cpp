@@ -647,36 +647,36 @@ void Part::adjustColumns()
 
 void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 {
+    if (filesToAdd.isEmpty())
+      return;
+
     kDebug() << "Adding " << filesToAdd << " to " << path;
     kDebug() << "Warning, for now the path argument is not implemented";
 
-    if (!filesToAdd.isEmpty()) {
-
-        QStringList cleanFilesToAdd(filesToAdd);
-        for (int i = 0; i < cleanFilesToAdd.size(); ++i) {
-            QString& file = cleanFilesToAdd[i];
-            if (QFileInfo(file).isDir()) {
-                if (!file.endsWith('/')) file += '/';
-            }
+    QStringList cleanFilesToAdd(filesToAdd);
+    for (int i = 0; i < cleanFilesToAdd.size(); ++i) {
+        QString& file = cleanFilesToAdd[i];
+        if (QFileInfo(file).isDir()) {
+            if (!file.endsWith('/')) file += '/';
         }
-
-        CompressionOptions options;
-
-        QString firstPath = cleanFilesToAdd.first();
-        if (firstPath.right(1) == "/") firstPath.chop(1);
-        firstPath = QFileInfo(firstPath).dir().absolutePath();
-
-        kDebug() << "Detected relative path to be " << firstPath;
-        options["GlobalWorkDir"] = firstPath;
-
-        AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
-        if (!job) return;
-
-        connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(slotAddFilesDone(KJob*)));
-        registerJob(job);
-        job->start();
     }
+
+    CompressionOptions options;
+
+    QString firstPath = cleanFilesToAdd.first();
+    if (firstPath.right(1) == "/") firstPath.chop(1);
+    firstPath = QFileInfo(firstPath).dir().absolutePath();
+
+    kDebug() << "Detected relative path to be " << firstPath;
+    options["GlobalWorkDir"] = firstPath;
+
+    AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
+    if (!job) return;
+
+    connect(job, SIGNAL(result(KJob*)),
+            this, SLOT(slotAddFilesDone(KJob*)));
+    registerJob(job);
+    job->start();
 }
 
 void Part::slotAddFiles()
