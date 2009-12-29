@@ -78,7 +78,17 @@ void ArkViewer::view(const QString& filename, QWidget *parent)
     if (viewer.isNull()) {
         KMessageBox::sorry(parent, i18n("The internal viewer cannot preview this file."));
     } else if (viewer->hasServiceType("KParts/ReadOnlyPart")) {
-        ArkViewer(parent).viewInInternalViewer(filename);
+        ArkViewer *internalViewer = new ArkViewer(parent);
+
+        internalViewer->hide();
+
+        if (!internalViewer->viewInInternalViewer(filename)) {
+            KMessageBox::sorry(parent, i18n("The internal viewer cannot preview this file."));
+            delete internalViewer;
+            return;
+        }
+
+        internalViewer->show();
     } else { // Try to open it in an external application
         KUrl fileUrl(filename);
         KRun::runUrl(fileUrl, KMimeType::findByUrl(fileUrl, 0, true)->name(), parent);
@@ -136,18 +146,19 @@ bool ArkViewer::viewInInternalViewer(const QString& filename)
              m_widget,
              this);
 
-    if (m_part) {
-        if (m_part->browserExtension())
-            connect(m_part->browserExtension(),
-                    SIGNAL(openUrlRequestDelayed(KUrl, KParts::OpenUrlArguments, KParts::BrowserArguments)),
-                    SLOT(slotOpenUrlRequestDelayed(KUrl, KParts::OpenUrlArguments, KParts::BrowserArguments)));
-
-        m_part->openUrl(filename);
-        exec();
-        return true;
-    } else {
+    if (!m_part) {
         return false;
     }
+
+    if (m_part->browserExtension()) {
+        connect(m_part->browserExtension(),
+                SIGNAL(openUrlRequestDelayed(KUrl, KParts::OpenUrlArguments, KParts::BrowserArguments)),
+                SLOT(slotOpenUrlRequestDelayed(KUrl, KParts::OpenUrlArguments, KParts::BrowserArguments)));
+    }
+
+    m_part->openUrl(filename);
+
+    return true;
 }
 
 void ArkViewer::slotOpenUrlRequestDelayed(const KUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments)
