@@ -228,10 +228,11 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
         return false;
     }
 
-    QString globalWorkdir = options.value("GlobalWorkDir").toString();
-    if (!globalWorkdir.isEmpty()) {
-        kDebug() << "GlobalWorkDir is set, changing dir to " << globalWorkdir;
-        QDir::setCurrent(globalWorkdir);
+    const QString globalWorkDir = options.value("GlobalWorkDir").toString();
+    const QDir workDir = globalWorkDir.isEmpty() ? QDir::current() : QDir(globalWorkDir);
+    if (!globalWorkDir.isEmpty()) {
+        kDebug() << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
+        QDir::setCurrent(globalWorkDir);
     }
 
     //start preparing the argument list
@@ -239,7 +240,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
 
     //now replace the various elements in the list
     for (int i = 0; i < args.size(); ++i) {
-        QString argument = args.at(i);
+        const QString argument = args.at(i);
         kDebug() << "Processing argument " << argument;
 
         if (argument == "$Archive") {
@@ -249,8 +250,12 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
         if (argument == "$Files") {
             args.removeAt(i);
             for (int j = 0; j < files.count(); ++j) {
-
-                QString relativeName = QDir::current().relativeFilePath(files.at(j));
+                // #191821: workDir must be used instead of QDir::current()
+                //          so that symlinks aren't resolved automatically
+                // TODO: this kind of call should be moved upwards in the
+                //       class hierarchy to avoid code duplication
+                const QString relativeName =
+                    workDir.relativeFilePath(files.at(j));
 
                 args.insert(i + j, relativeName);
                 ++i;

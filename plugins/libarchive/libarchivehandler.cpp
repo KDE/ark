@@ -46,7 +46,8 @@ LibArchiveInterface::LibArchiveInterface(QObject *parent, const QVariantList & a
         : ReadWriteArchiveInterface(parent, args),
         m_cachedArchiveEntryCount(0),
         m_emitNoEntries(false),
-        m_extractedFilesSize(0)
+        m_extractedFilesSize(0),
+        m_workDir(QDir::current())
 {
 }
 
@@ -295,14 +296,13 @@ bool LibArchiveInterface::addFiles(const QStringList & files, const CompressionO
     int ret;
     const bool creatingNewFile = !QFileInfo(filename()).exists();
 
-    QString tempFilename = filename() + ".arkWriting";
+    const QString tempFilename = filename() + ".arkWriting";
 
-    kDebug() << "Current path " << QDir::currentPath();
-
-    QString globalWorkdir = options.value("GlobalWorkDir").toString();
-    if (!globalWorkdir.isEmpty()) {
-        kDebug() << "GlobalWorkDir is set, changing dir to " << globalWorkdir;
-        QDir::setCurrent(globalWorkdir);
+    const QString globalWorkDir = options.value("GlobalWorkDir").toString();
+    if (!globalWorkDir.isEmpty()) {
+        kDebug() << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
+        m_workDir.setPath(globalWorkDir);
+        QDir::setCurrent(globalWorkDir);
     }
 
     m_writtenFiles.clear();
@@ -653,7 +653,12 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
     int header_response;
 
     const bool trailingSlash = fileName.endsWith('/');
-    QString relativeName = QDir::current().relativeFilePath(fileName) + (trailingSlash ? "/" : "");
+
+    // #191821: workDir must be used instead of QDir::current()
+    //          so that symlinks aren't resolved automatically
+    // TODO: this kind of call should be moved upwards in the
+    //       class hierarchy to avoid code duplication
+    const QString relativeName = m_workDir.relativeFilePath(fileName) + (trailingSlash ? "/" : "");
 
     KDE_stat(QFile::encodeName(relativeName).constData(), &st);
     archive_entry_copy_stat(entry, &st);

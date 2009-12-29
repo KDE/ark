@@ -28,6 +28,7 @@
 #define LIBARCHIVEHANDLER_H
 
 #include "kerfuffle/archiveinterface.h"
+#include <QDir>
 #include <QList>
 #include <QStringList>
 
@@ -57,6 +58,7 @@ private:
     qlonglong m_currentExtractedFilesSize;
     bool m_emitNoEntries;
     qlonglong m_extractedFilesSize;
+    QDir m_workDir;
     QStringList m_writtenFiles;
 };
 
