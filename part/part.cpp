@@ -647,8 +647,9 @@ void Part::adjustColumns()
 
 void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 {
-    if (filesToAdd.isEmpty())
-      return;
+    if (filesToAdd.isEmpty()) {
+        return;
+    }
 
     kDebug() << "Adding " << filesToAdd << " to " << path;
     kDebug() << "Warning, for now the path argument is not implemented";
