@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef _EXTRACTHEREDNDPLUGIN_H_
-#define _EXTRACTHEREDNDPLUGIN_H_
+#ifndef EXTRACTHEREDNDPLUGIN_H
+#define EXTRACTHEREDNDPLUGIN_H
 
 #include "konq_dndpopupmenuplugin.h"
 #include <konq_popupmenuinformation.h>
@@ -47,4 +47,4 @@ private:
     QList<KUrl> m_urls;
 };
 
-#endif /* _EXTRACTHEREDNDPLUGIN_H_ */
+#endif /* EXTRACTHEREDNDPLUGIN_H */

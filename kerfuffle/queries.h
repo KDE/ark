@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef _QUERIES_H_
-#define _QUERIES_H_
+#ifndef QUERIES_H
+#define QUERIES_H
 
 #include "kerfuffle_export.h"
 
@@ -102,4 +102,4 @@ public:
 
 }
 
-#endif /* ifndef _QUERIES_H_ */
+#endif /* ifndef QUERIES_H */
