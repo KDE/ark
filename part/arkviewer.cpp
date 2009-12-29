@@ -38,35 +38,6 @@
 #include <QHBoxLayout>
 #include <QFrame>
 #include <QLabel>
-#include <QDrag>
-#include <QMimeData>
-#include <QMouseEvent>
-
-class DraggableIcon : public QLabel
-{
-public:
-    KUrl m_url;
-
-    DraggableIcon(QWidget *parent, KUrl url)
-            : QLabel(parent), m_url(url) {
-
-    }
-
-    void mousePressEvent(QMouseEvent *event) {
-        kDebug() ;
-        if (event->button() == Qt::LeftButton) {
-            QDrag *drag = new QDrag(this);
-            QMimeData *mimeData = new QMimeData;
-
-            mimeData->setUrls(QList<QUrl>() << m_url);
-
-            drag->setMimeData(mimeData);
-
-            drag->exec();
-        }
-    }
-};
-
 
 ArkViewer::ArkViewer(QWidget * parent)
         : KDialog(parent), m_part(0)
@@ -147,7 +118,7 @@ bool ArkViewer::viewInInternalViewer(const QString& filename)
     QFrame *header = new QFrame(m_widget);
     QHBoxLayout *headerLayout = new QHBoxLayout(header);
 
-    QLabel *iconLabel = new DraggableIcon(header, u);
+    QLabel *iconLabel = new QLabel(header);
     headerLayout->addWidget(iconLabel);
     iconLabel->setPixmap(KIconLoader::global()->loadMimeTypeIcon(mimetype->iconName(), KIconLoader::Desktop));
     iconLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
