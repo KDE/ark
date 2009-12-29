@@ -175,7 +175,7 @@ void AddToArchive::slotStartJob(void)
             return;
         }
 
-        QDir stripDir = QDir(m_firstPath);
+        const QDir stripDir(m_firstPath);
 
         for (int i = 0; i < m_inputs.size(); ++i) {
             m_inputs[i] = stripDir.absoluteFilePath(m_inputs.at(i));
