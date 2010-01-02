@@ -72,7 +72,7 @@ ParameterList CliPlugin::parameterList() const
         p[AddArgs] = QStringList() << "a" << "$Archive" << "$Files";
 
         p[WrongPasswordPatterns] = QStringList() << "password incorrect";
-        p[ExtractionFailedPatterns] = QStringList() << "CRC failed";
+        p[ExtractionFailedPatterns] = QStringList() << "CRC failed" << "Cannot find volume";
     }
 
     return p;
