@@ -505,6 +505,24 @@ void CliInterface::handleLine(const QString& line)
     }
 
     if (m_operationMode == List) {
+        if (checkForErrorMessage(line, WrongPasswordPatterns)) {
+            kDebug() << "Wrong password!";
+            error(i18n("Incorrect password."));
+            setPassword(QString());
+            failOperation();
+            return;
+        }
+
+        if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
+            kDebug() << "Error in extraction!!";
+            error(i18n("Extraction failed because of an unexpected error."));
+            failOperation();
+            return;
+        }
+
+        if (handleFileExistsMessage(line))
+            return;
+
         readListLine(line);
         return;
     }
