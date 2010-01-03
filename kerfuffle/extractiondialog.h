@@ -51,12 +51,12 @@ public:
     void setOpenDestinationFolderAfterExtraction(bool);
     void setAutoSubfolder(bool value);
 
-    bool extractAllFiles();
-    bool openDestinationAfterExtraction();
-    bool extractToSubfolder();
-    bool autoSubfolders();
-    bool preservePaths();
-    KUrl destinationDirectory();
+    bool extractAllFiles() const;
+    bool openDestinationAfterExtraction() const;
+    bool extractToSubfolder() const;
+    bool autoSubfolders() const;
+    bool preservePaths() const;
+    KUrl destinationDirectory() const;
     QString subfolder() const;
     virtual void accept();
 

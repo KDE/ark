@@ -166,7 +166,7 @@ void ExtractionDialog::setShowSelectedFiles(bool value)
     }
 }
 
-bool ExtractionDialog::extractAllFiles()
+bool ExtractionDialog::extractAllFiles() const
 {
     return m_ui->allFilesButton->isChecked();
 }
@@ -176,12 +176,12 @@ void ExtractionDialog::setAutoSubfolder(bool value)
     m_ui->autoSubfolders->setChecked(value);
 }
 
-bool ExtractionDialog::autoSubfolders()
+bool ExtractionDialog::autoSubfolders() const
 {
     return m_ui->autoSubfolders->isChecked();
 }
 
-bool ExtractionDialog::extractToSubfolder()
+bool ExtractionDialog::extractToSubfolder() const
 {
     return m_ui->singleFolderGroup->isChecked();
 }
@@ -196,17 +196,17 @@ void ExtractionDialog::setPreservePaths(bool value)
     m_ui->preservePaths->setChecked(value);
 }
 
-bool ExtractionDialog::preservePaths()
+bool ExtractionDialog::preservePaths() const
 {
     return m_ui->preservePaths->isChecked();
 }
 
-bool ExtractionDialog::openDestinationAfterExtraction()
+bool ExtractionDialog::openDestinationAfterExtraction() const
 {
     return m_ui->openFolderCheckBox->isChecked();
 }
 
-KUrl ExtractionDialog::destinationDirectory()
+KUrl ExtractionDialog::destinationDirectory() const
 {
     if (extractToSubfolder()) {
         return url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder() + '/';
