@@ -39,9 +39,9 @@ using Kerfuffle::BatchExtract;
 int main(int argc, char **argv)
 {
     KAboutData aboutData("ark", 0, ki18n("Ark"),
-                         "2.14", ki18n("KDE Archiving tool"),
+                         "2.15", ki18n("KDE Archiving tool"),
                          KAboutData::License_GPL,
-                         ki18n("(c) 1997-2009, The Various Ark Developers"),
+                         ki18n("(c) 1997-2010, The Various Ark Developers"),
                          KLocalizedString(),
                          "http://utils.kde.org/projects/ark"
                         );
