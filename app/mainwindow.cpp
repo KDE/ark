@@ -133,6 +133,7 @@ bool MainWindow::loadPart()
 
     connect(m_part, SIGNAL(busy()), this, SLOT(updateActions()));
     connect(m_part, SIGNAL(ready()), this, SLOT(updateActions()));
+    connect(m_part, SIGNAL(quit()), this, SLOT(quit()));
 
     return true;
 }

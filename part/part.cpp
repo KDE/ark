@@ -635,6 +635,10 @@ void Part::slotExtractionDone(KJob* job)
 
             KRun::runUrl(destinationFolder, "inode/directory", widget());
         }
+
+        if (ArkSettings::closeAfterExtraction()) {
+           emit quit();
+        }
     }
 }
 

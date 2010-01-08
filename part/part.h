@@ -90,6 +90,7 @@ private slots:
 signals:
     void busy();
     void ready();
+    void quit();
 
 private:
     void setupView();

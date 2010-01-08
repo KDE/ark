@@ -76,6 +76,7 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
 void ExtractionDialog::loadSettings()
 {
     setOpenDestinationFolderAfterExtraction(ArkSettings::openDestinationFolderAfterExtraction());
+    setCloseAfterExtraction(ArkSettings::closeAfterExtraction());
     setPreservePaths(ArkSettings::preservePaths());
 }
 
@@ -191,6 +192,11 @@ void ExtractionDialog::setOpenDestinationFolderAfterExtraction(bool value)
     m_ui->openFolderCheckBox->setChecked(value);
 }
 
+void ExtractionDialog::setCloseAfterExtraction(bool value)
+{
+  m_ui->closeAfterExtraction->setChecked(value);
+}
+
 void ExtractionDialog::setPreservePaths(bool value)
 {
     m_ui->preservePaths->setChecked(value);
@@ -206,6 +212,11 @@ bool ExtractionDialog::openDestinationAfterExtraction() const
     return m_ui->openFolderCheckBox->isChecked();
 }
 
+bool ExtractionDialog::closeAfterExtraction() const
+{
+    return m_ui->closeAfterExtraction->isChecked();
+}
+
 KUrl ExtractionDialog::destinationDirectory() const
 {
     if (extractToSubfolder()) {
@@ -218,6 +229,7 @@ KUrl ExtractionDialog::destinationDirectory() const
 void ExtractionDialog::writeSettings()
 {
     ArkSettings::setOpenDestinationFolderAfterExtraction(openDestinationAfterExtraction());
+    ArkSettings::setCloseAfterExtraction(closeAfterExtraction());
     ArkSettings::setPreservePaths(preservePaths());
     ArkSettings::self()->writeConfig();
 }

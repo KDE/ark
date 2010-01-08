@@ -9,6 +9,10 @@
 			<label>Open destination folder after extraction</label>
 			<default>false</default>
 		</entry>
+		<entry name="closeAfterExtraction" type="Bool">
+			<label>Close Ark after extraction</label>
+			<default>false</default>
+		</entry>
 		<entry name="preservePaths" type="Bool">
 			<label>Preserve paths when extracting</label>
 			<default>true</default>

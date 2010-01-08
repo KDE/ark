@@ -49,10 +49,12 @@ public:
     void setPreservePaths(bool);
     void batchModeOption();
     void setOpenDestinationFolderAfterExtraction(bool);
+    void setCloseAfterExtraction(bool);
     void setAutoSubfolder(bool value);
 
     bool extractAllFiles() const;
     bool openDestinationAfterExtraction() const;
+    bool closeAfterExtraction() const;
     bool extractToSubfolder() const;
     bool autoSubfolders() const;
     bool preservePaths() const;
