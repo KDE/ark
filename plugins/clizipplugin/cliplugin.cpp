@@ -22,13 +22,14 @@
 #include "kerfuffle/cliinterface.h"
 #include "kerfuffle/archivefactory.h"
 
+#include <KDebug>
+
+#include <QDateTime>
 #include <QDir>
 #include <QLatin1String>
 #include <QRegExp>
 #include <QString>
 #include <QStringList>
-
-#include <KDebug>
 
 using namespace Kerfuffle;
 
@@ -54,7 +55,7 @@ public:
             p[ExtractProgram] = "unzip";
             p[DeleteProgram] = p[AddProgram] = "zip";
 
-            p[ListArgs] = QStringList() << "-l" << "$Archive";
+            p[ListArgs] = QStringList() << "-l" << "-T" << "$Archive";
             p[ExtractArgs] = QStringList() << "$PreservePathSwitch" << "$PasswordSwitch" << "$Archive" << "$Files";
             p[PreservePathSwitch] = QStringList() << "" << "-j";
             p[PasswordSwitch] = QStringList() << "-P$Password";
@@ -90,7 +91,7 @@ public:
 
     bool readListLine(const QString &line) {
         static QRegExp entryPattern(
-            "^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(.+)$");
+            "^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\d{8}).(\\d{6})\\s+(.+)$");
 
         int i;
         switch (m_status) {
@@ -109,6 +110,11 @@ public:
                 if (status[0].isUpper())
                     e[IsPasswordProtected] = true;
                 e[CompressedSize] = entryPattern.cap(6).toInt();
+
+                const QDateTime ts(QDate::fromString(entryPattern.cap(8), "yyyyMMdd"),
+                                   QTime::fromString(entryPattern.cap(9), "hhmmss"));
+                e[Timestamp] = ts;
+
                 e[FileName] = e[InternalID] = entryPattern.cap(10);
                 entry(e);
             }
