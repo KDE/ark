@@ -94,6 +94,7 @@ int bk_extract_boot_record(VolInfo* volInfo, const char* destPathAndName,
     if (rc <= 0) {
         if (srcFileWasOpened)
             close(srcFile);
+        close(destFile);
         return rc;
     }
 
@@ -340,8 +341,11 @@ int extractFile(VolInfo* volInfo, BkFile* srcFileInTree, const char* destDir,
         struct stat statStruct;
 
         rc = stat(srcFileInTree->pathAndName, &statStruct);
-        if (rc != 0)
+        if (rc != 0) {
+            if (srcFileWasOpened)
+                close(srcFile);
             return BKERROR_STAT_FAILED;
+        }
 
         srcFileInTree->size = statStruct.st_size;
         /* UPDATE the file's size, in case it's changed since we added it */
