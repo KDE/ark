@@ -111,4 +111,4 @@ Comment[uk]=Додаток LibArchive для Kerfuffle
 Comment[x-test]=xxLibArchive Plugin for Kerfufflexx
 Comment[zh_CN]=Kerfuffle 的 LibArchive 插件
 Comment[zh_TW]=Kerfuffle 的 LibArchive 外掛程式
-MimeType=application/x-tar;application/x-compressed-tar;application/x-bzip-compressed-tar;application/x-tarz;application/x-deb;application/x-xz-compressed-tar;
+MimeType=application/x-tar;application/x-compressed-tar;application/x-bzip-compressed-tar;application/x-tarz;application/x-deb;application/x-xz-compressed-tar;application/x-lzma-compressed-tar;
