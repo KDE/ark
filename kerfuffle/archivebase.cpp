@@ -29,6 +29,7 @@
 
 #include <QDateTime>
 #include <QDir>
+#include <QEventLoop>
 #include <QFile>
 #include <QList>
 #include <QStringList>
@@ -155,7 +156,13 @@ void ArchiveBase::listIfNotListed()
 {
     if (!m_hasBeenListed) {
         KJob *job = list();
-        job->exec();
+
+        QEventLoop loop(this);
+
+        connect(job, SIGNAL(result(KJob*)),
+                &loop, SLOT(quit()));
+        job->start();
+        loop.exec();
     }
 }
 
