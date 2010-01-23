@@ -136,7 +136,7 @@ void ArchiveBase::onListFinished(KJob* job)
     m_isSingleFolderArchive = ljob->isSingleFolderArchive();
     m_isPasswordProtected = ljob->isPasswordProtected();
     m_subfolderName = ljob->subfolderName();
-    if (m_subfolderName.isEmpty()) {
+    if (m_subfolderName.isEmpty() || !m_isSingleFolderArchive) {
         QFileInfo fi(fileName());
         QString base = fi.completeBaseName();
 
