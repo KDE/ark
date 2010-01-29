@@ -274,7 +274,7 @@ void mangleNameFor9660(const char* origName, char* newName, bool isADir)
     unsigned hash;
     unsigned v;
     /* these are the characters we use in the 8.3 hash. Must be 36 chars long */
-    static const char* baseChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static const char baseChars[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /* FIND extension */
     if (isADir) {
@@ -384,7 +384,7 @@ void mangleNameForJoliet(const char* origName, char* newName, bool appendHash)
     unsigned v;
     char hashStr[5]; /* '\0' terminated */
     /* these are the characters we use in the 8.3 hash. Must be 36 chars long */
-    static const char* baseChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static const char baseChars[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /* FIND extension candidate */
     dot_p = strrchr(origName, '.');
