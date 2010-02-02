@@ -15,7 +15,10 @@ install( FILES ark.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
 install( FILES arkui.rc    DESTINATION ${DATA_INSTALL_DIR}/ark )
 
 ########### konqueror ark_extract_here plugin ###############
-find_package(LibKonq)
+macro_optional_find_package( LibKonq )
+macro_log_feature( LIBKONQ_FOUND "LIBKONQ" "libkonq library" "kdebase" FALSE "" "Need to integrate in konqueror" )
+
+
 if (LIBKONQ_FOUND)
    set(extracthere_SRCS extractHereDndPlugin.cpp)
    kde4_add_plugin(extracthere WITH_PREFIX ${extracthere_SRCS})
