@@ -208,7 +208,7 @@ void Part::setupView()
 
 void Part::setupActions()
 {
-    KToggleAction *showInfoPanelAction = new KToggleAction(i18n("Show information panel"), this);
+    KToggleAction *showInfoPanelAction = new KToggleAction(i18nc("@action:inmenu", "Show information panel"), this);
     actionCollection()->addAction("show-infopanel", showInfoPanelAction);
     showInfoPanelAction->setChecked(m_splitter->sizes().at(1) > 0);
     connect(showInfoPanelAction, SIGNAL(triggered(bool)),
@@ -340,14 +340,14 @@ bool Part::openFile()
 
     if (arguments().metaData()["createNewArchive"] == "true") {
         if (QFileInfo(localFile).exists()) {
-            int overWrite =  KMessageBox::questionYesNo(NULL, i18n("The file '%1' already exists. Would you like to open it instead?", localFile), i18n("File Exists") , KGuiItem(i18n("Open File")), KGuiItem(i18n("Cancel")));
+            int overWrite =  KMessageBox::questionYesNo(NULL, i18n("The file '%1' already exists. Would you like to open it instead?", localFile), i18nc("@title:window", "File Exists") , KGuiItem(i18n("Open File")), KGuiItem(i18n("Cancel")));
 
             if (overWrite == KMessageBox::No)
                 return false;
         }
     } else {
         if (!QFileInfo(localFile).exists()) {
-            KMessageBox::sorry(NULL, i18n("Error opening archive: the file '%1' was not found.", localFile), i18n("Error Opening Archive"));
+            KMessageBox::sorry(NULL, i18n("Error opening archive: the file '%1' was not found.", localFile), i18nc("@title:window", "Error Opening Archive"));
             return false;
         }
     }
@@ -377,7 +377,7 @@ bool Part::openFile()
         mimeComments.sort();
 
         bool ok;
-        QString item(KInputDialog::getItem(i18n("Unable to Determine Archive Type"),
+        QString item(KInputDialog::getItem(i18nc("@title:window", "Unable to Determine Archive Type"),
                                            i18n("Ark was unable to determine the archive type of the filename.\n\nPlease choose the correct archive type below."),
                                            mimeComments,
                                            0,
@@ -391,7 +391,7 @@ bool Part::openFile()
     }
 
     if (!archive) {
-        KMessageBox::sorry(NULL, i18n("Ark was not able to open the archive '%1'. No library capable of handling the file was found.", localFile), i18n("Error Opening Archive"));
+        KMessageBox::sorry(NULL, i18n("Ark was not able to open the archive '%1'. No library capable of handling the file was found.", localFile), i18nc("@title:window", "Error Opening Archive"));
         return false;
     }
 
@@ -427,7 +427,7 @@ void Part::slotLoadingFinished(KJob *job)
 
     if (job->error())
         if (arguments().metaData()["createNewArchive"] != "true")
-            KMessageBox::sorry(NULL, i18n("Reading the archive '%1' failed with the error '%2'", localFilePath(), job->errorText()), i18n("Error Opening Archive"));
+            KMessageBox::sorry(NULL, i18n("Reading the archive '%1' failed with the error '%2'", localFilePath(), job->errorText()), i18nc("@title:window", "Error Opening Archive"));
 
     m_view->sortByColumn(0, Qt::AscendingOrder);
     m_view->expandToDepth(0);
@@ -687,7 +687,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 void Part::slotAddFiles()
 {
     kDebug() ;
-    const QStringList filesToAdd = KFileDialog::getOpenFileNames(KUrl("kfiledialog:///ArkAddFiles"), QString(), widget(), i18n("Add Files"));
+    const QStringList filesToAdd = KFileDialog::getOpenFileNames(KUrl("kfiledialog:///ArkAddFiles"), QString(), widget(), i18nc("@title:window", "Add Files"));
 
     slotAddFiles(filesToAdd);
 }
@@ -695,7 +695,7 @@ void Part::slotAddFiles()
 void Part::slotAddDir()
 {
     kDebug() ;
-    const QString dirToAdd = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///ArkAddFiles"), widget(), i18n("Add Folder"));
+    const QString dirToAdd = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///ArkAddFiles"), widget(), i18nc("@title:window", "Add Folder"));
 
     if (!dirToAdd.isEmpty()) {
         slotAddFiles(QStringList() << dirToAdd);
@@ -722,7 +722,7 @@ void Part::slotDeleteFiles()
 {
     kDebug() ;
 
-    const int reallyDelete = KMessageBox::questionYesNo(NULL, i18n("Deleting these files is not undoable. Are you sure you want to do this?"), i18n("Delete files") , KGuiItem(i18n("Delete files")), KGuiItem(i18n("Cancel")));
+    const int reallyDelete = KMessageBox::questionYesNo(NULL, i18n("Deleting these files is not undoable. Are you sure you want to do this?"), i18nc("@title:window", "Delete files") , KGuiItem(i18n("Delete files")), KGuiItem(i18n("Cancel")));
 
     if (reallyDelete == KMessageBox::No)
         return;
