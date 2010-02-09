@@ -102,7 +102,7 @@ int main(int argc, char **argv)
     option.add(":", ki18n("Options for batch extraction:"));
     option.add("b").add("batch", ki18n("Use the batch interface instead of the usual dialog. This option is implied if more than one url is specified."));
     option.add("e").add("autodestination", ki18n("The destination argument will be set to the path of the first file supplied."));
-    option.add("a").add("autosubfolder", ki18n("Archive contents will be read, and if detected to not be a single folder archive, a subfolder by the name of the archive will be created."));
+    option.add("a").add("autosubfolder", ki18n("Archive contents will be read, and if detected to not be a single folder archive, a subfolder with the name of the archive will be created."));
     KCmdLineArgs::addCmdLineOptions(option);
     KCmdLineArgs::addTempFileOption();
 
