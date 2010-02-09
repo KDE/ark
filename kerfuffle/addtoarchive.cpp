@@ -169,9 +169,11 @@ void AddToArchive::slotStartJob(void)
         archive = Kerfuffle::factory(finalName, m_mimeType);
     }
 
-    // TODO Post-4.3 string freeze: the check for read-only must cause a separate error
-    if (archive == NULL || archive->isReadOnly()) {
+    if (archive == NULL) {
         KMessageBox::error(NULL, i18n("Failed to create the new archive. Permissions might not be sufficient."));
+        return;
+    } else if (archive->isReadOnly()) {
+        KMessageBox::error(NULL, i18n("It is not possible to create archives of this type."));
         return;
     }
 
