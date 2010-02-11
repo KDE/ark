@@ -340,9 +340,9 @@ bool Part::openFile()
 
     if (arguments().metaData()["createNewArchive"] == "true") {
         if (QFileInfo(localFile).exists()) {
-            int overWrite =  KMessageBox::questionYesNo(NULL, i18n("The file '%1' already exists. Would you like to open it instead?", localFile), i18nc("@title:window", "File Exists") , KGuiItem(i18n("Open File")), KGuiItem(i18n("Cancel")));
+            int overwrite =  KMessageBox::questionYesNo(NULL, i18n("The file '%1' already exists. Would you like to open it instead?", localFile), i18nc("@title:window", "File Exists") , KGuiItem(i18n("Open File")), KGuiItem(i18n("Cancel")));
 
-            if (overWrite == KMessageBox::No)
+            if (overwrite == KMessageBox::No)
                 return false;
         }
     } else {
