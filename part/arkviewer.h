@@ -46,7 +46,7 @@ protected slots:
     void slotOpenUrlRequestDelayed(const KUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments);
 
 private:
-    explicit ArkViewer(QWidget* parent = 0);
+    explicit ArkViewer(QWidget* parent = 0, Qt::WFlags flags = 0);
 
     static KService::Ptr getViewer(const QString& filename);
     bool viewInInternalViewer(const QString& filename);
