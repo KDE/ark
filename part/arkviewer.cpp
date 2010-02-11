@@ -39,8 +39,8 @@
 #include <QFrame>
 #include <QLabel>
 
-ArkViewer::ArkViewer(QWidget * parent)
-        : KDialog(parent), m_part(0)
+ArkViewer::ArkViewer(QWidget * parent, Qt::WFlags flags)
+        : KDialog(parent, flags), m_part(0)
 {
     setButtons(Close);
     m_widget = new KVBox(this);
@@ -78,7 +78,7 @@ void ArkViewer::view(const QString& filename, QWidget *parent)
     if (viewer.isNull()) {
         KMessageBox::sorry(parent, i18n("The internal viewer cannot preview this file."));
     } else if (viewer->hasServiceType("KParts/ReadOnlyPart")) {
-        ArkViewer *internalViewer = new ArkViewer(parent);
+        ArkViewer *internalViewer = new ArkViewer(parent, Qt::Window);
 
         internalViewer->hide();
 
