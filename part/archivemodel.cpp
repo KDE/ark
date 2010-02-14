@@ -551,7 +551,9 @@ QString ArchiveModel::cleanFileName(const QString& fileName)
 {
     QString cleanName(fileName);
 
-    if (cleanName.startsWith(QLatin1String("./"))) {
+    if (cleanName == ".") { // "." is present in ISO files
+        cleanName.clear();
+    } else if (cleanName.startsWith(QLatin1String("./"))) {
         cleanName.remove(0, 2);
     }
 
@@ -718,7 +720,7 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
 
     //#194241: Filenames such as "./file" should be displayed as "file"
     QString entryFileName = cleanFileName(entry[FileName].toString());
-    if (entryFileName.isEmpty()) { // The entry contains only "./"
+    if (entryFileName.isEmpty()) { // The entry contains only "." or "./"
         return;
     }
     entry[FileName] = entryFileName;
