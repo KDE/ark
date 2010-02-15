@@ -162,7 +162,7 @@ void ArchiveBase::listIfNotListed()
         connect(job, SIGNAL(result(KJob*)),
                 &loop, SLOT(quit()));
         job->start();
-        loop.exec();
+        loop.exec(); // krazy:exclude=crashy
     }
 }
 
