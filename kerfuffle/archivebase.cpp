@@ -46,13 +46,10 @@ ArchiveBase::ArchiveBase(ReadOnlyArchiveInterface *archive)
 {
     Q_ASSERT(archive);
     archive->setParent(this);
-    //setReadOnly( archive->isReadOnly() );
 }
 
 ArchiveBase::~ArchiveBase()
 {
-    delete m_iface;
-    m_iface = 0;
 }
 
 bool ArchiveBase::isReadOnly() const
