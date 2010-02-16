@@ -68,4 +68,4 @@ void ArchiveTest::testOpenNonExistentFile()
     QSKIP("How should we deal with files that do not exist? Should factory() return NULL?", SkipSingle);
 }
 
-#include "archivebasetest.moc"
+#include "archivetest.moc"
