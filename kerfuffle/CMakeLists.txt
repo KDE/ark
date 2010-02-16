@@ -33,3 +33,5 @@ install(TARGETS kerfuffle ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES kerfufflePlugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR})
 install(FILES ark.kcfg                DESTINATION ${KCFG_INSTALL_DIR})
+
+add_subdirectory(tests)
