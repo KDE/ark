@@ -330,12 +330,12 @@ bool CliInterface::createProcess()
     m_stdOutData.clear();
     m_process->setOutputChannelMode(KProcess::MergedChannels);
 
-    connect(m_process, SIGNAL(started()), SLOT(started()), Qt::DirectConnection);
-    connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
-    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(processFinished(int, QProcess::ExitStatus)), Qt::DirectConnection);
-
     if (QMetaType::type("QProcess::ExitStatus") == 0)
         qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
+
+    connect(m_process, SIGNAL(started()), SLOT(started()), Qt::QueuedConnection);
+    connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::QueuedConnection);
+    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(processFinished(int, QProcess::ExitStatus)), Qt::QueuedConnection);
 
     return true;
 }
