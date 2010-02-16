@@ -34,7 +34,7 @@
 
 namespace Kerfuffle
 {
-class KERFUFFLE_EXPORT ArchiveBase: public QObject, public Archive
+class KERFUFFLE_EXPORT ArchiveBase: public Archive
 {
     Q_OBJECT
 public:

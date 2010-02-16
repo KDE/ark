@@ -84,10 +84,11 @@ Rar, etc), followed by the property name used
 typedef QHash<QString, QVariant> CompressionOptions;
 typedef QHash<QString, QVariant> ExtractionOptions;
 
-class KERFUFFLE_EXPORT Archive
+class KERFUFFLE_EXPORT Archive : public QObject
 {
-public:
+    Q_OBJECT
 
+public:
     virtual ~Archive() {}
 
     virtual QString fileName() const = 0;
