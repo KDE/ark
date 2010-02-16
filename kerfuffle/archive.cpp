@@ -78,8 +78,6 @@ namespace Kerfuffle
 
 Archive *factory(const QString& filename, const QString& fixedMimeType)
 {
-    kDebug();
-
     qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 
     const KService::List offers = findPluginOffers(filename, fixedMimeType);
