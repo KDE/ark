@@ -32,7 +32,7 @@
 #include "jobtracker.h"
 #include "dnddbusinterface.h"
 
-#include <KParts/GenericFactory>
+#include <KPluginFactory>
 #include <KApplication>
 #include <KAboutData>
 #include <KDebug>
@@ -64,13 +64,13 @@
 
 using namespace Kerfuffle;
 
-typedef KParts::GenericFactory<Ark::Part> Factory;
-K_EXPORT_COMPONENT_FACTORY(arkpart, Factory)
+K_PLUGIN_FACTORY(Factory, registerPlugin<Ark::Part>();)
+K_EXPORT_PLUGIN(Factory("ark"))
 
 namespace Ark
 {
 
-Part::Part(QWidget *parentWidget, QObject *parent, const QStringList& args)
+Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
         : KParts::ReadWritePart(parent),
           m_model(new ArchiveModel(this)),
           m_splitter(0),
@@ -79,7 +79,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QStringList& args)
           m_jobTracker(0)
 {
     Q_UNUSED(args)
-    setComponentData(Factory::componentData());
+    setComponentData(Factory::componentData(), false);
 
     m_splitter = new QSplitter(Qt::Horizontal, parentWidget);
     setWidget(m_splitter);
