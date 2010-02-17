@@ -53,12 +53,19 @@ void ArchiveTest::testFileName()
 
 void ArchiveTest::testIsPasswordProtected()
 {
-    Kerfuffle::Archive *archive = Kerfuffle::factory(KDESRCDIR "data/archivetest_encrypted.zip");
-
+    Kerfuffle::Archive *archive;
+   
+    archive = Kerfuffle::factory(KDESRCDIR "data/archivetest_encrypted.zip");
     if (!archive)
         QSKIP("There is no plugin to handle zip files. Skipping test.", SkipSingle);
 
     QVERIFY(archive->isPasswordProtected());
+
+    archive->deleteLater();
+
+    archive = Kerfuffle::factory(KDESRCDIR "data/archivetest_unencrypted.zip");
+
+    QVERIFY(!archive->isPasswordProtected());
 
     archive->deleteLater();
 }
