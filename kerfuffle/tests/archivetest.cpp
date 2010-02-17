@@ -23,9 +23,9 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <qtest_kde.h>
-
 #include "kerfuffle/archive.h"
+
+#include <qtest_kde.h>
 
 class ArchiveTest : public QObject
 {
