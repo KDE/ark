@@ -217,7 +217,6 @@ class KERFUFFLE_EXPORT CliInterface : public ReadWriteArchiveInterface
     Q_OBJECT
 
 public:
-
     enum OperationMode  {
         List, Copy, Add, Delete
     };
@@ -234,6 +233,10 @@ public:
     virtual ParameterList parameterList() const = 0;
     virtual bool readListLine(const QString &line) = 0;
 
+    bool doKill();
+    bool doSuspend();
+    bool doResume();
+
 private:
     bool findProgramAndCreateProcess(const QString& program);
     void substituteListVariables(QStringList& params);
@@ -247,10 +250,6 @@ private:
     void handleLine(const QString& line);
 
     void failOperation();
-
-    bool doKill();
-    bool doSuspend();
-    bool doResume();
 
     QByteArray m_stdOutData;
     bool m_userCancelled;
