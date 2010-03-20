@@ -87,9 +87,12 @@ void ArchiveView::setModel(QAbstractItemModel *model)
 
 void ArchiveView::startDrag(Qt::DropActions supportedActions)
 {
+    //only start the drag if it's over the filename column. this allows dragging selection in
+    //tree/detail view
+    if (currentIndex().column() != 0) return;
+
     kDebug() << "Singling out the current selection...";
-    //selectionModel()->setCurrentIndex(currentIndex(), QItemSelectionModel::Clear);
-    selectionModel()->setCurrentIndex(currentIndex(), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+    selectionModel()->setCurrentIndex(currentIndex(), QItemSelectionModel::ClearAndSelect);
     QTreeView::startDrag(supportedActions);
 }
 
