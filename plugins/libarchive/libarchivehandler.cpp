@@ -341,6 +341,12 @@ bool LibArchiveInterface::addFiles(const QStringList & files, const CompressionO
         } else if (filename().right(3).toUpper() == "BZ2") {
             kDebug() << "Detected bzip2 compression for new file";
             ret = archive_write_set_compression_bzip2(arch_writer);
+        } else if (filename().right(2).toUpper() == "XZ") {
+            kDebug() << "Detected xz compression for new file";
+            ret = archive_write_set_compression_xz(arch_writer);
+        } else if (filename().right(4).toUpper() == "LZMA") {
+            kDebug() << "Detected lzma compression for new file";
+            ret = archive_write_set_compression_lzma(arch_writer);
         } else if (filename().right(3).toUpper() == "TAR") {
             kDebug() << "Detected no compression for new file (pure tar)";
             ret = archive_write_set_compression_none(arch_writer);
@@ -365,6 +371,12 @@ bool LibArchiveInterface::addFiles(const QStringList & files, const CompressionO
             break;
         case ARCHIVE_COMPRESSION_BZIP2:
             ret = archive_write_set_compression_bzip2(arch_writer);
+            break;
+        case ARCHIVE_COMPRESSION_XZ:
+            ret = archive_write_set_compression_xz(arch_writer);
+            break;
+        case ARCHIVE_COMPRESSION_LZMA:
+            ret = archive_write_set_compression_lzma(arch_writer);
             break;
         case ARCHIVE_COMPRESSION_NONE:
             ret = archive_write_set_compression_none(arch_writer);
@@ -492,6 +504,12 @@ bool LibArchiveInterface::deleteFiles(const QList<QVariant> & files)
         break;
     case ARCHIVE_COMPRESSION_BZIP2:
         ret = archive_write_set_compression_bzip2(arch_writer);
+        break;
+    case ARCHIVE_COMPRESSION_XZ:
+        ret = archive_write_set_compression_xz(arch_writer);
+        break;
+    case ARCHIVE_COMPRESSION_LZMA:
+        ret = archive_write_set_compression_lzma(arch_writer);
         break;
     case ARCHIVE_COMPRESSION_NONE:
         ret = archive_write_set_compression_none(arch_writer);
