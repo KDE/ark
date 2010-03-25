@@ -75,6 +75,10 @@ OverwriteQuery::OverwriteQuery(QString filename) :
 
 void OverwriteQuery::execute()
 {
+    // If we are being called from the KPart, the cursor is probably Qt::WaitCursor
+    // at the moment (#231974)
+    QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
+
     KIO::RenameDialog_Mode mode = (KIO::RenameDialog_Mode)(KIO::M_OVERWRITE | KIO::M_SKIP);
     if (m_noRenameMode) {
         mode = (KIO::RenameDialog_Mode)(mode | KIO::M_NORENAME);
@@ -101,6 +105,8 @@ void OverwriteQuery::execute()
     setResponse(dialog->result());
 
     delete dialog;
+
+    QApplication::restoreOverrideCursor();
 }
 
 bool OverwriteQuery::responseCancelled()
@@ -164,6 +170,10 @@ PasswordNeededQuery::PasswordNeededQuery(QString archiveFilename, bool incorrect
 
 void PasswordNeededQuery::execute()
 {
+    // If we are being called from the KPart, the cursor is probably Qt::WaitCursor
+    // at the moment (#231974)
+    QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
+
     QPointer<KPasswordDialog> dlg = new KPasswordDialog(NULL);
     dlg->setPrompt(i18n("The archive '%1' is password protected. Please enter the password to extract the file.", m_data.value("archiveFilename").toString()));
 
@@ -177,6 +187,8 @@ void PasswordNeededQuery::execute()
         m_data["password"] = dlg->password();
         setResponse(true);
     }
+
+    QApplication::restoreOverrideCursor();
 
     delete dlg;
 }
