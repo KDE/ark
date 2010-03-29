@@ -25,6 +25,7 @@
  */
 
 #include "libarchivehandler.h"
+#include "config-ark.h"
 #include "kerfuffle/kerfuffle_export.h"
 #include "kerfuffle/queries.h"
 
@@ -346,11 +347,13 @@ bool LibArchiveInterface::addFiles(const QStringList & files, const CompressionO
             kDebug() << "Detected xz compression for new file";
             ret = archive_write_set_compression_xz(arch_writer);
 #endif
+#ifdef HAVE_LIBARCHIVE_LZMA_SUPPORT	    
 #ifdef ARCHIVE_COMPRESSION_LZMA
         } else if (filename().right(4).toUpper() == "LZMA") {
             kDebug() << "Detected lzma compression for new file";
             ret = archive_write_set_compression_lzma(arch_writer);
 #endif
+#endif	    
         } else if (filename().right(3).toUpper() == "TAR") {
             kDebug() << "Detected no compression for new file (pure tar)";
             ret = archive_write_set_compression_none(arch_writer);
@@ -381,11 +384,13 @@ bool LibArchiveInterface::addFiles(const QStringList & files, const CompressionO
             ret = archive_write_set_compression_xz(arch_writer);
             break;
 #endif
+#ifdef HAVE_LIBARCHIVE_LZMA_SUPPORT
 #ifdef ARCHIVE_COMPRESSION_LZMA
         case ARCHIVE_COMPRESSION_LZMA:
             ret = archive_write_set_compression_lzma(arch_writer);
             break;
 #endif
+#endif	    
         case ARCHIVE_COMPRESSION_NONE:
             ret = archive_write_set_compression_none(arch_writer);
             break;
@@ -518,11 +523,13 @@ bool LibArchiveInterface::deleteFiles(const QList<QVariant> & files)
         ret = archive_write_set_compression_xz(arch_writer);
         break;
 #endif
+#ifdef HAVE_LIBARCHIVE_LZMA_SUPPORT
 #ifdef ARCHIVE_COMPRESSION_LZMA
     case ARCHIVE_COMPRESSION_LZMA:
         ret = archive_write_set_compression_lzma(arch_writer);
         break;
 #endif
+#endif	
     case ARCHIVE_COMPRESSION_NONE:
         ret = archive_write_set_compression_none(arch_writer);
         break;
