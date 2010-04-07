@@ -114,11 +114,11 @@ void ArkViewer::keyPressEvent(QKeyEvent *event)
 
 bool ArkViewer::viewInInternalViewer(const QString& filename)
 {
-    KUrl u(filename);
+    const KUrl fileUrl(filename);
 
-    KMimeType::Ptr mimetype = KMimeType::findByUrl(u, 0, true);
+    KMimeType::Ptr mimetype = KMimeType::findByUrl(fileUrl, 0, true);
 
-    setCaption(u.fileName());
+    setCaption(fileUrl.fileName());
     // TODO: Load the size from the config file
     QSize size = QSize();
     if (size.width() < 200)
@@ -136,7 +136,7 @@ bool ArkViewer::viewInInternalViewer(const QString& filename)
     KVBox *headerRight = new KVBox(header);
     headerLayout->addWidget(headerRight);
     new QLabel(QString("<qt><b>%1</b></qt>")
-               .arg(KUrl(filename).fileName()), headerRight
+               .arg(fileUrl.fileName()), headerRight
               );
     new QLabel(mimetype->comment(), headerRight);
 
@@ -156,7 +156,7 @@ bool ArkViewer::viewInInternalViewer(const QString& filename)
                 SLOT(slotOpenUrlRequestDelayed(KUrl, KParts::OpenUrlArguments, KParts::BrowserArguments)));
     }
 
-    m_part->openUrl(filename);
+    m_part->openUrl(fileUrl);
 
     return true;
 }
