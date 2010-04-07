@@ -6,7 +6,7 @@ configure_file(config-ark.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-ark.h )
 
 if (LIBARCHIVE_FOUND)
 	if( NOT HAVE_LIBARCHIVE_LZMA_SUPPORT )
-		MESSAGE(STATUS "Your libArchive is too old to have lzma support, need libArchive >= 2.7.0")
+		MESSAGE(STATUS "Your libarchive is too old to have lzma support, need libarchive >= 2.7.0")
 	endif( NOT HAVE_LIBARCHIVE_LZMA_SUPPORT )
 	add_subdirectory( libarchive )
 endif (LIBARCHIVE_FOUND)
