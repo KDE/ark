@@ -5,10 +5,10 @@ macro_log_feature(LIBARCHIVE_FOUND "LibArchive" "A library for dealing with a wi
 configure_file(config-ark.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-ark.h )
 
 if (LIBARCHIVE_FOUND)
-	if( NOT HAVE_LIBARCHIVE_LZMA_SUPPORT )
-		MESSAGE(STATUS "Your libarchive is too old to have lzma support, need libarchive >= 2.7.0")
-	endif( NOT HAVE_LIBARCHIVE_LZMA_SUPPORT )
-	add_subdirectory( libarchive )
+    if( NOT HAVE_LIBARCHIVE_LZMA_SUPPORT OR NOT HAVE_LIBARCHIVE_XZ_SUPPORT )
+        message(STATUS "Your libarchive does not have support for lzma and/or xz archives. libarchive >= 2.7.0 is recommended.")
+    endif( NOT HAVE_LIBARCHIVE_LZMA_SUPPORT OR NOT HAVE_LIBARCHIVE_XZ_SUPPORT )
+    add_subdirectory( libarchive )
 endif (LIBARCHIVE_FOUND)
 
 add_subdirectory( clirarplugin )
