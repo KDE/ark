@@ -24,8 +24,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "config.h"
 #include "libarchivehandler.h"
-#include "config-ark.h"
 #include "kerfuffle/kerfuffle_export.h"
 #include "kerfuffle/queries.h"
 
