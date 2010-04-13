@@ -26,6 +26,7 @@
  */
 
 #include "cliinterface.h"
+#include "queries.h"
 
 #include <KProcess>
 #include <KStandardDirs>

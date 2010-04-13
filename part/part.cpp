@@ -47,6 +47,7 @@
 #include <KConfigGroup>
 #include <KStandardDirs>
 #include <KToggleAction>
+#include <KIO/Job>
 #include <KIO/NetAccess>
 
 #include <QCursor>

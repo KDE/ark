@@ -23,6 +23,7 @@
 #include "kerfuffle/cliinterface.h"
 #include "kerfuffle/kerfuffle_export.h"
 
+#include <QDateTime>
 #include <QDir>
 #include <QLatin1String>
 #include <QString>

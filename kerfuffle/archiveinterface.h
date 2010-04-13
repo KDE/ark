@@ -27,22 +27,18 @@
 #ifndef ARCHIVEINTERFACE_H
 #define ARCHIVEINTERFACE_H
 
+#include "archive.h"
+#include "kerfuffle_export.h"
+
 #include <QObject>
 #include <QStringList>
 #include <QString>
 #include <QVariantList>
 
-#include "archive.h"
-#include "queries.h"
-#include "kerfuffle_export.h"
-
-#include <kio/job.h>
-#include <kio/jobclasses.h>
-#include <kfileitem.h>
-
 namespace Kerfuffle
 {
 class ArchiveObserver;
+class Query;
 
 class KERFUFFLE_EXPORT ReadOnlyArchiveInterface: public QObject
 {

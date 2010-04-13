@@ -25,6 +25,7 @@
 
 #include "singlefileplugin.h"
 #include "kerfuffle/kerfuffle_export.h"
+#include "kerfuffle/queries.h"
 
 #include <QByteArray>
 #include <QFile>

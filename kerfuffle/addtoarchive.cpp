@@ -37,6 +37,7 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <KStandardDirs>
+#include <kio/job.h>
 
 #include <QFileInfo>
 #include <QDir>
