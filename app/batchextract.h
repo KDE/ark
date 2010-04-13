@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (C) 2009-2010 Raphael Kubo da Costa <kubito@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -28,8 +29,6 @@
 #ifndef BATCHEXTRACT_H
 #define BATCHEXTRACT_H
 
-#include "kerfuffle_export.h"
-
 #include <kcompositejob.h>
 #include <KUrl>
 
@@ -42,6 +41,7 @@ namespace Kerfuffle
 {
 class Archive;
 class Query;
+}
 
 /**
  * This class schedules the extraction of all given compressed archives.
@@ -51,7 +51,7 @@ class Query;
  *
  * @author Harald Hvaal <haraldhv@stud.ntnu.no>
  */
-class KERFUFFLE_EXPORT BatchExtract : public KCompositeJob
+class BatchExtract : public KCompositeJob
 {
     Q_OBJECT
 
@@ -68,14 +68,14 @@ public:
 
     /**
      * Creates an ExtractJob for the given @p archive and puts it on the queue.
-     * 
+     *
      * If necessary, the destination directory for the archive is created.
      *
      * @param archive           The archive that will be extracted.
      *
      * @see setAutoSubfolder
      */
-    void addExtraction(Archive* archive);
+    void addExtraction(Kerfuffle::Archive* archive);
 
     /**
      * A wrapper that calls slotStartJob() when the event loop has started.
@@ -209,7 +209,7 @@ private slots:
     /**
      * Shows a query dialog, which may happen when a file already exists.
      */
-    void slotUserQuery(Query *query);
+    void slotUserQuery(Kerfuffle::Query *query);
 
     /**
      * Does the real work for start() and extracts all scheduled files.
@@ -224,12 +224,11 @@ private:
     QMap<KJob*, QPair<QString, QString> > m_fileNames;
     bool m_autoSubfolder;
 
-    QList<Archive*> m_inputs;
+    QList<Kerfuffle::Archive*> m_inputs;
     QString m_destinationFolder;
     QStringList m_failedFiles;
     bool m_preservePaths;
     bool m_openDestinationAfterExtraction;
 };
-}
 
 #endif // BATCHEXTRACT_H

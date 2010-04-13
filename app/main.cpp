@@ -21,7 +21,7 @@
  */
 
 #include "mainwindow.h"
-#include "kerfuffle/batchextract.h"
+#include "batchextract.h"
 #include "kerfuffle/addtoarchive.h"
 
 #include <KAboutData>
@@ -34,7 +34,6 @@
 #include <QFileInfo>
 
 using Kerfuffle::AddToArchive;
-using Kerfuffle::BatchExtract;
 
 int main(int argc, char **argv)
 {

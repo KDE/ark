@@ -1,6 +1,8 @@
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/.. )
-set( ark_SRCS main.cpp
-              mainwindow.cpp
+set(ark_SRCS
+    batchextract.cpp
+    main.cpp
+    mainwindow.cpp
    )
 
 kde4_add_app_icon(ark_SRCS "${KDE4_INSTALL_DIR}/share/icons/oxygen/*/apps/utilities-file-archiver.png")
@@ -20,7 +22,7 @@ macro_log_feature( LIBKONQ_FOUND "LIBKONQ" "libkonq library" "kdebase" FALSE "" 
 
 
 if (LIBKONQ_FOUND)
-   set(extracthere_SRCS extractHereDndPlugin.cpp)
+   set(extracthere_SRCS batchextract.cpp extractHereDndPlugin.cpp)
    kde4_add_plugin(extracthere WITH_PREFIX ${extracthere_SRCS})
    target_link_libraries(extracthere kerfuffle ${KDE4_KDECORE_LIBS} ${KDE4_KPARTS_LIBS} ${LIBKONQ_LIBRARY} )
    include_directories(${LIBKONQ_INCLUDE_DIR})

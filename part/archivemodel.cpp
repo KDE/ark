@@ -655,7 +655,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
     }
 }
 
-void ArchiveModel::slotUserQuery(Query *query)
+void ArchiveModel::slotUserQuery(Kerfuffle::Query *query)
 {
     query->execute();
 }
@@ -802,7 +802,8 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
         connect(job, SIGNAL(result(KJob *)),
                 this, SLOT(slotLoadingFinished(KJob *)));
 
-        connect(job, SIGNAL(userQuery(Query*)), this, SLOT(slotUserQuery(Query*)));
+        connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
+                this, SLOT(slotUserQuery(Kerfuffle::Query*)));
 
         emit loadingStarted();
 
@@ -824,8 +825,8 @@ ExtractJob* ArchiveModel::extractFiles(const QList<QVariant>& files, const QStri
 {
     Q_ASSERT(m_archive);
     ExtractJob *newJob = m_archive->copyFiles(files, destinationDir, options);
-    connect(newJob, SIGNAL(userQuery(Query*)),
-            this, SLOT(slotUserQuery(Query*)));
+    connect(newJob, SIGNAL(userQuery(Kerfuffle::Query*)),
+            this, SLOT(slotUserQuery(Kerfuffle::Query*)));
     return newJob;
 }
 
@@ -837,8 +838,8 @@ AddJob* ArchiveModel::addFiles(const QStringList & filenames, const CompressionO
         AddJob *job = m_archive->addFiles(filenames, options);
         connect(job, SIGNAL(newEntry(const ArchiveEntry&)),
                 this, SLOT(slotNewEntry(const ArchiveEntry&)));
-        connect(job, SIGNAL(userQuery(Query*)),
-                this, SLOT(slotUserQuery(Query*)));
+        connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
+                this, SLOT(slotUserQuery(Kerfuffle::Query*)));
 
 
         return job;
@@ -857,8 +858,8 @@ DeleteJob* ArchiveModel::deleteFiles(const QList<QVariant> & files)
         connect(job, SIGNAL(finished(KJob*)),
                 this, SLOT(slotCleanupEmptyDirs()));
 
-        connect(job, SIGNAL(userQuery(Query*)),
-                this, SLOT(slotUserQuery(Query*)));
+        connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
+                this, SLOT(slotUserQuery(Kerfuffle::Query*)));
         return job;
     }
     return 0;

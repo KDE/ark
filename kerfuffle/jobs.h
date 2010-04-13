@@ -76,7 +76,7 @@ signals:
     void entryRemoved(const QString & entry);
     void error(const QString& errorMessage, const QString& details);
     void newEntry(const ArchiveEntry &);
-    void userQuery(Query*);
+    void userQuery(Kerfuffle::Query*);
 };
 
 class KERFUFFLE_EXPORT ListJob: public Job

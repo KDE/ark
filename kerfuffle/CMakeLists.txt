@@ -15,7 +15,6 @@ set(kerfuffle_SRCS
 	adddialog.cpp
 	queries.cpp
 	addtoarchive.cpp
-	batchextract.cpp
 	cliinterface.cpp
    )
 

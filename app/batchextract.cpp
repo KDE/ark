@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (C) 2009-2010 Raphael Kubo da Costa <kubito@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -27,10 +28,10 @@
 
 #include "batchextract.h"
 
-#include "archive.h"
-#include "extractiondialog.h"
-#include "jobs.h"
-#include "queries.h"
+#include "kerfuffle/archive.h"
+#include "kerfuffle/extractiondialog.h"
+#include "kerfuffle/jobs.h"
+#include "kerfuffle/queries.h"
 
 #include <KDebug>
 #include <KGlobal>
@@ -45,8 +46,6 @@
 #include <QPointer>
 #include <QTimer>
 
-namespace Kerfuffle
-{
 BatchExtract::BatchExtract()
         : m_autoSubfolder(false),
         m_preservePaths(true),
@@ -93,10 +92,11 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
 
     connect(job, SIGNAL(percent(KJob*, unsigned long)),
             this, SLOT(forwardProgress(KJob *, unsigned long)));
-    connect(job, SIGNAL(userQuery(Query*)), this, SLOT(slotUserQuery(Query*)));
+    connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
+            this, SLOT(slotUserQuery(Kerfuffle::Query*)));
 }
 
-void BatchExtract::slotUserQuery(Query *query)
+void BatchExtract::slotUserQuery(Kerfuffle::Query *query)
 {
     query->execute();
 }
@@ -282,7 +282,6 @@ bool BatchExtract::showExtractDialog()
     delete dialog;
 
     return true;
-}
 }
 
 #include <batchextract.moc>

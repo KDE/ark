@@ -25,10 +25,13 @@
 #include <QAbstractItemModel>
 #include <kjobtrackerinterface.h>
 #include "kerfuffle/archive.h"
-#include "kerfuffle/queries.h"
 
 using Kerfuffle::ArchiveEntry;
-using Kerfuffle::Query;
+
+namespace Kerfuffle
+{
+    class Query;
+}
 
 class ArchiveNode;
 class ArchiveDirNode;
@@ -83,7 +86,7 @@ private slots:
     void slotNewEntry(const ArchiveEntry& entry);
     void slotLoadingFinished(KJob *job);
     void slotEntryRemoved(const QString & path);
-    void slotUserQuery(Query *query);
+    void slotUserQuery(Kerfuffle::Query *query);
     void slotCleanupEmptyDirs();
 
 private:

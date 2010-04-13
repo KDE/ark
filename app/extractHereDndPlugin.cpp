@@ -20,18 +20,17 @@
  */
 
 #include "extractHereDndPlugin.h"
+#include "batchextract.h"
+
 #include <QMenu>
 #include <krun.h>
 #include "kerfuffle/archive.h"
-#include "kerfuffle/batchextract.h"
 
 #include <KPluginFactory>
 #include <KPluginLoader>
 #include <KApplication>
 #include <KLocale>
 #include <kfileitemlistproperties.h>
-
-using Kerfuffle::BatchExtract;
 
 K_PLUGIN_FACTORY(ExtractHerePluginFactory,
                  registerPlugin<ExtractHereDndPlugin>();
