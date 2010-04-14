@@ -327,8 +327,10 @@ bool CliInterface::createProcess()
         m_process = 0;
     }
 
-    m_process = new KProcess();
     m_stdOutData.clear();
+
+    m_process = new KProcess();
+    m_process->setTextModeEnabled(true);
     m_process->setOutputChannelMode(KProcess::MergedChannels);
 
     if (QMetaType::type("QProcess::ExitStatus") == 0)
@@ -424,15 +426,6 @@ void CliInterface::readStdout(bool handleAll)
     Q_ASSERT(QThread::currentThread() != QApplication::instance()->thread());
 
     QByteArray dd = m_process->readAllStandardOutput();
-
-    //for simplicity, we replace all carriage return characters to newlines
-    dd.replace('\015', '\n');
-
-    //same thing with backspaces.
-    //TODO: whether this is a safe assumption or not needs to be
-    //determined
-    dd.replace('\010', '\n');
-
     m_stdOutData += dd;
 
     QList<QByteArray> lines = m_stdOutData.split('\n');
