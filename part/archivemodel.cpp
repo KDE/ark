@@ -59,6 +59,10 @@ public:
     virtual ~ArchiveNode() {}
 
     static bool compareAscending(const QPair<ArchiveNode*,int> &a, const QPair<ArchiveNode*,int> &b) {
+        // #234373: sort folders before files
+        if (a.first->isDir() != b.first->isDir())
+            return a.first->isDir();
+
         if (currentSortColumn == FileName)
             return (a.first->m_name < b.first->m_name);
         else if ((currentSortColumn == Size) ||
@@ -69,6 +73,10 @@ public:
     }
 
     static bool compareDescending(const QPair<ArchiveNode*,int> &a, const QPair<ArchiveNode*,int> &b) {
+        // #234373: sort folders before files
+        if (a.first->isDir() != b.first->isDir())
+            return !(a.first->isDir());
+
         if (currentSortColumn == FileName)
             return (a.first->m_name > b.first->m_name);
         else if ((currentSortColumn == Size) ||
