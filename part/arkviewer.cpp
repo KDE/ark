@@ -34,6 +34,7 @@
 #include <KPushButton>
 #include <KRun>
 #include <KIO/NetAccess>
+#include <khtml_part.h>
 
 #include <QHBoxLayout>
 #include <QFrame>
@@ -154,6 +155,19 @@ bool ArkViewer::viewInInternalViewer(const QString& filename)
         connect(m_part->browserExtension(),
                 SIGNAL(openUrlRequestDelayed(KUrl, KParts::OpenUrlArguments, KParts::BrowserArguments)),
                 SLOT(slotOpenUrlRequestDelayed(KUrl, KParts::OpenUrlArguments, KParts::BrowserArguments)));
+    }
+
+    // #235546
+    // TODO: the user should be warned in a non-intrusive way that some features are going to be disabled
+    //       maybe there should be an option controlling this
+    KHTMLPart *khtmlPart = qobject_cast<KHTMLPart*>(m_part);
+    if (khtmlPart) {
+        kDebug() << "Disabling javascripts, plugins, java and external references for KHTMLPart";
+        khtmlPart->setJScriptEnabled(false);
+        khtmlPart->setJavaEnabled(false);
+        khtmlPart->setPluginsEnabled(false);
+        khtmlPart->setMetaRefreshEnabled(false);
+        khtmlPart->setOnlyLocalReferences(true);
     }
 
     m_part->openUrl(fileUrl);

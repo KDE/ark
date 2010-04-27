@@ -18,8 +18,7 @@ kde4_add_ui_files(arkpart_PART_SRCS jobtracker.ui )
 
 kde4_add_plugin(arkpart ${arkpart_PART_SRCS})
 
-
-target_link_libraries(arkpart kerfuffle ${KDE4_KFILE_LIBS} ${KDE4_KPARTS_LIBS})
+target_link_libraries(arkpart kerfuffle ${KDE4_KFILE_LIBS} ${KDE4_KPARTS_LIBS} ${KDE4_KHTML_LIBS})
 
 install(TARGETS arkpart  DESTINATION ${PLUGIN_INSTALL_DIR})
 
