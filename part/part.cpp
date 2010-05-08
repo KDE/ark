@@ -495,6 +495,9 @@ void Part::slotPreview(const QModelIndex & index)
 
 void Part::slotPreviewExtracted(KJob *job)
 {
+    // FIXME: the error checking here isn't really working
+    //        if there's an error or an overwrite dialog,
+    //        the preview dialog will be launched anyway
     if (!job->error()) {
         //ArkViewer viewer( widget() );
         const ArchiveEntry& entry =  m_model->entryForIndex(m_view->selectionModel()->currentIndex());
