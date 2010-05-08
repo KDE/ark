@@ -237,6 +237,23 @@ public:
     bool doSuspend();
     bool doResume();
 
+    /**
+     * Returns the list of characters which are preceded by a
+     * backslash when a file name in an archive is passed to
+     * a program.
+     *
+     * @see setEscapedCharacters().
+     */
+    QString escapedCharacters();
+
+    /**
+     * Sets which characters will be preceded by a backslash when
+     * a file name in an archive is passed to a program.
+     *
+     * @see escapedCharacters().
+     */
+    void setEscapedCharacters(const QString& characters);
+
 private:
     bool findProgramAndCreateProcess(const QString& program);
     void substituteListVariables(QStringList& params);
@@ -251,6 +268,14 @@ private:
 
     void failOperation();
 
+    /**
+     * Precedes the characters returned by escapedCharacters() with a
+     * backslash in @p fileName.
+     *
+     * @param fileName String to escape.
+     */
+    QString escapeFileName(const QString& fileName);
+
     QByteArray m_stdOutData;
     bool m_userCancelled;
     QRegExp m_existsPattern;
@@ -259,6 +284,8 @@ private:
     QString m_program;
     ParameterList m_param;
     QVariantList m_removedFiles;
+
+    QString m_escapedCharacters;
 
 private slots:
     void started();

@@ -39,7 +39,9 @@ public:
     explicit CliPlugin(QObject *parent, const QVariantList & args)
             : CliInterface(parent, args),
             m_status(Header) {
-
+        // #208091: infozip applies special meanings to some characters
+        //          see match.c in infozip's source code
+        setEscapedCharacters(QLatin1String("[]*?^-\\!"));
     }
 
     virtual ~CliPlugin() {

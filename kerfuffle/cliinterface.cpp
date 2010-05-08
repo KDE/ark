@@ -209,7 +209,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
         if (argument == "$Files") {
             args.removeAt(i);
             for (int j = 0; j < files.count(); ++j) {
-                args.insert(i + j, files.at(j).toString());
+                args.insert(i + j, escapeFileName(files.at(j).toString()));
                 ++i;
             }
             --i;
@@ -301,10 +301,7 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
         if (argument == "$Files") {
             args.removeAt(i);
             for (int j = 0; j < files.count(); ++j) {
-
-                //QString relativeName = QDir::current().relativeFilePath(files.at(j));
-
-                args.insert(i + j, files.at(j).toString());
+                args.insert(i + j, escapeFileName(files.at(j).toString()));
                 ++i;
             }
             --i;
@@ -653,6 +650,34 @@ void CliInterface::substituteListVariables(QStringList& params)
         }
     }
 }
+
+QString CliInterface::escapedCharacters()
+{
+    return m_escapedCharacters;
+}
+
+void CliInterface::setEscapedCharacters(const QString& characters)
+{
+    m_escapedCharacters = characters;
+}
+
+QString CliInterface::escapeFileName(const QString& fileName)
+{
+    QString quoted;
+    const int len = fileName.length();
+    const QLatin1Char backslash('\\');
+    quoted.reserve(len * 2);
+
+    for (int i = 0; i < len; ++i) {
+        if (m_escapedCharacters.contains(fileName.at(i)))
+            quoted.append(backslash);
+
+        quoted.append(fileName.at(i));
+    }
+
+    return quoted;
+}
+
 }
 
 #include "cliinterface.moc"
