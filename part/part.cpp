@@ -485,7 +485,10 @@ void Part::slotPreview(const QModelIndex & index)
     const ArchiveEntry& entry =  m_model->entryForIndex(index);
 
     if (!entry.isEmpty()) {
-        ExtractJob *job = m_model->extractFile(entry[ InternalID ], m_previewDir->name());
+        Kerfuffle::ExtractionOptions options;
+        options["PreservePaths"] = true;
+
+        ExtractJob *job = m_model->extractFile(entry[ InternalID ], m_previewDir->name(), options);
         registerJob(job);
         connect(job, SIGNAL(result(KJob*)),
                 this, SLOT(slotPreviewExtracted(KJob*)));
@@ -499,10 +502,10 @@ void Part::slotPreviewExtracted(KJob *job)
     //        if there's an error or an overwrite dialog,
     //        the preview dialog will be launched anyway
     if (!job->error()) {
-        //ArkViewer viewer( widget() );
-        const ArchiveEntry& entry =  m_model->entryForIndex(m_view->selectionModel()->currentIndex());
-        const QString name = entry[ FileName ].toString().split('/', QString::SkipEmptyParts).last();
-        const QString fullName = m_previewDir->name() + '/' + name;
+        const ArchiveEntry& entry =
+            m_model->entryForIndex(m_view->selectionModel()->currentIndex());
+        const QString fullName =
+            m_previewDir->name() + '/' + entry[ FileName ].toString();
         ArkViewer::view(fullName, widget());
     } else {
         KMessageBox::error(widget(), job->errorString());
