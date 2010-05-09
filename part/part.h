@@ -59,7 +59,7 @@ public:
     bool isBusy() const;
 
 public slots:
-    void extractSelectedFilesTo(QString localPath);
+    void extractSelectedFilesTo(const QString& localPath);
 
 private slots:
     void slotLoadingStarted();

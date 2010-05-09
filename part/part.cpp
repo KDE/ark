@@ -147,7 +147,7 @@ void Part::registerJob(KJob* job)
             this, SIGNAL(ready()));
 }
 
-void Part::extractSelectedFilesTo(QString localPath)
+void Part::extractSelectedFilesTo(const QString& localPath)
 {
     kDebug() << "Extract to " << localPath;
     if (!m_model) return;
@@ -176,7 +176,6 @@ void Part::extractSelectedFilesTo(QString localPath)
 
     kDebug() << "selected files are " << files;
     Kerfuffle::ExtractionOptions options;
-    options["PreservePaths"] = true;
     if (!internalRoot.isNull()) options["RootNode"] = internalRoot;
 
     ExtractJob *job = m_model->extractFiles(files, localPath, options);
