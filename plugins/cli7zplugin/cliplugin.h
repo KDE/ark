@@ -39,8 +39,14 @@ protected:
     virtual bool readListLine(const QString &line);
 
 private:
+    enum ReadState {
+	ReadStateHeader = 0,
+	ReadStateArchiveInformation,
+	ReadStateEntryInformation
+    };
+
     Kerfuffle::ArchiveEntry m_currentArchiveEntry;
-    int m_state;
+    ReadState m_state;
 };
 
 #endif // CLIPLUGIN_H
