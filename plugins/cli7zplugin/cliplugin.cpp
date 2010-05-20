@@ -34,7 +34,7 @@ using namespace Kerfuffle;
 
 CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
         : CliInterface(parent, args)
-        , m_state(0)
+        , m_state(ReadStateHeader)
 {
 }
 
@@ -76,29 +76,33 @@ ParameterList CliPlugin::parameterList() const
 
 bool CliPlugin::readListLine(const QString &line)
 {
+    static const QLatin1String archiveInfoDelimiter("----");
+    static const QLatin1String entryInfoDelimiter("----------");
+
     switch (m_state) {
-    case 0: // header
+    case ReadStateHeader:
         if (line.startsWith(QLatin1String("Listing archive:"))) {
             kDebug() << "Archive name: " << line.right(line.size() - 16).trimmed();
-        } else if (line.startsWith(QLatin1String("----------"))) {
-            m_state = 1;
+        } else if (line == archiveInfoDelimiter) {
+            m_state = ReadStateArchiveInformation;
         } else if (line.contains("Error:")) {
             kDebug() << line.mid(6);
-            //m_errorMessages << line.mid(6);
         }
         break;
-    case 1: // beginning of a file detail
+
+    case ReadStateArchiveInformation:
+        if (line == entryInfoDelimiter) {
+            m_state = ReadStateEntryInformation;
+        }
+        break;
+
+    case ReadStateEntryInformation:
         if (line.startsWith(QLatin1String("Path ="))) {
             m_currentArchiveEntry.clear();
             QString entryFilename = QDir::fromNativeSeparators(line.mid(6).trimmed());
             m_currentArchiveEntry[FileName] = entryFilename;
             m_currentArchiveEntry[InternalID] = entryFilename;
-            m_state = 2;
-        }
-        break;
-
-    case 2: // file details
-        if (line.startsWith(QLatin1String("Size = "))) {
+        } else if (line.startsWith(QLatin1String("Size = "))) {
             m_currentArchiveEntry[ Size ] = line.mid(7).trimmed();
         } else if (line.startsWith(QLatin1String("Packed Size = "))) {
             m_currentArchiveEntry[ CompressedSize ] = line.mid(14).trimmed();
@@ -132,12 +136,7 @@ bool CliPlugin::readListLine(const QString &line)
             if (m_currentArchiveEntry.contains(FileName)) {
                 entry(m_currentArchiveEntry);
             }
-
-            m_state = 1;
         }
-        break;
-
-    default:
         break;
     }
 
