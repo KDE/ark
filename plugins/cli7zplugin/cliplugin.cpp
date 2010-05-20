@@ -82,7 +82,8 @@ bool CliPlugin::readListLine(const QString &line)
     switch (m_state) {
     case ReadStateHeader:
         if (line.startsWith(QLatin1String("Listing archive:"))) {
-            kDebug() << "Archive name: " << line.right(line.size() - 16).trimmed();
+            kDebug() << "Archive name: "
+                     << line.right(line.size() - 16).trimmed();
         } else if (line == archiveInfoDelimiter) {
             m_state = ReadStateArchiveInformation;
         } else if (line.contains("Error:")) {
@@ -98,8 +99,9 @@ bool CliPlugin::readListLine(const QString &line)
 
     case ReadStateEntryInformation:
         if (line.startsWith(QLatin1String("Path ="))) {
+            const QString entryFilename =
+                QDir::fromNativeSeparators(line.mid(6).trimmed());
             m_currentArchiveEntry.clear();
-            QString entryFilename = QDir::fromNativeSeparators(line.mid(6).trimmed());
             m_currentArchiveEntry[FileName] = entryFilename;
             m_currentArchiveEntry[InternalID] = entryFilename;
         } else if (line.startsWith(QLatin1String("Size = "))) {
@@ -107,19 +109,23 @@ bool CliPlugin::readListLine(const QString &line)
         } else if (line.startsWith(QLatin1String("Packed Size = "))) {
             m_currentArchiveEntry[ CompressedSize ] = line.mid(14).trimmed();
         } else if (line.startsWith(QLatin1String("Modified = "))) {
-            QDateTime ts = QDateTime::fromString(line.mid(11).trimmed(), "yyyy-MM-dd hh:mm:ss");
-            m_currentArchiveEntry[ Timestamp ] = ts;
+            m_currentArchiveEntry[ Timestamp ] =
+                QDateTime::fromString(line.mid(11).trimmed(),
+                                      "yyyy-MM-dd hh:mm:ss");
         } else if (line.startsWith(QLatin1String("Attributes = "))) {
-            QString attributes = line.mid(13).trimmed();
+            const QString attributes = line.mid(13).trimmed();
 
-            bool isDirectory = attributes.startsWith('D');
+            const bool isDirectory = attributes.startsWith('D');
             m_currentArchiveEntry[ IsDirectory ] = isDirectory;
             if (isDirectory) {
-                QString directoryName = m_currentArchiveEntry[FileName].toString();
+                const QString directoryName =
+                    m_currentArchiveEntry[FileName].toString();
                 if (!directoryName.endsWith('/')) {
-                    m_currentArchiveEntry[FileName] = m_currentArchiveEntry[InternalID] = directoryName + '/';
-                    bool isPasswordProtected = (line.at(12) == '+');
-                    m_currentArchiveEntry[ IsPasswordProtected ] = isPasswordProtected;
+                    const bool isPasswordProtected = (line.at(12) == '+');
+                    m_currentArchiveEntry[FileName] =
+                        m_currentArchiveEntry[InternalID] = directoryName + '/';
+                    m_currentArchiveEntry[ IsPasswordProtected ] =
+                        isPasswordProtected;
                 }
             }
 
@@ -127,11 +133,10 @@ bool CliPlugin::readListLine(const QString &line)
         } else if (line.startsWith(QLatin1String("CRC = "))) {
             m_currentArchiveEntry[ CRC ] = line.mid(6).trimmed();
         } else if (line.startsWith(QLatin1String("Method = "))) {
-            QString method = line.mid(9).trimmed();
-            m_currentArchiveEntry[ Method ] = method;
-        } else if (line.startsWith(QLatin1String("Encrypted = ")) && line.size() >= 13) {
-            bool isPasswordProtected = (line.at(12) == '+');
-            m_currentArchiveEntry[ IsPasswordProtected ] = isPasswordProtected;
+            m_currentArchiveEntry[ Method ] = line.mid(9).trimmed();
+        } else if (line.startsWith(QLatin1String("Encrypted = ")) &&
+                   line.size() >= 13) {
+            m_currentArchiveEntry[ IsPasswordProtected ] = (line.at(12) == '+');
         } else if (line.startsWith(QLatin1String("Block = "))) {
             if (m_currentArchiveEntry.contains(FileName)) {
                 entry(m_currentArchiveEntry);
