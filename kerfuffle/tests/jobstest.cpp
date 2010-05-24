@@ -30,15 +30,30 @@
 
 #include <qsignalspy.h>
 
+using Kerfuffle::ArchiveEntry;
+
 class JobsTest : public QObject
 {
     Q_OBJECT
 
+protected Q_SLOTS:
+    void initTestCase();
+
+    void slotNewEntry(const ArchiveEntry& entry);
+
 private Q_SLOTS:
     void testEmitNewEntry();
+
+private:
+    QStringList m_entries;
 };
 
 QTEST_KDEMAIN_CORE(JobsTest)
+
+void JobsTest::initTestCase()
+{
+    m_entries.clear();
+}
 
 void JobsTest::testEmitNewEntry()
 {
@@ -50,12 +65,26 @@ void JobsTest::testEmitNewEntry()
 
     Kerfuffle::ListJob *listJob = archive->list();
     QSignalSpy spy(listJob, SIGNAL(newEntry(const ArchiveEntry&)));
+    connect(listJob,  SIGNAL(newEntry(const ArchiveEntry&)),
+            SLOT(slotNewEntry(const ArchiveEntry&)));
 
-    listJob->start();
+    listJob->exec();
 
     QCOMPARE(spy.count(), 4);
 
+    QStringList entries;
+    entries.append(QLatin1String("a.txt"));
+    entries.append(QLatin1String("aDir/"));
+    entries.append(QLatin1String("aDir/b.txt"));
+    entries.append(QLatin1String("c.txt"));
+    QCOMPARE(entries, m_entries);
+
     archive->deleteLater();
+}
+
+void JobsTest::slotNewEntry(const ArchiveEntry& entry)
+{
+    m_entries.append(entry[Kerfuffle::FileName].toString());
 }
 
 #include "jobstest.moc"
