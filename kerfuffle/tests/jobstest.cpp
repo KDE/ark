@@ -28,7 +28,6 @@
 
 #include <qtest_kde.h>
 
-#include <qeventloop.h>
 #include <qsignalspy.h>
 
 class JobsTest : public QObject
@@ -52,11 +51,7 @@ void JobsTest::testEmitNewEntry()
     Kerfuffle::ListJob *listJob = archive->list();
     QSignalSpy spy(listJob, SIGNAL(newEntry(const ArchiveEntry&)));
 
-    QEventLoop loop;
-    connect(listJob, SIGNAL(result(KJob*)), &loop, SLOT(quit()));
-
     listJob->start();
-    loop.exec();
 
     QCOMPARE(spy.count(), 4);
 
