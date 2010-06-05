@@ -39,11 +39,13 @@ public:
     static void view(const QString& filename, QWidget* parent = 0);
 
 protected:
-    virtual void closeEvent(QCloseEvent *event);
     virtual void keyPressEvent(QKeyEvent *event);
 
 protected slots:
     void slotOpenUrlRequestDelayed(const KUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments);
+
+private slots:
+    void dialogClosed();
 
 private:
     explicit ArkViewer(QWidget* parent = 0, Qt::WFlags flags = 0);

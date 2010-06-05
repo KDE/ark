@@ -48,18 +48,20 @@ ArkViewer::ArkViewer(QWidget * parent, Qt::WFlags flags)
     m_widget->layout()->setSpacing(10);
 
     setMainWidget(m_widget);
+
+    connect(this, SIGNAL(finished()), SLOT(dialogClosed()));
 }
 
 ArkViewer::~ArkViewer()
 {
 }
 
-void ArkViewer::closeEvent(QCloseEvent *event)
+void ArkViewer::dialogClosed()
 {
     if (m_part) {
-        KProgressDialog progressDialog(this,
-                                       i18n("Closing preview"),
-                                       i18n("Please wait while the preview is being closed..."));
+        KProgressDialog progressDialog
+            (this, i18n("Closing preview"),
+             i18n("Please wait while the preview is being closed..."));
 
         progressDialog.setMinimumDuration(500);
         progressDialog.setModal(true);
@@ -68,8 +70,6 @@ void ArkViewer::closeEvent(QCloseEvent *event)
 
         m_part->closeUrl();
     }
-
-    KDialog::closeEvent(event);
 }
 
 void ArkViewer::view(const QString& filename, QWidget *parent)
