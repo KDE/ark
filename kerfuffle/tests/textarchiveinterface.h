@@ -55,6 +55,7 @@ public:
 private:
     Kerfuffle::ArchiveEntry stringToArchiveEntry(const QString& entry);
 
+    QStringList m_entryNameList;
     QList<Kerfuffle::ArchiveEntry> m_entryList;
 };
 

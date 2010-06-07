@@ -61,6 +61,7 @@ bool TextArchiveInterface::open()
 
         Kerfuffle::ArchiveEntry e(stringToArchiveEntry(line));
 
+        m_entryNameList.append(e[Kerfuffle::FileName].toString());
         m_entryList.append(e);
     }
 
