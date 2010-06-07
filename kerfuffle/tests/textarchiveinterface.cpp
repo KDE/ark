@@ -60,6 +60,7 @@ bool TextArchiveInterface::open()
 
         Kerfuffle::ArchiveEntry e;
         e[Kerfuffle::FileName] = QString(rawLine.left(rawLine.length() - 1));
+        e[Kerfuffle::IsDirectory] = e[Kerfuffle::FileName].endsWith('/');
 
         m_entryList.append(e);
     }
