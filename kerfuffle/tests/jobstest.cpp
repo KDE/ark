@@ -23,9 +23,11 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "kerfuffle/archive.h"
 #include "kerfuffle/jobs.h"
 
+#include "textarchiveinterface.h"
+
+#include <kglobal.h>
 #include <qtest_kde.h>
 
 #include <qsignalspy.h>
@@ -52,18 +54,26 @@ QTEST_KDEMAIN_CORE(JobsTest)
 
 void JobsTest::initTestCase()
 {
+    // Hackish way to make sure the i18n stuff
+    // is called from the main thread
+    KGlobal::locale();
+
+    qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
     m_entries.clear();
 }
 
 void JobsTest::testEmitNewEntry()
 {
-    Kerfuffle::Archive *archive;
+    QVariantList args;
+    args.append(KDESRCDIR "data/textarchive001.txt");
 
-    archive = Kerfuffle::factory(KDESRCDIR "data/simplearchive.tar.gz");
-    if (!archive)
-        QSKIP("There is no plugin to handle tar.gz files. Skipping test.", SkipSingle);
+    TextArchiveInterface *iface = new TextArchiveInterface(this, args);
 
-    Kerfuffle::ListJob *listJob = archive->list();
+    QCOMPARE(iface->filename(),
+             QLatin1String(KDESRCDIR "data/textarchive001.txt"));
+    QVERIFY(iface->open());
+
+    Kerfuffle::ListJob *listJob = new Kerfuffle::ListJob(iface, this);
     QSignalSpy spy(listJob, SIGNAL(newEntry(const ArchiveEntry&)));
     connect(listJob,  SIGNAL(newEntry(const ArchiveEntry&)),
             SLOT(slotNewEntry(const ArchiveEntry&)));
@@ -79,7 +89,7 @@ void JobsTest::testEmitNewEntry()
     entries.append(QLatin1String("c.txt"));
     QCOMPARE(entries, m_entries);
 
-    archive->deleteLater();
+    iface->deleteLater();
 }
 
 void JobsTest::slotNewEntry(const ArchiveEntry& entry)
