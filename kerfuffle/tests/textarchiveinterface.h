@@ -53,6 +53,8 @@ public:
     virtual bool deleteFiles(const QList<QVariant>& files);
 
 private:
+    Kerfuffle::ArchiveEntry stringToArchiveEntry(const QString& entry);
+
     QList<Kerfuffle::ArchiveEntry> m_entryList;
 };
 

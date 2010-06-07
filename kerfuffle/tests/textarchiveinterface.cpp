@@ -57,10 +57,9 @@ bool TextArchiveInterface::open()
 
     while (!file.atEnd()) {
         const QByteArray rawLine(file.readLine());
+        const QString line(rawLine.left(rawLine.length() - 1));
 
-        Kerfuffle::ArchiveEntry e;
-        e[Kerfuffle::FileName] = QString(rawLine.left(rawLine.length() - 1));
-        e[Kerfuffle::IsDirectory] = e[Kerfuffle::FileName].endsWith('/');
+        Kerfuffle::ArchiveEntry e(stringToArchiveEntry(line));
 
         m_entryList.append(e);
     }
@@ -81,6 +80,16 @@ bool TextArchiveInterface::copyFiles(const QList<QVariant>& files, const QString
 bool TextArchiveInterface::deleteFiles(const QList<QVariant>& files)
 {
     return true;
+}
+
+Kerfuffle::ArchiveEntry TextArchiveInterface::stringToArchiveEntry(const QString& entry)
+{
+    Kerfuffle::ArchiveEntry e;
+
+    e[Kerfuffle::FileName] = entry;
+    e[Kerfuffle::IsDirectory] = entry.endsWith('/');
+
+    return e;
 }
 
 #include "textarchiveinterface.moc"
