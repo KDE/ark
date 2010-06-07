@@ -55,7 +55,7 @@ class AddJob;
  * below, so set those that are available.
  */
 enum EntryMetaDataType {
-    FileName,            /**< The entry's file name */
+    FileName = 0,        /**< The entry's file name */
     InternalID,          /**< The entry's ID for Ark's internal manipulation */
     Permissions,         /**< The entry's permissions */
     Owner,               /**< The user the entry belongs to */
