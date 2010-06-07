@@ -25,7 +25,6 @@
 
 #include "textarchiveinterface.h"
 
-#include <qdebug.h>
 #include <qfile.h>
 
 TextArchiveInterface::TextArchiveInterface(QObject *parent, const QVariantList& args)
