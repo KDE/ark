@@ -70,6 +70,22 @@ bool TextArchiveInterface::open()
 
 bool TextArchiveInterface::addFiles(const QStringList& files, const Kerfuffle::CompressionOptions& options)
 {
+    QStringList entryNameList;
+    QList<Kerfuffle::ArchiveEntry> entryList;
+
+    foreach (const QString& file, files) {
+        if (m_entryNameList.contains(file))
+            return false;
+
+        Kerfuffle::ArchiveEntry e(stringToArchiveEntry(file));
+
+        entryNameList.append(e[Kerfuffle::FileName].toString());
+        entryList.append(e);
+    }
+
+    m_entryNameList.append(entryNameList);
+    m_entryList.append(entryList);
+
     return true;
 }
 
