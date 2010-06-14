@@ -46,10 +46,14 @@ protected Q_SLOTS:
     void slotNewEntry(const ArchiveEntry& entry);
 
 private Q_SLOTS:
+    // ListJob-related tests
     void testExtractedFilesSize();
     void testIsPasswordProtected();
     void testIsSingleFolderArchive();
     void testListEntries();
+
+    // DeleteJob-related tests
+    void testRemoveEntry();
 
 private:
     JSONArchiveInterface *createArchiveInterface(const QString& filePath);
@@ -239,6 +243,31 @@ QList<Kerfuffle::ArchiveEntry> JobsTest::listEntries(JSONArchiveInterface *iface
     listJob->exec();
 
     return m_entries;
+}
+
+void JobsTest::testRemoveEntry()
+{
+    QVariantList filesToDelete;
+    JSONArchiveInterface *iface;
+    Kerfuffle::DeleteJob *deleteJob;
+    QStringList expectedEntries;
+
+    filesToDelete.append(QLatin1String("c.txt"));
+    iface = createArchiveInterface(KDESRCDIR "data/archive001.json");
+    deleteJob = new Kerfuffle::DeleteJob(filesToDelete, iface, this);
+    QVERIFY(deleteJob->exec());
+    QList<Kerfuffle::ArchiveEntry> archiveEntries(listEntries(iface));
+    expectedEntries.append(QLatin1String("a.txt"));
+    expectedEntries.append(QLatin1String("aDir/"));
+    expectedEntries.append(QLatin1String("aDir/b.txt"));
+    QCOMPARE(archiveEntries.count(), expectedEntries.count());
+    for (int i = 0; i < expectedEntries.count(); ++i) {
+        const Kerfuffle::ArchiveEntry e(archiveEntries.at(i));
+        QCOMPARE(expectedEntries[i], e[Kerfuffle::FileName].toString());
+    }
+    iface->deleteLater();
+
+    // TODO: test for errors
 }
 
 #include "jobstest.moc"
