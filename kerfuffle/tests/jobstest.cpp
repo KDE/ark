@@ -40,6 +40,7 @@ class JobsTest : public QObject
 
 protected Q_SLOTS:
     void initTestCase();
+    void init();
 
     void slotNewEntry(const ArchiveEntry& entry);
 
@@ -59,6 +60,10 @@ void JobsTest::initTestCase()
     KGlobal::locale();
 
     qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
+}
+
+void JobsTest::init()
+{
     m_entries.clear();
 }
 
