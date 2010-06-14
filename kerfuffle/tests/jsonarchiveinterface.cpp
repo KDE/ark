@@ -64,7 +64,8 @@ bool JSONArchiveInterface::open()
     const QVariantMap jsonMap = parser.parse(&file, &ok).toMap();
 
     if (!ok) {
-        kDebug() << parser.errorLine() << parser.errorString();
+        kDebug() << filename() << ":"  << parser.errorLine() << ":"
+                 << parser.errorString();
         return false;
     }
 
