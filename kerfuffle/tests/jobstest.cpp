@@ -53,6 +53,7 @@ private Q_SLOTS:
 
 private:
     JSONArchiveInterface *createArchiveInterface(const QString& filePath);
+    QList<Kerfuffle::ArchiveEntry> listEntries(JSONArchiveInterface *iface);
 
     QList<Kerfuffle::ArchiveEntry> m_entries;
 };
@@ -203,15 +204,7 @@ void JobsTest::testListEntries()
     JSONArchiveInterface *iface =
         createArchiveInterface(KDESRCDIR "data/archive001.json");
 
-    Kerfuffle::ListJob *listJob = new Kerfuffle::ListJob(iface, this);
-
-    QSignalSpy spy(listJob, SIGNAL(newEntry(const ArchiveEntry&)));
-    connect(listJob,  SIGNAL(newEntry(const ArchiveEntry&)),
-            SLOT(slotNewEntry(const ArchiveEntry&)));
-
-    listJob->exec();
-
-    QCOMPARE(spy.count(), 4);
+    QList<Kerfuffle::ArchiveEntry> archiveEntries(listEntries(iface));
 
     QStringList entries;
     entries.append(QLatin1String("a.txt"));
@@ -219,10 +212,10 @@ void JobsTest::testListEntries()
     entries.append(QLatin1String("aDir/b.txt"));
     entries.append(QLatin1String("c.txt"));
 
-    QCOMPARE(entries.count(), m_entries.count());
+    QCOMPARE(entries.count(), archiveEntries.count());
 
     for (int i = 0; i < entries.count(); ++i) {
-        Kerfuffle::ArchiveEntry e(m_entries.at(i));
+        Kerfuffle::ArchiveEntry e(archiveEntries.at(i));
 
         QCOMPARE(entries[i], e[Kerfuffle::FileName].toString());
     }
@@ -233,6 +226,19 @@ void JobsTest::testListEntries()
 void JobsTest::slotNewEntry(const ArchiveEntry& entry)
 {
     m_entries.append(entry);
+}
+
+QList<Kerfuffle::ArchiveEntry> JobsTest::listEntries(JSONArchiveInterface *iface)
+{
+    m_entries.clear();
+
+    Kerfuffle::ListJob *listJob = new Kerfuffle::ListJob(iface, this);
+    connect(listJob, SIGNAL(newEntry(const ArchiveEntry&)),
+            SLOT(slotNewEntry(const ArchiveEntry&)));
+
+    listJob->exec();
+
+    return m_entries;
 }
 
 #include "jobstest.moc"
