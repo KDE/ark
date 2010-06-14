@@ -51,7 +51,7 @@ private Q_SLOTS:
 private:
     JSONArchiveInterface *createArchiveInterface(const QString& filePath);
 
-    QStringList m_entries;
+    QList<Kerfuffle::ArchiveEntry> m_entries;
 };
 
 QTEST_KDEMAIN_CORE(JobsTest)
@@ -104,14 +104,21 @@ void JobsTest::testEmitNewEntry()
     entries.append(QLatin1String("aDir/"));
     entries.append(QLatin1String("aDir/b.txt"));
     entries.append(QLatin1String("c.txt"));
-    QCOMPARE(entries, m_entries);
+
+    QCOMPARE(entries.count(), m_entries.count());
+
+    for (int i = 0; i < entries.count(); ++i) {
+        Kerfuffle::ArchiveEntry e(m_entries.at(i));
+
+        QCOMPARE(entries[i], e[Kerfuffle::FileName].toString());
+    }
 
     iface->deleteLater();
 }
 
 void JobsTest::slotNewEntry(const ArchiveEntry& entry)
 {
-    m_entries.append(entry[Kerfuffle::FileName].toString());
+    m_entries.append(entry);
 }
 
 #include "jobstest.moc"
