@@ -96,7 +96,7 @@ private:
     bool m_isSingleFolderArchive;
     bool m_isPasswordProtected;
     QString m_subfolderName;
-    QString m_previousEntry;
+    QString m_basePath;
     qlonglong m_extractedFilesSize;
 
 private slots:

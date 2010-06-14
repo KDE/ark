@@ -157,26 +157,23 @@ void ListJob::onNewEntry(const ArchiveEntry& entry)
     m_extractedFilesSize += entry[ Size ].toLongLong();
     m_isPasswordProtected |= entry [ IsPasswordProtected ].toBool();
 
-    QString filename = entry[ FileName ].toString();
-    QString fileBaseRoot = filename.split(QDir::separator()).first();
+    if (m_isSingleFolderArchive) {
+        const QString fileName(entry[FileName].toString());
+        const QString basePath(fileName.split('/').at(0));
 
-    if (m_previousEntry.isEmpty()) { // Set the root path of the filename
-        m_previousEntry = fileBaseRoot;
-        m_subfolderName = fileBaseRoot;
-        m_isSingleFolderArchive = entry[ IsDirectory ].toBool();
-    } else {
-        if (m_previousEntry != fileBaseRoot) {
-            m_isSingleFolderArchive = false;
-            m_subfolderName.clear();
+        if (m_basePath.isEmpty()) {
+            m_basePath = basePath;
+            m_subfolderName = basePath;
         } else {
-            // The state may change only if the folder's files were added before itself
-            if (entry[ IsDirectory ].toBool())
-                m_isSingleFolderArchive = true;
+            if (m_basePath != basePath) {
+                m_isSingleFolderArchive = false;
+                m_subfolderName.clear();
+            }
         }
     }
 }
 
-QString ListJob::subfolderName() 
+QString ListJob::subfolderName()
 {
     return m_subfolderName;
 }
