@@ -48,6 +48,7 @@ protected Q_SLOTS:
 private Q_SLOTS:
     void testExtractedFilesSize();
     void testIsPasswordProtected();
+    void testIsSingleFolderArchive();
     void testListEntries();
 
 private:
@@ -130,6 +131,64 @@ void JobsTest::testIsPasswordProtected()
 
     noPasswordIface->deleteLater();
     passwordIface->deleteLater();
+}
+
+void JobsTest::testIsSingleFolderArchive()
+{
+    JSONArchiveInterface *iface =
+        createArchiveInterface(KDESRCDIR "data/archive001.json");
+
+    Kerfuffle::ListJob *listJob = new Kerfuffle::ListJob(iface, this);
+    listJob->exec();
+    QCOMPARE(listJob->isSingleFolderArchive(), false);
+    iface->deleteLater();
+    listJob->deleteLater();
+
+    iface = createArchiveInterface(KDESRCDIR "data/archive-singlefile.json");
+    listJob = new Kerfuffle::ListJob(iface, this);
+    listJob->exec();
+    QCOMPARE(listJob->isSingleFolderArchive(), true);
+    iface->deleteLater();
+    listJob->deleteLater();
+
+    iface = createArchiveInterface(KDESRCDIR "data/archive-onetopfolder.json");
+    listJob = new Kerfuffle::ListJob(iface, this);
+    listJob->exec();
+    QCOMPARE(listJob->isSingleFolderArchive(), true);
+    iface->deleteLater();
+    listJob->deleteLater();
+
+    iface = createArchiveInterface
+            (KDESRCDIR "data/archive-multiplefolders.json");
+    listJob = new Kerfuffle::ListJob(iface, this);
+    listJob->exec();
+    QCOMPARE(listJob->isSingleFolderArchive(), false);
+    iface->deleteLater();
+    listJob->deleteLater();
+
+    iface = createArchiveInterface
+            (KDESRCDIR "data/archive-nodir-manyfiles.json");
+    listJob = new Kerfuffle::ListJob(iface, this);
+    listJob->exec();
+    QCOMPARE(listJob->isSingleFolderArchive(), false);
+    iface->deleteLater();
+    listJob->deleteLater();
+
+    iface = createArchiveInterface
+            (KDESRCDIR "data/archive-deepsinglehierarchy.json");
+    listJob = new Kerfuffle::ListJob(iface, this);
+    listJob->exec();
+    QCOMPARE(listJob->isSingleFolderArchive(), true);
+    iface->deleteLater();
+    listJob->deleteLater();
+
+    iface = createArchiveInterface
+            (KDESRCDIR "data/archive-unorderedsinglefolder.json");
+    listJob = new Kerfuffle::ListJob(iface, this);
+    listJob->exec();
+    QCOMPARE(listJob->isSingleFolderArchive(), true);
+    iface->deleteLater();
+    listJob->deleteLater();
 }
 
 void JobsTest::testListEntries()

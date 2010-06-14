@@ -1,0 +1,8 @@
+{
+    "entries": [
+        { "FileName": "aDir/", "IsDirectory": true },
+        { "FileName": "aDir/b.txt" },
+        { "FileName": "anotherDir/", "IsDirectory": true },
+        { "FileName": "anotherDir/file.txt" }
+    ]
+}
