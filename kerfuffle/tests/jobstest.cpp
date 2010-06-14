@@ -25,7 +25,7 @@
 
 #include "kerfuffle/jobs.h"
 
-#include "textarchiveinterface.h"
+#include "jsonarchiveinterface.h"
 
 #include <kglobal.h>
 #include <qtest_kde.h>
@@ -70,12 +70,12 @@ void JobsTest::init()
 void JobsTest::testEmitNewEntry()
 {
     QVariantList args;
-    args.append(KDESRCDIR "data/textarchive001.txt");
+    args.append(KDESRCDIR "data/archive001.json");
 
-    TextArchiveInterface *iface = new TextArchiveInterface(this, args);
+    JSONArchiveInterface *iface = new JSONArchiveInterface(this, args);
 
     QCOMPARE(iface->filename(),
-             QLatin1String(KDESRCDIR "data/textarchive001.txt"));
+             QLatin1String(KDESRCDIR "data/archive001.json"));
     QVERIFY(iface->open());
 
     Kerfuffle::ListJob *listJob = new Kerfuffle::ListJob(iface, this);
