@@ -81,11 +81,7 @@ void ExtractionDialog::loadSettings()
 
 void ExtractionDialog::setSingleFolderArchive(bool value)
 {
-    if (value) {
-        m_ui->singleFolderGroup->setChecked(false);
-    } else {
-        m_ui->singleFolderGroup->setChecked(true);
-    }
+    m_ui->singleFolderGroup->setChecked(!value);
 }
 
 void ExtractionDialog::batchModeOption()
