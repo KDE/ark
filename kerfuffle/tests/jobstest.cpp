@@ -47,6 +47,7 @@ protected Q_SLOTS:
 
 private Q_SLOTS:
     void testExtractedFilesSize();
+    void testIsPasswordProtected();
     void testListEntries();
 
 private:
@@ -106,6 +107,29 @@ void JobsTest::testExtractedFilesSize()
 
     noSizeIface->deleteLater();
     sizeIface->deleteLater();
+}
+
+void JobsTest::testIsPasswordProtected()
+{
+    Kerfuffle::ListJob *listJob;
+
+    JSONArchiveInterface *noPasswordIface =
+        createArchiveInterface(KDESRCDIR "data/archive002.json");
+    JSONArchiveInterface *passwordIface =
+        createArchiveInterface(KDESRCDIR "data/archive-password.json");
+
+    listJob = new Kerfuffle::ListJob(noPasswordIface, this);
+    listJob->exec();
+
+    QCOMPARE(listJob->isPasswordProtected(), false);
+
+    listJob = new Kerfuffle::ListJob(passwordIface, this);
+    listJob->exec();
+
+    QCOMPARE(listJob->isPasswordProtected(), true);
+
+    noPasswordIface->deleteLater();
+    passwordIface->deleteLater();
 }
 
 void JobsTest::testListEntries()
