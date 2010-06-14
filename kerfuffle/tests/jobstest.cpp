@@ -47,7 +47,7 @@ protected Q_SLOTS:
 
 private Q_SLOTS:
     void testExtractedFilesSize();
-    void testEmitNewEntry();
+    void testListEntries();
 
 private:
     JSONArchiveInterface *createArchiveInterface(const QString& filePath);
@@ -108,7 +108,7 @@ void JobsTest::testExtractedFilesSize()
     sizeIface->deleteLater();
 }
 
-void JobsTest::testEmitNewEntry()
+void JobsTest::testListEntries()
 {
     JSONArchiveInterface *iface =
         createArchiveInterface(KDESRCDIR "data/archive001.json");
