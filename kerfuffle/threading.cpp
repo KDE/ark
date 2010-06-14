@@ -28,6 +28,8 @@
 
 #include <QTimer>
 
+//#define DEBUG_RACECONDITION
+
 namespace Kerfuffle
 {
 ThreadExecution::ThreadExecution(Kerfuffle::Job *job)
@@ -45,6 +47,10 @@ void ThreadExecution::run()
     doWorkTimer.start(0);
 
     exec();
+
+#ifdef DEBUG_RACECONDITION
+    QThread::sleep(2);
+#endif
 }
 }
 
