@@ -27,6 +27,7 @@
 
 #include "jsonarchiveinterface.h"
 
+#include <kdebug.h>
 #include <kglobal.h>
 #include <qtest_kde.h>
 
@@ -48,6 +49,8 @@ private Q_SLOTS:
     void testEmitNewEntry();
 
 private:
+    JSONArchiveInterface *createArchiveInterface(const QString& filePath);
+
     QStringList m_entries;
 };
 
@@ -67,18 +70,27 @@ void JobsTest::init()
     m_entries.clear();
 }
 
-void JobsTest::testEmitNewEntry()
+JSONArchiveInterface *JobsTest::createArchiveInterface(const QString& filePath)
 {
     QVariantList args;
-    args.append(KDESRCDIR "data/archive001.json");
+    args.append(filePath);
 
     JSONArchiveInterface *iface = new JSONArchiveInterface(this, args);
+    if (!iface->open()) {
+        kDebug() << "Could not open" << filePath;
+        return NULL;
+    }
 
-    QCOMPARE(iface->filename(),
-             QLatin1String(KDESRCDIR "data/archive001.json"));
-    QVERIFY(iface->open());
+    return iface;
+}
+
+void JobsTest::testEmitNewEntry()
+{
+    JSONArchiveInterface *iface =
+        createArchiveInterface(KDESRCDIR "data/archive001.json");
 
     Kerfuffle::ListJob *listJob = new Kerfuffle::ListJob(iface, this);
+
     QSignalSpy spy(listJob, SIGNAL(newEntry(const ArchiveEntry&)));
     connect(listJob,  SIGNAL(newEntry(const ArchiveEntry&)),
             SLOT(slotNewEntry(const ArchiveEntry&)));
