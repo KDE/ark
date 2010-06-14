@@ -1,0 +1,8 @@
+{
+    "entries": [
+        { "FileName": "a.txt", "Size": 5 },
+        { "FileName": "aDir/", "IsDirectory": true },
+        { "FileName": "aDir/b.txt", "Size": 954},
+        { "FileName": "c.txt", "Size": 45000 }
+    ]
+}

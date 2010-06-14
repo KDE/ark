@@ -46,6 +46,7 @@ protected Q_SLOTS:
     void slotNewEntry(const ArchiveEntry& entry);
 
 private Q_SLOTS:
+    void testExtractedFilesSize();
     void testEmitNewEntry();
 
 private:
@@ -82,6 +83,29 @@ JSONArchiveInterface *JobsTest::createArchiveInterface(const QString& filePath)
     }
 
     return iface;
+}
+
+void JobsTest::testExtractedFilesSize()
+{
+    Kerfuffle::ListJob *listJob;
+
+    JSONArchiveInterface *noSizeIface =
+        createArchiveInterface(KDESRCDIR "data/archive001.json");
+    JSONArchiveInterface *sizeIface =
+        createArchiveInterface(KDESRCDIR "data/archive002.json");
+
+    listJob = new Kerfuffle::ListJob(noSizeIface, this);
+    listJob->exec();
+
+    QCOMPARE(listJob->extractedFilesSize(), 0LL);
+
+    listJob = new Kerfuffle::ListJob(sizeIface, this);
+    listJob->exec();
+
+    QCOMPARE(listJob->extractedFilesSize(), 45959LL);
+
+    noSizeIface->deleteLater();
+    sizeIface->deleteLater();
 }
 
 void JobsTest::testEmitNewEntry()
