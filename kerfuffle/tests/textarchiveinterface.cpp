@@ -70,6 +70,8 @@ bool TextArchiveInterface::open()
 
 bool TextArchiveInterface::addFiles(const QStringList& files, const Kerfuffle::CompressionOptions& options)
 {
+    Q_UNUSED(options)
+
     QStringList entryNameList;
     QList<Kerfuffle::ArchiveEntry> entryList;
 
@@ -91,11 +93,17 @@ bool TextArchiveInterface::addFiles(const QStringList& files, const Kerfuffle::C
 
 bool TextArchiveInterface::copyFiles(const QList<QVariant>& files, const QString& destinationDirectory, Kerfuffle::ExtractionOptions options)
 {
+    Q_UNUSED(files)
+    Q_UNUSED(destinationDirectory)
+    Q_UNUSED(options)
+
     return true;
 }
 
 bool TextArchiveInterface::deleteFiles(const QList<QVariant>& files)
 {
+    Q_UNUSED(files)
+
     return true;
 }
 
