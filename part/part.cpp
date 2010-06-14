@@ -545,10 +545,7 @@ void Part::slotExtractFiles()
         dialog->setShowSelectedFiles(true);
     }
 
-    if (isSingleFolderArchive()) {
-        dialog->setSingleFolderArchive(true);
-    }
-
+    dialog->setSingleFolderArchive(isSingleFolderArchive());
     dialog->setSubfolder(detectSubfolder());
 
     dialog->setCurrentUrl(QFileInfo(m_model->archive()->fileName()).path());
