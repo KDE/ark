@@ -141,6 +141,7 @@ void JobsTest::testIsSingleFolderArchive()
     Kerfuffle::ListJob *listJob = new Kerfuffle::ListJob(iface, this);
     listJob->exec();
     QCOMPARE(listJob->isSingleFolderArchive(), false);
+    QCOMPARE(listJob->subfolderName(), QString());
     iface->deleteLater();
     listJob->deleteLater();
 
@@ -148,6 +149,7 @@ void JobsTest::testIsSingleFolderArchive()
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->exec();
     QCOMPARE(listJob->isSingleFolderArchive(), true);
+    QCOMPARE(listJob->subfolderName(), QLatin1String("a.txt"));
     iface->deleteLater();
     listJob->deleteLater();
 
@@ -155,6 +157,7 @@ void JobsTest::testIsSingleFolderArchive()
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->exec();
     QCOMPARE(listJob->isSingleFolderArchive(), true);
+    QCOMPARE(listJob->subfolderName(), QLatin1String("aDir"));
     iface->deleteLater();
     listJob->deleteLater();
 
@@ -163,6 +166,7 @@ void JobsTest::testIsSingleFolderArchive()
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->exec();
     QCOMPARE(listJob->isSingleFolderArchive(), false);
+    QCOMPARE(listJob->subfolderName(), QString());
     iface->deleteLater();
     listJob->deleteLater();
 
@@ -171,6 +175,7 @@ void JobsTest::testIsSingleFolderArchive()
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->exec();
     QCOMPARE(listJob->isSingleFolderArchive(), false);
+    QCOMPARE(listJob->subfolderName(), QString());
     iface->deleteLater();
     listJob->deleteLater();
 
@@ -179,6 +184,7 @@ void JobsTest::testIsSingleFolderArchive()
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->exec();
     QCOMPARE(listJob->isSingleFolderArchive(), true);
+    QCOMPARE(listJob->subfolderName(), QLatin1String("aDir"));
     iface->deleteLater();
     listJob->deleteLater();
 
@@ -187,6 +193,7 @@ void JobsTest::testIsSingleFolderArchive()
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->exec();
     QCOMPARE(listJob->isSingleFolderArchive(), true);
+    QCOMPARE(listJob->subfolderName(), QLatin1String("aDir"));
     iface->deleteLater();
     listJob->deleteLater();
 }
