@@ -158,7 +158,23 @@ bool JSONArchiveInterface::copyFiles(const QList<QVariant>& files, const QString
 
 bool JSONArchiveInterface::deleteFiles(const QList<QVariant>& files)
 {
-    Q_UNUSED(files)
+    QStringList fileList;
+    foreach (const QVariant& file, files) {
+        fileList.append(file.toString());
+    }
+
+    QList<Kerfuffle::ArchiveEntry> newEntryList;
+    QStringList newEntryNameList;
+    foreach (const Kerfuffle::ArchiveEntry& e, m_entryList) {
+        if (fileList.contains(e[Kerfuffle::FileName].toString()))
+            continue;
+
+        newEntryList.append(e);
+        newEntryNameList.append(e[Kerfuffle::FileName].toString());
+    }
+
+    m_entryNameList = newEntryNameList;
+    m_entryList = newEntryList;
 
     return true;
 }
