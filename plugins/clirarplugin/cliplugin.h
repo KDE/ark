@@ -38,7 +38,7 @@ public:
 
     virtual bool readListLine(const QString &line);
 
-protected:
+private:
     QString m_entryFilename;
 
     QString m_internalId;
