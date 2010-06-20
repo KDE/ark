@@ -239,7 +239,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
                         return QVariant();
                     }
                 }
-            case Ratio:
+            case Ratio: // TODO: Use node->entry()[Ratio] when available
                 if (node->isDir() || node->entry().contains(Link)) {
                     return QVariant();
                 } else {
