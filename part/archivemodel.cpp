@@ -739,6 +739,12 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
         ArchiveNode *existing = m_rootNode->findByPath(entry[ FileName ].toString().split('/'));
         if (existing) {
             kDebug() << "Refreshing entry for" << entry[FileName].toString();
+
+            // Multi-volume files are repeated at least in RAR archives.
+            // In that case, we need to sum the compressed size for each volume
+            qulonglong currentCompressedSize = existing->entry()[CompressedSize].toULongLong();
+            entry[CompressedSize] = currentCompressedSize + entry[CompressedSize].toULongLong();
+
             //TODO: benchmark whether it's a bad idea to reset the entry here.
             existing->setEntry(entry);
             return;
