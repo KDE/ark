@@ -89,9 +89,10 @@ public:
     const ArchiveEntry &entry() const {
         return m_entry;
     }
-    void setEntry(const ArchiveEntry & entry) {
+    void setEntry(const ArchiveEntry& entry) {
         m_entry = entry;
-        QStringList pieces = entry[ FileName ].toString().split('/', QString::SkipEmptyParts);
+
+        const QStringList pieces = entry[FileName].toString().split('/', QString::SkipEmptyParts);
         m_name = pieces.isEmpty() ? QString() : pieces.last();
     }
 
