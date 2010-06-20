@@ -84,17 +84,17 @@ ParameterList CliPlugin::parameterList() const
 
 bool CliPlugin::readListLine(const QString &line)
 {
-    const QString m_headerString = "-----------------------------------------";
+    static const QLatin1String headerString("----------------------");
 
     // skip the heading
     if (!m_isInContentListing) {
-        if (line.startsWith(m_headerString))
+        if (line.startsWith(headerString))
             m_isInContentListing = true;
         return true;
     }
 
     // catch final line
-    if (line.startsWith(m_headerString)) {
+    if (line.startsWith(headerString)) {
         m_isFirstLine = true;
         m_isInContentListing = false;
         return true;
