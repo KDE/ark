@@ -23,12 +23,12 @@
 #include "kerfuffle/cliinterface.h"
 #include "kerfuffle/kerfuffle_export.h"
 
+#include <KDebug>
+
 #include <QDateTime>
 #include <QDir>
 #include <QString>
 #include <QStringList>
-
-#include <KDebug>
 
 using namespace Kerfuffle;
 
