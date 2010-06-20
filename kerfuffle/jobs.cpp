@@ -53,7 +53,10 @@ Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
 
 Job::~Job()
 {
-    m_workerThread->wait();
+    if (m_workerThread) {
+        m_workerThread->wait();
+    }
+
     delete m_workerThread;
     m_workerThread = 0;
 }
