@@ -53,7 +53,11 @@ ParameterList CliPlugin::parameterList() const
         p[DeleteProgram] = p[AddProgram] = "rar";
 
         p[ListArgs] = QStringList() << "v" << "-c-" << "-v" << "$Archive";
-        p[ExtractArgs] = QStringList() << "-kb" << "-p-" << "$PreservePathSwitch" << "$PasswordSwitch" << "$RootNodeSwitch" << "$Archive" << "$Files";
+        p[ExtractArgs] = QStringList() << "-kb" << "-p-"
+                                       << "$PreservePathSwitch"
+                                       << "$PasswordSwitch"
+                                       << "$RootNodeSwitch" << "$Archive"
+                                       << "$Files";
         p[PreservePathSwitch] = QStringList() << "x" << "e";
         p[RootNodeSwitch] = QStringList() << "-ap$Path";
         p[PasswordSwitch] = QStringList() << "-p$Password";
