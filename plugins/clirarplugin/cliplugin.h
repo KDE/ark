@@ -39,15 +39,18 @@ public:
     virtual bool readListLine(const QString &line);
 
 private:
-    QString m_entryFilename;
+    enum {
+        ParseStateHeader = 0,
+        ParseStateEntryFileName,
+        ParseStateEntryDetails,
+        ParseStateEntryIgnoredDetails
+    } m_parseState;
 
-    QString m_internalId;
-
-    bool m_isFirstLine;
-
-    bool m_isInContentListing;
+    QString m_entryFileName;
 
     bool m_isPasswordProtected;
+
+    int m_remainingIgnoredSubHeaderLines;
 };
 
 #endif // CLIPLUGIN_H

@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2009 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (C) 2010 Raphael Kubo da Costa <kubito@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,10 +33,10 @@
 
 using namespace Kerfuffle;
 
-CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
+CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
         : CliInterface(parent, args)
-        , m_isFirstLine(true)
-        , m_isInContentListing(false)
+        , m_parseState(ParseStateHeader)
+        , m_remainingIgnoredSubHeaderLines(0)
 {
 }
 
@@ -52,7 +53,7 @@ ParameterList CliPlugin::parameterList() const
         p[ListProgram] = p[ExtractProgram] = "unrar";
         p[DeleteProgram] = p[AddProgram] = "rar";
 
-        p[ListArgs] = QStringList() << "v" << "-c-" << "-v" << "$Archive";
+        p[ListArgs] = QStringList() << "vt" << "-c-" << "-v" << "$Archive";
         p[ExtractArgs] = QStringList() << "-kb" << "-p-"
                                        << "$PreservePathSwitch"
                                        << "$PasswordSwitch"
@@ -85,69 +86,117 @@ ParameterList CliPlugin::parameterList() const
 bool CliPlugin::readListLine(const QString &line)
 {
     static const QLatin1String headerString("----------------------");
+    static const QLatin1String subHeaderString("Data header type: ");
 
-    // skip the heading
-    if (!m_isInContentListing) {
-        if (line.startsWith(headerString))
-            m_isInContentListing = true;
-        return true;
-    }
-
-    // catch final line
     if (line.startsWith(headerString)) {
-        m_isFirstLine = true;
-        m_isInContentListing = false;
+        if (m_parseState == ParseStateHeader) { // Skip the heading
+            m_parseState = ParseStateEntryFileName;
+        } else { // Catch the final line
+            m_parseState = ParseStateHeader;
+        }
+
         return true;
     }
 
-    // rar gives one line for the filename and a line after it with some file properties
-    if (m_isFirstLine) {
-        m_internalId = line.trimmed();
-        //m_entryFilename.chop(1); // handle newline
-        if (!m_internalId.isEmpty() && m_internalId.at(0) == '*') {
-            m_isPasswordProtected = true;
-            m_internalId.remove(0, 1);   // and the spaces in front
-        } else
-            m_isPasswordProtected = false;
-
-        m_isFirstLine = false;
+    if (m_parseState == ParseStateHeader) {
+        return true;
+    } else if (m_parseState == ParseStateEntryIgnoredDetails) {
+        m_parseState = ParseStateEntryFileName;
         return true;
     }
 
-    QStringList fileprops = line.split(' ', QString::SkipEmptyParts);
-    m_internalId = QDir::fromNativeSeparators(m_internalId);
-    bool isDirectory = (bool)(fileprops[ 5 ].contains('d', Qt::CaseInsensitive));
-
-    QDateTime ts(QDate::fromString(fileprops[ 3 ], "dd-MM-yy"),
-                 QTime::fromString(fileprops[ 4 ], "hh:mm"));
-    // rar output date with 2 digit year but QDate takes is as 19??
-    // let's take 1950 is cut-off; similar to KDateTime
-    if (ts.date().year() < 1950)
-        ts = ts.addYears(100);
-
-    m_entryFilename = m_internalId;
-    if (isDirectory && !m_internalId.endsWith('/')) {
-        m_entryFilename += '/';
+    if (m_remainingIgnoredSubHeaderLines > 0) {
+        --m_remainingIgnoredSubHeaderLines;
+        return true;
     }
 
-    //kDebug() << m_entryFilename << " : " << fileprops ;
-    ArchiveEntry e;
-    e[ FileName ] = m_entryFilename;
-    e[ InternalID ] = m_internalId;
-    e[ Size ] = fileprops[ 0 ];
-    e[ CompressedSize] = fileprops[ 1 ];
-    e[ Ratio ] = fileprops[ 2 ];
-    e[ Timestamp ] = ts;
-    e[ IsDirectory ] = isDirectory;
-    e[ Permissions ] = fileprops[ 5 ].remove(0, 1);
-    e[ CRC ] = fileprops[ 6 ];
-    e[ Method ] = fileprops[ 7 ];
-    e[ Version ] = fileprops[ 8 ];
-    e[ IsPasswordProtected] = m_isPasswordProtected;
-    kDebug() << "Added entry: " << e ;
+    // #242071: The RAR file format has the concept of subheaders, such as
+    //          CMT for comments and STM for NTFS streams (?).
+    //          Since the format is undocumented, we cannot do much, and
+    //          ignoring them seems harmless (at least 7zip and WinRAR do not
+    //          show them either).
+    if (line.startsWith(subHeaderString)) {
+        // subHeaderString's length is 18
+        const QString subHeaderType(line.mid(18));
 
-    entry(e);
-    m_isFirstLine = true;
+        // XXX: If we ever support archive comments, this code must
+        //      be changed, because the comments will be shown after
+        //      a CMT subheader and will have an arbitrary number of lines
+        if (subHeaderType == QLatin1String("STM"))
+            m_remainingIgnoredSubHeaderLines = 4;
+        else
+            m_remainingIgnoredSubHeaderLines = 3;
+
+        kDebug() << "Found a subheader of type" << subHeaderType;
+        kDebug() << "The next" << m_remainingIgnoredSubHeaderLines
+                 << "lines will be ignored";
+
+        return true;
+    }
+
+    if (m_parseState == ParseStateEntryFileName) {
+        m_isPasswordProtected = (line.at(0) == '*');
+
+        // Start from 1 because the first character is either ' ' or '*'
+        m_entryFileName = QDir::fromNativeSeparators(line.mid(1));
+
+        m_parseState = ParseStateEntryDetails;
+
+        return true;
+    } else if (m_parseState == ParseStateEntryDetails) {
+        const QStringList details = line.split(' ', QString::SkipEmptyParts);
+
+        QDateTime ts(QDate::fromString(details.at(3), "dd-MM-yy"),
+                     QTime::fromString(details.at(4), "hh:mm"));
+
+        // unrar outputs dates with a 2-digit year but QDate takes it as 19??
+        // let's take 1950 is cut-off; similar to KDateTime
+        if (ts.date().year() < 1950)
+            ts = ts.addYears(100);
+
+        bool isDirectory = ((details.at(5).at(0) == 'd') ||
+                            (details.at(5).at(1) == 'D'));
+        if (isDirectory && !m_entryFileName.endsWith('/')) {
+            m_entryFileName += '/';
+        }
+
+        // If the archive is a multivolume archive, a string indicating
+        // whether the archive's position in the volume is displayed
+        // instead of the compression ratio.
+        QString compressionRatio = details.at(2);
+        if ((compressionRatio == QLatin1String("<--")) ||
+            (compressionRatio == QLatin1String("<->")) ||
+            (compressionRatio == QLatin1String("-->"))) {
+            compressionRatio = '0';
+        } else {
+            compressionRatio.chop(1); // Remove the '%'
+        }
+
+        // TODO:
+        // - Permissions differ depending on the system the entry was added
+        //   to the archive.
+        // - unrar reports the ratio as ((compressed size * 100) / size);
+        //   we consider ratio as (100 * ((size - compressed size) / size)).
+        ArchiveEntry e;
+        e[FileName] = m_entryFileName;
+        e[InternalID] = m_entryFileName;
+        e[Size] = details.at(0);
+        e[CompressedSize] = details.at(1);
+        e[Ratio] = compressionRatio;
+        e[Timestamp] = ts;
+        e[IsDirectory] = isDirectory;
+        e[Permissions] = details.at(5);
+        e[CRC] = details.at(6);
+        e[Method] = details.at(7);
+        e[Version] = details.at(8);
+        e[IsPasswordProtected] = m_isPasswordProtected;
+        kDebug() << "Added entry: " << e;
+
+        entry(e);
+
+        m_parseState = ParseStateEntryIgnoredDetails;
+    }
+
     return true;
 }
 
