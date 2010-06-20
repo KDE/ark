@@ -69,7 +69,6 @@ void Job::start()
 
 void Job::onError(const QString & message, const QString & details)
 {
-    kDebug();
     Q_UNUSED(details)
 
     setError(1);
