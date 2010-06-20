@@ -53,7 +53,10 @@ Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
 
 Job::~Job()
 {
-    m_workerThread->wait();
+    if (m_workerThread) {
+        m_workerThread->wait();
+    }
+
     delete m_workerThread;
     m_workerThread = 0;
 }
@@ -66,6 +69,7 @@ void Job::start()
 
 void Job::onError(const QString & message, const QString & details)
 {
+    kDebug();
     Q_UNUSED(details)
 
     setError(1);
