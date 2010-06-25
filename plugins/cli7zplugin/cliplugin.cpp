@@ -33,6 +33,7 @@ using namespace Kerfuffle;
 
 CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
         : CliInterface(parent, args)
+        , m_archiveType(ArchiveType7z)
         , m_state(ReadStateHeader)
 {
 }
@@ -73,7 +74,7 @@ ParameterList CliPlugin::parameterList() const
     return p;
 }
 
-bool CliPlugin::readListLine(const QString &line)
+bool CliPlugin::readListLine(const QString& line)
 {
     static const QLatin1String archiveInfoDelimiter("----");
     static const QLatin1String entryInfoDelimiter("----------");
@@ -93,7 +94,27 @@ bool CliPlugin::readListLine(const QString &line)
     case ReadStateArchiveInformation:
         if (line == entryInfoDelimiter) {
             m_state = ReadStateEntryInformation;
+        } else if (line.startsWith(QLatin1String("Type ="))) {
+            const QString type = line.mid(7).trimmed();
+            kDebug() << "Archive type: " << type;
+
+            if (type == QLatin1String("7z")) {
+                m_archiveType = ArchiveType7z;
+            } else if (type == QLatin1String("BZip2")) {
+                m_archiveType = ArchiveTypeBZip2;
+            } else if (type == QLatin1String("GZip")) {
+                m_archiveType = ArchiveTypeGZip;
+            } else if (type == QLatin1String("Tar")) {
+                m_archiveType = ArchiveTypeTar;
+            } else if (type == QLatin1String("Zip")) {
+                m_archiveType = ArchiveTypeZip;
+            } else {
+                // Should not happen
+                kWarning() << "Unsupported archive type";
+                return false;
+            }
         }
+
         break;
 
     case ReadStateEntryInformation:
@@ -106,7 +127,11 @@ bool CliPlugin::readListLine(const QString &line)
         } else if (line.startsWith(QLatin1String("Size = "))) {
             m_currentArchiveEntry[ Size ] = line.mid(7).trimmed();
         } else if (line.startsWith(QLatin1String("Packed Size = "))) {
-            m_currentArchiveEntry[ CompressedSize ] = line.mid(14).trimmed();
+            // #236696: 7z files only show a single Packed Size value
+            //          corresponding to the whole archive.
+            if (m_archiveType != ArchiveType7z) {
+                m_currentArchiveEntry[CompressedSize] = line.mid(14).trimmed();
+            }
         } else if (line.startsWith(QLatin1String("Modified = "))) {
             m_currentArchiveEntry[ Timestamp ] =
                 QDateTime::fromString(line.mid(11).trimmed(),
