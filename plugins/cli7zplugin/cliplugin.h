@@ -39,12 +39,21 @@ protected:
     virtual bool readListLine(const QString &line);
 
 private:
+    enum ArchiveType {
+	ArchiveType7z = 0,
+	ArchiveTypeBZip2,
+	ArchiveTypeGZip,
+	ArchiveTypeTar,
+	ArchiveTypeZip
+    };
+
     enum ReadState {
 	ReadStateHeader = 0,
 	ReadStateArchiveInformation,
 	ReadStateEntryInformation
     };
 
+    ArchiveType m_archiveType;
     Kerfuffle::ArchiveEntry m_currentArchiveEntry;
     ReadState m_state;
 };
