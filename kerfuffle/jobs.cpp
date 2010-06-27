@@ -140,17 +140,17 @@ void ListJob::doWork()
     }
 }
 
-qlonglong ListJob::extractedFilesSize()
+qlonglong ListJob::extractedFilesSize() const
 {
     return m_extractedFilesSize;
 }
 
-bool ListJob::isPasswordProtected()
+bool ListJob::isPasswordProtected() const
 {
     return m_isPasswordProtected;
 }
 
-bool ListJob::isSingleFolderArchive()
+bool ListJob::isSingleFolderArchive() const
 {
     return m_isSingleFolderArchive;
 }
@@ -176,7 +176,7 @@ void ListJob::onNewEntry(const ArchiveEntry& entry)
     }
 }
 
-QString ListJob::subfolderName()
+QString ListJob::subfolderName() const
 {
     return m_subfolderName;
 }

@@ -87,10 +87,10 @@ public:
     explicit ListJob(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
 
     void doWork();
-    qlonglong extractedFilesSize();
-    bool isPasswordProtected();
-    bool isSingleFolderArchive();
-    QString subfolderName();
+    qlonglong extractedFilesSize() const;
+    bool isPasswordProtected() const;
+    bool isSingleFolderArchive() const;
+    QString subfolderName() const;
 
 private:
     bool m_isSingleFolderArchive;
