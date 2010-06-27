@@ -43,7 +43,7 @@ namespace Kerfuffle
 {
 class ThreadExecution;
 
-class KERFUFFLE_EXPORT Job: public KJob, public ArchiveObserver
+class KERFUFFLE_EXPORT Job : public KJob, public ArchiveObserver
 {
     Q_OBJECT
 
@@ -79,18 +79,20 @@ signals:
     void userQuery(Kerfuffle::Query*);
 };
 
-class KERFUFFLE_EXPORT ListJob: public Job
+class KERFUFFLE_EXPORT ListJob : public Job
 {
     Q_OBJECT
 
 public:
     explicit ListJob(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
 
-    void doWork();
     qlonglong extractedFilesSize() const;
     bool isPasswordProtected() const;
     bool isSingleFolderArchive() const;
     QString subfolderName() const;
+
+public slots:
+    virtual void doWork();
 
 private:
     bool m_isSingleFolderArchive;
@@ -103,7 +105,7 @@ private slots:
     void onNewEntry(const ArchiveEntry&);
 };
 
-class KERFUFFLE_EXPORT ExtractJob: public Job
+class KERFUFFLE_EXPORT ExtractJob : public Job
 {
     Q_OBJECT
 
@@ -112,7 +114,8 @@ public:
                destinationDir, ExtractionOptions options,
                ReadOnlyArchiveInterface *interface, QObject *parent = 0);
 
-    void doWork();
+public slots:
+    virtual void doWork();
 
 private:
     void fillInDefaultValues(ExtractionOptions& options);
@@ -121,7 +124,7 @@ private:
     ExtractionOptions m_options;
 };
 
-class KERFUFFLE_EXPORT AddJob: public Job
+class KERFUFFLE_EXPORT AddJob : public Job
 {
     Q_OBJECT
 
@@ -129,7 +132,9 @@ public:
     AddJob(const QStringList & files, const CompressionOptions& options,
            ReadWriteArchiveInterface *interface, QObject *parent = 0
           );
-    void doWork();
+
+public slots:
+    virtual void doWork();
 
 private:
     QStringList m_files;
@@ -137,14 +142,16 @@ private:
 
 };
 
-class KERFUFFLE_EXPORT DeleteJob: public Job
+class KERFUFFLE_EXPORT DeleteJob : public Job
 {
     Q_OBJECT
 
 public:
     DeleteJob(const QList<QVariant>& files, ReadWriteArchiveInterface
               *interface, QObject *parent = 0);
-    void doWork();
+
+public slots:
+    virtual void doWork();
 
 private:
     QList<QVariant> m_files;
