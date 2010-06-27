@@ -39,9 +39,9 @@ namespace Kerfuffle
 {
 
 Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
-        : KJob(parent)
-        , m_interface(interface)
-        , m_workerThread(0)
+    : KJob(parent)
+    , m_interface(interface)
+    , m_workerThread(0)
 {
     static bool onlyOnce = false;
     if (!onlyOnce) {
@@ -121,10 +121,10 @@ bool Job::doKill()
 }
 
 ListJob::ListJob(ReadOnlyArchiveInterface *interface, QObject *parent)
-        : Job(interface, parent),
-        m_isSingleFolderArchive(true),
-        m_isPasswordProtected(false),
-        m_extractedFilesSize(0)
+    : Job(interface, parent)
+    , m_isSingleFolderArchive(true)
+    , m_isPasswordProtected(false)
+    , m_extractedFilesSize(0)
 {
     connect(this, SIGNAL(newEntry(const ArchiveEntry&)),
             this, SLOT(onNewEntry(const ArchiveEntry&)));
@@ -183,7 +183,10 @@ QString ListJob::subfolderName() const
 }
 
 ExtractJob::ExtractJob(const QVariantList& files, const QString& destinationDir, ExtractionOptions options, ReadOnlyArchiveInterface *interface, QObject *parent)
-        : Job(interface, parent), m_files(files), m_destinationDir(destinationDir), m_options(options)
+    : Job(interface, parent)
+    , m_files(files)
+    , m_destinationDir(destinationDir)
+    , m_options(options)
 {
 }
 
@@ -221,7 +224,9 @@ void ExtractJob::fillInDefaultValues(ExtractionOptions& options)
 }
 
 AddJob::AddJob(const QStringList& files, const CompressionOptions& options , ReadWriteArchiveInterface *interface, QObject *parent)
-        : Job(interface, parent), m_files(files), m_options(options)
+    : Job(interface, parent)
+    , m_files(files)
+    , m_options(options)
 {
     kDebug();
 }
@@ -231,8 +236,7 @@ void AddJob::doWork()
     emit description(this, i18np("Adding a file", "Adding %1 files", m_files.count()));
 
     ReadWriteArchiveInterface *m_writeInterface =
-        qobject_cast<ReadWriteArchiveInterface*>
-        (m_interface);
+        qobject_cast<ReadWriteArchiveInterface*>(m_interface);
 
     Q_ASSERT(m_writeInterface);
 
@@ -245,7 +249,8 @@ void AddJob::doWork()
 }
 
 DeleteJob::DeleteJob(const QVariantList& files, ReadWriteArchiveInterface *interface, QObject *parent)
-  : Job(interface, parent), m_files(files)
+    : Job(interface, parent)
+    , m_files(files)
 {
 }
 
@@ -254,8 +259,7 @@ void DeleteJob::doWork()
     emit description(this, i18np("Deleting a file from the archive", "Deleting %1 files", m_files.count()));
 
     ReadWriteArchiveInterface *m_writeInterface =
-        qobject_cast<ReadWriteArchiveInterface*>
-        (m_interface);
+        qobject_cast<ReadWriteArchiveInterface*>(m_interface);
 
     Q_ASSERT(m_writeInterface);
 
