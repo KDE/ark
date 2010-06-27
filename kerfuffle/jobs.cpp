@@ -37,6 +37,7 @@
 
 namespace Kerfuffle
 {
+
 Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
         : KJob(parent)
         , m_interface(interface)
@@ -181,9 +182,8 @@ QString ListJob::subfolderName() const
     return m_subfolderName;
 }
 
-ExtractJob::ExtractJob(const QList<QVariant>& files, const QString& destinationDir,
-                       ExtractionOptions options, ReadOnlyArchiveInterface *interface, QObject *parent)
-        : Job(interface,  parent), m_files(files), m_destinationDir(destinationDir), m_options(options)
+ExtractJob::ExtractJob(const QList<QVariant>& files, const QString& destinationDir, ExtractionOptions options, ReadOnlyArchiveInterface *interface, QObject *parent)
+        : Job(interface, parent), m_files(files), m_destinationDir(destinationDir), m_options(options)
 {
 }
 
@@ -266,6 +266,7 @@ void DeleteJob::doWork()
         m_interface->finished(ret);
     }
 }
+
 } // namespace Kerfuffle
 
 #include "jobs.moc"

@@ -41,6 +41,7 @@
 
 namespace Kerfuffle
 {
+
 class ThreadExecution;
 
 class KERFUFFLE_EXPORT Job : public KJob, public ArchiveObserver
@@ -110,9 +111,7 @@ class KERFUFFLE_EXPORT ExtractJob : public Job
     Q_OBJECT
 
 public:
-    ExtractJob(const QList<QVariant> & files, const QString&
-               destinationDir, ExtractionOptions options,
-               ReadOnlyArchiveInterface *interface, QObject *parent = 0);
+    ExtractJob(const QList<QVariant> & files, const QString& destinationDir, ExtractionOptions options, ReadOnlyArchiveInterface *interface, QObject *parent = 0);
 
 public slots:
     virtual void doWork();
@@ -129,9 +128,7 @@ class KERFUFFLE_EXPORT AddJob : public Job
     Q_OBJECT
 
 public:
-    AddJob(const QStringList & files, const CompressionOptions& options,
-           ReadWriteArchiveInterface *interface, QObject *parent = 0
-          );
+    AddJob(const QStringList& files, const CompressionOptions& options, ReadWriteArchiveInterface *interface, QObject *parent = 0);
 
 public slots:
     virtual void doWork();
@@ -147,8 +144,7 @@ class KERFUFFLE_EXPORT DeleteJob : public Job
     Q_OBJECT
 
 public:
-    DeleteJob(const QList<QVariant>& files, ReadWriteArchiveInterface
-              *interface, QObject *parent = 0);
+    DeleteJob(const QList<QVariant>& files, ReadWriteArchiveInterface *interface, QObject *parent = 0);
 
 public slots:
     virtual void doWork();
@@ -156,6 +152,7 @@ public slots:
 private:
     QList<QVariant> m_files;
 };
+
 } // namespace Kerfuffle
 
 #endif // JOBS_H
