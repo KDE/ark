@@ -182,7 +182,7 @@ QString ListJob::subfolderName() const
     return m_subfolderName;
 }
 
-ExtractJob::ExtractJob(const QList<QVariant>& files, const QString& destinationDir, ExtractionOptions options, ReadOnlyArchiveInterface *interface, QObject *parent)
+ExtractJob::ExtractJob(const QVariantList& files, const QString& destinationDir, ExtractionOptions options, ReadOnlyArchiveInterface *interface, QObject *parent)
         : Job(interface, parent), m_files(files), m_destinationDir(destinationDir), m_options(options)
 {
 }
@@ -244,8 +244,8 @@ void AddJob::doWork()
     }
 }
 
-DeleteJob::DeleteJob(const QList<QVariant>& files, ReadWriteArchiveInterface *interface, QObject *parent)
-        : Job(interface, parent), m_files(files)
+DeleteJob::DeleteJob(const QVariantList& files, ReadWriteArchiveInterface *interface, QObject *parent)
+  : Job(interface, parent), m_files(files)
 {
 }
 

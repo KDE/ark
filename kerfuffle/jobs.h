@@ -111,14 +111,14 @@ class KERFUFFLE_EXPORT ExtractJob : public Job
     Q_OBJECT
 
 public:
-    ExtractJob(const QList<QVariant> & files, const QString& destinationDir, ExtractionOptions options, ReadOnlyArchiveInterface *interface, QObject *parent = 0);
+    ExtractJob(const QVariantList& files, const QString& destinationDir, ExtractionOptions options, ReadOnlyArchiveInterface *interface, QObject *parent = 0);
 
 public slots:
     virtual void doWork();
 
 private:
     void fillInDefaultValues(ExtractionOptions& options);
-    QList<QVariant> m_files;
+    QVariantList m_files;
     QString m_destinationDir;
     ExtractionOptions m_options;
 };
@@ -136,7 +136,6 @@ public slots:
 private:
     QStringList m_files;
     CompressionOptions m_options;
-
 };
 
 class KERFUFFLE_EXPORT DeleteJob : public Job
@@ -144,13 +143,13 @@ class KERFUFFLE_EXPORT DeleteJob : public Job
     Q_OBJECT
 
 public:
-    DeleteJob(const QList<QVariant>& files, ReadWriteArchiveInterface *interface, QObject *parent = 0);
+    DeleteJob(const QVariantList& files, ReadWriteArchiveInterface *interface, QObject *parent = 0);
 
 public slots:
     virtual void doWork();
 
 private:
-    QList<QVariant> m_files;
+    QVariantList m_files;
 };
 
 } // namespace Kerfuffle
