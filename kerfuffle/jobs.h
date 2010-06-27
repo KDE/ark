@@ -117,7 +117,9 @@ public slots:
     virtual void doWork();
 
 private:
+    // TODO: Maybe this should be a method if ExtractionOptions were a class?
     void fillInDefaultValues(ExtractionOptions& options);
+
     QVariantList m_files;
     QString m_destinationDir;
     ExtractionOptions m_options;
