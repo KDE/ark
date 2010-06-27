@@ -228,7 +228,6 @@ AddJob::AddJob(const QStringList& files, const CompressionOptions& options , Rea
     , m_files(files)
     , m_options(options)
 {
-    kDebug();
 }
 
 void AddJob::doWork()
