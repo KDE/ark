@@ -252,7 +252,7 @@ void BatchExtract::setPreservePaths(bool value)
 
 bool BatchExtract::showExtractDialog()
 {
-    QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog(NULL);
+    QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog();
 
     if (m_inputs.size() > 1) {
         dialog->batchModeOption();
