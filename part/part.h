@@ -23,10 +23,12 @@
 #ifndef PART_H
 #define PART_H
 
+#include "interface.h"
+
 #include <KParts/Part>
 #include <KParts/StatusBarExtension>
+
 #include <QModelIndex>
-#include "interface.h"
 
 class ArchiveModel;
 class InfoPanel;
