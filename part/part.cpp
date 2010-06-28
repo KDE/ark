@@ -559,7 +559,7 @@ void Part::slotExtractFiles()
 
         m_destinationDirectory = dialog->destinationDirectory().pathOrUrl();
 
-        QList<QVariant> files;
+        QVariantList files;
 
         //if the user has chosen to extract only selected entries, fetch these
         //from the listview
