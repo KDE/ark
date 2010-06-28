@@ -529,14 +529,18 @@ bool Part::isSingleFolderArchive()
 
 QString Part::detectSubfolder()
 {
-    if (!m_model) return QString();
+    if (!m_model) {
+        return QString();
+    }
 
     return m_model->archive()->subfolderName();
 }
 
 void Part::slotExtractFiles()
 {
-    if (!m_model) return;
+    if (!m_model) {
+        return;
+    }
 
     QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog();
 
