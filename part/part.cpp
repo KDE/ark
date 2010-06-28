@@ -536,7 +536,6 @@ QString Part::detectSubfolder()
 
 void Part::slotExtractFiles()
 {
-    kDebug() ;
     if (!m_model) return;
 
     QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog();
