@@ -129,11 +129,6 @@ void ExtractionDialog::accept()
     KDirSelectDialog::accept();
 }
 
-void ExtractionDialog::setCurrentUrl(const QString& url)
-{
-    KDirSelectDialog::setCurrentUrl(url);
-}
-
 void ExtractionDialog::setSubfolder(QString subfolder)
 {
     m_ui->subfolder->setText(subfolder);

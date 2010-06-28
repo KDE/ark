@@ -37,7 +37,7 @@
 
 namespace Kerfuffle
 {
-class KERFUFFLE_EXPORT ExtractionDialog: public KDirSelectDialog
+class KERFUFFLE_EXPORT ExtractionDialog : public KDirSelectDialog
 {
     Q_OBJECT
 public:
@@ -63,7 +63,6 @@ public:
     virtual void accept();
 
 public Q_SLOTS:
-    void setCurrentUrl(const QString& url);
     void setSubfolder(QString subfolder);
 
 private Q_SLOTS:
