@@ -33,15 +33,15 @@
 class ArchiveModel;
 class InfoPanel;
 
+class KAbstractWidgetJobTracker;
+class KAboutData;
+class KAction;
+class KJob;
+class KTempDir;
+
+class QAction;
 class QSplitter;
 class QTreeView;
-class QAction;
-class KAction;
-
-class KAboutData;
-class KTempDir;
-class KJob;
-class KAbstractWidgetJobTracker;
 
 namespace Ark
 {
