@@ -320,7 +320,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 
 }
 
-bool Part::isPreviewable(const QModelIndex & index)
+bool Part::isPreviewable(const QModelIndex& index) const
 {
     return index.isValid() && (!m_model->entryForIndex(index)[ IsDirectory ].toBool());
 }
@@ -522,12 +522,12 @@ void Part::slotError(const QString& errorMessage, const QString& details)
     }
 }
 
-bool Part::isSingleFolderArchive()
+bool Part::isSingleFolderArchive() const
 {
     return m_model->archive()->isSingleFolderArchive();
 }
 
-QString Part::detectSubfolder()
+QString Part::detectSubfolder() const
 {
     if (!m_model) return QString();
 

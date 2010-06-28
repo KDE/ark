@@ -95,9 +95,9 @@ signals:
 private:
     void setupView();
     void setupActions();
-    bool isSingleFolderArchive();
-    QString detectSubfolder();
-    bool isPreviewable(const QModelIndex & index);
+    bool isSingleFolderArchive() const;
+    QString detectSubfolder() const;
+    bool isPreviewable(const QModelIndex& index) const;
     QList<QVariant> selectedFiles();
     QList<QVariant> selectedFilesWithChildren();
     void registerJob(KJob *job);
