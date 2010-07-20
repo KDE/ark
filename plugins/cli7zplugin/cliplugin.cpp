@@ -78,7 +78,7 @@ ParameterList CliPlugin::parameterList() const
 
 bool CliPlugin::readListLine(const QString& line)
 {
-    static const QLatin1String archiveInfoDelimiter("----");
+    static const QLatin1String archiveInfoDelimiter("--");
     static const QLatin1String entryInfoDelimiter("----------");
 
     switch (m_state) {
