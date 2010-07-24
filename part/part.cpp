@@ -20,48 +20,49 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
+
 #include "part.h"
 #include "archivemodel.h"
 #include "archiveview.h"
-#include "infopanel.h"
 #include "arkviewer.h"
+#include "dnddbusinterface.h"
+#include "infopanel.h"
+#include "jobtracker.h"
 #include "kerfuffle/archive.h"
 #include "kerfuffle/extractiondialog.h"
 #include "kerfuffle/jobs.h"
 #include "kerfuffle/settings.h"
-#include "jobtracker.h"
-#include "dnddbusinterface.h"
 
-#include <KPluginFactory>
-#include <KApplication>
 #include <KAboutData>
-#include <KDebug>
 #include <KAction>
-#include <KSelectAction>
 #include <KActionCollection>
-#include <KIcon>
-#include <KTempDir>
-#include <KMessageBox>
-#include <KRun>
-#include <KFileDialog>
+#include <KApplication>
 #include <KConfigGroup>
-#include <KStandardDirs>
-#include <KToggleAction>
+#include <KDebug>
+#include <KFileDialog>
 #include <KIO/Job>
 #include <KIO/NetAccess>
-
-#include <QCursor>
-#include <QAction>
-#include <QSplitter>
-#include <QVBoxLayout>
-#include <QTimer>
-#include <QMenu>
-#include <QMouseEvent>
-#include <QMimeData>
-#include <QtDBus/QtDBus>
+#include <KIcon>
 #include <KInputDialog>
+#include <KMessageBox>
+#include <KPluginFactory>
+#include <KRun>
+#include <KSelectAction>
+#include <KStandardDirs>
+#include <KTempDir>
+#include <KToggleAction>
+
+#include <QAction>
+#include <QCursor>
 #include <QHeaderView>
+#include <QMenu>
+#include <QMimeData>
+#include <QMouseEvent>
 #include <QPointer>
+#include <QSplitter>
+#include <QTimer>
+#include <QVBoxLayout>
+#include <QtDBus/QtDBus>
 
 using namespace Kerfuffle;
 
