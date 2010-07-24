@@ -46,7 +46,7 @@
 <keyword>archive</keyword>
 <keyword>zip</keyword>
 <keyword>compression</keyword>
-<keyword>lha</keyword>
+<keyword>7z</keyword>
 <keyword>kdeutils</keyword>
 <keyword>ark</keyword>
 </keywordset>
@@ -55,13 +55,13 @@
 <chapter id="introduction">
 <title>Introduction</title>
 
-<para>&ark; is a program for managing various archive formats within the
-&kde; environment. Archives can be viewed, extracted, created and
-modified from within &ark;. The program can handle various formats such
-as <command>tar</command>, <command>gzip</command>,
+<para>&ark; is a program for viewing, extracting, creating and modifying
+archives.
+&ark; can handle various archive formats such as
+<command>tar</command>, <command>gzip</command>,
 <command>bzip2</command>, <command>zip</command>, <command>rar</command> and
-<command>lha</command> (if appropriate command-line programs are
-installed).</para>
+<command>7z</command> (support for certain archive formats depend on
+the appropriate command-line programs being installed).</para>
 </chapter>
 
 <chapter id="using-ark">
@@ -97,7 +97,7 @@ menu, you can choose what you want to do:</para>
 <listitem>
 <para><guimenuitem>Delete</guimenuitem> will remove the currently
 selected file(s) from the archive.</para>
-</listitem> 
+</listitem>
 <listitem>
 <para><guimenuitem>Extract...</guimenuitem> will extract the file to a location you
 specify on disk.</para>
@@ -115,17 +115,17 @@ specify on disk.</para>
 quick extract files from an archive, you can select
 <guimenuitem>Extract...</guimenuitem> from the
 <guimenu>Action</guimenu> menu. This opens a submenu with previously accessed folders,
-and you can select to quick extract into any of them. Clicking on the check mark at 
-the right side of the <guibutton>Extract</guibutton> button in the toolbar performes the same action. 
+and you can select to quick extract into any of them. Clicking on the check mark at
+the right side of the <guibutton>Extract</guibutton> button in the toolbar performes the same action.
 </para>
 <para>
-To open the <guilabel>Extract</guilabel> dialog click the <guibutton>Extract</guibutton> 
+To open the <guilabel>Extract</guilabel> dialog click the <guibutton>Extract</guibutton>
 button in the toolbar or use the shortcut <keycombo action="simul">&Ctrl;
 <keycap>E</keycap></keycombo>.
 
-This dialog allows you to select where you will extract files to. The default 
+This dialog allows you to select where you will extract files to. The default
 location is the folder the archive is in.</para>
-<para>You can specify to extract the files into a subfolder. The default name of this 
+<para>You can specify to extract the files into a subfolder. The default name of this
 subfolder is the first part of the archive name, but you can edit it to your needs.
 If you want to preserve paths when extracting, select this option.
 You may also choose to open the destination folder
@@ -142,7 +142,7 @@ which have been selected.</para>
 <listitem>
 <para><guimenuitem>All files</guimenuitem> extracts the entire contents of the
 archive.</para>
-</listitem> 
+</listitem>
 </itemizedlist>
 
 </sect1>
@@ -217,7 +217,7 @@ present in the archive.</para>
 </listitem>
 </varlistentry>
 -->
-<!-- TODO: Entry seems to have disappeared, confirm that it's not just 
+<!-- TODO: Entry seems to have disappeared, confirm that it's not just
 hidden because I don't have lha installed
 <varlistentry>
 <term><guilabel>Keep entries generic (Lha)</guilabel></term>
@@ -239,7 +239,7 @@ hidden because I don't have lha installed
 <varlistentry>
 <term><guilabel>Translate LF to DOS CRLF (Zip)</guilabel></term>
 <listitem>
-<para>Convert the line endings in text files to DOS format from &UNIX; 
+<para>Convert the line endings in text files to DOS format from &UNIX;
 format.</para>
 <para>Affects only zip files</para>
 </listitem>
@@ -429,7 +429,7 @@ name</action></para>
 
 </sect1>
 
-<!-- no edit in 4.2 
+<!-- no edit in 4.2
 <sect1 id="editmenu">
 <title>The <guimenu>Edit</guimenu> Menu</title>
 
@@ -445,7 +445,7 @@ name</action></para>
 filename</action>. For example, you could use <literal
 role="extension">*.txt</literal> to select all text files. Note that you
 can't use more than one filter at a time.</para>
-</listitem> 
+</listitem>
 </varlistentry>
 
 <varlistentry>
@@ -491,7 +491,7 @@ unselected, and unselected files are selected.</action></para>
 <action>shows you the output of the most recent command(s)</action> run
 by &ark;. This is sometimes useful if you are having problems and want
 to troubleshoot.</para>
-</listitem> 
+</listitem>
 </varlistentry>
 
 </variablelist>
@@ -523,7 +523,7 @@ multiple files.</para>
 <listitem>
 <para>Shows the <guilabel>Add Folder</guilabel> dialog. Just select a folder
 and click the <guibutton>OK</guibutton> button.</para>
-</listitem> 
+</listitem>
 </varlistentry>
 
 <varlistentry>
@@ -547,7 +547,7 @@ archive.</action></para>
 <listitem>
 <para>This opens a submenu with previously accessed folders,
 and you can select to quick extract into any of them.</para>
-</listitem> 
+</listitem>
 </varlistentry>
 
 <varlistentry>
@@ -558,7 +558,7 @@ and you can select to quick extract into any of them.</para>
 <listitem>
 <para><action>Opens the currently selected file in the associated viewer
 program.</action></para>
-</listitem> 
+</listitem>
 </varlistentry>
 
 <!--varlistentry>
@@ -582,7 +582,7 @@ you choose which program to use. </para>
 <para><action>Opens the currently selected file in a program you
 choose.</action> Any changes you make in the editor program will be
 reflected in the archive, as it will be updated. </para>
-</listitem> 
+</listitem>
 </varlistentry-->
 
 </variablelist>
@@ -638,7 +638,7 @@ items.</action> To change a shortcut, select an action from the list,
 and then choose which keystroke to use. Clicking on the right
 <interface>Key</interface> button lets you choose which specific
 key to use. Just press the new key. </para>
-</listitem> 
+</listitem>
 </varlistentry>
 
 <varlistentry>
@@ -744,7 +744,7 @@ and <command>lha</command>.  </para>
 
 </appendix>
 
-&documentation.index; 
+&documentation.index;
 </book>
 
 <!--
