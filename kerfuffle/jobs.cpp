@@ -26,23 +26,46 @@
  */
 
 #include "jobs.h"
-#include "threading.h"
 
 #include <QApplication>
 #include <QDir>
-#include <QTimer>
+#include <QThread>
 
 #include <KDebug>
 #include <KLocale>
 
+//#define DEBUG_RACECONDITION
+
 namespace Kerfuffle
 {
+
+class Job::Private : public QThread
+{
+public:
+    virtual void run();
+
+    Job *q;
+};
+
+void Job::Private::run()
+{
+    connect(q, SIGNAL(result(KJob*)), this, SLOT(quit()), Qt::DirectConnection);
+
+    QMetaObject::invokeMethod(q, "doWork", Qt::DirectConnection);
+    exec();
+
+#ifdef DEBUG_RACECONDITION
+    QThread::sleep(2);
+#endif
+}
 
 Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
     : KJob(parent)
     , m_interface(interface)
-    , m_workerThread(0)
+    , d(new Private())
 {
+    d->q = this;
+
     static bool onlyOnce = false;
     if (!onlyOnce) {
         qRegisterMetaType<QPair<QString, QString> >("QPair<QString,QString>");
@@ -54,18 +77,16 @@ Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
 
 Job::~Job()
 {
-    if (m_workerThread) {
-        m_workerThread->wait();
+    if (d->isRunning()) {
+        d->wait();
     }
 
-    delete m_workerThread;
-    m_workerThread = 0;
+    delete d;
 }
 
 void Job::start()
 {
-    m_workerThread = new ThreadExecution(this);
-    m_workerThread->start();
+    d->start();
 }
 
 void Job::onError(const QString & message, const QString & details)

@@ -12,7 +12,6 @@ set(kerfuffle_SRCS
     archive.cpp
     archiveinterface.cpp
     jobs.cpp
-	threading.cpp
     archivebase.cpp
 	extractiondialog.cpp
 	adddialog.cpp

@@ -67,9 +67,6 @@ protected:
 
     ReadOnlyArchiveInterface *m_interface;
 
-private:
-    ThreadExecution *m_workerThread;
-
 public slots:
     virtual void doWork() = 0;
 
@@ -78,6 +75,10 @@ signals:
     void error(const QString& errorMessage, const QString& details);
     void newEntry(const ArchiveEntry &);
     void userQuery(Kerfuffle::Query*);
+
+private:
+    class Private;
+    Private * const d;
 };
 
 class KERFUFFLE_EXPORT ListJob : public Job
