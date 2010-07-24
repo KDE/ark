@@ -143,8 +143,7 @@ void Part::registerJob(KJob* job)
 
     //KIO::getJobTracker()->registerJob(job);
     emit busy();
-    connect(job, SIGNAL(finished(KJob*)),
-            this, SIGNAL(ready()));
+    connect(job, SIGNAL(result(KJob*)), this, SIGNAL(ready()));
 }
 
 void Part::extractSelectedFilesTo(const QString& localPath)
