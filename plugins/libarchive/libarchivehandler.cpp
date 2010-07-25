@@ -377,11 +377,6 @@ bool LibArchiveInterface::addFiles(const QStringList & files, const CompressionO
             error(i18n("Setting compression failed with the error '%1'", QString(archive_error_string(arch_writer))));
             return false;
         }
-
-        if (ret != ARCHIVE_OK) {
-            error(i18n("Setting format failed with the error '%1'", QString(archive_error_string(arch_writer))));
-            return false;
-        }
     } else {
         switch (archive_compression(arch_reader)) {
         case ARCHIVE_COMPRESSION_GZIP:
