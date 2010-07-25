@@ -436,7 +436,7 @@ bool LibArchiveInterface::addFiles(const QStringList & files, const CompressionO
     if (ret != ARCHIVE_OK) {
         error(i18n("Opening the archive for writing failed with error message '%1'", QString(archive_error_string(arch_writer))));
 
-        if (!creatingNewArchive) {
+        if (!creatingNewFile) {
             archive_read_finish(arch_reader);
         }
         archive_write_finish(arch_writer);
