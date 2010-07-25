@@ -65,19 +65,27 @@ bool LibArchiveInterface::list()
     int result;
 
     arch = archive_read_new();
-    if (!arch)
+    if (!arch) {
         return false;
+    }
 
     result = archive_read_support_compression_all(arch);
-    if (result != ARCHIVE_OK) return false;
+    if (result != ARCHIVE_OK) {
+        archive_read_finish(arch);
+        return false;
+    }
 
     result = archive_read_support_format_all(arch);
-    if (result != ARCHIVE_OK) return false;
+    if (result != ARCHIVE_OK) {
+        archive_read_finish(arch);
+        return false;
+    }
 
     result = archive_read_open_filename(arch, QFile::encodeName(filename()), 10240);
 
     if (result != ARCHIVE_OK) {
         error(i18n("Could not open the file '%1', libarchive cannot handle it.", filename()), QString());
+        archive_read_finish(arch);
         return false;
     }
 
@@ -85,7 +93,10 @@ bool LibArchiveInterface::list()
     m_extractedFilesSize = 0;
 
     while ((result = archive_read_next_header(arch, &aentry)) == ARCHIVE_OK) {
-        if (!m_emitNoEntries) emitEntryFromArchiveEntry(aentry);
+        if (!m_emitNoEntries) {
+            emitEntryFromArchiveEntry(aentry);
+        }
+
         m_extractedFilesSize += (qlonglong) archive_entry_size(aentry);
 
         m_cachedArchiveEntryCount++;
@@ -94,6 +105,7 @@ bool LibArchiveInterface::list()
 
     if (result != ARCHIVE_EOF) {
         error(i18n("The archive reading failed with message: %1", archive_error_string(arch)));
+        archive_read_finish(arch);
         return false;
     }
 
@@ -348,11 +360,11 @@ bool LibArchiveInterface::addFiles(const QStringList & files, const CompressionO
             kDebug() << "Detected xz compression for new file";
             ret = archive_write_set_compression_xz(arch_writer);
 #endif
-#ifdef HAVE_LIBARCHIVE_LZMA_SUPPORT	    
+#ifdef HAVE_LIBARCHIVE_LZMA_SUPPORT
         } else if (filename().right(4).toUpper() == "LZMA") {
             kDebug() << "Detected lzma compression for new file";
             ret = archive_write_set_compression_lzma(arch_writer);
-#endif	    
+#endif
         } else if (filename().right(3).toUpper() == "TAR") {
             kDebug() << "Detected no compression for new file (pure tar)";
             ret = archive_write_set_compression_none(arch_writer);
@@ -387,7 +399,7 @@ bool LibArchiveInterface::addFiles(const QStringList & files, const CompressionO
         case ARCHIVE_COMPRESSION_LZMA:
             ret = archive_write_set_compression_lzma(arch_writer);
             break;
-#endif	    
+#endif
         case ARCHIVE_COMPRESSION_NONE:
             ret = archive_write_set_compression_none(arch_writer);
             break;
@@ -524,7 +536,7 @@ bool LibArchiveInterface::deleteFiles(const QList<QVariant> & files)
     case ARCHIVE_COMPRESSION_LZMA:
         ret = archive_write_set_compression_lzma(arch_writer);
         break;
-#endif	
+#endif
     case ARCHIVE_COMPRESSION_NONE:
         ret = archive_write_set_compression_none(arch_writer);
         break;
