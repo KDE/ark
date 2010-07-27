@@ -127,11 +127,8 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
     struct archive *arch, *writer;
     struct archive_entry *entry;
 
-    QString rootNode;
-    if (options.contains("RootNode")) {
-        rootNode = options.value("RootNode").toString();
-        kDebug() << "Set root node " << rootNode;
-    }
+    const QString rootNode = options.value("RootNode", QVariant()).toString();
+    kDebug() << "Set root node" << rootNode;
 
     arch = archive_read_new();
     if (!arch) {
