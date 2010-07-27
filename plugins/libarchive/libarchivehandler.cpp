@@ -124,11 +124,7 @@ bool LibArchiveInterface::list()
         return false;
     }
 
-#if (ARCHIVE_API_VERSION>1)
     return archive_read_close(arch_reader.data()) == ARCHIVE_OK;
-#else
-    return true;
-#endif
 }
 
 bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& destinationDirectory, ExtractionOptions options)
@@ -312,11 +308,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
         }
     }
 
-#if (ARCHIVE_API_VERSION>1)
     return archive_read_close(arch.data()) == ARCHIVE_OK;
-#else
-    return true;
-#endif
 }
 
 bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOptions& options)
