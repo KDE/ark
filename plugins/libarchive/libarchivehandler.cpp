@@ -463,7 +463,7 @@ bool LibArchiveInterface::addFiles(const QStringList & files, const CompressionO
             QDirIterator it(selectedFile, QDir::AllEntries | QDir::Readable | QDir::Hidden | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
 
             while (it.hasNext()) {
-                QString path = it.next();
+                const QString path = it.next();
                 if (it.fileName() == ".." || it.fileName() == ".") continue;
 
                 success = writeFile(path +
@@ -533,7 +533,7 @@ bool LibArchiveInterface::deleteFiles(const QList<QVariant> & files)
     int header_response;
     int ret;
 
-    QString tempFilename = filename() + ".arkWriting";
+    const QString tempFilename = filename() + ".arkWriting";
 
     arch_reader = archive_read_new();
     if (!arch_reader) {
