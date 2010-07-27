@@ -45,11 +45,11 @@
 #include <QStringList>
 
 LibArchiveInterface::LibArchiveInterface(QObject *parent, const QVariantList & args)
-        : ReadWriteArchiveInterface(parent, args),
-        m_cachedArchiveEntryCount(0),
-        m_emitNoEntries(false),
-        m_extractedFilesSize(0),
-        m_workDir(QDir::current())
+        : ReadWriteArchiveInterface(parent, args)
+        , m_cachedArchiveEntryCount(0)
+        , m_emitNoEntries(false)
+        , m_extractedFilesSize(0)
+        , m_workDir(QDir::current())
 {
 }
 
