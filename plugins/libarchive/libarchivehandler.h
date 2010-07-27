@@ -43,9 +43,9 @@ public:
     ~LibArchiveInterface();
 
     bool list();
-    bool copyFiles(const QList<QVariant>& files, const QString& destinationDirectory, ExtractionOptions options);
+    bool copyFiles(const QVariantList& files, const QString& destinationDirectory, ExtractionOptions options);
     bool addFiles(const QStringList& files, const CompressionOptions& options);
-    bool deleteFiles(const QList<QVariant>& files);
+    bool deleteFiles(const QVariantList& files);
 
 private:
     void emitEntryFromArchiveEntry(struct archive_entry *entry);
