@@ -39,13 +39,13 @@ class LibArchiveInterface: public ReadWriteArchiveInterface
     Q_OBJECT
 
 public:
-    explicit LibArchiveInterface(QObject *parent, const QVariantList & args);
+    explicit LibArchiveInterface(QObject *parent, const QVariantList& args);
     ~LibArchiveInterface();
 
     bool list();
-    bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options);
-    bool addFiles(const QStringList & files, const CompressionOptions& options);
-    bool deleteFiles(const QList<QVariant> & files);
+    bool copyFiles(const QList<QVariant>& files, const QString& destinationDirectory, ExtractionOptions options);
+    bool addFiles(const QStringList& files, const CompressionOptions& options);
+    bool deleteFiles(const QList<QVariant>& files);
 
 private:
     void emitEntryFromArchiveEntry(struct archive_entry *entry);

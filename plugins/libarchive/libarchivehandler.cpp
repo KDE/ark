@@ -116,7 +116,7 @@ bool LibArchiveInterface::list()
 #endif
 }
 
-bool LibArchiveInterface::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options)
+bool LibArchiveInterface::copyFiles(const QList<QVariant>& files, const QString& destinationDirectory, ExtractionOptions options)
 {
     kDebug() << "Changing current directory to " << destinationDirectory;
     QDir::setCurrent(destinationDirectory);
@@ -313,7 +313,7 @@ bool LibArchiveInterface::copyFiles(const QList<QVariant> & files, const QString
 #endif
 }
 
-bool LibArchiveInterface::addFiles(const QStringList & files, const CompressionOptions& options)
+bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOptions& options)
 {
     struct archive *arch_reader = NULL, *arch_writer = NULL;
     struct archive_entry *entry;
@@ -526,7 +526,7 @@ bool LibArchiveInterface::addFiles(const QStringList & files, const CompressionO
     return true;
 }
 
-bool LibArchiveInterface::deleteFiles(const QList<QVariant> & files)
+bool LibArchiveInterface::deleteFiles(const QList<QVariant>& files)
 {
     struct archive *arch_reader = NULL, *arch_writer = NULL;
     struct archive_entry *entry;
