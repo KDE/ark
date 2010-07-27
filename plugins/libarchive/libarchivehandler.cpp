@@ -431,13 +431,11 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
         return false;
     }
 
-    struct archive_entry *entry = archive_entry_new();
-
     //**************** first write the new files
     foreach(const QString& selectedFile, files) {
         bool success;
 
-        success = writeFile(selectedFile, arch_writer.data(), entry);
+        success = writeFile(selectedFile, arch_writer.data());
 
         if (!success) {
             return false;
@@ -452,7 +450,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
 
                 success = writeFile(path +
                                     (it.fileInfo().isDir() ? "/" : ""),
-                                    arch_writer.data(), entry);
+                                    arch_writer.data());
 
                 if (!success) {
                     return false;
@@ -460,6 +458,8 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
             }
         }
     }
+
+    struct archive_entry *entry;
 
     //and if we have old elements...
     if (!creatingNewFile) {
@@ -572,7 +572,7 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
         return false;
     }
 
-    struct archive_entry *entry = archive_entry_new();
+    struct archive_entry *entry;
 
     //********** copy old elements from previous archive to new archive
     while (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK) {
@@ -594,8 +594,6 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
             kDebug() << "Writing header failed with error code " << header_response;
             return false;
         }
-
-        archive_entry_clear(entry);
     }
 
     //everything seems OK, so we remove the source file and replace it with
@@ -704,7 +702,7 @@ void LibArchiveInterface::copyData(struct archive *source, struct archive *dest,
     }
 }
 
-bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arch_writer, struct archive_entry* entry)
+bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arch_writer)
 {
     KDE_struct_stat st;
     int header_response;
@@ -717,25 +715,31 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
     //       class hierarchy to avoid code duplication
     const QString relativeName = m_workDir.relativeFilePath(fileName) + (trailingSlash ? "/" : "");
 
+    struct archive_entry *entry = archive_entry_new();
+
     KDE_stat(QFile::encodeName(relativeName).constData(), &st);
     archive_entry_copy_stat(entry, &st);
     archive_entry_copy_pathname(entry, QFile::encodeName(relativeName).constData());
 
     kDebug() << "Writing new entry " << archive_entry_pathname(entry);
-    if ((header_response = archive_write_header(arch_writer, entry)) == ARCHIVE_OK)
+    if ((header_response = archive_write_header(arch_writer, entry)) == ARCHIVE_OK) {
         //if the whole archive is extracted and the total filesize is
         //available, we use partial progress
         copyData(fileName, arch_writer, false);
-    else {
+    } else {
         kDebug() << "Writing header failed with error code " << header_response;
         kDebug() << "Error while writing..." << archive_error_string(arch_writer) << "(error nb =" << archive_errno(arch_writer) << ')';
+
+        archive_entry_free(entry);
+
         return false;
     }
 
     m_writtenFiles.push_back(relativeName);
 
     emitEntryFromArchiveEntry(entry);
-    archive_entry_clear(entry);
+
+    archive_entry_free(entry);
 
     return true;
 }
