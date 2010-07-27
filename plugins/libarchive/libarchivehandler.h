@@ -67,6 +67,7 @@ private:
     qlonglong m_extractedFilesSize;
     QDir m_workDir;
     QStringList m_writtenFiles;
+    ArchiveRead m_archiveReadDisk;
 };
 
 #endif // LIBARCHIVEHANDLER_H

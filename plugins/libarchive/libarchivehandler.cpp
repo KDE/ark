@@ -70,7 +70,9 @@ LibArchiveInterface::LibArchiveInterface(QObject *parent, const QVariantList & a
         , m_emitNoEntries(false)
         , m_extractedFilesSize(0)
         , m_workDir(QDir::current())
+        , m_archiveReadDisk(archive_read_disk_new())
 {
+    archive_read_disk_set_standard_lookup(m_archiveReadDisk.data());
 }
 
 LibArchiveInterface::~LibArchiveInterface()
@@ -702,9 +704,10 @@ void LibArchiveInterface::copyData(struct archive *source, struct archive *dest,
     }
 }
 
+// TODO: if we merge this with copyData(), we can pass more data
+//       such as an fd to archive_read_disk_entry_from_file()
 bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arch_writer)
 {
-    KDE_struct_stat st;
     int header_response;
 
     const bool trailingSlash = fileName.endsWith('/');
@@ -716,10 +719,9 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
     const QString relativeName = m_workDir.relativeFilePath(fileName) + (trailingSlash ? "/" : "");
 
     struct archive_entry *entry = archive_entry_new();
-
-    KDE_stat(QFile::encodeName(relativeName).constData(), &st);
-    archive_entry_copy_stat(entry, &st);
-    archive_entry_copy_pathname(entry, QFile::encodeName(relativeName).constData());
+    archive_entry_set_pathname(entry, QFile::encodeName(relativeName));
+    archive_entry_copy_sourcepath(entry, QFile::encodeName(fileName));
+    archive_read_disk_entry_from_file(m_archiveReadDisk.data(), entry, -1, NULL);
 
     kDebug() << "Writing new entry " << archive_entry_pathname(entry);
     if ((header_response = archive_write_header(arch_writer, entry)) == ARCHIVE_OK) {
