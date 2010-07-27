@@ -610,25 +610,32 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
 void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 {
     ArchiveEntry e;
+
 #ifdef _MSC_VER
-    e[ FileName ] = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry)));
+    e[FileName] = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry)));
 #else
-    e[ FileName ] = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry)));
+    e[FileName] = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry)));
 #endif
-    e[ InternalID ] = e[ FileName ];
+    e[InternalID] = e[FileName];
 
-    QString owner = QString(archive_entry_uname(aentry));
-    if (!owner.isEmpty()) e[ Owner ] = owner;
-
-    QString group = QString(archive_entry_gname(aentry));
-    if (!group.isEmpty()) e[ Group ] = group;
-
-    e[ Size ] = (qlonglong) archive_entry_size(aentry);
-    e[ IsDirectory ] = S_ISDIR(archive_entry_mode(aentry));     // see stat(2)
-    if (archive_entry_symlink(aentry)) {
-        e[ Link ] = archive_entry_symlink(aentry);
+    const QString owner = QString::fromAscii(archive_entry_uname(aentry));
+    if (!owner.isEmpty()) {
+        e[Owner] = owner;
     }
-    e[ Timestamp ] = QDateTime::fromTime_t(archive_entry_mtime(aentry));
+
+    const QString group = QString::fromAscii(archive_entry_gname(aentry));
+    if (!group.isEmpty()) {
+        e[Group] = group;
+    }
+
+    e[Size] = (qlonglong)archive_entry_size(aentry);
+    e[IsDirectory] = S_ISDIR(archive_entry_mode(aentry));
+
+    if (archive_entry_symlink(aentry)) {
+        e[Link] = archive_entry_symlink(aentry);
+    }
+
+    e[Timestamp] = QDateTime::fromTime_t(archive_entry_mtime(aentry));
 
     entry(e);
 }
