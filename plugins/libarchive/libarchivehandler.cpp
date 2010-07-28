@@ -66,12 +66,12 @@ struct LibArchiveInterface::ArchiveWriteCustomDeleter
 };
 
 LibArchiveInterface::LibArchiveInterface(QObject *parent, const QVariantList & args)
-        : ReadWriteArchiveInterface(parent, args)
-        , m_cachedArchiveEntryCount(0)
-        , m_emitNoEntries(false)
-        , m_extractedFilesSize(0)
-        , m_workDir(QDir::current())
-        , m_archiveReadDisk(archive_read_disk_new())
+    : ReadWriteArchiveInterface(parent, args)
+    , m_cachedArchiveEntryCount(0)
+    , m_emitNoEntries(false)
+    , m_extractedFilesSize(0)
+    , m_workDir(QDir::current())
+    , m_archiveReadDisk(archive_read_disk_new())
 {
     archive_read_disk_set_standard_lookup(m_archiveReadDisk.data());
 }
