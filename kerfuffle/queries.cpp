@@ -33,7 +33,6 @@
 #include <kio/renamedialog.h>
 
 #include <QApplication>
-#include <QMessageBox>
 #include <QPointer>
 
 namespace Kerfuffle

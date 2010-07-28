@@ -33,8 +33,6 @@
 #include <QStringList>
 #include <QHash>
 
-#include <KUrl>
-
 class KJob;
 
 namespace Kerfuffle
