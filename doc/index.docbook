@@ -91,7 +91,7 @@ menu. You can also open archive files by dragging and dropping from
 also <mousebutton>right</mousebutton> click a file in &konqueror; or &dolphin; and
 select <guimenuitem>Open with &ark;</guimenuitem> to open it or select an extract action for this file.</para>
 
-<para>If you have enabeled the information panel in the <guimenu>Settings</guimenu> menu 
+<para>If you have enabled the information panel in the <guimenu>Settings</guimenu> menu 
 additional information about the selected folders or files in the archive is displayed.</para>
 </sect1>
 
@@ -194,24 +194,24 @@ be added to the current archive.</para>
 
 <para>Clicking with the &RMB; on an archive in a filemanager like &dolphin; or &konqueror; 
 displays a context menu with an item <guimenuitem>Open with Ark</guimenuitem>.
-The menu has these additional items to extract an archiv using &ark;:
+The menu has these additional items to extract an archive using &ark;:
 </para>
 
 <itemizedlist>
 <listitem>
 <para><guimenuitem>Extract Here, Autodetect Subfolder</guimenuitem> creates a 
-subfolder in the folder with the archiv and extracts the folders and files into it.</para>
+subfolder in the folder with the archive and extracts the folders and files into it.</para>
 </listitem>
 <listitem>
 <para><guimenuitem>Extract Archive To...</guimenuitem> works like as in &ark;.</para>
 </listitem>
 <listitem>
-<para><guimenuitem>Extract Here</guimenuitem> extracts the content of the archiv into same folder.</para>
+<para><guimenuitem>Extract Here</guimenuitem> extracts the content of the archive into same folder.</para>
 </listitem>
 </itemizedlist>
 
 <para>
-&dolphin;s or &konqueror;s context menu for a selection displays these actions in the 
+&dolphin;'s or &konqueror;'s context menu for a selection displays these actions in the 
 <guimenu>Compress</guimenu> submenu:
 </para>
 
@@ -221,7 +221,7 @@ subfolder in the folder with the archiv and extracts the folders and files into 
 with the extension <filename class="extension">.tar.gz</filename>.</para>
 </listitem>
 <listitem>
-<para><guimenuitem>As Zip Archive</guimenuitem>, <guimenuitem>As Rar Archive</guimenuitem> 
+<para><guimenuitem>As ZIP Archive</guimenuitem>, <guimenuitem>As RAR Archive</guimenuitem> 
 or <guimenuitem>As ZIP/TAR Archive</guimenuitem> creates these archive types in the current folder.</para>
 </listitem>
 <listitem>
@@ -233,10 +233,10 @@ or <guimenuitem>As ZIP/TAR Archive</guimenuitem> creates these archive types in 
 
 <chapter id="batchmode">
 <title>Advanced Batch Mode</title>
-<para>&ark; has an advanced batch mode to manage archives without launchig a &GUI; interface.
+<para>&ark; has an advanced batch mode to manage archives without launching a &GUI; interface.
 This mode allows you to extract or create archives and add files to them.</para>
 
-<para>The batch mode is documented in <ulink url="man:/ark">&ark;'s man page.</ulink>
+<para>The batch mode is documented in <ulink url="man:/ark">&ark;'s man page</ulink>.
 </para>
 </chapter>
 
