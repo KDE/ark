@@ -106,7 +106,6 @@ public:
                 ArchiveEntry e;
                 e[Permissions] = entryPattern.cap(1);
                 e[IsDirectory] = (entryPattern.cap(1).at(0) == 'd');
-                e[Owner] = entryPattern.cap(3);
                 e[Size] = entryPattern.cap(4).toInt();
                 QString status = entryPattern.cap(5);
                 if (status[0].isUpper())
