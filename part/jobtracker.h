@@ -50,7 +50,6 @@ public slots:
     virtual void unregisterJob(KJob *job);
 
 protected slots:
-    virtual void finished(KJob *job);
     virtual void description(KJob *job, const QString &title, const QPair< QString, QString > &f1, const QPair< QString, QString > &f2);
     virtual void infoMessage(KJob *job, const QString &plain, const QString &rich);
     virtual void warning(KJob *job, const QString &plain, const QString &rich);

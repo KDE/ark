@@ -21,7 +21,6 @@
  */
 #include "jobtracker.h"
 
-#include <QTimer>
 #include <KDebug>
 
 JobTrackerWidget::JobTrackerWidget(QWidget *parent)
@@ -90,15 +89,6 @@ void JobTracker::resetUi()
     m_ui->informationLabel->hide();
     m_ui->progressBar->setMaximum(0);
     m_ui->progressBar->setMinimum(0);
-}
-
-void JobTracker::finished(KJob *job)
-{
-    QTimer::singleShot(1500, this, SLOT(resetUi()));
-    m_ui->informationLabel->setText(i18n("Operation finished."));
-    m_ui->informationLabel->show();
-    m_ui->progressBar->hide();
-    KJobTrackerInterface::unregisterJob(job);
 }
 
 QWidget* JobTracker::widget(KJob *)
