@@ -142,7 +142,6 @@ void Part::registerJob(KJob* job)
     }
     m_jobTracker->registerJob(job);
 
-    //KIO::getJobTracker()->registerJob(job);
     emit busy();
     connect(job, SIGNAL(result(KJob*)), this, SIGNAL(ready()));
 }
