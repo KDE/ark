@@ -148,8 +148,13 @@ bool LibArchiveInterface::copyFiles(const QList<QVariant> & files, const QString
         return false;
     }
 
-    archive_read_support_compression_all(arch.data());
-    archive_read_support_format_all(arch.data());
+    if (archive_read_support_compression_all(arch.data()) != ARCHIVE_OK) {
+        return false;
+    }
+
+    if (archive_read_support_format_all(arch.data()) != ARCHIVE_OK) {
+        return false;
+    }
 
     if (archive_read_open_filename(arch.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
         error(i18n("Unable to open the file '%1', libarchive cannot handle it.",
@@ -341,9 +346,14 @@ bool LibArchiveInterface::addFiles(const QStringList & files, const CompressionO
             return false;
         }
 
-        /* TODO: write checks for these calls */
-        archive_read_support_compression_all(arch_reader.data());
-        archive_read_support_format_all(arch_reader.data());
+        if (archive_read_support_compression_all(arch_reader.data()) != ARCHIVE_OK) {
+            return false;
+        }
+
+        if (archive_read_support_format_all(arch_reader.data()) != ARCHIVE_OK) {
+            return false;
+        }
+
         if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
             error(i18n("The source file could not be read."));
             return false;
@@ -511,9 +521,14 @@ bool LibArchiveInterface::deleteFiles(const QList<QVariant> & files)
         return false;
     }
 
-    /* TODO: check the return of these functions */
-    archive_read_support_compression_all(arch_reader.data());
-    archive_read_support_format_all(arch_reader.data());
+    if (archive_read_support_compression_all(arch_reader.data()) != ARCHIVE_OK) {
+        return false;
+    }
+
+    if (archive_read_support_format_all(arch_reader.data()) != ARCHIVE_OK) {
+        return false;
+    }
+
     if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
         error(i18n("The source file could not be read."));
         return false;
