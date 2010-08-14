@@ -28,8 +28,10 @@
 #define LIBARCHIVEHANDLER_H
 
 #include "kerfuffle/archiveinterface.h"
+
 #include <QDir>
 #include <QList>
+#include <QScopedPointer>
 #include <QStringList>
 
 using namespace Kerfuffle;
@@ -53,6 +55,11 @@ private:
     void copyData(const QString& filename, struct archive *dest, bool partialprogress = true);
     void copyData(struct archive *source, struct archive *dest, bool partialprogress = true);
     bool writeFile(const QString& fileName, struct archive* arch, struct archive_entry* entry);
+
+    struct ArchiveReadCustomDeleter;
+    struct ArchiveWriteCustomDeleter;
+    typedef QScopedPointer<struct archive, ArchiveReadCustomDeleter> ArchiveRead;
+    typedef QScopedPointer<struct archive, ArchiveWriteCustomDeleter> ArchiveWrite;
 
     int m_cachedArchiveEntryCount;
     qlonglong m_currentExtractedFilesSize;
