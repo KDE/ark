@@ -79,9 +79,8 @@ void JobTracker::percent(KJob *job, unsigned long  percent)
 
 void JobTracker::unregisterJob(KJob *job)
 {
-    kDebug();
-    resetUi();
     KJobTrackerInterface::unregisterJob(job);
+    resetUi();
 }
 
 void JobTracker::resetUi()
