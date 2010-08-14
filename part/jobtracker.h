@@ -29,6 +29,7 @@
 class JobTrackerWidget: public QFrame, public Ui::JobTrackerWidget
 {
     Q_OBJECT
+
 public:
     JobTrackerWidget(QWidget *parent = 0);
 };
@@ -36,14 +37,16 @@ public:
 class JobTracker: public KAbstractWidgetJobTracker
 {
     Q_OBJECT
+
 public:
     JobTracker(QWidget *parent = 0);
 
     QWidget *widget(KJob *);
+    KJob *currentJob() const;
+
+public slots:
     virtual void registerJob(KJob *job);
     virtual void unregisterJob(KJob *job);
-
-    KJob *currentJob() const;
 
 protected slots:
     virtual void finished(KJob *job);
