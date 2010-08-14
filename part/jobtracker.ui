@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>409</width>
-    <height>29</height>
+    <height>16</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -66,7 +66,7 @@
    <item>
     <widget class="QProgressBar" name="progressBar" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+      <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
