@@ -31,15 +31,10 @@ JobTrackerWidget::JobTrackerWidget(QWidget *parent)
 }
 
 JobTracker::JobTracker(QWidget *parent)
-        : KAbstractWidgetJobTracker(parent), m_currentJob(0)
+        : KAbstractWidgetJobTracker(parent)
 {
     m_ui = new JobTrackerWidget(parent);
     resetUi();
-}
-
-KJob* JobTracker::currentJob() const
-{
-    return m_currentJob;
 }
 
 void JobTracker::description(KJob *job, const QString &title, const QPair< QString, QString > &f1, const QPair< QString, QString > &f2)
@@ -72,7 +67,6 @@ void JobTracker::registerJob(KJob *job)
     m_ui->show();
     m_ui->informationLabel->hide();
     m_ui->progressBar->show();
-    m_currentJob = job;
 }
 
 void JobTracker::percent(KJob *job, unsigned long  percent)
@@ -87,7 +81,6 @@ void JobTracker::unregisterJob(KJob *job)
 {
     kDebug();
     resetUi();
-    m_currentJob = 0;
     KJobTrackerInterface::unregisterJob(job);
 }
 

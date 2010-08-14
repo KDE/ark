@@ -44,7 +44,6 @@ public:
     JobTracker(QWidget *parent = 0);
 
     virtual QWidget *widget(KJob *);
-    KJob *currentJob() const;
 
 public slots:
     virtual void registerJob(KJob *job);
@@ -63,7 +62,6 @@ private slots:
 
 private:
     JobTrackerWidget *m_ui;
-    KJob             *m_currentJob;
 };
 
 #endif // JOBTRACKER_H
