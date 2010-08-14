@@ -26,6 +26,8 @@
 #include <kabstractwidgetjobtracker.h>
 #include "ui_jobtracker.h"
 
+class KJob;
+
 class JobTrackerWidget: public QFrame, public Ui::JobTrackerWidget
 {
     Q_OBJECT
