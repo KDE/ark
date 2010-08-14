@@ -508,11 +508,6 @@ bool LibArchiveInterface::addFiles(const QStringList & files, const CompressionO
 
 bool LibArchiveInterface::deleteFiles(const QList<QVariant> & files)
 {
-    struct archive *arch_reader = NULL, *arch_writer = NULL;
-    struct archive_entry *entry;
-    int header_response;
-    int ret;
-
     QString tempFilename = filename() + ".arkWriting";
 
     ArchiveRead arch_reader(archive_read_new());
