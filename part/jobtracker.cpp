@@ -21,7 +21,6 @@
  */
 #include "jobtracker.h"
 
-#include <KIconLoader>
 #include <QTimer>
 #include <KDebug>
 
