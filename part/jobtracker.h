@@ -41,7 +41,7 @@ class JobTracker: public KAbstractWidgetJobTracker
 public:
     JobTracker(QWidget *parent = 0);
 
-    QWidget *widget(KJob *);
+    virtual QWidget *widget(KJob *);
     KJob *currentJob() const;
 
 public slots:
