@@ -54,7 +54,7 @@ private:
     int extractionFlags() const;
     void copyData(const QString& filename, struct archive *dest, bool partialprogress = true);
     void copyData(struct archive *source, struct archive *dest, bool partialprogress = true);
-    bool writeFile(const QString& fileName, struct archive* arch, struct archive_entry* entry);
+    bool writeFile(const QString& fileName, struct archive* arch);
 
     struct ArchiveReadCustomDeleter;
     struct ArchiveWriteCustomDeleter;
