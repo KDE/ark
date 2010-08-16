@@ -78,7 +78,8 @@ ParameterList CliPlugin::parameterList() const
 
 bool CliPlugin::readListLine(const QString& line)
 {
-    static const QLatin1String archiveInfoDelimiter("--");
+    static const QLatin1String archiveInfoDelimiter1("--"); // 7z 9.13+
+    static const QLatin1String archiveInfoDelimiter2("----"); // 7z 9.04
     static const QLatin1String entryInfoDelimiter("----------");
 
     switch (m_state) {
@@ -86,7 +87,8 @@ bool CliPlugin::readListLine(const QString& line)
         if (line.startsWith(QLatin1String("Listing archive:"))) {
             kDebug() << "Archive name: "
                      << line.right(line.size() - 16).trimmed();
-        } else if (line == archiveInfoDelimiter) {
+        } else if ((line == archiveInfoDelimiter1) ||
+                   (line == archiveInfoDelimiter2)) {
             m_state = ReadStateArchiveInformation;
         } else if (line.contains("Error:")) {
             kDebug() << line.mid(6);
