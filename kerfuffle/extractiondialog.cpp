@@ -95,12 +95,12 @@ void ExtractionDialog::batchModeOption()
 
 void ExtractionDialog::accept()
 {
-    if (m_ui->subfolder->text().contains("/")) {
-        KMessageBox::error(NULL, i18n("The subfolder name may not contain the character '/'."));
-        return;
-    }
-
     if (extractToSubfolder()) {
+        if (subfolder().contains("/")) {
+            KMessageBox::error(NULL, i18n("The subfolder name may not contain the character '/'."));
+            return;
+        }
+
         const QString pathWithSubfolder = url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder();
 
         if (KIO::NetAccess::exists(pathWithSubfolder, KIO::NetAccess::SourceSide, 0)) {
