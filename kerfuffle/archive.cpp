@@ -110,7 +110,7 @@ Archive *factory(const QString& filename, const QString& fixedMimeType)
 
 QStringList supportedMimeTypes()
 {
-    const QString constraint("(exist Library)");
+    const QLatin1String constraint("(exist Library)");
     const QLatin1String basePartService("Kerfuffle/Plugin");
 
     const KService::List offers = KServiceTypeTrader::self()->query(basePartService, constraint);
@@ -137,7 +137,7 @@ QStringList supportedMimeTypes()
 
 QStringList supportedWriteMimeTypes()
 {
-    const QString constraint("(exist Library) and ([X-KDE-Kerfuffle-ReadWrite] == true)");
+    const QLatin1String constraint("(exist Library) and ([X-KDE-Kerfuffle-ReadWrite] == true)");
     const QLatin1String basePartService("Kerfuffle/Plugin");
 
     const KService::List offers = KServiceTypeTrader::self()->query(basePartService, constraint);
