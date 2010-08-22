@@ -129,7 +129,7 @@ void ExtractionDialog::accept()
     KDirSelectDialog::accept();
 }
 
-void ExtractionDialog::setSubfolder(QString subfolder)
+void ExtractionDialog::setSubfolder(const QString& subfolder)
 {
     m_ui->subfolder->setText(subfolder);
 }
