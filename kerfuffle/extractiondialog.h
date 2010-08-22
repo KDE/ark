@@ -63,7 +63,7 @@ public:
     virtual void accept();
 
 public Q_SLOTS:
-    void setSubfolder(QString subfolder);
+    void setSubfolder(const QString& subfolder);
 
 private Q_SLOTS:
     void writeSettings();
