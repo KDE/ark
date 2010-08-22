@@ -394,8 +394,7 @@ void CliInterface::failOperation()
 {
     kDebug();
 
-    if (m_process)
-        m_process->terminate();
+    doKill();
 
     finished(false);
 }
