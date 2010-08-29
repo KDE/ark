@@ -20,13 +20,15 @@
  */
 
 #include "archiveview.h"
-#include <QApplication>
-#include <QHeaderView>
-#include <QDragEnterEvent>
-#include <QDragMoveEvent>
-#include <QMouseEvent>
+
 #include <KDebug>
 #include <KGlobalSettings>
+
+#include <QApplication>
+#include <QDragEnterEvent>
+#include <QDragMoveEvent>
+#include <QHeaderView>
+#include <QMouseEvent>
 
 ArchiveView::ArchiveView(QWidget *parent)
         : QTreeView(parent)
