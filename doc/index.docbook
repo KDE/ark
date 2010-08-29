@@ -248,6 +248,10 @@ This mode allows you to extract or create archives and add files to them.</para>
 
 <itemizedlist>
 <title>Authors:</title>
+<listitem><para>Raphael Kubo da Costa
+<email>kubito@gmail.com</email></para></listitem>
+<listitem><para>Harald Hvaal
+<email>haraldhv@stud.ntnu.no</email></para></listitem>
 <listitem><para>Helio Chissini de Castro
 <email>helio@conectiva.com.br</email></para></listitem>
 <listitem><para>Georg Robbers
@@ -262,6 +266,8 @@ This mode allows you to extract or create archives and add files to them.</para>
 <email>duranceau@kde.org</email></para></listitem>
 <listitem><para>Corel Corporation (author: Emily Ezust)
 <email>emilye@corel.com</email></para></listitem>
+<listitem><para>Corel Corporation (author: Michael Jarrett)
+<email>michaelj@corel.com</email></para></listitem>
 </itemizedlist>
 
 <para>Documentation Copyright &copy; 2000 &Matt.Johnston;
