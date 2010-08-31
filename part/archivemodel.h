@@ -68,7 +68,7 @@ public:
     Kerfuffle::ArchiveEntry entryForIndex(const QModelIndex &index);
     int childCount(const QModelIndex &index);
 
-    Kerfuffle::ExtractJob* extractFile(const QVariant& fileName, const QString & destinationDir, Kerfuffle::ExtractionOptions options = Kerfuffle::ExtractionOptions()) const;
+    Kerfuffle::ExtractJob* extractFile(const QVariant& fileName, const QString & destinationDir, const Kerfuffle::ExtractionOptions options = Kerfuffle::ExtractionOptions()) const;
     Kerfuffle::ExtractJob* extractFiles(const QList<QVariant>& files, const QString & destinationDir, const Kerfuffle::ExtractionOptions options = Kerfuffle::ExtractionOptions()) const;
 
     Kerfuffle::AddJob* addFiles(const QStringList & paths, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
