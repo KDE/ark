@@ -42,7 +42,6 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
 
 CliPlugin::~CliPlugin()
 {
-
 }
 
 ParameterList CliPlugin::parameterList() const
@@ -70,7 +69,6 @@ ParameterList CliPlugin::parameterList() const
                              << "S" //autoskip
                              << "Q" //cancel
                              ;
-
     }
 
     return p;
