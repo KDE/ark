@@ -44,7 +44,7 @@ public:
      * @return The current file name. If no pretty name has been
      *         set, it returns the name of the loaded archive.
      */
-    QString prettyFileName();
+    QString prettyFileName() const;
 
     /**
      * Sets a different file name for the current open archive.

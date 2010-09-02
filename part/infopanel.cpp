@@ -74,7 +74,7 @@ void InfoPanel::updateWithDefaults()
     hideActions();
 }
 
-QString InfoPanel::prettyFileName()
+QString InfoPanel::prettyFileName() const
 {
     if (m_prettyFileName.isEmpty()) {
         if (m_model->archive()) {
