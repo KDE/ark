@@ -87,10 +87,11 @@ void AddDialog::loadConfiguration()
     const QStringList writeMimeTypes = Kerfuffle::supportedWriteMimeTypes();
     const QString lastMimeType = m_config.readEntry("LastMimeType", defaultMimeType);
 
-    if (writeMimeTypes.contains(lastMimeType))
+    if (writeMimeTypes.contains(lastMimeType)) {
         setMimeFilter(writeMimeTypes, lastMimeType);
-    else
+    } else {
         setMimeFilter(writeMimeTypes, defaultMimeType);
+    }
 }
 
 void AddDialog::setupIconList(const QStringList& itemsToAdd)
