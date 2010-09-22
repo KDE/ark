@@ -195,7 +195,7 @@ void MainWindow::openArchive()
 {
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
-    KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///ArkOpenDir"),
+    const KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///ArkOpenDir"),
                                        Kerfuffle::supportedMimeTypes().join(" "),
                                        this);
     openUrl(url);
