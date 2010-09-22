@@ -127,7 +127,7 @@ bool MainWindow::loadPart()
         return false;
     }
 
-    m_part->setObjectName("ArkPart");
+    m_part->setObjectName( QLatin1String("ArkPart" ));
     setCentralWidget(m_part->widget());
     createGUI(m_part);
 
