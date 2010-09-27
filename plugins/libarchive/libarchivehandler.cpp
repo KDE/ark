@@ -123,7 +123,7 @@ bool LibArchiveInterface::list()
 
     if (result != ARCHIVE_EOF) {
         error(i18n("The archive reading failed with message: %1",
-                   archive_error_string(arch_reader.data())));
+                   QLatin1String( archive_error_string(arch_reader.data()))) );
         return false;
     }
 
@@ -136,9 +136,9 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
     QDir::setCurrent(destinationDirectory);
 
     const bool extractAll = files.isEmpty();
-    const bool preservePaths = options.value("PreservePaths").toBool();
+    const bool preservePaths = options.value(QLatin1String( "PreservePaths" )).toBool();
 
-    const QString rootNode = options.value("RootNode", QVariant()).toString();
+    const QString rootNode = options.value(QLatin1String( "RootNode" ), QVariant()).toString();
     kDebug() << "Set root node" << rootNode;
 
     ArchiveRead arch(archive_read_new());
@@ -207,7 +207,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
         //entryName is the name inside the archive, full path
         QString entryName = QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(entry)));
 
-        if (entryName.startsWith('/')) {
+        if (entryName.startsWith(QLatin1Char( '/' ))) {
             //for now we just can't handle absolute filenames in a tar archive.
             //TODO: find out what to do here!!
             error(i18n("This archive contains archive entries with absolute paths, which are not yet supported by ark."));
@@ -322,8 +322,8 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
 bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOptions& options)
 {
     const bool creatingNewFile = !QFileInfo(filename()).exists();
-    const QString tempFilename = filename() + ".arkWriting";
-    const QString globalWorkDir = options.value("GlobalWorkDir").toString();
+    const QString tempFilename = filename() + QLatin1String( ".arkWriting" );
+    const QString globalWorkDir = options.value(QLatin1String( "GlobalWorkDir" )).toString();
 
     if (!globalWorkDir.isEmpty()) {
         kDebug() << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
@@ -366,23 +366,23 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
 
     int ret;
     if (creatingNewFile) {
-        if (filename().right(2).toUpper() == "GZ") {
+        if (filename().right(2).toUpper() == QLatin1String( "GZ" )) {
             kDebug() << "Detected gzip compression for new file";
             ret = archive_write_set_compression_gzip(arch_writer.data());
-        } else if (filename().right(3).toUpper() == "BZ2") {
+        } else if (filename().right(3).toUpper() == QLatin1String( "BZ2" )) {
             kDebug() << "Detected bzip2 compression for new file";
             ret = archive_write_set_compression_bzip2(arch_writer.data());
 #ifdef HAVE_LIBARCHIVE_XZ_SUPPORT
-        } else if (filename().right(2).toUpper() == "XZ") {
+        } else if (filename().right(2).toUpper() == QLatin1String( "XZ" )) {
             kDebug() << "Detected xz compression for new file";
             ret = archive_write_set_compression_xz(arch_writer.data());
 #endif
 #ifdef HAVE_LIBARCHIVE_LZMA_SUPPORT
-        } else if (filename().right(4).toUpper() == "LZMA") {
+        } else if (filename().right(4).toUpper() == QLatin1String( "LZMA" )) {
             kDebug() << "Detected lzma compression for new file";
             ret = archive_write_set_compression_lzma(arch_writer.data());
 #endif
-        } else if (filename().right(3).toUpper() == "TAR") {
+        } else if (filename().right(3).toUpper() == QLatin1String( "TAR" )) {
             kDebug() << "Detected no compression for new file (pure tar)";
             ret = archive_write_set_compression_none(arch_writer.data());
         } else {
@@ -392,7 +392,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
 
         if (ret != ARCHIVE_OK) {
             error(i18n("Setting compression failed with the error '%1'",
-                       QString(archive_error_string(arch_writer.data()))));
+                       QLatin1String(archive_error_string(arch_writer.data()))));
 
             return false;
         }
@@ -418,19 +418,19 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
             ret = archive_write_set_compression_none(arch_writer.data());
             break;
         default:
-            error(i18n("The compression type '%1' is not supported by Ark.", QString(archive_compression_name(arch_reader.data()))));
+            error(i18n("The compression type '%1' is not supported by Ark.", QLatin1String(archive_compression_name(arch_reader.data()))));
             return false;
         }
 
         if (ret != ARCHIVE_OK) {
-            error(i18n("Setting compression failed with the error '%1'", QString(archive_error_string(arch_writer.data()))));
+            error(i18n("Setting compression failed with the error '%1'", QLatin1String(archive_error_string(arch_writer.data()))));
             return false;
         }
     }
 
     ret = archive_write_open_filename(arch_writer.data(), QFile::encodeName(tempFilename));
     if (ret != ARCHIVE_OK) {
-        error(i18n("Opening the archive for writing failed with error message '%1'", QString(archive_error_string(arch_writer.data()))));
+        error(i18n("Opening the archive for writing failed with error message '%1'", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
     }
 
@@ -449,10 +449,10 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
 
             while (it.hasNext()) {
                 const QString path = it.next();
-                if (it.fileName() == ".." || it.fileName() == ".") continue;
+                if (it.fileName() == QLatin1String( ".." ) || it.fileName() == QLatin1String( "." )) continue;
 
                 success = writeFile(path +
-                                    (it.fileInfo().isDir() ? "/" : ""),
+                                    (it.fileInfo().isDir() ? QLatin1String( "/" ) : QLatin1String( "" )),
                                     arch_writer.data());
 
                 if (!success) {
@@ -503,7 +503,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
 
 bool LibArchiveInterface::deleteFiles(const QVariantList& files)
 {
-    const QString tempFilename = filename() + ".arkWriting";
+    const QString tempFilename = filename() + QLatin1String( ".arkWriting" );
 
     ArchiveRead arch_reader(archive_read_new());
     if (!(arch_reader.data())) {
@@ -555,18 +555,18 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
         ret = archive_write_set_compression_none(arch_writer.data());
         break;
     default:
-        error(i18n("The compression type '%1' is not supported by Ark.", QString(archive_compression_name(arch_reader.data()))));
+        error(i18n("The compression type '%1' is not supported by Ark.", QLatin1String(archive_compression_name(arch_reader.data()))));
         return false;
     }
 
     if (ret != ARCHIVE_OK) {
-        error(i18n("Setting compression failed with the error '%1'", QString(archive_error_string(arch_writer.data()))));
+        error(i18n("Setting compression failed with the error '%1'", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
     }
 
     ret = archive_write_open_filename(arch_writer.data(), QFile::encodeName(tempFilename));
     if (ret != ARCHIVE_OK) {
-        error(i18n("Opening the archive for writing failed with error message '%1'", QString(archive_error_string(arch_writer.data()))));
+        error(i18n("Opening the archive for writing failed with error message '%1'", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
     }
 
@@ -628,7 +628,7 @@ void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry
     e[IsDirectory] = S_ISDIR(archive_entry_mode(aentry));
 
     if (archive_entry_symlink(aentry)) {
-        e[Link] = archive_entry_symlink(aentry);
+        e[Link] = QLatin1String( archive_entry_symlink(aentry) );
     }
 
     e[Timestamp] = QDateTime::fromTime_t(archive_entry_mtime(aentry));
@@ -713,13 +713,13 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
 {
     int header_response;
 
-    const bool trailingSlash = fileName.endsWith('/');
+    const bool trailingSlash = fileName.endsWith(QLatin1Char( '/' ));
 
     // #191821: workDir must be used instead of QDir::current()
     //          so that symlinks aren't resolved automatically
     // TODO: this kind of call should be moved upwards in the
     //       class hierarchy to avoid code duplication
-    const QString relativeName = m_workDir.relativeFilePath(fileName) + (trailingSlash ? "/" : "");
+    const QString relativeName = m_workDir.relativeFilePath(fileName) + (trailingSlash ? QLatin1String( "/" ) : QLatin1String( "" ));
 
     struct archive_entry *entry = archive_entry_new();
     archive_entry_set_pathname(entry, QFile::encodeName(relativeName));

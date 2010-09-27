@@ -59,7 +59,7 @@ InfoPanel::~InfoPanel()
 
 void InfoPanel::updateWithDefaults()
 {
-    iconLabel->setPixmap(KIconLoader::global()->loadIcon("utilities-file-archiver", KIconLoader::Desktop, KIconLoader::SizeHuge));
+    iconLabel->setPixmap(KIconLoader::global()->loadIcon(QLatin1String( "utilities-file-archiver" ), KIconLoader::Desktop, KIconLoader::SizeHuge));
 
     const QString currentFileName = prettyFileName();
 
@@ -101,7 +101,7 @@ void InfoPanel::setIndex(const QModelIndex& index)
         KMimeType::Ptr mimeType;
 
         if (entry[ IsDirectory ].toBool()) {
-            mimeType = KMimeType::mimeType("inode/directory");
+            mimeType = KMimeType::mimeType(QLatin1String( "inode/directory" ));
         } else {
             mimeType = KMimeType::findByPath(entry[ FileName ].toString(), 0, true);
         }
@@ -120,7 +120,7 @@ void InfoPanel::setIndex(const QModelIndex& index)
             }
         }
 
-        const QStringList nameParts = entry[ FileName ].toString().split('/', QString::SkipEmptyParts);
+        const QStringList nameParts = entry[ FileName ].toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
         const QString name = (nameParts.count() > 0) ? nameParts.last() : entry[ FileName ].toString();
         fileName->setText(name);
 
@@ -136,7 +136,7 @@ void InfoPanel::setIndexes(const QModelIndexList &list)
     } else if (list.size() == 1) {
         setIndex(list[ 0 ]);
     } else {
-        iconLabel->setPixmap(KIconLoader::global()->loadIcon("utilities-file-archiver", KIconLoader::Desktop, KIconLoader::SizeHuge));
+        iconLabel->setPixmap(KIconLoader::global()->loadIcon(QLatin1String( "utilities-file-archiver" ), KIconLoader::Desktop, KIconLoader::SizeHuge));
         fileName->setText(i18np("One file selected", "%1 files selected", list.size()));
         quint64 totalSize = 0;
         foreach(const QModelIndex& index, list) {
@@ -180,7 +180,7 @@ QString InfoPanel::metadataTextFor(const QModelIndex &index)
     KMimeType::Ptr mimeType;
 
     if (entry[ IsDirectory ].toBool()) {
-        mimeType = KMimeType::mimeType("inode/directory");
+        mimeType = KMimeType::mimeType(QLatin1String( "inode/directory" ));
     } else {
         mimeType = KMimeType::findByPath(entry[ FileName ].toString(), 0, true);
     }

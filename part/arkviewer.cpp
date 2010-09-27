@@ -78,7 +78,7 @@ void ArkViewer::view(const QString& filename, QWidget *parent)
 
     if (viewer.isNull()) {
         KMessageBox::sorry(parent, i18n("The internal viewer cannot preview this file."));
-    } else if (viewer->hasServiceType("KParts/ReadOnlyPart")) {
+    } else if (viewer->hasServiceType(QLatin1String( "KParts/ReadOnlyPart" ))) {
         ArkViewer *internalViewer = new ArkViewer(parent, Qt::Window);
 
         internalViewer->hide();
@@ -136,7 +136,7 @@ bool ArkViewer::viewInInternalViewer(const QString& filename)
 
     KVBox *headerRight = new KVBox(header);
     headerLayout->addWidget(headerRight);
-    new QLabel(QString("<qt><b>%1</b></qt>")
+    new QLabel(QString(QLatin1String( "<qt><b>%1</b></qt>" ))
                .arg(fileUrl.fileName()), headerRight
               );
     new QLabel(mimetype->comment(), headerRight);

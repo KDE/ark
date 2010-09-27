@@ -184,7 +184,7 @@ void ListJob::onNewEntry(const ArchiveEntry& entry)
 
     if (m_isSingleFolderArchive) {
         const QString fileName(entry[FileName].toString());
-        const QString basePath(fileName.split('/').at(0));
+        const QString basePath(fileName.split(QLatin1Char( '/' )).at(0));
 
         if (m_basePath.isEmpty()) {
             m_basePath = basePath;
@@ -239,8 +239,8 @@ void ExtractJob::doWork()
 
 void ExtractJob::fillInDefaultValues(ExtractionOptions& options)
 {
-    if (!options.contains("PreservePaths")) {
-        options["PreservePaths"] = false;
+    if (!options.contains(QLatin1String( "PreservePaths" ))) {
+        options[QLatin1String( "PreservePaths" )] = false;
     }
 }
 

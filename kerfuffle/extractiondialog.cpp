@@ -58,7 +58,7 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
 
     mainWidget()->layout()->addWidget(m_ui);
     setCaption(i18nc("@title:window", "Extract"));
-    m_ui->iconLabel->setPixmap(DesktopIcon("archive-extract"));
+    m_ui->iconLabel->setPixmap(DesktopIcon(QLatin1String( "archive-extract" )));
 
     m_ui->filesToExtractGroupBox->hide();
     m_ui->allFilesButton->setChecked(true);
@@ -96,7 +96,7 @@ void ExtractionDialog::batchModeOption()
 void ExtractionDialog::accept()
 {
     if (extractToSubfolder()) {
-        if (subfolder().contains("/")) {
+        if (subfolder().contains(QLatin1String( "/" ))) {
             KMessageBox::error(NULL, i18n("The subfolder name may not contain the character '/'."));
             return;
         }
@@ -211,7 +211,7 @@ bool ExtractionDialog::closeAfterExtraction() const
 KUrl ExtractionDialog::destinationDirectory() const
 {
     if (extractToSubfolder()) {
-        return url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder() + '/';
+        return url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder() + QLatin1Char( '/' );
     } else {
         return url().pathOrUrl(KUrl::AddTrailingSlash);
     }

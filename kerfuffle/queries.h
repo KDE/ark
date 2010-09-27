@@ -77,7 +77,7 @@ private:
 class KERFUFFLE_EXPORT OverwriteQuery : public Query
 {
 public:
-    explicit OverwriteQuery(QString filename);
+    explicit OverwriteQuery(const QString& filename);
     void execute();
     bool responseCancelled();
     bool responseOverwriteAll();
@@ -99,7 +99,7 @@ private:
 class KERFUFFLE_EXPORT PasswordNeededQuery : public Query
 {
 public:
-    explicit PasswordNeededQuery(QString archiveFilename, bool incorrectTryAgain = false);
+    explicit PasswordNeededQuery(const QString& archiveFilename, bool incorrectTryAgain = false);
     void execute();
 
     bool responseCancelled();

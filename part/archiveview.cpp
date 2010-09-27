@@ -132,6 +132,6 @@ void ArchiveView::dragMoveEvent(QDragMoveEvent * event)
     }
 
     QTreeView::dragMoveEvent(event);
-    if (event->mimeData()->hasFormat("text/uri-list"))
+    if (event->mimeData()->hasFormat(QLatin1String( "text/uri-list" )))
         event->acceptProposedAction();
 }

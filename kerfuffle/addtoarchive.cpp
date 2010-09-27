@@ -80,7 +80,7 @@ bool AddToArchive::showAddDialog(void)
     QPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
         m_inputs, // itemsToAdd
         KUrl(m_firstPath), // startDir
-        "", // filter
+        QLatin1String( "" ), // filter
         NULL, // parent
         NULL); // widget
 
@@ -135,7 +135,7 @@ void AddToArchive::slotStartJob(void)
     Kerfuffle::Archive *archive;
     if (!m_filename.isEmpty()) {
         archive = Kerfuffle::factory(m_filename, m_mimeType);
-        kDebug() << "Set filename to " + m_filename;
+        kDebug() << "Set filename to " << m_filename;
     } else {
         if (m_autoFilenameSuffix.isEmpty()) {
             KMessageBox::error(NULL, i18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the --autofilename argument."));
@@ -152,21 +152,21 @@ void AddToArchive::slotStartJob(void)
 
         base = fi.absoluteFilePath();
 
-        if (base.endsWith('/')) {
+        if (base.endsWith(QLatin1Char( '/' ))) {
             base.chop(1);
         }
 
-        QString finalName = base + '.' + m_autoFilenameSuffix;
+        QString finalName = base + QLatin1Char( '.' ) + m_autoFilenameSuffix;
 
         //if file already exists, append a number to the base until it doesn't
         //exist
         int appendNumber = 0;
         while (KStandardDirs::exists(finalName)) {
             ++appendNumber;
-            finalName = base + '_' + QString::number(appendNumber) + '.' + m_autoFilenameSuffix;
+            finalName = base + QLatin1Char( '_' ) + QString::number(appendNumber) + QLatin1Char( '.' ) + m_autoFilenameSuffix;
         }
 
-        kDebug() << "Autoset filename to " + finalName;
+        kDebug() << "Autoset filename to "<< finalName;
         archive = Kerfuffle::factory(finalName, m_mimeType);
     }
 
@@ -190,7 +190,7 @@ void AddToArchive::slotStartJob(void)
             m_inputs[i] = stripDir.absoluteFilePath(m_inputs.at(i));
         }
 
-        options["GlobalWorkDir"] = stripDir.path();
+        options[QLatin1String( "GlobalWorkDir" )] = stripDir.path();
         kDebug() << "Setting GlobalWorkDir to " << stripDir.path();
     }
 

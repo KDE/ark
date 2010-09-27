@@ -92,7 +92,7 @@ public:
     void setEntry(const ArchiveEntry& entry) {
         m_entry = entry;
 
-        const QStringList pieces = entry[FileName].toString().split('/', QString::SkipEmptyParts);
+        const QStringList pieces = entry[FileName].toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
         m_name = pieces.isEmpty() ? QString() : pieces.last();
     }
 
@@ -129,7 +129,7 @@ class ArchiveDirNode: public ArchiveNode
 public:
     ArchiveDirNode(ArchiveDirNode *parent, const ArchiveEntry & entry)
             : ArchiveNode(parent, entry) {
-        m_icon = KIconLoader::global()->loadMimeTypeIcon(KMimeType::mimeType("inode/directory")->iconName(), KIconLoader::Small);
+        m_icon = KIconLoader::global()->loadMimeTypeIcon(KMimeType::mimeType(QLatin1String( "inode/directory" ))->iconName(), KIconLoader::Small);
     }
 
 
@@ -250,7 +250,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
                         return QVariant();
                     } else {
                         int ratio = int(100 * ((double)size - compressedSize) / size);
-                        return QString::number(ratio) + " %";
+                        return QString::number(ratio) + QLatin1String( " %" );
                     }
                 }
 
@@ -462,11 +462,11 @@ QStringList ArchiveModel::mimeTypes() const
 {
     QStringList types;
 
-    types << QString("text/uri-list")
-    << QString("text/plain")
-    << QString("text/x-moz-url")
-    << QString("application/x-kde-urilist")
-    << QString("application/x-kde-extractdrag");
+    types << QLatin1String("text/uri-list")
+    << QLatin1String("text/plain")
+    << QLatin1String("text/x-moz-url")
+    << QLatin1String("application/x-kde-urilist")
+    << QLatin1String("application/x-kde-extractdrag");
 
     return types;
 }
@@ -480,17 +480,17 @@ QMimeData * ArchiveModel::mimeData(const QModelIndexList & indexes) const
 
     QString archiveName = m_archive->fileName();
     QString ext = QFileInfo(archiveName).suffix().toUpper();
-    if (ext == "TAR") {
-        archiveName.prepend("tar:");
-    } else if (ext == "ZIP") {
-        archiveName.prepend("zip:");
-    } else if (archiveName.right(6).toUpper() == "TAR.GZ") {
-        archiveName.prepend("tar:");
+    if (ext == QLatin1String( "TAR" )) {
+        archiveName.prepend(QLatin1String( "tar:" ));
+    } else if (ext == QLatin1String( "ZIP" )) {
+        archiveName.prepend(QLatin1String( "zip:" ));
+    } else if (archiveName.right(6).toUpper() == QLatin1String( "TAR.GZ" )) {
+        archiveName.prepend(QLatin1String( "tar:" ));
     } else
         noFallback = true;
 
-    if (!archiveName.endsWith('/')) {
-        archiveName.append('/');
+    if (!archiveName.endsWith(QLatin1Char( '/' ))) {
+        archiveName.append(QLatin1Char( '/' ));
     }
 
     //Populate the internal list of files
@@ -507,7 +507,7 @@ QMimeData * ArchiveModel::mimeData(const QModelIndexList & indexes) const
 
     //prepare the dbus-based drag/drop mimedata
     QMimeData *data = new QMimeData();
-    data->setData("application/x-kde-dndextract",
+    data->setData(QLatin1String( "application/x-kde-dndextract" ),
                   QDBusConnection::sessionBus().baseService().toUtf8()
                  );
 
@@ -572,7 +572,7 @@ QString ArchiveModel::cleanFileName(const QString& fileName)
 
 ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
 {
-    QStringList pieces = entry[ FileName ].toString().split('/', QString::SkipEmptyParts);
+    QStringList pieces = entry[ FileName ].toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
     if (pieces.isEmpty()) return NULL;
     pieces.removeLast();
 
@@ -608,7 +608,7 @@ ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
         if (!node) {
             ArchiveEntry e;
             e[ FileName ] = (parent == m_rootNode) ?
-                            piece : parent->entry()[ FileName ].toString() + '/' + piece;
+                            piece : parent->entry()[ FileName ].toString() + QLatin1Char( '/' ) + piece;
             e[ IsDirectory ] = true;
             node = new ArchiveDirNode(parent, e);
             insertNode(node);
@@ -648,7 +648,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
         return;
     }
 
-    ArchiveNode *entry = m_rootNode->findByPath(entryFileName.split('/', QString::SkipEmptyParts));
+    ArchiveNode *entry = m_rootNode->findByPath(entryFileName.split(QLatin1Char( '/' ), QString::SkipEmptyParts));
     if (entry) {
         ArchiveDirNode *parent = entry->parent();
         QModelIndex index = indexForNode(entry);
@@ -738,7 +738,7 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
 
     /// 1. Skip already created nodes
     if (m_rootNode) {
-        ArchiveNode *existing = m_rootNode->findByPath(entry[ FileName ].toString().split('/'));
+        ArchiveNode *existing = m_rootNode->findByPath(entry[ FileName ].toString().split(QLatin1Char( '/' )));
         if (existing) {
             kDebug() << "Refreshing entry for" << entry[FileName].toString();
 
@@ -757,12 +757,12 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
     ArchiveDirNode *parent = parentFor(entry);
 
     /// 3. Create an ArchiveNode
-    QString name = entry[ FileName ].toString().split('/', QString::SkipEmptyParts).last();
+    QString name = entry[ FileName ].toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts).last();
     ArchiveNode *node = parent->find(name);
     if (node) {
         node->setEntry(entry);
     } else {
-        if (entry[ FileName ].toString().endsWith('/') || (entry.contains(IsDirectory) && entry[ IsDirectory ].toBool())) {
+        if (entry[ FileName ].toString().endsWith(QLatin1Char( '/' )) || (entry.contains(IsDirectory) && entry[ IsDirectory ].toBool())) {
             node = new ArchiveDirNode(parent, entry);
         } else {
             node = new ArchiveNode(parent, entry);

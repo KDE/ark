@@ -50,34 +50,35 @@ ParameterList CliPlugin::parameterList() const
 
     if (p.isEmpty()) {
         p[CaptureProgress] = true;
-        p[ListProgram] = p[ExtractProgram] = "unrar";
-        p[DeleteProgram] = p[AddProgram] = "rar";
+        p[ListProgram] = p[ExtractProgram] = QLatin1String( "unrar" );
+        p[DeleteProgram] = p[AddProgram] = QLatin1String( "rar" );
 
-        p[ListArgs] = QStringList() << "vt" << "-c-" << "-v" << "$Archive";
-        p[ExtractArgs] = QStringList() << "-kb" << "-p-"
-                                       << "$PreservePathSwitch"
-                                       << "$PasswordSwitch"
-                                       << "$RootNodeSwitch" << "$Archive"
-                                       << "$Files";
-        p[PreservePathSwitch] = QStringList() << "x" << "e";
-        p[RootNodeSwitch] = QStringList() << "-ap$Path";
-        p[PasswordSwitch] = QStringList() << "-p$Password";
+        p[ListArgs] = QStringList() << QLatin1String( "vt" ) << QLatin1String( "-c-" ) << QLatin1String( "-v" ) << QLatin1String( "$Archive" );
+        p[ExtractArgs] = QStringList() << QLatin1String( "-kb" ) << QLatin1String( "-p-" )
+                                       << QLatin1String( "$PreservePathSwitch" )
+                                       << QLatin1String( "$PasswordSwitch" )
+                                       << QLatin1String( "$RootNodeSwitch" )
+                                       << QLatin1String( "$Archive" )
+                                       << QLatin1String( "$Files" );
+        p[PreservePathSwitch] = QStringList() << QLatin1String( "x" ) << QLatin1String( "e" );
+        p[RootNodeSwitch] = QStringList() << QLatin1String( "-ap$Path" );
+        p[PasswordSwitch] = QStringList() << QLatin1String( "-p$Password" );
 
-        p[DeleteArgs] = QStringList() << "d" << "$Archive" << "$Files";
+        p[DeleteArgs] = QStringList() << QLatin1String( "d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
-        p[FileExistsExpression] = "^(.+) already exists. Overwrite it";
+        p[FileExistsExpression] = QLatin1String( "^(.+) already exists. Overwrite it" );
         p[FileExistsInput] = QStringList()
-                             << "Y" //overwrite
-                             << "N" //skip
-                             << "A" //overwrite all
-                             << "E" //autoskip
-                             << "Q" //cancel
+                             << QLatin1String( "Y" ) //overwrite
+                             << QLatin1String( "N" ) //skip
+                             << QLatin1String( "A" ) //overwrite all
+                             << QLatin1String( "E" ) //autoskip
+                             << QLatin1String( "Q" ) //cancel
                              ;
 
-        p[AddArgs] = QStringList() << "a" << "$Archive" << "$Files";
+        p[AddArgs] = QStringList() << QLatin1String( "a" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
-        p[WrongPasswordPatterns] = QStringList() << "password incorrect";
-        p[ExtractionFailedPatterns] = QStringList() << "CRC failed" << "Cannot find volume";
+        p[WrongPasswordPatterns] = QStringList() << QLatin1String( "password incorrect" );
+        p[ExtractionFailedPatterns] = QStringList() << QLatin1String( "CRC failed" ) << QLatin1String( "Cannot find volume" );
     }
 
     return p;
@@ -135,7 +136,7 @@ bool CliPlugin::readListLine(const QString &line)
     }
 
     if (m_parseState == ParseStateEntryFileName) {
-        m_isPasswordProtected = (line.at(0) == '*');
+        m_isPasswordProtected = (line.at(0) == QLatin1Char( '*' ));
 
         // Start from 1 because the first character is either ' ' or '*'
         m_entryFileName = QDir::fromNativeSeparators(line.mid(1));
@@ -144,20 +145,20 @@ bool CliPlugin::readListLine(const QString &line)
 
         return true;
     } else if (m_parseState == ParseStateEntryDetails) {
-        const QStringList details = line.split(' ', QString::SkipEmptyParts);
+        const QStringList details = line.split(QLatin1Char( ' ' ), QString::SkipEmptyParts);
 
-        QDateTime ts(QDate::fromString(details.at(3), "dd-MM-yy"),
-                     QTime::fromString(details.at(4), "hh:mm"));
+        QDateTime ts(QDate::fromString(details.at(3), QLatin1String( "dd-MM-yy" )),
+                     QTime::fromString(details.at(4), QLatin1String( "hh:mm" )));
 
         // unrar outputs dates with a 2-digit year but QDate takes it as 19??
         // let's take 1950 is cut-off; similar to KDateTime
         if (ts.date().year() < 1950)
             ts = ts.addYears(100);
 
-        bool isDirectory = ((details.at(5).at(0) == 'd') ||
-                            (details.at(5).at(1) == 'D'));
-        if (isDirectory && !m_entryFileName.endsWith('/')) {
-            m_entryFileName += '/';
+        bool isDirectory = ((details.at(5).at(0) == QLatin1Char( 'd' )) ||
+                            (details.at(5).at(1) == QLatin1Char( 'D' )));
+        if (isDirectory && !m_entryFileName.endsWith(QLatin1Char( '/' ))) {
+            m_entryFileName += QLatin1Char( '/' );
         }
 
         // If the archive is a multivolume archive, a string indicating
@@ -167,7 +168,7 @@ bool CliPlugin::readListLine(const QString &line)
         if ((compressionRatio == QLatin1String("<--")) ||
             (compressionRatio == QLatin1String("<->")) ||
             (compressionRatio == QLatin1String("-->"))) {
-            compressionRatio = '0';
+            compressionRatio = QLatin1Char( '0' );
         } else {
             compressionRatio.chop(1); // Remove the '%'
         }

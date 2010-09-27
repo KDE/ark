@@ -53,7 +53,7 @@ static bool isValidArchiveDrag(const QMimeData *data)
 MainWindow::MainWindow(QWidget *)
         : KParts::MainWindow()
 {
-    setXMLFile("arkui.rc");
+    setXMLFile(QLatin1String( "arkui.rc" ));
 
     setupActions();
     statusBar();
@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *)
     if (!initialGeometrySet()) {
         resize(640, 480);
     }
-    setAutoSaveSettings("MainWindow");
+    setAutoSaveSettings(QLatin1String( "MainWindow" ));
 
     setAcceptDrops(true);
 }
@@ -118,7 +118,7 @@ void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 
 bool MainWindow::loadPart()
 {
-    KPluginFactory *factory = KPluginLoader("arkpart").factory();
+    KPluginFactory *factory = KPluginLoader(QLatin1String( "arkpart" )).factory();
     if (factory) {
         m_part = static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this));
     }
@@ -217,9 +217,9 @@ void MainWindow::openUrl(const KUrl& url)
 void MainWindow::setShowExtractDialog(bool option)
 {
     if (option) {
-        m_openArgs.metaData()["showExtractDialog"] = "true";
+        m_openArgs.metaData()[QLatin1String( "showExtractDialog" )] = QLatin1String( "true" );
     } else {
-        m_openArgs.metaData().remove("showExtractDialog");
+        m_openArgs.metaData().remove(QLatin1String( "showExtractDialog" ));
     }
 }
 
@@ -239,10 +239,10 @@ void MainWindow::newArchive()
     QString saveFile = KFileDialog::getSaveFileName(KUrl("kfiledialog:///ArkNewDir"),
                        mimeTypes.join( QLatin1String( " " )));
 
-    m_openArgs.metaData()["createNewArchive"] = "true";
+    m_openArgs.metaData()[QLatin1String( "createNewArchive" )] = QLatin1String( "true" );
 
     openUrl(KUrl(saveFile));
 
-    m_openArgs.metaData().remove("showExtractDialog");
-    m_openArgs.metaData().remove("createNewArchive");
+    m_openArgs.metaData().remove(QLatin1String( "showExtractDialog" ));
+    m_openArgs.metaData().remove(QLatin1String( "createNewArchive" ));
 }

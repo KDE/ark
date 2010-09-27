@@ -41,7 +41,7 @@ void JobTracker::description(KJob *job, const QString &title, const QPair< QStri
     Q_UNUSED(job)
     Q_UNUSED(f1)
     Q_UNUSED(f2)
-    m_ui->descriptionLabel->setText(QString("<b>%1</b>").arg(title));
+    m_ui->descriptionLabel->setText(QString(QLatin1String( "<b>%1</b>" )).arg(title));
     m_ui->descriptionLabel->show();
 }
 
