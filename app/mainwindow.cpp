@@ -196,7 +196,7 @@ void MainWindow::openArchive()
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
     const KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///ArkOpenDir"),
-                                       Kerfuffle::supportedMimeTypes().join(" "),
+                                       Kerfuffle::supportedMimeTypes().join( QLatin1String( " " )),
                                        this);
     openUrl(url);
 }
@@ -234,10 +234,10 @@ void MainWindow::newArchive()
     Q_ASSERT(iface);
     QStringList mimeTypes = Kerfuffle::supportedWriteMimeTypes();
 
-    kDebug() << "Supported mimetypes are" << mimeTypes.join(" ");
+    kDebug() << "Supported mimetypes are" << mimeTypes.join( QLatin1String( " " ));
 
     QString saveFile = KFileDialog::getSaveFileName(KUrl("kfiledialog:///ArkNewDir"),
-                       mimeTypes.join(" "));
+                       mimeTypes.join( QLatin1String( " " )));
 
     m_openArgs.metaData()["createNewArchive"] = "true";
 

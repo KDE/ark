@@ -76,7 +76,7 @@ void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
     //<< popupMenuInfo.mimeGroup()
     //<< popupMenuInfo.mimeType();
 
-    KAction *action = new KAction(KIcon("archive-extract"), extractHereMessage, NULL);
+    KAction *action = new KAction(KIcon( QLatin1String( "archive-extract" )), extractHereMessage, NULL);
     connect(action, SIGNAL(triggered()),
             this, SLOT(slotTriggered()));
 

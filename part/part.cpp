@@ -218,35 +218,35 @@ void Part::setupActions()
 
     m_previewAction = actionCollection()->addAction("preview");
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
-    m_previewAction->setIcon(KIcon("document-preview-archive"));
+    m_previewAction->setIcon(KIcon( QLatin1String( "document-preview-archive" )));
     m_previewAction->setStatusTip(i18n("Click to preview the selected file"));
     connect(m_previewAction, SIGNAL(triggered(bool)),
             this, SLOT(slotPreview()));
 
     m_extractFilesAction = actionCollection()->addAction("extract");
     m_extractFilesAction->setText(i18n("E&xtract"));
-    m_extractFilesAction->setIcon(KIcon("archive-extract"));
+    m_extractFilesAction->setIcon(KIcon( QLatin1String( "archive-extract" )));
     m_extractFilesAction->setStatusTip(i18n("Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones"));
     m_extractFilesAction->setShortcut(QString("Ctrl+E"));
     connect(m_extractFilesAction, SIGNAL(triggered(bool)),
             this, SLOT(slotExtractFiles()));
 
     m_addFilesAction = actionCollection()->addAction("add");
-    m_addFilesAction->setIcon(KIcon("archive-insert"));
+    m_addFilesAction->setIcon(KIcon( QLatin1String( "archive-insert" )));
     m_addFilesAction->setText(i18n("Add &File..."));
     m_addFilesAction->setStatusTip(i18n("Click to add files to the archive"));
     connect(m_addFilesAction, SIGNAL(triggered(bool)),
             this, SLOT(slotAddFiles()));
 
     m_addDirAction = actionCollection()->addAction("add-dir");
-    m_addDirAction->setIcon(KIcon("archive-insert-directory"));
+    m_addDirAction->setIcon(KIcon( QLatin1String( "archive-insert-directory" )));
     m_addDirAction->setText(i18n("Add Fo&lder..."));
     m_addDirAction->setStatusTip(i18n("Click to add a folder to the archive"));
     connect(m_addDirAction, SIGNAL(triggered(bool)),
             this, SLOT(slotAddDir()));
 
     m_deleteFilesAction = actionCollection()->addAction("delete");
-    m_deleteFilesAction->setIcon(KIcon("archive-remove"));
+    m_deleteFilesAction->setIcon(KIcon( QLatin1String( "archive-remove" )));
     m_deleteFilesAction->setText(i18n("De&lete"));
     m_deleteFilesAction->setShortcut(Qt::Key_Delete);
     m_deleteFilesAction->setStatusTip(i18n("Click to delete the selected files"));
@@ -276,7 +276,7 @@ void Part::updateActions()
                 this, SLOT(slotQuickExtractFiles(QAction*)));
         QAction *header = m->addAction(i18n("Quick Extract To..."));
         header->setEnabled(false);
-        header->setIcon(KIcon("archive-extract"));
+        header->setIcon(KIcon( QLatin1String( "archive-extract" )));
     }
 
     while (m->actions().size() > 1) {
