@@ -31,8 +31,8 @@
 LibBzip2Interface::LibBzip2Interface(QObject *parent, const QVariantList & args)
         : LibSingleFileInterface(parent, args)
 {
-    m_mimeType = "application/x-bzip";
-    m_possibleExtensions.append(".bz2");
+    m_mimeType = QLatin1String( "application/x-bzip" );
+    m_possibleExtensions.append(QLatin1String( ".bz2" ));
 }
 
 LibBzip2Interface::~LibBzip2Interface()

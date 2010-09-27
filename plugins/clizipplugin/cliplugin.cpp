@@ -53,29 +53,29 @@ public:
         if (p.isEmpty()) {
 
             p[CaptureProgress] = false;
-            p[ListProgram] = "zipinfo";
-            p[ExtractProgram] = "unzip";
-            p[DeleteProgram] = p[AddProgram] = "zip";
+            p[ListProgram] = QLatin1String( "zipinfo" );
+            p[ExtractProgram] = QLatin1String( "unzip" );
+            p[DeleteProgram] = p[AddProgram] = QLatin1String( "zip" );
 
-            p[ListArgs] = QStringList() << "-l" << "-T" << "$Archive";
-            p[ExtractArgs] = QStringList() << "$PreservePathSwitch" << "$PasswordSwitch" << "$Archive" << "$Files";
-            p[PreservePathSwitch] = QStringList() << "" << "-j";
-            p[PasswordSwitch] = QStringList() << "-P$Password";
+            p[ListArgs] = QStringList() << QLatin1String( "-l" ) << QLatin1String( "-T" ) << QLatin1String( "$Archive" );
+            p[ExtractArgs] = QStringList() << QLatin1String( "$PreservePathSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+            p[PreservePathSwitch] = QStringList() << QLatin1String( "" ) << QLatin1String( "-j" );
+            p[PasswordSwitch] = QStringList() << QLatin1String( "-P$Password" );
 
-            p[DeleteArgs] = QStringList() << "-d" << "$Archive" << "$Files";
+            p[DeleteArgs] = QStringList() << QLatin1String( "-d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
-            p[FileExistsExpression] = "^replace (.+)\\?";
+            p[FileExistsExpression] = QLatin1String( "^replace (.+)\\?" );
             p[FileExistsInput] = QStringList()
-                                 << "y" //overwrite
-                                 << "n" //skip
-                                 << "A" //overwrite all
-                                 << "N" //autoskip
-                                 << "N" //cancel
+                                 << QLatin1String( "y" ) //overwrite
+                                 << QLatin1String( "n" ) //skip
+                                 << QLatin1String( "A" ) //overwrite all
+                                 << QLatin1String( "N" ) //autoskip
+                                 << QLatin1String( "N" ) //cancel
                                  ;
 
-            p[AddArgs] = QStringList() << "-r" << "$Archive" << "$Files";
+            p[AddArgs] = QStringList() << QLatin1String( "-r" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
-            p[WrongPasswordPatterns] = QStringList() << "incorrect password";
+            p[WrongPasswordPatterns] = QStringList() << QLatin1String( "incorrect password" );
             //p[ExtractionFailedPatterns] = QStringList() << "CRC failed";
         }
         return p;
@@ -92,8 +92,8 @@ public:
     ReadStatus m_status;
 
     bool readListLine(const QString &line) {
-        static QRegExp entryPattern(
-            "^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\d{8}).(\\d{6})\\s+(.+)$");
+        static QRegExp entryPattern(QLatin1String(
+            "^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\d{8}).(\\d{6})\\s+(.+)$") );
 
         int i;
         switch (m_status) {
@@ -105,15 +105,15 @@ public:
             if (i != -1) {
                 ArchiveEntry e;
                 e[Permissions] = entryPattern.cap(1);
-                e[IsDirectory] = (entryPattern.cap(1).at(0) == 'd');
+                e[IsDirectory] = (entryPattern.cap(1).at(0) == QLatin1Char( 'd' ));
                 e[Size] = entryPattern.cap(4).toInt();
                 QString status = entryPattern.cap(5);
                 if (status[0].isUpper())
                     e[IsPasswordProtected] = true;
                 e[CompressedSize] = entryPattern.cap(6).toInt();
 
-                const QDateTime ts(QDate::fromString(entryPattern.cap(8), "yyyyMMdd"),
-                                   QTime::fromString(entryPattern.cap(9), "hhmmss"));
+                const QDateTime ts(QDate::fromString(entryPattern.cap(8), QLatin1String( "yyyyMMdd" )),
+                                   QTime::fromString(entryPattern.cap(9), QLatin1String( "hhmmss" )));
                 e[Timestamp] = ts;
 
                 e[FileName] = e[InternalID] = entryPattern.cap(10);

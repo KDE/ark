@@ -50,24 +50,24 @@ ParameterList CliPlugin::parameterList() const
 
     if (p.isEmpty()) {
         //p[CaptureProgress] = true;
-        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = "7z";
+        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QLatin1String( "7z" );
 
-        p[ListArgs] = QStringList() << "l" << "-slt" << "$Archive";
-        p[ExtractArgs] = QStringList() << "$PreservePathSwitch" << "$PasswordSwitch" << "$RootNodeSwitch" << "$Archive" << "$Files";
-        p[PreservePathSwitch] = QStringList() << "x" << "e";
-        p[RootNodeSwitch] = QStringList() << "-w$Path";
-        p[PasswordSwitch] = QStringList() << "-p$Password";
-        p[FileExistsExpression] = "already exists. Overwrite with";
-        p[WrongPasswordPatterns] = QStringList() << "Wrong password";
-        p[AddArgs] = QStringList() << "a" << "$Archive" << "$Files";
-        p[DeleteArgs] = QStringList() << "d" << "$Archive" << "$Files";
+        p[ListArgs] = QStringList() << QLatin1String( "l" ) << QLatin1String( "-slt" ) << QLatin1String( "$Archive" );
+        p[ExtractArgs] = QStringList() << QLatin1String( "$PreservePathSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$RootNodeSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[PreservePathSwitch] = QStringList() << QLatin1String( "x" ) << QLatin1String( "e" );
+        p[RootNodeSwitch] = QStringList() << QLatin1String( "-w$Path" );
+        p[PasswordSwitch] = QStringList() << QLatin1String( "-p$Password" );
+        p[FileExistsExpression] = QLatin1String( "already exists. Overwrite with" );
+        p[WrongPasswordPatterns] = QStringList() << QLatin1String( "Wrong password" );
+        p[AddArgs] = QStringList() << QLatin1String( "a" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[DeleteArgs] = QStringList() << QLatin1String( "d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
         p[FileExistsInput] = QStringList()
-                             << "Y" //overwrite
-                             << "N" //skip
-                             << "A" //overwrite all
-                             << "S" //autoskip
-                             << "Q" //cancel
+                             << QLatin1String( "Y" ) //overwrite
+                             << QLatin1String( "N" )//skip
+                             << QLatin1String( "A" ) //overwrite all
+                             << QLatin1String( "S" ) //autoskip
+                             << QLatin1String( "Q" ) //cancel
                              ;
     }
 
@@ -88,7 +88,7 @@ bool CliPlugin::readListLine(const QString& line)
         } else if ((line == archiveInfoDelimiter1) ||
                    (line == archiveInfoDelimiter2)) {
             m_state = ReadStateArchiveInformation;
-        } else if (line.contains("Error:")) {
+        } else if (line.contains(QLatin1String( "Error:" ))) {
             kDebug() << line.mid(6);
         }
         break;
@@ -137,19 +137,19 @@ bool CliPlugin::readListLine(const QString& line)
         } else if (line.startsWith(QLatin1String("Modified = "))) {
             m_currentArchiveEntry[ Timestamp ] =
                 QDateTime::fromString(line.mid(11).trimmed(),
-                                      "yyyy-MM-dd hh:mm:ss");
+                                      QLatin1String( "yyyy-MM-dd hh:mm:ss" ));
         } else if (line.startsWith(QLatin1String("Attributes = "))) {
             const QString attributes = line.mid(13).trimmed();
 
-            const bool isDirectory = attributes.startsWith('D');
+            const bool isDirectory = attributes.startsWith(QLatin1Char( 'D' ));
             m_currentArchiveEntry[ IsDirectory ] = isDirectory;
             if (isDirectory) {
                 const QString directoryName =
                     m_currentArchiveEntry[FileName].toString();
-                if (!directoryName.endsWith('/')) {
-                    const bool isPasswordProtected = (line.at(12) == '+');
+                if (!directoryName.endsWith(QLatin1Char( '/' ))) {
+                    const bool isPasswordProtected = (line.at(12) == QLatin1Char( '+' ));
                     m_currentArchiveEntry[FileName] =
-                        m_currentArchiveEntry[InternalID] = directoryName + '/';
+                        m_currentArchiveEntry[InternalID] = directoryName + QLatin1Char( '/' );
                     m_currentArchiveEntry[ IsPasswordProtected ] =
                         isPasswordProtected;
                 }
@@ -162,7 +162,7 @@ bool CliPlugin::readListLine(const QString& line)
             m_currentArchiveEntry[ Method ] = line.mid(9).trimmed();
         } else if (line.startsWith(QLatin1String("Encrypted = ")) &&
                    line.size() >= 13) {
-            m_currentArchiveEntry[ IsPasswordProtected ] = (line.at(12) == '+');
+            m_currentArchiveEntry[ IsPasswordProtected ] = (line.at(12) == QLatin1Char( '+' ));
         } else if (line.startsWith(QLatin1String("Block = "))) {
             if (m_currentArchiveEntry.contains(FileName)) {
                 entry(m_currentArchiveEntry);

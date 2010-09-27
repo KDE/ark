@@ -31,8 +31,8 @@
 LibGzipInterface::LibGzipInterface(QObject *parent, const QVariantList & args)
         : LibSingleFileInterface(parent, args)
 {
-    m_mimeType = "application/x-gzip";
-    m_possibleExtensions.append(".gz");
+    m_mimeType = QLatin1String( "application/x-gzip" );
+    m_possibleExtensions.append(QLatin1String( ".gz" ));
 }
 
 LibGzipInterface::~LibGzipInterface()

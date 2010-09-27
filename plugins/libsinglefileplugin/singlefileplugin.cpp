@@ -51,8 +51,8 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
     Q_UNUSED(options)
 
     QString outputFileName = destinationDirectory;
-    if (!destinationDirectory.endsWith('/'))
-        outputFileName += '/';
+    if (!destinationDirectory.endsWith(QLatin1Char( '/' )))
+        outputFileName += QLatin1Char( '/' );
     outputFileName += uncompressedFileName();
 
     outputFileName = overwriteFileName(outputFileName);
@@ -151,7 +151,7 @@ const QString LibSingleFileInterface::uncompressedFileName() const
         }
     }
 
-    return uncompressedName + ".uncompressed";
+    return uncompressedName + QLatin1String( ".uncompressed" );
 }
 
 #include "singlefileplugin.moc"

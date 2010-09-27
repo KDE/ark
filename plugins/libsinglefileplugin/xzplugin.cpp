@@ -31,9 +31,9 @@
 LibXzInterface::LibXzInterface(QObject *parent, const QVariantList & args)
         : LibSingleFileInterface(parent, args)
 {
-    m_mimeType = "application/x-lzma";
-    m_possibleExtensions.append(".lzma");
-    m_possibleExtensions.append(".xz");
+    m_mimeType = QLatin1String( "application/x-lzma" );
+    m_possibleExtensions.append(QLatin1String( ".lzma" ));
+    m_possibleExtensions.append(QLatin1String( ".xz" ));
 }
 
 LibXzInterface::~LibXzInterface()
