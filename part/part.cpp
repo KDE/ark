@@ -268,37 +268,37 @@ void Part::updateActions()
     m_deleteFilesAction->setEnabled(!isBusy() && (m_view->selectionModel()->selectedRows().count() > 0)
                                     && isWritable);
 
-    QMenu *m = m_extractFilesAction->menu();
-    if (!m) {
-        m = new QMenu;
-        m_extractFilesAction->setMenu(m);
-        connect(m, SIGNAL(triggered(QAction*)),
+    QMenu *menu = m_extractFilesAction->menu();
+    if (!menu) {
+        menu = new QMenu;
+        m_extractFilesAction->setMenu(menu);
+        connect(menu, SIGNAL(triggered(QAction*)),
                 this, SLOT(slotQuickExtractFiles(QAction*)));
 
         // Remember to keep this action's properties as similar to
         // m_extractFilesAction's as possible (except where it does not make
         // sense, such as the text or the shortcut).
-        QAction *extractTo = m->addAction(i18n("Extract To..."));
+        QAction *extractTo = menu->addAction(i18n("Extract To..."));
         extractTo->setIcon(m_extractFilesAction->icon());
         extractTo->setStatusTip(m_extractFilesAction->statusTip());
         connect(extractTo, SIGNAL(triggered(bool)), SLOT(slotExtractFiles()));
 
-        m->addSeparator();
+        menu->addSeparator();
 
-        QAction *header = m->addAction(i18n("Quick Extract To..."));
+        QAction *header = menu->addAction(i18n("Quick Extract To..."));
         header->setEnabled(false);
         header->setIcon(KIcon( QLatin1String( "archive-extract" )));
     }
 
-    while (m->actions().size() > 3) {
-        m->removeAction(m->actions().last());
+    while (menu->actions().size() > 3) {
+        menu->removeAction(menu->actions().last());
     }
 
     const KConfigGroup conf(KGlobal::config(), "DirSelect Dialog");
     const QStringList dirHistory = conf.readPathEntry("History Items", QStringList());
 
     for (int i = 0; i < qMin(10, dirHistory.size()); ++i) {
-        QAction *newAction = m->addAction(KUrl(dirHistory.at(i)).pathOrUrl());
+        QAction *newAction = menu->addAction(KUrl(dirHistory.at(i)).pathOrUrl());
         newAction->setData(KUrl(dirHistory.at(i)).pathOrUrl());
     }
 }
