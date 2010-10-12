@@ -294,7 +294,7 @@ void Part::updateActions()
         m->removeAction(m->actions().last());
     }
 
-    KConfigGroup conf(KGlobal::config(), "DirSelect Dialog");
+    const KConfigGroup conf(KGlobal::config(), "DirSelect Dialog");
     const QStringList dirHistory = conf.readPathEntry("History Items", QStringList());
 
     for (int i = 0; i < qMin(10, dirHistory.size()); ++i) {
