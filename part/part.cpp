@@ -319,7 +319,9 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
             finalDestinationDirectory = userDestination +
                                         QDir::separator() + detectedSubfolder;
             QDir(userDestination).mkdir(detectedSubfolder);
-        } else finalDestinationDirectory = userDestination;
+        } else {
+            finalDestinationDirectory = userDestination;
+        }
 
         Kerfuffle::ExtractionOptions options;
         options[QLatin1String( "PreservePaths" )] = true;
