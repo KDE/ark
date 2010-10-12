@@ -270,7 +270,7 @@ void Part::updateActions()
 
     QMenu *m = m_extractFilesAction->menu();
     if (!m) {
-        m = new QMenu(i18n("Recent folders"));
+        m = new QMenu;
         m_extractFilesAction->setMenu(m);
         connect(m, SIGNAL(triggered(QAction*)),
                 this, SLOT(slotQuickExtractFiles(QAction*)));
