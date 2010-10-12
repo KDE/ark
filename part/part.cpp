@@ -274,12 +274,23 @@ void Part::updateActions()
         m_extractFilesAction->setMenu(m);
         connect(m, SIGNAL(triggered(QAction*)),
                 this, SLOT(slotQuickExtractFiles(QAction*)));
+
+        // Remember to keep this action's properties as similar to
+        // m_extractFilesAction's as possible (except where it does not make
+        // sense, such as the text or the shortcut).
+        QAction *extractTo = m->addAction(i18n("Extract To..."));
+        extractTo->setIcon(m_extractFilesAction->icon());
+        extractTo->setStatusTip(m_extractFilesAction->statusTip());
+        connect(extractTo, SIGNAL(triggered(bool)), SLOT(slotExtractFiles()));
+
+        m->addSeparator();
+
         QAction *header = m->addAction(i18n("Quick Extract To..."));
         header->setEnabled(false);
         header->setIcon(KIcon( QLatin1String( "archive-extract" )));
     }
 
-    while (m->actions().size() > 1) {
+    while (m->actions().size() > 3) {
         m->removeAction(m->actions().last());
     }
 
@@ -294,29 +305,32 @@ void Part::updateActions()
 
 void Part::slotQuickExtractFiles(QAction *triggeredAction)
 {
-    kDebug() << "Extract to " << triggeredAction->data().toString();
+    // #190507: triggeredAction->data.isNull() means it's the "Extract to..."
+    //          action, and we do not want it to run here
+    if (!triggeredAction->data().isNull()) {
+        kDebug() << "Extract to " << triggeredAction->data().toString();
 
-    const QString userDestination = triggeredAction->data().toString();
-    QString finalDestinationDirectory;
-    const QString detectedSubfolder = detectSubfolder();
+        const QString userDestination = triggeredAction->data().toString();
+        QString finalDestinationDirectory;
+        const QString detectedSubfolder = detectSubfolder();
 
-    if (!isSingleFolderArchive()) {
-        finalDestinationDirectory = userDestination +
-                                    QDir::separator() + detectedSubfolder;
-        QDir(userDestination).mkdir(detectedSubfolder);
-    } else finalDestinationDirectory = userDestination;
+        if (!isSingleFolderArchive()) {
+            finalDestinationDirectory = userDestination +
+                                        QDir::separator() + detectedSubfolder;
+            QDir(userDestination).mkdir(detectedSubfolder);
+        } else finalDestinationDirectory = userDestination;
 
-    Kerfuffle::ExtractionOptions options;
-    options[QLatin1String( "PreservePaths" )] = true;
-    QList<QVariant> files = selectedFiles();
-    ExtractJob *job = m_model->extractFiles(files, finalDestinationDirectory, options);
-    registerJob(job);
+        Kerfuffle::ExtractionOptions options;
+        options[QLatin1String( "PreservePaths" )] = true;
+        QList<QVariant> files = selectedFiles();
+        ExtractJob *job = m_model->extractFiles(files, finalDestinationDirectory, options);
+        registerJob(job);
 
-    connect(job, SIGNAL(result(KJob*)),
-            this, SLOT(slotExtractionDone(KJob *)));
+        connect(job, SIGNAL(result(KJob*)),
+                this, SLOT(slotExtractionDone(KJob *)));
 
-    job->start();
-
+        job->start();
+    }
 }
 
 bool Part::isPreviewable(const QModelIndex& index) const
