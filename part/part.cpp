@@ -298,8 +298,9 @@ void Part::updateActions()
     const QStringList dirHistory = conf.readPathEntry("History Items", QStringList());
 
     for (int i = 0; i < qMin(10, dirHistory.size()); ++i) {
-        QAction *newAction = menu->addAction(KUrl(dirHistory.at(i)).pathOrUrl());
-        newAction->setData(KUrl(dirHistory.at(i)).pathOrUrl());
+        const KUrl dirUrl(dirHistory.at(i));
+        QAction *newAction = menu->addAction(dirUrl.pathOrUrl());
+        newAction->setData(dirUrl.pathOrUrl());
     }
 }
 
