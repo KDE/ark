@@ -743,6 +743,10 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
         kDebug() << "Writing header failed with error code " << header_response;
         kDebug() << "Error while writing..." << archive_error_string(arch_writer) << "(error nb =" << archive_errno(arch_writer) << ')';
 
+        error(i18nc("@info Error in a message box",
+                    "Ark could not compress <filename>%1</filename>:<nl/>%2",
+                    fileName, archive_error_string(arch_writer)));
+
         archive_entry_free(entry);
 
         return false;
