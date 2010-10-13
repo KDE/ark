@@ -446,11 +446,18 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
         }
 
         if (QFileInfo(selectedFile).isDir()) {
-            QDirIterator it(selectedFile, QDir::AllEntries | QDir::Readable | QDir::Hidden | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+            QDirIterator it(selectedFile,
+                            QDir::AllEntries | QDir::Readable |
+                            QDir::Hidden | QDir::NoDotAndDotDot,
+                            QDirIterator::Subdirectories);
 
             while (it.hasNext()) {
                 const QString path = it.next();
-                if (it.fileName() == QLatin1String( ".." ) || it.fileName() == QLatin1String( "." )) continue;
+
+                if ((it.fileName() == QLatin1String("..")) ||
+                    (it.fileName() == QLatin1String("."))) {
+                    continue;
+                }
 
                 success = writeFile(path +
                                     (it.fileInfo().isDir() ? QLatin1String( "/" ) : QLatin1String( "" )),
