@@ -441,6 +441,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
         success = writeFile(selectedFile, arch_writer.data());
 
         if (!success) {
+            QFile::remove(tempFilename);
             return false;
         }
 
@@ -456,6 +457,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
                                     arch_writer.data());
 
                 if (!success) {
+                    QFile::remove(tempFilename);
                     return false;
                 }
             }
@@ -482,6 +484,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
                 copyData(arch_reader.data(), arch_writer.data(), false);
             else {
                 kDebug() << "Writing header failed with error code " << header_response;
+                QFile::remove(tempFilename);
                 return false;
             }
 
