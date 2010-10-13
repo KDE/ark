@@ -497,9 +497,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
 
             archive_entry_clear(entry);
         }
-    }
 
-    if (!creatingNewFile) {
         //everything seems OK, so we remove the source file and replace it with
         //the new one.
         //TODO: do some extra checks to see if this is really OK
