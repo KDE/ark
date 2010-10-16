@@ -30,6 +30,8 @@
 #include "kerfuffle/kerfuffle_export.h"
 #include "kerfuffle/queries.h"
 
+#include <unistd.h>
+
 #include <archive.h>
 #include <archive_entry.h>
 
@@ -730,9 +732,28 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
 
     struct archive_entry *entry = archive_entry_new();
 
-    KDE_stat(QFile::encodeName(relativeName).constData(), &st);
+    KDE_lstat(QFile::encodeName(relativeName).constData(), &st);
     archive_entry_copy_stat(entry, &st);
     archive_entry_copy_pathname(entry, QFile::encodeName(relativeName).constData());
+
+    // #253059: besides calling lstat(), we also need to call readlink() manually
+    //          as we are not using archive_read_disk_entry_from_file() on the 4.5
+    //          branch. The code should be much cleaner on 4.6+.
+    if (S_ISLNK(st.st_mode)) {
+        char linkbuffer[PATH_MAX+1];
+        const ssize_t linklen = readlink(QFile::encodeName(fileName).constData(),
+                                         linkbuffer, PATH_MAX);
+
+        if (linklen < 0) {
+            kError() << "readlink() failed.";
+            archive_entry_free(entry);
+
+            return false;
+        }
+
+        linkbuffer[linklen] = 0;
+        archive_entry_set_symlink(entry, linkbuffer);
+    }
 
     kDebug() << "Writing new entry " << archive_entry_pathname(entry);
     if ((header_response = archive_write_header(arch_writer, entry)) == ARCHIVE_OK) {
