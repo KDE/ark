@@ -729,10 +729,18 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
     //       class hierarchy to avoid code duplication
     const QString relativeName = m_workDir.relativeFilePath(fileName) + (trailingSlash ? QLatin1String( "/" ) : QLatin1String( "" ));
 
+    // #253059: Even if we use archive_read_disk_entry_from_file,
+    //          libarchive may have been compiled without HAVE_LSTAT,
+    //          or something may have caused it to follow symlinks, in
+    //          which case stat() will be called. To avoid this, we
+    //          call lstat() ourselves.
+    KDE_struct_stat st;
+    KDE::lstat(QFile::encodeName(fileName).constData(), &st);
+
     struct archive_entry *entry = archive_entry_new();
     archive_entry_set_pathname(entry, QFile::encodeName(relativeName));
     archive_entry_copy_sourcepath(entry, QFile::encodeName(fileName));
-    archive_read_disk_entry_from_file(m_archiveReadDisk.data(), entry, -1, NULL);
+    archive_read_disk_entry_from_file(m_archiveReadDisk.data(), entry, -1, &st);
 
     kDebug() << "Writing new entry " << archive_entry_pathname(entry);
     if ((header_response = archive_write_header(arch_writer, entry)) == ARCHIVE_OK) {
