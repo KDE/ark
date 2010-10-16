@@ -735,7 +735,7 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
     //          which case stat() will be called. To avoid this, we
     //          call lstat() ourselves.
     KDE_struct_stat st;
-    KDE::lstat(QFile::encodeName(fileName).constData(), &st);
+    KDE_lstat(QFile::encodeName(fileName).constData(), &st);
 
     struct archive_entry *entry = archive_entry_new();
     archive_entry_set_pathname(entry, QFile::encodeName(relativeName));
