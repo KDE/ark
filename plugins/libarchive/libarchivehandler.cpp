@@ -738,8 +738,8 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
     KDE_lstat(QFile::encodeName(fileName).constData(), &st);
 
     struct archive_entry *entry = archive_entry_new();
-    archive_entry_set_pathname(entry, QFile::encodeName(relativeName));
-    archive_entry_copy_sourcepath(entry, QFile::encodeName(fileName));
+    archive_entry_set_pathname(entry, QFile::encodeName(relativeName).constData());
+    archive_entry_copy_sourcepath(entry, QFile::encodeName(fileName).constData());
     archive_read_disk_entry_from_file(m_archiveReadDisk.data(), entry, -1, &st);
 
     kDebug() << "Writing new entry " << archive_entry_pathname(entry);
