@@ -40,6 +40,7 @@
 #include <KConfigGroup>
 #include <KDebug>
 #include <KFileDialog>
+#include <KGuiItem>
 #include <KIO/Job>
 #include <KIO/NetAccess>
 #include <KIcon>
