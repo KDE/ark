@@ -39,6 +39,7 @@
 #include <KAction>
 #include <KSelectAction>
 #include <KActionCollection>
+#include <KGuiItem>
 #include <KIcon>
 #include <KTempDir>
 #include <KMessageBox>
