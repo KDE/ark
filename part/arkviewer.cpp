@@ -58,7 +58,7 @@ ArkViewer::~ArkViewer()
 
 void ArkViewer::dialogClosed()
 {
-    if (m_part.data()) {
+    if (m_part) {
         KProgressDialog progressDialog
             (this, i18n("Closing preview"),
              i18n("Please wait while the preview is being closed..."));
