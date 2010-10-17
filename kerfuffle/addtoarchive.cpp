@@ -36,7 +36,6 @@
 #include <kjobtrackerinterface.h>
 #include <kmessagebox.h>
 #include <klocale.h>
-#include <KStandardDirs>
 #include <kio/job.h>
 
 #include <QFileInfo>
@@ -157,7 +156,7 @@ void AddToArchive::slotStartJob(void)
         //if file already exists, append a number to the base until it doesn't
         //exist
         int appendNumber = 0;
-        while (KStandardDirs::exists(finalName)) {
+        while (QFileInfo(finalName).exists()) {
             ++appendNumber;
             finalName = base + QLatin1Char( '_' ) + QString::number(appendNumber) + QLatin1Char( '.' ) + m_autoFilenameSuffix;
         }
