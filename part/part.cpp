@@ -418,7 +418,7 @@ bool Part::openFile()
     }
 
     if (!archive) {
-        KMessageBox::sorry(NULL, i18n("Ark was not able to open the archive <filename>%1</filename>. No library capable of handling the file was found.", localFile), i18nc("@title:window", "Error Opening Archive"));
+        KMessageBox::sorry(NULL, i18n("Ark was not able to open the archive <filename>%1</filename>. No plugin capable of handling the file was found.", localFile), i18nc("@title:window", "Error Opening Archive"));
         return false;
     }
 
