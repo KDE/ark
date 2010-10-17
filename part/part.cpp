@@ -359,14 +359,14 @@ bool Part::openFile()
 
     if (arguments().metaData()[QLatin1String( "createNewArchive" )] == QLatin1String( "true" )) {
         if (QFileInfo(localFile).exists()) {
-            int overwrite =  KMessageBox::questionYesNo(NULL, i18n("The file '%1' already exists. Would you like to open it instead?", localFile), i18nc("@title:window", "File Exists"), KGuiItem(i18n("Open File")), KStandardGuiItem::cancel());
+            int overwrite =  KMessageBox::questionYesNo(NULL, i18n("The archive <filename>%1</filename> already exists. Would you like to open it instead?", localFile), i18nc("@title:window", "File Exists"), KGuiItem(i18n("Open File")), KStandardGuiItem::cancel());
 
             if (overwrite == KMessageBox::No)
                 return false;
         }
     } else {
         if (!QFileInfo(localFile).exists()) {
-            KMessageBox::sorry(NULL, i18n("Error opening archive: the file '%1' was not found.", localFile), i18nc("@title:window", "Error Opening Archive"));
+            KMessageBox::sorry(NULL, i18nc("@info", "The archive <filename>%1</filename> was not found.", localFile), i18nc("@title:window", "Error Opening Archive"));
             return false;
         }
     }
@@ -397,7 +397,7 @@ bool Part::openFile()
 
         bool ok;
         QString item(KInputDialog::getItem(i18nc("@title:window", "Unable to Determine Archive Type"),
-                                           i18n("Ark was unable to determine the archive type of the filename.\n\nPlease choose the correct archive type below."),
+                                           i18n("Ark was unable to determine the archive type of the filename.<nl/><nl/>Please choose the correct archive type below."),
                                            mimeComments,
                                            0,
                                            false,
@@ -410,7 +410,7 @@ bool Part::openFile()
     }
 
     if (!archive) {
-        KMessageBox::sorry(NULL, i18n("Ark was not able to open the archive '%1'. No library capable of handling the file was found.", localFile), i18nc("@title:window", "Error Opening Archive"));
+        KMessageBox::sorry(NULL, i18n("Ark was not able to open the archive <filename>%1</filename>. No library capable of handling the file was found.", localFile), i18nc("@title:window", "Error Opening Archive"));
         return false;
     }
 
@@ -446,7 +446,7 @@ void Part::slotLoadingFinished(KJob *job)
 
     if (job->error())
         if (arguments().metaData()[QLatin1String( "createNewArchive" )] != QLatin1String( "true" ))
-            KMessageBox::sorry(NULL, i18n("Reading the archive '%1' failed with the error '%2'", localFilePath(), job->errorText()), i18nc("@title:window", "Error Opening Archive"));
+            KMessageBox::sorry(NULL, i18n("Loading the archive <filename>%1</filename> failed with the following error: <message>%2</message>", localFilePath(), job->errorText()), i18nc("@title:window", "Error Opening Archive"));
 
     m_view->sortByColumn(0, Qt::AscendingOrder);
     m_view->expandToDepth(0);
@@ -788,7 +788,7 @@ void Part::slotSaveAs()
     if ((saveUrl.isValid()) && (!saveUrl.isEmpty())) {
         if (KIO::NetAccess::exists(saveUrl, KIO::NetAccess::DestinationSide, widget())) {
             int overwrite = KMessageBox::warningContinueCancel(widget(),
-                                                               i18n("A file named <b>%1</b> already exists. Are you sure you want to overwrite it?", saveUrl.fileName()),
+                                                               i18n("An archive named <filename>%1</filename> already exists. Are you sure you want to overwrite it?", saveUrl.fileName()),
                                                                QString(),
                                                                KStandardGuiItem::overwrite());
 
@@ -802,7 +802,7 @@ void Part::slotSaveAs()
         if (!QFile::exists(localFilePath())) {
             if (url().isLocalFile()) {
                 KMessageBox::error(widget(),
-                                   i18n("The file <b>%1</b> cannot be copied to the specified location. The archive does not exist anymore.", localFilePath()));
+                                   i18n("The archive <filename>%1</filename> cannot be copied to the specified location. The archive does not exist anymore.", localFilePath()));
 
                 return;
             } else {
@@ -814,7 +814,7 @@ void Part::slotSaveAs()
 
         if (!KIO::NetAccess::synchronousRun(copyJob, widget())) {
             KMessageBox::error(widget(),
-                               i18n("The archive could not be saved as <b>%1</b>. Try to save it in another location.", saveUrl.pathOrUrl()));
+                               i18n("The archive could not be saved as <filename>%1</filename>. Try saving it to another location.", saveUrl.pathOrUrl()));
         }
     }
 }
