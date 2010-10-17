@@ -147,12 +147,8 @@ void AddToArchive::slotStartJob(void)
             return;
         }
 
-        QString base;
-        const QFileInfo fi(m_inputs.first());
-
-        base = fi.absoluteFilePath();
-
-        if (base.endsWith(QLatin1Char( '/' ))) {
+        QString base = QFileInfo(m_inputs.first()).absoluteFilePath();
+        if (base.endsWith(QLatin1Char('/'))) {
             base.chop(1);
         }
 
