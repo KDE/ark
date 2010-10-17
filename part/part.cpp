@@ -357,6 +357,8 @@ bool Part::openFile()
 {
     const QString localFile(localFilePath());
     const QFileInfo localFileInfo(localFile);
+    const bool creatingNewArchive =
+        arguments().metaData()[QLatin1String("createNewArchive")] == QLatin1String("true");
 
     if (localFileInfo.isDir()) {
         KMessageBox::error(NULL, i18nc("@info",
@@ -365,7 +367,7 @@ bool Part::openFile()
         return false;
     }
 
-    if (arguments().metaData()[QLatin1String("createNewArchive")] == QLatin1String("true")) {
+    if (creatingNewArchive) {
         if (localFileInfo.exists()) {
             int overwrite =  KMessageBox::questionYesNo(NULL, i18n("The archive <filename>%1</filename> already exists. Would you like to open it instead?", localFile), i18nc("@title:window", "File Exists"), KGuiItem(i18n("Open File")), KStandardGuiItem::cancel());
 
@@ -381,16 +383,15 @@ bool Part::openFile()
 
     Kerfuffle::Archive *archive = Kerfuffle::factory(localFile);
 
-    // TODO Post 4.3 string freeze:
-    //      the isReadOnly check must be separate; see addtoarchive.cpp
-    if (!archive || (arguments().metaData()[QLatin1String( "createNewArchive" )] == QLatin1String( "true" ) && archive->isReadOnly())) {
+    if ((!archive) || ((creatingNewArchive) && (archive->isReadOnly()))) {
         QStringList mimeTypeList;
         QHash<QString, QString> mimeTypes;
 
-        if (arguments().metaData()[QLatin1String( "createNewArchive" )] == QLatin1String( "true" ))
+        if (creatingNewArchive) {
             mimeTypeList = Kerfuffle::supportedWriteMimeTypes();
-        else
+        } else {
             mimeTypeList = Kerfuffle::supportedMimeTypes();
+        }
 
         foreach(const QString& mime, mimeTypeList) {
             KMimeType::Ptr mimePtr(KMimeType::mimeType(mime));
@@ -404,15 +405,24 @@ bool Part::openFile()
         mimeComments.sort();
 
         bool ok;
-        QString item(KInputDialog::getItem(i18nc("@title:window", "Unable to Determine Archive Type"),
-                                           i18n("Ark was unable to determine the archive type of the filename.<nl/><nl/>Please choose the correct archive type below."),
-                                           mimeComments,
-                                           0,
-                                           false,
-                                           &ok));
+        QString item;
 
-        if (!ok || item.isEmpty())
+        if (creatingNewArchive) {
+            item = KInputDialog::getItem(i18nc("@title:window", "Invalid Archive Type"),
+                                         i18n("Ark cannot create archives of the type you have chosen.<nl/><nl/>Please choose another archive type below."),
+                                         mimeComments, 0, false, &ok);
+        } else {
+            item = KInputDialog::getItem(i18nc("@title:window", "Unable to Determine Archive Type"),
+                                         i18n("Ark was unable to determine the archive type of the filename.<nl/><nl/>Please choose the correct archive type below."),
+                                         mimeComments,
+                                         0,
+                                         false,
+                                         &ok);
+        }
+
+        if ((!ok) || (item.isEmpty())) {
             return false;
+        }
 
         archive = Kerfuffle::factory(localFile, mimeTypes.key(item));
     }
