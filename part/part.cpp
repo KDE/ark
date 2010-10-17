@@ -356,16 +356,24 @@ KAboutData* Part::createAboutData()
 bool Part::openFile()
 {
     const QString localFile(localFilePath());
+    const QFileInfo localFileInfo(localFile);
 
-    if (arguments().metaData()[QLatin1String( "createNewArchive" )] == QLatin1String( "true" )) {
-        if (QFileInfo(localFile).exists()) {
+    if (localFileInfo.isDir()) {
+        KMessageBox::error(NULL, i18nc("@info",
+                                       "<filename>%1</filename> is a directory.",
+                                       localFile));
+        return false;
+    }
+
+    if (arguments().metaData()[QLatin1String("createNewArchive")] == QLatin1String("true")) {
+        if (localFileInfo.exists()) {
             int overwrite =  KMessageBox::questionYesNo(NULL, i18n("The archive <filename>%1</filename> already exists. Would you like to open it instead?", localFile), i18nc("@title:window", "File Exists"), KGuiItem(i18n("Open File")), KStandardGuiItem::cancel());
 
             if (overwrite == KMessageBox::No)
                 return false;
         }
     } else {
-        if (!QFileInfo(localFile).exists()) {
+        if (!localFileInfo.exists()) {
             KMessageBox::sorry(NULL, i18nc("@info", "The archive <filename>%1</filename> was not found.", localFile), i18nc("@title:window", "Error Opening Archive"));
             return false;
         }
