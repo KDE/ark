@@ -48,7 +48,7 @@ signals:
     void itemTriggered(const QModelIndex & index);
 
 private:
-    Qt::MouseButtons m_mouseButtons; // FIXME: workaround until Qt-issue 177399 is resolved
+    Qt::MouseButtons m_mouseButtons; // FIXME: workaround until QTBUG-1067 is resolved
 };
 
 #endif /* ARCHIVEVIEW_H */

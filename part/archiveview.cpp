@@ -42,7 +42,7 @@ ArchiveView::ArchiveView(QWidget *parent)
             SLOT(slotDoubleClicked(const QModelIndex&)));
 }
 
-// FIXME: this is a workaround taken from Dolphin until Qt-issue 177399 is resolved
+// FIXME: this is a workaround taken from Dolphin until QTBUG-1067 is resolved
 void ArchiveView::updateMouseButtons()
 {
     m_mouseButtons = QApplication::mouseButtons();
@@ -51,7 +51,7 @@ void ArchiveView::updateMouseButtons()
 void ArchiveView::slotClicked(const QModelIndex& index)
 {
     if (KGlobalSettings::singleClick()) {
-        if (m_mouseButtons != Qt::LeftButton) // FIXME: see Qt-issue 177399
+        if (m_mouseButtons != Qt::LeftButton) // FIXME: see QTBUG-1067
             return;
 
         // If the user is pressing shift or control, more than one item is being selected
