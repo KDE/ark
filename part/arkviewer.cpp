@@ -41,7 +41,7 @@
 #include <QLabel>
 
 ArkViewer::ArkViewer(QWidget * parent, Qt::WFlags flags)
-        : KDialog(parent, flags), m_part(0)
+        : KDialog(parent, flags)
 {
     setButtons(Close);
     m_widget = new KVBox(this);
@@ -58,7 +58,7 @@ ArkViewer::~ArkViewer()
 
 void ArkViewer::dialogClosed()
 {
-    if (m_part) {
+    if (m_part.data()) {
         KProgressDialog progressDialog
             (this, i18n("Closing preview"),
              i18n("Please wait while the preview is being closed..."));
@@ -68,7 +68,7 @@ void ArkViewer::dialogClosed()
         progressDialog.setAllowCancel(false);
         progressDialog.progressBar()->setRange(0, 0);
 
-        m_part->closeUrl();
+        m_part.data()->closeUrl();
     }
 }
 
@@ -147,12 +147,12 @@ bool ArkViewer::viewInInternalViewer(const QString& filename)
              m_widget,
              this);
 
-    if (!m_part) {
+    if (!m_part.data()) {
         return false;
     }
 
-    if (m_part->browserExtension()) {
-        connect(m_part->browserExtension(),
+    if (m_part.data()->browserExtension()) {
+        connect(m_part.data()->browserExtension(),
                 SIGNAL(openUrlRequestDelayed(KUrl, KParts::OpenUrlArguments, KParts::BrowserArguments)),
                 SLOT(slotOpenUrlRequestDelayed(KUrl, KParts::OpenUrlArguments, KParts::BrowserArguments)));
     }
@@ -160,7 +160,7 @@ bool ArkViewer::viewInInternalViewer(const QString& filename)
     // #235546
     // TODO: the user should be warned in a non-intrusive way that some features are going to be disabled
     //       maybe there should be an option controlling this
-    KHTMLPart *khtmlPart = qobject_cast<KHTMLPart*>(m_part);
+    KHTMLPart *khtmlPart = qobject_cast<KHTMLPart*>(m_part.data());
     if (khtmlPart) {
         kDebug() << "Disabling javascripts, plugins, java and external references for KHTMLPart";
         khtmlPart->setJScriptEnabled(false);
@@ -170,7 +170,7 @@ bool ArkViewer::viewInInternalViewer(const QString& filename)
         khtmlPart->setOnlyLocalReferences(true);
     }
 
-    m_part->openUrl(fileUrl);
+    m_part.data()->openUrl(fileUrl);
 
     return true;
 }
