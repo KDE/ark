@@ -45,9 +45,7 @@
 
 static bool isValidArchiveDrag(const QMimeData *data)
 {
-    return
-        data->hasUrls() &&
-        data->urls().count() == 1;
+    return ((data->hasUrls()) && (data->urls().count() == 1));
 }
 
 MainWindow::MainWindow(QWidget *)
