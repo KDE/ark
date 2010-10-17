@@ -235,12 +235,13 @@ void MainWindow::newArchive()
 
     kDebug() << "Supported mimetypes are" << mimeTypes.join( QLatin1String( " " ));
 
-    QString saveFile = KFileDialog::getSaveFileName(KUrl("kfiledialog:///ArkNewDir"),
-                       mimeTypes.join( QLatin1String( " " )));
+    const KUrl saveFileUrl =
+        KFileDialog::getSaveUrl(KUrl("kfiledialog:///ArkNewDir"),
+                                mimeTypes.join(QLatin1String(" ")));
 
     m_openArgs.metaData()[QLatin1String( "createNewArchive" )] = QLatin1String( "true" );
 
-    openUrl(KUrl(saveFile));
+    openUrl(saveFileUrl);
 
     m_openArgs.metaData().remove(QLatin1String( "showExtractDialog" ));
     m_openArgs.metaData().remove(QLatin1String( "createNewArchive" ));
