@@ -138,7 +138,7 @@ void AddToArchive::slotStartJob(void)
         kDebug() << "Set filename to " << m_filename;
     } else {
         if (m_autoFilenameSuffix.isEmpty()) {
-            KMessageBox::error(NULL, i18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the --autofilename argument."));
+            KMessageBox::error(NULL, i18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the <command>--autofilename</command> argument."));
             return;
         }
 
