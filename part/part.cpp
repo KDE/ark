@@ -47,6 +47,7 @@
 #include <KFileDialog>
 #include <KConfigGroup>
 #include <KStandardDirs>
+#include <KStandardGuiItem>
 #include <KToggleAction>
 #include <KIO/Job>
 #include <KIO/NetAccess>
@@ -340,7 +341,7 @@ bool Part::openFile()
 
     if (arguments().metaData()["createNewArchive"] == "true") {
         if (QFileInfo(localFile).exists()) {
-            int overwrite =  KMessageBox::questionYesNo(NULL, i18n("The file '%1' already exists. Would you like to open it instead?", localFile), i18nc("@title:window", "File Exists") , KGuiItem(i18n("Open File")), KGuiItem(i18n("Cancel")));
+            int overwrite =  KMessageBox::questionYesNo(NULL, i18n("The file '%1' already exists. Would you like to open it instead?", localFile), i18nc("@title:window", "File Exists"), KGuiItem(i18n("Open File")), KStandardGuiItem::cancel());
 
             if (overwrite == KMessageBox::No)
                 return false;
@@ -725,7 +726,7 @@ void Part::slotDeleteFiles()
 {
     kDebug() ;
 
-    const int reallyDelete = KMessageBox::questionYesNo(NULL, i18n("Deleting these files is not undoable. Are you sure you want to do this?"), i18nc("@title:window", "Delete files") , KGuiItem(i18n("Delete files")), KGuiItem(i18n("Cancel")));
+    const int reallyDelete = KMessageBox::questionYesNo(NULL, i18n("Deleting these files is not undoable. Are you sure you want to do this?"), i18nc("@title:window", "Delete files") , KStandardGuiItem::del(), KStandardGuiItem::cancel());
 
     if (reallyDelete == KMessageBox::No)
         return;
@@ -768,7 +769,7 @@ void Part::slotSaveAs()
             int overwrite = KMessageBox::warningContinueCancel(widget(),
                                                                i18n("A file named <b>%1</b> already exists. Are you sure you want to overwrite it?", saveUrl.fileName()),
                                                                QString(),
-                                                               KGuiItem(i18n("Overwrite")));
+                                                               KStandardGuiItem::overwrite());
 
             if (overwrite != KMessageBox::Continue) {
                 return;
