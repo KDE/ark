@@ -148,7 +148,7 @@ void AddToArchive::slotStartJob(void)
         }
 
         QString base;
-        QFileInfo fi(m_inputs.first());
+        const QFileInfo fi(m_inputs.first());
 
         base = fi.absoluteFilePath();
 
