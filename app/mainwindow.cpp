@@ -230,7 +230,8 @@ void MainWindow::newArchive()
 {
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
-    QStringList mimeTypes = Kerfuffle::supportedWriteMimeTypes();
+
+    const QStringList mimeTypes = Kerfuffle::supportedWriteMimeTypes();
 
     kDebug() << "Supported mimetypes are" << mimeTypes.join( QLatin1String( " " ));
 
