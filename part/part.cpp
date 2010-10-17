@@ -60,10 +60,10 @@
 #include <QMenu>
 #include <QMimeData>
 #include <QMouseEvent>
-#include <QPointer>
 #include <QSplitter>
 #include <QTimer>
 #include <QVBoxLayout>
+#include <QWeakPointer>
 #include <QtDBus/QtDBus>
 
 using namespace Kerfuffle;
@@ -578,28 +578,28 @@ void Part::slotExtractFiles()
         return;
     }
 
-    QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog();
+    QWeakPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog;
 
     if (m_view->selectionModel()->selectedRows().count() > 0) {
-        dialog->setShowSelectedFiles(true);
+        dialog.data()->setShowSelectedFiles(true);
     }
 
-    dialog->setSingleFolderArchive(isSingleFolderArchive());
-    dialog->setSubfolder(detectSubfolder());
+    dialog.data()->setSingleFolderArchive(isSingleFolderArchive());
+    dialog.data()->setSubfolder(detectSubfolder());
 
-    dialog->setCurrentUrl(QFileInfo(m_model->archive()->fileName()).path());
+    dialog.data()->setCurrentUrl(QFileInfo(m_model->archive()->fileName()).path());
 
-    if (dialog->exec()) {
+    if (dialog.data()->exec()) {
         //this is done to update the quick extract menu
         updateActions();
 
-        m_destinationDirectory = dialog->destinationDirectory().pathOrUrl();
+        m_destinationDirectory = dialog.data()->destinationDirectory().pathOrUrl();
 
         QVariantList files;
 
         //if the user has chosen to extract only selected entries, fetch these
         //from the listview
-        if (!dialog->extractAllFiles()) {
+        if (!dialog.data()->extractAllFiles()) {
             files = selectedFilesWithChildren();
         }
 
@@ -607,8 +607,8 @@ void Part::slotExtractFiles()
 
         Kerfuffle::ExtractionOptions options;
 
-        if (dialog->preservePaths())
-            options[QLatin1String( "PreservePaths" )] = true;
+        if (dialog.data()->preservePaths())
+            options[QLatin1String("PreservePaths")] = true;
 
         ExtractJob *job = m_model->extractFiles(files, m_destinationDirectory, options);
         registerJob(job);
@@ -619,7 +619,7 @@ void Part::slotExtractFiles()
         job->start();
     }
 
-    delete dialog;
+    delete dialog.data();
 }
 
 QList<QVariant> Part::selectedFilesWithChildren()

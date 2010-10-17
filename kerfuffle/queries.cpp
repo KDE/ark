@@ -33,7 +33,7 @@
 #include <kio/renamedialog.h>
 
 #include <QApplication>
-#include <QPointer>
+#include <QWeakPointer>
 
 namespace Kerfuffle
 {
@@ -91,19 +91,19 @@ void OverwriteQuery::execute()
     sourceUrl.cleanPath();
     destUrl.cleanPath();
 
-    QPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
+    QWeakPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
         NULL,
         i18n("File already exists"),
         sourceUrl,
         destUrl,
         mode);
-    dialog->exec();
+    dialog.data()->exec();
 
-    m_data[QLatin1String( "newFilename" )] = dialog->newDestUrl().pathOrUrl();
+    m_data[QLatin1String("newFilename")] = dialog.data()->newDestUrl().pathOrUrl();
 
-    setResponse(dialog->result());
+    setResponse(dialog.data()->result());
 
-    delete dialog;
+    delete dialog.data();
 
     QApplication::restoreOverrideCursor();
 }
@@ -173,23 +173,23 @@ void PasswordNeededQuery::execute()
     // at the moment (#231974)
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
-    QPointer<KPasswordDialog> dlg = new KPasswordDialog;
-    dlg->setPrompt(i18n("The archive '%1' is password protected. Please enter the password to extract the file.", m_data.value(QLatin1String( "archiveFilename" )).toString()));
+    QWeakPointer<KPasswordDialog> dlg = new KPasswordDialog;
+    dlg.data()->setPrompt(i18n("The archive '%1' is password protected. Please enter the password to extract the file.", m_data.value(QLatin1String( "archiveFilename" )).toString()));
 
-    if (m_data.value(QLatin1String( "incorrectTryAgain" )).toBool()) {
-        dlg->showErrorMessage(i18n("Incorrect password, please try again."), KPasswordDialog::PasswordError);
+    if (m_data.value(QLatin1String("incorrectTryAgain")).toBool()) {
+        dlg.data()->showErrorMessage(i18n("Incorrect password, please try again."), KPasswordDialog::PasswordError);
     }
 
-    if (!dlg->exec()) {
+    if (!dlg.data()->exec()) {
         setResponse(false);
     } else {
-        m_data[QLatin1String( "password" )] = dlg->password();
+        m_data[QLatin1String("password")] = dlg.data()->password();
         setResponse(true);
     }
 
     QApplication::restoreOverrideCursor();
 
-    delete dlg;
+    delete dlg.data();
 }
 
 QString PasswordNeededQuery::password()

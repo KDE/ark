@@ -43,8 +43,8 @@
 
 #include <QDir>
 #include <QFileInfo>
-#include <QPointer>
 #include <QTimer>
+#include <QWeakPointer>
 
 BatchExtract::BatchExtract()
         : m_autoSubfolder(false),
@@ -252,34 +252,35 @@ void BatchExtract::setPreservePaths(bool value)
 
 bool BatchExtract::showExtractDialog()
 {
-    QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog();
+    QWeakPointer<Kerfuffle::ExtractionDialog> dialog =
+        new Kerfuffle::ExtractionDialog;
 
     if (m_inputs.size() > 1) {
-        dialog->batchModeOption();
+        dialog.data()->batchModeOption();
     }
 
-    dialog->setAutoSubfolder(autoSubfolder());
-    dialog->setCurrentUrl(destinationFolder());
-    dialog->setPreservePaths(preservePaths());
+    dialog.data()->setAutoSubfolder(autoSubfolder());
+    dialog.data()->setCurrentUrl(destinationFolder());
+    dialog.data()->setPreservePaths(preservePaths());
 
     if (m_inputs.size() == 1) {
         if (m_inputs.at(0)->isSingleFolderArchive()) {
-            dialog->setSingleFolderArchive(true);
+            dialog.data()->setSingleFolderArchive(true);
         }
-        dialog->setSubfolder(m_inputs.at(0)->subfolderName());
+        dialog.data()->setSubfolder(m_inputs.at(0)->subfolderName());
     }
 
-    if (!dialog->exec()) {
-        delete dialog;
+    if (!dialog.data()->exec()) {
+        delete dialog.data();
         return false;
     }
 
-    setAutoSubfolder(dialog->autoSubfolders());
-    setDestinationFolder(dialog->destinationDirectory().pathOrUrl());
-    setOpenDestinationAfterExtraction(dialog->openDestinationAfterExtraction());
-    setPreservePaths(dialog->preservePaths());
+    setAutoSubfolder(dialog.data()->autoSubfolders());
+    setDestinationFolder(dialog.data()->destinationDirectory().pathOrUrl());
+    setOpenDestinationAfterExtraction(dialog.data()->openDestinationAfterExtraction());
+    setPreservePaths(dialog.data()->preservePaths());
 
-    delete dialog;
+    delete dialog.data();
 
     return true;
 }

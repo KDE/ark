@@ -40,8 +40,8 @@
 
 #include <QFileInfo>
 #include <QDir>
-#include <QPointer>
 #include <QTimer>
+#include <QWeakPointer>
 
 namespace Kerfuffle
 {
@@ -76,23 +76,23 @@ void AddToArchive::setMimeType(const QString & mimeType)
 
 bool AddToArchive::showAddDialog(void)
 {
-    QPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
+    QWeakPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
         m_inputs, // itemsToAdd
         KUrl(m_firstPath), // startDir
         QLatin1String( "" ), // filter
         NULL, // parent
         NULL); // widget
 
-    bool ret = dialog->exec();
+    bool ret = dialog.data()->exec();
 
     if (ret) {
-        kDebug() << "Returned URL:" << dialog->selectedUrl();
-        kDebug() << "Returned mime:" << dialog->currentMimeFilter();
-        setFilename(dialog->selectedUrl());
-        setMimeType(dialog->currentMimeFilter());
+        kDebug() << "Returned URL:" << dialog.data()->selectedUrl();
+        kDebug() << "Returned mime:" << dialog.data()->currentMimeFilter();
+        setFilename(dialog.data()->selectedUrl());
+        setMimeType(dialog.data()->currentMimeFilter());
     }
 
-    delete dialog;
+    delete dialog.data();
 
     return ret;
 }
