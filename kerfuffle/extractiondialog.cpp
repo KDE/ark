@@ -105,7 +105,7 @@ void ExtractionDialog::accept()
 
         if (KIO::NetAccess::exists(pathWithSubfolder, KIO::NetAccess::SourceSide, 0)) {
             if (QFileInfo(pathWithSubfolder).isDir()) {
-                int overwrite = KMessageBox::questionYesNo(0, i18n("The folder '%1' already exists. Are you sure you want to extract here?", pathWithSubfolder), i18n("Folder exists"), KGuiItem(i18n("Extract here")), KGuiItem(i18n("Cancel")));
+                int overwrite = KMessageBox::questionYesNo(0, i18n("The folder <filename>%1</filename> already exists. Are you sure you want to extract here?", pathWithSubfolder), i18n("Folder exists"), KGuiItem(i18n("Extract here")), KGuiItem(i18n("Cancel")));
 
                 if (overwrite == KMessageBox::No) {
                     //TODO: choosing retry should also be possible, so one does
@@ -114,13 +114,13 @@ void ExtractionDialog::accept()
                 }
             } else {
                 KMessageBox::detailedError(0,
-                                           i18n("The folder <b>%1</b> could not be created.", subfolder()),
-                                           i18n("<b>%1</b> already exists, but is not a folder.", subfolder()));
+                                           i18n("The folder <filename>%1</filename> could not be created.", subfolder()),
+                                           i18n("<filename>%1</filename> already exists, but is not a folder.", subfolder()));
                 return;
             }
         } else if (!KIO::NetAccess::mkdir(pathWithSubfolder, 0)) {
             KMessageBox::detailedError(0,
-                                       i18n("The folder <b>%1</b> could not be created.", subfolder()),
+                                       i18n("The folder <filename>%1</filename> could not be created.", subfolder()),
                                        i18n("Please check your permissions to create it."));
             return;
         }

@@ -175,7 +175,7 @@ void PasswordNeededQuery::execute()
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
     QWeakPointer<KPasswordDialog> dlg = new KPasswordDialog;
-    dlg.data()->setPrompt(i18n("The archive '%1' is password protected. Please enter the password to extract the file.", m_data.value(QLatin1String( "archiveFilename" )).toString()));
+    dlg.data()->setPrompt(i18n("The archive <filename>%1</filename> is password protected. Please enter the password to extract the file.", m_data.value(QLatin1String( "archiveFilename" )).toString()));
 
     if (m_data.value(QLatin1String("incorrectTryAgain")).toBool()) {
         dlg.data()->showErrorMessage(i18n("Incorrect password, please try again."), KPasswordDialog::PasswordError);

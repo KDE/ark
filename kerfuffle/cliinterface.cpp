@@ -529,12 +529,12 @@ bool CliInterface::findProgramAndCreateProcess(const QString& program)
     m_program = KStandardDirs::findExe(program);
 
     if (m_program.isEmpty()) {
-        error(i18n("Failed to locate program '%1' in PATH.", program));
+        error(i18n("Failed to locate program <filename>%1</filename> in PATH.", program));
         return false;
     }
 
     if (!createProcess()) {
-        error(i18n("Found program '%1', but failed to initialize the process.", program));
+        error(i18n("Found program <filename>%1</filename>, but failed to initialize the process.", program));
         return false;
     }
 
