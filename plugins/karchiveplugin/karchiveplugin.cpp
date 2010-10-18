@@ -33,7 +33,7 @@
 KArchiveInterface::KArchiveInterface(const QString & filename, QObject *parent)
         : ReadWriteArchiveInterface(filename, parent), m_archive(0)
 {
-    kDebug() ;
+    kDebug();
 }
 
 KArchiveInterface::~KArchiveInterface()
@@ -59,7 +59,7 @@ KArchive *KArchiveInterface::archive()
 
 bool KArchiveInterface::list()
 {
-    kDebug() ;
+    kDebug();
     if (!archive()->isOpen() && !archive()->open(QIODevice::ReadOnly)) {
         error(i18n("Could not open the archive '%1' for reading", filename()));
         return false;
@@ -141,7 +141,7 @@ void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QStrin
 
 bool KArchiveInterface::addFiles(const QStringList & files)
 {
-    kDebug() << "Starting..." ;
+    kDebug() << "Starting...";
 //  delete m_archive;
 //  m_archive = 0;
     if (archive()->isOpen()) {
@@ -152,10 +152,10 @@ bool KArchiveInterface::addFiles(const QStringList & files)
         return false;
     }
 
-    kDebug() << "Archive opened for writing..." ;
-    kDebug() << "Will add " << files.count() << " files" ;
+    kDebug() << "Archive opened for writing...";
+    kDebug() << "Will add " << files.count() << " files";
     foreach(const QString &path, files) {
-        kDebug() << "Adding " << path ;
+        kDebug() << "Adding " << path;
         QFileInfo fi(path);
         Q_ASSERT(fi.exists());
 
@@ -178,9 +178,9 @@ bool KArchiveInterface::addFiles(const QStringList & files)
             }
         }
     }
-    kDebug() << "Closing the archive" ;
+    kDebug() << "Closing the archive";
     archive()->close();
-    kDebug() << "Done" ;
+    kDebug() << "Done";
     return true;
 }
 

@@ -43,8 +43,9 @@ void ArchiveTest::testFileName()
 {
     Kerfuffle::Archive *archive = Kerfuffle::factory("/tmp/foo.tar.gz");
 
-    if (!archive)
+    if (!archive) {
         QSKIP("There is no plugin to handle tar.gz files. Skipping test.", SkipSingle);
+    }
 
     QCOMPARE(archive->fileName(), QString("/tmp/foo.tar.gz"));
 
@@ -56,8 +57,9 @@ void ArchiveTest::testIsPasswordProtected()
     Kerfuffle::Archive *archive;
 
     archive = Kerfuffle::factory(KDESRCDIR "data/archivetest_encrypted.zip");
-    if (!archive)
+    if (!archive) {
         QSKIP("There is no plugin to handle zip files. Skipping test.", SkipSingle);
+    }
 
     QVERIFY(archive->isPasswordProtected());
 

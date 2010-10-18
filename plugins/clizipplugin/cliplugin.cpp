@@ -45,13 +45,11 @@ public:
     }
 
     virtual ~CliPlugin() {
-
     }
 
     virtual ParameterList parameterList() const {
         static ParameterList p;
         if (p.isEmpty()) {
-
             p[CaptureProgress] = false;
             p[ListProgram] = QLatin1String( "zipinfo" );
             p[ExtractProgram] = QLatin1String( "unzip" );
@@ -108,8 +106,9 @@ public:
                 e[IsDirectory] = (entryPattern.cap(1).at(0) == QLatin1Char( 'd' ));
                 e[Size] = entryPattern.cap(4).toInt();
                 QString status = entryPattern.cap(5);
-                if (status[0].isUpper())
+                if (status[0].isUpper()) {
                     e[IsPasswordProtected] = true;
+                }
                 e[CompressedSize] = entryPattern.cap(6).toInt();
 
                 const QDateTime ts(QDate::fromString(entryPattern.cap(8), QLatin1String( "yyyyMMdd" )),

@@ -60,30 +60,34 @@ public:
 
     static bool compareAscending(const QPair<ArchiveNode*,int> &a, const QPair<ArchiveNode*,int> &b) {
         // #234373: sort folders before files
-        if (a.first->isDir() != b.first->isDir())
+        if (a.first->isDir() != b.first->isDir()) {
             return a.first->isDir();
+        }
 
-        if (currentSortColumn == FileName)
+        if (currentSortColumn == FileName) {
             return (a.first->m_name < b.first->m_name);
-        else if ((currentSortColumn == Size) ||
-                 (currentSortColumn == CompressedSize))
+        } else if ((currentSortColumn == Size) ||
+                   (currentSortColumn == CompressedSize)) {
             return (a.first->entry()[currentSortColumn].toInt() < b.first->entry()[currentSortColumn].toInt());
-        else
+        } else {
             return (a.first->entry()[currentSortColumn].toString() < b.first->entry()[currentSortColumn].toString());
+        }
     }
 
     static bool compareDescending(const QPair<ArchiveNode*,int> &a, const QPair<ArchiveNode*,int> &b) {
         // #234373: sort folders before files
-        if (a.first->isDir() != b.first->isDir())
+        if (a.first->isDir() != b.first->isDir()) {
             return !(a.first->isDir());
+        }
 
-        if (currentSortColumn == FileName)
+        if (currentSortColumn == FileName) {
             return (a.first->m_name > b.first->m_name);
-        else if ((currentSortColumn == Size) ||
-                 (currentSortColumn == CompressedSize))
+        } else if ((currentSortColumn == Size) ||
+                   (currentSortColumn == CompressedSize)) {
             return (a.first->entry()[currentSortColumn].toInt() > b.first->entry()[currentSortColumn].toInt());
-        else
+        } else {
             return (a.first->entry()[currentSortColumn].toString() > b.first->entry()[currentSortColumn].toString());
+        }
     }
 
     const ArchiveEntry &entry() const {
@@ -410,8 +414,9 @@ int ArchiveModel::columnCount(const QModelIndex &parent) const
 
 void ArchiveModel::sort(int column, Qt::SortOrder order)
 {
-    if (m_showColumns.size() <= column)
+    if (m_showColumns.size() <= column) {
         return;
+    }
 
     currentSortColumn = m_showColumns.at(column);
 
@@ -429,10 +434,11 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
             sorting[i].second = i;
         }
 
-        if (order == Qt::AscendingOrder)
+        if (order == Qt::AscendingOrder) {
             qSort(sorting.begin(), sorting.end(), ArchiveNode::compareAscending);
-        else
+        } else {
             qSort(sorting.begin(), sorting.end(), ArchiveNode::compareDescending);
+        }
 
         QModelIndexList fromIndexes;
         QModelIndexList toIndexes;
@@ -473,7 +479,7 @@ QStringList ArchiveModel::mimeTypes() const
 
 QMimeData * ArchiveModel::mimeData(const QModelIndexList & indexes) const
 {
-    kDebug() ;
+    kDebug();
     //prepare the fallback kio_slave filenames
     QStringList files;
     bool noFallback = false;
@@ -497,7 +503,9 @@ QMimeData * ArchiveModel::mimeData(const QModelIndexList & indexes) const
     foreach(const QModelIndex &index, indexes) {
 
         //to limit only one index per row
-        if (index.column() != 0) continue;
+        if (index.column() != 0) {
+            continue;
+        }
 
         const QString file = archiveName + static_cast<ArchiveNode*>(index.internalPointer())->entry()[ FileName ].toString();
         files << file;
@@ -512,8 +520,9 @@ QMimeData * ArchiveModel::mimeData(const QModelIndexList & indexes) const
                  );
 
 
-    if (!noFallback)
+    if (!noFallback) {
         kiolist.populateMimeData(data);
+    }
     return data;
 }
 
@@ -524,8 +533,9 @@ bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, i
     Q_UNUSED(column)
     Q_UNUSED(parent)
 
-    if (!data->hasUrls())
+    if (!data->hasUrls()) {
         return false;
+    }
 
     QStringList paths;
     foreach(const QUrl &url, data->urls()) {
@@ -573,15 +583,15 @@ QString ArchiveModel::cleanFileName(const QString& fileName)
 ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
 {
     QStringList pieces = entry[ FileName ].toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
-    if (pieces.isEmpty()) return NULL;
+    if (pieces.isEmpty()) {
+        return NULL;
+    }
     pieces.removeLast();
 
     if (previousMatch) {
-
         //the number of path elements must be the same for the shortcut
         //to work
         if (previousPieces.count() == pieces.count()) {
-
             bool equal = true;
 
             //make sure all the pieces match up
@@ -595,10 +605,8 @@ ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
             //if match return it
             if (equal) {
                 return static_cast<ArchiveDirNode*>(previousMatch);
-
             }
         }
-
     }
 
     ArchiveDirNode *parent = m_rootNode;
@@ -694,7 +702,6 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
     //if there are no addidional columns registered, then have a look at the
     //entry and populate some
     if (m_showColumns.isEmpty()) {
-
         //these are the columns we are interested in showing in the display
         static const QList<int> columnsForDisplay =
             QList<int>()
@@ -714,15 +721,15 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
         QList<int> toInsert;
 
         foreach(int column, columnsForDisplay) {
-            if (receivedEntry.contains(column))
+            if (receivedEntry.contains(column)) {
                 toInsert << column;
+            }
         }
         beginInsertColumns(QModelIndex(), 0, toInsert.size() - 1);
         m_showColumns << toInsert;
         endInsertColumns();
 
         kDebug() << "Show columns detected: " << m_showColumns;
-
     }
 
     //make a copy
@@ -788,9 +795,13 @@ void ArchiveModel::insertNode(ArchiveNode *node, InsertBehaviour behaviour)
     Q_ASSERT(node);
     ArchiveDirNode *parent = node->parent();
     Q_ASSERT(parent);
-    if (behaviour == NotifyViews) beginInsertRows(indexForNode(parent), parent->entries().count(), parent->entries().count());
+    if (behaviour == NotifyViews) {
+        beginInsertRows(indexForNode(parent), parent->entries().count(), parent->entries().count());
+    }
     parent->entries().append(node);
-    if (behaviour == NotifyViews) endInsertRows();
+    if (behaviour == NotifyViews) {
+        endInsertRows();
+    }
 }
 
 Kerfuffle::Archive* ArchiveModel::archive() const
@@ -849,7 +860,9 @@ ExtractJob* ArchiveModel::extractFiles(const QList<QVariant>& files, const QStri
 
 AddJob* ArchiveModel::addFiles(const QStringList & filenames, const CompressionOptions& options)
 {
-    if (!m_archive) return NULL;
+    if (!m_archive) {
+        return NULL;
+    }
 
     if (!m_archive->isReadOnly()) {
         AddJob *job = m_archive->addFiles(filenames, options);

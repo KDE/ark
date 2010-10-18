@@ -107,8 +107,9 @@ void ArkViewer::keyPressEvent(QKeyEvent *event)
 
     // Only handle the event the usual way if the default button has focus
     // Otherwise, pressing enter on KatePart still closes the dialog, for example.
-    if ((defButton) && (defButton->hasFocus()))
+    if ((defButton) && (defButton->hasFocus())) {
         KDialog::keyPressEvent(event);
+    }
 
     event->accept();
 }
@@ -122,8 +123,9 @@ bool ArkViewer::viewInInternalViewer(const QString& filename)
     setCaption(fileUrl.fileName());
     // TODO: Load the size from the config file
     QSize size = QSize();
-    if (size.width() < 200)
+    if (size.width() < 200) {
         size = QSize(560, 400);
+    }
     setInitialSize(size);
 
     QFrame *header = new QFrame(m_widget);

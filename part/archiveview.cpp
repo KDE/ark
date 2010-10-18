@@ -51,13 +51,15 @@ void ArchiveView::updateMouseButtons()
 void ArchiveView::slotClicked(const QModelIndex& index)
 {
     if (KGlobalSettings::singleClick()) {
-        if (m_mouseButtons != Qt::LeftButton) // FIXME: see QTBUG-1067
+        if (m_mouseButtons != Qt::LeftButton) { // FIXME: see QTBUG-1067
             return;
+        }
 
         // If the user is pressing shift or control, more than one item is being selected
         const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
-        if ((modifier & Qt::ShiftModifier) || (modifier & Qt::ControlModifier))
+        if ((modifier & Qt::ShiftModifier) || (modifier & Qt::ControlModifier)) {
             return;
+        }
 
         emit itemTriggered(index);
     }
@@ -65,13 +67,14 @@ void ArchiveView::slotClicked(const QModelIndex& index)
 
 void ArchiveView::slotDoubleClicked(const QModelIndex& index)
 {
-    if (!KGlobalSettings::singleClick())
+    if (!KGlobalSettings::singleClick()) {
         emit itemTriggered(index);
+    }
 }
 
 void ArchiveView::setModel(QAbstractItemModel *model)
 {
-    kDebug() ;
+    kDebug();
     QTreeView::setModel(model);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -91,7 +94,9 @@ void ArchiveView::startDrag(Qt::DropActions supportedActions)
 {
     //only start the drag if it's over the filename column. this allows dragging selection in
     //tree/detail view
-    if (currentIndex().column() != 0) return;
+    if (currentIndex().column() != 0) {
+        return;
+    }
 
     kDebug() << "Singling out the current selection...";
     selectionModel()->setCurrentIndex(currentIndex(), QItemSelectionModel::ClearAndSelect);
@@ -132,6 +137,7 @@ void ArchiveView::dragMoveEvent(QDragMoveEvent * event)
     }
 
     QTreeView::dragMoveEvent(event);
-    if (event->mimeData()->hasFormat(QLatin1String( "text/uri-list" )))
+    if (event->mimeData()->hasFormat(QLatin1String("text/uri-list"))) {
         event->acceptProposedAction();
+    }
 }

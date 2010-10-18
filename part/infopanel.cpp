@@ -44,10 +44,11 @@ InfoPanel::InfoPanel(ArchiveModel *model, QWidget *parent)
 
     // Make the file name font bigger than the rest
     QFont fnt = fileName->font();
-    if (fnt.pointSize() > -1)
+    if (fnt.pointSize() > -1) {
         fnt.setPointSize(fnt.pointSize() + 1);
-    else
+    } else {
         fnt.setPixelSize(fnt.pixelSize() + 3);
+    }
     fileName->setFont(fnt);
 
     updateWithDefaults();

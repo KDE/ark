@@ -292,11 +292,11 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
 
             int header_response;
             kDebug() << "Writing " << fileWithoutPath << " to " << archive_entry_pathname(entry);
-            if ((header_response = archive_write_header(writer.data(), entry)) == ARCHIVE_OK)
+            if ((header_response = archive_write_header(writer.data(), entry)) == ARCHIVE_OK) {
                 //if the whole archive is extracted and the total filesize is
                 //available, we use partial progress
                 copyData(arch.data(), writer.data(), (extractAll && m_extractedFilesSize));
-            else if (header_response == ARCHIVE_WARN) {
+            } else if (header_response == ARCHIVE_WARN) {
                 kDebug() << "Warning while writing " << entryName;
             } else {
                 kDebug() << "Writing header failed with error code " << header_response
@@ -485,11 +485,11 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
 
             int header_response;
             //kDebug() << "Writing entry " << fn;
-            if ((header_response = archive_write_header(arch_writer.data(), entry)) == ARCHIVE_OK)
+            if ((header_response = archive_write_header(arch_writer.data(), entry)) == ARCHIVE_OK) {
                 //if the whole archive is extracted and the total filesize is
                 //available, we use partial progress
                 copyData(arch_reader.data(), arch_writer.data(), false);
-            else {
+            } else {
                 kDebug() << "Writing header failed with error code " << header_response;
                 QFile::remove(tempFilename);
                 return false;
@@ -669,8 +669,9 @@ void LibArchiveInterface::copyData(const QString& filename, struct archive *dest
     ssize_t readBytes;
     QFile file(filename);
 
-    if (!file.open(QIODevice::ReadOnly))
+    if (!file.open(QIODevice::ReadOnly)) {
         return;
+    }
 
     readBytes = file.read(buff, sizeof(buff));
     while (readBytes > 0) {

@@ -51,13 +51,15 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
     Q_UNUSED(options)
 
     QString outputFileName = destinationDirectory;
-    if (!destinationDirectory.endsWith(QLatin1Char( '/' )))
-        outputFileName += QLatin1Char( '/' );
+    if (!destinationDirectory.endsWith(QLatin1Char('/'))) {
+        outputFileName += QLatin1Char('/');
+    }
     outputFileName += uncompressedFileName();
 
     outputFileName = overwriteFileName(outputFileName);
-    if (outputFileName.isEmpty())
+    if (outputFileName.isEmpty()) {
         return true;
+    }
 
     kDebug() << "Extracting to" << outputFileName;
 
@@ -127,12 +129,13 @@ QString LibSingleFileInterface::overwriteFileName(QString& filename)
         userQuery(&query);
         query.waitForResponse();
 
-        if ((query.responseCancelled()) || (query.responseSkip()))
+        if ((query.responseCancelled()) || (query.responseSkip())) {
             return QString();
-        else if (query.responseOverwrite())
+        } else if (query.responseOverwrite()) {
             break;
-        else if (query.responseRename())
+        } else if (query.responseRename()) {
             newFileName = query.newFilename();
+        }
     }
 
     return newFileName;

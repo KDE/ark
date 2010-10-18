@@ -78,11 +78,14 @@ void MainWindow::dragEnterEvent(QDragEnterEvent * event)
     kDebug() << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
-    if (iface->isBusy()) return;
+    if (iface->isBusy()) {
+        return;
+    }
 
-    if (event->source() == NULL &&
-            isValidArchiveDrag(event->mimeData()))
+    if ((event->source() == NULL) &&
+        (isValidArchiveDrag(event->mimeData()))) {
         event->acceptProposedAction();
+    }
     return;
 }
 
@@ -91,11 +94,14 @@ void MainWindow::dropEvent(QDropEvent * event)
     kDebug() << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
-    if (iface->isBusy()) return;
+    if (iface->isBusy()) {
+        return;
+    }
 
-    if (event->source() == NULL &&
-            isValidArchiveDrag(event->mimeData()))
+    if ((event->source() == NULL) &&
+        (isValidArchiveDrag(event->mimeData()))) {
         event->acceptProposedAction();
+    }
 
     //TODO: if this call provokes a message box the drag will still be going
     //while the box is onscreen. looks buggy, do something about it
@@ -107,11 +113,14 @@ void MainWindow::dragMoveEvent(QDragMoveEvent * event)
     kDebug() << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
-    if (iface->isBusy()) return;
+    if (iface->isBusy()) {
+        return;
+    }
 
-    if (event->source() == NULL &&
-            isValidArchiveDrag(event->mimeData()))
+    if ((event->source() == NULL) &&
+        (isValidArchiveDrag(event->mimeData()))) {
         event->acceptProposedAction();
+    }
 }
 
 bool MainWindow::loadPart()

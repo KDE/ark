@@ -123,10 +123,11 @@ bool CliPlugin::readListLine(const QString &line)
         // XXX: If we ever support archive comments, this code must
         //      be changed, because the comments will be shown after
         //      a CMT subheader and will have an arbitrary number of lines
-        if (subHeaderType == QLatin1String("STM"))
+        if (subHeaderType == QLatin1String("STM")) {
             m_remainingIgnoredSubHeaderLines = 4;
-        else
+        } else {
             m_remainingIgnoredSubHeaderLines = 3;
+        }
 
         kDebug() << "Found a subheader of type" << subHeaderType;
         kDebug() << "The next" << m_remainingIgnoredSubHeaderLines
@@ -152,8 +153,9 @@ bool CliPlugin::readListLine(const QString &line)
 
         // unrar outputs dates with a 2-digit year but QDate takes it as 19??
         // let's take 1950 is cut-off; similar to KDateTime
-        if (ts.date().year() < 1950)
+        if (ts.date().year() < 1950) {
             ts = ts.addYears(100);
+        }
 
         bool isDirectory = ((details.at(5).at(0) == QLatin1Char( 'd' )) ||
                             (details.at(5).at(1) == QLatin1Char( 'D' )));

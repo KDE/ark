@@ -87,7 +87,7 @@ bool CliInterface::list()
 
 bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options)
 {
-    kDebug() ;
+    kDebug();
     cacheParameterList();
 
     m_operationMode = Copy;
@@ -110,24 +110,25 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
         }
 
         if (argument == QLatin1String( "$PreservePathSwitch" )) {
-
             QStringList replacementFlags = m_param.value(PreservePathSwitch).toStringList();
             Q_ASSERT(replacementFlags.size() == 2);
 
             bool preservePaths = options.value(QLatin1String( "PreservePaths" )).toBool();
             QString theReplacement;
-            if (preservePaths)
+            if (preservePaths) {
                 theReplacement = replacementFlags.at(0);
-            else
+            } else {
                 theReplacement = replacementFlags.at(1);
+            }
 
             if (theReplacement.isEmpty()) {
                 args.removeAt(i);
                 --i; //decrement to compensate for the variable we removed
-            } else
+            } else {
                 //but in this case we don't have to decrement, we just
                 //replace it
                 args[i] = theReplacement;
+            }
         }
 
         if (argument == QLatin1String( "$PasswordSwitch" )) {
@@ -140,7 +141,8 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
 
             //if we get a hint about this being a password protected archive, ask about
             //the password in advance.
-            if (options.value(QLatin1String( "PasswordProtectedHint" )).toBool() && password().isEmpty()) {
+            if ((options.value(QLatin1String("PasswordProtectedHint")).toBool()) &&
+                (password().isEmpty())) {
                 kDebug() << "Password hint enabled, querying user";
 
                 Kerfuffle::PasswordNeededQuery query(filename());
@@ -296,8 +298,7 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
 
         if (argument == QLatin1String( "$Archive" )) {
             args[i] = filename();
-        }
-        else if (argument == QLatin1String( "$Files" )) {
+        } else if (argument == QLatin1String( "$Files" )) {
             args.removeAt(i);
             for (int j = 0; j < files.count(); ++j) {
                 args.insert(i + j, escapeFileName(files.at(j).toString()));
@@ -329,8 +330,9 @@ bool CliInterface::createProcess()
     m_process->setTextModeEnabled(true);
     m_process->setOutputChannelMode(KProcess::MergedChannels);
 
-    if (QMetaType::type("QProcess::ExitStatus") == 0)
+    if (QMetaType::type("QProcess::ExitStatus") == 0) {
         qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
+    }
 
     connect(m_process, SIGNAL(started()), SLOT(started()), Qt::DirectConnection);
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
@@ -366,8 +368,9 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
 
     //if the m_process pointer is gone, then there is nothing to worry
     //about here
-    if (!m_process)
+    if (!m_process) {
         return;
+    }
 
     if (m_operationMode == Delete) {
         foreach(const QVariant& v, m_removedFiles) {
@@ -434,8 +437,9 @@ void CliInterface::readStdout(bool handleAll)
          checkForErrorMessage(QLatin1String( lines.last() ), ExtractionFailedPatterns) ||
          checkForFileExistsMessage(QLatin1String( lines.last() )));
 
-    if (foundErrorMessage)
+    if (foundErrorMessage) {
         handleAll = true;
+    }
 
     //this is complex, here's an explanation:
     //if there is no newline, then there is no guaranteed full line to
@@ -456,8 +460,9 @@ void CliInterface::readStdout(bool handleAll)
     }
 
     foreach(const QByteArray& line, lines) {
-        if (!line.isEmpty())
+        if (!line.isEmpty()) {
             handleLine(QString::fromLocal8Bit(line));
+        }
     }
 }
 
@@ -489,8 +494,9 @@ void CliInterface::handleLine(const QString& line)
             return;
         }
 
-        if (handleFileExistsMessage(line))
+        if (handleFileExistsMessage(line)) {
             return;
+        }
     }
 
     if (m_operationMode == List) {
@@ -509,8 +515,9 @@ void CliInterface::handleLine(const QString& line)
             return;
         }
 
-        if (handleFileExistsMessage(line))
+        if (handleFileExistsMessage(line)) {
             return;
+        }
 
         readListLine(line);
         return;
@@ -549,8 +556,9 @@ bool CliInterface::checkForFileExistsMessage(const QString& line)
 
 bool CliInterface::handleFileExistsMessage(const QString& line)
 {
-    if (!checkForFileExistsMessage(line))
+    if (!checkForFileExistsMessage(line)) {
         return false;
+    }
 
     const QString filename = m_existsPattern.cap(1);
 
@@ -565,16 +573,17 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
     QString responseToProcess;
     const QStringList choices = m_param.value(FileExistsInput).toStringList();
 
-    if (query.responseOverwrite())
+    if (query.responseOverwrite()) {
         responseToProcess = choices.at(0);
-    else if (query.responseSkip())
+    } else if (query.responseSkip()) {
         responseToProcess = choices.at(1);
-    else if (query.responseOverwriteAll())
+    } else if (query.responseOverwriteAll()) {
         responseToProcess = choices.at(2);
-    else if (query.responseAutoSkip())
+    } else if (query.responseAutoSkip()) {
         responseToProcess = choices.at(3);
-    else if (query.responseCancelled())
+    } else if (query.responseCancelled()) {
         responseToProcess = choices.at(4);
+    }
 
     Q_ASSERT(!responseToProcess.isEmpty());
 
@@ -595,8 +604,9 @@ bool CliInterface::checkForErrorMessage(const QString& line, int parameterIndex)
     if (patternCache.contains(parameterIndex)) {
         patterns = patternCache.value(parameterIndex);
     } else {
-        if (!m_param.contains(parameterIndex))
+        if (!m_param.contains(parameterIndex)) {
             return false;
+        }
 
         foreach(const QString& rawPattern, m_param.value(parameterIndex).toStringList()) {
             patterns << QRegExp(rawPattern);
@@ -617,8 +627,9 @@ bool CliInterface::doKill()
     if (m_process) {
         m_process->terminate();
 
-        if (!m_process->waitForFinished())
+        if (!m_process->waitForFinished()) {
             m_process->kill();
+        }
 
         m_process->waitForFinished();
 
@@ -667,8 +678,9 @@ QString CliInterface::escapeFileName(const QString& fileName)
     quoted.reserve(len * 2);
 
     for (int i = 0; i < len; ++i) {
-        if (m_escapedCharacters.contains(fileName.at(i)))
+        if (m_escapedCharacters.contains(fileName.at(i))) {
             quoted.append(backslash);
+        }
 
         quoted.append(fileName.at(i));
     }

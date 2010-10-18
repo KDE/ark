@@ -151,17 +151,22 @@ void Part::registerJob(KJob* job)
 void Part::extractSelectedFilesTo(const QString& localPath)
 {
     kDebug() << "Extract to " << localPath;
-    if (!m_model) return;
+    if (!m_model) {
+        return;
+    }
 
     if (m_view->selectionModel()->selectedRows().count() != 1) {
         m_view->selectionModel()->setCurrentIndex(m_view->currentIndex(), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
     }
-    if (m_view->selectionModel()->selectedRows().count() != 1) return;
+    if (m_view->selectionModel()->selectedRows().count() != 1) {
+        return;
+    }
 
     QVariant internalRoot;
     kDebug() << "valid " << m_view->currentIndex().parent().isValid();
-    if (m_view->currentIndex().parent().isValid())
+    if (m_view->currentIndex().parent().isValid()) {
         internalRoot = m_model->entryForIndex(m_view->currentIndex().parent()).value(InternalID);
+    }
 
     if (internalRoot.isNull()) {
         //we have the special case valid parent, but the parent does not
@@ -173,12 +178,16 @@ void Part::extractSelectedFilesTo(const QString& localPath)
     }
 
     QList<QVariant> files = selectedFilesWithChildren();
-    if (files.isEmpty()) return;
+    if (files.isEmpty()) {
+        return;
+    }
 
     kDebug() << "selected files are " << files;
     Kerfuffle::ExtractionOptions options;
     options[QLatin1String( "PreservePaths" )] = true;
-    if (!internalRoot.isNull()) options[QLatin1String( "RootNode" )] = internalRoot;
+    if (!internalRoot.isNull()) {
+        options[QLatin1String("RootNode")] = internalRoot;
+    }
 
     ExtractJob *job = m_model->extractFiles(files, localPath, options);
     registerJob(job);
@@ -371,8 +380,9 @@ bool Part::openFile()
         if (localFileInfo.exists()) {
             int overwrite =  KMessageBox::questionYesNo(NULL, i18n("The archive <filename>%1</filename> already exists. Would you like to open it instead?", localFile), i18nc("@title:window", "File Exists"), KGuiItem(i18n("Open File")), KStandardGuiItem::cancel());
 
-            if (overwrite == KMessageBox::No)
+            if (overwrite == KMessageBox::No) {
                 return false;
+            }
         }
     } else {
         if (!localFileInfo.exists()) {
@@ -462,9 +472,11 @@ void Part::slotLoadingFinished(KJob *job)
 {
     kDebug();
 
-    if (job->error())
-        if (arguments().metaData()[QLatin1String( "createNewArchive" )] != QLatin1String( "true" ))
+    if (job->error()) {
+        if (arguments().metaData()[QLatin1String( "createNewArchive" )] != QLatin1String( "true" )) {
             KMessageBox::sorry(NULL, i18n("Loading the archive <filename>%1</filename> failed with the following error: <message>%2</message>", localFilePath(), job->errorText()), i18nc("@title:window", "Error Opening Archive"));
+        }
+    }
 
     m_view->sortByColumn(0, Qt::AscendingOrder);
     m_view->expandToDepth(0);
@@ -607,8 +619,9 @@ void Part::slotExtractFiles()
 
         Kerfuffle::ExtractionOptions options;
 
-        if (dialog.data()->preservePaths())
+        if (dialog.data()->preservePaths()) {
             options[QLatin1String("PreservePaths")] = true;
+        }
 
         ExtractJob *job = m_model->extractFiles(files, m_destinationDirectory, options);
         registerJob(job);
@@ -629,22 +642,22 @@ QList<QVariant> Part::selectedFilesWithChildren()
     QModelIndexList toIterate = m_view->selectionModel()->selectedRows();
 
     for (int i = 0; i < toIterate.size(); ++i) {
-
         QModelIndex index = toIterate.at(i);
 
         for (int j = 0; j < m_model->rowCount(index); ++j) {
             QModelIndex child = m_model->index(j, 0, index);
-            if (!toIterate.contains(child))
+            if (!toIterate.contains(child)) {
                 toIterate << child;
+            }
         }
-
     }
 
     QVariantList ret;
     foreach(const QModelIndex & index, toIterate) {
         const ArchiveEntry& entry = m_model->entryForIndex(index);
-        if (entry.contains(InternalID))
+        if (entry.contains(InternalID)) {
             ret << entry[ InternalID ];
+        }
     }
     return ret;
 }
@@ -705,21 +718,27 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
     for (int i = 0; i < cleanFilesToAdd.size(); ++i) {
         QString& file = cleanFilesToAdd[i];
         if (QFileInfo(file).isDir()) {
-            if (!file.endsWith(QLatin1Char( '/' ))) file += QLatin1Char( '/' );
+            if (!file.endsWith(QLatin1Char( '/' ))) {
+                file += QLatin1Char( '/' );
+            }
         }
     }
 
     CompressionOptions options;
 
     QString firstPath = cleanFilesToAdd.first();
-    if (firstPath.right(1) == QLatin1String( "/" )) firstPath.chop(1);
+    if (firstPath.right(1) == QLatin1String( "/" )) {
+        firstPath.chop(1);
+    }
     firstPath = QFileInfo(firstPath).dir().absolutePath();
 
     kDebug() << "Detected relative path to be " << firstPath;
     options[QLatin1String( "GlobalWorkDir" )] = firstPath;
 
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
-    if (!job) return;
+    if (!job) {
+        return;
+    }
 
     connect(job, SIGNAL(result(KJob*)),
             this, SLOT(slotAddFilesDone(KJob*)));
@@ -729,7 +748,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 
 void Part::slotAddFiles()
 {
-    kDebug() ;
+    kDebug();
     const QStringList filesToAdd = KFileDialog::getOpenFileNames(KUrl("kfiledialog:///ArkAddFiles"), QString(), widget(), i18nc("@title:window", "Add Files"));
 
     slotAddFiles(filesToAdd);
@@ -737,7 +756,7 @@ void Part::slotAddFiles()
 
 void Part::slotAddDir()
 {
-    kDebug() ;
+    kDebug();
     const QString dirToAdd = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///ArkAddFiles"), widget(), i18nc("@title:window", "Add Folder"));
 
     if (!dirToAdd.isEmpty()) {
@@ -747,7 +766,7 @@ void Part::slotAddDir()
 
 void Part::slotAddFilesDone(KJob* job)
 {
-    kDebug() ;
+    kDebug();
     if (job->error()) {
         KMessageBox::error(widget(), job->errorString());
     }
@@ -755,7 +774,7 @@ void Part::slotAddFilesDone(KJob* job)
 
 void Part::slotDeleteFilesDone(KJob* job)
 {
-    kDebug() ;
+    kDebug();
     if (job->error()) {
         KMessageBox::error(widget(), job->errorString());
     }
@@ -763,12 +782,13 @@ void Part::slotDeleteFilesDone(KJob* job)
 
 void Part::slotDeleteFiles()
 {
-    kDebug() ;
+    kDebug();
 
     const int reallyDelete = KMessageBox::questionYesNo(NULL, i18n("Deleting these files is not undoable. Are you sure you want to do this?"), i18nc("@title:window", "Delete files") , KStandardGuiItem::del(), KStandardGuiItem::cancel());
 
-    if (reallyDelete == KMessageBox::No)
+    if (reallyDelete == KMessageBox::No) {
         return;
+    }
 
     DeleteJob *job = m_model->deleteFiles(selectedFilesWithChildren());
     connect(job, SIGNAL(result(KJob*)),

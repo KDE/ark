@@ -34,17 +34,14 @@ public:
             : CliInterface(filename, parent),
             m_isFirstLine(true),
             m_incontent(false) {
-
     }
 
     virtual ~CliPlugin() {
-
     }
 
     virtual ParameterList parameterList() const {
         static ParameterList p;
         if (p.isEmpty()) {
-
             p[CaptureProgress] = true;
             p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = "rar";
 
@@ -73,19 +70,16 @@ public:
         return p;
     }
 
-
-
-
     bool m_isFirstLine, m_incontent, m_isPasswordProtected;
     QString m_entryFilename, m_internalId;
 
     bool readListLine(QString line) {
-
         const QString m_headerString = "-----------------------------------------";
         // skip the heading
         if (!m_incontent) {
-            if (line.startsWith(m_headerString))
+            if (line.startsWith(m_headerString)) {
                 m_incontent = true;
+            }
             return true;
         }
         // catch final line
@@ -116,15 +110,16 @@ public:
                      QTime::fromString(fileprops[ 4 ], "hh:mm"));
         // rar output date with 2 digit year but QDate takes is as 19??
         // let's take 1950 is cut-off; similar to KDateTime
-        if (ts.date().year() < 1950)
+        if (ts.date().year() < 1950) {
             ts = ts.addYears(100);
+        }
 
         m_entryFilename = m_internalId;
         if (isDirectory && !m_internalId.endsWith('/')) {
             m_entryFilename += '/';
         }
 
-        //kDebug() << m_entryFilename << " : " << fileprops ;
+        //kDebug() << m_entryFilename << " : " << fileprops;
         ArchiveEntry e;
         e[ FileName ] = m_entryFilename;
         e[ InternalID ] = m_internalId;
@@ -138,7 +133,7 @@ public:
         e[ Method ] = fileprops[ 7 ];
         e[ Version ] = fileprops[ 8 ];
         e[ IsPasswordProtected] = m_isPasswordProtected;
-        kDebug() << "Added entry: " << e ;
+        kDebug() << "Added entry: " << e;
 
         entry(e);
         m_isFirstLine = true;

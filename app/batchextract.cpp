@@ -71,8 +71,9 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
         const QDir d(destination);
         QString subfolderName = archive->subfolderName();
 
-        if (d.exists(subfolderName))
+        if (d.exists(subfolderName)) {
             subfolderName = KIO::RenameDialog::suggestName(destination, subfolderName);
+        }
 
         d.mkdir(subfolderName);
 

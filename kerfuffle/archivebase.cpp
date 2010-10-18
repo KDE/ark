@@ -103,8 +103,9 @@ AddJob* ArchiveBase::addFiles(const QStringList & files, const CompressionOption
 ExtractJob* ArchiveBase::copyFiles(const QList<QVariant> & files, const QString & destinationDir, ExtractionOptions options)
 {
     ExtractionOptions newOptions = options;
-    if (isPasswordProtected())
+    if (isPasswordProtected()) {
         newOptions[QLatin1String( "PasswordProtectedHint" )] = true;
+    }
 
     ExtractJob *newJob = new ExtractJob(files, destinationDir, newOptions, m_iface, this);
     return newJob;
@@ -140,8 +141,9 @@ void ArchiveBase::onListFinished(KJob* job)
         QString base = fi.completeBaseName();
 
         //special case for tar.gz/bzip2 files
-        if (base.right(4).toUpper() == QLatin1String( ".TAR" ))
+        if (base.right(4).toUpper() == QLatin1String(".TAR")) {
             base.chop(4);
+        }
 
         m_subfolderName = base;
     }

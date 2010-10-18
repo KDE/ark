@@ -52,8 +52,9 @@ void Query::waitForResponse()
     kDebug();
 
     //if there is no response set yet, wait
-    if (!m_data.contains(QLatin1String( "response" )))
+    if (!m_data.contains(QLatin1String("response"))) {
         m_responseCondition.wait(&m_responseMutex);
+    }
     m_responseMutex.unlock();
 }
 

@@ -45,12 +45,14 @@ static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
 
 static QString determineMimeType(const QString& filename)
 {
-    if (!QFile::exists(filename))
+    if (!QFile::exists(filename)) {
         return KMimeType::findByPath(filename)->name();
+    }
 
     QFile file(filename);
-    if (!file.open(QIODevice::ReadOnly))
+    if (!file.open(QIODevice::ReadOnly)) {
         return QString();
+    }
 
     const qint64 maxSize = 0x100000; // 1MB
     const qint64 bufferSize = qMin(maxSize, file.size());

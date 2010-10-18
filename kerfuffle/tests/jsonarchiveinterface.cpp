@@ -52,11 +52,13 @@ bool JSONArchiveInterface::open()
 {
     QFile file(filename());
 
-    if (!file.exists())
+    if (!file.exists()) {
         return false;
+    }
 
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         return false;
+    }
 
     bool ok;
     QJson::Parser parser;
@@ -69,8 +71,9 @@ bool JSONArchiveInterface::open()
         return false;
     }
 
-    if (!parseJsonMap(jsonMap))
+    if (!parseJsonMap(jsonMap)) {
         return false;
+    }
 
     return true;
 }
@@ -103,17 +106,19 @@ bool JSONArchiveInterface::parseJsonMap(const QVariantMap& jsonMap)
     foreach (const QVariant& entry, jsonMap["entries"].toList()) {
         const QVariantMap entryMap = entry.toMap();
 
-        if (!entryMap.contains(QLatin1String("FileName")))
+        if (!entryMap.contains(QLatin1String("FileName"))) {
             continue;
+        }
 
         Kerfuffle::ArchiveEntry e;
 
         QVariantMap::const_iterator entryIterator = entryMap.constBegin();
         for (; entryIterator != entryMap.constEnd(); ++entryIterator) {
-            if (valueMap.contains(entryIterator.key()))
+            if (valueMap.contains(entryIterator.key())) {
                 e[valueMap[entryIterator.key()]] = entryIterator.value();
-            else
+            } else {
                 kDebug() << entryIterator.key() << "is not a valid entry key";
+            }
         }
 
         m_entryNameList.append(e[Kerfuffle::FileName].toString());
@@ -131,8 +136,9 @@ bool JSONArchiveInterface::addFiles(const QStringList& files, const Kerfuffle::C
     QList<Kerfuffle::ArchiveEntry> entryList;
 
     foreach (const QString& file, files) {
-        if (m_entryNameList.contains(file))
+        if (m_entryNameList.contains(file)) {
             return false;
+        }
 
         Kerfuffle::ArchiveEntry e;
         e[Kerfuffle::FileName] = file;
@@ -166,8 +172,9 @@ bool JSONArchiveInterface::deleteFiles(const QList<QVariant>& files)
     QList<Kerfuffle::ArchiveEntry> newEntryList;
     QStringList newEntryNameList;
     foreach (const Kerfuffle::ArchiveEntry& e, m_entryList) {
-        if (fileList.contains(e[Kerfuffle::FileName].toString()))
+        if (fileList.contains(e[Kerfuffle::FileName].toString())) {
             continue;
+        }
 
         newEntryList.append(e);
         newEntryNameList.append(e[Kerfuffle::FileName].toString());
