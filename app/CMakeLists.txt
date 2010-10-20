@@ -13,7 +13,7 @@ target_link_libraries( ark kerfuffle ${KDE4_KFILE_LIBS} ${KDE4_KPARTS_LIBS} )
 
 install( TARGETS ark  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 install(FILES ark_addtoservicemenu.desktop ark_servicemenu.desktop DESTINATION ${SERVICES_INSTALL_DIR}/ServiceMenus)
-install( FILES ark.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
+install( PROGRAMS ark.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
 install( FILES arkui.rc    DESTINATION ${DATA_INSTALL_DIR}/ark )
 
 ########### konqueror ark_extract_here plugin ###############
