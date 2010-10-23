@@ -5,6 +5,7 @@ MimeType=all/all;
 Actions=compressHere;compressAsZip;compressAsRar;compressAsTar;compressTo;
 X-KDE-Submenu=Compress
 X-KDE-Submenu[ar]=اضغط
+X-KDE-Submenu[ast]=Comprimir
 X-KDE-Submenu[bg]=Компресиране
 X-KDE-Submenu[ca]=Compressió
 X-KDE-Submenu[ca@valencia]=Compressió
@@ -60,6 +61,7 @@ X-KDE-Priority=TopLevel
 [Desktop Action compressHere]
 Name=Here
 Name[ar]=هنا
+Name[ast]=Equí
 Name[ca]=Aquí
 Name[ca@valencia]=Ací
 Name[cs]=Sem
@@ -113,6 +115,7 @@ Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 [Desktop Action compressAsZip]
 Name=As ZIP Archive
 Name[ar]=ك أرشيف ZIP
+Name[ast]=Como archivu comprimíu ZIP
 Name[ca]=Com a arxiu ZIP
 Name[ca@valencia]=Com a arxiu ZIP
 Name[cs]=Jako archiv ZIP
@@ -165,6 +168,7 @@ Exec=ark --changetofirstpath --add --autofilename zip %F
 [Desktop Action compressAsRar]
 Name=As RAR Archive
 Name[ar]=كأرشيف RAR
+Name[ast]=Como archivu comprimíu RAR
 Name[ca]=Com a arxiu RAR
 Name[ca@valencia]=Com a arxiu RAR
 Name[cs]=Jako archiv RAR
@@ -217,6 +221,7 @@ Exec=ark --changetofirstpath --add --autofilename rar %F
 [Desktop Action compressAsTar]
 Name=As ZIP/TAR Archive
 Name[ar]=كأرشيف  ZIP/TAR
+Name[ast]=Como archivu comprimíu ZIP/TAR
 Name[ca]=Com a arxiu ZIP/TAR
 Name[ca@valencia]=Com a arxiu ZIP/TAR
 Name[cs]=Jako archiv ZIP/TAR
@@ -268,6 +273,7 @@ Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 [Desktop Action compressTo]
 Name=Compress To...
 Name[ar]=اضغط إلى...
+Name[ast]=Comprimir en...
 Name[ca]=Comprimeix a...
 Name[ca@valencia]=Comprimeix a...
 Name[cs]=Zkomprimovat do...
