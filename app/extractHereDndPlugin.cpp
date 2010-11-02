@@ -21,14 +21,12 @@
 
 #include "extractHereDndPlugin.h"
 #include "batchextract.h"
-
-#include <QMenu>
-#include <krun.h>
 #include "kerfuffle/archive.h"
 
+#include <KAction>
+#include <KDebug>
 #include <KPluginFactory>
 #include <KPluginLoader>
-#include <KApplication>
 #include <KLocale>
 #include <kfileitemlistproperties.h>
 

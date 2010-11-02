@@ -22,12 +22,8 @@
 #ifndef EXTRACTHEREDNDPLUGIN_H
 #define EXTRACTHEREDNDPLUGIN_H
 
-#include "konq_dndpopupmenuplugin.h"
-#include <konq_popupmenuinformation.h>
-#include <kdebug.h>
 #include <kurl.h>
-
-#include <KAction>
+#include <konq_dndpopupmenuplugin.h>
 
 class ExtractHereDndPlugin : public KonqDndPopupMenuPlugin
 {
