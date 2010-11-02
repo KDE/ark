@@ -63,7 +63,7 @@ void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
                                  KUrl destination,
                                  QList<QAction*>& userActions)
 {
-    const QString extractHereMessage = i18n("Extract here");
+    const QString extractHereMessage = i18nc("@action:inmenu Context menu shown when an archive is being drag'n'dropped", "Extract here");
 
     if (!Kerfuffle::supportedMimeTypes().contains(popupMenuInfo.mimeType())) {
         kDebug() << "Unsupported file" << popupMenuInfo.mimeType() << Kerfuffle::supportedMimeTypes();
