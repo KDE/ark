@@ -63,8 +63,6 @@ void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
                                  KUrl destination,
                                  QList<QAction*>& userActions)
 {
-
-    kDebug() << "plugin setup";
     const QString extractHereMessage = i18n("Extract here");
 
     if (!Kerfuffle::supportedMimeTypes().contains(popupMenuInfo.mimeType())) {
@@ -73,8 +71,6 @@ void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
     }
 
     kDebug() << "Plugin executed";
-    //<< popupMenuInfo.mimeGroup()
-    //<< popupMenuInfo.mimeType();
 
     KAction *action = new KAction(KIcon( QLatin1String( "archive-extract" )), extractHereMessage, NULL);
     connect(action, SIGNAL(triggered()),
@@ -83,7 +79,6 @@ void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
     userActions.append(action);
     m_dest = destination;
     m_urls = popupMenuInfo.urlList();
-
 }
 
 #include "extractHereDndPlugin.moc"
