@@ -18,4 +18,4 @@ install(TARGETS kerfuffle_libarchive  DESTINATION ${PLUGIN_INSTALL_DIR} )
 ########### install files ###############
 
 install( FILES kerfuffle_libarchive.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
-
+install( FILES kerfuffle_libarchive_readonly.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
