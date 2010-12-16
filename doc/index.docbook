@@ -32,8 +32,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2010-07-29</date>
-<releaseinfo>2.15</releaseinfo>
+<date>2010-12-16</date>
+<releaseinfo>2.16 &kde; (4.6)</releaseinfo>
 
 <abstract>
 <para>&ark; is an archive manager for &kde;.</para></abstract>
@@ -111,7 +111,7 @@ menu, you can choose what you want to do:</para>
 <para><guimenuitem>Add Folder...</guimenuitem> will add folders from your disk to the archive.</para>
 </listitem>
 <listitem>
-<para><guimenuitem>Delete</guimenuitem> will remove the currently
+<para><guimenuitem>Delete</guimenuitem> (<keycap>Del</keycap>) will remove the currently
 selected file(s) from the archive.</para>
 </listitem>
 <listitem>
@@ -199,14 +199,14 @@ The menu has these additional items to extract an archive using &ark;:
 
 <itemizedlist>
 <listitem>
-<para><guimenuitem>Extract Here, Autodetect Subfolder</guimenuitem> creates a 
+<para><guimenuitem>Extract Archive Here, Autodetect Subfolder</guimenuitem> creates a 
 subfolder in the folder with the archive and extracts the folders and files into it.</para>
 </listitem>
 <listitem>
-<para><guimenuitem>Extract Archive To...</guimenuitem> works like as in &ark;.</para>
+<para><guimenuitem>Extract Archive To...</guimenuitem> works like in &ark;.</para>
 </listitem>
 <listitem>
-<para><guimenuitem>Extract Here</guimenuitem> extracts the content of the archive into same folder.</para>
+<para><guimenuitem>Extract Archive Here</guimenuitem> extracts the content of the archive into same folder.</para>
 </listitem>
 </itemizedlist>
 
