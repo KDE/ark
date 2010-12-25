@@ -66,7 +66,7 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
     QFile outputFile(outputFileName);
     if (!outputFile.open(QIODevice::WriteOnly)) {
         kDebug() << "Failed to open output file" << outputFile.errorString();
-        error(i18n("Ark could not extract <filename>%1</filename>.", outputFile.fileName()));
+        error(i18nc("@info", "Ark could not extract <filename>%1</filename>.", outputFile.fileName()));
 
         return false;
     }
@@ -74,7 +74,7 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
     QIODevice *device = KFilterDev::deviceForFile(filename(), m_mimeType, false);
     if (!device) {
         kDebug() << "Could not create KFilterDev";
-        error(i18n("Ark could not open <filename>%1</filename> for extraction.", filename()));
+        error(i18nc("@info", "Ark could not open <filename>%1</filename> for extraction.", filename()));
 
         return false;
     }
@@ -88,7 +88,7 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
         bytesRead = device->read(dataChunk.data(), dataChunk.size());
 
         if (bytesRead == -1) {
-            error(i18n("There was an error while reading <filename>%1</filename> during extraction.", filename()));
+            error(i18nc("@info", "There was an error while reading <filename>%1</filename> during extraction.", filename()));
             break;
         } else if (bytesRead == 0) {
             break;

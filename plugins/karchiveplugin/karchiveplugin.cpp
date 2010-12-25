@@ -61,7 +61,7 @@ bool KArchiveInterface::list()
 {
     kDebug();
     if (!archive()->isOpen() && !archive()->open(QIODevice::ReadOnly)) {
-        error(i18n("Could not open the archive <filename>%1</filename> for reading", filename()));
+        error(i18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
         return false;
     } else {
         return browseArchive(archive());
@@ -71,7 +71,7 @@ bool KArchiveInterface::list()
 bool KArchiveInterface::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths)
 {
     if (!archive()->isOpen() && !archive()->open(QIODevice::ReadOnly)) {
-        error(i18n("Could not open the archive <filename>%1</filename> for reading", filename()));
+        error(i18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
         return false;
     }
 
@@ -79,7 +79,7 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> & files, const QString &
         QString realDestination = destinationDirectory;
         const KArchiveEntry *archiveEntry = archive()->directory()->entry(file.toString());
         if (!archiveEntry) {
-            error(i18n("File <filename>%1</filename> not found in the archive" , file.toString()));
+            error(i18nc("@info", "File <filename>%1</filename> not found in the archive" , file.toString()));
             return false;
         }
 
@@ -148,7 +148,7 @@ bool KArchiveInterface::addFiles(const QStringList & files)
         archive()->close();
     }
     if (!archive()->open(QIODevice::ReadWrite)) {
-        error(i18n("Could not open the archive <filename>%1</filename> for writing.", filename()));
+        error(i18nc("@info", "Could not open the archive <filename>%1</filename> for writing.", filename()));
         return false;
     }
 
@@ -165,7 +165,7 @@ bool KArchiveInterface::addFiles(const QStringList & files)
                 createEntryFor(entry, "");
                 processDir((KArchiveDirectory*) archive()->directory()->entry(fi.fileName()), fi.fileName());
             } else {
-                error(i18n("Could not add the directory <filename>%1</filename> to the archive", path));
+                error(i18nc("@info", "Could not add the directory <filename>%1</filename> to the archive", path));
                 return false;
             }
         } else {
@@ -173,7 +173,7 @@ bool KArchiveInterface::addFiles(const QStringList & files)
                 const KArchiveEntry *entry = archive()->directory()->entry(fi.fileName());
                 createEntryFor(entry, "");
             } else {
-                error(i18n("Could not add the file <filename>%1</filename> to the archive.", path));
+                error(i18nc("@info", "Could not add the file <filename>%1</filename> to the archive.", path));
                 return false;
             }
         }
