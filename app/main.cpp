@@ -45,12 +45,12 @@ int main(int argc, char **argv)
                          "http://utils.kde.org/projects/ark"
                         );
 
-    aboutData.addAuthor(ki18n("Harald Hvaal"),
-                        ki18n("Maintainer"),
-                        "haraldhv@stud.ntnu.no");
     aboutData.addAuthor(ki18n("Raphael Kubo da Costa"),
                         ki18n("Maintainer"),
                         "kubito@gmail.com");
+    aboutData.addAuthor(ki18n("Harald Hvaal"),
+                        ki18n("Former Maintainer"),
+                        "haraldhv@stud.ntnu.no");
     aboutData.addAuthor(ki18n("Henrique Pinto"),
                         ki18n("Former Maintainer"),
                         "henrique.pinto@kdemail.net");
