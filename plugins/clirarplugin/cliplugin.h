@@ -40,7 +40,9 @@ public:
 
 private:
     enum {
-        ParseStateHeader = 0,
+        ParseStateColumnDescription1 = 0,
+        ParseStateColumnDescription2,
+        ParseStateHeader,
         ParseStateEntryFileName,
         ParseStateEntryDetails,
         ParseStateEntryIgnoredDetails
@@ -51,6 +53,8 @@ private:
     bool m_isPasswordProtected;
 
     int m_remainingIgnoredSubHeaderLines;
+
+    bool m_isUnrarFree;
 };
 
 #endif // CLIPLUGIN_H

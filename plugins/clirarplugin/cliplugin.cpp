@@ -35,8 +35,9 @@ using namespace Kerfuffle;
 
 CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
         : CliInterface(parent, args)
-        , m_parseState(ParseStateHeader)
+        , m_parseState(ParseStateColumnDescription1)
         , m_remainingIgnoredSubHeaderLines(0)
+        , m_isUnrarFree(false)
 {
 }
 
@@ -87,67 +88,99 @@ bool CliPlugin::readListLine(const QString &line)
 {
     static const QLatin1String headerString("----------------------");
     static const QLatin1String subHeaderString("Data header type: ");
+    static const QLatin1String columnDescription1String("                  Size   Packed Ratio  Date   Time     Attr      CRC   Meth Ver");
+    static const QLatin1String columnDescription2String("               Host OS    Solid   Old"); // Only present in unrar-nonfree
 
-    if (line.startsWith(headerString)) {
-        if (m_parseState == ParseStateHeader) { // Skip the heading
-            m_parseState = ParseStateEntryFileName;
-        } else { // Catch the final line
-            m_parseState = ParseStateHeader;
+    switch (m_parseState)
+    {
+    case ParseStateColumnDescription1:
+        if (line.startsWith(columnDescription1String)) {
+            m_parseState = ParseStateColumnDescription2;
         }
 
-        return true;
-    }
+        break;
 
-    if (m_parseState == ParseStateHeader) {
-        return true;
-    } else if (m_parseState == ParseStateEntryIgnoredDetails) {
-        m_parseState = ParseStateEntryFileName;
-        return true;
-    }
+    case ParseStateColumnDescription2:
+        // #243273: We need a way to differentiate unrar and unrar-free,
+        //          as their output for the "vt" option is different.
+        //          Currently, we differ them by checking if "vt" produces
+        //          two lines of column names before the header string, as
+        //          only unrar does that (unrar-free always outputs one line
+        //          for column names regardless of how verbose we tell it to
+        //          be).
+        if (line.startsWith(columnDescription2String)) {
+            m_parseState = ParseStateHeader;
+        } else if (line.startsWith(headerString)) {
+            m_parseState = ParseStateEntryFileName;
+            m_isUnrarFree = true;
+        }
 
-    if (m_remainingIgnoredSubHeaderLines > 0) {
-        --m_remainingIgnoredSubHeaderLines;
-        return true;
-    }
+        break;
 
-    // #242071: The RAR file format has the concept of subheaders, such as
-    //          CMT for comments and STM for NTFS streams (?).
-    //          Since the format is undocumented, we cannot do much, and
-    //          ignoring them seems harmless (at least 7zip and WinRAR do not
-    //          show them either).
-    if (line.startsWith(subHeaderString)) {
-        // subHeaderString's length is 18
-        const QString subHeaderType(line.mid(18));
+    case ParseStateHeader:
+        if (line.startsWith(headerString)) {
+            m_parseState = ParseStateEntryFileName;
+        }
 
-        // XXX: If we ever support archive comments, this code must
-        //      be changed, because the comments will be shown after
-        //      a CMT subheader and will have an arbitrary number of lines
-        if (subHeaderType == QLatin1String("STM"))
-            m_remainingIgnoredSubHeaderLines = 4;
-        else
-            m_remainingIgnoredSubHeaderLines = 3;
+        break;
 
-        kDebug() << "Found a subheader of type" << subHeaderType;
-        kDebug() << "The next" << m_remainingIgnoredSubHeaderLines
-                 << "lines will be ignored";
+    case ParseStateEntryFileName:
+        if (m_remainingIgnoredSubHeaderLines > 0) {
+            --m_remainingIgnoredSubHeaderLines;
+            return true;
+        }
 
-        return true;
-    }
+        // #242071: The RAR file format has the concept of subheaders, such as
+        //          CMT for comments and STM for NTFS streams (?).
+        //          Since the format is undocumented, we cannot do much, and
+        //          ignoring them seems harmless (at least 7zip and WinRAR do
+        //          notes show them either).
+        if (line.startsWith(subHeaderString)) {
+            // subHeaderString's length is 18
+            const QString subHeaderType(line.mid(18));
 
-    if (m_parseState == ParseStateEntryFileName) {
-        m_isPasswordProtected = (line.at(0) == '*');
+            // XXX: If we ever support archive comments, this code must
+            //      be changed, because the comments will be shown after
+            //      a CMT subheader and will have an arbitrary number of lines
+            if (subHeaderType == QLatin1String("STM")) {
+                m_remainingIgnoredSubHeaderLines = 4;
+            } else {
+                m_remainingIgnoredSubHeaderLines = 3;
+            }
+
+            kDebug() << "Found a subheader of type" << subHeaderType;
+            kDebug() << "The next" << m_remainingIgnoredSubHeaderLines
+                     << "lines will be ignored";
+
+            return true;
+        } else if (line.startsWith(headerString)) {
+            m_parseState = ParseStateHeader;
+
+            return true;
+        }
+
+        m_isPasswordProtected = (line.at(0) == QLatin1Char( '*' ));
 
         // Start from 1 because the first character is either ' ' or '*'
         m_entryFileName = QDir::fromNativeSeparators(line.mid(1));
 
         m_parseState = ParseStateEntryDetails;
 
-        return true;
-    } else if (m_parseState == ParseStateEntryDetails) {
-        const QStringList details = line.split(' ', QString::SkipEmptyParts);
+        break;
 
-        QDateTime ts(QDate::fromString(details.at(3), "dd-MM-yy"),
-                     QTime::fromString(details.at(4), "hh:mm"));
+    case ParseStateEntryIgnoredDetails:
+        m_parseState = ParseStateEntryFileName;
+
+        break;
+
+    case ParseStateEntryDetails:
+        const QStringList details = line.split(QLatin1Char( ' ' ),
+                                               QString::SkipEmptyParts);
+
+        QDateTime ts(QDate::fromString(details.at(3),
+                                       QLatin1String("dd-MM-yy")),
+                     QTime::fromString(details.at(4),
+                                       QLatin1String("hh:mm")));
 
         // unrar outputs dates with a 2-digit year but QDate takes it as 19??
         // let's take 1950 is cut-off; similar to KDateTime
@@ -194,7 +227,15 @@ bool CliPlugin::readListLine(const QString &line)
 
         entry(e);
 
-        m_parseState = ParseStateEntryIgnoredDetails;
+        // #243273: unrar-free does not output the third file entry line,
+        //          skip directly to parsing a new entry.
+        if (m_isUnrarFree) {
+            m_parseState = ParseStateEntryFileName;
+        } else {
+            m_parseState = ParseStateEntryIgnoredDetails;
+        }
+
+        break;
     }
 
     return true;
