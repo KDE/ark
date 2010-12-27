@@ -99,7 +99,7 @@ bool LibArchiveInterface::list()
     }
 
     if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        error(i18n("Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
+        error(i18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
                    filename()), QString());
         return false;
     }
@@ -122,7 +122,7 @@ bool LibArchiveInterface::list()
     }
 
     if (result != ARCHIVE_EOF) {
-        error(i18n("The archive reading failed with the following error: <message>%1</message>",
+        error(i18nc("@info", "The archive reading failed with the following error: <message>%1</message>",
                    QLatin1String( archive_error_string(arch_reader.data()))) );
         return false;
     }
@@ -156,7 +156,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
     }
 
     if (archive_read_open_filename(arch.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        error(i18n("Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
+        error(i18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
                    filename()));
         return false;
     }
@@ -391,7 +391,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
         }
 
         if (ret != ARCHIVE_OK) {
-            error(i18n("Setting the compression method failed with the following error: <message>%1</message>",
+            error(i18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>",
                        QLatin1String(archive_error_string(arch_writer.data()))));
 
             return false;
@@ -423,14 +423,14 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
         }
 
         if (ret != ARCHIVE_OK) {
-            error(i18n("Setting the compression method failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
+            error(i18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
             return false;
         }
     }
 
     ret = archive_write_open_filename(arch_writer.data(), QFile::encodeName(tempFilename));
     if (ret != ARCHIVE_OK) {
-        error(i18n("Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
+        error(i18nc("@info", "Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
     }
 
@@ -568,13 +568,13 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
     }
 
     if (ret != ARCHIVE_OK) {
-        error(i18n("Setting the compression method failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
+        error(i18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
     }
 
     ret = archive_write_open_filename(arch_writer.data(), QFile::encodeName(tempFilename));
     if (ret != ARCHIVE_OK) {
-        error(i18n("Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
+        error(i18nc("@info", "Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
     }
 
