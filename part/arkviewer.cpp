@@ -37,6 +37,7 @@
 #include <khtml_part.h>
 
 #include <QHBoxLayout>
+#include <QFile>
 #include <QFrame>
 #include <QLabel>
 
@@ -69,15 +70,30 @@ void ArkViewer::dialogClosed()
         progressDialog.progressBar()->setRange(0, 0);
 
         m_part.data()->closeUrl();
+
+        // #261785: this preview dialog is not modal, so we need to delete
+        //          the previewed file ourselves when the dialog is closed;
+        //          we used to remove it at the end of ArkViewer::view() when
+        //          QDialog::exec() was called instead of QDialog::show().
+        const QString previewedFilePath(m_part.data()->url().pathOrUrl());
+        if (!previewedFilePath.isEmpty()) {
+            QFile::remove(previewedFilePath);
+        }
     }
 }
 
+// TODO: We call QFile::remove() in many different places here (#261785), which
+//       is very error-prone.
+//       In the future, we could make this method non-static and try to
+//       centralize the call to QFile::remove().
 void ArkViewer::view(const QString& filename, QWidget *parent)
 {
     KService::Ptr viewer = ArkViewer::getViewer(filename);
 
     if (viewer.isNull()) {
         KMessageBox::sorry(parent, i18n("The internal viewer cannot preview this file."));
+
+        QFile::remove(filename);
     } else if (viewer->hasServiceType(QLatin1String( "KParts/ReadOnlyPart" ))) {
         ArkViewer *internalViewer = new ArkViewer(parent, Qt::Window);
 
@@ -86,19 +102,17 @@ void ArkViewer::view(const QString& filename, QWidget *parent)
         if (!internalViewer->viewInInternalViewer(filename)) {
             KMessageBox::sorry(parent, i18n("The internal viewer cannot preview this file."));
             delete internalViewer;
+
+            QFile::remove(filename);
+
             return;
         }
 
         internalViewer->show();
     } else { // Try to open it in an external application
         KUrl fileUrl(filename);
-        KRun::runUrl(fileUrl, KMimeType::findByUrl(fileUrl, 0, true)->name(), parent);
-        return;
+        KRun::runUrl(fileUrl, KMimeType::findByUrl(fileUrl, 0, true)->name(), parent, true);
     }
-
-    // Unlink the temp file (not used by the external viewer since KRun will do that for us at
-    // the right moment
-    KIO::NetAccess::del(KUrl(filename), parent);
 }
 
 void ArkViewer::keyPressEvent(QKeyEvent *event)
