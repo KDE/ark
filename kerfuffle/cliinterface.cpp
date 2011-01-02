@@ -319,13 +319,11 @@ bool CliInterface::createProcess()
 {
     kDebug();
 
-    if (m_process) {
-        delete m_process;
-        m_process = 0;
-    }
+    delete m_process;
+    m_process = 0;
 
     m_stdOutData.clear();
-
+    
     m_process = new KProcess();
     m_process->setTextModeEnabled(true);
     m_process->setOutputChannelMode(KProcess::MergedChannels);

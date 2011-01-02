@@ -117,7 +117,6 @@ private:
     QList<int> m_showColumns;
     Kerfuffle::Archive *m_archive;
     ArchiveDirNode *m_rootNode;
-    KJobTrackerInterface *m_jobTracker;
 };
 
 #endif // ARCHIVEMODEL_H
