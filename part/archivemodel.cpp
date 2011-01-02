@@ -228,7 +228,12 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
             case FileName:
                 return node->m_name;
             case Size:
-                if (node->isDir() || node->entry().contains(Link)) {
+                if (node->isDir()) {
+                    int dirs;
+                    int files;
+                    const int children = childCount(index, dirs, files);
+                    return KIO::itemsSummaryString(children, files, dirs, 0, false);
+                } else if (node->entry().contains(Link)) {
                     return QVariant();
                 } else {
                     return KIO::convertSize(node->entry()[ Size ].toULongLong());
@@ -379,13 +384,22 @@ ArchiveEntry ArchiveModel::entryForIndex(const QModelIndex &index)
     return ArchiveEntry();
 }
 
-int ArchiveModel::childCount(const QModelIndex &index)
+int ArchiveModel::childCount(const QModelIndex &index, int &dirs, int &files) const
 {
     if (index.isValid()) {
+        dirs = files = 0;
         ArchiveNode *item = static_cast<ArchiveNode*>(index.internalPointer());
         Q_ASSERT(item);
         if (item->isDir()) {
-            return static_cast<ArchiveDirNode*>(item)->entries().count();
+            const QList<ArchiveNode*> entries = static_cast<ArchiveDirNode*>(item)->entries();
+            foreach(const ArchiveNode *node, entries) {
+                if (node->isDir()) {
+                    dirs++;
+                } else {
+                    files++;
+                }
+            }
+            return entries.count();
         }
         return 0;
     }

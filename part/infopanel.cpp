@@ -109,7 +109,10 @@ void InfoPanel::setIndex(const QModelIndex& index)
 
         iconLabel->setPixmap(getMimeIcon(mimeType->iconName()));
         if (entry[ IsDirectory ].toBool()) {
-            additionalInfo->setText(i18np("One item", "%1 items", m_model->childCount(index)));
+            int dirs;
+            int files;
+            const int children = m_model->childCount(index, dirs, files);
+            additionalInfo->setText(KIO::itemsSummaryString(children, files, dirs, 0, false));
         } else if (entry.contains(Link)) {
             additionalInfo->setText(i18n("Symbolic Link"));
         } else {
