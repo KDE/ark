@@ -33,7 +33,7 @@ public:
     explicit CliPlugin(const QString & filename, QObject *parent = 0)
             : CliInterface(filename, parent),
             m_isFirstLine(true),
-            m_incontent(false) {
+            m_incontent(false), m_isPasswordProtected(false) {
     }
 
     virtual ~CliPlugin() {

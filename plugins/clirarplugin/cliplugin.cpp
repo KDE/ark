@@ -36,6 +36,7 @@ using namespace Kerfuffle;
 CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
         : CliInterface(parent, args)
         , m_parseState(ParseStateColumnDescription1)
+	, m_isPasswordProtected(false)
         , m_remainingIgnoredSubHeaderLines(0)
         , m_isUnrarFree(false)
 {
