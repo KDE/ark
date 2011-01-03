@@ -174,6 +174,11 @@ bool CliPlugin::readListLine(const QString &line)
         break;
 
     case ParseStateEntryDetails:
+        if (line.startsWith(headerString)) {
+            m_parseState = ParseStateHeader;
+            return true;
+        }
+
         const QStringList details = line.split(QLatin1Char( ' ' ),
                                                QString::SkipEmptyParts);
 
