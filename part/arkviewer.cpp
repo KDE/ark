@@ -69,13 +69,14 @@ void ArkViewer::dialogClosed()
         progressDialog.setAllowCancel(false);
         progressDialog.progressBar()->setRange(0, 0);
 
-        m_part.data()->closeUrl();
-
         // #261785: this preview dialog is not modal, so we need to delete
         //          the previewed file ourselves when the dialog is closed;
         //          we used to remove it at the end of ArkViewer::view() when
         //          QDialog::exec() was called instead of QDialog::show().
         const QString previewedFilePath(m_part.data()->url().pathOrUrl());
+
+        m_part.data()->closeUrl();
+
         if (!previewedFilePath.isEmpty()) {
             QFile::remove(previewedFilePath);
         }
