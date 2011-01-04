@@ -13,6 +13,7 @@ X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=false
 Name=kerfuffle_libarchive_readonly
 Name[ca]=kerfuffle_libarchive_readonly
+Name[ca@valencia]=kerfuffle_libarchive_readonly
 Name[da]=kerfuffle_libarchive_readonly
 Name[de]=kerfuffle_libarchive_readonly
 Name[en_GB]=kerfuffle_libarchive_readonly
