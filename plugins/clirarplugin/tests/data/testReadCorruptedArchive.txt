@@ -1,0 +1,23 @@
+UNRAR 3.90 beta 3 freeware      Copyright (c) 1993-2009 Alexander Roshal
+
+Volume foo.r45
+
+Recovery record is present
+
+Pathname/Comment
+                  Size   Packed Ratio  Date   Time     Attr      CRC   Meth Ver
+               Host OS    Solid   Old
+-------------------------------------------------------------------------------
+ some-file.ext
+              732522496 14851208  <-> 29-10-10 20:47  .....A.   0868E5EA m0g 2.0
+              Win95/NT       No   No
+Data header type: RR
+ RR
+                148638   148638 100% 00-00-80 00:00   .....B   3622BF05 m0a 2.9
+              Win95/NT       No   No
+??? - the file header is corrupt
+-------------------------------------------------------------------------------
+    0                0 14851208   0%       volume 46
+
+    1        732522496 732522496 100%
+
