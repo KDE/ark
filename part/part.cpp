@@ -784,7 +784,14 @@ void Part::slotDeleteFiles()
 {
     kDebug();
 
-    const int reallyDelete = KMessageBox::questionYesNo(NULL, i18n("Deleting these files is not undoable. Are you sure you want to do this?"), i18nc("@title:window", "Delete files") , KStandardGuiItem::del(), KStandardGuiItem::cancel());
+    const int reallyDelete =
+        KMessageBox::questionYesNo(NULL,
+                                   i18n("Deleting these files is not undoable. Are you sure you want to do this?"),
+                                   i18nc("@title:window", "Delete files"),
+                                   KStandardGuiItem::del(),
+                                   KStandardGuiItem::cancel(),
+                                   QString(),
+                                   KMessageBox::Dangerous | KMessageBox::Notify);
 
     if (reallyDelete == KMessageBox::No) {
         return;
