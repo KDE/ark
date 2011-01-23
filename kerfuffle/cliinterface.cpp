@@ -353,7 +353,6 @@ bool CliInterface::executeProcess(const QString& path, const QStringList & args)
 
 void CliInterface::started()
 {
-    //m_state = 0;
     m_userCancelled = false;
 }
 
