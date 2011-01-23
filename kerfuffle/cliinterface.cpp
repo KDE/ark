@@ -323,7 +323,7 @@ bool CliInterface::createProcess()
     m_process = 0;
 
     m_stdOutData.clear();
-    
+
     m_process = new KProcess();
     m_process->setTextModeEnabled(true);
     m_process->setOutputChannelMode(KProcess::MergedChannels);
