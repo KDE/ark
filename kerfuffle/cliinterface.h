@@ -255,11 +255,8 @@ public:
     void setEscapedCharacters(const QString& characters);
 
 private:
-    bool findProgramAndCreateProcess(const QString& program);
     void substituteListVariables(QStringList& params);
 
-    bool createProcess();
-    bool executeProcess(const QString& path, const QStringList & args);
     void cacheParameterList();
     bool checkForFileExistsMessage(const QString& line);
     bool handleFileExistsMessage(const QString& filename);
@@ -267,6 +264,18 @@ private:
     void handleLine(const QString& line);
 
     void failOperation();
+
+    /**
+     * Run @p programName with the given @p arguments.
+     * The method waits until @p programName is finished to exit.
+     *
+     * @param programName The program that will be run (not the whole path).
+     * @param arguments A list of arguments that will be passed to the program.
+     *
+     * @return @c true if the program was found and the process ran correctly,
+     *         @c false otherwise.
+     */
+    bool runProcess(const QString& programName, const QStringList& arguments);
 
     /**
      * Precedes the characters returned by escapedCharacters() with a
