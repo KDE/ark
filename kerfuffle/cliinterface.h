@@ -326,7 +326,6 @@ private:
     KPtyProcess *m_process;
 #endif
 
-    QString m_program;
     ParameterList m_param;
     QVariantList m_removedFiles;
 
