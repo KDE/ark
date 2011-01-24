@@ -49,6 +49,10 @@ CliInterface::CliInterface(QObject *parent, const QVariantList & args)
 {
     //because this interface uses the event loop
     setWaitForFinishedSignal(true);
+
+    if (QMetaType::type("QProcess::ExitStatus") == 0) {
+        qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
+    }
 }
 
 void CliInterface::cacheParameterList()
@@ -327,10 +331,6 @@ bool CliInterface::createProcess()
     m_process = new KProcess();
     m_process->setTextModeEnabled(true);
     m_process->setOutputChannelMode(KProcess::MergedChannels);
-
-    if (QMetaType::type("QProcess::ExitStatus") == 0) {
-        qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
-    }
 
     connect(m_process, SIGNAL(started()), SLOT(started()), Qt::DirectConnection);
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
