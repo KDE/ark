@@ -28,7 +28,13 @@
 #include "cliinterface.h"
 #include "queries.h"
 
-#include <KProcess>
+#ifdef Q_OS_WIN
+# include <KProcess>
+#else
+# include <KPtyDevice>
+# include <KPtyProcess>
+#endif
+
 #include <KStandardDirs>
 #include <KDebug>
 #include <KLocale>
@@ -38,6 +44,7 @@
 #include <QDir>
 #include <QEventLoop>
 #include <QFile>
+#include <QProcess>
 #include <QThread>
 #include <QTimer>
 
@@ -322,7 +329,13 @@ bool CliInterface::runProcess(const QString& programName, const QStringList& arg
 
     kDebug() << "Executing" << programPath << arguments;
 
+#ifdef Q_OS_WIN
     m_process = new KProcess();
+#else
+    m_process = new KPtyProcess();
+    m_process->setPtyChannels(KPtyProcess::StdinChannel);
+#endif
+
     m_process->setTextModeEnabled(true);
     m_process->setOutputChannelMode(KProcess::MergedChannels);
     m_process->setNextOpenMode(QIODevice::ReadWrite | QIODevice::Unbuffered);
@@ -335,12 +348,18 @@ bool CliInterface::runProcess(const QString& programName, const QStringList& arg
     m_stdOutData.clear();
 
     m_process->start();
-    m_process->waitForFinished(-1);
+
+#ifdef Q_OS_WIN
+    bool ret = m_process->waitForFinished(-1);
+#else
+    QEventLoop loop;
+    bool ret = loop.exec(QEventLoop::WaitForMoreEvents | QEventLoop::ExcludeUserInputEvents);
+#endif
 
     delete m_process;
     m_process = 0;
 
-    return true;
+    return ret;
 }
 
 void CliInterface::started()
@@ -561,9 +580,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
 
     responseToProcess += QLatin1Char( '\n' );
 
-    kDebug() << "Writing " << responseToProcess;
-
-    m_process->write(responseToProcess.toLocal8Bit());
+    writeToProcess(responseToProcess.toLocal8Bit());
 
     return true;
 }
@@ -652,6 +669,20 @@ QString CliInterface::escapeFileName(const QString& fileName)
     }
 
     return quoted;
+}
+
+void CliInterface::writeToProcess(const QByteArray& data)
+{
+    Q_ASSERT(m_process);
+    Q_ASSERT(!data.isNull());
+
+    kDebug() << "Writing" << data << "to the process";
+
+#ifdef Q_OS_WIN
+    m_process->write(data);
+#else
+    m_process->pty()->write(data);
+#endif
 }
 
 }

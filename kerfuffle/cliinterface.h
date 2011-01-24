@@ -33,6 +33,7 @@
 #include <QtCore/QRegExp>
 
 class KProcess;
+class KPtyProcess;
 
 namespace Kerfuffle
 {
@@ -285,11 +286,22 @@ private:
      */
     QString escapeFileName(const QString& fileName);
 
+    /**
+     * Wrapper around KProcess::write() or KPtyDevice::write(), depending on
+     * the platform.
+     */
+    void writeToProcess(const QByteArray& data);
+
     QByteArray m_stdOutData;
     bool m_userCancelled;
     QRegExp m_existsPattern;
 
+#ifdef Q_OS_WIN
     KProcess *m_process;
+#else
+    KPtyProcess *m_process;
+#endif
+
     QString m_program;
     ParameterList m_param;
     QVariantList m_removedFiles;
