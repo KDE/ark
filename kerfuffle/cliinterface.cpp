@@ -443,6 +443,7 @@ void CliInterface::readStdout(bool handleAll)
     bool foundErrorMessage =
         (checkForErrorMessage(QLatin1String( lines.last() ), WrongPasswordPatterns) ||
          checkForErrorMessage(QLatin1String( lines.last() ), ExtractionFailedPatterns) ||
+         checkForPasswordPromptMessage(QLatin1String(lines.last())) ||
          checkForFileExistsMessage(QLatin1String( lines.last() )));
 
     if (foundErrorMessage) {
@@ -508,6 +509,26 @@ void CliInterface::handleLine(const QString& line)
     }
 
     if (m_operationMode == List) {
+        if (checkForPasswordPromptMessage(line)) {
+            kDebug() << "Found a password prompt";
+
+            Kerfuffle::PasswordNeededQuery query(filename());
+            userQuery(&query);
+            query.waitForResponse();
+
+            if (query.responseCancelled()) {
+                failOperation();
+                return;
+            }
+
+            setPassword(query.password());
+
+            const QString response(password() + QLatin1Char('\n'));
+            writeToProcess(response.toLocal8Bit());
+
+            return;
+        }
+
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             kDebug() << "Wrong password!";
             error(i18n("Incorrect password."));
@@ -530,6 +551,24 @@ void CliInterface::handleLine(const QString& line)
         readListLine(line);
         return;
     }
+}
+
+bool CliInterface::checkForPasswordPromptMessage(const QString& line)
+{
+    const QString passwordPromptPattern(m_param.value(PasswordPromptPattern).toString());
+
+    if (passwordPromptPattern.isEmpty())
+        return false;
+
+    if (m_passwordPromptPattern.isEmpty()) {
+        m_passwordPromptPattern.setPattern(m_param.value(PasswordPromptPattern).toString());
+    }
+
+    if (m_passwordPromptPattern.indexIn(line) != -1) {
+        return true;
+    }
+
+    return false;
 }
 
 bool CliInterface::checkForFileExistsMessage(const QString& line)

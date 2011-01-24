@@ -69,6 +69,8 @@ ParameterList CliPlugin::parameterList() const
                              << QLatin1String( "S" ) //autoskip
                              << QLatin1String( "Q" ) //cancel
                              ;
+
+        p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) :");
     }
 
     return p;

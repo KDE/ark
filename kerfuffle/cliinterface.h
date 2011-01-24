@@ -49,6 +49,13 @@ enum CliInterfaceParameters {
      */
     CaptureProgress = 0,
 
+    /**
+     * QString
+     * Default: empty
+     * A regexp pattern that matches the program's password prompt.
+     */
+    PasswordPromptPattern,
+
     ///////////////[ LIST ]/////////////
 
     /**
@@ -259,6 +266,21 @@ private:
     void substituteListVariables(QStringList& params);
 
     void cacheParameterList();
+
+    /**
+     * Checks whether a line of the program's output is a password prompt.
+     *
+     * It uses the regular expression in the @c PasswordPromptPattern parameter
+     * for the check.
+     *
+     * @param line A line of the program's output.
+     *
+     * @return @c true if the given @p line is a password prompt, @c false
+     * otherwise.
+     */
+
+    bool checkForPasswordPromptMessage(const QString& line);
+
     bool checkForFileExistsMessage(const QString& line);
     bool handleFileExistsMessage(const QString& filename);
     bool checkForErrorMessage(const QString& line, int parameterIndex);
@@ -295,6 +317,7 @@ private:
     QByteArray m_stdOutData;
     bool m_userCancelled;
     QRegExp m_existsPattern;
+    QRegExp m_passwordPromptPattern;
 
 #ifdef Q_OS_WIN
     KProcess *m_process;
