@@ -156,6 +156,9 @@ void ArchiveBase::listIfNotListed()
     if (!m_hasBeenListed) {
         KJob *job = list();
 
+        connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
+                SLOT(onUserQuery(Kerfuffle::Query*)));
+
         QEventLoop loop(this);
 
         connect(job, SIGNAL(result(KJob*)),
@@ -163,6 +166,11 @@ void ArchiveBase::listIfNotListed()
         job->start();
         loop.exec(); // krazy:exclude=crashy
     }
+}
+
+void ArchiveBase::onUserQuery(Query* query)
+{
+    query->execute();
 }
 
 bool ArchiveBase::isSingleFolderArchive()
