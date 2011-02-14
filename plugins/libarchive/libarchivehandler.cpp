@@ -221,7 +221,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             QFileInfo entryFI(entryName);
             //kDebug() << "setting path to " << archive_entry_pathname( entry );
 
-            QString fileWithoutPath = entryFI.fileName();
+            const QString fileWithoutPath(entryFI.fileName());
 
             //if we DON'T preserve paths, we cut the path and set the entryFI
             //fileinfo to the one without the path
@@ -236,9 +236,9 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                 //OR, if the commonBase has been set, then we remove this
                 //common base from the filename
             } else if (!rootNode.isEmpty()) {
-                QString truncatedFilename;
-                truncatedFilename = entryName.remove(0, rootNode.size());
+                const QString truncatedFilename(entryName.remove(0, rootNode.size()));
                 kDebug() << "Truncated filename: " << truncatedFilename;
+
                 archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
 
                 entryFI = QFileInfo(truncatedFilename);
@@ -269,7 +269,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                         skipAll = true;
                         continue;
                     } else if (query.responseRename()) {
-                        QString newName = query.newFilename();
+                        const QString newName(query.newFilename());
                         archive_entry_copy_pathname(entry, QFile::encodeName(newName).constData());
                         goto retry;
                     } else if (query.responseOverwriteAll()) {
