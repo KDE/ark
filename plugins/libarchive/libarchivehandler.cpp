@@ -192,7 +192,11 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
     bool skipAll = false; // Whether to skip all files
     struct archive_entry *entry;
 
+    QString fileBeingRenamed;
+
     while (archive_read_next_header(arch.data(), &entry) == ARCHIVE_OK) {
+        fileBeingRenamed.clear();
+
         // retry with renamed entry, fire an overwrite query again
         // if the new entry also exists
     retry:
@@ -215,7 +219,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             return false;
         }
 
-        if (files.contains(entryName) || extractAll) {
+        if (files.contains(entryName) || entryName == fileBeingRenamed || extractAll) {
             // entryFI is the fileinfo pointing to where the file will be
             // written from the archive
             QFileInfo entryFI(entryName);
@@ -270,6 +274,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                         continue;
                     } else if (query.responseRename()) {
                         const QString newName(query.newFilename());
+                        fileBeingRenamed = newName;
                         archive_entry_copy_pathname(entry, QFile::encodeName(newName).constData());
                         goto retry;
                     } else if (query.responseOverwriteAll()) {
