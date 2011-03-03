@@ -670,7 +670,7 @@ int LibArchiveInterface::extractionFlags() const
 
 void LibArchiveInterface::copyData(const QString& filename, struct archive *dest, bool partialprogress)
 {
-    char buff[ARCHIVE_DEFAULT_BYTES_PER_BLOCK];
+    char buff[10240];
     ssize_t readBytes;
     QFile file(filename);
 
@@ -700,7 +700,7 @@ void LibArchiveInterface::copyData(const QString& filename, struct archive *dest
 
 void LibArchiveInterface::copyData(struct archive *source, struct archive *dest, bool partialprogress)
 {
-    char buff[ARCHIVE_DEFAULT_BYTES_PER_BLOCK];
+    char buff[10240];
     ssize_t readBytes;
 
     readBytes = archive_read_data(source, buff, sizeof(buff));
