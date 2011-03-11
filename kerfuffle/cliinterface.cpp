@@ -354,7 +354,7 @@ bool CliInterface::runProcess(const QString& programName, const QStringList& arg
     bool ret = m_process->waitForFinished(-1);
 #else
     QEventLoop loop;
-    bool ret = loop.exec(QEventLoop::WaitForMoreEvents | QEventLoop::ExcludeUserInputEvents);
+    bool ret = (loop.exec(QEventLoop::WaitForMoreEvents | QEventLoop::ExcludeUserInputEvents) == 0);
 #endif
 
     delete m_process;
