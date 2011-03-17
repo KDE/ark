@@ -33,7 +33,7 @@
 K_PLUGIN_FACTORY(ExtractHerePluginFactory,
                  registerPlugin<ExtractHereDndPlugin>();
                 )
-K_EXPORT_PLUGIN(ExtractHerePluginFactory("stupidname"))
+K_EXPORT_PLUGIN(ExtractHerePluginFactory("stupidname", "ark"))
 
 void ExtractHereDndPlugin::slotTriggered()
 {
