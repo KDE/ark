@@ -480,28 +480,15 @@ QStringList ArchiveModel::mimeTypes() const
 QMimeData * ArchiveModel::mimeData(const QModelIndexList & indexes) const
 {
     kDebug();
-    //prepare the fallback kio_slave filenames
     QStringList files;
-    bool noFallback = false;
 
     QString archiveName = m_archive->fileName();
-    QString ext = QFileInfo(archiveName).suffix().toUpper();
-    if (ext == QLatin1String( "TAR" )) {
-        archiveName.prepend(QLatin1String( "tar:" ));
-    } else if (ext == QLatin1String( "ZIP" )) {
-        archiveName.prepend(QLatin1String( "zip:" ));
-    } else if (archiveName.right(6).toUpper() == QLatin1String( "TAR.GZ" )) {
-        archiveName.prepend(QLatin1String( "tar:" ));
-    } else
-        noFallback = true;
-
     if (!archiveName.endsWith(QLatin1Char( '/' ))) {
         archiveName.append(QLatin1Char( '/' ));
     }
 
     //Populate the internal list of files
     foreach(const QModelIndex &index, indexes) {
-
         //to limit only one index per row
         if (index.column() != 0) {
             continue;
@@ -511,18 +498,12 @@ QMimeData * ArchiveModel::mimeData(const QModelIndexList & indexes) const
         files << file;
     }
 
-    KUrl::List kiolist(files);
-
     //prepare the dbus-based drag/drop mimedata
     QMimeData *data = new QMimeData();
     data->setData(QLatin1String( "application/x-kde-dndextract" ),
                   QDBusConnection::sessionBus().baseService().toUtf8()
                  );
 
-
-    if (!noFallback) {
-        kiolist.populateMimeData(data);
-    }
     return data;
 }
 
