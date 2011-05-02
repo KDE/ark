@@ -497,8 +497,8 @@ QMimeData * ArchiveModel::mimeData(const QModelIndexList & indexes) const
     QStringList files;
 
     QString archiveName = m_archive->fileName();
-    if (!archiveName.endsWith(QLatin1Char( '/' ))) {
-        archiveName.append(QLatin1Char( '/' ));
+    if (!archiveName.endsWith(QLatin1Char('/'))) {
+        archiveName.append(QLatin1Char('/'));
     }
 
     //Populate the internal list of files
@@ -514,7 +514,7 @@ QMimeData * ArchiveModel::mimeData(const QModelIndexList & indexes) const
 
     //prepare the dbus-based drag/drop mimedata
     QMimeData *data = new QMimeData();
-    data->setData(QLatin1String( "application/x-kde-dndextract" ),
+    data->setData(QLatin1String("application/x-kde-dndextract"),
                   QDBusConnection::sessionBus().baseService().toUtf8()
                  );
 
