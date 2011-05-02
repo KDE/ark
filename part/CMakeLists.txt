@@ -4,7 +4,7 @@ include_directories(
                    )
 
 set(arkpart_PART_SRCS
-	part.cpp 
+	part.cpp
 	infopanel.cpp
 	arkviewer.cpp
 	archivemodel.cpp
