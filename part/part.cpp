@@ -148,6 +148,9 @@ void Part::registerJob(KJob* job)
     connect(job, SIGNAL(result(KJob*)), this, SIGNAL(ready()));
 }
 
+// TODO: One should construct a KUrl out of localPath in order to be able to handle
+//       non-local destinations (ie. trash:/ or a remote location)
+//       See bugs #189322 and #204323.
 void Part::extractSelectedFilesTo(const QString& localPath)
 {
     kDebug() << "Extract to " << localPath;
