@@ -72,7 +72,11 @@ AddDialog::AddDialog(const QStringList& itemsToAdd,
 
     // Set up a default name if there's only one file to compress
     if (itemsToAdd.size() == 1) {
-        setSelection(QFileInfo(itemsToAdd.first()).baseName());
+        // #272914: Add an extension when it is present, otherwise KFileDialog
+        // will not automatically add it as baseFileName is a file which
+        // already exists.
+        const QString baseFileName = QFileInfo(itemsToAdd.first()).baseName();
+        setSelection(baseFileName + currentFilterMimeType()->mainExtension());
     }
 
     //These extra options will be implemented in a 4.2+ version of
