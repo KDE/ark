@@ -2,7 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
- * Copyright (C) 2009 Raphael Kubo da Costa <kubito@gmail.com>
+ * Copyright (C) 2009,2011 Raphael Kubo da Costa <kubito@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -58,6 +58,7 @@ AddDialog::AddDialog(const QStringList& itemsToAdd,
 {
     setOperationMode(KFileDialog::Saving);
     setMode(KFile::File | KFile::LocalOnly);
+    setConfirmOverwrite(true);
     setCaption(i18n("Compress to Archive"));
 
     loadConfiguration();
