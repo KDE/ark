@@ -755,7 +755,20 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 void Part::slotAddFiles()
 {
     kDebug();
-    const QStringList filesToAdd = KFileDialog::getOpenFileNames(KUrl("kfiledialog:///ArkAddFiles"), QString(), widget(), i18nc("@title:window", "Add Files"));
+
+    // #264819: passing widget() as the parent will not work as expected.
+    //          KFileDialog will create a KFileWidget, which runs an internal
+    //          event loop to stat the given directory. This, in turn, leads to
+    //          events being delivered to widget(), which is a QSplitter, which
+    //          in turn reimplements childEvent() and will end up calling
+    //          QWidget::show() on the KFileDialog (thus showing it in a
+    //          non-modal state).
+    //          When KFileDialog::exec() is called, the widget is already shown
+    //          and nothing happens.
+    const QStringList filesToAdd =
+        KFileDialog::getOpenFileNames(KUrl("kfiledialog:///ArkAddFiles"),
+                                      QString(), widget()->parentWidget(),
+                                      i18nc("@title:window", "Add Files"));
 
     slotAddFiles(filesToAdd);
 }
