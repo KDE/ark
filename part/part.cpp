@@ -88,8 +88,11 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     m_splitter = new QSplitter(Qt::Horizontal, parentWidget);
     setWidget(m_splitter);
 
-    m_view = new ArchiveView(m_splitter);
-    m_infoPanel = new InfoPanel(m_model, m_splitter);
+    m_view = new ArchiveView;
+    m_infoPanel = new InfoPanel(m_model);
+
+    m_splitter->addWidget(m_view);
+    m_splitter->addWidget(m_infoPanel);
 
     QList<int> splitterSizes = ArkSettings::splitterSizes();
     if (splitterSizes.isEmpty()) {
