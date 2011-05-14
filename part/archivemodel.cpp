@@ -549,16 +549,14 @@ bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, i
 // For a rationale, see bugs #194241 and #241967
 QString ArchiveModel::cleanFileName(const QString& fileName)
 {
-    QString cleanName(fileName);
-
-    if ((cleanName == QLatin1String("/")) ||
-        (cleanName == QLatin1String("."))) { // "." is present in ISO files
-        cleanName.clear();
-    } else if (cleanName.startsWith(QLatin1String("./"))) {
-        cleanName.remove(0, 2);
+    if ((fileName == QLatin1String("/")) ||
+        (fileName == QLatin1String("."))) { // "." is present in ISO files
+        return QString();
+    } else if (fileName.startsWith(QLatin1String("./"))) {
+        return fileName.mid(2);
     }
 
-    return cleanName;
+    return fileName;
 }
 
 ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
