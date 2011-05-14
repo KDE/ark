@@ -435,9 +435,9 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
         }
 
         if (order == Qt::AscendingOrder) {
-            qSort(sorting.begin(), sorting.end(), ArchiveNode::compareAscending);
+            qStableSort(sorting.begin(), sorting.end(), ArchiveNode::compareAscending);
         } else {
-            qSort(sorting.begin(), sorting.end(), ArchiveNode::compareDescending);
+            qStableSort(sorting.begin(), sorting.end(), ArchiveNode::compareDescending);
         }
 
         QModelIndexList fromIndexes;
