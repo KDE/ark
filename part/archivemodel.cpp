@@ -51,46 +51,63 @@ class ArchiveNode
 {
 public:
     ArchiveNode(ArchiveDirNode *parent, const ArchiveEntry & entry)
-            : m_parent(parent) {
+        : m_parent(parent)
+    {
         setEntry(entry);
     }
 
-    virtual ~ArchiveNode() {}
+    virtual ~ArchiveNode()
+    {
+    }
 
-    const ArchiveEntry &entry() const {
+    const ArchiveEntry &entry() const
+    {
         return m_entry;
     }
-    void setEntry(const ArchiveEntry& entry) {
+
+    void setEntry(const ArchiveEntry& entry)
+    {
         m_entry = entry;
 
         const QStringList pieces = entry[FileName].toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
         m_name = pieces.isEmpty() ? QString() : pieces.last();
+
+        const KMimeType::Ptr mimeType = KMimeType::findByPath(m_entry[FileName].toString(), 0, true);
+        m_icon = KIconLoader::global()->loadMimeTypeIcon(mimeType->iconName(), KIconLoader::Small);
     }
 
-    ArchiveDirNode *parent() const {
+    ArchiveDirNode *parent() const
+    {
         return m_parent;
     }
 
     int row();
 
-    virtual bool isDir() const {
+    virtual bool isDir() const
+    {
         return false;
     }
 
-    QPixmap icon() {
-        if (m_icon.isNull()) {
-            KMimeType::Ptr mimeType = KMimeType::findByPath(m_entry[ FileName ].toString(), 0, true);
-            m_icon = KIconLoader::global()->loadMimeTypeIcon(mimeType->iconName(), KIconLoader::Small);
-        }
+    QPixmap icon() const
+    {
         return m_icon;
     }
-    QString         m_name;
+
+    QString name() const
+    {
+        return m_name;
+    }
 
 protected:
-    QPixmap         m_icon;
+    void setIcon(const QPixmap &icon)
+    {
+        m_icon = icon;
+    }
 
 private:
     ArchiveEntry    m_entry;
+    QPixmap         m_icon;
+    QString         m_name;
     ArchiveDirNode *m_parent;
 };
 
@@ -99,34 +116,38 @@ class ArchiveDirNode: public ArchiveNode
 {
 public:
     ArchiveDirNode(ArchiveDirNode *parent, const ArchiveEntry & entry)
-            : ArchiveNode(parent, entry) {
-        m_icon = KIconLoader::global()->loadMimeTypeIcon(KMimeType::mimeType(QLatin1String( "inode/directory" ))->iconName(), KIconLoader::Small);
+        : ArchiveNode(parent, entry)
+    {
+        setIcon(KIconLoader::global()->loadMimeTypeIcon(KMimeType::mimeType(QLatin1String("inode/directory"))->iconName(), KIconLoader::Small));
     }
 
-
-    ~ArchiveDirNode() {
+    ~ArchiveDirNode()
+    {
         clear();
     }
 
-    QList<ArchiveNode*>& entries() {
+    QList<ArchiveNode*>& entries()
+    {
         return m_entries;
     }
 
-    virtual bool isDir() const {
+    virtual bool isDir() const
+    {
         return true;
     }
 
-    ArchiveNode* find(const QString & name) {
+    ArchiveNode* find(const QString & name)
+    {
         foreach(ArchiveNode *node, m_entries) {
-            if (node && (node->m_name == name)) {
+            if (node && (node->name() == name)) {
                 return node;
             }
         }
         return 0;
     }
 
-    ArchiveNode* findByPath(const QStringList & pieces, int index = 0) {
-
+    ArchiveNode* findByPath(const QStringList & pieces, int index = 0)
+    {
         if (index == pieces.count()) {
             return 0;
         }
@@ -142,7 +163,8 @@ public:
         return 0;
     }
 
-    void returnDirNodes(QList<ArchiveDirNode*> *store) {
+    void returnDirNodes(QList<ArchiveDirNode*> *store)
+    {
         foreach(ArchiveNode *node, m_entries) {
             if (node->isDir()) {
                 store->prepend(static_cast<ArchiveDirNode*>(node));
@@ -151,7 +173,8 @@ public:
         }
     }
 
-    void clear() {
+    void clear()
+    {
         qDeleteAll(m_entries);
         m_entries.clear();
     }
@@ -207,7 +230,7 @@ protected:
 
         switch (m_sortColumn) {
         case FileName:
-            return leftNode->m_name < rightNode->m_name;
+            return leftNode->name() < rightNode->name();
         case Size:
         case CompressedSize:
             return leftEntry.toInt() < rightEntry.toInt();
@@ -258,7 +281,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
             int columnId = m_showColumns.at(index.column());
             switch (columnId) {
             case FileName:
-                return node->m_name;
+                return node->name();
             case Size:
                 if (node->isDir()) {
                     int dirs;
