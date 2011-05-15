@@ -118,7 +118,6 @@ public:
     ArchiveDirNode(ArchiveDirNode *parent, const ArchiveEntry & entry)
         : ArchiveNode(parent, entry)
     {
-        setIcon(KIconLoader::global()->loadMimeTypeIcon(KMimeType::mimeType(QLatin1String("inode/directory"))->iconName(), KIconLoader::Small));
     }
 
     ~ArchiveDirNode()
