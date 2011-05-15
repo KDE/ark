@@ -44,7 +44,7 @@ class ArchiveDirNode;
 
 //used to speed up the loading of large archives
 static ArchiveNode* previousMatch = NULL;
-static QStringList previousPieces;
+K_GLOBAL_STATIC(QStringList, s_previousPieces)
 
 
 // TODO: This class hierarchy needs some love.
@@ -640,12 +640,12 @@ ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
     if (previousMatch) {
         //the number of path elements must be the same for the shortcut
         //to work
-        if (previousPieces.count() == pieces.count()) {
+        if (s_previousPieces->count() == pieces.count()) {
             bool equal = true;
 
             //make sure all the pieces match up
-            for (int i = 0; i < previousPieces.count(); ++i) {
-                if (previousPieces.at(i) != pieces.at(i)) {
+            for (int i = 0; i < s_previousPieces->count(); ++i) {
+                if (s_previousPieces->at(i) != pieces.at(i)) {
                     equal = false;
                     break;
                 }
@@ -681,7 +681,7 @@ ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
     }
 
     previousMatch = parent;
-    previousPieces = pieces;
+    *s_previousPieces = pieces;
 
     return parent;
 }
@@ -864,7 +864,7 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
     m_archive = archive;
     m_rootNode->clear();
     previousMatch = 0;
-    previousPieces = QStringList();
+    s_previousPieces->clear();
 
 
     Kerfuffle::ListJob *job = NULL;
