@@ -81,7 +81,7 @@ public:
         return m_parent;
     }
 
-    int row();
+    int row() const;
 
     virtual bool isDir() const
     {
@@ -247,7 +247,7 @@ private:
     Qt::SortOrder m_sortOrder;
 };
 
-int ArchiveNode::row()
+int ArchiveNode::row() const
 {
     if (parent()) {
         return parent()->entries().indexOf(const_cast<ArchiveNode*>(this));
