@@ -45,7 +45,6 @@ class ArchiveDirNode;
 //used to speed up the loading of large archives
 static ArchiveNode* previousMatch = NULL;
 static QStringList previousPieces;
-static int currentSortColumn = 0;
 
 
 class ArchiveNode
@@ -57,42 +56,6 @@ public:
     }
 
     virtual ~ArchiveNode() {}
-
-    static bool compareAscending(const QPair<ArchiveNode*,int> &a, const QPair<ArchiveNode*,int> &b) {
-        // #234373: sort folders before files
-        if ((a.first->isDir()) && (!b.first->isDir())) {
-            return true;
-        } else if ((!a.first->isDir()) && (b.first->isDir())) {
-            return false;
-        }
-
-        if (currentSortColumn == FileName) {
-            return (a.first->m_name < b.first->m_name);
-        } else if ((currentSortColumn == Size) ||
-                   (currentSortColumn == CompressedSize)) {
-            return (a.first->entry()[currentSortColumn].toInt() < b.first->entry()[currentSortColumn].toInt());
-        } else {
-            return (a.first->entry()[currentSortColumn].toString() < b.first->entry()[currentSortColumn].toString());
-        }
-    }
-
-    static bool compareDescending(const QPair<ArchiveNode*,int> &a, const QPair<ArchiveNode*,int> &b) {
-        // #234373: sort folders before files
-        if ((a.first->isDir()) && (!b.first->isDir())) {
-            return true;
-        } else if ((!a.first->isDir()) && (b.first->isDir())) {
-            return false;
-        }
-
-        if (currentSortColumn == FileName) {
-            return (a.first->m_name > b.first->m_name);
-        } else if ((currentSortColumn == Size) ||
-                   (currentSortColumn == CompressedSize)) {
-            return (a.first->entry()[currentSortColumn].toInt() > b.first->entry()[currentSortColumn].toInt());
-        } else {
-            return (a.first->entry()[currentSortColumn].toString() > b.first->entry()[currentSortColumn].toString());
-        }
-    }
 
     const ArchiveEntry &entry() const {
         return m_entry;
@@ -195,6 +158,71 @@ public:
 
 private:
     QList<ArchiveNode*> m_entries;
+};
+
+/**
+ * Helper functor used by qStableSort.
+ *
+ * It always sorts folders before files.
+ *
+ * @internal
+ */
+class ArchiveModelSorter
+{
+public:
+    ArchiveModelSorter(int column, Qt::SortOrder order)
+        : m_sortColumn(column)
+        , m_sortOrder(order)
+    {
+    }
+
+    virtual ~ArchiveModelSorter()
+    {
+    }
+
+    inline bool operator()(const QPair<ArchiveNode*, int> &left, const QPair<ArchiveNode*, int> &right) const
+    {
+        if (m_sortOrder == Qt::AscendingOrder) {
+            return lessThan(left, right);
+        } else {
+            return !lessThan(left, right);
+        }
+    }
+
+protected:
+    bool lessThan(const QPair<ArchiveNode*, int> &left, const QPair<ArchiveNode*, int> &right) const
+    {
+        const ArchiveNode * const leftNode = left.first;
+        const ArchiveNode * const rightNode = right.first;
+
+        // #234373: sort folders before files
+        if ((leftNode->isDir()) && (!rightNode->isDir())) {
+            return (m_sortOrder == Qt::AscendingOrder);
+        } else if ((!leftNode->isDir()) && (rightNode->isDir())) {
+            return !(m_sortOrder == Qt::AscendingOrder);
+        }
+
+        const QVariant &leftEntry = leftNode->entry()[m_sortColumn];
+        const QVariant &rightEntry = rightNode->entry()[m_sortColumn];
+
+        switch (m_sortColumn) {
+        case FileName:
+            return leftNode->m_name < rightNode->m_name;
+        case Size:
+        case CompressedSize:
+            return leftEntry.toInt() < rightEntry.toInt();
+        default:
+            return leftEntry.toString() < rightEntry.toString();
+        }
+
+        // We should not get here.
+        Q_ASSERT(false);
+        return false;
+    }
+
+private:
+    int m_sortColumn;
+    Qt::SortOrder m_sortOrder;
 };
 
 int ArchiveNode::row()
@@ -436,13 +464,13 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
         return;
     }
 
-    currentSortColumn = m_showColumns.at(column);
-
     emit layoutAboutToBeChanged();
 
     QList<ArchiveDirNode*> dirNodes;
     m_rootNode->returnDirNodes(&dirNodes);
     dirNodes.append(m_rootNode);
+
+    const ArchiveModelSorter modelSorter(m_showColumns.at(column), order);
 
     foreach(ArchiveDirNode* dir, dirNodes) {
         QVector < QPair<ArchiveNode*,int> > sorting(dir->entries().count());
@@ -452,11 +480,7 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
             sorting[i].second = i;
         }
 
-        if (order == Qt::AscendingOrder) {
-            qStableSort(sorting.begin(), sorting.end(), ArchiveNode::compareAscending);
-        } else {
-            qStableSort(sorting.begin(), sorting.end(), ArchiveNode::compareDescending);
-        }
+        qStableSort(sorting.begin(), sorting.end(), modelSorter);
 
         QModelIndexList fromIndexes;
         QModelIndexList toIndexes;
