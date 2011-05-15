@@ -43,7 +43,7 @@ using namespace Kerfuffle;
 class ArchiveDirNode;
 
 //used to speed up the loading of large archives
-static ArchiveNode* previousMatch = NULL;
+static ArchiveNode* s_previousMatch = NULL;
 K_GLOBAL_STATIC(QStringList, s_previousPieces)
 
 
@@ -637,7 +637,7 @@ ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
     }
     pieces.removeLast();
 
-    if (previousMatch) {
+    if (s_previousMatch) {
         //the number of path elements must be the same for the shortcut
         //to work
         if (s_previousPieces->count() == pieces.count()) {
@@ -653,7 +653,7 @@ ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
 
             //if match return it
             if (equal) {
-                return static_cast<ArchiveDirNode*>(previousMatch);
+                return static_cast<ArchiveDirNode*>(s_previousMatch);
             }
         }
     }
@@ -680,7 +680,7 @@ ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
         parent = static_cast<ArchiveDirNode*>(node);
     }
 
-    previousMatch = parent;
+    s_previousMatch = parent;
     *s_previousPieces = pieces;
 
     return parent;
@@ -863,7 +863,7 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
     delete m_archive;
     m_archive = archive;
     m_rootNode->clear();
-    previousMatch = 0;
+    s_previousMatch = 0;
     s_previousPieces->clear();
 
 
