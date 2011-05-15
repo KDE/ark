@@ -47,6 +47,9 @@ static ArchiveNode* previousMatch = NULL;
 static QStringList previousPieces;
 
 
+// TODO: This class hierarchy needs some love.
+//       Having a parent take a child class as a parameter in the constructor
+//       should trigger one's spider-sense (TM).
 class ArchiveNode
 {
 public:
@@ -125,6 +128,9 @@ public:
         clear();
     }
 
+    // TODO: Do not return a reference, add methods to change m_entries.
+    //       Returning a reference makes the code less readable, as m_entries,
+    //       which is private, ends up being changed all over this file.
     QList<ArchiveNode*>& entries()
     {
         return m_entries;
