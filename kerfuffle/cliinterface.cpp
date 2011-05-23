@@ -654,7 +654,10 @@ bool CliInterface::checkForErrorMessage(const QString& line, int parameterIndex)
 bool CliInterface::doKill()
 {
     if (m_process) {
-        m_process->kill();
+        // Give some time for the application to finish gracefully
+        if (!m_process->waitForFinished(5)) {
+            m_process->kill();
+        }
 
         return true;
     }
