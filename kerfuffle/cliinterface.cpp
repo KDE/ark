@@ -492,7 +492,6 @@ void CliInterface::handleLine(const QString& line)
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             kDebug() << "Wrong password!";
             error(i18n("Incorrect password."));
-            setPassword(QString());
             failOperation();
             return;
         }
@@ -533,7 +532,6 @@ void CliInterface::handleLine(const QString& line)
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             kDebug() << "Wrong password!";
             error(i18n("Incorrect password."));
-            setPassword(QString());
             failOperation();
             return;
         }
