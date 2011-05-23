@@ -47,9 +47,10 @@
 #include <QWeakPointer>
 
 BatchExtract::BatchExtract()
-        : m_autoSubfolder(false),
-        m_preservePaths(true),
-        m_openDestinationAfterExtraction(false)
+    : KCompositeJob(0),
+      m_autoSubfolder(false),
+      m_preservePaths(true),
+      m_openDestinationAfterExtraction(false)
 {
     setCapabilities(KJob::Killable);
 
