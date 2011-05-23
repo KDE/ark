@@ -155,6 +155,9 @@ void BatchExtract::showFailedFiles()
 void BatchExtract::slotResult(KJob *job)
 {
     kDebug();
+
+    // TODO: The user must be informed about which file caused the error, and that the other files
+    //       in the queue will not be extracted.
     if (job->error()) {
         kDebug() << "There was en error, " << job->errorText();
 
