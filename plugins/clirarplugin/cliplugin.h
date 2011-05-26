@@ -34,6 +34,8 @@ public:
 
     virtual ~CliPlugin();
 
+    virtual QString escapeFileName(const QString &fileName) const;
+
     virtual Kerfuffle::ParameterList parameterList() const;
 
     virtual bool readListLine(const QString &line);

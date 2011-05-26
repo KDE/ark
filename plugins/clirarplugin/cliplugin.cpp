@@ -46,6 +46,18 @@ CliPlugin::~CliPlugin()
 {
 }
 
+// #272281: the proprietary unrar program does not like trailing '/'s
+//          in directories passed to it when extracting only part of
+//          the files in an archive.
+QString CliPlugin::escapeFileName(const QString &fileName) const
+{
+    if (fileName.endsWith(QLatin1Char('/'))) {
+        return fileName.left(fileName.length() - 1);
+    }
+
+    return fileName;
+}
+
 ParameterList CliPlugin::parameterList() const
 {
     static ParameterList p;
