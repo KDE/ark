@@ -38,13 +38,33 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
     : CliInterface(parent, args)
     , m_status(Header)
 {
-    // #208091: infozip applies special meanings to some characters
-    //          see match.c in infozip's source code
-    setEscapedCharacters(QLatin1String("[]*?^-\\!"));
 }
 
 CliPlugin::~CliPlugin()
 {
+}
+
+// #208091: infozip applies special meanings to some characters, so we
+//          need to escape them with backslashes.see match.c in
+//          infozip's source code
+QString CliPlugin::escapeFileName(const QString &fileName) const
+{
+    const QString escapedCharacters(QLatin1String("[]*?^-\\!"));
+
+    QString quoted;
+    const int len = fileName.length();
+    const QLatin1Char backslash('\\');
+    quoted.reserve(len * 2);
+
+    for (int i = 0; i < len; ++i) {
+        if (escapedCharacters.contains(fileName.at(i))) {
+            quoted.append(backslash);
+        }
+
+        quoted.append(fileName.at(i));
+    }
+
+    return quoted;
 }
 
 ParameterList CliPlugin::parameterList() const

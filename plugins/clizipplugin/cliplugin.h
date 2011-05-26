@@ -31,6 +31,8 @@ public:
     explicit CliPlugin(QObject *parent, const QVariantList &args);
     virtual ~CliPlugin();
 
+    virtual QString escapeFileName(const QString &fileName) const;
+
     virtual Kerfuffle::ParameterList parameterList() const;
 
     virtual bool readListLine(const QString &line);

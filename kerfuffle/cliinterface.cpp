@@ -684,32 +684,9 @@ void CliInterface::substituteListVariables(QStringList& params)
     }
 }
 
-QString CliInterface::escapedCharacters()
+QString CliInterface::escapeFileName(const QString& fileName) const
 {
-    return m_escapedCharacters;
-}
-
-void CliInterface::setEscapedCharacters(const QString& characters)
-{
-    m_escapedCharacters = characters;
-}
-
-QString CliInterface::escapeFileName(const QString& fileName)
-{
-    QString quoted;
-    const int len = fileName.length();
-    const QLatin1Char backslash('\\');
-    quoted.reserve(len * 2);
-
-    for (int i = 0; i < len; ++i) {
-        if (m_escapedCharacters.contains(fileName.at(i))) {
-            quoted.append(backslash);
-        }
-
-        quoted.append(fileName.at(i));
-    }
-
-    return quoted;
+    return fileName;
 }
 
 void CliInterface::writeToProcess(const QByteArray& data)
