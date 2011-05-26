@@ -104,8 +104,6 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     setupView();
     setupActions();
 
-    connect(m_splitter, SIGNAL(splitterMoved(int, int)), SLOT(slotUpdateSplitterSizes()));
-
     connect(m_model, SIGNAL(loadingStarted()),
             this, SLOT(slotLoadingStarted()));
     connect(m_model, SIGNAL(loadingFinished(KJob *)),
@@ -132,6 +130,8 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
 Part::~Part()
 {
+    updateSplitterSizes();
+
     m_extractFilesAction->menu()->deleteLater();
 
     delete m_previewDir;
@@ -836,10 +836,10 @@ void Part::slotToggleInfoPanel(bool visible)
     }
 
     m_splitter->setSizes(splitterSizes);
-    slotUpdateSplitterSizes();
+    updateSplitterSizes();
 }
 
-void Part::slotUpdateSplitterSizes()
+void Part::updateSplitterSizes()
 {
     ArkSettings::setSplitterSizes(m_splitter->sizes());
     ArkSettings::self()->writeConfig();
