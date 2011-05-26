@@ -269,12 +269,14 @@ private:
     void failOperation();
 
     /**
-     * Precedes the characters returned by escapedCharacters() with a
-     * backslash in @p fileName.
+     * Performs any additional escaping and processing on @p fileName
+     * before passing it to the underlying process.
+     *
+     * The default implementation returns @p fileName unchanged.
      *
      * @param fileName String to escape.
      */
-    QString escapeFileName(const QString& fileName);
+    virtual QString escapeFileName(const QString &fileName) const;
 
     QByteArray m_stdOutData;
     bool m_userCancelled;
@@ -284,8 +286,6 @@ private:
     QString m_program;
     ParameterList m_param;
     QVariantList m_removedFiles;
-
-    QString m_escapedCharacters;
 
 private slots:
     void started();
