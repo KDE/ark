@@ -103,17 +103,15 @@ ParameterList CliPlugin::parameterList() const
 
 bool CliPlugin::readListLine(const QString &line)
 {
-    static QRegExp entryPattern(QLatin1String(
+    static const QRegExp entryPattern(QLatin1String(
         "^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\d{8}).(\\d{6})\\s+(.+)$") );
 
-    int i;
     switch (m_status) {
     case Header:
         m_status = Entry;
         break;
     case Entry:
-        i = entryPattern.indexIn(line);
-        if (i != -1) {
+        if (entryPattern.indexIn(line) != -1) {
             ArchiveEntry e;
             e[Permissions] = entryPattern.cap(1);
             e[IsDirectory] = (entryPattern.cap(1).at(0) == QLatin1Char( 'd' ));
