@@ -1,11 +1,13 @@
 project(ark)
 
-find_package(KDE4)
-include( KDE4Defaults )
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
+    find_package(KDE4)
+    include( KDE4Defaults )
+    include_directories(${KDE4_INCLUDES})
+endif()
+
 include( MacroLibrary )
 list(APPEND CMAKE_MODULE_PATH ${ark_SOURCE_DIR}/cmake)
-
-include_directories(${KDE4_INCLUDES})
 
 macro_optional_find_package(LibArchive)
 macro_log_feature(LIBARCHIVE_FOUND "LibArchive" "A library for dealing with a wide variety of archive file formats" "http://code.google.com/p/libarchive/" FALSE "" "Required for among others tar, tar.gz, tar.bz2 formats in Ark.")
