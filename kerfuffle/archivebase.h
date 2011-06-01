@@ -65,6 +65,7 @@ public:
 private slots:
     void onListFinished(KJob*);
     void onAddFinished(KJob*);
+    void onUserQuery(Kerfuffle::Query*);
 
 private:
     void listIfNotListed();

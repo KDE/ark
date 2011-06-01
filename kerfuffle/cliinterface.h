@@ -33,6 +33,7 @@
 #include <QtCore/QRegExp>
 
 class KProcess;
+class KPtyProcess;
 
 namespace Kerfuffle
 {
@@ -47,6 +48,13 @@ enum CliInterfaceParameters {
      * (2%, 14%, 35%, etc etc), and report progress based upon this
      */
     CaptureProgress = 0,
+
+    /**
+     * QString
+     * Default: empty
+     * A regexp pattern that matches the program's password prompt.
+     */
+    PasswordPromptPattern,
 
     ///////////////[ LIST ]/////////////
 
@@ -255,18 +263,42 @@ public:
     void setEscapedCharacters(const QString& characters);
 
 private:
-    bool findProgramAndCreateProcess(const QString& program);
     void substituteListVariables(QStringList& params);
 
-    bool createProcess();
-    bool executeProcess(const QString& path, const QStringList & args);
     void cacheParameterList();
+
+    /**
+     * Checks whether a line of the program's output is a password prompt.
+     *
+     * It uses the regular expression in the @c PasswordPromptPattern parameter
+     * for the check.
+     *
+     * @param line A line of the program's output.
+     *
+     * @return @c true if the given @p line is a password prompt, @c false
+     * otherwise.
+     */
+
+    bool checkForPasswordPromptMessage(const QString& line);
+
     bool checkForFileExistsMessage(const QString& line);
     bool handleFileExistsMessage(const QString& filename);
     bool checkForErrorMessage(const QString& line, int parameterIndex);
     void handleLine(const QString& line);
 
     void failOperation();
+
+    /**
+     * Run @p programName with the given @p arguments.
+     * The method waits until @p programName is finished to exit.
+     *
+     * @param programName The program that will be run (not the whole path).
+     * @param arguments A list of arguments that will be passed to the program.
+     *
+     * @return @c true if the program was found and the process ran correctly,
+     *         @c false otherwise.
+     */
+    bool runProcess(const QString& programName, const QStringList& arguments);
 
     /**
      * Performs any additional escaping and processing on @p fileName
@@ -278,12 +310,23 @@ private:
      */
     virtual QString escapeFileName(const QString &fileName) const;
 
+    /**
+     * Wrapper around KProcess::write() or KPtyDevice::write(), depending on
+     * the platform.
+     */
+    void writeToProcess(const QByteArray& data);
+
     QByteArray m_stdOutData;
     bool m_userCancelled;
     QRegExp m_existsPattern;
+    QRegExp m_passwordPromptPattern;
 
+#ifdef Q_OS_WIN
     KProcess *m_process;
-    QString m_program;
+#else
+    KPtyProcess *m_process;
+#endif
+
     ParameterList m_param;
     QVariantList m_removedFiles;
 

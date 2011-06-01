@@ -90,6 +90,8 @@ ParameterList CliPlugin::parameterList() const
 
         p[AddArgs] = QStringList() << QLatin1String( "a" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
+        p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) for");
+
         p[WrongPasswordPatterns] = QStringList() << QLatin1String("password incorrect") << QLatin1String("wrong password");
         p[ExtractionFailedPatterns] = QStringList() << QLatin1String( "CRC failed" ) << QLatin1String( "Cannot find volume" );
     }

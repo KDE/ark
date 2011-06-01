@@ -28,7 +28,13 @@
 #include "cliinterface.h"
 #include "queries.h"
 
-#include <KProcess>
+#ifdef Q_OS_WIN
+# include <KProcess>
+#else
+# include <KPtyDevice>
+# include <KPtyProcess>
+#endif
+
 #include <KStandardDirs>
 #include <KDebug>
 #include <KLocale>
@@ -38,6 +44,7 @@
 #include <QDir>
 #include <QEventLoop>
 #include <QFile>
+#include <QProcess>
 #include <QThread>
 #include <QTimer>
 
@@ -49,6 +56,10 @@ CliInterface::CliInterface(QObject *parent, const QVariantList & args)
 {
     //because this interface uses the event loop
     setWaitForFinishedSignal(true);
+
+    if (QMetaType::type("QProcess::ExitStatus") == 0) {
+        qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
+    }
 }
 
 void CliInterface::cacheParameterList()
@@ -63,8 +74,7 @@ void CliInterface::cacheParameterList()
 
 CliInterface::~CliInterface()
 {
-    delete m_process;
-    m_process = 0;
+    Q_ASSERT(!m_process);
 }
 
 bool CliInterface::list()
@@ -72,15 +82,13 @@ bool CliInterface::list()
     cacheParameterList();
     m_operationMode = List;
 
-    if (!findProgramAndCreateProcess(m_param.value(ListProgram).toString())) {
-        failOperation();
-        return false;
-    }
-
     QStringList args = m_param.value(ListArgs).toStringList();
     substituteListVariables(args);
 
-    executeProcess(m_program, args);
+    if (!runProcess(m_param.value(ListProgram).toString(), args)) {
+        failOperation();
+        return false;
+    }
 
     return true;
 }
@@ -91,11 +99,6 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
     cacheParameterList();
 
     m_operationMode = Copy;
-
-    if (!findProgramAndCreateProcess(m_param.value(ExtractProgram).toString())) {
-        failOperation();
-        return false;
-    }
 
     //start preparing the argument list
     QStringList args = m_param.value(ExtractArgs).toStringList();
@@ -221,7 +224,10 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
     kDebug() << "Setting current dir to " << destinationDirectory;
     QDir::setCurrent(destinationDirectory);
 
-    executeProcess(m_program, args);
+    if (!runProcess(m_param.value(ExtractProgram).toString(), args)) {
+        failOperation();
+        return false;
+    }
 
     return true;
 }
@@ -231,11 +237,6 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
     cacheParameterList();
 
     m_operationMode = Add;
-
-    if (!findProgramAndCreateProcess(m_param.value(AddProgram).toString())) {
-        failOperation();
-        return false;
-    }
 
     const QString globalWorkDir = options.value(QLatin1String( "GlobalWorkDir" )).toString();
     const QDir workDir = globalWorkDir.isEmpty() ? QDir::current() : QDir(globalWorkDir);
@@ -273,7 +274,10 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
         }
     }
 
-    executeProcess(m_program, args);
+    if (!runProcess(m_param.value(AddProgram).toString(), args)) {
+        failOperation();
+        return false;
+    }
 
     return true;
 }
@@ -282,11 +286,6 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
 {
     cacheParameterList();
     m_operationMode = Delete;
-
-    if (!findProgramAndCreateProcess(m_param.value(DeleteProgram).toString())) {
-        failOperation();
-        return false;
-    }
 
     //start preparing the argument list
     QStringList args = m_param.value(DeleteArgs).toStringList();
@@ -310,47 +309,57 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
 
     m_removedFiles = files;
 
-    executeProcess(m_program, args);
+    if (!runProcess(m_param.value(DeleteProgram).toString(), args)) {
+        failOperation();
+        return false;
+    }
 
     return true;
 }
 
-bool CliInterface::createProcess()
+bool CliInterface::runProcess(const QString& programName, const QStringList& arguments)
 {
-    kDebug();
-
-    if (m_process) {
-        delete m_process;
-        m_process = 0;
+    const QString programPath(KStandardDirs::findExe(programName));
+    if (programPath.isEmpty()) {
+        error(i18nc("@info", "Failed to locate program <filename>%1</filename> in PATH.", programName));
+        return false;
     }
 
-    m_stdOutData.clear();
+    Q_ASSERT(!m_process);
 
+    kDebug() << "Executing" << programPath << arguments;
+
+#ifdef Q_OS_WIN
     m_process = new KProcess();
+#else
+    m_process = new KPtyProcess();
+    m_process->setPtyChannels(KPtyProcess::StdinChannel);
+#endif
+
     m_process->setTextModeEnabled(true);
     m_process->setOutputChannelMode(KProcess::MergedChannels);
-
-    if (QMetaType::type("QProcess::ExitStatus") == 0) {
-        qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
-    }
+    m_process->setNextOpenMode(QIODevice::ReadWrite | QIODevice::Unbuffered);
+    m_process->setProgram(programPath, arguments);
 
     connect(m_process, SIGNAL(started()), SLOT(started()), Qt::DirectConnection);
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
     connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(processFinished(int, QProcess::ExitStatus)), Qt::DirectConnection);
 
-    return true;
-}
+    m_stdOutData.clear();
 
-bool CliInterface::executeProcess(const QString& path, const QStringList & args)
-{
-    kDebug() << "Executing " << path << args;
-    Q_ASSERT(!path.isEmpty());
-
-    m_process->setProgram(path, args);
-    m_process->setNextOpenMode(QIODevice::ReadWrite | QIODevice::Unbuffered);
     m_process->start();
 
-    return true;
+#ifdef Q_OS_WIN
+    bool ret = m_process->waitForFinished(-1);
+#else
+    QEventLoop loop;
+    bool ret = (loop.exec(QEventLoop::WaitForMoreEvents | QEventLoop::ExcludeUserInputEvents) == 0);
+#endif
+
+    delete m_process;
+    m_process = 0;
+
+    return ret;
 }
 
 void CliInterface::started()
@@ -435,6 +444,7 @@ void CliInterface::readStdout(bool handleAll)
     bool foundErrorMessage =
         (checkForErrorMessage(QLatin1String( lines.last() ), WrongPasswordPatterns) ||
          checkForErrorMessage(QLatin1String( lines.last() ), ExtractionFailedPatterns) ||
+         checkForPasswordPromptMessage(QLatin1String(lines.last())) ||
          checkForFileExistsMessage(QLatin1String( lines.last() )));
 
     if (foundErrorMessage) {
@@ -482,7 +492,6 @@ void CliInterface::handleLine(const QString& line)
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             kDebug() << "Wrong password!";
             error(i18n("Incorrect password."));
-            setPassword(QString());
             failOperation();
             return;
         }
@@ -500,10 +509,29 @@ void CliInterface::handleLine(const QString& line)
     }
 
     if (m_operationMode == List) {
+        if (checkForPasswordPromptMessage(line)) {
+            kDebug() << "Found a password prompt";
+
+            Kerfuffle::PasswordNeededQuery query(filename());
+            userQuery(&query);
+            query.waitForResponse();
+
+            if (query.responseCancelled()) {
+                failOperation();
+                return;
+            }
+
+            setPassword(query.password());
+
+            const QString response(password() + QLatin1Char('\n'));
+            writeToProcess(response.toLocal8Bit());
+
+            return;
+        }
+
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             kDebug() << "Wrong password!";
             error(i18n("Incorrect password."));
-            setPassword(QString());
             failOperation();
             return;
         }
@@ -524,21 +552,22 @@ void CliInterface::handleLine(const QString& line)
     }
 }
 
-bool CliInterface::findProgramAndCreateProcess(const QString& program)
+bool CliInterface::checkForPasswordPromptMessage(const QString& line)
 {
-    m_program = KStandardDirs::findExe(program);
+    const QString passwordPromptPattern(m_param.value(PasswordPromptPattern).toString());
 
-    if (m_program.isEmpty()) {
-        error(i18nc("@info", "Failed to locate program <filename>%1</filename> in PATH.", program));
+    if (passwordPromptPattern.isEmpty())
         return false;
+
+    if (m_passwordPromptPattern.isEmpty()) {
+        m_passwordPromptPattern.setPattern(m_param.value(PasswordPromptPattern).toString());
     }
 
-    if (!createProcess()) {
-        error(i18nc("@info", "Found program <filename>%1</filename>, but failed to initialize the process.", program));
-        return false;
+    if (m_passwordPromptPattern.indexIn(line) != -1) {
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 bool CliInterface::checkForFileExistsMessage(const QString& line)
@@ -589,9 +618,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
 
     responseToProcess += QLatin1Char( '\n' );
 
-    kDebug() << "Writing " << responseToProcess;
-
-    m_process->write(responseToProcess.toLocal8Bit());
+    writeToProcess(responseToProcess.toLocal8Bit());
 
     return true;
 }
@@ -625,13 +652,10 @@ bool CliInterface::checkForErrorMessage(const QString& line, int parameterIndex)
 bool CliInterface::doKill()
 {
     if (m_process) {
-        m_process->terminate();
-
-        if (!m_process->waitForFinished()) {
+        // Give some time for the application to finish gracefully
+        if (!m_process->waitForFinished(5)) {
             m_process->kill();
         }
-
-        m_process->waitForFinished();
 
         return true;
     }
@@ -663,6 +687,20 @@ void CliInterface::substituteListVariables(QStringList& params)
 QString CliInterface::escapeFileName(const QString& fileName) const
 {
     return fileName;
+}
+
+void CliInterface::writeToProcess(const QByteArray& data)
+{
+    Q_ASSERT(m_process);
+    Q_ASSERT(!data.isNull());
+
+    kDebug() << "Writing" << data << "to the process";
+
+#ifdef Q_OS_WIN
+    m_process->write(data);
+#else
+    m_process->pty()->write(data);
+#endif
 }
 
 }
