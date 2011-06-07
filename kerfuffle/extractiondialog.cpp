@@ -211,7 +211,7 @@ bool ExtractionDialog::closeAfterExtraction() const
 KUrl ExtractionDialog::destinationDirectory() const
 {
     if (extractToSubfolder()) {
-        return url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder() + QLatin1Char( '/' );
+        return QString(url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder() + QLatin1Char( '/' ));
     } else {
         return url().pathOrUrl(KUrl::AddTrailingSlash);
     }

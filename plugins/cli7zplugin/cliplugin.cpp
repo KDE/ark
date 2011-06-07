@@ -151,7 +151,7 @@ bool CliPlugin::readListLine(const QString& line)
                 if (!directoryName.endsWith(QLatin1Char( '/' ))) {
                     const bool isPasswordProtected = (line.at(12) == QLatin1Char( '+' ));
                     m_currentArchiveEntry[FileName] =
-                        m_currentArchiveEntry[InternalID] = directoryName + QLatin1Char( '/' );
+                        m_currentArchiveEntry[InternalID] = QString(directoryName + QLatin1Char( '/' ));
                     m_currentArchiveEntry[ IsPasswordProtected ] =
                         isPasswordProtected;
                 }

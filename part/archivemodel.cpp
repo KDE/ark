@@ -319,7 +319,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
                         return QVariant();
                     } else {
                         int ratio = int(100 * ((double)size - compressedSize) / size);
-                        return QString::number(ratio) + QLatin1String( " %" );
+                        return QString(QString::number(ratio) + QLatin1String( " %" ));
                     }
                 }
 
