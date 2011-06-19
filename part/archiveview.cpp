@@ -27,7 +27,6 @@
 #include <QApplication>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
-#include <QHeaderView>
 #include <QMouseEvent>
 
 ArchiveView::ArchiveView(QWidget *parent)
