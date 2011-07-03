@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     KAboutData aboutData("ark", 0, ki18n("Ark"),
                          "2.17", ki18n("KDE Archiving tool"),
                          KAboutData::License_GPL,
-                         ki18n("(c) 1997-2010, The Various Ark Developers"),
+                         ki18n("(c) 1997-2011, The Various Ark Developers"),
                          KLocalizedString(),
                          "http://utils.kde.org/projects/ark"
                         );
