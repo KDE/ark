@@ -342,7 +342,6 @@ bool CliInterface::runProcess(const QString& programName, const QStringList& arg
     m_process->setNextOpenMode(QIODevice::ReadWrite | QIODevice::Unbuffered);
     m_process->setProgram(programPath, arguments);
 
-    connect(m_process, SIGNAL(started()), SLOT(started()), Qt::DirectConnection);
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
     connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(processFinished(int, QProcess::ExitStatus)), Qt::DirectConnection);
 
@@ -361,11 +360,6 @@ bool CliInterface::runProcess(const QString& programName, const QStringList& arg
     m_process = 0;
 
     return ret;
-}
-
-void CliInterface::started()
-{
-    m_userCancelled = false;
 }
 
 void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus)

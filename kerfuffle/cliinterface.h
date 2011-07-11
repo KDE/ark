@@ -318,7 +318,6 @@ private:
     void writeToProcess(const QByteArray& data);
 
     QByteArray m_stdOutData;
-    bool m_userCancelled;
     QRegExp m_existsPattern;
     QRegExp m_passwordPromptPattern;
 
@@ -332,7 +331,6 @@ private:
     QVariantList m_removedFiles;
 
 private slots:
-    void started();
     void readStdout(bool handleAll = false);
     void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
 };
