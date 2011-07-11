@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010 Raphael Kubo da Costa <kubito@gmail.com>
+ * Copyright (c) 2010-2011 Raphael Kubo da Costa <kubito@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -31,6 +31,7 @@
 #include <kglobal.h>
 #include <qtest_kde.h>
 
+#include <qeventloop.h>
 #include <qsignalspy.h>
 
 using Kerfuffle::ArchiveEntry;
@@ -39,8 +40,10 @@ class JobsTest : public QObject
 {
     Q_OBJECT
 
+public:
+    JobsTest();
+
 protected Q_SLOTS:
-    void initTestCase();
     void init();
 
     void slotNewEntry(const ArchiveEntry& entry);
@@ -58,13 +61,17 @@ private Q_SLOTS:
 private:
     JSONArchiveInterface *createArchiveInterface(const QString& filePath);
     QList<Kerfuffle::ArchiveEntry> listEntries(JSONArchiveInterface *iface);
+    void startAndWaitForResult(KJob *job);
 
     QList<Kerfuffle::ArchiveEntry> m_entries;
+    QEventLoop m_eventLoop;
 };
 
 QTEST_KDEMAIN_CORE(JobsTest)
 
-void JobsTest::initTestCase()
+JobsTest::JobsTest()
+    : QObject(0)
+    , m_eventLoop(this)
 {
     // Hackish way to make sure the i18n stuff
     // is called from the main thread
@@ -92,6 +99,13 @@ JSONArchiveInterface *JobsTest::createArchiveInterface(const QString& filePath)
     return iface;
 }
 
+void JobsTest::startAndWaitForResult(KJob *job)
+{
+    connect(job, SIGNAL(result(KJob*)), &m_eventLoop, SLOT(quit()));
+    job->start();
+    m_eventLoop.exec();
+}
+
 void JobsTest::testExtractedFilesSize()
 {
     Kerfuffle::ListJob *listJob;
@@ -102,12 +116,14 @@ void JobsTest::testExtractedFilesSize()
         createArchiveInterface(KDESRCDIR "data/archive002.json");
 
     listJob = new Kerfuffle::ListJob(noSizeIface, this);
-    listJob->exec();
+    listJob->setAutoDelete(false);
+    startAndWaitForResult(listJob);
 
     QCOMPARE(listJob->extractedFilesSize(), 0LL);
 
     listJob = new Kerfuffle::ListJob(sizeIface, this);
-    listJob->exec();
+    listJob->setAutoDelete(false);
+    startAndWaitForResult(listJob);
 
     QCOMPARE(listJob->extractedFilesSize(), 45959LL);
 
@@ -125,12 +141,14 @@ void JobsTest::testIsPasswordProtected()
         createArchiveInterface(KDESRCDIR "data/archive-password.json");
 
     listJob = new Kerfuffle::ListJob(noPasswordIface, this);
-    listJob->exec();
+    listJob->setAutoDelete(false);
+    startAndWaitForResult(listJob);
 
     QCOMPARE(listJob->isPasswordProtected(), false);
 
     listJob = new Kerfuffle::ListJob(passwordIface, this);
-    listJob->exec();
+    listJob->setAutoDelete(false);
+    startAndWaitForResult(listJob);
 
     QCOMPARE(listJob->isPasswordProtected(), true);
 
@@ -144,63 +162,63 @@ void JobsTest::testIsSingleFolderArchive()
         createArchiveInterface(KDESRCDIR "data/archive001.json");
 
     Kerfuffle::ListJob *listJob = new Kerfuffle::ListJob(iface, this);
-    listJob->exec();
+    listJob->setAutoDelete(false);
+    startAndWaitForResult(listJob);
     QCOMPARE(listJob->isSingleFolderArchive(), false);
     QCOMPARE(listJob->subfolderName(), QString());
     iface->deleteLater();
-    listJob->deleteLater();
 
     iface = createArchiveInterface(KDESRCDIR "data/archive-singlefile.json");
     listJob = new Kerfuffle::ListJob(iface, this);
-    listJob->exec();
+    listJob->setAutoDelete(false);
+    startAndWaitForResult(listJob);
     QCOMPARE(listJob->isSingleFolderArchive(), true);
     QCOMPARE(listJob->subfolderName(), QLatin1String("a.txt"));
     iface->deleteLater();
-    listJob->deleteLater();
 
     iface = createArchiveInterface(KDESRCDIR "data/archive-onetopfolder.json");
     listJob = new Kerfuffle::ListJob(iface, this);
-    listJob->exec();
+    listJob->setAutoDelete(false);
+    startAndWaitForResult(listJob);
     QCOMPARE(listJob->isSingleFolderArchive(), true);
     QCOMPARE(listJob->subfolderName(), QLatin1String("aDir"));
     iface->deleteLater();
-    listJob->deleteLater();
 
     iface = createArchiveInterface
             (KDESRCDIR "data/archive-multiplefolders.json");
     listJob = new Kerfuffle::ListJob(iface, this);
-    listJob->exec();
+    listJob->setAutoDelete(false);
+    startAndWaitForResult(listJob);
     QCOMPARE(listJob->isSingleFolderArchive(), false);
     QCOMPARE(listJob->subfolderName(), QString());
     iface->deleteLater();
-    listJob->deleteLater();
 
     iface = createArchiveInterface
             (KDESRCDIR "data/archive-nodir-manyfiles.json");
     listJob = new Kerfuffle::ListJob(iface, this);
-    listJob->exec();
+    listJob->setAutoDelete(false);
+    startAndWaitForResult(listJob);
     QCOMPARE(listJob->isSingleFolderArchive(), false);
     QCOMPARE(listJob->subfolderName(), QString());
     iface->deleteLater();
-    listJob->deleteLater();
 
     iface = createArchiveInterface
             (KDESRCDIR "data/archive-deepsinglehierarchy.json");
     listJob = new Kerfuffle::ListJob(iface, this);
-    listJob->exec();
+    listJob->setAutoDelete(false);
+    startAndWaitForResult(listJob);
     QCOMPARE(listJob->isSingleFolderArchive(), true);
     QCOMPARE(listJob->subfolderName(), QLatin1String("aDir"));
     iface->deleteLater();
-    listJob->deleteLater();
 
     iface = createArchiveInterface
             (KDESRCDIR "data/archive-unorderedsinglefolder.json");
     listJob = new Kerfuffle::ListJob(iface, this);
-    listJob->exec();
+    listJob->setAutoDelete(false);
+    startAndWaitForResult(listJob);
     QCOMPARE(listJob->isSingleFolderArchive(), true);
     QCOMPARE(listJob->subfolderName(), QLatin1String("aDir"));
     iface->deleteLater();
-    listJob->deleteLater();
 }
 
 void JobsTest::testListEntries()
@@ -240,7 +258,7 @@ QList<Kerfuffle::ArchiveEntry> JobsTest::listEntries(JSONArchiveInterface *iface
     connect(listJob, SIGNAL(newEntry(const ArchiveEntry&)),
             SLOT(slotNewEntry(const ArchiveEntry&)));
 
-    listJob->exec();
+    startAndWaitForResult(listJob);
 
     return m_entries;
 }
@@ -255,7 +273,7 @@ void JobsTest::testRemoveEntry()
     filesToDelete.append(QLatin1String("c.txt"));
     iface = createArchiveInterface(KDESRCDIR "data/archive001.json");
     deleteJob = new Kerfuffle::DeleteJob(filesToDelete, iface, this);
-    QVERIFY(deleteJob->exec());
+    startAndWaitForResult(deleteJob);
     QList<Kerfuffle::ArchiveEntry> archiveEntries(listEntries(iface));
     expectedEntries.append(QLatin1String("a.txt"));
     expectedEntries.append(QLatin1String("aDir/"));
