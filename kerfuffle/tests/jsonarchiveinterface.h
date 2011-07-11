@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010 Raphael Kubo da Costa <kubito@gmail.com>
+ * Copyright (c) 2010-2011 Raphael Kubo da Costa <kubito@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -26,6 +26,8 @@
 #ifndef JSONARCHIVEINTERFACE_H
 #define JSONARCHIVEINTERFACE_H
 
+#include "jsonparser.h"
+
 #include "kerfuffle/archive.h"
 #include "kerfuffle/archiveinterface.h"
 
@@ -33,22 +35,13 @@
  * A dummy archive interface used by our test cases.
  *
  * It reads a JSON file which defines the contents of the archive.
- *
- * The file consists of a list of dictionaries whose keys are values from the
- * EntryMetaDataType enum.  The only required key for each entry is FileName;
- * other values which are omitted for each entry are assumed to be 0 or false.
+ * For the file format description, see the documentation for @c JSONParser.
  *
  * The file's content is read to memory when open() is called and the archive
  * is then closed. This means that this class never changes the file's content
  * on disk, and entry addition or deletion do not change the original file.
  *
- * Example file:
- * @code
- * [
- *     { "FileName": "foo", "IsPasswordProtected": true },
- *     { "FileName": "aDir/", "IsDirectory": true }
- * ]
- * @endcode
+ * @sa JSONParser
  *
  * @author Raphael Kubo da Costa <kubito@gmail.com>
  */
@@ -68,20 +61,7 @@ public:
     virtual bool deleteFiles(const QList<QVariant>& files);
 
 private:
-    /**
-     * Parses each entry in the QVariantMap obtained from parsing a JSON file and
-     * creates a Kerfuffle::ArchiveEntry for it, adding it to the internal entry list.
-     *
-     * If an entry does not have a "FileName" key, it is ignored. Keys which do not correspond
-     * to a value in the EntryMetaDataType enum are ignored.
-     *
-     * @retval true  The map was parsed correctly.
-     * @retval false The map does not have an "entries" key, or an error has occurred.
-     */
-    bool parseJson(const QVariant& json);
-
-    QStringList m_entryNameList;
-    QList<Kerfuffle::ArchiveEntry> m_entryList;
+    JSONParser::JSONArchive m_archive;
 };
 
 #endif

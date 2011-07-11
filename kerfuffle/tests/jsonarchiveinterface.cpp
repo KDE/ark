@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010 Raphael Kubo da Costa <kubito@gmail.com>
+ * Copyright (c) 2010-2011 Raphael Kubo da Costa <kubito@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -41,8 +41,9 @@ JSONArchiveInterface::~JSONArchiveInterface()
 
 bool JSONArchiveInterface::list()
 {
-    foreach (const Kerfuffle::ArchiveEntry& e, m_entryList) {
-        entry(e);
+    JSONParser::JSONArchive::const_iterator it = m_archive.constBegin();
+    for (; it != m_archive.constEnd(); ++it) {
+        entry(*it);
     }
 
     return true;
@@ -60,90 +61,25 @@ bool JSONArchiveInterface::open()
         return false;
     }
 
-    bool ok;
-    QJson::Parser parser;
+    m_archive = JSONParser::parse(&file);
 
-    const QVariant json = parser.parse(&file, &ok);
-
-    if (!ok) {
-        kDebug() << filename() << ":"  << parser.errorLine() << ":"
-                 << parser.errorString();
-        return false;
-    }
-
-    if (!parseJson(json)) {
-        return false;
-    }
-
-    return true;
-}
-
-bool JSONArchiveInterface::parseJson(const QVariant& json)
-{
-    QMap<QString, Kerfuffle::EntryMetaDataType> valueMap;
-    valueMap[QLatin1String("FileName")] = Kerfuffle::FileName;
-    valueMap[QLatin1String("InternalID")] = Kerfuffle::InternalID;
-    valueMap[QLatin1String("Permissions")] = Kerfuffle::Permissions;
-    valueMap[QLatin1String("Owner")] = Kerfuffle::Owner;
-    valueMap[QLatin1String("Group")] = Kerfuffle::Group;
-    valueMap[QLatin1String("Size")] = Kerfuffle::Size;
-    valueMap[QLatin1String("CompressedSize")] = Kerfuffle::CompressedSize;
-    valueMap[QLatin1String("Link")] = Kerfuffle::Link;
-    valueMap[QLatin1String("Ratio")] = Kerfuffle::Ratio;
-    valueMap[QLatin1String("CRC")] = Kerfuffle::CRC;
-    valueMap[QLatin1String("Method")] = Kerfuffle::Method;
-    valueMap[QLatin1String("Version")] = Kerfuffle::Version;
-    valueMap[QLatin1String("Timestamp")] = Kerfuffle::Timestamp;
-    valueMap[QLatin1String("IsDirectory")] = Kerfuffle::IsDirectory;
-    valueMap[QLatin1String("Comment")] = Kerfuffle::Comment;
-    valueMap[QLatin1String("IsPasswordProtected")] = Kerfuffle::IsPasswordProtected;
-
-    foreach (const QVariant& entry, json.toList()) {
-        const QVariantMap entryMap = entry.toMap();
-
-        if (!entryMap.contains(QLatin1String("FileName"))) {
-            continue;
-        }
-
-        Kerfuffle::ArchiveEntry e;
-
-        QVariantMap::const_iterator entryIterator = entryMap.constBegin();
-        for (; entryIterator != entryMap.constEnd(); ++entryIterator) {
-            if (valueMap.contains(entryIterator.key())) {
-                e[valueMap[entryIterator.key()]] = entryIterator.value();
-            } else {
-                kDebug() << entryIterator.key() << "is not a valid entry key";
-            }
-        }
-
-        m_entryNameList.append(e[Kerfuffle::FileName].toString());
-        m_entryList.append(e);
-    }
-
-    return true;
+    return !m_archive.isEmpty();
 }
 
 bool JSONArchiveInterface::addFiles(const QStringList& files, const Kerfuffle::CompressionOptions& options)
 {
     Q_UNUSED(options)
 
-    QStringList entryNameList;
-    QList<Kerfuffle::ArchiveEntry> entryList;
-
     foreach (const QString& file, files) {
-        if (m_entryNameList.contains(file)) {
+        if (m_archive.contains(file)) {
             return false;
         }
 
         Kerfuffle::ArchiveEntry e;
         e[Kerfuffle::FileName] = file;
 
-        entryNameList.append(e[Kerfuffle::FileName].toString());
-        entryList.append(e);
+        m_archive[file] = e;
     }
-
-    m_entryNameList.append(entryNameList);
-    m_entryList.append(entryList);
 
     return true;
 }
@@ -159,24 +95,10 @@ bool JSONArchiveInterface::copyFiles(const QList<QVariant>& files, const QString
 
 bool JSONArchiveInterface::deleteFiles(const QList<QVariant>& files)
 {
-    QStringList fileList;
     foreach (const QVariant& file, files) {
-        fileList.append(file.toString());
+        const QString fileName = file.toString();
+        m_archive.remove(fileName);
     }
-
-    QList<Kerfuffle::ArchiveEntry> newEntryList;
-    QStringList newEntryNameList;
-    foreach (const Kerfuffle::ArchiveEntry& e, m_entryList) {
-        if (fileList.contains(e[Kerfuffle::FileName].toString())) {
-            continue;
-        }
-
-        newEntryList.append(e);
-        newEntryNameList.append(e[Kerfuffle::FileName].toString());
-    }
-
-    m_entryNameList = newEntryNameList;
-    m_entryList = newEntryList;
 
     return true;
 }
