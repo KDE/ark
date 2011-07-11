@@ -325,9 +325,12 @@ bool CliInterface::runProcess(const QString& programName, const QStringList& arg
         return false;
     }
 
-    Q_ASSERT(!m_process);
-
     kDebug() << "Executing" << programPath << arguments;
+
+    if (m_process) {
+        m_process->waitForFinished();
+        delete m_process;
+    }
 
 #ifdef Q_OS_WIN
     m_process = new KProcess();
