@@ -63,7 +63,7 @@ bool JSONArchiveInterface::open()
     bool ok;
     QJson::Parser parser;
 
-    const QVariantMap jsonMap = parser.parse(&file, &ok).toMap();
+    const QVariant json = parser.parse(&file, &ok);
 
     if (!ok) {
         kDebug() << filename() << ":"  << parser.errorLine() << ":"
@@ -71,20 +71,15 @@ bool JSONArchiveInterface::open()
         return false;
     }
 
-    if (!parseJsonMap(jsonMap)) {
+    if (!parseJson(json)) {
         return false;
     }
 
     return true;
 }
 
-bool JSONArchiveInterface::parseJsonMap(const QVariantMap& jsonMap)
+bool JSONArchiveInterface::parseJson(const QVariant& json)
 {
-    if (!jsonMap.contains(QLatin1String("entries"))) {
-        kDebug() << "JSON file does not have an 'entries' key";
-        return false;
-    }
-
     QMap<QString, Kerfuffle::EntryMetaDataType> valueMap;
     valueMap[QLatin1String("FileName")] = Kerfuffle::FileName;
     valueMap[QLatin1String("InternalID")] = Kerfuffle::InternalID;
@@ -103,7 +98,7 @@ bool JSONArchiveInterface::parseJsonMap(const QVariantMap& jsonMap)
     valueMap[QLatin1String("Comment")] = Kerfuffle::Comment;
     valueMap[QLatin1String("IsPasswordProtected")] = Kerfuffle::IsPasswordProtected;
 
-    foreach (const QVariant& entry, jsonMap["entries"].toList()) {
+    foreach (const QVariant& entry, json.toList()) {
         const QVariantMap entryMap = entry.toMap();
 
         if (!entryMap.contains(QLatin1String("FileName"))) {

@@ -1,9 +1,20 @@
-{
-    "entries": [
-        { "FileName": "aDir/", "IsDirectory": true },
-        { "FileName": "aDir/b.txt" },
-        { "FileName": "aDir/aDirInside/", "IsDirectory": true },
-        { "FileName": "aDir/aDirInside/anotherDir/", "IsDirectory": true },
-        { "FileName": "aDir/aDirInside/anotherDir/file.txt" }
-    ]
-}
+[
+    {
+        "FileName": "aDir/",
+        "IsDirectory": true
+    },
+    {
+        "FileName": "aDir/b.txt"
+    },
+    {
+        "FileName": "aDir/aDirInside/",
+        "IsDirectory": true
+    },
+    {
+        "FileName": "aDir/aDirInside/anotherDir/",
+        "IsDirectory": true
+    },
+    {
+        "FileName": "aDir/aDirInside/anotherDir/file.txt"
+    }
+]

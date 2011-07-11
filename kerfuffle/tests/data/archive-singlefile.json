@@ -1,5 +1,5 @@
-{
-    "entries": [
-        { "FileName": "a.txt" }
-    ]
-}
+[
+    {
+        "FileName": "a.txt"
+    }
+]

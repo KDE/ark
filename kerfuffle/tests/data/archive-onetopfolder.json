@@ -1,6 +1,9 @@
-{
-    "entries": [
-        { "FileName": "aDir/", "IsDirectory": true },
-        { "FileName": "aDir/b.txt" }
-    ]
-}
+[
+    {
+        "FileName": "aDir/",
+        "IsDirectory": true
+    },
+    {
+        "FileName": "aDir/b.txt"
+    }
+]

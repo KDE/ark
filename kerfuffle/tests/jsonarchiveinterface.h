@@ -34,12 +34,9 @@
  *
  * It reads a JSON file which defines the contents of the archive.
  *
- * The file consists of a series of pairs which describe various aspects of an
- * archive. For now, there is a single top-level pair whose key is "entries" and
- * whose value is an array containing a list of objects whose keys are values
- * from the EntryMetaDataType enum.
- * The only required key for each entry is FileName; other values which are
- * omitted for each entry are assumed to be 0 or false.
+ * The file consists of a list of dictionaries whose keys are values from the
+ * EntryMetaDataType enum.  The only required key for each entry is FileName;
+ * other values which are omitted for each entry are assumed to be 0 or false.
  *
  * The file's content is read to memory when open() is called and the archive
  * is then closed. This means that this class never changes the file's content
@@ -47,12 +44,10 @@
  *
  * Example file:
  * @code
- * {
- *     "entries": [
- *         { "FileName": "foo", "IsPasswordProtected": true },
- *         { "FileName": "aDir/", "IsDirectory": true }
- *     ]
- * }
+ * [
+ *     { "FileName": "foo", "IsPasswordProtected": true },
+ *     { "FileName": "aDir/", "IsDirectory": true }
+ * ]
  * @endcode
  *
  * @author Raphael Kubo da Costa <kubito@gmail.com>
@@ -83,7 +78,7 @@ private:
      * @retval true  The map was parsed correctly.
      * @retval false The map does not have an "entries" key, or an error has occurred.
      */
-    bool parseJsonMap(const QVariantMap& jsonMap);
+    bool parseJson(const QVariant& json);
 
     QStringList m_entryNameList;
     QList<Kerfuffle::ArchiveEntry> m_entryList;

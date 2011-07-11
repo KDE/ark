@@ -1,8 +1,16 @@
-{
-    "entries": [
-        { "FileName": "aDir/anotherDir/bar.txt" },
-        { "FileName": "aDir/foo.txt" },
-        { "FileName": "aDir/anotherDir/", "IsDirectory": true },
-        { "FileName": "aDir/", "IsDirectory": true }
-    ]
-}
+[
+    {
+        "FileName": "aDir/anotherDir/bar.txt"
+    },
+    {
+        "FileName": "aDir/foo.txt"
+    },
+    {
+        "FileName": "aDir/anotherDir/",
+        "IsDirectory": true
+    },
+    {
+        "FileName": "aDir/",
+        "IsDirectory": true
+    }
+]
