@@ -15,6 +15,7 @@ Name=kerfuffle_libarchive_readonly
 Name[bs]=kerfuffle_libarchive_readonly
 Name[ca]=kerfuffle_libarchive_readonly
 Name[ca@valencia]=kerfuffle_libarchive_readonly
+Name[cs]=kerfuffle_libarchive_readonly
 Name[da]=kerfuffle_libarchive_readonly
 Name[de]=kerfuffle_libarchive_readonly
 Name[el]=kerfuffle_libarchive_readonly
