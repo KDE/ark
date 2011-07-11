@@ -42,17 +42,26 @@ namespace Kerfuffle
 class Job::Private : public QThread
 {
 public:
+    Private(Job *job, QObject *parent = 0)
+        : QThread(parent)
+        , q(job)
+    {
+        connect(q, SIGNAL(result(KJob*)), SLOT(quit()));
+    }
+
     virtual void run();
 
+private:
     Job *q;
 };
 
 void Job::Private::run()
 {
-    connect(q, SIGNAL(result(KJob*)), this, SLOT(quit()), Qt::DirectConnection);
+    q->doWork();
 
-    QMetaObject::invokeMethod(q, "doWork", Qt::DirectConnection);
-    exec();
+    if (q->isRunning()) {
+        exec();
+    }
 
 #ifdef DEBUG_RACECONDITION
     QThread::sleep(2);
@@ -62,10 +71,9 @@ void Job::Private::run()
 Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
     : KJob(parent)
     , m_interface(interface)
-    , d(new Private())
+    , m_isRunning(false)
+    , d(new Private(this))
 {
-    d->q = this;
-
     static bool onlyOnce = false;
     if (!onlyOnce) {
         qRegisterMetaType<QPair<QString, QString> >("QPair<QString,QString>");
@@ -84,9 +92,21 @@ Job::~Job()
     delete d;
 }
 
+bool Job::isRunning() const
+{
+    return m_isRunning;
+}
+
 void Job::start()
 {
+    m_isRunning = true;
     d->start();
+}
+
+void Job::emitResult()
+{
+    m_isRunning = false;
+    KJob::emitResult();
 }
 
 void Job::onError(const QString & message, const QString & details)

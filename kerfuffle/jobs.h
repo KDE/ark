@@ -60,10 +60,13 @@ public:
     virtual void onFinished(bool result);
     virtual void onUserQuery(class Query *query);
 
+    bool isRunning() const;
+
 protected:
     Job(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
     virtual ~Job();
     virtual bool doKill();
+    virtual void emitResult();
 
     ReadOnlyArchiveInterface *m_interface;
 
@@ -77,6 +80,8 @@ signals:
     void userQuery(Kerfuffle::Query*);
 
 private:
+    bool m_isRunning;
+
     class Private;
     Private * const d;
 };
