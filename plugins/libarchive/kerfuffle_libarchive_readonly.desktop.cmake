@@ -24,6 +24,7 @@ Name[es]=kerfuffle_libarchive_readonly
 Name[et]=kerfuffle_libarchive_readonly
 Name[eu]=kerfuffle_libarchive_readonly
 Name[fi]=kerfuffle_libarchive_readonly
+Name[fr]=kerfuffle_libarchive_readonly
 Name[it]=kerfuffle_libarchive_readonly
 Name[kk]=kerfuffle_libarchive_readonly
 Name[km]=kerfuffle_libarchive_readonly
