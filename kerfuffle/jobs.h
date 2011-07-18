@@ -114,6 +114,8 @@ class KERFUFFLE_EXPORT ExtractJob : public Job
 public:
     ExtractJob(const QVariantList& files, const QString& destinationDir, ExtractionOptions options, ReadOnlyArchiveInterface *interface, QObject *parent = 0);
 
+    QString destinationDirectory() const;
+
 public slots:
     virtual void doWork();
 

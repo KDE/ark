@@ -611,8 +611,6 @@ void Part::slotExtractFiles()
         //this is done to update the quick extract menu
         updateActions();
 
-        m_destinationDirectory = dialog.data()->destinationDirectory().pathOrUrl();
-
         QVariantList files;
 
         //if the user has chosen to extract only selected entries, fetch these
@@ -629,7 +627,8 @@ void Part::slotExtractFiles()
             options[QLatin1String("PreservePaths")] = true;
         }
 
-        ExtractJob *job = m_model->extractFiles(files, m_destinationDirectory, options);
+        const QString destinationDirectory = dialog.data()->destinationDirectory().pathOrUrl();
+        ExtractJob *job = m_model->extractFiles(files, destinationDirectory, options);
         registerJob(job);
 
         connect(job, SIGNAL(result(KJob*)),
@@ -692,10 +691,13 @@ void Part::slotExtractionDone(KJob* job)
         KMessageBox::error(widget(), job->errorString());
     } else {
         if (ArkSettings::openDestinationFolderAfterExtraction()) {
-            KUrl destinationFolder(m_destinationDirectory);
-            destinationFolder.cleanPath();
+            ExtractJob *extractJob = qobject_cast<ExtractJob*>(job);
+            Q_ASSERT(extractJob);
 
-            KRun::runUrl(destinationFolder, QLatin1String( "inode/directory" ), widget());
+            KUrl destinationDirectory(extractJob->destinationDirectory());
+            destinationDirectory.cleanPath();
+
+            KRun::runUrl(destinationDirectory, QLatin1String("inode/directory"), widget());
         }
 
         if (ArkSettings::closeAfterExtraction()) {
