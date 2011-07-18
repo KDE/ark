@@ -264,6 +264,11 @@ void ExtractJob::fillInDefaultValues(ExtractionOptions& options)
     }
 }
 
+QString ExtractJob::destinationDirectory() const
+{
+    return m_destinationDir;
+}
+
 AddJob::AddJob(const QStringList& files, const CompressionOptions& options , ReadWriteArchiveInterface *interface, QObject *parent)
     : Job(interface, parent)
     , m_files(files)

@@ -116,7 +116,6 @@ private:
     QSplitter            *m_splitter;
     KTempDir             *m_previewDir;
     bool                  m_busy;
-    QString               m_destinationDirectory;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;
