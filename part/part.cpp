@@ -627,6 +627,8 @@ void Part::slotExtractFiles()
             options[QLatin1String("PreservePaths")] = true;
         }
 
+        options[QLatin1String("FollowExtractionDialogSettings")] = true;
+
         const QString destinationDirectory = dialog.data()->destinationDirectory().pathOrUrl();
         ExtractJob *job = m_model->extractFiles(files, destinationDirectory, options);
         registerJob(job);
@@ -690,9 +692,16 @@ void Part::slotExtractionDone(KJob* job)
     if (job->error()) {
         KMessageBox::error(widget(), job->errorString());
     } else {
+        ExtractJob *extractJob = qobject_cast<ExtractJob*>(job);
+        Q_ASSERT(extractJob);
+
+        const bool followExtractionDialogSettings =
+            extractJob->extractionOptions().value(QLatin1String("FollowExtractionDialogSettings"), false).toBool();
+        if (!followExtractionDialogSettings) {
+            return;
+        }
+
         if (ArkSettings::openDestinationFolderAfterExtraction()) {
-            ExtractJob *extractJob = qobject_cast<ExtractJob*>(job);
-            Q_ASSERT(extractJob);
 
             KUrl destinationDirectory(extractJob->destinationDirectory());
             destinationDirectory.cleanPath();
