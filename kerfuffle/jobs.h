@@ -120,6 +120,7 @@ public:
     ExtractJob(const QVariantList& files, const QString& destinationDir, ExtractionOptions options, ReadOnlyArchiveInterface *interface, QObject *parent = 0);
 
     QString destinationDirectory() const;
+    ExtractionOptions extractionOptions() const;
 
 public slots:
     virtual void doWork();
