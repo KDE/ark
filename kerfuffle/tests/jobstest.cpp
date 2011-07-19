@@ -55,6 +55,9 @@ private Q_SLOTS:
     void testIsSingleFolderArchive();
     void testListEntries();
 
+    // ExtractJob-related tests
+    void testExtractJobAccessors();
+
     // DeleteJob-related tests
     void testRemoveEntry();
 
@@ -261,6 +264,42 @@ QList<Kerfuffle::ArchiveEntry> JobsTest::listEntries(JSONArchiveInterface *iface
     startAndWaitForResult(listJob);
 
     return m_entries;
+}
+
+void JobsTest::testExtractJobAccessors()
+{
+    JSONArchiveInterface *iface = createArchiveInterface(KDESRCDIR "data/archive001.json");
+    Kerfuffle::ExtractJob *job =
+        new Kerfuffle::ExtractJob(QVariantList(), QLatin1String("/tmp/some-dir"),
+                                  Kerfuffle::ExtractionOptions(), iface, this);
+    Kerfuffle::ExtractionOptions defaultOptions;
+    defaultOptions[QLatin1String("PreservePaths")] = false;
+
+    QCOMPARE(job->destinationDirectory(), QLatin1String("/tmp/some-dir"));
+    QCOMPARE(job->extractionOptions(), defaultOptions);
+
+    job->setAutoDelete(false);
+    startAndWaitForResult(job);
+
+    QCOMPARE(job->destinationDirectory(), QLatin1String("/tmp/some-dir"));
+    QCOMPARE(job->extractionOptions(), defaultOptions);
+
+    Kerfuffle::ExtractionOptions options;
+    options[QLatin1String("PreservePaths")] = true;
+    options[QLatin1String("foo")] = QLatin1String("bar");
+    options[QLatin1String("pi")] = 3.14f;
+
+    job = new Kerfuffle::ExtractJob(QVariantList(), QLatin1String("/root"),
+                                    options, iface, this);
+
+    QCOMPARE(job->destinationDirectory(), QLatin1String("/root"));
+    QCOMPARE(job->extractionOptions(), options);
+
+    job->setAutoDelete(false);
+    startAndWaitForResult(job);
+
+    QCOMPARE(job->destinationDirectory(), QLatin1String("/root"));
+    QCOMPARE(job->extractionOptions(), options);
 }
 
 void JobsTest::testRemoveEntry()
