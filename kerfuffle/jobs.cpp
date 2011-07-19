@@ -229,6 +229,7 @@ ExtractJob::ExtractJob(const QVariantList& files, const QString& destinationDir,
     , m_destinationDir(destinationDir)
     , m_options(options)
 {
+    setDefaultOptions();
 }
 
 void ExtractJob::doWork()
@@ -243,8 +244,6 @@ void ExtractJob::doWork()
 
     m_interface->registerObserver(this);
 
-    fillInDefaultValues(m_options);
-
     kDebug() << "Starting extraction with selected files:"
              << m_files
              << "Destination dir:" << m_destinationDir
@@ -257,10 +256,17 @@ void ExtractJob::doWork()
     }
 }
 
-void ExtractJob::fillInDefaultValues(ExtractionOptions& options)
+void ExtractJob::setDefaultOptions()
 {
-    if (!options.contains(QLatin1String( "PreservePaths" ))) {
-        options[QLatin1String( "PreservePaths" )] = false;
+    ExtractionOptions defaultOptions;
+
+    defaultOptions[QLatin1String("PreservePaths")] = false;
+
+    ExtractionOptions::const_iterator it = defaultOptions.constBegin();
+    for (; it != defaultOptions.constEnd(); ++it) {
+        if (!m_options.contains(it.key())) {
+            m_options[it.key()] = it.value();
+        }
     }
 }
 
