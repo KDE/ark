@@ -151,7 +151,7 @@ void MainWindow::setupActions()
     m_openAction = KStandardAction::open(this, SLOT(openArchive()), actionCollection());
     KStandardAction::quit(this, SLOT(quit()), actionCollection());
 
-    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openUrl(const KUrl&)), actionCollection());
+    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openUrl(KUrl)), actionCollection());
     m_recentFilesAction->setToolBarMode(KRecentFilesAction::MenuMode);
     m_recentFilesAction->setToolButtonPopupMode(QToolButton::DelayedPopup);
     m_recentFilesAction->setIconText(i18nc("action, to open an archive", "Open"));

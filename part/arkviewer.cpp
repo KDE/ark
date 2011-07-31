@@ -170,8 +170,8 @@ bool ArkViewer::viewInInternalViewer(const QString& filename)
 
     if (m_part.data()->browserExtension()) {
         connect(m_part.data()->browserExtension(),
-                SIGNAL(openUrlRequestDelayed(KUrl, KParts::OpenUrlArguments, KParts::BrowserArguments)),
-                SLOT(slotOpenUrlRequestDelayed(KUrl, KParts::OpenUrlArguments, KParts::BrowserArguments)));
+                SIGNAL(openUrlRequestDelayed(KUrl,KParts::OpenUrlArguments,KParts::BrowserArguments)),
+                SLOT(slotOpenUrlRequestDelayed(KUrl,KParts::OpenUrlArguments,KParts::BrowserArguments)));
     }
 
     // #235546

@@ -106,12 +106,12 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
     connect(m_model, SIGNAL(loadingStarted()),
             this, SLOT(slotLoadingStarted()));
-    connect(m_model, SIGNAL(loadingFinished(KJob *)),
-            this, SLOT(slotLoadingFinished(KJob *)));
-    connect(m_model, SIGNAL(droppedFiles(const QStringList&, const QString&)),
-            this, SLOT(slotAddFiles(const QStringList&, const QString&)));
-    connect(m_model, SIGNAL(error(const QString&, const QString&)),
-            this, SLOT(slotError(const QString&, const QString&)));
+    connect(m_model, SIGNAL(loadingFinished(KJob*)),
+            this, SLOT(slotLoadingFinished(KJob*)));
+    connect(m_model, SIGNAL(droppedFiles(QStringList,QString)),
+            this, SLOT(slotAddFiles(QStringList,QString)));
+    connect(m_model, SIGNAL(error(QString,QString)),
+            this, SLOT(slotError(QString,QString)));
 
     connect(this, SIGNAL(busy()),
             this, SLOT(setBusyGui()));
@@ -199,7 +199,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
     registerJob(job);
 
     connect(job, SIGNAL(result(KJob*)),
-            this, SLOT(slotExtractionDone(KJob *)));
+            this, SLOT(slotExtractionDone(KJob*)));
 
     job->start();
 }
@@ -210,16 +210,16 @@ void Part::setupView()
 
     m_view->setSortingEnabled(true);
 
-    connect(m_view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+    connect(m_view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
             this, SLOT(updateActions()));
-    connect(m_view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+    connect(m_view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
             this, SLOT(selectionChanged()));
 
     //TODO: fix an actual eventhandler
-    connect(m_view, SIGNAL(itemTriggered(const QModelIndex &)),
-            this, SLOT(slotPreview(const QModelIndex &)));
+    connect(m_view, SIGNAL(itemTriggered(QModelIndex)),
+            this, SLOT(slotPreview(QModelIndex)));
 
-    connect(m_model, SIGNAL(columnsInserted(const QModelIndex &, int, int)),
+    connect(m_model, SIGNAL(columnsInserted(QModelIndex,int,int)),
             this, SLOT(adjustColumns()));
 }
 
@@ -347,7 +347,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
         registerJob(job);
 
         connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(slotExtractionDone(KJob *)));
+                this, SLOT(slotExtractionDone(KJob*)));
 
         job->start();
     }
@@ -634,7 +634,7 @@ void Part::slotExtractFiles()
         registerJob(job);
 
         connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(slotExtractionDone(KJob *)));
+                this, SLOT(slotExtractionDone(KJob*)));
 
         job->start();
     }

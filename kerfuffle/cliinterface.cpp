@@ -346,7 +346,7 @@ bool CliInterface::runProcess(const QString& programName, const QStringList& arg
     m_process->setProgram(programPath, arguments);
 
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
-    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(processFinished(int, QProcess::ExitStatus)), Qt::DirectConnection);
+    connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), SLOT(processFinished(int,QProcess::ExitStatus)), Qt::DirectConnection);
 
     m_stdOutData.clear();
 

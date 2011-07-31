@@ -92,8 +92,8 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
 
     m_fileNames[job] = qMakePair(archive->fileName(), destination);
 
-    connect(job, SIGNAL(percent(KJob*, unsigned long)),
-            this, SLOT(forwardProgress(KJob *, unsigned long)));
+    connect(job, SIGNAL(percent(KJob*,ulong)),
+            this, SLOT(forwardProgress(KJob*,ulong)));
     connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
             this, SLOT(slotUserQuery(Kerfuffle::Query*)));
 }

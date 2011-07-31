@@ -873,11 +873,11 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
     if (m_archive) {
         job = m_archive->list(); // TODO: call "open" or "create"?
 
-        connect(job, SIGNAL(newEntry(const ArchiveEntry&)),
-                this, SLOT(slotNewEntryFromSetArchive(const ArchiveEntry&)));
+        connect(job, SIGNAL(newEntry(ArchiveEntry)),
+                this, SLOT(slotNewEntryFromSetArchive(ArchiveEntry)));
 
-        connect(job, SIGNAL(result(KJob *)),
-                this, SLOT(slotLoadingFinished(KJob *)));
+        connect(job, SIGNAL(result(KJob*)),
+                this, SLOT(slotLoadingFinished(KJob*)));
 
         connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
                 this, SLOT(slotUserQuery(Kerfuffle::Query*)));
@@ -915,8 +915,8 @@ AddJob* ArchiveModel::addFiles(const QStringList & filenames, const CompressionO
 
     if (!m_archive->isReadOnly()) {
         AddJob *job = m_archive->addFiles(filenames, options);
-        connect(job, SIGNAL(newEntry(const ArchiveEntry&)),
-                this, SLOT(slotNewEntry(const ArchiveEntry&)));
+        connect(job, SIGNAL(newEntry(ArchiveEntry)),
+                this, SLOT(slotNewEntry(ArchiveEntry)));
         connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
                 this, SLOT(slotUserQuery(Kerfuffle::Query*)));
 
@@ -931,8 +931,8 @@ DeleteJob* ArchiveModel::deleteFiles(const QList<QVariant> & files)
     Q_ASSERT(m_archive);
     if (!m_archive->isReadOnly()) {
         DeleteJob *job = m_archive->deleteFiles(files);
-        connect(job, SIGNAL(entryRemoved(const QString &)),
-                this, SLOT(slotEntryRemoved(const QString &)));
+        connect(job, SIGNAL(entryRemoved(QString)),
+                this, SLOT(slotEntryRemoved(QString)));
 
         connect(job, SIGNAL(finished(KJob*)),
                 this, SLOT(slotCleanupEmptyDirs()));

@@ -258,8 +258,8 @@ QList<Kerfuffle::ArchiveEntry> JobsTest::listEntries(JSONArchiveInterface *iface
     m_entries.clear();
 
     Kerfuffle::ListJob *listJob = new Kerfuffle::ListJob(iface, this);
-    connect(listJob, SIGNAL(newEntry(const ArchiveEntry&)),
-            SLOT(slotNewEntry(const ArchiveEntry&)));
+    connect(listJob, SIGNAL(newEntry(ArchiveEntry)),
+            SLOT(slotNewEntry(ArchiveEntry)));
 
     startAndWaitForResult(listJob);
 
