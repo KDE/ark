@@ -14,7 +14,7 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
 endif()
 
 include( MacroLibrary )
-list(APPEND CMAKE_MODULE_PATH ${ark_SOURCE_DIR}/cmake)
+list(APPEND CMAKE_MODULE_PATH ${ark_SOURCE_DIR}/cmake/modules)
 
 macro_optional_find_package(LibArchive)
 macro_log_feature(LIBARCHIVE_FOUND "LibArchive" "A library for dealing with a wide variety of archive file formats" "http://code.google.com/p/libarchive/" FALSE "" "Required for among others tar, tar.gz, tar.bz2 formats in Ark.")
