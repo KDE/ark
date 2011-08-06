@@ -198,7 +198,8 @@ then add <replaceable>photo1.jpg</replaceable> and <replaceable>text.txt</replac
 
 <refsect1>
 <title>Authors</title>
-<para>&ark; is currently maintained by &Raphael.Kubo.da.Costa; &Raphael.Kubo.da.Costa.mail;.</para>
+<para>&ark; is currently maintained by &Harald.Hvaal; &Harald.Hvaal.mail;
+and &Raphael.Kubo.da.Costa; &Raphael.Kubo.da.Costa.mail;.</para>
 <para>This man page was first written by &Lauri.Watts;
 &Lauri.Watts.mail; in 2005 for &kde; 3.4, and was later updated in 2009 by 
 &Raphael.Kubo.da.Costa; &Raphael.Kubo.da.Costa.mail;.</para>
