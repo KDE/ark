@@ -1,4 +1,4 @@
-In this folder is a general template of what one needs to imlement
+In this folder is a general template of what one needs to implement
 support for a plugin using the cli interface in ark.
 
 Here are the steps.
@@ -16,6 +16,6 @@ Refer to kerfuffle/cliinterface.h for explanations on the values that
 needs to be implemented. The class name does not need to be changed
 
 Then finally, email the plugin to the ark maintainer for a code review before
-it is commited to trunk :D
+it is committed to trunk :D
 
 Have fun
