@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 
     aboutData.addAuthor(ki18n("Raphael Kubo da Costa"),
                         ki18n("Maintainer"),
-                        "kubito@gmail.com");
+                        "rakuco@FreeBSD.org");
     aboutData.addAuthor(ki18n("Harald Hvaal"),
                         ki18n("Former Maintainer"),
                         "haraldhv@stud.ntnu.no");
