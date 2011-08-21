@@ -26,3 +26,7 @@ add_subdirectory(app)
 add_subdirectory(plugins)
 add_subdirectory(kerfuffle)
 add_subdirectory(doc)
+
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
+    macro_display_feature_log()
+endif(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
