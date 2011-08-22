@@ -6,7 +6,7 @@ set(JSONINTERFACE_SOURCES
     jsonarchiveinterface.cpp
     jsonparser.cpp
 )
-kde4_add_library(jsoninterface ${JSONINTERFACE_SOURCES})
+kde4_add_library(jsoninterface STATIC ${JSONINTERFACE_SOURCES})
 
 macro(KERFUFFLE_UNIT_TESTS)
     foreach(_testname ${ARGN})
