@@ -114,7 +114,11 @@ bool CliPlugin::readListLine(const QString &line)
         if (entryPattern.indexIn(line) != -1) {
             ArchiveEntry e;
             e[Permissions] = entryPattern.cap(1);
-            e[IsDirectory] = (entryPattern.cap(1).at(0) == QLatin1Char( 'd' ));
+
+            // #280354: infozip may not show the right attributes for a given directory, so an entry
+            //          ending with '/' is actually more reliable than 'd' bein in the attributes.
+            e[IsDirectory] = entryPattern.cap(10).endsWith(QLatin1Char('/'));
+
             e[Size] = entryPattern.cap(4).toInt();
             QString status = entryPattern.cap(5);
             if (status[0].isUpper()) {
