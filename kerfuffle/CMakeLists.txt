@@ -3,8 +3,8 @@ include_directories(
                      ${CMAKE_CURRENT_BINARY_DIR}/..
                    )
 
-macro_optional_find_package(QJSON)
-macro_log_feature(QJSON_FOUND "QJSON" "A library for processing and serializing JSON files" "http://qjson.sourceforge.net" FALSE "" "Required for compiling Ark's unit tests")
+macro_optional_find_package(qjson)
+macro_log_feature(qjson_FOUND "qjson" "A library for processing and serializing JSON files" "http://qjson.sourceforge.net" FALSE "" "Required for compiling Ark's unit tests")
 
 ########### next target ###############
 
@@ -38,6 +38,6 @@ install(TARGETS kerfuffle ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES kerfufflePlugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR})
 install(FILES ark.kcfg                DESTINATION ${KCFG_INSTALL_DIR})
 
-if (QJSON_FOUND)
+if (qjson_FOUND)
   add_subdirectory(tests)
-endif (QJSON_FOUND)
+endif (qjson_FOUND)
