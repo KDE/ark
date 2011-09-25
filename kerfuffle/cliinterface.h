@@ -117,7 +117,7 @@ enum CliInterfaceParameters {
      * extract without full paths. in this case we will use the stringlist
      * ("x", "e"). Or, for another format that might use the switch
      * "--extractFull" for preservePaths, and nothing otherwise: we use the
-     * stringlist ("--preservePaths", "")
+     * stringlist ("--extractFull", "")
      */
     PreservePathSwitch,
     /**
