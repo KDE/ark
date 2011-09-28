@@ -163,8 +163,8 @@ enum CliInterfaceParameters {
      * index 0 - Yes (overwrite)
      * index 1 - No (skip/do not overwrite)
      * index 2 - All (overwrite all)
-     * index 3 - Cancel operation
-     * index 4 - Do not overwrite any files (autoskip)
+     * index 3 - Do not overwrite any files (autoskip)
+     * index 4 - Cancel operation
      */
     FileExistsInput,
 
