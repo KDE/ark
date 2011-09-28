@@ -614,6 +614,9 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
     } else if (query.responseAutoSkip()) {
         responseToProcess = choices.at(3);
     } else if (query.responseCancelled()) {
+        if (choices.count() < 5) { // If the program has no way to cancel the extraction, we resort to killing it
+            return doKill();
+        }
         responseToProcess = choices.at(4);
     }
 

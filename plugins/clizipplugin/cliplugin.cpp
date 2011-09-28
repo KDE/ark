@@ -90,7 +90,6 @@ ParameterList CliPlugin::parameterList() const
                              << QLatin1String( "n" ) //skip
                              << QLatin1String( "A" ) //overwrite all
                              << QLatin1String( "N" ) //autoskip
-                             << QLatin1String( "N" ) //cancel
                              ;
 
         p[AddArgs] = QStringList() << QLatin1String( "-r" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
