@@ -14,6 +14,7 @@ X-KDE-Kerfuffle-ReadWrite=true
 Name=lha archive plugin
 Name[cs]=Modul pro archiv lha
 Name[es]=Complemento de archivo comprimido LHA
+Name[lt]=lha archyvo priedas
 Name[nds]=LHA-Archievmoduul
 Name[nl]=lha-archiefplug-in
 Name[pt]='Plugin' de pacotes LHA
