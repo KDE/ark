@@ -38,6 +38,7 @@ Name[nl]=kerfuffle_libarchive_readonly
 Name[pa]=kerfuffle_libarchive_readonly
 Name[pt]=kerfuffle_libarchive_readonly
 Name[pt_BR]=kerfuffle_libarchive_readonly
+Name[ro]=kerfuffle_libarchive_readonly
 Name[ru]=kerfuffle_libarchive_readonly
 Name[sk]=kerfuffle_libarchive_readonly
 Name[sl]=kerfuffle_libarchive_readonly
