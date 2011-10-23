@@ -1,7 +1,4 @@
-include_directories(${qjson_INCLUDE_DIR})
-
-#message(STATUS qjson_INCLUDE_DIR=${qjson_INCLUDE_DIR})
-#message(STATUS qjson_LIBRARIES=${qjson_LIBRARIES})
+include_directories(${KERFUFFLE_QJSON_INCLUDE_DIR})
 
 set(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -14,7 +11,7 @@ kde4_add_library(jsoninterface STATIC ${JSONINTERFACE_SOURCES})
 macro(KERFUFFLE_UNIT_TESTS)
     foreach(_testname ${ARGN})
         kde4_add_unit_test(${_testname} NOGUI ${_testname}.cpp)
-        target_link_libraries(${_testname} kerfuffle jsoninterface ${KDE4_KDEUI_LIBS} ${QT_QTTEST_LIBRARY} ${qjson_LIBRARIES})
+        target_link_libraries(${_testname} kerfuffle jsoninterface ${KDE4_KDEUI_LIBS} ${QT_QTTEST_LIBRARY} ${KERFUFFLE_QJSON_LIBRARIES})
     endforeach(_testname)
 endmacro(KERFUFFLE_UNIT_TESTS)
 
