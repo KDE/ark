@@ -19,7 +19,6 @@
  *
  */
 #include "karchiveplugin.h"
-#include "kerfuffle/archivefactory.h"
 
 #include <KZip>
 #include <KTar>
@@ -30,8 +29,8 @@
 
 #include <QFileInfo>
 
-KArchiveInterface::KArchiveInterface(const QString & filename, QObject *parent)
-        : ReadWriteArchiveInterface(filename, parent), m_archive(0)
+KArchiveInterface::KArchiveInterface(QObject *parent, const QVariantList &args)
+        : ReadWriteArchiveInterface(parent, args), m_archive(0)
 {
     kDebug();
 }
@@ -68,14 +67,16 @@ bool KArchiveInterface::list()
     }
 }
 
-bool KArchiveInterface::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths)
+bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, ExtractionOptions options)
 {
+    const bool preservePaths = options.value(QLatin1String("PreservePaths")).toBool();
+
     if (!archive()->isOpen() && !archive()->open(QIODevice::ReadOnly)) {
         error(i18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
         return false;
     }
 
-    foreach(const QVariant & file, files) {
+    foreach(const QVariant &file, files) {
         QString realDestination = destinationDirectory;
         const KArchiveEntry *archiveEntry = archive()->directory()->entry(file.toString());
         if (!archiveEntry) {
@@ -125,7 +126,7 @@ void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QStrin
     ArchiveEntry e;
     e[ FileName ]         = prefix.isEmpty() ? aentry->name() : prefix + '/' + aentry->name();
     e[ InternalID ]       = e[ FileName ];
-    e[ Permissions ]      = aentry->permissions();
+    e[ Permissions ]      = permissionsString(aentry->permissions());
     e[ Owner ]            = aentry->user();
     e[ Group ]            = aentry->group();
     e[ IsDirectory ]      = aentry->isDirectory();
@@ -136,11 +137,15 @@ void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QStrin
     if (aentry->isFile()) {
         e[ Size ] = static_cast<const KArchiveFile*>(aentry)->size();
     }
+    else {
+        e[ Size ] = 0;
+    }
     entry(e);
 }
 
-bool KArchiveInterface::addFiles(const QStringList & files)
+bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::CompressionOptions &options)
 {
+    Q_UNUSED(options)
     kDebug() << "Starting...";
 //  delete m_archive;
 //  m_archive = 0;
@@ -186,7 +191,65 @@ bool KArchiveInterface::addFiles(const QStringList & files)
 
 bool KArchiveInterface::deleteFiles(const QList<QVariant> & files)
 {
+    Q_UNUSED(files)
     return false;
 }
 
-KERFUFFLE_PLUGIN_FACTORY(KArchiveInterface)
+// Borrowed and adapted from KFileItemPrivate::parsePermissions.
+QString KArchiveInterface::permissionsString(mode_t perm)
+{
+    static char buffer[ 12 ];
+
+    char uxbit,gxbit,oxbit;
+
+    if ( (perm & (S_IXUSR|S_ISUID)) == (S_IXUSR|S_ISUID) )
+        uxbit = 's';
+    else if ( (perm & (S_IXUSR|S_ISUID)) == S_ISUID )
+        uxbit = 'S';
+    else if ( (perm & (S_IXUSR|S_ISUID)) == S_IXUSR )
+        uxbit = 'x';
+    else
+        uxbit = '-';
+
+    if ( (perm & (S_IXGRP|S_ISGID)) == (S_IXGRP|S_ISGID) )
+        gxbit = 's';
+    else if ( (perm & (S_IXGRP|S_ISGID)) == S_ISGID )
+        gxbit = 'S';
+    else if ( (perm & (S_IXGRP|S_ISGID)) == S_IXGRP )
+        gxbit = 'x';
+    else
+        gxbit = '-';
+
+    if ( (perm & (S_IXOTH|S_ISVTX)) == (S_IXOTH|S_ISVTX) )
+        oxbit = 't';
+    else if ( (perm & (S_IXOTH|S_ISVTX)) == S_ISVTX )
+        oxbit = 'T';
+    else if ( (perm & (S_IXOTH|S_ISVTX)) == S_IXOTH )
+        oxbit = 'x';
+    else
+        oxbit = '-';
+
+    // Include the type in the first char like kde3 did; people are more used to seeing it,
+    // even though it's not really part of the permissions per se.
+    if (S_ISDIR(perm))
+        buffer[0] = 'd';
+    else if (S_ISLNK(perm))
+        buffer[0] = 'l';
+    else
+        buffer[0] = '-';
+
+    buffer[1] = ((( perm & S_IRUSR ) == S_IRUSR ) ? 'r' : '-' );
+    buffer[2] = ((( perm & S_IWUSR ) == S_IWUSR ) ? 'w' : '-' );
+    buffer[3] = uxbit;
+    buffer[4] = ((( perm & S_IRGRP ) == S_IRGRP ) ? 'r' : '-' );
+    buffer[5] = ((( perm & S_IWGRP ) == S_IWGRP ) ? 'w' : '-' );
+    buffer[6] = gxbit;
+    buffer[7] = ((( perm & S_IROTH ) == S_IROTH ) ? 'r' : '-' );
+    buffer[8] = ((( perm & S_IWOTH ) == S_IWOTH ) ? 'w' : '-' );
+    buffer[9] = oxbit;
+    buffer[10] = 0;
+
+    return QString::fromLatin1(buffer);
+}
+
+KERFUFFLE_EXPORT_PLUGIN(KArchiveInterface)

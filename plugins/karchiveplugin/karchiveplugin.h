@@ -32,13 +32,13 @@ class KArchiveInterface: public ReadWriteArchiveInterface
 {
     Q_OBJECT
 public:
-    explicit KArchiveInterface(const QString & filename, QObject *parent = 0);
+    explicit KArchiveInterface(QObject *parent = 0, const QVariantList &args = QVariantList());
     ~KArchiveInterface();
 
     bool list();
-    bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, bool preservePaths);
+    bool copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, ExtractionOptions options);
 
-    bool addFiles(const QStringList & files);
+    bool addFiles(const QStringList &files, const CompressionOptions &options);
     bool deleteFiles(const QList<QVariant> & files);
 
 private:
@@ -47,6 +47,8 @@ private:
     bool processDir(const KArchiveDirectory *dir, const QString & prefix = QString());
 
     void createEntryFor(const KArchiveEntry *aentry, const QString& prefix);
+
+    QString permissionsString(mode_t perm);
 
     KArchive *archive();
 
