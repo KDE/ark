@@ -4,6 +4,12 @@ include_directories(
                    )
 
 set(kerfuffle_singlefile_SRCS singlefileplugin.cpp)
+set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "")
+
+# This MIME type was originally set in ark.desktop but is does not
+# seem to be supported anywhere.  Assuming that, if it were supported,
+# it would be here.
+set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "${SUPPORTED_LIBSINGLEFILE_MIMETYPES}application/x-compress;")
 
 #
 # GZip files
@@ -14,6 +20,7 @@ macro_log_feature(ZLIB_FOUND "ZLib" "The Zlib compression library" "http://www.z
 
 if (ZLIB_FOUND)
 	set(kerfuffle_libgz_SRCS gzplugin.cpp ${kerfuffle_singlefile_SRCS})
+	set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "${SUPPORTED_LIBSINGLEFILE_MIMETYPES}application/x-gzip;")
 
 	kde4_add_plugin(kerfuffle_libgz ${kerfuffle_libgz_SRCS})
 
@@ -33,6 +40,7 @@ macro_log_feature(BZIP2_FOUND "BZip2" "A high-quality data compressor" "http://w
 
 if (BZIP2_FOUND)
 	set(kerfuffle_libbz2_SRCS bz2plugin.cpp ${kerfuffle_singlefile_SRCS})
+	set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "${SUPPORTED_LIBSINGLEFILE_MIMETYPES}application/x-bzip;application/x-bzip2;")
 
 	kde4_add_plugin(kerfuffle_libbz2 ${kerfuffle_libbz2_SRCS})
 
@@ -52,6 +60,7 @@ macro_log_feature(LIBLZMA_FOUND "LibLZMA" "Liblzma is used for the .xz and .lzma
 
 if (LIBLZMA_FOUND)
 	set(kerfuffle_libxz_SRCS xzplugin.cpp ${kerfuffle_singlefile_SRCS})
+	set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "${SUPPORTED_LIBSINGLEFILE_MIMETYPES}application/x-lzma;application/x-xz;")
 
 	kde4_add_plugin(kerfuffle_libxz ${kerfuffle_libxz_SRCS})
 
@@ -61,3 +70,5 @@ if (LIBLZMA_FOUND)
 
 	install( FILES kerfuffle_libxz.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 endif (LIBLZMA_FOUND)
+
+set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_LIBSINGLEFILE_MIMETYPES}" PARENT_SCOPE)

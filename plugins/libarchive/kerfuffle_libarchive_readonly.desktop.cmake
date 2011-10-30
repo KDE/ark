@@ -54,4 +54,4 @@ Name[wa]=kerfuffle_libarchive_readonly
 Name[x-test]=xxkerfuffle_libarchive_readonlyxx
 Name[zh_CN]=kerfuffle_libarchive_readonly
 Name[zh_TW]=kerfuffle_libarchive_readonly
-MimeType=application/x-deb;application/x-cd-image;application/x-bcpio;application/x-cpio;application/x-cpio-compressed;application/x-sv4cpio;application/x-sv4crc;@LIBARCHIVE_RPM_SUPPORT@
+MimeType=@SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES@

@@ -21,12 +21,16 @@ macro_log_feature(LIBARCHIVE_FOUND "LibArchive" "A library for dealing with a wi
 
 configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
-add_subdirectory(part)
-add_subdirectory(app)
+set(SUPPORTED_ARK_MIMETYPES "")
+
 add_subdirectory(plugins)
 add_subdirectory(kerfuffle)
+add_subdirectory(part)
+add_subdirectory(app)
 add_subdirectory(doc)
 
+
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
+    message(STATUS "Supported MIME types: ${SUPPORTED_ARK_MIMETYPES}")
     macro_display_feature_log()
 endif(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})

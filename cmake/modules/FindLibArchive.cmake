@@ -7,6 +7,7 @@
 #  HAVE_LIBARCHIVE_GZIP_SUPPORT - whether libarchive has been compiled with gzip support
 #  HAVE_LIBARCHIVE_LZMA_SUPPORT - whether libarchive has been compiled with lzma support
 #  HAVE_LIBARCHIVE_XZ_SUPPORT - whether libarchive has been compiled with xz support
+#  HAVE_LIBARCHIVE_RPM_SUPPORT - whether libarchive has been compiled with rpm support
 #
 # Copyright (c) 2006, Pino Toscano, <toscano.pino@tiscali.it>
 #
@@ -29,14 +30,15 @@ else (LIBARCHIVE_LIBRARY AND LIBARCHIVE_INCLUDE_DIR)
   )
 
   if (LIBARCHIVE_LIBRARY)
-    check_library_exists(${LIBARCHIVE_LIBRARY} archive_write_set_compression_gzip "" HAVE_LIBARCHIVE_GZIP_SUPPORT)
-    check_library_exists(${LIBARCHIVE_LIBRARY} archive_write_set_compression_lzma "" HAVE_LIBARCHIVE_LZMA_SUPPORT)
-    check_library_exists(${LIBARCHIVE_LIBRARY} archive_write_set_compression_xz   "" HAVE_LIBARCHIVE_XZ_SUPPORT)
-    check_library_exists(${LIBARCHIVE_LIBRARY} archive_read_disk_entry_from_file  "" HAVE_LIBARCHIVE_READ_DISK_API)
+    check_library_exists(${LIBARCHIVE_LIBRARY} archive_write_set_compression_gzip   "" HAVE_LIBARCHIVE_GZIP_SUPPORT)
+    check_library_exists(${LIBARCHIVE_LIBRARY} archive_write_set_compression_lzma   "" HAVE_LIBARCHIVE_LZMA_SUPPORT)
+    check_library_exists(${LIBARCHIVE_LIBRARY} archive_write_set_compression_xz     "" HAVE_LIBARCHIVE_XZ_SUPPORT)
+    check_library_exists(${LIBARCHIVE_LIBRARY} archive_read_support_compression_rpm "" HAVE_LIBARCHIVE_RPM_SUPPORT)
+    check_library_exists(${LIBARCHIVE_LIBRARY} archive_read_disk_entry_from_file    "" HAVE_LIBARCHIVE_READ_DISK_API)
   endif (LIBARCHIVE_LIBRARY)
 
   include(FindPackageHandleStandardArgs)
   find_package_handle_standard_args(LibArchive DEFAULT_MSG LIBARCHIVE_INCLUDE_DIR LIBARCHIVE_LIBRARY HAVE_LIBARCHIVE_GZIP_SUPPORT)
 
-  mark_as_advanced(LIBARCHIVE_INCLUDE_DIR LIBARCHIVE_LIBRARY HAVE_LIBARCHIVE_GZIP_SUPPORT HAVE_LIBARCHIVE_LZMA_SUPPORT)
+  mark_as_advanced(LIBARCHIVE_INCLUDE_DIR LIBARCHIVE_LIBRARY HAVE_LIBARCHIVE_GZIP_SUPPORT HAVE_LIBARCHIVE_LZMA_SUPPORT HAVE_LIBARCHIVE_RPM_SUPPORT)
 endif (LIBARCHIVE_LIBRARY AND LIBARCHIVE_INCLUDE_DIR)

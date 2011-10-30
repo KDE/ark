@@ -29,4 +29,4 @@ Name[tr]=lha arşiv eklentisi
 Name[uk]=Додаток для архівів LHA
 Name[x-test]=xxlha archive pluginxx
 Name[zh_TW]=lha 壓縮檔外掛程式
-MimeType=application/lha;application/x-lha;application/maclha;
+MimeType=@SUPPORTED_CLILHA_MIMETYPES@

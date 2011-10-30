@@ -63,4 +63,4 @@ Name[uk]=Додаток для архівів RAR
 Name[x-test]=xxRAR archive pluginxx
 Name[zh_CN]=RAR 归档插件
 Name[zh_TW]=RAR 壓縮檔外掛程式
-MimeType=application/x-rar;
+MimeType=@SUPPORTED_CLIRAR_MIMETYPES@

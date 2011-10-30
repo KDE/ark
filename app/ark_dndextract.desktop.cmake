@@ -54,4 +54,4 @@ Name[wa]=Saetchî foû avou Ark cial
 Name[x-test]=xxArk Extract Herexx
 Name[zh_CN]=Ark 在此解压缩
 Name[zh_TW]=在此解壓縮
-MimeType=application/x-gzip;application/x-tar;application/x-compressed-tar;application/x-bzip-compressed-tar;application/zip;application/x-bzip;application/x-rar;application/x-tarz;application/x-bzip2;application/x-java-archive;application/x-deb;application/x-7z-compressed;application/x-compress;application/x-zip-compressed;application/x-lzma;application/x-xz-compressed-tar;application/x-lzma-compressed-tar;application/x-cd-image;application/lha;application/x-lha;application/maclha;
+MimeType=@SUPPORTED_ARK_MIMETYPES@
