@@ -12,6 +12,7 @@ X-KDE-Priority=100
 X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=true
 Name=lha archive plugin
+Name[ca]=Connector per arxius LHA
 Name[cs]=Modul pro archiv lha
 Name[de]=lha-Archiv-Modul
 Name[es]=Complemento de archivo comprimido LHA

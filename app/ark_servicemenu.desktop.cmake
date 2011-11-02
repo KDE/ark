@@ -7,6 +7,7 @@ X-KDE-Priority=TopLevel
 X-KDE-StartupNotify=false
 #StartupNotify=false
 X-KDE-Submenu=Extract
+X-KDE-Submenu[ca]=Extreu
 X-KDE-Submenu[cs]=Rozbalit
 X-KDE-Submenu[de]=Entpacken
 X-KDE-Submenu[es]=Extraer
