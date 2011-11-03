@@ -7,7 +7,7 @@ include_directories( ${LIBARCHIVE_INCLUDE_DIR}
 
 ########### next target ###############
 set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "application/x-deb;application/x-cd-image;application/x-bcpio;application/x-cpio;application/x-cpio-compressed;application/x-sv4cpio;application/x-sv4crc;")
-set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "application/x-tar;application/x-compresssed-tar;application/x-bzip-compressed-tar;application/x-tarz;application/x-xz-compressed-tar;application/x-lzma-compressed-tar;")
+set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "application/x-tar;application/x-compressed-tar;application/x-bzip-compressed-tar;application/x-tarz;application/x-xz-compressed-tar;application/x-lzma-compressed-tar;")
 if(HAVE_LIBARCHIVE_RPM_SUPPORT)
   set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}application/x-rpm;")
 endif(HAVE_LIBARCHIVE_RPM_SUPPORT)
