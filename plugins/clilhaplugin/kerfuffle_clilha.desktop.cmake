@@ -25,6 +25,7 @@ Name[nl]=lha-archiefplug-in
 Name[pt]='Plugin' de pacotes LHA
 Name[pt_BR]=Plug-in de arquivos LHA
 Name[ro]=Modul de arhivă lha
+Name[sk]=Modul lha archívu
 Name[sv]=Insticksprogram för LHA-arkiv
 Name[tr]=lha arşiv eklentisi
 Name[uk]=Додаток для архівів LHA

@@ -22,6 +22,7 @@ X-KDE-Submenu[nl]=Uitpakken
 X-KDE-Submenu[pt]=Extrair
 X-KDE-Submenu[pt_BR]=Extrair
 X-KDE-Submenu[ro]=Extrage
+X-KDE-Submenu[sk]=Rozbaliť
 X-KDE-Submenu[sv]=Packa upp
 X-KDE-Submenu[tr]=Çıkart
 X-KDE-Submenu[ug]=ئايرىش
