@@ -14,6 +14,7 @@ X-KDE-Kerfuffle-ReadWrite=true
 Name=lha archive plugin
 Name[ca]=Connector per arxius LHA
 Name[cs]=Modul pro archiv lha
+Name[da]=Plugin til lha-arkiver
 Name[de]=lha-Archiv-Modul
 Name[es]=Complemento de archivo comprimido LHA
 Name[eu]=lha artxibuen plugina
