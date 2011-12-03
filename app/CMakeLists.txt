@@ -1,4 +1,3 @@
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/.. )
 set(ark_SRCS
     batchextract.cpp
     main.cpp

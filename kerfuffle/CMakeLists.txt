@@ -1,8 +1,3 @@
-include_directories(
-                     ${CMAKE_CURRENT_SOURCE_DIR}/..
-                     ${CMAKE_CURRENT_BINARY_DIR}/..
-                   )
-
 macro_optional_find_package(QJSON)
 macro_log_feature(QJSON_FOUND "qjson" "A library for processing and serializing JSON files" "http://qjson.sourceforge.net" FALSE "" "Required for compiling Ark's unit tests")
 

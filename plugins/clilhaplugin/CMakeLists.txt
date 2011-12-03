@@ -1,9 +1,3 @@
-
-include_directories(
-                     ${CMAKE_CURRENT_SOURCE_DIR}/../..
-                     ${CMAKE_CURRENT_BINARY_DIR}/../..
-                   )
-
 ########### next target ###############
 
 set(SUPPORTED_CLILHA_MIMETYPES "application/lha;application/x-lha;application/maclha;")

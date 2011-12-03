@@ -1,8 +1,3 @@
-include_directories(
-                     ${CMAKE_CURRENT_SOURCE_DIR}/../..
-                     ${CMAKE_CURRENT_BINARY_DIR}/../..
-                   )
-
 set(kerfuffle_singlefile_SRCS singlefileplugin.cpp)
 set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "")
 

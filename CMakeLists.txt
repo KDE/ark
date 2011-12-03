@@ -1,5 +1,7 @@
 project(ark)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     find_package(KDE4)
     include( KDE4Defaults )
@@ -28,7 +30,6 @@ add_subdirectory(kerfuffle)
 add_subdirectory(part)
 add_subdirectory(app)
 add_subdirectory(doc)
-
 
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     message(STATUS "Supported MIME types: ${SUPPORTED_ARK_MIMETYPES}")

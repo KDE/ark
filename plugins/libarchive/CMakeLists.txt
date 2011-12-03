@@ -1,9 +1,4 @@
-
-include_directories( ${LIBARCHIVE_INCLUDE_DIR}
-                     ${CMAKE_CURRENT_SOURCE_DIR}/../..
-                     ${CMAKE_CURRENT_BINARY_DIR}/../..
-                   )
-
+include_directories(${LIBARCHIVE_INCLUDE_DIR})
 
 ########### next target ###############
 set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "application/x-deb;application/x-cd-image;application/x-bcpio;application/x-cpio;application/x-cpio-compressed;application/x-sv4cpio;application/x-sv4crc;")

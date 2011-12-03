@@ -1,9 +1,3 @@
-
-include_directories(
-                     ${CMAKE_CURRENT_SOURCE_DIR}/../..
-                     ${CMAKE_CURRENT_BINARY_DIR}/../..
-                   )
-
 ########### next target ###############
 
 set(kerfuffle_cli_SRCS cliplugin.cpp)
