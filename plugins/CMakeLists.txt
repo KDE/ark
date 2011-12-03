@@ -14,10 +14,7 @@ if (LIBARCHIVE_FOUND)
         unset( LIBARCHIVE_LIBRARY )
         message(STATUS "Your libarchive does not have support for archive_read_disk api. libarchive >= 2.6.0 is needed.")
     endif( HAVE_LIBARCHIVE_READ_DISK_API )
-
 endif (LIBARCHIVE_FOUND)
-
-
 
 add_subdirectory( clirarplugin )
 add_subdirectory( cli7zplugin )
