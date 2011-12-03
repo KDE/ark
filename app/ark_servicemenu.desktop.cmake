@@ -30,6 +30,7 @@ X-KDE-Submenu[tr]=Çıkart
 X-KDE-Submenu[ug]=ئايرىش
 X-KDE-Submenu[uk]=Видобути
 X-KDE-Submenu[x-test]=xxExtractxx
+X-KDE-Submenu[zh_CN]=解压缩
 X-KDE-Submenu[zh_TW]=解開
 
 [Desktop Action arkExtractHere]

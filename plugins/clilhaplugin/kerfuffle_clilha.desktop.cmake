@@ -32,5 +32,6 @@ Name[sv]=Insticksprogram för LHA-arkiv
 Name[tr]=lha arşiv eklentisi
 Name[uk]=Додаток для архівів LHA
 Name[x-test]=xxlha archive pluginxx
+Name[zh_CN]=lha 归档插件
 Name[zh_TW]=lha 壓縮檔外掛程式
 MimeType=@SUPPORTED_CLILHA_MIMETYPES@
