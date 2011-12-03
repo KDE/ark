@@ -29,19 +29,22 @@
 #include <QDate>
 #include <QTime>
 
-
 CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
-            : CliInterface(parent, args),
-            m_isFirstLine(true),
-            m_incontent(false),
-            m_isPasswordProtected(false) {
+    : CliInterface(parent, args),
+      m_isFirstLine(true),
+      m_incontent(false),
+      m_isPasswordProtected(false)
+{
 }
 
-CliPlugin::~CliPlugin() {
+CliPlugin::~CliPlugin()
+{
 }
 
-ParameterList CliPlugin::parameterList() const {
+ParameterList CliPlugin::parameterList() const
+{
     static ParameterList p;
+
     if (p.isEmpty()) {
         p[CaptureProgress] = true;
         p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = "rar";
@@ -68,11 +71,14 @@ ParameterList CliPlugin::parameterList() const {
         p[WrongPasswordPatterns] = QStringList() << "password incorrect";
         p[ExtractionFailedPatterns] = QStringList() << "CRC failed";
     }
+
     return p;
 }
 
-bool CliPlugin::readListLine(const QString &line) {
+bool CliPlugin::readListLine(const QString &line)
+{
     const QString m_headerString = "-----------------------------------------";
+
     // skip the heading
     if (!m_incontent) {
         if (line.startsWith(m_headerString)) {
@@ -80,6 +86,7 @@ bool CliPlugin::readListLine(const QString &line) {
         }
         return true;
     }
+
     // catch final line
     if (line.startsWith(m_headerString)) {
         m_incontent = false;
