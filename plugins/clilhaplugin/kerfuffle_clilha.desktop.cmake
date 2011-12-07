@@ -20,6 +20,7 @@ Name[es]=Complemento de archivo comprimido LHA
 Name[eu]=lha artxibuen plugina
 Name[fr]=Module d'archive lha
 Name[hu]=lha modul
+Name[kk]=lha архив плагині
 Name[lt]=lha archyvo priedas
 Name[nb]=Programtillegg for lha-arkiv
 Name[nds]=LHA-Archievmoduul

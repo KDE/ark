@@ -17,6 +17,7 @@ X-KDE-Submenu[eu]=Erauzi
 X-KDE-Submenu[fr]=Extraire
 X-KDE-Submenu[hr]=Otpakiraj
 X-KDE-Submenu[hu]=Kibontás
+X-KDE-Submenu[kk]=Тарқату
 X-KDE-Submenu[lt]=Išpakuoti
 X-KDE-Submenu[nb]=Pakk ut
 X-KDE-Submenu[nds]=Utpacken
