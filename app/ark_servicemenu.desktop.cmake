@@ -14,6 +14,7 @@ X-KDE-Submenu[de]=Entpacken
 X-KDE-Submenu[es]=Extraer
 X-KDE-Submenu[et]=Lahtipakkimine
 X-KDE-Submenu[eu]=Erauzi
+X-KDE-Submenu[fi]=Pura
 X-KDE-Submenu[fr]=Extraire
 X-KDE-Submenu[hr]=Otpakiraj
 X-KDE-Submenu[hu]=Kibontás
