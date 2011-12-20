@@ -26,6 +26,7 @@ Name[lt]=lha archyvo priedas
 Name[nb]=Programtillegg for lha-arkiv
 Name[nds]=LHA-Archievmoduul
 Name[nl]=lha-archiefplug-in
+Name[pa]=lha ਅਕਾਇਵ ਪਲੱਗਇਨ
 Name[pt]='Plugin' de pacotes LHA
 Name[pt_BR]=Plug-in de arquivos LHA
 Name[ro]=Modul de arhivă lha
