@@ -17,6 +17,7 @@ Name[cs]=Modul pro archiv lha
 Name[da]=Plugin til lha-arkiver
 Name[de]=lha-Archiv-Modul
 Name[es]=Complemento de archivo comprimido LHA
+Name[et]=lha-arhiivi plugin
 Name[eu]=lha artxibuen plugina
 Name[fi]=lha-arkistointiliitännäinen
 Name[fr]=Module d'archive lha
