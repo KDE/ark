@@ -110,8 +110,9 @@ bool CliPlugin::readListLine(const QString &line)
                     e[Method] = entryList[4];
                     e[CRC] = entryList[5];
 
-                    QDateTime timestamp(QDate::fromString(entryList[6], "yyyy-MM-dd"),
-                                        QTime::fromString(entryList[7], "HH:mm:ss"));
+                    QDateTime timestamp(
+                        QDate::fromString(entryList[6], QLatin1String("yyyy-MM-dd")),
+                        QTime::fromString(entryList[7], QLatin1String("HH:mm:ss")));
                     e[Timestamp] = timestamp;
                     entry(e);
                 }
@@ -125,8 +126,9 @@ bool CliPlugin::readListLine(const QString &line)
                     e[Method] = entryList[5];
                     e[CRC] = entryList[6];
 
-                    QDateTime timestamp(QDate::fromString(entryList[7], "yyyy-MM-dd"),
-                                        QTime::fromString(entryList[8], "HH:mm:ss"));
+                    QDateTime timestamp(
+                        QDate::fromString(entryList[7], QLatin1String("yyyy-MM-dd")),
+                        QTime::fromString(entryList[8], QLatin1String("HH:mm:ss")));
                     e[Timestamp] = timestamp;
                     entry(e);
                 }

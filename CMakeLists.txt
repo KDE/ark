@@ -23,6 +23,8 @@ macro_log_feature(LIBARCHIVE_FOUND "LibArchive" "A library for dealing with a wi
 
 configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
+add_definitions(-DQT_NO_CAST_FROM_ASCII)
+
 set(SUPPORTED_ARK_MIMETYPES "")
 
 add_subdirectory(plugins)

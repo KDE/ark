@@ -759,7 +759,8 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
 
         error(i18nc("@info Error in a message box",
                     "Ark could not compress <filename>%1</filename>:<nl/>%2",
-                    fileName, archive_error_string(arch_writer)));
+                    fileName,
+                    QLatin1String(archive_error_string(arch_writer))));
 
         archive_entry_free(entry);
 
