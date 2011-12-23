@@ -46,7 +46,7 @@ KArchive *KArchiveInterface::archive()
     if (m_archive == 0) {
         KMimeType::Ptr mimeType = KMimeType::findByPath(filename());
 
-        if (mimeType->is("application/zip")) {
+        if (mimeType->is(QLatin1String("application/zip"))) {
             m_archive = new KZip(filename());
         } else {
             m_archive = new KTar(filename());
@@ -90,7 +90,7 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
             QDir dest(destinationDirectory);
             QString filepath = archiveEntry->isDirectory() ? fi.filePath() : fi.path();
             dest.mkpath(filepath);
-            realDestination = dest.absolutePath() + '/' + filepath;
+            realDestination = dest.absolutePath() + QLatin1Char('/') + filepath;
         }
         if (archiveEntry->isDirectory()) {
             kDebug() << "Calling copyTo(" << realDestination << ") for " << archiveEntry->name();
@@ -114,7 +114,7 @@ bool KArchiveInterface::processDir(const KArchiveDirectory *dir, const QString &
         const KArchiveEntry *entry = dir->entry(entryName);
         createEntryFor(entry, prefix);
         if (entry->isDirectory()) {
-            QString newPrefix = (prefix.isEmpty() ? prefix : prefix + '/') + entryName;
+            QString newPrefix = (prefix.isEmpty() ? prefix : prefix + QLatin1Char('/')) + entryName;
             processDir(static_cast<const KArchiveDirectory*>(entry), newPrefix);
         }
     }
@@ -124,7 +124,7 @@ bool KArchiveInterface::processDir(const KArchiveDirectory *dir, const QString &
 void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QString& prefix)
 {
     ArchiveEntry e;
-    e[ FileName ]         = prefix.isEmpty() ? aentry->name() : prefix + '/' + aentry->name();
+    e[ FileName ]         = prefix.isEmpty() ? aentry->name() : prefix + QLatin1Char('/') + aentry->name();
     e[ InternalID ]       = e[ FileName ];
     e[ Permissions ]      = permissionsString(aentry->permissions());
     e[ Owner ]            = aentry->user();
@@ -167,7 +167,7 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
         if (fi.isDir()) {
             if (archive()->addLocalDirectory(path, fi.fileName())) {
                 const KArchiveEntry *entry = archive()->directory()->entry(fi.fileName());
-                createEntryFor(entry, "");
+                createEntryFor(entry, QLatin1String(""));
                 processDir((KArchiveDirectory*) archive()->directory()->entry(fi.fileName()), fi.fileName());
             } else {
                 error(i18nc("@info", "Could not add the directory <filename>%1</filename> to the archive", path));
@@ -176,7 +176,7 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
         } else {
             if (archive()->addLocalFile(path, fi.fileName())) {
                 const KArchiveEntry *entry = archive()->directory()->entry(fi.fileName());
-                createEntryFor(entry, "");
+                createEntryFor(entry, QLatin1String(""));
             } else {
                 error(i18nc("@info", "Could not add the file <filename>%1</filename> to the archive.", path));
                 return false;
