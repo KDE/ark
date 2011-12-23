@@ -38,7 +38,7 @@ using Kerfuffle::AddToArchive;
 int main(int argc, char **argv)
 {
     KAboutData aboutData("ark", 0, ki18n("Ark"),
-                         "2.18", ki18n("KDE Archiving tool"),
+                         "2.19", ki18n("KDE Archiving tool"),
                          KAboutData::License_GPL,
                          ki18n("(c) 1997-2011, The Various Ark Developers"),
                          KLocalizedString(),
