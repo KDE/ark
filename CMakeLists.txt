@@ -22,8 +22,16 @@ macro_optional_find_package(LibArchive)
 macro_log_feature(LIBARCHIVE_FOUND "LibArchive" "A library for dealing with a wide variety of archive file formats" "http://code.google.com/p/libarchive/" FALSE "" "Required for among others tar, tar.gz, tar.bz2 formats in Ark.")
 
 configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/CTestCustom.cmake)
 
 add_definitions(-DQT_NO_CAST_FROM_ASCII)
+
+option(WITH_TEST_COVERAGE "Build with test coverage support" OFF)
+if (WITH_TEST_COVERAGE)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+endif (WITH_TEST_COVERAGE)
 
 set(SUPPORTED_ARK_MIMETYPES "")
 
