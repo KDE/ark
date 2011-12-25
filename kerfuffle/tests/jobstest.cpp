@@ -61,6 +61,9 @@ private Q_SLOTS:
     // DeleteJob-related tests
     void testRemoveEntry();
 
+    // AddJob-related tests
+    void testAddEntry();
+
 private:
     JSONArchiveInterface *createArchiveInterface(const QString& filePath);
     QList<Kerfuffle::ArchiveEntry> listEntries(JSONArchiveInterface *iface);
@@ -325,6 +328,39 @@ void JobsTest::testRemoveEntry()
     iface->deleteLater();
 
     // TODO: test for errors
+}
+
+void JobsTest::testAddEntry()
+{
+    JSONArchiveInterface *iface = createArchiveInterface(QLatin1String(KDESRCDIR "data/archive001.json"));
+
+    QList<Kerfuffle::ArchiveEntry> archiveEntries = listEntries(iface);
+    QCOMPARE(archiveEntries.count(), 4);
+
+    QStringList newEntries = QStringList() << QLatin1String("foo");
+
+    Kerfuffle::AddJob *addJob =
+        new Kerfuffle::AddJob(newEntries, Kerfuffle::CompressionOptions(), iface, this);
+    startAndWaitForResult(addJob);
+
+    archiveEntries = listEntries(iface);
+    QCOMPARE(archiveEntries.count(), 5);
+
+    addJob = new Kerfuffle::AddJob(newEntries, Kerfuffle::CompressionOptions(), iface, this);
+    startAndWaitForResult(addJob);
+
+    archiveEntries = listEntries(iface);
+    QCOMPARE(archiveEntries.count(), 5);
+
+    newEntries = QStringList() << QLatin1String("bar") << QLatin1String("aDir/test.txt");
+
+    addJob = new Kerfuffle::AddJob(newEntries, Kerfuffle::CompressionOptions(), iface, this);
+    startAndWaitForResult(addJob);
+
+    archiveEntries = listEntries(iface);
+    QCOMPARE(archiveEntries.count(), 7);
+
+    iface->deleteLater();
 }
 
 #include "jobstest.moc"
