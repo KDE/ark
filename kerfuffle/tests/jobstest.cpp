@@ -147,13 +147,13 @@ void JobsTest::testIsPasswordProtected()
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
 
-    QCOMPARE(listJob->isPasswordProtected(), false);
+    QVERIFY(!listJob->isPasswordProtected());
 
     listJob = new Kerfuffle::ListJob(passwordIface, this);
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
 
-    QCOMPARE(listJob->isPasswordProtected(), true);
+    QVERIFY(listJob->isPasswordProtected());
 
     noPasswordIface->deleteLater();
     passwordIface->deleteLater();
@@ -167,7 +167,7 @@ void JobsTest::testIsSingleFolderArchive()
     Kerfuffle::ListJob *listJob = new Kerfuffle::ListJob(iface, this);
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
-    QCOMPARE(listJob->isSingleFolderArchive(), false);
+    QVERIFY(!listJob->isSingleFolderArchive());
     QCOMPARE(listJob->subfolderName(), QString());
     iface->deleteLater();
 
@@ -175,7 +175,7 @@ void JobsTest::testIsSingleFolderArchive()
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
-    QCOMPARE(listJob->isSingleFolderArchive(), true);
+    QVERIFY(listJob->isSingleFolderArchive());
     QCOMPARE(listJob->subfolderName(), QLatin1String("a.txt"));
     iface->deleteLater();
 
@@ -183,7 +183,7 @@ void JobsTest::testIsSingleFolderArchive()
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
-    QCOMPARE(listJob->isSingleFolderArchive(), true);
+    QVERIFY(listJob->isSingleFolderArchive());
     QCOMPARE(listJob->subfolderName(), QLatin1String("aDir"));
     iface->deleteLater();
 
@@ -192,7 +192,7 @@ void JobsTest::testIsSingleFolderArchive()
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
-    QCOMPARE(listJob->isSingleFolderArchive(), false);
+    QVERIFY(!listJob->isSingleFolderArchive());
     QCOMPARE(listJob->subfolderName(), QString());
     iface->deleteLater();
 
@@ -201,7 +201,7 @@ void JobsTest::testIsSingleFolderArchive()
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
-    QCOMPARE(listJob->isSingleFolderArchive(), false);
+    QVERIFY(!listJob->isSingleFolderArchive());
     QCOMPARE(listJob->subfolderName(), QString());
     iface->deleteLater();
 
@@ -210,7 +210,7 @@ void JobsTest::testIsSingleFolderArchive()
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
-    QCOMPARE(listJob->isSingleFolderArchive(), true);
+    QVERIFY(listJob->isSingleFolderArchive());
     QCOMPARE(listJob->subfolderName(), QLatin1String("aDir"));
     iface->deleteLater();
 
@@ -219,7 +219,7 @@ void JobsTest::testIsSingleFolderArchive()
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
-    QCOMPARE(listJob->isSingleFolderArchive(), true);
+    QVERIFY(listJob->isSingleFolderArchive());
     QCOMPARE(listJob->subfolderName(), QLatin1String("aDir"));
     iface->deleteLater();
 }
