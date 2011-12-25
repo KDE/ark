@@ -114,9 +114,9 @@ void JobsTest::testExtractedFilesSize()
     Kerfuffle::ListJob *listJob;
 
     JSONArchiveInterface *noSizeIface =
-        createArchiveInterface(KDESRCDIR "data/archive001.json");
+        createArchiveInterface(QLatin1String(KDESRCDIR "data/archive001.json"));
     JSONArchiveInterface *sizeIface =
-        createArchiveInterface(KDESRCDIR "data/archive002.json");
+        createArchiveInterface(QLatin1String(KDESRCDIR "data/archive002.json"));
 
     listJob = new Kerfuffle::ListJob(noSizeIface, this);
     listJob->setAutoDelete(false);
@@ -139,9 +139,9 @@ void JobsTest::testIsPasswordProtected()
     Kerfuffle::ListJob *listJob;
 
     JSONArchiveInterface *noPasswordIface =
-        createArchiveInterface(KDESRCDIR "data/archive002.json");
+        createArchiveInterface(QLatin1String(KDESRCDIR "data/archive002.json"));
     JSONArchiveInterface *passwordIface =
-        createArchiveInterface(KDESRCDIR "data/archive-password.json");
+        createArchiveInterface(QLatin1String(KDESRCDIR "data/archive-password.json"));
 
     listJob = new Kerfuffle::ListJob(noPasswordIface, this);
     listJob->setAutoDelete(false);
@@ -162,7 +162,7 @@ void JobsTest::testIsPasswordProtected()
 void JobsTest::testIsSingleFolderArchive()
 {
     JSONArchiveInterface *iface =
-        createArchiveInterface(KDESRCDIR "data/archive001.json");
+        createArchiveInterface(QLatin1String(KDESRCDIR "data/archive001.json"));
 
     Kerfuffle::ListJob *listJob = new Kerfuffle::ListJob(iface, this);
     listJob->setAutoDelete(false);
@@ -171,7 +171,7 @@ void JobsTest::testIsSingleFolderArchive()
     QCOMPARE(listJob->subfolderName(), QString());
     iface->deleteLater();
 
-    iface = createArchiveInterface(KDESRCDIR "data/archive-singlefile.json");
+    iface = createArchiveInterface(QLatin1String(KDESRCDIR "data/archive-singlefile.json"));
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
@@ -179,7 +179,7 @@ void JobsTest::testIsSingleFolderArchive()
     QCOMPARE(listJob->subfolderName(), QLatin1String("a.txt"));
     iface->deleteLater();
 
-    iface = createArchiveInterface(KDESRCDIR "data/archive-onetopfolder.json");
+    iface = createArchiveInterface(QLatin1String(KDESRCDIR "data/archive-onetopfolder.json"));
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
@@ -188,7 +188,7 @@ void JobsTest::testIsSingleFolderArchive()
     iface->deleteLater();
 
     iface = createArchiveInterface
-            (KDESRCDIR "data/archive-multiplefolders.json");
+            (QLatin1String(KDESRCDIR "data/archive-multiplefolders.json"));
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
@@ -197,7 +197,7 @@ void JobsTest::testIsSingleFolderArchive()
     iface->deleteLater();
 
     iface = createArchiveInterface
-            (KDESRCDIR "data/archive-nodir-manyfiles.json");
+            (QLatin1String(KDESRCDIR "data/archive-nodir-manyfiles.json"));
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
@@ -206,7 +206,7 @@ void JobsTest::testIsSingleFolderArchive()
     iface->deleteLater();
 
     iface = createArchiveInterface
-            (KDESRCDIR "data/archive-deepsinglehierarchy.json");
+            (QLatin1String(KDESRCDIR "data/archive-deepsinglehierarchy.json"));
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
@@ -215,7 +215,7 @@ void JobsTest::testIsSingleFolderArchive()
     iface->deleteLater();
 
     iface = createArchiveInterface
-            (KDESRCDIR "data/archive-unorderedsinglefolder.json");
+            (QLatin1String(KDESRCDIR "data/archive-unorderedsinglefolder.json"));
     listJob = new Kerfuffle::ListJob(iface, this);
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
@@ -227,7 +227,7 @@ void JobsTest::testIsSingleFolderArchive()
 void JobsTest::testListEntries()
 {
     JSONArchiveInterface *iface =
-        createArchiveInterface(KDESRCDIR "data/archive001.json");
+        createArchiveInterface(QLatin1String(KDESRCDIR "data/archive001.json"));
 
     QList<Kerfuffle::ArchiveEntry> archiveEntries(listEntries(iface));
 
@@ -268,7 +268,7 @@ QList<Kerfuffle::ArchiveEntry> JobsTest::listEntries(JSONArchiveInterface *iface
 
 void JobsTest::testExtractJobAccessors()
 {
-    JSONArchiveInterface *iface = createArchiveInterface(KDESRCDIR "data/archive001.json");
+    JSONArchiveInterface *iface = createArchiveInterface(QLatin1String(KDESRCDIR "data/archive001.json"));
     Kerfuffle::ExtractJob *job =
         new Kerfuffle::ExtractJob(QVariantList(), QLatin1String("/tmp/some-dir"),
                                   Kerfuffle::ExtractionOptions(), iface, this);
@@ -310,7 +310,7 @@ void JobsTest::testRemoveEntry()
     QStringList expectedEntries;
 
     filesToDelete.append(QLatin1String("c.txt"));
-    iface = createArchiveInterface(KDESRCDIR "data/archive001.json");
+    iface = createArchiveInterface(QLatin1String(KDESRCDIR "data/archive001.json"));
     deleteJob = new Kerfuffle::DeleteJob(filesToDelete, iface, this);
     startAndWaitForResult(deleteJob);
     QList<Kerfuffle::ArchiveEntry> archiveEntries(listEntries(iface));

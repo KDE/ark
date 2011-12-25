@@ -41,13 +41,13 @@ QTEST_KDEMAIN_CORE(ArchiveTest)
 
 void ArchiveTest::testFileName()
 {
-    Kerfuffle::Archive *archive = Kerfuffle::factory("/tmp/foo.tar.gz");
+    Kerfuffle::Archive *archive = Kerfuffle::factory(QLatin1String("/tmp/foo.tar.gz"));
 
     if (!archive) {
         QSKIP("There is no plugin to handle tar.gz files. Skipping test.", SkipSingle);
     }
 
-    QCOMPARE(archive->fileName(), QString("/tmp/foo.tar.gz"));
+    QCOMPARE(archive->fileName(), QLatin1String("/tmp/foo.tar.gz"));
 
     archive->deleteLater();
 }
@@ -56,7 +56,7 @@ void ArchiveTest::testIsPasswordProtected()
 {
     Kerfuffle::Archive *archive;
 
-    archive = Kerfuffle::factory(KDESRCDIR "data/archivetest_encrypted.zip");
+    archive = Kerfuffle::factory(QLatin1String(KDESRCDIR "data/archivetest_encrypted.zip"));
     if (!archive) {
         QSKIP("There is no plugin to handle zip files. Skipping test.", SkipSingle);
     }
@@ -65,7 +65,7 @@ void ArchiveTest::testIsPasswordProtected()
 
     archive->deleteLater();
 
-    archive = Kerfuffle::factory(KDESRCDIR "data/archivetest_unencrypted.zip");
+    archive = Kerfuffle::factory(QLatin1String(KDESRCDIR "data/archivetest_unencrypted.zip"));
 
     QVERIFY(!archive->isPasswordProtected());
 
