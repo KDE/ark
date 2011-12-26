@@ -75,7 +75,7 @@ public:
      * the user of the error condition.
      */
     virtual bool list() = 0;
-    void setPassword(QString password);
+    void setPassword(const QString &password);
 
     /**
      * Extract files from archive.

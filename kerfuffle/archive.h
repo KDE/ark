@@ -117,7 +117,7 @@ public:
     virtual QString subfolderName() = 0;
     virtual bool isPasswordProtected() = 0;
 
-    virtual void setPassword(QString password) = 0;
+    virtual void setPassword(const QString &password) = 0;
 
 };
 

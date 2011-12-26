@@ -191,7 +191,7 @@ QString ArchiveBase::subfolderName()
     return m_subfolderName;
 }
 
-void ArchiveBase::setPassword(QString password)
+void ArchiveBase::setPassword(const QString &password)
 {
     m_iface->setPassword(password);
 }

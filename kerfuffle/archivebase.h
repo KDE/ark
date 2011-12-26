@@ -60,7 +60,7 @@ public:
     virtual QString subfolderName();
     virtual bool isPasswordProtected();
 
-    virtual void setPassword(QString password);
+    virtual void setPassword(const QString &password);
 
 private slots:
     void onListFinished(KJob*);

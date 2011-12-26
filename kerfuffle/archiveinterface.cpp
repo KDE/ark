@@ -60,7 +60,7 @@ bool ReadOnlyArchiveInterface::open()
     return true;
 }
 
-void ReadOnlyArchiveInterface::setPassword(QString password)
+void ReadOnlyArchiveInterface::setPassword(const QString &password)
 {
     m_password = password;
 }
