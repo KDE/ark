@@ -97,7 +97,10 @@ bool JSONArchiveInterface::deleteFiles(const QList<QVariant>& files)
 {
     foreach (const QVariant& file, files) {
         const QString fileName = file.toString();
-        m_archive.remove(fileName);
+        if (m_archive.contains(fileName)) {
+            m_archive.remove(fileName);
+            entryRemoved(fileName);
+        }
     }
 
     return true;
