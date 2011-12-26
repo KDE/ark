@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2011 Raphael Kubo da Costa <kubito@gmail.com>
+ * Copyright (c) 2010-2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -43,7 +43,7 @@
  *
  * @sa JSONParser
  *
- * @author Raphael Kubo da Costa <kubito@gmail.com>
+ * @author Raphael Kubo da Costa <rakuco@FreeBSD.org>
  */
 class JSONArchiveInterface : public Kerfuffle::ReadWriteArchiveInterface
 {

@@ -2,7 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
- * Copyright (C) 2009-2010 Raphael Kubo da Costa <kubito@gmail.com>
+ * Copyright (C) 2009-2010 Raphael Kubo da Costa <rakuco@FreeBSD.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
