@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (c) 2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -41,6 +42,8 @@ class ListJob;
 class ExtractJob;
 class DeleteJob;
 class AddJob;
+class Query;
+class ReadOnlyArchiveInterface;
 
 /**
  * Meta data related to one entry in a compressed archive.
@@ -87,15 +90,21 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_OBJECT
 
 public:
-    virtual ~Archive() {}
+    /*
+     * Creates an Arch to operate on the given interface.
+     * This takes ownership of the interface, which is deleted
+     * on the destructor.
+     */
+    Archive(ReadOnlyArchiveInterface *archiveInterface, QObject *parent = 0);
+    virtual ~Archive();
 
-    virtual QString fileName() const = 0;
-    virtual bool isReadOnly()  const = 0;
+    virtual QString fileName() const;
+    virtual bool isReadOnly()  const;
 
-    virtual KJob*       open() = 0;
-    virtual KJob*       create() = 0;
-    virtual ListJob*    list() = 0;
-    virtual DeleteJob*  deleteFiles(const QList<QVariant> & files) = 0;
+    virtual KJob*       open();
+    virtual KJob*       create();
+    virtual ListJob*    list();
+    virtual DeleteJob*  deleteFiles(const QList<QVariant> & files);
 
     /**
      * Compression options that should be handled by all interfaces:
@@ -109,16 +118,29 @@ public:
      * archive root where the files will be added under
      *
      */
-    virtual AddJob*     addFiles(const QStringList & files, const CompressionOptions& options = CompressionOptions()) = 0;
+    virtual AddJob*     addFiles(const QStringList & files, const CompressionOptions& options = CompressionOptions());
 
-    virtual ExtractJob* copyFiles(const QList<QVariant> & files, const QString & destinationDir, ExtractionOptions options = ExtractionOptions()) = 0;
+    virtual ExtractJob* copyFiles(const QList<QVariant> & files, const QString & destinationDir, ExtractionOptions options = ExtractionOptions());
 
-    virtual bool isSingleFolderArchive() = 0;
-    virtual QString subfolderName() = 0;
-    virtual bool isPasswordProtected() = 0;
+    virtual bool isSingleFolderArchive();
+    virtual QString subfolderName();
+    virtual bool isPasswordProtected();
 
-    virtual void setPassword(const QString &password) = 0;
+    virtual void setPassword(const QString &password);
 
+private slots:
+    void onListFinished(KJob*);
+    void onAddFinished(KJob*);
+    void onUserQuery(Kerfuffle::Query*);
+
+private:
+    void listIfNotListed();
+    ReadOnlyArchiveInterface *m_iface;
+    bool m_hasBeenListed;
+    bool m_isPasswordProtected;
+    bool m_isSingleFolderArchive;
+    QString m_subfolderName;
+    qlonglong m_extractedFilesSize;
 };
 
 KERFUFFLE_EXPORT Archive* factory(const QString & filename, const QString & fixedMimeType = QString());

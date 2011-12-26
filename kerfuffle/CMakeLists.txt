@@ -7,7 +7,6 @@ set(kerfuffle_SRCS
     archive.cpp
     archiveinterface.cpp
     jobs.cpp
-    archivebase.cpp
 	extractiondialog.cpp
 	adddialog.cpp
 	queries.cpp
