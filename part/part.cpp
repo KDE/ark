@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
- * Copyright (C) 2009 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (C) 2009-2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -397,7 +397,7 @@ bool Part::openFile()
         }
     }
 
-    Kerfuffle::Archive *archive = Kerfuffle::factory(localFile);
+    Kerfuffle::Archive *archive = Kerfuffle::Archive::create(localFile, m_model);
 
     if ((!archive) || ((creatingNewArchive) && (archive->isReadOnly()))) {
         QStringList mimeTypeList;
@@ -440,7 +440,7 @@ bool Part::openFile()
             return false;
         }
 
-        archive = Kerfuffle::factory(localFile, mimeTypes.key(item));
+        archive = Kerfuffle::Archive::create(localFile, mimeTypes.key(item), m_model);
     }
 
     if (!archive) {

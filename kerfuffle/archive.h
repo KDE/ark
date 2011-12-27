@@ -90,12 +90,8 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_OBJECT
 
 public:
-    /*
-     * Creates an Arch to operate on the given interface.
-     * This takes ownership of the interface, which is deleted
-     * on the destructor.
-     */
-    Archive(ReadOnlyArchiveInterface *archiveInterface, QObject *parent = 0);
+    static Archive *create(const QString &fileName, QObject *parent = 0);
+    static Archive *create(const QString &fileName, const QString &fixedMimeType, QObject *parent = 0);
     ~Archive();
 
     QString fileName() const;
@@ -134,6 +130,8 @@ private slots:
     void onUserQuery(Kerfuffle::Query*);
 
 private:
+    Archive(ReadOnlyArchiveInterface *archiveInterface, QObject *parent = 0);
+
     void listIfNotListed();
     ReadOnlyArchiveInterface *m_iface;
     bool m_hasBeenListed;
@@ -143,7 +141,6 @@ private:
     qlonglong m_extractedFilesSize;
 };
 
-KERFUFFLE_EXPORT Archive* factory(const QString & filename, const QString & fixedMimeType = QString());
 KERFUFFLE_EXPORT QStringList supportedMimeTypes();
 KERFUFFLE_EXPORT QStringList supportedWriteMimeTypes();
 } // namespace Kerfuffle

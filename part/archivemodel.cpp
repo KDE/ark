@@ -269,9 +269,6 @@ ArchiveModel::ArchiveModel(QObject *parent)
 
 ArchiveModel::~ArchiveModel()
 {
-    delete m_archive;
-    m_archive = 0;
-
     delete m_rootNode;
     m_rootNode = 0;
 }
@@ -865,7 +862,6 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
     m_rootNode->clear();
     s_previousMatch = 0;
     s_previousPieces->clear();
-
 
     Kerfuffle::ListJob *job = NULL;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2010-2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -41,22 +41,20 @@ QTEST_KDEMAIN_CORE(ArchiveTest)
 
 void ArchiveTest::testFileName()
 {
-    Kerfuffle::Archive *archive = Kerfuffle::factory(QLatin1String("/tmp/foo.tar.gz"));
+    Kerfuffle::Archive *archive = Kerfuffle::Archive::create(QLatin1String("/tmp/foo.tar.gz"), this);
 
     if (!archive) {
         QSKIP("There is no plugin to handle tar.gz files. Skipping test.", SkipSingle);
     }
 
     QCOMPARE(archive->fileName(), QLatin1String("/tmp/foo.tar.gz"));
-
-    archive->deleteLater();
 }
 
 void ArchiveTest::testIsPasswordProtected()
 {
     Kerfuffle::Archive *archive;
 
-    archive = Kerfuffle::factory(QLatin1String(KDESRCDIR "data/archivetest_encrypted.zip"));
+    archive = Kerfuffle::Archive::create(QLatin1String(KDESRCDIR "data/archivetest_encrypted.zip"), this);
     if (!archive) {
         QSKIP("There is no plugin to handle zip files. Skipping test.", SkipSingle);
     }
@@ -65,11 +63,9 @@ void ArchiveTest::testIsPasswordProtected()
 
     archive->deleteLater();
 
-    archive = Kerfuffle::factory(QLatin1String(KDESRCDIR "data/archivetest_unencrypted.zip"));
+    archive = Kerfuffle::Archive::create(QLatin1String(KDESRCDIR "data/archivetest_unencrypted.zip"), this);
 
     QVERIFY(!archive->isPasswordProtected());
-
-    archive->deleteLater();
 }
 
 void ArchiveTest::testOpenNonExistentFile()

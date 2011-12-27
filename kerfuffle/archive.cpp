@@ -80,6 +80,43 @@ static KService::List findPluginOffers(const QString& filename, const QString& f
 namespace Kerfuffle
 {
 
+Archive *Archive::create(const QString &fileName, QObject *parent)
+{
+    return create(fileName, QString(), parent);
+}
+
+Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, QObject *parent)
+{
+    qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
+
+    const KService::List offers = findPluginOffers(fileName, fixedMimeType);
+
+    if (offers.isEmpty()) {
+        kDebug() << "Could not find a plugin to handle" << fileName;
+        return NULL;
+    }
+
+    const QString pluginName = offers.first()->library();
+    kDebug() << "Loading plugin" << pluginName;
+
+    KPluginFactory * const factory = KPluginLoader(pluginName).factory();
+    if (!factory) {
+        kDebug() << "Invalid plugin factory for" << pluginName;
+        return NULL;
+    }
+
+    QVariantList args;
+    args.append(QVariant(QFileInfo(fileName).absoluteFilePath()));
+
+    ReadOnlyArchiveInterface * const iface = factory->create<ReadOnlyArchiveInterface>(0, args);
+    if (!iface) {
+        kDebug() << "Could not create plugin instance" << pluginName << "for" << fileName;
+        return NULL;
+    }
+
+    return new Archive(iface, parent);
+}
+
 Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, QObject *parent)
         : QObject(parent),
         m_iface(archiveInterface),
@@ -237,38 +274,6 @@ QString Archive::subfolderName()
 void Archive::setPassword(const QString &password)
 {
     m_iface->setPassword(password);
-}
-
-Archive *factory(const QString& filename, const QString& fixedMimeType)
-{
-    qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
-
-    const KService::List offers = findPluginOffers(filename, fixedMimeType);
-
-    if (offers.isEmpty()) {
-        kDebug() << "Could not find a plugin to handle" << filename;
-        return NULL;
-    }
-
-    const QString pluginName = offers.first()->library();
-    kDebug() << "Loading plugin" << pluginName;
-
-    KPluginFactory * const factory = KPluginLoader(pluginName).factory();
-    if (!factory) {
-        kDebug() << "Invalid plugin factory for" << pluginName;
-        return NULL;
-    }
-
-    QVariantList args;
-    args.append(QVariant(QFileInfo(filename).absoluteFilePath()));
-
-    ReadOnlyArchiveInterface * const iface = factory->create<ReadOnlyArchiveInterface>(0, args);
-    if (!iface) {
-        kDebug() << "Could not create plugin instance" << pluginName << "for" << filename;
-        return NULL;
-    }
-
-    return new Archive(iface);
 }
 
 QStringList supportedMimeTypes()

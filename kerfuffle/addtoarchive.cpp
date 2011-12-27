@@ -133,7 +133,7 @@ void AddToArchive::slotStartJob(void)
 
     Kerfuffle::Archive *archive;
     if (!m_filename.isEmpty()) {
-        archive = Kerfuffle::factory(m_filename, m_mimeType);
+        archive = Kerfuffle::Archive::create(m_filename, m_mimeType, this);
         kDebug() << "Set filename to " << m_filename;
     } else {
         if (m_autoFilenameSuffix.isEmpty()) {
@@ -162,7 +162,7 @@ void AddToArchive::slotStartJob(void)
         }
 
         kDebug() << "Autoset filename to "<< finalName;
-        archive = Kerfuffle::factory(finalName, m_mimeType);
+        archive = Kerfuffle::Archive::create(finalName, m_mimeType, this);
     }
 
     if (archive == NULL) {

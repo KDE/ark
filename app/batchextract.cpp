@@ -206,8 +206,7 @@ void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
 
 bool BatchExtract::addInput(const KUrl& url)
 {
-    // FIXME: this is being leaked
-    Kerfuffle::Archive *archive = Kerfuffle::factory(url.pathOrUrl());
+    Kerfuffle::Archive *archive = Kerfuffle::Archive::create(url.pathOrUrl(), this);
 
     if ((archive == NULL) || (!QFileInfo(url.pathOrUrl()).exists())) {
         m_failedFiles.append(url.fileName());
