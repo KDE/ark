@@ -96,15 +96,15 @@ public:
      * on the destructor.
      */
     Archive(ReadOnlyArchiveInterface *archiveInterface, QObject *parent = 0);
-    virtual ~Archive();
+    ~Archive();
 
-    virtual QString fileName() const;
-    virtual bool isReadOnly()  const;
+    QString fileName() const;
+    bool isReadOnly()  const;
 
-    virtual KJob*       open();
-    virtual KJob*       create();
-    virtual ListJob*    list();
-    virtual DeleteJob*  deleteFiles(const QList<QVariant> & files);
+    KJob*       open();
+    KJob*       create();
+    ListJob*    list();
+    DeleteJob*  deleteFiles(const QList<QVariant> & files);
 
     /**
      * Compression options that should be handled by all interfaces:
@@ -118,15 +118,15 @@ public:
      * archive root where the files will be added under
      *
      */
-    virtual AddJob*     addFiles(const QStringList & files, const CompressionOptions& options = CompressionOptions());
+    AddJob*     addFiles(const QStringList & files, const CompressionOptions& options = CompressionOptions());
 
-    virtual ExtractJob* copyFiles(const QList<QVariant> & files, const QString & destinationDir, ExtractionOptions options = ExtractionOptions());
+    ExtractJob* copyFiles(const QList<QVariant> & files, const QString & destinationDir, ExtractionOptions options = ExtractionOptions());
 
-    virtual bool isSingleFolderArchive();
-    virtual QString subfolderName();
-    virtual bool isPasswordProtected();
+    bool isSingleFolderArchive();
+    QString subfolderName();
+    bool isPasswordProtected();
 
-    virtual void setPassword(const QString &password);
+    void setPassword(const QString &password);
 
 private slots:
     void onListFinished(KJob*);
