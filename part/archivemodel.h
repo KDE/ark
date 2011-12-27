@@ -23,6 +23,8 @@
 #define ARCHIVEMODEL_H
 
 #include <QAbstractItemModel>
+#include <QScopedPointer>
+
 #include <kjobtrackerinterface.h>
 #include "kerfuffle/archive.h"
 
@@ -115,7 +117,7 @@ private:
 
     QList<Kerfuffle::ArchiveEntry> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
     QList<int> m_showColumns;
-    Kerfuffle::Archive *m_archive;
+    QScopedPointer<Kerfuffle::Archive> m_archive;
     ArchiveDirNode *m_rootNode;
 };
 

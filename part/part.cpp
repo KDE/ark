@@ -60,6 +60,7 @@
 #include <QMenu>
 #include <QMimeData>
 #include <QMouseEvent>
+#include <QScopedPointer>
 #include <QSplitter>
 #include <QTimer>
 #include <QVBoxLayout>
@@ -397,7 +398,7 @@ bool Part::openFile()
         }
     }
 
-    Kerfuffle::Archive *archive = Kerfuffle::Archive::create(localFile, m_model);
+    QScopedPointer<Kerfuffle::Archive> archive(Kerfuffle::Archive::create(localFile, m_model));
 
     if ((!archive) || ((creatingNewArchive) && (archive->isReadOnly()))) {
         QStringList mimeTypeList;
@@ -440,7 +441,7 @@ bool Part::openFile()
             return false;
         }
 
-        archive = Kerfuffle::Archive::create(localFile, mimeTypes.key(item), m_model);
+        archive.reset(Kerfuffle::Archive::create(localFile, mimeTypes.key(item), m_model));
     }
 
     if (!archive) {
@@ -448,7 +449,7 @@ bool Part::openFile()
         return false;
     }
 
-    KJob *job = m_model->setArchive(archive);
+    KJob *job = m_model->setArchive(archive.take());
     registerJob(job);
     job->start();
     m_infoPanel->setIndex(QModelIndex());

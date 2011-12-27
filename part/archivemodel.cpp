@@ -262,7 +262,7 @@ int ArchiveNode::row() const
 }
 
 ArchiveModel::ArchiveModel(QObject *parent)
-        : QAbstractItemModel(parent), m_archive(0),
+        : QAbstractItemModel(parent),
         m_rootNode(new ArchiveDirNode(0, ArchiveEntry()))
 {
 }
@@ -852,13 +852,13 @@ void ArchiveModel::insertNode(ArchiveNode *node, InsertBehaviour behaviour)
 
 Kerfuffle::Archive* ArchiveModel::archive() const
 {
-    return m_archive;
+    return m_archive.data();
 }
 
 KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
 {
-    delete m_archive;
-    m_archive = archive;
+    m_archive.reset(archive);
+
     m_rootNode->clear();
     s_previousMatch = 0;
     s_previousPieces->clear();
