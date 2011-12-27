@@ -99,12 +99,12 @@ public:
     ~Archive();
 
     QString fileName() const;
-    bool isReadOnly()  const;
+    bool isReadOnly() const;
 
-    KJob*       open();
-    KJob*       create();
-    ListJob*    list();
-    DeleteJob*  deleteFiles(const QList<QVariant> & files);
+    KJob* open();
+    KJob* create();
+    ListJob* list();
+    DeleteJob* deleteFiles(const QList<QVariant> & files);
 
     /**
      * Compression options that should be handled by all interfaces:
@@ -118,7 +118,7 @@ public:
      * archive root where the files will be added under
      *
      */
-    AddJob*     addFiles(const QStringList & files, const CompressionOptions& options = CompressionOptions());
+    AddJob* addFiles(const QStringList & files, const CompressionOptions& options = CompressionOptions());
 
     ExtractJob* copyFiles(const QList<QVariant> & files, const QString & destinationDir, ExtractionOptions options = ExtractionOptions());
 
