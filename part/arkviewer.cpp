@@ -59,6 +59,9 @@ ArkViewer::~ArkViewer()
 
 void ArkViewer::dialogClosed()
 {
+    KConfigGroup conf = KGlobal::config()->group("Viewer");
+    saveDialogSize(conf);
+
     if (m_part) {
         KProgressDialog progressDialog
             (this, i18n("Closing preview"),
@@ -98,8 +101,6 @@ void ArkViewer::view(const QString& filename, QWidget *parent)
     } else if (viewer->hasServiceType(QLatin1String( "KParts/ReadOnlyPart" ))) {
         ArkViewer *internalViewer = new ArkViewer(parent, Qt::Window);
 
-        internalViewer->hide();
-
         if (!internalViewer->viewInInternalViewer(filename)) {
             KMessageBox::sorry(parent, i18n("The internal viewer cannot preview this file."));
             delete internalViewer;
@@ -129,6 +130,14 @@ void ArkViewer::keyPressEvent(QKeyEvent *event)
     event->accept();
 }
 
+// This sets the default size of the dialog.  It will only take effect in the case
+// where there is no saved size in the config file - it sets the default values
+// for KDialog::restoreDialogSize().
+QSize ArkViewer::sizeHint() const
+{
+    return QSize(560, 400);
+}
+
 bool ArkViewer::viewInInternalViewer(const QString& filename)
 {
     const KUrl fileUrl(filename);
@@ -136,12 +145,7 @@ bool ArkViewer::viewInInternalViewer(const QString& filename)
     KMimeType::Ptr mimetype = KMimeType::findByUrl(fileUrl, 0, true);
 
     setCaption(fileUrl.fileName());
-    // TODO: Load the size from the config file
-    QSize size = QSize();
-    if (size.width() < 200) {
-        size = QSize(560, 400);
-    }
-    setInitialSize(size);
+    restoreDialogSize(KGlobal::config()->group("Viewer"));
 
     QFrame *header = new QFrame(m_widget);
     QHBoxLayout *headerLayout = new QHBoxLayout(header);
