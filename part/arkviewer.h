@@ -35,6 +35,7 @@ class ArkViewer : public KDialog
 
 public:
     virtual ~ArkViewer();
+    virtual QSize sizeHint() const;
 
     static void view(const QString& filename, QWidget* parent = 0);
 
