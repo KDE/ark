@@ -23,6 +23,7 @@
 #define ARKVIEWER_H
 
 #include <KDialog>
+#include <KMimeType>
 #include <KParts/BrowserExtension>
 #include <KParts/ReadOnlyPart>
 #include <KService>
@@ -37,7 +38,7 @@ public:
     virtual ~ArkViewer();
     virtual QSize sizeHint() const;
 
-    static void view(const QString& filename, QWidget* parent = 0);
+    static void view(const QString& fileName, QWidget* parent = 0);
 
 protected:
     virtual void keyPressEvent(QKeyEvent *event);
@@ -51,8 +52,8 @@ private slots:
 private:
     explicit ArkViewer(QWidget* parent = 0, Qt::WFlags flags = 0);
 
-    static KService::Ptr getViewer(const QString& filename);
-    bool viewInInternalViewer(const QString& filename);
+    static KService::Ptr getViewer(const KMimeType::Ptr& mimeType);
+    bool viewInInternalViewer(const QString& fileName, const KMimeType::Ptr& mimeType);
 
     QWeakPointer<KParts::ReadOnlyPart> m_part;
     QWidget *m_widget;
