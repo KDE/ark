@@ -31,6 +31,7 @@ Name[ga]=Breiseán cartlainne RAR
 Name[gl]=Extensión de arquivo RAR
 Name[hr]=Arhivni priključak RAR
 Name[hu]=RAR modul
+Name[ia]=plugin de archivar RAR
 Name[id]=Pengaya arsip RAR
 Name[it]=plugin archivio RAR
 Name[ja]=RAR アーカイブ用プラグイン
