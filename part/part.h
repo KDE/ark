@@ -79,7 +79,7 @@ private slots:
     void slotAddFilesDone(KJob*);
     void slotDeleteFiles();
     void slotDeleteFilesDone(KJob*);
-    void updateSplitterSizes();
+    void saveSplitterSizes();
     void slotToggleInfoPanel(bool);
     void slotSaveAs();
     void updateActions();

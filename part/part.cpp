@@ -130,7 +130,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
 Part::~Part()
 {
-    updateSplitterSizes();
+    saveSplitterSizes();
 
     m_extractFilesAction->menu()->deleteLater();
 }
@@ -847,10 +847,10 @@ void Part::slotToggleInfoPanel(bool visible)
     }
 
     m_splitter->setSizes(splitterSizes);
-    updateSplitterSizes();
+    saveSplitterSizes();
 }
 
-void Part::updateSplitterSizes()
+void Part::saveSplitterSizes()
 {
     ArkSettings::setSplitterSizes(m_splitter->sizes());
     ArkSettings::self()->writeConfig();
