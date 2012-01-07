@@ -296,7 +296,7 @@ Name[uk]=Як архів ZIP/TAR
 Name[wa]=Come årtchive ZIP/TAR
 Name[x-test]=xxAs ZIP/TAR Archivexx
 Name[zh_CN]=为 ZIP/TAR 归档
-Name[zh_TW]=成 ZIP 壓縮檔
+Name[zh_TW]=成 ZIP/TAR 壓縮檔
 Icon=utilities-file-archiver
 Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
