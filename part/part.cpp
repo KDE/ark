@@ -79,7 +79,6 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
         : KParts::ReadWritePart(parent),
           m_model(new ArchiveModel(this)),
           m_splitter(0),
-          m_previewDir(0),
           m_busy(false),
           m_jobTracker(0)
 {
@@ -134,9 +133,6 @@ Part::~Part()
     updateSplitterSizes();
 
     m_extractFilesAction->menu()->deleteLater();
-
-    delete m_previewDir;
-    m_previewDir = 0;
 }
 
 void Part::registerJob(KJob* job)
@@ -529,10 +525,6 @@ void Part::slotPreview()
 
 void Part::slotPreview(const QModelIndex & index)
 {
-    if (!m_previewDir) {
-        m_previewDir = new KTempDir();
-    }
-
     if (!isPreviewable(index)) {
         return;
     }
@@ -543,7 +535,7 @@ void Part::slotPreview(const QModelIndex & index)
         Kerfuffle::ExtractionOptions options;
         options[QLatin1String( "PreservePaths" )] = true;
 
-        ExtractJob *job = m_model->extractFile(entry[ InternalID ], m_previewDir->name(), options);
+        ExtractJob *job = m_model->extractFile(entry[ InternalID ], m_previewDir.name(), options);
         registerJob(job);
         connect(job, SIGNAL(result(KJob*)),
                 this, SLOT(slotPreviewExtracted(KJob*)));
@@ -561,7 +553,7 @@ void Part::slotPreviewExtracted(KJob *job)
             m_model->entryForIndex(m_view->selectionModel()->currentIndex());
 
         QString fullName =
-            m_previewDir->name() + QLatin1Char('/') + entry[FileName].toString();
+            m_previewDir.name() + QLatin1Char('/') + entry[FileName].toString();
 
         // Make sure a maliciously crafted archive with parent folders named ".." do
         // not cause the previewed file path to be located outside the temporary

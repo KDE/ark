@@ -27,6 +27,7 @@
 
 #include <KParts/Part>
 #include <KParts/StatusBarExtension>
+#include <KTempDir>
 
 #include <QModelIndex>
 
@@ -37,7 +38,6 @@ class KAbstractWidgetJobTracker;
 class KAboutData;
 class KAction;
 class KJob;
-class KTempDir;
 
 class QAction;
 class QSplitter;
@@ -114,7 +114,7 @@ private:
     KAction              *m_saveAsAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
-    KTempDir             *m_previewDir;
+    KTempDir              m_previewDir;
     bool                  m_busy;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
