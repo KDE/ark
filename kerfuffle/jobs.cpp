@@ -27,8 +27,6 @@
 
 #include "jobs.h"
 
-#include <QApplication>
-#include <QDir>
 #include <QThread>
 
 #include <KDebug>
