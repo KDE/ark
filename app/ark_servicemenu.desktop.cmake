@@ -8,6 +8,7 @@ X-KDE-StartupNotify=false
 #StartupNotify=false
 X-KDE-Submenu=Extract
 X-KDE-Submenu[ca]=Extreu
+X-KDE-Submenu[ca@valencia]=Extreu
 X-KDE-Submenu[cs]=Rozbalit
 X-KDE-Submenu[da]=Pak ud
 X-KDE-Submenu[de]=Entpacken
