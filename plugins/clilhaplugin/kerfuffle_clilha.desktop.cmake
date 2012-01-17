@@ -25,6 +25,7 @@ Name[fr]=Module d'archive lha
 Name[ga]=Breiseán cartlainne lha
 Name[hu]=lha modul
 Name[ia]=plugin de archivar lha
+Name[it]=plugin archivio lha
 Name[kk]=lha архив плагині
 Name[lt]=lha archyvo priedas
 Name[nb]=Programtillegg for lha-arkiv

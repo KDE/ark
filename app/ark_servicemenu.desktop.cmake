@@ -21,6 +21,7 @@ X-KDE-Submenu[ga]=Bain amach
 X-KDE-Submenu[hr]=Otpakiraj
 X-KDE-Submenu[hu]=Kibontás
 X-KDE-Submenu[ia]=Extrahe
+X-KDE-Submenu[it]=Estrai
 X-KDE-Submenu[kk]=Тарқату
 X-KDE-Submenu[lt]=Išpakuoti
 X-KDE-Submenu[nb]=Pakk ut
