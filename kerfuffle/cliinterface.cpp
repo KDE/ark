@@ -340,9 +340,8 @@ bool CliInterface::runProcess(const QString& programName, const QStringList& arg
     m_process->setPtyChannels(KPtyProcess::StdinChannel);
 #endif
 
-    m_process->setTextModeEnabled(true);
     m_process->setOutputChannelMode(KProcess::MergedChannels);
-    m_process->setNextOpenMode(QIODevice::ReadWrite | QIODevice::Unbuffered);
+    m_process->setNextOpenMode(QIODevice::ReadWrite | QIODevice::Unbuffered | QIODevice::Text);
     m_process->setProgram(programPath, arguments);
 
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
