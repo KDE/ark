@@ -438,6 +438,11 @@ void CliInterface::readStdout(bool handleAll)
     //queries (such as file exists, wrong password) on a new line, but
     //freeze waiting for input. So we check for errors on the last line in
     //all cases.
+    // TODO: QLatin1String() might not be the best choice here.
+    //       The call to handleLine() at the end of the method uses
+    //       QString::fromLocal8Bit(), for example.
+    // TODO: The same check methods are called in handleLine(), this
+    //       is suboptimal.
     bool foundErrorMessage =
         (checkForErrorMessage(QLatin1String( lines.last() ), WrongPasswordPatterns) ||
          checkForErrorMessage(QLatin1String( lines.last() ), ExtractionFailedPatterns) ||
@@ -475,6 +480,8 @@ void CliInterface::readStdout(bool handleAll)
 
 void CliInterface::handleLine(const QString& line)
 {
+    // TODO: This should be implemented by each plugin; the way progress is
+    //       shown by each CLI application is subject to a lot of variation.
     if ((m_operationMode == Copy || m_operationMode == Add) && m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool()) {
         //read the percentage
         int pos = line.indexOf(QLatin1Char( '%' ));
