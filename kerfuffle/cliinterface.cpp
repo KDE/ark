@@ -340,9 +340,8 @@ bool CliInterface::runProcess(const QString& programName, const QStringList& arg
     m_process->setPtyChannels(KPtyProcess::StdinChannel);
 #endif
 
-    m_process->setTextModeEnabled(true);
     m_process->setOutputChannelMode(KProcess::MergedChannels);
-    m_process->setNextOpenMode(QIODevice::ReadWrite | QIODevice::Unbuffered);
+    m_process->setNextOpenMode(QIODevice::ReadWrite | QIODevice::Unbuffered | QIODevice::Text);
     m_process->setProgram(programPath, arguments);
 
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
@@ -493,6 +492,26 @@ void CliInterface::handleLine(const QString& line)
     }
 
     if (m_operationMode == Copy) {
+        if (checkForPasswordPromptMessage(line)) {
+            kDebug() << "Found a password prompt";
+
+            Kerfuffle::PasswordNeededQuery query(filename());
+            userQuery(&query);
+            query.waitForResponse();
+
+            if (query.responseCancelled()) {
+                failOperation();
+                return;
+            }
+
+            setPassword(query.password());
+
+            const QString response(password() + QLatin1Char('\n'));
+            writeToProcess(response.toLocal8Bit());
+
+            return;
+        }
+
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             kDebug() << "Wrong password!";
             error(i18n("Incorrect password."));
