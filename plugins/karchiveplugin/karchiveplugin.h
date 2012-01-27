@@ -42,6 +42,14 @@ public:
     bool deleteFiles(const QList<QVariant> & files);
 
 private:
+    enum {
+        OverwriteYes,
+        OverwriteSkip,
+        OverwriteAll,
+        OverwriteAutoSkip,
+        OverwriteCancel
+    };
+
     bool browseArchive(KArchive *archive);
 
     bool processDir(const KArchiveDirectory *dir, const QString & prefix = QString());
@@ -49,6 +57,10 @@ private:
     void createEntryFor(const KArchiveEntry *aentry, const QString& prefix);
 
     QString permissionsString(mode_t perm);
+
+    void getAllEntries(const KArchiveDirectory *dir, const QString &prefix, QList< QVariant > &list);
+
+    int handleFileExistsMessage(const QString &dir, const QString &fileName);
 
     KArchive *archive();
 

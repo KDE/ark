@@ -19,6 +19,7 @@
  *
  */
 #include "karchiveplugin.h"
+#include "kerfuffle/queries.h"
 
 #include <KZip>
 #include <KTar>
@@ -28,6 +29,7 @@
 #include <QDir>
 
 #include <QFileInfo>
+#include <QSet>
 
 KArchiveInterface::KArchiveInterface(QObject *parent, const QVariantList &args)
         : ReadWriteArchiveInterface(parent, args), m_archive(0)
@@ -67,40 +69,109 @@ bool KArchiveInterface::list()
     }
 }
 
+void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QString &prefix, QList< QVariant > &list)
+{
+    foreach(const QString &entryName, dir->entries()) {
+        const KArchiveEntry *entry = dir->entry(entryName);
+        if (entry->isDirectory()) {
+            QString newPrefix = (prefix.isEmpty() ? prefix : prefix + QLatin1Char('/')) + entryName;
+            getAllEntries(static_cast<const KArchiveDirectory*>(entry), newPrefix, list);
+        }
+        else {
+            list.append(prefix + QLatin1Char('/') + entryName);
+        }
+    }
+}
+
 bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, ExtractionOptions options)
 {
     const bool preservePaths = options.value(QLatin1String("PreservePaths")).toBool();
+    const KArchiveDirectory *dir = archive()->directory();
 
     if (!archive()->isOpen() && !archive()->open(QIODevice::ReadOnly)) {
         error(i18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
         return false;
     }
 
-    foreach(const QVariant &file, files) {
+    QList<QVariant> extrFiles = files;
+    if (extrFiles.isEmpty()) { // All files should be extracted
+        getAllEntries(dir, QString(), extrFiles);
+    }
+
+    bool overwriteAllSelected = false;
+    bool autoSkipSelected = false;
+    QSet<QString> dirCache;
+    foreach(const QVariant &file, extrFiles) {
         QString realDestination = destinationDirectory;
-        const KArchiveEntry *archiveEntry = archive()->directory()->entry(file.toString());
+        const KArchiveEntry *archiveEntry = dir->entry(file.toString());
         if (!archiveEntry) {
             error(i18nc("@info", "File <filename>%1</filename> not found in the archive" , file.toString()));
             return false;
         }
 
-        // TODO: handle errors, copyTo fails silently
         if (preservePaths) {
             QFileInfo fi(file.toString());
             QDir dest(destinationDirectory);
             QString filepath = archiveEntry->isDirectory() ? fi.filePath() : fi.path();
-            dest.mkpath(filepath);
+            if (!dirCache.contains(filepath)) {
+                if (!dest.mkpath(filepath)) {
+                    error(i18nc("@info", "Error creating directory <filename>%1</filename>", filepath);
+                    return false;
+                }
+                dirCache << filepath;
+            }
             realDestination = dest.absolutePath() + QLatin1Char('/') + filepath;
         }
-        if (archiveEntry->isDirectory()) {
-            kDebug() << "Calling copyTo(" << realDestination << ") for " << archiveEntry->name();
-            static_cast<const KArchiveDirectory*>(archiveEntry)->copyTo(realDestination);
-        } else {
-            static_cast<const KArchiveFile*>(archiveEntry)->copyTo(realDestination);
+
+        // TODO: handle errors, copyTo fails silently
+        if (!archiveEntry->isDirectory()) { // We don't need to do anything about directories
+            if (QFile::exists(realDestination + QLatin1Char('/') + archiveEntry->name()) && !overwriteAllSelected) {
+                if (autoSkipSelected) {
+                    continue;
+                }
+
+                int response = handleFileExistsMessage(realDestination, archiveEntry->name());
+
+                if (response == OverwriteCancel) {
+                    break;
+                }
+                if (response == OverwriteYes || response == OverwriteAll) {
+                    static_cast<const KArchiveFile*>(archiveEntry)->copyTo(realDestination);
+                    if (response == OverwriteAll) {
+                        overwriteAllSelected = true;
+                    }
+                }
+                if (response == OverwriteAutoSkip) {
+                    autoSkipSelected = true;
+                }
+            }
+            else {
+                static_cast<const KArchiveFile*>(archiveEntry)->copyTo(realDestination);
+            }
         }
     }
 
     return true;
+}
+
+int KArchiveInterface::handleFileExistsMessage(const QString &dir, const QString &fileName)
+{
+    Kerfuffle::OverwriteQuery query(dir + QLatin1Char('/') + fileName);
+    query.setNoRenameMode(true);
+    userQuery(&query);
+    query.waitForResponse();
+
+    if (query.responseOverwrite()) {
+        return OverwriteYes;
+    } else if (query.responseSkip()) {
+        return OverwriteSkip;
+    } else if (query.responseOverwriteAll()) {
+        return OverwriteAll;
+    } else if (query.responseAutoSkip()) {
+        return OverwriteAutoSkip;
+    }
+
+    return OverwriteCancel;
 }
 
 bool KArchiveInterface::browseArchive(KArchive *archive)
@@ -124,7 +195,12 @@ bool KArchiveInterface::processDir(const KArchiveDirectory *dir, const QString &
 void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QString& prefix)
 {
     ArchiveEntry e;
-    e[ FileName ]         = prefix.isEmpty() ? aentry->name() : prefix + QLatin1Char('/') + aentry->name();
+    QString fileName = prefix.isEmpty() ? aentry->name() : prefix + QLatin1Char('/') + aentry->name();
+
+    if (aentry->isDirectory() && !fileName.endsWith(QLatin1Char('/')))
+        fileName += QLatin1Char('/');
+
+    e[ FileName ]         = fileName;
     e[ InternalID ]       = e[ FileName ];
     e[ Permissions ]      = permissionsString(aentry->permissions());
     e[ Owner ]            = aentry->user();
@@ -167,7 +243,7 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
         if (fi.isDir()) {
             if (archive()->addLocalDirectory(path, fi.fileName())) {
                 const KArchiveEntry *entry = archive()->directory()->entry(fi.fileName());
-                createEntryFor(entry, QLatin1String(""));
+                createEntryFor(entry, QString());
                 processDir((KArchiveDirectory*) archive()->directory()->entry(fi.fileName()), fi.fileName());
             } else {
                 error(i18nc("@info", "Could not add the directory <filename>%1</filename> to the archive", path));
@@ -176,7 +252,7 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
         } else {
             if (archive()->addLocalFile(path, fi.fileName())) {
                 const KArchiveEntry *entry = archive()->directory()->entry(fi.fileName());
-                createEntryFor(entry, QLatin1String(""));
+                createEntryFor(entry, QString());
             } else {
                 error(i18nc("@info", "Could not add the file <filename>%1</filename> to the archive.", path));
                 return false;
