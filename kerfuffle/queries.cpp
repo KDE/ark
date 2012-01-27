@@ -181,12 +181,11 @@ void PasswordNeededQuery::execute()
         dlg.data()->showErrorMessage(i18n("Incorrect password, please try again."), KPasswordDialog::PasswordError);
     }
 
-    if (!dlg.data()->exec()) {
-        setResponse(false);
-    } else {
-        m_data[QLatin1String("password")] = dlg.data()->password();
-        setResponse(true);
-    }
+    const bool notCancelled = dlg.data()->exec();
+    const QString password = dlg.data()->password();
+
+    m_data[QLatin1String("password")] = password;
+    setResponse(notCancelled && !password.isEmpty());
 
     QApplication::restoreOverrideCursor();
 

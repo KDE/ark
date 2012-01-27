@@ -31,6 +31,7 @@ Name[ga]=Breiseán cartlainne ZIP
 Name[gl]=Extensión de arquivo ZIP
 Name[hr]=Arhivni priključak ZIP
 Name[hu]=ZIP modul
+Name[ia]=Plugin de archivar zip
 Name[id]=Pengaya arsip ZIP
 Name[it]=plugin archivio ZIP
 Name[ja]=ZIP アーカイブ用プラグイン

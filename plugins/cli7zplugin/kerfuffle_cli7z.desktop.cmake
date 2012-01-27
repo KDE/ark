@@ -31,6 +31,7 @@ Name[ga]=Breiseán cartlainne 7zip
 Name[gl]=Extensión de arquivo de 7zip
 Name[hr]=Arhivni priključak 7zip
 Name[hu]=7zip modul
+Name[ia]=Plugin de archivar 7zip
 Name[id]=Pengaya arsip 7zip
 Name[it]=plugin archivio 7zip
 Name[ja]=7zip アーカイブ用プラグイン

@@ -21,6 +21,7 @@ Name[ga]=Bain an chartlann Ark amach agus cuir é anseo
 Name[gl]=Extraer aquí con Ark
 Name[hr]=Ovdje Ark-otpakiraj
 Name[hu]=Kibontás ide
+Name[ia]=Ark Extrahe hic
 Name[id]=Ark Ekstrak di Sini
 Name[it]=Ark Estrai qui
 Name[ja]=Ark ここに展開
