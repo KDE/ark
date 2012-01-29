@@ -334,9 +334,9 @@ bool CliInterface::runProcess(const QString& programName, const QStringList& arg
     }
 
 #ifdef Q_OS_WIN
-    m_process = new KProcess();
+    m_process = new KProcess;
 #else
-    m_process = new KPtyProcess();
+    m_process = new KPtyProcess;
     m_process->setPtyChannels(KPtyProcess::StdinChannel);
 #endif
 
