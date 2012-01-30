@@ -29,6 +29,7 @@ X-KDE-Submenu[nb]=Pakk ut
 X-KDE-Submenu[nds]=Utpacken
 X-KDE-Submenu[nl]=Uitpakken
 X-KDE-Submenu[pa]=ਇੱਥੇ ਖਿਲਾਰੋ
+X-KDE-Submenu[pl]=Rozpakuj
 X-KDE-Submenu[pt]=Extrair
 X-KDE-Submenu[pt_BR]=Extrair
 X-KDE-Submenu[ro]=Extrage
