@@ -68,7 +68,7 @@ void Job::Private::run()
 
 Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
     : KJob(parent)
-    , m_interface(interface)
+    , m_archiveInterface(interface)
     , m_isRunning(false)
     , d(new Private(this))
 {
@@ -88,6 +88,11 @@ Job::~Job()
     }
 
     delete d;
+}
+
+ReadOnlyArchiveInterface *Job::archiveInterface()
+{
+    return m_archiveInterface;
 }
 
 bool Job::isRunning() const
@@ -139,7 +144,7 @@ void Job::onFinished(bool result)
 {
     kDebug() << result;
 
-    m_interface->removeObserver(this);
+    archiveInterface()->removeObserver(this);
 
     emitResult();
 }
@@ -152,7 +157,7 @@ void Job::onUserQuery(Query *query)
 bool Job::doKill()
 {
     kDebug();
-    bool ret = m_interface->doKill();
+    bool ret = archiveInterface()->doKill();
     if (!ret) {
         kDebug() << "Killing does not seem to be supported here.";
     }
@@ -172,11 +177,11 @@ ListJob::ListJob(ReadOnlyArchiveInterface *interface, QObject *parent)
 void ListJob::doWork()
 {
     emit description(this, i18n("Loading archive..."));
-    m_interface->registerObserver(this);
-    bool ret = m_interface->list();
+    archiveInterface()->registerObserver(this);
+    bool ret = archiveInterface()->list();
 
-    if (!m_interface->waitForFinishedSignal()) {
-        m_interface->finished(ret);
+    if (!archiveInterface()->waitForFinishedSignal()) {
+        archiveInterface()->finished(ret);
     }
 }
 
@@ -240,17 +245,17 @@ void ExtractJob::doWork()
     }
     emit description(this, desc);
 
-    m_interface->registerObserver(this);
+    archiveInterface()->registerObserver(this);
 
     kDebug() << "Starting extraction with selected files:"
              << m_files
              << "Destination dir:" << m_destinationDir
              << "Options:" << m_options;
 
-    bool ret = m_interface->copyFiles(m_files, m_destinationDir, m_options);
+    bool ret = archiveInterface()->copyFiles(m_files, m_destinationDir, m_options);
 
-    if (!m_interface->waitForFinishedSignal()) {
-        m_interface->finished(ret);
+    if (!archiveInterface()->waitForFinishedSignal()) {
+        archiveInterface()->finished(ret);
     }
 }
 
@@ -290,15 +295,15 @@ void AddJob::doWork()
     emit description(this, i18np("Adding a file", "Adding %1 files", m_files.count()));
 
     ReadWriteArchiveInterface *m_writeInterface =
-        qobject_cast<ReadWriteArchiveInterface*>(m_interface);
+        qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
 
     Q_ASSERT(m_writeInterface);
 
     m_writeInterface->registerObserver(this);
     bool ret = m_writeInterface->addFiles(m_files, m_options);
 
-    if (!m_interface->waitForFinishedSignal()) {
-        m_interface->finished(ret);
+    if (!archiveInterface()->waitForFinishedSignal()) {
+        archiveInterface()->finished(ret);
     }
 }
 
@@ -313,15 +318,15 @@ void DeleteJob::doWork()
     emit description(this, i18np("Deleting a file from the archive", "Deleting %1 files", m_files.count()));
 
     ReadWriteArchiveInterface *m_writeInterface =
-        qobject_cast<ReadWriteArchiveInterface*>(m_interface);
+        qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
 
     Q_ASSERT(m_writeInterface);
 
     m_writeInterface->registerObserver(this);
     int ret = m_writeInterface->deleteFiles(m_files);
 
-    if (!m_interface->waitForFinishedSignal()) {
-        m_interface->finished(ret);
+    if (!archiveInterface()->waitForFinishedSignal()) {
+        archiveInterface()->finished(ret);
     }
 }
 

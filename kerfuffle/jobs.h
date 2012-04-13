@@ -68,7 +68,7 @@ protected:
     virtual bool doKill();
     virtual void emitResult();
 
-    ReadOnlyArchiveInterface *m_interface;
+    ReadOnlyArchiveInterface *archiveInterface();
 
 public slots:
     virtual void doWork() = 0;
@@ -80,6 +80,8 @@ signals:
     void userQuery(Kerfuffle::Query*);
 
 private:
+    ReadOnlyArchiveInterface *m_archiveInterface;
+
     bool m_isRunning;
 
     class Private;
