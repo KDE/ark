@@ -66,7 +66,7 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
     QFile outputFile(outputFileName);
     if (!outputFile.open(QIODevice::WriteOnly)) {
         kDebug() << "Failed to open output file" << outputFile.errorString();
-        error(i18nc("@info", "Ark could not extract <filename>%1</filename>.", outputFile.fileName()));
+        emit error(i18nc("@info", "Ark could not extract <filename>%1</filename>.", outputFile.fileName()));
 
         return false;
     }
@@ -74,7 +74,7 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
     QIODevice *device = KFilterDev::deviceForFile(filename(), m_mimeType, false);
     if (!device) {
         kDebug() << "Could not create KFilterDev";
-        error(i18nc("@info", "Ark could not open <filename>%1</filename> for extraction.", filename()));
+        emit error(i18nc("@info", "Ark could not open <filename>%1</filename> for extraction.", filename()));
 
         return false;
     }
@@ -88,7 +88,7 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
         bytesRead = device->read(dataChunk.data(), dataChunk.size());
 
         if (bytesRead == -1) {
-            error(i18nc("@info", "There was an error while reading <filename>%1</filename> during extraction.", filename()));
+            emit error(i18nc("@info", "There was an error while reading <filename>%1</filename> during extraction.", filename()));
             break;
         } else if (bytesRead == 0) {
             break;
@@ -113,7 +113,7 @@ bool LibSingleFileInterface::list()
     e[Kerfuffle::FileName] = filename;
     e[Kerfuffle::InternalID] = filename;
 
-    entry(e);
+    emit entry(e);
 
     return true;
 }
@@ -126,7 +126,7 @@ QString LibSingleFileInterface::overwriteFileName(QString& filename)
         Kerfuffle::OverwriteQuery query(newFileName);
 
         query.setMultiMode(false);
-        userQuery(&query);
+        emit userQuery(&query);
         query.waitForResponse();
 
         if ((query.responseCancelled()) || (query.responseSkip())) {

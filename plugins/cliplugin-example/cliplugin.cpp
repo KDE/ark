@@ -140,7 +140,7 @@ bool CliPlugin::readListLine(const QString &line)
     e[ IsPasswordProtected] = m_isPasswordProtected;
     kDebug() << "Added entry: " << e;
 
-    entry(e);
+    emit entry(e);
     m_isFirstLine = true;
     return true;
 }

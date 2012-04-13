@@ -131,7 +131,7 @@ bool CliPlugin::readListLine(const QString &line)
             e[Timestamp] = ts;
 
             e[FileName] = e[InternalID] = entryPattern.cap(10);
-            entry(e);
+            emit entry(e);
         }
         break;
     }

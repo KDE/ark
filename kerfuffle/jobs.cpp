@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
- * Copyright (c) 2009-2010 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2009-2012 Raphael Kubo da Costa <rakuco@FreeBSD.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -112,6 +112,17 @@ void Job::emitResult()
     KJob::emitResult();
 }
 
+void Job::connectToArchiveInterfaceSignals()
+{
+    connect(archiveInterface(), SIGNAL(error(QString,QString)), SLOT(onError(QString,QString)));
+    connect(archiveInterface(), SIGNAL(entry(ArchiveEntry)), SLOT(onEntry(ArchiveEntry)));
+    connect(archiveInterface(), SIGNAL(entryRemoved(QString)), SLOT(onEntryRemoved(QString)));
+    connect(archiveInterface(), SIGNAL(progress(double)), SLOT(onProgress(double)));
+    connect(archiveInterface(), SIGNAL(info(QString)), SLOT(onInfo(QString)));
+    connect(archiveInterface(), SIGNAL(finished(bool)), SLOT(onFinished(bool)));
+    connect(archiveInterface(), SIGNAL(userQuery(Query*)), SLOT(onUserQuery(Query*)));
+}
+
 void Job::onError(const QString & message, const QString & details)
 {
     Q_UNUSED(details)
@@ -144,7 +155,7 @@ void Job::onFinished(bool result)
 {
     kDebug() << result;
 
-    archiveInterface()->removeObserver(this);
+    archiveInterface()->disconnect(this);
 
     emitResult();
 }
@@ -177,11 +188,11 @@ ListJob::ListJob(ReadOnlyArchiveInterface *interface, QObject *parent)
 void ListJob::doWork()
 {
     emit description(this, i18n("Loading archive..."));
-    archiveInterface()->registerObserver(this);
+    connectToArchiveInterfaceSignals();
     bool ret = archiveInterface()->list();
 
     if (!archiveInterface()->waitForFinishedSignal()) {
-        archiveInterface()->finished(ret);
+        onFinished(ret);
     }
 }
 
@@ -245,7 +256,7 @@ void ExtractJob::doWork()
     }
     emit description(this, desc);
 
-    archiveInterface()->registerObserver(this);
+    connectToArchiveInterfaceSignals();
 
     kDebug() << "Starting extraction with selected files:"
              << m_files
@@ -255,7 +266,7 @@ void ExtractJob::doWork()
     bool ret = archiveInterface()->copyFiles(m_files, m_destinationDir, m_options);
 
     if (!archiveInterface()->waitForFinishedSignal()) {
-        archiveInterface()->finished(ret);
+        onFinished(ret);
     }
 }
 
@@ -299,11 +310,11 @@ void AddJob::doWork()
 
     Q_ASSERT(m_writeInterface);
 
-    m_writeInterface->registerObserver(this);
+    connectToArchiveInterfaceSignals();
     bool ret = m_writeInterface->addFiles(m_files, m_options);
 
     if (!archiveInterface()->waitForFinishedSignal()) {
-        archiveInterface()->finished(ret);
+        onFinished(ret);
     }
 }
 
@@ -322,11 +333,11 @@ void DeleteJob::doWork()
 
     Q_ASSERT(m_writeInterface);
 
-    m_writeInterface->registerObserver(this);
+    connectToArchiveInterfaceSignals();
     int ret = m_writeInterface->deleteFiles(m_files);
 
     if (!archiveInterface()->waitForFinishedSignal()) {
-        archiveInterface()->finished(ret);
+        onFinished(ret);
     }
 }
 

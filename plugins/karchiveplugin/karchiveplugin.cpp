@@ -62,7 +62,7 @@ bool KArchiveInterface::list()
 {
     kDebug();
     if (!archive()->isOpen() && !archive()->open(QIODevice::ReadOnly)) {
-        error(i18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
+        emit error(i18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
         return false;
     } else {
         return browseArchive(archive());
@@ -89,7 +89,7 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
     const KArchiveDirectory *dir = archive()->directory();
 
     if (!archive()->isOpen() && !archive()->open(QIODevice::ReadOnly)) {
-        error(i18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
+        emit error(i18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
         return false;
     }
 
@@ -105,7 +105,7 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
         QString realDestination = destinationDirectory;
         const KArchiveEntry *archiveEntry = dir->entry(file.toString());
         if (!archiveEntry) {
-            error(i18nc("@info", "File <filename>%1</filename> not found in the archive" , file.toString()));
+            emit error(i18nc("@info", "File <filename>%1</filename> not found in the archive" , file.toString()));
             return false;
         }
 
@@ -115,7 +115,7 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
             QString filepath = archiveEntry->isDirectory() ? fi.filePath() : fi.path();
             if (!dirCache.contains(filepath)) {
                 if (!dest.mkpath(filepath)) {
-                    error(i18nc("@info", "Error creating directory <filename>%1</filename>", filepath);
+                    emit error(i18nc("@info", "Error creating directory <filename>%1</filename>", filepath));
                     return false;
                 }
                 dirCache << filepath;
@@ -158,7 +158,7 @@ int KArchiveInterface::handleFileExistsMessage(const QString &dir, const QString
 {
     Kerfuffle::OverwriteQuery query(dir + QLatin1Char('/') + fileName);
     query.setNoRenameMode(true);
-    userQuery(&query);
+    emit userQuery(&query);
     query.waitForResponse();
 
     if (query.responseOverwrite()) {
@@ -216,7 +216,7 @@ void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QStrin
     else {
         e[ Size ] = 0;
     }
-    entry(e);
+    emit entry(e);
 }
 
 bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::CompressionOptions &options)
@@ -229,7 +229,7 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
         archive()->close();
     }
     if (!archive()->open(QIODevice::ReadWrite)) {
-        error(i18nc("@info", "Could not open the archive <filename>%1</filename> for writing.", filename()));
+        emit error(i18nc("@info", "Could not open the archive <filename>%1</filename> for writing.", filename()));
         return false;
     }
 
@@ -246,7 +246,7 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
                 createEntryFor(entry, QString());
                 processDir((KArchiveDirectory*) archive()->directory()->entry(fi.fileName()), fi.fileName());
             } else {
-                error(i18nc("@info", "Could not add the directory <filename>%1</filename> to the archive", path));
+                emit error(i18nc("@info", "Could not add the directory <filename>%1</filename> to the archive", path));
                 return false;
             }
         } else {
@@ -254,7 +254,7 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
                 const KArchiveEntry *entry = archive()->directory()->entry(fi.fileName());
                 createEntryFor(entry, QString());
             } else {
-                error(i18nc("@info", "Could not add the file <filename>%1</filename> to the archive.", path));
+                emit error(i18nc("@info", "Could not add the file <filename>%1</filename> to the archive.", path));
                 return false;
             }
         }

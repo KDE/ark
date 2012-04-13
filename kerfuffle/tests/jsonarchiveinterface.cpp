@@ -43,7 +43,7 @@ bool JSONArchiveInterface::list()
 {
     JSONParser::JSONArchive::const_iterator it = m_archive.constBegin();
     for (; it != m_archive.constEnd(); ++it) {
-        entry(*it);
+        emit entry(*it);
     }
 
     return true;
@@ -99,7 +99,7 @@ bool JSONArchiveInterface::deleteFiles(const QList<QVariant>& files)
         const QString fileName = file.toString();
         if (m_archive.contains(fileName)) {
             m_archive.remove(fileName);
-            entryRemoved(fileName);
+            emit entryRemoved(fileName);
         }
     }
 

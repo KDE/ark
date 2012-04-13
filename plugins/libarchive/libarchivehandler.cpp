@@ -99,8 +99,8 @@ bool LibArchiveInterface::list()
     }
 
     if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        error(i18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
-                   filename()), QString());
+        emit error(i18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
+                   filename()));
         return false;
     }
 
@@ -122,8 +122,8 @@ bool LibArchiveInterface::list()
     }
 
     if (result != ARCHIVE_EOF) {
-        error(i18nc("@info", "The archive reading failed with the following error: <message>%1</message>",
-                   QLatin1String( archive_error_string(arch_reader.data()))) );
+        emit error(i18nc("@info", "The archive reading failed with the following error: <message>%1</message>",
+                   QLatin1String( archive_error_string(arch_reader.data()))));
         return false;
     }
 
@@ -156,7 +156,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
     }
 
     if (archive_read_open_filename(arch.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        error(i18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
+        emit error(i18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
                    filename()));
         return false;
     }
@@ -173,7 +173,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
 
     if (extractAll) {
         if (!m_cachedArchiveEntryCount) {
-            progress(0);
+            emit progress(0);
             //TODO: once information progress has been implemented, send
             //feedback here that the archive is being read
             kDebug() << "For getting progress information, the archive will be listed once";
@@ -214,7 +214,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
         if (entryName.startsWith(QLatin1Char( '/' ))) {
             //for now we just can't handle absolute filenames in a tar archive.
             //TODO: find out what to do here!!
-            error(i18n("This archive contains archive entries with absolute paths, which are not yet supported by ark."));
+            emit error(i18n("This archive contains archive entries with absolute paths, which are not yet supported by ark."));
 
             return false;
         }
@@ -256,7 +256,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                     continue;
                 } else if (!overwriteAll && !skipAll) {
                     Kerfuffle::OverwriteQuery query(entryName);
-                    userQuery(&query);
+                    emit userQuery(&query);
                     query.waitForResponse();
 
                     if (query.responseCancelled()) {
@@ -313,7 +313,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             //number of items extracted
             if (!extractAll && m_cachedArchiveEntryCount) {
                 ++entryNr;
-                progress(float(entryNr) / totalCount);
+                emit progress(float(entryNr) / totalCount);
             }
             archive_entry_clear(entry);
         } else {
@@ -342,7 +342,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
     if (!creatingNewFile) {
         arch_reader.reset(archive_read_new());
         if (!(arch_reader.data())) {
-            error(i18n("The archive reader could not be initialized."));
+            emit error(i18n("The archive reader could not be initialized."));
             return false;
         }
 
@@ -355,14 +355,14 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
         }
 
         if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-            error(i18n("The source file could not be read."));
+            emit error(i18n("The source file could not be read."));
             return false;
         }
     }
 
     ArchiveWrite arch_writer(archive_write_new());
     if (!(arch_writer.data())) {
-        error(i18n("The archive writer could not be initialized."));
+        emit error(i18n("The archive writer could not be initialized."));
         return false;
     }
 
@@ -396,7 +396,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
         }
 
         if (ret != ARCHIVE_OK) {
-            error(i18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>",
+            emit error(i18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>",
                        QLatin1String(archive_error_string(arch_writer.data()))));
 
             return false;
@@ -423,19 +423,19 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
             ret = archive_write_set_compression_none(arch_writer.data());
             break;
         default:
-            error(i18n("The compression type '%1' is not supported by Ark.", QLatin1String(archive_compression_name(arch_reader.data()))));
+            emit error(i18n("The compression type '%1' is not supported by Ark.", QLatin1String(archive_compression_name(arch_reader.data()))));
             return false;
         }
 
         if (ret != ARCHIVE_OK) {
-            error(i18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
+            emit error(i18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
             return false;
         }
     }
 
     ret = archive_write_open_filename(arch_writer.data(), QFile::encodeName(tempFilename));
     if (ret != ARCHIVE_OK) {
-        error(i18nc("@info", "Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
+        emit error(i18nc("@info", "Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
     }
 
@@ -520,7 +520,7 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
 
     ArchiveRead arch_reader(archive_read_new());
     if (!(arch_reader.data())) {
-        error(i18n("The archive reader could not be initialized."));
+        emit error(i18n("The archive reader could not be initialized."));
         return false;
     }
 
@@ -533,13 +533,13 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
     }
 
     if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        error(i18n("The source file could not be read."));
+        emit error(i18n("The source file could not be read."));
         return false;
     }
 
     ArchiveWrite arch_writer(archive_write_new());
     if (!(arch_writer.data())) {
-        error(i18n("The archive writer could not be initialized."));
+        emit error(i18n("The archive writer could not be initialized."));
         return false;
     }
 
@@ -568,18 +568,18 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
         ret = archive_write_set_compression_none(arch_writer.data());
         break;
     default:
-        error(i18n("The compression type '%1' is not supported by Ark.", QLatin1String(archive_compression_name(arch_reader.data()))));
+        emit error(i18n("The compression type '%1' is not supported by Ark.", QLatin1String(archive_compression_name(arch_reader.data()))));
         return false;
     }
 
     if (ret != ARCHIVE_OK) {
-        error(i18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
+        emit error(i18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
     }
 
     ret = archive_write_open_filename(arch_writer.data(), QFile::encodeName(tempFilename));
     if (ret != ARCHIVE_OK) {
-        error(i18nc("@info", "Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
+        emit error(i18nc("@info", "Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
     }
 
@@ -591,7 +591,7 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
             archive_read_data_skip(arch_reader.data());
             kDebug() << "Entry to be deleted, skipping"
                      << archive_entry_pathname(entry);
-            entryRemoved(QFile::decodeName(archive_entry_pathname(entry)));
+            emit entryRemoved(QFile::decodeName(archive_entry_pathname(entry)));
             continue;
         }
 
@@ -646,7 +646,7 @@ void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry
 
     e[Timestamp] = QDateTime::fromTime_t(archive_entry_mtime(aentry));
 
-    entry(e);
+    emit entry(e);
 }
 
 int LibArchiveInterface::extractionFlags() const
@@ -689,7 +689,7 @@ void LibArchiveInterface::copyData(const QString& filename, struct archive *dest
 
         if (partialprogress) {
             m_currentExtractedFilesSize += readBytes;
-            progress(float(m_currentExtractedFilesSize) / m_extractedFilesSize);
+            emit progress(float(m_currentExtractedFilesSize) / m_extractedFilesSize);
         }
 
         readBytes = file.read(buff, sizeof(buff));
@@ -714,7 +714,7 @@ void LibArchiveInterface::copyData(struct archive *source, struct archive *dest,
 
         if (partialprogress) {
             m_currentExtractedFilesSize += readBytes;
-            progress(float(m_currentExtractedFilesSize) / m_extractedFilesSize);
+            emit progress(float(m_currentExtractedFilesSize) / m_extractedFilesSize);
         }
 
         readBytes = archive_read_data(source, buff, sizeof(buff));
@@ -757,7 +757,7 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
         kDebug() << "Writing header failed with error code " << header_response;
         kDebug() << "Error while writing..." << archive_error_string(arch_writer) << "(error nb =" << archive_errno(arch_writer) << ')';
 
-        error(i18nc("@info Error in a message box",
+        emit error(i18nc("@info Error in a message box",
                     "Ark could not compress <filename>%1</filename>:<nl/>%2",
                     fileName,
                     QLatin1String(archive_error_string(arch_writer))));

@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (c) 2009-2012 Raphael Kubo da Costa <rakuco@FreeBSD.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -37,7 +38,6 @@
 
 namespace Kerfuffle
 {
-class ArchiveObserver;
 class Query;
 
 class KERFUFFLE_EXPORT ReadOnlyArchiveInterface: public QObject
@@ -60,9 +60,6 @@ public:
      */
     virtual bool isReadOnly() const;
 
-    void KDE_NO_EXPORT registerObserver(ArchiveObserver *observer);
-    void KDE_NO_EXPORT removeObserver(ArchiveObserver *observer);
-
     virtual bool open();
 
     /**
@@ -71,7 +68,7 @@ public:
      * When subclassing, you can block as long as you need, the function runs
      * in its own thread.
      * @returns whether the listing succeeded.
-     * @note If returning false, make sure to call error() beforewards to notify
+     * @note If returning false, make sure to emit the error() signal beforewards to notify
      * the user of the error condition.
      */
     virtual bool list() = 0;
@@ -85,37 +82,28 @@ public:
      * When subclassing, you can block as long as you need, the function runs
      * in its own thread.
      * @returns whether the listing succeeded.
-     * @note If returning false, make sure to call error() beforewards to notify
+     * @note If returning false, make sure to emit the error() signal beforewards to notify
      * the user of the error condition.
      */
     virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options) = 0;
 
     bool waitForFinishedSignal();
-    void finished(bool result);
 
     virtual bool doKill();
     virtual bool doSuspend();
     virtual bool doResume();
 
-protected:
-    /**
-     * Communicate an error.
-     * Sets message of error for user to read and understand. It will be
-     * displayed once the job has returned false.
-     */
-    void error(const QString & message, const QString & details = QString());
+signals:
+    void error(const QString &message, const QString &details = QString());
+    void entry(const ArchiveEntry &archiveEntry);
+    void entryRemoved(const QString &path);
+    void progress(double progress);
+    void info(const QString &info);
+    void finished(bool result);
+    void userQuery(Query *query);
 
-    /**
-     * Notify observers of a new archive entry.
-     * The interface should call this function whenever a new archive entry
-     * is read. @note Remember that directories should have filename ending with /.
-     */
-    void entry(const ArchiveEntry & archiveEntry);
-    void progress(double);
-    void info(const QString& info);
-    void entryRemoved(const QString& path);
+protected:
     QString password() const;
-    void userQuery(Query*);
     /**
      * Setting this option to true will not exit the thread with the
      * exit of the various functions, but rather when finished(bool) is
@@ -125,7 +113,6 @@ protected:
     void setWaitForFinishedSignal(bool value);
 
 private:
-    QList<ArchiveObserver*> m_observers;
     QString m_filename;
     QString m_password;
     bool m_waitForFinishedSignal;

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
- * Copyright (c) 2009-2010 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2009-2012 Raphael Kubo da Costa <rakuco@FreeBSD.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -32,7 +32,6 @@
 #include "archiveinterface.h"
 #include "archive.h"
 #include "queries.h"
-#include "observer.h"
 
 #include <KJob>
 #include <QList>
@@ -44,21 +43,12 @@ namespace Kerfuffle
 
 class ThreadExecution;
 
-class KERFUFFLE_EXPORT Job : public KJob, public ArchiveObserver
+class KERFUFFLE_EXPORT Job : public KJob
 {
     Q_OBJECT
 
 public:
     void start();
-
-    //abstract implemented methods from observer
-    virtual void onError(const QString & message, const QString & details);
-    virtual void onInfo(const QString & info);
-    virtual void onEntry(const ArchiveEntry & archiveEntry);
-    virtual void onProgress(double);
-    virtual void onEntryRemoved(const QString & path);
-    virtual void onFinished(bool result);
-    virtual void onUserQuery(class Query *query);
 
     bool isRunning() const;
 
@@ -70,8 +60,19 @@ protected:
 
     ReadOnlyArchiveInterface *archiveInterface();
 
+    void connectToArchiveInterfaceSignals();
+
 public slots:
     virtual void doWork() = 0;
+
+protected slots:
+    virtual void onError(const QString &message, const QString &details);
+    virtual void onInfo(const QString &info);
+    virtual void onEntry(const ArchiveEntry &archiveEntry);
+    virtual void onProgress(double progress);
+    virtual void onEntryRemoved(const QString &path);
+    virtual void onFinished(bool result);
+    virtual void onUserQuery(Query *query);
 
 signals:
     void entryRemoved(const QString & entry);

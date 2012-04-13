@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (c) 2009-2012 Raphael Kubo da Costa <rakuco@FreeBSD.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -25,7 +26,6 @@
  */
 
 #include "archiveinterface.h"
-#include "observer.h"
 #include <kdebug.h>
 #include <kfileitem.h>
 
@@ -70,48 +70,6 @@ QString ReadOnlyArchiveInterface::password() const
     return m_password;
 }
 
-void ReadOnlyArchiveInterface::error(const QString & message, const QString & details)
-{
-    foreach(ArchiveObserver *observer, m_observers) {
-        observer->onError(message, details);
-    }
-}
-
-void ReadOnlyArchiveInterface::entry(const ArchiveEntry & archiveEntry)
-{
-    foreach(ArchiveObserver *observer, m_observers) {
-        observer->onEntry(archiveEntry);
-    }
-}
-
-void ReadOnlyArchiveInterface::entryRemoved(const QString & path)
-{
-    foreach(ArchiveObserver *observer, m_observers) {
-        observer->onEntryRemoved(path);
-    }
-}
-
-void ReadOnlyArchiveInterface::progress(double p)
-{
-    foreach(ArchiveObserver *observer, m_observers) {
-        observer->onProgress(p);
-    }
-}
-
-void ReadOnlyArchiveInterface::info(const QString& info)
-{
-    foreach(ArchiveObserver *observer, m_observers) {
-        observer->onInfo(info);
-    }
-}
-
-void ReadOnlyArchiveInterface::finished(bool result)
-{
-    foreach(ArchiveObserver *observer, m_observers) {
-        observer->onFinished(result);
-    }
-}
-
 bool ReadOnlyArchiveInterface::doKill()
 {
     //default implementation
@@ -128,23 +86,6 @@ bool ReadOnlyArchiveInterface::doResume()
 {
     //default implementation
     return false;
-}
-
-void ReadOnlyArchiveInterface::userQuery(Query *query)
-{
-    foreach(ArchiveObserver *observer, m_observers) {
-        observer->onUserQuery(query);
-    }
-}
-
-void ReadOnlyArchiveInterface::registerObserver(ArchiveObserver *observer)
-{
-    m_observers.append(observer);
-}
-
-void ReadOnlyArchiveInterface::removeObserver(ArchiveObserver *observer)
-{
-    m_observers.removeAll(observer);
 }
 
 ReadWriteArchiveInterface::ReadWriteArchiveInterface(QObject *parent, const QVariantList & args)

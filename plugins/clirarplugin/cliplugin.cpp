@@ -247,7 +247,7 @@ bool CliPlugin::readListLine(const QString &line)
         e[IsPasswordProtected] = m_isPasswordProtected;
         kDebug() << "Added entry: " << e;
 
-        entry(e);
+        emit entry(e);
 
         // #243273: unrar-free does not output the third file entry line,
         //          skip directly to parsing a new entry.

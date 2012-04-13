@@ -150,7 +150,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
                 kDebug() << "Password hint enabled, querying user";
 
                 Kerfuffle::PasswordNeededQuery query(filename());
-                userQuery(&query);
+                emit userQuery(&query);
                 query.waitForResponse();
 
                 if (query.responseCancelled()) {
@@ -322,7 +322,7 @@ bool CliInterface::runProcess(const QString& programName, const QStringList& arg
 {
     const QString programPath(KStandardDirs::findExe(programName));
     if (programPath.isEmpty()) {
-        error(i18nc("@info", "Failed to locate program <filename>%1</filename> in PATH.", programName));
+        emit error(i18nc("@info", "Failed to locate program <filename>%1</filename> in PATH.", programName));
         return false;
     }
 
@@ -379,14 +379,14 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
 
     if (m_operationMode == Delete) {
         foreach(const QVariant& v, m_removedFiles) {
-            entryRemoved(v.toString());
+            emit entryRemoved(v.toString());
         }
     }
 
     //handle all the remaining data in the process
     readStdout(true);
 
-    progress(1.0);
+    emit progress(1.0);
 
     if (m_operationMode == Add) {
         list();
@@ -394,7 +394,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     }
 
     //and we're finished
-    finished(true);
+    emit finished(true);
 }
 
 void CliInterface::failOperation()
@@ -403,7 +403,7 @@ void CliInterface::failOperation()
 
     doKill();
 
-    finished(false);
+    emit finished(false);
 }
 
 void CliInterface::readStdout(bool handleAll)
@@ -486,7 +486,7 @@ void CliInterface::handleLine(const QString& line)
         int pos = line.indexOf(QLatin1Char( '%' ));
         if (pos != -1 && pos > 1) {
             int percentage = line.mid(pos - 2, 2).toInt();
-            progress(float(percentage) / 100);
+            emit progress(float(percentage) / 100);
             return;
         }
     }
@@ -496,7 +496,7 @@ void CliInterface::handleLine(const QString& line)
             kDebug() << "Found a password prompt";
 
             Kerfuffle::PasswordNeededQuery query(filename());
-            userQuery(&query);
+            emit userQuery(&query);
             query.waitForResponse();
 
             if (query.responseCancelled()) {
@@ -514,14 +514,14 @@ void CliInterface::handleLine(const QString& line)
 
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             kDebug() << "Wrong password!";
-            error(i18n("Incorrect password."));
+            emit error(i18n("Incorrect password."));
             failOperation();
             return;
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
             kDebug() << "Error in extraction!!";
-            error(i18n("Extraction failed because of an unexpected error."));
+            emit error(i18n("Extraction failed because of an unexpected error."));
             failOperation();
             return;
         }
@@ -536,7 +536,7 @@ void CliInterface::handleLine(const QString& line)
             kDebug() << "Found a password prompt";
 
             Kerfuffle::PasswordNeededQuery query(filename());
-            userQuery(&query);
+            emit userQuery(&query);
             query.waitForResponse();
 
             if (query.responseCancelled()) {
@@ -554,14 +554,14 @@ void CliInterface::handleLine(const QString& line)
 
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             kDebug() << "Wrong password!";
-            error(i18n("Incorrect password."));
+            emit error(i18n("Incorrect password."));
             failOperation();
             return;
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
             kDebug() << "Error in extraction!!";
-            error(i18n("Extraction failed because of an unexpected error."));
+            emit error(i18n("Extraction failed because of an unexpected error."));
             failOperation();
             return;
         }
@@ -616,7 +616,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
 
     Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char( '/' ) + filename);
     query.setNoRenameMode(true);
-    userQuery(&query);
+    emit userQuery(&query);
     kDebug() << "Waiting response";
     query.waitForResponse();
 
