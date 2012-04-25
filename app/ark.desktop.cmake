@@ -152,5 +152,5 @@ Type=Application
 Terminal=false
 X-DBUS-StartupType=Unique
 X-KDE-HasTempFileOption=true
-Categories=Qt;KDE;Utility;Compression;X-KDE-Utilities-File;
+Categories=Qt;KDE;Utility;Archiving;Compression;X-KDE-Utilities-File;
 InitialPreference=3
