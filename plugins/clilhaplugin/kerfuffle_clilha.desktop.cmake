@@ -38,6 +38,7 @@ Name[pt]='Plugin' de pacotes LHA
 Name[pt_BR]=Plug-in de arquivos LHA
 Name[ro]=Modul de arhivă lha
 Name[sk]=Modul lha archívu
+Name[sl]=Vstavek za arhive lha
 Name[sr]=Прикључак ЛХА архива
 Name[sr@ijekavian]=Прикључак ЛХА архива
 Name[sr@ijekavianlatin]=Priključak LHA arhiva
