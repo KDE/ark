@@ -128,12 +128,24 @@ public:
         clear();
     }
 
-    // TODO: Do not return a reference, add methods to change m_entries.
-    //       Returning a reference makes the code less readable, as m_entries,
-    //       which is private, ends up being changed all over this file.
-    QList<ArchiveNode*>& entries()
+    QList<ArchiveNode*> entries()
     {
         return m_entries;
+    }
+
+    void setEntryAt(int index, ArchiveNode* value)
+    {
+        m_entries[index] = value;
+    }
+
+    void appendEntry(ArchiveNode* entry)
+    {
+        m_entries.append(entry);
+    }
+
+    void removeEntryAt(int index)
+    {
+        delete m_entries.takeAt(index);
     }
 
     virtual bool isDir() const
@@ -516,7 +528,7 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
             ArchiveNode *item = sorting.at(r).first;
             toIndexes.append(createIndex(r, 0, item));
             fromIndexes.append(createIndex(sorting.at(r).second, 0, sorting.at(r).first));
-            dir->entries()[r] = sorting.at(r).first;
+            dir->setEntryAt(r, sorting.at(r).first);
         }
 
         changePersistentIndexList(fromIndexes, toIndexes);
@@ -714,7 +726,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
 
         //delete parent->entries()[ entry->row() ];
         //parent->entries()[ entry->row() ] = 0;
-        delete parent->entries().takeAt(entry->row());
+        parent->removeEntryAt(entry->row());
 
         endRemoveRows();
     } else {
@@ -847,7 +859,7 @@ void ArchiveModel::insertNode(ArchiveNode *node, InsertBehaviour behaviour)
     if (behaviour == NotifyViews) {
         beginInsertRows(indexForNode(parent), parent->entries().count(), parent->entries().count());
     }
-    parent->entries().append(node);
+    parent->appendEntry(node);
     if (behaviour == NotifyViews) {
         endInsertRows();
     }
@@ -976,7 +988,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
         ArchiveNode *rawNode = static_cast<ArchiveNode*>(node.internalPointer());
         kDebug() << "Delete with parent entries " << rawNode->parent()->entries() << " and row " << rawNode->row();
         beginRemoveRows(parent(node), rawNode->row(), rawNode->row());
-        delete rawNode->parent()->entries().takeAt(rawNode->row());
+        rawNode->parent()->removeEntryAt(rawNode->row());
         endRemoveRows();
         //kDebug() << "Removed entry " << entry[FileName].toString();
     }
