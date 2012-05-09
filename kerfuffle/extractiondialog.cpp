@@ -103,26 +103,30 @@ void ExtractionDialog::accept()
 
         const QString pathWithSubfolder = url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder();
 
-        if (KIO::NetAccess::exists(pathWithSubfolder, KIO::NetAccess::SourceSide, 0)) {
-            if (QFileInfo(pathWithSubfolder).isDir()) {
-                int overwrite = KMessageBox::questionYesNo(0, i18nc("@info", "The folder <filename>%1</filename> already exists. Are you sure you want to extract here?", pathWithSubfolder), i18n("Folder exists"), KGuiItem(i18n("Extract here")), KGuiItem(i18n("Cancel")));
+        while (1) {
+            if (KIO::NetAccess::exists(pathWithSubfolder, KIO::NetAccess::SourceSide, 0)) {
+                if (QFileInfo(pathWithSubfolder).isDir()) {
+                    int overwrite = KMessageBox::questionYesNoCancel(0, i18nc("@info", "The folder <filename>%1</filename> already exists. Are you sure you want to extract here?", pathWithSubfolder), i18n("Folder exists"), KGuiItem(i18n("Extract here")), KGuiItem(i18n("Retry")), KGuiItem(i18n("Cancel")));
 
-                if (overwrite == KMessageBox::No) {
-                    //TODO: choosing retry should also be possible, so one does
-                    //not have to do the procedure one more time.
+                    if (overwrite == KMessageBox::No) {
+                        // The user clicked Retry.
+                        continue;
+                    } else if (overwrite == KMessageBox::Cancel) {
+                        return;
+                    }
+                } else {
+                    KMessageBox::detailedError(0,
+                                               i18nc("@info", "The folder <filename>%1</filename> could not be created.", subfolder()),
+                                               i18nc("@info", "<filename>%1</filename> already exists, but is not a folder.", subfolder()));
                     return;
                 }
-            } else {
+            } else if (!KIO::NetAccess::mkdir(pathWithSubfolder, 0)) {
                 KMessageBox::detailedError(0,
                                            i18nc("@info", "The folder <filename>%1</filename> could not be created.", subfolder()),
-                                           i18nc("@info", "<filename>%1</filename> already exists, but is not a folder.", subfolder()));
+                                           i18n("Please check your permissions to create it."));
                 return;
             }
-        } else if (!KIO::NetAccess::mkdir(pathWithSubfolder, 0)) {
-            KMessageBox::detailedError(0,
-                                       i18nc("@info", "The folder <filename>%1</filename> could not be created.", subfolder()),
-                                       i18n("Please check your permissions to create it."));
-            return;
+            break;
         }
     }
 
