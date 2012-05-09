@@ -73,9 +73,9 @@ ParameterList CliPlugin::parameterList() const
 
     if (p.isEmpty()) {
         p[CaptureProgress] = false;
-        p[ListProgram] = QLatin1String( "zipinfo" );
-        p[ExtractProgram] = QLatin1String( "unzip" );
-        p[DeleteProgram] = p[AddProgram] = QLatin1String( "zip" );
+        p[ListProgram] = QStringList() << QLatin1String( "zipinfo" );
+        p[ExtractProgram] = QStringList() << QLatin1String( "unzip" );
+        p[DeleteProgram] = p[AddProgram] = QStringList() << QLatin1String( "zip" );
 
         p[ListArgs] = QStringList() << QLatin1String( "-l" ) << QLatin1String( "-T" ) << QLatin1String( "$Archive" );
         p[ExtractArgs] = QStringList() << QLatin1String( "$PreservePathSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );

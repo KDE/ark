@@ -60,8 +60,8 @@ enum CliInterfaceParameters {
     ///////////////[ LIST ]/////////////
 
     /**
-     * QString
-     * The name to the program that will handle listing of this
+     * QStringList
+     * The names to the program that will handle listing of this
      * archive (eg "rar"). Will be searched for in PATH
      */
     ListProgram,
@@ -77,8 +77,8 @@ enum CliInterfaceParameters {
     ///////////////[ EXTRACT ]/////////////
 
     /**
-     * QString
-     * The name to the program that will handle extracting of this
+     * QStringList
+     * The names to the program that will handle extracting of this
      * archive (eg "rar"). Will be searched for in PATH
      */
     ExtractProgram,
@@ -171,8 +171,8 @@ enum CliInterfaceParameters {
     ///////////////[ DELETE ]/////////////
 
     /**
-     * QString
-     * The name to the program that will handle deleting of elements in this
+     * QStringList
+     * The names to the program that will handle deleting of elements in this
      * archive format (eg "rar"). Will be searched for in PATH
      */
     DeleteProgram,
@@ -203,8 +203,8 @@ enum CliInterfaceParameters {
     ///////////////[ ADD ]/////////////
 
     /**
-     * QString
-     * The name to the program that will handle adding in this
+     * QStringList
+     * The names to the program that will handle adding in this
      * archive format (eg "rar"). Will be searched for in PATH
      */
     AddProgram,
@@ -299,7 +299,7 @@ private:
      * @return @c true if the program was found and the process ran correctly,
      *         @c false otherwise.
      */
-    bool runProcess(const QString& programName, const QStringList& arguments);
+    bool runProcess(const QStringList& programNames, const QStringList& arguments);
 
     /**
      * Performs any additional escaping and processing on @p fileName
