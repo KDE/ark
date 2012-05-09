@@ -1,0 +1,52 @@
+== Coding Style ==
+Ark follows the kdelibs/Qt coding style. For more information about them,
+please see:
+
+ - http://techbase.kde.org/Policies/Kdelibs_Coding_Style
+ - http://wiki.qt-project.org/Coding_Style
+ - http://wiki.qt-project.org/Coding_Conventions
+
+== Sending patches ==
+To send patches for Ark, you can either use git's send-email command and send
+it to the kde-utils-devel@kde.org mailing list, or use KDE's ReviewBoard tool
+in <https://git.reviewboard.kde.org>.  In case you choose the latter, the
+review should be sent for the Ark product, and the `kdeutils' group should be
+added to the review request.
+
+If you already have a KDE commit account, it is still preferrable to contact
+the maintainer instead of committing directly, at least to be a good citizen
+and especially so that git mistakes are not made (see the `Using git' section).
+
+== Using git ==
+The development model adopted by Ark is simple and rely on git's easy merging
+and branching capabilities.  If in doubt, do not hesitate to ask!
+
+First of all, you should do your work in a separate branch, and each commit
+should be as atomic as possible.  This way, if you are asked to make changes to
+them, the rest of your work is not disturbed and you can easily rebase.
+
+New features are committed to the `master' branch, respecting KDE's Release
+Schedule policies.  This means the soft and hard freeze periods must be
+respected, as well as the string freeze policy.
+
+Bug fixes are committed to the latest stable branch (for example, KDE/4.8),
+which is then merged into the `master' branch.  Do *NOT* cherry-pick commits
+into multiple branches! It makes following history unnecessarily harder for no
+reason.
+
+To merge the stable branch into `master', the following steps can be followed:
+
+   $ git checkout KDE/4.8 # Whatever the stable branch is
+   $ # hack, hack, hack
+   $ # commit
+   $ git checkout master
+   $ git merge --log --edit -s recursive -Xours KDE/4.8
+
+Do not worry if unrelated commits (such as translation ones made by KDE's
+translation infrastructure) are also merged: translation commits are
+automatically reverted when needed, and other commits being merged should be
+bug fixes by definition.
+
+When committing your changes, do *NOT* create unnecessary merge commits with
+`git pull', as these commits are completely avoidable and make following
+history harder.  If you are committing your changes, *rebase* first.
