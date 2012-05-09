@@ -6,6 +6,9 @@ set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "application/x-tar;application/x-co
 if(HAVE_LIBARCHIVE_RPM_SUPPORT)
   set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}application/x-rpm;")
 endif(HAVE_LIBARCHIVE_RPM_SUPPORT)
+if(HAVE_LIBARCHIVE_CAB_SUPPORT)
+  set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}application/vnd.ms-cab-compressed;")
+endif(HAVE_LIBARCHIVE_CAB_SUPPORT)
 
 # This MIME type was originally set in ark.desktop but is not mentioned anywhere else.
 # Assuming that, if it were supported, it would be here.
