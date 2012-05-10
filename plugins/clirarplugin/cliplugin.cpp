@@ -64,8 +64,8 @@ ParameterList CliPlugin::parameterList() const
 
     if (p.isEmpty()) {
         p[CaptureProgress] = true;
-        p[ListProgram] = p[ExtractProgram] = QLatin1String( "unrar" );
-        p[DeleteProgram] = p[AddProgram] = QLatin1String( "rar" );
+        p[ListProgram] = p[ExtractProgram] = QStringList() << QLatin1String( "unrar" );
+        p[DeleteProgram] = p[AddProgram] = QStringList() << QLatin1String( "rar" );
 
         p[ListArgs] = QStringList() << QLatin1String( "vt" ) << QLatin1String( "-c-" ) << QLatin1String( "-v" ) << QLatin1String( "$Archive" );
         p[ExtractArgs] = QStringList() << QLatin1String( "-kb" ) << QLatin1String( "-p-" )

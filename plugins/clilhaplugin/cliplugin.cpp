@@ -44,7 +44,7 @@ ParameterList CliPlugin::parameterList() const
     static ParameterList p;
     if (p.isEmpty()) {
         p[CaptureProgress] = true;
-        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QLatin1String("lha");
+        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QStringList() << QLatin1String("lha");
 
         p[ListArgs] = QStringList() << QLatin1String("v") << QLatin1String("-v") << QLatin1String("$Archive");
         p[ExtractArgs] = QStringList() << QLatin1String("e") << QLatin1String("-v") << QLatin1String("$PreservePathSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");

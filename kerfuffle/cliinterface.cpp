@@ -86,7 +86,7 @@ bool CliInterface::list()
     QStringList args = m_param.value(ListArgs).toStringList();
     substituteListVariables(args);
 
-    if (!runProcess(m_param.value(ListProgram).toString(), args)) {
+    if (!runProcess(m_param.value(ListProgram).toStringList(), args)) {
         failOperation();
         return false;
     }
@@ -225,7 +225,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
     kDebug() << "Setting current dir to " << destinationDirectory;
     QDir::setCurrent(destinationDirectory);
 
-    if (!runProcess(m_param.value(ExtractProgram).toString(), args)) {
+    if (!runProcess(m_param.value(ExtractProgram).toStringList(), args)) {
         failOperation();
         return false;
     }
@@ -275,7 +275,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
         }
     }
 
-    if (!runProcess(m_param.value(AddProgram).toString(), args)) {
+    if (!runProcess(m_param.value(AddProgram).toStringList(), args)) {
         failOperation();
         return false;
     }
@@ -310,7 +310,7 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
 
     m_removedFiles = files;
 
-    if (!runProcess(m_param.value(DeleteProgram).toString(), args)) {
+    if (!runProcess(m_param.value(DeleteProgram).toStringList(), args)) {
         failOperation();
         return false;
     }
@@ -318,11 +318,18 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
     return true;
 }
 
-bool CliInterface::runProcess(const QString& programName, const QStringList& arguments)
+bool CliInterface::runProcess(const QStringList& programNames, const QStringList& arguments)
 {
-    const QString programPath(KStandardDirs::findExe(programName));
+    QString programPath;
+    for (int i = 0; i < programNames.count(); i++) {
+        programPath = KStandardDirs::findExe(programNames.at(i));
+        if (!programPath.isEmpty())
+            break;
+    }
     if (programPath.isEmpty()) {
-        emit error(i18nc("@info", "Failed to locate program <filename>%1</filename> in PATH.", programName));
+        const QString names = programNames.join(QLatin1String(", "));
+        emit error(i18ncp("@info", "Failed to locate program <filename>%2</filename> on disk.",
+                                   "Failed to locate programs <filename>%2</filename> on disk.", programNames.count(), names));
         return false;
     }
 
