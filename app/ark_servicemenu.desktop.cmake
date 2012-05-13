@@ -33,6 +33,7 @@ X-KDE-Submenu[pl]=Rozpakuj
 X-KDE-Submenu[pt]=Extrair
 X-KDE-Submenu[pt_BR]=Extrair
 X-KDE-Submenu[ro]=Extrage
+X-KDE-Submenu[ru]=Распаковать
 X-KDE-Submenu[sk]=Rozbaliť
 X-KDE-Submenu[sl]=Razširi
 X-KDE-Submenu[sr]=Распакуј

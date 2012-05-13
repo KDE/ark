@@ -37,6 +37,7 @@ Name[pl]=Wtyczka archiwów lha
 Name[pt]='Plugin' de pacotes LHA
 Name[pt_BR]=Plugin de arquivos LHA
 Name[ro]=Modul de arhivă lha
+Name[ru]=Поддержка архивов LHA
 Name[sk]=Modul lha archívu
 Name[sl]=Vstavek za arhive lha
 Name[sr]=Прикључак ЛХА архива
