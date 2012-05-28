@@ -11,6 +11,7 @@ Name[ca@valencia]=Extracció de l'Ark ací
 Name[cs]=Rozbalit Arkem sem
 Name[da]=Pak ud med Ark her
 Name[de]=Ark – Hierher auspacken
+Name[el]=Εξαγωγή Ark εδώ
 Name[en_GB]=Ark Extract Here
 Name[es]=Extraer aquí con Ark
 Name[et]=Paki siia lahti

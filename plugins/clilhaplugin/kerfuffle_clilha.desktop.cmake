@@ -17,6 +17,7 @@ Name[ca@valencia]=Connector per arxius LHA
 Name[cs]=Modul pro archiv lha
 Name[da]=Plugin til lha-arkiver
 Name[de]=lha-Archiv-Modul
+Name[el]=πρόσθετο αρχειοθήκης lha
 Name[es]=Complemento de archivo comprimido LHA
 Name[et]=lha-arhiivi plugin
 Name[eu]=lha artxibuen plugina
