@@ -28,6 +28,7 @@ Name[hu]=lha modul
 Name[ia]=plugin de archivar lha
 Name[it]=plugin archivio lha
 Name[kk]=lha архив плагині
+Name[km]=កម្មវិធី​ជំនួយ​ប័ណ្ណសារ lha
 Name[ko]=LHA 압축 플러그인
 Name[lt]=lha archyvo priedas
 Name[nb]=Programtillegg for lha-arkiv

@@ -24,6 +24,7 @@ X-KDE-Submenu[hu]=Kibontás
 X-KDE-Submenu[ia]=Extrahe
 X-KDE-Submenu[it]=Estrai
 X-KDE-Submenu[kk]=Тарқату
+X-KDE-Submenu[km]=ស្រង់ចេញ​
 X-KDE-Submenu[ko]=압축 풀기
 X-KDE-Submenu[lt]=Išpakuoti
 X-KDE-Submenu[nb]=Pakk ut
