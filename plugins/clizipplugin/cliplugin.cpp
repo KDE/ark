@@ -97,6 +97,7 @@ ParameterList CliPlugin::parameterList() const
 
         p[AddArgs] = QStringList() << QLatin1String( "-r" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
+        p[CompressionLevelArgs] = QStringList() << QLatin1String( "-0" ) << QLatin1String( "-6" ) << QLatin1String("-9" );
         p[PasswordPromptPattern] = QLatin1String(" password: ");
         p[WrongPasswordPatterns] = QStringList() << QLatin1String( "incorrect password" );
         //p[ExtractionFailedPatterns] = QStringList() << "CRC failed";
@@ -107,6 +108,9 @@ ParameterList CliPlugin::parameterList() const
 QString CliPlugin::autoConvertEncoding( const QString & fileName )
 {
     QByteArray result( fileName.toLatin1() );
+
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
     KEncodingProber prober(KEncodingProber::CentralEuropean);
     prober.feed(result);
@@ -121,6 +125,7 @@ QString CliPlugin::autoConvertEncoding( const QString & fileName )
             // by assuming that in a german environment the usage of serbian / macedonian letters
             // and special characters is less likely to happen than the usage of umlauts
 
+            qDebug() << "fileName" << fileName;
             qDebug() << "toLatin: " << fileName.toLatin1();
             // Check for case CP850 (Windows XP & Windows7)
             QString checkString = QTextCodec::codecForName("CP850")->toUnicode(fileName.toLatin1());
