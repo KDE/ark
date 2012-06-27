@@ -31,6 +31,9 @@
 #include <QRegExp>
 #include <QString>
 #include <QStringList>
+#include <QTextCodec>
+#include <kencodingprober.h>
+#include <klocale.h>
 
 using namespace Kerfuffle;
 
@@ -129,8 +132,44 @@ bool CliPlugin::readListLine(const QString &line)
             const QDateTime ts(QDate::fromString(entryPattern.cap(8), QLatin1String( "yyyyMMdd" )),
                                QTime::fromString(entryPattern.cap(9), QLatin1String( "hhmmss" )));
             e[Timestamp] = ts;
+            e[InternalID] = entryPattern.cap(10);
 
-            e[FileName] = e[InternalID] = entryPattern.cap(10);
+            QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+            QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+
+            QString resultString;
+            resultString = entryPattern.cap(10);
+            QByteArray result( resultString.toLatin1() );
+
+            KEncodingProber prober(KEncodingProber::WesternEuropean);
+            prober.feed(result);
+            QByteArray refinedEncoding = prober.encoding();
+            qDebug() << "KEncodingProber detected encoding: " << refinedEncoding << "for: " << resultString;
+
+            // Workaround for CP850 support (which is frequently attributed to CP1251 by KEncodingProber instead)
+            if (refinedEncoding == "windows-1251") {
+                if ( KGlobal::locale()->language() == QLatin1String("de") ) {
+                    // In case the user's language is German we refine the detection of KEncodingProber
+                    // by assuming that in a german environment the usage of serbian / macedonian letters
+                    // and special characters is less likely to happen than the usage of umlauts
+
+                    // Check for case CP850 (Windows XP & Windows7)
+                    QString checkString = QTextCodec::codecForName("CP850")->toUnicode(resultString.toLatin1());
+                    if ( checkString.contains(QLatin1String("ä")) || // Equals lower quotation mark in CP1251 - unlikely to be used in filenames
+                         checkString.contains(QLatin1String("ö")) || // Equals quotation mark in CP1251 - unlikely to be used in filenames
+                         checkString.contains(QLatin1String("Ö")) || // Equals TM symbol  - unlikely to be used in filenames
+                         checkString.contains(QLatin1String("ü")) || // Overlaps with "Gje" in the Macedonian alphabet
+                         checkString.contains(QLatin1String("Ä")) || // Overlaps with "Tshe" in the Serbian, Bosnian and Montenegrin alphabet
+                         checkString.contains(QLatin1String("Ü")) || // Overlaps with "Lje" in the Serbian and Montenegrin alphabet
+                         checkString.contains(QLatin1String("ß")) )  // Overlaps with "Be" in the cyrillic alphabet
+                    {
+                        refinedEncoding = "CP850";
+                        qDebug() << "RefinedEncoding: " << refinedEncoding;
+                    }
+                }
+            }
+
+            e[FileName] = QTextCodec::codecForName(refinedEncoding)->toUnicode(resultString.toLatin1()); ;
             emit entry(e);
         }
         break;
