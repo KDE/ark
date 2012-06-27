@@ -23,6 +23,8 @@
 
 #include "kerfuffle/cliinterface.h"
 
+using namespace Kerfuffle;
+
 class CliPlugin : public Kerfuffle::CliInterface
 {
     Q_OBJECT
@@ -35,7 +37,16 @@ public:
 
     virtual Kerfuffle::ParameterList parameterList() const;
 
+    /**
+     * Does encoding detection for a filename using
+     * KEncodingProber and filename specific criteria and
+     * returns the encoding-corrected string
+     */
+    QString autoConvertEncoding( const QString & fileName );
+
     virtual bool readListLine(const QString &line);
+
+    virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options);
 
 private:
     enum {

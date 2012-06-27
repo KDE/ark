@@ -104,6 +104,43 @@ ParameterList CliPlugin::parameterList() const
     return p;
 }
 
+QString CliPlugin::autoConvertEncoding( const QString & fileName )
+{
+    QByteArray result( fileName.toLatin1() );
+
+    KEncodingProber prober(KEncodingProber::WesternEuropean);
+    prober.feed(result);
+    QByteArray refinedEncoding = prober.encoding();
+    qDebug() << "KEncodingProber detected encoding: " << refinedEncoding << "for: " << fileName;
+
+    // Workaround for CP850 support (which is frequently attributed to CP1251 by KEncodingProber instead)
+    if (refinedEncoding == "windows-1251") {
+        if ( KGlobal::locale()->language() == QLatin1String("de") ) {
+            // In case the user's language is German we refine the detection of KEncodingProber
+            // by assuming that in a german environment the usage of serbian / macedonian letters
+            // and special characters is less likely to happen than the usage of umlauts
+
+            // Check for case CP850 (Windows XP & Windows7)
+            QString checkString = QTextCodec::codecForName("CP850")->toUnicode(fileName.toLatin1());
+            if ( checkString.contains(QLatin1String("ä")) || // Equals lower quotation mark in CP1251 - unlikely to be used in filenames
+                 checkString.contains(QLatin1String("ö")) || // Equals quotation mark in CP1251 - unlikely to be used in filenames
+                 checkString.contains(QLatin1String("Ö")) || // Equals TM symbol  - unlikely to be used in filenames
+                 checkString.contains(QLatin1String("ü")) || // Overlaps with "Gje" in the Macedonian alphabet
+                 checkString.contains(QLatin1String("Ä")) || // Overlaps with "Tshe" in the Serbian, Bosnian and Montenegrin alphabet
+                 checkString.contains(QLatin1String("Ü")) || // Overlaps with "Lje" in the Serbian and Montenegrin alphabet
+                 checkString.contains(QLatin1String("ß")) )  // Overlaps with "Be" in the cyrillic alphabet
+            {
+                refinedEncoding = "CP850";
+                qDebug() << "RefinedEncoding: " << refinedEncoding;
+            }
+        }
+    }
+
+    QString refinedString = QTextCodec::codecForName(refinedEncoding )->toUnicode(fileName.toLatin1());
+
+    return ( refinedString != fileName ) ? refinedString : fileName;
+}
+
 bool CliPlugin::readListLine(const QString &line)
 {
     static const QRegExp entryPattern(QLatin1String(
@@ -134,42 +171,8 @@ bool CliPlugin::readListLine(const QString &line)
             e[Timestamp] = ts;
             e[InternalID] = entryPattern.cap(10);
 
-            QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-            QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
-
-            QString resultString;
-            resultString = entryPattern.cap(10);
-            QByteArray result( resultString.toLatin1() );
-
-            KEncodingProber prober(KEncodingProber::WesternEuropean);
-            prober.feed(result);
-            QByteArray refinedEncoding = prober.encoding();
-            qDebug() << "KEncodingProber detected encoding: " << refinedEncoding << "for: " << resultString;
-
-            // Workaround for CP850 support (which is frequently attributed to CP1251 by KEncodingProber instead)
-            if (refinedEncoding == "windows-1251") {
-                if ( KGlobal::locale()->language() == QLatin1String("de") ) {
-                    // In case the user's language is German we refine the detection of KEncodingProber
-                    // by assuming that in a german environment the usage of serbian / macedonian letters
-                    // and special characters is less likely to happen than the usage of umlauts
-
-                    // Check for case CP850 (Windows XP & Windows7)
-                    QString checkString = QTextCodec::codecForName("CP850")->toUnicode(resultString.toLatin1());
-                    if ( checkString.contains(QLatin1String("ä")) || // Equals lower quotation mark in CP1251 - unlikely to be used in filenames
-                         checkString.contains(QLatin1String("ö")) || // Equals quotation mark in CP1251 - unlikely to be used in filenames
-                         checkString.contains(QLatin1String("Ö")) || // Equals TM symbol  - unlikely to be used in filenames
-                         checkString.contains(QLatin1String("ü")) || // Overlaps with "Gje" in the Macedonian alphabet
-                         checkString.contains(QLatin1String("Ä")) || // Overlaps with "Tshe" in the Serbian, Bosnian and Montenegrin alphabet
-                         checkString.contains(QLatin1String("Ü")) || // Overlaps with "Lje" in the Serbian and Montenegrin alphabet
-                         checkString.contains(QLatin1String("ß")) )  // Overlaps with "Be" in the cyrillic alphabet
-                    {
-                        refinedEncoding = "CP850";
-                        qDebug() << "RefinedEncoding: " << refinedEncoding;
-                    }
-                }
-            }
-
-            e[FileName] = QTextCodec::codecForName(refinedEncoding)->toUnicode(resultString.toLatin1()); ;
+            // Adjust encoding for zip files since zip doesn't handle it
+            e[FileName] = autoConvertEncoding( entryPattern.cap(10) );
             emit entry(e);
         }
         break;
@@ -177,6 +180,27 @@ bool CliPlugin::readListLine(const QString &line)
 
     return true;
 }
+
+bool CliPlugin::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options)
+{
+    bool saveReturn = CliInterface::copyFiles(files, destinationDirectory, options);
+
+    // Rename unzipped files to the encoding-corrected files.
+    for (int j = 0; j < files.count(); ++j) {
+        QFile file( files.at(j).toString() );
+        if ( file.exists() )
+        {
+            QString encodingCorrectedString = autoConvertEncoding( file.fileName() );
+            if ( file.fileName() != encodingCorrectedString )
+            {
+                file.rename( encodingCorrectedString );
+            }
+        }
+    }
+    return saveReturn;
+}
+
+
 
 KERFUFFLE_EXPORT_PLUGIN(CliPlugin)
 
