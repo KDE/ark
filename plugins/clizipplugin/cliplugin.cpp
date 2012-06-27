@@ -108,20 +108,23 @@ QString CliPlugin::autoConvertEncoding( const QString & fileName )
 {
     QByteArray result( fileName.toLatin1() );
 
-    KEncodingProber prober(KEncodingProber::WesternEuropean);
+    KEncodingProber prober(KEncodingProber::CentralEuropean);
     prober.feed(result);
     QByteArray refinedEncoding = prober.encoding();
     qDebug() << "KEncodingProber detected encoding: " << refinedEncoding << "for: " << fileName;
 
     // Workaround for CP850 support (which is frequently attributed to CP1251 by KEncodingProber instead)
     if (refinedEncoding == "windows-1251") {
+        qDebug() << "Language: " << KGlobal::locale()->language();
         if ( KGlobal::locale()->language() == QLatin1String("de") ) {
             // In case the user's language is German we refine the detection of KEncodingProber
             // by assuming that in a german environment the usage of serbian / macedonian letters
             // and special characters is less likely to happen than the usage of umlauts
 
+            qDebug() << "toLatin: " << fileName.toLatin1();
             // Check for case CP850 (Windows XP & Windows7)
             QString checkString = QTextCodec::codecForName("CP850")->toUnicode(fileName.toLatin1());
+            qDebug() << "String converted to CP850: " << checkString;
             if ( checkString.contains(QLatin1String("ä")) || // Equals lower quotation mark in CP1251 - unlikely to be used in filenames
                  checkString.contains(QLatin1String("ö")) || // Equals quotation mark in CP1251 - unlikely to be used in filenames
                  checkString.contains(QLatin1String("Ö")) || // Equals TM symbol  - unlikely to be used in filenames
