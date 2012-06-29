@@ -225,7 +225,14 @@ enum CliInterfaceParameters {
      * Second entry is "Normal"
      * Third entry is "Maximum"
      */
-    CompressionLevelSwitches
+    CompressionLevelSwitches,
+    /**
+     * QString
+     * This is a string that allows to enable Multithreading for
+     * compression and decompression. This only has some effect for some
+     * cases.
+     */
+    MultiThreadingSwitch
 };
 
 typedef QHash<int, QVariant> ParameterList;

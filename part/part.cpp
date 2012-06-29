@@ -198,6 +198,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
     if (!internalRoot.isNull()) {
         options[QLatin1String("RootNode")] = internalRoot;
     }
+    options[QLatin1String( "MultiThreadingEnabled")] = false;
 
     ExtractJob *job = m_model->extractFiles(files, localPath, options);
     registerJob(job);
@@ -759,6 +760,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
     kDebug() << "Detected relative path to be " << firstPath;
     options[QLatin1String( "GlobalWorkDir" )] = firstPath;
     options[QLatin1String( "CompressionLevel") ] = "Maximum";
+    options[QLatin1String( "MultiThreadingEnabled") ] = false;
 
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
     if (!job) {

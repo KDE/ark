@@ -113,6 +113,25 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
             args[i] = filename();
         }
 
+        if (argument == QLatin1String( "$MultiThreadingSwitch" )) {
+            QString multiThreadingSwitch = m_param.value(MultiThreadingSwitch).toString();
+            bool multiThreading = options.value(QLatin1String( "MultiThreadingEnabled")).toBool();
+
+            QString theReplacement;
+            if (multiThreading == true) {
+                theReplacement = multiThreadingSwitch;
+            }
+
+            if (theReplacement.isEmpty()) {
+                args.removeAt(i);
+                --i; //decrement to compensate for the variable we removed
+            } else {
+                //but in this case we don't have to decrement, we just
+                //replace it
+                args[i] = theReplacement;
+            }
+        }
+
         if (argument == QLatin1String( "$PreservePathSwitch" )) {
             QStringList replacementFlags = m_param.value(PreservePathSwitch).toStringList();
             Q_ASSERT(replacementFlags.size() == 2);
@@ -267,6 +286,25 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             }
             if (compressionLevel == "Maximum") {
                 theReplacement = compressionLevelSwitches.at(2);
+            }
+
+            if (theReplacement.isEmpty()) {
+                args.removeAt(i);
+                --i; //decrement to compensate for the variable we removed
+            } else {
+                //but in this case we don't have to decrement, we just
+                //replace it
+                args[i] = theReplacement;
+            }
+        }
+
+        if (argument == QLatin1String( "$MultiThreadingSwitch" )) {
+            QString multiThreadingSwitch = m_param.value(MultiThreadingSwitch).toString();
+            bool multiThreading = options.value(QLatin1String( "MultiThreadingEnabled")).toBool();
+
+            QString theReplacement;
+            if (multiThreading == true) {
+                theReplacement = multiThreadingSwitch;
             }
 
             if (theReplacement.isEmpty()) {

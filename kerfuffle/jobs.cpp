@@ -275,6 +275,7 @@ void ExtractJob::setDefaultOptions()
     ExtractionOptions defaultOptions;
 
     defaultOptions[QLatin1String("PreservePaths")] = false;
+    defaultOptions[QLatin1String( "MultiThreadingEnabled") ] = false;
 
     ExtractionOptions::const_iterator it = defaultOptions.constBegin();
     for (; it != defaultOptions.constEnd(); ++it) {
