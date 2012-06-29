@@ -232,7 +232,21 @@ enum CliInterfaceParameters {
      * compression and decompression. This only has some effect for some
      * cases.
      */
-    MultiThreadingSwitch
+    MultiThreadingSwitch,
+    /**
+     * QStringList
+     * The arguments that are passed to the program above for
+     * setting the compression level.
+     * First entry is "AES256"
+     * Second entry is "ZipCrypto"
+     */
+    EncryptionMethod,
+    /**
+     * QString
+     * This is a string that allows to enable encrypting headers for
+     * compression. This only has some effect when supported.
+     */
+    EncryptHeaderSwitch
 };
 
 typedef QHash<int, QVariant> ParameterList;

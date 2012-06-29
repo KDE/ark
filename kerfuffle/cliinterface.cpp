@@ -317,6 +317,70 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             }
         }
 
+        if (argument == QLatin1String( "$PasswordSwitch" )) {
+            //if the PasswordSwitch argument has been added, we at least
+            //assume that the format of the switch has been added as well
+            Q_ASSERT(m_param.contains(PasswordSwitch));
+
+            //we will decrement i afterwards
+            args.removeAt(i);
+
+            //if we get a hint about this being a password protected archive, ask about
+            //the password in advance.
+            if ((options.value(QLatin1String("PasswordProtectedHint")).toBool()) &&
+                (password().isEmpty())) {
+                kDebug() << "Password hint enabled, querying user";
+
+                Kerfuffle::PasswordNeededQuery query(filename());
+                userQuery(&query);
+                query.waitForResponse();
+
+                if (query.responseCancelled()) {
+                    failOperation();
+                    return false;
+                }
+                setPassword(query.password());
+            }
+
+            QString pass = password();
+
+            if (!pass.isEmpty()) {
+                QStringList theSwitch = m_param.value(PasswordSwitch).toStringList();
+                for (int j = 0; j < theSwitch.size(); ++j) {
+                    //get the argument part
+                    QString newArg = theSwitch.at(j);
+
+                    //substitute the $Path
+                    newArg.replace(QLatin1String( "$Password" ), pass);
+
+                    //put it in the arg list
+                    args.insert(i + j, newArg);
+                    ++i;
+
+                }
+            }
+            --i; //decrement to compensate for the variable we replaced
+        }
+
+        if (argument == QLatin1String( "$EncryptHeaderSwitch" )) {
+            QString encryptHeaderSwitch = m_param.value(EncryptHeaderSwitch).toString();
+            bool encryptHeader = options.value(QLatin1String( "EncryptHeaderEnabled")).toBool();
+
+            QString theReplacement;
+            if (encryptHeader == true) {
+                theReplacement = encryptHeaderSwitch;
+            }
+
+            if (theReplacement.isEmpty()) {
+                args.removeAt(i);
+                --i; //decrement to compensate for the variable we removed
+            } else {
+                //but in this case we don't have to decrement, we just
+                //replace it
+                args[i] = theReplacement;
+            }
+        }
+
         if (argument == QLatin1String( "$Archive" )) {
             args[i] = filename();
         }
