@@ -216,7 +216,16 @@ enum CliInterfaceParameters {
      * $Archive - the path of the archive
      * $Files - the files selected to be added
      */
-    AddArgs
+    AddArgs,
+    /**
+     * QStringList
+     * The arguments that are passed to the program above for
+     * setting the compression level.
+     * First entry is "Store"
+     * Second entry is "Normal"
+     * Third entry is "Maximum"
+     */
+    CompressionLevelSwitches
 };
 
 typedef QHash<int, QVariant> ParameterList;

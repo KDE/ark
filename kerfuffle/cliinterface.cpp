@@ -254,6 +254,31 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
         const QString argument = args.at(i);
         kDebug() << "Processing argument " << argument;
 
+        if (argument == QLatin1String( "$CompressionLevelSwitch" )) {
+            QStringList compressionLevelSwitches = m_param.value(CompressionLevelSwitches).toStringList();
+            QString compressionLevel = options.value(QLatin1String( "CompressionLevel")).toString();
+
+            QString theReplacement;
+            if (compressionLevel == "Store") {
+                theReplacement = compressionLevelSwitches.at(0);
+            }
+            if (compressionLevel == "Normal") {
+                theReplacement = compressionLevelSwitches.at(1);
+            }
+            if (compressionLevel == "Maximum") {
+                theReplacement = compressionLevelSwitches.at(2);
+            }
+
+            if (theReplacement.isEmpty()) {
+                args.removeAt(i);
+                --i; //decrement to compensate for the variable we removed
+            } else {
+                //but in this case we don't have to decrement, we just
+                //replace it
+                args[i] = theReplacement;
+            }
+        }
+
         if (argument == QLatin1String( "$Archive" )) {
             args[i] = filename();
         }

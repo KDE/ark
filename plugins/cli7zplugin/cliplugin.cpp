@@ -58,7 +58,7 @@ ParameterList CliPlugin::parameterList() const
         p[PasswordSwitch] = QStringList() << QLatin1String( "-p$Password" );
         p[FileExistsExpression] = QLatin1String( "already exists. Overwrite with" );
         p[WrongPasswordPatterns] = QStringList() << QLatin1String( "Wrong password" );
-        p[AddArgs] = QStringList() << QLatin1String( "a" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[AddArgs] = QStringList() << QLatin1String( "a" ) << QLatin1String( "$CompressionLevelSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
         p[DeleteArgs] = QStringList() << QLatin1String( "d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
         p[FileExistsInput] = QStringList()
@@ -68,6 +68,7 @@ ParameterList CliPlugin::parameterList() const
                              << QLatin1String( "S" ) //autoskip
                              << QLatin1String( "Q" ) //cancel
                              ;
+        p[CompressionLevelSwitches] = QStringList() << QLatin1String( "-mx=0" ) << QLatin1String( "-mx=5" ) << QLatin1String("-mx=9" );
 
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) :");
     }

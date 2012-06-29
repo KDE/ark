@@ -758,6 +758,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 
     kDebug() << "Detected relative path to be " << firstPath;
     options[QLatin1String( "GlobalWorkDir" )] = firstPath;
+    options[QLatin1String( "CompressionLevel") ] = "Maximum";
 
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
     if (!job) {
