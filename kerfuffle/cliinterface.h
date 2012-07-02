@@ -246,7 +246,27 @@ enum CliInterfaceParameters {
      * This is a string that allows to enable encrypting headers for
      * compression. This only has some effect when supported.
      */
-    EncryptHeaderSwitch
+    EncryptHeaderSwitch,
+    /**
+     * QString
+     * The name to the program that will handle testing in this
+     * archive format (eg "rar"). Will be searched for in PATH
+     */
+    TestProgram,
+    /**
+     * QStringList
+     * The arguments that are passed to the program above for
+     * testing the archive. Special strings that will be
+     * substituted:
+     * $Archive - the path of the archive
+     * $Files - the files selected to be added
+     */
+    TestArgs,
+    /**
+     * QStringList
+     * Patterns that indicate a fail during testing
+     */
+    TestFailedPatterns
 };
 
 typedef QHash<int, QVariant> ParameterList;
@@ -257,7 +277,7 @@ class KERFUFFLE_EXPORT CliInterface : public ReadWriteArchiveInterface
 
 public:
     enum OperationMode  {
-        List, Copy, Add, Delete
+        List, Copy, Add, Delete, Test
     };
     OperationMode m_operationMode;
 
@@ -268,6 +288,7 @@ public:
     virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options);
     virtual bool addFiles(const QStringList & files, const CompressionOptions& options);
     virtual bool deleteFiles(const QList<QVariant> & files);
+    virtual bool testFiles(const QList<QVariant> & files, TestOptions options = TestOptions());
 
     virtual ParameterList parameterList() const = 0;
     virtual bool readListLine(const QString &line) = 0;
@@ -360,6 +381,7 @@ private:
 
     ParameterList m_param;
     QVariantList m_removedFiles;
+    bool m_testResult;
 
 private slots:
     void readStdout(bool handleAll = false);

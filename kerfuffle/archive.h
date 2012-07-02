@@ -42,6 +42,7 @@ class ListJob;
 class ExtractJob;
 class DeleteJob;
 class AddJob;
+class TestJob;
 class Query;
 class ReadOnlyArchiveInterface;
 
@@ -84,6 +85,7 @@ Rar, etc), followed by the property name used
  */
 typedef QHash<QString, QVariant> CompressionOptions;
 typedef QHash<QString, QVariant> ExtractionOptions;
+typedef QHash<QString, QVariant> TestOptions;
 
 class KERFUFFLE_EXPORT Archive : public QObject
 {
@@ -117,6 +119,8 @@ public:
     AddJob* addFiles(const QStringList & files, const CompressionOptions& options = CompressionOptions());
 
     ExtractJob* copyFiles(const QList<QVariant> & files, const QString & destinationDir, ExtractionOptions options = ExtractionOptions());
+
+    TestJob* testFiles(const QList<QVariant> & files, TestOptions options = TestOptions());
 
     bool isSingleFolderArchive();
     QString subfolderName();

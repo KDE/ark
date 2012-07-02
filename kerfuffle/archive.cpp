@@ -191,6 +191,13 @@ ExtractJob* Archive::copyFiles(const QList<QVariant> & files, const QString & de
     return newJob;
 }
 
+TestJob* Archive::testFiles(const QList<QVariant> & files, TestOptions options)
+{
+    TestOptions newOptions = options;
+    TestJob *newJob = new TestJob(files, newOptions, m_iface, this);
+    return newJob;
+}
+
 QString Archive::fileName() const
 {
     return m_iface->filename();

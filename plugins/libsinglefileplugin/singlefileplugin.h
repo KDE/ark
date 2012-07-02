@@ -38,6 +38,7 @@ public:
 
     virtual bool list();
     virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, Kerfuffle::ExtractionOptions options);
+    virtual bool testFiles(const QList<QVariant> & files, Kerfuffle::TestOptions options);
 
 protected:
     const QString uncompressedFileName() const;

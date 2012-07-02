@@ -939,6 +939,15 @@ DeleteJob* ArchiveModel::deleteFiles(const QList<QVariant> & files)
     return 0;
 }
 
+TestJob* ArchiveModel::testFiles(const QList<QVariant> & files, const Kerfuffle::TestOptions& options)
+{
+    Q_ASSERT(m_archive);
+    TestJob *newJob = m_archive->testFiles(files, options);
+    connect(newJob, SIGNAL(userQuery(Kerfuffle::Query*)),
+            this, SLOT(slotUserQuery(Kerfuffle::Query*)));
+    return newJob;
+}
+
 void ArchiveModel::slotCleanupEmptyDirs()
 {
     kDebug();

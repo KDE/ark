@@ -86,6 +86,7 @@ public:
      * the user of the error condition.
      */
     virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options) = 0;
+    virtual bool testFiles(const QList<QVariant> & files, TestOptions options = TestOptions()) = 0;
 
     bool waitForFinishedSignal();
 

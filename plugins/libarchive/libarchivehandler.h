@@ -48,6 +48,7 @@ public:
     bool copyFiles(const QVariantList& files, const QString& destinationDirectory, ExtractionOptions options);
     bool addFiles(const QStringList& files, const CompressionOptions& options);
     bool deleteFiles(const QVariantList& files);
+    bool testFiles(const QList<QVariant> & files, TestOptions options = TestOptions());
 
 private:
     void emitEntryFromArchiveEntry(struct archive_entry *entry);

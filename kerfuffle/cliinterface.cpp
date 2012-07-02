@@ -53,7 +53,8 @@ namespace Kerfuffle
 {
 CliInterface::CliInterface(QObject *parent, const QVariantList & args)
         : ReadWriteArchiveInterface(parent, args),
-        m_process(0)
+        m_process(0),
+        m_testResult(true)
 {
     //because this interface uses the event loop
     setWaitForFinishedSignal(true);
@@ -278,13 +279,13 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             QString compressionLevel = options.value(QLatin1String( "CompressionLevel")).toString();
 
             QString theReplacement;
-            if (compressionLevel == "Store") {
+            if (compressionLevel == QLatin1String("Store")) {
                 theReplacement = compressionLevelSwitches.at(0);
             }
-            if (compressionLevel == "Normal") {
+            if (compressionLevel == QLatin1String("Normal")) {
                 theReplacement = compressionLevelSwitches.at(1);
             }
-            if (compressionLevel == "Maximum") {
+            if (compressionLevel == QLatin1String("Maximum")) {
                 theReplacement = compressionLevelSwitches.at(2);
             }
 
@@ -445,6 +446,92 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
     return true;
 }
 
+bool CliInterface::testFiles(const QList<QVariant> & files, TestOptions options)
+{
+    Q_UNUSED(options)
+    kDebug();
+    cacheParameterList();
+
+    m_testResult = true;
+    m_operationMode = Test;
+
+    //start preparing the argument list
+    QStringList args = m_param.value(TestArgs).toStringList();
+
+    //now replace the various elements in the list
+    for (int i = 0; i < args.size(); ++i) {
+        QString argument = args.at(i);
+        kDebug() << "Processing argument " << argument;
+
+        if (argument == QLatin1String( "$Archive" )) {
+            args[i] = filename();
+        }
+
+        if (argument == QLatin1String( "$PasswordSwitch" )) {
+            //if the PasswordSwitch argument has been added, we at least
+            //assume that the format of the switch has been added as well
+            Q_ASSERT(m_param.contains(PasswordSwitch));
+
+            //we will decrement i afterwards
+            args.removeAt(i);
+
+            //if we get a hint about this being a password protected archive, ask about
+            //the password in advance.
+            if ((options.value(QLatin1String("PasswordProtectedHint")).toBool()) &&
+                (password().isEmpty())) {
+                kDebug() << "Password hint enabled, querying user";
+
+                Kerfuffle::PasswordNeededQuery query(filename());
+                userQuery(&query);
+                query.waitForResponse();
+
+                if (query.responseCancelled()) {
+                    failOperation();
+                    return false;
+                }
+                setPassword(query.password());
+            }
+
+            QString pass = password();
+
+            if (!pass.isEmpty()) {
+                QStringList theSwitch = m_param.value(PasswordSwitch).toStringList();
+                for (int j = 0; j < theSwitch.size(); ++j) {
+                    //get the argument part
+                    QString newArg = theSwitch.at(j);
+
+                    //substitute the $Path
+                    newArg.replace(QLatin1String( "$Password" ), pass);
+
+                    //put it in the arg list
+                    args.insert(i + j, newArg);
+                    ++i;
+
+                }
+            }
+            --i; //decrement to compensate for the variable we replaced
+        }
+
+        if (argument == QLatin1String( "$Files" )) {
+            args.removeAt(i);
+            for (int j = 0; j < files.count(); ++j) {
+                args.insert(i + j, escapeFileName(files.at(j).toString()));
+                ++i;
+            }
+            --i;
+        }
+    }
+
+    if (!runProcess(m_param.value(TestProgram).toStringList(), args)) {
+        failOperation();
+        return false;
+    }
+
+
+
+    return m_testResult;
+}
+
 bool CliInterface::runProcess(const QStringList& programNames, const QStringList& arguments)
 {
     QString programPath;
@@ -562,6 +649,7 @@ void CliInterface::readStdout(bool handleAll)
     QByteArray dd = m_process->readAllStandardOutput();
     m_stdOutData += dd;
 
+
     QList<QByteArray> lines = m_stdOutData.split('\n');
 
     //The reason for this check is that archivers often do not end
@@ -612,7 +700,7 @@ void CliInterface::handleLine(const QString& line)
 {
     // TODO: This should be implemented by each plugin; the way progress is
     //       shown by each CLI application is subject to a lot of variation.
-    if ((m_operationMode == Copy || m_operationMode == Add) && m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool()) {
+    if ((m_operationMode == Copy || m_operationMode == Add || m_operationMode == Test) && m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool()) {
         //read the percentage
         int pos = line.indexOf(QLatin1Char( '%' ));
         if (pos != -1 && pos > 1) {
@@ -703,6 +791,50 @@ void CliInterface::handleLine(const QString& line)
 
         readListLine(line);
         return;
+    }
+
+    if (m_operationMode == Test) {
+
+        if (checkForPasswordPromptMessage(line)) {
+            kDebug() << "Found a password prompt";
+
+            Kerfuffle::PasswordNeededQuery query(filename());
+            userQuery(&query);
+            query.waitForResponse();
+
+            if (query.responseCancelled()) {
+                failOperation();
+                return;
+            }
+
+            setPassword(query.password());
+
+            const QString response(password() + QLatin1Char('\n'));
+            writeToProcess(response.toLocal8Bit());
+
+            return;
+        }
+
+        if (checkForErrorMessage(line, TestFailedPatterns) && checkForErrorMessage(line, WrongPasswordPatterns)) {
+            m_testResult = false;
+            error(i18n("Integrity check failed: Either the archive is broken or the password is incorrect."));
+            failOperation();
+            return;
+        }
+
+        if (checkForErrorMessage(line, TestFailedPatterns)) {
+            m_testResult = false;
+            error(i18n("Integrity check failed: The archive is broken."));
+            failOperation();
+            return;
+        }
+
+        if (checkForErrorMessage(line, WrongPasswordPatterns)) {
+            kDebug() << "Wrong password!";
+            error(i18n("Incorrect password."));
+            failOperation();
+            return;
+        }
     }
 }
 

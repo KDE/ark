@@ -97,6 +97,10 @@ ParameterList CliPlugin::parameterList() const
 
         p[WrongPasswordPatterns] = QStringList() << QLatin1String("password incorrect") << QLatin1String("wrong password");
         p[ExtractionFailedPatterns] = QStringList() << QLatin1String( "CRC failed" ) << QLatin1String( "Cannot find volume" );
+
+        p[TestProgram] = QStringList() << QLatin1String( "rar" );
+        p[TestArgs] = QStringList() << QLatin1String( "t" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[TestFailedPatterns] = QStringList() << QLatin1String("CRC failed");
     }
 
     return p;

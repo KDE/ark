@@ -166,6 +166,21 @@ private:
     QVariantList m_files;
 };
 
+class KERFUFFLE_EXPORT TestJob : public Job
+{
+    Q_OBJECT
+
+public:
+    TestJob(const QVariantList& files, const TestOptions& options, ReadOnlyArchiveInterface *interface, QObject *parent = 0);
+
+public slots:
+    virtual void doWork();
+
+private:
+    QVariantList m_files;
+    TestOptions m_options;
+};
+
 } // namespace Kerfuffle
 
 #endif // JOBS_H

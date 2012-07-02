@@ -102,6 +102,43 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
     return true;
 }
 
+bool LibSingleFileInterface::testFiles(const QList<QVariant> & files, Kerfuffle::TestOptions options)
+{
+    Q_UNUSED(files)
+    Q_UNUSED(options)
+
+    bool testResult = true;
+
+    QIODevice *device = KFilterDev::deviceForFile(filename(), m_mimeType, false);
+    if (!device) {
+        kDebug() << "Could not create KFilterDev";
+        error(i18nc("@info", "Ark could not open <filename>%1</filename> for extraction.", filename()));
+
+        return false;
+    }
+
+    device->open(QIODevice::ReadOnly);
+
+    qint64 bytesRead;
+    QByteArray dataChunk(1024*16, '\0');   // 16Kb
+
+    while (true) {
+        bytesRead = device->read(dataChunk.data(), dataChunk.size());
+
+        if (bytesRead == -1) {
+            error(i18nc("@info", "Integrity check failed: The archive <filename>%1</filename> is broken.", filename()));
+            testResult = false;
+            break;
+        } else if (bytesRead == 0) {
+            break;
+        }
+    }
+
+    delete device;
+
+    return testResult;
+}
+
 bool LibSingleFileInterface::list()
 {
     kDebug();

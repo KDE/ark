@@ -618,6 +618,35 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
     return true;
 }
 
+bool LibArchiveInterface::testFiles(const QList<QVariant> & files, TestOptions options)
+{
+    kDebug();
+
+    // Just check whether the tar file can be opened
+
+    ArchiveRead arch_reader(archive_read_new());
+
+    if (!(arch_reader.data())) {
+        return false;
+    }
+
+    if (archive_read_support_compression_all(arch_reader.data()) != ARCHIVE_OK) {
+        return false;
+    }
+
+    if (archive_read_support_format_all(arch_reader.data()) != ARCHIVE_OK) {
+        return false;
+    }
+
+    if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
+        error(i18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
+                   filename()), QString());
+        return false;
+    }
+
+    return true;
+}
+
 void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 {
     ArchiveEntry e;

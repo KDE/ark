@@ -76,6 +76,8 @@ public:
     Kerfuffle::AddJob* addFiles(const QStringList & paths, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
     Kerfuffle::DeleteJob* deleteFiles(const QList<QVariant> & files);
 
+    Kerfuffle::TestJob* testFiles(const QList<QVariant> & files, const Kerfuffle::TestOptions& options = Kerfuffle::TestOptions());
+
 signals:
     void loadingStarted();
     void loadingFinished(KJob *);

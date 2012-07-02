@@ -342,6 +342,34 @@ void DeleteJob::doWork()
     }
 }
 
+TestJob::TestJob(const QVariantList& files, const CompressionOptions& options, ReadOnlyArchiveInterface *interface, QObject *parent)
+    : Job(interface, parent)
+    , m_files(files)
+{
+    Q_UNUSED(options)
+}
+
+void TestJob::doWork()
+{
+    QString desc;
+    if (m_files.count() == 0) {
+        desc = i18n("Testing all files");
+    } else {
+        desc = i18np("Testing one file", "Extracting %1 files", m_files.count());
+    }
+    emit description(this, desc);
+
+    kDebug() << "Starting testing with selected files:"
+             << m_files
+             << "Options:" << m_options;
+
+    bool ret = archiveInterface()->testFiles(m_files, m_options);
+
+    if (!archiveInterface()->waitForFinishedSignal()) {
+        onFinished(ret);
+    }
+}
+
 } // namespace Kerfuffle
 
 #include "jobs.moc"

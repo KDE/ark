@@ -88,6 +88,8 @@ private slots:
     void setBusyGui();
     void setReadyGui();
     void setFileNameFromArchive();
+    void slotTestFiles();
+    void slotTestFilesDone(KJob*);
 
 signals:
     void busy();
@@ -112,6 +114,7 @@ private:
     KAction              *m_addDirAction;
     KAction              *m_deleteFilesAction;
     KAction              *m_saveAsAction;
+    KAction              *m_testFilesAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
     KTempDir              m_previewDir;

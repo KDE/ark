@@ -275,6 +275,13 @@ void Part::setupActions()
     connect(m_deleteFilesAction, SIGNAL(triggered(bool)),
             this, SLOT(slotDeleteFiles()));
 
+    m_testFilesAction = actionCollection()->addAction(QLatin1String( "test" ));
+    m_testFilesAction->setIcon(KIcon( QLatin1String( "svn-status" )));
+    m_testFilesAction->setText(i18n("Test"));
+    m_deleteFilesAction->setStatusTip(i18n("Click to test the selected files"));
+    connect(m_testFilesAction, SIGNAL(triggered(bool)),
+            this, SLOT(slotTestFiles()));
+
     updateActions();
 }
 
@@ -289,6 +296,7 @@ void Part::updateActions()
     m_addDirAction->setEnabled(!isBusy() && isWritable);
     m_deleteFilesAction->setEnabled(!isBusy() && (m_view->selectionModel()->selectedRows().count() > 0)
                                     && isWritable);
+    m_testFilesAction->setEnabled(!isBusy() && (m_model->rowCount() > 0));
 
     QMenu *menu = m_extractFilesAction->menu();
     if (!menu) {
@@ -759,7 +767,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 
     kDebug() << "Detected relative path to be " << firstPath;
     options[QLatin1String( "GlobalWorkDir" )] = firstPath;
-    options[QLatin1String( "CompressionLevel") ] = "Maximum";
+    options[QLatin1String( "CompressionLevel") ] = QLatin1String("Maximum");
     options[QLatin1String( "MultiThreadingEnabled") ] = false;
     options[QLatin1String( "EncryptHeaderEnabled") ] = false;
     options[QLatin1String( "PasswordProtectedHint") ] = false;
@@ -903,6 +911,32 @@ void Part::slotSaveAs()
             KMessageBox::error(widget(),
                                i18nc("@info", "The archive could not be saved as <filename>%1</filename>. Try saving it to another location.", saveUrl.pathOrUrl()));
         }
+    }
+}
+
+void Part::slotTestFiles()
+{
+    if (!m_model) {
+        return;
+    }
+
+    kDebug();
+
+    TestJob *job = m_model->testFiles(selectedFilesWithChildren());
+    connect(job, SIGNAL(result(KJob*)),
+            this, SLOT(slotTestFilesDone(KJob*)));
+    registerJob(job);
+    job->start();
+}
+
+void Part::slotTestFilesDone(KJob* job)
+{
+    kDebug();
+    if (!job->error()) {
+        KMessageBox::information(widget(), i18n("Testing complete: no issues found."));
+    }
+    else {
+        KMessageBox::error(widget(), job->errorString());
     }
 }
 

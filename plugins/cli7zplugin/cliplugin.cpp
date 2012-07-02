@@ -74,6 +74,10 @@ ParameterList CliPlugin::parameterList() const
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) :");
 
         p[EncryptHeaderSwitch] = QLatin1String("-mhe");
+
+        p[TestProgram] = QStringList() << QLatin1String( "7z" );
+        p[TestArgs] = QStringList() << QLatin1String( "t" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[TestFailedPatterns] = QStringList() << QLatin1String("Data Error");
     }
 
     return p;
