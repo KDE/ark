@@ -915,23 +915,12 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
 
 bool CliInterface::checkForErrorMessage(const QString& line, int parameterIndex)
 {
-    QList<QRegExp> patterns;
-
-    if (m_patternCache.contains(parameterIndex)) {
-        patterns = m_patternCache.value(parameterIndex);
-    } else {
-        if (!m_param.contains(parameterIndex)) {
-            return false;
-        }
-
-        foreach(const QString& rawPattern, m_param.value(parameterIndex).toStringList()) {
-            patterns << QRegExp(rawPattern);
-        }
-        m_patternCache[parameterIndex] = patterns;
+    if (!m_param.contains(parameterIndex)) {
+        return false;
     }
 
-    foreach(const QRegExp& pattern, patterns) {
-        if (pattern.indexIn(line) != -1) {
+    foreach(const QString& rawPattern, m_param.value(parameterIndex).toStringList()) {
+        if (QRegExp(rawPattern).indexIn(line) != -1) {
             return true;
         }
     }
