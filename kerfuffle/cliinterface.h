@@ -320,6 +320,7 @@ private:
     QByteArray m_stdOutData;
     QRegExp m_existsPattern;
     QRegExp m_passwordPromptPattern;
+    QHash<int, QList<QRegExp> > m_patternCache;
 
 #ifdef Q_OS_WIN
     KProcess *m_process;
