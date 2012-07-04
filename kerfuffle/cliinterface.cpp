@@ -644,11 +644,10 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
 
 bool CliInterface::checkForErrorMessage(const QString& line, int parameterIndex)
 {
-    static QHash<int, QList<QRegExp> > patternCache;
     QList<QRegExp> patterns;
 
-    if (patternCache.contains(parameterIndex)) {
-        patterns = patternCache.value(parameterIndex);
+    if (m_patternCache.contains(parameterIndex)) {
+        patterns = m_patternCache.value(parameterIndex);
     } else {
         if (!m_param.contains(parameterIndex)) {
             return false;
@@ -657,7 +656,7 @@ bool CliInterface::checkForErrorMessage(const QString& line, int parameterIndex)
         foreach(const QString& rawPattern, m_param.value(parameterIndex).toStringList()) {
             patterns << QRegExp(rawPattern);
         }
-        patternCache[parameterIndex] = patterns;
+        m_patternCache[parameterIndex] = patterns;
     }
 
     foreach(const QRegExp& pattern, patterns) {
