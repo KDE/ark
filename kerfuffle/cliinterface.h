@@ -242,7 +242,7 @@ enum CliInterfaceParameters {
      * First entry is "AES256"
      * Second entry is "ZipCrypto"
      */
-    EncryptionMethod,
+    EncryptionMethodSwitches,
     /**
      * QString
      * This is a string that allows to enable encrypting headers for

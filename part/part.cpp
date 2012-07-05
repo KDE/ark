@@ -770,6 +770,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
     options[QLatin1String( "CompressionLevel") ] = QLatin1String("Maximum");
     options[QLatin1String( "MultiThreadingEnabled") ] = false;
     options[QLatin1String( "EncryptHeaderEnabled") ] = false;
+//    options[QLatin1String( "EncryptionMethod")] = "AES256";
     options[QLatin1String( "PasswordProtectedHint") ] = false;
 
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);

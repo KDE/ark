@@ -388,6 +388,28 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             }
         }
 
+        if (argument == QLatin1String( "$EncryptionMethodSwitches" )) {
+            QStringList encryptionMethodSwitches = m_param.value(EncryptionMethodSwitches).toStringList();
+            QString encryptionMethod = options.value(QLatin1String( "EncryptionMethod")).toString();
+
+            QString theReplacement;
+            if (encryptionMethod == "AES256") {
+                theReplacement = encryptionMethodSwitches.at(0);
+            }
+            if (encryptionMethod == "ZipCrypto") {
+                theReplacement = encryptionMethodSwitches.at(1);
+            }
+
+            if (theReplacement.isEmpty()) {
+                args.removeAt(i);
+                --i; //decrement to compensate for the variable we removed
+            } else {
+                //but in this case we don't have to decrement, we just
+                //replace it
+                args[i] = theReplacement;
+            }
+        }
+
         if (argument == QLatin1String( "$Archive" )) {
             args[i] = filename();
         }
