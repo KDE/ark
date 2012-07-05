@@ -91,7 +91,7 @@ ParameterList CliPlugin::parameterList() const
 
         p[AddArgs] = QStringList() << QLatin1String( "a" ) << QLatin1String( "$CompressionLevelSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
-        p[CompressionLevelSwitches] = QStringList() << QLatin1String( "-m0" ) << QLatin1String( "-m3" ) << QLatin1String("-m5" );
+        p[CompressionLevelSwitches] = QStringList() << QLatin1String( "-m0" ) << QLatin1String( "-m1" ) << QLatin1String( "-m3" ) << QLatin1String( "-m4" ) << QLatin1String("-m5" );
 
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) for");
 

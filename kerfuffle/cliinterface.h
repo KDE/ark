@@ -222,8 +222,10 @@ enum CliInterfaceParameters {
      * The arguments that are passed to the program above for
      * setting the compression level.
      * First entry is "Store"
-     * Second entry is "Normal"
-     * Third entry is "Maximum"
+     * Second entry is "Fast"
+     * Third entry is "Normal"
+     * Fourth entry is "Good"
+     * Fifth entry is "Maximum"
      */
     CompressionLevelSwitches,
     /**

@@ -68,7 +68,7 @@ ParameterList CliPlugin::parameterList() const
                              << QLatin1String( "S" ) //autoskip
                              << QLatin1String( "Q" ) //cancel
                              ;
-        p[CompressionLevelSwitches] = QStringList() << QLatin1String( "-mx=0" ) << QLatin1String( "-mx=5" ) << QLatin1String("-mx=9" );
+        p[CompressionLevelSwitches] = QStringList() << QLatin1String( "-mx=0" ) << QLatin1String( "-mx=2" ) << QLatin1String( "-mx=5" ) << QLatin1String( "-mx=7" ) << QLatin1String("-mx=9" );
         p[MultiThreadingSwitch] = QLatin1String( "-mmt" );
 
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) :");

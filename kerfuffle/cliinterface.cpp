@@ -282,11 +282,17 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             if (compressionLevel == QLatin1String("Store")) {
                 theReplacement = compressionLevelSwitches.at(0);
             }
-            if (compressionLevel == QLatin1String("Normal")) {
+            if (compressionLevel == "Fast") {
                 theReplacement = compressionLevelSwitches.at(1);
             }
-            if (compressionLevel == QLatin1String("Maximum")) {
+            if (compressionLevel == "Normal") {
                 theReplacement = compressionLevelSwitches.at(2);
+            }
+            if (compressionLevel == "Good") {
+                theReplacement = compressionLevelSwitches.at(3);
+            }
+            if (compressionLevel == "Maximum") {
+                theReplacement = compressionLevelSwitches.at(4);
             }
 
             if (theReplacement.isEmpty()) {
