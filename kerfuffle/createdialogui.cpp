@@ -63,44 +63,44 @@ CreateDialogUI::CreateDialogUI(QWidget *parent) : QWidget(parent)
 CompressionOptions CreateDialogUI::options() const
 {
     CompressionOptions options;
-    options["ArchiveFormat"] = archiveFormatComboBox->itemData(archiveFormatComboBox->currentIndex());
-    options["CompressionLevel"] = compressionMethodComboBox->currentIndex();
-    options["TestArchive"] = testArchiveCheckBox->isChecked();
-    options["DeleteFilesAfterTest"] = deleteFilesCheckBox->isChecked();
-    options["SetPassword"] = passwordGroupBox->isChecked();
-    options["EncryptContents"] = encryptContentsCheckBox->isChecked();
-    options["EncryptFileNames"] = encryptFileNamesCheckBox->isChecked();
-    options["EncryptionMethod"] = encryptionMethodComboBox->currentIndex();
-    options["SplitArchives"] = splitArchiveGroupBox->isChecked();
-    options["SplitFileSize"] = splitSizeComboBox->currentIndex();
-    options["SplitFileSizeFreeValue"] = splitSizeComboBox->lineEdit()->text();
-    options["SplitFileSizeUnit"] = splitSizeUnitComboBox->currentIndex();
-    options["ArchiveConflicts"] = archiveConflictsComboBox->currentIndex();
-    options["FileConflicts"] = fileConflictsComboBox->currentIndex();
-    options["UseMultithreading"] = multithreadingCheckBox->isChecked();
-    options["ConvertToUTF8"] = utf8CheckBox->isChecked();
-    options["LastMimeType"] = archiveFormatComboBox->itemData(archiveFormatComboBox->currentIndex());
+    options[QLatin1String("ArchiveFormat")] = archiveFormatComboBox->itemData(archiveFormatComboBox->currentIndex());
+    options[QLatin1String("CompressionLevel")] = compressionMethodComboBox->currentIndex();
+    options[QLatin1String("TestArchive")] = testArchiveCheckBox->isChecked();
+    options[QLatin1String("DeleteFilesAfterTest")] = deleteFilesCheckBox->isChecked();
+    options[QLatin1String("SetPassword")] = passwordGroupBox->isChecked();
+    options[QLatin1String("EncryptContents")] = encryptContentsCheckBox->isChecked();
+    options[QLatin1String("EncryptFileNames")] = encryptFileNamesCheckBox->isChecked();
+    options[QLatin1String("EncryptionMethod")] = encryptionMethodComboBox->currentIndex();
+    options[QLatin1String("SplitArchives")] = splitArchiveGroupBox->isChecked();
+    options[QLatin1String("SplitFileSize")] = splitSizeComboBox->currentIndex();
+    options[QLatin1String("SplitFileSizeFreeValue")] = splitSizeComboBox->lineEdit()->text();
+    options[QLatin1String("SplitFileSizeUnit")] = splitSizeUnitComboBox->currentIndex();
+    options[QLatin1String("ArchiveConflicts")] = archiveConflictsComboBox->currentIndex();
+    options[QLatin1String("FileConflicts")] = fileConflictsComboBox->currentIndex();
+    options[QLatin1String("UseMultithreading")] = multithreadingCheckBox->isChecked();
+    options[QLatin1String("ConvertToUTF8")] = utf8CheckBox->isChecked();
+    options[QLatin1String("LastMimeType")] = archiveFormatComboBox->itemData(archiveFormatComboBox->currentIndex());
 
     return options;
 }
 
 void CreateDialogUI::setOptions(const CompressionOptions& options)
 {
-    archiveFormatComboBox->setCurrentIndex(archiveFormatComboBox->findData(options.value("ArchiveFormat", "application/zip").toString()));
-    compressionMethodComboBox->setCurrentIndex(options.value("CompressionLevel", 2).toInt());
-    testArchiveCheckBox->setChecked(options.value("TestArchive", true).toBool());
-    deleteFilesCheckBox->setChecked(options.value("DeleteFilesAfterTest", false).toBool());
-    passwordGroupBox->setChecked(options.value("SetPassword", true).toBool());
-    encryptContentsCheckBox->setChecked(options.value("EncryptContents", false).toBool());
-    encryptFileNamesCheckBox->setChecked(options.value("EncryptFileNames", false).toBool());
-    encryptionMethodComboBox->setCurrentIndex(options.value("EncryptionMethod", 0).toInt());
-    splitArchiveGroupBox->setChecked(options.value("SplitArchives", true).toBool());
-    splitSizeComboBox->setCurrentIndex(options.value("SplitFileSize", 0).toInt());
-    splitSizeComboBox->lineEdit()->setText(options.value("SplitFileSizeFreeValue", "").toString());
-    archiveConflictsComboBox->setCurrentIndex(options.value("ArchiveConflicts", 0).toInt());
-    fileConflictsComboBox->setCurrentIndex(options.value("FileConflicts", 0).toInt());
-    multithreadingCheckBox->setChecked(options.value("UseMultithreading", true).toBool());
-    utf8CheckBox->setChecked(options.value("ConvertToUTF8", true).toBool());
+    archiveFormatComboBox->setCurrentIndex(archiveFormatComboBox->findData(options.value(QLatin1String("ArchiveFormat"), QLatin1String("application/zip")).toString()));
+    compressionMethodComboBox->setCurrentIndex(options.value(QLatin1String("CompressionLevel"), 2).toInt());
+    testArchiveCheckBox->setChecked(options.value(QLatin1String("TestArchive"), true).toBool());
+    deleteFilesCheckBox->setChecked(options.value(QLatin1String("DeleteFilesAfterTest"), false).toBool());
+    passwordGroupBox->setChecked(options.value(QLatin1String("SetPassword"), true).toBool());
+    encryptContentsCheckBox->setChecked(options.value(QLatin1String("EncryptContents"), false).toBool());
+    encryptFileNamesCheckBox->setChecked(options.value(QLatin1String("EncryptFileNames"), false).toBool());
+    encryptionMethodComboBox->setCurrentIndex(options.value(QLatin1String("EncryptionMethod"), 0).toInt());
+    splitArchiveGroupBox->setChecked(options.value(QLatin1String("SplitArchives"), true).toBool());
+    splitSizeComboBox->setCurrentIndex(options.value(QLatin1String("SplitFileSize"), 0).toInt());
+    splitSizeComboBox->lineEdit()->setText(options.value(QLatin1String("SplitFileSizeFreeValue"), QLatin1String("")).toString());
+    archiveConflictsComboBox->setCurrentIndex(options.value(QLatin1String("ArchiveConflicts"), 0).toInt());
+    fileConflictsComboBox->setCurrentIndex(options.value(QLatin1String("FileConflicts"), 0).toInt());
+    multithreadingCheckBox->setChecked(options.value(QLatin1String("UseMultithreading"), true).toBool());
+    utf8CheckBox->setChecked(options.value(QLatin1String("ConvertToUTF8"), true).toBool());
 }
 
 void CreateDialogUI::browse()
@@ -149,7 +149,7 @@ void CreateDialogUI::updateArchiveExtension(bool updateCombobox)
             return;
         }
         else {
-            archive.remove(QString(".").append(archiveType->extractKnownExtension(archive)), Qt::CaseInsensitive);
+            archive.remove(QLatin1String(".") + archiveType->extractKnownExtension(archive), Qt::CaseInsensitive);
         }
     }
 

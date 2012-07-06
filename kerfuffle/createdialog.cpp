@@ -43,7 +43,7 @@ CreateDialog::CreateDialog(QWidget * parent) : KDialog()
     setButtons( KDialog::User1 | KDialog::Reset |  KDialog::Ok | KDialog::Cancel );
     setButtonGuiItem( KDialog::User1,
                       KGuiItem( i18n("Set As Default"),
-                                "configure",
+                                QLatin1String("configure"),
                                 i18n("Set the selected values as default values"),
                                 i18n("Sets the selected values as default values for new archives")));
 

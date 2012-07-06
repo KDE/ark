@@ -7,16 +7,18 @@ set(kerfuffle_SRCS
     archive.cpp
     archiveinterface.cpp
     jobs.cpp
-	extractiondialog.cpp
-	adddialog.cpp
-	queries.cpp
-	addtoarchive.cpp
-	cliinterface.cpp
+    extractiondialog.cpp
+    adddialog.cpp
+    createdialog.cpp
+    createdialogui.cpp
+    queries.cpp
+    addtoarchive.cpp
+    cliinterface.cpp
    )
 
 kde4_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
 
-kde4_add_ui_files(kerfuffle_SRCS extractiondialog.ui adddialog.ui )
+kde4_add_ui_files(kerfuffle_SRCS extractiondialog.ui adddialog.ui createdialogui.ui)
 
 kde4_add_library(kerfuffle SHARED ${kerfuffle_SRCS})
 
