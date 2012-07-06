@@ -79,6 +79,36 @@ CliInterface::~CliInterface()
     Q_ASSERT(!m_process);
 }
 
+bool CliInterface::supportsParameter(CliInterfaceParameters param)
+{
+    if( m_param.isEmpty() )
+       cacheParameterList();
+
+    bool hasParam = false;
+
+    if(m_param.contains(param)) {
+        QVariant var = m_param.value(param);
+        switch(var.type()) {
+        case QVariant::StringList:
+            hasParam = !var.toStringList().isEmpty();
+            break;
+
+        case QVariant::String:
+            hasParam = !var.toString().isEmpty();
+            break;
+
+        case QVariant::Bool:
+            hasParam = var.toBool();
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    return hasParam;
+}
+
 bool CliInterface::list()
 {
     cacheParameterList();

@@ -316,6 +316,11 @@ public:
      */
     void setEscapedCharacters(const QString& characters);
 
+    /**
+     * Checks whether the implementing plugin supports the provided option
+     */
+    bool supportsParameter( CliInterfaceParameters param );
+
 private:
     void substituteListVariables(QStringList& params);
 
