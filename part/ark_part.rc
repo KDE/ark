@@ -1,30 +1,31 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="ark_part" version="2">
+<kpartgui name="ark_part" version="3">
 <MenuBar>
-	<Menu name="file">
-		<text>&amp;File</text>
-		<Action name="file_save_as" group="file_save"/>
-	</Menu>
-	<Menu name="action">
-		<text>&amp;Action</text>
-		<Action name="add"/>
-		<Action name="add-dir"/>
-		<Action name="delete"/>
-		<Action name="extract"/>
-		<Action name="preview"/>
-                <Action name="test"/>
-        </Menu>
-	<Menu name="settings">
-		<text>&amp;Settings</text>
-		<Action name="show-infopanel" group="settings_show"/>
-	</Menu>
+    <Menu name="file">
+        <text>&amp;File</text>
+        <Action name="file_save_as" group="file_save"/>
+    </Menu>
+    <Menu name="action">
+        <text>&amp;Action</text>
+        <Action name="add"/>
+        <Action name="extract"/>
+        <Action name="test"/>
+        <Separator/>
+        <Action name="preview"/>
+        <Action name="delete"/>
+        <Action name="rename"/>
+    </Menu>
+    <Menu name="settings">
+        <text>&amp;Settings</text>
+        <Action name="show-infopanel" group="settings_show"/>
+    </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar">
-	<Action name="add"/>
-	<Action name="add-dir"/>
-	<Action name="delete"/>
-	<Action name="extract"/>
-	<Action name="preview"/>
-        <Action name="test"/>
+    <text>Main Toolbar</text>
+    <Action name="add"/>
+    <Action name="extract"/>
+    <Action name="test"/>
+    <Action name="preview"/>
+    <Action name="delete"/>
 </ToolBar>
 </kpartgui>
