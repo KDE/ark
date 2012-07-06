@@ -73,7 +73,7 @@ private slots:
     void slotExtractFiles();
     void slotExtractionDone(KJob*);
     void slotQuickExtractFiles(QAction*);
-    void slotAddFiles();
+    void slotAdd();
     void slotAddFiles(const QStringList& files, const QString& path = QString());
     void slotAddDir();
     void slotAddFilesDone(KJob*);
@@ -82,14 +82,15 @@ private slots:
     void saveSplitterSizes();
     void slotToggleInfoPanel(bool);
     void slotSaveAs();
+    void slotTestArchive();
+    void slotTestArchiveDone(KJob*);
+    void slotRenameFile();
     void updateActions();
     void selectionChanged();
     void adjustColumns();
     void setBusyGui();
     void setReadyGui();
     void setFileNameFromArchive();
-    void slotTestFiles();
-    void slotTestFilesDone(KJob*);
 
 signals:
     void busy();
@@ -109,12 +110,12 @@ private:
     ArchiveModel         *m_model;
     QTreeView            *m_view;
     KAction              *m_previewAction;
-    KAction              *m_extractFilesAction;
-    KAction              *m_addFilesAction;
-    KAction              *m_addDirAction;
-    KAction              *m_deleteFilesAction;
+    KAction              *m_extractAction;
+    KAction              *m_addAction;
+    KAction              *m_deleteAction;
+    KAction              *m_testAction;
     KAction              *m_saveAsAction;
-    KAction              *m_testFilesAction;
+    KAction              *m_renameAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
     KTempDir              m_previewDir;
