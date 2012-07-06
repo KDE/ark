@@ -22,7 +22,7 @@ endif (LIBARCHIVE_FOUND)
 add_subdirectory( clirarplugin )
 add_subdirectory( cli7zplugin )
 add_subdirectory( cli7zzipplugin )
-add_subdirectory( clizipplugin )
+# add_subdirectory( clizipplugin )
 add_subdirectory( libsinglefileplugin )
 add_subdirectory( clilhaplugin )
 
