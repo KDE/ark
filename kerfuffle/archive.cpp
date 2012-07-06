@@ -63,11 +63,9 @@ static QString determineMimeType(const QString& filename)
     return KMimeType::findByNameAndContent(filename, buffer)->name();
 }
 
-static KService::List findPluginOffers(const QString& filename, const QString& fixedMimeType)
+static KService::List findPluginOffers(const QString& mimeType)
 {
     KService::List offers;
-
-    const QString mimeType = fixedMimeType.isEmpty() ? determineMimeType(filename) : fixedMimeType;
 
     if (!mimeType.isEmpty()) {
         offers = KMimeTypeTrader::self()->query(mimeType, QLatin1String( "Kerfuffle/Plugin" ), QLatin1String( "(exist Library)" ));
@@ -89,7 +87,8 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
 {
     qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 
-    const KService::List offers = findPluginOffers(fileName, fixedMimeType);
+    const QString mimeType = fixedMimeType.isEmpty() ? determineMimeType(fileName) : fixedMimeType;
+    const KService::List offers = findPluginOffers(mimeType);
 
     if (offers.isEmpty()) {
         kDebug() << "Could not find a plugin to handle" << fileName;
