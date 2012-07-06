@@ -59,7 +59,6 @@ private:
     KParts::ReadWritePart *m_part;
     KRecentFilesAction    *m_recentFilesAction;
     QAction               *m_openAction;
-    QAction               *m_newAction;
     KParts::OpenUrlArguments m_openArgs;
 };
 

@@ -147,7 +147,6 @@ bool MainWindow::loadPart()
 
 void MainWindow::setupActions()
 {
-    m_newAction = KStandardAction::openNew(this, SLOT(newArchive()), actionCollection());
     m_openAction = KStandardAction::open(this, SLOT(openArchive()), actionCollection());
     KStandardAction::quit(this, SLOT(quit()), actionCollection());
 
@@ -158,8 +157,7 @@ void MainWindow::setupActions()
     m_recentFilesAction->setStatusTip(i18n("Click to open an archive, click and hold to open a recently-opened archive"));
     m_recentFilesAction->setToolTip(i18n("Open an archive"));
     m_recentFilesAction->loadEntries(KGlobal::config()->group("Recent Files"));
-    connect(m_recentFilesAction, SIGNAL(triggered()),
-            this, SLOT(openArchive()));
+    connect(m_recentFilesAction, SIGNAL(triggered()), this, SLOT(openArchive()));
 
     createStandardStatusBarAction();
 
@@ -170,7 +168,6 @@ void MainWindow::setupActions()
 void MainWindow::updateActions()
 {
     Interface *iface = qobject_cast<Interface*>(m_part);
-    m_newAction->setEnabled(!iface->isBusy());
     m_openAction->setEnabled(!iface->isBusy());
     m_recentFilesAction->setEnabled(!iface->isBusy());
 }
