@@ -28,6 +28,7 @@
 #include "archive.h"
 #include "archiveinterface.h"
 #include "jobs.h"
+#include "cliinterface.h"
 
 #include <QByteArray>
 #include <QEventLoop>

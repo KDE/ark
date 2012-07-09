@@ -33,6 +33,7 @@
 #include <QString>
 #include <QStringList>
 #include <QHash>
+#include <QList>
 
 class KJob;
 
@@ -147,6 +148,7 @@ private:
 
 KERFUFFLE_EXPORT QStringList supportedMimeTypes();
 KERFUFFLE_EXPORT QStringList supportedWriteMimeTypes();
+KERFUFFLE_EXPORT QList<int> supportedOptions(const QString& mimeType);
 } // namespace Kerfuffle
 
 
