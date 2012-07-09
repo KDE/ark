@@ -43,7 +43,7 @@
 
 static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
 {
-    return (p1->property(QLatin1String( "X-KDE-Priority" )).toInt()) > (p2->property(QLatin1String( "X-KDE-Priority" )).toInt());
+    return (p1->property(QLatin1String("X-KDE-Priority")).toInt()) > (p2->property(QLatin1String("X-KDE-Priority")).toInt());
 }
 
 static QString determineMimeType(const QString& filename)
@@ -69,7 +69,7 @@ static KService::List findPluginOffers(const QString& mimeType)
     KService::List offers;
 
     if (!mimeType.isEmpty()) {
-        offers = KMimeTypeTrader::self()->query(mimeType, QLatin1String( "Kerfuffle/Plugin" ), QLatin1String( "(exist Library)" ));
+        offers = KMimeTypeTrader::self()->query(mimeType, QLatin1String("Kerfuffle/Plugin"), QLatin1String("(exist Library)"));
         qSort(offers.begin(), offers.end(), comparePlugins);
     }
 
@@ -298,7 +298,7 @@ QStringList supportedMimeTypes()
         KService::Ptr service = *it;
         QStringList mimeTypes = service->serviceTypes();
 
-        foreach (const QString& mimeType, mimeTypes) {
+        foreach(const QString & mimeType, mimeTypes) {
             if (mimeType != basePartService && !supported.contains(mimeType)) {
                 supported.append(mimeType);
             }
@@ -325,7 +325,7 @@ QStringList supportedWriteMimeTypes()
         KService::Ptr service = *it;
         QStringList mimeTypes = service->serviceTypes();
 
-        foreach (const QString& mimeType, mimeTypes) {
+        foreach(const QString & mimeType, mimeTypes) {
             if (mimeType != basePartService && !supported.contains(mimeType)) {
                 supported.append(mimeType);
             }
@@ -364,25 +364,25 @@ QList<int> supportedOptions(const QString &mimeType)
     }
 
     if (iface->supportsParameter(PreservePathSwitch))
-            options.append(PreservePathSwitch);
+        options.append(PreservePathSwitch);
 
     if (iface->supportsParameter(RootNodeSwitch))
-            options.append(RootNodeSwitch);
+        options.append(RootNodeSwitch);
 
     if (iface->supportsParameter(PasswordSwitch))
-            options.append(PasswordSwitch);
+        options.append(PasswordSwitch);
 
     if (iface->supportsParameter(CompressionLevelSwitches))
-            options.append(CompressionLevelSwitches);
+        options.append(CompressionLevelSwitches);
 
     if (iface->supportsParameter(MultiThreadingSwitch))
-            options.append(MultiThreadingSwitch);
+        options.append(MultiThreadingSwitch);
 
     if (iface->supportsParameter(EncryptHeaderSwitch))
-            options.append(EncryptHeaderSwitch);
+        options.append(EncryptHeaderSwitch);
 
-    if (iface->supportsParameter(EncryptionMethod))
-            options.append(EncryptionMethod);
+    if (iface->supportsParameter(EncryptionMethodSwitches))
+        options.append(EncryptionMethodSwitches);
 
     return options;
 }
