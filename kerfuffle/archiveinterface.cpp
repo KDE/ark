@@ -38,7 +38,9 @@ ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVaria
         : QObject(parent), m_waitForFinishedSignal(false)
 {
     kDebug();
-    m_filename = args.first().toString();
+    if(!args.isEmpty()) {
+        m_filename = args.first().toString();
+    }
 }
 
 ReadOnlyArchiveInterface::~ReadOnlyArchiveInterface()
