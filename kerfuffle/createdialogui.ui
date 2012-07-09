@@ -38,15 +38,12 @@
          <property name="text">
           <string>Archive name</string>
          </property>
-         <property name="buddy">
-          <cstring>archiveNameLineEdit</cstring>
-         </property>
         </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QLineEdit" name="archiveNameLineEdit"/>
+          <widget class="KLineEdit" name="archiveNameLineEdit"/>
          </item>
          <item>
           <widget class="QPushButton" name="browseButton">
@@ -536,9 +533,15 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>tabWidget</tabstop>
-  <tabstop>archiveNameLineEdit</tabstop>
   <tabstop>browseButton</tabstop>
   <tabstop>archiveFormatComboBox</tabstop>
   <tabstop>compressionMethodComboBox</tabstop>

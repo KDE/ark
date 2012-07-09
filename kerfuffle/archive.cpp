@@ -337,4 +337,54 @@ QStringList supportedWriteMimeTypes()
     return supported;
 }
 
+QList<int> supportedOptions(const QString &mimeType)
+{
+    QList<int> options;
+    const KService::List offers = findPluginOffers(mimeType);
+
+    if (offers.isEmpty()) {
+        kDebug() << "Could not find a plugin to handle" << mimeType;
+        return options;
+    }
+
+    const QString pluginName = offers.first()->library();
+    kDebug() << "Loading plugin" << pluginName;
+
+    KPluginFactory * const factory = KPluginLoader(pluginName).factory();
+    if (!factory) {
+        kDebug() << "Invalid plugin factory for" << pluginName;
+        return options;
+    }
+
+    QVariantList args;
+    CliInterface * const iface = factory->create<CliInterface>(0, args);
+    if (!iface) {
+        kDebug() << "Could not create plugin instance " << pluginName;
+        return options;
+    }
+
+    if (iface->supportsParameter(PreservePathSwitch))
+            options.append(PreservePathSwitch);
+
+    if (iface->supportsParameter(RootNodeSwitch))
+            options.append(RootNodeSwitch);
+
+    if (iface->supportsParameter(PasswordSwitch))
+            options.append(PasswordSwitch);
+
+    if (iface->supportsParameter(CompressionLevelSwitches))
+            options.append(CompressionLevelSwitches);
+
+    if (iface->supportsParameter(MultiThreadingSwitch))
+            options.append(MultiThreadingSwitch);
+
+    if (iface->supportsParameter(EncryptHeaderSwitch))
+            options.append(EncryptHeaderSwitch);
+
+    if (iface->supportsParameter(EncryptionMethod))
+            options.append(EncryptionMethod);
+
+    return options;
+}
+
 } // namespace Kerfuffle

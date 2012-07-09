@@ -34,6 +34,7 @@
 
 #include "ui_createdialogui.h"
 #include "createdialogui.h"
+#include "cliinterface.h"
 
 
 namespace Kerfuffle
@@ -46,18 +47,73 @@ CreateDialogUI::CreateDialogUI(QWidget *parent) : QWidget(parent)
     // fill archive formats combobox
     QString str;
     KMimeType::Ptr type;
-    foreach (str, Kerfuffle::supportedWriteMimeTypes()) {
+    QList<int> options;
+    foreach(str, Kerfuffle::supportedWriteMimeTypes()) {
         type = KMimeType::mimeType(str);
-        if( type ) {
+        if (type) {
             archiveFormatComboBox->addItem(type->comment(), QVariant(type->name()));
+        }
+        options = Kerfuffle::supportedOptions(str);
+        if (!options.isEmpty()) {
+            int opt;
+            foreach(opt, options) {
+                m_mimeTypeOptions.insert(str, opt);
+            }
         }
     }
 
-    // combobox for splite file size should only accept intengers
+    // combobox for split file size should only accept intengers
     splitSizeComboBox->lineEdit()->setValidator(new QIntValidator(1, 1048576, this));
 
     connect(browseButton, SIGNAL(clicked()), SLOT(browse()));
     connect(archiveFormatComboBox, SIGNAL(activated(int)), SLOT(updateArchiveExtension()));
+
+    // enable and disable certain parts of the UI
+    connect(testArchiveCheckBox, SIGNAL(toggled(bool)), SLOT(updateUi()));
+    connect(passwordGroupBox, SIGNAL(toggled(bool)), SLOT(updateUi()));
+    connect(splitArchiveGroupBox, SIGNAL(toggled(bool)), SLOT(updateUi()));
+    connect(archiveFormatComboBox, SIGNAL(currentIndexChanged(int)), SLOT(updateUi()));
+
+    updateUi();
+}
+
+void CreateDialogUI::updateUi()
+{
+    QString mimeType = archiveFormatComboBox->itemData(archiveFormatComboBox->currentIndex()).toString();
+
+    encryptFileNamesCheckBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::EncryptHeaderSwitch));
+    if (!encryptFileNamesCheckBox->isEnabled()) {
+        encryptFileNamesCheckBox->setChecked(false);
+    }
+
+    passwordGroupBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::PasswordSwitch));
+    if (!passwordGroupBox->isEnabled()) {
+        passwordGroupBox->setChecked(false);
+    }
+
+    compressionMethodComboBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::CompressionLevelSwitches));
+    if (!compressionMethodComboBox->isEnabled()) {
+        compressionMethodComboBox->setCurrentIndex(2);
+
+    }
+
+    if (!m_mimeTypeOptions.contains(mimeType, Kerfuffle::EncryptionMethodSwitches)) {
+        encryptionMethodComboBox->setEnabled(false);
+    }
+
+    multithreadingCheckBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::MultiThreadingSwitch));
+    if (!multithreadingCheckBox->isEnabled()) {
+        multithreadingCheckBox->setChecked(false);
+    }
+
+    if (!testArchiveCheckBox->isChecked()) {
+        deleteFilesCheckBox->setChecked(false);
+    }
+
+    if (!passwordGroupBox->isChecked()) {
+        encryptContentsCheckBox->setChecked(false);
+        encryptFileNamesCheckBox->setChecked(false);
+    }
 }
 
 CompressionOptions CreateDialogUI::options() const
@@ -67,9 +123,9 @@ CompressionOptions CreateDialogUI::options() const
     options[QLatin1String("CompressionLevel")] = compressionMethodComboBox->currentIndex();
     options[QLatin1String("TestArchive")] = testArchiveCheckBox->isChecked();
     options[QLatin1String("DeleteFilesAfterTest")] = deleteFilesCheckBox->isChecked();
-    options[QLatin1String("SetPassword")] = passwordGroupBox->isChecked();
+    options[QLatin1String("PasswordProtectedHint")] = passwordGroupBox->isChecked();
     options[QLatin1String("EncryptContents")] = encryptContentsCheckBox->isChecked();
-    options[QLatin1String("EncryptFileNames")] = encryptFileNamesCheckBox->isChecked();
+    options[QLatin1String("EncryptHeaderEnabled")] = encryptFileNamesCheckBox->isChecked();
     options[QLatin1String("EncryptionMethod")] = encryptionMethodComboBox->currentIndex();
     options[QLatin1String("SplitArchives")] = splitArchiveGroupBox->isChecked();
     options[QLatin1String("SplitFileSize")] = splitSizeComboBox->currentIndex();
@@ -77,7 +133,7 @@ CompressionOptions CreateDialogUI::options() const
     options[QLatin1String("SplitFileSizeUnit")] = splitSizeUnitComboBox->currentIndex();
     options[QLatin1String("ArchiveConflicts")] = archiveConflictsComboBox->currentIndex();
     options[QLatin1String("FileConflicts")] = fileConflictsComboBox->currentIndex();
-    options[QLatin1String("UseMultithreading")] = multithreadingCheckBox->isChecked();
+    options[QLatin1String("MultiThreadingEnabled")] = multithreadingCheckBox->isChecked();
     options[QLatin1String("ConvertToUTF8")] = utf8CheckBox->isChecked();
     options[QLatin1String("LastMimeType")] = archiveFormatComboBox->itemData(archiveFormatComboBox->currentIndex());
 
@@ -90,30 +146,32 @@ void CreateDialogUI::setOptions(const CompressionOptions& options)
     compressionMethodComboBox->setCurrentIndex(options.value(QLatin1String("CompressionLevel"), 2).toInt());
     testArchiveCheckBox->setChecked(options.value(QLatin1String("TestArchive"), true).toBool());
     deleteFilesCheckBox->setChecked(options.value(QLatin1String("DeleteFilesAfterTest"), false).toBool());
-    passwordGroupBox->setChecked(options.value(QLatin1String("SetPassword"), true).toBool());
+    passwordGroupBox->setChecked(options.value(QLatin1String("PasswordProtectedHint"), false).toBool());
     encryptContentsCheckBox->setChecked(options.value(QLatin1String("EncryptContents"), false).toBool());
-    encryptFileNamesCheckBox->setChecked(options.value(QLatin1String("EncryptFileNames"), false).toBool());
+    encryptFileNamesCheckBox->setChecked(options.value(QLatin1String("EncryptHeaderEnabled"), false).toBool());
     encryptionMethodComboBox->setCurrentIndex(options.value(QLatin1String("EncryptionMethod"), 0).toInt());
     splitArchiveGroupBox->setChecked(options.value(QLatin1String("SplitArchives"), true).toBool());
     splitSizeComboBox->setCurrentIndex(options.value(QLatin1String("SplitFileSize"), 0).toInt());
     splitSizeComboBox->lineEdit()->setText(options.value(QLatin1String("SplitFileSizeFreeValue"), QLatin1String("")).toString());
     archiveConflictsComboBox->setCurrentIndex(options.value(QLatin1String("ArchiveConflicts"), 0).toInt());
     fileConflictsComboBox->setCurrentIndex(options.value(QLatin1String("FileConflicts"), 0).toInt());
-    multithreadingCheckBox->setChecked(options.value(QLatin1String("UseMultithreading"), true).toBool());
+    multithreadingCheckBox->setChecked(options.value(QLatin1String("MultiThreadingEnabled"), true).toBool());
     utf8CheckBox->setChecked(options.value(QLatin1String("ConvertToUTF8"), true).toBool());
+
+    updateUi();
 }
 
 void CreateDialogUI::browse()
 {
     // we go the long way so we can set the mime type filter correctly
     KUrl startUrl = KUrl::fromUserInput(archiveNameLineEdit->text());
-    if( startUrl.isEmpty() || !startUrl.isValid() )
+    if (startUrl.isEmpty() || !startUrl.isValid())
         startUrl = KUrl("kfiledialog:///ArkNewArchive");
 
-    KFileDialog dialog(startUrl, QString(), this );
-    dialog.setMimeFilter( Kerfuffle::supportedWriteMimeTypes() );
+    KFileDialog dialog(startUrl, QString(), this);
+    dialog.setMimeFilter(Kerfuffle::supportedWriteMimeTypes());
 
-    if ( dialog.exec() != KDialog::Accepted) {
+    if (dialog.exec() != KDialog::Accepted) {
         return;
     }
 
@@ -127,7 +185,7 @@ bool CreateDialogUI::checkArchiveUrl()
     KUrl archiveUrl = KUrl::fromUserInput(archiveNameLineEdit->text());
     if (!archiveUrl.isEmpty() && archiveUrl.isValid()) {
         archiveNameLineEdit->setText(archiveUrl.path());
-        updateArchiveExtension( true );
+        updateArchiveExtension(true);
         return true;
     }
 
@@ -147,8 +205,7 @@ void CreateDialogUI::updateArchiveExtension(bool updateCombobox)
         if (updateCombobox) {
             archiveFormatComboBox->setCurrentIndex(archiveFormatComboBox->findData(archiveType->name()));
             return;
-        }
-        else {
+        } else {
             archive.remove(QLatin1String(".") + archiveType->extractKnownExtension(archive), Qt::CaseInsensitive);
         }
     }

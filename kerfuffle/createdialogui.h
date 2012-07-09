@@ -3,7 +3,7 @@
 
 #include <KUrl>
 #include <QString>
-#include <QHash>
+#include <QMultiHash>
 
 #include "ui_createdialogui.h"
 #include "kerfuffle/archive.h"
@@ -30,6 +30,11 @@ public slots:
 private slots:
     void browse();
     void updateArchiveExtension(bool updateCombobox = false);
+    void updateUi();
+
+private:
+    QMultiHash<QString,int> m_mimeTypeOptions;
+
 };
 }
 
