@@ -795,10 +795,15 @@ void Part::slotAdd()
     //          When KFileDialog::exec() is called, the widget is already shown
     //          and nothing happens.
 
-    const QStringList filesToAdd =
-        KFileDialog::getOpenFileNames(KUrl("kfiledialog:///ArkAddFiles"),
-                                      QString(), widget()->parentWidget(),
-                                      i18nc("@title:window", "Add Files"));
+    KFileDialog fileDialog(KUrl("kfiledialog:///ArkAddFiles"), QString(), widget()->parentWidget());
+    fileDialog.setCaption(i18nc("@title:window", "Add"));
+    fileDialog.setMode(KFile::Files | KFile::Directory | KFile::ExistingOnly);
+
+    if (fileDialog.exec() != KFileDialog::Accepted) {
+        return;
+    }
+
+    const QStringList filesToAdd = fileDialog.selectedFiles();
 
     slotAddFiles(filesToAdd);
 }
