@@ -75,7 +75,6 @@ private slots:
     void slotQuickExtractFiles(QAction*);
     void slotAdd();
     void slotAddFiles(const QStringList& files, const QString& path = QString());
-    void slotAddDir();
     void slotAddFilesDone(KJob*);
     void slotDeleteFiles();
     void slotDeleteFilesDone(KJob*);

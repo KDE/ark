@@ -798,16 +798,6 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
     job->start();
 }
 
-void Part::slotAddDir()
-{
-    kDebug();
-    const QString dirToAdd = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///ArkAddFiles"), widget(), i18nc("@title:window", "Add Folder"));
-
-    if (!dirToAdd.isEmpty()) {
-        slotAddFiles(QStringList() << dirToAdd);
-    }
-}
-
 void Part::slotAddFilesDone(KJob* job)
 {
     kDebug();
