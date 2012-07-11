@@ -52,9 +52,9 @@
 namespace Kerfuffle
 {
 CliInterface::CliInterface(QObject *parent, const QVariantList & args)
-        : ReadWriteArchiveInterface(parent, args),
-        m_process(0),
-        m_testResult(true)
+    : ReadWriteArchiveInterface(parent, args),
+      m_process(0),
+      m_testResult(true)
 {
     //because this interface uses the event loop
     setWaitForFinishedSignal(true);
@@ -81,14 +81,14 @@ CliInterface::~CliInterface()
 
 bool CliInterface::supportsParameter(CliInterfaceParameters param)
 {
-    if( m_param.isEmpty() )
-       cacheParameterList();
+    if (m_param.isEmpty())
+        cacheParameterList();
 
     bool hasParam = false;
 
-    if(m_param.contains(param)) {
+    if (m_param.contains(param)) {
         QVariant var = m_param.value(param);
-        switch(var.type()) {
+        switch (var.type()) {
         case QVariant::StringList:
             hasParam = !var.toStringList().isEmpty();
             break;
@@ -140,13 +140,13 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
         QString argument = args.at(i);
         kDebug() << "Processing argument " << argument;
 
-        if (argument == QLatin1String( "$Archive" )) {
+        if (argument == QLatin1String("$Archive")) {
             args[i] = filename();
         }
 
-        if (argument == QLatin1String( "$MultiThreadingSwitch" )) {
+        if (argument == QLatin1String("$MultiThreadingSwitch")) {
             QString multiThreadingSwitch = m_param.value(MultiThreadingSwitch).toString();
-            bool multiThreading = options.value(QLatin1String( "MultiThreadingEnabled")).toBool();
+            bool multiThreading = options.value(QLatin1String("MultiThreadingEnabled")).toBool();
 
             QString theReplacement;
             if (multiThreading == true) {
@@ -163,11 +163,11 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
             }
         }
 
-        if (argument == QLatin1String( "$PreservePathSwitch" )) {
+        if (argument == QLatin1String("$PreservePathSwitch")) {
             QStringList replacementFlags = m_param.value(PreservePathSwitch).toStringList();
             Q_ASSERT(replacementFlags.size() == 2);
 
-            bool preservePaths = options.value(QLatin1String( "PreservePaths" )).toBool();
+            bool preservePaths = options.value(QLatin1String("PreservePaths")).toBool();
             QString theReplacement;
             if (preservePaths) {
                 theReplacement = replacementFlags.at(0);
@@ -185,7 +185,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
             }
         }
 
-        if (argument == QLatin1String( "$PasswordSwitch" )) {
+        if (argument == QLatin1String("$PasswordSwitch")) {
             //if the PasswordSwitch argument has been added, we at least
             //assume that the format of the switch has been added as well
             Q_ASSERT(m_param.contains(PasswordSwitch));
@@ -196,7 +196,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
             //if we get a hint about this being a password protected archive, ask about
             //the password in advance.
             if ((options.value(QLatin1String("PasswordProtectedHint")).toBool()) &&
-                (password().isEmpty())) {
+                    (password().isEmpty())) {
                 kDebug() << "Password hint enabled, querying user";
 
                 Kerfuffle::PasswordNeededQuery query(filename());
@@ -219,7 +219,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
                     QString newArg = theSwitch.at(j);
 
                     //substitute the $Path
-                    newArg.replace(QLatin1String( "$Password" ), pass);
+                    newArg.replace(QLatin1String("$Password"), pass);
 
                     //put it in the arg list
                     args.insert(i + j, newArg);
@@ -230,7 +230,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
             --i; //decrement to compensate for the variable we replaced
         }
 
-        if (argument == QLatin1String( "$RootNodeSwitch" )) {
+        if (argument == QLatin1String("$RootNodeSwitch")) {
             //if the RootNodeSwitch argument has been added, we at least
             //assume that the format of the switch has been added as well
             Q_ASSERT(m_param.contains(RootNodeSwitch));
@@ -239,8 +239,8 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
             args.removeAt(i);
 
             QString rootNode;
-            if (options.contains(QLatin1String( "RootNode" ))) {
-                rootNode = options.value(QLatin1String( "RootNode" )).toString();
+            if (options.contains(QLatin1String("RootNode"))) {
+                rootNode = options.value(QLatin1String("RootNode")).toString();
                 kDebug() << "Set root node " << rootNode;
             }
 
@@ -251,7 +251,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
                     QString newArg = theSwitch.at(j);
 
                     //substitute the $Path
-                    newArg.replace(QLatin1String( "$Path" ), rootNode);
+                    newArg.replace(QLatin1String("$Path"), rootNode);
 
                     //put it in the arg list
                     args.insert(i + j, newArg);
@@ -262,7 +262,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
             --i; //decrement to compensate for the variable we replaced
         }
 
-        if (argument == QLatin1String( "$Files" )) {
+        if (argument == QLatin1String("$Files")) {
             args.removeAt(i);
             for (int j = 0; j < files.count(); ++j) {
                 args.insert(i + j, escapeFileName(files.at(j).toString()));
@@ -289,7 +289,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
 
     m_operationMode = Add;
 
-    const QString globalWorkDir = options.value(QLatin1String( "GlobalWorkDir" )).toString();
+    const QString globalWorkDir = options.value(QLatin1String("GlobalWorkDir")).toString();
     const QDir workDir = globalWorkDir.isEmpty() ? QDir::current() : QDir(globalWorkDir);
     if (!globalWorkDir.isEmpty()) {
         kDebug() << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
@@ -304,26 +304,9 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
         const QString argument = args.at(i);
         kDebug() << "Processing argument " << argument;
 
-        if (argument == QLatin1String( "$CompressionLevelSwitch" )) {
+        if (argument == QLatin1String("$CompressionLevelSwitch")) {
             QStringList compressionLevelSwitches = m_param.value(CompressionLevelSwitches).toStringList();
-            QString compressionLevel = options.value(QLatin1String( "CompressionLevel")).toString();
-
-            QString theReplacement;
-            if (compressionLevel == QLatin1String("Store")) {
-                theReplacement = compressionLevelSwitches.at(0);
-            }
-            if (compressionLevel == QLatin1String("Fast")) {
-                theReplacement = compressionLevelSwitches.at(1);
-            }
-            if (compressionLevel == QLatin1String("Normal")) {
-                theReplacement = compressionLevelSwitches.at(2);
-            }
-            if (compressionLevel == QLatin1String("Good")) {
-                theReplacement = compressionLevelSwitches.at(3);
-            }
-            if (compressionLevel == QLatin1String("Maximum")) {
-                theReplacement = compressionLevelSwitches.at(4);
-            }
+            QString theReplacement = compressionLevelSwitches.at(options.value(QLatin1String("CompressionLevel"), 2).toInt());
 
             if (theReplacement.isEmpty()) {
                 args.removeAt(i);
@@ -335,9 +318,9 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             }
         }
 
-        if (argument == QLatin1String( "$MultiThreadingSwitch" )) {
+        if (argument == QLatin1String("$MultiThreadingSwitch")) {
             QString multiThreadingSwitch = m_param.value(MultiThreadingSwitch).toString();
-            bool multiThreading = options.value(QLatin1String( "MultiThreadingEnabled")).toBool();
+            bool multiThreading = options.value(QLatin1String("MultiThreadingEnabled")).toBool();
 
             QString theReplacement;
             if (multiThreading == true) {
@@ -354,7 +337,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             }
         }
 
-        if (argument == QLatin1String( "$PasswordSwitch" )) {
+        if (argument == QLatin1String("$PasswordSwitch")) {
             //if the PasswordSwitch argument has been added, we at least
             //assume that the format of the switch has been added as well
             Q_ASSERT(m_param.contains(PasswordSwitch));
@@ -365,7 +348,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             //if we get a hint about this being a password protected archive, ask about
             //the password in advance.
             if ((options.value(QLatin1String("PasswordProtectedHint")).toBool()) &&
-                (password().isEmpty())) {
+                    (password().isEmpty())) {
                 kDebug() << "Password hint enabled, querying user";
 
                 Kerfuffle::PasswordNeededQuery query(filename());
@@ -388,7 +371,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
                     QString newArg = theSwitch.at(j);
 
                     //substitute the $Path
-                    newArg.replace(QLatin1String( "$Password" ), pass);
+                    newArg.replace(QLatin1String("$Password"), pass);
 
                     //put it in the arg list
                     args.insert(i + j, newArg);
@@ -399,9 +382,9 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             --i; //decrement to compensate for the variable we replaced
         }
 
-        if (argument == QLatin1String( "$EncryptHeaderSwitch" )) {
+        if (argument == QLatin1String("$EncryptHeaderSwitch")) {
             QString encryptHeaderSwitch = m_param.value(EncryptHeaderSwitch).toString();
-            bool encryptHeader = options.value(QLatin1String( "EncryptHeaderEnabled")).toBool();
+            bool encryptHeader = options.value(QLatin1String("EncryptHeaderEnabled")).toBool();
 
             QString theReplacement;
             if (encryptHeader == true) {
@@ -418,9 +401,9 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             }
         }
 
-        if (argument == QLatin1String( "$EncryptionMethodSwitches" )) {
+        if (argument == QLatin1String("$EncryptionMethodSwitches")) {
             QStringList encryptionMethodSwitches = m_param.value(EncryptionMethodSwitches).toStringList();
-            QString encryptionMethod = options.value(QLatin1String( "EncryptionMethod")).toString();
+            QString encryptionMethod = options.value(QLatin1String("EncryptionMethod")).toString();
 
             QString theReplacement;
             if (encryptionMethod == QLatin1String("AES256")) {
@@ -440,11 +423,11 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             }
         }
 
-        if (argument == QLatin1String( "$Archive" )) {
+        if (argument == QLatin1String("$Archive")) {
             args[i] = filename();
         }
 
-        if (argument == QLatin1String( "$Files" )) {
+        if (argument == QLatin1String("$Files")) {
             args.removeAt(i);
             for (int j = 0; j < files.count(); ++j) {
                 // #191821: workDir must be used instead of QDir::current()
@@ -482,9 +465,9 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
         QString argument = args.at(i);
         kDebug() << "Processing argument " << argument;
 
-        if (argument == QLatin1String( "$Archive" )) {
+        if (argument == QLatin1String("$Archive")) {
             args[i] = filename();
-        } else if (argument == QLatin1String( "$Files" )) {
+        } else if (argument == QLatin1String("$Files")) {
             args.removeAt(i);
             for (int j = 0; j < files.count(); ++j) {
                 args.insert(i + j, escapeFileName(files.at(j).toString()));
@@ -521,11 +504,11 @@ bool CliInterface::testFiles(const QList<QVariant> & files, TestOptions options)
         QString argument = args.at(i);
         kDebug() << "Processing argument " << argument;
 
-        if (argument == QLatin1String( "$Archive" )) {
+        if (argument == QLatin1String("$Archive")) {
             args[i] = filename();
         }
 
-        if (argument == QLatin1String( "$PasswordSwitch" )) {
+        if (argument == QLatin1String("$PasswordSwitch")) {
             //if the PasswordSwitch argument has been added, we at least
             //assume that the format of the switch has been added as well
             Q_ASSERT(m_param.contains(PasswordSwitch));
@@ -536,7 +519,7 @@ bool CliInterface::testFiles(const QList<QVariant> & files, TestOptions options)
             //if we get a hint about this being a password protected archive, ask about
             //the password in advance.
             if ((options.value(QLatin1String("PasswordProtectedHint")).toBool()) &&
-                (password().isEmpty())) {
+                    (password().isEmpty())) {
                 kDebug() << "Password hint enabled, querying user";
 
                 Kerfuffle::PasswordNeededQuery query(filename());
@@ -559,7 +542,7 @@ bool CliInterface::testFiles(const QList<QVariant> & files, TestOptions options)
                     QString newArg = theSwitch.at(j);
 
                     //substitute the $Path
-                    newArg.replace(QLatin1String( "$Password" ), pass);
+                    newArg.replace(QLatin1String("$Password"), pass);
 
                     //put it in the arg list
                     args.insert(i + j, newArg);
@@ -570,7 +553,7 @@ bool CliInterface::testFiles(const QList<QVariant> & files, TestOptions options)
             --i; //decrement to compensate for the variable we replaced
         }
 
-        if (argument == QLatin1String( "$Files" )) {
+        if (argument == QLatin1String("$Files")) {
             args.removeAt(i);
             for (int j = 0; j < files.count(); ++j) {
                 args.insert(i + j, escapeFileName(files.at(j).toString()));
@@ -624,7 +607,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
     m_process->setProgram(programPath, arguments);
 
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
-    connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), SLOT(processFinished(int,QProcess::ExitStatus)), Qt::DirectConnection);
+    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(processFinished(int, QProcess::ExitStatus)), Qt::DirectConnection);
 
     m_stdOutData.clear();
 
@@ -653,8 +636,8 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     }
 
     if (m_operationMode == Delete) {
-        foreach(const QVariant& v, m_removedFiles) {
-            emit entryRemoved(v.toString());
+        foreach(const QVariant & v, m_removedFiles) {
+            entryRemoved(v.toString());
         }
     }
 
@@ -720,10 +703,10 @@ void CliInterface::readStdout(bool handleAll)
     // TODO: The same check methods are called in handleLine(), this
     //       is suboptimal.
     bool foundErrorMessage =
-        (checkForErrorMessage(QLatin1String( lines.last() ), WrongPasswordPatterns) ||
-         checkForErrorMessage(QLatin1String( lines.last() ), ExtractionFailedPatterns) ||
+        (checkForErrorMessage(QLatin1String(lines.last()), WrongPasswordPatterns) ||
+         checkForErrorMessage(QLatin1String(lines.last()), ExtractionFailedPatterns) ||
          checkForPasswordPromptMessage(QLatin1String(lines.last())) ||
-         checkForFileExistsMessage(QLatin1String( lines.last() )));
+         checkForFileExistsMessage(QLatin1String(lines.last())));
 
     if (foundErrorMessage) {
         handleAll = true;
@@ -747,7 +730,7 @@ void CliInterface::readStdout(bool handleAll)
         m_stdOutData = lines.takeLast();
     }
 
-    foreach(const QByteArray& line, lines) {
+    foreach(const QByteArray & line, lines) {
         if (!line.isEmpty()) {
             handleLine(QString::fromLocal8Bit(line));
         }
@@ -760,7 +743,7 @@ void CliInterface::handleLine(const QString& line)
     //       shown by each CLI application is subject to a lot of variation.
     if ((m_operationMode == Copy || m_operationMode == Add || m_operationMode == Test) && m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool()) {
         //read the percentage
-        int pos = line.indexOf(QLatin1Char( '%' ));
+        int pos = line.indexOf(QLatin1Char('%'));
         if (pos != -1 && pos > 1) {
             int percentage = line.mid(pos - 2, 2).toInt();
             emit progress(float(percentage) / 100);
@@ -936,7 +919,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
 
     const QString filename = m_existsPattern.cap(1);
 
-    Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char( '/' ) + filename);
+    Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char('/') + filename);
     query.setNoRenameMode(true);
     emit userQuery(&query);
     kDebug() << "Waiting response";
@@ -964,7 +947,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
 
     Q_ASSERT(!responseToProcess.isEmpty());
 
-    responseToProcess += QLatin1Char( '\n' );
+    responseToProcess += QLatin1Char('\n');
 
     writeToProcess(responseToProcess.toLocal8Bit());
 
@@ -977,7 +960,7 @@ bool CliInterface::checkForErrorMessage(const QString& line, int parameterIndex)
         return false;
     }
 
-    foreach(const QString& rawPattern, m_param.value(parameterIndex).toStringList()) {
+    foreach(const QString & rawPattern, m_param.value(parameterIndex).toStringList()) {
         if (QRegExp(rawPattern).indexIn(line) != -1) {
             return true;
         }
@@ -1014,7 +997,7 @@ void CliInterface::substituteListVariables(QStringList& params)
     for (int i = 0; i < params.size(); ++i) {
         const QString parameter = params.at(i);
 
-        if (parameter == QLatin1String( "$Archive" )) {
+        if (parameter == QLatin1String("$Archive")) {
             params[i] = filename();
         }
     }
