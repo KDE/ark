@@ -46,10 +46,10 @@ ParameterList CliPlugin::parameterList() const
         p[CaptureProgress] = true;
         p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QStringList() << QLatin1String("lha");
 
-        p[ListArgs] = QStringList() << QLatin1String("v") << QLatin1String("-v") << QLatin1String("$Archive");
-        p[ExtractArgs] = QStringList() << QLatin1String("e") << QLatin1String("-v") << QLatin1String("$PreservePathSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");
+        p[ListArgs] = QStringList() << QLatin1String("vv") << QLatin1String("$Archive");
+        p[ExtractArgs] = QStringList() << QLatin1String("ev") << QLatin1String("$PreservePathSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");
 
-        p[DeleteArgs] = QStringList() << QLatin1String("d") << QLatin1String("-v") << QLatin1String("$Archive") << QLatin1String("$Files");
+        p[DeleteArgs] = QStringList() << QLatin1String("dv") << QLatin1String("$Archive") << QLatin1String("$Files");
 
         p[FileExistsExpression] = QLatin1String("^(.+) OverWrite \\?");
         p[FileExistsMode] = 1; // Watch for messages in stdout
@@ -60,7 +60,7 @@ ParameterList CliPlugin::parameterList() const
                                 << QLatin1String("S") //autoskip
                                 ;
 
-        p[AddArgs] = QStringList() << QLatin1String("a") << QLatin1String("-v") << QLatin1String("$Archive") << QLatin1String("$Files");
+        p[AddArgs] = QStringList() << QLatin1String("av") << QLatin1String("$Archive") << QLatin1String("$Files");
 
         p[ExtractionFailedPatterns] = QStringList() << QLatin1String("Error");
         p[PreservePathSwitch] = QStringList() << QLatin1String( "" ) << QLatin1String( "-i" );
@@ -103,21 +103,20 @@ bool CliPlugin::readListLine(const QString &line)
                 e[FileName] = m_entryFilename;
                 e[InternalID] = m_internalId;
 
-                if (entryList.count() == 9) { // UID/GID is missing
+                if (entryList.count() == 10) { // UID/GID is missing
                     e[CompressedSize] = entryList[1];
                     e[Size] = entryList[2];
                     e[Ratio] = entryList[3];
                     e[Method] = entryList[4];
                     e[CRC] = entryList[5];
 
-                    QDateTime timestamp(
-                        QDate::fromString(entryList[6], QLatin1String("yyyy-MM-dd")),
-                        QTime::fromString(entryList[7], QLatin1String("HH:mm:ss")));
+                    QDateTime timestamp(QDate::fromString(entryList[6]+'-'+entryList[7], "MM-dd"),
+                                        QTime::fromString(entryList[8], "HH:mm"));
                     e[Timestamp] = timestamp;
                     emit entry(e);
                 }
-                else if (entryList.count() == 10) { // All info is available
-                    const QStringList ownerList = entryList[1].split(QLatin1Char('/')); // Separate uid from gui
+                else if (entryList.count() == 11) { // All info is available
+                    const QStringList ownerList = entryList[1].split(QLatin1Char('/')); // Seperate uid from gui
                     e[Owner] = ownerList.at(0);
                     e[Group] = ownerList.at(1);
                     e[CompressedSize] = entryList[2];
@@ -126,9 +125,8 @@ bool CliPlugin::readListLine(const QString &line)
                     e[Method] = entryList[5];
                     e[CRC] = entryList[6];
 
-                    QDateTime timestamp(
-                        QDate::fromString(entryList[7], QLatin1String("yyyy-MM-dd")),
-                        QTime::fromString(entryList[8], QLatin1String("HH:mm:ss")));
+                    QDateTime timestamp(QDate::fromString(entryList[7]+'-'+entryList[8], "MM-dd"),
+                                        QTime::fromString(entryList[9], "HH:mm"));
                     e[Timestamp] = timestamp;
                     emit entry(e);
                 }
