@@ -656,6 +656,12 @@ void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry
 #else
     e[FileName] = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry)));
 #endif
+
+    // may happen if file name is not in the codec formats above.
+    if (e[FileName].toString().isEmpty()) {
+        e[FileName] = QString(archive_entry_pathname(aentry));
+    }
+
     e[InternalID] = e[FileName];
 
     const QString owner = QString::fromAscii(archive_entry_uname(aentry));
