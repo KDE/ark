@@ -110,10 +110,14 @@ bool CliPlugin::readListLine(const QString &line)
                     e[Method] = entryList[4];
                     e[CRC] = entryList[5];
 
-                    QDateTime timestamp(QDate::fromString(entryList[6]+'-'+entryList[7], "MM-dd"),
-                                        QTime::fromString(entryList[8], "HH:mm"));
-                    e[Timestamp] = timestamp;
-                    emit entry(e);
+                    if (entryList[8].indexOf(QLatin1Char(':')) != -1) {
+                        e[Timestamp] = QDateTime(QDate::fromString(QString().setNum(QDate::currentDate().year())+QLatin1Char('-')+entryList[6]+QLatin1Char('-')+entryList[7], QLatin1String("yyyy-MMM-d")),
+                                                 QTime::fromString(entryList[8], QLatin1String("hh:mm")));
+                    } else {
+                        e[Timestamp] = QDateTime(QDate::fromString(entryList[8]+QLatin1Char('-')+entryList[6]+QLatin1Char('-')+entryList[7], QLatin1String("yyyy-MMM-d")),
+                                                 QTime());
+                    }
+                    entry(e);
                 }
                 else if (entryList.count() == 11) { // All info is available
                     const QStringList ownerList = entryList[1].split(QLatin1Char('/')); // Seperate uid from gui
@@ -125,10 +129,14 @@ bool CliPlugin::readListLine(const QString &line)
                     e[Method] = entryList[5];
                     e[CRC] = entryList[6];
 
-                    QDateTime timestamp(QDate::fromString(entryList[7]+'-'+entryList[8], "MM-dd"),
-                                        QTime::fromString(entryList[9], "HH:mm"));
-                    e[Timestamp] = timestamp;
-                    emit entry(e);
+                    if (entryList[9].indexOf(QLatin1Char(':')) != -1) {
+                        e[Timestamp] = QDateTime(QDate::fromString(QString().setNum(QDate::currentDate().year())+QLatin1Char('-')+entryList[7]+QLatin1Char('-')+entryList[8], QLatin1String("yyyy-MMM-d")),
+                                                 QTime::fromString(entryList[9], QLatin1String("hh:mm")));
+                    } else {
+                        e[Timestamp] = QDateTime(QDate::fromString(entryList[9]+QLatin1Char('-')+entryList[7]+QLatin1Char('-')+entryList[8], QLatin1String("yyyy-MMM-d")),
+                                                 QTime());
+                    }
+                    entry(e);
                 }
 
                 m_firstLine = true;

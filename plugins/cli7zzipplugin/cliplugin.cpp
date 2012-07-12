@@ -78,7 +78,7 @@ ParameterList CliPlugin::parameterList() const
 
         p[TestProgram] = QLatin1String( "7z" );
         p[TestArgs] = QStringList() << QLatin1String( "-tzip" ) << QLatin1String( "t" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
-        p[TestFailedPatterns] = QStringList() << "Data Error" << "CRC Failed";
+        p[TestFailedPatterns] = QStringList() << QLatin1String("Data Error") << QLatin1String("CRC Failed");
     }
 
     return p;

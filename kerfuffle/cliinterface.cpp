@@ -282,16 +282,16 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             if (compressionLevel == QLatin1String("Store")) {
                 theReplacement = compressionLevelSwitches.at(0);
             }
-            if (compressionLevel == "Fast") {
+            if (compressionLevel == QLatin1String("Fast")) {
                 theReplacement = compressionLevelSwitches.at(1);
             }
-            if (compressionLevel == "Normal") {
+            if (compressionLevel == QLatin1String("Normal")) {
                 theReplacement = compressionLevelSwitches.at(2);
             }
-            if (compressionLevel == "Good") {
+            if (compressionLevel == QLatin1String("Good")) {
                 theReplacement = compressionLevelSwitches.at(3);
             }
-            if (compressionLevel == "Maximum") {
+            if (compressionLevel == QLatin1String("Maximum")) {
                 theReplacement = compressionLevelSwitches.at(4);
             }
 
@@ -393,10 +393,10 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             QString encryptionMethod = options.value(QLatin1String( "EncryptionMethod")).toString();
 
             QString theReplacement;
-            if (encryptionMethod == "AES256") {
+            if (encryptionMethod == QLatin1String("AES256")) {
                 theReplacement = encryptionMethodSwitches.at(0);
             }
-            if (encryptionMethod == "ZipCrypto") {
+            if (encryptionMethod == QLatin1String("ZipCrypto")) {
                 theReplacement = encryptionMethodSwitches.at(1);
             }
 
