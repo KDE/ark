@@ -659,7 +659,7 @@ void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry
 
     // may happen if file name is not in the codec formats above.
     if (e[FileName].toString().isEmpty()) {
-        e[FileName] = QLatin1String(archive_entry_pathname(aentry));
+        e[FileName] = QDir::fromNativeSeparators(QLatin1String(archive_entry_pathname(aentry)));
     }
 
     e[InternalID] = e[FileName];
