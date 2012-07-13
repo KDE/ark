@@ -86,7 +86,7 @@ ParameterList CliPlugin::parameterList() const
 
 bool CliPlugin::readListLine(const QString& line)
 {
-    qDebug() << line;
+    kDebug() << line;
 
     static const QLatin1String archiveInfoDelimiter1("--"); // 7z 9.13+
     static const QLatin1String archiveInfoDelimiter2("----"); // 7z 9.04
@@ -135,7 +135,7 @@ bool CliPlugin::readListLine(const QString& line)
         if (line.startsWith(QLatin1String("Path ="))) {
             const QString entryFilename =
                 QDir::fromNativeSeparators(line.mid(6).trimmed());
-            qDebug() << entryFilename;
+            kDebug() << entryFilename;
             m_currentArchiveEntry.clear();
             m_currentArchiveEntry[FileName] = entryFilename;
             m_currentArchiveEntry[InternalID] = entryFilename;
