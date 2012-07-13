@@ -134,7 +134,7 @@ bool CliPlugin::readListLine(const QString& line)
     case ReadStateEntryInformation:
         if (line.startsWith(QLatin1String("Path ="))) {
             const QString entryFilename =
-                QDir::fromNativeSeparators(line.mid(6).trimmed());
+                QDir::fromNativeSeparators(autoConvertEncoding(line.mid(6).trimmed()));
             kDebug() << entryFilename;
             m_currentArchiveEntry.clear();
             m_currentArchiveEntry[FileName] = entryFilename;

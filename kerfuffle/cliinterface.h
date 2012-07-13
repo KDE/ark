@@ -321,6 +321,13 @@ public:
      */
     bool supportsParameter( CliInterfaceParameters param );
 
+    /**
+     * Does encoding detection for a filename using
+     * KEncodingProber and filename specific criteria and
+     * returns the encoding-corrected string
+     */
+    QString autoConvertEncoding( const QString & fileName );
+
 private:
     void substituteListVariables(QStringList& params);
 
