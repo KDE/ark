@@ -119,6 +119,8 @@ bool CliPlugin::readListLine(const QString& line)
                 m_archiveType = ArchiveTypeTar;
             } else if (type == QLatin1String("Zip")) {
                 m_archiveType = ArchiveTypeZip;
+            } else if (type == QLatin1String("Split")) {
+                // the real type will be detected later
             } else {
                 // Should not happen
                 kWarning() << "Unsupported archive type";
