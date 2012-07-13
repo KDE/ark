@@ -326,7 +326,7 @@ public:
      * KEncodingProber and filename specific criteria and
      * returns the encoding-corrected string
      */
-    QString autoConvertEncoding( const QString & fileName );
+    static QString autoConvertEncoding( const QString & fileName );
 
 private:
     void substituteListVariables(QStringList& params);
