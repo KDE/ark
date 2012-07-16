@@ -97,9 +97,7 @@ void CreateDialogUI::updateUi()
 
     }
 
-    if (!m_mimeTypeOptions.contains(mimeType, Kerfuffle::EncryptionMethodSwitches)) {
-        encryptionMethodComboBox->setEnabled(false);
-    }
+    encryptionMethodComboBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::EncryptionMethodSwitches));
 
     multithreadingCheckBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::MultiThreadingSwitch));
     if (!multithreadingCheckBox->isEnabled()) {
