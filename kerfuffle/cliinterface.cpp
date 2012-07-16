@@ -1061,9 +1061,22 @@ QString CliInterface::autoConvertEncoding( const QString & fileName )
                 kDebug() << "RefinedEncoding: " << refinedEncoding;
             }
         }
+    } else if (refinedEncoding == "IBM855") {
+        refinedEncoding = "IBM 850";
+        kDebug() << "Setting refinedEncoding to " << refinedEncoding;
+    } else if (refinedEncoding == "IBM866") {
+        refinedEncoding = "IBM 866";
+        kDebug() << "Setting refinedEncoding to " << refinedEncoding;
     }
 
-    QString refinedString = QTextCodec::codecForName(refinedEncoding )->toUnicode(fileName.toLatin1());
+    QTextCodec * codec = QTextCodec::codecForName(refinedEncoding);
+
+    if (!codec) {
+        kDebug() << "codecForName returned null, using codec ISO-8859-1 instead";
+        codec = QTextCodec::codecForName("ISO-8859-1");
+    }
+
+    QString refinedString = codec->toUnicode(fileName.toLatin1());
 
     return ( refinedString != fileName ) ? refinedString : fileName;
 }
