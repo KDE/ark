@@ -1032,9 +1032,19 @@ QString CliInterface::autoConvertEncoding( const QString & fileName )
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
     KEncodingProber prober(KEncodingProber::CentralEuropean);
+    KEncodingProber prober2(KEncodingProber::Universal);
     prober.feed(result);
-    QByteArray refinedEncoding = prober.encoding();
-    kDebug() << "KEncodingProber detected encoding: " << refinedEncoding << "for: " << fileName;
+    prober2.feed(result);
+    QByteArray refinedEncoding;
+
+    // fileName is probably in UTF-8 already.
+    if (prober2.confidence() > 0.49) {
+        refinedEncoding = prober2.encoding();
+    } else {
+        refinedEncoding = prober.encoding();
+    }
+
+    kDebug() << "KEncodingProber detected encodings: " << refinedEncoding << "for: " << fileName;
 
     // Workaround for CP850 support (which is frequently attributed to CP1251 by KEncodingProber instead)
     if (refinedEncoding == "windows-1251") {
