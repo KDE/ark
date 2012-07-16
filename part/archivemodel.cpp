@@ -23,6 +23,7 @@
 
 #include "archivemodel.h"
 #include "kerfuffle/archive.h"
+#include "kerfuffle/cliinterface.h"
 #include "kerfuffle/jobs.h"
 
 #include <KDebug>
@@ -696,7 +697,9 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
 {
     kDebug() << "Removed node at path " << path;
 
-    const QString entryFileName(cleanFileName(path));
+    // path is the InternalId, which is not encoded, but to search in the archive node
+    // we need to encode it first.
+    const QString entryFileName(cleanFileName(CliInterface::autoConvertEncoding(path)));
     if (entryFileName.isEmpty()) {
         return;
     }
