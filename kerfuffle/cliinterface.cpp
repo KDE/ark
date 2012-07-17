@@ -282,23 +282,23 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
         return false;
     }
 
-    fixFileNameEncoding(files);
+    fixFileNameEncoding(destinationDirectory);
 
     return true;
 }
 
-void CliInterface::fixFileNameEncoding(const QList<QVariant> & files)
+void CliInterface::fixFileNameEncoding(const QString & destinationDirectory)
 {
-    for (int i = 0; i < files.count(); ++i) {
-        QFile file(files.at(i).toString());
+    QDir destDir(destinationDirectory);
+    destDir.setFilter(QDir::Dirs | QDir::Files | QDir::Hidden | QDir::System);
 
-        if (file.exists()) {
-            QString encodingCorrectedString = autoConvertEncoding(file.fileName());
+    QStringList list = destDir.entryList();
+    for (int i = 0; i < list.size(); ++i) {
+        QString encodingCorrectedString = autoConvertEncoding(list.at(i));
 
-            if (file.fileName() != encodingCorrectedString) {
-                kDebug(1601) << "Renaming" << file.fileName() << "to" << encodingCorrectedString;
-                file.rename(encodingCorrectedString);
-            }
+        if (list.at(i) != encodingCorrectedString) {
+            kDebug(1601) << "Renaming" << list.at(i) << "to" << encodingCorrectedString;
+            QFile::rename(list.at(i), encodingCorrectedString);
         }
     }
 }
