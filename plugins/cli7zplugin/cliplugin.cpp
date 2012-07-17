@@ -135,7 +135,7 @@ bool CliPlugin::readListLine(const QString& line)
             const QString entryFilename =
                 QDir::fromNativeSeparators(line.mid(6).trimmed());
             m_currentArchiveEntry.clear();
-            m_currentArchiveEntry[FileName] = entryFilename;
+            m_currentArchiveEntry[FileName] = autoConvertEncoding(entryFilename);
             m_currentArchiveEntry[InternalID] = entryFilename;
         } else if (line.startsWith(QLatin1String("Size = "))) {
             m_currentArchiveEntry[ Size ] = line.mid(7).trimmed();

@@ -126,7 +126,7 @@ bool CliPlugin::readListLine(const QString &line)
 
     //kDebug() << m_entryFilename << " : " << fileprops;
     ArchiveEntry e;
-    e[ FileName ] = m_entryFilename;
+    e[ FileName ] = autoConvertEncoding(m_entryFilename);
     e[ InternalID ] = m_internalId;
     e[ Size ] = fileprops[ 0 ];
     e[ CompressedSize] = fileprops[ 1 ];

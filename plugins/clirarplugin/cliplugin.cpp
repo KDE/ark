@@ -239,7 +239,7 @@ bool CliPlugin::readListLine(const QString &line)
         // - unrar reports the ratio as ((compressed size * 100) / size);
         //   we consider ratio as (100 * ((size - compressed size) / size)).
         ArchiveEntry e;
-        e[FileName] = m_entryFileName;
+        e[FileName] = autoConvertEncoding(m_entryFileName);
         e[InternalID] = m_entryFileName;
         e[Size] = details.at(0);
         e[CompressedSize] = details.at(1);

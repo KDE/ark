@@ -100,7 +100,7 @@ bool CliPlugin::readListLine(const QString &line)
 
                 e[IsDirectory] = m_internalId.endsWith(QLatin1Char('/'));
                 m_entryFilename = m_internalId;
-                e[FileName] = m_entryFilename;
+                e[FileName] = autoConvertEncoding(m_entryFilename);
                 e[InternalID] = m_internalId;
 
                 if (entryList.count() == 10) { // UID/GID is missing
