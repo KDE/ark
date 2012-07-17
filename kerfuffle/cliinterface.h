@@ -328,6 +328,9 @@ public:
      */
     static QString autoConvertEncoding( const QString & fileName );
 
+protected:
+    static void fixFileNameEncoding(const QList<QVariant> & files);
+
 private:
     void substituteListVariables(QStringList& params);
 

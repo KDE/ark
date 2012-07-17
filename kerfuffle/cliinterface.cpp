@@ -282,7 +282,24 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
         return false;
     }
 
+    fixFileNameEncoding(files);
+
     return true;
+}
+
+void CliInterface::fixFileNameEncoding(const QList<QVariant> & files)
+{
+    for (int i = 0; i < files.count(); ++i) {
+        QFile file(files.at(i).toString());
+
+        if (file.exists()) {
+            QString encodingCorrectedString = autoConvertEncoding(file.fileName());
+
+            if (file.fileName() != encodingCorrectedString) {
+                file.rename(encodingCorrectedString);
+            }
+        }
+    }
 }
 
 bool CliInterface::addFiles(const QStringList & files, const CompressionOptions& options)
