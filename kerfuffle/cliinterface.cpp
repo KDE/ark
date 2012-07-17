@@ -1086,6 +1086,10 @@ QString CliInterface::autoConvertEncoding( const QString & fileName )
 
     kDebug() << "KEncodingProber detected encodings: " << refinedEncoding << "for: " << fileName;
 
+    if (refinedEncoding == "UTF-8") {
+        return fileName;
+    }
+
     // Workaround for CP850 support (which is frequently attributed to CP1251 by KEncodingProber instead)
     if (refinedEncoding == "windows-1251") {
         kDebug() << "Language: " << KGlobal::locale()->language();
