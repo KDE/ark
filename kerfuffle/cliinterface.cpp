@@ -282,7 +282,9 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
         return false;
     }
 
-    fixFileNameEncoding(destinationDirectory);
+    if ( options.value(QLatin1String("FixFileNameEncoding")).toBool() ) {
+        fixFileNameEncoding(destinationDirectory);
+    }
 
     return true;
 }

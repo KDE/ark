@@ -276,6 +276,7 @@ void ExtractJob::setDefaultOptions()
 
     defaultOptions[QLatin1String("PreservePaths")] = false;
     defaultOptions[QLatin1String( "MultiThreadingEnabled") ] = false;
+    defaultOptions[QLatin1String( "FixFileNameEncoding") ] = true;
 
     ExtractionOptions::const_iterator it = defaultOptions.constBegin();
     for (; it != defaultOptions.constEnd(); ++it) {

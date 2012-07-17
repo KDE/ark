@@ -203,6 +203,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
         options[QLatin1String("RootNode")] = internalRoot;
     }
     options[QLatin1String("MultiThreadingEnabled")] = false;
+    options[QLatin1String("FixFileNameEncoding")] = true;
 
     ExtractJob *job = m_model->extractFiles(files, localPath, options);
     registerJob(job);
@@ -327,6 +328,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 
         Kerfuffle::ExtractionOptions options;
         options[QLatin1String("PreservePaths")] = true;
+        options[QLatin1String("FixFileNameEncoding")] = true;
         QList<QVariant> files = selectedFiles();
         ExtractJob *job = m_model->extractFiles(files, finalDestinationDirectory, options);
         registerJob(job);
@@ -658,6 +660,7 @@ void Part::slotExtractFiles()
         }
 
         options[QLatin1String("FollowExtractionDialogSettings")] = true;
+        options[QLatin1String("FixFileNameEncoding")] = true;
 
         const QString destinationDirectory = dialog.data()->destinationDirectory().pathOrUrl();
         ExtractJob *job = m_model->extractFiles(files, destinationDirectory, options);
