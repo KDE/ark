@@ -120,7 +120,7 @@ bool CliPlugin::readListLine(const QString &line)
                     entry(e);
                 }
                 else if (entryList.count() == 11) { // All info is available
-                    const QStringList ownerList = entryList[1].split(QLatin1Char('/')); // Seperate uid from gui
+                    const QStringList ownerList = entryList[1].split(QLatin1Char('/')); // Split uid from gid
                     e[Owner] = ownerList.at(0);
                     e[Group] = ownerList.at(1);
                     e[CompressedSize] = entryList[2];
