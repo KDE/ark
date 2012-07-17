@@ -1071,16 +1071,16 @@ QString CliInterface::autoConvertEncoding( const QString & fileName )
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
-    KEncodingProber prober(KEncodingProber::CentralEuropean);
-    KEncodingProber prober2(KEncodingProber::Universal);
+    KEncodingProber prober(KEncodingProber::Universal);
     prober.feed(result);
-    prober2.feed(result);
     QByteArray refinedEncoding;
 
     // fileName is probably in UTF-8 already.
-    if (prober2.confidence() > 0.49) {
-        refinedEncoding = prober2.encoding();
+    if (prober.confidence() > 0.49) {
+        refinedEncoding = prober.encoding();
     } else {
+        prober.setProberType(KEncodingProber::CentralEuropean);
+        prober.feed(result);
         refinedEncoding = prober.encoding();
     }
 
