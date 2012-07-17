@@ -39,8 +39,6 @@ public:
 
     virtual bool readListLine(const QString &line);
 
-    virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options);
-
 private:
     enum {
         Header = 0,

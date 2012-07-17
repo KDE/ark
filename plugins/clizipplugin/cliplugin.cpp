@@ -147,26 +147,5 @@ bool CliPlugin::readListLine(const QString &line)
     return true;
 }
 
-bool CliPlugin::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options)
-{
-    bool saveReturn = CliInterface::copyFiles(files, destinationDirectory, options);
-
-    // Rename unzipped files to the encoding-corrected files.
-    for (int j = 0; j < files.count(); ++j) {
-        QFile file( files.at(j).toString() );
-        if ( file.exists() )
-        {
-            QString encodingCorrectedString = autoConvertEncoding( file.fileName() );
-            if ( file.fileName() != encodingCorrectedString )
-            {
-                file.rename( encodingCorrectedString );
-            }
-        }
-    }
-    return saveReturn;
-}
-
-
-
 KERFUFFLE_EXPORT_PLUGIN(CliPlugin)
 
