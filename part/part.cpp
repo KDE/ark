@@ -575,8 +575,15 @@ void Part::slotPreviewExtracted(KJob *job)
         const ArchiveEntry& entry =
             m_model->entryForIndex(m_view->selectionModel()->currentIndex());
 
-        QString fullName =
+        QString fullNameInternal =
             m_previewDir.name() + QLatin1Char('/') + entry[InternalID].toString();
+
+        QString fullName =
+            m_previewDir.name() + QLatin1Char('/') + entry[FileName].toString();
+
+        if (fullNameInternal != fullName) {
+            QFile::rename(fullNameInternal, fullName);
+        }
 
         // Make sure a maliciously crafted archive with parent folders named ".." do
         // not cause the previewed file path to be located outside the temporary
