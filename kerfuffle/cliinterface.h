@@ -251,6 +251,15 @@ enum CliInterfaceParameters {
     EncryptHeaderSwitch,
     /**
      * QString
+     * This is a string that allows to enable multipart support for
+     * compression. This only has some effect when supported.
+     * The variable $MultiPartSize will be replaced accordingly.
+     * The file size is specified in kiloBytes.
+     * Example: ("-v$MultiPartSizek")
+     */
+    MultiPartSwitch,
+    /**
+     * QString
      * The name to the program that will handle testing in this
      * archive format (eg "rar"). Will be searched for in PATH
      */

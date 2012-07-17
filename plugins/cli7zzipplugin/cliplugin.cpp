@@ -58,7 +58,7 @@ ParameterList CliPlugin::parameterList() const
         p[PasswordSwitch] = QStringList() << QLatin1String( "-p$Password" );
         p[FileExistsExpression] = QLatin1String( "already exists. Overwrite with" );
         p[WrongPasswordPatterns] = QStringList() << QLatin1String( "Wrong password" );
-        p[AddArgs] = QStringList() << QLatin1String( "-tzip" ) << QLatin1String( "a" ) << QLatin1String( "$CompressionLevelSwitch" ) << QLatin1String( "$MultiThreadingSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$EncryptHeaderSwitch" ) << QLatin1String( "$EncryptionMethodSwitches" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[AddArgs] = QStringList() << QLatin1String( "-tzip" ) << QLatin1String( "a" ) << QLatin1String( "$CompressionLevelSwitch" ) << QLatin1String( "$MultiThreadingSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$EncryptHeaderSwitch" ) << QLatin1String( "$EncryptionMethodSwitches" ) << QLatin1String( "$MultiPartSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
         p[DeleteArgs] = QStringList() << QLatin1String( "-tzip" ) << QLatin1String( "d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
         p[FileExistsInput] = QStringList()
@@ -70,6 +70,8 @@ ParameterList CliPlugin::parameterList() const
                              ;
         p[CompressionLevelSwitches] = QStringList() << QLatin1String( "-mx=0" ) << QLatin1String( "-mx=2" ) << QLatin1String( "-mx=5" ) << QLatin1String( "-mx=7" ) << QLatin1String("-mx=9" );
         p[MultiThreadingSwitch] = QLatin1String( "-mmt" );
+
+        p[MultiPartSwitch] = QLatin1String( "-v$MultiPartSizek" );
 
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) :");
 

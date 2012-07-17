@@ -357,6 +357,26 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             }
         }
 
+        if (argument == QLatin1String("$MultiPartSwitch")) {
+            QString multiPartSwitch = m_param.value(MultiPartSwitch).toString();
+            int multiPartSize = options.value(QLatin1String("MultiPartSize")).toInt();
+
+            QString theReplacement;
+            if (multiPartSize != 0) {
+                theReplacement = multiPartSwitch;
+                theReplacement.replace(QLatin1String("$MultiPartSize"), QString::number(multiPartSize));
+            }
+
+            if (theReplacement.isEmpty()) {
+                args.removeAt(i);
+                --i; //decrement to compensate for the variable we removed
+            } else {
+                //but in this case we don't have to decrement, we just
+                //replace it
+                args[i] = theReplacement;
+            }
+        }
+
         if (argument == QLatin1String("$PasswordSwitch")) {
             //if the PasswordSwitch argument has been added, we at least
             //assume that the format of the switch has been added as well
