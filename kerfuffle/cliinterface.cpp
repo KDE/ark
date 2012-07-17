@@ -296,6 +296,7 @@ void CliInterface::fixFileNameEncoding(const QList<QVariant> & files)
             QString encodingCorrectedString = autoConvertEncoding(file.fileName());
 
             if (file.fileName() != encodingCorrectedString) {
+                kDebug(1601) << "Renaming" << file.fileName() << "to" << encodingCorrectedString;
                 file.rename(encodingCorrectedString);
             }
         }
