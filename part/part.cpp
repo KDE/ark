@@ -978,7 +978,7 @@ void Part::slotTestArchive()
 
     TestJob *job = m_model->testFiles(selectedFilesWithChildren());
     connect(job, SIGNAL(result(KJob*)),
-            this, SLOT(slotTestFilesDone(KJob*)));
+            this, SLOT(slotTestArchiveDone(KJob*)));
     registerJob(job);
     job->start();
 }
