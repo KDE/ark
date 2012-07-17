@@ -280,12 +280,6 @@ void Part::setupActions()
     connect(m_deleteAction, SIGNAL(triggered(bool)),
             this, SLOT(slotDeleteFiles()));
 
-    m_renameAction = actionCollection()->addAction(QLatin1String("rename"));
-    m_renameAction->setIcon(KIcon(QLatin1String("document-edit")));
-    m_renameAction->setText(i18n("&Rename"));
-    m_renameAction->setStatusTip(i18n("Click to rename the selected files"));
-    connect(m_renameAction, SIGNAL(triggered(bool)),
-            this, SLOT(slotRenameFile()));
 
     updateActions();
 }

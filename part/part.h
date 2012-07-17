@@ -114,7 +114,6 @@ private:
     KAction              *m_deleteAction;
     KAction              *m_testAction;
     KAction              *m_saveAsAction;
-    KAction              *m_renameAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
     KTempDir              m_previewDir;

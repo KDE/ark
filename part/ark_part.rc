@@ -13,7 +13,6 @@
         <Separator/>
         <Action name="preview"/>
         <Action name="delete"/>
-        <Action name="rename"/>
     </Menu>
     <Menu name="settings">
         <text>&amp;Settings</text>
