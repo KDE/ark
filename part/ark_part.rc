@@ -11,7 +11,7 @@
         <Action name="extract"/>
         <Action name="test"/>
         <Separator/>
-        <Action name="preview"/>
+        <Action name="view"/>
         <Action name="delete"/>
     </Menu>
     <Menu name="settings">
@@ -24,7 +24,7 @@
     <Action name="add"/>
     <Action name="extract"/>
     <Action name="test"/>
-    <Action name="preview"/>
+    <Action name="view"/>
     <Action name="delete"/>
 </ToolBar>
 </kpartgui>

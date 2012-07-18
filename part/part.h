@@ -24,6 +24,7 @@
 #define PART_H
 
 #include "interface.h"
+#include "kerfuffle/archive.h"
 
 #include <KParts/Part>
 #include <KParts/StatusBarExtension>
@@ -37,10 +38,15 @@ class InfoPanel;
 class KAbstractWidgetJobTracker;
 class KAboutData;
 class KAction;
+class KDirOperator;
+class KFileItem;
 class KJob;
+class KTempDir;
+class KUrlNavigator;
 
 class QAction;
 class QSplitter;
+class QStackedWidget;
 class QTreeView;
 
 namespace Ark
@@ -74,7 +80,8 @@ private slots:
     void slotExtractionDone(KJob*);
     void slotQuickExtractFiles(QAction*);
     void slotAdd();
-    void slotAddFiles(const QStringList& files, const QString& path = QString());
+    void slotAddFiles(const QStringList& files, const QString path = QString(),
+                      Kerfuffle::CompressionOptions options = Kerfuffle::CompressionOptions());
     void slotAddFilesDone(KJob*);
     void slotDeleteFiles();
     void slotDeleteFilesDone(KJob*);
@@ -83,13 +90,15 @@ private slots:
     void slotSaveAs();
     void slotTestArchive();
     void slotTestArchiveDone(KJob*);
-    void slotRenameFile();
     void updateActions();
     void selectionChanged();
     void adjustColumns();
     void setBusyGui();
     void setReadyGui();
     void setFileNameFromArchive();
+    void setOperatorUrl(const KUrl &url);
+    void setNavigatorUrl(const KUrl &url);
+    void slotFileSelectedInOperator(const KFileItem &file);
 
 signals:
     void busy();
@@ -97,7 +106,7 @@ signals:
     void quit();
 
 private:
-    void setupView();
+    void setupArchiveView();
     void setupActions();
     bool isSingleFolderArchive() const;
     QString detectSubfolder() const;
@@ -107,8 +116,11 @@ private:
     void registerJob(KJob *job);
 
     ArchiveModel         *m_model;
-    QTreeView            *m_view;
-    KAction              *m_previewAction;
+    QTreeView            *m_archiveView;
+    KDirOperator         *m_dirOperator;
+    KUrlNavigator        *m_urlNavigator;
+    QStackedWidget       *m_stack;
+    KAction              *m_viewAction;
     KAction              *m_extractAction;
     KAction              *m_addAction;
     KAction              *m_deleteAction;
@@ -116,7 +128,7 @@ private:
     KAction              *m_saveAsAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
-    KTempDir              m_previewDir;
+    KTempDir             *m_tempDir;
     bool                  m_busy;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
