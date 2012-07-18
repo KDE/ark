@@ -773,7 +773,11 @@ void CliInterface::readStdout(bool handleAll)
     }
 
     foreach(const QByteArray & line, lines) {
-        if (!line.isEmpty()) {
+        // sometimes 7z does not list all file's metadata. We need to
+        // pass the empty line to mark that the file's metadata has ended
+        // and whatever we have got so far must be added to the archive
+        // folder structure.
+        if (!line.isEmpty() || m_operationMode == List) {
             handleLine(QString::fromLocal8Bit(line));
         }
     }

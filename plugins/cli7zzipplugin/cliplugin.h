@@ -56,6 +56,7 @@ private:
     ArchiveType m_archiveType;
     Kerfuffle::ArchiveEntry m_currentArchiveEntry;
     ReadState m_state;
+    int m_numberOfVolumes;
 };
 
 #endif // CLIPLUGIN_H

@@ -52,14 +52,17 @@ ParameterList CliPlugin::parameterList() const
         //p[CaptureProgress] = true;
         p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QLatin1String( "7z" );
 
-        p[ListArgs] = QStringList() << QLatin1String( "-tzip" ) << QLatin1String( "l" ) << QLatin1String( "-slt" ) << QLatin1String( "$Archive" );
-        p[ExtractArgs] = QStringList() << QLatin1String( "-tzip" ) << QLatin1String( "$MultiThreadingSwitch" ) << QLatin1String( "$PreservePathSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[ListArgs] = QStringList() << QLatin1String( "l" ) << QLatin1String( "-slt" ) << QLatin1String( "$Archive" );
+        p[ExtractArgs] = QStringList() << QLatin1String( "$MultiThreadingSwitch" ) << QLatin1String( "$PreservePathSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
         p[PreservePathSwitch] = QStringList() << QLatin1String( "x" ) << QLatin1String( "e" );
         p[PasswordSwitch] = QStringList() << QLatin1String( "-p$Password" );
         p[FileExistsExpression] = QLatin1String( "already exists. Overwrite with" );
         p[WrongPasswordPatterns] = QStringList() << QLatin1String( "Wrong password" );
+
+        // TODO: split archives do not support add and delete.
         p[AddArgs] = QStringList() << QLatin1String( "-tzip" ) << QLatin1String( "a" ) << QLatin1String( "$CompressionLevelSwitch" ) << QLatin1String( "$MultiThreadingSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$EncryptHeaderSwitch" ) << QLatin1String( "$EncryptionMethodSwitches" ) << QLatin1String( "$MultiPartSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
-        p[DeleteArgs] = QStringList() << QLatin1String( "-tzip" ) << QLatin1String( "d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        // TODO: split archives do not support add and delete.
+        p[DeleteArgs] = QStringList() << QLatin1String( "d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
         p[FileExistsInput] = QStringList()
                              << QLatin1String( "Y" ) //overwrite
@@ -79,7 +82,7 @@ ParameterList CliPlugin::parameterList() const
         p[EncryptionMethodSwitches] = QStringList() << QLatin1String("-mem=AES256") << QLatin1String("-mem=ZipCrypto");
 
         p[TestProgram] = QLatin1String( "7z" );
-        p[TestArgs] = QStringList() << QLatin1String( "-tzip" ) << QLatin1String( "t" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[TestArgs] = QStringList() << QLatin1String( "t" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
         p[TestFailedPatterns] = QStringList() << QLatin1String("Data Error") << QLatin1String("CRC Failed");
     }
 
@@ -99,6 +102,7 @@ bool CliPlugin::readListLine(const QString& line)
         if (line.startsWith(QLatin1String("Listing archive:"))) {
             kDebug() << "Archive name: "
                      << line.right(line.size() - 16).trimmed();
+            m_numberOfVolumes = -1;
         } else if ((line == archiveInfoDelimiter1) ||
                    (line == archiveInfoDelimiter2)) {
             m_state = ReadStateArchiveInformation;
@@ -124,11 +128,19 @@ bool CliPlugin::readListLine(const QString& line)
                 m_archiveType = ArchiveTypeTar;
             } else if (type == QLatin1String("zip")) {
                 m_archiveType = ArchiveTypeZip;
+            } else if (type == QLatin1String("Split")) {
+                // m_archiveType will be set later with one of the
+                // types above. see "7z l -slt" output. Use m_numberOfVolumes
+                // to check if the archive is really split (m_numberOfVolumes >= 2)
+                // or not.
             } else {
                 // Should not happen
                 kWarning() << "Unsupported archive type";
                 return false;
             }
+        } else if (line.startsWith(QLatin1String("Volumes ="))) {
+            m_numberOfVolumes = line.mid(9).trimmed().toInt();
+            kDebug() << "Number of volumes: " << m_numberOfVolumes;
         }
 
         break;
@@ -178,7 +190,7 @@ bool CliPlugin::readListLine(const QString& line)
         } else if (line.startsWith(QLatin1String("Encrypted = ")) &&
                    line.size() >= 13) {
             m_currentArchiveEntry[ IsPasswordProtected ] = (line.at(12) == QLatin1Char( '+' ));
-        } else if (line.startsWith(QLatin1String("Version = "))) {
+        } else if (line.isEmpty()) {
             if (m_currentArchiveEntry.contains(FileName)) {
                 entry(m_currentArchiveEntry);
             }
