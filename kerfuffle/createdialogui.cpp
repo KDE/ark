@@ -129,8 +129,6 @@ CompressionOptions CreateDialogUI::options() const
     options[QLatin1String("SplitFileSize")] = splitSizeComboBox->currentIndex();
     options[QLatin1String("SplitFileSizeFreeValue")] = splitSizeComboBox->lineEdit()->text();
     options[QLatin1String("SplitFileSizeUnit")] = splitSizeUnitComboBox->currentIndex();
-    options[QLatin1String("ArchiveConflicts")] = archiveConflictsComboBox->currentIndex();
-    options[QLatin1String("FileConflicts")] = fileConflictsComboBox->currentIndex();
     options[QLatin1String("MultiThreadingEnabled")] = multithreadingCheckBox->isChecked();
     options[QLatin1String("ConvertToUTF8")] = utf8CheckBox->isChecked();
     options[QLatin1String("LastMimeType")] = archiveFormatComboBox->itemData(archiveFormatComboBox->currentIndex());
@@ -151,8 +149,6 @@ void CreateDialogUI::setOptions(const CompressionOptions& options)
     splitArchiveGroupBox->setChecked(options.value(QLatin1String("SplitArchives"), true).toBool());
     splitSizeComboBox->setCurrentIndex(options.value(QLatin1String("SplitFileSize"), 0).toInt());
     splitSizeComboBox->lineEdit()->setText(options.value(QLatin1String("SplitFileSizeFreeValue"), QLatin1String("")).toString());
-    archiveConflictsComboBox->setCurrentIndex(options.value(QLatin1String("ArchiveConflicts"), 0).toInt());
-    fileConflictsComboBox->setCurrentIndex(options.value(QLatin1String("FileConflicts"), 0).toInt());
     multithreadingCheckBox->setChecked(options.value(QLatin1String("MultiThreadingEnabled"), true).toBool());
     utf8CheckBox->setChecked(options.value(QLatin1String("ConvertToUTF8"), true).toBool());
 
