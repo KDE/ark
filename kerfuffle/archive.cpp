@@ -384,6 +384,9 @@ QList<int> supportedOptions(const QString &mimeType)
     if (iface->supportsParameter(EncryptionMethodSwitches))
         options.append(EncryptionMethodSwitches);
 
+    if (iface->supportsParameter(MultiPartSwitch))
+        options.append(MultiPartSwitch);
+
     return options;
 }
 
