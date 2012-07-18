@@ -142,15 +142,26 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     }
     m_splitter->setSizes(splitterSizes);
 
-    setupArchiveView();
-    setupActions();
-
     connect(this, SIGNAL(busy()),
             this, SLOT(setBusyGui()));
     connect(this, SIGNAL(ready()),
             this, SLOT(setReadyGui()));
     connect(this, SIGNAL(completed()),
             this, SLOT(setFileNameFromArchive()));
+
+    connect(m_model, SIGNAL(loadingStarted()),
+            this, SLOT(slotLoadingStarted()));
+    connect(m_model, SIGNAL(loadingFinished(KJob*)),
+            this, SLOT(slotLoadingFinished(KJob*)));
+    connect(m_model, SIGNAL(droppedFiles(QStringList, QString)),
+            this, SLOT(slotAddFiles(QStringList, QString)));
+    connect(m_model, SIGNAL(error(QString, QString)),
+            this, SLOT(slotError(QString, QString)));
+    connect(m_model, SIGNAL(columnsInserted(QModelIndex, int, int)),
+            this, SLOT(adjustColumns()));
+
+    setupArchiveView();
+    setupActions();
 
     m_statusBarExtension = new KParts::StatusBarExtension(this);
 
@@ -242,22 +253,13 @@ void Part::setupArchiveView()
     m_archiveView->setModel(m_model);
     m_archiveView->setSortingEnabled(true);
 
-    connect(m_model, SIGNAL(loadingStarted()),
-            this, SLOT(slotLoadingStarted()));
-    connect(m_model, SIGNAL(loadingFinished(KJob*)),
-            this, SLOT(slotLoadingFinished(KJob*)));
-    connect(m_model, SIGNAL(droppedFiles(QStringList, QString)),
-            this, SLOT(slotAddFiles(QStringList, QString)));
-    connect(m_model, SIGNAL(error(QString, QString)),
-            this, SLOT(slotError(QString, QString)));
-    connect(m_model, SIGNAL(columnsInserted(QModelIndex, int, int)),
-            this, SLOT(adjustColumns()));
-
+    disconnect(m_archiveView->selectionModel(), 0, this, 0);
     connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
             this, SLOT(updateActions()));
     connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
             this, SLOT(selectionChanged()));
 
+    disconnect(m_archiveView, SIGNAL(itemTriggered(QModelIndex)), this, 0);
     //TODO: fix an actual eventhandler
     connect(m_archiveView, SIGNAL(itemTriggered(QModelIndex)),
             this, SLOT(slotPreview(QModelIndex)));
@@ -309,12 +311,13 @@ void Part::setupActions()
     m_deleteAction->setStatusTip(i18n("Click to delete the selected files"));
     connect(m_deleteAction, SIGNAL(triggered(bool)), this, SLOT(slotDeleteFiles()));
 
-
     updateActions();
 }
 
 void Part::updateActions()
 {
+    kDebug();
+
     bool isWritable = m_model->archive() && (!m_model->archive()->isReadOnly());
 
     m_saveAsAction->setEnabled(!isBusy() && m_model->archive());
@@ -327,6 +330,31 @@ void Part::updateActions()
                              && isPreviewable(m_archiveView->selectionModel()->currentIndex()));
     m_deleteAction->setEnabled(!isBusy() && (m_archiveView->selectionModel()->selectedRows().count() > 0)
                                && isWritable);
+}
+
+void Part::updateView()
+{
+    kDebug();
+
+    disconnect(m_dirOperator, SIGNAL(urlEntered(KUrl)), this, SLOT(setNavigatorUrl(KUrl)));
+    disconnect(m_urlNavigator, SIGNAL(urlChanged(KUrl)), this, SLOT(setOperatorUrl(KUrl)));
+
+    m_dirOperator->setUrl(url(), true);
+    m_urlNavigator->setLocationUrl(url());
+
+    if (m_model && m_model->archive()) {
+        m_stack->setCurrentWidget(m_archiveView);
+    } else {
+        m_stack->setCurrentWidget(m_dirOperator);
+    }
+
+    m_archiveView->setEnabled(!m_busy);
+    m_dirOperator->setEnabled(!m_busy);
+
+    connect(m_dirOperator, SIGNAL(urlEntered(KUrl)), SLOT(setNavigatorUrl(KUrl)));
+    connect(m_urlNavigator, SIGNAL(urlChanged(KUrl)), SLOT(setOperatorUrl(KUrl)));
+
+    updateActions();
 }
 
 void Part::slotQuickExtractFiles(QAction *triggeredAction)
@@ -370,6 +398,7 @@ bool Part::isPreviewable(const QModelIndex& index) const
 
 void Part::selectionChanged()
 {
+    kDebug();
     m_infoPanel->setIndexes(m_archiveView->selectionModel()->selectedRows());
 }
 
@@ -534,27 +563,31 @@ void Part::slotLoadingFinished(KJob *job)
     // After loading all files, resize the columns to fit all fields
     m_archiveView->header()->resizeSections(QHeaderView::ResizeToContents);
 
-    updateActions();
+    updateView();
 }
 
 void Part::setReadyGui()
 {
     kDebug();
-    QApplication::restoreOverrideCursor();
+    if (!m_busy) {
+        return;
+    }
+
     m_busy = false;
-    m_archiveView->setEnabled(true);
-    m_dirOperator->setEnabled(true);
-    updateActions();
+    QApplication::restoreOverrideCursor();
+    updateView();
 }
 
 void Part::setBusyGui()
 {
     kDebug();
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    if (m_busy) {
+        return;
+    }
+
     m_busy = true;
-    m_archiveView->setEnabled(false);
-    m_dirOperator->setEnabled(false);
-    updateActions();
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    updateView();
 }
 
 void Part::setFileNameFromArchive()
@@ -582,7 +615,7 @@ void Part::slotPreview(const QModelIndex & index)
         return;
     }
 
-    const ArchiveEntry& entry =  m_model->entryForIndex(index);
+    const ArchiveEntry& entry = m_model->entryForIndex(index);
 
     if (!entry.isEmpty()) {
         Kerfuffle::ExtractionOptions options;

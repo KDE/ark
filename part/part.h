@@ -91,6 +91,7 @@ private slots:
     void slotTestArchive();
     void slotTestArchiveDone(KJob*);
     void updateActions();
+    void updateView();
     void selectionChanged();
     void adjustColumns();
     void setBusyGui();
