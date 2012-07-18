@@ -95,14 +95,16 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     Q_UNUSED(args)
     setComponentData(Factory::componentData(), false);
 
-    new DndExtractAdaptor(this);
+    if (!m_tempDir) {
+        // for security reasons we create the tmp directory in the users home
+        QDir dir(QDir::homePath());
+        if (!dir.exists(QLatin1String(".ark-tmp"))) {
+            dir.mkpath(QLatin1String(".ark-tmp"));
+        }
 
-    const QString pathName = QString(QLatin1String("/DndExtract/%1")).arg(s_instanceCounter++);
-    if (!QDBusConnection::sessionBus().registerObject(pathName, this)) {
-        kFatal() << "Could not register a D-Bus object for drag'n'drop";
+        dir.cd(QLatin1String(".ark-tmp"));
+        m_tempDir = new KTempDir(dir.absolutePath().append(QDir::separator()));
     }
-
-    m_model = new ArchiveModel(pathName, this);
 
     m_splitter = new QSplitter(Qt::Horizontal, parentWidget);
     setWidget(m_splitter);
@@ -574,10 +576,6 @@ void Part::slotPreview(const QModelIndex & index)
 {
     if (m_busy) {
         return;
-    }
-
-    if (!m_tempDir) {
-        m_tempDir = new KTempDir(QDir::homePath().append(QDir::separator()).append(QLatin1String(".ark-tmp")).append(QDir::separator()));
     }
 
     if (!isPreviewable(index)) {
