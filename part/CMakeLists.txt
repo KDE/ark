@@ -5,6 +5,7 @@ set(arkpart_PART_SRCS
 	archivemodel.cpp
 	archiveview.cpp
 	jobtracker.cpp
+        archiveconflictdialog.cpp
     )
 
 qt4_add_dbus_adaptor(arkpart_PART_SRCS dnddbusinterface.xml part.h Ark::Part)

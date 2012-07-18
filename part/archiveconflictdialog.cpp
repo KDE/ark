@@ -34,7 +34,7 @@ ArchiveConflictDialog::ArchiveConflictDialog(QWidget * parent, QString archive, 
     mainWidget->setLayout(contentLayout);
 
     QLabel *iconLabel = new QLabel();
-    QIcon icon = KIconLoader::global()->loadIcon("dialog-warning", KIconLoader::NoGroup,
+    QIcon icon = KIconLoader::global()->loadIcon(QLatin1String("dialog-warning"), KIconLoader::NoGroup,
                  KIconLoader::SizeEnormous, KIconLoader::DefaultState,
                  QStringList(), 0, true);
     QStyleOption option;
@@ -60,7 +60,7 @@ ArchiveConflictDialog::ArchiveConflictDialog(QWidget * parent, QString archive, 
     radioButtonsLayout->setMargin(0);
 
     m_overwriteButton = new QRadioButton(i18n("Overwrite existing archive"));
-    m_saveAsButton = new QRadioButton(i18n("Save new arvchive as <filename>%1</filename>", suggestedName));
+    m_saveAsButton = new QRadioButton(i18n("Save new archive as <filename>%1</filename>", suggestedName));
     m_saveAsButton->setChecked(true);
     m_openExistingButton = new QRadioButton(i18n("Add files to existing Archive"));
 

@@ -28,6 +28,7 @@
 #include "dnddbusinterfaceadaptor.h"
 #include "infopanel.h"
 #include "jobtracker.h"
+#include "archiveconflictdialog.h"
 #include "kerfuffle/archive.h"
 #include "kerfuffle/createdialog.h"
 #include "kerfuffle/extractiondialog.h"
@@ -57,6 +58,7 @@
 
 #include <QAction>
 #include <QCursor>
+#include <QFileInfo>
 #include <QHeaderView>
 #include <QMenu>
 #include <QMimeData>
@@ -297,8 +299,6 @@ void Part::updateActions()
                                 && isPreviewable(m_view->selectionModel()->currentIndex()));
     m_deleteAction->setEnabled(!isBusy() && (m_view->selectionModel()->selectedRows().count() > 0)
                                && isWritable);
-    m_renameAction->setEnabled(!isBusy() && (m_view->selectionModel()->selectedRows().count() == 1)
-                               && isWritable);
 }
 
 void Part::slotQuickExtractFiles(QAction *triggeredAction)
@@ -352,12 +352,11 @@ KAboutData* Part::createAboutData()
 
 bool Part::openFile()
 {
+    kDebug() << "open arguments " << arguments().metaData();
     QString localFile(localFilePath());
     QFileInfo localFileInfo(localFile);
     const bool creatingNewArchive =
-        arguments().metaData()[QLatin1String("createNewArchive")] == QLatin1String("true");
-    const QString archiveConflict =
-        arguments().metaData().value(QLatin1String("archiveConflictHandling"), QLatin1String("rename"));
+        arguments().metaData().value(QLatin1String("createNewArchive")) == QLatin1String("true");
 
     if (localFileInfo.isDir()) {
         KMessageBox::error(NULL, i18nc("@info",
@@ -366,49 +365,43 @@ bool Part::openFile()
         return false;
     }
 
-    if (creatingNewArchive && localFileInfo.exists() && archiveConflict == QLatin1String("overwrite")) {
-        int overwrite = KMessageBox::warningContinueCancel(NULL,
-                        i18nc("@info", "The archive <filename>%1</filename> already exists and will be overwritten.<br><br>Overwrite the archive?", localFile),
-                        i18nc("@title:window", "File Exists"),
-                        KGuiItem(i18n("Yes, overwrite")));
-        if (overwrite == KMessageBox::Cancel) {
-            return false;
-        }
-
-        // remove the file, it will be recreated further down
-        QFile file(localFileInfo.absoluteFilePath());
-        if (!localFileInfo.isWritable() || !file.remove()) {
-            KMessageBox::sorry(NULL,
-                               i18nc("@info", "The archive <filename>%1</filename> could not be overwritten", localFile),
-                               i18nc("@title:window", "Error Overwriting Archive"));
-            return false;
-        }
-    } else if (creatingNewArchive && localFileInfo.exists() && archiveConflict == QLatin1String("rename")) {
-        QString basePath(localFileInfo.absolutePath());
-        QString name(localFileInfo.baseName());
+    if (creatingNewArchive && localFileInfo.exists()) {
+        // create suggestion for new filename
+        QFileInfo newFileInfo(localFileInfo);
+        QString basePath(newFileInfo.absolutePath());
+        QString name(newFileInfo.baseName());
         name.remove(QRegExp(QLatin1String("-[0-9]{2}$")));
-        QString suffix(localFileInfo.suffix());
+        QString suffix(newFileInfo.suffix());
         int counter = 0;
 
-        while (localFileInfo.exists()) {
+        while (newFileInfo.exists()) {
             counter++;
-            localFileInfo.setFile(QString(QLatin1String("%1/%2-%3.%4")).arg(basePath,
-                                  name,
-                                  QString(QLatin1String("%1")).arg(counter, 2, 10, QLatin1Char('0')),
-                                  suffix));
+            newFileInfo.setFile(QString(QLatin1String("%1/%2-%3.%4")).arg(basePath,
+                                name,
+                                QString(QLatin1String("%1")).arg(counter, 2, 10, QLatin1Char('0')),
+                                suffix));
         }
 
-        int rename = KMessageBox::warningContinueCancel(NULL,
-                     i18nc("@info", "An archive <filename>%1</filename> already exists.<br><br>The new archive will be renamed and saved as <filename>%2</filename>.<br><br>Rename the new archive?", localFile, localFileInfo.absoluteFilePath()),
-                     i18nc("@title:window", "File Exists"),
-                     KGuiItem(i18n("Yes, rename")));
-        if (rename == KMessageBox::Cancel) {
+        ArchiveConflictDialog dlg(widget(), localFile, newFileInfo.absoluteFilePath());
+
+        if (dlg.exec() != KDialog::Accepted) {
             return false;
         }
 
-        setLocalFilePath(localFileInfo.absoluteFilePath());
-        localFile = localFileInfo.absoluteFilePath();
-
+        if (dlg.selectedOption() == ArchiveConflictDialog::OverwriteExisting) {
+            // rename the original file, it will be removed later
+            QFile file(localFile);
+            if (!localFileInfo.isWritable() || !file.rename(file.fileName().append(QLatin1String(".bck")))) {
+                KMessageBox::sorry(NULL,
+                                   i18nc("@info", "The archive <filename>%1</filename> could not be overwritten", localFile),
+                                   i18nc("@title:window", "Error Overwriting Archive"));
+                return false;
+            }
+        } else if (dlg.selectedOption() == ArchiveConflictDialog::RenameNew) {
+            localFile = newFileInfo.absoluteFilePath();
+            localFileInfo.setFile(localFile);
+            setLocalFilePath(localFile);
+        }
     } else if (!creatingNewArchive && !localFileInfo.exists()) {
         KMessageBox::sorry(NULL, i18nc("@info", "The archive <filename>%1</filename> was not found.", localFile), i18nc("@title:window", "Error Opening Archive"));
         return false;
@@ -498,6 +491,12 @@ void Part::slotLoadingFinished(KJob *job)
     if (job->error()) {
         if (arguments().metaData()[QLatin1String("createNewArchive")] != QLatin1String("true")) {
             KMessageBox::sorry(NULL, i18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error: <message>%2</message>", localFilePath(), job->errorText()), i18nc("@title:window", "Error Opening Archive"));
+        }
+    } else {
+        // needed after overwiting an archive
+        if (QFile::exists(localFilePath().append(QLatin1String(".bck")))) {
+            QFile file(localFilePath().append(QLatin1String(".bck")));
+            file.remove();
         }
     }
 
