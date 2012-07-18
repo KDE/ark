@@ -422,7 +422,7 @@
           <item>
            <widget class="QCheckBox" name="utf8CheckBox">
             <property name="text">
-             <string>Convert file names to UTF-8</string>
+             <string>Fix filename encoding</string>
             </property>
             <property name="checked">
              <bool>true</bool>

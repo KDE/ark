@@ -72,6 +72,7 @@ CreateDialogUI::CreateDialogUI(QWidget *parent) : QWidget(parent)
     connect(testArchiveCheckBox, SIGNAL(toggled(bool)), SLOT(updateUi()));
     connect(passwordGroupBox, SIGNAL(toggled(bool)), SLOT(updateUi()));
     connect(splitArchiveGroupBox, SIGNAL(toggled(bool)), SLOT(updateUi()));
+    connect(splitSizeComboBox, SIGNAL(currentIndexChanged(int)), SLOT(updateUi()));
     connect(archiveFormatComboBox, SIGNAL(currentIndexChanged(int)), SLOT(updateUi()));
 
     updateUi();
@@ -81,7 +82,8 @@ void CreateDialogUI::updateUi()
 {
     QString mimeType = archiveFormatComboBox->itemData(archiveFormatComboBox->currentIndex()).toString();
 
-    encryptFileNamesCheckBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::EncryptHeaderSwitch));
+    encryptFileNamesCheckBox->setEnabled(passwordGroupBox->isChecked()
+                                         && m_mimeTypeOptions.contains(mimeType, Kerfuffle::EncryptHeaderSwitch));
     if (!encryptFileNamesCheckBox->isEnabled()) {
         encryptFileNamesCheckBox->setChecked(false);
     }
@@ -112,6 +114,16 @@ void CreateDialogUI::updateUi()
         encryptContentsCheckBox->setChecked(false);
         encryptFileNamesCheckBox->setChecked(false);
     }
+
+    splitArchiveGroupBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::MultiPartSwitch));
+    if (splitArchiveGroupBox->isChecked() && splitArchiveGroupBox->isEnabled()) {
+        if (splitSizeComboBox->currentIndex() > 0) {
+            splitSizeUnitComboBox->setCurrentIndex(0);
+            splitSizeUnitComboBox->setEnabled(false);
+        } else {
+            splitSizeUnitComboBox->setEnabled(true);
+        }
+    }
 }
 
 CompressionOptions CreateDialogUI::options() const
@@ -130,7 +142,7 @@ CompressionOptions CreateDialogUI::options() const
     options[QLatin1String("SplitFileSizeFreeValue")] = splitSizeComboBox->lineEdit()->text();
     options[QLatin1String("SplitFileSizeUnit")] = splitSizeUnitComboBox->currentIndex();
     options[QLatin1String("MultiThreadingEnabled")] = multithreadingCheckBox->isChecked();
-    options[QLatin1String("ConvertToUTF8")] = utf8CheckBox->isChecked();
+    options[QLatin1String("FixFileNameEncoding")] = utf8CheckBox->isChecked();
     options[QLatin1String("LastMimeType")] = archiveFormatComboBox->itemData(archiveFormatComboBox->currentIndex());
 
     return options;
@@ -150,7 +162,7 @@ void CreateDialogUI::setOptions(const CompressionOptions& options)
     splitSizeComboBox->setCurrentIndex(options.value(QLatin1String("SplitFileSize"), 0).toInt());
     splitSizeComboBox->lineEdit()->setText(options.value(QLatin1String("SplitFileSizeFreeValue"), QLatin1String("")).toString());
     multithreadingCheckBox->setChecked(options.value(QLatin1String("MultiThreadingEnabled"), true).toBool());
-    utf8CheckBox->setChecked(options.value(QLatin1String("ConvertToUTF8"), true).toBool());
+    utf8CheckBox->setChecked(options.value(QLatin1String("FixFileNameEncoding"), true).toBool());
 
     updateUi();
 }

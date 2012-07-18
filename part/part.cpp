@@ -832,7 +832,26 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
         }
     }
 
-    CompressionOptions options;
+    if (!options.contains(QLatin1String("CompressionLevel"))) {
+        options[QLatin1String("CompressionLevel")] = QVariant(4);
+    }
+
+    if (!options.contains(QLatin1String("MultiThreadingEnabled"))) {
+        options[QLatin1String("MultiThreadingEnabled")] = false;
+    }
+
+    if (!options.contains(QLatin1String("EncryptHeaderEnabled"))) {
+        options[QLatin1String("EncryptHeaderEnabled")] = false;
+    }
+
+    if (!options.contains(QLatin1String("PasswordProtectedHint"))) {
+        options[QLatin1String("PasswordProtectedHint")] = false;
+    }
+
+    if (!options.contains(QLatin1String("MultiPartSize"))) {
+        options[QLatin1String("MultiPartSize")] = 0;
+    }
+
 
     QString firstPath = cleanFilesToAdd.first();
     if (firstPath.right(1) == QLatin1String("/")) {
@@ -843,12 +862,6 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 
     kDebug() << "Detected relative path to be " << firstPath;
     options[QLatin1String("GlobalWorkDir")] = firstPath;
-    options[QLatin1String("CompressionLevel") ] = QVariant(4);
-    options[QLatin1String("MultiThreadingEnabled") ] = false;
-    options[QLatin1String("EncryptHeaderEnabled") ] = false;
-//    options[QLatin1String( "EncryptionMethod")] = "AES256";
-    options[QLatin1String("PasswordProtectedHint") ] = false;
-    options[QLatin1String("MultiPartSize") ] = 0;
 
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
     if (!job) {
