@@ -1088,7 +1088,7 @@ QString CliInterface::autoConvertEncoding( const QString & fileName )
         refinedEncoding = prober.encoding();
     }
 
-    kDebug() << "KEncodingProber detected encodings: " << refinedEncoding << "for: " << fileName;
+    kDebug() << "KEncodingProber detected encoding: " << refinedEncoding << "( confidence: " << prober.confidence() << ") for: " << fileName;
 
     if (refinedEncoding == "UTF-8") {
         return fileName;
