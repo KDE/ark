@@ -30,6 +30,7 @@
 #include "libarchivehandler.h"
 #include "kerfuffle/kerfuffle_export.h"
 #include "kerfuffle/queries.h"
+#include "kerfuffle/cliinterface.h"
 
 #include <archive.h>
 #include <archive_entry.h>
@@ -650,6 +651,7 @@ bool LibArchiveInterface::testFiles(const QList<QVariant> & files, TestOptions o
 void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 {
     ArchiveEntry e;
+    e[InternalID] = QLatin1String(archive_entry_pathname(aentry));
 
 #ifdef _MSC_VER
     e[FileName] = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry)));
@@ -659,10 +661,8 @@ void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry
 
     // may happen if file name is not in the codec formats above.
     if (e[FileName].toString().isEmpty()) {
-        e[FileName] = QDir::fromNativeSeparators(QLatin1String(archive_entry_pathname(aentry)));
+        e[FileName] = CliInterface::autoConvertEncoding(QDir::fromNativeSeparators(QLatin1String(archive_entry_pathname(aentry))));
     }
-
-    e[InternalID] = e[FileName];
 
     const QString owner = QString::fromAscii(archive_entry_uname(aentry));
     if (!owner.isEmpty()) {
