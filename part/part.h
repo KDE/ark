@@ -65,6 +65,8 @@ public:
     virtual bool saveFile();
 
     bool isBusy() const;
+    static bool isSupportedArchive(const KUrl& url);
+    static QString suggestNewNameForFile(const QString& filepath);
 
 public slots:
     void extractSelectedFilesTo(const QString& localPath);
@@ -97,8 +99,6 @@ private slots:
     void setBusyGui();
     void setReadyGui();
     void setFileNameFromArchive();
-    void setOperatorUrl(const KUrl &url);
-    void setNavigatorUrl(const KUrl &url);
     void slotFileSelectedInOperator(const KFileItem &file);
 
 signals:

@@ -111,28 +111,29 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
     KVBox *kvbox = new KVBox();
 
-    KFilePlacesModel *placesModel = new KFilePlacesModel((QWidget*)kvbox);
-    m_urlNavigator = new KUrlNavigator(placesModel, KUrl(QDir::homePath()), (QWidget*)kvbox);
-    connect(m_urlNavigator, SIGNAL(urlChanged(KUrl)), SLOT(setOperatorUrl(KUrl)));
+    KFilePlacesModel *placesModel = new KFilePlacesModel(qobject_cast<QWidget*>(kvbox));
+    m_urlNavigator = new KUrlNavigator(placesModel, KUrl(QDir::homePath()), qobject_cast<QWidget*>(kvbox));
+    connect(m_urlNavigator, SIGNAL(urlChanged(KUrl)), SLOT(openUrl(KUrl)));
 
     m_dirOperator = new KDirOperator(KUrl(QDir::homePath()));
     m_dirOperator->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
     m_dirOperator->setView(KFile::Detail);
     m_dirOperator->view()->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    connect(m_dirOperator, SIGNAL(urlEntered(KUrl)), SLOT(setNavigatorUrl(KUrl)));
+    connect(m_dirOperator, SIGNAL(urlEntered(KUrl)), SLOT(openUrl(KUrl)));
+    connect(m_dirOperator, SIGNAL(fileHighlighted(KFileItem)), SLOT(updateActions()));
     connect(m_dirOperator, SIGNAL(fileSelected(KFileItem)),
             SLOT(slotFileSelectedInOperator(KFileItem)));
 
     m_archiveView = new ArchiveView;
 
-    m_stack = new QStackedWidget((QWidget*)kvbox);
+    m_stack = new QStackedWidget(qobject_cast<QWidget*>(kvbox));
     m_stack->addWidget(m_dirOperator);
     m_stack->addWidget(m_archiveView);
     m_stack->setCurrentWidget(m_dirOperator);
 
     m_infoPanel = new InfoPanel(m_model);
 
-    m_splitter->addWidget((QWidget*)kvbox);
+    m_splitter->addWidget(qobject_cast<QWidget*>(kvbox));
     m_splitter->addWidget(m_infoPanel);
 
     QList<int> splitterSizes = ArkSettings::splitterSizes();
@@ -336,8 +337,8 @@ void Part::updateView()
 {
     kDebug();
 
-    disconnect(m_dirOperator, SIGNAL(urlEntered(KUrl)), this, SLOT(setNavigatorUrl(KUrl)));
-    disconnect(m_urlNavigator, SIGNAL(urlChanged(KUrl)), this, SLOT(setOperatorUrl(KUrl)));
+    disconnect(m_dirOperator, SIGNAL(urlEntered(KUrl)), this, SLOT(openUrl(KUrl)));
+    disconnect(m_urlNavigator, SIGNAL(urlChanged(KUrl)), this, SLOT(openUrl(KUrl)));
 
     m_dirOperator->setUrl(url(), true);
     m_urlNavigator->setLocationUrl(url());
@@ -348,13 +349,13 @@ void Part::updateView()
         m_stack->setCurrentWidget(m_dirOperator);
     }
 
-    m_archiveView->setEnabled(!m_busy);
-    m_dirOperator->setEnabled(!m_busy);
-
-    connect(m_dirOperator, SIGNAL(urlEntered(KUrl)), SLOT(setNavigatorUrl(KUrl)));
-    connect(m_urlNavigator, SIGNAL(urlChanged(KUrl)), SLOT(setOperatorUrl(KUrl)));
+    m_archiveView->setEnabled(!isBusy());
+    m_dirOperator->setEnabled(!isBusy());
 
     updateActions();
+
+    connect(m_dirOperator, SIGNAL(urlEntered(KUrl)), SLOT(openUrl(KUrl)));
+    connect(m_urlNavigator, SIGNAL(urlChanged(KUrl)), SLOT(openUrl(KUrl)));
 }
 
 void Part::slotQuickExtractFiles(QAction *triggeredAction)
@@ -409,37 +410,52 @@ KAboutData* Part::createAboutData()
 
 bool Part::openFile()
 {
-    kDebug() << "open arguments " << arguments().metaData();
+    kDebug() << url();
+
+    QFileInfo info(localFilePath());
+
+    // it's a directory so navigate into it
+    if (info.isDir()) {
+        m_model->setArchive(NULL);
+        setupArchiveView();
+        updateView();
+        return true;
+    }
+
+    // it seems to be a file
+    if (info.isFile()) {
+        KMimeType::Ptr mimeType = KMimeType::findByUrl(url());
+        // it has a completely unknown mimetype
+        if (!mimeType) {
+            kDebug() << "unknown mimetype";
+            KMessageBox::sorry(widget(),
+                               i18nc("@info", "Couldn't determine the type of the file, opening not possible."),
+                               i18nc("@title:window", "Error Opening File"));
+
+            setUrl(KUrl(info.absolutePath()));
+            updateView();
+            return true;
+        }
+
+        // its a known mimetype, but not supported (probably not an archive), so open it in an
+        // external application
+        if (mimeType && !Kerfuffle::supportedMimeTypes().contains(mimeType->name(), Qt::CaseInsensitive)) {
+            KRun::runUrl(url(), mimeType->name(), widget());
+            setUrl(KUrl(info.absolutePath()));
+            updateView();
+            return true;
+        }
+    }
+
     QString localFile(localFilePath());
-    QFileInfo localFileInfo(localFile);
     const bool creatingNewArchive =
         arguments().metaData().value(QLatin1String("createNewArchive")) == QLatin1String("true");
 
-    if (localFileInfo.isDir()) {
-        KMessageBox::error(NULL, i18nc("@info",
-                                       "<filename>%1</filename> is a directory.",
-                                       localFile));
-        return false;
-    }
-
-    if (creatingNewArchive && localFileInfo.exists()) {
+    if (creatingNewArchive && info.exists()) {
         // create suggestion for new filename
-        QFileInfo newFileInfo(localFileInfo);
-        QString basePath(newFileInfo.absolutePath());
-        QString name(newFileInfo.baseName());
-        name.remove(QRegExp(QLatin1String("-[0-9]{2}$")));
-        QString suffix(newFileInfo.suffix());
-        int counter = 0;
+        QString suggestion = suggestNewNameForFile(localFile);
 
-        while (newFileInfo.exists()) {
-            counter++;
-            newFileInfo.setFile(QString(QLatin1String("%1/%2-%3.%4")).arg(basePath,
-                                name,
-                                QString(QLatin1String("%1")).arg(counter, 2, 10, QLatin1Char('0')),
-                                suffix));
-        }
-
-        ArchiveConflictDialog dlg(widget(), localFile, newFileInfo.absoluteFilePath());
+        ArchiveConflictDialog dlg(widget(), localFile, suggestion);
 
         if (dlg.exec() != KDialog::Accepted) {
             return false;
@@ -448,18 +464,18 @@ bool Part::openFile()
         if (dlg.selectedOption() == ArchiveConflictDialog::OverwriteExisting) {
             // rename the original file, it will be removed later
             QFile file(localFile);
-            if (!localFileInfo.isWritable() || !file.rename(file.fileName().append(QLatin1String(".bck")))) {
+            if (!info.isWritable() || !file.rename(file.fileName().append(QLatin1String(".bck")))) {
                 KMessageBox::sorry(NULL,
                                    i18nc("@info", "The archive <filename>%1</filename> could not be overwritten", localFile),
                                    i18nc("@title:window", "Error Overwriting Archive"));
                 return false;
             }
         } else if (dlg.selectedOption() == ArchiveConflictDialog::RenameNew) {
-            localFile = newFileInfo.absoluteFilePath();
-            localFileInfo.setFile(localFile);
-            setLocalFilePath(localFile);
+            localFile = suggestion;
+            info.setFile(suggestion);
+            setLocalFilePath(suggestion);
         }
-    } else if (!creatingNewArchive && !localFileInfo.exists()) {
+    } else if (!creatingNewArchive && !info.exists()) {
         KMessageBox::sorry(NULL, i18nc("@info", "The archive <filename>%1</filename> was not found.", localFile), i18nc("@title:window", "Error Opening Archive"));
         return false;
     }
@@ -511,7 +527,9 @@ bool Part::openFile()
     }
 
     if (!archive) {
-        KMessageBox::sorry(NULL, i18nc("@info", "Ark was not able to open the archive <filename>%1</filename>. No plugin capable of handling the file was found.", localFile), i18nc("@title:window", "Error Opening Archive"));
+        KMessageBox::sorry(NULL,
+                           i18nc("@info", "Ark was not able to open the archive <filename>%1</filename>. No plugin capable of handling the file was found.", localFile),
+                           i18nc("@title:window", "Error Opening Archive"));
         return false;
     }
 
@@ -569,7 +587,7 @@ void Part::slotLoadingFinished(KJob *job)
 void Part::setReadyGui()
 {
     kDebug();
-    if (!m_busy) {
+    if (!isBusy()) {
         return;
     }
 
@@ -581,7 +599,7 @@ void Part::setReadyGui()
 void Part::setBusyGui()
 {
     kDebug();
-    if (m_busy) {
+    if (isBusy()) {
         return;
     }
 
@@ -592,7 +610,11 @@ void Part::setBusyGui()
 
 void Part::setFileNameFromArchive()
 {
-    const QString prettyName = url().fileName();
+    kDebug();
+    QString prettyName;
+
+    if (m_model->archive()) {
+        prettyName = url().fileName();
 
     m_infoPanel->setPrettyFileName(prettyName);
     m_infoPanel->updateWithDefaults();
@@ -607,7 +629,7 @@ void Part::slotPreview()
 
 void Part::slotPreview(const QModelIndex & index)
 {
-    if (m_busy) {
+    if (isBusy()) {
         return;
     }
 
@@ -1066,51 +1088,42 @@ void Part::slotTestArchiveDone(KJob* job)
     }
 }
 
-void Part::setOperatorUrl(const KUrl &url)
-{
-    if (url.isEmpty() || !url.isValid()) {
-        return;
-    }
-
-    QFileInfo info(url.path());
-    if (info.isFile()) {
-        KMimeType::Ptr mimeType = KMimeType::findByUrl(url);
-        if (mimeType && Kerfuffle::supportedMimeTypes().contains(mimeType->name(), Qt::CaseInsensitive)) {
-            if (openUrl(url)) {
-                m_dirOperator->setUrl(url, true);
-                m_stack->setCurrentWidget(m_archiveView);
-                updateActions();
-                return;
-            }
-        } else if (mimeType) {
-            KRun::runUrl(url, mimeType->name(), widget());
-            m_urlNavigator->setLocationUrl(KUrl(info.absolutePath()));
-        } else {
-            KMessageBox::sorry(widget(),
-                               i18nc("@info", "Couldn't determine the type of the file, opening not possible."),
-                               i18nc("@title:window", "Error Opening File"));
-            m_urlNavigator->setLocationUrl(KUrl(info.absolutePath()));
-        }
-    } else {
-        m_model->setArchive(NULL);
-        setupArchiveView();
-        m_dirOperator->setUrl(url, true);
-        m_stack->setCurrentWidget(m_dirOperator);
-    }
-    updateActions();
-}
-
-void Part::setNavigatorUrl(const KUrl &url)
-{
-    if (url.isEmpty() || !url.isValid()) {
-        return;
-    }
-
-    m_urlNavigator->setLocationUrl(url);
-}
-
 void Part::slotFileSelectedInOperator(const KFileItem &file)
 {
-    setNavigatorUrl(file.url());
+    openUrl(file.url());
 }
+
+QString Part::suggestNewNameForFile(const QString& file)
+{
+    QFileInfo info(file);
+    QString basePath(info.absolutePath());
+    QString name(info.baseName());
+    name.remove(QRegExp("-[0-9]{2}$"));
+    QString suffix(info.suffix());
+    int counter = 0;
+
+    while (info.exists()) {
+        counter++;
+        info.setFile(QString("%1/%2-%3.%4").arg(basePath,
+                                                name,
+                                                QString("%1").arg(counter, 2, 10, QLatin1Char('0')),
+                                                suffix));
+    }
+
+    return info.absoluteFilePath();
+}
+
+bool Part::isSupportedArchive(const KUrl& url)
+{
+    if (!url.isEmpty() && url.isValid()) {
+        QFileInfo info(url.path());
+
+        if (info.isFile()) {
+            KMimeType::Ptr mimeType = KMimeType::findByUrl(url);
+            return (mimeType && Kerfuffle::supportedMimeTypes().contains(mimeType->name(), Qt::CaseInsensitive));
+        }
+    }
+    return false;
+}
+
 } // namespace Ark
