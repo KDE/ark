@@ -1072,6 +1072,9 @@ QString CliInterface::autoConvertEncoding( const QString & fileName )
 {
     QByteArray result( fileName.toLatin1() );
 
+    QTextCodec * currentCodecForLocale = QTextCodec::codecForLocale();
+    QTextCodec * currentCodecForCStrings = QTextCodec::codecForCStrings();
+
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
@@ -1091,6 +1094,8 @@ QString CliInterface::autoConvertEncoding( const QString & fileName )
     kDebug() << "KEncodingProber detected encoding: " << refinedEncoding << "( confidence: " << prober.confidence() << ") for: " << fileName;
 
     if (refinedEncoding == "UTF-8") {
+        QTextCodec::setCodecForLocale(currentCodecForLocale);
+        QTextCodec::setCodecForCStrings(currentCodecForCStrings);
         return fileName;
     }
 
@@ -1135,6 +1140,9 @@ QString CliInterface::autoConvertEncoding( const QString & fileName )
     }
 
     QString refinedString = codec->toUnicode(fileName.toLatin1());
+
+    QTextCodec::setCodecForLocale(currentCodecForLocale);
+    QTextCodec::setCodecForCStrings(currentCodecForCStrings);
 
     return ( refinedString != fileName ) ? refinedString : fileName;
 }
