@@ -74,8 +74,8 @@ public slots:
 private slots:
     void slotLoadingStarted();
     void slotLoadingFinished(KJob *job);
-    void slotPreview();
-    void slotPreview(const QModelIndex & index);
+    void slotView();
+    void slotView(const QModelIndex & index);
     void slotPreviewExtracted(KJob*);
     void slotError(const QString& errorMessage, const QString& details);
     void slotExtractFiles();
