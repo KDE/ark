@@ -251,6 +251,13 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                 entryFI = QFileInfo(truncatedFilename);
             }
 
+            // fix file name encoding before copying file or preview does not work.
+            if ( ( options.value(QLatin1String("FixFileNameEncoding")).toBool() ) ) {
+                // this make entry use the same encoding used by e[InternalID] in LibArchiveInterface::emitEntryFromArchiveEntry().
+                QByteArray b = QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(entry))).toLocal8Bit();
+                archive_entry_copy_pathname(entry, b.constData());
+            }
+
             //now check if the file about to be written already exists
             if (!entryIsDir && entryFI.exists()) {
                 if (skipAll) {
@@ -651,7 +658,9 @@ bool LibArchiveInterface::testFiles(const QList<QVariant> & files, TestOptions o
 void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 {
     ArchiveEntry e;
-    e[InternalID] = QLatin1String(archive_entry_pathname(aentry));
+
+    // Decoding file name here is required by Part::slotPreviewExtracted().
+    e[InternalID] = QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(aentry)));
 
 #ifdef _MSC_VER
     e[FileName] = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry)));

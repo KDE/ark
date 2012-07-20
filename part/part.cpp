@@ -694,6 +694,7 @@ void Part::slotView(const QModelIndex & index)
     if (!entry.isEmpty()) {
         Kerfuffle::ExtractionOptions options;
         options[QLatin1String("PreservePaths")] = true;
+        options[QLatin1String("FixFileNameEncoding")] = true;
 
         ExtractJob *job = m_model->extractFile(entry[ InternalID ], m_tempDir->name(), options);
         registerJob(job);
@@ -718,7 +719,10 @@ void Part::slotPreviewExtracted(KJob *job)
             m_tempDir->name() + QLatin1Char('/') + entry[FileName].toString();
 
         if (fullNameInternal != fullName) {
-            QFile::rename(fullNameInternal, fullName);
+            // libarchive plugin already fixes file name encoding, in that case fullName already exists.
+            if (!QFile::rename(fullNameInternal, fullName) && !QFile::exists(fullName)) {
+                kWarning() << "Renaming" << fullNameInternal << "to" << fullName << "failed";
+            }
         }
 
         // Make sure a maliciously crafted archive with parent folders named ".." do
