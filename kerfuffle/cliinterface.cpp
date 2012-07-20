@@ -283,10 +283,6 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
         return false;
     }
 
-    if ( options.value(QLatin1String("FixFileNameEncoding")).toBool() ) {
-        fixFileNameEncoding(destinationDirectory);
-    }
-
     return true;
 }
 
@@ -676,6 +672,9 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     //if the m_process pointer is gone, then there is nothing to worry
     //about here
     if (!m_process) {
+        if (m_operationMode == Copy && options.value(QLatin1String("FixFileNameEncoding")).toBool()) {
+            fixFileNameEncoding(destinationDirectory);
+        }
         return;
     }
 
@@ -696,6 +695,12 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     if (m_operationMode == Add) {
         list();
         return;
+    }
+
+    // if readStdout above needs to handle password request then we need to wait for it
+    // before we can call fixFileNameEncoding().
+    if (m_operationMode == Copy && options.value(QLatin1String("FixFileNameEncoding")).toBool()) {
+        fixFileNameEncoding(destinationDirectory);
     }
 
     //and we're finished
