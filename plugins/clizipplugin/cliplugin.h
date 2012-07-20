@@ -38,6 +38,7 @@ public:
     virtual Kerfuffle::ParameterList parameterList() const;
 
     virtual bool readListLine(const QString &line);
+    virtual void resetReadState();
 
 private:
     enum {

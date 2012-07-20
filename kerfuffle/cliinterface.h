@@ -303,6 +303,7 @@ public:
 
     virtual ParameterList parameterList() const = 0;
     virtual bool readListLine(const QString &line) = 0;
+    virtual void resetReadState() = 0;
 
     bool doKill();
     bool doSuspend();

@@ -200,6 +200,10 @@ bool CliPlugin::readListLine(const QString& line)
 
     return true;
 }
+void CliPlugin::resetReadState()
+{
+    m_state = ReadStateHeader;
+}
 
 KERFUFFLE_EXPORT_PLUGIN(CliPlugin)
 

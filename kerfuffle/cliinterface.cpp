@@ -113,6 +113,7 @@ bool CliInterface::supportsParameter(CliInterfaceParameters param)
 
 bool CliInterface::list()
 {
+    resetReadState();
     cacheParameterList();
     m_operationMode = List;
 

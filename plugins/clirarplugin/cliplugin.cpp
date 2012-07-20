@@ -271,6 +271,11 @@ bool CliPlugin::readListLine(const QString &line)
     return true;
 }
 
+void CliPlugin::resetReadState()
+{
+    m_parseState = ParseStateColumnDescription1;
+}
+
 KERFUFFLE_EXPORT_PLUGIN(CliPlugin)
 
 #include "cliplugin.moc"
