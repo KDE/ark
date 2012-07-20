@@ -174,16 +174,14 @@ void CreateDialogUI::browse()
     if (startUrl.isEmpty() || !startUrl.isValid())
         startUrl = KUrl("kfiledialog:///ArkNewArchive");
 
-    KFileDialog dialog(startUrl, QString(), this);
-    dialog.setMimeFilter(Kerfuffle::supportedWriteMimeTypes());
+    QPointer<KFileDialog> dialog = new KFileDialog(startUrl, QString(), this);
+    dialog->setMimeFilter(Kerfuffle::supportedWriteMimeTypes());
 
-    if (dialog.exec() != KDialog::Accepted) {
-        return;
+    if (dialog->exec() == KDialog::Accepted) {
+        const KUrl saveFileUrl = dialog->selectedUrl();
+        archiveNameLineEdit->setText(saveFileUrl.path());
+        checkArchiveUrl();
     }
-
-    const KUrl saveFileUrl = dialog.selectedUrl();
-    archiveNameLineEdit->setText(saveFileUrl.path());
-    checkArchiveUrl();
 }
 
 bool CreateDialogUI::checkArchiveUrl()

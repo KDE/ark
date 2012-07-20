@@ -508,25 +508,26 @@ bool Part::openFile()
         // create suggestion for new filename
         QString suggestion = suggestNewNameForFile(localFile);
 
-        ArchiveConflictDialog dlg(widget(), localFile, suggestion);
-
-        if (dlg.exec() != KDialog::Accepted) {
+        QPointer<ArchiveConflictDialog> dlg = new ArchiveConflictDialog(widget(), localFile, suggestion);
+        if (dlg->exec() != KDialog::Accepted) {
             return false;
         }
 
-        if (dlg.selectedOption() == ArchiveConflictDialog::OverwriteExisting) {
-            // rename the original file, it will be removed later
-            QFile file(localFile);
-            if (!info.isWritable() || !file.rename(file.fileName().append(QLatin1String(".bck")))) {
-                KMessageBox::sorry(NULL,
-                                   i18nc("@info", "The archive <filename>%1</filename> could not be overwritten", localFile),
-                                   i18nc("@title:window", "Error Overwriting Archive"));
-                return false;
+        if (dlg) {
+            if (dlg->selectedOption() == ArchiveConflictDialog::OverwriteExisting) {
+                // rename the original file, it will be removed later
+                QFile file(localFile);
+                if (!info.isWritable() || !file.rename(file.fileName().append(QLatin1String(".bck")))) {
+                    KMessageBox::sorry(NULL,
+                                       i18nc("@info", "The archive <filename>%1</filename> could not be overwritten", localFile),
+                                       i18nc("@title:window", "Error Overwriting Archive"));
+                    return false;
+                }
+            } else if (dlg->selectedOption() == ArchiveConflictDialog::RenameNew) {
+                localFile = suggestion;
+                info.setFile(suggestion);
+                setLocalFilePath(suggestion);
             }
-        } else if (dlg.selectedOption() == ArchiveConflictDialog::RenameNew) {
-            localFile = suggestion;
-            info.setFile(suggestion);
-            setLocalFilePath(suggestion);
         }
     } else if (!creatingNewArchive && !info.exists()) {
         KMessageBox::sorry(NULL,
@@ -993,15 +994,15 @@ void Part::slotAdd()
         //          When KFileDialog::exec() is called, the widget is already shown
         //          and nothing happens.
 
-        KFileDialog fileDialog(KUrl("kfiledialog:///ArkAddFiles"), QString(), widget()->parentWidget());
-        fileDialog.setCaption(i18nc("@title:window", "Add"));
-        fileDialog.setMode(KFile::Files | KFile::Directory | KFile::ExistingOnly);
+        QPointer<KFileDialog> fileDialog = new KFileDialog(KUrl("kfiledialog:///ArkAddFiles"), QString(), widget()->parentWidget());
+        fileDialog->setCaption(i18nc("@title:window", "Add"));
+        fileDialog->setMode(KFile::Files | KFile::Directory | KFile::ExistingOnly);
 
-        if (fileDialog.exec() != KFileDialog::Accepted) {
+        if (fileDialog->exec() == KFileDialog::Accepted) {
+            filesToAdd = fileDialog->selectedFiles();
+        } else {
             return;
         }
-
-        filesToAdd = fileDialog.selectedFiles();
     }
 
     if (m_model->archive()) {

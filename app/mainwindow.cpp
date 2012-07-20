@@ -278,7 +278,7 @@ void MainWindow::newArchive(const QList<QUrl>& urls)
 
     m_openArgs.metaData()[QLatin1String("createNewArchive")] = QLatin1String("true");
     m_openArgs.metaData()[QLatin1String("addFiles")] = QLatin1String("true");
-    m_openArgs.metaData().remove("showExtractDialog");
+    m_openArgs.metaData().remove(QLatin1String("showExtractDialog"));
 
     m_part->setProperty("CompressionOptions", QVariant(options));
     m_part->setProperty("FilesToAdd", QVariant(filesToAdd));
