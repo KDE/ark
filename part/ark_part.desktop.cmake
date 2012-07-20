@@ -1,5 +1,5 @@
 [Desktop Entry]
-Icon=utilities-file-archiver
+Icon=ark
 Name=Archiver
 Name[af]=Argifeerder
 Name[ar]=المؤرشف

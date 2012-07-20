@@ -120,7 +120,7 @@ Name[wa]=Cial
 Name[x-test]=xxHerexx
 Name[zh_CN]=这里
 Name[zh_TW]=這裡
-Icon=utilities-file-archiver
+Icon=ark
 Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
 [Desktop Action compressAsZip]
@@ -179,7 +179,7 @@ Name[wa]=Come årtchive ZIP
 Name[x-test]=xxAs ZIP Archivexx
 Name[zh_CN]=为 ZIP 归档
 Name[zh_TW]=成 ZIP 壓縮檔
-Icon=utilities-file-archiver
+Icon=ark
 Exec=ark --changetofirstpath --add --autofilename zip %F
 
 [Desktop Action compressAsRar]
@@ -238,7 +238,7 @@ Name[wa]=Come årtchive RAR
 Name[x-test]=xxAs RAR Archivexx
 Name[zh_CN]=为 RAR 归档
 Name[zh_TW]=成 RAR 壓縮檔
-Icon=utilities-file-archiver
+Icon=ark
 Exec=ark --changetofirstpath --add --autofilename rar %F
 
 [Desktop Action compressAsTar]
@@ -297,7 +297,7 @@ Name[wa]=Come årtchive ZIP/TAR
 Name[x-test]=xxAs ZIP/TAR Archivexx
 Name[zh_CN]=为 ZIP/TAR 归档
 Name[zh_TW]=成 ZIP/TAR 壓縮檔
-Icon=utilities-file-archiver
+Icon=ark
 Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
 [Desktop Action compressTo]
@@ -356,5 +356,5 @@ Name[wa]=Rastrinde eyet rlomer...
 Name[x-test]=xxCompress To...xx
 Name[zh_CN]=压缩到...
 Name[zh_TW]=壓縮為...
-Icon=utilities-file-archiver
+Icon=ark
 Exec=ark --add --changetofirstpath --dialog %F

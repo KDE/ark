@@ -105,7 +105,7 @@ Name[wa]=Saetchî l' årtchive foû cial
 Name[x-test]=xxExtract Archive Herexx
 Name[zh_CN]=在此解压缩归档
 Name[zh_TW]=在此解壓縮
-Icon=utilities-file-archiver
+Icon=ark
 Exec=ark --batch --autodestination %F
 
 [Desktop Action arkExtractTo]
@@ -163,7 +163,7 @@ Name[wa]=Saetchî l' årtchive foû eyet l' rilomer...
 Name[x-test]=xxExtract Archive To...xx
 Name[zh_CN]=解压缩归档到...
 Name[zh_TW]=解壓縮到...
-Icon=utilities-file-archiver
+Icon=ark
 Exec=ark --batch --autodestination --dialog %F
 
 [Desktop Action arkAutoExtractHere]
@@ -221,5 +221,5 @@ Name[wa]=Saetchî l' årtchive foû cial, deteccion otomatike do ridant efant
 Name[x-test]=xxExtract Archive Here, Autodetect Subfolderxx
 Name[zh_CN]=在此解压缩归档，自动探测子文件夹
 Name[zh_TW]=在此解壓縮，自動偵測子資料夾
-Icon=utilities-file-archiver
+Icon=ark
 Exec=ark --batch --autodestination --autosubfolder %F
