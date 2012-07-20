@@ -56,7 +56,8 @@ namespace Kerfuffle
 CliInterface::CliInterface(QObject *parent, const QVariantList & args)
     : ReadWriteArchiveInterface(parent, args),
       m_process(0),
-      m_testResult(true)
+      m_testResult(true),
+      m_fixFileNameEncoding(false)
 {
     //because this interface uses the event loop
     setWaitForFinishedSignal(true);
@@ -278,6 +279,9 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
     kDebug() << "Setting current dir to " << destinationDirectory;
     QDir::setCurrent(destinationDirectory);
 
+    m_fixFileNameEncoding = options.value(QLatin1String("FixFileNameEncoding")).toBool();
+    m_destinationDirectory = destinationDirectory;
+
     if (!runProcess(m_param.value(ExtractProgram).toStringList(), args)) {
         failOperation();
         return false;
@@ -288,6 +292,10 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
 
 void CliInterface::fixFileNameEncoding(const QString & destinationDirectory)
 {
+    if (destinationDirectory.isEmpty()) {
+        return;
+    }
+
     QDir destDir(destinationDirectory);
     destDir.setFilter(QDir::Dirs | QDir::Files | QDir::Hidden | QDir::System);
 
@@ -672,8 +680,9 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     //if the m_process pointer is gone, then there is nothing to worry
     //about here
     if (!m_process) {
-        if (m_operationMode == Copy && options.value(QLatin1String("FixFileNameEncoding")).toBool()) {
-            fixFileNameEncoding(destinationDirectory);
+        if (m_operationMode == Copy && m_fixFileNameEncoding) {
+            fixFileNameEncoding(m_destinationDirectory);
+            m_destinationDirectory.clear();
         }
         return;
     }
@@ -699,8 +708,9 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
 
     // if readStdout above needs to handle password request then we need to wait for it
     // before we can call fixFileNameEncoding().
-    if (m_operationMode == Copy && options.value(QLatin1String("FixFileNameEncoding")).toBool()) {
-        fixFileNameEncoding(destinationDirectory);
+    if (m_operationMode == Copy && m_fixFileNameEncoding) {
+        fixFileNameEncoding(m_destinationDirectory);
+        m_destinationDirectory.clear();
     }
 
     //and we're finished

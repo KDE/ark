@@ -409,6 +409,8 @@ private:
     ParameterList m_param;
     QVariantList m_removedFiles;
     bool m_testResult;
+    bool m_fixFileNameEncoding;
+    QString m_destinationDirectory;
 
 private slots:
     void readStdout(bool handleAll = false);
