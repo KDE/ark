@@ -601,16 +601,31 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
             archive_read_data_skip(arch_reader.data());
             kDebug() << "Entry to be deleted, skipping"
                      << archive_entry_pathname(entry);
-            emit entryRemoved(QFile::decodeName(archive_entry_pathname(entry)));
+            QString fileName;
+#ifdef _MSC_VER
+            fileName = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(entry)));
+#else
+            fileName = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(entry)));
+#endif
+
+            if (fileName.isEmpty()) {
+                fileName = QDir::fromNativeSeparators(QLatin1String(archive_entry_pathname(entry)));
+            }
+
+            entryRemoved(fileName);
             continue;
         }
 
-        int header_response;
+        int header_response = archive_write_header(arch_writer.data(), entry);
         //kDebug() << "Writing entry " << fn;
-        if ((header_response = archive_write_header(arch_writer.data(), entry)) == ARCHIVE_OK) {
+        if (header_response == ARCHIVE_OK || header_response == ARCHIVE_WARN) {
             //if the whole archive is extracted and the total filesize is
             //available, we use partial progress
             copyData(arch_reader.data(), arch_writer.data(), false);
+
+            if (header_response == ARCHIVE_WARN) {
+                kWarning() << "File" << QFile::decodeName(archive_entry_pathname(entry)) << "written with warning";
+            }
         } else {
             kDebug() << "Writing header failed with error code " << header_response;
             return false;
