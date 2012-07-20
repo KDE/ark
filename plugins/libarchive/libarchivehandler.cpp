@@ -252,7 +252,12 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             }
 
             // fix file name encoding before copying file or preview does not work.
-            if ( ( options.value(QLatin1String("FixFileNameEncoding")).toBool() ) ) {
+            QString fullNameInternal;
+            QString fullName;
+            if ((options.value(QLatin1String("FixFileNameEncoding")).toBool())) {
+                fullNameInternal = destinationDirectory + QLatin1Char('/') + getInternalId(entry);
+                fullName = destinationDirectory + QLatin1Char('/') + getFileName(entry);
+
                 // this make entry use the same encoding used by e[InternalID] in LibArchiveInterface::emitEntryFromArchiveEntry().
                 QByteArray b = QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(entry))).toLocal8Bit();
                 archive_entry_copy_pathname(entry, b.constData());
@@ -311,6 +316,15 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                 //if the whole archive is extracted and the total filesize is
                 //available, we use partial progress
                 copyData(arch.data(), writer.data(), (extractAll && m_extractedFilesSize));
+
+                if (options.value(QLatin1String("FixFileNameEncoding")).toBool()) {
+                    if (fullNameInternal != fullName) {
+                        if (!QFile::rename(fullNameInternal, fullName)) {
+                            kDebug() << "Renaming" << fullNameInternal << "to" << fullName << "failed";
+                        }
+                    }
+                    Q_ASSERT(QFile::exists(fullName));
+                }
             } else if (header_response == ARCHIVE_WARN) {
                 kDebug() << "Warning while writing " << entryName;
             } else {
@@ -670,23 +684,35 @@ bool LibArchiveInterface::testFiles(const QList<QVariant> & files, TestOptions o
     return true;
 }
 
+QString LibArchiveInterface::getInternalId(struct archive_entry *aentry)
+{
+    // Decoding file name here is required by Part::slotPreviewExtracted().
+    return QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(aentry)));
+}
+
+QString LibArchiveInterface::getFileName(struct archive_entry *aentry)
+{
+    QString fileName;
+#ifdef _MSC_VER
+    fileName = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry)));
+#else
+    fileName = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry)));
+#endif
+
+    // may happen if file name is not in the codec formats above.
+    if (fileName.isEmpty()) {
+        fileName = CliInterface::autoConvertEncoding(QDir::fromNativeSeparators(QLatin1String(archive_entry_pathname(aentry))));
+    }
+
+    return fileName;
+}
+
 void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 {
     ArchiveEntry e;
 
-    // Decoding file name here is required by Part::slotPreviewExtracted().
-    e[InternalID] = QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(aentry)));
-
-#ifdef _MSC_VER
-    e[FileName] = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry)));
-#else
-    e[FileName] = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry)));
-#endif
-
-    // may happen if file name is not in the codec formats above.
-    if (e[FileName].toString().isEmpty()) {
-        e[FileName] = CliInterface::autoConvertEncoding(QDir::fromNativeSeparators(QLatin1String(archive_entry_pathname(aentry))));
-    }
+    e[InternalID] = getInternalId(aentry);
+    e[FileName] = getFileName(aentry);
 
     const QString owner = QString::fromAscii(archive_entry_uname(aentry));
     if (!owner.isEmpty()) {

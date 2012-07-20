@@ -56,6 +56,8 @@ private:
     void copyData(const QString& filename, struct archive *dest, bool partialprogress = true);
     void copyData(struct archive *source, struct archive *dest, bool partialprogress = true);
     bool writeFile(const QString& fileName, struct archive* arch);
+    inline QString getInternalId(struct archive_entry *aentry);
+    inline QString getFileName(struct archive_entry *aentry);
 
     struct ArchiveReadCustomDeleter;
     struct ArchiveWriteCustomDeleter;
