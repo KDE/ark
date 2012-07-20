@@ -136,6 +136,7 @@ private:
     QSplitter            *m_splitter;
     KTempDir             *m_tempDir;
     bool                  m_busy;
+    KUrl                  m_lastDir;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;

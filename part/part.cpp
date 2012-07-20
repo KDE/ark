@@ -106,6 +106,8 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
         m_tempDir = new KTempDir(dir.absolutePath().append(QDir::separator()));
     }
 
+    m_lastDir = KUrl(QDir::homePath());
+
     m_splitter = new QSplitter(Qt::Horizontal, parentWidget);
     setWidget(m_splitter);
 
@@ -280,6 +282,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
 
 void Part::setupArchiveView()
 {
+    kDebug();
     m_archiveView->setModel(m_model);
     m_archiveView->setSortingEnabled(true);
 
@@ -301,6 +304,7 @@ void Part::setupArchiveView()
 
 void Part::setupActions()
 {
+    kDebug();
     KToggleAction *showInfoPanelAction = new KToggleAction(i18nc("@action:inmenu", "Show information panel"), this);
     actionCollection()->addAction(QLatin1String("show-infopanel"), showInfoPanelAction);
     showInfoPanelAction->setChecked(m_splitter->sizes().at(1) > 0);
@@ -461,6 +465,7 @@ bool Part::openFile()
     // it's a directory so navigate into it
     if (info.isDir()) {
         kDebug() << "it's a directory, so just show it an return";
+        m_lastDir = url();
         m_model->setArchive(NULL);
         setupArchiveView();
         updateView();
@@ -523,7 +528,9 @@ bool Part::openFile()
             setLocalFilePath(suggestion);
         }
     } else if (!creatingNewArchive && !info.exists()) {
-        KMessageBox::sorry(NULL, i18nc("@info", "The archive <filename>%1</filename> was not found.", localFile), i18nc("@title:window", "Error Opening Archive"));
+        KMessageBox::sorry(NULL,
+                           i18nc("@info", "The archive <filename>%1</filename> was not found.", localFile),
+                           i18nc("@title:window", "Error Opening Archive"));
         return false;
     }
 
@@ -582,6 +589,7 @@ bool Part::openFile()
     }
 
     kDebug() << "creating list job for archive";
+
     KJob *job = m_model->setArchive(archive.take());
     registerJob(job);
     job->start();
@@ -614,37 +622,47 @@ void Part::slotLoadingFinished(KJob *job)
     kDebug();
 
     KParts::OpenUrlArguments openArgs = arguments();
+
     if (job->error()) {
-        if (openArgs.metaData().value(QLatin1String("createNewArchive")) != QLatin1String("true")) {
-            KMessageBox::sorry(NULL,
-                               i18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error: <message>%2</message>",
-                                     localFilePath(),
-                                     job->errorText()),
-                               i18nc("@title:window", "Error Opening Archive"));
-        }
-    } else {
-        if (openArgs.metaData().value(QLatin1String("createNewArchive")) == QLatin1String("true")) {
-            CompressionOptions options;
-            QStringList filestoAdd;
+        this->setProperty("CompressionOptions", QVariant());
+        this->setProperty("FilesToAdd", QVariant());
+        openArgs.metaData().remove(QLatin1String("createNewArchive"));
+        openArgs.metaData().remove(QLatin1String("addFiles"));
+        setArguments(openArgs);
 
-            if (this->property("CompressionOptions").isValid()) {
-                options = this->property("CompressionOptions").toHash();
-                this->setProperty("CompressionOptions", QVariant());
-            }
+        KMessageBox::sorry(NULL,
+                           i18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error: <message>%2</message>",
+                                 localFilePath(),
+                                 job->errorText()),
+                           i18nc("@title:window", "Error Opening Archive"));
+        openUrl(m_lastDir);
+        return;
+    }
 
-            if (this->property("FilesToAdd").isValid()) {
-                filestoAdd = this->property("FilesToAdd").toStringList();
-                this->setProperty("FilesToAdd", QVariant());
-            }
-            slotAddFiles(filestoAdd, QString(), options);
+    if (openArgs.metaData().value(QLatin1String("createNewArchive")) == QLatin1String("true")) {
+        kDebug() << "now trying to add files to teh new archive";
+        CompressionOptions options;
+        QStringList filestoAdd;
+
+        if (this->property("CompressionOptions").isValid()) {
+            options = this->property("CompressionOptions").toHash();
+            this->setProperty("CompressionOptions", QVariant());
         }
 
-        // needed after overwiting an archive
-        if (QFile::exists(localFilePath().append(QLatin1String(".bck")))) {
-            QFile file(localFilePath().append(QLatin1String(".bck")));
-            kDebug() << "removing " << file.fileName();
-            file.remove();
+        if (this->property("FilesToAdd").isValid()) {
+            filestoAdd = this->property("FilesToAdd").toStringList();
+            this->setProperty("FilesToAdd", QVariant());
         }
+
+        kDebug() << filestoAdd;
+        slotAddFiles(filestoAdd, QString(), options);
+    }
+
+    // needed after overwiting an archive
+    if (QFile::exists(localFilePath().append(QLatin1String(".bck")))) {
+        QFile file(localFilePath().append(QLatin1String(".bck")));
+        kDebug() << "removing " << file.fileName();
+        file.remove();
     }
 
     m_archiveView->sortByColumn(0, Qt::AscendingOrder);
@@ -955,6 +973,8 @@ void Part::slotAdd()
     CompressionOptions options;
     QStringList filesToAdd;
 
+    this->setProperty("LastPath", QVariant(url().path()));
+
     if (m_stack->currentWidget() == m_dirOperator) {
         foreach(KFileItem item, m_dirOperator->selectedItems()) {
             filesToAdd.append(item.url().path());
@@ -1021,6 +1041,7 @@ void Part::slotAdd()
 void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, CompressionOptions options)
 {
     Q_UNUSED(path)
+    kDebug();
 
     if (filesToAdd.isEmpty()) {
         return;
@@ -1226,11 +1247,13 @@ void Part::slotTestArchiveDone(KJob* job)
 
 void Part::slotFileSelectedInOperator(const KFileItem &file)
 {
+    kDebug();
     openUrl(file.url());
 }
 
 QString Part::suggestNewNameForFile(const QString& file)
 {
+    kDebug() << file;
     QFileInfo info(file);
     QString basePath(info.absolutePath());
     QString name(info.baseName());
