@@ -175,7 +175,7 @@ bool CliPlugin::readListLine(const QString& line)
         } else if (line.startsWith(QLatin1String("Encrypted = ")) &&
                    line.size() >= 13) {
             m_currentArchiveEntry[ IsPasswordProtected ] = (line.at(12) == QLatin1Char( '+' ));
-        } else if (line.startsWith(QLatin1String("Block = "))) {
+        } else if (line.isEmpty()) {
             if (m_currentArchiveEntry.contains(FileName)) {
                 emit entry(m_currentArchiveEntry);
             }
