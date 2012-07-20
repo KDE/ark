@@ -1,5 +1,5 @@
 [Desktop Entry]
-Icon=utilities-file-archiver
+Icon=ark
 Name=Archiver
 Name[af]=Argifeerder
 Name[ar]=المؤرشف
@@ -20,7 +20,7 @@ Name[es]=Archivador
 Name[et]=Arhiveerija
 Name[eu]=Artxibalaria
 Name[fa]=بایگانی‌کننده
-Name[fi]=Archiver
+Name[fi]=Pakkausohjelma
 Name[fr]=Archiveur
 Name[ga]=Archiver
 Name[gl]=Arquivador
@@ -92,7 +92,7 @@ Comment[es]=Herramienta de gestión de archivos
 Comment[et]=Arhiivide haldamise rakendus
 Comment[eu]=Artxiboak Kudeatzeko tresna
 Comment[fa]=ابزار گرداندن بایگانی
-Comment[fi]=Tiedostoarkistojen käsittely
+Comment[fi]=Pakkausohjelma
 Comment[fr]=Outil de manipulation d'archives
 Comment[ga]=Uirlis Láimhseála Cartlainne
 Comment[gl]=Utilidade de manexo de arquivos
