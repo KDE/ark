@@ -192,6 +192,35 @@ void Part::registerJob(KJob* job)
 
     emit busy();
     connect(job, SIGNAL(result(KJob*)), this, SIGNAL(ready()));
+
+    connect(job, SIGNAL(description(KJob*, QString)),
+            this, SLOT(slotJobDescription(KJob*, QString)));
+    connect(job, SIGNAL(infoMessage(KJob*, QString, QString)),
+            this, SLOT(slotJobInfo(KJob*, QString, QString)));
+    connect(job, SIGNAL(warning(KJob*, QString, QString)),
+            this, SLOT(slotJobWarning(KJob*, QString, QString)));
+}
+
+
+void Part::slotJobDescription(KJob *job, const QString &title)
+{
+    Q_UNUSED(job)
+    kDebug() << title;
+}
+
+
+void Part::slotJobInfo(KJob *job, const QString &plain, const QString &rich)
+{
+    Q_UNUSED(job)
+    Q_UNUSED(rich)
+    kDebug() << plain;
+}
+
+void Part::slotJobWarning(KJob *job, const QString &plain, const QString &rich)
+{
+    Q_UNUSED(job)
+    Q_UNUSED(rich)
+    kWarning() << plain;
 }
 
 // TODO: One should construct a KUrl out of localPath in order to be able to handle
@@ -431,6 +460,7 @@ bool Part::openFile()
 
     // it's a directory so navigate into it
     if (info.isDir()) {
+        kDebug() << "it's a directory, so just show it an return";
         m_model->setArchive(NULL);
         setupArchiveView();
         updateView();
@@ -439,6 +469,7 @@ bool Part::openFile()
 
     // it seems to be a file
     if (info.isFile()) {
+        kDebug() << "it's a file";
         KMimeType::Ptr mimeType = KMimeType::findByUrl(url());
         // it has a completely unknown mimetype
         if (!mimeType) {
@@ -455,6 +486,7 @@ bool Part::openFile()
         // its a known mimetype, but not supported (probably not an archive), so open it in an
         // external application
         if (mimeType && !Kerfuffle::supportedMimeTypes().contains(mimeType->name(), Qt::CaseInsensitive)) {
+            kDebug() << "not a supported archive mimetype: " << mimeType->name();
             KRun::runUrl(url(), mimeType->name(), widget());
             setUrl(KUrl(info.absolutePath()));
             updateView();
@@ -495,6 +527,7 @@ bool Part::openFile()
         return false;
     }
 
+    kDebug() << "Loading archive"  << localFile;
     QScopedPointer<Kerfuffle::Archive> archive(Kerfuffle::Archive::create(localFile, m_model));
 
     if ((!archive) || ((creatingNewArchive) && (archive->isReadOnly()))) {
@@ -548,6 +581,7 @@ bool Part::openFile()
         return false;
     }
 
+    kDebug() << "creating list job for archive";
     KJob *job = m_model->setArchive(archive.take());
     registerJob(job);
     job->start();
@@ -572,6 +606,7 @@ bool Part::isBusy() const
 
 void Part::slotLoadingStarted()
 {
+    kDebug();
 }
 
 void Part::slotLoadingFinished(KJob *job)

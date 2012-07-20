@@ -101,6 +101,11 @@ private slots:
     void setFileNameFromArchive();
     void slotFileSelectedInOperator(const KFileItem &file);
 
+    // job output for debugging
+    void slotJobDescription(KJob *job, const QString &title);
+    void slotJobInfo(KJob *job, const QString &plain, const QString &rich = QString());
+    void slotJobWarning(KJob *job, const QString &plain, const QString &rich = QString());
+
 signals:
     void busy();
     void ready();
