@@ -724,6 +724,7 @@ void Part::slotPreviewExtracted(KJob *job)
                 kWarning() << "Renaming" << fullNameInternal << "to" << fullName << "failed";
             }
         }
+        Q_ASSERT(QFile::exists(fullName));
 
         // Make sure a maliciously crafted archive with parent folders named ".." do
         // not cause the previewed file path to be located outside the temporary
