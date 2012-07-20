@@ -299,8 +299,9 @@ void CliInterface::fixFileNameEncoding(const QString & destinationDirectory)
         QString encodingCorrectedString = autoConvertEncoding(list.at(i));
 
         if (list.at(i) != encodingCorrectedString) {
-            kDebug(1601) << "Renaming" << list.at(i) << "to" << encodingCorrectedString;
-            QFile::rename(list.at(i), encodingCorrectedString);
+            if (!QFile::rename(list.at(i), encodingCorrectedString)) {
+                kWarning() << "Renaming" << list.at(i) << "to" << encodingCorrectedString << "failed";
+            }
         }
     }
 }
