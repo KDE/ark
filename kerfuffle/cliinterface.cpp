@@ -1152,8 +1152,8 @@ QString CliInterface::autoConvertEncoding( const QString & fileName )
     QTextCodec * codec = QTextCodec::codecForName(refinedEncoding);
 
     if (!codec) {
-        kDebug() << "codecForName returned null, using codec ISO-8859-1 instead";
-        codec = QTextCodec::codecForName("ISO-8859-1");
+        kDebug() << "codecForName returned null, using codec ISO 8859-1 instead";
+        codec = QTextCodec::codecForName("ISO 8859-1");
     }
 
     QString refinedString = codec->toUnicode(fileName.toLatin1());
