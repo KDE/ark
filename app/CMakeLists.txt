@@ -1,10 +1,13 @@
+add_subdirectory(icons)
+
 set(ark_SRCS
     batchextract.cpp
     main.cpp
     mainwindow.cpp
    )
 
-kde4_add_app_icon(ark_SRCS "${KDE4_INSTALL_DIR}/share/icons/oxygen/*/apps/utilities-file-archiver.png")
+# For Mac and Windows.
+kde4_add_app_icon(ark_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-apps-ark.png")
 
 kde4_add_executable( ark ${ark_SRCS} )
 

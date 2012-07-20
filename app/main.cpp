@@ -86,7 +86,7 @@ int main(int argc, char **argv)
                         ki18n("bkisofs code"),
                         QByteArray(),
                         "http://littlesvr.ca/misc/contactandrew.php");
-    aboutData.setProgramIconName(QLatin1String( "utilities-file-archiver" ));
+    aboutData.setProgramIconName(QLatin1String("ark"));
 
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineOptions option;
