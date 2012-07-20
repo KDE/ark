@@ -46,7 +46,7 @@ public slots:
 
 private slots:
     void updateActions();
-    void newArchive();
+    void newArchive(const QList<QUrl> &urls);
     void openArchive();
     void quit();
 

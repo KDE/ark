@@ -23,6 +23,7 @@
  */
 #include "mainwindow.h"
 #include "kerfuffle/archive.h"
+#include "kerfuffle/createdialog.h"
 #include "part/interface.h"
 
 #include <KPluginLoader>
@@ -45,7 +46,7 @@
 
 static bool isValidArchiveDrag(const QMimeData *data)
 {
-    return ((data->hasUrls()) && (data->urls().count() == 1));
+    return ((data->hasUrls()) && (data->urls().count() >= 1));
 }
 
 MainWindow::MainWindow(QWidget *)
@@ -105,7 +106,11 @@ void MainWindow::dropEvent(QDropEvent * event)
 
     //TODO: if this call provokes a message box the drag will still be going
     //while the box is onscreen. looks buggy, do something about it
-    openUrl(event->mimeData()->urls().at(0));
+    if (event->mimeData()->urls().count() == 1) {
+        openUrl(event->mimeData()->urls().at(0));
+    } else {
+        newArchive(event->mimeData()->urls());
+    }
 }
 
 void MainWindow::dragMoveEvent(QDragMoveEvent * event)
@@ -207,7 +212,13 @@ void MainWindow::openArchive()
 
 void MainWindow::openUrl(const KUrl& url)
 {
-    if (!url.isEmpty()) {
+    if (!url.isValid() || url.isEmpty()) {
+        return;
+    }
+
+    QStringList mimeTypes = Kerfuffle::supportedMimeTypes();
+    KMimeType::Ptr type = KMimeType::findByUrl(url);
+    if( type && mimeTypes.contains(type->name(),Qt::CaseInsensitive)) {
         m_part->setArguments(m_openArgs);
 
         if (m_part->openUrl(url)) {
@@ -215,7 +226,12 @@ void MainWindow::openUrl(const KUrl& url)
         } else {
             m_recentFilesAction->removeUrl(url);
         }
+    } else {
+        QList<QUrl> urls;
+        urls.append(url);
+        newArchive(urls);
     }
+
 }
 
 void MainWindow::setShowExtractDialog(bool option)
@@ -232,23 +248,45 @@ void MainWindow::quit()
     close();
 }
 
-void MainWindow::newArchive()
+void MainWindow::newArchive(const QList<QUrl>& urls)
 {
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
 
-    const QStringList mimeTypes = Kerfuffle::supportedWriteMimeTypes();
+    if (urls.isEmpty()) {
+        return;
+    }
 
-    kDebug() << "Supported mimetypes are" << mimeTypes.join( QLatin1String( " " ));
+    QStringList filesToAdd;
+    foreach(QUrl file, urls) {
+        filesToAdd.append(file.path());
+    }
 
-    const KUrl saveFileUrl =
-        KFileDialog::getSaveUrl(KUrl("kfiledialog:///ArkNewDir"),
-                                mimeTypes.join(QLatin1String(" ")));
+    Kerfuffle::CreateDialog archiveDialog;
+    archiveDialog.setArchiveUrl(urls.at(0));
 
-    m_openArgs.metaData()[QLatin1String( "createNewArchive" )] = QLatin1String( "true" );
+    if (archiveDialog.exec() != Kerfuffle::CreateDialog::Accepted) {
+        return;
+    }
 
-    openUrl(saveFileUrl);
+    Kerfuffle::CompressionOptions options = archiveDialog.options();
+    const KUrl saveFileUrl = archiveDialog.archiveUrl();
 
-    m_openArgs.metaData().remove(QLatin1String( "showExtractDialog" ));
-    m_openArgs.metaData().remove(QLatin1String( "createNewArchive" ));
+    if (saveFileUrl.isEmpty()) {
+        return;
+    }
+
+    m_openArgs.metaData()[QLatin1String("createNewArchive")] = QLatin1String("true");
+    m_openArgs.metaData()[QLatin1String("addFiles")] = QLatin1String("true");
+    m_openArgs.metaData().remove("showExtractDialog");
+
+    m_part->setProperty("CompressionOptions", QVariant(options));
+    m_part->setProperty("FilesToAdd", QVariant(filesToAdd));
+    m_part->setArguments(m_openArgs);
+
+    if (m_part->openUrl(saveFileUrl)) {
+        m_recentFilesAction->addUrl(saveFileUrl);
+    } else {
+        m_recentFilesAction->removeUrl(saveFileUrl);
+    }
 }

@@ -95,16 +95,17 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     Q_UNUSED(args)
     setComponentData(Factory::componentData(), false);
 
-    if (!m_tempDir) {
-        // for security reasons we create the tmp directory in the users home
-        QDir dir(QDir::homePath());
-        if (!dir.exists(QLatin1String(".ark-tmp"))) {
-            dir.mkpath(QLatin1String(".ark-tmp"));
-        }
+    //    if (!m_tempDir) {
+    //        // for security reasons we create the tmp directory in the users home
+    //        QDir dir(QDir::homePath());
+    //        if (!dir.exists(".ark-tmp")) {
+    //            dir.mkpath(".ark-tmp");
+    //        }
 
-        dir.cd(QLatin1String(".ark-tmp"));
-        m_tempDir = new KTempDir(dir.absolutePath().append(QDir::separator()));
-    }
+    //        dir.cd(".ark-tmp");
+    //        m_tempDir = new KTempDir(dir.absolutePath().append(QDir::separator()));
+    //    }
+    m_tempDir = new KTempDir();
 
     m_lastDir = KUrl(QDir::homePath());
 

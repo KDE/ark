@@ -40,6 +40,7 @@
 #include <KMimeType>
 #include <KMimeTypeTrader>
 #include <KServiceTypeTrader>
+#include <KTempDir>
 
 static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
 {
@@ -356,10 +357,12 @@ QList<int> supportedOptions(const QString &mimeType)
         return options;
     }
 
+    kDebug() << mimeType;
+
     QVariantList args;
     CliInterface * const iface = factory->create<CliInterface>(0, args);
     if (!iface) {
-        kDebug() << "Could not create plugin instance " << pluginName;
+        kDebug() << "Could not create plugin instance " << pluginName << "for mime type " << mimeType;
         return options;
     }
 
