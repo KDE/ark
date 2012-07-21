@@ -370,7 +370,7 @@ void Part::updateActions()
         m_saveAsAction->setEnabled(false);
 
         bool hasArchive = false;
-        foreach(KFileItem item, m_dirOperator->selectedItems()) {
+        foreach(const KFileItem & item, m_dirOperator->selectedItems()) {
             if (isSupportedArchive(item.url())) {
                 hasArchive = true;
             }
@@ -831,7 +831,7 @@ void Part::slotExtractFiles()
         if (m_dirOperator->selectedItems().count() > 1) {
             kDebug()  <<  "TODO: implement batch extraction from with ark file browser";
 
-            foreach(KFileItem item, m_dirOperator->selectedItems()) {
+            foreach(const KFileItem & item, m_dirOperator->selectedItems()) {
                 if (isSupportedArchive(item.url())) {
                     kDebug()  << "Extraction: " << item.url();
                 }
@@ -978,7 +978,7 @@ void Part::slotAdd()
     this->setProperty("LastPath", QVariant(url().path()));
 
     if (m_stack->currentWidget() == m_dirOperator) {
-        foreach(KFileItem item, m_dirOperator->selectedItems()) {
+        foreach(const KFileItem & item, m_dirOperator->selectedItems()) {
             filesToAdd.append(item.url().path());
         }
     }
@@ -1214,7 +1214,7 @@ void Part::slotTestArchive()
         if (m_dirOperator->selectedItems().count() > 1) {
             kDebug()  <<  "TODO: implement batch testing of archives";
 
-            foreach(KFileItem item, m_dirOperator->selectedItems()) {
+            foreach(const KFileItem & item, m_dirOperator->selectedItems()) {
                 if (isSupportedArchive(item.url())) {
                     kDebug()  << "Test: " << item.url();
                 }

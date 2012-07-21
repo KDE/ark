@@ -58,8 +58,7 @@ CreateDialog::CreateDialog(QWidget * parent) : KDialog()
 void CreateDialog::loadConfiguration()
 {
     CompressionOptions options;
-    QString str;
-    foreach( str, m_config.keyList() ) {
+    foreach( const QString & str, m_config.keyList() ) {
         options[str] = m_config.readEntry(str);
     }
 

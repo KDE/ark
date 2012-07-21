@@ -45,18 +45,16 @@ CreateDialogUI::CreateDialogUI(QWidget *parent) : QWidget(parent)
     setupUi(this);
 
     // fill archive formats combobox
-    QString str;
     KMimeType::Ptr type;
     QList<int> options;
-    foreach(str, Kerfuffle::supportedWriteMimeTypes()) {
+    foreach(const QString & str, Kerfuffle::supportedWriteMimeTypes()) {
         type = KMimeType::mimeType(str);
         if (type) {
             archiveFormatComboBox->addItem(type->comment(), QVariant(type->name()));
         }
         options = Kerfuffle::supportedOptions(str);
         if (!options.isEmpty()) {
-            int opt;
-            foreach(opt, options) {
+            foreach(const int opt, options) {
                 m_mimeTypeOptions.insert(str, opt);
             }
         }

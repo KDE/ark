@@ -258,7 +258,7 @@ void MainWindow::newArchive(const QList<QUrl>& urls)
     }
 
     QStringList filesToAdd;
-    foreach(QUrl file, urls) {
+    foreach(const QUrl & file, urls) {
         filesToAdd.append(file.path());
     }
 
