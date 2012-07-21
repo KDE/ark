@@ -26,15 +26,15 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "createdialogui.h"
+#include "ui_createdialogui.h"
+#include "cliinterface.h"
+
 #include <KDebug>
 #include <KFileDialog>
 #include <KGlobal>
 #include <KMessageBox>
 #include <KMimeType>
-
-#include "ui_createdialogui.h"
-#include "createdialogui.h"
-#include "cliinterface.h"
 
 
 namespace Kerfuffle

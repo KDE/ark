@@ -2,6 +2,8 @@
  * Copyright (C) 2012 basysKom GmbH <info@basyskom.com>
  */
 
+#include "archiveconflictdialog.h"
+
 #include <QtCore/QString>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QIcon>
@@ -15,8 +17,6 @@
 
 #include <KIconLoader>
 #include <KLocalizedString>
-
-#include "archiveconflictdialog.h"
 
 
 ArchiveConflictDialog::ArchiveConflictDialog(QWidget * parent, QString archive, QString suggestedName)

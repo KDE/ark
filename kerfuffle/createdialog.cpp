@@ -26,12 +26,12 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "createdialog.h"
+#include "createdialogui.h"
+
 #include <KDebug>
 #include <KGlobal>
 #include <KMimeType>
-
-#include "createdialog.h"
-#include "createdialogui.h"
 
 namespace Kerfuffle
 {
