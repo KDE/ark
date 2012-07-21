@@ -24,7 +24,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <widget class="QTabWidget" name="tabWidget">
+    <widget class="KTabWidget" name="tabWidget">
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -86,7 +86,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="archiveFormatComboBox"/>
+          <widget class="KComboBox" name="archiveFormatComboBox"/>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="label_2">
@@ -99,7 +99,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QComboBox" name="compressionMethodComboBox">
+          <widget class="KComboBox" name="compressionMethodComboBox">
            <property name="currentIndex">
             <number>0</number>
            </property>
@@ -267,7 +267,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="encryptionMethodComboBox">
+             <widget class="KComboBox" name="encryptionMethodComboBox">
               <item>
                <property name="text">
                 <string>Zipcrypto</string>
@@ -333,7 +333,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="splitSizeComboBox">
+             <widget class="KComboBox" name="splitSizeComboBox">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -379,7 +379,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="splitSizeUnitComboBox">
+             <widget class="KComboBox" name="splitSizeUnitComboBox">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -456,9 +456,20 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>   
+  </customwidget>
+  <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>ktabwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>
