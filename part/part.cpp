@@ -157,11 +157,11 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, SLOT(slotLoadingStarted()));
     connect(m_model, SIGNAL(loadingFinished(KJob*)),
             this, SLOT(slotLoadingFinished(KJob*)));
-    connect(m_model, SIGNAL(droppedFiles(QStringList, QString)),
-            this, SLOT(slotAddFiles(QStringList, QString)));
-    connect(m_model, SIGNAL(error(QString, QString)),
-            this, SLOT(slotError(QString, QString)));
-    connect(m_model, SIGNAL(columnsInserted(QModelIndex, int, int)),
+    connect(m_model, SIGNAL(droppedFiles(QStringList,QString)),
+            this, SLOT(slotAddFiles(QStringList,QString)));
+    connect(m_model, SIGNAL(error(QString,QString)),
+            this, SLOT(slotError(QString,QString)));
+    connect(m_model, SIGNAL(columnsInserted(QModelIndex,int,int)),
             this, SLOT(adjustColumns()));
 
     setupArchiveView();
@@ -196,12 +196,12 @@ void Part::registerJob(KJob* job)
     emit busy();
     connect(job, SIGNAL(result(KJob*)), this, SIGNAL(ready()));
 
-    connect(job, SIGNAL(description(KJob*, QString)),
-            this, SLOT(slotJobDescription(KJob*, QString)));
-    connect(job, SIGNAL(infoMessage(KJob*, QString, QString)),
-            this, SLOT(slotJobInfo(KJob*, QString, QString)));
-    connect(job, SIGNAL(warning(KJob*, QString, QString)),
-            this, SLOT(slotJobWarning(KJob*, QString, QString)));
+    connect(job, SIGNAL(description(KJob*,QString)),
+            this, SLOT(slotJobDescription(KJob*,QString)));
+    connect(job, SIGNAL(infoMessage(KJob*,QString,QString)),
+            this, SLOT(slotJobInfo(KJob*,QString,QString)));
+    connect(job, SIGNAL(warning(KJob*,QString,QString)),
+            this, SLOT(slotJobWarning(KJob*,QString,QString)));
 }
 
 
@@ -288,9 +288,9 @@ void Part::setupArchiveView()
     m_archiveView->setSortingEnabled(true);
 
     disconnect(m_archiveView->selectionModel(), 0, this, 0);
-    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
             this, SLOT(updateActions()));
-    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
             this, SLOT(selectionChanged()));
 
     disconnect(m_archiveView, SIGNAL(itemTriggered(QModelIndex)), this, 0);
