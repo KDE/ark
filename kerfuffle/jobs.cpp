@@ -58,7 +58,7 @@ void Job::Private::run()
     q->doWork();
 
     if (q->isRunning()) {
-        exec();
+        exec(); //krazy:exclude=crashy
     }
 
 #ifdef DEBUG_RACECONDITION
