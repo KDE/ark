@@ -217,7 +217,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
         if (entryName.startsWith(QLatin1Char( '/' ))) {
             //for now we just can't handle absolute filenames in a tar archive.
             //TODO: find out what to do here!!
-            emit error(i18n("This archive contains archive entries with absolute paths, which are not yet supported by ark."));
+            emit error(i18nc("@info", "This archive contains archive entries with absolute paths, which are not yet supported by ark."));
 
             return false;
         }
@@ -366,7 +366,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
     if (!creatingNewFile) {
         arch_reader.reset(archive_read_new());
         if (!(arch_reader.data())) {
-            emit error(i18n("The archive reader could not be initialized."));
+            emit error(i18nc("@info", "The archive reader could not be initialized."));
             return false;
         }
 
@@ -379,14 +379,14 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
         }
 
         if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-            emit error(i18n("The source file could not be read."));
+            emit error(i18nc("@info", "The source file could not be read."));
             return false;
         }
     }
 
     ArchiveWrite arch_writer(archive_write_new());
     if (!(arch_writer.data())) {
-        emit error(i18n("The archive writer could not be initialized."));
+        emit error(i18nc("@info", "The archive writer could not be initialized."));
         return false;
     }
 
@@ -447,7 +447,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
             ret = archive_write_set_compression_none(arch_writer.data());
             break;
         default:
-            emit error(i18n("The compression type '%1' is not supported by Ark.", QLatin1String(archive_compression_name(arch_reader.data()))));
+            emit error(i18nc("@info", "The compression type '%1' is not supported by Ark.", QLatin1String(archive_compression_name(arch_reader.data()))));
             return false;
         }
 
@@ -544,7 +544,7 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
 
     ArchiveRead arch_reader(archive_read_new());
     if (!(arch_reader.data())) {
-        emit error(i18n("The archive reader could not be initialized."));
+        emit error(i18nc("@info", "The archive reader could not be initialized."));
         return false;
     }
 
@@ -557,13 +557,13 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
     }
 
     if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        emit error(i18n("The source file could not be read."));
+        emit error(i18nc("@info", "The source file could not be read."));
         return false;
     }
 
     ArchiveWrite arch_writer(archive_write_new());
     if (!(arch_writer.data())) {
-        emit error(i18n("The archive writer could not be initialized."));
+        emit error(i18nc("@info", "The archive writer could not be initialized."));
         return false;
     }
 
@@ -592,7 +592,7 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
         ret = archive_write_set_compression_none(arch_writer.data());
         break;
     default:
-        emit error(i18n("The compression type '%1' is not supported by Ark.", QLatin1String(archive_compression_name(arch_reader.data()))));
+        emit error(i18nc("@info", "The compression type '%1' is not supported by Ark.", QLatin1String(archive_compression_name(arch_reader.data()))));
         return false;
     }
 

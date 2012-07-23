@@ -316,34 +316,34 @@ void Part::setupActions()
 
     m_addAction = actionCollection()->addAction(QLatin1String("add"));
     m_addAction->setIcon(KIcon(QLatin1String("archive-insert")));
-    m_addAction->setText(i18n("&Add to archive"));
-    m_addAction->setStatusTip(i18n("Click to add files and folders to the archive"));
+    m_addAction->setText(i18nc("@action:button", "&Add to archive"));
+    m_addAction->setStatusTip(i18nc("@info:status", "Click to add files and folders to the archive"));
     connect(m_addAction, SIGNAL(triggered(bool)), this, SLOT(slotAdd()));
 
     m_extractAction = actionCollection()->addAction(QLatin1String("extract"));
-    m_extractAction->setText(i18n("E&xtract to..."));
+    m_extractAction->setText(i18nc("@action:button", "E&xtract to..."));
     m_extractAction->setIcon(KIcon(QLatin1String("archive-extract")));
-    m_extractAction->setStatusTip(i18n("Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones"));
+    m_extractAction->setStatusTip(i18nc("@info:status", "Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones"));
     m_extractAction->setShortcut(QKeySequence(QLatin1String("Ctrl+E")));
     connect(m_extractAction, SIGNAL(triggered(bool)), this, SLOT(slotExtractFiles()));
 
     m_testAction = actionCollection()->addAction(QLatin1String("test"));
-    m_testAction->setText(i18n("T&est archive"));
+    m_testAction->setText(i18nc("@action:button", "T&est archive"));
     m_testAction->setIcon(KIcon(QLatin1String("document-edit-decrypt-verify")));
-    m_testAction->setStatusTip(i18n("Test archive for errors"));
+    m_testAction->setStatusTip(i18nc("@info:status", "Test archive for errors"));
     connect(m_testAction, SIGNAL(triggered(bool)), this, SLOT(slotTestArchive()));
 
     m_viewAction = actionCollection()->addAction(QLatin1String("view"));
-    m_viewAction->setText(i18nc("to open the selected file in an external application", "&View"));
+    m_viewAction->setText(i18nc("@action:button to open the selected file in an external application", "&View"));
     m_viewAction->setIcon(KIcon(QLatin1String("document-preview")));
-    m_viewAction->setStatusTip(i18n("Click to open the selected file in an external application"));
+    m_viewAction->setStatusTip(i18nc("@info:status", "Click to open the selected file in an external application"));
     connect(m_viewAction, SIGNAL(triggered(bool)), this, SLOT(slotView()));
 
     m_deleteAction = actionCollection()->addAction(QLatin1String("delete"));
     m_deleteAction->setIcon(KIcon(QLatin1String("archive-remove")));
-    m_deleteAction->setText(i18n("De&lete"));
+    m_deleteAction->setText(i18nc("@action:button", "De&lete"));
     m_deleteAction->setShortcut(Qt::Key_Delete);
-    m_deleteAction->setStatusTip(i18n("Click to delete the selected files"));
+    m_deleteAction->setStatusTip(i18nc("@info:status", "Click to delete the selected files"));
     connect(m_deleteAction, SIGNAL(triggered(bool)), this, SLOT(slotDeleteFiles()));
 
     updateActions();

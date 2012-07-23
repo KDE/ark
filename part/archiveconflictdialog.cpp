@@ -52,17 +52,17 @@ ArchiveConflictDialog::ArchiveConflictDialog(QWidget * parent, QString archive, 
     optionsLayout->setSpacing(KDialog::spacingHint());
     optionsLayout->setMargin(KDialog::marginHint());
 
-    QLabel *text = new QLabel(i18nc("@info", "The archive <filename>%1</filename> already exists.<br>Please select one of the following options:", archive));
+    QLabel *text = new QLabel(i18nc("@info", "The archive <filename>%1</filename> already exists.<nl/>Please select one of the following options:", archive));
     optionsLayout->addWidget(text);
 
     QVBoxLayout *radioButtonsLayout = new QVBoxLayout();
     radioButtonsLayout->setSpacing(-1);
     radioButtonsLayout->setMargin(0);
 
-    m_overwriteButton = new QRadioButton(i18n("Overwrite existing archive"));
-    m_saveAsButton = new QRadioButton(i18n("Save new archive as <filename>%1</filename>", suggestedName));
+    m_overwriteButton = new QRadioButton(i18nc("@option:radio", "Overwrite existing archive"));
+    m_saveAsButton = new QRadioButton(i18nc("@option:radio", "Save new archive as <filename>%1</filename>", suggestedName));
     m_saveAsButton->setChecked(true);
-    m_openExistingButton = new QRadioButton(i18n("Add files to existing Archive"));
+    m_openExistingButton = new QRadioButton(i18nc("@option:radio", "Add files to existing Archive"));
 
     radioButtonsLayout->addWidget(m_overwriteButton);
     radioButtonsLayout->addWidget(m_saveAsButton);
