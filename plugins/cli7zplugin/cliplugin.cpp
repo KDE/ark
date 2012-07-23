@@ -58,7 +58,7 @@ ParameterList CliPlugin::parameterList() const
         p[PasswordSwitch] = QStringList() << QLatin1String( "-p$Password" );
         p[FileExistsExpression] = QLatin1String( "already exists. Overwrite with" );
         p[WrongPasswordPatterns] = QStringList() << QLatin1String( "Wrong password" );
-        p[AddArgs] = QStringList() << QLatin1String( "a" ) << QLatin1String( "$CompressionLevelSwitch" ) << QLatin1String( "$MultiThreadingSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$EncryptHeaderSwitch" )  << QLatin1String( "$MultiPartSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[AddArgs] = QStringList() << QLatin1String( "a" ) << QLatin1String( "$TemporaryDirectorySwitch" ) << QLatin1String( "$CompressionLevelSwitch" ) << QLatin1String( "$MultiThreadingSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$EncryptHeaderSwitch" )  << QLatin1String( "$MultiPartSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
         p[DeleteArgs] = QStringList() << QLatin1String( "d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
         p[FileExistsInput] = QStringList()
@@ -78,7 +78,8 @@ ParameterList CliPlugin::parameterList() const
 
         p[TestProgram] = QStringList() << QLatin1String( "7z" );
         p[TestArgs] = QStringList() << QLatin1String( "t" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
-        p[TestFailedPatterns] = QStringList() << QLatin1String("Data Error");
+        p[TestFailedPatterns] = QStringList() << "Data Error";
+        p[TemporaryDirectorySwitch] = QLatin1String("-w$DirectoryPath");
     }
 
     return p;

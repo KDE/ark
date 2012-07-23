@@ -277,7 +277,12 @@ enum CliInterfaceParameters {
      * QStringList
      * Patterns that indicate a fail during testing
      */
-    TestFailedPatterns
+    TestFailedPatterns,
+    /**
+     * QString
+     * Directory where temporary files will be created
+     */
+    TemporaryDirectorySwitch
 };
 
 typedef QHash<int, QVariant> ParameterList;

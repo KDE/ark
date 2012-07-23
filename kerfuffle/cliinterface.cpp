@@ -365,6 +365,12 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             }
         }
 
+        if (argument == QLatin1String("$TemporaryDirectorySwitch")) {
+            QString theReplacement = m_param.value(TemporaryDirectorySwitch).toString();
+            theReplacement.replace(QLatin1String("$DirectoryPath"), KGlobal::dirs()->findDirs("tmp", "")[0]);
+            args[i] = theReplacement;
+        } 
+
         if (argument == QLatin1String("$MultiPartSwitch")) {
             QString multiPartSwitch = m_param.value(MultiPartSwitch).toString();
             int multiPartSize = options.value(QLatin1String("MultiPartSize")).toInt();
