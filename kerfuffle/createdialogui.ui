@@ -20,7 +20,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string comment="@title:window">Create Archive</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
@@ -30,7 +30,7 @@
      </property>
      <widget class="QWidget" name="m_generalTab">
       <attribute name="title">
-       <string>General</string>
+       <string comment="@title:tab like in 'General options'">General</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
@@ -110,22 +110,22 @@
            </item>
            <item>
             <property name="text">
-             <string>Fast</string>
+             <string comment="@label:listbox like in 'use Fast compression option'">Fast</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Normal</string>
+             <string comment="@label:listbox like in 'use Normal compression option'">Normal</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Good</string>
+             <string comment="@label:listbox like in 'use Good compression option'">Good</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Maximum</string>
+             <string comment="@label:listbox like in 'use Maximum compression option'">Maximum</string>
             </property>
            </item>
           </widget>
@@ -302,7 +302,7 @@
      </widget>
      <widget class="QWidget" name="m_advancedTab">
       <attribute name="title">
-       <string>Advanced</string>
+       <string comment="@title:tab like in 'Advanced Options'">Advanced</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_7">
        <item>
