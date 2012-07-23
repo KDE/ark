@@ -42,10 +42,10 @@ CreateDialog::CreateDialog(QWidget * parent) : KDialog()
     setCaption(i18nc("@title:window", "Create Archive"));
     setButtons( KDialog::User1 | KDialog::Reset |  KDialog::Ok | KDialog::Cancel );
     setButtonGuiItem( KDialog::User1,
-                      KGuiItem( i18n("Set As Default"),
+                      KGuiItem( i18nc("@action:button", "Set As Default"),
                                 QLatin1String("configure"),
-                                i18n("Set the selected values as default values"),
-                                i18n("Sets the selected values as default values for new archives")));
+                                i18nc("@info:tooltip", "Set the selected values as default values"),
+                                i18nc("@info:whatsthis", "Sets the selected values as default values for new archives")));
 
 
     m_config = KConfigGroup(KGlobal::config()->group("CreateDialog"));

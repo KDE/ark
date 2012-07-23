@@ -90,34 +90,26 @@ void ExtractionDialog::batchModeOption()
     m_ui->autoSubfolders->show();
     m_ui->autoSubfolders->setEnabled(true);
     m_ui->singleFolderGroup->hide();
-    m_ui->extractAllLabel->setText(i18n("Extract multiple archives"));
+    m_ui->extractAllLabel->setText(i18nc("@title", "Extract multiple archives"));
 }
 
 void ExtractionDialog::accept()
 {
     if (extractToSubfolder()) {
         if (subfolder().contains(QLatin1String( "/" ))) {
-            KMessageBox::error(NULL, i18n("The subfolder name may not contain the character '/'."));
+            KMessageBox::error(NULL, i18nc("@info", "The subfolder name may not contain the character '/'."));
             return;
         }
 
         const QString pathWithSubfolder = url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder();
 
-        while (1) {
-            if (KIO::NetAccess::exists(pathWithSubfolder, KIO::NetAccess::SourceSide, 0)) {
-                if (QFileInfo(pathWithSubfolder).isDir()) {
-                    int overwrite = KMessageBox::questionYesNoCancel(0, i18nc("@info", "The folder <filename>%1</filename> already exists. Are you sure you want to extract here?", pathWithSubfolder), i18n("Folder exists"), KGuiItem(i18n("Extract here")), KGuiItem(i18n("Retry")), KGuiItem(i18n("Cancel")));
+        if (KIO::NetAccess::exists(pathWithSubfolder, KIO::NetAccess::SourceSide, 0)) {
+            if (QFileInfo(pathWithSubfolder).isDir()) {
+                int overwrite = KMessageBox::questionYesNo(0, i18nc("@info", "The folder <filename>%1</filename> already exists. Are you sure you want to extract here?", pathWithSubfolder), i18nc("@action:button", "Folder exists"), KGuiItem(i18nc("@action:button", "Extract here")), KGuiItem(i18nc("@action:button", "Cancel")));
 
-                    if (overwrite == KMessageBox::No) {
-                        // The user clicked Retry.
-                        continue;
-                    } else if (overwrite == KMessageBox::Cancel) {
-                        return;
-                    }
-                } else {
-                    KMessageBox::detailedError(0,
-                                               i18nc("@info", "The folder <filename>%1</filename> could not be created.", subfolder()),
-                                               i18nc("@info", "<filename>%1</filename> already exists, but is not a folder.", subfolder()));
+                if (overwrite == KMessageBox::No) {
+                    //TODO: choosing retry should also be possible, so one does
+                    //not have to do the procedure one more time.
                     return;
                 }
             } else if (!KIO::NetAccess::mkdir(pathWithSubfolder, 0)) {
@@ -126,7 +118,11 @@ void ExtractionDialog::accept()
                                            i18n("Please check your permissions to create it."));
                 return;
             }
-            break;
+        } else if (!KIO::NetAccess::mkdir(pathWithSubfolder, 0)) {
+            KMessageBox::detailedError(0,
+                                       i18nc("@info", "The folder <filename>%1</filename> could not be created.", subfolder()),
+                                       i18nc("@info", "Please check your permissions to create it."));
+            return;
         }
     }
 

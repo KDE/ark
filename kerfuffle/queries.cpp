@@ -94,7 +94,7 @@ void OverwriteQuery::execute()
 
     QWeakPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
         NULL,
-        i18n("File already exists"),
+        i18nc("@info", "File already exists"),
         sourceUrl,
         destUrl,
         mode);
@@ -178,7 +178,7 @@ void PasswordNeededQuery::execute()
     dlg.data()->setPrompt(i18nc("@info", "The archive <filename>%1</filename> is password protected. Please enter the password to extract the file.", m_data.value(QLatin1String( "archiveFilename" )).toString()));
 
     if (m_data.value(QLatin1String("incorrectTryAgain")).toBool()) {
-        dlg.data()->showErrorMessage(i18n("Incorrect password, please try again."), KPasswordDialog::PasswordError);
+        dlg.data()->showErrorMessage(i18nc("@info", "Incorrect password, please try again."), KPasswordDialog::PasswordError);
     }
 
     const bool notCancelled = dlg.data()->exec();

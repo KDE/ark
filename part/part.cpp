@@ -454,7 +454,7 @@ void Part::selectionChanged()
 
 KAboutData* Part::createAboutData()
 {
-    return new KAboutData("ark", 0, ki18n("ArkPart"), "3.0");
+    return new KAboutData("ark", 0, ki18nc("@title", "ArkPart"), "3.0");
 }
 
 bool Part::openFile()
@@ -1128,7 +1128,7 @@ void Part::slotDeleteFiles()
     } else if (m_model->archive()) {
         const int reallyDelete =
             KMessageBox::questionYesNo(NULL,
-                                       i18n("Deleting these files is not undoable. Are you sure you want to do this?"),
+                                       i18nc("@info", "Deleting these files is not undoable. Are you sure you want to do this?"),
                                        i18nc("@title:window", "Delete files"),
                                        KStandardGuiItem::del(),
                                        KStandardGuiItem::cancel(),
