@@ -1,3 +1,4 @@
+#//krazy:excludeall=spelling
 [Desktop Entry]
 Type=Service
 X-KDE-ServiceTypes=Kerfuffle/Plugin
