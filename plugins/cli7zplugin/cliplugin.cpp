@@ -78,7 +78,7 @@ ParameterList CliPlugin::parameterList() const
 
         p[TestProgram] = QStringList() << QLatin1String( "7z" );
         p[TestArgs] = QStringList() << QLatin1String( "t" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
-        p[TestFailedPatterns] = QStringList() << "Data Error";
+        p[TestFailedPatterns] = QStringList() << QLatin1String("Data Error");
         p[TemporaryDirectorySwitch] = QLatin1String("-w$DirectoryPath");
     }
 

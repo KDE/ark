@@ -367,7 +367,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
 
         if (argument == QLatin1String("$TemporaryDirectorySwitch")) {
             QString theReplacement = m_param.value(TemporaryDirectorySwitch).toString();
-            theReplacement.replace(QLatin1String("$DirectoryPath"), KGlobal::dirs()->findDirs("tmp", "")[0]);
+            theReplacement.replace(QLatin1String("$DirectoryPath"), KGlobal::dirs()->findDirs("tmp", QLatin1String(""))[0]);
             args[i] = theReplacement;
         } 
 

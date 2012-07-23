@@ -60,7 +60,7 @@ ParameterList CliPlugin::parameterList() const
         p[WrongPasswordPatterns] = QStringList() << QLatin1String( "Wrong password" );
 
         // TODO: split archives do not support add and delete.
-        p[AddArgs] = QStringList() << QLatin1String( "-tzip" ) << QLatin1String( "a" ) << QLatin1String( "$CompressionLevelSwitch" ) << QLatin1String( "$MultiThreadingSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$EncryptHeaderSwitch" ) << QLatin1String( "$EncryptionMethodSwitches" ) << QLatin1String( "$MultiPartSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[AddArgs] = QStringList() << QLatin1String( "-tzip" ) << QLatin1String( "a" ) << QLatin1String( "$TemporaryDirectorySwitch" ) << QLatin1String( "$CompressionLevelSwitch" ) << QLatin1String( "$MultiThreadingSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$EncryptHeaderSwitch" ) << QLatin1String( "$EncryptionMethodSwitches" ) << QLatin1String( "$MultiPartSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
         // TODO: split archives do not support add and delete.
         p[DeleteArgs] = QStringList() << QLatin1String( "d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
@@ -84,6 +84,7 @@ ParameterList CliPlugin::parameterList() const
         p[TestProgram] = QLatin1String( "7z" );
         p[TestArgs] = QStringList() << QLatin1String( "t" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
         p[TestFailedPatterns] = QStringList() << QLatin1String("Data Error") << QLatin1String("CRC Failed");
+        p[TemporaryDirectorySwitch] = QLatin1String("-w$DirectoryPath");
     }
 
     return p;
