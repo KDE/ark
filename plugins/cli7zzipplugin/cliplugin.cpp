@@ -116,20 +116,20 @@ bool CliPlugin::readListLine(const QString& line)
         if (line == entryInfoDelimiter) {
             m_state = ReadStateEntryInformation;
         } else if (line.startsWith(QLatin1String("Type ="))) {
-            const QString type = line.mid(7).trimmed();
+            const QString type = line.mid(7).trimmed().toLower();
             kDebug() << "Archive type: " << type;
 
             if (type == QLatin1String("7z")) {
                 m_archiveType = ArchiveType7z;
-            } else if (type == QLatin1String("BZip2")) {
+            } else if (type == QLatin1String("bzip2")) {
                 m_archiveType = ArchiveTypeBZip2;
-            } else if (type == QLatin1String("GZip")) {
+            } else if (type == QLatin1String("gzip")) {
                 m_archiveType = ArchiveTypeGZip;
-            } else if (type == QLatin1String("Tar")) {
+            } else if (type == QLatin1String("tar")) {
                 m_archiveType = ArchiveTypeTar;
             } else if (type == QLatin1String("zip")) {
                 m_archiveType = ArchiveTypeZip;
-            } else if (type == QLatin1String("Split")) {
+            } else if (type == QLatin1String("split")) {
                 // m_archiveType will be set later with one of the
                 // types above. see "7z l -slt" output. Use m_numberOfVolumes
                 // to check if the archive is really split (m_numberOfVolumes >= 2)
