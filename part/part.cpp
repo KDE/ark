@@ -180,7 +180,9 @@ Part::~Part()
 {
     saveSplitterSizes();
 
-    m_extractAction->menu()->deleteLater();
+    if (m_extractAction->menu()) {
+        m_extractAction->menu()->deleteLater();
+    }
 
     delete m_tempDir;
 }
