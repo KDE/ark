@@ -14,11 +14,12 @@ set(kerfuffle_SRCS
     queries.cpp
     addtoarchive.cpp
     cliinterface.cpp
+    kdelibs/knewpassworddialog.cpp
    )
 
 kde4_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
 
-kde4_add_ui_files(kerfuffle_SRCS extractiondialog.ui adddialog.ui createdialogui.ui)
+kde4_add_ui_files(kerfuffle_SRCS extractiondialog.ui adddialog.ui createdialogui.ui kdelibs/knewpassworddialog.ui)
 
 kde4_add_library(kerfuffle SHARED ${kerfuffle_SRCS})
 
