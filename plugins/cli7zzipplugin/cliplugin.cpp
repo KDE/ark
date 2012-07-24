@@ -78,7 +78,8 @@ ParameterList CliPlugin::parameterList() const
 
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) :");
 
-        p[EncryptHeaderSwitch] = QLatin1String("-mhe");
+        // according to 7's man page this only works for 7z archives.
+        //p[EncryptHeaderSwitch] = QLatin1String("-mhe");
         p[EncryptionMethodSwitches] = QStringList() << QLatin1String("-mem=AES256") << QLatin1String("-mem=ZipCrypto");
 
         p[TestProgram] = QLatin1String( "7z" );
