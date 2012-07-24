@@ -90,12 +90,16 @@ bool CliPlugin::readListLine(const QString& line)
     static const QLatin1String archiveInfoDelimiter1("--"); // 7z 9.13+
     static const QLatin1String archiveInfoDelimiter2("----"); // 7z 9.04
     static const QLatin1String entryInfoDelimiter("----------");
+    static int volumes = -1;
+    static QString fileName;
 
     switch (m_state) {
     case ReadStateHeader:
         if (line.startsWith(QLatin1String("Listing archive:"))) {
             kDebug() << "Archive name: "
                      << line.right(line.size() - 16).trimmed();
+            volumes = 1;
+            fileName.clear();
         } else if ((line == archiveInfoDelimiter1) ||
                    (line == archiveInfoDelimiter2)) {
             m_state = ReadStateArchiveInformation;
@@ -128,14 +132,27 @@ bool CliPlugin::readListLine(const QString& line)
                 kWarning() << "Unsupported archive type";
                 return false;
             }
+        } else if (line.startsWith(QLatin1String("Volumes ="))) {
+            bool ok;
+            volumes = line.mid(9).toInt(&ok);
+        } else if (volumes > 1 && line.startsWith(QLatin1String("Path ="))) {
+            fileName = line.mid(6).trimmed();
+            fileName = fileName.left(fileName.size()-4); // remove .bz2 extension
         }
 
         break;
 
     case ReadStateEntryInformation:
-        if (line.startsWith(QLatin1String("Path ="))) {
-            const QString entryFilename =
-                QDir::fromNativeSeparators(line.mid(6).trimmed());
+        // '7z l -slt' does not print the line 'Path =' for tar.bz2.001 archives in ReadStateEntryInformation state.
+        if (line.startsWith(QLatin1String("Path =")) || (m_archiveType == ArchiveTypeBZip2 && !fileName.isEmpty())) {
+            QString entryFilename;
+            if (m_archiveType == ArchiveTypeBZip2 && !fileName.isEmpty()) {
+                entryFilename = fileName;
+                fileName.clear();
+            } else {
+                entryFilename = line.mid(6).trimmed();
+            }
+            entryFilename = QDir::fromNativeSeparators(entryFilename);
             m_currentArchiveEntry.clear();
             m_currentArchiveEntry[FileName] = autoConvertEncoding(entryFilename);
             m_currentArchiveEntry[InternalID] = entryFilename;
