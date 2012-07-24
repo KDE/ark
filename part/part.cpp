@@ -102,10 +102,10 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
     // for security reasons we create the tmp directory in the users home
     QDir dir(QDir::homePath());
-    if (!dir.exists(".ark-tmp")) {
-        dir.mkpath(".ark-tmp");
+    if (!dir.exists(QLatin1String(".ark-tmp"))) {
+        dir.mkpath(QLatin1String(".ark-tmp"));
     }
-    dir.cd(".ark-tmp");
+    dir.cd(QLatin1String(".ark-tmp"));
     m_tempDir = new KTempDir(dir.absolutePath().append(QDir::separator()));
 
     m_lastDir = KUrl(QDir::homePath());
@@ -351,19 +351,20 @@ void Part::setupActions()
     connect(m_deleteAction, SIGNAL(triggered(bool)), this, SLOT(slotDeleteFiles()));
 
     // modify context menu for KDirOperator
-    QMenu* popup = static_cast<QMenu*>(m_dirOperator->actionCollection()->action("popupMenu")->menu());
-    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_addAction);
-    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_extractAction);
-    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_testAction);
-    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_viewAction);
-    popup->insertSeparator(m_dirOperator->actionCollection()->action("new"));
-    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_copyAction);
-    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_cutAction);
-    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_pasteAction);
-    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_deleteAction);
-    popup->removeAction(m_dirOperator->actionCollection()->action("new"));
-    popup->removeAction(m_dirOperator->actionCollection()->action("delete"));
-    popup->removeAction(m_dirOperator->actionCollection()->action("trash"));
+    QMenu* popup = static_cast<QMenu*>(m_dirOperator->actionCollection()->action(QLatin1String("popupMenu"))->menu());
+    popup->insertAction(m_dirOperator->actionCollection()->action(QLatin1String("new")), m_addAction);
+    popup->insertAction(m_dirOperator->actionCollection()->action(QLatin1String("new")), m_extractAction);
+    popup->insertAction(m_dirOperator->actionCollection()->action(QLatin1String("new")), m_testAction);
+    popup->insertAction(m_dirOperator->actionCollection()->action(QLatin1String("new")), m_viewAction);
+    popup->insertSeparator(m_dirOperator->actionCollection()->action(QLatin1String("new")));
+    popup->insertAction(m_dirOperator->actionCollection()->action(QLatin1String("new")), m_copyAction);
+    popup->insertAction(m_dirOperator->actionCollection()->action(QLatin1String("new")), m_cutAction);
+    popup->insertAction(m_dirOperator->actionCollection()->action(QLatin1String("new")), m_pasteAction);
+    popup->insertAction(m_dirOperator->actionCollection()->action(QLatin1String("new")), m_deleteAction);
+    popup->removeAction(m_dirOperator->actionCollection()->action(QLatin1String("new")));
+    popup->removeAction(m_dirOperator->actionCollection()->action(QLatin1String("delete")));
+    m_dirOperator->actionCollection()->action(QLatin1String("delete"))->setShortcut(QKeySequence());
+    popup->removeAction(m_dirOperator->actionCollection()->action(QLatin1String("trash")));
 
     m_archiveView->addAction(m_addAction);
     m_archiveView->addAction(m_extractAction);
@@ -642,12 +643,35 @@ bool Part::openFile()
         return false;
     }
 
-    kDebug() << "creating list job for archive";
+    if (creatingNewArchive) {
+        kDebug() << "creating new archive and adding files to it";
+        CompressionOptions options;
+        QStringList filestoAdd;
 
-    KJob *job = m_model->setArchive(archive.take());
-    registerJob(job);
-    job->start();
-    m_infoPanel->setIndex(QModelIndex());
+        if (this->property("CompressionOptions").isValid()) {
+            options = this->property("CompressionOptions").toHash();
+            this->setProperty("CompressionOptions", QVariant());
+        }
+
+        if (this->property("FilesToAdd").isValid()) {
+            filestoAdd = this->property("FilesToAdd").toStringList();
+            this->setProperty("FilesToAdd", QVariant());
+        }
+
+        KParts::OpenUrlArguments openArgs = arguments();
+        openArgs.metaData().remove(QLatin1String("createNewArchive"));
+        openArgs.metaData().remove(QLatin1String("addFiles"));
+        setArguments(openArgs);
+
+        m_model->setArchive(archive.take());
+        slotAddFiles(filestoAdd, QString(), options);
+    } else {
+        kDebug() << "creating list job for archive";
+        KJob *job = m_model->setArchive(archive.take());
+        registerJob(job);
+        job->start();
+        m_infoPanel->setIndex(QModelIndex());
+    }
 
     if (archive != 0 && arguments().metaData()[QLatin1String("showExtractDialog")] == QLatin1String("true")) {
         QTimer::singleShot(0, this, SLOT(slotExtractFiles()));
@@ -674,16 +698,7 @@ void Part::slotLoadingStarted()
 void Part::slotLoadingFinished(KJob *job)
 {
     kDebug();
-
-    KParts::OpenUrlArguments openArgs = arguments();
-
     if (job->error()) {
-        this->setProperty("CompressionOptions", QVariant());
-        this->setProperty("FilesToAdd", QVariant());
-        openArgs.metaData().remove(QLatin1String("createNewArchive"));
-        openArgs.metaData().remove(QLatin1String("addFiles"));
-        setArguments(openArgs);
-
         KMessageBox::sorry(NULL,
                            i18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error: <message>%2</message>",
                                  localFilePath(),
@@ -693,42 +708,11 @@ void Part::slotLoadingFinished(KJob *job)
         return;
     }
 
-    if (openArgs.metaData().value(QLatin1String("createNewArchive")) == QLatin1String("true")) {
-        kDebug() << "now trying to add files to the new archive";
-        CompressionOptions options;
-        QStringList filestoAdd;
-
-        if (this->property("CompressionOptions").isValid()) {
-            options = this->property("CompressionOptions").toHash();
-            this->setProperty("CompressionOptions", QVariant());
-        }
-
-        if (this->property("FilesToAdd").isValid()) {
-            filestoAdd = this->property("FilesToAdd").toStringList();
-            this->setProperty("FilesToAdd", QVariant());
-        }
-
-        kDebug() << filestoAdd;
-        slotAddFiles(filestoAdd, QString(), options);
-    }
-
-    // needed after overwiting an archive
-    if (QFile::exists(localFilePath().append(QLatin1String(".bck")))) {
-        QFile file(localFilePath().append(QLatin1String(".bck")));
-        kDebug() << "removing " << file.fileName();
-        file.remove();
-    }
-
     m_archiveView->sortByColumn(0, Qt::AscendingOrder);
     m_archiveView->expandToDepth(0);
 
     // After loading all files, resize the columns to fit all fields
     m_archiveView->header()->resizeSections(QHeaderView::ResizeToContents);
-
-    openArgs.metaData().remove(QLatin1String("createNewArchive"));
-    openArgs.metaData().remove(QLatin1String("addFiles"));
-    setArguments(openArgs);
-
     updateView();
 }
 
@@ -1156,8 +1140,10 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
 void Part::slotAddFilesDone(KJob* job)
 {
     kDebug();
+
     if (job->error()) {
         KMessageBox::error(widget(), job->errorString());
+        openUrl(m_lastDir);
         return;
     }
 
@@ -1170,6 +1156,15 @@ void Part::slotAddFilesDone(KJob* job)
         }
         this->setProperty("DeleteSourceFiles", QVariant());
     }
+
+    // needed after overwiting an archive
+    if (QFile::exists(localFilePath().append(QLatin1String(".bck")))) {
+        QFile file(localFilePath().append(QLatin1String(".bck")));
+        kDebug() << "removing " << file.fileName();
+        file.remove();
+    }
+
+    openUrl(url());
 }
 
 void Part::slotDeleteFilesDone(KJob* job)
