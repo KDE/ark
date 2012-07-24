@@ -84,6 +84,7 @@ LibArchiveInterface::~LibArchiveInterface()
 bool LibArchiveInterface::list()
 {
     kDebug();
+    Q_ASSERT(QFile::exists(filename()));
 
     ArchiveRead arch_reader(archive_read_new());
 
