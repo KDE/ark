@@ -448,6 +448,9 @@ void Part::updateView()
         m_stack->setCurrentWidget(m_dirOperator);
     }
 
+    m_infoPanel->setPrettyFileName(QString());
+    m_infoPanel->updateWithDefaults();
+
     m_archiveView->setEnabled(!isBusy());
     m_dirOperator->setEnabled(!isBusy());
 
@@ -577,6 +580,7 @@ bool Part::openFile()
                 localFile = suggestion;
                 info.setFile(suggestion);
                 setLocalFilePath(suggestion);
+                setUrl(KUrl(localFilePath()));
             }
         }
     } else if (!creatingNewArchive && !info.exists()) {
