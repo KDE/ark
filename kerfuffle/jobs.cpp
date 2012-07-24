@@ -320,6 +320,17 @@ void AddJob::doWork()
     }
 }
 
+QStringList AddJob::files() const
+{
+    return m_files;
+}
+
+CompressionOptions AddJob::compressionOptions() const
+{
+    return m_options;
+}
+
+
 DeleteJob::DeleteJob(const QVariantList& files, ReadWriteArchiveInterface *interface, QObject *parent)
     : Job(interface, parent)
     , m_files(files)

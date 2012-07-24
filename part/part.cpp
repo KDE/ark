@@ -38,6 +38,7 @@
 #include <KAboutData>
 #include <KAction>
 #include <KActionCollection>
+#include <KActionMenu>
 #include <KApplication>
 #include <KConfigGroup>
 #include <KDebug>
@@ -49,7 +50,10 @@
 #include <KIO/NetAccess>
 #include <KIcon>
 #include <KInputDialog>
+#include <KActionMenu>
 #include <KMessageBox>
+#include <konqmimedata.h>
+#include <konq_operations.h>
 #include <KPluginFactory>
 #include <KRun>
 #include <KSelectAction>
@@ -61,6 +65,7 @@
 #include <KVBox>
 
 #include <QAction>
+#include <QClipboard>
 #include <QCursor>
 #include <QFileInfo>
 #include <QHeaderView>
@@ -95,17 +100,13 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     Q_UNUSED(args)
     setComponentData(Factory::componentData(), false);
 
-    //    if (!m_tempDir) {
-    //        // for security reasons we create the tmp directory in the users home
-    //        QDir dir(QDir::homePath());
-    //        if (!dir.exists(".ark-tmp")) {
-    //            dir.mkpath(".ark-tmp");
-    //        }
-
-    //        dir.cd(".ark-tmp");
-    //        m_tempDir = new KTempDir(dir.absolutePath().append(QDir::separator()));
-    //    }
-    m_tempDir = new KTempDir();
+    // for security reasons we create the tmp directory in the users home
+    QDir dir(QDir::homePath());
+    if (!dir.exists(".ark-tmp")) {
+        dir.mkpath(".ark-tmp");
+    }
+    dir.cd(".ark-tmp");
+    m_tempDir = new KTempDir(dir.absolutePath().append(QDir::separator()));
 
     m_lastDir = KUrl(QDir::homePath());
 
@@ -313,6 +314,9 @@ void Part::setupActions()
             this, SLOT(slotToggleInfoPanel(bool)));
 
     m_saveAsAction = KStandardAction::saveAs(this, SLOT(slotSaveAs()), actionCollection());
+    m_cutAction = KStandardAction::cut(this, SLOT(cut()), actionCollection());
+    m_copyAction = KStandardAction::copy(this, SLOT(copy()), actionCollection());
+    m_pasteAction = KStandardAction::paste(this, SLOT(paste()), actionCollection());
 
     m_addAction = actionCollection()->addAction(QLatin1String("add"));
     m_addAction->setIcon(KIcon(QLatin1String("archive-insert")));
@@ -346,6 +350,34 @@ void Part::setupActions()
     m_deleteAction->setStatusTip(i18nc("@info:status", "Click to delete the selected files"));
     connect(m_deleteAction, SIGNAL(triggered(bool)), this, SLOT(slotDeleteFiles()));
 
+    // modify context menu for KDirOperator
+    QMenu* popup = static_cast<QMenu*>(m_dirOperator->actionCollection()->action("popupMenu")->menu());
+    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_addAction);
+    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_extractAction);
+    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_testAction);
+    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_viewAction);
+    popup->insertSeparator(m_dirOperator->actionCollection()->action("new"));
+    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_copyAction);
+    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_cutAction);
+    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_pasteAction);
+    popup->insertAction(m_dirOperator->actionCollection()->action("new"), m_deleteAction);
+    popup->removeAction(m_dirOperator->actionCollection()->action("new"));
+    popup->removeAction(m_dirOperator->actionCollection()->action("delete"));
+    popup->removeAction(m_dirOperator->actionCollection()->action("trash"));
+
+    m_archiveView->addAction(m_addAction);
+    m_archiveView->addAction(m_extractAction);
+    m_archiveView->addAction(m_testAction);
+    m_archiveView->addAction(m_viewAction);
+    KAction *separator = new KAction(actionCollection());
+    separator->setSeparator(true);
+    m_archiveView->addAction(separator);
+    m_archiveView->addAction(m_copyAction);
+    m_archiveView->addAction(m_cutAction);
+    m_archiveView->addAction(m_pasteAction);
+    m_archiveView->addAction(m_deleteAction);
+    m_archiveView->setContextMenuPolicy(Qt::ActionsContextMenu);
+
     updateActions();
 }
 
@@ -358,14 +390,28 @@ void Part::updateActions()
     if (m_stack->currentWidget() == m_archiveView) {
         bool isWritable = m_model->archive() && (!m_model->archive()->isReadOnly());
 
-        m_saveAsAction->setEnabled(!isBusy() && m_model->archive());
-        m_extractAction->setEnabled(!isBusy() && (m_model->rowCount() > 0));
+        m_saveAsAction->setEnabled(!isBusy()
+                                   && m_model->archive());
+        m_extractAction->setEnabled(!isBusy()
+                                    && m_model->archive() && (m_model->rowCount() > 0));
         m_testAction->setEnabled(!isBusy() && m_model->archive());
         m_viewAction->setEnabled(!isBusy()
+                                 && m_model->archive()
                                  && (m_archiveView->selectionModel()->selectedRows().count() == 1)
                                  && isPreviewable(m_archiveView->selectionModel()->currentIndex()));
-        m_deleteAction->setEnabled(!isBusy() && (m_archiveView->selectionModel()->selectedRows().count() > 0)
-                                   && isWritable);
+        m_deleteAction->setEnabled(!isBusy()
+                                   && isWritable
+                                   && (m_archiveView->selectionModel()->selectedRows().count() > 0));
+        m_copyAction->setEnabled(!isBusy()
+                                 && m_model->archive()
+                                 && (m_archiveView->selectionModel()->selectedRows().count() > 0));
+        m_cutAction->setEnabled(!isBusy()
+                                && isWritable
+                                && (m_archiveView->selectionModel()->selectedRows().count() > 0));
+
+        m_pasteAction->setEnabled(!isBusy()
+                                  && isWritable
+                                  /*&& !KUrl::List::fromMimeData(QApplication::clipboard()->mimeData()).isEmpty()*/);
     } else {
         m_saveAsAction->setEnabled(false);
 
@@ -379,6 +425,10 @@ void Part::updateActions()
         m_testAction->setEnabled(!isBusy() && hasArchive);
         m_viewAction->setEnabled(!isBusy() && (m_dirOperator->selectedItems().count() == 1));
         m_deleteAction->setEnabled(!isBusy() && (m_dirOperator->selectedItems().count() > 0));
+        m_copyAction->setEnabled(!isBusy() && (m_dirOperator->selectedItems().count() > 0));
+        m_cutAction->setEnabled(!isBusy() && (m_dirOperator->selectedItems().count() > 0));
+        m_pasteAction->setEnabled(!isBusy()
+                                  /*&& !KUrl::List::fromMimeData(QApplication::clipboard()->mimeData()).isEmpty()*/);
     }
 }
 
@@ -642,7 +692,7 @@ void Part::slotLoadingFinished(KJob *job)
     }
 
     if (openArgs.metaData().value(QLatin1String("createNewArchive")) == QLatin1String("true")) {
-        kDebug() << "now trying to add files to teh new archive";
+        kDebug() << "now trying to add files to the new archive";
         CompressionOptions options;
         QStringList filestoAdd;
 
@@ -1049,8 +1099,6 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
         return;
     }
 
-    kDebug() << "Adding " << filesToAdd;
-
     QStringList cleanFilesToAdd(filesToAdd);
     for (int i = 0; i < cleanFilesToAdd.size(); ++i) {
         QString& file = cleanFilesToAdd[i];
@@ -1108,6 +1156,17 @@ void Part::slotAddFilesDone(KJob* job)
     kDebug();
     if (job->error()) {
         KMessageBox::error(widget(), job->errorString());
+        return;
+    }
+
+    // the following is needed for cut/paste operations
+    AddJob* addJob = static_cast<AddJob*>(job);
+    if (addJob) {
+        QVariant var = this->property("DeleteSourceFiles");
+        if (var.isValid() && var.toBool()) {
+            KonqOperations::del(widget(), KonqOperations::TRASH, KUrl::List(addJob->files()));
+        }
+        this->setProperty("DeleteSourceFiles", QVariant());
     }
 }
 
@@ -1285,6 +1344,73 @@ bool Part::isSupportedArchive(const KUrl& url)
         }
     }
     return false;
+}
+
+
+void Part::populateMimeData(QMimeData* mimeData, bool cut)
+{
+    KUrl::List kdeUrls;
+    KUrl::List mostLocalUrls;
+    bool dummy;
+    if (m_stack->currentWidget() == m_dirOperator) {
+        foreach(KFileItem item, m_dirOperator->selectedItems()) {
+            kdeUrls.append(item.url());
+            mostLocalUrls.append(item.mostLocalUrl(dummy));
+        }
+    } else {
+
+    }
+
+    KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, cut);
+}
+
+void Part::cut()
+{
+    QMimeData* mimeData = new QMimeData();
+    populateMimeData(mimeData, true);
+    QApplication::clipboard()->setMimeData(mimeData);
+}
+
+void Part::copy()
+{
+    QMimeData* mimeData = new QMimeData();
+    populateMimeData(mimeData, false);
+    QApplication::clipboard()->setMimeData(mimeData);
+}
+
+void Part::paste()
+{
+    QClipboard* clipboard = QApplication::clipboard();
+    const QMimeData* mimeData = clipboard->mimeData();
+    const KUrl::List source = KUrl::List::fromMimeData(mimeData);
+    const KUrl& dest = url();
+
+    if (source.isEmpty() || dest.isEmpty() || !dest.isValid()) {
+        return;
+    }
+
+    if (m_stack->currentWidget() == m_dirOperator) {
+        if (KonqMimeData::decodeIsCutSelection(mimeData)) {
+            KonqOperations::copy(widget(), KonqOperations::MOVE, source, dest);
+            clipboard->clear();
+        } else {
+            KonqOperations::copy(widget(), KonqOperations::COPY, source, dest);
+        }
+    } else if (m_model->archive()) {
+        QStringList files;
+        foreach( KUrl url, source) {
+            files.append(url.path());
+        }
+
+        if (KonqMimeData::decodeIsCutSelection(mimeData)) {
+            slotAddFiles(files);
+            this->setProperty("DeleteSourceFiles", QVariant(true));
+            clipboard->clear();
+        } else {
+            slotAddFiles(files);
+            this->setProperty("DeleteSourceFiles", QVariant());
+        }
+    }
 }
 
 } // namespace Ark

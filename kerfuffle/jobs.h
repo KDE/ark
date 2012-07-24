@@ -143,6 +143,8 @@ class KERFUFFLE_EXPORT AddJob : public Job
 
 public:
     AddJob(const QStringList& files, const CompressionOptions& options, ReadWriteArchiveInterface *interface, QObject *parent = 0);
+    QStringList files() const;
+    CompressionOptions compressionOptions() const;
 
 public slots:
     virtual void doWork();

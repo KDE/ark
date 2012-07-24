@@ -15,7 +15,7 @@ kde4_add_ui_files(arkpart_PART_SRCS jobtracker.ui )
 
 kde4_add_plugin(arkpart ${arkpart_PART_SRCS})
 
-target_link_libraries(arkpart kerfuffle ${KDE4_KFILE_LIBS} ${KDE4_KPARTS_LIBS} ${KDE4_KHTML_LIBS} ${KDE4_KDEUI_LIBS})
+target_link_libraries(arkpart kerfuffle konq ${KDE4_KFILE_LIBS} ${KDE4_KPARTS_LIBS} ${KDE4_KHTML_LIBS} ${KDE4_KDEUI_LIBS})
 
 configure_file(
             ${CMAKE_CURRENT_SOURCE_DIR}/ark_part.desktop.cmake

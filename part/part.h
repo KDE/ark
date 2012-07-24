@@ -45,6 +45,7 @@ class KTempDir;
 class KUrlNavigator;
 
 class QAction;
+class QMimeData;
 class QSplitter;
 class QStackedWidget;
 class QTreeView;
@@ -100,6 +101,10 @@ private slots:
     void setReadyGui();
     void setFileNameFromArchive();
     void slotFileSelectedInOperator(const KFileItem &file);
+    void cut();
+    void copy();
+    void paste();
+    void populateMimeData(QMimeData* mimeData, bool cut);
 
     // job output for debugging
     void slotJobDescription(KJob *job, const QString &title);
@@ -126,6 +131,9 @@ private:
     KDirOperator         *m_dirOperator;
     KUrlNavigator        *m_urlNavigator;
     QStackedWidget       *m_stack;
+    KAction              *m_copyAction;
+    KAction              *m_cutAction;
+    KAction              *m_pasteAction;
     KAction              *m_viewAction;
     KAction              *m_extractAction;
     KAction              *m_addAction;
