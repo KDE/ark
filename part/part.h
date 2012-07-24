@@ -105,6 +105,8 @@ private slots:
     void copy();
     void paste();
     void populateMimeData(QMimeData* mimeData, bool cut);
+    QString previewPathForEntry(const Kerfuffle::ArchiveEntry &entry);
+    void openInExternalApplication(const QString &file);
 
     // job output for debugging
     void slotJobDescription(KJob *job, const QString &title);

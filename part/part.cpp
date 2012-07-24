@@ -158,11 +158,11 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, SLOT(slotLoadingStarted()));
     connect(m_model, SIGNAL(loadingFinished(KJob*)),
             this, SLOT(slotLoadingFinished(KJob*)));
-    connect(m_model, SIGNAL(droppedFiles(QStringList,QString)),
-            this, SLOT(slotAddFiles(QStringList,QString)));
-    connect(m_model, SIGNAL(error(QString,QString)),
-            this, SLOT(slotError(QString,QString)));
-    connect(m_model, SIGNAL(columnsInserted(QModelIndex,int,int)),
+    connect(m_model, SIGNAL(droppedFiles(QStringList, QString)),
+            this, SLOT(slotAddFiles(QStringList, QString)));
+    connect(m_model, SIGNAL(error(QString, QString)),
+            this, SLOT(slotError(QString, QString)));
+    connect(m_model, SIGNAL(columnsInserted(QModelIndex, int, int)),
             this, SLOT(adjustColumns()));
 
     setupArchiveView();
@@ -199,12 +199,12 @@ void Part::registerJob(KJob* job)
     emit busy();
     connect(job, SIGNAL(result(KJob*)), this, SIGNAL(ready()));
 
-    connect(job, SIGNAL(description(KJob*,QString)),
-            this, SLOT(slotJobDescription(KJob*,QString)));
-    connect(job, SIGNAL(infoMessage(KJob*,QString,QString)),
-            this, SLOT(slotJobInfo(KJob*,QString,QString)));
-    connect(job, SIGNAL(warning(KJob*,QString,QString)),
-            this, SLOT(slotJobWarning(KJob*,QString,QString)));
+    connect(job, SIGNAL(description(KJob*, QString)),
+            this, SLOT(slotJobDescription(KJob*, QString)));
+    connect(job, SIGNAL(infoMessage(KJob*, QString, QString)),
+            this, SLOT(slotJobInfo(KJob*, QString, QString)));
+    connect(job, SIGNAL(warning(KJob*, QString, QString)),
+            this, SLOT(slotJobWarning(KJob*, QString, QString)));
 }
 
 
@@ -291,9 +291,9 @@ void Part::setupArchiveView()
     m_archiveView->setSortingEnabled(true);
 
     disconnect(m_archiveView->selectionModel(), 0, this, 0);
-    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
+    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
             this, SLOT(updateActions()));
-    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
+    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
             this, SLOT(selectionChanged()));
 
     disconnect(m_archiveView, SIGNAL(itemTriggered(QModelIndex)), this, 0);
@@ -783,6 +783,13 @@ void Part::slotView(const QModelIndex & index)
     const ArchiveEntry& entry = m_model->entryForIndex(index);
 
     if (!entry.isEmpty()) {
+        QString filePath = previewPathForEntry(entry);
+        // avoid asking the user whether to overwrite a preview file that has been extracted before
+        if (QFile::exists(filePath)) {
+            QFile file(filePath);
+            file.remove();
+        }
+
         Kerfuffle::ExtractionOptions options;
         options[QLatin1String("PreservePaths")] = true;
         options[QLatin1String("FixFileNameEncoding")] = true;
@@ -803,38 +810,50 @@ void Part::slotPreviewExtracted(KJob *job)
     if (!job->error()) {
         const ArchiveEntry& entry = m_model->entryForIndex(m_archiveView->selectionModel()->currentIndex());
 
-        QString fullNameInternal =
-            m_tempDir->name() + QLatin1Char('/') + entry[InternalID].toString();
-
-        QString fullName =
-            m_tempDir->name() + QLatin1Char('/') + entry[FileName].toString();
-
-        if (fullNameInternal != fullName) {
-            // libarchive plugin already fixes file name encoding, in that case fullName already exists.
-            if (!QFile::rename(fullNameInternal, fullName) && !QFile::exists(fullName)) {
-                kWarning() << "Renaming" << fullNameInternal << "to" << fullName << "failed";
-            }
-        }
-        Q_ASSERT(QFile::exists(fullName));
-
-        // Make sure a maliciously crafted archive with parent folders named ".." do
-        // not cause the previewed file path to be located outside the temporary
-        // directory, resulting in a directory traversal issue.
-        fullName.remove(QLatin1String("../"));
-
-        KMimeType::Ptr mimeType = KMimeType::findByPath(fullName);
-        if (mimeType) {
-            KRun::runUrl(KUrl::fromPath(fullName), mimeType->name(), widget());
-        } else {
-            KMessageBox::sorry(widget(),
-                               i18nc("@info", "Couldn't determine the type of the file, opening not possible."),
-                               i18nc("@title:window", "Error Opening File"));
+        QString file = previewPathForEntry(entry);
+        if (QFile::exists(file)) {
+            openInExternalApplication(file);
         }
     } else {
         KMessageBox::error(widget(), job->errorString());
     }
 
     setReadyGui();
+}
+
+QString Part::previewPathForEntry(const ArchiveEntry& entry)
+{
+    QString fullNameInternal =
+        m_tempDir->name() + QLatin1Char('/') + entry[InternalID].toString();
+
+    QString fullName =
+        m_tempDir->name() + QLatin1Char('/') + entry[FileName].toString();
+
+    if (fullNameInternal != fullName) {
+        // libarchive plugin already fixes file name encoding, in that case fullName already exists.
+        if (!QFile::rename(fullNameInternal, fullName) && !QFile::exists(fullName)) {
+            kWarning() << "Renaming" << fullNameInternal << "to" << fullName << "failed";
+        }
+    }
+
+    // Make sure a maliciously crafted archive with parent folders named ".." do
+    // not cause the previewed file path to be located outside the temporary
+    // directory, resulting in a directory traversal issue.
+    fullName.remove(QLatin1String("../"));
+
+    return fullName;
+}
+
+void Part::openInExternalApplication(const QString& file)
+{
+    KMimeType::Ptr mimeType = KMimeType::findByPath(file);
+    if (mimeType) {
+        KRun::runUrl(KUrl::fromPath(file), mimeType->name(), widget());
+    } else {
+        KMessageBox::sorry(widget(),
+                           i18nc("@info", "Couldn't determine the type of the file, opening not possible."),
+                           i18nc("@title:window", "Error Opening File"));
+    }
 }
 
 void Part::slotError(const QString& errorMessage, const QString& details)
@@ -1395,7 +1414,7 @@ void Part::paste()
         }
     } else if (m_model->archive()) {
         QStringList files;
-        foreach( KUrl url, source) {
+        foreach(KUrl url, source) {
             files.append(url.path());
         }
 
