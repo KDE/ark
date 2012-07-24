@@ -301,9 +301,7 @@ void Part::setupArchiveView()
     connect(m_archiveView, SIGNAL(itemTriggered(QModelIndex)),
             this, SLOT(slotView(QModelIndex)));
 
-    m_infoPanel->setPrettyFileName(QString());
-    m_infoPanel->updateWithDefaults();
-
+    setFileNameFromArchive();
 }
 
 void Part::setupActions()
@@ -450,9 +448,7 @@ void Part::updateView()
         m_stack->setCurrentWidget(m_dirOperator);
     }
 
-    m_infoPanel->setPrettyFileName(QString());
-    m_infoPanel->updateWithDefaults();
-
+    setFileNameFromArchive();
     m_archiveView->setEnabled(!isBusy());
     m_dirOperator->setEnabled(!isBusy());
 
