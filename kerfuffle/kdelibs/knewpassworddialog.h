@@ -221,6 +221,7 @@ private:
     KNewPasswordDialogPrivate* const d;
 
     Q_PRIVATE_SLOT( d, void _k_textChanged() )
+    Q_PRIVATE_SLOT( d, void _k_showPasswordChanged(const bool) )
 };
 
 #endif // KNEWPASSWORDDIALOG_H

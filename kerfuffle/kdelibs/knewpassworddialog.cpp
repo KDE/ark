@@ -48,6 +48,7 @@ public:
 
     void init();
     void _k_textChanged();
+    void _k_showPasswordChanged(const bool show);
 
     KNewPasswordDialog *q;
 
@@ -84,6 +85,7 @@ void KNewPasswordDialog::KNewPasswordDialogPrivate::init()
 
     connect( ui.linePassword, SIGNAL(textChanged(QString)), q, SLOT(_k_textChanged()) );
     connect( ui.lineVerifyPassword, SIGNAL(textChanged(QString)), q, SLOT(_k_textChanged()) );
+    connect( ui.showPassword, SIGNAL(toggled(bool)), q, SLOT(_k_showPasswordChanged(bool)) );
 
     _k_textChanged();
 }
@@ -185,6 +187,12 @@ void KNewPasswordDialog::KNewPasswordDialogPrivate::_k_textChanged()
         pwstrength = 100;
     }
     ui.strengthBar->setValue(pwstrength);
+}
+
+void KNewPasswordDialog::KNewPasswordDialogPrivate::_k_showPasswordChanged(const bool show)
+{
+    ui.linePassword->setPasswordMode(!show);
+    ui.lineVerifyPassword->setPasswordMode(!show);
 }
 
 /*
