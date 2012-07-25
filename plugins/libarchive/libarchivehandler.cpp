@@ -327,7 +327,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                     Q_ASSERT(QFile::exists(fullName));
                 }
             } else if (header_response == ARCHIVE_WARN) {
-                kDebug() << "Warning while writing " << entryName;
+                kDebug() << "libarchive returned warning while writing " << entryName;
             } else {
                 kDebug() << "Writing header failed with error code " << header_response
                 << "While attempting to write " << entryName;
@@ -513,9 +513,14 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
                 continue;
             }
 
-            int header_response;
+            int header_response = archive_write_header(arch_writer.data(), entry);
+
             //kDebug() << "Writing entry " << fn;
-            if ((header_response = archive_write_header(arch_writer.data(), entry)) == ARCHIVE_OK) {
+            if (header_response == ARCHIVE_OK || header_response == ARCHIVE_WARN) {
+                if (header_response == ARCHIVE_WARN) {
+                    kDebug() << "libarchive returned warning while writing " << archive_entry_pathname(entry);
+                }
+
                 //if the whole archive is extracted and the total filesize is
                 //available, we use partial progress
                 copyData(arch_reader.data(), arch_writer.data(), false);
