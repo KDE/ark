@@ -65,6 +65,8 @@ CreateDialogUI::CreateDialogUI(QWidget *parent) : QWidget(parent)
     connect(splitArchiveGroupBox, SIGNAL(toggled(bool)), SLOT(updateUi()));
     connect(splitSizeComboBox, SIGNAL(currentIndexChanged(int)), SLOT(updateUi()));
     connect(archiveFormatComboBox, SIGNAL(currentIndexChanged(int)), SLOT(updateUi()));
+    connect(encryptContentsCheckBox, SIGNAL(toggled(bool)), SLOT(updateUi()));
+    connect(encryptFileNamesCheckBox, SIGNAL(toggled(bool)), SLOT(updateUi()));
 
     updateUi();
 }
@@ -105,6 +107,16 @@ void CreateDialogUI::updateUi()
         encryptionMethodComboBox->setEnabled(false);
     } else {
         encryptionMethodComboBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::EncryptionMethodSwitches));
+    }
+
+    if (mimeType == QLatin1String("application/x-rar")) {
+        if (sender() == encryptFileNamesCheckBox && encryptFileNamesCheckBox->isChecked()) {
+            encryptContentsCheckBox->setChecked(true);
+        }
+
+        if (sender() == encryptContentsCheckBox && !encryptContentsCheckBox->isChecked()) {
+            encryptFileNamesCheckBox->setChecked(false);
+        }
     }
 
     splitArchiveGroupBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::MultiPartSwitch));

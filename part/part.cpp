@@ -46,11 +46,10 @@
 #include <KFileDialog>
 #include <KFilePlacesModel>
 #include <KGuiItem>
-#include <KIO/Job>
-#include <KIO/NetAccess>
 #include <KIcon>
 #include <KInputDialog>
-#include <KActionMenu>
+#include <KIO/Job>
+#include <KIO/NetAccess>
 #include <KMessageBox>
 #include <konqmimedata.h>
 #include <konq_operations.h>
@@ -352,8 +351,8 @@ void Part::setupActions()
 
     // one of the actions in KDirOperator uses the "Delete" key shortcut,
     // it interferes with our delete action
-    foreach(QAction *action, m_dirOperator->actionCollection()->actions()) {
-        if(action->shortcut() == QKeySequence(Qt::Key_Delete)) {
+    foreach(QAction * action, m_dirOperator->actionCollection()->actions()) {
+        if (action->shortcut() == QKeySequence(Qt::Key_Delete)) {
             action->setShortcut(QKeySequence());
         }
     }

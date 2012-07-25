@@ -369,7 +369,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             QString theReplacement = m_param.value(TemporaryDirectorySwitch).toString();
             theReplacement.replace(QLatin1String("$DirectoryPath"), KGlobal::dirs()->findDirs("tmp", QLatin1String(""))[0]); //krazy:exclude=doublequote_chars
             args[i] = theReplacement;
-        } 
+        }
 
         if (argument == QLatin1String("$MultiPartSwitch")) {
             QString multiPartSwitch = m_param.value(MultiPartSwitch).toString();
@@ -441,7 +441,31 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             bool encryptHeader = options.value(QLatin1String("EncryptHeaderEnabled")).toBool();
 
             QString theReplacement;
-            if (encryptHeader == true) {
+
+            if (encryptHeader && encryptHeaderSwitch.contains(QLatin1String("$Password"))) {
+                // password should have been set at this point (see above) but check anyway
+                if (password().isEmpty()) {
+                    kDebug() << "Password hint enabled, querying user";
+
+                    Kerfuffle::PasswordNeededQuery query(filename(), Kerfuffle::PasswordNeededQuery::AskNewPassword);
+                    userQuery(&query);
+                    query.waitForResponse();
+
+                    if (query.responseCancelled()) {
+                        failOperation();
+                        return false;
+                    }
+                    setPassword(query.password());
+                }
+
+                QString pass = password();
+                if (!pass.isEmpty()) {
+                    encryptHeaderSwitch.replace(QLatin1String("$Password"), pass);
+                }
+
+                theReplacement = encryptHeaderSwitch;
+
+            } else if (encryptHeader && !encryptHeaderSwitch.contains(QLatin1String("$Password"))) {
                 theReplacement = encryptHeaderSwitch;
             }
 
@@ -655,7 +679,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
     m_process->setProgram(programPath, arguments);
 
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
-    connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), SLOT(processFinished(int,QProcess::ExitStatus)), Qt::DirectConnection);
+    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), SLOT(processFinished(int, QProcess::ExitStatus)), Qt::DirectConnection);
 
     m_stdOutData.clear();
 
@@ -1085,9 +1109,9 @@ void CliInterface::writeToProcess(const QByteArray& data)
 #endif
 }
 
-QString CliInterface::autoConvertEncoding( const QString & fileName )
+QString CliInterface::autoConvertEncoding(const QString & fileName)
 {
-    QByteArray result( fileName.toLatin1() );
+    QByteArray result(fileName.toLatin1());
 
     QTextCodec * currentCodecForLocale = QTextCodec::codecForLocale();
     QTextCodec * currentCodecForCStrings = QTextCodec::codecForCStrings();
@@ -1119,7 +1143,7 @@ QString CliInterface::autoConvertEncoding( const QString & fileName )
     // Workaround for CP850 support (which is frequently attributed to CP1251 by KEncodingProber instead)
     if (refinedEncoding == "windows-1251") {
         kDebug() << "Language: " << KGlobal::locale()->language();
-        if ( KGlobal::locale()->language() == QLatin1String("de") ) {
+        if (KGlobal::locale()->language() == QLatin1String("de")) {
             // In case the user's language is German we refine the detection of KEncodingProber
             // by assuming that in a german environment the usage of serbian / macedonian letters
             // and special characters is less likely to happen than the usage of umlauts
@@ -1129,14 +1153,13 @@ QString CliInterface::autoConvertEncoding( const QString & fileName )
             // Check for case CP850 (Windows XP & Windows7)
             QString checkString = QTextCodec::codecForName("CP850")->toUnicode(fileName.toLatin1());
             kDebug() << "String converted to CP850: " << checkString;
-            if ( checkString.contains(QLatin1String("ä")) || // Equals lower quotation mark in CP1251 - unlikely to be used in filenames
-                 checkString.contains(QLatin1String("ö")) || // Equals quotation mark in CP1251 - unlikely to be used in filenames
-                 checkString.contains(QLatin1String("Ö")) || // Equals TM symbol  - unlikely to be used in filenames
-                 checkString.contains(QLatin1String("ü")) || // Overlaps with "Gje" in the Macedonian alphabet
-                 checkString.contains(QLatin1String("Ä")) || // Overlaps with "Tshe" in the Serbian, Bosnian and Montenegrin alphabet
-                 checkString.contains(QLatin1String("Ü")) || // Overlaps with "Lje" in the Serbian and Montenegrin alphabet
-                 checkString.contains(QLatin1String("ß")) )  // Overlaps with "Be" in the cyrillic alphabet
-            {
+            if (checkString.contains(QLatin1String("ä")) ||  // Equals lower quotation mark in CP1251 - unlikely to be used in filenames
+                    checkString.contains(QLatin1String("ö")) || // Equals quotation mark in CP1251 - unlikely to be used in filenames
+                    checkString.contains(QLatin1String("Ö")) || // Equals TM symbol  - unlikely to be used in filenames
+                    checkString.contains(QLatin1String("ü")) || // Overlaps with "Gje" in the Macedonian alphabet
+                    checkString.contains(QLatin1String("Ä")) || // Overlaps with "Tshe" in the Serbian, Bosnian and Montenegrin alphabet
+                    checkString.contains(QLatin1String("Ü")) || // Overlaps with "Lje" in the Serbian and Montenegrin alphabet
+                    checkString.contains(QLatin1String("ß"))) { // Overlaps with "Be" in the cyrillic alphabet
                 refinedEncoding = "CP850";
                 kDebug() << "RefinedEncoding: " << refinedEncoding;
             }
@@ -1161,7 +1184,7 @@ QString CliInterface::autoConvertEncoding( const QString & fileName )
     QTextCodec::setCodecForLocale(currentCodecForLocale);
     QTextCodec::setCodecForCStrings(currentCodecForCStrings);
 
-    return ( refinedString != fileName ) ? refinedString : fileName;
+    return (refinedString != fileName) ? refinedString : fileName;
 }
 
 }
