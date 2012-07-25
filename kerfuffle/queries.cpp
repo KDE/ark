@@ -182,6 +182,7 @@ void PasswordNeededQuery::execute()
     if (m_data.value(QLatin1String("askNewPassword")).toBool()) {
         QWeakPointer<KNewPasswordDialog> dlg = new KNewPasswordDialog;
         dlg.data()->setPrompt(i18nc("@info", "Please enter the password to protect <filename>%1</filename>.", m_data.value(QLatin1String( "archiveFilename" )).toString()));
+        dlg.data()->setAllowEmptyPasswords(false);
     
         notCancelled = dlg.data()->exec();
         if (dlg) {
