@@ -72,7 +72,7 @@ void KNewPasswordDialog::KNewPasswordDialogPrivate::init()
     ui.setupUi( q->mainWidget() );
 
     ui.labelIcon->setPixmap( KIcon(QLatin1String("dialog-password")).pixmap(96, 96) );
-    ui.labelMatch->setHidden(true);
+    //ui.labelMatch->setHidden(true);
 
     const QString strengthBarWhatsThis(i18n("The password strength meter gives an indication of the security "
             "of the password you have entered.  To improve the strength of "
@@ -164,15 +164,15 @@ void KNewPasswordDialog::KNewPasswordDialogPrivate::_k_textChanged()
     }
 
     if ( match && !q->allowEmptyPasswords() && ui.linePassword->text().isEmpty()) {
-        ui.labelMatch->setPixmap( KIcon(QLatin1String("dialog-error")) );
+        ui.iconMatch->setPixmap( KIcon(QLatin1String("dialog-error")).pixmap(IconSize(KIconLoader::Dialog)) );
         ui.labelMatch->setText( i18n("Password is empty") );
     }
     else {
         if ( ui.linePassword->text().length() < minPasswordLength ) {
-            ui.labelMatch->setPixmap( KIcon(QLatin1String("dialog-error")) );
+            ui.iconMatch->setPixmap( KIcon(QLatin1String("dialog-error")).pixmap(IconSize(KIconLoader::Dialog)) );
             ui.labelMatch->setText(i18np("Password must be at least 1 character long", "Password must be at least %1 characters long", minPasswordLength));
         } else {
-            ui.labelMatch->setPixmap( match ? KIcon(QLatin1String("dialog-ok")) : KIcon(QLatin1String("dialog-error")) );
+            ui.iconMatch->setPixmap( match ? KIcon(QLatin1String("dialog-ok")).pixmap(IconSize(KIconLoader::Dialog)) : KIcon(QLatin1String("dialog-error")).pixmap(IconSize(KIconLoader::Dialog)) );
             // "ok" icon should probably be "dialog-success", but we don't have that icon in KDE 4.0
             ui.labelMatch->setText( match? i18n("Passwords match")
                 :i18n("Passwords do not match") );
@@ -240,7 +240,8 @@ bool KNewPasswordDialog::checkAndGetPassword(QString *pwd)
 {
     pwd->clear();
     if ( d->ui.linePassword->text() != d->ui.lineVerifyPassword->text() ) {
-        d->ui.labelMatch->setPixmap( KTitleWidget::ErrorMessage );
+        //d->ui.iconMatch->setPixmap( KTitleWidget::ErrorMessage );
+        d->ui.iconMatch->setPixmap( KIcon(QLatin1String("dialog-error")).pixmap(IconSize(KIconLoader::Dialog)) );
         d->ui.labelMatch->setText( i18n("You entered two different "
                 "passwords. Please try again.") );
 

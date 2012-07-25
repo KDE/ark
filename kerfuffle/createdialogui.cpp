@@ -220,8 +220,8 @@ void CreateDialogUI::updateArchiveExtension(bool updateCombobox)
 
     if (type) {
         QString extension = type->mainExtension();
-        if (extension == ".tar.bz") {
-            extension += "2";
+        if (extension == QLatin1String(".tar.bz")) {
+            extension += QLatin1Char('2');
         }
         archiveNameLineEdit->setText(archive.append(extension));
     }
