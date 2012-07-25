@@ -350,8 +350,17 @@ void Part::setupActions()
     m_deleteAction->setStatusTip(i18nc("@info:status", "Click to delete the selected files"));
     connect(m_deleteAction, SIGNAL(triggered(bool)), this, SLOT(slotDeleteFiles()));
 
+    // one of the actions in KDirOperator uses the "Delete" key shortcut,
+    // it interferes with our delete action
+    foreach(QAction *action, m_dirOperator->actionCollection()->actions()) {
+        if(action->shortcut() == QKeySequence(Qt::Key_Delete)) {
+            action->setShortcut(QKeySequence());
+        }
+    }
     // modify context menu for KDirOperator
     QMenu* popup = static_cast<QMenu*>(m_dirOperator->actionCollection()->action(QLatin1String("popupMenu"))->menu());
+    popup->removeAction(m_dirOperator->actionCollection()->action(QLatin1String("delete")));
+    popup->removeAction(m_dirOperator->actionCollection()->action(QLatin1String("trash")));
     popup->insertAction(m_dirOperator->actionCollection()->action(QLatin1String("new")), m_addAction);
     popup->insertAction(m_dirOperator->actionCollection()->action(QLatin1String("new")), m_extractAction);
     popup->insertAction(m_dirOperator->actionCollection()->action(QLatin1String("new")), m_testAction);
@@ -362,10 +371,8 @@ void Part::setupActions()
     popup->insertAction(m_dirOperator->actionCollection()->action(QLatin1String("new")), m_pasteAction);
     popup->insertAction(m_dirOperator->actionCollection()->action(QLatin1String("new")), m_deleteAction);
     popup->removeAction(m_dirOperator->actionCollection()->action(QLatin1String("new")));
-    popup->removeAction(m_dirOperator->actionCollection()->action(QLatin1String("delete")));
-    m_dirOperator->actionCollection()->action(QLatin1String("delete"))->setShortcut(QKeySequence());
-    popup->removeAction(m_dirOperator->actionCollection()->action(QLatin1String("trash")));
 
+    // context menu for archive view
     m_archiveView->addAction(m_addAction);
     m_archiveView->addAction(m_extractAction);
     m_archiveView->addAction(m_testAction);
