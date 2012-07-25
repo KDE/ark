@@ -334,7 +334,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
 
         if (argument == QLatin1String("$CompressionLevelSwitch")) {
             QStringList compressionLevelSwitches = m_param.value(CompressionLevelSwitches).toStringList();
-            QString theReplacement = compressionLevelSwitches.at(options.value(QLatin1String("CompressionLevel"), 2).toInt());
+            QString theReplacement = compressionLevelSwitches.at(options.value(QLatin1String("CompressionLevel"), 4).toInt());
 
             if (theReplacement.isEmpty()) {
                 args.removeAt(i);
@@ -457,15 +457,8 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
 
         if (argument == QLatin1String("$EncryptionMethodSwitches")) {
             QStringList encryptionMethodSwitches = m_param.value(EncryptionMethodSwitches).toStringList();
-            QString encryptionMethod = options.value(QLatin1String("EncryptionMethod")).toString();
-
-            QString theReplacement;
-            if (encryptionMethod == QLatin1String("AES256")) {
-                theReplacement = encryptionMethodSwitches.at(0);
-            }
-            if (encryptionMethod == QLatin1String("ZipCrypto")) {
-                theReplacement = encryptionMethodSwitches.at(1);
-            }
+            // 0 == AES256 , 1 == Zipcrypto
+            QString theReplacement = encryptionMethodSwitches.at(options.value(QLatin1String("EncryptionMethod"), 0).toInt());
 
             if (theReplacement.isEmpty()) {
                 args.removeAt(i);
@@ -498,6 +491,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
         }
     }
 
+    kDebug() << args;
     if (!runProcess(m_param.value(AddProgram).toStringList(), args)) {
         failOperation();
         return false;

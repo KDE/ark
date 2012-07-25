@@ -87,10 +87,8 @@ void CreateDialogUI::updateUi()
     compressionMethodComboBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::CompressionLevelSwitches));
     if (!compressionMethodComboBox->isEnabled()) {
         compressionMethodComboBox->setCurrentIndex(2);
-
     }
 
-    encryptionMethodComboBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::EncryptionMethodSwitches));
 
     multithreadingCheckBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::MultiThreadingSwitch));
     if (!multithreadingCheckBox->isEnabled()) {
@@ -104,6 +102,9 @@ void CreateDialogUI::updateUi()
     if (!passwordGroupBox->isChecked()) {
         encryptContentsCheckBox->setChecked(false);
         encryptFileNamesCheckBox->setChecked(false);
+        encryptionMethodComboBox->setEnabled(false);
+    } else {
+        encryptionMethodComboBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::EncryptionMethodSwitches));
     }
 
     splitArchiveGroupBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::MultiPartSwitch));

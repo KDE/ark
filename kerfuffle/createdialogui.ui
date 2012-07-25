@@ -270,12 +270,12 @@
              <widget class="KComboBox" name="encryptionMethodComboBox">
               <item>
                <property name="text">
-                <string>Zipcrypto</string>
+                <string>AES(256Bit)</string>
                </property>
               </item>
               <item>
                <property name="text">
-                <string>AES(256Bit)</string>
+                <string>Zipcrypto</string>
                </property>
               </item>
              </widget>
@@ -458,7 +458,7 @@
   <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>   
+   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
