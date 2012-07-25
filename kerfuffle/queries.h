@@ -99,12 +99,16 @@ private:
 class KERFUFFLE_EXPORT PasswordNeededQuery : public Query
 {
 public:
-    explicit PasswordNeededQuery(const QString& archiveFilename, bool incorrectTryAgain = false);
+    enum PasswordFlag { NoFlags = 0x0, IncorrectTryAgain = 0x1, AskNewPassword = 0x2 };
+    Q_DECLARE_FLAGS(PasswordFlags, PasswordFlag);
+
+    explicit PasswordNeededQuery(const QString& archiveFilename, const PasswordFlags flags = NoFlags);
     void execute();
 
     bool responseCancelled();
     QString password();
 };
+Q_DECLARE_OPERATORS_FOR_FLAGS(PasswordNeededQuery::PasswordFlags)
 
 }
 

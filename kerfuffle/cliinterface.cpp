@@ -405,7 +405,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
                     (password().isEmpty())) {
                 kDebug() << "Password hint enabled, querying user";
 
-                Kerfuffle::PasswordNeededQuery query(filename());
+                Kerfuffle::PasswordNeededQuery query(filename(), Kerfuffle::PasswordNeededQuery::AskNewPassword);
                 userQuery(&query);
                 query.waitForResponse();
 

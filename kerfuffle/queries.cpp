@@ -26,6 +26,7 @@
  */
 
 #include "queries.h"
+#include "kdelibs/knewpassworddialog.h"
 
 #include <KLocale>
 #include <KPasswordDialog>
@@ -162,10 +163,11 @@ bool OverwriteQuery::multiMode()
     return m_multiMode;
 }
 
-PasswordNeededQuery::PasswordNeededQuery(const QString& archiveFilename, bool incorrectTryAgain)
+PasswordNeededQuery::PasswordNeededQuery(const QString& archiveFilename, const PasswordFlags flags)
 {
     m_data[QLatin1String( "archiveFilename" )] = archiveFilename;
-    m_data[QLatin1String( "incorrectTryAgain" )] = incorrectTryAgain;
+    m_data[QLatin1String( "incorrectTryAgain" )] = flags.testFlag(IncorrectTryAgain);
+    m_data[QLatin1String( "askNewPassword" )] = flags.testFlag(AskNewPassword);
 }
 
 void PasswordNeededQuery::execute()
@@ -174,22 +176,37 @@ void PasswordNeededQuery::execute()
     // at the moment (#231974)
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
-    QWeakPointer<KPasswordDialog> dlg = new KPasswordDialog;
-    dlg.data()->setPrompt(i18nc("@info", "The archive <filename>%1</filename> is password protected. Please enter the password to extract the file.", m_data.value(QLatin1String( "archiveFilename" )).toString()));
+    bool notCancelled = false;
+    QString password;
 
-    if (m_data.value(QLatin1String("incorrectTryAgain")).toBool()) {
-        dlg.data()->showErrorMessage(i18nc("@info", "Incorrect password, please try again."), KPasswordDialog::PasswordError);
+    if (m_data.value(QLatin1String("askNewPassword")).toBool()) {
+        QWeakPointer<KNewPasswordDialog> dlg = new KNewPasswordDialog;
+        dlg.data()->setPrompt(i18nc("@info", "Please enter the password to protect <filename>%1</filename>.", m_data.value(QLatin1String( "archiveFilename" )).toString()));
+    
+        notCancelled = dlg.data()->exec();
+        if (dlg) {
+            password = dlg.data()->password();
+            dlg.data()->deleteLater();
+        }
+    } else {
+        QWeakPointer<KPasswordDialog> dlg = new KPasswordDialog;
+        dlg.data()->setPrompt(i18nc("@info", "The archive <filename>%1</filename> is password protected. Please enter the password to extract the file.", m_data.value(QLatin1String( "archiveFilename" )).toString()));
+    
+        if (m_data.value(QLatin1String("incorrectTryAgain")).toBool()) {
+            dlg.data()->showErrorMessage(i18nc("@info", "Incorrect password, please try again."), KPasswordDialog::PasswordError);
+        }
+    
+        notCancelled = dlg.data()->exec();
+        if (dlg) {
+            password = dlg.data()->password();
+            dlg.data()->deleteLater();
+        }
     }
-
-    const bool notCancelled = dlg.data()->exec();
-    const QString password = dlg.data()->password();
 
     m_data[QLatin1String("password")] = password;
     setResponse(notCancelled && !password.isEmpty());
 
     QApplication::restoreOverrideCursor();
-
-    delete dlg.data();
 }
 
 QString PasswordNeededQuery::password()
