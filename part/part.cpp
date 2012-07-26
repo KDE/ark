@@ -1121,7 +1121,7 @@ void Part::findFilePaths(const QStringList & originalPaths, const QString & pare
     foreach (const QString entry, originalPaths) {
         QString path;
 
-        // calculate path relative to archive's root directory.
+        // calculates path relative to archive's root directory.
         int i = entry.indexOf(parentDir);
         if (i != -1) {
             path = entry.mid(parentDir.size());
@@ -1129,14 +1129,14 @@ void Part::findFilePaths(const QStringList & originalPaths, const QString & pare
             path = entry;
         }
 
-        // remove '/' from directory path's end.
+        // removes '/' from directory path's end.
         if (path[path.size()-1] == QLatin1Char('/')) {
             path.chop(1);
         }
 
         filePaths.insert(path);
 
-        // recurse to find remaining entries.
+        // recurses to find remaining entries.
         if (QFileInfo(entry).isDir()) {
             findFilePaths2(parentDir + '/' + path, filePaths, path);
         }
@@ -1192,15 +1192,54 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
     kDebug() << "Detected relative path to be " << firstPath;
     options[QLatin1String("GlobalWorkDir")] = firstPath;
 
-    // TODO: show conflict solve dialog when intersect set != empty.
+    // calculates intersect set between cleanFilesToAdd and files already in archive.
     QSet<QString> pathsInFileSystem;
     findFilePaths(cleanFilesToAdd, firstPath, pathsInFileSystem);
-    kDebug(1601) << "Filesystem paths     " << pathsInFileSystem;
+    //kDebug(1601) << "Filesystem paths     " << pathsInFileSystem;
 
     QSet<QString> pathsInArchive;
     m_model->findFilePaths(pathsInArchive);
-    kDebug(1601) << "Current archive paths" << pathsInArchive;
-    kDebug(1601) << "Intersect set        " << pathsInArchive.intersect(pathsInFileSystem);
+    //kDebug(1601) << "Current archive paths" << pathsInArchive;
+    QSet<QString> intersect = pathsInArchive.intersect(pathsInFileSystem);
+    kDebug(1601) << "Intersect set        " << intersect;
+
+    if (!intersect.isEmpty()) {
+
+        // asks user how to solve the conflicts.
+        QSet<QString>::const_iterator it = intersect.constBegin();
+        while (it != intersect.constEnd()) {
+            Kerfuffle::OverwriteQuery query(*it);
+            query.setNoRenameMode(true);
+            query.execute();
+            query.waitForResponse();
+    
+            if (query.responseCancelled()) {
+                return;
+            } else if (query.responseSkip()) {
+                pathsInFileSystem.remove(*it);
+            } else if (query.responseAutoSkip()) {
+                while (it != intersect.constEnd()) {
+                    pathsInFileSystem.remove(*it);
+                    ++it;
+                }
+                break;
+            } else if (query.responseOverwriteAll()) {
+                break;
+            } /* TODO: implement*/ /* else if (query.responseOnlyUpdate()) {
+                pathsInFileSystem = intersect;
+                break;
+            } */
+    
+            ++it;
+        }
+    
+        kDebug(1601) << "cleanFilesToAdd (before conflict) " << cleanFilesToAdd;
+        cleanFilesToAdd.clear();
+        foreach (const QString & entry, pathsInFileSystem.toList()) {
+            cleanFilesToAdd.append(firstPath + entry);
+        }
+        kDebug(1601) << "cleanFilesToAdd (after conflict ) " << cleanFilesToAdd;
+    }
 
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
     if (!job) {
