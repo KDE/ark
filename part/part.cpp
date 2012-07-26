@@ -1266,6 +1266,29 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
                 } else if (query.responseOverwriteAll()) {
                     break;
                 } else if (query.responseUpdateExisting()) {
+                    QString dirPath = *it + QLatin1Char('/');
+                    // remove non-empty directories from the list to prevent
+                    // adding new files to archive.
+                    while (1) {
+                        ++it;
+
+                        // non-empty directory, remove it.
+                        if ((*it).startsWith(dirPath)) {
+                            --it;
+                            it = list.erase(it);
+                        }
+
+                        // skip files inside dirPath.
+                        while (it != list.end() && (*it).startsWith(dirPath)) {
+                            ++it;
+                        }
+
+                        if (it == list.end()) {
+                            break;
+                        } else {
+                            dirPath = *it + QLatin1Char('/');
+                        }
+                    }
                     pathsInFileSystem = QSet<QString>::fromList(list);
                     break;
                 }
