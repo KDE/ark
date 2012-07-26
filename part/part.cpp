@@ -1142,6 +1142,23 @@ void Part::findFilePaths(const QStringList & originalPaths, const QString & pare
         }
     }
 }
+
+void Part::removeAll(QSet<QString> & set, const QString & entry)
+{
+    set.remove(entry);
+
+    // in case entry is a directory we need to remove all entries inside it.
+    QString dirEntry = entry + QLatin1Char('/');
+    QSet<QString>::iterator it = set.begin();
+    while (it != set.end()) {
+        if ((*it).startsWith(dirEntry)) {
+            it = set.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
 void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, CompressionOptions options)
 {
     Q_UNUSED(path)
@@ -1206,8 +1223,10 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
     if (!intersect.isEmpty()) {
 
         // asks user how to solve the conflicts.
-        QSet<QString>::const_iterator it = intersect.constBegin();
-        while (it != intersect.constEnd()) {
+        QList<QString> list = intersect.toList();
+        qSort(list);
+        QList<QString>::iterator it = list.begin();
+        while (it != list.end()) {
             Kerfuffle::OverwriteQuery query(*it);
             query.setNoRenameMode(true);
             query.execute();
@@ -1216,21 +1235,31 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
             if (query.responseCancelled()) {
                 return;
             } else if (query.responseSkip()) {
-                pathsInFileSystem.remove(*it);
+                removeAll(pathsInFileSystem, *it);
 
-                // TODO: if entry is a directory maybe we must remove all entries
-                // inside it, that is, remove all members of pathsInFileSystem that
-                // starts with *it.
+                // if *it is a directory we do not need to ask how to resolve conflict
+                // on entries inside it.
+                QString dirPath = *it + QLatin1Char('/');
+                ++it;
+                while (it != list.end() && (*it).startsWith(dirPath)) {
+                    it = list.erase(it);
+                }
+                continue;
             } else if (query.responseAutoSkip()) {
-                while (it != intersect.constEnd()) {
-                    pathsInFileSystem.remove(*it);
+                while (it != list.end()) {
+                    removeAll(pathsInFileSystem, *it);
                     ++it;
-
-                    // TODO: if entry is a directory maybe we must remove all entries
-                    // inside it, that is, remove all members of pathsInFileSystem that
-                    // starts with *it.
                 }
                 break;
+            } else if (query.responseOverwrite()) {
+                // if *it is a directory we do not need to ask how to resolve conflict
+                // on entries inside it.
+                QString dirPath = *it + QLatin1Char('/');
+                ++it;
+                while (it != list.end() && (*it).startsWith(dirPath)) {
+                    it = list.erase(it);
+                }
+                continue;
             } else if (query.responseOverwriteAll()) {
                 break;
             } /* TODO: implement*/ /* else if (query.responseOnlyUpdate()) {
