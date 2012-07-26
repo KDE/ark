@@ -426,6 +426,7 @@ void Part::updateActions()
         foreach(const KFileItem & item, m_dirOperator->selectedItems()) {
             if (isSupportedArchive(item.url())) {
                 hasArchive = true;
+                break;
             }
         }
         m_extractAction->setEnabled(!isBusy() && hasArchive);
