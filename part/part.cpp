@@ -1284,6 +1284,10 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
                 return;
             }
         }
+
+        pathsInFileSystem.clear();
+        pathsInArchive.clear();
+        intersect.clear();
     }
 
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
