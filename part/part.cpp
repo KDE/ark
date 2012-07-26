@@ -1215,74 +1215,75 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
         QSet<QString> pathsInFileSystem;
         findFilePaths(cleanFilesToAdd, firstPath, pathsInFileSystem);
 
-		QSet<QString> pathsInArchive;
-		m_model->findFilePaths(pathsInArchive);
-		//kDebug(1601) << "Current archive paths" << pathsInArchive;
-		QSet<QString> intersect = pathsInArchive.intersect(pathsInFileSystem);
-		kDebug(1601) << "Intersect set        " << intersect;
+        QSet<QString> pathsInArchive;
+        m_model->findFilePaths(pathsInArchive);
+        //kDebug(1601) << "Current archive paths" << pathsInArchive;
+        QSet<QString> intersect = pathsInArchive.intersect(pathsInFileSystem);
+        kDebug(1601) << "Intersect set        " << intersect;
 
-		if (!intersect.isEmpty()) {
+        if (!intersect.isEmpty()) {
 
-		    // asks user how to solve the conflicts.
-		    QList<QString> list = intersect.toList();
-		    qSort(list);
-		    QList<QString>::iterator it = list.begin();
-		    while (it != list.end()) {
-		        Kerfuffle::OverwriteQuery query(*it);
-		        query.setNoRenameMode(true);
-				query.setUpdateExistingMode(true)
-		        query.execute();
-		        query.waitForResponse();
-		
-		        if (query.responseCancelled()) {
-		            return;
-		        } else if (query.responseSkip()) {
-		            removeAll(pathsInFileSystem, *it);
+            // asks user how to solve the conflicts.
+            QList<QString> list = intersect.toList();
+            qSort(list);
+            QList<QString>::iterator it = list.begin();
+            while (it != list.end()) {
+                Kerfuffle::OverwriteQuery query(*it);
+                query.setNoRenameMode(true);
+                query.setUpdateExistingMode(true);
+                query.execute();
+                query.waitForResponse();
 
-		            // if *it is a directory we do not need to ask how to resolve conflict
-		            // on entries inside it.
-		            QString dirPath = *it + QLatin1Char('/');
-		            ++it;
-		            while (it != list.end() && (*it).startsWith(dirPath)) {
-		                it = list.erase(it);
-		            }
-		            continue;
-		        } else if (query.responseAutoSkip()) {
-		            while (it != list.end()) {
-		                removeAll(pathsInFileSystem, *it);
-		                ++it;
-		            }
-		            break;
-		        } else if (query.responseOverwrite()) {
-		            // if *it is a directory we do not need to ask how to resolve conflict
-		            // on entries inside it.
-		            QString dirPath = *it + QLatin1Char('/');
-		            ++it;
-		            while (it != list.end() && (*it).startsWith(dirPath)) {
-		                it = list.erase(it);
-		            }
-		            continue;
-		        } else if (query.responseOverwriteAll()) {
-		            break;
-		        } else if (query.responseUpdateExisting()) {
-		            pathsInFileSystem = intersect;
-		            break;
-		        } 
-		
-		        ++it;
-		    }
-		
-		    kDebug(1601) << "cleanFilesToAdd (before conflict) " << cleanFilesToAdd;
-		    cleanFilesToAdd.clear();
-		    foreach (const QString & entry, pathsInFileSystem) {
-		        cleanFilesToAdd.append(firstPath + entry);
-		    }
-		    kDebug(1601) << "cleanFilesToAdd (after conflict ) " << cleanFilesToAdd;
+                if (query.responseCancelled()) {
+                    return;
+                } else if (query.responseSkip()) {
+                    removeAll(pathsInFileSystem, *it);
 
-		    if (cleanFilesToAdd.isEmpty()) {
-		        return;
-		    }
-		}
+                    // if *it is a directory we do not need to ask how to resolve conflict
+                    // on entries inside it.
+                    QString dirPath = *it + QLatin1Char('/');
+                    ++it;
+                    while (it != list.end() && (*it).startsWith(dirPath)) {
+                        it = list.erase(it);
+                    }
+                    continue;
+                } else if (query.responseAutoSkip()) {
+                    while (it != list.end()) {
+                        removeAll(pathsInFileSystem, *it);
+                        ++it;
+                    }
+                    break;
+                } else if (query.responseOverwrite()) {
+                    // if *it is a directory we do not need to ask how to resolve conflict
+                    // on entries inside it.
+                    QString dirPath = *it + QLatin1Char('/');
+                    ++it;
+                    while (it != list.end() && (*it).startsWith(dirPath)) {
+                        it = list.erase(it);
+                    }
+                    continue;
+                } else if (query.responseOverwriteAll()) {
+                    break;
+                } else if (query.responseUpdateExisting()) {
+                    pathsInFileSystem = intersect;
+                    break;
+                }
+
+                ++it;
+            }
+
+            kDebug(1601) << "cleanFilesToAdd (before conflict) " << cleanFilesToAdd;
+            cleanFilesToAdd.clear();
+            foreach (const QString & entry, pathsInFileSystem) {
+                cleanFilesToAdd.append(firstPath + entry);
+            }
+            kDebug(1601) << "cleanFilesToAdd (after conflict ) " << cleanFilesToAdd;
+
+            if (cleanFilesToAdd.isEmpty()) {
+                return;
+            }
+        }
+    }
 
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
     if (!job) {
