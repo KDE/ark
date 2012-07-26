@@ -1266,7 +1266,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
                 } else if (query.responseOverwriteAll()) {
                     break;
                 } else if (query.responseUpdateExisting()) {
-                    pathsInFileSystem = intersect;
+                    pathsInFileSystem = QSet<QString>::fromList(list);
                     break;
                 }
 
