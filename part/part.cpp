@@ -157,11 +157,11 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, SLOT(slotLoadingStarted()));
     connect(m_model, SIGNAL(loadingFinished(KJob*)),
             this, SLOT(slotLoadingFinished(KJob*)));
-    connect(m_model, SIGNAL(droppedFiles(QStringList, QString)),
-            this, SLOT(slotAddFiles(QStringList, QString)));
-    connect(m_model, SIGNAL(error(QString, QString)),
-            this, SLOT(slotError(QString, QString)));
-    connect(m_model, SIGNAL(columnsInserted(QModelIndex, int, int)),
+    connect(m_model, SIGNAL(droppedFiles(QStringList,QString)),
+            this, SLOT(slotAddFiles(QStringList,QString)));
+    connect(m_model, SIGNAL(error(QString,QString)),
+            this, SLOT(slotError(QString,QString)));
+    connect(m_model, SIGNAL(columnsInserted(QModelIndex,int,int)),
             this, SLOT(adjustColumns()));
 
     setupArchiveView();
@@ -198,12 +198,12 @@ void Part::registerJob(KJob* job)
     emit busy();
     connect(job, SIGNAL(result(KJob*)), this, SIGNAL(ready()));
 
-    connect(job, SIGNAL(description(KJob*, QString)),
-            this, SLOT(slotJobDescription(KJob*, QString)));
-    connect(job, SIGNAL(infoMessage(KJob*, QString, QString)),
-            this, SLOT(slotJobInfo(KJob*, QString, QString)));
-    connect(job, SIGNAL(warning(KJob*, QString, QString)),
-            this, SLOT(slotJobWarning(KJob*, QString, QString)));
+    connect(job, SIGNAL(description(KJob*,QString)),
+            this, SLOT(slotJobDescription(KJob*,QString)));
+    connect(job, SIGNAL(infoMessage(KJob*,QString,QString)),
+            this, SLOT(slotJobInfo(KJob*,QString,QString)));
+    connect(job, SIGNAL(warning(KJob*,QString,QString)),
+            this, SLOT(slotJobWarning(KJob*,QString,QString)));
 }
 
 
@@ -290,9 +290,9 @@ void Part::setupArchiveView()
     m_archiveView->setSortingEnabled(true);
 
     disconnect(m_archiveView->selectionModel(), 0, this, 0);
-    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
             this, SLOT(updateActions()));
-    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
             this, SLOT(selectionChanged()));
 
     disconnect(m_archiveView, SIGNAL(itemTriggered(QModelIndex)), this, 0);
@@ -1106,8 +1106,8 @@ void Part::findFilePaths2(const QString & parentDir, QSet<QString> & filePaths, 
     QDir dir(parentDir);
     QStringList list = dir.entryList(QDir::AllDirs | QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
 
-    foreach (const QString entry, list) {
-        QString path = prefix + '/' + entry;
+    foreach (const QString & entry, list) {
+        QString path = prefix + QLatin1Char('/') + entry;
         filePaths.insert(path);
 
         if (QFileInfo(parentDir + path).isDir()) {
@@ -1118,7 +1118,7 @@ void Part::findFilePaths2(const QString & parentDir, QSet<QString> & filePaths, 
 
 void Part::findFilePaths(const QStringList & originalPaths, const QString & parentDir, QSet<QString> & filePaths)
 {
-    foreach (const QString entry, originalPaths) {
+    foreach (const QString & entry, originalPaths) {
         QString path;
 
         // calculates path relative to archive's root directory.
@@ -1138,7 +1138,7 @@ void Part::findFilePaths(const QStringList & originalPaths, const QString & pare
 
         // recurses to find remaining entries.
         if (QFileInfo(entry).isDir()) {
-            findFilePaths2(parentDir + '/' + path, filePaths, path);
+            findFilePaths2(parentDir + QLatin1Char('/') + path, filePaths, path);
         }
     }
 }
@@ -1506,7 +1506,7 @@ void Part::populateMimeData(QMimeData* mimeData, bool cut)
     KUrl::List mostLocalUrls;
     bool dummy;
     if (m_stack->currentWidget() == m_dirOperator) {
-        foreach(KFileItem item, m_dirOperator->selectedItems()) {
+        foreach(const KFileItem & item, m_dirOperator->selectedItems()) {
             kdeUrls.append(item.url());
             mostLocalUrls.append(item.mostLocalUrl(dummy));
         }
@@ -1551,7 +1551,7 @@ void Part::paste()
         }
     } else if (m_model->archive()) {
         QStringList files;
-        foreach(KUrl url, source) {
+        foreach(const KUrl & url, source) {
             files.append(url.path());
         }
 

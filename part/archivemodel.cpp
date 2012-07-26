@@ -191,7 +191,7 @@ public:
     {
         foreach(ArchiveNode *node, m_entries) {
             if (node) {
-                QString path = prefix + '/' + node->name();
+                QString path = prefix + QLatin1Char('/') + node->name();
                 filePaths.insert(path);
 
                 if (node->isDir()) {
