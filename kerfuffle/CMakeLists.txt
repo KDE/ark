@@ -15,6 +15,7 @@ set(kerfuffle_SRCS
     addtoarchive.cpp
     cliinterface.cpp
     kdelibs/knewpassworddialog.cpp
+    kdelibs/renamedialog.cpp
    )
 
 kde4_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)

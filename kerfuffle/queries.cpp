@@ -27,11 +27,11 @@
 
 #include "queries.h"
 #include "kdelibs/knewpassworddialog.h"
+#include "kdelibs/renamedialog.h"
 
 #include <KLocale>
 #include <KPasswordDialog>
 #include <kdebug.h>
-#include <kio/renamedialog.h>
 
 #include <QApplication>
 #include <QWeakPointer>
@@ -68,8 +68,9 @@ void Query::setResponse(QVariant response)
 }
 
 OverwriteQuery::OverwriteQuery(const QString &filename) :
-        m_noRenameMode(false),
-        m_multiMode(true)
+    m_noRenameMode(false),
+    m_multiMode(true),
+    m_updateExistingMode(false)
 {
     m_data[QLatin1String( "filename" )] = filename;
 }
@@ -80,12 +81,15 @@ void OverwriteQuery::execute()
     // at the moment (#231974)
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
-    KIO::RenameDialog_Mode mode = (KIO::RenameDialog_Mode)(KIO::M_OVERWRITE | KIO::M_SKIP);
+    RenameDialog_Mode mode = (RenameDialog_Mode)(M_OVERWRITE | M_SKIP);
     if (m_noRenameMode) {
-        mode = (KIO::RenameDialog_Mode)(mode | KIO::M_NORENAME);
+        mode = (RenameDialog_Mode)(mode | M_NORENAME);
     }
     if (m_multiMode) {
-        mode = (KIO::RenameDialog_Mode)(mode | KIO::M_MULTI);
+        mode = (RenameDialog_Mode)(mode | M_MULTI);
+    }
+    if (m_updateExistingMode) {
+        mode = (RenameDialog_Mode)(mode | M_UPDATE_EXISTING);
     }
 
     KUrl sourceUrl(m_data.value(QLatin1String( "filename" )).toString());
@@ -93,7 +97,7 @@ void OverwriteQuery::execute()
     sourceUrl.cleanPath();
     destUrl.cleanPath();
 
-    QWeakPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
+    QWeakPointer<RenameDialog> dialog = new RenameDialog(
         NULL,
         i18nc("@info", "File already exists"),
         sourceUrl,
@@ -112,30 +116,36 @@ void OverwriteQuery::execute()
 
 bool OverwriteQuery::responseCancelled()
 {
-    return m_data.value(QLatin1String( "response" )).toInt() == KIO::R_CANCEL;
+    return m_data.value(QLatin1String( "response" )).toInt() == R_CANCEL;
 }
 bool OverwriteQuery::responseOverwriteAll()
 {
-    return m_data.value(QLatin1String( "response" )).toInt() == KIO::R_OVERWRITE_ALL;
+    return m_data.value(QLatin1String( "response" )).toInt() == R_OVERWRITE_ALL;
 }
 bool OverwriteQuery::responseOverwrite()
 {
-    return m_data.value(QLatin1String( "response" )).toInt() == KIO::R_OVERWRITE;
+    return m_data.value(QLatin1String( "response" )).toInt() == R_OVERWRITE;
 }
 
 bool OverwriteQuery::responseRename()
 {
-    return m_data.value(QLatin1String( "response" )).toInt() == KIO::R_RENAME;
+    return m_data.value(QLatin1String( "response" )).toInt() == R_RENAME;
 }
 
 bool OverwriteQuery::responseSkip()
 {
-    return m_data.value(QLatin1String( "response" )).toInt() == KIO::R_SKIP;
+    return m_data.value(QLatin1String( "response" )).toInt() == R_SKIP;
 }
 
 bool OverwriteQuery::responseAutoSkip()
 {
-    return m_data.value(QLatin1String( "response" )).toInt() == KIO::R_AUTO_SKIP;
+    return m_data.value(QLatin1String( "response" )).toInt() == R_AUTO_SKIP;
+}
+
+
+bool OverwriteQuery::responseUpdateExisting()
+{
+    return m_data.value(QLatin1String( "response" )).toInt() == R_UPDATE_EXISTING;
 }
 
 QString OverwriteQuery::newFilename()
@@ -161,6 +171,16 @@ void OverwriteQuery::setMultiMode(bool enableMultiMode)
 bool OverwriteQuery::multiMode()
 {
     return m_multiMode;
+}
+
+void OverwriteQuery::setUpdateExistingMode(bool updateExisting)
+{
+    m_updateExistingMode = updateExisting;
+}
+
+bool OverwriteQuery::updateExistingMode()
+{
+    return m_updateExistingMode;
 }
 
 PasswordNeededQuery::PasswordNeededQuery(const QString& archiveFilename, const PasswordFlags flags)

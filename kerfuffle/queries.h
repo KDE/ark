@@ -85,15 +85,20 @@ public:
     bool responseRename();
     bool responseSkip();
     bool responseAutoSkip();
+    bool responseUpdateExisting();
     QString newFilename();
 
     void setNoRenameMode(bool enableNoRenameMode);
     bool noRenameMode();
     void setMultiMode(bool enableMultiMode);
     bool multiMode();
+    void setUpdateExistingMode(bool updateExisting);
+    bool updateExistingMode();
+
 private:
     bool m_noRenameMode;
     bool m_multiMode;
+    bool m_updateExistingMode;
 };
 
 class KERFUFFLE_EXPORT PasswordNeededQuery : public Query
