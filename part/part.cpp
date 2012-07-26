@@ -1214,6 +1214,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
         // calculates intersect set between cleanFilesToAdd and files already in archive.
         QSet<QString> pathsInFileSystem;
         findFilePaths(cleanFilesToAdd, firstPath, pathsInFileSystem);
+        //kDebug(1601) << "Filesystem paths     " << pathsInFileSystem;
 
         QSet<QString> pathsInArchive;
         m_model->findFilePaths(pathsInArchive);
@@ -1228,7 +1229,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
             qSort(list);
             QList<QString>::iterator it = list.begin();
             while (it != list.end()) {
-                Kerfuffle::OverwriteQuery query(*it);
+                Kerfuffle::OverwriteQuery query(firstPath + *it);
                 query.setNoRenameMode(true);
                 query.setUpdateExistingMode(true);
                 query.execute();
