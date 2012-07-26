@@ -1217,10 +1217,18 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
                 return;
             } else if (query.responseSkip()) {
                 pathsInFileSystem.remove(*it);
+
+                // TODO: if entry is a directory maybe we must remove all entries
+                // inside it, that is, remove all members of pathsInFileSystem that
+                // starts with *it.
             } else if (query.responseAutoSkip()) {
                 while (it != intersect.constEnd()) {
                     pathsInFileSystem.remove(*it);
                     ++it;
+
+                    // TODO: if entry is a directory maybe we must remove all entries
+                    // inside it, that is, remove all members of pathsInFileSystem that
+                    // starts with *it.
                 }
                 break;
             } else if (query.responseOverwriteAll()) {
@@ -1235,10 +1243,14 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
     
         kDebug(1601) << "cleanFilesToAdd (before conflict) " << cleanFilesToAdd;
         cleanFilesToAdd.clear();
-        foreach (const QString & entry, pathsInFileSystem.toList()) {
+        foreach (const QString & entry, pathsInFileSystem) {
             cleanFilesToAdd.append(firstPath + entry);
         }
         kDebug(1601) << "cleanFilesToAdd (after conflict ) " << cleanFilesToAdd;
+
+        if (cleanFilesToAdd.isEmpty()) {
+            return;
+        }
     }
 
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
