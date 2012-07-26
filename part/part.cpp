@@ -1130,8 +1130,8 @@ void Part::findFilePaths(const QStringList & originalPaths, const QString & pare
         }
 
         // remove '/' from directory path's end.
-        if (path[path.size()-1] == '/') {
-            path = path.left(path.size()-1);
+        if (path[path.size()-1] == QLatin1Char('/')) {
+            path.chop(1);
         }
 
         filePaths.insert(path);
