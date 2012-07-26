@@ -187,6 +187,20 @@ public:
         return 0;
     }
 
+    void findFilePaths(QSet<QString> & filePaths, const QString & prefix = QString())
+    {
+        foreach(ArchiveNode *node, m_entries) {
+            if (node) {
+                QString path = prefix + '/' + node->name();
+                filePaths.insert(path);
+
+                if (node->isDir()) {
+                    static_cast<ArchiveDirNode*>(node)->findFilePaths(filePaths, path);
+                }
+            }
+        }
+    }
+
     void returnDirNodes(QList<ArchiveDirNode*> *store)
     {
         foreach(ArchiveNode *node, m_entries) {
@@ -949,6 +963,11 @@ TestJob* ArchiveModel::testFiles(const QList<QVariant> & files, const Kerfuffle:
     connect(newJob, SIGNAL(userQuery(Kerfuffle::Query*)),
             this, SLOT(slotUserQuery(Kerfuffle::Query*)));
     return newJob;
+}
+
+void ArchiveModel::findFilePaths(QSet<QString> & filePaths)
+{
+    m_rootNode->findFilePaths(filePaths);
 }
 
 void ArchiveModel::slotCleanupEmptyDirs()

@@ -1101,6 +1101,47 @@ void Part::slotAdd()
     }
 }
 
+void Part::findFilePaths2(const QString & parentDir, QSet<QString> & filePaths, const QString & prefix)
+{
+    QDir dir(parentDir);
+    QStringList list = dir.entryList(QDir::AllDirs | QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
+
+    foreach (const QString entry, list) {
+        QString path = prefix + '/' + entry;
+        filePaths.insert(path);
+
+        if (QFileInfo(parentDir + path).isDir()) {
+            findFilePaths2(parentDir + path, filePaths, path);
+        }
+    }
+}
+
+void Part::findFilePaths(const QStringList & originalPaths, const QString & parentDir, QSet<QString> & filePaths)
+{
+    foreach (const QString entry, originalPaths) {
+        QString path;
+
+        // calculate path relative to archive's root directory.
+        int i = entry.indexOf(parentDir);
+        if (i != -1) {
+            path = entry.mid(parentDir.size());
+        } else {
+            path = entry;
+        }
+
+        // remove '/' from directory path's end.
+        if (path[path.size()-1] == '/') {
+            path = path.left(path.size()-1);
+        }
+
+        filePaths.insert(path);
+
+        // recurse to find remaining entries.
+        if (QFileInfo(entry).isDir()) {
+            findFilePaths2(parentDir + '/' + path, filePaths, path);
+        }
+    }
+}
 void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, CompressionOptions options)
 {
     Q_UNUSED(path)
@@ -1150,6 +1191,16 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
 
     kDebug() << "Detected relative path to be " << firstPath;
     options[QLatin1String("GlobalWorkDir")] = firstPath;
+
+    // TODO: show conflict solve dialog when intersect set != empty.
+    QSet<QString> pathsInFileSystem;
+    findFilePaths(cleanFilesToAdd, firstPath, pathsInFileSystem);
+    kDebug(1601) << "Filesystem paths     " << pathsInFileSystem;
+
+    QSet<QString> pathsInArchive;
+    m_model->findFilePaths(pathsInArchive);
+    kDebug(1601) << "Current archive paths" << pathsInArchive;
+    kDebug(1601) << "Intersect set        " << pathsInArchive.intersect(pathsInFileSystem);
 
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
     if (!job) {

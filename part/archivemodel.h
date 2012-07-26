@@ -78,6 +78,8 @@ public:
 
     Kerfuffle::TestJob* testFiles(const QList<QVariant> & files, const Kerfuffle::TestOptions& options = Kerfuffle::TestOptions());
 
+    void findFilePaths(QSet<QString> & filePaths);
+
 signals:
     void loadingStarted();
     void loadingFinished(KJob *);
