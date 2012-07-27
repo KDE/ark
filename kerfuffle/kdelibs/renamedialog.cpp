@@ -240,8 +240,8 @@ RenameDialog::RenameDialog(QWidget *parent, const QString & _caption,
 
         QLabel* titleLabel = new QLabel(i18n("This action will overwrite the destination."), this);
 
-        QLabel* srcTitle = createLabel(parent, i18n("Source"), true);
-        QLabel* destTitle = createLabel(parent, i18n("Destination"), true);
+        QLabel* srcTitle = createLabel(parent, i18nc("The source file or directory", "Source"), true);
+        QLabel* destTitle = createLabel(parent, i18n("The destination file or directory", "Destination"), true);
 
         QLabel* srcInfo = createSqueezedLabel(parent, d->src.pathOrUrl());
         QLabel* destInfo = createSqueezedLabel(parent, d->dest.pathOrUrl());
@@ -442,10 +442,10 @@ QString RenameDialog::suggestName(const KUrl& baseURL, const QString& oldName)
 
     //ignore dots at the beginning, that way "..aFile.tar.gz" will become "..aFile 1.tar.gz" instead of " 1..aFile.tar.gz"
     int index = basename.indexOf('.');
-    int continous = 0;
-    while (continous == index) {
+    int continuous = 0;
+    while (continuous == index) {
         index = basename.indexOf('.', index + 1);
-        ++continous;
+        ++continuous;
     }
 
     if (index != -1) {
@@ -468,7 +468,7 @@ QString RenameDialog::suggestName(const KUrl& baseURL, const QString& oldName)
             suggestedName = basename + dotSuffix;
         }
     } else // no spacer yet
-        suggestedName = basename + spacer + "1" + dotSuffix ;
+        suggestedName = basename + spacer + '1' + dotSuffix ;
 
     // Check if suggested name already exists
     bool exists = false;
