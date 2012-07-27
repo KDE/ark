@@ -161,7 +161,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, SLOT(slotAddFiles(QStringList,QString)));
     connect(m_model, SIGNAL(error(QString,QString)),
             this, SLOT(slotError(QString,QString)));
-    connect(m_model, SIGNAL(columnsInserted(QModelIndex, int, int)),
+    connect(m_model, SIGNAL(columnsInserted(QModelIndex,int,int)),
             this, SLOT(adjustColumns()));
 
     setupArchiveView();
@@ -290,9 +290,9 @@ void Part::setupArchiveView()
     m_archiveView->setSortingEnabled(true);
 
     disconnect(m_archiveView->selectionModel(), 0, this, 0);
-    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
             this, SLOT(updateActions()));
-    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+    connect(m_archiveView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
             this, SLOT(selectionChanged()));
 
     disconnect(m_archiveView, SIGNAL(itemTriggered(QModelIndex)), this, 0);
