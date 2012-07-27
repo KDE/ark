@@ -1542,8 +1542,26 @@ void Part::populateMimeData(QMimeData* mimeData, bool cut)
             kdeUrls.append(item.url());
             mostLocalUrls.append(item.mostLocalUrl(dummy));
         }
-    } else {
+    } else if (m_model && m_model->archive()) {
+        QString fileName = m_model->archive()->fileName();
+        QString protocol = fileName.mid(protocol.lastIndexOf(QLatin1Char('.')));
+    
+        if (protocol == QLatin1String("rar")) {
+            protocol = "ar";
+        } else if (protocol == QLatin1String("zip")) {
+            protocol = "zip";
+        } else if (protocol == QLatin1String("tar")) {
+            protocol = "tar";
+        } else {
+            protocol = "p7zip";
+        }
 
+        foreach (const QModelIndex & index, m_archiveView->selectionModel()->selectedRows()) {
+           const ArchiveEntry& entry = m_model->entryForIndex(index);
+           QUrl u(protocol + QLatin1String("://") + fileName + QLatin1Char('/') + entry[FileName].toString());
+           kDebug(1601) << "going to add entry" << u;
+           kdeUrls.append(u);
+        }
     }
 
     KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, cut);
@@ -1558,34 +1576,8 @@ void Part::cut()
 
 void Part::copy()
 {
-    if (!m_model || !m_model->archive()) {
-        return;
-    }
-
-    QString fileName = m_model->archive()->fileName();
-    QString protocol = fileName.mid(protocol.lastIndexOf(QLatin1Char('.')));
-
-    if (protocol == QLatin1String("rar")) {
-        protocol = "ar";
-    } else if (protocol == QLatin1String("zip")) {
-        protocol = "zip";
-    } else if (protocol == QLatin1String("tar")) {
-        protocol = "tar";
-    } else {
-        protocol = "p7zip";
-    }
-    
-    QList<QUrl> selectedFiles;
-    foreach (const QModelIndex & index, m_archiveView->selectionModel()->selectedRows()) {
-        const ArchiveEntry& entry = m_model->entryForIndex(index);
-        QUrl u(protocol + QLatin1String("://") + fileName + QLatin1Char('/') + entry[FileName].toString());
-        kDebug(1601) << "going to add entry" << u;
-        selectedFiles.append(u);
-    }
-
     QMimeData* mimeData = new QMimeData();
     populateMimeData(mimeData, false);
-    mimeData->setUrls(selectedFiles);
     QApplication::clipboard()->setMimeData(mimeData);
 }
 
