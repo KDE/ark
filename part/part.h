@@ -130,6 +130,7 @@ private:
     void findFilePaths(const QStringList & originalPaths, const QString & parentDir, QSet<QString> & filePaths);
     void findFilePaths2(const QString & parentDir, QSet<QString> & list, const QString & prefix = QString());
     void removeAll(QSet<QString> & set, const QString & entry);
+    void clearOpenArguments();
 
     ArchiveModel         *m_model;
     QTreeView            *m_archiveView;

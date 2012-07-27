@@ -516,6 +516,16 @@ KAboutData* Part::createAboutData()
     return new KAboutData("ark", 0, ki18nc("@title", "ArkPart"), "3.0");
 }
 
+void Part::clearOpenArguments()
+{
+    KParts::OpenUrlArguments openArgs;
+    openArgs.metaData().remove("createNewArchive");
+    openArgs.metaData().remove("addFiles");
+    setArguments(openArgs);
+    setProperty("CompressionOptions", QVariant());
+    setProperty("FilesToAdd", QVariant());
+}
+
 bool Part::openFile()
 {
     kDebug() << url();
@@ -569,6 +579,7 @@ bool Part::openFile()
 
         QPointer<ArchiveConflictDialog> dlg = new ArchiveConflictDialog(widget(), localFile, suggestion);
         if (dlg->exec() != KDialog::Accepted) {
+            clearOpenArguments();
             return false;
         }
 
@@ -580,6 +591,7 @@ bool Part::openFile()
                     KMessageBox::sorry(NULL,
                                        i18nc("@info", "The archive <filename>%1</filename> could not be overwritten", localFile),
                                        i18nc("@title:window", "Error Overwriting Archive"));
+                    clearOpenArguments();
                     return false;
                 }
             } else if (dlg->selectedOption() == ArchiveConflictDialog::RenameNew) {
@@ -593,6 +605,7 @@ bool Part::openFile()
         KMessageBox::sorry(NULL,
                            i18nc("@info", "The archive <filename>%1</filename> was not found.", localFile),
                            i18nc("@title:window", "Error Opening Archive"));
+        clearOpenArguments();
         return false;
     }
 
@@ -637,6 +650,7 @@ bool Part::openFile()
         }
 
         if ((!ok) || (item.isEmpty())) {
+            clearOpenArguments();
             return false;
         }
 
@@ -647,6 +661,7 @@ bool Part::openFile()
         KMessageBox::sorry(NULL,
                            i18nc("@info", "Ark was not able to open the archive <filename>%1</filename>. No plugin capable of handling the file was found.", localFile),
                            i18nc("@title:window", "Error Opening Archive"));
+        clearOpenArguments();
         return false;
     }
 
@@ -657,12 +672,12 @@ bool Part::openFile()
 
         if (this->property("CompressionOptions").isValid()) {
             options = this->property("CompressionOptions").toHash();
-            this->setProperty("CompressionOptions", QVariant());
+            setProperty("CompressionOptions", QVariant());
         }
 
         if (this->property("FilesToAdd").isValid()) {
             filestoAdd = this->property("FilesToAdd").toStringList();
-            this->setProperty("FilesToAdd", QVariant());
+            setProperty("FilesToAdd", QVariant());
         }
 
         KParts::OpenUrlArguments openArgs = arguments();
@@ -711,6 +726,7 @@ void Part::slotLoadingFinished(KJob *job)
                                  localFilePath(),
                                  job->errorText()),
                            i18nc("@title:window", "Error Opening Archive"));
+        clearOpenArguments();
         openUrl(m_lastDir);
         return;
     }
@@ -1037,7 +1053,7 @@ void Part::slotAdd()
     CompressionOptions options;
     QStringList filesToAdd;
 
-    this->setProperty("LastPath", QVariant(url().path()));
+    m_lastDir = url().path();
 
     if (m_stack->currentWidget() == m_dirOperator) {
         foreach(const KFileItem & item, m_dirOperator->selectedItems()) {
@@ -1095,8 +1111,8 @@ void Part::slotAdd()
 
         // openUrl() to create an archive is asynchronous, so we need to save the files and options
         // so we can retrieve and use them later (see slotLoadingFinished)
-        this->setProperty("CompressionOptions", QVariant(options));
-        this->setProperty("FilesToAdd", QVariant(filesToAdd));
+        setProperty("CompressionOptions", QVariant(options));
+        setProperty("FilesToAdd", QVariant(filesToAdd));
 
         openUrl(saveFileUrl);
     }
@@ -1107,7 +1123,7 @@ void Part::findFilePaths2(const QString & parentDir, QSet<QString> & filePaths, 
     QDir dir(parentDir);
     QStringList list = dir.entryList(QDir::AllDirs | QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
 
-    foreach (const QString & entry, list) {
+    foreach(const QString & entry, list) {
         QString path = prefix + QLatin1Char('/') + entry;
         filePaths.insert(path);
 
@@ -1119,7 +1135,7 @@ void Part::findFilePaths2(const QString & parentDir, QSet<QString> & filePaths, 
 
 void Part::findFilePaths(const QStringList & originalPaths, const QString & parentDir, QSet<QString> & filePaths)
 {
-    foreach (const QString & entry, originalPaths) {
+    foreach(const QString & entry, originalPaths) {
         QString path;
 
         // calculates path relative to archive's root directory.
@@ -1166,6 +1182,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
     kDebug();
 
     if (filesToAdd.isEmpty()) {
+        clearOpenArguments();
         return;
     }
 
@@ -1299,7 +1316,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
 
             kDebug(1601) << "cleanFilesToAdd (before conflict) " << cleanFilesToAdd;
             cleanFilesToAdd.clear();
-            foreach (const QString & entry, pathsInFileSystem) {
+            foreach(const QString & entry, pathsInFileSystem) {
                 cleanFilesToAdd.append(firstPath + entry);
             }
             kDebug(1601) << "cleanFilesToAdd (after conflict ) " << cleanFilesToAdd;
@@ -1316,6 +1333,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
 
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
     if (!job) {
+        clearOpenArguments();
         return;
     }
 
@@ -1331,6 +1349,7 @@ void Part::slotAddFilesDone(KJob* job)
 
     if (job->error()) {
         KMessageBox::error(widget(), job->errorString());
+        clearOpenArguments();
         openUrl(m_lastDir);
         return;
     }
@@ -1342,7 +1361,7 @@ void Part::slotAddFilesDone(KJob* job)
         if (var.isValid() && var.toBool()) {
             KonqOperations::del(widget(), KonqOperations::TRASH, KUrl::List(addJob->files()));
         }
-        this->setProperty("DeleteSourceFiles", QVariant());
+        setProperty("DeleteSourceFiles", QVariant());
     }
 
     // needed after overwiting an archive
@@ -1352,6 +1371,7 @@ void Part::slotAddFilesDone(KJob* job)
         file.remove();
     }
 
+    clearOpenArguments();
     openUrl(url());
 }
 
@@ -1545,7 +1565,7 @@ void Part::populateMimeData(QMimeData* mimeData, bool cut)
     } else if (m_model && m_model->archive()) {
         QString fileName = m_model->archive()->fileName();
         QString protocol = fileName.mid(protocol.lastIndexOf(QLatin1Char('.')));
-    
+
         if (protocol == QLatin1String("rar")) {
             protocol = "ar";
         } else if (protocol == QLatin1String("zip")) {
@@ -1562,11 +1582,11 @@ void Part::populateMimeData(QMimeData* mimeData, bool cut)
             }
         }
 
-        foreach (const QModelIndex & index, m_archiveView->selectionModel()->selectedRows()) {
-           const ArchiveEntry& entry = m_model->entryForIndex(index);
-           QUrl u(protocol + QLatin1String("://") + fileName + QLatin1Char('/') + entry[FileName].toString());
-           kDebug(1601) << "going to add entry" << u;
-           kdeUrls.append(u);
+        foreach(const QModelIndex & index, m_archiveView->selectionModel()->selectedRows()) {
+            const ArchiveEntry& entry = m_model->entryForIndex(index);
+            QUrl u(protocol + QLatin1String("://") + fileName + QLatin1Char('/') + entry[FileName].toString());
+            kDebug(1601) << "going to add entry" << u;
+            kdeUrls.append(u);
         }
     }
 
@@ -1613,11 +1633,11 @@ void Part::paste()
 
         if (KonqMimeData::decodeIsCutSelection(mimeData)) {
             slotAddFiles(files);
-            this->setProperty("DeleteSourceFiles", QVariant(true));
+            setProperty("DeleteSourceFiles", QVariant(true));
             clipboard->clear();
         } else {
             slotAddFiles(files);
-            this->setProperty("DeleteSourceFiles", QVariant());
+            setProperty("DeleteSourceFiles", QVariant());
         }
     }
 }
