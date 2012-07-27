@@ -1553,7 +1553,13 @@ void Part::populateMimeData(QMimeData* mimeData, bool cut)
         } else if (protocol == QLatin1String("tar")) {
             protocol = "tar";
         } else {
-            protocol = "p7zip";
+            protocol = fileName.section(QLatin1Char('.'), -2, -2);
+
+            if (protocol == QLatin1String("tar")) {
+                protocol = "tar";
+            } else {
+                protocol = "p7zip";
+            }
         }
 
         foreach (const QModelIndex & index, m_archiveView->selectionModel()->selectedRows()) {
