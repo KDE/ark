@@ -162,7 +162,7 @@ void CreateDialogUI::setOptions(const CompressionOptions& options)
     encryptContentsCheckBox->setChecked(options.value(QLatin1String("EncryptContents"), false).toBool());
     encryptFileNamesCheckBox->setChecked(options.value(QLatin1String("EncryptHeaderEnabled"), false).toBool());
     encryptionMethodComboBox->setCurrentIndex(options.value(QLatin1String("EncryptionMethod"), 0).toInt());
-    splitArchiveGroupBox->setChecked(options.value(QLatin1String("SplitArchives"), true).toBool());
+    splitArchiveGroupBox->setChecked(options.value(QLatin1String("SplitArchives"), false).toBool());
     splitSizeComboBox->setCurrentIndex(options.value(QLatin1String("SplitFileSize"), 0).toInt());
     splitSizeComboBox->lineEdit()->setText(options.value(QLatin1String("SplitFileSizeFreeValue"), QLatin1String("")).toString());
     multithreadingCheckBox->setChecked(options.value(QLatin1String("MultiThreadingEnabled"), true).toBool());
