@@ -1504,7 +1504,7 @@ QString Part::suggestNewNameForFile(const QString& file)
     QString basePath(info.absolutePath());
     QString name(info.baseName());
     name.remove(QRegExp(QLatin1String("-[0-9]{2}$")));
-    QString suffix(info.suffix());
+    QString suffix(info.completeSuffix());
     int counter = 0;
 
     while (info.exists()) {
