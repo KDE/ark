@@ -1291,7 +1291,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
                         ++it;
 
                         // non-empty directory, remove it.
-                        if ((*it).startsWith(dirPath)) {
+                        if (it != list.end() && (*it).startsWith(dirPath)) {
                             --it;
                             it = list.erase(it);
                         }
