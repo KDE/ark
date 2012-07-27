@@ -241,7 +241,7 @@ RenameDialog::RenameDialog(QWidget *parent, const QString & _caption,
         QLabel* titleLabel = new QLabel(i18n("This action will overwrite the destination."), this);
 
         QLabel* srcTitle = createLabel(parent, i18nc("The source file or directory", "Source"), true);
-        QLabel* destTitle = createLabel(parent, i18n("The destination file or directory", "Destination"), true);
+        QLabel* destTitle = createLabel(parent, i18nc("The destination file or directory", "Destination"), true);
 
         QLabel* srcInfo = createSqueezedLabel(parent, d->src.pathOrUrl());
         QLabel* destInfo = createSqueezedLabel(parent, d->dest.pathOrUrl());
