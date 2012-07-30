@@ -465,10 +465,11 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
     }
 
     //**************** first write the new files
+    const bool fixFileNameEncoding = options.value(QLatin1String("FixFileNameEncoding")).toBool();
     foreach(const QString& selectedFile, files) {
         bool success;
 
-        success = writeFile(selectedFile, arch_writer.data());
+        success = writeFile(selectedFile, arch_writer.data(), fixFileNameEncoding);
 
         if (!success) {
             QFile::remove(tempFilename);
@@ -816,7 +817,7 @@ void LibArchiveInterface::copyData(struct archive *source, struct archive *dest,
 
 // TODO: if we merge this with copyData(), we can pass more data
 //       such as an fd to archive_read_disk_entry_from_file()
-bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arch_writer)
+bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arch_writer, const bool fixFileNameEncoding)
 {
     int header_response;
 
@@ -841,8 +842,22 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
     archive_entry_copy_sourcepath(entry, QFile::encodeName(fileName).constData());
     archive_read_disk_entry_from_file(m_archiveReadDisk.data(), entry, -1, &st);
 
+    // This creates file names not in UTF-8, which works in Windows but not in Linux.
+    // if you use the tar command to extract files they will have broken file names.
+    // Use Ark with "Fix file name encoding" option enabled to correctly extract the files.
+    if (fixFileNameEncoding) {
+        kDebug(1601) << "Fixing file name enconding for Windows. This will break file names in Linux";
+        QByteArray b = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(entry))).toAscii();
+        archive_entry_copy_pathname(entry, b.constData());
+    }
+
     kDebug() << "Writing new entry " << archive_entry_pathname(entry);
-    if ((header_response = archive_write_header(arch_writer, entry)) == ARCHIVE_OK) {
+    header_response = archive_write_header(arch_writer, entry);
+    if (header_response == ARCHIVE_OK || header_response == ARCHIVE_WARN) {
+        if (header_response == ARCHIVE_WARN) {
+            kDebug(1601) << "Tar header written with warning";
+        }
+
         //if the whole archive is extracted and the total filesize is
         //available, we use partial progress
         copyData(fileName, arch_writer, false);

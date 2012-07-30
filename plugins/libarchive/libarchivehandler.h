@@ -55,7 +55,7 @@ private:
     int extractionFlags() const;
     void copyData(const QString& filename, struct archive *dest, bool partialprogress = true);
     void copyData(struct archive *source, struct archive *dest, bool partialprogress = true);
-    bool writeFile(const QString& fileName, struct archive* arch);
+    bool writeFile(const QString& fileName, struct archive* arch, const bool fixFileNameEncoding = false);
     inline QString getInternalId(struct archive_entry *aentry);
     inline QString getFileName(struct archive_entry *aentry);
 
