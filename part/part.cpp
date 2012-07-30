@@ -1285,18 +1285,27 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
                     QString dirPath = *it + QLatin1Char('/');
                     // remove non-empty directories from the list to prevent
                     // adding new files to archive.
+                    bool empty = true;
                     while (1) {
-                        ++it;
 
                         // non-empty directory, remove it.
-                        if (it != list.end() && (*it).startsWith(dirPath)) {
-                            --it;
-                            it = list.erase(it);
+                        empty = true;
+                        foreach (const QString & str, pathsInFileSystem) {
+                            if (str.startsWith(dirPath)) {
+                                empty = false;
+                                break;
+                            }
                         }
 
-                        // skip files inside dirPath.
-                        while (it != list.end() && (*it).startsWith(dirPath)) {
+                        if (empty) {
                             ++it;
+                        } else {
+                            it = list.erase(it);
+
+                            // skip any existing file inside dirPath.
+                            while (it != list.end() && (*it).startsWith(dirPath)) {
+                                ++it;
+                            }
                         }
 
                         if (it == list.end()) {
