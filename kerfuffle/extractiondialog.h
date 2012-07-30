@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (C) 2012 basyKom GmbH <info@basyskom.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -29,49 +30,41 @@
 #ifndef EXTRACTIONDIALOG_H
 #define EXTRACTIONDIALOG_H
 
+#include <KDialog>
+
+#include "archive.h"
 #include "kerfuffle_export.h"
 
-#include <KDirSelectDialog>
-
-#include <KDialog>
+class KConfigGroup;
+class KUrl;
 
 namespace Kerfuffle
 {
-class KERFUFFLE_EXPORT ExtractionDialog : public KDirSelectDialog
+class KERFUFFLE_EXPORT ExtractionDialog : public KDialog
 {
     Q_OBJECT
 public:
     ExtractionDialog(QWidget *parent = 0);
     virtual ~ExtractionDialog();
 
-    void setShowSelectedFiles(bool);
-    void setSingleFolderArchive(bool);
-    void setPreservePaths(bool);
-    void batchModeOption();
-    void setOpenDestinationFolderAfterExtraction(bool);
-    void setCloseAfterExtraction(bool);
-    void setAutoSubfolder(bool value);
-
-    bool extractAllFiles() const;
-    bool openDestinationAfterExtraction() const;
-    bool closeAfterExtraction() const;
-    bool extractToSubfolder() const;
-    bool autoSubfolders() const;
-    bool preservePaths() const;
-    KUrl destinationDirectory() const;
-    QString subfolder() const;
+    void setBatchMode(bool enabled);
+    KUrl destination() const;
     virtual void accept();
+    void setOptions(const ExtractionOptions& options = ExtractionOptions());
+    ExtractionOptions options() const;
 
 public Q_SLOTS:
-    void setSubfolder(const QString& subfolder);
+    void setDestination(const KUrl& url);
 
 private Q_SLOTS:
+    void loadSettings();
     void writeSettings();
+    void updateView();
 
 private:
-    void loadSettings();
-
     class ExtractionDialogUI *m_ui;
+    KUrl m_url;
+    KConfigGroup m_config;
 };
 }
 

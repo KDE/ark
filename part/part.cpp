@@ -519,8 +519,8 @@ KAboutData* Part::createAboutData()
 void Part::clearOpenArguments()
 {
     KParts::OpenUrlArguments openArgs;
-    openArgs.metaData().remove("createNewArchive");
-    openArgs.metaData().remove("addFiles");
+    openArgs.metaData().remove(QLatin1String("createNewArchive"));
+    openArgs.metaData().remove(QLatin1String("addFiles"));
     setArguments(openArgs);
     setProperty("CompressionOptions", QVariant());
     setProperty("FilesToAdd", QVariant());
@@ -1574,18 +1574,18 @@ void Part::populateMimeData(QMimeData* mimeData, bool cut)
         QString protocol = fileName.mid(protocol.lastIndexOf(QLatin1Char('.')));
 
         if (protocol == QLatin1String("rar")) {
-            protocol = "ar";
+            protocol = QLatin1String("ar");
         } else if (protocol == QLatin1String("zip")) {
-            protocol = "zip";
+            protocol = QLatin1String("zip");
         } else if (protocol == QLatin1String("tar")) {
-            protocol = "tar";
+            protocol = QLatin1String("tar");
         } else {
             protocol = fileName.section(QLatin1Char('.'), -2, -2);
 
             if (protocol == QLatin1String("tar")) {
-                protocol = "tar";
+                protocol = QLatin1String("tar");
             } else {
-                protocol = "p7zip";
+                protocol = QLatin1String("p7zip");
             }
         }
 

@@ -118,7 +118,7 @@ RenameDialog::RenameDialog(QWidget *parent, const QString & _caption,
                            time_t mtimeDest)
         : QDialog(parent), d(new RenameDialogPrivate)
 {
-    setObjectName("Kerfuffle::RenameDialog");
+    setObjectName(QLatin1String("Kerfuffle::RenameDialog"));
 
     d->src = _src;
     d->dest = _dest;
@@ -438,13 +438,13 @@ QString RenameDialog::suggestName(const KUrl& baseURL, const QString& oldName)
 {
     QString dotSuffix, suggestedName;
     QString basename = oldName;
-    const QChar spacer(' ');
+    const QLatin1Char spacer(' ');
 
     //ignore dots at the beginning, that way "..aFile.tar.gz" will become "..aFile 1.tar.gz" instead of " 1..aFile.tar.gz"
-    int index = basename.indexOf('.');
+    int index = basename.indexOf(QLatin1Char('.'));
     int continuous = 0;
     while (continuous == index) {
-        index = basename.indexOf('.', index + 1);
+        index = basename.indexOf(QLatin1Char('.'), index + 1);
         ++continuous;
     }
 
@@ -461,14 +461,14 @@ QString RenameDialog::suggestName(const KUrl& baseURL, const QString& oldName)
         int number = tmp.toInt(&ok);
 
         if (!ok) {  // ok there is no number
-            suggestedName = basename + spacer + '1' + dotSuffix;
+            suggestedName = basename + spacer + QLatin1Char('1') + dotSuffix;
         } else {
             // yes there's already a number behind the spacer so increment it by one
             basename.replace(pos + 1, tmp.length(), QString::number(number + 1));
             suggestedName = basename + dotSuffix;
         }
     } else // no spacer yet
-        suggestedName = basename + spacer + '1' + dotSuffix ;
+        suggestedName = basename + spacer + QLatin1Char('1') + dotSuffix ;
 
     // Check if suggested name already exists
     bool exists = false;

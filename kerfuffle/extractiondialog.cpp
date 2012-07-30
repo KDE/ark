@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2009 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (C) 2012 basyKom GmbH <info@basyskom.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -25,118 +26,75 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "extractiondialog.h"
-#include "settings.h"
 
+#include <QtGui/QAbstractItemView>
+#include <QtCore/QDir>
+
+#include <KConfigGroup>
+#include <KDebug>
+#include <KDirOperator>
+#include <KFilePlacesModel>
+#include <KGlobal>
+#include <KGuiItem>
+#include <KIO/NetAccess>
+#include <KTabWidget>
 #include <KLocale>
-#include <KIconLoader>
 #include <KMessageBox>
 #include <KStandardDirs>
-#include <KDebug>
-#include <KIO/NetAccess>
+#include <KUrlNavigator>
 
-#include <QDir>
-
+#include "archive.h"
+#include "extractiondialog.h"
 #include "ui_extractiondialog.h"
 
 namespace Kerfuffle
 {
 
-class ExtractionDialogUI: public QFrame, public Ui::ExtractionDialog
+class ExtractionDialogUI: public QWidget, public Ui::ExtractionDialog
 {
 public:
     ExtractionDialogUI(QWidget *parent = 0)
-            : QFrame(parent) {
+            : QWidget(parent) {
         setupUi(this);
+
+        urlNavigator = new KUrlNavigator(new KFilePlacesModel(this), KUrl(QDir::homePath()), 0);
+        urlNavigator->setPlacesSelectorVisible(true);
+        destinationTab->layout()->addWidget(urlNavigator);
+        dirOperator = new KDirOperator(KUrl(QDir::homePath()));
+        dirOperator->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        dirOperator->setMode(KFile::Directory);
+        dirOperator->setView(KFile::Tree);
+        dirOperator->view()->setSelectionMode(QAbstractItemView::SingleSelection);
+        destinationTab->layout()->addWidget(dirOperator);
     }
+
+    KDirOperator *dirOperator;
+    KUrlNavigator *urlNavigator;
 };
 
 ExtractionDialog::ExtractionDialog(QWidget *parent)
-        : KDirSelectDialog(KUrl(), false, parent)
+    : KDialog(parent),
+      m_url(KUrl(QDir::homePath()))
 {
     m_ui = new ExtractionDialogUI(this);
 
-    mainWidget()->layout()->addWidget(m_ui);
-    setCaption(i18nc("@title:window", "Extract"));
-    m_ui->iconLabel->setPixmap(DesktopIcon(QLatin1String( "archive-extract" )));
+    setMainWidget(m_ui);
+    setButtons( KDialog::User1 | KDialog::Reset |  KDialog::Ok | KDialog::Cancel );
+    setButtonGuiItem( KDialog::User1,
+                      KGuiItem( i18nc("@action:button", "Set As Default"),
+                                QLatin1String("configure"),
+                                i18nc("@info:tooltip", "Set the selected values as default values"),
+                                i18nc("@info:whatsthis", "Sets the selected values as default values for new archives")));
 
-    m_ui->filesToExtractGroupBox->hide();
-    m_ui->allFilesButton->setChecked(true);
-    m_ui->extractAllLabel->show();
+    setBatchMode(false);
 
-    setSingleFolderArchive(false);
-
-    m_ui->autoSubfolders->hide();
-
+    m_config = KConfigGroup(KGlobal::config()->group("ExtractionDialog"));
     loadSettings();
 
-    connect(this, SIGNAL(finished(int)), SLOT(writeSettings()));
-}
-
-void ExtractionDialog::loadSettings()
-{
-    setOpenDestinationFolderAfterExtraction(ArkSettings::openDestinationFolderAfterExtraction());
-    setCloseAfterExtraction(ArkSettings::closeAfterExtraction());
-    setPreservePaths(ArkSettings::preservePaths());
-}
-
-void ExtractionDialog::setSingleFolderArchive(bool value)
-{
-    m_ui->singleFolderGroup->setChecked(!value);
-}
-
-void ExtractionDialog::batchModeOption()
-{
-    m_ui->autoSubfolders->show();
-    m_ui->autoSubfolders->setEnabled(true);
-    m_ui->singleFolderGroup->hide();
-    m_ui->extractAllLabel->setText(i18nc("@title", "Extract multiple archives"));
-}
-
-void ExtractionDialog::accept()
-{
-    if (extractToSubfolder()) {
-        if (subfolder().contains(QLatin1String( "/" ))) {
-            KMessageBox::error(NULL, i18nc("@info", "The subfolder name may not contain the character '/'."));
-            return;
-        }
-
-        const QString pathWithSubfolder = url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder();
-
-        if (KIO::NetAccess::exists(pathWithSubfolder, KIO::NetAccess::SourceSide, 0)) {
-            if (QFileInfo(pathWithSubfolder).isDir()) {
-                int overwrite = KMessageBox::questionYesNo(0, i18nc("@info", "The folder <filename>%1</filename> already exists. Are you sure you want to extract here?", pathWithSubfolder), i18nc("@action:button", "Folder exists"), KGuiItem(i18nc("@action:button", "Extract here")), KGuiItem(i18nc("@action:button", "Cancel")));
-
-                if (overwrite == KMessageBox::No) {
-                    //TODO: choosing retry should also be possible, so one does
-                    //not have to do the procedure one more time.
-                    return;
-                }
-            } else if (!KIO::NetAccess::mkdir(pathWithSubfolder, 0)) {
-                KMessageBox::detailedError(0,
-                                           i18nc("@info", "The folder <filename>%1</filename> could not be created.", subfolder()),
-                                           i18n("Please check your permissions to create it."));
-                return;
-            }
-        } else if (!KIO::NetAccess::mkdir(pathWithSubfolder, 0)) {
-            KMessageBox::detailedError(0,
-                                       i18nc("@info", "The folder <filename>%1</filename> could not be created.", subfolder()),
-                                       i18nc("@info", "Please check your permissions to create it."));
-            return;
-        }
-    }
-
-    KDirSelectDialog::accept();
-}
-
-void ExtractionDialog::setSubfolder(const QString& subfolder)
-{
-    m_ui->subfolder->setText(subfolder);
-}
-
-QString ExtractionDialog::subfolder() const
-{
-    return m_ui->subfolder->text();
+    connect(this, SIGNAL(resetClicked()), SLOT(loadSettings()));
+    connect(this, SIGNAL(user1Clicked()), SLOT(writeSettings()));
+    connect(m_ui->dirOperator, SIGNAL(urlEntered(KUrl)), this, SLOT(setDestination(KUrl)));
+    connect(m_ui->urlNavigator, SIGNAL(urlChanged(KUrl)), this, SLOT(setDestination(KUrl)));
 }
 
 ExtractionDialog::~ExtractionDialog()
@@ -145,86 +103,111 @@ ExtractionDialog::~ExtractionDialog()
     m_ui = 0;
 }
 
-void ExtractionDialog::setShowSelectedFiles(bool value)
+void ExtractionDialog::loadSettings()
 {
-    if (value) {
-        m_ui->filesToExtractGroupBox->show();
-        m_ui->selectedFilesButton->setChecked(true);
-        m_ui->extractAllLabel->hide();
-    } else  {
-        m_ui->filesToExtractGroupBox->hide();
-        m_ui->selectedFilesButton->setChecked(false);
-        m_ui->extractAllLabel->show();
+    kDebug();
+    ExtractionOptions options;
+    foreach( const QString & str, m_config.keyList() ) {
+        options[str] = m_config.readEntry(str);
     }
-}
 
-bool ExtractionDialog::extractAllFiles() const
-{
-    return m_ui->allFilesButton->isChecked();
-}
-
-void ExtractionDialog::setAutoSubfolder(bool value)
-{
-    m_ui->autoSubfolders->setChecked(value);
-}
-
-bool ExtractionDialog::autoSubfolders() const
-{
-    return m_ui->autoSubfolders->isChecked();
-}
-
-bool ExtractionDialog::extractToSubfolder() const
-{
-    return m_ui->singleFolderGroup->isChecked();
-}
-
-void ExtractionDialog::setOpenDestinationFolderAfterExtraction(bool value)
-{
-    m_ui->openFolderCheckBox->setChecked(value);
-}
-
-void ExtractionDialog::setCloseAfterExtraction(bool value)
-{
-  m_ui->closeAfterExtraction->setChecked(value);
-}
-
-void ExtractionDialog::setPreservePaths(bool value)
-{
-    m_ui->preservePaths->setChecked(value);
-}
-
-bool ExtractionDialog::preservePaths() const
-{
-    return m_ui->preservePaths->isChecked();
-}
-
-bool ExtractionDialog::openDestinationAfterExtraction() const
-{
-    return m_ui->openFolderCheckBox->isChecked();
-}
-
-bool ExtractionDialog::closeAfterExtraction() const
-{
-    return m_ui->closeAfterExtraction->isChecked();
-}
-
-KUrl ExtractionDialog::destinationDirectory() const
-{
-    if (extractToSubfolder()) {
-        return QString(url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder() + QLatin1Char( '/' ));
-    } else {
-        return url().pathOrUrl(KUrl::AddTrailingSlash);
-    }
+    // set options in the UI
+    setOptions(options);
 }
 
 void ExtractionDialog::writeSettings()
 {
-    ArkSettings::setOpenDestinationFolderAfterExtraction(openDestinationAfterExtraction());
-    ArkSettings::setCloseAfterExtraction(closeAfterExtraction());
-    ArkSettings::setPreservePaths(preservePaths());
-    ArkSettings::self()->writeConfig();
+    kDebug();
+    // get options from the UI
+    QHashIterator<QString, QVariant> it((QHash<QString, QVariant>)options());
+    while (it.hasNext()) {
+         it.next();
+         m_config.writeEntry(it.key(), it.value());
+    }
 }
 
+void ExtractionDialog::updateView()
+{
+    kDebug();
+    disconnect(m_ui->dirOperator, SIGNAL(urlEntered(KUrl)), this, SLOT(setDestination(KUrl)));
+    disconnect(m_ui->urlNavigator, SIGNAL(urlChanged(KUrl)), this, SLOT(setDestination(KUrl)));
+
+    m_ui->dirOperator->setUrl(m_url, true);
+    m_ui->urlNavigator->setLocationUrl(m_url);
+
+    connect(m_ui->dirOperator, SIGNAL(urlEntered(KUrl)), SLOT(setDestination(KUrl)));
+    connect(m_ui->urlNavigator, SIGNAL(urlChanged(KUrl)), SLOT(setDestination(KUrl)));
+}
+
+void ExtractionDialog::setBatchMode(bool enabled)
+{
+    kDebug();
+    if (enabled) {
+        m_ui->autoSubfoldersCheckBox->show();
+        m_ui->autoSubfoldersCheckBox->setChecked(true);
+        setCaption(i18nc("@title:window", "Extract multiple archives"));
+    } else {
+        m_ui->autoSubfoldersCheckBox->hide();
+        setCaption(i18nc("@title:window", "Extract archive"));
+    }
+}
+
+void ExtractionDialog::accept()
+{
+    kDebug();
+    const QString path = m_url.pathOrUrl(KUrl::AddTrailingSlash);
+
+    if (!KIO::NetAccess::exists(path, KIO::NetAccess::SourceSide, 0)
+            && !KIO::NetAccess::mkdir(path, 0)) {
+        KMessageBox::detailedError(0,
+                                   i18nc("@info", "The folder <filename>%1</filename> could not be created.", path),
+                                   i18nc("@info", "Please check your permissions to create it."));
+        return;
+    }
+
+    KDialog::accept();
+}
+
+void ExtractionDialog::setOptions(const ExtractionOptions &options)
+{
+    kDebug();
+    m_ui->autoSubfoldersCheckBox->setChecked(options.value(QLatin1String("AutoSubfolders"), true).toBool());
+    m_ui->openFolderCheckBox->setChecked(options.value(QLatin1String("OpenDestinationAfterExtraction"), true).toBool());
+    m_ui->closeAfterExtractionCheckBox->setChecked(options.value(QLatin1String("CloseArkAfterExtraction"), false).toBool());
+    m_ui->utf8CheckBox->setChecked(options.value(QLatin1String("FixEncoding"), true).toBool());
+    m_ui->multithreadingCheckBox->setChecked(options.value(QLatin1String("UseMultithreading"), true).toBool());
+    m_ui->preservePathsCheckBox->setChecked(options.value(QLatin1String("PreservePaths"), false).toBool());
+    m_ui->conflictHandlingComboBox->setCurrentIndex(options.value(QLatin1String("ConflictHandling"), 0).toInt());
+    setDestination(options.value(QLatin1String("DestinationDirectory"), KUrl(QDir::homePath())).toUrl());
+}
+
+ExtractionOptions ExtractionDialog::options() const
+{
+    kDebug();
+    ExtractionOptions options;
+    options[QLatin1String("AutoSubfolders")] = m_ui->autoSubfoldersCheckBox->isChecked();
+    options[QLatin1String("OpenDestinationAfterExtraction")] = m_ui->openFolderCheckBox->isChecked();
+    options[QLatin1String("CloseArkAfterExtraction")] = m_ui->closeAfterExtractionCheckBox->isChecked();
+    options[QLatin1String("FixEncoding")] = m_ui->utf8CheckBox->isChecked();
+    options[QLatin1String("UseMultithreading")] = m_ui->multithreadingCheckBox->isChecked();
+    options[QLatin1String("PreservePaths")] = m_ui->preservePathsCheckBox->isChecked();
+    options[QLatin1String("ConflictHandling")] = m_ui->conflictHandlingComboBox->currentIndex();
+    options[QLatin1String("DestinationDirectory")] = destination();
+
+    return options;
+}
+
+KUrl ExtractionDialog::destination() const
+{   
+    return m_url;
+}
+
+void ExtractionDialog::setDestination(const KUrl &url)
+{
+    kDebug();
+    m_url = url;
+    updateView();
+}
 }
 
 #include "extractiondialog.moc"
