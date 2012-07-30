@@ -82,7 +82,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
     }
 
     Kerfuffle::ExtractionOptions options;
-    options[QLatin1String( "PreservePaths" )] = preservePaths();
+    options[QLatin1String("PreservePaths")] = preservePaths();
 
     Kerfuffle::ExtractJob *job = archive->copyFiles(QVariantList(), destination, options);
 
@@ -260,29 +260,27 @@ bool BatchExtract::showExtractDialog()
         new Kerfuffle::ExtractionDialog;
 
     if (m_inputs.size() > 1) {
-        dialog.data()->batchModeOption();
+        dialog.data()->setBatchMode(true);
     }
 
-    dialog.data()->setAutoSubfolder(autoSubfolder());
-    dialog.data()->setCurrentUrl(destinationFolder());
-    dialog.data()->setPreservePaths(preservePaths());
-
-    if (m_inputs.size() == 1) {
-        if (m_inputs.at(0)->isSingleFolderArchive()) {
-            dialog.data()->setSingleFolderArchive(true);
-        }
-        dialog.data()->setSubfolder(m_inputs.at(0)->subfolderName());
-    }
+    Kerfuffle::ExtractionOptions options;
+    options[QLatin1String("AutoSubfolder")] = autoSubfolder();
+    options[QLatin1String("DestinationDirectory")] = KUrl(destinationFolder());
+    options[QLatin1String("OpenDestinationAfterExtraction")] = openDestinationAfterExtraction();
+    options[QLatin1String("PreservePaths")] = preservePaths();
+    dialog.data()->setOptions(options);
 
     if (!dialog.data()->exec()) {
         delete dialog.data();
         return false;
     }
 
-    setAutoSubfolder(dialog.data()->autoSubfolders());
-    setDestinationFolder(dialog.data()->destinationDirectory().pathOrUrl());
-    setOpenDestinationAfterExtraction(dialog.data()->openDestinationAfterExtraction());
-    setPreservePaths(dialog.data()->preservePaths());
+    options = dialog.data()->options();
+
+    setAutoSubfolder(options.value("AutoSubfolder").toBool());
+    setDestinationFolder(static_cast<KUrl>(options.value("DestinationDirectory").toUrl()).pathOrUrl());
+    setOpenDestinationAfterExtraction(options.value("OpenDestinationAfterExtraction").toBool());
+    setPreservePaths(options.value("PreservePaths").toBool());
 
     delete dialog.data();
 

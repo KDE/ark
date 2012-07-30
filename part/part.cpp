@@ -918,16 +918,10 @@ void Part::slotExtractFiles()
             kDebug()  <<  "TODO: implement single archibe extraction from with ark file browser";
         }
     } else if (m_model->archive()) {
-        QWeakPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog;
+        QWeakPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog(widget());
 
-        if (m_archiveView->selectionModel()->selectedRows().count() > 0) {
-            dialog.data()->setShowSelectedFiles(true);
-        }
-
-        dialog.data()->setSingleFolderArchive(isSingleFolderArchive());
-        dialog.data()->setSubfolder(detectSubfolder());
-
-        dialog.data()->setCurrentUrl(QFileInfo(m_model->archive()->fileName()).path());
+        KUrl destination(QFileInfo(m_model->archive()->fileName()).path().append(QDir::separator()).append(detectSubfolder()));
+        dialog.data()->setDestination(destination);
 
         if (dialog.data()->exec()) {
             //this is done to update the quick extract menu
@@ -937,23 +931,15 @@ void Part::slotExtractFiles()
 
             //if the user has chosen to extract only selected entries, fetch these
             //from the listview
-            if (!dialog.data()->extractAllFiles()) {
+            if (m_archiveView->selectionModel()->selectedRows().count() > 0) {
                 files = selectedFilesWithChildren();
+                kDebug() << "Selected " << files;
             }
 
-            kDebug() << "Selected " << files;
-
-            Kerfuffle::ExtractionOptions options;
-
-            if (dialog.data()->preservePaths()) {
-                options[QLatin1String("PreservePaths")] = true;
-            }
-
+            Kerfuffle::ExtractionOptions options = dialog.data()->options();
             options[QLatin1String("FollowExtractionDialogSettings")] = true;
-            options[QLatin1String("MultiThreadingEnabled")] = false;
-            options[QLatin1String("FixFileNameEncoding")] = true;
 
-            const QString destinationDirectory = dialog.data()->destinationDirectory().pathOrUrl();
+            const QString destinationDirectory = dialog.data()->destination().pathOrUrl();
             ExtractJob *job = m_model->extractFiles(files, destinationDirectory, options);
             registerJob(job);
 
