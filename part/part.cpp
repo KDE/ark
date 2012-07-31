@@ -122,6 +122,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     m_dirOperator->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
     m_dirOperator->setView(KFile::Detail);
     m_dirOperator->view()->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    m_dirOperator->dirLister()->setAutoUpdate(true);
     connect(m_dirOperator, SIGNAL(urlEntered(KUrl)), SLOT(openUrl(KUrl)));
     connect(m_dirOperator, SIGNAL(fileHighlighted(KFileItem)), SLOT(updateActions()));
     connect(m_dirOperator, SIGNAL(fileSelected(KFileItem)),
@@ -206,6 +207,10 @@ void Part::registerJob(KJob* job)
             this, SLOT(slotJobWarning(KJob*,QString,QString)));
 }
 
+void Part::slotUserQuery(Kerfuffle::Query* query)
+{
+    query->execute();
+}
 
 void Part::slotJobDescription(KJob *job, const QString &title)
 {
@@ -905,6 +910,17 @@ QString Part::detectSubfolder() const
 void Part::slotExtractFiles()
 {
     kDebug();
+    Kerfuffle::ExtractionDialog dialog(widget()->parentWidget());
+
+    if ( dialog.exec() != KDialog::Accepted ) {
+        return;
+    }
+
+    QVariantList files;
+    Kerfuffle::ExtractionOptions options = dialog.options();
+    const QString destinationDirectory = dialog.destination().pathOrUrl();
+    options[QLatin1String("FollowExtractionDialogSettings")] = true;
+
     if (m_stack->currentWidget() == m_dirOperator)  {
         if (m_dirOperator->selectedItems().count() > 1) {
             kDebug()  <<  "TODO: implement batch extraction from with ark file browser";
@@ -914,42 +930,45 @@ void Part::slotExtractFiles()
                     kDebug()  << "Extraction: " << item.url();
                 }
             }
-        } else if (m_dirOperator->selectedItems().count() == 1) {
-            kDebug()  <<  "TODO: implement single archibe extraction from with ark file browser";
-        }
-    } else if (m_model->archive()) {
-        QWeakPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog(widget());
-
-        KUrl destination(QFileInfo(m_model->archive()->fileName()).path().append(QDir::separator()).append(detectSubfolder()));
-        dialog.data()->setDestination(destination);
-
-        if (dialog.data()->exec()) {
-            //this is done to update the quick extract menu
-            updateActions();
-
-            QVariantList files;
-
-            //if the user has chosen to extract only selected entries, fetch these
-            //from the listview
-            if (m_archiveView->selectionModel()->selectedRows().count() > 0) {
-                files = selectedFilesWithChildren();
-                kDebug() << "Selected " << files;
+            return; // TODO: remove when batch extraction was implemented
+        } else if (m_dirOperator->selectedItems().count() == 1 ) {
+            KFileItem item = m_dirOperator->selectedItems().at(0);
+            if( !isSupportedArchive(item.url())) {
+                return;
             }
 
-            Kerfuffle::ExtractionOptions options = dialog.data()->options();
-            options[QLatin1String("FollowExtractionDialogSettings")] = true;
+            Kerfuffle::Archive *archive = Kerfuffle::factory(item.url().path());
 
-            const QString destinationDirectory = dialog.data()->destination().pathOrUrl();
-            ExtractJob *job = m_model->extractFiles(files, destinationDirectory, options);
+            if(!archive) {
+                return;
+            }
+
+            kDebug() << "Getting extraction job from archive";
+            ExtractJob *job = archive->copyFiles(files, destinationDirectory, options);
             registerJob(job);
-
+            connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
+                    this, SLOT(slotUserQuery(Kerfuffle::Query*)));
             connect(job, SIGNAL(result(KJob*)),
                     this, SLOT(slotExtractionDone(KJob*)));
 
+            kDebug() << "Starting extraction job";
             job->start();
         }
+    } else if (m_model->archive()) {
 
-        delete dialog.data();
+        //if the user has chosen to extract only selected entries, fetch these
+        //from the listview
+        if (m_archiveView->selectionModel()->selectedRows().count() > 0) {
+            files = selectedFilesWithChildren();
+            kDebug() << "Selected " << files;
+        }
+
+        ExtractJob *job = m_model->extractFiles(files, destinationDirectory, options);
+        registerJob(job);
+        connect(job, SIGNAL(result(KJob*)),
+                this, SLOT(slotExtractionDone(KJob*)));
+
+        job->start();
     }
 }
 

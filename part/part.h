@@ -25,6 +25,7 @@
 
 #include "interface.h"
 #include "kerfuffle/archive.h"
+#include "kerfuffle/queries.h"
 
 #include <KParts/Part>
 #include <KParts/StatusBarExtension>
@@ -107,6 +108,7 @@ private slots:
     void populateMimeData(QMimeData* mimeData, bool cut);
     QString previewPathForEntry(const Kerfuffle::ArchiveEntry &entry);
     void openInExternalApplication(const QString &file);
+    void slotUserQuery(Kerfuffle::Query *query);
 
     // job output for debugging
     void slotJobDescription(KJob *job, const QString &title);
