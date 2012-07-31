@@ -691,7 +691,6 @@ bool LibArchiveInterface::testFiles(const QList<QVariant> & files, TestOptions o
 
 QString LibArchiveInterface::getInternalId(struct archive_entry *aentry)
 {
-    // Decoding file name here is required by Part::slotPreviewExtracted().
     return QDir::fromNativeSeparators(QLatin1String(archive_entry_pathname(aentry)));
 }
 
@@ -700,6 +699,7 @@ QString LibArchiveInterface::getFileNameForExtraction(struct archive_entry *aent
     // Decoding file name here is required by Part::slotPreviewExtracted().
     return QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(aentry)));
 }
+
 QString LibArchiveInterface::getFileName(struct archive_entry *aentry)
 {
     QString fileName;
