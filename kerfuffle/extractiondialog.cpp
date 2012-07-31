@@ -29,8 +29,12 @@
 // TODO: create custom directory selector widget with a linedit and places selector similar
 // to a KUrlNavigator on top, that shows the selected path/path to create, and a directory tree
 // view below that does not enter empty directories and just shows the selected directory
-// The existing KDirSelectorDialog is too big to be used here (and we dont want all the navigator
+// The existing KDirSelectorDialog is too big to be used here (and we don't want all the navigator
 // stuff)
+
+#include "extractiondialog.h"
+#include "ui_extractiondialog.h"
+#include "archive.h"
 
 #include <QtGui/QAbstractItemView>
 #include <QtCore/QDir>
@@ -47,10 +51,6 @@
 #include <KMessageBox>
 #include <KStandardDirs>
 #include <KUrlNavigator>
-
-#include "archive.h"
-#include "extractiondialog.h"
-#include "ui_extractiondialog.h"
 
 namespace Kerfuffle
 {

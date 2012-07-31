@@ -19,9 +19,6 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="windowTitle">
-      <string>Form</string>
-     </property>
      <property name="accessibleName">
       <string>AdvancedOptionsTab</string>
      </property>
@@ -36,7 +33,7 @@
      </property>
      <widget class="QWidget" name="destinationTab">
       <attribute name="title">
-       <string extracomment="General optios">General</string>
+       <string comment="@title:tab like in 'General options'">General</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
@@ -62,7 +59,7 @@
        <locale language="English" country="UnitedStates"/>
       </property>
       <attribute name="title">
-       <string>Advanced</string>
+       <string comment="@title:tab like in 'Advanced options'">Advanced</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
