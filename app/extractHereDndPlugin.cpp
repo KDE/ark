@@ -37,7 +37,7 @@ K_EXPORT_PLUGIN(ExtractHerePluginFactory("stupidname", "ark"))
 
 void ExtractHereDndPlugin::slotTriggered()
 {
-    kDebug() << "Preparing job";
+    kDebug(1601) << "Preparing job";
     BatchExtract *batchJob = new BatchExtract();
 
     batchJob->setAutoSubfolder(true);
@@ -48,7 +48,7 @@ void ExtractHereDndPlugin::slotTriggered()
     }
 
     batchJob->start();
-    kDebug() << "Started job";
+    kDebug(1601) << "Started job";
 
 }
 
@@ -64,11 +64,11 @@ void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
     const QString extractHereMessage = i18nc("@action:inmenu Context menu shown when an archive is being drag'n'dropped", "Extract here");
 
     if (!Kerfuffle::supportedMimeTypes().contains(popupMenuInfo.mimeType())) {
-        kDebug() << popupMenuInfo.mimeType() << "is not a supported mimetype";
+        kDebug(1601) << popupMenuInfo.mimeType() << "is not a supported mimetype";
         return;
     }
 
-    kDebug() << "Plugin executed";
+    kDebug(1601) << "Plugin executed";
 
     KAction *action = new KAction(KIcon(QLatin1String("archive-extract")),
                                   extractHereMessage, NULL);

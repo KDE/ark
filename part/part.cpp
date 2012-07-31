@@ -208,7 +208,7 @@ void Part::slotUserQuery(Kerfuffle::Query* query)
 void Part::slotJobDescription(KJob *job, const QString &title)
 {
     Q_UNUSED(job)
-    kDebug() << title;
+    kDebug(1601) << title;
 }
 
 
@@ -216,7 +216,7 @@ void Part::slotJobInfo(KJob *job, const QString &plain, const QString &rich)
 {
     Q_UNUSED(job)
     Q_UNUSED(rich)
-    kDebug() << plain;
+    kDebug(1601) << plain;
 }
 
 void Part::slotJobWarning(KJob *job, const QString &plain, const QString &rich)
@@ -231,7 +231,7 @@ void Part::slotJobWarning(KJob *job, const QString &plain, const QString &rich)
 //       See bugs #189322 and #204323.
 void Part::extractSelectedFilesTo(const QString& localPath)
 {
-    kDebug() << "Extract to " << localPath;
+    kDebug(1601) << "Extract to " << localPath;
     if (!m_model || !m_model->archive()) {
         return;
     }
@@ -244,7 +244,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
     }
 
     QVariant internalRoot;
-    kDebug() << "valid " << m_archiveView->currentIndex().parent().isValid();
+    kDebug(1601) << "valid " << m_archiveView->currentIndex().parent().isValid();
     if (m_archiveView->currentIndex().parent().isValid()) {
         internalRoot = m_model->entryForIndex(m_archiveView->currentIndex().parent()).value(InternalID);
     }
@@ -263,7 +263,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
         return;
     }
 
-    kDebug() << "selected files are " << files;
+    kDebug(1601) << "selected files are " << files;
     Kerfuffle::ExtractionOptions options;
     options[QLatin1String("PreservePaths")] = true;
     if (!internalRoot.isNull()) {
@@ -283,7 +283,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
 
 void Part::setupArchiveView()
 {
-    kDebug();
+    kDebug(1601);
     m_archiveView->setModel(m_model);
     m_archiveView->setSortingEnabled(true);
 
@@ -303,7 +303,7 @@ void Part::setupArchiveView()
 
 void Part::setupActions()
 {
-    kDebug();
+    kDebug(1601);
     KToggleAction *showInfoPanelAction = new KToggleAction(i18nc("@action:inmenu", "Show information panel"), this);
     actionCollection()->addAction(QLatin1String("show-infopanel"), showInfoPanelAction);
     showInfoPanelAction->setChecked(m_splitter->sizes().at(1) > 0);
@@ -388,7 +388,7 @@ void Part::setupActions()
 
 void Part::updateActions()
 {
-    kDebug();
+    kDebug(1601);
 
     m_addAction->setEnabled(!isBusy());
 
@@ -440,7 +440,7 @@ void Part::updateActions()
 
 void Part::updateView()
 {
-    kDebug();
+    kDebug(1601);
 
     disconnect(m_dirOperator, SIGNAL(urlEntered(KUrl)), this, SLOT(openUrl(KUrl)));
     disconnect(m_urlNavigator, SIGNAL(urlChanged(KUrl)), this, SLOT(openUrl(KUrl)));
@@ -469,7 +469,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
     // #190507: triggeredAction->data.isNull() means it's the "Extract to..."
     //          action, and we do not want it to run here
     if (!triggeredAction->data().isNull()) {
-        kDebug() << "Extract to " << triggeredAction->data().toString();
+        kDebug(1601) << "Extract to " << triggeredAction->data().toString();
 
         const QString userDestination = triggeredAction->data().toString();
         QString finalDestinationDirectory;
@@ -505,7 +505,7 @@ bool Part::isPreviewable(const QModelIndex& index) const
 
 void Part::selectionChanged()
 {
-    kDebug();
+    kDebug(1601);
     m_infoPanel->setIndexes(m_archiveView->selectionModel()->selectedRows());
 }
 
@@ -526,13 +526,13 @@ void Part::clearOpenArguments()
 
 bool Part::openFile()
 {
-    kDebug() << url();
+    kDebug(1601) << url();
 
     QFileInfo info(localFilePath());
 
     // it's a directory so navigate into it
     if (info.isDir()) {
-        kDebug() << "it's a directory, so just show it an return";
+        kDebug(1601) << "it's a directory, so just show it an return";
         m_lastDir = url();
         m_model->setArchive(NULL);
         setupArchiveView();
@@ -542,11 +542,11 @@ bool Part::openFile()
 
     // it seems to be a file
     if (info.isFile()) {
-        kDebug() << "it's a file";
+        kDebug(1601) << "it's a file";
         KMimeType::Ptr mimeType = KMimeType::findByUrl(url());
         // it has a completely unknown mimetype
         if (!mimeType) {
-            kDebug() << "unknown mimetype";
+            kDebug(1601) << "unknown mimetype";
             KMessageBox::sorry(widget(),
                                i18nc("@info", "Couldn't determine the type of the file, opening not possible."),
                                i18nc("@title:window", "Error Opening File"));
@@ -559,7 +559,7 @@ bool Part::openFile()
         // its a known mimetype, but not supported (probably not an archive), so open it in an
         // external application
         if (mimeType && !Kerfuffle::supportedMimeTypes().contains(mimeType->name(), Qt::CaseInsensitive)) {
-            kDebug() << "not a supported archive mimetype: " << mimeType->name();
+            kDebug(1601) << "not a supported archive mimetype: " << mimeType->name();
             KRun::runUrl(url(), mimeType->name(), widget());
             setUrl(KUrl(info.absolutePath()));
             updateView();
@@ -607,7 +607,7 @@ bool Part::openFile()
         return false;
     }
 
-    kDebug() << "Loading archive"  << localFile;
+    kDebug(1601) << "Loading archive"  << localFile;
     QScopedPointer<Kerfuffle::Archive> archive(Kerfuffle::Archive::create(localFile, m_model));
 
     if ((!archive) || ((creatingNewArchive) && (archive->isReadOnly()))) {
@@ -664,7 +664,7 @@ bool Part::openFile()
     }
 
     if (creatingNewArchive) {
-        kDebug() << "creating new archive and adding files to it";
+        kDebug(1601) << "creating new archive and adding files to it";
         CompressionOptions options;
         QStringList filestoAdd;
 
@@ -686,7 +686,7 @@ bool Part::openFile()
         m_model->setArchive(archive.take());
         slotAddFiles(filestoAdd, QString(), options);
     } else {
-        kDebug() << "creating list job for archive";
+        kDebug(1601) << "creating list job for archive";
         KJob *job = m_model->setArchive(archive.take());
         registerJob(job);
         job->start();
@@ -712,12 +712,12 @@ bool Part::isBusy() const
 
 void Part::slotLoadingStarted()
 {
-    kDebug();
+    kDebug(1601);
 }
 
 void Part::slotLoadingFinished(KJob *job)
 {
-    kDebug();
+    kDebug(1601);
     if (job->error()) {
         KMessageBox::sorry(NULL,
                            i18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error: <message>%2</message>",
@@ -739,7 +739,7 @@ void Part::slotLoadingFinished(KJob *job)
 
 void Part::setReadyGui()
 {
-    kDebug();
+    kDebug(1601);
     if (!isBusy()) {
         return;
     }
@@ -751,7 +751,7 @@ void Part::setReadyGui()
 
 void Part::setBusyGui()
 {
-    kDebug();
+    kDebug(1601);
     if (isBusy()) {
         return;
     }
@@ -762,7 +762,7 @@ void Part::setBusyGui()
 
 void Part::setFileNameFromArchive()
 {
-    kDebug();
+    kDebug(1601);
     QString prettyName;
 
     if (m_model->archive()) {
@@ -902,7 +902,7 @@ QString Part::detectSubfolder() const
 
 void Part::slotExtractFiles()
 {
-    kDebug();
+    kDebug(1601);
     Kerfuffle::ExtractionDialog dialog(widget()->parentWidget());
 
     if ( dialog.exec() != KDialog::Accepted ) {
@@ -916,11 +916,11 @@ void Part::slotExtractFiles()
 
     if (m_stack->currentWidget() == m_dirOperator)  {
         if (m_dirOperator->selectedItems().count() > 1) {
-            kDebug()  <<  "TODO: implement batch extraction from with ark file browser";
+            kDebug(1601)  <<  "TODO: implement batch extraction from with ark file browser";
 
             foreach(const KFileItem & item, m_dirOperator->selectedItems()) {
                 if (isSupportedArchive(item.url())) {
-                    kDebug()  << "Extraction: " << item.url();
+                    kDebug(1601)  << "Extraction: " << item.url();
                 }
             }
             return; // TODO: remove when batch extraction was implemented
@@ -1011,7 +1011,7 @@ QList<QVariant> Part::selectedFiles()
 
 void Part::slotExtractionDone(KJob* job)
 {
-    kDebug();
+    kDebug(1601);
     if (job->error()) {
         KMessageBox::error(widget(), job->errorString());
     } else {
@@ -1040,14 +1040,14 @@ void Part::slotExtractionDone(KJob* job)
 
 void Part::adjustColumns()
 {
-    kDebug();
+    kDebug(1601);
 
     m_archiveView->header()->setResizeMode(0, QHeaderView::ResizeToContents);
 }
 
 void Part::slotAdd()
 {
-    kDebug();
+    kDebug(1601);
     CompressionOptions options;
     QStringList filesToAdd;
 
@@ -1177,7 +1177,7 @@ void Part::removeAll(QSet<QString> & set, const QString & entry)
 void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, CompressionOptions options)
 {
     Q_UNUSED(path)
-    kDebug();
+    kDebug(1601);
 
     if (filesToAdd.isEmpty()) {
         clearOpenArguments();
@@ -1222,7 +1222,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
 
     firstPath = QFileInfo(firstPath).dir().absolutePath();
 
-    kDebug() << "Detected relative path to be " << firstPath;
+    kDebug(1601) << "Detected relative path to be " << firstPath;
     options[QLatin1String("GlobalWorkDir")] = firstPath;
 
     // only do the following if there's already an open archive
@@ -1359,7 +1359,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
 
 void Part::slotAddFilesDone(KJob* job)
 {
-    kDebug();
+    kDebug(1601);
 
     if (job->error()) {
         KMessageBox::error(widget(), job->errorString());
@@ -1381,7 +1381,7 @@ void Part::slotAddFilesDone(KJob* job)
     // needed after overwiting an archive
     if (QFile::exists(localFilePath().append(QLatin1String(".bck")))) {
         QFile file(localFilePath().append(QLatin1String(".bck")));
-        kDebug() << "removing " << file.fileName();
+        kDebug(1601) << "removing " << file.fileName();
         file.remove();
     }
 
@@ -1391,7 +1391,7 @@ void Part::slotAddFilesDone(KJob* job)
 
 void Part::slotDeleteFilesDone(KJob* job)
 {
-    kDebug();
+    kDebug(1601);
     if (job->error()) {
         KMessageBox::error(widget(), job->errorString());
     }
@@ -1399,7 +1399,7 @@ void Part::slotDeleteFilesDone(KJob* job)
 
 void Part::slotDeleteFiles()
 {
-    kDebug();
+    kDebug(1601);
 
     if (m_stack->currentWidget() == m_dirOperator) {
         m_dirOperator->deleteSelected();
@@ -1487,14 +1487,14 @@ void Part::slotSaveAs()
 
 void Part::slotTestArchive()
 {
-    kDebug();
+    kDebug(1601);
     if (m_stack->currentWidget() == m_dirOperator) {
         if (m_dirOperator->selectedItems().count() > 1) {
-            kDebug()  <<  "TODO: implement batch testing of archives";
+            kDebug(1601)  <<  "TODO: implement batch testing of archives";
 
             foreach(const KFileItem & item, m_dirOperator->selectedItems()) {
                 if (isSupportedArchive(item.url())) {
-                    kDebug()  << "Test: " << item.url();
+                    kDebug(1601)  << "Test: " << item.url();
                 }
             }
         } else if (m_dirOperator->selectedItems().count() == 1
@@ -1517,7 +1517,7 @@ void Part::slotTestArchive()
 
 void Part::slotTestArchiveDone(KJob* job)
 {
-    kDebug();
+    kDebug(1601);
     if (!job->error()) {
         KMessageBox::information(widget(), i18n("Testing complete: no issues found."));
     } else {
@@ -1527,13 +1527,13 @@ void Part::slotTestArchiveDone(KJob* job)
 
 void Part::slotFileSelectedInOperator(const KFileItem &file)
 {
-    kDebug();
+    kDebug(1601);
     openUrl(file.url());
 }
 
 QString Part::suggestNewNameForFile(const QString& file)
 {
-    kDebug() << file;
+    kDebug(1601) << file;
     QFileInfo info(file);
     QString basePath(info.absolutePath());
     QString name(info.baseName());

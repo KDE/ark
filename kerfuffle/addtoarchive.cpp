@@ -86,8 +86,8 @@ bool AddToArchive::showAddDialog(void)
     bool ret = dialog.data()->exec();
 
     if (ret) {
-        kDebug() << "Returned URL:" << dialog.data()->selectedUrl();
-        kDebug() << "Returned mime:" << dialog.data()->currentMimeFilter();
+        kDebug(1601) << "Returned URL:" << dialog.data()->selectedUrl();
+        kDebug(1601) << "Returned mime:" << dialog.data()->currentMimeFilter();
         setFilename(dialog.data()->selectedUrl());
         setMimeType(dialog.data()->currentMimeFilter());
     }
@@ -122,7 +122,7 @@ void AddToArchive::start()
 //       the returns should be preceded by emitResult().
 void AddToArchive::slotStartJob(void)
 {
-    kDebug();
+    kDebug(1601);
 
     Kerfuffle::CompressionOptions options;
 
@@ -134,7 +134,7 @@ void AddToArchive::slotStartJob(void)
     Kerfuffle::Archive *archive;
     if (!m_filename.isEmpty()) {
         archive = Kerfuffle::Archive::create(m_filename, m_mimeType, this);
-        kDebug() << "Set filename to " << m_filename;
+        kDebug(1601) << "Set filename to " << m_filename;
     } else {
         if (m_autoFilenameSuffix.isEmpty()) {
             KMessageBox::error(NULL, i18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the <command>--autofilename</command> argument."));
@@ -142,7 +142,7 @@ void AddToArchive::slotStartJob(void)
         }
 
         if (m_firstPath.isEmpty()) {
-            kDebug() << "Weird, this should not happen. no firstpath defined. aborting";
+            kDebug(1601) << "Weird, this should not happen. no firstpath defined. aborting";
             return;
         }
 
@@ -161,7 +161,7 @@ void AddToArchive::slotStartJob(void)
             finalName = base + QLatin1Char( '_' ) + QString::number(appendNumber) + QLatin1Char( '.' ) + m_autoFilenameSuffix;
         }
 
-        kDebug() << "Autoset filename to "<< finalName;
+        kDebug(1601) << "Autoset filename to "<< finalName;
         archive = Kerfuffle::Archive::create(finalName, m_mimeType, this);
     }
 
@@ -175,7 +175,7 @@ void AddToArchive::slotStartJob(void)
 
     if (m_changeToFirstPath) {
         if (m_firstPath.isEmpty()) {
-            kDebug() << "Weird, this should not happen. no firstpath defined. aborting";
+            kDebug(1601) << "Weird, this should not happen. no firstpath defined. aborting";
             return;
         }
 
@@ -186,7 +186,7 @@ void AddToArchive::slotStartJob(void)
         }
 
         options[QLatin1String( "GlobalWorkDir" )] = stripDir.path();
-        kDebug() << "Setting GlobalWorkDir to " << stripDir.path();
+        kDebug(1601) << "Setting GlobalWorkDir to " << stripDir.path();
     }
 
     // Change file name encoding to the one used in Windows.
@@ -209,7 +209,7 @@ void AddToArchive::slotStartJob(void)
 
 void AddToArchive::slotFinished(KJob *job)
 {
-    kDebug();
+    kDebug(1601);
 
     if (job->error()) {
         KMessageBox::error(NULL, job->errorText());

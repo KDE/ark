@@ -98,7 +98,7 @@ JSONArchiveInterface *JobsTest::createArchiveInterface(const QString& filePath)
 
     JSONArchiveInterface *iface = new JSONArchiveInterface(this, args);
     if (!iface->open()) {
-        kDebug() << "Could not open" << filePath;
+        kDebug(1601) << "Could not open" << filePath;
         return NULL;
     }
 

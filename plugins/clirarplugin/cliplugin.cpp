@@ -175,8 +175,8 @@ bool CliPlugin::readListLine(const QString &line)
                 m_remainingIgnoredSubHeaderLines = 3;
             }
 
-            kDebug() << "Found a subheader of type" << subHeaderType;
-            kDebug() << "The next" << m_remainingIgnoredSubHeaderLines
+            kDebug(1601) << "Found a subheader of type" << subHeaderType;
+            kDebug(1601) << "The next" << m_remainingIgnoredSubHeaderLines
                      << "lines will be ignored";
 
             return true;
@@ -256,7 +256,7 @@ bool CliPlugin::readListLine(const QString &line)
         e[Method] = details.at(7);
         e[Version] = details.at(8);
         e[IsPasswordProtected] = m_isPasswordProtected;
-        kDebug() << "Added entry: " << e;
+        kDebug(1601) << "Added entry: " << e;
 
         emit entry(e);
 

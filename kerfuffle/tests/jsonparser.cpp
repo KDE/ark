@@ -79,7 +79,7 @@ JSONParser::JSONArchive JSONParser::parse(const QString &json)
     const QVariant result = parser.parse(json.toUtf8(), &ok);
 
     if (!ok) {
-        kDebug() << "Line" << parser.errorLine() << ":" << parser.errorString();
+        kDebug(1601) << "Line" << parser.errorLine() << ":" << parser.errorString();
         return JSONParser::JSONArchive();
     }
 
@@ -94,7 +94,7 @@ JSONParser::JSONArchive JSONParser::parse(QIODevice *json)
     const QVariant result = parser.parse(json, &ok);
 
     if (!ok) {
-        kDebug() << "Line" << parser.errorLine() << ":" << parser.errorString();
+        kDebug(1601) << "Line" << parser.errorLine() << ":" << parser.errorString();
         return JSONParser::JSONArchive();
     }
 
@@ -121,7 +121,7 @@ JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
             if (properties.contains(entryIterator.key())) {
                 archiveEntry[properties[entryIterator.key()]] = entryIterator.value();
             } else {
-                kDebug() << entryIterator.key() << "is not a valid entry key";
+                kDebug(1601) << entryIterator.key() << "is not a valid entry key";
             }
         }
 

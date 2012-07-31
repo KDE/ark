@@ -61,11 +61,11 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
         return true;
     }
 
-    kDebug() << "Extracting to" << outputFileName;
+    kDebug(1601) << "Extracting to" << outputFileName;
 
     QFile outputFile(outputFileName);
     if (!outputFile.open(QIODevice::WriteOnly)) {
-        kDebug() << "Failed to open output file" << outputFile.errorString();
+        kDebug(1601) << "Failed to open output file" << outputFile.errorString();
         emit error(i18nc("@info", "Ark could not extract <filename>%1</filename>.", outputFile.fileName()));
 
         return false;
@@ -73,7 +73,7 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
 
     QIODevice *device = KFilterDev::deviceForFile(filename(), m_mimeType, false);
     if (!device) {
-        kDebug() << "Could not create KFilterDev";
+        kDebug(1601) << "Could not create KFilterDev";
         emit error(i18nc("@info", "Ark could not open <filename>%1</filename> for extraction.", filename()));
 
         return false;
@@ -111,7 +111,7 @@ bool LibSingleFileInterface::testFiles(const QList<QVariant> & files, Kerfuffle:
 
     QIODevice *device = KFilterDev::deviceForFile(filename(), m_mimeType, false);
     if (!device) {
-        kDebug() << "Could not create KFilterDev";
+        kDebug(1601) << "Could not create KFilterDev";
         error(i18nc("@info", "Ark could not open <filename>%1</filename> for extraction.", filename()));
 
         return false;
@@ -141,7 +141,7 @@ bool LibSingleFileInterface::testFiles(const QList<QVariant> & files, Kerfuffle:
 
 bool LibSingleFileInterface::list()
 {
-    kDebug();
+    kDebug(1601);
 
     const QString filename = uncompressedFileName();
 
@@ -183,7 +183,7 @@ const QString LibSingleFileInterface::uncompressedFileName() const
     QString uncompressedName(QFileInfo(filename()).fileName());
 
     foreach(const QString & extension, m_possibleExtensions) {
-        kDebug() << extension;
+        kDebug(1601) << extension;
 
         if (uncompressedName.endsWith(extension, Qt::CaseInsensitive)) {
             uncompressedName.chop(extension.size());

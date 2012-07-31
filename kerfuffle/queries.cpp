@@ -50,7 +50,7 @@ QVariant Query::response()
 
 void Query::waitForResponse()
 {
-    kDebug();
+    kDebug(1601);
 
     //if there is no response set yet, wait
     if (!m_data.contains(QLatin1String("response"))) {
@@ -61,7 +61,7 @@ void Query::waitForResponse()
 
 void Query::setResponse(QVariant response)
 {
-    kDebug();
+    kDebug(1601);
 
     m_data[QLatin1String( "response" )] = response;
     m_responseCondition.wakeAll();

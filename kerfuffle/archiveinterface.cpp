@@ -37,7 +37,7 @@ namespace Kerfuffle
 ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVariantList & args)
         : QObject(parent), m_waitForFinishedSignal(false)
 {
-    kDebug();
+    kDebug(1601);
     if(!args.isEmpty()) {
         m_filename = args.first().toString();
     }

@@ -131,7 +131,7 @@ bool CliInterface::list()
 
 bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options)
 {
-    kDebug();
+    kDebug(1601);
     cacheParameterList();
 
     m_operationMode = Copy;
@@ -142,7 +142,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
     //now replace the various elements in the list
     for (int i = 0; i < args.size(); ++i) {
         QString argument = args.at(i);
-        kDebug() << "Processing argument " << argument;
+        kDebug(1601) << "Processing argument " << argument;
 
         if (argument == QLatin1String("$Archive")) {
             args[i] = filename();
@@ -201,7 +201,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
             //the password in advance.
             if ((options.value(QLatin1String("PasswordProtectedHint")).toBool()) &&
                     (password().isEmpty())) {
-                kDebug() << "Password hint enabled, querying user";
+                kDebug(1601) << "Password hint enabled, querying user";
 
                 Kerfuffle::PasswordNeededQuery query(filename());
                 emit userQuery(&query);
@@ -245,7 +245,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
             QString rootNode;
             if (options.contains(QLatin1String("RootNode"))) {
                 rootNode = options.value(QLatin1String("RootNode")).toString();
-                kDebug() << "Set root node " << rootNode;
+                kDebug(1601) << "Set root node " << rootNode;
             }
 
             if (!rootNode.isEmpty()) {
@@ -276,7 +276,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
         }
     }
 
-    kDebug() << "Setting current dir to " << destinationDirectory;
+    kDebug(1601) << "Setting current dir to " << destinationDirectory;
     QDir::setCurrent(destinationDirectory);
 
     m_fixFileNameEncoding = options.value(QLatin1String("FixFileNameEncoding")).toBool();
@@ -320,7 +320,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
     const QString globalWorkDir = options.value(QLatin1String("GlobalWorkDir")).toString();
     const QDir workDir = globalWorkDir.isEmpty() ? QDir::current() : QDir(globalWorkDir);
     if (!globalWorkDir.isEmpty()) {
-        kDebug() << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
+        kDebug(1601) << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
         QDir::setCurrent(globalWorkDir);
     }
 
@@ -330,7 +330,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
     //now replace the various elements in the list
     for (int i = 0; i < args.size(); ++i) {
         const QString argument = args.at(i);
-        kDebug() << "Processing argument " << argument;
+        kDebug(1601) << "Processing argument " << argument;
 
         if (argument == QLatin1String("$CompressionLevelSwitch")) {
             QStringList compressionLevelSwitches = m_param.value(CompressionLevelSwitches).toStringList();
@@ -403,7 +403,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             //the password in advance.
             if ((options.value(QLatin1String("PasswordProtectedHint")).toBool()) &&
                     (password().isEmpty())) {
-                kDebug() << "Password hint enabled, querying user";
+                kDebug(1601) << "Password hint enabled, querying user";
 
                 Kerfuffle::PasswordNeededQuery query(filename(), Kerfuffle::PasswordNeededQuery::AskNewPassword);
                 userQuery(&query);
@@ -445,7 +445,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             if (encryptHeader && encryptHeaderSwitch.contains(QLatin1String("$Password"))) {
                 // password should have been set at this point (see above) but check anyway
                 if (password().isEmpty()) {
-                    kDebug() << "Password hint enabled, querying user";
+                    kDebug(1601) << "Password hint enabled, querying user";
 
                     Kerfuffle::PasswordNeededQuery query(filename(), Kerfuffle::PasswordNeededQuery::AskNewPassword);
                     userQuery(&query);
@@ -515,7 +515,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
         }
     }
 
-    kDebug() << args;
+    kDebug(1601) << args;
     if (!runProcess(m_param.value(AddProgram).toStringList(), args)) {
         failOperation();
         return false;
@@ -535,7 +535,7 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
     //now replace the various elements in the list
     for (int i = 0; i < args.size(); ++i) {
         QString argument = args.at(i);
-        kDebug() << "Processing argument " << argument;
+        kDebug(1601) << "Processing argument " << argument;
 
         if (argument == QLatin1String("$Archive")) {
             args[i] = filename();
@@ -562,7 +562,7 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
 bool CliInterface::testFiles(const QList<QVariant> & files, TestOptions options)
 {
     Q_UNUSED(options)
-    kDebug();
+    kDebug(1601);
     cacheParameterList();
 
     m_testResult = true;
@@ -574,7 +574,7 @@ bool CliInterface::testFiles(const QList<QVariant> & files, TestOptions options)
     //now replace the various elements in the list
     for (int i = 0; i < args.size(); ++i) {
         QString argument = args.at(i);
-        kDebug() << "Processing argument " << argument;
+        kDebug(1601) << "Processing argument " << argument;
 
         if (argument == QLatin1String("$Archive")) {
             args[i] = filename();
@@ -592,7 +592,7 @@ bool CliInterface::testFiles(const QList<QVariant> & files, TestOptions options)
             //the password in advance.
             if ((options.value(QLatin1String("PasswordProtectedHint")).toBool()) &&
                     (password().isEmpty())) {
-                kDebug() << "Password hint enabled, querying user";
+                kDebug(1601) << "Password hint enabled, querying user";
 
                 Kerfuffle::PasswordNeededQuery query(filename());
                 userQuery(&query);
@@ -660,7 +660,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
         return false;
     }
 
-    kDebug() << "Executing" << programPath << arguments;
+    kDebug(1601) << "Executing" << programPath << arguments;
 
     if (m_process) {
         m_process->waitForFinished();
@@ -699,7 +699,10 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
 
 void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    kDebug() << exitCode << exitStatus;
+    Q_UNUSED(exitCode)
+    Q_UNUSED(exitStatus)
+
+    kDebug(1601);
 
     //if the m_process pointer is gone, then there is nothing to worry
     //about here
@@ -744,7 +747,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
 void CliInterface::failOperation()
 {
     // TODO: Would be good to unit test #304764/#304178.
-    kDebug();
+    kDebug(1601);
     doKill();
 }
 
@@ -840,7 +843,7 @@ void CliInterface::handleLine(const QString& line)
 
     if (m_operationMode == Copy) {
         if (checkForPasswordPromptMessage(line)) {
-            kDebug() << "Found a password prompt";
+            kDebug(1601) << "Found a password prompt";
 
             Kerfuffle::PasswordNeededQuery query(filename());
             emit userQuery(&query);
@@ -860,7 +863,7 @@ void CliInterface::handleLine(const QString& line)
         }
 
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
-            kDebug() << "Wrong password!";
+            kDebug(1601) << "Wrong password!";
             setPassword(QString());
             error(i18n("Incorrect password."));
             failOperation();
@@ -868,7 +871,7 @@ void CliInterface::handleLine(const QString& line)
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
-            kDebug() << "Error in extraction!!";
+            kDebug(1601) << "Error in extraction!!";
             emit error(i18n("Extraction failed because of an unexpected error."));
             failOperation();
             return;
@@ -881,7 +884,7 @@ void CliInterface::handleLine(const QString& line)
 
     if (m_operationMode == List) {
         if (checkForPasswordPromptMessage(line)) {
-            kDebug() << "Found a password prompt";
+            kDebug(1601) << "Found a password prompt";
 
             Kerfuffle::PasswordNeededQuery query(filename());
             emit userQuery(&query);
@@ -901,14 +904,14 @@ void CliInterface::handleLine(const QString& line)
         }
 
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
-            kDebug() << "Wrong password!";
+            kDebug(1601) << "Wrong password!";
             emit error(i18n("Incorrect password."));
             failOperation();
             return;
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
-            kDebug() << "Error in extraction!!";
+            kDebug(1601) << "Error in extraction!!";
             emit error(i18n("Extraction failed because of an unexpected error."));
             failOperation();
             return;
@@ -925,7 +928,7 @@ void CliInterface::handleLine(const QString& line)
     if (m_operationMode == Test) {
 
         if (checkForPasswordPromptMessage(line)) {
-            kDebug() << "Found a password prompt";
+            kDebug(1601) << "Found a password prompt";
 
             Kerfuffle::PasswordNeededQuery query(filename());
             userQuery(&query);
@@ -959,7 +962,7 @@ void CliInterface::handleLine(const QString& line)
         }
 
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
-            kDebug() << "Wrong password!";
+            kDebug(1601) << "Wrong password!";
             error(i18n("Incorrect password."));
             failOperation();
             return;
@@ -991,7 +994,7 @@ bool CliInterface::checkForFileExistsMessage(const QString& line)
         m_existsPattern.setPattern(m_param.value(FileExistsExpression).toString());
     }
     if (m_existsPattern.indexIn(line) != -1) {
-        kDebug() << "Detected file existing!! Filename " << m_existsPattern.cap(1);
+        kDebug(1601) << "Detected file existing!! Filename " << m_existsPattern.cap(1);
         return true;
     }
 
@@ -1009,10 +1012,10 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
     Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char('/') + filename);
     query.setNoRenameMode(true);
     emit userQuery(&query);
-    kDebug() << "Waiting response";
+    kDebug(1601) << "Waiting response";
     query.waitForResponse();
 
-    kDebug() << "Finished response";
+    kDebug(1601) << "Finished response";
 
     QString responseToProcess;
     const QStringList choices = m_param.value(FileExistsInput).toStringList();
@@ -1100,7 +1103,7 @@ void CliInterface::writeToProcess(const QByteArray& data)
     Q_ASSERT(m_process);
     Q_ASSERT(!data.isNull());
 
-    kDebug() << "Writing" << data << "to the process";
+    kDebug(1601) << "Writing" << data << "to the process";
 
 #ifdef Q_OS_WIN
     m_process->write(data);
@@ -1132,7 +1135,7 @@ QString CliInterface::autoConvertEncoding(const QString & fileName)
         refinedEncoding = prober.encoding();
     }
 
-    kDebug() << "KEncodingProber detected encoding: " << refinedEncoding << "( confidence: " << prober.confidence() << ") for: " << fileName;
+    kDebug(1601) << "KEncodingProber detected encoding: " << refinedEncoding << "( confidence: " << prober.confidence() << ") for: " << fileName;
 
     if (refinedEncoding == "UTF-8") {
         QTextCodec::setCodecForLocale(currentCodecForLocale);
@@ -1148,11 +1151,11 @@ QString CliInterface::autoConvertEncoding(const QString & fileName)
             // by assuming that in a german environment the usage of serbian / macedonian letters
             // and special characters is less likely to happen than the usage of umlauts
 
-            kDebug() << "fileName" << fileName;
-            kDebug() << "toLatin: " << fileName.toLatin1();
+            kDebug(1601) << "fileName" << fileName;
+            kDebug(1601) << "toLatin: " << fileName.toLatin1();
             // Check for case CP850 (Windows XP & Windows7)
             QString checkString = QTextCodec::codecForName("CP850")->toUnicode(fileName.toLatin1());
-            kDebug() << "String converted to CP850: " << checkString;
+            kDebug(1601) << "String converted to CP850: " << checkString;
             if (checkString.contains(QLatin1String("ä")) ||  // Equals lower quotation mark in CP1251 - unlikely to be used in filenames
                     checkString.contains(QLatin1String("ö")) || // Equals quotation mark in CP1251 - unlikely to be used in filenames
                     checkString.contains(QLatin1String("Ö")) || // Equals TM symbol  - unlikely to be used in filenames
@@ -1161,21 +1164,21 @@ QString CliInterface::autoConvertEncoding(const QString & fileName)
                     checkString.contains(QLatin1String("Ü")) || // Overlaps with "Lje" in the Serbian and Montenegrin alphabet
                     checkString.contains(QLatin1String("ß"))) { // Overlaps with "Be" in the cyrillic alphabet
                 refinedEncoding = "CP850";
-                kDebug() << "RefinedEncoding: " << refinedEncoding;
+                kDebug(1601) << "RefinedEncoding: " << refinedEncoding;
             }
         }
     } else if (refinedEncoding == "IBM855") {
         refinedEncoding = "IBM 850";
-        kDebug() << "Setting refinedEncoding to " << refinedEncoding;
+        kDebug(1601) << "Setting refinedEncoding to " << refinedEncoding;
     } else if (refinedEncoding == "IBM866") {
         refinedEncoding = "IBM 866";
-        kDebug() << "Setting refinedEncoding to " << refinedEncoding;
+        kDebug(1601) << "Setting refinedEncoding to " << refinedEncoding;
     }
 
     QTextCodec * codec = QTextCodec::codecForName(refinedEncoding);
 
     if (!codec) {
-        kDebug() << "codecForName returned null, using codec ISO 8859-1 instead";
+        kDebug(1601) << "codecForName returned null, using codec ISO 8859-1 instead";
         codec = QTextCodec::codecForName("ISO 8859-1");
     }
 

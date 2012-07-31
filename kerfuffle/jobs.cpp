@@ -153,7 +153,7 @@ void Job::onEntryRemoved(const QString & path)
 
 void Job::onFinished(bool result)
 {
-    kDebug() << result;
+    kDebug(1601) << result;
 
     archiveInterface()->disconnect(this);
 
@@ -167,10 +167,10 @@ void Job::onUserQuery(Query *query)
 
 bool Job::doKill()
 {
-    kDebug();
+    kDebug(1601);
     bool ret = archiveInterface()->doKill();
     if (!ret) {
-        kDebug() << "Killing does not seem to be supported here.";
+        kDebug(1601) << "Killing does not seem to be supported here.";
     }
     return ret;
 }
@@ -258,7 +258,7 @@ void ExtractJob::doWork()
 
     connectToArchiveInterfaceSignals();
 
-    kDebug() << "Starting extraction with selected files:"
+    kDebug(1601) << "Starting extraction with selected files:"
              << m_files
              << "Destination dir:" << m_destinationDir
              << "Options:" << m_options;
@@ -371,7 +371,7 @@ void TestJob::doWork()
     }
     emit description(this, desc);
 
-    kDebug() << "Starting testing with selected files:"
+    kDebug(1601) << "Starting testing with selected files:"
              << m_files
              << "Options:" << m_options;
 

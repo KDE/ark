@@ -96,7 +96,7 @@ bool CliPlugin::readListLine(const QString& line)
     switch (m_state) {
     case ReadStateHeader:
         if (line.startsWith(QLatin1String("Listing archive:"))) {
-            kDebug() << "Archive name: "
+            kDebug(1601) << "Archive name: "
                      << line.right(line.size() - 16).trimmed();
             volumes = 1;
             fileName.clear();
@@ -104,7 +104,7 @@ bool CliPlugin::readListLine(const QString& line)
                    (line == archiveInfoDelimiter2)) {
             m_state = ReadStateArchiveInformation;
         } else if (line.contains(QLatin1String( "Error:" ))) {
-            kDebug() << line.mid(6);
+            kDebug(1601) << line.mid(6);
         }
         break;
 
@@ -113,7 +113,7 @@ bool CliPlugin::readListLine(const QString& line)
             m_state = ReadStateEntryInformation;
         } else if (line.startsWith(QLatin1String("Type ="))) {
             const QString type = line.mid(7).trimmed().toLower();
-            kDebug() << "Archive type: " << type;
+            kDebug(1601) << "Archive type: " << type;
 
             if (type == QLatin1String("7z")) {
                 m_archiveType = ArchiveType7z;

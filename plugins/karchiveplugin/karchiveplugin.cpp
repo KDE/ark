@@ -34,7 +34,7 @@
 KArchiveInterface::KArchiveInterface(QObject *parent, const QVariantList &args)
         : ReadWriteArchiveInterface(parent, args), m_archive(0)
 {
-    kDebug();
+    kDebug(1601);
 }
 
 KArchiveInterface::~KArchiveInterface()
@@ -60,7 +60,7 @@ KArchive *KArchiveInterface::archive()
 
 bool KArchiveInterface::list()
 {
-    kDebug();
+    kDebug(1601);
     if (!archive()->isOpen() && !archive()->open(QIODevice::ReadOnly)) {
         emit error(i18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
         return false;
@@ -122,32 +122,11 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
             }
             realDestination = dest.absolutePath() + QLatin1Char('/') + filepath;
         }
-
-        // TODO: handle errors, copyTo fails silently
-        if (!archiveEntry->isDirectory()) { // We don't need to do anything about directories
-            if (QFile::exists(realDestination + QLatin1Char('/') + archiveEntry->name()) && !overwriteAllSelected) {
-                if (autoSkipSelected) {
-                    continue;
-                }
-
-                int response = handleFileExistsMessage(realDestination, archiveEntry->name());
-
-                if (response == OverwriteCancel) {
-                    break;
-                }
-                if (response == OverwriteYes || response == OverwriteAll) {
-                    static_cast<const KArchiveFile*>(archiveEntry)->copyTo(realDestination);
-                    if (response == OverwriteAll) {
-                        overwriteAllSelected = true;
-                    }
-                }
-                if (response == OverwriteAutoSkip) {
-                    autoSkipSelected = true;
-                }
-            }
-            else {
-                static_cast<const KArchiveFile*>(archiveEntry)->copyTo(realDestination);
-            }
+        if (archiveEntry->isDirectory()) {
+            kDebug(1601) << "Calling copyTo(" << realDestination << ") for " << archiveEntry->name();
+            static_cast<const KArchiveDirectory*>(archiveEntry)->copyTo(realDestination);
+        } else {
+            static_cast<const KArchiveFile*>(archiveEntry)->copyTo(realDestination);
         }
     }
 
@@ -222,7 +201,7 @@ void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QStrin
 bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::CompressionOptions &options)
 {
     Q_UNUSED(options)
-    kDebug() << "Starting...";
+    kDebug(1601) << "Starting...";
 //  delete m_archive;
 //  m_archive = 0;
     if (archive()->isOpen()) {
@@ -233,10 +212,10 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
         return false;
     }
 
-    kDebug() << "Archive opened for writing...";
-    kDebug() << "Will add " << files.count() << " files";
+    kDebug(1601) << "Archive opened for writing...";
+    kDebug(1601) << "Will add " << files.count() << " files";
     foreach(const QString &path, files) {
-        kDebug() << "Adding " << path;
+        kDebug(1601) << "Adding " << path;
         QFileInfo fi(path);
         Q_ASSERT(fi.exists());
 
@@ -259,9 +238,9 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
             }
         }
     }
-    kDebug() << "Closing the archive";
+    kDebug(1601) << "Closing the archive";
     archive()->close();
-    kDebug() << "Done";
+    kDebug(1601) << "Done";
     return true;
 }
 

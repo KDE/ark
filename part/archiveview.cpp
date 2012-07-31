@@ -73,7 +73,7 @@ void ArchiveView::slotDoubleClicked(const QModelIndex& index)
 
 void ArchiveView::setModel(QAbstractItemModel *model)
 {
-    kDebug();
+    kDebug(1601);
     QTreeView::setModel(model);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -97,7 +97,7 @@ void ArchiveView::startDrag(Qt::DropActions supportedActions)
         return;
     }
 
-    kDebug() << "Singling out the current selection...";
+    kDebug(1601) << "Singling out the current selection...";
     selectionModel()->setCurrentIndex(currentIndex(), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
     QTreeView::startDrag(supportedActions);
 }
@@ -106,7 +106,7 @@ void ArchiveView::startDrag(Qt::DropActions supportedActions)
 void ArchiveView::dragEnterEvent(QDragEnterEvent * event)
 {
     //TODO: if no model, trigger some mechanism to create one automatically!
-    kDebug() << event;
+    kDebug(1601) << event;
 
     if (event->source() == this) {
         //we don't support internal drops yet.
@@ -118,7 +118,7 @@ void ArchiveView::dragEnterEvent(QDragEnterEvent * event)
 
 void ArchiveView::dropEvent(QDropEvent * event)
 {
-    kDebug() << event;
+    kDebug(1601) << event;
 
     if (event->source() == this) {
         //we don't support internal drops yet.

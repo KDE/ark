@@ -230,7 +230,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const KMimeType::P
     //       maybe there should be an option controlling this
     KHTMLPart *khtmlPart = qobject_cast<KHTMLPart*>(m_part.data());
     if (khtmlPart) {
-        kDebug() << "Disabling javascripts, plugins, java and external references for KHTMLPart";
+        kDebug(1601) << "Disabling javascripts, plugins, java and external references for KHTMLPart";
         khtmlPart->setJScriptEnabled(false);
         khtmlPart->setJavaEnabled(false);
         khtmlPart->setPluginsEnabled(false);
@@ -245,7 +245,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const KMimeType::P
 
 void ArkViewer::slotOpenUrlRequestDelayed(const KUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments)
 {
-    kDebug() << "Opening URL: " << url;
+    kDebug(1601) << "Opening URL: " << url;
 
     Q_UNUSED(arguments)
     Q_UNUSED(browserArguments)

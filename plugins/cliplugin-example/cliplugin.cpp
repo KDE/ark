@@ -124,7 +124,7 @@ bool CliPlugin::readListLine(const QString &line)
         m_entryFilename += QLatin1Char('/');
     }
 
-    //kDebug() << m_entryFilename << " : " << fileprops;
+    //kDebug(1601) << m_entryFilename << " : " << fileprops;
     ArchiveEntry e;
     e[ FileName ] = autoConvertEncoding(m_entryFilename);
     e[ InternalID ] = m_internalId;
@@ -138,7 +138,7 @@ bool CliPlugin::readListLine(const QString &line)
     e[ Method ] = fileprops[ 7 ];
     e[ Version ] = fileprops[ 8 ];
     e[ IsPasswordProtected] = m_isPasswordProtected;
-    kDebug() << "Added entry: " << e;
+    kDebug(1601) << "Added entry: " << e;
 
     emit entry(e);
     m_isFirstLine = true;

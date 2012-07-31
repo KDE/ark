@@ -93,16 +93,16 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     const KService::List offers = findPluginOffers(mimeType);
 
     if (offers.isEmpty()) {
-        kDebug() << "Could not find a plugin to handle" << fileName;
+        kDebug(1601) << "Could not find a plugin to handle" << fileName;
         return NULL;
     }
 
     const QString pluginName = offers.first()->library();
-    kDebug() << "Loading plugin" << pluginName;
+    kDebug(1601) << "Loading plugin" << pluginName;
 
     KPluginFactory * const factory = KPluginLoader(pluginName).factory();
     if (!factory) {
-        kDebug() << "Invalid plugin factory for" << pluginName;
+        kDebug(1601) << "Invalid plugin factory for" << pluginName;
         return NULL;
     }
 
@@ -111,7 +111,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
 
     ReadOnlyArchiveInterface * const iface = factory->create<ReadOnlyArchiveInterface>(0, args);
     if (!iface) {
-        kDebug() << "Could not create plugin instance" << pluginName << "for" << fileName;
+        kDebug(1601) << "Could not create plugin instance" << pluginName << "for" << fileName;
         return NULL;
     }
 
@@ -306,7 +306,7 @@ QStringList supportedMimeTypes()
         }
     }
 
-    kDebug() << "Returning" << supported;
+    kDebug(1601) << "Returning" << supported;
 
     return supported;
 }
@@ -333,7 +333,7 @@ QStringList supportedWriteMimeTypes()
         }
     }
 
-    kDebug() << "Returning" << supported;
+    kDebug(1601) << "Returning" << supported;
 
     return supported;
 }
@@ -344,25 +344,25 @@ QList<int> supportedOptions(const QString &mimeType)
     const KService::List offers = findPluginOffers(mimeType);
 
     if (offers.isEmpty()) {
-        kDebug() << "Could not find a plugin to handle" << mimeType;
+        kDebug(1601) << "Could not find a plugin to handle" << mimeType;
         return options;
     }
 
     const QString pluginName = offers.first()->library();
-    kDebug() << "Loading plugin" << pluginName;
+    kDebug(1601) << "Loading plugin" << pluginName;
 
     KPluginFactory * const factory = KPluginLoader(pluginName).factory();
     if (!factory) {
-        kDebug() << "Invalid plugin factory for" << pluginName;
+        kDebug(1601) << "Invalid plugin factory for" << pluginName;
         return options;
     }
 
-    kDebug() << mimeType;
+    kDebug(1601) << mimeType;
 
     QVariantList args;
     CliInterface * const iface = factory->create<CliInterface>(0, args);
     if (!iface) {
-        kDebug() << "Could not create plugin instance " << pluginName << "for mime type " << mimeType;
+        kDebug(1601) << "Could not create plugin instance " << pluginName << "for mime type " << mimeType;
         return options;
     }
 

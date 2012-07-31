@@ -93,7 +93,7 @@ ParameterList CliPlugin::parameterList() const
 
 bool CliPlugin::readListLine(const QString& line)
 {
-    kDebug() << line;
+    kDebug(1601) << line;
 
     static const QLatin1String archiveInfoDelimiter1("--"); // 7z 9.13+
     static const QLatin1String archiveInfoDelimiter2("----"); // 7z 9.04
@@ -102,14 +102,14 @@ bool CliPlugin::readListLine(const QString& line)
     switch (m_state) {
     case ReadStateHeader:
         if (line.startsWith(QLatin1String("Listing archive:"))) {
-            kDebug() << "Archive name: "
+            kDebug(1601) << "Archive name: "
                      << line.right(line.size() - 16).trimmed();
             m_numberOfVolumes = -1;
         } else if ((line == archiveInfoDelimiter1) ||
                    (line == archiveInfoDelimiter2)) {
             m_state = ReadStateArchiveInformation;
         } else if (line.contains(QLatin1String( "Error:" ))) {
-            kDebug() << line.mid(6);
+            kDebug(1601) << line.mid(6);
         }
         break;
 
@@ -118,7 +118,7 @@ bool CliPlugin::readListLine(const QString& line)
             m_state = ReadStateEntryInformation;
         } else if (line.startsWith(QLatin1String("Type ="))) {
             const QString type = line.mid(7).trimmed().toLower();
-            kDebug() << "Archive type: " << type;
+            kDebug(1601) << "Archive type: " << type;
 
             if (type == QLatin1String("7z")) {
                 m_archiveType = ArchiveType7z;
@@ -142,7 +142,7 @@ bool CliPlugin::readListLine(const QString& line)
             }
         } else if (line.startsWith(QLatin1String("Volumes ="))) {
             m_numberOfVolumes = line.mid(9).trimmed().toInt();
-            kDebug() << "Number of volumes: " << m_numberOfVolumes;
+            kDebug(1601) << "Number of volumes: " << m_numberOfVolumes;
         }
 
         break;
@@ -151,7 +151,7 @@ bool CliPlugin::readListLine(const QString& line)
         if (line.startsWith(QLatin1String("Path ="))) {
             const QString entryFilename =
                 QDir::fromNativeSeparators(line.mid(6).trimmed());
-            kDebug() << entryFilename;
+            kDebug(1601) << entryFilename;
             m_currentArchiveEntry.clear();
             m_currentArchiveEntry[FileName] = autoConvertEncoding(entryFilename);
             m_currentArchiveEntry[InternalID] = entryFilename;
