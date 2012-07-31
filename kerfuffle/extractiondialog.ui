@@ -72,47 +72,6 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout">
-            <item>
-             <widget class="QLabel" name="label_2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Overwrite handling</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="conflictHandlingComboBox">
-              <item>
-               <property name="text">
-                <string extracomment="Will ask what to do everytime a file conflict is encountered">Ask before overwrite</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string extracomment="Overwrites all files without asking">Overwrite without asking</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string extracomment="Extracts all files that do not exist in the target directory">Skip existing files</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string extracomment="Renamesa all extracted files if a file with that name already exists in the target directory">Rename extracted files</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
            <widget class="QCheckBox" name="autoSubfoldersCheckBox">
             <property name="toolTip">
              <string>Creates a subfolder for each archive</string>

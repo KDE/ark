@@ -26,6 +26,11 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// TODO: create custom directory selector widget with a linedit and places selector similar
+// to a KUrlNavigator on top, that shows the selected path/path to create, and a directory tree
+// view below that does not enter empty directories and just shows the selected directory
+// The existing KDirSelectorDialog is too big to be used here (and we dont want all the navigator
+// stuff)
 
 #include <QtGui/QAbstractItemView>
 #include <QtCore/QDir>
@@ -54,7 +59,7 @@ class ExtractionDialogUI: public QWidget, public Ui::ExtractionDialog
 {
 public:
     ExtractionDialogUI(QWidget *parent = 0)
-            : QWidget(parent) {
+        : QWidget(parent) {
         setupUi(this);
 
         urlNavigator = new KUrlNavigator(new KFilePlacesModel(this), KUrl(QDir::homePath()), 0);
@@ -62,9 +67,10 @@ public:
         destinationTab->layout()->addWidget(urlNavigator);
         dirOperator = new KDirOperator(KUrl(QDir::homePath()));
         dirOperator->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-        dirOperator->setMode(KFile::Directory);
+        dirOperator->setMode(KFile::Directory | KFile::File);
         dirOperator->setView(KFile::Tree);
         dirOperator->view()->setSelectionMode(QAbstractItemView::SingleSelection);
+        dirOperator->setNewFileMenuSupportedMimeTypes(QStringList("inode/directory"));
         destinationTab->layout()->addWidget(dirOperator);
     }
 
@@ -79,12 +85,12 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
     m_ui = new ExtractionDialogUI(this);
 
     setMainWidget(m_ui);
-    setButtons( KDialog::User1 | KDialog::Reset |  KDialog::Ok | KDialog::Cancel );
-    setButtonGuiItem( KDialog::User1,
-                      KGuiItem( i18nc("@action:button", "Set As Default"),
-                                QLatin1String("configure"),
-                                i18nc("@info:tooltip", "Set the selected values as default values"),
-                                i18nc("@info:whatsthis", "Sets the selected values as default values for new archives")));
+    setButtons(KDialog::User1 | KDialog::Reset |  KDialog::Ok | KDialog::Cancel);
+    setButtonGuiItem(KDialog::User1,
+                     KGuiItem(i18nc("@action:button", "Set As Default"),
+                              QLatin1String("configure"),
+                              i18nc("@info:tooltip", "Set the selected values as default values"),
+                              i18nc("@info:whatsthis", "Sets the selected values as default values for new archives")));
 
     setBatchMode(false);
 
@@ -107,7 +113,7 @@ void ExtractionDialog::loadSettings()
 {
     kDebug();
     ExtractionOptions options;
-    foreach( const QString & str, m_config.keyList() ) {
+    foreach(const QString & str, m_config.keyList()) {
         options[str] = m_config.readEntry(str);
     }
 
@@ -121,8 +127,8 @@ void ExtractionDialog::writeSettings()
     // get options from the UI
     QHashIterator<QString, QVariant> it((QHash<QString, QVariant>)options());
     while (it.hasNext()) {
-         it.next();
-         m_config.writeEntry(it.key(), it.value());
+        it.next();
+        m_config.writeEntry(it.key(), it.value());
     }
 }
 
@@ -171,14 +177,26 @@ void ExtractionDialog::accept()
 void ExtractionDialog::setOptions(const ExtractionOptions &options)
 {
     kDebug();
-    m_ui->autoSubfoldersCheckBox->setChecked(options.value(QLatin1String("AutoSubfolders"), true).toBool());
-    m_ui->openFolderCheckBox->setChecked(options.value(QLatin1String("OpenDestinationAfterExtraction"), true).toBool());
-    m_ui->closeAfterExtractionCheckBox->setChecked(options.value(QLatin1String("CloseArkAfterExtraction"), false).toBool());
-    m_ui->utf8CheckBox->setChecked(options.value(QLatin1String("FixEncoding"), true).toBool());
-    m_ui->multithreadingCheckBox->setChecked(options.value(QLatin1String("UseMultithreading"), true).toBool());
-    m_ui->preservePathsCheckBox->setChecked(options.value(QLatin1String("PreservePaths"), false).toBool());
-    m_ui->conflictHandlingComboBox->setCurrentIndex(options.value(QLatin1String("ConflictHandling"), 0).toInt());
-    setDestination(options.value(QLatin1String("DestinationDirectory"), KUrl(QDir::homePath())).toUrl());
+    m_ui->autoSubfoldersCheckBox->setChecked(options.value(QLatin1String("AutoSubfolders"),
+            m_config.readEntry("AutoSubfolders", false)).toBool());
+
+    m_ui->openFolderCheckBox->setChecked(options.value(QLatin1String("OpenDestinationAfterExtraction"),
+            m_config.readEntry("OpenDestinationAfterExtraction", false)).toBool());
+
+    m_ui->closeAfterExtractionCheckBox->setChecked(options.value(QLatin1String("CloseArkAfterExtraction"),
+            m_config.readEntry("CloseArkAfterExtraction", false)).toBool());
+
+    m_ui->utf8CheckBox->setChecked(options.value(QLatin1String("FixFileNameEncoding"),
+             m_config.readEntry("FixFileNameEncoding", true)).toBool());
+
+    m_ui->multithreadingCheckBox->setChecked(options.value(QLatin1String("MultiThreadingEnabled"),
+            m_config.readEntry("MultiThreadingEnabled", true)).toBool());
+
+    m_ui->preservePathsCheckBox->setChecked(options.value(QLatin1String("PreservePaths"),
+            m_config.readEntry("PreservePaths", false)).toBool());
+
+    setDestination(options.value(QLatin1String("DestinationDirectory"),
+            m_config.readEntry("DestinationDirectory", KUrl(QDir::homePath()))).toUrl());
 }
 
 ExtractionOptions ExtractionDialog::options() const
@@ -188,17 +206,16 @@ ExtractionOptions ExtractionDialog::options() const
     options[QLatin1String("AutoSubfolders")] = m_ui->autoSubfoldersCheckBox->isChecked();
     options[QLatin1String("OpenDestinationAfterExtraction")] = m_ui->openFolderCheckBox->isChecked();
     options[QLatin1String("CloseArkAfterExtraction")] = m_ui->closeAfterExtractionCheckBox->isChecked();
-    options[QLatin1String("FixEncoding")] = m_ui->utf8CheckBox->isChecked();
-    options[QLatin1String("UseMultithreading")] = m_ui->multithreadingCheckBox->isChecked();
+    options[QLatin1String("FixFileNameEncoding")] = m_ui->utf8CheckBox->isChecked();
+    options[QLatin1String("MultiThreadingEnabled")] = m_ui->multithreadingCheckBox->isChecked();
     options[QLatin1String("PreservePaths")] = m_ui->preservePathsCheckBox->isChecked();
-    options[QLatin1String("ConflictHandling")] = m_ui->conflictHandlingComboBox->currentIndex();
     options[QLatin1String("DestinationDirectory")] = destination();
 
     return options;
 }
 
 KUrl ExtractionDialog::destination() const
-{   
+{
     return m_url;
 }
 
