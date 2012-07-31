@@ -46,6 +46,7 @@
 #include <QList>
 #include <QStringList>
 #include <QUrl>
+#include <QTextCodec>
 
 struct LibArchiveInterface::ArchiveReadCustomDeleter
 {
@@ -841,18 +842,21 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
     KDE_lstat(QFile::encodeName(fileName).constData(), &st);
 
     struct archive_entry *entry = archive_entry_new();
-    archive_entry_set_pathname(entry, QFile::encodeName(relativeName).constData());
-    archive_entry_copy_sourcepath(entry, QFile::encodeName(fileName).constData());
-    archive_read_disk_entry_from_file(m_archiveReadDisk.data(), entry, -1, &st);
 
     // This creates file names not in UTF-8, which works in Windows but not in Linux.
     // if you use the tar command to extract files they will have broken file names.
     // Use Ark with "Fix file name encoding" option enabled to correctly extract the files.
     if (fixFileNameEncoding) {
         kDebug(1601) << "Fixing file name enconding for Windows. This will break file names in Linux";
-        QByteArray b = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(entry))).toAscii();
-        archive_entry_copy_pathname(entry, b.constData());
+        QTextCodec * codec = QTextCodec::codecForName("CP850");
+        QByteArray refinedString = codec->fromUnicode(relativeName);
+        archive_entry_set_pathname(entry, refinedString.constData());
+    } else {
+        archive_entry_set_pathname(entry, QFile::encodeName(relativeName).constData());
     }
+
+    archive_entry_copy_sourcepath(entry, QFile::encodeName(fileName).constData());
+    archive_read_disk_entry_from_file(m_archiveReadDisk.data(), entry, -1, &st);
 
     kDebug(1601) << "Writing new entry " << archive_entry_pathname(entry);
     header_response = archive_write_header(arch_writer, entry);
