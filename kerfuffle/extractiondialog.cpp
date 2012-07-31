@@ -70,7 +70,7 @@ public:
         dirOperator->setMode(KFile::Directory | KFile::File);
         dirOperator->setView(KFile::Tree);
         dirOperator->view()->setSelectionMode(QAbstractItemView::SingleSelection);
-        dirOperator->setNewFileMenuSupportedMimeTypes(QStringList("inode/directory"));
+        dirOperator->setNewFileMenuSupportedMimeTypes(QStringList() << QLatin1String("inode/directory"));
         destinationTab->layout()->addWidget(dirOperator);
     }
 

@@ -45,6 +45,7 @@
 #include <QFile>
 #include <QList>
 #include <QStringList>
+#include <QUrl>
 
 struct LibArchiveInterface::ArchiveReadCustomDeleter
 {
@@ -211,7 +212,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
         }
 
         //entryName is the name inside the archive, full path
-        QString entryName = QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(entry)));
+        QString entryName = getInternalId(entry);
 
         if (entryName.startsWith(QLatin1Char( '/' ))) {
             //for now we just can't handle absolute filenames in a tar archive.
@@ -245,21 +246,19 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                 const QString truncatedFilename(entryName.remove(0, rootNode.size()));
                 kDebug(1601) << "Truncated filename: " << truncatedFilename;
 
-                const QString truncatedFilename(entryName.remove(0, rootNode.size()));
                 archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
 
                 entryFI = QFileInfo(truncatedFilename);
             }
 
             // fix file name encoding before copying file or preview does not work.
-            QString fullNameInternal;
+            QString fullNameForExtraction;
             QString fullName;
             if ((options.value(QLatin1String("FixFileNameEncoding")).toBool())) {
-                fullNameInternal = destinationDirectory + QLatin1Char('/') + getInternalId(entry);
+                fullNameForExtraction = destinationDirectory + QLatin1Char('/') + getFileNameForExtraction(entry);
                 fullName = destinationDirectory + QLatin1Char('/') + getFileName(entry);
 
-                // this make entry use the same encoding used by e[InternalID] in LibArchiveInterface::emitEntryFromArchiveEntry().
-                QByteArray b = QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(entry))).toLocal8Bit();
+                QByteArray b = getFileNameForExtraction(entry).toLocal8Bit();
                 archive_entry_copy_pathname(entry, b.constData());
             }
 
@@ -318,9 +317,9 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                 copyData(arch.data(), writer.data(), (extractAll && m_extractedFilesSize));
 
                 if (options.value(QLatin1String("FixFileNameEncoding")).toBool()) {
-                    if (fullNameInternal != fullName) {
-                        if (!QFile::rename(fullNameInternal, fullName)) {
-                            kDebug(1601) << "Renaming" << fullNameInternal << "to" << fullName << "failed";
+                    if (fullNameForExtraction != fullName) {
+                        if (!QFile::rename(fullNameForExtraction, fullName)) {
+                            kDebug(1601) << "Renaming" << fullNameForExtraction << "to" << fullName << "failed";
                         }
                     }
                     Q_ASSERT(QFile::exists(fullName));
@@ -693,9 +692,14 @@ bool LibArchiveInterface::testFiles(const QList<QVariant> & files, TestOptions o
 QString LibArchiveInterface::getInternalId(struct archive_entry *aentry)
 {
     // Decoding file name here is required by Part::slotPreviewExtracted().
-    return QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(aentry)));
+    return QDir::fromNativeSeparators(QLatin1String(archive_entry_pathname(aentry)));
 }
 
+QString LibArchiveInterface::getFileNameForExtraction(struct archive_entry *aentry)
+{
+    // Decoding file name here is required by Part::slotPreviewExtracted().
+    return QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(aentry)));
+}
 QString LibArchiveInterface::getFileName(struct archive_entry *aentry)
 {
     QString fileName;

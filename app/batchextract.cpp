@@ -279,10 +279,10 @@ bool BatchExtract::showExtractDialog()
 
     options = dialog.data()->options();
 
-    setAutoSubfolder(options.value("AutoSubfolder").toBool());
-    setDestinationFolder(static_cast<KUrl>(options.value("DestinationDirectory").toUrl()).pathOrUrl());
-    setOpenDestinationAfterExtraction(options.value("OpenDestinationAfterExtraction").toBool());
-    setPreservePaths(options.value("PreservePaths").toBool());
+    setAutoSubfolder(options.value(QLatin1String("AutoSubfolder")).toBool());
+    setDestinationFolder(static_cast<KUrl>(options.value(QLatin1String("DestinationDirectory")).toUrl()).pathOrUrl());
+    setOpenDestinationAfterExtraction(options.value(QLatin1String("OpenDestinationAfterExtraction")).toBool());
+    setPreservePaths(options.value(QLatin1String("PreservePaths")).toBool());
 
     delete dialog.data();
 

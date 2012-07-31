@@ -930,7 +930,7 @@ void Part::slotExtractFiles()
                 return;
             }
 
-            Kerfuffle::Archive *archive = Kerfuffle::factory(item.url().path());
+            QScopedPointer<Kerfuffle::Archive> archive(Kerfuffle::Archive::create(item.url().path(), m_model));
 
             if(!archive) {
                 return;
@@ -1598,7 +1598,7 @@ void Part::populateMimeData(QMimeData* mimeData, bool cut)
 
         foreach(const QModelIndex & index, m_archiveView->selectionModel()->selectedRows()) {
             const ArchiveEntry& entry = m_model->entryForIndex(index);
-            QUrl u(protocol + QLatin1String("://") + fileName + QLatin1Char('/') + entry[FileName].toString());
+            QUrl u(protocol + QLatin1String("://") + fileName + QLatin1Char('/') + entry[InternalID].toString());
             kDebug(1601) << "going to add entry" << u;
             kdeUrls.append(u);
         }
