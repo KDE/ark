@@ -265,7 +265,9 @@ bool BatchExtract::showExtractDialog()
 
     Kerfuffle::ExtractionOptions options;
     options[QLatin1String("AutoSubfolder")] = autoSubfolder();
-    options[QLatin1String("DestinationDirectory")] = KUrl(destinationFolder());
+    if (!destinationFolder().isEmpty()) {
+        options[QLatin1String("DestinationDirectory")] = KUrl(destinationFolder());
+    }
     options[QLatin1String("OpenDestinationAfterExtraction")] = openDestinationAfterExtraction();
     options[QLatin1String("PreservePaths")] = preservePaths();
     dialog.data()->setOptions(options);
