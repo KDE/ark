@@ -903,16 +903,17 @@ QString Part::detectSubfolder() const
 void Part::slotExtractFiles()
 {
     kDebug(1601);
-    Kerfuffle::ExtractionDialog dialog(widget()->parentWidget());
+    QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog(widget()->parentWidget());
 
-    if ( dialog.exec() != KDialog::Accepted ) {
+    if ( dialog->exec() != KDialog::Accepted ) {
         return;
     }
 
     QVariantList files;
-    Kerfuffle::ExtractionOptions options = dialog.options();
-    const QString destinationDirectory = dialog.destination().pathOrUrl();
+    Kerfuffle::ExtractionOptions options = dialog->options();
+    const QString destinationDirectory = dialog->destination().pathOrUrl();
     options[QLatin1String("FollowExtractionDialogSettings")] = true;
+    dialog->deleteLater();
 
     if (m_stack->currentWidget() == m_dirOperator)  {
         if (m_dirOperator->selectedItems().count() > 1) {
