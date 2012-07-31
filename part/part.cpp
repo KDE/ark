@@ -1578,7 +1578,7 @@ void Part::populateMimeData(QMimeData* mimeData, bool cut)
         }
     } else if (m_model && m_model->archive()) {
         QString fileName = m_model->archive()->fileName();
-        QString protocol = fileName.mid(protocol.lastIndexOf(QLatin1Char('.')));
+        QString protocol = fileName.section(QLatin1Char('.'), -1, -1);
 
         if (protocol == QLatin1String("rar")) {
             protocol = QLatin1String("ar");
