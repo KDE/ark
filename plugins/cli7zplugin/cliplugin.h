@@ -34,6 +34,9 @@ public:
     explicit CliPlugin(QObject *parent, const QVariantList & args);
     virtual ~CliPlugin();
 
+    void saveLastLine(const QString & line);
+    QString fileExistsName();
+
 protected:
     virtual Kerfuffle::ParameterList parameterList() const;
     virtual bool readListLine(const QString &line);
@@ -57,6 +60,7 @@ private:
     ArchiveType m_archiveType;
     Kerfuffle::ArchiveEntry m_currentArchiveEntry;
     ReadState m_state;
+    QString m_lastLine;
 };
 
 #endif // CLIPLUGIN_H

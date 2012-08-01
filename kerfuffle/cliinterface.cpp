@@ -998,7 +998,20 @@ bool CliInterface::checkForFileExistsMessage(const QString& line)
         return true;
     }
 
+    saveLastLine(line);
+
     return false;
+}
+
+QString CliInterface::findFileExistsName()
+{
+    QString filename = m_existsPattern.cap(1);
+
+    if (filename.isEmpty()) {
+        filename = fileExistsName();
+        kDebug(1601) << "Detected file existing!! Filename " << filename;
+    }
+    return filename;
 }
 
 bool CliInterface::handleFileExistsMessage(const QString& line)
@@ -1007,7 +1020,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
         return false;
     }
 
-    const QString filename = m_existsPattern.cap(1);
+    const QString filename = findFileExistsName();
 
     Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char('/') + filename);
     query.setNoRenameMode(true);

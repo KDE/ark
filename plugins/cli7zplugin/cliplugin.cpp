@@ -209,6 +209,24 @@ void CliPlugin::resetReadState()
     m_state = ReadStateHeader;
 }
 
+void CliPlugin::saveLastLine(const QString & line)
+{
+    m_lastLine = line;
+}
+
+// for simplicity checks only the last line, otherwise we would have to parse
+// every entry passed to saveLastLine.
+QString CliPlugin::fileExistsName()
+{
+    QRegExp existsPattern(QLatin1String( "^file (.+)" ));
+
+    if (existsPattern.indexIn(m_lastLine) != -1) {
+        return existsPattern.cap(1);
+    }
+
+    return QString();
+}
+
 KERFUFFLE_EXPORT_PLUGIN(CliPlugin)
 
 #include "cliplugin.moc"

@@ -310,6 +310,10 @@ public:
     virtual bool readListLine(const QString &line) = 0;
     virtual void resetReadState() = 0;
 
+    // in case parsing code needs it, like when parsing 7z's extraction output to detect the filename that has caused conflict.
+    virtual void saveLastLine(const QString &line) { Q_UNUSED(line); };
+    virtual QString fileExistsName() { return QString(); };
+
     bool doKill();
     bool doSuspend();
     bool doResume();
@@ -399,6 +403,8 @@ private:
      * the platform.
      */
     void writeToProcess(const QByteArray& data);
+
+    QString findFileExistsName();
 
     QByteArray m_stdOutData;
     QRegExp m_existsPattern;
