@@ -253,6 +253,8 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
 
                 archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
                 entryFI = QFileInfo(truncatedFilename);
+            } else if (options.value(QLatin1String("FixFileNameEncoding")).toBool()) {
+                archive_entry_copy_pathname(entry, QFile::encodeName(entryName).constData());
             }
 
             //now check if the file about to be written already exists
