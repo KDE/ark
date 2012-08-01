@@ -71,6 +71,7 @@ public:
         dirOperator->setView(KFile::Tree);
         dirOperator->view()->setSelectionMode(QAbstractItemView::SingleSelection);
         dirOperator->setNewFileMenuSupportedMimeTypes(QStringList() << QLatin1String("inode/directory"));
+        dirOperator->dirLister()->setAutoUpdate(true);
         destinationTab->layout()->addWidget(dirOperator);
     }
 
@@ -139,6 +140,7 @@ void ExtractionDialog::updateView()
     disconnect(m_ui->urlNavigator, SIGNAL(urlChanged(KUrl)), this, SLOT(setDestination(KUrl)));
 
     m_ui->dirOperator->setUrl(m_url, true);
+    m_ui->dirOperator->dirLister()->updateDirectory(m_ui->dirOperator->url());
     m_ui->urlNavigator->setLocationUrl(m_url);
 
     connect(m_ui->dirOperator, SIGNAL(urlEntered(KUrl)), SLOT(setDestination(KUrl)));

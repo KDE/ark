@@ -451,6 +451,7 @@ void Part::updateView()
     if (m_model && m_model->archive()) {
         m_stack->setCurrentWidget(m_archiveView);
     } else {
+        m_dirOperator->dirLister()->updateDirectory(url());
         m_stack->setCurrentWidget(m_dirOperator);
     }
 
