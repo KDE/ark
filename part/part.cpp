@@ -1019,21 +1019,21 @@ void Part::slotExtractionDone(KJob* job)
         ExtractJob *extractJob = qobject_cast<ExtractJob*>(job);
         Q_ASSERT(extractJob);
 
-        const bool followExtractionDialogSettings =
-            extractJob->extractionOptions().value(QLatin1String("FollowExtractionDialogSettings"), false).toBool();
+        ExtractionOptions options = extractJob->extractionOptions();
+        const bool followExtractionDialogSettings = options.value(QLatin1String("FollowExtractionDialogSettings"), false).toBool();
+
         if (!followExtractionDialogSettings) {
             return;
         }
 
-        if (ArkSettings::openDestinationFolderAfterExtraction()) {
-
+        if (options.value(QLatin1String("OpenDestinationAfterExtraction"), false).toBool()) {
             KUrl destinationDirectory(extractJob->destinationDirectory());
             destinationDirectory.cleanPath();
 
             KRun::runUrl(destinationDirectory, QLatin1String("inode/directory"), widget());
         }
 
-        if (ArkSettings::closeAfterExtraction()) {
+        if (options.value(QLatin1String("CloseArkAfterExtraction"), false).toBool()) {
             emit quit();
         }
     }

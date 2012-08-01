@@ -195,8 +195,8 @@ void ExtractionDialog::setOptions(const ExtractionOptions &options)
     m_ui->preservePathsCheckBox->setChecked(options.value(QLatin1String("PreservePaths"),
             m_config.readEntry("PreservePaths", false)).toBool());
 
-    setDestination(options.value(QLatin1String("DestinationDirectory"),
-            m_config.readEntry("DestinationDirectory", KUrl(QDir::homePath()))).toUrl());
+    setDestination(KUrl(options.value(QLatin1String("DestinationDirectory"),
+            m_config.readEntry("DestinationDirectory", QDir::homePath())).toString()));
 }
 
 ExtractionOptions ExtractionDialog::options() const
