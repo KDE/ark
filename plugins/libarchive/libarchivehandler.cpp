@@ -224,6 +224,10 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
         }
 
         if (files.contains(entryName) || entryName == fileBeingRenamed || extractAll) {
+            if (options.value(QLatin1String("FixFileNameEncoding")).toBool()) {
+                entryName = getFileName(entry);
+            }
+
             // entryFI is the fileinfo pointing to where the file will be
             // written from the archive
             QFileInfo entryFI(entryName);
@@ -248,19 +252,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                 kDebug(1601) << "Truncated filename: " << truncatedFilename;
 
                 archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
-
                 entryFI = QFileInfo(truncatedFilename);
-            }
-
-            // fix file name encoding before copying file or preview does not work.
-            QString fullNameForExtraction;
-            QString fullName;
-            if ((options.value(QLatin1String("FixFileNameEncoding")).toBool())) {
-                fullNameForExtraction = destinationDirectory + QLatin1Char('/') + getFileNameForExtraction(entry);
-                fullName = destinationDirectory + QLatin1Char('/') + getFileName(entry);
-
-                QByteArray b = getFileNameForExtraction(entry).toLocal8Bit();
-                archive_entry_copy_pathname(entry, b.constData());
             }
 
             //now check if the file about to be written already exists
@@ -316,15 +308,6 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                 //if the whole archive is extracted and the total filesize is
                 //available, we use partial progress
                 copyData(arch.data(), writer.data(), (extractAll && m_extractedFilesSize));
-
-                if (options.value(QLatin1String("FixFileNameEncoding")).toBool()) {
-                    if (fullNameForExtraction != fullName) {
-                        if (!QFile::rename(fullNameForExtraction, fullName)) {
-                            kDebug(1601) << "Renaming" << fullNameForExtraction << "to" << fullName << "failed";
-                        }
-                    }
-                    Q_ASSERT(QFile::exists(fullName));
-                }
             } else if (header_response == ARCHIVE_WARN) {
                 kDebug(1601) << "libarchive returned warning while writing " << entryName;
             } else {
