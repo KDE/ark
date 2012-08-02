@@ -883,7 +883,7 @@ void CliInterface::handleLine(const QString& line)
         }
     }
 
-    if (m_operationMode == Copy) {
+    if (m_operationMode == Copy || m_operationMode == Delete) {
         if (checkForPasswordPromptMessage(line)) {
             kDebug(1601) << "Found a password prompt";
 
