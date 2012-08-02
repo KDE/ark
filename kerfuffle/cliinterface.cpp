@@ -715,6 +715,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
 
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
     connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), SLOT(processFinished(int,QProcess::ExitStatus)), Qt::DirectConnection);
+    connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(killAllProcesses()));
 
     m_stdOutData.clear();
 
@@ -730,6 +731,12 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
     Q_ASSERT(!m_process);
 
     return ret;
+}
+
+void CliInterface::killAllProcesses()
+{
+    kDebug(1601);
+    doKill();
 }
 
 void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus)

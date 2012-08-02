@@ -352,6 +352,9 @@ public:
 protected:
     static void fixFileNameEncoding(const QString & destinationDirectory);
 
+private Q_SLOTS:
+    void killAllProcesses();
+
 private:
     void substituteListVariables(QStringList& params);
 
