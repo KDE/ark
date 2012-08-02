@@ -216,7 +216,8 @@ void CliPlugin::saveLastLine(const QString & line)
 // every entry passed to saveLastLine.
 QString CliPlugin::fileExistsName()
 {
-    QRegExp existsPattern(QLatin1String( "^file (.+)" ));
+    // sometimes 7z's output lines are concatenated, then we cannot use "^file (.+)" here.
+    QRegExp existsPattern(QLatin1String( "file (.+)" ));
 
     if (existsPattern.indexIn(m_lastLine) != -1) {
         return existsPattern.cap(1);
