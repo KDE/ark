@@ -104,7 +104,7 @@ ParameterList CliPlugin::parameterList() const
 
         p[TestProgram] = QStringList() << QLatin1String( "rar" );
         p[TestArgs] = QStringList() << QLatin1String( "t" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
-        p[TestFailedPatterns] = QStringList() << QLatin1String("CRC failed");
+        p[TestFailedPatterns] = QStringList() << QLatin1String("CRC failed") << QLatin1String("the file header is corrupt");
         p[TemporaryDirectorySwitch] = QLatin1String("-w$DirectoryPath");
     }
 
