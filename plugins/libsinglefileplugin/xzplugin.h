@@ -35,6 +35,8 @@ class LibXzInterface : public LibSingleFileInterface
 public:
     LibXzInterface(QObject *parent, const QVariantList & args);
     virtual ~LibXzInterface();
+
+    virtual bool supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType = QString());
 };
 
 #endif // XZPLUGIN_H

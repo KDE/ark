@@ -76,23 +76,23 @@ void CreateDialogUI::updateUi()
     QString mimeType = archiveFormatComboBox->itemData(archiveFormatComboBox->currentIndex()).toString();
 
     encryptFileNamesCheckBox->setEnabled(passwordGroupBox->isChecked()
-                                         && m_mimeTypeOptions.contains(mimeType, Kerfuffle::EncryptHeaderSwitch));
+                                         && m_mimeTypeOptions.contains(mimeType, Kerfuffle::EncryptHeader));
     if (!encryptFileNamesCheckBox->isEnabled()) {
         encryptFileNamesCheckBox->setChecked(false);
     }
 
-    passwordGroupBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::PasswordSwitch));
+    passwordGroupBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::Password));
     if (!passwordGroupBox->isEnabled()) {
         passwordGroupBox->setChecked(false);
     }
 
-    compressionMethodComboBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::CompressionLevelSwitches));
+    compressionMethodComboBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::CompressionLevel));
     if (!compressionMethodComboBox->isEnabled()) {
         compressionMethodComboBox->setCurrentIndex(2);
     }
 
 
-    multithreadingCheckBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::MultiThreadingSwitch));
+    multithreadingCheckBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::MultiThreading));
     if (!multithreadingCheckBox->isEnabled()) {
         multithreadingCheckBox->setChecked(false);
     }
@@ -106,7 +106,7 @@ void CreateDialogUI::updateUi()
         encryptFileNamesCheckBox->setChecked(false);
         encryptionMethodComboBox->setEnabled(false);
     } else {
-        encryptionMethodComboBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::EncryptionMethodSwitches));
+        encryptionMethodComboBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::EncryptionMethod));
     }
 
     if (mimeType == QLatin1String("application/x-rar")) {
@@ -119,7 +119,7 @@ void CreateDialogUI::updateUi()
         }
     }
 
-    splitArchiveGroupBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::MultiPartSwitch));
+    splitArchiveGroupBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::MultiPart));
     if (splitArchiveGroupBox->isChecked() && splitArchiveGroupBox->isEnabled()) {
         if (splitSizeComboBox->currentIndex() > 0) {
             splitSizeUnitComboBox->setCurrentIndex(0);

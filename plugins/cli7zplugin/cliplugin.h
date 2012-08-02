@@ -34,6 +34,7 @@ public:
     explicit CliPlugin(QObject *parent, const QVariantList & args);
     virtual ~CliPlugin();
 
+    virtual bool supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType = QString());
     void saveLastLine(const QString & line);
     QString fileExistsName();
 

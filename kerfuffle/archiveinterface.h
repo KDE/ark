@@ -38,6 +38,17 @@
 
 namespace Kerfuffle
 {
+enum SupportedOptions {
+    CompressionLevel,
+    Testing,
+    FixFileNameEncoding,
+    MultiPart,
+    MultiThreading,
+    EncryptionMethod,
+    EncryptHeader,
+    Password,
+};
+
 class Query;
 
 class KERFUFFLE_EXPORT ReadOnlyArchiveInterface: public QObject
@@ -46,6 +57,8 @@ class KERFUFFLE_EXPORT ReadOnlyArchiveInterface: public QObject
 public:
     explicit ReadOnlyArchiveInterface(QObject *parent, const QVariantList & args);
     virtual ~ReadOnlyArchiveInterface();
+
+    virtual bool supportsOption(const SupportedOptions option, const QString & mimeType = QString()) = 0;
 
     /**
      * Returns the filename of the archive currently being handled.

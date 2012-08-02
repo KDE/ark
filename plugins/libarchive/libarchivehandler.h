@@ -49,6 +49,7 @@ public:
     bool addFiles(const QStringList& files, const CompressionOptions& options);
     bool deleteFiles(const QVariantList& files);
     bool testFiles(const QList<QVariant> & files, TestOptions options = TestOptions());
+    bool supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType = QString());
 
 private:
     void emitEntryFromArchiveEntry(struct archive_entry *entry);

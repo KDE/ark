@@ -112,6 +112,41 @@ bool CliInterface::supportsParameter(CliInterfaceParameters param)
     return hasParam;
 }
 
+bool CliInterface::supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType)
+{
+    Q_UNUSED(mimeType);
+
+    switch (option) {
+    case CompressionLevel:
+        return supportsParameter(CompressionLevelSwitches);
+        break;
+    case Testing:
+        return supportsParameter(TestProgram);
+        break;
+    case FixFileNameEncoding:
+        // for now only libarchive plugin supports this.
+        return false;
+        break;
+    case MultiPart:
+        return supportsParameter(MultiPartSwitch);
+        break;
+    case MultiThreading:
+        return supportsParameter(MultiThreadingSwitch);
+        break;
+    case EncryptionMethod:
+        return supportsParameter(EncryptionMethodSwitches);
+        break;
+    case EncryptHeader:
+        return supportsParameter(EncryptHeaderSwitch);
+        break;
+    case Password:
+        return supportsParameter(PasswordSwitch);
+        break;
+    }
+    return false;
+}
+
+
 bool CliInterface::list()
 {
     resetReadState();

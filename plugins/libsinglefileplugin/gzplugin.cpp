@@ -39,6 +39,12 @@ LibGzipInterface::~LibGzipInterface()
 {
 }
 
+bool LibGzipInterface::supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType)
+{
+    // TODO: implement
+    return false;
+}
+
 KERFUFFLE_EXPORT_PLUGIN(LibGzipInterface)
 
 #include "gzplugin.moc"

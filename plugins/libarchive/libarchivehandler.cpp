@@ -83,6 +83,30 @@ LibArchiveInterface::~LibArchiveInterface()
 {
 }
 
+bool LibArchiveInterface::supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType)
+{
+    switch (option) {
+    case CompressionLevel:
+        break;
+    case Testing:
+        break;
+    case FixFileNameEncoding:
+        return true;
+        break;
+    case MultiPart:
+        break;
+    case MultiThreading:
+        break;
+    case EncryptionMethod:
+        break;
+    case EncryptHeader:
+        break;
+    case Password:
+        break;
+    }
+    return false;
+}
+
 bool LibArchiveInterface::list()
 {
     kDebug(1601);

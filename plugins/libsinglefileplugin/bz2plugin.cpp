@@ -39,6 +39,12 @@ LibBzip2Interface::~LibBzip2Interface()
 {
 }
 
+bool LibBzip2Interface::supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType)
+{
+    // TODO: implement
+    return false;
+}
+
 KERFUFFLE_EXPORT_PLUGIN(LibBzip2Interface)
 
 #include "bz2plugin.moc"

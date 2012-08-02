@@ -44,6 +44,18 @@ CliPlugin::~CliPlugin()
 {
 }
 
+bool CliPlugin::supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType)
+{
+    bool ret = CliInterface::supportsOption(option, mimeType);
+
+    // 7z only supports EncryptHeader for 7z archive type, not for zip, tar, etc.
+    if (option == EncryptHeader && mimeType != QLatin1String("application/x-7z-compressed")) {
+        return false;
+    }
+
+    return ret;
+}
+
 ParameterList CliPlugin::parameterList() const
 {
     static ParameterList p;

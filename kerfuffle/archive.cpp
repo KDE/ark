@@ -360,35 +360,29 @@ QList<int> supportedOptions(const QString &mimeType)
     kDebug(1601) << mimeType;
 
     QVariantList args;
-    CliInterface * const iface = factory->create<CliInterface>(0, args);
+    ReadOnlyArchiveInterface * const iface = factory->create<ReadOnlyArchiveInterface>(0, args);
     if (!iface) {
         kDebug(1601) << "Could not create plugin instance " << pluginName << "for mime type " << mimeType;
         return options;
     }
 
-    if (iface->supportsParameter(PreservePathSwitch))
-        options.append(PreservePathSwitch);
+    if (iface->supportsOption(Password, mimeType))
+        options.append(Password);
 
-    if (iface->supportsParameter(RootNodeSwitch))
-        options.append(RootNodeSwitch);
+    if (iface->supportsOption(CompressionLevel, mimeType))
+        options.append(CompressionLevel);
 
-    if (iface->supportsParameter(PasswordSwitch))
-        options.append(PasswordSwitch);
+    if (iface->supportsOption(MultiThreading, mimeType))
+        options.append(MultiThreading);
 
-    if (iface->supportsParameter(CompressionLevelSwitches))
-        options.append(CompressionLevelSwitches);
+    if (iface->supportsOption(EncryptHeader, mimeType))
+        options.append(EncryptHeader);
 
-    if (iface->supportsParameter(MultiThreadingSwitch))
-        options.append(MultiThreadingSwitch);
+    if (iface->supportsOption(EncryptionMethod, mimeType))
+        options.append(EncryptionMethod);
 
-    if (iface->supportsParameter(EncryptHeaderSwitch))
-        options.append(EncryptHeaderSwitch);
-
-    if (iface->supportsParameter(EncryptionMethodSwitches))
-        options.append(EncryptionMethodSwitches);
-
-    if (iface->supportsParameter(MultiPartSwitch))
-        options.append(MultiPartSwitch);
+    if (iface->supportsOption(MultiPart, mimeType))
+        options.append(MultiPart);
 
     return options;
 }

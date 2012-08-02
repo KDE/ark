@@ -335,6 +335,8 @@ public:
      */
     void setEscapedCharacters(const QString& characters);
 
+    virtual bool supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType = QString());
+
     /**
      * Checks whether the implementing plugin supports the provided option
      */
