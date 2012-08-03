@@ -737,6 +737,11 @@ void CliInterface::killAllProcesses()
 {
     kDebug(1601);
     doKill();
+
+    if (m_process) {
+        m_process->deleteLater();
+        m_process = 0;
+    }
 }
 
 void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
@@ -817,7 +822,6 @@ void CliInterface::readStdout(bool handleAll)
 
     QByteArray dd = m_process->readAllStandardOutput();
     m_stdOutData += dd;
-
 
     QList<QByteArray> lines = m_stdOutData.split('\n');
 
