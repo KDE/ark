@@ -52,24 +52,20 @@ bool LibSingleFileInterface::supportsOption(const Kerfuffle::SupportedOptions op
     Q_UNUSED(mimeType);
 
     switch (option) {
-    case CompressionLevel:
-        break;
+    case Rename:
     case Testing:
         return true;
         break;
+    case CompressionLevel:
     case FixFileNameEncoding:
-        // for now only libarchive plugin supports this.
-        return false;
-        break;
     case MultiPart:
-        break;
     case MultiThreading:
-        break;
     case EncryptionMethod:
-        break;
     case EncryptHeader:
-        break;
     case Password:
+    case PreservePath:
+    case RootNode:
+        return false;
         break;
     }
     return false;
