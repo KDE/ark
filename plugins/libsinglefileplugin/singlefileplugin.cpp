@@ -36,6 +36,8 @@
 #include <KFilterDev>
 #include <KLocale>
 
+using namespace Kerfuffle;
+
 LibSingleFileInterface::LibSingleFileInterface(QObject *parent, const QVariantList & args)
         : Kerfuffle::ReadOnlyArchiveInterface(parent, args)
 {
@@ -43,6 +45,34 @@ LibSingleFileInterface::LibSingleFileInterface(QObject *parent, const QVariantLi
 
 LibSingleFileInterface::~LibSingleFileInterface()
 {
+}
+
+bool LibSingleFileInterface::supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType)
+{
+    Q_UNUSED(mimeType);
+
+    switch (option) {
+    case CompressionLevel:
+        break;
+    case Testing:
+        return true;
+        break;
+    case FixFileNameEncoding:
+        // for now only libarchive plugin supports this.
+        return false;
+        break;
+    case MultiPart:
+        break;
+    case MultiThreading:
+        break;
+    case EncryptionMethod:
+        break;
+    case EncryptHeader:
+        break;
+    case Password:
+        break;
+    }
+    return false;
 }
 
 bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, Kerfuffle::ExtractionOptions options)

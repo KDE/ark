@@ -35,8 +35,6 @@ class LibBzip2Interface : public LibSingleFileInterface
 public:
     LibBzip2Interface(QObject *parent, const QVariantList & args);
     virtual ~LibBzip2Interface();
-
-    virtual bool supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType = QString());
 };
 
 #endif // BZ2PLUGIN_H

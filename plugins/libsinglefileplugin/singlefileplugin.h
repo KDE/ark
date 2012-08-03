@@ -36,6 +36,8 @@ public:
     LibSingleFileInterface(QObject *parent, const QVariantList & args);
     virtual ~LibSingleFileInterface();
 
+    virtual bool supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType = QString());
+
     virtual bool list();
     virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, Kerfuffle::ExtractionOptions options);
     virtual bool testFiles(const QList<QVariant> & files, Kerfuffle::TestOptions options);
