@@ -106,7 +106,7 @@ int main(int argc, char **argv)
     KCmdLineArgs::addTempFileOption();
 
     KApplication application;
-    application.setQuitOnLastWindowClosed(false);
+    bool quitOnLastWindowClosed = false;
 
     //session restoring
     if (application.isSessionRestored()) {
@@ -124,6 +124,7 @@ int main(int argc, char **argv)
         if (window == NULL) {
             return -1;
         }
+        quitOnLastWindowClosed = true;
     } else { //new ark window (no restored session)
         // open any given URLs
         KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
@@ -202,9 +203,11 @@ int main(int argc, char **argv)
                 window->openUrl(args->url(0));
             }
             window->show();
+            quitOnLastWindowClosed = true;
         }
     }
 
-    kDebug(1601) << "Entering application loop";
+    application.setQuitOnLastWindowClosed(quitOnLastWindowClosed);
+    kDebug(1601) << "Entering application loop. quitOnLastWindowClosed" << application.quitOnLastWindowClosed();
     return application.exec();
 }

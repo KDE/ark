@@ -754,8 +754,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
     connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), SLOT(processFinished(int,QProcess::ExitStatus)), Qt::DirectConnection);
 
-    // TODO: find a more reliable way to detect when user clicks on close button. When in batch mode this signal is always emitted.
-    //connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(killAllProcesses()));
+    connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(killAllProcesses()));
 
     m_stdOutData.clear();
 
@@ -775,14 +774,12 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
 
 void CliInterface::killAllProcesses()
 {
-    kDebug(1601);
-    doKill();
-
-    if (m_process) {
-        m_process->deleteLater();
-        m_process = 0;
+    if (!qApp->quitOnLastWindowClosed()) {
+        return;
     }
 
+    kDebug(1601) << "Killing process";
+    doKill();
     finished(true);
 }
 
