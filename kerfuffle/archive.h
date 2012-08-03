@@ -30,6 +30,8 @@
 
 #include "kerfuffle_export.h"
 
+#include <KUrl>
+
 #include <QString>
 #include <QStringList>
 #include <QHash>
@@ -87,6 +89,13 @@ Rar, etc), followed by the property name used
 typedef QHash<QString, QVariant> CompressionOptions;
 typedef QHash<QString, QVariant> ExtractionOptions;
 typedef QHash<QString, QVariant> TestOptions;
+
+enum ExtractionConflictOption {
+    AlwaysAsk = 0,
+    OverwriteAll = 1,
+    SkipAll = 2,
+    RenameAll = 3
+};
 
 class KERFUFFLE_EXPORT Archive : public QObject
 {
@@ -149,6 +158,16 @@ private:
 KERFUFFLE_EXPORT QStringList supportedMimeTypes();
 KERFUFFLE_EXPORT QStringList supportedWriteMimeTypes();
 KERFUFFLE_EXPORT QList<int> supportedOptions(const QString& mimeType);
+
+/**
+ * Suggests a new name for a file that already exists
+ *
+ * @param baseUrl The URL minus the filename
+ * @param fileName the filename to replace with the new name
+ *
+ * @return the new filename without the baseUrl
+ */
+KERFUFFLE_EXPORT QString suggestNameForFile(const KUrl& baseUrl, const QString& fileName);
 } // namespace Kerfuffle
 
 

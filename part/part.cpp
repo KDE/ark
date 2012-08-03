@@ -30,6 +30,7 @@
 #include "jobtracker.h"
 #include "archiveconflictdialog.h"
 #include "kerfuffle/archive.h"
+#include "kerfuffle/cliinterface.h"
 #include "kerfuffle/createdialog.h"
 #include "kerfuffle/extractiondialog.h"
 #include "kerfuffle/jobs.h"
@@ -904,17 +905,7 @@ QString Part::detectSubfolder() const
 void Part::slotExtractFiles()
 {
     kDebug(1601);
-    QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog(widget()->parentWidget());
-
-    if ( dialog->exec() != KDialog::Accepted ) {
-        return;
-    }
-
     QVariantList files;
-    Kerfuffle::ExtractionOptions options = dialog->options();
-    const QString destinationDirectory = dialog->destination().pathOrUrl();
-    options[QLatin1String("FollowExtractionDialogSettings")] = true;
-    dialog->deleteLater();
 
     if (m_stack->currentWidget() == m_dirOperator)  {
         if (m_dirOperator->selectedItems().count() > 1) {
@@ -926,19 +917,39 @@ void Part::slotExtractFiles()
                 }
             }
             return; // TODO: remove when batch extraction was implemented
-        } else if (m_dirOperator->selectedItems().count() == 1 ) {
+        } else if (m_dirOperator->selectedItems().count() == 1) {
             KFileItem item = m_dirOperator->selectedItems().at(0);
-            if( !isSupportedArchive(item.url())) {
+            if (!isSupportedArchive(item.url())) {
                 return;
             }
+
+            Kerfuffle::ExtractionOptions options;
+            if (supportedOptions(item.mimetype()).contains(Kerfuffle::Rename)) {
+                options[QLatin1String("RenameSupported")] = true;
+            } else {
+                options[QLatin1String("RenameSupported")] = false;
+            }
+
+            QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog(widget()->parentWidget());
+            dialog->setOptions(options);
+
+            if (dialog->exec() != KDialog::Accepted) {
+                dialog->deleteLater();
+                return;
+            }
+
+            options = dialog->options();
+            const QString destinationDirectory = dialog->destination().pathOrUrl();
+            options[QLatin1String("FollowExtractionDialogSettings")] = true;
+            dialog->deleteLater();
 
             QScopedPointer<Kerfuffle::Archive> archive(Kerfuffle::Archive::create(item.url().path(), m_model));
 
-            if(!archive) {
+            if (!archive) {
                 return;
             }
 
-            kDebug() << "Getting extraction job from archive";
+            kDebug(1601) << "Getting extraction job from archive";
             ExtractJob *job = archive->copyFiles(files, destinationDirectory, options);
             registerJob(job);
             connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
@@ -946,16 +957,39 @@ void Part::slotExtractFiles()
             connect(job, SIGNAL(result(KJob*)),
                     this, SLOT(slotExtractionDone(KJob*)));
 
-            kDebug() << "Starting extraction job";
+            kDebug(1601) << "Starting extraction job";
             job->start();
         }
     } else if (m_model->archive()) {
+        QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog(widget()->parentWidget());
+
+        Kerfuffle::ExtractionOptions options;
+
+        KMimeType::Ptr mimeType = KMimeType::findByUrl(url());
+
+        if (mimeType && supportedOptions(mimeType->name()).contains(Kerfuffle::Rename)) {
+            options[QLatin1String("RenameSupported")] = true;
+        } else {
+            options[QLatin1String("RenameSupported")] = false;
+        }
+
+        dialog->setOptions(options);
+
+        if (dialog->exec() != KDialog::Accepted) {
+            dialog->deleteLater();
+            return;
+        }
+
+        options = dialog->options();
+        const QString destinationDirectory = dialog->destination().pathOrUrl();
+        options[QLatin1String("FollowExtractionDialogSettings")] = true;
+        dialog->deleteLater();
 
         //if the user has chosen to extract only selected entries, fetch these
         //from the listview
         if (m_archiveView->selectionModel()->selectedRows().count() > 0) {
             files = selectedFilesWithChildren();
-            kDebug() << "Selected " << files;
+            kDebug(1601) << "Selected " << files;
         }
 
         ExtractJob *job = m_model->extractFiles(files, destinationDirectory, options);
@@ -1292,7 +1326,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
 
                         // non-empty directory, remove it.
                         empty = true;
-                        foreach (const QString & str, pathsInFileSystem) {
+                        foreach(const QString & str, pathsInFileSystem) {
                             if (str.startsWith(dirPath)) {
                                 empty = false;
                                 break;

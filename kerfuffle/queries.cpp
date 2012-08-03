@@ -45,7 +45,7 @@ Query::Query()
 
 QVariant Query::response()
 {
-    return m_data.value(QLatin1String( "response" ));
+    return m_data.value(QLatin1String("response"));
 }
 
 void Query::waitForResponse()
@@ -63,16 +63,17 @@ void Query::setResponse(QVariant response)
 {
     kDebug(1601);
 
-    m_data[QLatin1String( "response" )] = response;
+    m_data[QLatin1String("response")] = response;
     m_responseCondition.wakeAll();
 }
 
 OverwriteQuery::OverwriteQuery(const QString &filename) :
     m_noRenameMode(false),
+    m_autoRenameMode(false),
     m_multiMode(true),
     m_updateExistingMode(false)
 {
-    m_data[QLatin1String( "filename" )] = filename;
+    m_data[QLatin1String("filename")] = filename;
 }
 
 void OverwriteQuery::execute()
@@ -85,6 +86,11 @@ void OverwriteQuery::execute()
     if (m_noRenameMode) {
         mode = (RenameDialog_Mode)(mode | M_NORENAME);
     }
+
+    if (m_autoRenameMode) {
+        mode = (RenameDialog_Mode)(mode | M_AUTO_RENAME);
+    }
+
     if (m_multiMode) {
         mode = (RenameDialog_Mode)(mode | M_MULTI);
     }
@@ -92,8 +98,8 @@ void OverwriteQuery::execute()
         mode = (RenameDialog_Mode)(mode | M_UPDATE_EXISTING);
     }
 
-    KUrl sourceUrl(m_data.value(QLatin1String( "filename" )).toString());
-    KUrl destUrl(m_data.value(QLatin1String( "filename" )).toString());
+    KUrl sourceUrl(m_data.value(QLatin1String("filename")).toString());
+    KUrl destUrl(m_data.value(QLatin1String("filename")).toString());
     sourceUrl.cleanPath();
     destUrl.cleanPath();
 
@@ -116,51 +122,72 @@ void OverwriteQuery::execute()
 
 bool OverwriteQuery::responseCancelled()
 {
-    return m_data.value(QLatin1String( "response" )).toInt() == R_CANCEL;
+    return m_data.value(QLatin1String("response")).toInt() == R_CANCEL;
 }
 bool OverwriteQuery::responseOverwriteAll()
 {
-    return m_data.value(QLatin1String( "response" )).toInt() == R_OVERWRITE_ALL;
+    return m_data.value(QLatin1String("response")).toInt() == R_OVERWRITE_ALL;
 }
 bool OverwriteQuery::responseOverwrite()
 {
-    return m_data.value(QLatin1String( "response" )).toInt() == R_OVERWRITE;
+    return m_data.value(QLatin1String("response")).toInt() == R_OVERWRITE;
 }
 
 bool OverwriteQuery::responseRename()
 {
-    return m_data.value(QLatin1String( "response" )).toInt() == R_RENAME;
+    return m_data.value(QLatin1String("response")).toInt() == R_RENAME;
+}
+
+bool OverwriteQuery::responseAutoRenameAll()
+{
+    return m_data.value(QLatin1String("response")).toInt() == R_AUTO_RENAME;
 }
 
 bool OverwriteQuery::responseSkip()
 {
-    return m_data.value(QLatin1String( "response" )).toInt() == R_SKIP;
+    return m_data.value(QLatin1String("response")).toInt() == R_SKIP;
 }
 
 bool OverwriteQuery::responseAutoSkip()
 {
-    return m_data.value(QLatin1String( "response" )).toInt() == R_AUTO_SKIP;
+    return m_data.value(QLatin1String("response")).toInt() == R_AUTO_SKIP;
 }
 
 
 bool OverwriteQuery::responseUpdateExisting()
 {
-    return m_data.value(QLatin1String( "response" )).toInt() == R_UPDATE_EXISTING;
+    return m_data.value(QLatin1String("response")).toInt() == R_UPDATE_EXISTING;
 }
 
 QString OverwriteQuery::newFilename()
 {
-    return m_data.value(QLatin1String( "newFilename" )).toString();
+    return m_data.value(QLatin1String("newFilename")).toString();
 }
 
 void OverwriteQuery::setNoRenameMode(bool enableNoRenameMode)
 {
     m_noRenameMode = enableNoRenameMode;
+    if (enableNoRenameMode) {
+        m_autoRenameMode = false;
+    }
 }
 
 bool OverwriteQuery::noRenameMode()
 {
     return m_noRenameMode;
+}
+
+void OverwriteQuery::setAutoRenameMode(bool enableAutoRenameMode)
+{
+    m_autoRenameMode = enableAutoRenameMode;
+    if (enableAutoRenameMode) {
+        m_noRenameMode = false;
+    }
+}
+
+bool OverwriteQuery::autoRenameMode()
+{
+    return m_autoRenameMode;
 }
 
 void OverwriteQuery::setMultiMode(bool enableMultiMode)
@@ -185,9 +212,9 @@ bool OverwriteQuery::updateExistingMode()
 
 PasswordNeededQuery::PasswordNeededQuery(const QString& archiveFilename, const PasswordFlags flags)
 {
-    m_data[QLatin1String( "archiveFilename" )] = archiveFilename;
-    m_data[QLatin1String( "incorrectTryAgain" )] = flags.testFlag(IncorrectTryAgain);
-    m_data[QLatin1String( "askNewPassword" )] = flags.testFlag(AskNewPassword);
+    m_data[QLatin1String("archiveFilename")] = archiveFilename;
+    m_data[QLatin1String("incorrectTryAgain")] = flags.testFlag(IncorrectTryAgain);
+    m_data[QLatin1String("askNewPassword")] = flags.testFlag(AskNewPassword);
 }
 
 void PasswordNeededQuery::execute()
@@ -201,9 +228,9 @@ void PasswordNeededQuery::execute()
 
     if (m_data.value(QLatin1String("askNewPassword")).toBool()) {
         QWeakPointer<KNewPasswordDialog> dlg = new KNewPasswordDialog;
-        dlg.data()->setPrompt(i18nc("@info", "Please enter the password to protect <filename>%1</filename>.", m_data.value(QLatin1String( "archiveFilename" )).toString()));
+        dlg.data()->setPrompt(i18nc("@info", "Please enter the password to protect <filename>%1</filename>.", m_data.value(QLatin1String("archiveFilename")).toString()));
         dlg.data()->setAllowEmptyPasswords(false);
-    
+
         notCancelled = dlg.data()->exec();
         if (dlg) {
             password = dlg.data()->password();
@@ -211,12 +238,12 @@ void PasswordNeededQuery::execute()
         }
     } else {
         QWeakPointer<KPasswordDialog> dlg = new KPasswordDialog;
-        dlg.data()->setPrompt(i18nc("@info", "The archive <filename>%1</filename> is password protected. Please enter the password to extract the file.", m_data.value(QLatin1String( "archiveFilename" )).toString()));
-    
+        dlg.data()->setPrompt(i18nc("@info", "The archive <filename>%1</filename> is password protected. Please enter the password to extract the file.", m_data.value(QLatin1String("archiveFilename")).toString()));
+
         if (m_data.value(QLatin1String("incorrectTryAgain")).toBool()) {
             dlg.data()->showErrorMessage(i18nc("@info", "Incorrect password, please try again."), KPasswordDialog::PasswordError);
         }
-    
+
         notCancelled = dlg.data()->exec();
         if (dlg) {
             password = dlg.data()->password();
@@ -232,11 +259,11 @@ void PasswordNeededQuery::execute()
 
 QString PasswordNeededQuery::password()
 {
-    return m_data.value(QLatin1String( "password" )).toString();
+    return m_data.value(QLatin1String("password")).toString();
 }
 
 bool PasswordNeededQuery::responseCancelled()
 {
-    return !m_data.value(QLatin1String( "response" )).toBool();
+    return !m_data.value(QLatin1String("response")).toBool();
 }
 }

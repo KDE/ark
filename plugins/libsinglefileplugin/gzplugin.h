@@ -35,6 +35,7 @@ class LibGzipInterface : public LibSingleFileInterface
 public:
     LibGzipInterface(QObject *parent, const QVariantList & args);
     virtual ~LibGzipInterface();
+    virtual bool supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType = QString());
 
 };
 

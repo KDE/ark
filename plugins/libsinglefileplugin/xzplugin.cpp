@@ -29,15 +29,27 @@
 #include <QString>
 
 LibXzInterface::LibXzInterface(QObject *parent, const QVariantList & args)
-        : LibSingleFileInterface(parent, args)
+    : LibSingleFileInterface(parent, args)
 {
-    m_mimeType = QLatin1String( "application/x-lzma" );
-    m_possibleExtensions.append(QLatin1String( ".lzma" ));
-    m_possibleExtensions.append(QLatin1String( ".xz" ));
+    m_mimeType = QLatin1String("application/x-lzma");
+    m_possibleExtensions.append(QLatin1String(".lzma"));
+    m_possibleExtensions.append(QLatin1String(".xz"));
 }
 
 LibXzInterface::~LibXzInterface()
 {
+}
+
+bool LibXzInterface::supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType)
+{
+    // TODO: implement
+    switch (option) {
+    case Kerfuffle::Rename:
+        return true; // done by the interface itself
+    default:
+        return false;
+    }
+    return false;
 }
 
 KERFUFFLE_EXPORT_PLUGIN(LibXzInterface)

@@ -83,6 +83,7 @@ public:
     bool responseOverwriteAll();
     bool responseOverwrite();
     bool responseRename();
+    bool responseAutoRenameAll();
     bool responseSkip();
     bool responseAutoSkip();
     bool responseUpdateExisting();
@@ -90,6 +91,8 @@ public:
 
     void setNoRenameMode(bool enableNoRenameMode);
     bool noRenameMode();
+    void setAutoRenameMode(bool enableAutoRenameMode);
+    bool autoRenameMode();
     void setMultiMode(bool enableMultiMode);
     bool multiMode();
     void setUpdateExistingMode(bool updateExisting);
@@ -97,6 +100,7 @@ public:
 
 private:
     bool m_noRenameMode;
+    bool m_autoRenameMode;
     bool m_multiMode;
     bool m_updateExistingMode;
 };

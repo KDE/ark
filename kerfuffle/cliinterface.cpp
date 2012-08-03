@@ -40,6 +40,7 @@
 #include <KDebug>
 #include <KLocale>
 #include <kencodingprober.h>
+#include <KUrl>
 
 #include <QApplication>
 #include <QDateTime>
@@ -142,6 +143,15 @@ bool CliInterface::supportsOption(const Kerfuffle::SupportedOptions option, cons
     case Password:
         return supportsParameter(PasswordSwitch);
         break;
+    case PreservePath:
+        return supportsParameter(PreservePathSwitch);
+        break;
+    case RootNode:
+        return supportsParameter(RootNodeSwitch);
+        break;
+    case Rename:
+        return supportsParameter(SupportsRename);
+        break;
     }
     return false;
 }
@@ -170,6 +180,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
     cacheParameterList();
 
     m_operationMode = Copy;
+    m_options = options;
 
     //start preparing the argument list
     QStringList args = m_param.value(ExtractArgs).toStringList();
@@ -301,6 +312,31 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
             --i; //decrement to compensate for the variable we replaced
         }
 
+        if (argument == QLatin1String("$FileExistsSwitch")) {
+            //if the FileExistsSwitch argument has been added, we at least
+            //assume that the format of the switch has been added as well
+            Q_ASSERT(m_param.contains(FileExistsSwitch));
+
+            int conflictOption = -1;
+            if (options.contains(QLatin1String("ConflictsHandling"))) {
+                conflictOption = options.value(QLatin1String("ConflictsHandling")).toInt();
+            }
+
+            QString theReplacement;
+            if (conflictOption > -1) {
+                theReplacement = m_param.value(FileExistsSwitch).toStringList().at(conflictOption);
+            }
+
+            if (theReplacement.isEmpty()) {
+                args.removeAt(i);
+                --i; //decrement to compensate for the variable we removed
+            } else {
+                //but in this case we don't have to decrement, we just
+                //replace it
+                args[i] = theReplacement;
+            }
+        }
+
         if (argument == QLatin1String("$Files")) {
             args.removeAt(i);
             for (int j = 0; j < files.count(); ++j) {
@@ -351,6 +387,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
     cacheParameterList();
 
     m_operationMode = Add;
+    m_options = options;
 
     const QString globalWorkDir = options.value(QLatin1String("GlobalWorkDir")).toString();
     const QDir workDir = globalWorkDir.isEmpty() ? QDir::current() : QDir(globalWorkDir);
@@ -602,6 +639,7 @@ bool CliInterface::testFiles(const QList<QVariant> & files, TestOptions options)
 
     m_testResult = true;
     m_operationMode = Test;
+    m_options = options;
 
     //start preparing the argument list
     QStringList args = m_param.value(TestArgs).toStringList();
@@ -840,7 +878,8 @@ void CliInterface::readStdout(bool handleAll)
         (checkForErrorMessage(QLatin1String(lines.last()), WrongPasswordPatterns) ||
          checkForErrorMessage(QLatin1String(lines.last()), ExtractionFailedPatterns) ||
          checkForPasswordPromptMessage(QLatin1String(lines.last())) ||
-         checkForFileExistsMessage(QLatin1String(lines.last())));
+         checkForFileExistsMessage(QLatin1String(lines.last())) ||
+         checkForRenameFileMessage(QLatin1String(lines.last())));
 
     if (foundErrorMessage) {
         handleAll = true;
@@ -877,6 +916,8 @@ void CliInterface::readStdout(bool handleAll)
 
 void CliInterface::handleLine(const QString& line)
 {
+    kDebug(1601)  << "line: " << line;
+
     // TODO: This should be implemented by each plugin; the way progress is
     //       shown by each CLI application is subject to a lot of variation.
     if ((m_operationMode == Copy || m_operationMode == Add || m_operationMode == Test) && m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool()) {
@@ -926,6 +967,10 @@ void CliInterface::handleLine(const QString& line)
         }
 
         if (handleFileExistsMessage(line)) {
+            return;
+        }
+
+        if (handleRenameFileMessage(line)) {
             return;
         }
     }
@@ -1019,6 +1064,46 @@ void CliInterface::handleLine(const QString& line)
     }
 }
 
+bool CliInterface::checkForRenameFileMessage(const QString &line)
+{
+    if (!m_param.contains(FileExistsNewNamePattern)) {
+        return false;
+    }
+
+    if (m_renameFilePattern.isEmpty()) {
+        m_renameFilePattern.setPattern(m_param.value(FileExistsNewNamePattern).toString());
+    }
+
+    if (m_renameFilePattern.indexIn(line) != -1) {
+        kDebug(1601) << "Detected file rename message " << m_renameFilePattern.cap(1);
+        return true;
+    }
+
+    return false;
+}
+
+bool CliInterface::handleRenameFileMessage(const QString &line)
+{
+    if (!checkForRenameFileMessage(line)) {
+        return false;
+    }
+
+    QVariant var = property("NewFileName");
+    if (!var.isValid() || var.toString().isEmpty()) {
+        error(i18n("Extraction failed: couldn't set new file name."));
+        failOperation();
+        return false;
+    }
+
+    QString response = var.toString();
+    response += QLatin1Char('\n');
+    writeToProcess(response.toLocal8Bit());
+
+    setProperty("NewFileName", QVariant()); // a property is cleaned by setting an invalid QVariant
+
+    return true;
+}
+
 bool CliInterface::checkForPasswordPromptMessage(const QString& line)
 {
     const QString passwordPromptPattern(m_param.value(PasswordPromptPattern).toString());
@@ -1069,32 +1154,57 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
         return false;
     }
 
+    kDebug(1601) << line;
     const QString filename = findFileExistsName();
-
-    Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char('/') + filename);
-    query.setNoRenameMode(true);
-    emit userQuery(&query);
-    kDebug(1601) << "Waiting response";
-    query.waitForResponse();
-
-    kDebug(1601) << "Finished response";
-
     QString responseToProcess;
     const QStringList choices = m_param.value(FileExistsInput).toStringList();
 
-    if (query.responseOverwrite()) {
-        responseToProcess = choices.at(0);
-    } else if (query.responseSkip()) {
-        responseToProcess = choices.at(1);
-    } else if (query.responseOverwriteAll()) {
-        responseToProcess = choices.at(2);
-    } else if (query.responseAutoSkip()) {
-        responseToProcess = choices.at(3);
-    } else if (query.responseCancelled()) {
-        if (choices.count() < 5) { // If the program has no way to cancel the extraction, we resort to killing it
-            return doKill();
+    int conflictOption = m_options.value(QLatin1String("ConflictsHandling"), (int)Kerfuffle::AlwaysAsk).toInt();
+
+    if (conflictOption == Kerfuffle::AlwaysAsk) {
+        kDebug(1601) << "No auto rename";
+        Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char('/') + filename);
+        if (!m_param.contains(SupportsRename)) {
+            query.setNoRenameMode(true);
+        } else {
+            query.setAutoRenameMode(true);
         }
-        responseToProcess = choices.at(4);
+        userQuery(&query);
+        kDebug(1601) << "Waiting response";
+        query.waitForResponse();
+        kDebug(1601) << "Finished response";
+
+        if (query.responseOverwrite()) {
+            responseToProcess = choices.at(0);
+        } else if (query.responseSkip()) {
+            responseToProcess = choices.at(1);
+        } else if (query.responseOverwriteAll()) {
+            m_options[QLatin1String("ConflictsHandling")] = (int)Kerfuffle::OverwriteAll;
+            responseToProcess = choices.at(2);
+        } else if (query.responseAutoSkip()) {
+            m_options[QLatin1String("ConflictsHandling")] = (int)Kerfuffle::SkipAll;
+            responseToProcess = choices.at(3);
+        } else if (query.responseCancelled()) {
+            if (choices.count() < 5) { // If the program has no way to cancel the extraction, we resort to killing it
+                return doKill();
+            }
+            responseToProcess = choices.at(4);
+        } else if (query.responseRename() && choices.count() > 5) {
+            setProperty("NewFileName", QVariant(query.newFilename()));
+            responseToProcess = choices.at(5);
+        } else if (query.responseAutoRenameAll() && choices.count() > 5) {
+            m_options[QLatin1String("ConflictsHandling")] = (int)Kerfuffle::RenameAll;
+            setProperty("NewFileName", QVariant(query.newFilename()));
+            responseToProcess = choices.at(5);
+        }
+    } else if (conflictOption == Kerfuffle::OverwriteAll)  {
+        responseToProcess = choices.at(2);
+    } else if (conflictOption == Kerfuffle::SkipAll)  {
+        responseToProcess = choices.at(3);
+    } else if (conflictOption == Kerfuffle::RenameAll)  {
+        QString newName = Kerfuffle::suggestNameForFile(KUrl(QDir::current().path()), filename);
+        setProperty("NewFileName", QVariant(newName));
+        responseToProcess = choices.at(5);
     }
 
     Q_ASSERT(!responseToProcess.isEmpty());

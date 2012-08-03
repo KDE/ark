@@ -112,7 +112,7 @@ ExtractionDialog::~ExtractionDialog()
 
 void ExtractionDialog::loadSettings()
 {
-    kDebug();
+    kDebug(1601);
     ExtractionOptions options;
     foreach(const QString & str, m_config.keyList()) {
         options[str] = m_config.readEntry(str);
@@ -124,7 +124,7 @@ void ExtractionDialog::loadSettings()
 
 void ExtractionDialog::writeSettings()
 {
-    kDebug();
+    kDebug(1601);
     // get options from the UI
     QHashIterator<QString, QVariant> it((QHash<QString, QVariant>)options());
     while (it.hasNext()) {
@@ -135,7 +135,7 @@ void ExtractionDialog::writeSettings()
 
 void ExtractionDialog::updateView()
 {
-    kDebug();
+    kDebug(1601);
     disconnect(m_ui->dirOperator, SIGNAL(urlEntered(KUrl)), this, SLOT(setDestination(KUrl)));
     disconnect(m_ui->urlNavigator, SIGNAL(urlChanged(KUrl)), this, SLOT(setDestination(KUrl)));
 
@@ -149,7 +149,7 @@ void ExtractionDialog::updateView()
 
 void ExtractionDialog::setBatchMode(bool enabled)
 {
-    kDebug();
+    kDebug(1601);
     if (enabled) {
         m_ui->autoSubfoldersCheckBox->show();
         m_ui->autoSubfoldersCheckBox->setChecked(true);
@@ -162,7 +162,7 @@ void ExtractionDialog::setBatchMode(bool enabled)
 
 void ExtractionDialog::accept()
 {
-    kDebug();
+    kDebug(1601);
     const QString path = m_url.pathOrUrl(KUrl::AddTrailingSlash);
 
     if (!KIO::NetAccess::exists(path, KIO::NetAccess::SourceSide, 0)
@@ -178,7 +178,7 @@ void ExtractionDialog::accept()
 
 void ExtractionDialog::setOptions(const ExtractionOptions &options)
 {
-    kDebug();
+    kDebug(1601);
     m_ui->autoSubfoldersCheckBox->setChecked(options.value(QLatin1String("AutoSubfolders"),
             m_config.readEntry("AutoSubfolders", false)).toBool());
 
@@ -195,15 +195,30 @@ void ExtractionDialog::setOptions(const ExtractionOptions &options)
             m_config.readEntry("MultiThreadingEnabled", true)).toBool());
 
     m_ui->preservePathsCheckBox->setChecked(options.value(QLatin1String("PreservePaths"),
-            m_config.readEntry("PreservePaths", false)).toBool());
+                                            m_config.readEntry("PreservePaths", false)).toBool());
+
+    if (!options.value(QLatin1String("RenameSupported"), false).toBool()) {
+        m_ui->conflictsComboBox->removeItem(RenameAll);
+    } else if (m_ui->conflictsComboBox->count() <= ((int)RenameAll)) {
+        m_ui->conflictsComboBox->addItem(i18n("Rename extracted files"));
+    }
+
+    int index = options.value(QLatin1String("ConflictsHandling"),
+                              m_config.readEntry("ConflictsHandling", (int)AlwaysAsk)).toInt();
+
+    if (index > m_ui->conflictsComboBox->count() - 1) {
+        index = AlwaysAsk;
+    }
+
+    m_ui->conflictsComboBox->setCurrentIndex(index);
 
     setDestination(KUrl(options.value(QLatin1String("DestinationDirectory"),
-            m_config.readEntry("DestinationDirectory", QDir::homePath())).toString()));
+                                      m_config.readEntry("DestinationDirectory", QDir::homePath())).toString()));
 }
 
 ExtractionOptions ExtractionDialog::options() const
 {
-    kDebug();
+    kDebug(1601);
     ExtractionOptions options;
     options[QLatin1String("AutoSubfolders")] = m_ui->autoSubfoldersCheckBox->isChecked();
     options[QLatin1String("OpenDestinationAfterExtraction")] = m_ui->openFolderCheckBox->isChecked();
@@ -211,6 +226,7 @@ ExtractionOptions ExtractionDialog::options() const
     options[QLatin1String("FixFileNameEncoding")] = m_ui->utf8CheckBox->isChecked();
     options[QLatin1String("MultiThreadingEnabled")] = m_ui->multithreadingCheckBox->isChecked();
     options[QLatin1String("PreservePaths")] = m_ui->preservePathsCheckBox->isChecked();
+    options[QLatin1String("ConflictsHandling")] = m_ui->conflictsComboBox->currentIndex();
     options[QLatin1String("DestinationDirectory")] = destination();
 
     return options;
@@ -223,7 +239,7 @@ KUrl ExtractionDialog::destination() const
 
 void ExtractionDialog::setDestination(const KUrl &url)
 {
-    kDebug();
+    kDebug(1601);
     m_url = url;
     updateView();
 }

@@ -35,6 +35,7 @@
 
 class KProcess;
 class KPtyProcess;
+class KUrl;
 
 namespace Kerfuffle
 {
@@ -165,8 +166,32 @@ enum CliInterfaceParameters {
      * index 2 - All (overwrite all)
      * index 3 - Do not overwrite any files (autoskip)
      * index 4 - Cancel operation
+     * The following items are optional and should be used with caution
+     * index 5 - Rename (if supported, must be implemented as auto rename)
      */
     FileExistsInput,
+    /**
+     * QStringList
+     * The commandline switch that can be supplied for handling of existing files:
+     * index 0 - Ask before overwrite
+     * index 1 - Overwrite all
+     * index 2 - Skip all (do not overwrite)
+     * index 3 - Auto rename
+     */
+    FileExistsSwitch,
+    /**
+     * Bool (default false),
+     * CAUTION: Parameter shall be used only for feedback to the GUI.
+     *
+     */
+    SupportsRename,
+    /**
+     * QString
+     * This is a regexp, defining how to recognize a "Enter new name"
+     * prompt when extracting a file that already exists and should be renamed.
+     * This will only be useful if renaming is supported and not done by auto renaming (as with 7z).
+     */
+    FileExistsNewNamePattern,
 
     ///////////////[ DELETE ]/////////////
 
@@ -311,8 +336,12 @@ public:
     virtual void resetReadState() = 0;
 
     // in case parsing code needs it, like when parsing 7z's extraction output to detect the filename that has caused conflict.
-    virtual void saveLastLine(const QString &line) { Q_UNUSED(line); };
-    virtual QString fileExistsName() { return QString(); };
+    virtual void saveLastLine(const QString &line) {
+        Q_UNUSED(line);
+    };
+    virtual QString fileExistsName() {
+        return QString();
+    };
 
     bool doKill();
     bool doSuspend();
@@ -345,7 +374,7 @@ public:
      * KEncodingProber and filename specific criteria and
      * returns the encoding-corrected string
      */
-    static QString autoConvertEncoding( const QString & fileName );
+    static QString autoConvertEncoding(const QString & fileName);
 
 protected:
     static void fixFileNameEncoding(const QString & destinationDirectory);
@@ -381,6 +410,8 @@ private:
     bool handleFileExistsMessage(const QString& filename);
     bool checkForErrorMessage(const QString& line, int parameterIndex);
     void handleLine(const QString& line);
+    bool checkForRenameFileMessage(const QString& line);
+    bool handleRenameFileMessage(const QString& line);
 
     void failOperation();
 
@@ -417,7 +448,7 @@ private:
     QByteArray m_stdOutData;
     QRegExp m_existsPattern;
     QRegExp m_passwordPromptPattern;
-    QHash<int, QList<QRegExp> > m_patternCache;
+    QRegExp m_renameFilePattern;
 
 #ifdef Q_OS_WIN
     KProcess *m_process;
@@ -430,6 +461,7 @@ private:
     bool m_testResult;
     bool m_fixFileNameEncoding;
     QString m_destinationDirectory;
+    QHash<QString, QVariant> m_options;
 
 private slots:
     void readStdout(bool handleAll = false);

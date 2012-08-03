@@ -29,14 +29,26 @@
 #include <QString>
 
 LibBzip2Interface::LibBzip2Interface(QObject *parent, const QVariantList & args)
-        : LibSingleFileInterface(parent, args)
+    : LibSingleFileInterface(parent, args)
 {
-    m_mimeType = QLatin1String( "application/x-bzip" );
-    m_possibleExtensions.append(QLatin1String( ".bz2" ));
+    m_mimeType = QLatin1String("application/x-bzip");
+    m_possibleExtensions.append(QLatin1String(".bz2"));
 }
 
 LibBzip2Interface::~LibBzip2Interface()
 {
+}
+
+bool LibBzip2Interface::supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType)
+{
+    // TODO: implement
+    switch (option) {
+    case Kerfuffle::Rename:
+        return true; // done by the interface itself
+    default:
+        return false;
+    }
+    return false;
 }
 
 KERFUFFLE_EXPORT_PLUGIN(LibBzip2Interface)

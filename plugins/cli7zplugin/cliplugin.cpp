@@ -34,9 +34,9 @@
 using namespace Kerfuffle;
 
 CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
-        : CliInterface(parent, args)
-        , m_archiveType(ArchiveType7z)
-        , m_state(ReadStateHeader)
+    : CliInterface(parent, args)
+    , m_archiveType(ArchiveType7z)
+    , m_state(ReadStateHeader)
 {
 }
 
@@ -64,32 +64,35 @@ ParameterList CliPlugin::parameterList() const
         //p[CaptureProgress] = true;
         p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QStringList() << QLatin1String( "7zr" ) << QLatin1String( "7za" ) << QLatin1String( "7z" );
 
-        p[ListArgs] = QStringList() << QLatin1String( "l" ) << QLatin1String( "-slt" ) << QLatin1String( "$Archive" );
-        p[ExtractArgs] = QStringList() << QLatin1String( "$MultiThreadingSwitch" ) << QLatin1String( "$PreservePathSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
-        p[PreservePathSwitch] = QStringList() << QLatin1String( "x" ) << QLatin1String( "e" );
-        p[PasswordSwitch] = QStringList() << QLatin1String( "-p$Password" );
-        p[FileExistsExpression] = QLatin1String( "already exists. Overwrite with" );
-        p[WrongPasswordPatterns] = QStringList() << QLatin1String( "Wrong password" );
-        p[AddArgs] = QStringList() << QLatin1String( "a" ) << QLatin1String( "$TemporaryDirectorySwitch" ) << QLatin1String( "$CompressionLevelSwitch" ) << QLatin1String( "$MultiThreadingSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$EncryptHeaderSwitch" )  << QLatin1String( "$MultiPartSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
-        p[DeleteArgs] = QStringList() << QLatin1String( "d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[ListArgs] = QStringList() << QLatin1String("l") << QLatin1String("-slt") << QLatin1String("$Archive");
+        p[ExtractArgs] = QStringList() << QLatin1String("$MultiThreadingSwitch") << QLatin1String("$PreservePathSwitch") << QLatin1String("$PasswordSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");
+        p[PreservePathSwitch] = QStringList() << QLatin1String("x") << QLatin1String("e");
+        p[PasswordSwitch] = QStringList() << QLatin1String("-p$Password");
+        p[FileExistsExpression] = QLatin1String("already exists. Overwrite with");
+        p[WrongPasswordPatterns] = QStringList() << QLatin1String("Wrong password");
+        p[AddArgs] = QStringList() << QLatin1String("a") << QLatin1String("$TemporaryDirectorySwitch") << QLatin1String("$CompressionLevelSwitch") << QLatin1String("$MultiThreadingSwitch") << QLatin1String("$PasswordSwitch") << QLatin1String("$EncryptHeaderSwitch")  << QLatin1String("$MultiPartSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");
+        p[DeleteArgs] = QStringList() << QLatin1String("d") << QLatin1String("$Archive") << QLatin1String("$Files");
 
         p[FileExistsInput] = QStringList()
-                             << QLatin1String( "Y" ) //overwrite
-                             << QLatin1String( "N" )//skip
-                             << QLatin1String( "A" ) //overwrite all
-                             << QLatin1String( "S" ) //autoskip
-                             << QLatin1String( "Q" ) //cancel
+                             << QLatin1String("Y")   //overwrite
+                             << QLatin1String("N")   //skip
+                             << QLatin1String("A")   //overwrite all
+                             << QLatin1String("S")   //autoskip
+                             << QLatin1String("Q")   //cancel
+                             << QLatin1String("U")   //autorename
                              ;
-        p[CompressionLevelSwitches] = QStringList() << QLatin1String( "-mx=0" ) << QLatin1String( "-mx=2" ) << QLatin1String( "-mx=5" ) << QLatin1String( "-mx=7" ) << QLatin1String("-mx=9" );
-        p[MultiThreadingSwitch] = QLatin1String( "-mmt" );
-        p[MultiPartSwitch] = QLatin1String( "-v$MultiPartSizek" );
+        p[SupportsRename] = true; // just for GUI feedback
+
+        p[CompressionLevelSwitches] = QStringList() << QLatin1String("-mx=0") << QLatin1String("-mx=2") << QLatin1String("-mx=5") << QLatin1String("-mx=7") << QLatin1String("-mx=9");
+        p[MultiThreadingSwitch] = QLatin1String("-mmt");
+        p[MultiPartSwitch] = QLatin1String("-v$MultiPartSizek");
 
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) :");
 
         p[EncryptHeaderSwitch] = QLatin1String("-mhe");
 
-        p[TestProgram] = QStringList() << QLatin1String( "7z" );
-        p[TestArgs] = QStringList() << QLatin1String( "t" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[TestProgram] = QLatin1String("7z");
+        p[TestArgs] = QStringList() << QLatin1String("t") << QLatin1String("$PasswordSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");
         p[TestFailedPatterns] = QStringList() << QLatin1String("Data Error") << QLatin1String("CRC Failed") << QLatin1String("Can not open file as archive");
         p[TemporaryDirectorySwitch] = QLatin1String("-w$DirectoryPath");
     }
@@ -109,13 +112,13 @@ bool CliPlugin::readListLine(const QString& line)
     case ReadStateHeader:
         if (line.startsWith(QLatin1String("Listing archive:"))) {
             kDebug(1601) << "Archive name: "
-                     << line.right(line.size() - 16).trimmed();
+                         << line.right(line.size() - 16).trimmed();
             volumes = 1;
             fileName.clear();
         } else if ((line == archiveInfoDelimiter1) ||
                    (line == archiveInfoDelimiter2)) {
             m_state = ReadStateArchiveInformation;
-        } else if (line.contains(QLatin1String( "Error:" ))) {
+        } else if (line.contains(QLatin1String("Error:"))) {
             kDebug(1601) << line.mid(6);
         }
         break;
@@ -149,7 +152,7 @@ bool CliPlugin::readListLine(const QString& line)
             volumes = line.mid(9).toInt(&ok);
         } else if (volumes > 1 && line.startsWith(QLatin1String("Path ="))) {
             fileName = line.mid(6).trimmed();
-            fileName = fileName.left(fileName.size()-4); // remove .bz2 extension
+            fileName = fileName.left(fileName.size() - 4); // remove .bz2 extension
         }
 
         break;
@@ -179,19 +182,19 @@ bool CliPlugin::readListLine(const QString& line)
         } else if (line.startsWith(QLatin1String("Modified = "))) {
             m_currentArchiveEntry[ Timestamp ] =
                 QDateTime::fromString(line.mid(11).trimmed(),
-                                      QLatin1String( "yyyy-MM-dd hh:mm:ss" ));
+                                      QLatin1String("yyyy-MM-dd hh:mm:ss"));
         } else if (line.startsWith(QLatin1String("Attributes = "))) {
             const QString attributes = line.mid(13).trimmed();
 
-            const bool isDirectory = attributes.startsWith(QLatin1Char( 'D' ));
+            const bool isDirectory = attributes.startsWith(QLatin1Char('D'));
             m_currentArchiveEntry[ IsDirectory ] = isDirectory;
             if (isDirectory) {
                 const QString directoryName =
                     m_currentArchiveEntry[FileName].toString();
-                if (!directoryName.endsWith(QLatin1Char( '/' ))) {
-                    const bool isPasswordProtected = (line.at(12) == QLatin1Char( '+' ));
+                if (!directoryName.endsWith(QLatin1Char('/'))) {
+                    const bool isPasswordProtected = (line.at(12) == QLatin1Char('+'));
                     m_currentArchiveEntry[FileName] =
-                        m_currentArchiveEntry[InternalID] = QString(directoryName + QLatin1Char( '/' ));
+                        m_currentArchiveEntry[InternalID] = QString(directoryName + QLatin1Char('/'));
                     m_currentArchiveEntry[ IsPasswordProtected ] =
                         isPasswordProtected;
                 }
@@ -204,7 +207,7 @@ bool CliPlugin::readListLine(const QString& line)
             m_currentArchiveEntry[ Method ] = line.mid(9).trimmed();
         } else if (line.startsWith(QLatin1String("Encrypted = ")) &&
                    line.size() >= 13) {
-            m_currentArchiveEntry[ IsPasswordProtected ] = (line.at(12) == QLatin1Char( '+' ));
+            m_currentArchiveEntry[ IsPasswordProtected ] = (line.at(12) == QLatin1Char('+'));
         } else if (line.isEmpty()) {
             if (m_currentArchiveEntry.contains(FileName)) {
                 emit entry(m_currentArchiveEntry);
@@ -230,7 +233,7 @@ void CliPlugin::saveLastLine(const QString & line)
 // every entry passed to saveLastLine.
 QString CliPlugin::fileExistsName()
 {
-    QRegExp existsPattern(QLatin1String( "^file (.+)" ));
+    QRegExp existsPattern(QLatin1String("^file (.+)"));
 
     if (existsPattern.indexIn(m_lastLine) != -1) {
         return existsPattern.cap(1);

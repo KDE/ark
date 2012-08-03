@@ -34,11 +34,11 @@
 using namespace Kerfuffle;
 
 CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
-        : CliInterface(parent, args)
-        , m_parseState(ParseStateColumnDescription1)
-        , m_isPasswordProtected(false)
-        , m_remainingIgnoredSubHeaderLines(0)
-        , m_isUnrarFree(false)
+    : CliInterface(parent, args)
+    , m_parseState(ParseStateColumnDescription1)
+    , m_isPasswordProtected(false)
+    , m_remainingIgnoredSubHeaderLines(0)
+    , m_isUnrarFree(false)
 {
 }
 
@@ -69,41 +69,50 @@ ParameterList CliPlugin::parameterList() const
 
         p[ListArgs] = QStringList() << QLatin1String( "vt" ) << QLatin1String( "-c-" ) << QLatin1String( "-v" ) << QLatin1String( "$Archive" );
         p[ExtractArgs] = QStringList() << QLatin1String( "-kb" ) << QLatin1String( "-p-" )
-                                       << QLatin1String( "$PreservePathSwitch" )
-                                       << QLatin1String( "$PasswordSwitch" )
-                                       << QLatin1String( "$RootNodeSwitch" )
-                                       << QLatin1String( "$Archive" )
-                                       << QLatin1String( "$Files" );
+                         << QLatin1String( "$PreservePathSwitch" )
+                         << QLatin1String( "$PasswordSwitch" )
+                         << QLatin1String( "$RootNodeSwitch" )
+                         << QLatin1String( "$FileExistsSwitch" )
+                         << QLatin1String( "$Archive" )
+                         << QLatin1String( "$Files" );
         p[PreservePathSwitch] = QStringList() << QLatin1String( "x" ) << QLatin1String( "e" );
         p[RootNodeSwitch] = QStringList() << QLatin1String( "-ap$Path" );
         p[PasswordSwitch] = QStringList() << QLatin1String( "-p$Password" );
 
         p[DeleteArgs] = QStringList() << QLatin1String( "d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
+        p[FileExistsNewNamePattern] = QLatin1String( "^Enter new name" );
         p[FileExistsExpression] = QLatin1String( "^(.+) already exists. Overwrite it" );
         p[FileExistsInput] = QStringList()
-                             << QLatin1String( "Y" ) //overwrite
-                             << QLatin1String( "N" ) //skip
-                             << QLatin1String( "A" ) //overwrite all
-                             << QLatin1String( "E" ) //autoskip
-                             << QLatin1String( "Q" ) //cancel
+                             << QLatin1String("Y")   //overwrite
+                             << QLatin1String("N")   //skip
+                             << QLatin1String("A")   //overwrite all
+                             << QLatin1String("E")   //autoskip
+                             << QLatin1String("Q")   //cancel
+                             << QLatin1String("R")   //rename, must be implemented as auto rename
                              ;
+        p[FileExistsSwitch] = QStringList()
+                              << QLatin1String("-o")     // Ask before Overwrite
+                              << QLatin1String("-o+")    // Overwrite all
+                              << QLatin1String("-o-")    // Skip all
+                              << QLatin1String("-or");   // Auto rename
+        p[SupportsRename] = true; // just for GUI feedback
 
-        p[AddArgs] = QStringList() << QLatin1String( "a" ) << QLatin1String( "$TemporaryDirectorySwitch" ) << QLatin1String( "$CompressionLevelSwitch" )  << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$EncryptHeaderSwitch" ) << QLatin1String( "$MultiPartSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[AddArgs] = QStringList() << QLatin1String("a") << QLatin1String("$TemporaryDirectorySwitch") << QLatin1String("$CompressionLevelSwitch")  << QLatin1String("$PasswordSwitch") << QLatin1String("$EncryptHeaderSwitch") << QLatin1String("$MultiPartSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");
 
-        p[CompressionLevelSwitches] = QStringList() << QLatin1String( "-m0" ) << QLatin1String( "-m1" ) << QLatin1String( "-m3" ) << QLatin1String( "-m4" ) << QLatin1String("-m5" );
+        p[CompressionLevelSwitches] = QStringList() << QLatin1String("-m0") << QLatin1String("-m1") << QLatin1String("-m3") << QLatin1String("-m4") << QLatin1String("-m5");
 
-        p[MultiPartSwitch] = QLatin1String( "-v$MultiPartSizek" );
+        p[MultiPartSwitch] = QLatin1String("-v$MultiPartSizek");
 
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) for");
 
         p[EncryptHeaderSwitch] = QLatin1String("-hp$Password");
 
         p[WrongPasswordPatterns] = QStringList() << QLatin1String("password incorrect") << QLatin1String("wrong password");
-        p[ExtractionFailedPatterns] = QStringList() << QLatin1String( "CRC failed" ) << QLatin1String( "Cannot find volume" );
+        p[ExtractionFailedPatterns] = QStringList() << QLatin1String("CRC failed") << QLatin1String("Cannot find volume");
 
-        p[TestProgram] = QStringList() << QLatin1String( "rar" );
-        p[TestArgs] = QStringList() << QLatin1String( "t" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[TestProgram] = QStringList() << QLatin1String("rar");
+        p[TestArgs] = QStringList() << QLatin1String("t") << QLatin1String("$PasswordSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");
         p[TestFailedPatterns] = QStringList() << QLatin1String("CRC failed") << QLatin1String("the file header is corrupt");
         p[TemporaryDirectorySwitch] = QLatin1String("-w$DirectoryPath");
     }
@@ -118,8 +127,7 @@ bool CliPlugin::readListLine(const QString &line)
     static const QLatin1String columnDescription1String("                  Size   Packed Ratio  Date   Time     Attr      CRC   Meth Ver");
     static const QLatin1String columnDescription2String("               Host OS    Solid   Old"); // Only present in unrar-nonfree
 
-    switch (m_parseState)
-    {
+    switch (m_parseState) {
     case ParseStateColumnDescription1:
         if (line.startsWith(columnDescription1String)) {
             m_parseState = ParseStateColumnDescription2;
@@ -177,7 +185,7 @@ bool CliPlugin::readListLine(const QString &line)
 
             kDebug(1601) << "Found a subheader of type" << subHeaderType;
             kDebug(1601) << "The next" << m_remainingIgnoredSubHeaderLines
-                     << "lines will be ignored";
+                         << "lines will be ignored";
 
             return true;
         } else if (line.startsWith(headerString)) {
@@ -186,7 +194,7 @@ bool CliPlugin::readListLine(const QString &line)
             return true;
         }
 
-        m_isPasswordProtected = (line.at(0) == QLatin1Char( '*' ));
+        m_isPasswordProtected = (line.at(0) == QLatin1Char('*'));
 
         // Start from 1 because the first character is either ' ' or '*'
         m_entryFileName = QDir::fromNativeSeparators(line.mid(1));
@@ -206,7 +214,7 @@ bool CliPlugin::readListLine(const QString &line)
             return true;
         }
 
-        const QStringList details = line.split(QLatin1Char( ' ' ),
+        const QStringList details = line.split(QLatin1Char(' '),
                                                QString::SkipEmptyParts);
 
         QDateTime ts(QDate::fromString(details.at(3),
@@ -220,10 +228,10 @@ bool CliPlugin::readListLine(const QString &line)
             ts = ts.addYears(100);
         }
 
-        bool isDirectory = ((details.at(5).at(0) == QLatin1Char( 'd' )) ||
-                            (details.at(5).at(1) == QLatin1Char( 'D' )));
-        if (isDirectory && !m_entryFileName.endsWith(QLatin1Char( '/' ))) {
-            m_entryFileName += QLatin1Char( '/' );
+        bool isDirectory = ((details.at(5).at(0) == QLatin1Char('d')) ||
+                            (details.at(5).at(1) == QLatin1Char('D')));
+        if (isDirectory && !m_entryFileName.endsWith(QLatin1Char('/'))) {
+            m_entryFileName += QLatin1Char('/');
         }
 
         // If the archive is a multivolume archive, a string indicating
@@ -231,9 +239,9 @@ bool CliPlugin::readListLine(const QString &line)
         // instead of the compression ratio.
         QString compressionRatio = details.at(2);
         if ((compressionRatio == QLatin1String("<--")) ||
-            (compressionRatio == QLatin1String("<->")) ||
-            (compressionRatio == QLatin1String("-->"))) {
-            compressionRatio = QLatin1Char( '0' );
+                (compressionRatio == QLatin1String("<->")) ||
+                (compressionRatio == QLatin1String("-->"))) {
+            compressionRatio = QLatin1Char('0');
         } else {
             compressionRatio.chop(1); // Remove the '%'
         }

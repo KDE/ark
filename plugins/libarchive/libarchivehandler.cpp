@@ -43,25 +43,22 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QFile>
+#include <QFileInfo>
 #include <QList>
 #include <QStringList>
 #include <QUrl>
 #include <QTextCodec>
 
-struct LibArchiveInterface::ArchiveReadCustomDeleter
-{
-    static inline void cleanup(struct archive *a)
-    {
+struct LibArchiveInterface::ArchiveReadCustomDeleter {
+    static inline void cleanup(struct archive *a) {
         if (a) {
             archive_read_finish(a);
         }
     }
 };
 
-struct LibArchiveInterface::ArchiveWriteCustomDeleter
-{
-    static inline void cleanup(struct archive *a)
-    {
+struct LibArchiveInterface::ArchiveWriteCustomDeleter {
+    static inline void cleanup(struct archive *a) {
         if (a) {
             archive_write_finish(a);
         }
@@ -103,6 +100,12 @@ bool LibArchiveInterface::supportsOption(const Kerfuffle::SupportedOptions optio
         break;
     case Password:
         break;
+    case PreservePath:
+        break;
+    case RootNode:
+        break;
+    case Rename:
+        return true;
     }
     return false;
 }
@@ -128,7 +131,7 @@ bool LibArchiveInterface::list()
 
     if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
         emit error(i18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
-                   filename()));
+                    filename()), QString());
         return false;
     }
 
@@ -151,7 +154,7 @@ bool LibArchiveInterface::list()
 
     if (result != ARCHIVE_EOF) {
         emit error(i18nc("@info", "The archive reading failed with the following error: <message>%1</message>",
-                   QLatin1String( archive_error_string(arch_reader.data()))));
+                    QLatin1String(archive_error_string(arch_reader.data()))));
         return false;
     }
 
@@ -164,9 +167,9 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
     QDir::setCurrent(destinationDirectory);
 
     const bool extractAll = files.isEmpty();
-    const bool preservePaths = options.value(QLatin1String( "PreservePaths" )).toBool();
+    const bool preservePaths = options.value(QLatin1String("PreservePaths")).toBool();
 
-    const QString rootNode = options.value(QLatin1String( "RootNode" ), QVariant()).toString();
+    const QString rootNode = options.value(QLatin1String("RootNode"), QVariant()).toString();
     kDebug(1601) << "Set root node" << rootNode;
 
     ArchiveRead arch(archive_read_new());
@@ -185,7 +188,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
 
     if (archive_read_open_filename(arch.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
         emit error(i18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
-                   filename()));
+                    filename()));
         return false;
     }
 
@@ -216,8 +219,10 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
 
     m_currentExtractedFilesSize = 0;
 
-    bool overwriteAll = false; // Whether to overwrite all files
-    bool skipAll = false; // Whether to skip all files
+    int conflictOption = options.value(QLatin1String("ConflictsHandling"), (int)Kerfuffle::AlwaysAsk).toInt();
+    bool overwriteAll = (conflictOption == Kerfuffle::OverwriteAll); // Whether to overwrite all files
+    bool skipAll = (conflictOption == Kerfuffle::SkipAll); // Whether to skip all files
+    bool autoRename = (conflictOption == Kerfuffle::RenameAll); // Whether to rename all files
     struct archive_entry *entry;
 
     QString fileBeingRenamed;
@@ -239,7 +244,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
         //entryName is the name inside the archive, full path
         QString entryName = getInternalId(entry);
 
-        if (entryName.startsWith(QLatin1Char( '/' ))) {
+        if (entryName.startsWith(QLatin1Char('/'))) {
             //for now we just can't handle absolute filenames in a tar archive.
             //TODO: find out what to do here!!
             emit error(i18nc("@info", "This archive contains archive entries with absolute paths, which are not yet supported by ark."));
@@ -287,7 +292,12 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                     archive_read_data_skip(arch.data());
                     archive_entry_clear(entry);
                     continue;
-                } else if (!overwriteAll && !skipAll) {
+                } else if (autoRename) {
+                    const QString newName(suggestNewName(entryName));
+                    fileBeingRenamed = newName;
+                    archive_entry_copy_pathname(entry, QFile::encodeName(newName).constData());
+                    goto retry;
+                } else if (!overwriteAll && !skipAll && !autoRename) {
                     Kerfuffle::OverwriteQuery query(entryName);
                     emit userQuery(&query);
                     query.waitForResponse();
@@ -312,6 +322,12 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                         goto retry;
                     } else if (query.responseOverwriteAll()) {
                         overwriteAll = true;
+                    } else if (query.responseAutoRenameAll()) {
+                        const QString newName(suggestNewName(entryName));
+                        fileBeingRenamed = newName;
+                        archive_entry_copy_pathname(entry, QFile::encodeName(newName).constData());
+                        autoRename = true;
+                        goto retry;
                     }
                 }
             }
@@ -338,7 +354,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                 kDebug(1601) << "libarchive returned warning while writing " << entryName;
             } else {
                 kDebug(1601) << "Writing header failed with error code " << header_response
-                << "While attempting to write " << entryName;
+                             << "While attempting to write " << entryName;
             }
 
             //if we only partially extract the archive and the number of
@@ -360,8 +376,8 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
 bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOptions& options)
 {
     const bool creatingNewFile = !QFileInfo(filename()).exists();
-    const QString tempFilename = filename() + QLatin1String( ".arkWriting" );
-    const QString globalWorkDir = options.value(QLatin1String( "GlobalWorkDir" )).toString();
+    const QString tempFilename = filename() + QLatin1String(".arkWriting");
+    const QString globalWorkDir = options.value(QLatin1String("GlobalWorkDir")).toString();
 
     if (!globalWorkDir.isEmpty()) {
         kDebug(1601) << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
@@ -404,23 +420,23 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
 
     int ret;
     if (creatingNewFile) {
-        if (filename().right(2).toUpper() == QLatin1String( "GZ" )) {
+        if (filename().right(2).toUpper() == QLatin1String("GZ")) {
             kDebug(1601) << "Detected gzip compression for new file";
             ret = archive_write_set_compression_gzip(arch_writer.data());
-        } else if (filename().right(3).toUpper() == QLatin1String( "BZ2" )) {
+        } else if (filename().right(3).toUpper() == QLatin1String("BZ2")) {
             kDebug(1601) << "Detected bzip2 compression for new file";
             ret = archive_write_set_compression_bzip2(arch_writer.data());
 #ifdef HAVE_LIBARCHIVE_XZ_SUPPORT
-        } else if (filename().right(2).toUpper() == QLatin1String( "XZ" )) {
+        } else if (filename().right(2).toUpper() == QLatin1String("XZ")) {
             kDebug(1601) << "Detected xz compression for new file";
             ret = archive_write_set_compression_xz(arch_writer.data());
 #endif
 #ifdef HAVE_LIBARCHIVE_LZMA_SUPPORT
-        } else if (filename().right(4).toUpper() == QLatin1String( "LZMA" )) {
+        } else if (filename().right(4).toUpper() == QLatin1String("LZMA")) {
             kDebug(1601) << "Detected lzma compression for new file";
             ret = archive_write_set_compression_lzma(arch_writer.data());
 #endif
-        } else if (filename().right(3).toUpper() == QLatin1String( "TAR" )) {
+        } else if (filename().right(3).toUpper() == QLatin1String("TAR")) {
             kDebug(1601) << "Detected no compression for new file (pure tar)";
             ret = archive_write_set_compression_none(arch_writer.data());
         } else {
@@ -430,7 +446,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
 
         if (ret != ARCHIVE_OK) {
             emit error(i18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>",
-                       QLatin1String(archive_error_string(arch_writer.data()))));
+                        QLatin1String(archive_error_string(arch_writer.data()))));
 
             return false;
         }
@@ -474,7 +490,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
 
     //**************** first write the new files
     const bool fixFileNameEncoding = options.value(QLatin1String("FixFileNameEncoding")).toBool();
-    foreach(const QString& selectedFile, files) {
+    foreach(const QString & selectedFile, files) {
         bool success;
 
         success = writeFile(selectedFile, arch_writer.data(), fixFileNameEncoding);
@@ -494,12 +510,12 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
                 const QString path = it.next();
 
                 if ((it.fileName() == QLatin1String("..")) ||
-                    (it.fileName() == QLatin1String("."))) {
+                        (it.fileName() == QLatin1String("."))) {
                     continue;
                 }
 
                 success = writeFile(path +
-                                    (it.fileInfo().isDir() ? QLatin1String( "/" ) : QLatin1String( "" )),
+                                    (it.fileInfo().isDir() ? QLatin1String("/") : QLatin1String("")),
                                     arch_writer.data());
 
                 if (!success) {
@@ -555,7 +571,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
 
 bool LibArchiveInterface::deleteFiles(const QVariantList& files)
 {
-    const QString tempFilename = filename() + QLatin1String( ".arkWriting" );
+    const QString tempFilename = filename() + QLatin1String(".arkWriting");
 
     ArchiveRead arch_reader(archive_read_new());
     if (!(arch_reader.data())) {
@@ -629,7 +645,7 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
         if (files.contains(QFile::decodeName(archive_entry_pathname(entry)))) {
             archive_read_data_skip(arch_reader.data());
             kDebug(1601) << "Entry to be deleted, skipping"
-                     << archive_entry_pathname(entry);
+                         << archive_entry_pathname(entry);
             QString fileName;
 #ifdef _MSC_VER
             fileName = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(entry)));
@@ -692,7 +708,7 @@ bool LibArchiveInterface::testFiles(const QList<QVariant> & files, TestOptions o
 
     if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
         error(i18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
-                   filename()), QString());
+                    filename()), QString());
         return false;
     }
 
@@ -748,7 +764,7 @@ void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry
     e[IsDirectory] = S_ISDIR(archive_entry_mode(aentry));
 
     if (archive_entry_symlink(aentry)) {
-        e[Link] = QLatin1String( archive_entry_symlink(aentry) );
+        e[Link] = QLatin1String(archive_entry_symlink(aentry));
     }
 
     e[Timestamp] = QDateTime::fromTime_t(archive_entry_mtime(aentry));
@@ -834,13 +850,13 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
 {
     int header_response;
 
-    const bool trailingSlash = fileName.endsWith(QLatin1Char( '/' ));
+    const bool trailingSlash = fileName.endsWith(QLatin1Char('/'));
 
     // #191821: workDir must be used instead of QDir::current()
     //          so that symlinks aren't resolved automatically
     // TODO: this kind of call should be moved upwards in the
     //       class hierarchy to avoid code duplication
-    const QString relativeName = m_workDir.relativeFilePath(fileName) + (trailingSlash ? QLatin1String( "/" ) : QLatin1String( "" ));
+    const QString relativeName = m_workDir.relativeFilePath(fileName) + (trailingSlash ? QLatin1String("/") : QLatin1String(""));
 
     // #253059: Even if we use archive_read_disk_entry_from_file,
     //          libarchive may have been compiled without HAVE_LSTAT,
@@ -898,6 +914,45 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
     archive_entry_free(entry);
 
     return true;
+}
+
+QString LibArchiveInterface::suggestNewName(const QString &fileName) const
+{
+    QString dotSuffix, suggestedName;
+    QString basename = fileName;
+    const QLatin1Char spacer('_');
+
+    //ignore dots at the beginning, that way "..aFile.tar.gz" will become "..aFile_1.tar.gz" instead of " 1..aFile.tar.gz"
+    int index = basename.indexOf(QLatin1Char('.'));
+    int continuous = 0;
+    while (continuous == index) {
+        index = basename.indexOf(QLatin1Char('.'), index + 1);
+        ++continuous;
+    }
+
+    if (index != -1) {
+        dotSuffix = basename.mid(index);
+        basename.truncate(index);
+    }
+
+    int pos = basename.lastIndexOf(spacer);
+
+    if (pos != -1) {
+        QString tmp = basename.mid(pos + 1);
+        bool ok;
+        int number = tmp.toInt(&ok);
+
+        if (!ok) {  // ok there is no number
+            suggestedName = basename + spacer + QLatin1Char('1') + dotSuffix;
+        } else {
+            // yes there's already a number behind the spacer so increment it by one
+            basename.replace(pos + 1, tmp.length(), QString::number(number + 1));
+            suggestedName = basename + dotSuffix;
+        }
+    } else // no spacer yet
+        suggestedName = basename + spacer + QLatin1Char('1') + dotSuffix ;
+
+    return suggestedName;
 }
 
 KERFUFFLE_EXPORT_PLUGIN(LibArchiveInterface)

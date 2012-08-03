@@ -29,14 +29,26 @@
 #include <QString>
 
 LibGzipInterface::LibGzipInterface(QObject *parent, const QVariantList & args)
-        : LibSingleFileInterface(parent, args)
+    : LibSingleFileInterface(parent, args)
 {
-    m_mimeType = QLatin1String( "application/x-gzip" );
-    m_possibleExtensions.append(QLatin1String( ".gz" ));
+    m_mimeType = QLatin1String("application/x-gzip");
+    m_possibleExtensions.append(QLatin1String(".gz"));
 }
 
 LibGzipInterface::~LibGzipInterface()
 {
+}
+
+bool LibGzipInterface::supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType)
+{
+    // TODO: implement
+    switch (option) {
+    case Kerfuffle::Rename:
+        return true; // done by the interface itself
+    default:
+        return false;
+    }
+    return false;
 }
 
 KERFUFFLE_EXPORT_PLUGIN(LibGzipInterface)

@@ -48,6 +48,7 @@ protected:
 
     QString m_mimeType;
     QStringList m_possibleExtensions;
+    QHash<QString, QVariant> m_options;
 };
 
 #endif // SINGLEFILEPLUGIN_H

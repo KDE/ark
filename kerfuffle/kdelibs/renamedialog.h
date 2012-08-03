@@ -53,8 +53,10 @@ namespace Kerfuffle
  * M_NORENAME: Don't offer a "Rename" button
  * M_ISDIR: The dest is a directory, so label the "overwrite" button something like "merge" instead.
  * M_UPDATE_EXISTING: Offer a "Only overwrite existing files" button. Also sets M_MULTI
+ * M_AUTO_RENAME: Offer a "Rename" button but no new name entry, show a label with
+ * automagically created name instead. Mutually exclusive with by M_NORENAME
  */
-enum RenameDialog_Mode { M_OVERWRITE = 1, M_OVERWRITE_ITSELF = 2, M_SKIP = 4, M_SINGLE = 8, M_MULTI = 16, M_RESUME = 32, M_NORENAME = 64, M_ISDIR = 128, M_UPDATE_EXISTING= 256};
+enum RenameDialog_Mode { M_OVERWRITE = 1, M_OVERWRITE_ITSELF = 2, M_SKIP = 4, M_SINGLE = 8, M_MULTI = 16, M_RESUME = 32, M_NORENAME = 64, M_ISDIR = 128, M_UPDATE_EXISTING = 256, M_AUTO_RENAME = 512};
 
 /**
  * The result of open_RenameDialog().
@@ -117,7 +119,7 @@ public:
      * Given a directory path and a filename (which usually exists already),
      * this function returns a suggested name for a file that doesn't exist
      * in that directory. The existence is only checked for local urls though.
-     * The suggested file name is of the form "foo 1", "foo 2" etc.
+     * The suggested file name is of the form "foo_1", "foo_2" etc.
      */
     static QString suggestName(const KUrl& baseURL, const QString& oldName);
 

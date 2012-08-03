@@ -36,9 +36,10 @@
 #include <QFileInfo>
 
 #include <KDebug>
-#include <KPluginLoader>
+#include <KIO/NetAccess>
 #include <KMimeType>
 #include <KMimeTypeTrader>
+#include <KPluginLoader>
 #include <KServiceTypeTrader>
 #include <KTempDir>
 
@@ -384,7 +385,69 @@ QList<int> supportedOptions(const QString &mimeType)
     if (iface->supportsOption(MultiPart, mimeType))
         options.append(MultiPart);
 
+    if (iface->supportsOption(PreservePath, mimeType))
+        options.append(PreservePath);
+
+    if (iface->supportsOption(RootNode, mimeType))
+        options.append(RootNode);
+
+    if (iface->supportsOption(Rename, mimeType))
+        options.append(Rename);
+
     return options;
+}
+
+QString suggestNameForFile(const KUrl& baseUrl, const QString& fileName)
+{
+    QString dotSuffix, suggestedName;
+    QString basename = fileName;
+    const QLatin1Char spacer('_');
+
+    //ignore dots at the beginning, that way "..aFile.tar.gz" will become "..aFile_1.tar.gz" instead of " 1..aFile.tar.gz"
+    int index = basename.indexOf(QLatin1Char('.'));
+    int continuous = 0;
+    while (continuous == index) {
+        index = basename.indexOf(QLatin1Char('.'), index + 1);
+        ++continuous;
+    }
+
+    if (index != -1) {
+        dotSuffix = basename.mid(index);
+        basename.truncate(index);
+    }
+
+    int pos = basename.lastIndexOf(spacer);
+
+    if (pos != -1) {
+        QString tmp = basename.mid(pos + 1);
+        bool ok;
+        int number = tmp.toInt(&ok);
+
+        if (!ok) {  // ok there is no number
+            suggestedName = basename + spacer + QLatin1Char('1') + dotSuffix;
+        } else {
+            // yes there's already a number behind the spacer so increment it by one
+            basename.replace(pos + 1, tmp.length(), QString::number(number + 1));
+            suggestedName = basename + dotSuffix;
+        }
+    } else // no spacer yet
+        suggestedName = basename + spacer + QLatin1Char('1') + dotSuffix ;
+
+    // Check if suggested name already exists
+    bool exists = false;
+    if (baseUrl.isLocalFile()) {
+        exists = QFileInfo(baseUrl.toLocalFile(KUrl::AddTrailingSlash) + suggestedName).exists();
+    } else {
+        KUrl fileUrl(baseUrl);
+        fileUrl.addPath(suggestedName);
+        exists = KIO::NetAccess::exists(fileUrl, KIO::NetAccess::SourceSide, 0);
+    }
+
+    if (!exists) {
+        return suggestedName;
+    } else {// already exists -> recurse
+        return suggestNameForFile(KUrl(baseUrl), suggestedName);
+    }
 }
 
 } // namespace Kerfuffle

@@ -47,6 +47,9 @@ enum SupportedOptions {
     EncryptionMethod,
     EncryptHeader,
     Password,
+    PreservePath,
+    RootNode,
+    Rename
 };
 
 class Query;

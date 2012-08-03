@@ -39,7 +39,7 @@
 using namespace Kerfuffle;
 
 LibSingleFileInterface::LibSingleFileInterface(QObject *parent, const QVariantList & args)
-        : Kerfuffle::ReadOnlyArchiveInterface(parent, args)
+    : Kerfuffle::ReadOnlyArchiveInterface(parent, args)
 {
 }
 
@@ -78,13 +78,16 @@ bool LibSingleFileInterface::supportsOption(const Kerfuffle::SupportedOptions op
 bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, Kerfuffle::ExtractionOptions options)
 {
     Q_UNUSED(files)
-    Q_UNUSED(options)
+
+    m_options = options;
 
     QString outputFileName = destinationDirectory;
     if (!destinationDirectory.endsWith(QLatin1Char('/'))) {
         outputFileName += QLatin1Char('/');
     }
     outputFileName += uncompressedFileName();
+
+    kDebug(1601) << "Checking if " << outputFileName << " exists";
 
     outputFileName = overwriteFileName(outputFileName);
     if (outputFileName.isEmpty()) {
@@ -112,7 +115,7 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
     device->open(QIODevice::ReadOnly);
 
     qint64 bytesRead;
-    QByteArray dataChunk(1024*16, '\0');   // 16Kb
+    QByteArray dataChunk(1024 * 16, '\0'); // 16Kb
 
     while (true) {
         bytesRead = device->read(dataChunk.data(), dataChunk.size());
@@ -135,7 +138,8 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
 bool LibSingleFileInterface::testFiles(const QList<QVariant> & files, Kerfuffle::TestOptions options)
 {
     Q_UNUSED(files)
-    Q_UNUSED(options)
+
+    m_options = options;
 
     bool testResult = true;
 
@@ -150,7 +154,7 @@ bool LibSingleFileInterface::testFiles(const QList<QVariant> & files, Kerfuffle:
     device->open(QIODevice::ReadOnly);
 
     qint64 bytesRead;
-    QByteArray dataChunk(1024*16, '\0');   // 16Kb
+    QByteArray dataChunk(1024 * 16, '\0'); // 16Kb
 
     while (true) {
         bytesRead = device->read(dataChunk.data(), dataChunk.size());
@@ -189,20 +193,37 @@ QString LibSingleFileInterface::overwriteFileName(QString& filename)
 {
     QString newFileName(filename);
 
-    while (QFile::exists(newFileName)) {
-        Kerfuffle::OverwriteQuery query(newFileName);
+    kDebug(1605) << newFileName;
+    int conflictOption = m_options.value(QLatin1String("ConflictsHandling"), (int)Kerfuffle::AlwaysAsk).toInt();
 
-        query.setMultiMode(false);
-        emit userQuery(&query);
-        query.waitForResponse();
+    switch (conflictOption) {
+    case Kerfuffle::AlwaysAsk:
+        while (QFile::exists(newFileName)) {
+            Kerfuffle::OverwriteQuery query(newFileName);
 
-        if ((query.responseCancelled()) || (query.responseSkip())) {
-            return QString();
-        } else if (query.responseOverwrite()) {
-            break;
-        } else if (query.responseRename()) {
-            newFileName = query.newFilename();
+            query.setMultiMode(false);
+            userQuery(&query);
+            query.waitForResponse();
+
+            if ((query.responseCancelled()) || (query.responseSkip())) {
+                return QString();
+            } else if (query.responseOverwrite()) {
+                break;
+            } else if (query.responseRename()) {
+                newFileName = query.newFilename();
+            }
         }
+        break;
+    case Kerfuffle::OverwriteAll:
+        break;
+    case Kerfuffle::SkipAll:
+        newFileName = QString();
+        break;
+    case Kerfuffle::RenameAll:
+        QFileInfo file(newFileName);
+        KUrl baseUrl(file.absolutePath());
+        newFileName = baseUrl.pathOrUrl(KUrl::AddTrailingSlash) + Kerfuffle::suggestNameForFile(baseUrl, file.fileName());
+        break;
     }
 
     return newFileName;
@@ -221,7 +242,7 @@ const QString LibSingleFileInterface::uncompressedFileName() const
         }
     }
 
-    return uncompressedName + QLatin1String( ".uncompressed" );
+    return uncompressedName + QLatin1String(".uncompressed");
 }
 
 #include "singlefileplugin.moc"
