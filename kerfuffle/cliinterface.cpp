@@ -742,6 +742,8 @@ void CliInterface::killAllProcesses()
         m_process->deleteLater();
         m_process = 0;
     }
+
+    finished(true);
 }
 
 void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
