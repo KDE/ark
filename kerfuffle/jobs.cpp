@@ -26,6 +26,7 @@
  */
 
 #include "jobs.h"
+#include "kio/global.h"
 
 #include <QThread>
 
@@ -125,7 +126,10 @@ void Job::connectToArchiveInterfaceSignals()
 
 void Job::onError(const QString & message, const QString & details)
 {
-    Q_UNUSED(details)
+    if (details == QLatin1String("cancelled")) {
+        setError(KIO::ERR_USER_CANCELED);
+        return;
+    }
 
     setError(1);
     setErrorText(message);

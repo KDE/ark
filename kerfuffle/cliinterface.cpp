@@ -983,6 +983,7 @@ void CliInterface::handleLine(const QString& line)
             query.waitForResponse();
 
             if (query.responseCancelled()) {
+                error(QString(), QLatin1String("cancelled"));
                 failOperation();
                 return;
             }

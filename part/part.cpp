@@ -1520,7 +1520,9 @@ void Part::slotTestArchive()
 void Part::slotTestArchiveDone(KJob* job)
 {
     kDebug(1601);
-    if (!job->error()) {
+    if (job->error() == KIO::ERR_USER_CANCELED) {
+        return;
+    } else if (!job->error()) {
         KMessageBox::information(widget(), i18n("Testing complete: no issues found."));
     } else {
         KMessageBox::error(widget(), job->errorString());
