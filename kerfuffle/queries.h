@@ -119,6 +119,17 @@ public:
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(PasswordNeededQuery::PasswordFlags)
 
+class KERFUFFLE_EXPORT UseCurrentPasswordQuery : public Query
+{
+public:
+    explicit UseCurrentPasswordQuery(const QString& archiveFilename);
+    void execute();
+
+    bool responseYes();
+    bool responseNo();
+    bool responseYesAll();
+};
+
 }
 
 #endif /* ifndef QUERIES_H */

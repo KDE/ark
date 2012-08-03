@@ -58,6 +58,24 @@ enum CliInterfaceParameters {
      */
     PasswordPromptPattern,
 
+    /**
+     * QString
+     * Default: empty
+     * A regexp pattern that matches the program's question whether to resuse the passsword for
+     * the next file.
+     */
+    UseCurrentPasswordPattern,
+    /**
+     * QStringList
+     * The various responses that can be supplied as a response to the
+     * "Use current password" prompt. The various items are to be supplied in the
+     * following order:
+     * index 0 - Yes
+     * index 1 - No
+     * index 2 - All
+     */
+    UseCurrentPasswordInput,
+
     ///////////////[ LIST ]/////////////
 
     /**
@@ -412,6 +430,7 @@ private:
     void handleLine(const QString& line);
     bool checkForRenameFileMessage(const QString& line);
     bool handleRenameFileMessage(const QString& line);
+    bool checkForUseCurrentPasswordMessage(const QString &line);
 
     void failOperation();
 
@@ -449,6 +468,7 @@ private:
     QRegExp m_existsPattern;
     QRegExp m_passwordPromptPattern;
     QRegExp m_renameFilePattern;
+    QRegExp m_useCurrentPasswordPattern;
 
 #ifdef Q_OS_WIN
     KProcess *m_process;

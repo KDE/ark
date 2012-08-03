@@ -1539,6 +1539,7 @@ void Part::slotTestArchive()
             Archive *archive = Kerfuffle::Archive::create(item.url().path(), item.mimetype(), this);
             TestJob *job = archive->testFiles(QList<QVariant>());
             connect(job, SIGNAL(result(KJob*)), this, SLOT(slotTestArchiveDone(KJob*)));
+            connect(job, SIGNAL(userQuery(Kerfuffle::Query*)), this, SLOT(slotUserQuery(Kerfuffle::Query*)));
             registerJob(job);
             job->start();
         }

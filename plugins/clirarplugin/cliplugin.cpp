@@ -105,6 +105,11 @@ ParameterList CliPlugin::parameterList() const
         p[MultiPartSwitch] = QLatin1String("-v$MultiPartSizek");
 
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) for");
+        p[UseCurrentPasswordPattern] = QLatin1String("use current password");
+        p[UseCurrentPasswordInput] = QStringList()
+                                     << QLatin1String("Y")  // Yes
+                                     << QLatin1String("N")  // No
+                                     << QLatin1String("A"); // All
 
         p[EncryptHeaderSwitch] = QLatin1String("-hp$Password");
 

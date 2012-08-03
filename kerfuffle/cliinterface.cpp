@@ -881,7 +881,8 @@ void CliInterface::readStdout(bool handleAll)
          checkForErrorMessage(QLatin1String(lines.last()), ExtractionFailedPatterns) ||
          checkForPasswordPromptMessage(QLatin1String(lines.last())) ||
          checkForFileExistsMessage(QLatin1String(lines.last())) ||
-         checkForRenameFileMessage(QLatin1String(lines.last())));
+         checkForRenameFileMessage(QLatin1String(lines.last())) ||
+         checkForUseCurrentPasswordMessage(QLatin1String(lines.last())));
 
     if (foundErrorMessage) {
         handleAll = true;
@@ -905,7 +906,9 @@ void CliInterface::readStdout(bool handleAll)
         m_stdOutData = lines.takeLast();
     }
 
+    kDebug(1601) << lines;
     foreach(const QByteArray & line, lines) {
+        kDebug(1601) << "----" <<  QString::fromLocal8Bit(line) << "-----";
         // sometimes 7z does not list all file's metadata. We need to
         // pass the empty line to mark that the file's metadata has ended
         // and whatever we have got so far must be added to the archive
@@ -1043,6 +1046,33 @@ void CliInterface::handleLine(const QString& line)
             return;
         }
 
+        if (checkForUseCurrentPasswordMessage(line)) {
+            if ( !m_param.contains(UseCurrentPasswordInput)) {
+                error(i18n("Unexpected error: couldn't find input strings."));
+                failOperation();
+                return;
+            }
+
+            Kerfuffle::UseCurrentPasswordQuery query(filename());
+            userQuery(&query);
+            query.waitForResponse();
+
+            QString response;
+            const QStringList choices = m_param.value(UseCurrentPasswordInput).toStringList();
+
+            if (query.responseYes()) {
+                response = choices.at(0); // Yes
+            } else if(query.responseYesAll()) {
+                response = choices.at(2); // Yes, all
+            } else {
+                response = choices.at(1); // No
+            }
+
+            response += QLatin1Char('\n');
+            writeToProcess(response.toLocal8Bit());
+            return;
+        }
+
         if (checkForErrorMessage(line, TestFailedPatterns) && checkForErrorMessage(line, WrongPasswordPatterns)) {
             m_testResult = false;
             error(i18n("Integrity check failed: Either the archive is broken or the password is incorrect."));
@@ -1064,6 +1094,24 @@ void CliInterface::handleLine(const QString& line)
             return;
         }
     }
+}
+
+bool CliInterface::checkForUseCurrentPasswordMessage(const QString &line)
+{
+    if (!m_param.contains(UseCurrentPasswordPattern)) {
+        return false;
+    }
+
+    if (m_useCurrentPasswordPattern.isEmpty()) {
+        m_useCurrentPasswordPattern.setPattern(m_param.value(UseCurrentPasswordPattern).toString());
+    }
+
+    if (m_useCurrentPasswordPattern.indexIn(line) != -1) {
+        kDebug(1601) << "Detected message whether to use current password again " << m_useCurrentPasswordPattern.cap(0);
+        return true;
+    }
+
+    return false;
 }
 
 bool CliInterface::checkForRenameFileMessage(const QString &line)

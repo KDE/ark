@@ -30,6 +30,7 @@
 #include "kdelibs/renamedialog.h"
 
 #include <KLocale>
+#include <KMessageBox>
 #include <KPasswordDialog>
 #include <kdebug.h>
 
@@ -266,4 +267,43 @@ bool PasswordNeededQuery::responseCancelled()
 {
     return !m_data.value(QLatin1String("response")).toBool();
 }
+
+UseCurrentPasswordQuery::UseCurrentPasswordQuery(const QString& archiveFilename)
+{
+    m_data[QLatin1String("archiveFilename")] = archiveFilename;
+}
+
+void UseCurrentPasswordQuery::execute()
+{
+    // If we are being called from the KPart, the cursor is probably Qt::WaitCursor
+    // at the moment (#231974)
+    QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
+
+    KGuiItem yesAllButton(i18nc("@action:button", "Yes, for all files"));
+    int ret = KMessageBox::questionYesNoCancel(NULL,
+                                               i18nc("@info", "The archive <filename>%1</filename> needs a password to extract the next file.\n\nUse the same password again?", m_data.value(QLatin1String("archiveFilename")).toString()),
+                                               i18nc("@info", "Password needed"),
+                                               KStandardGuiItem::yes(),
+                                               KStandardGuiItem::no(),
+                                               yesAllButton);
+    setResponse(ret);
+    QApplication::restoreOverrideCursor();
+}
+
+bool UseCurrentPasswordQuery::responseYes()
+{
+    return (m_data.value(QLatin1String("response")).toInt() == KMessageBox::Yes);
+}
+
+bool UseCurrentPasswordQuery::responseYesAll()
+{
+    // we use thre Cancel button as "Yes, All" option
+    return (m_data.value(QLatin1String("response")).toInt() == KMessageBox::Cancel);
+}
+
+bool UseCurrentPasswordQuery::responseNo()
+{
+    return (m_data.value(QLatin1String("response")).toInt() == KMessageBox::No);
+}
+
 }
