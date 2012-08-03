@@ -335,12 +335,10 @@ public:
      */
     void setEscapedCharacters(const QString& characters);
 
-    virtual bool supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType = QString());
-
     /**
      * Checks whether the implementing plugin supports the provided option
      */
-    bool supportsParameter( CliInterfaceParameters param );
+    virtual bool supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType = QString());
 
     /**
      * Does encoding detection for a filename using
@@ -351,6 +349,11 @@ public:
 
 protected:
     static void fixFileNameEncoding(const QString & destinationDirectory);
+
+    /**
+     * Checks whether the implementing plugin supports the provided parameter
+     */
+    bool supportsParameter( CliInterfaceParameters param );
 
 private Q_SLOTS:
     void killAllProcesses();
