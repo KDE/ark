@@ -131,7 +131,7 @@ void Job::onError(const QString & message, const QString & details)
         return;
     }
 
-    setError(1);
+    setError(KIO::ERR_INTERNAL);
     setErrorText(message);
 }
 
