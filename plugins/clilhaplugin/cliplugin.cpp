@@ -64,6 +64,10 @@ ParameterList CliPlugin::parameterList() const
 
         p[ExtractionFailedPatterns] = QStringList() << QLatin1String("Error");
         p[PreservePathSwitch] = QStringList() << QLatin1String( "" ) << QLatin1String( "-i" );
+
+        p[TestProgram] = QLatin1String("lha");
+        p[TestArgs] = QStringList() << QLatin1String("t") << QLatin1String("$PasswordSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");
+        p[TestFailedPatterns] = QStringList() << "Error: Bad table" << "Fatal error";
     }
     return p;
 }
