@@ -737,6 +737,11 @@ void Part::slotLoadingFinished(KJob *job)
     // After loading all files, resize the columns to fit all fields
     m_archiveView->header()->resizeSections(QHeaderView::ResizeToContents);
     updateView();
+
+    if (property("TestArchive").isValid() && property("TestArchive").toBool()) {
+        setProperty("TestArchive", QVariant()); // remove property by setting invalid QVariant
+        slotTestArchive();
+    }
 }
 
 void Part::setReadyGui()
@@ -1404,14 +1409,21 @@ void Part::slotAddFilesDone(KJob* job)
         return;
     }
 
-    // the following is needed for cut/paste operations
+    bool testAfterCompression = false;
+    bool deleteFiles = false;
+    QStringList files;
+
     AddJob* addJob = static_cast<AddJob*>(job);
+
     if (addJob) {
-        QVariant var = this->property("DeleteSourceFiles");
-        if (var.isValid() && var.toBool()) {
-            KonqOperations::del(widget(), KonqOperations::TRASH, KUrl::List(addJob->files()));
+        CompressionOptions options = addJob->compressionOptions();
+        testAfterCompression = options.value(QLatin1String("TestArchive"), false).toBool();
+        deleteFiles = options.value(QLatin1String("DeleteFilesAfterTest"), false).toBool();
+        files = addJob->files();
+        // the following is needed for cut/paste operations
+        if (!testAfterCompression && deleteFiles) {
+            KonqOperations::del(widget(), KonqOperations::TRASH, KUrl::List(files));
         }
-        setProperty("DeleteSourceFiles", QVariant());
     }
 
     // needed after overwiting an archive
@@ -1422,6 +1434,14 @@ void Part::slotAddFilesDone(KJob* job)
     }
 
     clearOpenArguments();
+
+    if (testAfterCompression) {
+        setProperty("TestArchive", QVariant(true));
+        if (deleteFiles) {
+            setProperty("FilesToDeleteAfterTest", QVariant(files));
+        }
+    }
+
     openUrl(url());
 }
 
@@ -1559,9 +1579,16 @@ void Part::slotTestArchiveDone(KJob* job)
         return;
     } else if (!job->error()) {
         KMessageBox::information(widget(), i18n("Testing complete: no issues found."));
+        if (property("FilesToDeleteAfterTest").isValid()) {
+            KonqOperations::del(widget(),
+                                KonqOperations::TRASH,
+                                KUrl::List(property("FilesToDeleteAfterTest").toStringList()));
+        }
     } else {
         KMessageBox::error(widget(), job->errorString());
     }
+
+    setProperty("FilesToDeleteAfterTest", QVariant()); // remove property by setting invalid QVariant
 }
 
 void Part::slotFileSelectedInOperator(const KFileItem &file)
@@ -1684,13 +1711,13 @@ void Part::paste()
             files.append(url.path());
         }
 
+        CompressionOptions options;
         if (KonqMimeData::decodeIsCutSelection(mimeData)) {
-            slotAddFiles(files);
-            setProperty("DeleteSourceFiles", QVariant(true));
+            options[QLatin1String("DeleteFilesAfterTest")] = true;
+            slotAddFiles(files, QString(), options);
             clipboard->clear();
         } else {
-            slotAddFiles(files);
-            setProperty("DeleteSourceFiles", QVariant());
+            slotAddFiles(files, QString(), options);
         }
     }
 }

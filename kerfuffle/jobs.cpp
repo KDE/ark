@@ -43,8 +43,7 @@ class Job::Private : public QThread
 public:
     Private(Job *job, QObject *parent = 0)
         : QThread(parent)
-        , q(job)
-    {
+        , q(job) {
         connect(q, SIGNAL(result(KJob*)), SLOT(quit()));
     }
 
@@ -142,7 +141,7 @@ void Job::onEntry(const ArchiveEntry & archiveEntry)
 
 void Job::onProgress(double value)
 {
-    setPercent(static_cast<unsigned long>(100.0*value));
+    setPercent(static_cast<unsigned long>(100.0 * value));
 }
 
 void Job::onInfo(const QString& info)
@@ -222,7 +221,7 @@ void ListJob::onNewEntry(const ArchiveEntry& entry)
 
     if (m_isSingleFolderArchive) {
         const QString fileName(entry[FileName].toString());
-        const QString basePath(fileName.split(QLatin1Char( '/' )).at(0));
+        const QString basePath(fileName.split(QLatin1Char('/')).at(0));
 
         if (m_basePath.isEmpty()) {
             m_basePath = basePath;
@@ -263,9 +262,9 @@ void ExtractJob::doWork()
     connectToArchiveInterfaceSignals();
 
     kDebug(1601) << "Starting extraction with selected files:"
-             << m_files
-             << "Destination dir:" << m_destinationDir
-             << "Options:" << m_options;
+                 << m_files
+                 << "Destination dir:" << m_destinationDir
+                 << "Options:" << m_options;
 
     bool ret = archiveInterface()->copyFiles(m_files, m_destinationDir, m_options);
 
@@ -279,8 +278,8 @@ void ExtractJob::setDefaultOptions()
     ExtractionOptions defaultOptions;
 
     defaultOptions[QLatin1String("PreservePaths")] = false;
-    defaultOptions[QLatin1String( "MultiThreadingEnabled") ] = false;
-    defaultOptions[QLatin1String( "FixFileNameEncoding") ] = true;
+    defaultOptions[QLatin1String("MultiThreadingEnabled") ] = false;
+    defaultOptions[QLatin1String("FixFileNameEncoding") ] = true;
 
     ExtractionOptions::const_iterator it = defaultOptions.constBegin();
     for (; it != defaultOptions.constEnd(); ++it) {
@@ -358,7 +357,7 @@ void DeleteJob::doWork()
     }
 }
 
-TestJob::TestJob(const QVariantList& files, const CompressionOptions& options, ReadOnlyArchiveInterface *interface, QObject *parent)
+TestJob::TestJob(const QVariantList& files, const TestOptions& options, ReadOnlyArchiveInterface *interface, QObject *parent)
     : Job(interface, parent)
     , m_files(files)
 {
@@ -376,8 +375,8 @@ void TestJob::doWork()
     emit description(this, desc);
 
     kDebug(1601) << "Starting testing with selected files:"
-             << m_files
-             << "Options:" << m_options;
+                 << m_files
+                 << "Options:" << m_options;
 
     bool ret = archiveInterface()->testFiles(m_files, m_options);
 
