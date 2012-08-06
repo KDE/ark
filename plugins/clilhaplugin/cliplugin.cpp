@@ -67,7 +67,7 @@ ParameterList CliPlugin::parameterList() const
 
         p[TestProgram] = QLatin1String("lha");
         p[TestArgs] = QStringList() << QLatin1String("t") << QLatin1String("$PasswordSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");
-        p[TestFailedPatterns] = QStringList() << QLatin1String("Error: Bad table") << QLatin1String("Fatal error");
+        p[TestFailedPatterns] = QStringList() << QLatin1String("CRC error") << QLatin1String("Error: Bad table") << QLatin1String("Fatal error");
     }
     return p;
 }
