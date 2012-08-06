@@ -242,7 +242,12 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
         }
 
         //entryName is the name inside the archive, full path
-        QString entryName = getInternalId(entry);
+        QString entryName;
+        if (fileBeingRenamed.isEmpty() || !options.value(QLatin1String("FixFileNameEncoding")).toBool()) {
+            entryName = getInternalId(entry);
+        } else {
+            entryName = getFileName(entry);
+        }
 
         if (entryName.startsWith(QLatin1Char('/'))) {
             //for now we just can't handle absolute filenames in a tar archive.
