@@ -95,6 +95,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
           m_splitter(0),
           m_tempDir(0),
           m_busy(false),
+          m_closeAfterExtraction(false),
           m_jobTracker(0)
 {
     Q_UNUSED(args)
@@ -764,7 +765,11 @@ void Part::setReadyGui()
 
     m_busy = false;
     QApplication::restoreOverrideCursor();
-    updateView();
+
+    // calling updateView() when exiting causes crash.
+    if (!m_closeAfterExtraction) {
+        updateView();
+    }
 }
 
 void Part::setBusyGui()
@@ -922,6 +927,7 @@ void Part::slotExtractFiles()
 {
     kDebug(1601);
     QVariantList files;
+    m_closeAfterExtraction = false;
 
     if (m_stack->currentWidget() == m_dirOperator)  {
         if (m_dirOperator->selectedItems().count() > 1) {
@@ -955,6 +961,7 @@ void Part::slotExtractFiles()
             }
 
             options = dialog->options();
+            m_closeAfterExtraction = options[QLatin1String("CloseArkAfterExtraction")].toBool();
             const QString destinationDirectory = dialog->destination().pathOrUrl();
             options[QLatin1String("FollowExtractionDialogSettings")] = true;
             dialog->deleteLater();
@@ -997,6 +1004,7 @@ void Part::slotExtractFiles()
         }
 
         options = dialog->options();
+        m_closeAfterExtraction = options[QLatin1String("CloseArkAfterExtraction")].toBool();
         const QString destinationDirectory = dialog->destination().pathOrUrl();
         options[QLatin1String("FollowExtractionDialogSettings")] = true;
         dialog->deleteLater();

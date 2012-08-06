@@ -151,6 +151,7 @@ private:
     QSplitter            *m_splitter;
     KTempDir             *m_tempDir;
     bool                  m_busy;
+    bool                  m_closeAfterExtraction;
     KUrl                  m_lastDir;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
