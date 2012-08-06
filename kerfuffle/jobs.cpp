@@ -299,6 +299,11 @@ ExtractionOptions ExtractJob::extractionOptions() const
     return m_options;
 }
 
+QVariantList ExtractJob::files() const
+{
+    return m_files;
+}
+
 AddJob::AddJob(const QStringList& files, const CompressionOptions& options , ReadWriteArchiveInterface *interface, QObject *parent)
     : Job(interface, parent)
     , m_files(files)

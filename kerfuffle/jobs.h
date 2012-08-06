@@ -124,6 +124,7 @@ public:
 
     QString destinationDirectory() const;
     ExtractionOptions extractionOptions() const;
+    QVariantList files() const;
 
 public slots:
     virtual void doWork();

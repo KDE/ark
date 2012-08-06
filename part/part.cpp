@@ -297,7 +297,7 @@ void Part::setupArchiveView()
     disconnect(m_archiveView, SIGNAL(itemTriggered(QModelIndex)), this, 0);
     //TODO: fix an actual eventhandler
     connect(m_archiveView, SIGNAL(itemTriggered(QModelIndex)),
-            this, SLOT(slotView(QModelIndex)));
+            this, SLOT(slotView()));
 
     setFileNameFromArchive();
 }
@@ -398,19 +398,21 @@ void Part::updateActions()
 
         m_saveAsAction->setEnabled(!isBusy()
                                    && m_model->archive());
+
         m_extractAction->setEnabled(!isBusy()
-                                    && m_model->archive() && (m_model->rowCount() > 0));
+                                    && m_model->archive()
+                                    && (m_model->rowCount() > 0));
+
         m_testAction->setEnabled(!isBusy() && m_model->archive());
-        m_viewAction->setEnabled(!isBusy()
-                                 && m_model->archive()
-                                 && (m_archiveView->selectionModel()->selectedRows().count() == 1)
-                                 && isPreviewable(m_archiveView->selectionModel()->currentIndex()));
+
         m_deleteAction->setEnabled(!isBusy()
                                    && isWritable
                                    && (m_archiveView->selectionModel()->selectedRows().count() > 0));
+
         m_copyAction->setEnabled(!isBusy()
                                  && m_model->archive()
                                  && (m_archiveView->selectionModel()->selectedRows().count() > 0));
+
         m_cutAction->setEnabled(!isBusy()
                                 && isWritable
                                 && (m_archiveView->selectionModel()->selectedRows().count() > 0));
@@ -418,6 +420,15 @@ void Part::updateActions()
         m_pasteAction->setEnabled(!isBusy()
                                   && isWritable
                                   /*&& !KUrl::List::fromMimeData(QApplication::clipboard()->mimeData()).isEmpty()*/);
+
+        // there must be at least one previewable item selected
+        bool previewable = false;
+        foreach(const QModelIndex & index, m_archiveView->selectionModel()->selectedRows()) {
+            if (isPreviewable(index)) {
+                previewable = true;
+            }
+        }
+        m_viewAction->setEnabled(!isBusy() && m_model->archive() && previewable);
     } else {
         m_saveAsAction->setEnabled(false);
 
@@ -430,7 +441,7 @@ void Part::updateActions()
         }
         m_extractAction->setEnabled(!isBusy() && hasArchive);
         m_testAction->setEnabled(!isBusy() && hasArchive);
-        m_viewAction->setEnabled(!isBusy() && (m_dirOperator->selectedItems().count() == 1));
+        m_viewAction->setEnabled(!isBusy() && (m_dirOperator->selectedItems().count() > 0));
         m_deleteAction->setEnabled(!isBusy() && (m_dirOperator->selectedItems().count() > 0));
         m_copyAction->setEnabled(!isBusy() && (m_dirOperator->selectedItems().count() > 0));
         m_cutAction->setEnabled(!isBusy() && (m_dirOperator->selectedItems().count() > 0));
@@ -789,40 +800,34 @@ void Part::slotView()
     }
 
     if (m_stack->currentWidget() == m_dirOperator) {
-        if (m_dirOperator->selectedItems().count() > 0) {
+        if (m_dirOperator->selectedItems().count() == 1) {
             openUrl(m_dirOperator->selectedItems().at(0).url());
+        } else {
+            foreach(const KFileItem & item, m_dirOperator->selectedItems()) {
+                if (!item.isDir()) {
+                    openInExternalApplication(item.url().path());
+                }
+            }
         }
         return;
-    }
+    } else if (m_model->archive()) {
+        QVariantList files;
 
-    slotView(m_archiveView->selectionModel()->currentIndex());
-}
-
-void Part::slotView(const QModelIndex & index)
-{
-    if (isBusy()) {
-        return;
-    }
-
-    if (!isPreviewable(index)) {
-        return;
-    }
-
-    const ArchiveEntry& entry = m_model->entryForIndex(index);
-
-    if (!entry.isEmpty()) {
-        QString filePath = previewPathForEntry(entry);
-        // avoid asking the user whether to overwrite a preview file that has been extracted before
-        if (QFile::exists(filePath)) {
-            QFile file(filePath);
-            file.remove();
+        foreach(const QModelIndex & index, m_archiveView->selectionModel()->selectedRows()) {
+            if (isPreviewable(index)) {
+                files.append(m_model->entryForIndex(index)[InternalID]);
+            }
         }
 
-        Kerfuffle::ExtractionOptions options;
-        options[QLatin1String("PreservePaths")] = true;
+        if (files.isEmpty()) {
+            return;
+        }
+
+        ExtractionOptions options;
         options[QLatin1String("FixFileNameEncoding")] = true;
+        options[QLatin1String("ConflictsHandling")] = Kerfuffle::OverwriteAll;
 
-        ExtractJob *job = m_model->extractFile(entry[ InternalID ], m_tempDir->name(), options);
+        ExtractJob *job = m_model->extractFiles(files, m_tempDir->name(), options);
         registerJob(job);
         connect(job, SIGNAL(result(KJob*)),
                 this, SLOT(slotPreviewExtracted(KJob*)));
@@ -836,11 +841,17 @@ void Part::slotPreviewExtracted(KJob *job)
     //        if there's an error or an overwrite dialog,
     //        the preview dialog will be launched anyway
     if (!job->error()) {
-        const ArchiveEntry& entry = m_model->entryForIndex(m_archiveView->selectionModel()->currentIndex());
-
-        QString file = previewPathForEntry(entry);
-        if (QFile::exists(file)) {
-            openInExternalApplication(file);
+        ExtractJob* extractJob = static_cast<ExtractJob*>(job);
+        if (extractJob) {
+            foreach(const QVariant & var, extractJob->files()) {
+                if (var.isValid() && !var.toString().isEmpty()) {
+                    QString file = extractJob->destinationDirectory() + QDir::separator() + var.toString();
+                    kDebug(1601) << file;
+                    if (QFile::exists(file)) {
+                        openInExternalApplication(file);
+                    }
+                }
+            }
         }
     } else {
         KMessageBox::error(widget(), job->errorString());
