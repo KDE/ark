@@ -903,9 +903,7 @@ void CliInterface::readStdout(bool handleAll)
         m_stdOutData = lines.takeLast();
     }
 
-    kDebug(1601) << lines;
     foreach(const QByteArray & line, lines) {
-        kDebug(1601) << "----" <<  QString::fromLocal8Bit(line) << "-----";
         // sometimes 7z does not list all file's metadata. We need to
         // pass the empty line to mark that the file's metadata has ended
         // and whatever we have got so far must be added to the archive
@@ -918,8 +916,6 @@ void CliInterface::readStdout(bool handleAll)
 
 void CliInterface::handleLine(const QString& line)
 {
-    kDebug(1601)  << "line: " << line;
-
     // TODO: This should be implemented by each plugin; the way progress is
     //       shown by each CLI application is subject to a lot of variation.
     if ((m_operationMode == Copy || m_operationMode == Add || m_operationMode == Test) && m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool()) {
@@ -1321,8 +1317,6 @@ void CliInterface::writeToProcess(const QByteArray& data)
 {
     Q_ASSERT(m_process);
     Q_ASSERT(!data.isNull());
-
-    kDebug(1601) << "Writing" << data << "to the process";
 
 #ifdef Q_OS_WIN
     m_process->write(data);
