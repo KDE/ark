@@ -213,7 +213,7 @@ QString LibSingleFileInterface::overwriteFileName(QString& filename)
     case Kerfuffle::OverwriteAll:
         break;
     case Kerfuffle::SkipAll:
-        newFileName = QString();
+        newFileName.clear();
         break;
     case Kerfuffle::RenameAll:
         QFileInfo file(newFileName);

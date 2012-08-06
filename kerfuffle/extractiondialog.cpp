@@ -200,7 +200,7 @@ void ExtractionDialog::setOptions(const ExtractionOptions &options)
     if (!options.value(QLatin1String("RenameSupported"), false).toBool()) {
         m_ui->conflictsComboBox->removeItem(RenameAll);
     } else if (m_ui->conflictsComboBox->count() <= ((int)RenameAll)) {
-        m_ui->conflictsComboBox->addItem(i18n("Rename extracted files"));
+        m_ui->conflictsComboBox->addItem(i18nc("@item:inlistbox extraction option", "Rename extracted files"));
     }
 
     int index = options.value(QLatin1String("ConflictsHandling"),

@@ -84,7 +84,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="conflictsComboBox">
+             <widget class="KComboBox" name="conflictsComboBox">
               <item>
                <property name="text">
                 <string>Ask before overwrite</string>
@@ -216,6 +216,11 @@
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
