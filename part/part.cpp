@@ -1597,7 +1597,7 @@ void Part::slotTestArchiveDone(KJob* job)
     if (job->error() == KIO::ERR_USER_CANCELED) {
         return;
     } else if (!job->error()) {
-        KMessageBox::information(widget(), i18n("Testing complete: no issues found."));
+        KMessageBox::information(widget(), i18nc("@info:progress", "Testing complete: no issues found."));
         if (property("FilesToDeleteAfterTest").isValid()) {
             KonqOperations::del(widget(),
                                 KonqOperations::TRASH,

@@ -106,7 +106,7 @@ void OverwriteQuery::execute()
 
     QWeakPointer<RenameDialog> dialog = new RenameDialog(
         NULL,
-        i18n("File already exists"),
+        i18nc("@title:window", "File already exists"),
         sourceUrl,
         destUrl,
         mode);
@@ -282,7 +282,7 @@ void UseCurrentPasswordQuery::execute()
     KGuiItem yesAllButton(i18nc("@action:button", "Yes, for all files"));
     int ret = KMessageBox::questionYesNoCancel(NULL,
                                                i18nc("@info", "The archive <filename>%1</filename> needs a password to extract the next file.\n\nUse the same password again?", m_data.value(QLatin1String("archiveFilename")).toString()),
-                                               i18n("Password needed"),
+                                               i18nc("@title:window", "Password needed"),
                                                KStandardGuiItem::yes(),
                                                KStandardGuiItem::no(),
                                                yesAllButton);
