@@ -227,7 +227,7 @@ ExtractionOptions ExtractionDialog::options() const
     options[QLatin1String("MultiThreadingEnabled")] = m_ui->multithreadingCheckBox->isChecked();
     options[QLatin1String("PreservePaths")] = m_ui->preservePathsCheckBox->isChecked();
     options[QLatin1String("ConflictsHandling")] = m_ui->conflictsComboBox->currentIndex();
-    options[QLatin1String("DestinationDirectory")] = destination();
+    options[QLatin1String("DestinationDirectory")] = QVariant(destination());
 
     return options;
 }
