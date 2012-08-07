@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2012-08-07 16:27+0200\n"
-"PO-Revision-Date: 2012-08-07 17:03+0200\n"
+"POT-Creation-Date: 2012-08-07 17:24+0200\n"
+"PO-Revision-Date: 2012-08-07 17:30+0200\n"
 "Last-Translator: Yves Maurischat <yves.maurischat@basyskom.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -632,12 +632,12 @@ msgstr "Ein aktuelleres Element mit dem Namen '%1' existiert bereits."
 
 #: kerfuffle/kdelibs/renamedialog.cpp:300
 #, kde-format
-msgid "Rename to %1?"
-msgstr "Umbenennen nach %1?"
+msgid "<b>Rename to</b> %1?"
+msgstr "<b>Umbenennen nach</b> %1?"
 
 #: kerfuffle/kdelibs/renamedialog.cpp:303
-msgid "Rename to: "
-msgstr "Umbenennen nach: "
+msgid "</b>Rename to:</b> "
+msgstr "<b>Umbenennen nach:</b> "
 
 #: kerfuffle/kdelibs/renamedialog.cpp:439
 #, kde-format
