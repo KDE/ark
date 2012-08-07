@@ -297,10 +297,10 @@ RenameDialog::RenameDialog(QWidget *parent, const QString & _caption,
 
         if (d->bRename && (_mode & M_AUTO_RENAME)) {
             d->bRename->setEnabled(true);
-            QLabel *lb2 = new QLabel(i18n("Rename to %1?", autoDestUrl().fileName()), this);
+            QLabel *lb2 = new QLabel(i18n("<b>Rename to</b> %1?", autoDestUrl().fileName()), this);
             pLayout->addWidget(lb2);
         } else {
-            QLabel *lb2 = new QLabel(i18n("Rename to: "), this);
+            QLabel *lb2 = new QLabel(i18n("</b>Rename to:</b> "), this);
             pLayout->addWidget(lb2);
         }
     }
