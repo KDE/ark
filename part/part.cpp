@@ -1683,7 +1683,7 @@ void Part::populateMimeData(QMimeData* mimeData, bool cut)
 
         foreach(const QModelIndex & index, m_archiveView->selectionModel()->selectedRows()) {
             const ArchiveEntry& entry = m_model->entryForIndex(index);
-            QUrl u(protocol + QLatin1String("://") + fileName + QLatin1Char('/') + entry[InternalID].toString());
+            QUrl u(protocol + QLatin1String("://") + fileName + QLatin1Char('/') + entry[FileName].toString());
             kDebug(1601) << "going to add entry" << u;
             kdeUrls.append(u);
         }
