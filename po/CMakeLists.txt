@@ -11,8 +11,8 @@ endif (NOT GETTEXT_MSGMERGE_EXECUTABLE AND NOT GETTEXT_MSGFMT_EXECUTABLE)
 
 foreach(lang ${po_FILES})
   set(pot  "${CMAKE_CURRENT_SOURCE_DIR}/${lang}/ark.pot")
-  set(po  "${CMAKE_CURRENT_BINARY_DIR}/ark-${lang}.po")
-  set(po_inst  "ark.po")
+  set(po  "${CMAKE_CURRENT_BINARY_DIR}/ark-${lang}.mo")
+  set(po_inst  "ark.mo")
 
 
   # Create po files
