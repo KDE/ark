@@ -1,0 +1,1415 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Yves Maurischat <yves.maurischat@basyskom.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2012-08-07 13:56+0200\n"
+"PO-Revision-Date: 2012-08-07 14:38+0200\n"
+"Last-Translator: Yves Maurischat <yves.maurischat@basyskom.com>\n"
+"Language-Team: German <kde-i18n-de@kde.org>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.4\n"
+
+#: app/batchextract.cpp:136 app/batchextract.cpp:192
+msgid "Extracting file..."
+msgstr "Entpackvorgang ..."
+
+#: app/batchextract.cpp:137 app/batchextract.cpp:193
+msgid "Source archive"
+msgstr "Quell-Archiv"
+
+#: app/batchextract.cpp:138 app/batchextract.cpp:194
+msgid "Destination"
+msgstr "Ziel"
+
+#: app/batchextract.cpp:151
+msgid "The following files could not be extracted:"
+msgstr "Die folgenden Dateien können nicht entpackt werden:"
+
+#: app/batchextract.cpp:170
+msgid "There was an error during extraction."
+msgstr "Beim Entpacken ist ein Fehler aufgetreten."
+
+#: app/extractHereDndPlugin.cpp:64
+msgctxt ""
+"@action:inmenu Context menu shown when an archive is being drag'n'dropped"
+msgid "Extract here"
+msgstr "Hierher entpacken"
+
+#: app/main.cpp:40
+msgid "Ark"
+msgstr "Ark"
+
+#: app/main.cpp:41
+msgid "KDE Archiving tool"
+msgstr "KDE-Archivprogramm"
+
+#: app/main.cpp:43
+msgid "(c) 1997-2011, The Various Ark Developers"
+msgstr "© 1997–2011, Die verschiedenen Ark-Entwickler"
+
+#: app/main.cpp:48
+msgid "Raphael Kubo da Costa"
+msgstr "Raphael Kubo da Costa"
+
+#: app/main.cpp:49
+msgid "Maintainer"
+msgstr "Betreuer"
+
+#: app/main.cpp:51
+msgid "Harald Hvaal"
+msgstr "Harald Hvaal"
+
+#: app/main.cpp:52 app/main.cpp:55
+msgid "Former Maintainer"
+msgstr "Ehemaliger Betreuer"
+
+#: app/main.cpp:54
+msgid "Henrique Pinto"
+msgstr "Henrique Pinto"
+
+#: app/main.cpp:57
+msgid "Helio Chissini de Castro"
+msgstr "Helio Chissini de Castro"
+
+#: app/main.cpp:58
+msgid "Former maintainer"
+msgstr "Ehemaliger Betreuer"
+
+#: app/main.cpp:60
+msgid "Georg Robbers"
+msgstr "Georg Robbers"
+
+#: app/main.cpp:63
+msgid "Roberto Selbach Teixeira"
+msgstr "Roberto Selbach Teixeira"
+
+#: app/main.cpp:66
+msgid "Francois-Xavier Duranceau"
+msgstr "Francois-Xavier Duranceau"
+
+#: app/main.cpp:69
+msgid "Emily Ezust (Corel Corporation)"
+msgstr "Emily Ezust (Corel Corporation)"
+
+#: app/main.cpp:72
+msgid "Michael Jarrett (Corel Corporation)"
+msgstr "Michael Jarrett (Corel Corporation)"
+
+#: app/main.cpp:75
+msgid "Robert Palmbos"
+msgstr "Robert Palmbos"
+
+#: app/main.cpp:79
+msgid "Bryce Corkins"
+msgstr "Bryce Corkins"
+
+#: app/main.cpp:80
+msgid "Icons"
+msgstr "Symbole"
+
+#: app/main.cpp:82
+msgid "Liam Smit"
+msgstr "Liam Smit"
+
+#: app/main.cpp:83
+msgid "Ideas, help with the icons"
+msgstr "Ideen und Hilfe mit den Symbolen"
+
+#: app/main.cpp:85
+msgid "Andrew Smith"
+msgstr "Andrew Smith"
+
+#: app/main.cpp:86
+msgid "bkisofs code"
+msgstr "bkisofs-Code"
+
+#: app/main.cpp:93
+msgid "URL of an archive to be opened"
+msgstr "URL eines zu öffnenden Archivs "
+
+#: app/main.cpp:94
+msgid ""
+"Show a dialog for specifying the options for the operation (extract/add)"
+msgstr ""
+"Dialog für die Angabe von Einstellungen für die Aktion (Extrahieren/"
+"Hinzufügen) anzeigen."
+
+#: app/main.cpp:95
+msgid ""
+"Destination folder to extract to. Defaults to current path if not specified."
+msgstr ""
+"Zielordner für das Entpacken. Standardmäßig wird der aktuelle Ordner "
+"verwendet."
+
+#: app/main.cpp:96
+msgid "Options for adding files"
+msgstr "Einstellungen für das Hinzufügen von Dateien"
+
+#: app/main.cpp:97
+msgid ""
+"Query the user for an archive filename and add specified files to it. Quit "
+"when finished."
+msgstr ""
+"Fragt den Benutzer nach einem Archivnamen und fügt die angegebenen Dateien "
+"hinzu. Beenden, wenn die Aktion abgeschlossen ist."
+
+#: app/main.cpp:98
+msgid ""
+"Add the specified files to 'filename'. Create archive if it does not exist. "
+"Quit when finished."
+msgstr ""
+"Die angegebenen Dateien zu „Dateiname“ hinzufügen. Erzeugt ein neues Archiv, "
+"falls noch keines mit diesem Namen existiert. Beenden, wenn die Aktion "
+"abgeschlossen ist."
+
+#: app/main.cpp:99
+msgid ""
+"Change the current dir to the first entry and add all other entries relative "
+"to this one."
+msgstr ""
+"Aktuellen Ordner gemäß erstem Eintrag ändern; alle anderen Einträge relativ "
+"dazu hinzufügen."
+
+#: app/main.cpp:100
+msgid ""
+"Automatically choose a filename, with the selected suffix (for example rar, "
+"tar.gz, zip or any other supported types)"
+msgstr ""
+"Automatisch einen Dateinamen wählen inkl. ausgewählter Dateierweiterung (z. "
+"B. rar, tar.gz, zip oder eines anderen unterstützten Typs)"
+
+#: app/main.cpp:101
+msgid "Options for batch extraction:"
+msgstr "Einstellungen für das Entpacken mittels Stapelverarbeitung:"
+
+#: app/main.cpp:102
+msgid ""
+"Use the batch interface instead of the usual dialog. This option is implied "
+"if more than one url is specified."
+msgstr ""
+"Die Stapelverarbeitungsschnittstelle anstelle des normalen Dialogs "
+"verwenden. Diese Einstellung wird angenommen, wenn mehr als eine Adresse "
+"angegeben wird."
+
+#: app/main.cpp:103
+msgid ""
+"The destination argument will be set to the path of the first file supplied."
+msgstr "Das Ziel wird auf den Pfad der ersten angegebenen Datei gesetzt."
+
+#: app/main.cpp:104
+msgid ""
+"Archive contents will be read, and if detected to not be a single folder "
+"archive, a subfolder with the name of the archive will be created."
+msgstr ""
+"Der Archivinhalt wird gelesen. Falls es sich um ein Archiv mit mehr als "
+"einem Ordner handelt, wird ein Unterordner mit dem Namen des Archivs "
+"erstellt."
+
+#: app/mainwindow.cpp:141
+msgid "Unable to find Ark's KPart component, please check your installation."
+msgstr ""
+"Die KPart-Komponente von Ark kann nicht gefunden werden. Bitte überprüfen "
+"Sie die Installation."
+
+#: app/mainwindow.cpp:164
+msgctxt "action, to open an archive"
+msgid "Open"
+msgstr "Öff&nen"
+
+#: app/mainwindow.cpp:165
+msgid ""
+"Click to open an archive, click and hold to open a recently-opened archive"
+msgstr ""
+"Anklicken, um ein Archiv zu öffnen; klicken und gedrückt halten, um ein "
+"zuletzt geöffnetes Archiv zu öffnen"
+
+#: app/mainwindow.cpp:166
+msgid "Open an archive"
+msgstr "Archiv öffnen"
+
+#: kerfuffle/adddialog.cpp:62
+msgid "Compress to Archive"
+msgstr "In Archiv komprimieren"
+
+#: kerfuffle/addtoarchive.cpp:130
+msgid "No input files were given."
+msgstr "Keine Eingabedateien angegeben."
+
+#: kerfuffle/addtoarchive.cpp:140
+msgid ""
+"You need to either supply a filename for the archive or a suffix (such as "
+"rar, tar.gz) with the <command>--autofilename</command> argument."
+msgstr ""
+"Sie müssen entweder einen Dateinamen für das Archiv oder eine "
+"Dateierweiterung (wie beispielsweise <filename>rar</filename> oder "
+"<filename>tar.gz</filename>) mit dem Argument <command>--autofilename</"
+"command> angeben."
+
+#: kerfuffle/addtoarchive.cpp:169
+msgid "Failed to create the new archive. Permissions might not be sufficient."
+msgstr ""
+"Das neue Archiv kann nicht erzeugt werden. Möglicherweise fehlen "
+"Berechtigungen."
+
+#: kerfuffle/addtoarchive.cpp:172
+msgid "It is not possible to create archives of this type."
+msgstr "Die Erstellung von Archiven dieses Typs ist nicht möglich."
+
+#: kerfuffle/cliinterface.cpp:725
+#, kde-format
+msgctxt "@info"
+msgid "Failed to locate program <filename>%1</filename> in PATH."
+msgstr ""
+"Konnte Anwendung <filename>%1</filename> nicht in Pfaden der PATH-Variable "
+"finden"
+
+#: kerfuffle/cliinterface.cpp:940 kerfuffle/cliinterface.cpp:984
+#: kerfuffle/cliinterface.cpp:1070
+msgid "Incorrect password."
+msgstr "Falsches Passwort."
+
+#: kerfuffle/cliinterface.cpp:947 kerfuffle/cliinterface.cpp:991
+msgid "Extraction failed because of an unexpected error."
+msgstr "Das Entpacken wurde wegen eines unerwarteten Fehlers beendet."
+
+#: kerfuffle/cliinterface.cpp:1029
+msgid "Unexpected error: couldn't find input strings."
+msgstr "Unerwarteter Fehler: konnte Eingabeparameter nicht finden."
+
+#: kerfuffle/cliinterface.cpp:1056
+msgid ""
+"Integrity check failed: Either the archive is broken or the password is "
+"incorrect."
+msgstr ""
+"Integritätsüberprüfung fehlgeschlagen: entweder ist das Archiv ist beschädigt "
+"oder das Passwort ist falsch."
+
+#: kerfuffle/cliinterface.cpp:1063
+msgid "Integrity check failed: The archive is broken."
+msgstr "Integritätsüberprüfung fehlgeschlagen: das Archiv ist beschädigt."
+
+#: kerfuffle/cliinterface.cpp:1121
+msgid "Extraction failed: couldn't set new file name."
+msgstr "Entpacken fehlgeschlagen: konnte neuen Dateinamen nicht speichern"
+
+#. i18n: file: kerfuffle/createdialogui.ui:23
+#. i18n: ectx: property (windowTitle), widget (QWidget, CreateDialog)
+#: kerfuffle/createdialog.cpp:42 rc.cpp:114
+msgctxt "@title:window"
+msgid "Create Archive"
+msgstr "Archiv anlegen"
+
+#: kerfuffle/createdialog.cpp:45 kerfuffle/extractiondialog.cpp:91
+msgctxt "@action:button"
+msgid "Set As Default"
+msgstr "Als Standard speichern"
+
+#: kerfuffle/createdialog.cpp:47 kerfuffle/extractiondialog.cpp:93
+msgctxt "@info:tooltip"
+msgid "Set the selected values as default values"
+msgstr "Speichert die gewählten Werte als Standardwerte"
+
+#: kerfuffle/createdialog.cpp:48 kerfuffle/extractiondialog.cpp:94
+msgctxt "@info:whatsthis"
+msgid "Sets the selected values as default values for new archives"
+msgstr "Speichert die gewählten Werte als Standardwerte für neue Archive"
+
+#: kerfuffle/createdialogui.cpp:200
+msgid "Please choose a file or type a valid file name."
+msgstr ""
+"Bitte wählen Sie eine Datei oder geben sie einen gültigen Dateinamen ein."
+
+#: kerfuffle/extractiondialog.cpp:156
+msgctxt "@title:window"
+msgid "Extract multiple archives"
+msgstr "Mehrere Archive entpacken"
+
+#: kerfuffle/extractiondialog.cpp:159
+msgctxt "@title:window"
+msgid "Extract archive"
+msgstr "Archive entpacken"
+
+#: kerfuffle/extractiondialog.cpp:171
+#, kde-format
+msgctxt "@info"
+msgid "The folder <filename>%1</filename> could not be created."
+msgstr "Der Ordner <filename>%1</filename> kann nicht erstellt werden."
+
+#: kerfuffle/extractiondialog.cpp:172
+msgctxt "@info"
+msgid "Please check your permissions to create it."
+msgstr "Bitte überprüfen Sie die Rechte für das Erstellen."
+
+#: kerfuffle/extractiondialog.cpp:203
+msgctxt "@item:inlistbox extraction option"
+msgid "Rename extracted files"
+msgstr "Entpackte Dateien umbenennen"
+
+#: kerfuffle/jobs.cpp:179
+msgid "Loading archive..."
+msgstr "Archiv wird geladen ..."
+
+#: kerfuffle/jobs.cpp:242
+msgid "Extracting all files"
+msgstr "Alle Dateien entpacken"
+
+#: kerfuffle/jobs.cpp:244
+#, kde-format
+msgid "Extracting one file"
+msgid_plural "Extracting %1 files"
+msgstr[0] "Eine Datei entpacken"
+msgstr[1] "%1 Dateien entpacken"
+
+#: kerfuffle/jobs.cpp:302
+#, kde-format
+msgid "Adding a file"
+msgid_plural "Adding %1 files"
+msgstr[0] "Datei wird hinzugefügt"
+msgstr[1] "%1 Dateien werden hinzugefügt"
+
+#: kerfuffle/jobs.cpp:336
+#, kde-format
+msgid "Deleting a file from the archive"
+msgid_plural "Deleting %1 files"
+msgstr[0] "Eine Datei wird gelöscht"
+msgstr[1] "%1 Dateien werden gelöscht"
+
+#: kerfuffle/jobs.cpp:362
+msgid "Testing all files"
+msgstr "Überprüfe alle Dateien"
+
+#: kerfuffle/jobs.cpp:364
+#, kde-format
+msgid "Testing one file"
+msgid_plural "Extracting %1 files"
+msgstr[0] "Überprüfe eine Datei"
+msgstr[1] "Entpacke %1 Dateien"
+
+#: kerfuffle/queries.cpp:109
+msgctxt "@info"
+msgid "File already exists"
+msgstr "Datei existiert bereits"
+
+#: kerfuffle/queries.cpp:232
+#, kde-format
+msgctxt "@info"
+msgid "Please enter the password to protect <filename>%1</filename>."
+msgstr "Bitte ein Passwort eingeben, um <filename>%1</filename> zu schützen."
+
+#: kerfuffle/queries.cpp:242
+#, kde-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> is password protected. Please enter the "
+"password to extract the file."
+msgstr ""
+"Das Archiv <filename>%1</filename> ist passwortgeschützt. Bitte geben Sie "
+"zum Entpacken der Datei das Passwort ein."
+
+#: kerfuffle/queries.cpp:245
+msgctxt "@info"
+msgid "Incorrect password, please try again."
+msgstr "Falsches Passwort. Bitte versuchen Sie es erneut."
+
+#: kerfuffle/queries.cpp:282
+msgctxt "@action:button"
+msgid "Yes, for all files"
+msgstr "Ja, für alle Dateien"
+
+#: kerfuffle/queries.cpp:284
+#, kde-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> needs a password to extract the next "
+"file.\n"
+"\n"
+"Use the same password again?"
+msgstr ""
+"Das Archiv <filename>%1</filename> benötigt ein Passwort um die nächste Datei "
+"zu entpacken:\n"
+"\n"
+"Das gleiche Passwort noch einmal verwenden?"
+
+#: kerfuffle/queries.cpp:285
+msgctxt "@info"
+msgid "Password needed"
+msgstr "Passwort wird benötigt"
+
+#: part/archiveconflictdialog.cpp:72
+#, kde-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists.<nl/>Please select one of "
+"the following options:"
+msgstr ""
+"Ein Archiv <filename>%1</filename> existiert bereits.<nl/>Bitte wählen Sie "
+"eine der folgenden Optionen:"
+
+#: part/archiveconflictdialog.cpp:79
+msgctxt "@option:radio"
+msgid "Overwrite existing archive"
+msgstr "Existierendes Archiv überschreiben"
+
+#: part/archiveconflictdialog.cpp:80
+#, kde-format
+msgctxt "@option:radio"
+msgid "Save new archive as <filename>%1</filename>"
+msgstr "Neues Archiv als <filename>%1</filename> speichern"
+
+#: part/archiveconflictdialog.cpp:82
+msgctxt "@option:radio"
+msgid "Add files to existing Archive"
+msgstr "Dateien zu existierendem Archiv hinzufügen"
+
+#: part/archiveconflictdialog.cpp:91
+msgctxt "@title:window"
+msgid "Archive Already Exists"
+msgstr "Archiv existiert bereits"
+
+#: part/archivemodel.cpp:404
+msgctxt "Name of a file inside an archive"
+msgid "Name"
+msgstr "Dateiname"
+
+#: part/archivemodel.cpp:406
+msgctxt "Uncompressed size of a file inside an archive"
+msgid "Size"
+msgstr "Größe"
+
+#: part/archivemodel.cpp:408
+msgctxt "Compressed size of a file inside an archive"
+msgid "Compressed"
+msgstr "Komprimiert"
+
+#: part/archivemodel.cpp:410
+msgctxt "Compression rate of file"
+msgid "Rate"
+msgstr "Rate"
+
+#: part/archivemodel.cpp:412
+msgctxt "File's owner username"
+msgid "Owner"
+msgstr "Eigentümer"
+
+#: part/archivemodel.cpp:414
+msgctxt "File's group"
+msgid "Group"
+msgstr "Gruppe"
+
+#: part/archivemodel.cpp:416
+msgctxt "File permissions"
+msgid "Mode"
+msgstr "Modus"
+
+#: part/archivemodel.cpp:418
+msgctxt "CRC hash code"
+msgid "CRC"
+msgstr "CRC"
+
+#: part/archivemodel.cpp:420
+msgctxt "Compression method"
+msgid "Method"
+msgstr "Methode"
+
+#: part/archivemodel.cpp:423
+msgctxt "File version"
+msgid "Version"
+msgstr "Version"
+
+#: part/archivemodel.cpp:425
+msgctxt "Timestamp"
+msgid "Date"
+msgstr "Datum"
+
+#: part/archivemodel.cpp:427
+msgctxt "File comment"
+msgid "Comment"
+msgstr "Kommentar"
+
+#: part/archivemodel.cpp:429
+msgctxt "Unnamed column"
+msgid "??"
+msgstr "??"
+
+#: part/arkviewer.cpp:67
+msgid "Closing preview"
+msgstr "Schließen der Vorschau"
+
+#: part/arkviewer.cpp:68
+msgid "Please wait while the preview is being closed..."
+msgstr "Bitte warten Sie, bis die Vorschau geschlossen wurde ..."
+
+#: part/arkviewer.cpp:98 part/arkviewer.cpp:105
+msgid "The internal viewer cannot preview this file."
+msgstr "Der interne Dateibetrachter kann diese Datei nicht darstellen."
+
+#: part/infopanel.cpp:68
+msgid "No archive loaded"
+msgstr "Kein Archiv geladen"
+
+#: part/infopanel.cpp:117
+msgid "Symbolic Link"
+msgstr "Symbolische Verknüpfung"
+
+#: part/infopanel.cpp:122
+msgid "Unknown size"
+msgstr "Unbekannte Größe"
+
+#: part/infopanel.cpp:144
+#, kde-format
+msgid "One file selected"
+msgid_plural "%1 files selected"
+msgstr[0] "Eine Datei ausgewählt"
+msgstr[1] "%1 Dateien ausgewählt"
+
+#: part/infopanel.cpp:192
+#, kde-format
+msgid "<b>Type:</b> %1<br/>"
+msgstr "<b>Typ:</b> %1<br/>"
+
+#: part/infopanel.cpp:195
+#, kde-format
+msgid "<b>Owner:</b> %1<br/>"
+msgstr "<b>Besitzer:</b> %1<br/>"
+
+#: part/infopanel.cpp:199
+#, kde-format
+msgid "<b>Group:</b> %1<br/>"
+msgstr "<b>Gruppe:</b> %1<br/>"
+
+#: part/infopanel.cpp:203
+#, kde-format
+msgid "<b>Target:</b> %1<br/>"
+msgstr "<b>Ziel:</b> %1<br/>"
+
+#: part/infopanel.cpp:207
+msgid "<b>Password protected:</b> Yes<br/>"
+msgstr "<b>Passwortgeschützt:</b> Ja<br/>"
+
+#: part/part.cpp:307
+msgctxt "@action:inmenu"
+msgid "Show information panel"
+msgstr "Informationsleiste anzeigen"
+
+#: part/part.cpp:320
+msgctxt "@action:button"
+msgid "&Add to archive"
+msgstr "Hinzufügen"
+
+#: part/part.cpp:321
+msgctxt "@info:status"
+msgid "Click to add files and folders to the archive"
+msgstr "Zum Hinzufügen von Dateien und Ordnern zum Archiv hier klicken"
+
+#: part/part.cpp:325
+msgctxt "@action:button"
+msgid "E&xtract to..."
+msgstr "Entpacken nach ..."
+
+#: part/part.cpp:327
+msgctxt "@info:status"
+msgid ""
+"Click to open an extraction dialog, where you can choose to extract either "
+"all files or just the selected ones"
+msgstr ""
+"Klicken Sie hier, um den „Entpacken“-Dialog zu öffnen, in dem Sie entweder "
+"alle oder ausgewählte Dateien entpacken können"
+
+#: part/part.cpp:332
+msgctxt "@action:button"
+msgid "T&est archive"
+msgstr "Archiv üb&erprüfen"
+
+#: part/part.cpp:334
+msgctxt "@info:status"
+msgid "Test archive for errors"
+msgstr "Archiv auf Fehler überprüfen"
+
+#: part/part.cpp:338
+msgctxt "@action:button to open the selected file in an external application"
+msgid "&View"
+msgstr "&Vorschau"
+
+#: part/part.cpp:340
+msgctxt "@info:status"
+msgid "Click to open the selected file in an external application"
+msgstr "Zum Öffnen der ausgewählten Datei in externer Anwendung hier klicken"
+
+#: part/part.cpp:345
+msgctxt "@action:button"
+msgid "De&lete"
+msgstr "&Löschen ..."
+
+#: part/part.cpp:347
+msgctxt "@info:status"
+msgid "Click to delete the selected files"
+msgstr "Klicken Sie hier, um die ausgewählten Dateien zu löschen"
+
+#: part/part.cpp:526
+msgctxt "@title"
+msgid "ArkPart"
+msgstr "ArkPart"
+
+#: part/part.cpp:563 part/part.cpp:893
+msgctxt "@info"
+msgid "Couldn't determine the type of the file, opening not possible."
+msgstr "Konnte Dateityp nicht bestimmen, Öffnen nicht möglich."
+
+#: part/part.cpp:564 part/part.cpp:894
+msgctxt "@title:window"
+msgid "Error Opening File"
+msgstr "Fehler beim Öffnen"
+
+#: part/part.cpp:602
+#, kde-format
+msgctxt "@info"
+msgid "The archive <filename>%1</filename> could not be overwritten"
+msgstr "Das Archiv <filename>%1</filename> konnte nicht überschrieben werden"
+
+#: part/part.cpp:603
+msgctxt "@title:window"
+msgid "Error Overwriting Archive"
+msgstr "Fehler beim Überschreiben"
+
+#: part/part.cpp:616
+#, kde-format
+msgctxt "@info"
+msgid "The archive <filename>%1</filename> was not found."
+msgstr "Das Archiv <filename>%1</filename> kann nicht gefunden werden."
+
+#: part/part.cpp:617 part/part.cpp:673 part/part.cpp:739
+msgctxt "@title:window"
+msgid "Error Opening Archive"
+msgstr "Öffnen fehlgeschlagen"
+
+#: part/part.cpp:650
+msgctxt "@title:window"
+msgid "Invalid Archive Type"
+msgstr "Ungültiger Archivtyp"
+
+#: part/part.cpp:651
+msgctxt "@info"
+msgid ""
+"Ark cannot create archives of the type you have chosen.<nl/><nl/>Please "
+"choose another archive type below."
+msgstr ""
+"Ark kann den Archive des gewählten Typs nicht erstellen.<nl/><nl/>Bitte "
+"wählen Sie einen anderen Archivtyp aus der Liste."
+
+#: part/part.cpp:654
+msgctxt "@title:window"
+msgid "Unable to Determine Archive Type"
+msgstr "Archivtyp kann nicht ermittelt werden"
+
+#: part/part.cpp:655
+msgctxt "@info"
+msgid ""
+"Ark was unable to determine the archive type of the filename.<nl/><nl/"
+">Please choose the correct archive type below."
+msgstr ""
+"Der Archivtyp der angegebenen Datei kann nicht ermittelt werden.<nl/><nl/"
+">Bitte wählen Sie den richtigen Archivtyp aus der Liste."
+
+#: part/part.cpp:672
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Ark was not able to open the archive <filename>%1</filename>. No plugin "
+"capable of handling the file was found."
+msgstr ""
+"Das Archiv <filename>%1</filename> kann nicht geöffnet werden. Es ist keine "
+"Bibliothek für diesen Archivtyp vorhanden."
+
+#: part/part.cpp:736
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Loading the archive <filename>%1</filename> failed with the following error: "
+"<message>%2</message>"
+msgstr ""
+"Das Laden des Archivs <filename>%1</filename> ist mit folgender "
+"Fehlermeldung fehlgeschlagen: <message>%2</message>"
+
+#: part/part.cpp:1126
+msgctxt "@title:window"
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: part/part.cpp:1476
+msgctxt "@info"
+msgid "Deleting these files is not undoable. Are you sure you want to do this?"
+msgstr ""
+"Das Löschen dieser Dateien kann nicht rückgängig gemacht werden. Möchten Sie "
+"trotzdem fortfahren?"
+
+#: part/part.cpp:1477
+msgctxt "@title:window"
+msgid "Delete files"
+msgstr "Dateien löschen"
+
+#: part/part.cpp:1524
+#, kde-format
+msgctxt "@info"
+msgid ""
+"An archive named <filename>%1</filename> already exists. Are you sure you "
+"want to overwrite it?"
+msgstr ""
+"Ein Archiv namens <filename>%1</filename> ist bereits vorhanden. Möchten Sie "
+"dieses überschreiben?"
+
+#: part/part.cpp:1538
+#, kde-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> cannot be copied to the specified "
+"location. The archive does not exist anymore."
+msgstr ""
+"Das Archiv <filename>%1</filename> kann nicht an die angegebene Stelle "
+"kopiert werden. Das Archiv ist nicht mehr vorhanden."
+
+#: part/part.cpp:1550
+#, kde-format
+msgctxt "@info"
+msgid ""
+"The archive could not be saved as <filename>%1</filename>. Try saving it to "
+"another location."
+msgstr ""
+"Das Archiv kann nicht als <filename>%1</filename> kann nicht gespeichert "
+"werden. Versuchen Sie einen anderen Speicherort."
+
+#: plugins/karchiveplugin/karchiveplugin.cpp:63
+#: plugins/karchiveplugin/karchiveplugin.cpp:75
+#, kde-format
+msgctxt "@info"
+msgid "Could not open the archive <filename>%1</filename> for reading"
+msgstr ""
+"Das Archiv <filename>%1</filename> kann nicht zum Lesen geöffnet werden."
+
+#: plugins/karchiveplugin/karchiveplugin.cpp:83
+#, kde-format
+msgctxt "@info"
+msgid "File <filename>%1</filename> not found in the archive"
+msgstr ""
+"Die Datei <filename>%1</filename> kann im Archiv nicht gefunden werden."
+
+#: plugins/karchiveplugin/karchiveplugin.cpp:156
+#, kde-format
+msgctxt "@info"
+msgid "Could not open the archive <filename>%1</filename> for writing."
+msgstr ""
+"Das Archiv <filename>%1</filename> kann nicht zum Schreiben geöffnet werden."
+
+#: plugins/karchiveplugin/karchiveplugin.cpp:173
+#, kde-format
+msgctxt "@info"
+msgid "Could not add the directory <filename>%1</filename> to the archive"
+msgstr ""
+"Der Ordner <filename>%1</filename> kann nicht zum Archiv hinzugefügt werden."
+
+#: plugins/karchiveplugin/karchiveplugin.cpp:181
+#, kde-format
+msgctxt "@info"
+msgid "Could not add the file <filename>%1</filename> to the archive."
+msgstr ""
+"Die Datei <filename>%1</filename> kann nicht zum Archiv hinzugefügt werden."
+
+#: plugins/libarchive/libarchivehandler.cpp:133
+#: plugins/libarchive/libarchivehandler.cpp:190
+#: plugins/libarchive/libarchivehandler.cpp:710
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Could not open the archive <filename>%1</filename>, libarchive cannot handle "
+"it."
+msgstr ""
+"Die Datei <filename>%1</filename> kann nicht geöffnet werden, da "
+"„libarchive“ sie nicht verarbeiten kann."
+
+#: plugins/libarchive/libarchivehandler.cpp:156
+#, kde-format
+msgctxt "@info"
+msgid ""
+"The archive reading failed with the following error: <message>%1</message>"
+msgstr ""
+"Das Einlesen des Archivs <filename></filename> ist mit folgender "
+"Fehlermeldung fehlgeschlagen: <message>%1</message>"
+
+#: plugins/libarchive/libarchivehandler.cpp:250
+msgctxt "@info"
+msgid ""
+"This archive contains archive entries with absolute paths, which are not yet "
+"supported by ark."
+msgstr ""
+"Dieses Archiv enthält Einträge mit absoluten Pfaden, was von Ark noch nicht "
+"unterstützt wird."
+
+#: plugins/libarchive/libarchivehandler.cpp:394
+#: plugins/libarchive/libarchivehandler.cpp:578
+msgctxt "@info"
+msgid "The archive reader could not be initialized."
+msgstr "Der Archivlader kann nicht initialisiert werden."
+
+#: plugins/libarchive/libarchivehandler.cpp:407
+#: plugins/libarchive/libarchivehandler.cpp:591
+msgctxt "@info"
+msgid "The source file could not be read."
+msgstr "Die Quelldatei kann nicht gelesen werden."
+
+#: plugins/libarchive/libarchivehandler.cpp:414
+#: plugins/libarchive/libarchivehandler.cpp:597
+msgctxt "@info"
+msgid "The archive writer could not be initialized."
+msgstr "Der Archivschreiber kann nicht initialisiert werden."
+
+#: plugins/libarchive/libarchivehandler.cpp:448
+#: plugins/libarchive/libarchivehandler.cpp:480
+#: plugins/libarchive/libarchivehandler.cpp:631
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Setting the compression method failed with the following error: <message>%1</"
+"message>"
+msgstr ""
+"Das Einstellen der Komprimierungsmethode ist mit folgender Fehlermeldung "
+"fehlgeschlagen: <message>%1</message>"
+
+#: plugins/libarchive/libarchivehandler.cpp:475
+#: plugins/libarchive/libarchivehandler.cpp:626
+#, kde-format
+msgctxt "@info"
+msgid "The compression type '%1' is not supported by Ark."
+msgstr "Der Kompressionstyp „%1“ wird von Ark nicht unterstützt."
+
+#: plugins/libarchive/libarchivehandler.cpp:487
+#: plugins/libarchive/libarchivehandler.cpp:637
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Opening the archive for writing failed with the following error: <message>"
+"%1</message>"
+msgstr ""
+"Das Öffnen des Archiv zum Schreiben ist mit folgender Fehlermeldung "
+"fehlgeschlagen: <message>%1</message>"
+
+#: plugins/libarchive/libarchivehandler.cpp:901
+#, kde-format
+msgctxt "@info Error in a message box"
+msgid "Ark could not compress <filename>%1</filename>:<nl/>%2"
+msgstr "<filename>%1</filename> kann nicht komprimiert werden:<nl/>%2"
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:98
+#, kde-format
+msgctxt "@info"
+msgid "Ark could not extract <filename>%1</filename>."
+msgstr "<filename>%1</filename> kann nicht entpackt werden."
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:106
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:145
+#, kde-format
+msgctxt "@info"
+msgid "Ark could not open <filename>%1</filename> for extraction."
+msgstr "<filename>%1</filename> kann nicht zum Entpacken geöffnet werden."
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:120
+#, kde-format
+msgctxt "@info"
+msgid ""
+"There was an error while reading <filename>%1</filename> during extraction."
+msgstr ""
+"Beim Entpacken von <filename>%1</filename> ist ein Lesefehler aufgetreten."
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:159
+#, kde-format
+msgctxt "@info"
+msgid "Integrity check failed: The archive <filename>%1</filename> is broken."
+msgstr ""
+"Integritätsüberprüfung fehlgeschlagen: Das Archiv <filename>%1</filename> ist "
+"beschädigt."
+
+#: rc.cpp:1
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Gregor Zumstein"
+
+#: rc.cpp:2
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "gz@orchester-bremgarten.ch"
+
+#. i18n: file: part/ark_part.rc:5
+#. i18n: ectx: Menu (file)
+#: rc.cpp:5
+msgid "&File"
+msgstr "&Datei"
+
+#. i18n: file: part/ark_part.rc:9
+#. i18n: ectx: Menu (action)
+#: rc.cpp:8
+msgid "&Action"
+msgstr "&Aktion"
+
+#. i18n: file: part/ark_part.rc:18
+#. i18n: ectx: Menu (settings)
+#: rc.cpp:11
+msgid "&Settings"
+msgstr "&Einstellungen"
+
+#. i18n: file: part/ark_part.rc:23
+#. i18n: ectx: ToolBar (mainToolBar)
+#: rc.cpp:14
+msgid "Main Toolbar"
+msgstr "Haupt-Werkzeugleiste"
+
+#. i18n: file: kerfuffle/kdelibs/knewpassworddialog.ui:52
+#. i18n: ectx: property (text), widget (QLabel, labelPassword)
+#: rc.cpp:17
+msgid "Password:"
+msgstr "Passwort:"
+
+#. i18n: file: kerfuffle/kdelibs/knewpassworddialog.ui:62
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: rc.cpp:20
+msgid "&Verify:"
+msgstr "&Verifizieren"
+
+#. i18n: file: kerfuffle/kdelibs/knewpassworddialog.ui:72
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: rc.cpp:23
+msgid "Show password:"
+msgstr "Passwort anzeigen:"
+
+#. i18n: file: kerfuffle/kdelibs/knewpassworddialog.ui:82
+#. i18n: ectx: property (text), widget (QLabel, labelStrengthMeter)
+#: rc.cpp:26
+msgid "Password strength meter:"
+msgstr "Passwortstärke:"
+
+#. i18n: file: kerfuffle/kdelibs/knewpassworddialog.ui:92
+#. i18n: ectx: property (text), widget (QLabel, labelMatch)
+#: rc.cpp:29
+msgid "Passwords do not match"
+msgstr "Passwörter stimmen nicht überein"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:23
+#. i18n: ectx: property (accessibleName), widget (KTabWidget, tabWidget)
+#. i18n: file: kerfuffle/extractiondialog.ui:56
+#. i18n: ectx: property (accessibleName), widget (QWidget, optionsTab)
+#: rc.cpp:32 rc.cpp:41
+msgid "AdvancedOptionsTab"
+msgstr "AdvancedOptionsTab"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:36
+#. i18n: ectx: attribute (title), widget (QWidget, destinationTab)
+#. i18n: file: kerfuffle/createdialogui.ui:33
+#. i18n: ectx: attribute (title), widget (QWidget, m_generalTab)
+#: rc.cpp:35 rc.cpp:117
+msgctxt "@title:tab like in 'General options'"
+msgid "General"
+msgstr "Allgemein"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:42
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: rc.cpp:38
+msgid "Destination path (will be created if it does not exist)"
+msgstr "Zielpfad (wird erstellt, wenn er nicht existiert) "
+
+#. i18n: file: kerfuffle/extractiondialog.ui:62
+#. i18n: ectx: attribute (title), widget (QWidget, optionsTab)
+#: rc.cpp:44
+msgctxt "@title:tab like in 'Advanced options'"
+msgid "Advanced"
+msgstr "Erweitert"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:68
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: rc.cpp:47
+msgid "Files and Paths"
+msgstr "Dateien und Pfade"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:82
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: rc.cpp:50
+msgid "Overwrite handling"
+msgstr "Konfliktbehandlung"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:90
+#. i18n: ectx: property (text), item, widget (KComboBox, conflictsComboBox)
+#: rc.cpp:53
+msgid "Ask before overwrite"
+msgstr "Vor dem Überschreiben nachfragen"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:95
+#. i18n: ectx: property (text), item, widget (KComboBox, conflictsComboBox)
+#: rc.cpp:56
+msgid "Overwrite without asking"
+msgstr "Ohne Nachfrage überschreiben"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:100
+#. i18n: ectx: property (text), item, widget (KComboBox, conflictsComboBox)
+#: rc.cpp:59
+msgid "Skip existing files"
+msgstr "Existierende Dateien überspringen"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:105
+#. i18n: ectx: property (text), item, widget (KComboBox, conflictsComboBox)
+#: rc.cpp:62
+msgid "Rename extracted files"
+msgstr "Entpackte Dateien umbenennen"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:115
+#. i18n: ectx: property (toolTip), widget (QCheckBox, autoSubfoldersCheckBox)
+#: rc.cpp:65
+msgid "Creates a subfolder for each archive"
+msgstr "Erzeugt einen Unterordner für jedes Archiv"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:118
+#. i18n: ectx: property (text), widget (QCheckBox, autoSubfoldersCheckBox)
+#: rc.cpp:68
+msgid "&Automatically create subfolders"
+msgstr "Unterordner &automatisch erzeugen"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:125
+#. i18n: ectx: property (toolTip), widget (QCheckBox, preservePathsCheckBox)
+#: rc.cpp:71
+msgid "Unpack to the absolute paths used in the archive"
+msgstr "In die im Archiv benutzten absoluten Pfade entpacken"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:128
+#. i18n: ectx: property (text), widget (QCheckBox, preservePathsCheckBox)
+#: rc.cpp:74
+msgid "&Preserve Paths"
+msgstr "&Pfade beibehalten"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:138
+#. i18n: ectx: property (title), widget (QGroupBox, systemGroupBox)
+#. i18n: file: kerfuffle/createdialogui.ui:409
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
+#: rc.cpp:77 rc.cpp:204
+msgid "System"
+msgstr "System"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:146
+#. i18n: ectx: property (toolTip), widget (QCheckBox, multithreadingCheckBox)
+#: rc.cpp:80
+msgid "Use as many parallel threads as possible"
+msgstr "So viele parallele Prozesse wie möglich nutzen"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:149
+#. i18n: ectx: property (text), widget (QCheckBox, multithreadingCheckBox)
+#: rc.cpp:83
+msgid "Use &Multithreading"
+msgstr "&Multithreading benutzen"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:159
+#. i18n: ectx: property (toolTip), widget (QCheckBox, utf8CheckBox)
+#: rc.cpp:86
+msgid "Fixes the filename encoding"
+msgstr "Passt die Dateinamenkodierung an"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:162
+#. i18n: ectx: property (text), widget (QCheckBox, utf8CheckBox)
+#: rc.cpp:89
+msgid "&Fix filename encoding"
+msgstr "Dateinamenkodierung anpassen"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:172
+#. i18n: ectx: property (toolTip), widget (QCheckBox, openFolderCheckBox)
+#: rc.cpp:92
+msgid "Opens the destination folder in a file browser"
+msgstr "Öffnet den Zielordner in der Dateiverwaltung"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:175
+#. i18n: ectx: property (text), widget (QCheckBox, openFolderCheckBox)
+#: rc.cpp:95
+msgid "Open &destination folder after extraction"
+msgstr "&Zielordner nach dem Entpacken öffnen"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:182
+#. i18n: ectx: property (toolTip), widget (QCheckBox, closeAfterExtractionCheckBox)
+#: rc.cpp:98
+msgid "Ark will be close when all files have been extracted"
+msgstr "Ark wird beendet nachdem alle Dateien entpackt wurden"
+
+#. i18n: file: kerfuffle/extractiondialog.ui:185
+#. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtractionCheckBox)
+#: rc.cpp:101
+msgid "&Close Ark after extraction"
+msgstr "Ark nach Entpa&cken beenden"
+
+#. i18n: file: kerfuffle/adddialog.ui:28
+#. i18n: ectx: property (title), widget (QGroupBox, groupCompressFiles)
+#: rc.cpp:104
+msgid "Files/Folders to Compress"
+msgstr "Zu komprimierende Dateien/Ordner"
+
+#. i18n: file: kerfuffle/adddialog.ui:92
+#. i18n: ectx: property (title), widget (QGroupBox, groupExtraOptions)
+#: rc.cpp:107
+msgid "Extra Compression Options"
+msgstr "Zusätzliche Komprimierungs-Einstellungen"
+
+#. i18n: file: kerfuffle/adddialog.ui:99
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: rc.cpp:110
+msgid ""
+"Easter egg for the developers:\n"
+"This is where future versions will have extra compression options for the "
+"various compression interfaces."
+msgstr ""
+"Osterei für Entwickler:\n"
+"Zukünftige Versionen werden hier weitere Einstellmöglichkeiten für die "
+"Kompression mittels diverser Methoden bieten."
+
+#. i18n: file: kerfuffle/createdialogui.ui:39
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: rc.cpp:120
+msgid "Archive name"
+msgstr "Archivname"
+
+#. i18n: file: kerfuffle/createdialogui.ui:51
+#. i18n: ectx: property (text), widget (QPushButton, browseButton)
+#: rc.cpp:123
+msgid "Browse ..."
+msgstr "Durchsuchen ..."
+
+#. i18n: file: kerfuffle/createdialogui.ui:81
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: rc.cpp:126
+msgid "Archive format"
+msgstr "Archivformat"
+
+#. i18n: file: kerfuffle/createdialogui.ui:94
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: rc.cpp:129
+msgid "Compression method"
+msgstr "Komprimierungsmethode"
+
+#. i18n: file: kerfuffle/createdialogui.ui:108
+#. i18n: ectx: property (text), item, widget (KComboBox, compressionMethodComboBox)
+#: rc.cpp:132
+msgid "Uncompressed"
+msgstr "Unkomprimiert"
+
+#. i18n: file: kerfuffle/createdialogui.ui:113
+#. i18n: ectx: property (text), item, widget (KComboBox, compressionMethodComboBox)
+#: rc.cpp:135
+msgctxt "@label:listbox like in 'use Fast compression option'"
+msgid "Fast"
+msgstr "Schnell"
+
+#. i18n: file: kerfuffle/createdialogui.ui:118
+#. i18n: ectx: property (text), item, widget (KComboBox, compressionMethodComboBox)
+#: rc.cpp:138
+msgctxt "@label:listbox like in 'use Normal compression option'"
+msgid "Normal"
+msgstr "Normal"
+
+#. i18n: file: kerfuffle/createdialogui.ui:123
+#. i18n: ectx: property (text), item, widget (KComboBox, compressionMethodComboBox)
+#: rc.cpp:141
+msgctxt "@label:listbox like in 'use Good compression option'"
+msgid "Good"
+msgstr "Gut"
+
+#. i18n: file: kerfuffle/createdialogui.ui:128
+#. i18n: ectx: property (text), item, widget (KComboBox, compressionMethodComboBox)
+#: rc.cpp:144
+msgctxt "@label:listbox like in 'use Maximum compression option'"
+msgid "Maximum"
+msgstr "Maximum"
+
+#. i18n: file: kerfuffle/createdialogui.ui:162
+#. i18n: ectx: property (text), widget (QCheckBox, testArchiveCheckBox)
+#: rc.cpp:147
+msgid "Test archive"
+msgstr "Archiv überprüfen"
+
+#. i18n: file: kerfuffle/createdialogui.ui:192
+#. i18n: ectx: property (text), widget (QCheckBox, deleteFilesCheckBox)
+#: rc.cpp:150
+msgid "Delete original files after successful testing"
+msgstr "Quelldateien nach erfolgreicher Überprüfung löschen"
+
+#. i18n: file: kerfuffle/createdialogui.ui:228
+#. i18n: ectx: attribute (title), widget (QWidget, m_passwordTab)
+#: rc.cpp:153
+msgid "Security"
+msgstr "Sicherheit"
+
+#. i18n: file: kerfuffle/createdialogui.ui:234
+#. i18n: ectx: property (title), widget (QGroupBox, passwordGroupBox)
+#: rc.cpp:156
+msgid "Set password"
+msgstr "Passwortgeschützt"
+
+#. i18n: file: kerfuffle/createdialogui.ui:246
+#. i18n: ectx: property (text), widget (QCheckBox, encryptContentsCheckBox)
+#: rc.cpp:159
+msgid "Encrypt contents"
+msgstr "Dateiinhalt verschlüsseln"
+
+#. i18n: file: kerfuffle/createdialogui.ui:253
+#. i18n: ectx: property (text), widget (QCheckBox, encryptFileNamesCheckBox)
+#: rc.cpp:162
+msgid "Encrypt file names"
+msgstr "Dateinamen verschlüsseln"
+
+#. i18n: file: kerfuffle/createdialogui.ui:262
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: rc.cpp:165
+msgid "Encryption method"
+msgstr "Verschlüsselungsmethode"
+
+#. i18n: file: kerfuffle/createdialogui.ui:273
+#. i18n: ectx: property (text), item, widget (KComboBox, encryptionMethodComboBox)
+#: rc.cpp:168
+msgid "AES(256Bit)"
+msgstr "AES(256Bit)"
+
+#. i18n: file: kerfuffle/createdialogui.ui:278
+#. i18n: ectx: property (text), item, widget (KComboBox, encryptionMethodComboBox)
+#: rc.cpp:171
+msgid "Zipcrypto"
+msgstr "Zipcrypto"
+
+#. i18n: file: kerfuffle/createdialogui.ui:305
+#. i18n: ectx: attribute (title), widget (QWidget, m_advancedTab)
+#: rc.cpp:174
+msgctxt "@title:tab like in 'Advanced Options'"
+msgid "Advanced"
+msgstr "Erweitert"
+
+#. i18n: file: kerfuffle/createdialogui.ui:311
+#. i18n: ectx: property (title), widget (QGroupBox, splitArchiveGroupBox)
+#: rc.cpp:177
+msgid "Split archive into multiple files"
+msgstr "Archive in mehrere Dateien aufteilen"
+
+#. i18n: file: kerfuffle/createdialogui.ui:328
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: rc.cpp:180
+msgid "Size per split-file:"
+msgstr "Größe der Teildatei"
+
+#. i18n: file: kerfuffle/createdialogui.ui:356
+#. i18n: ectx: property (text), item, widget (KComboBox, splitSizeComboBox)
+#: rc.cpp:183
+msgid "650 MB CD"
+msgstr "650 MB CD"
+
+#. i18n: file: kerfuffle/createdialogui.ui:361
+#. i18n: ectx: property (text), item, widget (KComboBox, splitSizeComboBox)
+#: rc.cpp:186
+msgid "700 MB CD"
+msgstr "700 MB CD"
+
+#. i18n: file: kerfuffle/createdialogui.ui:366
+#. i18n: ectx: property (text), item, widget (KComboBox, splitSizeComboBox)
+#: rc.cpp:189
+msgid "4482 MB DVD"
+msgstr "4482 MB DVD"
+
+#. i18n: file: kerfuffle/createdialogui.ui:371
+#. i18n: ectx: property (text), item, widget (KComboBox, splitSizeComboBox)
+#: rc.cpp:192
+msgid "8152 MB DVD DL"
+msgstr "8152 MB DVD DL"
+
+#. i18n: file: kerfuffle/createdialogui.ui:376
+#. i18n: ectx: property (text), item, widget (KComboBox, splitSizeComboBox)
+#: rc.cpp:195
+msgid "23866 MB Blu-ray"
+msgstr "23866 MB Blu-ray"
+
+#. i18n: file: kerfuffle/createdialogui.ui:391
+#. i18n: ectx: property (text), item, widget (KComboBox, splitSizeUnitComboBox)
+#: rc.cpp:198
+msgid "MB"
+msgstr "MB"
+
+#. i18n: file: kerfuffle/createdialogui.ui:396
+#. i18n: ectx: property (text), item, widget (KComboBox, splitSizeUnitComboBox)
+#: rc.cpp:201
+msgid "GB"
+msgstr "GB"
+
+#. i18n: file: kerfuffle/createdialogui.ui:415
+#. i18n: ectx: property (text), widget (QCheckBox, multithreadingCheckBox)
+#: rc.cpp:207
+msgid "Use Multithreading"
+msgstr "Multithreading benutzen"
+
+#. i18n: file: kerfuffle/createdialogui.ui:425
+#. i18n: ectx: property (text), widget (QCheckBox, utf8CheckBox)
+#: rc.cpp:210
+msgid "Fix filename encoding"
+msgstr "Dateinamenkodierung anpassen"
+
+#. i18n: file: part/infopanel.ui:20
+#. i18n: ectx: property (windowTitle), widget (QWidget, InformationPanel)
+#: rc.cpp:213
+msgid "Information Panel"
+msgstr "Informationskontrollleiste"
+
+#. i18n: file: part/infopanel.ui:58
+#. i18n: ectx: property (text), widget (QLabel, additionalInfo)
+#: rc.cpp:216
+msgid "Unknown file type"
+msgstr "Unbekannter Dateityp"
+
+#. i18n: file: part/infopanel.ui:75
+#. i18n: ectx: property (text), widget (QLabel, metadataLabel)
+#: rc.cpp:219
+msgid "Metadata Label"
+msgstr "Metadatenbezeichner"
+
+#. i18n: file: part/infopanel.ui:95
+#. i18n: ectx: property (text), widget (QLabel, actionsLabel)
+#: rc.cpp:222
+msgid "ActionsLabel"
+msgstr "Aktionsbezeichner"
+
+#. i18n: file: part/jobtracker.ui:13
+#. i18n: ectx: property (windowTitle), widget (QWidget, JobTrackerWidget)
+#: rc.cpp:225
+msgid "Job Tracker"
+msgstr "Aufgabenüberwachung"
+
+#. i18n: file: part/jobtracker.ui:43
+#. i18n: ectx: property (text), widget (QLabel, descriptionLabel)
+#: rc.cpp:228
+msgid "<b>Job Description</b>"
+msgstr "<b>Aufgabenbeschreibung</b>"
+
+#. i18n: file: part/jobtracker.ui:62
+#. i18n: ectx: property (text), widget (QLabel, informationLabel)
+#: rc.cpp:231
+msgid "Some Information about the job"
+msgstr "Einige Informationen über die Aufgabe"
+
+#. i18n: file: kerfuffle/ark.kcfg:9
+#. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
+#: rc.cpp:234
+msgid "Open destination folder after extraction"
+msgstr "Zielordner nach dem Entpacken öffnen"
+
+#. i18n: file: kerfuffle/ark.kcfg:13
+#. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
+#: rc.cpp:237
+msgid "Close Ark after extraction"
+msgstr "Ark nach dem Entpacken beenden"
+
+#. i18n: file: kerfuffle/ark.kcfg:17
+#. i18n: ectx: label, entry (preservePaths), group (Extraction)
+#: rc.cpp:240
+msgid "Preserve paths when extracting"
+msgstr "Pfade beim Entpacken beibehalten"
+
