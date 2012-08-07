@@ -525,7 +525,7 @@ msgid ""
 "conflicts for the remainder of the current job."
 msgstr ""
 "Wenn diese Option ausgewählt ist, wird der Knopf, den Sie drücken, für alle "
-"nachfolgenden Konflikte angewendet.\n"
+"nachfolgenden Konflikte angewendet."
 
 #: kerfuffle/kdelibs/renamedialog.cpp:143
 msgid "&Rename"
