@@ -79,7 +79,8 @@ the appropriate command-line programs being installed).</para>
 
 <chapter id="using-ark">
 <title>Using &ark;</title>
-
+<para>Due to changes in &ark; this documentation is outdated and need to be rewritten.</para>
+<!--
 <sect1 id="ark-open">
 <title>Opening Archives</title>
 
@@ -121,7 +122,9 @@ and you can select to quick extract into any of them.</para>
 </listitem>
 <listitem>
 <para><guimenuitem>Preview</guimenuitem> will open the file in the associated viewer for that file type.</para>
+-->
 <!-- File Associations Embedding first item in Service Preference Order for a file type-->
+<!--
 </listitem>
 </itemizedlist>
 
@@ -187,6 +190,7 @@ from &konqueror;, &dolphin; or the desktop into the main &ark; window, and it wi
 be added to the current archive.</para>
 
 </sect1>
+-->
 </chapter>
 
 <chapter id="ark-in_filemanager">
@@ -244,7 +248,7 @@ This mode allows you to extract or create archives and add files to them.</para>
 
 <title>Credits and License</title>
 
-<para>&ark; is Copyright &copy; 1997-2008, The Various &ark; Developers</para>
+<para>&ark; is Copyright &copy; 1997-2012, The Various &ark; Developers</para>
 
 <itemizedlist>
 <title>Authors:</title>
@@ -268,6 +272,14 @@ This mode allows you to extract or create archives and add files to them.</para>
 <email>emilye@corel.com</email></para></listitem>
 <listitem><para>Corel Corporation (author: Michael Jarrett)
 <email>michaelj@corel.com</email></para></listitem>
+<listitem><para>basysKom GmbH (author: Torsten Rahn)
+<email>torsten.rahn@basyskom.com</email></para></listitem>
+<listitem><para>basysKom GmbH (author: Maurice de la Ferte)
+<email>maurice.ferte@basyskom.com</email></para></listitem>
+<listitem><para>basysKom GmbH (author: Yves Maurischat)
+<email>yves.maurischat@basyskom.com</email></para></listitem>
+<listitem><para>basysKom GmbH (author: Lamarque V. Souza)
+<email>lamarque.souza.ext@basyskom.com</email></para></listitem>
 </itemizedlist>
 
 <para>Documentation Copyright &copy; 2000 &Matt.Johnston;
