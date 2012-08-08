@@ -860,9 +860,9 @@ void Part::slotPreviewExtracted(KJob *job)
                         // libarchive (tar* archives) with FixFileNameEncoding saves archives in utf8 already. InternalId uses local
                         // encoding, which may not be utf8, so let's try opening the utf8 version of the filename.
                         // WARNING: always test libarchive plugin when changing anything related to file extraction.
-                        QString file2 = extractJob->destinationDirectory() + QDir::separator() + CliInterface::autoConvertEncoding(QFile::decodeName(var.toString().toLatin1()));
-                        if (QFile::exists(file2)) {
-                            openInExternalApplication(file2);
+                        file = extractJob->destinationDirectory() + QDir::separator() + CliInterface::autoConvertEncoding(QFile::decodeName(var.toString().toLatin1()));
+                        if (QFile::exists(file)) {
+                            openInExternalApplication(file);
                         }
                     }
                 }
