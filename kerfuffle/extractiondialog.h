@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
- * Copyright (C) 2012 basyKom GmbH <info@basyskom.com>
+ * Copyright (C) 2012 basysKom GmbH <info@basyskom.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions

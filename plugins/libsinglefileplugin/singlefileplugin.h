@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2009  Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (C) 2012 basysKom GmbH <info@basyskom.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions

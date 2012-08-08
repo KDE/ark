@@ -2,6 +2,7 @@
     Copyright (C) 2000 Stephan Kulow <coolo@kde.org>
                   1999 - 2008 David Faure <faure@kde.org>
                   2001, 2006 Holger Freyther <freyther@kde.org>
+    Copyright (C) 2012 basysKom GmbH <info@basyskom.com>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public

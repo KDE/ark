@@ -4,6 +4,7 @@
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2009-2012 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (C) 2012 basysKom GmbH <info@basyskom.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -998,7 +999,7 @@ void Part::slotExtractNextArchive()
     if (m_archivesToExtract.isEmpty()) {
         return;
     }
- 
+
     QMap<QString, QStringList>::iterator it = m_archivesToExtract.begin();
 
     if (it.value().isEmpty()) {
@@ -1024,16 +1025,16 @@ void Part::slotExtractNextArchive()
         } else {
             options[QLatin1String("RenameSupported")] = false;
         }
-        
+
         QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog(widget()->parentWidget());
         dialog->setOptions(options);
-        
+
         if (dialog->exec() != KDialog::Accepted) {
             dialog->deleteLater();
             QTimer::singleShot(0, this, SLOT(slotExtractNextArchive()));
             return;
         }
-        
+
         m_extractOptions[mimeType] = dialog->options();
         m_extractOptions[mimeType][QLatin1String("DestinationDirectory")] = QVariant(dialog->destination().pathOrUrl());
         dialog->deleteLater();
@@ -1049,7 +1050,7 @@ void Part::slotExtractNextArchive()
         QTimer::singleShot(0, this, SLOT(slotExtractNextArchive()));
         return;
     }
-    
+
     const bool shouldExtractNextArchive = !it.value().isEmpty() || m_archivesToExtract.size() > 1;
 
     if (!shouldExtractNextArchive) {
@@ -1064,7 +1065,7 @@ void Part::slotExtractNextArchive()
             this, SLOT(slotUserQuery(Kerfuffle::Query*)));
     connect(job, SIGNAL(result(KJob*)),
             this, SLOT(slotExtractionDone(KJob*)));
-    
+
     kDebug(1601) << "Starting extraction job for" << path;
     job->start();
 }

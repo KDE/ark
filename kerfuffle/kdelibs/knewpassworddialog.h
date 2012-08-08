@@ -4,6 +4,7 @@
    Copyright (C) 1999,2000 Geert Jansen <jansen@kde.org>
    Copyright (C) 2004,2005 Andrew Coles <andrew_coles@yahoo.co.uk>
    Copyright (C) 2006,2007 Olivier Goffart  <ogoffart @ kde.org>
+   Copyright (C) 2012 basysKom GmbH <info@basyskom.com>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public

@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2008 Claudio Bantaloukas <rockdreamer@gmail.com>
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
+ * Copyright (C) 2012 basyKom GmbH <info@basyskom.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

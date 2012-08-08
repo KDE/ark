@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (C) 2012 basysKom GmbH <info@basyskom.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

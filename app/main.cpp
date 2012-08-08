@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (C) 2012 basysKom GmbH <info@basyskom.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,7 +41,7 @@ int main(int argc, char **argv)
     KAboutData aboutData("ark", 0, ki18n("Ark"),
                          "2.19", ki18n("KDE Archiving tool"),
                          KAboutData::License_GPL,
-                         ki18n("(c) 1997-2011, The Various Ark Developers"),
+                         ki18n("(c) 1997-2012, The Various Ark Developers"),
                          KLocalizedString(),
                          "http://utils.kde.org/projects/ark"
                         );
@@ -75,6 +76,18 @@ int main(int argc, char **argv)
     aboutData.addAuthor(ki18n("Robert Palmbos"),
                         KLocalizedString(),
                         "palm9744@kettering.edu");
+    aboutData.addAuthor(ki18n("Torsten Rahn (basysKom GmbH)"),
+                        KLocalizedString(),
+                        "torsten.rahn@basyskom.com");
+    aboutData.addAuthor(ki18n("Lamarque V. Souza (for basysKom GmbH)"),
+                        KLocalizedString(),
+                        "lamarque.souza.ext@basyskom.com");
+    aboutData.addAuthor(ki18n("Yves Maurischat (basysKom GmbH)"),
+                        KLocalizedString(),
+                        "yves.maurischat@basyskom.com");
+    aboutData.addAuthor(ki18n("Maurice de la Ferte (basysKom GmbH)"),
+                        KLocalizedString(),
+                        "maurice.ferte@basyskom.com");
 
     aboutData.addCredit(ki18n("Bryce Corkins"),
                         ki18n("Icons"),
