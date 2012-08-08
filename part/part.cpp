@@ -832,6 +832,7 @@ void Part::slotView()
         ExtractionOptions options;
         options[QLatin1String("FixFileNameEncoding")] = true;
         options[QLatin1String("ConflictsHandling")] = Kerfuffle::OverwriteAll;
+        options[QLatin1String("PreservePaths")] = true;
 
         ExtractJob *job = m_model->extractFiles(files, m_tempDir->name(), options);
         registerJob(job);
