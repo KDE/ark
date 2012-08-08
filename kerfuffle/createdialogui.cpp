@@ -23,6 +23,7 @@
 #include "ui_createdialogui.h"
 #include "cliinterface.h"
 
+#include <KComboBox>
 #include <KDebug>
 #include <KFileDialog>
 #include <KGlobal>
@@ -55,6 +56,8 @@ CreateDialogUI::CreateDialogUI(QWidget *parent) : QWidget(parent)
 
     // combobox for split file size should only accept intengers
     splitSizeComboBox->lineEdit()->setValidator(new QIntValidator(1, 1048576, this));
+    splitSizeComboBox->setCompletionMode(KGlobalSettings::CompletionNone);
+    splitSizeComboBox->setTrapReturnKey(true);
 
     connect(browseButton, SIGNAL(clicked()), SLOT(browse()));
     connect(archiveFormatComboBox, SIGNAL(activated(int)), SLOT(updateArchiveExtension()));
@@ -122,7 +125,7 @@ void CreateDialogUI::updateUi()
     splitArchiveGroupBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::MultiPart));
     if (splitArchiveGroupBox->isChecked() && splitArchiveGroupBox->isEnabled()) {
         if (splitSizeComboBox->currentIndex() > 0) {
-            splitSizeUnitComboBox->setCurrentIndex(0);
+            splitSizeUnitComboBox->setCurrentIndex(1);
             splitSizeUnitComboBox->setEnabled(false);
         } else {
             splitSizeUnitComboBox->setEnabled(true);
@@ -149,6 +152,46 @@ CompressionOptions CreateDialogUI::options() const
     options[QLatin1String("FixFileNameEncoding")] = utf8CheckBox->isChecked();
     options[QLatin1String("LastMimeType")] = archiveFormatComboBox->itemData(archiveFormatComboBox->currentIndex());
 
+    // compute multipart size in kilobytes
+    qlonglong multiPartSize = 0;
+    if (splitSizeComboBox->currentIndex() > 0) {
+        switch(splitSizeComboBox->currentIndex()) {
+        case 1: // 1.44 MB
+            multiPartSize = 1440;
+            break;
+        case 2: // 10 MB
+            multiPartSize = 10240;
+            break;
+        case 3: // 650 MB CD
+            multiPartSize = 665600;
+            break;
+        case 4: // 700 MB CD
+            multiPartSize = 716800;
+            break;
+        case 5: // 4482 MB DVD
+            multiPartSize = 4589568;
+            break;
+        case 6: // 8152 MB Double layer DVD
+            multiPartSize = 8347648;
+            break;
+        case 7: // 23866 MB Blu-ray
+            multiPartSize = 24438784;
+            break;
+        }
+    } else {
+        multiPartSize = splitSizeComboBox->lineEdit()->text().toULongLong();
+        switch (splitSizeUnitComboBox->currentIndex()) {
+        case 1: // MB
+            multiPartSize *= 1024;
+            break;
+        case 2: // GB
+            multiPartSize *= 1048576;
+            break;
+        }
+    }
+
+    options[QLatin1String("MultiPartSize")] = multiPartSize;
+
     return options;
 }
 
@@ -165,6 +208,7 @@ void CreateDialogUI::setOptions(const CompressionOptions& options)
     splitArchiveGroupBox->setChecked(options.value(QLatin1String("SplitArchives"), false).toBool());
     splitSizeComboBox->setCurrentIndex(options.value(QLatin1String("SplitFileSize"), 0).toInt());
     splitSizeComboBox->lineEdit()->setText(options.value(QLatin1String("SplitFileSizeFreeValue"), QLatin1String("")).toString());
+    splitSizeUnitComboBox->setCurrentIndex(options.value(QLatin1String("SplitFileSizeUnit"), 1).toInt());
     multithreadingCheckBox->setChecked(options.value(QLatin1String("MultiThreadingEnabled"), true).toBool());
     utf8CheckBox->setChecked(options.value(QLatin1String("FixFileNameEncoding"), true).toBool());
 

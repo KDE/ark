@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-<comment>
+ <comment>
  *
  * createdialog.ui
  *
@@ -47,6 +47,9 @@
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
     <widget class="KTabWidget" name="tabWidget">
+     <property name="locale">
+      <locale language="English" country="UnitedStates"/>
+     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -218,19 +221,6 @@
         </layout>
        </item>
        <item>
-        <spacer name="verticalSpacer_6">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -362,6 +352,9 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="locale">
+               <locale language="English" country="UnitedStates"/>
+              </property>
               <property name="editable">
                <bool>true</bool>
               </property>
@@ -371,6 +364,16 @@
               <item>
                <property name="text">
                 <string/>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>1.44 MB Floppy</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>10 MB</string>
                </property>
               </item>
               <item>
@@ -408,6 +411,11 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <item>
+               <property name="text">
+                <string>KB</string>
+               </property>
+              </item>
               <item>
                <property name="text">
                 <string>MB</string>

@@ -1496,6 +1496,35 @@ void Part::slotAddFilesDone(KJob* job)
         if (!testAfterCompression && deleteFiles) {
             KonqOperations::del(widget(), KonqOperations::TRASH, KUrl::List(files));
         }
+
+        // multipart archives have a different name after creation, try to find it
+        if (options.value(QLatin1String("MultiPartSize"), 0).toULongLong() > 0) {
+            KMimeType::Ptr mime = KMimeType::findByUrl(url());
+            kDebug(1601) << mime->name();
+            QFileInfo info(url().path());
+            if (!info.exists()) {
+                QString file = info.absoluteFilePath() ;
+                if (mime && mime->name() == QLatin1String("application/x-7z-compressed")) {
+                    if (!file.endsWith(QLatin1String(".7z"))) {
+                        file.append(QLatin1String(".7z"));
+                    }
+                    file.append(QLatin1String(".001"));
+                } else if(mime && mime->name() == QLatin1String("application/zip")) {
+                    if (!file.endsWith(QLatin1String(".zip"))) {
+                        file.append(QLatin1String(".zip"));
+                    }
+                    file.append(QLatin1String(".001"));
+                } else if (mime && mime->name() == QLatin1String("application/x-rar")) {
+                    if (!file.endsWith(QLatin1String(".rar"))) {
+                        file.append(QLatin1String(".rar"));
+                    }
+                    file.insert(file.lastIndexOf(QLatin1String(".rar")), QLatin1String(".part1"));
+                }
+                kDebug(1601) << file;
+                KUrl newUrl(file);
+                setUrl(newUrl);
+            }
+        }
     }
 
     // needed after overwiting an archive
