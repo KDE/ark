@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/split7z">
+    <sub-class-of type="application/x-7z-compressed"/>
+    <comment>Split 7z archive</comment>
+    <generic-icon name="package-x-generic"/>
+    <glob pattern="*.001"/>
+  </mime-type>
+</mime-info>
