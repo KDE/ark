@@ -61,7 +61,6 @@ private:
     QString suggestNewName(const QString& fileName) const;
     inline QString getFileName(struct archive_entry *aentry);
     inline QString getInternalId(struct archive_entry *aentry);
-    inline QString getFileNameForExtraction(struct archive_entry *aentry);
 
     struct ArchiveReadCustomDeleter;
     struct ArchiveWriteCustomDeleter;
