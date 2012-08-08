@@ -48,7 +48,7 @@ ParameterList CliPlugin::parameterList() const
         p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QStringList() << QLatin1String("lha");
 
         p[ListArgs] = QStringList() << QLatin1String("vv") << QLatin1String("$Archive");
-        p[ExtractArgs] = QStringList() << QLatin1String("ev") << QLatin1String("$PreservePathSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");
+        p[ExtractArgs] = QStringList() << QLatin1String("evi") << QLatin1String("$Archive") << QLatin1String("$Files");
 
         p[DeleteArgs] = QStringList() << QLatin1String("dv") << QLatin1String("$Archive") << QLatin1String("$Files");
 
@@ -64,7 +64,6 @@ ParameterList CliPlugin::parameterList() const
         p[AddArgs] = QStringList() << QLatin1String("av") << QLatin1String("$Archive") << QLatin1String("$Files");
 
         p[ExtractionFailedPatterns] = QStringList() << QLatin1String("Error");
-        p[PreservePathSwitch] = QStringList() << QLatin1String( "" ) << QLatin1String( "-i" );
 
         p[TestProgram] = QLatin1String("lha");
         p[TestArgs] = QStringList() << QLatin1String("t") << QLatin1String("$PasswordSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");

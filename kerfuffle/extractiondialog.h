@@ -30,6 +30,7 @@
 #ifndef EXTRACTIONDIALOG_H
 #define EXTRACTIONDIALOG_H
 
+#include <QMultiHash>
 #include <KDialog>
 
 #include "archive.h"
@@ -65,6 +66,7 @@ private:
     class ExtractionDialogUI *m_ui;
     KUrl m_url;
     KConfigGroup m_config;
+    QMultiHash<QString,int> m_mimeTypeOptions;
 };
 }
 

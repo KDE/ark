@@ -35,6 +35,7 @@
 #include "extractiondialog.h"
 #include "ui_extractiondialog.h"
 #include "archive.h"
+#include "archiveinterface.h"
 
 #include <QtGui/QAbstractItemView>
 #include <QtCore/QDir>
@@ -98,6 +99,17 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
     m_config = KConfigGroup(KGlobal::config()->group("ExtractionDialog"));
     loadSettings();
 
+    // fill m_mimeTypeOptions
+    QList<int> options;
+    foreach(const QString & str, Kerfuffle::supportedMimeTypes()) {
+        options = Kerfuffle::supportedOptions(str);
+        if (!options.isEmpty()) {
+            foreach(const int opt, options) {
+                m_mimeTypeOptions.insert(str, opt);
+            }
+        }
+    }
+
     connect(this, SIGNAL(resetClicked()), SLOT(loadSettings()));
     connect(this, SIGNAL(user1Clicked()), SLOT(writeSettings()));
     connect(m_ui->dirOperator, SIGNAL(urlEntered(KUrl)), this, SLOT(setDestination(KUrl)));
@@ -142,6 +154,13 @@ void ExtractionDialog::updateView()
     m_ui->dirOperator->setUrl(m_url, true);
     m_ui->dirOperator->dirLister()->updateDirectory(m_ui->dirOperator->url());
     m_ui->urlNavigator->setLocationUrl(m_url);
+    KMimeType::Ptr mime = KMimeType::findByUrl(m_url);
+    if (mime) {
+        m_ui->preservePathsCheckBox->setEnabled(m_mimeTypeOptions.contains(mime->name(), Kerfuffle::PreservePath));
+        if (!m_ui->preservePathsCheckBox->isEnabled()) {
+            m_ui->preservePathsCheckBox->setChecked(false);
+        }
+    }
 
     connect(m_ui->dirOperator, SIGNAL(urlEntered(KUrl)), SLOT(setDestination(KUrl)));
     connect(m_ui->urlNavigator, SIGNAL(urlChanged(KUrl)), SLOT(setDestination(KUrl)));
