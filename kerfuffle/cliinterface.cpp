@@ -369,7 +369,7 @@ void CliInterface::fixFileNameEncoding(const QString & destinationDirectory)
     }
 
     QDir destDir(destinationDirectory);
-    destDir.setFilter(QDir::Dirs | QDir::Files | QDir::Hidden | QDir::System);
+    destDir.setFilter(QDir::Dirs | QDir::Files | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot);
 
     QStringList list = destDir.entryList();
     for (int i = 0; i < list.size(); ++i) {
