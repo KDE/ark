@@ -23,6 +23,7 @@ add_subdirectory( clirarplugin )
 add_subdirectory( cli7zplugin )
 add_subdirectory( cli7zzipplugin )
 # add_subdirectory( clizipplugin )
+add_subdirectory( clisplitzipplugin )
 add_subdirectory( libsinglefileplugin )
 add_subdirectory( clilhaplugin )
 

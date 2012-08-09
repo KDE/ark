@@ -130,8 +130,9 @@ protected:
      */
     void setWaitForFinishedSignal(bool value);
 
-private:
     QString m_filename;
+
+private:
     QString m_password;
     bool m_waitForFinishedSignal;
 };

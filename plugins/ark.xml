@@ -6,4 +6,11 @@
     <generic-icon name="package-x-generic"/>
     <glob pattern="*.001"/>
   </mime-type>
+  <mime-type type="application/splitzip">
+    <sub-class-of type="application/zip"/>
+    <comment>Split Zip archive</comment>
+    <generic-icon name="package-x-generic"/>
+    <glob pattern="*.z01"/>
+    <glob pattern="*.zx01"/>
+  </mime-type>
 </mime-info>
