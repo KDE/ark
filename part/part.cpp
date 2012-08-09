@@ -1507,30 +1507,13 @@ void Part::slotAddFilesDone(KJob* job)
 
         // multipart archives have a different name after creation, try to find it
         if (options.value(QLatin1String("MultiPartSize"), 0).toULongLong() > 0) {
-            KMimeType::Ptr mime = KMimeType::findByUrl(url());
-            kDebug(1601) << mime->name();
-            QFileInfo info(url().path());
-            if (!info.exists()) {
-                QString file = info.absoluteFilePath() ;
-                if (mime && mime->name() == QLatin1String("application/x-7z-compressed")) {
-                    if (!file.endsWith(QLatin1String(".7z"))) {
-                        file.append(QLatin1String(".7z"));
-                    }
-                    file.append(QLatin1String(".001"));
-                } else if(mime && mime->name() == QLatin1String("application/zip")) {
-                    if (!file.endsWith(QLatin1String(".zip"))) {
-                        file.append(QLatin1String(".zip"));
-                    }
-                    file.append(QLatin1String(".001"));
-                } else if (mime && mime->name() == QLatin1String("application/x-rar")) {
-                    if (!file.endsWith(QLatin1String(".rar"))) {
-                        file.append(QLatin1String(".rar"));
-                    }
-                    file.insert(file.lastIndexOf(QLatin1String(".rar")), QLatin1String(".part1"));
+            if (!KIO::NetAccess::exists(url(), KIO::NetAccess::DestinationSide, widget())) {
+                KUrl splitFile(findSplitFile(url()));
+                if (KIO::NetAccess::exists(splitFile, KIO::NetAccess::DestinationSide, widget())) {
+                    setUrl(splitFile);
+                } else {
+                    setUrl(m_lastDir);
                 }
-                kDebug(1601) << file;
-                KUrl newUrl(file);
-                setUrl(newUrl);
             }
         }
     }
@@ -1552,6 +1535,77 @@ void Part::slotAddFilesDone(KJob* job)
     }
 
     openUrl(url());
+}
+
+KUrl Part::findSplitFile(const KUrl& url)
+{
+    // this method is needed when we create split archives
+    // as we don't know what exactly what the backend saves the archive parts as, we have to guess:
+    // originally set filename probably was bla.zip or bla.rar
+    // 7z currently creates something like bla.zip.***, RAR something like bla.part**.rar
+    // thus we use the original file name (as set in the creation dialog) and return the candidate
+    // with the most similar name
+
+    KMimeType::Ptr mime = KMimeType::findByUrl(url);
+    QFileInfo info(url.path());
+    QString base = info.fileName();
+    QStringList extensions;
+    if (mime && !mime->patterns().isEmpty()) {
+        foreach(const QString & pattern, mime->patterns()) {
+            if (pattern.startsWith(QLatin1Char('*'))) {
+                extensions << pattern.mid(1); //the pattern starts with *, like *.zip
+            } else {
+                extensions << pattern;
+            }
+        }
+    }
+
+    // remove the suffix from teh original file name, if there is one
+    foreach(const QString suffix, extensions) {
+        if (base.endsWith(suffix)) {
+            base.truncate(base.lastIndexOf(QLatin1Char('.')));
+            break;
+        }
+    }
+
+    QStringList nameFilter;
+    nameFilter << base + QLatin1String(".*"); // add . and wildcard for the extension
+
+    // get file entries from the directory
+    QDir currentDir(info.absolutePath());
+    QStringList files = currentDir.entryList(nameFilter, QDir::Files | QDir::NoSymLinks, QDir::Name);
+
+    if (files.isEmpty()) {
+        return url; // we didnt find anything, returning the original URL will create an error message
+    }
+
+    // now it gets tricky: try to find the file in the list that is the first split file
+    KUrl candidate;
+    foreach(const QString & file, files) {
+        if (file.contains(QRegExp(QLatin1String("\\.part[0-1]{1,4}")))
+                || file.contains(QRegExp(QLatin1String("\\.[0-1]{1,4}$")))
+                || file.contains(QRegExp(QLatin1String("\\.[a-zA-Z]{1,3}[0-1]{1,4}$")))) {
+            candidate = KUrl(info.absolutePath() + QDir::separator() + file);
+            KMimeType::Ptr type = KMimeType::findByUrl(candidate);
+            if (type && mime && type->name() == mime->name()) {
+                break; // we use the first we find as the list is sorted anyway
+            }
+        }
+    }
+
+    // no matches for bla.part01.rar or bla.zip.001
+    if (candidate.isEmpty()) {
+        foreach(const QString & file, files) {
+            //ok, try the first one with the right mime type
+            candidate = KUrl(info.absolutePath() + QDir::separator() + file);
+            KMimeType::Ptr type = KMimeType::findByUrl(candidate);
+            if (type && mime && type->name() == mime->name()) {
+                break;
+            }
+        }
+    }
+
+    return candidate;
 }
 
 void Part::slotDeleteFilesDone(KJob* job)

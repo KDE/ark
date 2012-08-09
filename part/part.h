@@ -69,7 +69,8 @@ public:
 
     bool isBusy() const;
     static bool isSupportedArchive(const KUrl& url);
-    static QString suggestNewNameForFile(const QString& filepath);
+    static QString suggestNewNameForFile(const QString& file);
+    static KUrl findSplitFile(const KUrl& url);
 
 public slots:
     void extractSelectedFilesTo(const QString& localPath);
