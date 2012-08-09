@@ -1539,6 +1539,7 @@ void Part::slotAddFilesDone(KJob* job)
 
 KUrl Part::findSplitFile(const KUrl& url)
 {
+    kDebug(1601);
     // this method is needed when we create split archives
     // as we don't know what exactly what the backend saves the archive parts as, we have to guess:
     // originally set filename probably was bla.zip or bla.rar
@@ -1582,14 +1583,11 @@ KUrl Part::findSplitFile(const KUrl& url)
     // now it gets tricky: try to find the file in the list that is the first split file
     KUrl candidate;
     foreach(const QString & file, files) {
-        if (file.contains(QRegExp(QLatin1String("\\.part[0-1]{1,4}")))
-                || file.contains(QRegExp(QLatin1String("\\.[0-1]{1,4}$")))
-                || file.contains(QRegExp(QLatin1String("\\.[a-zA-Z]{1,3}[0-1]{1,4}$")))) {
+        if (file.contains(QRegExp(QLatin1String("\\.part[0]{1,3}1")))
+                || file.contains(QRegExp(QLatin1String("\\.[0]{1,3}1$")))
+                || file.contains(QRegExp(QLatin1String("\\.[a-zA-Z]{1,3}[0]{1,3}1$")))) {
             candidate = KUrl(info.absolutePath() + QDir::separator() + file);
-            KMimeType::Ptr type = KMimeType::findByUrl(candidate);
-            if (type && mime && type->name() == mime->name()) {
-                break; // we use the first we find as the list is sorted anyway
-            }
+            break; // we use the first we find as the list is sorted anyway
         }
     }
 
