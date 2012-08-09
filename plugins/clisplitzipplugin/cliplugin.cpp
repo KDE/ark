@@ -270,7 +270,9 @@ ParameterList CliPlugin::parameterList() const
         p[ExtractProgram] = QLatin1String( "unzip" );
         p[DeleteProgram] = p[AddProgram] = QLatin1String( "zip" );
 
-        p[ListArgs] = QStringList() << QLatin1String( "-l" ) << QLatin1String( "-T" ) << QLatin1String( "$Archive" );
+        // -U forces unzip to escape all non-ASCII characters from UTF-8 coded filenames as ''#Uxxxx''.
+        // Actually, zipinfo uses UTF-16, not UTF-8, so we will need to parse the text to convert it to UTF-8.
+        p[ListArgs] = QStringList() << QLatin1String( "-U" ) <<  QLatin1String( "-l" ) << QLatin1String( "-T" ) << QLatin1String( "$Archive" );
         p[ExtractArgs] = QStringList() << QLatin1String( "$PreservePathSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
         p[PreservePathSwitch] = QStringList() << QLatin1String( "" ) << QLatin1String( "-j" );
         p[PasswordSwitch] = QStringList() << QLatin1String( "-P$Password" );
@@ -299,10 +301,38 @@ ParameterList CliPlugin::parameterList() const
     return p;
 }
 
-bool CliPlugin::readListLine(const QString &line)
+bool CliPlugin::readListLine(const QString &l)
 {
     static const QRegExp entryPattern(QLatin1String(
         "^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\d{8}).(\\d{6})\\s+(.+)$") );
+ 
+    // parse UTF-16 manually since zipinfo does not help us here :-(
+    QString line = l;
+    int pos = 0;
+    ushort u = 0;
+    bool ok;
+    ushort unicode[2];
+    while ((pos = line.indexOf(QLatin1String("#U"), pos)) != -1) {
+        if (line.size() < (pos + 6)) {
+            continue;
+        }
+
+        QString code = line[pos+2] + line[pos+3] + line[pos+4] + line[pos+5];
+        u = code.toInt(&ok, 16);
+        if (!ok) {
+            continue;
+        }
+
+        // assuming litle-endian.
+        unicode[0] = u & 0x00ff;
+        unicode[1] = u & 0xff00;
+        code = QLatin1String("#U") + code;
+        //kDebug(1601) << "replacing" << code << u << "with" << QString::fromUtf16(unicode);
+        line.replace(code, QString::fromUtf16(unicode));
+    }
+
+    //kDebug(1601) << l;
+    //kDebug(1601) << line;
 
     switch (m_status) {
     case Header:
@@ -330,11 +360,7 @@ bool CliPlugin::readListLine(const QString &line)
 
             QString resultString = entryPattern.cap(10);
             e[InternalID] = resultString;
-
-            // Adjust encoding for zip files since zip doesn't handle it
-            //e[FileName] = autoConvertEncoding( resultString.toAscii() );
-            e[FileName] = QFile::decodeName(resultString.toAscii());
-
+            e[FileName] = resultString;
             entry(e);
         }
         break;
