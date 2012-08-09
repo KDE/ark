@@ -263,6 +263,11 @@ enum CliInterfaceParameters {
     AddArgs,
     /**
      * QStringList
+     * Patterns that indicate a fail during adding
+     */
+    AddFailedPatterns,
+    /**
+     * QStringList
      * The arguments that are passed to the program above for
      * setting the compression level.
      * First entry is "Store"

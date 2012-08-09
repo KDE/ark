@@ -60,6 +60,8 @@ ParameterList CliPlugin::parameterList() const
 
         // TODO: split archives do not support add and delete.
         p[AddArgs] = QStringList() << QLatin1String("-tzip") << QLatin1String("a") << QLatin1String("$TemporaryDirectorySwitch") << QLatin1String("$CompressionLevelSwitch") << QLatin1String("$MultiThreadingSwitch") << QLatin1String("$PasswordSwitch") << QLatin1String("$EncryptHeaderSwitch") << QLatin1String("$EncryptionMethodSwitches") << QLatin1String("$MultiPartSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");
+        p[AddFailedPatterns] = QStringList() << QLatin1String("E_NOTIMPL")
+                                             << QLatin1String("Cannot modify volume");
         // TODO: split archives do not support add and delete.
         p[DeleteArgs] = QStringList() << QLatin1String("d") << QLatin1String("$Archive") << QLatin1String("$Files");
 

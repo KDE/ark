@@ -929,6 +929,24 @@ void CliInterface::handleLine(const QString& line)
         }
     }
 
+    if (m_operationMode == Add) {
+        if (checkForErrorMessage(line, AddFailedPatterns)) {
+            setPassword(QString());
+            error(i18nc("@info Adding files to an archive failed for some reason",
+                        "Adding files failed with the following message:\n%1", line));
+            failOperation();
+            return;
+        }
+
+        if (handleFileExistsMessage(line)) {
+            return;
+        }
+
+        if (handleRenameFileMessage(line)) {
+            return;
+        }
+    }
+
     if (m_operationMode == Copy || m_operationMode == Delete) {
         if (checkForPasswordPromptMessage(line)) {
             kDebug(1601) << "Found a password prompt";

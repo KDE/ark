@@ -72,6 +72,9 @@ ParameterList CliPlugin::parameterList() const
         p[FileExistsExpression] = QLatin1String("already exists. Overwrite with");
         p[WrongPasswordPatterns] = QStringList() << QLatin1String("Wrong password");
         p[AddArgs] = QStringList() << QLatin1String("a") << QLatin1String("$TemporaryDirectorySwitch") << QLatin1String("$CompressionLevelSwitch") << QLatin1String("$MultiThreadingSwitch") << QLatin1String("$PasswordSwitch") << QLatin1String("$EncryptHeaderSwitch")  << QLatin1String("$MultiPartSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");
+        p[AddFailedPatterns] = QStringList() << QLatin1String("E_NOTIMPL")
+                                             << QLatin1String("Cannot modify volume");
+
         p[DeleteArgs] = QStringList() << QLatin1String("d") << QLatin1String("$Archive") << QLatin1String("$Files");
 
         p[FileExistsInput] = QStringList()
