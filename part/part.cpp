@@ -1562,7 +1562,7 @@ KUrl Part::findSplitFile(const KUrl& url)
     }
 
     // remove the suffix from teh original file name, if there is one
-    foreach(const QString suffix, extensions) {
+    foreach(const QString & suffix, extensions) {
         if (base.endsWith(suffix)) {
             base.truncate(base.lastIndexOf(QLatin1Char('.')));
             break;
@@ -1577,7 +1577,7 @@ KUrl Part::findSplitFile(const KUrl& url)
     QStringList files = currentDir.entryList(nameFilter, QDir::Files | QDir::NoSymLinks, QDir::Name);
 
     if (files.isEmpty()) {
-        return url; // we didnt find anything, returning the original URL will create an error message
+        return url; // we didn't find anything, returning the original URL will create an error message
     }
 
     // now it gets tricky: try to find the file in the list that is the first split file
