@@ -1583,9 +1583,8 @@ KUrl Part::findSplitFile(const KUrl& url)
     // now it gets tricky: try to find the file in the list that is the first split file
     KUrl candidate;
     foreach(const QString & file, files) {
-        if (file.contains(QRegExp(QLatin1String("\\.part[0]{1,3}1")))
-                || file.contains(QRegExp(QLatin1String("\\.[0]{1,3}1$")))
-                || file.contains(QRegExp(QLatin1String("\\.[a-zA-Z]{1,3}[0]{1,3}1$")))) {
+        if (file.contains(QRegExp(QLatin1String("\\.part[0]{0,3}1")))
+                || file.contains(QRegExp(QLatin1String("\\.[a-zA-Z]{0,3}[0]{0,3}1$")))) {
             candidate = KUrl(info.absolutePath() + QDir::separator() + file);
             break; // we use the first we find as the list is sorted anyway
         }
