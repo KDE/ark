@@ -37,6 +37,7 @@ public:
     virtual ~CliPlugin();
 
     virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options);
+    virtual bool testFiles(const QList<QVariant> & files, TestOptions options = TestOptions());
 
     virtual QString escapeFileName(const QString &fileName) const;
 

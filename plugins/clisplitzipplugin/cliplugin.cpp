@@ -94,6 +94,21 @@ bool CliPlugin::copyFiles(const QList<QVariant> & files, const QString & destina
     return ret;
 }
 
+bool CliPlugin::testFiles(const QList<QVariant> & files, TestOptions options)
+{
+    if (!joinVolumes()) {
+        return false;
+    }
+
+    QString originalFilename = m_filename;
+    m_filename = m_tempFile->fileName();
+    const bool ret = CliInterface::testFiles(files, options);
+    m_filename = originalFilename;
+
+    cleanUp();
+    return ret;
+}
+
 bool CliPlugin::joinVolumes()
 {
     // zip command requires volumes named as .z01, .z02, ..., .zip
@@ -310,7 +325,7 @@ ParameterList CliPlugin::parameterList() const
         p[TestProgram] = QLatin1String( "zip" );
         // Zip just supports a full archive check:
         p[TestArgs] = QStringList() << QLatin1String( "-T" ) << QLatin1String( "$PasswordSwitch" )  << QLatin1String( "$Archive" );
-        p[TestFailedPatterns] = QStringList() << QLatin1String("FAILED");
+        p[TestFailedPatterns] = QStringList() << QLatin1String("FAILED") << QLatin1String("zip error");
         //p[ExtractionFailedPatterns] = QStringList() << "CRC failed";
     }
     return p;
