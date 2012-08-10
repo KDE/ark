@@ -1459,13 +1459,6 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString path, Compr
         intersect.clear();
     }
 
-    // Change file name encoding to the one used in Windows.
-    // This breaks file name encoding in Linux when extracting files with
-    // FixFileNameEncoding disabled or with other tools besides Ark (like the tar command).
-    // The plugin can choose to ignore this option if the archive type supports
-    // storing the correct encoding (only tar does not support that as far as we known).
-    options[QLatin1String("FixFileNameEncoding")] = true;
-
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
     if (!job) {
         clearOpenArguments();

@@ -190,13 +190,6 @@ void AddToArchive::slotStartJob(void)
         kDebug(1601) << "Setting GlobalWorkDir to " << stripDir.path();
     }
 
-    // Change file name encoding to the one used in Windows.
-    // This breaks file name encoding in Linux when extracting files with
-    // FixFileNameEncoding disabled or with other tools besides Ark (like the tar command).
-    // The plugin can choose to ignore this option if the archive type supports
-    // storing the correct encoding (only tar does not support that as far as we known).
-    options[QLatin1String("FixFileNameEncoding")] = true;
-
     Kerfuffle::AddJob *job =
         archive->addFiles(m_inputs, options);
 
