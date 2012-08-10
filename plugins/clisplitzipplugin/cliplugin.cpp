@@ -323,7 +323,7 @@ bool CliPlugin::readListLine(const QString &l)
             continue;
         }
 
-        // assuming litle-endian.
+        // assuming little-endian.
         unicode[0] = u & 0x00ff;
         unicode[1] = u & 0xff00;
         code = QLatin1String("#U") + code;
