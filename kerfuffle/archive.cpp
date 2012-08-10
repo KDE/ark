@@ -329,7 +329,8 @@ QStringList supportedWriteMimeTypes()
         QStringList mimeTypes = service->serviceTypes();
 
         foreach(const QString & mimeType, mimeTypes) {
-            if (mimeType != basePartService && !supported.contains(mimeType)) {
+            QList<int> options = Kerfuffle::supportedOptions(mimeType);
+            if (mimeType != basePartService && !supported.contains(mimeType) && options.contains(Kerfuffle::IOWrite)) {
                 supported.append(mimeType);
             }
         }
@@ -394,6 +395,9 @@ QList<int> supportedOptions(const QString &mimeType)
 
     if (iface->supportsOption(Rename, mimeType))
         options.append(Rename);
+
+    if (iface->supportsOption(IOWrite, mimeType))
+        options.append(IOWrite);
 
     return options;
 }

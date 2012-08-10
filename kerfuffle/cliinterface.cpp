@@ -153,6 +153,13 @@ bool CliInterface::supportsOption(const Kerfuffle::SupportedOptions option, cons
     case Rename:
         return supportsParameter(SupportsRename);
         break;
+    case IOWrite:
+        if (mimeType == QLatin1String("application/split7z") || mimeType == QLatin1String("application/splitzip")) {
+            return false;
+        } else {
+            return true;
+        }
+        break;
     }
     return false;
 }

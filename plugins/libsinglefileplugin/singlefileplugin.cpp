@@ -55,6 +55,7 @@ bool LibSingleFileInterface::supportsOption(const Kerfuffle::SupportedOptions op
     switch (option) {
     case Rename:
     case Testing:
+    case IOWrite:
         return true;
         break;
     case CompressionLevel:

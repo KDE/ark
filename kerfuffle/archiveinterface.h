@@ -50,7 +50,8 @@ enum SupportedOptions {
     Password,
     PreservePath,
     RootNode,
-    Rename
+    Rename,
+    IOWrite
 };
 
 class Query;

@@ -106,6 +106,7 @@ bool LibArchiveInterface::supportsOption(const Kerfuffle::SupportedOptions optio
     case RootNode:
         break;
     case Rename:
+    case IOWrite:
         return true;
     }
     return false;
