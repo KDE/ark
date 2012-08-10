@@ -268,7 +268,7 @@ ParameterList CliPlugin::parameterList() const
         p[CaptureProgress] = false;
         p[ListProgram] = QLatin1String( "zipinfo" );
         p[ExtractProgram] = QLatin1String( "unzip" );
-        p[DeleteProgram] = p[AddProgram] = QLatin1String( "zip" );
+        //p[DeleteProgram] = p[AddProgram] = QLatin1String( "zip" );
 
         // -U forces unzip to escape all non-ASCII characters from UTF-8 coded filenames as ''#Uxxxx''.
         // Actually, zipinfo uses UTF-16, not UTF-8, so we will need to parse the text to convert it to UTF-8.
@@ -277,7 +277,7 @@ ParameterList CliPlugin::parameterList() const
         p[PreservePathSwitch] = QStringList() << QLatin1String( "" ) << QLatin1String( "-j" );
         p[PasswordSwitch] = QStringList() << QLatin1String( "-P$Password" );
 
-        p[DeleteArgs] = QStringList() << QLatin1String( "-d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        //p[DeleteArgs] = QStringList() << QLatin1String( "-d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
         p[FileExistsExpression] = QLatin1String( "^replace (.+)\\?" );
         p[FileExistsInput] = QStringList()
@@ -287,9 +287,9 @@ ParameterList CliPlugin::parameterList() const
                              << QLatin1String( "N" ) //autoskip
                              ;
 
-        p[AddArgs] = QStringList() << QLatin1String( "$CompressionLevelSwitch" ) << QLatin1String( "-r" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        //p[AddArgs] = QStringList() << QLatin1String( "$CompressionLevelSwitch" ) << QLatin1String( "-r" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
-        p[CompressionLevelSwitches] = QStringList() << QLatin1String( "-0" ) << QLatin1String( "-3" ) << QLatin1String( "-6" ) << QLatin1String("-8" ) << QLatin1String("-9" );
+        //p[CompressionLevelSwitches] = QStringList() << QLatin1String( "-0" ) << QLatin1String( "-3" ) << QLatin1String( "-6" ) << QLatin1String("-8" ) << QLatin1String("-9" );
         p[PasswordPromptPattern] = QLatin1String(" password: ");
         p[WrongPasswordPatterns] = QStringList() << QLatin1String( "incorrect password" ) << QLatin1String( "password incorrect" ) << QLatin1String( "Wrong password" ) ;
         p[TestProgram] = QLatin1String( "zip" );
