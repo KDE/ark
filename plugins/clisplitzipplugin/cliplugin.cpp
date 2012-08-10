@@ -224,7 +224,7 @@ void CliPlugin::readStdout2()
         return;
     }
 
-    // supress output of m_process.
+    // suppress output of m_process.
     m_process->readAllStandardOutput();
 
     // TODO: implement support for error checking and password prompt.

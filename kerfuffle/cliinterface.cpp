@@ -116,8 +116,6 @@ bool CliInterface::supportsParameter(CliInterfaceParameters param)
 
 bool CliInterface::supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType)
 {
-    Q_UNUSED(mimeType);
-
     switch (option) {
     case CompressionLevel:
         return supportsParameter(CompressionLevelSwitches);
@@ -163,7 +161,6 @@ bool CliInterface::supportsOption(const Kerfuffle::SupportedOptions option, cons
     }
     return false;
 }
-
 
 bool CliInterface::list()
 {
