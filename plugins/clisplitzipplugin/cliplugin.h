@@ -45,6 +45,9 @@ public:
     virtual bool readListLine(const QString &line);
     virtual void resetReadState();
 
+private slots:
+    void readStdout2();
+
 private:
     enum {
         Header = 0,

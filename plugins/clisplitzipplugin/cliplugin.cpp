@@ -174,9 +174,12 @@ bool CliPlugin::runProcess2(const QString & programPath, const QStringList & arg
     }
 
     m_process = new KProcess();
+    m_process->setOutputChannelMode(KProcess::MergedChannels);
+    m_process->setNextOpenMode(QIODevice::ReadWrite | QIODevice::Unbuffered | QIODevice::Text);
     //m_process->setWorkingDirectory(tmpDir);
     m_process->setProgram(programPath, args);
     kDebug(7109) << "starting '" << programPath << args << "'";
+    connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout2()), Qt::DirectConnection);
     m_process->start();
 
     if (!m_process->waitForStarted()) {
@@ -198,6 +201,18 @@ bool CliPlugin::runProcess2(const QString & programPath, const QStringList & arg
     }
 
     return true;
+}
+
+void CliPlugin::readStdout2()
+{
+    if (!m_process->bytesAvailable()) {
+        return;
+    }
+
+    // supress output of m_process.
+    m_process->readAllStandardOutput();
+
+    // TODO: implement support for error checking and password prompt.
 }
 
 void CliPlugin::cleanUp()
