@@ -67,6 +67,8 @@ CliInterface::CliInterface(QObject *parent, const QVariantList & args)
     if (QMetaType::type("QProcess::ExitStatus") == 0) {
         qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
     }
+
+    connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(killAllProcesses()));
 }
 
 void CliInterface::cacheParameterList()
@@ -718,8 +720,6 @@ bool CliInterface::testFiles(const QList<QVariant> & files, TestOptions options)
         return false;
     }
 
-
-
     return m_testResult;
 }
 
@@ -758,8 +758,6 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
 
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
     connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), SLOT(processFinished(int,QProcess::ExitStatus)), Qt::DirectConnection);
-
-    connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(killAllProcesses()));
 
     m_stdOutData.clear();
 
