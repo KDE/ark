@@ -21,14 +21,16 @@
  */
 
 #include "extractHereDndPlugin.h"
-#include "batchextract.h"
 #include "kerfuffle/archive.h"
+#include "kerfuffle/archiveinterface.h"
+#include "kerfuffle/batchextract.h"
 
 #include <KAction>
 #include <KDebug>
 #include <KPluginFactory>
 #include <KPluginLoader>
 #include <KLocale>
+#include <KMimeType>
 #include <kfileitemlistproperties.h>
 
 K_PLUGIN_FACTORY(ExtractHerePluginFactory,
@@ -39,14 +41,37 @@ K_EXPORT_PLUGIN(ExtractHerePluginFactory("stupidname", "ark"))
 void ExtractHereDndPlugin::slotTriggered()
 {
     kDebug(1601) << "Preparing job";
-    BatchExtract *batchJob = new BatchExtract();
+    Kerfuffle::BatchExtract *batchJob = new Kerfuffle::BatchExtract();
 
-    batchJob->setAutoSubfolder(true);
-    batchJob->setDestinationFolder(m_dest.pathOrUrl());
-    batchJob->setPreservePaths(true);
-    foreach(const KUrl& url, m_urls) {
+    Kerfuffle::ExtractionOptions options;
+    options[QLatin1String("AutoSubfolders")] = true;
+    options[QLatin1String("OpenDestinationAfterExtraction")] = false;
+    options[QLatin1String("CloseArkAfterExtraction")] = true;
+    options[QLatin1String("FixFileNameEncoding")] = true;
+    options[QLatin1String("MultiThreadingEnabled")] = false;
+    options[QLatin1String("PreservePaths")] = false;
+    options[QLatin1String("RenameSupported")] = false;
+    options[QLatin1String("ConflictsHandling")] = (int)Kerfuffle::AlwaysAsk;
+    options[QLatin1String("DestinationDirectory")] = QVariant(m_dest.pathOrUrl());
+    options[QLatin1String("TestBeforeExtraction")] = true;
+
+    KMimeType::Ptr mime;
+    QList<int> supportedOptions;
+    foreach(const KUrl & url, m_urls) {
         batchJob->addInput(url);
+        mime = KMimeType::findByUrl(url);
+        if (mime && Kerfuffle::supportedMimeTypes().contains(mime->name())) {
+            supportedOptions = Kerfuffle::supportedOptions(mime->name());
+            if (supportedOptions.contains(Kerfuffle::PreservePath)) {
+                options[QLatin1String("PreservePathsEnabled")] = true;
+            }
+
+            if (supportedOptions.contains(Kerfuffle::Rename)) {
+                options[QLatin1String("RenameSupported")] = true;
+            }
+        }
     }
+    batchJob->setOptions(options);
 
     batchJob->start();
     kDebug(1601) << "Started job";
@@ -54,7 +79,7 @@ void ExtractHereDndPlugin::slotTriggered()
 }
 
 ExtractHereDndPlugin::ExtractHereDndPlugin(QObject* parent, const QVariantList&)
-        : KonqDndPopupMenuPlugin(parent)
+    : KonqDndPopupMenuPlugin(parent)
 {
 }
 

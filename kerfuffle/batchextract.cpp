@@ -28,11 +28,10 @@
  */
 
 #include "batchextract.h"
-
-#include "kerfuffle/archive.h"
-#include "kerfuffle/extractiondialog.h"
-#include "kerfuffle/jobs.h"
-#include "kerfuffle/queries.h"
+#include "archive.h"
+#include "extractiondialog.h"
+#include "jobs.h"
+#include "queries.h"
 
 #include <KDebug>
 #include <KGlobal>
@@ -47,11 +46,12 @@
 #include <QTimer>
 #include <QWeakPointer>
 
+namespace Kerfuffle
+{
+
 BatchExtract::BatchExtract()
     : KCompositeJob(0),
-      m_autoSubfolder(false),
-      m_preservePaths(true),
-      m_openDestinationAfterExtraction(false)
+      m_useTracker(true)
 {
     setCapabilities(KJob::Killable);
 
@@ -60,16 +60,18 @@ BatchExtract::BatchExtract()
 
 BatchExtract::~BatchExtract()
 {
-    if (!m_inputs.isEmpty()) {
+    if (!m_inputs.isEmpty() && m_useTracker) {
         KIO::getJobTracker()->unregisterJob(this);
     }
 }
 
 void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
 {
-    QString destination = destinationFolder();
+    KUrl dest(m_options.value(QLatin1String("DestinationDirectory"), QDir::homePath()).toUrl());
+    QString destination = dest.pathOrUrl();
+    bool preservePaths = m_options.value(QLatin1String("PreservePaths"), false).toBool();
 
-    if ((autoSubfolder()) && (!archive->isSingleFolderArchive())) {
+    if (m_options.value(QLatin1String("AutoSubfolders"), true).toBool()) {
         const QDir d(destination);
         QString subfolderName = archive->subfolderName();
 
@@ -82,12 +84,9 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
         destination += QLatin1Char( '/' ) + subfolderName;
     }
 
-    Kerfuffle::ExtractionOptions options;
-    options[QLatin1String("PreservePaths")] = preservePaths();
+    Kerfuffle::ExtractJob *job = archive->copyFiles(QVariantList(), destination, m_options);
 
-    Kerfuffle::ExtractJob *job = archive->copyFiles(QVariantList(), destination, options);
-
-    kDebug(1601) << QString(QLatin1String( "Registering job from archive %1, to %2, preservePaths %3" )).arg(archive->fileName()).arg(destination).arg(preservePaths());
+    kDebug(1601) << QString(QLatin1String( "Registering job from archive %1, to %2, preservePaths %3" )).arg(archive->fileName()).arg(destination).arg(preservePaths);
 
     addSubjob(job);
 
@@ -104,19 +103,32 @@ void BatchExtract::slotUserQuery(Kerfuffle::Query *query)
     query->execute();
 }
 
-bool BatchExtract::autoSubfolder() const
-{
-    return m_autoSubfolder;
-}
-
-void BatchExtract::setAutoSubfolder(bool value)
-{
-    m_autoSubfolder = value;
-}
-
 void BatchExtract::start()
 {
     QTimer::singleShot(0, this, SLOT(slotStartJob()));
+}
+
+void BatchExtract::setOptions(const ExtractionOptions &options)
+{
+    foreach(QString key, options.keys()) {
+        m_options[key] = options.value(key);
+        kDebug(1601) << key << ": " << options.value(key).toString();
+    }
+}
+
+ExtractionOptions BatchExtract::options() const
+{
+    return m_options;
+}
+
+bool BatchExtract::hasInputs()
+{
+    return (m_inputs.count() > 0);
+}
+
+void BatchExtract::setUseTracker(bool useTracker)
+{
+    m_useTracker = useTracker;
 }
 
 void BatchExtract::slotStartJob()
@@ -131,7 +143,9 @@ void BatchExtract::slotStartJob()
         addExtraction(archive);
     }
 
-    KIO::getJobTracker()->registerJob(this);
+    if(m_useTracker) {
+        KIO::getJobTracker()->registerJob(this);
+    }
 
     emit description(this,
                      i18n("Extracting file..."),
@@ -148,6 +162,7 @@ void BatchExtract::slotStartJob()
 
 void BatchExtract::showFailedFiles()
 {
+    kDebug(1601);
     if (!m_failedFiles.isEmpty()) {
         KMessageBox::informationList(0, i18n("The following files could not be extracted:"), m_failedFiles);
     }
@@ -155,12 +170,10 @@ void BatchExtract::showFailedFiles()
 
 void BatchExtract::slotResult(KJob *job)
 {
-    kDebug(1601);
-
     // TODO: The user must be informed about which file caused the error, and that the other files
     //       in the queue will not be extracted.
     if (job->error()) {
-        kDebug(1601) << "There was en error, " << job->errorText();
+        kDebug(1601) << "There was an error, " << job->errorText();
 
         setErrorText(job->errorText());
         setError(job->error());
@@ -179,8 +192,8 @@ void BatchExtract::slotResult(KJob *job)
     }
 
     if (!hasSubjobs()) {
-        if (openDestinationAfterExtraction()) {
-            KUrl destination(destinationFolder());
+        if (m_options.value(QLatin1String("OpenDestinationAfterExtraction"), false).toBool()) {
+            KUrl destination(m_options.value(QLatin1String("DestinationDirectory"), false).toString());
             destination.cleanPath();
             KRun::runUrl(destination, QLatin1String( "inode/directory" ), 0);
         }
@@ -219,41 +232,6 @@ bool BatchExtract::addInput(const KUrl& url)
     return true;
 }
 
-bool BatchExtract::openDestinationAfterExtraction() const
-{
-    return m_openDestinationAfterExtraction;
-}
-
-bool BatchExtract::preservePaths() const
-{
-    return m_preservePaths;
-}
-
-QString BatchExtract::destinationFolder() const
-{
-    if (m_destinationFolder.isEmpty()) {
-        return QDir::currentPath();
-    } else {
-        return m_destinationFolder;
-    }
-}
-
-void BatchExtract::setDestinationFolder(const QString& folder)
-{
-    if (QFileInfo(folder).isDir()) {
-        m_destinationFolder = folder;
-    }
-}
-
-void BatchExtract::setOpenDestinationAfterExtraction(bool value)
-{
-    m_openDestinationAfterExtraction = value;
-}
-
-void BatchExtract::setPreservePaths(bool value)
-{
-    m_preservePaths = value;
-}
 
 bool BatchExtract::showExtractDialog()
 {
@@ -264,30 +242,19 @@ bool BatchExtract::showExtractDialog()
         dialog.data()->setBatchMode(true);
     }
 
-    Kerfuffle::ExtractionOptions options;
-    options[QLatin1String("AutoSubfolder")] = autoSubfolder();
-    if (!destinationFolder().isEmpty()) {
-        options[QLatin1String("DestinationDirectory")] = destinationFolder();
-    }
-    options[QLatin1String("OpenDestinationAfterExtraction")] = openDestinationAfterExtraction();
-    options[QLatin1String("PreservePaths")] = preservePaths();
-    dialog.data()->setOptions(options);
+    dialog.data()->setOptions(m_options);
 
     if (!dialog.data()->exec()) {
         delete dialog.data();
         return false;
     }
 
-    options = dialog.data()->options();
-
-    setAutoSubfolder(options.value(QLatin1String("AutoSubfolder")).toBool());
-    setDestinationFolder(static_cast<KUrl>(options.value(QLatin1String("DestinationDirectory")).toUrl()).pathOrUrl());
-    setOpenDestinationAfterExtraction(options.value(QLatin1String("OpenDestinationAfterExtraction")).toBool());
-    setPreservePaths(options.value(QLatin1String("PreservePaths")).toBool());
-
+    m_options = dialog.data()->options();
     delete dialog.data();
 
     return true;
+}
+
 }
 
 #include <batchextract.moc>

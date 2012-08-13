@@ -6,6 +6,7 @@ macro_log_feature(QJSON_FOUND "qjson" "A library for processing and serializing 
 set(kerfuffle_SRCS
     archive.cpp
     archiveinterface.cpp
+    batchextract.cpp
     jobs.cpp
     extractiondialog.cpp
     adddialog.cpp

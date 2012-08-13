@@ -181,7 +181,7 @@ bool Job::doKill()
 
 QString Job::fileName()
 {
-    return m_interface->filename();
+    return archiveInterface()->filename();
 }
 
 ListJob::ListJob(ReadOnlyArchiveInterface *interface, QObject *parent)
@@ -257,8 +257,8 @@ ExtractJob::ExtractJob(const QVariantList& files, const QString& destinationDir,
 
 void ExtractJob::doWork()
 {
-    if (m_options.value("TestBeforeExtraction", false).toBool()) {
-        Archive *ark = factory(fileName());
+    if (m_options.value(QLatin1String("TestBeforeExtraction"), false).toBool()) {
+	QScopedPointer<Kerfuffle::Archive> ark(Kerfuffle::Archive::create(fileName()));
         if (ark) {
             TestJob *job = ark->testFiles(m_files);
             connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),

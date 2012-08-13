@@ -37,11 +37,13 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 
+#include "kerfuffle_export.h"
+#include "kerfuffle/archive.h"
+
 namespace Kerfuffle
 {
 class Archive;
 class Query;
-}
 
 /**
  * This class schedules the extraction of all given compressed archives.
@@ -51,7 +53,7 @@ class Query;
  *
  * @author Harald Hvaal <haraldhv@stud.ntnu.no>
  */
-class BatchExtract : public KCompositeJob
+class KERFUFFLE_EXPORT BatchExtract : public KCompositeJob
 {
     Q_OBJECT
 
@@ -83,30 +85,6 @@ public:
     void start();
 
     /**
-     * Whether to automatically create a folder inside the destination
-     * directory if the archive has more than one directory or file
-     * at top level.
-     *
-     * @return @c true  Create the subdirectory automatically.
-     * @return @c false Do not create the subdirectory automatically.
-     */
-    bool autoSubfolder() const;
-
-    /**
-     * Set whether a folder should be created when necessary so
-     * the archive is extracted to it.
-     *
-     * If set to @c true, when the archive does not consist of a
-     * single folder with the other files and directories inside,
-     * a directory will be automatically created inside the destination
-     * directory and the archive will be extracted there.
-     *
-     * @param value Whether to create this directory automatically
-     *              when needed.
-     */
-    void setAutoSubfolder(bool value);
-
-    /**
      * Adds a file to the list of files that will be extracted.
      *
      * @param url The file that will be added to the list.
@@ -126,66 +104,10 @@ public:
      */
     bool showExtractDialog();
 
-    /**
-     * Returns the destination directory where the archives
-     * will be extracted to.
-     *
-     * @return The destination directory. If no directory has been manually
-     *         set with setDestinationFolder, QDir::currentPath() will be
-     *         returned.
-     */
-    QString destinationFolder() const;
-
-    /**
-     * Sets the directory the archives will be extracted to.
-     *
-     * If @c setSubfolder has been used, the final destination
-     * directory will be the concatenation of both.
-     *
-     * If @p folder does not exist, the current destination
-     * folder will not change.
-     *
-     * @param folder The directory that will be used.
-     */
-    void setDestinationFolder(const QString& folder);
-
-    /**
-     * Returns whether the destination folder should
-     * be open after all archives are extracted.
-     *
-     * @return @c true  Open the destination folder.
-     * @return @c false Do not open the destination folder.
-     */
-    bool openDestinationAfterExtraction() const;
-
-    /**
-     * Whether to open the destination folder after
-     * all archives are extracted.
-     *
-     * @param value Whether to open the destination.
-     */
-    void setOpenDestinationAfterExtraction(bool value);
-
-    /**
-     * Whether all files should be extracted to the same directory,
-     * even if they're in different directories in the archive.
-     *
-     * This is also known as "flat" extraction.
-     *
-     * @return @c true  Paths should be preserved.
-     * @return @c false Paths should be ignored.
-     */
-    bool preservePaths() const;
-
-    /**
-     * Sets whether paths should be preserved during extraction.
-     *
-     * When it is set to false, all files are extracted to a single
-     * directory, regardless of their hierarchy in the archive.
-     *
-     * @param value Whether to preserve paths.
-     */
-    void setPreservePaths(bool value);
+    void setOptions(const ExtractionOptions& options = ExtractionOptions());
+    ExtractionOptions options() const;
+    bool hasInputs();
+    void setUseTracker(bool useTracker);
 
 private slots:
     /**
@@ -222,13 +144,12 @@ private slots:
 private:
     int m_initialJobCount;
     QMap<KJob*, QPair<QString, QString> > m_fileNames;
-    bool m_autoSubfolder;
-
     QList<Kerfuffle::Archive*> m_inputs;
-    QString m_destinationFolder;
     QStringList m_failedFiles;
-    bool m_preservePaths;
-    bool m_openDestinationAfterExtraction;
+    Kerfuffle::ExtractionOptions m_options;
+    bool m_useTracker;
 };
+
+}
 
 #endif // BATCHEXTRACT_H

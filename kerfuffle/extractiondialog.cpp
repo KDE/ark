@@ -234,7 +234,7 @@ void ExtractionDialog::setOptions(const ExtractionOptions &options)
     setDestination(KUrl(options.value(QLatin1String("DestinationDirectory"),
                                       m_config.readEntry("DestinationDirectory", QDir::homePath())).toString()));
 
-    m_ui->testCheckBox->setChecked(options.value("TestBeforeExtraction",
+    m_ui->testCheckBox->setChecked(options.value(QLatin1String("TestBeforeExtraction"),
             m_config.readEntry("TestBeforeExtraction", false)).toBool());
 }
 

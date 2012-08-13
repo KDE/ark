@@ -22,14 +22,17 @@
  */
 
 #include "mainwindow.h"
-#include "batchextract.h"
+#include "kerfuffle/batchextract.h"
 #include "kerfuffle/addtoarchive.h"
+#include "kerfuffle/archive.h"
+#include "kerfuffle/archiveinterface.h"
 
 #include <KAboutData>
 #include <KApplication>
 #include <KCmdLineArgs>
 #include <KDebug>
 #include <KLocale>
+#include <KMimeType>
 
 #include <QByteArray>
 #include <QFileInfo>
@@ -171,28 +174,53 @@ int main(int argc, char **argv)
 
             addToArchiveJob->start();
         } else if (args->isSet("batch")) {
-            BatchExtract *batchJob = new BatchExtract;
-            application.connect(batchJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);
+            Kerfuffle::BatchExtract *batchJob = new Kerfuffle::BatchExtract;
+            application.connect(batchJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);            
 
+            Kerfuffle::ExtractionOptions options;
+            options[QLatin1String("OpenDestinationAfterExtraction")] = false;
+            options[QLatin1String("CloseArkAfterExtraction")] = true;
+            options[QLatin1String("FixFileNameEncoding")] = true;
+            options[QLatin1String("MultiThreadingEnabled")] = false;
+            options[QLatin1String("ConflictsHandling")] = (int)Kerfuffle::AlwaysAsk;
+            options[QLatin1String("TestBeforeExtraction")] = true;
+            options[QLatin1String("PreservePaths")] = false;
+            options[QLatin1String("RenameSupported")] = false;
+
+            KMimeType::Ptr mime;
+            QList<int> supportedOptions;
             for (int i = 0; i < args->count(); ++i) {
                 batchJob->addInput(args->url(i));
+                mime = KMimeType::findByUrl(args->url(i));
+                if (mime && Kerfuffle::supportedMimeTypes().contains(mime->name())) {
+                    supportedOptions = Kerfuffle::supportedOptions(mime->name());
+                    if (supportedOptions.contains(Kerfuffle::PreservePath)) {
+                        options[QLatin1String("PreservePathsEnabled")] = true;
+                    }
+
+                    if (supportedOptions.contains(Kerfuffle::Rename)) {
+                        options[QLatin1String("RenameSupported")] = true;
+                    }
+                }
             }
 
             if (args->isSet("autosubfolder")) {
                 kDebug(1601) << "Setting autosubfolder";
-                batchJob->setAutoSubfolder(true);
+                options[QLatin1String("AutoSubfolders")] = true;
             }
 
             if (args->isSet("autodestination")) {
                 QString autopath = QFileInfo(args->url(0).path()).path();
                 kDebug(1601) << "By autodestination, setting path to " << autopath;
-                batchJob->setDestinationFolder(autopath);
+                options[QLatin1String("DestinationDirectory")] = QVariant(autopath);
             }
 
             if (args->isSet("destination")) {
                 kDebug(1601) << "Setting destination to " << args->getOption("destination");
-                batchJob->setDestinationFolder(args->getOption("destination"));
+                options[QLatin1String("DestinationDirectory")] = QVariant(args->getOption("destination"));
             }
+
+            batchJob->setOptions(options);
 
             if (args->isSet("dialog")) {
                 if (!batchJob->showExtractDialog()) {
