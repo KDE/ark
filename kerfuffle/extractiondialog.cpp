@@ -154,13 +154,6 @@ void ExtractionDialog::updateView()
     m_ui->dirOperator->setUrl(m_url, true);
     m_ui->dirOperator->dirLister()->updateDirectory(m_ui->dirOperator->url());
     m_ui->urlNavigator->setLocationUrl(m_url);
-    KMimeType::Ptr mime = KMimeType::findByUrl(m_url);
-    if (mime) {
-        m_ui->preservePathsCheckBox->setEnabled(m_mimeTypeOptions.contains(mime->name(), Kerfuffle::PreservePath));
-        if (!m_ui->preservePathsCheckBox->isEnabled()) {
-            m_ui->preservePathsCheckBox->setChecked(false);
-        }
-    }
 
     connect(m_ui->dirOperator, SIGNAL(urlEntered(KUrl)), SLOT(setDestination(KUrl)));
     connect(m_ui->urlNavigator, SIGNAL(urlChanged(KUrl)), SLOT(setDestination(KUrl)));
@@ -215,6 +208,12 @@ void ExtractionDialog::setOptions(const ExtractionOptions &options)
 
     m_ui->preservePathsCheckBox->setChecked(options.value(QLatin1String("PreservePaths"),
                                             m_config.readEntry("PreservePaths", false)).toBool());
+
+    m_ui->preservePathsCheckBox->setEnabled(options.value(QLatin1String("PreservePathsEnabled"),
+                                            m_config.readEntry("PreservePathsEnabled", false)).toBool());
+    if (!m_ui->preservePathsCheckBox->isEnabled()) {
+        m_ui->preservePathsCheckBox->setChecked(false);
+    }
 
     if (!options.value(QLatin1String("RenameSupported"), false).toBool()) {
         m_ui->conflictsComboBox->removeItem(RenameAll);

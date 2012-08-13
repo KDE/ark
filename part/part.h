@@ -82,7 +82,6 @@ private slots:
     void slotPreviewExtracted(KJob*);
     void slotError(const QString& errorMessage, const QString& details);
     void slotExtractFiles();
-    void slotExtractNextArchive();
     void slotExtractionDone(KJob*);
     void slotQuickExtractFiles(QAction*);
     void slotAdd();
@@ -159,8 +158,6 @@ private:
 
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;
-    QMap<QString, QStringList> m_archivesToExtract;
-    QMap<QString, Kerfuffle::ExtractionOptions> m_extractOptions;
 };
 
 } // namespace Ark

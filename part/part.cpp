@@ -30,7 +30,8 @@
 #include "infopanel.h"
 #include "jobtracker.h"
 #include "archiveconflictdialog.h"
-#include "kerfuffle/archive.h"
+#include "kerfuffle/archiveinterface.h"
+#include "kerfuffle/batchextract.h"
 #include "kerfuffle/cliinterface.h"
 #include "kerfuffle/createdialog.h"
 #include "kerfuffle/extractiondialog.h"
@@ -937,29 +938,50 @@ void Part::slotExtractFiles()
 {
     kDebug(1601);
     QVariantList files;
-    m_closeAfterExtraction = false;
 
     if (m_stack->currentWidget() == m_dirOperator)  {
         if (m_dirOperator->selectedItems().count() > 0) {
-            if (!m_archivesToExtract.isEmpty()) {
-                kWarning(1601) << "Already extracting archives" << m_archivesToExtract;
-                return;
-            }
+            BatchExtract *batchJob = new BatchExtract;
+            batchJob->setUseTracker(false);
+
+            Kerfuffle::ExtractionOptions options;
+            QList<int> supported;
+
             foreach(const KFileItem & item, m_dirOperator->selectedItems()) {
                 if (!isSupportedArchive(item.url())) {
                     kWarning(1601) << "Archive type not supported:" << item.url();
                     continue;
                 }
 
-                QString mimeType = item.mimetype();
-                if (!m_archivesToExtract.contains(mimeType)) {
-                    m_archivesToExtract[mimeType] = QStringList();
+                supported = supportedOptions(item.mimetype());
+
+                if (supported.contains(Kerfuffle::PreservePath)) {
+                    options[QLatin1String("PreservePathsEnabled")] = true;
                 }
 
-                m_archivesToExtract[mimeType].append(item.url().path());
+                if (supported.contains(Kerfuffle::Rename)) {
+                    options[QLatin1String("RenameSupported")] = true;
+                }
+
+                kDebug(1601) << "adding " << item.url() << " to batch job";
+                batchJob->addInput(item.url());
             }
-            kDebug(1601) << "Extracting archives" << m_archivesToExtract;
-            QTimer::singleShot(0, this, SLOT(slotExtractNextArchive()));
+            if (!batchJob->hasInputs()) {
+                kDebug(1601) << "no valid jobs found ";
+                batchJob->deleteLater();
+                return;
+            }
+
+            batchJob->setOptions(options);
+
+            if (!batchJob->showExtractDialog()) {
+                kDebug(1601) << "Extractdialog cancelled ";
+                batchJob->deleteLater();
+                return;
+            }
+
+            registerJob(batchJob);
+            batchJob->start();
         }
     } else if (m_model->archive()) {
         QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog(widget()->parentWidget());
@@ -1001,82 +1023,6 @@ void Part::slotExtractFiles()
 
         job->start();
     }
-}
-
-void Part::slotExtractNextArchive()
-{
-    if (m_archivesToExtract.isEmpty()) {
-        return;
-    }
-
-    QMap<QString, QStringList>::iterator it = m_archivesToExtract.begin();
-
-    if (it.value().isEmpty()) {
-        m_extractOptions.take(it.key()).clear();
-        m_archivesToExtract.erase(it);
-        QTimer::singleShot(0, this, SLOT(slotExtractNextArchive()));
-        return;
-    }
-
-    QString mimeType = it.key();
-    QString path = it.value().takeAt(0);
-
-    kDebug(1601)  << "Will extract: " << path;
-
-    Kerfuffle::ExtractionOptions options;
-
-    if (m_extractOptions.contains(mimeType)) {
-        options = m_extractOptions[mimeType];
-        kDebug(1601) << "Reusing options" << options;
-    } else {
-        if (supportedOptions(mimeType).contains(Kerfuffle::Rename)) {
-            options[QLatin1String("RenameSupported")] = true;
-        } else {
-            options[QLatin1String("RenameSupported")] = false;
-        }
-
-        QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog(widget()->parentWidget());
-        dialog->setOptions(options);
-
-        if (dialog->exec() != KDialog::Accepted) {
-            dialog->deleteLater();
-            QTimer::singleShot(0, this, SLOT(slotExtractNextArchive()));
-            return;
-        }
-
-        m_extractOptions[mimeType] = dialog->options();
-        m_extractOptions[mimeType][QLatin1String("DestinationDirectory")] = QVariant(dialog->destination().pathOrUrl());
-        dialog->deleteLater();
-    }
-
-    m_closeAfterExtraction = options.value(QLatin1String("CloseArkAfterExtraction"), false).toBool();
-    const QString destinationDirectory = m_extractOptions[mimeType][QLatin1String("DestinationDirectory")].toString();
-    options[QLatin1String("FollowExtractionDialogSettings")] = true;
-    
-    QScopedPointer<Kerfuffle::Archive> archive(Kerfuffle::Archive::create(path, m_model));
-    
-    if (!archive) {
-        QTimer::singleShot(0, this, SLOT(slotExtractNextArchive()));
-        return;
-    }
-
-    const bool shouldExtractNextArchive = !it.value().isEmpty() || m_archivesToExtract.size() > 1;
-
-    if (!shouldExtractNextArchive) {
-        m_extractOptions.take(it.key()).clear();
-        m_archivesToExtract.erase(it);
-    }
-
-    options[QLatin1String("ExtractNextArchive")] = shouldExtractNextArchive;
-    ExtractJob *job = archive->copyFiles(QList<QVariant>(), destinationDirectory, options);
-    registerJob(job);
-    connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
-            this, SLOT(slotUserQuery(Kerfuffle::Query*)));
-    connect(job, SIGNAL(result(KJob*)),
-            this, SLOT(slotExtractionDone(KJob*)));
-
-    kDebug(1601) << "Starting extraction job for" << path;
-    job->start();
 }
 
 QList<QVariant> Part::selectedFilesWithChildren()
@@ -1133,12 +1079,6 @@ void Part::slotExtractionDone(KJob* job)
         Q_ASSERT(extractJob);
 
         ExtractionOptions options = extractJob->extractionOptions();
-
-        // extract all archives before processing other options.
-        if (options.value(QLatin1String("ExtractNextArchive"), false).toBool()) {
-            QTimer::singleShot(0, this, SLOT(slotExtractNextArchive()));
-            return;
-        }
 
         const bool followExtractionDialogSettings = options.value(QLatin1String("FollowExtractionDialogSettings"), false).toBool();
 

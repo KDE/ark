@@ -30,6 +30,7 @@
 #include "kio/global.h"
 
 #include <QThread>
+#include <QDir>
 
 #include <KDebug>
 #include <KLocale>
@@ -269,7 +270,9 @@ void ExtractJob::doWork()
             if (!job->exec()) {
                 setError(KJob::UserDefinedError);
                 setErrorText(i18nc("@error Extraction failed for some reason",
-                                   "Extraction failed: %1", job->errorText()));
+                                   "Extraction of archive <filename>%1</filename> failed:\n\n%2",
+                                   fileName().mid(fileName().lastIndexOf(QDir::separator()) + 1),
+                                   job->errorText()));
                 emitResult();
                 return;
             }
