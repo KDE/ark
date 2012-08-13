@@ -400,8 +400,25 @@ public:
      */
     static QString autoConvertEncoding(const QString & fileName);
 
+#ifndef Q_OS_WIN
+signals:
+    void quitEventLoop();
+#endif
+
 protected:
     static void fixFileNameEncoding(const QString & destinationDirectory);
+
+    /**
+     * Run @p programName with the given @p arguments.
+     * The method waits until @p programName is finished to exit.
+     *
+     * @param programName The program that will be run (not the whole path).
+     * @param arguments A list of arguments that will be passed to the program.
+     *
+     * @return @c true if the program was found and the process ran correctly,
+     *         @c false otherwise.
+     */
+    bool runProcess(const QStringList& programNames, const QStringList& arguments, const bool emitFinish = true);
 
     /**
      * Checks whether the implementing plugin supports the provided parameter
@@ -441,18 +458,6 @@ private:
     void failOperation();
 
     /**
-     * Run @p programName with the given @p arguments.
-     * The method waits until @p programName is finished to exit.
-     *
-     * @param programName The program that will be run (not the whole path).
-     * @param arguments A list of arguments that will be passed to the program.
-     *
-     * @return @c true if the program was found and the process ran correctly,
-     *         @c false otherwise.
-     */
-    bool runProcess(const QStringList& programNames, const QStringList& arguments);
-
-    /**
      * Performs any additional escaping and processing on @p fileName
      * before passing it to the underlying process.
      *
@@ -486,6 +491,8 @@ private:
     QVariantList m_removedFiles;
     bool m_testResult;
     bool m_fixFileNameEncoding;
+    bool m_emitFinish;
+    bool m_alreadyFailed;
     QString m_destinationDirectory;
     QHash<QString, QVariant> m_options;
 

@@ -162,6 +162,8 @@ bool CliPlugin::joinVolumes()
     m_tempFile = new KTemporaryFile();
     m_tempFile->setSuffix(QLatin1String(".zip")); // required by zip command
     if (!m_tempFile->open()) {
+        error(i18nc("@info", "Failed to create temporary file to join volumes."));
+        finished(false);
         cleanUp();
         return false;
     }
@@ -173,61 +175,14 @@ bool CliPlugin::joinVolumes()
     args.append(QLatin1String("-O"));
     args.append(m_tempFile->fileName());
 
-    if (!runProcess2(programPath, args)) {
+    if (!runProcess(QStringList() << programPath, args, false)) {
+        error(i18nc("@info", "Failed to join volumes."));
+        finished(false);
         cleanUp();
         return false;
     }
 
     return true;
-}
-
-bool CliPlugin::runProcess2(const QString & programPath, const QStringList & args, const bool waitForFinished)
-{
-    if (m_process) {
-        m_process->waitForFinished();
-        delete m_process;
-    }
-
-    m_process = new KProcess();
-    m_process->setOutputChannelMode(KProcess::MergedChannels);
-    m_process->setNextOpenMode(QIODevice::ReadWrite | QIODevice::Unbuffered | QIODevice::Text);
-    //m_process->setWorkingDirectory(tmpDir);
-    m_process->setProgram(programPath, args);
-    kDebug(7109) << "starting '" << programPath << args << "'";
-    connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout2()), Qt::DirectConnection);
-    m_process->start();
-
-    if (!m_process->waitForStarted()) {
-         return false;
-    }
-    kDebug(7109) << " started";
-
-    if (!waitForFinished) {
-        return true;
-    }
-
-    if (!m_process->waitForFinished()) {
-         return false;
-    }
-
-    if (m_process->exitCode() != 0) {
-        kDebug(7109) << "exitCode" << m_process->exitCode();
-        return false;
-    }
-
-    return true;
-}
-
-void CliPlugin::readStdout2()
-{
-    if (!m_process->bytesAvailable()) {
-        return;
-    }
-
-    // suppress output of m_process.
-    m_process->readAllStandardOutput();
-
-    // TODO: implement support for error checking and password prompt.
 }
 
 void CliPlugin::cleanUp()
@@ -272,6 +227,9 @@ QString CliPlugin::createTmpDir()
 //          infozip's source code
 QString CliPlugin::escapeFileName(const QString &fileName) const
 {
+#if 0
+    return fileName;
+#else
     const QString escapedCharacters(QLatin1String("[]*?^-\\!"));
 
     QString quoted;
@@ -288,6 +246,7 @@ QString CliPlugin::escapeFileName(const QString &fileName) const
     }
 
     return quoted;
+#endif
 }
 
 ParameterList CliPlugin::parameterList() const
@@ -326,7 +285,7 @@ ParameterList CliPlugin::parameterList() const
         // Zip just supports a full archive check:
         p[TestArgs] = QStringList() << QLatin1String( "-T" ) << QLatin1String( "$PasswordSwitch" )  << QLatin1String( "$Archive" );
         p[TestFailedPatterns] = QStringList() << QLatin1String("FAILED") << QLatin1String("zip error");
-        //p[ExtractionFailedPatterns] = QStringList() << "CRC failed";
+        p[ExtractionFailedPatterns] = QStringList() << QLatin1String("CRC failed") << QLatin1String("Could not find");
     }
     return p;
 }

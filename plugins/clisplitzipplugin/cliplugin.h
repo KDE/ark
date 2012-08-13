@@ -46,9 +46,6 @@ public:
     virtual bool readListLine(const QString &line);
     virtual void resetReadState();
 
-private slots:
-    void readStdout2();
-
 private:
     enum {
         Header = 0,
@@ -62,7 +59,6 @@ private:
     } m_filenameFormat;
 
     bool joinVolumes();
-    bool runProcess2(const QString & programPath, const QStringList & args, const bool waitForFinished = true);
     void cleanUp();
     QString createTmpDir();
 

@@ -59,7 +59,9 @@ CliInterface::CliInterface(QObject *parent, const QVariantList & args)
     : ReadWriteArchiveInterface(parent, args),
       m_process(0),
       m_testResult(true),
-      m_fixFileNameEncoding(false)
+      m_fixFileNameEncoding(false),
+      m_emitFinish(true),
+      m_alreadyFailed(false)
 {
     //because this interface uses the event loop
     setWaitForFinishedSignal(true);
@@ -723,7 +725,7 @@ bool CliInterface::testFiles(const QList<QVariant> & files, TestOptions options)
     return m_testResult;
 }
 
-bool CliInterface::runProcess(const QStringList& programNames, const QStringList& arguments)
+bool CliInterface::runProcess(const QStringList& programNames, const QStringList& arguments, const bool emitFinish)
 {
     QString programPath;
     for (int i = 0; i < programNames.count(); i++) {
@@ -761,16 +763,24 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
 
     m_stdOutData.clear();
 
+    m_alreadyFailed = false;
+    m_emitFinish = emitFinish;
     m_process->start();
 
 #ifdef Q_OS_WIN
     bool ret = m_process->waitForFinished(-1);
 #else
     QEventLoop loop;
+    connect(this, SIGNAL(quitEventLoop()), &loop, SLOT(quit()));
     bool ret = (loop.exec(QEventLoop::WaitForMoreEvents | QEventLoop::ExcludeUserInputEvents) == 0);
 #endif
 
     Q_ASSERT(!m_process);
+    kDebug(1601) << "ret" << ret << "exitCode" << m_process->exitCode() << "alreadyFailed" << m_alreadyFailed;
+    ret = ret && (m_process->exitCode() == 0) && !m_alreadyFailed;
+
+    m_process->deleteLater();
+    m_process = 0;
 
     return ret;
 }
@@ -792,6 +802,10 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     Q_UNUSED(exitStatus)
 
     kDebug(1601);
+
+#ifndef Q_OS_WIN
+    QMetaObject::invokeMethod(this, "quitEventLoop", Qt::QueuedConnection);
+#endif
 
     //if the m_process pointer is gone, then there is nothing to worry
     //about here
@@ -829,15 +843,28 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         m_destinationDirectory.clear();
     }
 
-    //and we're finished
-    emit finished(true);
+    if (m_emitFinish) {
+        //and we're finished
+        emit finished(true);
+    }
 }
 
 void CliInterface::failOperation()
 {
     // TODO: Would be good to unit test #304764/#304178.
     kDebug(1601);
+
+    if (m_alreadyFailed) {
+        kDebug(1601) << "already failed";
+        return;
+    }
+
     doKill();
+
+    if (m_emitFinish) {
+        emit finished(false);
+    }
+    m_alreadyFailed = true;
 }
 
 void CliInterface::readStdout(bool handleAll)
@@ -864,6 +891,8 @@ void CliInterface::readStdout(bool handleAll)
 
     QByteArray dd = m_process->readAllStandardOutput();
     m_stdOutData += dd;
+
+    kDebug(1601) << "process output" << m_stdOutData;
 
     QList<QByteArray> lines = m_stdOutData.split('\n');
 
