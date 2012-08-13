@@ -110,9 +110,11 @@ void BatchExtract::start()
 
 void BatchExtract::setOptions(const ExtractionOptions &options)
 {
-    foreach(QString key, options.keys()) {
-        m_options[key] = options.value(key);
-        kDebug(1601) << key << ": " << options.value(key).toString();
+    m_options = options;
+    ExtractionOptions::const_iterator it = options.constBegin();
+    while (it != options.constEnd()) {
+        kDebug(1601) << it.key() << ": " << it.value();
+	++it;
     }
 }
 

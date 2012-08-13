@@ -269,7 +269,7 @@ void ExtractJob::doWork()
 
             if (!job->exec()) {
                 setError(KJob::UserDefinedError);
-                setErrorText(i18nc("@error Extraction failed for some reason",
+                setErrorText(i18nc("@info Extraction failed for some reason",
                                    "Extraction of archive <filename>%1</filename> failed:\n\n%2",
                                    fileName().mid(fileName().lastIndexOf(QDir::separator()) + 1),
                                    job->errorText()));
@@ -278,7 +278,7 @@ void ExtractJob::doWork()
             }
         } else {
             setError(KJob::UserDefinedError);
-            setErrorText(i18nc("@error Couldn't create interface to read archive",
+            setErrorText(i18nc("@info Couldn't create interface to read archive",
                                "Couldn't read archive <filename>%1</filename>", fileName()));
             emitResult();
             return;
