@@ -233,6 +233,9 @@ void ExtractionDialog::setOptions(const ExtractionOptions &options)
 
     setDestination(KUrl(options.value(QLatin1String("DestinationDirectory"),
                                       m_config.readEntry("DestinationDirectory", QDir::homePath())).toString()));
+
+    m_ui->testCheckBox->setChecked(options.value("TestBeforeExtraction",
+            m_config.readEntry("TestBeforeExtraction", false)).toBool());
 }
 
 ExtractionOptions ExtractionDialog::options() const
@@ -247,6 +250,7 @@ ExtractionOptions ExtractionDialog::options() const
     options[QLatin1String("PreservePaths")] = m_ui->preservePathsCheckBox->isChecked();
     options[QLatin1String("ConflictsHandling")] = m_ui->conflictsComboBox->currentIndex();
     options[QLatin1String("DestinationDirectory")] = QVariant(destination());
+    options[QLatin1String("TestBeforeExtraction")] = m_ui->testCheckBox->isChecked();
 
     return options;
 }

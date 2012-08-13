@@ -179,6 +179,11 @@ bool Job::doKill()
     return ret;
 }
 
+QString Job::fileName()
+{
+    return m_interface->filename();
+}
+
 ListJob::ListJob(ReadOnlyArchiveInterface *interface, QObject *parent)
     : Job(interface, parent)
     , m_isSingleFolderArchive(true)
@@ -252,6 +257,31 @@ ExtractJob::ExtractJob(const QVariantList& files, const QString& destinationDir,
 
 void ExtractJob::doWork()
 {
+    if (m_options.value("TestBeforeExtraction", false).toBool()) {
+        Archive *ark = factory(fileName());
+        if (ark) {
+            TestJob *job = ark->testFiles(m_files);
+            connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
+                    this, SLOT(onUserQuery(Kerfuffle::Query*)));
+            connect(job, SIGNAL(description(KJob*,QString)),
+                    this, SIGNAL(description(KJob*,QString)));
+
+            if (!job->exec()) {
+                setError(KJob::UserDefinedError);
+                setErrorText(i18nc("@error Extraction failed for some reason",
+                                   "Extraction failed: %1", job->errorText()));
+                emitResult();
+                return;
+            }
+        } else {
+            setError(KJob::UserDefinedError);
+            setErrorText(i18nc("@error Couldn't create interface to read archive",
+                               "Couldn't read archive <filename>%1</filename>", fileName()));
+            emitResult();
+            return;
+        }
+    }
+
     QString desc;
     if (m_files.count() == 0) {
         desc = i18n("Extracting all files");
@@ -281,6 +311,7 @@ void ExtractJob::setDefaultOptions()
     defaultOptions[QLatin1String("PreservePaths")] = false;
     defaultOptions[QLatin1String("MultiThreadingEnabled") ] = false;
     defaultOptions[QLatin1String("FixFileNameEncoding") ] = true;
+    defaultOptions[QLatin1String("TestBeforeExtraction") ] = false;
 
     ExtractionOptions::const_iterator it = defaultOptions.constBegin();
     for (; it != defaultOptions.constEnd(); ++it) {
@@ -390,7 +421,6 @@ void TestJob::doWork()
         onFinished(ret);
     }
 }
-
 } // namespace Kerfuffle
 
 #include "jobs.moc"

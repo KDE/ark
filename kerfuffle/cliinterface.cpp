@@ -1061,7 +1061,7 @@ void CliInterface::handleLine(const QString& line)
         }
 
         if (checkForUseCurrentPasswordMessage(line)) {
-            if ( !m_param.contains(UseCurrentPasswordInput)) {
+            if (!m_param.contains(UseCurrentPasswordInput)) {
                 error(i18n("Unexpected error: couldn't find input strings."));
                 failOperation();
                 return;
@@ -1076,7 +1076,7 @@ void CliInterface::handleLine(const QString& line)
 
             if (query.responseYes()) {
                 response = choices.at(0); // Yes
-            } else if(query.responseYesAll()) {
+            } else if (query.responseYesAll()) {
                 response = choices.at(2); // Yes, all
             } else {
                 response = choices.at(1); // No

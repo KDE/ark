@@ -52,6 +52,7 @@ public:
     void start();
 
     bool isRunning() const;
+    virtual QString fileName();
 
 protected:
     Job(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
@@ -184,7 +185,6 @@ private:
     QVariantList m_files;
     TestOptions m_options;
 };
-
 } // namespace Kerfuffle
 
 #endif // JOBS_H

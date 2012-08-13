@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-<comment>
+ <comment>
  *
  * extractiondialog.ui
  *
@@ -28,8 +28,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>451</width>
-    <height>427</height>
+    <width>480</width>
+    <height>405</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -155,6 +155,31 @@
         </widget>
        </item>
        <item>
+        <widget class="QGroupBox" name="archiveGroupBox">
+         <property name="title">
+          <string>Archive</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <widget class="QCheckBox" name="testCheckBox">
+            <property name="toolTip">
+             <string>Check if archive is damaged before trying to extract files</string>
+            </property>
+            <property name="statusTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string>Check if archive is damaged before trying to extract files</string>
+            </property>
+            <property name="text">
+             <string>Test archive before extracting files</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <widget class="QGroupBox" name="systemGroupBox">
          <property name="title">
           <string>System</string>
@@ -234,15 +259,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
    <class>KTabWidget</class>
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
