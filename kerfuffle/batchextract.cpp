@@ -195,7 +195,7 @@ void BatchExtract::slotResult(KJob *job)
 
     if (!hasSubjobs()) {
         if (m_options.value(QLatin1String("OpenDestinationAfterExtraction"), false).toBool()) {
-            KUrl destination(m_options.value(QLatin1String("DestinationDirectory"), false).toString());
+            KUrl destination(m_options.value(QLatin1String("DestinationDirectory"), QDir::homePath()).toString());
             destination.cleanPath();
             KRun::runUrl(destination, QLatin1String( "inode/directory" ), 0);
         }
