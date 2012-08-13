@@ -851,6 +851,7 @@ void Part::slotPreviewExtracted(KJob *job)
     if (!job->error()) {
         ExtractJob* extractJob = static_cast<ExtractJob*>(job);
         if (extractJob) {
+            QStringList notFound;
             foreach(const QVariant & var, extractJob->files()) {
                 if (var.isValid() && !var.toString().isEmpty()) {
                     QString file = extractJob->destinationDirectory() + QDir::separator() + var.toString();
@@ -861,12 +862,17 @@ void Part::slotPreviewExtracted(KJob *job)
                         // libarchive (tar* archives) with FixFileNameEncoding saves archives in utf8 already. InternalId uses local
                         // encoding, which may not be utf8, so let's try opening the utf8 version of the filename.
                         // WARNING: always test libarchive plugin when changing anything related to file extraction.
-                        file = extractJob->destinationDirectory() + QDir::separator() + CliInterface::autoConvertEncoding(QFile::decodeName(var.toString().toLatin1()));
-                        if (QFile::exists(file)) {
-                            openInExternalApplication(file);
+                        QString file2 = extractJob->destinationDirectory() + QDir::separator() + CliInterface::autoConvertEncoding(QFile::decodeName(var.toString().toLatin1()));
+                        if (QFile::exists(file2)) {
+                            openInExternalApplication(file2);
+                        } else {
+                            notFound.append(file);
                         }
                     }
                 }
+            }
+            if (!notFound.isEmpty()) {
+                KMessageBox::error(widget(), i18ncp("@info", "<para>File <filename>%2</filename> not found</para>", "<para>%1 files not found:<list><item><filename>%2</filename></item></list></para>", notFound.size(), notFound.join(QLatin1String("</filename></item>,<item><filename>"))));
             }
         }
     } else {
