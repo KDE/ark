@@ -151,8 +151,8 @@ void ExtractionDialog::updateView()
     disconnect(m_ui->dirOperator, SIGNAL(urlEntered(KUrl)), this, SLOT(setDestination(KUrl)));
     disconnect(m_ui->urlNavigator, SIGNAL(urlChanged(KUrl)), this, SLOT(setDestination(KUrl)));
 
+    m_ui->dirOperator->dirLister()->updateDirectory(m_url);
     m_ui->dirOperator->setUrl(m_url, true);
-    m_ui->dirOperator->dirLister()->updateDirectory(m_ui->dirOperator->url());
     m_ui->urlNavigator->setLocationUrl(m_url);
 
     connect(m_ui->dirOperator, SIGNAL(urlEntered(KUrl)), SLOT(setDestination(KUrl)));

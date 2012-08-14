@@ -460,13 +460,13 @@ void Part::updateView()
     disconnect(m_dirOperator, SIGNAL(urlEntered(KUrl)), this, SLOT(openUrl(KUrl)));
     disconnect(m_urlNavigator, SIGNAL(urlChanged(KUrl)), this, SLOT(openUrl(KUrl)));
 
+    m_dirOperator->dirLister()->updateDirectory(url());
     m_dirOperator->setUrl(url(), true);
     m_urlNavigator->setLocationUrl(url());
 
     if (m_model && m_model->archive()) {
         m_stack->setCurrentWidget(m_archiveView);
     } else {
-        m_dirOperator->dirLister()->updateDirectory(url());
         m_stack->setCurrentWidget(m_dirOperator);
     }
 
