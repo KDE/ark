@@ -263,7 +263,7 @@ void ExtractJob::doWork()
         if (ark) {
             TestJob *job = ark->testFiles(m_files);
             connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
-                    this, SLOT(onUserQuery(Kerfuffle::Query*)));
+                    this, SIGNAL(userQuery(Kerfuffle::Query*)));
             connect(job, SIGNAL(description(KJob*,QString)),
                     this, SIGNAL(description(KJob*,QString)));
 
