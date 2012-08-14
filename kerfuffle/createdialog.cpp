@@ -49,7 +49,7 @@ CreateDialog::CreateDialog(QWidget * parent) : KDialog()
                                 i18nc("@info:whatsthis", "Sets the selected values as default values for new archives")));
 
 
-    m_config = KConfigGroup(KGlobal::config()->group("CreateDialog"));
+    m_config = KConfigGroup(KGlobal::config()->group("ArchiveCreation"));
     loadConfiguration();
 
     connect(this, SIGNAL(resetClicked()), SLOT(loadConfiguration()));

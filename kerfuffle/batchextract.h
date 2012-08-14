@@ -30,6 +30,7 @@
 #define BATCHEXTRACT_H
 
 #include <kcompositejob.h>
+#include <KConfigGroup>
 #include <KUrl>
 
 #include <QtCore/QMap>
@@ -142,6 +143,9 @@ private slots:
     void slotStartJob();
 
 private:
+    void loadDefaultSettings();
+
+    KConfigGroup m_config;
     int m_initialJobCount;
     QMap<KJob*, QPair<QString, QString> > m_fileNames;
     QList<Kerfuffle::Archive*> m_inputs;

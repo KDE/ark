@@ -178,15 +178,8 @@ int main(int argc, char **argv)
             application.connect(batchJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);            
 
             Kerfuffle::ExtractionOptions options;
-            options[QLatin1String("OpenDestinationAfterExtraction")] = false;
             options[QLatin1String("CloseArkAfterExtraction")] = true;
-            options[QLatin1String("FixFileNameEncoding")] = true;
-            options[QLatin1String("MultiThreadingEnabled")] = false;
-            options[QLatin1String("ConflictsHandling")] = (int)Kerfuffle::AlwaysAsk;
             options[QLatin1String("TestBeforeExtraction")] = true;
-            options[QLatin1String("PreservePaths")] = false;
-            options[QLatin1String("RenameSupported")] = false;
-            options[QLatin1String("AutoSubfolders")] = false;
 
             KMimeType::Ptr mime;
             QList<int> supportedOptions;

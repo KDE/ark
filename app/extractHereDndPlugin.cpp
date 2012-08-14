@@ -43,17 +43,12 @@ void ExtractHereDndPlugin::slotTriggered()
     kDebug(1601) << "Preparing job";
     Kerfuffle::BatchExtract *batchJob = new Kerfuffle::BatchExtract();
 
+    // the following options are assumptions and cannot be overwritten by the defaults
     Kerfuffle::ExtractionOptions options;
     options[QLatin1String("AutoSubfolders")] = true;
-    options[QLatin1String("OpenDestinationAfterExtraction")] = false;
-    options[QLatin1String("CloseArkAfterExtraction")] = true;
-    options[QLatin1String("FixFileNameEncoding")] = true;
-    options[QLatin1String("MultiThreadingEnabled")] = false;
-    options[QLatin1String("PreservePaths")] = false;
-    options[QLatin1String("RenameSupported")] = false;
     options[QLatin1String("ConflictsHandling")] = (int)Kerfuffle::AlwaysAsk;
     options[QLatin1String("DestinationDirectory")] = QVariant(m_dest.pathOrUrl());
-    options[QLatin1String("TestBeforeExtraction")] = true;
+    options[QLatin1String("PreservePaths")] = false;
 
     KMimeType::Ptr mime;
     QList<int> supportedOptions;
@@ -62,10 +57,6 @@ void ExtractHereDndPlugin::slotTriggered()
         mime = KMimeType::findByUrl(url);
         if (mime && Kerfuffle::supportedMimeTypes().contains(mime->name())) {
             supportedOptions = Kerfuffle::supportedOptions(mime->name());
-            if (supportedOptions.contains(Kerfuffle::PreservePath)) {
-                options[QLatin1String("PreservePathsEnabled")] = true;
-            }
-
             if (supportedOptions.contains(Kerfuffle::Rename)) {
                 options[QLatin1String("RenameSupported")] = true;
             }

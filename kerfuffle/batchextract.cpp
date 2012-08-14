@@ -55,6 +55,9 @@ BatchExtract::BatchExtract()
 {
     setCapabilities(KJob::Killable);
 
+    m_config = KConfigGroup(KGlobal::config()->group("Extraction"));
+    loadDefaultSettings();
+
     connect(this, SIGNAL(result(KJob*)), SLOT(showFailedFiles()));
 }
 
@@ -62,6 +65,13 @@ BatchExtract::~BatchExtract()
 {
     if (!m_inputs.isEmpty() && m_useTracker) {
         KIO::getJobTracker()->unregisterJob(this);
+    }
+}
+
+void BatchExtract::loadDefaultSettings()
+{
+    foreach(const QString & str, m_config.keyList()) {
+        m_options[str] = m_config.readEntry(str);
     }
 }
 
@@ -81,12 +91,12 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
 
         d.mkdir(subfolderName);
 
-        destination += QLatin1Char( '/' ) + subfolderName;
+        destination += QLatin1Char('/') + subfolderName;
     }
 
     Kerfuffle::ExtractJob *job = archive->copyFiles(QVariantList(), destination, m_options);
 
-    kDebug(1601) << QString(QLatin1String( "Registering job from archive %1, to %2, preservePaths %3" )).arg(archive->fileName()).arg(destination).arg(preservePaths);
+    kDebug(1601) << QString(QLatin1String("Registering job from archive %1, to %2, preservePaths %3")).arg(archive->fileName()).arg(destination).arg(preservePaths);
 
     addSubjob(job);
 
@@ -110,11 +120,13 @@ void BatchExtract::start()
 
 void BatchExtract::setOptions(const ExtractionOptions &options)
 {
-    m_options = options;
+    // keep (default) m_options that have been loaded from the config file
+    // and not been set in options
     ExtractionOptions::const_iterator it = options.constBegin();
     while (it != options.constEnd()) {
+        m_options[it.key()] = it.value();
         kDebug(1601) << it.key() << ": " << it.value();
-	++it;
+        ++it;
     }
 }
 
@@ -141,11 +153,11 @@ void BatchExtract::slotStartJob()
         return;
     }
 
-    foreach(Kerfuffle::Archive *archive, m_inputs) {
+    foreach(Kerfuffle::Archive * archive, m_inputs) {
         addExtraction(archive);
     }
 
-    if(m_useTracker) {
+    if (m_useTracker) {
         KIO::getJobTracker()->registerJob(this);
     }
 
@@ -197,7 +209,7 @@ void BatchExtract::slotResult(KJob *job)
         if (m_options.value(QLatin1String("OpenDestinationAfterExtraction"), false).toBool()) {
             KUrl destination(m_options.value(QLatin1String("DestinationDirectory"), QDir::homePath()).toString());
             destination.cleanPath();
-            KRun::runUrl(destination, QLatin1String( "inode/directory" ), 0);
+            KRun::runUrl(destination, QLatin1String("inode/directory"), 0);
         }
 
         kDebug(1601) << "Finished, emitting the result";
@@ -217,7 +229,7 @@ void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
 {
     Q_UNUSED(job)
     int jobPart = 100 / m_initialJobCount;
-    setPercent(jobPart *(m_initialJobCount - subjobs().size()) + percent / m_initialJobCount);
+    setPercent(jobPart * (m_initialJobCount - subjobs().size()) + percent / m_initialJobCount);
 }
 
 bool BatchExtract::addInput(const KUrl& url)

@@ -96,7 +96,7 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
 
     setBatchMode(false);
 
-    m_config = KConfigGroup(KGlobal::config()->group("ExtractionDialog"));
+    m_config = KConfigGroup(KGlobal::config()->group("Extraction"));
     loadSettings();
 
     // fill m_mimeTypeOptions
