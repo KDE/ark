@@ -576,7 +576,9 @@ void RenameDialog::applyAllPressed()
             d->bUpdate->setEnabled(true);
         }
     } else {
-        d->m_pLineEdit->setEnabled(true);
+        if (d->m_pLineEdit) {
+            d->m_pLineEdit->setEnabled(true);
+        }
 
         if (d->bRename) {
             d->bRename->setEnabled(false);
