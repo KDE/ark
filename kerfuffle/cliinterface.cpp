@@ -775,6 +775,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
     bool ret = (loop.exec(QEventLoop::WaitForMoreEvents | QEventLoop::ExcludeUserInputEvents) == 0);
 #endif
 
+    // in case a second runProcess() has been called and the 'delete m_process' line above is called.
     if (m_process) {
         kDebug(1601) << "ret" << ret << "exitCode" << m_process->exitCode() << "alreadyFailed" << m_alreadyFailed;
         ret = ret && (m_process->exitCode() == 0) && !m_alreadyFailed;
