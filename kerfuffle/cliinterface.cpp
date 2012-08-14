@@ -835,11 +835,6 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
 
     emit progress(1.0);
 
-    if (m_operationMode == Add) {
-        list();
-        return;
-    }
-
     // if readStdout above needs to handle password request then we need to wait for it
     // before we can call fixFileNameEncoding().
     if (m_operationMode == Copy && m_fixFileNameEncoding) {
