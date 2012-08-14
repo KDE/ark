@@ -209,7 +209,7 @@ void CreateDialogUI::setOptions(const CompressionOptions& options)
     splitSizeComboBox->setCurrentIndex(options.value(QLatin1String("SplitFileSize"), 0).toInt());
     splitSizeComboBox->lineEdit()->setText(options.value(QLatin1String("SplitFileSizeFreeValue"), QLatin1String("")).toString());
     splitSizeUnitComboBox->setCurrentIndex(options.value(QLatin1String("SplitFileSizeUnit"), 1).toInt());
-    multithreadingCheckBox->setChecked(options.value(QLatin1String("MultiThreadingEnabled"), true).toBool());
+    multithreadingCheckBox->setChecked(options.value(QLatin1String("MultiThreadingEnabled"), false).toBool());
     utf8CheckBox->setChecked(options.value(QLatin1String("FixFileNameEncoding"), true).toBool());
 
     updateUi();

@@ -204,7 +204,7 @@ void ExtractionDialog::setOptions(const ExtractionOptions &options)
              m_config.readEntry("FixFileNameEncoding", true)).toBool());
 
     m_ui->multithreadingCheckBox->setChecked(options.value(QLatin1String("MultiThreadingEnabled"),
-            m_config.readEntry("MultiThreadingEnabled", true)).toBool());
+            m_config.readEntry("MultiThreadingEnabled", false)).toBool());
 
     m_ui->preservePathsCheckBox->setChecked(options.value(QLatin1String("PreservePaths"),
                                             m_config.readEntry("PreservePaths", false)).toBool());
@@ -234,7 +234,7 @@ void ExtractionDialog::setOptions(const ExtractionOptions &options)
                                       m_config.readEntry("DestinationDirectory", QDir::homePath())).toString()));
 
     m_ui->testCheckBox->setChecked(options.value(QLatin1String("TestBeforeExtraction"),
-            m_config.readEntry("TestBeforeExtraction", false)).toBool());
+            m_config.readEntry("TestBeforeExtraction", true)).toBool());
 }
 
 ExtractionOptions ExtractionDialog::options() const
