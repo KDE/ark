@@ -775,12 +775,16 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
     bool ret = (loop.exec(QEventLoop::WaitForMoreEvents | QEventLoop::ExcludeUserInputEvents) == 0);
 #endif
 
-    Q_ASSERT(!m_process);
-    kDebug(1601) << "ret" << ret << "exitCode" << m_process->exitCode() << "alreadyFailed" << m_alreadyFailed;
-    ret = ret && (m_process->exitCode() == 0) && !m_alreadyFailed;
-
-    m_process->deleteLater();
-    m_process = 0;
+    if (m_process) {
+        kDebug(1601) << "ret" << ret << "exitCode" << m_process->exitCode() << "alreadyFailed" << m_alreadyFailed;
+        ret = ret && (m_process->exitCode() == 0) && !m_alreadyFailed;
+    
+        m_process->deleteLater();
+        m_process = 0;
+    } else {
+        kDebug(1601) << "ret" << ret << "m_process" << m_process << "alreadyFailed" << m_alreadyFailed;
+        ret = ret && !m_alreadyFailed;
+    } 
 
     return ret;
 }
