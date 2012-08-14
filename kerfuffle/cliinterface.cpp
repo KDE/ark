@@ -892,7 +892,7 @@ void CliInterface::readStdout(bool handleAll)
     QByteArray dd = m_process->readAllStandardOutput();
     m_stdOutData += dd;
 
-    kDebug(1601) << "process output" << m_stdOutData;
+    //kDebug(1601) << "process output" << m_stdOutData;
 
     QList<QByteArray> lines = m_stdOutData.split('\n');
 
