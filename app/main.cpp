@@ -186,6 +186,7 @@ int main(int argc, char **argv)
             options[QLatin1String("TestBeforeExtraction")] = true;
             options[QLatin1String("PreservePaths")] = false;
             options[QLatin1String("RenameSupported")] = false;
+            options[QLatin1String("AutoSubfolders")] = false;
 
             KMimeType::Ptr mime;
             QList<int> supportedOptions;

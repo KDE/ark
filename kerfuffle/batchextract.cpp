@@ -71,7 +71,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
     QString destination = dest.pathOrUrl();
     bool preservePaths = m_options.value(QLatin1String("PreservePaths"), false).toBool();
 
-    if (m_options.value(QLatin1String("AutoSubfolders"), true).toBool()) {
+    if (m_options.value(QLatin1String("AutoSubfolders"), false).toBool() && !archive->isSingleFolderArchive()) {
         const QDir d(destination);
         QString subfolderName = archive->subfolderName();
 
