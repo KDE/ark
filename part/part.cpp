@@ -751,6 +751,7 @@ void Part::slotLoadingFinished(KJob *job)
     // After loading all files, resize the columns to fit all fields
     m_archiveView->header()->resizeSections(QHeaderView::ResizeToContents);
     updateView();
+    emit archiveOpened(url());
 
     if (property("TestArchive").isValid() && property("TestArchive").toBool()) {
         setProperty("TestArchive", QVariant()); // remove property by setting invalid QVariant

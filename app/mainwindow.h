@@ -53,6 +53,7 @@ private slots:
 
     void editKeyBindings();
     void editToolbars();
+    void addRecentFile(const KUrl& url);
 
 private:
     void setupActions();

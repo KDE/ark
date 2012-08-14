@@ -120,6 +120,7 @@ signals:
     void busy();
     void ready();
     void quit();
+    void archiveOpened(KUrl url);
 
 private:
     void setupArchiveView();

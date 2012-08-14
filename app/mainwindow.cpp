@@ -150,6 +150,7 @@ bool MainWindow::loadPart()
     connect(m_part, SIGNAL(busy()), this, SLOT(updateActions()));
     connect(m_part, SIGNAL(ready()), this, SLOT(updateActions()));
     connect(m_part, SIGNAL(quit()), this, SLOT(quit()));
+    connect(m_part, SIGNAL(archiveOpened(KUrl)), this, SLOT(addRecentFile(KUrl)));
 
     return true;
 }
@@ -202,6 +203,11 @@ void MainWindow::editToolbars()
     applyMainWindowSettings(KGlobal::config()->group(QLatin1String("MainWindow")));
 
     delete dlg.data();
+}
+
+void MainWindow::addRecentFile(const KUrl &url)
+{
+    m_recentFilesAction->addUrl(url);
 }
 
 void MainWindow::openArchive()
