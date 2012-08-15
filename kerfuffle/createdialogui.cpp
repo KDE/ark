@@ -112,6 +112,10 @@ void CreateDialogUI::updateUi()
         encryptionMethodComboBox->setEnabled(m_mimeTypeOptions.contains(mimeType, Kerfuffle::EncryptionMethod));
     }
 
+    if (!encryptionMethodComboBox->isEnabled()) {
+        encryptionMethodComboBox->setCurrentIndex(0);
+    }
+
     if (mimeType == QLatin1String("application/x-rar")) {
         if (sender() == encryptFileNamesCheckBox && encryptFileNamesCheckBox->isChecked()) {
             encryptContentsCheckBox->setChecked(true);
