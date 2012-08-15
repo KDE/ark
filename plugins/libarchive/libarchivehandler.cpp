@@ -649,22 +649,13 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
 
     //********** copy old elements from previous archive to new archive
     while (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK) {
-        if (files.contains(QFile::decodeName(archive_entry_pathname(entry)))) {
+        const QString entryName = getInternalId(entry);
+
+        if (files.contains(entryName)) {
             archive_read_data_skip(arch_reader.data());
             kDebug(1601) << "Entry to be deleted, skipping"
                          << archive_entry_pathname(entry);
-            QString fileName;
-#ifdef _MSC_VER
-            fileName = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(entry)));
-#else
-            fileName = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(entry)));
-#endif
-
-            if (fileName.isEmpty()) {
-                fileName = QDir::fromNativeSeparators(QLatin1String(archive_entry_pathname(entry)));
-            }
-
-            entryRemoved(fileName);
+            entryRemoved(getFileName(entry));
             continue;
         }
 
