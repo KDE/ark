@@ -46,7 +46,7 @@ public:
     Private(Job *job, QObject *parent = 0)
         : QThread(parent)
         , q(job) {
-        connect(q, SIGNAL(result(KJob*)), SLOT(quit()));
+        connect(q, SIGNAL(result(KJob*)), SLOT(quit())); // TODO: does not work because this class does not use Q_OBJECT macro.
     }
 
     virtual void run();
@@ -161,6 +161,12 @@ void Job::onFinished(bool result)
     kDebug(1601) << result;
 
     archiveInterface()->disconnect(this);
+
+    /* TODO: maybe add something like this?
+    if (!result) {
+        setError(KIO::ERR_INTERNAL);
+    }
+    */
 
     emitResult();
 }
