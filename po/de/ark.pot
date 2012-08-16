@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2012-08-14 09:50+0200\n"
-"PO-Revision-Date: 2012-08-14 10:00+0200\n"
+"POT-Creation-Date: 2012-08-16 13:31+0200\n"
+"PO-Revision-Date: 2012-08-16 13:36+0200\n"
 "Last-Translator: Yves Maurischat <yves.maurischat@basyskom.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 1.4\n"
 
-#: app/extractHereDndPlugin.cpp:90
+#: app/extractHereDndPlugin.cpp:81
 msgctxt ""
 "@action:inmenu Context menu shown when an archive is being drag'n'dropped"
 msgid "Extract here"
@@ -215,19 +215,19 @@ msgstr ""
 "Die KPart-Komponente von Ark kann nicht gefunden werden. Bitte überprüfen "
 "Sie die Installation."
 
-#: app/mainwindow.cpp:165
+#: app/mainwindow.cpp:166
 msgctxt "action, to open an archive"
 msgid "Open"
 msgstr "Öff&nen"
 
-#: app/mainwindow.cpp:166
+#: app/mainwindow.cpp:167
 msgid ""
 "Click to open an archive, click and hold to open a recently-opened archive"
 msgstr ""
 "Anklicken, um ein Archiv zu öffnen; klicken und gedrückt halten, um ein "
 "zuletzt geöffnetes Archiv zu öffnen"
 
-#: app/mainwindow.cpp:167
+#: app/mainwindow.cpp:168
 msgid "Open an archive"
 msgstr "Archiv öffnen"
 
@@ -259,23 +259,23 @@ msgstr ""
 msgid "It is not possible to create archives of this type."
 msgstr "Die Erstellung von Archiven dieses Typs ist nicht möglich."
 
-#: kerfuffle/batchextract.cpp:153 kerfuffle/batchextract.cpp:208
+#: kerfuffle/batchextract.cpp:165 kerfuffle/batchextract.cpp:220
 msgid "Extracting file..."
 msgstr "Entpackvorgang ..."
 
-#: kerfuffle/batchextract.cpp:154 kerfuffle/batchextract.cpp:209
+#: kerfuffle/batchextract.cpp:166 kerfuffle/batchextract.cpp:221
 msgid "Source archive"
 msgstr "Quell-Archiv"
 
-#: kerfuffle/batchextract.cpp:155 kerfuffle/batchextract.cpp:210
+#: kerfuffle/batchextract.cpp:167 kerfuffle/batchextract.cpp:222
 msgid "Destination"
 msgstr "Ziel"
 
-#: kerfuffle/batchextract.cpp:169
+#: kerfuffle/batchextract.cpp:181
 msgid "The following files could not be extracted:"
 msgstr "Die folgenden Dateien können nicht entpackt werden:"
 
-#: kerfuffle/batchextract.cpp:186
+#: kerfuffle/batchextract.cpp:198
 msgid "There was an error during extraction."
 msgstr "Beim Entpacken ist ein Fehler aufgetreten."
 
@@ -287,7 +287,7 @@ msgstr ""
 "Konnte Anwendung <filename>%1</filename> nicht in Pfaden der PATH-Variable "
 "finden"
 
-#: kerfuffle/cliinterface.cpp:948
+#: kerfuffle/cliinterface.cpp:949
 #, kde-format
 msgctxt "@info Adding files to an archive failed for some reason"
 msgid ""
@@ -297,20 +297,20 @@ msgstr ""
 "Das Hinzufügen von Dateien schlug fehl:\n"
 "%1"
 
-#: kerfuffle/cliinterface.cpp:986 kerfuffle/cliinterface.cpp:1030
-#: kerfuffle/cliinterface.cpp:1116
+#: kerfuffle/cliinterface.cpp:987 kerfuffle/cliinterface.cpp:1031
+#: kerfuffle/cliinterface.cpp:1117
 msgid "Incorrect password."
 msgstr "Falsches Passwort."
 
-#: kerfuffle/cliinterface.cpp:993 kerfuffle/cliinterface.cpp:1037
+#: kerfuffle/cliinterface.cpp:994 kerfuffle/cliinterface.cpp:1038
 msgid "Extraction failed because of an unexpected error."
 msgstr "Das Entpacken wurde wegen eines unerwarteten Fehlers beendet."
 
-#: kerfuffle/cliinterface.cpp:1075
+#: kerfuffle/cliinterface.cpp:1076
 msgid "Unexpected error: couldn't find input strings."
 msgstr "Unerwarteter Fehler: konnte Eingabeparameter nicht finden."
 
-#: kerfuffle/cliinterface.cpp:1102
+#: kerfuffle/cliinterface.cpp:1103
 msgid ""
 "Integrity check failed: Either the archive is broken or the password is "
 "incorrect."
@@ -318,11 +318,11 @@ msgstr ""
 "Integritätsüberprüfung fehlgeschlagen: entweder ist das Archiv ist beschädigt "
 "oder das Passwort ist falsch."
 
-#: kerfuffle/cliinterface.cpp:1109
+#: kerfuffle/cliinterface.cpp:1110
 msgid "Integrity check failed: The archive is broken."
 msgstr "Integritätsüberprüfung fehlgeschlagen: das Archiv ist beschädigt."
 
-#: kerfuffle/cliinterface.cpp:1167
+#: kerfuffle/cliinterface.cpp:1168
 msgid "Extraction failed: couldn't set new file name."
 msgstr "Entpacken fehlgeschlagen: konnte neuen Dateinamen nicht speichern"
 
@@ -348,7 +348,7 @@ msgctxt "@info:whatsthis"
 msgid "Sets the selected values as default values for new archives"
 msgstr "Speichert die gewählten Werte als Standardwerte für neue Archive"
 
-#: kerfuffle/createdialogui.cpp:244
+#: kerfuffle/createdialogui.cpp:248
 msgid "Please choose a file or type a valid file name."
 msgstr ""
 "Bitte wählen Sie eine Datei oder geben sie einen gültigen Dateinamen ein."
@@ -386,14 +386,9 @@ msgstr "Archiv wird geladen ..."
 #: kerfuffle/jobs.cpp:258
 #, kde-format
 msgctxt "@info Extraction failed for some reason"
-msgid ""
-"Extraction of archive <filename>%1</filename> failed:\n"
-"\n"
-"%2"
+msgid "Extraction of archive <filename>%1</filename> failed.<br><br>%2"
 msgstr ""
-"Das Entpacken des Archivs<filename>%1</filename> schlug fehl:\n"
-"\n"
-"%2"
+"Das Entpacken des Archivs<filename>%1</filename> schlug fehl.<br><br>%2"
 
 #: kerfuffle/jobs.cpp:267
 #, kde-format
@@ -401,36 +396,46 @@ msgctxt "@info Couldn't create interface to read archive"
 msgid "Couldn't read archive <filename>%1</filename>"
 msgstr "Das Archiv <filename>%1</filename> konnte nicht gelesen werden"
 
-#: kerfuffle/jobs.cpp:275
+#: kerfuffle/jobs.cpp:277
+#, kde-format
+msgctxt "@info Destination folder is not writable for some reason"
+msgid ""
+"Extraction of archive <filename>%1</filename> failed.<br><br>Cannot write to "
+"destination folder <filename>%2</filename>"
+msgstr ""
+"Das Entpacken des Archivs<filename>%1</filename> schlug fehl.<br><br>Kann "
+"nicht in das Zielverzeichnis schreiben: <filename>%2</filename>"
+
+#: kerfuffle/jobs.cpp:286
 msgid "Extracting all files"
 msgstr "Alle Dateien entpacken"
 
-#: kerfuffle/jobs.cpp:277
+#: kerfuffle/jobs.cpp:288
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "Eine Datei entpacken"
 msgstr[1] "%1 Dateien entpacken"
 
-#: kerfuffle/jobs.cpp:336
+#: kerfuffle/jobs.cpp:347
 #, kde-format
 msgid "Adding a file"
 msgid_plural "Adding %1 files"
 msgstr[0] "Datei wird hinzugefügt"
 msgstr[1] "%1 Dateien werden hinzugefügt"
 
-#: kerfuffle/jobs.cpp:370
+#: kerfuffle/jobs.cpp:381
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "Eine Datei wird gelöscht"
 msgstr[1] "%1 Dateien werden gelöscht"
 
-#: kerfuffle/jobs.cpp:396
+#: kerfuffle/jobs.cpp:407
 msgid "Testing all files"
 msgstr "Überprüfe alle Dateien"
 
-#: kerfuffle/jobs.cpp:398
+#: kerfuffle/jobs.cpp:409
 #, kde-format
 msgid "Testing one file"
 msgid_plural "Extracting %1 files"
@@ -911,12 +916,12 @@ msgctxt "@title"
 msgid "ArkPart"
 msgstr "ArkPart"
 
-#: part/part.cpp:566 part/part.cpp:915
+#: part/part.cpp:566 part/part.cpp:916
 msgctxt "@info"
 msgid "Couldn't determine the type of the file, opening not possible."
 msgstr "Konnte Dateityp nicht bestimmen, Öffnen nicht möglich."
 
-#: part/part.cpp:567 part/part.cpp:916
+#: part/part.cpp:567 part/part.cpp:917
 msgctxt "@title:window"
 msgid "Error Opening File"
 msgstr "Fehler beim Öffnen"
@@ -991,7 +996,7 @@ msgstr ""
 "Das Laden des Archivs <filename>%1</filename> ist mit folgender "
 "Fehlermeldung fehlgeschlagen: <message>%2</message>"
 
-#: part/part.cpp:875
+#: part/part.cpp:876
 #, kde-format
 msgctxt "@info"
 msgid "<para>File <filename>%2</filename> not found</para>"
@@ -1003,24 +1008,24 @@ msgstr[1] ""
 "<para>%1 Dateien nicht gefunden:<list><item><filename>%2</filename></item><"
 "/list></para>"
 
-#: part/part.cpp:1141
+#: part/part.cpp:1142
 msgctxt "@title:window"
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: part/part.cpp:1564
+#: part/part.cpp:1565
 msgctxt "@info"
 msgid "Deleting these files is not undoable. Are you sure you want to do this?"
 msgstr ""
 "Das Löschen dieser Dateien kann nicht rückgängig gemacht werden. Möchten Sie "
 "trotzdem fortfahren?"
 
-#: part/part.cpp:1565
+#: part/part.cpp:1566
 msgctxt "@title:window"
 msgid "Delete files"
 msgstr "Dateien löschen"
 
-#: part/part.cpp:1612
+#: part/part.cpp:1613
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1030,7 +1035,7 @@ msgstr ""
 "Ein Archiv namens <filename>%1</filename> ist bereits vorhanden. Möchten Sie "
 "dieses überschreiben?"
 
-#: part/part.cpp:1626
+#: part/part.cpp:1627
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1040,7 +1045,7 @@ msgstr ""
 "Das Archiv <filename>%1</filename> kann nicht an die angegebene Stelle "
 "kopiert werden. Das Archiv ist nicht mehr vorhanden."
 
-#: part/part.cpp:1638
+#: part/part.cpp:1639
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1050,7 +1055,7 @@ msgstr ""
 "Das Archiv kann nicht als <filename>%1</filename> kann nicht gespeichert "
 "werden. Versuchen Sie einen anderen Speicherort."
 
-#: part/part.cpp:1680
+#: part/part.cpp:1681
 msgctxt "@info:progress"
 msgid "Testing complete: no issues found."
 msgstr "Überprüfung beendet: keine Probleme festgestellt."
@@ -1105,7 +1110,7 @@ msgstr ""
 
 #: plugins/libarchive/libarchivehandler.cpp:135
 #: plugins/libarchive/libarchivehandler.cpp:192
-#: plugins/libarchive/libarchivehandler.cpp:717
+#: plugins/libarchive/libarchivehandler.cpp:708
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1181,7 +1186,7 @@ msgstr ""
 "Das Öffnen des Archiv zum Schreiben ist mit folgender Fehlermeldung "
 "fehlgeschlagen: <message>%1</message>"
 
-#: plugins/libarchive/libarchivehandler.cpp:902
+#: plugins/libarchive/libarchivehandler.cpp:893
 #, kde-format
 msgctxt "@info Error in a message box"
 msgid "Ark could not compress <filename>%1</filename>:<nl/>%2"
@@ -1604,8 +1609,8 @@ msgstr "1.44 MB Diskette"
 #. i18n: file: kerfuffle/createdialogui.ui:376
 #. i18n: ectx: property (text), item, widget (KComboBox, splitSizeComboBox)
 #: rc.cpp:198
-msgid "10 MB"
-msgstr "10 MB"
+msgid "10 MB Mailbox"
+msgstr "10 MB Mailbox"
 
 #. i18n: file: kerfuffle/createdialogui.ui:381
 #. i18n: ectx: property (text), item, widget (KComboBox, splitSizeComboBox)

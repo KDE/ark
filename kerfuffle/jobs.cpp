@@ -270,7 +270,7 @@ void ExtractJob::doWork()
             if (!job->exec()) {
                 setError(KJob::UserDefinedError);
                 setErrorText(i18nc("@info Extraction failed for some reason",
-                                   "Extraction of archive <filename>%1</filename> failed:\n\n%2",
+                                   "Extraction of archive <filename>%1</filename> failed.<br><br>%2",
                                    fileName().mid(fileName().lastIndexOf(QDir::separator()) + 1),
                                    job->errorText()));
                 emitResult();
@@ -283,6 +283,17 @@ void ExtractJob::doWork()
             emitResult();
             return;
         }
+    }
+
+    QFileInfo info(m_destinationDir);
+    if (!info.isDir() || !info.isWritable()) {
+        setError(KJob::UserDefinedError);
+        setErrorText(i18nc("@info Destination folder is not writable for some reason",
+                           "Extraction of archive <filename>%1</filename> failed.<br><br>Cannot write to destination folder <filename>%2</filename>",
+                           fileName().mid(fileName().lastIndexOf(QDir::separator()) + 1),
+                           info.absoluteFilePath()));
+        emitResult();
+        return;
     }
 
     QString desc;
