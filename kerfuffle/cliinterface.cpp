@@ -403,11 +403,9 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
 
 void CliInterface::failOperation()
 {
+    // TODO: Would be good to unit test #304764/#304178.
     kDebug();
-
     doKill();
-
-    emit finished(false);
 }
 
 void CliInterface::readStdout(bool handleAll)
