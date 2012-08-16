@@ -297,7 +297,7 @@ void ExtractJob::doWork()
 
     QString desc;
     if (m_files.count() == 0) {
-        desc = i18nc("info:progress Extraction progress", "Extracting all files");
+        desc = i18nc("@info:progress Extraction progress", "Extracting all files");
     } else {
         desc = i18ncp("@info:progress Extraction progress", "Extracting one file", "Extracting %1 files", m_files.count());
     }
@@ -418,7 +418,7 @@ void TestJob::doWork()
 {
     QString desc;
     if (m_files.count() == 0) {
-        desc = i18nc("@info:progress","Testing all files");
+        desc = i18nc("@info:progress", "Testing all files");
     } else {
         desc = i18ncp("@info:progress", "Testing one file", "Testing %1 files", m_files.count());
     }
