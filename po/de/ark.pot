@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2012-08-16 13:31+0200\n"
-"PO-Revision-Date: 2012-08-16 13:43+0200\n"
+"POT-Creation-Date: 2012-08-16 14:35+0200\n"
+"PO-Revision-Date: 2012-08-16 14:37+0200\n"
 "Last-Translator: Yves Maurischat <yves.maurischat@basyskom.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -386,9 +386,9 @@ msgstr "Archiv wird geladen ..."
 #: kerfuffle/jobs.cpp:258
 #, kde-format
 msgctxt "@info Extraction failed for some reason"
-msgid "Extraction of archive <filename>%1</filename> failed.<br><br>%2"
+msgid "<p>Extraction of archive <filename>%1</filename> failed.</p><p>%2</p>"
 msgstr ""
-"Das Entpacken des Archivs <filename>%1</filename> schlug fehl.<br><br>%2"
+"<p>Das Entpacken des Archivs <filename>%1</filename> schlug fehl.</p><p>%2</p>"
 
 #: kerfuffle/jobs.cpp:267
 #, kde-format
@@ -400,11 +400,11 @@ msgstr "Das Archiv <filename>%1</filename> konnte nicht gelesen werden"
 #, kde-format
 msgctxt "@info Destination folder is not writable for some reason"
 msgid ""
-"Extraction of archive <filename>%1</filename> failed.<br><br>Cannot write to "
-"destination folder <filename>%2</filename>"
+"<p>Extraction of archive <filename>%1</filename> failed.</p><p>Cannot write "
+"to destination folder <filename>%2</filename></p>"
 msgstr ""
-"Das Entpacken des Archivs <filename>%1</filename> schlug fehl.<br><br>Kann "
-"nicht in das Zielverzeichnis schreiben: <filename>%2</filename>"
+"<p>Das Entpacken des Archivs <filename>%1</filename> schlug fehl.</p><p>Kann "
+"nicht in das Zielverzeichnis schreiben: <filename>%2</filename></p>"
 
 #: kerfuffle/jobs.cpp:286
 msgid "Extracting all files"
@@ -1731,5 +1731,4 @@ msgstr "Ark nach dem Entpacken beenden"
 #: rc.cpp:261
 msgid "Preserve paths when extracting"
 msgstr "Pfade beim Entpacken beibehalten"
-
 

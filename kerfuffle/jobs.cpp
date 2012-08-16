@@ -270,7 +270,7 @@ void ExtractJob::doWork()
             if (!job->exec()) {
                 setError(KJob::UserDefinedError);
                 setErrorText(i18nc("@info Extraction failed for some reason",
-                                   "Extraction of archive <filename>%1</filename> failed.<br><br>%2",
+                                   "<p>Extraction of archive <filename>%1</filename> failed.</p><p>%2</p>",
                                    fileName().mid(fileName().lastIndexOf(QDir::separator()) + 1),
                                    job->errorText()));
                 emitResult();
@@ -289,7 +289,7 @@ void ExtractJob::doWork()
     if (!info.isDir() || !info.isWritable()) {
         setError(KJob::UserDefinedError);
         setErrorText(i18nc("@info Destination folder is not writable for some reason",
-                           "Extraction of archive <filename>%1</filename> failed.<br><br>Cannot write to destination folder <filename>%2</filename>",
+                           "<p>Extraction of archive <filename>%1</filename> failed.</p><p>Cannot write to destination folder <filename>%2</filename></p>",
                            fileName().mid(fileName().lastIndexOf(QDir::separator()) + 1),
                            info.absoluteFilePath()));
         emitResult();
