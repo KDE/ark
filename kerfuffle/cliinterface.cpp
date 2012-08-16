@@ -373,10 +373,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
 
 void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    Q_UNUSED(exitCode)
-    Q_UNUSED(exitStatus)
-
-    kDebug();
+    kDebug() << exitCode << exitStatus;
 
     //if the m_process pointer is gone, then there is nothing to worry
     //about here
