@@ -418,7 +418,7 @@ protected:
      * @return @c true if the program was found and the process ran correctly,
      *         @c false otherwise.
      */
-    bool runProcess(const QStringList& programNames, const QStringList& arguments, const bool emitFinish = true);
+    bool runProcess(const QStringList& programNames, const QStringList& arguments);
 
     /**
      * Checks whether the implementing plugin supports the provided parameter
@@ -491,7 +491,6 @@ private:
     QVariantList m_removedFiles;
     bool m_testResult;
     bool m_fixFileNameEncoding;
-    bool m_emitFinish;
     bool m_alreadyFailed;
     QString m_destinationDirectory;
     QHash<QString, QVariant> m_options;

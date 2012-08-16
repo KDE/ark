@@ -46,7 +46,13 @@ public:
     Private(Job *job, QObject *parent = 0)
         : QThread(parent)
         , q(job) {
+        QObject::moveToThread(this);
         connect(q, SIGNAL(result(KJob*)), SLOT(quit())); // TODO: does not work because this class does not use Q_OBJECT macro.
+    }
+
+    ~Private() {
+        quit();
+        wait();
     }
 
     virtual void run();
@@ -57,7 +63,11 @@ private:
 
 void Job::Private::run()
 {
+    //kDebug(1601) << "starting doWork()" << QThread::currentThread();
+    // TODO: doWorl() can start new KJobs (that is new QThreads) before this QThread finishes.
+    // ExtractJob::doWork() does that. Check if that does not cause problems.
     q->doWork();
+    //kDebug(1601) << "doWork() finished" << QThread::currentThread();
 
     if (q->isRunning()) {
         exec(); //krazy:exclude=crashy

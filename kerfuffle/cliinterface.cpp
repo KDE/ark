@@ -60,12 +60,8 @@ CliInterface::CliInterface(QObject *parent, const QVariantList & args)
       m_process(0),
       m_testResult(true),
       m_fixFileNameEncoding(false),
-      m_emitFinish(true),
       m_alreadyFailed(false)
 {
-    //because this interface uses the event loop
-    setWaitForFinishedSignal(true);
-
     if (QMetaType::type("QProcess::ExitStatus") == 0) {
         qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
     }
@@ -725,7 +721,7 @@ bool CliInterface::testFiles(const QList<QVariant> & files, TestOptions options)
     return m_testResult;
 }
 
-bool CliInterface::runProcess(const QStringList& programNames, const QStringList& arguments, const bool emitFinish)
+bool CliInterface::runProcess(const QStringList& programNames, const QStringList& arguments)
 {
     QString programPath;
     for (int i = 0; i < programNames.count(); i++) {
@@ -740,7 +736,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
         return false;
     }
 
-    kDebug(1601) << "Executing" << programPath << arguments;
+    kDebug(1601) << "Executing" << programPath << arguments << QThread::currentThread();
 
     if (m_process) {
         m_process->waitForFinished();
@@ -764,8 +760,13 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
     m_stdOutData.clear();
 
     m_alreadyFailed = false;
-    m_emitFinish = emitFinish;
     m_process->start();
+
+    if (!m_process->waitForStarted()) {
+        m_process->deleteLater();
+        m_process = 0;
+        return false;
+    }
 
 #ifdef Q_OS_WIN
     bool ret = m_process->waitForFinished(-1);
@@ -777,7 +778,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
 
     // in case a second runProcess() has been called and the 'delete m_process' line above is called.
     if (m_process) {
-        kDebug(1601) << "ret" << ret << "exitCode" << m_process->exitCode() << "alreadyFailed" << m_alreadyFailed;
+        kDebug(1601) << "ret" << ret << "exitCode" << m_process->exitCode() << "alreadyFailed" << m_alreadyFailed << QThread::currentThread();
         ret = ret && (m_process->exitCode() == 0) && !m_alreadyFailed;
     
         m_process->deleteLater();
@@ -798,7 +799,6 @@ void CliInterface::killAllProcesses()
 
     kDebug(1601) << "Killing process";
     doKill();
-    finished(true);
 }
 
 void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
@@ -806,7 +806,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     Q_UNUSED(exitCode)
     Q_UNUSED(exitStatus)
 
-    kDebug(1601);
+    kDebug(1601) << QThread::currentThread();
 
 #ifndef Q_OS_WIN
     QMetaObject::invokeMethod(this, "quitEventLoop", Qt::QueuedConnection);
@@ -842,11 +842,6 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         fixFileNameEncoding(m_destinationDirectory);
         m_destinationDirectory.clear();
     }
-
-    if (m_emitFinish) {
-        //and we're finished
-        emit finished(true);
-    }
 }
 
 void CliInterface::failOperation()
@@ -858,13 +853,9 @@ void CliInterface::failOperation()
         kDebug(1601) << "already failed";
         return;
     }
+    m_alreadyFailed = true;
 
     doKill();
-
-    if (m_emitFinish) {
-        emit finished(false);
-    }
-    m_alreadyFailed = true;
 }
 
 void CliInterface::readStdout(bool handleAll)
@@ -882,6 +873,12 @@ void CliInterface::readStdout(bool handleAll)
     if (!m_process->bytesAvailable()) {
         //if process has no more data, we can just bail out
         return;
+    }
+
+    if (m_alreadyFailed) {
+        kDebug(1601) << "cleaning buffers";
+        m_process->readAllStandardOutput();
+        m_stdOutData.clear();
     }
 
     //if the process is still not finished (m_process is appearantly not
@@ -936,6 +933,11 @@ void CliInterface::readStdout(bool handleAll)
     }
 
     foreach(const QByteArray & line, lines) {
+        if (m_alreadyFailed) {
+            kDebug(1601) << "Breaking loop because operation has already failed";
+            break;
+        }
+
         // sometimes 7z does not list all file's metadata. We need to
         // pass the empty line to mark that the file's metadata has ended
         // and whatever we have got so far must be added to the archive
@@ -1325,10 +1327,16 @@ bool CliInterface::checkForErrorMessage(const QString& line, int parameterIndex)
 
 bool CliInterface::doKill()
 {
+#ifndef Q_OS_WIN
+    QMetaObject::invokeMethod(this, "quitEventLoop", Qt::QueuedConnection);
+#endif
+
     if (m_process) {
         // Give some time for the application to finish gracefully
         if (!m_process->waitForFinished(5)) {
+            //kDebug(1601) << "Trying to kill process" << QThread::currentThread();
             m_process->kill();
+            m_process->waitForFinished(-1); // avoid "QProcess: Destroyed while process is still running." message.
         }
 
         return true;

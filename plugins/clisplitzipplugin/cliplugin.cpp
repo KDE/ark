@@ -175,7 +175,7 @@ bool CliPlugin::joinVolumes()
     args.append(QLatin1String("-O"));
     args.append(m_tempFile->fileName());
 
-    if (!runProcess(QStringList() << programPath, args, false)) {
+    if (!runProcess(QStringList() << programPath, args)) {
         error(i18nc("@info", "Failed to join volumes."));
         finished(false);
         cleanUp();
