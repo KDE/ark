@@ -197,8 +197,7 @@ ListJob::ListJob(ReadOnlyArchiveInterface *interface, QObject *parent)
 
 void ListJob::doWork()
 {
-    emit description(this, i18n("Loading archive..."));
-    connectToArchiveInterfaceSignals();
+    emit description(this, i18nc("@info:progress", "Loading archive..."));
     bool ret = archiveInterface()->list();
 
     if (!archiveInterface()->waitForFinishedSignal()) {
@@ -270,7 +269,7 @@ void ExtractJob::doWork()
             if (!job->exec()) {
                 setError(KJob::UserDefinedError);
                 setErrorText(i18nc("@info Extraction failed for some reason",
-                                   "<p>Extraction of archive <filename>%1</filename> failed.</p><p>%2</p>",
+                                   "<para>Extraction of archive <filename>%1</filename> failed.</para><para>%2</para>",
                                    fileName().mid(fileName().lastIndexOf(QDir::separator()) + 1),
                                    job->errorText()));
                 emitResult();
@@ -289,7 +288,7 @@ void ExtractJob::doWork()
     if (!info.isDir() || !info.isWritable()) {
         setError(KJob::UserDefinedError);
         setErrorText(i18nc("@info Destination folder is not writable for some reason",
-                           "<p>Extraction of archive <filename>%1</filename> failed.</p><p>Cannot write to destination folder <filename>%2</filename></p>",
+                           "<para>Extraction of archive <filename>%1</filename> failed.</para><para>Cannot write to destination folder <filename>%2</filename></para>",
                            fileName().mid(fileName().lastIndexOf(QDir::separator()) + 1),
                            info.absoluteFilePath()));
         emitResult();
@@ -298,9 +297,9 @@ void ExtractJob::doWork()
 
     QString desc;
     if (m_files.count() == 0) {
-        desc = i18n("Extracting all files");
+        desc = i18nc("info:progress Extraction progress", "Extracting all files");
     } else {
-        desc = i18np("Extracting one file", "Extracting %1 files", m_files.count());
+        desc = i18ncp("@info:progress Extraction progress", "Extracting one file", "Extracting %1 files", m_files.count());
     }
     emit description(this, desc);
 
@@ -359,7 +358,7 @@ AddJob::AddJob(const QStringList& files, const CompressionOptions& options , Rea
 
 void AddJob::doWork()
 {
-    emit description(this, i18np("Adding a file", "Adding %1 files", m_files.count()));
+    emit description(this, i18ncp("@info:progress", "Adding a file", "Adding %1 files", m_files.count()));
 
     ReadWriteArchiveInterface *m_writeInterface =
         qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
@@ -393,7 +392,7 @@ DeleteJob::DeleteJob(const QVariantList& files, ReadWriteArchiveInterface *inter
 
 void DeleteJob::doWork()
 {
-    emit description(this, i18np("Deleting a file from the archive", "Deleting %1 files", m_files.count()));
+    emit description(this, i18ncp("@info:progress", "Deleting a file from the archive", "Deleting %1 files", m_files.count()));
 
     ReadWriteArchiveInterface *m_writeInterface =
         qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
@@ -419,9 +418,9 @@ void TestJob::doWork()
 {
     QString desc;
     if (m_files.count() == 0) {
-        desc = i18n("Testing all files");
+        desc = i18nc("@info:progress","Testing all files");
     } else {
-        desc = i18np("Testing one file", "Extracting %1 files", m_files.count());
+        desc = i18ncp("@info:progress", "Testing one file", "Testing %1 files", m_files.count());
     }
     emit description(this, desc);
 

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2012-08-16 14:35+0200\n"
-"PO-Revision-Date: 2012-08-16 14:37+0200\n"
+"POT-Creation-Date: 2012-08-16 15:25+0200\n"
+"PO-Revision-Date: 2012-08-16 15:26+0200\n"
 "Last-Translator: Yves Maurischat <yves.maurischat@basyskom.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -380,15 +380,19 @@ msgid "Rename extracted files"
 msgstr "Entpackte Dateien umbenennen"
 
 #: kerfuffle/jobs.cpp:185
+msgctxt "@info:progress"
 msgid "Loading archive..."
 msgstr "Archiv wird geladen ..."
 
 #: kerfuffle/jobs.cpp:258
 #, kde-format
 msgctxt "@info Extraction failed for some reason"
-msgid "<p>Extraction of archive <filename>%1</filename> failed.</p><p>%2</p>"
+msgid ""
+"<para>Extraction of archive <filename>%1</filename> failed.</para><para>%2</"
+"para>"
 msgstr ""
-"<p>Das Entpacken des Archivs <filename>%1</filename> schlug fehl.</p><p>%2</p>"
+"<para>Das Entpacken des Archivs <filename>%1</filename> schlug fehl.</para><"
+"para>%2</para>"
 
 #: kerfuffle/jobs.cpp:267
 #, kde-format
@@ -400,25 +404,29 @@ msgstr "Das Archiv <filename>%1</filename> konnte nicht gelesen werden"
 #, kde-format
 msgctxt "@info Destination folder is not writable for some reason"
 msgid ""
-"<p>Extraction of archive <filename>%1</filename> failed.</p><p>Cannot write "
-"to destination folder <filename>%2</filename></p>"
+"<para>Extraction of archive <filename>%1</filename> failed.</"
+"para><para>Cannot write to destination folder <filename>%2</filename></para>"
 msgstr ""
-"<p>Das Entpacken des Archivs <filename>%1</filename> schlug fehl.</p><p>Kann "
-"nicht in das Zielverzeichnis schreiben: <filename>%2</filename></p>"
+"<para>Das Entpacken des Archivs <filename>%1</filename> schlug fehl.</para><"
+"para>Kann "
+"nicht in das Zielverzeichnis schreiben: <filename>%2</filename></para>"
 
 #: kerfuffle/jobs.cpp:286
+msgctxt "info:progress Extraction progress"
 msgid "Extracting all files"
 msgstr "Alle Dateien entpacken"
 
 #: kerfuffle/jobs.cpp:288
 #, kde-format
+msgctxt "@info:progress Extraction progress"
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "Eine Datei entpacken"
-msgstr[1] "%1 Dateien entpacken"
+msgstr[1] "Entpacke %1 Dateien"
 
 #: kerfuffle/jobs.cpp:347
 #, kde-format
+msgctxt "@info:progress"
 msgid "Adding a file"
 msgid_plural "Adding %1 files"
 msgstr[0] "Datei wird hinzugefügt"
@@ -426,19 +434,22 @@ msgstr[1] "%1 Dateien werden hinzugefügt"
 
 #: kerfuffle/jobs.cpp:381
 #, kde-format
+msgctxt "@info:progress"
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "Eine Datei wird gelöscht"
 msgstr[1] "%1 Dateien werden gelöscht"
 
 #: kerfuffle/jobs.cpp:407
+msgctxt "@info:progress"
 msgid "Testing all files"
 msgstr "Überprüfe alle Dateien"
 
 #: kerfuffle/jobs.cpp:409
 #, kde-format
+msgctxt "@info:progress"
 msgid "Testing one file"
-msgid_plural "Extracting %1 files"
+msgid_plural "Testing %1 files"
 msgstr[0] "Überprüfe eine Datei"
 msgstr[1] "Entpacke %1 Dateien"
 
