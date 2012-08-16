@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 "POT-Creation-Date: 2012-08-16 13:31+0200\n"
-"PO-Revision-Date: 2012-08-16 13:36+0200\n"
+"PO-Revision-Date: 2012-08-16 13:43+0200\n"
 "Last-Translator: Yves Maurischat <yves.maurischat@basyskom.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -388,7 +388,7 @@ msgstr "Archiv wird geladen ..."
 msgctxt "@info Extraction failed for some reason"
 msgid "Extraction of archive <filename>%1</filename> failed.<br><br>%2"
 msgstr ""
-"Das Entpacken des Archivs<filename>%1</filename> schlug fehl.<br><br>%2"
+"Das Entpacken des Archivs <filename>%1</filename> schlug fehl.<br><br>%2"
 
 #: kerfuffle/jobs.cpp:267
 #, kde-format
@@ -403,7 +403,7 @@ msgid ""
 "Extraction of archive <filename>%1</filename> failed.<br><br>Cannot write to "
 "destination folder <filename>%2</filename>"
 msgstr ""
-"Das Entpacken des Archivs<filename>%1</filename> schlug fehl.<br><br>Kann "
+"Das Entpacken des Archivs <filename>%1</filename> schlug fehl.<br><br>Kann "
 "nicht in das Zielverzeichnis schreiben: <filename>%2</filename>"
 
 #: kerfuffle/jobs.cpp:286
@@ -1731,4 +1731,5 @@ msgstr "Ark nach dem Entpacken beenden"
 #: rc.cpp:261
 msgid "Preserve paths when extracting"
 msgstr "Pfade beim Entpacken beibehalten"
+
 
