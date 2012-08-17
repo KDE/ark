@@ -1,0 +1,49 @@
+- Improve general archive handling
+  - Improve ark file browser
+  - Extend context menu
+  - Improve delete support
+  - Improve adding support
+  - Improve copy&paste feature
+  - Improve drag&drop feature
+  - Disable ark build in content viewer and use global applications instead
+  - Improve archive validation support
+
+- Add reporting feature of capability of back-ends
+- Improve encryption support for p7-Zip, rar and zip
+- Improve integration of back-end tools for p7-Zip, rar, zip and tar variations
+
+- Improve multi archive support for p7-Zip, rar and zip
+
+- Extend kioslave support for KDE Filemanager
+  - Improve libarchive kioslaves
+  - Create p7-Zip kioslave
+  - Add p7-Zip creation and extracting support to context menu
+  - Improve copy&paste feature
+  - Improve drag&drop feature
+
+- Add encoding detection support for file names
+  - german/english cp850, uft-8, uft-16
+  - p7-Zip, rar, zip and tar variations
+
+- Overhaul extraction dialog
+  - Extraction dialog checks back-end capabilities
+  - Fix file name encoding option
+  - Delete after extraction
+  - Use Multithread
+  - Check archive before extracting
+  - Add conflict strategies for rename, overwrite, skip and only overwrite existing files
+
+- Overhaul creation dialog
+  - Creation dialog checks back-end capabilities
+  - Use Multithread
+  - Fix file name encoding
+  - Improve split archive
+  - Check archive
+  - Delete files from filesystem option
+  - Check archive after extracting
+  - Add conflict strategies for rename, overwrite, skip and only ovewrite existing files
+
+-----------------------------------------------------
+For older changes please take a look on following URL
+
+http://utils.kde.org/projects/ark/development.php
