@@ -365,8 +365,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
     bool ret = (loop.exec(QEventLoop::WaitForMoreEvents | QEventLoop::ExcludeUserInputEvents) == 0);
 #endif
 
-    delete m_process;
-    m_process = 0;
+    Q_ASSERT(!m_process);
 
     return ret;
 }
@@ -389,6 +388,9 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
 
     //handle all the remaining data in the process
     readStdout(true);
+
+    delete m_process;
+    m_process = 0;
 
     emit progress(1.0);
 
