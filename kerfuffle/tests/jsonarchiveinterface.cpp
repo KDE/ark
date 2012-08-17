@@ -39,6 +39,33 @@ JSONArchiveInterface::~JSONArchiveInterface()
 {
 }
 
+bool JSONArchiveInterface::supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType)
+{
+    switch (option) {
+    case Kerfuffle::CompressionLevel:
+    case Kerfuffle::Testing:
+    case Kerfuffle::FixFileNameEncoding:
+    case Kerfuffle::MultiPart:
+    case Kerfuffle::MultiThreading:
+    case Kerfuffle::EncryptionMethod:
+    case Kerfuffle::EncryptHeader:
+    case Kerfuffle::Password:
+    case Kerfuffle::PreservePath:
+    case Kerfuffle::RootNode:
+    case Kerfuffle::Rename:
+        return false;
+        break;
+    case Kerfuffle::IOWrite:
+        if (mimeType == QLatin1String("application/split7z") || mimeType == QLatin1String("application/splitzip")) {
+            return false;
+        } else {
+            return true;
+        }
+        break;
+    }
+    return false;
+}
+
 bool JSONArchiveInterface::list()
 {
     JSONParser::JSONArchive::const_iterator it = m_archive.constBegin();
@@ -102,6 +129,14 @@ bool JSONArchiveInterface::deleteFiles(const QList<QVariant>& files)
             emit entryRemoved(fileName);
         }
     }
+
+    return true;
+}
+
+bool JSONArchiveInterface::testFiles(const QList<QVariant> & files, Kerfuffle::TestOptions options)
+{
+    Q_UNUSED(files)
+    Q_UNUSED(options)
 
     return true;
 }

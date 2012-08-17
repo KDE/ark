@@ -278,6 +278,9 @@ void JobsTest::testExtractJobAccessors()
                                   Kerfuffle::ExtractionOptions(), iface, this);
     Kerfuffle::ExtractionOptions defaultOptions;
     defaultOptions[QLatin1String("PreservePaths")] = false;
+    defaultOptions[QLatin1String("MultiThreadingEnabled") ] = false;
+    defaultOptions[QLatin1String("FixFileNameEncoding") ] = true;
+    defaultOptions[QLatin1String("TestBeforeExtraction") ] = false;
 
     QCOMPARE(job->destinationDirectory(), QLatin1String("/tmp/some-dir"));
     QCOMPARE(job->extractionOptions(), defaultOptions);
@@ -290,6 +293,9 @@ void JobsTest::testExtractJobAccessors()
 
     Kerfuffle::ExtractionOptions options;
     options[QLatin1String("PreservePaths")] = true;
+    options[QLatin1String("MultiThreadingEnabled") ] = false;
+    options[QLatin1String("FixFileNameEncoding") ] = true;
+    options[QLatin1String("TestBeforeExtraction") ] = false;
     options[QLatin1String("foo")] = QLatin1String("bar");
     options[QLatin1String("pi")] = 3.14f;
 

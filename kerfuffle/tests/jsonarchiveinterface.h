@@ -53,12 +53,15 @@ public:
     explicit JSONArchiveInterface(QObject *parent, const QVariantList& args);
     virtual ~JSONArchiveInterface();
 
+    virtual bool supportsOption(const Kerfuffle::SupportedOptions option, const QString & mimeType = QString());
+
     virtual bool list();
     virtual bool open();
 
     virtual bool addFiles(const QStringList& files, const Kerfuffle::CompressionOptions& options);
     virtual bool copyFiles(const QList<QVariant>& files, const QString& destinationDirectory, Kerfuffle::ExtractionOptions options);
     virtual bool deleteFiles(const QList<QVariant>& files);
+    virtual bool testFiles(const QList<QVariant> & files, Kerfuffle::TestOptions options = Kerfuffle::TestOptions());
 
 private:
     JSONParser::JSONArchive m_archive;
