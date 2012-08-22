@@ -1415,8 +1415,8 @@ QString CliInterface::autoConvertEncoding(const QString & fileName)
     }
 
     // Workaround for CP850 support (which is frequently attributed to CP1251 by KEncodingProber instead)
-    if (refinedEncoding == "windows-1251") {
-        kDebug() << "Language: " << KGlobal::locale()->language();
+    if (refinedEncoding == "windows-1251" || refinedEncoding == "windows-1252") {
+        kDebug(1601) << "Language: " << KGlobal::locale()->language();
         if (KGlobal::locale()->language() == QLatin1String("de")) {
             // In case the user's language is German we refine the detection of KEncodingProber
             // by assuming that in a german environment the usage of serbian / macedonian letters
