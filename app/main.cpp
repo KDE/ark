@@ -190,6 +190,7 @@ int main(int argc, char **argv)
                     supportedOptions = Kerfuffle::supportedOptions(mime->name());
                     if (supportedOptions.contains(Kerfuffle::PreservePath)) {
                         options[QLatin1String("PreservePathsEnabled")] = true;
+                        options[QLatin1String("PreservePaths")] = true;
                     }
 
                     if (supportedOptions.contains(Kerfuffle::Rename)) {
