@@ -867,7 +867,13 @@ void Part::slotPreviewExtracted(KJob *job)
                         if (QFile::exists(file2)) {
                             openInExternalApplication(file2);
                         } else {
-                            notFound.append(file);
+                            file2 = extractJob->destinationDirectory() + QDir::separator() + CliInterface::autoConvertEncoding(var.toString());
+
+                            if (QFile::exists(file2)) {
+                                openInExternalApplication(file2);
+                            } else {
+                                notFound.append(file);
+                            }
                         }
                     }
                 }
