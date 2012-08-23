@@ -1383,6 +1383,20 @@ void CliInterface::writeToProcess(const QByteArray& data)
 #endif
 }
 
+bool CliInterface::containsUmlaut(const QString s)
+{
+    if (s.contains(QLatin1String("ä")) || // Equals lower quotation mark in CP1251 - unlikely to be used in filenames
+        s.contains(QLatin1String("ö")) || // Equals quotation mark in CP1251 - unlikely to be used in filenames
+        s.contains(QLatin1String("Ö")) || // Equals TM symbol  - unlikely to be used in filenames
+        s.contains(QLatin1String("ü")) || // Overlaps with "Gje" in the Macedonian alphabet
+        s.contains(QLatin1String("Ä")) || // Overlaps with "Tshe" in the Serbian, Bosnian and Montenegrin alphabet
+        s.contains(QLatin1String("Ü")) || // Overlaps with "Lje" in the Serbian and Montenegrin alphabet
+        s.contains(QLatin1String("ß"))) { // Overlaps with "Be" in the cyrillic alphabet
+        return true;
+    }
+    return false;
+}
+
 QString CliInterface::autoConvertEncoding(const QString & fileName)
 {
     QByteArray result(fileName.toLatin1());
@@ -1392,6 +1406,14 @@ QString CliInterface::autoConvertEncoding(const QString & fileName)
 
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+
+    // first test if it is already in UTF-8
+    if (containsUmlaut(fileName)) {
+        kDebug(1601) << "Already in UTF-8: " << fileName;
+        QTextCodec::setCodecForLocale(currentCodecForLocale);
+        QTextCodec::setCodecForCStrings(currentCodecForCStrings);
+        return fileName;
+    }
 
     KEncodingProber prober(KEncodingProber::Universal);
     prober.feed(result);
@@ -1427,13 +1449,7 @@ QString CliInterface::autoConvertEncoding(const QString & fileName)
             // Check for case CP850 (Windows XP & Windows7)
             QString checkString = QTextCodec::codecForName("CP850")->toUnicode(fileName.toLatin1());
             kDebug(1601) << "String converted to CP850: " << checkString;
-            if (checkString.contains(QLatin1String("ä")) ||  // Equals lower quotation mark in CP1251 - unlikely to be used in filenames
-                    checkString.contains(QLatin1String("ö")) || // Equals quotation mark in CP1251 - unlikely to be used in filenames
-                    checkString.contains(QLatin1String("Ö")) || // Equals TM symbol  - unlikely to be used in filenames
-                    checkString.contains(QLatin1String("ü")) || // Overlaps with "Gje" in the Macedonian alphabet
-                    checkString.contains(QLatin1String("Ä")) || // Overlaps with "Tshe" in the Serbian, Bosnian and Montenegrin alphabet
-                    checkString.contains(QLatin1String("Ü")) || // Overlaps with "Lje" in the Serbian and Montenegrin alphabet
-                    checkString.contains(QLatin1String("ß"))) { // Overlaps with "Be" in the cyrillic alphabet
+            if (containsUmlaut(checkString)) {
                 refinedEncoding = "CP850";
                 kDebug(1601) << "RefinedEncoding: " << refinedEncoding;
             }

@@ -474,6 +474,7 @@ private:
     void writeToProcess(const QByteArray& data);
 
     QString findFileExistsName();
+    static bool containsUmlaut(const QString s);
 
     QByteArray m_stdOutData;
     QRegExp m_existsPattern;
