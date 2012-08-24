@@ -138,8 +138,10 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
     const bool extractAll = files.isEmpty();
     const bool preservePaths = options.value(QLatin1String( "PreservePaths" )).toBool();
 
-    const QString rootNode = options.value(QLatin1String( "RootNode" ), QVariant()).toString();
-    kDebug() << "Set root node" << rootNode;
+    QString rootNode = options.value(QLatin1String("RootNode"), QVariant()).toString();
+    if (!rootNode.endsWith(QLatin1Char('/'))) {
+        rootNode.append(QLatin1Char('/'));
+    }
 
     ArchiveRead arch(archive_read_new());
 
@@ -240,9 +242,9 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                 //OR, if the commonBase has been set, then we remove this
                 //common base from the filename
             } else if (!rootNode.isEmpty()) {
-                const QString truncatedFilename(entryName.remove(0, rootNode.size()));
-                kDebug() << "Truncated filename: " << truncatedFilename;
+                kDebug() << "Removing" << rootNode << "from" << entryName;
 
+                const QString truncatedFilename(entryName.remove(0, rootNode.size()));
                 archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
 
                 entryFI = QFileInfo(truncatedFilename);
