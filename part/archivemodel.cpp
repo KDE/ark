@@ -75,8 +75,12 @@ public:
         const QStringList pieces = entry[FileName].toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
         m_name = pieces.isEmpty() ? QString() : pieces.last();
 
-        const KMimeType::Ptr mimeType = KMimeType::findByPath(m_entry[FileName].toString(), 0, true);
-        m_icon = KIconLoader::global()->loadMimeTypeIcon(mimeType->iconName(), KIconLoader::Small);
+        if (entry[IsDirectory].toBool()) {
+            m_icon = KIconLoader::global()->loadMimeTypeIcon(KMimeType::mimeType(QLatin1String("inode/directory"))->iconName(), KIconLoader::Small);
+        } else {
+            const KMimeType::Ptr mimeType = KMimeType::findByPath(m_entry[FileName].toString(), 0, true);
+            m_icon = KIconLoader::global()->loadMimeTypeIcon(mimeType->iconName(), KIconLoader::Small);
+        }
     }
 
     ArchiveDirNode *parent() const
