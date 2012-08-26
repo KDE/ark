@@ -5,8 +5,9 @@ set(arkpart_PART_SRCS
 	archivemodel.cpp
 	archiveview.cpp
 	jobtracker.cpp
-	dnddbusinterface.cpp
     )
+
+qt4_add_dbus_adaptor(arkpart_PART_SRCS dnddbusinterface.xml part.h Ark::Part)
 
 kde4_add_ui_files(arkpart_PART_SRCS infopanel.ui )
 kde4_add_ui_files(arkpart_PART_SRCS jobtracker.ui )

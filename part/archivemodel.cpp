@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (C) 2010-2012 Raphael Kubo da Costa <rakuco@FreeBSD.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,6 +20,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
+
 #include "archivemodel.h"
 #include "kerfuffle/archive.h"
 #include "kerfuffle/jobs.h"
@@ -277,9 +279,10 @@ int ArchiveNode::row() const
     return 0;
 }
 
-ArchiveModel::ArchiveModel(QObject *parent)
-        : QAbstractItemModel(parent),
-        m_rootNode(new ArchiveDirNode(0, ArchiveEntry()))
+ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
+    : QAbstractItemModel(parent)
+    , m_rootNode(new ArchiveDirNode(0, ArchiveEntry()))
+    , m_dbusPathName(dbusPathName)
 {
 }
 
@@ -551,43 +554,23 @@ QStringList ArchiveModel::mimeTypes() const
 {
     QStringList types;
 
-    types << QLatin1String("text/uri-list")
-    << QLatin1String("text/plain")
-    << QLatin1String("text/x-moz-url")
-    << QLatin1String("application/x-kde-urilist")
-    << QLatin1String("application/x-kde-extractdrag");
+    types << QLatin1String("application/x-kde-ark-dndextract-service")
+          << QLatin1String("application/x-kde-ark-dndextract-path");
 
     return types;
 }
 
-QMimeData * ArchiveModel::mimeData(const QModelIndexList & indexes) const
+QMimeData *ArchiveModel::mimeData(const QModelIndexList &indexes) const
 {
-    kDebug();
-    QStringList files;
+    Q_UNUSED(indexes)
 
-    QString archiveName = m_archive->fileName();
-    if (!archiveName.endsWith(QLatin1Char('/'))) {
-        archiveName.append(QLatin1Char('/'));
-    }
+    QMimeData *mimeData = new QMimeData;
+    mimeData->setData(QLatin1String("application/x-kde-ark-dndextract-service"),
+                      QDBusConnection::sessionBus().baseService().toUtf8());
+    mimeData->setData(QLatin1String("application/x-kde-ark-dndextract-path"),
+                      m_dbusPathName.toUtf8());
 
-    //Populate the internal list of files
-    foreach(const QModelIndex &index, indexes) {
-        //to limit only one index per row
-        if (index.column() != 0) {
-            continue;
-        }
-
-        const QString file = archiveName + static_cast<ArchiveNode*>(index.internalPointer())->entry()[ FileName ].toString();
-        files << file;
-    }
-
-    //prepare the dbus-based drag/drop mimedata
-    QMimeData *data = new QMimeData();
-    data->setData(QLatin1String("application/x-kde-dndextract"),
-                  QDBusConnection::sessionBus().baseService().toUtf8()
-                 );
-
-    return data;
+    return mimeData;
 }
 
 bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent)
