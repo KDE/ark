@@ -139,7 +139,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
     const bool preservePaths = options.value(QLatin1String( "PreservePaths" )).toBool();
 
     QString rootNode = options.value(QLatin1String("RootNode"), QVariant()).toString();
-    if (!rootNode.endsWith(QLatin1Char('/'))) {
+    if ((!rootNode.isEmpty()) && (!rootNode.endsWith(QLatin1Char('/')))) {
         rootNode.append(QLatin1Char('/'));
     }
 
