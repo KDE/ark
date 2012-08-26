@@ -42,7 +42,7 @@ class ArchiveModel: public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    ArchiveModel(QObject *parent = 0);
+    ArchiveModel(const QString &dbusPathName, QObject *parent = 0);
     ~ArchiveModel();
 
     QVariant data(const QModelIndex &index, int role) const;
@@ -119,6 +119,8 @@ private:
     QList<int> m_showColumns;
     QScopedPointer<Kerfuffle::Archive> m_archive;
     ArchiveDirNode *m_rootNode;
+
+    QString m_dbusPathName;
 };
 
 #endif // ARCHIVEMODEL_H

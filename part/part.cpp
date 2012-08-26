@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
- * Copyright (C) 2009-2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (C) 2009-2012 Raphael Kubo da Costa <rakuco@FreeBSD.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@
 #include "archivemodel.h"
 #include "archiveview.h"
 #include "arkviewer.h"
-#include "dnddbusinterface.h"
+#include "dndextractadaptor.h"
 #include "infopanel.h"
 #include "jobtracker.h"
 #include "kerfuffle/archive.h"
@@ -75,15 +75,25 @@ K_EXPORT_PLUGIN(Factory("ark"))
 namespace Ark
 {
 
+static quint32 s_instanceCounter = 1;
+
 Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
         : KParts::ReadWritePart(parent),
-          m_model(new ArchiveModel(this)),
           m_splitter(0),
           m_busy(false),
           m_jobTracker(0)
 {
     Q_UNUSED(args)
     setComponentData(Factory::componentData(), false);
+
+    new DndExtractAdaptor(this);
+
+    const QString pathName = QString(QLatin1String("/DndExtract/%1")).arg(s_instanceCounter++);
+    if (!QDBusConnection::sessionBus().registerObject(pathName, this)) {
+        kFatal() << "Could not register a D-Bus object for drag'n'drop";
+    }
+
+    m_model = new ArchiveModel(pathName, this);
 
     m_splitter = new QSplitter(Qt::Horizontal, parentWidget);
     setWidget(m_splitter);
@@ -121,9 +131,6 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, SLOT(setFileNameFromArchive()));
 
     m_statusBarExtension = new KParts::StatusBarExtension(this);
-
-    new DndExtractAdaptor(this);
-    QDBusConnection::sessionBus().registerObject(QLatin1String( "/DndExtract" ), this);
 
     setXMLFile(QLatin1String( "ark_part.rc" ));
 }
