@@ -25,7 +25,7 @@
 #include "archivemodel.h"
 #include "archiveview.h"
 #include "arkviewer.h"
-#include "dndextractadaptor.h"
+#include "dnddbusinterfaceadaptor.h"
 #include "infopanel.h"
 #include "jobtracker.h"
 #include "kerfuffle/archive.h"
