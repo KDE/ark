@@ -372,16 +372,36 @@ void CliInterface::fixFileNameEncoding(const QString & destinationDirectory)
         return;
     }
 
-    QDir destDir(destinationDirectory);
-    destDir.setFilter(QDir::Dirs | QDir::Files | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot);
+    QStringList subDirPaths;
+    subDirPaths << destinationDirectory;
 
-    QStringList list = destDir.entryList();
-    for (int i = 0; i < list.size(); ++i) {
-        QString encodingCorrectedString = autoConvertEncoding(list.at(i));
+    while (!subDirPaths.isEmpty()) {
+        QString subDirPath = subDirPaths.takeFirst();
+        QDir subDir(subDirPath);
+        subDir.setFilter(QDir::Dirs | QDir::Files | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot);
+        QStringList list = subDir.entryList();
 
-        if (list.at(i) != encodingCorrectedString) {
-            if (!QFile::rename(list.at(i), encodingCorrectedString)) {
-                kWarning() << "Renaming" << list.at(i) << "to" << encodingCorrectedString << "failed";
+        for (int i = 0; i < list.size(); ++i) {
+            QString entry = list.at(i);
+            QString encodingCorrectedString = autoConvertEncoding(entry);
+            //kDebug(1601) << "testing" << entry << encodingCorrectedString;
+    
+            if (entry != encodingCorrectedString) {
+                entry = subDirPath + QDir::separator() + entry;
+                encodingCorrectedString = subDirPath + QDir::separator() + encodingCorrectedString;
+                if (QFile::rename(entry, encodingCorrectedString)) {
+                    //kDebug(1601) << entry << "renamed to" << encodingCorrectedString;
+                    entry = encodingCorrectedString;
+                } else {
+                    kWarning() << "Renaming" << entry << "to" << encodingCorrectedString << "failed";
+                }
+            } else {
+                entry = subDirPath + QDir::separator() + entry;
+            }
+
+            if (QFileInfo(entry).isDir()) {
+                //kDebug(1601) << "newDir" << entry;
+                subDirPaths << entry;
             }
         }
     }
