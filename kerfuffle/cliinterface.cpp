@@ -387,7 +387,7 @@ void CliInterface::fixFileNameEncoding(const QString & destinationDirectory, con
             QFileInfo fi(entry);
 
             // entry probably does not belong to the archive being extracted.
-            // FIXME: this check does not always work becase if any file has its metadata (permissions for instance) modified
+            // FIXME: this check does not always work because if any file has its metadata (permissions for instance) modified
             // after timestamp then its created() time will be newer than timestamp too.
             if (timestamp.isValid() && fi.created().toTime_t() < timestamp.toTime_t()) {
                 //kDebug(1601) << (subDirPath + QDir::separator() + entry) << "probably does not belong to the archive";
