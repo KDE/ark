@@ -1003,10 +1003,16 @@ void Part::slotExtractFiles()
 
         KMimeType::Ptr mimeType = KMimeType::findByUrl(url());
 
-        if (mimeType && supportedOptions(mimeType->name()).contains(Kerfuffle::Rename)) {
-            options[QLatin1String("RenameSupported")] = true;
-        } else {
-            options[QLatin1String("RenameSupported")] = false;
+        if (mimeType) {
+            if (supportedOptions(mimeType->name()).contains(Kerfuffle::Rename)) {
+                options[QLatin1String("RenameSupported")] = true;
+            } else {
+                options[QLatin1String("RenameSupported")] = false;
+            }
+
+            if (supportedOptions(mimeType->name()).contains(Kerfuffle::PreservePath)) {
+                options[QLatin1String("PreservePathsEnabled")] = true;
+            }
         }
 
         dialog->setOptions(options);
