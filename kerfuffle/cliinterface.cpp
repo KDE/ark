@@ -357,6 +357,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
 
     m_fixFileNameEncoding = options.value(QLatin1String("FixFileNameEncoding")).toBool();
     m_destinationDirectory = destinationDirectory;
+    m_timestamp = QDateTime::currentDateTime();
 
     if (!runProcess(m_param.value(ExtractProgram).toStringList(), args)) {
         failOperation();
@@ -366,7 +367,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
     return true;
 }
 
-void CliInterface::fixFileNameEncoding(const QString & destinationDirectory)
+void CliInterface::fixFileNameEncoding(const QString & destinationDirectory, const QDateTime & timestamp)
 {
     if (destinationDirectory.isEmpty()) {
         return;
@@ -382,24 +383,31 @@ void CliInterface::fixFileNameEncoding(const QString & destinationDirectory)
         QStringList list = subDir.entryList();
 
         for (int i = 0; i < list.size(); ++i) {
-            QString entry = list.at(i);
-            QString encodingCorrectedString = autoConvertEncoding(entry);
-            //kDebug(1601) << "testing" << entry << encodingCorrectedString;
-    
-            if (entry != encodingCorrectedString) {
-                entry = subDirPath + QDir::separator() + entry;
+            QString entry = subDirPath + QDir::separator() + list.at(i);
+            QFileInfo fi(entry);
+
+            // entry probably does not belong to the archive being extracted.
+            // FIXME: this check does not always work becase if any file has its metadata (permissions for instance) modified
+            // after timestamp then its created() time will be newer than timestamp too.
+            if (timestamp.isValid() && fi.created().toTime_t() < timestamp.toTime_t()) {
+                //kDebug(1601) << (subDirPath + QDir::separator() + entry) << "probably does not belong to the archive";
+                continue;
+            }
+
+            QString encodingCorrectedString = autoConvertEncoding(list.at(i));
+
+            if (list.at(i) != encodingCorrectedString) {
                 encodingCorrectedString = subDirPath + QDir::separator() + encodingCorrectedString;
+
                 if (QFile::rename(entry, encodingCorrectedString)) {
                     //kDebug(1601) << entry << "renamed to" << encodingCorrectedString;
                     entry = encodingCorrectedString;
                 } else {
                     kWarning() << "Renaming" << entry << "to" << encodingCorrectedString << "failed";
                 }
-            } else {
-                entry = subDirPath + QDir::separator() + entry;
             }
 
-            if (QFileInfo(entry).isDir()) {
+            if (fi.isDir()) {
                 //kDebug(1601) << "newDir" << entry;
                 subDirPaths << entry;
             }
@@ -836,7 +844,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     //about here
     if (!m_process) {
         if (m_operationMode == Copy && m_fixFileNameEncoding) {
-            fixFileNameEncoding(m_destinationDirectory);
+            fixFileNameEncoding(m_destinationDirectory, m_timestamp);
             m_destinationDirectory.clear();
         }
         return;
@@ -859,7 +867,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     // if readStdout above needs to handle password request then we need to wait for it
     // before we can call fixFileNameEncoding().
     if (m_operationMode == Copy && m_fixFileNameEncoding) {
-        fixFileNameEncoding(m_destinationDirectory);
+        fixFileNameEncoding(m_destinationDirectory, m_timestamp);
         m_destinationDirectory.clear();
     }
 }

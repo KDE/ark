@@ -33,6 +33,7 @@
 #include "kerfuffle_export.h"
 #include <QtCore/QProcess>
 #include <QtCore/QRegExp>
+#include <QtCore/QDateTime>
 
 class KProcess;
 class KPtyProcess;
@@ -406,7 +407,7 @@ signals:
 #endif
 
 protected:
-    static void fixFileNameEncoding(const QString & destinationDirectory);
+    static void fixFileNameEncoding(const QString & destinationDirectory, const QDateTime & timestamp = QDateTime());
 
     /**
      * Run @p programName with the given @p arguments.
@@ -494,6 +495,7 @@ private:
     bool m_fixFileNameEncoding;
     bool m_alreadyFailed;
     QString m_destinationDirectory;
+    QDateTime m_timestamp;
     QHash<QString, QVariant> m_options;
 
 private slots:
