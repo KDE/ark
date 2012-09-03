@@ -41,7 +41,7 @@
   - Check archive
   - Delete files from filesystem option
   - Check archive after extracting
-  - Add conflict strategies for rename, overwrite, skip and only ovewrite existing files
+  - Add conflict strategies for rename, overwrite, skip and only overwrite existing files
 
 -----------------------------------------------------
 For older changes please take a look on following URL
