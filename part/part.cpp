@@ -103,6 +103,14 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     Q_UNUSED(args)
     setComponentData(Factory::componentData(), false);
 
+    new DndExtractAdaptor(this);
+
+    const QString pathName = QString(QLatin1String("/DndExtract/%1")).arg(s_instanceCounter++);
+    if (!QDBusConnection::sessionBus().registerObject(pathName, this)) {
+        kFatal() << "Could not register a D-Bus object for drag'n'drop";
+    }
+
+    m_model = new ArchiveModel(pathName, this);
     m_tempDir = new KTempDir();
     m_lastDir = KUrl(QDir::homePath());
 
@@ -166,9 +174,6 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     setupActions();
 
     m_statusBarExtension = new KParts::StatusBarExtension(this);
-
-    new DndExtractAdaptor(this);
-    QDBusConnection::sessionBus().registerObject(QLatin1String("/DndExtract"), this);
 
     setXMLFile(QLatin1String("ark_part.rc"));
 }
