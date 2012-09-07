@@ -198,7 +198,7 @@ bool CliPlugin::readListLine(const QString& line)
             m_currentArchiveEntry[ IsPasswordProtected ] = (line.at(12) == QLatin1Char('+'));
         } else if (line.isEmpty()) {
             if (m_currentArchiveEntry.contains(FileName)) {
-                entry(m_currentArchiveEntry);
+                emit entry(m_currentArchiveEntry);
             }
         }
         break;

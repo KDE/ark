@@ -121,7 +121,7 @@ bool CliPlugin::readListLine(const QString &line)
                         e[Timestamp] = QDateTime(QDate::fromString(entryList[8]+QLatin1Char('-')+entryList[6]+QLatin1Char('-')+entryList[7], QLatin1String("yyyy-MMM-d")),
                                                  QTime());
                     }
-                    entry(e);
+                    emit entry(e);
                 }
                 else if (entryList.count() == 11) { // All info is available
                     const QStringList ownerList = entryList[1].split(QLatin1Char('/')); // Split uid from gid
@@ -140,7 +140,7 @@ bool CliPlugin::readListLine(const QString &line)
                         e[Timestamp] = QDateTime(QDate::fromString(entryList[9]+QLatin1Char('-')+entryList[7]+QLatin1Char('-')+entryList[8], QLatin1String("yyyy-MMM-d")),
                                                  QTime());
                     }
-                    entry(e);
+                    emit entry(e);
                 }
 
                 m_firstLine = true;

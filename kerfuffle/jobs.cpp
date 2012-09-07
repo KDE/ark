@@ -64,7 +64,7 @@ private:
 void Job::Private::run()
 {
     //kDebug(1601) << "starting doWork()" << QThread::currentThread();
-    // TODO: doWorl() can start new KJobs (that is new QThreads) before this QThread finishes.
+    // TODO: doWork() can start new KJobs (that is new QThreads) before this QThread finishes.
     // ExtractJob::doWork() does that. Check if that does not cause problems.
     q->doWork();
     //kDebug(1601) << "doWork() finished" << QThread::currentThread();
@@ -214,6 +214,7 @@ ListJob::ListJob(ReadOnlyArchiveInterface *interface, QObject *parent)
 void ListJob::doWork()
 {
     emit description(this, i18nc("@info:progress", "Loading archive..."));
+    connectToArchiveInterfaceSignals();
     bool ret = archiveInterface()->list();
 
     if (!archiveInterface()->waitForFinishedSignal()) {

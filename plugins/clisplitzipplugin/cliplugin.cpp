@@ -350,7 +350,7 @@ bool CliPlugin::readListLine(const QString &l)
             QString resultString = entryPattern.cap(10);
             e[InternalID] = resultString;
             e[FileName] = resultString;
-            entry(e);
+            emit entry(e);
         }
         break;
     }
