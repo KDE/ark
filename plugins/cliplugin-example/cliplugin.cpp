@@ -48,7 +48,7 @@ ParameterList CliPlugin::parameterList() const
 
     if (p.isEmpty()) {
         p[CaptureProgress] = true;
-        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QLatin1String("rar");
+        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QStringList() << QLatin1String("rar");
 
         p[ListArgs] = QStringList() << QLatin1String("v") << QLatin1String("-c-") << QLatin1String("$Archive");
         p[ExtractArgs] = QStringList() << QLatin1String("-p-") << QLatin1String("$PreservePathSwitch") << QLatin1String("$PasswordSwitch") << QLatin1String("$RootNodeSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");

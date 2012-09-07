@@ -49,7 +49,7 @@ ParameterList CliPlugin::parameterList() const
 
     if (p.isEmpty()) {
         //p[CaptureProgress] = true;
-        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QLatin1String("7z");
+        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QStringList() << QLatin1String("7z");
 
         p[ListArgs] = QStringList() << QLatin1String("l") << QLatin1String("-slt") << QLatin1String("$Archive");
         p[ExtractArgs] = QStringList() << QLatin1String("$MultiThreadingSwitch") << QLatin1String("$PreservePathSwitch") << QLatin1String("$PasswordSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");
@@ -86,7 +86,7 @@ ParameterList CliPlugin::parameterList() const
         //p[EncryptHeaderSwitch] = QLatin1String("-mhe");
         p[EncryptionMethodSwitches] = QStringList() << QLatin1String("-mem=AES256") << QLatin1String("-mem=ZipCrypto");
 
-        p[TestProgram] = QLatin1String("7z");
+        p[TestProgram] = QStringList() << QLatin1String("7z");
         p[TestArgs] = QStringList() << QLatin1String("t") << QLatin1String("$PasswordSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");
         p[TestFailedPatterns] = QStringList() << QLatin1String("Data Error") << QLatin1String("CRC Failed") << QLatin1String("Can not open file as archive") << QLatin1String("Sub items Errors:");
         p[TemporaryDirectorySwitch] = QLatin1String("-w$DirectoryPath");

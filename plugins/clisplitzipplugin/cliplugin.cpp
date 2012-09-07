@@ -255,9 +255,9 @@ ParameterList CliPlugin::parameterList() const
 
     if (p.isEmpty()) {
         p[CaptureProgress] = false;
-        p[ListProgram] = QLatin1String( "zipinfo" );
-        p[ExtractProgram] = QLatin1String( "unzip" );
-        //p[DeleteProgram] = p[AddProgram] = QLatin1String( "zip" );
+        p[ListProgram] = QStringList() << QLatin1String( "zipinfo" );
+        p[ExtractProgram] = QStringList() << QLatin1String( "unzip" );
+        //p[DeleteProgram] = p[AddProgram] = QStringList() << QLatin1String( "zip" );
 
         // -U forces unzip to escape all non-ASCII characters from UTF-8 coded filenames as ''#Uxxxx''.
         // Actually, zipinfo uses UTF-16, not UTF-8, so we will need to parse the text to convert it to UTF-8.
@@ -281,7 +281,7 @@ ParameterList CliPlugin::parameterList() const
         //p[CompressionLevelSwitches] = QStringList() << QLatin1String( "-0" ) << QLatin1String( "-3" ) << QLatin1String( "-6" ) << QLatin1String("-8" ) << QLatin1String("-9" );
         p[PasswordPromptPattern] = QLatin1String(" password: ");
         p[WrongPasswordPatterns] = QStringList() << QLatin1String( "incorrect password" ) << QLatin1String( "password incorrect" ) << QLatin1String( "Wrong password" ) ;
-        p[TestProgram] = QLatin1String( "zip" );
+        p[TestProgram] = QStringList() << QLatin1String( "zip" );
         // Zip just supports a full archive check:
         p[TestArgs] = QStringList() << QLatin1String( "-T" ) << QLatin1String( "$PasswordSwitch" )  << QLatin1String( "$Archive" );
         p[TestFailedPatterns] = QStringList() << QLatin1String("FAILED") << QLatin1String("zip error");
