@@ -126,7 +126,7 @@ bool CliPlugin::joinVolumes()
     QString templateSource; // file name template for volumes in sourceDir
     QString templateLink = templateFilename + QLatin1String(".z"); // file name template for symbolic links in tmpDir
 
-    QString volumeName; // volume file name in sourceDir. The extention will be added later
+    QString volumeName; // volume file name in sourceDir. The extension will be added later
     QString linkName = templateFilename + QLatin1String(".zip"); // symbolic link name in tmpDir
 
     // first process the last volume, the one with .zip or .zipx extension.

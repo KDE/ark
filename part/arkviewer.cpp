@@ -65,8 +65,8 @@ void ArkViewer::dialogClosed()
 
     if (m_part) {
         KProgressDialog progressDialog
-            (this, i18n("Closing preview"),
-             i18n("Please wait while the preview is being closed..."));
+            (this, i18nc("@title:window", "Closing preview"),
+             i18nc("@info", "Please wait while the preview is being closed..."));
 
         progressDialog.setMinimumDuration(500);
         progressDialog.setModal(true);
@@ -118,7 +118,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
             // application/octet-stream.  So it could be viewable as
             // plain text, ask the user.
             response = KMessageBox::warningContinueCancel(parent,
-                i18n("The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do you want to try to view it as plain text?", mimeType->name()),
+                i18nc("@info", "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do you want to try to view it as plain text?", mimeType->name()),
                 i18nc("@title:window", "Cannot Preview File"),
                 KGuiItem(i18nc("@action:button", "Preview as Text"), KIcon(QLatin1String("text-plain"))),
                 KStandardGuiItem::cancel(),
@@ -130,7 +130,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
             // text, so ask the user.  Not the same as the message/question
             // above, because the wording and default are different.
             response = KMessageBox::warningContinueCancel(parent,
-                i18n("The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do you want to try to view it as plain text?"),
+                i18nc("@info", "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do you want to try to view it as plain text?"),
                 i18nc("@title:window", "Cannot Preview File"),
                 KGuiItem(i18nc("@action:button", "Preview as Text"), KIcon(QLatin1String("text-plain"))),
                 KStandardGuiItem::cancel(),
@@ -156,7 +156,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
             return;
         }
         else {
-            KMessageBox::sorry(parent, i18n("The internal viewer cannot preview this file."));
+            KMessageBox::sorry(parent, i18nc("@info", "The internal viewer cannot preview this file."));
             delete internalViewer;
         }
     }
