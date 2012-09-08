@@ -167,8 +167,6 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, SLOT(slotAddFiles(QStringList,QString)));
     connect(m_model, SIGNAL(error(QString,QString)),
             this, SLOT(slotError(QString,QString)));
-    connect(m_model, SIGNAL(columnsInserted(QModelIndex,int,int)),
-            this, SLOT(adjustColumns()));
 
     setupArchiveView();
     setupActions();
@@ -306,6 +304,9 @@ void Part::setupArchiveView()
     //TODO: fix an actual eventhandler
     connect(m_archiveView, SIGNAL(itemTriggered(QModelIndex)),
             this, SLOT(slotView()));
+
+    connect(m_model, SIGNAL(columnsInserted(QModelIndex,int,int)),
+            this, SLOT(adjustColumns()));
 
     setFileNameFromArchive();
 }
