@@ -6,9 +6,9 @@
   <!ENTITY % English "INCLUDE" > <!-- change language only here -->
 ]>
 
-<book lang="&language;">
+<book id="ark" lang="&language;">
 
-<bookinfo>
+<book id="ark"info>
 <title>The &ark; Handbook</title>
 
 <authorgroup>
