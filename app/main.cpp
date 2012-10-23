@@ -144,8 +144,9 @@ int main(int argc, char **argv)
     } else { //new ark window (no restored session)
         // open any given URLs
         KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+        const bool autoAddFiles = args->count() > 1 && !args->isSet("batch"); // assume "add files" if there is more than one file in parameter list
 
-        if (args->isSet("add") || args->isSet("add-to")) {
+        if (args->isSet("add") || args->isSet("add-to") || autoAddFiles) {
             AddToArchive *addToArchiveJob = new AddToArchive;
             application.connect(addToArchiveJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);
 
@@ -159,6 +160,8 @@ int main(int argc, char **argv)
 
             if (args->isSet("autofilename")) {
                 addToArchiveJob->setAutoFilenameSuffix(args->getOption("autofilename"));
+            } else if (autoAddFiles) {
+                addToArchiveJob->setAutoFilenameSuffix(QLatin1String("7z")); // can be changed in add dialog
             }
 
             for (int i = 0; i < args->count(); ++i) {
@@ -166,7 +169,7 @@ int main(int argc, char **argv)
                 addToArchiveJob->addInput(args->url(i));
             }
 
-            if (args->isSet("dialog")) {
+            if (args->isSet("dialog") || autoAddFiles) {
                 if (!addToArchiveJob->showAddDialog()) {
                     return 0;
                 }
