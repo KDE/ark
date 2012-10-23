@@ -1088,6 +1088,14 @@ void CliInterface::handleLine(const QString& line)
             return;
         }
 
+        // check integrity here to warn user as early as possible that the archive is corrupted.
+        if (checkForErrorMessage(line, TestFailedPatterns)) {
+            m_testResult = false;
+            error(i18n("Integrity check failed: The archive is broken."));
+            failOperation();
+            return;
+        }
+
         if (handleFileExistsMessage(line)) {
             return;
         }
