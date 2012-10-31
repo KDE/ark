@@ -98,8 +98,6 @@ void ArchiveView::startDrag(Qt::DropActions supportedActions)
         return;
     }
 
-    kDebug(1601) << "Singling out the current selection...";
-    selectionModel()->setCurrentIndex(currentIndex(), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
     QTreeView::startDrag(supportedActions);
 }
 

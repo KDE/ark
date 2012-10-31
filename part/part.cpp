@@ -243,13 +243,6 @@ void Part::extractSelectedFilesTo(const QString& localPath)
         return;
     }
 
-    if (m_archiveView->selectionModel()->selectedRows().count() != 1) {
-        m_archiveView->selectionModel()->setCurrentIndex(m_archiveView->currentIndex(), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
-    }
-    if (m_archiveView->selectionModel()->selectedRows().count() != 1) {
-        return;
-    }
-
     QVariant internalRoot;
     kDebug(1601) << "valid " << m_archiveView->currentIndex().parent().isValid();
     if (m_archiveView->currentIndex().parent().isValid()) {
