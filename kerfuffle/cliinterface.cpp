@@ -1368,11 +1368,15 @@ bool CliInterface::doKill()
 #endif
 
     if (m_process) {
+        m_process->terminate();
+
         // Give some time for the application to finish gracefully
-        if (!m_process->waitForFinished(5)) {
+        if (!m_process->waitForFinished(2000)) {
             //kDebug(1601) << "Trying to kill process" << QThread::currentThread();
             m_process->kill();
-            m_process->waitForFinished(-1); // avoid "QProcess: Destroyed while process is still running." message.
+            m_process->waitForFinished(2000); // avoid "QProcess: Destroyed while process is still running." message.
+            m_process->deleteLater();
+            m_process = 0;
         }
 
         return true;
