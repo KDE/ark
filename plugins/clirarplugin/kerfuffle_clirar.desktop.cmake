@@ -14,7 +14,6 @@ X-KDE-Kerfuffle-ReadWrite=true
 Name=RAR archive plugin
 Name[ar]=ملحق أرشيف RAR
 Name[ast]=Complementu d'archivu comprimíu RAR
-Name[bs]=Priključak RAR arhiva
 Name[ca]=Connector per arxius RAR
 Name[ca@valencia]=Connector per arxius RAR
 Name[cs]=Modul pro archiv RAR

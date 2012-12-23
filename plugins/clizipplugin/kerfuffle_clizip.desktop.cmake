@@ -14,7 +14,6 @@ X-KDE-Kerfuffle-ReadWrite=true
 Name=ZIP archive plugin
 Name[ar]=ملحق أرشيف ZIP
 Name[ast]=Complementu d'archivu comprimíu ZIP
-Name[bs]=Priključak ZIP arhiva
 Name[ca]=Connector per arxius ZIP
 Name[ca@valencia]=Connector per arxius ZIP
 Name[cs]=Modul pro archiv ZIP

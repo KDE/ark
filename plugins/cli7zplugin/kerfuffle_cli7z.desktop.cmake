@@ -14,7 +14,6 @@ X-KDE-Kerfuffle-ReadWrite=true
 Name=7zip archive plugin
 Name[ar]=ملحق أرشيف 7zip
 Name[ast]=Complementu d'archivu comprimíu 7zip
-Name[bs]=Priključak 7z arhiva
 Name[ca]=Connector per arxius 7zip
 Name[ca@valencia]=Connector per arxius 7zip
 Name[cs]=Modul pro archiv 7zip

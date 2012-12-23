@@ -12,7 +12,6 @@ X-KDE-Priority=100
 X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=false
 Name=kerfuffle_libarchive_readonly
-Name[bs]=kerfuffle_libarchive_readonly
 Name[ca]=kerfuffle_libarchive_readonly
 Name[ca@valencia]=kerfuffle_libarchive_readonly
 Name[cs]=kerfuffle_libarchive_readonly
