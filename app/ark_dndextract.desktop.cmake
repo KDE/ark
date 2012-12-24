@@ -5,6 +5,7 @@ X-KDE-Library=libextracthere
 Name=Ark Extract Here
 Name[ar]=أرك استخرج هنا
 Name[ast]=Estrayer equí con Ark
+Name[bs]=Raspakuj Arkom ovde
 Name[ca]=Extracció de l'Ark aquí
 Name[ca@valencia]=Extracció de l'Ark ací
 Name[cs]=Rozbalit Arkem sem
