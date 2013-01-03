@@ -25,6 +25,7 @@ Name[eu]=lha artxibuen plugina
 Name[fi]=lha-pakkaustuki
 Name[fr]=Module d'archive lha
 Name[ga]=Breiseán cartlainne lha
+Name[gl]=Complemento para arquivos LHA
 Name[hu]=lha modul
 Name[ia]=plugin de archivar lha
 Name[it]=plugin archivio lha

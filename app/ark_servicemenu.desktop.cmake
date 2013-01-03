@@ -20,6 +20,7 @@ X-KDE-Submenu[eu]=Erauzi
 X-KDE-Submenu[fi]=Pura
 X-KDE-Submenu[fr]=Extraire
 X-KDE-Submenu[ga]=Bain amach
+X-KDE-Submenu[gl]=Extraer
 X-KDE-Submenu[hr]=Otpakiraj
 X-KDE-Submenu[hu]=Kibontás
 X-KDE-Submenu[ia]=Extrahe
