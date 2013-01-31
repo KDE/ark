@@ -40,6 +40,7 @@ Name[km]=កម្មវិធី​ជំនួយ​ប័ណ្ណសារ R
 Name[ko]=RAR 압축 플러그인
 Name[lt]=RAR archyvo priedas
 Name[lv]=RAR arhīvu spraudnis
+Name[mr]=RAR आर्काइव प्लगइन
 Name[nb]=Programtillegg for RAR-arkiv
 Name[nds]=RAR-Archievmoduul
 Name[nl]=RAR-archiefplug-in
