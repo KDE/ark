@@ -31,6 +31,7 @@ Name[km]=ស្រង់ចេញ Ark នៅ​ទីនេះ
 Name[ko]=Ark 여기에 풀기
 Name[lt]=Čia išpakuoti archyvą
 Name[lv]=Ark atspiest šeit
+Name[mr]=येथे आर्क पुर्ववत करा
 Name[nb]=Pakk ut arkivet her med Ark
 Name[nds]=Hier mit Ark utpacken
 Name[nl]=Ark: hier uitpakken
