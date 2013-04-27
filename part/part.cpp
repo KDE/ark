@@ -457,11 +457,11 @@ bool Part::openFile()
     job->start();
     m_infoPanel->setIndex(QModelIndex());
 
-    if (archive != 0 && arguments().metaData()[QLatin1String( "showExtractDialog" )] == QLatin1String( "true" )) {
+    if (arguments().metaData()[QLatin1String( "showExtractDialog" )] == QLatin1String( "true" )) {
         QTimer::singleShot(0, this, SLOT(slotExtractFiles()));
     }
 
-    return (archive != 0);
+    return true;
 }
 
 bool Part::saveFile()
