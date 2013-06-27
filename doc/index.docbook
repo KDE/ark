@@ -32,8 +32,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2010-12-16</date>
-<releaseinfo>2.16 &kde; (4.6)</releaseinfo>
+<date>2013-06-21</date>
+<releaseinfo>2.19 &kde; (4.11)</releaseinfo>
 
 <abstract>
 <para>&ark; is an archive manager for &kde;.</para></abstract>
@@ -59,8 +59,9 @@
 archives.
 &ark; can handle various archive formats such as
 <command>tar</command>, <command>gzip</command>,
-<command>bzip2</command>, <command>zip</command>, <command>rar</command> and
-<command>7z</command> (support for certain archive formats depend on
+<command>bzip2</command>, <command>zip</command>, <command>rar</command>, 
+<command>7zip</command>, <command>xz</command>, <command>rpm</command>, 
+<command>cab</command> and <command>deb</command> (support for certain archive formats depend on
 the appropriate command-line programs being installed).</para>
 
 <screenshot>
@@ -127,11 +128,11 @@ and you can select to quick extract into any of them.</para>
 
 </sect1>
 <sect1 id="ark-extract">
-<title>Extracting Archives</title>
+<title>Extracting Archives and Removing Files</title>
 
 <para>Once an archive has been opened in &ark;, it can be extracted. To
 quick extract files from an archive, you can select
-<guimenuitem>Extract...</guimenuitem> from the
+<guisubmenu>Extract</guisubmenu> from the
 <guimenu>Action</guimenu> menu. This opens a submenu with previously accessed folders,
 and you can select to quick extract into any of them. Clicking on the check mark at
 the right side of the <guibutton>Extract</guibutton> button in the toolbar performes the same action.
@@ -147,7 +148,7 @@ location is the folder the archive is in.</para>
 subfolder is the first part of the archive name, but you can edit it to your needs.
 If you want to preserve paths when extracting, select this option.
 You may also choose to open the destination folder
-in &konqueror; or &dolphin; once the extraction is complete.</para>
+in &konqueror; or &dolphin; or close &ark; once the extraction is complete.</para>
 
 <para>If a file in the archive list is highlighted, you can
 also select which files to extract:</para>
@@ -162,6 +163,14 @@ which have been selected.</para>
 archive.</para>
 </listitem>
 </itemizedlist>
+<para>To extract a single file from an archive, click on the filename and drag it to the 
+target folder
+</para>
+<!--FIXME extract several files by drag + drop? - only in basyskom branch-->
+<para>Extracting files from an archive does not change the archive and its contents.
+Use <menuchoice><guimenu>Action</guimenu><guimenuitem>Delete</guimenuitem></menuchoice> 
+(<keysym>Del</keysym>) for this task.
+</para>
 
 </sect1>
 
@@ -182,7 +191,7 @@ File...</guimenuitem> from the <guimenu>Action</guimenu> menu. If you
 want to add an entire folder to an archive, choose <guimenuitem>Add
 Folder...</guimenuitem> from the <guimenu>Action</guimenu> menu.</para>
 
-<para>An alternative way to add files to the archive is to drag a file
+<para>An alternative way to add files to the archive is to drag one or more files 
 from &konqueror;, &dolphin; or the desktop into the main &ark; window, and it will
 be added to the current archive.</para>
 
@@ -300,7 +309,8 @@ This mode allows you to extract or create archives and add files to them.</para>
 <command>gzip</command> are also needed if you want &ark; to handle tar archives. To handle other
 file formats, you need the appropriate command line programs, such as <command>bzip2</command>, 
 <command>zip</command>, <command>unzip</command>, <command>ar</command>, <command>rar</command>
-and <command>7z</command>.  </para>
+and <command>7zip</command>, <command>xz</command>, <command>rpm</command>, 
+<command>cab</command> and <command>deb</command>.</para>
 
 </sect1>
 
