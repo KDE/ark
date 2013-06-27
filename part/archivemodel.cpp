@@ -554,6 +554,12 @@ QStringList ArchiveModel::mimeTypes() const
 {
     QStringList types;
 
+    // MIME types we accept for dragging (eg. Dolphin -> Ark).
+    types << QLatin1String("text/uri-list")
+          << QLatin1String("text/plain")
+          << QLatin1String("text/x-moz-url");
+
+    // MIME types we accept for dropping (eg. Ark -> Dolphin).
     types << QLatin1String("application/x-kde-ark-dndextract-service")
           << QLatin1String("application/x-kde-ark-dndextract-path");
 
