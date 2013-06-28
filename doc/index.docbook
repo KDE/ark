@@ -308,8 +308,8 @@ This mode allows you to extract or create archives and add files to them.</para>
 4. &GNU; <command>tar</command> and a recent
 <command>gzip</command> are also needed if you want &ark; to handle tar archives. To handle other
 file formats, you need the appropriate command line programs, such as <command>bzip2</command>, 
-<command>zip</command>, <command>unzip</command>, <command>ar</command>, <command>rar</command>
-and <command>7zip</command>, <command>xz</command>, <command>rpm</command>, 
+<command>zip</command>, <command>unzip</command>, <command>ar</command>, <command>rar</command>,
+<command>7zip</command>, <command>xz</command>, <command>rpm</command>, 
 <command>cab</command> and <command>deb</command>.</para>
 
 </sect1>
