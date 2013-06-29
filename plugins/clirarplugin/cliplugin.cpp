@@ -146,11 +146,11 @@ bool CliPlugin::readListLine(const QString &line)
             return true;
         }
 
-        // #242071: The RAR file format has the concept of subheaders, such as
-        //          CMT for comments and STM for NTFS streams (?).
-        //          Since the format is undocumented, we cannot do much, and
-        //          ignoring them seems harmless (at least 7zip and WinRAR do
-        //          notes show them either).
+        // #242071: The RAR file format has the concept of service headers,
+        //          such as CMT (comments), STM (NTFS alternate data streams)
+        //          and RR (recovery record). These service headers do no
+        //          interest us, and ignoring them seems harmless (at least
+        //          7zip and WinRAR do not show them either).
         if (line.startsWith(subHeaderString)) {
             // subHeaderString's length is 18
             const QString subHeaderType(line.mid(18));
