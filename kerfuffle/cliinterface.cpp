@@ -330,6 +330,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
         const QString names = programNames.join(QLatin1String(", "));
         emit error(i18ncp("@info", "Failed to locate program <filename>%2</filename> on disk.",
                                    "Failed to locate programs <filename>%2</filename> on disk.", programNames.count(), names));
+        emit finished(false);
         return false;
     }
 
