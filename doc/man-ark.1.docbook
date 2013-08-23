@@ -7,12 +7,12 @@
 <refentry lang="&language;">
 <refentryinfo>
 <title>&kde; User's Manual</title>
-<author>&Lauri.Watts;&Lauri.Watts.mail;</author>
+<author><firstname>Lauri</firstname><surname>Watts</surname> <contrib>Initial version of &ark; man page.</contrib></author>
 
-<author>&Raphael.Kubo.da.Costa; &Raphael.Kubo.da.Costa.mail;</author>
+ <author><firstname>Raphael</firstname><othername>Kubo da</othername><surname>Costa</surname> <contrib>Update &ark; man page.</contrib></author>
 
-<date>2009-09-10</date>
-<releaseinfo>2.13 (&kde; 4.3.1)</releaseinfo>
+<date>2013-08-23</date>
+<releaseinfo>2.19 (&kde; 4.11)</releaseinfo>
 <productname>K Desktop Environment</productname>
 </refentryinfo>
 
@@ -131,7 +131,7 @@ to this one.</para>
 <title>Options for batch extraction</title>
 <variablelist>
 <varlistentry>
-<term><option>b, --batch</option></term>
+<term><option>-b, --batch</option></term>
 <listitem>
 <para>Use the batch interface instead of the usual dialog. This option is implied 
 if more than one url is specified.</para>
