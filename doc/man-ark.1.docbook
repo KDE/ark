@@ -9,7 +9,7 @@
 <title>&kde; User's Manual</title>
 <author><firstname>Lauri</firstname><surname>Watts</surname> <contrib>Initial version of &ark; man page.</contrib></author>
 
- <author><firstname>Raphael</firstname><othername>Kubo da</othername><surname>Costa</surname> <contrib>Update &ark; man page.</contrib></author>
+<author><firstname>Raphael</firstname><surname>Kubo da Costa</surname> <contrib>Update &ark; man page.</contrib></author>
 
 <date>2013-08-23</date>
 <releaseinfo>2.19 (&kde; 4.11)</releaseinfo>
