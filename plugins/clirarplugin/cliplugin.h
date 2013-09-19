@@ -51,12 +51,14 @@ private:
     } m_parseState;
 
     QString m_entryFileName;
+    QHash<QString, QString> m_entryDetails;
 
     bool m_isPasswordProtected;
 
     int m_remainingIgnoredSubHeaderLines;
 
     bool m_isUnrarFree;
+    bool m_isUnrarVersion5;
 };
 
 #endif // CLIPLUGIN_H
