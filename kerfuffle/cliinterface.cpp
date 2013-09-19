@@ -53,7 +53,8 @@ namespace Kerfuffle
 {
 CliInterface::CliInterface(QObject *parent, const QVariantList & args)
         : ReadWriteArchiveInterface(parent, args),
-        m_process(0)
+        m_process(0),
+        m_listEmptyLines(false)
 {
     //because this interface uses the event loop
     setWaitForFinishedSignal(true);
@@ -76,6 +77,11 @@ void CliInterface::cacheParameterList()
 CliInterface::~CliInterface()
 {
     Q_ASSERT(!m_process);
+}
+
+void CliInterface::setListEmptyLines(bool emptyLines)
+{
+    m_listEmptyLines = emptyLines;
 }
 
 bool CliInterface::list()
@@ -476,7 +482,7 @@ void CliInterface::readStdout(bool handleAll)
     }
 
     foreach(const QByteArray& line, lines) {
-        if (!line.isEmpty()) {
+        if (!line.isEmpty() || (m_listEmptyLines && m_operationMode == List)) {
             handleLine(QString::fromLocal8Bit(line));
         }
     }

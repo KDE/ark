@@ -263,6 +263,13 @@ public:
      */
     void setEscapedCharacters(const QString& characters);
 
+    /**
+     * Sets if the listing should include empty lines.
+     *
+     * The default value is false.
+     */
+    void setListEmptyLines(bool emptyLines);
+
 private:
     void substituteListVariables(QStringList& params);
 
@@ -330,6 +337,7 @@ private:
 
     ParameterList m_param;
     QVariantList m_removedFiles;
+    bool m_listEmptyLines;
 
 private slots:
     void readStdout(bool handleAll = false);
