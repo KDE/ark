@@ -26,7 +26,6 @@ Name[es]=Complemento de archivo comprimido ZIP
 Name[et]=ZIP-arhiivi plugin
 Name[eu]=ZIP artxibuen plugina
 Name[fi]=Zip-pakkaustuki
-Name[fr]=Module externe d'archive « ZIP »
 Name[ga]=Breiseán cartlainne ZIP
 Name[gl]=Extensión de arquivo ZIP
 Name[hr]=Arhivni priključak ZIP
