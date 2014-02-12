@@ -34,6 +34,7 @@ class CliRarTest : public QObject
 
 private Q_SLOTS:
     void testReadCorruptedArchive();
+    void testParseSymlink();
 };
 
 #endif

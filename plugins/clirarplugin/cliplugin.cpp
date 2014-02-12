@@ -2,7 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2009 Harald Hvaal <haraldhv@stud.ntnu.no>
- * Copyright (C) 2010-2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (C) 2010-2011,2014 Raphael Kubo da Costa <rakuco@FreeBSD.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,6 +38,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
         , m_parseState(ParseStateColumnDescription1)
         , m_isPasswordProtected(false)
         , m_remainingIgnoredSubHeaderLines(0)
+        , m_remainingIgnoredDetailsLines(0)
         , m_isUnrarFree(false)
         , m_isUnrarVersion5(false)
 {
@@ -263,6 +264,10 @@ bool CliPlugin::readListLine(const QString &line)
         break;
 
     case ParseStateEntryIgnoredDetails:
+        if (m_remainingIgnoredDetailsLines > 0) {
+            --m_remainingIgnoredDetailsLines;
+            return true;
+        }
         m_parseState = ParseStateEntryFileName;
 
         break;
@@ -324,6 +329,17 @@ bool CliPlugin::readListLine(const QString &line)
         e[Version] = details.at(8);
         e[IsPasswordProtected] = m_isPasswordProtected;
         kDebug() << "Added entry: " << e;
+
+        // #314297: When RAR 3.x and RAR 4.x list a symlink, they output an
+        //          extra line after the "Host OS/Solid/Old" one mentioning the
+        //          target of the symlink in question. We are not interested in
+        //          this line at the moment, so we just tell the parser to skip
+        //          it.
+        if (e[Permissions].toString().startsWith(QLatin1Char('l'))) {
+            m_remainingIgnoredDetailsLines = 1;
+        } else {
+            m_remainingIgnoredDetailsLines = 0;
+        }
 
         emit entry(e);
 
