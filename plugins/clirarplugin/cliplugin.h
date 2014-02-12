@@ -56,6 +56,7 @@ private:
     bool m_isPasswordProtected;
 
     int m_remainingIgnoredSubHeaderLines;
+    int m_remainingIgnoredDetailsLines;
 
     bool m_isUnrarFree;
     bool m_isUnrarVersion5;

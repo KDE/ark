@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2011,2014 Raphael Kubo da Costa <rakuco@FreeBSD.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -56,6 +56,30 @@ void CliRarTest::testReadCorruptedArchive()
     QTextStream unrarStream(&unrarOutput);
     while (!unrarStream.atEnd()) {
         const QString line(unrarStream.readLine());
+        Q_ASSERT(rarPlugin->readListLine(line));
+    }
+
+    rarPlugin->deleteLater();
+}
+
+/*
+ * Bug 314297: do not crash when a RAR archive has a symlink.
+ */
+void CliRarTest::testParseSymlink()
+{
+    QVariantList args;
+    args.append(QLatin1String("DummyArchive.rar"));
+
+    CliPlugin *rarPlugin = new CliPlugin(this, args);
+    Q_ASSERT(rarPlugin->open());
+
+    QFile unrarOutput(QLatin1String(KDESRCDIR "data/testReadArchiveWithSymlink.txt"));
+    Q_ASSERT(unrarOutput.open(QIODevice::ReadOnly));
+
+    QTextStream unrarStream(&unrarOutput);
+    while (!unrarStream.atEnd()) {
+        const QString line(unrarStream.readLine());
+        kDebug() << line;
         Q_ASSERT(rarPlugin->readListLine(line));
     }
 
