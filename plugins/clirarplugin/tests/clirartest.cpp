@@ -79,7 +79,6 @@ void CliRarTest::testParseSymlink()
     QTextStream unrarStream(&unrarOutput);
     while (!unrarStream.atEnd()) {
         const QString line(unrarStream.readLine());
-        kDebug() << line;
         Q_ASSERT(rarPlugin->readListLine(line));
     }
 
