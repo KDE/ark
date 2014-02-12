@@ -40,7 +40,7 @@ using namespace Kerfuffle;
  * have lines such as "Unexpected end of archive" or "??? - the file header is
  * corrupt" instead of a file name and the header string after it.
  *
- * See bug 262857 and commit 1211296.
+ * See bug 262857 and commit 2042997013432cdc6974f5b26d39893a21e21011.
  */
 void CliRarTest::testReadCorruptedArchive()
 {
