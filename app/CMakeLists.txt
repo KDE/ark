@@ -31,6 +31,7 @@ configure_file(
 install( TARGETS ark  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 install(FILES ark_addtoservicemenu.desktop ${CMAKE_CURRENT_BINARY_DIR}/ark_servicemenu.desktop DESTINATION ${SERVICES_INSTALL_DIR}/ServiceMenus)
 install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/ark.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
+install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/ark.appdata.xml DESTINATION share/appdata )
 install( FILES arkui.rc    DESTINATION ${DATA_INSTALL_DIR}/ark )
 
 ########### konqueror ark_extract_here plugin ###############
