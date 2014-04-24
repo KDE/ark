@@ -125,12 +125,14 @@ void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 
 bool MainWindow::loadPart()
 {
-    KPluginFactory *factory = KPluginLoader(QLatin1String( "arkpart" )).factory();
+    KPluginLoader loader(QLatin1String( "arkpart" ));
+    KPluginFactory *factory = loader.factory();
     if (factory) {
         m_part = static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this));
     }
     if (!factory || !m_part) {
         KMessageBox::error(this, i18n("Unable to find Ark's KPart component, please check your installation."));
+        kWarning() << "Error loading Ark KPart: " << loader.errorString();
         return false;
     }
 
