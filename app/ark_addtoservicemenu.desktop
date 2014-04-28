@@ -246,7 +246,7 @@ Icon=ark
 Exec=ark --changetofirstpath --add --autofilename rar %F
 
 [Desktop Action compressAsTar]
-Name=As ZIP/TAR Archive
+Name=As TAR.GZ Archive
 Name[ar]=كأرشيف  ZIP/TAR
 Name[ast]=Como archivu comprimíu ZIP/TAR
 Name[bs]=kao ZIP+tar arhivu
