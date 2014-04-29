@@ -247,6 +247,13 @@ Exec=ark --changetofirstpath --add --autofilename rar %F
 
 [Desktop Action compressAsTar]
 Name=As TAR.GZ Archive
+Name[ca]=Com a arxiu TAR.GZ
+Name[nl]=Als TAR.GZ-archief
+Name[pl]=Jako archiwum TAR.GZ
+Name[sk]=Ako TAR.GZ archív
+Name[sv]=Som TAR.GZ-arkiv
+Name[uk]=Як архів TAR.GZ
+Name[x-test]=xxAs TAR.GZ Archivexx
 Icon=ark
 Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
