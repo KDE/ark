@@ -24,6 +24,7 @@
   </screenshots>
   <url type="homepage">http://kde.org/applications/utilities/ark/</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=ark</url>
+  <url type="manual">http://docs.kde.org/stable/en/kdeutils/ark/index.html</url>
   <project_group>KDE</project_group>
   <provides>
     <binary>ark</binary>
