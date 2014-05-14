@@ -54,7 +54,8 @@ namespace Kerfuffle
 CliInterface::CliInterface(QObject *parent, const QVariantList & args)
         : ReadWriteArchiveInterface(parent, args),
         m_process(0),
-        m_listEmptyLines(false)
+        m_listEmptyLines(false),
+        m_abortingOperation(false)
 {
     //because this interface uses the event loop
     setWaitForFinishedSignal(true);
@@ -352,6 +353,8 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
 #else
     m_process = new KPtyProcess;
     m_process->setPtyChannels(KPtyProcess::StdinChannel);
+    QEventLoop loop;
+    connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), &loop, SLOT(quit()), Qt::DirectConnection);
 #endif
 
     m_process->setOutputChannelMode(KProcess::MergedChannels);
@@ -368,7 +371,6 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
 #ifdef Q_OS_WIN
     bool ret = m_process->waitForFinished(-1);
 #else
-    QEventLoop loop;
     bool ret = (loop.exec(QEventLoop::WaitForMoreEvents | QEventLoop::ExcludeUserInputEvents) == 0);
 #endif
 
@@ -426,6 +428,9 @@ void CliInterface::readStdout(bool handleAll)
     //characters they send out (newline, backspace, carriage return,
     //etc), so keep in mind that this function is supposed to handle
     //all those special cases and be the lowest common denominator
+
+    if (m_abortingOperation)
+        return;
 
     Q_ASSERT(m_process);
 
@@ -689,9 +694,11 @@ bool CliInterface::doKill()
 {
     if (m_process) {
         // Give some time for the application to finish gracefully
+        m_abortingOperation = true;
         if (!m_process->waitForFinished(5)) {
             m_process->kill();
         }
+        m_abortingOperation = false;
 
         return true;
     }

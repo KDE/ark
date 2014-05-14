@@ -338,6 +338,7 @@ private:
     ParameterList m_param;
     QVariantList m_removedFiles;
     bool m_listEmptyLines;
+    bool m_abortingOperation;
 
 private slots:
     void readStdout(bool handleAll = false);

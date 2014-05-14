@@ -119,7 +119,7 @@ void Job::connectToArchiveInterfaceSignals()
     connect(archiveInterface(), SIGNAL(entryRemoved(QString)), SLOT(onEntryRemoved(QString)));
     connect(archiveInterface(), SIGNAL(progress(double)), SLOT(onProgress(double)));
     connect(archiveInterface(), SIGNAL(info(QString)), SLOT(onInfo(QString)));
-    connect(archiveInterface(), SIGNAL(finished(bool)), SLOT(onFinished(bool)));
+    connect(archiveInterface(), SIGNAL(finished(bool)), SLOT(onFinished(bool)), Qt::DirectConnection);
     connect(archiveInterface(), SIGNAL(userQuery(Query*)), SLOT(onUserQuery(Query*)));
 }
 
