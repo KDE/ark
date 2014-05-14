@@ -72,6 +72,7 @@ LibArchiveInterface::LibArchiveInterface(QObject *parent, const QVariantList & a
     , m_extractedFilesSize(0)
     , m_workDir(QDir::current())
     , m_archiveReadDisk(archive_read_disk_new())
+    , m_abortOperation(false)
 {
     archive_read_disk_set_standard_lookup(m_archiveReadDisk.data());
 }
@@ -110,7 +111,7 @@ bool LibArchiveInterface::list()
     struct archive_entry *aentry;
     int result;
 
-    while ((result = archive_read_next_header(arch_reader.data(), &aentry)) == ARCHIVE_OK) {
+    while (!m_abortOperation && (result = archive_read_next_header(arch_reader.data(), &aentry)) == ARCHIVE_OK) {
         if (!m_emitNoEntries) {
             emitEntryFromArchiveEntry(aentry);
         }
@@ -120,6 +121,7 @@ bool LibArchiveInterface::list()
         m_cachedArchiveEntryCount++;
         archive_read_data_skip(arch_reader.data());
     }
+    m_abortOperation = false;
 
     if (result != ARCHIVE_EOF) {
         emit error(i18nc("@info", "The archive reading failed with the following error: <message>%1</message>",
@@ -128,6 +130,12 @@ bool LibArchiveInterface::list()
     }
 
     return archive_read_close(arch_reader.data()) == ARCHIVE_OK;
+}
+
+bool LibArchiveInterface::doKill()
+{
+    m_abortOperation = true;
+    return true;
 }
 
 bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& destinationDirectory, ExtractionOptions options)

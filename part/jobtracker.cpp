@@ -36,6 +36,14 @@ JobTracker::JobTracker(QWidget *parent)
     resetUi();
 }
 
+JobTracker::~JobTracker()
+{
+    foreach(KJob *job, m_jobs) {
+        job->kill();
+        delete job;
+    }
+}
+
 void JobTracker::description(KJob *job, const QString &title, const QPair< QString, QString > &f1, const QPair< QString, QString > &f2)
 {
     Q_UNUSED(job)
@@ -62,6 +70,7 @@ void JobTracker::warning(KJob *job, const QString &plain, const QString &rich)
 
 void JobTracker::registerJob(KJob *job)
 {
+    m_jobs << job;
     KJobTrackerInterface::registerJob(job);
     m_ui->show();
     m_ui->informationLabel->hide();
@@ -78,6 +87,7 @@ void JobTracker::percent(KJob *job, unsigned long  percent)
 
 void JobTracker::unregisterJob(KJob *job)
 {
+    m_jobs.remove(job);
     KJobTrackerInterface::unregisterJob(job);
     resetUi();
 }

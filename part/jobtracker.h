@@ -42,6 +42,7 @@ class JobTracker: public KAbstractWidgetJobTracker
 
 public:
     JobTracker(QWidget *parent = 0);
+    ~JobTracker();
 
     virtual QWidget *widget(KJob *);
 
@@ -61,6 +62,7 @@ private slots:
 
 private:
     JobTrackerWidget *m_ui;
+    QSet<KJob*> m_jobs;
 };
 
 #endif // JOBTRACKER_H
