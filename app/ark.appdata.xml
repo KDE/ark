@@ -11,6 +11,7 @@
   <name xml:lang="es">Ark</name>
   <name xml:lang="fi">Ark</name>
   <name xml:lang="fr">Ark</name>
+  <name xml:lang="hu">Ark</name>
   <name xml:lang="nds">Ark</name>
   <name xml:lang="nl">Ark</name>
   <name xml:lang="pl">Ark</name>
@@ -34,6 +35,7 @@
   <summary xml:lang="es">Herramienta de archivado</summary>
   <summary xml:lang="fi">Pakkausohjelma</summary>
   <summary xml:lang="fr">Outil d'archivage</summary>
+  <summary xml:lang="hu">Fájltömörítő</summary>
   <summary xml:lang="nds">Archievwarktüüch</summary>
   <summary xml:lang="nl">Archiefgereedschap</summary>
   <summary xml:lang="pl">Narzędzie do archiwizowania</summary>
@@ -61,6 +63,7 @@
     <p xml:lang="es">Ark es una utilidad gráfica de compresión y descompresión de archivos que permite usar diversos formatos, como tar, gzip, bzip2, rar y zip, así como imágenes de CD-ROM. Ark se puede usar para explorar, extraer, crear y modificar archivos comprimidos.</p>
     <p xml:lang="fi">Ark on graafinen tiedostojen pakkaus-/purkuohjelma, joka tukee useita tiedostomuotoja kuten tar, gzip, bzip2, rar and zip sekä myös CD-ROM-levykuvia. Arkilla voi selata, purkaa, luoda ja muuttaa paketteja.</p>
     <p xml:lang="fr">Ark est un utilitaire graphique de compression/décompression de fichier prenant en charge de multiples formats, notamment tar, gzip, bzip2, rar et zip, ainsi que les images de CD-ROM. Ark peut être utilisé pour parcourir, extraire, créer et modifier des archives.</p>
+    <p xml:lang="hu">Az Ark egy grafikus fájltömörítő és kibontó segédprogram többféle formátum támogatásával, beleértve a tar, gzip, bzip2, rar és zip formátumokat, valamint a CD-ROM képfájlokat. Az Ark használható archívumok böngészéséhez, kibontásához, létrehozásához és módosításához.</p>
     <p xml:lang="nds">Ark is en graafsch Komprimeer- un Dekomprimeerwarktüüch, dat en Barg Formaten ünnerstütten deit. Dor sünd tar, gzip, bzip2, rar un zip bi, un ok CD-ROM-Afbiller. Mit Ark kannst Du Archiven dörkieken, opstellen un ännern un Dateien dor ruttrecken.</p>
     <p xml:lang="nl">Ark is een grafisch hulpmiddel om bestanden te comprimeren/uit te pakken met ondersteuning van meerdere formaten, inclusief tar, gzip, bzip2, rar en zip, evenals cd-ROM images. Ark kan gebruikt worden om door archieven te bladeren, deze uit te pakken, te maken en te wijzigen.</p>
     <p xml:lang="pl">Ark jest graficznym narzędziem do pakowania/rozpakowywania plików wraz z obsługą różnych formatów, włączając w to tar, gzip, bzip2, rar oraz zip, a także obrazy CD-ROM. Programu Ark można używać do przeglądania, tworzenia, zmieniania oraz wydobywania z archiwów</p>
@@ -84,6 +87,7 @@
     <p xml:lang="es">Funcionalidades:</p>
     <p xml:lang="fi">Ominaisuudet:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
+    <p xml:lang="hu">Szolgáltatások:</p>
     <p xml:lang="nds">Markmalen:</p>
     <p xml:lang="nl">Mogelijkheden:</p>
     <p xml:lang="pl">Cechy:</p>
@@ -108,6 +112,7 @@
       <li xml:lang="es">Permite el uso de diversos formatos: gzip, bzip2, zip, rar, 7z y más</li>
       <li xml:lang="fi">Tukee useita tiedostomuotoja: gzip, bzip2, zip, rar, 7z ja monia muita</li>
       <li xml:lang="fr">Plusieurs formats sont pris en charge : gzip, bzip2, zip, rar, 7z et d'autres</li>
+      <li xml:lang="hu">Számos formátum támogatott: gzip, bzip2, zip, rar, 7z és továbbiak</li>
       <li xml:lang="nds">En Reeg Fomaten warrt ünnerstütt: gzip, bzip2, zip, rar, 7z un anner</li>
       <li xml:lang="nl">Ondersteuning voor een aantal formaten: gzip, bzip2, zip, rar, 7z en meer</li>
       <li xml:lang="pl">Obsługa kilku formatów: gzip, bzip2, zip, rar, 7z oraz więcej</li>
@@ -131,6 +136,7 @@
       <li xml:lang="es">Vista previa del contenido de archivos sin extraerlos</li>
       <li xml:lang="fi">Tiedoston sisällön esikatselu purkamatta tiedostoa</li>
       <li xml:lang="fr">Prévisualiser le contenu des fichiers sans les extraire</li>
+      <li xml:lang="hu">Fájltartalom előnézete a fájlok kibontása nélkül</li>
       <li xml:lang="nds">Datein ahn Ruttrecken vörweg ankieken</li>
       <li xml:lang="nl">Voorvertoning van inhoud van bestand zonder bestanden uit te pakken</li>
       <li xml:lang="pl">Podejrzyj zawartość pliku bez jego wypakowywania</li>
