@@ -27,6 +27,7 @@
   <name xml:lang="tr">Ark</name>
   <name xml:lang="uk">Ark</name>
   <name xml:lang="x-test">xxArkxx</name>
+  <name xml:lang="zh-CN">Ark</name>
   <summary>Archiving Tool</summary>
   <summary xml:lang="bg">Работа с архиви</summary>
   <summary xml:lang="ca">Eina d'arxivament</summary>
@@ -51,6 +52,7 @@
   <summary xml:lang="tr">Arşivleme Aracı</summary>
   <summary xml:lang="uk">Інструмент роботи з архівами</summary>
   <summary xml:lang="x-test">xxArchiving Toolxx</summary>
+  <summary xml:lang="zh-CN">压缩工具</summary>
   <description>
     <p>
       Ark is a graphical file compression/decompression utility with support for multiple formats,
@@ -79,6 +81,7 @@
     <p xml:lang="tr">Ark; tar, gzip, bzip2, rar ve zip dosyalarının yanında CD-ROM kalıplarını da destekleyen grafiksel bir dosya sıkıştırma/açma yardımcısıdır. Ark arşivlerde gezinmek, arşiv ayıklamak, oluşturmak ve değiştirmek için kullanılabilir.</p>
     <p xml:lang="uk">Ark — програма з графічним інтерфейсом, призначена для стискання даних у архіви та видобування даних з архівів. Передбачено підтримку декількох форматів архівів, зокрема tar, gzip, bzip2, rar та zip, а також образів дисків. Ark можна використовувати для перегляду, видобування, створення та внесення змін до архівів.</p>
     <p xml:lang="x-test">xxArk is a graphical file compression/decompression utility with support for multiple formats, including tar, gzip, bzip2, rar and zip, as well as CD-ROM images. Ark can be used to browse, extract, create, and modify archives.xx</p>
+    <p xml:lang="zh-CN">Ark 是图形文件压缩和解压工具，支持多种格式，包括 tar, gzip, bzip2, rar and zip 以及 CD-ROM 镜像。Ark 可以用来浏览、解压、创建和修改压缩包。</p>
     <p>Features:</p>
     <p xml:lang="bg">Функции:</p>
     <p xml:lang="ca">Característiques:</p>
@@ -103,6 +106,7 @@
     <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
+    <p xml:lang="zh-CN">功能：</p>
     <ul>
       <li>Several formats supported: gzip, bzip2, zip, rar, 7z and more</li>
       <li xml:lang="bg">Поддържани са много формати: gzip, bzip2, zip, rar, 7z и други</li>
@@ -128,6 +132,7 @@
       <li xml:lang="tr">Çeşitli biçimler destekleniyor: gzip, bzip2, zip, rar, 7z ve dahası</li>
       <li xml:lang="uk">Підтримка декількох форматів: gzip, bzip2, zip, rar, 7z тощо</li>
       <li xml:lang="x-test">xxSeveral formats supported: gzip, bzip2, zip, rar, 7z and morexx</li>
+      <li xml:lang="zh-CN">支持多种格式：gzip, bzip2, zip, rar, 7z 等</li>
       <li>Preview file contents without extracting files</li>
       <li xml:lang="bg">Преглеждане съдържанието на файла, без извличане на файловете</li>
       <li xml:lang="ca">Vista prèvia del contingut de fitxers sense extreure'ls</li>
@@ -152,6 +157,7 @@
       <li xml:lang="tr">Dosyaları ayıklamadan dosya içeriği önizlemesi</li>
       <li xml:lang="uk">Попередній перегляд вмісту файлів без розпаковування</li>
       <li xml:lang="x-test">xxPreview file contents without extracting filesxx</li>
+      <li xml:lang="zh-CN">不解压就预览文件</li>
     </ul>
   </description>
   <screenshots>
