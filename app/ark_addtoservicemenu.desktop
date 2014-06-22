@@ -276,6 +276,7 @@ Name[sv]=Som TAR.GZ-arkiv
 Name[tr]=TAR.GZ Arşivi Olarak
 Name[uk]=Як архів TAR.GZ
 Name[x-test]=xxAs TAR.GZ Archivexx
+Name[zh_CN]=为 TAR.GZ 归档
 Icon=ark
 Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
