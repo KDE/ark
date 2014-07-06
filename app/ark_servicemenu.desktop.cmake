@@ -7,6 +7,7 @@ X-KDE-Priority=TopLevel
 X-KDE-StartupNotify=false
 #StartupNotify=false
 X-KDE-Submenu=Extract
+X-KDE-Submenu[ar]=استخرِج
 X-KDE-Submenu[bg]=Извличане
 X-KDE-Submenu[bs]=Raspakivanje
 X-KDE-Submenu[ca]=Extreu
