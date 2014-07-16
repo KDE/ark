@@ -21,6 +21,7 @@ Name[cs]=Modul pro archiv lha
 Name[da]=Plugin til lha-arkiver
 Name[de]=lha-Archiv-Modul
 Name[el]=πρόσθετο αρχειοθήκης lha
+Name[en_GB]=lha archive plugin
 Name[es]=Complemento de archivo comprimido LHA
 Name[et]=lha-arhiivi plugin
 Name[eu]=LHA artxiboen plugina

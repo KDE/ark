@@ -16,6 +16,7 @@ X-KDE-Submenu[cs]=Rozbalit
 X-KDE-Submenu[da]=Pak ud
 X-KDE-Submenu[de]=Entpacken
 X-KDE-Submenu[el]=Εξαγωγή
+X-KDE-Submenu[en_GB]=Extract
 X-KDE-Submenu[es]=Extraer
 X-KDE-Submenu[et]=Lahtipakkimine
 X-KDE-Submenu[eu]=Atera
