@@ -12,6 +12,7 @@
   <name xml:lang="de">Ark</name>
   <name xml:lang="en-GB">Ark</name>
   <name xml:lang="es">Ark</name>
+  <name xml:lang="et">Ark</name>
   <name xml:lang="fi">Ark</name>
   <name xml:lang="fr">Ark</name>
   <name xml:lang="hu">Ark</name>
@@ -41,6 +42,7 @@
   <summary xml:lang="de">Archivprogramm</summary>
   <summary xml:lang="en-GB">Archiving Tool</summary>
   <summary xml:lang="es">Herramienta de archivado</summary>
+  <summary xml:lang="et">Arhiivide haldamise rakendus</summary>
   <summary xml:lang="fi">Pakkausohjelma</summary>
   <summary xml:lang="fr">Outil d'archivage</summary>
   <summary xml:lang="hu">Fájltömörítő</summary>
@@ -74,6 +76,7 @@
     <p xml:lang="de">Ark ist ein grafisches Dienstprogramm zum Packen/Entpacken von Dateien mit Unterstützung für mehrere Formate wie tar, gzip, bzip2, rar, zip und auch CD-Abbilder. Mit Ark können Sie können Sie Archive durchsehen, entpacken, erstellen und bearbeiten.</p>
     <p xml:lang="en-GB">Ark is a graphical file compression/decompression utility with support for multiple formats, including tar, gzip, bzip2, rar and zip, as well as CD-ROM images. Ark can be used to browse, extract, create, and modify archives.</p>
     <p xml:lang="es">Ark es una utilidad gráfica de compresión y descompresión de archivos que permite usar diversos formatos, como tar, gzip, bzip2, rar y zip, así como imágenes de CD-ROM. Ark se puede usar para explorar, extraer, crear y modificar archivos comprimidos.</p>
+    <p xml:lang="et">Ark on graafiline failide tihendamise ehk kokkupakkimise ja nende lahtipakkimise tööriist, mis toetab väga paljusid vorminguid, sealhulgas tar, gzip, bzip2, rar and zip, samuti CD-ROM-i tõmmised. Arki abil saab arhiivifaile sirvida, lahti pakkida, luua ja muuta.</p>
     <p xml:lang="fi">Ark on graafinen tiedostojen pakkaus-/purkuohjelma, joka tukee useita tiedostomuotoja kuten tar, gzip, bzip2, rar and zip sekä myös CD-ROM-levykuvia. Arkilla voi selata, purkaa, luoda ja muuttaa paketteja.</p>
     <p xml:lang="fr">Ark est un utilitaire graphique de compression/décompression de fichier prenant en charge de multiples formats, notamment tar, gzip, bzip2, rar et zip, ainsi que les images de CD-ROM. Ark peut être utilisé pour parcourir, extraire, créer et modifier des archives.</p>
     <p xml:lang="hu">Az Ark egy grafikus fájltömörítő és kibontó segédprogram többféle formátum támogatásával, beleértve a tar, gzip, bzip2, rar és zip formátumokat, valamint a CD-ROM képfájlokat. Az Ark használható archívumok böngészéséhez, kibontásához, létrehozásához és módosításához.</p>
@@ -102,6 +105,7 @@
     <p xml:lang="de">Leistungsmerkmale:</p>
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Funcionalidades:</p>
+    <p xml:lang="et">Omadused:</p>
     <p xml:lang="fi">Ominaisuudet:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
     <p xml:lang="hu">Szolgáltatások:</p>
@@ -132,6 +136,7 @@
       <li xml:lang="de">Mehrere unterstützte Formate wie gzip, bzip2, zip, rar, 7z und mehr</li>
       <li xml:lang="en-GB">Several formats supported: gzip, bzip2, zip, rar, 7z and more</li>
       <li xml:lang="es">Permite el uso de diversos formatos: gzip, bzip2, zip, rar, 7z y más</li>
+      <li xml:lang="et">Paljude vormingute toetus: gzip, bzip2, zip, rar, 7z ja veel paljud.</li>
       <li xml:lang="fi">Tukee useita tiedostomuotoja: gzip, bzip2, zip, rar, 7z ja monia muita</li>
       <li xml:lang="fr">Plusieurs formats sont pris en charge : gzip, bzip2, zip, rar, 7z et d'autres</li>
       <li xml:lang="hu">Számos formátum támogatott: gzip, bzip2, zip, rar, 7z és továbbiak</li>
@@ -160,6 +165,7 @@
       <li xml:lang="de">Vorschau der Dateiinhalte ohne das Entpacken der Dateien</li>
       <li xml:lang="en-GB">Preview file contents without extracting files</li>
       <li xml:lang="es">Vista previa del contenido de archivos sin extraerlos</li>
+      <li xml:lang="et">Failide sisu näitamine ilma neid lahti pakkimata.</li>
       <li xml:lang="fi">Tiedoston sisällön esikatselu purkamatta tiedostoa</li>
       <li xml:lang="fr">Prévisualiser le contenu des fichiers sans les extraire</li>
       <li xml:lang="hu">Fájltartalom előnézete a fájlok kibontása nélkül</li>
