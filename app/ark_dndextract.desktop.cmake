@@ -15,7 +15,6 @@ Name[de]=Ark – Hierher auspacken
 Name[el]=Εξαγωγή Ark εδώ
 Name[en_GB]=Ark Extract Here
 Name[es]=Extraer aquí con Ark
-Name[et]=Paki siia lahti
 Name[eu]=Ark: atera hemen
 Name[fi]=Ark – Pura tähän
 Name[fr]=Extraire un fichier « Ark » ici
