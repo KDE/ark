@@ -24,6 +24,7 @@ Name[de]=RAR-Archiv-Modul
 Name[el]=πρόσθετο αρχειοθήκης RAR
 Name[en_GB]=RAR archive plugin
 Name[es]=Complemento de archivo comprimido RAR
+Name[et]=RAR-arhiivi plugin
 Name[eu]=RAR artxiboen plugina
 Name[fi]=RAR-pakkaustuki
 Name[fr]=Module externe d'archive « RAR »

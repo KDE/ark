@@ -24,6 +24,7 @@ Name[de]=ZIP-Archiv-Modul
 Name[el]=Πρόσθετο αρχειοθήκης ZIP
 Name[en_GB]=ZIP archive plugin
 Name[es]=Complemento de archivo comprimido ZIP
+Name[et]=ZIP-arhiivi plugin
 Name[eu]=ZIP artxiboen plugina
 Name[fi]=Zip-pakkaustuki
 Name[fr]=Module externe d'archive « ZIP »

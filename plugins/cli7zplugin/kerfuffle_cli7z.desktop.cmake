@@ -24,6 +24,7 @@ Name[de]=7zip-Archiv-Modul
 Name[el]=Πρόσθετο αρχειοθήκης 7zip
 Name[en_GB]=7zip archive plugin
 Name[es]=Complemento de archivo comprimido 7zip
+Name[et]=7zip arhiivi plugin
 Name[eu]=7zip artxiboen plugina
 Name[fi]=7zip-pakkaustuki
 Name[fr]=Module externe pour archive « 7zip »
