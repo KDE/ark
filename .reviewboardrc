@@ -1,0 +1,4 @@
+REPOSITORY = "git://anongit.kde.org/ark"
+REVIEWBOARD_URL = "https://git.reviewboard.kde.org"
+TARGET_GROUPS = "kdeutils"
+TARGET_PEOPLE = "rkcosta"
