@@ -32,6 +32,7 @@
 #include <kdebug.h>
 #include <kio/renamedialog.h>
 
+#include <QUrl>
 #include <QApplication>
 #include <QWeakPointer>
 
@@ -87,10 +88,11 @@ void OverwriteQuery::execute()
         mode = (KIO::RenameDialog_Mode)(mode | KIO::M_MULTI);
     }
 
-    KUrl sourceUrl(m_data.value(QLatin1String( "filename" )).toString());
-    KUrl destUrl(m_data.value(QLatin1String( "filename" )).toString());
-    sourceUrl.cleanPath();
-    destUrl.cleanPath();
+    QUrl sourceUrl(m_data.value(QLatin1String( "filename" )).toString());
+    QUrl destUrl(m_data.value(QLatin1String( "filename" )).toString());
+    //FIXME KF5 Port : Enable
+    //sourceUrl.cleanPath();
+    //destUrl.cleanPath();
 
     QWeakPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
         NULL,
@@ -100,7 +102,7 @@ void OverwriteQuery::execute()
         mode);
     dialog.data()->exec();
 
-    m_data[QLatin1String("newFilename")] = dialog.data()->newDestUrl().pathOrUrl();
+    m_data[QLatin1String("newFilename")] = dialog.data()->newDestUrl().toDisplayString(QUrl::PreferLocalFile);
 
     setResponse(dialog.data()->result());
 

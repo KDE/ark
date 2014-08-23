@@ -52,12 +52,12 @@ public:
 };
 
 ExtractionDialog::ExtractionDialog(QWidget *parent)
-        : KDirSelectDialog(KUrl(), false, parent)
+        : KDirSelectDialog(QUrl(), false, parent)
 {
     m_ui = new ExtractionDialogUI(this);
 
-    mainWidget()->layout()->addWidget(m_ui);
-    setCaption(i18nc("@title:window", "Extract"));
+//    mainWidget()->layout()->addWidget(m_ui);
+//    setCaption(i18nc("@title:window", "Extract"));
     m_ui->iconLabel->setPixmap(DesktopIcon(QLatin1String( "archive-extract" )));
 
     m_ui->filesToExtractGroupBox->hide();
@@ -101,7 +101,7 @@ void ExtractionDialog::accept()
             return;
         }
 
-        const QString pathWithSubfolder = url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder();
+        const QString pathWithSubfolder = url().toDisplayString(QUrl::PreferLocalFile) + subfolder();
 
         while (1) {
             if (KIO::NetAccess::exists(pathWithSubfolder, KIO::NetAccess::SourceSide, 0)) {
@@ -212,12 +212,12 @@ bool ExtractionDialog::closeAfterExtraction() const
     return m_ui->closeAfterExtraction->isChecked();
 }
 
-KUrl ExtractionDialog::destinationDirectory() const
+QUrl ExtractionDialog::destinationDirectory() const
 {
     if (extractToSubfolder()) {
-        return QString(url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder() + QLatin1Char( '/' ));
+        return QString(url().toDisplayString(QUrl::PreferLocalFile) + subfolder() + QLatin1Char( '/' ));
     } else {
-        return url().pathOrUrl(KUrl::AddTrailingSlash);
+        return url().toDisplayString(QUrl::PreferLocalFile);
     }
 }
 

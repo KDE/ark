@@ -33,6 +33,8 @@
 #include <KConfigGroup>
 #include <KFilePlacesModel>
 #include <KGlobal>
+#include <KIcon>
+#include <KMimeType>
 
 #include <QFileInfo>
 #include <QStandardItemModel>
@@ -49,7 +51,7 @@ public:
 };
 
 AddDialog::AddDialog(const QStringList& itemsToAdd,
-                     const KUrl & startDir,
+                     const QUrl &startDir,
                      const QString & filter,
                      QWidget * parent,
                      QWidget * widget
@@ -59,14 +61,14 @@ AddDialog::AddDialog(const QStringList& itemsToAdd,
     setOperationMode(KFileDialog::Saving);
     setMode(KFile::File | KFile::LocalOnly);
     setConfirmOverwrite(true);
-    setCaption(i18n("Compress to Archive"));
+    //setCaption(i18n("Compress to Archive"));
 
     loadConfiguration();
 
     connect(this, SIGNAL(okClicked()), SLOT(updateDefaultMimeType()));
 
     m_ui = new AddDialogUI(this);
-    mainWidget()->layout()->addWidget(m_ui);
+//    mainWidget()->layout()->addWidget(m_ui);
 
     setupIconList(itemsToAdd);
 
@@ -79,7 +81,8 @@ AddDialog::AddDialog(const QStringList& itemsToAdd,
         // #272914: Add an extension when it is present, otherwise KFileDialog
         // will not automatically add it as baseFileName is a file which
         // already exists.
-        setSelection(fileName + currentFilterMimeType()->mainExtension());
+        // FIXME KF5 Port : Enable again
+        //setSelection(fileName + currentFilterMimeType()->mainExtension());
     }
 
     //These extra options will be implemented in a 4.2+ version of
@@ -110,7 +113,7 @@ void AddDialog::setupIconList(const QStringList& itemsToAdd)
     sortedList.sort();
 
     Q_FOREACH(const QString& urlString, sortedList) {
-        KUrl url(urlString);
+        QUrl url(urlString);
 
         QStandardItem* item = new QStandardItem;
         item->setText(url.fileName());

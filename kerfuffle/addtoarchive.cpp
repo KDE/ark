@@ -64,9 +64,9 @@ void AddToArchive::setChangeToFirstPath(bool value)
     m_changeToFirstPath = value;
 }
 
-void AddToArchive::setFilename(const KUrl& path)
+void AddToArchive::setFilename(const QUrl &path)
 {
-    m_filename = path.pathOrUrl();
+    m_filename = path.toDisplayString(QUrl::PreferLocalFile);
 }
 
 void AddToArchive::setMimeType(const QString & mimeType)
@@ -78,7 +78,7 @@ bool AddToArchive::showAddDialog(void)
 {
     QWeakPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
         m_inputs, // itemsToAdd
-        KUrl(m_firstPath), // startDir
+        QUrl(m_firstPath), // startDir
         QLatin1String( "" ), // filter
         NULL, // parent
         NULL); // widget
@@ -97,16 +97,12 @@ bool AddToArchive::showAddDialog(void)
     return ret;
 }
 
-bool AddToArchive::addInput(const KUrl& url)
+bool AddToArchive::addInput(const QUrl &url)
 {
-    m_inputs << url.pathOrUrl(
-        QFileInfo(url.pathOrUrl()).isDir() ?
-        KUrl::AddTrailingSlash :
-        KUrl::RemoveTrailingSlash
-    );
+    m_inputs << url.toDisplayString(QUrl::PreferLocalFile);
 
     if (m_firstPath.isEmpty()) {
-        QString firstEntry = url.pathOrUrl(KUrl::RemoveTrailingSlash);
+        QString firstEntry = url.toDisplayString(QUrl::PreferLocalFile);
         m_firstPath = QFileInfo(firstEntry).dir().absolutePath();
     }
 

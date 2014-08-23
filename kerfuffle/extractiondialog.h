@@ -58,7 +58,7 @@ public:
     bool extractToSubfolder() const;
     bool autoSubfolders() const;
     bool preservePaths() const;
-    KUrl destinationDirectory() const;
+    QUrl destinationDirectory() const;
     QString subfolder() const;
     virtual void accept();
 

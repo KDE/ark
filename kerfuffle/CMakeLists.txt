@@ -20,7 +20,7 @@ qt5_wrap_ui(kerfuffle_SRCS extractiondialog.ui adddialog.ui )
 
 add_library(kerfuffle SHARED ${kerfuffle_SRCS})
 
-target_link_libraries(kerfuffle KF5::KDELibs4Support)
+target_link_libraries(kerfuffle KF5::Pty KF5::KDELibs4Support)
 if (NOT WIN32)
   target_link_libraries(kerfuffle ${KDE4_KPTY_LIBS})
 endif (NOT WIN32)

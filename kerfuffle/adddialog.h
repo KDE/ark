@@ -42,7 +42,7 @@ class KERFUFFLE_EXPORT AddDialog : public KFileDialog
 
 public:
     AddDialog(const QStringList & itemsToAdd,
-              const KUrl & startDir,
+              const QUrl &startDir,
               const QString & filter,
               QWidget * parent,
               QWidget * widget = 0

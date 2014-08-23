@@ -32,7 +32,7 @@
 #include "kerfuffle_export.h"
 
 #include <KJob>
-#include <KUrl>
+#include <QUrl>
 
 /**
  * Compresses all input files into an archive.
@@ -60,9 +60,9 @@ public:
     void setChangeToFirstPath(bool value);
 
 public slots:
-    bool addInput(const KUrl& url);
+    bool addInput(const QUrl &url);
     void setAutoFilenameSuffix(const QString& suffix);
-    void setFilename(const KUrl& path);
+    void setFilename(const QUrl &path);
     void setMimeType(const QString & mimeType);
     void start();
 
