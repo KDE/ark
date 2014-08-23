@@ -1,5 +1,5 @@
-macro_optional_find_package(QJSON)
-macro_log_feature(QJSON_FOUND "qjson" "A library for processing and serializing JSON files" "http://qjson.sourceforge.net" FALSE "" "Required for compiling Ark's unit tests")
+#find_package(QJSON)
+#macro_log_feature(QJSON_FOUND "qjson" "A library for processing and serializing JSON files" "http://qjson.sourceforge.net" FALSE "" "Required for compiling Ark's unit tests")
 
 ########### next target ###############
 
@@ -14,13 +14,13 @@ set(kerfuffle_SRCS
 	cliinterface.cpp
    )
 
-kde4_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
+kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
 
-kde4_add_ui_files(kerfuffle_SRCS extractiondialog.ui adddialog.ui )
+qt5_wrap_ui(kerfuffle_SRCS extractiondialog.ui adddialog.ui )
 
-kde4_add_library(kerfuffle SHARED ${kerfuffle_SRCS})
+add_library(kerfuffle SHARED ${kerfuffle_SRCS})
 
-target_link_libraries(kerfuffle ${KDE4_KFILE_LIBS} ${KDE4_KPARTS_LIBS})
+target_link_libraries(kerfuffle KF5::KDELibs4Support)
 if (NOT WIN32)
   target_link_libraries(kerfuffle ${KDE4_KPTY_LIBS})
 endif (NOT WIN32)
