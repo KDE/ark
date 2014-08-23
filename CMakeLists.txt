@@ -20,7 +20,7 @@ set(REQUIRED_QT_VERSION 5.2.0)
 set(KF5_MIN_VERSION 5.0.0)
 
 find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core Widgets)
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive Config Pty KDELibs4Support) 
+find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive Config Pty KHtml KDELibs4Support) 
 
 option(WITH_TEST_COVERAGE "Build with test coverage support" OFF)
 if (WITH_TEST_COVERAGE)
@@ -38,7 +38,7 @@ include_directories(
 
 #add_subdirectory(plugins)
 add_subdirectory(kerfuffle)
-#add_subdirectory(part)
+add_subdirectory(part)
 add_subdirectory(app)
 #add_subdirectory(doc)
 

@@ -26,6 +26,7 @@
 #include "interface.h"
 
 #include <KParts/Part>
+#include <KParts/ReadWritePart>
 #include <KParts/StatusBarExtension>
 #include <KTempDir>
 
@@ -35,8 +36,8 @@ class ArchiveModel;
 class InfoPanel;
 
 class KAbstractWidgetJobTracker;
-class KAboutData;
-class KAction;
+class K4AboutData;
+class QAction;
 class KJob;
 
 class QAction;
@@ -53,7 +54,7 @@ class Part: public KParts::ReadWritePart, public Interface
 public:
     Part(QWidget *parentWidget, QObject *parent, const QVariantList &);
     ~Part();
-    static KAboutData* createAboutData();
+    static K4AboutData* createAboutData();
 
     virtual bool openFile();
     virtual bool saveFile();
@@ -106,12 +107,12 @@ private:
 
     ArchiveModel         *m_model;
     QTreeView            *m_view;
-    KAction              *m_previewAction;
-    KAction              *m_extractFilesAction;
-    KAction              *m_addFilesAction;
-    KAction              *m_addDirAction;
-    KAction              *m_deleteFilesAction;
-    KAction              *m_saveAsAction;
+    QAction *m_previewAction;
+    QAction *m_extractFilesAction;
+    QAction *m_addFilesAction;
+    QAction *m_addDirAction;
+    QAction *m_deleteFilesAction;
+    QAction *m_saveAsAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
     KTempDir              m_previewDir;

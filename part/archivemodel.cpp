@@ -25,6 +25,7 @@
 #include "kerfuffle/archive.h"
 #include "kerfuffle/jobs.h"
 
+#include <KGlobal>
 #include <KDebug>
 #include <KIconLoader>
 #include <KLocale>

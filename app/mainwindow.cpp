@@ -38,6 +38,7 @@
 #include <KDebug>
 #include <KEditToolBar>
 #include <KShortcutsDialog>
+#include <KService>
 #include <KConfigGroup>
 
 #include <QDragEnterEvent>
@@ -126,16 +127,32 @@ void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 
 bool MainWindow::loadPart()
 {
-    KPluginLoader loader(QLatin1String( "arkpart" ));
-    KPluginFactory *factory = loader.factory();
-    if (factory) {
-        m_part = static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this));
+//    KPluginLoader loader(QLatin1String( "arkpart" ));
+//    KPluginFactory *factory = loader.factory();
+//    if (factory) {
+//        m_part = static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this));
+//    }
+//    if (!factory || !m_part) {
+//        KMessageBox::error(this, i18n("Unable to find Ark's KPart component, please check your installation."));
+//        kWarning() << "Error loading Ark KPart: " << loader.errorString();
+//        return false;
+//    }
+
+    KPluginFactory *factory = 0;
+    KService::Ptr service = KService::serviceByDesktopName(QLatin1String("ark_part"));
+
+    if (service) {
+        factory = KPluginLoader(service->library()).factory();
     }
-    if (!factory || !m_part) {
+
+    m_part = factory ? static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this)) : 0;
+
+    if (!m_part) {
         KMessageBox::error(this, i18n("Unable to find Ark's KPart component, please check your installation."));
-        kWarning() << "Error loading Ark KPart: " << loader.errorString();
+        kWarning() << "Error loading Ark KPart: ";
         return false;
     }
+
 
     m_part->setObjectName( QLatin1String("ArkPart" ));
     setCentralWidget(m_part->widget());

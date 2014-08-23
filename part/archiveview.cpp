@@ -24,6 +24,7 @@
 #include <KDebug>
 #include <KGlobalSettings>
 
+#include <QMimeData>
 #include <QApplication>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>

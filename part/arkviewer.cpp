@@ -31,15 +31,17 @@
 #include <KVBox>
 #include <KMessageBox>
 #include <KProgressDialog>
-#include <KPushButton>
+#include <QPushButton>
 #include <KRun>
+#include <KIcon>
 #include <KIO/NetAccess>
-#include <khtml_part.h>
+#include <KHtml/khtml_part.h>
 
 #include <QHBoxLayout>
 #include <QFile>
 #include <QFrame>
 #include <QLabel>
+#include <QKeyEvent>
 
 ArkViewer::ArkViewer(QWidget * parent, Qt::WFlags flags)
         : KDialog(parent, flags)
@@ -76,7 +78,7 @@ void ArkViewer::dialogClosed()
         //          the previewed file ourselves when the dialog is closed;
         //          we used to remove it at the end of ArkViewer::view() when
         //          QDialog::exec() was called instead of QDialog::show().
-        const QString previewedFilePath(m_part.data()->url().pathOrUrl());
+        const QString previewedFilePath(m_part.data()->url().toDisplayString(QUrl::PreferLocalFile));
 
         m_part.data()->closeUrl();
 
@@ -92,7 +94,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
     kDebug() << "MIME type" << mimeType->name();
     KService::Ptr viewer = ArkViewer::getViewer(mimeType);
 
-    const bool needsExternalViewer = (!viewer.isNull() &&
+    const bool needsExternalViewer = (!viewer &&
                                       !viewer->hasServiceType(QLatin1String("KParts/ReadOnlyPart")));
     if (needsExternalViewer) {
         // We have already resolved the MIME type and the service above.
@@ -107,7 +109,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
     }
 
     bool viewInInternalViewer = true;
-    if (viewer.isNull()) {
+    if (!viewer) {
         // No internal viewer available for the file.  Ask the user if it
         // should be previewed as text/plain.
 
@@ -168,7 +170,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
 
 void ArkViewer::keyPressEvent(QKeyEvent *event)
 {
-    KPushButton *defButton = button(defaultButton());
+    QPushButton *defButton = button(defaultButton());
 
     // Only handle the event the usual way if the default button has focus
     // Otherwise, pressing enter on KatePart still closes the dialog, for example.

@@ -33,8 +33,9 @@
 #include "kerfuffle/jobs.h"
 #include "kerfuffle/settings.h"
 
-#include <KAboutData>
-#include <KAction>
+#include <KGlobal>
+#include <K4AboutData>
+#include <QAction>
 #include <KActionCollection>
 #include <KApplication>
 #include <KConfigGroup>
@@ -53,6 +54,7 @@
 #include <KStandardGuiItem>
 #include <KTempDir>
 #include <KToggleAction>
+#include <KLocalizedString>
 
 #include <QAction>
 #include <QCursor>
@@ -84,7 +86,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
           m_jobTracker(0)
 {
     Q_UNUSED(args)
-    setComponentData(Factory::componentData(), false);
+    //setComponentData(Factory::componentData(), false);
 
     new DndExtractAdaptor(this);
 
@@ -367,9 +369,9 @@ void Part::selectionChanged()
     m_infoPanel->setIndexes(m_view->selectionModel()->selectedRows());
 }
 
-KAboutData* Part::createAboutData()
+K4AboutData* Part::createAboutData()
 {
-    return new KAboutData("ark", 0, ki18n("ArkPart"), "3.0");
+    return new K4AboutData("ark", 0, ki18n("ArkPart"), "3.0");
 }
 
 bool Part::openFile()
@@ -636,7 +638,7 @@ void Part::slotExtractFiles()
 
         options[QLatin1String("FollowExtractionDialogSettings")] = true;
 
-        const QString destinationDirectory = dialog.data()->destinationDirectory().pathOrUrl();
+        const QString destinationDirectory = dialog.data()->destinationDirectory().toDisplayString(QUrl::PreferLocalFile);
         ExtractJob *job = m_model->extractFiles(files, destinationDirectory, options);
         registerJob(job);
 
@@ -902,3 +904,5 @@ void Part::slotSaveAs()
 }
 
 } // namespace Ark
+
+#include "part.moc"

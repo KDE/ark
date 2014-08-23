@@ -27,6 +27,7 @@
 #include <KParts/BrowserExtension>
 #include <KParts/ReadOnlyPart>
 #include <KService>
+#include <KUrl>
 
 #include <QtCore/QWeakPointer>
 
