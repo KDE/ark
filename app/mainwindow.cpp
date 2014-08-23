@@ -38,6 +38,7 @@
 #include <KDebug>
 #include <KEditToolBar>
 #include <KShortcutsDialog>
+#include <KConfigGroup>
 
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
@@ -188,14 +189,15 @@ void MainWindow::editKeyBindings()
 
 void MainWindow::editToolbars()
 {
-    saveMainWindowSettings(KGlobal::config()->group(QLatin1String("MainWindow")));
+    KConfigGroup cfg(KSharedConfig::openConfig(), "MainWindow");
+    saveMainWindowSettings(cfg);
 
     QWeakPointer<KEditToolBar> dlg = new KEditToolBar(factory(), this);
     dlg.data()->exec();
 
     createGUI(m_part);
 
-    applyMainWindowSettings(KGlobal::config()->group(QLatin1String("MainWindow")));
+    applyMainWindowSettings(KSharedConfig::openConfig()->group(QLatin1String("MainWindow")));
 
     delete dlg.data();
 }

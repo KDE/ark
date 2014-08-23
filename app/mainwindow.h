@@ -23,6 +23,7 @@
 #define MAINWINDOW_H
 
 #include <KParts/MainWindow>
+#include <KParts/OpenUrlArguments>
 #include <KParts/ReadWritePart>
 #include <KUrl>
 

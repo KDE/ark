@@ -24,7 +24,7 @@
 #include "batchextract.h"
 #include "kerfuffle/addtoarchive.h"
 
-#include <KAboutData>
+#include <K4AboutData>
 #include <KApplication>
 #include <KCmdLineArgs>
 #include <KDebug>
@@ -37,9 +37,9 @@ using Kerfuffle::AddToArchive;
 
 int main(int argc, char **argv)
 {
-    KAboutData aboutData("ark", 0, ki18n("Ark"),
+    K4AboutData aboutData("ark", 0, ki18n("Ark"),
                          "2.19", ki18n("KDE Archiving tool"),
-                         KAboutData::License_GPL,
+                         K4AboutData::License_GPL,
                          ki18n("(c) 1997-2011, The Various Ark Developers"),
                          KLocalizedString(),
                          "http://utils.kde.org/projects/ark"

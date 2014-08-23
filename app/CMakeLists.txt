@@ -35,16 +35,16 @@ install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/ark.appdata.xml DESTINATION share/app
 install( FILES arkui.rc    DESTINATION ${DATA_INSTALL_DIR}/ark )
 
 ########### konqueror ark_extract_here plugin ###############
-macro_optional_find_package( LibKonq )
-macro_log_feature( LIBKONQ_FOUND "LIBKONQ" "libkonq library" "kdebase" FALSE "" "Need to integrate in konqueror" )
+#macro_optional_find_package( LibKonq )
+#macro_log_feature( LIBKONQ_FOUND "LIBKONQ" "libkonq library" "kdebase" FALSE "" "Need to integrate in konqueror" )
 
 
-if (LIBKONQ_FOUND)
-   set(extracthere_SRCS batchextract.cpp extractHereDndPlugin.cpp)
-   kde4_add_plugin(extracthere WITH_PREFIX ${extracthere_SRCS})
-   target_link_libraries(extracthere kerfuffle ${KDE4_KDECORE_LIBS} ${KDE4_KPARTS_LIBS} ${KDE4_KFILE_LIBS} ${LIBKONQ_LIBRARY} )
-   include_directories(${LIBKONQ_INCLUDE_DIR})
-   install( TARGETS extracthere DESTINATION ${PLUGIN_INSTALL_DIR} )
-   install( FILES ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
-endif (LIBKONQ_FOUND)
+#if (LIBKONQ_FOUND)
+#   set(extracthere_SRCS batchextract.cpp extractHereDndPlugin.cpp)
+#   kde4_add_plugin(extracthere WITH_PREFIX ${extracthere_SRCS})
+#   target_link_libraries(extracthere kerfuffle ${KDE4_KDECORE_LIBS} ${KDE4_KPARTS_LIBS} ${KDE4_KFILE_LIBS} ${LIBKONQ_LIBRARY} )
+#   include_directories(${LIBKONQ_INCLUDE_DIR})
+#   install( TARGETS extracthere DESTINATION ${PLUGIN_INSTALL_DIR} )
+#   install( FILES ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+#endif (LIBKONQ_FOUND)
 

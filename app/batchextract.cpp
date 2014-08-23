@@ -206,9 +206,9 @@ void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
 
 bool BatchExtract::addInput(const KUrl& url)
 {
-    Kerfuffle::Archive *archive = Kerfuffle::Archive::create(url.pathOrUrl(), this);
+    Kerfuffle::Archive *archive = Kerfuffle::Archive::create(url.toDisplayString(QUrl::PreferLocalFile), this);
 
-    if ((archive == NULL) || (!QFileInfo(url.pathOrUrl()).exists())) {
+    if ((archive == NULL) || (!QFileInfo(url.toDisplayString(QUrl::PreferLocalFile)).exists())) {
         m_failedFiles.append(url.fileName());
         return false;
     }
@@ -280,7 +280,7 @@ bool BatchExtract::showExtractDialog()
     }
 
     setAutoSubfolder(dialog.data()->autoSubfolders());
-    setDestinationFolder(dialog.data()->destinationDirectory().pathOrUrl());
+    setDestinationFolder(dialog.data()->destinationDirectory().toDisplayString(QUrl::PreferLocalFile));
     setOpenDestinationAfterExtraction(dialog.data()->openDestinationAfterExtraction());
     setPreservePaths(dialog.data()->preservePaths());
 
