@@ -36,7 +36,7 @@ include_directories(
     ${CMAKE_BINARY_DIR}
 )
 
-#add_subdirectory(plugins)
+add_subdirectory(plugins)
 add_subdirectory(kerfuffle)
 add_subdirectory(part)
 add_subdirectory(app)

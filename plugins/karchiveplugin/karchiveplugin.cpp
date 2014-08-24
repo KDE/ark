@@ -206,7 +206,7 @@ void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QStrin
     e[ Owner ]            = aentry->user();
     e[ Group ]            = aentry->group();
     e[ IsDirectory ]      = aentry->isDirectory();
-    e[ Timestamp ]        = aentry->datetime();
+    e[ Timestamp ]        = aentry->date();
     if (!aentry->symLinkTarget().isEmpty()) {
         e[ Link ]             = aentry->symLinkTarget();
     }
@@ -329,3 +329,5 @@ QString KArchiveInterface::permissionsString(mode_t perm)
 }
 
 KERFUFFLE_EXPORT_PLUGIN(KArchiveInterface)
+
+#include "karchiveplugin.moc"

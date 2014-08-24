@@ -4,9 +4,9 @@ set(SUPPORTED_KARCHIVE_MIMETYPES "application/zip;application/x-zip-compressed;a
 
 set(kerfuffle_karchive_SRCS karchiveplugin.cpp)
 
-kde4_add_plugin(kerfuffle_karchive ${kerfuffle_karchive_SRCS})
+add_library(kerfuffle_karchive MODULE ${kerfuffle_karchive_SRCS})
 
-target_link_libraries(kerfuffle_karchive  ${KDE4_KDECORE_LIBS} ${KDE4_KIO_LIBS} kerfuffle )
+target_link_libraries(kerfuffle_karchive KF5::Archive KF5::KIOCore kerfuffle )
 
 configure_file(
             ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_karchive.desktop.cmake
@@ -16,6 +16,6 @@ configure_file(
 ########### install files ###############
 
 install(TARGETS kerfuffle_karchive  DESTINATION ${PLUGIN_INSTALL_DIR} )
-install( FILES kerfuffle_karchive.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_karchive.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_KARCHIVE_MIMETYPES}" PARENT_SCOPE)
