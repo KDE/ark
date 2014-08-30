@@ -27,4 +27,4 @@ install(TARGETS arkpart DESTINATION ${PLUGIN_INSTALL_DIR})
 ########### install files ###############
 
 install( FILES ${CMAKE_CURRENT_BINARY_DIR}/ark_part.desktop     DESTINATION ${SERVICES_INSTALL_DIR} )
-install( FILES ark_part.rc DESTINATION ${DATA_INSTALL_DIR}/ark )
+install( FILES ark_part.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/ark )
