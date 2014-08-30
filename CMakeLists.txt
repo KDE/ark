@@ -13,9 +13,16 @@ include(FeatureSummary)
 find_package(ECM 1.0.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
+include(ECMSetupVersion)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
+
+set(ARK_VERSION "4.80.0")
+
+ecm_setup_version(${ARK_VERSION} VARIABLE_PREFIX KERFUFFLE
+                  SOVERSION 5
+)
 
 set(REQUIRED_QT_VERSION 5.2.0)
 set(KF5_MIN_VERSION 5.0.0)
