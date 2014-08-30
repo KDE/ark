@@ -1,5 +1,6 @@
 project(ark)
 
+cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 
 find_package(LibArchive)
 #macro_log_feature(LIBARCHIVE_FOUND "LibArchive" "A library for dealing with a wide variety of archive file formats" "http://code.google.com/p/libarchive/" FALSE "" "Required for among others tar, tar.gz, tar.bz2 formats in Ark.")
