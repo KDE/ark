@@ -165,47 +165,43 @@ void Part::extractSelectedFilesTo(const QString& localPath)
         return;
     }
 
-    if (m_view->selectionModel()->selectedRows().count() != 1) {
-        m_view->selectionModel()->setCurrentIndex(m_view->currentIndex(), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
-    }
-    if (m_view->selectionModel()->selectedRows().count() != 1) {
-        return;
-    }
+    // Each key is a rootNode with a list of files descending from it.
+    QHash<QString, QVariantList> extractionEntries;
 
-    QVariant internalRoot;
-    kDebug() << "valid " << m_view->currentIndex().parent().isValid();
-    if (m_view->currentIndex().parent().isValid()) {
-        internalRoot = m_model->entryForIndex(m_view->currentIndex().parent()).value(InternalID);
-    }
+    const QItemSelectionModel *selectionModel = m_view->selectionModel();
+    foreach (const QModelIndex& index, selectionModel->selectedRows()) {
+        // Find the topmost unselected parent.
+        QModelIndex selectionRoot = index.parent();
+        while (selectionModel->isSelected(selectionRoot)) {
+            selectionRoot = selectionRoot.parent();
+        }
 
-    if (internalRoot.isNull()) {
-        //we have the special case valid parent, but the parent does not
-        //actually correspond to an item in the archive, but an automatically
-        //created folder. for now, we will just use the filename of the node
-        //instead, but for plugins that rely on a non-filename value as the
-        //InternalId, this WILL break things. TODO find a solution
-        internalRoot = m_model->entryForIndex(m_view->currentIndex().parent()).value(FileName);
-    }
-
-    QList<QVariant> files = selectedFilesWithChildren();
-    if (files.isEmpty()) {
-        return;
+        // FIXME: selectedFilesWithChildren() needs to be called here,
+        // otherwise selecting a directory will not extract its children.
+        const QString rootInternalID =
+            m_model->entryForIndex(selectionRoot).value(InternalID).toString();
+        const QVariant entry =
+            m_model->entryForIndex(index).value(InternalID);
+        if (extractionEntries.contains(rootInternalID)) {
+            extractionEntries[rootInternalID].append(entry);
+        } else {
+            extractionEntries[rootInternalID] = QVariantList();
+            extractionEntries[rootInternalID].append(entry);
+        }
     }
 
-    kDebug() << "selected files are " << files;
-    Kerfuffle::ExtractionOptions options;
-    options[QLatin1String( "PreservePaths" )] = true;
-    if (!internalRoot.isNull()) {
-        options[QLatin1String("RootNode")] = internalRoot;
+    foreach (const QString& rootNode, extractionEntries.keys()) {
+        const QVariantList files = extractionEntries[rootNode];
+
+        Kerfuffle::ExtractionOptions options;
+        options[QLatin1String("PreservePaths")] = true;
+        options[QLatin1String("RootNode")] = QVariant(rootNode);
+
+        // FIXME: These jobs must be run serially.
+        ExtractJob *job = m_model->extractFiles(files, localPath, options);
+        registerJob(job);
+        job->start();
     }
-
-    ExtractJob *job = m_model->extractFiles(files, localPath, options);
-    registerJob(job);
-
-    connect(job, SIGNAL(result(KJob*)),
-            this, SLOT(slotExtractionDone(KJob*)));
-
-    job->start();
 }
 
 void Part::setupView()
