@@ -252,7 +252,7 @@ void ArkViewer::slotOpenUrlRequestDelayed(const KUrl& url, const KParts::OpenUrl
     Q_UNUSED(arguments)
     Q_UNUSED(browserArguments)
 
-    KRun *runner = new KRun(url, 0, 0, false);
+    KRun *runner = new KRun(url, 0, false);
     runner->setRunExecutables(false);
 }
 
