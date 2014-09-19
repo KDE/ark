@@ -25,7 +25,6 @@
 #include <KParts/MainWindow>
 #include <KParts/OpenUrlArguments>
 #include <KParts/ReadWritePart>
-#include <KUrl>
 
 class KRecentFilesAction;
 
@@ -42,7 +41,7 @@ public:
     void dragMoveEvent(class QDragMoveEvent * event);
 
 public slots:
-    void openUrl(const KUrl& url);
+    void openUrl(const QUrl &url);
     void setShowExtractDialog(bool);
 
 private slots:

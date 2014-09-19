@@ -171,7 +171,7 @@ void MainWindow::setupActions()
     m_openAction = KStandardAction::open(this, SLOT(openArchive()), actionCollection());
     KStandardAction::quit(this, SLOT(quit()), actionCollection());
 
-    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openUrl(KUrl)), actionCollection());
+    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openUrl(QUrl)), actionCollection());
     m_recentFilesAction->setToolBarMode(KRecentFilesAction::MenuMode);
     m_recentFilesAction->setToolButtonPopupMode(QToolButton::DelayedPopup);
     m_recentFilesAction->setIconText(i18nc("action, to open an archive", "Open"));
@@ -223,13 +223,13 @@ void MainWindow::openArchive()
 {
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
-    const KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///ArkOpenDir"),
+    const QUrl url = KFileDialog::getOpenUrl(QUrl("kfiledialog:///ArkOpenDir"),
                                        Kerfuffle::supportedMimeTypes().join( QLatin1String( " " )),
                                        this);
     openUrl(url);
 }
 
-void MainWindow::openUrl(const KUrl& url)
+void MainWindow::openUrl(const QUrl& url)
 {
     if (!url.isEmpty()) {
         m_part->setArguments(m_openArgs);
@@ -265,9 +265,8 @@ void MainWindow::newArchive()
 
     kDebug() << "Supported mimetypes are" << mimeTypes.join( QLatin1String( " " ));
 
-    const KUrl saveFileUrl =
-        KFileDialog::getSaveUrl(KUrl("kfiledialog:///ArkNewDir"),
-                                mimeTypes.join(QLatin1String(" ")));
+    const QUrl saveFileUrl = KFileDialog::getSaveUrl(QUrl("kfiledialog:///ArkNewDir"),
+                                                     mimeTypes.join(QLatin1String(" ")));
 
     m_openArgs.metaData()[QLatin1String( "createNewArchive" )] = QLatin1String( "true" );
 
