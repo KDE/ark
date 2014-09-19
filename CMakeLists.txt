@@ -44,6 +44,8 @@ include_directories(
     ${CMAKE_BINARY_DIR}
 )
 
+add_definitions(-DTRANSLATION_DOMAIN="ark")
+
 add_subdirectory(plugins)
 add_subdirectory(kerfuffle)
 add_subdirectory(part)
