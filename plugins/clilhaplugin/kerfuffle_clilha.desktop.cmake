@@ -32,6 +32,7 @@ Name[gl]=Complemento para arquivos LHA
 Name[hu]=lha modul
 Name[ia]=plugin de archivar lha
 Name[it]=estensione per archivi lha
+Name[ja]=lha アーカイブ用プラグイン
 Name[kk]=lha архив плагині
 Name[km]=កម្មវិធី​ជំនួយ​ប័ណ្ណសារ lha
 Name[ko]=LHA 압축 플러그인
