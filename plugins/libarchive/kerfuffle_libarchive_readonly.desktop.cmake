@@ -33,6 +33,7 @@ Name[hr]=kerfuffle_libarchive_readonly
 Name[hu]=kerfuffle_libarchive_readonly
 Name[ia]=kerfuffle_libarchive_de_sol_lectura
 Name[it]=kerfuffle_libarchive_readonly
+Name[ja]=kerfuffle_libarchive_readonly
 Name[kk]=kerfuffle_libarchive_readonly
 Name[km]=kerfuffle_libarchive_readonly
 Name[ko]=kerfuffle_libarchive_readonly
