@@ -241,6 +241,7 @@ void Part::setupActions()
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
     m_previewAction->setIcon(KIcon( QLatin1String( "document-preview-archive" )));
     m_previewAction->setStatusTip(i18n("Click to preview the selected file"));
+    m_previewAction->setShortcuts(QList<QKeySequence>() << Qt::Key_Return << Qt::Key_Space);
     connect(m_previewAction, SIGNAL(triggered(bool)),
             this, SLOT(slotPreview()));
 
