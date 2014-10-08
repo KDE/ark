@@ -20,6 +20,7 @@
  */
 #include "karchiveplugin.h"
 #include "kerfuffle/queries.h"
+#include "kerfuffle_macro.h"
 
 #include <KZip>
 #include <KTar>

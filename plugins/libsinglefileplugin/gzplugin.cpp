@@ -24,8 +24,8 @@
  */
 
 #include "gzplugin.h"
-#include "kerfuffle/kerfuffle_export.h"
-
+#include "kerfuffle_export.h"
+#include "kerfuffle_macro.h"
 #include <QString>
 
 LibGzipInterface::LibGzipInterface(QObject *parent, const QVariantList & args)

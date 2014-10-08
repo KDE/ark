@@ -20,6 +20,7 @@
  */
 
 #include "cliplugin.h"
+#include "kerfuffle_macro.h"
 #include "kerfuffle/cliinterface.h"
 #include "kerfuffle/kerfuffle_export.h"
 

@@ -25,7 +25,7 @@
 
 #include "bz2plugin.h"
 #include "kerfuffle/kerfuffle_export.h"
-
+#include "kerfuffle_macro.h"
 #include <QString>
 
 LibBzip2Interface::LibBzip2Interface(QObject *parent, const QVariantList & args)

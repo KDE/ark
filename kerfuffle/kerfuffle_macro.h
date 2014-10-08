@@ -25,26 +25,10 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef KERFUFFLE_EXPORT_H
-#define KERFUFFLE_EXPORT_H
+#ifndef KERFUFFLE_MACRO_H
+#define KERFUFFLE_MACRO_H
 
-/* needed for KDE_EXPORT and KDE_IMPORT macros */
-#include <kdemacros.h>
 #include <kpluginfactory.h>
-
-#ifndef KERFUFFLE_EXPORT
-# if defined(MAKE_KERFUFFLE_LIB)
-/* We are building this library */
-#  define KERFUFFLE_EXPORT KDE_EXPORT
-# else
-/* We are using this library */
-#  define KERFUFFLE_EXPORT KDE_IMPORT
-# endif
-#endif
-
-# ifndef KERFUFFLE_EXPORT_DEPRECATED
-#  define KERFUFFLE_EXPORT_DEPRECATED KDE_DEPRECATED KERFUFFLE_EXPORT
-# endif
 
 #define KERFUFFLE_EXPORT_PLUGIN(p) \
     K_PLUGIN_FACTORY( ArkPluginFactory, registerPlugin< p >(); ) \

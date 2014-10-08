@@ -24,7 +24,8 @@
  */
 
 #include "xzplugin.h"
-#include "kerfuffle/kerfuffle_export.h"
+#include "kerfuffle_export.h"
+#include "kerfuffle_macro.h"
 
 #include <QString>
 

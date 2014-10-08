@@ -19,6 +19,7 @@ kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
 ki18n_wrap_ui(kerfuffle_SRCS extractiondialog.ui adddialog.ui )
 
 add_library(kerfuffle SHARED ${kerfuffle_SRCS})
+generate_export_header(kerfuffle BASE_NAME kerfuffle)
 
 target_link_libraries(kerfuffle KF5::Pty KF5::KDELibs4Support)
 if (NOT WIN32)
