@@ -181,8 +181,7 @@ ListJob::ListJob(ReadOnlyArchiveInterface *interface, QObject *parent)
     , m_isPasswordProtected(false)
     , m_extractedFilesSize(0)
 {
-    connect(this, SIGNAL(newEntry(ArchiveEntry)),
-            this, SLOT(onNewEntry(ArchiveEntry)));
+    connect(this, &ListJob::newEntry, this, &ListJob::onNewEntry);
 }
 
 void ListJob::doWork()

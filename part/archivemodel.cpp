@@ -875,14 +875,11 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
     if (m_archive) {
         job = m_archive->list(); // TODO: call "open" or "create"?
 
-        connect(job, SIGNAL(newEntry(ArchiveEntry)),
-                this, SLOT(slotNewEntryFromSetArchive(ArchiveEntry)));
+        connect(job, &Kerfuffle::ListJob::newEntry, this, &ArchiveModel::slotNewEntryFromSetArchive);
 
-        connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(slotLoadingFinished(KJob*)));
+        connect(job, &Kerfuffle::ListJob::result, this, &ArchiveModel::slotLoadingFinished);
 
-        connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
-                this, SLOT(slotUserQuery(Kerfuffle::Query*)));
+        connect(job, &Kerfuffle::ListJob::userQuery, this, &ArchiveModel::slotUserQuery);
 
         emit loadingStarted();
 
@@ -904,8 +901,7 @@ ExtractJob* ArchiveModel::extractFiles(const QList<QVariant>& files, const QStri
 {
     Q_ASSERT(m_archive);
     ExtractJob *newJob = m_archive->copyFiles(files, destinationDir, options);
-    connect(newJob, SIGNAL(userQuery(Kerfuffle::Query*)),
-            this, SLOT(slotUserQuery(Kerfuffle::Query*)));
+    connect(newJob, &ExtractJob::userQuery, this, &ArchiveModel::slotUserQuery);
     return newJob;
 }
 
@@ -917,10 +913,8 @@ AddJob* ArchiveModel::addFiles(const QStringList & filenames, const CompressionO
 
     if (!m_archive->isReadOnly()) {
         AddJob *job = m_archive->addFiles(filenames, options);
-        connect(job, SIGNAL(newEntry(ArchiveEntry)),
-                this, SLOT(slotNewEntry(ArchiveEntry)));
-        connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
-                this, SLOT(slotUserQuery(Kerfuffle::Query*)));
+        connect(job, &AddJob::newEntry, this, &ArchiveModel::slotNewEntry);
+        connect(job, &AddJob::userQuery, this, &ArchiveModel::slotUserQuery);
 
 
         return job;
@@ -933,14 +927,11 @@ DeleteJob* ArchiveModel::deleteFiles(const QList<QVariant> & files)
     Q_ASSERT(m_archive);
     if (!m_archive->isReadOnly()) {
         DeleteJob *job = m_archive->deleteFiles(files);
-        connect(job, SIGNAL(entryRemoved(QString)),
-                this, SLOT(slotEntryRemoved(QString)));
+        connect(job, &DeleteJob::entryRemoved, this, &ArchiveModel::slotEntryRemoved);
 
-        connect(job, SIGNAL(finished(KJob*)),
-                this, SLOT(slotCleanupEmptyDirs()));
+        connect(job, &DeleteJob::finished, this, &ArchiveModel::slotCleanupEmptyDirs);
 
-        connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
-                this, SLOT(slotUserQuery(Kerfuffle::Query*)));
+        connect(job, &DeleteJob::userQuery, this, &ArchiveModel::slotUserQuery);
         return job;
     }
     return 0;

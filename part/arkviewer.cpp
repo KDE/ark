@@ -52,7 +52,7 @@ ArkViewer::ArkViewer(QWidget * parent, Qt::WFlags flags)
 
     setMainWidget(m_widget);
 
-    connect(this, SIGNAL(finished()), SLOT(dialogClosed()));
+    connect(this, &ArkViewer::finished, this, &ArkViewer::dialogClosed);
 }
 
 ArkViewer::~ArkViewer()
@@ -222,8 +222,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const KMimeType::P
     }
 
     if (m_part.data()->browserExtension()) {
-        connect(m_part.data()->browserExtension(),
-                SIGNAL(openUrlRequestDelayed(KUrl,KParts::OpenUrlArguments,KParts::BrowserArguments)),
+        connect(m_part.data()->browserExtension(), SIGNAL(openUrlRequestDelayed(KUrl,KParts::OpenUrlArguments,KParts::BrowserArguments)),
                 SLOT(slotOpenUrlRequestDelayed(KUrl,KParts::OpenUrlArguments,KParts::BrowserArguments)));
     }
 

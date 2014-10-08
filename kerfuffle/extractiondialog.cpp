@@ -70,7 +70,7 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
 
     loadSettings();
 
-    connect(this, SIGNAL(finished(int)), SLOT(writeSettings()));
+    connect(this, &ExtractionDialog::finished, this, &ExtractionDialog::writeSettings);
 }
 
 void ExtractionDialog::loadSettings()

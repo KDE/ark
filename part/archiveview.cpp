@@ -34,12 +34,9 @@ ArchiveView::ArchiveView(QWidget *parent)
         : QTreeView(parent)
         , m_mouseButtons(Qt::NoButton)
 {
-    connect(this, SIGNAL(pressed(QModelIndex)),
-            SLOT(updateMouseButtons()));
-    connect(this, SIGNAL(clicked(QModelIndex)),
-            SLOT(slotClicked(QModelIndex)));
-    connect(this, SIGNAL(doubleClicked(QModelIndex)),
-            SLOT(slotDoubleClicked(QModelIndex)));
+    connect(this, &ArchiveView::pressed, this, &ArchiveView::updateMouseButtons);
+    connect(this, &ArchiveView::clicked, this, &ArchiveView::slotClicked);
+    connect(this, &ArchiveView::doubleClicked, this, &ArchiveView::slotDoubleClicked);
 }
 
 // FIXME: this is a workaround taken from Dolphin until QTBUG-1067 is resolved

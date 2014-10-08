@@ -190,8 +190,7 @@ void AddToArchive::slotStartJob(void)
 
     KIO::getJobTracker()->registerJob(job);
 
-    connect(job, SIGNAL(result(KJob*)),
-            this, SLOT(slotFinished(KJob*)));
+    connect(job, &Kerfuffle::AddJob::result, this, &AddToArchive::slotFinished);
 
     job->start();
 }

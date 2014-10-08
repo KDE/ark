@@ -38,6 +38,7 @@
 
 #include <QFileInfo>
 #include <QStandardItemModel>
+#include <QPushButton>
 
 namespace Kerfuffle
 {
@@ -61,11 +62,11 @@ AddDialog::AddDialog(const QStringList& itemsToAdd,
     setOperationMode(KFileDialog::Saving);
     setMode(KFile::File | KFile::LocalOnly);
     setConfirmOverwrite(true);
-    //setCaption(i18n("Compress to Archive"));
+    setWindowTitle(i18n("Compress to Archive"));
 
     loadConfiguration();
 
-    connect(this, SIGNAL(okClicked()), SLOT(updateDefaultMimeType()));
+    connect(okButton(), &QPushButton::clicked, this, &AddDialog::updateDefaultMimeType);
 
     m_ui = new AddDialogUI(this);
 //    mainWidget()->layout()->addWidget(m_ui);
