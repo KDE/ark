@@ -50,5 +50,5 @@ add_subdirectory(plugins)
 add_subdirectory(kerfuffle)
 add_subdirectory(part)
 add_subdirectory(app)
-#add_subdirectory(doc)
+add_subdirectory(doc)
 
