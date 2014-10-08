@@ -119,4 +119,4 @@ bool ReadWriteArchiveInterface::isReadOnly() const
 
 } // namespace Kerfuffle
 
-#include "archiveinterface.moc"
+

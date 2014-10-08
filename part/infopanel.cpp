@@ -210,4 +210,4 @@ QString InfoPanel::metadataTextFor(const QModelIndex &index)
     return text;
 }
 
-#include "infopanel.moc"
+

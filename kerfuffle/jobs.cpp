@@ -343,4 +343,4 @@ void DeleteJob::doWork()
 
 } // namespace Kerfuffle
 
-#include "jobs.moc"
+

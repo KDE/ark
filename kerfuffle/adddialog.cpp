@@ -135,4 +135,4 @@ void AddDialog::updateDefaultMimeType()
 }
 }
 
-#include "adddialog.moc"
+

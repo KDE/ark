@@ -79,4 +79,4 @@ void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
     m_urls = popupMenuInfo.urlList();
 }
 
-#include "extractHereDndPlugin.moc"
+

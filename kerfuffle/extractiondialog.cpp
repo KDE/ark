@@ -231,4 +231,4 @@ void ExtractionDialog::writeSettings()
 
 }
 
-#include "extractiondialog.moc"
+

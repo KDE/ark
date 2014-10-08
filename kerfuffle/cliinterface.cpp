@@ -748,4 +748,4 @@ void CliInterface::writeToProcess(const QByteArray& data)
 
 }
 
-#include "cliinterface.moc"
+

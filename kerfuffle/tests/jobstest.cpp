@@ -363,4 +363,4 @@ void JobsTest::testAddEntry()
     iface->deleteLater();
 }
 
-#include "jobstest.moc"
+

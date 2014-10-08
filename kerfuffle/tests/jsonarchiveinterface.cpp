@@ -106,4 +106,4 @@ bool JSONArchiveInterface::deleteFiles(const QList<QVariant>& files)
     return true;
 }
 
-#include "jsonarchiveinterface.moc"
+
