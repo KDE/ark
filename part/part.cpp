@@ -243,6 +243,7 @@ void Part::setupActions()
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
     m_previewAction->setIcon(KIcon( QLatin1String( "document-preview-archive" )));
     m_previewAction->setStatusTip(i18n("Click to preview the selected file"));
+    m_previewAction->setShortcuts(QList<QKeySequence>() << Qt::Key_Return << Qt::Key_Space);
     connect(m_previewAction, SIGNAL(triggered(bool)),
             this, SLOT(slotPreview()));
 
@@ -487,6 +488,14 @@ void Part::slotLoadingFinished(KJob *job)
     if (job->error()) {
         if (arguments().metaData()[QLatin1String( "createNewArchive" )] != QLatin1String( "true" )) {
             KMessageBox::sorry(NULL, i18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error: <message>%2</message>", localFilePath(), job->errorText()), i18nc("@title:window", "Error Opening Archive"));
+
+            // The file failed to open, so reset the open archive, info panel and caption.
+            m_model->setArchive(NULL);
+
+            m_infoPanel->setPrettyFileName(QString());
+            m_infoPanel->updateWithDefaults();
+
+            emit setWindowCaption(QString());
         }
     }
 
