@@ -47,7 +47,7 @@ void ArchiveView::updateMouseButtons()
 
 void ArchiveView::slotClicked(const QModelIndex& index)
 {
-    if (KGlobalSettings::singleClick()) {
+    if (style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick)) {
         if (m_mouseButtons != Qt::LeftButton) { // FIXME: see QTBUG-1067
             return;
         }
@@ -64,7 +64,7 @@ void ArchiveView::slotClicked(const QModelIndex& index)
 
 void ArchiveView::slotDoubleClicked(const QModelIndex& index)
 {
-    if (!KGlobalSettings::singleClick()) {
+    if (!style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick)) {
         emit itemTriggered(index);
     }
 }
