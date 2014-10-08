@@ -33,12 +33,12 @@
 #include <KConfigGroup>
 #include <KFilePlacesModel>
 #include <KGlobal>
-#include <KIcon>
 #include <KMimeType>
 
 #include <QFileInfo>
 #include <QStandardItemModel>
 #include <QPushButton>
+#include <QIcon>
 
 namespace Kerfuffle
 {
@@ -120,7 +120,7 @@ void AddDialog::setupIconList(const QStringList& itemsToAdd)
         item->setText(url.fileName());
 
         QString iconName = KMimeType::iconNameForUrl(url);
-        item->setIcon(KIcon(iconName));
+        item->setIcon(QIcon::fromTheme(iconName));
 
         item->setData(QVariant(url), KFilePlacesModel::UrlRole);
 

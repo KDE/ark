@@ -33,7 +33,6 @@
 #include <KProgressDialog>
 #include <QPushButton>
 #include <KRun>
-#include <KIcon>
 #include <KIO/NetAccess>
 #include <KHtml/khtml_part.h>
 
@@ -121,7 +120,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
             response = KMessageBox::warningContinueCancel(parent,
                 i18n("The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do you want to try to view it as plain text?", mimeType->name()),
                 i18nc("@title:window", "Cannot Preview File"),
-                KGuiItem(i18nc("@action:button", "Preview as Text"), KIcon(QLatin1String("text-plain"))),
+                KGuiItem(i18nc("@action:button", "Preview as Text"), QIcon::fromTheme(QLatin1String("text-plain"))),
                 KStandardGuiItem::cancel(),
                 QString(QLatin1String("PreviewAsText_%1")).arg(mimeType->name()));
         }
@@ -133,7 +132,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
             response = KMessageBox::warningContinueCancel(parent,
                 i18n("The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do you want to try to view it as plain text?"),
                 i18nc("@title:window", "Cannot Preview File"),
-                KGuiItem(i18nc("@action:button", "Preview as Text"), KIcon(QLatin1String("text-plain"))),
+                KGuiItem(i18nc("@action:button", "Preview as Text"), QIcon::fromTheme(QLatin1String("text-plain"))),
                 KStandardGuiItem::cancel(),
                 QString(),
                 KMessageBox::Dangerous);
