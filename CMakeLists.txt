@@ -17,6 +17,7 @@ include(ECMSetupVersion)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
+include(ECMInstallIcons)
 
 set(ARK_VERSION "4.80.0")
 

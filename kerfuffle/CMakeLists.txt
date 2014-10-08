@@ -16,7 +16,7 @@ set(kerfuffle_SRCS
 
 kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
 
-qt5_wrap_ui(kerfuffle_SRCS extractiondialog.ui adddialog.ui )
+ki18n_wrap_ui(kerfuffle_SRCS extractiondialog.ui adddialog.ui )
 
 add_library(kerfuffle SHARED ${kerfuffle_SRCS})
 
