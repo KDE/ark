@@ -61,7 +61,7 @@ ArkViewer::~ArkViewer()
 
 void ArkViewer::dialogClosed()
 {
-    KConfigGroup conf = KGlobal::config()->group("Viewer");
+    KConfigGroup conf = KSharedConfig::openConfig()->group("Viewer");
     saveDialogSize(conf);
 
     if (m_part) {
@@ -194,7 +194,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const KMimeType::P
     const KUrl fileUrl(fileName);
 
     setCaption(fileUrl.fileName());
-    restoreDialogSize(KGlobal::config()->group("Viewer"));
+    restoreDialogSize(KSharedConfig::openConfig()->group("Viewer"));
 
     QFrame *header = new QFrame(m_widget);
     QHBoxLayout *headerLayout = new QHBoxLayout(header);

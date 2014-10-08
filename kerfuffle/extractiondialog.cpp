@@ -226,7 +226,7 @@ void ExtractionDialog::writeSettings()
     ArkSettings::setOpenDestinationFolderAfterExtraction(openDestinationAfterExtraction());
     ArkSettings::setCloseAfterExtraction(closeAfterExtraction());
     ArkSettings::setPreservePaths(preservePaths());
-    ArkSettings::self()->writeConfig();
+    ArkSettings::self()->save();
 }
 
 }

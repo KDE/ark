@@ -318,7 +318,7 @@ void Part::updateActions()
         menu->removeAction(menu->actions().last());
     }
 
-    const KConfigGroup conf(KGlobal::config(), "DirSelect Dialog");
+    const KConfigGroup conf(KSharedConfig::openConfig(), "DirSelect Dialog");
     const QStringList dirHistory = conf.readPathEntry("History Items", QStringList());
 
     for (int i = 0; i < qMin(10, dirHistory.size()); ++i) {
@@ -871,7 +871,7 @@ void Part::slotToggleInfoPanel(bool visible)
 void Part::saveSplitterSizes()
 {
     ArkSettings::setSplitterSizes(m_splitter->sizes());
-    ArkSettings::self()->writeConfig();
+    ArkSettings::self()->save();
 }
 
 void Part::slotSaveAs()
@@ -890,7 +890,7 @@ void Part::slotSaveAs()
             }
         }
 
-        KUrl srcUrl = KUrl::fromPath(localFilePath());
+        KUrl srcUrl = QUrl::fromLocalFile(localFilePath());
 
         if (!QFile::exists(localFilePath())) {
             if (url().isLocalFile()) {

@@ -69,7 +69,7 @@ MainWindow::MainWindow(QWidget *)
 MainWindow::~MainWindow()
 {
     if (m_recentFilesAction) {
-        m_recentFilesAction->saveEntries(KGlobal::config()->group("Recent Files"));
+        m_recentFilesAction->saveEntries(KSharedConfig::openConfig()->group("Recent Files"));
     }
     delete m_part;
     m_part = 0;
@@ -177,7 +177,7 @@ void MainWindow::setupActions()
     m_recentFilesAction->setIconText(i18nc("action, to open an archive", "Open"));
     m_recentFilesAction->setStatusTip(i18n("Click to open an archive, click and hold to open a recently-opened archive"));
     m_recentFilesAction->setToolTip(i18n("Open an archive"));
-    m_recentFilesAction->loadEntries(KGlobal::config()->group("Recent Files"));
+    m_recentFilesAction->loadEntries(KSharedConfig::openConfig()->group("Recent Files"));
     connect(m_recentFilesAction, SIGNAL(triggered()),
             this, SLOT(openArchive()));
 

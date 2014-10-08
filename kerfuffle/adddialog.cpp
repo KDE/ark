@@ -93,7 +93,7 @@ AddDialog::AddDialog(const QStringList& itemsToAdd,
 
 void AddDialog::loadConfiguration()
 {
-    m_config = KConfigGroup(KGlobal::config()->group("AddDialog"));
+    m_config = KConfigGroup(KSharedConfig::openConfig()->group("AddDialog"));
 
     const QString defaultMimeType = QLatin1String( "application/x-compressed-tar" );
     const QStringList writeMimeTypes = Kerfuffle::supportedWriteMimeTypes();

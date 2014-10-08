@@ -81,7 +81,7 @@ JobsTest::JobsTest()
 {
     // Hackish way to make sure the i18n stuff
     // is called from the main thread
-    KGlobal::locale();
+    KLocale::global();
 
     qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 }
