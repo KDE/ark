@@ -10,7 +10,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake.in ${CMAKE_CURRENT_
 
 include(FeatureSummary)
 
-find_package(ECM 1.0.0 REQUIRED NO_MODULE)
+find_package(ECM 1.2.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(ECMSetupVersion)
@@ -26,7 +26,7 @@ ecm_setup_version(${ARK_VERSION} VARIABLE_PREFIX KERFUFFLE
 )
 
 set(REQUIRED_QT_VERSION 5.2.0)
-set(KF5_MIN_VERSION 5.0.0)
+set(KF5_MIN_VERSION 5.2.0)
 
 find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core Widgets)
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive Config Pty KHtml KDELibs4Support) 

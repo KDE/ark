@@ -23,7 +23,7 @@
 #include "mainwindow.h"
 #include "batchextract.h"
 #include "kerfuffle/addtoarchive.h"
-
+#include "kdelibs4configmigrator.h"
 #include <K4AboutData>
 #include <KApplication>
 #include <KCmdLineArgs>
@@ -37,6 +37,11 @@ using Kerfuffle::AddToArchive;
 
 int main(int argc, char **argv)
 {
+    Kdelibs4ConfigMigrator migrate(QLatin1Literal("ark"));
+    migrate.setConfigFiles(QStringList() << QLatin1Literal("arkrc"));
+    migrate.setUiFiles(QStringList() << QLatin1Literal("arkuirc"));
+    migrate.migrate();
+
     K4AboutData aboutData("ark", 0, ki18n("Ark"),
                          "2.19", ki18n("KDE Archiving tool"),
                          K4AboutData::License_GPL,
