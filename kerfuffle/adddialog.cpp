@@ -32,13 +32,13 @@
 
 #include <KConfigGroup>
 #include <KFilePlacesModel>
-#include <KGlobal>
-#include <KMimeType>
+#include <KSharedConfig>
 
 #include <QFileInfo>
 #include <QStandardItemModel>
 #include <QPushButton>
 #include <QIcon>
+#include <QMimeDatabase>
 
 namespace Kerfuffle
 {
@@ -69,7 +69,8 @@ AddDialog::AddDialog(const QStringList& itemsToAdd,
     connect(okButton(), &QPushButton::clicked, this, &AddDialog::updateDefaultMimeType);
 
     m_ui = new AddDialogUI(this);
-//    mainWidget()->layout()->addWidget(m_ui);
+    setExtension(m_ui);
+    showExtension(true);
 
     setupIconList(itemsToAdd);
 
@@ -82,8 +83,7 @@ AddDialog::AddDialog(const QStringList& itemsToAdd,
         // #272914: Add an extension when it is present, otherwise KFileDialog
         // will not automatically add it as baseFileName is a file which
         // already exists.
-        // FIXME KF5 Port : Enable again
-        //setSelection(fileName + currentFilterMimeType()->mainExtension());
+        setSelection(fileName + currentFilterMimeType().preferredSuffix());
     }
 
     //These extra options will be implemented in a 4.2+ version of
@@ -119,7 +119,8 @@ void AddDialog::setupIconList(const QStringList& itemsToAdd)
         QStandardItem* item = new QStandardItem;
         item->setText(url.fileName());
 
-        QString iconName = KMimeType::iconNameForUrl(url);
+        QMimeDatabase db;
+        QString iconName = db.mimeTypeForUrl(url).iconName();
         item->setIcon(QIcon::fromTheme(iconName));
 
         item->setData(QVariant(url), KFilePlacesModel::UrlRole);
@@ -135,5 +136,3 @@ void AddDialog::updateDefaultMimeType()
     m_config.writeEntry("LastMimeType", currentMimeFilter());
 }
 }
-
-

@@ -25,11 +25,9 @@
 #include "kerfuffle/archive.h"
 #include "kerfuffle/jobs.h"
 
-#include <KGlobal>
 #include <KDebug>
 #include <KIconLoader>
-#include <KLocale>
-#include <KMimeType>
+#include <KLocalizedString>
 #include <KIO/NetAccess>
 
 #include <QDir>
@@ -46,8 +44,8 @@ using namespace Kerfuffle;
 class ArchiveDirNode;
 
 //used to speed up the loading of large archives
-static ArchiveNode* s_previousMatch = NULL;
-K_GLOBAL_STATIC(QStringList, s_previousPieces)
+static ArchiveNode* s_previousMatch = Q_NULLPTR;
+Q_GLOBAL_STATIC(QStringList, s_previousPieces)
 
 
 // TODO: This class hierarchy needs some love.
@@ -78,11 +76,13 @@ public:
         const QStringList pieces = entry[FileName].toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
         m_name = pieces.isEmpty() ? QString() : pieces.last();
 
+        QMimeDatabase db;
         if (entry[IsDirectory].toBool()) {
-            m_icon = KIconLoader::global()->loadMimeTypeIcon(KMimeType::mimeType(QLatin1String("inode/directory"))->iconName(), KIconLoader::Small);
+            m_icon = KIconLoader::global()->loadMimeTypeIcon(db.mimeTypeForName("inode/directory").iconName(),
+                                                             KIconLoader::Small);
         } else {
-            const KMimeType::Ptr mimeType = KMimeType::findByPath(m_entry[FileName].toString(), 0, true);
-            m_icon = KIconLoader::global()->loadMimeTypeIcon(mimeType->iconName(), KIconLoader::Small);
+            m_icon = KIconLoader::global()->loadMimeTypeIcon(db.mimeTypeForFile(m_entry[FileName].toString()).iconName(),
+                                                             KIconLoader::Small);
         }
     }
 
@@ -342,7 +342,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
 
             case Timestamp: {
                 const QDateTime timeStamp = node->entry().value(Timestamp).toDateTime();
-                return  KLocale::global()->formatDateTime(timeStamp);
+                return QLocale().toString(timeStamp, QLocale::ShortFormat);
             }
 
             default:

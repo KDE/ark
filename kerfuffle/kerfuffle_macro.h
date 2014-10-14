@@ -31,7 +31,5 @@
 #include <kpluginfactory.h>
 
 #define KERFUFFLE_EXPORT_PLUGIN(p) \
-    K_PLUGIN_FACTORY( ArkPluginFactory, registerPlugin< p >(); ) \
-    K_EXPORT_PLUGIN( ArkPluginFactory("p") )
-
+    K_PLUGIN_FACTORY( p##PluginFactory, registerPlugin< p >(); )
 #endif

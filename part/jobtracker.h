@@ -44,18 +44,18 @@ public:
     JobTracker(QWidget *parent = 0);
     ~JobTracker();
 
-    virtual QWidget *widget(KJob *);
+    QWidget *widget(KJob *) Q_DECL_OVERRIDE;
 
 public slots:
-    virtual void registerJob(KJob *job);
-    virtual void unregisterJob(KJob *job);
+    void registerJob(KJob *job) Q_DECL_OVERRIDE;
+    void unregisterJob(KJob *job) Q_DECL_OVERRIDE;
 
 protected slots:
-    virtual void description(KJob *job, const QString &title, const QPair< QString, QString > &f1, const QPair< QString, QString > &f2);
-    virtual void infoMessage(KJob *job, const QString &plain, const QString &rich);
-    virtual void warning(KJob *job, const QString &plain, const QString &rich);
+    void description(KJob *job, const QString &title, const QPair< QString, QString > &f1, const QPair< QString, QString > &f2)  Q_DECL_OVERRIDE;
+    void infoMessage(KJob *job, const QString &plain, const QString &rich) Q_DECL_OVERRIDE;
+    void warning(KJob *job, const QString &plain, const QString &rich) Q_DECL_OVERRIDE;
 
-    virtual void percent(KJob *job, unsigned long  percent);
+    void percent(KJob *job, unsigned long  percent) Q_DECL_OVERRIDE;
 
 private slots:
     void resetUi();

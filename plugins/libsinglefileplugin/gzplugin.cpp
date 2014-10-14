@@ -25,8 +25,12 @@
 
 #include "gzplugin.h"
 #include "kerfuffle_export.h"
-#include "kerfuffle_macro.h"
+
 #include <QString>
+
+#include <KPluginFactory>
+
+K_PLUGIN_FACTORY( GzipPluginFactory, registerPlugin< LibGzipInterface >(); )
 
 LibGzipInterface::LibGzipInterface(QObject *parent, const QVariantList & args)
         : LibSingleFileInterface(parent, args)
@@ -38,7 +42,5 @@ LibGzipInterface::LibGzipInterface(QObject *parent, const QVariantList & args)
 LibGzipInterface::~LibGzipInterface()
 {
 }
-
-KERFUFFLE_EXPORT_PLUGIN(LibGzipInterface)
 
 #include "gzplugin.moc"

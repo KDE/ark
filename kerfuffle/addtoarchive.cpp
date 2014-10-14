@@ -35,7 +35,7 @@
 #include <kdebug.h>
 #include <kjobtrackerinterface.h>
 #include <kmessagebox.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kio/job.h>
 
 #include <QFileInfo>
@@ -74,14 +74,14 @@ void AddToArchive::setMimeType(const QString & mimeType)
     m_mimeType = mimeType;
 }
 
-bool AddToArchive::showAddDialog(void)
+bool AddToArchive::showAddDialog()
 {
     QWeakPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
         m_inputs, // itemsToAdd
         QUrl(m_firstPath), // startDir
         QLatin1String( "" ), // filter
-        NULL, // parent
-        NULL); // widget
+        Q_NULLPTR, // parent
+        Q_NULLPTR); // widget
 
     bool ret = dialog.data()->exec();
 

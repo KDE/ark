@@ -56,7 +56,7 @@ public:
      */
     void waitForResponse();
 
-    QVariant response();
+    QVariant response() const;
 
 protected:
     /**
@@ -65,7 +65,7 @@ protected:
     Query();
     virtual ~Query() {}
 
-    void setResponse(QVariant response);
+    void setResponse(const QVariant &response);
 
     QueryData m_data;
 
@@ -78,7 +78,7 @@ class KERFUFFLE_EXPORT OverwriteQuery : public Query
 {
 public:
     explicit OverwriteQuery(const QString& filename);
-    void execute();
+    void execute() Q_DECL_OVERRIDE;
     bool responseCancelled();
     bool responseOverwriteAll();
     bool responseOverwrite();
@@ -100,7 +100,7 @@ class KERFUFFLE_EXPORT PasswordNeededQuery : public Query
 {
 public:
     explicit PasswordNeededQuery(const QString& archiveFilename, bool incorrectTryAgain = false);
-    void execute();
+    void execute() Q_DECL_OVERRIDE;
 
     bool responseCancelled();
     QString password();

@@ -125,7 +125,7 @@ public:
     explicit ReadWriteArchiveInterface(QObject *parent, const QVariantList & args);
     virtual ~ReadWriteArchiveInterface();
 
-    virtual bool isReadOnly() const;
+    bool isReadOnly() const Q_DECL_OVERRIDE;
 
     //see archive.h for a list of what the compressionoptions might
     //contain

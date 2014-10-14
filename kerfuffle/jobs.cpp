@@ -30,7 +30,7 @@
 #include <QThread>
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 
 //#define DEBUG_RACECONDITION
 
@@ -47,7 +47,7 @@ public:
         connect(q, SIGNAL(result(KJob*)), SLOT(quit()));
     }
 
-    virtual void run();
+    virtual void run() Q_DECL_OVERRIDE;
 
 private:
     Job *q;
@@ -257,7 +257,7 @@ void ExtractJob::doWork()
 
     connectToArchiveInterfaceSignals();
 
-    kDebug() << "Starting extraction with selected files:"
+    qDebug() << "Starting extraction with selected files:"
              << m_files
              << "Destination dir:" << m_destinationDir
              << "Options:" << m_options;

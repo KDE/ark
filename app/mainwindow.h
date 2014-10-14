@@ -36,9 +36,9 @@ public:
     ~MainWindow();
     bool loadPart();
 
-    void dragEnterEvent(class QDragEnterEvent * event);
-    void dropEvent(class QDropEvent * event);
-    void dragMoveEvent(class QDragMoveEvent * event);
+    void dragEnterEvent(class QDragEnterEvent * event) Q_DECL_OVERRIDE;
+    void dropEvent(class QDropEvent * event) Q_DECL_OVERRIDE;
+    void dragMoveEvent(class QDragMoveEvent * event) Q_DECL_OVERRIDE;
 
 public slots:
     void openUrl(const QUrl &url);

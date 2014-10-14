@@ -60,7 +60,7 @@ public:
     bool preservePaths() const;
     QUrl destinationDirectory() const;
     QString subfolder() const;
-    virtual void accept();
+    virtual void accept() Q_DECL_OVERRIDE;
 
 public Q_SLOTS:
     void setSubfolder(const QString& subfolder);

@@ -28,7 +28,7 @@
 
 #include "singlefileplugin.h"
 
-class LibXzInterface : public LibSingleFileInterface
+class KERFUFFLE_EXPORT LibXzInterface : public LibSingleFileInterface
 {
     Q_OBJECT
 

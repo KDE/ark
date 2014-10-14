@@ -27,7 +27,7 @@
 
 #include "queries.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KPasswordDialog>
 #include <kdebug.h>
 #include <kio/renamedialog.h>
@@ -43,7 +43,7 @@ Query::Query()
     m_responseMutex.lock();
 }
 
-QVariant Query::response()
+QVariant Query::response() const
 {
     return m_data.value(QLatin1String( "response" ));
 }
@@ -59,7 +59,7 @@ void Query::waitForResponse()
     m_responseMutex.unlock();
 }
 
-void Query::setResponse(QVariant response)
+void Query::setResponse(const QVariant &response)
 {
     kDebug();
 
@@ -95,7 +95,7 @@ void OverwriteQuery::execute()
     //destUrl.cleanPath();
 
     QWeakPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
-        NULL,
+        Q_NULLPTR,
         i18n("File already exists"),
         sourceUrl,
         destUrl,
@@ -177,7 +177,8 @@ void PasswordNeededQuery::execute()
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
     QWeakPointer<KPasswordDialog> dlg = new KPasswordDialog;
-    dlg.data()->setPrompt(i18nc("@info", "The archive <filename>%1</filename> is password protected. Please enter the password to extract the file.", m_data.value(QLatin1String( "archiveFilename" )).toString()));
+    dlg.data()->setPrompt(xi18nc("@info", "The archive <filename>%1</filename> is password protected. Please enter the password to extract the file.",
+                                 m_data.value(QLatin1String( "archiveFilename" )).toString()));
 
     if (m_data.value(QLatin1String("incorrectTryAgain")).toBool()) {
         dlg.data()->showErrorMessage(i18n("Incorrect password, please try again."), KPasswordDialog::PasswordError);

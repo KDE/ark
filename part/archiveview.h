@@ -30,12 +30,12 @@ class ArchiveView : public QTreeView
 
 public:
     ArchiveView(QWidget *parent = 0);
-    virtual void dragEnterEvent(class QDragEnterEvent * event);
-    virtual void dropEvent(class QDropEvent * event);
-    virtual void dragMoveEvent(class QDragMoveEvent * event);
-    virtual void startDrag(Qt::DropActions supportedActions);
+    virtual void dragEnterEvent(class QDragEnterEvent * event) Q_DECL_OVERRIDE;
+    virtual void dropEvent(class QDropEvent * event) Q_DECL_OVERRIDE;
+    virtual void dragMoveEvent(class QDragMoveEvent * event) Q_DECL_OVERRIDE;
+    virtual void startDrag(Qt::DropActions supportedActions) Q_DECL_OVERRIDE;
 
-    void setModel(QAbstractItemModel *model);
+    void setModel(QAbstractItemModel *model) Q_DECL_OVERRIDE;
 
 protected slots:
     void slotClicked(const QModelIndex & index);

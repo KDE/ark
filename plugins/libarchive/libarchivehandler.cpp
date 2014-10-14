@@ -100,7 +100,7 @@ bool LibArchiveInterface::list()
     }
 
     if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        emit error(i18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
+        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
                    filename()));
         return false;
     }
@@ -166,13 +166,13 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
     }
 
     if (archive_read_open_filename(arch.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        emit error(i18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
-                   filename()));
+        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
+                          filename()));
         return false;
     }
 
     ArchiveWrite writer(archive_write_disk_new());
-    if (!(writer.data())) {
+    if (!writer.data()) {
         return false;
     }
 
@@ -767,10 +767,10 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
         kDebug() << "Writing header failed with error code " << header_response;
         kDebug() << "Error while writing..." << archive_error_string(arch_writer) << "(error nb =" << archive_errno(arch_writer) << ')';
 
-        emit error(i18nc("@info Error in a message box",
-                    "Ark could not compress <filename>%1</filename>:<nl/>%2",
-                    fileName,
-                    QLatin1String(archive_error_string(arch_writer))));
+        emit error(xi18nc("@info Error in a message box",
+                          "Ark could not compress <filename>%1</filename>:<nl/>%2",
+                          fileName,
+                          QString::fromUtf8(archive_error_string(arch_writer))));
 
         archive_entry_free(entry);
 

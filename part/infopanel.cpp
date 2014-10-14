@@ -24,9 +24,9 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QFileInfo>
+#include <QMimeDatabase>
 
-#include <KLocale>
-#include <KMimeType>
+#include <KLocalizedString>
 #include <KIconLoader>
 #include <KIO/NetAccess>
 
@@ -99,15 +99,15 @@ void InfoPanel::setIndex(const QModelIndex& index)
     } else {
         const ArchiveEntry& entry = m_model->entryForIndex(index);
 
-        KMimeType::Ptr mimeType;
-
+        QMimeDatabase db;
+        QMimeType mimeType;
         if (entry[ IsDirectory ].toBool()) {
-            mimeType = KMimeType::mimeType(QLatin1String( "inode/directory" ));
+            mimeType = db.mimeTypeForName("inode/directory" );
         } else {
-            mimeType = KMimeType::findByPath(entry[ FileName ].toString(), 0, true);
+            mimeType = db.mimeTypeForFile(entry[ FileName ].toString(), QMimeDatabase::MatchExtension);
         }
 
-        iconLabel->setPixmap(getMimeIcon(mimeType->iconName()));
+        iconLabel->setPixmap(getMimeIcon(mimeType.iconName()));
         if (entry[ IsDirectory ].toBool()) {
             int dirs;
             int files;
@@ -181,15 +181,16 @@ QString InfoPanel::metadataTextFor(const QModelIndex &index)
     const ArchiveEntry& entry = m_model->entryForIndex(index);
     QString text;
 
-    KMimeType::Ptr mimeType;
+    QMimeDatabase db;
+    QMimeType mimeType;
 
     if (entry[ IsDirectory ].toBool()) {
-        mimeType = KMimeType::mimeType(QLatin1String( "inode/directory" ));
+        mimeType = db.mimeTypeForName("inode/directory" );
     } else {
-        mimeType = KMimeType::findByPath(entry[ FileName ].toString(), 0, true);
+        mimeType = db.mimeTypeForFile(entry[FileName].toString(), QMimeDatabase::MatchExtension);
     }
 
-    text += i18n("<b>Type:</b> %1<br/>",  mimeType->comment());
+    text += i18n("<b>Type:</b> %1<br/>",  mimeType.comment());
 
     if (entry.contains(Owner)) {
         text += i18n("<b>Owner:</b> %1<br/>", entry[ Owner ].toString());

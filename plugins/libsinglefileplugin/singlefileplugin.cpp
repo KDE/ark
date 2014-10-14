@@ -34,7 +34,7 @@
 
 #include <KDebug>
 #include <KFilterDev>
-#include <KLocale>
+#include <KLocalizedString>
 
 LibSingleFileInterface::LibSingleFileInterface(QObject *parent, const QVariantList & args)
         : Kerfuffle::ReadOnlyArchiveInterface(parent, args)
@@ -61,12 +61,12 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
         return true;
     }
 
-    kDebug() << "Extracting to" << outputFileName;
+    qDebug() << "Extracting to" << outputFileName;
 
     QFile outputFile(outputFileName);
     if (!outputFile.open(QIODevice::WriteOnly)) {
         kDebug() << "Failed to open output file" << outputFile.errorString();
-        emit error(i18nc("@info", "Ark could not extract <filename>%1</filename>.", outputFile.fileName()));
+        emit error(xi18nc("@info", "Ark could not extract <filename>%1</filename>.", outputFile.fileName()));
 
         return false;
     }
@@ -74,7 +74,7 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
     QIODevice *device = KFilterDev::deviceForFile(filename(), m_mimeType, false);
     if (!device) {
         kDebug() << "Could not create KFilterDev";
-        emit error(i18nc("@info", "Ark could not open <filename>%1</filename> for extraction.", filename()));
+        emit error(xi18nc("@info", "Ark could not open <filename>%1</filename> for extraction.", filename()));
 
         return false;
     }
@@ -88,7 +88,7 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
         bytesRead = device->read(dataChunk.data(), dataChunk.size());
 
         if (bytesRead == -1) {
-            emit error(i18nc("@info", "There was an error while reading <filename>%1</filename> during extraction.", filename()));
+            emit error(xi18nc("@info", "There was an error while reading <filename>%1</filename> during extraction.", filename()));
             break;
         } else if (bytesRead == 0) {
             break;

@@ -23,13 +23,12 @@
 #define ARKVIEWER_H
 
 #include <KDialog>
-#include <KMimeType>
 #include <KParts/BrowserExtension>
 #include <KParts/ReadOnlyPart>
 #include <KService>
-#include <KUrl>
 
-#include <QtCore/QWeakPointer>
+#include <QWeakPointer>
+#include <QMimeType>
 
 class ArkViewer : public KDialog
 {
@@ -37,24 +36,24 @@ class ArkViewer : public KDialog
 
 public:
     virtual ~ArkViewer();
-    virtual QSize sizeHint() const;
+    QSize sizeHint() const Q_DECL_OVERRIDE;
 
     static void view(const QString& fileName, QWidget* parent = 0);
 
 protected:
-    virtual void keyPressEvent(QKeyEvent *event);
+    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
 protected slots:
-    void slotOpenUrlRequestDelayed(const KUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments);
+    void slotOpenUrlRequestDelayed(const QUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments);
 
 private slots:
     void dialogClosed();
 
 private:
-    explicit ArkViewer(QWidget* parent = 0, Qt::WFlags flags = 0);
+    explicit ArkViewer(QWidget* parent = 0, Qt::WindowFlags flags = 0);
 
-    static KService::Ptr getViewer(const KMimeType::Ptr& mimeType);
-    bool viewInInternalViewer(const QString& fileName, const KMimeType::Ptr& mimeType);
+    static KService::Ptr getViewer(const QString& mimeType);
+    bool viewInInternalViewer(const QString& fileName, const QMimeType& mimeType);
 
     QWeakPointer<KParts::ReadOnlyPart> m_part;
     QWidget *m_widget;

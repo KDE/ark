@@ -25,9 +25,12 @@
 
 #include "xzplugin.h"
 #include "kerfuffle_export.h"
-#include "kerfuffle_macro.h"
 
 #include <QString>
+
+#include <KPluginFactory>
+
+K_PLUGIN_FACTORY( XzPluginFactory, registerPlugin< LibXzInterface >(); )
 
 LibXzInterface::LibXzInterface(QObject *parent, const QVariantList & args)
         : LibSingleFileInterface(parent, args)
@@ -40,7 +43,5 @@ LibXzInterface::LibXzInterface(QObject *parent, const QVariantList & args)
 LibXzInterface::~LibXzInterface()
 {
 }
-
-KERFUFFLE_EXPORT_PLUGIN(LibXzInterface)
 
 #include "xzplugin.moc"

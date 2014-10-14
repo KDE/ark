@@ -22,7 +22,6 @@
 #include "archiveview.h"
 
 #include <KDebug>
-#include <KGlobalSettings>
 
 #include <QMimeData>
 #include <QApplication>

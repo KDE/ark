@@ -28,7 +28,7 @@
 
 #include "singlefileplugin.h"
 
-class LibBzip2Interface : public LibSingleFileInterface
+class KERFUFFLE_EXPORT LibBzip2Interface : public LibSingleFileInterface
 {
     Q_OBJECT
 

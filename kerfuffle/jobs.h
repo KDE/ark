@@ -102,7 +102,7 @@ public:
     QString subfolderName() const;
 
 public slots:
-    virtual void doWork();
+    virtual void doWork() Q_DECL_OVERRIDE;
 
 private:
     bool m_isSingleFolderArchive;
@@ -126,7 +126,7 @@ public:
     ExtractionOptions extractionOptions() const;
 
 public slots:
-    virtual void doWork();
+    virtual void doWork() Q_DECL_OVERRIDE;
 
 private:
     // TODO: Maybe this should be a method if ExtractionOptions were a class?
@@ -145,7 +145,7 @@ public:
     AddJob(const QStringList& files, const CompressionOptions& options, ReadWriteArchiveInterface *interface, QObject *parent = 0);
 
 public slots:
-    virtual void doWork();
+    virtual void doWork() Q_DECL_OVERRIDE;
 
 private:
     QStringList m_files;
@@ -160,7 +160,7 @@ public:
     DeleteJob(const QVariantList& files, ReadWriteArchiveInterface *interface, QObject *parent = 0);
 
 public slots:
-    virtual void doWork();
+    virtual void doWork() Q_DECL_OVERRIDE;
 
 private:
     QVariantList m_files;

@@ -56,10 +56,10 @@ public:
     ~Part();
     static K4AboutData* createAboutData();
 
-    virtual bool openFile();
-    virtual bool saveFile();
+    bool openFile() Q_DECL_OVERRIDE;
+    bool saveFile() Q_DECL_OVERRIDE;
 
-    bool isBusy() const;
+    bool isBusy() const Q_DECL_OVERRIDE;
 
 public slots:
     void extractSelectedFilesTo(const QString& localPath);

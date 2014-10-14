@@ -33,10 +33,10 @@
 #include <QEventLoop>
 #include <QFile>
 #include <QFileInfo>
+#include <QMimeDatabase>
 
 #include <KDebug>
 #include <KPluginLoader>
-#include <KMimeType>
 #include <KMimeTypeTrader>
 #include <KServiceTypeTrader>
 
@@ -47,8 +47,9 @@ static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
 
 static QString determineMimeType(const QString& filename)
 {
+    QMimeDatabase db;
     if (!QFile::exists(filename)) {
-        return KMimeType::findByPath(filename)->name();
+        return db.mimeTypeForFile(filename).name();
     }
 
     QFile file(filename);
@@ -56,23 +57,25 @@ static QString determineMimeType(const QString& filename)
         return QString();
     }
 
-    const qint64 maxSize = 0x100000; // 1MB
-    const qint64 bufferSize = qMin(maxSize, file.size());
-    const QByteArray buffer = file.read(bufferSize);
-
-    return KMimeType::findByNameAndContent(filename, buffer)->name();
+    return db.mimeTypeForFileNameAndData(filename, &file).name();
 }
 
 static KService::List findPluginOffers(const QString& filename, const QString& fixedMimeType)
 {
     KService::List offers;
 
+    qDebug() << "Find plugin offers for" << filename << "and mime" << fixedMimeType;
+
     const QString mimeType = fixedMimeType.isEmpty() ? determineMimeType(filename) : fixedMimeType;
+
+    qDebug() << "Detected MIME" << mimeType;
 
     if (!mimeType.isEmpty()) {
         offers = KMimeTypeTrader::self()->query(mimeType, QLatin1String( "Kerfuffle/Plugin" ), QLatin1String( "(exist Library)" ));
         qSort(offers.begin(), offers.end(), comparePlugins);
     }
+
+    qDebug() << "Have" << offers.count() << "offers";
 
     return offers;
 }
@@ -93,16 +96,16 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
 
     if (offers.isEmpty()) {
         kDebug() << "Could not find a plugin to handle" << fileName;
-        return NULL;
+        return Q_NULLPTR;
     }
 
     const QString pluginName = offers.first()->library();
-    kDebug() << "Loading plugin" << pluginName;
+    qDebug() << "Loading plugin" << pluginName << "for" << offers.first()->mimeTypes();
 
     KPluginFactory * const factory = KPluginLoader(pluginName).factory();
     if (!factory) {
         kDebug() << "Invalid plugin factory for" << pluginName;
-        return NULL;
+        return Q_NULLPTR;
     }
 
     QVariantList args;
@@ -111,7 +114,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     ReadOnlyArchiveInterface * const iface = factory->create<ReadOnlyArchiveInterface>(0, args);
     if (!iface) {
         kDebug() << "Could not create plugin instance" << pluginName << "for" << fileName;
-        return NULL;
+        return Q_NULLPTR;
     }
 
     return new Archive(iface, parent);

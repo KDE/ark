@@ -36,8 +36,8 @@ public:
     LibSingleFileInterface(QObject *parent, const QVariantList & args);
     virtual ~LibSingleFileInterface();
 
-    virtual bool list();
-    virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, Kerfuffle::ExtractionOptions options);
+    virtual bool list() Q_DECL_OVERRIDE;
+    virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, Kerfuffle::ExtractionOptions options) Q_DECL_OVERRIDE;
 
 protected:
     const QString uncompressedFileName() const;

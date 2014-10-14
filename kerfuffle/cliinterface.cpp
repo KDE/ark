@@ -36,9 +36,8 @@
 # include <KPtyProcess>
 #endif
 
-#include <KStandardDirs>
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QApplication>
 #include <QDateTime>
@@ -48,6 +47,8 @@
 #include <QProcess>
 #include <QThread>
 #include <QTimer>
+#include <QStandardPaths>
+#include <QUrl>
 
 namespace Kerfuffle
 {
@@ -103,7 +104,8 @@ bool CliInterface::list()
 
 bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options)
 {
-    kDebug();
+    //qDebug() << Q_FUNC_INFO << "to" << destinationDirectory;
+
     cacheParameterList();
 
     m_operationMode = Copy;
@@ -229,8 +231,9 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
         }
     }
 
-    kDebug() << "Setting current dir to " << destinationDirectory;
-    QDir::setCurrent(destinationDirectory);
+    QUrl destDir(destinationDirectory);
+    QDir::setCurrent(destDir.adjusted(QUrl::RemoveScheme).url());
+    //qDebug() << "Setting current dir to " << destinationDirectory;
 
     if (!runProcess(m_param.value(ExtractProgram).toStringList(), args)) {
         failOperation();
@@ -329,14 +332,14 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
 {
     QString programPath;
     for (int i = 0; i < programNames.count(); i++) {
-        programPath = KStandardDirs::findExe(programNames.at(i));
+        programPath = QStandardPaths::findExecutable(programNames.at(i));
         if (!programPath.isEmpty())
             break;
     }
     if (programPath.isEmpty()) {
         const QString names = programNames.join(QLatin1String(", "));
-        emit error(i18ncp("@info", "Failed to locate program <filename>%2</filename> on disk.",
-                                   "Failed to locate programs <filename>%2</filename> on disk.", programNames.count(), names));
+        emit error(xi18ncp("@info", "Failed to locate program <filename>%2</filename> on disk.",
+                           "Failed to locate programs <filename>%2</filename> on disk.", programNames.count(), names));
         emit finished(false);
         return false;
     }

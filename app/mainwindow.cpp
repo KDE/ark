@@ -25,11 +25,10 @@
 #include "kerfuffle/archive.h"
 #include "part/interface.h"
 
-#include <KPluginLoader>
 #include <KPluginFactory>
 #include <KMessageBox>
 #include <KApplication>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KActionCollection>
 #include <KStandardAction>
 #include <KFileDialog>

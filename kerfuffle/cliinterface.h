@@ -234,17 +234,17 @@ public:
     explicit CliInterface(QObject *parent, const QVariantList & args);
     virtual ~CliInterface();
 
-    virtual bool list();
-    virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options);
-    virtual bool addFiles(const QStringList & files, const CompressionOptions& options);
-    virtual bool deleteFiles(const QList<QVariant> & files);
+    virtual bool list() Q_DECL_OVERRIDE;
+    virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options) Q_DECL_OVERRIDE;
+    virtual bool addFiles(const QStringList & files, const CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool deleteFiles(const QList<QVariant> & files) Q_DECL_OVERRIDE;
 
     virtual ParameterList parameterList() const = 0;
     virtual bool readListLine(const QString &line) = 0;
 
-    bool doKill();
-    bool doSuspend();
-    bool doResume();
+    bool doKill() Q_DECL_OVERRIDE;
+    bool doSuspend() Q_DECL_OVERRIDE;
+    bool doResume() Q_DECL_OVERRIDE;
 
     /**
      * Returns the list of characters which are preceded by a
@@ -253,7 +253,7 @@ public:
      *
      * @see setEscapedCharacters().
      */
-    QString escapedCharacters();
+    QString escapedCharacters(); // FIXME not implemented?
 
     /**
      * Sets which characters will be preceded by a backslash when
@@ -261,7 +261,7 @@ public:
      *
      * @see escapedCharacters().
      */
-    void setEscapedCharacters(const QString& characters);
+    void setEscapedCharacters(const QString& characters); // FIXME not implemented?
 
     /**
      * Sets if the listing should include empty lines.

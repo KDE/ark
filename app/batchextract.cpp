@@ -34,8 +34,7 @@
 #include "kerfuffle/queries.h"
 
 #include <KDebug>
-#include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KRun>
 #include <KIO/RenameDialog>

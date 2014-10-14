@@ -21,28 +21,27 @@
 
 #include "arkviewer.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMimeTypeTrader>
-#include <KMimeType>
 #include <KDebug>
-#include <KUrl>
-#include <KGlobal>
 #include <KIconLoader>
 #include <KVBox>
 #include <KMessageBox>
 #include <KProgressDialog>
-#include <QPushButton>
 #include <KRun>
 #include <KIO/NetAccess>
-#include <KHtml/khtml_part.h>
+#include <KHtml/KHTMLPart>
+#include <KSharedConfig>
 
 #include <QHBoxLayout>
 #include <QFile>
 #include <QFrame>
 #include <QLabel>
 #include <QKeyEvent>
+#include <QPushButton>
+#include <QMimeDatabase>
 
-ArkViewer::ArkViewer(QWidget * parent, Qt::WFlags flags)
+ArkViewer::ArkViewer(QWidget * parent, Qt::WindowFlags flags)
         : KDialog(parent, flags)
 {
     setButtons(Close);
@@ -89,9 +88,10 @@ void ArkViewer::dialogClosed()
 
 void ArkViewer::view(const QString& fileName, QWidget *parent)
 {
-    KMimeType::Ptr mimeType = KMimeType::findByPath(fileName);
-    kDebug() << "MIME type" << mimeType->name();
-    KService::Ptr viewer = ArkViewer::getViewer(mimeType);
+    QMimeDatabase db;
+    QMimeType mimeType = db.mimeTypeForFile(fileName);
+    kDebug() << "MIME type" << mimeType.name();
+    KService::Ptr viewer = ArkViewer::getViewer(mimeType.name());
 
     const bool needsExternalViewer = (!viewer &&
                                       !viewer->hasServiceType(QLatin1String("KParts/ReadOnlyPart")));
@@ -100,7 +100,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
         // So there is no point in using KRun::runUrl() which would need
         // to do the same again.
 
-        const KUrl::List fileUrlList = KUrl(fileName);
+        const QList<QUrl> fileUrlList = {QUrl::fromLocalFile(fileName)};
         // The last argument (tempFiles) set to true means that the temporary
         // file will be removed when the viewer application exits.
         KRun::run(*viewer, fileUrlList, parent, true);
@@ -113,16 +113,16 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
         // should be previewed as text/plain.
 
         int response;
-        if (!mimeType->isDefault()) {
+        if (!mimeType.isDefault()) {
             // File has a defined MIME type, and not the default
             // application/octet-stream.  So it could be viewable as
             // plain text, ask the user.
             response = KMessageBox::warningContinueCancel(parent,
-                i18n("The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do you want to try to view it as plain text?", mimeType->name()),
+                i18n("The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do you want to try to view it as plain text?", mimeType.name()),
                 i18nc("@title:window", "Cannot Preview File"),
                 KGuiItem(i18nc("@action:button", "Preview as Text"), QIcon::fromTheme(QLatin1String("text-plain"))),
                 KStandardGuiItem::cancel(),
-                QString(QLatin1String("PreviewAsText_%1")).arg(mimeType->name()));
+                QStringLiteral("PreviewAsText_%1").arg(mimeType.name()));
         }
         else {
             // No defined MIME type, or the default application/octet-stream.
@@ -142,7 +142,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
             viewInInternalViewer = false;
         }
         else {						// set for viewer later
-            mimeType = KMimeType::mimeType(QLatin1String("text/plain"));
+            mimeType = db.mimeTypeForName(QStringLiteral("text/plain"));
         }
     }
 
@@ -188,9 +188,9 @@ QSize ArkViewer::sizeHint() const
     return QSize(560, 400);
 }
 
-bool ArkViewer::viewInInternalViewer(const QString& fileName, const KMimeType::Ptr& mimeType)
+bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &mimeType)
 {
-    const KUrl fileUrl(fileName);
+    const QUrl fileUrl = QUrl::fromLocalFile(fileName);
 
     setCaption(fileUrl.fileName());
     restoreDialogSize(KSharedConfig::openConfig()->group("Viewer"));
@@ -200,7 +200,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const KMimeType::P
 
     QLabel *iconLabel = new QLabel(header);
     headerLayout->addWidget(iconLabel);
-    iconLabel->setPixmap(KIconLoader::global()->loadMimeTypeIcon(mimeType->iconName(), KIconLoader::Desktop));
+    iconLabel->setPixmap(KIconLoader::global()->loadMimeTypeIcon(mimeType.iconName(), KIconLoader::Desktop));
     iconLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
 
     KVBox *headerRight = new KVBox(header);
@@ -208,11 +208,11 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const KMimeType::P
     new QLabel(QString(QLatin1String( "<qt><b>%1</b></qt>" ))
                .arg(fileUrl.fileName()), headerRight
               );
-    new QLabel(mimeType->comment(), headerRight);
+    new QLabel(mimeType.comment(), headerRight);
 
     header->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
 
-    m_part = KMimeTypeTrader::self()->createPartInstanceFromQuery<KParts::ReadOnlyPart>(mimeType->name(),
+    m_part = KMimeTypeTrader::self()->createPartInstanceFromQuery<KParts::ReadOnlyPart>(mimeType.name(),
              m_widget,
              this);
 
@@ -221,8 +221,8 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const KMimeType::P
     }
 
     if (m_part.data()->browserExtension()) {
-        connect(m_part.data()->browserExtension(), SIGNAL(openUrlRequestDelayed(KUrl,KParts::OpenUrlArguments,KParts::BrowserArguments)),
-                SLOT(slotOpenUrlRequestDelayed(KUrl,KParts::OpenUrlArguments,KParts::BrowserArguments)));
+        connect(m_part.data()->browserExtension(), SIGNAL(openUrlRequestDelayed(QUrl,KParts::OpenUrlArguments,KParts::BrowserArguments)),
+                SLOT(slotOpenUrlRequestDelayed(QUrl,KParts::OpenUrlArguments,KParts::BrowserArguments)));
     }
 
     // #235546
@@ -243,7 +243,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const KMimeType::P
     return true;
 }
 
-void ArkViewer::slotOpenUrlRequestDelayed(const KUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments)
+void ArkViewer::slotOpenUrlRequestDelayed(const QUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments)
 {
     kDebug() << "Opening URL: " << url;
 
@@ -254,27 +254,24 @@ void ArkViewer::slotOpenUrlRequestDelayed(const KUrl& url, const KParts::OpenUrl
     runner->setRunExecutables(false);
 }
 
-KService::Ptr ArkViewer::getViewer(const KMimeType::Ptr &mimeType)
+KService::Ptr ArkViewer::getViewer(const QString &mimeType)
 {
     // No point in even trying to find anything for application/octet-stream
-    if (mimeType->isDefault()) {
+    if (mimeType == QStringLiteral("application/octet-stream")) {
         return KService::Ptr();
     }
 
     // Try to get a read-only kpart for the internal viewer
-    KService::List offers = KMimeTypeTrader::self()->query(mimeType->name(), QString::fromLatin1("KParts/ReadOnlyPart"));
+    KService::List offers = KMimeTypeTrader::self()->query(mimeType, QString::fromLatin1("KParts/ReadOnlyPart"));
 
     // If we can't find a kpart, try to get an external application
     if (offers.size() == 0) {
-        offers = KMimeTypeTrader::self()->query(mimeType->name(), QString::fromLatin1("Application"));
+        offers = KMimeTypeTrader::self()->query(mimeType, QString::fromLatin1("Application"));
     }
 
-    if (offers.size() > 0) {
+    if (!offers.isEmpty()) {
         return offers.first();
     } else {
         return KService::Ptr();
     }
 }
-
-
-
