@@ -132,7 +132,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
             response = KMessageBox::warningContinueCancel(parent,
                 i18n("The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do you want to try to view it as plain text?"),
                 i18nc("@title:window", "Cannot Preview File"),
-                KGuiItem(i18nc("@action:button", "Preview as Text"), QIcon::fromTheme(QLatin1String("text-plain"))),
+                KGuiItem(i18nc("@action:button", "Preview as Text"), QIcon::fromTheme(QStringLiteral("text-plain"))),
                 KStandardGuiItem::cancel(),
                 QString(),
                 KMessageBox::Dangerous);
@@ -190,9 +190,7 @@ QSize ArkViewer::sizeHint() const
 
 bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &mimeType)
 {
-    const QUrl fileUrl = QUrl::fromLocalFile(fileName);
-
-    setCaption(fileUrl.fileName());
+    setWindowFilePath(fileName);
     restoreDialogSize(KSharedConfig::openConfig()->group("Viewer"));
 
     QFrame *header = new QFrame(m_widget);
@@ -205,9 +203,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
 
     KVBox *headerRight = new KVBox(header);
     headerLayout->addWidget(headerRight);
-    new QLabel(QString(QLatin1String( "<qt><b>%1</b></qt>" ))
-               .arg(fileUrl.fileName()), headerRight
-              );
+    new QLabel(QStringLiteral("<qt><b>%1</b></qt>").arg(fileName), headerRight);
     new QLabel(mimeType.comment(), headerRight);
 
     header->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
@@ -238,7 +234,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
         khtmlPart->setOnlyLocalReferences(true);
     }
 
-    m_part.data()->openUrl(fileUrl);
+    m_part.data()->openUrl(QUrl::fromLocalFile(fileName));
 
     return true;
 }
@@ -265,8 +261,8 @@ KService::Ptr ArkViewer::getViewer(const QString &mimeType)
     KService::List offers = KMimeTypeTrader::self()->query(mimeType, QString::fromLatin1("KParts/ReadOnlyPart"));
 
     // If we can't find a kpart, try to get an external application
-    if (offers.size() == 0) {
-        offers = KMimeTypeTrader::self()->query(mimeType, QString::fromLatin1("Application"));
+    if (offers.isEmpty()) {
+        offers = KMimeTypeTrader::self()->query(mimeType, QStringLiteral("Application"));
     }
 
     if (!offers.isEmpty()) {
