@@ -37,7 +37,6 @@
 #include <KActionCollection>
 #include <KConfigGroup>
 #include <KDebug>
-#include <KFileDialog>
 #include <KGuiItem>
 #include <KIO/Job>
 #include <KIO/NetAccess>
@@ -62,6 +61,7 @@
 #include <QVBoxLayout>
 #include <QWeakPointer>
 #include <QtDBus/QtDBus>
+#include <QFileDialog>
 #include <QIcon>
 #include <QInputDialog>
 
@@ -775,17 +775,15 @@ void Part::slotAddFiles()
     //          non-modal state).
     //          When KFileDialog::exec() is called, the widget is already shown
     //          and nothing happens.
-    const QStringList filesToAdd =
-        KFileDialog::getOpenFileNames(QUrl("kfiledialog:///ArkAddFiles"),
-                                      QString(), widget()->parentWidget(),
-                                      i18nc("@title:window", "Add Files"));
+
+    const QStringList filesToAdd = QFileDialog::getOpenFileNames(widget(), i18nc("@title:window", "Add Files"));
 
     slotAddFiles(filesToAdd);
 }
 
 void Part::slotAddDir()
 {
-    const QString dirToAdd = KFileDialog::getExistingDirectory(QUrl("kfiledialog:///ArkAddFiles"), widget(), i18nc("@title:window", "Add Folder"));
+    const QString dirToAdd = QFileDialog::getExistingDirectory(widget(), i18nc("@title:window", "Add Folder"));
 
     if (!dirToAdd.isEmpty()) {
         slotAddFiles(QStringList() << dirToAdd);
@@ -852,7 +850,7 @@ void Part::saveSplitterSizes()
 
 void Part::slotSaveAs()
 {
-    QUrl saveUrl = KFileDialog::getSaveUrl(QUrl(QLatin1String( "kfiledialog:///ArkSaveAs/" ) + url().fileName()), QString(), widget());
+    QUrl saveUrl = QFileDialog::getSaveFileUrl(widget(), i18nc("@title:window", "Save Archive As"), url().adjusted(QUrl::RemoveFilename));
 
     if ((saveUrl.isValid()) && (!saveUrl.isEmpty())) {
         if (KIO::NetAccess::exists(saveUrl, KIO::NetAccess::DestinationSide, widget())) {

@@ -31,9 +31,7 @@
 #include <KLocalizedString>
 #include <KActionCollection>
 #include <KStandardAction>
-#include <KFileDialog>
 #include <KRecentFilesAction>
-#include <KGlobal>
 #include <KDebug>
 #include <KEditToolBar>
 #include <KShortcutsDialog>
@@ -43,6 +41,8 @@
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QWeakPointer>
+#include <QFileDialog>
+#include <QMimeData>
 
 static bool isValidArchiveDrag(const QMimeData *data)
 {
@@ -83,8 +83,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent * event)
         return;
     }
 
-    if ((event->source() == NULL) &&
-        (isValidArchiveDrag(event->mimeData()))) {
+    if (!event->source() && isValidArchiveDrag(event->mimeData())) {
         event->acceptProposedAction();
     }
     return;
@@ -222,10 +221,14 @@ void MainWindow::openArchive()
 {
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
-    const QUrl url = KFileDialog::getOpenUrl(QUrl("kfiledialog:///ArkOpenDir"),
-                                       Kerfuffle::supportedMimeTypes().join( QLatin1String( " " )),
-                                       this);
-    openUrl(url);
+
+    QFileDialog dlg(this, i18nc("to open an archive", "Open Archive"));
+    dlg.setMimeTypeFilters(Kerfuffle::supportedMimeTypes());
+    dlg.setFileMode(QFileDialog::ExistingFile);
+    dlg.setAcceptMode(QFileDialog::AcceptOpen);
+    if (dlg.exec() == QDialog::Accepted) {
+        openUrl(dlg.selectedUrls().first());
+    }
 }
 
 void MainWindow::openUrl(const QUrl& url)
@@ -264,13 +267,14 @@ void MainWindow::newArchive()
 
     kDebug() << "Supported mimetypes are" << mimeTypes.join( QLatin1String( " " ));
 
-    const QUrl saveFileUrl = KFileDialog::getSaveUrl(QUrl("kfiledialog:///ArkNewDir"),
-                                                     mimeTypes.join(QLatin1String(" ")));
-
-    m_openArgs.metaData()[QLatin1String( "createNewArchive" )] = QLatin1String( "true" );
-
-    openUrl(saveFileUrl);
-
-    m_openArgs.metaData().remove(QLatin1String( "showExtractDialog" ));
-    m_openArgs.metaData().remove(QLatin1String( "createNewArchive" ));
+    QFileDialog dlg(this);
+    dlg.setMimeTypeFilters(mimeTypes);
+    dlg.setFileMode(QFileDialog::ExistingFile);
+    dlg.setAcceptMode(QFileDialog::AcceptSave);
+    if (dlg.exec() == QDialog::Accepted) {
+        m_openArgs.metaData()[QLatin1String( "createNewArchive" )] = QLatin1String( "true" );
+        openUrl(dlg.selectedUrls().first());
+        m_openArgs.metaData().remove(QLatin1String( "showExtractDialog" ));
+        m_openArgs.metaData().remove(QLatin1String( "createNewArchive" ));
+    }
 }

@@ -116,7 +116,7 @@ void AddToArchive::start()
 
 // TODO: If this class should ever be called outside main.cpp,
 //       the returns should be preceded by emitResult().
-void AddToArchive::slotStartJob(void)
+void AddToArchive::slotStartJob()
 {
     kDebug();
 
