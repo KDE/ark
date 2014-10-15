@@ -54,7 +54,6 @@ class Part: public KParts::ReadWritePart, public Interface
 public:
     Part(QWidget *parentWidget, QObject *parent, const QVariantList &);
     ~Part();
-    static K4AboutData* createAboutData();
 
     bool openFile() Q_DECL_OVERRIDE;
     bool saveFile() Q_DECL_OVERRIDE;

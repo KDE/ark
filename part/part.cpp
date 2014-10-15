@@ -76,16 +76,16 @@ static quint32 s_instanceCounter = 1;
 
 Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
         : KParts::ReadWritePart(parent),
-          m_splitter(0),
+          m_splitter(Q_NULLPTR),
           m_busy(false),
-          m_jobTracker(0)
+          m_jobTracker(Q_NULLPTR)
 {
     Q_UNUSED(args)
     //setComponentData(Factory::componentData(), false);
 
     new DndExtractAdaptor(this);
 
-    const QString pathName = QString(QLatin1String("/DndExtract/%1")).arg(s_instanceCounter++);
+    const QString pathName = QStringLiteral("/DndExtract/%1").arg(s_instanceCounter++);
     if (!QDBusConnection::sessionBus().registerObject(pathName, this)) {
         kFatal() << "Could not register a D-Bus object for drag'n'drop";
     }
@@ -129,7 +129,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
     m_statusBarExtension = new KParts::StatusBarExtension(this);
 
-    setXMLFile(QLatin1String( "ark_part.rc" ));
+    setXMLFile(QStringLiteral("ark_part.rc"));
 }
 
 Part::~Part()
@@ -366,11 +366,6 @@ void Part::selectionChanged()
     m_infoPanel->setIndexes(m_view->selectionModel()->selectedRows());
 }
 
-K4AboutData* Part::createAboutData()
-{
-    return new K4AboutData("ark", 0, ki18n("ArkPart"), "3.0");
-}
-
 bool Part::openFile()
 {
     const QString localFile(localFilePath());
@@ -477,14 +472,14 @@ void Part::slotLoadingStarted()
 
 void Part::slotLoadingFinished(KJob *job)
 {
-    kDebug();
-
     if (job->error()) {
         if (arguments().metaData()[QLatin1String( "createNewArchive" )] != QLatin1String( "true" )) {
-            KMessageBox::sorry(widget(), xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error: <message>%2</message>", localFilePath(), job->errorText()), i18nc("@title:window", "Error Opening Archive"));
+            KMessageBox::sorry(widget(), xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error: <message>%2</message>",
+                                                localFilePath(), job->errorText()),
+                               i18nc("@title:window", "Error Opening Archive"));
 
             // The file failed to open, so reset the open archive, info panel and caption.
-            m_model->setArchive(NULL);
+            m_model->setArchive(Q_NULLPTR);
 
             m_infoPanel->setPrettyFileName(QString());
             m_infoPanel->updateWithDefaults();
@@ -615,7 +610,7 @@ void Part::slotExtractFiles()
     dialog.data()->setSingleFolderArchive(isSingleFolderArchive());
     dialog.data()->setSubfolder(detectSubfolder());
 
-    dialog.data()->setCurrentUrl(QFileInfo(m_model->archive()->fileName()).path());
+    dialog.data()->setCurrentUrl(QUrl::fromLocalFile(m_model->archive()->fileName()));
 
     if (dialog.data()->exec()) {
         //this is done to update the quick extract menu
@@ -734,8 +729,8 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
         return;
     }
 
-    kDebug() << "Adding " << filesToAdd << " to " << path;
-    kDebug() << "Warning, for now the path argument is not implemented";
+    qDebug() << "Adding " << filesToAdd << " to " << path;
+    qDebug() << "Warning, for now the path argument is not implemented";
 
     QStringList cleanFilesToAdd(filesToAdd);
     for (int i = 0; i < cleanFilesToAdd.size(); ++i) {
@@ -755,7 +750,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
     }
     firstPath = QFileInfo(firstPath).dir().absolutePath();
 
-    kDebug() << "Detected relative path to be " << firstPath;
+    qDebug() << "Detected relative path to be " << firstPath;
     options[QLatin1String( "GlobalWorkDir" )] = firstPath;
 
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
@@ -814,7 +809,7 @@ void Part::slotDeleteFilesDone(KJob* job)
 void Part::slotDeleteFiles()
 {
     const int reallyDelete =
-        KMessageBox::questionYesNo(NULL,
+        KMessageBox::questionYesNo(widget(),
                                    i18n("Deleting these files is not undoable. Are you sure you want to do this?"),
                                    i18nc("@title:window", "Delete files"),
                                    KStandardGuiItem::del(),

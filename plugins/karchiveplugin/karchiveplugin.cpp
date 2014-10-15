@@ -35,19 +35,19 @@
 K_PLUGIN_FACTORY( KArchiveInterfaceFactory, registerPlugin< KArchiveInterface >(); )
 
 KArchiveInterface::KArchiveInterface(QObject *parent, const QVariantList &args)
-        : ReadWriteArchiveInterface(parent, args), m_archive(0)
+        : ReadWriteArchiveInterface(parent, args), m_archive(Q_NULLPTR)
 {
 }
 
 KArchiveInterface::~KArchiveInterface()
 {
     delete m_archive;
-    m_archive = 0;
+    m_archive = Q_NULLPTR;
 }
 
 KArchive *KArchiveInterface::archive()
 {
-    if (m_archive == 0) {
+    if (!m_archive) {
         QMimeDatabase db;
         QMimeType mimeType = db.mimeTypeForFile(filename());
 

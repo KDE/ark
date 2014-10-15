@@ -636,7 +636,7 @@ ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
 {
     QStringList pieces = entry[ FileName ].toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
     if (pieces.isEmpty()) {
-        return NULL;
+        return Q_NULLPTR;
     }
     pieces.removeLast();
 
@@ -866,10 +866,10 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
     m_archive.reset(archive);
 
     m_rootNode->clear();
-    s_previousMatch = 0;
+    s_previousMatch = Q_NULLPTR;
     s_previousPieces->clear();
 
-    Kerfuffle::ListJob *job = NULL;
+    Kerfuffle::ListJob *job = Q_NULLPTR;
 
     m_newArchiveEntries.clear();
     if (m_archive) {
@@ -908,7 +908,7 @@ ExtractJob* ArchiveModel::extractFiles(const QList<QVariant>& files, const QStri
 AddJob* ArchiveModel::addFiles(const QStringList & filenames, const CompressionOptions& options)
 {
     if (!m_archive) {
-        return NULL;
+        return Q_NULLPTR;
     }
 
     if (!m_archive->isReadOnly()) {
@@ -919,7 +919,7 @@ AddJob* ArchiveModel::addFiles(const QStringList & filenames, const CompressionO
 
         return job;
     }
-    return 0;
+    return Q_NULLPTR;
 }
 
 DeleteJob* ArchiveModel::deleteFiles(const QList<QVariant> & files)
@@ -934,7 +934,7 @@ DeleteJob* ArchiveModel::deleteFiles(const QList<QVariant> & files)
         connect(job, &DeleteJob::userQuery, this, &ArchiveModel::slotUserQuery);
         return job;
     }
-    return 0;
+    return Q_NULLPTR;
 }
 
 void ArchiveModel::slotCleanupEmptyDirs()

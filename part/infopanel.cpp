@@ -210,5 +210,3 @@ QString InfoPanel::metadataTextFor(const QModelIndex &index)
 
     return text;
 }
-
-

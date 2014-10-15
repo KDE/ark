@@ -78,16 +78,16 @@ bool AddToArchive::showAddDialog()
 {
     QWeakPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
         m_inputs, // itemsToAdd
-        QUrl(m_firstPath), // startDir
-        QLatin1String( "" ), // filter
+        QUrl::fromLocalFile(m_firstPath), // startDir
+        QString(), // filter
         Q_NULLPTR, // parent
         Q_NULLPTR); // widget
 
     bool ret = dialog.data()->exec();
 
     if (ret) {
-        kDebug() << "Returned URL:" << dialog.data()->selectedUrl();
-        kDebug() << "Returned mime:" << dialog.data()->currentMimeFilter();
+        qDebug() << "Returned URL:" << dialog.data()->selectedUrl();
+        qDebug() << "Returned mime:" << dialog.data()->currentMimeFilter();
         setFilename(dialog.data()->selectedUrl());
         setMimeType(dialog.data()->currentMimeFilter());
     }
@@ -130,10 +130,10 @@ void AddToArchive::slotStartJob(void)
     Kerfuffle::Archive *archive;
     if (!m_filename.isEmpty()) {
         archive = Kerfuffle::Archive::create(m_filename, m_mimeType, this);
-        kDebug() << "Set filename to " << m_filename;
+        qDebug() << "Set filename to " << m_filename;
     } else {
         if (m_autoFilenameSuffix.isEmpty()) {
-            KMessageBox::error(NULL, i18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the <command>--autofilename</command> argument."));
+            KMessageBox::error(Q_NULLPTR, i18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the <command>--autofilename</command> argument."));
             return;
         }
 
@@ -157,15 +157,15 @@ void AddToArchive::slotStartJob(void)
             finalName = base + QLatin1Char( '_' ) + QString::number(appendNumber) + QLatin1Char( '.' ) + m_autoFilenameSuffix;
         }
 
-        kDebug() << "Autoset filename to "<< finalName;
+        qDebug() << "Autoset filename to "<< finalName;
         archive = Kerfuffle::Archive::create(finalName, m_mimeType, this);
     }
 
-    if (archive == NULL) {
-        KMessageBox::error(NULL, i18n("Failed to create the new archive. Permissions might not be sufficient."));
+    if (!archive) {
+        KMessageBox::error(Q_NULLPTR, i18n("Failed to create the new archive. Permissions might not be sufficient."));
         return;
     } else if (archive->isReadOnly()) {
-        KMessageBox::error(NULL, i18n("It is not possible to create archives of this type."));
+        KMessageBox::error(Q_NULLPTR, i18n("It is not possible to create archives of this type."));
         return;
     }
 
@@ -200,7 +200,7 @@ void AddToArchive::slotFinished(KJob *job)
     kDebug();
 
     if (job->error()) {
-        KMessageBox::error(NULL, job->errorText());
+        KMessageBox::error(Q_NULLPTR, job->errorText());
     }
 
     emitResult();
