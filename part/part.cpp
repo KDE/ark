@@ -652,7 +652,7 @@ void Part::slotExtractFiles()
     delete dialog.data();
 }
 
-QList<QVariant> Part::selectedFilesWithChildren()
+QList<QVariant> Part::selectedFilesWithChildren() const
 {
     Q_ASSERT(m_model);
 
@@ -679,7 +679,7 @@ QList<QVariant> Part::selectedFilesWithChildren()
     return ret;
 }
 
-QList<QVariant> Part::selectedFiles()
+QList<QVariant> Part::selectedFiles() const
 {
     QStringList toSort;
 

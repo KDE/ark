@@ -80,7 +80,7 @@ public:
     /**
      * A wrapper that calls slotStartJob() when the event loop has started.
      */
-    void start();
+    void start() Q_DECL_OVERRIDE;
 
     /**
      * Whether to automatically create a folder inside the destination
@@ -204,7 +204,7 @@ private slots:
      * successfully, and advances to the next extraction job if
      * there are more.
      */
-    void slotResult(KJob *job);
+    void slotResult(KJob *job) Q_DECL_OVERRIDE;
 
     /**
      * Shows a query dialog, which may happen when a file already exists.

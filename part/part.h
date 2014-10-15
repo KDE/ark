@@ -101,8 +101,8 @@ private:
     bool isSingleFolderArchive() const;
     QString detectSubfolder() const;
     bool isPreviewable(const QModelIndex& index) const;
-    QList<QVariant> selectedFiles();
-    QList<QVariant> selectedFilesWithChildren();
+    QList<QVariant> selectedFiles() const;
+    QList<QVariant> selectedFilesWithChildren() const;
     void registerJob(KJob *job);
 
     ArchiveModel         *m_model;

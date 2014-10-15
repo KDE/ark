@@ -64,7 +64,7 @@ public slots:
     void setAutoFilenameSuffix(const QString& suffix);
     void setFilename(const QUrl &path);
     void setMimeType(const QString & mimeType);
-    void start();
+    void start() Q_DECL_OVERRIDE;
 
 private slots:
     void slotFinished(KJob*);
