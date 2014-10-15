@@ -36,19 +36,6 @@ public:
     virtual void startDrag(Qt::DropActions supportedActions) Q_DECL_OVERRIDE;
 
     void setModel(QAbstractItemModel *model) Q_DECL_OVERRIDE;
-
-protected slots:
-    void slotClicked(const QModelIndex & index);
-    void slotDoubleClicked(const QModelIndex & index);
-
-private slots:
-    void updateMouseButtons();
-
-signals:
-    void itemTriggered(const QModelIndex & index);
-
-private:
-    Qt::MouseButtons m_mouseButtons; // FIXME: workaround until QTBUG-1067 is resolved
 };
 
 #endif /* ARCHIVEVIEW_H */
