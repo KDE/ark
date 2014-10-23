@@ -718,7 +718,6 @@ void Part::slotExtractionDone(KJob* job)
         }
 
         if (ArkSettings::openDestinationFolderAfterExtraction()) {
-
             KUrl destinationDirectory(extractJob->destinationDirectory());
             destinationDirectory.cleanPath();
 
