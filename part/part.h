@@ -51,11 +51,6 @@ class Part: public KParts::ReadWritePart, public Interface
     Q_OBJECT
     Q_INTERFACES(Interface)
 public:
-    enum PreviewMode {
-        InternalViewer,
-        ExternalProgram
-    };
-
     Part(QWidget *parentWidget, QObject *parent, const QVariantList &);
     ~Part();
     static KAboutData* createAboutData();
@@ -71,8 +66,8 @@ public slots:
 private slots:
     void slotLoadingStarted();
     void slotLoadingFinished(KJob *job);
-    void slotPreviewWithInternalViewer();
-    void slotPreviewWithExternalProgram();
+    void slotPreview();
+    void slotPreview(const QModelIndex & index);
     void slotPreviewExtracted(KJob*);
     void slotError(const QString& errorMessage, const QString& details);
     void slotExtractFiles();
@@ -84,7 +79,6 @@ private slots:
     void slotAddFilesDone(KJob*);
     void slotDeleteFiles();
     void slotDeleteFilesDone(KJob*);
-    void slotShowContextMenu();
     void saveSplitterSizes();
     void slotToggleInfoPanel(bool);
     void slotSaveAs();
@@ -109,11 +103,9 @@ private:
     QList<QVariant> selectedFiles();
     QList<QVariant> selectedFilesWithChildren();
     void registerJob(KJob *job);
-    void preview(const QModelIndex &index, PreviewMode mode);
 
     ArchiveModel         *m_model;
     QTreeView            *m_view;
-    KAction              *m_previewChooseAppAction;
     KAction              *m_previewAction;
     KAction              *m_extractFilesAction;
     KAction              *m_addFilesAction;
@@ -122,9 +114,8 @@ private:
     KAction              *m_saveAsAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
-    QList<KTempDir*>      m_previewDirList;
+    KTempDir              m_previewDir;
     bool                  m_busy;
-    PreviewMode           m_previewMode;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;
