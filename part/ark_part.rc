@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="ark_part" version="1">
+<kpartgui name="ark_part" version="2">
 <MenuBar>
 	<Menu name="file">
 		<text>&amp;File</text>
@@ -12,6 +12,7 @@
 		<Action name="delete"/>
 		<Action name="extract"/>
 		<Action name="preview"/>
+		<Action name="openwith"/>
 	</Menu>
 	<Menu name="settings">
 		<text>&amp;Settings</text>
@@ -25,4 +26,10 @@
 	<Action name="extract"/>
 	<Action name="preview"/>
 </ToolBar>
+<Menu name="context_menu">
+	<Action name="delete"/>
+	<Action name="extract"/>
+	<Action name="preview"/>
+	<Action name="openwith"/>
+</Menu>
 </kpartgui>
