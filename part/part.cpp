@@ -53,6 +53,7 @@
 #include <KStandardGuiItem>
 #include <KTempDir>
 #include <KToggleAction>
+#include <KXMLGUIFactory>
 
 #include <QAction>
 #include <QCursor>
@@ -137,6 +138,8 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
 Part::~Part()
 {
+    factory()->removeClient(this);
+
     saveSplitterSizes();
 
     m_extractFilesAction->menu()->deleteLater();
