@@ -66,6 +66,7 @@
   <summary xml:lang="sr-ijekavian">Алатка за архивирање</summary>
   <summary xml:lang="sr-ijekavianlatin">Alatka za arhiviranje</summary>
   <summary xml:lang="sv">Arkiveringsverktyg</summary>
+  <summary xml:lang="tr">Arşivleme Aracı</summary>
   <summary xml:lang="uk">Інструмент роботи з архівами</summary>
   <summary xml:lang="x-test">xxArchiving Toolxx</summary>
   <summary xml:lang="zh-CN">压缩工具</summary>
@@ -102,6 +103,7 @@
     <p xml:lang="sr-ijekavian">Арк је графичка алатка за компресовање и декомпресовање фајлова. Подржава више формата, међу њима и: тар, гзип, бзип2, РАР, ЗИП, као и ЦД одразе. Може се користити за прегледање, распакивање, стварање и мењање архива.</p>
     <p xml:lang="sr-ijekavianlatin">Ark je grafička alatka za kompresovanje i dekompresovanje fajlova. Podržava više formata, među njima i: tar, gzip, bzip2, RAR, ZIP, kao i CD odraze. Može se koristiti za pregledanje, raspakivanje, stvaranje i menjanje arhiva.</p>
     <p xml:lang="sv">Ark är ett grafiskt verktyg för komprimering och uppackning av filer med stöd för flera format, inklusive tar, gzip, bzip2, rar och zip, samt cd-rom avbilder. Ark kan användas för att bläddra i, packa upp, skapa och ändra arkiv.</p>
+    <p xml:lang="tr">Ark; tar, gzip, bzip2, rar ve zip dosyalarının yanında CD-ROM kalıplarını da destekleyen grafiksel bir dosya sıkıştırma/açma yardımcısıdır. Ark arşivlerde gezinmek, arşiv ayıklamak, oluşturmak ve değiştirmek için kullanılabilir.</p>
     <p xml:lang="uk">Ark — програма з графічним інтерфейсом, призначена для стискання даних у архіви та видобування даних з архівів. Передбачено підтримку декількох форматів архівів, зокрема tar, gzip, bzip2, rar та zip, а також образів дисків. Ark можна використовувати для перегляду, видобування, створення та внесення змін до архівів.</p>
     <p xml:lang="x-test">xxArk is a graphical file compression/decompression utility with support for multiple formats, including tar, gzip, bzip2, rar and zip, as well as CD-ROM images. Ark can be used to browse, extract, create, and modify archives.xx</p>
     <p xml:lang="zh-CN">Ark 是图形文件压缩和解压工具，支持多种格式，包括 tar, gzip, bzip2, rar and zip 以及 CD-ROM 镜像。Ark 可以用来浏览、解压、创建和修改压缩包。</p>
@@ -135,6 +137,7 @@
     <p xml:lang="sr-ijekavian">Могућности:</p>
     <p xml:lang="sr-ijekavianlatin">Mogućnosti:</p>
     <p xml:lang="sv">Funktioner:</p>
+    <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-CN">功能：</p>
@@ -168,6 +171,7 @@
       <li xml:lang="sr-ijekavian">Више подржаних формата: гзип, бзип2, ЗИП, РАР, 7зип, итд.</li>
       <li xml:lang="sr-ijekavianlatin">Više podržanih formata: gzip, bzip2, ZIP, RAR, 7zip, itd.</li>
       <li xml:lang="sv">En mängd format stöds: gzip, bzip2, zip, rar, 7z med flera</li>
+      <li xml:lang="tr">Çeşitli biçimler destekleniyor: gzip, bzip2, zip, rar, 7z ve dahası</li>
       <li xml:lang="uk">Підтримка декількох форматів: gzip, bzip2, zip, rar, 7z тощо</li>
       <li xml:lang="x-test">xxSeveral formats supported: gzip, bzip2, zip, rar, 7z and morexx</li>
       <li xml:lang="zh-CN">支持多种格式：gzip, bzip2, zip, rar, 7z 等</li>
@@ -200,6 +204,7 @@
       <li xml:lang="sr-ijekavian">Преглед садржаја фајлова без распакивања.</li>
       <li xml:lang="sr-ijekavianlatin">Pregled sadržaja fajlova bez raspakivanja.</li>
       <li xml:lang="sv">Förhandsgranska filinnehåll utan att packa upp filer</li>
+      <li xml:lang="tr">Dosyaları ayıklamadan dosya içeriği önizlemesi</li>
       <li xml:lang="uk">Попередній перегляд вмісту файлів без розпаковування</li>
       <li xml:lang="x-test">xxPreview file contents without extracting filesxx</li>
       <li xml:lang="zh-CN">不解压就预览文件</li>
