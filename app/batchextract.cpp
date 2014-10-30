@@ -33,7 +33,7 @@
 #include "kerfuffle/jobs.h"
 #include "kerfuffle/queries.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KRun>
@@ -85,7 +85,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
 
     Kerfuffle::ExtractJob *job = archive->copyFiles(QVariantList(), destination, options);
 
-    kDebug() << QString(QLatin1String( "Registering job from archive %1, to %2, preservePaths %3" )).arg(archive->fileName()).arg(destination).arg(preservePaths());
+    //qDebug() << QString(QLatin1String( "Registering job from archive %1, to %2, preservePaths %3" )).arg(archive->fileName()).arg(destination).arg(preservePaths());
 
     addSubjob(job);
 
@@ -139,7 +139,7 @@ void BatchExtract::slotStartJob()
 
     m_initialJobCount = subjobs().size();
 
-    kDebug() << "Starting first job";
+    //qDebug() << "Starting first job";
 
     subjobs().at(0)->start();
 }
@@ -153,12 +153,12 @@ void BatchExtract::showFailedFiles()
 
 void BatchExtract::slotResult(KJob *job)
 {
-    kDebug();
+    //qDebug();
 
     // TODO: The user must be informed about which file caused the error, and that the other files
     //       in the queue will not be extracted.
     if (job->error()) {
-        kDebug() << "There was en error, " << job->errorText();
+        //qDebug() << "There was en error, " << job->errorText();
 
         setErrorText(job->errorText());
         setError(job->error());
@@ -183,10 +183,10 @@ void BatchExtract::slotResult(KJob *job)
             KRun::runUrl(destination, QLatin1String( "inode/directory" ), 0);
         }
 
-        kDebug() << "Finished, emitting the result";
+        //qDebug() << "Finished, emitting the result";
         emitResult();
     } else {
-        kDebug() << "Starting the next job";
+        //qDebug() << "Starting the next job";
         emit description(this,
                          i18n("Extracting file..."),
                          qMakePair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),

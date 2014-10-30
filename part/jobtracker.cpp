@@ -21,7 +21,7 @@
  */
 #include "jobtracker.h"
 
-#include <KDebug>
+#include <QDebug>
 
 JobTrackerWidget::JobTrackerWidget(QWidget *parent)
         : QFrame(parent)

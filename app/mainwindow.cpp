@@ -32,7 +32,7 @@
 #include <KActionCollection>
 #include <KStandardAction>
 #include <KRecentFilesAction>
-#include <KDebug>
+#include <QDebug>
 #include <KEditToolBar>
 #include <KShortcutsDialog>
 #include <KService>
@@ -76,7 +76,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::dragEnterEvent(QDragEnterEvent * event)
 {
-    kDebug() << event;
+    //qDebug() << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) {
@@ -91,7 +91,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent * event)
 
 void MainWindow::dropEvent(QDropEvent * event)
 {
-    kDebug() << event;
+    //qDebug() << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) {
@@ -110,7 +110,7 @@ void MainWindow::dropEvent(QDropEvent * event)
 
 void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 {
-    kDebug() << event;
+    //qDebug() << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) {
@@ -132,7 +132,7 @@ bool MainWindow::loadPart()
 //    }
 //    if (!factory || !m_part) {
 //        KMessageBox::error(this, i18n("Unable to find Ark's KPart component, please check your installation."));
-//        kWarning() << "Error loading Ark KPart: " << loader.errorString();
+//        qWarning() << "Error loading Ark KPart: " << loader.errorString();
 //        return false;
 //    }
 
@@ -147,7 +147,7 @@ bool MainWindow::loadPart()
 
     if (!m_part) {
         KMessageBox::error(this, i18n("Unable to find Ark's KPart component, please check your installation."));
-        kWarning() << "Error loading Ark KPart: ";
+        qWarning() << "Error loading Ark KPart: ";
         return false;
     }
 
@@ -265,7 +265,7 @@ void MainWindow::newArchive()
 
     const QStringList mimeTypes = Kerfuffle::supportedWriteMimeTypes();
 
-    kDebug() << "Supported mimetypes are" << mimeTypes.join( QLatin1String( " " ));
+    //qDebug() << "Supported mimetypes are" << mimeTypes.join( QLatin1String( " " ));
 
     QFileDialog dlg(this);
     dlg.setMimeTypeFilters(mimeTypes);

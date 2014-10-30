@@ -36,7 +36,7 @@
 #include <K4AboutData>
 #include <KActionCollection>
 #include <KConfigGroup>
-#include <KDebug>
+#include <QDebug>
 #include <KGuiItem>
 #include <KIO/Job>
 #include <KIO/NetAccess>
@@ -86,7 +86,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
     const QString pathName = QStringLiteral("/DndExtract/%1").arg(s_instanceCounter++);
     if (!QDBusConnection::sessionBus().registerObject(pathName, this)) {
-        kFatal() << "Could not register a D-Bus object for drag'n'drop";
+        qCritical() << "Could not register a D-Bus object for drag'n'drop";
     }
 
     m_model = new ArchiveModel(pathName, this);
@@ -156,7 +156,7 @@ void Part::registerJob(KJob* job)
 //       See bugs #189322 and #204323.
 void Part::extractSelectedFilesTo(const QString& localPath)
 {
-    kDebug() << "Extract to " << localPath;
+    //qDebug() << "Extract to " << localPath;
     if (!m_model) {
         return;
     }
@@ -169,7 +169,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
     }
 
     QVariant internalRoot;
-    kDebug() << "valid " << m_view->currentIndex().parent().isValid();
+    //qDebug() << "valid " << m_view->currentIndex().parent().isValid();
     if (m_view->currentIndex().parent().isValid()) {
         internalRoot = m_model->entryForIndex(m_view->currentIndex().parent()).value(InternalID);
     }
@@ -188,7 +188,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
         return;
     }
 
-    kDebug() << "selected files are " << files;
+    //qDebug() << "selected files are " << files;
     Kerfuffle::ExtractionOptions options;
     options[QLatin1String( "PreservePaths" )] = true;
     if (!internalRoot.isNull()) {

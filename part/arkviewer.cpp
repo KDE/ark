@@ -23,7 +23,7 @@
 
 #include <KLocalizedString>
 #include <KMimeTypeTrader>
-#include <KDebug>
+#include <QDebug>
 #include <KIconLoader>
 #include <KVBox>
 #include <KMessageBox>
@@ -90,7 +90,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
 {
     QMimeDatabase db;
     QMimeType mimeType = db.mimeTypeForFile(fileName);
-    kDebug() << "MIME type" << mimeType.name();
+    //qDebug() << "MIME type" << mimeType.name();
     KService::Ptr viewer = ArkViewer::getViewer(mimeType.name());
 
     const bool needsExternalViewer = (!viewer &&
@@ -226,7 +226,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
     //       maybe there should be an option controlling this
     KHTMLPart *khtmlPart = qobject_cast<KHTMLPart*>(m_part.data());
     if (khtmlPart) {
-        kDebug() << "Disabling javascripts, plugins, java and external references for KHTMLPart";
+        //qDebug() << "Disabling javascripts, plugins, java and external references for KHTMLPart";
         khtmlPart->setJScriptEnabled(false);
         khtmlPart->setJavaEnabled(false);
         khtmlPart->setPluginsEnabled(false);
@@ -241,7 +241,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
 
 void ArkViewer::slotOpenUrlRequestDelayed(const QUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments)
 {
-    kDebug() << "Opening URL: " << url;
+    //qDebug() << "Opening URL: " << url;
 
     Q_UNUSED(arguments)
     Q_UNUSED(browserArguments)
