@@ -357,7 +357,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
     m_process = new KPtyProcess;
     m_process->setPtyChannels(KPtyProcess::StdinChannel);
     QEventLoop loop;
-    connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), &loop, SLOT(quit()), Qt::DirectConnection);
+    connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), &loop, &QEventLoop::quit, Qt::DirectConnection);
 #endif
 
     m_process->setOutputChannelMode(KProcess::MergedChannels);
@@ -365,7 +365,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
     m_process->setProgram(programPath, arguments);
 
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
-    connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), SLOT(processFinished(int,QProcess::ExitStatus)), Qt::DirectConnection);
+    connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::processFinished, Qt::DirectConnection);
 
     m_stdOutData.clear();
 

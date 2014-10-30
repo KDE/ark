@@ -157,4 +157,3 @@ const QString LibSingleFileInterface::uncompressedFileName() const
     return uncompressedName + QLatin1String( ".uncompressed" );
 }
 
-#include "singlefileplugin.moc"

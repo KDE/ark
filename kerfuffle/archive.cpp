@@ -158,8 +158,7 @@ ListJob* Archive::list()
     //if this job has not been listed before, we grab the opportunity to
     //collect some information about the archive
     if (!m_hasBeenListed) {
-        connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(onListFinished(KJob*)));
+        connect(job, &ListJob::result, this, &Archive::onListFinished);
     }
     return job;
 }
@@ -178,8 +177,7 @@ AddJob* Archive::addFiles(const QStringList & files, const CompressionOptions& o
 {
     Q_ASSERT(!m_iface->isReadOnly());
     AddJob *newJob = new AddJob(files, options, static_cast<ReadWriteArchiveInterface*>(m_iface), this);
-    connect(newJob, SIGNAL(result(KJob*)),
-            this, SLOT(onAddFinished(KJob*)));
+    connect(newJob, &AddJob::result, this, &Archive::onAddFinished);
     return newJob;
 }
 
@@ -237,15 +235,13 @@ void Archive::onListFinished(KJob* job)
 void Archive::listIfNotListed()
 {
     if (!m_hasBeenListed) {
-        KJob *job = list();
+        ListJob *job = list();
 
-        connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
-                SLOT(onUserQuery(Kerfuffle::Query*)));
+        connect(job, &ListJob::userQuery, this, &Archive::onUserQuery);
 
         QEventLoop loop(this);
 
-        connect(job, SIGNAL(result(KJob*)),
-                &loop, SLOT(quit()));
+        connect(job, &KJob::result, &loop, &QEventLoop::quit);
         job->start();
         loop.exec(); // krazy:exclude=crashy
     }

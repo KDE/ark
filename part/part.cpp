@@ -45,7 +45,6 @@
 #include <KRun>
 #include <KSelectAction>
 #include <KStandardGuiItem>
-#include <KTempDir>
 #include <KToggleAction>
 #include <KLocalizedString>
 
