@@ -22,6 +22,7 @@
   <name xml:lang="nb">Ark</name>
   <name xml:lang="nds">Ark</name>
   <name xml:lang="nl">Ark</name>
+  <name xml:lang="pa">ਆਕ</name>
   <name xml:lang="pl">Ark</name>
   <name xml:lang="pt">Ark</name>
   <name xml:lang="pt-BR">Ark</name>
@@ -56,6 +57,7 @@
   <summary xml:lang="nb">Arkiveringsverktøy</summary>
   <summary xml:lang="nds">Archievwarktüüch</summary>
   <summary xml:lang="nl">Archiefgereedschap</summary>
+  <summary xml:lang="pa">ਅਕਾਇਵ ਬਣਾਉਣ ਟੂਲ</summary>
   <summary xml:lang="pl">Narzędzie do archiwizowania</summary>
   <summary xml:lang="pt">Ferramenta de Arquivo</summary>
   <summary xml:lang="pt-BR">Ferramenta de arquivamento</summary>
@@ -127,6 +129,7 @@
     <p xml:lang="nb">Egenskaper:</p>
     <p xml:lang="nds">Markmalen:</p>
     <p xml:lang="nl">Mogelijkheden:</p>
+    <p xml:lang="pa">ਲੱਛਣ:</p>
     <p xml:lang="pl">Cechy:</p>
     <p xml:lang="pt">Características:</p>
     <p xml:lang="pt-BR">Funcionalidades:</p>
