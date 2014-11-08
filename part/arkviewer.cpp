@@ -27,7 +27,7 @@
 #include <KIconLoader>
 #include <KVBox>
 #include <KMessageBox>
-#include <KProgressDialog>
+#include <QProgressDialog>
 #include <KRun>
 #include <KIO/NetAccess>
 #include <KHtml/KHTMLPart>
@@ -63,14 +63,14 @@ void ArkViewer::dialogClosed()
     saveDialogSize(conf);
 
     if (m_part) {
-        KProgressDialog progressDialog
-            (this, i18n("Closing preview"),
-             i18n("Please wait while the preview is being closed..."));
+        QProgressDialog progressDialog(this);
+        progressDialog.setWindowTitle(i18n("Closing preview"));
+        progressDialog.setLabelText(i18n("Please wait while the preview is being closed..."));
 
         progressDialog.setMinimumDuration(500);
         progressDialog.setModal(true);
-        progressDialog.setAllowCancel(false);
-        progressDialog.progressBar()->setRange(0, 0);
+        progressDialog.setCancelButton(0);
+        progressDialog.setRange(0, 0);
 
         // #261785: this preview dialog is not modal, so we need to delete
         //          the previewed file ourselves when the dialog is closed;
