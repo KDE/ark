@@ -4,9 +4,9 @@ set(SUPPORTED_CLI7Z_MIMETYPES "application/x-7z-compressed;")
 
 set(kerfuffle_cli7z_SRCS cliplugin.cpp)
 
-kde4_add_plugin(kerfuffle_cli7z ${kerfuffle_cli7z_SRCS})
+add_library(kerfuffle_cli7z MODULE ${kerfuffle_cli7z_SRCS})
 
-target_link_libraries(kerfuffle_cli7z  ${KDE4_KDECORE_LIBS} ${KDE4_KIO_LIBS} kerfuffle )
+target_link_libraries(kerfuffle_cli7z  KF5::KDELibs4Support KF5::KIOCore kerfuffle )
 
 configure_file(
             ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_cli7z.desktop.cmake

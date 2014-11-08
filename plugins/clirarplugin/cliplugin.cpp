@@ -21,7 +21,7 @@
  */
 
 #include "cliplugin.h"
-#include "kerfuffle/cliinterface.h"
+//#include "kerfuffle/cliinterface.h"
 #include "kerfuffle/kerfuffle_export.h"
 
 #include <KDebug>
@@ -30,6 +30,9 @@
 #include <QDir>
 #include <QString>
 #include <QStringList>
+
+
+
 
 using namespace Kerfuffle;
 
@@ -356,7 +359,6 @@ bool CliPlugin::readListLine(const QString &line)
 
     return true;
 }
-
 KERFUFFLE_EXPORT_PLUGIN(CliPlugin)
-
 #include "cliplugin.moc"
+

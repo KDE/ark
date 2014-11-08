@@ -26,9 +26,9 @@ configure_file(
 
 set(kerfuffle_libarchive_SRCS libarchivehandler.cpp)
 
-kde4_add_plugin(kerfuffle_libarchive ${kerfuffle_libarchive_SRCS})
+add_library(kerfuffle_libarchive MODULE ${kerfuffle_libarchive_SRCS})
 
-target_link_libraries(kerfuffle_libarchive  ${KDE4_KIO_LIBS} ${KDE4_KDECORE_LIBS} ${LIBARCHIVE_LIBRARY} kerfuffle )
+target_link_libraries(kerfuffle_libarchive  KF5::KIOCore KF5::KDELibs4Support ${LIBARCHIVE_LIBRARY} kerfuffle )
 
 install(TARGETS kerfuffle_libarchive  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
