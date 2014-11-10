@@ -26,11 +26,10 @@
 #include "kerfuffle_macro.h"
 
 #include <QDateTime>
+#include <QDebug>
 #include <QDir>
 #include <QLatin1String>
 #include <QString>
-
-#include <KDebug>
 
 using namespace Kerfuffle;
 
@@ -85,13 +84,13 @@ bool CliPlugin::readListLine(const QString& line)
     switch (m_state) {
     case ReadStateHeader:
         if (line.startsWith(QLatin1String("Listing archive:"))) {
-            kDebug() << "Archive name: "
+            qDebug() << "Archive name: "
                      << line.right(line.size() - 16).trimmed();
         } else if ((line == archiveInfoDelimiter1) ||
                    (line == archiveInfoDelimiter2)) {
             m_state = ReadStateArchiveInformation;
         } else if (line.contains(QLatin1String( "Error:" ))) {
-            kDebug() << line.mid(6);
+            qDebug() << line.mid(6);
         }
         break;
 
@@ -100,7 +99,7 @@ bool CliPlugin::readListLine(const QString& line)
             m_state = ReadStateEntryInformation;
         } else if (line.startsWith(QLatin1String("Type ="))) {
             const QString type = line.mid(7).trimmed();
-            kDebug() << "Archive type: " << type;
+            qDebug() << "Archive type: " << type;
 
             if (type == QLatin1String("7z")) {
                 m_archiveType = ArchiveType7z;
@@ -114,7 +113,7 @@ bool CliPlugin::readListLine(const QString& line)
                 m_archiveType = ArchiveTypeZip;
             } else {
                 // Should not happen
-                kWarning() << "Unsupported archive type";
+                qWarning() << "Unsupported archive type";
                 return false;
             }
         }
@@ -175,7 +174,5 @@ bool CliPlugin::readListLine(const QString& line)
 
     return true;
 }
-
-KERFUFFLE_EXPORT_PLUGIN(CliPlugin)
 
 #include "cliplugin.moc"

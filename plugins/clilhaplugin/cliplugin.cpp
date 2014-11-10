@@ -25,7 +25,6 @@
 #include "kerfuffle_macro.h"
 #include <QDate>
 #include <QTime>
-#include <kdebug.h>
 
 using namespace Kerfuffle;
 
@@ -141,5 +140,4 @@ bool CliPlugin::readListLine(const QString &line)
     return true;
 }
 
-KERFUFFLE_EXPORT_PLUGIN(CliPlugin)
 #include "cliplugin.moc"

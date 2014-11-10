@@ -6,7 +6,7 @@ set(kerfuffle_cli_SRCS cliplugin.cpp)
 
 add_library(kerfuffle_clilha MODULE ${kerfuffle_cli_SRCS})
 
-target_link_libraries(kerfuffle_clilha  KF5::KDELibs4Support KF5::KIOCore kerfuffle )
+target_link_libraries(kerfuffle_clilha KF5::KIOCore kerfuffle )
 
 configure_file(
             ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_clilha.desktop.cmake
