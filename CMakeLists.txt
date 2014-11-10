@@ -28,7 +28,7 @@ ecm_setup_version(${ARK_VERSION} VARIABLE_PREFIX KERFUFFLE
 set(REQUIRED_QT_VERSION 5.2.0)
 set(KF5_MIN_VERSION 5.2.0)
 
-find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core Widgets)
+find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core Widgets Test)
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive Config Pty KHtml KDELibs4Support) 
 
 option(WITH_TEST_COVERAGE "Build with test coverage support" OFF)

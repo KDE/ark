@@ -19,7 +19,7 @@ if (LIBARCHIVE_FOUND)
     endif( HAVE_LIBARCHIVE_READ_DISK_API )
 endif (LIBARCHIVE_FOUND)
 
-#add_subdirectory( clirarplugin )
+add_subdirectory( clirarplugin )
 add_subdirectory( cli7zplugin )
 add_subdirectory( clizipplugin )
 add_subdirectory( libsinglefileplugin )

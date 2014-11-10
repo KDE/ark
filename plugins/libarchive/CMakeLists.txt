@@ -28,7 +28,7 @@ set(kerfuffle_libarchive_SRCS libarchivehandler.cpp)
 
 add_library(kerfuffle_libarchive MODULE ${kerfuffle_libarchive_SRCS})
 
-target_link_libraries(kerfuffle_libarchive  KF5::KIOCore KF5::KDELibs4Support ${LIBARCHIVE_LIBRARY} kerfuffle )
+target_link_libraries(kerfuffle_libarchive  KF5::KIOCore ${LIBARCHIVE_LIBRARY} kerfuffle )
 
 install(TARGETS kerfuffle_libarchive  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
