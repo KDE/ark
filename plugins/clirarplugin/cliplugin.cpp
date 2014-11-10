@@ -24,9 +24,8 @@
 //#include "kerfuffle/cliinterface.h"
 #include "kerfuffle/kerfuffle_export.h"
 
-#include <KDebug>
-
 #include <QDateTime>
+#include <QDebug>
 #include <QDir>
 #include <QString>
 #include <QStringList>
@@ -155,7 +154,7 @@ bool CliPlugin::readListLine(const QString &line)
             e[Permissions] = m_entryDetails.value(QLatin1String("attributes"));
             e[CRC] = m_entryDetails.value(QLatin1String("crc32"));
             e[IsPasswordProtected] = m_isPasswordProtected;
-            kDebug() << "Added entry: " << e;
+            qDebug() << "Added entry: " << e;
 
             emit entry(e);
 
@@ -246,8 +245,8 @@ bool CliPlugin::readListLine(const QString &line)
                 m_remainingIgnoredSubHeaderLines = 3;
             }
 
-            kDebug() << "Found a subheader of type" << subHeaderType;
-            kDebug() << "The next" << m_remainingIgnoredSubHeaderLines
+            qDebug() << "Found a subheader of type" << subHeaderType;
+            qDebug() << "The next" << m_remainingIgnoredSubHeaderLines
                      << "lines will be ignored";
 
             return true;
@@ -331,7 +330,7 @@ bool CliPlugin::readListLine(const QString &line)
         e[Method] = details.at(7);
         e[Version] = details.at(8);
         e[IsPasswordProtected] = m_isPasswordProtected;
-        kDebug() << "Added entry: " << e;
+        qDebug() << "Added entry: " << e;
 
         // #314297: When RAR 3.x and RAR 4.x list a symlink, they output an
         //          extra line after the "Host OS/Solid/Old" one mentioning the

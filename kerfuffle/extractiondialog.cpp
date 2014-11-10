@@ -31,7 +31,6 @@
 #include <KLocalizedString>
 #include <KIconLoader>
 #include <KMessageBox>
-#include <KDebug>
 #include <KIO/NetAccess>
 
 #include <QDir>

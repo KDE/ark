@@ -27,12 +27,12 @@
 
 #include "jsonarchiveinterface.h"
 
-#include <kdebug.h>
+#include <QDebug>
 #include <kglobal.h>
 #include <qtest_kde.h>
 
-#include <qeventloop.h>
-#include <qsignalspy.h>
+#include <QEventLoop>
+#include <QSignalSpy>
 
 using Kerfuffle::ArchiveEntry;
 
@@ -98,7 +98,7 @@ JSONArchiveInterface *JobsTest::createArchiveInterface(const QString& filePath)
 
     JSONArchiveInterface *iface = new JSONArchiveInterface(this, args);
     if (!iface->open()) {
-        kDebug() << "Could not open" << filePath;
+        qDebug() << "Could not open" << filePath;
         return NULL;
     }
 

@@ -23,10 +23,10 @@
 
 #include <KZip>
 #include <KTar>
-#include <KDebug>
 #include <KLocalizedString>
 #include <KPluginFactory>
 
+#include <QDebug>
 #include <QFileInfo>
 #include <QSet>
 #include <QDir>
@@ -227,7 +227,7 @@ void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QStrin
 bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::CompressionOptions &options)
 {
     Q_UNUSED(options)
-    kDebug() << "Starting...";
+    qDebug() << "Starting...";
 //  delete m_archive;
 //  m_archive = 0;
     if (archive()->isOpen()) {
@@ -238,10 +238,10 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
         return false;
     }
 
-    kDebug() << "Archive opened for writing...";
-    kDebug() << "Will add " << files.count() << " files";
+    qDebug() << "Archive opened for writing...";
+    qDebug() << "Will add " << files.count() << " files";
     foreach(const QString &path, files) {
-        kDebug() << "Adding " << path;
+        qDebug() << "Adding " << path;
         QFileInfo fi(path);
         Q_ASSERT(fi.exists());
 
@@ -264,9 +264,9 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
             }
         }
     }
-    kDebug() << "Closing the archive";
+    qDebug() << "Closing the archive";
     archive()->close();
-    kDebug() << "Done";
+    qDebug() << "Done";
     return true;
 }
 

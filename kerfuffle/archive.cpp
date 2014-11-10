@@ -30,12 +30,12 @@
 #include "jobs.h"
 
 #include <QByteArray>
+#include <QDebug>
 #include <QEventLoop>
 #include <QFile>
 #include <QFileInfo>
 #include <QMimeDatabase>
 
-#include <KDebug>
 #include <KPluginLoader>
 #include <KMimeTypeTrader>
 #include <KServiceTypeTrader>
@@ -95,7 +95,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     const KService::List offers = findPluginOffers(fileName, fixedMimeType);
 
     if (offers.isEmpty()) {
-        kDebug() << "Could not find a plugin to handle" << fileName;
+        qDebug() << "Could not find a plugin to handle" << fileName;
         return Q_NULLPTR;
     }
 
@@ -104,7 +104,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
 
     KPluginFactory * const factory = KPluginLoader(pluginName).factory();
     if (!factory) {
-        kDebug() << "Invalid plugin factory for" << pluginName;
+        qDebug() << "Invalid plugin factory for" << pluginName;
         return Q_NULLPTR;
     }
 
@@ -113,7 +113,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
 
     ReadOnlyArchiveInterface * const iface = factory->create<ReadOnlyArchiveInterface>(0, args);
     if (!iface) {
-        kDebug() << "Could not create plugin instance" << pluginName << "for" << fileName;
+        qDebug() << "Could not create plugin instance" << pluginName << "for" << fileName;
         return Q_NULLPTR;
     }
 
@@ -297,7 +297,7 @@ QStringList supportedMimeTypes()
         }
     }
 
-    kDebug() << "Returning" << supported;
+    qDebug() << "Returning" << supported;
 
     return supported;
 }
@@ -324,7 +324,7 @@ QStringList supportedWriteMimeTypes()
         }
     }
 
-    kDebug() << "Returning" << supported;
+    qDebug() << "Returning" << supported;
 
     return supported;
 }

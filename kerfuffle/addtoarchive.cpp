@@ -32,12 +32,12 @@
 #include "jobs.h"
 
 #include <KConfig>
-#include <kdebug.h>
 #include <kjobtrackerinterface.h>
 #include <kmessagebox.h>
 #include <KLocalizedString>
 #include <kio/job.h>
 
+#include <QDebug>
 #include <QFileInfo>
 #include <QDir>
 #include <QTimer>
@@ -118,7 +118,7 @@ void AddToArchive::start()
 //       the returns should be preceded by emitResult().
 void AddToArchive::slotStartJob()
 {
-    kDebug();
+    qDebug();
 
     Kerfuffle::CompressionOptions options;
 
@@ -138,7 +138,7 @@ void AddToArchive::slotStartJob()
         }
 
         if (m_firstPath.isEmpty()) {
-            kDebug() << "Weird, this should not happen. no firstpath defined. aborting";
+            qDebug() << "Weird, this should not happen. no firstpath defined. aborting";
             return;
         }
 
@@ -171,7 +171,7 @@ void AddToArchive::slotStartJob()
 
     if (m_changeToFirstPath) {
         if (m_firstPath.isEmpty()) {
-            kDebug() << "Weird, this should not happen. no firstpath defined. aborting";
+            qDebug() << "Weird, this should not happen. no firstpath defined. aborting";
             return;
         }
 
@@ -182,7 +182,7 @@ void AddToArchive::slotStartJob()
         }
 
         options[QLatin1String( "GlobalWorkDir" )] = stripDir.path();
-        kDebug() << "Setting GlobalWorkDir to " << stripDir.path();
+        qDebug() << "Setting GlobalWorkDir to " << stripDir.path();
     }
 
     Kerfuffle::AddJob *job =
@@ -197,7 +197,7 @@ void AddToArchive::slotStartJob()
 
 void AddToArchive::slotFinished(KJob *job)
 {
-    kDebug();
+    qDebug();
 
     if (job->error()) {
         KMessageBox::error(Q_NULLPTR, job->errorText());

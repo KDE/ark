@@ -29,12 +29,12 @@
 
 #include <KLocalizedString>
 #include <KPasswordDialog>
-#include <kdebug.h>
 #include <kio/renamedialog.h>
 
-#include <QUrl>
 #include <QApplication>
+#include <QDebug>
 #include <QWeakPointer>
+#include <QUrl>
 
 namespace Kerfuffle
 {
@@ -50,7 +50,7 @@ QVariant Query::response() const
 
 void Query::waitForResponse()
 {
-    kDebug();
+    qDebug();
 
     //if there is no response set yet, wait
     if (!m_data.contains(QLatin1String("response"))) {
@@ -61,7 +61,7 @@ void Query::waitForResponse()
 
 void Query::setResponse(const QVariant &response)
 {
-    kDebug();
+    qDebug();
 
     m_data[QLatin1String( "response" )] = response;
     m_responseCondition.wakeAll();

@@ -26,18 +26,18 @@
  */
 
 #include "archiveinterface.h"
-#include <kdebug.h>
 #include <kfileitem.h>
 
-#include <QFileInfo>
+#include <QDebug>
 #include <QDir>
+#include <QFileInfo>
 
 namespace Kerfuffle
 {
 ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVariantList & args)
         : QObject(parent), m_waitForFinishedSignal(false)
 {
-    kDebug();
+    qDebug();
     m_filename = args.first().toString();
 }
 

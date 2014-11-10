@@ -36,11 +36,11 @@
 # include <KPtyProcess>
 #endif
 
-#include <KDebug>
 #include <KLocalizedString>
 
 #include <QApplication>
 #include <QDateTime>
+#include <QDebug>
 #include <QDir>
 #include <QEventLoop>
 #include <QFile>
@@ -116,7 +116,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
     //now replace the various elements in the list
     for (int i = 0; i < args.size(); ++i) {
         QString argument = args.at(i);
-        kDebug() << "Processing argument " << argument;
+        qDebug() << "Processing argument " << argument;
 
         if (argument == QLatin1String( "$Archive" )) {
             args[i] = filename();
@@ -156,7 +156,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
             //the password in advance.
             if ((options.value(QLatin1String("PasswordProtectedHint")).toBool()) &&
                 (password().isEmpty())) {
-                kDebug() << "Password hint enabled, querying user";
+                qDebug() << "Password hint enabled, querying user";
 
                 Kerfuffle::PasswordNeededQuery query(filename());
                 emit userQuery(&query);
@@ -200,7 +200,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
             QString rootNode;
             if (options.contains(QLatin1String( "RootNode" ))) {
                 rootNode = options.value(QLatin1String( "RootNode" )).toString();
-                kDebug() << "Set root node " << rootNode;
+                qDebug() << "Set root node " << rootNode;
             }
 
             if (!rootNode.isEmpty()) {
@@ -252,7 +252,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
     const QString globalWorkDir = options.value(QLatin1String( "GlobalWorkDir" )).toString();
     const QDir workDir = globalWorkDir.isEmpty() ? QDir::current() : QDir(globalWorkDir);
     if (!globalWorkDir.isEmpty()) {
-        kDebug() << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
+        qDebug() << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
         QDir::setCurrent(globalWorkDir);
     }
 
@@ -262,7 +262,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
     //now replace the various elements in the list
     for (int i = 0; i < args.size(); ++i) {
         const QString argument = args.at(i);
-        kDebug() << "Processing argument " << argument;
+        qDebug() << "Processing argument " << argument;
 
         if (argument == QLatin1String( "$Archive" )) {
             args[i] = filename();
@@ -304,7 +304,7 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
     //now replace the various elements in the list
     for (int i = 0; i < args.size(); ++i) {
         QString argument = args.at(i);
-        kDebug() << "Processing argument " << argument;
+        qDebug() << "Processing argument " << argument;
 
         if (argument == QLatin1String( "$Archive" )) {
             args[i] = filename();
@@ -344,7 +344,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
         return false;
     }
 
-    kDebug() << "Executing" << programPath << arguments;
+    qDebug() << "Executing" << programPath << arguments;
 
     if (m_process) {
         m_process->waitForFinished();
@@ -384,7 +384,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
 
 void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    kDebug() << exitCode << exitStatus;
+    qDebug() << exitCode << exitStatus;
 
     //if the m_process pointer is gone, then there is nothing to worry
     //about here
@@ -418,7 +418,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
 void CliInterface::failOperation()
 {
     // TODO: Would be good to unit test #304764/#304178.
-    kDebug();
+    qDebug();
     doKill();
 }
 
@@ -512,7 +512,7 @@ void CliInterface::handleLine(const QString& line)
 
     if (m_operationMode == Copy) {
         if (checkForPasswordPromptMessage(line)) {
-            kDebug() << "Found a password prompt";
+            qDebug() << "Found a password prompt";
 
             Kerfuffle::PasswordNeededQuery query(filename());
             emit userQuery(&query);
@@ -532,14 +532,14 @@ void CliInterface::handleLine(const QString& line)
         }
 
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
-            kDebug() << "Wrong password!";
+            qDebug() << "Wrong password!";
             emit error(i18n("Incorrect password."));
             failOperation();
             return;
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
-            kDebug() << "Error in extraction!!";
+            qDebug() << "Error in extraction!!";
             emit error(i18n("Extraction failed because of an unexpected error."));
             failOperation();
             return;
@@ -552,7 +552,7 @@ void CliInterface::handleLine(const QString& line)
 
     if (m_operationMode == List) {
         if (checkForPasswordPromptMessage(line)) {
-            kDebug() << "Found a password prompt";
+            qDebug() << "Found a password prompt";
 
             Kerfuffle::PasswordNeededQuery query(filename());
             emit userQuery(&query);
@@ -572,14 +572,14 @@ void CliInterface::handleLine(const QString& line)
         }
 
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
-            kDebug() << "Wrong password!";
+            qDebug() << "Wrong password!";
             emit error(i18n("Incorrect password."));
             failOperation();
             return;
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
-            kDebug() << "Error in extraction!!";
+            qDebug() << "Error in extraction!!";
             emit error(i18n("Extraction failed because of an unexpected error."));
             failOperation();
             return;
@@ -618,7 +618,7 @@ bool CliInterface::checkForFileExistsMessage(const QString& line)
         m_existsPattern.setPattern(m_param.value(FileExistsExpression).toString());
     }
     if (m_existsPattern.indexIn(line) != -1) {
-        kDebug() << "Detected file existing!! Filename " << m_existsPattern.cap(1);
+        qDebug() << "Detected file existing!! Filename " << m_existsPattern.cap(1);
         return true;
     }
 
@@ -636,10 +636,10 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
     Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char( '/' ) + filename);
     query.setNoRenameMode(true);
     emit userQuery(&query);
-    kDebug() << "Waiting response";
+    qDebug() << "Waiting response";
     query.waitForResponse();
 
-    kDebug() << "Finished response";
+    qDebug() << "Finished response";
 
     QString responseToProcess;
     const QStringList choices = m_param.value(FileExistsInput).toStringList();
@@ -740,7 +740,7 @@ void CliInterface::writeToProcess(const QByteArray& data)
     Q_ASSERT(m_process);
     Q_ASSERT(!data.isNull());
 
-    kDebug() << "Writing" << data << "to the process";
+    qDebug() << "Writing" << data << "to the process";
 
 #ifdef Q_OS_WIN
     m_process->write(data);

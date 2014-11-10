@@ -23,8 +23,7 @@
 #include "cliplugin.h"
 #include "kerfuffle/kerfuffle_export.h"
 
-#include <kdebug.h>
-
+#include <QDebug>
 #include <QDir>
 #include <QDate>
 #include <QTime>
@@ -124,7 +123,7 @@ bool CliPlugin::readListLine(const QString &line)
         m_entryFilename += QLatin1Char('/');
     }
 
-    //kDebug() << m_entryFilename << " : " << fileprops;
+    //qDebug() << m_entryFilename << " : " << fileprops;
     ArchiveEntry e;
     e[ FileName ] = m_entryFilename;
     e[ InternalID ] = m_internalId;
@@ -138,7 +137,7 @@ bool CliPlugin::readListLine(const QString &line)
     e[ Method ] = fileprops[ 7 ];
     e[ Version ] = fileprops[ 8 ];
     e[ IsPasswordProtected] = m_isPasswordProtected;
-    kDebug() << "Added entry: " << e;
+    qDebug() << "Added entry: " << e;
 
     emit entry(e);
     m_isFirstLine = true;

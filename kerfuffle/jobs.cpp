@@ -27,9 +27,9 @@
 
 #include "jobs.h"
 
+#include <QDebug>
 #include <QThread>
 
-#include <KDebug>
 #include <KLocalizedString>
 
 //#define DEBUG_RACECONDITION
@@ -153,7 +153,7 @@ void Job::onEntryRemoved(const QString & path)
 
 void Job::onFinished(bool result)
 {
-    kDebug() << result;
+    qDebug() << result;
 
     archiveInterface()->disconnect(this);
 
@@ -167,10 +167,10 @@ void Job::onUserQuery(Query *query)
 
 bool Job::doKill()
 {
-    kDebug();
+    qDebug();
     bool ret = archiveInterface()->doKill();
     if (!ret) {
-        kDebug() << "Killing does not seem to be supported here.";
+        qDebug() << "Killing does not seem to be supported here.";
     }
     return ret;
 }

@@ -28,11 +28,11 @@
 #include "kerfuffle/queries.h"
 
 #include <QByteArray>
+#include <QDebug>
 #include <QFile>
 #include <QFileInfo>
 #include <QString>
 
-#include <KDebug>
 #include <KFilterDev>
 #include <KLocalizedString>
 
@@ -65,7 +65,7 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
 
     QFile outputFile(outputFileName);
     if (!outputFile.open(QIODevice::WriteOnly)) {
-        kDebug() << "Failed to open output file" << outputFile.errorString();
+        qDebug() << "Failed to open output file" << outputFile.errorString();
         emit error(xi18nc("@info", "Ark could not extract <filename>%1</filename>.", outputFile.fileName()));
 
         return false;
@@ -73,7 +73,7 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
 
     QIODevice *device = KFilterDev::deviceForFile(filename(), m_mimeType, false);
     if (!device) {
-        kDebug() << "Could not create KFilterDev";
+        qDebug() << "Could not create KFilterDev";
         emit error(xi18nc("@info", "Ark could not open <filename>%1</filename> for extraction.", filename()));
 
         return false;
@@ -104,7 +104,7 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
 
 bool LibSingleFileInterface::list()
 {
-    kDebug();
+    qDebug();
 
     const QString filename = uncompressedFileName();
 
@@ -146,7 +146,7 @@ const QString LibSingleFileInterface::uncompressedFileName() const
     QString uncompressedName(QFileInfo(filename()).fileName());
 
     foreach(const QString & extension, m_possibleExtensions) {
-        kDebug() << extension;
+        qDebug() << extension;
 
         if (uncompressedName.endsWith(extension, Qt::CaseInsensitive)) {
             uncompressedName.chop(extension.size());
