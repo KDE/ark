@@ -22,9 +22,10 @@
 #include "cliplugin.h"
 
 #include "kerfuffle/kerfuffle_export.h"
-#include "kerfuffle_macro.h"
 #include <QDate>
 #include <QTime>
+
+#include <KPluginFactory>
 
 using namespace Kerfuffle;
 

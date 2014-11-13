@@ -23,13 +23,14 @@
 #include "cliplugin.h"
 #include "kerfuffle/cliinterface.h"
 #include "kerfuffle/kerfuffle_export.h"
-#include "kerfuffle_macro.h"
 
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
 #include <QLatin1String>
 #include <QString>
+
+#include <KPluginFactory>
 
 using namespace Kerfuffle;
 
