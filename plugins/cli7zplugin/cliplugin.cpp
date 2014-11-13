@@ -33,6 +33,8 @@
 
 using namespace Kerfuffle;
 
+K_PLUGIN_FACTORY( CliPluginFactory, registerPlugin< CliPlugin >(); )
+
 CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
         : CliInterface(parent, args)
         , m_archiveType(ArchiveType7z)

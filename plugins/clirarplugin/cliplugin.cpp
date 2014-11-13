@@ -29,12 +29,11 @@
 #include <QDir>
 #include <QString>
 #include <QStringList>
-
-
+#include <KPluginFactory>
 
 
 using namespace Kerfuffle;
-
+K_PLUGIN_FACTORY( CliPluginFactory, registerPlugin< CliPlugin >(); )
 CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
         : CliInterface(parent, args)
         , m_parseState(ParseStateColumnDescription1)
