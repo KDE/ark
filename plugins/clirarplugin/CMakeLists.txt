@@ -4,7 +4,7 @@ set(SUPPORTED_CLIRAR_MIMETYPES "application/x-rar;")
 
 set(kerfuffle_clirar_SRCS cliplugin.cpp)
 
-add_library(kerfuffle_clirar ${kerfuffle_clirar_SRCS})
+add_library(kerfuffle_clirar MODULE ${kerfuffle_clirar_SRCS})
 
 target_link_libraries(kerfuffle_clirar KF5::KIOCore kerfuffle )
 
