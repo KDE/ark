@@ -423,11 +423,11 @@ bool Part::openFile()
 
         if (creatingNewArchive) {
             item = QInputDialog::getItem(widget(), i18nc("@title:window", "Invalid Archive Type"),
-                                         i18nc("@info", "Ark cannot create archives of the type you have chosen.<nl/><nl/>Please choose another archive type below."),
+                                         i18nc("@info", "Ark cannot create archives of the type you have chosen.<br />Please choose another archive type below."),
                                          mimeComments, 0, false, &ok);
         } else {
             item = QInputDialog::getItem(widget(), i18nc("@title:window", "Unable to Determine Archive Type"),
-                                         i18nc("@info", "Ark was unable to determine the archive type of the filename.<nl/><nl/>Please choose the correct archive type below."),
+                                         i18nc("@info", "Ark was unable to determine the archive type of the filename.<br />Please choose the correct archive type below."),
                                          mimeComments, 0, false, &ok);
         }
 
