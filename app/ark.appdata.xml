@@ -10,6 +10,7 @@
   <name xml:lang="cs">Ark</name>
   <name xml:lang="da">Ark</name>
   <name xml:lang="de">Ark</name>
+  <name xml:lang="el">Ark</name>
   <name xml:lang="en-GB">Ark</name>
   <name xml:lang="es">Ark</name>
   <name xml:lang="et">Ark</name>
@@ -44,6 +45,7 @@
   <summary xml:lang="cs">Archivační nástroj</summary>
   <summary xml:lang="da">Arkiveringsværktøj</summary>
   <summary xml:lang="de">Archivprogramm</summary>
+  <summary xml:lang="el">Εργαλείο αρχειοθέτησης</summary>
   <summary xml:lang="en-GB">Archiving Tool</summary>
   <summary xml:lang="es">Herramienta de archivado</summary>
   <summary xml:lang="et">Arhiivide haldamise rakendus</summary>
@@ -82,6 +84,7 @@
     <p xml:lang="ca">L'Ark és una utilitat gràfica de compressió/descompressió de fitxers que implementa múltiples formats, incloent tar, gzip, bzip2, rar i zip, i també imatges de CD-ROM. L'Ark es pot utilitzar per explorar, extreure, crear, i modificar arxiua.</p>
     <p xml:lang="da">Ark er et grafisk værktøj til komprimering/dekomprimering, med understøttelse for flere formater, derunder tar, gzip, bzip2, rar og zip, såvel som cd-rom-imagefiler. Ark kan bruges til at gennemse, udtrække, oprette og redigere.</p>
     <p xml:lang="de">Ark ist ein grafisches Dienstprogramm zum Packen/Entpacken von Dateien mit Unterstützung für mehrere Formate wie tar, gzip, bzip2, rar, zip und auch CD-Abbilder. Mit Ark können Sie können Sie Archive durchsehen, entpacken, erstellen und bearbeiten.</p>
+    <p xml:lang="el">Το Ark είναι ένα γραφικό εργαλείο συμπίεσης/αποσυμπίεσης αρχείων με υποστήριξη για πολλούς τύπους αποθήκευσης, όπως tar, gzip, bzip2, rar και zip, καθώς επίσης και εικόνες CD-ROM. To Ark χρησιμεύει για την περιήγηση, εξαγωγή, δημιουργία και τροποποίηση αρχειοθηκών.</p>
     <p xml:lang="en-GB">Ark is a graphical file compression/decompression utility with support for multiple formats, including tar, gzip, bzip2, rar and zip, as well as CD-ROM images. Ark can be used to browse, extract, create, and modify archives.</p>
     <p xml:lang="es">Ark es una utilidad gráfica de compresión y descompresión de archivos que permite usar diversos formatos, como tar, gzip, bzip2, rar y zip, así como imágenes de CD-ROM. Ark se puede usar para explorar, extraer, crear y modificar archivos comprimidos.</p>
     <p xml:lang="et">Ark on graafiline failide tihendamise ehk kokkupakkimise ja nende lahtipakkimise tööriist, mis toetab väga paljusid vorminguid, sealhulgas tar, gzip, bzip2, rar and zip, samuti CD-ROM-i tõmmised. Arki abil saab arhiivifaile sirvida, lahti pakkida, luua ja muuta.</p>
@@ -115,6 +118,7 @@
     <p xml:lang="cs">Vlastnosti:</p>
     <p xml:lang="da">Funktioner:</p>
     <p xml:lang="de">Leistungsmerkmale:</p>
+    <p xml:lang="el">Χαρακτηριστικά:</p>
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Funcionalidades:</p>
     <p xml:lang="et">Omadused:</p>
@@ -150,6 +154,7 @@
       <li xml:lang="cs">Je podporováno několik formátů: gzip, bzip2, zip, rar, 7z a další</li>
       <li xml:lang="da">Flere understøttede formater: gzip, bzip2, zip, rar, 7z og flere</li>
       <li xml:lang="de">Mehrere unterstützte Formate wie gzip, bzip2, zip, rar, 7z und mehr</li>
+      <li xml:lang="el">Υποστηρίζονται πολλοί τύποι αποθήκευσης: gzip, bzip2, zip, rar, 7z και άλλοι</li>
       <li xml:lang="en-GB">Several formats supported: gzip, bzip2, zip, rar, 7z and more</li>
       <li xml:lang="es">Permite el uso de diversos formatos: gzip, bzip2, zip, rar, 7z y más</li>
       <li xml:lang="et">Paljude vormingute toetus: gzip, bzip2, zip, rar, 7z ja veel paljud.</li>
@@ -183,6 +188,7 @@
       <li xml:lang="cs">Náhled obsahu souborů bez jejich rozbalení</li>
       <li xml:lang="da">Forhåndsvis filindhold uden at udtrække filer</li>
       <li xml:lang="de">Vorschau der Dateiinhalte ohne das Entpacken der Dateien</li>
+      <li xml:lang="el">Προεπισκόπηση περιεχομένων αρχείου χωρίς εξαγωγή αρχείων</li>
       <li xml:lang="en-GB">Preview file contents without extracting files</li>
       <li xml:lang="es">Vista previa del contenido de archivos sin extraerlos</li>
       <li xml:lang="et">Failide sisu näitamine ilma neid lahti pakkimata.</li>
