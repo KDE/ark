@@ -139,8 +139,6 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
 Part::~Part()
 {
-    factory()->removeClient(this);
-
     qDeleteAll(m_previewDirList);
 
     saveSplitterSizes();
