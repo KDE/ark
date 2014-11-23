@@ -38,6 +38,7 @@
 #include <KDebug>
 #include <KEditToolBar>
 #include <KShortcutsDialog>
+#include <KXMLGUIFactory>
 
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
@@ -69,6 +70,8 @@ MainWindow::~MainWindow()
     if (m_recentFilesAction) {
         m_recentFilesAction->saveEntries(KGlobal::config()->group("Recent Files"));
     }
+
+    guiFactory()->removeClient(m_part);
     delete m_part;
     m_part = 0;
 }
