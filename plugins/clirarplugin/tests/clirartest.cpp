@@ -31,7 +31,7 @@
 #include <QFile>
 #include <QTextStream>
 
-QTEST_MAIN(CliRarTest)
+QTEST_GUILESS_MAIN(CliRarTest)
 
 using namespace Kerfuffle;
 
