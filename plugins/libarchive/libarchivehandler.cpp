@@ -35,7 +35,6 @@
 #include <archive_entry.h>
 
 #include <KLocalizedString>
-#include <kde_file.h>
 
 #include <QDateTime>
 #include <QDebug>
@@ -44,6 +43,7 @@
 #include <QFile>
 #include <QList>
 #include <QStringList>
+#include <qplatformdefs.h>
 
 struct LibArchiveInterface::ArchiveReadCustomDeleter
 {
@@ -296,9 +296,9 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             //if there is an already existing directory:
             if (entryIsDir && entryFI.exists()) {
                 if (entryFI.isWritable()) {
-                    qDebug(1601) << "Warning, existing, but writable dir";
+                    qDebug() << "Warning, existing, but writable dir";
                 } else {
-                    qDebug(1601) << "Warning, existing, but non-writable dir. skipping";
+                    qDebug() << "Warning, existing, but non-writable dir. skipping";
                     archive_entry_clear(entry);
                     archive_read_data_skip(arch.data());
                     continue;
@@ -750,8 +750,8 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
     //          or something may have caused it to follow symlinks, in
     //          which case stat() will be called. To avoid this, we
     //          call lstat() ourselves.
-    KDE_struct_stat st;
-    KDE_lstat(QFile::encodeName(fileName).constData(), &st);
+    QT_STATBUF st;
+    QT_LSTAT(QFile::encodeName(fileName).constData(), &st);
 
     struct archive_entry *entry = archive_entry_new();
     archive_entry_set_pathname(entry, QFile::encodeName(relativeName).constData());
