@@ -43,7 +43,6 @@
 #include <QFile>
 #include <QList>
 #include <QStringList>
-#include <qplatformdefs.h>
 
 struct LibArchiveInterface::ArchiveReadCustomDeleter
 {
@@ -750,8 +749,8 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
     //          or something may have caused it to follow symlinks, in
     //          which case stat() will be called. To avoid this, we
     //          call lstat() ourselves.
-    QT_STATBUF st;
-    QT_LSTAT(QFile::encodeName(fileName).constData(), &st);
+    struct stat st;
+    lstat(QFile::encodeName(fileName).constData(), &st);
 
     struct archive_entry *entry = archive_entry_new();
     archive_entry_set_pathname(entry, QFile::encodeName(relativeName).constData());
@@ -785,7 +784,5 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
 
     return true;
 }
-
-KERFUFFLE_EXPORT_PLUGIN(LibArchiveInterface)
 
 #include "libarchivehandler.moc"
