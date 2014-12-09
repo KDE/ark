@@ -2,6 +2,8 @@ project(ark)
 
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 
+list(APPEND CMAKE_MODULE_PATH ${ark_SOURCE_DIR}/cmake/modules)
+
 find_package(LibArchive)
 #macro_log_feature(LIBARCHIVE_FOUND "LibArchive" "A library for dealing with a wide variety of archive file formats" "http://code.google.com/p/libarchive/" FALSE "" "Required for among others tar, tar.gz, tar.bz2 formats in Ark.")
 
@@ -29,7 +31,7 @@ set(REQUIRED_QT_VERSION 5.2.0)
 set(KF5_MIN_VERSION 5.2.0)
 
 find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core Widgets Test)
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive Config Pty KHtml KDELibs4Support) 
+find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive Config Pty KHtml KDELibs4Support)
 
 option(WITH_TEST_COVERAGE "Build with test coverage support" OFF)
 if (WITH_TEST_COVERAGE)
