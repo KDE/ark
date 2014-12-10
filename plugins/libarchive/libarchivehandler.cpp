@@ -35,6 +35,7 @@
 #include <archive_entry.h>
 
 #include <KLocalizedString>
+#include <KPluginFactory>
 
 #include <QDateTime>
 #include <QDebug>
@@ -43,6 +44,8 @@
 #include <QFile>
 #include <QList>
 #include <QStringList>
+
+K_PLUGIN_FACTORY( LibArchivePluginFactory, registerPlugin< LibArchiveInterface >(); )
 
 struct LibArchiveInterface::ArchiveReadCustomDeleter
 {
