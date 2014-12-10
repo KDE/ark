@@ -26,7 +26,7 @@
 #include <QScopedPointer>
 
 #include <kjobtrackerinterface.h>
-#include "kerfuffle/archive.h"
+#include "kerfuffle/archive_kerfuffle.h"
 
 using Kerfuffle::ArchiveEntry;
 

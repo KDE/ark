@@ -4,7 +4,7 @@
 ########### next target ###############
 
 set(kerfuffle_SRCS
-    archive.cpp
+    archive_kerfuffle.cpp
     archiveinterface.cpp
     jobs.cpp
 	extractiondialog.cpp

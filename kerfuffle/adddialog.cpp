@@ -28,7 +28,7 @@
 
 #include "adddialog.h"
 #include "ui_adddialog.h"
-#include "kerfuffle/archive.h"
+#include "kerfuffle/archive_kerfuffle.h"
 
 #include <KConfigGroup>
 #include <KFilePlacesModel>

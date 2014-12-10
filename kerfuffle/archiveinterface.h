@@ -28,7 +28,7 @@
 #ifndef ARCHIVEINTERFACE_H
 #define ARCHIVEINTERFACE_H
 
-#include "archive.h"
+#include "archive_kerfuffle.h"
 #include "kerfuffle_export.h"
 
 #include <QObject>

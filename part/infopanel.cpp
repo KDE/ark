@@ -19,7 +19,7 @@
  *
  */
 #include "infopanel.h"
-#include "kerfuffle/archive.h"
+#include "kerfuffle/archive_kerfuffle.h"
 
 #include <QLabel>
 #include <QVBoxLayout>

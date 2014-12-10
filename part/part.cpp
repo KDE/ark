@@ -28,7 +28,7 @@
 #include "dnddbusinterfaceadaptor.h"
 #include "infopanel.h"
 #include "jobtracker.h"
-#include "kerfuffle/archive.h"
+#include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/extractiondialog.h"
 #include "kerfuffle/jobs.h"
 #include "kerfuffle/settings.h"

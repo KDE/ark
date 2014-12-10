@@ -21,7 +21,7 @@
 
 #include "extractHereDndPlugin.h"
 #include "batchextract.h"
-#include "kerfuffle/archive.h"
+#include "kerfuffle/archive_kerfuffle.h"
 
 #include <KAction>
 #include <QDebug>

@@ -28,7 +28,7 @@
 
 #include "addtoarchive.h"
 #include "adddialog.h"
-#include "archive.h"
+#include "archive_kerfuffle.h"
 #include "jobs.h"
 
 #include <KConfig>

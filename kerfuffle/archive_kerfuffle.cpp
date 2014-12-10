@@ -25,7 +25,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "archive.h"
+#include "archive_kerfuffle.h"
 #include "archiveinterface.h"
 #include "jobs.h"
 

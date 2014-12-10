@@ -30,7 +30,7 @@
 
 #include "kerfuffle_export.h"
 #include "archiveinterface.h"
-#include "archive.h"
+#include "archive_kerfuffle.h"
 #include "queries.h"
 
 #include <KJob>

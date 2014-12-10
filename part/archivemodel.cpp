@@ -22,7 +22,7 @@
  */
 
 #include "archivemodel.h"
-#include "kerfuffle/archive.h"
+#include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/jobs.h"
 
 #include <QDebug>

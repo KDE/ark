@@ -22,7 +22,7 @@
 #ifndef INFOPANEL_H
 #define INFOPANEL_H
 
-#include "kerfuffle/archive.h"
+#include "kerfuffle/archive_kerfuffle.h"
 #include "archivemodel.h"
 #include "ui_infopanel.h"
 

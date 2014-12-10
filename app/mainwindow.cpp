@@ -22,7 +22,7 @@
  *
  */
 #include "mainwindow.h"
-#include "kerfuffle/archive.h"
+#include "kerfuffle/archive_kerfuffle.h"
 #include "part/interface.h"
 
 #include <KPluginFactory>
