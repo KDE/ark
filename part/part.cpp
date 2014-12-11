@@ -44,9 +44,13 @@
 #include <KPluginFactory>
 #include <KRun>
 #include <KSelectAction>
+#include <KMenu>
+#include <KUrl>
+#include <KIcon>
 #include <KStandardGuiItem>
 #include <KToggleAction>
 #include <KLocalizedString>
+#include <KXMLGUIFactory>
 
 #include <QAction>
 #include <QCursor>
@@ -133,6 +137,8 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
 Part::~Part()
 {
+    qDeleteAll(m_previewDirList);
+
     saveSplitterSizes();
 
     m_extractFilesAction->menu()->deleteLater();
@@ -206,6 +212,8 @@ void Part::extractSelectedFilesTo(const QString& localPath)
 
 void Part::setupView()
 {
+    m_view->setContextMenuPolicy(Qt::CustomContextMenu);
+
     m_view->setModel(m_model);
 
     m_view->setSortingEnabled(true);
@@ -215,7 +223,11 @@ void Part::setupView()
     connect(m_view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
             this, SLOT(selectionChanged()));
 
-    connect(m_view, SIGNAL(activated(QModelIndex)), this, SLOT(slotPreview(QModelIndex)));
+    //TODO: fix an actual eventhandler
+    connect(m_view, SIGNAL(activated(const QModelIndex &)),
+            this, SLOT(slotPreviewWithInternalViewer()));
+
+    connect(m_view, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotShowContextMenu()));
 
     connect(m_model, SIGNAL(columnsInserted(QModelIndex,int,int)),
             this, SLOT(adjustColumns()));
@@ -231,13 +243,19 @@ void Part::setupActions()
 
     m_saveAsAction = KStandardAction::saveAs(this, SLOT(slotSaveAs()), actionCollection());
 
+    m_previewChooseAppAction = actionCollection()->addAction(QLatin1String("openwith"));
+    m_previewChooseAppAction->setText(i18nc("open a file with external program", "Open &With..."));
+    m_previewChooseAppAction->setIcon(KIcon(QLatin1String("document-open")));
+    m_previewChooseAppAction->setStatusTip(i18n("Click to open the selected file with an external program"));
+    connect(m_previewChooseAppAction, SIGNAL(triggered(bool)), this, SLOT(slotPreviewWithExternalProgram()));
+
     m_previewAction = actionCollection()->addAction(QLatin1String( "preview" ));
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
     m_previewAction->setIcon(QIcon::fromTheme( QLatin1String( "document-preview-archive" )));
     m_previewAction->setStatusTip(i18n("Click to preview the selected file"));
     actionCollection()->setDefaultShortcuts(m_previewAction, QList<QKeySequence>() << Qt::Key_Return << Qt::Key_Space);
     connect(m_previewAction, SIGNAL(triggered(bool)),
-            this, SLOT(slotPreview()));
+            this, SLOT(slotPreviewWithInternalViewer()));
 
     m_extractFilesAction = actionCollection()->addAction(QLatin1String( "extract" ));
     m_extractFilesAction->setText(i18n("E&xtract"));
@@ -282,6 +300,8 @@ void Part::updateActions()
     m_addFilesAction->setEnabled(!isBusy() && isWritable);
     m_addDirAction->setEnabled(!isBusy() && isWritable);
     m_deleteFilesAction->setEnabled(!isBusy() && (m_view->selectionModel()->selectedRows().count() > 0)
+                                    && isWritable);
+    m_previewChooseAppAction->setEnabled(!isBusy() && (m_view->selectionModel()->selectedRows().count() > 0)
                                     && isWritable);
 
     QMenu *menu = m_extractFilesAction->menu();
@@ -522,12 +542,17 @@ void Part::setFileNameFromArchive()
     emit setWindowCaption(prettyName);
 }
 
-void Part::slotPreview()
+void Part::slotPreviewWithInternalViewer()
 {
-    slotPreview(m_view->selectionModel()->currentIndex());
+    preview(m_view->selectionModel()->currentIndex(), InternalViewer);
 }
 
-void Part::slotPreview(const QModelIndex & index)
+void Part::slotPreviewWithExternalProgram()
+{
+    preview(m_view->selectionModel()->currentIndex(), ExternalProgram);
+}
+
+void Part::preview(const QModelIndex &index, PreviewMode mode)
 {
     if (!isPreviewable(index)) {
         return;
@@ -539,7 +564,10 @@ void Part::slotPreview(const QModelIndex & index)
         Kerfuffle::ExtractionOptions options;
         options[QLatin1String( "PreservePaths" )] = true;
 
-        ExtractJob *job = m_model->extractFile(entry[ InternalID ], m_previewDir.name(), options);
+        m_previewDirList.append(new KTempDir);
+        m_previewMode = mode;
+        ExtractJob *job = m_model->extractFile(entry[InternalID], m_previewDirList.last()->name(), options);
+
         registerJob(job);
         connect(job, SIGNAL(result(KJob*)),
                 this, SLOT(slotPreviewExtracted(KJob*)));
@@ -556,15 +584,28 @@ void Part::slotPreviewExtracted(KJob *job)
         const ArchiveEntry& entry =
             m_model->entryForIndex(m_view->selectionModel()->currentIndex());
 
-        QString fullName =
-            m_previewDir.name() + QLatin1Char('/') + entry[FileName].toString();
+        ExtractJob *extractJob = qobject_cast<ExtractJob*>(job);
+        Q_ASSERT(extractJob);
+        QString fullName = extractJob->destinationDirectory() + entry[FileName].toString();
 
         // Make sure a maliciously crafted archive with parent folders named ".." do
         // not cause the previewed file path to be located outside the temporary
         // directory, resulting in a directory traversal issue.
         fullName.remove(QLatin1String("../"));
 
-        ArkViewer::view(fullName, widget());
+        // TODO: get rid of m_previewMode by extending ExtractJob with a PreviewJob.
+        // This would prevent race conditions if we ever stop disabling
+        // the whole UI while extracting a file to preview it.
+        switch (m_previewMode) {
+        case InternalViewer:
+            ArkViewer::view(fullName, widget());
+            break;
+        case ExternalProgram:
+            KUrl::List list;
+            list.append(KUrl(fullName));
+            KRun::displayOpenWithDialog(list, widget(), true);
+            break;
+        }
     } else {
         KMessageBox::error(widget(), job->errorString());
     }
@@ -708,6 +749,7 @@ void Part::slotExtractionDone(KJob* job)
             qDebug() << "Shall open" << extractJob->destinationDirectory();
             QUrl destinationDirectory = QUrl::fromLocalFile(extractJob->destinationDirectory()).adjusted(QUrl::NormalizePathSegments);
             qDebug() << "Shall open URL" << destinationDirectory;
+
             KRun::runUrl(destinationDirectory, QLatin1String("inode/directory"), widget());
         }
 
@@ -883,6 +925,12 @@ void Part::slotSaveAs()
                                xi18nc("@info", "The archive could not be saved as <filename>%1</filename>. Try saving it to another location.", saveUrl.path()));
         }
     }
+}
+
+void Part::slotShowContextMenu()
+{
+    KMenu *popup = static_cast<KMenu *>(factory()->container(QLatin1String("context_menu"), this));
+    popup->popup(QCursor::pos());
 }
 
 } // namespace Ark

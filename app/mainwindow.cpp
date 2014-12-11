@@ -37,6 +37,7 @@
 #include <KShortcutsDialog>
 #include <KService>
 #include <KConfigGroup>
+#include <KXMLGUIFactory>
 
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
@@ -70,6 +71,8 @@ MainWindow::~MainWindow()
     if (m_recentFilesAction) {
         m_recentFilesAction->saveEntries(KSharedConfig::openConfig()->group("Recent Files"));
     }
+
+    guiFactory()->removeClient(m_part);
     delete m_part;
     m_part = 0;
 }
