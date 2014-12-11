@@ -31,7 +31,6 @@
 #include <KLocalizedString>
 #include <KIconLoader>
 #include <KMessageBox>
-#include <KIO/NetAccess>
 
 #include <QDir>
 
@@ -99,10 +98,10 @@ void ExtractionDialog::accept()
             return;
         }
 
-        const QString pathWithSubfolder = url().toDisplayString(QUrl::PreferLocalFile) + subfolder();
+        const QString pathWithSubfolder = url().toDisplayString(QUrl::PreferLocalFile) + QLatin1Char( '/' ) + subfolder();
 
         while (1) {
-            if (KIO::NetAccess::exists(pathWithSubfolder, KIO::NetAccess::SourceSide, 0)) {
+            if (QDir(pathWithSubfolder).exists()) {
                 if (QFileInfo(pathWithSubfolder).isDir()) {
                     int overwrite = KMessageBox::questionYesNoCancel(this, xi18nc("@info", "The folder <filename>%1</filename> already exists. Are you sure you want to extract here?", pathWithSubfolder), i18n("Folder exists"), KGuiItem(i18n("Extract here")), KGuiItem(i18n("Retry")), KGuiItem(i18n("Cancel")));
 
@@ -118,7 +117,7 @@ void ExtractionDialog::accept()
                                                xi18nc("@info", "<filename>%1</filename> already exists, but is not a folder.", subfolder()));
                     return;
                 }
-            } else if (!KIO::NetAccess::mkdir(pathWithSubfolder, 0)) {
+            } else if (!QDir().mkdir(pathWithSubfolder)) {
                 KMessageBox::detailedError(this,
                                            xi18nc("@info", "The folder <filename>%1</filename> could not be created.", subfolder()),
                                            i18n("Please check your permissions to create it."));
@@ -213,7 +212,7 @@ bool ExtractionDialog::closeAfterExtraction() const
 QUrl ExtractionDialog::destinationDirectory() const
 {
     if (extractToSubfolder()) {
-        return QString(url().toDisplayString(QUrl::PreferLocalFile) + subfolder() + QLatin1Char( '/' ));
+        return QString(url().toDisplayString(QUrl::PreferLocalFile) + QLatin1Char( '/' ) + subfolder() + QLatin1Char( '/' ));
     } else {
         return url().toDisplayString(QUrl::PreferLocalFile);
     }
