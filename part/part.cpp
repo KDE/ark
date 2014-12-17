@@ -948,6 +948,10 @@ void Part::slotSaveAs()
 
 void Part::slotShowContextMenu()
 {
+    if (!factory()) {
+        return;
+    }
+
     KMenu *popup = static_cast<KMenu *>(factory()->container(QLatin1String("context_menu"), this));
     popup->popup(QCursor::pos());
 }
