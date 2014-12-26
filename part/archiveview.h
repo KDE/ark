@@ -29,7 +29,7 @@ class ArchiveView : public QTreeView
     Q_OBJECT
 
 public:
-    ArchiveView(QWidget *parent = 0);
+    explicit ArchiveView(QWidget *parent = 0);
     virtual void dragEnterEvent(class QDragEnterEvent * event);
     virtual void dropEvent(class QDropEvent * event);
     virtual void dragMoveEvent(class QDragMoveEvent * event);
