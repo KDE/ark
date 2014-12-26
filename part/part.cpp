@@ -226,7 +226,7 @@ void Part::setupView()
             this, SLOT(selectionChanged()));
 
     //TODO: fix an actual eventhandler
-    connect(m_view, SIGNAL(activated(const QModelIndex &)),
+    connect(m_view, SIGNAL(activated(QModelIndex)),
             this, SLOT(slotPreviewWithInternalViewer()));
 
     connect(m_view, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotShowContextMenu()));
