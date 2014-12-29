@@ -129,7 +129,7 @@ int main(int argc, char **argv)
         KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
         if (args->isSet("add") || args->isSet("add-to")) {
-            AddToArchive *addToArchiveJob = new AddToArchive;
+            AddToArchive *addToArchiveJob = new AddToArchive(&application);
             application.connect(addToArchiveJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);
 
             if (args->isSet("changetofirstpath")) {
@@ -157,7 +157,7 @@ int main(int argc, char **argv)
 
             addToArchiveJob->start();
         } else if (args->isSet("batch")) {
-            BatchExtract *batchJob = new BatchExtract;
+            BatchExtract *batchJob = new BatchExtract(&application);
             application.connect(batchJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);
 
             for (int i = 0; i < args->count(); ++i) {
@@ -190,6 +190,7 @@ int main(int argc, char **argv)
         } else {
             MainWindow *window = new MainWindow;
             if (!window->loadPart()) { // if loading the part fails
+                delete window;
                 return -1;
             }
 
