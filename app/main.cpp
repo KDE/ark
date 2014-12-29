@@ -110,18 +110,14 @@ int main(int argc, char **argv)
 
     //session restoring
     if (application.isSessionRestored()) {
-        MainWindow* window = NULL;
-
-        if (KMainWindow::canBeRestored(1)) {
-            window = new MainWindow;
-            window->restore(1);
-            if (!window->loadPart()) {
-                delete window;
-                window = NULL;
-            }
+        if (!KMainWindow::canBeRestored(1)) {
+            return -1;
         }
 
-        if (window == NULL) {
+        MainWindow* window = new MainWindow;
+        window->restore(1);
+        if (!window->loadPart()) {
+            delete window;
             return -1;
         }
     } else { //new ark window (no restored session)
