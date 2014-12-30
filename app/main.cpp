@@ -110,18 +110,14 @@ int main(int argc, char **argv)
 
     //session restoring
     if (application.isSessionRestored()) {
-        MainWindow* window = NULL;
-
-        if (KMainWindow::canBeRestored(1)) {
-            window = new MainWindow;
-            window->restore(1);
-            if (!window->loadPart()) {
-                delete window;
-                window = NULL;
-            }
+        if (!KMainWindow::canBeRestored(1)) {
+            return -1;
         }
 
-        if (window == NULL) {
+        MainWindow* window = new MainWindow;
+        window->restore(1);
+        if (!window->loadPart()) {
+            delete window;
             return -1;
         }
     } else { //new ark window (no restored session)
@@ -129,7 +125,7 @@ int main(int argc, char **argv)
         KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
         if (args->isSet("add") || args->isSet("add-to")) {
-            AddToArchive *addToArchiveJob = new AddToArchive;
+            AddToArchive *addToArchiveJob = new AddToArchive(&application);
             application.connect(addToArchiveJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);
 
             if (args->isSet("changetofirstpath")) {
@@ -157,7 +153,7 @@ int main(int argc, char **argv)
 
             addToArchiveJob->start();
         } else if (args->isSet("batch")) {
-            BatchExtract *batchJob = new BatchExtract;
+            BatchExtract *batchJob = new BatchExtract(&application);
             application.connect(batchJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);
 
             for (int i = 0; i < args->count(); ++i) {
@@ -190,6 +186,7 @@ int main(int argc, char **argv)
         } else {
             MainWindow *window = new MainWindow;
             if (!window->loadPart()) { // if loading the part fails
+                delete window;
                 return -1;
             }
 

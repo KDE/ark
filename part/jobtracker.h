@@ -33,7 +33,7 @@ class JobTrackerWidget: public QFrame, public Ui::JobTrackerWidget
     Q_OBJECT
 
 public:
-    JobTrackerWidget(QWidget *parent = 0);
+    explicit JobTrackerWidget(QWidget *parent = 0);
 };
 
 class JobTracker: public KAbstractWidgetJobTracker
@@ -41,7 +41,7 @@ class JobTracker: public KAbstractWidgetJobTracker
     Q_OBJECT
 
 public:
-    JobTracker(QWidget *parent = 0);
+    explicit JobTracker(QWidget *parent = 0);
     ~JobTracker();
 
     virtual QWidget *widget(KJob *);

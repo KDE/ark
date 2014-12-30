@@ -46,8 +46,8 @@
 #include <QTimer>
 #include <QWeakPointer>
 
-BatchExtract::BatchExtract()
-    : KCompositeJob(0),
+BatchExtract::BatchExtract(QObject* parent)
+    : KCompositeJob(parent),
       m_autoSubfolder(false),
       m_preservePaths(true),
       m_openDestinationAfterExtraction(false)
