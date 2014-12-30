@@ -23,7 +23,7 @@
 #include "batchextract.h"
 #include "kerfuffle/archive_kerfuffle.h"
 
-#include <KAction>
+#include <QAction>
 #include <QDebug>
 #include <KPluginFactory>
 #include <KPluginLoader>
@@ -70,9 +70,9 @@ void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
 
     //qDebug() << "Plugin executed";
 
-    KAction *action = new KAction(KIcon(QLatin1String("archive-extract")),
+    QAction *action = new QAction(QIcon::fromTheme(QLatin1String("archive-extract")),
                                   extractHereMessage, NULL);
-    connect(action, &KAction::triggered, this, &ExtractHereDndPlugin::slotTriggered);
+    connect(action, &QAction::triggered, this, &ExtractHereDndPlugin::slotTriggered);
 
     userActions.append(action);
     m_dest = destination;
