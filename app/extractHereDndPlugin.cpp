@@ -29,7 +29,7 @@
 #include <KPluginLoader>
 #include <KLocale>
 #include <kfileitemlistproperties.h>
-
+#include <KUrl>
 K_PLUGIN_FACTORY(ExtractHerePluginFactory,
                  registerPlugin<ExtractHereDndPlugin>();
                 )
@@ -43,7 +43,7 @@ void ExtractHereDndPlugin::slotTriggered()
     batchJob->setAutoSubfolder(true);
     batchJob->setDestinationFolder(m_dest.pathOrUrl());
     batchJob->setPreservePaths(true);
-    foreach(const KUrl& url, m_urls) {
+    foreach(const QUrl& url, m_urls) {
         batchJob->addInput(url);
     }
 
@@ -58,7 +58,7 @@ ExtractHereDndPlugin::ExtractHereDndPlugin(QObject* parent, const QVariantList&)
 }
 
 void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
-                                 KUrl destination,
+                                 QUrl destination,
                                  QList<QAction*>& userActions)
 {
     const QString extractHereMessage = i18nc("@action:inmenu Context menu shown when an archive is being drag'n'dropped", "Extract here");
@@ -79,4 +79,4 @@ void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
     m_urls = popupMenuInfo.urlList();
 }
 
-
+#include "extractHereDndPlugin.moc"

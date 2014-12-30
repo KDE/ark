@@ -22,9 +22,9 @@
 #ifndef EXTRACTHEREDNDPLUGIN_H
 #define EXTRACTHEREDNDPLUGIN_H
 
-#include <kurl.h>
+#include <qurl.h>
 #include <konq_dndpopupmenuplugin.h>
-
+#include <KUrl>
 class ExtractHereDndPlugin : public KonqDndPopupMenuPlugin
 {
     Q_OBJECT
@@ -36,11 +36,11 @@ public:
     ExtractHereDndPlugin(QObject* parent, const QVariantList&);
 
     virtual void setup(const KFileItemListProperties& popupMenuInfo,
-                       KUrl destination,
+                       QUrl destination,
                        QList<QAction*>& userActions);
 private:
     KUrl m_dest;
-    QList<KUrl> m_urls;
+    QList<QUrl> m_urls;
 };
 
 #endif /* EXTRACTHEREDNDPLUGIN_H */
