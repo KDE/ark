@@ -224,7 +224,7 @@ void Part::setupView()
             this, SLOT(selectionChanged()));
 
     //TODO: fix an actual eventhandler
-    connect(m_view, SIGNAL(activated(const QModelIndex &)),
+    connect(m_view, SIGNAL(activated(QModelIndex)),
             this, SLOT(slotPreviewWithInternalViewer()));
 
     connect(m_view, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotShowContextMenu()));
@@ -929,6 +929,10 @@ void Part::slotSaveAs()
 
 void Part::slotShowContextMenu()
 {
+    if (!factory()) {
+        return;
+    }
+
     KMenu *popup = static_cast<KMenu *>(factory()->container(QLatin1String("context_menu"), this));
     popup->popup(QCursor::pos());
 }

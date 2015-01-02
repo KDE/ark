@@ -49,7 +49,6 @@ void ExtractHereDndPlugin::slotTriggered()
 
     batchJob->start();
     //qDebug() << "Started job";
-
 }
 
 ExtractHereDndPlugin::ExtractHereDndPlugin(QObject* parent, const QVariantList&)
