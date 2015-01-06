@@ -22,6 +22,8 @@
 #define KARCHIVEPLUGIN_H
 #include "kerfuffle/archiveinterface.h"
 
+#include <qplatformdefs.h> // mode_t
+
 using namespace Kerfuffle;
 
 class KArchive;
