@@ -2,8 +2,6 @@ project(ark)
 
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 
-list(APPEND CMAKE_MODULE_PATH ${ark_SOURCE_DIR}/cmake/modules)
-
 find_package(LibArchive 3.0.0 REQUIRED)
 #macro_log_feature(LIBARCHIVE_FOUND "LibArchive" "A library for dealing with a wide variety of archive file formats" "http://code.google.com/p/libarchive/" FALSE "" "Required for among others tar, tar.gz, tar.bz2 formats in Ark.")
 
