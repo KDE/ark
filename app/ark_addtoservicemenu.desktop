@@ -252,6 +252,7 @@ Exec=ark --changetofirstpath --add --autofilename rar %F
 Name=As TAR.GZ Archive
 Name[ar]=كأرشيف TAR.GZ
 Name[bg]=Като TAR.GZ архив
+Name[bs]=Kao TAR.GZ Arhivu
 Name[ca]=Com a arxiu TAR.GZ
 Name[cs]=Jako archiv TAR.GZ
 Name[da]=Som TAR.GZ-arkiv
