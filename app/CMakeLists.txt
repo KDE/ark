@@ -7,7 +7,8 @@ set(ark_SRCS
    )
 
 # For Mac and Windows.
-kde4_add_app_icon(ark_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-apps-ark.png")
+file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-apps-ark.png")
+ecm_add_app_icon(ark_SRCS ICONS ${ICONS_SRCS})
 
 add_executable( ark ${ark_SRCS} )
 

@@ -9,7 +9,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake.in ${CMAKE_CURRENT_
 
 include(FeatureSummary)
 
-find_package(ECM 1.2.0 REQUIRED NO_MODULE)
+find_package(ECM 1.7.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(ECMSetupVersion)
@@ -17,7 +17,7 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
 include(ECMInstallIcons)
-
+include(ECMAddAppIcon)
 set(ARK_VERSION "4.80.0")
 
 ecm_setup_version(${ARK_VERSION} VARIABLE_PREFIX KERFUFFLE
