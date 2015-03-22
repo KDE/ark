@@ -470,8 +470,10 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
                     continue;
                 }
 
+                const bool isRealDir = it.fileInfo().isDir() && !it.fileInfo().isSymLink();
+
                 success = writeFile(path +
-                                    (it.fileInfo().isDir() ? QLatin1String( "/" ) : QLatin1String( "" )),
+                                    (isRealDir ? QLatin1String( "/" ) : QLatin1String( "" )),
                                     arch_writer.data());
 
                 if (!success) {
