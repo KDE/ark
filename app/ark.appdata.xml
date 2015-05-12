@@ -18,6 +18,7 @@
   <name xml:lang="et">Ark</name>
   <name xml:lang="fi">Ark</name>
   <name xml:lang="fr">Ark</name>
+  <name xml:lang="gl">Ark</name>
   <name xml:lang="hu">Ark</name>
   <name xml:lang="it">Ark</name>
   <name xml:lang="ko">Ark</name>
@@ -56,6 +57,7 @@
   <summary xml:lang="et">Arhiivide haldamise rakendus</summary>
   <summary xml:lang="fi">Pakkausohjelma</summary>
   <summary xml:lang="fr">Outil d'archivage</summary>
+  <summary xml:lang="gl">Ferramenta para arquivar</summary>
   <summary xml:lang="hu">Fájltömörítő</summary>
   <summary xml:lang="it">Strumento di archiviazione</summary>
   <summary xml:lang="ko">압축 도구</summary>
@@ -99,6 +101,7 @@
     <p xml:lang="et">Ark on graafiline failide tihendamise ehk kokkupakkimise ja nende lahtipakkimise tööriist, mis toetab väga paljusid vorminguid, sealhulgas tar, gzip, bzip2, rar and zip, samuti CD-ROM-i tõmmised. Arki abil saab arhiivifaile sirvida, lahti pakkida, luua ja muuta.</p>
     <p xml:lang="fi">Ark on graafinen tiedostojen pakkaus-/purkuohjelma, joka tukee useita tiedostomuotoja kuten tar, gzip, bzip2, rar and zip sekä myös CD-ROM-levykuvia. Arkilla voi selata, purkaa, luoda ja muuttaa paketteja.</p>
     <p xml:lang="fr">Ark est un utilitaire graphique de compression/décompression de fichier prenant en charge de multiples formats, notamment tar, gzip, bzip2, rar et zip, ainsi que les images de CD-ROM. Ark peut être utilisé pour parcourir, extraire, créer et modifier des archives.</p>
+    <p xml:lang="gl">Ark é unha ferramenta gráfica de compresión e descompresión de ficheiros compatíbel con múltiplos formatos, como «tar», «gzip», «bzip2», «rar» e «zip», así como imaxes de CD-ROM. Ark pode usarse para navegar, extraer, crear e modificar arquivos.</p>
     <p xml:lang="hu">Az Ark egy grafikus fájltömörítő és kibontó segédprogram többféle formátum támogatásával, beleértve a tar, gzip, bzip2, rar és zip formátumokat, valamint a CD-ROM képfájlokat. Az Ark használható archívumok böngészéséhez, kibontásához, létrehozásához és módosításához.</p>
     <p xml:lang="it">Ark è uno strumento grafico per la compressione/decompressione dei file che supporta molti formati, tra i quali tar, gzip, bzip2, rar e zip, così come le immagini dei CD-ROM. Ark può essere utilizzato per sfogliare, estrarre, creare e modificare archivi.</p>
     <p xml:lang="ko">Ark는 그래픽 압축 파일 관리 도구이며, tar, gzip, bzip2, rar, zip, CD-ROM 이미지를 포함한 여러 파일 형식을 지원합니다. Ark를 사용하여 압축 파일을 열고, 생성하고, 수정하고, 압축을 풀 수 있습니다.</p>
@@ -135,6 +138,7 @@
     <p xml:lang="et">Omadused:</p>
     <p xml:lang="fi">Ominaisuudet:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
+    <p xml:lang="gl">Funcionalidades:</p>
     <p xml:lang="hu">Szolgáltatások:</p>
     <p xml:lang="it">Funzionalità:</p>
     <p xml:lang="ko">기능:</p>
@@ -174,6 +178,7 @@
       <li xml:lang="et">Paljude vormingute toetus: gzip, bzip2, zip, rar, 7z ja veel paljud.</li>
       <li xml:lang="fi">Tukee useita tiedostomuotoja: gzip, bzip2, zip, rar, 7z ja monia muita</li>
       <li xml:lang="fr">Plusieurs formats sont pris en charge : gzip, bzip2, zip, rar, 7z et d'autres</li>
+      <li xml:lang="gl">Compatíbel con moitos formatos: gzip, bzip2, zip, rar, 7z e máis.</li>
       <li xml:lang="hu">Számos formátum támogatott: gzip, bzip2, zip, rar, 7z és továbbiak</li>
       <li xml:lang="it">Diversi formati supportati: gzip, bzip2, zip, rar, 7z e altri</li>
       <li xml:lang="ko">다양한 형식 지원: gzip, bzip2, zip, rar, 7z 등</li>
@@ -210,6 +215,7 @@
       <li xml:lang="et">Failide sisu näitamine ilma neid lahti pakkimata.</li>
       <li xml:lang="fi">Tiedoston sisällön esikatselu purkamatta tiedostoa</li>
       <li xml:lang="fr">Prévisualiser le contenu des fichiers sans les extraire</li>
+      <li xml:lang="gl">Obteña unha vista previa dos ficheiros comprimidos sen extraelos.</li>
       <li xml:lang="hu">Fájltartalom előnézete a fájlok kibontása nélkül</li>
       <li xml:lang="it">Anteprima dei file senza estrarre i file</li>
       <li xml:lang="ko">압축 풀지 않고 파일 내용 미리 보기</li>
