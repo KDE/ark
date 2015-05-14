@@ -20,6 +20,8 @@
  *
  */
 
+#include "ark_version.h"
+
 #include "mainwindow.h"
 #include "batchextract.h"
 #include "kerfuffle/addtoarchive.h"
@@ -50,7 +52,7 @@ int main(int argc, char **argv)
 
     KAboutData aboutData(QStringLiteral("ark"),
                          i18n("Ark"),
-                         "2.19",
+                         QStringLiteral(ARK_VERSION_STRING),
                          i18n("KDE Archiving tool"),
                          KAboutLicense::GPL,
                          i18n("(c) 1997-2015, The Various Ark Developers"),

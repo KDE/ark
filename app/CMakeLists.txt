@@ -8,6 +8,8 @@ set(ark_SRCS
 
 # For Mac and Windows.
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/*-apps-ark.png")
+
+include(ECMAddAppIcon)
 ecm_add_app_icon(ark_SRCS ICONS ${ICONS_SRCS})
 
 add_executable( ark ${ark_SRCS} )
