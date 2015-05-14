@@ -12,7 +12,7 @@ ecm_add_app_icon(ark_SRCS ICONS ${ICONS_SRCS})
 
 add_executable( ark ${ark_SRCS} )
 
-target_link_libraries( ark kerfuffle )
+target_link_libraries( ark kerfuffle KF5::DBusAddons )
 
 configure_file(
             ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.ark.desktop.cmake
