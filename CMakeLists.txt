@@ -20,6 +20,8 @@ include(ECMInstallIcons)
 include(ECMAddAppIcon)
 set(ARK_VERSION "4.80.0")
 
+add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
+
 ecm_setup_version(${ARK_VERSION} VARIABLE_PREFIX KERFUFFLE
                   SOVERSION 5
 )

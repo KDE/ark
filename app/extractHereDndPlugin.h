@@ -24,7 +24,7 @@
 
 #include <qurl.h>
 #include <konq_dndpopupmenuplugin.h>
-#include <KUrl>
+
 class ExtractHereDndPlugin : public KonqDndPopupMenuPlugin
 {
     Q_OBJECT
@@ -39,7 +39,7 @@ public:
                        QUrl destination,
                        QList<QAction*>& userActions);
 private:
-    KUrl m_dest;
+    QUrl m_dest;
     QList<QUrl> m_urls;
 };
 

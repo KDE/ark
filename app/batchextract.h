@@ -30,7 +30,6 @@
 #define BATCHEXTRACT_H
 
 #include <kcompositejob.h>
-#include <KUrl>
 
 #include <QtCore/QMap>
 #include <QtCore/QPair>
@@ -116,7 +115,7 @@ public:
      * @return @c false The file does not exist or a suitable
      *                  plugin could not be found.
      */
-    bool addInput(const KUrl& url);
+    bool addInput(const QUrl& url);
 
     /**
      * Shows the extract options dialog before extracting the files.

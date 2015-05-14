@@ -72,7 +72,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
         QString subfolderName = archive->subfolderName();
 
         if (d.exists(subfolderName)) {
-            subfolderName = KIO::RenameDialog::suggestName(destination, subfolderName);
+            subfolderName = KIO::RenameDialog::suggestName(QUrl::fromUserInput(destination, QString(), QUrl::AssumeLocalFile), subfolderName);
         }
 
         d.mkdir(subfolderName);
@@ -178,8 +178,8 @@ void BatchExtract::slotResult(KJob *job)
 
     if (!hasSubjobs()) {
         if (openDestinationAfterExtraction()) {
-            KUrl destination(destinationFolder());
-            destination.cleanPath();
+            QUrl destination(destinationFolder());
+            destination.setPath(QDir::cleanPath(destination.path()));
             KRun::runUrl(destination, QLatin1String( "inode/directory" ), 0);
         }
 
@@ -203,8 +203,10 @@ void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
     setPercent(jobPart *(m_initialJobCount - subjobs().size()) + percent / m_initialJobCount);
 }
 
-bool BatchExtract::addInput(const KUrl& url)
+bool BatchExtract::addInput(const QUrl& url)
 {
+    //qDebug() << "Adding archive" << url.toDisplayString(QUrl::PreferLocalFile);
+
     Kerfuffle::Archive *archive = Kerfuffle::Archive::create(url.toDisplayString(QUrl::PreferLocalFile), this);
 
     if ((archive == NULL) || (!QFileInfo(url.toDisplayString(QUrl::PreferLocalFile)).exists())) {
@@ -263,7 +265,7 @@ bool BatchExtract::showExtractDialog()
     }
 
     dialog.data()->setAutoSubfolder(autoSubfolder());
-    dialog.data()->setCurrentUrl(destinationFolder());
+    dialog.data()->setCurrentUrl(QUrl::fromUserInput(destinationFolder(), QString(), QUrl::AssumeLocalFile));
     dialog.data()->setPreservePaths(preservePaths());
 
     if (m_inputs.size() == 1) {

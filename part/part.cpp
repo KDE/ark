@@ -45,7 +45,6 @@
 #include <KRun>
 #include <KSelectAction>
 #include <KMenu>
-#include <KUrl>
 #include <KIcon>
 #include <KStandardGuiItem>
 #include <KToggleAction>
@@ -601,8 +600,8 @@ void Part::slotPreviewExtracted(KJob *job)
             ArkViewer::view(fullName, widget());
             break;
         case ExternalProgram:
-            KUrl::List list;
-            list.append(KUrl(fullName));
+            QList<QUrl> list;
+            list.append(QUrl::fromUserInput(fullName, QString(), QUrl::AssumeLocalFile));
             KRun::displayOpenWithDialog(list, widget(), true);
             break;
         }

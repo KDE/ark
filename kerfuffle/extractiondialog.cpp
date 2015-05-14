@@ -212,9 +212,14 @@ bool ExtractionDialog::closeAfterExtraction() const
 QUrl ExtractionDialog::destinationDirectory() const
 {
     if (extractToSubfolder()) {
-        return QString(url().toDisplayString(QUrl::PreferLocalFile) + QLatin1Char( '/' ) + subfolder() + QLatin1Char( '/' ));
+        //qDebug() << "Adding subfolder" << subfolder() << "to" << url();
+
+        QUrl subUrl = url();
+        subUrl.setPath(subUrl.path() + QLatin1Char('/') + subfolder());
+
+        return subUrl;
     } else {
-        return url().toDisplayString(QUrl::PreferLocalFile);
+        return url();
     }
 }
 

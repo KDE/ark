@@ -180,20 +180,24 @@ int main(int argc, char **argv)
             application.connect(addToArchiveJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);
 
             if (parser.isSet("changetofirstpath")) {
+                //qDebug() << "main: Setting changetofirstpath";
                 addToArchiveJob->setChangeToFirstPath(true);
             }
 
             if (parser.isSet("add-to")) {
-                addToArchiveJob->setFilename(parser.value("add-to"));
+                //qDebug() << "main: setting filename to" << parser.value("add-to");
+                addToArchiveJob->setFilename(QUrl::fromUserInput(parser.value("add-to"), QString(), QUrl::AssumeLocalFile));
             }
 
             if (parser.isSet("autofilename")) {
+                qDebug() << "main: Setting autofilename to" << parser.value("autofilename");
                 addToArchiveJob->setAutoFilenameSuffix(parser.value("autofilename"));
             }
 
             for (int i = 0; i < urls.count(); ++i) {
                 //TODO: use the returned value here?
-                addToArchiveJob->addInput(QUrl::fromUserInput(urls.at(i)));
+                //qDebug() << "main: Adding url" << QUrl::fromUserInput(urls.at(i), QString(), QUrl::AssumeLocalFile);
+                addToArchiveJob->addInput(QUrl::fromUserInput(urls.at(i), QString(), QUrl::AssumeLocalFile));
             }
 
             if (parser.isSet("dialog")) {
@@ -210,22 +214,23 @@ int main(int argc, char **argv)
             application.connect(batchJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);
 
             for (int i = 0; i < urls.count(); ++i) {
-                batchJob->addInput(QUrl::fromUserInput(urls.at(i)));
+                //qDebug() << "main: Adding url" << QUrl::fromUserInput(urls.at(i), QString(), QUrl::AssumeLocalFile);
+                batchJob->addInput(QUrl::fromUserInput(urls.at(i), QString(), QUrl::AssumeLocalFile));
             }
 
             if (parser.isSet("autosubfolder")) {
-                //qDebug() << "Setting autosubfolder";
+                //() << "main: Setting autosubfolder";
                 batchJob->setAutoSubfolder(true);
             }
 
             if (parser.isSet("autodestination")) {
-                QString autopath = QFileInfo(QUrl::fromLocalFile(urls.at(0)).path()).path();
-                //qDebug() << "By autodestination, setting path to " << autopath;
+                QString autopath = QFileInfo(QUrl::fromUserInput(urls.at(0), QString(), QUrl::AssumeLocalFile).path()).path();
+                //qDebug() << "main: By autodestination, setting path to " << autopath;
                 batchJob->setDestinationFolder(autopath);
             }
 
             if (parser.isSet("destination")) {
-                //qDebug() << "Setting destination to " << parser.value("destination");
+                //qDebug() << "main: Setting destination to " << parser.value("destination");
                 batchJob->setDestinationFolder(parser.value("destination"));
             }
 
@@ -246,12 +251,12 @@ int main(int argc, char **argv)
             }
 
             if (urls.count()) {
-                qDebug() << "trying to open" << QUrl::fromUserInput(urls.at(0));
+                //qDebug() << "main: trying to open" << QUrl::fromUserInput(urls.at(0), QString(), QUrl::AssumeLocalFile);
 
                 if (parser.isSet("dialog")) {
                     window->setShowExtractDialog(true);
                 }
-                window->openUrl(QUrl::fromUserInput(urls.at(0)));
+                window->openUrl(QUrl::fromUserInput(urls.at(0), QString(), QUrl::AssumeLocalFile));
             }
             window->show();
         }

@@ -29,7 +29,7 @@
 #include <KPluginLoader>
 #include <KLocale>
 #include <kfileitemlistproperties.h>
-#include <KUrl>
+
 K_PLUGIN_FACTORY(ExtractHerePluginFactory,
                  registerPlugin<ExtractHereDndPlugin>();
                 )
@@ -41,7 +41,7 @@ void ExtractHereDndPlugin::slotTriggered()
     BatchExtract *batchJob = new BatchExtract();
 
     batchJob->setAutoSubfolder(true);
-    batchJob->setDestinationFolder(m_dest.pathOrUrl());
+    batchJob->setDestinationFolder(m_dest.toDisplayString(QUrl::PreferLocalFile));
     batchJob->setPreservePaths(true);
     foreach(const QUrl& url, m_urls) {
         batchJob->addInput(url);
