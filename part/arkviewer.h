@@ -29,6 +29,7 @@
 
 #include <QWeakPointer>
 #include <QMimeType>
+#include <QVBoxLayout>
 
 class ArkViewer : public KDialog
 {
@@ -57,6 +58,7 @@ private:
 
     QWeakPointer<KParts::ReadOnlyPart> m_part;
     QWidget *m_widget;
+    QVBoxLayout *m_widget_layout;
 };
 
 #endif // ARKVIEWER_H

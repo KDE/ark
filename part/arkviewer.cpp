@@ -25,7 +25,6 @@
 #include <KMimeTypeTrader>
 #include <QDebug>
 #include <KIconLoader>
-#include <KVBox>
 #include <KMessageBox>
 #include <QProgressDialog>
 #include <KRun>
@@ -45,7 +44,9 @@ ArkViewer::ArkViewer(QWidget * parent, Qt::WindowFlags flags)
         : KDialog(parent, flags)
 {
     setButtons(Close);
-    m_widget = new KVBox(this);
+    m_widget = new QWidget(this);
+    m_widget_layout = new QVBoxLayout(this);
+    m_widget->setLayout(m_widget_layout);
     m_widget->layout()->setSpacing(10);
 
     setMainWidget(m_widget);
@@ -194,23 +195,28 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
     restoreDialogSize(KSharedConfig::openConfig()->group("Viewer"));
 
     QFrame *header = new QFrame(m_widget);
-    QHBoxLayout *headerLayout = new QHBoxLayout(header);
+    QHBoxLayout *headerHLayout = new QHBoxLayout(header);
 
     QLabel *iconLabel = new QLabel(header);
-    headerLayout->addWidget(iconLabel);
+    headerHLayout->addWidget(iconLabel);
     iconLabel->setPixmap(KIconLoader::global()->loadMimeTypeIcon(mimeType.iconName(), KIconLoader::Desktop));
     iconLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-    KVBox *headerRight = new KVBox(header);
-    headerLayout->addWidget(headerRight);
-    new QLabel(QStringLiteral("<qt><b>%1</b></qt>").arg(fileName), headerRight);
-    new QLabel(mimeType.comment(), headerRight);
+    QVBoxLayout *headerVLayout = new QVBoxLayout(header);
+    headerVLayout->setSpacing(0);
+    headerVLayout->addWidget(new QLabel(QStringLiteral("<qt><b>%1</b></qt>").arg(fileName)));
+    headerVLayout->addWidget(new QLabel(mimeType.comment()));
+    headerHLayout->addLayout(headerVLayout);
 
     header->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+
+    m_widget_layout->addWidget(header);
 
     m_part = KMimeTypeTrader::self()->createPartInstanceFromQuery<KParts::ReadOnlyPart>(mimeType.name(),
              m_widget,
              this);
+    m_widget_layout->addWidget(m_part.data()->widget());
+
 
     if (!m_part.data()) {
         return false;
