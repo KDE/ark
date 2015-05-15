@@ -45,7 +45,6 @@
 #include <KRun>
 #include <KSelectAction>
 #include <KMenu>
-#include <KIcon>
 #include <KStandardGuiItem>
 #include <KToggleAction>
 #include <KLocalizedString>
@@ -244,13 +243,13 @@ void Part::setupActions()
 
     m_previewChooseAppAction = actionCollection()->addAction(QLatin1String("openwith"));
     m_previewChooseAppAction->setText(i18nc("open a file with external program", "Open &With..."));
-    m_previewChooseAppAction->setIcon(KIcon(QLatin1String("document-open")));
+    m_previewChooseAppAction->setIcon(QIcon::fromTheme(QLatin1String("document-open")));
     m_previewChooseAppAction->setStatusTip(i18n("Click to open the selected file with an external program"));
     connect(m_previewChooseAppAction, SIGNAL(triggered(bool)), this, SLOT(slotPreviewWithExternalProgram()));
 
     m_previewAction = actionCollection()->addAction(QLatin1String( "preview" ));
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
-    m_previewAction->setIcon(QIcon::fromTheme( QLatin1String( "document-preview-archive" )));
+    m_previewAction->setIcon(QIcon::fromTheme(QLatin1String("document-preview-archive")));
     m_previewAction->setStatusTip(i18n("Click to preview the selected file"));
     actionCollection()->setDefaultShortcuts(m_previewAction, QList<QKeySequence>() << Qt::Key_Return << Qt::Key_Space);
     connect(m_previewAction, SIGNAL(triggered(bool)),
@@ -258,28 +257,28 @@ void Part::setupActions()
 
     m_extractFilesAction = actionCollection()->addAction(QLatin1String( "extract" ));
     m_extractFilesAction->setText(i18n("E&xtract"));
-    m_extractFilesAction->setIcon(QIcon::fromTheme( QLatin1String( "archive-extract" )));
+    m_extractFilesAction->setIcon(QIcon::fromTheme(QLatin1String("archive-extract")));
     m_extractFilesAction->setStatusTip(i18n("Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones"));
     actionCollection()->setDefaultShortcut(m_extractFilesAction, Qt::CTRL + Qt::Key_E);
     connect(m_extractFilesAction, SIGNAL(triggered(bool)),
             this, SLOT(slotExtractFiles()));
 
     m_addFilesAction = actionCollection()->addAction(QLatin1String( "add" ));
-    m_addFilesAction->setIcon(QIcon::fromTheme( QLatin1String( "archive-insert" )));
+    m_addFilesAction->setIcon(QIcon::fromTheme(QLatin1String("archive-insert")));
     m_addFilesAction->setText(i18n("Add &File..."));
     m_addFilesAction->setStatusTip(i18n("Click to add files to the archive"));
     connect(m_addFilesAction, SIGNAL(triggered(bool)),
             this, SLOT(slotAddFiles()));
 
     m_addDirAction = actionCollection()->addAction(QLatin1String( "add-dir" ));
-    m_addDirAction->setIcon(QIcon::fromTheme( QLatin1String( "archive-insert-directory" )));
+    m_addDirAction->setIcon(QIcon::fromTheme(QLatin1String("archive-insert-directory")));
     m_addDirAction->setText(i18n("Add Fo&lder..."));
     m_addDirAction->setStatusTip(i18n("Click to add a folder to the archive"));
     connect(m_addDirAction, SIGNAL(triggered(bool)),
             this, SLOT(slotAddDir()));
 
     m_deleteFilesAction = actionCollection()->addAction(QLatin1String( "delete" ));
-    m_deleteFilesAction->setIcon(QIcon::fromTheme( QLatin1String( "archive-remove" )));
+    m_deleteFilesAction->setIcon(QIcon::fromTheme(QLatin1String("archive-remove")));
     m_deleteFilesAction->setText(i18n("De&lete"));
     actionCollection()->setDefaultShortcut(m_deleteFilesAction, Qt::Key_Delete);
     m_deleteFilesAction->setStatusTip(i18n("Click to delete the selected files"));
