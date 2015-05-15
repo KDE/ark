@@ -111,7 +111,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
         const QList<QUrl> fileUrlList = {QUrl::fromLocalFile(fileName)};
         // The last argument (tempFiles) set to true means that the temporary
         // file will be removed when the viewer application exits.
-        KRun::run(*viewer, fileUrlList, parent, true);
+        KRun::runService(*viewer, fileUrlList, parent, true);
         return;
     }
 
