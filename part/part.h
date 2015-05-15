@@ -28,7 +28,6 @@
 #include <KParts/Part>
 #include <KParts/ReadWritePart>
 #include <KParts/StatusBarExtension>
-#include <KTempDir>
 
 #include <QModelIndex>
 
@@ -43,6 +42,7 @@ class KJob;
 class QAction;
 class QSplitter;
 class QTreeView;
+class QTemporaryDir;
 
 namespace Ark
 {
@@ -122,7 +122,7 @@ private:
     QAction *m_previewChooseAppAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
-    QList<KTempDir*>      m_previewDirList;
+    QList<QTemporaryDir*>      m_previewDirList;
     bool                  m_busy;
     PreviewMode           m_previewMode;
 

@@ -563,9 +563,9 @@ void Part::preview(const QModelIndex &index, PreviewMode mode)
         Kerfuffle::ExtractionOptions options;
         options[QLatin1String( "PreservePaths" )] = true;
 
-        m_previewDirList.append(new KTempDir);
+        m_previewDirList.append(new QTemporaryDir);
         m_previewMode = mode;
-        ExtractJob *job = m_model->extractFile(entry[InternalID], m_previewDirList.last()->name(), options);
+        ExtractJob *job = m_model->extractFile(entry[InternalID], m_previewDirList.last()->path(), options);
 
         registerJob(job);
         connect(job, SIGNAL(result(KJob*)),
@@ -585,7 +585,7 @@ void Part::slotPreviewExtracted(KJob *job)
 
         ExtractJob *extractJob = qobject_cast<ExtractJob*>(job);
         Q_ASSERT(extractJob);
-        QString fullName = extractJob->destinationDirectory() + entry[FileName].toString();
+        QString fullName = extractJob->destinationDirectory() + QLatin1Char('/') + entry[FileName].toString();
 
         // Make sure a maliciously crafted archive with parent folders named ".." do
         // not cause the previewed file path to be located outside the temporary
