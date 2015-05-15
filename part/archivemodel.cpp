@@ -712,6 +712,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
     if (entry) {
         ArchiveDirNode *parent = entry->parent();
         QModelIndex index = indexForNode(entry);
+        Q_UNUSED(index);
 
         beginRemoveRows(indexForNode(parent), entry->row(), entry->row());
 

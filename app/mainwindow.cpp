@@ -224,6 +224,7 @@ void MainWindow::openArchive()
 {
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
+    Q_UNUSED(iface);
 
     QFileDialog dlg(this, i18nc("to open an archive", "Open Archive"));
     dlg.setMimeTypeFilters(Kerfuffle::supportedMimeTypes());
@@ -265,6 +266,7 @@ void MainWindow::newArchive()
 {
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
+    Q_UNUSED(iface);
 
     const QStringList mimeTypes = Kerfuffle::supportedWriteMimeTypes();
 
