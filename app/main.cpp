@@ -41,12 +41,12 @@ using Kerfuffle::AddToArchive;
 
 int main(int argc, char **argv)
 {
+    QApplication application(argc, argv);
+
     Kdelibs4ConfigMigrator migrate(QLatin1Literal("ark"));
     migrate.setConfigFiles(QStringList() << QLatin1Literal("arkrc"));
     migrate.setUiFiles(QStringList() << QLatin1Literal("arkuirc"));
     migrate.migrate();
-
-    QApplication application(argc, argv);
 
     KLocalizedString::setApplicationDomain("ark");
 
