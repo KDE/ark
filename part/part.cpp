@@ -44,7 +44,6 @@
 #include <KPluginFactory>
 #include <KRun>
 #include <KSelectAction>
-#include <KMenu>
 #include <KStandardGuiItem>
 #include <KToggleAction>
 #include <KLocalizedString>
@@ -931,7 +930,7 @@ void Part::slotShowContextMenu()
         return;
     }
 
-    KMenu *popup = static_cast<KMenu *>(factory()->container(QLatin1String("context_menu"), this));
+    QMenu *popup = static_cast<QMenu *>(factory()->container(QLatin1String("context_menu"), this));
     popup->popup(QCursor::pos());
 }
 
