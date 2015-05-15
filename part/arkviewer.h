@@ -22,16 +22,16 @@
 #ifndef ARKVIEWER_H
 #define ARKVIEWER_H
 
-#include <KDialog>
 #include <KParts/BrowserExtension>
 #include <KParts/ReadOnlyPart>
 #include <KService>
 
+#include <QDialog>
 #include <QWeakPointer>
 #include <QMimeType>
 #include <QVBoxLayout>
 
-class ArkViewer : public KDialog
+class ArkViewer : public QDialog
 {
     Q_OBJECT
 
@@ -40,9 +40,6 @@ public:
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
     static void view(const QString& fileName, QWidget* parent = 0);
-
-protected:
-    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
 protected slots:
     void slotOpenUrlRequestDelayed(const QUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments);
@@ -57,8 +54,7 @@ private:
     bool viewInInternalViewer(const QString& fileName, const QMimeType& mimeType);
 
     QWeakPointer<KParts::ReadOnlyPart> m_part;
-    QWidget *m_widget;
-    QVBoxLayout *m_widget_layout;
+    QVBoxLayout *m_mainLayout;
 };
 
 #endif // ARKVIEWER_H

@@ -23,15 +23,16 @@
 
 #include <KLocalizedString>
 #include <KMimeTypeTrader>
-#include <QDebug>
 #include <KIconLoader>
 #include <KMessageBox>
-#include <QProgressDialog>
 #include <KRun>
 #include <KIO/NetAccess>
 #include <KHtml/KHTMLPart>
 #include <KSharedConfig>
+#include <KWindowConfig>
 
+#include <QProgressDialog>
+#include <QDebug>
 #include <QHBoxLayout>
 #include <QFile>
 #include <QFrame>
@@ -39,17 +40,22 @@
 #include <QKeyEvent>
 #include <QPushButton>
 #include <QMimeDatabase>
+#include <QWindow>
+#include <QScreen>
 
-ArkViewer::ArkViewer(QWidget * parent, Qt::WindowFlags flags)
-        : KDialog(parent, flags)
+ArkViewer::ArkViewer(QWidget *parent, Qt::WindowFlags flags)
+        : QDialog(parent, flags)
 {
-    setButtons(Close);
-    m_widget = new QWidget(this);
-    m_widget_layout = new QVBoxLayout(this);
-    m_widget->setLayout(m_widget_layout);
-    m_widget->layout()->setSpacing(10);
+    // Set a QVBoxLayout as main layout of dialog
+    m_mainLayout = new QVBoxLayout(this);
+    setLayout(m_mainLayout);
 
-    setMainWidget(m_widget);
+    // Add a close button
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    m_mainLayout->addWidget(buttonBox);
+    buttonBox->button(QDialogButtonBox::Close)->setDefault(true);
+    buttonBox->button(QDialogButtonBox::Close)->setShortcut(Qt::CTRL | Qt::Key_Return);
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     connect(this, &ArkViewer::finished, this, &ArkViewer::dialogClosed);
 }
@@ -60,8 +66,9 @@ ArkViewer::~ArkViewer()
 
 void ArkViewer::dialogClosed()
 {
-    KConfigGroup conf = KSharedConfig::openConfig()->group("Viewer");
-    saveDialogSize(conf);
+    // Save viewer dialog window size
+    KConfigGroup group(KSharedConfig::openConfig(), "Viewer");
+    KWindowConfig::saveWindowSize(windowHandle(), group, KConfigBase::Persistent);
 
     if (m_part) {
         QProgressDialog progressDialog(this);
@@ -149,8 +156,9 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
 
     if (viewInInternalViewer) {
         ArkViewer *internalViewer = new ArkViewer(parent, Qt::Window);
+        internalViewer->setModal(Qt::WindowModal);
+        internalViewer->show();
         if (internalViewer->viewInInternalViewer(fileName, mimeType)) {
-            internalViewer->show();
             // The internal viewer is showing the file, and will
             // remove the temporary file in dialogClosed().  So there
             // is no more to do here.
@@ -168,19 +176,6 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
     QFile::remove(fileName);
 }
 
-void ArkViewer::keyPressEvent(QKeyEvent *event)
-{
-    QPushButton *defButton = button(defaultButton());
-
-    // Only handle the event the usual way if the default button has focus
-    // Otherwise, pressing enter on KatePart still closes the dialog, for example.
-    if ((defButton) && (defButton->hasFocus())) {
-        KDialog::keyPressEvent(event);
-    }
-
-    event->accept();
-}
-
 // This sets the default size of the dialog.  It will only take effect in the case
 // where there is no saved size in the config file - it sets the default values
 // for KDialog::restoreDialogSize().
@@ -192,17 +187,27 @@ QSize ArkViewer::sizeHint() const
 bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &mimeType)
 {
     setWindowFilePath(fileName);
-    restoreDialogSize(KSharedConfig::openConfig()->group("Viewer"));
 
-    QFrame *header = new QFrame(m_widget);
+    // Load viewer dialog window size from config file
+    KConfigGroup group(KSharedConfig::openConfig(), "Viewer");
+    //KWindowConfig::restoreWindowSize is broken atm., so we need this hack:
+    //KWindowConfig::restoreWindowSize(this->windowHandle(), group);
+    const QRect desk = windowHandle()->screen()->geometry();
+    resize(group.readEntry(QString::fromLatin1("Width %1").arg(desk.width()), windowHandle()->size().width()),
+           group.readEntry(QString::fromLatin1("Height %1").arg(desk.height()), windowHandle()->size().height()));
+
+    // Create a QFrame for the header
+    QFrame *header = new QFrame();
     QHBoxLayout *headerHLayout = new QHBoxLayout(header);
 
+    // Add an icon representing the mimetype to header
     QLabel *iconLabel = new QLabel(header);
     headerHLayout->addWidget(iconLabel);
     iconLabel->setPixmap(KIconLoader::global()->loadMimeTypeIcon(mimeType.iconName(), KIconLoader::Desktop));
     iconLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-    QVBoxLayout *headerVLayout = new QVBoxLayout(header);
+    // Add file name and mimetype to header
+    QVBoxLayout *headerVLayout = new QVBoxLayout();
     headerVLayout->setSpacing(0);
     headerVLayout->addWidget(new QLabel(QStringLiteral("<qt><b>%1</b></qt>").arg(fileName)));
     headerVLayout->addWidget(new QLabel(mimeType.comment()));
@@ -210,13 +215,13 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
 
     header->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
 
-    m_widget_layout->addWidget(header);
+    m_mainLayout->insertWidget(0, header);
 
+    // Insert the KPart into the main layout
     m_part = KMimeTypeTrader::self()->createPartInstanceFromQuery<KParts::ReadOnlyPart>(mimeType.name(),
-             m_widget,
-             this);
-    m_widget_layout->addWidget(m_part.data()->widget());
-
+                                                                                        this,
+                                                                                        this);
+    m_mainLayout->insertWidget(1, m_part.data()->widget());
 
     if (!m_part.data()) {
         return false;

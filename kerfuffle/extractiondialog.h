@@ -33,8 +33,6 @@
 
 #include <KDirSelectDialog>
 
-#include <KDialog>
-
 namespace Kerfuffle
 {
 class KERFUFFLE_EXPORT ExtractionDialog : public KDirSelectDialog
