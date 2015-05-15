@@ -72,7 +72,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
         QString subfolderName = archive->subfolderName();
 
         if (d.exists(subfolderName)) {
-            subfolderName = KIO::RenameDialog::suggestName(QUrl::fromUserInput(destination, QString(), QUrl::AssumeLocalFile), subfolderName);
+            subfolderName = KIO::suggestName(QUrl::fromUserInput(destination, QString(), QUrl::AssumeLocalFile), subfolderName);
         }
 
         d.mkdir(subfolderName);
