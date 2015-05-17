@@ -78,17 +78,18 @@ bool AddToArchive::showAddDialog()
 {
     QWeakPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
         m_inputs, // itemsToAdd
-        QUrl::fromLocalFile(m_firstPath), // startDir
-        QString(), // filter
         Q_NULLPTR, // parent
-        Q_NULLPTR); // widget
+        i18n("Compress to Archive"), // caption
+        QUrl::fromLocalFile(m_firstPath)); // startDir
 
+    dialog.data()->show();
+    dialog.data()->restoreWindowSize();
     bool ret = dialog.data()->exec();
 
     if (ret) {
-        qDebug() << "Returned URL:" << dialog.data()->selectedUrl();
+        qDebug() << "Returned URL:" << dialog.data()->selectedUrls().at(0);
         qDebug() << "Returned mime:" << dialog.data()->currentMimeFilter();
-        setFilename(dialog.data()->selectedUrl());
+        setFilename(dialog.data()->selectedUrls().at(0));
         setMimeType(dialog.data()->currentMimeFilter());
     }
 

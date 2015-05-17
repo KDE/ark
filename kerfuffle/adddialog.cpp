@@ -33,12 +33,18 @@
 #include <KConfigGroup>
 #include <KFilePlacesModel>
 #include <KSharedConfig>
+#include <KWindowConfig>
+#include <KUrlComboBox>
+#include <KMessageBox>
 
 #include <QFileInfo>
 #include <QStandardItemModel>
 #include <QPushButton>
 #include <QIcon>
 #include <QMimeDatabase>
+#include <QDebug>
+#include <QWindow>
+#include <QScreen>
 
 namespace Kerfuffle
 {
@@ -51,58 +57,84 @@ public:
     }
 };
 
-AddDialog::AddDialog(const QStringList& itemsToAdd,
-                     const QUrl &startDir,
-                     const QString & filter,
-                     QWidget * parent,
-                     QWidget * widget
-                    )
-        : KFileDialog(startDir, filter, parent, widget)
+AddDialog::AddDialog(const QStringList &itemsToAdd,
+                     QWidget *parent,
+                     const QString &caption,
+                     const QUrl &startDir)
+        : QDialog(parent, Qt::Dialog)
 {
-    setOperationMode(KFileDialog::Saving);
-    setMode(KFile::File | KFile::LocalOnly);
-    setConfirmOverwrite(true);
-    setWindowTitle(i18n("Compress to Archive"));
+    this->setWindowTitle(caption);
+
+    QHBoxLayout *hlayout = new QHBoxLayout();
+    setLayout(hlayout);
+
+    fileWidget = new KFileWidget(startDir, this);
+    hlayout->addWidget(fileWidget);
+
+    fileWidget->setMode(KFile::File | KFile::LocalOnly);
+    fileWidget->setConfirmOverwrite(true);
+    fileWidget->setOperationMode(KFileWidget::Saving);
+
+    connect(fileWidget->okButton(), &QPushButton::clicked, this, &AddDialog::slotOkButtonClicked);
+    connect(fileWidget, &KFileWidget::accepted, fileWidget, &KFileWidget::accept);
+    connect(fileWidget, &KFileWidget::accepted, this, &QDialog::accept);
+    fileWidget->okButton()->show();
+
+    fileWidget->cancelButton()->show();
+    connect(fileWidget->cancelButton(), &QPushButton::clicked, this, &QDialog::reject);
 
     loadConfiguration();
 
-    connect(okButton(), &QPushButton::clicked, this, &AddDialog::updateDefaultMimeType);
+    connect(this, &QDialog::accepted, this, &AddDialog::updateDefaultMimeType);
+    connect(this, &QDialog::finished, this, &AddDialog::slotSaveWindowSize);
 
+    // Sidepanel with extra options, disabled for now
+    /*
     m_ui = new AddDialogUI(this);
-    setExtension(m_ui);
-    showExtension(true);
-
+    hlayout->addWidget(m_ui);
+    m_ui->groupExtraOptions->hide();
     setupIconList(itemsToAdd);
+    */
 
     // Set up a default name if there's only one file to compress
     if (itemsToAdd.size() == 1) {
         const QFileInfo fileInfo(itemsToAdd.first());
         const QString fileName =
             fileInfo.isDir() ? fileInfo.dir().dirName() : fileInfo.baseName();
-
-        // #272914: Add an extension when it is present, otherwise KFileDialog
-        // will not automatically add it as baseFileName is a file which
-        // already exists.
-        setSelection(fileName + currentFilterMimeType().preferredSuffix());
+        fileWidget->setSelection(fileName);
     }
+}
 
-    //These extra options will be implemented in a 4.2+ version of
-    //ark
-    m_ui->groupExtraOptions->hide();
+QSize AddDialog::sizeHint() const
+{
+    // Used only when no previous window size has been stored
+    return QSize(750,450);
 }
 
 void AddDialog::loadConfiguration()
 {
     m_config = KConfigGroup(KSharedConfig::openConfig()->group("AddDialog"));
 
-    const QString defaultMimeType = QLatin1String( "application/x-compressed-tar" );
-    const QStringList writeMimeTypes = Kerfuffle::supportedWriteMimeTypes();
+    const QString defaultMimeType = QLatin1String("application/x-compressed-tar");
     const QString lastMimeType = m_config.readEntry("LastMimeType", defaultMimeType);
+    QStringList writeMimeTypes = Kerfuffle::supportedWriteMimeTypes();
+
+    //Remove mimetypes with empty comments
+    QMimeDatabase db;
+    QMutableListIterator<QString> i(writeMimeTypes);
+    while (i.hasNext())
+    {
+        QMimeType mime(db.mimeTypeForName(i.next()));
+        QString comment = mime.comment();
+        if (comment.isEmpty())
+            i.remove();
+
+    }
 
     if (writeMimeTypes.contains(lastMimeType)) {
-        setMimeFilter(writeMimeTypes, lastMimeType);
+        fileWidget->setMimeFilter(writeMimeTypes, lastMimeType);
     } else {
-        setMimeFilter(writeMimeTypes, defaultMimeType);
+        fileWidget->setMimeFilter(writeMimeTypes, defaultMimeType);
     }
 }
 
@@ -133,6 +165,46 @@ void AddDialog::setupIconList(const QStringList& itemsToAdd)
 
 void AddDialog::updateDefaultMimeType()
 {
-    m_config.writeEntry("LastMimeType", currentMimeFilter());
+    m_config.writeEntry("LastMimeType", fileWidget->currentFilterMimeType().name());
+}
+
+QList<QUrl> AddDialog::selectedUrls()
+{
+    return(fileWidget->selectedUrls());
+}
+
+QString AddDialog::currentMimeFilter()
+{
+    return(fileWidget->currentMimeFilter());
+}
+
+void AddDialog::slotSaveWindowSize()
+{
+    // Save dialog window size
+    KConfigGroup group(KSharedConfig::openConfig(), "AddDialog");
+    KWindowConfig::saveWindowSize(windowHandle(), group, KConfigBase::Persistent);
+}
+
+void AddDialog::slotOkButtonClicked()
+{
+    // In case the user tries to leave the lineEdit empty:
+    if (fileWidget->locationEdit()->urls().at(0) == fileWidget->baseUrl().path().left(fileWidget->baseUrl().path().size()-1))
+    {
+        KMessageBox::sorry(this, i18n("Please select a filename for the archive."), i18n("No file selected"));
+        return;
+    }
+    // This slot sets the url from text in the lineEdit, asks for overwrite etc, and emits signal accepted
+    fileWidget->slotOk();
+}
+
+void AddDialog::restoreWindowSize()
+{
+  // Restore window size from config file, needs a windoHandle so must be called after show()
+  KConfigGroup group(KSharedConfig::openConfig(), "AddDialog");
+  //KWindowConfig::restoreWindowSize(windowHandle(), group);
+  //KWindowConfig::restoreWindowSize is broken atm., so we need this hack:
+  const QRect desk = windowHandle()->screen()->geometry();
+  this->resize(QSize(group.readEntry(QString::fromLatin1("Width %1").arg(desk.width()), windowHandle()->size().width()),
+                     group.readEntry(QString::fromLatin1("Height %1").arg(desk.height()), windowHandle()->size().height())));
 }
 }
