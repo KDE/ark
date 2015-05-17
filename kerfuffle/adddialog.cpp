@@ -199,7 +199,7 @@ void AddDialog::slotOkButtonClicked()
 
 void AddDialog::restoreWindowSize()
 {
-  // Restore window size from config file, needs a windoHandle so must be called after show()
+  // Restore window size from config file, needs a windowHandle so must be called after show()
   KConfigGroup group(KSharedConfig::openConfig(), "AddDialog");
   //KWindowConfig::restoreWindowSize(windowHandle(), group);
   //KWindowConfig::restoreWindowSize is broken atm., so we need this hack:

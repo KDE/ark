@@ -647,7 +647,10 @@ void Part::slotExtractFiles()
     dialog.data()->setSingleFolderArchive(isSingleFolderArchive());
     dialog.data()->setSubfolder(detectSubfolder());
 
-    dialog.data()->setCurrentUrl(QUrl::fromLocalFile(m_model->archive()->fileName()));
+    dialog.data()->setCurrentUrl(QUrl::fromLocalFile(QFileInfo(m_model->archive()->fileName()).absolutePath()));
+
+    dialog.data()->show();
+    dialog.data()->restoreWindowSize();
 
     if (dialog.data()->exec()) {
         //this is done to update the quick extract menu

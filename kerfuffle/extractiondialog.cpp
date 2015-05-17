@@ -31,8 +31,12 @@
 #include <KLocalizedString>
 #include <KIconLoader>
 #include <KMessageBox>
+#include <KWindowConfig>
 
 #include <QDir>
+#include <QPushButton>
+#include <QWindow>
+#include <QScreen>
 
 #include "ui_extractiondialog.h"
 
@@ -49,12 +53,32 @@ public:
 };
 
 ExtractionDialog::ExtractionDialog(QWidget *parent)
-        : KDirSelectDialog(QUrl::fromLocalFile(QDir::homePath()), true, parent)
+        : QDialog(parent, Qt::Dialog)
+
 {
-    m_ui = new ExtractionDialogUI(this);
-    setExtension(m_ui);
-    showExtension(true);
     setWindowTitle(i18nc("@title:window", "Extract"));
+
+    QHBoxLayout *hlayout = new QHBoxLayout();
+    setLayout(hlayout);
+
+    fileWidget = new KFileWidget(QUrl::fromLocalFile(QDir::homePath()), this);
+    hlayout->addWidget(fileWidget);
+
+    fileWidget->setMode(KFile::Directory | KFile::LocalOnly);
+    fileWidget->setOperationMode(KFileWidget::Saving);
+
+    connect(fileWidget->okButton(), &QPushButton::clicked, this, &ExtractionDialog::slotOkButtonClicked);
+    connect(fileWidget, &KFileWidget::accepted, fileWidget, &KFileWidget::accept);
+    connect(fileWidget, &KFileWidget::accepted, this, &QDialog::accept);
+    fileWidget->okButton()->setText(i18n("Extract"));
+    fileWidget->okButton()->show();
+
+    fileWidget->cancelButton()->show();
+    connect(fileWidget->cancelButton(), &QPushButton::clicked, this, &QDialog::reject);
+
+    m_ui = new ExtractionDialogUI(this);
+    hlayout->addWidget(m_ui);
+
     m_ui->iconLabel->setPixmap(DesktopIcon(QLatin1String("archive-extract")));
 
     m_ui->filesToExtractGroupBox->hide();
@@ -67,7 +91,7 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
 
     loadSettings();
 
-    connect(this, &ExtractionDialog::finished, this, &ExtractionDialog::writeSettings);
+    connect(this, &QDialog::finished, this, &ExtractionDialog::writeSettings);
 }
 
 void ExtractionDialog::loadSettings()
@@ -90,7 +114,7 @@ void ExtractionDialog::batchModeOption()
     m_ui->extractAllLabel->setText(i18n("Extract multiple archives"));
 }
 
-void ExtractionDialog::accept()
+void ExtractionDialog::slotOkButtonClicked()
 {
     if (extractToSubfolder()) {
         if (subfolder().contains(QLatin1String( "/" ))) {
@@ -98,7 +122,7 @@ void ExtractionDialog::accept()
             return;
         }
 
-        const QString pathWithSubfolder = url().toDisplayString(QUrl::PreferLocalFile) + QLatin1Char( '/' ) + subfolder();
+        const QString pathWithSubfolder = fileWidget->baseUrl().path() + subfolder();
 
         while (1) {
             if (QDir(pathWithSubfolder).exists()) {
@@ -127,7 +151,7 @@ void ExtractionDialog::accept()
         }
     }
 
-    KDirSelectDialog::accept();
+    fileWidget->slotOk();
 }
 
 void ExtractionDialog::setSubfolder(const QString& subfolder)
@@ -212,14 +236,12 @@ bool ExtractionDialog::closeAfterExtraction() const
 QUrl ExtractionDialog::destinationDirectory() const
 {
     if (extractToSubfolder()) {
-        //qDebug() << "Adding subfolder" << subfolder() << "to" << url();
-
-        QUrl subUrl = url();
+        QUrl subUrl = fileWidget->baseUrl();
         subUrl.setPath(subUrl.path() + QLatin1Char('/') + subfolder());
 
         return subUrl;
     } else {
-        return url();
+        return fileWidget->baseUrl();
     }
 }
 
@@ -229,8 +251,25 @@ void ExtractionDialog::writeSettings()
     ArkSettings::setCloseAfterExtraction(closeAfterExtraction());
     ArkSettings::setPreservePaths(preservePaths());
     ArkSettings::self()->save();
+
+    // Save dialog window size
+    KConfigGroup group(KSharedConfig::openConfig(), "ExtractDialog");
+    KWindowConfig::saveWindowSize(windowHandle(), group, KConfigBase::Persistent);
 }
 
+void ExtractionDialog::setCurrentUrl(const QUrl &url)
+{
+    fileWidget->setUrl(url);
 }
 
-
+void ExtractionDialog::restoreWindowSize()
+{
+  // Restore window size from config file, needs a windowHandle so must be called after show()
+  KConfigGroup group(KSharedConfig::openConfig(), "ExtractDialog");
+  //KWindowConfig::restoreWindowSize(windowHandle(), group);
+  //KWindowConfig::restoreWindowSize is broken atm., so we need this hack:
+  const QRect desk = windowHandle()->screen()->geometry();
+  this->resize(QSize(group.readEntry(QString::fromLatin1("Width %1").arg(desk.width()), windowHandle()->size().width()),
+                     group.readEntry(QString::fromLatin1("Height %1").arg(desk.height()), windowHandle()->size().height())));
+}
+}
