@@ -58,9 +58,8 @@ MainWindow::MainWindow(QWidget *)
     setupActions();
     statusBar();
 
-    if (!initialGeometrySet()) {
-        resize(640, 480);
-    }
+    resize(640, 480);
+
     setAutoSaveSettings(QLatin1String( "MainWindow" ));
 
     setAcceptDrops(true);
