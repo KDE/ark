@@ -30,7 +30,6 @@
 #include "ui_adddialog.h"
 #include "kerfuffle/archive_kerfuffle.h"
 
-#include <KConfigGroup>
 #include <KFilePlacesModel>
 #include <KSharedConfig>
 #include <KWindowConfig>

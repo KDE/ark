@@ -41,7 +41,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QTimer>
-#include <QWeakPointer>
+#include <QPointer>
 
 namespace Kerfuffle
 {
@@ -76,7 +76,7 @@ void AddToArchive::setMimeType(const QString & mimeType)
 
 bool AddToArchive::showAddDialog()
 {
-    QWeakPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
+    QPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
         m_inputs, // itemsToAdd
         Q_NULLPTR, // parent
         i18n("Compress to Archive"), // caption

@@ -32,7 +32,9 @@
 #include "kerfuffle_export.h"
 
 #include <KJob>
+
 #include <QUrl>
+#include <QStringList>
 
 /**
  * Compresses all input files into an archive.

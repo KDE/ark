@@ -33,7 +33,7 @@
 
 #include <QApplication>
 #include <QDebug>
-#include <QWeakPointer>
+#include <QPointer>
 #include <QUrl>
 
 namespace Kerfuffle
@@ -94,7 +94,7 @@ void OverwriteQuery::execute()
     //sourceUrl.cleanPath();
     //destUrl.cleanPath();
 
-    QWeakPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
+    QPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
         Q_NULLPTR,
         i18n("File already exists"),
         sourceUrl,
@@ -176,7 +176,7 @@ void PasswordNeededQuery::execute()
     // at the moment (#231974)
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
-    QWeakPointer<KPasswordDialog> dlg = new KPasswordDialog;
+    QPointer<KPasswordDialog> dlg = new KPasswordDialog;
     dlg.data()->setPrompt(xi18nc("@info", "The archive <filename>%1</filename> is password protected. Please enter the password to extract the file.",
                                  m_data.value(QLatin1String( "archiveFilename" )).toString()));
 

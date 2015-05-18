@@ -56,10 +56,10 @@
 #include <QMimeData>
 #include <QMouseEvent>
 #include <QScopedPointer>
+#include <QPointer>
 #include <QSplitter>
 #include <QTimer>
 #include <QVBoxLayout>
-#include <QWeakPointer>
 #include <QtDBus/QtDBus>
 #include <QFileDialog>
 #include <QIcon>
@@ -638,7 +638,7 @@ void Part::slotExtractFiles()
         return;
     }
 
-    QWeakPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog;
+    QPointer<Kerfuffle::ExtractionDialog> dialog(new Kerfuffle::ExtractionDialog);
 
     if (m_view->selectionModel()->selectedRows().count() > 0) {
         dialog.data()->setShowSelectedFiles(true);

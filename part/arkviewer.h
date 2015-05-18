@@ -53,7 +53,7 @@ private:
     static KService::Ptr getViewer(const QString& mimeType);
     bool viewInInternalViewer(const QString& fileName, const QMimeType& mimeType);
 
-    QWeakPointer<KParts::ReadOnlyPart> m_part;
+    QPointer<KParts::ReadOnlyPart> m_part;
     QVBoxLayout *m_mainLayout;
 };
 
