@@ -276,7 +276,7 @@ void MainWindow::newArchive()
 
     QFileDialog dlg(this);
     dlg.setMimeTypeFilters(mimeTypes);
-    dlg.setFileMode(QFileDialog::ExistingFile);
+    dlg.setFileMode(QFileDialog::AnyFile);
     dlg.setAcceptMode(QFileDialog::AcceptSave);
     if (dlg.exec() == QDialog::Accepted) {
         m_openArgs.metaData()[QLatin1String( "createNewArchive" )] = QLatin1String( "true" );
