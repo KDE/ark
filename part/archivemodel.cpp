@@ -28,7 +28,7 @@
 #include <QDebug>
 #include <KIconLoader>
 #include <KLocalizedString>
-#include <KIO/NetAccess>
+#include <kio/global.h>
 
 #include <QDir>
 #include <QFont>

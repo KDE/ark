@@ -22,13 +22,14 @@ add_library(kerfuffle SHARED ${kerfuffle_SRCS})
 generate_export_header(kerfuffle BASE_NAME kerfuffle)
 
 target_link_libraries(kerfuffle
+    KF5::IconThemes
     KF5::Pty
     KF5::Service
     KF5::KIOCore
     KF5::KIOWidgets
+    KF5::KIOFileWidgets
     KF5::I18n
     KF5::WidgetsAddons
-    KF5::KDELibs4Support
 )
 if (NOT WIN32)
   target_link_libraries(kerfuffle ${KDE4_KPTY_LIBS})

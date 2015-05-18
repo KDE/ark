@@ -14,7 +14,7 @@ ecm_add_app_icon(ark_SRCS ICONS ${ICONS_SRCS})
 
 add_executable( ark ${ark_SRCS} )
 
-target_link_libraries( ark kerfuffle KF5::DBusAddons )
+target_link_libraries( ark kerfuffle KF5::DBusAddons KF5::Parts )
 
 configure_file(
             ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.ark.desktop.cmake
@@ -48,7 +48,7 @@ set_package_properties(LibKonq PROPERTIES DESCRIPTION "Provides high-level file 
 if (KF5Konq_FOUND)
    set(extracthere_SRCS batchextract.cpp extractHereDndPlugin.cpp)
    add_library(extracthere MODULE ${extracthere_SRCS})
-   target_link_libraries(extracthere kerfuffle KF5::KDELibs4Support KF5::Parts  KF5::Konq )
+   target_link_libraries(extracthere kerfuffle KF5::Parts KF5::Konq )
    install( TARGETS extracthere DESTINATION ${PLUGIN_INSTALL_DIR} )
    install( FILES ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 

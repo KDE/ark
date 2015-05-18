@@ -27,7 +27,6 @@
 
 #include <KPluginFactory>
 #include <KMessageBox>
-#include <KApplication>
 #include <KLocalizedString>
 #include <KActionCollection>
 #include <KStandardAction>
@@ -36,6 +35,7 @@
 #include <KEditToolBar>
 #include <KShortcutsDialog>
 #include <KService>
+#include <KSharedConfig>
 #include <KConfigGroup>
 #include <KXMLGUIFactory>
 

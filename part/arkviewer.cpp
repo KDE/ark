@@ -26,7 +26,6 @@
 #include <KIconLoader>
 #include <KMessageBox>
 #include <KRun>
-#include <KIO/NetAccess>
 #include <KHtml/KHTMLPart>
 #include <KSharedConfig>
 #include <KWindowConfig>

@@ -12,6 +12,7 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
+include(GenerateExportHeader)
 include(FeatureSummary)
 
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
@@ -26,7 +27,7 @@ ecm_setup_version(${ARK_VERSION}
                   SOVERSION ${ARK_VERSION_MAJOR})
 
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core Widgets)
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive Config Pty KHtml KDELibs4Support DBusAddons)
+find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive Config DBusAddons I18n IconThemes KHtml KIO Service Pty WidgetsAddons KDELibs4Support)
 
 find_package(Qt5Test ${QT_MIN_VERSION} CONFIG QUIET)
 set_package_properties(Qt5Test PROPERTIES

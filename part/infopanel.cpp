@@ -28,7 +28,7 @@
 
 #include <KLocalizedString>
 #include <KIconLoader>
-#include <KIO/NetAccess>
+#include <kio/global.h>
 
 using namespace Kerfuffle;
 

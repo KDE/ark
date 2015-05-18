@@ -33,13 +33,13 @@
 #include "kerfuffle/jobs.h"
 #include "kerfuffle/settings.h"
 
-#include <K4AboutData>
 #include <KActionCollection>
 #include <KConfigGroup>
 #include <QDebug>
 #include <KGuiItem>
 #include <KIO/Job>
-#include <KIO/NetAccess>
+#include <KJobWidgets>
+#include <KIO/StatJob>
 #include <KMessageBox>
 #include <KPluginFactory>
 #include <KRun>
@@ -894,7 +894,9 @@ void Part::slotSaveAs()
     QUrl saveUrl = QFileDialog::getSaveFileUrl(widget(), i18nc("@title:window", "Save Archive As"), url().adjusted(QUrl::RemoveFilename));
 
     if ((saveUrl.isValid()) && (!saveUrl.isEmpty())) {
-        if (KIO::NetAccess::exists(saveUrl, KIO::NetAccess::DestinationSide, widget())) {
+        auto statJob = KIO::stat(saveUrl, KIO::StatJob::DestinationSide, 0);
+        KJobWidgets::setWindow(statJob, widget());
+        if (statJob->exec()) {
             int overwrite = KMessageBox::warningContinueCancel(widget(),
                                                                xi18nc("@info", "An archive named <filename>%1</filename> already exists. Are you sure you want to overwrite it?", saveUrl.fileName()),
                                                                QString(),
@@ -920,7 +922,9 @@ void Part::slotSaveAs()
 
         KIO::Job *copyJob = KIO::file_copy(srcUrl, saveUrl, -1, KIO::Overwrite);
 
-        if (!KIO::NetAccess::synchronousRun(copyJob, widget())) {
+        KJobWidgets::setWindow(copyJob, widget());
+        copyJob->exec();
+        if (copyJob->error()) {
             KMessageBox::error(widget(),
                                xi18nc("@info", "The archive could not be saved as <filename>%1</filename>. Try saving it to another location.", saveUrl.path()));
         }
