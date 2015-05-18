@@ -625,12 +625,12 @@ void LibArchiveInterface::emitEntryFromArchiveEntry(struct archive_entry *aentry
 #endif
     e[InternalID] = e[FileName];
 
-    const QString owner = QString::fromAscii(archive_entry_uname(aentry));
+    const QString owner = QString::fromLatin1(archive_entry_uname(aentry));
     if (!owner.isEmpty()) {
         e[Owner] = owner;
     }
 
-    const QString group = QString::fromAscii(archive_entry_gname(aentry));
+    const QString group = QString::fromLatin1(archive_entry_gname(aentry));
     if (!group.isEmpty()) {
         e[Group] = group;
     }
