@@ -761,7 +761,7 @@ void Part::slotExtractionDone(KJob* job)
 
 void Part::adjustColumns()
 {
-    m_view->header()->setResizeMode(0, QHeaderView::ResizeToContents);
+    m_view->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 }
 
 void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
