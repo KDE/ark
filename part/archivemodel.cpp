@@ -837,7 +837,8 @@ void ArchiveModel::slotLoadingFinished(KJob *job)
     foreach(const ArchiveEntry &entry, m_newArchiveEntries) {
         newEntry(entry, DoNotNotifyViews);
     }
-    reset();
+    beginResetModel();
+    endResetModel();
     m_newArchiveEntries.clear();
 
     emit loadingFinished(job);
@@ -887,7 +888,8 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
         // TODO: make sure if it's ok to not have calls to beginRemoveColumns here
         m_showColumns.clear();
     }
-    reset();
+    beginResetModel();
+    endResetModel();
     return job;
 }
 
