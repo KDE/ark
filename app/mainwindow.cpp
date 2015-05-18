@@ -41,9 +41,9 @@
 
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
-#include <QWeakPointer>
 #include <QFileDialog>
 #include <QMimeData>
+#include <QPointer>
 
 static bool isValidArchiveDrag(const QMimeData *data)
 {
@@ -209,7 +209,7 @@ void MainWindow::editToolbars()
     KConfigGroup cfg(KSharedConfig::openConfig(), "MainWindow");
     saveMainWindowSettings(cfg);
 
-    QWeakPointer<KEditToolBar> dlg = new KEditToolBar(factory(), this);
+    QPointer<KEditToolBar> dlg = new KEditToolBar(factory(), this);
     dlg.data()->exec();
 
     createGUI(m_part);

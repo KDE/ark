@@ -42,8 +42,8 @@
 
 #include <QDir>
 #include <QFileInfo>
+#include <QPointer>
 #include <QTimer>
-#include <QWeakPointer>
 
 BatchExtract::BatchExtract(QObject* parent)
     : KCompositeJob(parent),
@@ -257,7 +257,7 @@ void BatchExtract::setPreservePaths(bool value)
 
 bool BatchExtract::showExtractDialog()
 {
-    QWeakPointer<Kerfuffle::ExtractionDialog> dialog =
+    QPointer<Kerfuffle::ExtractionDialog> dialog =
         new Kerfuffle::ExtractionDialog;
 
     if (m_inputs.size() > 1) {
