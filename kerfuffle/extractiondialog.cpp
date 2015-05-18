@@ -25,6 +25,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "app/logging.h"
 #include "extractiondialog.h"
 #include "settings.h"
 
@@ -56,6 +57,8 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
         : QDialog(parent, Qt::Dialog)
 
 {
+    qCDebug(KERFUFFLE) << "ExtractionDialog loaded";
+
     setWindowTitle(i18nc("@title:window", "Extract"));
 
     QHBoxLayout *hlayout = new QHBoxLayout();

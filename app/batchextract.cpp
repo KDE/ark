@@ -26,20 +26,20 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "logging.h"
 #include "batchextract.h"
-
 #include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/extractiondialog.h"
 #include "kerfuffle/jobs.h"
 #include "kerfuffle/queries.h"
 
-#include <QDebug>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KRun>
 #include <KIO/RenameDialog>
 #include <kwidgetjobtracker.h>
 
+#include <QDebug>
 #include <QDir>
 #include <QFileInfo>
 #include <QPointer>
@@ -85,7 +85,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
 
     Kerfuffle::ExtractJob *job = archive->copyFiles(QVariantList(), destination, options);
 
-    //qDebug() << QString(QLatin1String( "Registering job from archive %1, to %2, preservePaths %3" )).arg(archive->fileName()).arg(destination).arg(preservePaths());
+    qCDebug(ARK) << QString(QLatin1String( "Registering job from archive %1, to %2, preservePaths %3" )).arg(archive->fileName()).arg(destination).arg(preservePaths());
 
     addSubjob(job);
 
@@ -139,7 +139,7 @@ void BatchExtract::slotStartJob()
 
     m_initialJobCount = subjobs().size();
 
-    //qDebug() << "Starting first job";
+    qCDebug(ARK) << "Starting first job";
 
     subjobs().at(0)->start();
 }
@@ -153,12 +153,10 @@ void BatchExtract::showFailedFiles()
 
 void BatchExtract::slotResult(KJob *job)
 {
-    //qDebug();
-
     // TODO: The user must be informed about which file caused the error, and that the other files
     //       in the queue will not be extracted.
     if (job->error()) {
-        //qDebug() << "There was en error, " << job->errorText();
+        qCDebug(ARK) << "There was en error, " << job->errorText();
 
         setErrorText(job->errorText());
         setError(job->error());
@@ -183,10 +181,10 @@ void BatchExtract::slotResult(KJob *job)
             KRun::runUrl(destination, QLatin1String( "inode/directory" ), 0);
         }
 
-        //qDebug() << "Finished, emitting the result";
+        qCDebug(ARK) << "Finished, emitting the result";
         emitResult();
     } else {
-        //qDebug() << "Starting the next job";
+        qCDebug(ARK) << "Starting the next job";
         emit description(this,
                          i18n("Extracting file..."),
                          qMakePair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
@@ -205,7 +203,7 @@ void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
 
 bool BatchExtract::addInput(const QUrl& url)
 {
-    //qDebug() << "Adding archive" << url.toDisplayString(QUrl::PreferLocalFile);
+    qCDebug(ARK) << "Adding archive" << url.toDisplayString(QUrl::PreferLocalFile);
 
     Kerfuffle::Archive *archive = Kerfuffle::Archive::create(url.toDisplayString(QUrl::PreferLocalFile), this);
 

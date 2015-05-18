@@ -19,6 +19,7 @@
  *
  */
 
+#include "app/logging.h"
 #include "cliplugin.h"
 
 #include "kerfuffle/kerfuffle_export.h"
@@ -26,6 +27,8 @@
 #include <QTime>
 
 #include <KPluginFactory>
+
+Q_LOGGING_CATEGORY(KERFUFFLE_PLUGIN, "ark.kerfuffle.clilha", QtWarningMsg)
 
 using namespace Kerfuffle;
 
@@ -36,6 +39,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
             m_status(Header),
             m_firstLine(true)
 {
+    qCDebug(KERFUFFLE_PLUGIN) << "Loaded cli_7z plugin";
 }
 
 CliPlugin::~CliPlugin()

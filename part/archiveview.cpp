@@ -19,6 +19,7 @@
  *
  */
 
+#include "app/logging.h"
 #include "archiveview.h"
 
 #include <QDebug>
@@ -36,7 +37,6 @@ ArchiveView::ArchiveView(QWidget *parent)
 
 void ArchiveView::setModel(QAbstractItemModel *model)
 {
-    //qDebug();
     QTreeView::setModel(model);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -60,7 +60,7 @@ void ArchiveView::startDrag(Qt::DropActions supportedActions)
         return;
     }
 
-    //qDebug() << "Singling out the current selection...";
+    qCDebug(PART) << "Singling out the current selection...";
     selectionModel()->setCurrentIndex(currentIndex(), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
     QTreeView::startDrag(supportedActions);
 }
@@ -69,7 +69,7 @@ void ArchiveView::startDrag(Qt::DropActions supportedActions)
 void ArchiveView::dragEnterEvent(QDragEnterEvent * event)
 {
     //TODO: if no model, trigger some mechanism to create one automatically!
-    //qDebug() << event;
+    qCDebug(PART) << "dragEnterEvent" << event;
 
     if (event->source() == this) {
         //we don't support internal drops yet.
@@ -81,7 +81,7 @@ void ArchiveView::dragEnterEvent(QDragEnterEvent * event)
 
 void ArchiveView::dropEvent(QDropEvent * event)
 {
-    //qDebug() << event;
+    qCDebug(PART) << "dropEvent" << event;
 
     if (event->source() == this) {
         //we don't support internal drops yet.
@@ -93,6 +93,8 @@ void ArchiveView::dropEvent(QDropEvent * event)
 
 void ArchiveView::dragMoveEvent(QDragMoveEvent * event)
 {
+    //qCDebug(PART) << "dragMoveEvent" << event;
+
     if (event->source() == this) {
         //we don't support internal drops yet.
         return;

@@ -20,6 +20,7 @@
  *
  */
 
+#include "plugins/logging_kerfuffle_plugin.h"
 #include "cliplugin.h"
 #include "kerfuffle/kerfuffle_export.h"
 
@@ -27,6 +28,8 @@
 #include <QDir>
 #include <QDate>
 #include <QTime>
+
+Q_LOGGING_CATEGORY(KERFUFFLE_PLUGIN, "ark.kerfuffle.cliexample", QtWarningMsg)
 
 K_PLUGIN_FACTORY( CliPluginFactory, registerPlugin< CliPlugin >(); )
 
@@ -36,6 +39,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
       m_incontent(false),
       m_isPasswordProtected(false)
 {
+    qCDebug(KERFUFFLE_PLUGIN) << "Loaded cli-example plugin";
 }
 
 CliPlugin::~CliPlugin()
@@ -125,7 +129,7 @@ bool CliPlugin::readListLine(const QString &line)
         m_entryFilename += QLatin1Char('/');
     }
 
-    //qDebug() << m_entryFilename << " : " << fileprops;
+    //qCDebug(KERFUFFLE_PLUGIN) << m_entryFilename << " : " << fileprops;
     ArchiveEntry e;
     e[ FileName ] = m_entryFilename;
     e[ InternalID ] = m_internalId;
@@ -139,7 +143,7 @@ bool CliPlugin::readListLine(const QString &line)
     e[ Method ] = fileprops[ 7 ];
     e[ Version ] = fileprops[ 8 ];
     e[ IsPasswordProtected] = m_isPasswordProtected;
-    qDebug() << "Added entry: " << e;
+    qCDebug(KERFUFFLE_PLUGIN) << "Added entry: " << e;
 
     emit entry(e);
     m_isFirstLine = true;

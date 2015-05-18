@@ -25,6 +25,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "app/logging.h"
 #include "archive_kerfuffle.h"
 #include "archiveinterface.h"
 #include "jobs.h"
@@ -39,6 +40,8 @@
 #include <KPluginLoader>
 #include <KMimeTypeTrader>
 #include <KServiceTypeTrader>
+
+Q_LOGGING_CATEGORY(KERFUFFLE, "ark.kerfuffle", QtWarningMsg)
 
 static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
 {
@@ -64,18 +67,18 @@ static KService::List findPluginOffers(const QString& filename, const QString& f
 {
     KService::List offers;
 
-    qDebug() << "Find plugin offers for" << filename << "and mime" << fixedMimeType;
+    qCDebug(KERFUFFLE) << "Find plugin offers for" << filename << "and mime" << fixedMimeType;
 
     const QString mimeType = fixedMimeType.isEmpty() ? determineMimeType(filename) : fixedMimeType;
 
-    qDebug() << "Detected MIME" << mimeType;
+    qCDebug(KERFUFFLE) << "Detected mime" << mimeType;
 
     if (!mimeType.isEmpty()) {
         offers = KMimeTypeTrader::self()->query(mimeType, QLatin1String( "Kerfuffle/Plugin" ), QLatin1String( "(exist Library)" ));
         qSort(offers.begin(), offers.end(), comparePlugins);
     }
 
-    qDebug() << "Have" << offers.count() << "offers";
+    qCDebug(KERFUFFLE) << "Have" << offers.count() << "offers";
 
     return offers;
 }
@@ -95,16 +98,16 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     const KService::List offers = findPluginOffers(fileName, fixedMimeType);
 
     if (offers.isEmpty()) {
-        qDebug() << "Could not find a plugin to handle" << fileName;
+        qCWarning(KERFUFFLE) << "Could not find a plugin to handle" << fileName;
         return Q_NULLPTR;
     }
 
     const QString pluginName = offers.first()->library();
-    qDebug() << "Loading plugin" << pluginName << "for" << offers.first()->mimeTypes();
+    qCDebug(KERFUFFLE) << "Loading plugin" << pluginName; // << "for" << offers.first()->mimeTypes();
 
     KPluginFactory * const factory = KPluginLoader(pluginName).factory();
     if (!factory) {
-        qDebug() << "Invalid plugin factory for" << pluginName;
+        qCWarning(KERFUFFLE) << "Invalid plugin factory for" << pluginName;
         return Q_NULLPTR;
     }
 
@@ -113,7 +116,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
 
     ReadOnlyArchiveInterface * const iface = factory->create<ReadOnlyArchiveInterface>(0, args);
     if (!iface) {
-        qDebug() << "Could not create plugin instance" << pluginName << "for" << fileName;
+        qCWarning(KERFUFFLE) << "Could not create plugin instance" << pluginName << "for" << fileName;
         return Q_NULLPTR;
     }
 
@@ -297,7 +300,7 @@ QStringList supportedMimeTypes()
         }
     }
 
-    qDebug() << "Returning" << supported;
+    qCDebug(KERFUFFLE) << "Returning supported mimetypes" << supported;
 
     return supported;
 }
@@ -324,7 +327,7 @@ QStringList supportedWriteMimeTypes()
         }
     }
 
-    qDebug() << "Returning" << supported;
+    qCDebug(KERFUFFLE) << "Returning supported write mimetypes" << supported;
 
     return supported;
 }

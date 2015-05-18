@@ -21,6 +21,7 @@
  *
  */
 
+#include "app/logging.h"
 #include "part.h"
 #include "archivemodel.h"
 #include "archiveview.h"
@@ -64,6 +65,8 @@
 #include <QFileDialog>
 #include <QIcon>
 #include <QInputDialog>
+
+Q_LOGGING_CATEGORY(PART, "ark.part", QtWarningMsg)
 
 using namespace Kerfuffle;
 
@@ -159,7 +162,7 @@ void Part::registerJob(KJob* job)
 //       See bugs #189322 and #204323.
 void Part::extractSelectedFilesTo(const QString& localPath)
 {
-    //qDebug() << "Extract to " << localPath;
+    qCDebug(PART) << "Extract to " << localPath;
     if (!m_model) {
         return;
     }
@@ -172,7 +175,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
     }
 
     QVariant internalRoot;
-    //qDebug() << "valid " << m_view->currentIndex().parent().isValid();
+    qCDebug(PART) << "valid " << m_view->currentIndex().parent().isValid();
     if (m_view->currentIndex().parent().isValid()) {
         internalRoot = m_model->entryForIndex(m_view->currentIndex().parent()).value(InternalID);
     }
@@ -191,7 +194,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
         return;
     }
 
-    //qDebug() << "selected files are " << files;
+    qCDebug(PART) << "selected files are " << files;
     Kerfuffle::ExtractionOptions options;
     options[QLatin1String( "PreservePaths" )] = true;
     if (!internalRoot.isNull()) {
@@ -334,7 +337,7 @@ void Part::updateActions()
         const QString dir = QUrl(dirHistory.value(i)).toString(QUrl::RemoveScheme | QUrl::NormalizePathSegments | QUrl::PreferLocalFile);
         QAction *newAction = menu->addAction(dir);
         newAction->setData(dir);
-        //qDebug() << "Setting action data" << dir;
+        //qCDebug(PART) << "Setting action data" << dir;
     }
 }
 
@@ -344,10 +347,10 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
     //          action, and we do not want it to run here
     if (!triggeredAction->data().isNull()) {
         const QString userDestination = triggeredAction->data().toString();
-        qDebug() << "Extract to user dest" << userDestination;
+        qCDebug(PART) << "Extract to user dest" << userDestination;
         QString finalDestinationDirectory;
         const QString detectedSubfolder = detectSubfolder();
-        qDebug() << "Detected subfolder" << detectedSubfolder;
+        qCDebug(PART) << "Detected subfolder" << detectedSubfolder;
 
         if (!isSingleFolderArchive()) {
             finalDestinationDirectory = userDestination +
@@ -357,7 +360,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
             finalDestinationDirectory = userDestination;
         }
 
-        qDebug() << "Extract to final dest" << finalDestinationDirectory;
+        qCDebug(PART) << "Extract to final dest" << finalDestinationDirectory;
 
         Kerfuffle::ExtractionOptions options;
         options[QLatin1String( "PreservePaths" )] = true;
@@ -664,7 +667,7 @@ void Part::slotExtractFiles()
             files = selectedFilesWithChildren();
         }
 
-        qDebug() << "Selected " << files;
+        qCDebug(PART) << "Selected " << files;
 
         Kerfuffle::ExtractionOptions options;
 
@@ -746,9 +749,9 @@ void Part::slotExtractionDone(KJob* job)
         }
 
         if (ArkSettings::openDestinationFolderAfterExtraction()) {
-            qDebug() << "Shall open" << extractJob->destinationDirectory();
+            qCDebug(PART) << "Shall open" << extractJob->destinationDirectory();
             QUrl destinationDirectory = QUrl::fromLocalFile(extractJob->destinationDirectory()).adjusted(QUrl::NormalizePathSegments);
-            qDebug() << "Shall open URL" << destinationDirectory;
+            qCDebug(PART) << "Shall open URL" << destinationDirectory;
 
             KRun::runUrl(destinationDirectory, QLatin1String("inode/directory"), widget());
         }
@@ -770,8 +773,8 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
         return;
     }
 
-    qDebug() << "Adding " << filesToAdd << " to " << path;
-    qDebug() << "Warning, for now the path argument is not implemented";
+    qCDebug(PART) << "Adding " << filesToAdd << " to " << path;
+    qCDebug(PART) << "Warning, for now the path argument is not implemented";
 
     QStringList cleanFilesToAdd(filesToAdd);
     for (int i = 0; i < cleanFilesToAdd.size(); ++i) {
@@ -791,7 +794,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
     }
     firstPath = QFileInfo(firstPath).dir().absolutePath();
 
-    qDebug() << "Detected relative path to be " << firstPath;
+    qCDebug(PART) << "Detected relative path to be " << firstPath;
     options[QLatin1String( "GlobalWorkDir" )] = firstPath;
 
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);

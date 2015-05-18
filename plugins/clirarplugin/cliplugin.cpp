@@ -20,6 +20,7 @@
  *
  */
 
+#include "app/logging.h"
 #include "cliplugin.h"
 //#include "kerfuffle/cliinterface.h"
 #include "kerfuffle/kerfuffle_export.h"
@@ -31,6 +32,7 @@
 #include <QStringList>
 #include <KPluginFactory>
 
+Q_LOGGING_CATEGORY(KERFUFFLE_PLUGIN, "ark.kerfuffle.clirar", QtWarningMsg)
 
 using namespace Kerfuffle;
 K_PLUGIN_FACTORY( CliPluginFactory, registerPlugin< CliPlugin >(); )
@@ -43,6 +45,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
         , m_isUnrarFree(false)
         , m_isUnrarVersion5(false)
 {
+    qCDebug(KERFUFFLE_PLUGIN) << "Loaded cli_rar plugin";
 }
 
 CliPlugin::~CliPlugin()
@@ -153,7 +156,7 @@ bool CliPlugin::readListLine(const QString &line)
             e[Permissions] = m_entryDetails.value(QLatin1String("attributes"));
             e[CRC] = m_entryDetails.value(QLatin1String("crc32"));
             e[IsPasswordProtected] = m_isPasswordProtected;
-            qDebug() << "Added entry: " << e;
+            qCDebug(KERFUFFLE_PLUGIN) << "Added entry: " << e;
 
             emit entry(e);
 
@@ -244,9 +247,9 @@ bool CliPlugin::readListLine(const QString &line)
                 m_remainingIgnoredSubHeaderLines = 3;
             }
 
-            qDebug() << "Found a subheader of type" << subHeaderType;
-            qDebug() << "The next" << m_remainingIgnoredSubHeaderLines
-                     << "lines will be ignored";
+            qCDebug(KERFUFFLE_PLUGIN) << "Found a subheader of type" << subHeaderType;
+            qCDebug(KERFUFFLE_PLUGIN) << "The next" << m_remainingIgnoredSubHeaderLines
+                                      << "lines will be ignored";
 
             return true;
         } else if (line.startsWith(headerString)) {
@@ -329,7 +332,7 @@ bool CliPlugin::readListLine(const QString &line)
         e[Method] = details.at(7);
         e[Version] = details.at(8);
         e[IsPasswordProtected] = m_isPasswordProtected;
-        qDebug() << "Added entry: " << e;
+        qCDebug(KERFUFFLE_PLUGIN) << "Added entry: " << e;
 
         // #314297: When RAR 3.x and RAR 4.x list a symlink, they output an
         //          extra line after the "Host OS/Solid/Old" one mentioning the

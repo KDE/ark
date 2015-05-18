@@ -26,6 +26,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "app/logging.h"
 #include "adddialog.h"
 #include "ui_adddialog.h"
 #include "kerfuffle/archive_kerfuffle.h"
@@ -62,6 +63,8 @@ AddDialog::AddDialog(const QStringList &itemsToAdd,
                      const QUrl &startDir)
         : QDialog(parent, Qt::Dialog)
 {
+    qCDebug(KERFUFFLE) << "AddDialog loaded";
+
     this->setWindowTitle(caption);
 
     QHBoxLayout *hlayout = new QHBoxLayout();

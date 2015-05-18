@@ -25,6 +25,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "app/logging.h"
 #include "libarchivehandler.h"
 #include "kerfuffle/kerfuffle_export.h"
 #include "kerfuffle/queries.h"
@@ -42,6 +43,8 @@
 #include <QFile>
 #include <QList>
 #include <QStringList>
+
+Q_LOGGING_CATEGORY(KERFUFFLE_PLUGIN, "ark.kerfuffle.libarchive", QtWarningMsg)
 
 K_PLUGIN_FACTORY( LibArchivePluginFactory, registerPlugin< LibArchiveInterface >(); )
 
@@ -74,6 +77,7 @@ LibArchiveInterface::LibArchiveInterface(QObject *parent, const QVariantList & a
     , m_archiveReadDisk(archive_read_disk_new())
     , m_abortOperation(false)
 {
+    qCDebug(KERFUFFLE_PLUGIN) << "Loaded libarchive plugin";
     archive_read_disk_set_standard_lookup(m_archiveReadDisk.data());
 }
 
@@ -83,7 +87,7 @@ LibArchiveInterface::~LibArchiveInterface()
 
 bool LibArchiveInterface::list()
 {
-    qDebug();
+    qCDebug(KERFUFFLE_PLUGIN) << "Listing archive contents";
 
     ArchiveRead arch_reader(archive_read_new());
 
@@ -140,7 +144,7 @@ bool LibArchiveInterface::doKill()
 
 bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& destinationDirectory, ExtractionOptions options)
 {
-    qDebug() << "Changing current directory to " << destinationDirectory;
+    qCDebug(KERFUFFLE_PLUGIN) << "Changing current directory to " << destinationDirectory;
     QDir::setCurrent(destinationDirectory);
 
     const bool extractAll = files.isEmpty();
@@ -186,7 +190,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             emit progress(0);
             //TODO: once information progress has been implemented, send
             //feedback here that the archive is being read
-            qDebug() << "For getting progress information, the archive will be listed once";
+            qCDebug(KERFUFFLE_PLUGIN) << "For getting progress information, the archive will be listed once";
             m_emitNoEntries = true;
             list();
             m_emitNoEntries = false;
@@ -233,7 +237,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             // entryFI is the fileinfo pointing to where the file will be
             // written from the archive
             QFileInfo entryFI(entryName);
-            //qDebug() << "setting path to " << archive_entry_pathname( entry );
+            //qCDebug(KERFUFFLE_PLUGIN) << "setting path to " << archive_entry_pathname( entry );
 
             const QString fileWithoutPath(entryFI.fileName());
 
@@ -250,7 +254,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                 //OR, if the commonBase has been set, then we remove this
                 //common base from the filename
             } else if (!rootNode.isEmpty()) {
-                qDebug() << "Removing" << rootNode << "from" << entryName;
+                qCDebug(KERFUFFLE_PLUGIN) << "Removing" << rootNode << "from" << entryName;
 
                 const QString truncatedFilename(entryName.remove(0, rootNode.size()));
                 archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
@@ -296,9 +300,9 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             //if there is an already existing directory:
             if (entryIsDir && entryFI.exists()) {
                 if (entryFI.isWritable()) {
-                    qDebug() << "Warning, existing, but writable dir";
+                    qCWarning(KERFUFFLE_PLUGIN) << "Warning, existing, but writable dir";
                 } else {
-                    qDebug() << "Warning, existing, but non-writable dir. skipping";
+                    qCWarning(KERFUFFLE_PLUGIN) << "Warning, existing, but non-writable dir. skipping";
                     archive_entry_clear(entry);
                     archive_read_data_skip(arch.data());
                     continue;
@@ -306,15 +310,15 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             }
 
             int header_response;
-            qDebug() << "Writing " << fileWithoutPath << " to " << archive_entry_pathname(entry);
+            qCDebug(KERFUFFLE_PLUGIN) << "Writing " << fileWithoutPath << " to " << archive_entry_pathname(entry);
             if ((header_response = archive_write_header(writer.data(), entry)) == ARCHIVE_OK) {
                 //if the whole archive is extracted and the total filesize is
                 //available, we use partial progress
                 copyData(arch.data(), writer.data(), (extractAll && m_extractedFilesSize));
             } else if (header_response == ARCHIVE_WARN) {
-                qDebug() << "Warning while writing " << entryName;
+                qCWarning(KERFUFFLE_PLUGIN) << "Warning while writing " << entryName;
             } else {
-                qDebug() << "Writing header failed with error code " << header_response
+                qCCritical(KERFUFFLE_PLUGIN) << "Writing header failed with error code " << header_response
                 << "While attempting to write " << entryName;
             }
 
@@ -341,7 +345,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
     const QString globalWorkDir = options.value(QLatin1String( "GlobalWorkDir" )).toString();
 
     if (!globalWorkDir.isEmpty()) {
-        qDebug() << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
+        qCDebug(KERFUFFLE_PLUGIN) << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
         m_workDir.setPath(globalWorkDir);
         QDir::setCurrent(globalWorkDir);
     }
@@ -382,22 +386,22 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
     int ret;
     if (creatingNewFile) {
         if (filename().right(2).toUpper() == QLatin1String( "GZ" )) {
-            qDebug() << "Detected gzip compression for new file";
+            qCDebug(KERFUFFLE_PLUGIN) << "Detected gzip compression for new file";
             ret = archive_write_add_filter_gzip(arch_writer.data());
         } else if (filename().right(3).toUpper() == QLatin1String( "BZ2" )) {
-            qDebug() << "Detected bzip2 compression for new file";
+            qCDebug(KERFUFFLE_PLUGIN) << "Detected bzip2 compression for new file";
             ret = archive_write_add_filter_bzip2(arch_writer.data());
         } else if (filename().right(2).toUpper() == QLatin1String( "XZ" )) {
-            qDebug() << "Detected xz compression for new file";
+            qCDebug(KERFUFFLE_PLUGIN) << "Detected xz compression for new file";
             ret = archive_write_add_filter_xz(arch_writer.data());
         } else if (filename().right(4).toUpper() == QLatin1String( "LZMA" )) {
-            qDebug() << "Detected lzma compression for new file";
+            qCDebug(KERFUFFLE_PLUGIN) << "Detected lzma compression for new file";
             ret = archive_write_add_filter_lzma(arch_writer.data());
         } else if (filename().right(3).toUpper() == QLatin1String( "TAR" )) {
-            qDebug() << "Detected no compression for new file (pure tar)";
+            qCDebug(KERFUFFLE_PLUGIN) << "Detected no compression for new file (pure tar)";
             ret = archive_write_add_filter_none(arch_writer.data());
         } else {
-            qDebug() << "Falling back to gzip";
+            qCDebug(KERFUFFLE_PLUGIN) << "Falling back to gzip";
             ret = archive_write_add_filter_gzip(arch_writer.data());
         }
 
@@ -486,18 +490,18 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
         while (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK) {
             if (m_writtenFiles.contains(QFile::decodeName(archive_entry_pathname(entry)))) {
                 archive_read_data_skip(arch_reader.data());
-                qDebug() << "Entry already existing, will be refresh: ===> " << archive_entry_pathname(entry);
+                qCDebug(KERFUFFLE_PLUGIN) << "Entry already existing, will be refresh: ===> " << archive_entry_pathname(entry);
                 continue;
             }
 
             int header_response;
-            //qDebug() << "Writing entry " << fn;
+            //qCDebug(KERFUFFLE_PLUGIN) << "Writing entry " << fn;
             if ((header_response = archive_write_header(arch_writer.data(), entry)) == ARCHIVE_OK) {
                 //if the whole archive is extracted and the total filesize is
                 //available, we use partial progress
                 copyData(arch_reader.data(), arch_writer.data(), false);
             } else {
-                qDebug() << "Writing header failed with error code " << header_response;
+                qCCritical(KERFUFFLE_PLUGIN) << "Writing header failed with error code " << header_response;
                 QFile::remove(tempFilename);
                 return false;
             }
@@ -587,20 +591,20 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
     while (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK) {
         if (files.contains(QFile::decodeName(archive_entry_pathname(entry)))) {
             archive_read_data_skip(arch_reader.data());
-            qDebug() << "Entry to be deleted, skipping"
+            qCDebug(KERFUFFLE_PLUGIN) << "Entry to be deleted, skipping"
                      << archive_entry_pathname(entry);
             emit entryRemoved(QFile::decodeName(archive_entry_pathname(entry)));
             continue;
         }
 
         int header_response;
-        //qDebug() << "Writing entry " << fn;
+        //qCDebug(KERFUFFLE_PLUGIN) << "Writing entry " << fn;
         if ((header_response = archive_write_header(arch_writer.data(), entry)) == ARCHIVE_OK) {
             //if the whole archive is extracted and the total filesize is
             //available, we use partial progress
             copyData(arch_reader.data(), arch_writer.data(), false);
         } else {
-            qDebug() << "Writing header failed with error code " << header_response;
+            qCCritical(KERFUFFLE_PLUGIN) << "Writing header failed with error code " << header_response;
             return false;
         }
     }
@@ -681,7 +685,7 @@ void LibArchiveInterface::copyData(const QString& filename, struct archive *dest
         /* int writeBytes = */
         archive_write_data(dest, buff, readBytes);
         if (archive_errno(dest) != ARCHIVE_OK) {
-            qDebug() << "Error while writing..." << archive_error_string(dest) << "(error nb =" << archive_errno(dest) << ')';
+            qCCritical(KERFUFFLE_PLUGIN) << "Error while writing..." << archive_error_string(dest) << "(error nb =" << archive_errno(dest) << ')';
             return;
         }
 
@@ -706,7 +710,7 @@ void LibArchiveInterface::copyData(struct archive *source, struct archive *dest,
         /* int writeBytes = */
         archive_write_data(dest, buff, readBytes);
         if (archive_errno(dest) != ARCHIVE_OK) {
-            qDebug() << "Error while extracting..." << archive_error_string(dest) << "(error nb =" << archive_errno(dest) << ')';
+            qCCritical(KERFUFFLE_PLUGIN) << "Error while extracting..." << archive_error_string(dest) << "(error nb =" << archive_errno(dest) << ')';
             return;
         }
 
@@ -746,14 +750,14 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
     archive_entry_copy_sourcepath(entry, QFile::encodeName(fileName).constData());
     archive_read_disk_entry_from_file(m_archiveReadDisk.data(), entry, -1, &st);
 
-    qDebug() << "Writing new entry " << archive_entry_pathname(entry);
+    qCDebug(KERFUFFLE_PLUGIN) << "Writing new entry " << archive_entry_pathname(entry);
     if ((header_response = archive_write_header(arch_writer, entry)) == ARCHIVE_OK) {
         //if the whole archive is extracted and the total filesize is
         //available, we use partial progress
         copyData(fileName, arch_writer, false);
     } else {
-        qDebug() << "Writing header failed with error code " << header_response;
-        qDebug() << "Error while writing..." << archive_error_string(arch_writer) << "(error nb =" << archive_errno(arch_writer) << ')';
+        qCCritical(KERFUFFLE_PLUGIN) << "Writing header failed with error code " << header_response;
+        qCCritical(KERFUFFLE_PLUGIN) << "Error while writing..." << archive_error_string(arch_writer) << "(error nb =" << archive_errno(arch_writer) << ')';
 
         emit error(xi18nc("@info Error in a message box",
                           "Ark could not compress <filename>%1</filename>:<nl/>%2",

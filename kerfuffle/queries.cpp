@@ -25,6 +25,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
+#include "app/logging.h"
 #include "queries.h"
 
 #include <KLocalizedString>
@@ -32,7 +34,6 @@
 #include <kio/renamedialog.h>
 
 #include <QApplication>
-#include <QDebug>
 #include <QPointer>
 #include <QUrl>
 
@@ -50,8 +51,6 @@ QVariant Query::response() const
 
 void Query::waitForResponse()
 {
-    qDebug();
-
     //if there is no response set yet, wait
     if (!m_data.contains(QLatin1String("response"))) {
         m_responseCondition.wait(&m_responseMutex);
@@ -61,8 +60,6 @@ void Query::waitForResponse()
 
 void Query::setResponse(const QVariant &response)
 {
-    qDebug();
-
     m_data[QLatin1String( "response" )] = response;
     m_responseCondition.wakeAll();
 }
@@ -172,6 +169,8 @@ PasswordNeededQuery::PasswordNeededQuery(const QString& archiveFilename, bool in
 
 void PasswordNeededQuery::execute()
 {
+    qCDebug(KERFUFFLE) << "Executing password prompt";
+
     // If we are being called from the KPart, the cursor is probably Qt::WaitCursor
     // at the moment (#231974)
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));

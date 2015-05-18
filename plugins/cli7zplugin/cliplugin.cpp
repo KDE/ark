@@ -20,6 +20,7 @@
  *
  */
 
+#include "app/logging.h"
 #include "cliplugin.h"
 #include "kerfuffle/cliinterface.h"
 #include "kerfuffle/kerfuffle_export.h"
@@ -32,6 +33,8 @@
 
 #include <KPluginFactory>
 
+Q_LOGGING_CATEGORY(KERFUFFLE_PLUGIN, "ark.kerfuffle.cli7z", QtWarningMsg)
+
 using namespace Kerfuffle;
 
 K_PLUGIN_FACTORY( CliPluginFactory, registerPlugin< CliPlugin >(); )
@@ -41,6 +44,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
         , m_archiveType(ArchiveType7z)
         , m_state(ReadStateHeader)
 {
+    qCDebug(KERFUFFLE_PLUGIN) << "Loaded cli_7z plugin";
 }
 
 CliPlugin::~CliPlugin()
@@ -87,13 +91,13 @@ bool CliPlugin::readListLine(const QString& line)
     switch (m_state) {
     case ReadStateHeader:
         if (line.startsWith(QLatin1String("Listing archive:"))) {
-            qDebug() << "Archive name: "
+            qCDebug(KERFUFFLE_PLUGIN) << "Archive name: "
                      << line.right(line.size() - 16).trimmed();
         } else if ((line == archiveInfoDelimiter1) ||
                    (line == archiveInfoDelimiter2)) {
             m_state = ReadStateArchiveInformation;
         } else if (line.contains(QLatin1String( "Error:" ))) {
-            qDebug() << line.mid(6);
+            qCDebug(KERFUFFLE_PLUGIN) << line.mid(6);
         }
         break;
 
@@ -102,7 +106,7 @@ bool CliPlugin::readListLine(const QString& line)
             m_state = ReadStateEntryInformation;
         } else if (line.startsWith(QLatin1String("Type ="))) {
             const QString type = line.mid(7).trimmed();
-            qDebug() << "Archive type: " << type;
+            qCDebug(KERFUFFLE_PLUGIN) << "Archive type: " << type;
 
             if (type == QLatin1String("7z")) {
                 m_archiveType = ArchiveType7z;

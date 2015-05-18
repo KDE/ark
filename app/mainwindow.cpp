@@ -21,6 +21,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
+#include "logging.h"
 #include "mainwindow.h"
 #include "kerfuffle/archive_kerfuffle.h"
 #include "part/interface.h"
@@ -31,7 +32,6 @@
 #include <KActionCollection>
 #include <KStandardAction>
 #include <KRecentFilesAction>
-#include <QDebug>
 #include <KEditToolBar>
 #include <KShortcutsDialog>
 #include <KService>
@@ -39,6 +39,7 @@
 #include <KConfigGroup>
 #include <KXMLGUIFactory>
 
+#include <QDebug>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QFileDialog>
@@ -78,7 +79,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::dragEnterEvent(QDragEnterEvent * event)
 {
-    //qDebug() << event;
+    qCDebug(ARK) << "dragEnterEvent" << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) {
@@ -93,7 +94,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent * event)
 
 void MainWindow::dropEvent(QDropEvent * event)
 {
-    //qDebug() << event;
+    qCDebug(ARK) << "dropEvent" << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) {
@@ -112,7 +113,7 @@ void MainWindow::dropEvent(QDropEvent * event)
 
 void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 {
-    //qDebug() << event;
+    //qCDebug(ARK) << "dragMoveEvent" << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) {
@@ -149,7 +150,7 @@ bool MainWindow::loadPart()
 
     if (!m_part) {
         KMessageBox::error(this, i18n("Unable to find Ark's KPart component, please check your installation."));
-        qWarning() << "Error loading Ark KPart: ";
+        qCWarning(ARK) << "Error loading Ark KPart.";
         return false;
     }
 
@@ -263,13 +264,15 @@ void MainWindow::quit()
 
 void MainWindow::newArchive()
 {
+    qCDebug(ARK) << "Creating new archive";
+
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
     Q_UNUSED(iface);
 
     const QStringList mimeTypes = Kerfuffle::supportedWriteMimeTypes();
 
-    //qDebug() << "Supported mimetypes are" << mimeTypes.join( QLatin1String( " " ));
+    qCDebug(ARK) << "Supported mimetypes are" << mimeTypes.join( QLatin1String(" "));
 
     QFileDialog dlg(this);
     dlg.setMimeTypeFilters(mimeTypes);

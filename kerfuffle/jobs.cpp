@@ -25,9 +25,9 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "app/logging.h"
 #include "jobs.h"
 
-#include <QDebug>
 #include <QThread>
 
 #include <KLocalizedString>
@@ -153,7 +153,7 @@ void Job::onEntryRemoved(const QString & path)
 
 void Job::onFinished(bool result)
 {
-    qDebug() << result;
+    qCDebug(KERFUFFLE) << "Job finished, result:" << result;
 
     archiveInterface()->disconnect(this);
 
@@ -167,10 +167,9 @@ void Job::onUserQuery(Query *query)
 
 bool Job::doKill()
 {
-    qDebug();
     bool ret = archiveInterface()->doKill();
     if (!ret) {
-        qDebug() << "Killing does not seem to be supported here.";
+        qCWarning(KERFUFFLE) << "Killing does not seem to be supported here.";
     }
     return ret;
 }
@@ -257,7 +256,7 @@ void ExtractJob::doWork()
 
     connectToArchiveInterfaceSignals();
 
-    qDebug() << "Starting extraction with selected files:"
+    qCDebug(KERFUFFLE) << "Starting extraction with selected files:"
              << m_files
              << "Destination dir:" << m_destinationDir
              << "Options:" << m_options;
