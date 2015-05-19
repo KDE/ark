@@ -45,6 +45,7 @@
 #include <QFileDialog>
 #include <QMimeData>
 #include <QPointer>
+#include <QRegularExpression>
 
 static bool isValidArchiveDrag(const QMimeData *data)
 {
@@ -228,6 +229,25 @@ void MainWindow::openArchive()
 
     QFileDialog dlg(this, i18nc("to open an archive", "Open Archive"));
     dlg.setMimeTypeFilters(Kerfuffle::supportedMimeTypes());
+
+    QStringList filters = dlg.nameFilters();
+    filters.removeDuplicates();
+    filters.sort(Qt::CaseInsensitive);
+
+    // Create the "All supported archives" filter
+    QRegularExpression rx("(\\*\\.[a-z]+\\.*[a-z0-9]*)+");
+    QString allArchives(i18n("All supported archives ("));
+    foreach(QString s, filters)
+    {
+        QRegularExpressionMatchIterator i = rx.globalMatch(s);
+        while (i.hasNext()) {
+            QRegularExpressionMatch match = i.next();
+            allArchives.append(match.captured(1) + " ");
+        }
+    }
+    filters.prepend(allArchives + ")");
+    dlg.setNameFilters(filters);
+
     dlg.setFileMode(QFileDialog::ExistingFile);
     dlg.setAcceptMode(QFileDialog::AcceptOpen);
     if (dlg.exec() == QDialog::Accepted) {
