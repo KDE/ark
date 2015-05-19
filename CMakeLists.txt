@@ -29,6 +29,7 @@ ecm_setup_version(${ARK_VERSION}
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core Widgets)
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive
                                                         Config
+                                                        Crash
                                                         DBusAddons
                                                         DocTools
                                                         I18n

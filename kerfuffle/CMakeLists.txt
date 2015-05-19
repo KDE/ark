@@ -22,6 +22,7 @@ add_library(kerfuffle SHARED ${kerfuffle_SRCS})
 generate_export_header(kerfuffle BASE_NAME kerfuffle)
 
 target_link_libraries(kerfuffle
+    KF5::Crash
     KF5::IconThemes
     KF5::Pty
     KF5::Service
