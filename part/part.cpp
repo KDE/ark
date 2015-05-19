@@ -646,6 +646,8 @@ void Part::slotExtractFiles()
 
     QPointer<Kerfuffle::ExtractionDialog> dialog(new Kerfuffle::ExtractionDialog);
 
+    dialog.data()->setModal(true);
+
     if (m_view->selectionModel()->selectedRows().count() > 0) {
         dialog.data()->setShowSelectedFiles(true);
     }

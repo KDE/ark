@@ -262,6 +262,7 @@ bool BatchExtract::showExtractDialog()
         dialog.data()->batchModeOption();
     }
 
+    dialog.data()->setModal(true);
     dialog.data()->setAutoSubfolder(autoSubfolder());
     dialog.data()->setCurrentUrl(QUrl::fromUserInput(destinationFolder(), QString(), QUrl::AssumeLocalFile));
     dialog.data()->setPreservePaths(preservePaths());
