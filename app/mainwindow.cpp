@@ -296,6 +296,9 @@ void MainWindow::newArchive()
 
     QFileDialog dlg(this);
     dlg.setMimeTypeFilters(mimeTypes);
+    QStringList filters = dlg.nameFilters();
+    filters.sort(Qt::CaseInsensitive);
+    dlg.setNameFilters(filters);
     dlg.setFileMode(QFileDialog::AnyFile);
     dlg.setAcceptMode(QFileDialog::AcceptSave);
     if (dlg.exec() == QDialog::Accepted) {
