@@ -43,6 +43,8 @@ public:
     bool addFiles(const QStringList &files, const CompressionOptions &options) Q_DECL_OVERRIDE;
     bool deleteFiles(const QList<QVariant> & files) Q_DECL_OVERRIDE;
 
+    bool createEmptyArchive(KArchive *archive);
+
 private:
     enum {
         OverwriteYes,
@@ -67,6 +69,8 @@ private:
     KArchive *archive();
 
     KArchive *m_archive;
+
+    int m_no_files = 0;
 };
 
 #endif // KARCHIVEPLUGIN_H
