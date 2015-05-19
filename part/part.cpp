@@ -387,6 +387,8 @@ void Part::selectionChanged()
 
 bool Part::openFile()
 {
+    qCDebug(PART) << "Attempting to open archive" << localFilePath();
+
     const QString localFile(localFilePath());
     const QFileInfo localFileInfo(localFile);
     const bool creatingNewArchive =
@@ -455,6 +457,7 @@ bool Part::openFile()
             return false;
         }
 
+        // Delete archive and point to a new one
         archive.reset(Kerfuffle::Archive::create(localFile, mimeTypes.key(item), m_model));
     }
 

@@ -67,7 +67,7 @@ static KService::List findPluginOffers(const QString& filename, const QString& f
 {
     KService::List offers;
 
-    qCDebug(KERFUFFLE) << "Find plugin offers for" << filename << "and mime" << fixedMimeType;
+    qCDebug(KERFUFFLE) << "Find plugin offers for" << filename << "with mime" << fixedMimeType;
 
     const QString mimeType = fixedMimeType.isEmpty() ? determineMimeType(filename) : fixedMimeType;
 
@@ -93,6 +93,8 @@ Archive *Archive::create(const QString &fileName, QObject *parent)
 
 Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, QObject *parent)
 {
+    qCDebug(KERFUFFLE) << "Going to create archive" << fileName;
+
     qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 
     const KService::List offers = findPluginOffers(fileName, fixedMimeType);
@@ -130,6 +132,8 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, QObject *parent)
         m_isPasswordProtected(false),
         m_isSingleFolderArchive(false)
 {
+    qCDebug(KERFUFFLE) << "Created archive instance";
+
     Q_ASSERT(archiveInterface);
     archiveInterface->setParent(this);
 }
@@ -155,6 +159,8 @@ KJob* Archive::create()
 
 ListJob* Archive::list()
 {
+    qCDebug(KERFUFFLE) << "Going to list files";
+
     ListJob *job = new ListJob(m_iface, this);
     job->setAutoDelete(false);
 
@@ -168,6 +174,8 @@ ListJob* Archive::list()
 
 DeleteJob* Archive::deleteFiles(const QList<QVariant> & files)
 {
+    qCDebug(KERFUFFLE) << "Going to delete files" << files;
+
     if (m_iface->isReadOnly()) {
         return 0;
     }
@@ -178,6 +186,7 @@ DeleteJob* Archive::deleteFiles(const QList<QVariant> & files)
 
 AddJob* Archive::addFiles(const QStringList & files, const CompressionOptions& options)
 {
+    qCDebug(KERFUFFLE) << "Going to add files" << files << "with options" << options;
     Q_ASSERT(!m_iface->isReadOnly());
     AddJob *newJob = new AddJob(files, options, static_cast<ReadWriteArchiveInterface*>(m_iface), this);
     connect(newJob, &AddJob::result, this, &Archive::onAddFinished);

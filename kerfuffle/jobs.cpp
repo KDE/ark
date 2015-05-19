@@ -180,6 +180,7 @@ ListJob::ListJob(ReadOnlyArchiveInterface *interface, QObject *parent)
     , m_isPasswordProtected(false)
     , m_extractedFilesSize(0)
 {
+    qCDebug(KERFUFFLE) << "ListJob started";
     connect(this, &ListJob::newEntry, this, &ListJob::onNewEntry);
 }
 
@@ -241,6 +242,7 @@ ExtractJob::ExtractJob(const QVariantList& files, const QString& destinationDir,
     , m_destinationDir(destinationDir)
     , m_options(options)
 {
+    qCDebug(KERFUFFLE) << "ExtractJob started";
     setDefaultOptions();
 }
 
@@ -297,10 +299,13 @@ AddJob::AddJob(const QStringList& files, const CompressionOptions& options , Rea
     , m_files(files)
     , m_options(options)
 {
+    qCDebug(KERFUFFLE) << "AddJob started";
 }
 
 void AddJob::doWork()
 {
+    qCDebug(KERFUFFLE) << "AddJob doing work";
+
     emit description(this, i18np("Adding a file", "Adding %1 files", m_files.count()));
 
     ReadWriteArchiveInterface *m_writeInterface =
