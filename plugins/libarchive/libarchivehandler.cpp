@@ -390,6 +390,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
     // before close()'ing the file descriptor).
     QScopedPointer<KSaveFile, KSaveFileSafeDeleter> tempFile(new KSaveFile(filename()));
     if (!tempFile->open(QIODevice::WriteOnly | QIODevice::Unbuffered)) {
+        emit error(i18nc("@info", "Failed to create a temporary file to compress <filename>%1</filename>.", filename()));
         return false;
     }
 
@@ -574,6 +575,7 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
     // before close()'ing the file descriptor).
     QScopedPointer<KSaveFile, KSaveFileSafeDeleter> tempFile(new KSaveFile(filename()));
     if (!tempFile->open(QIODevice::WriteOnly | QIODevice::Unbuffered)) {
+        emit error(i18nc("@info", "Failed to create a temporary file to compress <filename>%1</filename>.", filename()));
         return false;
     }
 
