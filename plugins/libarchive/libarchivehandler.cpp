@@ -36,6 +36,7 @@
 
 #include <KDebug>
 #include <KLocale>
+#include <KSaveFile>
 #include <kde_file.h>
 
 #include <QDateTime>
@@ -44,6 +45,20 @@
 #include <QFile>
 #include <QList>
 #include <QStringList>
+
+/**
+ * Custom QScopedPointer deleter for KSaveFile that inverts KSaveFile's
+ * semantics: while by default KSaveFile will call finalize() when being
+ * destroyed, this deleter will call abort() if the file is still open.
+ */
+struct KSaveFileSafeDeleter  // KDE5: use QSaveFile, it has proper semantics.
+{
+    static inline void cleanup(KSaveFile *saveFile) {
+        if (saveFile->isOpen()) {
+            saveFile->abort();
+        }
+    }
+};
 
 struct LibArchiveInterface::ArchiveReadCustomDeleter
 {
@@ -337,7 +352,6 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
 bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOptions& options)
 {
     const bool creatingNewFile = !QFileInfo(filename()).exists();
-    const QString tempFilename = filename() + QLatin1String( ".arkWriting" );
     const QString globalWorkDir = options.value(QLatin1String( "GlobalWorkDir" )).toString();
 
     if (!globalWorkDir.isEmpty()) {
@@ -368,6 +382,15 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
             emit error(i18n("The source file could not be read."));
             return false;
         }
+    }
+
+    // |tempFile| needs to be created before |arch_writer| so that when we go
+    // out of scope in a `return false' case we ArchiveWriteCustomDeleter is
+    // called before KSaveFileSafeDeleter (ie. we call archive_write_close()
+    // before close()'ing the file descriptor).
+    QScopedPointer<KSaveFile, KSaveFileSafeDeleter> tempFile(new KSaveFile(filename()));
+    if (!tempFile->open(QIODevice::WriteOnly | QIODevice::Unbuffered)) {
+        return false;
     }
 
     ArchiveWrite arch_writer(archive_write_new());
@@ -443,7 +466,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
         }
     }
 
-    ret = archive_write_open_filename(arch_writer.data(), QFile::encodeName(tempFilename));
+    ret = archive_write_open_fd(arch_writer.data(), tempFile->handle());
     if (ret != ARCHIVE_OK) {
         emit error(i18nc("@info", "Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
@@ -456,7 +479,6 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
         success = writeFile(selectedFile, arch_writer.data());
 
         if (!success) {
-            QFile::remove(tempFilename);
             return false;
         }
 
@@ -481,7 +503,6 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
                                     arch_writer.data());
 
                 if (!success) {
-                    QFile::remove(tempFilename);
                     return false;
                 }
             }
@@ -508,28 +529,26 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
                 copyData(arch_reader.data(), arch_writer.data(), false);
             } else {
                 kDebug() << "Writing header failed with error code " << header_response;
-                QFile::remove(tempFilename);
                 return false;
             }
 
             archive_entry_clear(entry);
         }
-
-        //everything seems OK, so we remove the source file and replace it with
-        //the new one.
-        //TODO: do some extra checks to see if this is really OK
-        QFile::remove(filename());
     }
 
-    QFile::rename(tempFilename, filename());
+    // In the success case, we need to manually close the archive_writer before
+    // calling KSaveFile::finalize(), otherwise the latter will close() the
+    // file descriptor archive_writer is still working on.
+    // TODO: We need to abstract this code better so that we only deal with one
+    // object that manages both KSaveFile and ArchiveWriter.
+    archive_write_close(arch_writer.data());
+    tempFile->finalize();
 
     return true;
 }
 
 bool LibArchiveInterface::deleteFiles(const QVariantList& files)
 {
-    const QString tempFilename = filename() + QLatin1String( ".arkWriting" );
-
     ArchiveRead arch_reader(archive_read_new());
     if (!(arch_reader.data())) {
         emit error(i18n("The archive reader could not be initialized."));
@@ -546,6 +565,15 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
 
     if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
         emit error(i18n("The source file could not be read."));
+        return false;
+    }
+
+    // |tempFile| needs to be created before |arch_writer| so that when we go
+    // out of scope in a `return false' case we ArchiveWriteCustomDeleter is
+    // called before KSaveFileSafeDeleter (ie. we call archive_write_close()
+    // before close()'ing the file descriptor).
+    QScopedPointer<KSaveFile, KSaveFileSafeDeleter> tempFile(new KSaveFile(filename()));
+    if (!tempFile->open(QIODevice::WriteOnly | QIODevice::Unbuffered)) {
         return false;
     }
 
@@ -589,7 +617,7 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
         return false;
     }
 
-    ret = archive_write_open_filename(arch_writer.data(), QFile::encodeName(tempFilename));
+    ret = archive_write_open_fd(arch_writer.data(), tempFile->handle());
     if (ret != ARCHIVE_OK) {
         emit error(i18nc("@info", "Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
@@ -619,11 +647,13 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
         }
     }
 
-    //everything seems OK, so we remove the source file and replace it with
-    //the new one.
-    //TODO: do some extra checks to see if this is really OK
-    QFile::remove(filename());
-    QFile::rename(tempFilename, filename());
+    // In the success case, we need to manually close the archive_writer before
+    // calling KSaveFile::finalize(), otherwise the latter will close() the
+    // file descriptor archive_writer is still working on.
+    // TODO: We need to abstract this code better so that we only deal with one
+    // object that manages both KSaveFile and ArchiveWriter.
+    archive_write_close(arch_writer.data());
+    tempFile->finalize();
 
     return true;
 }
