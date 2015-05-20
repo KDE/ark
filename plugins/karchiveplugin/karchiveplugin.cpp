@@ -112,7 +112,7 @@ void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QStrin
 
 bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, ExtractionOptions options)
 {
-    qCDebug(KERFUFFLE_PLUGIN) << "Going to copy files";
+    qCDebug(KERFUFFLE_PLUGIN) << "Going to copy" << files.size() << "files";
 
     const bool preservePaths = options.value(QLatin1String("PreservePaths")).toBool();
     const KArchiveDirectory *dir = archive()->directory();
@@ -186,7 +186,14 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
             } else {
 
                 //qCDebug(KERFUFFLE_PLUGIN) << "Extracting file" << realDestination << archiveEntry->name();
-                static_cast<const KArchiveFile*>(archiveEntry)->copyTo(realDestination);
+
+                if (archiveEntry->symLinkTarget().isEmpty()) {
+                    static_cast<const KArchiveFile*>(archiveEntry)->copyTo(realDestination);
+                }
+                else {
+                    // Create symlink
+                    QFile::link(archiveEntry->symLinkTarget(), QString(realDestination + QStringLiteral("/") + archiveEntry->name()));
+                }
             }
         }
         no_files++;
