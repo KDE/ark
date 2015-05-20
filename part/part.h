@@ -28,6 +28,7 @@
 #include <KParts/Part>
 #include <KParts/ReadWritePart>
 #include <KParts/StatusBarExtension>
+#include <KMessageWidget>
 
 #include <QModelIndex>
 
@@ -35,14 +36,13 @@ class ArchiveModel;
 class InfoPanel;
 
 class KAbstractWidgetJobTracker;
-class K4AboutData;
-class QAction;
 class KJob;
 
 class QAction;
 class QSplitter;
 class QTreeView;
 class QTemporaryDir;
+class QVBoxLayout;
 
 namespace Ark
 {
@@ -110,6 +110,7 @@ private:
     QList<QVariant> selectedFilesWithChildren() const;
     void registerJob(KJob *job);
     void preview(const QModelIndex &index, PreviewMode mode);
+    void displayMsgWidget(KMessageWidget::MessageType type, QString msg);
 
     ArchiveModel         *m_model;
     QTreeView            *m_view;
@@ -128,6 +129,7 @@ private:
 
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;
+    QVBoxLayout *m_vlayout;
 };
 
 } // namespace Ark

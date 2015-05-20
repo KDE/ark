@@ -36,7 +36,6 @@
 
 #include <KActionCollection>
 #include <KConfigGroup>
-#include <QDebug>
 #include <KGuiItem>
 #include <KIO/Job>
 #include <KJobWidgets>
@@ -60,7 +59,6 @@
 #include <QPointer>
 #include <QSplitter>
 #include <QTimer>
-#include <QVBoxLayout>
 #include <QtDBus/QtDBus>
 #include <QFileDialog>
 #include <QIcon>
@@ -90,26 +88,33 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
     const QString pathName = QStringLiteral("/DndExtract/%1").arg(s_instanceCounter++);
     if (!QDBusConnection::sessionBus().registerObject(pathName, this)) {
-        qCritical() << "Could not register a D-Bus object for drag'n'drop";
+        qCCritical(PART) << "Could not register a D-Bus object for drag'n'drop";
     }
 
+    // m_vlayout is needed for later insertion of QMessageWidget
+    QWidget *mainWidget = new QWidget;
+    m_vlayout = new QVBoxLayout;
     m_model = new ArchiveModel(pathName, this);
-
     m_splitter = new QSplitter(Qt::Horizontal, parentWidget);
-    setWidget(m_splitter);
-
     m_view = new ArchiveView;
     m_infoPanel = new InfoPanel(m_model);
 
-    m_splitter->addWidget(m_view);
-    m_splitter->addWidget(m_infoPanel);
+    setWidget(mainWidget);
+    mainWidget->setLayout(m_vlayout);
 
+    // Configure the QVBoxLayout and add widgets
+    m_vlayout->setContentsMargins(0,0,0,0);
+    m_vlayout->addWidget(m_splitter);
+
+    // Configure the QSplitter and add widgets
     QList<int> splitterSizes = ArkSettings::splitterSizes();
     if (splitterSizes.isEmpty()) {
         splitterSizes.append(200);
         splitterSizes.append(100);
     }
     m_splitter->setSizes(splitterSizes);
+    m_splitter->addWidget(m_view);
+    m_splitter->addWidget(m_infoPanel);
 
     setupView();
     setupActions();
@@ -563,6 +568,11 @@ void Part::preview(const QModelIndex &index, PreviewMode mode)
 
     const ArchiveEntry& entry =  m_model->entryForIndex(index);
 
+    if (entry[Link].toBool()) {
+        displayMsgWidget(KMessageWidget::Information, i18n("Preview is not possible for symlinks."));
+        return;
+    }
+
     if (!entry.isEmpty()) {
         Kerfuffle::ExtractionOptions options;
         options[QLatin1String( "PreservePaths" )] = true;
@@ -947,6 +957,15 @@ void Part::slotShowContextMenu()
 
     QMenu *popup = static_cast<QMenu *>(factory()->container(QLatin1String("context_menu"), this));
     popup->popup(QCursor::pos());
+}
+
+void Part::displayMsgWidget(KMessageWidget::MessageType type, QString msg)
+{
+  KMessageWidget *msgWidget = new KMessageWidget;
+  msgWidget->setText(msg);
+  msgWidget->setMessageType(type);
+  m_vlayout->insertWidget(0, msgWidget);
+  msgWidget->animatedShow();
 }
 
 } // namespace Ark
