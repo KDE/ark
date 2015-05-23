@@ -518,6 +518,7 @@ void Part::slotLoadingFinished(KJob *job)
     m_view->sortByColumn(0, Qt::AscendingOrder);
     m_view->expandToDepth(0);
 
+
     // After loading all files, resize the columns to fit all fields
     m_view->header()->resizeSections(QHeaderView::ResizeToContents);
 
@@ -909,7 +910,7 @@ void Part::saveSplitterSizes()
 
 void Part::slotSaveAs()
 {
-    QUrl saveUrl = QFileDialog::getSaveFileUrl(widget(), i18nc("@title:window", "Save Archive As"), url().adjusted(QUrl::RemoveFilename));
+    QUrl saveUrl = QFileDialog::getSaveFileUrl(widget(), i18nc("@title:window", "Save Archive As"), url());
 
     if ((saveUrl.isValid()) && (!saveUrl.isEmpty())) {
         auto statJob = KIO::stat(saveUrl, KIO::StatJob::DestinationSide, 0);
