@@ -98,6 +98,9 @@ bool KArchiveInterface::list()
 
 void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QString &prefix, QList< QVariant > &list)
 {
+    // Traverse the archive root directory recursively
+    // and append all files to list
+
     foreach(const QString &entryName, dir->entries()) {
         const KArchiveEntry *entry = dir->entry(entryName);
         if (entry->isDirectory()) {
@@ -112,7 +115,10 @@ void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QStrin
 
 bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, ExtractionOptions options)
 {
-    qCDebug(KERFUFFLE_PLUGIN) << "Going to copy" << files.size() << "files";
+    if (files.size() != 0)
+        qCDebug(KERFUFFLE_PLUGIN) << "Going to copy" << files.size() << "files";
+    else
+        qCDebug(KERFUFFLE_PLUGIN) << "Going to copy all files";
 
     const bool preservePaths = options.value(QLatin1String("PreservePaths")).toBool();
     const KArchiveDirectory *dir = archive()->directory();
@@ -159,7 +165,8 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
 
         // TODO: handle errors, copyTo fails silently
         if (!archiveEntry->isDirectory()) { // We don't need to do anything about directories
-            //qCDebug(KERFUFFLE_PLUGIN) << "overwriteAllSelected" << overwriteAllSelected;
+
+            //qCDebug(KERFUFFLE_PLUGIN) << "Extracting file" << archiveEntry->name();
 
             if (QFile::exists(realDestination + QLatin1Char('/') + archiveEntry->name()) && !overwriteAllSelected) {
 
@@ -197,6 +204,8 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
             }
         }
         no_files++;
+
+
     }
     qCDebug(KERFUFFLE_PLUGIN) << "Extracted" << no_files << "files";
 
@@ -225,10 +234,11 @@ int KArchiveInterface::handleFileExistsMessage(const QString &dir, const QString
 
 bool KArchiveInterface::browseArchive(KArchive *archive)
 {
-    qCDebug(KERFUFFLE_PLUGIN) << "Browsing archive";
+    qCDebug(KERFUFFLE_PLUGIN) << "Browsing archive" << archive->fileName();
     m_no_files = 0;
+    m_no_dirs = 0;
     bool ret = processDir(archive->directory());
-    qCDebug(KERFUFFLE_PLUGIN) << "Created entries for" << m_no_files << "files";
+    qCDebug(KERFUFFLE_PLUGIN) << "Created entries for" << m_no_files << "files" << m_no_dirs << "dirs";
     return ret;
 }
 
@@ -244,6 +254,7 @@ bool KArchiveInterface::processDir(const KArchiveDirectory *dir, const QString &
             processDir(static_cast<const KArchiveDirectory*>(entry), newPrefix);
         }
     }
+    m_no_dirs++;
     return true;
 }
 

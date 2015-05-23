@@ -71,6 +71,7 @@ private:
     KArchive *m_archive;
 
     int m_no_files = 0;
+    int m_no_dirs = 0;
 };
 
 #endif // KARCHIVEPLUGIN_H
