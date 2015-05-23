@@ -99,13 +99,23 @@ bool KArchiveInterface::list()
 void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QString &prefix, QList< QVariant > &list)
 {
     // Traverse the archive root directory recursively
-    // and append all files to list
+    // and append all files and empty directories to list
 
     foreach(const QString &entryName, dir->entries()) {
         const KArchiveEntry *entry = dir->entry(entryName);
         if (entry->isDirectory()) {
             QString newPrefix = (prefix.isEmpty() ? prefix : prefix + QLatin1Char('/')) + entryName;
             getAllEntries(static_cast<const KArchiveDirectory*>(entry), newPrefix, list);
+
+            // Find empty directories
+            if (static_cast<const KArchiveDirectory*>(entry)->entries().isEmpty())
+            {
+                qCDebug(KERFUFFLE_PLUGIN) << "Found empty directory" << entry->name();
+                if (prefix.isEmpty())
+                    list.append(entryName);
+                else
+                    list.append(prefix + QLatin1Char('/') + entryName);
+            }
         }
         else {
             list.append(prefix + QLatin1Char('/') + entryName);
