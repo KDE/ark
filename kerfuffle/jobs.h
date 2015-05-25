@@ -37,6 +37,7 @@
 #include <QList>
 #include <QVariant>
 #include <QString>
+#include <QElapsedTimer>
 
 namespace Kerfuffle
 {
@@ -84,6 +85,7 @@ private:
     ReadOnlyArchiveInterface *m_archiveInterface;
 
     bool m_isRunning;
+    QElapsedTimer *jobTimer;
 
     class Private;
     Private * const d;
