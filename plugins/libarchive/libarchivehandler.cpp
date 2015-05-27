@@ -378,8 +378,8 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
     // out of scope in a `return false' case ArchiveWriteCustomDeleter is
     // called before destructor of QSaveFile (ie. we call archive_write_close()
     // before close()'ing the file descriptor).
-    QSaveFile *tempFile = new QSaveFile(filename());
-    if (!tempFile->open(QIODevice::WriteOnly | QIODevice::Unbuffered)) {
+    QSaveFile tempFile(filename());
+    if (!tempFile.open(QIODevice::WriteOnly | QIODevice::Unbuffered)) {
         emit error(i18nc("@info", "Failed to create a temporary file to compress <filename>%1</filename>.", filename()));
         return false;
     }
@@ -449,7 +449,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
         }
     }
 
-    ret = archive_write_open_fd(arch_writer.data(), tempFile->handle());
+    ret = archive_write_open_fd(arch_writer.data(), tempFile.handle());
     if (ret != ARCHIVE_OK) {
         emit error(i18nc("@info", "Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
@@ -525,7 +525,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
     // TODO: We need to abstract this code better so that we only deal with one
     // object that manages both QSaveFile and ArchiveWriter.
     archive_write_close(arch_writer.data());
-    tempFile->commit();
+    tempFile.commit();
 
     return true;
 }
@@ -555,8 +555,8 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
     // out of scope in a `return false' case ArchiveWriteCustomDeleter is
     // called before destructor of QSaveFile (ie. we call archive_write_close()
     // before close()'ing the file descriptor).
-    QSaveFile *tempFile = new QSaveFile(filename());
-    if (!tempFile->open(QIODevice::WriteOnly | QIODevice::Unbuffered)) {
+    QSaveFile tempFile(filename());
+    if (!tempFile.open(QIODevice::WriteOnly | QIODevice::Unbuffered)) {
         emit error(i18nc("@info", "Failed to create a temporary file to compress <filename>%1</filename>.", filename()));
         return false;
     }
@@ -597,7 +597,7 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
         return false;
     }
 
-    ret = archive_write_open_fd(arch_writer.data(), tempFile->handle());
+    ret = archive_write_open_fd(arch_writer.data(), tempFile.handle());
     if (ret != ARCHIVE_OK) {
         emit error(i18nc("@info", "Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
@@ -633,7 +633,7 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
     // TODO: We need to abstract this code better so that we only deal with one
     // object that manages both QSaveFile and ArchiveWriter.
     archive_write_close(arch_writer.data());
-    tempFile->commit();
+    tempFile.commit();
 
     return true;
 }
