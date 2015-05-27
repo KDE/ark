@@ -201,6 +201,8 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
         totalCount = files.size();
     }
 
+    qCDebug(KERFUFFLE_PLUGIN) << "Going to extract" << totalCount << "entries";
+
     m_currentExtractedFilesSize = 0;
 
     bool overwriteAll = false; // Whether to overwrite all files
@@ -209,6 +211,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
 
     QString fileBeingRenamed;
 
+    int no_entries = 0;
     while (archive_read_next_header(arch.data(), &entry) == ARCHIVE_OK) {
         fileBeingRenamed.clear();
 
@@ -311,7 +314,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             }
 
             int header_response;
-            qCDebug(KERFUFFLE_PLUGIN) << "Writing " << fileWithoutPath << " to " << archive_entry_pathname(entry);
+            //qCDebug(KERFUFFLE_PLUGIN) << "Writing " << fileWithoutPath << " to " << archive_entry_pathname(entry);
             if ((header_response = archive_write_header(writer.data(), entry)) == ARCHIVE_OK) {
                 //if the whole archive is extracted and the total filesize is
                 //available, we use partial progress
@@ -331,16 +334,20 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                 emit progress(float(entryNr) / totalCount);
             }
             archive_entry_clear(entry);
+            no_entries++;
         } else {
             archive_read_data_skip(arch.data());
         }
     }
+    qCDebug(KERFUFFLE_PLUGIN) << "Extracted" << no_entries << "entries";
 
     return archive_read_close(arch.data()) == ARCHIVE_OK;
 }
 
 bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOptions& options)
 {
+    qCDebug(KERFUFFLE_PLUGIN) << "Adding files" << files << "with CompressionOptions" << options;
+
     const bool creatingNewFile = !QFileInfo(filename()).exists();
     const QString globalWorkDir = options.value(QLatin1String( "GlobalWorkDir" )).toString();
 
@@ -532,6 +539,8 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
 
 bool LibArchiveInterface::deleteFiles(const QVariantList& files)
 {
+    qCDebug(KERFUFFLE_PLUGIN) << "Deleting files" << files;
+
     ArchiveRead arch_reader(archive_read_new());
     if (!(arch_reader.data())) {
         emit error(i18n("The archive reader could not be initialized."));
