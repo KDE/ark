@@ -25,7 +25,6 @@
 
 #include "jsonarchiveinterface.h"
 
-#include <kdebug.h>
 #include <qjson/parser.h>
 
 #include <qfile.h>
