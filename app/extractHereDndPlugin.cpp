@@ -28,8 +28,8 @@
 #include <QDebug>
 #include <KPluginFactory>
 #include <KPluginLoader>
-#include <KLocale>
 #include <kfileitemlistproperties.h>
+#include <KLocalizedString>
 
 Q_LOGGING_CATEGORY(ARK, "ark.extracthere", QtWarningMsg)
 
