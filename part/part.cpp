@@ -165,42 +165,61 @@ void Part::extractSelectedFilesTo(const QString& localPath)
         return;
     }
 
-    // Each key is a rootNode with a list of files descending from it.
-    QHash<QString, QVariantList> extractionEntries;
-
     const QItemSelectionModel *selectionModel = m_view->selectionModel();
     foreach (const QModelIndex& index, selectionModel->selectedRows()) {
+
         // Find the topmost unselected parent.
         QModelIndex selectionRoot = index.parent();
         while (selectionModel->isSelected(selectionRoot)) {
             selectionRoot = selectionRoot.parent();
         }
 
-        // FIXME: selectedFilesWithChildren() needs to be called here,
-        // otherwise selecting a directory will not extract its children.
+        // Fetch children of selected index, this is needed when
+        // a directory is selected
+        QList<QVariant> children = selectedFilesWithChildren(index);
+
+        // Find the internal ID for the parent
         const QString rootInternalID =
             m_model->entryForIndex(selectionRoot).value(InternalID).toString();
-        const QVariant entry =
-            m_model->entryForIndex(index).value(InternalID);
-        if (extractionEntries.contains(rootInternalID)) {
-            extractionEntries[rootInternalID].append(entry);
-        } else {
-            extractionEntries[rootInternalID] = QVariantList();
-            extractionEntries[rootInternalID].append(entry);
+
+        // If m_extractionEntries doesn't contain the rootnode, add it
+        if (!m_extractionEntries.contains(rootNodeFiles(rootInternalID))) {
+            m_extractionEntries.append(rootNodeFiles(rootInternalID, QVariantList()));
+        }
+
+        // Append the children to m_extractionEntries
+        foreach (QVariant child, children) {
+            m_extractionEntries[m_extractionEntries.indexOf(rootNodeFiles(rootInternalID))].files.append(child);
         }
     }
 
-    foreach (const QString& rootNode, extractionEntries.keys()) {
-        const QVariantList files = extractionEntries[rootNode];
+    // The jobs need to be serialized, because CliInterface-based plugins can't
+    // handle parallelized extraction jobs. We start the first job and connect to
+    // a slot when done.
+    Kerfuffle::ExtractionOptions options;
+    options[QLatin1String("PreservePaths")] = true;
+    options[QLatin1String("RootNode")] = QVariant(m_extractionEntries.first().rootNode);
 
+    ExtractJob *job = m_model->extractFiles(m_extractionEntries.first().files, localPath, options);
+    registerJob(job);
+    connect(job, SIGNAL(result(KJob*)), this, SLOT(slotStartNextExtractJob(KJob*)));
+    job->start();
+}
+
+void Part::slotStartNextExtractJob(KJob *job)
+{
+    // Remove the first entry, which has already been processed
+    m_extractionEntries.removeFirst();
+
+    if (!m_extractionEntries.isEmpty()) {
         Kerfuffle::ExtractionOptions options;
         options[QLatin1String("PreservePaths")] = true;
-        options[QLatin1String("RootNode")] = QVariant(rootNode);
+        options[QLatin1String("RootNode")] = QVariant(m_extractionEntries.first().rootNode);
 
-        // FIXME: These jobs must be run serially.
-        ExtractJob *job = m_model->extractFiles(files, localPath, options);
-        registerJob(job);
-        job->start();
+        ExtractJob *nextJob = m_model->extractFiles(m_extractionEntries.first().files, dynamic_cast<ExtractJob*>(job)->m_destinationDir, options);
+        registerJob(nextJob);
+        connect(nextJob, SIGNAL(result(KJob*)), this, SLOT(slotStartNextExtractJob(KJob*)));
+        nextJob->start();
     }
 }
 
@@ -653,11 +672,17 @@ void Part::slotExtractFiles()
     delete dialog.data();
 }
 
-QList<QVariant> Part::selectedFilesWithChildren()
+QList<QVariant> Part::selectedFilesWithChildren(const QModelIndex &parentIndex)
 {
     Q_ASSERT(m_model);
 
     QModelIndexList toIterate = m_view->selectionModel()->selectedRows();
+
+    foreach(const QModelIndex &index, toIterate) {
+            if (parentIndex.isValid() && index != parentIndex) {
+                toIterate.removeOne(index);
+            }
+    }
 
     for (int i = 0; i < toIterate.size(); ++i) {
         QModelIndex index = toIterate.at(i);

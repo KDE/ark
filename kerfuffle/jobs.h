@@ -125,6 +125,8 @@ public:
     QString destinationDirectory() const;
     ExtractionOptions extractionOptions() const;
 
+    QString m_destinationDir;
+
 public slots:
     virtual void doWork();
 
@@ -133,7 +135,6 @@ private:
     void setDefaultOptions();
 
     QVariantList m_files;
-    QString m_destinationDir;
     ExtractionOptions m_options;
 };
 

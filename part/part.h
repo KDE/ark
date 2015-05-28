@@ -101,7 +101,7 @@ private:
     QString detectSubfolder() const;
     bool isPreviewable(const QModelIndex& index) const;
     QList<QVariant> selectedFiles();
-    QList<QVariant> selectedFilesWithChildren();
+    QList<QVariant> selectedFilesWithChildren(const QModelIndex &parentIndex = QModelIndex());
     void registerJob(KJob *job);
 
     ArchiveModel         *m_model;
@@ -119,6 +119,33 @@ private:
 
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;
+
+    struct rootNodeFiles
+    {
+        // Used to store a rootNode with a list of child files
+
+        QString rootNode;
+        QVariantList files;
+
+        rootNodeFiles(QString n)
+            : rootNode(n)
+        {}
+
+        rootNodeFiles(QString n, QVariantList f)
+            : rootNode(n),
+              files(f)
+        {}
+
+        // Required for contains() and indexOf()
+        bool operator==(const rootNodeFiles &right) const
+        {
+          if (rootNode == right.rootNode)
+            return true;
+          else
+            return false;
+        }
+    };
+    QList<rootNodeFiles> m_extractionEntries;
 };
 
 } // namespace Ark
