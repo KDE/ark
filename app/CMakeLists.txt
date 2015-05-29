@@ -37,20 +37,12 @@ install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.ark.desktop DESTINATION ${
 install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/ark.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
 install( FILES arkui.rc    DESTINATION ${KXMLGUI_INSTALL_DIR}/ark )
 
-########### konqueror ark_extract_here plugin ###############
-set(LIBKONQ_MIN_VERSION "5.96.0")
+############ ark_extract_here plugin ###############
 
-find_package(KF5Konq ${LIBKONQ_MIN_VERSION} CONFIG)
-set_package_properties(LibKonq PROPERTIES DESCRIPTION "Provides high-level file management functions"
-                       URL "https://projects.kde.org/projects/kde/applications/kde-baseapps" TYPE OPTIONAL
-                       PURPOSE "Need to integrate in konqueror")
+set(extracthere_SRCS batchextract.cpp extractHereDndPlugin.cpp)
 
-if (KF5Konq_FOUND)
-   set(extracthere_SRCS batchextract.cpp extractHereDndPlugin.cpp)
-   add_library(extracthere MODULE ${extracthere_SRCS})
-   target_link_libraries(extracthere kerfuffle KF5::Parts KF5::Konq )
-   install( TARGETS extracthere DESTINATION ${PLUGIN_INSTALL_DIR} )
-   install( FILES ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+add_library(extracthere MODULE ${extracthere_SRCS})
+kcoreaddons_desktop_to_json(extracthere ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop)
 
-endif()
-
+target_link_libraries(extracthere kerfuffle KF5::Parts KF5::KIOWidgets)
+install( TARGETS extracthere DESTINATION ${PLUGIN_INSTALL_DIR}/kf5/kio_dnd )

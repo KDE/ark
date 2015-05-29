@@ -23,9 +23,9 @@
 #define EXTRACTHEREDNDPLUGIN_H
 
 #include <qurl.h>
-#include <konq_dndpopupmenuplugin.h>
+#include <KIO/DndPopupMenuPlugin>
 
-class ExtractHereDndPlugin : public KonqDndPopupMenuPlugin
+class ExtractHereDndPlugin : public KIO::DndPopupMenuPlugin
 {
     Q_OBJECT
 
@@ -35,9 +35,9 @@ private slots:
 public:
     ExtractHereDndPlugin(QObject* parent, const QVariantList&);
 
-    virtual void setup(const KFileItemListProperties& popupMenuInfo,
-                       QUrl destination,
-                       QList<QAction*>& userActions);
+    virtual QList<QAction *> setup(const KFileItemListProperties& popupMenuInfo,
+                                   const QUrl& destination);
+
 private:
     QUrl m_dest;
     QList<QUrl> m_urls;

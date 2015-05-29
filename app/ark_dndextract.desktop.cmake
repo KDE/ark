@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Service
-X-KDE-ServiceTypes=KonqDndPopupMenu/Plugin
-X-KDE-Library=libextracthere
+X-KDE-ServiceTypes=KIO/DndPopupMenu/Plugin
+X-KDE-Library=extracthere
 Name=Ark Extract Here
 Name[ar]=أرك استخرج هنا
 Name[ast]=Estrayer equí con Ark
@@ -18,7 +18,7 @@ Name[es]=Extraer aquí con Ark
 Name[et]=Paki siia lahti
 Name[eu]=Ark: atera hemen
 Name[fi]=Ark – Pura tähän
-Name[fr]=Extraire un fichier « Ark » ici
+Name[fr]=Extraire un fichier « Ark » ici
 Name[ga]=Bain an chartlann Ark amach agus cuir é anseo
 Name[gl]=Extraer aquí con Ark
 Name[hr]=Ovdje Ark-otpakiraj

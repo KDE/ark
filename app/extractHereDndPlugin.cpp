@@ -33,10 +33,8 @@
 
 Q_LOGGING_CATEGORY(ARK, "ark.extracthere", QtWarningMsg)
 
-K_PLUGIN_FACTORY(ExtractHerePluginFactory,
-                 registerPlugin<ExtractHereDndPlugin>();
-                )
-K_EXPORT_PLUGIN(ExtractHerePluginFactory("stupidname", "ark"))
+K_PLUGIN_FACTORY_WITH_JSON(ExtractHereDndPluginFactory, "ark_dndextract.json",
+                           registerPlugin<ExtractHereDndPlugin>();)
 
 void ExtractHereDndPlugin::slotTriggered()
 {
@@ -55,19 +53,20 @@ void ExtractHereDndPlugin::slotTriggered()
 }
 
 ExtractHereDndPlugin::ExtractHereDndPlugin(QObject* parent, const QVariantList&)
-        : KonqDndPopupMenuPlugin(parent)
+        : KIO::DndPopupMenuPlugin(parent)
 {
 }
 
-void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
-                                 QUrl destination,
-                                 QList<QAction*>& userActions)
+QList<QAction *> ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
+                                             const QUrl& destination)
 {
+    QList<QAction *> actionList;
+
     const QString extractHereMessage = i18nc("@action:inmenu Context menu shown when an archive is being drag'n'dropped", "Extract here");
 
     if (!Kerfuffle::supportedMimeTypes().contains(popupMenuInfo.mimeType())) {
         qCWarning(ARK) << popupMenuInfo.mimeType() << "is not a supported mimetype";
-        return;
+        return actionList;
     }
 
     qCDebug(ARK) << "Plugin executed";
@@ -76,9 +75,11 @@ void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
                                   extractHereMessage, NULL);
     connect(action, &QAction::triggered, this, &ExtractHereDndPlugin::slotTriggered);
 
-    userActions.append(action);
+    actionList.append(action);
     m_dest = destination;
     m_urls = popupMenuInfo.urlList();
+
+    return actionList;
 }
 
 #include "extractHereDndPlugin.moc"
