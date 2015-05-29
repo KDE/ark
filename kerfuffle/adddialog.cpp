@@ -31,6 +31,7 @@
 #include "ui_adddialog.h"
 #include "kerfuffle/archive_kerfuffle.h"
 
+
 #include <KFilePlacesModel>
 #include <KSharedConfig>
 #include <KWindowConfig>
@@ -121,16 +122,26 @@ void AddDialog::loadConfiguration()
     const QString lastMimeType = m_config.readEntry("LastMimeType", defaultMimeType);
     QStringList writeMimeTypes = Kerfuffle::supportedWriteMimeTypes();
 
-    //Remove mimetypes with empty comments
+    // The filters need to be sorted by comment, so create a QMap with
+    // comment as key (QMaps are always sorted by key) and QMimeType
+    // as value. Then convert the QMap back to a QStringList. Mimetypes
+    // with empty comments are discarded.
     QMimeDatabase db;
+    QMap<QString,QMimeType> mimeMap;
     QMutableListIterator<QString> i(writeMimeTypes);
-    while (i.hasNext())
-    {
+    while (i.hasNext()) {
         QMimeType mime(db.mimeTypeForName(i.next()));
-        QString comment = mime.comment();
-        if (comment.isEmpty())
-            i.remove();
+        if (!mime.comment().isEmpty()) {
+            mimeMap[mime.comment()] = mime;
+        }
+    }
 
+    writeMimeTypes.clear();
+
+    QMapIterator<QString,QMimeType> j(mimeMap);
+    while (j.hasNext()) {
+        j.next();
+        writeMimeTypes << j.value().name();
     }
 
     if (writeMimeTypes.contains(lastMimeType)) {
