@@ -501,7 +501,7 @@ void Part::slotLoadingFinished(KJob *job)
 {
     if (job->error()) {
         if (arguments().metaData()[QLatin1String( "createNewArchive" )] != QLatin1String( "true" )) {
-            KMessageBox::sorry(widget(), xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error: <message>%2</message>",
+            KMessageBox::error(widget(), xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error: <message>%2</message>",
                                                 localFilePath(), job->errorText()),
                                i18nc("@title:window", "Error Opening Archive"));
 

@@ -461,14 +461,20 @@ void CliInterface::readStdout(bool handleAll)
     //       QString::fromLocal8Bit(), for example.
     // TODO: The same check methods are called in handleLine(), this
     //       is suboptimal.
+    bool wrongPasswordMessage = checkForErrorMessage(QLatin1String( lines.last() ), WrongPasswordPatterns);
+
     bool foundErrorMessage =
-        (checkForErrorMessage(QLatin1String( lines.last() ), WrongPasswordPatterns) ||
+        (wrongPasswordMessage ||
          checkForErrorMessage(QLatin1String( lines.last() ), ExtractionFailedPatterns) ||
          checkForPasswordPromptMessage(QLatin1String(lines.last())) ||
          checkForFileExistsMessage(QLatin1String( lines.last() )));
 
     if (foundErrorMessage) {
         handleAll = true;
+    }
+
+    if (wrongPasswordMessage) {
+        setPassword(QString());
     }
 
     //this is complex, here's an explanation:
@@ -533,7 +539,8 @@ void CliInterface::handleLine(const QString& line)
 
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             qCWarning(KERFUFFLE) << "Wrong password!";
-            emit error(i18n("Incorrect password."));
+            setPassword(QString());
+            emit error(i18nc("@info", "Extraction failed: Incorrect password"));
             failOperation();
             return;
         }
@@ -573,6 +580,7 @@ void CliInterface::handleLine(const QString& line)
 
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             qCWarning(KERFUFFLE) << "Wrong password!";
+            setPassword(QString());
             emit error(i18n("Incorrect password."));
             failOperation();
             return;
