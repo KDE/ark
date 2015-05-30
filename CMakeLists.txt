@@ -2,7 +2,7 @@ project(ark)
 
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 set(QT_MIN_VERSION 5.4.0)
-set(KF5_MIN_VERSION 5.2.0)
+set(KF5_MIN_VERSION 5.6.0)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/CTestCustom.cmake)
 
