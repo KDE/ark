@@ -165,6 +165,8 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
 
                 if (query.responseCancelled()) {
                     failOperation();
+                    emit cancelled();
+                    emit finished(false);
                     return false;
                 }
                 setPassword(query.password());

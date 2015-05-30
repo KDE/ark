@@ -70,6 +70,7 @@ Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
     : KJob(parent)
     , m_archiveInterface(interface)
     , m_isRunning(false)
+    , m_wasCancelled(false)
     , d(new Private(this))
 {
     static bool onlyOnce = false;
@@ -102,6 +103,11 @@ bool Job::isRunning() const
     return m_isRunning;
 }
 
+bool Job::wasCancelled() const
+{
+    return m_wasCancelled;
+}
+
 void Job::start()
 {
     jobTimer->start();
@@ -124,6 +130,12 @@ void Job::connectToArchiveInterfaceSignals()
     connect(archiveInterface(), SIGNAL(info(QString)), SLOT(onInfo(QString)));
     connect(archiveInterface(), SIGNAL(finished(bool)), SLOT(onFinished(bool)), Qt::DirectConnection);
     connect(archiveInterface(), SIGNAL(userQuery(Query*)), SLOT(onUserQuery(Query*)));
+    connect(archiveInterface(), SIGNAL(cancelled()), SLOT(onCancelled()));
+}
+
+void Job::onCancelled()
+{
+    m_wasCancelled = true;
 }
 
 void Job::onError(const QString & message, const QString & details)
