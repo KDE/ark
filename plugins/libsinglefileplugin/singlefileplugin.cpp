@@ -75,9 +75,9 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
         return false;
     }
 
-    QIODevice *device = KFilterDev::deviceForFile(filename(), m_mimeType, false);
+    KCompressionDevice *device = new KCompressionDevice(filename(), KFilterDev::compressionTypeForMimeType(m_mimeType));
     if (!device) {
-        qCCritical(KERFUFFLE_PLUGIN) << "Could not create KFilterDev";
+        qCCritical(KERFUFFLE_PLUGIN) << "Could not create KCompressionDevice";
         emit error(xi18nc("@info", "Ark could not open <filename>%1</filename> for extraction.", filename()));
 
         return false;
