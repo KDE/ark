@@ -133,7 +133,7 @@ void BatchExtract::slotStartJob()
     KIO::getJobTracker()->registerJob(this);
 
     emit description(this,
-                     i18n("Extracting file..."),
+                     i18n("Extracting Files"),
                      qMakePair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
                      qMakePair(i18n("Destination"), m_fileNames.value(subjobs().at(0)).second)
                     );
@@ -189,7 +189,7 @@ void BatchExtract::slotResult(KJob *job)
     } else {
         kDebug() << "Starting the next job";
         emit description(this,
-                         i18n("Extracting file..."),
+                         i18n("Extracting Files"),
                          qMakePair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
                          qMakePair(i18n("Destination"), m_fileNames.value(subjobs().at(0)).second)
                         );
