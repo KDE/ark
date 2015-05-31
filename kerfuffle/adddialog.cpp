@@ -128,7 +128,7 @@ void AddDialog::loadConfiguration()
     // with empty comments are discarded.
     QMimeDatabase db;
     QMap<QString,QMimeType> mimeMap;
-    foreach (QString s, writeMimeTypes) {
+    foreach (const QString &s, writeMimeTypes) {
         QMimeType mime(db.mimeTypeForName(s));
         if (!mime.comment().isEmpty()) {
             mimeMap[mime.comment()] = mime;
