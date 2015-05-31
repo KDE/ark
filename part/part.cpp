@@ -603,36 +603,30 @@ void Part::slotPreviewExtracted(KJob *job)
     //        if there's an error or an overwrite dialog,
     //        the preview dialog will be launched anyway
     if (!job->error()) {
+        const ArchiveEntry& entry =
+            m_model->entryForIndex(m_view->selectionModel()->currentIndex());
 
         ExtractJob *extractJob = qobject_cast<ExtractJob*>(job);
         Q_ASSERT(extractJob);
+        QString fullName = extractJob->destinationDirectory() + QLatin1Char('/') + entry[FileName].toString();
 
-        // If the job was cancelled don't open preview
-        if (!extractJob->wasCancelled()) {
+        // Make sure a maliciously crafted archive with parent folders named ".." do
+        // not cause the previewed file path to be located outside the temporary
+        // directory, resulting in a directory traversal issue.
+        fullName.remove(QLatin1String("../"));
 
-            const ArchiveEntry& entry =
-                m_model->entryForIndex(m_view->selectionModel()->currentIndex());
-
-            QString fullName = extractJob->destinationDirectory() + QLatin1Char('/') + entry[FileName].toString();
-
-            // Make sure a maliciously crafted archive with parent folders named ".." do
-            // not cause the previewed file path to be located outside the temporary
-            // directory, resulting in a directory traversal issue.
-            fullName.remove(QLatin1String("../"));
-
-            // TODO: get rid of m_previewMode by extending ExtractJob with a PreviewJob.
-            // This would prevent race conditions if we ever stop disabling
-            // the whole UI while extracting a file to preview it.
-            switch (m_previewMode) {
-            case InternalViewer:
-                ArkViewer::view(fullName, widget());
-                break;
-            case ExternalProgram:
-                QList<QUrl> list;
-                list.append(QUrl::fromUserInput(fullName, QString(), QUrl::AssumeLocalFile));
-                KRun::displayOpenWithDialog(list, widget(), true);
-                break;
-            }
+        // TODO: get rid of m_previewMode by extending ExtractJob with a PreviewJob.
+        // This would prevent race conditions if we ever stop disabling
+        // the whole UI while extracting a file to preview it.
+        switch (m_previewMode) {
+        case InternalViewer:
+            ArkViewer::view(fullName, widget());
+            break;
+        case ExternalProgram:
+            QList<QUrl> list;
+            list.append(QUrl::fromUserInput(fullName, QString(), QUrl::AssumeLocalFile));
+            KRun::displayOpenWithDialog(list, widget(), true);
+            break;
         }
     } else {
         KMessageBox::error(widget(), job->errorString());

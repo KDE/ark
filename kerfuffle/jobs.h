@@ -52,7 +52,6 @@ public:
     void start();
 
     bool isRunning() const;
-    bool wasCancelled() const;
 
 protected:
     Job(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
@@ -75,7 +74,6 @@ protected slots:
     virtual void onEntryRemoved(const QString &path);
     virtual void onFinished(bool result);
     virtual void onUserQuery(Query *query);
-    virtual void onCancelled();
 
 signals:
     void entryRemoved(const QString & entry);
@@ -87,7 +85,6 @@ private:
     ReadOnlyArchiveInterface *m_archiveInterface;
 
     bool m_isRunning;
-    bool m_wasCancelled;
     QElapsedTimer jobTimer;
 
     class Private;

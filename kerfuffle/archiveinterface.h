@@ -101,7 +101,6 @@ signals:
     void info(const QString &info);
     void finished(bool result);
     void userQuery(Query *query);
-    void cancelled();
 
 protected:
     QString password() const;
