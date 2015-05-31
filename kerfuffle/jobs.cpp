@@ -80,8 +80,6 @@ Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
     }
 
     setCapabilities(KJob::Killable);
-
-    jobTimer = new QElapsedTimer;
 }
 
 Job::~Job()
@@ -110,7 +108,7 @@ bool Job::wasCancelled() const
 
 void Job::start()
 {
-    jobTimer->start();
+    jobTimer.start();
     m_isRunning = true;
     d->start();
 }
@@ -168,7 +166,7 @@ void Job::onEntryRemoved(const QString & path)
 
 void Job::onFinished(bool result)
 {
-    qCDebug(KERFUFFLE) << "Job finished, result:" << result << ", time:" << jobTimer->elapsed() << "ms";
+    qCDebug(KERFUFFLE) << "Job finished, result:" << result << ", time:" << jobTimer.elapsed() << "ms";
 
     archiveInterface()->disconnect(this);
 
@@ -201,8 +199,6 @@ ListJob::ListJob(ReadOnlyArchiveInterface *interface, QObject *parent)
 
 void ListJob::doWork()
 {
-
-
     emit description(this, i18n("Loading archive..."));
     connectToArchiveInterfaceSignals();
     bool ret = archiveInterface()->list();

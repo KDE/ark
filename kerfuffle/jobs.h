@@ -88,7 +88,7 @@ private:
 
     bool m_isRunning;
     bool m_wasCancelled;
-    QElapsedTimer *jobTimer;
+    QElapsedTimer jobTimer;
 
     class Private;
     Private * const d;
