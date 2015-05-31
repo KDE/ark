@@ -85,6 +85,7 @@ private slots:
     void slotDeleteFiles();
     void slotDeleteFilesDone(KJob*);
     void slotShowContextMenu();
+    void slotClicked(QModelIndex);
     void saveSplitterSizes();
     void slotToggleInfoPanel(bool);
     void slotSaveAs();

@@ -228,14 +228,22 @@ void Part::setupView()
     connect(m_view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
             this, SLOT(selectionChanged()));
 
-    //TODO: fix an actual eventhandler
-    connect(m_view, SIGNAL(activated(QModelIndex)),
-            this, SLOT(slotPreviewWithInternalViewer()));
+    connect(m_view, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(slotClicked(QModelIndex)));
 
     connect(m_view, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotShowContextMenu()));
 
     connect(m_model, SIGNAL(columnsInserted(QModelIndex,int,int)),
             this, SLOT(adjustColumns()));
+}
+
+void Part::slotClicked(QModelIndex)
+{
+    // Only open the viewer if a CTRL or SHIFT key is not pressed
+    if (QGuiApplication::keyboardModifiers() != Qt::ShiftModifier &&
+        QGuiApplication::keyboardModifiers() != Qt::ControlModifier) {
+        slotPreviewWithInternalViewer();
+    }
 }
 
 void Part::setupActions()
