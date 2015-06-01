@@ -230,11 +230,12 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
     m_part = KMimeTypeTrader::self()->createPartInstanceFromQuery<KParts::ReadOnlyPart>(mimeType.name(),
                                                                                         this,
                                                                                         this);
-    m_mainLayout->insertWidget(1, m_part.data()->widget());
 
     if (!m_part.data()) {
         return false;
     }
+
+    m_mainLayout->insertWidget(1, m_part.data()->widget());
 
     if (m_part.data()->browserExtension()) {
         connect(m_part.data()->browserExtension(), SIGNAL(openUrlRequestDelayed(QUrl,KParts::OpenUrlArguments,KParts::BrowserArguments)),
