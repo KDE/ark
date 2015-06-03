@@ -21,5 +21,13 @@
 	<group name="MainWindow">
 		<entry name="splitterSizes" type="IntList" />
 		<entry name="splitterSizesWithBothWidgets" type="IntList" />
+		<entry name="limitPreviewFileSize" type="Bool">
+			<label>Limit preview file size</label>
+			<default>true</default>
+		</entry>
+		<entry name="previewFileSizeLimit" type="Int">
+			<label>Preview file size limit in megabytes</label>
+			<default>200</default>
+		</entry>
 	</group>
 </kcfg>

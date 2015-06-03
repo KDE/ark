@@ -390,7 +390,13 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 
 bool Part::isPreviewable(const QModelIndex& index) const
 {
-    return index.isValid() && (!m_model->entryForIndex(index)[ IsDirectory ].toBool());
+    const int maxPreviewSize = ArkSettings::previewFileSizeLimit() * 1024 * 1024;
+    const bool limit = ArkSettings::limitPreviewFileSize();
+    const qlonglong size = m_model->entryForIndex(index) [ Size ].toLongLong();
+
+    return index.isValid()
+           && (!m_model->entryForIndex(index)[ IsDirectory ].toBool())
+           && (!limit || (limit && size < maxPreviewSize));
 }
 
 void Part::selectionChanged()
