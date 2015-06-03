@@ -112,9 +112,9 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
         splitterSizes.append(200);
         splitterSizes.append(100);
     }
-    m_splitter->setSizes(splitterSizes);
     m_splitter->addWidget(m_view);
     m_splitter->addWidget(m_infoPanel);
+    m_splitter->setSizes(splitterSizes);
 
     setupView();
     setupActions();
