@@ -106,15 +106,16 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     m_vlayout->setContentsMargins(0,0,0,0);
     m_vlayout->addWidget(m_splitter);
 
-    // Configure the QSplitter and add widgets
-    QList<int> splitterSizes = ArkSettings::splitterSizes();
-    if (splitterSizes.isEmpty()) {
-        splitterSizes.append(200);
-        splitterSizes.append(100);
-    }
+    // Add widgets to the QSplitter.
     m_splitter->addWidget(m_view);
     m_splitter->addWidget(m_infoPanel);
-    m_splitter->setSizes(splitterSizes);
+
+    // Read settings from config file and show/hide infoPanel.
+    if (!ArkSettings::showInfoPanel()) {
+        m_infoPanel->hide();
+    } else {
+        m_splitter->setSizes(ArkSettings::splitterSizes());
+    }
 
     setupView();
     setupActions();
@@ -144,7 +145,13 @@ Part::~Part()
 {
     qDeleteAll(m_previewDirList);
 
-    saveSplitterSizes();
+    // Only save splitterSizes if infopanel is visible,
+    // because we dont want to store zero size for infopanel.
+    if (m_showInfoPanelAction->isChecked()) {
+        ArkSettings::setSplitterSizes(m_splitter->sizes());
+    }
+    ArkSettings::setShowInfoPanel(m_showInfoPanelAction->isChecked());
+    ArkSettings::self()->save();
 
     m_extractFilesAction->menu()->deleteLater();
 }
@@ -248,10 +255,10 @@ void Part::slotClicked(QModelIndex)
 
 void Part::setupActions()
 {
-    KToggleAction *showInfoPanelAction = new KToggleAction(i18nc("@action:inmenu", "Show information panel"), this);
-    actionCollection()->addAction(QLatin1String( "show-infopanel" ), showInfoPanelAction);
-    showInfoPanelAction->setChecked(m_splitter->sizes().at(1) > 0);
-    connect(showInfoPanelAction, SIGNAL(triggered(bool)),
+    m_showInfoPanelAction = new KToggleAction(i18nc("@action:inmenu", "Show information panel"), this);
+    actionCollection()->addAction(QLatin1String( "show-infopanel" ), m_showInfoPanelAction);
+    m_showInfoPanelAction->setChecked(ArkSettings::showInfoPanel());
+    connect(m_showInfoPanelAction, SIGNAL(triggered(bool)),
             this, SLOT(slotToggleInfoPanel(bool)));
 
     m_saveAsAction = KStandardAction::saveAs(this, SLOT(slotSaveAs()), actionCollection());
@@ -902,24 +909,15 @@ void Part::slotDeleteFiles()
 
 void Part::slotToggleInfoPanel(bool visible)
 {
-    QList<int> splitterSizes;
-
     if (visible) {
-        splitterSizes = ArkSettings::splitterSizesWithBothWidgets();
+        m_splitter->setSizes(ArkSettings::splitterSizes());
+        m_infoPanel->show();
     } else {
-        splitterSizes = m_splitter->sizes();
-        ArkSettings::setSplitterSizesWithBothWidgets(splitterSizes);
-        splitterSizes[1] = 0;
+        // We need to save the splitterSizes before hiding, otherwise
+        // Ark won't remember resizing done by the user.
+        ArkSettings::setSplitterSizes(m_splitter->sizes());
+        m_infoPanel->hide();
     }
-
-    m_splitter->setSizes(splitterSizes);
-    saveSplitterSizes();
-}
-
-void Part::saveSplitterSizes()
-{
-    ArkSettings::setSplitterSizes(m_splitter->sizes());
-    ArkSettings::self()->save();
 }
 
 void Part::slotSaveAs()

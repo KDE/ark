@@ -37,6 +37,7 @@ class InfoPanel;
 
 class KAbstractWidgetJobTracker;
 class KJob;
+class KToggleAction;
 
 class QAction;
 class QSplitter;
@@ -86,7 +87,6 @@ private slots:
     void slotDeleteFilesDone(KJob*);
     void slotShowContextMenu();
     void slotClicked(QModelIndex);
-    void saveSplitterSizes();
     void slotToggleInfoPanel(bool);
     void slotSaveAs();
     void updateActions();
@@ -122,6 +122,7 @@ private:
     QAction *m_deleteFilesAction;
     QAction *m_saveAsAction;
     QAction *m_previewChooseAppAction;
+    KToggleAction *m_showInfoPanelAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
     QList<QTemporaryDir*>      m_previewDirList;

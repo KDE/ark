@@ -6,21 +6,27 @@
 	<kcfgfile name="arkrc"/>
 	<group name="Extraction">
 		<entry name="openDestinationFolderAfterExtraction" type="Bool">
-			<label>Open destination folder after extraction</label>
+			<label>Open destination folder after extraction.</label>
 			<default>false</default>
 		</entry>
 		<entry name="closeAfterExtraction" type="Bool">
-			<label>Close Ark after extraction</label>
+			<label>Close Ark after extraction.</label>
 			<default>false</default>
 		</entry>
 		<entry name="preservePaths" type="Bool">
-			<label>Preserve paths when extracting</label>
+			<label>Preserve paths when extracting.</label>
 			<default>true</default>
 		</entry>
 	</group>
 	<group name="MainWindow">
-		<entry name="splitterSizes" type="IntList" />
-		<entry name="splitterSizesWithBothWidgets" type="IntList" />
+		<entry name="splitterSizes" type="IntList">
+			<label>How the main window is divided.</label>
+			<default>200,100</default>
+		</entry>
+		<entry name="showInfoPanel" type="Bool">
+			<label>Whether to show the information panel.</label>
+			<default>true</default>
+		</entry>
 		<entry name="limitPreviewFileSize" type="Bool">
 			<label>Limit preview file size</label>
 			<default>true</default>
