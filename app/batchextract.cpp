@@ -156,16 +156,17 @@ void BatchExtract::slotResult(KJob *job)
     // TODO: The user must be informed about which file caused the error, and that the other files
     //       in the queue will not be extracted.
     if (job->error()) {
-        qCDebug(ARK) << "There was en error, " << job->errorText();
+        qCDebug(ARK) << "There was en error:" << job->error() << ", errorText:" << job->errorText();
 
         setErrorText(job->errorText());
         setError(job->error());
 
         removeSubjob(job);
 
-        KMessageBox::error(NULL, job->errorText().isEmpty() ?
-                           i18n("There was an error during extraction.") : job->errorText()
-                          );
+        if (job->error() != KJob::KilledJobError) {
+            KMessageBox::error(NULL, job->errorText().isEmpty() ?
+                                     i18n("There was an error during extraction.") : job->errorText());
+        }
 
         emitResult();
 

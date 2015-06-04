@@ -94,6 +94,7 @@ public:
     virtual bool doResume();
 
 signals:
+    void cancelled();
     void error(const QString &message, const QString &details = QString());
     void entry(const ArchiveEntry &archiveEntry);
     void entryRemoved(const QString &path);

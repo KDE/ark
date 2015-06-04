@@ -164,6 +164,9 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
                 query.waitForResponse();
 
                 if (query.responseCancelled()) {
+                    emit cancelled();
+                    // There is no process running, so finished() must be emitted manually.
+                    emit finished(false);
                     failOperation();
                     return false;
                 }
@@ -525,6 +528,7 @@ void CliInterface::handleLine(const QString& line)
             query.waitForResponse();
 
             if (query.responseCancelled()) {
+                emit cancelled();
                 failOperation();
                 return;
             }
@@ -566,6 +570,7 @@ void CliInterface::handleLine(const QString& line)
             query.waitForResponse();
 
             if (query.responseCancelled()) {
+                emit cancelled();
                 failOperation();
                 return;
             }

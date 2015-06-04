@@ -115,6 +115,7 @@ void Job::emitResult()
 
 void Job::connectToArchiveInterfaceSignals()
 {
+    connect(archiveInterface(), SIGNAL(cancelled()), SLOT(onCancelled()));
     connect(archiveInterface(), SIGNAL(error(QString,QString)), SLOT(onError(QString,QString)));
     connect(archiveInterface(), SIGNAL(entry(ArchiveEntry)), SLOT(onEntry(ArchiveEntry)));
     connect(archiveInterface(), SIGNAL(entryRemoved(QString)), SLOT(onEntryRemoved(QString)));
@@ -124,11 +125,17 @@ void Job::connectToArchiveInterfaceSignals()
     connect(archiveInterface(), SIGNAL(userQuery(Query*)), SLOT(onUserQuery(Query*)));
 }
 
+void Job::onCancelled()
+{
+    qCDebug(KERFUFFLE) << "Cancelled emitted";
+    setError(KJob::KilledJobError);
+}
+
 void Job::onError(const QString & message, const QString & details)
 {
     Q_UNUSED(details)
 
-    setError(1);
+    setError(KJob::UserDefinedError);
     setErrorText(message);
 }
 

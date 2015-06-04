@@ -67,6 +67,7 @@ public slots:
     virtual void doWork() = 0;
 
 protected slots:
+    virtual void onCancelled();
     virtual void onError(const QString &message, const QString &details);
     virtual void onInfo(const QString &info);
     virtual void onEntry(const ArchiveEntry &archiveEntry);

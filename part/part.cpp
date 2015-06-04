@@ -522,9 +522,13 @@ void Part::slotLoadingFinished(KJob *job)
 {
     if (job->error()) {
         if (arguments().metaData()[QLatin1String( "createNewArchive" )] != QLatin1String( "true" )) {
-            KMessageBox::error(widget(), xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error: <message>%2</message>",
-                                                localFilePath(), job->errorText()),
-                               i18nc("@title:window", "Error Opening Archive"));
+            if (job->error() != KJob::KilledJobError) {
+                KMessageBox::error(widget(),
+                                   xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error: <message>%2</message>",
+                                          localFilePath(),
+                                          job->errorText()),
+                                   i18nc("@title:window", "Error Opening Archive"));
+            }
 
             // The file failed to open, so reset the open archive, info panel and caption.
             m_model->setArchive(Q_NULLPTR);
@@ -641,7 +645,7 @@ void Part::slotPreviewExtracted(KJob *job)
             KRun::displayOpenWithDialog(list, widget(), true);
             break;
         }
-    } else {
+    } else if (job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
     }
     setReadyGui();
@@ -773,7 +777,7 @@ QList<QVariant> Part::selectedFiles() const
 
 void Part::slotExtractionDone(KJob* job)
 {
-    if (job->error()) {
+    if (job->error() && job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
     } else {
         ExtractJob *extractJob = qobject_cast<ExtractJob*>(job);
@@ -873,14 +877,14 @@ void Part::slotAddDir()
 
 void Part::slotAddFilesDone(KJob* job)
 {
-    if (job->error()) {
+    if (job->error() && job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
     }
 }
 
 void Part::slotDeleteFilesDone(KJob* job)
 {
-    if (job->error()) {
+    if (job->error() && job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
     }
 }
