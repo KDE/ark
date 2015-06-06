@@ -139,7 +139,7 @@ void AddToArchive::slotStartJob()
         qCDebug(KERFUFFLE) << "Set filename to " << m_filename;
     } else {
         if (m_autoFilenameSuffix.isEmpty()) {
-            KMessageBox::error(Q_NULLPTR, i18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the <command>--autofilename</command> argument."));
+            KMessageBox::error(Q_NULLPTR, xi18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the <command>--autofilename</command> argument."));
             return;
         }
 
@@ -186,6 +186,7 @@ void AddToArchive::slotStartJob()
         for (int i = 0; i < m_inputs.size(); ++i) {
             m_inputs[i] = stripDir.absoluteFilePath(m_inputs.at(i));
         }
+
 
         options[QLatin1String( "GlobalWorkDir" )] = stripDir.path();
         qCDebug(KERFUFFLE) << "Setting GlobalWorkDir to " << stripDir.path();
