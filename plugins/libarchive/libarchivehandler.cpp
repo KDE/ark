@@ -129,7 +129,7 @@ bool LibArchiveInterface::list()
     m_abortOperation = false;
 
     if (result != ARCHIVE_EOF) {
-        emit error(i18nc("@info", "The archive reading failed with the following error: <message>%1</message>",
+        emit error(xi18nc("@info", "The archive reading failed with the following error: <message>%1</message>",
                    QLatin1String( archive_error_string(arch_reader.data()))));
         return false;
     }
@@ -387,7 +387,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
     // before close()'ing the file descriptor).
     QSaveFile tempFile(filename());
     if (!tempFile.open(QIODevice::WriteOnly | QIODevice::Unbuffered)) {
-        emit error(i18nc("@info", "Failed to create a temporary file to compress <filename>%1</filename>.", filename()));
+        emit error(xi18nc("@info", "Failed to create a temporary file to compress <filename>%1</filename>.", filename()));
         return false;
     }
 
@@ -423,7 +423,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
         }
 
         if (ret != ARCHIVE_OK) {
-            emit error(i18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>",
+            emit error(xi18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>",
                        QLatin1String(archive_error_string(arch_writer.data()))));
 
             return false;
@@ -451,14 +451,14 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
         }
 
         if (ret != ARCHIVE_OK) {
-            emit error(i18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
+            emit error(xi18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
             return false;
         }
     }
 
     ret = archive_write_open_fd(arch_writer.data(), tempFile.handle());
     if (ret != ARCHIVE_OK) {
-        emit error(i18nc("@info", "Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
+        emit error(xi18nc("@info", "Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
     }
 
@@ -566,7 +566,7 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
     // before close()'ing the file descriptor).
     QSaveFile tempFile(filename());
     if (!tempFile.open(QIODevice::WriteOnly | QIODevice::Unbuffered)) {
-        emit error(i18nc("@info", "Failed to create a temporary file to compress <filename>%1</filename>.", filename()));
+        emit error(xi18nc("@info", "Failed to create a temporary file to compress <filename>%1</filename>.", filename()));
         return false;
     }
 
@@ -602,13 +602,13 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
     }
 
     if (ret != ARCHIVE_OK) {
-        emit error(i18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
+        emit error(xi18nc("@info", "Setting the compression method failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
     }
 
     ret = archive_write_open_fd(arch_writer.data(), tempFile.handle());
     if (ret != ARCHIVE_OK) {
-        emit error(i18nc("@info", "Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
+        emit error(xi18nc("@info", "Opening the archive for writing failed with the following error: <message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
     }
 
