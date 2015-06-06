@@ -235,8 +235,13 @@ void Part::setupView()
     connect(m_view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
             this, SLOT(selectionChanged()));
 
-    connect(m_view, SIGNAL(clicked(QModelIndex)),
-            this, SLOT(slotClicked(QModelIndex)));
+    if (QApplication::style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick, 0, m_view)) {
+        connect(m_view, SIGNAL(clicked(QModelIndex)),
+                this, SLOT(slotClicked(QModelIndex)));
+    } else {
+        connect(m_view, SIGNAL(doubleClicked(QModelIndex)),
+                this, SLOT(slotClicked(QModelIndex)));
+    }
 
     connect(m_view, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotShowContextMenu()));
 
