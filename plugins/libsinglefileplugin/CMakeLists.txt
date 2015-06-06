@@ -10,8 +10,10 @@ set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "${SUPPORTED_LIBSINGLEFILE_MIMETYPES}appli
 # GZip files
 #
 find_package(ZLIB)
-
-#macro_log_feature(ZLIB_FOUND "ZLib" "The Zlib compression library" "http://www.zlib.net" FALSE "" "Required for the .gz format support in Ark")
+set_package_properties(ZLIB PROPERTIES
+                       URL "http://www.zlib.net/"
+                       DESCRIPTION "The Zlib compression library"
+                       PURPOSE "Required for .gz format support in Ark")
 
 if (ZLIB_FOUND)
 	set(kerfuffle_libgz_SRCS gzplugin.cpp ${kerfuffle_singlefile_SRCS})
@@ -30,8 +32,10 @@ endif (ZLIB_FOUND)
 # Bzip2 files
 #
 find_package(BZip2)
-
-#macro_log_feature(BZIP2_FOUND "BZip2" "A high-quality data compressor" "http://www.bzip.org" FALSE "" "Required for the .bz2 format support in Ark")
+set_package_properties(BZip2 PROPERTIES
+                       URL "http://www.bzip.org/"
+                       DESCRIPTION "The Bzip2 compression library"
+                       PURPOSE "Required for .bz2 format support in Ark")
 
 if (BZIP2_FOUND)
 	set(kerfuffle_libbz2_SRCS bz2plugin.cpp ${kerfuffle_singlefile_SRCS})
@@ -50,8 +54,10 @@ endif (BZIP2_FOUND)
 # LZMA files
 #
 find_package(LibLZMA)
-
-#macro_log_feature(LIBLZMA_FOUND "LibLZMA" "Liblzma is used for the .xz and .lzma formats" "http://tukaani.org/xz/" FALSE "" "Required for the .xz and .lzma format support in Ark")
+set_package_properties(LibLZMA PROPERTIES
+                       URL "http://tukaani.org/xz/"
+                       DESCRIPTION "A LZMA compression library"
+                       PURPOSE "Required for .xz and .lzma format support in Ark")
 
 if (LIBLZMA_FOUND)
 	set(kerfuffle_libxz_SRCS xzplugin.cpp ${kerfuffle_singlefile_SRCS})
