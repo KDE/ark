@@ -6,10 +6,6 @@ set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "application/x-tar;application/x-co
 set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}application/x-rpm;application/x-source-rpm;")
 set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}application/vnd.ms-cab-compressed;")
 
-# This MIME type was originally set in ark.desktop but is not mentioned anywhere else.
-# Assuming that, if it were supported, it would be here.
-#set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}application/x-servicepack;")
-
 configure_file(
             ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libarchive_readonly.desktop.cmake
             ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive_readonly.desktop

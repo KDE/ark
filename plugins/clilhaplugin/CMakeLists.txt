@@ -1,6 +1,5 @@
 ########### next target ###############
 
-#set(SUPPORTED_CLILHA_MIMETYPES "application/lha;application/x-lha;application/maclha;")
 set(SUPPORTED_CLILHA_MIMETYPES "application/x-lha;")
 
 set(kerfuffle_cli_SRCS cliplugin.cpp)
