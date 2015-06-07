@@ -16,6 +16,9 @@ add_executable( ark ${ark_SRCS} )
 
 target_link_libraries( ark kerfuffle KF5::DBusAddons KF5::Parts )
 
+# Remove duplicate mimetypes from list of supported formats.
+list(REMOVE_DUPLICATES SUPPORTED_ARK_MIMETYPES)
+
 configure_file(
             ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.ark.desktop.cmake
             ${CMAKE_CURRENT_BINARY_DIR}/org.kde.ark.desktop
