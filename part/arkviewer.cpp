@@ -103,7 +103,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
     qCDebug(PART) << "viewing" << fileName << "with mime type:" << mimeType.name();
     KService::Ptr viewer = ArkViewer::getViewer(mimeType.name());
 
-    const bool needsExternalViewer = (!viewer &&
+    const bool needsExternalViewer = (viewer &&
                                       !viewer->hasServiceType(QLatin1String("KParts/ReadOnlyPart")));
     if (needsExternalViewer) {
         // We have already resolved the MIME type and the service above.
