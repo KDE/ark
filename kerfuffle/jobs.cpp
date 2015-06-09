@@ -135,6 +135,7 @@ void Job::onError(const QString & message, const QString & details)
 {
     Q_UNUSED(details)
 
+    qCDebug(KERFUFFLE) << "Error emitted:" << message;
     setError(KJob::UserDefinedError);
     setErrorText(message);
 }
