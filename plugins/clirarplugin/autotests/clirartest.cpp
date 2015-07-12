@@ -26,12 +26,12 @@
 #include "clirartest.h"
 #include "../cliplugin.h"
 
-#include <qtest_kde.h>
+#include <QtTest/QtTest>
 
 #include <QFile>
 #include <QTextStream>
 
-QTEST_KDEMAIN_CORE(CliRarTest)
+QTEST_GUILESS_MAIN(CliRarTest)
 
 using namespace Kerfuffle;
 
@@ -45,12 +45,12 @@ using namespace Kerfuffle;
 void CliRarTest::testReadCorruptedArchive()
 {
     QVariantList args;
-    args.append(QLatin1String("DummyArchive.rar"));
+    args.append(QStringLiteral("DummyArchive.rar"));
 
     CliPlugin *rarPlugin = new CliPlugin(this, args);
     Q_ASSERT(rarPlugin->open());
 
-    QFile unrarOutput(QLatin1String(KDESRCDIR "data/testReadCorruptedArchive.txt"));
+    QFile unrarOutput(QFINDTESTDATA("data/testReadCorruptedArchive.txt"));
     Q_ASSERT(unrarOutput.open(QIODevice::ReadOnly));
 
     QTextStream unrarStream(&unrarOutput);
@@ -68,12 +68,12 @@ void CliRarTest::testReadCorruptedArchive()
 void CliRarTest::testParseSymlink()
 {
     QVariantList args;
-    args.append(QLatin1String("DummyArchive.rar"));
+    args.append(QStringLiteral("DummyArchive.rar"));
 
     CliPlugin *rarPlugin = new CliPlugin(this, args);
     Q_ASSERT(rarPlugin->open());
 
-    QFile unrarOutput(QLatin1String(KDESRCDIR "data/testReadArchiveWithSymlink.txt"));
+    QFile unrarOutput(QFINDTESTDATA("data/testReadArchiveWithSymlink.txt"));
     Q_ASSERT(unrarOutput.open(QIODevice::ReadOnly));
 
     QTextStream unrarStream(&unrarOutput);

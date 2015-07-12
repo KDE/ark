@@ -7,15 +7,21 @@ set(ark_SRCS
    )
 
 # For Mac and Windows.
-kde4_add_app_icon(ark_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-apps-ark.png")
+file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/*-apps-ark.png")
 
-kde4_add_executable( ark ${ark_SRCS} )
+include(ECMAddAppIcon)
+ecm_add_app_icon(ark_SRCS ICONS ${ICONS_SRCS})
 
-target_link_libraries( ark kerfuffle ${KDE4_KFILE_LIBS} ${KDE4_KPARTS_LIBS} )
+add_executable( ark ${ark_SRCS} )
+
+target_link_libraries( ark kerfuffle KF5::DBusAddons KF5::Parts )
+
+# Remove duplicate mimetypes from list of supported formats.
+list(REMOVE_DUPLICATES SUPPORTED_ARK_MIMETYPES)
 
 configure_file(
-            ${CMAKE_CURRENT_SOURCE_DIR}/ark.desktop.cmake
-            ${CMAKE_CURRENT_BINARY_DIR}/ark.desktop
+            ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.ark.desktop.cmake
+            ${CMAKE_CURRENT_BINARY_DIR}/org.kde.ark.desktop
 )
 
 configure_file(
@@ -30,21 +36,16 @@ configure_file(
 
 install( TARGETS ark  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 install(FILES ark_addtoservicemenu.desktop ${CMAKE_CURRENT_BINARY_DIR}/ark_servicemenu.desktop DESTINATION ${SERVICES_INSTALL_DIR}/ServiceMenus)
-install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/ark.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
-install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/ark.appdata.xml DESTINATION share/appdata )
-install( FILES arkui.rc    DESTINATION ${DATA_INSTALL_DIR}/ark )
+install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.ark.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
+install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/ark.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
+install( FILES arkui.rc    DESTINATION ${KXMLGUI_INSTALL_DIR}/ark )
 
-########### konqueror ark_extract_here plugin ###############
-macro_optional_find_package( LibKonq )
-macro_log_feature( LIBKONQ_FOUND "LIBKONQ" "libkonq library" "kdebase" FALSE "" "Need to integrate in konqueror" )
+############ ark_extract_here plugin ###############
 
+set(extracthere_SRCS batchextract.cpp extractHereDndPlugin.cpp)
 
-if (LIBKONQ_FOUND)
-   set(extracthere_SRCS batchextract.cpp extractHereDndPlugin.cpp)
-   kde4_add_plugin(extracthere WITH_PREFIX ${extracthere_SRCS})
-   target_link_libraries(extracthere kerfuffle ${KDE4_KDECORE_LIBS} ${KDE4_KPARTS_LIBS} ${KDE4_KFILE_LIBS} ${LIBKONQ_LIBRARY} )
-   include_directories(${LIBKONQ_INCLUDE_DIR})
-   install( TARGETS extracthere DESTINATION ${PLUGIN_INSTALL_DIR} )
-   install( FILES ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
-endif (LIBKONQ_FOUND)
+add_library(extracthere MODULE ${extracthere_SRCS})
+kcoreaddons_desktop_to_json(extracthere ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop)
 
+target_link_libraries(extracthere kerfuffle KF5::Parts KF5::KIOWidgets)
+install( TARGETS extracthere DESTINATION ${PLUGIN_INSTALL_DIR}/kf5/kio_dnd )

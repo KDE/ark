@@ -1,33 +1,59 @@
 project(ark)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
+set(QT_MIN_VERSION 5.4.0)
+set(KF5_MIN_VERSION 5.6.0)
 
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
-    find_package(KDE4)
-    include( KDE4Defaults )
-    include_directories(${KDE4_INCLUDES})
-
-    add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
-    add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
-
-    # If definitions like -D_GNU_SOURCE are needed for these checks they
-    # should be added to _KDE4_PLATFORM_DEFINITIONS when it is originally
-    # defined outside this file.  Here we include these definitions in
-    # CMAKE_REQUIRED_DEFINITIONS so they will be included in the build of
-    # checks below.
-    set( CMAKE_REQUIRED_DEFINITIONS ${_KDE4_PLATFORM_DEFINITIONS} )
-endif()
-
-include( MacroLibrary )
-list(APPEND CMAKE_MODULE_PATH ${ark_SOURCE_DIR}/cmake/modules)
-
-macro_optional_find_package(LibArchive)
-macro_log_feature(LIBARCHIVE_FOUND "LibArchive" "A library for dealing with a wide variety of archive file formats" "http://code.google.com/p/libarchive/" FALSE "" "Required for among others tar, tar.gz, tar.bz2 formats in Ark.")
-
-configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/CTestCustom.cmake)
 
-add_definitions(-DQT_NO_CAST_FROM_ASCII)
+find_package(ECM 1.7.0 REQUIRED NO_MODULE)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+
+include(KDEInstallDirs)
+include(KDECMakeSettings)
+include(KDECompilerSettings)
+include(GenerateExportHeader)
+include(FeatureSummary)
+
+add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
+
+include(ECMSetupVersion)
+ecm_setup_version(15.07.80
+                  VARIABLE_PREFIX ARK
+                  VERSION_HEADER "ark_version.h")
+
+ecm_setup_version(${ARK_VERSION}
+                  VARIABLE_PREFIX KERFUFFLE
+                  SOVERSION ${ARK_VERSION_MAJOR})
+
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core Widgets)
+find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive
+                                                        Config
+                                                        Crash
+                                                        DBusAddons
+                                                        DocTools
+                                                        I18n
+                                                        IconThemes
+                                                        KHtml
+                                                        KIO
+                                                        Service
+                                                        Pty
+                                                        WidgetsAddons)
+
+find_package(Qt5Test ${QT_MIN_VERSION} CONFIG QUIET)
+set_package_properties(Qt5Test PROPERTIES
+    PURPOSE "Required for tests"
+    TYPE OPTIONAL)
+add_feature_info("Qt5Test" Qt5Test_FOUND "Required for building tests")
+if (NOT Qt5Test_FOUND)
+    set(BUILD_TESTING OFF CACHE BOOL "Build the testing tree.")
+endif()
+
+find_package(LibArchive 3.0.0 REQUIRED)
+set_package_properties(LibArchive PROPERTIES
+                       URL "http://www.libarchive.org/"
+                       DESCRIPTION "A library for dealing with a wide variety of archive file formats"
+                       PURPOSE "Required for among others tar, tar.gz, tar.bz2 formats in Ark.")
 
 option(WITH_TEST_COVERAGE "Build with test coverage support" OFF)
 if (WITH_TEST_COVERAGE)
@@ -38,13 +64,21 @@ endif (WITH_TEST_COVERAGE)
 
 set(SUPPORTED_ARK_MIMETYPES "")
 
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_BINARY_DIR}
+)
+
+add_definitions(-DTRANSLATION_DOMAIN="ark")
+
 add_subdirectory(plugins)
 add_subdirectory(kerfuffle)
 add_subdirectory(part)
 add_subdirectory(app)
 add_subdirectory(doc)
 
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
-    message(STATUS "Supported MIME types: ${SUPPORTED_ARK_MIMETYPES}")
-    macro_display_feature_log()
-endif(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
+ki18n_install(po)
+
+install( FILES ark.categories DESTINATION ${KDE_INSTALL_CONFDIR} )
+
+feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

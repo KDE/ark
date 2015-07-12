@@ -1,8 +1,9 @@
-<ui version="4.0" >
- <author>Henrique Pinto &lt;henrique.pinto@kdemail.net></author>
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>Henrique Pinto &lt;henrique.pinto@kdemail.net&gt;</author>
  <class>ExtractionDialog</class>
- <widget class="QWidget" name="ExtractionDialog" >
-  <property name="geometry" >
+ <widget class="QWidget" name="ExtractionDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -10,62 +11,62 @@
     <height>422</height>
    </rect>
   </property>
-  <property name="sizePolicy" >
-   <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Extraction Dialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2" >
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" >
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="iconLabel" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Minimum" hsizetype="Fixed" >
+      <widget class="QLabel" name="iconLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="maximumSize" >
+       <property name="maximumSize">
         <size>
          <width>256</width>
          <height>256</height>
         </size>
        </property>
-       <property name="text" >
+       <property name="text">
         <string/>
        </property>
-       <property name="pixmap" >
+       <property name="pixmap">
         <pixmap>../../../../../kde-devel/ark-trunk/pics/ox32-action-ark_extract.png</pixmap>
        </property>
-       <property name="scaledContents" >
+       <property name="scaledContents">
         <bool>false</bool>
        </property>
-       <property name="alignment" >
+       <property name="alignment">
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="extractAllLabel" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
+      <widget class="QLabel" name="extractAllLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="font" >
+       <property name="font">
         <font>
-         <pointsize>15</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
+         <pointsize>11</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Extract All Files</string>
        </property>
       </widget>
@@ -73,26 +74,26 @@
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="singleFolderGroup" >
-     <property name="title" >
-      <string>&amp;Extraction into subfolder:</string>
+    <widget class="QGroupBox" name="singleFolderGroup">
+     <property name="title">
+      <string>E&amp;xtraction into subfolder:</string>
      </property>
-     <property name="checkable" >
+     <property name="checkable">
       <bool>true</bool>
      </property>
-     <property name="checked" >
+     <property name="checked">
       <bool>false</bool>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout" >
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="KLineEdit" name="subfolder" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+       <widget class="KLineEdit" name="subfolder">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="showClearButton" stdset="0" >
+        <property name="showClearButton" stdset="0">
          <bool>true</bool>
         </property>
        </widget>
@@ -101,23 +102,23 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+    <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="title" >
+     <property name="title">
       <string>Options</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout" >
-      <item row="6" column="0" >
-       <spacer name="verticalSpacer" >
-        <property name="orientation" >
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="6" column="0">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
           <height>40</height>
@@ -125,30 +126,30 @@
         </property>
        </spacer>
       </item>
-      <item row="2" column="0" >
-       <widget class="QCheckBox" name="openFolderCheckBox" >
-        <property name="text" >
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="openFolderCheckBox">
+        <property name="text">
          <string>Open &amp;destination folder after extraction</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" >
-       <widget class="QCheckBox" name="closeAfterExtraction" >
-        <property name="text" >
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="closeAfterExtraction">
+        <property name="text">
          <string>Close &amp;Ark after extraction</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0" >
-       <widget class="QCheckBox" name="preservePaths" >
-        <property name="text" >
+      <item row="4" column="0">
+       <widget class="QCheckBox" name="preservePaths">
+        <property name="text">
          <string>&amp;Preserve paths when extracting</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="0" >
-       <widget class="QCheckBox" name="autoSubfolders" >
-        <property name="text" >
+      <item row="5" column="0">
+       <widget class="QCheckBox" name="autoSubfolders">
+        <property name="text">
          <string>&amp;Automatically create subfolders</string>
         </property>
        </widget>
@@ -157,48 +158,48 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="filesToExtractGroupBox" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+    <widget class="QGroupBox" name="filesToExtractGroupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="title" >
+     <property name="title">
       <string comment="@title:group">Extract</string>
      </property>
-     <property name="flat" >
+     <property name="flat">
       <bool>false</bool>
      </property>
-     <property name="checkable" >
+     <property name="checkable">
       <bool>false</bool>
      </property>
-     <layout class="QVBoxLayout" >
+     <layout class="QVBoxLayout">
       <item>
-       <widget class="QRadioButton" name="selectedFilesButton" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+       <widget class="QRadioButton" name="selectedFilesButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="text" >
-         <string>&amp;Selected files only</string>
+        <property name="text">
+         <string>Sele&amp;cted files only</string>
         </property>
-        <property name="checked" >
+        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="allFilesButton" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+       <widget class="QRadioButton" name="allFilesButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>All &amp;files</string>
         </property>
        </widget>

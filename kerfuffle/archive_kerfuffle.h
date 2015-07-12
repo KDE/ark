@@ -33,6 +33,8 @@
 #include <QString>
 #include <QStringList>
 #include <QHash>
+#include <QObject>
+#include <QVariant>
 
 class KJob;
 

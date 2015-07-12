@@ -22,24 +22,28 @@
 #define KARCHIVEPLUGIN_H
 #include "kerfuffle/archiveinterface.h"
 
+#include <qplatformdefs.h> // mode_t
+
 using namespace Kerfuffle;
 
 class KArchive;
 class KArchiveEntry;
 class KArchiveDirectory;
 
-class KArchiveInterface: public ReadWriteArchiveInterface
+class KERFUFFLE_EXPORT KArchiveInterface: public ReadWriteArchiveInterface
 {
     Q_OBJECT
 public:
     explicit KArchiveInterface(QObject *parent = 0, const QVariantList &args = QVariantList());
     ~KArchiveInterface();
 
-    bool list();
-    bool copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, ExtractionOptions options);
+    bool list() Q_DECL_OVERRIDE;
+    bool copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, ExtractionOptions options) Q_DECL_OVERRIDE;
 
-    bool addFiles(const QStringList &files, const CompressionOptions &options);
-    bool deleteFiles(const QList<QVariant> & files);
+    bool addFiles(const QStringList &files, const CompressionOptions &options) Q_DECL_OVERRIDE;
+    bool deleteFiles(const QList<QVariant> & files) Q_DECL_OVERRIDE;
+
+    bool createEmptyArchive(KArchive *archive);
 
 private:
     enum {
@@ -65,6 +69,9 @@ private:
     KArchive *archive();
 
     KArchive *m_archive;
+
+    int m_no_files = 0;
+    int m_no_dirs = 0;
 };
 
 #endif // KARCHIVEPLUGIN_H

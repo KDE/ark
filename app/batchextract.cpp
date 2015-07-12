@@ -26,25 +26,24 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "logging.h"
 #include "batchextract.h"
-
-#include "kerfuffle/archive.h"
+#include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/extractiondialog.h"
 #include "kerfuffle/jobs.h"
 #include "kerfuffle/queries.h"
 
-#include <KDebug>
-#include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KRun>
 #include <KIO/RenameDialog>
 #include <kwidgetjobtracker.h>
 
+#include <QDebug>
 #include <QDir>
 #include <QFileInfo>
+#include <QPointer>
 #include <QTimer>
-#include <QWeakPointer>
 
 BatchExtract::BatchExtract(QObject* parent)
     : KCompositeJob(parent),
@@ -73,7 +72,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
         QString subfolderName = archive->subfolderName();
 
         if (d.exists(subfolderName)) {
-            subfolderName = KIO::RenameDialog::suggestName(destination, subfolderName);
+            subfolderName = KIO::suggestName(QUrl::fromUserInput(destination, QString(), QUrl::AssumeLocalFile), subfolderName);
         }
 
         d.mkdir(subfolderName);
@@ -86,7 +85,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
 
     Kerfuffle::ExtractJob *job = archive->copyFiles(QVariantList(), destination, options);
 
-    kDebug() << QString(QLatin1String( "Registering job from archive %1, to %2, preservePaths %3" )).arg(archive->fileName()).arg(destination).arg(preservePaths());
+    qCDebug(ARK) << QString(QLatin1String( "Registering job from archive %1, to %2, preservePaths %3" )).arg(archive->fileName()).arg(destination).arg(preservePaths());
 
     addSubjob(job);
 
@@ -140,7 +139,7 @@ void BatchExtract::slotStartJob()
 
     m_initialJobCount = subjobs().size();
 
-    kDebug() << "Starting first job";
+    qCDebug(ARK) << "Starting first job";
 
     subjobs().at(0)->start();
 }
@@ -154,21 +153,20 @@ void BatchExtract::showFailedFiles()
 
 void BatchExtract::slotResult(KJob *job)
 {
-    kDebug();
-
     // TODO: The user must be informed about which file caused the error, and that the other files
     //       in the queue will not be extracted.
     if (job->error()) {
-        kDebug() << "There was en error, " << job->errorText();
+        qCDebug(ARK) << "There was en error:" << job->error() << ", errorText:" << job->errorText();
 
         setErrorText(job->errorText());
         setError(job->error());
 
         removeSubjob(job);
 
-        KMessageBox::error(NULL, job->errorText().isEmpty() ?
-                           i18n("There was an error during extraction.") : job->errorText()
-                          );
+        if (job->error() != KJob::KilledJobError) {
+            KMessageBox::error(NULL, job->errorText().isEmpty() ?
+                                     i18n("There was an error during extraction.") : job->errorText());
+        }
 
         emitResult();
 
@@ -179,15 +177,15 @@ void BatchExtract::slotResult(KJob *job)
 
     if (!hasSubjobs()) {
         if (openDestinationAfterExtraction()) {
-            KUrl destination(destinationFolder());
-            destination.cleanPath();
+            QUrl destination(destinationFolder());
+            destination.setPath(QDir::cleanPath(destination.path()));
             KRun::runUrl(destination, QLatin1String( "inode/directory" ), 0);
         }
 
-        kDebug() << "Finished, emitting the result";
+        qCDebug(ARK) << "Finished, emitting the result";
         emitResult();
     } else {
-        kDebug() << "Starting the next job";
+        qCDebug(ARK) << "Starting the next job";
         emit description(this,
                          i18n("Extracting Files"),
                          qMakePair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
@@ -204,11 +202,13 @@ void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
     setPercent(jobPart *(m_initialJobCount - subjobs().size()) + percent / m_initialJobCount);
 }
 
-bool BatchExtract::addInput(const KUrl& url)
+bool BatchExtract::addInput(const QUrl& url)
 {
-    Kerfuffle::Archive *archive = Kerfuffle::Archive::create(url.pathOrUrl(), this);
+    qCDebug(ARK) << "Adding archive" << url.toDisplayString(QUrl::PreferLocalFile);
 
-    if ((archive == NULL) || (!QFileInfo(url.pathOrUrl()).exists())) {
+    Kerfuffle::Archive *archive = Kerfuffle::Archive::create(url.toDisplayString(QUrl::PreferLocalFile), this);
+
+    if ((archive == NULL) || (!QFileInfo(url.toDisplayString(QUrl::PreferLocalFile)).exists())) {
         m_failedFiles.append(url.fileName());
         return false;
     }
@@ -256,15 +256,16 @@ void BatchExtract::setPreservePaths(bool value)
 
 bool BatchExtract::showExtractDialog()
 {
-    QWeakPointer<Kerfuffle::ExtractionDialog> dialog =
+    QPointer<Kerfuffle::ExtractionDialog> dialog =
         new Kerfuffle::ExtractionDialog;
 
     if (m_inputs.size() > 1) {
         dialog.data()->batchModeOption();
     }
 
+    dialog.data()->setModal(true);
     dialog.data()->setAutoSubfolder(autoSubfolder());
-    dialog.data()->setCurrentUrl(destinationFolder());
+    dialog.data()->setCurrentUrl(QUrl::fromUserInput(destinationFolder(), QString(), QUrl::AssumeLocalFile));
     dialog.data()->setPreservePaths(preservePaths());
 
     if (m_inputs.size() == 1) {
@@ -280,7 +281,7 @@ bool BatchExtract::showExtractDialog()
     }
 
     setAutoSubfolder(dialog.data()->autoSubfolders());
-    setDestinationFolder(dialog.data()->destinationDirectory().pathOrUrl());
+    setDestinationFolder(dialog.data()->destinationDirectory().toDisplayString(QUrl::PreferLocalFile));
     setOpenDestinationAfterExtraction(dialog.data()->openDestinationAfterExtraction());
     setPreservePaths(dialog.data()->preservePaths());
 
@@ -289,4 +290,3 @@ bool BatchExtract::showExtractDialog()
     return true;
 }
 
-#include <batchextract.moc>

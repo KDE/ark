@@ -27,9 +27,8 @@
 
 #include "kerfuffle/archiveinterface.h"
 
-#include <KDE/KDebug>
-
-#include <QtCore/QLatin1String>
+#include <QDebug>
+#include <QLatin1String>
 
 #include <qjson/parser.h>
 
@@ -79,7 +78,7 @@ JSONParser::JSONArchive JSONParser::parse(const QString &json)
     const QVariant result = parser.parse(json.toUtf8(), &ok);
 
     if (!ok) {
-        kDebug() << "Line" << parser.errorLine() << ":" << parser.errorString();
+        qDebug() << "Line" << parser.errorLine() << ":" << parser.errorString();
         return JSONParser::JSONArchive();
     }
 
@@ -94,7 +93,7 @@ JSONParser::JSONArchive JSONParser::parse(QIODevice *json)
     const QVariant result = parser.parse(json, &ok);
 
     if (!ok) {
-        kDebug() << "Line" << parser.errorLine() << ":" << parser.errorString();
+        qDebug() << "Line" << parser.errorLine() << ":" << parser.errorString();
         return JSONParser::JSONArchive();
     }
 
@@ -121,7 +120,7 @@ JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
             if (properties.contains(entryIterator.key())) {
                 archiveEntry[properties[entryIterator.key()]] = entryIterator.value();
             } else {
-                kDebug() << entryIterator.key() << "is not a valid entry key";
+                qDebug() << entryIterator.key() << "is not a valid entry key";
             }
         }
 

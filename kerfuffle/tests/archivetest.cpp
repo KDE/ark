@@ -23,7 +23,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "kerfuffle/archive.h"
+#include "kerfuffle/archive_kerfuffle.h"
 
 #include <qtest_kde.h>
 
@@ -73,4 +73,4 @@ void ArchiveTest::testOpenNonExistentFile()
     QSKIP("How should we deal with files that do not exist? Should factory() return NULL?", SkipSingle);
 }
 
-#include "archivetest.moc"
+

@@ -30,7 +30,6 @@
 #define BATCHEXTRACT_H
 
 #include <kcompositejob.h>
-#include <KUrl>
 
 #include <QtCore/QMap>
 #include <QtCore/QPair>
@@ -80,7 +79,7 @@ public:
     /**
      * A wrapper that calls slotStartJob() when the event loop has started.
      */
-    void start();
+    void start() Q_DECL_OVERRIDE;
 
     /**
      * Whether to automatically create a folder inside the destination
@@ -116,7 +115,7 @@ public:
      * @return @c false The file does not exist or a suitable
      *                  plugin could not be found.
      */
-    bool addInput(const KUrl& url);
+    bool addInput(const QUrl& url);
 
     /**
      * Shows the extract options dialog before extracting the files.
@@ -204,7 +203,7 @@ private slots:
      * successfully, and advances to the next extraction job if
      * there are more.
      */
-    void slotResult(KJob *job);
+    void slotResult(KJob *job) Q_DECL_OVERRIDE;
 
     /**
      * Shows a query dialog, which may happen when a file already exists.

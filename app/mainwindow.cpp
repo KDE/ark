@@ -21,28 +21,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
+#include "logging.h"
 #include "mainwindow.h"
-#include "kerfuffle/archive.h"
+#include "kerfuffle/archive_kerfuffle.h"
 #include "part/interface.h"
 
-#include <KPluginLoader>
 #include <KPluginFactory>
 #include <KMessageBox>
-#include <KApplication>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KActionCollection>
 #include <KStandardAction>
-#include <KFileDialog>
 #include <KRecentFilesAction>
-#include <KGlobal>
-#include <KDebug>
 #include <KEditToolBar>
 #include <KShortcutsDialog>
+#include <KService>
+#include <KSharedConfig>
+#include <KConfigGroup>
 #include <KXMLGUIFactory>
 
+#include <QDebug>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
-#include <QWeakPointer>
+#include <QFileDialog>
+#include <QMimeData>
+#include <QPointer>
+#include <QRegularExpression>
 
 static bool isValidArchiveDrag(const QMimeData *data)
 {
@@ -57,9 +60,8 @@ MainWindow::MainWindow(QWidget *)
     setupActions();
     statusBar();
 
-    if (!initialGeometrySet()) {
-        resize(640, 480);
-    }
+    resize(640, 480);
+
     setAutoSaveSettings(QLatin1String( "MainWindow" ));
 
     setAcceptDrops(true);
@@ -68,7 +70,7 @@ MainWindow::MainWindow(QWidget *)
 MainWindow::~MainWindow()
 {
     if (m_recentFilesAction) {
-        m_recentFilesAction->saveEntries(KGlobal::config()->group("Recent Files"));
+        m_recentFilesAction->saveEntries(KSharedConfig::openConfig()->group("Recent Files"));
     }
 
     guiFactory()->removeClient(m_part);
@@ -78,15 +80,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::dragEnterEvent(QDragEnterEvent * event)
 {
-    kDebug() << event;
+    qCDebug(ARK) << "dragEnterEvent" << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) {
         return;
     }
 
-    if ((event->source() == NULL) &&
-        (isValidArchiveDrag(event->mimeData()))) {
+    if (!event->source() && isValidArchiveDrag(event->mimeData())) {
         event->acceptProposedAction();
     }
     return;
@@ -94,7 +95,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent * event)
 
 void MainWindow::dropEvent(QDropEvent * event)
 {
-    kDebug() << event;
+    qCDebug(ARK) << "dropEvent" << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) {
@@ -113,7 +114,7 @@ void MainWindow::dropEvent(QDropEvent * event)
 
 void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 {
-    kDebug() << event;
+    qCDebug(ARK) << "dragMoveEvent" << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) {
@@ -128,14 +129,18 @@ void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 
 bool MainWindow::loadPart()
 {
-    KPluginLoader loader(QLatin1String( "arkpart" ));
-    KPluginFactory *factory = loader.factory();
-    if (factory) {
-        m_part = static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this));
+    KPluginFactory *factory = 0;
+    KService::Ptr service = KService::serviceByDesktopName(QLatin1String("ark_part"));
+
+    if (service) {
+        factory = KPluginLoader(service->library()).factory();
     }
-    if (!factory || !m_part) {
+
+    m_part = factory ? static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this)) : 0;
+
+    if (!m_part) {
         KMessageBox::error(this, i18n("Unable to find Ark's KPart component, please check your installation."));
-        kWarning() << "Error loading Ark KPart: " << loader.errorString();
+        qCWarning(ARK) << "Error loading Ark KPart.";
         return false;
     }
 
@@ -156,13 +161,13 @@ void MainWindow::setupActions()
     m_openAction = KStandardAction::open(this, SLOT(openArchive()), actionCollection());
     KStandardAction::quit(this, SLOT(quit()), actionCollection());
 
-    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openUrl(KUrl)), actionCollection());
+    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openUrl(QUrl)), actionCollection());
     m_recentFilesAction->setToolBarMode(KRecentFilesAction::MenuMode);
     m_recentFilesAction->setToolButtonPopupMode(QToolButton::DelayedPopup);
     m_recentFilesAction->setIconText(i18nc("action, to open an archive", "Open"));
     m_recentFilesAction->setStatusTip(i18n("Click to open an archive, click and hold to open a recently-opened archive"));
     m_recentFilesAction->setToolTip(i18n("Open an archive"));
-    m_recentFilesAction->loadEntries(KGlobal::config()->group("Recent Files"));
+    m_recentFilesAction->loadEntries(KSharedConfig::openConfig()->group("Recent Files"));
     connect(m_recentFilesAction, SIGNAL(triggered()),
             this, SLOT(openArchive()));
 
@@ -191,14 +196,15 @@ void MainWindow::editKeyBindings()
 
 void MainWindow::editToolbars()
 {
-    saveMainWindowSettings(KGlobal::config()->group(QLatin1String("MainWindow")));
+    KConfigGroup cfg(KSharedConfig::openConfig(), "MainWindow");
+    saveMainWindowSettings(cfg);
 
-    QWeakPointer<KEditToolBar> dlg = new KEditToolBar(factory(), this);
+    QPointer<KEditToolBar> dlg = new KEditToolBar(factory(), this);
     dlg.data()->exec();
 
     createGUI(m_part);
 
-    applyMainWindowSettings(KGlobal::config()->group(QLatin1String("MainWindow")));
+    applyMainWindowSettings(KSharedConfig::openConfig()->group(QLatin1String("MainWindow")));
 
     delete dlg.data();
 }
@@ -207,13 +213,37 @@ void MainWindow::openArchive()
 {
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
-    const KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///ArkOpenDir"),
-                                       Kerfuffle::supportedMimeTypes().join( QLatin1String( " " )),
-                                       this);
-    openUrl(url);
+    Q_UNUSED(iface);
+
+    QFileDialog dlg(this, i18nc("to open an archive", "Open Archive"));
+    dlg.setMimeTypeFilters(Kerfuffle::supportedMimeTypes());
+
+    QStringList filters = dlg.nameFilters();
+    filters.removeDuplicates();
+    filters.sort(Qt::CaseInsensitive);
+
+    // Create the "All supported archives" filter
+    QRegularExpression rx("(\\*\\.[a-z]+\\.*[a-z0-9]*)+");
+    QString allArchives(i18n("All supported archives ("));
+    foreach(QString s, filters)
+    {
+        QRegularExpressionMatchIterator i = rx.globalMatch(s);
+        while (i.hasNext()) {
+            QRegularExpressionMatch match = i.next();
+            allArchives.append(match.captured(1) + " ");
+        }
+    }
+    filters.prepend(allArchives + ")");
+    dlg.setNameFilters(filters);
+
+    dlg.setFileMode(QFileDialog::ExistingFile);
+    dlg.setAcceptMode(QFileDialog::AcceptOpen);
+    if (dlg.exec() == QDialog::Accepted) {
+        openUrl(dlg.selectedUrls().first());
+    }
 }
 
-void MainWindow::openUrl(const KUrl& url)
+void MainWindow::openUrl(const QUrl& url)
 {
     if (!url.isEmpty()) {
         m_part->setArguments(m_openArgs);
@@ -242,21 +272,27 @@ void MainWindow::quit()
 
 void MainWindow::newArchive()
 {
+    qCDebug(ARK) << "Creating new archive";
+
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
+    Q_UNUSED(iface);
 
     const QStringList mimeTypes = Kerfuffle::supportedWriteMimeTypes();
 
-    kDebug() << "Supported mimetypes are" << mimeTypes.join( QLatin1String( " " ));
+    qCDebug(ARK) << "Supported mimetypes are" << mimeTypes.join(QLatin1String(" "));
 
-    const KUrl saveFileUrl =
-        KFileDialog::getSaveUrl(KUrl("kfiledialog:///ArkNewDir"),
-                                mimeTypes.join(QLatin1String(" ")));
-
-    m_openArgs.metaData()[QLatin1String( "createNewArchive" )] = QLatin1String( "true" );
-
-    openUrl(saveFileUrl);
-
-    m_openArgs.metaData().remove(QLatin1String( "showExtractDialog" ));
-    m_openArgs.metaData().remove(QLatin1String( "createNewArchive" ));
+    QFileDialog dlg(this);
+    dlg.setMimeTypeFilters(mimeTypes);
+    QStringList filters = dlg.nameFilters();
+    filters.sort(Qt::CaseInsensitive);
+    dlg.setNameFilters(filters);
+    dlg.setFileMode(QFileDialog::AnyFile);
+    dlg.setAcceptMode(QFileDialog::AcceptSave);
+    if (dlg.exec() == QDialog::Accepted) {
+        m_openArgs.metaData()[QLatin1String( "createNewArchive" )] = QLatin1String( "true" );
+        openUrl(dlg.selectedUrls().first());
+        m_openArgs.metaData().remove(QLatin1String( "showExtractDialog" ));
+        m_openArgs.metaData().remove(QLatin1String( "createNewArchive" ));
+    }
 }

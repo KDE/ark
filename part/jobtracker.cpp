@@ -19,9 +19,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
+#include "app/logging.h"
 #include "jobtracker.h"
 
-#include <KDebug>
+#include <QDebug>
 
 JobTrackerWidget::JobTrackerWidget(QWidget *parent)
         : QFrame(parent)
@@ -49,7 +50,7 @@ void JobTracker::description(KJob *job, const QString &title, const QPair< QStri
     Q_UNUSED(job)
     Q_UNUSED(f1)
     Q_UNUSED(f2)
-    m_ui->descriptionLabel->setText(QString(QLatin1String( "<b>%1</b>" )).arg(title));
+    m_ui->descriptionLabel->setText(QStringLiteral("<b>%1</b>").arg(title));
     m_ui->descriptionLabel->show();
 }
 
@@ -77,7 +78,7 @@ void JobTracker::registerJob(KJob *job)
     m_ui->progressBar->show();
 }
 
-void JobTracker::percent(KJob *job, unsigned long  percent)
+void JobTracker::percent(KJob *job, unsigned long percent)
 {
     Q_UNUSED(job)
     m_ui->progressBar->setMaximum(100);

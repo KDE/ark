@@ -26,22 +26,23 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "app/logging.h"
 #include "addtoarchive.h"
 #include "adddialog.h"
-#include "archive.h"
+#include "archive_kerfuffle.h"
 #include "jobs.h"
 
 #include <KConfig>
-#include <kdebug.h>
 #include <kjobtrackerinterface.h>
 #include <kmessagebox.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kio/job.h>
 
+#include <QDebug>
 #include <QFileInfo>
 #include <QDir>
 #include <QTimer>
-#include <QWeakPointer>
+#include <QPointer>
 
 namespace Kerfuffle
 {
@@ -64,9 +65,9 @@ void AddToArchive::setChangeToFirstPath(bool value)
     m_changeToFirstPath = value;
 }
 
-void AddToArchive::setFilename(const KUrl& path)
+void AddToArchive::setFilename(const QUrl &path)
 {
-    m_filename = path.pathOrUrl();
+    m_filename = path.toDisplayString(QUrl::PreferLocalFile);
 }
 
 void AddToArchive::setMimeType(const QString & mimeType)
@@ -74,21 +75,24 @@ void AddToArchive::setMimeType(const QString & mimeType)
     m_mimeType = mimeType;
 }
 
-bool AddToArchive::showAddDialog(void)
+bool AddToArchive::showAddDialog()
 {
-    QWeakPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
-        m_inputs, // itemsToAdd
-        KUrl(m_firstPath), // startDir
-        QLatin1String( "" ), // filter
-        NULL, // parent
-        NULL); // widget
+    qCDebug(KERFUFFLE) << "Opening add dialog";
 
+    QPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
+        m_inputs, // itemsToAdd
+        Q_NULLPTR, // parent
+        i18n("Compress to Archive"), // caption
+        QUrl::fromLocalFile(m_firstPath)); // startDir
+
+    dialog.data()->show();
+    dialog.data()->restoreWindowSize();
     bool ret = dialog.data()->exec();
 
     if (ret) {
-        kDebug() << "Returned URL:" << dialog.data()->selectedUrl();
-        kDebug() << "Returned mime:" << dialog.data()->currentMimeFilter();
-        setFilename(dialog.data()->selectedUrl());
+        qCDebug(KERFUFFLE) << "AddDialog returned URL:" << dialog.data()->selectedUrls().at(0).toString();
+        qCDebug(KERFUFFLE) << "AddDialog returned mime:" << dialog.data()->currentMimeFilter();
+        setFilename(dialog.data()->selectedUrls().at(0));
         setMimeType(dialog.data()->currentMimeFilter());
     }
 
@@ -97,16 +101,12 @@ bool AddToArchive::showAddDialog(void)
     return ret;
 }
 
-bool AddToArchive::addInput(const KUrl& url)
+bool AddToArchive::addInput(const QUrl &url)
 {
-    m_inputs << url.pathOrUrl(
-        QFileInfo(url.pathOrUrl()).isDir() ?
-        KUrl::AddTrailingSlash :
-        KUrl::RemoveTrailingSlash
-    );
+    m_inputs << url.toDisplayString(QUrl::PreferLocalFile);
 
     if (m_firstPath.isEmpty()) {
-        QString firstEntry = url.pathOrUrl(KUrl::RemoveTrailingSlash);
+        QString firstEntry = url.toDisplayString(QUrl::PreferLocalFile);
         m_firstPath = QFileInfo(firstEntry).dir().absolutePath();
     }
 
@@ -115,14 +115,16 @@ bool AddToArchive::addInput(const KUrl& url)
 
 void AddToArchive::start()
 {
+    qCDebug(KERFUFFLE) << "Starting job";
+
     QTimer::singleShot(0, this, SLOT(slotStartJob()));
 }
 
 // TODO: If this class should ever be called outside main.cpp,
 //       the returns should be preceded by emitResult().
-void AddToArchive::slotStartJob(void)
+void AddToArchive::slotStartJob()
 {
-    kDebug();
+
 
     Kerfuffle::CompressionOptions options;
 
@@ -134,15 +136,15 @@ void AddToArchive::slotStartJob(void)
     Kerfuffle::Archive *archive;
     if (!m_filename.isEmpty()) {
         archive = Kerfuffle::Archive::create(m_filename, m_mimeType, this);
-        kDebug() << "Set filename to " << m_filename;
+        qCDebug(KERFUFFLE) << "Set filename to " << m_filename;
     } else {
         if (m_autoFilenameSuffix.isEmpty()) {
-            KMessageBox::error(NULL, i18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the <command>--autofilename</command> argument."));
+            KMessageBox::error(Q_NULLPTR, xi18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the <command>--autofilename</command> argument."));
             return;
         }
 
         if (m_firstPath.isEmpty()) {
-            kDebug() << "Weird, this should not happen. no firstpath defined. aborting";
+            qCWarning(KERFUFFLE) << "Weird, this should not happen. no firstpath defined. aborting";
             return;
         }
 
@@ -161,21 +163,21 @@ void AddToArchive::slotStartJob(void)
             finalName = base + QLatin1Char( '_' ) + QString::number(appendNumber) + QLatin1Char( '.' ) + m_autoFilenameSuffix;
         }
 
-        kDebug() << "Autoset filename to "<< finalName;
+        qCDebug(KERFUFFLE) << "Autoset filename to "<< finalName;
         archive = Kerfuffle::Archive::create(finalName, m_mimeType, this);
     }
 
-    if (archive == NULL) {
-        KMessageBox::error(NULL, i18n("Failed to create the new archive. Permissions might not be sufficient."));
+    if (!archive) {
+        KMessageBox::error(Q_NULLPTR, i18n("Failed to create the new archive. Permissions might not be sufficient."));
         return;
     } else if (archive->isReadOnly()) {
-        KMessageBox::error(NULL, i18n("It is not possible to create archives of this type."));
+        KMessageBox::error(Q_NULLPTR, i18n("It is not possible to create archives of this type."));
         return;
     }
 
     if (m_changeToFirstPath) {
         if (m_firstPath.isEmpty()) {
-            kDebug() << "Weird, this should not happen. no firstpath defined. aborting";
+            qCWarning(KERFUFFLE) << "Weird, this should not happen. no firstpath defined. aborting";
             return;
         }
 
@@ -185,8 +187,9 @@ void AddToArchive::slotStartJob(void)
             m_inputs[i] = stripDir.absoluteFilePath(m_inputs.at(i));
         }
 
+
         options[QLatin1String( "GlobalWorkDir" )] = stripDir.path();
-        kDebug() << "Setting GlobalWorkDir to " << stripDir.path();
+        qCDebug(KERFUFFLE) << "Setting GlobalWorkDir to " << stripDir.path();
     }
 
     Kerfuffle::AddJob *job =
@@ -194,18 +197,17 @@ void AddToArchive::slotStartJob(void)
 
     KIO::getJobTracker()->registerJob(job);
 
-    connect(job, SIGNAL(result(KJob*)),
-            this, SLOT(slotFinished(KJob*)));
+    connect(job, &Kerfuffle::AddJob::result, this, &AddToArchive::slotFinished);
 
     job->start();
 }
 
 void AddToArchive::slotFinished(KJob *job)
 {
-    kDebug();
+    qCDebug(KERFUFFLE) << "Job finished";
 
     if (job->error()) {
-        KMessageBox::error(NULL, job->errorText());
+        KMessageBox::error(Q_NULLPTR, job->errorText());
     }
 
     emitResult();

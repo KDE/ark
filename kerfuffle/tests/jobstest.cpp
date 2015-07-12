@@ -27,12 +27,12 @@
 
 #include "jsonarchiveinterface.h"
 
-#include <kdebug.h>
+#include <QDebug>
 #include <kglobal.h>
 #include <qtest_kde.h>
 
-#include <qeventloop.h>
-#include <qsignalspy.h>
+#include <QEventLoop>
+#include <QSignalSpy>
 
 using Kerfuffle::ArchiveEntry;
 
@@ -81,7 +81,7 @@ JobsTest::JobsTest()
 {
     // Hackish way to make sure the i18n stuff
     // is called from the main thread
-    KGlobal::locale();
+    KLocale::global();
 
     qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 }
@@ -98,7 +98,7 @@ JSONArchiveInterface *JobsTest::createArchiveInterface(const QString& filePath)
 
     JSONArchiveInterface *iface = new JSONArchiveInterface(this, args);
     if (!iface->open()) {
-        kDebug() << "Could not open" << filePath;
+        qDebug() << "Could not open" << filePath;
         return NULL;
     }
 
@@ -363,4 +363,4 @@ void JobsTest::testAddEntry()
     iface->deleteLater();
 }
 
-#include "jobstest.moc"
+

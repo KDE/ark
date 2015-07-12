@@ -30,25 +30,12 @@ class ArchiveView : public QTreeView
 
 public:
     explicit ArchiveView(QWidget *parent = 0);
-    virtual void dragEnterEvent(class QDragEnterEvent * event);
-    virtual void dropEvent(class QDropEvent * event);
-    virtual void dragMoveEvent(class QDragMoveEvent * event);
-    virtual void startDrag(Qt::DropActions supportedActions);
+    virtual void dragEnterEvent(class QDragEnterEvent * event) Q_DECL_OVERRIDE;
+    virtual void dropEvent(class QDropEvent * event) Q_DECL_OVERRIDE;
+    virtual void dragMoveEvent(class QDragMoveEvent * event) Q_DECL_OVERRIDE;
+    virtual void startDrag(Qt::DropActions supportedActions) Q_DECL_OVERRIDE;
 
-    void setModel(QAbstractItemModel *model);
-
-protected slots:
-    void slotClicked(const QModelIndex & index);
-    void slotDoubleClicked(const QModelIndex & index);
-
-private slots:
-    void updateMouseButtons();
-
-signals:
-    void itemTriggered(const QModelIndex & index);
-
-private:
-    Qt::MouseButtons m_mouseButtons; // FIXME: workaround until QTBUG-1067 is resolved
+    void setModel(QAbstractItemModel *model) Q_DECL_OVERRIDE;
 };
 
 #endif /* ARCHIVEVIEW_H */

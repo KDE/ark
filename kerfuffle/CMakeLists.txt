@@ -1,10 +1,10 @@
-macro_optional_find_package(QJSON)
-macro_log_feature(QJSON_FOUND "qjson" "A library for processing and serializing JSON files" "http://qjson.sourceforge.net" FALSE "" "Required for compiling Ark's unit tests")
+#find_package(QJSON)
+#macro_log_feature(QJSON_FOUND "qjson" "A library for processing and serializing JSON files" "http://qjson.sourceforge.net" FALSE "" "Required for compiling Ark's unit tests")
 
 ########### next target ###############
 
 set(kerfuffle_SRCS
-    archive.cpp
+    archive_kerfuffle.cpp
     archiveinterface.cpp
     jobs.cpp
 	extractiondialog.cpp
@@ -14,18 +14,29 @@ set(kerfuffle_SRCS
 	cliinterface.cpp
    )
 
-kde4_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
+kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
 
-kde4_add_ui_files(kerfuffle_SRCS extractiondialog.ui adddialog.ui )
+ki18n_wrap_ui(kerfuffle_SRCS extractiondialog.ui adddialog.ui )
 
-kde4_add_library(kerfuffle SHARED ${kerfuffle_SRCS})
+add_library(kerfuffle SHARED ${kerfuffle_SRCS})
+generate_export_header(kerfuffle BASE_NAME kerfuffle)
 
-target_link_libraries(kerfuffle ${KDE4_KFILE_LIBS} ${KDE4_KPARTS_LIBS})
+target_link_libraries(kerfuffle
+    KF5::Crash
+    KF5::IconThemes
+    KF5::Pty
+    KF5::Service
+    KF5::KIOCore
+    KF5::KIOWidgets
+    KF5::KIOFileWidgets
+    KF5::I18n
+    KF5::WidgetsAddons
+)
 if (NOT WIN32)
   target_link_libraries(kerfuffle ${KDE4_KPTY_LIBS})
 endif (NOT WIN32)
 
-set_target_properties(kerfuffle PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION})
+set_target_properties(kerfuffle PROPERTIES VERSION ${KERFUFFLE_VERSION_STRING} SOVERSION ${KERFUFFLE_SOVERSION})
 
 install(TARGETS kerfuffle ${INSTALL_TARGETS_DEFAULT_ARGS})
 

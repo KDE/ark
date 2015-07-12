@@ -19,63 +19,67 @@
  *
  */
 
+#include "logging.h"
 #include "extractHereDndPlugin.h"
 #include "batchextract.h"
-#include "kerfuffle/archive.h"
+#include "kerfuffle/archive_kerfuffle.h"
 
-#include <KAction>
-#include <KDebug>
+#include <QAction>
+#include <QDebug>
 #include <KPluginFactory>
 #include <KPluginLoader>
-#include <KLocale>
 #include <kfileitemlistproperties.h>
+#include <KLocalizedString>
 
-K_PLUGIN_FACTORY(ExtractHerePluginFactory,
-                 registerPlugin<ExtractHereDndPlugin>();
-                )
-K_EXPORT_PLUGIN(ExtractHerePluginFactory("stupidname", "ark"))
+Q_LOGGING_CATEGORY(ARK, "ark.extracthere", QtWarningMsg)
+
+K_PLUGIN_FACTORY_WITH_JSON(ExtractHereDndPluginFactory, "ark_dndextract.json",
+                           registerPlugin<ExtractHereDndPlugin>();)
 
 void ExtractHereDndPlugin::slotTriggered()
 {
-    kDebug() << "Preparing job";
+    qCDebug(ARK) << "Preparing job";
     BatchExtract *batchJob = new BatchExtract();
 
     batchJob->setAutoSubfolder(true);
-    batchJob->setDestinationFolder(m_dest.pathOrUrl());
+    batchJob->setDestinationFolder(m_dest.toDisplayString(QUrl::PreferLocalFile));
     batchJob->setPreservePaths(true);
-    foreach(const KUrl& url, m_urls) {
+    foreach(const QUrl& url, m_urls) {
         batchJob->addInput(url);
     }
 
+    qCDebug(ARK) << "Starting job";
     batchJob->start();
-    kDebug() << "Started job";
 }
 
 ExtractHereDndPlugin::ExtractHereDndPlugin(QObject* parent, const QVariantList&)
-        : KonqDndPopupMenuPlugin(parent)
+        : KIO::DndPopupMenuPlugin(parent)
 {
 }
 
-void ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
-                                 KUrl destination,
-                                 QList<QAction*>& userActions)
+QList<QAction *> ExtractHereDndPlugin::setup(const KFileItemListProperties& popupMenuInfo,
+                                             const QUrl& destination)
 {
+    QList<QAction *> actionList;
+
     const QString extractHereMessage = i18nc("@action:inmenu Context menu shown when an archive is being drag'n'dropped", "Extract here");
 
     if (!Kerfuffle::supportedMimeTypes().contains(popupMenuInfo.mimeType())) {
-        kDebug() << popupMenuInfo.mimeType() << "is not a supported mimetype";
-        return;
+        qCWarning(ARK) << popupMenuInfo.mimeType() << "is not a supported mimetype";
+        return actionList;
     }
 
-    kDebug() << "Plugin executed";
+    qCDebug(ARK) << "Plugin executed";
 
-    KAction *action = new KAction(KIcon(QLatin1String("archive-extract")),
+    QAction *action = new QAction(QIcon::fromTheme(QLatin1String("archive-extract")),
                                   extractHereMessage, NULL);
-    connect(action, SIGNAL(triggered()), this, SLOT(slotTriggered()));
+    connect(action, &QAction::triggered, this, &ExtractHereDndPlugin::slotTriggered);
 
-    userActions.append(action);
+    actionList.append(action);
     m_dest = destination;
     m_urls = popupMenuInfo.urlList();
+
+    return actionList;
 }
 
 #include "extractHereDndPlugin.moc"

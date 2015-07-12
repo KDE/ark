@@ -26,22 +26,25 @@
 #include "interface.h"
 
 #include <KParts/Part>
+#include <KParts/ReadWritePart>
 #include <KParts/StatusBarExtension>
-#include <KTempDir>
+#include <KMessageWidget>
 
 #include <QModelIndex>
 
 class ArchiveModel;
 class InfoPanel;
 
-class KAbstractWidgetJobTracker;
 class KAboutData;
-class KAction;
+class KAbstractWidgetJobTracker;
 class KJob;
+class KToggleAction;
 
 class QAction;
 class QSplitter;
 class QTreeView;
+class QTemporaryDir;
+class QVBoxLayout;
 
 namespace Ark
 {
@@ -58,12 +61,13 @@ public:
 
     Part(QWidget *parentWidget, QObject *parent, const QVariantList &);
     ~Part();
-    static KAboutData* createAboutData();
 
-    virtual bool openFile();
-    virtual bool saveFile();
+    static KAboutData *createAboutData();
 
-    bool isBusy() const;
+    bool openFile() Q_DECL_OVERRIDE;
+    bool saveFile() Q_DECL_OVERRIDE;
+
+    bool isBusy() const Q_DECL_OVERRIDE;
 
 public slots:
     void extractSelectedFilesTo(const QString& localPath);
@@ -85,7 +89,7 @@ private slots:
     void slotDeleteFiles();
     void slotDeleteFilesDone(KJob*);
     void slotShowContextMenu();
-    void saveSplitterSizes();
+    void slotClicked(QModelIndex);
     void slotToggleInfoPanel(bool);
     void slotSaveAs();
     void updateActions();
@@ -106,28 +110,31 @@ private:
     bool isSingleFolderArchive() const;
     QString detectSubfolder() const;
     bool isPreviewable(const QModelIndex& index) const;
-    QList<QVariant> selectedFiles();
-    QList<QVariant> selectedFilesWithChildren();
+    QList<QVariant> selectedFiles() const;
+    QList<QVariant> selectedFilesWithChildren() const;
     void registerJob(KJob *job);
     void preview(const QModelIndex &index, PreviewMode mode);
+    void displayMsgWidget(KMessageWidget::MessageType type, QString msg);
 
     ArchiveModel         *m_model;
     QTreeView            *m_view;
-    KAction              *m_previewChooseAppAction;
-    KAction              *m_previewAction;
-    KAction              *m_extractFilesAction;
-    KAction              *m_addFilesAction;
-    KAction              *m_addDirAction;
-    KAction              *m_deleteFilesAction;
-    KAction              *m_saveAsAction;
+    QAction *m_previewAction;
+    QAction *m_extractFilesAction;
+    QAction *m_addFilesAction;
+    QAction *m_addDirAction;
+    QAction *m_deleteFilesAction;
+    QAction *m_saveAsAction;
+    QAction *m_previewChooseAppAction;
+    KToggleAction *m_showInfoPanelAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
-    QList<KTempDir*>      m_previewDirList;
+    QList<QTemporaryDir*>      m_previewDirList;
     bool                  m_busy;
     PreviewMode           m_previewMode;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;
+    QVBoxLayout *m_vlayout;
 };
 
 } // namespace Ark

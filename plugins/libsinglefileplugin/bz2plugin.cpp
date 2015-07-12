@@ -28,6 +28,10 @@
 
 #include <QString>
 
+#include <KPluginFactory>
+
+K_PLUGIN_FACTORY( Bz2PluginFactory, registerPlugin< LibBzip2Interface >(); )
+
 LibBzip2Interface::LibBzip2Interface(QObject *parent, const QVariantList & args)
         : LibSingleFileInterface(parent, args)
 {
@@ -38,7 +42,5 @@ LibBzip2Interface::LibBzip2Interface(QObject *parent, const QVariantList & args)
 LibBzip2Interface::~LibBzip2Interface()
 {
 }
-
-KERFUFFLE_EXPORT_PLUGIN(LibBzip2Interface)
 
 #include "bz2plugin.moc"

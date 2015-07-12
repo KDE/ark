@@ -30,13 +30,14 @@
 
 #include "kerfuffle_export.h"
 #include "archiveinterface.h"
-#include "archive.h"
+#include "archive_kerfuffle.h"
 #include "queries.h"
 
 #include <KJob>
 #include <QList>
 #include <QVariant>
 #include <QString>
+#include <QElapsedTimer>
 
 namespace Kerfuffle
 {
@@ -66,6 +67,7 @@ public slots:
     virtual void doWork() = 0;
 
 protected slots:
+    virtual void onCancelled();
     virtual void onError(const QString &message, const QString &details);
     virtual void onInfo(const QString &info);
     virtual void onEntry(const ArchiveEntry &archiveEntry);
@@ -84,6 +86,7 @@ private:
     ReadOnlyArchiveInterface *m_archiveInterface;
 
     bool m_isRunning;
+    QElapsedTimer jobTimer;
 
     class Private;
     Private * const d;
@@ -102,7 +105,7 @@ public:
     QString subfolderName() const;
 
 public slots:
-    virtual void doWork();
+    virtual void doWork() Q_DECL_OVERRIDE;
 
 private:
     bool m_isSingleFolderArchive;
@@ -126,7 +129,7 @@ public:
     ExtractionOptions extractionOptions() const;
 
 public slots:
-    virtual void doWork();
+    virtual void doWork() Q_DECL_OVERRIDE;
 
 private:
     // TODO: Maybe this should be a method if ExtractionOptions were a class?
@@ -145,7 +148,7 @@ public:
     AddJob(const QStringList& files, const CompressionOptions& options, ReadWriteArchiveInterface *interface, QObject *parent = 0);
 
 public slots:
-    virtual void doWork();
+    virtual void doWork() Q_DECL_OVERRIDE;
 
 private:
     QStringList m_files;
@@ -160,7 +163,7 @@ public:
     DeleteJob(const QVariantList& files, ReadWriteArchiveInterface *interface, QObject *parent = 0);
 
 public slots:
-    virtual void doWork();
+    virtual void doWork() Q_DECL_OVERRIDE;
 
 private:
     QVariantList m_files;

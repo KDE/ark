@@ -25,7 +25,6 @@
 
 #include "jsonarchiveinterface.h"
 
-#include <kdebug.h>
 #include <qjson/parser.h>
 
 #include <qfile.h>
@@ -106,4 +105,4 @@ bool JSONArchiveInterface::deleteFiles(const QList<QVariant>& files)
     return true;
 }
 
-#include "jsonarchiveinterface.moc"
+

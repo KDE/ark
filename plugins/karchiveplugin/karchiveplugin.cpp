@@ -1,4 +1,5 @@
 /*
+ *
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
@@ -18,39 +19,53 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
+#include "app/logging.h"
 #include "karchiveplugin.h"
 #include "kerfuffle/queries.h"
 
 #include <KZip>
 #include <KTar>
-#include <KMimeType>
-#include <KDebug>
-#include <KLocale>
-#include <QDir>
+#include <KLocalizedString>
+#include <KPluginFactory>
+#include <KIO/Global>
 
+#include <QDebug>
 #include <QFileInfo>
 #include <QSet>
+#include <QDir>
+#include <QMimeDatabase>
+
+Q_LOGGING_CATEGORY(KERFUFFLE_PLUGIN, "ark.kerfuffle.karchive", QtWarningMsg)
+
+K_PLUGIN_FACTORY( KArchiveInterfaceFactory, registerPlugin< KArchiveInterface >(); )
 
 KArchiveInterface::KArchiveInterface(QObject *parent, const QVariantList &args)
-        : ReadWriteArchiveInterface(parent, args), m_archive(0)
+        : ReadWriteArchiveInterface(parent, args), m_archive(Q_NULLPTR)
 {
-    kDebug();
+    qCDebug(KERFUFFLE_PLUGIN) << "Loaded karchive plugin";
 }
 
 KArchiveInterface::~KArchiveInterface()
 {
     delete m_archive;
-    m_archive = 0;
+    m_archive = Q_NULLPTR;
 }
 
 KArchive *KArchiveInterface::archive()
 {
-    if (m_archive == 0) {
-        KMimeType::Ptr mimeType = KMimeType::findByPath(filename());
+    if (!m_archive) {
+        qCDebug(KERFUFFLE_PLUGIN) << "Creating new KArchive instance";
 
-        if (mimeType->is(QLatin1String("application/zip"))) {
+        QMimeDatabase db;
+        QMimeType mimeType = db.mimeTypeForFile(filename());
+
+        qCDebug(KERFUFFLE_PLUGIN) << "Archive MIME type is" << mimeType.name() << "inherits ZIP:" << mimeType.inherits(QStringLiteral("application/zip"));
+
+        if (mimeType.inherits(QStringLiteral("application/zip"))) {
+            qCDebug(KERFUFFLE_PLUGIN) << "Instance is KZip";
             m_archive = new KZip(filename());
         } else {
+            qCDebug(KERFUFFLE_PLUGIN) << "Instance is KTar";
             m_archive = new KTar(filename());
         }
 
@@ -60,9 +75,22 @@ KArchive *KArchiveInterface::archive()
 
 bool KArchiveInterface::list()
 {
-    kDebug();
+    qCDebug(KERFUFFLE_PLUGIN) << "Listing archive contents";
+
+    if (!QFile(archive()->fileName()).exists())
+    {
+        // If archive doesn't exist, create an empty one
+        // Otherwise, subsequent file additions will fail
+        qCDebug(KERFUFFLE_PLUGIN) << "Archive doesn't exist, creating an empty one.";
+        if (!createEmptyArchive(archive())) {
+            return false;
+        }
+    }
+
     if (!archive()->isOpen() && !archive()->open(QIODevice::ReadOnly)) {
-        emit error(i18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
+        qCDebug(KERFUFFLE_PLUGIN) << "Failed to open archive for reading.";
+        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
+
         return false;
     } else {
         return browseArchive(archive());
@@ -71,11 +99,24 @@ bool KArchiveInterface::list()
 
 void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QString &prefix, QList< QVariant > &list)
 {
+    // Traverse the archive root directory recursively
+    // and append all files and empty directories to list
+
     foreach(const QString &entryName, dir->entries()) {
         const KArchiveEntry *entry = dir->entry(entryName);
         if (entry->isDirectory()) {
             QString newPrefix = (prefix.isEmpty() ? prefix : prefix + QLatin1Char('/')) + entryName;
             getAllEntries(static_cast<const KArchiveDirectory*>(entry), newPrefix, list);
+
+            // Find empty directories
+            if (static_cast<const KArchiveDirectory*>(entry)->entries().isEmpty())
+            {
+                qCDebug(KERFUFFLE_PLUGIN) << "Found empty directory" << entry->name();
+                if (prefix.isEmpty())
+                    list.append(entryName);
+                else
+                    list.append(prefix + QLatin1Char('/') + entryName);
+            }
         }
         else {
             list.append(prefix + QLatin1Char('/') + entryName);
@@ -85,11 +126,16 @@ void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QStrin
 
 bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, ExtractionOptions options)
 {
+    if (files.size() != 0)
+        qCDebug(KERFUFFLE_PLUGIN) << "Going to copy" << files.size() << "files";
+    else
+        qCDebug(KERFUFFLE_PLUGIN) << "Going to copy all files";
+
     const bool preservePaths = options.value(QLatin1String("PreservePaths")).toBool();
     const KArchiveDirectory *dir = archive()->directory();
 
     if (!archive()->isOpen() && !archive()->open(QIODevice::ReadOnly)) {
-        emit error(i18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
+        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
         return false;
     }
 
@@ -101,11 +147,15 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
     bool overwriteAllSelected = false;
     bool autoSkipSelected = false;
     QSet<QString> dirCache;
+
+    int no_files = 0;
     foreach(const QVariant &file, extrFiles) {
         QString realDestination = destinationDirectory;
+        qCDebug(KERFUFFLE_PLUGIN) << "Real destination" << realDestination;
         const KArchiveEntry *archiveEntry = dir->entry(file.toString());
         if (!archiveEntry) {
-            emit error(i18nc("@info", "File <filename>%1</filename> not found in the archive" , file.toString()));
+            qCDebug(KERFUFFLE_PLUGIN) << "File not found in the archive" << file.toString();
+            emit error(xi18nc("@info", "File <filename>%1</filename> not found in the archive" , file.toString()));
             return false;
         }
 
@@ -115,17 +165,24 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
             QString filepath = archiveEntry->isDirectory() ? fi.filePath() : fi.path();
             if (!dirCache.contains(filepath)) {
                 if (!dest.mkpath(filepath)) {
-                    emit error(i18nc("@info", "Error creating directory <filename>%1</filename>", filepath));
+                    emit error(xi18nc("@info", "Error creating directory <filename>%1</filename>", filepath));
                     return false;
                 }
                 dirCache << filepath;
             }
             realDestination = dest.absolutePath() + QLatin1Char('/') + filepath;
+            qCDebug(KERFUFFLE_PLUGIN) << "Real destination 2" << realDestination;
         }
 
         // TODO: handle errors, copyTo fails silently
         if (!archiveEntry->isDirectory()) { // We don't need to do anything about directories
+
+            qCDebug(KERFUFFLE_PLUGIN) << "Extracting file" << archiveEntry->name();
+
             if (QFile::exists(realDestination + QLatin1Char('/') + archiveEntry->name()) && !overwriteAllSelected) {
+
+                qCDebug(KERFUFFLE_PLUGIN) << "file exists" << realDestination + QLatin1Char('/') + archiveEntry->name();
+
                 if (autoSkipSelected) {
                     continue;
                 }
@@ -144,12 +201,25 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
                 if (response == OverwriteAutoSkip) {
                     autoSkipSelected = true;
                 }
-            }
-            else {
-                static_cast<const KArchiveFile*>(archiveEntry)->copyTo(realDestination);
+            } else {
+
+                qCDebug(KERFUFFLE_PLUGIN) << "Extracting file" << realDestination << archiveEntry->name();
+
+                if (archiveEntry->symLinkTarget().isEmpty()) {
+                    static_cast<const KArchiveFile*>(archiveEntry)->copyTo(realDestination);
+                    QFile::setPermissions(realDestination + QStringLiteral("/") + archiveEntry->name(), KIO::convertPermissions(archiveEntry->permissions()));
+                }
+                else {
+                    // Create symlink
+                    QFile::link(archiveEntry->symLinkTarget(), QString(realDestination + QStringLiteral("/") + archiveEntry->name()));
+                }
             }
         }
+        no_files++;
+
+
     }
+    qCDebug(KERFUFFLE_PLUGIN) << "Extracted" << no_files << "files";
 
     return true;
 }
@@ -176,11 +246,18 @@ int KArchiveInterface::handleFileExistsMessage(const QString &dir, const QString
 
 bool KArchiveInterface::browseArchive(KArchive *archive)
 {
-    return processDir(archive->directory());
+    qCDebug(KERFUFFLE_PLUGIN) << "Browsing archive" << archive->fileName();
+    m_no_files = 0;
+    m_no_dirs = 0;
+    bool ret = processDir(archive->directory());
+    qCDebug(KERFUFFLE_PLUGIN) << "Created entries for" << m_no_files << "files" << m_no_dirs << "dirs";
+    return ret;
 }
 
 bool KArchiveInterface::processDir(const KArchiveDirectory *dir, const QString & prefix)
 {
+    qCDebug(KERFUFFLE_PLUGIN) << "Processing directory" << dir->name();
+
     foreach(const QString& entryName, dir->entries()) {
         const KArchiveEntry *entry = dir->entry(entryName);
         createEntryFor(entry, prefix);
@@ -189,16 +266,21 @@ bool KArchiveInterface::processDir(const KArchiveDirectory *dir, const QString &
             processDir(static_cast<const KArchiveDirectory*>(entry), newPrefix);
         }
     }
+    m_no_dirs++;
     return true;
 }
 
 void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QString& prefix)
 {
+    qCDebug(KERFUFFLE_PLUGIN) << "Creating archive entry";
+
     ArchiveEntry e;
     QString fileName = prefix.isEmpty() ? aentry->name() : prefix + QLatin1Char('/') + aentry->name();
 
     if (aentry->isDirectory() && !fileName.endsWith(QLatin1Char('/')))
         fileName += QLatin1Char('/');
+    else
+      m_no_files++;
 
     e[ FileName ]         = fileName;
     e[ InternalID ]       = e[ FileName ];
@@ -206,7 +288,7 @@ void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QStrin
     e[ Owner ]            = aentry->user();
     e[ Group ]            = aentry->group();
     e[ IsDirectory ]      = aentry->isDirectory();
-    e[ Timestamp ]        = aentry->datetime();
+    e[ Timestamp ]        = aentry->date();
     if (!aentry->symLinkTarget().isEmpty()) {
         e[ Link ]             = aentry->symLinkTarget();
     }
@@ -217,26 +299,38 @@ void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QStrin
         e[ Size ] = 0;
     }
     emit entry(e);
+
+
 }
 
 bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::CompressionOptions &options)
 {
     Q_UNUSED(options)
-    kDebug() << "Starting...";
-//  delete m_archive;
-//  m_archive = 0;
+    qCDebug(KERFUFFLE_PLUGIN) << "Going to add files to" << archive()->fileName();
+
+    // Close archive if open
     if (archive()->isOpen()) {
+        qCDebug(KERFUFFLE_PLUGIN) << "Archive was open, closing...";
         archive()->close();
     }
+
+    // We need to delete KArchive instance, otherwise we risk KArchive::device()
+    // not returning a NULL pointer, which KArchive::open() doesn't tolerate.
+    delete m_archive;
+    m_archive = Q_NULLPTR;
+
+    Q_ASSERT(!archive()->device());
+
+    // Open the archive
     if (!archive()->open(QIODevice::ReadWrite)) {
-        emit error(i18nc("@info", "Could not open the archive <filename>%1</filename> for writing.", filename()));
+        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename> for writing.", filename()));
         return false;
     }
 
-    kDebug() << "Archive opened for writing...";
-    kDebug() << "Will add " << files.count() << " files";
+    qCDebug(KERFUFFLE_PLUGIN) << "Archive opened for writing...";
+    qCDebug(KERFUFFLE_PLUGIN) << "Will add " << files.count() << " files";
     foreach(const QString &path, files) {
-        kDebug() << "Adding " << path;
+        qCDebug(KERFUFFLE_PLUGIN) << "Adding " << path;
         QFileInfo fi(path);
         Q_ASSERT(fi.exists());
 
@@ -246,28 +340,44 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
                 createEntryFor(entry, QString());
                 processDir((KArchiveDirectory*) archive()->directory()->entry(fi.fileName()), fi.fileName());
             } else {
-                emit error(i18nc("@info", "Could not add the directory <filename>%1</filename> to the archive", path));
+                emit error(xi18nc("@info", "Could not add the directory <filename>%1</filename> to the archive", path));
                 return false;
             }
         } else {
             if (archive()->addLocalFile(path, fi.fileName())) {
+                qCDebug(KERFUFFLE_PLUGIN) << "Successfully added file" << fi.fileName();
+
+                // The data is written to a QTemporaryFile when using addLocalFile().
+                // We need to call close() to write to the actual archive, otherwise
+                // fetching the KArchiveEntry fails.
+                archive()->close();
+                if (!archive()->open(QIODevice::ReadWrite)) {
+                    emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename> after adding file.", filename()));
+                    return false;
+                }
+
+                qCDebug(KERFUFFLE_PLUGIN) << "Archive now contains" << archive()->directory()->entries();
+
                 const KArchiveEntry *entry = archive()->directory()->entry(fi.fileName());
                 createEntryFor(entry, QString());
             } else {
-                emit error(i18nc("@info", "Could not add the file <filename>%1</filename> to the archive.", path));
+                emit error(xi18nc("@info", "Could not add the file <filename>%1</filename> to the archive.", path));
                 return false;
             }
         }
     }
-    kDebug() << "Closing the archive";
+    qCDebug(KERFUFFLE_PLUGIN) << "Closing the archive";
     archive()->close();
-    kDebug() << "Done";
+    qCDebug(KERFUFFLE_PLUGIN) << "Done";
     return true;
 }
 
 bool KArchiveInterface::deleteFiles(const QList<QVariant> & files)
 {
     Q_UNUSED(files)
+
+    qCDebug(KERFUFFLE_PLUGIN) << "Going to delete files" << files;
+
     return false;
 }
 
@@ -328,4 +438,38 @@ QString KArchiveInterface::permissionsString(mode_t perm)
     return QString::fromLatin1(buffer);
 }
 
-KERFUFFLE_EXPORT_PLUGIN(KArchiveInterface)
+bool KArchiveInterface::createEmptyArchive(KArchive *archive)
+{
+    // Create an empty archive.
+
+    QFile arch(archive->fileName());
+
+    QMimeDatabase db;
+    QMimeType mimeType = db.mimeTypeForFile(filename());
+
+    if (mimeType.inherits(QStringLiteral("application/zip"))) {
+        qCDebug(KERFUFFLE_PLUGIN) << "Creating empty zip archive:" << archive->fileName();
+
+        // Create an empty zip archive
+        FILE* f;
+        if ((f = fopen(filename().toLatin1(), "wb")) &&
+            (fwrite( "\x50\x4B\x05\x06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 22, 1, f )))
+        {
+            fclose(f);
+            qCDebug(KERFUFFLE_PLUGIN) << "Successfully created empty zip archive.";
+            return true;
+        }
+    } else {
+        qCDebug(KERFUFFLE_PLUGIN) << "Creating empty tar-based archive:" << archive->fileName();
+        if (arch.open(QIODevice::ReadWrite))
+        {
+            arch.close();
+            qCDebug(KERFUFFLE_PLUGIN) << "Successfully created empty tar-based archive.";
+            return true;
+        }
+    }
+    qCWarning(KERFUFFLE_PLUGIN) << "Failed to create an empty archive!";
+    return false;
+}
+
+#include "karchiveplugin.moc"

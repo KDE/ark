@@ -25,12 +25,12 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "app/logging.h"
 #include "jobs.h"
 
 #include <QThread>
 
-#include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 
 //#define DEBUG_RACECONDITION
 
@@ -47,7 +47,7 @@ public:
         connect(q, SIGNAL(result(KJob*)), SLOT(quit()));
     }
 
-    virtual void run();
+    virtual void run() Q_DECL_OVERRIDE;
 
 private:
     Job *q;
@@ -102,6 +102,7 @@ bool Job::isRunning() const
 
 void Job::start()
 {
+    jobTimer.start();
     m_isRunning = true;
     d->start();
 }
@@ -114,6 +115,7 @@ void Job::emitResult()
 
 void Job::connectToArchiveInterfaceSignals()
 {
+    connect(archiveInterface(), SIGNAL(cancelled()), SLOT(onCancelled()));
     connect(archiveInterface(), SIGNAL(error(QString,QString)), SLOT(onError(QString,QString)));
     connect(archiveInterface(), SIGNAL(entry(ArchiveEntry)), SLOT(onEntry(ArchiveEntry)));
     connect(archiveInterface(), SIGNAL(entryRemoved(QString)), SLOT(onEntryRemoved(QString)));
@@ -123,11 +125,18 @@ void Job::connectToArchiveInterfaceSignals()
     connect(archiveInterface(), SIGNAL(userQuery(Query*)), SLOT(onUserQuery(Query*)));
 }
 
+void Job::onCancelled()
+{
+    qCDebug(KERFUFFLE) << "Cancelled emitted";
+    setError(KJob::KilledJobError);
+}
+
 void Job::onError(const QString & message, const QString & details)
 {
     Q_UNUSED(details)
 
-    setError(1);
+    qCDebug(KERFUFFLE) << "Error emitted:" << message;
+    setError(KJob::UserDefinedError);
     setErrorText(message);
 }
 
@@ -153,7 +162,7 @@ void Job::onEntryRemoved(const QString & path)
 
 void Job::onFinished(bool result)
 {
-    kDebug() << result;
+    qCDebug(KERFUFFLE) << "Job finished, result:" << result << ", time:" << jobTimer.elapsed() << "ms";
 
     archiveInterface()->disconnect(this);
 
@@ -167,10 +176,9 @@ void Job::onUserQuery(Query *query)
 
 bool Job::doKill()
 {
-    kDebug();
     bool ret = archiveInterface()->doKill();
     if (!ret) {
-        kDebug() << "Killing does not seem to be supported here.";
+        qCWarning(KERFUFFLE) << "Killing does not seem to be supported here.";
     }
     return ret;
 }
@@ -181,8 +189,8 @@ ListJob::ListJob(ReadOnlyArchiveInterface *interface, QObject *parent)
     , m_isPasswordProtected(false)
     , m_extractedFilesSize(0)
 {
-    connect(this, SIGNAL(newEntry(ArchiveEntry)),
-            this, SLOT(onNewEntry(ArchiveEntry)));
+    qCDebug(KERFUFFLE) << "ListJob started";
+    connect(this, &ListJob::newEntry, this, &ListJob::onNewEntry);
 }
 
 void ListJob::doWork()
@@ -243,6 +251,7 @@ ExtractJob::ExtractJob(const QVariantList& files, const QString& destinationDir,
     , m_destinationDir(destinationDir)
     , m_options(options)
 {
+    qCDebug(KERFUFFLE) << "ExtractJob started";
     setDefaultOptions();
 }
 
@@ -258,7 +267,7 @@ void ExtractJob::doWork()
 
     connectToArchiveInterfaceSignals();
 
-    kDebug() << "Starting extraction with selected files:"
+    qCDebug(KERFUFFLE) << "Starting extraction with selected files:"
              << m_files
              << "Destination dir:" << m_destinationDir
              << "Options:" << m_options;
@@ -299,10 +308,13 @@ AddJob::AddJob(const QStringList& files, const CompressionOptions& options , Rea
     , m_files(files)
     , m_options(options)
 {
+    qCDebug(KERFUFFLE) << "AddJob started";
 }
 
 void AddJob::doWork()
 {
+    qCDebug(KERFUFFLE) << "AddJob doing work";
+
     emit description(this, i18np("Adding a file", "Adding %1 files", m_files.count()));
 
     ReadWriteArchiveInterface *m_writeInterface =
@@ -343,4 +355,4 @@ void DeleteJob::doWork()
 
 } // namespace Kerfuffle
 
-#include "jobs.moc"
+

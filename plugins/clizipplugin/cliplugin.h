@@ -23,7 +23,7 @@
 
 #include "kerfuffle/cliinterface.h"
 
-class CliPlugin : public Kerfuffle::CliInterface
+class KERFUFFLE_EXPORT CliPlugin : public Kerfuffle::CliInterface
 {
     Q_OBJECT
 
@@ -31,11 +31,11 @@ public:
     explicit CliPlugin(QObject *parent, const QVariantList &args);
     virtual ~CliPlugin();
 
-    virtual QString escapeFileName(const QString &fileName) const;
+    virtual QString escapeFileName(const QString &fileName) const Q_DECL_OVERRIDE;
 
-    virtual Kerfuffle::ParameterList parameterList() const;
+    virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
 
-    virtual bool readListLine(const QString &line);
+    virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
 
 private:
     enum {

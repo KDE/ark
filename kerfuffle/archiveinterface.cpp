@@ -25,19 +25,20 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "app/logging.h"
 #include "archiveinterface.h"
-#include <kdebug.h>
 #include <kfileitem.h>
 
-#include <QFileInfo>
+#include <QDebug>
 #include <QDir>
+#include <QFileInfo>
 
 namespace Kerfuffle
 {
 ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVariantList & args)
         : QObject(parent), m_waitForFinishedSignal(false)
 {
-    kDebug();
+    qCDebug(KERFUFFLE) << "Created read-only interface for" << args.first().toString();
     m_filename = args.first().toString();
 }
 
@@ -91,6 +92,7 @@ bool ReadOnlyArchiveInterface::doResume()
 ReadWriteArchiveInterface::ReadWriteArchiveInterface(QObject *parent, const QVariantList & args)
         : ReadOnlyArchiveInterface(parent, args)
 {
+    qCDebug(KERFUFFLE) << "Created read-write interface for" << args.first().toString();
 }
 
 ReadWriteArchiveInterface::~ReadWriteArchiveInterface()
@@ -119,4 +121,4 @@ bool ReadWriteArchiveInterface::isReadOnly() const
 
 } // namespace Kerfuffle
 
-#include "archiveinterface.moc"
+

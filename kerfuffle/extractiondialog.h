@@ -31,13 +31,14 @@
 
 #include "kerfuffle_export.h"
 
-#include <KDirSelectDialog>
+#include <QDialog>
+#include <QUrl>
 
-#include <KDialog>
+#include <KFileWidget>
 
 namespace Kerfuffle
 {
-class KERFUFFLE_EXPORT ExtractionDialog : public KDirSelectDialog
+class KERFUFFLE_EXPORT ExtractionDialog : public QDialog
 {
     Q_OBJECT
 public:
@@ -58,12 +59,14 @@ public:
     bool extractToSubfolder() const;
     bool autoSubfolders() const;
     bool preservePaths() const;
-    KUrl destinationDirectory() const;
+    QUrl destinationDirectory() const;
     QString subfolder() const;
-    virtual void accept();
+    void slotOkButtonClicked();
 
 public Q_SLOTS:
     void setSubfolder(const QString& subfolder);
+    void setCurrentUrl(const QUrl &url);
+    void restoreWindowSize();
 
 private Q_SLOTS:
     void writeSettings();
@@ -72,6 +75,7 @@ private:
     void loadSettings();
 
     class ExtractionDialogUI *m_ui;
+    KFileWidget *fileWidget;
 };
 }
 

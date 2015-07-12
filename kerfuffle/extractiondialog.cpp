@@ -25,17 +25,19 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "app/logging.h"
 #include "extractiondialog.h"
 #include "settings.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIconLoader>
 #include <KMessageBox>
-#include <KStandardDirs>
-#include <KDebug>
-#include <KIO/NetAccess>
+#include <KWindowConfig>
 
 #include <QDir>
+#include <QPushButton>
+#include <QWindow>
+#include <QScreen>
 
 #include "ui_extractiondialog.h"
 
@@ -52,13 +54,35 @@ public:
 };
 
 ExtractionDialog::ExtractionDialog(QWidget *parent)
-        : KDirSelectDialog(KUrl(), false, parent)
-{
-    m_ui = new ExtractionDialogUI(this);
+        : QDialog(parent, Qt::Dialog)
 
-    mainWidget()->layout()->addWidget(m_ui);
-    setCaption(i18nc("@title:window", "Extract"));
-    m_ui->iconLabel->setPixmap(DesktopIcon(QLatin1String( "archive-extract" )));
+{
+    qCDebug(KERFUFFLE) << "ExtractionDialog loaded";
+
+    setWindowTitle(i18nc("@title:window", "Extract"));
+
+    QHBoxLayout *hlayout = new QHBoxLayout();
+    setLayout(hlayout);
+
+    fileWidget = new KFileWidget(QUrl::fromLocalFile(QDir::homePath()), this);
+    hlayout->addWidget(fileWidget);
+
+    fileWidget->setMode(KFile::Directory | KFile::LocalOnly);
+    fileWidget->setOperationMode(KFileWidget::Saving);
+
+    connect(fileWidget->okButton(), &QPushButton::clicked, this, &ExtractionDialog::slotOkButtonClicked);
+    connect(fileWidget, &KFileWidget::accepted, fileWidget, &KFileWidget::accept);
+    connect(fileWidget, &KFileWidget::accepted, this, &QDialog::accept);
+    fileWidget->okButton()->setText(i18n("Extract"));
+    fileWidget->okButton()->show();
+
+    fileWidget->cancelButton()->show();
+    connect(fileWidget->cancelButton(), &QPushButton::clicked, this, &QDialog::reject);
+
+    m_ui = new ExtractionDialogUI(this);
+    hlayout->addWidget(m_ui);
+
+    m_ui->iconLabel->setPixmap(DesktopIcon(QLatin1String("archive-extract")));
 
     m_ui->filesToExtractGroupBox->hide();
     m_ui->allFilesButton->setChecked(true);
@@ -70,7 +94,7 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
 
     loadSettings();
 
-    connect(this, SIGNAL(finished(int)), SLOT(writeSettings()));
+    connect(this, &QDialog::finished, this, &ExtractionDialog::writeSettings);
 }
 
 void ExtractionDialog::loadSettings()
@@ -93,20 +117,20 @@ void ExtractionDialog::batchModeOption()
     m_ui->extractAllLabel->setText(i18n("Extract multiple archives"));
 }
 
-void ExtractionDialog::accept()
+void ExtractionDialog::slotOkButtonClicked()
 {
     if (extractToSubfolder()) {
         if (subfolder().contains(QLatin1String( "/" ))) {
-            KMessageBox::error(NULL, i18n("The subfolder name may not contain the character '/'."));
+            KMessageBox::error(this, i18n("The subfolder name may not contain the character '/'."));
             return;
         }
 
-        const QString pathWithSubfolder = url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder();
+        const QString pathWithSubfolder = fileWidget->baseUrl().path() + subfolder();
 
         while (1) {
-            if (KIO::NetAccess::exists(pathWithSubfolder, KIO::NetAccess::SourceSide, 0)) {
+            if (QDir(pathWithSubfolder).exists()) {
                 if (QFileInfo(pathWithSubfolder).isDir()) {
-                    int overwrite = KMessageBox::questionYesNoCancel(0, i18nc("@info", "The folder <filename>%1</filename> already exists. Are you sure you want to extract here?", pathWithSubfolder), i18n("Folder exists"), KGuiItem(i18n("Extract here")), KGuiItem(i18n("Retry")), KGuiItem(i18n("Cancel")));
+                    int overwrite = KMessageBox::questionYesNoCancel(this, xi18nc("@info", "The folder <filename>%1</filename> already exists. Are you sure you want to extract here?", pathWithSubfolder), i18n("Folder exists"), KGuiItem(i18n("Extract here")), KGuiItem(i18n("Retry")), KGuiItem(i18n("Cancel")));
 
                     if (overwrite == KMessageBox::No) {
                         // The user clicked Retry.
@@ -115,14 +139,14 @@ void ExtractionDialog::accept()
                         return;
                     }
                 } else {
-                    KMessageBox::detailedError(0,
-                                               i18nc("@info", "The folder <filename>%1</filename> could not be created.", subfolder()),
-                                               i18nc("@info", "<filename>%1</filename> already exists, but is not a folder.", subfolder()));
+                    KMessageBox::detailedError(this,
+                                               xi18nc("@info", "The folder <filename>%1</filename> could not be created.", subfolder()),
+                                               xi18nc("@info", "<filename>%1</filename> already exists, but is not a folder.", subfolder()));
                     return;
                 }
-            } else if (!KIO::NetAccess::mkdir(pathWithSubfolder, 0)) {
-                KMessageBox::detailedError(0,
-                                           i18nc("@info", "The folder <filename>%1</filename> could not be created.", subfolder()),
+            } else if (!QDir().mkdir(pathWithSubfolder)) {
+                KMessageBox::detailedError(this,
+                                           xi18nc("@info", "The folder <filename>%1</filename> could not be created.", subfolder()),
                                            i18n("Please check your permissions to create it."));
                 return;
             }
@@ -130,7 +154,7 @@ void ExtractionDialog::accept()
         }
     }
 
-    KDirSelectDialog::accept();
+    fileWidget->slotOk();
 }
 
 void ExtractionDialog::setSubfolder(const QString& subfolder)
@@ -212,12 +236,15 @@ bool ExtractionDialog::closeAfterExtraction() const
     return m_ui->closeAfterExtraction->isChecked();
 }
 
-KUrl ExtractionDialog::destinationDirectory() const
+QUrl ExtractionDialog::destinationDirectory() const
 {
     if (extractToSubfolder()) {
-        return QString(url().pathOrUrl(KUrl::AddTrailingSlash) + subfolder() + QLatin1Char( '/' ));
+        QUrl subUrl = fileWidget->baseUrl();
+        subUrl.setPath(subUrl.path() + QLatin1Char('/') + subfolder());
+
+        return subUrl;
     } else {
-        return url().pathOrUrl(KUrl::AddTrailingSlash);
+        return fileWidget->baseUrl();
     }
 }
 
@@ -226,9 +253,26 @@ void ExtractionDialog::writeSettings()
     ArkSettings::setOpenDestinationFolderAfterExtraction(openDestinationAfterExtraction());
     ArkSettings::setCloseAfterExtraction(closeAfterExtraction());
     ArkSettings::setPreservePaths(preservePaths());
-    ArkSettings::self()->writeConfig();
+    ArkSettings::self()->save();
+
+    // Save dialog window size
+    KConfigGroup group(KSharedConfig::openConfig(), "ExtractDialog");
+    KWindowConfig::saveWindowSize(windowHandle(), group, KConfigBase::Persistent);
 }
 
+void ExtractionDialog::setCurrentUrl(const QUrl &url)
+{
+    fileWidget->setUrl(url);
 }
 
-#include "extractiondialog.moc"
+void ExtractionDialog::restoreWindowSize()
+{
+  // Restore window size from config file, needs a windowHandle so must be called after show()
+  KConfigGroup group(KSharedConfig::openConfig(), "ExtractDialog");
+  //KWindowConfig::restoreWindowSize(windowHandle(), group);
+  //KWindowConfig::restoreWindowSize is broken atm., so we need this hack:
+  const QRect desk = windowHandle()->screen()->geometry();
+  this->resize(QSize(group.readEntry(QString::fromLatin1("Width %1").arg(desk.width()), windowHandle()->size().width()),
+                     group.readEntry(QString::fromLatin1("Height %1").arg(desk.height()), windowHandle()->size().height())));
+}
+}

@@ -19,61 +19,24 @@
  *
  */
 
+#include "app/logging.h"
 #include "archiveview.h"
 
-#include <KDebug>
-#include <KGlobalSettings>
+#include <QDebug>
 
+#include <QMimeData>
 #include <QApplication>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QMouseEvent>
 
 ArchiveView::ArchiveView(QWidget *parent)
-        : QTreeView(parent)
-        , m_mouseButtons(Qt::NoButton)
+    : QTreeView(parent)
 {
-    connect(this, SIGNAL(pressed(QModelIndex)),
-            SLOT(updateMouseButtons()));
-    connect(this, SIGNAL(clicked(QModelIndex)),
-            SLOT(slotClicked(QModelIndex)));
-    connect(this, SIGNAL(doubleClicked(QModelIndex)),
-            SLOT(slotDoubleClicked(QModelIndex)));
-}
-
-// FIXME: this is a workaround taken from Dolphin until QTBUG-1067 is resolved
-void ArchiveView::updateMouseButtons()
-{
-    m_mouseButtons = QApplication::mouseButtons();
-}
-
-void ArchiveView::slotClicked(const QModelIndex& index)
-{
-    if (KGlobalSettings::singleClick()) {
-        if (m_mouseButtons != Qt::LeftButton) { // FIXME: see QTBUG-1067
-            return;
-        }
-
-        // If the user is pressing shift or control, more than one item is being selected
-        const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
-        if ((modifier & Qt::ShiftModifier) || (modifier & Qt::ControlModifier)) {
-            return;
-        }
-
-        emit itemTriggered(index);
-    }
-}
-
-void ArchiveView::slotDoubleClicked(const QModelIndex& index)
-{
-    if (!KGlobalSettings::singleClick()) {
-        emit itemTriggered(index);
-    }
 }
 
 void ArchiveView::setModel(QAbstractItemModel *model)
 {
-    kDebug();
     QTreeView::setModel(model);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -97,7 +60,7 @@ void ArchiveView::startDrag(Qt::DropActions supportedActions)
         return;
     }
 
-    kDebug() << "Singling out the current selection...";
+    qCDebug(PART) << "Singling out the current selection...";
     selectionModel()->setCurrentIndex(currentIndex(), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
     QTreeView::startDrag(supportedActions);
 }
@@ -106,7 +69,7 @@ void ArchiveView::startDrag(Qt::DropActions supportedActions)
 void ArchiveView::dragEnterEvent(QDragEnterEvent * event)
 {
     //TODO: if no model, trigger some mechanism to create one automatically!
-    kDebug() << event;
+    qCDebug(PART) << "dragEnterEvent" << event;
 
     if (event->source() == this) {
         //we don't support internal drops yet.
@@ -118,7 +81,7 @@ void ArchiveView::dragEnterEvent(QDragEnterEvent * event)
 
 void ArchiveView::dropEvent(QDropEvent * event)
 {
-    kDebug() << event;
+    qCDebug(PART) << "dropEvent" << event;
 
     if (event->source() == this) {
         //we don't support internal drops yet.
@@ -130,13 +93,15 @@ void ArchiveView::dropEvent(QDropEvent * event)
 
 void ArchiveView::dragMoveEvent(QDragMoveEvent * event)
 {
+    qCDebug(PART) << "dragMoveEvent" << event;
+
     if (event->source() == this) {
         //we don't support internal drops yet.
         return;
     }
 
     QTreeView::dragMoveEvent(event);
-    if (event->mimeData()->hasFormat(QLatin1String("text/uri-list"))) {
+    if (event->mimeData()->hasFormat(QStringLiteral("text/uri-list"))) {
         event->acceptProposedAction();
     }
 }

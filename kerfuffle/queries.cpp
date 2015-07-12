@@ -25,15 +25,18 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
+#include "app/logging.h"
 #include "queries.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KPasswordDialog>
-#include <kdebug.h>
 #include <kio/renamedialog.h>
 
 #include <QApplication>
-#include <QWeakPointer>
+#include <QPointer>
+#include <QUrl>
+#include <QDir>
 
 namespace Kerfuffle
 {
@@ -42,15 +45,13 @@ Query::Query()
     m_responseMutex.lock();
 }
 
-QVariant Query::response()
+QVariant Query::response() const
 {
     return m_data.value(QLatin1String( "response" ));
 }
 
 void Query::waitForResponse()
 {
-    kDebug();
-
     //if there is no response set yet, wait
     if (!m_data.contains(QLatin1String("response"))) {
         m_responseCondition.wait(&m_responseMutex);
@@ -58,10 +59,8 @@ void Query::waitForResponse()
     m_responseMutex.unlock();
 }
 
-void Query::setResponse(QVariant response)
+void Query::setResponse(const QVariant &response)
 {
-    kDebug();
-
     m_data[QLatin1String( "response" )] = response;
     m_responseCondition.wakeAll();
 }
@@ -87,20 +86,18 @@ void OverwriteQuery::execute()
         mode = (KIO::RenameDialog_Mode)(mode | KIO::M_MULTI);
     }
 
-    KUrl sourceUrl(m_data.value(QLatin1String( "filename" )).toString());
-    KUrl destUrl(m_data.value(QLatin1String( "filename" )).toString());
-    sourceUrl.cleanPath();
-    destUrl.cleanPath();
+    QUrl sourceUrl(QDir::cleanPath(m_data.value(QLatin1String( "filename" )).toString()));
+    QUrl destUrl(QDir::cleanPath(m_data.value(QLatin1String( "filename" )).toString()));
 
-    QWeakPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
-        NULL,
+    QPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
+        Q_NULLPTR,
         i18n("File already exists"),
         sourceUrl,
         destUrl,
         mode);
     dialog.data()->exec();
 
-    m_data[QLatin1String("newFilename")] = dialog.data()->newDestUrl().pathOrUrl();
+    m_data[QLatin1String("newFilename")] = dialog.data()->newDestUrl().toDisplayString(QUrl::PreferLocalFile);
 
     setResponse(dialog.data()->result());
 
@@ -170,12 +167,15 @@ PasswordNeededQuery::PasswordNeededQuery(const QString& archiveFilename, bool in
 
 void PasswordNeededQuery::execute()
 {
+    qCDebug(KERFUFFLE) << "Executing password prompt";
+
     // If we are being called from the KPart, the cursor is probably Qt::WaitCursor
     // at the moment (#231974)
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
-    QWeakPointer<KPasswordDialog> dlg = new KPasswordDialog;
-    dlg.data()->setPrompt(i18nc("@info", "The archive <filename>%1</filename> is password protected. Please enter the password to extract the file.", m_data.value(QLatin1String( "archiveFilename" )).toString()));
+    QPointer<KPasswordDialog> dlg = new KPasswordDialog;
+    dlg.data()->setPrompt(xi18nc("@info", "The archive <filename>%1</filename> is password protected. Please enter the password to extract the file.",
+                                 m_data.value(QLatin1String( "archiveFilename" )).toString()));
 
     if (m_data.value(QLatin1String("incorrectTryAgain")).toBool()) {
         dlg.data()->showErrorMessage(i18n("Incorrect password, please try again."), KPasswordDialog::PasswordError);

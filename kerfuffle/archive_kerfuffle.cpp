@@ -25,20 +25,23 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "archive.h"
+#include "app/logging.h"
+#include "archive_kerfuffle.h"
 #include "archiveinterface.h"
 #include "jobs.h"
 
 #include <QByteArray>
+#include <QDebug>
 #include <QEventLoop>
 #include <QFile>
 #include <QFileInfo>
+#include <QMimeDatabase>
 
-#include <KDebug>
 #include <KPluginLoader>
-#include <KMimeType>
 #include <KMimeTypeTrader>
 #include <KServiceTypeTrader>
+
+Q_LOGGING_CATEGORY(KERFUFFLE, "ark.kerfuffle", QtWarningMsg)
 
 static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
 {
@@ -47,8 +50,9 @@ static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
 
 static QString determineMimeType(const QString& filename)
 {
+    QMimeDatabase db;
     if (!QFile::exists(filename)) {
-        return KMimeType::findByPath(filename)->name();
+        return db.mimeTypeForFile(filename).name();
     }
 
     QFile file(filename);
@@ -56,23 +60,25 @@ static QString determineMimeType(const QString& filename)
         return QString();
     }
 
-    const qint64 maxSize = 0x100000; // 1MB
-    const qint64 bufferSize = qMin(maxSize, file.size());
-    const QByteArray buffer = file.read(bufferSize);
-
-    return KMimeType::findByNameAndContent(filename, buffer)->name();
+    return db.mimeTypeForFileNameAndData(filename, &file).name();
 }
 
 static KService::List findPluginOffers(const QString& filename, const QString& fixedMimeType)
 {
     KService::List offers;
 
+    qCDebug(KERFUFFLE) << "Find plugin offers for" << filename << "with mime" << fixedMimeType;
+
     const QString mimeType = fixedMimeType.isEmpty() ? determineMimeType(filename) : fixedMimeType;
+
+    qCDebug(KERFUFFLE) << "Detected mime" << mimeType;
 
     if (!mimeType.isEmpty()) {
         offers = KMimeTypeTrader::self()->query(mimeType, QLatin1String( "Kerfuffle/Plugin" ), QLatin1String( "(exist Library)" ));
         qSort(offers.begin(), offers.end(), comparePlugins);
     }
+
+    qCDebug(KERFUFFLE) << "Have" << offers.count() << "offers";
 
     return offers;
 }
@@ -87,22 +93,24 @@ Archive *Archive::create(const QString &fileName, QObject *parent)
 
 Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, QObject *parent)
 {
+    qCDebug(KERFUFFLE) << "Going to create archive" << fileName;
+
     qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 
     const KService::List offers = findPluginOffers(fileName, fixedMimeType);
 
     if (offers.isEmpty()) {
-        kDebug() << "Could not find a plugin to handle" << fileName;
-        return NULL;
+        qCWarning(KERFUFFLE) << "Could not find a plugin to handle" << fileName;
+        return Q_NULLPTR;
     }
 
     const QString pluginName = offers.first()->library();
-    kDebug() << "Loading plugin" << pluginName;
+    qCDebug(KERFUFFLE) << "Loading plugin" << pluginName;
 
     KPluginFactory * const factory = KPluginLoader(pluginName).factory();
     if (!factory) {
-        kDebug() << "Invalid plugin factory for" << pluginName;
-        return NULL;
+        qCWarning(KERFUFFLE) << "Invalid plugin factory for" << pluginName;
+        return Q_NULLPTR;
     }
 
     QVariantList args;
@@ -110,8 +118,8 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
 
     ReadOnlyArchiveInterface * const iface = factory->create<ReadOnlyArchiveInterface>(0, args);
     if (!iface) {
-        kDebug() << "Could not create plugin instance" << pluginName << "for" << fileName;
-        return NULL;
+        qCWarning(KERFUFFLE) << "Could not create plugin instance" << pluginName << "for" << fileName;
+        return Q_NULLPTR;
     }
 
     return new Archive(iface, parent);
@@ -124,6 +132,8 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, QObject *parent)
         m_isPasswordProtected(false),
         m_isSingleFolderArchive(false)
 {
+    qCDebug(KERFUFFLE) << "Created archive instance";
+
     Q_ASSERT(archiveInterface);
     archiveInterface->setParent(this);
 }
@@ -149,20 +159,23 @@ KJob* Archive::create()
 
 ListJob* Archive::list()
 {
+    qCDebug(KERFUFFLE) << "Going to list files";
+
     ListJob *job = new ListJob(m_iface, this);
     job->setAutoDelete(false);
 
     //if this job has not been listed before, we grab the opportunity to
     //collect some information about the archive
     if (!m_hasBeenListed) {
-        connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(onListFinished(KJob*)));
+        connect(job, &ListJob::result, this, &Archive::onListFinished);
     }
     return job;
 }
 
 DeleteJob* Archive::deleteFiles(const QList<QVariant> & files)
 {
+    qCDebug(KERFUFFLE) << "Going to delete files" << files;
+
     if (m_iface->isReadOnly()) {
         return 0;
     }
@@ -173,10 +186,10 @@ DeleteJob* Archive::deleteFiles(const QList<QVariant> & files)
 
 AddJob* Archive::addFiles(const QStringList & files, const CompressionOptions& options)
 {
+    qCDebug(KERFUFFLE) << "Going to add files" << files << "with options" << options;
     Q_ASSERT(!m_iface->isReadOnly());
     AddJob *newJob = new AddJob(files, options, static_cast<ReadWriteArchiveInterface*>(m_iface), this);
-    connect(newJob, SIGNAL(result(KJob*)),
-            this, SLOT(onAddFinished(KJob*)));
+    connect(newJob, &AddJob::result, this, &Archive::onAddFinished);
     return newJob;
 }
 
@@ -234,15 +247,13 @@ void Archive::onListFinished(KJob* job)
 void Archive::listIfNotListed()
 {
     if (!m_hasBeenListed) {
-        KJob *job = list();
+        ListJob *job = list();
 
-        connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
-                SLOT(onUserQuery(Kerfuffle::Query*)));
+        connect(job, &ListJob::userQuery, this, &Archive::onUserQuery);
 
         QEventLoop loop(this);
 
-        connect(job, SIGNAL(result(KJob*)),
-                &loop, SLOT(quit()));
+        connect(job, &KJob::result, &loop, &QEventLoop::quit);
         job->start();
         loop.exec(); // krazy:exclude=crashy
     }
@@ -298,7 +309,7 @@ QStringList supportedMimeTypes()
         }
     }
 
-    kDebug() << "Returning" << supported;
+    qCDebug(KERFUFFLE) << "Returning supported mimetypes" << supported;
 
     return supported;
 }
@@ -325,7 +336,7 @@ QStringList supportedWriteMimeTypes()
         }
     }
 
-    kDebug() << "Returning" << supported;
+    qCDebug(KERFUFFLE) << "Returning supported write mimetypes" << supported;
 
     return supported;
 }

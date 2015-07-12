@@ -28,7 +28,7 @@
 
 #include "jsonparser.h"
 
-#include "kerfuffle/archive.h"
+#include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/archiveinterface.h"
 
 /**

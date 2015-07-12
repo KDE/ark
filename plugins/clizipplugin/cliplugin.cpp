@@ -19,11 +19,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#include "app/logging.h"
 #include "cliplugin.h"
 #include "kerfuffle/cliinterface.h"
 #include "kerfuffle/kerfuffle_export.h"
 
-#include <KDebug>
+#include <KPluginFactory>
 
 #include <QDateTime>
 #include <QDir>
@@ -32,12 +33,17 @@
 #include <QString>
 #include <QStringList>
 
+Q_LOGGING_CATEGORY(KERFUFFLE_PLUGIN, "ark.kerfuffle.cli7zip", QtWarningMsg)
+
 using namespace Kerfuffle;
+
+K_PLUGIN_FACTORY( CliPluginFactory, registerPlugin< CliPlugin >(); )
 
 CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
     : CliInterface(parent, args)
     , m_status(Header)
 {
+    qCDebug(KERFUFFLE_PLUGIN) << "Loaded cli_zip plugin";
 }
 
 CliPlugin::~CliPlugin()
@@ -139,5 +145,4 @@ bool CliPlugin::readListLine(const QString &line)
     return true;
 }
 
-KERFUFFLE_EXPORT_PLUGIN(CliPlugin)
-
+#include "cliplugin.moc"

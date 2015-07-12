@@ -1,7 +1,8 @@
 /*
  * ark -- archiver for the KDE project
  *
- * Copyright (C) 2009 Harald Hvaal <haraldhv (at@at) stud.ntnu.no>
+ * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
+ * Copyright (C) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,28 +20,14 @@
  *
  */
 
-#ifndef EXTRACTHEREDNDPLUGIN_H
-#define EXTRACTHEREDNDPLUGIN_H
+#ifndef LOGGING_ARK_H
+#define LOGGING_ARK_H
 
-#include <qurl.h>
-#include <KIO/DndPopupMenuPlugin>
+#include <QLoggingCategory>
 
-class ExtractHereDndPlugin : public KIO::DndPopupMenuPlugin
-{
-    Q_OBJECT
+Q_DECLARE_LOGGING_CATEGORY(ARK)
+Q_DECLARE_LOGGING_CATEGORY(KERFUFFLE)
+Q_DECLARE_LOGGING_CATEGORY(KERFUFFLE_PLUGIN)
+Q_DECLARE_LOGGING_CATEGORY(PART)
 
-private slots:
-    void slotTriggered();
-
-public:
-    ExtractHereDndPlugin(QObject* parent, const QVariantList&);
-
-    virtual QList<QAction *> setup(const KFileItemListProperties& popupMenuInfo,
-                                   const QUrl& destination);
-
-private:
-    QUrl m_dest;
-    QList<QUrl> m_urls;
-};
-
-#endif /* EXTRACTHEREDNDPLUGIN_H */
+#endif /* LOGGING_ARK_H */

@@ -28,7 +28,7 @@
 #ifndef ARCHIVEINTERFACE_H
 #define ARCHIVEINTERFACE_H
 
-#include "archive.h"
+#include "archive_kerfuffle.h"
 #include "kerfuffle_export.h"
 
 #include <QObject>
@@ -94,6 +94,7 @@ public:
     virtual bool doResume();
 
 signals:
+    void cancelled();
     void error(const QString &message, const QString &details = QString());
     void entry(const ArchiveEntry &archiveEntry);
     void entryRemoved(const QString &path);
@@ -125,7 +126,7 @@ public:
     explicit ReadWriteArchiveInterface(QObject *parent, const QVariantList & args);
     virtual ~ReadWriteArchiveInterface();
 
-    virtual bool isReadOnly() const;
+    bool isReadOnly() const Q_DECL_OVERRIDE;
 
     //see archive.h for a list of what the compressionoptions might
     //contain

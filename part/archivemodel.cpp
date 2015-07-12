@@ -21,15 +21,15 @@
  *
  */
 
+#include "app/logging.h"
 #include "archivemodel.h"
-#include "kerfuffle/archive.h"
+#include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/jobs.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KIconLoader>
-#include <KLocale>
-#include <KMimeType>
-#include <KIO/NetAccess>
+#include <KLocalizedString>
+#include <kio/global.h>
 
 #include <QDir>
 #include <QFont>
@@ -45,8 +45,8 @@ using namespace Kerfuffle;
 class ArchiveDirNode;
 
 //used to speed up the loading of large archives
-static ArchiveNode* s_previousMatch = NULL;
-K_GLOBAL_STATIC(QStringList, s_previousPieces)
+static ArchiveNode* s_previousMatch = Q_NULLPTR;
+Q_GLOBAL_STATIC(QStringList, s_previousPieces)
 
 
 // TODO: This class hierarchy needs some love.
@@ -77,11 +77,13 @@ public:
         const QStringList pieces = entry[FileName].toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
         m_name = pieces.isEmpty() ? QString() : pieces.last();
 
+        QMimeDatabase db;
         if (entry[IsDirectory].toBool()) {
-            m_icon = KIconLoader::global()->loadMimeTypeIcon(KMimeType::mimeType(QLatin1String("inode/directory"))->iconName(), KIconLoader::Small);
+            m_icon = KIconLoader::global()->loadMimeTypeIcon(db.mimeTypeForName("inode/directory").iconName(),
+                                                             KIconLoader::Small);
         } else {
-            const KMimeType::Ptr mimeType = KMimeType::findByPath(m_entry[FileName].toString(), 0, true);
-            m_icon = KIconLoader::global()->loadMimeTypeIcon(mimeType->iconName(), KIconLoader::Small);
+            m_icon = KIconLoader::global()->loadMimeTypeIcon(db.mimeTypeForFile(m_entry[FileName].toString()).iconName(),
+                                                             KIconLoader::Small);
         }
     }
 
@@ -341,7 +343,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
 
             case Timestamp: {
                 const QDateTime timeStamp = node->entry().value(Timestamp).toDateTime();
-                return  KGlobal::locale()->formatDateTime(timeStamp);
+                return QLocale().toString(timeStamp, QLocale::ShortFormat);
             }
 
             default:
@@ -381,7 +383,7 @@ QVariant ArchiveModel::headerData(int section, Qt::Orientation, int role) const
 {
     if (role == Qt::DisplayRole) {
         if (section >= m_showColumns.size()) {
-            kDebug() << "WEIRD: showColumns.size = " << m_showColumns.size()
+            qCDebug(PART) << "WEIRD: showColumns.size = " << m_showColumns.size()
             << " and section = " << section;
             return QVariant();
         }
@@ -602,14 +604,14 @@ bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, i
     if (parent.isValid()) {
         QModelIndex droppedOnto = index(row, column, parent);
         if (entryForIndex(droppedOnto).value(IsDirectory).toBool()) {
-            kDebug() << "Using entry";
+            qCDebug(PART) << "Using entry";
             path = entryForIndex(droppedOnto).value(FileName).toString();
         } else {
             path = entryForIndex(parent).value(FileName).toString();
         }
     }
 
-    kDebug() << "Dropped onto " << path;
+    qCDebug(PART) << "Dropped onto " << path;
 
 #endif
 
@@ -635,7 +637,7 @@ ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
 {
     QStringList pieces = entry[ FileName ].toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
     if (pieces.isEmpty()) {
-        return NULL;
+        return Q_NULLPTR;
     }
     pieces.removeLast();
 
@@ -700,7 +702,7 @@ QModelIndex ArchiveModel::indexForNode(ArchiveNode *node)
 
 void ArchiveModel::slotEntryRemoved(const QString & path)
 {
-    kDebug() << "Removed node at path " << path;
+    qCDebug(PART) << "Removed node at path " << path;
 
     const QString entryFileName(cleanFileName(path));
     if (entryFileName.isEmpty()) {
@@ -711,6 +713,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
     if (entry) {
         ArchiveDirNode *parent = entry->parent();
         QModelIndex index = indexForNode(entry);
+        Q_UNUSED(index);
 
         beginRemoveRows(indexForNode(parent), entry->row(), entry->row());
 
@@ -720,7 +723,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
 
         endRemoveRows();
     } else {
-        kDebug() << "Did not find the removed node";
+        qCDebug(PART) << "Did not find the removed node";
     }
 }
 
@@ -746,7 +749,7 @@ void ArchiveModel::slotNewEntry(const ArchiveEntry& entry)
 void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour behaviour)
 {
     if (receivedEntry[FileName].toString().isEmpty()) {
-        kDebug() << "Weird, received empty entry (no filename) - skipping";
+        qCDebug(PART) << "Weird, received empty entry (no filename) - skipping";
         return;
     }
 
@@ -780,7 +783,7 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
         m_showColumns << toInsert;
         endInsertColumns();
 
-        kDebug() << "Show columns detected: " << m_showColumns;
+        qCDebug(PART) << "Showing columns: " << m_showColumns;
     }
 
     //make a copy
@@ -798,7 +801,7 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
     if (m_rootNode) {
         ArchiveNode *existing = m_rootNode->findByPath(entry[ FileName ].toString().split(QLatin1Char( '/' )));
         if (existing) {
-            kDebug() << "Refreshing entry for" << entry[FileName].toString();
+            qCDebug(PART) << "Refreshing entry for" << entry[FileName].toString();
 
             // Multi-volume files are repeated at least in RAR archives.
             // In that case, we need to sum the compressed size for each volume
@@ -831,12 +834,16 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
 
 void ArchiveModel::slotLoadingFinished(KJob *job)
 {
-    //kDebug() << entry;
+    int i = 0;
     foreach(const ArchiveEntry &entry, m_newArchiveEntries) {
         newEntry(entry, DoNotNotifyViews);
+        i++;
     }
-    reset();
+    beginResetModel();
+    endResetModel();
     m_newArchiveEntries.clear();
+
+    qCDebug(PART) << "Added" << i << "entries to model";
 
     emit loadingFinished(job);
 }
@@ -865,30 +872,28 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
     m_archive.reset(archive);
 
     m_rootNode->clear();
-    s_previousMatch = 0;
+    s_previousMatch = Q_NULLPTR;
     s_previousPieces->clear();
 
-    Kerfuffle::ListJob *job = NULL;
+    Kerfuffle::ListJob *job = Q_NULLPTR;
 
     m_newArchiveEntries.clear();
     if (m_archive) {
         job = m_archive->list(); // TODO: call "open" or "create"?
 
-        connect(job, SIGNAL(newEntry(ArchiveEntry)),
-                this, SLOT(slotNewEntryFromSetArchive(ArchiveEntry)));
+        connect(job, &Kerfuffle::ListJob::newEntry, this, &ArchiveModel::slotNewEntryFromSetArchive);
 
-        connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(slotLoadingFinished(KJob*)));
+        connect(job, &Kerfuffle::ListJob::result, this, &ArchiveModel::slotLoadingFinished);
 
-        connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
-                this, SLOT(slotUserQuery(Kerfuffle::Query*)));
+        connect(job, &Kerfuffle::ListJob::userQuery, this, &ArchiveModel::slotUserQuery);
 
         emit loadingStarted();
 
         // TODO: make sure if it's ok to not have calls to beginRemoveColumns here
         m_showColumns.clear();
     }
-    reset();
+    beginResetModel();
+    endResetModel();
     return job;
 }
 
@@ -903,28 +908,25 @@ ExtractJob* ArchiveModel::extractFiles(const QList<QVariant>& files, const QStri
 {
     Q_ASSERT(m_archive);
     ExtractJob *newJob = m_archive->copyFiles(files, destinationDir, options);
-    connect(newJob, SIGNAL(userQuery(Kerfuffle::Query*)),
-            this, SLOT(slotUserQuery(Kerfuffle::Query*)));
+    connect(newJob, &ExtractJob::userQuery, this, &ArchiveModel::slotUserQuery);
     return newJob;
 }
 
 AddJob* ArchiveModel::addFiles(const QStringList & filenames, const CompressionOptions& options)
 {
     if (!m_archive) {
-        return NULL;
+        return Q_NULLPTR;
     }
 
     if (!m_archive->isReadOnly()) {
         AddJob *job = m_archive->addFiles(filenames, options);
-        connect(job, SIGNAL(newEntry(ArchiveEntry)),
-                this, SLOT(slotNewEntry(ArchiveEntry)));
-        connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
-                this, SLOT(slotUserQuery(Kerfuffle::Query*)));
+        connect(job, &AddJob::newEntry, this, &ArchiveModel::slotNewEntry);
+        connect(job, &AddJob::userQuery, this, &ArchiveModel::slotUserQuery);
 
 
         return job;
     }
-    return 0;
+    return Q_NULLPTR;
 }
 
 DeleteJob* ArchiveModel::deleteFiles(const QList<QVariant> & files)
@@ -932,22 +934,18 @@ DeleteJob* ArchiveModel::deleteFiles(const QList<QVariant> & files)
     Q_ASSERT(m_archive);
     if (!m_archive->isReadOnly()) {
         DeleteJob *job = m_archive->deleteFiles(files);
-        connect(job, SIGNAL(entryRemoved(QString)),
-                this, SLOT(slotEntryRemoved(QString)));
+        connect(job, &DeleteJob::entryRemoved, this, &ArchiveModel::slotEntryRemoved);
 
-        connect(job, SIGNAL(finished(KJob*)),
-                this, SLOT(slotCleanupEmptyDirs()));
+        connect(job, &DeleteJob::finished, this, &ArchiveModel::slotCleanupEmptyDirs);
 
-        connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
-                this, SLOT(slotUserQuery(Kerfuffle::Query*)));
+        connect(job, &DeleteJob::userQuery, this, &ArchiveModel::slotUserQuery);
         return job;
     }
-    return 0;
+    return Q_NULLPTR;
 }
 
 void ArchiveModel::slotCleanupEmptyDirs()
 {
-    kDebug();
     QList<QPersistentModelIndex> queue;
     QList<QPersistentModelIndex> nodesToDelete;
 
@@ -960,7 +958,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
     while (!queue.isEmpty()) {
         QPersistentModelIndex node = queue.takeFirst();
         ArchiveEntry entry = entryForIndex(node);
-        //kDebug() << "Trying " << entry[FileName].toString();
+        qCDebug(PART) << "Trying " << entry[FileName].toString();
 
         if (!hasChildren(node)) {
             if (!entry.contains(InternalID)) {
@@ -975,12 +973,11 @@ void ArchiveModel::slotCleanupEmptyDirs()
 
     foreach(const QPersistentModelIndex& node, nodesToDelete) {
         ArchiveNode *rawNode = static_cast<ArchiveNode*>(node.internalPointer());
-        kDebug() << "Delete with parent entries " << rawNode->parent()->entries() << " and row " << rawNode->row();
+        qCDebug(PART) << "Delete with parent entries " << rawNode->parent()->entries() << " and row " << rawNode->row();
         beginRemoveRows(parent(node), rawNode->row(), rawNode->row());
         rawNode->parent()->removeEntryAt(rawNode->row());
         endRemoveRows();
-        //kDebug() << "Removed entry " << entry[FileName].toString();
     }
 }
 
-#include "archivemodel.moc"
+
