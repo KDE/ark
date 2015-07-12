@@ -34,6 +34,7 @@
 #include "kerfuffle/jobs.h"
 #include "kerfuffle/settings.h"
 
+#include <KAboutData>
 #include <KActionCollection>
 #include <KConfigGroup>
 #include <KGuiItem>
@@ -82,7 +83,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
           m_jobTracker(Q_NULLPTR)
 {
     Q_UNUSED(args)
-    //setComponentData(Factory::componentData(), false);
+    setComponentData(*createAboutData(), false);
 
     new DndExtractAdaptor(this);
 
@@ -154,6 +155,11 @@ Part::~Part()
     ArkSettings::self()->save();
 
     m_extractFilesAction->menu()->deleteLater();
+}
+
+KAboutData *Part::createAboutData()
+{
+    return new KAboutData("ark", i18n("ArkPart"), "3.0");
 }
 
 void Part::registerJob(KJob* job)
