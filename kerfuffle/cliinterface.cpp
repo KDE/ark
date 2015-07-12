@@ -105,7 +105,7 @@ bool CliInterface::list()
 
 bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options)
 {
-    //qCDebug(KERFUFFLE) << Q_FUNC_INFO << "to" << destinationDirectory;
+    qCDebug(KERFUFFLE) << Q_FUNC_INFO << "to" << destinationDirectory;
 
     cacheParameterList();
 

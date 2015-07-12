@@ -241,7 +241,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             // entryFI is the fileinfo pointing to where the file will be
             // written from the archive
             QFileInfo entryFI(entryName);
-            //qCDebug(KERFUFFLE_PLUGIN) << "setting path to " << archive_entry_pathname( entry );
+            qCDebug(KERFUFFLE_PLUGIN) << "setting path to " << archive_entry_pathname( entry );
 
             const QString fileWithoutPath(entryFI.fileName());
 
@@ -314,7 +314,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             }
 
             int header_response;
-            //qCDebug(KERFUFFLE_PLUGIN) << "Writing " << fileWithoutPath << " to " << archive_entry_pathname(entry);
+            qCDebug(KERFUFFLE_PLUGIN) << "Writing " << fileWithoutPath << " to " << archive_entry_pathname(entry);
             if ((header_response = archive_write_header(writer.data(), entry)) == ARCHIVE_OK) {
                 //if the whole archive is extracted and the total filesize is
                 //available, we use partial progress
@@ -512,7 +512,6 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
             }
 
             int header_response;
-            //qCDebug(KERFUFFLE_PLUGIN) << "Writing entry " << fn;
             if ((header_response = archive_write_header(arch_writer.data(), entry)) == ARCHIVE_OK) {
                 //if the whole archive is extracted and the total filesize is
                 //available, we use partial progress
@@ -625,7 +624,6 @@ bool LibArchiveInterface::deleteFiles(const QVariantList& files)
         }
 
         int header_response;
-        //qCDebug(KERFUFFLE_PLUGIN) << "Writing entry " << fn;
         if ((header_response = archive_write_header(arch_writer.data(), entry)) == ARCHIVE_OK) {
             //if the whole archive is extracted and the total filesize is
             //available, we use partial progress

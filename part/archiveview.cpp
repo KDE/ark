@@ -93,7 +93,7 @@ void ArchiveView::dropEvent(QDropEvent * event)
 
 void ArchiveView::dragMoveEvent(QDragMoveEvent * event)
 {
-    //qCDebug(PART) << "dragMoveEvent" << event;
+    qCDebug(PART) << "dragMoveEvent" << event;
 
     if (event->source() == this) {
         //we don't support internal drops yet.

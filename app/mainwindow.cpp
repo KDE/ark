@@ -114,7 +114,7 @@ void MainWindow::dropEvent(QDropEvent * event)
 
 void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 {
-    //qCDebug(ARK) << "dragMoveEvent" << event;
+    qCDebug(ARK) << "dragMoveEvent" << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) {

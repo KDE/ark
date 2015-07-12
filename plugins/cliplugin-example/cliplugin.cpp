@@ -129,7 +129,7 @@ bool CliPlugin::readListLine(const QString &line)
         m_entryFilename += QLatin1Char('/');
     }
 
-    //qCDebug(KERFUFFLE_PLUGIN) << m_entryFilename << " : " << fileprops;
+    qCDebug(KERFUFFLE_PLUGIN) << m_entryFilename << " : " << fileprops;
     ArchiveEntry e;
     e[ FileName ] = m_entryFilename;
     e[ InternalID ] = m_internalId;

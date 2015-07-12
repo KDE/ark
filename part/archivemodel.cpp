@@ -977,7 +977,6 @@ void ArchiveModel::slotCleanupEmptyDirs()
         beginRemoveRows(parent(node), rawNode->row(), rawNode->row());
         rawNode->parent()->removeEntryAt(rawNode->row());
         endRemoveRows();
-        //qCDebug(PART) << "Removed entry " << entry[FileName].toString();
     }
 }
 

@@ -151,7 +151,7 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
     int no_files = 0;
     foreach(const QVariant &file, extrFiles) {
         QString realDestination = destinationDirectory;
-        //qCDebug(KERFUFFLE_PLUGIN) << "Real destination" << realDestination;
+        qCDebug(KERFUFFLE_PLUGIN) << "Real destination" << realDestination;
         const KArchiveEntry *archiveEntry = dir->entry(file.toString());
         if (!archiveEntry) {
             qCDebug(KERFUFFLE_PLUGIN) << "File not found in the archive" << file.toString();
@@ -171,13 +171,13 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
                 dirCache << filepath;
             }
             realDestination = dest.absolutePath() + QLatin1Char('/') + filepath;
-            //qCDebug(KERFUFFLE_PLUGIN) << "Real destination 2" << realDestination;
+            qCDebug(KERFUFFLE_PLUGIN) << "Real destination 2" << realDestination;
         }
 
         // TODO: handle errors, copyTo fails silently
         if (!archiveEntry->isDirectory()) { // We don't need to do anything about directories
 
-            //qCDebug(KERFUFFLE_PLUGIN) << "Extracting file" << archiveEntry->name();
+            qCDebug(KERFUFFLE_PLUGIN) << "Extracting file" << archiveEntry->name();
 
             if (QFile::exists(realDestination + QLatin1Char('/') + archiveEntry->name()) && !overwriteAllSelected) {
 
@@ -203,7 +203,7 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
                 }
             } else {
 
-                //qCDebug(KERFUFFLE_PLUGIN) << "Extracting file" << realDestination << archiveEntry->name();
+                qCDebug(KERFUFFLE_PLUGIN) << "Extracting file" << realDestination << archiveEntry->name();
 
                 if (archiveEntry->symLinkTarget().isEmpty()) {
                     static_cast<const KArchiveFile*>(archiveEntry)->copyTo(realDestination);
@@ -256,7 +256,7 @@ bool KArchiveInterface::browseArchive(KArchive *archive)
 
 bool KArchiveInterface::processDir(const KArchiveDirectory *dir, const QString & prefix)
 {
-    //qCDebug(KERFUFFLE_PLUGIN) << "Processing directory" << dir->name();
+    qCDebug(KERFUFFLE_PLUGIN) << "Processing directory" << dir->name();
 
     foreach(const QString& entryName, dir->entries()) {
         const KArchiveEntry *entry = dir->entry(entryName);
@@ -272,7 +272,7 @@ bool KArchiveInterface::processDir(const KArchiveDirectory *dir, const QString &
 
 void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QString& prefix)
 {
-    //qCDebug(KERFUFFLE_PLUGIN) << "Creating archive entry";
+    qCDebug(KERFUFFLE_PLUGIN) << "Creating archive entry";
 
     ArchiveEntry e;
     QString fileName = prefix.isEmpty() ? aentry->name() : prefix + QLatin1Char('/') + aentry->name();
