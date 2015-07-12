@@ -376,7 +376,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
         }
 
         if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-//             emit error(i18n("The source file could not be read."));
+            emit error(i18n("The source file could not be read."));
             return false;
         }
     }
