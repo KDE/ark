@@ -36,6 +36,7 @@
 #include <QApplication>
 #include <QPointer>
 #include <QUrl>
+#include <QDir>
 
 namespace Kerfuffle
 {
@@ -85,11 +86,8 @@ void OverwriteQuery::execute()
         mode = (KIO::RenameDialog_Mode)(mode | KIO::M_MULTI);
     }
 
-    QUrl sourceUrl(m_data.value(QLatin1String( "filename" )).toString());
-    QUrl destUrl(m_data.value(QLatin1String( "filename" )).toString());
-    //FIXME KF5 Port : Enable
-    //sourceUrl.cleanPath();
-    //destUrl.cleanPath();
+    QUrl sourceUrl(QDir::cleanPath(m_data.value(QLatin1String( "filename" )).toString()));
+    QUrl destUrl(QDir::cleanPath(m_data.value(QLatin1String( "filename" )).toString()));
 
     QPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
         Q_NULLPTR,
