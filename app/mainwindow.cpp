@@ -292,7 +292,7 @@ void MainWindow::newArchive()
 
     const QStringList mimeTypes = Kerfuffle::supportedWriteMimeTypes();
 
-    // qCDebug(ARK) << "Supported mimetypes are" << mimeTypes.join( QLatin1String(" "));
+    qCDebug(ARK) << "Supported mimetypes are" << mimeTypes.join(QLatin1String(" "));
 
     QFileDialog dlg(this);
     dlg.setMimeTypeFilters(mimeTypes);
