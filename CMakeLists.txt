@@ -4,6 +4,12 @@ cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 set(QT_MIN_VERSION 5.4.0)
 set(KF5_MIN_VERSION 5.6.0)
 
+# KDE Application Version, managed by release script
+set (KDE_APPLICATIONS_VERSION_MAJOR "15")
+set (KDE_APPLICATIONS_VERSION_MINOR "07")
+set (KDE_APPLICATIONS_VERSION_MICRO "80")
+set (KDE_APPLICATIONS_VERSION "${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}.${KDE_APPLICATIONS_VERSION_MICRO}")
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/CTestCustom.cmake)
 
 find_package(ECM 1.7.0 REQUIRED NO_MODULE)
@@ -18,7 +24,7 @@ include(FeatureSummary)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 
 include(ECMSetupVersion)
-ecm_setup_version(15.07.80
+ecm_setup_version(${KDE_APPLICATIONS_VERSION}
                   VARIABLE_PREFIX ARK
                   VERSION_HEADER "ark_version.h")
 
