@@ -105,7 +105,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     }
 
     const QString pluginName = offers.first()->library();
-    qCDebug(KERFUFFLE) << "Loading plugin" << pluginName; // << "for" << offers.first()->mimeTypes();
+    qCDebug(KERFUFFLE) << "Loading plugin" << pluginName;
 
     KPluginFactory * const factory = KPluginLoader(pluginName).factory();
     if (!factory) {

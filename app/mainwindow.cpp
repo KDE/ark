@@ -129,17 +129,6 @@ void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 
 bool MainWindow::loadPart()
 {
-//    KPluginLoader loader(QLatin1String( "arkpart" ));
-//    KPluginFactory *factory = loader.factory();
-//    if (factory) {
-//        m_part = static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this));
-//    }
-//    if (!factory || !m_part) {
-//        KMessageBox::error(this, i18n("Unable to find Ark's KPart component, please check your installation."));
-//        qWarning() << "Error loading Ark KPart: " << loader.errorString();
-//        return false;
-//    }
-
     KPluginFactory *factory = 0;
     KService::Ptr service = KService::serviceByDesktopName(QLatin1String("ark_part"));
 
@@ -154,7 +143,6 @@ bool MainWindow::loadPart()
         qCWarning(ARK) << "Error loading Ark KPart.";
         return false;
     }
-
 
     m_part->setObjectName( QLatin1String("ArkPart" ));
     setCentralWidget(m_part->widget());
