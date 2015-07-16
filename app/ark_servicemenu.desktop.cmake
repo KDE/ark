@@ -8,6 +8,7 @@ X-KDE-StartupNotify=false
 #StartupNotify=false
 X-KDE-Submenu=Extract
 X-KDE-Submenu[ar]=استخرِج
+X-KDE-Submenu[ast]=Estrayer
 X-KDE-Submenu[bg]=Извличане
 X-KDE-Submenu[bs]=Raspakivanje
 X-KDE-Submenu[ca]=Extreu
@@ -60,7 +61,7 @@ X-KDE-Submenu[zh_TW]=解開
 [Desktop Action arkExtractHere]
 Name=Extract Archive Here
 Name[ar]=فك الأرشيف هنا
-Name[ast]=Estrayer archivu comprimíu equí
+Name[ast]=Estrayer equí l'archivu
 Name[bg]=Извличане тук
 Name[bs]=Raspakuj arhivu ovde
 Name[ca]=Extreu l'arxiu aquí
@@ -120,7 +121,7 @@ Exec=ark --batch --autodestination %F
 [Desktop Action arkExtractTo]
 Name=Extract Archive To...
 Name[ar]=فك الأرشيف إلى...
-Name[ast]=Estrayer archivu comprimíu en...
+Name[ast]=Estrayer l'archivu en...
 Name[bg]=Извличане в...
 Name[bs]=Raspakuj arhivu u...
 Name[ca]=Extreu l'arxiu a...
@@ -180,7 +181,7 @@ Exec=ark --batch --autodestination --dialog %F
 [Desktop Action arkAutoExtractHere]
 Name=Extract Archive Here, Autodetect Subfolder
 Name[ar]=فك الأرشيف هنا ، تعرف تلقائي للمجلدات الفرعية
-Name[ast]=Estrayer archivu comprimíu equí, autodeteutar subcarpeta
+Name[ast]=Estrayer equí l'archivu, autodeteutar socarpeta
 Name[bg]=Извличане тук, автоматична подпапка
 Name[bs]=Raspakuj arhivu ovdje, pogodi poddirektorij
 Name[ca]=Extreu l'arxiu aquí, detecta automàticament la subcarpeta

@@ -129,7 +129,7 @@ Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 [Desktop Action compressAsZip]
 Name=As ZIP Archive
 Name[ar]=ك أرشيف ZIP
-Name[ast]=Como archivu comprimíu ZIP
+Name[ast]=Como archivu ZIP
 Name[bg]=Като ZIP архив
 Name[bs]=kao ZIP arhivu
 Name[ca]=Com a arxiu ZIP
@@ -190,7 +190,7 @@ Exec=ark --changetofirstpath --add --autofilename zip %F
 [Desktop Action compressAsRar]
 Name=As RAR Archive
 Name[ar]=كأرشيف RAR
-Name[ast]=Como archivu comprimíu RAR
+Name[ast]=Como archivu RAR
 Name[bg]=Като RAR архив
 Name[bs]=kao RAR arhivu
 Name[ca]=Com a arxiu RAR
@@ -251,6 +251,7 @@ Exec=ark --changetofirstpath --add --autofilename rar %F
 [Desktop Action compressAsTar]
 Name=As TAR.GZ Archive
 Name[ar]=كأرشيف TAR.GZ
+Name[ast]=Como archivu TAR.GZ
 Name[bg]=Като TAR.GZ архив
 Name[bs]=Kao TAR.GZ Arhivu
 Name[ca]=Com a arxiu TAR.GZ

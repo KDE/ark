@@ -13,6 +13,7 @@ X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=true
 Name=lha archive plugin
 Name[ar]=ملحَق أرشيفات IHA
+Name[ast]=Complementu d'archivos lha
 Name[bg]=Приставка за архиви lha
 Name[bs]=lha arhivni dodatak
 Name[ca]=Connector per arxius LHA
