@@ -25,8 +25,6 @@
 
 #include "jsonarchiveinterface.h"
 
-#include <qjson/parser.h>
-
 #include <qfile.h>
 
 JSONArchiveInterface::JSONArchiveInterface(QObject *parent, const QVariantList& args)

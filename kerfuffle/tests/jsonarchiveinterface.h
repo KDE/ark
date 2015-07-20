@@ -27,9 +27,8 @@
 #define JSONARCHIVEINTERFACE_H
 
 #include "jsonparser.h"
-
-#include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/archiveinterface.h"
+#include "kerfuffle/archive_kerfuffle.h"
 
 /**
  * A dummy archive interface used by our test cases.

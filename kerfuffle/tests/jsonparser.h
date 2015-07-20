@@ -60,7 +60,6 @@ public:
 
     ~JSONParser();
 
-    static JSONArchive parse(const QString &json);
     static JSONArchive parse(QIODevice *json);
 
 private:

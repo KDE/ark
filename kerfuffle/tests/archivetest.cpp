@@ -25,7 +25,7 @@
 
 #include "kerfuffle/archive_kerfuffle.h"
 
-#include <qtest_kde.h>
+#include <QtTest>
 
 class ArchiveTest : public QObject
 {
@@ -37,7 +37,7 @@ private Q_SLOTS:
     void testOpenNonExistentFile();
 };
 
-QTEST_KDEMAIN_CORE(ArchiveTest)
+QTEST_GUILESS_MAIN(ArchiveTest)
 
 void ArchiveTest::testFileName()
 {
@@ -54,7 +54,7 @@ void ArchiveTest::testIsPasswordProtected()
 {
     Kerfuffle::Archive *archive;
 
-    archive = Kerfuffle::Archive::create(QLatin1String(KDESRCDIR "data/archivetest_encrypted.zip"), this);
+    archive = Kerfuffle::Archive::create(QFINDTESTDATA("data/archivetest_encrypted.zip"), this);
     if (!archive) {
         QSKIP("There is no plugin to handle zip files. Skipping test.", SkipSingle);
     }
@@ -63,7 +63,7 @@ void ArchiveTest::testIsPasswordProtected()
 
     archive->deleteLater();
 
-    archive = Kerfuffle::Archive::create(QLatin1String(KDESRCDIR "data/archivetest_unencrypted.zip"), this);
+    archive = Kerfuffle::Archive::create(QFINDTESTDATA("data/archivetest_unencrypted.zip"), this);
 
     QVERIFY(!archive->isPasswordProtected());
 }
@@ -73,4 +73,4 @@ void ArchiveTest::testOpenNonExistentFile()
     QSKIP("How should we deal with files that do not exist? Should factory() return NULL?", SkipSingle);
 }
 
-
+#include "archivetest.moc"

@@ -24,13 +24,11 @@
  */
 
 #include "jsonparser.h"
-
 #include "kerfuffle/archiveinterface.h"
 
 #include <QDebug>
+#include <QJsonDocument>
 #include <QLatin1String>
-
-#include <qjson/parser.h>
 
 typedef QMap<QString, Kerfuffle::EntryMetaDataType> ArchiveProperties;
 
@@ -70,34 +68,17 @@ JSONParser::~JSONParser()
 {
 }
 
-JSONParser::JSONArchive JSONParser::parse(const QString &json)
-{
-    bool ok;
-    QJson::Parser parser;
-
-    const QVariant result = parser.parse(json.toUtf8(), &ok);
-
-    if (!ok) {
-        qDebug() << "Line" << parser.errorLine() << ":" << parser.errorString();
-        return JSONParser::JSONArchive();
-    }
-
-    return createJSONArchive(result);
-}
-
 JSONParser::JSONArchive JSONParser::parse(QIODevice *json)
 {
-    bool ok;
-    QJson::Parser parser;
+    QJsonParseError error;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(json->readAll(), &error);
 
-    const QVariant result = parser.parse(json, &ok);
-
-    if (!ok) {
-        qDebug() << "Line" << parser.errorLine() << ":" << parser.errorString();
+    if (error.error != QJsonParseError::NoError) {
+        qDebug() << "Parse error: " << error.errorString();
         return JSONParser::JSONArchive();
     }
 
-    return createJSONArchive(result);
+    return createJSONArchive(jsonDoc.toVariant());
 }
 
 JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
