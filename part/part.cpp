@@ -543,7 +543,7 @@ KConfigSkeleton *Part::config() const
 
 QList<Kerfuffle::SettingsPage*> Part::settingsPages(QWidget *parent) const
 {
-    static QList<SettingsPage*> pages;
+    QList<SettingsPage*> pages;
     pages.append(new ExtractionSettingsPage(parent, i18n("Extraction settings"), QLatin1String("archive-extract")));
     pages.append(new PreviewSettingsPage(parent, i18n("Preview settings"), QLatin1String("document-preview-archive")));
 
