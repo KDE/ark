@@ -49,6 +49,8 @@ private slots:
     void newArchive();
     void openArchive();
     void quit();
+    void showSettings();
+    void writeSettings();
 
     void editKeyBindings();
     void editToolbars();

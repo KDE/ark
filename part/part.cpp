@@ -31,8 +31,10 @@
 #include "jobtracker.h"
 #include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/extractiondialog.h"
+#include "kerfuffle/extractionsettingspage.h"
 #include "kerfuffle/jobs.h"
 #include "kerfuffle/settings.h"
+#include "kerfuffle/previewsettingspage.h"
 
 #include <KAboutData>
 #include <KActionCollection>
@@ -523,6 +525,20 @@ bool Part::saveFile()
 bool Part::isBusy() const
 {
     return m_busy;
+}
+
+KConfigSkeleton *Part::config() const
+{
+    return ArkSettings::self();
+}
+
+QList<Kerfuffle::SettingsPage*> Part::settingsPages(QWidget *parent) const
+{
+    static QList<SettingsPage*> pages;
+    pages.append(new ExtractionSettingsPage(parent, i18n("Extraction settings"), QLatin1String("archive-extract")));
+    pages.append(new PreviewSettingsPage(parent, i18n("Preview settings"), QLatin1String("document-preview-archive")));
+
+    return pages;
 }
 
 void Part::slotLoadingStarted()

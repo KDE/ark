@@ -24,6 +24,7 @@
 #include "logging.h"
 #include "mainwindow.h"
 #include "kerfuffle/archive_kerfuffle.h"
+#include "kerfuffle/settingspage.h"
 #include "part/interface.h"
 
 #include <KPluginFactory>
@@ -36,7 +37,9 @@
 #include <KShortcutsDialog>
 #include <KService>
 #include <KSharedConfig>
+#include <KConfigDialog>
 #include <KConfigGroup>
+#include <KConfigSkeleton>
 #include <KXMLGUIFactory>
 
 #include <QDebug>
@@ -175,6 +178,7 @@ void MainWindow::setupActions()
 
     KStandardAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
     KStandardAction::keyBindings(this, SLOT(editKeyBindings()), actionCollection());
+    KStandardAction::preferences(this, SLOT(showSettings()), actionCollection());
 }
 
 void MainWindow::updateActions()
@@ -268,6 +272,30 @@ void MainWindow::setShowExtractDialog(bool option)
 void MainWindow::quit()
 {
     close();
+}
+
+void MainWindow::showSettings()
+{
+    Interface *iface = qobject_cast<Interface*>(m_part);
+    Q_ASSERT(iface);
+
+    KConfigDialog *dialog = new KConfigDialog(this, QLatin1String("settings"), iface->config());
+
+    foreach (Kerfuffle::SettingsPage *page, iface->settingsPages(this)) {
+        dialog->addPage(page, page->name(), page->iconName());
+    }
+    // Hide the icons list if only one page has been added.
+    dialog->setFaceType(KPageDialog::Auto);
+
+    connect(dialog, SIGNAL(settingsChanged(QString)), this, SLOT(writeSettings()));
+    dialog->show();
+}
+
+void MainWindow::writeSettings()
+{
+    Interface *iface = qobject_cast<Interface*>(m_part);
+    Q_ASSERT(iface);
+    iface->config()->save();
 }
 
 void MainWindow::newArchive()

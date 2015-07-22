@@ -68,6 +68,8 @@ public:
     bool saveFile() Q_DECL_OVERRIDE;
 
     bool isBusy() const Q_DECL_OVERRIDE;
+    KConfigSkeleton *config() const Q_DECL_OVERRIDE;
+    QList<Kerfuffle::SettingsPage*> settingsPages(QWidget *parent) const Q_DECL_OVERRIDE;
 
 public slots:
     void extractSelectedFilesTo(const QString& localPath);
