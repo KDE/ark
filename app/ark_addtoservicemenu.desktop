@@ -2,7 +2,7 @@
 Type=Service
 ServiceTypes=KonqPopupMenu/Plugin
 MimeType=all/all;
-Actions=compressHere;compressAsZip;compressAsRar;compressAsTar;compressTo;
+Actions=compressHereAsTar;compressHereAsZip;compressHereAsRar;compressTo;
 X-KDE-Submenu=Compress
 X-KDE-Submenu[ar]=اضغط
 X-KDE-Submenu[ast]=Comprimir
@@ -64,8 +64,8 @@ X-KDE-Submenu[zh_TW]=壓縮
 X-KDE-StartupNotify=false
 X-KDE-Priority=TopLevel
 
-[Desktop Action compressHere]
-Name=Here
+[Desktop Action compressHereAsTar]
+Name=Here (as TAR.GZ)
 Name[ar]=هنا
 Name[ast]=Equí
 Name[bg]=Тук
@@ -126,8 +126,8 @@ Name[zh_TW]=這裡
 Icon=ark
 Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
-[Desktop Action compressAsZip]
-Name=As ZIP Archive
+[Desktop Action compressHereAsZip]
+Name=Here (as ZIP)
 Name[ar]=ك أرشيف ZIP
 Name[ast]=Como archivu ZIP
 Name[bg]=Като ZIP архив
@@ -187,8 +187,8 @@ Name[zh_TW]=成 ZIP 壓縮檔
 Icon=ark
 Exec=ark --changetofirstpath --add --autofilename zip %F
 
-[Desktop Action compressAsRar]
-Name=As RAR Archive
+[Desktop Action compressHereAsRar]
+Name=Here (as RAR)
 Name[ar]=كأرشيف RAR
 Name[ast]=Como archivu RAR
 Name[bg]=Като RAR архив
@@ -248,53 +248,8 @@ Name[zh_TW]=成 RAR 壓縮檔
 Icon=ark
 Exec=ark --changetofirstpath --add --autofilename rar %F
 
-[Desktop Action compressAsTar]
-Name=As TAR.GZ Archive
-Name[ar]=كأرشيف TAR.GZ
-Name[ast]=Como archivu TAR.GZ
-Name[bg]=Като TAR.GZ архив
-Name[bs]=Kao TAR.GZ Arhivu
-Name[ca]=Com a arxiu TAR.GZ
-Name[cs]=Jako archiv TAR.GZ
-Name[da]=Som TAR.GZ-arkiv
-Name[de]=Als TAR.GZ-Archiv
-Name[el]=Ως αρχειοθήκη TAR.GZ
-Name[en_GB]=As TAR.GZ Archive
-Name[es]=Como archivo comprimido TAR.GZ
-Name[et]=TAR.GZ-arhiivina
-Name[fi]=TAR.GZ-paketiksi
-Name[fr]=Comme une archive « TAR.GZ »
-Name[gl]=Como arquivo TAR.GZ
-Name[hu]=TAR.GZ archívumként
-Name[ia]=Como archivo TAR.GZ
-Name[it]=Come archivio TAR.GZ
-Name[ja]=TAR.GZ アーカイブに
-Name[ko]=TAR.GZ 파일로
-Name[nb]=Som TAR.GZ-arkiv
-Name[nds]=As TAR.GZ-Archiev
-Name[nl]=Als TAR.GZ-archief
-Name[pa]=TAR.GZ ਅਕਾਇਵ ਵਜੋਂ
-Name[pl]=Jako archiwum TAR.GZ
-Name[pt]=Como Pacote TAR.GZ
-Name[pt_BR]=Como arquivo TAR.GZ
-Name[ru]=Как архив TAR.GZ
-Name[sk]=Ako TAR.GZ archív
-Name[sl]=Kot arhiv TAR.GZ
-Name[sr]=као таргз архиву
-Name[sr@ijekavian]=као таргз архиву
-Name[sr@ijekavianlatin]=kao targz arhivu
-Name[sr@latin]=kao targz arhivu
-Name[sv]=Som TAR.GZ-arkiv
-Name[tr]=TAR.GZ Arşivi Olarak
-Name[uk]=Як архів TAR.GZ
-Name[x-test]=xxAs TAR.GZ Archivexx
-Name[zh_CN]=为 TAR.GZ 归档
-Name[zh_TW]=成 TAR.GZ 壓縮檔
-Icon=ark
-Exec=ark --changetofirstpath --add --autofilename tar.gz %F
-
 [Desktop Action compressTo]
-Name=Compress To...
+Name=Compress to...
 Name[ar]=اضغط إلى...
 Name[ast]=Comprimir en...
 Name[bg]=Компресиране в...
