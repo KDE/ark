@@ -1,18 +1,27 @@
 <?xml version="1.0" ?>
 <!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
-<!ENTITY kappname "&ark;">
 <!ENTITY % English "INCLUDE">
 ]>
 
 <refentry lang="&language;">
 <refentryinfo>
-<title>&kde; User's Manual</title>
-<author><firstname>Lauri</firstname><surname>Watts</surname> <contrib>Initial version of &ark; man page.</contrib></author>
+<title>&ark; User's Manual</title>
 
-<author><firstname>Raphael</firstname><surname>Kubo da Costa</surname> <contrib>Update &ark; man page.</contrib></author>
+<author><firstname>Lauri</firstname><surname>Watts</surname>
+<contrib>Initial version of &ark; man page in 2005.</contrib>
+<email>lauri@kde.org</email></author>
 
-<date>2013-08-23</date>
-<productname>K Desktop Environment</productname>
+<author><firstname>Raphael</firstname><surname>Kubo da Costa</surname>
+<contrib>Update of &ark; man page in 2009.</contrib>
+<email>rakuco@FreeBSD.org</email></author>
+
+<author><firstname>Ragnar</firstname><surname>Thomsen</surname>
+<contrib>Update of &ark; man page in 2015.</contrib>
+<email>rthomsen6@gmail.com</email></author>
+
+<date>2015-07-22</date><!--Update only when changing/reviewing this man page-->
+<releaseinfo>15.08</releaseinfo><!--Update only when changing/reviewing this man page-->
+<productname>&ark;</productname>
 </refentryinfo>
 
 <refmeta>
@@ -197,11 +206,7 @@ then add <replaceable>photo1.jpg</replaceable> and <replaceable>text.txt</replac
 
 <refsect1>
 <title>Authors</title>
-<para>&ark; is currently maintained by &Harald.Hvaal; &Harald.Hvaal.mail;
-and &Raphael.Kubo.da.Costa; &Raphael.Kubo.da.Costa.mail;.</para>
-<para>This man page was first written by &Lauri.Watts;
-&Lauri.Watts.mail; in 2005 for &kde; 3.4, and was later updated in 2009 by 
-&Raphael.Kubo.da.Costa; &Raphael.Kubo.da.Costa.mail;.</para>
+<para>&ark; is currently maintained by &Raphael.Kubo.da.Costa;<email>rakuco@FreeBSD.org</email>.</para>
 </refsect1>
 
 </refentry>
