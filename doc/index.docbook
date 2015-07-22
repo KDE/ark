@@ -32,8 +32,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2013-06-21</date>
-<releaseinfo>2.19 &kde; (4.11)</releaseinfo>
+<date>2015-07-22</date>
+<releaseinfo>15.08</releaseinfo>
 
 <abstract>
 <para>&ark; is an archive manager for &kde;.</para></abstract>
@@ -253,10 +253,14 @@ This mode allows you to extract or create archives and add files to them.</para>
 
 <title>Credits and License</title>
 
-<para>&ark; is Copyright &copy; 1997-2008, The Various &ark; Developers</para>
+<para>&ark; is Copyright &copy; 1997-2015, The Various &ark; Developers</para>
 
 <itemizedlist>
 <title>Authors:</title>
+<listitem><para>Elvis Angelaccio
+<email>elvis.angelaccio@kdemail.net</email></para></listitem>
+<listitem><para>Ragnar Thomsen
+<email>rthomsen6@gmail.com</email></para></listitem>
 <listitem><para>Raphael Kubo da Costa
 <email>rakuco@FreeBSD.org</email></para></listitem>
 <listitem><para>Harald Hvaal
@@ -285,6 +289,9 @@ This mode allows you to extract or create archives and add files to them.</para>
 <para>Documentation updated for &kde; 3.3 by Henrique Pinto
 <email>henrique.pinto@kdemail.net</email>.</para>
 
+<para>Documentation updated for KDE Applications 15.08 by Ragnar Thomsen
+<email>rthomsen6@gmail.com</email>.</para>
+
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 &underFDL;
 &underGPL;
@@ -304,13 +311,13 @@ This mode allows you to extract or create archives and add files to them.</para>
 <sect1 id="requirements">
 <title>Requirements</title>
 
-<para>In order to successfully use &ark;, you need &kde;
-4. &GNU; <command>tar</command> and a recent
-<command>gzip</command> are also needed if you want &ark; to handle tar archives. To handle other
-file formats, you need the appropriate command line programs, such as <command>bzip2</command>, 
-<command>zip</command>, <command>unzip</command>, <command>ar</command>, <command>rar</command>,
-<command>7zip</command>, <command>xz</command>, <command>rpm</command>, 
-<command>cab</command> and <command>deb</command>.</para>
+<para>In order to successfully use &ark;, you need KDE Frameworks 5. libarchive
+version 3 or above is needed to handle most archive types, including tar,
+compressed tar, rpm, deb and cab archives. To handle other file formats, you
+need the appropriate command line programs, such as <command>zipinfo</command>,
+<command>zip</command>, <command>unzip</command>, <command>rar</command>,
+<command>unrar</command>, <command>7z</command> and
+<command>lha</command>.</para>
 
 </sect1>
 
