@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2009 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (C) 2015 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -26,66 +27,58 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef ADDTOARCHIVE_H
-#define ADDTOARCHIVE_H
+#ifndef CREATEDIALOG_H
+#define CREATEDIALOG_H
 
 #include "kerfuffle_export.h"
 
-#include <KJob>
+#include <KConfigGroup>
 
-#include <QUrl>
-#include <QStringList>
+#include <QDialog>
 
-/**
- * Compresses all input files into an archive.
- *
- * This is a job class that creates a compressed archive
- * with all the given input files.
- *
- * It provides the functionality for the --add command-line
- * option, and does not need the GUI to be running.
- *
- * @author Harald Hvaal <haraldhv@stud.ntnu.no>
- */
+class KFileWidget;
+
+class QVBoxLayout;
+
 namespace Kerfuffle
 {
-class KERFUFFLE_EXPORT AddToArchive : public KJob
+class KERFUFFLE_EXPORT CreateDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit AddToArchive(QObject *parent = 0);
-    ~AddToArchive();
+    CreateDialog(
+        QWidget *parent,
+        const QString &caption,
+        const QUrl &startDir);
 
-    bool showAddDialog();
-    void setPreservePaths(bool value);
-    void setChangeToFirstPath(bool value);
+    QSize sizeHint() const Q_DECL_OVERRIDE;
+    QList<QUrl> selectedUrls() const;
+    QString currentMimeFilter() const;
+    QString password() const;
+    bool isHeaderEncryptionChecked() const;
 
 public slots:
-    bool addInput(const QUrl &url);
-    void setAutoFilenameSuffix(const QString& suffix);
-    void setFilename(const QUrl &path);
-    void setMimeType(const QString & mimeType);
-    void setPassword(const QString &password);
-    void setHeaderEncryptionEnabled(bool enabled);
-    void start() Q_DECL_OVERRIDE;
 
-private slots:
-    void slotFinished(KJob*);
-    void slotStartJob();
+    virtual void accept() Q_DECL_OVERRIDE;
+    void restoreWindowSize();
 
-private:
-    QString m_filename;
-    QString m_strippedPath;
-    QString m_autoFilenameSuffix;
-    QString m_firstPath;
-    QString m_mimeType;
-    QString m_password;
-    QStringList m_inputs;
-    bool m_changeToFirstPath;
-    bool m_enableHeaderEncryption;
+protected slots:
+    void slotSaveWindowSize();
+    void slotOkButtonClicked();
+    void encryptionToggled(bool checked);
+    void showPasswordToggled(bool checked);
+    void updateDefaultMimeType();
+    void updateDisplayedOptions(const QString &filter);
+
+protected:
+    class CreateDialogUI *m_ui;
+    QVBoxLayout *m_vlayout;
+    KConfigGroup m_config;
+    KFileWidget *m_fileWidget;
+
+    void loadConfiguration();
 };
 }
 
-#endif // ADDTOARCHIVE_H
-
+#endif

@@ -59,13 +59,14 @@ ParameterList CliPlugin::parameterList() const
         //p[CaptureProgress] = true;
         p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QStringList() << QLatin1String( "7z" ) << QLatin1String( "7za" ) << QLatin1String( "7zr" );
 
-        p[ListArgs] = QStringList() << QLatin1String( "l" ) << QLatin1String( "-slt" ) << QLatin1String( "$Archive" );
+        p[ListArgs] = QStringList() << QLatin1String( "l" ) << QLatin1String( "-slt" ) << QLatin1String("$PasswordSwitch") << QLatin1String( "$Archive" );
         p[ExtractArgs] = QStringList() << QLatin1String( "$PreservePathSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
         p[PreservePathSwitch] = QStringList() << QLatin1String( "x" ) << QLatin1String( "e" );
         p[PasswordSwitch] = QStringList() << QLatin1String( "-p$Password" );
+        p[EncryptHeaderSwitch] = QStringList() << QLatin1String("-mhe=$Enabled");
         p[FileExistsExpression] = QLatin1String( "already exists. Overwrite with" );
         p[WrongPasswordPatterns] = QStringList() << QLatin1String( "Wrong password" );
-        p[AddArgs] = QStringList() << QLatin1String( "a" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[AddArgs] = QStringList() << QLatin1String( "a" ) << QLatin1String( "$Archive" ) << QLatin1String("$EncryptHeaderSwitch") << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Files" );
         p[DeleteArgs] = QStringList() << QLatin1String( "d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
         p[FileExistsInput] = QStringList()

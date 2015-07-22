@@ -29,44 +29,25 @@
 #ifndef ADDDIALOG_H
 #define ADDDIALOG_H
 
+#include "createdialog.h"
 #include "kerfuffle_export.h"
-
-#include <KConfigGroup>
-#include <KFileWidget>
-
-#include <QDialog>
 
 namespace Kerfuffle
 {
-class KERFUFFLE_EXPORT AddDialog : public QDialog
+class KERFUFFLE_EXPORT AddDialog : public CreateDialog
 {
     Q_OBJECT
 
 public:
-    AddDialog(const QStringList &itemsToAdd,
-              QWidget *parent,
+    AddDialog(QWidget *parent,
               const QString &caption,
-              const QUrl &startDir);
-    QSize sizeHint() const Q_DECL_OVERRIDE;
-
-    QList<QUrl> selectedUrls();
-    QString currentMimeFilter();
+              const QUrl &startDir,
+              const QStringList &itemsToAdd);
 
 private:
     class AddDialogUI *m_ui;
-    KConfigGroup m_config;
-    KFileWidget *fileWidget;
 
-    void loadConfiguration();
     void setupIconList(const QStringList& itemsToAdd);
-
-public slots:
-    void restoreWindowSize();
-
-private slots:
-    void updateDefaultMimeType();
-    void slotSaveWindowSize();
-    void slotOkButtonClicked();
 };
 }
 

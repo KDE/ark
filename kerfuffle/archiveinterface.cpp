@@ -66,6 +66,11 @@ void ReadOnlyArchiveInterface::setPassword(const QString &password)
     m_password = password;
 }
 
+void ReadOnlyArchiveInterface::setHeaderEncryptionEnabled(bool enabled)
+{
+    m_isHeaderEncryptionEnabled = enabled;
+}
+
 QString ReadOnlyArchiveInterface::password() const
 {
     return m_password;
@@ -107,6 +112,11 @@ bool ReadOnlyArchiveInterface::waitForFinishedSignal()
 void ReadOnlyArchiveInterface::setWaitForFinishedSignal(bool value)
 {
     m_waitForFinishedSignal = value;
+}
+
+bool ReadOnlyArchiveInterface::isHeaderEncryptionEnabled() const
+{
+    return m_isHeaderEncryptionEnabled;
 }
 
 bool ReadWriteArchiveInterface::isReadOnly() const

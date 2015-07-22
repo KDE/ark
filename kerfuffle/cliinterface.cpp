@@ -272,6 +272,65 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             args[i] = filename();
         }
 
+        if (argument == QLatin1String("$PasswordSwitch")) {
+            //if the PasswordSwitch argument has been added, we at least
+            //assume that the format of the switch has been added as well
+            Q_ASSERT(m_param.contains(PasswordSwitch));
+
+            //we will decrement i afterwards
+            args.removeAt(i);
+
+            QString pass = password();
+
+            if (!pass.isEmpty()) {
+                QStringList theSwitch = m_param.value(PasswordSwitch).toStringList();
+
+                // use the header encryption switch if needed and if provided by the plugin
+                if (isHeaderEncryptionEnabled() && !m_param.value(PasswordHeaderSwitch).toStringList().isEmpty()) {
+                    theSwitch = m_param.value(PasswordHeaderSwitch).toStringList();
+                }
+
+                for (int j = 0; j < theSwitch.size(); ++j) {
+                    //get the argument part
+                    QString newArg = theSwitch.at(j);
+
+                    //substitute the $Password
+                    newArg.replace(QLatin1String("$Password"), pass);
+
+                    //put it in the arg list
+                    args.insert(i + j, newArg);
+                    ++i;
+                }
+            }
+            --i; //decrement to compensate for the variable we replaced
+        }
+
+        if (argument == QLatin1String("$EncryptHeaderSwitch")) {
+            //if the EncryptHeaderSwitch argument has been added, we at least
+            //assume that the format of the switch has been added as well
+            Q_ASSERT(m_param.contains(EncryptHeaderSwitch));
+
+            //we will decrement i afterwards
+            args.removeAt(i);
+
+            QString enabled = isHeaderEncryptionEnabled() ? QLatin1String("on") : QLatin1String("off");
+
+            QStringList theSwitch = m_param.value(EncryptHeaderSwitch).toStringList();
+            for (int j = 0; j < theSwitch.size(); ++j) {
+                //get the argument part
+                QString newArg = theSwitch.at(j);
+
+                //substitute the $Password
+                newArg.replace(QLatin1String("$Enabled"), enabled);
+
+                //put it in the arg list
+                args.insert(i + j, newArg);
+                ++i;
+            }
+
+            --i; //decrement to compensate for the variable we replaced
+        }
+
         if (argument == QLatin1String( "$Files" )) {
             args.removeAt(i);
             for (int j = 0; j < files.count(); ++j) {
@@ -739,6 +798,32 @@ void CliInterface::substituteListVariables(QStringList& params)
 
         if (parameter == QLatin1String( "$Archive" )) {
             params[i] = filename();
+        }
+
+        if (parameter == QLatin1String("$PasswordSwitch")) {
+            //if the PasswordSwitch argument has been added, we at least
+            //assume that the format of the switch has been added as well
+            Q_ASSERT(m_param.contains(PasswordSwitch));
+
+            //we will set it afterwards, if there is a password
+            params[i] = QString();
+
+            QString pass = password();
+
+            if (!pass.isEmpty()) {
+                QStringList theSwitch = m_param.value(PasswordSwitch).toStringList();
+
+                for (int j = 0; j < theSwitch.size(); ++j) {
+                    //get the argument part
+                    QString newArg = theSwitch.at(j);
+
+                    //substitute the $Password
+                    newArg.replace(QLatin1String("$Password"), pass);
+
+                    //put it in the arg list
+                    params[i] = newArg;
+                }
+            }
         }
     }
 }

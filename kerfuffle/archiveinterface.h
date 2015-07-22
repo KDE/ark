@@ -73,6 +73,7 @@ public:
      */
     virtual bool list() = 0;
     void setPassword(const QString &password);
+    void setHeaderEncryptionEnabled(bool enabled);
 
     /**
      * Extract files from archive.
@@ -113,10 +114,13 @@ protected:
      */
     void setWaitForFinishedSignal(bool value);
 
+    bool isHeaderEncryptionEnabled() const;
+
 private:
     QString m_filename;
     QString m_password;
     bool m_waitForFinishedSignal;
+    bool m_isHeaderEncryptionEnabled;
 };
 
 class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterface

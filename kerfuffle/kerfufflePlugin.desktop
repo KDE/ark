@@ -71,4 +71,11 @@ Type=int
 [PropertyDef::X-KDE-Kerfuffle-ReadWrite]
 Type=bool
 
+# Whether the plugin can encrypt its archive entries
+[PropertyDef::X-KDE-Kerfuffle-EncryptEntries]
+Type=bool
+
+# Whether the plugin can encrypt its archive header
+[PropertyDef::X-KDE-Kerfuffle-EncryptHeader]
+Type=bool
 

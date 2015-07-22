@@ -287,6 +287,11 @@ void Archive::setPassword(const QString &password)
     m_iface->setPassword(password);
 }
 
+void Archive::enableHeaderEncryption(bool enable)
+{
+    m_iface->setHeaderEncryptionEnabled(enable);
+}
+
 QStringList supportedMimeTypes()
 {
     const QLatin1String constraint("(exist Library)");
@@ -337,6 +342,52 @@ QStringList supportedWriteMimeTypes()
     }
 
     qCDebug(KERFUFFLE) << "Returning supported write mimetypes" << supported;
+
+    return supported;
+}
+
+QSet<QString> supportedEncryptEntriesMimeTypes()
+{
+    const QLatin1String constraint("(exist Library) and ([X-KDE-Kerfuffle-EncryptEntries] == true)");
+    const QLatin1String basePartService("Kerfuffle/Plugin");
+
+    const KService::List offers = KServiceTypeTrader::self()->query(basePartService, constraint);
+    QSet<QString> supported;
+
+    foreach (const KService::Ptr& service, offers) {
+        QStringList mimeTypes = service->serviceTypes();
+
+        foreach (const QString& mimeType, mimeTypes) {
+            if (mimeType != basePartService) {
+                supported.insert(mimeType);
+            }
+        }
+    }
+
+    qCDebug(KERFUFFLE) << "Returning supported mimetypes" << supported;
+
+    return supported;
+}
+
+QSet<QString> supportedEncryptHeaderMimeTypes()
+{
+    const QLatin1String constraint("(exist Library) and ([X-KDE-Kerfuffle-EncryptHeader] == true)");
+    const QLatin1String basePartService("Kerfuffle/Plugin");
+
+    const KService::List offers = KServiceTypeTrader::self()->query(basePartService, constraint);
+    QSet<QString> supported;
+
+    foreach (const KService::Ptr& service, offers) {
+        QStringList mimeTypes = service->serviceTypes();
+
+        foreach (const QString& mimeType, mimeTypes) {
+            if (mimeType != basePartService) {
+                supported.insert(mimeType);
+            }
+        }
+    }
+
+    qCDebug(KERFUFFLE) << "Returning supported mimetypes" << supported;
 
     return supported;
 }

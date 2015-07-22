@@ -98,7 +98,7 @@ ParameterList CliPlugin::parameterList() const
                              << QLatin1String( "N" ) //autoskip
                              ;
 
-        p[AddArgs] = QStringList() << QLatin1String( "-r" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[AddArgs] = QStringList() << QLatin1String( "-r" ) << QLatin1String( "$Archive" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Files" );
 
         p[PasswordPromptPattern] = QLatin1String(" password: ");
         p[WrongPasswordPatterns] = QStringList() << QLatin1String( "incorrect password" );

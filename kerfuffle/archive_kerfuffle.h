@@ -125,6 +125,7 @@ public:
     bool isPasswordProtected();
 
     void setPassword(const QString &password);
+    void enableHeaderEncryption(bool enable);
 
 private slots:
     void onListFinished(KJob*);
@@ -145,6 +146,8 @@ private:
 
 KERFUFFLE_EXPORT QStringList supportedMimeTypes();
 KERFUFFLE_EXPORT QStringList supportedWriteMimeTypes();
+KERFUFFLE_EXPORT QSet<QString> supportedEncryptEntriesMimeTypes();
+KERFUFFLE_EXPORT QSet<QString> supportedEncryptHeaderMimeTypes();
 } // namespace Kerfuffle
 
 

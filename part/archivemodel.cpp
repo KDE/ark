@@ -944,6 +944,18 @@ DeleteJob* ArchiveModel::deleteFiles(const QList<QVariant> & files)
     return Q_NULLPTR;
 }
 
+void ArchiveModel::setPassword(const QString &password)
+{
+    Q_ASSERT(m_archive);
+    m_archive->setPassword(password);
+}
+
+void ArchiveModel::enableHeaderEncryption()
+{
+    Q_ASSERT(m_archive);
+    m_archive->enableHeaderEncryption(true);
+}
+
 void ArchiveModel::slotCleanupEmptyDirs()
 {
     QList<QPersistentModelIndex> queue;

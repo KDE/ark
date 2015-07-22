@@ -24,6 +24,7 @@
 #include "logging.h"
 #include "mainwindow.h"
 #include "kerfuffle/archive_kerfuffle.h"
+#include "kerfuffle/createdialog.h"
 #include "kerfuffle/settingspage.h"
 #include "part/interface.h"
 
@@ -310,17 +311,35 @@ void MainWindow::newArchive()
 
     qCDebug(ARK) << "Supported mimetypes are" << mimeTypes.join(QLatin1String(" "));
 
-    QFileDialog dlg(this);
-    dlg.setMimeTypeFilters(mimeTypes);
-    QStringList filters = dlg.nameFilters();
-    filters.sort(Qt::CaseInsensitive);
-    dlg.setNameFilters(filters);
-    dlg.setFileMode(QFileDialog::AnyFile);
-    dlg.setAcceptMode(QFileDialog::AcceptSave);
-    if (dlg.exec() == QDialog::Accepted) {
+    QPointer<Kerfuffle::CreateDialog> dialog = new Kerfuffle::CreateDialog(
+        Q_NULLPTR, // parent
+        i18n("Create a new Archive"), // caption
+        QUrl()); // startDir
+
+    dialog.data()->show();
+    dialog.data()->restoreWindowSize();
+
+    if (dialog.data()->exec()) {
+        const QUrl saveFileUrl = dialog.data()->selectedUrls().first();
+        const QString password = dialog.data()->password();
+
+        qCDebug(ARK) << "CreateDialog returned URL:" << saveFileUrl.toString();
+        qCDebug(ARK) << "CreateDialog returned mime:" << dialog.data()->currentMimeFilter();
+
         m_openArgs.metaData()[QLatin1String( "createNewArchive" )] = QLatin1String( "true" );
-        openUrl(dlg.selectedUrls().first());
-        m_openArgs.metaData().remove(QLatin1String( "showExtractDialog" ));
-        m_openArgs.metaData().remove(QLatin1String( "createNewArchive" ));
+        m_openArgs.metaData()[QLatin1String("encryptionPassword")] = password;
+
+        if (dialog.data()->isHeaderEncryptionChecked()) {
+            m_openArgs.metaData()[QLatin1String("encryptHeader")] = QLatin1String("true");
+        }
+
+        openUrl(saveFileUrl);
+
+        m_openArgs.metaData().remove(QLatin1String("showExtractDialog"));
+        m_openArgs.metaData().remove(QLatin1String("createNewArchive"));
+        m_openArgs.metaData().remove(QLatin1String("encryptionPassword"));
+        m_openArgs.metaData().remove(QLatin1String("encryptHeader"));
     }
+
+    delete dialog.data();
 }

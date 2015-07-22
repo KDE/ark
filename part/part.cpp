@@ -514,6 +514,15 @@ bool Part::openFile()
         QTimer::singleShot(0, this, SLOT(slotExtractFiles()));
     }
 
+    const QString password = arguments().metaData()[QLatin1String("encryptionPassword")];
+    if (!password.isEmpty()) {
+        m_model->setPassword(password);
+
+        if (arguments().metaData()[QLatin1String("encryptHeader")] == QLatin1String("true")) {
+            m_model->enableHeaderEncryption();
+        }
+    }
+
     return true;
 }
 

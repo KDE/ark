@@ -216,7 +216,27 @@ enum CliInterfaceParameters {
      * $Archive - the path of the archive
      * $Files - the files selected to be added
      */
-    AddArgs
+    AddArgs,
+
+    ///////////////[ ENCRYPT ]/////////////
+
+    /**
+     * QStringList (default empty)
+     * The variable $Password will be
+     * substituted for the password string used to encrypt the header.
+     * Example (rar plugin): ("-hp$Password")
+     */
+    PasswordHeaderSwitch,
+
+    /**
+     * QStringList (default empty)
+     * Encrypt the archive header without providing a password string.
+     * It uses $Password from either PasswordSwitch or PasswordHeaderSwitch.
+     * However, there is the $Enabled variable
+     * which is substituted with either 'on' or 'off'.
+     * Example (7z plugin): ("-mhe=$Enabled")
+     */
+    EncryptHeaderSwitch
 };
 
 typedef QHash<int, QVariant> ParameterList;

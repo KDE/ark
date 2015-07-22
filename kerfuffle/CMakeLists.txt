@@ -7,18 +7,23 @@ set(kerfuffle_SRCS
     previewsettingspage.cpp
     settingspage.cpp
     jobs.cpp
-	extractiondialog.cpp
-	adddialog.cpp
-	queries.cpp
-	addtoarchive.cpp
-	cliinterface.cpp
+    createdialog.cpp
+    extractiondialog.cpp
+    adddialog.cpp
+    queries.cpp
+    addtoarchive.cpp
+    cliinterface.cpp
    )
 
 kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
 
-ki18n_wrap_ui(kerfuffle_SRCS extractiondialog.ui adddialog.ui )
-ki18n_wrap_ui(kerfuffle_SRCS extractionsettings.ui)
-ki18n_wrap_ui(kerfuffle_SRCS previewsettings.ui)
+ki18n_wrap_ui(kerfuffle_SRCS
+    adddialog.ui
+    createdialog.ui
+    extractiondialog.ui
+    extractionsettings.ui
+    previewsettings.ui
+)
 
 add_library(kerfuffle SHARED ${kerfuffle_SRCS})
 generate_export_header(kerfuffle BASE_NAME kerfuffle)

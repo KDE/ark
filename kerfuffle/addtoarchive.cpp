@@ -75,15 +75,25 @@ void AddToArchive::setMimeType(const QString & mimeType)
     m_mimeType = mimeType;
 }
 
+void AddToArchive::setPassword(const QString &password)
+{
+    m_password = password;
+}
+
+void AddToArchive::setHeaderEncryptionEnabled(bool enabled)
+{
+    m_enableHeaderEncryption = enabled;
+}
+
 bool AddToArchive::showAddDialog()
 {
     qCDebug(KERFUFFLE) << "Opening add dialog";
 
     QPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
-        m_inputs, // itemsToAdd
         Q_NULLPTR, // parent
         i18n("Compress to Archive"), // caption
-        QUrl::fromLocalFile(m_firstPath)); // startDir
+        QUrl::fromLocalFile(m_firstPath), // startDir
+        m_inputs); // itemsToAdd
 
     dialog.data()->show();
     dialog.data()->restoreWindowSize();
@@ -94,6 +104,8 @@ bool AddToArchive::showAddDialog()
         qCDebug(KERFUFFLE) << "AddDialog returned mime:" << dialog.data()->currentMimeFilter();
         setFilename(dialog.data()->selectedUrls().at(0));
         setMimeType(dialog.data()->currentMimeFilter());
+        setPassword(dialog.data()->password());
+        setHeaderEncryptionEnabled(dialog.data()->isHeaderEncryptionChecked());
     }
 
     delete dialog.data();
@@ -173,6 +185,11 @@ void AddToArchive::slotStartJob()
     } else if (archive->isReadOnly()) {
         KMessageBox::error(Q_NULLPTR, i18n("It is not possible to create archives of this type."));
         return;
+    }
+
+    if (!m_password.isEmpty()) {
+        archive->setPassword(m_password);
+        archive->enableHeaderEncryption(m_enableHeaderEncryption);
     }
 
     if (m_changeToFirstPath) {

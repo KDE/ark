@@ -75,6 +75,9 @@ public:
     Kerfuffle::AddJob* addFiles(const QStringList & paths, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
     Kerfuffle::DeleteJob* deleteFiles(const QList<QVariant> & files);
 
+    void setPassword(const QString &password);
+    void enableHeaderEncryption();
+
 signals:
     void loadingStarted();
     void loadingFinished(KJob *);
