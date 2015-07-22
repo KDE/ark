@@ -29,7 +29,6 @@
 <holder>Henrique Pinto</holder>
 </copyright>
 
-
 <legalnotice>&FDLNotice;</legalnotice>
 
 <date>2015-07-22</date>
@@ -226,15 +225,10 @@ subfolder in the folder with the archive and extracts the folders and files into
 
 <itemizedlist>
 <listitem>
-<para><guimenuitem>Here</guimenuitem> creates a Tar archive (gzip-compressed) in the current folder 
-with the extension <filename class="extension">.tar.gz</filename>.</para>
+<para><guimenuitem>Here (as TAR.GZ)</guimenuitem>, <guimenuitem>Here (as ZIP)</guimenuitem> or <guimenuitem>Here (as RAR)</guimenuitem> creates these archive types in the current folder.</para>
 </listitem>
 <listitem>
-<para><guimenuitem>As ZIP Archive</guimenuitem>, <guimenuitem>As RAR Archive</guimenuitem> 
-or <guimenuitem>As ZIP/TAR Archive</guimenuitem> creates these archive types in the current folder.</para>
-</listitem>
-<listitem>
-<para><guimenuitem>Compress To...</guimenuitem> opens a dialog where you can select folder, name and archive type.</para>
+<para><guimenuitem>Compress to...</guimenuitem> opens a dialog where you can select folder, name and archive type.</para>
 </listitem>
 </itemizedlist>
 
