@@ -70,6 +70,12 @@ int main(int argc, char **argv)
     aboutData.addAuthor(i18n("Raphael Kubo da Costa"),
                         i18n("Maintainer"),
                         QStringLiteral("rakuco@FreeBSD.org"));
+    aboutData.addAuthor(i18n("Elvis Angelaccio"),
+                        i18n("Developer"),
+                        QStringLiteral("elvis.angelaccio@kdemail.net"));
+    aboutData.addAuthor(i18n("Ragnar Thomsen"),
+                        i18n("Developer, KF5 port"),
+                        QStringLiteral("rthomsen6@gmail.com"));
     aboutData.addAuthor(i18n("Harald Hvaal"),
                         i18n("Former Maintainer"),
                         QStringLiteral("haraldhv@stud.ntnu.no"));
