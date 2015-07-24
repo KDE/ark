@@ -103,123 +103,179 @@ bool KArchiveInterface::list()
 
 bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, ExtractionOptions options)
 {
-    if (files.size() != 0) {
-        qCDebug(KERFUFFLE_PLUGIN) << "Going to copy" << files.size() << "files";
+    const bool extractAll = files.isEmpty();
+    const bool preservePaths = options.value(QLatin1String("PreservePaths")).toBool();
+
+    if (!extractAll) {
+        qCDebug(KERFUFFLE_PLUGIN) << "Going to copy" << files.size() << "files.";
     } else {
-        qCDebug(KERFUFFLE_PLUGIN) << "Going to copy all files";
+        qCDebug(KERFUFFLE_PLUGIN) << "Going to copy all files.";
     }
 
-    const bool preservePaths = options.value(QLatin1String("PreservePaths")).toBool();
-    const KArchiveDirectory *dir = archive()->directory();
+    QString rootNode = options.value(QLatin1String("RootNode"), QVariant()).toString();
+    if ((!rootNode.isEmpty()) && (!rootNode.endsWith(QLatin1Char('/')))) {
+        rootNode.append(QLatin1Char('/'));
+    }
 
+    // Check if archive is readable.
     if (!archive()->isOpen() && !archive()->open(QIODevice::ReadOnly)) {
-        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
+        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename> for reading.", filename()));
         return false;
     }
 
+    const KArchiveDirectory *dir = archive()->directory();
     QList<QVariant> extrFiles = files;
-    if (extrFiles.isEmpty()) { // All files should be extracted
+
+    // If extracting all files, populate extrFiles with all entries.
+    if (extractAll) {
         getAllEntries(dir, QString(), extrFiles);
     }
+    std::sort(extrFiles.begin(), extrFiles.end());
 
-    bool overwriteAllSelected = false;
-    bool autoSkipSelected = false;
-    QSet<QString> dirCache;
+    bool overwriteAll = false;
+    bool skipAll = false;
+    int no_entries = 0;
 
-    int no_files = 0;
     foreach(const QVariant &file, extrFiles) {
-        QString realDestination = destinationDirectory;
-        qCDebug(KERFUFFLE_PLUGIN) << "Real destination" << realDestination;
+
         const KArchiveEntry *archiveEntry = dir->entry(file.toString());
+        const bool entryIsDir = archiveEntry->isDirectory();
+
+        QFileInfo entryFI(file.toString());
+        //qCDebug(KERFUFFLE_PLUGIN) << "entry: " << entryFI.filePath();
+
+        // We skip directories if not preserving paths.
+        if (!preservePaths && entryIsDir) {
+            continue;
+        }
+
+        // Check if the entry exists in the archive.
         if (!archiveEntry) {
-            qCDebug(KERFUFFLE_PLUGIN) << "File not found in the archive" << file.toString();
-            emit error(xi18nc("@info", "File <filename>%1</filename> not found in the archive" , file.toString()));
+            qCDebug(KERFUFFLE_PLUGIN) << "File not found in the archive" << entryFI.fileName();
+            emit error(xi18nc("@info", "File <filename>%1</filename> not found in the archive.", entryFI.fileName()));
             return false;
         }
 
-        if (preservePaths) {
-            QFileInfo fi(file.toString());
-            QDir dest(destinationDirectory);
-            QString filepath = archiveEntry->isDirectory() ? fi.filePath() : fi.path();
-            if (!dirCache.contains(filepath)) {
-                if (!dest.mkpath(filepath)) {
-                    emit error(xi18nc("@info", "Error creating directory <filename>%1</filename>", filepath));
-                    return false;
-                }
-                dirCache << filepath;
+        // If we DON'T preserve paths, we remove the path from entryFI.
+        if (!preservePaths) {
+
+            // Empty filenames (ie dirs) should have been skipped already,
+            // so asserting.
+            Q_ASSERT(!entryFI.fileName().isEmpty());
+
+            entryFI = QFileInfo(entryFI.fileName());
+
+        } else {
+
+            // If rootNode is provided, then we remove the
+            // rootNode from the filepath.
+            if (!rootNode.isEmpty()) {
+                qCDebug(KERFUFFLE_PLUGIN) << "Removing" << rootNode << "from" << entryFI.filePath();
+
+                entryFI.setFile(entryFI.filePath().remove(0, rootNode.size()));
+                qCDebug(KERFUFFLE_PLUGIN) << "entry: " << entryFI.filePath();
             }
-            realDestination = dest.absolutePath() + QLatin1Char('/') + filepath;
-            qCDebug(KERFUFFLE_PLUGIN) << "Real destination 2" << realDestination;
         }
 
-        // TODO: handle errors, copyTo fails silently
-        if (!archiveEntry->isDirectory()) { // We don't need to do anything about directories
+        // The final destination with full path.
+        QString finalDest(destinationDirectory + QLatin1Char('/') + entryFI.filePath());
 
-            qCDebug(KERFUFFLE_PLUGIN) << "Extracting file" << archiveEntry->name();
+        // The parent of directory of final destination with full path.
+        QString finalDestDir(destinationDirectory + QLatin1Char('/') + entryFI.path());
 
-            if (QFile::exists(realDestination + QLatin1Char('/') + archiveEntry->name()) && !overwriteAllSelected) {
+        // Handle files.
+        if (!entryIsDir) {
 
-                qCDebug(KERFUFFLE_PLUGIN) << "file exists" << realDestination + QLatin1Char('/') + archiveEntry->name();
+            if (QFile::exists(finalDest) && !overwriteAll) {
 
-                if (autoSkipSelected) {
+                // File exists, query user for action.
+
+                qCWarning(KERFUFFLE_PLUGIN) << "File exists:" << finalDest;
+
+                // User previously chose to skip all existing files.
+                if (skipAll) {
                     continue;
                 }
 
-                int response = handleFileExistsMessage(realDestination, archiveEntry->name());
+                Kerfuffle::OverwriteQuery query(finalDest);
+                query.setNoRenameMode(true);
+                emit userQuery(&query);
+                query.waitForResponse();
 
-                if (response == OverwriteCancel) {
-                    break;
-                }
-                if (response == OverwriteYes || response == OverwriteAll) {
-                    static_cast<const KArchiveFile*>(archiveEntry)->copyTo(realDestination);
-                    if (response == OverwriteAll) {
-                        overwriteAllSelected = true;
+                if (query.responseSkip() || query.responseAutoSkip()) {
+                    if (query.responseAutoSkip()) {
+                        skipAll = true;
                     }
+                    continue;
+                } else if (query.responseCancelled()) {
+                    break;
+                } else if (query.responseOverwriteAll()) {
+                    overwriteAll = true;
                 }
-                if (response == OverwriteAutoSkip) {
-                    autoSkipSelected = true;
+
+            }
+
+            // Copy the file.
+
+            //qCDebug(KERFUFFLE_PLUGIN) << "Writing file:" << finalDest;
+
+            // If parent directory doesn't exist, create it.
+            if (!QFileInfo(finalDestDir).exists()) {
+                qCDebug(KERFUFFLE_PLUGIN) << "Creating parent directory for file:" << finalDest;
+                if (!QDir().mkpath(finalDestDir)) {
+                    qCCritical(KERFUFFLE_PLUGIN) << "Failed to create parent directory for file:" << entryFI.filePath();
+                    continue;
                 }
             } else {
 
-                qCDebug(KERFUFFLE_PLUGIN) << "Extracting file" << realDestination << archiveEntry->name();
+            }
 
-                if (archiveEntry->symLinkTarget().isEmpty()) {
-                    static_cast<const KArchiveFile*>(archiveEntry)->copyTo(realDestination);
-                } else {
-                    // Create symlink
-                    QFile::link(archiveEntry->symLinkTarget(), QString(realDestination + QStringLiteral("/") + archiveEntry->name()));
+            if (!QFileInfo(finalDestDir).isWritable()) {
+                qCCritical(KERFUFFLE_PLUGIN) << "Parent directory is not writable for file:" << entryFI.filePath();
+                continue;
+            }
+
+            if (archiveEntry->symLinkTarget().isEmpty()) {
+                static_cast<const KArchiveFile*>(archiveEntry)->copyTo(finalDestDir);
+            } else {
+                // Create symlink
+                QFile::link(archiveEntry->symLinkTarget(), QString(finalDest));
+            }
+
+        } else {
+
+            // Handle directories. This is needed, because KArchiveFile::copyTo()
+            // doesn't create missing parent directories. Also needed for extraction
+            // of empty directories.
+
+            if (!QFileInfo(finalDest).exists()) {
+                //qCDebug(KERFUFFLE_PLUGIN) << "Creating directory: " << finalDest;
+                if (!QDir().mkpath(finalDest)) {
+                    qCCritical(KERFUFFLE_PLUGIN) << "Failed to create directory" << entryFI.filePath();
+                    continue;
                 }
             }
         }
-        no_files++;
-
+        no_entries++;
 
     }
-    qCDebug(KERFUFFLE_PLUGIN) << "Extracted" << no_files << "files";
+    qCDebug(KERFUFFLE_PLUGIN) << "Extracted" << no_entries << "entries";
 
     return true;
 }
 
-void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QString &prefix, QList< QVariant > &list)
+void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QString &prefix, QList<QVariant> &list)
 {
-    // Traverse the archive root directory recursively
-    // and append all files and empty directories to list.
+    // Traverse dir recursively and append all files and subdirectories to list.
 
     foreach(const QString &entryName, dir->entries()) {
         const KArchiveEntry *entry = dir->entry(entryName);
         if (entry->isDirectory()) {
             QString newPrefix = (prefix.isEmpty() ? prefix : prefix + QLatin1Char('/')) + entryName;
             getAllEntries(static_cast<const KArchiveDirectory*>(entry), newPrefix, list);
-
-            // Find empty directories.
-            if (static_cast<const KArchiveDirectory*>(entry)->entries().isEmpty()) {
-                qCDebug(KERFUFFLE_PLUGIN) << "Found empty directory" << entry->name();
-                if (prefix.isEmpty()) {
-                    list.append(entryName);
-                } else {
-                    list.append(prefix + QLatin1Char('/') + entryName);
-                }
-            }
+        }
+        if (prefix.isEmpty()) {
+            list.append(entryName);
         } else {
             list.append(prefix + QLatin1Char('/') + entryName);
         }
@@ -250,7 +306,7 @@ bool KArchiveInterface::processDir(const KArchiveDirectory *dir, const QString &
 {
     // Processes a directory recursively and creates KArchiveEntry's.
 
-    qCDebug(KERFUFFLE_PLUGIN) << "Processing directory" << dir->name();
+    // qCDebug(KERFUFFLE_PLUGIN) << "Processing directory" << dir->name();
 
     foreach(const QString& entryName, dir->entries()) {
         const KArchiveEntry *entry = dir->entry(entryName);
@@ -266,7 +322,7 @@ bool KArchiveInterface::processDir(const KArchiveDirectory *dir, const QString &
 
 void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QString& prefix)
 {
-    qCDebug(KERFUFFLE_PLUGIN) << "Creating archive entry";
+    //qCDebug(KERFUFFLE_PLUGIN) << "Creating archive entry";
 
     ArchiveEntry e;
     QString fileName = prefix.isEmpty() ? aentry->name() : prefix + QLatin1Char('/') + aentry->name();
