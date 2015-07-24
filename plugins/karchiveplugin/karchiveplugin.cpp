@@ -206,9 +206,7 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
 
                 if (archiveEntry->symLinkTarget().isEmpty()) {
                     static_cast<const KArchiveFile*>(archiveEntry)->copyTo(realDestination);
-                    QFile::setPermissions(realDestination + QStringLiteral("/") + archiveEntry->name(), KIO::convertPermissions(archiveEntry->permissions()));
-                }
-                else {
+                } else {
                     // Create symlink
                     QFile::link(archiveEntry->symLinkTarget(), QString(realDestination + QStringLiteral("/") + archiveEntry->name()));
                 }
