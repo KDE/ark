@@ -90,7 +90,6 @@ bool KArchiveInterface::list()
     if (!archive()->isOpen() && !archive()->open(QIODevice::ReadOnly)) {
         qCDebug(KERFUFFLE_PLUGIN) << "Failed to open archive for reading.";
         emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
-
         return false;
     } else {
         return browseArchive(archive());
@@ -109,16 +108,15 @@ void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QStrin
             getAllEntries(static_cast<const KArchiveDirectory*>(entry), newPrefix, list);
 
             // Find empty directories
-            if (static_cast<const KArchiveDirectory*>(entry)->entries().isEmpty())
-            {
+            if (static_cast<const KArchiveDirectory*>(entry)->entries().isEmpty()) {
                 qCDebug(KERFUFFLE_PLUGIN) << "Found empty directory" << entry->name();
-                if (prefix.isEmpty())
+                if (prefix.isEmpty()) {
                     list.append(entryName);
-                else
+                } else {
                     list.append(prefix + QLatin1Char('/') + entryName);
+                }
             }
-        }
-        else {
+        } else {
             list.append(prefix + QLatin1Char('/') + entryName);
         }
     }
@@ -126,10 +124,11 @@ void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QStrin
 
 bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, ExtractionOptions options)
 {
-    if (files.size() != 0)
+    if (files.size() != 0) {
         qCDebug(KERFUFFLE_PLUGIN) << "Going to copy" << files.size() << "files";
-    else
+    } else {
         qCDebug(KERFUFFLE_PLUGIN) << "Going to copy all files";
+    }
 
     const bool preservePaths = options.value(QLatin1String("PreservePaths")).toBool();
     const KArchiveDirectory *dir = archive()->directory();
@@ -277,10 +276,11 @@ void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QStrin
     ArchiveEntry e;
     QString fileName = prefix.isEmpty() ? aentry->name() : prefix + QLatin1Char('/') + aentry->name();
 
-    if (aentry->isDirectory() && !fileName.endsWith(QLatin1Char('/')))
+    if (aentry->isDirectory() && !fileName.endsWith(QLatin1Char('/'))) {
         fileName += QLatin1Char('/');
-    else
+    } else {
       m_no_files++;
+    }
 
     e[ FileName ]         = fileName;
     e[ InternalID ]       = e[ FileName ];
@@ -388,41 +388,45 @@ QString KArchiveInterface::permissionsString(mode_t perm)
 
     char uxbit,gxbit,oxbit;
 
-    if ( (perm & (S_IXUSR|S_ISUID)) == (S_IXUSR|S_ISUID) )
+    if ( (perm & (S_IXUSR|S_ISUID)) == (S_IXUSR|S_ISUID) ) {
         uxbit = 's';
-    else if ( (perm & (S_IXUSR|S_ISUID)) == S_ISUID )
+    } else if ( (perm & (S_IXUSR|S_ISUID)) == S_ISUID ) {
         uxbit = 'S';
-    else if ( (perm & (S_IXUSR|S_ISUID)) == S_IXUSR )
+    } else if ( (perm & (S_IXUSR|S_ISUID)) == S_IXUSR ) {
         uxbit = 'x';
-    else
+    } else {
         uxbit = '-';
+    }
 
-    if ( (perm & (S_IXGRP|S_ISGID)) == (S_IXGRP|S_ISGID) )
+    if ( (perm & (S_IXGRP|S_ISGID)) == (S_IXGRP|S_ISGID) ) {
         gxbit = 's';
-    else if ( (perm & (S_IXGRP|S_ISGID)) == S_ISGID )
+    } else if ( (perm & (S_IXGRP|S_ISGID)) == S_ISGID ) {
         gxbit = 'S';
-    else if ( (perm & (S_IXGRP|S_ISGID)) == S_IXGRP )
+    } else if ( (perm & (S_IXGRP|S_ISGID)) == S_IXGRP ) {
         gxbit = 'x';
-    else
+    } else {
         gxbit = '-';
+    }
 
-    if ( (perm & (S_IXOTH|S_ISVTX)) == (S_IXOTH|S_ISVTX) )
+    if ( (perm & (S_IXOTH|S_ISVTX)) == (S_IXOTH|S_ISVTX) ) {
         oxbit = 't';
-    else if ( (perm & (S_IXOTH|S_ISVTX)) == S_ISVTX )
+    } else if ( (perm & (S_IXOTH|S_ISVTX)) == S_ISVTX ) {
         oxbit = 'T';
-    else if ( (perm & (S_IXOTH|S_ISVTX)) == S_IXOTH )
+    } else if ( (perm & (S_IXOTH|S_ISVTX)) == S_IXOTH ) {
         oxbit = 'x';
-    else
+    } else {
         oxbit = '-';
+    }
 
     // Include the type in the first char like kde3 did; people are more used to seeing it,
     // even though it's not really part of the permissions per se.
-    if (S_ISDIR(perm))
+    if (S_ISDIR(perm)) {
         buffer[0] = 'd';
-    else if (S_ISLNK(perm))
+    } else if (S_ISLNK(perm)) {
         buffer[0] = 'l';
-    else
+    } else {
         buffer[0] = '-';
+    }
 
     buffer[1] = ((( perm & S_IRUSR ) == S_IRUSR ) ? 'r' : '-' );
     buffer[2] = ((( perm & S_IWUSR ) == S_IWUSR ) ? 'w' : '-' );
