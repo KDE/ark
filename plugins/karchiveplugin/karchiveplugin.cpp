@@ -101,32 +101,6 @@ bool KArchiveInterface::list()
     }
 }
 
-void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QString &prefix, QList< QVariant > &list)
-{
-    // Traverse the archive root directory recursively
-    // and append all files and empty directories to list
-
-    foreach(const QString &entryName, dir->entries()) {
-        const KArchiveEntry *entry = dir->entry(entryName);
-        if (entry->isDirectory()) {
-            QString newPrefix = (prefix.isEmpty() ? prefix : prefix + QLatin1Char('/')) + entryName;
-            getAllEntries(static_cast<const KArchiveDirectory*>(entry), newPrefix, list);
-
-            // Find empty directories
-            if (static_cast<const KArchiveDirectory*>(entry)->entries().isEmpty()) {
-                qCDebug(KERFUFFLE_PLUGIN) << "Found empty directory" << entry->name();
-                if (prefix.isEmpty()) {
-                    list.append(entryName);
-                } else {
-                    list.append(prefix + QLatin1Char('/') + entryName);
-                }
-            }
-        } else {
-            list.append(prefix + QLatin1Char('/') + entryName);
-        }
-    }
-}
-
 bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, ExtractionOptions options)
 {
     if (files.size() != 0) {
@@ -226,6 +200,32 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
     return true;
 }
 
+void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QString &prefix, QList< QVariant > &list)
+{
+    // Traverse the archive root directory recursively
+    // and append all files and empty directories to list.
+
+    foreach(const QString &entryName, dir->entries()) {
+        const KArchiveEntry *entry = dir->entry(entryName);
+        if (entry->isDirectory()) {
+            QString newPrefix = (prefix.isEmpty() ? prefix : prefix + QLatin1Char('/')) + entryName;
+            getAllEntries(static_cast<const KArchiveDirectory*>(entry), newPrefix, list);
+
+            // Find empty directories.
+            if (static_cast<const KArchiveDirectory*>(entry)->entries().isEmpty()) {
+                qCDebug(KERFUFFLE_PLUGIN) << "Found empty directory" << entry->name();
+                if (prefix.isEmpty()) {
+                    list.append(entryName);
+                } else {
+                    list.append(prefix + QLatin1Char('/') + entryName);
+                }
+            }
+        } else {
+            list.append(prefix + QLatin1Char('/') + entryName);
+        }
+    }
+}
+
 int KArchiveInterface::handleFileExistsMessage(const QString &dir, const QString &fileName)
 {
     Kerfuffle::OverwriteQuery query(dir + QLatin1Char('/') + fileName);
@@ -248,6 +248,8 @@ int KArchiveInterface::handleFileExistsMessage(const QString &dir, const QString
 
 bool KArchiveInterface::processDir(const KArchiveDirectory *dir, const QString & prefix)
 {
+    // Processes a directory recursively and creates KArchiveEntry's.
+
     qCDebug(KERFUFFLE_PLUGIN) << "Processing directory" << dir->name();
 
     foreach(const QString& entryName, dir->entries()) {
