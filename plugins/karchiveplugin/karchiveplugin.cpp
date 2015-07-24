@@ -89,10 +89,15 @@ bool KArchiveInterface::list()
 
     if (!archive()->isOpen() && !archive()->open(QIODevice::ReadOnly)) {
         qCDebug(KERFUFFLE_PLUGIN) << "Failed to open archive for reading.";
-        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
+        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename> for reading.", filename()));
         return false;
     } else {
-        return browseArchive(archive());
+        qCDebug(KERFUFFLE_PLUGIN) << "Browsing archive" << archive()->fileName();
+        m_no_files = 0;
+        m_no_dirs = 0;
+        bool ret = processDir(archive()->directory());
+        qCDebug(KERFUFFLE_PLUGIN) << "Created entries for" << m_no_files << "files" << m_no_dirs << "dirs";
+        return ret;
     }
 }
 
@@ -239,16 +244,6 @@ int KArchiveInterface::handleFileExistsMessage(const QString &dir, const QString
     }
 
     return OverwriteCancel;
-}
-
-bool KArchiveInterface::browseArchive(KArchive *archive)
-{
-    qCDebug(KERFUFFLE_PLUGIN) << "Browsing archive" << archive->fileName();
-    m_no_files = 0;
-    m_no_dirs = 0;
-    bool ret = processDir(archive->directory());
-    qCDebug(KERFUFFLE_PLUGIN) << "Created entries for" << m_no_files << "files" << m_no_dirs << "dirs";
-    return ret;
 }
 
 bool KArchiveInterface::processDir(const KArchiveDirectory *dir, const QString & prefix)
