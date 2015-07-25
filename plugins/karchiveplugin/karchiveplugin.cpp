@@ -282,26 +282,6 @@ void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QStrin
     }
 }
 
-int KArchiveInterface::handleFileExistsMessage(const QString &dir, const QString &fileName)
-{
-    Kerfuffle::OverwriteQuery query(dir + QLatin1Char('/') + fileName);
-    query.setNoRenameMode(true);
-    emit userQuery(&query);
-    query.waitForResponse();
-
-    if (query.responseOverwrite()) {
-        return OverwriteYes;
-    } else if (query.responseSkip()) {
-        return OverwriteSkip;
-    } else if (query.responseOverwriteAll()) {
-        return OverwriteAll;
-    } else if (query.responseAutoSkip()) {
-        return OverwriteAutoSkip;
-    }
-
-    return OverwriteCancel;
-}
-
 bool KArchiveInterface::processDir(const KArchiveDirectory *dir, const QString & prefix)
 {
     // Processes a directory recursively and creates KArchiveEntry's.

@@ -54,8 +54,6 @@ private:
         OverwriteCancel
     };
 
-    bool browseArchive(KArchive *archive);
-
     bool processDir(const KArchiveDirectory *dir, const QString & prefix = QString());
 
     void createEntryFor(const KArchiveEntry *aentry, const QString& prefix);
@@ -63,8 +61,6 @@ private:
     QString permissionsString(mode_t perm);
 
     void getAllEntries(const KArchiveDirectory *dir, const QString &prefix, QList< QVariant > &list);
-
-    int handleFileExistsMessage(const QString &dir, const QString &fileName);
 
     KArchive *archive();
 
