@@ -156,15 +156,13 @@ void CreateDialog::slotSaveWindowSize()
 void CreateDialog::slotOkButtonClicked()
 {
     // In case the user tries to leave the lineEdit empty:
-    if (m_fileWidget->locationEdit()->urls().at(0) == m_fileWidget->baseUrl().path().left(m_fileWidget->baseUrl().path().size()-1))
-    {
+    if (m_fileWidget->locationEdit()->lineEdit()->text().isEmpty()) {
         KMessageBox::sorry(this, i18n("Please select a filename for the archive."), i18n("No file selected"));
         return;
     }
     // This slot sets the url from text in the lineEdit, asks for overwrite etc, and emits signal accepted
     m_fileWidget->slotOk();
 }
-
 
 void CreateDialog::encryptionToggled(bool checked)
 {
