@@ -53,7 +53,9 @@
 
 <chapter id="introduction">
 <title>Introduction</title>
-
+<!-- FIXME http://www.aelog.org/passwords-and-settings-for-ark/
+Passwords and Settings for Ark
+-->
 <para>&ark; is a program for viewing, extracting, creating and modifying
 archives.
 &ark; can handle various archive formats such as
@@ -184,8 +186,32 @@ menu.</para>
 extension (<literal role="extension">tar.gz</literal>, <literal
 role="extension">zip</literal>, <literal role="extension">bz2</literal>
 &etc;) or select a supported format in the <guilabel>Filter</guilabel> combo box
-and check the <guilabel>Automatically select filename extension</guilabel> option.
-To add files to the archive, choose <guimenuitem>Add
+and check the <guilabel>Automatically select filename extension</guilabel> option.</para>
+
+<para>If you create a <literal role="extension">jar</literal>, <literal role="extension">zip</literal>, <literal
+role="extension">rar</literal> or <literal role="extension">7zip</literal> archive
+you can protect it with a password.</para>
+
+<screenshot>
+<screeninfo>Create a password protected archive</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-protected-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Create a password protected archive</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+<para>Choose whether to ask the password before showing the list of files. 
+The latter is called header encryption and is available only with the <literal role="extension">rar</literal> 
+and <literal role="extension">7zip</literal> formats.</para>
+
+<para>Header encryption is enabled by default (when available), in order to offer the 
+maximum protection to novice users.</para>
+
+<para>To add files to the archive, choose <guimenuitem>Add
 File...</guimenuitem> from the <guimenu>Action</guimenu> menu. If you
 want to add an entire folder to an archive, choose <guimenuitem>Add
 Folder...</guimenuitem> from the <guimenu>Action</guimenu> menu.</para>
