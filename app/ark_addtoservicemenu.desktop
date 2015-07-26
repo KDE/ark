@@ -66,20 +66,56 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action compressHereAsTar]
 Name=Here (as TAR.GZ)
+Name[ca]=Aquí (com a TAR.GZ)
+Name[de]=Hier (Als TAR.GZ-Archiv)
+Name[nl]=Hier (als TAR.GZ)
+Name[pt]=Aqui (como TAR.GZ)
+Name[pt_BR]=Aqui (como TAR.GZ)
+Name[sl]=Sem (kot TAR.GZ)
+Name[sv]=Här (som TAR.GZ)
+Name[uk]=Сюди (як TAR.GZ)
+Name[x-test]=xxHere (as TAR.GZ)xx
 Icon=ark
 Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
 [Desktop Action compressHereAsZip]
 Name=Here (as ZIP)
+Name[ca]=Aquí (com a ZIP)
+Name[de]=Hier (Als ZIP-Archiv)
+Name[nl]=Hier (als ZIP)
+Name[pt]=Aqui (como ZIP)
+Name[pt_BR]=Aqui (como ZIP)
+Name[sl]=Sem (kot ZIP)
+Name[sv]=Här (som ZIP)
+Name[uk]=Сюди (як ZIP)
+Name[x-test]=xxHere (as ZIP)xx
 Icon=ark
 Exec=ark --changetofirstpath --add --autofilename zip %F
 
 [Desktop Action compressHereAsRar]
 Name=Here (as RAR)
+Name[ca]=Aquí (com a RAR)
+Name[de]=Hier (Als RAR-Archiv)
+Name[nl]=Hier (als RAR)
+Name[pt]=Aqui (como RAR)
+Name[pt_BR]=Aqui (como RAR)
+Name[sl]=Sem (kot RAR)
+Name[sv]=Här (som RAR)
+Name[uk]=Сюди (як RAR)
+Name[x-test]=xxHere (as RAR)xx
 Icon=ark
 Exec=ark --changetofirstpath --add --autofilename rar %F
 
 [Desktop Action compressTo]
 Name=Compress to...
+Name[ca]=Comprimeix a...
+Name[de]=Komprimieren nach ...
+Name[nl]=Comprimeren naar...
+Name[pt]=Comprimir Para...
+Name[pt_BR]=Compactar para...
+Name[sl]=Stisni v ...
+Name[sv]=Komprimera till...
+Name[uk]=Стиснути…
+Name[x-test]=xxCompress to...xx
 Icon=ark
 Exec=ark --add --changetofirstpath --dialog %F
