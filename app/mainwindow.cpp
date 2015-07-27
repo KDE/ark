@@ -307,10 +307,6 @@ void MainWindow::newArchive()
     Q_ASSERT(iface);
     Q_UNUSED(iface);
 
-    const QStringList mimeTypes = Kerfuffle::supportedWriteMimeTypes();
-
-    qCDebug(ARK) << "Supported mimetypes are" << mimeTypes.join(QLatin1String(" "));
-
     QPointer<Kerfuffle::CreateDialog> dialog = new Kerfuffle::CreateDialog(
         Q_NULLPTR, // parent
         i18n("Create a new Archive"), // caption

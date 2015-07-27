@@ -370,7 +370,6 @@ void Part::updateActions()
         const QString dir = QUrl(dirHistory.value(i)).toString(QUrl::RemoveScheme | QUrl::NormalizePathSegments | QUrl::PreferLocalFile);
         QAction *newAction = menu->addAction(dir);
         newAction->setData(dir);
-        qCDebug(PART) << "Setting action data" << dir;
     }
 }
 
