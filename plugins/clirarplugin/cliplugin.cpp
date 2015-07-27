@@ -38,11 +38,10 @@ using namespace Kerfuffle;
 K_PLUGIN_FACTORY( CliPluginFactory, registerPlugin< CliPlugin >(); )
 CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
         : CliInterface(parent, args)
-        , m_parseState(ParseStateColumnDescription1)
+        , m_parseState(ParseStateHeader)
         , m_isPasswordProtected(false)
         , m_remainingIgnoredSubHeaderLines(0)
         , m_remainingIgnoredDetailsLines(0)
-        , m_isUnrarFree(false)
         , m_isUnrarVersion5(false)
 {
     qCDebug(KERFUFFLE_PLUGIN) << "Loaded cli_rar plugin";
@@ -111,8 +110,6 @@ bool CliPlugin::readListLine(const QString &line)
 {
     static const QLatin1String headerString("----------------------");
     static const QLatin1String subHeaderString("Data header type: ");
-    static const QLatin1String columnDescription1String("                  Size   Packed Ratio  Date   Time     Attr      CRC   Meth Ver");
-    static const QLatin1String columnDescription2String("               Host OS    Solid   Old"); // Only present in unrar-nonfree
 
     if (m_isUnrarVersion5) {
         int colonPos = line.indexOf(QLatin1Char(':'));
@@ -187,37 +184,13 @@ bool CliPlugin::readListLine(const QString &line)
 
     switch (m_parseState)
     {
-    case ParseStateColumnDescription1:
+    case ParseStateHeader:
         if (line.startsWith(QLatin1String("Details:"))) {
             m_isUnrarVersion5 = true;
             setListEmptyLines(true);
             // no previously detected entry
             m_entryFileName.clear();
         }
-        if (line.startsWith(columnDescription1String)) {
-            m_parseState = ParseStateColumnDescription2;
-        }
-
-        break;
-
-    case ParseStateColumnDescription2:
-        // #243273: We need a way to differentiate unrar and unrar-free,
-        //          as their output for the "vt" option is different.
-        //          Currently, we differ them by checking if "vt" produces
-        //          two lines of column names before the header string, as
-        //          only unrar does that (unrar-free always outputs one line
-        //          for column names regardless of how verbose we tell it to
-        //          be).
-        if (line.startsWith(columnDescription2String)) {
-            m_parseState = ParseStateHeader;
-        } else if (line.startsWith(headerString)) {
-            m_parseState = ParseStateEntryFileName;
-            m_isUnrarFree = true;
-        }
-
-        break;
-
-    case ParseStateHeader:
         if (line.startsWith(headerString)) {
             m_parseState = ParseStateEntryFileName;
         }
@@ -348,13 +321,7 @@ bool CliPlugin::readListLine(const QString &line)
 
         emit entry(e);
 
-        // #243273: unrar-free does not output the third file entry line,
-        //          skip directly to parsing a new entry.
-        if (m_isUnrarFree) {
-            m_parseState = ParseStateEntryFileName;
-        } else {
-            m_parseState = ParseStateEntryIgnoredDetails;
-        }
+        m_parseState = ParseStateEntryIgnoredDetails;
 
         break;
     }

@@ -42,9 +42,7 @@ public:
 
 private:
     enum {
-        ParseStateColumnDescription1 = 0,
-        ParseStateColumnDescription2,
-        ParseStateHeader,
+        ParseStateHeader = 0,
         ParseStateEntryFileName,
         ParseStateEntryDetails,
         ParseStateEntryIgnoredDetails
@@ -58,7 +56,6 @@ private:
     int m_remainingIgnoredSubHeaderLines;
     int m_remainingIgnoredDetailsLines;
 
-    bool m_isUnrarFree;
     bool m_isUnrarVersion5;
 };
 
