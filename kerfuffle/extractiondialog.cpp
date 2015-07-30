@@ -82,7 +82,7 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
     m_ui = new ExtractionDialogUI(this);
     hlayout->addWidget(m_ui);
 
-    m_ui->iconLabel->setPixmap(DesktopIcon(QLatin1String("archive-extract")));
+    m_ui->iconLabel->setPixmap(QIcon::fromTheme(QLatin1String("archive-extract")).pixmap(IconSize(KIconLoader::Desktop), IconSize(KIconLoader::Desktop)));
 
     m_ui->filesToExtractGroupBox->hide();
     m_ui->allFilesButton->setChecked(true);

@@ -44,6 +44,11 @@ int main(int argc, char **argv)
 {
     QApplication application(argc, argv);
 
+    /**
+     * enable high dpi support
+     */
+    application.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+
     // Debug output can be turned on here:
     //QLoggingCategory::setFilterRules(QStringLiteral("ark.debug = true"));
 
@@ -157,9 +162,9 @@ int main(int argc, char **argv)
                                         i18n("Archive contents will be read, and if detected to not be a single folder archive, a subfolder with the name of the archive will be created.")));
 
     aboutData.setupCommandLine(&parser);
-    
+
     KAboutData::setApplicationData(aboutData);
-    
+
     // do the command line parsing
     parser.process(application);
 

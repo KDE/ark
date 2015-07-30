@@ -38,6 +38,7 @@
 #include <QMimeData>
 #include <QPersistentModelIndex>
 #include <QPixmap>
+#include <QIcon>
 #include <QtDBus/QtDBus>
 
 using namespace Kerfuffle;
@@ -79,11 +80,9 @@ public:
 
         QMimeDatabase db;
         if (entry[IsDirectory].toBool()) {
-            m_icon = KIconLoader::global()->loadMimeTypeIcon(db.mimeTypeForName("inode/directory").iconName(),
-                                                             KIconLoader::Small);
+            m_icon = QIcon::fromTheme(db.mimeTypeForName("inode/directory").iconName()).pixmap(IconSize(KIconLoader::Small), IconSize(KIconLoader::Small));
         } else {
-            m_icon = KIconLoader::global()->loadMimeTypeIcon(db.mimeTypeForFile(m_entry[FileName].toString()).iconName(),
-                                                             KIconLoader::Small);
+            m_icon = QIcon::fromTheme(db.mimeTypeForFile(m_entry[FileName].toString()).iconName()).pixmap(IconSize(KIconLoader::Small), IconSize(KIconLoader::Small));
         }
     }
 

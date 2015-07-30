@@ -212,7 +212,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
     // Add an icon representing the mimetype to header
     QLabel *iconLabel = new QLabel(header);
     headerHLayout->addWidget(iconLabel);
-    iconLabel->setPixmap(KIconLoader::global()->loadMimeTypeIcon(mimeType.iconName(), KIconLoader::Desktop));
+    iconLabel->setPixmap(QIcon::fromTheme(mimeType.iconName()).pixmap(IconSize(KIconLoader::Desktop), IconSize(KIconLoader::Desktop)));
     iconLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
 
     // Add file name and mimetype to header
