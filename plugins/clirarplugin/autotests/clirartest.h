@@ -26,7 +26,10 @@
 #ifndef CLIRARTEST_H
 #define CLIRARTEST_H
 
+#include "../cliplugin.h"
 #include <QObject>
+
+using namespace Kerfuffle;
 
 class CliRarTest : public QObject
 {
@@ -36,5 +39,7 @@ private Q_SLOTS:
     void testReadCorruptedArchive();
     void testParseSymlink();
 };
+
+Q_DECLARE_METATYPE(ArchiveEntry)
 
 #endif
