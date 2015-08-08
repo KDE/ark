@@ -59,6 +59,10 @@ void ArchiveTest::testIsPasswordProtected()
         QSKIP("There is no plugin to handle zip files. Skipping test.", SkipSingle);
     }
 
+    if (QStandardPaths::findExecutable(QStringLiteral("zipinfo")).isEmpty()) {
+        QSKIP("zipinfo was not found in path. Skipping test.", SkipSingle);
+    }
+
     QVERIFY(archive->isPasswordProtected());
 
     archive->deleteLater();
