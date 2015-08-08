@@ -48,15 +48,15 @@ void CliRarTest::testReadCorruptedArchive()
     args.append(QStringLiteral("DummyArchive.rar"));
 
     CliPlugin *rarPlugin = new CliPlugin(this, args);
-    Q_ASSERT(rarPlugin->open());
+    QVERIFY(rarPlugin->open());
 
     QFile unrarOutput(QFINDTESTDATA("data/testReadCorruptedArchive.txt"));
-    Q_ASSERT(unrarOutput.open(QIODevice::ReadOnly));
+    QVERIFY(unrarOutput.open(QIODevice::ReadOnly));
 
     QTextStream unrarStream(&unrarOutput);
     while (!unrarStream.atEnd()) {
         const QString line(unrarStream.readLine());
-        Q_ASSERT(rarPlugin->readListLine(line));
+        QVERIFY(rarPlugin->readListLine(line));
     }
 
     rarPlugin->deleteLater();
@@ -71,15 +71,15 @@ void CliRarTest::testParseSymlink()
     args.append(QStringLiteral("DummyArchive.rar"));
 
     CliPlugin *rarPlugin = new CliPlugin(this, args);
-    Q_ASSERT(rarPlugin->open());
+    QVERIFY(rarPlugin->open());
 
     QFile unrarOutput(QFINDTESTDATA("data/testReadArchiveWithSymlink.txt"));
-    Q_ASSERT(unrarOutput.open(QIODevice::ReadOnly));
+    QVERIFY(unrarOutput.open(QIODevice::ReadOnly));
 
     QTextStream unrarStream(&unrarOutput);
     while (!unrarStream.atEnd()) {
         const QString line(unrarStream.readLine());
-        Q_ASSERT(rarPlugin->readListLine(line));
+        QVERIFY(rarPlugin->readListLine(line));
     }
 
     rarPlugin->deleteLater();
