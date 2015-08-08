@@ -1,0 +1,28 @@
+
+UNRAR 4.20 freeware      Copyright (c) 1993-2012 Alexander Roshal
+
+Archive testrr.rar
+
+Recovery record is present
+
+Pathname/Comment
+                  Size   Packed Ratio  Date   Time     Attr      CRC   Meth Ver
+               Host OS    Solid   Old
+-------------------------------------------------------------------------------
+ file1.txt
+                    32       33 103% 26-07-15 19:04 -rw-rw-r-- 034EE5C7 m3b 2.9
+                  Unix       No   No
+ file2.txt
+                    32       32 100% 18-05-15 14:57 -rw-rw-r-- D49ECBCA m3b 2.9
+                  Unix       No   No
+ file3.txt
+                    32       32 100% 13-05-15 17:26 -rw-rw-r-- 99D12E31 m3b 2.9
+                  Unix       No   No
+Data header type: RR
+ RR
+                   514      514 100% 27-07-15 19:21   .....B   C6807093 m0a 2.9
+                  Unix       No   No
+-------------------------------------------------------------------------------
+    3               96       97 101%
+
+ 

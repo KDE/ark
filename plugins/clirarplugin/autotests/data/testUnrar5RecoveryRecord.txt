@@ -1,0 +1,40 @@
+
+UNRAR 5.30 beta 2 freeware      Copyright (c) 1993-2015 Alexander Roshal
+
+Archive: testrr.rar
+Details: RAR 4, recovery record
+
+        Name: file1.txt
+        Type: File
+        Size: 32
+ Packed size: 33
+       Ratio: 103%
+       mtime: 2015-07-26 19:04:38,000
+  Attributes: -rw-rw-r--
+       CRC32: 034EE5C7
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=128K
+
+        Name: file2.txt
+        Type: File
+        Size: 32
+ Packed size: 32
+       Ratio: 100%
+       mtime: 2015-05-18 14:57:37,000
+  Attributes: -rw-rw-r--
+       CRC32: D49ECBCA
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=128K
+
+        Name: file3.txt
+        Type: File
+        Size: 32
+ Packed size: 32
+       Ratio: 100%
+       mtime: 2015-05-13 17:26:42,000
+  Attributes: -rw-rw-r--
+       CRC32: 99D12E31
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=128K
+
+ 

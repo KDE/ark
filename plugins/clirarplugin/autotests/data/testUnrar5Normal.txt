@@ -1,0 +1,88 @@
+
+UNRAR 5.30 beta 2 freeware      Copyright (c) 1993-2015 Alexander Roshal
+
+Archive: testarchive.rar
+Details: RAR 4
+
+        Name: file1.txt
+        Type: File
+        Size: 32
+ Packed size: 33
+       Ratio: 103%
+       mtime: 2015-07-26 19:04:38,000
+  Attributes: -rw-rw-r--
+       CRC32: 034EE5C7
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=128K
+
+        Name: file2.txt
+        Type: File
+        Size: 32
+ Packed size: 32
+       Ratio: 100%
+       mtime: 2015-05-18 14:57:37,000
+  Attributes: -rw-rw-r--
+       CRC32: D49ECBCA
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=128K
+
+        Name: file3.txt
+        Type: File
+        Size: 32
+ Packed size: 32
+       Ratio: 100%
+       mtime: 2015-05-13 17:26:42,000
+  Attributes: -rw-rw-r--
+       CRC32: 99D12E31
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=128K
+
+        Name: file4.txt
+        Type: File
+        Size: 32
+ Packed size: 33
+       Ratio: 103%
+       mtime: 2015-07-26 18:53:21,000
+  Attributes: -rw-rw-r--
+       CRC32: A04F9191
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=128K
+
+        Name: dir1/file1.txt
+        Type: File
+        Size: 32
+ Packed size: 33
+       Ratio: 103%
+       mtime: 2015-05-17 20:41:48,000
+  Attributes: -rw-rw-r--
+       CRC32: 034EE5C7
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=128K
+
+        Name: dir2/file2.txt
+        Type: File
+        Size: 32
+ Packed size: 32
+       Ratio: 100%
+       mtime: 2015-05-17 20:41:48,000
+  Attributes: -rw-rw-r--
+       CRC32: D49ECBCA
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=128K
+
+        Name: dir1
+        Type: Directory
+       mtime: 2015-05-14 01:45:24,000
+  Attributes: drwxrwxr-x
+       CRC32: 00000000
+     Host OS: Unix
+ Compression: RAR 3.0(v20) -m0 -md=0K
+
+        Name: dir2
+        Type: Directory
+       mtime: 2015-05-14 01:43:41,000
+  Attributes: drwxrwxr-x
+       CRC32: 00000000
+     Host OS: Unix
+ Compression: RAR 3.0(v20) -m0 -md=0K
+

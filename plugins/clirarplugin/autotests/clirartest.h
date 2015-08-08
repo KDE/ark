@@ -37,7 +37,14 @@ class CliRarTest : public QObject
 
 private Q_SLOTS:
     void testReadCorruptedArchive();
-    void testParseSymlink();
+    void testUnrar4Normal();
+    void testUnrar5Normal();
+    void testUnrar4Symlink();
+    void testUnrar5Symlink();
+    void testUnrar4EncryptedFiles();
+    void testUnrar5EncryptedFiles();
+    void testUnrar4RecoveryRecord();
+    void testUnrar5RecoveryRecord();
 };
 
 Q_DECLARE_METATYPE(ArchiveEntry)
