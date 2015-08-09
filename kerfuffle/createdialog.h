@@ -47,10 +47,9 @@ class KERFUFFLE_EXPORT CreateDialog : public QDialog
     Q_OBJECT
 
 public:
-    CreateDialog(
-        QWidget *parent,
-        const QString &caption,
-        const QUrl &startDir);
+    explicit CreateDialog(QWidget *parent,
+                          const QString &caption,
+                          const QUrl &startDir);
 
     QSize sizeHint() const Q_DECL_OVERRIDE;
     QList<QUrl> selectedUrls() const;

@@ -230,15 +230,15 @@ void MainWindow::openArchive()
     // Create the "All supported archives" filter
     QRegularExpression rx("(\\*\\.[a-z]+\\.*[a-z0-9]*)+");
     QString allArchives(i18n("All supported archives ("));
-    foreach(QString s, filters)
+    foreach(const QString &s, filters)
     {
         QRegularExpressionMatchIterator i = rx.globalMatch(s);
         while (i.hasNext()) {
             QRegularExpressionMatch match = i.next();
-            allArchives.append(match.captured(1) + " ");
+            allArchives.append(match.captured(1) + ' ');
         }
     }
-    filters.prepend(allArchives + ")");
+    filters.prepend(allArchives + ')');
     dlg.setNameFilters(filters);
 
     dlg.setFileMode(QFileDialog::ExistingFile);

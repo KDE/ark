@@ -149,7 +149,7 @@ Part::~Part()
     qDeleteAll(m_previewDirList);
 
     // Only save splitterSizes if infopanel is visible,
-    // because we dont want to store zero size for infopanel.
+    // because we don't want to store zero size for infopanel.
     if (m_showInfoPanelAction->isChecked()) {
         ArkSettings::setSplitterSizes(m_splitter->sizes());
     }
