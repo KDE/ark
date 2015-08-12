@@ -88,6 +88,7 @@ Name[sr@latin]=ovde (kao tar.gz)
 Name[sv]=Här (som TAR.GZ)
 Name[uk]=Сюди (як TAR.GZ)
 Name[x-test]=xxHere (as TAR.GZ)xx
+Name[zh_CN]=此处 (作为 TAR.GZ)
 Icon=ark
 Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 
@@ -115,6 +116,7 @@ Name[sr@latin]=ovde (kao ZIP)
 Name[sv]=Här (som ZIP)
 Name[uk]=Сюди (як ZIP)
 Name[x-test]=xxHere (as ZIP)xx
+Name[zh_CN]=此处 (作为 ZIP)
 Icon=ark
 Exec=ark --changetofirstpath --add --autofilename zip %F
 
@@ -142,6 +144,7 @@ Name[sr@latin]=ovde (kao RAR)
 Name[sv]=Här (som RAR)
 Name[uk]=Сюди (як RAR)
 Name[x-test]=xxHere (as RAR)xx
+Name[zh_CN]=此处 (作为 RAR)
 Icon=ark
 Exec=ark --changetofirstpath --add --autofilename rar %F
 
@@ -169,5 +172,6 @@ Name[sr@latin]=drugde...
 Name[sv]=Komprimera till...
 Name[uk]=Стиснути…
 Name[x-test]=xxCompress to...xx
+Name[zh_CN]=压缩到...
 Icon=ark
 Exec=ark --add --changetofirstpath --dialog %F
