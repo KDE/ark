@@ -21,8 +21,8 @@
  *
  */
 
-#include "app/logging.h"
 #include "archivemodel.h"
+#include "app/logging.h"
 #include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/jobs.h"
 

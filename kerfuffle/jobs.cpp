@@ -25,8 +25,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "app/logging.h"
 #include "jobs.h"
+#include "app/logging.h"
 
 #include <QThread>
 

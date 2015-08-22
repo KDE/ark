@@ -19,8 +19,8 @@
  *
  */
 
-#include "logging.h"
 #include "extractHereDndPlugin.h"
+#include "logging.h"
 #include "batchextract.h"
 #include "kerfuffle/archive_kerfuffle.h"
 

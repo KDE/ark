@@ -25,8 +25,9 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "app/logging.h"
 #include "archiveinterface.h"
+#include "app/logging.h"
+
 #include <kfileitem.h>
 
 #include <QDebug>

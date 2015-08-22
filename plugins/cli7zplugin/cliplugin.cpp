@@ -20,8 +20,8 @@
  *
  */
 
-#include "app/logging.h"
 #include "cliplugin.h"
+#include "app/logging.h"
 #include "kerfuffle/cliinterface.h"
 #include "kerfuffle/kerfuffle_export.h"
 

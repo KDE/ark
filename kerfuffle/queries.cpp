@@ -25,9 +25,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-#include "app/logging.h"
 #include "queries.h"
+#include "app/logging.h"
 
 #include <KLocalizedString>
 #include <KPasswordDialog>

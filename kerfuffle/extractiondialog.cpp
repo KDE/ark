@@ -25,8 +25,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "app/logging.h"
 #include "extractiondialog.h"
+#include "app/logging.h"
 #include "settings.h"
 
 #include <KLocalizedString>

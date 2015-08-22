@@ -19,8 +19,8 @@
  *
  */
 
-#include "app/logging.h"
 #include "arkviewer.h"
+#include "app/logging.h"
 
 #include <KLocalizedString>
 #include <KMimeTypeTrader>

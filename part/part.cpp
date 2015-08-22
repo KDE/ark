@@ -21,8 +21,8 @@
  *
  */
 
-#include "app/logging.h"
 #include "part.h"
+#include "app/logging.h"
 #include "archivemodel.h"
 #include "archiveview.h"
 #include "arkviewer.h"

@@ -27,8 +27,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "app/logging.h"
 #include "createdialog.h"
+#include "app/logging.h"
 #include "ui_createdialog.h"
 #include "kerfuffle/archive_kerfuffle.h"
 

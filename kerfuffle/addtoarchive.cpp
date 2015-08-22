@@ -26,8 +26,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "app/logging.h"
 #include "addtoarchive.h"
+#include "app/logging.h"
 #include "adddialog.h"
 #include "archive_kerfuffle.h"
 #include "jobs.h"

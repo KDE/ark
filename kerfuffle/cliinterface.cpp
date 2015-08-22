@@ -26,8 +26,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "app/logging.h"
 #include "cliinterface.h"
+#include "app/logging.h"
 #include "queries.h"
 
 #ifdef Q_OS_WIN

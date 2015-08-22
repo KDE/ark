@@ -19,8 +19,8 @@
  *
  */
 
-#include "app/logging.h"
 #include "archiveview.h"
+#include "app/logging.h"
 
 #include <QDebug>
 

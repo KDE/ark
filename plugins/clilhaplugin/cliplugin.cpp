@@ -19,10 +19,10 @@
  *
  */
 
-#include "app/logging.h"
 #include "cliplugin.h"
-
+#include "app/logging.h"
 #include "kerfuffle/kerfuffle_export.h"
+
 #include <QDate>
 #include <QTime>
 
