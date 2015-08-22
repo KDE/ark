@@ -80,9 +80,11 @@ public:
 
         QMimeDatabase db;
         if (entry[IsDirectory].toBool()) {
-            m_icon = QIcon::fromTheme(db.mimeTypeForName("inode/directory").iconName()).pixmap(IconSize(KIconLoader::Small), IconSize(KIconLoader::Small));
+            m_icon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
+                                                                                                               IconSize(KIconLoader::Small));
         } else {
-            m_icon = QIcon::fromTheme(db.mimeTypeForFile(m_entry[FileName].toString()).iconName()).pixmap(IconSize(KIconLoader::Small), IconSize(KIconLoader::Small));
+            m_icon = QIcon::fromTheme(db.mimeTypeForFile(m_entry[FileName].toString()).iconName()).pixmap(IconSize(KIconLoader::Small),
+                                                                                                          IconSize(KIconLoader::Small));
         }
     }
 

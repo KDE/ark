@@ -161,7 +161,9 @@ Part::~Part()
 
 KAboutData *Part::createAboutData()
 {
-    return new KAboutData("ark", i18n("ArkPart"), "3.0");
+    return new KAboutData(QStringLiteral("ark"),
+                          i18n("ArkPart"),
+                          QStringLiteral("3.0"));
 }
 
 void Part::registerJob(KJob* job)

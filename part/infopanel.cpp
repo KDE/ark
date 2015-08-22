@@ -103,7 +103,7 @@ void InfoPanel::setIndex(const QModelIndex& index)
         QMimeDatabase db;
         QMimeType mimeType;
         if (entry[ IsDirectory ].toBool()) {
-            mimeType = db.mimeTypeForName("inode/directory" );
+            mimeType = db.mimeTypeForName(QStringLiteral("inode/directory"));
         } else {
             mimeType = db.mimeTypeForFile(entry[ FileName ].toString(), QMimeDatabase::MatchExtension);
         }
@@ -186,7 +186,7 @@ QString InfoPanel::metadataTextFor(const QModelIndex &index)
     QMimeType mimeType;
 
     if (entry[ IsDirectory ].toBool()) {
-        mimeType = db.mimeTypeForName("inode/directory" );
+        mimeType = db.mimeTypeForName(QStringLiteral("inode/directory"));
     } else {
         mimeType = db.mimeTypeForFile(entry[FileName].toString(), QMimeDatabase::MatchExtension);
     }

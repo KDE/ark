@@ -21,7 +21,8 @@ include(KDECompilerSettings)
 include(GenerateExportHeader)
 include(FeatureSummary)
 
-add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
+add_definitions(-DQT_NO_CAST_FROM_ASCII
+                -DQT_NO_URL_CAST_FROM_STRING)
 
 include(ECMSetupVersion)
 ecm_setup_version(${KDE_APPLICATIONS_VERSION}

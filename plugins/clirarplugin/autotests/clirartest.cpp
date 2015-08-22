@@ -67,7 +67,7 @@ void CliRarTest::testReadCorruptedArchive()
 
     // Check if the first entry's name is correctly parsed.
     ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(0).at(0));
-    QCOMPARE(entry[FileName].toString(), QString("some-file.ext"));
+    QCOMPARE(entry[FileName].toString(), QStringLiteral("some-file.ext"));
 
     rarPlugin->deleteLater();
 }
@@ -96,7 +96,7 @@ void CliRarTest::testUnrar4Normal()
 
     // Check if the sixth entry's name is correctly parsed.
     ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(5).at(0));
-    QCOMPARE(entry[FileName].toString(), QString("dir2/file2.txt"));
+    QCOMPARE(entry[FileName].toString(), QStringLiteral("dir2/file2.txt"));
 
     rarPlugin->deleteLater();
 }
@@ -125,7 +125,7 @@ void CliRarTest::testUnrar5Normal()
 
     // Check if the sixth entry's name is correctly parsed.
     ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(5).at(0));
-    QCOMPARE(entry[FileName].toString(), QString("dir2/file2.txt"));
+    QCOMPARE(entry[FileName].toString(), QStringLiteral("dir2/file2.txt"));
 
     rarPlugin->deleteLater();
 }
@@ -154,7 +154,7 @@ void CliRarTest::testUnrar4Symlink()
 
     // Check if the second entry's name is correctly parsed.
     ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(1).at(0));
-    QCOMPARE(entry[FileName].toString(), QString("foo/hello2"));
+    QCOMPARE(entry[FileName].toString(), QStringLiteral("foo/hello2"));
 
     rarPlugin->deleteLater();
 }
@@ -183,7 +183,7 @@ void CliRarTest::testUnrar5Symlink()
 
     // Check if the first entry's name is correctly parsed.
     ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(0).at(0));
-    QCOMPARE(entry[FileName].toString(), QString("foo/hello2"));
+    QCOMPARE(entry[FileName].toString(), QStringLiteral("foo/hello2"));
 
     rarPlugin->deleteLater();
 }
@@ -212,7 +212,7 @@ void CliRarTest::testUnrar4EncryptedFiles()
 
     // Check if the fourth entry's name is correctly parsed.
     ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(3).at(0));
-    QCOMPARE(entry[FileName].toString(), QString("file4.txt"));
+    QCOMPARE(entry[FileName].toString(), QStringLiteral("file4.txt"));
 
     rarPlugin->deleteLater();
 }
@@ -241,7 +241,7 @@ void CliRarTest::testUnrar5EncryptedFiles()
 
     // Check if the fourth entry's name is correctly parsed.
     ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(3).at(0));
-    QCOMPARE(entry[FileName].toString(), QString("file4.txt"));
+    QCOMPARE(entry[FileName].toString(), QStringLiteral("file4.txt"));
 
     rarPlugin->deleteLater();
 }
@@ -270,7 +270,7 @@ void CliRarTest::testUnrar4RecoveryRecord()
 
     // Check if the third entry's name is correctly parsed.
     ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(2).at(0));
-    QCOMPARE(entry[FileName].toString(), QString("file3.txt"));
+    QCOMPARE(entry[FileName].toString(), QStringLiteral("file3.txt"));
 
     rarPlugin->deleteLater();
 }
@@ -299,7 +299,7 @@ void CliRarTest::testUnrar5RecoveryRecord()
 
     // Check if the third entry's name is correctly parsed.
     ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(2).at(0));
-    QCOMPARE(entry[FileName].toString(), QString("file3.txt"));
+    QCOMPARE(entry[FileName].toString(), QStringLiteral("file3.txt"));
 
     rarPlugin->deleteLater();
 }
