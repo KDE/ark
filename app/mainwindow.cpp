@@ -220,10 +220,10 @@ void MainWindow::openArchive()
     Q_ASSERT(iface);
     Q_UNUSED(iface);
 
-    QFileDialog dlg(this, i18nc("to open an archive", "Open Archive"));
-    dlg.setMimeTypeFilters(Kerfuffle::supportedMimeTypes());
+    QPointer<QFileDialog> dlg = new QFileDialog(this, i18nc("to open an archive", "Open Archive"));
+    dlg->setMimeTypeFilters(Kerfuffle::supportedMimeTypes());
 
-    QStringList filters = dlg.nameFilters();
+    QStringList filters = dlg->nameFilters();
     filters.removeDuplicates();
     filters.sort(Qt::CaseInsensitive);
 
@@ -239,13 +239,14 @@ void MainWindow::openArchive()
         }
     }
     filters.prepend(allArchives + QLatin1Char(')'));
-    dlg.setNameFilters(filters);
+    dlg->setNameFilters(filters);
 
-    dlg.setFileMode(QFileDialog::ExistingFile);
-    dlg.setAcceptMode(QFileDialog::AcceptOpen);
-    if (dlg.exec() == QDialog::Accepted) {
-        openUrl(dlg.selectedUrls().first());
+    dlg->setFileMode(QFileDialog::ExistingFile);
+    dlg->setAcceptMode(QFileDialog::AcceptOpen);
+    if (dlg->exec() == QDialog::Accepted) {
+        openUrl(dlg->selectedUrls().first());
     }
+    delete dlg;
 }
 
 void MainWindow::openUrl(const QUrl& url)
