@@ -14,7 +14,7 @@ ecm_add_app_icon(ark_SRCS ICONS ${ICONS_SRCS})
 
 add_executable( ark ${ark_SRCS} )
 
-target_link_libraries( ark kerfuffle KF5::DBusAddons KF5::Parts )
+target_link_libraries( ark kerfuffle KF5::DBusAddons KF5::Parts KF5::KIOFileWidgets)
 
 # Remove duplicate mimetypes from list of supported formats.
 list(REMOVE_DUPLICATES SUPPORTED_ARK_MIMETYPES)
@@ -47,5 +47,5 @@ set(extracthere_SRCS batchextract.cpp extractHereDndPlugin.cpp)
 add_library(extracthere MODULE ${extracthere_SRCS})
 kcoreaddons_desktop_to_json(extracthere ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop)
 
-target_link_libraries(extracthere kerfuffle KF5::Parts KF5::KIOWidgets)
+target_link_libraries(extracthere kerfuffle KF5::Parts KF5::KIOWidgets KF5::KIOFileWidgets)
 install( TARGETS extracthere DESTINATION ${PLUGIN_INSTALL_DIR}/kf5/kio_dnd )

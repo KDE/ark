@@ -6,7 +6,7 @@ set(kerfuffle_clizip_SRCS cliplugin.cpp)
 
 add_library(kerfuffle_clizip MODULE ${kerfuffle_clizip_SRCS})
 
-target_link_libraries(kerfuffle_clizip   KF5::KIOCore kerfuffle )
+target_link_libraries(kerfuffle_clizip kerfuffle )
 
 configure_file(
             ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_clizip.desktop.cmake
