@@ -57,25 +57,37 @@ ParameterList CliPlugin::parameterList() const
 
     if (p.isEmpty()) {
         //p[CaptureProgress] = true;
-        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QStringList() << QLatin1String( "7z" ) << QLatin1String( "7za" ) << QLatin1String( "7zr" );
-
-        p[ListArgs] = QStringList() << QLatin1String( "l" ) << QLatin1String( "-slt" ) << QLatin1String("$PasswordSwitch") << QLatin1String( "$Archive" );
-        p[ExtractArgs] = QStringList() << QLatin1String( "$PreservePathSwitch" ) << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
-        p[PreservePathSwitch] = QStringList() << QLatin1String( "x" ) << QLatin1String( "e" );
+        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QStringList() << QLatin1String( "7z" )
+                                                                                              << QLatin1String( "7za" )
+                                                                                              << QLatin1String( "7zr" );
+        p[ListArgs] = QStringList() << QLatin1String( "l" )
+                                    << QLatin1String( "-slt" )
+                                    << QLatin1String("$PasswordSwitch")
+                                    << QLatin1String( "$Archive" );
+        p[ExtractArgs] = QStringList() << QLatin1String( "$PreservePathSwitch" )
+                                       << QLatin1String( "$PasswordSwitch" )
+                                       << QLatin1String( "$Archive" )
+                                       << QLatin1String( "$Files" );
+        p[PreservePathSwitch] = QStringList() << QLatin1String( "x" )
+                                              << QLatin1String( "e" );
         p[PasswordSwitch] = QStringList() << QLatin1String( "-p$Password" );
         p[EncryptHeaderSwitch] = QStringList() << QLatin1String("-mhe=$Enabled");
         p[FileExistsExpression] = QLatin1String( "already exists. Overwrite with" );
         p[WrongPasswordPatterns] = QStringList() << QLatin1String( "Wrong password" );
-        p[AddArgs] = QStringList() << QLatin1String( "a" ) << QLatin1String( "$Archive" ) << QLatin1String("$EncryptHeaderSwitch") << QLatin1String( "$PasswordSwitch" ) << QLatin1String( "$Files" );
-        p[DeleteArgs] = QStringList() << QLatin1String( "d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
+        p[AddArgs] = QStringList() << QLatin1String( "a" )
+                                   << QLatin1String( "$Archive" )
+                                   << QLatin1String("$EncryptHeaderSwitch")
+                                   << QLatin1String( "$PasswordSwitch" )
+                                   << QLatin1String( "$Files" );
+        p[DeleteArgs] = QStringList() << QLatin1String( "d" )
+                                      << QLatin1String( "$Archive" )
+                                      << QLatin1String( "$Files" );
 
-        p[FileExistsInput] = QStringList()
-                             << QLatin1String( "Y" ) //overwrite
-                             << QLatin1String( "N" )//skip
-                             << QLatin1String( "A" ) //overwrite all
-                             << QLatin1String( "S" ) //autoskip
-                             << QLatin1String( "Q" ) //cancel
-                             ;
+        p[FileExistsInput] = QStringList() << QLatin1String( "Y" )  //overwrite
+                                           << QLatin1String( "N" )  //skip
+                                           << QLatin1String( "A" )  //overwrite all
+                                           << QLatin1String( "S" )  //autoskip
+                                           << QLatin1String( "Q" ); //cancel
 
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) :");
     }
@@ -97,31 +109,31 @@ bool CliPlugin::readListLine(const QString& line)
         } else if ((line == archiveInfoDelimiter1) ||
                    (line == archiveInfoDelimiter2)) {
             m_state = ReadStateArchiveInformation;
-        } else if (line.contains(QLatin1String( "Error:" ))) {
-            qCDebug(KERFUFFLE_PLUGIN) << line.mid(6);
+        } else if (line.contains(QLatin1String( "Error: " ))) {
+            qCWarning(KERFUFFLE_PLUGIN) << line.mid(7);
         }
         break;
 
     case ReadStateArchiveInformation:
         if (line == entryInfoDelimiter) {
             m_state = ReadStateEntryInformation;
-        } else if (line.startsWith(QLatin1String("Type ="))) {
+        } else if (line.startsWith(QLatin1String("Type = "))) {
             const QString type = line.mid(7).trimmed();
             qCDebug(KERFUFFLE_PLUGIN) << "Archive type: " << type;
 
             if (type == QLatin1String("7z")) {
                 m_archiveType = ArchiveType7z;
-            } else if (type == QLatin1String("BZip2")) {
+            } else if (type == QLatin1String("bzip2")) {
                 m_archiveType = ArchiveTypeBZip2;
-            } else if (type == QLatin1String("GZip")) {
+            } else if (type == QLatin1String("gzip")) {
                 m_archiveType = ArchiveTypeGZip;
-            } else if (type == QLatin1String("Tar")) {
+            } else if (type == QLatin1String("tar")) {
                 m_archiveType = ArchiveTypeTar;
-            } else if (type == QLatin1String("Zip")) {
+            } else if (type == QLatin1String("zip")) {
                 m_archiveType = ArchiveTypeZip;
             } else {
                 // Should not happen
-                qWarning() << "Unsupported archive type";
+                qCWarning(KERFUFFLE_PLUGIN) << "Unsupported archive type";
                 return false;
             }
         }
@@ -129,9 +141,9 @@ bool CliPlugin::readListLine(const QString& line)
         break;
 
     case ReadStateEntryInformation:
-        if (line.startsWith(QLatin1String("Path ="))) {
+        if (line.startsWith(QLatin1String("Path = "))) {
             const QString entryFilename =
-                QDir::fromNativeSeparators(line.mid(6).trimmed());
+                QDir::fromNativeSeparators(line.mid(7).trimmed());
             m_currentArchiveEntry.clear();
             m_currentArchiveEntry[FileName] = entryFilename;
             m_currentArchiveEntry[InternalID] = entryFilename;
