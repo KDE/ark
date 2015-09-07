@@ -37,7 +37,7 @@ configure_file(
 install( TARGETS ark  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 install(FILES ark_addtoservicemenu.desktop ${CMAKE_CURRENT_BINARY_DIR}/ark_servicemenu.desktop DESTINATION ${SERVICES_INSTALL_DIR}/ServiceMenus)
 install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.ark.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
-install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/ark.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
+install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.ark.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
 install( FILES arkui.rc    DESTINATION ${KXMLGUI_INSTALL_DIR}/ark )
 
 ############ ark_extract_here plugin ###############
