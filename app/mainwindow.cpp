@@ -228,7 +228,7 @@ void MainWindow::openArchive()
     filters.sort(Qt::CaseInsensitive);
 
     // Create the "All supported archives" filter
-    QRegularExpression rx("(\\*\\.[a-z]+\\.*[a-z0-9]*)+");
+    QRegularExpression rx("(\\*\\.[a-z0-9]+\\.*[a-z0-9]*)+");
     QString allArchives(i18n("All supported archives ("));
     foreach(QString s, filters)
     {
