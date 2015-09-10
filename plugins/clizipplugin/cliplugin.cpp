@@ -90,7 +90,8 @@ ParameterList CliPlugin::parameterList() const
 
         p[DeleteArgs] = QStringList() << QLatin1String( "-d" ) << QLatin1String( "$Archive" ) << QLatin1String( "$Files" );
 
-        p[FileExistsExpression] = QLatin1String( "^replace (.+)\\?" );
+        p[FileExistsExpression] = QLatin1String("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $");
+        p[FileExistsFileName] = QStringList() << p[FileExistsExpression].toString();
         p[FileExistsInput] = QStringList()
                              << QLatin1String( "y" ) //overwrite
                              << QLatin1String( "n" ) //skip

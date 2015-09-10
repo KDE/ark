@@ -50,6 +50,7 @@
 #include <QTimer>
 #include <QStandardPaths>
 #include <QUrl>
+#include <QRegularExpression>
 
 namespace Kerfuffle
 {
@@ -228,7 +229,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
         if (argument == QLatin1String( "$Files" )) {
             args.removeAt(i);
             for (int j = 0; j < files.count(); ++j) {
-                args.insert(i + j, escapeFileName(files.at(j).toString()));
+                args.insert(i + j, escapeFileName(files.at(j).value<fileRootNodePair>().file));
                 ++i;
             }
             --i;
@@ -523,6 +524,7 @@ void CliInterface::readStdout(bool handleAll)
     //       QString::fromLocal8Bit(), for example.
     // TODO: The same check methods are called in handleLine(), this
     //       is suboptimal.
+
     bool wrongPasswordMessage = checkForErrorMessage(QLatin1String( lines.last() ), WrongPasswordPatterns);
 
     bool foundErrorMessage =
@@ -690,7 +692,6 @@ bool CliInterface::checkForFileExistsMessage(const QString& line)
         m_existsPattern.setPattern(m_param.value(FileExistsExpression).toString());
     }
     if (m_existsPattern.indexIn(line) != -1) {
-        qCWarning(KERFUFFLE) << "Detected existing file! Filename " << m_existsPattern.cap(1);
         return true;
     }
 
@@ -699,13 +700,22 @@ bool CliInterface::checkForFileExistsMessage(const QString& line)
 
 bool CliInterface::handleFileExistsMessage(const QString& line)
 {
+    // Check for a filename and store it.
+    foreach (const QString &pattern, m_param.value(FileExistsFileName).toStringList()) {
+        const QRegularExpression rxFileNamePattern(pattern);
+        const QRegularExpressionMatch rxMatch = rxFileNamePattern.match(line);
+
+        if (rxMatch.hasMatch()) {
+            m_storedFileName = rxMatch.captured(1);
+            qCWarning(KERFUFFLE) << "Detected existing file:" << m_storedFileName;
+        }
+    }
+
     if (!checkForFileExistsMessage(line)) {
         return false;
     }
 
-    const QString filename = m_existsPattern.cap(1);
-
-    Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char( '/' ) + filename);
+    Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char( '/' ) + m_storedFileName);
     query.setNoRenameMode(true);
     emit userQuery(&query);
     qCDebug(KERFUFFLE) << "Waiting response";

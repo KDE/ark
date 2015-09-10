@@ -112,8 +112,9 @@ private:
     bool isSingleFolderArchive() const;
     QString detectSubfolder() const;
     bool isPreviewable(const QModelIndex& index) const;
-    QList<QVariant> selectedFiles() const;
-    QList<QVariant> selectedFilesWithChildren() const;
+    QList<QVariant> filesForIndexes(const QModelIndexList& list) const;
+    QList<QVariant> filesAndRootNodesForIndexes(const QModelIndexList& list) const;
+    QModelIndexList addChildren(const QModelIndexList &list) const;
     void registerJob(KJob *job);
     void preview(const QModelIndex &index, PreviewMode mode);
     void displayMsgWidget(KMessageWidget::MessageType type, QString msg);

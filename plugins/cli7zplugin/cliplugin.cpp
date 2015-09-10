@@ -72,7 +72,6 @@ ParameterList CliPlugin::parameterList() const
                                               << QLatin1String( "e" );
         p[PasswordSwitch] = QStringList() << QLatin1String( "-p$Password" );
         p[EncryptHeaderSwitch] = QStringList() << QLatin1String("-mhe=$Enabled");
-        p[FileExistsExpression] = QLatin1String( "already exists. Overwrite with" );
         p[WrongPasswordPatterns] = QStringList() << QLatin1String( "Wrong password" );
         p[AddArgs] = QStringList() << QLatin1String( "a" )
                                    << QLatin1String( "$Archive" )

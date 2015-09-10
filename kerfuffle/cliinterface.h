@@ -141,11 +141,18 @@ enum CliInterfaceParameters {
     PasswordSwitch,
     /**
      * QString
-     * This is a regexp, defining how to recognize a "File already exists"
-     * prompt when extracting. It should have one captured string, which is
-     * the filename of the file/folder that already exists.
+     * This is a regexp, defining how to recognize the last line in a "File
+     * already exists" prompt when extracting.
      */
     FileExistsExpression,
+    /**
+     * QStringList
+     * This is a stringlist with regexps defining how to recognize the line
+     * containing the filename in a "File already exists" prompt when
+     * extracting. It should have one captured string, which is the filename
+     * of the file/folder that already exists.
+     */
+    FileExistsFileName,
     /**
      * int
      * This sets on what output channel the FileExistsExpression regex
@@ -359,6 +366,7 @@ private:
     QVariantList m_removedFiles;
     bool m_listEmptyLines;
     bool m_abortingOperation;
+    QString m_storedFileName;
 
 private slots:
     void readStdout(bool handleAll = false);

@@ -59,6 +59,7 @@ ParameterList CliPlugin::parameterList() const
         p[DeleteArgs] = QStringList() << QLatin1String("d") << QLatin1String("-v") << QLatin1String("$Archive") << QLatin1String("$Files");
 
         p[FileExistsExpression] = QLatin1String("^(.+) OverWrite \\?");
+        p[FileExistsFileName] = QStringList() << p[FileExistsExpression].toString();
         p[FileExistsMode] = 1; // Watch for messages in stdout
         p[FileExistsInput] = QStringList()
                                 << QLatin1String("Y") //overwrite

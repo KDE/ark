@@ -51,16 +51,34 @@ static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
 static QString determineMimeType(const QString& filename)
 {
     QMimeDatabase db;
-    if (!QFile::exists(filename)) {
-        return db.mimeTypeForFile(filename).name();
+    QMimeType mimeFromExtension = db.mimeTypeForFile(filename, QMimeDatabase::MatchExtension);
+    QMimeType mimeFromContent = db.mimeTypeForFile(filename, QMimeDatabase::MatchContent);
+
+    // mimeFromContent will be "application/octet-stream" when file is
+    // unreadable, so use extension.
+    if (!QFileInfo(filename).isReadable()) {
+        return mimeFromExtension.name();
     }
 
-    QFile file(filename);
-    if (!file.open(QIODevice::ReadOnly)) {
-        return QString();
+    // Compressed tar-archives are detected as single compressed files when
+    // detecting by content. The following code prevents tar.gz, tar.bz2 and
+    // tar.xz files being opened using the singlefile plugin.
+    if ((mimeFromExtension == db.mimeTypeForName("application/x-compressed-tar") &&
+         mimeFromContent == db.mimeTypeForName("application/gzip")) ||
+        (mimeFromExtension == db.mimeTypeForName("application/x-bzip-compressed-tar") &&
+         mimeFromContent == db.mimeTypeForName("application/x-bzip")) ||
+        (mimeFromExtension == db.mimeTypeForName("application/x-xz-compressed-tar") &&
+         mimeFromContent == db.mimeTypeForName("application/x-xz"))) {
+        return mimeFromExtension.name();
     }
 
-    return db.mimeTypeForFileNameAndData(filename, &file).name();
+    if (mimeFromExtension != mimeFromContent) {
+        qCWarning(KERFUFFLE) << "Mimetype for filename extension (" << mimeFromExtension.name()
+                             << ") did not match mimetype for content (" << mimeFromContent.name()
+                             << "). Using content-based mimetype.";
+    }
+
+    return mimeFromContent.name();
 }
 
 static KService::List findPluginOffers(const QString& filename, const QString& fixedMimeType)
@@ -85,6 +103,12 @@ static KService::List findPluginOffers(const QString& filename, const QString& f
 
 namespace Kerfuffle
 {
+
+QDebug operator<<(QDebug d, const fileRootNodePair &pair)
+{
+    d.nospace() << "fileRootNodePair(" << pair.file << "," << pair.rootNode << ")";
+    return d.space();
+}
 
 Archive *Archive::create(const QString &fileName, QObject *parent)
 {
@@ -136,6 +160,9 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, QObject *parent)
 
     Q_ASSERT(archiveInterface);
     archiveInterface->setParent(this);
+
+    QMetaType::registerComparators<fileRootNodePair>();
+    QMetaType::registerDebugStreamOperator<fileRootNodePair>();
 }
 
 Archive::~Archive()
