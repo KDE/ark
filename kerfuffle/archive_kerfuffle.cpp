@@ -63,12 +63,12 @@ static QString determineMimeType(const QString& filename)
     // Compressed tar-archives are detected as single compressed files when
     // detecting by content. The following code prevents tar.gz, tar.bz2 and
     // tar.xz files being opened using the singlefile plugin.
-    if ((mimeFromExtension == db.mimeTypeForName("application/x-compressed-tar") &&
-         mimeFromContent == db.mimeTypeForName("application/gzip")) ||
-        (mimeFromExtension == db.mimeTypeForName("application/x-bzip-compressed-tar") &&
-         mimeFromContent == db.mimeTypeForName("application/x-bzip")) ||
-        (mimeFromExtension == db.mimeTypeForName("application/x-xz-compressed-tar") &&
-         mimeFromContent == db.mimeTypeForName("application/x-xz"))) {
+    if ((mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-compressed-tar")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/gzip"))) ||
+        (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-bzip-compressed-tar")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-bzip"))) ||
+        (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-xz-compressed-tar")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-xz")))) {
         return mimeFromExtension.name();
     }
 
