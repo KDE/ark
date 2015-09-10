@@ -82,6 +82,8 @@ ParameterList CliPlugin::parameterList() const
                                       << QLatin1String( "$Archive" )
                                       << QLatin1String( "$Files" );
 
+        p[FileExistsExpression] = QLatin1String( "^\\(Y\\)es / \\(N\\)o / \\(A\\)lways / \\(S\\)kip all / A\\(u\\)to rename all / \\(Q\\)uit\\? $" );
+        p[FileExistsFileName] = QStringList() << QLatin1String("^file \\./(.*)$");
         p[FileExistsInput] = QStringList() << QLatin1String( "Y" )  //overwrite
                                            << QLatin1String( "N" )  //skip
                                            << QLatin1String( "A" )  //overwrite all
