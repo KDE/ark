@@ -182,51 +182,18 @@ void Part::registerJob(KJob* job)
 //       See bugs #189322 and #204323.
 void Part::extractSelectedFilesTo(const QString& localPath)
 {
-    qCDebug(PART) << "Extract to " << localPath;
+    qCDebug(PART) << "Extract to" << localPath;
     if (!m_model) {
         return;
     }
 
-    if (m_view->selectionModel()->selectedRows().count() != 1) {
-        m_view->selectionModel()->setCurrentIndex(m_view->currentIndex(), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
-    }
-    if (m_view->selectionModel()->selectedRows().count() != 1) {
-        return;
-    }
-
-    QVariant internalRoot;
-    qCDebug(PART) << "valid " << m_view->currentIndex().parent().isValid();
-    if (m_view->currentIndex().parent().isValid()) {
-        internalRoot = m_model->entryForIndex(m_view->currentIndex().parent()).value(InternalID);
-    }
-
-    if (internalRoot.isNull()) {
-        //we have the special case valid parent, but the parent does not
-        //actually correspond to an item in the archive, but an automatically
-        //created folder. for now, we will just use the filename of the node
-        //instead, but for plugins that rely on a non-filename value as the
-        //InternalId, this WILL break things. TODO find a solution
-        internalRoot = m_model->entryForIndex(m_view->currentIndex().parent()).value(FileName);
-    }
-
-    QList<QVariant> files = selectedFilesWithChildren();
-    if (files.isEmpty()) {
-        return;
-    }
-
-    qCDebug(PART) << "selected files are " << files;
     Kerfuffle::ExtractionOptions options;
-    options[QLatin1String( "PreservePaths" )] = true;
-    if (!internalRoot.isNull()) {
-        options[QLatin1String("RootNode")] = internalRoot;
-    }
+    options[QLatin1String("PreservePaths")] = true;
+    options[QLatin1String("RemoveRootNode")] = true;
 
-    ExtractJob *job = m_model->extractFiles(files, localPath, options);
+    // Create and start the ExtractJob.
+    ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows())), localPath, options);
     registerJob(job);
-
-    connect(job, SIGNAL(result(KJob*)),
-            this, SLOT(slotExtractionDone(KJob*)));
-
     job->start();
 }
 
@@ -396,7 +363,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 
         Kerfuffle::ExtractionOptions options;
         options[QLatin1String( "PreservePaths" )] = true;
-        QList<QVariant> files = selectedFiles();
+        QList<QVariant> files = filesAndRootNodesForIndexes(m_view->selectionModel()->selectedRows());
         ExtractJob *job = m_model->extractFiles(files, finalDestinationDirectory, options);
         registerJob(job);
 
@@ -737,10 +704,10 @@ void Part::slotExtractFiles()
 
         QVariantList files;
 
-        //if the user has chosen to extract only selected entries, fetch these
-        //from the listview
+        // If the user has chosen to extract only selected entries, fetch these
+        // from the QTreeView.
         if (!dialog.data()->extractAllFiles()) {
-            files = selectedFilesWithChildren();
+            files = filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows()));
         }
 
         qCDebug(PART) << "Selected " << files;
@@ -750,7 +717,6 @@ void Part::slotExtractFiles()
         if (dialog.data()->preservePaths()) {
             options[QLatin1String("PreservePaths")] = true;
         }
-
         options[QLatin1String("FollowExtractionDialogSettings")] = true;
 
         const QString destinationDirectory = dialog.data()->destinationDirectory().toDisplayString(QUrl::PreferLocalFile);
@@ -766,48 +732,65 @@ void Part::slotExtractFiles()
     delete dialog.data();
 }
 
-QList<QVariant> Part::selectedFilesWithChildren() const
+QModelIndexList Part::addChildren(const QModelIndexList &list) const
 {
     Q_ASSERT(m_model);
 
-    QModelIndexList toIterate = m_view->selectionModel()->selectedRows();
+    QModelIndexList ret = list;
 
-    for (int i = 0; i < toIterate.size(); ++i) {
-        QModelIndex index = toIterate.at(i);
+    // Iterate over indexes in list and add all children.
+    for (int i = 0; i < ret.size(); ++i) {
+        QModelIndex index = ret.at(i);
 
         for (int j = 0; j < m_model->rowCount(index); ++j) {
             QModelIndex child = m_model->index(j, 0, index);
-            if (!toIterate.contains(child)) {
-                toIterate << child;
+            if (!ret.contains(child)) {
+                ret << child;
             }
         }
     }
 
-    QVariantList ret;
-    foreach(const QModelIndex & index, toIterate) {
-        const ArchiveEntry& entry = m_model->entryForIndex(index);
-        if (entry.contains(InternalID)) {
-            ret << entry[ InternalID ];
-        }
-    }
     return ret;
 }
 
-QList<QVariant> Part::selectedFiles() const
+QList<QVariant> Part::filesForIndexes(const QModelIndexList& list) const
 {
-    QStringList toSort;
-
-    foreach(const QModelIndex & index, m_view->selectionModel()->selectedRows()) {
-        const ArchiveEntry& entry = m_model->entryForIndex(index);
-        toSort << entry[ InternalID ].toString();
-    }
-
-    toSort.sort();
     QVariantList ret;
-    foreach(const QString &i, toSort) {
-        ret << i;
+
+    foreach(const QModelIndex& index, list) {
+        const ArchiveEntry& entry = m_model->entryForIndex(index);
+        ret << entry[InternalID].toString();
     }
+
     return ret;
+}
+
+QList<QVariant> Part::filesAndRootNodesForIndexes(const QModelIndexList& list) const
+{
+    QVariantList fileList;
+
+    foreach (const QModelIndex& index, list) {
+
+        // Find the topmost unselected parent.
+        QModelIndex selectionRoot = index.parent();
+        while (m_view->selectionModel()->isSelected(selectionRoot)) {
+            selectionRoot = selectionRoot.parent();
+        }
+
+        // Fetch the root node for the unselected parent.
+        const QString rootInternalID =
+            m_model->entryForIndex(selectionRoot).value(InternalID).toString();
+
+        // Append index with root node to fileList.
+        QModelIndexList alist = QModelIndexList() << index;
+        foreach (const QVariant &file, filesForIndexes(alist)) {
+            QVariant v = QVariant::fromValue(fileRootNodePair(file.toString(), rootInternalID));
+            if (!fileList.contains(v)) {
+                fileList.append(v);
+            }
+        }
+    }
+    return fileList;
 }
 
 void Part::slotExtractionDone(KJob* job)
@@ -939,7 +922,7 @@ void Part::slotDeleteFiles()
         return;
     }
 
-    DeleteJob *job = m_model->deleteFiles(selectedFilesWithChildren());
+    DeleteJob *job = m_model->deleteFiles(filesForIndexes(addChildren(m_view->selectionModel()->selectedRows())));
     connect(job, SIGNAL(result(KJob*)),
             this, SLOT(slotDeleteFilesDone(KJob*)));
     registerJob(job);

@@ -229,7 +229,7 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
         if (argument == QLatin1String( "$Files" )) {
             args.removeAt(i);
             for (int j = 0; j < files.count(); ++j) {
-                args.insert(i + j, escapeFileName(files.at(j).toString()));
+                args.insert(i + j, escapeFileName(files.at(j).value<fileRootNodePair>().file));
                 ++i;
             }
             --i;

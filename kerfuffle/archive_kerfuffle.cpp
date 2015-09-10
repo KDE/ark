@@ -104,6 +104,12 @@ static KService::List findPluginOffers(const QString& filename, const QString& f
 namespace Kerfuffle
 {
 
+QDebug operator<<(QDebug d, const fileRootNodePair &pair)
+{
+    d.nospace() << "fileRootNodePair(" << pair.file << "," << pair.rootNode << ")";
+    return d.space();
+}
+
 Archive *Archive::create(const QString &fileName, QObject *parent)
 {
     return create(fileName, QString(), parent);
@@ -154,6 +160,9 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, QObject *parent)
 
     Q_ASSERT(archiveInterface);
     archiveInterface->setParent(this);
+
+    QMetaType::registerComparators<fileRootNodePair>();
+    QMetaType::registerDebugStreamOperator<fileRootNodePair>();
 }
 
 Archive::~Archive()

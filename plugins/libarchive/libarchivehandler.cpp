@@ -150,10 +150,12 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
 
     const bool extractAll = files.isEmpty();
     const bool preservePaths = options.value(QLatin1String( "PreservePaths" )).toBool();
+    bool removeRootNode = options.value(QLatin1String("RemoveRootNode"), QVariant()).toBool();
 
-    QString rootNode = options.value(QLatin1String("RootNode"), QVariant()).toString();
-    if ((!rootNode.isEmpty()) && (!rootNode.endsWith(QLatin1Char('/')))) {
-        rootNode.append(QLatin1Char('/'));
+    // See if there is a singular RootNode.
+    QString rootNodeSingular = options.value(QLatin1String("RootNode"), QVariant()).toString();
+    if ((!rootNodeSingular.isEmpty()) && (!rootNodeSingular.endsWith(QLatin1Char('/')))) {
+        rootNodeSingular.append(QLatin1Char('/'));
     }
 
     ArchiveRead arch(archive_read_new());
@@ -214,10 +216,12 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
     int no_entries = 0;
     while (archive_read_next_header(arch.data(), &entry) == ARCHIVE_OK) {
         fileBeingRenamed.clear();
+        int index;
 
         // retry with renamed entry, fire an overwrite query again
         // if the new entry also exists
     retry:
+
         const bool entryIsDir = S_ISDIR(archive_entry_mode(entry));
 
         //we skip directories if not preserving paths
@@ -237,16 +241,26 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             return false;
         }
 
-        if (files.contains(entryName) || entryName == fileBeingRenamed || extractAll) {
+        if (files.contains(QVariant::fromValue(fileRootNodePair(entryName))) || entryName == fileBeingRenamed || extractAll) {
+
+            // Find the index of entry.
+            if (entryName != fileBeingRenamed) {
+                index = files.indexOf(QVariant::fromValue(fileRootNodePair(entryName)));
+            }
+            if (!extractAll && index == -1) {
+                // If entry is not found in files, go to next entry.
+                continue;
+            }
+
             // entryFI is the fileinfo pointing to where the file will be
             // written from the archive
             QFileInfo entryFI(entryName);
-            qCDebug(KERFUFFLE_PLUGIN) << "setting path to " << archive_entry_pathname( entry );
+            //qCDebug(KERFUFFLE_PLUGIN) << "setting path to " << archive_entry_pathname( entry );
 
             const QString fileWithoutPath(entryFI.fileName());
 
-            //if we DON'T preserve paths, we cut the path and set the entryFI
-            //fileinfo to the one without the path
+            //If we DON'T preserve paths, we cut the path and set the entryFI
+            //fileinfo to the one without the path.
             if (!preservePaths) {
                 //empty filenames (ie dirs) should have been skipped already,
                 //so asserting
@@ -255,14 +269,25 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
                 archive_entry_copy_pathname(entry, QFile::encodeName(fileWithoutPath).constData());
                 entryFI = QFileInfo(fileWithoutPath);
 
-                //OR, if the commonBase has been set, then we remove this
-                //common base from the filename
-            } else if (!rootNode.isEmpty()) {
-                qCDebug(KERFUFFLE_PLUGIN) << "Removing" << rootNode << "from" << entryName;
+            //OR, if the file has a rootNode attached, remove it from file path.
+            } else if (!extractAll && removeRootNode && entryName != fileBeingRenamed &&
+                       !files.at(index).value<fileRootNodePair>().rootNode.isEmpty()) {
 
-                const QString truncatedFilename(entryName.remove(0, rootNode.size()));
+                //qCDebug(KERFUFFLE_PLUGIN) << "Removing" << files.at(index).value<fileRootNodePair>().rootNode << "from" << entryName;
+
+                const QString truncatedFilename(entryName.remove(0, files.at(index).value<fileRootNodePair>().rootNode.size()));
                 archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
+                entryFI = QFileInfo(truncatedFilename);
 
+            //OR, if a singular rootNode is provided, remove it from file path.
+            } else if (removeRootNode &&
+                       entryName != fileBeingRenamed &&
+                       !rootNodeSingular.isEmpty()) {
+
+                //qCDebug(KERFUFFLE_PLUGIN) << "Removing" << rootNodeSingular << "from" << entryName;
+
+                const QString truncatedFilename(entryName.remove(0, rootNodeSingular.size()));
+                archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
                 entryFI = QFileInfo(truncatedFilename);
             }
 
@@ -335,10 +360,16 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             }
             archive_entry_clear(entry);
             no_entries++;
+
         } else {
+
+            // Archive entry not among selected files, skip it.
             archive_read_data_skip(arch.data());
+
         }
-    }
+
+    } // While entries left to read in archive.
+
     qCDebug(KERFUFFLE_PLUGIN) << "Extracted" << no_entries << "entries";
 
     return archive_read_close(arch.data()) == ARCHIVE_OK;

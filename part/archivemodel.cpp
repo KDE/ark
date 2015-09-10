@@ -899,7 +899,7 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
 ExtractJob* ArchiveModel::extractFile(const QVariant& fileName, const QString & destinationDir, const Kerfuffle::ExtractionOptions options) const
 {
     QList<QVariant> files;
-    files << fileName;
+    files << QVariant::fromValue(fileRootNodePair(fileName.toString()));
     return extractFiles(files, destinationDir, options);
 }
 

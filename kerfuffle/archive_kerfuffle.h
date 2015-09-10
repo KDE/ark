@@ -35,6 +35,7 @@
 #include <QHash>
 #include <QObject>
 #include <QVariant>
+#include <QDebug>
 
 class KJob;
 
@@ -86,6 +87,43 @@ Rar, etc), followed by the property name used
  */
 typedef QHash<QString, QVariant> CompressionOptions;
 typedef QHash<QString, QVariant> ExtractionOptions;
+
+/**
+ * Stores a filename and rootnode pair. This is used to cut an individual
+ * rootnode from the path of each file, e.g. when drag'n'drop extracting a
+ * selection of files.
+ */
+struct fileRootNodePair
+{
+    QString file;
+    QString rootNode;
+
+    fileRootNodePair()
+    {}
+
+    fileRootNodePair(QString f)
+        : file(f)
+    {}
+
+    fileRootNodePair(QString f, QString n)
+        : file(f),
+          rootNode(n)
+    {}
+
+    // Required to compare QVariants with this type.
+    bool operator==(const fileRootNodePair &right) const
+    {
+        if (file == right.file)
+            return true;
+        else
+            return false;
+    }
+    bool operator<(const fileRootNodePair &) const
+    {
+        return false;
+    }
+};
+QDebug operator<<(QDebug d, const fileRootNodePair &pair);
 
 class KERFUFFLE_EXPORT Archive : public QObject
 {
@@ -150,5 +188,6 @@ KERFUFFLE_EXPORT QSet<QString> supportedEncryptEntriesMimeTypes();
 KERFUFFLE_EXPORT QSet<QString> supportedEncryptHeaderMimeTypes();
 } // namespace Kerfuffle
 
+Q_DECLARE_METATYPE(Kerfuffle::fileRootNodePair)
 
 #endif // ARCHIVE_H

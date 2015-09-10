@@ -251,7 +251,7 @@ ExtractJob::ExtractJob(const QVariantList& files, const QString& destinationDir,
     , m_destinationDir(destinationDir)
     , m_options(options)
 {
-    qCDebug(KERFUFFLE) << "ExtractJob started";
+    qCDebug(KERFUFFLE) << "ExtractJob created";
     setDefaultOptions();
 }
 
