@@ -76,39 +76,39 @@ ParameterList CliPlugin::parameterList() const
 
     if (p.isEmpty()) {
         p[CaptureProgress] = false;
-        p[ListProgram] = QStringList() << QLatin1String("zipinfo");
-        p[ExtractProgram] = QStringList() << QLatin1String("unzip");
-        p[DeleteProgram] = p[AddProgram] = QStringList() << QLatin1String("zip");
+        p[ListProgram] = QStringList() << QStringLiteral("zipinfo");
+        p[ExtractProgram] = QStringList() << QStringLiteral("unzip");
+        p[DeleteProgram] = p[AddProgram] = QStringList() << QStringLiteral("zip");
 
-        p[ListArgs] = QStringList() << QLatin1String("-l")
-                                    << QLatin1String("-T")
-                                    << QLatin1String("$Archive");
-        p[ExtractArgs] = QStringList() << QLatin1String("$PreservePathSwitch")
-                                       << QLatin1String("$PasswordSwitch")
-                                       << QLatin1String("$Archive")
-                                       << QLatin1String("$Files");
-        p[PreservePathSwitch] = QStringList() << QLatin1String("")
-                                              << QLatin1String("-j");
-        p[PasswordSwitch] = QStringList() << QLatin1String("-P$Password");
+        p[ListArgs] = QStringList() << QStringLiteral("-l")
+                                    << QStringLiteral("-T")
+                                    << QStringLiteral("$Archive");
+        p[ExtractArgs] = QStringList() << QStringLiteral("$PreservePathSwitch")
+                                       << QStringLiteral("$PasswordSwitch")
+                                       << QStringLiteral("$Archive")
+                                       << QStringLiteral("$Files");
+        p[PreservePathSwitch] = QStringList() << QStringLiteral("")
+                                              << QStringLiteral("-j");
+        p[PasswordSwitch] = QStringList() << QStringLiteral("-P$Password");
 
-        p[DeleteArgs] = QStringList() << QLatin1String("-d")
-                                      << QLatin1String("$Archive")
-                                      << QLatin1String("$Files");
+        p[DeleteArgs] = QStringList() << QStringLiteral("-d")
+                                      << QStringLiteral("$Archive")
+                                      << QStringLiteral("$Files");
 
-        p[FileExistsExpression] = QLatin1String("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $");
+        p[FileExistsExpression] = QStringLiteral("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $");
         p[FileExistsFileName] = QStringList() << p[FileExistsExpression].toString();
-        p[FileExistsInput] = QStringList() << QLatin1String("y")  //overwrite
-                                           << QLatin1String("n")  //skip
-                                           << QLatin1String("A")  //overwrite all
-                                           << QLatin1String("N"); //autoskip
+        p[FileExistsInput] = QStringList() << QStringLiteral("y")  //overwrite
+                                           << QStringLiteral("n")  //skip
+                                           << QStringLiteral("A")  //overwrite all
+                                           << QStringLiteral("N"); //autoskip
 
-        p[AddArgs] = QStringList() << QLatin1String("-r")
-                                   << QLatin1String("$Archive")
-                                   << QLatin1String("$PasswordSwitch")
-                                   << QLatin1String("$Files");
+        p[AddArgs] = QStringList() << QStringLiteral("-r")
+                                   << QStringLiteral("$Archive")
+                                   << QStringLiteral("$PasswordSwitch")
+                                   << QStringLiteral("$Files");
 
-        p[PasswordPromptPattern] = QLatin1String(" password: ");
-        p[WrongPasswordPatterns] = QStringList() << QLatin1String("incorrect password");
+        p[PasswordPromptPattern] = QStringLiteral(" password: ");
+        p[WrongPasswordPatterns] = QStringList() << QStringLiteral("incorrect password");
         //p[ExtractionFailedPatterns] = QStringList() << "CRC failed";
     }
     return p;
@@ -116,7 +116,7 @@ ParameterList CliPlugin::parameterList() const
 
 bool CliPlugin::readListLine(const QString &line)
 {
-    static const QRegularExpression entryPattern(QLatin1String(
+    static const QRegularExpression entryPattern(QStringLiteral(
         "^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\d{8}).(\\d{6})\\s+(.+)$") );
 
     switch (m_status) {
@@ -140,8 +140,8 @@ bool CliPlugin::readListLine(const QString &line)
             }
             e[CompressedSize] = rxMatch.captured(6).toInt();
 
-            const QDateTime ts(QDate::fromString(rxMatch.captured(8), QLatin1String( "yyyyMMdd" )),
-                               QTime::fromString(rxMatch.captured(9), QLatin1String( "hhmmss" )));
+            const QDateTime ts(QDate::fromString(rxMatch.captured(8), QStringLiteral("yyyyMMdd")),
+                               QTime::fromString(rxMatch.captured(9), QStringLiteral("hhmmss")));
             e[Timestamp] = ts;
 
             e[FileName] = e[InternalID] = rxMatch.captured(10);
