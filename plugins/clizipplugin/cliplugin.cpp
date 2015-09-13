@@ -28,7 +28,7 @@
 
 #include <QDateTime>
 #include <QDir>
-#include <QRegExp>
+#include <QRegularExpression>
 
 Q_LOGGING_CATEGORY(KERFUFFLE_PLUGIN, "ark.kerfuffle.cli7zip", QtWarningMsg)
 
@@ -116,7 +116,7 @@ ParameterList CliPlugin::parameterList() const
 
 bool CliPlugin::readListLine(const QString &line)
 {
-    static const QRegExp entryPattern(QLatin1String(
+    static const QRegularExpression entryPattern(QLatin1String(
         "^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\d{8}).(\\d{6})\\s+(.+)$") );
 
     switch (m_status) {
@@ -124,26 +124,27 @@ bool CliPlugin::readListLine(const QString &line)
         m_status = Entry;
         break;
     case Entry:
-        if (entryPattern.indexIn(line) != -1) {
+        QRegularExpressionMatch rxMatch = entryPattern.match(line);
+        if (rxMatch.hasMatch()) {
             ArchiveEntry e;
-            e[Permissions] = entryPattern.cap(1);
+            e[Permissions] = rxMatch.captured(1);
 
             // #280354: infozip may not show the right attributes for a given directory, so an entry
             //          ending with '/' is actually more reliable than 'd' bein in the attributes.
-            e[IsDirectory] = entryPattern.cap(10).endsWith(QLatin1Char('/'));
+            e[IsDirectory] = rxMatch.captured(10).endsWith(QLatin1Char('/'));
 
-            e[Size] = entryPattern.cap(4).toInt();
-            QString status = entryPattern.cap(5);
+            e[Size] = rxMatch.captured(4).toInt();
+            QString status = rxMatch.captured(5);
             if (status[0].isUpper()) {
                 e[IsPasswordProtected] = true;
             }
-            e[CompressedSize] = entryPattern.cap(6).toInt();
+            e[CompressedSize] = rxMatch.captured(6).toInt();
 
-            const QDateTime ts(QDate::fromString(entryPattern.cap(8), QLatin1String( "yyyyMMdd" )),
-                               QTime::fromString(entryPattern.cap(9), QLatin1String( "hhmmss" )));
+            const QDateTime ts(QDate::fromString(rxMatch.captured(8), QLatin1String( "yyyyMMdd" )),
+                               QTime::fromString(rxMatch.captured(9), QLatin1String( "hhmmss" )));
             e[Timestamp] = ts;
 
-            e[FileName] = e[InternalID] = entryPattern.cap(10);
+            e[FileName] = e[InternalID] = rxMatch.captured(10);
             emit entry(e);
         }
         break;
