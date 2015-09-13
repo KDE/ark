@@ -30,7 +30,7 @@ class CliPlugin : public Kerfuffle::CliInterface
     Q_OBJECT
 
 public:
-    explicit CliPlugin(QObject *parent, const QVariantList & args);
+    explicit CliPlugin(QObject *parent, const QVariantList &args);
 
     virtual ~CliPlugin();
 
@@ -41,22 +41,32 @@ public:
     virtual bool readListLine(const QString &line);
 
 private:
-    enum {
-        ParseStateHeader = 0,
+
+    enum ParseState {
+        ParseStateTitle = 0,
+        ParseStateComment,
+        ParseStateHeader,
         ParseStateEntryFileName,
         ParseStateEntryDetails,
-        ParseStateEntryIgnoredDetails
+        ParseStateLinkTarget
     } m_parseState;
 
-    QString m_entryFileName;
-    QHash<QString, QString> m_entryDetails;
+    void handleUnrar5Line(const QString &line);
+    void handleUnrar5Entry();
+    void handleUnrar4Line(const QString &line);
+    void handleUnrar4Entry();
+    void ignoreLines(int lines, ParseState nextState);
 
+    QStringList m_unrar4Details;
+    QHash<QString, QString> m_unrar5Details;
+
+    bool m_isUnrar5;
     bool m_isPasswordProtected;
 
-    int m_remainingIgnoredSubHeaderLines;
-    int m_remainingIgnoredDetailsLines;
+    int m_remainingIgnoreLines;
+    int m_linesComment;
 
-    bool m_isUnrarVersion5;
+    QString m_comment;
 };
 
 #endif // CLIPLUGIN_H
