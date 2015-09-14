@@ -31,7 +31,7 @@
 #include "archiveinterface.h"
 #include "kerfuffle_export.h"
 #include <QtCore/QProcess>
-#include <QtCore/QRegExp>
+#include <QRegularExpression>
 
 class KProcess;
 class KPtyProcess;
@@ -352,9 +352,9 @@ private:
     void writeToProcess(const QByteArray& data);
 
     QByteArray m_stdOutData;
-    QRegExp m_existsPattern;
-    QRegExp m_passwordPromptPattern;
-    QHash<int, QList<QRegExp> > m_patternCache;
+    QRegularExpression m_existsPattern;
+    QRegularExpression m_passwordPromptPattern;
+    QHash<int, QList<QRegularExpression> > m_patternCache;
 
 #ifdef Q_OS_WIN
     KProcess *m_process;

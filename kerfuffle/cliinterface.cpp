@@ -50,7 +50,6 @@
 #include <QTimer>
 #include <QStandardPaths>
 #include <QUrl>
-#include <QRegularExpression>
 
 namespace Kerfuffle
 {
@@ -675,11 +674,11 @@ bool CliInterface::checkForPasswordPromptMessage(const QString& line)
     if (passwordPromptPattern.isEmpty())
         return false;
 
-    if (m_passwordPromptPattern.isEmpty()) {
+    if (m_passwordPromptPattern.pattern().isEmpty()) {
         m_passwordPromptPattern.setPattern(m_param.value(PasswordPromptPattern).toString());
     }
 
-    if (m_passwordPromptPattern.indexIn(line) != -1) {
+    if (m_passwordPromptPattern.match(line).hasMatch()) {
         return true;
     }
 
@@ -688,10 +687,10 @@ bool CliInterface::checkForPasswordPromptMessage(const QString& line)
 
 bool CliInterface::checkForFileExistsMessage(const QString& line)
 {
-    if (m_existsPattern.isEmpty()) {
+    if (m_existsPattern.pattern().isEmpty()) {
         m_existsPattern.setPattern(m_param.value(FileExistsExpression).toString());
     }
-    if (m_existsPattern.indexIn(line) != -1) {
+    if (m_existsPattern.match(line).hasMatch()) {
         return true;
     }
 
@@ -752,7 +751,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
 
 bool CliInterface::checkForErrorMessage(const QString& line, int parameterIndex)
 {
-    QList<QRegExp> patterns;
+    QList<QRegularExpression> patterns;
 
     if (m_patternCache.contains(parameterIndex)) {
         patterns = m_patternCache.value(parameterIndex);
@@ -762,13 +761,13 @@ bool CliInterface::checkForErrorMessage(const QString& line, int parameterIndex)
         }
 
         foreach(const QString& rawPattern, m_param.value(parameterIndex).toStringList()) {
-            patterns << QRegExp(rawPattern);
+            patterns << QRegularExpression(rawPattern);
         }
         m_patternCache[parameterIndex] = patterns;
     }
 
-    foreach(const QRegExp& pattern, patterns) {
-        if (pattern.indexIn(line) != -1) {
+    foreach(const QRegularExpression& pattern, patterns) {
+        if (pattern.match(line).hasMatch()) {
             return true;
         }
     }
