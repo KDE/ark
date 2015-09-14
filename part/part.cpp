@@ -421,6 +421,11 @@ bool Part::openFile()
             KMessageBox::sorry(widget(), xi18nc("@info", "The archive <filename>%1</filename> was not found.", localFile), i18nc("@title:window", "Error Opening Archive"));
             return false;
         }
+
+        if (!localFileInfo.isReadable()) {
+            displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "The archive <filename>%1</filename> could not be loaded, as it was not possible to read from it.", localFile));
+            return false;
+        }
     }
 
     QScopedPointer<Kerfuffle::Archive> archive(Kerfuffle::Archive::create(localFile, m_model));
