@@ -60,14 +60,14 @@ static bool isValidArchiveDrag(const QMimeData *data)
 MainWindow::MainWindow(QWidget *)
         : KParts::MainWindow()
 {
-    setXMLFile(QLatin1String( "arkui.rc" ));
+    setXMLFile(QStringLiteral("arkui.rc"));
 
     setupActions();
     statusBar();
 
     resize(640, 480);
 
-    setAutoSaveSettings(QLatin1String( "MainWindow" ));
+    setAutoSaveSettings(QStringLiteral("MainWindow"));
 
     setAcceptDrops(true);
 }
@@ -135,7 +135,7 @@ void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 bool MainWindow::loadPart()
 {
     KPluginFactory *factory = 0;
-    KService::Ptr service = KService::serviceByDesktopName(QLatin1String("ark_part"));
+    KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("ark_part"));
 
     if (service) {
         factory = KPluginLoader(service->library()).factory();
@@ -149,7 +149,7 @@ bool MainWindow::loadPart()
         return false;
     }
 
-    m_part->setObjectName( QLatin1String("ArkPart" ));
+    m_part->setObjectName(QStringLiteral("ArkPart"));
     setCentralWidget(m_part->widget());
     createGUI(m_part);
 
@@ -210,7 +210,7 @@ void MainWindow::editToolbars()
 
     createGUI(m_part);
 
-    applyMainWindowSettings(KSharedConfig::openConfig()->group(QLatin1String("MainWindow")));
+    applyMainWindowSettings(KSharedConfig::openConfig()->group(QStringLiteral("MainWindow")));
 
     delete dlg.data();
 }
@@ -266,9 +266,9 @@ void MainWindow::openUrl(const QUrl& url)
 void MainWindow::setShowExtractDialog(bool option)
 {
     if (option) {
-        m_openArgs.metaData()[QLatin1String( "showExtractDialog" )] = QLatin1String( "true" );
+        m_openArgs.metaData()[QStringLiteral("showExtractDialog")] = QStringLiteral("true");
     } else {
-        m_openArgs.metaData().remove(QLatin1String( "showExtractDialog" ));
+        m_openArgs.metaData().remove(QStringLiteral("showExtractDialog"));
     }
 }
 
@@ -282,7 +282,7 @@ void MainWindow::showSettings()
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
 
-    KConfigDialog *dialog = new KConfigDialog(this, QLatin1String("settings"), iface->config());
+    KConfigDialog *dialog = new KConfigDialog(this, QStringLiteral("settings"), iface->config());
 
     foreach (Kerfuffle::SettingsPage *page, iface->settingsPages(this)) {
         dialog->addPage(page, page->name(), page->iconName());
@@ -324,19 +324,19 @@ void MainWindow::newArchive()
         qCDebug(ARK) << "CreateDialog returned URL:" << saveFileUrl.toString();
         qCDebug(ARK) << "CreateDialog returned mime:" << dialog.data()->currentMimeFilter();
 
-        m_openArgs.metaData()[QLatin1String( "createNewArchive" )] = QLatin1String( "true" );
-        m_openArgs.metaData()[QLatin1String("encryptionPassword")] = password;
+        m_openArgs.metaData()[QStringLiteral("createNewArchive")] = QStringLiteral("true");
+        m_openArgs.metaData()[QStringLiteral("encryptionPassword")] = password;
 
         if (dialog.data()->isHeaderEncryptionChecked()) {
-            m_openArgs.metaData()[QLatin1String("encryptHeader")] = QLatin1String("true");
+            m_openArgs.metaData()[QStringLiteral("encryptHeader")] = QStringLiteral("true");
         }
 
         openUrl(saveFileUrl);
 
-        m_openArgs.metaData().remove(QLatin1String("showExtractDialog"));
-        m_openArgs.metaData().remove(QLatin1String("createNewArchive"));
-        m_openArgs.metaData().remove(QLatin1String("encryptionPassword"));
-        m_openArgs.metaData().remove(QLatin1String("encryptHeader"));
+        m_openArgs.metaData().remove(QStringLiteral("showExtractDialog"));
+        m_openArgs.metaData().remove(QStringLiteral("createNewArchive"));
+        m_openArgs.metaData().remove(QStringLiteral("encryptionPassword"));
+        m_openArgs.metaData().remove(QStringLiteral("encryptHeader"));
     }
 
     delete dialog.data();

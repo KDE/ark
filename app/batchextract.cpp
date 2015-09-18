@@ -81,11 +81,11 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
     }
 
     Kerfuffle::ExtractionOptions options;
-    options[QLatin1String( "PreservePaths" )] = preservePaths();
+    options[QStringLiteral("PreservePaths")] = preservePaths();
 
     Kerfuffle::ExtractJob *job = archive->copyFiles(QVariantList(), destination, options);
 
-    qCDebug(ARK) << QString(QLatin1String( "Registering job from archive %1, to %2, preservePaths %3" )).arg(archive->fileName()).arg(destination).arg(preservePaths());
+    qCDebug(ARK) << QString(QStringLiteral("Registering job from archive %1, to %2, preservePaths %3")).arg(archive->fileName()).arg(destination).arg(preservePaths());
 
     addSubjob(job);
 
@@ -179,7 +179,7 @@ void BatchExtract::slotResult(KJob *job)
         if (openDestinationAfterExtraction()) {
             QUrl destination(destinationFolder());
             destination.setPath(QDir::cleanPath(destination.path()));
-            KRun::runUrl(destination, QLatin1String( "inode/directory" ), 0);
+            KRun::runUrl(destination, QStringLiteral("inode/directory"), 0);
         }
 
         qCDebug(ARK) << "Finished, emitting the result";
