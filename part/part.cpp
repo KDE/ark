@@ -190,8 +190,8 @@ void Part::extractSelectedFilesTo(const QString& localPath)
     }
 
     Kerfuffle::ExtractionOptions options;
-    options[QLatin1String("PreservePaths")] = true;
-    options[QLatin1String("RemoveRootNode")] = true;
+    options[QStringLiteral("PreservePaths")] = true;
+    options[QStringLiteral("RemoveRootNode")] = true;
 
     // Create and start the ExtractJob.
     ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows())), localPath, options);
@@ -238,51 +238,51 @@ void Part::slotClicked(QModelIndex)
 void Part::setupActions()
 {
     m_showInfoPanelAction = new KToggleAction(i18nc("@action:inmenu", "Show information panel"), this);
-    actionCollection()->addAction(QLatin1String( "show-infopanel" ), m_showInfoPanelAction);
+    actionCollection()->addAction(QStringLiteral( "show-infopanel" ), m_showInfoPanelAction);
     m_showInfoPanelAction->setChecked(ArkSettings::showInfoPanel());
     connect(m_showInfoPanelAction, SIGNAL(triggered(bool)),
             this, SLOT(slotToggleInfoPanel(bool)));
 
     m_saveAsAction = KStandardAction::saveAs(this, SLOT(slotSaveAs()), actionCollection());
 
-    m_previewChooseAppAction = actionCollection()->addAction(QLatin1String("openwith"));
+    m_previewChooseAppAction = actionCollection()->addAction(QStringLiteral("openwith"));
     m_previewChooseAppAction->setText(i18nc("open a file with external program", "Open &With..."));
-    m_previewChooseAppAction->setIcon(QIcon::fromTheme(QLatin1String("document-open")));
+    m_previewChooseAppAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     m_previewChooseAppAction->setStatusTip(i18n("Click to open the selected file with an external program"));
     connect(m_previewChooseAppAction, SIGNAL(triggered(bool)), this, SLOT(slotPreviewWithExternalProgram()));
 
-    m_previewAction = actionCollection()->addAction(QLatin1String( "preview" ));
+    m_previewAction = actionCollection()->addAction(QStringLiteral("preview"));
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
-    m_previewAction->setIcon(QIcon::fromTheme(QLatin1String("document-preview-archive")));
+    m_previewAction->setIcon(QIcon::fromTheme(QStringLiteral("document-preview-archive")));
     m_previewAction->setStatusTip(i18n("Click to preview the selected file"));
     actionCollection()->setDefaultShortcuts(m_previewAction, QList<QKeySequence>() << Qt::Key_Return << Qt::Key_Space);
     connect(m_previewAction, SIGNAL(triggered(bool)),
             this, SLOT(slotPreviewWithInternalViewer()));
 
-    m_extractFilesAction = actionCollection()->addAction(QLatin1String( "extract" ));
+    m_extractFilesAction = actionCollection()->addAction(QStringLiteral("extract"));
     m_extractFilesAction->setText(i18n("E&xtract"));
-    m_extractFilesAction->setIcon(QIcon::fromTheme(QLatin1String("archive-extract")));
+    m_extractFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
     m_extractFilesAction->setStatusTip(i18n("Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones"));
     actionCollection()->setDefaultShortcut(m_extractFilesAction, Qt::CTRL + Qt::Key_E);
     connect(m_extractFilesAction, SIGNAL(triggered(bool)),
             this, SLOT(slotExtractFiles()));
 
-    m_addFilesAction = actionCollection()->addAction(QLatin1String( "add" ));
-    m_addFilesAction->setIcon(QIcon::fromTheme(QLatin1String("archive-insert")));
+    m_addFilesAction = actionCollection()->addAction(QStringLiteral("add"));
+    m_addFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert")));
     m_addFilesAction->setText(i18n("Add &File..."));
     m_addFilesAction->setStatusTip(i18n("Click to add files to the archive"));
     connect(m_addFilesAction, SIGNAL(triggered(bool)),
             this, SLOT(slotAddFiles()));
 
-    m_addDirAction = actionCollection()->addAction(QLatin1String( "add-dir" ));
-    m_addDirAction->setIcon(QIcon::fromTheme(QLatin1String("archive-insert-directory")));
+    m_addDirAction = actionCollection()->addAction(QStringLiteral("add-dir"));
+    m_addDirAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert-directory")));
     m_addDirAction->setText(i18n("Add Fo&lder..."));
     m_addDirAction->setStatusTip(i18n("Click to add a folder to the archive"));
     connect(m_addDirAction, SIGNAL(triggered(bool)),
             this, SLOT(slotAddDir()));
 
-    m_deleteFilesAction = actionCollection()->addAction(QLatin1String( "delete" ));
-    m_deleteFilesAction->setIcon(QIcon::fromTheme(QLatin1String("archive-remove")));
+    m_deleteFilesAction = actionCollection()->addAction(QStringLiteral("delete"));
+    m_deleteFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-remove")));
     m_deleteFilesAction->setText(i18n("De&lete"));
     actionCollection()->setDefaultShortcut(m_deleteFilesAction, Qt::Key_Delete);
     m_deleteFilesAction->setStatusTip(i18n("Click to delete the selected files"));
@@ -325,7 +325,7 @@ void Part::updateActions()
 
         QAction *header = menu->addAction(i18n("Quick Extract To..."));
         header->setEnabled(false);
-        header->setIcon(QIcon::fromTheme( QLatin1String( "archive-extract" )));
+        header->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
     }
 
     while (menu->actions().size() > 3) {
@@ -364,7 +364,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
         qCDebug(PART) << "Extract to final dest" << finalDestinationDirectory;
 
         Kerfuffle::ExtractionOptions options;
-        options[QLatin1String( "PreservePaths" )] = true;
+        options[QStringLiteral("PreservePaths")] = true;
         QList<QVariant> files = filesAndRootNodesForIndexes(m_view->selectionModel()->selectedRows());
         ExtractJob *job = m_model->extractFiles(files, finalDestinationDirectory, options);
         registerJob(job);
@@ -399,7 +399,7 @@ bool Part::openFile()
     const QString localFile(localFilePath());
     const QFileInfo localFileInfo(localFile);
     const bool creatingNewArchive =
-        arguments().metaData()[QLatin1String("createNewArchive")] == QLatin1String("true");
+        arguments().metaData()[QStringLiteral("createNewArchive")] == QLatin1String("true");
 
     if (localFileInfo.isDir()) {
         KMessageBox::error(widget(), xi18nc("@info",
@@ -483,15 +483,15 @@ bool Part::openFile()
     job->start();
     m_infoPanel->setIndex(QModelIndex());
 
-    if (arguments().metaData()[QLatin1String( "showExtractDialog" )] == QLatin1String( "true" )) {
+    if (arguments().metaData()[QStringLiteral("showExtractDialog")] == QLatin1String("true")) {
         QTimer::singleShot(0, this, SLOT(slotExtractFiles()));
     }
 
-    const QString password = arguments().metaData()[QLatin1String("encryptionPassword")];
+    const QString password = arguments().metaData()[QStringLiteral("encryptionPassword")];
     if (!password.isEmpty()) {
         m_model->setPassword(password);
 
-        if (arguments().metaData()[QLatin1String("encryptHeader")] == QLatin1String("true")) {
+        if (arguments().metaData()[QStringLiteral("encryptHeader")] == QLatin1String("true")) {
             m_model->enableHeaderEncryption();
         }
     }
@@ -517,8 +517,8 @@ KConfigSkeleton *Part::config() const
 QList<Kerfuffle::SettingsPage*> Part::settingsPages(QWidget *parent) const
 {
     QList<SettingsPage*> pages;
-    pages.append(new ExtractionSettingsPage(parent, i18n("Extraction settings"), QLatin1String("archive-extract")));
-    pages.append(new PreviewSettingsPage(parent, i18n("Preview settings"), QLatin1String("document-preview-archive")));
+    pages.append(new ExtractionSettingsPage(parent, i18n("Extraction settings"), QStringLiteral("archive-extract")));
+    pages.append(new PreviewSettingsPage(parent, i18n("Preview settings"), QStringLiteral("document-preview-archive")));
 
     return pages;
 }
@@ -530,7 +530,7 @@ void Part::slotLoadingStarted()
 void Part::slotLoadingFinished(KJob *job)
 {
     if (job->error()) {
-        if (arguments().metaData()[QLatin1String( "createNewArchive" )] != QLatin1String( "true" )) {
+        if (arguments().metaData()[QStringLiteral("createNewArchive")] != QLatin1String("true")) {
             if (job->error() != KJob::KilledJobError) {
                 KMessageBox::error(widget(),
                                    xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error:<nl/><nl/><message>%2</message>",
@@ -610,7 +610,7 @@ void Part::preview(const QModelIndex &index, PreviewMode mode)
 
     if (!entry.isEmpty()) {
         Kerfuffle::ExtractionOptions options;
-        options[QLatin1String( "PreservePaths" )] = true;
+        options[QStringLiteral("PreservePaths")] = true;
 
         m_previewDirList.append(new QTemporaryDir);
         m_previewMode = mode;
@@ -639,7 +639,7 @@ void Part::slotPreviewExtracted(KJob *job)
         // Make sure a maliciously crafted archive with parent folders named ".." do
         // not cause the previewed file path to be located outside the temporary
         // directory, resulting in a directory traversal issue.
-        fullName.remove(QLatin1String("../"));
+        fullName.remove(QStringLiteral("../"));
 
         // TODO: get rid of m_previewMode by extending ExtractJob with a PreviewJob.
         // This would prevent race conditions if we ever stop disabling
@@ -722,9 +722,9 @@ void Part::slotExtractFiles()
         Kerfuffle::ExtractionOptions options;
 
         if (dialog.data()->preservePaths()) {
-            options[QLatin1String("PreservePaths")] = true;
+            options[QStringLiteral("PreservePaths")] = true;
         }
-        options[QLatin1String("FollowExtractionDialogSettings")] = true;
+        options[QStringLiteral("FollowExtractionDialogSettings")] = true;
 
         const QString destinationDirectory = dialog.data()->destinationDirectory().toDisplayString(QUrl::PreferLocalFile);
         ExtractJob *job = m_model->extractFiles(files, destinationDirectory, options);
@@ -809,7 +809,7 @@ void Part::slotExtractionDone(KJob* job)
         Q_ASSERT(extractJob);
 
         const bool followExtractionDialogSettings =
-            extractJob->extractionOptions().value(QLatin1String("FollowExtractionDialogSettings"), false).toBool();
+            extractJob->extractionOptions().value(QStringLiteral("FollowExtractionDialogSettings"), false).toBool();
         if (!followExtractionDialogSettings) {
             return;
         }
@@ -819,7 +819,7 @@ void Part::slotExtractionDone(KJob* job)
             QUrl destinationDirectory = QUrl::fromLocalFile(extractJob->destinationDirectory()).adjusted(QUrl::NormalizePathSegments);
             qCDebug(PART) << "Shall open URL" << destinationDirectory;
 
-            KRun::runUrl(destinationDirectory, QLatin1String("inode/directory"), widget());
+            KRun::runUrl(destinationDirectory, QStringLiteral("inode/directory"), widget());
         }
 
         if (ArkSettings::closeAfterExtraction()) {
@@ -855,13 +855,13 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
     CompressionOptions options;
 
     QString firstPath = cleanFilesToAdd.first();
-    if (firstPath.right(1) == QLatin1String( "/" )) {
+    if (firstPath.right(1) == QLatin1String("/")) {
         firstPath.chop(1);
     }
     firstPath = QFileInfo(firstPath).dir().absolutePath();
 
     qCDebug(PART) << "Detected relative path to be " << firstPath;
-    options[QLatin1String( "GlobalWorkDir" )] = firstPath;
+    options[QStringLiteral("GlobalWorkDir")] = firstPath;
 
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
     if (!job) {
@@ -997,7 +997,7 @@ void Part::slotShowContextMenu()
         return;
     }
 
-    QMenu *popup = static_cast<QMenu *>(factory()->container(QLatin1String("context_menu"), this));
+    QMenu *popup = static_cast<QMenu *>(factory()->container(QStringLiteral("context_menu"), this));
     popup->popup(QCursor::pos());
 }
 

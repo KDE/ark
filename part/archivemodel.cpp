@@ -338,7 +338,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
                         return QVariant();
                     } else {
                         int ratio = int(100 * ((double)size - compressedSize) / size);
-                        return QString(QString::number(ratio) + QLatin1String( " %" ));
+                        return QString(QString::number(ratio) + QStringLiteral(" %"));
                     }
                 }
 
@@ -558,13 +558,13 @@ QStringList ArchiveModel::mimeTypes() const
     QStringList types;
 
     // MIME types we accept for dragging (eg. Dolphin -> Ark).
-    types << QLatin1String("text/uri-list")
-          << QLatin1String("text/plain")
-          << QLatin1String("text/x-moz-url");
+    types << QStringLiteral("text/uri-list")
+          << QStringLiteral("text/plain")
+          << QStringLiteral("text/x-moz-url");
 
     // MIME types we accept for dropping (eg. Ark -> Dolphin).
-    types << QLatin1String("application/x-kde-ark-dndextract-service")
-          << QLatin1String("application/x-kde-ark-dndextract-path");
+    types << QStringLiteral("application/x-kde-ark-dndextract-service")
+          << QStringLiteral("application/x-kde-ark-dndextract-path");
 
     return types;
 }
@@ -574,9 +574,9 @@ QMimeData *ArchiveModel::mimeData(const QModelIndexList &indexes) const
     Q_UNUSED(indexes)
 
     QMimeData *mimeData = new QMimeData;
-    mimeData->setData(QLatin1String("application/x-kde-ark-dndextract-service"),
+    mimeData->setData(QStringLiteral("application/x-kde-ark-dndextract-service"),
                       QDBusConnection::sessionBus().baseService().toUtf8());
-    mimeData->setData(QLatin1String("application/x-kde-ark-dndextract-path"),
+    mimeData->setData(QStringLiteral("application/x-kde-ark-dndextract-path"),
                       m_dbusPathName.toUtf8());
 
     return mimeData;

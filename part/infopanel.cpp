@@ -62,7 +62,7 @@ InfoPanel::~InfoPanel()
 
 void InfoPanel::updateWithDefaults()
 {
-    iconLabel->setPixmap(getDesktopIconForName(QLatin1String( "utilities-file-archiver" )));
+    iconLabel->setPixmap(getDesktopIconForName(QStringLiteral("utilities-file-archiver")));
 
     const QString currentFileName = prettyFileName();
 
@@ -142,7 +142,7 @@ void InfoPanel::setIndexes(const QModelIndexList &list)
     } else if (list.size() == 1) {
         setIndex(list[ 0 ]);
     } else {
-        iconLabel->setPixmap(getDesktopIconForName(QLatin1String( "utilities-file-archiver" )));
+        iconLabel->setPixmap(getDesktopIconForName(QStringLiteral("utilities-file-archiver")));
         fileName->setText(i18np("One file selected", "%1 files selected", list.size()));
         quint64 totalSize = 0;
         foreach(const QModelIndex& index, list) {

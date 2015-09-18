@@ -104,7 +104,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
     KService::Ptr viewer = ArkViewer::getViewer(mimeType.name());
 
     const bool needsExternalViewer = (viewer &&
-                                      !viewer->hasServiceType(QLatin1String("KParts/ReadOnlyPart")));
+                                      !viewer->hasServiceType(QStringLiteral("KParts/ReadOnlyPart")));
     if (needsExternalViewer) {
         // We have already resolved the MIME type and the service above.
         // So there is no point in using KRun::runUrl() which would need
@@ -135,7 +135,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
             response = KMessageBox::warningContinueCancel(parent,
                 xi18n("The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do you want to try to view it as plain text?", mimeType.name()),
                 i18nc("@title:window", "Cannot Preview File"),
-                KGuiItem(i18nc("@action:button", "Preview as Text"), QIcon::fromTheme(QLatin1String("text-plain"))),
+                KGuiItem(i18nc("@action:button", "Preview as Text"), QIcon::fromTheme(QStringLiteral("text-plain"))),
                 KStandardGuiItem::cancel(),
                 QStringLiteral("PreviewAsText_%1").arg(mimeType.name()));
         }
