@@ -35,6 +35,7 @@
 
 class KProcess;
 class KPtyProcess;
+class QTemporaryDir;
 
 namespace Kerfuffle
 {
@@ -350,6 +351,8 @@ private:
      * the platform.
      */
     void writeToProcess(const QByteArray& data);
+
+    bool moveToFinalDest(const QVariantList &files, const QString &finalDest, const QTemporaryDir &tmpDir);
 
     QByteArray m_stdOutData;
     QRegularExpression m_existsPattern;

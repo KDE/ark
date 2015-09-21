@@ -778,15 +778,21 @@ QList<QVariant> Part::filesAndRootNodesForIndexes(const QModelIndexList& list) c
 
     foreach (const QModelIndex& index, list) {
 
-        // Find the topmost unselected parent.
+        // Find the topmost unselected parent. This is done by iterating up
+        // through the directory hierarchy and see if each parent is included
+        // in the selection OR if the parent is already part of list.
+        // The latter is needed for unselected folders which are subfolders of
+        // a selected parent folder.
         QModelIndex selectionRoot = index.parent();
-        while (m_view->selectionModel()->isSelected(selectionRoot)) {
+        while (m_view->selectionModel()->isSelected(selectionRoot) ||
+               list.contains(selectionRoot)) {
             selectionRoot = selectionRoot.parent();
         }
 
         // Fetch the root node for the unselected parent.
         const QString rootInternalID =
             m_model->entryForIndex(selectionRoot).value(InternalID).toString();
+
 
         // Append index with root node to fileList.
         QModelIndexList alist = QModelIndexList() << index;

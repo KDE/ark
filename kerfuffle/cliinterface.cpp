@@ -46,9 +46,11 @@
 #include <QEventLoop>
 #include <QFile>
 #include <QProcess>
+#include <QRegularExpression>
+#include <QStandardPaths>
+#include <QTemporaryDir>
 #include <QThread>
 #include <QTimer>
-#include <QStandardPaths>
 #include <QUrl>
 
 namespace Kerfuffle
@@ -100,10 +102,11 @@ bool CliInterface::list()
         return false;
     }
 
+    emit finished(true);
     return true;
 }
 
-bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options)
+bool CliInterface::copyFiles(const QVariantList &files, const QString &destinationDirectory, ExtractionOptions options)
 {
     qCDebug(KERFUFFLE) << Q_FUNC_INFO << "to" << destinationDirectory;
 
@@ -235,15 +238,33 @@ bool CliInterface::copyFiles(const QList<QVariant> & files, const QString & dest
         }
     }
 
-    QUrl destDir(destinationDirectory);
+    bool useTmpExtractDir = !files.isEmpty();
+    QUrl destDir;
+    QTemporaryDir tmpExtractDir;
+
+    if (useTmpExtractDir) {
+        qCDebug(KERFUFFLE) << "Using temporary extraction dir:" << tmpExtractDir.path();
+        if (!tmpExtractDir.isValid()) {
+            qCDebug(KERFUFFLE) << "Creation of temporary directory failed.";
+            failOperation();
+            return false;
+        }
+        destDir = QUrl(tmpExtractDir.path());
+    } else {
+        destDir = QUrl(destinationDirectory);
+    }
     QDir::setCurrent(destDir.adjusted(QUrl::RemoveScheme).url());
-    qCDebug(KERFUFFLE) << "Setting current dir to " << destinationDirectory;
 
     if (!runProcess(m_param.value(ExtractProgram).toStringList(), args)) {
         failOperation();
         return false;
     }
 
+    if (useTmpExtractDir) {
+        moveToFinalDest(files, destinationDirectory, tmpExtractDir);
+    }
+
+    emit finished(true);
     return true;
 }
 
@@ -352,7 +373,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
         failOperation();
         return false;
     }
-
+    emit finished(true);
     return true;
 }
 
@@ -387,7 +408,7 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
         failOperation();
         return false;
     }
-
+    emit finished(true);
     return true;
 }
 
@@ -473,9 +494,88 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         list();
         return;
     }
+}
 
-    //and we're finished
-    emit finished(true);
+bool CliInterface::moveToFinalDest(const QVariantList &files, const QString &finalDest, const QTemporaryDir &tmpDir)
+{
+    // Move extracted files from a QTemporaryDir to the final destination.
+
+    QDir finalDestDir(finalDest);
+    qCDebug(KERFUFFLE) << "Setting final dir to" << finalDest;
+
+    bool overwriteAll = false;
+    bool skipAll = false;
+
+    foreach (const QVariant& file, files) {
+
+        QFileInfo relEntry(file.value<fileRootNodePair>().file.remove(file.value<fileRootNodePair>().rootNode));
+        QFileInfo absSourceEntry(tmpDir.path() + QLatin1Char('/') + file.value<fileRootNodePair>().file);
+        QFileInfo absDestEntry(finalDestDir.path() + QLatin1Char('/') + relEntry.filePath());
+
+        if (absSourceEntry.isDir()) {
+
+            // For directories, just create the path.
+            if (!finalDestDir.mkpath(relEntry.filePath())) {
+                qCWarning(KERFUFFLE) << "Failed to create directory" << relEntry.filePath() << "in final destination.";
+            }
+
+        } else {
+
+            // If destination file exists, prompt the user.
+            if (absDestEntry.exists()) {
+                qCWarning(KERFUFFLE) << "File" << absDestEntry.absoluteFilePath() << "exists.";
+
+                if (!skipAll && !overwriteAll) {
+
+                    Kerfuffle::OverwriteQuery query(absDestEntry.absoluteFilePath());
+                    query.setNoRenameMode(true);
+                    emit userQuery(&query);
+                    query.waitForResponse();
+
+                    if (query.responseOverwrite() || query.responseOverwriteAll()) {
+                        if (query.responseOverwriteAll()) {
+                            overwriteAll = true;
+                        }
+                        if (!QFile::remove(absDestEntry.absoluteFilePath())) {
+                            qCWarning(KERFUFFLE) << "Failed to remove" << absDestEntry.absoluteFilePath();
+                        }
+
+                    } else if (query.responseSkip() || query.responseAutoSkip()) {
+                        if (query.responseAutoSkip()) {
+                            skipAll = true;
+                        }
+                        continue;
+
+                    } else if (query.responseCancelled()) {
+                        qCDebug(KERFUFFLE) << "Copy action cancelled.";
+                        return false;
+                    }
+
+                } else if (skipAll) {
+                    continue;
+
+                } else if (overwriteAll) {
+
+                    if (!QFile::remove(absDestEntry.absoluteFilePath())) {
+                        qCWarning(KERFUFFLE) << "Failed to remove" << absDestEntry.absoluteFilePath();
+                    }
+                }
+
+            }
+
+            // Create any parent directories.
+            if (!finalDestDir.mkpath(relEntry.path())) {
+                qCWarning(KERFUFFLE) << "Failed to create parent dirctory for file:" << absDestEntry.filePath();
+            }
+
+            // Move files to the final destination.
+            if (!QFile(absSourceEntry.absoluteFilePath()).rename(absDestEntry.absoluteFilePath())) {
+                qCWarning(KERFUFFLE) << "Failed to move file" << absSourceEntry.filePath() << "to final destination.";
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 void CliInterface::failOperation()
