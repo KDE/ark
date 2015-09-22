@@ -268,7 +268,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
     if (m_parseState == ParseStateComment) {
 
         // RegExp matching end of comment field.
-        QRegularExpression rxCommentEnd(QStringLiteral("^(Archive|Volume) \\S+$"));
+        QRegularExpression rxCommentEnd(QStringLiteral("^(Solid archive|Archive|Volume) \\S+$"));
 
         if (rxCommentEnd.match(line).hasMatch()) {
             m_parseState = ParseStateHeader;
