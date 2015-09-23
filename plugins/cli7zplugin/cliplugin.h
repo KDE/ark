@@ -35,6 +35,7 @@ public:
     virtual ~CliPlugin();
 
 protected:
+    virtual void resetParsing();
     virtual Kerfuffle::ParameterList parameterList() const;
     virtual bool readListLine(const QString &line);
 

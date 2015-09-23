@@ -31,13 +31,11 @@ class CliPlugin : public Kerfuffle::CliInterface
 
 public:
     explicit CliPlugin(QObject *parent, const QVariantList &args);
-
     virtual ~CliPlugin();
 
+    virtual void resetParsing();
     virtual QString escapeFileName(const QString &fileName) const;
-
     virtual Kerfuffle::ParameterList parameterList() const;
-
     virtual bool readListLine(const QString &line);
 
 private:

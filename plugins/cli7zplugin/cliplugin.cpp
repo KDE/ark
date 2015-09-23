@@ -49,6 +49,11 @@ CliPlugin::~CliPlugin()
 {
 }
 
+void CliPlugin::resetParsing()
+{
+    m_state = ReadStateHeader;
+}
+
 ParameterList CliPlugin::parameterList() const
 {
     static ParameterList p;

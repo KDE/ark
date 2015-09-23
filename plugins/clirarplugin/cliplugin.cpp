@@ -52,6 +52,13 @@ CliPlugin::~CliPlugin()
 {
 }
 
+void CliPlugin::resetParsing()
+{
+    m_parseState = ParseStateTitle;
+    m_remainingIgnoreLines = 1;
+    m_comment.clear();
+}
+
 // #272281: the proprietary unrar program does not like trailing '/'s
 //          in directories passed to it when extracting only part of
 //          the files in an archive.

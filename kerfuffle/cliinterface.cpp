@@ -91,6 +91,7 @@ void CliInterface::setListEmptyLines(bool emptyLines)
 
 bool CliInterface::list()
 {
+    resetParsing();
     cacheParameterList();
     m_operationMode = List;
 

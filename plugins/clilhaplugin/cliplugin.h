@@ -31,8 +31,8 @@ public:
     explicit CliPlugin(QObject *parent, const QVariantList &args);
     virtual ~CliPlugin();
 
+    virtual void resetParsing();
     virtual Kerfuffle::ParameterList parameterList() const;
-
     virtual bool readListLine(const QString &line);
 
 private:

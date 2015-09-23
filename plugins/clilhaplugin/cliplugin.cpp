@@ -46,6 +46,11 @@ CliPlugin::~CliPlugin()
 {
 }
 
+void CliPlugin::resetParsing()
+{
+    m_status = Header;
+}
+
 ParameterList CliPlugin::parameterList() const
 {
     static ParameterList p;

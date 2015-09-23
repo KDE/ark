@@ -47,6 +47,11 @@ CliPlugin::~CliPlugin()
 {
 }
 
+void CliPlugin::resetParsing()
+{
+    m_status = Header;
+}
+
 // #208091: infozip applies special meanings to some characters, so we
 //          need to escape them with backslashes.see match.c in
 //          infozip's source code

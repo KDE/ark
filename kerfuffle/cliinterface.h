@@ -267,6 +267,7 @@ public:
     virtual bool addFiles(const QStringList & files, const CompressionOptions& options) Q_DECL_OVERRIDE;
     virtual bool deleteFiles(const QList<QVariant> & files) Q_DECL_OVERRIDE;
 
+    virtual void resetParsing() = 0;
     virtual ParameterList parameterList() const = 0;
     virtual bool readListLine(const QString &line) = 0;
 
