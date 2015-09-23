@@ -39,6 +39,8 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
         , m_parseState(ParseStateTitle)
         , m_isUnrar5(false)
         , m_isPasswordProtected(false)
+        , m_isMultiVolume(false)
+        , m_isSolid(false)
         , m_remainingIgnoreLines(1) //The first line of UNRAR output is empty.
         , m_linesComment(0)
 {
@@ -190,8 +192,16 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
     else if (m_parseState == ParseStateHeader) {
 
         // "Details: " indicates end of header.
-        if (m_isUnrar5 && line.startsWith(QStringLiteral("Details: "))) {
+        if (line.startsWith(QStringLiteral("Details: "))) {
             ignoreLines(1, ParseStateEntryDetails);
+            if (line.contains(QLatin1String("volume")) && !m_isMultiVolume) {
+                m_isMultiVolume = true;
+                qCDebug(KERFUFFLE_PLUGIN) << "Multi-volume archive detected";
+            }
+            if (line.contains(QLatin1String("solid")) && !m_isSolid) {
+                m_isSolid = true;
+                qCDebug(KERFUFFLE_PLUGIN) << "Solid archive detected";
+            }
         }
         return;
     }
@@ -199,8 +209,14 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
     // Parses the entry details for each entry.
     else if (m_parseState == ParseStateEntryDetails) {
 
+        // For multi-volume archives there is a header between the entries in
+        // each volume.
+        if (line.startsWith(QLatin1String("Archive: "))) {
+            m_parseState = ParseStateHeader;
+            return;
+
         // Empty line indicates end of entry.
-        if (line.trimmed().isEmpty() && !m_unrar5Details.isEmpty()) {
+        } else if (line.trimmed().isEmpty() && !m_unrar5Details.isEmpty()) {
             handleUnrar5Entry();
 
         } else {
@@ -278,6 +294,16 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
         QRegularExpression rxCommentEnd(QStringLiteral("^(Solid archive|Archive|Volume) \\S+$"));
 
         if (rxCommentEnd.match(line).hasMatch()) {
+
+            if (line.startsWith(QLatin1String("Volume")) && !m_isMultiVolume) {
+                m_isMultiVolume = true;
+                qCDebug(KERFUFFLE_PLUGIN) << "Multi-volume archive detected";
+            }
+            if (line.startsWith(QLatin1String("Solid archive")) && !m_isSolid) {
+                m_isSolid = true;
+                qCDebug(KERFUFFLE_PLUGIN) << "Solid archive detected";
+            }
+
             m_parseState = ParseStateHeader;
             m_comment = m_comment.trimmed();
             m_linesComment = m_comment.count(QLatin1Char('\n')) + 1;
@@ -316,7 +342,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
         // length of comment field +3. We ignore the subheaders.
         QRegularExpression rxSubHeader(QStringLiteral("^Data header type: (CMT|STM|RR)$"));
         QRegularExpressionMatch matchSubHeader = rxSubHeader.match(line);
-        if (!m_isUnrar5 && matchSubHeader.hasMatch()) {
+        if (matchSubHeader.hasMatch()) {
             qCDebug(KERFUFFLE_PLUGIN) << "SubHeader of type" << matchSubHeader.captured(1) << "found";
             if (matchSubHeader.captured(1) == QLatin1String("STM")) {
                 ignoreLines(4, ParseStateEntryFileName);
