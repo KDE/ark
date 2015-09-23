@@ -36,7 +36,7 @@ K_PLUGIN_FACTORY( CliPluginFactory, registerPlugin< CliPlugin >(); )
 
 CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
             : CliInterface(parent, args),
-            m_status(Header),
+            m_parseState(ParseStateHeader),
             m_firstLine(true)
 {
     qCDebug(KERFUFFLE_PLUGIN) << "Loaded cli_7z plugin";
@@ -48,7 +48,7 @@ CliPlugin::~CliPlugin()
 
 void CliPlugin::resetParsing()
 {
-    m_status = Header;
+    m_parseState = ParseStateHeader;
 }
 
 ParameterList CliPlugin::parameterList() const
@@ -85,19 +85,19 @@ bool CliPlugin::readListLine(const QString &line)
 {
     const QString m_headerString = QLatin1String("----------");
 
-    switch(m_status) {
-        case Header:
+    switch(m_parseState) {
+        case ParseStateHeader:
             if (line.startsWith(m_headerString)) {
-                m_status = Entry;
+                m_parseState = ParseStateEntry;
                 m_firstLine = true;
             }
             break;
-        case Entry:
+        case ParseStateEntry:
             const QStringList entryList = line.split(QLatin1Char(' '), QString::SkipEmptyParts);
 
             if (m_firstLine) { // This line will contain the filename
                 if (entryList.count() == 8) { // End of entries
-                    m_status = Header;
+                    m_parseState = ParseStateHeader;
                 }
                 else {
                     m_internalId = line;

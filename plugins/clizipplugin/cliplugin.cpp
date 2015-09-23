@@ -38,7 +38,7 @@ K_PLUGIN_FACTORY( CliPluginFactory, registerPlugin< CliPlugin >(); )
 
 CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
     : CliInterface(parent, args)
-    , m_status(Header)
+    , m_parseState(ParseStateHeader)
 {
     qCDebug(KERFUFFLE_PLUGIN) << "Loaded cli_zip plugin";
 }
@@ -49,7 +49,7 @@ CliPlugin::~CliPlugin()
 
 void CliPlugin::resetParsing()
 {
-    m_status = Header;
+    m_parseState = ParseStateHeader;
 }
 
 // #208091: infozip applies special meanings to some characters, so we
@@ -124,11 +124,11 @@ bool CliPlugin::readListLine(const QString &line)
     static const QRegularExpression entryPattern(QStringLiteral(
         "^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\d{8}).(\\d{6})\\s+(.+)$") );
 
-    switch (m_status) {
-    case Header:
-        m_status = Entry;
+    switch (m_parseState) {
+    case ParseStateHeader:
+        m_parseState = ParseStateEntry;
         break;
-    case Entry:
+    case ParseStateEntry:
         QRegularExpressionMatch rxMatch = entryPattern.match(line);
         if (rxMatch.hasMatch()) {
             ArchiveEntry e;

@@ -31,16 +31,16 @@ public:
     explicit CliPlugin(QObject *parent, const QVariantList &args);
     virtual ~CliPlugin();
 
-    virtual void resetParsing();
+    virtual void resetParsing() Q_DECL_OVERRIDE;
     virtual QString escapeFileName(const QString &fileName) const Q_DECL_OVERRIDE;
     virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
 
 private:
-    enum {
-        Header = 0,
-        Entry
-    } m_status;
+    enum ParseState {
+        ParseStateHeader = 0,
+        ParseStateEntry
+    } m_parseState;
 };
 
 #endif // CLIPLUGIN_H

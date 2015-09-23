@@ -34,29 +34,26 @@ public:
     explicit CliPlugin(QObject *parent, const QVariantList & args);
     virtual ~CliPlugin();
 
-protected:
-    virtual void resetParsing();
-    virtual Kerfuffle::ParameterList parameterList() const;
-    virtual bool readListLine(const QString &line);
+    virtual void resetParsing() Q_DECL_OVERRIDE;
+    virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
+    virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
 
 private:
     enum ArchiveType {
-	ArchiveType7z = 0,
-	ArchiveTypeBZip2,
-	ArchiveTypeGZip,
-	ArchiveTypeTar,
-	ArchiveTypeZip
-    };
+        ArchiveType7z = 0,
+        ArchiveTypeBZip2,
+        ArchiveTypeGZip,
+        ArchiveTypeTar,
+        ArchiveTypeZip
+    } m_archiveType;
 
-    enum ReadState {
-	ReadStateHeader = 0,
-	ReadStateArchiveInformation,
-	ReadStateEntryInformation
-    };
+    enum ParseState {
+        ParseStateHeader = 0,
+        ParseStateArchiveInformation,
+        ParseStateEntryInformation
+    } m_parseState;
 
-    ArchiveType m_archiveType;
     Kerfuffle::ArchiveEntry m_currentArchiveEntry;
-    ReadState m_state;
 };
 
 #endif // CLIPLUGIN_H

@@ -40,7 +40,7 @@ K_PLUGIN_FACTORY( CliPluginFactory, registerPlugin< CliPlugin >(); )
 CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
         : CliInterface(parent, args)
         , m_archiveType(ArchiveType7z)
-        , m_state(ReadStateHeader)
+        , m_parseState(ParseStateHeader)
 {
     qCDebug(KERFUFFLE_PLUGIN) << "Loaded cli_7z plugin";
 }
@@ -51,7 +51,7 @@ CliPlugin::~CliPlugin()
 
 void CliPlugin::resetParsing()
 {
-    m_state = ReadStateHeader;
+    m_parseState = ParseStateHeader;
 }
 
 ParameterList CliPlugin::parameterList() const
@@ -105,22 +105,22 @@ bool CliPlugin::readListLine(const QString& line)
     static const QLatin1String archiveInfoDelimiter2("----"); // 7z 9.04
     static const QLatin1String entryInfoDelimiter("----------");
 
-    switch (m_state) {
-    case ReadStateHeader:
+    switch (m_parseState) {
+    case ParseStateHeader:
         if (line.startsWith(QStringLiteral("Listing archive:"))) {
             qCDebug(KERFUFFLE_PLUGIN) << "Archive name: "
                      << line.right(line.size() - 16).trimmed();
         } else if ((line == archiveInfoDelimiter1) ||
                    (line == archiveInfoDelimiter2)) {
-            m_state = ReadStateArchiveInformation;
+            m_parseState = ParseStateArchiveInformation;
         } else if (line.contains(QStringLiteral("Error: "))) {
             qCWarning(KERFUFFLE_PLUGIN) << line.mid(7);
         }
         break;
 
-    case ReadStateArchiveInformation:
+    case ParseStateArchiveInformation:
         if (line == entryInfoDelimiter) {
-            m_state = ReadStateEntryInformation;
+            m_parseState = ParseStateEntryInformation;
         } else if (line.startsWith(QStringLiteral("Type = "))) {
             const QString type = line.mid(7).trimmed();
             qCDebug(KERFUFFLE_PLUGIN) << "Archive type: " << type;
@@ -144,7 +144,7 @@ bool CliPlugin::readListLine(const QString& line)
 
         break;
 
-    case ReadStateEntryInformation:
+    case ParseStateEntryInformation:
         if (line.startsWith(QStringLiteral("Path = "))) {
             const QString entryFilename =
                 QDir::fromNativeSeparators(line.mid(7).trimmed());

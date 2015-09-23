@@ -33,10 +33,10 @@ public:
     explicit CliPlugin(QObject *parent, const QVariantList &args);
     virtual ~CliPlugin();
 
-    virtual void resetParsing();
-    virtual QString escapeFileName(const QString &fileName) const;
-    virtual Kerfuffle::ParameterList parameterList() const;
-    virtual bool readListLine(const QString &line);
+    virtual void resetParsing() Q_DECL_OVERRIDE;
+    virtual QString escapeFileName(const QString &fileName) const Q_DECL_OVERRIDE;
+    virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
+    virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
 
 private:
 
