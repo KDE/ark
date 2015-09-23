@@ -346,7 +346,7 @@ void DeleteJob::doWork()
     Q_ASSERT(m_writeInterface);
 
     connectToArchiveInterfaceSignals();
-    int ret = m_writeInterface->deleteFiles(m_files);
+    bool ret = m_writeInterface->deleteFiles(m_files);
 
     if (!archiveInterface()->waitForFinishedSignal()) {
         onFinished(ret);
