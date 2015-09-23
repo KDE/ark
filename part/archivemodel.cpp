@@ -819,7 +819,8 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
     ArchiveDirNode *parent = parentFor(entry);
 
     /// 3. Create an ArchiveNode
-    QString name = entry[ FileName ].toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts).last();
+    const QStringList path = entry[FileName].toString().split(QLatin1Char('/'), QString::SkipEmptyParts);
+    const QString name = path.last();
     ArchiveNode *node = parent->find(name);
     if (node) {
         node->setEntry(entry);
