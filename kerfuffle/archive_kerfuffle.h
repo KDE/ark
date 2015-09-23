@@ -101,11 +101,11 @@ struct fileRootNodePair
     fileRootNodePair()
     {}
 
-    fileRootNodePair(QString f)
+    fileRootNodePair(const QString &f)
         : file(f)
     {}
 
-    fileRootNodePair(QString f, QString n)
+    fileRootNodePair(const QString &f, const QString &n)
         : file(f),
           rootNode(n)
     {}
