@@ -131,10 +131,14 @@ bool CliPlugin::readListLine(const QString& line)
                 m_archiveType = ArchiveTypeBZip2;
             } else if (type == QLatin1String("gzip")) {
                 m_archiveType = ArchiveTypeGZip;
+            } else if (type == QLatin1String("xz")) {
+                m_archiveType = ArchiveTypeXz;
             } else if (type == QLatin1String("tar")) {
                 m_archiveType = ArchiveTypeTar;
             } else if (type == QLatin1String("zip")) {
                 m_archiveType = ArchiveTypeZip;
+            } else if (type == QLatin1String("Rar")) {
+                m_archiveType = ArchiveTypeRar;
             } else {
                 // Should not happen
                 qCWarning(KERFUFFLE_PLUGIN) << "Unsupported archive type";

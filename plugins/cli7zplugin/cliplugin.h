@@ -43,8 +43,10 @@ private:
         ArchiveType7z = 0,
         ArchiveTypeBZip2,
         ArchiveTypeGZip,
+        ArchiveTypeXz,
         ArchiveTypeTar,
-        ArchiveTypeZip
+        ArchiveTypeZip,
+        ArchiveTypeRar
     } m_archiveType;
 
     enum ParseState {
