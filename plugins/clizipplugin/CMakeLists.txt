@@ -1,6 +1,7 @@
 ########### next target ###############
 
 set(SUPPORTED_CLIZIP_MIMETYPES "application/x-java-archive;application/zip;")
+set(ENCRYPT_ENTRIES_MIMETYPES "application/x-java-archive,application/zip")
 
 set(kerfuffle_clizip_SRCS cliplugin.cpp)
 

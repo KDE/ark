@@ -375,46 +375,36 @@ QStringList supportedWriteMimeTypes()
 
 QSet<QString> supportedEncryptEntriesMimeTypes()
 {
-    const QLatin1String constraint("(exist Library) and ([X-KDE-Kerfuffle-EncryptEntries] == true)");
-    const QLatin1String basePartService("Kerfuffle/Plugin");
-
-    const KService::List offers = KServiceTypeTrader::self()->query(basePartService, constraint);
+    const KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("Kerfuffle/Plugin"),
+                                                                    QStringLiteral("(exist Library)"));
     QSet<QString> supported;
 
     foreach (const KService::Ptr& service, offers) {
-        QStringList mimeTypes = service->serviceTypes();
-
-        foreach (const QString& mimeType, mimeTypes) {
-            if (mimeType != basePartService) {
-                supported.insert(mimeType);
-            }
+        QStringList list(service->property(QStringLiteral("X-KDE-Kerfuffle-EncryptEntries")).toStringList());
+        foreach (const QString& mimeType, list) {
+            supported.insert(mimeType);
         }
     }
 
-    qCDebug(KERFUFFLE) << "Returning supported mimetypes" << supported;
+    qCDebug(KERFUFFLE) << "Entry encryption supported for mimetypes" << supported;
 
     return supported;
 }
 
 QSet<QString> supportedEncryptHeaderMimeTypes()
 {
-    const QLatin1String constraint("(exist Library) and ([X-KDE-Kerfuffle-EncryptHeader] == true)");
-    const QLatin1String basePartService("Kerfuffle/Plugin");
-
-    const KService::List offers = KServiceTypeTrader::self()->query(basePartService, constraint);
+    const KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("Kerfuffle/Plugin"),
+                                                                    QStringLiteral("(exist Library)"));
     QSet<QString> supported;
 
     foreach (const KService::Ptr& service, offers) {
-        QStringList mimeTypes = service->serviceTypes();
-
-        foreach (const QString& mimeType, mimeTypes) {
-            if (mimeType != basePartService) {
-                supported.insert(mimeType);
-            }
+        QStringList list(service->property(QStringLiteral("X-KDE-Kerfuffle-EncryptHeader")).toStringList());
+        foreach (const QString& mimeType, list) {
+            supported.insert(mimeType);
         }
     }
 
-    qCDebug(KERFUFFLE) << "Returning supported mimetypes" << supported;
+    qCDebug(KERFUFFLE) << "Header encryption supported for mimetypes" << supported;
 
     return supported;
 }

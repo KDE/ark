@@ -1,6 +1,8 @@
 ########### next target ###############
 
 set(SUPPORTED_CLI7Z_MIMETYPES "application/x-7z-compressed;application/zip;")
+set(ENCRYPT_ENTRIES_MIMETYPES "application/x-7z-compressed,application/zip")
+set(ENCRYPT_HEADER_MIMETYPES "application/x-7z-compressed")
 
 set(kerfuffle_cli7z_SRCS cliplugin.cpp)
 

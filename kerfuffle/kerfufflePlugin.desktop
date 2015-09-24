@@ -73,9 +73,9 @@ Type=bool
 
 # Whether the plugin can encrypt its archive entries
 [PropertyDef::X-KDE-Kerfuffle-EncryptEntries]
-Type=bool
+Type=QStringList
 
 # Whether the plugin can encrypt its archive header
 [PropertyDef::X-KDE-Kerfuffle-EncryptHeader]
-Type=bool
+Type=QStringList
 
