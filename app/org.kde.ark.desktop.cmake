@@ -166,6 +166,7 @@ Comment[nl]=Mert bestandsarchieven werken
 Comment[pl]=Pracuj z archiwami plików
 Comment[pt]=Lidar com pacotes em ficheiros
 Comment[pt_BR]=Manipulação de arquivos compactados
+Comment[sk]=Práca s archívmi súborov
 Comment[sl]=Delajte z datotečnimi arhivi
 Comment[sr]=Рад са фајловима архива
 Comment[sr@ijekavian]=Рад са фајловима архива
