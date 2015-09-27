@@ -19,9 +19,9 @@
 <contrib>Update of &ark; man page in 2015.</contrib>
 <email>rthomsen6@gmail.com</email></author>
 
-<date>2015-07-22</date><!--Update only when changing/reviewing this man page-->
-<releaseinfo>15.08</releaseinfo><!--Update only when changing/reviewing this man page-->
-<productname>&ark;</productname>
+<date>2015-09-27</date><!--Update only when changing/reviewing this man page-->
+<releaseinfo>Applications 15.08</releaseinfo><!--Update only when changing/reviewing this man page-->
+<productname>KDE Applications</productname>
 </refentryinfo>
 
 <refmeta>
