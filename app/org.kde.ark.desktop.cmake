@@ -162,6 +162,7 @@ Comment[ca]=Treball amb arxius de fitxer
 Comment[en_GB]=Work with file archives
 Comment[es]=Trabajar con archivos comprimidos
 Comment[fi]=Käsittele tiedostopaketteja
+Comment[it]=Lavora con gli archivi di file
 Comment[nl]=Mert bestandsarchieven werken
 Comment[pl]=Pracuj z archiwami plików
 Comment[pt]=Lidar com pacotes em ficheiros
