@@ -58,7 +58,7 @@ X-KDE-Submenu[zh_CN]=解压缩
 X-KDE-Submenu[zh_TW]=解開
 
 [Desktop Action arkExtractHere]
-Name=Extract Archive Here
+Name=Extract archive here
 Name[ar]=فك الأرشيف هنا
 Name[ast]=Estrayer equí l'archivu
 Name[bg]=Извличане тук
@@ -118,7 +118,7 @@ Icon=ark
 Exec=ark --batch --autodestination %F
 
 [Desktop Action arkExtractTo]
-Name=Extract Archive To...
+Name=Extract archive to...
 Name[ar]=فك الأرشيف إلى...
 Name[ast]=Estrayer l'archivu en...
 Name[bg]=Извличане в...
@@ -178,7 +178,7 @@ Icon=ark
 Exec=ark --batch --autodestination --dialog %F
 
 [Desktop Action arkAutoExtractHere]
-Name=Extract Archive Here, Autodetect Subfolder
+Name=Extract archive here, autodetect subfolder
 Name[ar]=فك الأرشيف هنا ، تعرف تلقائي للمجلدات الفرعية
 Name[ast]=Estrayer equí l'archivu, autodeteutar socarpeta
 Name[bg]=Извличане тук, автоматична подпапка
