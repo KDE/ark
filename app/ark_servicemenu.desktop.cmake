@@ -59,15 +59,36 @@ X-KDE-Submenu[zh_TW]=解開
 
 [Desktop Action arkExtractHere]
 Name=Extract archive here
+Name[ca]=Extreu l'arxiu aquí
+Name[es]=Extraer archivo comprimido aquí
+Name[nl]=Archief hier uitpakken
+Name[pt]=Extrair o pacote para aqui
+Name[pt_BR]=Extrair arquivo aqui
+Name[uk]=Видобути архів сюди
+Name[x-test]=xxExtract archive herexx
 Icon=ark
 Exec=ark --batch --autodestination %F
 
 [Desktop Action arkExtractTo]
 Name=Extract archive to...
+Name[ca]=Extreu l'arxiu a...
+Name[es]=Extraer archivo comprimido en...
+Name[nl]=Archief uitpakken naar...
+Name[pt]=Extrair o pacote para...
+Name[pt_BR]=Extrair arquivo para...
+Name[uk]=Видобути архів до…
+Name[x-test]=xxExtract archive to...xx
 Icon=ark
 Exec=ark --batch --autodestination --dialog %F
 
 [Desktop Action arkAutoExtractHere]
 Name=Extract archive here, autodetect subfolder
+Name[ca]=Extreu l'arxiu aquí, detecta automàticament la subcarpeta
+Name[es]=Extraer archivo comprimido aquí, autodetectar subcarpeta
+Name[nl]=Archief hier uitpakken, submap autodetecteren
+Name[pt]=Extrair o pacote aqui com detecção da sub-pasta
+Name[pt_BR]=Extrair aqui detectando subpasta
+Name[uk]=Видобути архів сюди, автоматично визначити підтеку
+Name[x-test]=xxExtract archive here, autodetect subfolderxx
 Icon=ark
 Exec=ark --batch --autodestination --autosubfolder %F
