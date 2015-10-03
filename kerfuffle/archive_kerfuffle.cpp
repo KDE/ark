@@ -121,32 +121,51 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
 
     qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 
-    const KService::List offers = findPluginOffers(fileName, fixedMimeType);
-
-    if (offers.isEmpty()) {
-        qCWarning(KERFUFFLE) << "Could not find a plugin to handle" << fileName;
-        return Q_NULLPTR;
-    }
-
-    const QString pluginName = offers.first()->library();
-    qCDebug(KERFUFFLE) << "Loading plugin" << pluginName;
-
-    KPluginFactory * const factory = KPluginLoader(pluginName).factory();
-    if (!factory) {
-        qCWarning(KERFUFFLE) << "Invalid plugin factory for" << pluginName;
-        return Q_NULLPTR;
-    }
-
     QVariantList args;
     args.append(QVariant(QFileInfo(fileName).absoluteFilePath()));
 
-    ReadOnlyArchiveInterface * const iface = factory->create<ReadOnlyArchiveInterface>(0, args);
-    if (!iface) {
-        qCWarning(KERFUFFLE) << "Could not create plugin instance" << pluginName << "for" << fileName;
+    const KService::List offers = findPluginOffers(fileName, fixedMimeType);
+    if (offers.isEmpty()) {
+        qCCritical(KERFUFFLE) << "Could not find a plugin to handle" << fileName;
         return Q_NULLPTR;
     }
 
-    return new Archive(iface, parent);
+    KPluginFactory *factory;
+    ReadOnlyArchiveInterface *iface;
+
+    foreach (KService::Ptr service, offers) {
+
+        QString pluginName = service->library();
+        qCDebug(KERFUFFLE) << "Loading plugin" << pluginName;
+
+        factory = KPluginLoader(pluginName).factory();
+        if (!factory) {
+            qCWarning(KERFUFFLE) << "Invalid plugin factory for" << pluginName;
+            continue;
+        }
+
+        iface = factory->create<ReadOnlyArchiveInterface>(0, args);
+        if (!iface) {
+            qCWarning(KERFUFFLE) << "Could not create plugin instance" << pluginName;
+            continue;
+        }
+
+        if (iface->isCliBased()) {
+            qCDebug(KERFUFFLE) << "Finding executables for plugin" << pluginName;
+
+            if (iface->findExecutables(service->property(QStringLiteral("X-KDE-Kerfuffle-ReadWrite")).toBool())) {
+                return new Archive(iface, parent);
+            } else {
+                qCWarning(KERFUFFLE) << "Failed to find needed executables for plugin" << pluginName;
+            }
+        } else {
+            // Not CliBased plugin, don't search for executables.
+            return new Archive(iface, parent);
+        }
+    }
+
+    qCCritical(KERFUFFLE) << "Failed to find a usable plugin for" << fileName;
+    return Q_NULLPTR;
 }
 
 Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, QObject *parent)

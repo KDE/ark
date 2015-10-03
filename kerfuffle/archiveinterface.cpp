@@ -37,7 +37,8 @@
 namespace Kerfuffle
 {
 ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVariantList & args)
-        : QObject(parent), m_waitForFinishedSignal(false)
+        : QObject(parent)
+        , m_waitForFinishedSignal(false)
 {
     qCDebug(KERFUFFLE) << "Created read-only interface for" << args.first().toString();
     m_filename = args.first().toString();
@@ -54,6 +55,17 @@ QString ReadOnlyArchiveInterface::filename() const
 
 bool ReadOnlyArchiveInterface::isReadOnly() const
 {
+    return true;
+}
+
+bool ReadOnlyArchiveInterface::isCliBased() const
+{
+    return false;
+}
+
+bool ReadOnlyArchiveInterface::findExecutables(bool isReadWrite)
+{
+    Q_UNUSED(isReadWrite)
     return true;
 }
 
