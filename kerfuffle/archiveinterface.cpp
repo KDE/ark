@@ -40,6 +40,7 @@ ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVaria
         : QObject(parent)
         , m_waitForFinishedSignal(false)
         , m_isHeaderEncryptionEnabled(false)
+        , m_isCorrupt(false)
 {
     qCDebug(KERFUFFLE) << "Created read-only interface for" << args.first().toString();
     m_filename = args.first().toString();
