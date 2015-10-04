@@ -74,7 +74,7 @@ ParameterList CliPlugin::parameterList() const
         p[PreservePathSwitch] = QStringList() << QStringLiteral("x")
                                               << QStringLiteral("e");
         p[PasswordSwitch] = QStringList() << QStringLiteral("-p$Password");
-        p[EncryptHeaderSwitch] = QStringList() << QStringLiteral("-mhe=$Enabled");
+        p[EncryptHeaderSwitch] = QStringList() << QStringLiteral("$Enabled");
         p[WrongPasswordPatterns] = QStringList() << QStringLiteral("Wrong password");
         p[AddArgs] = QStringList() << QStringLiteral("a")
                                    << QStringLiteral("$Archive")

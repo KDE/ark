@@ -366,7 +366,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
             //we will decrement i afterwards
             args.removeAt(i);
 
-            QString enabled = isHeaderEncryptionEnabled() ? QLatin1String("on") : QLatin1String("off");
+            QString enabled = isHeaderEncryptionEnabled() ? QStringLiteral("-mhe=on") : QString();
 
             QStringList theSwitch = m_param.value(EncryptHeaderSwitch).toStringList();
             for (int j = 0; j < theSwitch.size(); ++j) {

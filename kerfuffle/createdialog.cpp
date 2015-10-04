@@ -121,7 +121,7 @@ QString CreateDialog::password() const
 
 bool CreateDialog::isHeaderEncryptionChecked() const
 {
-    return m_ui->encryptHeaderCheckBox->isChecked();
+    return (m_ui->encryptHeaderCheckBox->isEnabled() && m_ui->encryptHeaderCheckBox->isChecked());
 }
 
 void CreateDialog::accept()
