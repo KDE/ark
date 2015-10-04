@@ -159,6 +159,7 @@ Categories=Qt;KDE;Utility;Archiving;Compression;X-KDE-Utilities-File;
 InitialPreference=3
 Comment=Work with file archives
 Comment[ca]=Treball amb arxius de fitxer
+Comment[de]=Arbeiten mit Dateiarchiven
 Comment[en_GB]=Work with file archives
 Comment[es]=Trabajar con archivos comprimidos
 Comment[fi]=Käsittele tiedostopaketteja
