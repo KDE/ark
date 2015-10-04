@@ -115,6 +115,7 @@ ParameterList CliPlugin::parameterList() const
         p[PasswordPromptPattern] = QStringLiteral(" password: ");
         p[WrongPasswordPatterns] = QStringList() << QStringLiteral("incorrect password");
         //p[ExtractionFailedPatterns] = QStringList() << "CRC failed";
+        p[CorruptArchivePatterns] = QStringList() << QStringLiteral("End-of-central-directory signature not found");
     }
     return p;
 }

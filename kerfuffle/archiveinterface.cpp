@@ -108,6 +108,16 @@ bool ReadOnlyArchiveInterface::doResume()
     return false;
 }
 
+void ReadOnlyArchiveInterface::setCorrupt(bool isCorrupt)
+{
+    m_isCorrupt = isCorrupt;
+}
+
+bool ReadOnlyArchiveInterface::isCorrupt() const
+{
+    return m_isCorrupt;
+}
+
 ReadWriteArchiveInterface::ReadWriteArchiveInterface(QObject *parent, const QVariantList & args)
         : ReadOnlyArchiveInterface(parent, args)
 {
@@ -135,14 +145,18 @@ bool ReadOnlyArchiveInterface::isHeaderEncryptionEnabled() const
 
 bool ReadWriteArchiveInterface::isReadOnly() const
 {
+    // We set corrupt archives to read-only to avoid add/delete actions, that
+    // are likely to fail anyway.
+    if (isCorrupt()) {
+        return true;
+    }
+
     QFileInfo fileInfo(filename());
     if (fileInfo.exists()) {
-        return ! fileInfo.isWritable();
+        return !fileInfo.isWritable();
     } else {
         return !fileInfo.dir().exists(); // TODO: Should also check if we can create a file in that directory
     }
 }
 
 } // namespace Kerfuffle
-
-

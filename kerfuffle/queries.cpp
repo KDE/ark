@@ -29,6 +29,7 @@
 #include "app/logging.h"
 
 #include <KLocalizedString>
+#include <KMessageBox>
 #include <KPasswordDialog>
 #include <kio/renamedialog.h>
 
@@ -200,4 +201,27 @@ bool PasswordNeededQuery::responseCancelled()
 {
     return !m_data.value(QLatin1String( "response" )).toBool();
 }
+
+LoadCorruptQuery::LoadCorruptQuery(const QString& archiveFilename)
+{
+    m_data[QStringLiteral("archiveFilename")] = archiveFilename;
+}
+
+void LoadCorruptQuery::execute()
+{
+    qCDebug(KERFUFFLE) << "Executing LoadCorrupt prompt";
+    QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
+
+    setResponse(KMessageBox::warningYesNo(Q_NULLPTR,
+                                          xi18nc("@info", "Corrupt archive detected. Do you want Ark to attempt "
+                                                 "loading the archive?<nl/><nl/>Some files may be missing "
+                                                 "or damaged, and the archive will be opened read-only."),
+                                          i18nc("@title:window", "Corrupt archive")));
+    QApplication::restoreOverrideCursor();
+}
+
+bool LoadCorruptQuery::responseYes() {
+    return (m_data.value(QStringLiteral("response")).toInt() == KMessageBox::Yes);
+}
+
 }

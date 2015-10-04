@@ -94,6 +94,8 @@ ParameterList CliPlugin::parameterList() const
                                            << QStringLiteral("Q"); //cancel
 
         p[PasswordPromptPattern] = QStringLiteral("Enter password \\(will not be echoed\\) :");
+        p[CorruptArchivePatterns] = QStringList() << QStringLiteral("Unexpected end of archive")
+                                                  << QStringLiteral("Headers Error");
     }
 
     return p;

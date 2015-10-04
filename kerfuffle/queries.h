@@ -74,6 +74,10 @@ private:
     QMutex m_responseMutex;
 };
 
+/* *****************************************************************
+ * Used to query the user if an existing file should be overwritten.
+ * *****************************************************************
+ */
 class KERFUFFLE_EXPORT OverwriteQuery : public Query
 {
 public:
@@ -96,6 +100,10 @@ private:
     bool m_multiMode;
 };
 
+/* **************************************
+ * Used to query the user for a password.
+ * **************************************
+ */
 class KERFUFFLE_EXPORT PasswordNeededQuery : public Query
 {
 public:
@@ -104,6 +112,19 @@ public:
 
     bool responseCancelled();
     QString password();
+};
+
+/* *************************************************************
+ * Used to query the user if a corrupt archive should be loaded.
+ * *************************************************************
+ */
+class KERFUFFLE_EXPORT LoadCorruptQuery : public Query
+{
+public:
+    explicit LoadCorruptQuery(const QString& archiveFilename);
+    void execute() Q_DECL_OVERRIDE;
+
+    bool responseYes();
 };
 
 }

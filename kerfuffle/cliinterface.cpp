@@ -790,6 +790,19 @@ void CliInterface::handleLine(const QString& line)
             return;
         }
 
+        if (checkForErrorMessage(line, CorruptArchivePatterns)) {
+            qCWarning(KERFUFFLE) << "Archive corrupt";
+            setCorrupt(true);
+            Kerfuffle::LoadCorruptQuery query(filename());
+            emit userQuery(&query);
+            query.waitForResponse();
+            if (!query.responseYes()) {
+                emit cancelled();
+                failOperation();
+                return;
+            }
+        }
+
         if (handleFileExistsMessage(line)) {
             return;
         }

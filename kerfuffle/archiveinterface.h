@@ -117,12 +117,15 @@ protected:
      */
     void setWaitForFinishedSignal(bool value);
     bool isHeaderEncryptionEnabled() const;
+    void setCorrupt(bool isCorrupt);
+    bool isCorrupt() const;
 
 private:
     QString m_filename;
     QString m_password;
     bool m_waitForFinishedSignal;
     bool m_isHeaderEncryptionEnabled;
+    bool m_isCorrupt;
 };
 
 class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterface

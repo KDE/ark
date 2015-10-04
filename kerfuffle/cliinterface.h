@@ -74,6 +74,11 @@ enum CliInterfaceParameters {
      * $Archive - the path of the archive
      */
     ListArgs,
+    /**
+     * QStringList (default empty)
+     * List of regexp patterns that indicate a corrupt archive.
+     */
+    CorruptArchivePatterns,
 
     ///////////////[ EXTRACT ]/////////////
 
