@@ -136,6 +136,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     foreach (KService::Ptr service, offers) {
 
         QString pluginName = service->library();
+        bool isReadOnly = !service->property(QStringLiteral("X-KDE-Kerfuffle-ReadWrite")).toBool();
         qCDebug(KERFUFFLE) << "Loading plugin" << pluginName;
 
         factory = KPluginLoader(pluginName).factory();
@@ -153,14 +154,14 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
         if (iface->isCliBased()) {
             qCDebug(KERFUFFLE) << "Finding executables for plugin" << pluginName;
 
-            if (iface->findExecutables(service->property(QStringLiteral("X-KDE-Kerfuffle-ReadWrite")).toBool())) {
-                return new Archive(iface, parent);
+            if (iface->findExecutables(!isReadOnly)) {
+                return new Archive(iface, isReadOnly, parent);
             } else {
                 qCWarning(KERFUFFLE) << "Failed to find needed executables for plugin" << pluginName;
             }
         } else {
             // Not CliBased plugin, don't search for executables.
-            return new Archive(iface, parent);
+            return new Archive(iface, isReadOnly, parent);
         }
     }
 
@@ -168,10 +169,11 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     return Q_NULLPTR;
 }
 
-Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, QObject *parent)
+Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent)
         : QObject(parent),
         m_iface(archiveInterface),
         m_hasBeenListed(false),
+        m_isReadOnly(isReadOnly),
         m_isPasswordProtected(false),
         m_isSingleFolderArchive(false)
 {
@@ -190,7 +192,7 @@ Archive::~Archive()
 
 bool Archive::isReadOnly() const
 {
-    return m_iface->isReadOnly();
+    return (m_iface->isReadOnly() || m_isReadOnly);
 }
 
 KJob* Archive::open()

@@ -171,11 +171,12 @@ private slots:
     void onUserQuery(Kerfuffle::Query*);
 
 private:
-    Archive(ReadOnlyArchiveInterface *archiveInterface, QObject *parent = 0);
+    Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent = 0);
 
     void listIfNotListed();
     ReadOnlyArchiveInterface *m_iface;
     bool m_hasBeenListed;
+    bool m_isReadOnly;
     bool m_isPasswordProtected;
     bool m_isSingleFolderArchive;
     QString m_subfolderName;
