@@ -66,6 +66,7 @@
 #include <QFileDialog>
 #include <QIcon>
 #include <QInputDialog>
+#include <QFileSystemWatcher>
 
 Q_LOGGING_CATEGORY(PART, "ark.part", QtWarningMsg)
 
@@ -146,7 +147,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
 Part::~Part()
 {
-    qDeleteAll(m_previewDirList);
+    qDeleteAll(m_tmpOpenDirList);
 
     // Only save splitterSizes if infopanel is visible,
     // because we don't want to store zero size for infopanel.
@@ -231,12 +232,17 @@ void Part::slotClicked(QModelIndex)
     // Only open the viewer if a CTRL or SHIFT key is not pressed
     if (QGuiApplication::keyboardModifiers() != Qt::ShiftModifier &&
         QGuiApplication::keyboardModifiers() != Qt::ControlModifier) {
-        slotPreviewWithInternalViewer();
+        slotOpenEntry(Preview);
     }
 }
 
 void Part::setupActions()
 {
+    // We use a QSignalMapper for the preview, open and openwith actions. This
+    // way we can connect all three actions to the same slot slotOpenEntry and
+    // pass the OpenFileMode as argument to the slot.
+    m_signalMapper = new QSignalMapper;
+
     m_showInfoPanelAction = new KToggleAction(i18nc("@action:inmenu", "Show information panel"), this);
     actionCollection()->addAction(QStringLiteral( "show-infopanel" ), m_showInfoPanelAction);
     m_showInfoPanelAction->setChecked(ArkSettings::showInfoPanel());
@@ -245,19 +251,27 @@ void Part::setupActions()
 
     m_saveAsAction = KStandardAction::saveAs(this, SLOT(slotSaveAs()), actionCollection());
 
-    m_previewChooseAppAction = actionCollection()->addAction(QStringLiteral("openwith"));
-    m_previewChooseAppAction->setText(i18nc("open a file with external program", "Open &With..."));
-    m_previewChooseAppAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
-    m_previewChooseAppAction->setStatusTip(i18n("Click to open the selected file with an external program"));
-    connect(m_previewChooseAppAction, SIGNAL(triggered(bool)), this, SLOT(slotPreviewWithExternalProgram()));
+    m_openFileAction = actionCollection()->addAction(QStringLiteral("openfile"));
+    m_openFileAction->setText(i18nc("open a file with external program", "&Open File"));
+    m_openFileAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
+    m_openFileAction->setStatusTip(i18n("Click to open the selected file with the associated application"));
+    connect(m_openFileAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
+    m_signalMapper->setMapping(m_openFileAction, OpenFile);
+
+    m_openFileWithAction = actionCollection()->addAction(QStringLiteral("openfilewith"));
+    m_openFileWithAction->setText(i18nc("open a file with external program", "Open File &With..."));
+    m_openFileWithAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
+    m_openFileWithAction->setStatusTip(i18n("Click to open the selected file with an external program"));
+    connect(m_openFileWithAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
+    m_signalMapper->setMapping(m_openFileWithAction, OpenFileWith);
 
     m_previewAction = actionCollection()->addAction(QStringLiteral("preview"));
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
     m_previewAction->setIcon(QIcon::fromTheme(QStringLiteral("document-preview-archive")));
     m_previewAction->setStatusTip(i18n("Click to preview the selected file"));
     actionCollection()->setDefaultShortcuts(m_previewAction, QList<QKeySequence>() << Qt::Key_Return << Qt::Key_Space);
-    connect(m_previewAction, SIGNAL(triggered(bool)),
-            this, SLOT(slotPreviewWithInternalViewer()));
+    connect(m_previewAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
+    m_signalMapper->setMapping(m_previewAction, Preview);
 
     m_extractFilesAction = actionCollection()->addAction(QStringLiteral("extract"));
     m_extractFilesAction->setText(i18n("E&xtract"));
@@ -289,22 +303,44 @@ void Part::setupActions()
     connect(m_deleteFilesAction, SIGNAL(triggered(bool)),
             this, SLOT(slotDeleteFiles()));
 
+    connect(m_signalMapper, SIGNAL(mapped(int)), this, SLOT(slotOpenEntry(int)));
+
     updateActions();
 }
 
 void Part::updateActions()
 {
-    bool isWritable = m_model->archive() && (!m_model->archive()->isReadOnly());
+    bool isWritable = m_model->archive() && !m_model->archive()->isReadOnly();
+    bool isDirectory = m_model->entryForIndex(m_view->selectionModel()->currentIndex())[IsDirectory].toBool();
+    int selectedEntriesCount = m_view->selectionModel()->selectedRows().count();
 
-    m_previewAction->setEnabled(!isBusy() && (m_view->selectionModel()->selectedRows().count() == 1)
-                                && isPreviewable(m_view->selectionModel()->currentIndex()));
-    m_extractFilesAction->setEnabled(!isBusy() && (m_model->rowCount() > 0));
-    m_addFilesAction->setEnabled(!isBusy() && isWritable);
-    m_addDirAction->setEnabled(!isBusy() && isWritable);
-    m_deleteFilesAction->setEnabled(!isBusy() && (m_view->selectionModel()->selectedRows().count() > 0)
-                                    && isWritable);
-    m_previewChooseAppAction->setEnabled(!isBusy() && (m_view->selectionModel()->selectedRows().count() > 0)
-                                    && isWritable);
+    // Figure out if entry size is larger than preview size limit.
+    const int maxPreviewSize = ArkSettings::previewFileSizeLimit() * 1024 * 1024;
+    const bool limit = ArkSettings::limitPreviewFileSize();
+    const qlonglong size = m_model->entryForIndex(m_view->selectionModel()->currentIndex())[Size].toLongLong();
+    bool isPreviewable = (!limit || (limit && size < maxPreviewSize));
+
+    m_previewAction->setEnabled(!isBusy() &&
+                                isPreviewable &&
+                                !isDirectory &&
+                                (selectedEntriesCount == 1));
+    m_extractFilesAction->setEnabled(!isBusy() &&
+                                     (m_model->rowCount() > 0));
+    m_addFilesAction->setEnabled(!isBusy() &&
+                                 isWritable);
+    m_addDirAction->setEnabled(!isBusy() &&
+                               isWritable);
+    m_deleteFilesAction->setEnabled(!isBusy() &&
+                                    isWritable &&
+                                    (selectedEntriesCount > 0));
+    m_openFileAction->setEnabled(!isBusy() &&
+                                 isPreviewable &&
+                                 !isDirectory &&
+                                 (selectedEntriesCount > 0));
+    m_openFileWithAction->setEnabled(!isBusy() &&
+                                     isPreviewable &&
+                                     !isDirectory &&
+                                     (selectedEntriesCount > 0));
 
     QMenu *menu = m_extractFilesAction->menu();
     if (!menu) {
@@ -374,17 +410,6 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 
         job->start();
     }
-}
-
-bool Part::isPreviewable(const QModelIndex& index) const
-{
-    const int maxPreviewSize = ArkSettings::previewFileSizeLimit() * 1024 * 1024;
-    const bool limit = ArkSettings::limitPreviewFileSize();
-    const qlonglong size = m_model->entryForIndex(index) [ Size ].toLongLong();
-
-    return index.isValid()
-           && (!m_model->entryForIndex(index)[ IsDirectory ].toBool())
-           && (!limit || (limit && size < maxPreviewSize));
 }
 
 void Part::selectionChanged()
@@ -585,45 +610,36 @@ void Part::setFileNameFromArchive()
     emit setWindowCaption(prettyName);
 }
 
-void Part::slotPreviewWithInternalViewer()
+void Part::slotOpenEntry(int mode)
 {
-    preview(m_view->selectionModel()->currentIndex(), InternalViewer);
-}
+    qCDebug(PART) << "Opening with mode" << mode;
 
-void Part::slotPreviewWithExternalProgram()
-{
-    preview(m_view->selectionModel()->currentIndex(), ExternalProgram);
-}
-
-void Part::preview(const QModelIndex &index, PreviewMode mode)
-{
-    if (!isPreviewable(index)) {
-        return;
-    }
-
+    QModelIndex index = m_view->selectionModel()->currentIndex();
     const ArchiveEntry& entry =  m_model->entryForIndex(index);
 
+    // We don't support opening symlinks.
     if (entry[Link].toBool()) {
-        displayMsgWidget(KMessageWidget::Information, i18n("Preview is not possible for symlinks."));
+        displayMsgWidget(KMessageWidget::Information, i18n("Ark cannot open symlinks."));
         return;
     }
 
+    // Extract the entry.
     if (!entry.isEmpty()) {
         Kerfuffle::ExtractionOptions options;
         options[QStringLiteral("PreservePaths")] = true;
 
-        m_previewDirList.append(new QTemporaryDir);
-        m_previewMode = mode;
-        ExtractJob *job = m_model->extractFile(entry[InternalID], m_previewDirList.last()->path(), options);
+        m_tmpOpenDirList.append(new QTemporaryDir);
+        m_openFileMode = static_cast<OpenFileMode>(mode);
+        ExtractJob *job = m_model->extractFile(entry[InternalID], m_tmpOpenDirList.last()->path(), options);
 
         registerJob(job);
         connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(slotPreviewExtracted(KJob*)));
+                this, SLOT(slotOpenExtractedEntry(KJob*)));
         job->start();
     }
 }
 
-void Part::slotPreviewExtracted(KJob *job)
+void Part::slotOpenExtractedEntry(KJob *job)
 {
     // FIXME: the error checking here isn't really working
     //        if there's an error or an overwrite dialog,
@@ -641,23 +657,91 @@ void Part::slotPreviewExtracted(KJob *job)
         // directory, resulting in a directory traversal issue.
         fullName.remove(QStringLiteral("../"));
 
-        // TODO: get rid of m_previewMode by extending ExtractJob with a PreviewJob.
-        // This would prevent race conditions if we ever stop disabling
-        // the whole UI while extracting a file to preview it.
-        switch (m_previewMode) {
-        case InternalViewer:
+        bool isWritable = m_model->archive() && !m_model->archive()->isReadOnly();
+
+        // If archive is readonly set temporarily extracted file to readonly as
+        // well so user will be notified if trying to modify and save the file.
+        if (!isWritable) {
+            QFile::setPermissions(fullName, QFileDevice::ReadOwner | QFileDevice::ReadGroup | QFileDevice::ReadOther);
+        }
+
+        // TODO: get rid of m_openFileMode by extending ExtractJob with a
+        // Preview/OpenJob. This would prevent race conditions if we ever stop
+        // disabling the whole UI while extracting a file to preview it.
+        if (m_openFileMode != Preview && isWritable) {
+            m_fileWatcher = new QFileSystemWatcher;
+            connect(m_fileWatcher, SIGNAL(fileChanged(QString)), this, SLOT(slotWatchedFileModified(QString)));
+        }
+
+        QMimeDatabase db;
+        switch (m_openFileMode) {
+
+        case Preview:
             ArkViewer::view(fullName, widget());
             break;
-        case ExternalProgram:
+        case OpenFile:
+            KRun::runUrl(QUrl::fromUserInput(fullName,
+                                             QString(),
+                                             QUrl::AssumeLocalFile),
+                         db.mimeTypeForFile(fullName).name(),
+                         widget());
+            break;
+        case OpenFileWith:
             QList<QUrl> list;
-            list.append(QUrl::fromUserInput(fullName, QString(), QUrl::AssumeLocalFile));
+            list.append(QUrl::fromUserInput(fullName,
+                                            QString(),
+                                            QUrl::AssumeLocalFile));
             KRun::displayOpenWithDialog(list, widget(), true);
+
             break;
         }
+        if (m_openFileMode != Preview && isWritable) {
+            m_fileWatcher->addPath(fullName);
+        }
+
     } else if (job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
     }
     setReadyGui();
+}
+
+void Part::slotWatchedFileModified(const QString& file)
+{
+    qCDebug(PART) << "Watched file modified:" << file;
+
+    // Find the relative path of the file within the archive.
+    QString relPath = file;
+    foreach (QTemporaryDir *tmpDir, m_tmpOpenDirList) {
+        relPath.remove(tmpDir->path()); //Remove tmpDir.
+    }
+    relPath = relPath.mid(1); //Remove leading slash.
+    if (relPath.contains(QLatin1Char('/'))) {
+        relPath = relPath.section(QLatin1Char('/'), 0, -2); //Remove filename.
+    } else {
+        // File is in the root of the archive, no path.
+        relPath = QString();
+    }
+
+    // Set up a string for display in KMessageBox.
+    QString prettyFilename;
+    if (relPath.isEmpty()) {
+        prettyFilename = file.section(QLatin1Char('/'), -1);
+    } else {
+        prettyFilename = relPath + QLatin1Char('/') + file.section(QLatin1Char('/'), -1);
+    }
+
+    if (KMessageBox::questionYesNo(widget(),
+                               xi18n("The file <filename>%1</filename> was modified. Do you want to update the archive?",
+                                     prettyFilename),
+                               i18n("File modified")) == KMessageBox::Yes) {
+        QStringList list = QStringList() << file;
+
+        qCDebug(PART) << "Updating file" << file << "with path" << relPath;
+        slotAddFiles(list, relPath);
+    }
+    // This is needed because some apps, such as Kate, delete and recreate
+    // files when saving.
+    m_fileWatcher->addPath(file);
 }
 
 void Part::slotError(const QString& errorMessage, const QString& details)
@@ -846,8 +930,8 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
     }
 
     qCDebug(PART) << "Adding " << filesToAdd << " to " << path;
-    qCDebug(PART) << "Warning, for now the path argument is not implemented";
 
+    // Add a trailing slash to directories.
     QStringList cleanFilesToAdd(filesToAdd);
     for (int i = 0; i < cleanFilesToAdd.size(); ++i) {
         QString& file = cleanFilesToAdd[i];
@@ -858,16 +942,32 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
         }
     }
 
-    CompressionOptions options;
+    // GlobalWorkDir is used by AddJob and should contain the part of the
+    // absolute path of files to be added that should NOT be included in the
+    // directory structure within the archive.
+    // Example: We add file "/home/user/somedir/somefile.txt" and want the file
+    // to have the relative path within the archive "somedir/somefile.txt".
+    // GlobalWorkDir is then: "/home/user"
+    QString globalWorkDir = cleanFilesToAdd.first();
 
-    QString firstPath = cleanFilesToAdd.first();
-    if (firstPath.right(1) == QLatin1String("/")) {
-        firstPath.chop(1);
+    // path represents the path of the file within the archive. This needs to
+    // be removed from globalWorkDir, otherwise the files will be added to the
+    // root of the archive. In the example above, path would be "somedir/".
+    if (!path.isEmpty()) {
+        globalWorkDir.remove(path);
     }
-    firstPath = QFileInfo(firstPath).dir().absolutePath();
 
-    qCDebug(PART) << "Detected relative path to be " << firstPath;
-    options[QStringLiteral("GlobalWorkDir")] = firstPath;
+    // Remove trailing slash (needed when adding dirs).
+    if (globalWorkDir.right(1) == QLatin1String("/")) {
+        globalWorkDir.chop(1);
+    }
+
+    // Now take the absolute path of the parent directory.
+    globalWorkDir = QFileInfo(globalWorkDir).dir().absolutePath();
+
+    qCDebug(PART) << "Detected GlobalWorkDir to be " << globalWorkDir;
+    CompressionOptions options;
+    options[QStringLiteral("GlobalWorkDir")] = globalWorkDir;
 
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
     if (!job) {

@@ -45,6 +45,8 @@ class QSplitter;
 class QTreeView;
 class QTemporaryDir;
 class QVBoxLayout;
+class QSignalMapper;
+class QFileSystemWatcher;
 
 namespace Ark
 {
@@ -54,9 +56,10 @@ class Part: public KParts::ReadWritePart, public Interface
     Q_OBJECT
     Q_INTERFACES(Interface)
 public:
-    enum PreviewMode {
-        InternalViewer,
-        ExternalProgram
+    enum OpenFileMode {
+        Preview,
+        OpenFile,
+        OpenFileWith
     };
 
     Part(QWidget *parentWidget, QObject *parent, const QVariantList &);
@@ -77,9 +80,8 @@ public slots:
 private slots:
     void slotLoadingStarted();
     void slotLoadingFinished(KJob *job);
-    void slotPreviewWithInternalViewer();
-    void slotPreviewWithExternalProgram();
-    void slotPreviewExtracted(KJob*);
+    void slotOpenExtractedEntry(KJob*);
+    void slotOpenEntry(int mode);
     void slotError(const QString& errorMessage, const QString& details);
     void slotExtractFiles();
     void slotExtractionDone(KJob*);
@@ -100,6 +102,7 @@ private slots:
     void setBusyGui();
     void setReadyGui();
     void setFileNameFromArchive();
+    void slotWatchedFileModified(const QString& file);
 
 signals:
     void busy();
@@ -111,33 +114,34 @@ private:
     void setupActions();
     bool isSingleFolderArchive() const;
     QString detectSubfolder() const;
-    bool isPreviewable(const QModelIndex& index) const;
     QList<QVariant> filesForIndexes(const QModelIndexList& list) const;
     QList<QVariant> filesAndRootNodesForIndexes(const QModelIndexList& list) const;
     QModelIndexList addChildren(const QModelIndexList &list) const;
     void registerJob(KJob *job);
-    void preview(const QModelIndex &index, PreviewMode mode);
     void displayMsgWidget(KMessageWidget::MessageType type, QString msg);
 
     ArchiveModel         *m_model;
     QTreeView            *m_view;
     QAction *m_previewAction;
+    QAction *m_openFileAction;
+    QAction *m_openFileWithAction;
     QAction *m_extractFilesAction;
     QAction *m_addFilesAction;
     QAction *m_addDirAction;
     QAction *m_deleteFilesAction;
     QAction *m_saveAsAction;
-    QAction *m_previewChooseAppAction;
     KToggleAction *m_showInfoPanelAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
-    QList<QTemporaryDir*>      m_previewDirList;
+    QList<QTemporaryDir*>      m_tmpOpenDirList;
     bool                  m_busy;
-    PreviewMode           m_previewMode;
+    OpenFileMode m_openFileMode;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;
     QVBoxLayout *m_vlayout;
+    QSignalMapper *m_signalMapper;
+    QFileSystemWatcher *m_fileWatcher;
 };
 
 } // namespace Ark
