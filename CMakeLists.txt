@@ -58,6 +58,8 @@ set_package_properties(Qt5Test PROPERTIES
 add_feature_info("Qt5Test" Qt5Test_FOUND "Required for building tests")
 if (NOT Qt5Test_FOUND)
     set(BUILD_TESTING OFF CACHE BOOL "Build the testing tree.")
+else()
+    include(ECMAddTests)
 endif()
 
 find_package(LibArchive 3.0.0 REQUIRED)

@@ -1,5 +1,3 @@
-include(ECMAddTests)
-
 set(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 add_executable(clirartest clirartest.cpp ../cliplugin.cpp)
