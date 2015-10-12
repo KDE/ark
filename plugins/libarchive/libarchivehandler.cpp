@@ -158,6 +158,11 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
         rootNodeSingular.append(QLatin1Char('/'));
     }
 
+    // To avoid traversing the entire archive when extracting a limited set of
+    // entries, we maintain a list of remaining entries and stop when it's
+    // empty.
+    QVariantList remainingFiles = files;
+
     ArchiveRead arch(archive_read_new());
 
     if (!(arch.data())) {
@@ -215,6 +220,11 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
 
     int no_entries = 0;
     while (archive_read_next_header(arch.data(), &entry) == ARCHIVE_OK) {
+
+        if (!extractAll && remainingFiles.isEmpty()) {
+            break;
+        }
+
         fileBeingRenamed.clear();
         int index;
 
@@ -241,7 +251,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             return false;
         }
 
-        if (files.contains(QVariant::fromValue(fileRootNodePair(entryName))) || entryName == fileBeingRenamed || extractAll) {
+        if (remainingFiles.contains(QVariant::fromValue(fileRootNodePair(entryName))) || entryName == fileBeingRenamed || extractAll) {
 
             // Find the index of entry.
             if (entryName != fileBeingRenamed) {
@@ -339,7 +349,7 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             }
 
             int header_response;
-            qCDebug(KERFUFFLE_PLUGIN) << "Writing " << fileWithoutPath << " to " << archive_entry_pathname(entry);
+            //qCDebug(KERFUFFLE_PLUGIN) << "Writing " << fileWithoutPath << " to " << archive_entry_pathname(entry);
             if ((header_response = archive_write_header(writer.data(), entry)) == ARCHIVE_OK) {
                 //if the whole archive is extracted and the total filesize is
                 //available, we use partial progress
@@ -360,6 +370,8 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
             }
             archive_entry_clear(entry);
             no_entries++;
+
+            remainingFiles.removeOne(QVariant::fromValue(fileRootNodePair(entryName)));
 
         } else {
 

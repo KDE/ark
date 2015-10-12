@@ -149,6 +149,12 @@ const QString LibSingleFileInterface::uncompressedFileName() const
 {
     QString uncompressedName(QFileInfo(filename()).fileName());
 
+    // Bug 252701: For .svgz just remove the terminal "z".
+    if (uncompressedName.endsWith(QLatin1String(".svgz"), Qt::CaseInsensitive)) {
+        uncompressedName.chop(1);
+        return uncompressedName;
+    }
+
     foreach(const QString & extension, m_possibleExtensions) {
         qCDebug(KERFUFFLE_PLUGIN) << extension;
 
