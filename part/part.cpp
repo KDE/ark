@@ -213,13 +213,7 @@ void Part::setupView()
     connect(m_view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
             this, SLOT(selectionChanged()));
 
-    if (QApplication::style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick, 0, m_view)) {
-        connect(m_view, SIGNAL(clicked(QModelIndex)),
-                this, SLOT(slotClicked(QModelIndex)));
-    } else {
-        connect(m_view, SIGNAL(doubleClicked(QModelIndex)),
-                this, SLOT(slotClicked(QModelIndex)));
-    }
+    connect(m_view, &QTreeView::activated, this, &Part::slotActivated);
 
     connect(m_view, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotShowContextMenu()));
 
@@ -227,9 +221,10 @@ void Part::setupView()
             this, SLOT(adjustColumns()));
 }
 
-void Part::slotClicked(QModelIndex)
+void Part::slotActivated(QModelIndex)
 {
-    // Only open the viewer if a CTRL or SHIFT key is not pressed
+    // The activated signal is emitted when items are selected with the mouse,
+    // so do nothing if CTRL or SHIFT key is pressed.
     if (QGuiApplication::keyboardModifiers() != Qt::ShiftModifier &&
         QGuiApplication::keyboardModifiers() != Qt::ControlModifier) {
         slotOpenEntry(Preview);
@@ -269,7 +264,7 @@ void Part::setupActions()
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
     m_previewAction->setIcon(QIcon::fromTheme(QStringLiteral("document-preview-archive")));
     m_previewAction->setStatusTip(i18n("Click to preview the selected file"));
-    actionCollection()->setDefaultShortcuts(m_previewAction, QList<QKeySequence>() << Qt::Key_Return << Qt::Key_Space);
+    actionCollection()->setDefaultShortcut(m_previewAction, Qt::Key_Space);
     connect(m_previewAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
     m_signalMapper->setMapping(m_previewAction, Preview);
 

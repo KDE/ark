@@ -93,7 +93,7 @@ private slots:
     void slotDeleteFiles();
     void slotDeleteFilesDone(KJob*);
     void slotShowContextMenu();
-    void slotClicked(QModelIndex);
+    void slotActivated(QModelIndex);
     void slotToggleInfoPanel(bool);
     void slotSaveAs();
     void updateActions();
