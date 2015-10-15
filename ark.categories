@@ -1,12 +1,11 @@
-ark.extracthere (ark extracthere)
-ark.main (ark main application)
-ark.kerfuffle (ark kerfufle debug)
-ark.kerfuffle.libarchive (ark libarchive)
-ark.kerfuffle.cliexample (ark cli example)
-ark.kerfuffle.singlefile (ark single file)
-ark.kerfuffle.cli7zip (ark cli7zip)
-ark.kerfuffle.clirar (ark cli rar)
-ark.kerfuffle.karchive (ark karchive)
-ark.kerfuffle.clilha (ark lha)
-ark.kerfuffle.cli7z (ark cli7z)
-
+ark.main Ark Main
+ark.kerfuffle Ark Kerfuffle
+ark.part Ark KPart
+ark.libarchive Ark Libarchive plugin
+ark.karchive Ark KArchive plugin
+ark.singlefile Ark Singlefile plugin
+ark.clizip Ark Infozip plugin
+ark.clirar Ark Rar plugin
+ark.clilha Ark LHA plugin
+ark.cli7z Ark p7zip plugin
+ark.cliexample Ark Cliexample
