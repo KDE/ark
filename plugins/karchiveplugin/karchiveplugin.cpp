@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
-#include "app/logging.h"
+#include "ark_debug.h"
 #include "karchiveplugin.h"
 #include "kerfuffle/queries.h"
 
@@ -35,14 +35,12 @@
 #include <QDir>
 #include <QMimeDatabase>
 
-Q_LOGGING_CATEGORY(KERFUFFLE_PLUGIN, "ark.kerfuffle.karchive", QtWarningMsg)
-
 K_PLUGIN_FACTORY( KArchiveInterfaceFactory, registerPlugin< KArchiveInterface >(); )
 
 KArchiveInterface::KArchiveInterface(QObject *parent, const QVariantList &args)
         : ReadWriteArchiveInterface(parent, args), m_archive(Q_NULLPTR)
 {
-    qCDebug(KERFUFFLE_PLUGIN) << "Loaded karchive plugin";
+    qCDebug(ARK) << "Loaded karchive plugin";
 }
 
 KArchiveInterface::~KArchiveInterface()
@@ -54,18 +52,18 @@ KArchiveInterface::~KArchiveInterface()
 KArchive *KArchiveInterface::archive()
 {
     if (!m_archive) {
-        qCDebug(KERFUFFLE_PLUGIN) << "Creating new KArchive instance";
+        qCDebug(ARK) << "Creating new KArchive instance";
 
         QMimeDatabase db;
         QMimeType mimeType = db.mimeTypeForFile(filename());
 
-        qCDebug(KERFUFFLE_PLUGIN) << "Archive MIME type is" << mimeType.name() << "inherits ZIP:" << mimeType.inherits(QStringLiteral("application/zip"));
+        qCDebug(ARK) << "Archive MIME type is" << mimeType.name() << "inherits ZIP:" << mimeType.inherits(QStringLiteral("application/zip"));
 
         if (mimeType.inherits(QStringLiteral("application/zip"))) {
-            qCDebug(KERFUFFLE_PLUGIN) << "Instance is KZip";
+            qCDebug(ARK) << "Instance is KZip";
             m_archive = new KZip(filename());
         } else {
-            qCDebug(KERFUFFLE_PLUGIN) << "Instance is KTar";
+            qCDebug(ARK) << "Instance is KTar";
             m_archive = new KTar(filename());
         }
 
@@ -75,20 +73,20 @@ KArchive *KArchiveInterface::archive()
 
 bool KArchiveInterface::list()
 {
-    qCDebug(KERFUFFLE_PLUGIN) << "Listing archive contents";
+    qCDebug(ARK) << "Listing archive contents";
 
     if (!QFile(archive()->fileName()).exists())
     {
         // If archive doesn't exist, create an empty one
         // Otherwise, subsequent file additions will fail
-        qCDebug(KERFUFFLE_PLUGIN) << "Archive doesn't exist, creating an empty one.";
+        qCDebug(ARK) << "Archive doesn't exist, creating an empty one.";
         if (!createEmptyArchive(archive())) {
             return false;
         }
     }
 
     if (!archive()->isOpen() && !archive()->open(QIODevice::ReadOnly)) {
-        qCDebug(KERFUFFLE_PLUGIN) << "Failed to open archive for reading.";
+        qCDebug(ARK) << "Failed to open archive for reading.";
         emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename> for reading", filename()));
 
         return false;
@@ -111,7 +109,7 @@ void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QStrin
             // Find empty directories
             if (static_cast<const KArchiveDirectory*>(entry)->entries().isEmpty())
             {
-                qCDebug(KERFUFFLE_PLUGIN) << "Found empty directory" << entry->name();
+                qCDebug(ARK) << "Found empty directory" << entry->name();
                 if (prefix.isEmpty())
                     list.append(entryName);
                 else
@@ -127,9 +125,9 @@ void KArchiveInterface::getAllEntries(const KArchiveDirectory *dir, const QStrin
 bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, ExtractionOptions options)
 {
     if (files.size() != 0)
-        qCDebug(KERFUFFLE_PLUGIN) << "Going to copy" << files.size() << "files";
+        qCDebug(ARK) << "Going to copy" << files.size() << "files";
     else
-        qCDebug(KERFUFFLE_PLUGIN) << "Going to copy all files";
+        qCDebug(ARK) << "Going to copy all files";
 
     const bool preservePaths = options.value(QLatin1String("PreservePaths")).toBool();
     const KArchiveDirectory *dir = archive()->directory();
@@ -151,10 +149,10 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
     int no_files = 0;
     foreach(const QVariant &file, extrFiles) {
         QString realDestination = destinationDirectory;
-        qCDebug(KERFUFFLE_PLUGIN) << "Real destination" << realDestination;
+        qCDebug(ARK) << "Real destination" << realDestination;
         const KArchiveEntry *archiveEntry = dir->entry(file.toString());
         if (!archiveEntry) {
-            qCDebug(KERFUFFLE_PLUGIN) << "File not found in the archive" << file.toString();
+            qCDebug(ARK) << "File not found in the archive" << file.toString();
             emit error(xi18nc("@info", "File <filename>%1</filename> not found in the archive" , file.toString()));
             return false;
         }
@@ -171,17 +169,17 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
                 dirCache << filepath;
             }
             realDestination = dest.absolutePath() + QLatin1Char('/') + filepath;
-            qCDebug(KERFUFFLE_PLUGIN) << "Real destination 2" << realDestination;
+            qCDebug(ARK) << "Real destination 2" << realDestination;
         }
 
         // TODO: handle errors, copyTo fails silently
         if (!archiveEntry->isDirectory()) { // We don't need to do anything about directories
 
-            qCDebug(KERFUFFLE_PLUGIN) << "Extracting file" << archiveEntry->name();
+            qCDebug(ARK) << "Extracting file" << archiveEntry->name();
 
             if (QFile::exists(realDestination + QLatin1Char('/') + archiveEntry->name()) && !overwriteAllSelected) {
 
-                qCDebug(KERFUFFLE_PLUGIN) << "file exists" << realDestination + QLatin1Char('/') + archiveEntry->name();
+                qCDebug(ARK) << "file exists" << realDestination + QLatin1Char('/') + archiveEntry->name();
 
                 if (autoSkipSelected) {
                     continue;
@@ -203,7 +201,7 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
                 }
             } else {
 
-                qCDebug(KERFUFFLE_PLUGIN) << "Extracting file" << realDestination << archiveEntry->name();
+                qCDebug(ARK) << "Extracting file" << realDestination << archiveEntry->name();
 
                 if (archiveEntry->symLinkTarget().isEmpty()) {
                     static_cast<const KArchiveFile*>(archiveEntry)->copyTo(realDestination);
@@ -219,7 +217,7 @@ bool KArchiveInterface::copyFiles(const QList<QVariant> &files, const QString &d
 
 
     }
-    qCDebug(KERFUFFLE_PLUGIN) << "Extracted" << no_files << "files";
+    qCDebug(ARK) << "Extracted" << no_files << "files";
 
     return true;
 }
@@ -246,17 +244,17 @@ int KArchiveInterface::handleFileExistsMessage(const QString &dir, const QString
 
 bool KArchiveInterface::browseArchive(KArchive *archive)
 {
-    qCDebug(KERFUFFLE_PLUGIN) << "Browsing archive" << archive->fileName();
+    qCDebug(ARK) << "Browsing archive" << archive->fileName();
     m_no_files = 0;
     m_no_dirs = 0;
     bool ret = processDir(archive->directory());
-    qCDebug(KERFUFFLE_PLUGIN) << "Created entries for" << m_no_files << "files" << m_no_dirs << "dirs";
+    qCDebug(ARK) << "Created entries for" << m_no_files << "files" << m_no_dirs << "dirs";
     return ret;
 }
 
 bool KArchiveInterface::processDir(const KArchiveDirectory *dir, const QString & prefix)
 {
-    qCDebug(KERFUFFLE_PLUGIN) << "Processing directory" << dir->name();
+    qCDebug(ARK) << "Processing directory" << dir->name();
 
     foreach(const QString& entryName, dir->entries()) {
         const KArchiveEntry *entry = dir->entry(entryName);
@@ -272,7 +270,7 @@ bool KArchiveInterface::processDir(const KArchiveDirectory *dir, const QString &
 
 void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QString& prefix)
 {
-    qCDebug(KERFUFFLE_PLUGIN) << "Creating archive entry";
+    qCDebug(ARK) << "Creating archive entry";
 
     ArchiveEntry e;
     QString fileName = prefix.isEmpty() ? aentry->name() : prefix + QLatin1Char('/') + aentry->name();
@@ -306,11 +304,11 @@ void KArchiveInterface::createEntryFor(const KArchiveEntry *aentry, const QStrin
 bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::CompressionOptions &options)
 {
     Q_UNUSED(options)
-    qCDebug(KERFUFFLE_PLUGIN) << "Going to add files to" << archive()->fileName();
+    qCDebug(ARK) << "Going to add files to" << archive()->fileName();
 
     // Close archive if open
     if (archive()->isOpen()) {
-        qCDebug(KERFUFFLE_PLUGIN) << "Archive was open, closing...";
+        qCDebug(ARK) << "Archive was open, closing...";
         archive()->close();
     }
 
@@ -327,10 +325,10 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
         return false;
     }
 
-    qCDebug(KERFUFFLE_PLUGIN) << "Archive opened for writing...";
-    qCDebug(KERFUFFLE_PLUGIN) << "Will add " << files.count() << " files";
+    qCDebug(ARK) << "Archive opened for writing...";
+    qCDebug(ARK) << "Will add " << files.count() << " files";
     foreach(const QString &path, files) {
-        qCDebug(KERFUFFLE_PLUGIN) << "Adding " << path;
+        qCDebug(ARK) << "Adding " << path;
         QFileInfo fi(path);
         Q_ASSERT(fi.exists());
 
@@ -345,7 +343,7 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
             }
         } else {
             if (archive()->addLocalFile(path, fi.fileName())) {
-                qCDebug(KERFUFFLE_PLUGIN) << "Successfully added file" << fi.fileName();
+                qCDebug(ARK) << "Successfully added file" << fi.fileName();
 
                 // The data is written to a QTemporaryFile when using addLocalFile().
                 // We need to call close() to write to the actual archive, otherwise
@@ -356,7 +354,7 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
                     return false;
                 }
 
-                qCDebug(KERFUFFLE_PLUGIN) << "Archive now contains" << archive()->directory()->entries();
+                qCDebug(ARK) << "Archive now contains" << archive()->directory()->entries();
 
                 const KArchiveEntry *entry = archive()->directory()->entry(fi.fileName());
                 createEntryFor(entry, QString());
@@ -366,9 +364,9 @@ bool KArchiveInterface::addFiles(const QStringList &files, const Kerfuffle::Comp
             }
         }
     }
-    qCDebug(KERFUFFLE_PLUGIN) << "Closing the archive";
+    qCDebug(ARK) << "Closing the archive";
     archive()->close();
-    qCDebug(KERFUFFLE_PLUGIN) << "Done";
+    qCDebug(ARK) << "Done";
     return true;
 }
 
@@ -376,7 +374,7 @@ bool KArchiveInterface::deleteFiles(const QList<QVariant> & files)
 {
     Q_UNUSED(files)
 
-    qCDebug(KERFUFFLE_PLUGIN) << "Going to delete files" << files;
+    qCDebug(ARK) << "Going to delete files" << files;
 
     return false;
 }
@@ -448,7 +446,7 @@ bool KArchiveInterface::createEmptyArchive(KArchive *archive)
     QMimeType mimeType = db.mimeTypeForFile(filename());
 
     if (mimeType.inherits(QStringLiteral("application/zip"))) {
-        qCDebug(KERFUFFLE_PLUGIN) << "Creating empty zip archive:" << archive->fileName();
+        qCDebug(ARK) << "Creating empty zip archive:" << archive->fileName();
 
         // Create an empty zip archive
         FILE* f;
@@ -456,19 +454,19 @@ bool KArchiveInterface::createEmptyArchive(KArchive *archive)
             (fwrite( "\x50\x4B\x05\x06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 22, 1, f )))
         {
             fclose(f);
-            qCDebug(KERFUFFLE_PLUGIN) << "Successfully created empty zip archive.";
+            qCDebug(ARK) << "Successfully created empty zip archive.";
             return true;
         }
     } else {
-        qCDebug(KERFUFFLE_PLUGIN) << "Creating empty tar-based archive:" << archive->fileName();
+        qCDebug(ARK) << "Creating empty tar-based archive:" << archive->fileName();
         if (arch.open(QIODevice::ReadWrite))
         {
             arch.close();
-            qCDebug(KERFUFFLE_PLUGIN) << "Successfully created empty tar-based archive.";
+            qCDebug(ARK) << "Successfully created empty tar-based archive.";
             return true;
         }
     }
-    qCWarning(KERFUFFLE_PLUGIN) << "Failed to create an empty archive!";
+    qCWarning(ARK) << "Failed to create an empty archive!";
     return false;
 }
 

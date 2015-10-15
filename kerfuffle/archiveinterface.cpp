@@ -26,7 +26,7 @@
  */
 
 #include "archiveinterface.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 
 #include <kfileitem.h>
 
@@ -42,7 +42,7 @@ ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVaria
         , m_isHeaderEncryptionEnabled(false)
         , m_isCorrupt(false)
 {
-    qCDebug(KERFUFFLE) << "Created read-only interface for" << args.first().toString();
+    qCDebug(ARK) << "Created read-only interface for" << args.first().toString();
     m_filename = args.first().toString();
 }
 
@@ -122,7 +122,7 @@ bool ReadOnlyArchiveInterface::isCorrupt() const
 ReadWriteArchiveInterface::ReadWriteArchiveInterface(QObject *parent, const QVariantList & args)
         : ReadOnlyArchiveInterface(parent, args)
 {
-    qCDebug(KERFUFFLE) << "Created read-write interface for" << args.first().toString();
+    qCDebug(ARK) << "Created read-write interface for" << args.first().toString();
 }
 
 ReadWriteArchiveInterface::~ReadWriteArchiveInterface()

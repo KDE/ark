@@ -21,17 +21,14 @@
  */
 
 #include "cliplugin.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 #include "kerfuffle/cliinterface.h"
 #include "kerfuffle/kerfuffle_export.h"
 
 #include <QDateTime>
-#include <QDebug>
 #include <QDir>
 
 #include <KPluginFactory>
-
-Q_LOGGING_CATEGORY(KERFUFFLE_PLUGIN, "ark.kerfuffle.cli7z", QtWarningMsg)
 
 using namespace Kerfuffle;
 
@@ -42,7 +39,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
         , m_archiveType(ArchiveType7z)
         , m_parseState(ParseStateHeader)
 {
-    qCDebug(KERFUFFLE_PLUGIN) << "Loaded cli_7z plugin";
+    qCDebug(ARK) << "Loaded cli_7z plugin";
 }
 
 CliPlugin::~CliPlugin()
@@ -110,13 +107,13 @@ bool CliPlugin::readListLine(const QString& line)
     switch (m_parseState) {
     case ParseStateHeader:
         if (line.startsWith(QStringLiteral("Listing archive:"))) {
-            qCDebug(KERFUFFLE_PLUGIN) << "Archive name: "
+            qCDebug(ARK) << "Archive name: "
                      << line.right(line.size() - 16).trimmed();
         } else if ((line == archiveInfoDelimiter1) ||
                    (line == archiveInfoDelimiter2)) {
             m_parseState = ParseStateArchiveInformation;
         } else if (line.contains(QStringLiteral("Error: "))) {
-            qCWarning(KERFUFFLE_PLUGIN) << line.mid(7);
+            qCWarning(ARK) << line.mid(7);
         }
         break;
 
@@ -125,7 +122,7 @@ bool CliPlugin::readListLine(const QString& line)
             m_parseState = ParseStateEntryInformation;
         } else if (line.startsWith(QStringLiteral("Type = "))) {
             const QString type = line.mid(7).trimmed();
-            qCDebug(KERFUFFLE_PLUGIN) << "Archive type: " << type;
+            qCDebug(ARK) << "Archive type: " << type;
 
             if (type == QLatin1String("7z")) {
                 m_archiveType = ArchiveType7z;
@@ -143,7 +140,7 @@ bool CliPlugin::readListLine(const QString& line)
                 m_archiveType = ArchiveTypeRar;
             } else {
                 // Should not happen
-                qCWarning(KERFUFFLE_PLUGIN) << "Unsupported archive type";
+                qCWarning(ARK) << "Unsupported archive type";
                 return false;
             }
         }

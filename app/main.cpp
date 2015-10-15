@@ -21,7 +21,7 @@
  */
 
 #include "ark_version.h"
-#include "logging.h"
+#include "ark_debug.h"
 #include "mainwindow.h"
 #include "batchextract.h"
 #include "kerfuffle/addtoarchive.h"
@@ -35,8 +35,6 @@
 #include <KAboutData>
 #include <KLocalizedString>
 #include <kdbusservice.h>
-
-Q_LOGGING_CATEGORY(ARK, "ark.main", QtWarningMsg)
 
 using Kerfuffle::AddToArchive;
 

@@ -26,7 +26,7 @@
  */
 
 #include "jobs.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 
 #include <QThread>
 
@@ -127,7 +127,7 @@ void Job::connectToArchiveInterfaceSignals()
 
 void Job::onCancelled()
 {
-    qCDebug(KERFUFFLE) << "Cancelled emitted";
+    qCDebug(ARK) << "Cancelled emitted";
     setError(KJob::KilledJobError);
 }
 
@@ -135,7 +135,7 @@ void Job::onError(const QString & message, const QString & details)
 {
     Q_UNUSED(details)
 
-    qCDebug(KERFUFFLE) << "Error emitted:" << message;
+    qCDebug(ARK) << "Error emitted:" << message;
     setError(KJob::UserDefinedError);
     setErrorText(message);
 }
@@ -162,7 +162,7 @@ void Job::onEntryRemoved(const QString & path)
 
 void Job::onFinished(bool result)
 {
-    qCDebug(KERFUFFLE) << "Job finished, result:" << result << ", time:" << jobTimer.elapsed() << "ms";
+    qCDebug(ARK) << "Job finished, result:" << result << ", time:" << jobTimer.elapsed() << "ms";
 
     archiveInterface()->disconnect(this);
 
@@ -178,7 +178,7 @@ bool Job::doKill()
 {
     bool ret = archiveInterface()->doKill();
     if (!ret) {
-        qCWarning(KERFUFFLE) << "Killing does not seem to be supported here.";
+        qCWarning(ARK) << "Killing does not seem to be supported here.";
     }
     return ret;
 }
@@ -189,7 +189,7 @@ ListJob::ListJob(ReadOnlyArchiveInterface *interface, QObject *parent)
     , m_isPasswordProtected(false)
     , m_extractedFilesSize(0)
 {
-    qCDebug(KERFUFFLE) << "ListJob started";
+    qCDebug(ARK) << "ListJob started";
     connect(this, &ListJob::newEntry, this, &ListJob::onNewEntry);
 }
 
@@ -251,7 +251,7 @@ ExtractJob::ExtractJob(const QVariantList& files, const QString& destinationDir,
     , m_destinationDir(destinationDir)
     , m_options(options)
 {
-    qCDebug(KERFUFFLE) << "ExtractJob created";
+    qCDebug(ARK) << "ExtractJob created";
     setDefaultOptions();
 }
 
@@ -267,7 +267,7 @@ void ExtractJob::doWork()
 
     connectToArchiveInterfaceSignals();
 
-    qCDebug(KERFUFFLE) << "Starting extraction with selected files:"
+    qCDebug(ARK) << "Starting extraction with selected files:"
              << m_files
              << "Destination dir:" << m_destinationDir
              << "Options:" << m_options;
@@ -308,12 +308,12 @@ AddJob::AddJob(const QStringList& files, const CompressionOptions& options , Rea
     , m_files(files)
     , m_options(options)
 {
-    qCDebug(KERFUFFLE) << "AddJob started";
+    qCDebug(ARK) << "AddJob started";
 }
 
 void AddJob::doWork()
 {
-    qCDebug(KERFUFFLE) << "AddJob doing work";
+    qCDebug(ARK) << "AddJob doing work";
 
     emit description(this, i18np("Adding a file", "Adding %1 files", m_files.count()));
 

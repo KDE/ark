@@ -27,7 +27,7 @@
  */
 
 #include "adddialog.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 #include "ui_adddialog.h"
 #include "kerfuffle/archive_kerfuffle.h"
 
@@ -56,7 +56,7 @@ AddDialog::AddDialog(QWidget *parent,
                      const QStringList &itemsToAdd)
         : CreateDialog(parent, caption, startDir)
 {
-    qCDebug(KERFUFFLE) << "AddDialog loaded";
+    qCDebug(ARK) << "AddDialog loaded";
 
     m_ui = new AddDialogUI(this);
     m_vlayout->addWidget(m_ui);

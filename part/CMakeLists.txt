@@ -9,10 +9,15 @@ set(arkpart_PART_SRCS
 	jobtracker.cpp
     )
 
+ecm_qt_declare_logging_category(arkpart_PART_SRCS
+                                HEADER ark_debug.h
+                                IDENTIFIER ARK
+                                CATEGORY_NAME ark.part)
+
 qt5_add_dbus_adaptor(arkpart_PART_SRCS dnddbusinterface.xml part.h Ark::Part)
 
-ki18n_wrap_ui(arkpart_PART_SRCS infopanel.ui )
-ki18n_wrap_ui(arkpart_PART_SRCS jobtracker.ui )
+ki18n_wrap_ui(arkpart_PART_SRCS infopanel.ui)
+ki18n_wrap_ui(arkpart_PART_SRCS jobtracker.ui)
 
 add_library(arkpart MODULE ${arkpart_PART_SRCS})
 
@@ -24,7 +29,6 @@ configure_file(
 )
 
 install(TARGETS arkpart DESTINATION ${PLUGIN_INSTALL_DIR})
-
 
 ########### install files ###############
 

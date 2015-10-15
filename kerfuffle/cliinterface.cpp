@@ -27,7 +27,7 @@
  */
 
 #include "cliinterface.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 #include "queries.h"
 
 #ifdef Q_OS_WIN
@@ -102,7 +102,7 @@ bool CliInterface::findExecutables(bool isReadWrite)
         bool execTypeFound = false;
         foreach (const QString &program, m_param.value(execType).toStringList()) {
             if (!QStandardPaths::findExecutable(program).isEmpty()) {
-                qCDebug(KERFUFFLE) << "Found executable type" << execType << ":" << program;
+                qCDebug(ARK) << "Found executable type" << execType << ":" << program;
                 execTypeFound = true;
                 break;
             }
@@ -140,7 +140,7 @@ bool CliInterface::list()
 
 bool CliInterface::copyFiles(const QVariantList &files, const QString &destinationDirectory, ExtractionOptions options)
 {
-    qCDebug(KERFUFFLE) << Q_FUNC_INFO << "to" << destinationDirectory;
+    qCDebug(ARK) << Q_FUNC_INFO << "to" << destinationDirectory;
 
     cacheParameterList();
 
@@ -152,7 +152,7 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
     //now replace the various elements in the list
     for (int i = 0; i < args.size(); ++i) {
         QString argument = args.at(i);
-        qCDebug(KERFUFFLE) << "Processing argument " << argument;
+        qCDebug(ARK) << "Processing argument " << argument;
 
         if (argument == QLatin1String( "$Archive" )) {
             args[i] = filename();
@@ -192,7 +192,7 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
             //the password in advance.
             if ((options.value(QLatin1String("PasswordProtectedHint")).toBool()) &&
                 (password().isEmpty())) {
-                qCDebug(KERFUFFLE) << "Password hint enabled, querying user";
+                qCDebug(ARK) << "Password hint enabled, querying user";
 
                 Kerfuffle::PasswordNeededQuery query(filename());
                 emit userQuery(&query);
@@ -239,7 +239,7 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
             QString rootNode;
             if (options.contains(QLatin1String( "RootNode" ))) {
                 rootNode = options.value(QLatin1String( "RootNode" )).toString();
-                qCDebug(KERFUFFLE) << "Set root node " << rootNode;
+                qCDebug(ARK) << "Set root node " << rootNode;
             }
 
             if (!rootNode.isEmpty()) {
@@ -275,9 +275,9 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
     QTemporaryDir tmpExtractDir;
 
     if (useTmpExtractDir) {
-        qCDebug(KERFUFFLE) << "Using temporary extraction dir:" << tmpExtractDir.path();
+        qCDebug(ARK) << "Using temporary extraction dir:" << tmpExtractDir.path();
         if (!tmpExtractDir.isValid()) {
-            qCDebug(KERFUFFLE) << "Creation of temporary directory failed.";
+            qCDebug(ARK) << "Creation of temporary directory failed.";
             failOperation();
             return false;
         }
@@ -309,7 +309,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
     const QString globalWorkDir = options.value(QLatin1String( "GlobalWorkDir" )).toString();
     const QDir workDir = globalWorkDir.isEmpty() ? QDir::current() : QDir(globalWorkDir);
     if (!globalWorkDir.isEmpty()) {
-        qCDebug(KERFUFFLE) << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
+        qCDebug(ARK) << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
         QDir::setCurrent(globalWorkDir);
     }
 
@@ -319,7 +319,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
     //now replace the various elements in the list
     for (int i = 0; i < args.size(); ++i) {
         const QString argument = args.at(i);
-        qCDebug(KERFUFFLE) << "Processing argument " << argument;
+        qCDebug(ARK) << "Processing argument " << argument;
 
         if (argument == QLatin1String( "$Archive" )) {
             args[i] = filename();
@@ -420,7 +420,7 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
     //now replace the various elements in the list
     for (int i = 0; i < args.size(); ++i) {
         QString argument = args.at(i);
-        qCDebug(KERFUFFLE) << "Processing argument " << argument;
+        qCDebug(ARK) << "Processing argument " << argument;
 
         if (argument == QLatin1String( "$Archive" )) {
             args[i] = filename();
@@ -460,7 +460,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
         return false;
     }
 
-    qCDebug(KERFUFFLE) << "Executing" << programPath << arguments;
+    qCDebug(ARK) << "Executing" << programPath << arguments;
 
     if (m_process) {
         m_process->waitForFinished();
@@ -500,7 +500,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
 
 void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    qCDebug(KERFUFFLE) << "Process finished, exitcode:" << exitCode << "exitstatus:" << exitStatus;
+    qCDebug(ARK) << "Process finished, exitcode:" << exitCode << "exitstatus:" << exitStatus;
 
     //if the m_process pointer is gone, then there is nothing to worry
     //about here
@@ -533,7 +533,7 @@ bool CliInterface::moveToFinalDest(const QVariantList &files, const QString &fin
     // Move extracted files from a QTemporaryDir to the final destination.
 
     QDir finalDestDir(finalDest);
-    qCDebug(KERFUFFLE) << "Setting final dir to" << finalDest;
+    qCDebug(ARK) << "Setting final dir to" << finalDest;
 
     bool overwriteAll = false;
     bool skipAll = false;
@@ -548,14 +548,14 @@ bool CliInterface::moveToFinalDest(const QVariantList &files, const QString &fin
 
             // For directories, just create the path.
             if (!finalDestDir.mkpath(relEntry.filePath())) {
-                qCWarning(KERFUFFLE) << "Failed to create directory" << relEntry.filePath() << "in final destination.";
+                qCWarning(ARK) << "Failed to create directory" << relEntry.filePath() << "in final destination.";
             }
 
         } else {
 
             // If destination file exists, prompt the user.
             if (absDestEntry.exists()) {
-                qCWarning(KERFUFFLE) << "File" << absDestEntry.absoluteFilePath() << "exists.";
+                qCWarning(ARK) << "File" << absDestEntry.absoluteFilePath() << "exists.";
 
                 if (!skipAll && !overwriteAll) {
 
@@ -569,7 +569,7 @@ bool CliInterface::moveToFinalDest(const QVariantList &files, const QString &fin
                             overwriteAll = true;
                         }
                         if (!QFile::remove(absDestEntry.absoluteFilePath())) {
-                            qCWarning(KERFUFFLE) << "Failed to remove" << absDestEntry.absoluteFilePath();
+                            qCWarning(ARK) << "Failed to remove" << absDestEntry.absoluteFilePath();
                         }
 
                     } else if (query.responseSkip() || query.responseAutoSkip()) {
@@ -579,7 +579,7 @@ bool CliInterface::moveToFinalDest(const QVariantList &files, const QString &fin
                         continue;
 
                     } else if (query.responseCancelled()) {
-                        qCDebug(KERFUFFLE) << "Copy action cancelled.";
+                        qCDebug(ARK) << "Copy action cancelled.";
                         return false;
                     }
 
@@ -589,7 +589,7 @@ bool CliInterface::moveToFinalDest(const QVariantList &files, const QString &fin
                 } else if (overwriteAll) {
 
                     if (!QFile::remove(absDestEntry.absoluteFilePath())) {
-                        qCWarning(KERFUFFLE) << "Failed to remove" << absDestEntry.absoluteFilePath();
+                        qCWarning(ARK) << "Failed to remove" << absDestEntry.absoluteFilePath();
                     }
                 }
 
@@ -597,12 +597,12 @@ bool CliInterface::moveToFinalDest(const QVariantList &files, const QString &fin
 
             // Create any parent directories.
             if (!finalDestDir.mkpath(relEntry.path())) {
-                qCWarning(KERFUFFLE) << "Failed to create parent dirctory for file:" << absDestEntry.filePath();
+                qCWarning(ARK) << "Failed to create parent dirctory for file:" << absDestEntry.filePath();
             }
 
             // Move files to the final destination.
             if (!QFile(absSourceEntry.absoluteFilePath()).rename(absDestEntry.absoluteFilePath())) {
-                qCWarning(KERFUFFLE) << "Failed to move file" << absSourceEntry.filePath() << "to final destination.";
+                qCWarning(ARK) << "Failed to move file" << absSourceEntry.filePath() << "to final destination.";
                 return false;
             }
         }
@@ -713,7 +713,7 @@ void CliInterface::handleLine(const QString& line)
 
     if (m_operationMode == Copy) {
         if (checkForPasswordPromptMessage(line)) {
-            qCDebug(KERFUFFLE) << "Found a password prompt";
+            qCDebug(ARK) << "Found a password prompt";
 
             Kerfuffle::PasswordNeededQuery query(filename());
             emit userQuery(&query);
@@ -734,7 +734,7 @@ void CliInterface::handleLine(const QString& line)
         }
 
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
-            qCWarning(KERFUFFLE) << "Wrong password!";
+            qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
             emit error(i18nc("@info", "Extraction failed: Incorrect password"));
             failOperation();
@@ -742,7 +742,7 @@ void CliInterface::handleLine(const QString& line)
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
-            qCWarning(KERFUFFLE) << "Error in extraction!!";
+            qCWarning(ARK) << "Error in extraction!!";
             emit error(i18n("Extraction failed because of an unexpected error."));
             failOperation();
             return;
@@ -755,7 +755,7 @@ void CliInterface::handleLine(const QString& line)
 
     if (m_operationMode == List) {
         if (checkForPasswordPromptMessage(line)) {
-            qCDebug(KERFUFFLE) << "Found a password prompt";
+            qCDebug(ARK) << "Found a password prompt";
 
             Kerfuffle::PasswordNeededQuery query(filename());
             emit userQuery(&query);
@@ -776,7 +776,7 @@ void CliInterface::handleLine(const QString& line)
         }
 
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
-            qCWarning(KERFUFFLE) << "Wrong password!";
+            qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
             emit error(i18n("Incorrect password."));
             failOperation();
@@ -784,14 +784,14 @@ void CliInterface::handleLine(const QString& line)
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
-            qCWarning(KERFUFFLE) << "Error in extraction!!";
+            qCWarning(ARK) << "Error in extraction!!";
             emit error(i18n("Extraction failed because of an unexpected error."));
             failOperation();
             return;
         }
 
         if (checkForErrorMessage(line, CorruptArchivePatterns)) {
-            qCWarning(KERFUFFLE) << "Archive corrupt";
+            qCWarning(ARK) << "Archive corrupt";
             setCorrupt(true);
             Kerfuffle::LoadCorruptQuery query(filename());
             emit userQuery(&query);
@@ -851,7 +851,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
 
         if (rxMatch.hasMatch()) {
             m_storedFileName = rxMatch.captured(1);
-            qCWarning(KERFUFFLE) << "Detected existing file:" << m_storedFileName;
+            qCWarning(ARK) << "Detected existing file:" << m_storedFileName;
         }
     }
 
@@ -862,10 +862,10 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
     Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char( '/' ) + m_storedFileName);
     query.setNoRenameMode(true);
     emit userQuery(&query);
-    qCDebug(KERFUFFLE) << "Waiting response";
+    qCDebug(ARK) << "Waiting response";
     query.waitForResponse();
 
-    qCDebug(KERFUFFLE) << "Finished response";
+    qCDebug(ARK) << "Finished response";
 
     QString responseToProcess;
     const QStringList choices = m_param.value(FileExistsInput).toStringList();
@@ -992,7 +992,7 @@ void CliInterface::writeToProcess(const QByteArray& data)
     Q_ASSERT(m_process);
     Q_ASSERT(!data.isNull());
 
-    qCDebug(KERFUFFLE) << "Writing" << data << "to the process";
+    qCDebug(ARK) << "Writing" << data << "to the process";
 
 #ifdef Q_OS_WIN
     m_process->write(data);

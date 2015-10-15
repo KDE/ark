@@ -1,4 +1,10 @@
 set(kerfuffle_singlefile_SRCS singlefileplugin.cpp)
+
+ecm_qt_declare_logging_category(kerfuffle_singlefile_SRCS
+                                HEADER ark_debug.h
+                                IDENTIFIER ARK
+                                CATEGORY_NAME ark.singlefile)
+
 set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "")
 
 # This MIME type was originally set in ark.desktop but is does not

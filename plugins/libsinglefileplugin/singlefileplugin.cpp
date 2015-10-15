@@ -24,12 +24,11 @@
  */
 
 #include "singlefileplugin.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 #include "kerfuffle/kerfuffle_export.h"
 #include "kerfuffle/queries.h"
 
 #include <QByteArray>
-#include <QDebug>
 #include <QFile>
 #include <QFileInfo>
 #include <QString>
@@ -37,12 +36,10 @@
 #include <KFilterDev>
 #include <KLocalizedString>
 
-Q_LOGGING_CATEGORY(KERFUFFLE_PLUGIN, "ark.kerfuffle.singlefile", QtWarningMsg)
-
 LibSingleFileInterface::LibSingleFileInterface(QObject *parent, const QVariantList & args)
         : Kerfuffle::ReadOnlyArchiveInterface(parent, args)
 {
-    qCDebug(KERFUFFLE_PLUGIN) << "Loaded singlefile plugin";
+    qCDebug(ARK) << "Loaded singlefile plugin";
 }
 
 LibSingleFileInterface::~LibSingleFileInterface()
@@ -65,11 +62,11 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
         return true;
     }
 
-    qCDebug(KERFUFFLE_PLUGIN) << "Extracting to" << outputFileName;
+    qCDebug(ARK) << "Extracting to" << outputFileName;
 
     QFile outputFile(outputFileName);
     if (!outputFile.open(QIODevice::WriteOnly)) {
-        qCCritical(KERFUFFLE_PLUGIN) << "Failed to open output file" << outputFile.errorString();
+        qCCritical(ARK) << "Failed to open output file" << outputFile.errorString();
         emit error(xi18nc("@info", "Ark could not extract <filename>%1</filename>.", outputFile.fileName()));
 
         return false;
@@ -77,7 +74,7 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
 
     KCompressionDevice *device = new KCompressionDevice(filename(), KFilterDev::compressionTypeForMimeType(m_mimeType));
     if (!device) {
-        qCCritical(KERFUFFLE_PLUGIN) << "Could not create KCompressionDevice";
+        qCCritical(ARK) << "Could not create KCompressionDevice";
         emit error(xi18nc("@info", "Ark could not open <filename>%1</filename> for extraction.", filename()));
 
         return false;
@@ -108,7 +105,7 @@ bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QStr
 
 bool LibSingleFileInterface::list()
 {
-    qCDebug(KERFUFFLE_PLUGIN) << "Listing archive contents";
+    qCDebug(ARK) << "Listing archive contents";
 
     const QString filename = uncompressedFileName();
 
@@ -156,7 +153,7 @@ const QString LibSingleFileInterface::uncompressedFileName() const
     }
 
     foreach(const QString & extension, m_possibleExtensions) {
-        qCDebug(KERFUFFLE_PLUGIN) << extension;
+        qCDebug(ARK) << extension;
 
         if (uncompressedName.endsWith(extension, Qt::CaseInsensitive)) {
             uncompressedName.chop(extension.size());

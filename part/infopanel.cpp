@@ -20,7 +20,7 @@
  */
 
 #include "infopanel.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 #include "kerfuffle/archive_kerfuffle.h"
 
 #include <QLabel>

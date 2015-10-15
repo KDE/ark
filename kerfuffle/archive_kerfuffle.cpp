@@ -26,7 +26,7 @@
  */
 
 #include "archive_kerfuffle.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 #include "archiveinterface.h"
 #include "jobs.h"
 
@@ -40,8 +40,6 @@
 #include <KPluginLoader>
 #include <KMimeTypeTrader>
 #include <KServiceTypeTrader>
-
-Q_LOGGING_CATEGORY(KERFUFFLE, "ark.kerfuffle", QtWarningMsg)
 
 static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
 {
@@ -73,7 +71,7 @@ static QString determineMimeType(const QString& filename)
     }
 
     if (mimeFromExtension != mimeFromContent) {
-        qCWarning(KERFUFFLE) << "Mimetype for filename extension (" << mimeFromExtension.name()
+        qCWarning(ARK) << "Mimetype for filename extension (" << mimeFromExtension.name()
                              << ") did not match mimetype for content (" << mimeFromContent.name()
                              << "). Using content-based mimetype.";
     }
@@ -85,18 +83,18 @@ static KService::List findPluginOffers(const QString& filename, const QString& f
 {
     KService::List offers;
 
-    qCDebug(KERFUFFLE) << "Find plugin offers for" << filename << "with mime" << fixedMimeType;
+    qCDebug(ARK) << "Find plugin offers for" << filename << "with mime" << fixedMimeType;
 
     const QString mimeType = fixedMimeType.isEmpty() ? determineMimeType(filename) : fixedMimeType;
 
-    qCDebug(KERFUFFLE) << "Detected mime" << mimeType;
+    qCDebug(ARK) << "Detected mime" << mimeType;
 
     if (!mimeType.isEmpty()) {
         offers = KMimeTypeTrader::self()->query(mimeType, QLatin1String( "Kerfuffle/Plugin" ), QLatin1String( "(exist Library)" ));
         qSort(offers.begin(), offers.end(), comparePlugins);
     }
 
-    qCDebug(KERFUFFLE) << "Have" << offers.count() << "offers";
+    qCDebug(ARK) << "Have" << offers.count() << "offers";
 
     return offers;
 }
@@ -117,7 +115,7 @@ Archive *Archive::create(const QString &fileName, QObject *parent)
 
 Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, QObject *parent)
 {
-    qCDebug(KERFUFFLE) << "Going to create archive" << fileName;
+    qCDebug(ARK) << "Going to create archive" << fileName;
 
     qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 
@@ -126,7 +124,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
 
     const KService::List offers = findPluginOffers(fileName, fixedMimeType);
     if (offers.isEmpty()) {
-        qCCritical(KERFUFFLE) << "Could not find a plugin to handle" << fileName;
+        qCCritical(ARK) << "Could not find a plugin to handle" << fileName;
         return Q_NULLPTR;
     }
 
@@ -137,27 +135,27 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
 
         QString pluginName = service->library();
         bool isReadOnly = !service->property(QStringLiteral("X-KDE-Kerfuffle-ReadWrite")).toBool();
-        qCDebug(KERFUFFLE) << "Loading plugin" << pluginName;
+        qCDebug(ARK) << "Loading plugin" << pluginName;
 
         factory = KPluginLoader(pluginName).factory();
         if (!factory) {
-            qCWarning(KERFUFFLE) << "Invalid plugin factory for" << pluginName;
+            qCWarning(ARK) << "Invalid plugin factory for" << pluginName;
             continue;
         }
 
         iface = factory->create<ReadOnlyArchiveInterface>(0, args);
         if (!iface) {
-            qCWarning(KERFUFFLE) << "Could not create plugin instance" << pluginName;
+            qCWarning(ARK) << "Could not create plugin instance" << pluginName;
             continue;
         }
 
         if (iface->isCliBased()) {
-            qCDebug(KERFUFFLE) << "Finding executables for plugin" << pluginName;
+            qCDebug(ARK) << "Finding executables for plugin" << pluginName;
 
             if (iface->findExecutables(!isReadOnly)) {
                 return new Archive(iface, isReadOnly, parent);
             } else {
-                qCWarning(KERFUFFLE) << "Failed to find needed executables for plugin" << pluginName;
+                qCWarning(ARK) << "Failed to find needed executables for plugin" << pluginName;
             }
         } else {
             // Not CliBased plugin, don't search for executables.
@@ -165,7 +163,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
         }
     }
 
-    qCCritical(KERFUFFLE) << "Failed to find a usable plugin for" << fileName;
+    qCCritical(ARK) << "Failed to find a usable plugin for" << fileName;
     return Q_NULLPTR;
 }
 
@@ -177,7 +175,7 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
         m_isPasswordProtected(false),
         m_isSingleFolderArchive(false)
 {
-    qCDebug(KERFUFFLE) << "Created archive instance";
+    qCDebug(ARK) << "Created archive instance";
 
     Q_ASSERT(archiveInterface);
     archiveInterface->setParent(this);
@@ -207,7 +205,7 @@ KJob* Archive::create()
 
 ListJob* Archive::list()
 {
-    qCDebug(KERFUFFLE) << "Going to list files";
+    qCDebug(ARK) << "Going to list files";
 
     ListJob *job = new ListJob(m_iface, this);
     job->setAutoDelete(false);
@@ -222,7 +220,7 @@ ListJob* Archive::list()
 
 DeleteJob* Archive::deleteFiles(const QList<QVariant> & files)
 {
-    qCDebug(KERFUFFLE) << "Going to delete files" << files;
+    qCDebug(ARK) << "Going to delete files" << files;
 
     if (m_iface->isReadOnly()) {
         return 0;
@@ -234,7 +232,7 @@ DeleteJob* Archive::deleteFiles(const QList<QVariant> & files)
 
 AddJob* Archive::addFiles(const QStringList & files, const CompressionOptions& options)
 {
-    qCDebug(KERFUFFLE) << "Going to add files" << files << "with options" << options;
+    qCDebug(ARK) << "Going to add files" << files << "with options" << options;
     Q_ASSERT(!m_iface->isReadOnly());
     AddJob *newJob = new AddJob(files, options, static_cast<ReadWriteArchiveInterface*>(m_iface), this);
     connect(newJob, &AddJob::result, this, &Archive::onAddFinished);
@@ -362,7 +360,7 @@ QStringList supportedMimeTypes()
         }
     }
 
-    qCDebug(KERFUFFLE) << "Returning supported mimetypes" << supported;
+    qCDebug(ARK) << "Returning supported mimetypes" << supported;
 
     return supported;
 }
@@ -389,7 +387,7 @@ QStringList supportedWriteMimeTypes()
         }
     }
 
-    qCDebug(KERFUFFLE) << "Returning supported write mimetypes" << supported;
+    qCDebug(ARK) << "Returning supported write mimetypes" << supported;
 
     return supported;
 }
@@ -407,7 +405,7 @@ QSet<QString> supportedEncryptEntriesMimeTypes()
         }
     }
 
-    qCDebug(KERFUFFLE) << "Entry encryption supported for mimetypes" << supported;
+    qCDebug(ARK) << "Entry encryption supported for mimetypes" << supported;
 
     return supported;
 }
@@ -425,7 +423,7 @@ QSet<QString> supportedEncryptHeaderMimeTypes()
         }
     }
 
-    qCDebug(KERFUFFLE) << "Header encryption supported for mimetypes" << supported;
+    qCDebug(ARK) << "Header encryption supported for mimetypes" << supported;
 
     return supported;
 }

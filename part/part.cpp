@@ -22,7 +22,7 @@
  */
 
 #include "part.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 #include "archivemodel.h"
 #include "archiveview.h"
 #include "arkviewer.h"
@@ -68,8 +68,6 @@
 #include <QInputDialog>
 #include <QFileSystemWatcher>
 
-Q_LOGGING_CATEGORY(PART, "ark.part", QtWarningMsg)
-
 using namespace Kerfuffle;
 
 K_PLUGIN_FACTORY(Factory, registerPlugin<Ark::Part>();)
@@ -92,7 +90,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
     const QString pathName = QStringLiteral("/DndExtract/%1").arg(s_instanceCounter++);
     if (!QDBusConnection::sessionBus().registerObject(pathName, this)) {
-        qCCritical(PART) << "Could not register a D-Bus object for drag'n'drop";
+        qCCritical(ARK) << "Could not register a D-Bus object for drag'n'drop";
     }
 
     // m_vlayout is needed for later insertion of QMessageWidget
@@ -185,7 +183,7 @@ void Part::registerJob(KJob* job)
 //       See bugs #189322 and #204323.
 void Part::extractSelectedFilesTo(const QString& localPath)
 {
-    qCDebug(PART) << "Extract to" << localPath;
+    qCDebug(ARK) << "Extract to" << localPath;
     if (!m_model) {
         return;
     }
@@ -379,10 +377,10 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
     //          action, and we do not want it to run here
     if (!triggeredAction->data().isNull()) {
         const QString userDestination = triggeredAction->data().toString();
-        qCDebug(PART) << "Extract to user dest" << userDestination;
+        qCDebug(ARK) << "Extract to user dest" << userDestination;
         QString finalDestinationDirectory;
         const QString detectedSubfolder = detectSubfolder();
-        qCDebug(PART) << "Detected subfolder" << detectedSubfolder;
+        qCDebug(ARK) << "Detected subfolder" << detectedSubfolder;
 
         if (!isSingleFolderArchive()) {
             finalDestinationDirectory = userDestination +
@@ -392,7 +390,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
             finalDestinationDirectory = userDestination;
         }
 
-        qCDebug(PART) << "Extract to final dest" << finalDestinationDirectory;
+        qCDebug(ARK) << "Extract to final dest" << finalDestinationDirectory;
 
         Kerfuffle::ExtractionOptions options;
         options[QStringLiteral("PreservePaths")] = true;
@@ -414,7 +412,7 @@ void Part::selectionChanged()
 
 bool Part::openFile()
 {
-    qCDebug(PART) << "Attempting to open archive" << localFilePath();
+    qCDebug(ARK) << "Attempting to open archive" << localFilePath();
 
     const QString localFile(localFilePath());
     const QFileInfo localFileInfo(localFile);
@@ -611,7 +609,7 @@ void Part::setFileNameFromArchive()
 
 void Part::slotOpenEntry(int mode)
 {
-    qCDebug(PART) << "Opening with mode" << mode;
+    qCDebug(ARK) << "Opening with mode" << mode;
 
     QModelIndex index = m_view->selectionModel()->currentIndex();
     const ArchiveEntry& entry =  m_model->entryForIndex(index);
@@ -706,7 +704,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
 
 void Part::slotWatchedFileModified(const QString& file)
 {
-    qCDebug(PART) << "Watched file modified:" << file;
+    qCDebug(ARK) << "Watched file modified:" << file;
 
     // Find the relative path of the file within the archive.
     QString relPath = file;
@@ -735,7 +733,7 @@ void Part::slotWatchedFileModified(const QString& file)
                                i18n("File modified")) == KMessageBox::Yes) {
         QStringList list = QStringList() << file;
 
-        qCDebug(PART) << "Updating file" << file << "with path" << relPath;
+        qCDebug(ARK) << "Updating file" << file << "with path" << relPath;
         slotAddFiles(list, relPath);
     }
     // This is needed because some apps, such as Kate, delete and recreate
@@ -800,7 +798,7 @@ void Part::slotExtractFiles()
             files = filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows()));
         }
 
-        qCDebug(PART) << "Selected " << files;
+        qCDebug(ARK) << "Selected " << files;
 
         Kerfuffle::ExtractionOptions options;
 
@@ -904,9 +902,9 @@ void Part::slotExtractionDone(KJob* job)
         }
 
         if (ArkSettings::openDestinationFolderAfterExtraction()) {
-            qCDebug(PART) << "Shall open" << extractJob->destinationDirectory();
+            qCDebug(ARK) << "Shall open" << extractJob->destinationDirectory();
             QUrl destinationDirectory = QUrl::fromLocalFile(extractJob->destinationDirectory()).adjusted(QUrl::NormalizePathSegments);
-            qCDebug(PART) << "Shall open URL" << destinationDirectory;
+            qCDebug(ARK) << "Shall open URL" << destinationDirectory;
 
             KRun::runUrl(destinationDirectory, QStringLiteral("inode/directory"), widget());
         }
@@ -928,7 +926,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
         return;
     }
 
-    qCDebug(PART) << "Adding " << filesToAdd << " to " << path;
+    qCDebug(ARK) << "Adding " << filesToAdd << " to " << path;
 
     // Add a trailing slash to directories.
     QStringList cleanFilesToAdd(filesToAdd);
@@ -964,7 +962,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
     // Now take the absolute path of the parent directory.
     globalWorkDir = QFileInfo(globalWorkDir).dir().absolutePath();
 
-    qCDebug(PART) << "Detected GlobalWorkDir to be " << globalWorkDir;
+    qCDebug(ARK) << "Detected GlobalWorkDir to be " << globalWorkDir;
     CompressionOptions options;
     options[QStringLiteral("GlobalWorkDir")] = globalWorkDir;
 

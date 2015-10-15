@@ -20,7 +20,7 @@
  */
 
 #include "cliplugin.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 #include "kerfuffle/cliinterface.h"
 #include "kerfuffle/kerfuffle_export.h"
 
@@ -30,8 +30,6 @@
 #include <QDir>
 #include <QRegularExpression>
 
-Q_LOGGING_CATEGORY(KERFUFFLE_PLUGIN, "ark.kerfuffle.cli7zip", QtWarningMsg)
-
 using namespace Kerfuffle;
 
 K_PLUGIN_FACTORY( CliPluginFactory, registerPlugin< CliPlugin >(); )
@@ -40,7 +38,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
     : CliInterface(parent, args)
     , m_parseState(ParseStateHeader)
 {
-    qCDebug(KERFUFFLE_PLUGIN) << "Loaded cli_zip plugin";
+    qCDebug(ARK) << "Loaded cli_zip plugin";
 }
 
 CliPlugin::~CliPlugin()

@@ -23,7 +23,7 @@
  */
 
 #include "mainwindow.h"
-#include "logging.h"
+#include "ark_debug.h"
 #include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/createdialog.h"
 #include "kerfuffle/settingspage.h"

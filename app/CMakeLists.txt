@@ -6,6 +6,11 @@ set(ark_SRCS
     mainwindow.cpp
    )
 
+ecm_qt_declare_logging_category(ark_SRCS
+                                HEADER ark_debug.h
+                                IDENTIFIER ARK
+                                CATEGORY_NAME ark.main)
+
 # For Mac and Windows.
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/*-apps-ark.png")
 
@@ -42,7 +47,7 @@ install( FILES arkui.rc    DESTINATION ${KXMLGUI_INSTALL_DIR}/ark )
 
 ############ ark_extract_here plugin ###############
 
-set(extracthere_SRCS batchextract.cpp extractHereDndPlugin.cpp)
+set(extracthere_SRCS batchextract.cpp extractHereDndPlugin.cpp ark_debug.cpp)
 
 add_library(extracthere MODULE ${extracthere_SRCS})
 kcoreaddons_desktop_to_json(extracthere ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop)

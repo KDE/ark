@@ -5,6 +5,11 @@ set(ENCRYPT_ENTRIES_MIMETYPES "application/x-java-archive,application/zip")
 
 set(kerfuffle_clizip_SRCS cliplugin.cpp)
 
+ecm_qt_declare_logging_category(kerfuffle_clizip_SRCS
+                                HEADER ark_debug.h
+                                IDENTIFIER ARK
+                                CATEGORY_NAME ark.clizip)
+
 add_library(kerfuffle_clizip MODULE ${kerfuffle_clizip_SRCS})
 
 target_link_libraries(kerfuffle_clizip kerfuffle )

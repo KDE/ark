@@ -18,6 +18,11 @@ configure_file(
 
 set(kerfuffle_libarchive_SRCS libarchivehandler.cpp)
 
+ecm_qt_declare_logging_category(kerfuffle_libarchive_SRCS
+                                HEADER ark_debug.h
+                                IDENTIFIER ARK
+                                CATEGORY_NAME ark.libarchive)
+
 add_library(kerfuffle_libarchive MODULE ${kerfuffle_libarchive_SRCS})
 
 target_link_libraries(kerfuffle_libarchive KF5::KIOCore ${LibArchive_LIBRARIES} kerfuffle )

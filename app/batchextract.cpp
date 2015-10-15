@@ -27,7 +27,7 @@
  */
 
 #include "batchextract.h"
-#include "logging.h"
+#include "ark_debug.h"
 #include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/extractiondialog.h"
 #include "kerfuffle/jobs.h"

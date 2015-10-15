@@ -26,7 +26,7 @@
  */
 
 #include "extractiondialog.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 #include "settings.h"
 
 #include <KLocalizedString>
@@ -57,7 +57,7 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
         : QDialog(parent, Qt::Dialog)
 
 {
-    qCDebug(KERFUFFLE) << "ExtractionDialog loaded";
+    qCDebug(ARK) << "ExtractionDialog loaded";
 
     setWindowTitle(i18nc("@title:window", "Extract"));
 

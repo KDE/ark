@@ -20,7 +20,7 @@
  */
 
 #include "arkviewer.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 
 #include <KLocalizedString>
 #include <KMimeTypeTrader>
@@ -46,7 +46,7 @@
 ArkViewer::ArkViewer(QWidget *parent, Qt::WindowFlags flags)
         : QDialog(parent, flags)
 {
-    qCDebug(PART) << "ArkViewer opened";
+    qCDebug(ARK) << "ArkViewer opened";
 
     // Set a QVBoxLayout as main layout of dialog
     m_mainLayout = new QVBoxLayout(this);
@@ -100,7 +100,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
 {
     QMimeDatabase db;
     QMimeType mimeType = db.mimeTypeForFile(fileName);
-    qCDebug(PART) << "viewing" << fileName << "with mime type:" << mimeType.name();
+    qCDebug(ARK) << "viewing" << fileName << "with mime type:" << mimeType.name();
     KService::Ptr viewer = ArkViewer::getViewer(mimeType.name());
 
     const bool needsExternalViewer = (viewer &&
@@ -110,7 +110,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
         // So there is no point in using KRun::runUrl() which would need
         // to do the same again.
 
-        qCDebug(PART) << "Using external viewer";
+        qCDebug(ARK) << "Using external viewer";
 
         const QList<QUrl> fileUrlList = {QUrl::fromLocalFile(fileName)};
         // The last argument (tempFiles) set to true means that the temporary
@@ -119,13 +119,13 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
         return;
     }
 
-    qCDebug(PART) << "Using internal viewer";
+    qCDebug(ARK) << "Using internal viewer";
     bool viewInInternalViewer = true;
     if (!viewer) {
         // No internal viewer available for the file.  Ask the user if it
         // should be previewed as text/plain.
 
-        qCDebug(PART) << "Internal viewer not available";
+        qCDebug(ARK) << "Internal viewer not available";
 
         int response;
         if (!mimeType.isDefault()) {
@@ -162,7 +162,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
     }
 
     if (viewInInternalViewer) {
-        qCDebug(PART) << "Opening internal viewer";
+        qCDebug(ARK) << "Opening internal viewer";
         ArkViewer *internalViewer = new ArkViewer(parent, Qt::Window);
         internalViewer->setModal(Qt::WindowModal);
         internalViewer->show();
@@ -181,7 +181,7 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
     // Only get here if there is no internal viewer available or could be
     // used for the file, and no external viewer was opened.  Nothing can be
     // done with the temporary file, so remove it now.
-    qCDebug(PART) << "Removing temporary file:" << fileName;
+    qCDebug(ARK) << "Removing temporary file:" << fileName;
     QFile::remove(fileName);
 }
 
@@ -247,7 +247,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
     //       maybe there should be an option controlling this
     KHTMLPart *khtmlPart = qobject_cast<KHTMLPart*>(m_part.data());
     if (khtmlPart) {
-        qCDebug(PART) << "Disabling javascripts, plugins, java and external references for KHTMLPart";
+        qCDebug(ARK) << "Disabling javascripts, plugins, java and external references for KHTMLPart";
         khtmlPart->setJScriptEnabled(false);
         khtmlPart->setJavaEnabled(false);
         khtmlPart->setPluginsEnabled(false);
@@ -262,7 +262,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
 
 void ArkViewer::slotOpenUrlRequestDelayed(const QUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments)
 {
-    qCDebug(PART) << "Opening URL: " << url;
+    qCDebug(ARK) << "Opening URL: " << url;
 
     Q_UNUSED(arguments)
     Q_UNUSED(browserArguments)

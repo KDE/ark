@@ -20,7 +20,7 @@
  */
 
 #include "archiveview.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 
 #include <QDebug>
 
@@ -67,7 +67,7 @@ void ArchiveView::startDrag(Qt::DropActions supportedActions)
 void ArchiveView::dragEnterEvent(QDragEnterEvent * event)
 {
     //TODO: if no model, trigger some mechanism to create one automatically!
-    qCDebug(PART) << "dragEnterEvent" << event;
+    qCDebug(ARK) << "dragEnterEvent" << event;
 
     if (event->source() == this) {
         //we don't support internal drops yet.
@@ -79,7 +79,7 @@ void ArchiveView::dragEnterEvent(QDragEnterEvent * event)
 
 void ArchiveView::dropEvent(QDropEvent * event)
 {
-    qCDebug(PART) << "dropEvent" << event;
+    qCDebug(ARK) << "dropEvent" << event;
 
     if (event->source() == this) {
         //we don't support internal drops yet.
@@ -91,7 +91,7 @@ void ArchiveView::dropEvent(QDropEvent * event)
 
 void ArchiveView::dragMoveEvent(QDragMoveEvent * event)
 {
-    qCDebug(PART) << "dragMoveEvent" << event;
+    qCDebug(ARK) << "dragMoveEvent" << event;
 
     if (event->source() == this) {
         //we don't support internal drops yet.

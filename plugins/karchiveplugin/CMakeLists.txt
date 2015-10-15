@@ -4,6 +4,11 @@ set(SUPPORTED_KARCHIVE_MIMETYPES "application/zip;application/x-zip-compressed;a
 
 set(kerfuffle_karchive_SRCS karchiveplugin.cpp)
 
+ecm_qt_declare_logging_category(kerfuffle_karchive_SRCS
+                                HEADER ark_debug.h
+                                IDENTIFIER ARK
+                                CATEGORY_NAME ark.karchive)
+
 add_library(kerfuffle_karchive MODULE ${kerfuffle_karchive_SRCS})
 
 target_link_libraries(kerfuffle_karchive KF5::Archive KF5::KIOCore kerfuffle )

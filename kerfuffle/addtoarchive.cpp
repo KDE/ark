@@ -27,7 +27,7 @@
  */
 
 #include "addtoarchive.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 #include "adddialog.h"
 #include "archive_kerfuffle.h"
 #include "jobs.h"
@@ -87,7 +87,7 @@ void AddToArchive::setHeaderEncryptionEnabled(bool enabled)
 
 bool AddToArchive::showAddDialog()
 {
-    qCDebug(KERFUFFLE) << "Opening add dialog";
+    qCDebug(ARK) << "Opening add dialog";
 
     QPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
         Q_NULLPTR, // parent
@@ -100,8 +100,8 @@ bool AddToArchive::showAddDialog()
     bool ret = dialog.data()->exec();
 
     if (ret) {
-        qCDebug(KERFUFFLE) << "AddDialog returned URL:" << dialog.data()->selectedUrls().at(0).toString();
-        qCDebug(KERFUFFLE) << "AddDialog returned mime:" << dialog.data()->currentMimeFilter();
+        qCDebug(ARK) << "AddDialog returned URL:" << dialog.data()->selectedUrls().at(0).toString();
+        qCDebug(ARK) << "AddDialog returned mime:" << dialog.data()->currentMimeFilter();
         setFilename(dialog.data()->selectedUrls().at(0));
         setMimeType(dialog.data()->currentMimeFilter());
         setPassword(dialog.data()->password());
@@ -127,7 +127,7 @@ bool AddToArchive::addInput(const QUrl &url)
 
 void AddToArchive::start()
 {
-    qCDebug(KERFUFFLE) << "Starting job";
+    qCDebug(ARK) << "Starting job";
 
     QTimer::singleShot(0, this, SLOT(slotStartJob()));
 }
@@ -148,7 +148,7 @@ void AddToArchive::slotStartJob()
     Kerfuffle::Archive *archive;
     if (!m_filename.isEmpty()) {
         archive = Kerfuffle::Archive::create(m_filename, m_mimeType, this);
-        qCDebug(KERFUFFLE) << "Set filename to " << m_filename;
+        qCDebug(ARK) << "Set filename to " << m_filename;
     } else {
         if (m_autoFilenameSuffix.isEmpty()) {
             KMessageBox::error(Q_NULLPTR, xi18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the <command>--autofilename</command> argument."));
@@ -156,7 +156,7 @@ void AddToArchive::slotStartJob()
         }
 
         if (m_firstPath.isEmpty()) {
-            qCWarning(KERFUFFLE) << "Weird, this should not happen. no firstpath defined. aborting";
+            qCWarning(ARK) << "Weird, this should not happen. no firstpath defined. aborting";
             return;
         }
 
@@ -175,7 +175,7 @@ void AddToArchive::slotStartJob()
             finalName = base + QLatin1Char( '_' ) + QString::number(appendNumber) + QLatin1Char( '.' ) + m_autoFilenameSuffix;
         }
 
-        qCDebug(KERFUFFLE) << "Autoset filename to "<< finalName;
+        qCDebug(ARK) << "Autoset filename to "<< finalName;
         archive = Kerfuffle::Archive::create(finalName, m_mimeType, this);
     }
 
@@ -194,7 +194,7 @@ void AddToArchive::slotStartJob()
 
     if (m_changeToFirstPath) {
         if (m_firstPath.isEmpty()) {
-            qCWarning(KERFUFFLE) << "Weird, this should not happen. no firstpath defined. aborting";
+            qCWarning(ARK) << "Weird, this should not happen. no firstpath defined. aborting";
             return;
         }
 
@@ -206,7 +206,7 @@ void AddToArchive::slotStartJob()
 
 
         options[QLatin1String( "GlobalWorkDir" )] = stripDir.path();
-        qCDebug(KERFUFFLE) << "Setting GlobalWorkDir to " << stripDir.path();
+        qCDebug(ARK) << "Setting GlobalWorkDir to " << stripDir.path();
     }
 
     Kerfuffle::AddJob *job =
@@ -221,7 +221,7 @@ void AddToArchive::slotStartJob()
 
 void AddToArchive::slotFinished(KJob *job)
 {
-    qCDebug(KERFUFFLE) << "Job finished";
+    qCDebug(ARK) << "Job finished";
 
     if (job->error()) {
         KMessageBox::error(Q_NULLPTR, job->errorText());

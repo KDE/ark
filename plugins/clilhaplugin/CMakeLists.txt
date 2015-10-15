@@ -2,7 +2,12 @@
 
 set(SUPPORTED_CLILHA_MIMETYPES "application/x-lha;")
 
-set(kerfuffle_cli_SRCS cliplugin.cpp)
+set(kerfuffle_clilha_SRCS cliplugin.cpp)
+
+ecm_qt_declare_logging_category(kerfuffle_clilha_SRCS
+                                HEADER ark_debug.h
+                                IDENTIFIER ARK
+                                CATEGORY_NAME ark.clilha)
 
 add_library(kerfuffle_clilha MODULE ${kerfuffle_cli_SRCS})
 

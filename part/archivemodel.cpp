@@ -22,7 +22,7 @@
  */
 
 #include "archivemodel.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 #include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/jobs.h"
 
@@ -384,7 +384,7 @@ QVariant ArchiveModel::headerData(int section, Qt::Orientation, int role) const
 {
     if (role == Qt::DisplayRole) {
         if (section >= m_showColumns.size()) {
-            qCDebug(PART) << "WEIRD: showColumns.size = " << m_showColumns.size()
+            qCDebug(ARK) << "WEIRD: showColumns.size = " << m_showColumns.size()
             << " and section = " << section;
             return QVariant();
         }
@@ -605,14 +605,14 @@ bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, i
     if (parent.isValid()) {
         QModelIndex droppedOnto = index(row, column, parent);
         if (entryForIndex(droppedOnto).value(IsDirectory).toBool()) {
-            qCDebug(PART) << "Using entry";
+            qCDebug(ARK) << "Using entry";
             path = entryForIndex(droppedOnto).value(FileName).toString();
         } else {
             path = entryForIndex(parent).value(FileName).toString();
         }
     }
 
-    qCDebug(PART) << "Dropped onto " << path;
+    qCDebug(ARK) << "Dropped onto " << path;
 
 #endif
 
@@ -704,7 +704,7 @@ QModelIndex ArchiveModel::indexForNode(ArchiveNode *node)
 
 void ArchiveModel::slotEntryRemoved(const QString & path)
 {
-    qCDebug(PART) << "Removed node at path " << path;
+    qCDebug(ARK) << "Removed node at path " << path;
 
     const QString entryFileName(cleanFileName(path));
     if (entryFileName.isEmpty()) {
@@ -725,7 +725,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
 
         endRemoveRows();
     } else {
-        qCDebug(PART) << "Did not find the removed node";
+        qCDebug(ARK) << "Did not find the removed node";
     }
 }
 
@@ -751,7 +751,7 @@ void ArchiveModel::slotNewEntry(const ArchiveEntry& entry)
 void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour behaviour)
 {
     if (receivedEntry[FileName].toString().isEmpty()) {
-        qCDebug(PART) << "Weird, received empty entry (no filename) - skipping";
+        qCDebug(ARK) << "Weird, received empty entry (no filename) - skipping";
         return;
     }
 
@@ -785,7 +785,7 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
         m_showColumns << toInsert;
         endInsertColumns();
 
-        qCDebug(PART) << "Showing columns: " << m_showColumns;
+        qCDebug(ARK) << "Showing columns: " << m_showColumns;
     }
 
     //make a copy
@@ -803,7 +803,7 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
     if (m_rootNode) {
         ArchiveNode *existing = m_rootNode->findByPath(entry[ FileName ].toString().split(QLatin1Char( '/' )));
         if (existing) {
-            qCDebug(PART) << "Refreshing entry for" << entry[FileName].toString();
+            qCDebug(ARK) << "Refreshing entry for" << entry[FileName].toString();
 
             // Multi-volume files are repeated at least in RAR archives.
             // In that case, we need to sum the compressed size for each volume
@@ -846,7 +846,7 @@ void ArchiveModel::slotLoadingFinished(KJob *job)
     endResetModel();
     m_newArchiveEntries.clear();
 
-    qCDebug(PART) << "Added" << i << "entries to model";
+    qCDebug(ARK) << "Added" << i << "entries to model";
 
     emit loadingFinished(job);
 }
@@ -973,7 +973,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
     while (!queue.isEmpty()) {
         QPersistentModelIndex node = queue.takeFirst();
         ArchiveEntry entry = entryForIndex(node);
-        qCDebug(PART) << "Trying " << entry[FileName].toString();
+        qCDebug(ARK) << "Trying " << entry[FileName].toString();
 
         if (!hasChildren(node)) {
             if (!entry.contains(InternalID)) {
@@ -988,7 +988,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
 
     foreach(const QPersistentModelIndex& node, nodesToDelete) {
         ArchiveNode *rawNode = static_cast<ArchiveNode*>(node.internalPointer());
-        qCDebug(PART) << "Delete with parent entries " << rawNode->parent()->entries() << " and row " << rawNode->row();
+        qCDebug(ARK) << "Delete with parent entries " << rawNode->parent()->entries() << " and row " << rawNode->row();
         beginRemoveRows(parent(node), rawNode->row(), rawNode->row());
         rawNode->parent()->removeEntryAt(rawNode->row());
         endRemoveRows();

@@ -28,7 +28,7 @@
  */
 
 #include "createdialog.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 #include "ui_createdialog.h"
 #include "kerfuffle/archive_kerfuffle.h"
 
@@ -61,7 +61,7 @@ CreateDialog::CreateDialog(QWidget *parent,
                            const QUrl &startDir)
         : QDialog(parent, Qt::Dialog)
 {
-    qCDebug(KERFUFFLE) << "CreateDialog loaded";
+    qCDebug(ARK) << "CreateDialog loaded";
 
     this->setWindowTitle(caption);
 
@@ -189,7 +189,7 @@ void CreateDialog::updateDefaultMimeType()
 
 void CreateDialog::updateDisplayedOptions(const QString &filter)
 {
-    qCDebug(KERFUFFLE) << "Current selected mime filter: " << filter;
+    qCDebug(ARK) << "Current selected mime filter: " << filter;
 
     if (Kerfuffle::supportedEncryptEntriesMimeTypes().contains(filter)) {
         m_ui->encryptCheckBox->setEnabled(true);

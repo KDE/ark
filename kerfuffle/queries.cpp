@@ -26,7 +26,7 @@
  */
 
 #include "queries.h"
-#include "app/logging.h"
+#include "ark_debug.h"
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -167,7 +167,7 @@ PasswordNeededQuery::PasswordNeededQuery(const QString& archiveFilename, bool in
 
 void PasswordNeededQuery::execute()
 {
-    qCDebug(KERFUFFLE) << "Executing password prompt";
+    qCDebug(ARK) << "Executing password prompt";
 
     // If we are being called from the KPart, the cursor is probably Qt::WaitCursor
     // at the moment (#231974)
@@ -209,7 +209,7 @@ LoadCorruptQuery::LoadCorruptQuery(const QString& archiveFilename)
 
 void LoadCorruptQuery::execute()
 {
-    qCDebug(KERFUFFLE) << "Executing LoadCorrupt prompt";
+    qCDebug(ARK) << "Executing LoadCorrupt prompt";
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
     setResponse(KMessageBox::warningYesNo(Q_NULLPTR,

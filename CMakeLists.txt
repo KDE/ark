@@ -12,7 +12,7 @@ set (KDE_APPLICATIONS_VERSION "${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATI
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/CTestCustom.cmake)
 
-find_package(ECM 1.7.0 REQUIRED NO_MODULE)
+find_package(ECM 5.14.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(KDEInstallDirs)
@@ -20,6 +20,7 @@ include(KDECMakeSettings)
 include(KDECompilerSettings)
 include(GenerateExportHeader)
 include(FeatureSummary)
+include(ECMQtDeclareLoggingCategory)
 
 if(POLICY CMP0063)
     cmake_policy(SET CMP0063 NEW)

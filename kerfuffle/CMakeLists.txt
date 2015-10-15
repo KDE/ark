@@ -25,6 +25,11 @@ ki18n_wrap_ui(kerfuffle_SRCS
     previewsettings.ui
 )
 
+ecm_qt_declare_logging_category(kerfuffle_SRCS
+                                HEADER ark_debug.h
+                                IDENTIFIER ARK
+                                CATEGORY_NAME ark.kerfuffle)
+
 add_library(kerfuffle SHARED ${kerfuffle_SRCS})
 generate_export_header(kerfuffle BASE_NAME kerfuffle)
 

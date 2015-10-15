@@ -20,7 +20,7 @@
  */
 
 #include "extractHereDndPlugin.h"
-#include "logging.h"
+#include "ark_debug.h"
 #include "batchextract.h"
 #include "kerfuffle/archive_kerfuffle.h"
 
@@ -30,8 +30,6 @@
 #include <KPluginLoader>
 #include <kfileitemlistproperties.h>
 #include <KLocalizedString>
-
-Q_LOGGING_CATEGORY(ARK, "ark.extracthere", QtWarningMsg)
 
 K_PLUGIN_FACTORY_WITH_JSON(ExtractHereDndPluginFactory, "ark_dndextract.json",
                            registerPlugin<ExtractHereDndPlugin>();)
