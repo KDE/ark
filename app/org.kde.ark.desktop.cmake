@@ -164,6 +164,7 @@ Comment[en_GB]=Work with file archives
 Comment[es]=Trabajar con archivos comprimidos
 Comment[fi]=Käsittele tiedostopaketteja
 Comment[it]=Lavora con gli archivi di file
+Comment[ko]=압축 파일로 작업하기
 Comment[nl]=Mert bestandsarchieven werken
 Comment[pl]=Pracuj z archiwami plików
 Comment[pt]=Lidar com pacotes em ficheiros
