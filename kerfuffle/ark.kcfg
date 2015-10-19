@@ -29,6 +29,14 @@
 		</entry>
 	</group>
 	<group name="Preview">
+		<entry name="defaultOpenAction" type="Enum">
+			<label>Default action when opening archive entries.</label>
+			<choices>
+				<choice name="Preview"/>
+				<choice name="Open"/>
+			</choices>
+			<default>Preview</default>
+		</entry>
 		<entry name="limitPreviewFileSize" type="Bool">
 			<label>Whether to limit the preview according to file size.</label>
 			<default>true</default>

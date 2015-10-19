@@ -15,15 +15,40 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QWidget" name="sizeLimitWidget" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>When clicking a file in an archive or pressing the Return key:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="kcfg_defaultOpenAction">
+     <property name="title">
+      <string/>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
-       <widget class="QCheckBox" name="kcfg_limitPreviewFileSize">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
+       <widget class="QRadioButton" name="Preview">
         <property name="text">
-         <string>Disable preview for files larger than:</string>
+         <string>Pre&amp;view the file with internal previewer</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -31,26 +56,57 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="kcfg_previewFileSizeLimit">
-        <property name="suffix">
-         <string> megabytes</string>
-        </property>
-        <property name="minimum">
-         <number>10</number>
-        </property>
-        <property name="maximum">
-         <number>10000</number>
-        </property>
-        <property name="singleStep">
-         <number>10</number>
-        </property>
-        <property name="value">
-         <number>200</number>
+       <widget class="QRadioButton" name="Open">
+        <property name="text">
+         <string>Ope&amp;n the file with associated application</string>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QCheckBox" name="kcfg_limitPreviewFileSize">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string>Disable preview for files larger than:</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="kcfg_previewFileSizeLimit">
+       <property name="suffix">
+        <string> megabytes</string>
+       </property>
+       <property name="minimum">
+        <number>10</number>
+       </property>
+       <property name="maximum">
+        <number>10000</number>
+       </property>
+       <property name="singleStep">
+        <number>10</number>
+       </property>
+       <property name="value">
+        <number>200</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <spacer name="verticalSpacer">

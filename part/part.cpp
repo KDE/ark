@@ -225,7 +225,7 @@ void Part::slotActivated(QModelIndex)
     // so do nothing if CTRL or SHIFT key is pressed.
     if (QGuiApplication::keyboardModifiers() != Qt::ShiftModifier &&
         QGuiApplication::keyboardModifiers() != Qt::ControlModifier) {
-        slotOpenEntry(Preview);
+        ArkSettings::defaultOpenAction() == ArkSettings::EnumDefaultOpenAction::Preview ? slotOpenEntry(Preview) : slotOpenEntry(OpenFile);
     }
 }
 
@@ -262,7 +262,7 @@ void Part::setupActions()
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
     m_previewAction->setIcon(QIcon::fromTheme(QStringLiteral("document-preview-archive")));
     m_previewAction->setStatusTip(i18n("Click to preview the selected file"));
-    actionCollection()->setDefaultShortcut(m_previewAction, Qt::Key_Space);
+    actionCollection()->setDefaultShortcut(m_previewAction, Qt::CTRL + Qt::Key_P);
     connect(m_previewAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
     m_signalMapper->setMapping(m_previewAction, Preview);
 
