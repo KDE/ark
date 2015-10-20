@@ -37,6 +37,8 @@
 #include <QVariant>
 #include <QDebug>
 
+#include <KServiceTypeTrader>
+
 class KJob;
 
 namespace Kerfuffle
@@ -130,6 +132,11 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_OBJECT
 
 public:
+
+    static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2);
+    static QString determineMimeType(const QString& filename);
+    static KService::List findPluginOffers(const QString& filename, const QString& fixedMimeType);
+
     static Archive *create(const QString &fileName, QObject *parent = 0);
     static Archive *create(const QString &fileName, const QString &fixedMimeType, QObject *parent = 0);
     ~Archive();

@@ -39,14 +39,16 @@
 
 #include <KPluginLoader>
 #include <KMimeTypeTrader>
-#include <KServiceTypeTrader>
 
-static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
+namespace Kerfuffle
+{
+
+bool Archive::comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
 {
     return (p1->property(QLatin1String( "X-KDE-Priority" )).toInt()) > (p2->property(QLatin1String( "X-KDE-Priority" )).toInt());
 }
 
-static QString determineMimeType(const QString& filename)
+QString Archive::determineMimeType(const QString& filename)
 {
     QMimeDatabase db;
     QMimeType mimeFromExtension = db.mimeTypeForFile(filename, QMimeDatabase::MatchExtension);
@@ -79,7 +81,7 @@ static QString determineMimeType(const QString& filename)
     return mimeFromContent.name();
 }
 
-static KService::List findPluginOffers(const QString& filename, const QString& fixedMimeType)
+KService::List Archive::findPluginOffers(const QString& filename, const QString& fixedMimeType)
 {
     KService::List offers;
 
@@ -98,9 +100,6 @@ static KService::List findPluginOffers(const QString& filename, const QString& f
 
     return offers;
 }
-
-namespace Kerfuffle
-{
 
 QDebug operator<<(QDebug d, const fileRootNodePair &pair)
 {

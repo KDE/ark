@@ -20,4 +20,5 @@ endmacro(KERFUFFLE_UNIT_TESTS)
 KERFUFFLE_UNIT_TESTS(
     archivetest
     jobstest
+    mimetypetest
 )
