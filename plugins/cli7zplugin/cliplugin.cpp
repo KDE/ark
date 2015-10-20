@@ -27,6 +27,7 @@
 
 #include <QDateTime>
 #include <QDir>
+#include <QRegularExpression>
 
 #include <KPluginFactory>
 
@@ -37,7 +38,7 @@ K_PLUGIN_FACTORY( CliPluginFactory, registerPlugin< CliPlugin >(); )
 CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
         : CliInterface(parent, args)
         , m_archiveType(ArchiveType7z)
-        , m_parseState(ParseStateHeader)
+        , m_parseState(ParseStateTitle)
 {
     qCDebug(ARK) << "Loaded cli_7z plugin";
 }
@@ -48,7 +49,7 @@ CliPlugin::~CliPlugin()
 
 void CliPlugin::resetParsing()
 {
-    m_parseState = ParseStateHeader;
+    m_parseState = ParseStateTitle;
 }
 
 ParameterList CliPlugin::parameterList() const
@@ -104,8 +105,18 @@ bool CliPlugin::readListLine(const QString& line)
     static const QLatin1String archiveInfoDelimiter2("----"); // 7z 9.04
     static const QLatin1String entryInfoDelimiter("----------");
 
-    switch (m_parseState) {
-    case ParseStateHeader:
+    if (m_parseState == ParseStateTitle) {
+
+        const QRegularExpression rxVersionLine(QStringLiteral("^p7zip Version ([\\d\\.]+) .*$"));
+        QRegularExpressionMatch matchVersion = rxVersionLine.match(line);
+        if (matchVersion.hasMatch()) {
+            m_parseState = ParseStateHeader;
+            const QString p7zipVersion = matchVersion.captured(1);
+            qCDebug(ARK) << "p7zip version" << p7zipVersion << "detected";
+        }
+
+    } else if (m_parseState == ParseStateHeader) {
+
         if (line.startsWith(QStringLiteral("Listing archive:"))) {
             qCDebug(ARK) << "Archive name: "
                      << line.right(line.size() - 16).trimmed();
@@ -115,9 +126,9 @@ bool CliPlugin::readListLine(const QString& line)
         } else if (line.contains(QStringLiteral("Error: "))) {
             qCWarning(ARK) << line.mid(7);
         }
-        break;
 
-    case ParseStateArchiveInformation:
+    } else if (m_parseState == ParseStateArchiveInformation) {
+
         if (line == entryInfoDelimiter) {
             m_parseState = ParseStateEntryInformation;
         } else if (line.startsWith(QStringLiteral("Type = "))) {
@@ -145,9 +156,8 @@ bool CliPlugin::readListLine(const QString& line)
             }
         }
 
-        break;
+    } else if (m_parseState == ParseStateEntryInformation) {
 
-    case ParseStateEntryInformation:
         if (line.startsWith(QStringLiteral("Path = "))) {
             const QString entryFilename =
                 QDir::fromNativeSeparators(line.mid(7).trimmed());
@@ -197,7 +207,6 @@ bool CliPlugin::readListLine(const QString& line)
                 emit entry(m_currentArchiveEntry);
             }
         }
-        break;
     }
 
     return true;

@@ -50,7 +50,8 @@ private:
     } m_archiveType;
 
     enum ParseState {
-        ParseStateHeader = 0,
+        ParseStateTitle = 0,
+        ParseStateHeader,
         ParseStateArchiveInformation,
         ParseStateEntryInformation
     } m_parseState;
