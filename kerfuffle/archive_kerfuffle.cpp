@@ -36,6 +36,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QMimeDatabase>
+#include <QRegularExpression>
 
 #include <KPluginLoader>
 #include <KMimeTypeTrader>
@@ -51,12 +52,24 @@ static bool comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
 static QString determineMimeType(const QString& filename)
 {
     QMimeDatabase db;
-    QMimeType mimeFromExtension = db.mimeTypeForFile(filename, QMimeDatabase::MatchExtension);
+
+    QFileInfo fileinfo(filename);
+    QString inputFile = filename;
+
+    // #328815: since detection-by-content does not work for compressed tar archives (see below why)
+    // we cannot rely on it when the archive extension is wrong; we need to validate by hand.
+    if (fileinfo.completeSuffix().toLower().remove(QRegularExpression(QStringLiteral("[^a-z\\.]"))).contains(QStringLiteral("tar."))) {
+        inputFile.chop(fileinfo.completeSuffix().length());
+        inputFile += fileinfo.completeSuffix().remove(QRegularExpression(QStringLiteral("[^a-zA-Z\\.]")));
+        qCDebug(KERFUFFLE) << "Validated filename of compressed tar" << filename << "into filename" << inputFile;
+    }
+
+    QMimeType mimeFromExtension = db.mimeTypeForFile(inputFile, QMimeDatabase::MatchExtension);
     QMimeType mimeFromContent = db.mimeTypeForFile(filename, QMimeDatabase::MatchContent);
 
     // mimeFromContent will be "application/octet-stream" when file is
     // unreadable, so use extension.
-    if (!QFileInfo(filename).isReadable()) {
+    if (!fileinfo.isReadable()) {
         return mimeFromExtension.name();
     }
 
