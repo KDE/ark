@@ -38,7 +38,7 @@ private Q_SLOTS:
     void testEmptyFilename();
     void testTarDetection();
     void testWrongZipExtension();
-
+    void testSpecialCharsTarExtension();
 };
 
 QTEST_GUILESS_MAIN(MimeTypeTest)
@@ -58,6 +58,13 @@ void MimeTypeTest::testWrongZipExtension()
 {
     const QString testFile = QFINDTESTDATA("data/zip_with_wrong_extension.rar");
     QCOMPARE(Archive::determineMimeType(testFile), QStringLiteral("application/zip"));
+}
+
+void MimeTypeTest::testSpecialCharsTarExtension()
+{
+    const QString tarMimeype = QStringLiteral("application/x-compressed-tar");
+    QCOMPARE(Archive::determineMimeType(QStringLiteral("foo.tar~1.gz")), tarMimeype);
+    QCOMPARE(Archive::determineMimeType(QStringLiteral("foo.ta4r.gz")), tarMimeype);
 }
 
 #include "mimetypetest.moc"
