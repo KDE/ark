@@ -40,6 +40,7 @@
 <group choice="opt"><option>-b</option></group>
 <group choice="opt"><option>-a</option></group>
 <group choice="opt"><option>-e</option></group>
+<group choice="opt"><option>-O</option></group>
 <group choice="opt"><option>-c</option></group>
 <group choice="opt"><option>-f</option> <replaceable>
 suffix</replaceable></group>
@@ -159,6 +160,13 @@ supplied.</para>
 <listitem>
 <para>Archive contents will be read, and if detected to not be a single folder archive, 
 a subfolder by the name of the archive will be created.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>-O, --opendestination</option></term>
+<listitem>
+<para>Open the destination folder when the extraction is complete.</para>
 </listitem>
 </varlistentry>
 

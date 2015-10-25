@@ -136,6 +136,9 @@ int main(int argc, char **argv)
                                         i18n("Destination folder to extract to. Defaults to current path if not specified."),
                                         QStringLiteral("directory")));
 
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("O") << QStringLiteral("opendestination"),
+                                        i18n("Open destination folder after extraction.")));
+
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("c") << QStringLiteral("add"),
                                         i18n("Query the user for an archive filename and add specified files to it. Quit when finished.")));
 
@@ -251,6 +254,11 @@ int main(int argc, char **argv)
             if (parser.isSet(QStringLiteral("destination"))) {
                 qCDebug(ARK) << "Setting destination to " << parser.value(QStringLiteral("destination"));
                 batchJob->setDestinationFolder(parser.value(QStringLiteral("destination")));
+            }
+
+            if (parser.isSet(QStringLiteral("opendestination"))) {
+                qCDebug(ARK) << "Setting opendestination";
+                batchJob->setOpenDestinationAfterExtraction(true);
             }
 
             if (parser.isSet(QStringLiteral("dialog"))) {
