@@ -137,7 +137,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     const KService::List offers = findPluginOffers(fileName, fixedMimeType);
     if (offers.isEmpty()) {
         qCCritical(ARK) << "Could not find a plugin to handle" << fileName;
-        return Q_NULLPTR;
+        return new Archive(NoPlugin, parent);
     }
 
     KPluginFactory *factory;
@@ -176,16 +176,24 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     }
 
     qCCritical(ARK) << "Failed to find a usable plugin for" << fileName;
-    return Q_NULLPTR;
+    return new Archive(FailedPlugin, parent);
+}
+
+Archive::Archive(ArchiveError errorCode, QObject *parent)
+        : QObject(parent)
+        , m_error(errorCode)
+{
+    qCDebug(ARK) << "Created archive instance with error";
 }
 
 Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent)
-        : QObject(parent),
-        m_iface(archiveInterface),
-        m_hasBeenListed(false),
-        m_isReadOnly(isReadOnly),
-        m_isPasswordProtected(false),
-        m_isSingleFolderArchive(false)
+        : QObject(parent)
+        , m_iface(archiveInterface)
+        , m_hasBeenListed(false)
+        , m_isReadOnly(isReadOnly)
+        , m_isPasswordProtected(false)
+        , m_isSingleFolderArchive(false)
+        , m_error(NoError)
 {
     qCDebug(ARK) << "Created archive instance";
 
@@ -198,6 +206,16 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
 
 Archive::~Archive()
 {
+}
+
+bool Archive::isValid() const
+{
+    return (m_error == NoError);
+}
+
+ArchiveError Archive::error() const
+{
+    return m_error;
 }
 
 bool Archive::isReadOnly() const

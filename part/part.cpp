@@ -448,54 +448,27 @@ bool Part::openFile()
 
     QScopedPointer<Kerfuffle::Archive> archive(Kerfuffle::Archive::create(localFile, m_model));
 
-    if ((!archive) || ((creatingNewArchive) && (archive->isReadOnly()))) {
-        QStringList mimeTypeList;
-        QHash<QString, QString> mimeTypes;
+    Q_ASSERT(archive);
 
-        if (creatingNewArchive) {
-            mimeTypeList = Kerfuffle::supportedWriteMimeTypes();
-        } else {
-            mimeTypeList = Kerfuffle::supportedMimeTypes();
-        }
-
-        QMimeDatabase db;
-        foreach(const QString& mime, mimeTypeList) {
-            const QMimeType mimeType = db.mimeTypeForName(mime);
-            if (mimeType.isValid()) {
-                // Key = "application/zip", Value = "Zip Archive"
-                mimeTypes[mime] = mimeType.comment();
-            }
-        }
-
-        QStringList mimeComments(mimeTypes.values());
-        mimeComments.sort();
-
-        bool ok;
-        QString item;
-
-        if (creatingNewArchive) {
-            item = QInputDialog::getItem(widget(), i18nc("@title:window", "Invalid Archive Type"),
-                                         i18nc("@info", "Ark cannot create archives of the type you have chosen.<br />Please choose another archive type below."),
-                                         mimeComments, 0, false, &ok);
-        } else {
-            item = QInputDialog::getItem(widget(), i18nc("@title:window", "Unable to Determine Archive Type"),
-                                         i18nc("@info", "Ark was unable to determine the archive type of the filename.<br />Please choose the correct archive type below."),
-                                         mimeComments, 0, false, &ok);
-        }
-
-        if ((!ok) || (item.isEmpty())) {
-            return false;
-        }
-
-        // Delete archive and point to a new one
-        archive.reset(Kerfuffle::Archive::create(localFile, mimeTypes.key(item), m_model));
-    }
-
-    if (!archive) {
-        KMessageBox::sorry(widget(), xi18nc("@info", "Ark was not able to open the archive <filename>%1</filename>. No plugin capable of handling the file was found.", localFile), i18nc("@title:window", "Error Opening Archive"));
+    if (archive->error() == NoPlugin) {
+        KMessageBox::sorry(widget(),
+                           xi18nc("@info", "Ark was not able to open <filename>%1</filename>. No suitable plugin found."
+                                  "<nl/><nl/>Ark does not seem to support this file type.",
+                                  localFile.section(QLatin1Char('/'), -1)),
+                           i18nc("@title:window", "Error Opening Archive"));
+        return false;
+    } else if (archive->error() == FailedPlugin) {
+        KMessageBox::sorry(widget(),
+                           xi18nc("@info", "Ark was not able to open <filename>%1</filename>. Failed to load a suitable plugin."
+                                  "<nl/><nl/>Make sure any executables needed to handle the archive type are installed.",
+                                  localFile.section(QLatin1Char('/'), -1)),
+                           i18nc("@title:window", "Error Opening Archive"));
         return false;
     }
 
+    Q_ASSERT(archive->isValid());
+
+    // Plugin loaded successfully.
     KJob *job = m_model->setArchive(archive.take());
     registerJob(job);
     job->start();

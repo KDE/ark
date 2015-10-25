@@ -80,6 +80,12 @@ enum EntryMetaDataType {
     Custom = 1048576
 };
 
+enum ArchiveError {
+    NoError = 0,
+    NoPlugin,
+    FailedPlugin
+};
+
 typedef QHash<int, QVariant> ArchiveEntry;
 
 /**
@@ -141,6 +147,8 @@ public:
     static Archive *create(const QString &fileName, const QString &fixedMimeType, QObject *parent = 0);
     ~Archive();
 
+    ArchiveError error() const;
+    bool isValid() const;
     QString fileName() const;
     bool isReadOnly() const;
 
@@ -179,6 +187,7 @@ private slots:
 
 private:
     Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent = 0);
+    Archive(ArchiveError errorCode, QObject *parent = 0);
 
     void listIfNotListed();
     ReadOnlyArchiveInterface *m_iface;
@@ -188,6 +197,7 @@ private:
     bool m_isSingleFolderArchive;
     QString m_subfolderName;
     qlonglong m_extractedFilesSize;
+    ArchiveError m_error;
 };
 
 KERFUFFLE_EXPORT QStringList supportedMimeTypes();
