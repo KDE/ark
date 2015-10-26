@@ -41,9 +41,6 @@ public:
 
     static void view(const QString& fileName, QWidget* parent = 0);
 
-protected slots:
-    void slotOpenUrlRequestDelayed(const QUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments);
-
 private slots:
     void dialogClosed();
 

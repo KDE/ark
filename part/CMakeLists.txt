@@ -21,7 +21,7 @@ ki18n_wrap_ui(arkpart_PART_SRCS jobtracker.ui)
 
 add_library(arkpart MODULE ${arkpart_PART_SRCS})
 
-target_link_libraries(arkpart kerfuffle KF5::KHtml KF5::KIOFileWidgets)
+target_link_libraries(arkpart kerfuffle KF5::Parts KF5::KIOFileWidgets)
 
 configure_file(
             ${CMAKE_CURRENT_SOURCE_DIR}/ark_part.desktop.cmake

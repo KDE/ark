@@ -27,7 +27,6 @@
 #include <KIconLoader>
 #include <KMessageBox>
 #include <KRun>
-#include <KHtml/KHTMLPart>
 #include <KSharedConfig>
 #include <KWindowConfig>
 
@@ -226,49 +225,29 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
 
     m_mainLayout->insertWidget(0, header);
 
-    // Insert the KPart into the main layout
-    m_part = KMimeTypeTrader::self()->createPartInstanceFromQuery<KParts::ReadOnlyPart>(mimeType.name(),
-                                                                                        this,
-                                                                                        this);
+    // Create the ReadOnlyPart instance.
+    m_part = KMimeTypeTrader::self()->createPartInstanceFromQuery<KParts::ReadOnlyPart>(mimeType.name(), this, this);
+
+    // Drop the KHTMLPart, if necessary.
+    const KService::Ptr service = KMimeTypeTrader::self()->preferredService(mimeType.name(), QStringLiteral("KParts/ReadOnlyPart"));
+    if (service.constData()->desktopEntryName() == QLatin1String("khtml")) {
+        KService::List offers = KMimeTypeTrader::self()->query(mimeType.name(), QStringLiteral("KParts/ReadOnlyPart"));
+        offers.removeFirst();
+        qCDebug(ARK) << "Removed KHTMLPart from the offers for mimetype" << mimeType.name()
+                     << ". Using" << offers.first().constData()->desktopEntryName() << "instead.";
+        m_part = offers.first().constData()->createInstance<KParts::ReadOnlyPart>(this, this);
+    }
 
     if (!m_part.data()) {
         return false;
     }
 
+    // Insert the KPart into the main layout.
     m_mainLayout->insertWidget(1, m_part.data()->widget());
-
-    if (m_part.data()->browserExtension()) {
-        connect(m_part.data()->browserExtension(), SIGNAL(openUrlRequestDelayed(QUrl,KParts::OpenUrlArguments,KParts::BrowserArguments)),
-                SLOT(slotOpenUrlRequestDelayed(QUrl,KParts::OpenUrlArguments,KParts::BrowserArguments)));
-    }
-
-    // #235546
-    // TODO: the user should be warned in a non-intrusive way that some features are going to be disabled
-    //       maybe there should be an option controlling this
-    KHTMLPart *khtmlPart = qobject_cast<KHTMLPart*>(m_part.data());
-    if (khtmlPart) {
-        qCDebug(ARK) << "Disabling javascripts, plugins, java and external references for KHTMLPart";
-        khtmlPart->setJScriptEnabled(false);
-        khtmlPart->setJavaEnabled(false);
-        khtmlPart->setPluginsEnabled(false);
-        khtmlPart->setMetaRefreshEnabled(false);
-        khtmlPart->setOnlyLocalReferences(true);
-    }
 
     m_part.data()->openUrl(QUrl::fromLocalFile(fileName));
 
     return true;
-}
-
-void ArkViewer::slotOpenUrlRequestDelayed(const QUrl& url, const KParts::OpenUrlArguments& arguments, const KParts::BrowserArguments& browserArguments)
-{
-    qCDebug(ARK) << "Opening URL: " << url;
-
-    Q_UNUSED(arguments)
-    Q_UNUSED(browserArguments)
-
-    KRun *runner = new KRun(url, 0, false);
-    runner->setRunExecutables(false);
 }
 
 KService::Ptr ArkViewer::getViewer(const QString &mimeType)
