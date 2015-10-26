@@ -587,6 +587,11 @@ void Part::slotOpenEntry(int mode)
     QModelIndex index = m_view->selectionModel()->currentIndex();
     const ArchiveEntry& entry =  m_model->entryForIndex(index);
 
+    // Don't open directories.
+    if (entry[IsDirectory].toBool()) {
+        return;
+    }
+
     // We don't support opening symlinks.
     if (entry[Link].toBool()) {
         displayMsgWidget(KMessageWidget::Information, i18n("Ark cannot open symlinks."));
