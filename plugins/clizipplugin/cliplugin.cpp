@@ -37,6 +37,7 @@ K_PLUGIN_FACTORY( CliPluginFactory, registerPlugin< CliPlugin >(); )
 CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
     : CliInterface(parent, args)
     , m_parseState(ParseStateHeader)
+    , m_linesComment(0)
 {
     qCDebug(ARK) << "Loaded cli_zip plugin";
 }
@@ -48,6 +49,7 @@ CliPlugin::~CliPlugin()
 void CliPlugin::resetParsing()
 {
     m_parseState = ParseStateHeader;
+    m_comment.clear();
 }
 
 // #208091: infozip applies special meanings to some characters, so we
@@ -85,6 +87,7 @@ ParameterList CliPlugin::parameterList() const
 
         p[ListArgs] = QStringList() << QStringLiteral("-l")
                                     << QStringLiteral("-T")
+                                    << QStringLiteral("-z")
                                     << QStringLiteral("$Archive");
         p[ExtractArgs] = QStringList() << QStringLiteral("$PreservePathSwitch")
                                        << QStringLiteral("$PasswordSwitch")
@@ -124,10 +127,30 @@ bool CliPlugin::readListLine(const QString &line)
     static const QRegularExpression entryPattern(QStringLiteral(
         "^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\d{8}).(\\d{6})\\s+(.+)$") );
 
+    // RegExp to identify the line preceding comments.
+    const QRegularExpression commentPattern(QStringLiteral("^Archive:  .*$"));
+    // RegExp to identify the line following comments.
+    const QRegularExpression commentEndPattern(QStringLiteral("^Zip file size: .*$"));
+
     switch (m_parseState) {
     case ParseStateHeader:
-        m_parseState = ParseStateEntry;
+        if (commentPattern.match(line).hasMatch()) {
+            m_parseState = ParseStateComment;
+        } else if (commentEndPattern.match(line).hasMatch()){
+            m_parseState = ParseStateEntry;
+        }
         break;
+    case ParseStateComment:
+        if (commentEndPattern.match(line).hasMatch()) {
+            m_parseState = ParseStateEntry;
+            if (!m_comment.trimmed().isEmpty()) {
+                m_comment = m_comment.trimmed();
+                m_linesComment = m_comment.count(QLatin1Char('\n')) + 1;
+                qCDebug(ARK) << "Found a comment with" << m_linesComment << "lines";
+            }
+        } else {
+            m_comment.append(line + QLatin1Char('\n'));
+        }
     case ParseStateEntry:
         QRegularExpressionMatch rxMatch = entryPattern.match(line);
         if (rxMatch.hasMatch()) {
@@ -157,5 +180,6 @@ bool CliPlugin::readListLine(const QString &line)
 
     return true;
 }
+
 
 #include "cliplugin.moc"

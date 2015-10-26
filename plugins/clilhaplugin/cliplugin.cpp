@@ -47,6 +47,7 @@ CliPlugin::~CliPlugin()
 void CliPlugin::resetParsing()
 {
     m_parseState = ParseStateHeader;
+    m_comment.clear();
 }
 
 ParameterList CliPlugin::parameterList() const

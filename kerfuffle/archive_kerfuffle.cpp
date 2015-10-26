@@ -352,6 +352,11 @@ bool Archive::isPasswordProtected()
     return m_isPasswordProtected;
 }
 
+QString Archive::comment() const
+{
+    return m_iface->comment();
+}
+
 QString Archive::subfolderName()
 {
     listIfNotListed();

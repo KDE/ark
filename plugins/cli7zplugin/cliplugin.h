@@ -53,9 +53,11 @@ private:
         ParseStateTitle = 0,
         ParseStateHeader,
         ParseStateArchiveInformation,
+        ParseStateComment,
         ParseStateEntryInformation
     } m_parseState;
 
+    int m_linesComment;
     Kerfuffle::ArchiveEntry m_currentArchiveEntry;
 };
 

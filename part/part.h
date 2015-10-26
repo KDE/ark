@@ -47,6 +47,8 @@ class QTemporaryDir;
 class QVBoxLayout;
 class QSignalMapper;
 class QFileSystemWatcher;
+class QGroupBox;
+class QPlainTextEdit;
 
 namespace Ark
 {
@@ -142,6 +144,9 @@ private:
     QVBoxLayout *m_vlayout;
     QSignalMapper *m_signalMapper;
     QFileSystemWatcher *m_fileWatcher;
+    QSplitter *m_commentSplitter;
+    QGroupBox *m_commentBox;
+    QPlainTextEdit *m_commentView;
 };
 
 } // namespace Ark

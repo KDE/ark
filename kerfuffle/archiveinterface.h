@@ -53,6 +53,11 @@ public:
     QString filename() const;
 
     /**
+     * Returns the comment of the archive.
+     */
+    QString comment() const;
+
+    /**
      * Returns whether the file can only be read.
      *
      * @return @c true  The file cannot be written.
@@ -87,7 +92,6 @@ public:
      * the user of the error condition.
      */
     virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options) = 0;
-
     bool waitForFinishedSignal();
 
     virtual bool doKill();
@@ -119,6 +123,7 @@ protected:
     bool isHeaderEncryptionEnabled() const;
     void setCorrupt(bool isCorrupt);
     bool isCorrupt() const;
+    QString m_comment;
 
 private:
     QString m_filename;

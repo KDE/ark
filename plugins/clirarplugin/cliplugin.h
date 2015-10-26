@@ -65,8 +65,6 @@ private:
 
     int m_remainingIgnoreLines;
     int m_linesComment;
-
-    QString m_comment;
 };
 
 #endif // CLIPLUGIN_H

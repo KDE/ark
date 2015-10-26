@@ -39,6 +39,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
         : CliInterface(parent, args)
         , m_archiveType(ArchiveType7z)
         , m_parseState(ParseStateTitle)
+        , m_linesComment(0)
 {
     qCDebug(ARK) << "Loaded cli_7z plugin";
 }
@@ -50,6 +51,7 @@ CliPlugin::~CliPlugin()
 void CliPlugin::resetParsing()
 {
     m_parseState = ParseStateTitle;
+    m_comment.clear();
 }
 
 ParameterList CliPlugin::parameterList() const
@@ -107,6 +109,7 @@ bool CliPlugin::readListLine(const QString& line)
     static const QLatin1String archiveInfoDelimiter1("--"); // 7z 9.13+
     static const QLatin1String archiveInfoDelimiter2("----"); // 7z 9.04
     static const QLatin1String entryInfoDelimiter("----------");
+    const QRegularExpression rxComment(QStringLiteral("Comment = .+$"));
 
     if (m_parseState == ParseStateTitle) {
 
@@ -157,6 +160,23 @@ bool CliPlugin::readListLine(const QString& line)
                 qCWarning(ARK) << "Unsupported archive type";
                 return false;
             }
+
+        } else if (rxComment.match(line).hasMatch()) {
+            m_parseState = ParseStateComment;
+            m_comment.append(line.section(QLatin1Char('='), 1) + QLatin1Char('\n'));
+        }
+
+    } else if (m_parseState == ParseStateComment) {
+
+        if (line == entryInfoDelimiter) {
+            m_parseState = ParseStateEntryInformation;
+            if (!m_comment.trimmed().isEmpty()) {
+                m_comment = m_comment.trimmed();
+                m_linesComment = m_comment.count(QLatin1Char('\n')) + 1;
+                qCDebug(ARK) << "Found a comment with" << m_linesComment << "lines";
+            }
+        } else {
+            m_comment.append(line + QLatin1Char('\n'));
         }
 
     } else if (m_parseState == ParseStateEntryInformation) {

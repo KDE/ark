@@ -67,6 +67,8 @@
 #include <QIcon>
 #include <QInputDialog>
 #include <QFileSystemWatcher>
+#include <QGroupBox>
+#include <QPlainTextEdit>
 
 using namespace Kerfuffle;
 
@@ -101,6 +103,16 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     m_view = new ArchiveView;
     m_infoPanel = new InfoPanel(m_model);
 
+    // Add widgets for the comment field.
+    m_commentView = new QPlainTextEdit();
+    m_commentView->setReadOnly(true);
+    m_commentView->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    m_commentBox = new QGroupBox(i18n("Comment"));
+    m_commentBox->hide();
+    QVBoxLayout *vbox = new QVBoxLayout;
+    vbox->addWidget(m_commentView);
+    m_commentBox->setLayout(vbox);
+
     setWidget(mainWidget);
     mainWidget->setLayout(m_vlayout);
 
@@ -108,8 +120,15 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     m_vlayout->setContentsMargins(0,0,0,0);
     m_vlayout->addWidget(m_splitter);
 
-    // Add widgets to the QSplitter.
-    m_splitter->addWidget(m_view);
+    // Vertical QSplitter for the file view and comment field.
+    m_commentSplitter = new QSplitter(Qt::Vertical, parentWidget);
+    m_commentSplitter->setOpaqueResize(false);
+    m_commentSplitter->addWidget(m_view);
+    m_commentSplitter->addWidget(m_commentBox);
+    m_commentSplitter->setCollapsible(0, false);
+
+    // Horizontal QSplitter for the file view and infopanel.
+    m_splitter->addWidget(m_commentSplitter);
     m_splitter->addWidget(m_infoPanel);
 
     // Read settings from config file and show/hide infoPanel.
@@ -552,6 +571,15 @@ void Part::slotLoadingFinished(KJob *job)
     m_view->header()->resizeSections(QHeaderView::ResizeToContents);
 
     updateActions();
+
+    if (!m_model->archive()->comment().isEmpty()) {
+        m_commentView->setPlainText(m_model->archive()->comment());
+        m_commentBox->show();
+        m_commentSplitter->setSizes(QList<int>() << m_view->height() * 0.6 << 1);
+    } else {
+        m_commentView->clear();
+        m_commentBox->hide();
+    }
 }
 
 void Part::setReadyGui()
@@ -1084,11 +1112,11 @@ void Part::slotShowContextMenu()
 
 void Part::displayMsgWidget(KMessageWidget::MessageType type, QString msg)
 {
-  KMessageWidget *msgWidget = new KMessageWidget;
-  msgWidget->setText(msg);
-  msgWidget->setMessageType(type);
-  m_vlayout->insertWidget(0, msgWidget);
-  msgWidget->animatedShow();
+    KMessageWidget *msgWidget = new KMessageWidget();
+    msgWidget->setText(msg);
+    msgWidget->setMessageType(type);
+    m_vlayout->insertWidget(0, msgWidget);
+    msgWidget->animatedShow();
 }
 
 } // namespace Ark

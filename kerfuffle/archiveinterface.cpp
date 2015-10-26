@@ -55,6 +55,11 @@ QString ReadOnlyArchiveInterface::filename() const
     return m_filename;
 }
 
+QString ReadOnlyArchiveInterface::comment() const
+{
+    return m_comment;
+}
+
 bool ReadOnlyArchiveInterface::isReadOnly() const
 {
     return true;

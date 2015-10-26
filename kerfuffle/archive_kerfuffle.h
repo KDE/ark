@@ -179,6 +179,7 @@ public:
 
     void setPassword(const QString &password);
     void enableHeaderEncryption(bool enable);
+    QString comment() const;
 
 private slots:
     void onListFinished(KJob*);
@@ -195,6 +196,7 @@ private:
     bool m_isReadOnly;
     bool m_isPasswordProtected;
     bool m_isSingleFolderArchive;
+
     QString m_subfolderName;
     qlonglong m_extractedFilesSize;
     ArchiveError m_error;

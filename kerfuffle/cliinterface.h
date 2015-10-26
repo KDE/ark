@@ -275,7 +275,6 @@ public:
     virtual void resetParsing() = 0;
     virtual ParameterList parameterList() const = 0;
     virtual bool readListLine(const QString &line) = 0;
-
     bool doKill() Q_DECL_OVERRIDE;
     bool doSuspend() Q_DECL_OVERRIDE;
     bool doResume() Q_DECL_OVERRIDE;
