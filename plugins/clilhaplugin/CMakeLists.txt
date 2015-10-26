@@ -9,7 +9,7 @@ ecm_qt_declare_logging_category(kerfuffle_clilha_SRCS
                                 IDENTIFIER ARK
                                 CATEGORY_NAME ark.clilha)
 
-add_library(kerfuffle_clilha MODULE ${kerfuffle_cli_SRCS})
+add_library(kerfuffle_clilha MODULE ${kerfuffle_clilha_SRCS})
 
 target_link_libraries(kerfuffle_clilha kerfuffle )
 
