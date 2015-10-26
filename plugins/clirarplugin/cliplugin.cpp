@@ -100,7 +100,8 @@ ParameterList CliPlugin::parameterList() const
         p[DeleteArgs] = QStringList() << QLatin1String( "d" )
                                       << QLatin1String( "$Archive" )
                                       << QLatin1String( "$Files" );
-        p[FileExistsExpression] = QLatin1String("^\\[Y\\]es, \\[N\\]o, \\[A\\]ll, n\\[E\\]ver, \\[R\\]ename, \\[Q\\]uit $");
+        p[FileExistsExpression] = QStringList()
+                                << QLatin1String("^\\[Y\\]es, \\[N\\]o, \\[A\\]ll, n\\[E\\]ver, \\[R\\]ename, \\[Q\\]uit $");
         p[FileExistsFileName] = QStringList() << QLatin1String("^(.+) already exists. Overwrite it")  // unrar 3 & 4
                                               << QLatin1String("^Would you like to replace the existing file (.+)$"); // unrar 5
         p[FileExistsInput] = QStringList() << QLatin1String( "Y" )  //overwrite

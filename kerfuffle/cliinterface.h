@@ -146,9 +146,9 @@ enum CliInterfaceParameters {
      */
     PasswordSwitch,
     /**
-     * QString
-     * This is a regexp, defining how to recognize the last line in a "File
-     * already exists" prompt when extracting.
+     * QStringList
+     * This is a stringlist with regexps, defining how to recognize the last
+     * line in a "File already exists" prompt when extracting.
      */
     FileExistsExpression,
     /**
@@ -325,7 +325,6 @@ private:
 
     bool checkForPasswordPromptMessage(const QString& line);
 
-    bool checkForFileExistsMessage(const QString& line);
     bool handleFileExistsMessage(const QString& filename);
     bool checkForErrorMessage(const QString& line, int parameterIndex);
     void handleLine(const QString& line);
@@ -363,7 +362,6 @@ private:
     bool moveToFinalDest(const QVariantList &files, const QString &finalDest, const QTemporaryDir &tmpDir);
 
     QByteArray m_stdOutData;
-    QRegularExpression m_existsPattern;
     QRegularExpression m_passwordPromptPattern;
     QHash<int, QList<QRegularExpression> > m_patternCache;
 

@@ -660,9 +660,9 @@ void CliInterface::readStdout(bool handleAll)
 
     bool foundErrorMessage =
         (wrongPasswordMessage ||
-         checkForErrorMessage(QLatin1String( lines.last() ), ExtractionFailedPatterns) ||
+         checkForErrorMessage(QLatin1String(lines.last()), ExtractionFailedPatterns) ||
          checkForPasswordPromptMessage(QLatin1String(lines.last())) ||
-         checkForFileExistsMessage(QLatin1String( lines.last() )));
+         checkForErrorMessage(QLatin1String(lines.last()), FileExistsExpression));
 
     if (foundErrorMessage) {
         handleAll = true;
@@ -830,18 +830,6 @@ bool CliInterface::checkForPasswordPromptMessage(const QString& line)
     return false;
 }
 
-bool CliInterface::checkForFileExistsMessage(const QString& line)
-{
-    if (m_existsPattern.pattern().isEmpty()) {
-        m_existsPattern.setPattern(m_param.value(FileExistsExpression).toString());
-    }
-    if (m_existsPattern.match(line).hasMatch()) {
-        return true;
-    }
-
-    return false;
-}
-
 bool CliInterface::handleFileExistsMessage(const QString& line)
 {
     // Check for a filename and store it.
@@ -855,7 +843,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
         }
     }
 
-    if (!checkForFileExistsMessage(line)) {
+    if (!checkForErrorMessage(line, FileExistsExpression)) {
         return false;
     }
 

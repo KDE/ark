@@ -83,8 +83,11 @@ ParameterList CliPlugin::parameterList() const
                                       << QStringLiteral("$Archive")
                                       << QStringLiteral("$Files");
 
-        p[FileExistsExpression] = QStringLiteral("^\\(Y\\)es / \\(N\\)o / \\(A\\)lways / \\(S\\)kip all / A\\(u\\)to rename all / \\(Q\\)uit\\? $");
-        p[FileExistsFileName] = QStringList() << QStringLiteral("^file \\./(.*)$");
+        p[FileExistsExpression] = QStringList()
+            << QStringLiteral("^\\(Y\\)es / \\(N\\)o / \\(A\\)lways / \\(S\\)kip all / A\\(u\\)to rename all / \\(Q\\)uit\\? $")
+            << QStringLiteral("^\\? \\(Y\\)es / \\(N\\)o / \\(A\\)lways / \\(S\\)kip all / A\\(u\\)to rename all / \\(Q\\)uit\\? $");
+        p[FileExistsFileName] = QStringList() << QStringLiteral("^file \\./(.*)$")
+                                              << QStringLiteral("^  Path:     \\./(.*)$");
         p[FileExistsInput] = QStringList() << QStringLiteral("Y")  //overwrite
                                            << QStringLiteral("N")  //skip
                                            << QStringLiteral("A")  //overwrite all

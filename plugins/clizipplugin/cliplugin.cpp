@@ -98,7 +98,8 @@ ParameterList CliPlugin::parameterList() const
                                       << QStringLiteral("$Archive")
                                       << QStringLiteral("$Files");
 
-        p[FileExistsExpression] = QStringLiteral("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $");
+        p[FileExistsExpression] = QStringList()
+            << QStringLiteral("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $");
         p[FileExistsFileName] = QStringList() << p[FileExistsExpression].toString();
         p[FileExistsInput] = QStringList() << QStringLiteral("y")  //overwrite
                                            << QStringLiteral("n")  //skip
