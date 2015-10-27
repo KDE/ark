@@ -129,7 +129,7 @@ void AddToArchive::start()
 {
     qCDebug(ARK) << "Starting job";
 
-    QTimer::singleShot(0, this, SLOT(slotStartJob()));
+    QTimer::singleShot(0, this, &AddToArchive::slotStartJob);
 }
 
 // TODO: If this class should ever be called outside main.cpp,

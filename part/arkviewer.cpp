@@ -56,7 +56,7 @@ ArkViewer::ArkViewer(QWidget *parent, Qt::WindowFlags flags)
     m_mainLayout->addWidget(buttonBox);
     buttonBox->button(QDialogButtonBox::Close)->setDefault(true);
     buttonBox->button(QDialogButtonBox::Close)->setShortcut(Qt::CTRL | Qt::Key_Return);
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
     connect(this, &ArkViewer::finished, this, &ArkViewer::dialogClosed);
 }

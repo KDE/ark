@@ -44,7 +44,7 @@ public:
         : QThread(parent)
         , q(job)
     {
-        connect(q, SIGNAL(result(KJob*)), SLOT(quit()));
+        connect(q, &KJob::result, this, &QThread::quit);
     }
 
     virtual void run() Q_DECL_OVERRIDE;
@@ -115,14 +115,14 @@ void Job::emitResult()
 
 void Job::connectToArchiveInterfaceSignals()
 {
-    connect(archiveInterface(), SIGNAL(cancelled()), SLOT(onCancelled()));
-    connect(archiveInterface(), SIGNAL(error(QString,QString)), SLOT(onError(QString,QString)));
-    connect(archiveInterface(), SIGNAL(entry(ArchiveEntry)), SLOT(onEntry(ArchiveEntry)));
-    connect(archiveInterface(), SIGNAL(entryRemoved(QString)), SLOT(onEntryRemoved(QString)));
-    connect(archiveInterface(), SIGNAL(progress(double)), SLOT(onProgress(double)));
-    connect(archiveInterface(), SIGNAL(info(QString)), SLOT(onInfo(QString)));
-    connect(archiveInterface(), SIGNAL(finished(bool)), SLOT(onFinished(bool)), Qt::DirectConnection);
-    connect(archiveInterface(), SIGNAL(userQuery(Query*)), SLOT(onUserQuery(Query*)));
+    connect(archiveInterface(), &ReadOnlyArchiveInterface::cancelled, this, &Job::onCancelled);
+    connect(archiveInterface(), &ReadOnlyArchiveInterface::error, this, &Job::onError);
+    connect(archiveInterface(), &ReadOnlyArchiveInterface::entry, this, &Job::onEntry);
+    connect(archiveInterface(), &ReadOnlyArchiveInterface::entryRemoved, this, &Job::onEntryRemoved);
+    connect(archiveInterface(), &ReadOnlyArchiveInterface::progress, this, &Job::onProgress);
+    connect(archiveInterface(), &ReadOnlyArchiveInterface::info, this, &Job::onInfo);
+    connect(archiveInterface(), &ReadOnlyArchiveInterface::finished, this, &Job::onFinished, Qt::DirectConnection);
+    connect(archiveInterface(), &ReadOnlyArchiveInterface::userQuery, this, &Job::onUserQuery);
 }
 
 void Job::onCancelled()

@@ -53,7 +53,7 @@ BatchExtract::BatchExtract(QObject* parent)
 {
     setCapabilities(KJob::Killable);
 
-    connect(this, SIGNAL(result(KJob*)), SLOT(showFailedFiles()));
+    connect(this, &KJob::result, this, &BatchExtract::showFailedFiles);
 }
 
 BatchExtract::~BatchExtract()
@@ -93,8 +93,8 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
 
     connect(job, SIGNAL(percent(KJob*,ulong)),
             this, SLOT(forwardProgress(KJob*,ulong)));
-    connect(job, SIGNAL(userQuery(Kerfuffle::Query*)),
-            this, SLOT(slotUserQuery(Kerfuffle::Query*)));
+    connect(job, &Kerfuffle::Job::userQuery,
+            this, &BatchExtract::slotUserQuery);
 }
 
 void BatchExtract::slotUserQuery(Kerfuffle::Query *query)
@@ -114,7 +114,7 @@ void BatchExtract::setAutoSubfolder(bool value)
 
 void BatchExtract::start()
 {
-    QTimer::singleShot(0, this, SLOT(slotStartJob()));
+    QTimer::singleShot(0, this, &BatchExtract::slotStartJob);
 }
 
 void BatchExtract::slotStartJob()

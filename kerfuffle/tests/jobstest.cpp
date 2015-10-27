@@ -100,7 +100,7 @@ JSONArchiveInterface *JobsTest::createArchiveInterface(const QString& filePath)
 
 void JobsTest::startAndWaitForResult(KJob *job)
 {
-    connect(job, SIGNAL(result(KJob*)), &m_eventLoop, SLOT(quit()));
+    connect(job, &KJob::result, &m_eventLoop, &QEventLoop::quit);
     job->start();
     m_eventLoop.exec();
 }
@@ -254,8 +254,8 @@ QList<Kerfuffle::ArchiveEntry> JobsTest::listEntries(JSONArchiveInterface *iface
     m_entries.clear();
 
     Kerfuffle::ListJob *listJob = new Kerfuffle::ListJob(iface, this);
-    connect(listJob, SIGNAL(newEntry(ArchiveEntry)),
-            SLOT(slotNewEntry(ArchiveEntry)));
+    connect(listJob, &Kerfuffle::Job::newEntry,
+            this, &JobsTest::slotNewEntry);
 
     startAndWaitForResult(listJob);
 

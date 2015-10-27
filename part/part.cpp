@@ -141,19 +141,19 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     setupView();
     setupActions();
 
-    connect(m_model, SIGNAL(loadingStarted()),
-            this, SLOT(slotLoadingStarted()));
-    connect(m_model, SIGNAL(loadingFinished(KJob*)),
-            this, SLOT(slotLoadingFinished(KJob*)));
+    connect(m_model, &ArchiveModel::loadingStarted,
+            this, &Part::slotLoadingStarted);
+    connect(m_model, &ArchiveModel::loadingFinished,
+            this, &Part::slotLoadingFinished);
     connect(m_model, SIGNAL(droppedFiles(QStringList,QString)),
             this, SLOT(slotAddFiles(QStringList,QString)));
-    connect(m_model, SIGNAL(error(QString,QString)),
-            this, SLOT(slotError(QString,QString)));
+    connect(m_model, &ArchiveModel::error,
+            this, &Part::slotError);
 
-    connect(this, SIGNAL(busy()),
-            this, SLOT(setBusyGui()));
-    connect(this, SIGNAL(ready()),
-            this, SLOT(setReadyGui()));
+    connect(this, &Part::busy,
+            this, &Part::setBusyGui);
+    connect(this, &Part::ready,
+            this, &Part::setReadyGui);
     connect(this, SIGNAL(completed()),
             this, SLOT(setFileNameFromArchive()));
 
@@ -194,7 +194,7 @@ void Part::registerJob(KJob* job)
     m_jobTracker->registerJob(job);
 
     emit busy();
-    connect(job, SIGNAL(result(KJob*)), this, SIGNAL(ready()));
+    connect(job, &KJob::result, this, &Part::ready);
 }
 
 // TODO: One should construct a KUrl out of localPath in order to be able to handle
@@ -225,17 +225,17 @@ void Part::setupView()
 
     m_view->setSortingEnabled(true);
 
-    connect(m_view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
-            this, SLOT(updateActions()));
-    connect(m_view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
-            this, SLOT(selectionChanged()));
+    connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &Part::updateActions);
+    connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &Part::selectionChanged);
 
     connect(m_view, &QTreeView::activated, this, &Part::slotActivated);
 
-    connect(m_view, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotShowContextMenu()));
+    connect(m_view, &QWidget::customContextMenuRequested, this, &Part::slotShowContextMenu);
 
-    connect(m_model, SIGNAL(columnsInserted(QModelIndex,int,int)),
-            this, SLOT(adjustColumns()));
+    connect(m_model, &QAbstractItemModel::columnsInserted,
+            this, &Part::adjustColumns);
 }
 
 void Part::slotActivated(QModelIndex)
@@ -258,8 +258,8 @@ void Part::setupActions()
     m_showInfoPanelAction = new KToggleAction(i18nc("@action:inmenu", "Show information panel"), this);
     actionCollection()->addAction(QStringLiteral( "show-infopanel" ), m_showInfoPanelAction);
     m_showInfoPanelAction->setChecked(ArkSettings::showInfoPanel());
-    connect(m_showInfoPanelAction, SIGNAL(triggered(bool)),
-            this, SLOT(slotToggleInfoPanel(bool)));
+    connect(m_showInfoPanelAction, &QAction::triggered,
+            this, &Part::slotToggleInfoPanel);
 
     m_saveAsAction = KStandardAction::saveAs(this, SLOT(slotSaveAs()), actionCollection());
 
@@ -290,8 +290,8 @@ void Part::setupActions()
     m_extractFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
     m_extractFilesAction->setStatusTip(i18n("Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones"));
     actionCollection()->setDefaultShortcut(m_extractFilesAction, Qt::CTRL + Qt::Key_E);
-    connect(m_extractFilesAction, SIGNAL(triggered(bool)),
-            this, SLOT(slotExtractFiles()));
+    connect(m_extractFilesAction, &QAction::triggered,
+            this, &Part::slotExtractFiles);
 
     m_addFilesAction = actionCollection()->addAction(QStringLiteral("add"));
     m_addFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert")));
@@ -304,16 +304,16 @@ void Part::setupActions()
     m_addDirAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert-directory")));
     m_addDirAction->setText(i18n("Add Fo&lder..."));
     m_addDirAction->setStatusTip(i18n("Click to add a folder to the archive"));
-    connect(m_addDirAction, SIGNAL(triggered(bool)),
-            this, SLOT(slotAddDir()));
+    connect(m_addDirAction, &QAction::triggered,
+            this, &Part::slotAddDir);
 
     m_deleteFilesAction = actionCollection()->addAction(QStringLiteral("delete"));
     m_deleteFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-remove")));
     m_deleteFilesAction->setText(i18n("De&lete"));
     actionCollection()->setDefaultShortcut(m_deleteFilesAction, Qt::Key_Delete);
     m_deleteFilesAction->setStatusTip(i18n("Click to delete the selected files"));
-    connect(m_deleteFilesAction, SIGNAL(triggered(bool)),
-            this, SLOT(slotDeleteFiles()));
+    connect(m_deleteFilesAction, &QAction::triggered,
+            this, &Part::slotDeleteFiles);
 
     connect(m_signalMapper, SIGNAL(mapped(int)), this, SLOT(slotOpenEntry(int)));
 
@@ -358,8 +358,8 @@ void Part::updateActions()
     if (!menu) {
         menu = new QMenu;
         m_extractFilesAction->setMenu(menu);
-        connect(menu, SIGNAL(triggered(QAction*)),
-                this, SLOT(slotQuickExtractFiles(QAction*)));
+        connect(menu, &QMenu::triggered,
+                this, &Part::slotQuickExtractFiles);
 
         // Remember to keep this action's properties as similar to
         // m_extractFilesAction's as possible (except where it does not make
@@ -367,7 +367,7 @@ void Part::updateActions()
         QAction *extractTo = menu->addAction(i18n("Extract To..."));
         extractTo->setIcon(m_extractFilesAction->icon());
         extractTo->setStatusTip(m_extractFilesAction->statusTip());
-        connect(extractTo, SIGNAL(triggered(bool)), SLOT(slotExtractFiles()));
+        connect(extractTo, &QAction::triggered, this, &Part::slotExtractFiles);
 
         menu->addSeparator();
 
@@ -417,8 +417,8 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
         ExtractJob *job = m_model->extractFiles(files, finalDestinationDirectory, options);
         registerJob(job);
 
-        connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(slotExtractionDone(KJob*)));
+        connect(job, &KJob::result,
+                this, &Part::slotExtractionDone);
 
         job->start();
     }
@@ -494,7 +494,7 @@ bool Part::openFile()
     m_infoPanel->setIndex(QModelIndex());
 
     if (arguments().metaData()[QStringLiteral("showExtractDialog")] == QLatin1String("true")) {
-        QTimer::singleShot(0, this, SLOT(slotExtractFiles()));
+        QTimer::singleShot(0, this, &Part::slotExtractFiles);
     }
 
     const QString password = arguments().metaData()[QStringLiteral("encryptionPassword")];
@@ -636,8 +636,8 @@ void Part::slotOpenEntry(int mode)
         ExtractJob *job = m_model->extractFile(entry[InternalID], m_tmpOpenDirList.last()->path(), options);
 
         registerJob(job);
-        connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(slotOpenExtractedEntry(KJob*)));
+        connect(job, &KJob::result,
+                this, &Part::slotOpenExtractedEntry);
         job->start();
     }
 }
@@ -673,7 +673,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
         // disabling the whole UI while extracting a file to preview it.
         if (m_openFileMode != Preview && isWritable) {
             m_fileWatcher = new QFileSystemWatcher;
-            connect(m_fileWatcher, SIGNAL(fileChanged(QString)), this, SLOT(slotWatchedFileModified(QString)));
+            connect(m_fileWatcher, &QFileSystemWatcher::fileChanged, this, &Part::slotWatchedFileModified);
         }
 
         QMimeDatabase db;
@@ -817,8 +817,8 @@ void Part::slotExtractFiles()
         ExtractJob *job = m_model->extractFiles(files, destinationDirectory, options);
         registerJob(job);
 
-        connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(slotExtractionDone(KJob*)));
+        connect(job, &KJob::result,
+                this, &Part::slotExtractionDone);
 
         job->start();
     }
@@ -977,8 +977,8 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
         return;
     }
 
-    connect(job, SIGNAL(result(KJob*)),
-            this, SLOT(slotAddFilesDone(KJob*)));
+    connect(job, &KJob::result,
+            this, &Part::slotAddFilesDone);
     registerJob(job);
     job->start();
 }
@@ -1039,8 +1039,8 @@ void Part::slotDeleteFiles()
     }
 
     DeleteJob *job = m_model->deleteFiles(filesForIndexes(addChildren(m_view->selectionModel()->selectedRows())));
-    connect(job, SIGNAL(result(KJob*)),
-            this, SLOT(slotDeleteFilesDone(KJob*)));
+    connect(job, &KJob::result,
+            this, &Part::slotDeleteFilesDone);
     registerJob(job);
     job->start();
 }
