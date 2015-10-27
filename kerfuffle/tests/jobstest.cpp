@@ -228,10 +228,10 @@ void JobsTest::testListEntries()
     QList<Kerfuffle::ArchiveEntry> archiveEntries(listEntries(iface));
 
     QStringList entries;
-    entries.append(QLatin1String("a.txt"));
-    entries.append(QLatin1String("aDir/"));
-    entries.append(QLatin1String("aDir/b.txt"));
-    entries.append(QLatin1String("c.txt"));
+    entries.append(QStringLiteral("a.txt"));
+    entries.append(QStringLiteral("aDir/"));
+    entries.append(QStringLiteral("aDir/b.txt"));
+    entries.append(QStringLiteral("c.txt"));
 
     QCOMPARE(entries.count(), archiveEntries.count());
 
@@ -266,10 +266,10 @@ void JobsTest::testExtractJobAccessors()
 {
     JSONArchiveInterface *iface = createArchiveInterface(QFINDTESTDATA("data/archive001.json"));
     Kerfuffle::ExtractJob *job =
-        new Kerfuffle::ExtractJob(QVariantList(), QLatin1String("/tmp/some-dir"),
+        new Kerfuffle::ExtractJob(QVariantList(), QStringLiteral("/tmp/some-dir"),
                                   Kerfuffle::ExtractionOptions(), iface, this);
     Kerfuffle::ExtractionOptions defaultOptions;
-    defaultOptions[QLatin1String("PreservePaths")] = false;
+    defaultOptions[QStringLiteral("PreservePaths")] = false;
 
     QCOMPARE(job->destinationDirectory(), QLatin1String("/tmp/some-dir"));
     QCOMPARE(job->extractionOptions(), defaultOptions);
@@ -281,11 +281,11 @@ void JobsTest::testExtractJobAccessors()
     QCOMPARE(job->extractionOptions(), defaultOptions);
 
     Kerfuffle::ExtractionOptions options;
-    options[QLatin1String("PreservePaths")] = true;
-    options[QLatin1String("foo")] = QLatin1String("bar");
-    options[QLatin1String("pi")] = 3.14f;
+    options[QStringLiteral("PreservePaths")] = true;
+    options[QStringLiteral("foo")] = QLatin1String("bar");
+    options[QStringLiteral("pi")] = 3.14f;
 
-    job = new Kerfuffle::ExtractJob(QVariantList(), QLatin1String("/root"),
+    job = new Kerfuffle::ExtractJob(QVariantList(), QStringLiteral("/root"),
                                     options, iface, this);
 
     QCOMPARE(job->destinationDirectory(), QLatin1String("/root"));
@@ -310,9 +310,9 @@ void JobsTest::testRemoveEntry()
     deleteJob = new Kerfuffle::DeleteJob(filesToDelete, iface, this);
     startAndWaitForResult(deleteJob);
     QList<Kerfuffle::ArchiveEntry> archiveEntries(listEntries(iface));
-    expectedEntries.append(QLatin1String("a.txt"));
-    expectedEntries.append(QLatin1String("aDir/"));
-    expectedEntries.append(QLatin1String("aDir/b.txt"));
+    expectedEntries.append(QStringLiteral("a.txt"));
+    expectedEntries.append(QStringLiteral("aDir/"));
+    expectedEntries.append(QStringLiteral("aDir/b.txt"));
     QCOMPARE(archiveEntries.count(), expectedEntries.count());
     for (int i = 0; i < expectedEntries.count(); ++i) {
         const Kerfuffle::ArchiveEntry e(archiveEntries.at(i));
@@ -330,7 +330,7 @@ void JobsTest::testAddEntry()
     QList<Kerfuffle::ArchiveEntry> archiveEntries = listEntries(iface);
     QCOMPARE(archiveEntries.count(), 4);
 
-    QStringList newEntries = QStringList() << QLatin1String("foo");
+    QStringList newEntries = QStringList() << QStringLiteral("foo");
 
     Kerfuffle::AddJob *addJob =
         new Kerfuffle::AddJob(newEntries, Kerfuffle::CompressionOptions(), iface, this);
@@ -345,7 +345,7 @@ void JobsTest::testAddEntry()
     archiveEntries = listEntries(iface);
     QCOMPARE(archiveEntries.count(), 5);
 
-    newEntries = QStringList() << QLatin1String("bar") << QLatin1String("aDir/test.txt");
+    newEntries = QStringList() << QStringLiteral("bar") << QStringLiteral("aDir/test.txt");
 
     addJob = new Kerfuffle::AddJob(newEntries, Kerfuffle::CompressionOptions(), iface, this);
     startAndWaitForResult(addJob);

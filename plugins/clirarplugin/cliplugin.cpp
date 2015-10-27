@@ -78,45 +78,45 @@ ParameterList CliPlugin::parameterList() const
 
     if (p.isEmpty()) {
         p[CaptureProgress] = true;
-        p[ListProgram] = p[ExtractProgram] = QStringList() << QLatin1String( "unrar" );
-        p[DeleteProgram] = p[AddProgram] = QStringList() << QLatin1String( "rar" );
+        p[ListProgram] = p[ExtractProgram] = QStringList() << QStringLiteral( "unrar" );
+        p[DeleteProgram] = p[AddProgram] = QStringList() << QStringLiteral( "rar" );
 
-        p[ListArgs] = QStringList() << QLatin1String("vt")
-                                    << QLatin1String("-v")
-                                    << QLatin1String("$PasswordSwitch")
-                                    << QLatin1String("$Archive");
-        p[ExtractArgs] = QStringList() << QLatin1String( "-kb" )
-                                       << QLatin1String( "-p-" )
-                                       << QLatin1String( "$PreservePathSwitch" )
-                                       << QLatin1String( "$PasswordSwitch" )
-                                       << QLatin1String( "$RootNodeSwitch" )
-                                       << QLatin1String( "$Archive" )
-                                       << QLatin1String( "$Files" );
-        p[PreservePathSwitch] = QStringList() << QLatin1String( "x" )
-                                              << QLatin1String( "e" );
-        p[RootNodeSwitch] = QStringList() << QLatin1String( "-ap$Path" );
-        p[PasswordSwitch] = QStringList() << QLatin1String( "-p$Password" );
-        p[PasswordHeaderSwitch] = QStringList() << QLatin1String("-hp$Password");
-        p[DeleteArgs] = QStringList() << QLatin1String( "d" )
-                                      << QLatin1String( "$Archive" )
-                                      << QLatin1String( "$Files" );
+        p[ListArgs] = QStringList() << QStringLiteral("vt")
+                                    << QStringLiteral("-v")
+                                    << QStringLiteral("$PasswordSwitch")
+                                    << QStringLiteral("$Archive");
+        p[ExtractArgs] = QStringList() << QStringLiteral( "-kb" )
+                                       << QStringLiteral( "-p-" )
+                                       << QStringLiteral( "$PreservePathSwitch" )
+                                       << QStringLiteral( "$PasswordSwitch" )
+                                       << QStringLiteral( "$RootNodeSwitch" )
+                                       << QStringLiteral( "$Archive" )
+                                       << QStringLiteral( "$Files" );
+        p[PreservePathSwitch] = QStringList() << QStringLiteral( "x" )
+                                              << QStringLiteral( "e" );
+        p[RootNodeSwitch] = QStringList() << QStringLiteral( "-ap$Path" );
+        p[PasswordSwitch] = QStringList() << QStringLiteral( "-p$Password" );
+        p[PasswordHeaderSwitch] = QStringList() << QStringLiteral("-hp$Password");
+        p[DeleteArgs] = QStringList() << QStringLiteral( "d" )
+                                      << QStringLiteral( "$Archive" )
+                                      << QStringLiteral( "$Files" );
         p[FileExistsExpression] = QStringList()
-                                << QLatin1String("^\\[Y\\]es, \\[N\\]o, \\[A\\]ll, n\\[E\\]ver, \\[R\\]ename, \\[Q\\]uit $");
-        p[FileExistsFileName] = QStringList() << QLatin1String("^(.+) already exists. Overwrite it")  // unrar 3 & 4
-                                              << QLatin1String("^Would you like to replace the existing file (.+)$"); // unrar 5
-        p[FileExistsInput] = QStringList() << QLatin1String( "Y" )  //overwrite
-                                           << QLatin1String( "N" )  //skip
-                                           << QLatin1String( "A" )  //overwrite all
-                                           << QLatin1String( "E" )  //autoskip
-                                           << QLatin1String( "Q" ); //cancel
-        p[AddArgs] = QStringList() << QLatin1String( "a" )
-                                   << QLatin1String( "$Archive" )
-                                   << QLatin1String("$PasswordSwitch")
-                                   << QLatin1String( "$Files" );
+                                << QStringLiteral("^\\[Y\\]es, \\[N\\]o, \\[A\\]ll, n\\[E\\]ver, \\[R\\]ename, \\[Q\\]uit $");
+        p[FileExistsFileName] = QStringList() << QStringLiteral("^(.+) already exists. Overwrite it")  // unrar 3 & 4
+                                              << QStringLiteral("^Would you like to replace the existing file (.+)$"); // unrar 5
+        p[FileExistsInput] = QStringList() << QStringLiteral( "Y" )  //overwrite
+                                           << QStringLiteral( "N" )  //skip
+                                           << QStringLiteral( "A" )  //overwrite all
+                                           << QStringLiteral( "E" )  //autoskip
+                                           << QStringLiteral( "Q" ); //cancel
+        p[AddArgs] = QStringList() << QStringLiteral( "a" )
+                                   << QStringLiteral( "$Archive" )
+                                   << QStringLiteral("$PasswordSwitch")
+                                   << QStringLiteral( "$Files" );
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) for");
-        p[WrongPasswordPatterns] = QStringList() << QLatin1String("password incorrect") << QLatin1String("wrong password");
-        p[ExtractionFailedPatterns] = QStringList() << QLatin1String( "CRC failed" )
-                                                    << QLatin1String( "Cannot find volume" );
+        p[WrongPasswordPatterns] = QStringList() << QStringLiteral("password incorrect") << QStringLiteral("wrong password");
+        p[ExtractionFailedPatterns] = QStringList() << QStringLiteral( "CRC failed" )
+                                                    << QStringLiteral( "Cannot find volume" );
         p[CorruptArchivePatterns] = QStringList() << QStringLiteral("Unexpected end of archive")
                                                   << QStringLiteral("the file header is corrupt");
     }

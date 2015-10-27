@@ -55,34 +55,34 @@ ParameterList CliPlugin::parameterList() const
     static ParameterList p;
     if (p.isEmpty()) {
         p[CaptureProgress] = true;
-        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QStringList() << QLatin1String("lha");
+        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QStringList() << QStringLiteral("lha");
 
-        p[ListArgs] = QStringList() << QLatin1String("v") << QLatin1String("-v") << QLatin1String("$Archive");
-        p[ExtractArgs] = QStringList() << QLatin1String("e") << QLatin1String("-v") << QLatin1String("$PreservePathSwitch") << QLatin1String("$Archive") << QLatin1String("$Files");
+        p[ListArgs] = QStringList() << QStringLiteral("v") << QStringLiteral("-v") << QStringLiteral("$Archive");
+        p[ExtractArgs] = QStringList() << QStringLiteral("e") << QStringLiteral("-v") << QStringLiteral("$PreservePathSwitch") << QStringLiteral("$Archive") << QStringLiteral("$Files");
 
-        p[DeleteArgs] = QStringList() << QLatin1String("d") << QLatin1String("-v") << QLatin1String("$Archive") << QLatin1String("$Files");
+        p[DeleteArgs] = QStringList() << QStringLiteral("d") << QStringLiteral("-v") << QStringLiteral("$Archive") << QStringLiteral("$Files");
 
-        p[FileExistsExpression] = QStringList() << QLatin1String("^(.+) OverWrite \\?");
+        p[FileExistsExpression] = QStringList() << QStringLiteral("^(.+) OverWrite \\?");
         p[FileExistsFileName] = QStringList() << p[FileExistsExpression].toString();
         p[FileExistsMode] = 1; // Watch for messages in stdout
         p[FileExistsInput] = QStringList()
-                                << QLatin1String("Y") //overwrite
-                                << QLatin1String("N") //skip
-                                << QLatin1String("A") //overwrite all
-                                << QLatin1String("S") //autoskip
+                                << QStringLiteral("Y") //overwrite
+                                << QStringLiteral("N") //skip
+                                << QStringLiteral("A") //overwrite all
+                                << QStringLiteral("S") //autoskip
                                 ;
 
-        p[AddArgs] = QStringList() << QLatin1String("a") << QLatin1String("-v") << QLatin1String("$Archive") << QLatin1String("$Files");
+        p[AddArgs] = QStringList() << QStringLiteral("a") << QStringLiteral("-v") << QStringLiteral("$Archive") << QStringLiteral("$Files");
 
-        p[ExtractionFailedPatterns] = QStringList() << QLatin1String("Error");
-        p[PreservePathSwitch] = QStringList() << QLatin1String( "" ) << QLatin1String( "-i" );
+        p[ExtractionFailedPatterns] = QStringList() << QStringLiteral("Error");
+        p[PreservePathSwitch] = QStringList() << QLatin1String( "" ) << QStringLiteral( "-i" );
     }
     return p;
 }
 
 bool CliPlugin::readListLine(const QString &line)
 {
-    const QString m_headerString = QLatin1String("----------");
+    const QString m_headerString = QStringLiteral("----------");
 
     switch(m_parseState) {
         case ParseStateHeader:
@@ -123,8 +123,8 @@ bool CliPlugin::readListLine(const QString &line)
                     e[CRC] = entryList[5];
 
                     QDateTime timestamp(
-                        QDate::fromString(entryList[6], QLatin1String("yyyy-MM-dd")),
-                        QTime::fromString(entryList[7], QLatin1String("HH:mm:ss")));
+                        QDate::fromString(entryList[6], QStringLiteral("yyyy-MM-dd")),
+                        QTime::fromString(entryList[7], QStringLiteral("HH:mm:ss")));
                     e[Timestamp] = timestamp;
                     emit entry(e);
                 }
@@ -139,8 +139,8 @@ bool CliPlugin::readListLine(const QString &line)
                     e[CRC] = entryList[6];
 
                     QDateTime timestamp(
-                        QDate::fromString(entryList[7], QLatin1String("yyyy-MM-dd")),
-                        QTime::fromString(entryList[8], QLatin1String("HH:mm:ss")));
+                        QDate::fromString(entryList[7], QStringLiteral("yyyy-MM-dd")),
+                        QTime::fromString(entryList[8], QStringLiteral("HH:mm:ss")));
                     e[Timestamp] = timestamp;
                     emit entry(e);
                 }

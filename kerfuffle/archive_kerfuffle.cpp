@@ -46,7 +46,7 @@ namespace Kerfuffle
 
 bool Archive::comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
 {
-    return (p1->property(QLatin1String( "X-KDE-Priority" )).toInt()) > (p2->property(QLatin1String( "X-KDE-Priority" )).toInt());
+    return (p1->property(QStringLiteral( "X-KDE-Priority" )).toInt()) > (p2->property(QStringLiteral( "X-KDE-Priority" )).toInt());
 }
 
 QString Archive::determineMimeType(const QString& filename)
@@ -105,7 +105,7 @@ KService::List Archive::findPluginOffers(const QString& filename, const QString&
     qCDebug(ARK) << "Detected mime" << mimeType;
 
     if (!mimeType.isEmpty()) {
-        offers = KMimeTypeTrader::self()->query(mimeType, QLatin1String( "Kerfuffle/Plugin" ), QLatin1String( "(exist Library)" ));
+        offers = KMimeTypeTrader::self()->query(mimeType, QStringLiteral( "Kerfuffle/Plugin" ), QStringLiteral( "(exist Library)" ));
         qSort(offers.begin(), offers.end(), comparePlugins);
     }
 
@@ -273,7 +273,7 @@ ExtractJob* Archive::copyFiles(const QList<QVariant> & files, const QString & de
 {
     ExtractionOptions newOptions = options;
     if (isPasswordProtected()) {
-        newOptions[QLatin1String( "PasswordProtectedHint" )] = true;
+        newOptions[QStringLiteral( "PasswordProtectedHint" )] = true;
     }
 
     ExtractJob *newJob = new ExtractJob(files, destinationDir, newOptions, m_iface, this);

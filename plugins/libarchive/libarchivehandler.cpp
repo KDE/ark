@@ -146,11 +146,11 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
     QDir::setCurrent(destinationDirectory);
 
     const bool extractAll = files.isEmpty();
-    const bool preservePaths = options.value(QLatin1String( "PreservePaths" )).toBool();
-    bool removeRootNode = options.value(QLatin1String("RemoveRootNode"), QVariant()).toBool();
+    const bool preservePaths = options.value(QStringLiteral( "PreservePaths" )).toBool();
+    bool removeRootNode = options.value(QStringLiteral("RemoveRootNode"), QVariant()).toBool();
 
     // See if there is a singular RootNode.
-    QString rootNodeSingular = options.value(QLatin1String("RootNode"), QVariant()).toString();
+    QString rootNodeSingular = options.value(QStringLiteral("RootNode"), QVariant()).toString();
     if ((!rootNodeSingular.isEmpty()) && (!rootNodeSingular.endsWith(QLatin1Char('/')))) {
         rootNodeSingular.append(QLatin1Char('/'));
     }
@@ -389,7 +389,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
     qCDebug(ARK) << "Adding files" << files << "with CompressionOptions" << options;
 
     const bool creatingNewFile = !QFileInfo(filename()).exists();
-    const QString globalWorkDir = options.value(QLatin1String( "GlobalWorkDir" )).toString();
+    const QString globalWorkDir = options.value(QStringLiteral( "GlobalWorkDir" )).toString();
 
     if (!globalWorkDir.isEmpty()) {
         qCDebug(ARK) << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
@@ -529,7 +529,7 @@ bool LibArchiveInterface::addFiles(const QStringList& files, const CompressionOp
                 const bool isRealDir = it.fileInfo().isDir() && !it.fileInfo().isSymLink();
 
                 success = writeFile(path +
-                                    (isRealDir ? QLatin1String( "/" ) : QLatin1String( "" )),
+                                    (isRealDir ? QStringLiteral( "/" ) : QStringLiteral( "" )),
                                     arch_writer.data());
 
                 if (!success) {
@@ -802,7 +802,7 @@ bool LibArchiveInterface::writeFile(const QString& fileName, struct archive* arc
     //          so that symlinks aren't resolved automatically
     // TODO: this kind of call should be moved upwards in the
     //       class hierarchy to avoid code duplication
-    const QString relativeName = m_workDir.relativeFilePath(fileName) + (trailingSlash ? QLatin1String( "/" ) : QLatin1String( "" ));
+    const QString relativeName = m_workDir.relativeFilePath(fileName) + (trailingSlash ? QStringLiteral( "/" ) : QStringLiteral( "" ));
 
     // #253059: Even if we use archive_read_disk_entry_from_file,
     //          libarchive may have been compiled without HAVE_LSTAT,

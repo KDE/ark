@@ -50,9 +50,9 @@ int main(int argc, char **argv)
     // Debug output can be turned on here:
     //QLoggingCategory::setFilterRules(QStringLiteral("ark.debug = true"));
 
-    Kdelibs4ConfigMigrator migrate(QLatin1Literal("ark"));
-    migrate.setConfigFiles(QStringList() << QLatin1Literal("arkrc"));
-    migrate.setUiFiles(QStringList() << QLatin1Literal("arkuirc"));
+    Kdelibs4ConfigMigrator migrate(QStringLiteral("ark"));
+    migrate.setConfigFiles(QStringList() << QStringLiteral("arkrc"));
+    migrate.setUiFiles(QStringList() << QStringLiteral("arkuirc"));
     migrate.migrate();
 
     KLocalizedString::setApplicationDomain("ark");

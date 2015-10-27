@@ -162,7 +162,7 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
             QStringList replacementFlags = m_param.value(PreservePathSwitch).toStringList();
             Q_ASSERT(replacementFlags.size() == 2);
 
-            bool preservePaths = options.value(QLatin1String( "PreservePaths" )).toBool();
+            bool preservePaths = options.value(QStringLiteral( "PreservePaths" )).toBool();
             QString theReplacement;
             if (preservePaths) {
                 theReplacement = replacementFlags.at(0);
@@ -190,7 +190,7 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
 
             //if we get a hint about this being a password protected archive, ask about
             //the password in advance.
-            if ((options.value(QLatin1String("PasswordProtectedHint")).toBool()) &&
+            if ((options.value(QStringLiteral("PasswordProtectedHint")).toBool()) &&
                 (password().isEmpty())) {
                 qCDebug(ARK) << "Password hint enabled, querying user";
 
@@ -237,8 +237,8 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
             args.removeAt(i);
 
             QString rootNode;
-            if (options.contains(QLatin1String( "RootNode" ))) {
-                rootNode = options.value(QLatin1String( "RootNode" )).toString();
+            if (options.contains(QStringLiteral( "RootNode" ))) {
+                rootNode = options.value(QStringLiteral( "RootNode" )).toString();
                 qCDebug(ARK) << "Set root node " << rootNode;
             }
 
@@ -306,7 +306,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
 
     m_operationMode = Add;
 
-    const QString globalWorkDir = options.value(QLatin1String( "GlobalWorkDir" )).toString();
+    const QString globalWorkDir = options.value(QStringLiteral( "GlobalWorkDir" )).toString();
     const QDir workDir = globalWorkDir.isEmpty() ? QDir::current() : QDir(globalWorkDir);
     if (!globalWorkDir.isEmpty()) {
         qCDebug(ARK) << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
@@ -453,7 +453,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
             break;
     }
     if (programPath.isEmpty()) {
-        const QString names = programNames.join(QLatin1String(", "));
+        const QString names = programNames.join(QStringLiteral(", "));
         emit error(xi18ncp("@info", "Failed to locate program <filename>%2</filename> on disk.",
                            "Failed to locate programs <filename>%2</filename> on disk.", programNames.count(), names));
         emit finished(false);

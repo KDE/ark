@@ -35,9 +35,9 @@ K_PLUGIN_FACTORY( XzPluginFactory, registerPlugin< LibXzInterface >(); )
 LibXzInterface::LibXzInterface(QObject *parent, const QVariantList & args)
         : LibSingleFileInterface(parent, args)
 {
-    m_mimeType = QLatin1String( "application/x-lzma" );
-    m_possibleExtensions.append(QLatin1String( ".lzma" ));
-    m_possibleExtensions.append(QLatin1String( ".xz" ));
+    m_mimeType = QStringLiteral( "application/x-lzma" );
+    m_possibleExtensions.append(QStringLiteral( ".lzma" ));
+    m_possibleExtensions.append(QStringLiteral( ".xz" ));
 }
 
 LibXzInterface::~LibXzInterface()

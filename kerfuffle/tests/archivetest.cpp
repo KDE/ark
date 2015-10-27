@@ -41,7 +41,7 @@ QTEST_GUILESS_MAIN(ArchiveTest)
 
 void ArchiveTest::testFileName()
 {
-    Kerfuffle::Archive *archive = Kerfuffle::Archive::create(QLatin1String("/tmp/foo.tar.gz"), this);
+    Kerfuffle::Archive *archive = Kerfuffle::Archive::create(QStringLiteral("/tmp/foo.tar.gz"), this);
 
     if (!archive) {
         QSKIP("There is no plugin to handle tar.gz files. Skipping test.", SkipSingle);

@@ -57,7 +57,7 @@ void CliPlugin::resetParsing()
 //          infozip's source code
 QString CliPlugin::escapeFileName(const QString &fileName) const
 {
-    const QString escapedCharacters(QLatin1String("[]*?^-\\!"));
+    const QString escapedCharacters(QStringLiteral("[]*?^-\\!"));
 
     QString quoted;
     const int len = fileName.length();

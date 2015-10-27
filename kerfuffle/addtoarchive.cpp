@@ -205,7 +205,7 @@ void AddToArchive::slotStartJob()
         }
 
 
-        options[QLatin1String( "GlobalWorkDir" )] = stripDir.path();
+        options[QStringLiteral( "GlobalWorkDir" )] = stripDir.path();
         qCDebug(ARK) << "Setting GlobalWorkDir to " << stripDir.path();
     }
 

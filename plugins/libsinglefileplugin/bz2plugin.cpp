@@ -35,8 +35,8 @@ K_PLUGIN_FACTORY( Bz2PluginFactory, registerPlugin< LibBzip2Interface >(); )
 LibBzip2Interface::LibBzip2Interface(QObject *parent, const QVariantList & args)
         : LibSingleFileInterface(parent, args)
 {
-    m_mimeType = QLatin1String( "application/x-bzip" );
-    m_possibleExtensions.append(QLatin1String( ".bz2" ));
+    m_mimeType = QStringLiteral( "application/x-bzip" );
+    m_possibleExtensions.append(QStringLiteral( ".bz2" ));
 }
 
 LibBzip2Interface::~LibBzip2Interface()

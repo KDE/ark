@@ -35,8 +35,8 @@ K_PLUGIN_FACTORY( GzipPluginFactory, registerPlugin< LibGzipInterface >(); )
 LibGzipInterface::LibGzipInterface(QObject *parent, const QVariantList & args)
         : LibSingleFileInterface(parent, args)
 {
-    m_mimeType = QLatin1String( "application/x-gzip" );
-    m_possibleExtensions.append(QLatin1String( ".gz" ));
+    m_mimeType = QStringLiteral( "application/x-gzip" );
+    m_possibleExtensions.append(QStringLiteral( ".gz" ));
 }
 
 LibGzipInterface::~LibGzipInterface()

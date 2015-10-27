@@ -283,7 +283,7 @@ void ExtractJob::setDefaultOptions()
 {
     ExtractionOptions defaultOptions;
 
-    defaultOptions[QLatin1String("PreservePaths")] = false;
+    defaultOptions[QStringLiteral("PreservePaths")] = false;
 
     ExtractionOptions::const_iterator it = defaultOptions.constBegin();
     for (; it != defaultOptions.constEnd(); ++it) {

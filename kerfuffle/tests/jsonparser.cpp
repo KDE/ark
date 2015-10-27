@@ -40,22 +40,22 @@ static ArchiveProperties archiveProperties()
         return properties;
     }
 
-    properties[QLatin1String("FileName")]            = Kerfuffle::FileName;
-    properties[QLatin1String("InternalID")]          = Kerfuffle::InternalID;
-    properties[QLatin1String("Permissions")]         = Kerfuffle::Permissions;
-    properties[QLatin1String("Owner")]               = Kerfuffle::Owner;
-    properties[QLatin1String("Group")]               = Kerfuffle::Group;
-    properties[QLatin1String("Size")]                = Kerfuffle::Size;
-    properties[QLatin1String("CompressedSize")]      = Kerfuffle::CompressedSize;
-    properties[QLatin1String("Link")]                = Kerfuffle::Link;
-    properties[QLatin1String("Ratio")]               = Kerfuffle::Ratio;
-    properties[QLatin1String("CRC")]                 = Kerfuffle::CRC;
-    properties[QLatin1String("Method")]              = Kerfuffle::Method;
-    properties[QLatin1String("Version")]             = Kerfuffle::Version;
-    properties[QLatin1String("Timestamp")]           = Kerfuffle::Timestamp;
-    properties[QLatin1String("IsDirectory")]         = Kerfuffle::IsDirectory;
-    properties[QLatin1String("Comment")]             = Kerfuffle::Comment;
-    properties[QLatin1String("IsPasswordProtected")] = Kerfuffle::IsPasswordProtected;
+    properties[QStringLiteral("FileName")]            = Kerfuffle::FileName;
+    properties[QStringLiteral("InternalID")]          = Kerfuffle::InternalID;
+    properties[QStringLiteral("Permissions")]         = Kerfuffle::Permissions;
+    properties[QStringLiteral("Owner")]               = Kerfuffle::Owner;
+    properties[QStringLiteral("Group")]               = Kerfuffle::Group;
+    properties[QStringLiteral("Size")]                = Kerfuffle::Size;
+    properties[QStringLiteral("CompressedSize")]      = Kerfuffle::CompressedSize;
+    properties[QStringLiteral("Link")]                = Kerfuffle::Link;
+    properties[QStringLiteral("Ratio")]               = Kerfuffle::Ratio;
+    properties[QStringLiteral("CRC")]                 = Kerfuffle::CRC;
+    properties[QStringLiteral("Method")]              = Kerfuffle::Method;
+    properties[QStringLiteral("Version")]             = Kerfuffle::Version;
+    properties[QStringLiteral("Timestamp")]           = Kerfuffle::Timestamp;
+    properties[QStringLiteral("IsDirectory")]         = Kerfuffle::IsDirectory;
+    properties[QStringLiteral("Comment")]             = Kerfuffle::Comment;
+    properties[QStringLiteral("IsPasswordProtected")] = Kerfuffle::IsPasswordProtected;
 
     return properties;
 }
@@ -90,7 +90,7 @@ JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
     foreach (const QVariant &entry, json.toList()) {
         const QVariantMap entryMap = entry.toMap();
 
-        if (!entryMap.contains(QLatin1String("FileName"))) {
+        if (!entryMap.contains(QStringLiteral("FileName"))) {
             continue;
         }
 
@@ -105,7 +105,7 @@ JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
             }
         }
 
-        const QString fileName = entryMap[QLatin1String("FileName")].toString();
+        const QString fileName = entryMap[QStringLiteral("FileName")].toString();
         archive[fileName] = archiveEntry;
     }
 
