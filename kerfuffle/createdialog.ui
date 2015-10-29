@@ -42,7 +42,7 @@
       <enum>Qt::LeftToRight</enum>
      </property>
      <property name="title">
-      <string>Encryption Options</string>
+      <string>Password options</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="1">
