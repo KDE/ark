@@ -222,7 +222,7 @@ void MainWindow::openArchive()
     Q_UNUSED(iface);
 
     QPointer<QFileDialog> dlg = new QFileDialog(this, i18nc("to open an archive", "Open Archive"));
-    dlg->setMimeTypeFilters(Kerfuffle::supportedMimeTypes());
+    dlg->setMimeTypeFilters(Kerfuffle::supportedMimeTypes().toList());
 
     QStringList filters = dlg->nameFilters();
     filters.removeDuplicates();

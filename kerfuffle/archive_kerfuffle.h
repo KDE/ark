@@ -31,7 +31,6 @@
 #include "kerfuffle_export.h"
 
 #include <QString>
-#include <QStringList>
 #include <QHash>
 #include <QObject>
 #include <QVariant>
@@ -202,8 +201,8 @@ private:
     ArchiveError m_error;
 };
 
-KERFUFFLE_EXPORT QStringList supportedMimeTypes();
-KERFUFFLE_EXPORT QStringList supportedWriteMimeTypes();
+KERFUFFLE_EXPORT QSet<QString> supportedMimeTypes();
+KERFUFFLE_EXPORT QSet<QString> supportedWriteMimeTypes();
 KERFUFFLE_EXPORT QSet<QString> supportedEncryptEntriesMimeTypes();
 KERFUFFLE_EXPORT QSet<QString> supportedEncryptHeaderMimeTypes();
 } // namespace Kerfuffle

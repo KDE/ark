@@ -373,24 +373,17 @@ void Archive::enableHeaderEncryption(bool enable)
     m_iface->setHeaderEncryptionEnabled(enable);
 }
 
-QStringList supportedMimeTypes()
+QSet<QString> supportedMimeTypes()
 {
-    const QLatin1String constraint("(exist Library)");
     const QLatin1String basePartService("Kerfuffle/Plugin");
+    const KService::List offers = KServiceTypeTrader::self()->query(basePartService,
+                                                                    QStringLiteral("(exist Library)"));
+    QSet<QString> supported;
 
-    const KService::List offers = KServiceTypeTrader::self()->query(basePartService, constraint);
-    KService::List::ConstIterator it = offers.constBegin();
-    KService::List::ConstIterator itEnd = offers.constEnd();
-
-    QStringList supported;
-
-    for (; it != itEnd; ++it) {
-        KService::Ptr service = *it;
-        QStringList mimeTypes = service->serviceTypes();
-
-        foreach (const QString& mimeType, mimeTypes) {
-            if (mimeType != basePartService && !supported.contains(mimeType)) {
-                supported.append(mimeType);
+    foreach (const KService::Ptr& service, offers) {
+        foreach (const QString& mimeType, service->serviceTypes()) {
+            if (mimeType != basePartService) {
+                supported.insert(mimeType);
             }
         }
     }
@@ -400,24 +393,17 @@ QStringList supportedMimeTypes()
     return supported;
 }
 
-QStringList supportedWriteMimeTypes()
+QSet<QString> supportedWriteMimeTypes()
 {
-    const QLatin1String constraint("(exist Library) and ([X-KDE-Kerfuffle-ReadWrite] == true)");
     const QLatin1String basePartService("Kerfuffle/Plugin");
+    const KService::List offers = KServiceTypeTrader::self()->query(basePartService,
+                                                                    QStringLiteral("(exist Library) and ([X-KDE-Kerfuffle-ReadWrite] == true)"));
+    QSet<QString> supported;
 
-    const KService::List offers = KServiceTypeTrader::self()->query(basePartService, constraint);
-    KService::List::ConstIterator it = offers.constBegin();
-    KService::List::ConstIterator itEnd = offers.constEnd();
-
-    QStringList supported;
-
-    for (; it != itEnd; ++it) {
-        KService::Ptr service = *it;
-        QStringList mimeTypes = service->serviceTypes();
-
-        foreach (const QString& mimeType, mimeTypes) {
-            if (mimeType != basePartService && !supported.contains(mimeType)) {
-                supported.append(mimeType);
+    foreach (const KService::Ptr& service, offers) {
+        foreach (const QString& mimeType, service->serviceTypes()) {
+            if (mimeType != basePartService) {
+                supported.insert(mimeType);
             }
         }
     }

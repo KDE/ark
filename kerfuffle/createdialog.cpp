@@ -221,7 +221,7 @@ void CreateDialog::loadConfiguration()
 
     const QString defaultMimeType = QStringLiteral("application/x-compressed-tar");
     const QString lastMimeType = m_config.readEntry("LastMimeType", defaultMimeType);
-    QStringList writeMimeTypes = Kerfuffle::supportedWriteMimeTypes();
+    QStringList writeMimeTypes = Kerfuffle::supportedWriteMimeTypes().toList();
 
     // The filters need to be sorted by comment, so create a QMap with
     // comment as key (QMaps are always sorted by key) and QMimeType
