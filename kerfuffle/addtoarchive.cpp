@@ -179,7 +179,9 @@ void AddToArchive::slotStartJob()
         archive = Kerfuffle::Archive::create(finalName, m_mimeType, this);
     }
 
-    if (!archive) {
+    Q_ASSERT(archive);
+
+    if (!archive->isValid()) {
         KMessageBox::error(Q_NULLPTR, i18n("Failed to create the new archive. Permissions might not be sufficient."));
         return;
     } else if (archive->isReadOnly()) {

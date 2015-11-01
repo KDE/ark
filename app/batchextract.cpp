@@ -207,8 +207,9 @@ bool BatchExtract::addInput(const QUrl& url)
     qCDebug(ARK) << "Adding archive" << url.toDisplayString(QUrl::PreferLocalFile);
 
     Kerfuffle::Archive *archive = Kerfuffle::Archive::create(url.toDisplayString(QUrl::PreferLocalFile), this);
+    Q_ASSERT(archive);
 
-    if ((archive == NULL) || (!QFileInfo(url.toDisplayString(QUrl::PreferLocalFile)).exists())) {
+    if (!QFileInfo(url.toDisplayString(QUrl::PreferLocalFile)).exists()) {
         m_failedFiles.append(url.fileName());
         return false;
     }

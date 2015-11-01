@@ -43,9 +43,7 @@ void ArchiveTest::testFileName()
 {
     Kerfuffle::Archive *archive = Kerfuffle::Archive::create(QStringLiteral("/tmp/foo.tar.gz"), this);
 
-    if (!archive) {
-        QSKIP("There is no plugin to handle tar.gz files. Skipping test.", SkipSingle);
-    }
+    QVERIFY(archive);
 
     QCOMPARE(archive->fileName(), QLatin1String("/tmp/foo.tar.gz"));
 }
@@ -55,13 +53,14 @@ void ArchiveTest::testIsPasswordProtected()
     Kerfuffle::Archive *archive;
 
     archive = Kerfuffle::Archive::create(QFINDTESTDATA("data/archivetest_encrypted.zip"), this);
-    if (!archive) {
-        QSKIP("There is no plugin to handle zip files. Skipping test.", SkipSingle);
+
+    QVERIFY(archive);
+
+    if (!archive->isValid()) {
+        QSKIP("Could not find a plugin to handle zip files. Skipping test.", SkipSingle);
     }
 
-    if (QStandardPaths::findExecutable(QStringLiteral("zipinfo")).isEmpty()) {
-        QSKIP("zipinfo was not found in path. Skipping test.", SkipSingle);
-    }
+    QVERIFY(archive->isValid());
 
     QVERIFY(archive->isPasswordProtected());
 
