@@ -9,6 +9,7 @@
   <name xml:lang="bg">Ark</name>
   <name xml:lang="bs">Ark</name>
   <name xml:lang="ca">Ark</name>
+  <name xml:lang="ca-valencia">Ark</name>
   <name xml:lang="cs">Ark</name>
   <name xml:lang="da">Ark</name>
   <name xml:lang="de">Ark</name>
@@ -49,6 +50,7 @@
   <summary xml:lang="bg">Работа с архиви</summary>
   <summary xml:lang="bs">Alat za arhiviranje</summary>
   <summary xml:lang="ca">Eina d'arxivament</summary>
+  <summary xml:lang="ca-valencia">Eina d'arxivament</summary>
   <summary xml:lang="cs">Archivační nástroj</summary>
   <summary xml:lang="da">Arkiveringsværktøj</summary>
   <summary xml:lang="de">Archivprogramm</summary>
@@ -94,6 +96,7 @@
     <p xml:lang="bg">Ark е графичен инструмент за архивиране/разархивиране, поддържащ множество формати, включително tar, gzip, bzip2, rar и zip, както и образи на CD-ROM. Ark може да се използва за разглеждане, извличане, създаване и променяне на архиви.</p>
     <p xml:lang="bs">Ark je grafički alat za kompresiju/dekompresiju s podrškom za više formata, uključujući tar, gzip, bzip2, rar i zip, kao i CD-ROM slike. Ark se može koristiti za kreiranje, izdvjanje i modifikaciju arhiva.</p>
     <p xml:lang="ca">L'Ark és una utilitat gràfica de compressió/descompressió de fitxers que implementa múltiples formats, incloent-hi tar, gzip, bzip2, rar i zip, i també imatges de CD-ROM. L'Ark es pot utilitzar per explorar, extreure, crear, i modificar arxius.</p>
+    <p xml:lang="ca-valencia">L'Ark és una utilitat gràfica de compressió/descompressió de fitxers que implementa múltiples formats, incloent-hi tar, gzip, bzip2, rar i zip, i també imatges de CD-ROM. L'Ark es pot utilitzar per explorar, extreure, crear, i modificar arxius.</p>
     <p xml:lang="cs">Ark je grafický nástroj pro kompresi/dekompresi souborů s podporou formátů jako je tar, gzip, bzipě, rar a zip a obrazů disků CD-ROM. Ark lze použít k prohlížení, rozbalování a úpravám archivů.</p>
     <p xml:lang="da">Ark er et grafisk værktøj til komprimering/dekomprimering, med understøttelse for flere formater, derunder tar, gzip, bzip2, rar og zip, såvel som cd-rom-imagefiler. Ark kan bruges til at gennemse, udtrække, oprette og redigere.</p>
     <p xml:lang="de">Ark ist ein grafisches Dienstprogramm zum Packen/Entpacken von Dateien mit Unterstützung für mehrere Formate wie tar, gzip, bzip2, rar, zip und auch CD-Abbilder. Mit Ark können Sie können Sie Archive durchsehen, entpacken, erstellen und bearbeiten.</p>
@@ -132,6 +135,7 @@
     <p xml:lang="bg">Функции:</p>
     <p xml:lang="bs">Svojstvo:</p>
     <p xml:lang="ca">Característiques:</p>
+    <p xml:lang="ca-valencia">Característiques:</p>
     <p xml:lang="cs">Vlastnosti:</p>
     <p xml:lang="da">Funktioner:</p>
     <p xml:lang="de">Leistungsmerkmale:</p>
@@ -173,6 +177,7 @@
       <li xml:lang="bg">Поддържани са много формати: gzip, bzip2, zip, rar, 7z и други</li>
       <li xml:lang="bs">Više podržanih formata: gzip, bzip2, zip, rar, 7z i drui</li>
       <li xml:lang="ca">Diversos formats implementats: gzip, bzip2, zip, rar, 7z i més</li>
+      <li xml:lang="ca-valencia">Diversos formats implementats: gzip, bzip2, zip, rar, 7z i més</li>
       <li xml:lang="cs">Je podporováno několik formátů: gzip, bzip2, zip, rar, 7z a další</li>
       <li xml:lang="da">Flere understøttede formater: gzip, bzip2, zip, rar, 7z og flere</li>
       <li xml:lang="de">Mehrere unterstützte Formate wie gzip, bzip2, zip, rar, 7z und mehr</li>
@@ -211,6 +216,7 @@
       <li xml:lang="bg">Преглеждане съдържанието на файла, без извличане на файловете</li>
       <li xml:lang="bs">Pregled sadržaja datoteka bez njihovog izdvajanja</li>
       <li xml:lang="ca">Vista prèvia del contingut de fitxers sense extreure'ls</li>
+      <li xml:lang="ca-valencia">Vista prèvia del contingut de fitxers sense extreure'ls</li>
       <li xml:lang="cs">Náhled obsahu souborů bez jejich rozbalení</li>
       <li xml:lang="da">Forhåndsvis filindhold uden at udtrække filer</li>
       <li xml:lang="de">Vorschau der Dateiinhalte ohne das Entpacken der Dateien</li>
