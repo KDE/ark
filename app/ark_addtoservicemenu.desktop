@@ -67,6 +67,7 @@ X-KDE-Priority=TopLevel
 [Desktop Action compressHereAsTar]
 Name=Here (as TAR.GZ)
 Name[ca]=Aquí (com a TAR.GZ)
+Name[ca@valencia]=Ací (com a TAR.GZ)
 Name[cs]=Zde (jako TAR.GZ)
 Name[da]=Her (som TAR.GZ)
 Name[de]=Hier (Als TAR.GZ-Archiv)
@@ -99,6 +100,7 @@ Exec=ark --changetofirstpath --add --autofilename tar.gz %F
 [Desktop Action compressHereAsZip]
 Name=Here (as ZIP)
 Name[ca]=Aquí (com a ZIP)
+Name[ca@valencia]=Ací (com a ZIP)
 Name[cs]=Zde (jako ZIP)
 Name[da]=Her (som ZIP)
 Name[de]=Hier (Als ZIP-Archiv)
@@ -131,6 +133,7 @@ Exec=ark --changetofirstpath --add --autofilename zip %F
 [Desktop Action compressHereAsRar]
 Name=Here (as RAR)
 Name[ca]=Aquí (com a RAR)
+Name[ca@valencia]=Ací (com a RAR)
 Name[cs]=Zde (jako RAR)
 Name[da]=Her (som RAR)
 Name[de]=Hier (Als RAR-Archiv)
@@ -163,6 +166,7 @@ Exec=ark --changetofirstpath --add --autofilename rar %F
 [Desktop Action compressTo]
 Name=Compress to...
 Name[ca]=Comprimeix a...
+Name[ca@valencia]=Comprimeix a...
 Name[cs]=Zkomprimovat do...
 Name[da]=Komprimér til...
 Name[de]=Komprimieren nach ...

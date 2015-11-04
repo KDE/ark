@@ -11,7 +11,7 @@ X-KDE-Submenu[ast]=Estrayer
 X-KDE-Submenu[bg]=Извличане
 X-KDE-Submenu[bs]=Raspakivanje
 X-KDE-Submenu[ca]=Extreu
-X-KDE-Submenu[ca@valencia]=Extrau
+X-KDE-Submenu[ca@valencia]=Extreu
 X-KDE-Submenu[cs]=Rozbalit
 X-KDE-Submenu[da]=Pak ud
 X-KDE-Submenu[de]=Entpacken
@@ -60,6 +60,7 @@ X-KDE-Submenu[zh_TW]=解開
 [Desktop Action arkExtractHere]
 Name=Extract archive here
 Name[ca]=Extreu l'arxiu aquí
+Name[ca@valencia]=Extreu l'arxiu ací
 Name[cs]=Rozbalit archiv sem
 Name[de]=Archiv hierher auspacken
 Name[en_GB]=Extract archive here
@@ -87,6 +88,7 @@ Exec=ark --batch --autodestination %F
 [Desktop Action arkExtractTo]
 Name=Extract archive to...
 Name[ca]=Extreu l'arxiu a...
+Name[ca@valencia]=Extreu l'arxiu a...
 Name[cs]=Rozbalit archiv do...
 Name[de]=Archiv auspacken nach ...
 Name[en_GB]=Extract archive to...
@@ -114,6 +116,7 @@ Exec=ark --batch --autodestination --dialog %F
 [Desktop Action arkAutoExtractHere]
 Name=Extract archive here, autodetect subfolder
 Name[ca]=Extreu l'arxiu aquí, detecta automàticament la subcarpeta
+Name[ca@valencia]=Extreu l'arxiu ací, detecta automàticament la subcarpeta
 Name[cs]=Rozbalit archiv sem, automaticky detekovat podsložku
 Name[de]=Archiv hierher auspacken, Unterordner selbständig ermitteln
 Name[en_GB]=Extract archive here, autodetect subfolder
