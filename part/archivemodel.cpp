@@ -900,14 +900,14 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
     return job;
 }
 
-ExtractJob* ArchiveModel::extractFile(const QVariant& fileName, const QString & destinationDir, const Kerfuffle::ExtractionOptions options) const
+ExtractJob* ArchiveModel::extractFile(const QVariant& fileName, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options) const
 {
     QList<QVariant> files;
     files << QVariant::fromValue(fileRootNodePair(fileName.toString()));
     return extractFiles(files, destinationDir, options);
 }
 
-ExtractJob* ArchiveModel::extractFiles(const QList<QVariant>& files, const QString & destinationDir, const Kerfuffle::ExtractionOptions options) const
+ExtractJob* ArchiveModel::extractFiles(const QList<QVariant>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options) const
 {
     Q_ASSERT(m_archive);
     ExtractJob *newJob = m_archive->copyFiles(files, destinationDir, options);

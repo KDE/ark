@@ -170,7 +170,7 @@ public:
      */
     AddJob* addFiles(const QStringList & files, const CompressionOptions& options = CompressionOptions());
 
-    ExtractJob* copyFiles(const QList<QVariant> & files, const QString & destinationDir, ExtractionOptions options = ExtractionOptions());
+    ExtractJob* copyFiles(const QList<QVariant> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
 
     bool isSingleFolderArchive();
     QString subfolderName();

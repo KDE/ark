@@ -91,7 +91,7 @@ public:
      * @note If returning false, make sure to emit the error() signal beforewards to notify
      * the user of the error condition.
      */
-    virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options) = 0;
+    virtual bool copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, const ExtractionOptions &options) = 0;
     bool waitForFinishedSignal();
 
     virtual bool doKill();

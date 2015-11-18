@@ -123,7 +123,7 @@ class KERFUFFLE_EXPORT ExtractJob : public Job
     Q_OBJECT
 
 public:
-    ExtractJob(const QVariantList& files, const QString& destinationDir, ExtractionOptions options, ReadOnlyArchiveInterface *interface, QObject *parent = 0);
+    ExtractJob(const QVariantList& files, const QString& destinationDir, const ExtractionOptions& options, ReadOnlyArchiveInterface *interface, QObject *parent = 0);
 
     QString destinationDirectory() const;
     ExtractionOptions extractionOptions() const;

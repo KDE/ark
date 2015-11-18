@@ -46,7 +46,7 @@ public:
 
     bool list();
     bool doKill();
-    bool copyFiles(const QVariantList& files, const QString& destinationDirectory, ExtractionOptions options);
+    bool copyFiles(const QVariantList& files, const QString& destinationDirectory, const ExtractionOptions& options);
     bool addFiles(const QStringList& files, const CompressionOptions& options);
     bool deleteFiles(const QVariantList& files);
 

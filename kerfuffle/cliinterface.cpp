@@ -138,7 +138,7 @@ bool CliInterface::list()
     return true;
 }
 
-bool CliInterface::copyFiles(const QVariantList &files, const QString &destinationDirectory, ExtractionOptions options)
+bool CliInterface::copyFiles(const QVariantList &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     qCDebug(ARK) << Q_FUNC_INFO << "to" << destinationDirectory;
 

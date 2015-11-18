@@ -46,7 +46,7 @@ LibSingleFileInterface::~LibSingleFileInterface()
 {
 }
 
-bool LibSingleFileInterface::copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, Kerfuffle::ExtractionOptions options)
+bool LibSingleFileInterface::copyFiles(const QList<QVariant>& files, const QString& destinationDirectory, const Kerfuffle::ExtractionOptions& options)
 {
     Q_UNUSED(files)
     Q_UNUSED(options)

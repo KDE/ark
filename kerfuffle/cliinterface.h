@@ -268,7 +268,7 @@ public:
     virtual ~CliInterface();
 
     virtual bool list() Q_DECL_OVERRIDE;
-    virtual bool copyFiles(const QList<QVariant> & files, const QString & destinationDirectory, ExtractionOptions options) Q_DECL_OVERRIDE;
+    virtual bool copyFiles(const QList<QVariant>& files, const QString& destinationDirectory, const ExtractionOptions& options) Q_DECL_OVERRIDE;
     virtual bool addFiles(const QStringList & files, const CompressionOptions& options) Q_DECL_OVERRIDE;
     virtual bool deleteFiles(const QList<QVariant> & files) Q_DECL_OVERRIDE;
 

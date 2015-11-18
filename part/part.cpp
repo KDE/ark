@@ -1110,7 +1110,7 @@ void Part::slotShowContextMenu()
     popup->popup(QCursor::pos());
 }
 
-void Part::displayMsgWidget(KMessageWidget::MessageType type, QString msg)
+void Part::displayMsgWidget(KMessageWidget::MessageType type, const QString& msg)
 {
     KMessageWidget *msgWidget = new KMessageWidget();
     msgWidget->setText(msg);

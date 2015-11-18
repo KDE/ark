@@ -120,7 +120,7 @@ private:
     QList<QVariant> filesAndRootNodesForIndexes(const QModelIndexList& list) const;
     QModelIndexList addChildren(const QModelIndexList &list) const;
     void registerJob(KJob *job);
-    void displayMsgWidget(KMessageWidget::MessageType type, QString msg);
+    void displayMsgWidget(KMessageWidget::MessageType type, const QString& msg);
 
     ArchiveModel         *m_model;
     QTreeView            *m_view;

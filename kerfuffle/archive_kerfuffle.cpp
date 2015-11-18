@@ -269,7 +269,7 @@ AddJob* Archive::addFiles(const QStringList & files, const CompressionOptions& o
     return newJob;
 }
 
-ExtractJob* Archive::copyFiles(const QList<QVariant> & files, const QString & destinationDir, ExtractionOptions options)
+ExtractJob* Archive::copyFiles(const QList<QVariant>& files, const QString& destinationDir, const ExtractionOptions& options)
 {
     ExtractionOptions newOptions = options;
     if (isPasswordProtected()) {

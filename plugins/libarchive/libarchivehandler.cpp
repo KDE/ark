@@ -140,7 +140,7 @@ bool LibArchiveInterface::doKill()
     return true;
 }
 
-bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& destinationDirectory, ExtractionOptions options)
+bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& destinationDirectory, const ExtractionOptions& options)
 {
     qCDebug(ARK) << "Changing current directory to " << destinationDirectory;
     QDir::setCurrent(destinationDirectory);

@@ -245,7 +245,7 @@ QString ListJob::subfolderName() const
     return m_subfolderName;
 }
 
-ExtractJob::ExtractJob(const QVariantList& files, const QString& destinationDir, ExtractionOptions options, ReadOnlyArchiveInterface *interface, QObject *parent)
+ExtractJob::ExtractJob(const QVariantList& files, const QString& destinationDir, const ExtractionOptions& options, ReadOnlyArchiveInterface *interface, QObject *parent)
     : Job(interface, parent)
     , m_files(files)
     , m_destinationDir(destinationDir)
