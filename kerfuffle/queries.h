@@ -30,6 +30,7 @@
 
 #include "kerfuffle_export.h"
 
+#include <QCheckBox>
 #include <QString>
 #include <QHash>
 #include <QWaitCondition>
@@ -125,6 +126,18 @@ public:
     void execute() Q_DECL_OVERRIDE;
 
     bool responseYes();
+};
+
+class KERFUFFLE_EXPORT ContinueExtractionQuery : public Query
+{
+public:
+    explicit ContinueExtractionQuery(const QString& error, const QString& archiveEntry);
+    void execute() Q_DECL_OVERRIDE;
+
+    bool responseCancelled();
+    bool dontAskAgain();
+private:
+    QCheckBox *m_chkDontAskAgain;
 };
 
 }

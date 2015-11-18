@@ -34,9 +34,11 @@
 #include <kio/renamedialog.h>
 
 #include <QApplication>
+#include <QCheckBox>
+#include <QDir>
+#include <QMessageBox>
 #include <QPointer>
 #include <QUrl>
-#include <QDir>
 
 namespace Kerfuffle
 {
@@ -222,6 +224,39 @@ void LoadCorruptQuery::execute()
 
 bool LoadCorruptQuery::responseYes() {
     return (m_data.value(QStringLiteral("response")).toInt() == KMessageBox::Yes);
+}
+
+ContinueExtractionQuery::ContinueExtractionQuery(const QString& error, const QString& archiveEntry)
+{
+    m_data[QStringLiteral("error")] = error;
+    m_data[QStringLiteral("archiveEntry")] = archiveEntry;
+}
+
+void ContinueExtractionQuery::execute()
+{
+    qCDebug(ARK) << "Executing ContinueExtraction prompt";
+    QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
+
+    QMessageBox box(QMessageBox::Warning,
+                    i18n("Error during extraction"),
+                    xi18n("Extraction of the entry:<nl/>"
+                          "    <filename>%1</filename><nl/>"
+                          "failed with the error message:<nl/>    %2<nl/><nl/>"
+                          "Do you want to continue extraction?<nl/>", m_data.value(QStringLiteral("archiveEntry")).toString(),
+                          m_data.value(QStringLiteral("error")).toString()),
+                    QMessageBox::Yes|QMessageBox::Cancel);
+    m_chkDontAskAgain = new QCheckBox(i18n("Don't ask again."));
+    box.setCheckBox(m_chkDontAskAgain);
+    setResponse(box.exec());
+    QApplication::restoreOverrideCursor();
+}
+
+bool ContinueExtractionQuery::responseCancelled() {
+    return (m_data.value(QStringLiteral("response")).toInt() == QMessageBox::Cancel);
+}
+
+bool ContinueExtractionQuery::dontAskAgain() {
+    return m_chkDontAskAgain->isChecked();
 }
 
 }
