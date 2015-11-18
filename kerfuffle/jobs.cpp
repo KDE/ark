@@ -28,6 +28,7 @@
 #include "jobs.h"
 #include "ark_debug.h"
 
+#include <QFileInfo>
 #include <QThread>
 
 #include <KLocalizedString>
@@ -264,6 +265,13 @@ void ExtractJob::doWork()
         desc = i18np("Extracting one file", "Extracting %1 files", m_files.count());
     }
     emit description(this, desc);
+
+    QFileInfo destDirInfo(m_destinationDir);
+    if (destDirInfo.isDir() && (!destDirInfo.isWritable() || !destDirInfo.isExecutable())) {
+        onError(xi18n("Could not write to destination <filename>%1</filename>.<nl/>Check whether you have sufficient permissions.", m_destinationDir), QString());
+        onFinished(false);
+        return;
+    }
 
     connectToArchiveInterfaceSignals();
 
