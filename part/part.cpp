@@ -197,22 +197,37 @@ void Part::registerJob(KJob* job)
     connect(job, &KJob::result, this, &Part::ready);
 }
 
-// TODO: One should construct a KUrl out of localPath in order to be able to handle
-//       non-local destinations (ie. trash:/ or a remote location)
-//       See bugs #189322 and #204323.
+// TODO: KIO::mostLocalHere is used here to resolve some KIO URLs to local
+// paths (e.g. desktop:/), but more work is needed to support extraction
+// to non-local destinations. See bugs #189322 and #204323.
 void Part::extractSelectedFilesTo(const QString& localPath)
 {
-    qCDebug(ARK) << "Extract to" << localPath;
     if (!m_model) {
         return;
     }
+
+    const QUrl url(localPath);
+    KIO::StatJob* statJob = nullptr;
+
+    if (!url.scheme().isEmpty()) {
+        statJob = KIO::mostLocalUrl(url);
+
+        if (!statJob->exec() || statJob->error() != 0) {
+            return;
+        }
+    }
+
+    const QString destination = statJob ? statJob->statResult().stringValue(KIO::UDSEntry::UDS_LOCAL_PATH) : localPath;
+    delete statJob;
+
+    qCDebug(ARK) << "Extract to" << destination;
 
     Kerfuffle::ExtractionOptions options;
     options[QStringLiteral("PreservePaths")] = true;
     options[QStringLiteral("RemoveRootNode")] = true;
 
     // Create and start the ExtractJob.
-    ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows())), localPath, options);
+    ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows())), destination, options);
     registerJob(job);
     job->start();
 }
