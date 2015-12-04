@@ -84,7 +84,6 @@ Name[sr@latin]=Raspakuj arhivu ovde
 Name[sv]=Packa upp arkiv här
 Name[uk]=Видобути архів сюди
 Name[x-test]=xxExtract archive herexx
-Name[zh_TW]=在此解壓縮
 Icon=ark
 Exec=ark --batch --autodestination %F
 
@@ -115,7 +114,6 @@ Name[sr@latin]=Raspakuj arhivu u...
 Name[sv]=Packa upp arkiv i...
 Name[uk]=Видобути архів до…
 Name[x-test]=xxExtract archive to...xx
-Name[zh_TW]=解壓縮到...
 Icon=ark
 Exec=ark --batch --autodestination --dialog %F
 
@@ -146,6 +144,5 @@ Name[sr@latin]=Raspakuj arhivu ovde, pogodi potfasciklu
 Name[sv]=Packa upp arkiv här, detektera underkatalog automatiskt
 Name[uk]=Видобути архів сюди, автоматично визначити підтеку
 Name[x-test]=xxExtract archive here, autodetect subfolderxx
-Name[zh_TW]=在此解壓縮，自動偵測子資料夾
 Icon=ark
 Exec=ark --batch --autodestination --autosubfolder %F

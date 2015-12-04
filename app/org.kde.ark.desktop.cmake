@@ -184,4 +184,3 @@ Comment[tr]=Arşiv dosyaları ile çalış
 Comment[uk]=Робота з файловими архівами
 Comment[x-test]=xxWork with file archivesxx
 Comment[zh_CN]=处理归档文件
-Comment[zh_TW]=檔案壓縮工具
