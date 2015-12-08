@@ -206,10 +206,11 @@ void Part::extractSelectedFilesTo(const QString& localPath)
         return;
     }
 
-    const QUrl url(localPath);
+    const QUrl url = QUrl::fromUserInput(localPath, QString());
     KIO::StatJob* statJob = nullptr;
 
-    if (!url.scheme().isEmpty()) {
+    // Try to resolve the URL to a local path.
+    if (!url.isLocalFile() && !url.scheme().isEmpty()) {
         statJob = KIO::mostLocalUrl(url);
 
         if (!statJob->exec() || statJob->error() != 0) {
@@ -219,6 +220,13 @@ void Part::extractSelectedFilesTo(const QString& localPath)
 
     const QString destination = statJob ? statJob->statResult().stringValue(KIO::UDSEntry::UDS_LOCAL_PATH) : localPath;
     delete statJob;
+
+    // The URL could not be resolved to a local path.
+    if (!url.isLocalFile() && destination.isEmpty()) {
+        qCWarning(ARK) << "Ark cannot extract to non-local destination:" << localPath;
+        KMessageBox::sorry(widget(), xi18nc("@info", "Ark can only extract to local destinations."));
+        return;
+    }
 
     qCDebug(ARK) << "Extract to" << destination;
 
