@@ -621,11 +621,15 @@ bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, i
     return true;
 }
 
-// For a rationale, see bugs #194241 and #241967
+// For a rationale, see bugs #194241, #241967 and #355839
 QString ArchiveModel::cleanFileName(const QString& fileName)
 {
-    if ((fileName == QLatin1String("/")) ||
-        (fileName == QLatin1String("."))) { // "." is present in ISO files
+    // Skip entries with filename "/" or "//" or "."
+    // "." is present in ISO files
+    QRegularExpression pattern(QStringLiteral("/+|\\."));
+    QRegularExpressionMatch match;
+    if (fileName.contains(pattern, &match) && match.captured() == fileName) {
+        qCDebug(ARK) << "Skipping entry with filename" << fileName;
         return QString();
     } else if (fileName.startsWith(QLatin1String("./"))) {
         return fileName.mid(2);
@@ -793,6 +797,7 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
 
     //#194241: Filenames such as "./file" should be displayed as "file"
     //#241967: Entries called "/" should be ignored
+    //#355839: Entries called "//" should be ignored
     QString entryFileName = cleanFileName(entry[FileName].toString());
     if (entryFileName.isEmpty()) { // The entry contains only "." or "./"
         return;

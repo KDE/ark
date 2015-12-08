@@ -161,7 +161,7 @@ bool CliPlugin::readListLine(const QString &line)
             //          ending with '/' is actually more reliable than 'd' bein in the attributes.
             e[IsDirectory] = rxMatch.captured(10).endsWith(QLatin1Char('/'));
 
-            e[Size] = rxMatch.captured(4).toInt();
+            e[Size] = rxMatch.captured(4);
             QString status = rxMatch.captured(5);
             if (status[0].isUpper()) {
                 e[IsPasswordProtected] = true;
