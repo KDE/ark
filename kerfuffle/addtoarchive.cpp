@@ -223,9 +223,9 @@ void AddToArchive::slotStartJob()
 
 void AddToArchive::slotFinished(KJob *job)
 {
-    qCDebug(ARK) << "Job finished";
+    qCDebug(ARK) << "AddToArchive job finished";
 
-    if (job->error()) {
+    if (job->error() && !job->errorText().isEmpty()) {
         KMessageBox::error(Q_NULLPTR, job->errorText());
     }
 
