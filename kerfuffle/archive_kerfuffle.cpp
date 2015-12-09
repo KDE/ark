@@ -87,7 +87,7 @@ QString Archive::determineMimeType(const QString& filename)
 
     if (mimeFromExtension != mimeFromContent) {
 
-        if (mimeFromContent == db.mimeTypeForName(QStringLiteral("application/octet-stream"))) {
+        if (mimeFromContent.isDefault()) {
             qCWarning(ARK) << "Could not detect mimetype from content."
                            << "Using extension-based mimetype:" << mimeFromExtension.name();
             return mimeFromExtension.name();
