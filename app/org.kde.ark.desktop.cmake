@@ -161,6 +161,7 @@ Comment=Work with file archives
 Comment[ast]=Trabaya con archivos
 Comment[ca]=Treball amb arxius de fitxer
 Comment[ca@valencia]=Treball amb arxius de fitxer
+Comment[da]=Arbejd med filarkiver
 Comment[de]=Arbeiten mit Dateiarchiven
 Comment[en_GB]=Work with file archives
 Comment[es]=Trabajar con archivos comprimidos
