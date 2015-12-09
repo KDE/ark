@@ -39,6 +39,7 @@ private Q_SLOTS:
     void testTarDetection();
     void testWrongZipExtension();
     void testSpecialCharsTarExtension();
+    void testFallbackOnExtensionMimetype();
 };
 
 QTEST_GUILESS_MAIN(MimeTypeTest)
@@ -65,6 +66,14 @@ void MimeTypeTest::testSpecialCharsTarExtension()
     const QString tarMimeype = QStringLiteral("application/x-compressed-tar");
     QCOMPARE(Archive::determineMimeType(QStringLiteral("foo.tar~1.gz")), tarMimeype);
     QCOMPARE(Archive::determineMimeType(QStringLiteral("foo.ta4r.gz")), tarMimeype);
+}
+
+// Some mimetypes (e.g. tar-v7 archives, see #355955) cannot be detected by content (as of shared-mime-info 1.5).
+// In this case we fallback to the mimetype detected from the extension.
+void MimeTypeTest::testFallbackOnExtensionMimetype()
+{
+    const QString testFile = QFINDTESTDATA("data/tar-v7.tar");
+    QCOMPARE(Archive::determineMimeType(testFile), QStringLiteral("application/x-tar"));
 }
 
 #include "mimetypetest.moc"
