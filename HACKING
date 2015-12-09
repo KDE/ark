@@ -7,11 +7,15 @@ please see:
  - http://wiki.qt-project.org/Coding_Conventions
 
 == Sending patches ==
-To send patches for Ark, you can either use git's send-email command and send
-it to the kde-utils-devel@kde.org mailing list, or use KDE's ReviewBoard tool
-in <https://git.reviewboard.kde.org>.  In case you choose the latter, the
-review should be sent for the Ark product, and the `kdeutils' group should be
-added to the review request.
+To send patches for Ark, you can choose one of the following:
+
+1. Use KDE's Phabricator at <https://phabricator.kde.org>.
+   The diff should be created against the Ark repository.
+2. Use KDE's ReviewBoard tool in <https://git.reviewboard.kde.org>.
+   The review should be sent for the Ark product, and the `kdeutils' group should be
+   added to the review request.
+3. Use git's send-email command and send
+   it to the kde-utils-devel@kde.org mailing list.
 
 If you already have a KDE commit account, it is still preferrable to contact
 the maintainer instead of committing directly, at least to be a good citizen
