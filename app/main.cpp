@@ -121,7 +121,6 @@ int main(int argc, char **argv)
                         QStringLiteral("http://littlesvr.ca/misc/contactandrew.php"));
 
     application.setWindowIcon(QIcon::fromTheme(QStringLiteral("ark")));
-    application.setQuitOnLastWindowClosed(false);
 
     QCommandLineParser parser;
     parser.setApplicationDescription(aboutData.shortDescription());
@@ -194,6 +193,7 @@ int main(int argc, char **argv)
         if (parser.isSet("add") || parser.isSet("add-to")) {
 
             AddToArchive *addToArchiveJob = new AddToArchive(&application);
+            application.setQuitOnLastWindowClosed(false);
             application.connect(addToArchiveJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);
 
             if (parser.isSet("changetofirstpath")) {
@@ -229,6 +229,7 @@ int main(int argc, char **argv)
         } else if (parser.isSet("batch")) {
 
             BatchExtract *batchJob = new BatchExtract(&application);
+            application.setQuitOnLastWindowClosed(false);
             application.connect(batchJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);
 
             for (int i = 0; i < urls.count(); ++i) {
