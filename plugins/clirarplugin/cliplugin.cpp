@@ -172,7 +172,8 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
     if (m_parseState == ParseStateComment) {
 
         // RegExp matching end of comment field.
-        QRegularExpression rxCommentEnd(QStringLiteral("^Archive: \\S+$"));
+        // FIXME: Comment itself could also contain the Archive path string here.
+        QRegularExpression rxCommentEnd(QStringLiteral("^Archive: .+$"));
 
         if (rxCommentEnd.match(line).hasMatch()) {
             m_parseState = ParseStateHeader;
@@ -293,7 +294,8 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
     if (m_parseState == ParseStateComment) {
 
         // RegExp matching end of comment field.
-        QRegularExpression rxCommentEnd(QStringLiteral("^(Solid archive|Archive|Volume) \\S+$"));
+        // FIXME: Comment itself could also contain the Archive path string here.
+        QRegularExpression rxCommentEnd(QStringLiteral("^(Solid archive|Archive|Volume) .+$"));
 
         if (rxCommentEnd.match(line).hasMatch()) {
 
