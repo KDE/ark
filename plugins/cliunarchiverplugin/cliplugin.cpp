@@ -30,6 +30,8 @@
 #include <QString>
 #include <QStringList>
 
+#include <KPluginFactory>
+
 using namespace Kerfuffle;
 
 K_PLUGIN_FACTORY(CliPluginFactory, registerPlugin<CliPlugin>();)
@@ -44,6 +46,11 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
 
 CliPlugin::~CliPlugin()
 {
+}
+
+void CliPlugin::resetParsing()
+{
+    // TODO
 }
 
 ParameterList CliPlugin::parameterList() const
@@ -128,7 +135,7 @@ bool CliPlugin::readListLine(const QString &line)
             if (m_currentEntry[index].toBool()) {
                 m_currentEntry[FileName].toString().append(QLatin1String("/"));
             }
-            kDebug() << "Added entry:" << m_currentEntry;
+            qCDebug(ARK) << "Added entry:" << m_currentEntry;
             entry(m_currentEntry);
         }
     }
