@@ -305,6 +305,13 @@ public:
      */
     void setListEmptyLines(bool emptyLines);
 
+protected:
+
+    virtual void handleLine(const QString& line);
+
+protected slots:
+    virtual void readStdout(bool handleAll = false);
+
 private:
     void substituteListVariables(QStringList& params);
 
@@ -326,7 +333,6 @@ private:
 
     bool handleFileExistsMessage(const QString& filename);
     bool checkForErrorMessage(const QString& line, int parameterIndex);
-    void handleLine(const QString& line);
 
     void failOperation();
 
@@ -377,7 +383,6 @@ private:
     QString m_storedFileName;
 
 private slots:
-    void readStdout(bool handleAll = false);
     void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
 };
 }

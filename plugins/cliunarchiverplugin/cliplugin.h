@@ -37,10 +37,22 @@ public:
     virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
 
+protected slots:
+    void readStdout(bool handleAll = false) Q_DECL_OVERRIDE;
+
+protected:
+
+    void handleLine(const QString& line) Q_DECL_OVERRIDE;
+
 private:
+
+    void readJsonOutput();
+
     Kerfuffle::ArchiveEntry m_currentEntry;
     QString m_entryFilename, m_internalId;
     int m_indentLevel;
+
+    QString m_jsonOutput;
 };
 
 #endif // CLIPLUGIN_H

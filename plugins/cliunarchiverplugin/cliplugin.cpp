@@ -26,6 +26,8 @@
 
 #include <QDateTime>
 #include <QDir>
+#include <QJsonArray>
+#include <QJsonParseError>
 #include <QRegExp>
 #include <QString>
 #include <QStringList>
@@ -112,65 +114,60 @@ ParameterList CliPlugin::parameterList() const
 
 bool CliPlugin::readListLine(const QString &line)
 {
-    /* lsar will give us JSON output.  However, we actually parse based on
-        * the indentation.  Ugly, I know, but
-        *  1. It's easier
-        *  2. lsar's JSON is invalid JSON, so actual parsers bork.
-        */
-
-    int spaces;
-    for(spaces=0;(spaces<line.size())&&(line[spaces]==QLatin1Char(' '));spaces++){}
-    // Since this is so ugly anyway, I'm not even going to check to
-    // make sure that spaces is even.  I mean, what would I do about it?
-    int m_newIndentLevel = spaces/2;
-
-    if (m_newIndentLevel>m_indentLevel) {
-        if (m_newIndentLevel==3) {
-            m_currentEntry.clear();
-            m_currentEntry[IsDirectory] = false;
-        }
-    } else if (m_newIndentLevel<m_indentLevel) {
-        if ( (m_newIndentLevel<3) && (m_indentLevel>=3) ) {
-            EntryMetaDataType index = IsDirectory;
-            if (m_currentEntry[index].toBool()) {
-                m_currentEntry[FileName].toString().append(QLatin1String("/"));
-            }
-            qCDebug(ARK) << "Added entry:" << m_currentEntry;
-            entry(m_currentEntry);
-        }
-    }
-    m_indentLevel = m_newIndentLevel;
-
-    QRegExp rx(QLatin1String("^\\s*\"([^\"]*)\": (.*),$"));
-    if (rx.indexIn(line) >= 0) {
-        QRegExp rx_unquote(QLatin1String("^\"(.*)\"$"));
-        QString key = rx.cap(1);
-        QString value = rx.cap(2);
-
-        if (false) {
-        } else if (key==QLatin1String("XADFileName")) {
-            rx_unquote.indexIn(value);
-            m_currentEntry[FileName] = m_currentEntry[InternalID] = rx_unquote.cap(1);
-        } else if (key==QLatin1String("XADFileSize")) {
-            m_currentEntry[Size] = value.toInt();
-        } else if (key==QLatin1String("XADCompressedSize")) {
-            m_currentEntry[CompressedSize] = value.toInt();
-        } else if (key==QLatin1String("XADLastModificationDate")) {
-            QDateTime ts(QDate::fromString(value, QLatin1String("\"YYYY-MM-DD hh:mm:ss")));
-            m_currentEntry[Timestamp] = ts;
-        } else if (key==QLatin1String("XADIsDirectory")) {
-            m_currentEntry[IsDirectory] = (value==QLatin1String("1"));
-        } else if (key==QLatin1String("RARCRC32")) {
-            m_currentEntry[CRC] = value.toInt();
-        } else if (key==QLatin1String("RARCompressionMethod")) {
-            m_currentEntry[Method] = value.toInt();
-        } else if (key==QLatin1String("Encrypted")) {
-            m_currentEntry[IsPasswordProtected] = (value.toInt() != 0);
-        }
-        // TODO: add RAR version. ([Version])
-    }
+    Q_UNUSED(line)
 
     return true;
+}
+
+void CliPlugin::readStdout(bool handleAll)
+{
+    if (!handleAll) {
+        CliInterface::readStdout(false);
+        return;
+    }
+
+    // We are ready to read the json output.
+    readJsonOutput();
+}
+
+void CliPlugin::handleLine(const QString& line)
+{
+    // Collect the json output line by line.
+    if (m_operationMode == List) {
+        m_jsonOutput += line + QLatin1Char('\n');
+    }
+
+    CliInterface::handleLine(line);
+}
+
+void CliPlugin::readJsonOutput()
+{
+    QJsonParseError error;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(m_jsonOutput.toUtf8(), &error);
+
+    if (error.error != QJsonParseError::NoError) {
+        qCDebug(ARK) << "Could not parse json output:" << error.errorString();
+        return;
+    }
+
+    const QJsonObject json = jsonDoc.object();
+    const QJsonArray entries = json.value(QStringLiteral("lsarContents")).toArray();
+
+    foreach (const QJsonValue& value, entries) {
+        const QJsonObject currentEntry = value.toObject();
+
+        m_currentEntry.clear();
+        m_currentEntry[IsDirectory] = !currentEntry.value(QStringLiteral("XADIsDirectory")).isUndefined();
+        m_currentEntry[FileName] = currentEntry.value(QStringLiteral("XADFileName"));
+        // FIXME: archives created from OSX (i.e. with the __MACOSX folder) list each entry twice, the 2nd time with size 0
+        m_currentEntry[Size] = currentEntry.value(QStringLiteral("XADFileSize"));
+        m_currentEntry[CompressedSize] = currentEntry.value(QStringLiteral("XADCompressedSize"));
+        m_currentEntry[Timestamp] = currentEntry.value(QStringLiteral("XADLastModificationDate")).toVariant();
+        m_currentEntry[Size] = currentEntry.value(QStringLiteral("XADFileSize"));
+        // TODO: missing fields
+
+        emit entry(m_currentEntry);
+    }
 }
 
 #include "cliplugin.moc"
