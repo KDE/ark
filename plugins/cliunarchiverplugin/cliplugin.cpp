@@ -159,6 +159,7 @@ void CliPlugin::readJsonOutput()
         m_currentEntry.clear();
         m_currentEntry[IsDirectory] = !currentEntry.value(QStringLiteral("XADIsDirectory")).isUndefined();
         m_currentEntry[FileName] = currentEntry.value(QStringLiteral("XADFileName"));
+        m_currentEntry[InternalID] = currentEntry.value(QStringLiteral("XADFileName"));
         // FIXME: archives created from OSX (i.e. with the __MACOSX folder) list each entry twice, the 2nd time with size 0
         m_currentEntry[Size] = currentEntry.value(QStringLiteral("XADFileSize"));
         m_currentEntry[CompressedSize] = currentEntry.value(QStringLiteral("XADCompressedSize"));
