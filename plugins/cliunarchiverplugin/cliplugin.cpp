@@ -165,6 +165,7 @@ void CliPlugin::readJsonOutput()
         m_currentEntry[CompressedSize] = currentEntry.value(QStringLiteral("XADCompressedSize"));
         m_currentEntry[Timestamp] = currentEntry.value(QStringLiteral("XADLastModificationDate")).toVariant();
         m_currentEntry[Size] = currentEntry.value(QStringLiteral("XADFileSize"));
+        m_currentEntry[IsPasswordProtected] = (currentEntry.value(QStringLiteral("XADIsEncrypted")).toInt() == 1);
         // TODO: missing fields
 
         emit entry(m_currentEntry);
