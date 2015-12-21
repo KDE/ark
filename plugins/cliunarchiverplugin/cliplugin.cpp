@@ -74,8 +74,8 @@ ParameterList CliPlugin::parameterList() const
         p[ExtractProgram] = QLatin1String("unar");
         p[ExtractArgs] = QStringList() << QLatin1String("$Archive") << QLatin1String("$Files") << QLatin1String("$PasswordSwitch") << QLatin1String("$RootNodeSwitch");
         p[NoTrailingSlashes]  = true;
-        p[PasswordSwitch] = QStringList() << QLatin1String("-password") << QLatin1String("$Password");
-    p[RootNodeSwitch] = QStringList() << QLatin1String("-output-directory") << QLatin1String("$Path");
+        p[PasswordSwitch] = QStringList() << QLatin1String("-password $Password");
+        p[RootNodeSwitch] = QStringList() << QLatin1String("-output-directory") << QLatin1String("$Path");
         p[FileExistsExpression] = QLatin1String("^\\\"(.+)\\\" already exists.");
         p[FileExistsInput] = QStringList()
                     << QLatin1String("o") //overwrite
@@ -152,9 +152,17 @@ void CliPlugin::readJsonOutput()
         const QJsonObject currentEntry = value.toObject();
 
         m_currentEntry.clear();
+
+        QString filename = currentEntry.value(QStringLiteral("XADFileName")).toString();
+
         m_currentEntry[IsDirectory] = !currentEntry.value(QStringLiteral("XADIsDirectory")).isUndefined();
-        m_currentEntry[FileName] = currentEntry.value(QStringLiteral("XADFileName"));
-        m_currentEntry[InternalID] = currentEntry.value(QStringLiteral("XADFileName"));
+        if (m_currentEntry[IsDirectory].toBool()) {
+            filename += QLatin1Char('/');
+        }
+
+        m_currentEntry[FileName] = filename;
+        m_currentEntry[InternalID] = filename;
+
         // FIXME: archives created from OSX (i.e. with the __MACOSX folder) list each entry twice, the 2nd time with size 0
         m_currentEntry[Size] = currentEntry.value(QStringLiteral("XADFileSize"));
         m_currentEntry[CompressedSize] = currentEntry.value(QStringLiteral("XADCompressedSize"));
