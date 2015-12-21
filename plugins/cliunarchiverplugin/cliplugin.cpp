@@ -62,47 +62,47 @@ ParameterList CliPlugin::parameterList() const
         ///////////////[ COMMON ]/////////////
 
         p[CaptureProgress] = false;
-        p[PasswordPromptPattern] = QLatin1String("Password (will not be shown): ");
+        p[PasswordPromptPattern] = QStringLiteral("Password (will not be shown): ");
 
         ///////////////[ LIST ]/////////////
 
-        p[ListProgram] = QLatin1String("lsar");
-        p[ListArgs] = QStringList() << QLatin1String("-json") << QLatin1String("$Archive");
+        p[ListProgram] = QStringLiteral("lsar");
+        p[ListArgs] = QStringList() << QStringLiteral("-json") << QStringLiteral("$Archive");
 
         ///////////////[ EXTRACT ]/////////////
 
-        p[ExtractProgram] = QLatin1String("unar");
-        p[ExtractArgs] = QStringList() << QLatin1String("$Archive") << QLatin1String("$Files") << QLatin1String("$PasswordSwitch") << QLatin1String("$RootNodeSwitch");
+        p[ExtractProgram] = QStringLiteral("unar");
+        p[ExtractArgs] = QStringList() << QStringLiteral("$Archive") << QStringLiteral("$Files") << QStringLiteral("$PasswordSwitch") << QStringLiteral("$RootNodeSwitch");
         p[NoTrailingSlashes]  = true;
-        p[PasswordSwitch] = QStringList() << QLatin1String("-password $Password");
-        p[RootNodeSwitch] = QStringList() << QLatin1String("-output-directory") << QLatin1String("$Path");
-        p[FileExistsExpression] = QLatin1String("^\\\"(.+)\\\" already exists.");
+        p[PasswordSwitch] = QStringList() << QStringLiteral("-password $Password");
+        p[RootNodeSwitch] = QStringList() << QStringLiteral("-output-directory") << QStringLiteral("$Path");
+        p[FileExistsExpression] = QStringLiteral("^\\\"(.+)\\\" already exists.");
         p[FileExistsInput] = QStringList()
-                    << QLatin1String("o") //overwrite
-                    << QLatin1String("s") //skip
-                    << QLatin1String("O") //overwrite all
-                    << QLatin1String("S") //autoskip
-                    << QLatin1String("q") //cancel
+                    << QStringLiteral("o") //overwrite
+                    << QStringLiteral("s") //skip
+                    << QStringLiteral("O") //overwrite all
+                    << QStringLiteral("S") //autoskip
+                    << QStringLiteral("q") //cancel
                     ;
 
         ///////////////[ DELETE ]/////////////
 
-        p[DeleteProgram] = QLatin1String("x-fakeprogram");
+        p[DeleteProgram] = QStringLiteral("x-fakeprogram");
         //p[DeleteArgs]    =
 
         ///////////////[ ADD ]/////////////
 
-        p[AddProgram] = QLatin1String("x-fakeprogram");
+        p[AddProgram] = QStringLiteral("x-fakeprogram");
         //p[AddArgs]    =
 
         ///////////////[ ERRORS ]/////////////
 
         p[ExtractionFailedPatterns] = QStringList()
-            << QLatin1String("Failed! \\((.+)\\)$")
-            << QLatin1String("Segmentation fault$");
+            << QStringLiteral("Failed! \\((.+)\\)$")
+            << QStringLiteral("Segmentation fault$");
 
         p[WrongPasswordPatterns] = QStringList()
-            << QLatin1String("Failed! \\((.+)\\)$");
+            << QStringLiteral("Failed! \\((.+)\\)$");
     }
     return p;
 }
