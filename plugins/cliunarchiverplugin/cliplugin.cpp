@@ -24,13 +24,8 @@
 #include "ark_debug.h"
 #include "kerfuffle/kerfuffle_export.h"
 
-#include <QDateTime>
-#include <QDir>
 #include <QJsonArray>
 #include <QJsonParseError>
-#include <QRegExp>
-#include <QString>
-#include <QStringList>
 
 #include <KPluginFactory>
 
