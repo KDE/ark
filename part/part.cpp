@@ -587,7 +587,7 @@ void Part::slotLoadingFinished(KJob *job)
 
     updateActions();
 
-    if (!m_model->archive()->comment().isEmpty()) {
+    if (m_model->archive() && !m_model->archive()->comment().isEmpty()) {
         m_commentView->setPlainText(m_model->archive()->comment());
         m_commentBox->show();
         m_commentSplitter->setSizes(QList<int>() << m_view->height() * 0.6 << 1);
