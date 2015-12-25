@@ -72,7 +72,7 @@ ParameterList CliPlugin::parameterList() const
         ///////////////[ EXTRACT ]/////////////
 
         p[ExtractProgram] = QStringLiteral("unar");
-        p[ExtractArgs] = QStringList() << QStringLiteral("$Archive") << QStringLiteral("$Files") << QStringLiteral("$PasswordSwitch") << QStringLiteral("$RootNodeSwitch");
+        p[ExtractArgs] = QStringList() << QStringLiteral("-D") << QStringLiteral("$Archive") << QStringLiteral("$Files") << QStringLiteral("$PasswordSwitch") << QStringLiteral("$RootNodeSwitch");
         p[NoTrailingSlashes]  = true;
         p[PasswordSwitch] = QStringList() << QStringLiteral("-password $Password");
         p[RootNodeSwitch] = QStringList() << QStringLiteral("-output-directory") << QStringLiteral("$Path");
