@@ -45,6 +45,21 @@ CliPlugin::~CliPlugin()
 {
 }
 
+bool CliPlugin::copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, const ExtractionOptions &options)
+{
+    ExtractionOptions newOptions = options;
+
+    // unar creates an empty file upon entering a wrong password.
+    // To prevent this, we always extract to a temporary directory
+    // and then we check for the unar exit code.
+    if (options.value(QStringLiteral("PasswordProtectedHint")).toBool()) {
+        newOptions[QStringLiteral("AlwaysUseTmpDir")] = true;
+        qCDebug(ARK) << "Detected password-protected archive, enabled extraction to temporary directory.";
+    }
+
+    return CliInterface::copyFiles(files, destinationDirectory, newOptions);
+}
+
 void CliPlugin::resetParsing()
 {
     // TODO

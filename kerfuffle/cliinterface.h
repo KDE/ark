@@ -381,6 +381,7 @@ private:
     bool m_listEmptyLines;
     bool m_abortingOperation;
     QString m_storedFileName;
+    int m_exitCode;
 
 private slots:
     void processFinished(int exitCode, QProcess::ExitStatus exitStatus);

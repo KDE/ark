@@ -43,6 +43,7 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
+#include <QDirIterator>
 #include <QEventLoop>
 #include <QFile>
 #include <QProcess>
@@ -270,7 +271,7 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
         }
     }
 
-    bool useTmpExtractDir = !files.isEmpty();
+    bool useTmpExtractDir = !files.isEmpty() || options.value(QStringLiteral("AlwaysUseTmpDir")).toBool();
     QUrl destDir;
     QTemporaryDir tmpExtractDir;
 
@@ -292,8 +293,29 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
         return false;
     }
 
+    QVariantList entries = files;
+
+    if (options.value(QStringLiteral("AlwaysUseTmpDir")).toBool()) {
+        // unar exits with code 1 if the password is wrong.
+        if (m_exitCode == 1) {
+            qCWarning(ARK) << "Wrong password, extraction aborted";
+            emit error(i18n("Extraction failed due to a wrong password."));
+            emit finished(false);
+            failOperation();
+            setPassword(QString());
+            return false;
+        }
+        // We need to populate the list of entries to be moved with all the entries in the archive.
+        if (entries.isEmpty()) {
+            QDirIterator dirIt(tmpExtractDir.path(), QDir::AllEntries | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+            while (dirIt.hasNext()) {
+                entries << QVariant::fromValue(fileRootNodePair(dirIt.next().remove(tmpExtractDir.path() + QLatin1Char('/')), QString()));
+            }
+        }
+    }
+
     if (useTmpExtractDir) {
-        moveToFinalDest(files, destinationDirectory, tmpExtractDir);
+        moveToFinalDest(entries, destinationDirectory, tmpExtractDir);
     }
 
     emit finished(true);
@@ -500,6 +522,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
 
 void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    m_exitCode = exitCode;
     qCDebug(ARK) << "Process finished, exitcode:" << exitCode << "exitstatus:" << exitStatus;
 
     //if the m_process pointer is gone, then there is nothing to worry
