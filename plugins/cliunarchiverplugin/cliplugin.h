@@ -33,6 +33,7 @@ public:
     explicit CliPlugin(QObject *parent, const QVariantList &args);
     virtual ~CliPlugin();
 
+    virtual bool list() Q_DECL_OVERRIDE;
     virtual bool copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) Q_DECL_OVERRIDE;
     virtual void resetParsing() Q_DECL_OVERRIDE;
     virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
@@ -50,9 +51,6 @@ private:
     void readJsonOutput();
 
     Kerfuffle::ArchiveEntry m_currentEntry;
-    QString m_entryFilename, m_internalId;
-    int m_indentLevel;
-
     QString m_jsonOutput;
 };
 

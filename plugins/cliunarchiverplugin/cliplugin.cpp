@@ -35,14 +35,36 @@ K_PLUGIN_FACTORY(CliPluginFactory, registerPlugin<CliPlugin>();)
 
 CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
         : CliInterface(parent, args)
-        , m_indentLevel(0)
-
 {
     qCDebug(ARK) << "Loaded cli_unarchiver plugin";
 }
 
 CliPlugin::~CliPlugin()
 {
+}
+
+bool CliPlugin::list()
+{
+    resetParsing();
+    cacheParameterList();
+    m_operationMode = List;
+
+    QStringList args = m_param.value(ListArgs).toStringList();
+    substituteListVariables(args);
+
+    if (!runProcess(m_param.value(ListProgram).toStringList(), args)) {
+        failOperation();
+        return false;
+    }
+
+    // lsar -json exits with error code 2 if the archive is header-encrypted and no password is given as argument.
+    // At this point we have already asked a password to the user, so we can just list() again.
+    if (m_exitCode == 2 && !password().isEmpty()) {
+        return CliInterface::list();
+    }
+
+    emit finished(true);
+    return true;
 }
 
 bool CliPlugin::copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, const ExtractionOptions &options)
@@ -62,27 +84,23 @@ bool CliPlugin::copyFiles(const QList<QVariant> &files, const QString &destinati
 
 void CliPlugin::resetParsing()
 {
-    // TODO
+    m_jsonOutput.clear();
 }
 
 ParameterList CliPlugin::parameterList() const
 {
     static ParameterList p;
     if (p.isEmpty()) {
-        /* Limitations:
-            *  01 - creates an empty file upon entering wrong password
-            *  02 - unar detects if output is being redirected and then does not accept any input
-            */
 
         ///////////////[ COMMON ]/////////////
 
         p[CaptureProgress] = false;
-        p[PasswordPromptPattern] = QStringLiteral("Password (will not be shown): ");
+        p[PasswordPromptPattern] = QStringLiteral("This archive requires a password to unpack. Use the -p option to provide one.");
 
         ///////////////[ LIST ]/////////////
 
         p[ListProgram] = QStringLiteral("lsar");
-        p[ListArgs] = QStringList() << QStringLiteral("-json") << QStringLiteral("$Archive");
+        p[ListArgs] = QStringList() << QStringLiteral("-json") << QStringLiteral("$Archive") << QStringLiteral("$PasswordSwitch");
 
         ///////////////[ EXTRACT ]/////////////
 

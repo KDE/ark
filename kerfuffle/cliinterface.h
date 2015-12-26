@@ -308,14 +308,30 @@ public:
 protected:
 
     virtual void handleLine(const QString& line);
+    void cacheParameterList();
+    void substituteListVariables(QStringList& params);
+
+    /**
+     * Run @p programName with the given @p arguments.
+     * The method waits until @p programName is finished to exit.
+     *
+     * @param programName The program that will be run (not the whole path).
+     * @param arguments A list of arguments that will be passed to the program.
+     *
+     * @return @c true if the program was found and the process ran correctly,
+     *         @c false otherwise.
+     */
+    bool runProcess(const QStringList& programNames, const QStringList& arguments);
+
+    void failOperation();
+
+    ParameterList m_param;
+    int m_exitCode;
 
 protected slots:
     virtual void readStdout(bool handleAll = false);
 
 private:
-    void substituteListVariables(QStringList& params);
-
-    void cacheParameterList();
 
     /**
      * Checks whether a line of the program's output is a password prompt.
@@ -333,20 +349,6 @@ private:
 
     bool handleFileExistsMessage(const QString& filename);
     bool checkForErrorMessage(const QString& line, int parameterIndex);
-
-    void failOperation();
-
-    /**
-     * Run @p programName with the given @p arguments.
-     * The method waits until @p programName is finished to exit.
-     *
-     * @param programName The program that will be run (not the whole path).
-     * @param arguments A list of arguments that will be passed to the program.
-     *
-     * @return @c true if the program was found and the process ran correctly,
-     *         @c false otherwise.
-     */
-    bool runProcess(const QStringList& programNames, const QStringList& arguments);
 
     /**
      * Performs any additional escaping and processing on @p fileName
@@ -376,12 +378,10 @@ private:
     KPtyProcess *m_process;
 #endif
 
-    ParameterList m_param;
     QVariantList m_removedFiles;
     bool m_listEmptyLines;
     bool m_abortingOperation;
     QString m_storedFileName;
-    int m_exitCode;
 
 private slots:
     void processFinished(int exitCode, QProcess::ExitStatus exitStatus);

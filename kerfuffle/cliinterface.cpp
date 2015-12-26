@@ -971,7 +971,7 @@ void CliInterface::substituteListVariables(QStringList& params)
             Q_ASSERT(m_param.contains(PasswordSwitch));
 
             //we will set it afterwards, if there is a password
-            params[i] = QString();
+            params.removeAt(i);
 
             QString pass = password();
 
@@ -986,9 +986,11 @@ void CliInterface::substituteListVariables(QStringList& params)
                     newArg.replace(QLatin1String("$Password"), pass);
 
                     //put it in the arg list
-                    params[i] = newArg;
+                    params.insert(i + j, newArg);
+                    ++i;
                 }
             }
+            --i;
         }
     }
 }
