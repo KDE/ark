@@ -229,6 +229,8 @@ void Part::extractSelectedFilesTo(const QString& localPath)
     // Create and start the ExtractJob.
     ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows())), destination, options);
     registerJob(job);
+    connect(job, &KJob::result,
+            this, &Part::slotExtractionDone);
     job->start();
 }
 
