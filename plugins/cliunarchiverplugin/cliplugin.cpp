@@ -71,13 +71,15 @@ bool CliPlugin::copyFiles(const QList<QVariant> &files, const QString &destinati
 {
     ExtractionOptions newOptions = options;
 
-    // unar creates an empty file upon entering a wrong password.
-    // To prevent this, we always extract to a temporary directory
-    // and then we check for the unar exit code.
-    if (options.value(QStringLiteral("PasswordProtectedHint")).toBool()) {
-        newOptions[QStringLiteral("AlwaysUseTmpDir")] = true;
-        qCDebug(ARK) << "Detected password-protected archive, enabled extraction to temporary directory.";
-    }
+    // unar has the following limitations:
+    // 1. creates an empty file upon entering a wrong password.
+    // 2. detects that the stdout has been redirected and blocks the stdin.
+    //    This prevents Ark from executing unar's overwrite queries.
+    // To prevent both, we always extract to a temporary directory
+    // and then we move the files to the intended destination.
+
+    qCDebug(ARK) << "Enabling extraction to temporary directory.";
+    newOptions[QStringLiteral("AlwaysUseTmpDir")] = true;
 
     return CliInterface::copyFiles(files, destinationDirectory, newOptions);
 }
@@ -108,14 +110,6 @@ ParameterList CliPlugin::parameterList() const
         p[ExtractArgs] = QStringList() << QStringLiteral("-D") << QStringLiteral("$Archive") << QStringLiteral("$Files") << QStringLiteral("$PasswordSwitch");
         p[NoTrailingSlashes]  = true;
         p[PasswordSwitch] = QStringList() << QStringLiteral("-password") << QStringLiteral("$Password");
-        p[FileExistsExpression] = QStringLiteral("^\\\"(.+)\\\" already exists.");
-        p[FileExistsInput] = QStringList()
-                    << QStringLiteral("o") //overwrite
-                    << QStringLiteral("s") //skip
-                    << QStringLiteral("O") //overwrite all
-                    << QStringLiteral("S") //autoskip
-                    << QStringLiteral("q") //cancel
-                    ;
 
         ///////////////[ ERRORS ]/////////////
 
