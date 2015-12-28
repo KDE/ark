@@ -237,6 +237,8 @@ void Part::extractSelectedFilesTo(const QString& localPath)
     // Create and start the ExtractJob.
     ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows())), destination, options);
     registerJob(job);
+    connect(job, &KJob::result,
+            this, &Part::slotExtractionDone);
     job->start();
 }
 
@@ -595,7 +597,7 @@ void Part::slotLoadingFinished(KJob *job)
 
     updateActions();
 
-    if (!m_model->archive()->comment().isEmpty()) {
+    if (m_model->archive() && !m_model->archive()->comment().isEmpty()) {
         m_commentView->setPlainText(m_model->archive()->comment());
         m_commentBox->show();
         m_commentSplitter->setSizes(QList<int>() << m_view->height() * 0.6 << 1);
