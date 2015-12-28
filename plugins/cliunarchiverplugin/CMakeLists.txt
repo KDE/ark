@@ -1,8 +1,6 @@
 ########### next target ###############
 
 set(SUPPORTED_CLIUNARCHIVER_MIMETYPES "application/x-rar;")
-set(ENCRYPT_ENTRIES_MIMETYPES "application/x-rar")
-set(ENCRYPT_HEADER_MIMETYPES "application/x-rar")
 
 set(kerfuffle_cliunarchiver_SRCS cliplugin.cpp)
 

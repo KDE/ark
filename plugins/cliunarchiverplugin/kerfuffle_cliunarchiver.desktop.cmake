@@ -11,7 +11,5 @@ X-KDE-PluginInfo-License=GPLv2+
 X-KDE-Priority=200
 X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=false
-X-KDE-Kerfuffle-EncryptEntries=@ENCRYPT_ENTRIES_MIMETYPES@
-X-KDE-Kerfuffle-EncryptHeader=@ENCRYPT_HEADER_MIMETYPES@
 Name=The Unarchiver plugin
 MimeType=@SUPPORTED_CLIUNARCHIVER_MIMETYPES@
