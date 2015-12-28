@@ -173,6 +173,9 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
 
             if (iface->findExecutables(!isReadOnly)) {
                 return new Archive(iface, isReadOnly, parent);
+            } else if (!isReadOnly && iface->findExecutables(false)) {
+                qCWarning(ARK) << "Failed to find read-write executables: falling back to read-only mode for read-write plugin" << pluginName;
+                return new Archive(iface, true, parent);
             } else {
                 qCWarning(ARK) << "Failed to find needed executables for plugin" << pluginName;
             }
