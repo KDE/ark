@@ -117,16 +117,6 @@ ParameterList CliPlugin::parameterList() const
                     << QStringLiteral("q") //cancel
                     ;
 
-        ///////////////[ DELETE ]/////////////
-
-        p[DeleteProgram] = QStringLiteral("x-fakeprogram");
-        //p[DeleteArgs]    =
-
-        ///////////////[ ADD ]/////////////
-
-        p[AddProgram] = QStringLiteral("x-fakeprogram");
-        //p[AddArgs]    =
-
         ///////////////[ ERRORS ]/////////////
 
         p[ExtractionFailedPatterns] = QStringList()
