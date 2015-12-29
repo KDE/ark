@@ -170,6 +170,7 @@ Comment[fr]=Travailler avec des archives
 Comment[gl]=Traballa con arquivos de ficheiros
 Comment[it]=Lavora con gli archivi di file
 Comment[ko]=압축 파일로 작업하기
+Comment[lt]=Darbas su archyvais
 Comment[nl]=Mert bestandsarchieven werken
 Comment[pl]=Pracuj z archiwami plików
 Comment[pt]=Lidar com pacotes em ficheiros
