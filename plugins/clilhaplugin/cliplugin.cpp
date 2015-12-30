@@ -37,7 +37,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
             m_parseState(ParseStateHeader),
             m_firstLine(true)
 {
-    qCDebug(ARK) << "Loaded cli_7z plugin";
+    qCDebug(ARK) << "Loaded cli_lha plugin";
 }
 
 CliPlugin::~CliPlugin()
