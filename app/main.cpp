@@ -279,7 +279,7 @@ int main(int argc, char **argv)
                 return -1;
             }
 
-            if (urls.count()) {
+            if (!urls.isEmpty()) {
                 qCDebug(ARK) << "Trying to open" << QUrl::fromUserInput(urls.at(0), QString(), QUrl::AssumeLocalFile);
 
                 if (parser.isSet(QStringLiteral("dialog"))) {

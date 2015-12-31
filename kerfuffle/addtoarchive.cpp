@@ -140,7 +140,7 @@ void AddToArchive::slotStartJob()
 
     Kerfuffle::CompressionOptions options;
 
-    if (!m_inputs.size()) {
+    if (m_inputs.isEmpty()) {
         KMessageBox::error(NULL, i18n("No input files were given."));
         return;
     }
