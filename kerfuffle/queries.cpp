@@ -177,7 +177,7 @@ void PasswordNeededQuery::execute()
 
     QPointer<KPasswordDialog> dlg = new KPasswordDialog;
     dlg.data()->setPrompt(xi18nc("@info", "The archive <filename>%1</filename> is password protected. Please enter the password to extract the file.",
-                                 m_data.value(QLatin1String( "archiveFilename" )).toString()));
+                                 m_data.value(QStringLiteral("archiveFilename")).toString()));
 
     if (m_data.value(QStringLiteral("incorrectTryAgain")).toBool()) {
         dlg.data()->showErrorMessage(i18n("Incorrect password, please try again."), KPasswordDialog::PasswordError);

@@ -258,7 +258,7 @@ KService::Ptr ArkViewer::getViewer(const QString &mimeType)
     }
 
     // Try to get a read-only kpart for the internal viewer
-    KService::List offers = KMimeTypeTrader::self()->query(mimeType, QString::fromLatin1("KParts/ReadOnlyPart"));
+    KService::List offers = KMimeTypeTrader::self()->query(mimeType, QStringLiteral("KParts/ReadOnlyPart"));
 
     // If we can't find a kpart, try to get an external application
     if (offers.isEmpty()) {
