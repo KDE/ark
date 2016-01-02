@@ -505,9 +505,14 @@ bool Part::openFile()
     Q_ASSERT(archive->isValid());
 
     // Plugin loaded successfully.
-    KJob *job = m_model->setArchive(archive.take());
-    registerJob(job);
-    job->start();
+    KJob *job = m_model->setArchive(archive.take(), localFileInfo.exists());
+    if (job) {
+        registerJob(job);
+        job->start();
+    } else {
+        updateActions();
+    }
+
     m_infoPanel->setIndex(QModelIndex());
 
     if (arguments().metaData()[QStringLiteral("showExtractDialog")] == QLatin1String("true")) {
