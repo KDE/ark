@@ -163,7 +163,6 @@ void ArkViewer::view(const QString& fileName, QWidget *parent)
     if (viewInInternalViewer) {
         qCDebug(ARK) << "Opening internal viewer";
         ArkViewer *internalViewer = new ArkViewer(parent, Qt::Window);
-        internalViewer->setModal(Qt::WindowModal);
         internalViewer->show();
         if (internalViewer->viewInInternalViewer(fileName, mimeType)) {
             // The internal viewer is showing the file, and will
