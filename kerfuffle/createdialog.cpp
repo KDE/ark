@@ -63,7 +63,8 @@ CreateDialog::CreateDialog(QWidget *parent,
 {
     qCDebug(ARK) << "CreateDialog loaded";
 
-    this->setWindowTitle(caption);
+    setWindowTitle(caption);
+    setModal(true);
 
     m_vlayout = new QVBoxLayout();
     setLayout(m_vlayout);
