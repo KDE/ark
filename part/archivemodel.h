@@ -63,7 +63,7 @@ public:
     QMimeData * mimeData(const QModelIndexList & indexes) const Q_DECL_OVERRIDE;
     bool dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent) Q_DECL_OVERRIDE;
 
-    KJob* setArchive(Kerfuffle::Archive *archive);
+    KJob* setArchive(Kerfuffle::Archive *archive, bool existingArchive = false);
     Kerfuffle::Archive *archive() const;
 
     Kerfuffle::ArchiveEntry entryForIndex(const QModelIndex &index);
