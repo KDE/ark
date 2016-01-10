@@ -39,6 +39,19 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="kcfg_extractToSubfolder">
+     <property name="toolTip">
+      <string>Whether to check by default the extraction into subfolder checkbox in the Extraction Dialog, when the archive has more than one top-level entry.</string>
+     </property>
+     <property name="text">
+      <string>Extract to a subfolder if the archive has more than one top-level entry</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>

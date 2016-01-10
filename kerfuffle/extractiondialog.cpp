@@ -106,7 +106,7 @@ void ExtractionDialog::loadSettings()
 
 void ExtractionDialog::setSingleFolderArchive(bool value)
 {
-    m_ui->singleFolderGroup->setChecked(!value);
+    m_ui->singleFolderGroup->setChecked(!value && ArkSettings::extractToSubfolder());
 }
 
 void ExtractionDialog::batchModeOption()
