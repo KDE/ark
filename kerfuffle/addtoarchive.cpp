@@ -182,8 +182,14 @@ void AddToArchive::slotStartJob()
     Q_ASSERT(archive);
 
     if (!archive->isValid()) {
-        KMessageBox::error(Q_NULLPTR, i18n("Failed to create the new archive. Permissions might not be sufficient."));
-        return;
+        if (archive->error() == NoPlugin) {
+            KMessageBox::error(Q_NULLPTR, i18n("Failed to create the new archive. No suitable plugin found."));
+            return;
+        }
+        if (archive->error() == FailedPlugin) {
+            KMessageBox::error(Q_NULLPTR, i18n("Failed to create the new archive. Could not load a suitable plugin."));
+            return;
+        }
     } else if (archive->isReadOnly()) {
         KMessageBox::error(Q_NULLPTR, i18n("It is not possible to create archives of this type."));
         return;
