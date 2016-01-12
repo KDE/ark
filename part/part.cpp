@@ -373,11 +373,11 @@ void Part::updateActions()
     m_openFileAction->setEnabled(!isBusy() &&
                                  isPreviewable &&
                                  !isDirectory &&
-                                 (selectedEntriesCount > 0));
+                                 (selectedEntriesCount == 1));
     m_openFileWithAction->setEnabled(!isBusy() &&
                                      isPreviewable &&
                                      !isDirectory &&
-                                     (selectedEntriesCount > 0));
+                                     (selectedEntriesCount == 1));
 
     QMenu *menu = m_extractFilesAction->menu();
     if (!menu) {
