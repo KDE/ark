@@ -165,6 +165,7 @@ Comment[da]=Arbejd med filarkiver
 Comment[de]=Arbeiten mit Dateiarchiven
 Comment[en_GB]=Work with file archives
 Comment[es]=Trabajar con archivos comprimidos
+Comment[et]=Arhiivifailide käitlemine
 Comment[fi]=Käsittele tiedostopaketteja
 Comment[fr]=Travailler avec des archives
 Comment[gl]=Traballa con arquivos de ficheiros
