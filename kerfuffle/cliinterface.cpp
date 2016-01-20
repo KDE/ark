@@ -597,7 +597,7 @@ bool CliInterface::moveToFinalDest(const QVariantList &files, const QString &fin
 
             // Create any parent directories.
             if (!finalDestDir.mkpath(relEntry.path())) {
-                qCWarning(ARK) << "Failed to create parent dirctory for file:" << absDestEntry.filePath();
+                qCWarning(ARK) << "Failed to create parent directory for file:" << absDestEntry.filePath();
             }
 
             // Move files to the final destination.
