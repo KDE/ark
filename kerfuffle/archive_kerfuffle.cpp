@@ -93,6 +93,11 @@ QString Archive::determineMimeType(const QString& filename)
             return mimeFromExtension.name();
         }
 
+        // #354344: ISO files are currently wrongly detected-by-content.
+        if (mimeFromExtension.inherits(QStringLiteral("application/x-cd-image"))) {
+            return mimeFromExtension.name();
+        }
+
         qCWarning(ARK) << "Mimetype for filename extension (" << mimeFromExtension.name()
                        << ") did not match mimetype for content (" << mimeFromContent.name()
                        << "). Using content-based mimetype.";
