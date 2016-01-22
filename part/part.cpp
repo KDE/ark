@@ -610,6 +610,15 @@ void Part::slotLoadingFinished(KJob *job)
         m_commentView->clear();
         m_commentBox->hide();
     }
+
+    if (m_model->rowCount() == 1 && m_model->archive()) {
+        QMimeType mime = QMimeDatabase().mimeTypeForName(Archive::determineMimeType(m_model->archive()->fileName()));
+        if (mime.inherits(QStringLiteral("application/x-cd-image")) &&
+            m_model->entryForIndex(m_model->index(0, 0))[FileName].toString() == QLatin1String("README.TXT")) {
+            qCWarning(ARK) << "Detected ISO image with UDF filesystem";
+            displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "Ark does not currently support ISO files with UDF filesystem."));
+        }
+    }
 }
 
 void Part::setReadyGui()
