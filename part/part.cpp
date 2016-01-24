@@ -602,7 +602,11 @@ void Part::slotLoadingFinished(KJob *job)
 
     updateActions();
 
-    if (m_model->archive() && !m_model->archive()->comment().isEmpty()) {
+    if (!m_model->archive()) {
+        return;
+    }
+
+    if (!m_model->archive()->comment().isEmpty()) {
         m_commentView->setPlainText(m_model->archive()->comment());
         m_commentBox->show();
         m_commentSplitter->setSizes(QList<int>() << m_view->height() * 0.6 << 1);
@@ -611,7 +615,10 @@ void Part::slotLoadingFinished(KJob *job)
         m_commentBox->hide();
     }
 
-    if (m_model->rowCount() == 1 && m_model->archive()) {
+    if (m_model->rowCount() == 0) {
+        qCWarning(ARK) << "No entry listed by the plugin";
+        displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "The archive is empty or Ark could not open its content."));
+    } else if (m_model->rowCount() == 1) {
         QMimeType mime = QMimeDatabase().mimeTypeForName(Archive::determineMimeType(m_model->archive()->fileName()));
         if (mime.inherits(QStringLiteral("application/x-cd-image")) &&
             m_model->entryForIndex(m_model->index(0, 0))[FileName].toString() == QLatin1String("README.TXT")) {
