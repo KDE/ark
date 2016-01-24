@@ -19,7 +19,12 @@ ecm_add_app_icon(ark_SRCS ICONS ${ICONS_SRCS})
 
 add_executable( ark ${ark_SRCS} )
 
-target_link_libraries( ark kerfuffle KF5::DBusAddons KF5::Parts KF5::KIOFileWidgets)
+target_link_libraries(ark
+    kerfuffle
+    KF5::Crash
+    KF5::DBusAddons
+    KF5::KIOFileWidgets
+    KF5::Parts)
 
 # Remove duplicate mimetypes from list of supported formats.
 list(REMOVE_DUPLICATES SUPPORTED_ARK_MIMETYPES)

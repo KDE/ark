@@ -33,6 +33,7 @@
 #include <QFileInfo>
 
 #include <KAboutData>
+#include <KCrash>
 #include <KLocalizedString>
 #include <kdbusservice.h>
 
@@ -46,6 +47,8 @@ int main(int argc, char **argv)
      * enable high dpi support
      */
     application.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+
+    KCrash::initialize();
 
     // Debug output can be turned on here:
     //QLoggingCategory::setFilterRules(QStringLiteral("ark.debug = true"));
