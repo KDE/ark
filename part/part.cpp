@@ -289,14 +289,14 @@ void Part::setupActions()
     actionCollection()->addAction(KStandardAction::SaveAs, QStringLiteral("ark_file_save_as"), this, SLOT(slotSaveAs()));
 
     m_openFileAction = actionCollection()->addAction(QStringLiteral("openfile"));
-    m_openFileAction->setText(i18nc("open a file with external program", "&Open File"));
+    m_openFileAction->setText(i18nc("open a file with external program", "&Open"));
     m_openFileAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     m_openFileAction->setStatusTip(i18n("Click to open the selected file with the associated application"));
     connect(m_openFileAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
     m_signalMapper->setMapping(m_openFileAction, OpenFile);
 
     m_openFileWithAction = actionCollection()->addAction(QStringLiteral("openfilewith"));
-    m_openFileWithAction->setText(i18nc("open a file with external program", "Open File &With..."));
+    m_openFileWithAction->setText(i18nc("open a file with external program", "Open &With..."));
     m_openFileWithAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     m_openFileWithAction->setStatusTip(i18n("Click to open the selected file with an external program"));
     connect(m_openFileWithAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
