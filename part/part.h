@@ -131,6 +131,7 @@ private:
     QAction *m_addFilesAction;
     QAction *m_addDirAction;
     QAction *m_deleteFilesAction;
+    QAction *m_saveAsAction;
     KToggleAction *m_showInfoPanelAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;

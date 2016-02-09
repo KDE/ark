@@ -286,7 +286,7 @@ void Part::setupActions()
     connect(m_showInfoPanelAction, &QAction::triggered,
             this, &Part::slotToggleInfoPanel);
 
-    actionCollection()->addAction(KStandardAction::SaveAs, QStringLiteral("ark_file_save_as"), this, SLOT(slotSaveAs()));
+    m_saveAsAction = actionCollection()->addAction(KStandardAction::SaveAs, QStringLiteral("ark_file_save_as"), this, SLOT(slotSaveAs()));
 
     m_openFileAction = actionCollection()->addAction(QStringLiteral("openfile"));
     m_openFileAction->setText(i18nc("open a file with external program", "&Open"));
@@ -363,6 +363,8 @@ void Part::updateActions()
                                 (selectedEntriesCount == 1));
     m_extractFilesAction->setEnabled(!isBusy() &&
                                      (m_model->rowCount() > 0));
+    m_saveAsAction->setEnabled(!isBusy() &&
+                               m_model->rowCount() > 0);
     m_addFilesAction->setEnabled(!isBusy() &&
                                  isWritable);
     m_addDirAction->setEnabled(!isBusy() &&
