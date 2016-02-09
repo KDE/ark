@@ -355,6 +355,8 @@ void Part::updateActions()
                                 (selectedEntriesCount == 1));
     m_extractFilesAction->setEnabled(!isBusy() &&
                                      (m_model->rowCount() > 0));
+    m_saveAsAction->setEnabled(!isBusy() &&
+                               m_model->rowCount() > 0);
     m_addFilesAction->setEnabled(!isBusy() &&
                                  isWritable);
     m_addDirAction->setEnabled(!isBusy() &&
