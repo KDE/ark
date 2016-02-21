@@ -293,7 +293,14 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
     }
 
     if (useTmpExtractDir) {
-        moveToFinalDest(files, destinationDirectory, tmpExtractDir);
+        if (!moveToFinalDest(files, destinationDirectory, tmpExtractDir)) {
+            emit error(i18ncp("@info",
+                              "Could not move the extracted file to the destination directory.",
+                              "Could not move the extracted files to the destination directory.",
+                              files.size()));
+            emit finished(false);
+            return false;
+        }
     }
 
     emit finished(true);
