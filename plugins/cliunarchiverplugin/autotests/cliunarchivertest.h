@@ -34,6 +34,8 @@ private Q_SLOTS:
     void initTestCase();
     void testList_data();
     void testList();
+    void testArchive_data();
+    void testArchive();
 };
 
 Q_DECLARE_METATYPE(ArchiveEntry)

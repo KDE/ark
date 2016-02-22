@@ -101,3 +101,61 @@ void CliUnarchiverTest::testList()
 
     unarPlugin->deleteLater();
 }
+
+void CliUnarchiverTest::testArchive_data()
+{
+    QTest::addColumn<QString>("archivePath");
+    QTest::addColumn<QString>("expectedFileName");
+    QTest::addColumn<bool>("isReadOnly");
+    QTest::addColumn<bool>("isSingleFolder");
+    QTest::addColumn<bool>("isPasswordProtected");
+    QTest::addColumn<QString>("expectedSubfolderName");
+
+
+    QString archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
+    QTest::newRow("archive with one top-level folder")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << true << true << false
+            << QStringLiteral("A");
+
+    archivePath = QFINDTESTDATA("data/multiple_toplevel_entries.rar");
+    QTest::newRow("archive with multiple top-level entries")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << true << false << false
+            << QStringLiteral("multiple_toplevel_entries");
+
+    archivePath = QFINDTESTDATA("data/encrypted_entries.rar");
+    QTest::newRow("archive with encrypted entries")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << true << true << true
+            << QStringLiteral("A");
+}
+
+void CliUnarchiverTest::testArchive()
+{
+    QFETCH(QString, archivePath);
+    Archive *archive = Archive::create(archivePath, this);
+    QVERIFY(archive);
+
+    if (!archive->isValid()) {
+        QSKIP("Could not find a plugin to handle rar files. Skipping test.", SkipSingle);
+    }
+
+    QFETCH(QString, expectedFileName);
+    QCOMPARE(QFileInfo(archive->fileName()).fileName(), expectedFileName);
+
+    QFETCH(bool, isReadOnly);
+    QCOMPARE(archive->isReadOnly(), isReadOnly);
+
+    QFETCH(bool, isSingleFolder);
+    QCOMPARE(archive->isSingleFolderArchive(), isSingleFolder);
+
+    QFETCH(bool, isPasswordProtected);
+    QCOMPARE(archive->isPasswordProtected(), isPasswordProtected);
+
+    QFETCH(QString, expectedSubfolderName);
+    QCOMPARE(archive->subfolderName(), expectedSubfolderName);
+}
