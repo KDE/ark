@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2010-2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -25,55 +26,88 @@
 
 #include "kerfuffle/archive_kerfuffle.h"
 
-#include <QtTest>
+#include <QTest>
+
+using namespace Kerfuffle;
 
 class ArchiveTest : public QObject
 {
     Q_OBJECT
 
 private Q_SLOTS:
-    void testFileName();
-    void testIsPasswordProtected();
-    void testOpenNonExistentFile();
+    void testProperties_data();
+    void testProperties();
 };
 
 QTEST_GUILESS_MAIN(ArchiveTest)
 
-void ArchiveTest::testFileName()
+void ArchiveTest::testProperties_data()
 {
-    Kerfuffle::Archive *archive = Kerfuffle::Archive::create(QStringLiteral("/tmp/foo.tar.gz"), this);
+    QTest::addColumn<QString>("archivePath");
+    QTest::addColumn<QString>("expectedFileName");
+    QTest::addColumn<bool>("isReadOnly");
+    QTest::addColumn<bool>("isSingleFolder");
+    QTest::addColumn<bool>("isPasswordProtected");
+    QTest::addColumn<QString>("expectedSubfolderName");
 
-    QVERIFY(archive);
+    // Test non-existent tar archive.
+    QString archivePath = QStringLiteral("/tmp/foo.tar.gz");
+    QTest::newRow("non-existent tar archive")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << false << true << false
+            << QStringLiteral("foo");
 
-    QCOMPARE(archive->fileName(), QLatin1String("/tmp/foo.tar.gz"));
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
+    QTest::newRow("simple compressed tar archive")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << false << false << false
+            << QStringLiteral("simplearchive");
+
+    archivePath = QFINDTESTDATA("data/archivetest_encrypted.zip");
+    QTest::newRow("encrypted zip, single entry")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << false << true << true
+            // FIXME: possibly a bug? I was expecting to get "archivetest_encrypted" as subfolder name...
+            << QStringLiteral("foo.txt");
+
+    archivePath = QFINDTESTDATA("data/archivetest_unencrypted.zip");
+    QTest::newRow("simple zip, one unencrypted entry")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << false << true << false
+            // FIXME: possibly a bug? I was expecting to get "archivetest_encrypted" as subfolder name...
+            << QStringLiteral("foo.txt");
 }
 
-void ArchiveTest::testIsPasswordProtected()
+void ArchiveTest::testProperties()
 {
-    Kerfuffle::Archive *archive;
-
-    archive = Kerfuffle::Archive::create(QFINDTESTDATA("data/archivetest_encrypted.zip"), this);
-
+    QFETCH(QString, archivePath);
+    Archive *archive = Archive::create(archivePath, this);
     QVERIFY(archive);
 
     if (!archive->isValid()) {
-        QSKIP("Could not find a plugin to handle zip files. Skipping test.", SkipSingle);
+        QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
     }
 
-    QVERIFY(archive->isValid());
+    QFETCH(QString, expectedFileName);
+    QCOMPARE(QFileInfo(archive->fileName()).fileName(), expectedFileName);
 
-    QVERIFY(archive->isPasswordProtected());
+    QFETCH(bool, isReadOnly);
+    QCOMPARE(archive->isReadOnly(), isReadOnly);
+
+    QFETCH(bool, isSingleFolder);
+    QCOMPARE(archive->isSingleFolderArchive(), isSingleFolder);
+
+    QFETCH(bool, isPasswordProtected);
+    QCOMPARE(archive->isPasswordProtected(), isPasswordProtected);
+
+    QFETCH(QString, expectedSubfolderName);
+    QCOMPARE(archive->subfolderName(), expectedSubfolderName);
 
     archive->deleteLater();
-
-    archive = Kerfuffle::Archive::create(QFINDTESTDATA("data/archivetest_unencrypted.zip"), this);
-
-    QVERIFY(!archive->isPasswordProtected());
-}
-
-void ArchiveTest::testOpenNonExistentFile()
-{
-    QSKIP("How should we deal with files that do not exist? Should factory() return NULL?", SkipSingle);
 }
 
 #include "archivetest.moc"
