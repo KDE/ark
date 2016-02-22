@@ -39,6 +39,11 @@ public:
     virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
 
+    /**
+     * Fill the lsar's json output all in once (useful for unit testing).
+     */
+    void setJsonOutput(const QString &jsonOutput);
+
 protected slots:
     void readStdout(bool handleAll = false) Q_DECL_OVERRIDE;
 

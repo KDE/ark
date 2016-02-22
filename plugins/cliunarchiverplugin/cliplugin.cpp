@@ -130,6 +130,12 @@ bool CliPlugin::readListLine(const QString &line)
     return true;
 }
 
+void CliPlugin::setJsonOutput(const QString &jsonOutput)
+{
+    m_jsonOutput = jsonOutput;
+    readJsonOutput();
+}
+
 void CliPlugin::readStdout(bool handleAll)
 {
     if (!handleAll) {

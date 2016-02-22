@@ -1,0 +1,414 @@
+{
+  "lsarFormatVersion": 2,
+  "lsarContents": [
+    {
+      "XADSolidOffset": 0,
+      "RARAttributes": 33188,
+      "RARCompressionMethod": 48,
+      "XADCompressionName": "None",
+      "XADSolidObject": [
+        {
+          "Parts": [
+            {
+              "CRC32": 2589899839,
+              "InputLength": 14,
+              "Offset": 70
+            }
+          ],
+          "Encrypted": 0,
+          "Version": 29,
+          "OutputLength": 14
+        }
+      ],
+      "XADFileName": "data/A/test2.txt",
+      "RARSolidIndex": 0,
+      "RAROSName": "Unix",
+      "XADPosixPermissions": 33188,
+      "RAROS": 3,
+      "RARCRC32": 2589899839,
+      "RARCompressionVersion": 29,
+      "XADLastModificationDate": "2015-12-21 16:56:36 +0100",
+      "XADCompressedSize": 14,
+      "XADFileSize": 14,
+      "XADIndex": 0,
+      "RARFlags": 36896,
+      "XADSolidLength": 14
+    },
+    {
+      "XADSolidOffset": 0,
+      "RARAttributes": 33188,
+      "RARCompressionMethod": 48,
+      "XADCompressionName": "None",
+      "XADSolidObject": [
+        {
+          "Parts": [
+            {
+              "CRC32": 2589899839,
+              "InputLength": 14,
+              "Offset": 136
+            }
+          ],
+          "Encrypted": 0,
+          "Version": 29,
+          "OutputLength": 14
+        }
+      ],
+      "XADFileName": "data/A/B/test2.txt",
+      "RARSolidIndex": 0,
+      "RAROSName": "Unix",
+      "XADPosixPermissions": 33188,
+      "RAROS": 3,
+      "RARCRC32": 2589899839,
+      "RARCompressionVersion": 29,
+      "XADLastModificationDate": "2015-12-21 16:56:36 +0100",
+      "XADCompressedSize": 14,
+      "XADFileSize": 14,
+      "XADIndex": 1,
+      "RARFlags": 36896,
+      "XADSolidLength": 14
+    },
+    {
+      "XADSolidOffset": 0,
+      "RARAttributes": 33188,
+      "RARCompressionMethod": 48,
+      "XADCompressionName": "None",
+      "XADSolidObject": [
+        {
+          "Parts": [
+            {
+              "CRC32": 2589899839,
+              "InputLength": 14,
+              "Offset": 204
+            }
+          ],
+          "Encrypted": 0,
+          "Version": 29,
+          "OutputLength": 14
+        }
+      ],
+      "XADFileName": "data/A/B/C/test2.txt",
+      "RARSolidIndex": 0,
+      "RAROSName": "Unix",
+      "XADPosixPermissions": 33188,
+      "RAROS": 3,
+      "RARCRC32": 2589899839,
+      "RARCompressionVersion": 29,
+      "XADLastModificationDate": "2015-12-21 16:56:36 +0100",
+      "XADCompressedSize": 14,
+      "XADFileSize": 14,
+      "XADIndex": 2,
+      "RARFlags": 36896,
+      "XADSolidLength": 14
+    },
+    {
+      "XADSolidOffset": 0,
+      "RARAttributes": 33188,
+      "RARCompressionMethod": 48,
+      "XADCompressionName": "None",
+      "XADSolidObject": [
+        {
+          "Parts": [
+            {
+              "CRC32": 1707095839,
+              "InputLength": 7,
+              "Offset": 272
+            }
+          ],
+          "Encrypted": 0,
+          "Version": 29,
+          "OutputLength": 7
+        }
+      ],
+      "XADFileName": "data/A/B/C/test1.txt",
+      "RARSolidIndex": 0,
+      "RAROSName": "Unix",
+      "XADPosixPermissions": 33188,
+      "RAROS": 3,
+      "RARCRC32": 1707095839,
+      "RARCompressionVersion": 29,
+      "XADLastModificationDate": "2015-12-21 16:56:28 +0100",
+      "XADCompressedSize": 7,
+      "XADFileSize": 7,
+      "XADIndex": 3,
+      "RARFlags": 36896,
+      "XADSolidLength": 7
+    },
+    {
+      "XADSolidOffset": 0,
+      "RARAttributes": 33188,
+      "RARCompressionMethod": 48,
+      "XADCompressionName": "None",
+      "XADSolidObject": [
+        {
+          "Parts": [
+            {
+              "CRC32": 1707095839,
+              "InputLength": 7,
+              "Offset": 331
+            }
+          ],
+          "Encrypted": 0,
+          "Version": 29,
+          "OutputLength": 7
+        }
+      ],
+      "XADFileName": "data/A/B/test1.txt",
+      "RARSolidIndex": 0,
+      "RAROSName": "Unix",
+      "XADPosixPermissions": 33188,
+      "RAROS": 3,
+      "RARCRC32": 1707095839,
+      "RARCompressionVersion": 29,
+      "XADLastModificationDate": "2015-12-21 16:56:28 +0100",
+      "XADCompressedSize": 7,
+      "XADFileSize": 7,
+      "XADIndex": 4,
+      "RARFlags": 36896,
+      "XADSolidLength": 7
+    },
+    {
+      "XADSolidOffset": 0,
+      "RARAttributes": 33188,
+      "RARCompressionMethod": 48,
+      "XADCompressionName": "None",
+      "XADSolidObject": [
+        {
+          "Parts": [
+            {
+              "CRC32": 1707095839,
+              "InputLength": 7,
+              "Offset": 388
+            }
+          ],
+          "Encrypted": 0,
+          "Version": 29,
+          "OutputLength": 7
+        }
+      ],
+      "XADFileName": "data/A/test1.txt",
+      "RARSolidIndex": 0,
+      "RAROSName": "Unix",
+      "XADPosixPermissions": 33188,
+      "RAROS": 3,
+      "RARCRC32": 1707095839,
+      "RARCompressionVersion": 29,
+      "XADLastModificationDate": "2015-12-21 16:56:28 +0100",
+      "XADCompressedSize": 7,
+      "XADFileSize": 7,
+      "XADIndex": 5,
+      "RARFlags": 36896,
+      "XADSolidLength": 7
+    },
+    {
+      "XADSolidOffset": 0,
+      "RARAttributes": 33188,
+      "RARCompressionMethod": 51,
+      "XADCompressionName": "Normal v2.9",
+      "XADSolidObject": [
+        {
+          "Parts": [
+            {
+              "CRC32": 3736139035,
+              "InputLength": 634,
+              "Offset": 434
+            }
+          ],
+          "Encrypted": 0,
+          "Version": 29,
+          "OutputLength": 4763
+        }
+      ],
+      "XADFileName": "7z.json",
+      "RARSolidIndex": 0,
+      "RAROSName": "Unix",
+      "XADPosixPermissions": 33188,
+      "RAROS": 3,
+      "RARCRC32": 3736139035,
+      "RARCompressionVersion": 29,
+      "XADLastModificationDate": "2015-12-21 18:12:56 +0100",
+      "XADCompressedSize": 634,
+      "XADFileSize": 4763,
+      "XADIndex": 6,
+      "RARFlags": 32800,
+      "XADSolidLength": 4763
+    },
+    {
+      "XADSolidOffset": 0,
+      "RARAttributes": 33188,
+      "RARCompressionMethod": 51,
+      "XADCompressionName": "Normal v2.9",
+      "XADSolidObject": [
+        {
+          "Parts": [
+            {
+              "CRC32": 3652652637,
+              "InputLength": 728,
+              "Offset": 1108
+            }
+          ],
+          "Encrypted": 0,
+          "Version": 29,
+          "OutputLength": 8374
+        }
+      ],
+      "XADFileName": "rar.json",
+      "RARSolidIndex": 0,
+      "RAROSName": "Unix",
+      "XADPosixPermissions": 33188,
+      "RAROS": 3,
+      "RARCRC32": 3652652637,
+      "RARCompressionVersion": 29,
+      "XADLastModificationDate": "2015-12-21 18:13:26 +0100",
+      "XADCompressedSize": 728,
+      "XADFileSize": 8374,
+      "XADIndex": 7,
+      "RARFlags": 32800,
+      "XADSolidLength": 8374
+    },
+    {
+      "XADSolidObject": [
+        {
+          "Parts": [
+            {
+              "CRC32": 0,
+              "InputLength": 0,
+              "Offset": 1878
+            }
+          ],
+          "Encrypted": 0,
+          "Version": 20,
+          "OutputLength": 0
+        }
+      ],
+      "RARCompressionMethod": 48,
+      "XADIndex": 8,
+      "XADLastModificationDate": "2015-12-21 16:57:20 +0100",
+      "XADFileSize": 0,
+      "XADFileName": "data/A/B/C",
+      "XADPosixPermissions": 16877,
+      "RARCompressionVersion": 20,
+      "RAROSName": "Unix",
+      "RARAttributes": 16877,
+      "XADIsDirectory": 1,
+      "XADSolidLength": 0,
+      "RAROS": 3,
+      "RARCRC32": 0,
+      "XADCompressedSize": 0,
+      "XADCompressionName": "None",
+      "RARFlags": 32992,
+      "XADSolidOffset": 0,
+      "RARSolidIndex": 0
+    },
+    {
+      "XADSolidObject": [
+        {
+          "Parts": [
+            {
+              "CRC32": 0,
+              "InputLength": 0,
+              "Offset": 1918
+            }
+          ],
+          "Encrypted": 0,
+          "Version": 20,
+          "OutputLength": 0
+        }
+      ],
+      "RARCompressionMethod": 48,
+      "XADIndex": 9,
+      "XADLastModificationDate": "2015-12-21 16:57:14 +0100",
+      "XADFileSize": 0,
+      "XADFileName": "data/A/B",
+      "XADPosixPermissions": 16877,
+      "RARCompressionVersion": 20,
+      "RAROSName": "Unix",
+      "RARAttributes": 16877,
+      "XADIsDirectory": 1,
+      "XADSolidLength": 0,
+      "RAROS": 3,
+      "RARCRC32": 0,
+      "XADCompressedSize": 0,
+      "XADCompressionName": "None",
+      "RARFlags": 32992,
+      "XADSolidOffset": 0,
+      "RARSolidIndex": 0
+    },
+    {
+      "XADSolidObject": [
+        {
+          "Parts": [
+            {
+              "CRC32": 0,
+              "InputLength": 0,
+              "Offset": 1956
+            }
+          ],
+          "Encrypted": 0,
+          "Version": 20,
+          "OutputLength": 0
+        }
+      ],
+      "RARCompressionMethod": 48,
+      "XADIndex": 10,
+      "XADLastModificationDate": "2015-12-21 16:57:02 +0100",
+      "XADFileSize": 0,
+      "XADFileName": "data/A",
+      "XADPosixPermissions": 16877,
+      "RARCompressionVersion": 20,
+      "RAROSName": "Unix",
+      "RARAttributes": 16877,
+      "XADIsDirectory": 1,
+      "XADSolidLength": 0,
+      "RAROS": 3,
+      "RARCRC32": 0,
+      "XADCompressedSize": 0,
+      "XADCompressionName": "None",
+      "RARFlags": 32992,
+      "XADSolidOffset": 0,
+      "RARSolidIndex": 0
+    },
+    {
+      "XADSolidObject": [
+        {
+          "Parts": [
+            {
+              "CRC32": 0,
+              "InputLength": 0,
+              "Offset": 1992
+            }
+          ],
+          "Encrypted": 0,
+          "Version": 20,
+          "OutputLength": 0
+        }
+      ],
+      "RARCompressionMethod": 48,
+      "XADIndex": 11,
+      "XADLastModificationDate": "2015-12-21 17:06:24 +0100",
+      "XADFileSize": 0,
+      "XADFileName": "data",
+      "XADPosixPermissions": 16877,
+      "RARCompressionVersion": 20,
+      "RAROSName": "Unix",
+      "RARAttributes": 16877,
+      "XADIsDirectory": 1,
+      "XADSolidLength": 0,
+      "RAROS": 3,
+      "RARCRC32": 0,
+      "XADCompressedSize": 0,
+      "XADCompressionName": "None",
+      "RARFlags": 32992,
+      "XADSolidOffset": 0,
+      "RARSolidIndex": 0
+    }
+  ],
+  "lsarEncoding": "US-ASCII",
+  "lsarConfidence": 0,
+  "lsarFormatName": "RAR",
+  "lsarProperties": {
+    "XADArchiveName": "data.rar",
+    "XADVolumes": [
+      "data.rar"
+    ]
+  }
+}
