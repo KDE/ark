@@ -1,19 +1,19 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="ark_part" version="3">
+<kpartgui name="ark_part" version="5">
 <MenuBar>
-	<Menu name="file">
-		<text>&amp;File</text>
-		<Action name="file_save_as" group="file_save"/>
+	<Menu name="archive">
+		<text>&amp;Archive</text>
+		<Action name="ark_file_save_as" group="file_save"/>
+		<Action name="add" group="archive_edit"/>
+		<Action name="add-dir" group="archive_edit"/>
+		<Action name="delete" group="archive_edit"/>
 	</Menu>
-	<Menu name="action">
-		<text>&amp;Action</text>
+	<Menu name="ark_file">
+		<text>&amp;File</text>
 		<Action name="preview"/>
 		<Action name="openfile"/>
 		<Action name="openfilewith"/>
 		<Separator/>
-		<Action name="add"/>
-		<Action name="add-dir"/>
-		<Action name="delete"/>
 		<Action name="extract"/>
 	</Menu>
 	<Menu name="settings">

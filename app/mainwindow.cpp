@@ -162,11 +162,13 @@ bool MainWindow::loadPart()
 
 void MainWindow::setupActions()
 {
-    m_newAction = KStandardAction::openNew(this, SLOT(newArchive()), actionCollection());
-    m_openAction = KStandardAction::open(this, SLOT(openArchive()), actionCollection());
-    KStandardAction::quit(this, SLOT(quit()), actionCollection());
+    m_newAction = actionCollection()->addAction(KStandardAction::New, QStringLiteral("ark_file_new"), this, SLOT(newArchive()));
+    m_openAction = actionCollection()->addAction(KStandardAction::Open, QStringLiteral("ark_file_open"), this, SLOT(openArchive()));
+    actionCollection()->addAction(KStandardAction::Quit, QStringLiteral("ark_quit"), this, SLOT(quit()));
 
-    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openUrl(QUrl)), actionCollection());
+    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openUrl(QUrl)), Q_NULLPTR);
+    actionCollection()->addAction(QStringLiteral("ark_file_open_recent"), m_recentFilesAction);
+
     m_recentFilesAction->setToolBarMode(KRecentFilesAction::MenuMode);
     m_recentFilesAction->setToolButtonPopupMode(QToolButton::DelayedPopup);
     m_recentFilesAction->setIconText(i18nc("action, to open an archive", "Open"));

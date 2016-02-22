@@ -177,7 +177,7 @@ void PasswordNeededQuery::execute()
 
     QPointer<KPasswordDialog> dlg = new KPasswordDialog;
     dlg.data()->setPrompt(xi18nc("@info", "The archive <filename>%1</filename> is password protected. Please enter the password to extract the file.",
-                                 m_data.value(QLatin1String( "archiveFilename" )).toString()));
+                                 m_data.value(QStringLiteral("archiveFilename")).toString()));
 
     if (m_data.value(QStringLiteral("incorrectTryAgain")).toBool()) {
         dlg.data()->showErrorMessage(i18n("Incorrect password, please try again."), KPasswordDialog::PasswordError);
@@ -215,10 +215,11 @@ void LoadCorruptQuery::execute()
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
     setResponse(KMessageBox::warningYesNo(Q_NULLPTR,
-                                          xi18nc("@info", "Corrupt archive detected. Do you want Ark to attempt "
-                                                 "loading the archive?<nl/><nl/>Some files may be missing "
-                                                 "or damaged, and the archive will be opened read-only."),
-                                          i18nc("@title:window", "Corrupt archive")));
+                                          xi18nc("@info", "The archive you're trying to open is corrupt.<nl/>"
+                                                 "Some files may be missing or damaged."),
+                                          i18nc("@title:window", "Corrupt archive"),
+                                          KGuiItem(i18nc("@action:button", "Open as Read-Only")),
+                                          KGuiItem(i18nc("@action:button", "Don't Open"))));
     QApplication::restoreOverrideCursor();
 }
 

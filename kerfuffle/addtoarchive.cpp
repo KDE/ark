@@ -132,16 +132,13 @@ void AddToArchive::start()
     QTimer::singleShot(0, this, &AddToArchive::slotStartJob);
 }
 
-// TODO: If this class should ever be called outside main.cpp,
-//       the returns should be preceded by emitResult().
 void AddToArchive::slotStartJob()
 {
-
-
     Kerfuffle::CompressionOptions options;
 
-    if (!m_inputs.size()) {
+    if (m_inputs.isEmpty()) {
         KMessageBox::error(NULL, i18n("No input files were given."));
+        emitResult();
         return;
     }
 
@@ -152,11 +149,13 @@ void AddToArchive::slotStartJob()
     } else {
         if (m_autoFilenameSuffix.isEmpty()) {
             KMessageBox::error(Q_NULLPTR, xi18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the <command>--autofilename</command> argument."));
+            emitResult();
             return;
         }
 
         if (m_firstPath.isEmpty()) {
             qCWarning(ARK) << "Weird, this should not happen. no firstpath defined. aborting";
+            emitResult();
             return;
         }
 
@@ -182,10 +181,19 @@ void AddToArchive::slotStartJob()
     Q_ASSERT(archive);
 
     if (!archive->isValid()) {
-        KMessageBox::error(Q_NULLPTR, i18n("Failed to create the new archive. Permissions might not be sufficient."));
-        return;
+        if (archive->error() == NoPlugin) {
+            KMessageBox::error(Q_NULLPTR, i18n("Failed to create the new archive. No suitable plugin found."));
+            emitResult();
+            return;
+        }
+        if (archive->error() == FailedPlugin) {
+            KMessageBox::error(Q_NULLPTR, i18n("Failed to create the new archive. Could not load a suitable plugin."));
+            emitResult();
+            return;
+        }
     } else if (archive->isReadOnly()) {
         KMessageBox::error(Q_NULLPTR, i18n("It is not possible to create archives of this type."));
+        emitResult();
         return;
     }
 
@@ -197,6 +205,7 @@ void AddToArchive::slotStartJob()
     if (m_changeToFirstPath) {
         if (m_firstPath.isEmpty()) {
             qCWarning(ARK) << "Weird, this should not happen. no firstpath defined. aborting";
+            emitResult();
             return;
         }
 

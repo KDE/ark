@@ -17,6 +17,10 @@
 			<label>Preserve paths when extracting.</label>
 			<default>true</default>
 		</entry>
+		<entry name="extractToSubfolder" type="Bool">
+			<label>Extract to a subfolder if the archive has more than one top-level entry.</label>
+			<default>true</default>
+		</entry>
 	</group>
 	<group name="MainWindow">
 		<entry name="splitterSizes" type="IntList">

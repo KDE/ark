@@ -85,7 +85,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
 
     Kerfuffle::ExtractJob *job = archive->copyFiles(QVariantList(), destination, options);
 
-    qCDebug(ARK) << QString(QStringLiteral("Registering job from archive %1, to %2, preservePaths %3")).arg(archive->fileName()).arg(destination).arg(preservePaths());
+    qCDebug(ARK) << QString(QStringLiteral("Registering job from archive %1, to %2, preservePaths %3")).arg(archive->fileName(), destination, QString::number(preservePaths()));
 
     addSubjob(job);
 

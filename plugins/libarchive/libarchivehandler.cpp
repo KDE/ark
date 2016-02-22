@@ -102,8 +102,7 @@ bool LibArchiveInterface::list()
     }
 
     if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
-                   filename()));
+        emit error(i18nc("@info", "Could not open the archive."));
         return false;
     }
 
@@ -126,8 +125,9 @@ bool LibArchiveInterface::list()
     m_abortOperation = false;
 
     if (result != ARCHIVE_EOF) {
-        emit error(xi18nc("@info", "The archive reading failed with the following error: <message>%1</message>",
-                   QLatin1String( archive_error_string(arch_reader.data()))));
+        const QString errorString = QLatin1String(archive_error_string(arch_reader.data()));
+        // FIXME: what about the other archive_error_string() calls? Do they also happen to return empty strings?
+        emit error(errorString.isEmpty() ? i18nc("@info", "Could not read until the end of the archive") : errorString);
         return false;
     }
 
@@ -175,7 +175,9 @@ bool LibArchiveInterface::copyFiles(const QVariantList& files, const QString& de
     }
 
     if (archive_read_open_filename(arch.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename>, libarchive cannot handle it.",
+        // This error might be shown outside of a running Ark part (e.g. from a batch job).
+        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename>.<nl/>"
+                                   "Check whether you have sufficient permissions.",
                           filename()));
         return false;
     }

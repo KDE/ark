@@ -875,7 +875,7 @@ Kerfuffle::Archive* ArchiveModel::archive() const
     return m_archive.data();
 }
 
-KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
+KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive, bool existingArchive)
 {
     m_archive.reset(archive);
 
@@ -886,7 +886,7 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
     Kerfuffle::ListJob *job = Q_NULLPTR;
 
     m_newArchiveEntries.clear();
-    if (m_archive) {
+    if (m_archive && existingArchive) {
         job = m_archive->list(); // TODO: call "open" or "create"?
 
         connect(job, &Kerfuffle::ListJob::newEntry, this, &ArchiveModel::slotNewEntryFromSetArchive);

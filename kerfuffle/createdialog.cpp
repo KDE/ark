@@ -32,6 +32,7 @@
 #include "ui_createdialog.h"
 #include "kerfuffle/archive_kerfuffle.h"
 
+#include <KColorScheme>
 #include <KFileWidget>
 #include <KMessageBox>
 #include <KSharedConfig>
@@ -39,6 +40,7 @@
 #include <KWindowConfig>
 
 #include <QDebug>
+#include <QLineEdit>
 #include <QMimeDatabase>
 #include <QPushButton>
 #include <QScreen>
@@ -63,7 +65,8 @@ CreateDialog::CreateDialog(QWidget *parent,
 {
     qCDebug(ARK) << "CreateDialog loaded";
 
-    this->setWindowTitle(caption);
+    setWindowTitle(caption);
+    setModal(true);
 
     m_vlayout = new QVBoxLayout();
     setLayout(m_vlayout);
@@ -92,10 +95,15 @@ CreateDialog::CreateDialog(QWidget *parent,
 
     m_ui = new CreateDialogUI(this);
     m_ui->groupEncryptionOptions->hide();
+
+    KColorScheme colorScheme(QPalette::Active, KColorScheme::View);
+    m_ui->pwdWidget->setBackgroundWarningColor(colorScheme.background(KColorScheme::NegativeBackground).color());
+    m_ui->pwdWidget->setAllowEmptyPasswords(false);
+    m_ui->pwdWidget->setPasswordStrengthMeterVisible(false);
+
     m_vlayout->addWidget(m_ui);
 
     connect(m_ui->encryptCheckBox, &QCheckBox::toggled, this, &CreateDialog::encryptionToggled);
-    connect(m_ui->showPwdCheckbox, &QCheckBox::toggled, this, &CreateDialog::showPasswordToggled);
 }
 
 QSize CreateDialog::sizeHint() const
@@ -116,7 +124,7 @@ QString CreateDialog::currentMimeFilter() const
 
 QString CreateDialog::password() const
 {
-    return m_ui->pwdInput->text();
+    return m_ui->pwdWidget->password();
 }
 
 bool CreateDialog::isHeaderEncryptionChecked() const
@@ -126,12 +134,19 @@ bool CreateDialog::isHeaderEncryptionChecked() const
 
 void CreateDialog::accept()
 {
-    if ((m_ui->pwdInput->text() == m_ui->pwdConfirmInput->text()) || m_ui->showPwdCheckbox->isChecked()) {
+    switch (m_ui->pwdWidget->passwordStatus()) {
+    case KNewPasswordWidget::WeakPassword:
+    case KNewPasswordWidget::StrongPassword:
         QDialog::accept();
-    } else {
-        KMessageBox::error(NULL, i18n("The chosen password does not match the given verification password."));
-        m_ui->pwdInput->clear();
-        m_ui->pwdConfirmInput->clear();
+        break;
+    case KNewPasswordWidget::PasswordNotVerified:
+        KMessageBox::error(Q_NULLPTR, i18n("The chosen password does not match the given verification password."));
+        break;
+    case KNewPasswordWidget::EmptyPasswordNotAllowed:
+        KMessageBox::error(Q_NULLPTR, i18n("The password cannot be empty."));
+        break;
+    default:
+        break;
     }
 }
 
@@ -167,19 +182,6 @@ void CreateDialog::slotOkButtonClicked()
 void CreateDialog::encryptionToggled(bool checked)
 {
     m_ui->groupEncryptionOptions->setVisible(checked);
-}
-
-void CreateDialog::showPasswordToggled(bool checked)
-{
-    if (checked) {
-        m_ui->pwdConfirmInputLabel->hide();
-        m_ui->pwdConfirmInput->hide();
-        m_ui->pwdInput->setEchoMode(QLineEdit::Normal);
-    } else {
-        m_ui->pwdConfirmInputLabel->show();
-        m_ui->pwdConfirmInput->show();
-        m_ui->pwdInput->setEchoMode(QLineEdit::Password);
-    }
 }
 
 void CreateDialog::updateDefaultMimeType()

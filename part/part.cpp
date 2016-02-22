@@ -286,17 +286,17 @@ void Part::setupActions()
     connect(m_showInfoPanelAction, &QAction::triggered,
             this, &Part::slotToggleInfoPanel);
 
-    m_saveAsAction = KStandardAction::saveAs(this, SLOT(slotSaveAs()), actionCollection());
+    m_saveAsAction = actionCollection()->addAction(KStandardAction::SaveAs, QStringLiteral("ark_file_save_as"), this, SLOT(slotSaveAs()));
 
     m_openFileAction = actionCollection()->addAction(QStringLiteral("openfile"));
-    m_openFileAction->setText(i18nc("open a file with external program", "&Open File"));
+    m_openFileAction->setText(i18nc("open a file with external program", "&Open"));
     m_openFileAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     m_openFileAction->setStatusTip(i18n("Click to open the selected file with the associated application"));
     connect(m_openFileAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
     m_signalMapper->setMapping(m_openFileAction, OpenFile);
 
     m_openFileWithAction = actionCollection()->addAction(QStringLiteral("openfilewith"));
-    m_openFileWithAction->setText(i18nc("open a file with external program", "Open File &With..."));
+    m_openFileWithAction->setText(i18nc("open a file with external program", "Open &With..."));
     m_openFileWithAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     m_openFileWithAction->setStatusTip(i18n("Click to open the selected file with an external program"));
     connect(m_openFileWithAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
@@ -363,6 +363,8 @@ void Part::updateActions()
                                 (selectedEntriesCount == 1));
     m_extractFilesAction->setEnabled(!isBusy() &&
                                      (m_model->rowCount() > 0));
+    m_saveAsAction->setEnabled(!isBusy() &&
+                               m_model->rowCount() > 0);
     m_addFilesAction->setEnabled(!isBusy() &&
                                  isWritable);
     m_addDirAction->setEnabled(!isBusy() &&
@@ -373,11 +375,11 @@ void Part::updateActions()
     m_openFileAction->setEnabled(!isBusy() &&
                                  isPreviewable &&
                                  !isDirectory &&
-                                 (selectedEntriesCount > 0));
+                                 (selectedEntriesCount == 1));
     m_openFileWithAction->setEnabled(!isBusy() &&
                                      isPreviewable &&
                                      !isDirectory &&
-                                     (selectedEntriesCount > 0));
+                                     (selectedEntriesCount == 1));
 
     QMenu *menu = m_extractFilesAction->menu();
     if (!menu) {
@@ -513,9 +515,14 @@ bool Part::openFile()
     Q_ASSERT(archive->isValid());
 
     // Plugin loaded successfully.
-    KJob *job = m_model->setArchive(archive.take());
-    registerJob(job);
-    job->start();
+    KJob *job = m_model->setArchive(archive.take(), localFileInfo.exists());
+    if (job) {
+        registerJob(job);
+        job->start();
+    } else {
+        updateActions();
+    }
+
     m_infoPanel->setIndex(QModelIndex());
 
     if (arguments().metaData()[QStringLiteral("showExtractDialog")] == QLatin1String("true")) {
@@ -597,13 +604,29 @@ void Part::slotLoadingFinished(KJob *job)
 
     updateActions();
 
-    if (m_model->archive() && !m_model->archive()->comment().isEmpty()) {
+    if (!m_model->archive()) {
+        return;
+    }
+
+    if (!m_model->archive()->comment().isEmpty()) {
         m_commentView->setPlainText(m_model->archive()->comment());
         m_commentBox->show();
         m_commentSplitter->setSizes(QList<int>() << m_view->height() * 0.6 << 1);
     } else {
         m_commentView->clear();
         m_commentBox->hide();
+    }
+
+    if (m_model->rowCount() == 0) {
+        qCWarning(ARK) << "No entry listed by the plugin";
+        displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "The archive is empty or Ark could not open its content."));
+    } else if (m_model->rowCount() == 1) {
+        QMimeType mime = QMimeDatabase().mimeTypeForName(Archive::determineMimeType(m_model->archive()->fileName()));
+        if (mime.inherits(QStringLiteral("application/x-cd-image")) &&
+            m_model->entryForIndex(m_model->index(0, 0))[FileName].toString() == QLatin1String("README.TXT")) {
+            qCWarning(ARK) << "Detected ISO image with UDF filesystem";
+            displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "Ark does not currently support ISO files with UDF filesystem."));
+        }
     }
 }
 

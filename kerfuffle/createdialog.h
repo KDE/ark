@@ -66,7 +66,6 @@ protected slots:
     void slotSaveWindowSize();
     void slotOkButtonClicked();
     void encryptionToggled(bool checked);
-    void showPasswordToggled(bool checked);
     void updateDefaultMimeType();
     void updateDisplayedOptions(const QString &filter);
 

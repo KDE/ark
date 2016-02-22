@@ -315,7 +315,14 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
     }
 
     if (useTmpExtractDir) {
-        moveToFinalDest(entries, destinationDirectory, tmpExtractDir);
+        if (!moveToFinalDest(files, destinationDirectory, tmpExtractDir)) {
+            emit error(i18ncp("@info",
+                              "Could not move the extracted file to the destination directory.",
+                              "Could not move the extracted files to the destination directory.",
+                              files.size()));
+            emit finished(false);
+            return false;
+        }
     }
 
     emit finished(true);
@@ -620,7 +627,7 @@ bool CliInterface::moveToFinalDest(const QVariantList &files, const QString &fin
 
             // Create any parent directories.
             if (!finalDestDir.mkpath(relEntry.path())) {
-                qCWarning(ARK) << "Failed to create parent dirctory for file:" << absDestEntry.filePath();
+                qCWarning(ARK) << "Failed to create parent directory for file:" << absDestEntry.filePath();
             }
 
             // Move files to the final destination.

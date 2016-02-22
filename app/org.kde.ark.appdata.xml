@@ -46,7 +46,7 @@
   <name xml:lang="zh-TW">檔案壓縮_Ark</name>
   <summary>Archiving Tool</summary>
   <summary xml:lang="ar">أداة أرشفة</summary>
-  <summary xml:lang="ast">Ferramienta d'archiváu</summary>
+  <summary xml:lang="ast">Ferramienta d'archivamientu</summary>
   <summary xml:lang="bg">Работа с архиви</summary>
   <summary xml:lang="bs">Alat za arhiviranje</summary>
   <summary xml:lang="ca">Eina d'arxivament</summary>
@@ -104,7 +104,7 @@
     <p xml:lang="en-GB">Ark is a graphical file compression/decompression utility with support for multiple formats, including tar, gzip, bzip2, rar and zip, as well as CD-ROM images. Ark can be used to browse, extract, create, and modify archives.</p>
     <p xml:lang="es">Ark es una utilidad gráfica de compresión y descompresión de archivos que permite usar diversos formatos, como tar, gzip, bzip2, rar y zip, así como imágenes de CD-ROM. Ark se puede usar para explorar, extraer, crear y modificar archivos comprimidos.</p>
     <p xml:lang="et">Ark on graafiline failide tihendamise ehk kokkupakkimise ja nende lahtipakkimise tööriist, mis toetab väga paljusid vorminguid, sealhulgas tar, gzip, bzip2, rar and zip, samuti CD-ROM-i tõmmised. Arki abil saab arhiivifaile sirvida, lahti pakkida, luua ja muuta.</p>
-    <p xml:lang="fi">Ark on graafinen tiedostojen pakkaus-/purkuohjelma, joka tukee useita tiedostomuotoja kuten tar, gzip, bzip2, rar and zip sekä myös CD-ROM-levykuvia. Arkilla voi selata, purkaa, luoda ja muuttaa paketteja.</p>
+    <p xml:lang="fi">Ark on graafinen tiedostojen pakkaus-/purkuohjelma, joka tukee useita tiedostomuotoja kuten tar, gzip, bzip2, rar and zip sekä myös CD-ROM-levykuvia. Arkilla voi selata, purkaa, luoda ja muuttaa arkistoja.</p>
     <p xml:lang="fr">Ark est un utilitaire graphique de compression/décompression de fichier prenant en charge de multiples formats, notamment tar, gzip, bzip2, rar et zip, ainsi que les images de CD-ROM. Ark peut être utilisé pour parcourir, extraire, créer et modifier des archives.</p>
     <p xml:lang="gl">Ark é unha ferramenta gráfica de compresión e descompresión de ficheiros compatíbel con múltiplos formatos, como «tar», «gzip», «bzip2», «rar» e «zip», así como imaxes de CD-ROM. Ark pode usarse para navegar, extraer, crear e modificar arquivos.</p>
     <p xml:lang="hu">Az Ark egy grafikus fájltömörítő és kibontó segédprogram többféle formátum támogatásával, beleértve a tar, gzip, bzip2, rar és zip formátumokat, valamint a CD-ROM képfájlokat. Az Ark használható archívumok böngészéséhez, kibontásához, létrehozásához és módosításához.</p>

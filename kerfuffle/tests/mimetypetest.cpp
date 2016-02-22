@@ -39,6 +39,7 @@ private Q_SLOTS:
     void testTarDetection();
     void testWrongZipExtension();
     void testSpecialCharsTarExtension();
+    void testIsoDetection();
     void testFallbackOnExtensionMimetype();
 };
 
@@ -63,9 +64,22 @@ void MimeTypeTest::testWrongZipExtension()
 
 void MimeTypeTest::testSpecialCharsTarExtension()
 {
-    const QString tarMimeype = QStringLiteral("application/x-compressed-tar");
-    QCOMPARE(Archive::determineMimeType(QStringLiteral("foo.tar~1.gz")), tarMimeype);
-    QCOMPARE(Archive::determineMimeType(QStringLiteral("foo.ta4r.gz")), tarMimeype);
+    const QString tarMimeType = QStringLiteral("application/x-compressed-tar");
+    QCOMPARE(Archive::determineMimeType(QStringLiteral("foo.tar~1.gz")), tarMimeType);
+    QCOMPARE(Archive::determineMimeType(QStringLiteral("foo.ta4r.gz")), tarMimeType);
+}
+
+void MimeTypeTest::testIsoDetection()
+{
+    const QString isoMimeType = QStringLiteral("application/x-cd-image");
+
+    // Test workaround for https://bugs.freedesktop.org/show_bug.cgi?id=80877
+    // 1. This ISO file may be detected-by-content as text/plain.
+    const QString archIso = QFINDTESTDATA("data/archlinux-2015.09.01-dual_truncated.iso");
+    QCOMPARE(Archive::determineMimeType(archIso), isoMimeType);
+    // 2. This ISO may not bet detected-by-content.
+    const QString kubuntuIso = QFINDTESTDATA("data/kubuntu-14.04.1-desktop-amd64_truncated.iso");
+    QCOMPARE(Archive::determineMimeType(kubuntuIso), isoMimeType);
 }
 
 // Some mimetypes (e.g. tar-v7 archives, see #355955) cannot be detected by content (as of shared-mime-info 1.5).
