@@ -29,6 +29,7 @@
 #include "ark_debug.h"
 
 #include <QFileInfo>
+#include <QRegularExpression>
 #include <QThread>
 
 #include <KLocalizedString>
@@ -238,8 +239,9 @@ void ListJob::onNewEntry(const ArchiveEntry& entry)
     }
 
     if (m_isSingleFolderArchive) {
-        const QString fileName(entry[FileName].toString());
-        const QString basePath(fileName.split(QLatin1Char( '/' )).at(0));
+        // RPM filenames have the ./ prefix, and "." would be detected as the subfolder name, so we remove it.
+        const QString fileName = entry[FileName].toString().replace(QRegularExpression(QStringLiteral("^\\./")), QString());
+        const QString basePath = fileName.split(QLatin1Char('/')).at(0);
 
         if (m_basePath.isEmpty()) {
             m_basePath = basePath;

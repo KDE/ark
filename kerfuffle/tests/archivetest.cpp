@@ -78,6 +78,13 @@ void ArchiveTest::testProperties_data()
             << QFileInfo(archivePath).fileName()
             << false << false << false
             << QStringLiteral("archivetest_unencrypted");
+
+    archivePath = QFINDTESTDATA("data/wget.rpm");
+    QTest::newRow("rpm archive, no single folder")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << true << false << false
+            << QStringLiteral("wget");
 }
 
 void ArchiveTest::testProperties()
