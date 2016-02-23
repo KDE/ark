@@ -321,7 +321,7 @@ AddJob::AddJob(const QStringList& files, const CompressionOptions& options , Rea
 
 void AddJob::doWork()
 {
-    qCDebug(ARK) << "AddJob doing work";
+    qCDebug(ARK) << "AddJob: going to add" << m_files.count() << "file(s)";
 
     emit description(this, i18np("Adding a file", "Adding %1 files", m_files.count()));
 
