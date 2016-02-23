@@ -255,6 +255,10 @@ void ListJob::onNewEntry(const ArchiveEntry& entry)
 
 QString ListJob::subfolderName() const
 {
+    if (!isSingleFolderArchive()) {
+        return QString();
+    }
+
     return m_subfolderName;
 }
 
