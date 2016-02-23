@@ -66,10 +66,19 @@ BatchExtract::~BatchExtract()
 void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
 {
     QString destination = destinationFolder();
+    const bool isSingleFolderRPM = (archive->isSingleFolderArchive() &&
+                                   (Kerfuffle::Archive::determineMimeType(archive->fileName()) == QStringLiteral("application/x-rpm")));
 
-    if ((autoSubfolder()) && (!archive->isSingleFolderArchive())) {
+    if ((autoSubfolder()) && (!archive->isSingleFolderArchive() || isSingleFolderRPM)) {
         const QDir d(destination);
         QString subfolderName = archive->subfolderName();
+
+        // Special case for single folder RPM archives.
+        // We don't want the autodetected folder to have a meaningless "usr" name.
+        if (isSingleFolderRPM && subfolderName == QStringLiteral("usr")) {
+            qCDebug(ARK) << "Detected single folder RPM archive. Using archive basename as subfolder name";
+            subfolderName = QFileInfo(archive->fileName()).completeBaseName();
+        }
 
         if (d.exists(subfolderName)) {
             subfolderName = KIO::suggestName(QUrl::fromUserInput(destination, QString(), QUrl::AssumeLocalFile), subfolderName);
