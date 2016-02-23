@@ -44,7 +44,7 @@ QTEST_GUILESS_MAIN(ArchiveTest)
 void ArchiveTest::testProperties_data()
 {
     QTest::addColumn<QString>("archivePath");
-    QTest::addColumn<QString>("expectedFileName");
+    QTest::addColumn<QString>("expectedBaseName");
     QTest::addColumn<bool>("isReadOnly");
     QTest::addColumn<bool>("isSingleFolder");
     QTest::addColumn<bool>("isPasswordProtected");
@@ -54,35 +54,43 @@ void ArchiveTest::testProperties_data()
     QString archivePath = QStringLiteral("/tmp/foo.tar.gz");
     QTest::newRow("non-existent tar archive")
             << archivePath
-            << QFileInfo(archivePath).fileName()
+            << QStringLiteral("foo")
             << false << true << false
             << QStringLiteral("foo");
+
+    // Test dummy source code tarball.
+    archivePath = QFINDTESTDATA("data/code-x.y.z.tar.gz");
+    QTest::newRow("dummy source code tarball")
+            << archivePath
+            << QStringLiteral("code-x.y.z")
+            << false << true << false
+            << QStringLiteral("awesome_project");
 
     archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
     QTest::newRow("simple compressed tar archive")
             << archivePath
-            << QFileInfo(archivePath).fileName()
+            << QStringLiteral("simplearchive")
             << false << false << false
             << QStringLiteral("simplearchive");
 
     archivePath = QFINDTESTDATA("data/archivetest_encrypted.zip");
     QTest::newRow("encrypted zip, single entry")
             << archivePath
-            << QFileInfo(archivePath).fileName()
+            << QStringLiteral("archivetest_encrypted")
             << false << false << true
             << QStringLiteral("archivetest_encrypted");
 
     archivePath = QFINDTESTDATA("data/archivetest_unencrypted.zip");
     QTest::newRow("simple zip, one unencrypted entry")
             << archivePath
-            << QFileInfo(archivePath).fileName()
+            << QStringLiteral("archivetest_unencrypted")
             << false << false << false
             << QStringLiteral("archivetest_unencrypted");
 
     archivePath = QFINDTESTDATA("data/wget.rpm");
     QTest::newRow("rpm archive, no single folder")
             << archivePath
-            << QFileInfo(archivePath).fileName()
+            << QStringLiteral("wget")
             << true << false << false
             << QStringLiteral("wget");
 }
@@ -97,8 +105,8 @@ void ArchiveTest::testProperties()
         QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
     }
 
-    QFETCH(QString, expectedFileName);
-    QCOMPARE(QFileInfo(archive->fileName()).fileName(), expectedFileName);
+    QFETCH(QString, expectedBaseName);
+    QCOMPARE(archive->completeBaseName(), expectedBaseName);
 
     QFETCH(bool, isReadOnly);
     QCOMPARE(archive->isReadOnly(), isReadOnly);

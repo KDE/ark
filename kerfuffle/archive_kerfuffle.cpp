@@ -300,6 +300,18 @@ QString Archive::fileName() const
     return m_iface->filename();
 }
 
+QString Archive::completeBaseName() const
+{
+    QString base = QFileInfo(fileName()).completeBaseName();
+
+    // Special case for compressed tar archives.
+    if (base.right(4).toUpper() == QLatin1String(".TAR")) {
+        base.chop(4);
+    }
+
+    return base;
+}
+
 void Archive::onAddFinished(KJob* job)
 {
     //if the archive was previously a single folder archive and an add job
@@ -321,15 +333,7 @@ void Archive::onListFinished(KJob* job)
     m_isPasswordProtected = ljob->isPasswordProtected();
     m_subfolderName = ljob->subfolderName();
     if (m_subfolderName.isEmpty()) {
-        QFileInfo fi(fileName());
-        QString base = fi.completeBaseName();
-
-        //special case for tar.gz/bzip2 files
-        if (base.right(4).toUpper() == QLatin1String(".TAR")) {
-            base.chop(4);
-        }
-
-        m_subfolderName = base;
+        m_subfolderName = completeBaseName();
     }
 
     m_hasBeenListed = true;
