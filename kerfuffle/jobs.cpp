@@ -189,6 +189,8 @@ ListJob::ListJob(ReadOnlyArchiveInterface *interface, QObject *parent)
     , m_isSingleFolderArchive(true)
     , m_isPasswordProtected(false)
     , m_extractedFilesSize(0)
+    , m_dirCount(0)
+    , m_filesCount(0)
 {
     qCDebug(ARK) << "ListJob started";
     connect(this, &ListJob::newEntry, this, &ListJob::onNewEntry);
@@ -217,6 +219,10 @@ bool ListJob::isPasswordProtected() const
 
 bool ListJob::isSingleFolderArchive() const
 {
+    if (m_filesCount == 1 && m_dirCount == 0) {
+        return false;
+    }
+
     return m_isSingleFolderArchive;
 }
 
@@ -224,6 +230,12 @@ void ListJob::onNewEntry(const ArchiveEntry& entry)
 {
     m_extractedFilesSize += entry[ Size ].toLongLong();
     m_isPasswordProtected |= entry [ IsPasswordProtected ].toBool();
+
+    if (entry[IsDirectory].toBool()) {
+        m_dirCount++;
+    } else {
+        m_filesCount++;
+    }
 
     if (m_isSingleFolderArchive) {
         const QString fileName(entry[FileName].toString());

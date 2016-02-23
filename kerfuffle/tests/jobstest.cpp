@@ -166,10 +166,12 @@ void JobsTest::testListJob_data()
             << QStringList {QStringLiteral("aDirectory/"), QStringLiteral("bar.txt"), QStringLiteral("foo.txt")};
 
     QTest::newRow("archive-singlefile.json") << QFINDTESTDATA("data/archive-singlefile.json")
-            << 0LL << false
-            // FIXME: why do we consider archives with only one file as single folder?
-            << true
+            << 0LL << false << false
             << QStringList {QStringLiteral("a.txt")};
+
+    QTest::newRow("archive-emptysinglefolder.json") << QFINDTESTDATA("data/archive-emptysinglefolder.json")
+            << 0LL << false << true
+            << QStringList {QStringLiteral("aDir/")};
 
     QTest::newRow("archive-unorderedsinglefolder.json") << QFINDTESTDATA("data/archive-unorderedsinglefolder.json")
             << 0LL << false << true

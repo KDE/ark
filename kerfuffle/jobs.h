@@ -113,6 +113,8 @@ private:
     QString m_subfolderName;
     QString m_basePath;
     qlonglong m_extractedFilesSize;
+    qlonglong m_dirCount;
+    qlonglong m_filesCount;
 
 private slots:
     void onNewEntry(const ArchiveEntry&);

@@ -69,7 +69,7 @@ void ArchiveTest::testProperties_data()
     QTest::newRow("encrypted zip, single entry")
             << archivePath
             << QFileInfo(archivePath).fileName()
-            << false << true << true
+            << false << false << true
             // FIXME: possibly a bug? I was expecting to get "archivetest_encrypted" as subfolder name...
             << QStringLiteral("foo.txt");
 
@@ -77,7 +77,7 @@ void ArchiveTest::testProperties_data()
     QTest::newRow("simple zip, one unencrypted entry")
             << archivePath
             << QFileInfo(archivePath).fileName()
-            << false << true << false
+            << false << false << false
             // FIXME: possibly a bug? I was expecting to get "archivetest_encrypted" as subfolder name...
             << QStringLiteral("foo.txt");
 }
