@@ -293,21 +293,21 @@ void Part::setupActions()
     m_openFileAction = actionCollection()->addAction(QStringLiteral("openfile"));
     m_openFileAction->setText(i18nc("open a file with external program", "&Open"));
     m_openFileAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
-    m_openFileAction->setStatusTip(i18n("Click to open the selected file with the associated application"));
+    m_openFileAction->setToolTip(i18nc("@info:tooltip", "Click to open the selected file with the associated application"));
     connect(m_openFileAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
     m_signalMapper->setMapping(m_openFileAction, OpenFile);
 
     m_openFileWithAction = actionCollection()->addAction(QStringLiteral("openfilewith"));
     m_openFileWithAction->setText(i18nc("open a file with external program", "Open &With..."));
     m_openFileWithAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
-    m_openFileWithAction->setStatusTip(i18n("Click to open the selected file with an external program"));
+    m_openFileWithAction->setToolTip(i18nc("@info:tooltip", "Click to open the selected file with an external program"));
     connect(m_openFileWithAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
     m_signalMapper->setMapping(m_openFileWithAction, OpenFileWith);
 
     m_previewAction = actionCollection()->addAction(QStringLiteral("preview"));
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
     m_previewAction->setIcon(QIcon::fromTheme(QStringLiteral("document-preview-archive")));
-    m_previewAction->setStatusTip(i18n("Click to preview the selected file"));
+    m_previewAction->setToolTip(i18nc("@info:tooltip", "Click to preview the selected file"));
     actionCollection()->setDefaultShortcut(m_previewAction, Qt::CTRL + Qt::Key_P);
     connect(m_previewAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
     m_signalMapper->setMapping(m_previewAction, Preview);
@@ -337,14 +337,14 @@ void Part::setupActions()
     m_addFilesAction = actionCollection()->addAction(QStringLiteral("add"));
     m_addFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert")));
     m_addFilesAction->setText(i18n("Add &File..."));
-    m_addFilesAction->setStatusTip(i18n("Click to add files to the archive"));
+    m_addFilesAction->setToolTip(i18nc("@info:tooltip", "Click to add files to the archive"));
     connect(m_addFilesAction, SIGNAL(triggered(bool)),
             this, SLOT(slotAddFiles()));
 
     m_addDirAction = actionCollection()->addAction(QStringLiteral("add-dir"));
     m_addDirAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert-directory")));
     m_addDirAction->setText(i18n("Add Fo&lder..."));
-    m_addDirAction->setStatusTip(i18n("Click to add a folder to the archive"));
+    m_addDirAction->setToolTip(i18nc("@info:tooltip", "Click to add a folder to the archive"));
     connect(m_addDirAction, &QAction::triggered,
             this, &Part::slotAddDir);
 
@@ -352,7 +352,7 @@ void Part::setupActions()
     m_deleteFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-remove")));
     m_deleteFilesAction->setText(i18n("De&lete"));
     actionCollection()->setDefaultShortcut(m_deleteFilesAction, Qt::Key_Delete);
-    m_deleteFilesAction->setStatusTip(i18n("Click to delete the selected files"));
+    m_deleteFilesAction->setToolTip(i18nc("@info:tooltip", "Click to delete the selected files"));
     connect(m_deleteFilesAction, &QAction::triggered,
             this, &Part::slotDeleteFiles);
 
