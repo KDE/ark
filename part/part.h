@@ -85,7 +85,8 @@ private slots:
     void slotOpenExtractedEntry(KJob*);
     void slotOpenEntry(int mode);
     void slotError(const QString& errorMessage, const QString& details);
-    void slotExtractFiles();
+    void slotExtractArchive();
+    void slotShowExtractionDialog();
     void slotExtractionDone(KJob*);
     void slotQuickExtractFiles(QAction*);
     void slotAddFiles();
@@ -99,6 +100,7 @@ private slots:
     void slotToggleInfoPanel(bool);
     void slotSaveAs();
     void updateActions();
+    void updateQuickExtractMenu(QAction *extractAction);
     void selectionChanged();
     void adjustColumns();
     void setBusyGui();
@@ -127,7 +129,9 @@ private:
     QAction *m_previewAction;
     QAction *m_openFileAction;
     QAction *m_openFileWithAction;
+    QAction *m_extractArchiveAction;
     QAction *m_extractFilesAction;
+    QAction *m_toolbarExtractAction;
     QAction *m_addFilesAction;
     QAction *m_addDirAction;
     QAction *m_deleteFilesAction;

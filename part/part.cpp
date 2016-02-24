@@ -174,7 +174,9 @@ Part::~Part()
     ArkSettings::setShowInfoPanel(m_showInfoPanelAction->isChecked());
     ArkSettings::self()->save();
 
+    m_extractArchiveAction->menu()->deleteLater();
     m_extractFilesAction->menu()->deleteLater();
+    m_toolbarExtractAction->menu()->deleteLater();
 }
 
 KAboutData *Part::createAboutData()
@@ -310,13 +312,27 @@ void Part::setupActions()
     connect(m_previewAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
     m_signalMapper->setMapping(m_previewAction, Preview);
 
-    m_extractFilesAction = actionCollection()->addAction(QStringLiteral("extract"));
-    m_extractFilesAction->setText(i18n("E&xtract"));
+    m_extractArchiveAction = actionCollection()->addAction(QStringLiteral("extract"));
+    m_extractArchiveAction->setText(i18nc("@action:inmenu", "E&xtract"));
+    m_extractArchiveAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
+    m_extractArchiveAction->setToolTip(i18n("Click to open an extraction dialog, where you can choose how to extract all the files in the archive"));
+    connect(m_extractArchiveAction, &QAction::triggered,
+            this, &Part::slotExtractArchive);
+
+    m_extractFilesAction = actionCollection()->addAction(QStringLiteral("extract_files"));
+    m_extractFilesAction->setText(i18nc("@action:inmenu", "E&xtract"));
     m_extractFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
-    m_extractFilesAction->setStatusTip(i18n("Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones"));
-    actionCollection()->setDefaultShortcut(m_extractFilesAction, Qt::CTRL + Qt::Key_E);
+    m_extractFilesAction->setToolTip(i18n("Click to open an extraction dialog, where you can choose how to extract the selected files"));
     connect(m_extractFilesAction, &QAction::triggered,
-            this, &Part::slotExtractFiles);
+            this, &Part::slotShowExtractionDialog);
+
+    m_toolbarExtractAction = actionCollection()->addAction(QStringLiteral("toolbar_extract"));
+    m_toolbarExtractAction->setText(i18nc("@action:intoolbar", "E&xtract"));
+    m_toolbarExtractAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
+    m_toolbarExtractAction->setToolTip(i18n("Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones"));
+    actionCollection()->setDefaultShortcut(m_toolbarExtractAction, Qt::CTRL + Qt::Key_E);
+    connect(m_toolbarExtractAction, &QAction::triggered,
+            this, &Part::slotShowExtractionDialog);
 
     m_addFilesAction = actionCollection()->addAction(QStringLiteral("add"));
     m_addFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert")));
@@ -361,8 +377,13 @@ void Part::updateActions()
                                 isPreviewable &&
                                 !isDirectory &&
                                 (selectedEntriesCount == 1));
+    m_extractArchiveAction->setEnabled(!isBusy() &&
+                                       (m_model->rowCount() > 0));
     m_extractFilesAction->setEnabled(!isBusy() &&
-                                     (m_model->rowCount() > 0));
+                                     (m_model->rowCount() > 0) &&
+                                     (selectedEntriesCount > 0));
+    m_toolbarExtractAction->setEnabled(!isBusy() &&
+                                       (m_model->rowCount() > 0));
     m_saveAsAction->setEnabled(!isBusy() &&
                                m_model->rowCount() > 0);
     m_addFilesAction->setEnabled(!isBusy() &&
@@ -381,20 +402,41 @@ void Part::updateActions()
                                      !isDirectory &&
                                      (selectedEntriesCount == 1));
 
-    QMenu *menu = m_extractFilesAction->menu();
+    // TODO: why do we even update these menus here?
+    // It should be enough to update them when a new dir is appended to the history.
+    updateQuickExtractMenu(m_extractArchiveAction);
+    updateQuickExtractMenu(m_extractFilesAction);
+    updateQuickExtractMenu(m_toolbarExtractAction);
+}
+
+void Part::updateQuickExtractMenu(QAction *extractAction)
+{
+    if (!extractAction) {
+        return;
+    }
+
+    QMenu *menu = extractAction->menu();
+
     if (!menu) {
-        menu = new QMenu;
-        m_extractFilesAction->setMenu(menu);
+        menu = new QMenu();
+        extractAction->setMenu(menu);
         connect(menu, &QMenu::triggered,
                 this, &Part::slotQuickExtractFiles);
 
         // Remember to keep this action's properties as similar to
-        // m_extractFilesAction's as possible (except where it does not make
+        // extractAction's as possible (except where it does not make
         // sense, such as the text or the shortcut).
         QAction *extractTo = menu->addAction(i18n("Extract To..."));
-        extractTo->setIcon(m_extractFilesAction->icon());
-        extractTo->setStatusTip(m_extractFilesAction->statusTip());
-        connect(extractTo, &QAction::triggered, this, &Part::slotExtractFiles);
+        extractTo->setIcon(extractAction->icon());
+        extractTo->setToolTip(extractAction->toolTip());
+
+        if (extractAction == m_extractArchiveAction) {
+            connect(extractTo, &QAction::triggered,
+                    this, &Part::slotExtractArchive);
+        } else {
+            connect(extractTo, &QAction::triggered,
+                    this, &Part::slotShowExtractionDialog);
+        }
 
         menu->addSeparator();
 
@@ -526,7 +568,7 @@ bool Part::openFile()
     m_infoPanel->setIndex(QModelIndex());
 
     if (arguments().metaData()[QStringLiteral("showExtractDialog")] == QLatin1String("true")) {
-        QTimer::singleShot(0, this, &Part::slotExtractFiles);
+        QTimer::singleShot(0, this, &Part::slotShowExtractionDialog);
     }
 
     const QString password = arguments().metaData()[QStringLiteral("encryptionPassword")];
@@ -818,7 +860,16 @@ QString Part::detectSubfolder() const
     return m_model->archive()->subfolderName();
 }
 
-void Part::slotExtractFiles()
+void Part::slotExtractArchive()
+{
+    if (m_view->selectionModel()->selectedRows().count() > 0) {
+        m_view->selectionModel()->clear();
+    }
+
+    slotShowExtractionDialog();
+}
+
+void Part::slotShowExtractionDialog()
 {
     if (!m_model) {
         return;
