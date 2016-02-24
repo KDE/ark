@@ -63,7 +63,6 @@ MainWindow::MainWindow(QWidget *)
     setXMLFile(QStringLiteral("arkui.rc"));
 
     setupActions();
-    statusBar();
 
     resize(640, 480);
 
@@ -172,7 +171,6 @@ void MainWindow::setupActions()
     m_recentFilesAction->setToolBarMode(KRecentFilesAction::MenuMode);
     m_recentFilesAction->setToolButtonPopupMode(QToolButton::DelayedPopup);
     m_recentFilesAction->setIconText(i18nc("action, to open an archive", "Open"));
-    m_recentFilesAction->setStatusTip(i18n("Click to open an archive, click and hold to open a recently-opened archive"));
     m_recentFilesAction->setToolTip(i18n("Open an archive"));
     m_recentFilesAction->loadEntries(KSharedConfig::openConfig()->group("Recent Files"));
     connect(m_recentFilesAction, SIGNAL(triggered()),
