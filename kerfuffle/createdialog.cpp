@@ -134,6 +134,11 @@ bool CreateDialog::isHeaderEncryptionChecked() const
 
 void CreateDialog::accept()
 {
+    if (!m_ui->encryptCheckBox->isChecked()) {
+        QDialog::accept();
+        return;
+    }
+
     switch (m_ui->pwdWidget->passwordStatus()) {
     case KNewPasswordWidget::WeakPassword:
     case KNewPasswordWidget::StrongPassword:
