@@ -211,6 +211,8 @@ void CreateDialog::updateDisplayedOptions(const QString &filter)
         if (m_ui->groupEncryptionOptions->isEnabled()) {
             m_ui->encryptHeaderCheckBox->setToolTip(i18n("Protection of the list of files is not possible with the %1 format.",
                                                          QMimeDatabase().mimeTypeForName(filter).comment()));
+        } else {
+             m_ui->encryptHeaderCheckBox->setToolTip(QString());
         }
     }
 }
