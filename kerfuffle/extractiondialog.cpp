@@ -36,8 +36,6 @@
 
 #include <QDir>
 #include <QPushButton>
-#include <QWindow>
-#include <QScreen>
 
 #include "ui_extractiondialog.h"
 
@@ -269,10 +267,6 @@ void ExtractionDialog::restoreWindowSize()
 {
   // Restore window size from config file, needs a windowHandle so must be called after show()
   KConfigGroup group(KSharedConfig::openConfig(), "ExtractDialog");
-  //KWindowConfig::restoreWindowSize(windowHandle(), group);
-  //KWindowConfig::restoreWindowSize is broken atm., so we need this hack:
-  const QRect desk = windowHandle()->screen()->geometry();
-  this->resize(QSize(group.readEntry(QString::fromLatin1("Width %1").arg(desk.width()), windowHandle()->size().width()),
-                     group.readEntry(QString::fromLatin1("Height %1").arg(desk.height()), windowHandle()->size().height())));
+  KWindowConfig::restoreWindowSize(windowHandle(), group);
 }
 }
