@@ -202,7 +202,7 @@ void CreateDialog::slotFilterChanged(const QString &filter)
 void CreateDialog::restoreWindowSize()
 {
     // Restore window size from config file, needs a windowHandle so must be called after show()
-    KConfigGroup group(KSharedConfig::openConfig(), "AddDialog");
+    KConfigGroup group(KSharedConfig::openConfig(), "CreateDialog");
     KWindowConfig::restoreWindowSize(windowHandle(), group);
 }
 
@@ -236,7 +236,7 @@ void CreateDialog::updateDefaultMimeType()
 
 void CreateDialog::loadConfiguration()
 {
-    m_config = KConfigGroup(KSharedConfig::openConfig()->group("AddDialog"));
+    m_config = KConfigGroup(KSharedConfig::openConfig()->group("CreateDialog"));
 
     const QString defaultMimeType = QStringLiteral("application/x-compressed-tar");
     const QString lastMimeType = m_config.readEntry("LastMimeType", defaultMimeType);
