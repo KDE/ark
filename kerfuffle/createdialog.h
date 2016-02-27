@@ -55,19 +55,38 @@ public:
     QList<QUrl> selectedUrls() const;
     QString currentMimeFilter() const;
     QString password() const;
-    bool isHeaderEncryptionChecked() const;
+
+    /**
+     * @return Whether the user can encrypt the new archive.
+     */
+    bool isEncryptionAvailable() const;
+
+    /**
+     * @return Whether the user has chosen to encrypt the new archive.
+     */
+    bool isEncryptionEnabled() const;
+
+    /**
+     * @return Whether the user can encrypt the list of files in the new archive.
+     */
+    bool isHeaderEncryptionAvailable() const;
+
+    /**
+     * @return Whether the user has chosen to encrypt the list of files in the new archive.
+     */
+    bool isHeaderEncryptionEnabled() const;
 
 public slots:
 
     virtual void accept() Q_DECL_OVERRIDE;
+    void slotFilterChanged(const QString &filter);
     void restoreWindowSize();
 
 protected slots:
     void slotSaveWindowSize();
     void slotOkButtonClicked();
-    void encryptionToggled(bool checked);
+    void slotEncryptionToggled(bool checked);
     void updateDefaultMimeType();
-    void updateDisplayedOptions(const QString &filter);
 
 protected:
     class CreateDialogUI *m_ui;

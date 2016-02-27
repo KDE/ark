@@ -327,7 +327,7 @@ void MainWindow::newArchive()
         m_openArgs.metaData()[QStringLiteral("createNewArchive")] = QStringLiteral("true");
         m_openArgs.metaData()[QStringLiteral("encryptionPassword")] = password;
 
-        if (dialog.data()->isHeaderEncryptionChecked()) {
+        if (dialog.data()->isHeaderEncryptionEnabled()) {
             m_openArgs.metaData()[QStringLiteral("encryptHeader")] = QStringLiteral("true");
         }
 

@@ -21,4 +21,5 @@ KERFUFFLE_UNIT_TESTS(
     archivetest
     jobstest
     mimetypetest
+    createdialogtest
 )
