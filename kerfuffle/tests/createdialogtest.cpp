@@ -38,6 +38,7 @@ private Q_SLOTS:
 
     void testEncryption_data();
     void testEncryption();
+    void testHeaderEncryptionTooltip();
 };
 
 void CreateDialogTest::testEncryption_data()
@@ -97,6 +98,25 @@ void CreateDialogTest::testEncryption()
         QVERIFY(!dialog->isHeaderEncryptionAvailable());
         QVERIFY(!dialog->isHeaderEncryptionEnabled());
     }
+}
+
+void CreateDialogTest::testHeaderEncryptionTooltip()
+{
+    CreateDialog *dialog = new CreateDialog(Q_NULLPTR, QString(), QUrl());
+
+    auto encryptCheckBox = dialog->findChild<QCheckBox*>(QStringLiteral("encryptCheckBox"));
+    auto encryptHeaderCheckBox = dialog->findChild<QCheckBox*>(QStringLiteral("encryptHeaderCheckBox"));
+    QVERIFY(encryptCheckBox);
+    QVERIFY(encryptHeaderCheckBox);
+
+    encryptCheckBox->setChecked(true);
+
+    dialog->slotFilterChanged(QStringLiteral("application/zip"));
+    QVERIFY(!encryptHeaderCheckBox->toolTip().isEmpty());
+
+    // If we set a tar filter after the zip one, ensure that the old zip's tooltip is not shown anymore.
+    dialog->slotFilterChanged(QStringLiteral("application/x-compressed-tar"));
+    QVERIFY(encryptHeaderCheckBox->toolTip().isEmpty());
 }
 
 QTEST_MAIN(CreateDialogTest)
