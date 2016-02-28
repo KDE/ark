@@ -25,7 +25,9 @@
  */
 
 #include "kerfuffle/archive_kerfuffle.h"
+#include "kerfuffle/jobs.h"
 
+#include <QDirIterator>
 #include <QTest>
 
 using namespace Kerfuffle;
@@ -37,6 +39,8 @@ class ArchiveTest : public QObject
 private Q_SLOTS:
     void testProperties_data();
     void testProperties();
+    void testExtraction_data();
+    void testExtraction();
 };
 
 QTEST_GUILESS_MAIN(ArchiveTest)
@@ -119,6 +123,78 @@ void ArchiveTest::testProperties()
 
     QFETCH(QString, expectedSubfolderName);
     QCOMPARE(archive->subfolderName(), expectedSubfolderName);
+
+    archive->deleteLater();
+}
+
+void ArchiveTest::testExtraction_data()
+{
+    QTest::addColumn<QString>("archivePath");
+    QTest::addColumn<QVariantList>("entriesToExtract");
+    QTest::addColumn<ExtractionOptions>("extractionOptions");
+    QTest::addColumn<int>("expectedExtractedEntriesCount");
+
+    QString archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
+    ExtractionOptions options;
+    options[QStringLiteral("PreservePaths")] = true;
+    QTest::newRow("extract the whole simplearchive.tar.gz")
+            << archivePath
+            << QVariantList()
+            << options
+            << 4;
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
+    QTest::newRow("extract selected entries from simplearchive.tar.gz")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+               }
+            << ExtractionOptions()
+            << 2;
+
+    archivePath = QFINDTESTDATA("data/archivetest_unencrypted.zip");
+    QTest::newRow("extract basic zip archive")
+            << archivePath
+            << QVariantList()
+            << ExtractionOptions()
+            << 1;
+}
+
+void ArchiveTest::testExtraction()
+{
+    QFETCH(QString, archivePath);
+    Archive *archive = Archive::create(archivePath, this);
+    QVERIFY(archive);
+
+    if (!archive->isValid()) {
+        QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
+    }
+
+    QTemporaryDir destDir;
+    if (!destDir.isValid()) {
+        QSKIP("Could not create a temporary directory for extraction. Skipping test.", SkipSingle);
+    }
+
+    QFETCH(QVariantList, entriesToExtract);
+    QFETCH(ExtractionOptions, extractionOptions);
+    auto extractionJob = archive->copyFiles(entriesToExtract, destDir.path(), extractionOptions);
+
+    QEventLoop eventLoop(this);
+    connect(extractionJob, &KJob::result, &eventLoop, &QEventLoop::quit);
+    extractionJob->start();
+    eventLoop.exec();
+
+    QFETCH(int, expectedExtractedEntriesCount);
+    int extractedEntriesCount = 0;
+
+    QDirIterator dirIt(destDir.path(), QDir::AllEntries | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+    while (dirIt.hasNext()) {
+        extractedEntriesCount++;
+        dirIt.next();
+    }
+
+    QCOMPARE(extractedEntriesCount, expectedExtractedEntriesCount);
 
     archive->deleteLater();
 }
