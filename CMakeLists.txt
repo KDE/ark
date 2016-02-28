@@ -87,6 +87,10 @@ add_subdirectory(part)
 add_subdirectory(app)
 add_subdirectory(doc)
 
+if (Qt5Test_FOUND)
+  add_subdirectory(autotests)
+endif (Qt5Test_FOUND)
+
 ki18n_install(po)
 
 install( FILES ark.categories DESTINATION ${KDE_INSTALL_CONFDIR} )

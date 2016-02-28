@@ -25,8 +25,4 @@ configure_file(
 install(TARGETS kerfuffle_clirar  DESTINATION ${PLUGIN_INSTALL_DIR} )
 install( FILES ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_clirar.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 
-if(Qt5Test_FOUND)
-    add_subdirectory(autotests)
-endif()
-
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_CLIRAR_MIMETYPES}" PARENT_SCOPE)
