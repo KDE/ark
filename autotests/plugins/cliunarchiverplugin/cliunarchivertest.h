@@ -20,7 +20,7 @@
 #ifndef CLIUNARCHIVERTEST_H
 #define CLIUNARCHIVERTEST_H
 
-#include "../cliplugin.h"
+#include "cliplugin.h"
 #include <QObject>
 
 using namespace Kerfuffle;
