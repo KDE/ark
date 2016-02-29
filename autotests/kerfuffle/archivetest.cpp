@@ -278,15 +278,6 @@ void ArchiveTest::testExtraction()
         dirIt.next();
     }
 
-    QEXPECT_FAIL("extract selected entries from a zip, without paths", "Bug #359628", Continue);
-    QEXPECT_FAIL("extract selected entries from a zip, preserve paths", "", Continue);
-
-    QEXPECT_FAIL("extract selected entries from a 7z, without paths", "Bug #359628", Continue);
-    QEXPECT_FAIL("extract selected entries from a 7z, preserve paths", "", Continue);
-
-    QEXPECT_FAIL("extract selected entries from a rar, without paths", "Bug #359628", Continue);
-    QEXPECT_FAIL("extract selected entries from a rar, preserve paths", "", Continue);
-
     QCOMPARE(extractedEntriesCount, expectedExtractedEntriesCount);
 
     archive->deleteLater();
