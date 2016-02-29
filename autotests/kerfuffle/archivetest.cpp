@@ -134,9 +134,14 @@ void ArchiveTest::testExtraction_data()
     QTest::addColumn<ExtractionOptions>("extractionOptions");
     QTest::addColumn<int>("expectedExtractedEntriesCount");
 
-    QString archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
     ExtractionOptions optionsPreservePaths;
     optionsPreservePaths[QStringLiteral("PreservePaths")] = true;
+
+    ExtractionOptions dragAndDropOptions = optionsPreservePaths;
+    dragAndDropOptions[QStringLiteral("DragAndDrop")] = true;
+    dragAndDropOptions[QStringLiteral("RemoveRootNode")] = true;
+
+    QString archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
     QTest::newRow("extract the whole simplearchive.tar.gz")
             << archivePath
             << QVariantList()
@@ -163,6 +168,16 @@ void ArchiveTest::testExtraction_data()
             << optionsPreservePaths
             << 3;
 
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
+    QTest::newRow("extract selected entries from a tar.gz, drag-and-drop")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString())),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir/")))
+               }
+            << dragAndDropOptions
+            << 2;
+
     archivePath = QFINDTESTDATA("data/one_toplevel_folder.zip");
     QTest::newRow("extract the whole one_toplevel_folder.zip")
             << archivePath
@@ -188,6 +203,18 @@ void ArchiveTest::testExtraction_data()
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
                }
             << optionsPreservePaths
+            << 4;
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.zip");
+    QTest::newRow("extract selected entries from a zip, drag-and-drop")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A/"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/"), QStringLiteral("A/B/"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/test2.txt"), QStringLiteral("A/B/")))
+               }
+            << dragAndDropOptions
             << 4;
 
     archivePath = QFINDTESTDATA("data/one_toplevel_folder.7z");
@@ -217,6 +244,13 @@ void ArchiveTest::testExtraction_data()
             << optionsPreservePaths
             << 4;
 
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.7z");
+    QTest::newRow("extract selected entries from a 7z, drag-and-drop")
+            << archivePath
+            << QVariantList {QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test2.txt"), QStringLiteral("A/B/")))}
+            << dragAndDropOptions
+            << 1;
+
     archivePath = QFINDTESTDATA("data/multiple_toplevel_entries.rar");
     QTest::newRow("extract the whole multiple_toplevel_entries.rar")
             << archivePath
@@ -242,6 +276,18 @@ void ArchiveTest::testExtraction_data()
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
                }
             << optionsPreservePaths
+            << 4;
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
+    QTest::newRow("extract selected entries from a rar, drag-and-drop")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/"), QStringLiteral("A/B/"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A/"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/test2.txt"), QStringLiteral("A/B/")))
+               }
+            << dragAndDropOptions
             << 4;
 }
 
