@@ -43,9 +43,7 @@
 #include <QLineEdit>
 #include <QMimeDatabase>
 #include <QPushButton>
-#include <QScreen>
 #include <QUrl>
-#include <QWindow>
 
 namespace Kerfuffle
 {
@@ -91,7 +89,7 @@ CreateDialog::CreateDialog(QWidget *parent,
 
     connect(this, &QDialog::accepted, this, &CreateDialog::updateDefaultMimeType);
     connect(this, &QDialog::finished, this, &CreateDialog::slotSaveWindowSize);
-    connect(m_fileWidget, &KFileWidget::filterChanged, this, &CreateDialog::updateDisplayedOptions);
+    connect(m_fileWidget, &KFileWidget::filterChanged, this, &CreateDialog::slotFilterChanged);
 
     m_ui = new CreateDialogUI(this);
     m_ui->groupEncryptionOptions->hide();
@@ -103,7 +101,7 @@ CreateDialog::CreateDialog(QWidget *parent,
 
     m_vlayout->addWidget(m_ui);
 
-    connect(m_ui->encryptCheckBox, &QCheckBox::toggled, this, &CreateDialog::encryptionToggled);
+    connect(m_ui->encryptCheckBox, &QCheckBox::toggled, this, &CreateDialog::slotEncryptionToggled);
 }
 
 QSize CreateDialog::sizeHint() const
@@ -127,13 +125,33 @@ QString CreateDialog::password() const
     return m_ui->pwdWidget->password();
 }
 
-bool CreateDialog::isHeaderEncryptionChecked() const
+bool CreateDialog::isEncryptionAvailable() const
 {
-    return (m_ui->encryptHeaderCheckBox->isEnabled() && m_ui->encryptHeaderCheckBox->isChecked());
+    return m_ui->encryptCheckBox->isEnabled();
+}
+
+bool CreateDialog::isEncryptionEnabled() const
+{
+    return isEncryptionAvailable() && m_ui->encryptCheckBox->isChecked() && m_ui->groupEncryptionOptions->isEnabled();
+}
+
+bool CreateDialog::isHeaderEncryptionAvailable() const
+{
+    return isEncryptionEnabled() && m_ui->encryptHeaderCheckBox->isEnabled();
+}
+
+bool CreateDialog::isHeaderEncryptionEnabled() const
+{
+    return isHeaderEncryptionAvailable() && m_ui->encryptHeaderCheckBox->isChecked();
 }
 
 void CreateDialog::accept()
 {
+    if (!isEncryptionEnabled()) {
+        QDialog::accept();
+        return;
+    }
+
     switch (m_ui->pwdWidget->passwordStatus()) {
     case KNewPasswordWidget::WeakPassword:
     case KNewPasswordWidget::StrongPassword:
@@ -150,15 +168,42 @@ void CreateDialog::accept()
     }
 }
 
+void CreateDialog::slotFilterChanged(const QString &filter)
+{
+    qCDebug(ARK) << "Current selected mime filter: " << filter;
+
+    if (Kerfuffle::supportedEncryptEntriesMimeTypes().contains(filter)) {
+        m_ui->encryptCheckBox->setEnabled(true);
+        m_ui->encryptCheckBox->setToolTip(QString());
+        m_ui->groupEncryptionOptions->setEnabled(true);
+    } else {
+        m_ui->encryptCheckBox->setEnabled(false);
+        m_ui->encryptCheckBox->setToolTip(i18n("Protection of the archive with password is not possible with the %1 format.",
+                                               QMimeDatabase().mimeTypeForName(filter).comment()));
+        m_ui->groupEncryptionOptions->setEnabled(false);
+    }
+
+    if (Kerfuffle::supportedEncryptHeaderMimeTypes().contains(filter)) {
+        m_ui->encryptHeaderCheckBox->setEnabled(true);
+        m_ui->encryptHeaderCheckBox->setToolTip(QString());
+    } else {
+        m_ui->encryptHeaderCheckBox->setEnabled(false);
+        // Show the tooltip only if the encryption is still enabled.
+        // This is needed because if the new filter is e.g. tar, the whole encryption group gets disabled.
+        if (isEncryptionEnabled()) {
+            m_ui->encryptHeaderCheckBox->setToolTip(i18n("Protection of the list of files is not possible with the %1 format.",
+                                                         QMimeDatabase().mimeTypeForName(filter).comment()));
+        } else {
+            m_ui->encryptHeaderCheckBox->setToolTip(QString());
+        }
+    }
+}
+
 void CreateDialog::restoreWindowSize()
 {
     // Restore window size from config file, needs a windowHandle so must be called after show()
-    KConfigGroup group(KSharedConfig::openConfig(), "AddDialog");
-    //KWindowConfig::restoreWindowSize(windowHandle(), group);
-    //KWindowConfig::restoreWindowSize is broken atm., so we need this hack:
-    const QRect desk = windowHandle()->screen()->geometry();
-    this->resize(QSize(group.readEntry(QString::fromLatin1("Width %1").arg(desk.width()), windowHandle()->size().width()),
-                     group.readEntry(QString::fromLatin1("Height %1").arg(desk.height()), windowHandle()->size().height())));
+    KConfigGroup group(KSharedConfig::openConfig(), "CreateDialog");
+    KWindowConfig::restoreWindowSize(windowHandle(), group);
 }
 
 void CreateDialog::slotSaveWindowSize()
@@ -179,7 +224,7 @@ void CreateDialog::slotOkButtonClicked()
     m_fileWidget->slotOk();
 }
 
-void CreateDialog::encryptionToggled(bool checked)
+void CreateDialog::slotEncryptionToggled(bool checked)
 {
     m_ui->groupEncryptionOptions->setVisible(checked);
 }
@@ -189,37 +234,9 @@ void CreateDialog::updateDefaultMimeType()
     m_config.writeEntry("LastMimeType", m_fileWidget->currentFilterMimeType().name());
 }
 
-void CreateDialog::updateDisplayedOptions(const QString &filter)
-{
-    qCDebug(ARK) << "Current selected mime filter: " << filter;
-
-    if (Kerfuffle::supportedEncryptEntriesMimeTypes().contains(filter)) {
-        m_ui->encryptCheckBox->setEnabled(true);
-        m_ui->encryptCheckBox->setToolTip(QString());
-        m_ui->groupEncryptionOptions->setEnabled(true);
-    } else {
-        m_ui->encryptCheckBox->setEnabled(false);
-        m_ui->encryptCheckBox->setToolTip(i18n("Protection of the archive with password is not possible with the %1 format.",
-                                               QMimeDatabase().mimeTypeForName(filter).comment()));
-        m_ui->groupEncryptionOptions->setEnabled(false);
-    }
-
-    if (Kerfuffle::supportedEncryptHeaderMimeTypes().contains(filter)) {
-        m_ui->encryptHeaderCheckBox->setEnabled(true);
-        m_ui->encryptHeaderCheckBox->setToolTip(QString());
-    } else {
-        m_ui->encryptHeaderCheckBox->setEnabled(false);
-        // show the tooltip only if the whole group is enabled
-        if (m_ui->groupEncryptionOptions->isEnabled()) {
-            m_ui->encryptHeaderCheckBox->setToolTip(i18n("Protection of the list of files is not possible with the %1 format.",
-                                                         QMimeDatabase().mimeTypeForName(filter).comment()));
-        }
-    }
-}
-
 void CreateDialog::loadConfiguration()
 {
-    m_config = KConfigGroup(KSharedConfig::openConfig()->group("AddDialog"));
+    m_config = KConfigGroup(KSharedConfig::openConfig()->group("CreateDialog"));
 
     const QString defaultMimeType = QStringLiteral("application/x-compressed-tar");
     const QString lastMimeType = m_config.readEntry("LastMimeType", defaultMimeType);

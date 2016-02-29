@@ -7,7 +7,7 @@ set(KF5_MIN_VERSION 5.16.0)
 # KDE Application Version, managed by release script
 set (KDE_APPLICATIONS_VERSION_MAJOR "15")
 set (KDE_APPLICATIONS_VERSION_MINOR "12")
-set (KDE_APPLICATIONS_VERSION_MICRO "1")
+set (KDE_APPLICATIONS_VERSION_MICRO "2")
 set (KDE_APPLICATIONS_VERSION "${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}.${KDE_APPLICATIONS_VERSION_MICRO}")
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/CTestCustom.cmake)
@@ -86,6 +86,10 @@ add_subdirectory(kerfuffle)
 add_subdirectory(part)
 add_subdirectory(app)
 add_subdirectory(doc)
+
+if (Qt5Test_FOUND)
+  add_subdirectory(autotests)
+endif (Qt5Test_FOUND)
 
 ki18n_install(po)
 

@@ -271,7 +271,8 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
         }
     }
 
-    bool useTmpExtractDir = !files.isEmpty() || options.value(QStringLiteral("AlwaysUseTmpDir")).toBool();
+    bool useTmpExtractDir = options.value(QStringLiteral("DragAndDrop")).toBool() ||
+                            options.value(QStringLiteral("AlwaysUseTmpDir")).toBool();
     QUrl destDir;
     QTemporaryDir tmpExtractDir;
 

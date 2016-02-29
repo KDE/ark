@@ -39,8 +39,6 @@
 #include <QKeyEvent>
 #include <QPushButton>
 #include <QMimeDatabase>
-#include <QWindow>
-#include <QScreen>
 
 ArkViewer::ArkViewer(QWidget *parent, Qt::WindowFlags flags)
         : QDialog(parent, flags)
@@ -197,11 +195,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
 
     // Load viewer dialog window size from config file
     KConfigGroup group(KSharedConfig::openConfig(), "Viewer");
-    //KWindowConfig::restoreWindowSize is broken atm., so we need this hack:
-    //KWindowConfig::restoreWindowSize(this->windowHandle(), group);
-    const QRect desk = windowHandle()->screen()->geometry();
-    resize(group.readEntry(QString::fromLatin1("Width %1").arg(desk.width()), windowHandle()->size().width()),
-           group.readEntry(QString::fromLatin1("Height %1").arg(desk.height()), windowHandle()->size().height()));
+    KWindowConfig::restoreWindowSize(windowHandle(), group);
 
     // Create a QFrame for the header
     QFrame *header = new QFrame();

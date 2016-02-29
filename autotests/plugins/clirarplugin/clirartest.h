@@ -26,7 +26,7 @@
 #ifndef CLIRARTEST_H
 #define CLIRARTEST_H
 
-#include "../cliplugin.h"
+#include "cliplugin.h"
 #include <QObject>
 
 using namespace Kerfuffle;

@@ -56,7 +56,3 @@ install(TARGETS kerfuffle ${INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 
 install(FILES kerfufflePlugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR})
 install(FILES ark.kcfg                DESTINATION ${KCFG_INSTALL_DIR})
-
-if (Qt5Test_FOUND)
-  add_subdirectory(tests)
-endif (Qt5Test_FOUND)

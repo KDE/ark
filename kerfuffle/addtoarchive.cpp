@@ -105,7 +105,7 @@ bool AddToArchive::showAddDialog()
         setFilename(dialog.data()->selectedUrls().at(0));
         setMimeType(dialog.data()->currentMimeFilter());
         setPassword(dialog.data()->password());
-        setHeaderEncryptionEnabled(dialog.data()->isHeaderEncryptionChecked());
+        setHeaderEncryptionEnabled(dialog.data()->isHeaderEncryptionEnabled());
     }
 
     delete dialog.data();

@@ -29,6 +29,7 @@
 #include "ark_debug.h"
 
 #include <QFileInfo>
+#include <QRegularExpression>
 #include <QThread>
 
 #include <KLocalizedString>
@@ -189,6 +190,8 @@ ListJob::ListJob(ReadOnlyArchiveInterface *interface, QObject *parent)
     , m_isSingleFolderArchive(true)
     , m_isPasswordProtected(false)
     , m_extractedFilesSize(0)
+    , m_dirCount(0)
+    , m_filesCount(0)
 {
     qCDebug(ARK) << "ListJob started";
     connect(this, &ListJob::newEntry, this, &ListJob::onNewEntry);
@@ -217,6 +220,10 @@ bool ListJob::isPasswordProtected() const
 
 bool ListJob::isSingleFolderArchive() const
 {
+    if (m_filesCount == 1 && m_dirCount == 0) {
+        return false;
+    }
+
     return m_isSingleFolderArchive;
 }
 
@@ -225,9 +232,16 @@ void ListJob::onNewEntry(const ArchiveEntry& entry)
     m_extractedFilesSize += entry[ Size ].toLongLong();
     m_isPasswordProtected |= entry [ IsPasswordProtected ].toBool();
 
+    if (entry[IsDirectory].toBool()) {
+        m_dirCount++;
+    } else {
+        m_filesCount++;
+    }
+
     if (m_isSingleFolderArchive) {
-        const QString fileName(entry[FileName].toString());
-        const QString basePath(fileName.split(QLatin1Char( '/' )).at(0));
+        // RPM filenames have the ./ prefix, and "." would be detected as the subfolder name, so we remove it.
+        const QString fileName = entry[FileName].toString().replace(QRegularExpression(QStringLiteral("^\\./")), QString());
+        const QString basePath = fileName.split(QLatin1Char('/')).at(0);
 
         if (m_basePath.isEmpty()) {
             m_basePath = basePath;
@@ -243,6 +257,10 @@ void ListJob::onNewEntry(const ArchiveEntry& entry)
 
 QString ListJob::subfolderName() const
 {
+    if (!isSingleFolderArchive()) {
+        return QString();
+    }
+
     return m_subfolderName;
 }
 
@@ -321,7 +339,7 @@ AddJob::AddJob(const QStringList& files, const CompressionOptions& options , Rea
 
 void AddJob::doWork()
 {
-    qCDebug(ARK) << "AddJob doing work";
+    qCDebug(ARK) << "AddJob: going to add" << m_files.count() << "file(s)";
 
     emit description(this, i18np("Adding a file", "Adding %1 files", m_files.count()));
 

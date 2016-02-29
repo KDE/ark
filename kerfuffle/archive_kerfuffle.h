@@ -149,6 +149,12 @@ public:
     ArchiveError error() const;
     bool isValid() const;
     QString fileName() const;
+
+    /**
+     * @return QFileInfo(fileName()).completeBaseName() without the "tar" extension (if any).
+     */
+    QString completeBaseName() const;
+
     bool isReadOnly() const;
 
     KJob* open();

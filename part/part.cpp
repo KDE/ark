@@ -174,7 +174,9 @@ Part::~Part()
     ArkSettings::setShowInfoPanel(m_showInfoPanelAction->isChecked());
     ArkSettings::self()->save();
 
+    m_extractArchiveAction->menu()->deleteLater();
     m_extractFilesAction->menu()->deleteLater();
+    m_toolbarExtractAction->menu()->deleteLater();
 }
 
 KAboutData *Part::createAboutData()
@@ -233,6 +235,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
     Kerfuffle::ExtractionOptions options;
     options[QStringLiteral("PreservePaths")] = true;
     options[QStringLiteral("RemoveRootNode")] = true;
+    options[QStringLiteral("DragAndDrop")] = true;
 
     // Create and start the ExtractJob.
     ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows())), destination, options);
@@ -291,44 +294,58 @@ void Part::setupActions()
     m_openFileAction = actionCollection()->addAction(QStringLiteral("openfile"));
     m_openFileAction->setText(i18nc("open a file with external program", "&Open"));
     m_openFileAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
-    m_openFileAction->setStatusTip(i18n("Click to open the selected file with the associated application"));
+    m_openFileAction->setToolTip(i18nc("@info:tooltip", "Click to open the selected file with the associated application"));
     connect(m_openFileAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
     m_signalMapper->setMapping(m_openFileAction, OpenFile);
 
     m_openFileWithAction = actionCollection()->addAction(QStringLiteral("openfilewith"));
     m_openFileWithAction->setText(i18nc("open a file with external program", "Open &With..."));
     m_openFileWithAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
-    m_openFileWithAction->setStatusTip(i18n("Click to open the selected file with an external program"));
+    m_openFileWithAction->setToolTip(i18nc("@info:tooltip", "Click to open the selected file with an external program"));
     connect(m_openFileWithAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
     m_signalMapper->setMapping(m_openFileWithAction, OpenFileWith);
 
     m_previewAction = actionCollection()->addAction(QStringLiteral("preview"));
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
     m_previewAction->setIcon(QIcon::fromTheme(QStringLiteral("document-preview-archive")));
-    m_previewAction->setStatusTip(i18n("Click to preview the selected file"));
+    m_previewAction->setToolTip(i18nc("@info:tooltip", "Click to preview the selected file"));
     actionCollection()->setDefaultShortcut(m_previewAction, Qt::CTRL + Qt::Key_P);
     connect(m_previewAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
     m_signalMapper->setMapping(m_previewAction, Preview);
 
-    m_extractFilesAction = actionCollection()->addAction(QStringLiteral("extract"));
-    m_extractFilesAction->setText(i18n("E&xtract"));
+    m_extractArchiveAction = actionCollection()->addAction(QStringLiteral("extract"));
+    m_extractArchiveAction->setText(i18nc("@action:inmenu", "E&xtract"));
+    m_extractArchiveAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
+    m_extractArchiveAction->setToolTip(i18n("Click to open an extraction dialog, where you can choose how to extract all the files in the archive"));
+    connect(m_extractArchiveAction, &QAction::triggered,
+            this, &Part::slotExtractArchive);
+
+    m_extractFilesAction = actionCollection()->addAction(QStringLiteral("extract_files"));
+    m_extractFilesAction->setText(i18nc("@action:inmenu", "E&xtract"));
     m_extractFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
-    m_extractFilesAction->setStatusTip(i18n("Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones"));
-    actionCollection()->setDefaultShortcut(m_extractFilesAction, Qt::CTRL + Qt::Key_E);
+    m_extractFilesAction->setToolTip(i18n("Click to open an extraction dialog, where you can choose how to extract the selected files"));
     connect(m_extractFilesAction, &QAction::triggered,
-            this, &Part::slotExtractFiles);
+            this, &Part::slotShowExtractionDialog);
+
+    m_toolbarExtractAction = actionCollection()->addAction(QStringLiteral("toolbar_extract"));
+    m_toolbarExtractAction->setText(i18nc("@action:intoolbar", "E&xtract"));
+    m_toolbarExtractAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
+    m_toolbarExtractAction->setToolTip(i18n("Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones"));
+    actionCollection()->setDefaultShortcut(m_toolbarExtractAction, Qt::CTRL + Qt::Key_E);
+    connect(m_toolbarExtractAction, &QAction::triggered,
+            this, &Part::slotShowExtractionDialog);
 
     m_addFilesAction = actionCollection()->addAction(QStringLiteral("add"));
     m_addFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert")));
     m_addFilesAction->setText(i18n("Add &File..."));
-    m_addFilesAction->setStatusTip(i18n("Click to add files to the archive"));
+    m_addFilesAction->setToolTip(i18nc("@info:tooltip", "Click to add files to the archive"));
     connect(m_addFilesAction, SIGNAL(triggered(bool)),
             this, SLOT(slotAddFiles()));
 
     m_addDirAction = actionCollection()->addAction(QStringLiteral("add-dir"));
     m_addDirAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert-directory")));
     m_addDirAction->setText(i18n("Add Fo&lder..."));
-    m_addDirAction->setStatusTip(i18n("Click to add a folder to the archive"));
+    m_addDirAction->setToolTip(i18nc("@info:tooltip", "Click to add a folder to the archive"));
     connect(m_addDirAction, &QAction::triggered,
             this, &Part::slotAddDir);
 
@@ -336,7 +353,7 @@ void Part::setupActions()
     m_deleteFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-remove")));
     m_deleteFilesAction->setText(i18n("De&lete"));
     actionCollection()->setDefaultShortcut(m_deleteFilesAction, Qt::Key_Delete);
-    m_deleteFilesAction->setStatusTip(i18n("Click to delete the selected files"));
+    m_deleteFilesAction->setToolTip(i18nc("@info:tooltip", "Click to delete the selected files"));
     connect(m_deleteFilesAction, &QAction::triggered,
             this, &Part::slotDeleteFiles);
 
@@ -361,8 +378,13 @@ void Part::updateActions()
                                 isPreviewable &&
                                 !isDirectory &&
                                 (selectedEntriesCount == 1));
+    m_extractArchiveAction->setEnabled(!isBusy() &&
+                                       (m_model->rowCount() > 0));
     m_extractFilesAction->setEnabled(!isBusy() &&
-                                     (m_model->rowCount() > 0));
+                                     (m_model->rowCount() > 0) &&
+                                     (selectedEntriesCount > 0));
+    m_toolbarExtractAction->setEnabled(!isBusy() &&
+                                       (m_model->rowCount() > 0));
     m_saveAsAction->setEnabled(!isBusy() &&
                                m_model->rowCount() > 0);
     m_addFilesAction->setEnabled(!isBusy() &&
@@ -381,20 +403,41 @@ void Part::updateActions()
                                      !isDirectory &&
                                      (selectedEntriesCount == 1));
 
-    QMenu *menu = m_extractFilesAction->menu();
+    // TODO: why do we even update these menus here?
+    // It should be enough to update them when a new dir is appended to the history.
+    updateQuickExtractMenu(m_extractArchiveAction);
+    updateQuickExtractMenu(m_extractFilesAction);
+    updateQuickExtractMenu(m_toolbarExtractAction);
+}
+
+void Part::updateQuickExtractMenu(QAction *extractAction)
+{
+    if (!extractAction) {
+        return;
+    }
+
+    QMenu *menu = extractAction->menu();
+
     if (!menu) {
-        menu = new QMenu;
-        m_extractFilesAction->setMenu(menu);
+        menu = new QMenu();
+        extractAction->setMenu(menu);
         connect(menu, &QMenu::triggered,
                 this, &Part::slotQuickExtractFiles);
 
         // Remember to keep this action's properties as similar to
-        // m_extractFilesAction's as possible (except where it does not make
+        // extractAction's as possible (except where it does not make
         // sense, such as the text or the shortcut).
         QAction *extractTo = menu->addAction(i18n("Extract To..."));
-        extractTo->setIcon(m_extractFilesAction->icon());
-        extractTo->setStatusTip(m_extractFilesAction->statusTip());
-        connect(extractTo, &QAction::triggered, this, &Part::slotExtractFiles);
+        extractTo->setIcon(extractAction->icon());
+        extractTo->setToolTip(extractAction->toolTip());
+
+        if (extractAction == m_extractArchiveAction) {
+            connect(extractTo, &QAction::triggered,
+                    this, &Part::slotExtractArchive);
+        } else {
+            connect(extractTo, &QAction::triggered,
+                    this, &Part::slotShowExtractionDialog);
+        }
 
         menu->addSeparator();
 
@@ -526,7 +569,7 @@ bool Part::openFile()
     m_infoPanel->setIndex(QModelIndex());
 
     if (arguments().metaData()[QStringLiteral("showExtractDialog")] == QLatin1String("true")) {
-        QTimer::singleShot(0, this, &Part::slotExtractFiles);
+        QTimer::singleShot(0, this, &Part::slotShowExtractionDialog);
     }
 
     const QString password = arguments().metaData()[QStringLiteral("encryptionPassword")];
@@ -818,7 +861,16 @@ QString Part::detectSubfolder() const
     return m_model->archive()->subfolderName();
 }
 
-void Part::slotExtractFiles()
+void Part::slotExtractArchive()
+{
+    if (m_view->selectionModel()->selectedRows().count() > 0) {
+        m_view->selectionModel()->clear();
+    }
+
+    slotShowExtractionDialog();
+}
+
+void Part::slotShowExtractionDialog()
 {
     if (!m_model) {
         return;
