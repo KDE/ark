@@ -18,7 +18,9 @@
  */
 
 #include "cliunarchivertest.h"
+#include "kerfuffle/jobs.h"
 
+#include <QDirIterator>
 #include <QFile>
 #include <QSignalSpy>
 #include <QTest>
@@ -31,6 +33,64 @@ using namespace Kerfuffle;
 void CliUnarchiverTest::initTestCase()
 {
     qRegisterMetaType<ArchiveEntry>();
+}
+
+void CliUnarchiverTest::testArchive_data()
+{
+    QTest::addColumn<QString>("archivePath");
+    QTest::addColumn<QString>("expectedFileName");
+    QTest::addColumn<bool>("isReadOnly");
+    QTest::addColumn<bool>("isSingleFolder");
+    QTest::addColumn<bool>("isPasswordProtected");
+    QTest::addColumn<QString>("expectedSubfolderName");
+
+
+    QString archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
+    QTest::newRow("archive with one top-level folder")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << true << true << false
+            << QStringLiteral("A");
+
+    archivePath = QFINDTESTDATA("data/multiple_toplevel_entries.rar");
+    QTest::newRow("archive with multiple top-level entries")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << true << false << false
+            << QStringLiteral("multiple_toplevel_entries");
+
+    archivePath = QFINDTESTDATA("data/encrypted_entries.rar");
+    QTest::newRow("archive with encrypted entries")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << true << true << true
+            << QStringLiteral("A");
+}
+
+void CliUnarchiverTest::testArchive()
+{
+    QFETCH(QString, archivePath);
+    Archive *archive = Archive::create(archivePath, this);
+    QVERIFY(archive);
+
+    if (!archive->isValid()) {
+        QSKIP("Could not find a plugin to handle rar files. Skipping test.", SkipSingle);
+    }
+
+    QFETCH(QString, expectedFileName);
+    QCOMPARE(QFileInfo(archive->fileName()).fileName(), expectedFileName);
+
+    QFETCH(bool, isReadOnly);
+    QCOMPARE(archive->isReadOnly(), isReadOnly);
+
+    QFETCH(bool, isSingleFolder);
+    QCOMPARE(archive->isSingleFolderArchive(), isSingleFolder);
+
+    QFETCH(bool, isPasswordProtected);
+    QCOMPARE(archive->isPasswordProtected(), isPasswordProtected);
+
+    QFETCH(QString, expectedSubfolderName);
+    QCOMPARE(archive->subfolderName(), expectedSubfolderName);
 }
 
 void CliUnarchiverTest::testList_data()
@@ -102,60 +162,98 @@ void CliUnarchiverTest::testList()
     unarPlugin->deleteLater();
 }
 
-void CliUnarchiverTest::testArchive_data()
+void CliUnarchiverTest::testExtraction_data()
 {
     QTest::addColumn<QString>("archivePath");
-    QTest::addColumn<QString>("expectedFileName");
-    QTest::addColumn<bool>("isReadOnly");
-    QTest::addColumn<bool>("isSingleFolder");
-    QTest::addColumn<bool>("isPasswordProtected");
-    QTest::addColumn<QString>("expectedSubfolderName");
+    QTest::addColumn<QVariantList>("entriesToExtract");
+    QTest::addColumn<ExtractionOptions>("extractionOptions");
+    QTest::addColumn<int>("expectedExtractedEntriesCount");
 
+    ExtractionOptions options;
+    options[QStringLiteral("AlwaysUseTmpDir")] = true;
 
-    QString archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
-    QTest::newRow("archive with one top-level folder")
+    ExtractionOptions optionsPreservePaths = options;
+    optionsPreservePaths[QStringLiteral("PreservePaths")] = true;
+
+    // Just for clarity.
+    ExtractionOptions dragAndDropOptions = optionsPreservePaths;
+
+    QString archivePath = QFINDTESTDATA("data/multiple_toplevel_entries.rar");
+    QTest::newRow("extract the whole multiple_toplevel_entries.rar")
             << archivePath
-            << QFileInfo(archivePath).fileName()
-            << true << true << false
-            << QStringLiteral("A");
+            << QVariantList()
+            << optionsPreservePaths
+            << 12;
 
-    archivePath = QFINDTESTDATA("data/multiple_toplevel_entries.rar");
-    QTest::newRow("archive with multiple top-level entries")
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
+    QTest::newRow("extract selected entries from a rar, without paths")
             << archivePath
-            << QFileInfo(archivePath).fileName()
-            << true << false << false
-            << QStringLiteral("multiple_toplevel_entries");
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
+               }
+            << options
+            << 2;
 
-    archivePath = QFINDTESTDATA("data/encrypted_entries.rar");
-    QTest::newRow("archive with encrypted entries")
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
+    QTest::newRow("extract selected entries from a rar, preserve paths")
             << archivePath
-            << QFileInfo(archivePath).fileName()
-            << true << true << true
-            << QStringLiteral("A");
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
+               }
+            << optionsPreservePaths
+            << 4;
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
+    QTest::newRow("extract selected entries from a rar, drag-and-drop")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/"), QStringLiteral("A/B/"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A/"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/test2.txt"), QStringLiteral("A/B/")))
+               }
+            << dragAndDropOptions
+            << 4;
 }
 
-void CliUnarchiverTest::testArchive()
+// TODO: we can remove this test (which is duplicated from kerfuffle/archivetest)
+// if we ever ends up using a temp dir for any cliplugin, instead of only for cliunarchiver.
+void CliUnarchiverTest::testExtraction()
 {
     QFETCH(QString, archivePath);
     Archive *archive = Archive::create(archivePath, this);
     QVERIFY(archive);
 
     if (!archive->isValid()) {
-        QSKIP("Could not find a plugin to handle rar files. Skipping test.", SkipSingle);
+        QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
     }
 
-    QFETCH(QString, expectedFileName);
-    QCOMPARE(QFileInfo(archive->fileName()).fileName(), expectedFileName);
+    QTemporaryDir destDir;
+    if (!destDir.isValid()) {
+        QSKIP("Could not create a temporary directory for extraction. Skipping test.", SkipSingle);
+    }
 
-    QFETCH(bool, isReadOnly);
-    QCOMPARE(archive->isReadOnly(), isReadOnly);
+    QFETCH(QVariantList, entriesToExtract);
+    QFETCH(ExtractionOptions, extractionOptions);
+    auto extractionJob = archive->copyFiles(entriesToExtract, destDir.path(), extractionOptions);
 
-    QFETCH(bool, isSingleFolder);
-    QCOMPARE(archive->isSingleFolderArchive(), isSingleFolder);
+    QEventLoop eventLoop(this);
+    connect(extractionJob, &KJob::result, &eventLoop, &QEventLoop::quit);
+    extractionJob->start();
+    eventLoop.exec();
 
-    QFETCH(bool, isPasswordProtected);
-    QCOMPARE(archive->isPasswordProtected(), isPasswordProtected);
+    QFETCH(int, expectedExtractedEntriesCount);
+    int extractedEntriesCount = 0;
 
-    QFETCH(QString, expectedSubfolderName);
-    QCOMPARE(archive->subfolderName(), expectedSubfolderName);
+    QDirIterator dirIt(destDir.path(), QDir::AllEntries | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+    while (dirIt.hasNext()) {
+        extractedEntriesCount++;
+        dirIt.next();
+    }
+
+    QCOMPARE(extractedEntriesCount, expectedExtractedEntriesCount);
+
+    archive->deleteLater();
 }

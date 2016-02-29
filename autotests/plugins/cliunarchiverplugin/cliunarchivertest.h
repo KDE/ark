@@ -32,10 +32,12 @@ class CliUnarchiverTest : public QObject
 private Q_SLOTS:
 
     void initTestCase();
-    void testList_data();
-    void testList();
     void testArchive_data();
     void testArchive();
+    void testList_data();
+    void testList();
+    void testExtraction_data();
+    void testExtraction();
 };
 
 Q_DECLARE_METATYPE(ArchiveEntry)
