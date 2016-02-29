@@ -135,16 +135,16 @@ void ArchiveTest::testExtraction_data()
     QTest::addColumn<int>("expectedExtractedEntriesCount");
 
     QString archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
-    ExtractionOptions options;
-    options[QStringLiteral("PreservePaths")] = true;
+    ExtractionOptions optionsPreservePaths;
+    optionsPreservePaths[QStringLiteral("PreservePaths")] = true;
     QTest::newRow("extract the whole simplearchive.tar.gz")
             << archivePath
             << QVariantList()
-            << options
+            << optionsPreservePaths
             << 4;
 
     archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
-    QTest::newRow("extract selected entries from simplearchive.tar.gz")
+    QTest::newRow("extract selected entries from a tar.gz, without paths")
             << archivePath
             << QVariantList {
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
@@ -153,12 +153,96 @@ void ArchiveTest::testExtraction_data()
             << ExtractionOptions()
             << 2;
 
-    archivePath = QFINDTESTDATA("data/archivetest_unencrypted.zip");
-    QTest::newRow("extract basic zip archive")
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
+    QTest::newRow("extract selected entries from a tar.gz, preserve paths")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+               }
+            << optionsPreservePaths
+            << 3;
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.zip");
+    QTest::newRow("extract the whole one_toplevel_folder.zip")
             << archivePath
             << QVariantList()
+            << optionsPreservePaths
+            << 9;
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.zip");
+    QTest::newRow("extract selected entries from a zip, without paths")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
+               }
             << ExtractionOptions()
-            << 1;
+            << 2;
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.zip");
+    QTest::newRow("extract selected entries from a zip, preserve paths")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
+               }
+            << optionsPreservePaths
+            << 4;
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.7z");
+    QTest::newRow("extract the whole one_toplevel_folder.7z")
+            << archivePath
+            << QVariantList()
+            << optionsPreservePaths
+            << 9;
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.7z");
+    QTest::newRow("extract selected entries from a 7z, without paths")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
+               }
+            << ExtractionOptions()
+            << 2;
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.7z");
+    QTest::newRow("extract selected entries from a 7z, preserve paths")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
+               }
+            << optionsPreservePaths
+            << 4;
+
+    archivePath = QFINDTESTDATA("data/multiple_toplevel_entries.rar");
+    QTest::newRow("extract the whole multiple_toplevel_entries.rar")
+            << archivePath
+            << QVariantList()
+            << optionsPreservePaths
+            << 12;
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
+    QTest::newRow("extract selected entries from a rar, without paths")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
+               }
+            << ExtractionOptions()
+            << 2;
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
+    QTest::newRow("extract selected entries from a rar, preserve paths")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
+               }
+            << optionsPreservePaths
+            << 4;
 }
 
 void ArchiveTest::testExtraction()
@@ -193,6 +277,15 @@ void ArchiveTest::testExtraction()
         extractedEntriesCount++;
         dirIt.next();
     }
+
+    QEXPECT_FAIL("extract selected entries from a zip, without paths", "Bug #359628", Continue);
+    QEXPECT_FAIL("extract selected entries from a zip, preserve paths", "", Continue);
+
+    QEXPECT_FAIL("extract selected entries from a 7z, without paths", "Bug #359628", Continue);
+    QEXPECT_FAIL("extract selected entries from a 7z, preserve paths", "", Continue);
+
+    QEXPECT_FAIL("extract selected entries from a rar, without paths", "Bug #359628", Continue);
+    QEXPECT_FAIL("extract selected entries from a rar, preserve paths", "", Continue);
 
     QCOMPARE(extractedEntriesCount, expectedExtractedEntriesCount);
 
