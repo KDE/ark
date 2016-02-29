@@ -225,6 +225,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
     Kerfuffle::ExtractionOptions options;
     options[QStringLiteral("PreservePaths")] = true;
     options[QStringLiteral("RemoveRootNode")] = true;
+    options[QStringLiteral("DragAndDrop")] = true;
 
     // Create and start the ExtractJob.
     ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows())), destination, options);
