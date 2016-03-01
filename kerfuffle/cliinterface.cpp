@@ -294,8 +294,6 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
         return false;
     }
 
-    QVariantList entries = files;
-
     if (options.value(QStringLiteral("AlwaysUseTmpDir")).toBool()) {
         // unar exits with code 1 if the password is wrong.
         if (m_exitCode == 1) {
@@ -306,17 +304,21 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
             setPassword(QString());
             return false;
         }
-        // We need to populate the list of entries to be moved with all the entries in the archive.
-        if (entries.isEmpty()) {
-            QDirIterator dirIt(tmpExtractDir.path(), QDir::AllEntries | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
-            while (dirIt.hasNext()) {
-                entries << QVariant::fromValue(fileRootNodePair(dirIt.next().remove(tmpExtractDir.path() + QLatin1Char('/')), QString()));
+
+        if (!options.value(QStringLiteral("DragAndDrop")).toBool()) {
+            if (!moveToDestination(tmpExtractDir, QDir(destinationDirectory), options[QStringLiteral("PreservePaths")].toBool())) {
+                emit error(i18ncp("@info",
+                                  "Could not move the extracted file to the destination directory.",
+                                  "Could not move the extracted files to the destination directory.",
+                                  files.size()));
+                emit finished(false);
+                return false;
             }
         }
     }
 
-    if (useTmpExtractDir) {
-        if (!moveToFinalDest(files, destinationDirectory, tmpExtractDir)) {
+    if (options.value(QStringLiteral("DragAndDrop")).toBool()) {
+        if (!moveDroppedFilesToDest(files, destinationDirectory, tmpExtractDir)) {
             emit error(i18ncp("@info",
                               "Could not move the extracted file to the destination directory.",
                               "Could not move the extracted files to the destination directory.",
@@ -559,7 +561,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     }
 }
 
-bool CliInterface::moveToFinalDest(const QVariantList &files, const QString &finalDest, const QTemporaryDir &tmpDir)
+bool CliInterface::moveDroppedFilesToDest(const QVariantList &files, const QString &finalDest, const QTemporaryDir &tmpDir)
 {
     // Move extracted files from a QTemporaryDir to the final destination.
 
@@ -638,6 +640,80 @@ bool CliInterface::moveToFinalDest(const QVariantList &files, const QString &fin
             }
         }
     }
+    return true;
+}
+
+bool CliInterface::moveToDestination(const QTemporaryDir &tempDir, const QDir &destDir, bool preservePaths)
+{
+    qCDebug(ARK) << "Moving extracted files to final destination" << destDir;
+
+    bool overwriteAll = false;
+    bool skipAll = false;
+
+    QDirIterator dirIt(tempDir.path(), QDir::AllEntries | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+    while (dirIt.hasNext()) {
+        dirIt.next();
+
+        if (dirIt.fileInfo().isDir()) {
+            continue;
+        }
+
+        QFileInfo relEntry;
+        if (preservePaths) {
+            relEntry = QFileInfo(dirIt.filePath().remove(tempDir.path() + QLatin1Char('/')));
+        } else {
+            relEntry = QFileInfo(dirIt.fileName());
+        }
+
+        QFileInfo absDestEntry(destDir.path() + QLatin1Char('/') + relEntry.filePath());
+
+        if (absDestEntry.exists()) {
+            qCWarning(ARK) << "File" << absDestEntry.absoluteFilePath() << "exists.";
+
+            Kerfuffle::OverwriteQuery query(absDestEntry.absoluteFilePath());
+            query.setNoRenameMode(true);
+            emit userQuery(&query);
+            query.waitForResponse();
+
+            if (query.responseOverwrite() || query.responseOverwriteAll()) {
+                if (query.responseOverwriteAll()) {
+                    overwriteAll = true;
+                }
+                if (!QFile::remove(absDestEntry.absoluteFilePath())) {
+                    qCWarning(ARK) << "Failed to remove" << absDestEntry.absoluteFilePath();
+                }
+
+            } else if (query.responseSkip() || query.responseAutoSkip()) {
+                if (query.responseAutoSkip()) {
+                    skipAll = true;
+                }
+                continue;
+            } else if (query.responseCancelled()) {
+                qCDebug(ARK) << "Copy action cancelled.";
+                return false;
+            }
+        } else if (skipAll) {
+            continue;
+        } else if (overwriteAll) {
+            if (!QFile::remove(absDestEntry.absoluteFilePath())) {
+                qCWarning(ARK) << "Failed to remove" << absDestEntry.absoluteFilePath();
+            }
+        }
+
+        if (preservePaths) {
+            // Create any parent directories.
+            if (!destDir.mkpath(relEntry.path())) {
+                qCWarning(ARK) << "Failed to create parent directory for file:" << absDestEntry.filePath();
+            }
+        }
+
+        // Move file to the final destination.
+        if (!QFile(dirIt.filePath()).rename(absDestEntry.absoluteFilePath())) {
+            qCWarning(ARK) << "Failed to move file" << dirIt.filePath() << "to final destination.";
+            return false;
+        }
+    }
+
     return true;
 }
 

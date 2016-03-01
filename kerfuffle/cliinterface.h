@@ -35,6 +35,8 @@
 
 class KProcess;
 class KPtyProcess;
+
+class QDir;
 class QTemporaryDir;
 
 namespace Kerfuffle
@@ -305,6 +307,12 @@ public:
      */
     void setListEmptyLines(bool emptyLines);
 
+    /**
+     * Move all files from @p tmpDir to @p destDir, preserving paths if @p preservePaths is true.
+     * @return Whether the operation has been successfull.
+     */
+    bool moveToDestination(const QTemporaryDir &tempDir, const QDir &destDir, bool preservePaths);
+
 protected:
 
     virtual void handleLine(const QString& line);
@@ -366,7 +374,7 @@ private:
      */
     void writeToProcess(const QByteArray& data);
 
-    bool moveToFinalDest(const QVariantList &files, const QString &finalDest, const QTemporaryDir &tmpDir);
+    bool moveDroppedFilesToDest(const QVariantList &files, const QString &finalDest, const QTemporaryDir &tmpDir);
 
     QByteArray m_stdOutData;
     QRegularExpression m_passwordPromptPattern;

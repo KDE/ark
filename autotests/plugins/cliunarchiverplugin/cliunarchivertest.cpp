@@ -175,8 +175,8 @@ void CliUnarchiverTest::testExtraction_data()
     ExtractionOptions optionsPreservePaths = options;
     optionsPreservePaths[QStringLiteral("PreservePaths")] = true;
 
-    // Just for clarity.
     ExtractionOptions dragAndDropOptions = optionsPreservePaths;
+    dragAndDropOptions[QStringLiteral("DragAndDrop")] = true;
 
     QString archivePath = QFINDTESTDATA("data/multiple_toplevel_entries.rar");
     QTest::newRow("extract the whole multiple_toplevel_entries.rar")
