@@ -250,45 +250,6 @@ void ArchiveTest::testExtraction_data()
             << QVariantList {QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test2.txt"), QStringLiteral("A/B/")))}
             << dragAndDropOptions
             << 1;
-
-    archivePath = QFINDTESTDATA("data/multiple_toplevel_entries.rar");
-    QTest::newRow("extract the whole multiple_toplevel_entries.rar")
-            << archivePath
-            << QVariantList()
-            << optionsPreservePaths
-            << 12;
-
-    archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
-    QTest::newRow("extract selected entries from a rar, without paths")
-            << archivePath
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
-               }
-            << ExtractionOptions()
-            << 2;
-
-    archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
-    QTest::newRow("extract selected entries from a rar, preserve paths")
-            << archivePath
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
-               }
-            << optionsPreservePaths
-            << 4;
-
-    archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
-    QTest::newRow("extract selected entries from a rar, drag-and-drop")
-            << archivePath
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/"), QStringLiteral("A/B/"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A/"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/test2.txt"), QStringLiteral("A/B/")))
-               }
-            << dragAndDropOptions
-            << 4;
 }
 
 void ArchiveTest::testExtraction()
