@@ -50,6 +50,7 @@ void ArchiveTest::testProperties_data()
     QTest::addColumn<QString>("archivePath");
     QTest::addColumn<QString>("expectedBaseName");
     QTest::addColumn<bool>("isReadOnly");
+    QTest::addColumn<bool>("canFallbackOnReadOnly");
     QTest::addColumn<bool>("isSingleFolder");
     QTest::addColumn<bool>("isPasswordProtected");
     QTest::addColumn<QString>("expectedSubfolderName");
@@ -59,7 +60,7 @@ void ArchiveTest::testProperties_data()
     QTest::newRow("non-existent tar archive")
             << archivePath
             << QStringLiteral("foo")
-            << false << true << false
+            << false << false << true << false
             << QStringLiteral("foo");
 
     // Test dummy source code tarball.
@@ -67,35 +68,35 @@ void ArchiveTest::testProperties_data()
     QTest::newRow("dummy source code tarball")
             << archivePath
             << QStringLiteral("code-x.y.z")
-            << false << true << false
+            << false << false << true << false
             << QStringLiteral("awesome_project");
 
     archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
     QTest::newRow("simple compressed tar archive")
             << archivePath
             << QStringLiteral("simplearchive")
-            << false << false << false
+            << false << false << false << false
             << QStringLiteral("simplearchive");
 
     archivePath = QFINDTESTDATA("data/archivetest_encrypted.zip");
     QTest::newRow("encrypted zip, single entry")
             << archivePath
             << QStringLiteral("archivetest_encrypted")
-            << false << false << true
+            << false << true << false << true
             << QStringLiteral("archivetest_encrypted");
 
     archivePath = QFINDTESTDATA("data/archivetest_unencrypted.zip");
     QTest::newRow("simple zip, one unencrypted entry")
             << archivePath
             << QStringLiteral("archivetest_unencrypted")
-            << false << false << false
+            << false << true << false << false
             << QStringLiteral("archivetest_unencrypted");
 
     archivePath = QFINDTESTDATA("data/wget.rpm");
     QTest::newRow("rpm archive, no single folder")
             << archivePath
             << QStringLiteral("wget")
-            << true << false << false
+            << true << false << false << false
             << QStringLiteral("wget");
 }
 
@@ -113,7 +114,13 @@ void ArchiveTest::testProperties()
     QCOMPARE(archive->completeBaseName(), expectedBaseName);
 
     QFETCH(bool, isReadOnly);
-    QCOMPARE(archive->isReadOnly(), isReadOnly);
+    QFETCH(bool, canFallbackOnReadOnly);
+
+    // If the plugin supports fallback on read-only mode, we cannot be sure at this point
+    // if the archive is going to be read-write or read-only.
+    if (!canFallbackOnReadOnly) {
+        QCOMPARE(archive->isReadOnly(), isReadOnly);
+    }
 
     QFETCH(bool, isSingleFolder);
     QCOMPARE(archive->isSingleFolderArchive(), isSingleFolder);
