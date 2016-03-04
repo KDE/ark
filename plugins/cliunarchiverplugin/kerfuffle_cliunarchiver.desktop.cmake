@@ -12,6 +12,7 @@ X-KDE-Priority=100
 X-KDE-Kerfuffle-APIRevision=1
 X-KDE-Kerfuffle-ReadWrite=false
 Name=The Unarchiver plugin
+Name[ast]=El complementu desarchivador
 Name[ca]=Connector del Unarchiver
 Name[de]=Unarchiver-Modul
 Name[nl]=De plug-in voor uit archief halen
