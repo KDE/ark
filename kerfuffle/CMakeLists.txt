@@ -46,9 +46,6 @@ PRIVATE
     KF5::WidgetsAddons
 
 )
-if (NOT WIN32)
-  target_link_libraries(kerfuffle ${KDE4_KPTY_LIBS})
-endif (NOT WIN32)
 
 set_target_properties(kerfuffle PROPERTIES VERSION ${KERFUFFLE_VERSION_STRING} SOVERSION ${KERFUFFLE_SOVERSION})
 
