@@ -7,19 +7,14 @@ set(JSONINTERFACE_SOURCES
 add_library(jsoninterface STATIC ${JSONINTERFACE_SOURCES})
 target_link_libraries(jsoninterface kerfuffle)
 
-macro(KERFUFFLE_UNIT_TESTS)
-    foreach(_testname ${ARGN})
-        add_executable(${_testname} ${_testname}.cpp)
-        add_test(kerfuffle-${_testname} ${_testname})
-        target_link_libraries(${_testname} jsoninterface kerfuffle Qt5::Test)
-        ecm_mark_as_test(${_testname})
-        ecm_mark_nongui_executable(${_testname})
-    endforeach(_testname)
-endmacro(KERFUFFLE_UNIT_TESTS)
+ecm_add_tests(
+    archivetest.cpp
+    createdialogtest.cpp
+    mimetypetest.cpp
+    LINK_LIBRARIES kerfuffle Qt5::Test
+    NAME_PREFIX kerfuffle-)
 
-KERFUFFLE_UNIT_TESTS(
-    archivetest
-    jobstest
-    mimetypetest
-    createdialogtest
-)
+ecm_add_tests(
+    jobstest.cpp
+    LINK_LIBRARIES jsoninterface Qt5::Test
+    NAME_PREFIX kerfuffle-)
