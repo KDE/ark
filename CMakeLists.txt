@@ -34,7 +34,10 @@ ecm_setup_version(${ARK_VERSION}
                   VARIABLE_PREFIX KERFUFFLE
                   SOVERSION ${ARK_VERSION_MAJOR})
 
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core Widgets)
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
+    Core
+    Gui
+    Widgets)
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive
                                                         Config
                                                         Crash
