@@ -55,7 +55,6 @@ find_package(Qt5Test ${QT_MIN_VERSION} CONFIG QUIET)
 set_package_properties(Qt5Test PROPERTIES
     PURPOSE "Required for tests"
     TYPE OPTIONAL)
-add_feature_info("Qt5Test" Qt5Test_FOUND "Required for building tests")
 
 if(NOT Qt5Test_FOUND)
     set(BUILD_TESTING OFF CACHE BOOL "Build the testing tree.")
