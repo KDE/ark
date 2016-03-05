@@ -271,10 +271,13 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
         }
     }
 
+    QUrl destDir = QUrl(destinationDirectory);
+    QDir::setCurrent(destDir.adjusted(QUrl::RemoveScheme).url());
+
+    QString oldCurrentDir;
     bool useTmpExtractDir = options.value(QStringLiteral("DragAndDrop")).toBool() ||
                             options.value(QStringLiteral("AlwaysUseTmpDir")).toBool();
-    QUrl destDir;
-    QTemporaryDir tmpExtractDir;
+    QTemporaryDir tmpExtractDir(QApplication::applicationName() + QLatin1Char('-'));
 
     if (useTmpExtractDir) {
         qCDebug(ARK) << "Using temporary extraction dir:" << tmpExtractDir.path();
@@ -283,11 +286,10 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
             failOperation();
             return false;
         }
+        oldCurrentDir = QDir::currentPath();
         destDir = QUrl(tmpExtractDir.path());
-    } else {
-        destDir = QUrl(destinationDirectory);
+        QDir::setCurrent(destDir.adjusted(QUrl::RemoveScheme).url());
     }
-    QDir::setCurrent(destDir.adjusted(QUrl::RemoveScheme).url());
 
     if (!runProcess(m_param.value(ExtractProgram).toStringList(), args)) {
         failOperation();
@@ -314,11 +316,13 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
                 emit finished(false);
                 return false;
             }
+            // If we don't do this, the temporary directory will not autodelete itself upon destruction.
+            QDir::setCurrent(oldCurrentDir);
         }
     }
 
     if (options.value(QStringLiteral("DragAndDrop")).toBool()) {
-        if (!moveDroppedFilesToDest(files, destinationDirectory, tmpExtractDir)) {
+        if (!moveDroppedFilesToDest(files, destinationDirectory)) {
             emit error(i18ncp("@info",
                               "Could not move the extracted file to the destination directory.",
                               "Could not move the extracted files to the destination directory.",
@@ -326,6 +330,8 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
             emit finished(false);
             return false;
         }
+        // If we don't do this, the temporary directory will not autodelete itself upon destruction.
+        QDir::setCurrent(oldCurrentDir);
     }
 
     emit finished(true);
@@ -561,7 +567,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     }
 }
 
-bool CliInterface::moveDroppedFilesToDest(const QVariantList &files, const QString &finalDest, const QTemporaryDir &tmpDir)
+bool CliInterface::moveDroppedFilesToDest(const QVariantList &files, const QString &finalDest)
 {
     // Move extracted files from a QTemporaryDir to the final destination.
 
@@ -574,7 +580,7 @@ bool CliInterface::moveDroppedFilesToDest(const QVariantList &files, const QStri
     foreach (const QVariant& file, files) {
 
         QFileInfo relEntry(file.value<fileRootNodePair>().file.remove(file.value<fileRootNodePair>().rootNode));
-        QFileInfo absSourceEntry(tmpDir.path() + QLatin1Char('/') + file.value<fileRootNodePair>().file);
+        QFileInfo absSourceEntry(QDir::current().absolutePath() + QLatin1Char('/') + file.value<fileRootNodePair>().file);
         QFileInfo absDestEntry(finalDestDir.path() + QLatin1Char('/') + relEntry.filePath());
 
         if (absSourceEntry.isDir()) {

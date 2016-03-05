@@ -374,7 +374,7 @@ private:
      */
     void writeToProcess(const QByteArray& data);
 
-    bool moveDroppedFilesToDest(const QVariantList &files, const QString &finalDest, const QTemporaryDir &tmpDir);
+    bool moveDroppedFilesToDest(const QVariantList &files, const QString &finalDest);
 
     QByteArray m_stdOutData;
     QRegularExpression m_passwordPromptPattern;
