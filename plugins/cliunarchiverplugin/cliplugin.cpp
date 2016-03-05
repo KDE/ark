@@ -27,6 +27,7 @@
 #include <QJsonArray>
 #include <QJsonParseError>
 
+#include <KLocalizedString>
 #include <KPluginFactory>
 
 using namespace Kerfuffle;
@@ -57,10 +58,23 @@ bool CliPlugin::list()
         return false;
     }
 
-    // lsar -json exits with error code 2 if the archive is header-encrypted and no password is given as argument.
-    // At this point we have already asked a password to the user, so we can just list() again.
-    if (m_exitCode == 2 && !password().isEmpty()) {
-        return CliInterface::list();
+    if (!password().isEmpty()) {
+
+        // lsar -json exits with error code 1 if the archive is header-encrypted and the password is wrong.
+        if (m_exitCode == 1) {
+            qCWarning(ARK) << "Wrong password, list() aborted";
+            emit error(i18n("Wrong password."));
+            emit finished(false);
+            failOperation();
+            setPassword(QString());
+            return false;
+        }
+
+        // lsar -json exits with error code 2 if the archive is header-encrypted and no password is given as argument.
+        // At this point we have already asked a password to the user, so we can just list() again.
+        if (m_exitCode == 2) {
+            return CliPlugin::list();
+        }
     }
 
     emit finished(true);
