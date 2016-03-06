@@ -316,7 +316,7 @@ public:
 protected:
 
     virtual void handleLine(const QString& line);
-    void cacheParameterList();
+    virtual void cacheParameterList();
     void substituteListVariables(QStringList& params);
 
     /**

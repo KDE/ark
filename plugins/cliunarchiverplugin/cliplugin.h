@@ -49,6 +49,7 @@ protected slots:
 
 protected:
 
+    void cacheParameterList() Q_DECL_OVERRIDE;
     void handleLine(const QString& line) Q_DECL_OVERRIDE;
 
 private:

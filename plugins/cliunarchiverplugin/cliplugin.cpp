@@ -161,6 +161,13 @@ void CliPlugin::readStdout(bool handleAll)
     readJsonOutput();
 }
 
+void CliPlugin::cacheParameterList()
+{
+    m_param = parameterList();
+    Q_ASSERT(m_param.contains(ExtractProgram));
+    Q_ASSERT(m_param.contains(ListProgram));
+}
+
 void CliPlugin::handleLine(const QString& line)
 {
     // Collect the json output line by line.
