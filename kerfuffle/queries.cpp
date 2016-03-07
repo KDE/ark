@@ -93,7 +93,7 @@ void OverwriteQuery::execute()
 
     QPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
         Q_NULLPTR,
-        i18n("File already exists"),
+        i18nc("@title:window", "File Already Exists"),
         sourceUrl,
         destUrl,
         mode);

@@ -827,7 +827,7 @@ void Part::slotWatchedFileModified(const QString& file)
     if (KMessageBox::questionYesNo(widget(),
                                xi18n("The file <filename>%1</filename> was modified. Do you want to update the archive?",
                                      prettyFilename),
-                               i18n("File modified")) == KMessageBox::Yes) {
+                               i18nc("@title:window", "File Modified")) == KMessageBox::Yes) {
         QStringList list = QStringList() << file;
 
         qCDebug(ARK) << "Updating file" << file << "with path" << relPath;
