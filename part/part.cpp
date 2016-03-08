@@ -455,8 +455,10 @@ void Part::updateQuickExtractMenu(QAction *extractAction)
 
     for (int i = 0; i < qMin(10, dirHistory.size()); ++i) {
         const QString dir = QUrl(dirHistory.value(i)).toString(QUrl::RemoveScheme | QUrl::NormalizePathSegments | QUrl::PreferLocalFile);
-        QAction *newAction = menu->addAction(dir);
-        newAction->setData(dir);
+        if (QDir(dir).exists()) {
+            QAction *newAction = menu->addAction(dir);
+            newAction->setData(dir);
+        }
     }
 }
 
