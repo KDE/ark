@@ -35,7 +35,7 @@
 #include <QDir>
 #include <QMimeDatabase>
 
-K_PLUGIN_FACTORY( KArchiveInterfaceFactory, registerPlugin< KArchiveInterface >(); )
+K_PLUGIN_FACTORY_WITH_JSON(KArchiveInterfaceFactory, "kerfuffle_karchive.json", registerPlugin<KArchiveInterface>();)
 
 KArchiveInterface::KArchiveInterface(QObject *parent, const QVariantList &args)
         : ReadWriteArchiveInterface(parent, args), m_archive(Q_NULLPTR)

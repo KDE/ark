@@ -1,10 +1,10 @@
 [Desktop Entry]
 Type=Service
 X-KDE-ServiceTypes=Kerfuffle/Plugin
-X-KDE-Library=kerfuffle_libarchive
+X-KDE-Library=kerfuffle_libarchive_readonly
 X-KDE-PluginInfo-Author=Henrique Pinto
 X-KDE-PluginInfo-Email=henrique.pinto@kdemail.net
-X-KDE-PluginInfo-Name=kerfuffle_libarchive
+X-KDE-PluginInfo-Name=kerfuffle_libarchive_readonly
 X-KDE-PluginInfo-Version=0.0.1
 X-KDE-PluginInfo-Website=http://www.kde.org
 X-KDE-PluginInfo-License=BSD

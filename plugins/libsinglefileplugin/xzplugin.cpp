@@ -30,7 +30,7 @@
 
 #include <KPluginFactory>
 
-K_PLUGIN_FACTORY( XzPluginFactory, registerPlugin< LibXzInterface >(); )
+K_PLUGIN_FACTORY_WITH_JSON(XzPluginFactory, "kerfuffle_libxz.json", registerPlugin<LibXzInterface>();)
 
 LibXzInterface::LibXzInterface(QObject *parent, const QVariantList & args)
         : LibSingleFileInterface(parent, args)

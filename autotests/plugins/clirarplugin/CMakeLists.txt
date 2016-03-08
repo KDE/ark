@@ -2,6 +2,9 @@ set(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 include_directories(${CMAKE_SOURCE_DIR}/plugins/clirarplugin/)
 
+file(COPY ${CMAKE_SOURCE_DIR}/plugins/clirarplugin/kerfuffle_clirar.json
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 ecm_add_test(
     clirartest.cpp
     ${CMAKE_SOURCE_DIR}/plugins/clirarplugin/cliplugin.cpp

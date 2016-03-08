@@ -24,52 +24,70 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LIBARCHIVEHANDLER_H
-#define LIBARCHIVEHANDLER_H
+#ifndef LIBARCHIVEPLUGIN_H
+#define LIBARCHIVEPLUGIN_H
 
 #include "kerfuffle/archiveinterface.h"
 
-#include <QDir>
-#include <QList>
+#include <archive.h>
+
 #include <QScopedPointer>
-#include <QStringList>
 
 using namespace Kerfuffle;
 
-class LibArchiveInterface: public ReadWriteArchiveInterface
+class LibarchivePlugin : public ReadWriteArchiveInterface
 {
     Q_OBJECT
 
 public:
-    explicit LibArchiveInterface(QObject *parent, const QVariantList& args);
-    ~LibArchiveInterface();
+    explicit LibarchivePlugin(QObject *parent, const QVariantList& args);
+    virtual ~LibarchivePlugin();
 
-    bool list();
-    bool doKill();
-    bool copyFiles(const QVariantList& files, const QString& destinationDirectory, const ExtractionOptions& options);
-    bool addFiles(const QStringList& files, const CompressionOptions& options);
-    bool deleteFiles(const QVariantList& files);
+    virtual bool list() Q_DECL_OVERRIDE;
+    virtual bool doKill() Q_DECL_OVERRIDE;
+    virtual bool copyFiles(const QVariantList& files, const QString& destinationDirectory, const ExtractionOptions& options) Q_DECL_OVERRIDE;
 
-private:
+    virtual bool addFiles(const QStringList& files, const CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool deleteFiles(const QList<QVariant>& files) Q_DECL_OVERRIDE;
+
+protected:
     void emitEntryFromArchiveEntry(struct archive_entry *entry);
-    int extractionFlags() const;
     void copyData(const QString& filename, struct archive *dest, bool partialprogress = true);
     void copyData(const QString& filename, struct archive *source, struct archive *dest, bool partialprogress = true);
-    bool writeFile(const QString& fileName, struct archive* arch);
 
-    struct ArchiveReadCustomDeleter;
-    struct ArchiveWriteCustomDeleter;
+    struct ArchiveReadCustomDeleter
+    {
+        static inline void cleanup(struct archive *a)
+        {
+            if (a) {
+                archive_read_free(a);
+            }
+        }
+    };
+
+    struct ArchiveWriteCustomDeleter
+    {
+        static inline void cleanup(struct archive *a)
+        {
+            if (a) {
+                archive_write_free(a);
+            }
+        }
+    };
+
     typedef QScopedPointer<struct archive, ArchiveReadCustomDeleter> ArchiveRead;
     typedef QScopedPointer<struct archive, ArchiveWriteCustomDeleter> ArchiveWrite;
+
+    ArchiveRead m_archiveReadDisk;
+
+private:
+    int extractionFlags() const;
 
     int m_cachedArchiveEntryCount;
     qlonglong m_currentExtractedFilesSize;
     bool m_emitNoEntries;
     qlonglong m_extractedFilesSize;
-    QDir m_workDir;
-    QStringList m_writtenFiles;
-    ArchiveRead m_archiveReadDisk;
     bool m_abortOperation;
 };
 
-#endif // LIBARCHIVEHANDLER_H
+#endif // LIBARCHIVEPLUGIN_H

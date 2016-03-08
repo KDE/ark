@@ -1,0 +1,34 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "elvis.angelaccio@kdemail.net",
+                "Name": "Elvis Angelaccio"
+            }
+        ],
+        "Id": "kerfuffle_cliunarchiver",
+        "License": "GPLv2+",
+        "MimeTypes": [
+            "application/x-rar"
+        ],
+        "Name": "The Unarchiver plugin",
+        "Name[ast]": "El complementu desarchivador",
+        "Name[ca]": "Connector del Unarchiver",
+        "Name[de]": "Unarchiver-Modul",
+        "Name[nl]": "De plug-in voor uit archief halen",
+        "Name[pt]": "O 'plugin' do Unarchiver",
+        "Name[pt_BR]": "Plugin Unarchiver",
+        "Name[sv]": "Insticksprogram för Unarchiver",
+        "Name[uk]": "Додаток Unarchiver",
+        "Name[x-test]": "xxThe Unarchiver pluginxx",
+        "ServiceTypes": [
+            "Kerfuffle/Plugin"
+        ],
+        "Version": "0.0.1",
+        "Website": "http://www.kde.org"
+    },
+    "MimeType": "application/x-rar;",
+    "X-KDE-Kerfuffle-APIRevision": "1",
+    "X-KDE-Kerfuffle-ReadWrite": "false",
+    "X-KDE-Priority": "100"
+}

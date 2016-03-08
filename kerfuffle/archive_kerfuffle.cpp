@@ -38,15 +38,15 @@
 #include <QMimeDatabase>
 #include <QRegularExpression>
 
+#include <KPluginFactory>
 #include <KPluginLoader>
-#include <KMimeTypeTrader>
 
 namespace Kerfuffle
 {
 
-bool Archive::comparePlugins(const KService::Ptr &p1, const KService::Ptr &p2)
+bool Archive::comparePlugins(const KPluginMetaData &p1, const KPluginMetaData &p2)
 {
-    return (p1->property(QStringLiteral( "X-KDE-Priority" )).toInt()) > (p2->property(QStringLiteral( "X-KDE-Priority" )).toInt());
+    return (p1.rawData()[QStringLiteral("X-KDE-Priority")].toVariant().toInt()) > (p2.rawData()[QStringLiteral("X-KDE-Priority")].toVariant().toInt());
 }
 
 QString Archive::determineMimeType(const QString& filename)
@@ -106,22 +106,21 @@ QString Archive::determineMimeType(const QString& filename)
     return mimeFromContent.name();
 }
 
-KService::List Archive::findPluginOffers(const QString& filename, const QString& fixedMimeType)
+QVector<KPluginMetaData> Archive::findPluginOffers(const QString& filename, const QString& fixedMimeType)
 {
-    KService::List offers;
-
     qCDebug(ARK) << "Find plugin offers for" << filename << "with mime" << fixedMimeType;
 
     const QString mimeType = fixedMimeType.isEmpty() ? determineMimeType(filename) : fixedMimeType;
 
     qCDebug(ARK) << "Detected mime" << mimeType;
 
-    if (!mimeType.isEmpty()) {
-        offers = KMimeTypeTrader::self()->query(mimeType, QStringLiteral( "Kerfuffle/Plugin" ), QStringLiteral( "(exist Library)" ));
-        qSort(offers.begin(), offers.end(), comparePlugins);
-    }
+    QVector<KPluginMetaData> offers = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"), [mimeType](const KPluginMetaData& metaData) {
+        return metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin")) &&
+               metaData.mimeTypes().contains(mimeType);
+    });
 
-    qCDebug(ARK) << "Have" << offers.count() << "offers";
+    qSort(offers.begin(), offers.end(), comparePlugins);
+    qCDebug(ARK) << "Have" << offers.size() << "offers";
 
     return offers;
 }
@@ -146,7 +145,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     QVariantList args;
     args.append(QVariant(QFileInfo(fileName).absoluteFilePath()));
 
-    const KService::List offers = findPluginOffers(fileName, fixedMimeType);
+    const QVector<KPluginMetaData> offers = findPluginOffers(fileName, fixedMimeType);
     if (offers.isEmpty()) {
         qCCritical(ARK) << "Could not find a plugin to handle" << fileName;
         return new Archive(NoPlugin, parent);
@@ -155,34 +154,33 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     KPluginFactory *factory;
     ReadOnlyArchiveInterface *iface;
 
-    foreach (KService::Ptr service, offers) {
+    foreach (const KPluginMetaData& pluginMetadata, offers) {
 
-        QString pluginName = service->library();
-        bool isReadOnly = !service->property(QStringLiteral("X-KDE-Kerfuffle-ReadWrite")).toBool();
-        qCDebug(ARK) << "Loading plugin" << pluginName;
+        bool isReadOnly = !pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWrite")].toVariant().toBool();
+        qCDebug(ARK) << "Loading plugin" << pluginMetadata.pluginId();
 
-        factory = KPluginLoader(pluginName).factory();
+        factory = KPluginLoader(pluginMetadata.fileName()).factory();
         if (!factory) {
-            qCWarning(ARK) << "Invalid plugin factory for" << pluginName;
+            qCWarning(ARK) << "Invalid plugin factory for" << pluginMetadata.pluginId();
             continue;
         }
 
         iface = factory->create<ReadOnlyArchiveInterface>(0, args);
         if (!iface) {
-            qCWarning(ARK) << "Could not create plugin instance" << pluginName;
+            qCWarning(ARK) << "Could not create plugin instance" << pluginMetadata.pluginId();
             continue;
         }
 
         if (iface->isCliBased()) {
-            qCDebug(ARK) << "Finding executables for plugin" << pluginName;
+            qCDebug(ARK) << "Finding executables for plugin" << pluginMetadata.pluginId();
 
             if (iface->findExecutables(!isReadOnly)) {
                 return new Archive(iface, isReadOnly, parent);
             } else if (!isReadOnly && iface->findExecutables(false)) {
-                qCWarning(ARK) << "Failed to find read-write executables: falling back to read-only mode for read-write plugin" << pluginName;
+                qCWarning(ARK) << "Failed to find read-write executables: falling back to read-only mode for read-write plugin" << pluginMetadata.pluginId();
                 return new Archive(iface, true, parent);
             } else {
-                qCWarning(ARK) << "Failed to find needed executables for plugin" << pluginName;
+                qCWarning(ARK) << "Failed to find needed executables for plugin" << pluginMetadata.pluginId();
             }
         } else {
             // Not CliBased plugin, don't search for executables.
@@ -394,17 +392,14 @@ void Archive::enableHeaderEncryption(bool enable)
 
 QSet<QString> supportedMimeTypes()
 {
-    const QLatin1String basePartService("Kerfuffle/Plugin");
-    const KService::List offers = KServiceTypeTrader::self()->query(basePartService,
-                                                                    QStringLiteral("(exist Library)"));
+    const QVector<KPluginMetaData> offers = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"), [](const KPluginMetaData& metaData) {
+        return metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin"));
+    });
+
     QSet<QString> supported;
 
-    foreach (const KService::Ptr& service, offers) {
-        foreach (const QString& mimeType, service->serviceTypes()) {
-            if (mimeType != basePartService) {
-                supported.insert(mimeType);
-            }
-        }
+    foreach (const KPluginMetaData& pluginMetadata, offers) {
+        supported += pluginMetadata.mimeTypes().toSet();
     }
 
     qCDebug(ARK) << "Returning supported mimetypes" << supported;
@@ -414,17 +409,15 @@ QSet<QString> supportedMimeTypes()
 
 QSet<QString> supportedWriteMimeTypes()
 {
-    const QLatin1String basePartService("Kerfuffle/Plugin");
-    const KService::List offers = KServiceTypeTrader::self()->query(basePartService,
-                                                                    QStringLiteral("(exist Library) and ([X-KDE-Kerfuffle-ReadWrite] == true)"));
+    const QVector<KPluginMetaData> offers = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"), [](const KPluginMetaData& metaData) {
+        return metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin")) &&
+               metaData.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWrite")].toVariant().toBool();
+    });
+
     QSet<QString> supported;
 
-    foreach (const KService::Ptr& service, offers) {
-        foreach (const QString& mimeType, service->serviceTypes()) {
-            if (mimeType != basePartService) {
-                supported.insert(mimeType);
-            }
-        }
+    foreach (const KPluginMetaData& pluginMetadata, offers) {
+        supported += pluginMetadata.mimeTypes().toSet();
     }
 
     qCDebug(ARK) << "Returning supported write mimetypes" << supported;
@@ -434,13 +427,15 @@ QSet<QString> supportedWriteMimeTypes()
 
 QSet<QString> supportedEncryptEntriesMimeTypes()
 {
-    const KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("Kerfuffle/Plugin"),
-                                                                    QStringLiteral("(exist Library)"));
+    const QVector<KPluginMetaData> offers = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"), [](const KPluginMetaData& metaData) {
+        return metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin"));
+    });
+
     QSet<QString> supported;
 
-    foreach (const KService::Ptr& service, offers) {
-        QStringList list(service->property(QStringLiteral("X-KDE-Kerfuffle-EncryptEntries")).toStringList());
-        foreach (const QString& mimeType, list) {
+    foreach (const KPluginMetaData& pluginMetadata, offers) {
+        const QStringList mimeTypes = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-EncryptEntries")].toString().split(QLatin1Char(','));
+        foreach (const QString& mimeType, mimeTypes) {
             supported.insert(mimeType);
         }
     }
@@ -452,13 +447,15 @@ QSet<QString> supportedEncryptEntriesMimeTypes()
 
 QSet<QString> supportedEncryptHeaderMimeTypes()
 {
-    const KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("Kerfuffle/Plugin"),
-                                                                    QStringLiteral("(exist Library)"));
+    const QVector<KPluginMetaData> offers = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"), [](const KPluginMetaData& metaData) {
+        return metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin"));
+    });
+
     QSet<QString> supported;
 
-    foreach (const KService::Ptr& service, offers) {
-        QStringList list(service->property(QStringLiteral("X-KDE-Kerfuffle-EncryptHeader")).toStringList());
-        foreach (const QString& mimeType, list) {
+    foreach (const KPluginMetaData& pluginMetadata, offers) {
+        const QStringList mimeTypes = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-EncryptHeader")].toString().split(QLatin1Char(','));
+        foreach (const QString& mimeType, mimeTypes) {
             supported.insert(mimeType);
         }
     }

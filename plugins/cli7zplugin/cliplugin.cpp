@@ -33,7 +33,7 @@
 
 using namespace Kerfuffle;
 
-K_PLUGIN_FACTORY( CliPluginFactory, registerPlugin< CliPlugin >(); )
+K_PLUGIN_FACTORY_WITH_JSON(CliPluginFactory, "kerfuffle_cli7z.json", registerPlugin<CliPlugin>();)
 
 CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
         : CliInterface(parent, args)

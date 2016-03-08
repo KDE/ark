@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2009  Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
+ * Copyright (c) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (c) 2010 Raphael Kubo da Costa <rakuco@FreeBSD.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,24 +25,23 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "bz2plugin.h"
-#include "kerfuffle/kerfuffle_export.h"
-
-#include <QString>
+#include "readonlylibarchiveplugin.h"
+#include "ark_debug.h"
 
 #include <KPluginFactory>
 
-K_PLUGIN_FACTORY_WITH_JSON(Bz2PluginFactory, "kerfuffle_libbz2.json", registerPlugin<LibBzip2Interface>();)
+K_PLUGIN_FACTORY_WITH_JSON(ReadOnlyLibarchivePluginFactory, "kerfuffle_libarchive_readonly.json", registerPlugin<ReadOnlyLibarchivePlugin>();)
 
-LibBzip2Interface::LibBzip2Interface(QObject *parent, const QVariantList & args)
-        : LibSingleFileInterface(parent, args)
+ReadOnlyLibarchivePlugin::ReadOnlyLibarchivePlugin(QObject *parent, const QVariantList & args)
+    : LibarchivePlugin(parent, args)
 {
-    m_mimeType = QStringLiteral( "application/x-bzip" );
-    m_possibleExtensions.append(QStringLiteral( ".bz2" ));
+    qCDebug(ARK) << "Loaded libarchive read-only plugin";
 }
 
-LibBzip2Interface::~LibBzip2Interface()
+ReadOnlyLibarchivePlugin::~ReadOnlyLibarchivePlugin()
 {
 }
 
-#include "bz2plugin.moc"
+
+
+#include "readonlylibarchiveplugin.moc"
