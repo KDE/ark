@@ -4,7 +4,6 @@ add_subdirectory( cli7zplugin )
 add_subdirectory( clizipplugin )
 add_subdirectory( libsinglefileplugin )
 #add_subdirectory( karchiveplugin )
-add_subdirectory( clilhaplugin )
 #add_subdirectory(cliunarchiverplugin)
 
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}" PARENT_SCOPE)
