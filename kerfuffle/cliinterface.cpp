@@ -308,7 +308,7 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
         }
 
         if (!options.value(QStringLiteral("DragAndDrop")).toBool()) {
-            if (!moveToDestination(tmpExtractDir, QDir(destinationDirectory), options[QStringLiteral("PreservePaths")].toBool())) {
+            if (!moveToDestination(QDir::current(), QDir(destinationDirectory), options[QStringLiteral("PreservePaths")].toBool())) {
                 emit error(i18ncp("@info",
                                   "Could not move the extracted file to the destination directory.",
                                   "Could not move the extracted files to the destination directory.",
@@ -498,7 +498,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
         return false;
     }
 
-    qCDebug(ARK) << "Executing" << programPath << arguments;
+    qCDebug(ARK) << "Executing" << programPath << arguments << "within directory" << QDir::currentPath();
 
     if (m_process) {
         m_process->waitForFinished();
@@ -649,9 +649,9 @@ bool CliInterface::moveDroppedFilesToDest(const QVariantList &files, const QStri
     return true;
 }
 
-bool CliInterface::moveToDestination(const QTemporaryDir &tempDir, const QDir &destDir, bool preservePaths)
+bool CliInterface::moveToDestination(const QDir &tempDir, const QDir &destDir, bool preservePaths)
 {
-    qCDebug(ARK) << "Moving extracted files to final destination" << destDir;
+    qCDebug(ARK) << "Moving extracted files from temp dir" << tempDir.path() << "to final destination" << destDir.path();
 
     bool overwriteAll = false;
     bool skipAll = false;

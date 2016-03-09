@@ -37,7 +37,6 @@ class KProcess;
 class KPtyProcess;
 
 class QDir;
-class QTemporaryDir;
 
 namespace Kerfuffle
 {
@@ -311,7 +310,7 @@ public:
      * Move all files from @p tmpDir to @p destDir, preserving paths if @p preservePaths is true.
      * @return Whether the operation has been successfull.
      */
-    bool moveToDestination(const QTemporaryDir &tempDir, const QDir &destDir, bool preservePaths);
+    bool moveToDestination(const QDir &tempDir, const QDir &destDir, bool preservePaths);
 
 protected:
 
