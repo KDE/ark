@@ -30,11 +30,11 @@
 
 #include "kerfuffle_export.h"
 
-#include <QString>
 #include <QHash>
+#include <QMimeType>
 #include <QObject>
 #include <QVariant>
-#include <QDebug>
+
 
 #include <KPluginMetaData>
 
@@ -136,7 +136,7 @@ class KERFUFFLE_EXPORT Archive : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString fileName READ fileName)
-    Q_PROPERTY(QString mimeType READ mimeType)
+    Q_PROPERTY(QMimeType mimeType READ mimeType)
     Q_PROPERTY(bool isReadOnly READ isReadOnly)
     Q_PROPERTY(bool isPasswordProtected READ isPasswordProtected)
     Q_PROPERTY(bool hasComment READ hasComment)
@@ -146,7 +146,7 @@ class KERFUFFLE_EXPORT Archive : public QObject
 
 public:
     QString fileName() const;
-    QString mimeType() const;
+    QMimeType mimeType() const;
     qulonglong numberOfFiles() const;
     bool isReadOnly() const;
     bool isPasswordProtected();
@@ -155,7 +155,7 @@ public:
     qulonglong packedSize() const;
 
     static bool comparePlugins(const KPluginMetaData &p1, const KPluginMetaData &p2);
-    static QString determineMimeType(const QString& filename);
+    static QMimeType determineMimeType(const QString& filename);
     static QVector<KPluginMetaData> findPluginOffers(const QString& filename, const QString& fixedMimeType);
 
     static Archive *create(const QString &fileName, QObject *parent = 0);

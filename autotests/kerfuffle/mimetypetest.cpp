@@ -35,59 +35,42 @@ class MimeTypeTest : public QObject
 
 private Q_SLOTS:
 
-    void testEmptyFilename();
-    void testTarDetection();
-    void testWrongZipExtension();
-    void testSpecialCharsTarExtension();
-    void testIsoDetection();
-    void testFallbackOnExtensionMimetype();
+    void testMimeTypeDetection_data();
+    void testMimeTypeDetection();
 };
 
 QTEST_GUILESS_MAIN(MimeTypeTest)
 
-void MimeTypeTest::testEmptyFilename()
+void MimeTypeTest::testMimeTypeDetection_data()
 {
-    QCOMPARE(Archive::determineMimeType(QString()), QStringLiteral("application/octet-stream"));
-}
+    QTest::addColumn<QString>("archiveName");
+    QTest::addColumn<QString>("expectedMimeType");
 
-void MimeTypeTest::testTarDetection()
-{
-    const QString testFile = QFINDTESTDATA("data/simplearchive.tar.gz");
-    QCOMPARE(Archive::determineMimeType(testFile), QStringLiteral("application/x-compressed-tar"));
-}
-
-void MimeTypeTest::testWrongZipExtension()
-{
-    const QString testFile = QFINDTESTDATA("data/zip_with_wrong_extension.rar");
-    QCOMPARE(Archive::determineMimeType(testFile), QStringLiteral("application/zip"));
-}
-
-void MimeTypeTest::testSpecialCharsTarExtension()
-{
-    const QString tarMimeType = QStringLiteral("application/x-compressed-tar");
-    QCOMPARE(Archive::determineMimeType(QStringLiteral("foo.tar~1.gz")), tarMimeType);
-    QCOMPARE(Archive::determineMimeType(QStringLiteral("foo.ta4r.gz")), tarMimeType);
-}
-
-void MimeTypeTest::testIsoDetection()
-{
+    const QString compressedTarMime = QStringLiteral("application/x-compressed-tar");
     const QString isoMimeType = QStringLiteral("application/x-cd-image");
 
-    // Test workaround for https://bugs.freedesktop.org/show_bug.cgi?id=80877
-    // 1. This ISO file may be detected-by-content as text/plain.
-    const QString archIso = QFINDTESTDATA("data/archlinux-2015.09.01-dual_truncated.iso");
-    QCOMPARE(Archive::determineMimeType(archIso), isoMimeType);
-    // 2. This ISO may not bet detected-by-content.
-    const QString kubuntuIso = QFINDTESTDATA("data/kubuntu-14.04.1-desktop-amd64_truncated.iso");
-    QCOMPARE(Archive::determineMimeType(kubuntuIso), isoMimeType);
+    QTest::newRow("empty name") << QString() << QStringLiteral("application/octet-stream");
+    QTest::newRow("tar.gz") << QFINDTESTDATA("data/simplearchive.tar.gz") << compressedTarMime;
+    QTest::newRow("zip with wrong extension") << QFINDTESTDATA("data/zip_with_wrong_extension.rar") << QStringLiteral("application/zip");
+    QTest::newRow("tar with special char in the extension") << QStringLiteral("foo.tar~1.gz") << compressedTarMime;
+    QTest::newRow("another tar with special char in the extension") << QStringLiteral("foo.ta4r.gz") << compressedTarMime;
+
+    // This ISO file may be detected-by-content as text/plain. See https://bugs.freedesktop.org/show_bug.cgi?id=80877
+    QTest::newRow("archlinux truncated ISO") << QFINDTESTDATA("data/archlinux-2015.09.01-dual_truncated.iso") << isoMimeType;
+
+    // This ISO may not bet detected-by-content. See https://bugs.freedesktop.org/show_bug.cgi?id=80877
+    QTest::newRow("kubuntu truncated ISO") << QFINDTESTDATA("data/kubuntu-14.04.1-desktop-amd64_truncated.iso") << isoMimeType;
+
+    // Some mimetypes (e.g. tar-v7 archives, see #355955) cannot be detected by content (as of shared-mime-info 1.5).
+    QTest::newRow("tar-v7") << QFINDTESTDATA("data/tar-v7.tar") << QStringLiteral("application/x-tar");
 }
 
-// Some mimetypes (e.g. tar-v7 archives, see #355955) cannot be detected by content (as of shared-mime-info 1.5).
-// In this case we fallback to the mimetype detected from the extension.
-void MimeTypeTest::testFallbackOnExtensionMimetype()
+void MimeTypeTest::testMimeTypeDetection()
 {
-    const QString testFile = QFINDTESTDATA("data/tar-v7.tar");
-    QCOMPARE(Archive::determineMimeType(testFile), QStringLiteral("application/x-tar"));
+    QFETCH(QString, archiveName);
+    QFETCH(QString, expectedMimeType);
+
+    QCOMPARE(Archive::determineMimeType(archiveName).name(), expectedMimeType);
 }
 
 #include "mimetypetest.moc"

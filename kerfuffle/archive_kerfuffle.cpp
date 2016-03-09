@@ -49,7 +49,7 @@ bool Archive::comparePlugins(const KPluginMetaData &p1, const KPluginMetaData &p
     return (p1.rawData()[QStringLiteral("X-KDE-Priority")].toVariant().toInt()) > (p2.rawData()[QStringLiteral("X-KDE-Priority")].toVariant().toInt());
 }
 
-QString Archive::determineMimeType(const QString& filename)
+QMimeType Archive::determineMimeType(const QString& filename)
 {
     QMimeDatabase db;
 
@@ -70,7 +70,7 @@ QString Archive::determineMimeType(const QString& filename)
     // mimeFromContent will be "application/octet-stream" when file is
     // unreadable, so use extension.
     if (!fileinfo.isReadable()) {
-        return mimeFromExtension.name();
+        return mimeFromExtension;
     }
 
     // Compressed tar-archives are detected as single compressed files when
@@ -82,7 +82,7 @@ QString Archive::determineMimeType(const QString& filename)
          mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-bzip"))) ||
         (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-xz-compressed-tar")) &&
          mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-xz")))) {
-        return mimeFromExtension.name();
+        return mimeFromExtension;
     }
 
     if (mimeFromExtension != mimeFromContent) {
@@ -90,12 +90,12 @@ QString Archive::determineMimeType(const QString& filename)
         if (mimeFromContent.isDefault()) {
             qCWarning(ARK) << "Could not detect mimetype from content."
                            << "Using extension-based mimetype:" << mimeFromExtension.name();
-            return mimeFromExtension.name();
+            return mimeFromExtension;
         }
 
         // #354344: ISO files are currently wrongly detected-by-content.
         if (mimeFromExtension.inherits(QStringLiteral("application/x-cd-image"))) {
-            return mimeFromExtension.name();
+            return mimeFromExtension;
         }
 
         qCWarning(ARK) << "Mimetype for filename extension (" << mimeFromExtension.name()
@@ -103,14 +103,14 @@ QString Archive::determineMimeType(const QString& filename)
                        << "). Using content-based mimetype.";
     }
 
-    return mimeFromContent.name();
+    return mimeFromContent;
 }
 
 QVector<KPluginMetaData> Archive::findPluginOffers(const QString& filename, const QString& fixedMimeType)
 {
     qCDebug(ARK) << "Find plugin offers for" << filename << "with mime" << fixedMimeType;
 
-    const QString mimeType = fixedMimeType.isEmpty() ? determineMimeType(filename) : fixedMimeType;
+    const QString mimeType = fixedMimeType.isEmpty() ? determineMimeType(filename).name() : fixedMimeType;
 
     qCDebug(ARK) << "Detected mime" << mimeType;
 
@@ -230,7 +230,7 @@ QString Archive::fileName() const
     return m_iface->filename();
 }
 
-QString Archive::mimeType() const
+QMimeType Archive::mimeType() const
 {
     return determineMimeType(fileName());
 }

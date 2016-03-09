@@ -31,7 +31,6 @@
 
 #include <QDateTime>
 #include <QFileInfo>
-#include <QMimeDatabase>
 
 #include <KIconLoader>
 #include <KIO/Global>
@@ -59,7 +58,7 @@ PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive)
 
     m_ui = new PropertiesDialogUI(this);
     m_ui->lblArchiveName->setText(archive->fileName());
-    m_ui->lblArchiveType->setText(archive->mimeType());
+    m_ui->lblArchiveType->setText(QStringLiteral("%1 (%2)").arg(archive->mimeType().comment(), archive->mimeType().name()));
     m_ui->lblReadOnly->setText(archive->isReadOnly() ?  i18n("yes") : i18n("no"));
     m_ui->lblPasswordProtected->setText(archive->isPasswordProtected() ?  i18n("yes") : i18n("no"));
     m_ui->lblHasComment->setText(archive->hasComment() ?  i18n("yes") : i18n("no"));
@@ -70,9 +69,7 @@ PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive)
     m_ui->lblLastModified->setText(fi.lastModified().toString(QStringLiteral("yyyy-MM-dd HH:mm")));
 
     // Show an icon representing the mimetype of the archive.
-    QMimeDatabase db;
-    QIcon icon;
-    icon = QIcon::fromTheme(db.mimeTypeForName(archive->mimeType()).iconName());
+    QIcon icon = QIcon::fromTheme(archive->mimeType().iconName());
     m_ui->lblIcon->setPixmap(icon.pixmap(IconSize(KIconLoader::Desktop), IconSize(KIconLoader::Desktop)));
 
     connect(m_ui->buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);

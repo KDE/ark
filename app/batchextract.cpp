@@ -67,7 +67,7 @@ void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
 {
     QString destination = destinationFolder();
     const bool isSingleFolderRPM = (archive->isSingleFolderArchive() &&
-                                   (Kerfuffle::Archive::determineMimeType(archive->fileName()) == QStringLiteral("application/x-rpm")));
+                                   (archive->mimeType().name() == QLatin1String("application/x-rpm")));
 
     if ((autoSubfolder()) && (!archive->isSingleFolderArchive() || isSingleFolderRPM)) {
         const QDir d(destination);
