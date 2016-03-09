@@ -6,5 +6,6 @@ ark.karchive Ark KArchive plugin
 ark.singlefile Ark Singlefile plugin
 ark.clizip Ark Infozip plugin
 ark.clirar Ark Rar plugin
+ark.cliunarchiver Ark The Unarchiver plugin
 ark.cli7z Ark p7zip plugin
 ark.cliexample Ark Cliexample

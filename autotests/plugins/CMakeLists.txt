@@ -1,2 +1,2 @@
 add_subdirectory(clirarplugin)
-#add_subdirectory(cliunarchiverplugin)
+add_subdirectory(cliunarchiverplugin)
