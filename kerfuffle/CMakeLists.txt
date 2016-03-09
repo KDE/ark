@@ -10,10 +10,11 @@ set(kerfuffle_SRCS
     createdialog.cpp
     extractiondialog.cpp
     adddialog.cpp
+    propertiesdialog.cpp
     queries.cpp
     addtoarchive.cpp
     cliinterface.cpp
-   )
+)
 
 kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
 
@@ -23,6 +24,7 @@ ki18n_wrap_ui(kerfuffle_SRCS
     extractiondialog.ui
     extractionsettings.ui
     previewsettings.ui
+    propertiesdialog.ui
 )
 
 ecm_qt_declare_logging_category(kerfuffle_SRCS

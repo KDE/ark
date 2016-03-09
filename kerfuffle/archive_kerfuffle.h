@@ -135,8 +135,24 @@ QDebug operator<<(QDebug d, const fileRootNodePair &pair);
 class KERFUFFLE_EXPORT Archive : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString fileName READ fileName)
+    Q_PROPERTY(QString mimeType READ mimeType)
+    Q_PROPERTY(bool isReadOnly READ isReadOnly)
+    Q_PROPERTY(bool isPasswordProtected READ isPasswordProtected)
+    Q_PROPERTY(bool hasComment READ hasComment)
+    Q_PROPERTY(qulonglong numberOfFiles READ numberOfFiles)
+    Q_PROPERTY(qulonglong unpackedSize READ unpackedSize)
+    Q_PROPERTY(qulonglong packedSize READ packedSize)
 
 public:
+    QString fileName() const;
+    QString mimeType() const;
+    qulonglong numberOfFiles() const;
+    bool isReadOnly() const;
+    bool isPasswordProtected();
+    bool hasComment() const;
+    qulonglong unpackedSize() const;
+    qulonglong packedSize() const;
 
     static bool comparePlugins(const KPluginMetaData &p1, const KPluginMetaData &p2);
     static QString determineMimeType(const QString& filename);
@@ -148,14 +164,12 @@ public:
 
     ArchiveError error() const;
     bool isValid() const;
-    QString fileName() const;
+
 
     /**
      * @return QFileInfo(fileName()).completeBaseName() without the "tar" extension (if any).
      */
     QString completeBaseName() const;
-
-    bool isReadOnly() const;
 
     KJob* open();
     KJob* create();
@@ -180,7 +194,6 @@ public:
 
     bool isSingleFolderArchive();
     QString subfolderName();
-    bool isPasswordProtected();
 
     void setPassword(const QString &password);
     void enableHeaderEncryption(bool enable);
@@ -190,6 +203,7 @@ private slots:
     void onListFinished(KJob*);
     void onAddFinished(KJob*);
     void onUserQuery(Kerfuffle::Query*);
+    void onNewEntry(const ArchiveEntry &entry);
 
 private:
     Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent = 0);
@@ -203,8 +217,9 @@ private:
     bool m_isSingleFolderArchive;
 
     QString m_subfolderName;
-    qlonglong m_extractedFilesSize;
+    qulonglong m_extractedFilesSize;
     ArchiveError m_error;
+    int m_numberOfFiles;
 };
 
 KERFUFFLE_EXPORT QSet<QString> supportedMimeTypes();

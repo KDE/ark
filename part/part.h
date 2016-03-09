@@ -95,6 +95,7 @@ private slots:
     void slotAddFilesDone(KJob*);
     void slotDeleteFiles();
     void slotDeleteFilesDone(KJob*);
+    void slotShowProperties();
     void slotShowContextMenu();
     void slotActivated(QModelIndex);
     void slotToggleInfoPanel(bool);
@@ -136,6 +137,7 @@ private:
     QAction *m_addDirAction;
     QAction *m_deleteFilesAction;
     QAction *m_saveAsAction;
+    QAction *m_propertiesAction;
     KToggleAction *m_showInfoPanelAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;

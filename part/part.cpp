@@ -35,6 +35,7 @@
 #include "kerfuffle/jobs.h"
 #include "kerfuffle/settings.h"
 #include "kerfuffle/previewsettingspage.h"
+#include "kerfuffle/propertiesdialog.h"
 
 #include <KAboutData>
 #include <KActionCollection>
@@ -357,6 +358,14 @@ void Part::setupActions()
     connect(m_deleteFilesAction, &QAction::triggered,
             this, &Part::slotDeleteFiles);
 
+    m_propertiesAction = actionCollection()->addAction(QStringLiteral("properties"));
+    m_propertiesAction->setIcon(QIcon::fromTheme(QStringLiteral("document-properties")));
+    m_propertiesAction->setText(i18nc("@action:inmenu", "&Properties"));
+    actionCollection()->setDefaultShortcut(m_propertiesAction, Qt::ALT + Qt::Key_Return);
+    m_propertiesAction->setToolTip(i18nc("@info:tooltip", "Click to see properties for archive"));
+    connect(m_propertiesAction, &QAction::triggered,
+            this, &Part::slotShowProperties);
+
     connect(m_signalMapper, SIGNAL(mapped(int)), this, SLOT(slotOpenEntry(int)));
 
     updateActions();
@@ -402,6 +411,8 @@ void Part::updateActions()
                                      isPreviewable &&
                                      !isDirectory &&
                                      (selectedEntriesCount == 1));
+    m_propertiesAction->setEnabled(!isBusy() &&
+                                   m_model->archive());
 
     // TODO: why do we even update these menus here?
     // It should be enough to update them when a new dir is appended to the history.
@@ -1145,6 +1156,13 @@ void Part::slotDeleteFiles()
             this, &Part::slotDeleteFilesDone);
     registerJob(job);
     job->start();
+}
+
+void Part::slotShowProperties()
+{
+    QPointer<Kerfuffle::PropertiesDialog> dialog(new Kerfuffle::PropertiesDialog(0,
+                                                                                 m_model->archive()));
+    dialog.data()->show();
 }
 
 void Part::slotToggleInfoPanel(bool visible)

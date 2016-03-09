@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="ark" version="15">
+<kpartgui name="ark" version="16">
 <MenuBar>
 	<Menu name="archive">
 		<text>&amp;Archive</text>
@@ -12,6 +12,8 @@
 		<DefineGroup name="archive_extract" append="save_merge"/>
 		<Separator/>
 		<DefineGroup name="archive_edit" append="save_merge"/>
+		<Separator/>
+		<DefineGroup name="archive_props" append="save_merge"/>
 		<Separator/>
 		<Action name="ark_quit"/>
 	</Menu>

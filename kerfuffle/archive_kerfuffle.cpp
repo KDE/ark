@@ -207,6 +207,7 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
         , m_isPasswordProtected(false)
         , m_isSingleFolderArchive(false)
         , m_error(NoError)
+        , m_numberOfFiles(0)
 {
     qCDebug(ARK) << "Created archive instance";
 
@@ -215,10 +216,61 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
 
     QMetaType::registerComparators<fileRootNodePair>();
     QMetaType::registerDebugStreamOperator<fileRootNodePair>();
+
+    connect(m_iface, &ReadOnlyArchiveInterface::entry, this, &Archive::onNewEntry);
 }
+
 
 Archive::~Archive()
 {
+}
+
+QString Archive::fileName() const
+{
+    return m_iface->filename();
+}
+
+QString Archive::mimeType() const
+{
+    return determineMimeType(fileName());
+}
+
+bool Archive::isReadOnly() const
+{
+    return (m_iface->isReadOnly() || m_isReadOnly);
+}
+
+bool Archive::isPasswordProtected()
+{
+    listIfNotListed();
+    return m_isPasswordProtected;
+}
+
+bool Archive::hasComment() const
+{
+    return !m_iface->comment().isEmpty();
+}
+
+qulonglong Archive::numberOfFiles() const
+{
+    return m_numberOfFiles;
+}
+
+qulonglong Archive::unpackedSize() const
+{
+    return m_extractedFilesSize;
+}
+
+qulonglong Archive::packedSize() const
+{
+    return QFileInfo(fileName()).size();
+}
+
+void Archive::onNewEntry(const ArchiveEntry &entry)
+{
+    if (!entry[IsDirectory].toBool()) {
+        m_numberOfFiles++;
+    }
 }
 
 bool Archive::isValid() const
@@ -229,11 +281,6 @@ bool Archive::isValid() const
 ArchiveError Archive::error() const
 {
     return m_error;
-}
-
-bool Archive::isReadOnly() const
-{
-    return (m_iface->isReadOnly() || m_isReadOnly);
 }
 
 KJob* Archive::open()
@@ -291,11 +338,6 @@ ExtractJob* Archive::copyFiles(const QList<QVariant>& files, const QString& dest
 
     ExtractJob *newJob = new ExtractJob(files, destinationDir, newOptions, m_iface, this);
     return newJob;
-}
-
-QString Archive::fileName() const
-{
-    return m_iface->filename();
 }
 
 QString Archive::completeBaseName() const
@@ -361,12 +403,6 @@ bool Archive::isSingleFolderArchive()
 {
     listIfNotListed();
     return m_isSingleFolderArchive;
-}
-
-bool Archive::isPasswordProtected()
-{
-    listIfNotListed();
-    return m_isPasswordProtected;
 }
 
 QString Archive::comment() const

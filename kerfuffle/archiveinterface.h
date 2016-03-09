@@ -101,6 +101,8 @@ public:
     virtual bool isCliBased() const;
     virtual bool findExecutables(bool isReadWrite);
 
+    bool isHeaderEncryptionEnabled() const;
+
 signals:
     void cancelled();
     void error(const QString &message, const QString &details = QString());
@@ -120,7 +122,7 @@ protected:
      * the operation.
      */
     void setWaitForFinishedSignal(bool value);
-    bool isHeaderEncryptionEnabled() const;
+
     void setCorrupt(bool isCorrupt);
     bool isCorrupt() const;
     QString m_comment;
