@@ -375,6 +375,11 @@ private:
 
     bool moveDroppedFilesToDest(const QVariantList &files, const QString &finalDest);
 
+    /**
+     * @return Whether @p dir is an empty directory.
+     */
+    bool isEmptyDir(const QDir &dir);
+
     QByteArray m_stdOutData;
     QRegularExpression m_passwordPromptPattern;
     QHash<int, QList<QRegularExpression> > m_patternCache;

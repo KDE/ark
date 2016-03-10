@@ -649,6 +649,14 @@ bool CliInterface::moveDroppedFilesToDest(const QVariantList &files, const QStri
     return true;
 }
 
+bool CliInterface::isEmptyDir(const QDir &dir)
+{
+    QDir d = dir;
+    d.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot);
+
+    return d.count() == 0;
+}
+
 bool CliInterface::moveToDestination(const QDir &tempDir, const QDir &destDir, bool preservePaths)
 {
     qCDebug(ARK) << "Moving extracted files from temp dir" << tempDir.path() << "to final destination" << destDir.path();
@@ -660,8 +668,14 @@ bool CliInterface::moveToDestination(const QDir &tempDir, const QDir &destDir, b
     while (dirIt.hasNext()) {
         dirIt.next();
 
+        // We skip directories if:
+        // 1. We are not preserving paths
+        // 2. The dir is not empty. Only empty directories need to be explicitly moved.
+        // The non-empty ones are created by QDir::mkpath() below.
         if (dirIt.fileInfo().isDir()) {
-            continue;
+            if (!preservePaths || !isEmptyDir(QDir(dirIt.filePath()))) {
+                continue;
+            }
         }
 
         QFileInfo relEntry;
