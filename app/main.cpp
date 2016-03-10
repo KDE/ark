@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (C) 2015-2016 Ragnar Thomsen <rthomsen6@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -65,7 +66,7 @@ int main(int argc, char **argv)
                          QStringLiteral(ARK_VERSION_STRING),
                          i18n("KDE Archiving tool"),
                          KAboutLicense::GPL,
-                         i18n("(c) 1997-2015, The Various Ark Developers"),
+                         i18n("(c) 1997-2016, The Ark Developers"),
                          QStringLiteral(),
                          QStringLiteral("http://utils.kde.org/projects/ark"),
                          QStringLiteral()
@@ -73,15 +74,15 @@ int main(int argc, char **argv)
 
     aboutData.setOrganizationDomain("kde.org");
 
-    aboutData.addAuthor(i18n("Raphael Kubo da Costa"),
-                        i18n("Maintainer"),
-                        QStringLiteral("rakuco@FreeBSD.org"));
     aboutData.addAuthor(i18n("Elvis Angelaccio"),
-                        i18n("Developer"),
+                        i18n("Maintainer"),
                         QStringLiteral("elvis.angelaccio@kdemail.net"));
     aboutData.addAuthor(i18n("Ragnar Thomsen"),
-                        i18n("Developer, KF5 port"),
+                        i18n("Maintainer, KF5 port"),
                         QStringLiteral("rthomsen6@gmail.com"));
+    aboutData.addAuthor(i18n("Raphael Kubo da Costa"),
+                        i18n("Former Maintainer"),
+                        QStringLiteral("rakuco@FreeBSD.org"));
     aboutData.addAuthor(i18n("Harald Hvaal"),
                         i18n("Former Maintainer"),
                         QStringLiteral("haraldhv@stud.ntnu.no"));
@@ -128,7 +129,7 @@ int main(int argc, char **argv)
     parser.addHelpOption();
     parser.addVersionOption();
 
-    // url to open
+    // Url to open.
     parser.addPositionalArgument(QStringLiteral("[urls]"), i18n("URLs to open."));
 
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("d") << QStringLiteral("dialog"),
@@ -168,16 +169,16 @@ int main(int argc, char **argv)
 
     KAboutData::setApplicationData(aboutData);
 
-    // do the command line parsing
+    // Do the command line parsing.
     parser.process(application);
 
-    // handle standard options
+    // Handle standard options.
     aboutData.processCommandLine(&parser);
 
-    // This is needed to prevent Dolphin from freezing when opening an archive
+    // This is needed to prevent Dolphin from freezing when opening an archive.
     KDBusService dbusService(KDBusService::Multiple);
 
-    //session restoring
+    // Session restoring.
     if (application.isSessionRestored()) {
         if (!KMainWindow::canBeRestored(1)) {
             return -1;
@@ -189,9 +190,9 @@ int main(int argc, char **argv)
             delete window;
             return -1;
         }
-    } else { //new ark window (no restored session)
+    } else { // New ark window (no restored session).
 
-        // open any given URLs
+        // Open any given URLs.
         const QStringList urls = parser.positionalArguments();
 
         if (parser.isSet(QStringLiteral("add")) ||
