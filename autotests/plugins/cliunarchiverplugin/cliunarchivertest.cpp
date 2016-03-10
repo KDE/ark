@@ -216,6 +216,13 @@ void CliUnarchiverTest::testExtraction_data()
                }
             << dragAndDropOptions
             << 4;
+
+    archivePath = QFINDTESTDATA("data/empty_folders.rar");
+    QTest::newRow("rar with empty folders")
+            << archivePath
+            << QVariantList()
+            << optionsPreservePaths
+            << 5;
 }
 
 // TODO: we can remove this test (which is duplicated from kerfuffle/archivetest)

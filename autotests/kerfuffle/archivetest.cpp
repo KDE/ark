@@ -257,6 +257,20 @@ void ArchiveTest::testExtraction_data()
             << QVariantList {QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test2.txt"), QStringLiteral("A/B/")))}
             << dragAndDropOptions
             << 1;
+
+    archivePath = QFINDTESTDATA("data/empty_folders.zip");
+    QTest::newRow("zip with empty folders")
+            << archivePath
+            << QVariantList()
+            << optionsPreservePaths
+            << 5;
+
+    archivePath = QFINDTESTDATA("data/empty_folders.tar.gz");
+    QTest::newRow("tar with empty folders")
+            << archivePath
+            << QVariantList()
+            << optionsPreservePaths
+            << 5;
 }
 
 void ArchiveTest::testExtraction()
