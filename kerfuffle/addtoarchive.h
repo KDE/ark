@@ -60,6 +60,7 @@ public:
     bool showAddDialog();
     void setPreservePaths(bool value);
     void setChangeToFirstPath(bool value);
+    QString detectBaseName(const QStringList &paths) const;
 
 public slots:
     bool addInput(const QUrl &url);
