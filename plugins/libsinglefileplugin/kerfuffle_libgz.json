@@ -3,16 +3,25 @@
         "Authors": [
             {
                 "Email": "haraldhv@stud.ntnu.no", 
-                "Name": "Harald Hvaal"
+                "Name": "Harald Hvaal", 
+                "Name[x-test]": "xxHarald Hvaalxx"
             }
         ], 
         "Description": "libgz plugin for Kerfuffle", 
+        "Description[nl]": "libgz-plug-in voor Kerfuffle", 
+        "Description[pt]": "'Plugin' de libgz para o Kerfuffle", 
+        "Description[pt_BR]": "Plugin libgz para a Kerfuffle", 
+        "Description[sv]": "Libgz-insticksprogram för Kerfuffle", 
+        "Description[uk]": "Додаток libgz для Kerfuffle", 
+        "Description[x-test]": "xxlibgz plugin for Kerfufflexx", 
         "Id": "kerfuffle_libgz", 
         "License": "BSD", 
         "MimeTypes": [
             "application/x-gzip"
         ], 
         "Name": "kerfuffle_libgz", 
+        "Name[sv]": "Kerfuffle Libgz", 
+        "Name[x-test]": "xxkerfuffle_libgzxx", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

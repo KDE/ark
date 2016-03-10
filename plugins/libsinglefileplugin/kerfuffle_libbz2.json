@@ -3,16 +3,25 @@
         "Authors": [
             {
                 "Email": "rakuco@FreeBSD.org", 
-                "Name": "Raphael Kubo da Costa"
+                "Name": "Raphael Kubo da Costa", 
+                "Name[x-test]": "xxRaphael Kubo da Costaxx"
             }
         ], 
         "Description": "libbz2 plugin for Kerfuffle", 
+        "Description[nl]": "libbz2 plug-in voor Kerfuffle", 
+        "Description[pt]": "'Plugin' de libbz2 para o Kerfuffle", 
+        "Description[pt_BR]": "Plugin libbz2 para o Kerfuffle", 
+        "Description[sv]": "Libbz2-insticksprogram för Kerfuffle", 
+        "Description[uk]": "Додаток libbz2 для Kerfuffle", 
+        "Description[x-test]": "xxlibbz2 plugin for Kerfufflexx", 
         "Id": "kerfuffle_libbz2", 
         "License": "BSD", 
         "MimeTypes": [
             "application/x-bzip"
         ], 
         "Name": "kerfuffle_libbz2", 
+        "Name[sv]": "Kerfuffle Libbz2", 
+        "Name[x-test]": "xxkerfuffle_libbz2xx", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

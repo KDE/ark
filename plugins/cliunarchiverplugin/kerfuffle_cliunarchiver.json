@@ -3,7 +3,8 @@
         "Authors": [
             {
                 "Email": "elvis.angelaccio@kdemail.net", 
-                "Name": "Elvis Angelaccio"
+                "Name": "Elvis Angelaccio", 
+                "Name[x-test]": "xxElvis Angelaccioxx"
             }
         ], 
         "Id": "kerfuffle_cliunarchiver", 
@@ -12,6 +13,12 @@
             "application/x-rar"
         ], 
         "Name": "The Unarchiver plugin", 
+        "Name[nl]": "De plug-in voor uit archief halen", 
+        "Name[pt]": "O 'plugin' do Unarchiver", 
+        "Name[pt_BR]": "Plugin Unarchiver", 
+        "Name[sv]": "Insticksprogram för Unarchiver", 
+        "Name[uk]": "Додаток Unarchiver", 
+        "Name[x-test]": "xxThe Unarchiver pluginxx", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

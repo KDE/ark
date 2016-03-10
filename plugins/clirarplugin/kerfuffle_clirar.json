@@ -3,7 +3,8 @@
         "Authors": [
             {
                 "Email": "haraldhv@stud.ntnu.no", 
-                "Name": "Harald Hvaal"
+                "Name": "Harald Hvaal", 
+                "Name[x-test]": "xxHarald Hvaalxx"
             }
         ], 
         "Id": "kerfuffle_clirar", 
@@ -12,6 +13,13 @@
             "application/x-rar"
         ], 
         "Name": "RAR archive plugin", 
+        "Name[fr]": "Module externe d'archive « RAR »", 
+        "Name[nl]": "RAR-archiefplug-in", 
+        "Name[pt]": "'Plugin' de pacotes RAR", 
+        "Name[pt_BR]": "Plugin de arquivos RAR", 
+        "Name[sv]": "Insticksprogram för RAR-arkiv", 
+        "Name[uk]": "Додаток для архівів RAR", 
+        "Name[x-test]": "xxRAR archive pluginxx", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 
