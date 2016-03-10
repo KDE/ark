@@ -159,10 +159,7 @@ void AddToArchive::slotStartJob()
             return;
         }
 
-        QString base = QFileInfo(m_inputs.first()).absoluteFilePath();
-        if (base.endsWith(QLatin1Char('/'))) {
-            base.chop(1);
-        }
+        const QString base = detectBaseName(m_inputs);
 
         QString finalName = base + QLatin1Char( '.' ) + m_autoFilenameSuffix;
 
@@ -233,4 +230,22 @@ void AddToArchive::slotFinished(KJob *job)
 
     emitResult();
 }
+
+QString AddToArchive::detectBaseName(const QStringList &paths) const
+{
+    QString base = QFileInfo(paths.first()).absoluteFilePath();
+    if (paths.size() > 1) {
+        QDir dir = QFileInfo(paths.first()).dir();
+        if (!dir.isRoot()) {
+            base = dir.absolutePath() + QLatin1Char('/') + dir.dirName();
+        }
+    }
+
+    if (base.endsWith(QLatin1Char('/'))) {
+        base.chop(1);
+    }
+
+    return base;
+}
+
 }
