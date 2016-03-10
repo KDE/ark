@@ -119,13 +119,15 @@ void ExtractionDialog::batchModeOption()
 
 void ExtractionDialog::slotOkButtonClicked()
 {
+    const QString destinationPath = fileWidget->baseUrl().path();
+
     if (extractToSubfolder()) {
         if (subfolder().contains(QLatin1String( "/" ))) {
             KMessageBox::error(this, i18n("The subfolder name may not contain the character '/'."));
             return;
         }
 
-        const QString pathWithSubfolder = fileWidget->baseUrl().path() + subfolder();
+        const QString pathWithSubfolder = destinationPath + subfolder();
 
         while (1) {
             if (QDir(pathWithSubfolder).exists()) {
@@ -153,6 +155,16 @@ void ExtractionDialog::slotOkButtonClicked()
             break;
         }
     }
+
+    //Adding new destination value to arkrc for quickExtractMenu.
+    KConfigGroup conf(KSharedConfig::openConfig(), "ExtractDialog");
+    QStringList destHistory = conf.readPathEntry("DirHistory", QStringList());
+    destHistory.prepend(destinationPath);
+    destHistory.removeDuplicates();
+    if (destHistory.size() > 10) {
+        destHistory.removeLast();
+    }
+    conf.writePathEntry ("DirHistory", destHistory);
 
     fileWidget->slotOk();
 }

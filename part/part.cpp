@@ -400,8 +400,8 @@ void Part::updateActions()
         menu->removeAction(menu->actions().last());
     }
 
-    const KConfigGroup conf(KSharedConfig::openConfig(), "DirSelect Dialog");
-    const QStringList dirHistory = conf.readPathEntry("History Items", QStringList());
+    const KConfigGroup conf(KSharedConfig::openConfig(), "ExtractDialog");
+    const QStringList dirHistory = conf.readPathEntry("DirHistory", QStringList());
 
     for (int i = 0; i < qMin(10, dirHistory.size()); ++i) {
         const QString dir = QUrl(dirHistory.value(i)).toString(QUrl::RemoveScheme | QUrl::NormalizePathSegments | QUrl::PreferLocalFile);
