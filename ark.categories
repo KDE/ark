@@ -2,7 +2,6 @@ ark.main Ark Main
 ark.kerfuffle Ark Kerfuffle
 ark.part Ark KPart
 ark.libarchive Ark Libarchive plugin
-ark.karchive Ark KArchive plugin
 ark.singlefile Ark Singlefile plugin
 ark.clizip Ark Infozip plugin
 ark.clirar Ark Rar plugin
