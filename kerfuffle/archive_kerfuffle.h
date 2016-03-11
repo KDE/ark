@@ -135,24 +135,35 @@ QDebug operator<<(QDebug d, const fileRootNodePair &pair);
 class KERFUFFLE_EXPORT Archive : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString fileName READ fileName)
-    Q_PROPERTY(QMimeType mimeType READ mimeType)
-    Q_PROPERTY(bool isReadOnly READ isReadOnly)
+
+    /**
+     *  Complete base name, without the "tar" extension (if any).
+     */
+    Q_PROPERTY(QString completeBaseName READ completeBaseName CONSTANT)
+    Q_PROPERTY(QString fileName READ fileName CONSTANT)
+    Q_PROPERTY(QString comment READ comment CONSTANT)
+    Q_PROPERTY(QMimeType mimeType READ mimeType CONSTANT)
+    Q_PROPERTY(bool isReadOnly READ isReadOnly CONSTANT)
     Q_PROPERTY(bool isPasswordProtected READ isPasswordProtected)
-    Q_PROPERTY(bool hasComment READ hasComment)
+    Q_PROPERTY(bool isSingleFolderArchive READ isSingleFolderArchive)
     Q_PROPERTY(qulonglong numberOfFiles READ numberOfFiles)
     Q_PROPERTY(qulonglong unpackedSize READ unpackedSize)
     Q_PROPERTY(qulonglong packedSize READ packedSize)
+    Q_PROPERTY(QString subfolderName READ subfolderName)
 
 public:
+    QString completeBaseName() const;
     QString fileName() const;
+    QString comment() const;
     QMimeType mimeType() const;
-    qulonglong numberOfFiles() const;
     bool isReadOnly() const;
     bool isPasswordProtected();
+    bool isSingleFolderArchive();
     bool hasComment() const;
+    qulonglong numberOfFiles() const;
     qulonglong unpackedSize() const;
     qulonglong packedSize() const;
+    QString subfolderName();
 
     static bool comparePlugins(const KPluginMetaData &p1, const KPluginMetaData &p2);
     static QMimeType determineMimeType(const QString& filename);
@@ -164,12 +175,6 @@ public:
 
     ArchiveError error() const;
     bool isValid() const;
-
-
-    /**
-     * @return QFileInfo(fileName()).completeBaseName() without the "tar" extension (if any).
-     */
-    QString completeBaseName() const;
 
     KJob* open();
     KJob* create();
@@ -192,12 +197,8 @@ public:
 
     ExtractJob* copyFiles(const QList<QVariant> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
 
-    bool isSingleFolderArchive();
-    QString subfolderName();
-
     void setPassword(const QString &password);
     void enableHeaderEncryption(bool enable);
-    QString comment() const;
 
 private slots:
     void onListFinished(KJob*);
@@ -219,7 +220,7 @@ private:
     QString m_subfolderName;
     qulonglong m_extractedFilesSize;
     ArchiveError m_error;
-    int m_numberOfFiles;
+    qulonglong m_numberOfFiles;
 };
 
 KERFUFFLE_EXPORT QSet<QString> supportedMimeTypes();

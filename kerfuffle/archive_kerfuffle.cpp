@@ -225,9 +225,26 @@ Archive::~Archive()
 {
 }
 
+QString Archive::completeBaseName() const
+{
+    QString base = QFileInfo(fileName()).completeBaseName();
+
+    // Special case for compressed tar archives.
+    if (base.right(4).toUpper() == QLatin1String(".TAR")) {
+        base.chop(4);
+    }
+
+    return base;
+}
+
 QString Archive::fileName() const
 {
     return m_iface->filename();
+}
+
+QString Archive::comment() const
+{
+    return m_iface->comment();
 }
 
 QMimeType Archive::mimeType() const
@@ -244,6 +261,12 @@ bool Archive::isPasswordProtected()
 {
     listIfNotListed();
     return m_isPasswordProtected;
+}
+
+bool Archive::isSingleFolderArchive()
+{
+    listIfNotListed();
+    return m_isSingleFolderArchive;
 }
 
 bool Archive::hasComment() const
@@ -264,6 +287,12 @@ qulonglong Archive::unpackedSize() const
 qulonglong Archive::packedSize() const
 {
     return QFileInfo(fileName()).size();
+}
+
+QString Archive::subfolderName()
+{
+    listIfNotListed();
+    return m_subfolderName;
 }
 
 void Archive::onNewEntry(const ArchiveEntry &entry)
@@ -340,18 +369,6 @@ ExtractJob* Archive::copyFiles(const QList<QVariant>& files, const QString& dest
     return newJob;
 }
 
-QString Archive::completeBaseName() const
-{
-    QString base = QFileInfo(fileName()).completeBaseName();
-
-    // Special case for compressed tar archives.
-    if (base.right(4).toUpper() == QLatin1String(".TAR")) {
-        base.chop(4);
-    }
-
-    return base;
-}
-
 void Archive::onAddFinished(KJob* job)
 {
     //if the archive was previously a single folder archive and an add job
@@ -397,23 +414,6 @@ void Archive::listIfNotListed()
 void Archive::onUserQuery(Query* query)
 {
     query->execute();
-}
-
-bool Archive::isSingleFolderArchive()
-{
-    listIfNotListed();
-    return m_isSingleFolderArchive;
-}
-
-QString Archive::comment() const
-{
-    return m_iface->comment();
-}
-
-QString Archive::subfolderName()
-{
-    listIfNotListed();
-    return m_subfolderName;
 }
 
 void Archive::setPassword(const QString &password)
