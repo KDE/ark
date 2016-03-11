@@ -342,8 +342,13 @@ void ArchiveTest::testExtraction()
 
 void ArchiveTest::testCreateEncryptedArchive()
 {
-    Archive *archive = Archive::create(QStringLiteral("foo.7z"));
+    Archive *archive = Archive::create(QStringLiteral("foo.zip"));
     QVERIFY(archive);
+
+    if (!archive->isValid()) {
+        QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
+    }
+
     QVERIFY(!archive->isPasswordProtected());
 
     archive->setPassword(QStringLiteral("1234"));
