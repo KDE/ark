@@ -60,7 +60,7 @@ if(NOT Qt5Test_FOUND)
     set(BUILD_TESTING OFF CACHE BOOL "Build the testing tree.")
 endif()
 
-find_package(LibArchive 3.0.0 REQUIRED)
+find_package(LibArchive 3.1.0 REQUIRED)
 set_package_properties(LibArchive PROPERTIES
                        URL "http://www.libarchive.org/"
                        DESCRIPTION "A library for dealing with a wide variety of archive file formats"

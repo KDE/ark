@@ -296,6 +296,23 @@ void ArchiveTest::testExtraction_data()
             << QVariantList()
             << optionsPreservePaths
             << 7;
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.lzo");
+    QTest::newRow("extract selected entries from a lzop-compressed tarball without path")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("file3.txt"), QString())),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("dir2/file22.txt"), QString()))
+               }
+            << ExtractionOptions()
+            << 2;
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.lzo");
+    QTest::newRow("extract all entries from a lzop-compressed tarball with path")
+            << archivePath
+            << QVariantList()
+            << optionsPreservePaths
+            << 7;
 }
 
 void ArchiveTest::testExtraction()
