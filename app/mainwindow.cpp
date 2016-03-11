@@ -322,7 +322,7 @@ void MainWindow::newArchive()
         const QString password = dialog.data()->password();
 
         qCDebug(ARK) << "CreateDialog returned URL:" << saveFileUrl.toString();
-        qCDebug(ARK) << "CreateDialog returned mime:" << dialog.data()->currentMimeFilter();
+        qCDebug(ARK) << "CreateDialog returned mime:" << dialog.data()->currentFilterMimeType().name();
 
         m_openArgs.metaData()[QStringLiteral("createNewArchive")] = QStringLiteral("true");
         m_openArgs.metaData()[QStringLiteral("encryptionPassword")] = password;

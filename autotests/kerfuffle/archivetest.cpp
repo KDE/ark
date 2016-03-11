@@ -99,6 +99,13 @@ void ArchiveTest::testProperties_data()
             << QStringLiteral("wget")
             << true << false << false << false
             << QStringLiteral("wget");
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.lz");
+    QTest::newRow("lzipped tarball")
+            << archivePath
+            << QStringLiteral("simplearchive")
+            << false << false << false << false
+            << QStringLiteral("simplearchive");
 }
 
 void ArchiveTest::testProperties()
@@ -272,6 +279,23 @@ void ArchiveTest::testExtraction_data()
             << QVariantList()
             << optionsPreservePaths
             << 5;
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.lz");
+    QTest::newRow("extract selected entries from a lzipped tarball without path")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("file3.txt"), QString())),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("dir2/file22.txt"), QString()))
+               }
+            << ExtractionOptions()
+            << 2;
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.lz");
+    QTest::newRow("extract all entries from a lzipped tarball with path")
+            << archivePath
+            << QVariantList()
+            << optionsPreservePaths
+            << 7;
 }
 
 void ArchiveTest::testExtraction()

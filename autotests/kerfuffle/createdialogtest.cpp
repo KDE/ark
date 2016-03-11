@@ -26,6 +26,7 @@
 #include "kerfuffle/createdialog.h"
 
 #include <QCheckBox>
+#include <QMimeDatabase>
 #include <QTest>
 
 using namespace Kerfuffle;
@@ -66,7 +67,7 @@ void CreateDialogTest::testEncryption()
     QVERIFY(encryptCheckBox);
     QVERIFY(encryptHeaderCheckBox);
 
-    dialog->slotFilterChanged(filter);
+    dialog->setCurrentFilterFromMimeType(filter);
 
     // Encryption is initially not enabled.
     QVERIFY(!dialog->isEncryptionEnabled());
@@ -111,11 +112,11 @@ void CreateDialogTest::testHeaderEncryptionTooltip()
 
     encryptCheckBox->setChecked(true);
 
-    dialog->slotFilterChanged(QStringLiteral("application/zip"));
+    dialog->setCurrentFilterFromMimeType(QStringLiteral("application/zip"));
     QVERIFY(!encryptHeaderCheckBox->toolTip().isEmpty());
 
     // If we set a tar filter after the zip one, ensure that the old zip's tooltip is not shown anymore.
-    dialog->slotFilterChanged(QStringLiteral("application/x-compressed-tar"));
+    dialog->setCurrentFilterFromMimeType(QStringLiteral("application/x-compressed-tar"));
     QVERIFY(encryptHeaderCheckBox->toolTip().isEmpty());
 }
 

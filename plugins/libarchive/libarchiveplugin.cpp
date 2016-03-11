@@ -79,13 +79,22 @@ bool LibarchivePlugin::list()
         return false;
     }
 
+    qDebug(ARK) << "Detected compression filter:" << archive_filter_name(arch_reader.data(), 0);
+
     m_cachedArchiveEntryCount = 0;
     m_extractedFilesSize = 0;
 
     struct archive_entry *aentry;
     int result;
 
+    bool firstEntry = true;
     while (!m_abortOperation && (result = archive_read_next_header(arch_reader.data(), &aentry)) == ARCHIVE_OK) {
+
+        if (firstEntry) {
+            qDebug(ARK) << "Detected format for first entry:" << archive_format_name(arch_reader.data());
+            firstEntry = false;
+        }
+
         if (!m_emitNoEntries) {
             emitEntryFromArchiveEntry(aentry);
         }

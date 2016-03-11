@@ -35,6 +35,7 @@
 #include <KConfigGroup>
 
 #include <QDialog>
+#include <QMimeType>
 
 class KFileWidget;
 
@@ -42,6 +43,29 @@ class QVBoxLayout;
 
 namespace Kerfuffle
 {
+
+class KERFUFFLE_EXPORT ArchiveTypeFilter
+{
+public:
+    explicit ArchiveTypeFilter(const QMimeType &newMimeType,
+                               const QStringList &newGlobPatterns = QStringList(),
+                               const QString &newComment = QStringLiteral(""));
+    QMimeType mimeType;
+    QStringList globPatterns;
+    QString comment;
+
+    // Enables sorting.
+    bool operator<(const ArchiveTypeFilter& right) const
+    {
+        return (comment < right.comment);
+    }
+    // Enables comparison.
+    bool operator==(const ArchiveTypeFilter& right) const
+    {
+        return (mimeType == right.mimeType);
+    }
+};
+
 class KERFUFFLE_EXPORT CreateDialog : public QDialog
 {
     Q_OBJECT
@@ -53,8 +77,9 @@ public:
 
     QSize sizeHint() const Q_DECL_OVERRIDE;
     QList<QUrl> selectedUrls() const;
-    QString currentMimeFilter() const;
     QString password() const;
+    QMimeType currentFilterMimeType() const;
+    void setCurrentFilterFromMimeType(const QString &mimeType);
 
     /**
      * @return Whether the user can encrypt the new archive.
@@ -77,16 +102,15 @@ public:
     bool isHeaderEncryptionEnabled() const;
 
 public slots:
-
     virtual void accept() Q_DECL_OVERRIDE;
-    void slotFilterChanged(const QString &filter);
     void restoreWindowSize();
 
 protected slots:
     void slotSaveWindowSize();
     void slotOkButtonClicked();
     void slotEncryptionToggled(bool checked);
-    void updateDefaultMimeType();
+    void slotFilterChanged(int index);
+    void slotUpdateDefaultMimeType();
 
 protected:
     class CreateDialogUI *m_ui;
@@ -95,6 +119,11 @@ protected:
     KFileWidget *m_fileWidget;
 
     void loadConfiguration();
+
+private:
+    QString filterFromMimeTypes(const QSet<QString> &mimeTypes);
+
+    QList<ArchiveTypeFilter> m_filterList;
 };
 }
 

@@ -101,9 +101,9 @@ bool AddToArchive::showAddDialog()
 
     if (ret) {
         qCDebug(ARK) << "AddDialog returned URL:" << dialog.data()->selectedUrls().at(0).toString();
-        qCDebug(ARK) << "AddDialog returned mime:" << dialog.data()->currentMimeFilter();
+        qCDebug(ARK) << "AddDialog returned mime:" << dialog.data()->currentFilterMimeType().name();
         setFilename(dialog.data()->selectedUrls().at(0));
-        setMimeType(dialog.data()->currentMimeFilter());
+        setMimeType(dialog.data()->currentFilterMimeType().name());
         setPassword(dialog.data()->password());
         setHeaderEncryptionEnabled(dialog.data()->isHeaderEncryptionEnabled());
     }

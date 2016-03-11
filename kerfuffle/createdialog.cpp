@@ -38,6 +38,7 @@
 #include <KSharedConfig>
 #include <KUrlComboBox>
 #include <KWindowConfig>
+#include <KFileFilterCombo>
 
 #include <QDebug>
 #include <QLineEdit>
@@ -56,6 +57,15 @@ public:
     }
 };
 
+ArchiveTypeFilter::ArchiveTypeFilter(const QMimeType &newMimeType,
+                                     const QStringList &newGlobPatterns,
+                                     const QString &newComment) :
+    mimeType(newMimeType),
+    globPatterns(newGlobPatterns),
+    comment(newComment)
+{
+}
+
 CreateDialog::CreateDialog(QWidget *parent,
                            const QString &caption,
                            const QUrl &startDir)
@@ -68,7 +78,6 @@ CreateDialog::CreateDialog(QWidget *parent,
 
     m_vlayout = new QVBoxLayout();
     setLayout(m_vlayout);
-
     m_fileWidget = new KFileWidget(startDir, this);
     m_vlayout->addWidget(m_fileWidget);
 
@@ -76,48 +85,43 @@ CreateDialog::CreateDialog(QWidget *parent,
     m_fileWidget->setConfirmOverwrite(true);
     m_fileWidget->setOperationMode(KFileWidget::Saving);
     m_fileWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+    m_fileWidget->setFilter(filterFromMimeTypes(Kerfuffle::supportedWriteMimeTypes()));
+    m_fileWidget->filterWidget()->setEditable(false);
+    m_fileWidget->okButton()->show();
+    m_fileWidget->cancelButton()->show();
 
     connect(m_fileWidget->okButton(), &QPushButton::clicked, this, &CreateDialog::slotOkButtonClicked);
     connect(m_fileWidget, &KFileWidget::accepted, m_fileWidget, &KFileWidget::accept);
     connect(m_fileWidget, &KFileWidget::accepted, this, &CreateDialog::accept);
-    m_fileWidget->okButton()->show();
-
-    m_fileWidget->cancelButton()->show();
     connect(m_fileWidget->cancelButton(), &QPushButton::clicked, this, &QDialog::reject);
-
-    loadConfiguration();
-
-    connect(this, &QDialog::accepted, this, &CreateDialog::updateDefaultMimeType);
+    connect(this, &QDialog::accepted, this, &CreateDialog::slotUpdateDefaultMimeType);
     connect(this, &QDialog::finished, this, &CreateDialog::slotSaveWindowSize);
-    connect(m_fileWidget, &KFileWidget::filterChanged, this, &CreateDialog::slotFilterChanged);
+    // The currentIndexChanged signal is overloaded and can send both an int and QString, hence the complex syntax.
+    connect(m_fileWidget->filterWidget(), static_cast<void(KFileFilterCombo::*)(int)>(&KFileFilterCombo::currentIndexChanged), this, &CreateDialog::slotFilterChanged);
 
     m_ui = new CreateDialogUI(this);
     m_ui->groupEncryptionOptions->hide();
-
     KColorScheme colorScheme(QPalette::Active, KColorScheme::View);
     m_ui->pwdWidget->setBackgroundWarningColor(colorScheme.background(KColorScheme::NegativeBackground).color());
     m_ui->pwdWidget->setAllowEmptyPasswords(false);
     m_ui->pwdWidget->setPasswordStrengthMeterVisible(false);
 
+    connect(m_ui->encryptCheckBox, &QCheckBox::toggled, this, &CreateDialog::slotEncryptionToggled);
+
     m_vlayout->addWidget(m_ui);
 
-    connect(m_ui->encryptCheckBox, &QCheckBox::toggled, this, &CreateDialog::slotEncryptionToggled);
+    loadConfiguration();
 }
 
 QSize CreateDialog::sizeHint() const
 {
-    // Used only when no previous window size has been stored
+    // Used only when no previous window size has been stored.
     return QSize(750,450);
 }
 
 QList<QUrl> CreateDialog::selectedUrls() const
 {
     return m_fileWidget->selectedUrls();
-}
-
-QString CreateDialog::currentMimeFilter() const
-{
-    return m_fileWidget->currentMimeFilter();
 }
 
 QString CreateDialog::password() const
@@ -168,22 +172,24 @@ void CreateDialog::accept()
     }
 }
 
-void CreateDialog::slotFilterChanged(const QString &filter)
+void CreateDialog::slotFilterChanged(int index)
 {
-    qCDebug(ARK) << "Current selected mime filter: " << filter;
+    QMimeType currentMimeType = m_filterList.at(index).mimeType;
 
-    if (Kerfuffle::supportedEncryptEntriesMimeTypes().contains(filter)) {
+    qCDebug(ARK) << "Filter changed to: " << currentMimeType.name();
+
+    if (Kerfuffle::supportedEncryptEntriesMimeTypes().contains(currentMimeType.name())) {
         m_ui->encryptCheckBox->setEnabled(true);
         m_ui->encryptCheckBox->setToolTip(QString());
         m_ui->groupEncryptionOptions->setEnabled(true);
     } else {
         m_ui->encryptCheckBox->setEnabled(false);
         m_ui->encryptCheckBox->setToolTip(i18n("Protection of the archive with password is not possible with the %1 format.",
-                                               QMimeDatabase().mimeTypeForName(filter).comment()));
+                                               currentMimeType.comment()));
         m_ui->groupEncryptionOptions->setEnabled(false);
     }
 
-    if (Kerfuffle::supportedEncryptHeaderMimeTypes().contains(filter)) {
+    if (Kerfuffle::supportedEncryptHeaderMimeTypes().contains(currentMimeType.name())) {
         m_ui->encryptHeaderCheckBox->setEnabled(true);
         m_ui->encryptHeaderCheckBox->setToolTip(QString());
     } else {
@@ -192,7 +198,7 @@ void CreateDialog::slotFilterChanged(const QString &filter)
         // This is needed because if the new filter is e.g. tar, the whole encryption group gets disabled.
         if (isEncryptionEnabled()) {
             m_ui->encryptHeaderCheckBox->setToolTip(i18n("Protection of the list of files is not possible with the %1 format.",
-                                                         QMimeDatabase().mimeTypeForName(filter).comment()));
+                                                         currentMimeType.comment()));
         } else {
             m_ui->encryptHeaderCheckBox->setToolTip(QString());
         }
@@ -201,26 +207,26 @@ void CreateDialog::slotFilterChanged(const QString &filter)
 
 void CreateDialog::restoreWindowSize()
 {
-    // Restore window size from config file, needs a windowHandle so must be called after show()
+    // Restore window size from config file, needs a windowHandle so must be called after show().
     KConfigGroup group(KSharedConfig::openConfig(), "CreateDialog");
     KWindowConfig::restoreWindowSize(windowHandle(), group);
 }
 
 void CreateDialog::slotSaveWindowSize()
 {
-    // Save dialog window size
+    // Save dialog window size.
     KConfigGroup group(KSharedConfig::openConfig(), "CreateDialog");
     KWindowConfig::saveWindowSize(windowHandle(), group, KConfigBase::Persistent);
 }
 
 void CreateDialog::slotOkButtonClicked()
 {
-    // In case the user tries to leave the lineEdit empty:
+    // In case the user tries to leave the lineEdit empty.
     if (m_fileWidget->locationEdit()->lineEdit()->text().isEmpty()) {
         KMessageBox::sorry(this, i18n("Please select a filename for the archive."), i18n("No file selected"));
         return;
     }
-    // This slot sets the url from text in the lineEdit, asks for overwrite etc, and emits signal accepted
+    // This slot sets the url from text in the lineEdit, asks for overwrite etc, and emits signal accepted.
     m_fileWidget->slotOk();
 }
 
@@ -229,45 +235,82 @@ void CreateDialog::slotEncryptionToggled(bool checked)
     m_ui->groupEncryptionOptions->setVisible(checked);
 }
 
-void CreateDialog::updateDefaultMimeType()
+void CreateDialog::slotUpdateDefaultMimeType()
 {
-    m_config.writeEntry("LastMimeType", m_fileWidget->currentFilterMimeType().name());
+    m_config.writeEntry("LastMimeType", currentFilterMimeType().name());
 }
 
 void CreateDialog::loadConfiguration()
 {
     m_config = KConfigGroup(KSharedConfig::openConfig()->group("CreateDialog"));
 
-    const QString defaultMimeType = QStringLiteral("application/x-compressed-tar");
-    const QString lastMimeType = m_config.readEntry("LastMimeType", defaultMimeType);
-    QStringList writeMimeTypes = Kerfuffle::supportedWriteMimeTypes().toList();
+    // Read the last used mimetype from config file, use tar.gz in case the read mimetype is invalid.
+    setCurrentFilterFromMimeType(m_config.readEntry("LastMimeType", QStringLiteral("application/x-compressed-tar")));
+}
 
-    // The filters need to be sorted by comment, so create a QMap with
-    // comment as key (QMaps are always sorted by key) and QMimeType
-    // as value. Then convert the QMap back to a QStringList. Mimetypes
-    // with empty comments are discarded.
+void CreateDialog::setCurrentFilterFromMimeType(const QString &mimeType)
+{
     QMimeDatabase db;
-    QMap<QString,QMimeType> mimeMap;
-    foreach (const QString &s, writeMimeTypes) {
-        QMimeType mime(db.mimeTypeForName(s));
-        if (!mime.comment().isEmpty()) {
-            mimeMap[mime.comment()] = mime;
+    const QMimeType defaultMimeType = db.mimeTypeForName(QStringLiteral("application/x-compressed-tar"));
+    const QMimeType mimeTypeToSet = db.mimeTypeForName(mimeType);
+
+    qCDebug(ARK) << "Setting filter to: " << mimeType;
+
+    // Find the index for mimetype and select corresponding filter.
+    // Use tar.gz in case mimetype is not in m_filterList.
+    if (m_filterList.contains(ArchiveTypeFilter(mimeTypeToSet))) {
+        m_fileWidget->filterWidget()->setCurrentIndex(m_filterList.indexOf(ArchiveTypeFilter(mimeTypeToSet)));
+    } else if (m_filterList.contains(ArchiveTypeFilter(defaultMimeType))) {
+        m_fileWidget->filterWidget()->setCurrentIndex(m_filterList.indexOf(ArchiveTypeFilter(defaultMimeType)));
+    }
+}
+
+QMimeType CreateDialog::currentFilterMimeType() const
+{
+    return m_filterList.at(m_fileWidget->filterWidget()->currentIndex()).mimeType;
+}
+
+QString CreateDialog::filterFromMimeTypes(const QSet<QString> &mimeTypes)
+{
+    // Populate m_filterList from QSet. m_filterList is needed to be able to
+    // modify the mimetypes.
+    foreach (const QString &s, mimeTypes.toList()) {
+
+        QMimeType mime(QMimeDatabase().mimeTypeForName(s));
+
+        if (mime.comment().isEmpty()) {
+            continue;
+        }
+
+        m_filterList.append(ArchiveTypeFilter(mime,
+                                              mime.globPatterns(),
+                                              mime.comment()));
+
+        // There is no mimetype for tar.lz although libarchive will create this
+        // archive type when the compression is lzip. Therefore we need to modify
+        // the comment and glob pattern for application/x-lzip.
+        if (mime.name() == QLatin1String("application/x-lzip")) {
+            m_filterList.last().comment = QStringLiteral("Tar archive (lzip compressed)");
+            m_filterList.last().globPatterns.prepend(QStringLiteral("*.tar.lz"));
         }
     }
 
-    writeMimeTypes.clear();
+    // Sort the filterlist by comment.
+    qSort(m_filterList);
 
-    QMapIterator<QString,QMimeType> j(mimeMap);
-    while (j.hasNext()) {
-        j.next();
-        writeMimeTypes << j.value().name();
+    // Construct a combined filterstring by iterating through m_filterList.
+    // The string can be used as argument for KFileWidget::setFilter().
+    QString combinedFilter;
+    foreach (const ArchiveTypeFilter &filter, m_filterList) {
+        foreach (const QString &glob, filter.globPatterns) {
+            combinedFilter += glob + QLatin1Char(' ');
+        }
+        combinedFilter.chop(1);
+        combinedFilter += QStringLiteral("|%1 (%2)\n").arg(filter.comment, filter.globPatterns.at(0));
     }
+    combinedFilter.chop(1);
 
-    if (writeMimeTypes.contains(lastMimeType)) {
-        m_fileWidget->setMimeFilter(writeMimeTypes, lastMimeType);
-    } else {
-        m_fileWidget->setMimeFilter(writeMimeTypes, defaultMimeType);
-    }
+    return combinedFilter;
 }
 
 }
