@@ -23,7 +23,7 @@ set_package_properties(ZLIB PROPERTIES
 
 if (ZLIB_FOUND)
 	set(kerfuffle_libgz_SRCS gzplugin.cpp ${kerfuffle_singlefile_SRCS})
-	set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "${SUPPORTED_LIBSINGLEFILE_MIMETYPES}application/x-gzip;")
+        set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "${SUPPORTED_LIBSINGLEFILE_MIMETYPES}application/gzip;")
 
 	add_library(kerfuffle_libgz MODULE ${kerfuffle_libgz_SRCS})
 

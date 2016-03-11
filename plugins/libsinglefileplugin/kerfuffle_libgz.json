@@ -20,7 +20,7 @@
         "Id": "kerfuffle_libgz", 
         "License": "BSD", 
         "MimeTypes": [
-            "application/x-gzip"
+            "application/gzip"
         ], 
         "Name": "kerfuffle_libgz", 
         "Name[sv]": "Kerfuffle Libgz", 
