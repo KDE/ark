@@ -536,6 +536,7 @@ bool Part::openFile()
                 return false;
             }
         }
+        displayMsgWidget(KMessageWidget::Information, xi18nc("@info", "The archive <filename>%1</filename> will be created as soon as you add a file.", localFile));
     } else {
         if (!localFileInfo.exists()) {
             KMessageBox::sorry(widget(), xi18nc("@info", "The archive <filename>%1</filename> was not found.", localFile), i18nc("@title:window", "Error Opening Archive"));
