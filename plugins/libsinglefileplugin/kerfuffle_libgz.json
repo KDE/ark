@@ -8,9 +8,12 @@
             }
         ], 
         "Description": "libgz plugin for Kerfuffle", 
+        "Description[es]": "Complemento libgz para Kerfuffle", 
         "Description[nl]": "libgz-plug-in voor Kerfuffle", 
         "Description[pt]": "'Plugin' de libgz para o Kerfuffle", 
         "Description[pt_BR]": "Plugin libgz para a Kerfuffle", 
+        "Description[sk]": "libgz modul pre Kerfuffle", 
+        "Description[sl]": "Vstavek libgz za Kerfuffle", 
         "Description[sv]": "Libgz-insticksprogram för Kerfuffle", 
         "Description[uk]": "Додаток libgz для Kerfuffle", 
         "Description[x-test]": "xxlibgz plugin for Kerfufflexx", 

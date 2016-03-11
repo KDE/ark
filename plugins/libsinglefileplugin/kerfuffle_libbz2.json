@@ -8,9 +8,12 @@
             }
         ], 
         "Description": "libbz2 plugin for Kerfuffle", 
+        "Description[es]": "Complemento libbz2 para Kerfuffle", 
         "Description[nl]": "libbz2 plug-in voor Kerfuffle", 
         "Description[pt]": "'Plugin' de libbz2 para o Kerfuffle", 
         "Description[pt_BR]": "Plugin libbz2 para o Kerfuffle", 
+        "Description[sk]": "libbz2 modul pre Kerfuffle", 
+        "Description[sl]": "Vstavek libbz2 za Kerfuffle", 
         "Description[sv]": "Libbz2-insticksprogram för Kerfuffle", 
         "Description[uk]": "Додаток libbz2 для Kerfuffle", 
         "Description[x-test]": "xxlibbz2 plugin for Kerfufflexx", 

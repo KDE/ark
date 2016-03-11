@@ -13,9 +13,12 @@
             "application/x-rar"
         ], 
         "Name": "The Unarchiver plugin", 
+        "Name[es]": "El complemento de Unarchiver", 
         "Name[nl]": "De plug-in voor uit archief halen", 
         "Name[pt]": "O 'plugin' do Unarchiver", 
         "Name[pt_BR]": "Plugin Unarchiver", 
+        "Name[sk]": "Plugin Unarchiver", 
+        "Name[sl]": "Vstavek Unarchiver", 
         "Name[sv]": "Insticksprogram för Unarchiver", 
         "Name[uk]": "Додаток Unarchiver", 
         "Name[x-test]": "xxThe Unarchiver pluginxx", 
