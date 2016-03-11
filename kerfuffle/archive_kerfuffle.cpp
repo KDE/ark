@@ -419,6 +419,7 @@ QString Archive::subfolderName()
 void Archive::setPassword(const QString &password)
 {
     m_iface->setPassword(password);
+    m_isPasswordProtected = true;
 }
 
 void Archive::enableHeaderEncryption(bool enable)

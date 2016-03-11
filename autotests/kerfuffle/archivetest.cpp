@@ -41,6 +41,7 @@ private Q_SLOTS:
     void testProperties();
     void testExtraction_data();
     void testExtraction();
+    void testCreateEncryptedArchive();
 };
 
 QTEST_GUILESS_MAIN(ArchiveTest)
@@ -311,6 +312,18 @@ void ArchiveTest::testExtraction()
     }
 
     QCOMPARE(extractedEntriesCount, expectedExtractedEntriesCount);
+
+    archive->deleteLater();
+}
+
+void ArchiveTest::testCreateEncryptedArchive()
+{
+    Archive *archive = Archive::create(QStringLiteral("foo.7z"));
+    QVERIFY(archive);
+    QVERIFY(!archive->isPasswordProtected());
+
+    archive->setPassword(QStringLiteral("1234"));
+    QVERIFY(archive->isPasswordProtected());
 
     archive->deleteLater();
 }
