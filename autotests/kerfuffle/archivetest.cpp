@@ -28,6 +28,7 @@
 #include "kerfuffle/jobs.h"
 
 #include <QDirIterator>
+#include <QStandardPaths>
 #include <QTest>
 
 using namespace Kerfuffle;
@@ -106,6 +107,18 @@ void ArchiveTest::testProperties_data()
             << QStringLiteral("simplearchive")
             << false << false << false << Archive::Unencrypted
             << QStringLiteral("simplearchive");
+
+    // Only run test for lrzipped tar if lrzip executable is found in path.
+    if (!QStandardPaths::findExecutable(QStringLiteral("lrzip")).isEmpty()) {
+        archivePath = QFINDTESTDATA("data/simplearchive.tar.lrz");
+        QTest::newRow("lrzipped tarball")
+                << archivePath
+                << QStringLiteral("simplearchive")
+                << false << false << false << Archive::Unencrypted
+                << QStringLiteral("simplearchive");
+    } else {
+        qDebug() << "lrzip executable not found in path. Skipping lrzip test.";
+    }
 }
 
 void ArchiveTest::testProperties()
@@ -313,6 +326,28 @@ void ArchiveTest::testExtraction_data()
             << QVariantList()
             << optionsPreservePaths
             << 7;
+
+    // Only run test for lrzipped tar if lrzip executable is found in path.
+    if (!QStandardPaths::findExecutable(QStringLiteral("lrzip")).isEmpty()) {
+        archivePath = QFINDTESTDATA("data/simplearchive.tar.lrz");
+        QTest::newRow("extract selected entries from a lrzip-compressed tarball without path")
+                << archivePath
+                << QVariantList {
+                       QVariant::fromValue(fileRootNodePair(QStringLiteral("file3.txt"), QString())),
+                       QVariant::fromValue(fileRootNodePair(QStringLiteral("dir2/file22.txt"), QString()))
+                   }
+                << ExtractionOptions()
+                << 2;
+
+        archivePath = QFINDTESTDATA("data/simplearchive.tar.lrz");
+        QTest::newRow("extract all entries from a lrzip-compressed tarball with path")
+                << archivePath
+                << QVariantList()
+                << optionsPreservePaths
+                << 7;
+    } else {
+        qDebug() << "lrzip executable not found in path. Skipping lrzip test.";
+    }
 }
 
 void ArchiveTest::testExtraction()

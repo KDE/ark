@@ -36,6 +36,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QMimeDatabase>
+#include <QStandardPaths>
 #include <QRegularExpression>
 
 #include <KPluginFactory>
@@ -74,8 +75,8 @@ QMimeType Archive::determineMimeType(const QString& filename)
     }
 
     // Compressed tar-archives are detected as single compressed files when
-    // detecting by content. The following code prevents tar.gz, tar.bz2 and
-    // tar.xz files being opened using the singlefile plugin.
+    // detecting by content. The following code fixes detection of tar.gz, tar.bz2, tar.xz,
+    // tar.lzo and tar.lrz.
     if ((mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-compressed-tar")) &&
          mimeFromContent == db.mimeTypeForName(QStringLiteral("application/gzip"))) ||
         (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-bzip-compressed-tar")) &&
@@ -83,7 +84,9 @@ QMimeType Archive::determineMimeType(const QString& filename)
         (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-xz-compressed-tar")) &&
          mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-xz"))) ||
         (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-tzo")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzop")))) {
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzop"))) ||
+        (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-lrzip-compressed-tar")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lrzip")))) {
         return mimeFromExtension;
     }
 
@@ -437,9 +440,13 @@ QSet<QString> supportedMimeTypes()
     });
 
     QSet<QString> supported;
-
     foreach (const KPluginMetaData& pluginMetadata, offers) {
         supported += pluginMetadata.mimeTypes().toSet();
+    }
+
+    // Remove entry for lrzipped tar if lrzip executable not found in path.
+    if (QStandardPaths::findExecutable(QStringLiteral("lrzip")).isEmpty()) {
+        supported.remove(QStringLiteral("application/x-lrzip-compressed-tar"));
     }
 
     qCDebug(ARK) << "Returning supported mimetypes" << supported;
@@ -458,6 +465,11 @@ QSet<QString> supportedWriteMimeTypes()
 
     foreach (const KPluginMetaData& pluginMetadata, offers) {
         supported += pluginMetadata.mimeTypes().toSet();
+    }
+
+    // Remove entry for lrzipped tar if lrzip executable not found in path.
+    if (QStandardPaths::findExecutable(QStringLiteral("lrzip")).isEmpty()) {
+        supported.remove(QStringLiteral("application/x-lrzip-compressed-tar"));
     }
 
     qCDebug(ARK) << "Returning supported write mimetypes" << supported;
