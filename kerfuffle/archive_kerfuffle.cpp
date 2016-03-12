@@ -207,6 +207,7 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
         , m_hasBeenListed(false)
         , m_isReadOnly(isReadOnly)
         , m_isSingleFolderArchive(false)
+        , m_extractedFilesSize(0)
         , m_error(NoError)
         , m_encryptionType(Unencrypted)
         , m_numberOfFiles(0)
