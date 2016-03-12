@@ -196,7 +196,12 @@ public:
 
     KJob* open();
     KJob* create();
+
+    /**
+     * @return A ListJob if the archive already exists. A null pointer otherwise.
+     */
     ListJob* list();
+
     DeleteJob* deleteFiles(const QList<QVariant> & files);
 
     /**

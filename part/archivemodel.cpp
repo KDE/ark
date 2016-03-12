@@ -875,7 +875,7 @@ Kerfuffle::Archive* ArchiveModel::archive() const
     return m_archive.data();
 }
 
-KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive, bool existingArchive)
+KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
 {
     m_archive.reset(archive);
 
@@ -886,19 +886,18 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive, bool existingArchive
     Kerfuffle::ListJob *job = Q_NULLPTR;
 
     m_newArchiveEntries.clear();
-    if (m_archive && existingArchive) {
+    if (m_archive) {
         job = m_archive->list(); // TODO: call "open" or "create"?
+        if (job) {
+            connect(job, &Kerfuffle::ListJob::newEntry, this, &ArchiveModel::slotNewEntryFromSetArchive);
+            connect(job, &Kerfuffle::ListJob::result, this, &ArchiveModel::slotLoadingFinished);
+            connect(job, &Kerfuffle::ListJob::userQuery, this, &ArchiveModel::slotUserQuery);
 
-        connect(job, &Kerfuffle::ListJob::newEntry, this, &ArchiveModel::slotNewEntryFromSetArchive);
+            emit loadingStarted();
 
-        connect(job, &Kerfuffle::ListJob::result, this, &ArchiveModel::slotLoadingFinished);
-
-        connect(job, &Kerfuffle::ListJob::userQuery, this, &ArchiveModel::slotUserQuery);
-
-        emit loadingStarted();
-
-        // TODO: make sure if it's ok to not have calls to beginRemoveColumns here
-        m_showColumns.clear();
+            // TODO: make sure if it's ok to not have calls to beginRemoveColumns here
+            m_showColumns.clear();
+        }
     }
     beginResetModel();
     endResetModel();

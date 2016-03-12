@@ -339,6 +339,10 @@ KJob* Archive::create()
 
 ListJob* Archive::list()
 {
+    if (!QFileInfo::exists(fileName())) {
+        return Q_NULLPTR;
+    }
+
     qCDebug(ARK) << "Going to list files";
 
     ListJob *job = new ListJob(m_iface, this);
@@ -426,6 +430,9 @@ void Archive::listIfNotListed()
 {
     if (!m_hasBeenListed) {
         ListJob *job = list();
+        if (!job) {
+            return;
+        }
 
         connect(job, &ListJob::userQuery, this, &Archive::onUserQuery);
 

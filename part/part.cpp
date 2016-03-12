@@ -572,7 +572,7 @@ bool Part::openFile()
     Q_ASSERT(archive->isValid());
 
     // Plugin loaded successfully.
-    KJob *job = m_model->setArchive(archive.take(), localFileInfo.exists());
+    KJob *job = m_model->setArchive(archive.take());
     if (job) {
         registerJob(job);
         job->start();

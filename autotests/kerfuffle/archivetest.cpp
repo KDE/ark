@@ -62,8 +62,8 @@ void ArchiveTest::testProperties_data()
     QTest::newRow("non-existent tar archive")
             << archivePath
             << QStringLiteral("foo")
-            << false << false << true << Archive::Unencrypted
-            << QStringLiteral("foo");
+            << false << false << false << Archive::Unencrypted
+            << QString();
 
     // Test dummy source code tarball.
     archivePath = QFINDTESTDATA("data/code-x.y.z.tar.gz");
