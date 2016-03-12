@@ -26,6 +26,8 @@
 #include <QTest>
 #include <QTextStream>
 
+#include <KPluginLoader>
+
 QTEST_GUILESS_MAIN(CliUnarchiverTest)
 
 using namespace Kerfuffle;
@@ -33,6 +35,11 @@ using namespace Kerfuffle;
 void CliUnarchiverTest::initTestCase()
 {
     qRegisterMetaType<ArchiveEntry>();
+
+    const auto plugins = KPluginLoader::findPluginsById(QStringLiteral("kerfuffle"), QStringLiteral("kerfuffle_cliunarchiver"));
+    if (plugins.size() == 1) {
+        m_pluginMetadata = plugins.at(0);
+    }
 }
 
 void CliUnarchiverTest::testArchive_data()
@@ -69,12 +76,16 @@ void CliUnarchiverTest::testArchive_data()
 
 void CliUnarchiverTest::testArchive()
 {
+    if (!m_pluginMetadata.isValid()) {
+        QSKIP("Could not find the cliunarchiver plugin. Skipping test.", SkipSingle);
+    }
+
     QFETCH(QString, archivePath);
-    Archive *archive = Archive::create(archivePath, this);
+    Archive *archive = Archive::create(archivePath, m_pluginMetadata, this);
     QVERIFY(archive);
 
     if (!archive->isValid()) {
-        QSKIP("Could not find a plugin to handle rar files. Skipping test.", SkipSingle);
+        QSKIP("Could not load the cliunarchiver plugin. Skipping test.", SkipSingle);
     }
 
     QFETCH(QString, expectedFileName);
@@ -229,12 +240,16 @@ void CliUnarchiverTest::testExtraction_data()
 // if we ever ends up using a temp dir for any cliplugin, instead of only for cliunarchiver.
 void CliUnarchiverTest::testExtraction()
 {
+    if (!m_pluginMetadata.isValid()) {
+        QSKIP("Could not find the cliunarchiver plugin. Skipping test.", SkipSingle);
+    }
+
     QFETCH(QString, archivePath);
-    Archive *archive = Archive::create(archivePath, this);
+    Archive *archive = Archive::create(archivePath, m_pluginMetadata, this);
     QVERIFY(archive);
 
     if (!archive->isValid()) {
-        QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
+        QSKIP("Could not load the cliunarchiver plugin. Skipping test.", SkipSingle);
     }
 
     QTemporaryDir destDir;

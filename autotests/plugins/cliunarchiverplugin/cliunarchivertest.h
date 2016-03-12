@@ -38,6 +38,10 @@ private Q_SLOTS:
     void testList();
     void testExtraction_data();
     void testExtraction();
+
+private:
+
+    KPluginMetaData m_pluginMetadata;
 };
 
 Q_DECLARE_METATYPE(ArchiveEntry)
