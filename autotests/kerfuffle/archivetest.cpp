@@ -101,8 +101,43 @@ void ArchiveTest::testProperties_data()
             << true << false << false << Archive::Unencrypted
             << QStringLiteral("wget");
 
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.bz2");
+    QTest::newRow("bzip2-compressed tarball")
+            << archivePath
+            << QStringLiteral("simplearchive")
+            << false << false << false << Archive::Unencrypted
+            << QStringLiteral("simplearchive");
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.xz");
+    QTest::newRow("xz-compressed tarball")
+            << archivePath
+            << QStringLiteral("simplearchive")
+            << false << false << false << Archive::Unencrypted
+            << QStringLiteral("simplearchive");
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.lzma");
+    QTest::newRow("lzma-compressed tarball")
+            << archivePath
+            << QStringLiteral("simplearchive")
+            << false << false << false << Archive::Unencrypted
+            << QStringLiteral("simplearchive");
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.Z");
+    QTest::newRow("compress (.Z) tarball")
+            << archivePath
+            << QStringLiteral("simplearchive")
+            << false << false << false << Archive::Unencrypted
+            << QStringLiteral("simplearchive");
+
     archivePath = QFINDTESTDATA("data/simplearchive.tar.lz");
     QTest::newRow("lzipped tarball")
+            << archivePath
+            << QStringLiteral("simplearchive")
+            << false << false << false << Archive::Unencrypted
+            << QStringLiteral("simplearchive");
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.lzo");
+    QTest::newRow("lzop-compressed tarball")
             << archivePath
             << QStringLiteral("simplearchive")
             << false << false << false << Archive::Unencrypted
@@ -292,6 +327,74 @@ void ArchiveTest::testExtraction_data()
             << QVariantList()
             << optionsPreservePaths
             << 5;
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.bz2");
+    QTest::newRow("extract selected entries from a bzip2-compressed tarball without path")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("file3.txt"), QString())),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("dir2/file22.txt"), QString()))
+               }
+            << ExtractionOptions()
+            << 2;
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.bz2");
+    QTest::newRow("extract all entries from a bzip2-compressed tarball with path")
+            << archivePath
+            << QVariantList()
+            << optionsPreservePaths
+            << 7;
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.xz");
+    QTest::newRow("extract selected entries from a xz-compressed tarball without path")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("file3.txt"), QString())),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("dir2/file22.txt"), QString()))
+               }
+            << ExtractionOptions()
+            << 2;
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.xz");
+    QTest::newRow("extract all entries from a xz-compressed tarball with path")
+            << archivePath
+            << QVariantList()
+            << optionsPreservePaths
+            << 7;
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.lzma");
+    QTest::newRow("extract selected entries from a lzma-compressed tarball without path")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("file3.txt"), QString())),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("dir2/file22.txt"), QString()))
+               }
+            << ExtractionOptions()
+            << 2;
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.lzma");
+    QTest::newRow("extract all entries from a lzma-compressed tarball with path")
+            << archivePath
+            << QVariantList()
+            << optionsPreservePaths
+            << 7;
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.Z");
+    QTest::newRow("extract selected entries from a compress (.Z)-compressed tarball without path")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("file3.txt"), QString())),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("dir2/file22.txt"), QString()))
+               }
+            << ExtractionOptions()
+            << 2;
+
+    archivePath = QFINDTESTDATA("data/simplearchive.tar.Z");
+    QTest::newRow("extract all entries from a compress (.Z)-compressed tarball with path")
+            << archivePath
+            << QVariantList()
+            << optionsPreservePaths
+            << 7;
 
     archivePath = QFINDTESTDATA("data/simplearchive.tar.lz");
     QTest::newRow("extract selected entries from a lzipped tarball without path")
