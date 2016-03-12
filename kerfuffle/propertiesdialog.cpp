@@ -61,13 +61,24 @@ PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive)
     m_ui->lblArchiveType->setText(archive->mimeType().comment());
     m_ui->lblMimetype->setText(archive->mimeType().name());
     m_ui->lblReadOnly->setText(archive->isReadOnly() ?  i18n("yes") : i18n("no"));
-    m_ui->lblPasswordProtected->setText(archive->isPasswordProtected() ?  i18n("yes") : i18n("no"));
     m_ui->lblHasComment->setText(archive->hasComment() ?  i18n("yes") : i18n("no"));
     m_ui->lblNumberOfFiles->setText(QString::number(archive->numberOfFiles()));
     m_ui->lblUnpackedSize->setText(KIO::convertSize(archive->unpackedSize()));
     m_ui->lblPackedSize->setText(KIO::convertSize(archive->packedSize()));
     m_ui->lblCompressionRatio->setText(QString::number(float(archive->unpackedSize()) / float(archive->packedSize()), 'f', 1));
     m_ui->lblLastModified->setText(fi.lastModified().toString(QStringLiteral("yyyy-MM-dd HH:mm")));
+
+    switch (archive->encryptionType()) {
+    case Archive::Unencrypted:
+        m_ui->lblPasswordProtected->setText(i18n("no"));
+        break;
+    case Archive::Encrypted:
+        m_ui->lblPasswordProtected->setText(i18n("yes (excluding the list of files)"));
+        break;
+    case Archive::HeaderEncrypted:
+        m_ui->lblPasswordProtected->setText(i18n("yes (including the list of files)"));
+        break;
+    }
 
     // Show an icon representing the mimetype of the archive.
     QIcon icon = QIcon::fromTheme(archive->mimeType().iconName());

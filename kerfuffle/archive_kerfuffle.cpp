@@ -206,9 +206,9 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
         , m_iface(archiveInterface)
         , m_hasBeenListed(false)
         , m_isReadOnly(isReadOnly)
-        , m_isPasswordProtected(false)
         , m_isSingleFolderArchive(false)
         , m_error(NoError)
+        , m_encryptionType(Unencrypted)
         , m_numberOfFiles(0)
 {
     qCDebug(ARK) << "Created archive instance";
@@ -259,12 +259,6 @@ bool Archive::isReadOnly() const
     return (m_iface->isReadOnly() || m_isReadOnly);
 }
 
-bool Archive::isPasswordProtected()
-{
-    listIfNotListed();
-    return m_isPasswordProtected;
-}
-
 bool Archive::isSingleFolderArchive()
 {
     listIfNotListed();
@@ -274,6 +268,12 @@ bool Archive::isSingleFolderArchive()
 bool Archive::hasComment() const
 {
     return !m_iface->comment().isEmpty();
+}
+
+Archive::EncryptionType Archive::encryptionType()
+{
+    listIfNotListed();
+    return m_encryptionType;
 }
 
 qulonglong Archive::numberOfFiles() const
@@ -363,12 +363,19 @@ AddJob* Archive::addFiles(const QStringList & files, const CompressionOptions& o
 ExtractJob* Archive::copyFiles(const QList<QVariant>& files, const QString& destinationDir, const ExtractionOptions& options)
 {
     ExtractionOptions newOptions = options;
-    if (isPasswordProtected()) {
+    if (encryptionType() != Unencrypted) {
         newOptions[QStringLiteral( "PasswordProtectedHint" )] = true;
     }
 
     ExtractJob *newJob = new ExtractJob(files, destinationDir, newOptions, m_iface, this);
     return newJob;
+}
+
+void Archive::encrypt(const QString &password, bool encryptHeader)
+{
+    m_iface->setPassword(password);
+    m_iface->setHeaderEncryptionEnabled(encryptHeader);
+    m_encryptionType = encryptHeader ? HeaderEncrypted : Encrypted;
 }
 
 void Archive::onAddFinished(KJob* job)
@@ -389,10 +396,14 @@ void Archive::onListFinished(KJob* job)
     ListJob *ljob = qobject_cast<ListJob*>(job);
     m_extractedFilesSize = ljob->extractedFilesSize();
     m_isSingleFolderArchive = ljob->isSingleFolderArchive();
-    m_isPasswordProtected = ljob->isPasswordProtected();
     m_subfolderName = ljob->subfolderName();
     if (m_subfolderName.isEmpty()) {
         m_subfolderName = completeBaseName();
+    }
+
+    if (ljob->isPasswordProtected()) {
+        // If we already know the password, it means that the archive is header-encrypted.
+        m_encryptionType = m_iface->password().isEmpty() ? Encrypted : HeaderEncrypted;
     }
 
     m_hasBeenListed = true;
@@ -416,17 +427,6 @@ void Archive::listIfNotListed()
 void Archive::onUserQuery(Query* query)
 {
     query->execute();
-}
-
-void Archive::setPassword(const QString &password)
-{
-    m_iface->setPassword(password);
-    m_isPasswordProtected = true;
-}
-
-void Archive::enableHeaderEncryption(bool enable)
-{
-    m_iface->setHeaderEncryptionEnabled(enable);
 }
 
 QSet<QString> supportedMimeTypes()

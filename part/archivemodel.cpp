@@ -952,16 +952,13 @@ DeleteJob* ArchiveModel::deleteFiles(const QList<QVariant> & files)
     return Q_NULLPTR;
 }
 
-void ArchiveModel::setPassword(const QString &password)
+void ArchiveModel::encryptArchive(const QString &password, bool encryptHeader)
 {
-    Q_ASSERT(m_archive);
-    m_archive->setPassword(password);
-}
+    if (!m_archive) {
+        return;
+    }
 
-void ArchiveModel::enableHeaderEncryption()
-{
-    Q_ASSERT(m_archive);
-    m_archive->enableHeaderEncryption(true);
+    m_archive->encrypt(password, encryptHeader);
 }
 
 void ArchiveModel::slotCleanupEmptyDirs()

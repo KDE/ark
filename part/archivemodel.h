@@ -75,8 +75,11 @@ public:
     Kerfuffle::AddJob* addFiles(const QStringList & paths, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
     Kerfuffle::DeleteJob* deleteFiles(const QList<QVariant> & files);
 
-    void setPassword(const QString &password);
-    void enableHeaderEncryption();
+    /**
+     * @param password The password to encrypt the archive with.
+     * @param encryptHeader Whether to encrypt also the list of files.
+     */
+    void encryptArchive(const QString &password, bool encryptHeader);
 
 signals:
     void loadingStarted();

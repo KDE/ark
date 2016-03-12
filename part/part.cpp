@@ -588,11 +588,8 @@ bool Part::openFile()
 
     const QString password = arguments().metaData()[QStringLiteral("encryptionPassword")];
     if (!password.isEmpty()) {
-        m_model->setPassword(password);
-
-        if (arguments().metaData()[QStringLiteral("encryptHeader")] == QLatin1String("true")) {
-            m_model->enableHeaderEncryption();
-        }
+        m_model->encryptArchive(password,
+                                arguments().metaData()[QStringLiteral("encryptHeader")] == QLatin1String("true"));
     }
 
     return true;

@@ -58,6 +58,11 @@ public:
     QString comment() const;
 
     /**
+     * @return The password of the archive, if any.
+     */
+    QString password() const;
+
+    /**
      * Returns whether the file can only be read.
      *
      * @return @c true  The file cannot be written.
@@ -114,7 +119,7 @@ signals:
     void userQuery(Query *query);
 
 protected:
-    QString password() const;
+
     /**
      * Setting this option to true will not exit the thread with the
      * exit of the various functions, but rather when finished(bool) is

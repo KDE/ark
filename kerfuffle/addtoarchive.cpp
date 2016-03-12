@@ -195,8 +195,7 @@ void AddToArchive::slotStartJob()
     }
 
     if (!m_password.isEmpty()) {
-        archive->setPassword(m_password);
-        archive->enableHeaderEncryption(m_enableHeaderEncryption);
+        archive->encrypt(m_password, m_enableHeaderEncryption);
     }
 
     if (m_changeToFirstPath) {

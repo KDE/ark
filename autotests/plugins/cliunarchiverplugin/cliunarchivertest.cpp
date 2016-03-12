@@ -41,7 +41,7 @@ void CliUnarchiverTest::testArchive_data()
     QTest::addColumn<QString>("expectedFileName");
     QTest::addColumn<bool>("isReadOnly");
     QTest::addColumn<bool>("isSingleFolder");
-    QTest::addColumn<bool>("isPasswordProtected");
+    QTest::addColumn<Archive::EncryptionType>("expectedEncryptionType");
     QTest::addColumn<QString>("expectedSubfolderName");
 
 
@@ -49,21 +49,21 @@ void CliUnarchiverTest::testArchive_data()
     QTest::newRow("archive with one top-level folder")
             << archivePath
             << QFileInfo(archivePath).fileName()
-            << true << true << false
+            << true << true << Archive::Unencrypted
             << QStringLiteral("A");
 
     archivePath = QFINDTESTDATA("data/multiple_toplevel_entries.rar");
     QTest::newRow("archive with multiple top-level entries")
             << archivePath
             << QFileInfo(archivePath).fileName()
-            << true << false << false
+            << true << false << Archive::Unencrypted
             << QStringLiteral("multiple_toplevel_entries");
 
     archivePath = QFINDTESTDATA("data/encrypted_entries.rar");
     QTest::newRow("archive with encrypted entries")
             << archivePath
             << QFileInfo(archivePath).fileName()
-            << true << true << true
+            << true << true << Archive::Encrypted
             << QStringLiteral("A");
 }
 
@@ -86,8 +86,8 @@ void CliUnarchiverTest::testArchive()
     QFETCH(bool, isSingleFolder);
     QCOMPARE(archive->isSingleFolderArchive(), isSingleFolder);
 
-    QFETCH(bool, isPasswordProtected);
-    QCOMPARE(archive->isPasswordProtected(), isPasswordProtected);
+    QFETCH(Archive::EncryptionType, expectedEncryptionType);
+    QCOMPARE(archive->encryptionType(), expectedEncryptionType);
 
     QFETCH(QString, expectedSubfolderName);
     QCOMPARE(archive->subfolderName(), expectedSubfolderName);

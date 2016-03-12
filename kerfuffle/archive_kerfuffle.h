@@ -135,6 +135,7 @@ QDebug operator<<(QDebug d, const fileRootNodePair &pair);
 class KERFUFFLE_EXPORT Archive : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(EncryptionType)
 
     /**
      *  Complete base name, without the "tar" extension (if any).
@@ -144,22 +145,30 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_PROPERTY(QString comment READ comment CONSTANT)
     Q_PROPERTY(QMimeType mimeType READ mimeType CONSTANT)
     Q_PROPERTY(bool isReadOnly READ isReadOnly CONSTANT)
-    Q_PROPERTY(bool isPasswordProtected READ isPasswordProtected)
     Q_PROPERTY(bool isSingleFolderArchive READ isSingleFolderArchive)
+    Q_PROPERTY(EncryptionType encryptionType READ encryptionType)
     Q_PROPERTY(qulonglong numberOfFiles READ numberOfFiles)
     Q_PROPERTY(qulonglong unpackedSize READ unpackedSize)
     Q_PROPERTY(qulonglong packedSize READ packedSize)
     Q_PROPERTY(QString subfolderName READ subfolderName)
 
 public:
+
+    enum EncryptionType
+    {
+        Unencrypted,
+        Encrypted,
+        HeaderEncrypted
+    };
+
     QString completeBaseName() const;
     QString fileName() const;
     QString comment() const;
     QMimeType mimeType() const;
     bool isReadOnly() const;
-    bool isPasswordProtected();
     bool isSingleFolderArchive();
     bool hasComment() const;
+    EncryptionType encryptionType();
     qulonglong numberOfFiles() const;
     qulonglong unpackedSize() const;
     qulonglong packedSize() const;
@@ -197,8 +206,11 @@ public:
 
     ExtractJob* copyFiles(const QList<QVariant> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
 
-    void setPassword(const QString &password);
-    void enableHeaderEncryption(bool enable);
+    /**
+     * @param password The password to encrypt the archive with.
+     * @param encryptHeader Whether to encrypt also the list of files.
+     */
+    void encrypt(const QString &password, bool encryptHeader);
 
 private slots:
     void onListFinished(KJob*);
@@ -214,12 +226,12 @@ private:
     ReadOnlyArchiveInterface *m_iface;
     bool m_hasBeenListed;
     bool m_isReadOnly;
-    bool m_isPasswordProtected;
     bool m_isSingleFolderArchive;
 
     QString m_subfolderName;
     qulonglong m_extractedFilesSize;
     ArchiveError m_error;
+    EncryptionType m_encryptionType;
     qulonglong m_numberOfFiles;
 };
 
@@ -229,6 +241,7 @@ KERFUFFLE_EXPORT QSet<QString> supportedEncryptEntriesMimeTypes();
 KERFUFFLE_EXPORT QSet<QString> supportedEncryptHeaderMimeTypes();
 } // namespace Kerfuffle
 
+Q_DECLARE_METATYPE(Kerfuffle::Archive::EncryptionType)
 Q_DECLARE_METATYPE(Kerfuffle::fileRootNodePair)
 
 #endif // ARCHIVE_H
