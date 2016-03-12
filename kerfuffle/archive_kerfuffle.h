@@ -180,6 +180,15 @@ public:
 
     static Archive *create(const QString &fileName, QObject *parent = 0);
     static Archive *create(const QString &fileName, const QString &fixedMimeType, QObject *parent = 0);
+
+    /**
+     * Create an archive instance from a given plugin.
+     * @param fileName The name of the archive.
+     * @param pluginMetadata The plugin's metadata.
+     * @return A valid archive if the plugin could be loaded, an invalid one otherwise (with the FailedPlugin error set).
+     */
+    static Archive *create(const QString &fileName, const KPluginMetaData &pluginMetadata, QObject *parent = Q_NULLPTR);
+
     ~Archive();
 
     ArchiveError error() const;

@@ -147,53 +147,60 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
 
     qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 
-    QVariantList args;
-    args.append(QVariant(QFileInfo(fileName).absoluteFilePath()));
-
     const QVector<KPluginMetaData> offers = findPluginOffers(fileName, fixedMimeType);
     if (offers.isEmpty()) {
         qCCritical(ARK) << "Could not find a plugin to handle" << fileName;
         return new Archive(NoPlugin, parent);
     }
 
-    KPluginFactory *factory;
-    ReadOnlyArchiveInterface *iface;
-
+    Archive *archive;
     foreach (const KPluginMetaData& pluginMetadata, offers) {
-
-        bool isReadOnly = !pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWrite")].toVariant().toBool();
-        qCDebug(ARK) << "Loading plugin" << pluginMetadata.pluginId();
-
-        factory = KPluginLoader(pluginMetadata.fileName()).factory();
-        if (!factory) {
-            qCWarning(ARK) << "Invalid plugin factory for" << pluginMetadata.pluginId();
-            continue;
-        }
-
-        iface = factory->create<ReadOnlyArchiveInterface>(0, args);
-        if (!iface) {
-            qCWarning(ARK) << "Could not create plugin instance" << pluginMetadata.pluginId();
-            continue;
-        }
-
-        if (iface->isCliBased()) {
-            qCDebug(ARK) << "Finding executables for plugin" << pluginMetadata.pluginId();
-
-            if (iface->findExecutables(!isReadOnly)) {
-                return new Archive(iface, isReadOnly, parent);
-            } else if (!isReadOnly && iface->findExecutables(false)) {
-                qCWarning(ARK) << "Failed to find read-write executables: falling back to read-only mode for read-write plugin" << pluginMetadata.pluginId();
-                return new Archive(iface, true, parent);
-            } else {
-                qCWarning(ARK) << "Failed to find needed executables for plugin" << pluginMetadata.pluginId();
-            }
-        } else {
-            // Not CliBased plugin, don't search for executables.
-            return new Archive(iface, isReadOnly, parent);
+        archive = create(fileName, pluginMetadata, parent);
+        // Use the first valid plugin, according to the priority sorting.
+        if (archive->isValid()) {
+            return archive;
         }
     }
 
     qCCritical(ARK) << "Failed to find a usable plugin for" << fileName;
+    return archive;
+}
+
+Archive *Archive::create(const QString &fileName, const KPluginMetaData &pluginMetadata, QObject *parent)
+{
+    const bool isReadOnly = !pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWrite")].toVariant().toBool();
+    qCDebug(ARK) << "Loading plugin" << pluginMetadata.pluginId();
+
+    KPluginFactory *factory = KPluginLoader(pluginMetadata.fileName()).factory();
+    if (!factory) {
+        qCWarning(ARK) << "Invalid plugin factory for" << pluginMetadata.pluginId();
+        return new Archive(FailedPlugin, parent);
+    }
+
+    const QVariantList args = {QVariant(QFileInfo(fileName).absoluteFilePath())};
+    ReadOnlyArchiveInterface *iface = factory->create<ReadOnlyArchiveInterface>(Q_NULLPTR, args);
+    if (!iface) {
+        qCWarning(ARK) << "Could not create plugin instance" << pluginMetadata.pluginId();
+        return new Archive(FailedPlugin, parent);
+    }
+
+    // Not CliBased plugin, don't search for executables.
+    if (!iface->isCliBased()) {
+        return new Archive(iface, isReadOnly, parent);
+    }
+
+    qCDebug(ARK) << "Finding executables for plugin" << pluginMetadata.pluginId();
+
+    if (iface->findExecutables(!isReadOnly)) {
+        return new Archive(iface, isReadOnly, parent);
+    }
+
+    if (!isReadOnly && iface->findExecutables(false)) {
+        qCWarning(ARK) << "Failed to find read-write executables: falling back to read-only mode for read-write plugin" << pluginMetadata.pluginId();
+        return new Archive(iface, true, parent);
+    }
+
+    qCWarning(ARK) << "Failed to find needed executables for plugin" << pluginMetadata.pluginId();
     return new Archive(FailedPlugin, parent);
 }
 
