@@ -83,6 +83,8 @@ QMimeType Archive::determineMimeType(const QString& filename)
          mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-bzip"))) ||
         (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-xz-compressed-tar")) &&
          mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-xz"))) ||
+        (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-tarz")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-compress"))) ||
         (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-tzo")) &&
          mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzop"))) ||
         (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-lrzip-compressed-tar")) &&

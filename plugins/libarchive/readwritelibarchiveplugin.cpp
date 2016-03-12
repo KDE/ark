@@ -119,6 +119,9 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
         } else if (filename().right(4).toUpper() == QLatin1String("LZMA")) {
             qCDebug(ARK) << "Detected lzma compression for new file";
             ret = archive_write_add_filter_lzma(arch_writer.data());
+        } else if (filename().right(2).toUpper() == QLatin1String(".Z")) {
+            qCDebug(ARK) << "Detected compress (.Z) compression for new file";
+            ret = archive_write_add_filter_compress(arch_writer.data());
         } else if (filename().right(2).toUpper() == QLatin1String("LZ")) {
             qCDebug(ARK) << "Detected lzip compression for new file";
             ret = archive_write_add_filter_lzip(arch_writer.data());
@@ -154,6 +157,9 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
             break;
         case ARCHIVE_FILTER_LZMA:
             ret = archive_write_add_filter_lzma(arch_writer.data());
+            break;
+        case ARCHIVE_FILTER_COMPRESS:
+            ret = archive_write_add_filter_compress(arch_writer.data());
             break;
         case ARCHIVE_FILTER_LZIP:
             ret = archive_write_add_filter_lzip(arch_writer.data());
