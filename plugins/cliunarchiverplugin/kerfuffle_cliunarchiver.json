@@ -30,6 +30,7 @@
     }, 
     "MimeType": "application/x-rar;", 
     "X-KDE-Kerfuffle-APIRevision": "1", 
+    "X-KDE-Kerfuffle-ReadOnlyExecutables": "lsar;unar;",
     "X-KDE-Kerfuffle-ReadWrite": "false", 
     "X-KDE-Priority": "100"
 }

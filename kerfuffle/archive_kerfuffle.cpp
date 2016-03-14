@@ -457,6 +457,13 @@ QSet<QString> supportedMimeTypes()
 
     QSet<QString> supported;
     foreach (const KPluginMetaData& pluginMetadata, offers) {
+
+        const QStringList executables = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadOnlyExecutables")].toString().split(QLatin1Char(';'));
+        if (!findExecutables(executables)) {
+            qCDebug(ARK) << "Could not find all the read-only executables of" << pluginMetadata.pluginId() << "- ignoring mimetypes:" << pluginMetadata.mimeTypes();
+            continue;
+        }
+
         supported += pluginMetadata.mimeTypes().toSet();
     }
 
@@ -478,8 +485,14 @@ QSet<QString> supportedWriteMimeTypes()
     });
 
     QSet<QString> supported;
-
     foreach (const KPluginMetaData& pluginMetadata, offers) {
+
+        const QStringList executables = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWriteExecutables")].toString().split(QLatin1Char(';'));
+        if (!findExecutables(executables)) {
+            qCDebug(ARK) << "Could not find all the read-write executables of" << pluginMetadata.pluginId() << "- ignoring mimetypes:" << pluginMetadata.mimeTypes();
+            continue;
+        }
+
         supported += pluginMetadata.mimeTypes().toSet();
     }
 
@@ -531,6 +544,23 @@ QSet<QString> supportedEncryptHeaderMimeTypes()
     qCDebug(ARK) << "Header encryption supported for mimetypes" << supported;
 
     return supported;
+}
+
+bool findExecutables(const QStringList& executables)
+{
+    foreach (const QString& executable, executables) {
+
+        if (executable.isEmpty()) {
+            continue;
+        }
+
+        if (QStandardPaths::findExecutable(executable).isEmpty()) {
+            qCDebug(ARK) << "Could not find executable" << executable;
+            return false;
+        }
+    }
+
+    return true;
 }
 
 } // namespace Kerfuffle

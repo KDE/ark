@@ -253,6 +253,12 @@ KERFUFFLE_EXPORT QSet<QString> supportedMimeTypes();
 KERFUFFLE_EXPORT QSet<QString> supportedWriteMimeTypes();
 KERFUFFLE_EXPORT QSet<QString> supportedEncryptEntriesMimeTypes();
 KERFUFFLE_EXPORT QSet<QString> supportedEncryptHeaderMimeTypes();
+
+/**
+ * @return Whether all the @p executables are available in the system PATH.
+ */
+bool findExecutables(const QStringList& executables);
+
 } // namespace Kerfuffle
 
 Q_DECLARE_METATYPE(Kerfuffle::Archive::EncryptionType)
