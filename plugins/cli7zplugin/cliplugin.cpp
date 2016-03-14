@@ -60,9 +60,7 @@ ParameterList CliPlugin::parameterList() const
 
     if (p.isEmpty()) {
         //p[CaptureProgress] = true;
-        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QStringList() << QStringLiteral("7z")
-                                                                                              << QStringLiteral("7za")
-                                                                                              << QStringLiteral("7zr");
+        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = QStringList() << QStringLiteral("7z");
         p[ListArgs] = QStringList() << QStringLiteral("l")
                                     << QStringLiteral("-slt")
                                     << QStringLiteral("$PasswordSwitch")
