@@ -218,7 +218,7 @@ bool BatchExtract::addInput(const QUrl& url)
     Kerfuffle::Archive *archive = Kerfuffle::Archive::create(url.toDisplayString(QUrl::PreferLocalFile), this);
     Q_ASSERT(archive);
 
-    if (!QFileInfo(url.toDisplayString(QUrl::PreferLocalFile)).exists()) {
+    if (!QFileInfo::exists(url.toDisplayString(QUrl::PreferLocalFile))) {
         m_failedFiles.append(url.fileName());
         return false;
     }

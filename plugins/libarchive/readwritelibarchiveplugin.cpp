@@ -53,7 +53,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
 {
     qCDebug(ARK) << "Adding files" << files << "with CompressionOptions" << options;
 
-    const bool creatingNewFile = !QFileInfo(filename()).exists();
+    const bool creatingNewFile = !QFileInfo::exists(filename());
     const QString globalWorkDir = options.value(QStringLiteral( "GlobalWorkDir" )).toString();
 
     if (!globalWorkDir.isEmpty()) {

@@ -166,7 +166,7 @@ void AddToArchive::slotStartJob()
         //if file already exists, append a number to the base until it doesn't
         //exist
         int appendNumber = 0;
-        while (QFileInfo(finalName).exists()) {
+        while (QFileInfo::exists(finalName)) {
             ++appendNumber;
             finalName = base + QLatin1Char( '_' ) + QString::number(appendNumber) + QLatin1Char( '.' ) + m_autoFilenameSuffix;
         }
