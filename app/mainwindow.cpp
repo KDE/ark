@@ -51,6 +51,7 @@
 #include <QMimeData>
 #include <QPointer>
 #include <QRegularExpression>
+#include <QStatusBar>
 
 static bool isValidArchiveDrag(const QMimeData *data)
 {
@@ -151,6 +152,7 @@ bool MainWindow::loadPart()
     m_part->setObjectName(QStringLiteral("ArkPart"));
     setCentralWidget(m_part->widget());
     createGUI(m_part);
+    statusBar()->hide();
 
     connect(m_part, SIGNAL(busy()), this, SLOT(updateActions()));
     connect(m_part, SIGNAL(ready()), this, SLOT(updateActions()));
@@ -175,8 +177,6 @@ void MainWindow::setupActions()
     m_recentFilesAction->loadEntries(KSharedConfig::openConfig()->group("Recent Files"));
     connect(m_recentFilesAction, SIGNAL(triggered()),
             this, SLOT(openArchive()));
-
-    createStandardStatusBarAction();
 
     KStandardAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
     KStandardAction::keyBindings(this, SLOT(editKeyBindings()), actionCollection());

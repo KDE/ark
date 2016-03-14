@@ -60,6 +60,7 @@
 #include <QMimeData>
 #include <QMouseEvent>
 #include <QScopedPointer>
+#include <QStatusBar>
 #include <QPointer>
 #include <QSplitter>
 #include <QTimer>
@@ -687,6 +688,7 @@ void Part::setReadyGui()
 {
     QApplication::restoreOverrideCursor();
     m_busy = false;
+    m_statusBarExtension->statusBar()->hide();
     m_view->setEnabled(true);
     updateActions();
 }
@@ -695,6 +697,7 @@ void Part::setBusyGui()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     m_busy = true;
+    m_statusBarExtension->statusBar()->show();
     m_view->setEnabled(false);
     updateActions();
 }
