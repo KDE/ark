@@ -29,8 +29,11 @@
 #include "ark_debug.h"
 #include "ui_propertiesdialog.h"
 
+#include <QtConcurrent/QtConcurrentRun>
 #include <QDateTime>
 #include <QFileInfo>
+#include <QFontDatabase>
+#include <QFutureWatcher>
 
 #include <KIconLoader>
 #include <KIO/Global>
@@ -67,6 +70,9 @@ PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive)
     m_ui->lblPackedSize->setText(KIO::convertSize(archive->packedSize()));
     m_ui->lblCompressionRatio->setText(QString::number(float(archive->unpackedSize()) / float(archive->packedSize()), 'f', 1));
     m_ui->lblLastModified->setText(fi.lastModified().toString(QStringLiteral("yyyy-MM-dd HH:mm")));
+    m_ui->lblMD5->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    m_ui->lblSHA1->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    m_ui->lblSHA256->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
 
     switch (archive->encryptionType()) {
     case Archive::Unencrypted:
@@ -80,15 +86,66 @@ PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive)
         break;
     }
 
+    // The Sha256 label is populated with 64 chars in the ui file. We fix the
+    // size of the label so the dialog won't resize when the hashes are
+    // calculated. This is an ugly hack and requires e.g. that we use monospace
+    // font for the hashes.
+    m_ui->lblSHA256->setMinimumSize(m_ui->lblSHA256->sizeHint());
+
+    m_ui->adjustSize();
+    setFixedSize(m_ui->size());
+
     // Show an icon representing the mimetype of the archive.
     QIcon icon = QIcon::fromTheme(archive->mimeType().iconName());
     m_ui->lblIcon->setPixmap(icon.pixmap(IconSize(KIconLoader::Desktop), IconSize(KIconLoader::Desktop)));
 
-    connect(m_ui->buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    m_ui->lblSHA1->setText(i18n("Calculating..."));
+    m_ui->lblSHA256->setText(i18n("Calculating..."));
 
-    m_ui->adjustSize();
-    setFixedSize(m_ui->size());
+    QFile file(archive->fileName());
+    if (file.open(QIODevice::ReadOnly)) {
+        m_byteArray = file.readAll();
+        file.close();
+
+        QCryptographicHash hashMD5(QCryptographicHash::Md5);
+        hashMD5.addData(m_byteArray);
+        m_ui->lblMD5->setText(QLatin1String(hashMD5.result().toHex()));
+
+        // The two SHA hashes take some time to calculate, so run them in another thread.
+        QFutureWatcher<QString> *watchCalcSha1 = new QFutureWatcher<QString>;
+        connect(watchCalcSha1, SIGNAL(finished()), this, SLOT(slotShowSha1()));
+        m_futureCalcSha1 = QtConcurrent::run(this, &PropertiesDialog::calcHash, QCryptographicHash::Sha1);
+        watchCalcSha1->setFuture(m_futureCalcSha1);
+
+        QFutureWatcher<QString> *watchCalcSha256 = new QFutureWatcher<QString>;
+        connect(watchCalcSha256, SIGNAL(finished()), this, SLOT(slotShowSha256()));
+        m_futureCalcSha256 = QtConcurrent::run(this, &PropertiesDialog::calcHash, QCryptographicHash::Sha256);
+        watchCalcSha256->setFuture(m_futureCalcSha256);
+    } else {
+        m_ui->lblMD5->setText(QString());
+        m_ui->lblSHA1->setText(QString());
+        m_ui->lblSHA256->setText(QString());
+    }
+
+    connect(m_ui->buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
 }
 
+QString PropertiesDialog::calcHash(QCryptographicHash::Algorithm algorithm)
+{
+    QCryptographicHash hash(algorithm);
+    hash.addData(m_byteArray);
+
+    return QLatin1String(hash.result().toHex());
+}
+
+void PropertiesDialog::slotShowSha1()
+{
+    m_ui->lblSHA1->setText(m_futureCalcSha1.result());
+}
+
+void PropertiesDialog::slotShowSha256()
+{
+    m_ui->lblSHA256->setText(m_futureCalcSha256.result());
+}
 
 }

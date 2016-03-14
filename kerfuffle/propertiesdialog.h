@@ -30,7 +30,9 @@
 
 #include "kerfuffle/archive_kerfuffle.h"
 
+#include <QCryptographicHash>
 #include <QDialog>
+#include <QFuture>
 
 namespace Kerfuffle
 {
@@ -40,8 +42,18 @@ class KERFUFFLE_EXPORT PropertiesDialog : public QDialog
 
 public:
     explicit PropertiesDialog(QWidget *parent, Archive *archive);
+
+private slots:
+    void slotShowSha1();
+    void slotShowSha256();
+
 private:
+    QString calcHash(QCryptographicHash::Algorithm algorithm);
+
     class PropertiesDialogUI *m_ui;
+    QByteArray m_byteArray;
+    QFuture<QString> m_futureCalcSha1;
+    QFuture<QString> m_futureCalcSha256;
 };
 }
 
