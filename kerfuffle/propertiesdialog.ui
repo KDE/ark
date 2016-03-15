@@ -38,13 +38,6 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="lblArchiveName">
-          <property name="text">
-           <string>lblArchiveNamed</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="0">
          <widget class="QLabel" name="label_4">
           <property name="text">
@@ -55,7 +48,7 @@
         <item row="1" column="1">
          <widget class="QLabel" name="lblArchiveType">
           <property name="text">
-           <string>lblArchiveType</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -69,7 +62,7 @@
         <item row="2" column="1">
          <widget class="QLabel" name="lblMimetype">
           <property name="text">
-           <string>lblMimetype</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -83,7 +76,7 @@
         <item row="3" column="1">
          <widget class="QLabel" name="lblReadOnly">
           <property name="text">
-           <string>lblReadOnly</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -97,7 +90,7 @@
         <item row="4" column="1">
          <widget class="QLabel" name="lblPasswordProtected">
           <property name="text">
-           <string>lblPasswordProtected</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -111,7 +104,7 @@
         <item row="5" column="1">
          <widget class="QLabel" name="lblHasComment">
           <property name="text">
-           <string>lblHasComment</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -125,7 +118,7 @@
         <item row="6" column="1">
          <widget class="QLabel" name="lblNumberOfFiles">
           <property name="text">
-           <string>lblNumberOfFiles</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -139,7 +132,7 @@
         <item row="7" column="1">
          <widget class="QLabel" name="lblUnpackedSize">
           <property name="text">
-           <string>lblUnpackedSize</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -153,7 +146,7 @@
         <item row="8" column="1">
          <widget class="QLabel" name="lblPackedSize">
           <property name="text">
-           <string>lblPackedSize</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -167,7 +160,7 @@
         <item row="9" column="1">
          <widget class="QLabel" name="lblCompressionRatio">
           <property name="text">
-           <string>lblCompressionRatio</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -181,7 +174,7 @@
         <item row="10" column="1">
          <widget class="QLabel" name="lblLastModified">
           <property name="text">
-           <string>lblModified</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -195,7 +188,7 @@
         <item row="11" column="1">
          <widget class="QLabel" name="lblMD5">
           <property name="text">
-           <string>lblMD5</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -215,7 +208,7 @@
         <item row="12" column="1">
          <widget class="QLabel" name="lblSHA1">
           <property name="text">
-           <string>lblSHA1</string>
+           <string/>
           </property>
           <property name="textInteractionFlags">
            <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
@@ -232,10 +225,17 @@
         <item row="13" column="1">
          <widget class="QLabel" name="lblSHA256">
           <property name="text">
-           <string>nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn</string>
+           <string notr="true">nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn</string>
           </property>
           <property name="textInteractionFlags">
            <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="lblArchiveName">
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>
@@ -244,7 +244,7 @@
       <item>
        <widget class="QLabel" name="lblIcon">
         <property name="text">
-         <string>lblIcon</string>
+         <string/>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
