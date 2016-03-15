@@ -4,6 +4,10 @@
             {
                 "Email": "haraldhv@stud.ntnu.no", 
                 "Name": "Harald Hvaal", 
+                "Name[sr@ijekavian]": "Харалд Вол", 
+                "Name[sr@ijekavianlatin]": "Harald Vol", 
+                "Name[sr@latin]": "Harald Vol", 
+                "Name[sr]": "Харалд Вол", 
                 "Name[x-test]": "xxHarald Hvaalxx"
             }
         ], 
@@ -13,13 +17,25 @@
             "application/x-rar"
         ], 
         "Name": "RAR archive plugin", 
+        "Name[ca@valencia]": "Connector per arxius RAR", 
+        "Name[ca]": "Connector per arxius RAR", 
+        "Name[cs]": "Modul pro archiv RAR", 
+        "Name[de]": "RAR-Archiv-Modul", 
         "Name[es]": "Complemento de archivo RAR", 
+        "Name[fi]": "RAR-pakkaustuki", 
         "Name[fr]": "Module externe d'archive « RAR »", 
+        "Name[nb]": "Programtillegg for RAR-arkiv", 
         "Name[nl]": "RAR-archiefplug-in", 
+        "Name[nn]": "RAR-arkivtillegg", 
+        "Name[pl]": "Wtyczka archiwów RAR", 
         "Name[pt]": "'Plugin' de pacotes RAR", 
         "Name[pt_BR]": "Plugin de arquivos RAR", 
         "Name[sk]": "Modul RAR archívu", 
         "Name[sl]": "Vstavek za arhive RAR", 
+        "Name[sr@ijekavian]": "Прикључак РАР архива", 
+        "Name[sr@ijekavianlatin]": "Priključak RAR arhiva", 
+        "Name[sr@latin]": "Priključak RAR arhiva", 
+        "Name[sr]": "Прикључак РАР архива", 
         "Name[sv]": "Insticksprogram för RAR-arkiv", 
         "Name[uk]": "Додаток для архівів RAR", 
         "Name[x-test]": "xxRAR archive pluginxx", 
@@ -33,8 +49,8 @@
     "X-KDE-Kerfuffle-APIRevision": "1", 
     "X-KDE-Kerfuffle-EncryptEntries": "application/x-rar", 
     "X-KDE-Kerfuffle-EncryptHeader": "application/x-rar", 
-    "X-KDE-Kerfuffle-ReadOnlyExecutables": "unrar",
+    "X-KDE-Kerfuffle-ReadOnlyExecutables": "unrar", 
     "X-KDE-Kerfuffle-ReadWrite": "true", 
-    "X-KDE-Kerfuffle-ReadWriteExecutables": "rar",
+    "X-KDE-Kerfuffle-ReadWriteExecutables": "rar", 
     "X-KDE-Priority": "120"
 }
