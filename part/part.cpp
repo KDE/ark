@@ -370,6 +370,9 @@ void Part::setupActions()
     connect(m_signalMapper, SIGNAL(mapped(int)), this, SLOT(slotOpenEntry(int)));
 
     updateActions();
+    updateQuickExtractMenu(m_extractArchiveAction);
+    updateQuickExtractMenu(m_extractFilesAction);
+    updateQuickExtractMenu(m_toolbarExtractAction);
 }
 
 void Part::updateActions()
@@ -414,12 +417,6 @@ void Part::updateActions()
                                      (selectedEntriesCount == 1));
     m_propertiesAction->setEnabled(!isBusy() &&
                                    m_model->archive());
-
-    // TODO: why do we even update these menus here?
-    // It should be enough to update them when a new dir is appended to the history.
-    updateQuickExtractMenu(m_extractArchiveAction);
-    updateQuickExtractMenu(m_extractFilesAction);
-    updateQuickExtractMenu(m_toolbarExtractAction);
 }
 
 void Part::updateQuickExtractMenu(QAction *extractAction)
@@ -906,8 +903,10 @@ void Part::slotShowExtractionDialog()
     dialog.data()->restoreWindowSize();
 
     if (dialog.data()->exec()) {
-        //this is done to update the quick extract menu
-        updateActions();
+
+        updateQuickExtractMenu(m_extractArchiveAction);
+        updateQuickExtractMenu(m_extractFilesAction);
+        updateQuickExtractMenu(m_toolbarExtractAction);
 
         QVariantList files;
 
