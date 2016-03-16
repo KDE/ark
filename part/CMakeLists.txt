@@ -28,9 +28,9 @@ configure_file(
             ${CMAKE_CURRENT_BINARY_DIR}/ark_part.desktop
 )
 
-install(TARGETS arkpart DESTINATION ${PLUGIN_INSTALL_DIR})
+install(TARGETS arkpart DESTINATION ${KDE_INSTALL_PLUGINDIR})
 
 ########### install files ###############
 
-install( FILES ${CMAKE_CURRENT_BINARY_DIR}/ark_part.desktop     DESTINATION ${SERVICES_INSTALL_DIR} )
-install( FILES ark_part.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/ark )
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ark_part.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
+install(FILES ark_part.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/ark)

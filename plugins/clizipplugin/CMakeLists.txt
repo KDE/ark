@@ -23,6 +23,6 @@ kcoreaddons_desktop_to_json(kerfuffle_clizip ${CMAKE_CURRENT_BINARY_DIR}/kerfuff
 
 ########### install files ###############
 
-install(TARGETS kerfuffle_clizip  DESTINATION ${PLUGIN_INSTALL_DIR}/kerfuffle)
+install(TARGETS kerfuffle_clizip  DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
 
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_CLIZIP_MIMETYPES}" PARENT_SCOPE)

@@ -44,11 +44,11 @@ configure_file(
             ${CMAKE_CURRENT_BINARY_DIR}/ark_servicemenu.desktop
 )
 
-install( TARGETS ark  ${INSTALL_TARGETS_DEFAULT_ARGS} )
-install(FILES ark_addtoservicemenu.desktop ${CMAKE_CURRENT_BINARY_DIR}/ark_servicemenu.desktop DESTINATION ${SERVICES_INSTALL_DIR}/ServiceMenus)
-install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.ark.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
-install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.ark.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
-install( FILES arkui.rc    DESTINATION ${KXMLGUI_INSTALL_DIR}/ark )
+install(TARGETS ark  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(FILES ark_addtoservicemenu.desktop ${CMAKE_CURRENT_BINARY_DIR}/ark_servicemenu.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR}/ServiceMenus)
+install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.ark.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.ark.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+install(FILES arkui.rc    DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/ark)
 
 ############ ark_extract_here plugin ###############
 
@@ -58,4 +58,4 @@ add_library(extracthere MODULE ${extracthere_SRCS})
 kcoreaddons_desktop_to_json(extracthere ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop)
 
 target_link_libraries(extracthere kerfuffle KF5::Parts KF5::KIOWidgets KF5::KIOFileWidgets)
-install( TARGETS extracthere DESTINATION ${PLUGIN_INSTALL_DIR}/kf5/kio_dnd )
+install(TARGETS extracthere DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf5/kio_dnd)

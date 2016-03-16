@@ -13,6 +13,6 @@ add_library(kerfuffle_clirar MODULE ${kerfuffle_clirar_SRCS})
 
 target_link_libraries(kerfuffle_clirar kerfuffle)
 
-install(TARGETS kerfuffle_clirar DESTINATION ${PLUGIN_INSTALL_DIR}/kerfuffle)
+install(TARGETS kerfuffle_clirar DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
 
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_CLIRAR_MIMETYPES}" PARENT_SCOPE)

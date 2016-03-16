@@ -34,7 +34,7 @@ target_link_libraries(kerfuffle_libarchive KF5::KIOCore ${LibArchive_LIBRARIES} 
 kcoreaddons_desktop_to_json(kerfuffle_libarchive_readonly ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive_readonly.desktop)
 kcoreaddons_desktop_to_json(kerfuffle_libarchive ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive.desktop)
 
-install(TARGETS kerfuffle_libarchive_readonly DESTINATION ${PLUGIN_INSTALL_DIR}/kerfuffle)
-install(TARGETS kerfuffle_libarchive DESTINATION ${PLUGIN_INSTALL_DIR}/kerfuffle)
+install(TARGETS kerfuffle_libarchive_readonly DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
+install(TARGETS kerfuffle_libarchive DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
 
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES}${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}" PARENT_SCOPE)

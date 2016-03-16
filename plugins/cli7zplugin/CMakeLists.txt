@@ -24,6 +24,6 @@ kcoreaddons_desktop_to_json(kerfuffle_cli7z ${CMAKE_CURRENT_BINARY_DIR}/kerfuffl
 
 ########### install files ###############
 
-install(TARGETS kerfuffle_cli7z  DESTINATION ${PLUGIN_INSTALL_DIR}/kerfuffle)
+install(TARGETS kerfuffle_cli7z  DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
 
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_CLI7Z_MIMETYPES}" PARENT_SCOPE)

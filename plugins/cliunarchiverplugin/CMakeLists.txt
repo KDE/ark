@@ -13,7 +13,7 @@ add_library(kerfuffle_cliunarchiver MODULE ${kerfuffle_cliunarchiver_SRCS})
 
 target_link_libraries(kerfuffle_cliunarchiver kerfuffle)
 
-install(TARGETS kerfuffle_cliunarchiver DESTINATION ${PLUGIN_INSTALL_DIR}/kerfuffle)
+install(TARGETS kerfuffle_cliunarchiver DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
 
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_CLIUNARCHIVER_MIMETYPES}"
 PARENT_SCOPE)

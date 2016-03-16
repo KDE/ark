@@ -10,5 +10,5 @@ target_link_libraries(kerfuffle_cli KF5::KIOCore kerfuffle)
 
 kcoreaddons_desktop_to_json(kerfuffle_cli ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_clizip.desktop)
 
-install(TARGETS kerfuffle_cli DESTINATION ${PLUGIN_INSTALL_DIR}/kerfuffle)
+install(TARGETS kerfuffle_cli DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
 

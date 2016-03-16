@@ -29,7 +29,7 @@ if (ZLIB_FOUND)
 
 	target_link_libraries(kerfuffle_libgz KF5::Archive KF5::KIOCore kerfuffle)
 
-	install(TARGETS kerfuffle_libgz DESTINATION ${PLUGIN_INSTALL_DIR}/kerfuffle)
+	install(TARGETS kerfuffle_libgz DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
 endif (ZLIB_FOUND)
 
 #
@@ -49,7 +49,7 @@ if (BZIP2_FOUND)
 
 	target_link_libraries(kerfuffle_libbz2 KF5::Archive KF5::KIOCore kerfuffle)
 
-	install(TARGETS kerfuffle_libbz2 DESTINATION ${PLUGIN_INSTALL_DIR}/kerfuffle)
+	install(TARGETS kerfuffle_libbz2 DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
 
 endif (BZIP2_FOUND)
 
@@ -70,7 +70,7 @@ if (LIBLZMA_FOUND)
 
 	target_link_libraries(kerfuffle_libxz KF5::Archive KF5::KIOCore kerfuffle )
 
-	install(TARGETS kerfuffle_libxz DESTINATION ${PLUGIN_INSTALL_DIR}/kerfuffle)
+	install(TARGETS kerfuffle_libxz DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
 endif (LIBLZMA_FOUND)
 
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_LIBSINGLEFILE_MIMETYPES}" PARENT_SCOPE)
