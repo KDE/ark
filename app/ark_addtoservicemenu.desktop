@@ -2,7 +2,7 @@
 Type=Service
 ServiceTypes=KonqPopupMenu/Plugin
 MimeType=all/all;
-Actions=compressHereAsTar;compressHereAsZip;compressHereAsRar;compressTo;
+Actions=compressHereAsTar;compressHereAsZip;compressTo;
 X-KDE-Require=Write
 X-KDE-Submenu=Compress
 X-KDE-Submenu[ar]=اضغط
@@ -136,42 +136,6 @@ Name[x-test]=xxHere (as ZIP)xx
 Name[zh_CN]=此处 (作为 ZIP)
 Icon=ark
 Exec=ark --changetofirstpath --add --autofilename zip %F
-
-[Desktop Action compressHereAsRar]
-Name=Here (as RAR)
-Name[ast]=Equí (como RAR)
-Name[ca]=Aquí (com a RAR)
-Name[ca@valencia]=Ací (com a RAR)
-Name[cs]=Zde (jako RAR)
-Name[da]=Her (som RAR)
-Name[de]=Hier (Als RAR-Archiv)
-Name[en_GB]=Here (as RAR)
-Name[es]=Aquí (como RAR)
-Name[et]=Siia (RAR-arhiivina)
-Name[fi]=Tähän (RAR-arkistoksi)
-Name[fr]=Ici (en rar)
-Name[gl]=Aquí (como RAR)
-Name[hu]=Ide (rar-ként)
-Name[it]=Qui (come RAR)
-Name[ko]=여기(RAR로)
-Name[lt]=Čia (RAR)
-Name[nl]=Hier (als RAR)
-Name[pl]=Tutaj (jako RAR)
-Name[pt]=Aqui (como RAR)
-Name[pt_BR]=Aqui (como RAR)
-Name[sk]=Sem (ako RAR)
-Name[sl]=Sem (kot RAR)
-Name[sr]=овде (као РАР)
-Name[sr@ijekavian]=овде (као РАР)
-Name[sr@ijekavianlatin]=ovde (kao RAR)
-Name[sr@latin]=ovde (kao RAR)
-Name[sv]=Här (som RAR)
-Name[tr]=Buraya (RAR olarak)
-Name[uk]=Сюди (як RAR)
-Name[x-test]=xxHere (as RAR)xx
-Name[zh_CN]=此处 (作为 RAR)
-Icon=ark
-Exec=ark --changetofirstpath --add --autofilename rar %F
 
 [Desktop Action compressTo]
 Name=Compress to...
