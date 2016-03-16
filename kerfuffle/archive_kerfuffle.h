@@ -168,8 +168,8 @@ public:
     bool isSingleFolderArchive();
     bool hasComment() const;
     EncryptionType encryptionType();
-    qulonglong numberOfFiles() const;
-    qulonglong unpackedSize() const;
+    qulonglong numberOfFiles();
+    qulonglong unpackedSize();
     qulonglong packedSize() const;
     QString subfolderName();
 

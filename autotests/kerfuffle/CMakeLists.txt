@@ -8,6 +8,7 @@ add_library(jsoninterface STATIC ${JSONINTERFACE_SOURCES})
 target_link_libraries(jsoninterface kerfuffle)
 
 ecm_add_tests(
+    addtoarchivetest.cpp
     archivetest.cpp
     createdialogtest.cpp
     mimetypetest.cpp

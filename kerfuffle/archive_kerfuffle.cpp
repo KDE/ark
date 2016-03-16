@@ -224,13 +224,15 @@ Archive::EncryptionType Archive::encryptionType()
     return m_encryptionType;
 }
 
-qulonglong Archive::numberOfFiles() const
+qulonglong Archive::numberOfFiles()
 {
+    listIfNotListed();
     return m_numberOfFiles;
 }
 
-qulonglong Archive::unpackedSize() const
+qulonglong Archive::unpackedSize()
 {
+    listIfNotListed();
     return m_extractedFilesSize;
 }
 
