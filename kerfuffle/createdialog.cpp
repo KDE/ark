@@ -31,6 +31,7 @@
 #include "ark_debug.h"
 #include "ui_createdialog.h"
 #include "kerfuffle/archive_kerfuffle.h"
+#include "mimetypes.h"
 
 #include <KColorScheme>
 #include <KFileWidget>

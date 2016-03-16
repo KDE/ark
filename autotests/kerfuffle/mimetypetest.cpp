@@ -24,6 +24,7 @@
  */
 
 #include "kerfuffle/archive_kerfuffle.h"
+#include "mimetypes.h"
 
 #include <QTest>
 
@@ -85,7 +86,7 @@ void MimeTypeTest::testMimeTypeDetection()
     QFETCH(QString, archiveName);
     QFETCH(QString, expectedMimeType);
 
-    QCOMPARE(Archive::determineMimeType(archiveName).name(), expectedMimeType);
+    QCOMPARE(determineMimeType(archiveName).name(), expectedMimeType);
 }
 
 #include "mimetypetest.moc"

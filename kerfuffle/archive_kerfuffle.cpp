@@ -29,15 +29,13 @@
 #include "ark_debug.h"
 #include "archiveinterface.h"
 #include "jobs.h"
+#include "mimetypes.h"
 
 #include <QByteArray>
 #include <QDebug>
 #include <QEventLoop>
 #include <QFile>
 #include <QFileInfo>
-#include <QMimeDatabase>
-#include <QStandardPaths>
-#include <QRegularExpression>
 
 #include <KPluginFactory>
 #include <KPluginLoader>
@@ -48,69 +46,6 @@ namespace Kerfuffle
 bool Archive::comparePlugins(const KPluginMetaData &p1, const KPluginMetaData &p2)
 {
     return (p1.rawData()[QStringLiteral("X-KDE-Priority")].toVariant().toInt()) > (p2.rawData()[QStringLiteral("X-KDE-Priority")].toVariant().toInt());
-}
-
-QMimeType Archive::determineMimeType(const QString& filename)
-{
-    QMimeDatabase db;
-
-    QFileInfo fileinfo(filename);
-    QString inputFile = filename;
-
-    // #328815: since detection-by-content does not work for compressed tar archives (see below why)
-    // we cannot rely on it when the archive extension is wrong; we need to validate by hand.
-    if (fileinfo.completeSuffix().toLower().remove(QRegularExpression(QStringLiteral("[^a-z\\.]"))).contains(QStringLiteral("tar."))) {
-        inputFile.chop(fileinfo.completeSuffix().length());
-        inputFile += fileinfo.completeSuffix().remove(QRegularExpression(QStringLiteral("[^a-zA-Z\\.]")));
-        qCDebug(ARK) << "Validated filename of compressed tar" << filename << "into filename" << inputFile;
-    }
-
-    QMimeType mimeFromExtension = db.mimeTypeForFile(inputFile, QMimeDatabase::MatchExtension);
-    QMimeType mimeFromContent = db.mimeTypeForFile(filename, QMimeDatabase::MatchContent);
-
-    // mimeFromContent will be "application/octet-stream" when file is
-    // unreadable, so use extension.
-    if (!fileinfo.isReadable()) {
-        return mimeFromExtension;
-    }
-
-    // Compressed tar-archives are detected as single compressed files when
-    // detecting by content. The following code fixes detection of tar.gz, tar.bz2, tar.xz,
-    // tar.lzo and tar.lrz.
-    if ((mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/gzip"))) ||
-        (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-bzip-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-bzip"))) ||
-        (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-xz-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-xz"))) ||
-        (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-tarz")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-compress"))) ||
-        (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-tzo")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzop"))) ||
-        (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-lrzip-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lrzip")))) {
-        return mimeFromExtension;
-    }
-
-    if (mimeFromExtension != mimeFromContent) {
-
-        if (mimeFromContent.isDefault()) {
-            qCWarning(ARK) << "Could not detect mimetype from content."
-                           << "Using extension-based mimetype:" << mimeFromExtension.name();
-            return mimeFromExtension;
-        }
-
-        // #354344: ISO files are currently wrongly detected-by-content.
-        if (mimeFromExtension.inherits(QStringLiteral("application/x-cd-image"))) {
-            return mimeFromExtension;
-        }
-
-        qCWarning(ARK) << "Mimetype for filename extension (" << mimeFromExtension.name()
-                       << ") did not match mimetype for content (" << mimeFromContent.name()
-                       << "). Using content-based mimetype.";
-    }
-
-    return mimeFromContent;
 }
 
 QVector<KPluginMetaData> Archive::findPluginOffers(const QString& filename, const QString& fixedMimeType)
@@ -447,120 +382,6 @@ void Archive::listIfNotListed()
 void Archive::onUserQuery(Query* query)
 {
     query->execute();
-}
-
-QSet<QString> supportedMimeTypes()
-{
-    const QVector<KPluginMetaData> offers = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"), [](const KPluginMetaData& metaData) {
-        return metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin"));
-    });
-
-    QSet<QString> supported;
-    foreach (const KPluginMetaData& pluginMetadata, offers) {
-
-        const QStringList executables = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadOnlyExecutables")].toString().split(QLatin1Char(';'));
-        if (!findExecutables(executables)) {
-            qCDebug(ARK) << "Could not find all the read-only executables of" << pluginMetadata.pluginId() << "- ignoring mimetypes:" << pluginMetadata.mimeTypes();
-            continue;
-        }
-
-        supported += pluginMetadata.mimeTypes().toSet();
-    }
-
-    // Remove entry for lrzipped tar if lrzip executable not found in path.
-    if (QStandardPaths::findExecutable(QStringLiteral("lrzip")).isEmpty()) {
-        supported.remove(QStringLiteral("application/x-lrzip-compressed-tar"));
-    }
-
-    qCDebug(ARK) << "Returning supported mimetypes" << supported;
-
-    return supported;
-}
-
-QSet<QString> supportedWriteMimeTypes()
-{
-    const QVector<KPluginMetaData> offers = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"), [](const KPluginMetaData& metaData) {
-        return metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin")) &&
-               metaData.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWrite")].toVariant().toBool();
-    });
-
-    QSet<QString> supported;
-    foreach (const KPluginMetaData& pluginMetadata, offers) {
-
-        const QStringList executables = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWriteExecutables")].toString().split(QLatin1Char(';'));
-        if (!findExecutables(executables)) {
-            qCDebug(ARK) << "Could not find all the read-write executables of" << pluginMetadata.pluginId() << "- ignoring mimetypes:" << pluginMetadata.mimeTypes();
-            continue;
-        }
-
-        supported += pluginMetadata.mimeTypes().toSet();
-    }
-
-    // Remove entry for lrzipped tar if lrzip executable not found in path.
-    if (QStandardPaths::findExecutable(QStringLiteral("lrzip")).isEmpty()) {
-        supported.remove(QStringLiteral("application/x-lrzip-compressed-tar"));
-    }
-
-    qCDebug(ARK) << "Returning supported write mimetypes" << supported;
-
-    return supported;
-}
-
-QSet<QString> supportedEncryptEntriesMimeTypes()
-{
-    const QVector<KPluginMetaData> offers = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"), [](const KPluginMetaData& metaData) {
-        return metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin"));
-    });
-
-    QSet<QString> supported;
-
-    foreach (const KPluginMetaData& pluginMetadata, offers) {
-        const QStringList mimeTypes = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-EncryptEntries")].toString().split(QLatin1Char(','));
-        foreach (const QString& mimeType, mimeTypes) {
-            supported.insert(mimeType);
-        }
-    }
-
-    qCDebug(ARK) << "Entry encryption supported for mimetypes" << supported;
-
-    return supported;
-}
-
-QSet<QString> supportedEncryptHeaderMimeTypes()
-{
-    const QVector<KPluginMetaData> offers = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"), [](const KPluginMetaData& metaData) {
-        return metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin"));
-    });
-
-    QSet<QString> supported;
-
-    foreach (const KPluginMetaData& pluginMetadata, offers) {
-        const QStringList mimeTypes = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-EncryptHeader")].toString().split(QLatin1Char(','));
-        foreach (const QString& mimeType, mimeTypes) {
-            supported.insert(mimeType);
-        }
-    }
-
-    qCDebug(ARK) << "Header encryption supported for mimetypes" << supported;
-
-    return supported;
-}
-
-bool findExecutables(const QStringList& executables)
-{
-    foreach (const QString& executable, executables) {
-
-        if (executable.isEmpty()) {
-            continue;
-        }
-
-        if (QStandardPaths::findExecutable(executable).isEmpty()) {
-            qCDebug(ARK) << "Could not find executable" << executable;
-            return false;
-        }
-    }
-
-    return true;
 }
 
 } // namespace Kerfuffle

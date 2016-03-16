@@ -23,9 +23,11 @@
 #include "ark_debug.h"
 #include "batchextract.h"
 #include "kerfuffle/archive_kerfuffle.h"
+#include "mimetypes.h"
 
 #include <QAction>
 #include <QDebug>
+
 #include <KPluginFactory>
 #include <KPluginLoader>
 #include <kfileitemlistproperties.h>

@@ -27,6 +27,7 @@
 #include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/createdialog.h"
 #include "kerfuffle/settingspage.h"
+#include "mimetypes.h"
 #include "part/interface.h"
 
 #include <KPluginFactory>
@@ -222,25 +223,8 @@ void MainWindow::openArchive()
     Q_UNUSED(iface);
 
     QPointer<QFileDialog> dlg = new QFileDialog(this, i18nc("to open an archive", "Open Archive"));
-    dlg->setMimeTypeFilters(Kerfuffle::supportedMimeTypes().toList());
 
-    QStringList filters = dlg->nameFilters();
-    filters.removeDuplicates();
-    filters.sort(Qt::CaseInsensitive);
-
-    // Create the "All supported archives" filter
-    QRegularExpression rx(QStringLiteral("(\\*\\.[a-z]+\\.*[a-z0-9]*)+"));
-    QString allArchives(i18n("All supported archives ("));
-    foreach(const QString &s, filters)
-    {
-        QRegularExpressionMatchIterator i = rx.globalMatch(s);
-        while (i.hasNext()) {
-            QRegularExpressionMatch match = i.next();
-            allArchives.append(match.captured(1) + QLatin1Char(' '));
-        }
-    }
-    filters.prepend(allArchives + QLatin1Char(')'));
-    dlg->setNameFilters(filters);
+    dlg->setMimeTypeFilters(Kerfuffle::supportedMimeTypes());
 
     dlg->setFileMode(QFileDialog::ExistingFile);
     dlg->setAcceptMode(QFileDialog::AcceptOpen);

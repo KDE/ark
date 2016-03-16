@@ -35,7 +35,6 @@
 #include <QObject>
 #include <QVariant>
 
-
 #include <KPluginMetaData>
 
 class KJob;
@@ -175,7 +174,6 @@ public:
     QString subfolderName();
 
     static bool comparePlugins(const KPluginMetaData &p1, const KPluginMetaData &p2);
-    static QMimeType determineMimeType(const QString& filename);
     static QVector<KPluginMetaData> findPluginOffers(const QString& filename, const QString& fixedMimeType);
 
     static Archive *create(const QString &fileName, QObject *parent = 0);
@@ -248,16 +246,6 @@ private:
     EncryptionType m_encryptionType;
     qulonglong m_numberOfFiles;
 };
-
-KERFUFFLE_EXPORT QSet<QString> supportedMimeTypes();
-KERFUFFLE_EXPORT QSet<QString> supportedWriteMimeTypes();
-KERFUFFLE_EXPORT QSet<QString> supportedEncryptEntriesMimeTypes();
-KERFUFFLE_EXPORT QSet<QString> supportedEncryptHeaderMimeTypes();
-
-/**
- * @return Whether all the @p executables are available in the system PATH.
- */
-bool findExecutables(const QStringList& executables);
 
 } // namespace Kerfuffle
 

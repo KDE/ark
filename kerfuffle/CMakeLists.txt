@@ -14,6 +14,7 @@ set(kerfuffle_SRCS
     queries.cpp
     addtoarchive.cpp
     cliinterface.cpp
+    mimetypes.cpp
 )
 
 kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
