@@ -23,7 +23,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "kerfuffle/createdialog.h"
+#include "createdialog.h"
+#include "mimetypes.h"
 
 #include <QCheckBox>
 #include <QMimeDatabase>
@@ -48,10 +49,25 @@ void CreateDialogTest::testEncryption_data()
     QTest::addColumn<bool>("isEncryptionAvailable");
     QTest::addColumn<bool>("isHeaderEncryptionAvailable");
 
-    QTest::newRow("zip") << QStringLiteral("application/zip") << true << false;
-    QTest::newRow("7z") << QStringLiteral("application/x-7z-compressed") << true << true;
-    QTest::newRow("rar") << QStringLiteral("application/x-rar") << true << true;
     QTest::newRow("tar") << QStringLiteral("application/x-compressed-tar") << false << false;
+
+    if (Kerfuffle::supportedWriteMimeTypes().contains(QStringLiteral("application/zip"))) {
+        QTest::newRow("zip") << QStringLiteral("application/zip") << true << false;
+    } else {
+        qDebug() << "zip format not available in CreateDialog, skipping test.";
+    }
+
+    if (Kerfuffle::supportedWriteMimeTypes().contains(QStringLiteral("application/x-7z-compressed"))) {
+        QTest::newRow("7z") << QStringLiteral("application/x-7z-compressed") << true << true;
+    } else {
+        qDebug() << "7z format not available in CreateDialog, skipping test.";
+    }
+
+    if (Kerfuffle::supportedWriteMimeTypes().contains(QStringLiteral("application/x-rar"))) {
+        QTest::newRow("rar") << QStringLiteral("application/x-rar") << true << true;
+    } else {
+        qDebug() << "rar format not available in CreateDialog, skipping test.";
+    }
 }
 
 void CreateDialogTest::testEncryption()
@@ -103,6 +119,10 @@ void CreateDialogTest::testEncryption()
 
 void CreateDialogTest::testHeaderEncryptionTooltip()
 {
+    if (!Kerfuffle::supportedWriteMimeTypes().contains(QStringLiteral("application/zip"))) {
+        QSKIP("zip format not available in CreateDialog, skipping test.", SkipSingle);
+    }
+
     CreateDialog *dialog = new CreateDialog(Q_NULLPTR, QString(), QUrl());
 
     auto encryptCheckBox = dialog->findChild<QCheckBox*>(QStringLiteral("encryptCheckBox"));
