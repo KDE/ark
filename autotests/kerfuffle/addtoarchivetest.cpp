@@ -95,6 +95,6 @@ void AddToArchiveTest::testCompressHere()
     QVERIFY(QFile(archive->fileName()).remove());
 }
 
-QTEST_GUILESS_MAIN(AddToArchiveTest)
+QTEST_MAIN(AddToArchiveTest)
 
 #include "addtoarchivetest.moc"
