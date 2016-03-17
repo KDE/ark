@@ -611,8 +611,8 @@ KConfigSkeleton *Part::config() const
 QList<Kerfuffle::SettingsPage*> Part::settingsPages(QWidget *parent) const
 {
     QList<SettingsPage*> pages;
-    pages.append(new ExtractionSettingsPage(parent, i18n("Extraction settings"), QStringLiteral("archive-extract")));
-    pages.append(new PreviewSettingsPage(parent, i18n("Preview settings"), QStringLiteral("document-preview-archive")));
+    pages.append(new ExtractionSettingsPage(parent, i18nc("@title:tab", "Extraction Settings"), QStringLiteral("archive-extract")));
+    pages.append(new PreviewSettingsPage(parent, i18nc("@title:tab", "Preview Settings"), QStringLiteral("document-preview-archive")));
 
     return pages;
 }
