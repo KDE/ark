@@ -30,6 +30,7 @@
         "Description[sv]": "Libgz-insticksprogram för Kerfuffle", 
         "Description[uk]": "Додаток libgz для Kerfuffle", 
         "Description[x-test]": "xxlibgz plugin for Kerfufflexx", 
+        "Description[zh_CN]": "Kerfuffle 的 libgz 插件", 
         "Id": "kerfuffle_libgz", 
         "License": "BSD", 
         "MimeTypes": [

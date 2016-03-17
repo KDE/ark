@@ -39,6 +39,7 @@
         "Name[sv]": "Insticksprogram för RAR-arkiv", 
         "Name[uk]": "Додаток для архівів RAR", 
         "Name[x-test]": "xxRAR archive pluginxx", 
+        "Name[zh_CN]": "RAR 归档插件", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

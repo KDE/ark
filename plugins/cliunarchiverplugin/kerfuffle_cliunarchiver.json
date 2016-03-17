@@ -36,6 +36,7 @@
         "Name[sv]": "Insticksprogram för Unarchiver", 
         "Name[uk]": "Додаток Unarchiver", 
         "Name[x-test]": "xxThe Unarchiver pluginxx", 
+        "Name[zh_CN]": "Unarchiver 插件", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 
