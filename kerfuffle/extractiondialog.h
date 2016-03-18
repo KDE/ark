@@ -61,7 +61,6 @@ public:
     bool preservePaths() const;
     QUrl destinationDirectory() const;
     QString subfolder() const;
-    void slotOkButtonClicked();
 
 public Q_SLOTS:
     void setSubfolder(const QString& subfolder);
@@ -70,6 +69,7 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void writeSettings();
+    void slotAccepted();
 
 private:
     void loadSettings();

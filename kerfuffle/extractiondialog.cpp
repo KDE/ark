@@ -29,9 +29,11 @@
 #include "ark_debug.h"
 #include "settings.h"
 
+#include <KDirOperator>
 #include <KLocalizedString>
 #include <KIconLoader>
 #include <KMessageBox>
+#include <KUrlComboBox>
 #include <KWindowConfig>
 
 #include <QDir>
@@ -65,14 +67,15 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
     fileWidget = new KFileWidget(QUrl::fromLocalFile(QDir::homePath()), this);
     hlayout->addWidget(fileWidget);
 
-    fileWidget->setMode(KFile::Directory | KFile::LocalOnly);
+    fileWidget->setMode(KFile::Directory | KFile::LocalOnly | KFile::ExistingOnly);
     fileWidget->setOperationMode(KFileWidget::Saving);
 
-    connect(fileWidget->okButton(), &QPushButton::clicked, this, &ExtractionDialog::slotOkButtonClicked);
-    connect(fileWidget, &KFileWidget::accepted, fileWidget, &KFileWidget::accept);
-    connect(fileWidget, &KFileWidget::accepted, this, &QDialog::accept);
+    // This signal is emitted e.g. when the user presses Return while in the location bar.
+    connect(fileWidget, &KFileWidget::accepted, this, &ExtractionDialog::slotAccepted);
+
     fileWidget->okButton()->setText(i18n("Extract"));
     fileWidget->okButton()->show();
+    connect(fileWidget->okButton(), &QPushButton::clicked, this, &ExtractionDialog::slotAccepted);
 
     fileWidget->cancelButton()->show();
     connect(fileWidget->cancelButton(), &QPushButton::clicked, this, &QDialog::reject);
@@ -95,42 +98,41 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
     connect(this, &QDialog::finished, this, &ExtractionDialog::writeSettings);
 }
 
-void ExtractionDialog::loadSettings()
+void ExtractionDialog::slotAccepted()
 {
-    setOpenDestinationFolderAfterExtraction(ArkSettings::openDestinationFolderAfterExtraction());
-    setCloseAfterExtraction(ArkSettings::closeAfterExtraction());
-    setPreservePaths(ArkSettings::preservePaths());
-}
+    // If an item is selected, enter it if it exists and is a dir.
+    if (!fileWidget->dirOperator()->selectedItems().isEmpty()) {
+        QFileInfo fi(fileWidget->dirOperator()->selectedItems().urlList().first().path());
+        if (fi.isDir() && fi.exists()) {
+            fileWidget->locationEdit()->clear();
+            fileWidget->setUrl(QUrl::fromLocalFile(fi.absoluteFilePath()));
+        }
+        return;
+    }
 
-void ExtractionDialog::setSingleFolderArchive(bool value)
-{
-    m_ui->singleFolderGroup->setChecked(!value && ArkSettings::extractToSubfolder());
-}
-
-void ExtractionDialog::batchModeOption()
-{
-    m_ui->autoSubfolders->show();
-    m_ui->autoSubfolders->setEnabled(true);
-    m_ui->singleFolderGroup->hide();
-    m_ui->extractAllLabel->setText(i18n("Extract multiple archives"));
-}
-
-void ExtractionDialog::slotOkButtonClicked()
-{
+    // We extract to baseUrl().
     const QString destinationPath = fileWidget->baseUrl().path();
 
+    // If extracting to a subfolder, we need to do some checks.
     if (extractToSubfolder()) {
+
+        // Check if subfolder contains slashes.
         if (subfolder().contains(QLatin1String( "/" ))) {
             KMessageBox::error(this, i18n("The subfolder name may not contain the character '/'."));
             return;
         }
 
+        // Handle existing subfolder.
         const QString pathWithSubfolder = destinationPath + subfolder();
-
         while (1) {
             if (QDir(pathWithSubfolder).exists()) {
                 if (QFileInfo(pathWithSubfolder).isDir()) {
-                    int overwrite = KMessageBox::questionYesNoCancel(this, xi18nc("@info", "The folder <filename>%1</filename> already exists. Are you sure you want to extract here?", pathWithSubfolder), i18n("Folder exists"), KGuiItem(i18n("Extract here")), KGuiItem(i18n("Retry")), KGuiItem(i18n("Cancel")));
+                    int overwrite = KMessageBox::questionYesNoCancel(this,
+                                                                     xi18nc("@info", "The folder <filename>%1</filename> already exists. Are you sure you want to extract here?", pathWithSubfolder),
+                                                                     i18n("Folder exists"),
+                                                                     KGuiItem(i18n("Extract here")),
+                                                                     KGuiItem(i18n("Retry")),
+                                                                     KGuiItem(i18n("Cancel")));
 
                     if (overwrite == KMessageBox::No) {
                         // The user clicked Retry.
@@ -152,9 +154,10 @@ void ExtractionDialog::slotOkButtonClicked()
             }
             break;
         }
+
     }
 
-    //Adding new destination value to arkrc for quickExtractMenu.
+    // Add new destination value to arkrc for quickExtractMenu.
     KConfigGroup conf(KSharedConfig::openConfig(), "ExtractDialog");
     QStringList destHistory = conf.readPathEntry("DirHistory", QStringList());
     destHistory.prepend(destinationPath);
@@ -164,7 +167,28 @@ void ExtractionDialog::slotOkButtonClicked()
     }
     conf.writePathEntry ("DirHistory", destHistory);
 
-    fileWidget->slotOk();
+    fileWidget->accept();
+    accept();
+}
+
+void ExtractionDialog::loadSettings()
+{
+    setOpenDestinationFolderAfterExtraction(ArkSettings::openDestinationFolderAfterExtraction());
+    setCloseAfterExtraction(ArkSettings::closeAfterExtraction());
+    setPreservePaths(ArkSettings::preservePaths());
+}
+
+void ExtractionDialog::setSingleFolderArchive(bool value)
+{
+    m_ui->singleFolderGroup->setChecked(!value && ArkSettings::extractToSubfolder());
+}
+
+void ExtractionDialog::batchModeOption()
+{
+    m_ui->autoSubfolders->show();
+    m_ui->autoSubfolders->setEnabled(true);
+    m_ui->singleFolderGroup->hide();
+    m_ui->extractAllLabel->setText(i18n("Extract multiple archives"));
 }
 
 void ExtractionDialog::setSubfolder(const QString& subfolder)
