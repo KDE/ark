@@ -514,56 +514,24 @@ bool Part::openFile()
 {
     qCDebug(ARK) << "Attempting to open archive" << localFilePath();
 
-    const QString localFile(localFilePath());
-    const QFileInfo localFileInfo(localFile);
-    const bool creatingNewArchive =
-        arguments().metaData()[QStringLiteral("createNewArchive")] == QLatin1String("true");
-
-    if (localFileInfo.isDir()) {
-        KMessageBox::error(widget(), xi18nc("@info",
-                                            "<filename>%1</filename> is a directory.",
-                                            localFile));
+    if (!isLocalFileValid()) {
         return false;
     }
 
-    if (creatingNewArchive) {
-        if (localFileInfo.exists()) {
-            int overwrite =  KMessageBox::questionYesNo(widget(), xi18nc("@info", "The archive <filename>%1</filename> already exists. Would you like to open it instead?", localFile), i18nc("@title:window", "File Exists"), KGuiItem(i18n("Open File")), KStandardGuiItem::cancel());
-
-            if (overwrite == KMessageBox::No) {
-                return false;
-            }
-        }
-        displayMsgWidget(KMessageWidget::Information, xi18nc("@info", "The archive <filename>%1</filename> will be created as soon as you add a file.", localFile));
-    } else {
-        if (!localFileInfo.exists()) {
-            KMessageBox::sorry(widget(), xi18nc("@info", "The archive <filename>%1</filename> was not found.", localFile), i18nc("@title:window", "Error Opening Archive"));
-            return false;
-        }
-
-        if (!localFileInfo.isReadable()) {
-            displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "The archive <filename>%1</filename> could not be loaded, as it was not possible to read from it.", localFile));
-            return false;
-        }
-    }
-
-    QScopedPointer<Kerfuffle::Archive> archive(Kerfuffle::Archive::create(localFile, m_model));
-
+    QScopedPointer<Kerfuffle::Archive> archive(Kerfuffle::Archive::create(localFilePath(), m_model));
     Q_ASSERT(archive);
 
     if (archive->error() == NoPlugin) {
-        KMessageBox::sorry(widget(),
-                           xi18nc("@info", "Ark was not able to open <filename>%1</filename>. No suitable plugin found."
-                                  "<nl/><nl/>Ark does not seem to support this file type.",
-                                  localFile.section(QLatin1Char('/'), -1)),
-                           i18nc("@title:window", "Error Opening Archive"));
+        displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "Ark was not able to open <filename>%1</filename>. No suitable plugin found.<nl/>"
+                                                                "Ark does not seem to support this file type.",
+                                                                QFileInfo(localFilePath()).fileName()));
         return false;
-    } else if (archive->error() == FailedPlugin) {
-        KMessageBox::sorry(widget(),
-                           xi18nc("@info", "Ark was not able to open <filename>%1</filename>. Failed to load a suitable plugin."
-                                  "<nl/><nl/>Make sure any executables needed to handle the archive type are installed.",
-                                  localFile.section(QLatin1Char('/'), -1)),
-                           i18nc("@title:window", "Error Opening Archive"));
+    }
+
+    if (archive->error() == FailedPlugin) {
+        displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "Ark was not able to open <filename>%1</filename>. Failed to load a suitable plugin.<nl/>"
+                                                                "Make sure any executables needed to handle the archive type are installed.",
+                                                                QFileInfo(localFilePath()).fileName()));
         return false;
     }
 
@@ -617,6 +585,43 @@ QList<Kerfuffle::SettingsPage*> Part::settingsPages(QWidget *parent) const
     return pages;
 }
 
+bool Part::isLocalFileValid()
+{
+    const QString localFile = localFilePath();
+    const QFileInfo localFileInfo(localFile);
+    const bool creatingNewArchive = arguments().metaData()[QStringLiteral("createNewArchive")] == QLatin1String("true");
+
+    if (localFileInfo.isDir()) {
+        displayMsgWidget(KMessageWidget::Error, xi18nc("@info",
+                                                       "<filename>%1</filename> is a directory.",
+                                                       localFile));
+        return false;
+    }
+
+    if (creatingNewArchive) {
+        if (localFileInfo.exists()) {
+            int overwrite =  KMessageBox::questionYesNo(widget(), xi18nc("@info", "The archive <filename>%1</filename> already exists. Would you like to open it instead?", localFile), i18nc("@title:window", "File Exists"), KGuiItem(i18n("Open File")), KStandardGuiItem::cancel());
+
+            if (overwrite == KMessageBox::No) {
+                return false;
+            }
+        }
+        displayMsgWidget(KMessageWidget::Information, xi18nc("@info", "The archive <filename>%1</filename> will be created as soon as you add a file.", localFile));
+    } else {
+        if (!localFileInfo.exists()) {
+            displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "The archive <filename>%1</filename> was not found.", localFile));
+            return false;
+        }
+
+        if (!localFileInfo.isReadable()) {
+            displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "The archive <filename>%1</filename> could not be loaded, as it was not possible to read from it.", localFile));
+            return false;
+        }
+    }
+
+    return true;
+}
+
 void Part::slotLoadingStarted()
 {
 }
@@ -626,11 +631,9 @@ void Part::slotLoadingFinished(KJob *job)
     if (job->error()) {
         if (arguments().metaData()[QStringLiteral("createNewArchive")] != QLatin1String("true")) {
             if (job->error() != KJob::KilledJobError) {
-                KMessageBox::error(widget(),
-                                   xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error:<nl/><nl/><message>%2</message>",
-                                          localFilePath(),
-                                          job->errorText()),
-                                   i18nc("@title:window", "Error Opening Archive"));
+                displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error:<nl/><message>%2</message>",
+                                                               localFilePath(),
+                                                               job->errorText()));
             }
 
             // The file failed to open, so reset the open archive, info panel and caption.

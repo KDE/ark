@@ -76,6 +76,13 @@ public:
     KConfigSkeleton *config() const Q_DECL_OVERRIDE;
     QList<Kerfuffle::SettingsPage*> settingsPages(QWidget *parent) const Q_DECL_OVERRIDE;
 
+    /**
+     * Validate the localFilePath() associated to this part.
+     * If the file is not valid, an error message is displayed to the user.
+     * @return Whether the localFilePath() can be loaded by the part.
+     */
+    bool isLocalFileValid();
+
 public slots:
     void extractSelectedFilesTo(const QString& localPath);
 
