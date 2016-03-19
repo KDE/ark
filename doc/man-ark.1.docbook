@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
-<!ENTITY % English "INCLUDE">
+  <!ENTITY % English "INCLUDE">
 ]>
 
 <refentry lang="&language;">
@@ -16,11 +16,11 @@
 <email>rakuco@FreeBSD.org</email></author>
 
 <author><firstname>Ragnar</firstname><surname>Thomsen</surname>
-<contrib>Update of &ark; man page in 2015.</contrib>
+<contrib>Update of &ark; man page in 2015 and 2016.</contrib>
 <email>rthomsen6@gmail.com</email></author>
 
-<date>2015-09-27</date><!--Update only when changing/reviewing this man page-->
-<releaseinfo>Applications 15.08</releaseinfo><!--Update only when changing/reviewing this man page-->
+<date>2016-03-19</date><!--Update only when changing/reviewing this man page-->
+<releaseinfo>16.04</releaseinfo><!--Update only when changing/reviewing this man page-->
 <productname>KDE Applications</productname>
 </refentryinfo>
 
@@ -213,8 +213,9 @@ then add <replaceable>photo1.jpg</replaceable> and <replaceable>text.txt</replac
 </refsect1>
 
 <refsect1>
-<title>Authors</title>
-<para>&ark; is currently maintained by &Raphael.Kubo.da.Costa;<email>rakuco@FreeBSD.org</email>.</para>
+<title>Maintainership</title>
+<para>&ark; is currently maintained by <emphasis role="bold">Elvis Angelaccio</emphasis> and
+<emphasis role="bold">Ragnar Thomsen</emphasis>.</para>
 </refsect1>
 
 </refentry>
