@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="ark" version="16">
+<kpartgui name="ark" version="17">
 <MenuBar>
 	<Menu name="archive">
 		<text>&amp;Archive</text>
@@ -22,9 +22,4 @@
 		<DefineGroup name="settings_show" append="show_merge"/>
 	</Menu>
 </MenuBar>
-<ToolBar noMerge="1" name="mainToolBar">
-	<text>Main Toolbar</text>
-	<Action name="ark_file_new"/>
-	<Action name="ark_file_open"/>
-</ToolBar>
 </kpartgui>
