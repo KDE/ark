@@ -1140,12 +1140,16 @@ void Part::slotDeleteFilesDone(KJob* job)
 
 void Part::slotDeleteFiles()
 {
-    const int reallyDelete =
+    const int selectionsCount = m_view->selectionModel()->selectedRows().count();
+    const auto reallyDelete =
         KMessageBox::questionYesNo(widget(),
-                                   i18n("Deleting these files is not undoable. Are you sure you want to do this?"),
-                                   i18nc("@title:window", "Delete files"),
+                                   i18ncp("@info",
+                                          "Deleting this file is not undoable. Are you sure you want to do this?",
+                                          "Deleting these files is not undoable. Are you sure you want to do this?",
+                                          selectionsCount),
+                                   i18ncp("@title:window", "Delete File", "Delete Files", selectionsCount),
                                    KStandardGuiItem::del(),
-                                   KStandardGuiItem::cancel(),
+                                   KStandardGuiItem::no(),
                                    QString(),
                                    KMessageBox::Dangerous | KMessageBox::Notify);
 
