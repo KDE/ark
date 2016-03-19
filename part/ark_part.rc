@@ -1,12 +1,12 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="ark_part" version="8">
+<kpartgui name="ark_part" version="9">
 <MenuBar>
 	<Menu name="archive">
 		<text>&amp;Archive</text>
 		<Action name="ark_file_save_as" group="file_save"/>
 		<Action name="add" group="archive_edit"/>
 		<Action name="add-dir" group="archive_edit"/>
-		<Action name="extract" group="archive_extract"/>
+		<Action name="extract_all" group="archive_extract"/>
 		<Action name="properties" group="archive_props"/>
 	</Menu>
 	<Menu name="ark_file">

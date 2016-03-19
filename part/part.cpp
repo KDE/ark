@@ -315,10 +315,11 @@ void Part::setupActions()
     connect(m_previewAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
     m_signalMapper->setMapping(m_previewAction, Preview);
 
-    m_extractArchiveAction = actionCollection()->addAction(QStringLiteral("extract"));
-    m_extractArchiveAction->setText(i18nc("@action:inmenu", "E&xtract"));
+    m_extractArchiveAction = actionCollection()->addAction(QStringLiteral("extract_all"));
+    m_extractArchiveAction->setText(i18nc("@action:inmenu", "E&xtract All"));
     m_extractArchiveAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
     m_extractArchiveAction->setToolTip(i18n("Click to open an extraction dialog, where you can choose how to extract all the files in the archive"));
+    actionCollection()->setDefaultShortcut(m_extractArchiveAction, Qt::CTRL + Qt::SHIFT + Qt::Key_E);
     connect(m_extractArchiveAction, &QAction::triggered,
             this, &Part::slotExtractArchive);
 
