@@ -138,8 +138,7 @@ private:
     QAction *m_openFileAction;
     QAction *m_openFileWithAction;
     QAction *m_extractArchiveAction;
-    QAction *m_extractFilesAction;
-    QAction *m_toolbarExtractAction;
+    QAction *m_extractAction;
     QAction *m_addFilesAction;
     QAction *m_addDirAction;
     QAction *m_deleteFilesAction;

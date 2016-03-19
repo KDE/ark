@@ -177,8 +177,7 @@ Part::~Part()
     ArkSettings::self()->save();
 
     m_extractArchiveAction->menu()->deleteLater();
-    m_extractFilesAction->menu()->deleteLater();
-    m_toolbarExtractAction->menu()->deleteLater();
+    m_extractAction->menu()->deleteLater();
 }
 
 KAboutData *Part::createAboutData()
@@ -323,19 +322,12 @@ void Part::setupActions()
     connect(m_extractArchiveAction, &QAction::triggered,
             this, &Part::slotExtractArchive);
 
-    m_extractFilesAction = actionCollection()->addAction(QStringLiteral("extract_files"));
-    m_extractFilesAction->setText(i18nc("@action:inmenu", "E&xtract"));
-    m_extractFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
-    m_extractFilesAction->setToolTip(i18n("Click to open an extraction dialog, where you can choose how to extract the selected files"));
-    connect(m_extractFilesAction, &QAction::triggered,
-            this, &Part::slotShowExtractionDialog);
-
-    m_toolbarExtractAction = actionCollection()->addAction(QStringLiteral("toolbar_extract"));
-    m_toolbarExtractAction->setText(i18nc("@action:intoolbar", "E&xtract"));
-    m_toolbarExtractAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
-    m_toolbarExtractAction->setToolTip(i18n("Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones"));
-    actionCollection()->setDefaultShortcut(m_toolbarExtractAction, Qt::CTRL + Qt::Key_E);
-    connect(m_toolbarExtractAction, &QAction::triggered,
+    m_extractAction = actionCollection()->addAction(QStringLiteral("extract"));
+    m_extractAction->setText(i18nc("@action:inmenu", "&Extract"));
+    m_extractAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
+    actionCollection()->setDefaultShortcut(m_extractAction, Qt::CTRL + Qt::Key_E);
+    m_extractAction->setToolTip(i18n("Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones"));
+    connect(m_extractAction, &QAction::triggered,
             this, &Part::slotShowExtractionDialog);
 
     m_addFilesAction = actionCollection()->addAction(QStringLiteral("add"));
@@ -372,8 +364,7 @@ void Part::setupActions()
 
     updateActions();
     updateQuickExtractMenu(m_extractArchiveAction);
-    updateQuickExtractMenu(m_extractFilesAction);
-    updateQuickExtractMenu(m_toolbarExtractAction);
+    updateQuickExtractMenu(m_extractAction);
 }
 
 void Part::updateActions()
@@ -394,11 +385,8 @@ void Part::updateActions()
                                 (selectedEntriesCount == 1));
     m_extractArchiveAction->setEnabled(!isBusy() &&
                                        (m_model->rowCount() > 0));
-    m_extractFilesAction->setEnabled(!isBusy() &&
-                                     (m_model->rowCount() > 0) &&
-                                     (selectedEntriesCount > 0));
-    m_toolbarExtractAction->setEnabled(!isBusy() &&
-                                       (m_model->rowCount() > 0));
+    m_extractAction->setEnabled(!isBusy() &&
+                                (m_model->rowCount() > 0));
     m_saveAsAction->setEnabled(!isBusy() &&
                                m_model->rowCount() > 0);
     m_addFilesAction->setEnabled(!isBusy() &&
@@ -909,8 +897,7 @@ void Part::slotShowExtractionDialog()
     if (dialog.data()->exec()) {
 
         updateQuickExtractMenu(m_extractArchiveAction);
-        updateQuickExtractMenu(m_extractFilesAction);
-        updateQuickExtractMenu(m_toolbarExtractAction);
+        updateQuickExtractMenu(m_extractAction);
 
         QVariantList files;
 
