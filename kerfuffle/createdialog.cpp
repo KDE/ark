@@ -83,7 +83,6 @@ CreateDialog::CreateDialog(QWidget *parent,
     m_vlayout->addWidget(m_fileWidget);
 
     m_fileWidget->setMode(KFile::File | KFile::LocalOnly);
-    m_fileWidget->setConfirmOverwrite(true);
     m_fileWidget->setOperationMode(KFileWidget::Saving);
     m_fileWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     m_fileWidget->setFilter(filterFromMimeTypes(Kerfuffle::supportedWriteMimeTypes()));

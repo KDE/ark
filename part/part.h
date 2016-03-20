@@ -83,6 +83,12 @@ public:
      */
     bool isLocalFileValid();
 
+    /**
+     * Ask the user whether to overwrite @p targetFile, when creating a new archive with the same path.
+     * @return True if the file has been successfully removed upon user's will. False otherwise.
+     */
+    bool confirmAndDelete(const QString& targetFile);
+
 public slots:
     void extractSelectedFilesTo(const QString& localPath);
 
