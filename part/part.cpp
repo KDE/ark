@@ -699,7 +699,11 @@ void Part::setReadyGui()
 {
     QApplication::restoreOverrideCursor();
     m_busy = false;
-    m_statusBarExtension->statusBar()->hide();
+
+    if (m_statusBarExtension->statusBar()) {
+        m_statusBarExtension->statusBar()->hide();
+    }
+
     m_view->setEnabled(true);
     updateActions();
 }
@@ -708,7 +712,11 @@ void Part::setBusyGui()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     m_busy = true;
-    m_statusBarExtension->statusBar()->show();
+
+    if (m_statusBarExtension->statusBar()) {
+        m_statusBarExtension->statusBar()->show();
+    }
+
     m_view->setEnabled(false);
     updateActions();
 }
