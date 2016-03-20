@@ -118,6 +118,8 @@ ParameterList CliPlugin::parameterList() const
         p[WrongPasswordPatterns] = QStringList() << QStringLiteral("incorrect password");
         //p[ExtractionFailedPatterns] = QStringList() << "CRC failed";
         p[CorruptArchivePatterns] = QStringList() << QStringLiteral("End-of-central-directory signature not found");
+        p[DiskFullPatterns] = QStringList() << QStringLiteral("write error \\(disk full\\?\\)")
+                                            << QStringLiteral("No space left on device");
     }
     return p;
 }

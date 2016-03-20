@@ -181,6 +181,11 @@ enum CliInterfaceParameters {
      * index 4 - Cancel operation
      */
     FileExistsInput,
+    /**
+      * QStringList
+      * Regexp patterns capturing disk is full error messages.
+      */
+    DiskFullPatterns,
 
     ///////////////[ DELETE ]/////////////
 

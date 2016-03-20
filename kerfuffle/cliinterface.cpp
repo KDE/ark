@@ -787,6 +787,7 @@ void CliInterface::readStdout(bool handleAll)
 
     bool foundErrorMessage =
         (wrongPasswordMessage ||
+         checkForErrorMessage(QLatin1String(lines.last()), DiskFullPatterns) ||
          checkForErrorMessage(QLatin1String(lines.last()), ExtractionFailedPatterns) ||
          checkForPasswordPromptMessage(QLatin1String(lines.last())) ||
          checkForErrorMessage(QLatin1String(lines.last()), FileExistsExpression));
@@ -839,6 +840,7 @@ void CliInterface::handleLine(const QString& line)
     }
 
     if (m_operationMode == Copy) {
+
         if (checkForPasswordPromptMessage(line)) {
             qCDebug(ARK) << "Found a password prompt";
 
@@ -860,6 +862,13 @@ void CliInterface::handleLine(const QString& line)
             return;
         }
 
+        if (checkForErrorMessage(line, DiskFullPatterns)) {
+            qCWarning(ARK) << "Found disk full message:" << line;
+            emit error(i18nc("@info", "Extraction failed because the disk is full."));
+            failOperation();
+            return;
+        }
+
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
@@ -869,7 +878,7 @@ void CliInterface::handleLine(const QString& line)
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
-            qCWarning(ARK) << "Error in extraction!!";
+            qCWarning(ARK) << "Error in extraction:" << line;
             emit error(i18n("Extraction failed because of an unexpected error."));
             failOperation();
             return;
