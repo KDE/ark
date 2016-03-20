@@ -143,6 +143,7 @@ Archive *Archive::create(const QString &fileName, const KPluginMetaData &pluginM
 
 Archive::Archive(ArchiveError errorCode, QObject *parent)
         : QObject(parent)
+        , m_iface(Q_NULLPTR)
         , m_error(errorCode)
 {
     qCDebug(ARK) << "Created archive instance with error";
@@ -189,60 +190,80 @@ QString Archive::completeBaseName() const
 
 QString Archive::fileName() const
 {
-    return m_iface->filename();
+    return isValid() ? m_iface->filename() : QString();
 }
 
 QString Archive::comment() const
 {
-    return m_iface->comment();
+    return isValid() ? m_iface->comment() : QString();
 }
 
 QMimeType Archive::mimeType() const
 {
-    return determineMimeType(fileName());
+    return isValid() ? determineMimeType(fileName()) : QMimeType();
 }
 
 bool Archive::isReadOnly() const
 {
-    return (m_iface->isReadOnly() || m_isReadOnly);
+    return isValid() ? (m_iface->isReadOnly() || m_isReadOnly) : false;
 }
 
 bool Archive::isSingleFolderArchive()
 {
+    if (!isValid()) {
+        return false;
+    }
+
     listIfNotListed();
     return m_isSingleFolderArchive;
 }
 
 bool Archive::hasComment() const
 {
-    return !m_iface->comment().isEmpty();
+    return isValid() ? !comment().isEmpty() : false;
 }
 
 Archive::EncryptionType Archive::encryptionType()
 {
+    if (!isValid()) {
+        return Unencrypted;
+    }
+
     listIfNotListed();
     return m_encryptionType;
 }
 
 qulonglong Archive::numberOfFiles()
 {
+    if (!isValid()) {
+        return 0;
+    }
+
     listIfNotListed();
     return m_numberOfFiles;
 }
 
 qulonglong Archive::unpackedSize()
 {
+    if (!isValid()) {
+        return 0;
+    }
+
     listIfNotListed();
     return m_extractedFilesSize;
 }
 
 qulonglong Archive::packedSize() const
 {
-    return QFileInfo(fileName()).size();
+    return isValid() ? QFileInfo(fileName()).size() : 0;
 }
 
 QString Archive::subfolderName()
 {
+    if (!isValid()) {
+        return QString();
+    }
+
     listIfNotListed();
     return m_subfolderName;
 }
@@ -256,7 +277,7 @@ void Archive::onNewEntry(const ArchiveEntry &entry)
 
 bool Archive::isValid() const
 {
-    return (m_error == NoError);
+    return m_iface && (m_error == NoError);
 }
 
 ArchiveError Archive::error() const
@@ -276,7 +297,7 @@ KJob* Archive::create()
 
 ListJob* Archive::list()
 {
-    if (!QFileInfo::exists(fileName())) {
+    if (!isValid() || !QFileInfo::exists(fileName())) {
         return Q_NULLPTR;
     }
 
@@ -295,6 +316,10 @@ ListJob* Archive::list()
 
 DeleteJob* Archive::deleteFiles(const QList<QVariant> & files)
 {
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
     qCDebug(ARK) << "Going to delete files" << files;
 
     if (m_iface->isReadOnly()) {
@@ -307,6 +332,10 @@ DeleteJob* Archive::deleteFiles(const QList<QVariant> & files)
 
 AddJob* Archive::addFiles(const QStringList & files, const CompressionOptions& options)
 {
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
     qCDebug(ARK) << "Going to add files" << files << "with options" << options;
     Q_ASSERT(!m_iface->isReadOnly());
     AddJob *newJob = new AddJob(files, options, static_cast<ReadWriteArchiveInterface*>(m_iface), this);
@@ -316,6 +345,10 @@ AddJob* Archive::addFiles(const QStringList & files, const CompressionOptions& o
 
 ExtractJob* Archive::copyFiles(const QList<QVariant>& files, const QString& destinationDir, const ExtractionOptions& options)
 {
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
     ExtractionOptions newOptions = options;
     if (encryptionType() != Unencrypted) {
         newOptions[QStringLiteral( "PasswordProtectedHint" )] = true;
@@ -327,6 +360,10 @@ ExtractJob* Archive::copyFiles(const QList<QVariant>& files, const QString& dest
 
 void Archive::encrypt(const QString &password, bool encryptHeader)
 {
+    if (!isValid()) {
+        return;
+    }
+
     m_iface->setPassword(password);
     m_iface->setHeaderEncryptionEnabled(encryptHeader);
     m_encryptionType = encryptHeader ? HeaderEncrypted : Encrypted;
