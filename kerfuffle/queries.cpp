@@ -31,7 +31,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KPasswordDialog>
-#include <kio/renamedialog.h>
+#include <KIO/RenameDialog>
 
 #include <QApplication>
 #include <QCheckBox>
@@ -71,7 +71,7 @@ OverwriteQuery::OverwriteQuery(const QString &filename) :
         m_noRenameMode(false),
         m_multiMode(true)
 {
-    m_data[QStringLiteral( "filename" )] = filename;
+    m_data[QStringLiteral("filename")] = filename;
 }
 
 void OverwriteQuery::execute()
@@ -80,23 +80,23 @@ void OverwriteQuery::execute()
     // at the moment (#231974)
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
-    KIO::RenameDialog_Mode mode = (KIO::RenameDialog_Mode)(KIO::M_OVERWRITE | KIO::M_SKIP);
+    KIO::RenameDialog_Options options = KIO::RenameDialog_Overwrite | KIO::RenameDialog_Skip;
     if (m_noRenameMode) {
-        mode = (KIO::RenameDialog_Mode)(mode | KIO::M_NORENAME);
+        options = options | KIO::RenameDialog_NoRename;
     }
     if (m_multiMode) {
-        mode = (KIO::RenameDialog_Mode)(mode | KIO::M_MULTI);
+        options = options | KIO::RenameDialog_MultipleItems;
     }
 
-    QUrl sourceUrl(QDir::cleanPath(m_data.value(QStringLiteral( "filename" )).toString()));
-    QUrl destUrl(QDir::cleanPath(m_data.value(QStringLiteral( "filename" )).toString()));
+    QUrl sourceUrl = QUrl::fromLocalFile(QDir::cleanPath(m_data.value(QStringLiteral("filename")).toString()));
+    QUrl destUrl = QUrl::fromLocalFile(QDir::cleanPath(m_data.value(QStringLiteral("filename")).toString()));
 
     QPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
         Q_NULLPTR,
         i18nc("@title:window", "File Already Exists"),
         sourceUrl,
         destUrl,
-        mode);
+        options);
     dialog.data()->exec();
 
     m_data[QStringLiteral("newFilename")] = dialog.data()->newDestUrl().toDisplayString(QUrl::PreferLocalFile);
