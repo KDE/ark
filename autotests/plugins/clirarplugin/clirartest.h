@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2015,2016 Ragnar Thomsen <rthomsen6@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -36,15 +37,14 @@ class CliRarTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
-    void testReadCorruptedArchive();
-    void testUnrar4Normal();
-    void testUnrar5Normal();
-    void testUnrar4Symlink();
-    void testUnrar5Symlink();
-    void testUnrar4EncryptedFiles();
-    void testUnrar5EncryptedFiles();
-    void testUnrar4RecoveryRecord();
-    void testUnrar5RecoveryRecord();
+    void initTestCase();
+    void testArchive_data();
+    void testArchive();
+    void testList_data();
+    void testList();
+
+private:
+    KPluginMetaData m_pluginMetadata;
 };
 
 Q_DECLARE_METATYPE(ArchiveEntry)

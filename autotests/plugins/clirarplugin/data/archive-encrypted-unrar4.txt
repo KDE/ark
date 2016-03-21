@@ -1,0 +1,33 @@
+
+UNRAR 4.20 freeware      Copyright (c) 1993-2012 Alexander Roshal
+
+Archive rartestenc.rar
+
+Pathname/Comment
+                  Size   Packed Ratio  Date   Time     Attr      CRC   Meth Ver
+               Host OS    Solid   Old
+-------------------------------------------------------------------------------
+*rartest/file4.txt
+                    32       48 150% 21-03-16 17:03 -rw-rw-r-- A04F9191 m3b 2.9
+                  Unix       No   No
+*rartest/file1.txt
+                    32       48 150% 21-03-16 17:03 -rw-rw-r-- 034EE5C7 m3b 2.9
+                  Unix       No   No
+*rartest/file2.txt
+                    14       32 228% 21-03-16 17:03 -rw-rw-r-- A5BA4A7B m3b 2.9
+                  Unix       No   No
+*rartest/dir1/file11.txt
+                    32       48 150% 21-03-16 17:03 -rw-rw-r-- 034EE5C7 m3b 2.9
+                  Unix       No   No
+*rartest/file3.txt
+                    32       32 100% 21-03-16 17:03 -rw-rw-r-- 99D12E31 m3b 2.9
+                  Unix       No   No
+ rartest/dir1
+                     0        0   0% 21-03-16 17:03 drwxrwxr-x 00000000 m0  2.9
+                  Unix       No   No
+ rartest
+                     0        0   0% 21-03-16 17:03 drwxrwxr-x 00000000 m0  2.9
+                  Unix       No   No
+-------------------------------------------------------------------------------
+    7              142      208 146%
+

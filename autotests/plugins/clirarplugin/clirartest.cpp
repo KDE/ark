@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2011,2014 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2015,2016 Ragnar Thomsen <rthomsen6@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -25,281 +26,188 @@
 
 #include "clirartest.h"
 
-#include <QtTest/QtTest>
-
 #include <QFile>
+#include <QSignalSpy>
+#include <QTest>
 #include <QTextStream>
+
+#include <KPluginLoader>
 
 QTEST_GUILESS_MAIN(CliRarTest)
 
 using namespace Kerfuffle;
 
-/*
- * Check that the plugin will not crash when reading corrupted archives, which
- * have lines such as "Unexpected end of archive" or "??? - the file header is
- * corrupt" instead of a file name and the header string after it.
- *
- * See bug 262857 and commit 2042997013432cdc6974f5b26d39893a21e21011.
- */
-void CliRarTest::testReadCorruptedArchive()
+void CliRarTest::initTestCase()
 {
     qRegisterMetaType<ArchiveEntry>();
 
-    QVariantList args;
-    args.append(QStringLiteral("DummyArchive.rar"));
-
-    CliPlugin *rarPlugin = new CliPlugin(this, args);
-    QVERIFY(rarPlugin->open());
-
-    QSignalSpy spy(rarPlugin, SIGNAL(entry(ArchiveEntry)));
-
-    QFile unrarOutput(QFINDTESTDATA("data/testReadCorruptedArchive.txt"));
-    QVERIFY(unrarOutput.open(QIODevice::ReadOnly));
-
-    QTextStream unrarStream(&unrarOutput);
-    while (!unrarStream.atEnd()) {
-        const QString line(unrarStream.readLine());
-        QVERIFY(rarPlugin->readListLine(line));
+    const auto plugins = KPluginLoader::findPluginsById(QStringLiteral("kerfuffle"), QStringLiteral("kerfuffle_clirar"));
+    if (plugins.size() == 1) {
+        m_pluginMetadata = plugins.at(0);
     }
-
-    qDebug() << "Entries found:" << spy.count();
-    QCOMPARE(spy.count(), 1);
-
-    // Check if the first entry's name is correctly parsed.
-    ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(0).at(0));
-    QCOMPARE(entry[FileName].toString(), QStringLiteral("some-file.ext"));
-
-    rarPlugin->deleteLater();
 }
 
-void CliRarTest::testUnrar4Normal()
+void CliRarTest::testArchive_data()
 {
-    QVariantList args;
-    args.append(QStringLiteral("DummyArchive.rar"));
+    QTest::addColumn<QString>("archivePath");
+    QTest::addColumn<QString>("expectedFileName");
+    QTest::addColumn<bool>("isReadOnly");
+    QTest::addColumn<bool>("isSingleFolder");
+    QTest::addColumn<Archive::EncryptionType>("expectedEncryptionType");
+    QTest::addColumn<QString>("expectedSubfolderName");
 
-    CliPlugin *rarPlugin = new CliPlugin(this, args);
-    QVERIFY(rarPlugin->open());
-
-    QSignalSpy spy(rarPlugin, SIGNAL(entry(ArchiveEntry)));
-
-    QFile unrarOutput(QFINDTESTDATA("data/testUnrar4Normal.txt"));
-    QVERIFY(unrarOutput.open(QIODevice::ReadOnly));
-
-    QTextStream unrarStream(&unrarOutput);
-    while (!unrarStream.atEnd()) {
-        const QString line(unrarStream.readLine());
-        QVERIFY(rarPlugin->readListLine(line));
-    }
-
-    qDebug() << "Entries found:" << spy.count();
-    QCOMPARE(spy.count(), 8);
-
-    // Check if the sixth entry's name is correctly parsed.
-    ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(5).at(0));
-    QCOMPARE(entry[FileName].toString(), QStringLiteral("dir2/file2.txt"));
-
-    rarPlugin->deleteLater();
+    QString archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
+    QTest::newRow("archive with one top-level folder")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << false << true << Archive::Unencrypted
+            << QStringLiteral("A");
 }
 
-void CliRarTest::testUnrar5Normal()
+void CliRarTest::testArchive()
 {
-    QVariantList args;
-    args.append(QStringLiteral("DummyArchive.rar"));
-
-    CliPlugin *rarPlugin = new CliPlugin(this, args);
-    QVERIFY(rarPlugin->open());
-
-    QSignalSpy spy(rarPlugin, SIGNAL(entry(ArchiveEntry)));
-
-    QFile unrarOutput(QFINDTESTDATA("data/testUnrar5Normal.txt"));
-    QVERIFY(unrarOutput.open(QIODevice::ReadOnly));
-
-    QTextStream unrarStream(&unrarOutput);
-    while (!unrarStream.atEnd()) {
-        const QString line(unrarStream.readLine());
-        QVERIFY(rarPlugin->readListLine(line));
+    if (!m_pluginMetadata.isValid()) {
+        QSKIP("Could not find the clirar plugin. Skipping test.", SkipSingle);
     }
 
-    qDebug() << "Entries found:" << spy.count();
-    QCOMPARE(spy.count(), 8);
+    QFETCH(QString, archivePath);
+    Archive *archive = Archive::create(archivePath, m_pluginMetadata, this);
+    QVERIFY(archive);
 
-    // Check if the sixth entry's name is correctly parsed.
-    ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(5).at(0));
-    QCOMPARE(entry[FileName].toString(), QStringLiteral("dir2/file2.txt"));
+    if (!archive->isValid()) {
+        QSKIP("Could not load the clirar plugin. Skipping test.", SkipSingle);
+    }
 
-    rarPlugin->deleteLater();
+    QFETCH(QString, expectedFileName);
+    QCOMPARE(QFileInfo(archive->fileName()).fileName(), expectedFileName);
+
+    QFETCH(bool, isReadOnly);
+    QCOMPARE(archive->isReadOnly(), isReadOnly);
+
+    QFETCH(bool, isSingleFolder);
+    QCOMPARE(archive->isSingleFolderArchive(), isSingleFolder);
+
+    QFETCH(Archive::EncryptionType, expectedEncryptionType);
+    QCOMPARE(archive->encryptionType(), expectedEncryptionType);
+
+    QFETCH(QString, expectedSubfolderName);
+    QCOMPARE(archive->subfolderName(), expectedSubfolderName);
 }
 
-void CliRarTest::testUnrar4Symlink()
+void CliRarTest::testList_data()
 {
-    QVariantList args;
-    args.append(QStringLiteral("DummyArchive.rar"));
+    QTest::addColumn<QString>("outputTextFile");
+    QTest::addColumn<int>("expectedEntriesCount");
+    // Index of some entry to be tested.
+    QTest::addColumn<int>("someEntryIndex");
+    // Entry metadata.
+    QTest::addColumn<QString>("expectedName");
+    QTest::addColumn<bool>("isDirectory");
+    QTest::addColumn<bool>("isPasswordProtected");
+    QTest::addColumn<QString>("symlinkTarget");
+    QTest::addColumn<qulonglong>("expectedSize");
+    QTest::addColumn<qulonglong>("expectedCompressedSize");
+    QTest::addColumn<QString>("expectedTimestamp");
 
-    CliPlugin *rarPlugin = new CliPlugin(this, args);
-    QVERIFY(rarPlugin->open());
+    // Unrar 5 tests
 
-    QSignalSpy spy(rarPlugin, SIGNAL(entry(ArchiveEntry)));
+    QTest::newRow("normal-file-unrar5")
+            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << 8
+            << 2 << QStringLiteral("rartest/file2.txt") << false << false << QString() << (qulonglong) 14 << (qulonglong) 23 << QStringLiteral("2016-03-21T08:57:36");
 
-    QFile unrarOutput(QFINDTESTDATA("data/testUnrar4Symlink.txt"));
-    QVERIFY(unrarOutput.open(QIODevice::ReadOnly));
+    QTest::newRow("symlink-unrar5")
+            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << 8
+            << 3 << QStringLiteral("rartest/linktofile1.txt") << false << false << QStringLiteral("file1.txt") << (qulonglong) 9 << (qulonglong) 9 << QStringLiteral("2016-03-21T08:58:16");
 
-    QTextStream unrarStream(&unrarOutput);
-    while (!unrarStream.atEnd()) {
-        const QString line(unrarStream.readLine());
-        QVERIFY(rarPlugin->readListLine(line));
-    }
+    QTest::newRow("encrypted-unrar5")
+            << QFINDTESTDATA("data/archive-encrypted-unrar5.txt") << 7
+            << 2 << QStringLiteral("rartest/file2.txt") << false << true << QString() << (qulonglong) 14 << (qulonglong) 32 << QStringLiteral("2016-03-21T17:03:36");
 
-    qDebug() << "Entries found:" << spy.count();
-    QCOMPARE(spy.count(), 3);
+    QTest::newRow("recovery-record-unrar5")
+            << QFINDTESTDATA("data/archive-recovery-record-unrar5.txt") << 3
+            << 0 << QStringLiteral("file1.txt") << false << false << QString() << (qulonglong) 32 << (qulonglong) 33 << QStringLiteral("2015-07-26T19:04:38");
 
-    // Check if the second entry's name is correctly parsed.
-    ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(1).at(0));
-    QCOMPARE(entry[FileName].toString(), QStringLiteral("foo/hello2"));
+    QTest::newRow("corrupt-archive-unrar5")
+            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar5.txt") << 8
+            << 6 << QStringLiteral("dir1/") << true << false << QString() << (qulonglong) 0 << (qulonglong) 0 << QStringLiteral("2015-05-14T01:45:24");
 
-    rarPlugin->deleteLater();
+    // Unrar 4 tests
+
+    QTest::newRow("normal-file-unrar4")
+            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << 8
+            << 2 << QStringLiteral("rartest/file2.txt") << false << false << QString() << (qulonglong) 14 << (qulonglong) 23 << QStringLiteral("2016-03-21T08:57:00");
+
+    QTest::newRow("symlink-unrar4")
+            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << 8
+            << 3 << QStringLiteral("rartest/linktofile1.txt") << false << false << QStringLiteral("file1.txt") << (qulonglong) 9 << (qulonglong) 9 << QStringLiteral("2016-03-21T08:58:00");
+
+    QTest::newRow("encrypted-unrar4")
+            << QFINDTESTDATA("data/archive-encrypted-unrar4.txt") << 7
+            << 2 << QStringLiteral("rartest/file2.txt") << false << true << QString() << (qulonglong) 14 << (qulonglong) 32 << QStringLiteral("2016-03-21T17:03:00");
+
+    QTest::newRow("recovery-record-unrar4")
+            << QFINDTESTDATA("data/archive-recovery-record-unrar4.txt") << 3
+            << 0 << QStringLiteral("file1.txt") << false << false << QString() << (qulonglong) 32 << (qulonglong) 33 << QStringLiteral("2015-07-26T19:04:00");
+
+    QTest::newRow("corrupt-archive-unrar4")
+            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar4.txt") << 8
+            << 6 << QStringLiteral("dir1/") << true << false << QString() << (qulonglong) 0 << (qulonglong) 0 << QStringLiteral("2015-05-14T01:45:00");
+
+    /*
+     * Check that the plugin will not crash when reading corrupted archives, which
+     * have lines such as "Unexpected end of archive" or "??? - the file header is
+     * corrupt" instead of a file name and the header string after it.
+     *
+     * See bug 262857 and commit 2042997013432cdc6974f5b26d39893a21e21011.
+     */
+    QTest::newRow("corrupt-archive-unrar3")
+            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar3.txt") << 1
+            << 0 << QStringLiteral("some-file.ext") << false << false << QString() << (qulonglong) 732522496 << (qulonglong) 14851208 << QStringLiteral("2010-10-29T20:47:00");
 }
 
-void CliRarTest::testUnrar5Symlink()
+void CliRarTest::testList()
 {
-    QVariantList args;
-    args.append(QStringLiteral("DummyArchive.rar"));
+    CliPlugin *rarPlugin = new CliPlugin(this, {QStringLiteral("dummy.rar")});
+    QSignalSpy signalSpy(rarPlugin, SIGNAL(entry(ArchiveEntry)));
 
-    CliPlugin *rarPlugin = new CliPlugin(this, args);
-    QVERIFY(rarPlugin->open());
+    QFETCH(QString, outputTextFile);
+    QFETCH(int, expectedEntriesCount);
 
-    QSignalSpy spy(rarPlugin, SIGNAL(entry(ArchiveEntry)));
+    QFile outputText(outputTextFile);
+    QVERIFY(outputText.open(QIODevice::ReadOnly));
 
-    QFile unrarOutput(QFINDTESTDATA("data/testUnrar5Symlink.txt"));
-    QVERIFY(unrarOutput.open(QIODevice::ReadOnly));
-
-    QTextStream unrarStream(&unrarOutput);
-    while (!unrarStream.atEnd()) {
-        const QString line(unrarStream.readLine());
+    QTextStream outputStream(&outputText);
+    while (!outputStream.atEnd()) {
+        const QString line(outputStream.readLine());
         QVERIFY(rarPlugin->readListLine(line));
     }
 
-    qDebug() << "Entries found:" << spy.count();
-    QCOMPARE(spy.count(), 3);
+    QCOMPARE(signalSpy.count(), expectedEntriesCount);
 
-    // Check if the first entry's name is correctly parsed.
-    ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(0).at(0));
-    QCOMPARE(entry[FileName].toString(), QStringLiteral("foo/hello2"));
+    QFETCH(int, someEntryIndex);
+    QVERIFY(someEntryIndex < signalSpy.count());
+    ArchiveEntry entry = qvariant_cast<ArchiveEntry>(signalSpy.at(someEntryIndex).at(0));
 
-    rarPlugin->deleteLater();
-}
+    QFETCH(QString, expectedName);
+    QCOMPARE(entry[FileName].toString(), expectedName);
 
-void CliRarTest::testUnrar4EncryptedFiles()
-{
-    QVariantList args;
-    args.append(QStringLiteral("DummyArchive.rar"));
+    QFETCH(bool, isDirectory);
+    QCOMPARE(entry[IsDirectory].toBool(), isDirectory);
 
-    CliPlugin *rarPlugin = new CliPlugin(this, args);
-    QVERIFY(rarPlugin->open());
+    QFETCH(bool, isPasswordProtected);
+    QCOMPARE(entry[IsPasswordProtected].toBool(), isPasswordProtected);
 
-    QSignalSpy spy(rarPlugin, SIGNAL(entry(ArchiveEntry)));
+    QFETCH(QString, symlinkTarget);
+    QCOMPARE(entry[Link].toString(), symlinkTarget);
 
-    QFile unrarOutput(QFINDTESTDATA("data/testUnrar4EncryptedFiles.txt"));
-    QVERIFY(unrarOutput.open(QIODevice::ReadOnly));
+    QFETCH(qulonglong, expectedSize);
+    QCOMPARE(entry[Size].toULongLong(), expectedSize);
 
-    QTextStream unrarStream(&unrarOutput);
-    while (!unrarStream.atEnd()) {
-        const QString line(unrarStream.readLine());
-        QVERIFY(rarPlugin->readListLine(line));
-    }
+    QFETCH(qulonglong, expectedCompressedSize);
+    QCOMPARE(entry[CompressedSize].toULongLong(), expectedCompressedSize);
 
-    qDebug() << "Entries found:" << spy.count();
-    QCOMPARE(spy.count(), 4);
-
-    // Check if the fourth entry's name is correctly parsed.
-    ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(3).at(0));
-    QCOMPARE(entry[FileName].toString(), QStringLiteral("file4.txt"));
-
-    rarPlugin->deleteLater();
-}
-
-void CliRarTest::testUnrar5EncryptedFiles()
-{
-    QVariantList args;
-    args.append(QStringLiteral("DummyArchive.rar"));
-
-    CliPlugin *rarPlugin = new CliPlugin(this, args);
-    QVERIFY(rarPlugin->open());
-
-    QSignalSpy spy(rarPlugin, SIGNAL(entry(ArchiveEntry)));
-
-    QFile unrarOutput(QFINDTESTDATA("data/testUnrar5EncryptedFiles.txt"));
-    QVERIFY(unrarOutput.open(QIODevice::ReadOnly));
-
-    QTextStream unrarStream(&unrarOutput);
-    while (!unrarStream.atEnd()) {
-        const QString line(unrarStream.readLine());
-        QVERIFY(rarPlugin->readListLine(line));
-    }
-
-    qDebug() << "Entries found:" << spy.count();
-    QCOMPARE(spy.count(), 4);
-
-    // Check if the fourth entry's name is correctly parsed.
-    ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(3).at(0));
-    QCOMPARE(entry[FileName].toString(), QStringLiteral("file4.txt"));
-
-    rarPlugin->deleteLater();
-}
-
-void CliRarTest::testUnrar4RecoveryRecord()
-{
-    QVariantList args;
-    args.append(QStringLiteral("DummyArchive.rar"));
-
-    CliPlugin *rarPlugin = new CliPlugin(this, args);
-    QVERIFY(rarPlugin->open());
-
-    QSignalSpy spy(rarPlugin, SIGNAL(entry(ArchiveEntry)));
-
-    QFile unrarOutput(QFINDTESTDATA("data/testUnrar4RecoveryRecord.txt"));
-    QVERIFY(unrarOutput.open(QIODevice::ReadOnly));
-
-    QTextStream unrarStream(&unrarOutput);
-    while (!unrarStream.atEnd()) {
-        const QString line(unrarStream.readLine());
-        QVERIFY(rarPlugin->readListLine(line));
-    }
-
-    qDebug() << "Entries found:" << spy.count();
-    QCOMPARE(spy.count(), 3);
-
-    // Check if the third entry's name is correctly parsed.
-    ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(2).at(0));
-    QCOMPARE(entry[FileName].toString(), QStringLiteral("file3.txt"));
-
-    rarPlugin->deleteLater();
-}
-
-void CliRarTest::testUnrar5RecoveryRecord()
-{
-    QVariantList args;
-    args.append(QStringLiteral("DummyArchive.rar"));
-
-    CliPlugin *rarPlugin = new CliPlugin(this, args);
-    QVERIFY(rarPlugin->open());
-
-    QSignalSpy spy(rarPlugin, SIGNAL(entry(ArchiveEntry)));
-
-    QFile unrarOutput(QFINDTESTDATA("data/testUnrar5RecoveryRecord.txt"));
-    QVERIFY(unrarOutput.open(QIODevice::ReadOnly));
-
-    QTextStream unrarStream(&unrarOutput);
-    while (!unrarStream.atEnd()) {
-        const QString line(unrarStream.readLine());
-        QVERIFY(rarPlugin->readListLine(line));
-    }
-
-    qDebug() << "Entries found:" << spy.count();
-    QCOMPARE(spy.count(), 3);
-
-    // Check if the third entry's name is correctly parsed.
-    ArchiveEntry entry = qvariant_cast<ArchiveEntry>(spy.at(2).at(0));
-    QCOMPARE(entry[FileName].toString(), QStringLiteral("file3.txt"));
+    QFETCH(QString, expectedTimestamp);
+    QCOMPARE(entry[Timestamp].toString(), expectedTimestamp);
 
     rarPlugin->deleteLater();
 }

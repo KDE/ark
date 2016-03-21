@@ -1,8 +1,10 @@
 
 UNRAR 4.20 freeware      Copyright (c) 1993-2012 Alexander Roshal
 
-Archive testarchive.rar
+file1.txt - the file header is corrupt
+Archive testarchive-corrupt.rar
 
+file1.txt - the file header is corrupt
 Pathname/Comment
                   Size   Packed Ratio  Date   Time     Attr      CRC   Meth Ver
                Host OS    Solid   Old

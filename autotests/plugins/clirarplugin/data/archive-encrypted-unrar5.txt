@@ -1,0 +1,82 @@
+
+UNRAR 5.31 freeware      Copyright (c) 1993-2016 Alexander Roshal
+
+Archive: rartestenc.rar
+Details: RAR 4
+
+        Name: rartest/file4.txt
+        Type: File
+        Size: 32
+ Packed size: 48
+       Ratio: 150%
+       mtime: 2016-03-21 17:03:36,000
+  Attributes: -rw-rw-r--
+       CRC32: A04F9191
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=128K
+       Flags: encrypted 
+
+        Name: rartest/file1.txt
+        Type: File
+        Size: 32
+ Packed size: 48
+       Ratio: 150%
+       mtime: 2016-03-21 17:03:36,000
+  Attributes: -rw-rw-r--
+       CRC32: 034EE5C7
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=128K
+       Flags: encrypted 
+
+        Name: rartest/file2.txt
+        Type: File
+        Size: 14
+ Packed size: 32
+       Ratio: 228%
+       mtime: 2016-03-21 17:03:36,000
+  Attributes: -rw-rw-r--
+       CRC32: A5BA4A7B
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=128K
+       Flags: encrypted 
+
+        Name: rartest/dir1/file11.txt
+        Type: File
+        Size: 32
+ Packed size: 48
+       Ratio: 150%
+       mtime: 2016-03-21 17:03:36,000
+  Attributes: -rw-rw-r--
+       CRC32: 034EE5C7
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=128K
+       Flags: encrypted 
+
+        Name: rartest/file3.txt
+        Type: File
+        Size: 32
+ Packed size: 32
+       Ratio: 100%
+       mtime: 2016-03-21 17:03:36,000
+  Attributes: -rw-rw-r--
+       CRC32: 99D12E31
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=128K
+       Flags: encrypted 
+
+        Name: rartest/dir1
+        Type: Directory
+       mtime: 2016-03-21 17:03:36,000
+  Attributes: drwxrwxr-x
+       CRC32: 00000000
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m0 -md=0K
+
+        Name: rartest
+        Type: Directory
+       mtime: 2016-03-21 17:03:44,000
+  Attributes: drwxrwxr-x
+       CRC32: 00000000
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m0 -md=0K
+
