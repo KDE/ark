@@ -19,7 +19,7 @@ configure_file(
             ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_clizip.desktop
 )
 
-kcoreaddons_desktop_to_json(kerfuffle_clizip ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_clizip.desktop)
+kcoreaddons_desktop_to_json(kerfuffle_clizip ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_clizip.desktop DEFAULT_SERVICE_TYPE)
 
 ########### install files ###############
 
