@@ -317,6 +317,28 @@ public:
      */
     bool moveToDestination(const QDir &tempDir, const QDir &destDir, bool preservePaths);
 
+    QStringList substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password, const QString &rootNode);
+
+    /**
+     * @return The preserve path switch, according to the @p preservePaths extraction option.
+     */
+    QString preservePathSwitch(bool preservePaths) const;
+
+    /**
+     * @return The password switch with the given @p password.
+     */
+    QStringList passwordSwitch(const QString& password) const;
+
+    /**
+     * @return The root node switch with the given @p rootNode.
+     */
+    QStringList rootNodeSwitch(const QString& rootNode) const;
+
+    /**
+     * @return The list of selected files to extract.
+     */
+    QStringList copyFilesList(const QVariantList& files) const;
+
 protected:
 
     virtual void handleLine(const QString& line);
@@ -336,6 +358,12 @@ protected:
     bool runProcess(const QStringList& programNames, const QStringList& arguments);
 
     void failOperation();
+
+    /**
+     * Ask the password *before* running any process.
+     * @return True if the user supplies a password, false otherwise (in which case finished() is emitted).
+     */
+    bool passwordQuery();
 
     ParameterList m_param;
     int m_exitCode;

@@ -211,3 +211,111 @@ void CliRarTest::testList()
 
     rarPlugin->deleteLater();
 }
+
+void CliRarTest::testExtractArgs_data()
+{
+    QTest::addColumn<QString>("archiveName");
+    QTest::addColumn<QVariantList>("files");
+    QTest::addColumn<bool>("preservePaths");
+    QTest::addColumn<QString>("password");
+    QTest::addColumn<QString>("rootNode");
+    QTest::addColumn<QStringList>("expectedArgs");
+
+    QTest::newRow("preserve paths, encrypted, root node")
+            << QStringLiteral("/tmp/foo.rar")
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+               }
+            << true << QStringLiteral("1234") << QStringLiteral("aDir")
+            << QStringList {
+                   QStringLiteral("-kb"),
+                   QStringLiteral("-p-"),
+                   QStringLiteral("x"),
+                   QStringLiteral("-p1234"),
+                   QStringLiteral("-apaDir"),
+                   QStringLiteral("/tmp/foo.rar"),
+                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("c.txt"),
+               };
+
+    QTest::newRow("preserve paths, unencrypted, root node")
+            << QStringLiteral("/tmp/foo.rar")
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+               }
+            << true << QString() << QStringLiteral("aDir")
+            << QStringList {
+                   QStringLiteral("-kb"),
+                   QStringLiteral("-p-"),
+                   QStringLiteral("x"),
+                   QStringLiteral("-apaDir"),
+                   QStringLiteral("/tmp/foo.rar"),
+                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("c.txt"),
+               };
+
+    QTest::newRow("without paths, encrypted, root node")
+            << QStringLiteral("/tmp/foo.rar")
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+               }
+            << false << QStringLiteral("1234") << QStringLiteral("aDir")
+            << QStringList {
+                   QStringLiteral("-kb"),
+                   QStringLiteral("-p-"),
+                   QStringLiteral("e"),
+                   QStringLiteral("-p1234"),
+                   QStringLiteral("-apaDir"),
+                   QStringLiteral("/tmp/foo.rar"),
+                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("c.txt"),
+               };
+
+    QTest::newRow("without paths, unencrypted, root node")
+            << QStringLiteral("/tmp/foo.rar")
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+               }
+            << false << QString() << QStringLiteral("aDir")
+            << QStringList {
+                   QStringLiteral("-kb"),
+                   QStringLiteral("-p-"),
+                   QStringLiteral("e"),
+                   QStringLiteral("-apaDir"),
+                   QStringLiteral("/tmp/foo.rar"),
+                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("c.txt"),
+               };
+}
+
+void CliRarTest::testExtractArgs()
+{
+    QFETCH(QString, archiveName);
+    CliPlugin *rarPlugin = new CliPlugin(this, {QVariant(archiveName)});
+    QVERIFY(rarPlugin);
+
+    const QStringList extractArgs = { QStringLiteral("-kb"),
+                                      QStringLiteral("-p-"),
+                                      QStringLiteral("$PreservePathSwitch"),
+                                      QStringLiteral("$PasswordSwitch"),
+                                      QStringLiteral("$RootNodeSwitch"),
+                                      QStringLiteral("$Archive"),
+                                      QStringLiteral("$Files") };
+
+    QFETCH(QVariantList, files);
+    QFETCH(bool, preservePaths);
+    QFETCH(QString, password);
+    QFETCH(QString, rootNode);
+
+    QStringList replacedArgs = rarPlugin->substituteCopyVariables(extractArgs, files, preservePaths, password, rootNode);
+    QVERIFY(replacedArgs.size() >= extractArgs.size());
+
+    QFETCH(QStringList, expectedArgs);
+    QCOMPARE(replacedArgs, expectedArgs);
+
+    rarPlugin->deleteLater();
+}
