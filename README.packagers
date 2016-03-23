@@ -1,0 +1,23 @@
+OPTIONAL RUNTIME DEPENDENCIES
+
+Ark has a plugin-based architecture in order to support many archive formats.
+The only required plugin is the libarchive plugin (which is why libarchive is a required build-time dependency of Ark).
+
+The other plugins are optional. They are built by default, but each of them requires one or more runtime dependencies, i.e. they won't work if they don't find the CLI executable(s) they rely on.
+
+The following is a list of these optional executables. Some of them are marked as RECOMMENDED, as Ark won't be able to (properly) handle popular formats without them.
+
+* unzip, zipinfo: to open and extract zip archives
+* zip: to create and edit zip archives
+* 7z: to open/extract/create/edit 7z and zip archives [RECOMMENDED, free]
+* unrar: to open and extract rar archives [RECOMMENDED, non-free]
+* rar: to create and edit rar archives
+* lsar, unar: to open and extract rar archives [RECOMMENDED, free]
+* lrzip: to open and extract lrzip archives
+
+OPTIONAL BUILD-TIME DEPENDENCIES
+
+* zlib: for .gz files
+* bzip2: for .bz2 files
+* liblzma/xz: for .xz files
+
