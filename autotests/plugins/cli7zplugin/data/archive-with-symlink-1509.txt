@@ -1,0 +1,119 @@
+
+7-Zip [64] 15.09 beta : Copyright (c) 1999-2015 Igor Pavlov : 2015-10-16
+p7zip Version 15.09 beta (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,64 bits,8 CPUs x64)
+
+Scanning the drive for archives:
+1 file, 371 bytes (1 KiB)
+
+Listing archive: testlink.7z
+
+--
+Path = testlink.7z
+Type = 7z
+Physical Size = 371
+Headers Size = 310
+Method = LZMA2:12
+Solid = +
+Blocks = 1
+
+----------
+Path = testarchive
+Size = 0
+Packed Size = 0
+Modified = 2016-03-23 07:46:21
+Attributes = D_ drwxrwxr-x
+CRC = 
+Encrypted = -
+Method = 
+Block = 
+
+Path = testarchive/dir1
+Size = 0
+Packed Size = 0
+Modified = 2015-05-14 00:45:24
+Attributes = D_ drwxrwxr-x
+CRC = 
+Encrypted = -
+Method = 
+Block = 
+
+Path = testarchive/dir2
+Size = 0
+Packed Size = 0
+Modified = 2015-05-14 00:43:41
+Attributes = D_ drwxrwxr-x
+CRC = 
+Encrypted = -
+Method = 
+Block = 
+
+Path = testarchive/dir1/file1.txt
+Size = 32
+Packed Size = 61
+Modified = 2015-05-17 19:41:48
+Attributes = A_ -rw-rw-r--
+CRC = 034EE5C7
+Encrypted = -
+Method = LZMA2:12
+Block = 0
+
+Path = testarchive/dir2/file2.txt
+Size = 32
+Packed Size = 
+Modified = 2015-05-17 19:41:48
+Attributes = A_ -rw-rw-r--
+CRC = D49ECBCA
+Encrypted = -
+Method = LZMA2:12
+Block = 0
+
+Path = testarchive/file1.txt
+Size = 43
+Packed Size = 
+Modified = 2015-09-13 13:05:45
+Attributes = A_ -rw-rw-r--
+CRC = 94E02716
+Encrypted = -
+Method = LZMA2:12
+Block = 0
+
+Path = testarchive/file2.txt
+Size = 32
+Packed Size = 
+Modified = 2015-05-18 13:57:37
+Attributes = A_ -rw-rw-r--
+CRC = D49ECBCA
+Encrypted = -
+Method = LZMA2:12
+Block = 0
+
+Path = testarchive/file3.txt
+Size = 32
+Packed Size = 
+Modified = 2015-05-13 16:26:42
+Attributes = A_ -rw-rw-r--
+CRC = 99D12E31
+Encrypted = -
+Method = LZMA2:12
+Block = 0
+
+Path = testarchive/file4.txt
+Size = 32
+Packed Size = 
+Modified = 2015-07-26 17:53:21
+Attributes = A_ -rw-rw-r--
+CRC = A04F9191
+Encrypted = -
+Method = LZMA2:12
+Block = 0
+
+Path = testarchive/linktofile1.txt
+Size = 9
+Packed Size = 
+Modified = 2016-03-23 07:46:21
+Attributes = A_ lrwxrwxrwx
+CRC = 2D212004
+Encrypted = -
+Method = LZMA2:12
+Block = 0
+
