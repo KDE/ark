@@ -203,7 +203,6 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
 
             emit finished(false);
             failOperation();
-            setPassword(QString());
             return false;
         }
 
