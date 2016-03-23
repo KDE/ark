@@ -189,10 +189,18 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
     }
 
     if (options.value(QStringLiteral("AlwaysUseTmpDir")).toBool()) {
-        // unar exits with code 1 if the password is wrong.
+        // unar exits with code 1 if extraction fails.
+        // This happens at least with wrong passwords or not enough space in the destination folder.
         if (m_exitCode == 1) {
-            qCWarning(ARK) << "Wrong password, extraction aborted";
-            emit error(i18n("Extraction failed due to a wrong password."));
+            if (password().isEmpty()) {
+                qCWarning(ARK) << "Extraction aborted, destination folder might not have enough space.";
+                emit error(i18n("Extraction failed. Make sure that enough space is available."));
+            } else {
+                qCWarning(ARK) << "Extraction aborted, either the password is wrong or the destination folder doesn't have enough space.";
+                emit error(i18n("Extraction failed. Make sure you provided the correct password and that enough space is available."));
+                setPassword(QString());
+            }
+
             emit finished(false);
             failOperation();
             setPassword(QString());
