@@ -203,6 +203,9 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
 
             emit finished(false);
             failOperation();
+            // If we don't do this, the temporary directory will not autodelete itself upon destruction.
+            QDir::setCurrent(oldCurrentDir);
+
             return false;
         }
 
