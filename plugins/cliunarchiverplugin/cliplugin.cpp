@@ -111,6 +111,7 @@ ParameterList CliPlugin::parameterList() const
         ///////////////[ COMMON ]/////////////
 
         p[CaptureProgress] = false;
+        // Displayed when running lsar -json with header-encrypted archives.
         p[PasswordPromptPattern] = QStringLiteral("This archive requires a password to unpack. Use the -p option to provide one.");
 
         ///////////////[ LIST ]/////////////
@@ -130,9 +131,6 @@ ParameterList CliPlugin::parameterList() const
         p[ExtractionFailedPatterns] = QStringList()
             << QStringLiteral("Failed! \\((.+)\\)$")
             << QStringLiteral("Segmentation fault$");
-
-        p[WrongPasswordPatterns] = QStringList()
-            << QStringLiteral("Failed! \\((.+)\\)$");
     }
     return p;
 }
