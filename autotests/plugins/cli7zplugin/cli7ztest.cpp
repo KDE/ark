@@ -177,3 +177,94 @@ void Cli7zTest::testList()
 
     plugin->deleteLater();
 }
+
+void Cli7zTest::testExtractArgs_data()
+{
+    QTest::addColumn<QString>("archiveName");
+    QTest::addColumn<QVariantList>("files");
+    QTest::addColumn<bool>("preservePaths");
+    QTest::addColumn<QString>("password");
+    QTest::addColumn<QStringList>("expectedArgs");
+
+    QTest::newRow("preserve paths, encrypted")
+            << QStringLiteral("/tmp/foo.7z")
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+               }
+            << true << QStringLiteral("1234")
+            << QStringList {
+                   QStringLiteral("x"),
+                   QStringLiteral("-p1234"),
+                   QStringLiteral("/tmp/foo.7z"),
+                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("c.txt"),
+               };
+
+    QTest::newRow("preserve paths, unencrypted")
+            << QStringLiteral("/tmp/foo.7z")
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+               }
+            << true << QString()
+            << QStringList {
+                   QStringLiteral("x"),
+                   QStringLiteral("/tmp/foo.7z"),
+                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("c.txt"),
+               };
+
+    QTest::newRow("without paths, encrypted")
+            << QStringLiteral("/tmp/foo.7z")
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+               }
+            << false << QStringLiteral("1234")
+            << QStringList {
+                   QStringLiteral("e"),
+                   QStringLiteral("-p1234"),
+                   QStringLiteral("/tmp/foo.7z"),
+                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("c.txt"),
+               };
+
+    QTest::newRow("without paths, unencrypted")
+            << QStringLiteral("/tmp/foo.7z")
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+               }
+            << false << QString()
+            << QStringList {
+                   QStringLiteral("e"),
+                   QStringLiteral("/tmp/foo.7z"),
+                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("c.txt"),
+               };
+}
+
+void Cli7zTest::testExtractArgs()
+{
+    QFETCH(QString, archiveName);
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    QVERIFY(plugin);
+
+    const QStringList extractArgs = { QStringLiteral("$PreservePathSwitch"),
+                                      QStringLiteral("$PasswordSwitch"),
+                                      QStringLiteral("$Archive"),
+                                      QStringLiteral("$Files") };
+
+    QFETCH(QVariantList, files);
+    QFETCH(bool, preservePaths);
+    QFETCH(QString, password);
+
+    QStringList replacedArgs = plugin->substituteCopyVariables(extractArgs, files, preservePaths, password, QString());
+    QVERIFY(replacedArgs.size() >= extractArgs.size());
+
+    QFETCH(QStringList, expectedArgs);
+    QCOMPARE(replacedArgs, expectedArgs);
+
+    plugin->deleteLater();
+}

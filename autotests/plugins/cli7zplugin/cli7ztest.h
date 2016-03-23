@@ -41,6 +41,8 @@ private Q_SLOTS:
     void testArchive();
     void testList_data();
     void testList();
+    void testExtractArgs_data();
+    void testExtractArgs();
 
 private:
     KPluginMetaData m_pluginMetadata;
