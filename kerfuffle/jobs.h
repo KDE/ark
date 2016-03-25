@@ -42,8 +42,6 @@
 namespace Kerfuffle
 {
 
-class ThreadExecution;
-
 class KERFUFFLE_EXPORT Job : public KJob
 {
     Q_OBJECT
