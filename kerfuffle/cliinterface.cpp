@@ -144,132 +144,24 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
     qCDebug(ARK) << Q_FUNC_INFO << "to" << destinationDirectory;
 
     cacheParameterList();
-
     m_operationMode = Copy;
+    const QStringList extractArgs = m_param.value(ExtractArgs).toStringList();
 
-    //start preparing the argument list
-    QStringList args = m_param.value(ExtractArgs).toStringList();
-
-    //now replace the various elements in the list
-    for (int i = 0; i < args.size(); ++i) {
-        QString argument = args.at(i);
-        qCDebug(ARK) << "Processing argument " << argument;
-
-        if (argument == QLatin1String( "$Archive" )) {
-            args[i] = filename();
-        }
-
-        if (argument == QLatin1String( "$PreservePathSwitch" )) {
-            QStringList replacementFlags = m_param.value(PreservePathSwitch).toStringList();
-            Q_ASSERT(replacementFlags.size() == 2);
-
-            bool preservePaths = options.value(QStringLiteral( "PreservePaths" )).toBool();
-            QString theReplacement;
-            if (preservePaths) {
-                theReplacement = replacementFlags.at(0);
-            } else {
-                theReplacement = replacementFlags.at(1);
-            }
-
-            if (theReplacement.isEmpty()) {
-                args.removeAt(i);
-                --i; //decrement to compensate for the variable we removed
-            } else {
-                //but in this case we don't have to decrement, we just
-                //replace it
-                args[i] = theReplacement;
-            }
-        }
-
-        if (argument == QLatin1String( "$PasswordSwitch" )) {
-            //if the PasswordSwitch argument has been added, we at least
-            //assume that the format of the switch has been added as well
-            Q_ASSERT(m_param.contains(PasswordSwitch));
-
-            //we will decrement i afterwards
-            args.removeAt(i);
-
-            //if we get a hint about this being a password protected archive, ask about
-            //the password in advance.
-            if ((options.value(QStringLiteral("PasswordProtectedHint")).toBool()) &&
-                (password().isEmpty())) {
-                qCDebug(ARK) << "Password hint enabled, querying user";
-
-                Kerfuffle::PasswordNeededQuery query(filename());
-                emit userQuery(&query);
-                query.waitForResponse();
-
-                if (query.responseCancelled()) {
-                    emit cancelled();
-                    // There is no process running, so finished() must be emitted manually.
-                    emit finished(false);
-                    failOperation();
-                    return false;
-                }
-                setPassword(query.password());
-            }
-
-            QString pass = password();
-
-            if (!pass.isEmpty()) {
-                QStringList theSwitch = m_param.value(PasswordSwitch).toStringList();
-                for (int j = 0; j < theSwitch.size(); ++j) {
-                    //get the argument part
-                    QString newArg = theSwitch.at(j);
-
-                    //substitute the $Path
-                    newArg.replace(QLatin1String( "$Password" ), pass);
-
-                    //put it in the arg list
-                    args.insert(i + j, newArg);
-                    ++i;
-
-                }
-            }
-            --i; //decrement to compensate for the variable we replaced
-        }
-
-        if (argument == QLatin1String( "$RootNodeSwitch" )) {
-            //if the RootNodeSwitch argument has been added, we at least
-            //assume that the format of the switch has been added as well
-            Q_ASSERT(m_param.contains(RootNodeSwitch));
-
-            //we will decrement i afterwards
-            args.removeAt(i);
-
-            QString rootNode;
-            if (options.contains(QStringLiteral( "RootNode" ))) {
-                rootNode = options.value(QStringLiteral( "RootNode" )).toString();
-                qCDebug(ARK) << "Set root node " << rootNode;
-            }
-
-            if (!rootNode.isEmpty()) {
-                QStringList theSwitch = m_param.value(RootNodeSwitch).toStringList();
-                for (int j = 0; j < theSwitch.size(); ++j) {
-                    //get the argument part
-                    QString newArg = theSwitch.at(j);
-
-                    //substitute the $Path
-                    newArg.replace(QLatin1String( "$Path" ), rootNode);
-
-                    //put it in the arg list
-                    args.insert(i + j, newArg);
-                    ++i;
-
-                }
-            }
-            --i; //decrement to compensate for the variable we replaced
-        }
-
-        if (argument == QLatin1String( "$Files" )) {
-            args.removeAt(i);
-            for (int j = 0; j < files.count(); ++j) {
-                args.insert(i + j, escapeFileName(files.at(j).value<fileRootNodePair>().file));
-                ++i;
-            }
-            --i;
+    if (extractArgs.contains(QStringLiteral("$PasswordSwitch")) &&
+        options.value(QStringLiteral("PasswordProtectedHint")).toBool() &&
+        password().isEmpty()) {
+        qCDebug(ARK) << "Password hint enabled, querying user";
+        if (!passwordQuery()) {
+            return false;
         }
     }
+
+    // Populate the argument list.
+    const QStringList args = substituteCopyVariables(extractArgs,
+                                                     files,
+                                                     options.value(QStringLiteral("PreservePaths")).toBool(),
+                                                     password(),
+                                                     options.value(QStringLiteral("RootNode"), QString()).toString());
 
     QUrl destDir = QUrl(destinationDirectory);
     QDir::setCurrent(destDir.adjusted(QUrl::RemoveScheme).url());
@@ -297,13 +189,23 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
     }
 
     if (options.value(QStringLiteral("AlwaysUseTmpDir")).toBool()) {
-        // unar exits with code 1 if the password is wrong.
+        // unar exits with code 1 if extraction fails.
+        // This happens at least with wrong passwords or not enough space in the destination folder.
         if (m_exitCode == 1) {
-            qCWarning(ARK) << "Wrong password, extraction aborted";
-            emit error(i18n("Extraction failed due to a wrong password."));
+            if (password().isEmpty()) {
+                qCWarning(ARK) << "Extraction aborted, destination folder might not have enough space.";
+                emit error(i18n("Extraction failed. Make sure that enough space is available."));
+            } else {
+                qCWarning(ARK) << "Extraction aborted, either the password is wrong or the destination folder doesn't have enough space.";
+                emit error(i18n("Extraction failed. Make sure you provided the correct password and that enough space is available."));
+                setPassword(QString());
+            }
+
             emit finished(false);
             failOperation();
-            setPassword(QString());
+            // If we don't do this, the temporary directory will not autodelete itself upon destruction.
+            QDir::setCurrent(oldCurrentDir);
+
             return false;
         }
 
@@ -737,10 +639,132 @@ bool CliInterface::moveToDestination(const QDir &tempDir, const QDir &destDir, b
     return true;
 }
 
+QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password, const QString &rootNode)
+{
+    // Required if we call this function from unit tests.
+    cacheParameterList();
+
+    QStringList args;
+    foreach (const QString& arg, extractArgs) {
+        qCDebug(ARK) << "Processing argument" << arg;
+
+        if (arg == QLatin1String("$Archive")) {
+            args << filename();
+            continue;
+        }
+
+        if (arg == QLatin1String("$PreservePathSwitch")) {
+            args << preservePathSwitch(preservePaths);
+            continue;
+        }
+
+        if (arg == QLatin1String("$PasswordSwitch")) {
+
+            args << passwordSwitch(password);
+            continue;
+        }
+
+        if (arg == QLatin1String("$RootNodeSwitch")) {
+            args << rootNodeSwitch(rootNode);
+            continue;
+        }
+
+        if (arg == QLatin1String("$Files")) {
+            args << copyFilesList(files);
+            continue;
+        }
+
+        // Simple argument (e.g. -kb in unrar), nothing to substitute, just add it to the list.
+        args << arg;
+    }
+
+    // Remove empty strings, if any.
+    args.removeAll(QString());
+
+    return args;
+}
+
+QString CliInterface::preservePathSwitch(bool preservePaths) const
+{
+    Q_ASSERT(m_param.contains(PreservePathSwitch));
+    const QStringList theSwitch = m_param.value(PreservePathSwitch).toStringList();
+    Q_ASSERT(theSwitch.size() == 2);
+
+    return (preservePaths ? theSwitch.at(0) : theSwitch.at(1));
+}
+
+QStringList CliInterface::passwordSwitch(const QString& password) const
+{
+    if (password.isEmpty()) {
+        return QStringList();
+    }
+
+    Q_ASSERT(m_param.contains(PasswordSwitch));
+
+    QStringList passwordSwitch = m_param.value(PasswordSwitch).toStringList();
+    Q_ASSERT(!passwordSwitch.isEmpty() && passwordSwitch.size() <= 2);
+
+    if (passwordSwitch.size() == 1) {
+        passwordSwitch[0].replace(QLatin1String("$Password"), password);
+    } else {
+        passwordSwitch[1] = password;
+    }
+
+    return passwordSwitch;
+}
+
+QStringList CliInterface::rootNodeSwitch(const QString &rootNode) const
+{
+    if (rootNode.isEmpty()) {
+        return QStringList();
+    }
+
+    Q_ASSERT(m_param.contains(RootNodeSwitch));
+
+    QStringList rootNodeSwitch = m_param.value(RootNodeSwitch).toStringList();
+    Q_ASSERT(!rootNodeSwitch.isEmpty() && rootNodeSwitch.size() <= 2);
+
+    if (rootNodeSwitch.size() == 1) {
+        rootNodeSwitch[0].replace(QLatin1String("$Path"), rootNode);
+    } else {
+        rootNodeSwitch[1] = rootNode;
+    }
+
+    return rootNodeSwitch;
+}
+
+QStringList CliInterface::copyFilesList(const QVariantList& files) const
+{
+    QStringList filesList;
+    foreach (const QVariant& f, files) {
+        filesList << escapeFileName(f.value<fileRootNodePair>().file);
+    }
+
+    return filesList;
+}
+
 void CliInterface::failOperation()
 {
     // TODO: Would be good to unit test #304764/#304178.
     doKill();
+}
+
+bool CliInterface::passwordQuery()
+{
+    Kerfuffle::PasswordNeededQuery query(filename());
+    emit userQuery(&query);
+    query.waitForResponse();
+
+    if (query.responseCancelled()) {
+        emit cancelled();
+        // There is no process running, so finished() must be emitted manually.
+        emit finished(false);
+        failOperation();
+        return false;
+    }
+
+    setPassword(query.password());
+    return true;
 }
 
 void CliInterface::readStdout(bool handleAll)
@@ -787,6 +811,7 @@ void CliInterface::readStdout(bool handleAll)
 
     bool foundErrorMessage =
         (wrongPasswordMessage ||
+         checkForErrorMessage(QLatin1String(lines.last()), DiskFullPatterns) ||
          checkForErrorMessage(QLatin1String(lines.last()), ExtractionFailedPatterns) ||
          checkForPasswordPromptMessage(QLatin1String(lines.last())) ||
          checkForErrorMessage(QLatin1String(lines.last()), FileExistsExpression));
@@ -839,6 +864,7 @@ void CliInterface::handleLine(const QString& line)
     }
 
     if (m_operationMode == Copy) {
+
         if (checkForPasswordPromptMessage(line)) {
             qCDebug(ARK) << "Found a password prompt";
 
@@ -860,6 +886,13 @@ void CliInterface::handleLine(const QString& line)
             return;
         }
 
+        if (checkForErrorMessage(line, DiskFullPatterns)) {
+            qCWarning(ARK) << "Found disk full message:" << line;
+            emit error(i18nc("@info", "Extraction failed because the disk is full."));
+            failOperation();
+            return;
+        }
+
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
@@ -869,7 +902,7 @@ void CliInterface::handleLine(const QString& line)
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
-            qCWarning(ARK) << "Error in extraction!!";
+            qCWarning(ARK) << "Error in extraction:" << line;
             emit error(i18n("Extraction failed because of an unexpected error."));
             failOperation();
             return;

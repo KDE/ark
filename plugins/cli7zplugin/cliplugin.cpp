@@ -93,10 +93,11 @@ ParameterList CliPlugin::parameterList() const
                                            << QStringLiteral("A")  //overwrite all
                                            << QStringLiteral("S")  //autoskip
                                            << QStringLiteral("Q"); //cancel
-
         p[PasswordPromptPattern] = QStringLiteral("Enter password \\(will not be echoed\\)");
+        p[ExtractionFailedPatterns] = QStringList() << QStringLiteral("ERROR: E_FAIL");
         p[CorruptArchivePatterns] = QStringList() << QStringLiteral("Unexpected end of archive")
                                                   << QStringLiteral("Headers Error");
+        p[DiskFullPatterns] = QStringList() << QStringLiteral("No space left on device");
     }
 
     return p;

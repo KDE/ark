@@ -1,9 +1,11 @@
 
-UNRAR 5.30 beta 2 freeware      Copyright (c) 1993-2015 Alexander Roshal
+UNRAR 5.31 freeware      Copyright (c) 1993-2016 Alexander Roshal
 
-Archive: testarchive.rar
+file1.txt - the file header is corrupt
+Archive: testarchive-corrupt.rar
 Details: RAR 4
 
+file1.txt - the file header is corrupt
         Name: file1.txt
         Type: File
         Size: 32

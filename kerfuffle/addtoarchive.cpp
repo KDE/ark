@@ -239,12 +239,23 @@ void AddToArchive::slotFinished(KJob *job)
 
 QString AddToArchive::detectBaseName(const QStringList &paths) const
 {
-    QString base = QFileInfo(paths.first()).absoluteFilePath();
+    QFileInfo fileInfo = QFileInfo(paths.first());
+    QDir parentDir = fileInfo.dir();
+    QString base = parentDir.absolutePath() + QLatin1Char('/');
+
     if (paths.size() > 1) {
-        QDir dir = QFileInfo(paths.first()).dir();
-        if (!dir.isRoot()) {
-            base = dir.absolutePath() + QLatin1Char('/') + dir.dirName();
+        if (!parentDir.isRoot()) {
+            // Use directory name for the new archive.
+            base += parentDir.dirName();
         }
+    } else {
+        // Strip filename of its extension.
+        base += fileInfo.completeBaseName();
+    }
+
+    // Special case for compressed tar archives.
+    if (base.right(4).toUpper() == QLatin1String(".TAR")) {
+        base.chop(4);
     }
 
     if (base.endsWith(QLatin1Char('/'))) {

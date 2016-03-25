@@ -589,12 +589,14 @@ bool Part::isLocalFileValid()
 
     if (creatingNewArchive) {
         if (localFileInfo.exists()) {
-            int overwrite =  KMessageBox::questionYesNo(widget(), xi18nc("@info", "The archive <filename>%1</filename> already exists. Would you like to open it instead?", localFile), i18nc("@title:window", "File Exists"), KGuiItem(i18n("Open File")), KStandardGuiItem::cancel());
-
-            if (overwrite == KMessageBox::No) {
+            if (!confirmAndDelete(localFile)) {
+                displayMsgWidget(KMessageWidget::Error, xi18nc("@info",
+                                                               "Could not overwrite <filename>%1</filename>. Check whether you have write permission.",
+                                                               localFile));
                 return false;
             }
         }
+
         displayMsgWidget(KMessageWidget::Information, xi18nc("@info", "The archive <filename>%1</filename> will be created as soon as you add a file.", localFile));
     } else {
         if (!localFileInfo.exists()) {
@@ -609,6 +611,26 @@ bool Part::isLocalFileValid()
     }
 
     return true;
+}
+
+bool Part::confirmAndDelete(const QString &targetFile)
+{
+    QFileInfo targetInfo(targetFile);
+    const auto buttonCode = KMessageBox::warningYesNo(widget(),
+                                                      xi18nc("@info",
+                                                             "The archive <filename>%1</filename> already exists. Do you wish to overwrite it?",
+                                                             targetInfo.fileName()),
+                                                      i18nc("@title:window", "File Exists"),
+                                                      KGuiItem(i18nc("@action:button", "Overwrite")),
+                                                      KStandardGuiItem::cancel());
+
+    if (buttonCode != KMessageBox::Yes || !targetInfo.isWritable()) {
+        return false;
+    }
+
+    qCDebug(ARK) << "Removing file" << targetFile;
+
+    return QFile(targetFile).remove();
 }
 
 void Part::slotLoadingStarted()
@@ -677,7 +699,11 @@ void Part::setReadyGui()
 {
     QApplication::restoreOverrideCursor();
     m_busy = false;
-    m_statusBarExtension->statusBar()->hide();
+
+    if (m_statusBarExtension->statusBar()) {
+        m_statusBarExtension->statusBar()->hide();
+    }
+
     m_view->setEnabled(true);
     updateActions();
 }
@@ -686,7 +712,11 @@ void Part::setBusyGui()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     m_busy = true;
-    m_statusBarExtension->statusBar()->show();
+
+    if (m_statusBarExtension->statusBar()) {
+        m_statusBarExtension->statusBar()->show();
+    }
+
     m_view->setEnabled(false);
     updateActions();
 }

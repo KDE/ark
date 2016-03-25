@@ -1,4 +1,4 @@
-/*
+    /*
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2009 Harald Hvaal <haraldhv@stud.ntnu.no>
@@ -119,6 +119,7 @@ ParameterList CliPlugin::parameterList() const
                                                     << QStringLiteral( "Cannot find volume" );
         p[CorruptArchivePatterns] = QStringList() << QStringLiteral("Unexpected end of archive")
                                                   << QStringLiteral("the file header is corrupt");
+        p[DiskFullPatterns] = QStringList() << QStringLiteral("No space left on device");
     }
 
     return p;

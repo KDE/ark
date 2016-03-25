@@ -15,13 +15,6 @@ add_library(kerfuffle_cli7z MODULE ${kerfuffle_cli7z_SRCS})
 
 target_link_libraries(kerfuffle_cli7z kerfuffle)
 
-configure_file(
-            ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_cli7z.desktop.cmake
-            ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_cli7z.desktop
-)
-
-kcoreaddons_desktop_to_json(kerfuffle_cli7z ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_cli7z.desktop)
-
 ########### install files ###############
 
 install(TARGETS kerfuffle_cli7z  DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)

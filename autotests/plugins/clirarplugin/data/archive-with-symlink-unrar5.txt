@@ -1,0 +1,89 @@
+
+UNRAR 5.31 freeware      Copyright (c) 1993-2016 Alexander Roshal
+
+Archive: rartest.rar
+Details: RAR 4
+
+        Name: rartest/file4.txt
+        Type: File
+        Size: 32
+ Packed size: 33
+       Ratio: 103%
+       mtime: 2016-03-21 08:57:36,000
+  Attributes: -rw-rw-r--
+       CRC32: A04F9191
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=4M
+
+        Name: rartest/file1.txt
+        Type: File
+        Size: 32
+ Packed size: 33
+       Ratio: 103%
+       mtime: 2016-03-21 08:57:36,000
+  Attributes: -rw-rw-r--
+       CRC32: 034EE5C7
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=4M
+
+        Name: rartest/file2.txt
+        Type: File
+        Size: 14
+ Packed size: 23
+       Ratio: 164%
+       mtime: 2016-03-21 08:57:36,000
+  Attributes: -rw-rw-r--
+       CRC32: A5BA4A7B
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=4M
+
+        Name: rartest/linktofile1.txt
+        Type: Unix symbolic link
+      Target: file1.txt
+        Size: 9
+ Packed size: 9
+       Ratio: 100%
+       mtime: 2016-03-21 08:58:16,000
+  Attributes: lrwxrwxrwx
+       CRC32: 2D212004
+     Host OS: Unix
+ Compression: RAR 3.0(v20) -m0 -md=4M
+
+        Name: rartest/dir1/file11.txt
+        Type: File
+        Size: 32
+ Packed size: 33
+       Ratio: 103%
+       mtime: 2016-03-21 08:58:40,000
+  Attributes: -rw-rw-r--
+       CRC32: 034EE5C7
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=4M
+
+        Name: rartest/file3.txt
+        Type: File
+        Size: 32
+ Packed size: 32
+       Ratio: 100%
+       mtime: 2016-03-21 08:57:36,000
+  Attributes: -rw-rw-r--
+       CRC32: 99D12E31
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=4M
+
+        Name: rartest/dir1
+        Type: Directory
+       mtime: 2016-03-21 08:58:40,000
+  Attributes: drwxrwxr-x
+       CRC32: 00000000
+     Host OS: Unix
+ Compression: RAR 3.0(v20) -m0 -md=0K
+
+        Name: rartest
+        Type: Directory
+       mtime: 2016-03-21 08:58:24,000
+  Attributes: drwxrwxr-x
+       CRC32: 00000000
+     Host OS: Unix
+ Compression: RAR 3.0(v20) -m0 -md=0K
+

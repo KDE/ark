@@ -57,8 +57,7 @@ void AddToArchiveTest::testCompressHere_data()
     QTest::newRow("compress here (as TAR) - single file")
         << QStringLiteral("tar.gz")
         << QStringList {QFINDTESTDATA("data/testfile.txt")}
-        // TODO: this is bug/wish #282884
-        << QStringLiteral("testfile.txt.tar.gz")
+        << QStringLiteral("testfile.tar.gz")
         << 1ULL;
 }
 

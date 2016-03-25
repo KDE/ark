@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2011,2014 Raphael Kubo da Costa <rakuco@FreeBSD.org>
- * Copyright (c) 2015,2016 Ragnar Thomsen <rthomsen6@gmail.com>
+  * Copyright (c) 2016 Ragnar Thomsen <rthomsen6@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -24,7 +23,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "clirartest.h"
+#include "cli7ztest.h"
 
 #include <QFile>
 #include <QSignalSpy>
@@ -33,21 +32,21 @@
 
 #include <KPluginLoader>
 
-QTEST_GUILESS_MAIN(CliRarTest)
+QTEST_GUILESS_MAIN(Cli7zTest)
 
 using namespace Kerfuffle;
 
-void CliRarTest::initTestCase()
+void Cli7zTest::initTestCase()
 {
     qRegisterMetaType<ArchiveEntry>();
 
-    const auto plugins = KPluginLoader::findPluginsById(QStringLiteral("kerfuffle"), QStringLiteral("kerfuffle_clirar"));
+    const auto plugins = KPluginLoader::findPluginsById(QStringLiteral("kerfuffle"), QStringLiteral("kerfuffle_cli7z"));
     if (plugins.size() == 1) {
         m_pluginMetadata = plugins.at(0);
     }
 }
 
-void CliRarTest::testArchive_data()
+void Cli7zTest::testArchive_data()
 {
     QTest::addColumn<QString>("archivePath");
     QTest::addColumn<QString>("expectedFileName");
@@ -56,7 +55,7 @@ void CliRarTest::testArchive_data()
     QTest::addColumn<Archive::EncryptionType>("expectedEncryptionType");
     QTest::addColumn<QString>("expectedSubfolderName");
 
-    QString archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
+    QString archivePath = QFINDTESTDATA("data/one_toplevel_folder.7z");
     QTest::newRow("archive with one top-level folder")
             << archivePath
             << QFileInfo(archivePath).fileName()
@@ -64,10 +63,10 @@ void CliRarTest::testArchive_data()
             << QStringLiteral("A");
 }
 
-void CliRarTest::testArchive()
+void Cli7zTest::testArchive()
 {
     if (!m_pluginMetadata.isValid()) {
-        QSKIP("Could not find the clirar plugin. Skipping test.", SkipSingle);
+        QSKIP("Could not find the cli7z plugin. Skipping test.", SkipSingle);
     }
 
     QFETCH(QString, archivePath);
@@ -75,7 +74,7 @@ void CliRarTest::testArchive()
     QVERIFY(archive);
 
     if (!archive->isValid()) {
-        QSKIP("Could not load the clirar plugin. Skipping test.", SkipSingle);
+        QSKIP("Could not load the cli7z plugin. Skipping test.", SkipSingle);
     }
 
     QFETCH(QString, expectedFileName);
@@ -94,7 +93,7 @@ void CliRarTest::testArchive()
     QCOMPARE(archive->subfolderName(), expectedSubfolderName);
 }
 
-void CliRarTest::testList_data()
+void Cli7zTest::testList_data()
 {
     QTest::addColumn<QString>("outputTextFile");
     QTest::addColumn<int>("expectedEntriesCount");
@@ -104,71 +103,44 @@ void CliRarTest::testList_data()
     QTest::addColumn<QString>("expectedName");
     QTest::addColumn<bool>("isDirectory");
     QTest::addColumn<bool>("isPasswordProtected");
-    QTest::addColumn<QString>("symlinkTarget");
     QTest::addColumn<qulonglong>("expectedSize");
-    QTest::addColumn<qulonglong>("expectedCompressedSize");
     QTest::addColumn<QString>("expectedTimestamp");
 
-    // Unrar 5 tests
+    // p7zip version 15.14 tests
 
-    QTest::newRow("normal-file-unrar5")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << 8
-            << 2 << QStringLiteral("rartest/file2.txt") << false << false << QString() << (qulonglong) 14 << (qulonglong) 23 << QStringLiteral("2016-03-21T08:57:36");
+    QTest::newRow("normal-file-1514")
+            << QFINDTESTDATA("data/archive-with-symlink-1514.txt") << 10
+            << 4 << QStringLiteral("testarchive/dir2/file2.txt") << false << false << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
-    QTest::newRow("symlink-unrar5")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << 8
-            << 3 << QStringLiteral("rartest/linktofile1.txt") << false << false << QStringLiteral("file1.txt") << (qulonglong) 9 << (qulonglong) 9 << QStringLiteral("2016-03-21T08:58:16");
+    QTest::newRow("encrypted-1514")
+            << QFINDTESTDATA("data/archive-encrypted-1514.txt") << 9
+            << 3 << QStringLiteral("testarchive/dir1/file1.txt") << false << true << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
-    QTest::newRow("encrypted-unrar5")
-            << QFINDTESTDATA("data/archive-encrypted-unrar5.txt") << 7
-            << 2 << QStringLiteral("rartest/file2.txt") << false << true << QString() << (qulonglong) 14 << (qulonglong) 32 << QStringLiteral("2016-03-21T17:03:36");
+    // p7zip version 15.09 tests
 
-    QTest::newRow("recovery-record-unrar5")
-            << QFINDTESTDATA("data/archive-recovery-record-unrar5.txt") << 3
-            << 0 << QStringLiteral("file1.txt") << false << false << QString() << (qulonglong) 32 << (qulonglong) 33 << QStringLiteral("2015-07-26T19:04:38");
+    QTest::newRow("normal-file-1509")
+            << QFINDTESTDATA("data/archive-with-symlink-1509.txt") << 10
+            << 4 << QStringLiteral("testarchive/dir2/file2.txt") << false << false << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
-    QTest::newRow("corrupt-archive-unrar5")
-            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar5.txt") << 8
-            << 6 << QStringLiteral("dir1/") << true << false << QString() << (qulonglong) 0 << (qulonglong) 0 << QStringLiteral("2015-05-14T01:45:24");
+    QTest::newRow("encrypted-1509")
+            << QFINDTESTDATA("data/archive-encrypted-1509.txt") << 9
+            << 3 << QStringLiteral("testarchive/dir1/file1.txt") << false << true << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
-    // Unrar 4 tests
+    // p7zip version 9.38.1 tests
 
-    QTest::newRow("normal-file-unrar4")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << 8
-            << 2 << QStringLiteral("rartest/file2.txt") << false << false << QString() << (qulonglong) 14 << (qulonglong) 23 << QStringLiteral("2016-03-21T08:57:00");
+    QTest::newRow("normal-file-9381")
+            << QFINDTESTDATA("data/archive-with-symlink-9381.txt") << 10
+            << 4 << QStringLiteral("testarchive/dir2/file2.txt") << false << false << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
-    QTest::newRow("symlink-unrar4")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << 8
-            << 3 << QStringLiteral("rartest/linktofile1.txt") << false << false << QStringLiteral("file1.txt") << (qulonglong) 9 << (qulonglong) 9 << QStringLiteral("2016-03-21T08:58:00");
-
-    QTest::newRow("encrypted-unrar4")
-            << QFINDTESTDATA("data/archive-encrypted-unrar4.txt") << 7
-            << 2 << QStringLiteral("rartest/file2.txt") << false << true << QString() << (qulonglong) 14 << (qulonglong) 32 << QStringLiteral("2016-03-21T17:03:00");
-
-    QTest::newRow("recovery-record-unrar4")
-            << QFINDTESTDATA("data/archive-recovery-record-unrar4.txt") << 3
-            << 0 << QStringLiteral("file1.txt") << false << false << QString() << (qulonglong) 32 << (qulonglong) 33 << QStringLiteral("2015-07-26T19:04:00");
-
-    QTest::newRow("corrupt-archive-unrar4")
-            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar4.txt") << 8
-            << 6 << QStringLiteral("dir1/") << true << false << QString() << (qulonglong) 0 << (qulonglong) 0 << QStringLiteral("2015-05-14T01:45:00");
-
-    /*
-     * Check that the plugin will not crash when reading corrupted archives, which
-     * have lines such as "Unexpected end of archive" or "??? - the file header is
-     * corrupt" instead of a file name and the header string after it.
-     *
-     * See bug 262857 and commit 2042997013432cdc6974f5b26d39893a21e21011.
-     */
-    QTest::newRow("corrupt-archive-unrar3")
-            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar3.txt") << 1
-            << 0 << QStringLiteral("some-file.ext") << false << false << QString() << (qulonglong) 732522496 << (qulonglong) 14851208 << QStringLiteral("2010-10-29T20:47:00");
+    QTest::newRow("encrypted-9381")
+            << QFINDTESTDATA("data/archive-encrypted-9381.txt") << 9
+            << 3 << QStringLiteral("testarchive/dir1/file1.txt") << false << true << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 }
 
-void CliRarTest::testList()
+void Cli7zTest::testList()
 {
-    CliPlugin *rarPlugin = new CliPlugin(this, {QStringLiteral("dummy.rar")});
-    QSignalSpy signalSpy(rarPlugin, SIGNAL(entry(ArchiveEntry)));
+    CliPlugin *plugin = new CliPlugin(this, {QStringLiteral("dummy.7z")});
+    QSignalSpy signalSpy(plugin, SIGNAL(entry(ArchiveEntry)));
 
     QFETCH(QString, outputTextFile);
     QFETCH(int, expectedEntriesCount);
@@ -179,7 +151,7 @@ void CliRarTest::testList()
     QTextStream outputStream(&outputText);
     while (!outputStream.atEnd()) {
         const QString line(outputStream.readLine());
-        QVERIFY(rarPlugin->readListLine(line));
+        QVERIFY(plugin->readListLine(line));
     }
 
     QCOMPARE(signalSpy.count(), expectedEntriesCount);
@@ -197,125 +169,102 @@ void CliRarTest::testList()
     QFETCH(bool, isPasswordProtected);
     QCOMPARE(entry[IsPasswordProtected].toBool(), isPasswordProtected);
 
-    QFETCH(QString, symlinkTarget);
-    QCOMPARE(entry[Link].toString(), symlinkTarget);
-
     QFETCH(qulonglong, expectedSize);
     QCOMPARE(entry[Size].toULongLong(), expectedSize);
-
-    QFETCH(qulonglong, expectedCompressedSize);
-    QCOMPARE(entry[CompressedSize].toULongLong(), expectedCompressedSize);
 
     QFETCH(QString, expectedTimestamp);
     QCOMPARE(entry[Timestamp].toString(), expectedTimestamp);
 
-    rarPlugin->deleteLater();
+    plugin->deleteLater();
 }
 
-void CliRarTest::testExtractArgs_data()
+void Cli7zTest::testExtractArgs_data()
 {
     QTest::addColumn<QString>("archiveName");
     QTest::addColumn<QVariantList>("files");
     QTest::addColumn<bool>("preservePaths");
     QTest::addColumn<QString>("password");
-    QTest::addColumn<QString>("rootNode");
     QTest::addColumn<QStringList>("expectedArgs");
 
-    QTest::newRow("preserve paths, encrypted, root node")
-            << QStringLiteral("/tmp/foo.rar")
+    QTest::newRow("preserve paths, encrypted")
+            << QStringLiteral("/tmp/foo.7z")
             << QVariantList {
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
                }
-            << true << QStringLiteral("1234") << QStringLiteral("aDir")
+            << true << QStringLiteral("1234")
             << QStringList {
-                   QStringLiteral("-kb"),
-                   QStringLiteral("-p-"),
                    QStringLiteral("x"),
                    QStringLiteral("-p1234"),
-                   QStringLiteral("-apaDir"),
-                   QStringLiteral("/tmp/foo.rar"),
+                   QStringLiteral("/tmp/foo.7z"),
                    QStringLiteral("aDir/b.txt"),
                    QStringLiteral("c.txt"),
                };
 
-    QTest::newRow("preserve paths, unencrypted, root node")
-            << QStringLiteral("/tmp/foo.rar")
+    QTest::newRow("preserve paths, unencrypted")
+            << QStringLiteral("/tmp/foo.7z")
             << QVariantList {
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
                }
-            << true << QString() << QStringLiteral("aDir")
+            << true << QString()
             << QStringList {
-                   QStringLiteral("-kb"),
-                   QStringLiteral("-p-"),
                    QStringLiteral("x"),
-                   QStringLiteral("-apaDir"),
-                   QStringLiteral("/tmp/foo.rar"),
+                   QStringLiteral("/tmp/foo.7z"),
                    QStringLiteral("aDir/b.txt"),
                    QStringLiteral("c.txt"),
                };
 
-    QTest::newRow("without paths, encrypted, root node")
-            << QStringLiteral("/tmp/foo.rar")
+    QTest::newRow("without paths, encrypted")
+            << QStringLiteral("/tmp/foo.7z")
             << QVariantList {
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
                }
-            << false << QStringLiteral("1234") << QStringLiteral("aDir")
+            << false << QStringLiteral("1234")
             << QStringList {
-                   QStringLiteral("-kb"),
-                   QStringLiteral("-p-"),
                    QStringLiteral("e"),
                    QStringLiteral("-p1234"),
-                   QStringLiteral("-apaDir"),
-                   QStringLiteral("/tmp/foo.rar"),
+                   QStringLiteral("/tmp/foo.7z"),
                    QStringLiteral("aDir/b.txt"),
                    QStringLiteral("c.txt"),
                };
 
-    QTest::newRow("without paths, unencrypted, root node")
-            << QStringLiteral("/tmp/foo.rar")
+    QTest::newRow("without paths, unencrypted")
+            << QStringLiteral("/tmp/foo.7z")
             << QVariantList {
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
                }
-            << false << QString() << QStringLiteral("aDir")
+            << false << QString()
             << QStringList {
-                   QStringLiteral("-kb"),
-                   QStringLiteral("-p-"),
                    QStringLiteral("e"),
-                   QStringLiteral("-apaDir"),
-                   QStringLiteral("/tmp/foo.rar"),
+                   QStringLiteral("/tmp/foo.7z"),
                    QStringLiteral("aDir/b.txt"),
                    QStringLiteral("c.txt"),
                };
 }
 
-void CliRarTest::testExtractArgs()
+void Cli7zTest::testExtractArgs()
 {
     QFETCH(QString, archiveName);
-    CliPlugin *rarPlugin = new CliPlugin(this, {QVariant(archiveName)});
-    QVERIFY(rarPlugin);
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    QVERIFY(plugin);
 
-    const QStringList extractArgs = { QStringLiteral("-kb"),
-                                      QStringLiteral("-p-"),
-                                      QStringLiteral("$PreservePathSwitch"),
+    const QStringList extractArgs = { QStringLiteral("$PreservePathSwitch"),
                                       QStringLiteral("$PasswordSwitch"),
-                                      QStringLiteral("$RootNodeSwitch"),
                                       QStringLiteral("$Archive"),
                                       QStringLiteral("$Files") };
 
     QFETCH(QVariantList, files);
     QFETCH(bool, preservePaths);
     QFETCH(QString, password);
-    QFETCH(QString, rootNode);
 
-    QStringList replacedArgs = rarPlugin->substituteCopyVariables(extractArgs, files, preservePaths, password, rootNode);
+    QStringList replacedArgs = plugin->substituteCopyVariables(extractArgs, files, preservePaths, password, QString());
     QVERIFY(replacedArgs.size() >= extractArgs.size());
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
 
-    rarPlugin->deleteLater();
+    plugin->deleteLater();
 }

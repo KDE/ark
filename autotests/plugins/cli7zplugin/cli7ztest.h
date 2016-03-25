@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
- * Copyright (c) 2015,2016 Ragnar Thomsen <rthomsen6@gmail.com>
+ * Copyright (c) 2016 Ragnar Thomsen <rthomsen6@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -24,15 +23,15 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CLIRARTEST_H
-#define CLIRARTEST_H
+#ifndef CLI7ZTEST_H
+#define CLI7ZTEST_H
 
 #include "cliplugin.h"
 #include <QObject>
 
 using namespace Kerfuffle;
 
-class CliRarTest : public QObject
+class Cli7zTest : public QObject
 {
     Q_OBJECT
 

@@ -283,3 +283,64 @@ void CliUnarchiverTest::testExtraction()
 
     archive->deleteLater();
 }
+
+void CliUnarchiverTest::testExtractArgs_data()
+{
+    QTest::addColumn<QString>("archiveName");
+    QTest::addColumn<QVariantList>("files");
+    QTest::addColumn<QString>("password");
+    QTest::addColumn<QStringList>("expectedArgs");
+
+    QTest::newRow("encrypted, multiple files")
+            << QStringLiteral("/tmp/foo.rar")
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+               }
+            << QStringLiteral("1234")
+            << QStringList {
+                   QStringLiteral("-D"),
+                   QStringLiteral("/tmp/foo.rar"),
+                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("c.txt"),
+                   QStringLiteral("-password"),
+                   QStringLiteral("1234")
+               };
+
+    QTest::newRow("unencrypted, multiple files")
+            << QStringLiteral("/tmp/foo.rar")
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+               }
+            << QString()
+            << QStringList {
+                   QStringLiteral("-D"),
+                   QStringLiteral("/tmp/foo.rar"),
+                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("c.txt"),
+               };
+}
+
+void CliUnarchiverTest::testExtractArgs()
+{
+    QFETCH(QString, archiveName);
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    QVERIFY(plugin);
+
+    const QStringList extractArgs = { QStringLiteral("-D"),
+                                      QStringLiteral("$Archive"),
+                                      QStringLiteral("$Files"),
+                                      QStringLiteral("$PasswordSwitch") };
+
+    QFETCH(QVariantList, files);
+    QFETCH(QString, password);
+
+    QStringList replacedArgs = plugin->substituteCopyVariables(extractArgs, files, false, password, QString());
+    QVERIFY(replacedArgs.size() >= extractArgs.size());
+
+    QFETCH(QStringList, expectedArgs);
+    QCOMPARE(replacedArgs, expectedArgs);
+
+    plugin->deleteLater();
+}

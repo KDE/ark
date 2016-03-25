@@ -1,0 +1,30 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "haraldhv@stud.ntnu.no", 
+                "Name": "Harald Hvaal"
+            }
+        ], 
+        "Id": "kerfuffle_cli7z", 
+        "License": "GPLv2+", 
+        "MimeTypes": [
+            "application/x-7z-compressed", 
+            "application/zip"
+        ], 
+        "Name": "7zip archive plugin", 
+        "ServiceTypes": [
+            "Kerfuffle/Plugin"
+        ], 
+        "Version": "0.0.1", 
+        "Website": "http://www.kde.org"
+    }, 
+    "MimeType": "application/x-7z-compressed;application/zip;", 
+    "X-KDE-Kerfuffle-APIRevision": "1", 
+    "X-KDE-Kerfuffle-EncryptEntries": "application/x-7z-compressed,application/zip", 
+    "X-KDE-Kerfuffle-EncryptHeader": "application/x-7z-compressed", 
+    "X-KDE-Kerfuffle-ReadOnlyExecutables": "7z", 
+    "X-KDE-Kerfuffle-ReadWrite": "true", 
+    "X-KDE-Kerfuffle-ReadWriteExecutables": "7z", 
+    "X-KDE-Priority": "180"
+}

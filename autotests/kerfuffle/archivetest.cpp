@@ -65,6 +65,13 @@ void ArchiveTest::testProperties_data()
             << false << false << false << Archive::Unencrypted
             << QString();
 
+    // Test non-archive file
+    QTest::newRow("not an archive")
+            << QStringLiteral("/tmp/foo.pdf")
+            << QString()
+            << false << false << false << Archive::Unencrypted
+            << QString();
+
     // Test dummy source code tarball.
     archivePath = QFINDTESTDATA("data/code-x.y.z.tar.gz");
     QTest::newRow("dummy source code tarball")
@@ -163,6 +170,9 @@ void ArchiveTest::testProperties()
     QVERIFY(archive);
 
     if (!archive->isValid()) {
+        QVERIFY(archive->fileName().isEmpty());
+        QVERIFY(!archive->hasComment());
+        QVERIFY(archive->error() != NoError);
         QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
     }
 
