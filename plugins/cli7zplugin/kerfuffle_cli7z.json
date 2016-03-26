@@ -13,6 +13,15 @@
             "application/zip"
         ], 
         "Name": "7zip archive plugin", 
+        "Name[de]": "7zip-Archiv-Modul", 
+        "Name[es]": "Complemento de archivo 7zip", 
+        "Name[nl]": "7zip-archiefplug-in", 
+        "Name[pl]": "Wtyczka archiwów 7zip", 
+        "Name[pt_BR]": "Plugin de arquivos 7zip", 
+        "Name[ru]": "Поддержка архивов 7zip", 
+        "Name[sv]": "Insticksprogram för 7zip-arkiv", 
+        "Name[uk]": "Додаток для архівів 7zip", 
+        "Name[x-test]": "xx7zip archive pluginxx", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 
