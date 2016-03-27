@@ -79,3 +79,12 @@ Type=QStringList
 [PropertyDef::X-KDE-Kerfuffle-EncryptHeader]
 Type=QStringList
 
+# The list of executables required by the plugin to operate in read-only mode.
+[PropertyDef::X-KDE-Kerfuffle-ReadOnlyExecutables]
+Type=QStringList
+
+# The list of executables required by the plugin to operate in read-write mode.
+# This is an empty list if X-KDE-Kerfuffle-ReadWrite is set to false.
+[PropertyDef::X-KDE-Kerfuffle-ReadWriteExecutables]
+Type=QStringList
+
