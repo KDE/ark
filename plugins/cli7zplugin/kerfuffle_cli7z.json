@@ -18,10 +18,12 @@
             "application/zip"
         ], 
         "Name": "7zip archive plugin", 
+        "Name[de]": "7zip-Archiv-Modul", 
         "Name[es]": "Complemento de archivo 7zip", 
         "Name[nl]": "7zip-archiefplug-in", 
         "Name[pt]": "'Plugin' de pacotes 7zip", 
         "Name[pt_BR]": "Plugin de arquivos 7zip", 
+        "Name[ru]": "Поддержка архивов 7zip", 
         "Name[sk]": "Modul 7zip archívu", 
         "Name[sl]": "Vstavek za arhive 7zip", 
         "Name[sv]": "Insticksprogram för 7zip-arkiv", 
