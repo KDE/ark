@@ -173,6 +173,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
             break;
         case ARCHIVE_FILTER_LRZIP:
             ret = archive_write_add_filter_lrzip(arch_writer.data());
+            isLrzip = true;
             break;
         case ARCHIVE_FILTER_NONE:
             ret = archive_write_add_filter_none(arch_writer.data());
@@ -183,7 +184,9 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
             return false;
         }
 
-        if (ret != ARCHIVE_OK) {
+        // Libarchive emits a warning for lrzip due to using external executable.
+        if ((isLrzip && ret != ARCHIVE_WARN) ||
+            (!isLrzip && ret != ARCHIVE_OK)) {
             emit error(xi18nc("@info", "Setting the compression method failed with the following error:<nl/><message>%1</message>",
                               QLatin1String(archive_error_string(arch_writer.data()))));
             return false;
