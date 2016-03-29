@@ -45,7 +45,7 @@ namespace Kerfuffle
 
 bool Archive::comparePlugins(const KPluginMetaData &p1, const KPluginMetaData &p2)
 {
-    return (p1.rawData()[QStringLiteral("X-KDE-Priority")].toVariant().toInt()) > (p2.rawData()[QStringLiteral("X-KDE-Priority")].toVariant().toInt());
+    return (p1.rawData()[QStringLiteral("X-KDE-Priority")].toInt()) > (p2.rawData()[QStringLiteral("X-KDE-Priority")].toInt());
 }
 
 QVector<KPluginMetaData> Archive::findPluginOffers(const QString& filename, const QString& fixedMimeType)
@@ -105,7 +105,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
 
 Archive *Archive::create(const QString &fileName, const KPluginMetaData &pluginMetadata, QObject *parent)
 {
-    const bool isReadOnly = !pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWrite")].toVariant().toBool();
+    const bool isReadOnly = !pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWrite")].toBool();
     qCDebug(ARK) << "Loading plugin" << pluginMetadata.pluginId();
 
     KPluginFactory *factory = KPluginLoader(pluginMetadata.fileName()).factory();

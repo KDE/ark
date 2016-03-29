@@ -109,7 +109,7 @@ QStringList supportedMimeTypes()
     QSet<QString> supported;
     foreach (const KPluginMetaData& pluginMetadata, offers) {
 
-        const QStringList executables = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadOnlyExecutables")].toString().split(QLatin1Char(';'));
+        const auto executables = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadOnlyExecutables")].toArray();
         if (!findExecutables(executables)) {
             qCDebug(ARK) << "Could not find all the read-only executables of" << pluginMetadata.pluginId() << "- ignoring mimetypes:" << pluginMetadata.mimeTypes();
             continue;
@@ -132,13 +132,13 @@ QSet<QString> supportedWriteMimeTypes()
 {
     const QVector<KPluginMetaData> offers = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"), [](const KPluginMetaData& metaData) {
         return metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin")) &&
-               metaData.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWrite")].toVariant().toBool();
+               metaData.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWrite")].toBool();
     });
 
     QSet<QString> supported;
     foreach (const KPluginMetaData& pluginMetadata, offers) {
 
-        const QStringList executables = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWriteExecutables")].toString().split(QLatin1Char(';'));
+        const auto executables = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWriteExecutables")].toArray();
         if (!findExecutables(executables)) {
             qCDebug(ARK) << "Could not find all the read-write executables of" << pluginMetadata.pluginId() << "- ignoring mimetypes:" << pluginMetadata.mimeTypes();
             continue;
@@ -166,9 +166,12 @@ QSet<QString> supportedEncryptEntriesMimeTypes()
     QSet<QString> supported;
 
     foreach (const KPluginMetaData& pluginMetadata, offers) {
-        const QStringList mimeTypes = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-EncryptEntries")].toString().split(QLatin1Char(','));
-        foreach (const QString& mimeType, mimeTypes) {
-            supported.insert(mimeType);
+        const auto mimeTypes = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-EncryptEntries")].toArray();
+        foreach (const auto& mimeType, mimeTypes) {
+            if (mimeType.toString().isEmpty()) {
+                continue;
+            }
+            supported.insert(mimeType.toString());
         }
     }
 
@@ -186,9 +189,12 @@ QSet<QString> supportedEncryptHeaderMimeTypes()
     QSet<QString> supported;
 
     foreach (const KPluginMetaData& pluginMetadata, offers) {
-        const QStringList mimeTypes = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-EncryptHeader")].toString().split(QLatin1Char(','));
-        foreach (const QString& mimeType, mimeTypes) {
-            supported.insert(mimeType);
+        const auto mimeTypes = pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-EncryptHeader")].toArray();
+        foreach (const auto& mimeType, mimeTypes) {
+            if (mimeType.toString().isEmpty()) {
+                continue;
+            }
+            supported.insert(mimeType.toString());
         }
     }
 
@@ -216,10 +222,10 @@ QStringList sortByComment(const QSet<QString> &mimeTypeSet)
     return mimetypeList;
 }
 
-bool findExecutables(const QStringList& executables)
+bool findExecutables(const QJsonArray& executables)
 {
-    foreach (const QString& executable, executables) {
-
+    foreach (const auto& value, executables) {
+        const QString executable = value.toString();
         if (executable.isEmpty()) {
             continue;
         }

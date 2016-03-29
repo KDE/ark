@@ -6,16 +6,6 @@ set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "${SUPPORTED_LIBARCHIVE_READWRITE_M
 set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "application/x-deb;application/x-cd-image;application/x-bcpio;application/x-cpio;application/x-cpio-compressed;application/x-sv4cpio;application/x-sv4crc;")
 set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}application/x-rpm;application/x-source-rpm;application/vnd.ms-cab-compressed;")
 
-configure_file(
-            ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libarchive_readonly.desktop.cmake
-            ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive_readonly.desktop
-)
-
-configure_file(
-            ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libarchive.desktop.cmake
-            ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive.desktop
-)
-
 set(kerfuffle_libarchive_readonly_SRCS libarchiveplugin.cpp readonlylibarchiveplugin.cpp ark_debug.cpp)
 set(kerfuffle_libarchive_readwrite_SRCS libarchiveplugin.cpp readwritelibarchiveplugin.cpp ark_debug.cpp)
 set(kerfuffle_libarchive_SRCS ${kerfuffle_libarchive_readonly_SRCS} readwritelibarchiveplugin.cpp)
@@ -30,9 +20,6 @@ add_library(kerfuffle_libarchive MODULE ${kerfuffle_libarchive_readwrite_SRCS})
 
 target_link_libraries(kerfuffle_libarchive_readonly KF5::KIOCore ${LibArchive_LIBRARIES} kerfuffle)
 target_link_libraries(kerfuffle_libarchive KF5::KIOCore ${LibArchive_LIBRARIES} kerfuffle)
-
-kcoreaddons_desktop_to_json(kerfuffle_libarchive_readonly ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive_readonly.desktop DEFAULT_SERVICE_TYPE)
-kcoreaddons_desktop_to_json(kerfuffle_libarchive ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive.desktop DEFAULT_SERVICE_TYPE)
 
 install(TARGETS kerfuffle_libarchive_readonly DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
 install(TARGETS kerfuffle_libarchive DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)

@@ -1,7 +1,6 @@
 ########### next target ###############
 
 set(SUPPORTED_CLIZIP_MIMETYPES "application/x-java-archive;application/zip;")
-set(ENCRYPT_ENTRIES_MIMETYPES "application/x-java-archive,application/zip")
 
 set(kerfuffle_clizip_SRCS cliplugin.cpp)
 
@@ -13,15 +12,6 @@ ecm_qt_declare_logging_category(kerfuffle_clizip_SRCS
 add_library(kerfuffle_clizip MODULE ${kerfuffle_clizip_SRCS})
 
 target_link_libraries(kerfuffle_clizip kerfuffle )
-
-configure_file(
-            ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_clizip.desktop.cmake
-            ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_clizip.desktop
-)
-
-kcoreaddons_desktop_to_json(kerfuffle_clizip ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_clizip.desktop DEFAULT_SERVICE_TYPE)
-
-########### install files ###############
 
 install(TARGETS kerfuffle_clizip  DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
 

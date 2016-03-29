@@ -28,6 +28,7 @@
 
 #include "kerfuffle_export.h"
 
+#include <QJsonArray>
 #include <QMimeType>
 #include <QSet>
 
@@ -47,7 +48,7 @@ namespace Kerfuffle
     /**
      * @return Whether all the @p executables are available in the system PATH.
      */
-    bool findExecutables(const QStringList& executables);
+    bool findExecutables(const QJsonArray& executables);
 
 } // namespace Kerfuffle
 

@@ -44,9 +44,11 @@
         "Version": "0.0.1", 
         "Website": "http://www.kde.org"
     }, 
-    "MimeType": "application/x-rar;", 
-    "X-KDE-Kerfuffle-APIRevision": "1", 
-    "X-KDE-Kerfuffle-ReadOnlyExecutables": "lsar;unar;", 
-    "X-KDE-Kerfuffle-ReadWrite": "false", 
-    "X-KDE-Priority": "100"
+    "X-KDE-Kerfuffle-APIRevision": 1,
+    "X-KDE-Kerfuffle-ReadOnlyExecutables": [
+        "lsar",
+        "unar"
+    ],
+    "X-KDE-Kerfuffle-ReadWrite": false,
+    "X-KDE-Priority": 100
 }

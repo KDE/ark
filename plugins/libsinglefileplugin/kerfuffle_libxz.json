@@ -47,7 +47,6 @@
         "Version": "0.0.1", 
         "Website": "http://www.kde.org"
     }, 
-    "MimeType": "application/x-lzma;application/x-xz;", 
-    "X-KDE-Kerfuffle-APIRevision": "1", 
-    "X-KDE-Priority": "100"
+    "X-KDE-Kerfuffle-APIRevision": 1,
+    "X-KDE-Priority": 100
 }

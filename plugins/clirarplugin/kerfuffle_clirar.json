@@ -48,12 +48,19 @@
         "Version": "0.0.1", 
         "Website": "http://www.kde.org"
     }, 
-    "MimeType": "application/x-rar;", 
-    "X-KDE-Kerfuffle-APIRevision": "1", 
-    "X-KDE-Kerfuffle-EncryptEntries": "application/x-rar", 
-    "X-KDE-Kerfuffle-EncryptHeader": "application/x-rar", 
-    "X-KDE-Kerfuffle-ReadOnlyExecutables": "unrar", 
-    "X-KDE-Kerfuffle-ReadWrite": "true", 
-    "X-KDE-Kerfuffle-ReadWriteExecutables": "rar", 
-    "X-KDE-Priority": "120"
+    "X-KDE-Kerfuffle-APIRevision": 1,
+    "X-KDE-Kerfuffle-EncryptEntries": [
+        "application/x-rar"
+    ],
+    "X-KDE-Kerfuffle-EncryptHeader": [
+        "application/x-rar"
+    ],
+    "X-KDE-Kerfuffle-ReadOnlyExecutables": [
+        "unrar"
+    ],
+    "X-KDE-Kerfuffle-ReadWrite": true,
+    "X-KDE-Kerfuffle-ReadWriteExecutables": [
+        "rar"
+    ],
+    "X-KDE-Priority": 120
 }
