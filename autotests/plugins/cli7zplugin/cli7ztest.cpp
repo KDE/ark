@@ -178,6 +178,52 @@ void Cli7zTest::testList()
     plugin->deleteLater();
 }
 
+void Cli7zTest::testListArgs_data()
+{
+    QTest::addColumn<QString>("archiveName");
+    QTest::addColumn<QString>("password");
+    QTest::addColumn<QStringList>("expectedArgs");
+
+    QTest::newRow("unencrypted")
+            << QStringLiteral("/tmp/foo.7z")
+            << QString()
+            << QStringList {
+                   QStringLiteral("l"),
+                   QStringLiteral("-slt"),
+                   QStringLiteral("/tmp/foo.7z")
+               };
+
+    QTest::newRow("header-encrypted")
+            << QStringLiteral("/tmp/foo.7z")
+            << QStringLiteral("1234")
+            << QStringList {
+                   QStringLiteral("l"),
+                   QStringLiteral("-slt"),
+                   QStringLiteral("-p1234"),
+                   QStringLiteral("/tmp/foo.7z")
+               };
+}
+
+void Cli7zTest::testListArgs()
+{
+    QFETCH(QString, archiveName);
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    QVERIFY(plugin);
+
+    const QStringList listArgs = { QStringLiteral("l"),
+                                   QStringLiteral("-slt"),
+                                   QStringLiteral("$PasswordSwitch"),
+                                   QStringLiteral("$Archive") };
+
+    QFETCH(QString, password);
+    const auto replacedArgs = plugin->substituteListVariables(listArgs, password);
+
+    QFETCH(QStringList, expectedArgs);
+    QCOMPARE(replacedArgs, expectedArgs);
+
+    plugin->deleteLater();
+}
+
 void Cli7zTest::testExtractArgs_data()
 {
     QTest::addColumn<QString>("archiveName");

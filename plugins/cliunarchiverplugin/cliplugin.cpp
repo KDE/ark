@@ -50,8 +50,7 @@ bool CliPlugin::list()
     cacheParameterList();
     m_operationMode = List;
 
-    QStringList args = m_param.value(ListArgs).toStringList();
-    substituteListVariables(args);
+    const auto args = substituteListVariables(m_param.value(ListArgs).toStringList(), password());
 
     if (!runProcess(m_param.value(ListProgram).toStringList(), args)) {
         failOperation();

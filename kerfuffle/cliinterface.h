@@ -317,6 +317,7 @@ public:
      */
     bool moveToDestination(const QDir &tempDir, const QDir &destDir, bool preservePaths);
 
+    QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
     QStringList substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password, const QString &rootNode);
 
     /**
@@ -343,7 +344,6 @@ protected:
 
     virtual void handleLine(const QString& line);
     virtual void cacheParameterList();
-    void substituteListVariables(QStringList& params);
 
     /**
      * Run @p programName with the given @p arguments.

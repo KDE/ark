@@ -127,8 +127,7 @@ bool CliInterface::list()
     cacheParameterList();
     m_operationMode = List;
 
-    QStringList args = m_param.value(ListArgs).toStringList();
-    substituteListVariables(args);
+    const auto args = substituteListVariables(m_param.value(ListArgs).toStringList(), password());
 
     if (!runProcess(m_param.value(ListProgram).toStringList(), args)) {
         failOperation();
@@ -639,6 +638,33 @@ bool CliInterface::moveToDestination(const QDir &tempDir, const QDir &destDir, b
     return true;
 }
 
+QStringList CliInterface::substituteListVariables(const QStringList &listArgs, const QString &password)
+{
+    // Required if we call this function from unit tests.
+    cacheParameterList();
+
+    QStringList args;
+    foreach (const QString& arg, listArgs) {
+        if (arg == QLatin1String("$Archive")) {
+            args << filename();
+            continue;
+        }
+
+        if (arg == QLatin1String("$PasswordSwitch")) {
+            args << passwordSwitch(password);
+            continue;
+        }
+
+        // Simple argument (e.g. -slt in 7z), nothing to substitute, just add it to the list.
+        args << arg;
+    }
+
+    // Remove empty strings, if any.
+    args.removeAll(QString());
+
+    return args;
+}
+
 QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password, const QString &rootNode)
 {
     // Required if we call this function from unit tests.
@@ -659,7 +685,6 @@ QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs
         }
 
         if (arg == QLatin1String("$PasswordSwitch")) {
-
             args << passwordSwitch(password);
             continue;
         }
@@ -1091,45 +1116,6 @@ bool CliInterface::doSuspend()
 bool CliInterface::doResume()
 {
     return false;
-}
-
-void CliInterface::substituteListVariables(QStringList& params)
-{
-    for (int i = 0; i < params.size(); ++i) {
-        const QString parameter = params.at(i);
-
-        if (parameter == QLatin1String( "$Archive" )) {
-            params[i] = filename();
-        }
-
-        if (parameter == QLatin1String("$PasswordSwitch")) {
-            //if the PasswordSwitch argument has been added, we at least
-            //assume that the format of the switch has been added as well
-            Q_ASSERT(m_param.contains(PasswordSwitch));
-
-            //we will set it afterwards, if there is a password
-            params.removeAt(i);
-
-            QString pass = password();
-
-            if (!pass.isEmpty()) {
-                QStringList theSwitch = m_param.value(PasswordSwitch).toStringList();
-
-                for (int j = 0; j < theSwitch.size(); ++j) {
-                    //get the argument part
-                    QString newArg = theSwitch.at(j);
-
-                    //substitute the $Password
-                    newArg.replace(QLatin1String("$Password"), pass);
-
-                    //put it in the arg list
-                    params.insert(i + j, newArg);
-                    ++i;
-                }
-            }
-            --i;
-        }
-    }
 }
 
 QString CliInterface::escapeFileName(const QString& fileName) const

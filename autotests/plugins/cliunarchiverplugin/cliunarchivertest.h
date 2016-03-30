@@ -36,6 +36,8 @@ private Q_SLOTS:
     void testArchive();
     void testList_data();
     void testList();
+    void testListArgs_data();
+    void testListArgs();
     void testExtraction_data();
     void testExtraction();
     void testExtractArgs_data();

@@ -173,6 +173,50 @@ void CliUnarchiverTest::testList()
     unarPlugin->deleteLater();
 }
 
+void CliUnarchiverTest::testListArgs_data()
+{
+    QTest::addColumn<QString>("archiveName");
+    QTest::addColumn<QString>("password");
+    QTest::addColumn<QStringList>("expectedArgs");
+
+    QTest::newRow("unencrypted")
+            << QStringLiteral("/tmp/foo.rar")
+            << QString()
+            << QStringList {
+                   QStringLiteral("-json"),
+                   QStringLiteral("/tmp/foo.rar")
+               };
+
+    QTest::newRow("header-encrypted")
+            << QStringLiteral("/tmp/foo.rar")
+            << QStringLiteral("1234")
+            << QStringList {
+                   QStringLiteral("-json"),
+                   QStringLiteral("/tmp/foo.rar"),
+                   QStringLiteral("-password"),
+                   QStringLiteral("1234")
+               };
+}
+
+void CliUnarchiverTest::testListArgs()
+{
+    QFETCH(QString, archiveName);
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    QVERIFY(plugin);
+
+    const QStringList listArgs = { QStringLiteral("-json"),
+                                   QStringLiteral("$Archive"),
+                                   QStringLiteral("$PasswordSwitch") };
+
+    QFETCH(QString, password);
+    const auto replacedArgs = plugin->substituteListVariables(listArgs, password);
+
+    QFETCH(QStringList, expectedArgs);
+    QCOMPARE(replacedArgs, expectedArgs);
+
+    plugin->deleteLater();
+}
+
 void CliUnarchiverTest::testExtraction_data()
 {
     QTest::addColumn<QString>("archivePath");
