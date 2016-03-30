@@ -252,93 +252,11 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
         QDir::setCurrent(globalWorkDir);
     }
 
-    //start preparing the argument list
-    QStringList args = m_param.value(AddArgs).toStringList();
-
-    //now replace the various elements in the list
-    for (int i = 0; i < args.size(); ++i) {
-        const QString argument = args.at(i);
-        qCDebug(ARK) << "Processing argument " << argument;
-
-        if (argument == QLatin1String( "$Archive" )) {
-            args[i] = filename();
-        }
-
-        if (argument == QLatin1String("$PasswordSwitch")) {
-            //if the PasswordSwitch argument has been added, we at least
-            //assume that the format of the switch has been added as well
-            Q_ASSERT(m_param.contains(PasswordSwitch));
-
-            //we will decrement i afterwards
-            args.removeAt(i);
-
-            QString pass = password();
-
-            if (!pass.isEmpty()) {
-                QStringList theSwitch = m_param.value(PasswordSwitch).toStringList();
-
-                // use the header encryption switch if needed and if provided by the plugin
-                if (isHeaderEncryptionEnabled() && !m_param.value(PasswordHeaderSwitch).toStringList().isEmpty()) {
-                    theSwitch = m_param.value(PasswordHeaderSwitch).toStringList();
-                }
-
-                for (int j = 0; j < theSwitch.size(); ++j) {
-                    //get the argument part
-                    QString newArg = theSwitch.at(j);
-
-                    //substitute the $Password
-                    newArg.replace(QLatin1String("$Password"), pass);
-
-                    //put it in the arg list
-                    args.insert(i + j, newArg);
-                    ++i;
-                }
-            }
-            --i; //decrement to compensate for the variable we replaced
-        }
-
-        if (argument == QLatin1String("$EncryptHeaderSwitch")) {
-            //if the EncryptHeaderSwitch argument has been added, we at least
-            //assume that the format of the switch has been added as well
-            Q_ASSERT(m_param.contains(EncryptHeaderSwitch));
-
-            //we will decrement i afterwards
-            args.removeAt(i);
-
-            QString enabled = isHeaderEncryptionEnabled() ? QStringLiteral("-mhe=on") : QString();
-
-            QStringList theSwitch = m_param.value(EncryptHeaderSwitch).toStringList();
-            for (int j = 0; j < theSwitch.size(); ++j) {
-                //get the argument part
-                QString newArg = theSwitch.at(j);
-
-                //substitute the $Password
-                newArg.replace(QLatin1String("$Enabled"), enabled);
-
-                //put it in the arg list
-                args.insert(i + j, newArg);
-                ++i;
-            }
-
-            --i; //decrement to compensate for the variable we replaced
-        }
-
-        if (argument == QLatin1String( "$Files" )) {
-            args.removeAt(i);
-            for (int j = 0; j < files.count(); ++j) {
-                // #191821: workDir must be used instead of QDir::current()
-                //          so that symlinks aren't resolved automatically
-                // TODO: this kind of call should be moved upwards in the
-                //       class hierarchy to avoid code duplication
-                const QString relativeName =
-                    workDir.relativeFilePath(files.at(j));
-
-                args.insert(i + j, relativeName);
-                ++i;
-            }
-            --i;
-        }
-    }
+    const auto args = substituteAddVariables(m_param.value(AddArgs).toStringList(),
+                                             files,
+                                             workDir,
+                                             password(),
+                                             isHeaderEncryptionEnabled());
 
     if (!runProcess(m_param.value(AddProgram).toStringList(), args)) {
         failOperation();
@@ -709,6 +627,40 @@ QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs
     return args;
 }
 
+QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QDir &workDir, const QString &password, bool encryptHeader)
+{
+    // Required if we call this function from unit tests.
+    cacheParameterList();
+
+    QStringList args;
+    foreach (const QString& arg, addArgs) {
+        qCDebug(ARK) << "Processing argument " << arg;
+
+        if (arg == QLatin1String("$Archive")) {
+            args << filename();
+            continue;
+        }
+
+        if (arg == QLatin1String("$PasswordSwitch")) {
+            args << (encryptHeader ? passwordHeaderSwitch(password) : passwordSwitch(password));
+            continue;
+        }
+
+        if (arg == QLatin1String("$Files")) {
+            args << addFilesList(files, workDir);
+            continue;
+        }
+
+        // Simple argument (e.g. a in 7z), nothing to substitute, just add it to the list.
+        args << arg;
+    }
+
+    // Remove empty strings, if any.
+    args.removeAll(QString());
+
+    return args;
+}
+
 QString CliInterface::preservePathSwitch(bool preservePaths) const
 {
     Q_ASSERT(m_param.contains(PreservePathSwitch));
@@ -716,6 +668,26 @@ QString CliInterface::preservePathSwitch(bool preservePaths) const
     Q_ASSERT(theSwitch.size() == 2);
 
     return (preservePaths ? theSwitch.at(0) : theSwitch.at(1));
+}
+
+QStringList CliInterface::passwordHeaderSwitch(const QString& password) const
+{
+    if (password.isEmpty()) {
+        return QStringList();
+    }
+
+    Q_ASSERT(m_param.contains(PasswordHeaderSwitch));
+
+    QStringList passwordHeaderSwitch = m_param.value(PasswordHeaderSwitch).toStringList();
+    Q_ASSERT(!passwordHeaderSwitch.isEmpty() && passwordHeaderSwitch.size() <= 2);
+
+    if (passwordHeaderSwitch.size() == 1) {
+        passwordHeaderSwitch[0].replace(QLatin1String("$Password"), password);
+    } else {
+        passwordHeaderSwitch[1] = password;
+    }
+
+    return passwordHeaderSwitch;
 }
 
 QStringList CliInterface::passwordSwitch(const QString& password) const
@@ -756,6 +728,21 @@ QStringList CliInterface::rootNodeSwitch(const QString &rootNode) const
     }
 
     return rootNodeSwitch;
+}
+
+QStringList CliInterface::addFilesList(const QStringList& files, const QDir& workDir) const
+{
+    // #191821: workDir must be used instead of QDir::current()
+    //          so that symlinks aren't resolved automatically
+    // TODO: this kind of call should be moved upwards in the
+    //       class hierarchy to avoid code duplication
+
+    QStringList filesList;
+    foreach (const QString& file, files) {
+        filesList << workDir.relativeFilePath(file);
+    }
+
+    return filesList;
 }
 
 QStringList CliInterface::copyFilesList(const QVariantList& files) const

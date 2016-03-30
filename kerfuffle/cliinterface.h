@@ -246,16 +246,6 @@ enum CliInterfaceParameters {
      * Example (rar plugin): ("-hp$Password")
      */
     PasswordHeaderSwitch,
-
-    /**
-     * QStringList (default empty)
-     * Encrypt the archive header without providing a password string.
-     * It uses $Password from either PasswordSwitch or PasswordHeaderSwitch.
-     * However, there is the $Enabled variable
-     * which is substituted with either 'on' or 'off'.
-     * Example (7z plugin): ("-mhe=$Enabled")
-     */
-    EncryptHeaderSwitch
 };
 
 typedef QHash<int, QVariant> ParameterList;
@@ -319,11 +309,17 @@ public:
 
     QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
     QStringList substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password, const QString &rootNode);
+    QStringList substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QDir &workDir, const QString &password, bool encryptHeader);
 
     /**
      * @return The preserve path switch, according to the @p preservePaths extraction option.
      */
     QString preservePathSwitch(bool preservePaths) const;
+
+    /**
+     * @return The password header-switch with the given @p password.
+     */
+    virtual QStringList passwordHeaderSwitch(const QString& password) const;
 
     /**
      * @return The password switch with the given @p password.
@@ -334,6 +330,11 @@ public:
      * @return The root node switch with the given @p rootNode.
      */
     QStringList rootNodeSwitch(const QString& rootNode) const;
+
+    /**
+     * @return The list of files to add to the archive.
+     */
+    QStringList addFilesList(const QStringList& files, const QDir& workDir) const;
 
     /**
      * @return The list of selected files to extract.

@@ -43,6 +43,8 @@ private Q_SLOTS:
     void testList();
     void testListArgs_data();
     void testListArgs();
+    void testAddArgs_data();
+    void testAddArgs();
     void testExtractArgs_data();
     void testExtractArgs();
 

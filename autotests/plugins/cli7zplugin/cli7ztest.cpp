@@ -224,6 +224,63 @@ void Cli7zTest::testListArgs()
     plugin->deleteLater();
 }
 
+void Cli7zTest::testAddArgs_data()
+{
+    QTest::addColumn<QString>("archiveName");
+    QTest::addColumn<QString>("password");
+    QTest::addColumn<bool>("encryptHeader");
+    QTest::addColumn<QStringList>("expectedArgs");
+
+    QTest::newRow("unencrypted")
+            << QStringLiteral("/tmp/foo.7z")
+            << QString() << false
+            << QStringList {
+                   QStringLiteral("a"),
+                   QStringLiteral("/tmp/foo.7z")
+               };
+
+    QTest::newRow("encrypted")
+            << QStringLiteral("/tmp/foo.7z")
+            << QStringLiteral("1234") << false
+            << QStringList {
+                   QStringLiteral("a"),
+                   QStringLiteral("/tmp/foo.7z"),
+                   QStringLiteral("-p1234")
+               };
+
+    QTest::newRow("header-encrypted")
+            << QStringLiteral("/tmp/foo.7z")
+            << QStringLiteral("1234") << true
+            << QStringList {
+                   QStringLiteral("a"),
+                   QStringLiteral("/tmp/foo.7z"),
+                   QStringLiteral("-p1234"),
+                   QStringLiteral("-mhe=on")
+               };
+}
+
+void Cli7zTest::testAddArgs()
+{
+    QFETCH(QString, archiveName);
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    QVERIFY(plugin);
+
+    const QStringList addArgs = { QStringLiteral("a"),
+                                  QStringLiteral("$Archive"),
+                                  QStringLiteral("$PasswordSwitch"),
+                                  QStringLiteral("$Files") };
+
+    QFETCH(QString, password);
+    QFETCH(bool, encryptHeader);
+
+    QStringList replacedArgs = plugin->substituteAddVariables(addArgs, {}, QDir::current(), password, encryptHeader);
+
+    QFETCH(QStringList, expectedArgs);
+    QCOMPARE(replacedArgs, expectedArgs);
+
+    plugin->deleteLater();
+}
+
 void Cli7zTest::testExtractArgs_data()
 {
     QTest::addColumn<QString>("archiveName");

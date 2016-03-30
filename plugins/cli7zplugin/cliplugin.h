@@ -38,6 +38,11 @@ public:
     virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
 
+    /**
+     * @return The password header-switch with the given @p password.
+     */
+    virtual QStringList passwordHeaderSwitch(const QString& password) const Q_DECL_OVERRIDE;
+
 private:
     enum ArchiveType {
         ArchiveType7z = 0,

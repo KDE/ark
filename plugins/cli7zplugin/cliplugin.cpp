@@ -72,11 +72,10 @@ ParameterList CliPlugin::parameterList() const
         p[PreservePathSwitch] = QStringList() << QStringLiteral("x")
                                               << QStringLiteral("e");
         p[PasswordSwitch] = QStringList() << QStringLiteral("-p$Password");
-        p[EncryptHeaderSwitch] = QStringList() << QStringLiteral("$Enabled");
+        p[PasswordHeaderSwitch] = QStringList { QStringLiteral("-p$Password"), QStringLiteral("-mhe=on") };
         p[WrongPasswordPatterns] = QStringList() << QStringLiteral("Wrong password");
         p[AddArgs] = QStringList() << QStringLiteral("a")
                                    << QStringLiteral("$Archive")
-                                   << QStringLiteral("$EncryptHeaderSwitch")
                                    << QStringLiteral("$PasswordSwitch")
                                    << QStringLiteral("$Files");
         p[DeleteArgs] = QStringList() << QStringLiteral("d")
@@ -232,6 +231,22 @@ bool CliPlugin::readListLine(const QString& line)
     }
 
     return true;
+}
+
+QStringList CliPlugin::passwordHeaderSwitch(const QString& password) const
+{
+    if (password.isEmpty()) {
+        return QStringList();
+    }
+
+    Q_ASSERT(m_param.contains(PasswordHeaderSwitch));
+
+    QStringList passwordHeaderSwitch = m_param.value(PasswordHeaderSwitch).toStringList();
+    Q_ASSERT(!passwordHeaderSwitch.isEmpty() && passwordHeaderSwitch.size() == 2);
+
+    passwordHeaderSwitch[0].replace(QLatin1String("$Password"), password);
+
+    return passwordHeaderSwitch;
 }
 
 #include "cliplugin.moc"
