@@ -13,6 +13,7 @@
             "application/zip"
         ], 
         "Name": "7zip archive plugin", 
+        "Name[ca@valencia]": "Connector per arxius 7zip", 
         "Name[ca]": "Connector per arxius 7zip", 
         "Name[de]": "7zip-Archiv-Modul", 
         "Name[en_GB]": "7zip archive plugin", 
