@@ -17,7 +17,7 @@
             "application/x-rar"
         ], 
         "Name": "The Unarchiver plugin", 
-        "Name[ca@valencia]": "Connector del Unarchiver", 
+        "Name[ca@valencia]": "Connector de l'Unarchiver", 
         "Name[ca]": "Connector de l'Unarchiver", 
         "Name[cs]": "Modul pro Unarchiver", 
         "Name[de]": "Unarchiver-Modul", 
@@ -44,11 +44,11 @@
         "Version": "0.0.1", 
         "Website": "http://www.kde.org"
     }, 
-    "X-KDE-Kerfuffle-APIRevision": 1,
+    "X-KDE-Kerfuffle-APIRevision": 1, 
     "X-KDE-Kerfuffle-ReadOnlyExecutables": [
-        "lsar",
+        "lsar", 
         "unar"
-    ],
-    "X-KDE-Kerfuffle-ReadWrite": false,
+    ], 
+    "X-KDE-Kerfuffle-ReadWrite": false, 
     "X-KDE-Priority": 100
 }
