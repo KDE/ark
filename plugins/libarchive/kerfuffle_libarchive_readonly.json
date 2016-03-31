@@ -3,7 +3,8 @@
         "Authors": [
             {
                 "Email": "henrique.pinto@kdemail.net", 
-                "Name": "Henrique Pinto"
+                "Name": "Henrique Pinto", 
+                "Name[x-test]": "xxHenrique Pintoxx"
             }
         ], 
         "Id": "kerfuffle_libarchive_readonly", 
@@ -21,6 +22,8 @@
             "application/vnd.ms-cab-compressed"
         ], 
         "Name": "kerfuffle_libarchive_readonly", 
+        "Name[sv]": "Kerfuffle LibArchive skrivskyddat", 
+        "Name[x-test]": "xxkerfuffle_libarchive_readonlyxx", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

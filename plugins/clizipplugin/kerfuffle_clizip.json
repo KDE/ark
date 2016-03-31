@@ -18,6 +18,15 @@
             "application/zip"
         ], 
         "Name": "ZIP archive plugin", 
+        "Name[ca]": "Connector per arxius ZIP", 
+        "Name[de]": "ZIP-Archiv-Modul", 
+        "Name[nl]": "ZIP-archiefplug-in", 
+        "Name[pt]": "'Plugin' de pacotes ZIP", 
+        "Name[pt_BR]": "Plugin de arquivos ZIP", 
+        "Name[ru]": "Поддержка архивов ZIP", 
+        "Name[sv]": "Insticksprogram för ZIP-arkiv", 
+        "Name[uk]": "Додаток для архівів ZIP", 
+        "Name[x-test]": "xxZIP archive pluginxx", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

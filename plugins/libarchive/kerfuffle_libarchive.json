@@ -3,10 +3,19 @@
         "Authors": [
             {
                 "Email": "henrique.pinto@kdemail.net", 
-                "Name": "Henrique Pinto"
+                "Name": "Henrique Pinto", 
+                "Name[x-test]": "xxHenrique Pintoxx"
             }
         ], 
         "Description": "LibArchive Plugin for Kerfuffle", 
+        "Description[ca]": "Connector del LibArchive pel Kerfuffle", 
+        "Description[de]": "LibArchive-Modul für Kerfuffle", 
+        "Description[nl]": "LibArchive plug-in voor Kerfuffle", 
+        "Description[pt]": "'Plugin' da LibArchive para o Kerfuffle", 
+        "Description[pt_BR]": "Plugin LibArchive para a Kerfuffle", 
+        "Description[sv]": "LibArchive-insticksprogram för Kerfuffle", 
+        "Description[uk]": "Додаток LibArchive для Kerfuffle", 
+        "Description[x-test]": "xxLibArchive Plugin for Kerfufflexx", 
         "Id": "kerfuffle_libarchive", 
         "License": "BSD", 
         "MimeTypes": [
@@ -21,6 +30,8 @@
             "application/x-lrzip-compressed-tar"
         ], 
         "Name": "kerfuffle_libarchive", 
+        "Name[sv]": "Kerfuffle LibArchive", 
+        "Name[x-test]": "xxkerfuffle_libarchivexx", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

@@ -3,7 +3,14 @@
         "Authors": [
             {
                 "Email": "TODO Your email", 
-                "Name": "TODO Your name"
+                "Name": "TODO Your name", 
+                "Name[ca]": "PENDENT El vostre nom", 
+                "Name[nl]": "Freek de Kruijf", 
+                "Name[pt]": "José Nuno Pires", 
+                "Name[pt_BR]": "TODO Seu nome", 
+                "Name[sv]": "ATT GÖRA ditt namn", 
+                "Name[uk]": "Ще не вказане ім’я", 
+                "Name[x-test]": "xxTODO Your namexx"
             }
         ], 
         "Id": "TODO kerfuffle_cli", 
@@ -12,6 +19,15 @@
             "TODO"
         ], 
         "Name": "TODO archive plugin", 
+        "Name[ca]": "Connector per arxius TODO", 
+        "Name[de]": "TODO-Archiv-Modul", 
+        "Name[nl]": "TODO-archiefplug-in", 
+        "Name[pt]": "'Plugin' de pacotes TODO", 
+        "Name[pt_BR]": "Plugin de arquivos A FAZER", 
+        "Name[ru]": "TODO модуль архивирования", 
+        "Name[sv]": "Insticksprogram för ATT GÖRA-arkiv", 
+        "Name[uk]": "Ще не створений додаток архівів", 
+        "Name[x-test]": "xxTODO archive pluginxx", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 
