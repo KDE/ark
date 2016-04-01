@@ -18,6 +18,7 @@
             "application/zip"
         ], 
         "Name": "ZIP archive plugin", 
+        "Name[ca@valencia]": "Connector per arxius ZIP", 
         "Name[ca]": "Connector per arxius ZIP", 
         "Name[de]": "ZIP-Archiv-Modul", 
         "Name[nl]": "ZIP-archiefplug-in", 

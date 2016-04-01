@@ -4,6 +4,7 @@
             {
                 "Email": "TODO Your email", 
                 "Name": "TODO Your name", 
+                "Name[ca@valencia]": "PENDENT El vostre nom", 
                 "Name[ca]": "PENDENT El vostre nom", 
                 "Name[nl]": "Freek de Kruijf", 
                 "Name[pt]": "José Nuno Pires", 
@@ -19,6 +20,7 @@
             "TODO"
         ], 
         "Name": "TODO archive plugin", 
+        "Name[ca@valencia]": "Connector per arxius TODO", 
         "Name[ca]": "Connector per arxius TODO", 
         "Name[de]": "TODO-Archiv-Modul", 
         "Name[nl]": "TODO-archiefplug-in", 
