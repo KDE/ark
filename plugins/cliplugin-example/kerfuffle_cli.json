@@ -12,6 +12,8 @@
                 "Name[pl]": "DO_ZROBIENIA Twoje nazwisko", 
                 "Name[pt]": "José Nuno Pires", 
                 "Name[pt_BR]": "TODO Seu nome", 
+                "Name[sk]": "Zoznam úloh vaše meno", 
+                "Name[sl]": "NAREDI Vaše ime", 
                 "Name[sv]": "ATT GÖRA ditt namn", 
                 "Name[uk]": "Ще не вказане ім’я", 
                 "Name[x-test]": "xxTODO Your namexx"
@@ -33,6 +35,8 @@
         "Name[pt]": "'Plugin' de pacotes TODO", 
         "Name[pt_BR]": "Plugin de arquivos A FAZER", 
         "Name[ru]": "TODO модуль архивирования", 
+        "Name[sk]": "TODO modul archívu", 
+        "Name[sl]": "Vstavek za arhive NAREDI", 
         "Name[sv]": "Insticksprogram för ATT GÖRA-arkiv", 
         "Name[uk]": "Ще не створений додаток архівів", 
         "Name[x-test]": "xxTODO archive pluginxx", 
