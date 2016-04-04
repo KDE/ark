@@ -39,7 +39,7 @@
             "application/x-tarz", 
             "application/x-xz-compressed-tar", 
             "application/x-lzma-compressed-tar", 
-            "application/x-lzip", 
+            "application/x-lzip-compressed-tar",
             "application/x-tzo", 
             "application/x-lrzip-compressed-tar"
         ], 
