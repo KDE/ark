@@ -63,7 +63,7 @@ QMimeType determineMimeType(const QString& filename)
 
     // Compressed tar-archives are detected as single compressed files when
     // detecting by content. The following code fixes detection of tar.gz, tar.bz2, tar.xz,
-    // tar.lzo and tar.lrz.
+    // tar.lzo, tar.lz and tar.lrz.
     if ((mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-compressed-tar")) &&
          mimeFromContent == db.mimeTypeForName(QStringLiteral("application/gzip"))) ||
         (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-bzip-compressed-tar")) &&
@@ -74,6 +74,8 @@ QMimeType determineMimeType(const QString& filename)
          mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-compress"))) ||
         (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-tzo")) &&
          mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzop"))) ||
+        (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-lzip-compressed-tar")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzip"))) ||
         (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-lrzip-compressed-tar")) &&
          mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lrzip")))) {
         return mimeFromExtension;

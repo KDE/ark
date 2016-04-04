@@ -52,7 +52,7 @@ void MimeTypeTest::testMimeTypeDetection_data()
     const QString compressedXzTarMime = QStringLiteral("application/x-xz-compressed-tar");
     const QString compressedLzmaTarMime = QStringLiteral("application/x-lzma-compressed-tar");
     const QString compressedZTarMime = QStringLiteral("application/x-tarz");
-    const QString compressedLzipTarMime = QStringLiteral("application/x-lzip");
+    const QString compressedLzipTarMime = QStringLiteral("application/x-lzip-compressed-tar");
     const QString compressedLzopTarMime = QStringLiteral("application/x-tzo");
     const QString compressedLrzipTarMime = QStringLiteral("application/x-lrzip-compressed-tar");
     const QString isoMimeType = QStringLiteral("application/x-cd-image");
