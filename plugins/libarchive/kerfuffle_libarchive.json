@@ -4,6 +4,10 @@
             {
                 "Email": "henrique.pinto@kdemail.net", 
                 "Name": "Henrique Pinto", 
+                "Name[sr@ijekavian]": "Енрике Пинто", 
+                "Name[sr@ijekavianlatin]": "Enrike Pinto", 
+                "Name[sr@latin]": "Enrike Pinto", 
+                "Name[sr]": "Енрике Пинто", 
                 "Name[x-test]": "xxHenrique Pintoxx"
             }
         ], 
@@ -19,6 +23,10 @@
         "Description[pt_BR]": "Plugin LibArchive para a Kerfuffle", 
         "Description[sk]": "LibArchive modul pre Kerfuffle", 
         "Description[sl]": "Vstavek LibArchive za Kerfuffle", 
+        "Description[sr@ijekavian]": "Прикључак Либархива за Керфафл", 
+        "Description[sr@ijekavianlatin]": "Priključak libarchivea za Kerfuffle", 
+        "Description[sr@latin]": "Priključak libarchivea za Kerfuffle", 
+        "Description[sr]": "Прикључак Либархива за Керфафл", 
         "Description[sv]": "LibArchive-insticksprogram för Kerfuffle", 
         "Description[uk]": "Додаток LibArchive для Kerfuffle", 
         "Description[x-test]": "xxLibArchive Plugin for Kerfufflexx", 

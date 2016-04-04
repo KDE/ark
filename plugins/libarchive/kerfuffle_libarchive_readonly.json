@@ -4,6 +4,10 @@
             {
                 "Email": "henrique.pinto@kdemail.net", 
                 "Name": "Henrique Pinto", 
+                "Name[sr@ijekavian]": "Енрике Пинто", 
+                "Name[sr@ijekavianlatin]": "Enrike Pinto", 
+                "Name[sr@latin]": "Enrike Pinto", 
+                "Name[sr]": "Енрике Пинто", 
                 "Name[x-test]": "xxHenrique Pintoxx"
             }
         ], 
