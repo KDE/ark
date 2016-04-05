@@ -14,6 +14,7 @@
         "Description": "LibArchive Plugin for Kerfuffle", 
         "Description[ca@valencia]": "Connector del LibArchive pel Kerfuffle", 
         "Description[ca]": "Connector del LibArchive pel Kerfuffle", 
+        "Description[cs]": "LibArchive modul pro Kerfuffle", 
         "Description[de]": "LibArchive-Modul für Kerfuffle", 
         "Description[es]": "Complemento LibArchive para Kerfuffle", 
         "Description[fi]": "LibArchive-pakkaustuki", 
@@ -39,7 +40,7 @@
             "application/x-tarz", 
             "application/x-xz-compressed-tar", 
             "application/x-lzma-compressed-tar", 
-            "application/x-lzip-compressed-tar",
+            "application/x-lzip-compressed-tar", 
             "application/x-tzo", 
             "application/x-lrzip-compressed-tar"
         ], 
