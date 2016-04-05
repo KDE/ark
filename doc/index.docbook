@@ -1,7 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
   <!ENTITY kappname "&ark;">
-  <!ENTITY package "kdeutils">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE" > <!-- change language only here -->
   <!ENTITY Ragnar.Thomsen '<personname><firstname>Ragnar</firstname><surname>Thomsen</surname></personname>'>
@@ -69,9 +68,6 @@
 
 <chapter id="introduction">
 <title>Introduction</title>
-<!-- FIXME http://www.aelog.org/passwords-and-settings-for-ark/
-Passwords and Settings for Ark
--->
 <para>&ark; is a program for viewing, extracting, creating and modifying
 archives.
 &ark; can handle various archive formats such as
@@ -89,6 +85,14 @@ the appropriate command-line programs being installed).</para>
 <phrase>&ark;'s main window</phrase>
 </textobject>
 </mediaobject>
+
+<para>In order to successfully use &ark;, you need KDE Frameworks 5. The library libarchive
+version 3.1 or above is needed to handle most archive types, including tar,
+compressed tar, rpm, deb and cab archives. To handle other file formats, you
+need the appropriate command line programs, such as <command>zipinfo</command>,
+<command>zip</command>, <command>unzip</command>, <command>rar</command>,
+<command>unrar</command>, <command>7z</command>, <command>lsar</command>,
+<command>unar</command> and <command>lrzip</command>.</para>
 
 </chapter>
 
@@ -112,7 +116,7 @@ additional information about the selected folders or files in the archive is dis
 <sect2 id="ark-archive-operations">
 <title>Archive Operations</title>
 
-<para>Various operations can be performed for an opened archive by using the <guimenu>Archive</guimenu>.
+<para>Various operations can be performed for an opened archive by using the <guimenu>Archive</guimenu> menu.
 For example, you can save the archive with a different name using <guimenuitem>Save As...</guimenuitem>.
 Archive properties such as type, size and MD5 hash can be viewed using the
 <guimenuitem>Properties</guimenuitem> item.</para>
@@ -203,18 +207,18 @@ to. The default location is the folder the archive is in. The dialog can also be
 <para>You can specify to extract the files into a subfolder. The default name of this
 subfolder is the archive name without the filename extension, but you can edit it to your needs.
 If you want to preserve paths when extracting, select the
-<guisubmenu>Preserve paths when extracting</guisubmenu> option. You may also choose to open the
+<guilabel>Preserve paths when extracting</guilabel> option. You may also choose to open the
 destination folder in &dolphin; or close &ark; once the extraction is complete.</para>
 
 <para>If one or more files in the archive list are highlighted, you can
 also select which files to extract:</para>
 <itemizedlist>
 <listitem>
-<para><guimenuitem>Selected files only</guimenuitem> extracts only the files
+<para><guilabel>Selected files only</guilabel> extracts only the files
 which have been selected.</para>
 </listitem>
 <listitem>
-<para><guimenuitem>All files</guimenuitem> extracts the entire contents of the
+<para><guilabel>All files</guilabel> extracts the entire contents of the
 archive.</para>
 </listitem>
 </itemizedlist>
@@ -226,7 +230,7 @@ archive.</para>
 <title>Creating Archives and Adding Files</title>
 
 <para>To create a new archive in &ark;, choose
-<guimenuitem>New</guimenuitem> (<keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>)
+<guimenuitem>New</guimenuitem> (<keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>)
 from the <guimenu>Archive</guimenu> menu.</para>
 
 <para>You can then type the name of the archive, with the appropriate
@@ -354,48 +358,16 @@ This mode allows you to extract or create archives and add files to them.</para>
 &Matt.Johnston.mail;</para>
 
 <para>Documentation updated for &kde; 3.3 by &Henrique.Pinto;
-<email>&Henrique.Pinto.mail;</email>.</para>
+&Henrique.Pinto.mail;.</para>
 
 <para>Documentation updated for KDE Applications 16.04 by &Ragnar.Thomsen;
-<email>&Ragnar.Thomsen.mail;</email>.</para>
+&Ragnar.Thomsen.mail;.</para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 &underFDL;
 &underGPL;
 
 </chapter>
-
-<appendix id="installation">
-<title>Installation</title>
-
-<sect1 id="getting-ark">
-<title>How to obtain &ark;</title>
-
-&install.intro.documentation;
-
-</sect1>
-
-<sect1 id="requirements">
-<title>Requirements</title>
-
-<para>In order to successfully use &ark;, you need KDE Frameworks 5. The library libarchive
-version 3.1 or above is needed to handle most archive types, including tar,
-compressed tar, rpm, deb and cab archives. To handle other file formats, you
-need the appropriate command line programs, such as <command>zipinfo</command>,
-<command>zip</command>, <command>unzip</command>, <command>rar</command>,
-<command>unrar</command>, <command>7z</command>, <command>lsar</command>,
-<command>unar</command> and <command>lrzip</command>.</para>
-
-</sect1>
-
-<sect1 id="compilation">
-<title>Compilation and Installation</title>
-
-&install.compile.documentation;
-
-</sect1>
-
-</appendix>
 
 &documentation.index;
 </book>
