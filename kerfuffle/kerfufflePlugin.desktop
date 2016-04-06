@@ -71,14 +71,6 @@ Type=int
 [PropertyDef::X-KDE-Kerfuffle-ReadWrite]
 Type=bool
 
-# Whether the plugin can encrypt its archive entries
-[PropertyDef::X-KDE-Kerfuffle-EncryptEntries]
-Type=QStringList
-
-# Whether the plugin can encrypt its archive header
-[PropertyDef::X-KDE-Kerfuffle-EncryptHeader]
-Type=QStringList
-
 # The list of executables required by the plugin to operate in read-only mode.
 [PropertyDef::X-KDE-Kerfuffle-ReadOnlyExecutables]
 Type=QStringList

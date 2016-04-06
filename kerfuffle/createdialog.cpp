@@ -28,6 +28,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "archiveformat.h"
 #include "createdialog.h"
 #include "ark_debug.h"
 #include "ui_createdialog.h"
@@ -65,6 +66,7 @@ CreateDialog::CreateDialog(QWidget *parent,
     setModal(true);
 
     m_supportedMimeTypes = Kerfuffle::supportedWriteMimeTypes();
+    m_writePlugins = Kerfuffle::supportedWritePlugins();
 
     m_vlayout = new QVBoxLayout();
     setLayout(m_vlayout);
@@ -119,8 +121,11 @@ void CreateDialog::slotFileNameEdited(const QString &fileName)
 void CreateDialog::slotUpdateWidgets(int index)
 {
     const QMimeType mimeType = QMimeDatabase().mimeTypeForName(m_supportedMimeTypes.at(index));
+    const KPluginMetaData metadata = preferredPluginFor(mimeType, m_writePlugins);
+    const ArchiveFormat archiveFormat = ArchiveFormat::fromMetadata(mimeType, metadata);
+    Q_ASSERT(archiveFormat.isValid());
 
-    if (Kerfuffle::supportedEncryptEntriesMimeTypes().contains(mimeType.name())) {
+    if (archiveFormat.encryptionType() != Archive::Unencrypted) {
         m_ui->collapsibleEncryption->setEnabled(true);
         m_ui->collapsibleEncryption->setToolTip(QString());
     } else {
@@ -206,8 +211,12 @@ void CreateDialog::accept()
 
 void CreateDialog::slotEncryptionToggled()
 {
+    const KPluginMetaData metadata = preferredPluginFor(currentMimeType(), m_writePlugins);
+    const ArchiveFormat archiveFormat = ArchiveFormat::fromMetadata(currentMimeType(), metadata);
+    Q_ASSERT(archiveFormat.isValid());
+
     const bool isExpanded = m_ui->collapsibleEncryption->isExpanded();
-    if (isExpanded && Kerfuffle::supportedEncryptHeaderMimeTypes().contains(currentMimeType().name())) {
+    if (isExpanded && (archiveFormat.encryptionType() == Archive::HeaderEncrypted)) {
         m_ui->encryptHeaderCheckBox->setEnabled(true);
         m_ui->encryptHeaderCheckBox->setToolTip(QString());
     } else {

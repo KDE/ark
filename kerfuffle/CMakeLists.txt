@@ -1,6 +1,7 @@
 ########### next target ###############
 
 set(kerfuffle_SRCS
+    archiveformat.cpp
     archive_kerfuffle.cpp
     archiveinterface.cpp
     extractionsettingspage.cpp

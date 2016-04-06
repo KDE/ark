@@ -45,10 +45,6 @@
         "Website": "http://www.kde.org"
     }, 
     "X-KDE-Kerfuffle-APIRevision": 1, 
-    "X-KDE-Kerfuffle-EncryptEntries": [
-        "application/x-java-archive", 
-        "application/zip"
-    ], 
     "X-KDE-Kerfuffle-ReadOnlyExecutables": [
         "zipinfo", 
         "unzip"
@@ -57,5 +53,11 @@
     "X-KDE-Kerfuffle-ReadWriteExecutables": [
         "zip"
     ], 
-    "X-KDE-Priority": 160
+    "X-KDE-Priority": 160,
+    "application/zip": {
+        "Encryption": true
+    },
+    "application/x-java-archive": {
+        "Encryption": true
+    }
 }

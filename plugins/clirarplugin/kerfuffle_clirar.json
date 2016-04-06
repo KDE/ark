@@ -49,12 +49,6 @@
         "Website": "http://www.kde.org"
     }, 
     "X-KDE-Kerfuffle-APIRevision": 1, 
-    "X-KDE-Kerfuffle-EncryptEntries": [
-        "application/x-rar"
-    ], 
-    "X-KDE-Kerfuffle-EncryptHeader": [
-        "application/x-rar"
-    ], 
     "X-KDE-Kerfuffle-ReadOnlyExecutables": [
         "unrar"
     ], 
@@ -62,5 +56,8 @@
     "X-KDE-Kerfuffle-ReadWriteExecutables": [
         "rar"
     ], 
-    "X-KDE-Priority": 120
+    "X-KDE-Priority": 120,
+    "application/x-rar": {
+        "HeaderEncryption": true
+    }
 }

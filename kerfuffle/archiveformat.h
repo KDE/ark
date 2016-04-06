@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Ragnar Thomsen <rthomsen6@gmail.com>
+ * Copyright (c) 2016 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,48 +23,42 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef MIMETYPES_H
-#define MIMETYPES_H
+#ifndef ARCHIVEFORMAT_H
+#define ARCHIVEFORMAT_H
 
-#include "kerfuffle_export.h"
+#include "archive_kerfuffle.h"
 
 #include <KPluginMetaData>
 
-#include <QJsonArray>
-#include <QMimeType>
-#include <QSet>
-
 namespace Kerfuffle
 {
-    KERFUFFLE_EXPORT QMimeType determineMimeType(const QString& filename);
-    KERFUFFLE_EXPORT QStringList supportedMimeTypes();
-    KERFUFFLE_EXPORT QStringList supportedWriteMimeTypes();
+
+class KERFUFFLE_EXPORT ArchiveFormat
+{
+public:
+    explicit ArchiveFormat();
+    explicit ArchiveFormat(const QMimeType& mimeType, Kerfuffle::Archive::EncryptionType encryptionType);
 
     /**
-     * @return The list of available read-write plugins.
+     * @return The archive format of the given @p mimeType, according to the given @p metadata.
      */
-    KERFUFFLE_EXPORT QVector<KPluginMetaData> supportedWritePlugins();
+    static ArchiveFormat fromMetadata(const QMimeType& mimeType, const KPluginMetaData& metadata);
 
     /**
-     * @return The preferred plugin to handle @p mimeType, out of the given list of @p plugins.
+     * @return Whether the format is associated to a valid mimetype.
      */
-    KERFUFFLE_EXPORT KPluginMetaData preferredPluginFor(const QMimeType& mimeType, const QVector<KPluginMetaData>& plugins);
+    bool isValid() const;
 
     /**
-     * @return A list with the supported read-only mimetypes, alphabetically sorted according to their comment.
+     * @return The encryption type supported by the archive format.
      */
-    QStringList sortByComment(const QSet<QString> &mimeTypeSet);
+    Kerfuffle::Archive::EncryptionType encryptionType() const;
 
-    /**
-     * @return Whether all the @p executables are available in the system PATH.
-     */
-    bool findExecutables(const QJsonArray& executables);
+private:
+    QMimeType m_mimeType;
+    Kerfuffle::Archive::EncryptionType m_encryptionType;
+};
 
-    /**
-     * @return Whether @p p1 has higher priority than @p p2.
-     */
-    bool comparePlugins(const KPluginMetaData& p1, const KPluginMetaData& p2);
+}
 
-} // namespace Kerfuffle
-
-#endif // MIMETYPES_H
+#endif // ARCHIVEFORMAT_H

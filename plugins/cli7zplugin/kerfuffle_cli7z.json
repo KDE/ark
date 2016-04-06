@@ -47,13 +47,6 @@
         "Website": "http://www.kde.org"
     }, 
     "X-KDE-Kerfuffle-APIRevision": 1, 
-    "X-KDE-Kerfuffle-EncryptEntries": [
-        "application/x-7z-compressed", 
-        "application/zip"
-    ], 
-    "X-KDE-Kerfuffle-EncryptHeader": [
-        "application/x-7z-compressed"
-    ], 
     "X-KDE-Kerfuffle-ReadOnlyExecutables": [
         "7z"
     ], 
@@ -61,5 +54,11 @@
     "X-KDE-Kerfuffle-ReadWriteExecutables": [
         "7z"
     ], 
-    "X-KDE-Priority": 180
+    "X-KDE-Priority": 180,
+    "application/x-7z-compressed": {
+        "HeaderEncryption": true
+    },
+    "application/zip": {
+        "Encryption": true
+    }
 }
