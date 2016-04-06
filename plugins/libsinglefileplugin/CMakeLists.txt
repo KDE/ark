@@ -6,6 +6,7 @@ ecm_qt_declare_logging_category(kerfuffle_singlefile_SRCS
                                 CATEGORY_NAME ark.singlefile)
 
 set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "")
+set(INSTALLED_LIBSINGLEFILE_PLUGINS "")
 
 # This MIME type was originally set in ark.desktop but is does not
 # seem to be supported anywhere.  Assuming that, if it were supported,
@@ -30,6 +31,7 @@ if (ZLIB_FOUND)
 	target_link_libraries(kerfuffle_libgz KF5::Archive KF5::KIOCore kerfuffle)
 
 	install(TARGETS kerfuffle_libgz DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
+	set(INSTALLED_LIBSINGLEFILE_PLUGINS "${INSTALLED_LIBSINGLEFILE_PLUGINS}kerfuffle_libgz;")
 endif (ZLIB_FOUND)
 
 #
@@ -50,7 +52,7 @@ if (BZIP2_FOUND)
 	target_link_libraries(kerfuffle_libbz2 KF5::Archive KF5::KIOCore kerfuffle)
 
 	install(TARGETS kerfuffle_libbz2 DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
-
+	set(INSTALLED_LIBSINGLEFILE_PLUGINS "${INSTALLED_LIBSINGLEFILE_PLUGINS}kerfuffle_libbz2;")
 endif (BZIP2_FOUND)
 
 #
@@ -71,6 +73,8 @@ if (LIBLZMA_FOUND)
 	target_link_libraries(kerfuffle_libxz KF5::Archive KF5::KIOCore kerfuffle )
 
 	install(TARGETS kerfuffle_libxz DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
+	set(INSTALLED_LIBSINGLEFILE_PLUGINS "${INSTALLED_LIBSINGLEFILE_PLUGINS}kerfuffle_libxz;")
 endif (LIBLZMA_FOUND)
 
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_LIBSINGLEFILE_MIMETYPES}" PARENT_SCOPE)
+set(INSTALLED_KERFUFFLE_PLUGINS "${INSTALLED_KERFUFFLE_PLUGINS}${INSTALLED_LIBSINGLEFILE_PLUGINS}" PARENT_SCOPE)
