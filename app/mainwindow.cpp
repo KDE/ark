@@ -295,18 +295,15 @@ void MainWindow::newArchive()
 
     QPointer<Kerfuffle::CreateDialog> dialog = new Kerfuffle::CreateDialog(
         Q_NULLPTR, // parent
-        i18n("Create a new Archive"), // caption
+        i18n("Create New Archive"), // caption
         QUrl()); // startDir
 
-    dialog.data()->show();
-    dialog.data()->restoreWindowSize();
-
     if (dialog.data()->exec()) {
-        const QUrl saveFileUrl = dialog.data()->selectedUrls().first();
+        const QUrl saveFileUrl = dialog.data()->selectedUrl();
         const QString password = dialog.data()->password();
 
         qCDebug(ARK) << "CreateDialog returned URL:" << saveFileUrl.toString();
-        qCDebug(ARK) << "CreateDialog returned mime:" << dialog.data()->currentFilterMimeType().name();
+        qCDebug(ARK) << "CreateDialog returned mime:" << dialog.data()->currentMimeType().name();
 
         m_openArgs.metaData()[QStringLiteral("createNewArchive")] = QStringLiteral("true");
         m_openArgs.metaData()[QStringLiteral("encryptionPassword")] = password;

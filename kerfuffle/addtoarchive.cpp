@@ -28,8 +28,8 @@
 
 #include "addtoarchive.h"
 #include "ark_debug.h"
-#include "adddialog.h"
 #include "archive_kerfuffle.h"
+#include "createdialog.h"
 #include "jobs.h"
 
 #include <KConfig>
@@ -89,21 +89,18 @@ bool AddToArchive::showAddDialog()
 {
     qCDebug(ARK) << "Opening add dialog";
 
-    QPointer<Kerfuffle::AddDialog> dialog = new Kerfuffle::AddDialog(
+    QPointer<Kerfuffle::CreateDialog> dialog = new Kerfuffle::CreateDialog(
         Q_NULLPTR, // parent
         i18n("Compress to Archive"), // caption
-        QUrl::fromLocalFile(m_firstPath), // startDir
-        m_inputs); // itemsToAdd
+        QUrl::fromLocalFile(m_firstPath)); // startDir
 
-    dialog.data()->show();
-    dialog.data()->restoreWindowSize();
     bool ret = dialog.data()->exec();
 
     if (ret) {
-        qCDebug(ARK) << "AddDialog returned URL:" << dialog.data()->selectedUrls().at(0).toString();
-        qCDebug(ARK) << "AddDialog returned mime:" << dialog.data()->currentFilterMimeType().name();
-        setFilename(dialog.data()->selectedUrls().at(0));
-        setMimeType(dialog.data()->currentFilterMimeType().name());
+        qCDebug(ARK) << "CreateDialog returned URL:" << dialog.data()->selectedUrl().toString();
+        qCDebug(ARK) << "CreateDialog returned mime:" << dialog.data()->currentMimeType().name();
+        setFilename(dialog.data()->selectedUrl());
+        setMimeType(dialog.data()->currentMimeType().name());
         setPassword(dialog.data()->password());
         setHeaderEncryptionEnabled(dialog.data()->isHeaderEncryptionEnabled());
     }

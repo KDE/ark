@@ -9,7 +9,6 @@ set(kerfuffle_SRCS
     jobs.cpp
     createdialog.cpp
     extractiondialog.cpp
-    adddialog.cpp
     propertiesdialog.cpp
     queries.cpp
     addtoarchive.cpp
@@ -20,7 +19,6 @@ set(kerfuffle_SRCS
 kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
 
 ki18n_wrap_ui(kerfuffle_SRCS
-    adddialog.ui
     createdialog.ui
     extractiondialog.ui
     extractionsettings.ui
@@ -42,11 +40,11 @@ PUBLIC
     KF5::Pty
     KF5::Service
     KF5::I18n
+    KF5::WidgetsAddons
 PRIVATE
     KF5::KIOCore
     KF5::KIOWidgets
     KF5::KIOFileWidgets
-    KF5::WidgetsAddons
 
 )
 

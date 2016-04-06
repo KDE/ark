@@ -36,7 +36,7 @@ namespace Kerfuffle
 {
     KERFUFFLE_EXPORT QMimeType determineMimeType(const QString& filename);
     KERFUFFLE_EXPORT QStringList supportedMimeTypes();
-    KERFUFFLE_EXPORT QSet<QString> supportedWriteMimeTypes();
+    KERFUFFLE_EXPORT QStringList supportedWriteMimeTypes();
     KERFUFFLE_EXPORT QSet<QString> supportedEncryptEntriesMimeTypes();
     KERFUFFLE_EXPORT QSet<QString> supportedEncryptHeaderMimeTypes();
 

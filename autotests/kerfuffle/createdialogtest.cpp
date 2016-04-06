@@ -26,7 +26,11 @@
 #include "createdialog.h"
 #include "mimetypes.h"
 
+#include <KCollapsibleGroupBox>
+
 #include <QCheckBox>
+#include <QComboBox>
+#include <QLineEdit>
 #include <QMimeDatabase>
 #include <QTest>
 
@@ -37,11 +41,74 @@ class CreateDialogTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
-
+    void testBasicWidgets_data();
+    void testBasicWidgets();
     void testEncryption_data();
     void testEncryption();
     void testHeaderEncryptionTooltip();
 };
+
+void CreateDialogTest::testBasicWidgets_data()
+{
+    QTest::addColumn<QString>("mimeType");
+
+    QTest::newRow("tar") << QStringLiteral("application/x-tar");
+    QTest::newRow("targzip") << QStringLiteral("application/x-compressed-tar");
+    QTest::newRow("tarbzip") << QStringLiteral("application/x-bzip-compressed-tar");
+    QTest::newRow("tarZ") << QStringLiteral("application/x-tarz");
+    QTest::newRow("tarxz") << QStringLiteral("application/x-xz-compressed-tar");
+    QTest::newRow("tarlzma") << QStringLiteral("application/x-lzma-compressed-tar");
+    QTest::newRow("tarlzop") << QStringLiteral("application/x-tzo");
+    QTest::newRow("tarlzip") << QStringLiteral("application/x-lzip-compressed-tar");
+
+    const auto writeMimeTypes = supportedWriteMimeTypes();
+
+    if (writeMimeTypes.contains(QStringLiteral("application/zip"))) {
+        QTest::newRow("zip") << QStringLiteral("application/zip");
+    } else {
+        qDebug() << "zip format not available in CreateDialog, skipping test.";
+    }
+
+    if (writeMimeTypes.contains(QStringLiteral("application/x-7z-compressed"))) {
+        QTest::newRow("7z") << QStringLiteral("application/x-7z-compressed");
+    } else {
+        qDebug() << "7z format not available in CreateDialog, skipping test.";
+    }
+
+    if (writeMimeTypes.contains(QStringLiteral("application/x-rar"))) {
+        QTest::newRow("rar") << QStringLiteral("application/x-rar");
+    } else {
+        qDebug() << "rar format not available in CreateDialog, skipping test.";
+    }
+
+    if (writeMimeTypes.contains(QStringLiteral("application/x-lrzip-compressed-tar"))) {
+        QTest::newRow("tarlrzip") << QStringLiteral("application/x-lrzip-compressed-tar");
+    } else {
+        qDebug() << "tar.lrzip format not available in CreateDialog, skipping test.";
+    }
+}
+
+void CreateDialogTest::testBasicWidgets()
+{
+    CreateDialog *dialog = new CreateDialog(Q_NULLPTR, QString(), QUrl());
+
+    auto fileNameLineEdit = dialog->findChild<QLineEdit*>(QStringLiteral("filenameLineEdit"));
+    auto archiveTypeComboBox = dialog->findChild<QComboBox*>(QStringLiteral("mimeComboBox"));
+    QVERIFY(fileNameLineEdit);
+    QVERIFY(archiveTypeComboBox);
+
+    QFETCH(QString, mimeType);
+    const QMimeType mime = QMimeDatabase().mimeTypeForName(mimeType);
+
+    // Test if combobox is updated when user enters a filename with suffix.
+    fileNameLineEdit->setText(QStringLiteral("basename.%1").arg(mime.preferredSuffix()));
+    QCOMPARE(archiveTypeComboBox->currentText(), mime.comment());
+
+    // Test if suffix is added correctly when the user selects an archive type in combobox.
+    fileNameLineEdit->setText(QStringLiteral("basename"));
+    archiveTypeComboBox->setCurrentText(mime.comment());
+    QCOMPARE(QFileInfo(dialog->selectedUrl().toLocalFile()).fileName(), QStringLiteral("basename.%1").arg(mime.preferredSuffix()));
+}
 
 void CreateDialogTest::testEncryption_data()
 {
@@ -78,12 +145,12 @@ void CreateDialogTest::testEncryption()
     QFETCH(bool, isEncryptionAvailable);
     QFETCH(bool, isHeaderEncryptionAvailable);
 
-    auto encryptCheckBox = dialog->findChild<QCheckBox*>(QStringLiteral("encryptCheckBox"));
+    auto collapsibleEncryption = dialog->findChild<KCollapsibleGroupBox*>(QStringLiteral("collapsibleEncryption"));
     auto encryptHeaderCheckBox = dialog->findChild<QCheckBox*>(QStringLiteral("encryptHeaderCheckBox"));
-    QVERIFY(encryptCheckBox);
+    QVERIFY(collapsibleEncryption);
     QVERIFY(encryptHeaderCheckBox);
 
-    dialog->setCurrentFilterFromMimeType(filter);
+    QVERIFY(dialog->setMimeType(filter));
 
     // Encryption is initially not enabled.
     QVERIFY(!dialog->isEncryptionEnabled());
@@ -92,7 +159,7 @@ void CreateDialogTest::testEncryption()
     if (isEncryptionAvailable) {
         QVERIFY(dialog->isEncryptionAvailable());
 
-        encryptCheckBox->setChecked(true);
+        collapsibleEncryption->setExpanded(true);
         QVERIFY(dialog->isEncryptionEnabled());
 
         if (isHeaderEncryptionAvailable) {
@@ -106,7 +173,7 @@ void CreateDialogTest::testEncryption()
             QVERIFY(!dialog->isHeaderEncryptionAvailable());
         }
 
-        encryptCheckBox->setChecked(false);
+        collapsibleEncryption->setExpanded(false);
         QVERIFY(!dialog->isEncryptionEnabled());
         QVERIFY(!dialog->isHeaderEncryptionEnabled());
     } else {
@@ -125,18 +192,18 @@ void CreateDialogTest::testHeaderEncryptionTooltip()
 
     CreateDialog *dialog = new CreateDialog(Q_NULLPTR, QString(), QUrl());
 
-    auto encryptCheckBox = dialog->findChild<QCheckBox*>(QStringLiteral("encryptCheckBox"));
+    auto collapsibleEncryption = dialog->findChild<KCollapsibleGroupBox*>(QStringLiteral("collapsibleEncryption"));
     auto encryptHeaderCheckBox = dialog->findChild<QCheckBox*>(QStringLiteral("encryptHeaderCheckBox"));
-    QVERIFY(encryptCheckBox);
+    QVERIFY(collapsibleEncryption);
     QVERIFY(encryptHeaderCheckBox);
 
-    encryptCheckBox->setChecked(true);
+    collapsibleEncryption->setExpanded(true);
 
-    dialog->setCurrentFilterFromMimeType(QStringLiteral("application/zip"));
+    QVERIFY(dialog->setMimeType(QStringLiteral("application/zip")));
     QVERIFY(!encryptHeaderCheckBox->toolTip().isEmpty());
 
     // If we set a tar filter after the zip one, ensure that the old zip's tooltip is not shown anymore.
-    dialog->setCurrentFilterFromMimeType(QStringLiteral("application/x-compressed-tar"));
+    QVERIFY(dialog->setMimeType(QStringLiteral("application/x-compressed-tar")));
     QVERIFY(encryptHeaderCheckBox->toolTip().isEmpty());
 }
 

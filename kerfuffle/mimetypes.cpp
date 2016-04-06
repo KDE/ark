@@ -130,7 +130,7 @@ QStringList supportedMimeTypes()
     return sortByComment(supported);
 }
 
-QSet<QString> supportedWriteMimeTypes()
+QStringList supportedWriteMimeTypes()
 {
     const QVector<KPluginMetaData> offers = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"), [](const KPluginMetaData& metaData) {
         return metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin")) &&
@@ -156,7 +156,7 @@ QSet<QString> supportedWriteMimeTypes()
 
     qCDebug(ARK) << "Returning supported write mimetypes" << supported;
 
-    return supported;
+    return sortByComment(supported);
 }
 
 QSet<QString> supportedEncryptEntriesMimeTypes()

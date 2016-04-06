@@ -4,6 +4,7 @@
  * Copyright (C) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2009 Raphael Kubo da Costa <rakuco@FreeBSD.org>
  * Copyright (C) 2015 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (C) 2016 Ragnar Thomsen <rthomsen6@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -37,34 +38,11 @@
 #include <QDialog>
 #include <QMimeType>
 
-class KFileWidget;
-
+class QUrl;
 class QVBoxLayout;
 
 namespace Kerfuffle
 {
-
-class KERFUFFLE_EXPORT ArchiveTypeFilter
-{
-public:
-    explicit ArchiveTypeFilter(const QMimeType &newMimeType,
-                               const QStringList &newGlobPatterns = QStringList(),
-                               const QString &newComment = QStringLiteral(""));
-    QMimeType mimeType;
-    QStringList globPatterns;
-    QString comment;
-
-    // Enables sorting.
-    bool operator<(const ArchiveTypeFilter& right) const
-    {
-        return (comment < right.comment);
-    }
-    // Enables comparison.
-    bool operator==(const ArchiveTypeFilter& right) const
-    {
-        return (mimeType == right.mimeType);
-    }
-};
 
 class KERFUFFLE_EXPORT CreateDialog : public QDialog
 {
@@ -74,12 +52,10 @@ public:
     explicit CreateDialog(QWidget *parent,
                           const QString &caption,
                           const QUrl &startDir);
-
-    QSize sizeHint() const Q_DECL_OVERRIDE;
-    QList<QUrl> selectedUrls() const;
+    QUrl selectedUrl() const;
     QString password() const;
-    QMimeType currentFilterMimeType() const;
-    void setCurrentFilterFromMimeType(const QString &mimeType);
+    QMimeType currentMimeType() const;
+    bool setMimeType(const QString &mimeTypeName);
 
     /**
      * @return Whether the user can encrypt the new archive.
@@ -103,27 +79,21 @@ public:
 
 public slots:
     virtual void accept() Q_DECL_OVERRIDE;
-    void restoreWindowSize();
 
-protected slots:
-    void slotSaveWindowSize();
-    void slotOkButtonClicked();
-    void slotEncryptionToggled(bool checked);
-    void slotFilterChanged(int index);
-    void slotUpdateDefaultMimeType();
+private:
+    void loadConfiguration();
 
-protected:
     class CreateDialogUI *m_ui;
     QVBoxLayout *m_vlayout;
     KConfigGroup m_config;
-    KFileWidget *m_fileWidget;
+    QStringList m_supportedMimeTypes;
 
-    void loadConfiguration();
-
-private:
-    QString filterFromMimeTypes(const QSet<QString> &mimeTypes);
-
-    QList<ArchiveTypeFilter> m_filterList;
+private slots:
+    void slotFileNameEdited(const QString &text);
+    void slotUpdateWidgets(int index);
+    void slotEncryptionToggled();
+    void slotUpdateDefaultMimeType();
+    void slotUpdateFilenameExtension(int index);
 };
 }
 
