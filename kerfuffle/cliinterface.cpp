@@ -799,11 +799,6 @@ void CliInterface::readStdout(bool handleAll)
         return;
     }
 
-    //if the process is still not finished (m_process is appearantly not
-    //set to NULL if here), then the operation should definitely not be in
-    //the main thread as this would freeze everything. assert this.
-    Q_ASSERT(QThread::currentThread() != QApplication::instance()->thread());
-
     QByteArray dd = m_process->readAllStandardOutput();
     m_stdOutData += dd;
 

@@ -31,6 +31,7 @@
 #include <QFileInfo>
 #include <QRegularExpression>
 #include <QThread>
+#include <QTimer>
 
 #include <KLocalizedString>
 
@@ -106,7 +107,14 @@ void Job::start()
 {
     jobTimer.start();
     m_isRunning = true;
-    d->start();
+
+    if (archiveInterface()->isCliBased()) {
+        // CLI-based interfaces run a QProcess, no need to use threads.
+        QTimer::singleShot(0, this, &Job::doWork);
+    } else {
+        // Run the job in another thread.
+        d->start();
+    }
 }
 
 void Job::emitResult()

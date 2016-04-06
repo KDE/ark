@@ -487,10 +487,6 @@ void ArchiveTest::testExtraction()
     extractionJob->start();
     eventLoop.exec();
 
-    // We need to wait for the QTemporaryDir in CliInterface::copyFiles() to autodelete itself.
-    // TODO: find a better solution. Possibly related to task T1771 ?
-    QTest::qSleep(250);
-
     QFETCH(int, expectedExtractedEntriesCount);
     int extractedEntriesCount = 0;
 
