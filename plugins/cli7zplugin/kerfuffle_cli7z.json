@@ -54,10 +54,10 @@
     "X-KDE-Kerfuffle-ReadWriteExecutables": [
         "7z"
     ], 
-    "X-KDE-Priority": 180,
+    "X-KDE-Priority": 180, 
     "application/x-7z-compressed": {
         "HeaderEncryption": true
-    },
+    }, 
     "application/zip": {
         "Encryption": true
     }

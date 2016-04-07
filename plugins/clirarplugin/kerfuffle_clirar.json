@@ -56,7 +56,7 @@
     "X-KDE-Kerfuffle-ReadWriteExecutables": [
         "rar"
     ], 
-    "X-KDE-Priority": 120,
+    "X-KDE-Priority": 120, 
     "application/x-rar": {
         "HeaderEncryption": true
     }
