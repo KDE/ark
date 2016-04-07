@@ -229,33 +229,37 @@ void Cli7zTest::testAddArgs_data()
     QTest::addColumn<QString>("archiveName");
     QTest::addColumn<QString>("password");
     QTest::addColumn<bool>("encryptHeader");
+    QTest::addColumn<int>("compressionLevel");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("unencrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QString() << false
+            << QString() << false << 5
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.7z")
+                   QStringLiteral("/tmp/foo.7z"),
+                   QStringLiteral("-mx=5")
                };
 
     QTest::newRow("encrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QStringLiteral("1234") << false
-            << QStringList {
-                   QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.7z"),
-                   QStringLiteral("-p1234")
-               };
-
-    QTest::newRow("header-encrypted")
-            << QStringLiteral("/tmp/foo.7z")
-            << QStringLiteral("1234") << true
+            << QStringLiteral("1234") << false << 5
             << QStringList {
                    QStringLiteral("a"),
                    QStringLiteral("/tmp/foo.7z"),
                    QStringLiteral("-p1234"),
-                   QStringLiteral("-mhe=on")
+                   QStringLiteral("-mx=5")
+               };
+
+    QTest::newRow("header-encrypted")
+            << QStringLiteral("/tmp/foo.7z")
+            << QStringLiteral("1234") << true << 5
+            << QStringList {
+                   QStringLiteral("a"),
+                   QStringLiteral("/tmp/foo.7z"),
+                   QStringLiteral("-p1234"),
+                   QStringLiteral("-mhe=on"),
+                   QStringLiteral("-mx=5")
                };
 }
 
@@ -268,12 +272,14 @@ void Cli7zTest::testAddArgs()
     const QStringList addArgs = { QStringLiteral("a"),
                                   QStringLiteral("$Archive"),
                                   QStringLiteral("$PasswordSwitch"),
+                                  QStringLiteral("$CompressionLevelSwitch"),
                                   QStringLiteral("$Files") };
 
     QFETCH(QString, password);
     QFETCH(bool, encryptHeader);
+    QFETCH(int, compressionLevel);
 
-    QStringList replacedArgs = plugin->substituteAddVariables(addArgs, {}, QDir::current(), password, encryptHeader);
+    QStringList replacedArgs = plugin->substituteAddVariables(addArgs, {}, QDir::current(), password, encryptHeader, compressionLevel);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);

@@ -263,32 +263,36 @@ void CliRarTest::testAddArgs_data()
     QTest::addColumn<QString>("archiveName");
     QTest::addColumn<QString>("password");
     QTest::addColumn<bool>("encryptHeader");
+    QTest::addColumn<int>("compressionLevel");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("unencrypted")
             << QStringLiteral("/tmp/foo.rar")
-            << QString() << false
+            << QString() << false << 3
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.rar")
+                   QStringLiteral("/tmp/foo.rar"),
+                   QStringLiteral("-m3")
                };
 
     QTest::newRow("encrypted")
             << QStringLiteral("/tmp/foo.rar")
-            << QStringLiteral("1234") << false
+            << QStringLiteral("1234") << false << 3
             << QStringList {
                    QStringLiteral("a"),
                    QStringLiteral("/tmp/foo.rar"),
-                   QStringLiteral("-p1234")
+                   QStringLiteral("-p1234"),
+                   QStringLiteral("-m3")
                };
 
     QTest::newRow("header-encrypted")
             << QStringLiteral("/tmp/foo.rar")
-            << QStringLiteral("1234") << true
+            << QStringLiteral("1234") << true << 3
             << QStringList {
                    QStringLiteral("a"),
                    QStringLiteral("/tmp/foo.rar"),
-                   QStringLiteral("-hp1234")
+                   QStringLiteral("-hp1234"),
+                   QStringLiteral("-m3")
                };
 }
 
@@ -301,12 +305,14 @@ void CliRarTest::testAddArgs()
     const QStringList addArgs = { QStringLiteral("a"),
                                   QStringLiteral("$Archive"),
                                   QStringLiteral("$PasswordSwitch"),
+                                  QStringLiteral("$CompressionLevelSwitch"),
                                   QStringLiteral("$Files") };
 
     QFETCH(QString, password);
     QFETCH(bool, encryptHeader);
+    QFETCH(int, compressionLevel);
 
-    QStringList replacedArgs = rarPlugin->substituteAddVariables(addArgs, {}, QDir::current(), password, encryptHeader);
+    QStringList replacedArgs = rarPlugin->substituteAddVariables(addArgs, {}, QDir::current(), password, encryptHeader, compressionLevel);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);

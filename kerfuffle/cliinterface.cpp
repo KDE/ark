@@ -256,7 +256,8 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
                                              files,
                                              workDir,
                                              password(),
-                                             isHeaderEncryptionEnabled());
+                                             isHeaderEncryptionEnabled(),
+                                             options.value(QStringLiteral("CompressionLevel")).toInt());
 
     if (!runProcess(m_param.value(AddProgram).toStringList(), args)) {
         failOperation();
@@ -627,7 +628,7 @@ QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs
     return args;
 }
 
-QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QDir &workDir, const QString &password, bool encryptHeader)
+QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QDir &workDir, const QString &password, bool encryptHeader, int compLevel)
 {
     // Required if we call this function from unit tests.
     cacheParameterList();
@@ -643,6 +644,11 @@ QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, con
 
         if (arg == QLatin1String("$PasswordSwitch")) {
             args << (encryptHeader ? passwordHeaderSwitch(password) : passwordSwitch(password));
+            continue;
+        }
+
+        if (arg == QLatin1String("$CompressionLevelSwitch")) {
+            args << compressionLevelSwitch(compLevel);
             continue;
         }
 
@@ -708,6 +714,19 @@ QStringList CliInterface::passwordSwitch(const QString& password) const
     }
 
     return passwordSwitch;
+}
+
+QString CliInterface::compressionLevelSwitch(int level) const
+{
+    Q_ASSERT(m_param.contains(CompressionLevelSwitch));
+
+    QString compLevelSwitch = m_param.value(CompressionLevelSwitch).toString();
+    Q_ASSERT(!compLevelSwitch.isEmpty());
+    Q_ASSERT(level >= 0 && level <= 9);
+
+    compLevelSwitch.replace(QLatin1String("$CompressionLevel"), QString::number(level));
+
+    return compLevelSwitch;
 }
 
 QStringList CliInterface::rootNodeSwitch(const QString &rootNode) const

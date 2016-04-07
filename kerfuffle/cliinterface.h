@@ -147,6 +147,13 @@ enum CliInterfaceParameters {
      */
     PasswordSwitch,
     /**
+     * QString
+     * The format of the compression level switch. The variable $CompressionLevel
+     * will be substituted for the level.
+     * Example: ("-mx=$CompressionLevel)
+     */
+    CompressionLevelSwitch,
+    /**
      * QStringList
      * This is a stringlist with regexps, defining how to recognize the last
      * line in a "File already exists" prompt when extracting.
@@ -309,7 +316,7 @@ public:
 
     QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
     QStringList substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password, const QString &rootNode);
-    QStringList substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QDir &workDir, const QString &password, bool encryptHeader);
+    QStringList substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QDir &workDir, const QString &password, bool encryptHeader, int compLevel);
 
     /**
      * @return The preserve path switch, according to the @p preservePaths extraction option.
@@ -325,6 +332,11 @@ public:
      * @return The password switch with the given @p password.
      */
     QStringList passwordSwitch(const QString& password) const;
+
+    /**
+     * @return The compression level switch with the given @p level.
+     */
+    QString compressionLevelSwitch(int level) const;
 
     /**
      * @return The root node switch with the given @p rootNode.

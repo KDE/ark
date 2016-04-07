@@ -97,6 +97,7 @@ ParameterList CliPlugin::parameterList() const
         p[RootNodeSwitch] = QStringList() << QStringLiteral( "-ap$Path" );
         p[PasswordSwitch] = QStringList() << QStringLiteral( "-p$Password" );
         p[PasswordHeaderSwitch] = QStringList() << QStringLiteral("-hp$Password");
+        p[CompressionLevelSwitch] = QStringLiteral("-m$CompressionLevel");
         p[DeleteArgs] = QStringList() << QStringLiteral( "d" )
                                       << QStringLiteral( "$Archive" )
                                       << QStringLiteral( "$Files" );
@@ -112,6 +113,7 @@ ParameterList CliPlugin::parameterList() const
         p[AddArgs] = QStringList() << QStringLiteral( "a" )
                                    << QStringLiteral( "$Archive" )
                                    << QStringLiteral("$PasswordSwitch")
+                                   << QStringLiteral("$CompressionLevelSwitch")
                                    << QStringLiteral( "$Files" );
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) for");
         p[WrongPasswordPatterns] = QStringList() << QStringLiteral("password incorrect") << QStringLiteral("wrong password");
