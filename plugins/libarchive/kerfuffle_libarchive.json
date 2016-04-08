@@ -18,6 +18,7 @@
         "Description[de]": "LibArchive-Modul für Kerfuffle", 
         "Description[es]": "Complemento LibArchive para Kerfuffle", 
         "Description[fi]": "LibArchive-pakkaustuki", 
+        "Description[it]": "Estensione LibArchive per Kerfuffle", 
         "Description[nl]": "LibArchive plug-in voor Kerfuffle", 
         "Description[pl]": "Wtyczka LibArchive dla Kerfuffle", 
         "Description[pt]": "'Plugin' da LibArchive para o Kerfuffle", 
@@ -31,6 +32,7 @@
         "Description[sv]": "LibArchive-insticksprogram för Kerfuffle", 
         "Description[uk]": "Додаток LibArchive для Kerfuffle", 
         "Description[x-test]": "xxLibArchive Plugin for Kerfufflexx", 
+        "Description[zh_CN]": "Kerfuffle 的 LibArchive 插件", 
         "Id": "kerfuffle_libarchive", 
         "License": "BSD", 
         "MimeTypes": [

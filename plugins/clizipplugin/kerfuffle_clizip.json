@@ -24,6 +24,7 @@
         "Name[de]": "ZIP-Archiv-Modul", 
         "Name[es]": "Complemento de archivo ZIP", 
         "Name[fi]": "ZIP-pakkaustuki", 
+        "Name[it]": "Estensione per archivi ZIP", 
         "Name[nl]": "ZIP-archiefplug-in", 
         "Name[pl]": "Wtyczka archiwów ZIP", 
         "Name[pt]": "'Plugin' de pacotes ZIP", 
@@ -38,6 +39,7 @@
         "Name[sv]": "Insticksprogram för ZIP-arkiv", 
         "Name[uk]": "Додаток для архівів ZIP", 
         "Name[x-test]": "xxZIP archive pluginxx", 
+        "Name[zh_CN]": "ZIP 归档插件", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 
