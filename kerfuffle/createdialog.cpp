@@ -138,8 +138,8 @@ void CreateDialog::slotUpdateWidgets(int index)
 
 void CreateDialog::slotUpdateFilenameExtension(int index)
 {
-    m_ui->chkAddExtension->setText(i18n("Automatically add .%1",
-                                        QMimeDatabase().mimeTypeForName(m_supportedMimeTypes.at(index)).preferredSuffix()));
+    m_ui->chkAddExtension->setText(i18nc("the argument is a file extension (the period is not a typo)", "Automatically add .%1",
+                                         QMimeDatabase().mimeTypeForName(m_supportedMimeTypes.at(index)).preferredSuffix()));
 }
 
 QUrl CreateDialog::selectedUrl() const
