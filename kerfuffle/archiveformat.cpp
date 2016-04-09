@@ -33,9 +33,16 @@ ArchiveFormat::ArchiveFormat() :
 {
 }
 
-ArchiveFormat::ArchiveFormat(const QMimeType& mimeType, Archive::EncryptionType encryptionType) :
+ArchiveFormat::ArchiveFormat(const QMimeType& mimeType,
+                             Archive::EncryptionType encryptionType,
+                             int minCompLevel,
+                             int maxCompLevel,
+                             int defaultCompLevel) :
     m_mimeType(mimeType),
-    m_encryptionType(encryptionType)
+    m_encryptionType(encryptionType),
+    m_minCompressionLevel(minCompLevel),
+    m_maxCompressionLevel(maxCompLevel),
+    m_defaultCompressionLevel(defaultCompLevel)
 {
 }
 
@@ -48,17 +55,19 @@ ArchiveFormat ArchiveFormat::fromMetadata(const QMimeType& mimeType, const KPlug
         }
 
         const QJsonObject formatProps = json[mime].toObject();
-        if (formatProps.isEmpty()) {
-            return ArchiveFormat(mimeType, Archive::Unencrypted);
-        }
 
+        int minCompLevel = formatProps[QStringLiteral("CompressionLevelMin")].toInt();
+        int maxCompLevel = formatProps[QStringLiteral("CompressionLevelMax")].toInt();
+        int defaultCompLevel = formatProps[QStringLiteral("CompressionLevelDefault")].toInt();
+
+        Archive::EncryptionType encType = Archive::Unencrypted;
         if (formatProps[QStringLiteral("HeaderEncryption")].toBool()) {
-            return ArchiveFormat(mimeType, Archive::HeaderEncrypted);
+            encType = Archive::HeaderEncrypted;
+        } else if (formatProps[QStringLiteral("Encryption")].toBool()) {
+            encType = Archive::Encrypted;
         }
 
-        if (formatProps[QStringLiteral("Encryption")].toBool()) {
-            return ArchiveFormat(mimeType, Archive::Encrypted);
-        }
+        return ArchiveFormat(mimeType, encType, minCompLevel, maxCompLevel, defaultCompLevel);
     }
 
     return ArchiveFormat();
@@ -72,6 +81,21 @@ bool ArchiveFormat::isValid() const
 Archive::EncryptionType ArchiveFormat::encryptionType() const
 {
     return m_encryptionType;
+}
+
+int ArchiveFormat::minCompressionLevel() const
+{
+    return m_minCompressionLevel;
+}
+
+int ArchiveFormat::maxCompressionLevel() const
+{
+    return m_maxCompressionLevel;
+}
+
+int ArchiveFormat::defaultCompressionLevel() const
+{
+    return m_defaultCompressionLevel;
 }
 
 }

@@ -1105,6 +1105,10 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
     CompressionOptions options;
     options[QStringLiteral("GlobalWorkDir")] = globalWorkDir;
 
+    if (arguments().metaData().contains(QStringLiteral("compressionLevel"))) {
+        options[QStringLiteral("CompressionLevel")] = arguments().metaData()[QStringLiteral("compressionLevel")];
+    }
+
     AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
     if (!job) {
         return;

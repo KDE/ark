@@ -57,6 +57,7 @@ public:
     QString password() const;
     QMimeType currentMimeType() const;
     bool setMimeType(const QString &mimeTypeName);
+    int compressionLevel() const;
 
     /**
      * @return Whether the user can encrypt the new archive.

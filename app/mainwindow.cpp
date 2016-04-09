@@ -306,6 +306,9 @@ void MainWindow::newArchive()
         qCDebug(ARK) << "CreateDialog returned mime:" << dialog.data()->currentMimeType().name();
 
         m_openArgs.metaData()[QStringLiteral("createNewArchive")] = QStringLiteral("true");
+        if (dialog.data()->compressionLevel() > -1) {
+            m_openArgs.metaData()[QStringLiteral("compressionLevel")] = QString::number(dialog.data()->compressionLevel());
+        }
         m_openArgs.metaData()[QStringLiteral("encryptionPassword")] = password;
 
         if (dialog.data()->isHeaderEncryptionEnabled()) {
@@ -316,6 +319,7 @@ void MainWindow::newArchive()
 
         m_openArgs.metaData().remove(QStringLiteral("showExtractDialog"));
         m_openArgs.metaData().remove(QStringLiteral("createNewArchive"));
+        m_openArgs.metaData().remove(QStringLiteral("compressionLevel"));
         m_openArgs.metaData().remove(QStringLiteral("encryptionPassword"));
         m_openArgs.metaData().remove(QStringLiteral("encryptHeader"));
     }

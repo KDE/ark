@@ -57,5 +57,40 @@
     }, 
     "X-KDE-Kerfuffle-APIRevision": 1, 
     "X-KDE-Kerfuffle-ReadWrite": true, 
-    "X-KDE-Priority": 100
+    "X-KDE-Priority": 100,
+    "application/x-compressed-tar": {
+        "CompressionLevelMin": 1,
+        "CompressionLevelMax": 9,
+        "CompressionLevelDefault": 6
+    },
+    "application/x-bzip-compressed-tar": {
+        "CompressionLevelMin": 1,
+        "CompressionLevelMax": 9,
+        "CompressionLevelDefault": 9
+    },
+    "application/x-xz-compressed-tar": {
+        "CompressionLevelMin": 0,
+        "CompressionLevelMax": 9,
+        "CompressionLevelDefault": 6
+    },
+    "application/x-lzma-compressed-tar": {
+        "CompressionLevelMin": 0,
+        "CompressionLevelMax": 9,
+        "CompressionLevelDefault": 6
+    },
+    "application/x-lzip-compressed-tar": {
+        "CompressionLevelMin": 0,
+        "CompressionLevelMax": 9,
+        "CompressionLevelDefault": 6
+    },
+    "application/x-tzo": {
+        "CompressionLevelMin": 1,
+        "CompressionLevelMax": 9,
+        "CompressionLevelDefault": 5
+    },
+    "application/x-lrzip-compressed-tar": {
+        "CompressionLevelMin": 1,
+        "CompressionLevelMax": 9,
+        "CompressionLevelDefault": 1
+    }
 }

@@ -37,7 +37,11 @@ class KERFUFFLE_EXPORT ArchiveFormat
 {
 public:
     explicit ArchiveFormat();
-    explicit ArchiveFormat(const QMimeType& mimeType, Kerfuffle::Archive::EncryptionType encryptionType);
+    explicit ArchiveFormat(const QMimeType& mimeType,
+                           Kerfuffle::Archive::EncryptionType encryptionType,
+                           int minCompLevel,
+                           int maxCompLevel,
+                           int defaultCompLevel);
 
     /**
      * @return The archive format of the given @p mimeType, according to the given @p metadata.
@@ -54,9 +58,16 @@ public:
      */
     Kerfuffle::Archive::EncryptionType encryptionType() const;
 
+    int minCompressionLevel() const;
+    int maxCompressionLevel() const;
+    int defaultCompressionLevel() const;
+
 private:
     QMimeType m_mimeType;
     Kerfuffle::Archive::EncryptionType m_encryptionType;
+    int m_minCompressionLevel;
+    int m_maxCompressionLevel;
+    int m_defaultCompressionLevel;
 };
 
 }

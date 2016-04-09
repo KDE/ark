@@ -252,12 +252,14 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
         QDir::setCurrent(globalWorkDir);
     }
 
+    int compLevel = options.value(QStringLiteral("CompressionLevel"), -1).toInt();
+
     const auto args = substituteAddVariables(m_param.value(AddArgs).toStringList(),
                                              files,
                                              workDir,
                                              password(),
                                              isHeaderEncryptionEnabled(),
-                                             options.value(QStringLiteral("CompressionLevel")).toInt());
+                                             compLevel);
 
     if (!runProcess(m_param.value(AddProgram).toStringList(), args)) {
         failOperation();
@@ -718,11 +720,14 @@ QStringList CliInterface::passwordSwitch(const QString& password) const
 
 QString CliInterface::compressionLevelSwitch(int level) const
 {
+    if (level < 0 || level > 9) {
+        return QString();
+    }
+
     Q_ASSERT(m_param.contains(CompressionLevelSwitch));
 
     QString compLevelSwitch = m_param.value(CompressionLevelSwitch).toString();
     Q_ASSERT(!compLevelSwitch.isEmpty());
-    Q_ASSERT(level >= 0 && level <= 9);
 
     compLevelSwitch.replace(QLatin1String("$CompressionLevel"), QString::number(level));
 

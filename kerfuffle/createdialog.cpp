@@ -133,6 +133,16 @@ void CreateDialog::slotUpdateWidgets(int index)
         m_ui->collapsibleEncryption->setToolTip(i18n("Protection of the archive with password is not possible with the %1 format.",
                                                 mimeType.comment()));
     }
+
+    if (archiveFormat.maxCompressionLevel() == 0) {
+        m_ui->collapsibleCompression->setEnabled(false);
+    } else {
+        m_ui->collapsibleCompression->setEnabled(true);
+        m_ui->compLevelSlider->setMinimum(archiveFormat.minCompressionLevel());
+        m_ui->compLevelSlider->setMaximum(archiveFormat.maxCompressionLevel());
+        m_ui->compLevelSlider->setValue(archiveFormat.defaultCompressionLevel());
+    }
+
     slotEncryptionToggled();
 }
 
@@ -162,6 +172,14 @@ QUrl CreateDialog::selectedUrl() const
         dir.append(QLatin1Char('/'));
     }
     return QUrl::fromLocalFile(dir + fileName);
+}
+
+int CreateDialog::compressionLevel() const
+{
+    if (m_ui->compLevelSlider->isEnabled()) {
+        return m_ui->compLevelSlider->value();
+    }
+    return -1;
 }
 
 QString CreateDialog::password() const
