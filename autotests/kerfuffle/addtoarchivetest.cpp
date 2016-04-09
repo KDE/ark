@@ -27,6 +27,7 @@
 #include "kerfuffle/archive_kerfuffle.h"
 
 #include <QEventLoop>
+#include <QStandardPaths>
 #include <QTest>
 
 using namespace Kerfuffle;
@@ -59,6 +60,40 @@ void AddToArchiveTest::testCompressHere_data()
         << QStringList {QFINDTESTDATA("data/testfile.txt")}
         << QStringLiteral("testfile.tar.gz")
         << 1ULL;
+
+    QTest::newRow("compress here (as TAR) - file + folder")
+        << QStringLiteral("tar.gz")
+        << QStringList {
+               QFINDTESTDATA("data/testdir"),
+               QFINDTESTDATA("data/testfile.txt")
+           }
+        << QStringLiteral("data.tar.gz")
+        << 3ULL;
+
+    if (!QStandardPaths::findExecutable(QStringLiteral("zip")).isEmpty()) {
+        QTest::newRow("compress here (as ZIP) - whole folder")
+            << QStringLiteral("zip")
+            << QStringList {QFINDTESTDATA("data/testdir")}
+            << QStringLiteral("testdir.zip")
+            << 2ULL;
+
+        QTest::newRow("compress here (as ZIP) - single file")
+            << QStringLiteral("zip")
+            << QStringList {QFINDTESTDATA("data/testfile.txt")}
+            << QStringLiteral("testfile.zip")
+            << 1ULL;
+
+        QTest::newRow("compress here (as ZIP) - file + folder")
+            << QStringLiteral("zip")
+            << QStringList {
+                   QFINDTESTDATA("data/testdir"),
+                   QFINDTESTDATA("data/testfile.txt")
+               }
+            << QStringLiteral("data.zip")
+            << 3ULL;
+    } else {
+        qDebug() << "zip executable not found in path. Skipping compress-here-(ZIP) tests.";
+    }
 }
 
 void AddToArchiveTest::testCompressHere()
