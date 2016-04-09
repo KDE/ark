@@ -233,16 +233,14 @@ void CliUnarchiverTest::testExtraction_data()
     ExtractionOptions dragAndDropOptions = optionsPreservePaths;
     dragAndDropOptions[QStringLiteral("DragAndDrop")] = true;
 
-    QString archivePath = QFINDTESTDATA("data/multiple_toplevel_entries.rar");
     QTest::newRow("extract the whole multiple_toplevel_entries.rar")
-            << archivePath
+            << QFINDTESTDATA("data/multiple_toplevel_entries.rar")
             << QVariantList()
             << optionsPreservePaths
             << 12;
 
-    archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
     QTest::newRow("extract selected entries from a rar, without paths")
-            << archivePath
+            << QFINDTESTDATA("data/one_toplevel_folder.rar")
             << QVariantList {
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A"))),
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
@@ -250,9 +248,8 @@ void CliUnarchiverTest::testExtraction_data()
             << options
             << 2;
 
-    archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
     QTest::newRow("extract selected entries from a rar, preserve paths")
-            << archivePath
+            << QFINDTESTDATA("data/one_toplevel_folder.rar")
             << QVariantList {
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A"))),
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
@@ -260,9 +257,8 @@ void CliUnarchiverTest::testExtraction_data()
             << optionsPreservePaths
             << 4;
 
-    archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
     QTest::newRow("extract selected entries from a rar, drag-and-drop")
-            << archivePath
+            << QFINDTESTDATA("data/one_toplevel_folder.rar")
             << QVariantList {
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/"), QStringLiteral("A/B/"))),
                    QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A/"))),
@@ -272,9 +268,8 @@ void CliUnarchiverTest::testExtraction_data()
             << dragAndDropOptions
             << 4;
 
-    archivePath = QFINDTESTDATA("data/empty_folders.rar");
     QTest::newRow("rar with empty folders")
-            << archivePath
+            << QFINDTESTDATA("data/empty_folders.rar")
             << QVariantList()
             << optionsPreservePaths
             << 5;
