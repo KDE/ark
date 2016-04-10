@@ -58,15 +58,15 @@
     ], 
     "X-KDE-Priority": 180, 
     "application/x-7z-compressed": {
-        "HeaderEncryption": true,
-        "CompressionLevelMin": 0,
-        "CompressionLevelMax": 9,
-        "CompressionLevelDefault": 5
+        "CompressionLevelDefault": 5, 
+        "CompressionLevelMax": 9, 
+        "CompressionLevelMin": 0, 
+        "HeaderEncryption": true
     }, 
     "application/zip": {
-        "Encryption": true,
-        "CompressionLevelMin": 0,
-        "CompressionLevelMax": 9,
-        "CompressionLevelDefault": 5
+        "CompressionLevelDefault": 5, 
+        "CompressionLevelMax": 9, 
+        "CompressionLevelMin": 0, 
+        "Encryption": true
     }
 }

@@ -58,9 +58,9 @@
     ], 
     "X-KDE-Priority": 120, 
     "application/x-rar": {
-        "HeaderEncryption": true,
-        "CompressionLevelMin": 0,
-        "CompressionLevelMax": 5,
-        "CompressionLevelDefault": 3
+        "CompressionLevelDefault": 3, 
+        "CompressionLevelMax": 5, 
+        "CompressionLevelMin": 0, 
+        "HeaderEncryption": true
     }
 }

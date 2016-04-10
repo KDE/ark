@@ -57,15 +57,15 @@
     ], 
     "X-KDE-Priority": 160, 
     "application/x-java-archive": {
-        "Encryption": true,
-        "CompressionLevelMin": 0,
-        "CompressionLevelMax": 9,
-        "CompressionLevelDefault": 6
+        "CompressionLevelDefault": 6, 
+        "CompressionLevelMax": 9, 
+        "CompressionLevelMin": 0, 
+        "Encryption": true
     }, 
     "application/zip": {
-        "Encryption": true,
-        "CompressionLevelMin": 0,
-        "CompressionLevelMax": 9,
-        "CompressionLevelDefault": 6
+        "CompressionLevelDefault": 6, 
+        "CompressionLevelMax": 9, 
+        "CompressionLevelMin": 0, 
+        "Encryption": true
     }
 }
