@@ -28,7 +28,7 @@
 
 #include <QTest>
 
-class PluginsTest : public QObject
+class MetaDataTest : public QObject
 {
     Q_OBJECT
 
@@ -43,19 +43,19 @@ private:
     QVector<KPluginMetaData> m_plugins;
 };
 
-void PluginsTest::initTestCase()
+void MetaDataTest::initTestCase()
 {
     m_plugins = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"));
 }
 
 // If a plugin has invalid JSON metadata (e.g. an extra comma somewhere)
 // it won't occur in the list of available plugins.
-void PluginsTest::testPluginLoading()
+void MetaDataTest::testPluginLoading()
 {
     QCOMPARE(m_plugins.count(), PLUGINS_COUNT);
 }
 
-void PluginsTest::testPluginMetadata()
+void MetaDataTest::testPluginMetadata()
 {
     foreach (const KPluginMetaData& metaData, m_plugins) {
         QVERIFY(metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin")));
@@ -79,6 +79,6 @@ void PluginsTest::testPluginMetadata()
     }
 }
 
-QTEST_GUILESS_MAIN(PluginsTest)
+QTEST_GUILESS_MAIN(MetaDataTest)
 
-#include "pluginstest.moc"
+#include "metadatatest.moc"
