@@ -40,7 +40,6 @@ K_PLUGIN_FACTORY_WITH_JSON(ReadWriteLibarchivePluginFactory, "kerfuffle_libarchi
 
 ReadWriteLibarchivePlugin::ReadWriteLibarchivePlugin(QObject *parent, const QVariantList & args)
     : LibarchivePlugin(parent, args)
-    , m_workDir(QDir::current())
 {
     qCDebug(ARK) << "Loaded libarchive read-write plugin";
 }
@@ -54,13 +53,6 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
     qCDebug(ARK) << "Adding files" << files << "with CompressionOptions" << options;
 
     const bool creatingNewFile = !QFileInfo::exists(filename());
-    const QString globalWorkDir = options.value(QStringLiteral( "GlobalWorkDir" )).toString();
-
-    if (!globalWorkDir.isEmpty()) {
-        qCDebug(ARK) << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
-        m_workDir.setPath(globalWorkDir);
-        QDir::setCurrent(globalWorkDir);
-    }
 
     m_writtenFiles.clear();
 
@@ -418,17 +410,10 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVariantList& files)
 
 // TODO: if we merge this with copyData(), we can pass more data
 //       such as an fd to archive_read_disk_entry_from_file()
-bool ReadWriteLibarchivePlugin::writeFile(const QString& fileName, struct archive* arch_writer)
+bool ReadWriteLibarchivePlugin::writeFile(const QString& relativeName, struct archive* arch_writer)
 {
     int header_response;
-
-    const bool trailingSlash = fileName.endsWith(QLatin1Char( '/' ));
-
-    // #191821: workDir must be used instead of QDir::current()
-    //          so that symlinks aren't resolved automatically
-    // TODO: this kind of call should be moved upwards in the
-    //       class hierarchy to avoid code duplication
-    const QString relativeName = m_workDir.relativeFilePath(fileName) + (trailingSlash ? QStringLiteral( "/" ) : QStringLiteral( "" ));
+    const QString absoluteFilename = QFileInfo(relativeName).absoluteFilePath();
 
     // #253059: Even if we use archive_read_disk_entry_from_file,
     //          libarchive may have been compiled without HAVE_LSTAT,
@@ -436,25 +421,25 @@ bool ReadWriteLibarchivePlugin::writeFile(const QString& fileName, struct archiv
     //          which case stat() will be called. To avoid this, we
     //          call lstat() ourselves.
     struct stat st;
-    lstat(QFile::encodeName(fileName).constData(), &st);
+    lstat(QFile::encodeName(absoluteFilename).constData(), &st);
 
     struct archive_entry *entry = archive_entry_new();
     archive_entry_set_pathname(entry, QFile::encodeName(relativeName).constData());
-    archive_entry_copy_sourcepath(entry, QFile::encodeName(fileName).constData());
+    archive_entry_copy_sourcepath(entry, QFile::encodeName(absoluteFilename).constData());
     archive_read_disk_entry_from_file(m_archiveReadDisk.data(), entry, -1, &st);
 
     qCDebug(ARK) << "Writing new entry " << archive_entry_pathname(entry);
     if ((header_response = archive_write_header(arch_writer, entry)) == ARCHIVE_OK) {
         // If the whole archive is extracted and the total filesize is
         // available, we use partial progress.
-        copyData(fileName, arch_writer, false);
+        copyData(absoluteFilename, arch_writer, false);
     } else {
         qCCritical(ARK) << "Writing header failed with error code " << header_response;
         qCCritical(ARK) << "Error while writing..." << archive_error_string(arch_writer) << "(error no =" << archive_errno(arch_writer) << ')';
 
         emit error(xi18nc("@info Error in a message box",
                           "Ark could not compress <filename>%1</filename>:<nl/>%2",
-                          fileName,
+                          absoluteFilename,
                           QString::fromUtf8(archive_error_string(arch_writer))));
 
         archive_entry_free(entry);

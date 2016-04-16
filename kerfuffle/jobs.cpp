@@ -28,6 +28,7 @@
 #include "jobs.h"
 #include "ark_debug.h"
 
+#include <QDir>
 #include <QFileInfo>
 #include <QRegularExpression>
 #include <QThread>
@@ -356,12 +357,43 @@ void AddJob::doWork()
 
     Q_ASSERT(m_writeInterface);
 
+    const QString globalWorkDir = m_options.value(QStringLiteral("GlobalWorkDir")).toString();
+    const QDir workDir = globalWorkDir.isEmpty() ? QDir::current() : QDir(globalWorkDir);
+    if (!globalWorkDir.isEmpty()) {
+        qCDebug(ARK) << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
+        m_oldWorkingDir = QDir::currentPath();
+        QDir::setCurrent(globalWorkDir);
+    }
+
+    // The file paths must be relative to GlobalWorkDir.
+    QStringList relativeFiles;
+    foreach (const QString& file, m_files) {
+        // #191821: workDir must be used instead of QDir::current()
+        //          so that symlinks aren't resolved automatically
+        QString relativePath = workDir.relativeFilePath(file);
+
+        if (file.endsWith(QLatin1Char('/'))) {
+            relativePath += QLatin1Char('/');
+        }
+
+        relativeFiles << relativePath;
+    }
+
     connectToArchiveInterfaceSignals();
-    bool ret = m_writeInterface->addFiles(m_files, m_options);
+    bool ret = m_writeInterface->addFiles(relativeFiles, m_options);
 
     if (!archiveInterface()->waitForFinishedSignal()) {
         onFinished(ret);
     }
+}
+
+void AddJob::onFinished(bool result)
+{
+    if (!m_oldWorkingDir.isEmpty()) {
+        QDir::setCurrent(m_oldWorkingDir);
+    }
+
+    Job::onFinished(result);
 }
 
 DeleteJob::DeleteJob(const QVariantList& files, ReadWriteArchiveInterface *interface, QObject *parent)

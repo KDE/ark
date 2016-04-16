@@ -46,9 +46,8 @@ public:
     bool deleteFiles(const QVariantList& files) Q_DECL_OVERRIDE;
 
 private:
-    bool writeFile(const QString& fileName, struct archive* arch);
+    bool writeFile(const QString& relativeName, struct archive* arch);
 
-    QDir m_workDir;
     QStringList m_writtenFiles;
 };
 

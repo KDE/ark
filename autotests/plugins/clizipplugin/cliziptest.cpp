@@ -106,7 +106,7 @@ void CliZipTest::testAddArgs()
     QFETCH(QString, password);
     QFETCH(int, compressionLevel);
 
-    QStringList replacedArgs = plugin->substituteAddVariables(addArgs, {}, QDir::current(), password, false, compressionLevel);
+    QStringList replacedArgs = plugin->substituteAddVariables(addArgs, {}, password, false, compressionLevel);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);

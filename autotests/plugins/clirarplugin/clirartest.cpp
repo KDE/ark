@@ -312,7 +312,7 @@ void CliRarTest::testAddArgs()
     QFETCH(bool, encryptHeader);
     QFETCH(int, compressionLevel);
 
-    QStringList replacedArgs = rarPlugin->substituteAddVariables(addArgs, {}, QDir::current(), password, encryptHeader, compressionLevel);
+    QStringList replacedArgs = rarPlugin->substituteAddVariables(addArgs, {}, password, encryptHeader, compressionLevel);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);

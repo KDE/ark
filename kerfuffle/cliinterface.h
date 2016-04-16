@@ -316,7 +316,7 @@ public:
 
     QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
     QStringList substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password, const QString &rootNode);
-    QStringList substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QDir &workDir, const QString &password, bool encryptHeader, int compLevel);
+    QStringList substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel);
 
     /**
      * @return The preserve path switch, according to the @p preservePaths extraction option.
@@ -342,11 +342,6 @@ public:
      * @return The root node switch with the given @p rootNode.
      */
     QStringList rootNodeSwitch(const QString& rootNode) const;
-
-    /**
-     * @return The list of files to add to the archive.
-     */
-    QStringList addFilesList(const QStringList& files, const QDir& workDir) const;
 
     /**
      * @return The list of selected files to extract.

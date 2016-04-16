@@ -150,7 +150,11 @@ public:
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
 
+protected slots:
+    virtual void onFinished(bool result) Q_DECL_OVERRIDE;
+
 private:
+    QString m_oldWorkingDir;
     QStringList m_files;
     CompressionOptions m_options;
 };

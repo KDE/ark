@@ -245,18 +245,10 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
 
     m_operationMode = Add;
 
-    const QString globalWorkDir = options.value(QStringLiteral( "GlobalWorkDir" )).toString();
-    const QDir workDir = globalWorkDir.isEmpty() ? QDir::current() : QDir(globalWorkDir);
-    if (!globalWorkDir.isEmpty()) {
-        qCDebug(ARK) << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
-        QDir::setCurrent(globalWorkDir);
-    }
-
     int compLevel = options.value(QStringLiteral("CompressionLevel"), -1).toInt();
 
     const auto args = substituteAddVariables(m_param.value(AddArgs).toStringList(),
                                              files,
-                                             workDir,
                                              password(),
                                              isHeaderEncryptionEnabled(),
                                              compLevel);
@@ -630,7 +622,7 @@ QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs
     return args;
 }
 
-QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QDir &workDir, const QString &password, bool encryptHeader, int compLevel)
+QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel)
 {
     // Required if we call this function from unit tests.
     cacheParameterList();
@@ -655,7 +647,7 @@ QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, con
         }
 
         if (arg == QLatin1String("$Files")) {
-            args << addFilesList(files, workDir);
+            args << files;
             continue;
         }
 
@@ -752,21 +744,6 @@ QStringList CliInterface::rootNodeSwitch(const QString &rootNode) const
     }
 
     return rootNodeSwitch;
-}
-
-QStringList CliInterface::addFilesList(const QStringList& files, const QDir& workDir) const
-{
-    // #191821: workDir must be used instead of QDir::current()
-    //          so that symlinks aren't resolved automatically
-    // TODO: this kind of call should be moved upwards in the
-    //       class hierarchy to avoid code duplication
-
-    QStringList filesList;
-    foreach (const QString& file, files) {
-        filesList << workDir.relativeFilePath(file);
-    }
-
-    return filesList;
 }
 
 QStringList CliInterface::copyFilesList(const QVariantList& files) const

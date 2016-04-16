@@ -279,7 +279,7 @@ void Cli7zTest::testAddArgs()
     QFETCH(bool, encryptHeader);
     QFETCH(int, compressionLevel);
 
-    QStringList replacedArgs = plugin->substituteAddVariables(addArgs, {}, QDir::current(), password, encryptHeader, compressionLevel);
+    QStringList replacedArgs = plugin->substituteAddVariables(addArgs, {}, password, encryptHeader, compressionLevel);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
