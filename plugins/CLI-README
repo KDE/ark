@@ -5,7 +5,7 @@ Here are the steps.
 
 1. First, create a copy of the cliplugin folder
 2. Change plugins/CMakeLists.txt to include the new subfolder
-3. Rename the kerfuffle_cli.json to a unique name, for example
+3. Rename the kerfuffle_cli.json_TEMPLATE to a unique name, for example
 kerfuffle_rar.json.
 4. Fill in the parts in the json metadata marked with TODO
 5. Update the plugins/yourplugin/CMakeLists.txt file, replacing all
