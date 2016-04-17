@@ -30,7 +30,8 @@
 
 #include "archiveinterface.h"
 #include "kerfuffle_export.h"
-#include <QtCore/QProcess>
+
+#include <QProcess>
 #include <QRegularExpression>
 
 class KProcess;

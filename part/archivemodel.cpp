@@ -26,20 +26,17 @@
 #include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/jobs.h"
 
-#include <QDebug>
 #include <KIconLoader>
 #include <KLocalizedString>
 #include <kio/global.h>
 
-#include <QDir>
-#include <QFont>
-#include <QLatin1String>
-#include <QList>
+#include <QDateTime>
+#include <QDBusConnection>
 #include <QMimeData>
+#include <QMimeDatabase>
 #include <QPersistentModelIndex>
-#include <QPixmap>
-#include <QIcon>
-#include <QtDBus/QtDBus>
+#include <QRegularExpression>
+#include <QUrl>
 
 using namespace Kerfuffle;
 

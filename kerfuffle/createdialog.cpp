@@ -28,8 +28,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "archiveformat.h"
 #include "createdialog.h"
+#include "archiveformat.h"
 #include "ark_debug.h"
 #include "ui_createdialog.h"
 #include "kerfuffle/archive_kerfuffle.h"

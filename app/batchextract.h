@@ -31,10 +31,7 @@
 
 #include <kcompositejob.h>
 
-#include <QtCore/QMap>
-#include <QtCore/QPair>
-#include <QtCore/QString>
-#include <QtCore/QStringList>
+#include <QMap>
 
 namespace Kerfuffle
 {

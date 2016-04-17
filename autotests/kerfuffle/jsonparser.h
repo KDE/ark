@@ -28,9 +28,8 @@
 
 #include "kerfuffle/archive_kerfuffle.h"
 
-#include <QtCore/QIODevice>
-#include <QtCore/QMap>
-#include <QtCore/QString>
+#include <QIODevice>
+#include <QMap>
 
 /**
  * Simple parser which reads JSON files and creates @c ArchiveEntry objects

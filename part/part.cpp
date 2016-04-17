@@ -64,7 +64,6 @@
 #include <QPointer>
 #include <QSplitter>
 #include <QTimer>
-#include <QtDBus/QtDBus>
 #include <QFileDialog>
 #include <QIcon>
 #include <QInputDialog>
