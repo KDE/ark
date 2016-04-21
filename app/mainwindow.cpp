@@ -45,6 +45,7 @@
 #include <KConfigSkeleton>
 #include <KXMLGUIFactory>
 
+#include <QApplication>
 #include <QDebug>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
@@ -253,6 +254,18 @@ void MainWindow::setShowExtractDialog(bool option)
         m_openArgs.metaData()[QStringLiteral("showExtractDialog")] = QStringLiteral("true");
     } else {
         m_openArgs.metaData().remove(QStringLiteral("showExtractDialog"));
+    }
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    Q_UNUSED(event)
+
+    // Preview windows don't have a parent, so we need to manually close them.
+    foreach (QWidget *widget, qApp->topLevelWidgets()) {
+        if (widget->isVisible()) {
+            widget->close();
+        }
     }
 }
 

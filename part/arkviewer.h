@@ -39,13 +39,13 @@ public:
     virtual ~ArkViewer();
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
-    static void view(const QString& fileName, QWidget* parent = 0);
+    static void view(const QString& fileName);
 
 private slots:
     void dialogClosed();
 
 private:
-    explicit ArkViewer(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+    explicit ArkViewer();
 
     static KService::Ptr getViewer(const QString& mimeType);
     bool viewInInternalViewer(const QString& fileName, const QMimeType& mimeType);

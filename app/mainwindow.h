@@ -44,6 +44,9 @@ public slots:
     void openUrl(const QUrl &url);
     void setShowExtractDialog(bool);
 
+protected:
+    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+
 private slots:
     void updateActions();
     void newArchive();
