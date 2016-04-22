@@ -196,7 +196,7 @@ void Part::registerJob(KJob* job)
     m_jobTracker->registerJob(job);
 
     emit busy();
-    connect(job, &KJob::finished, this, &Part::ready);
+    connect(job, &KJob::result, this, &Part::ready);
 }
 
 // TODO: KIO::mostLocalHere is used here to resolve some KIO URLs to local
