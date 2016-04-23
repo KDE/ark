@@ -50,7 +50,7 @@ ReadWriteLibarchivePlugin::~ReadWriteLibarchivePlugin()
 
 bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const CompressionOptions& options)
 {
-    qCDebug(ARK) << "Adding files" << files << "with CompressionOptions" << options;
+    qCDebug(ARK) << "Adding" << files.size() << "entries with CompressionOptions" << options;
 
     const bool creatingNewFile = !QFileInfo::exists(filename());
 
@@ -199,10 +199,13 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
     }
 
     // First write the new files.
+    qCDebug(ARK) << "Writing new entries";
+    int no_entries = 0;
     foreach(const QString& selectedFile, files) {
         if (!writeFile(selectedFile, arch_writer.data())) {
             return false;
         }
+        no_entries++;
 
         // For directories, write all subfiles/folders.
         if (QFileInfo(selectedFile).isDir()) {
@@ -228,14 +231,19 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
                 if (!writeFile(path, arch_writer.data())) {
                     return false;
                 }
+                no_entries++;
             }
         }
     }
+    qCDebug(ARK) << "Added" << no_entries << "new entries to archive";
 
     struct archive_entry *entry;
 
     // If we have old archive entries.
     if (!creatingNewFile) {
+
+        qCDebug(ARK) << "Copying any old entries";
+        no_entries = 0;
 
         // Copy old entries from previous archive to new archive.
         while (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK) {
@@ -255,6 +263,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
                 // If the whole archive is extracted and the total filesize is
                 // available, we use partial progress.
                 copyData(QLatin1String(archive_entry_pathname(entry)), arch_reader.data(), arch_writer.data(), false);
+                no_entries++;
                 break;
             case ARCHIVE_FAILED:
             case ARCHIVE_FATAL:
@@ -271,6 +280,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
             }
             archive_entry_clear(entry);
         }
+        qCDebug(ARK) << "Added" << no_entries << "old entries to archive";
     }
 
     // In the success case, we need to manually close the archive_writer before
@@ -286,7 +296,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
 
 bool ReadWriteLibarchivePlugin::deleteFiles(const QVariantList& files)
 {
-   qCDebug(ARK) << "Deleting files" << files;
+   qCDebug(ARK) << "Deleting" << files.size() << "entries";
 
     ArchiveRead arch_reader(archive_read_new());
     if (!(arch_reader.data())) {
@@ -363,15 +373,18 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVariantList& files)
 
     struct archive_entry *entry;
 
+
+
     // Copy old elements from previous archive to new archive.
+    int no_entries = 0;
     while (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK) {
 
         const QString entryName = QFile::decodeName(archive_entry_pathname(entry));
 
         if (files.contains(entryName)) {
             archive_read_data_skip(arch_reader.data());
-            qCDebug(ARK) << "Entry to be deleted, skipping" << entryName;
             emit entryRemoved(entryName);
+            no_entries++;
             continue;
         }
 
@@ -396,6 +409,7 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVariantList& files)
             break;
         }
     }
+    qCDebug(ARK) << "Removed" << no_entries << "entries from archive";
 
     // In the success case, we need to manually close the archive_writer before
     // calling QSaveFile::commit(), otherwise the latter will close() the
@@ -428,7 +442,6 @@ bool ReadWriteLibarchivePlugin::writeFile(const QString& relativeName, struct ar
     archive_entry_copy_sourcepath(entry, QFile::encodeName(absoluteFilename).constData());
     archive_read_disk_entry_from_file(m_archiveReadDisk.data(), entry, -1, &st);
 
-    qCDebug(ARK) << "Writing new entry " << archive_entry_pathname(entry);
     if ((header_response = archive_write_header(arch_writer, entry)) == ARCHIVE_OK) {
         // If the whole archive is extracted and the total filesize is
         // available, we use partial progress.

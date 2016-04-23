@@ -705,8 +705,6 @@ QModelIndex ArchiveModel::indexForNode(ArchiveNode *node)
 
 void ArchiveModel::slotEntryRemoved(const QString & path)
 {
-    qCDebug(ARK) << "Removed node at path " << path;
-
     const QString entryFileName(cleanFileName(path));
     if (entryFileName.isEmpty()) {
         return;
@@ -725,8 +723,6 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
         parent->removeEntryAt(entry->row());
 
         endRemoveRows();
-    } else {
-        qCDebug(ARK) << "Did not find the removed node";
     }
 }
 
@@ -971,7 +967,6 @@ void ArchiveModel::slotCleanupEmptyDirs()
     while (!queue.isEmpty()) {
         QPersistentModelIndex node = queue.takeFirst();
         ArchiveEntry entry = entryForIndex(node);
-        qCDebug(ARK) << "Trying " << entry[FileName].toString();
 
         if (!hasChildren(node)) {
             if (!entry.contains(InternalID)) {
