@@ -216,7 +216,7 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
     QString fileBeingRenamed;
 
     // Iterate through all entries in archive.
-    while (archive_read_next_header(arch.data(), &entry) == ARCHIVE_OK) {
+    while (!m_abortOperation && (archive_read_next_header(arch.data(), &entry) == ARCHIVE_OK)) {
 
         if (!extractAll && remainingFiles.isEmpty()) {
             break;
@@ -411,6 +411,8 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
         }
 
     } // While entries left to read in archive.
+
+    m_abortOperation = false;
 
     qCDebug(ARK) << "Extracted" << no_entries << "entries";
 

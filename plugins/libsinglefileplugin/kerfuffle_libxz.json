@@ -16,6 +16,7 @@
         "Description[ca]": "Connector del libxz pel Kerfuffle", 
         "Description[cs]": "modul libxz pro Kerfuffle", 
         "Description[de]": "libxz-Modul für Kerfuffle", 
+        "Description[en_GB]": "libxz plugin for Kerfuffle", 
         "Description[es]": "Complemento libxz para Kerfuffle", 
         "Description[fi]": "libxz-pakkaustuki", 
         "Description[it]": "Estensione libxz per Kerfuffle", 
@@ -34,6 +35,7 @@
         "Description[uk]": "Додаток libxz для Kerfuffle", 
         "Description[x-test]": "xxlibxz plugin for Kerfufflexx", 
         "Description[zh_CN]": "Kerfuffle 的 libxz 插件", 
+        "Description[zh_TW]": "Kerfuffle 的 libxz 外掛程式", 
         "Id": "kerfuffle_libxz", 
         "License": "BSD", 
         "MimeTypes": [

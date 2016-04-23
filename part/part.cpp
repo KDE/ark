@@ -802,7 +802,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
         switch (m_openFileMode) {
 
         case Preview:
-            ArkViewer::view(fullName, widget());
+            ArkViewer::view(fullName);
             break;
         case OpenFile:
             KRun::runUrl(QUrl::fromUserInput(fullName,

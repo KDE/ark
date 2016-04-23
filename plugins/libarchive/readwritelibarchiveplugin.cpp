@@ -98,6 +98,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
     archive_write_set_format_pax_restricted(arch_writer.data());
 
     int ret;
+    bool isLrzip = false;
     if (creatingNewFile) {
         if (filename().right(2).toUpper() == QLatin1String("GZ")) {
             qCDebug(ARK) << "Detected gzip compression for new file";
@@ -123,6 +124,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
         } else if (filename().right(3).toUpper() == QLatin1String("LRZ")) {
             qCDebug(ARK) << "Detected lrzip compression for new file";
             ret = archive_write_add_filter_lrzip(arch_writer.data());
+            isLrzip = true;
         } else if (filename().right(3).toUpper() == QLatin1String("TAR")) {
             qCDebug(ARK) << "Detected no compression for new file (pure tar)";
             ret = archive_write_add_filter_none(arch_writer.data());
@@ -131,7 +133,9 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
             ret = archive_write_add_filter_gzip(arch_writer.data());
         }
 
-        if (ret != ARCHIVE_OK) {
+        // Libarchive emits a warning for lrzip due to using external executable.
+        if ((isLrzip && ret != ARCHIVE_WARN) ||
+            (!isLrzip && ret != ARCHIVE_OK)) {
             emit error(xi18nc("@info", "Setting the compression method failed with the following error:<nl/><message>%1</message>",
                               QLatin1String(archive_error_string(arch_writer.data()))));
             return false;
@@ -174,6 +178,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
             break;
         case ARCHIVE_FILTER_LRZIP:
             ret = archive_write_add_filter_lrzip(arch_writer.data());
+            isLrzip = true;
             break;
         case ARCHIVE_FILTER_NONE:
             ret = archive_write_add_filter_none(arch_writer.data());
@@ -184,7 +189,9 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
             return false;
         }
 
-        if (ret != ARCHIVE_OK) {
+        // Libarchive emits a warning for lrzip due to using external executable.
+        if ((isLrzip && ret != ARCHIVE_WARN) ||
+            (!isLrzip && ret != ARCHIVE_OK)) {
             emit error(xi18nc("@info", "Setting the compression method failed with the following error:<nl/><message>%1</message>",
                               QLatin1String(archive_error_string(arch_writer.data()))));
             return false;
@@ -202,6 +209,11 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
     qCDebug(ARK) << "Writing new entries";
     int no_entries = 0;
     foreach(const QString& selectedFile, files) {
+
+        if (m_abortOperation) {
+            break;
+        }
+
         if (!writeFile(selectedFile, arch_writer.data())) {
             return false;
         }
@@ -214,7 +226,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
                             QDir::Hidden | QDir::NoDotAndDotDot,
                             QDirIterator::Subdirectories);
 
-            while (it.hasNext()) {
+            while (!m_abortOperation && it.hasNext()) {
                 QString path = it.next();
 
                 if ((it.fileName() == QLatin1String("..")) ||
@@ -246,7 +258,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
         no_entries = 0;
 
         // Copy old entries from previous archive to new archive.
-        while (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK) {
+        while (!m_abortOperation && (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK)) {
 
             const QString entryName = QFile::decodeName(archive_entry_pathname(entry));
 
@@ -282,6 +294,8 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
         }
         qCDebug(ARK) << "Added" << no_entries << "old entries to archive";
     }
+
+    m_abortOperation = false;
 
     // In the success case, we need to manually close the archive_writer before
     // calling QSaveFile::commit(), otherwise the latter will close() the
@@ -410,6 +424,8 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVariantList& files)
         }
     }
     qCDebug(ARK) << "Removed" << no_entries << "entries from archive";
+
+    m_abortOperation = false;
 
     // In the success case, we need to manually close the archive_writer before
     // calling QSaveFile::commit(), otherwise the latter will close() the

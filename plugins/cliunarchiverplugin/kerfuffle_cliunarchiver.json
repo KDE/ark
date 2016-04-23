@@ -21,6 +21,7 @@
         "Name[ca]": "Connector de l'Unarchiver", 
         "Name[cs]": "Modul pro Unarchiver", 
         "Name[de]": "Unarchiver-Modul", 
+        "Name[en_GB]": "The Unarchiver plugin", 
         "Name[es]": "El complemento de Unarchiver", 
         "Name[fi]": "Unarchiver-tuki", 
         "Name[it]": "Estensione The Unarchiver", 
@@ -38,6 +39,7 @@
         "Name[uk]": "Додаток Unarchiver", 
         "Name[x-test]": "xxThe Unarchiver pluginxx", 
         "Name[zh_CN]": "Unarchiver 插件", 
+        "Name[zh_TW]": "解壓縮外掛程式", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 
