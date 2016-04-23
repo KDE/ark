@@ -1082,6 +1082,9 @@ bool CliInterface::doKill()
         m_abortingOperation = true;
         if (!m_process->waitForFinished(5)) {
             m_process->kill();
+
+            // It takes a few hundred ms for the process to be killed.
+            m_process->waitForFinished(1000);
         }
         m_abortingOperation = false;
 
