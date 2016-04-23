@@ -202,6 +202,11 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
 
     // First write the new files.
     foreach(const QString& selectedFile, files) {
+
+        if (m_abortOperation) {
+            break;
+        }
+
         if (!writeFile(selectedFile, arch_writer.data())) {
             return false;
         }
@@ -213,7 +218,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
                             QDir::Hidden | QDir::NoDotAndDotDot,
                             QDirIterator::Subdirectories);
 
-            while (it.hasNext()) {
+            while (!m_abortOperation && it.hasNext()) {
                 QString path = it.next();
 
                 if ((it.fileName() == QLatin1String("..")) ||
@@ -240,7 +245,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
     if (!creatingNewFile) {
 
         // Copy old entries from previous archive to new archive.
-        while (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK) {
+        while (!m_abortOperation && (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK)) {
 
             const QString entryName = QFile::decodeName(archive_entry_pathname(entry));
 
@@ -274,6 +279,8 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
             archive_entry_clear(entry);
         }
     }
+
+    m_abortOperation = false;
 
     // In the success case, we need to manually close the archive_writer before
     // calling QSaveFile::commit(), otherwise the latter will close() the
@@ -366,7 +373,7 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVariantList& files)
     struct archive_entry *entry;
 
     // Copy old elements from previous archive to new archive.
-    while (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK) {
+    while (!m_abortOperation && (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK)) {
 
         const QString entryName = QFile::decodeName(archive_entry_pathname(entry));
 
@@ -398,6 +405,8 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVariantList& files)
             break;
         }
     }
+
+    m_abortOperation = false;
 
     // In the success case, we need to manually close the archive_writer before
     // calling QSaveFile::commit(), otherwise the latter will close() the

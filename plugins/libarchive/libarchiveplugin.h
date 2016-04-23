@@ -79,6 +79,7 @@ protected:
     typedef QScopedPointer<struct archive, ArchiveWriteCustomDeleter> ArchiveWrite;
 
     ArchiveRead m_archiveReadDisk;
+    bool m_abortOperation;
 
 private:
     int extractionFlags() const;
@@ -87,7 +88,6 @@ private:
     qlonglong m_currentExtractedFilesSize;
     bool m_emitNoEntries;
     qlonglong m_extractedFilesSize;
-    bool m_abortOperation;
 };
 
 #endif // LIBARCHIVEPLUGIN_H

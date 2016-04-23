@@ -166,8 +166,6 @@ void Job::onFinished(bool result)
 {
     qCDebug(ARK) << "Job finished, result:" << result << ", time:" << jobTimer.elapsed() << "ms";
 
-    archiveInterface()->disconnect(this);
-
     emitResult();
 }
 
