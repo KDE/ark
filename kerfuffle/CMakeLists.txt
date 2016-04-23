@@ -16,6 +16,7 @@ set(kerfuffle_SRCS
     cliinterface.cpp
     mimetypes.cpp
     plugin.cpp
+    pluginmanager.cpp
 )
 
 kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
