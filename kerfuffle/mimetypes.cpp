@@ -48,6 +48,9 @@ QMimeType determineMimeType(const QString& filename)
     // we cannot rely on it when the archive extension is wrong; we need to validate by hand.
     if (fileinfo.completeSuffix().toLower().remove(QRegularExpression(QStringLiteral("[^a-z\\.]"))).contains(QStringLiteral("tar."))) {
         inputFile.chop(fileinfo.completeSuffix().length());
+        // We remove non-alpha chars from the filename extension, but not periods.
+        // If the filename is e.g. "foo.tar.gz.1", we get the "foo.tar.gz." string,
+        // so we need to manually drop the last period character from it.
         QString cleanExtension = fileinfo.completeSuffix().toLower().remove(QRegularExpression(QStringLiteral("[^a-z\\.]")));
         if (cleanExtension.endsWith(QLatin1Char('.'))) {
             cleanExtension.chop(1);
