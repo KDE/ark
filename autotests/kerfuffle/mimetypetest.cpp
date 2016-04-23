@@ -70,6 +70,7 @@ void MimeTypeTest::testMimeTypeDetection_data()
     QTest::newRow("zip with wrong extension") << QFINDTESTDATA("data/zip_with_wrong_extension.rar") << QStringLiteral("application/zip");
     QTest::newRow("tar with special char in the extension") << QStringLiteral("foo.tar~1.gz") << compressedGzipTarMime;
     QTest::newRow("another tar with special char in the extension") << QStringLiteral("foo.ta4r.gz") << compressedGzipTarMime;
+    QTest::newRow("tar downloaded by wget") << QFINDTESTDATA("data/wget-download.tar.gz.1") << compressedGzipTarMime;
 
     // This ISO file may be detected-by-content as text/plain. See https://bugs.freedesktop.org/show_bug.cgi?id=80877
     QTest::newRow("archlinux truncated ISO") << QFINDTESTDATA("data/archlinux-2015.09.01-dual_truncated.iso") << isoMimeType;
