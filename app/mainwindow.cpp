@@ -259,14 +259,14 @@ void MainWindow::setShowExtractDialog(bool option)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    Q_UNUSED(event)
-
     // Preview windows don't have a parent, so we need to manually close them.
     foreach (QWidget *widget, qApp->topLevelWidgets()) {
         if (widget->isVisible()) {
             widget->close();
         }
     }
+
+    KParts::MainWindow::closeEvent(event);
 }
 
 void MainWindow::quit()
