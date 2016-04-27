@@ -26,6 +26,7 @@
 #include "kerfuffle/archive_kerfuffle.h"
 #include "mimetypes.h"
 
+#include <QMimeDatabase>
 #include <QTest>
 
 using namespace Kerfuffle;
@@ -56,7 +57,7 @@ void MimeTypeTest::testMimeTypeDetection_data()
     const QString compressedLzopTarMime = QStringLiteral("application/x-tzo");
     const QString compressedLrzipTarMime = QStringLiteral("application/x-lrzip-compressed-tar");
     const QString isoMimeType = QStringLiteral("application/x-cd-image");
-    const QString debMimeType = QStringLiteral("application/vnd.debian.binary-package");
+    const QString debMimeType = QMimeDatabase().mimeTypeForFile(QStringLiteral("dummy.deb"), QMimeDatabase::MatchExtension).name();
 
     QTest::newRow("empty name") << QString() << QStringLiteral("application/octet-stream");
     QTest::newRow("tar.gz") << QFINDTESTDATA("data/simplearchive.tar.gz") << compressedGzipTarMime;
