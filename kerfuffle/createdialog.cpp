@@ -65,8 +65,7 @@ CreateDialog::CreateDialog(QWidget *parent,
     setWindowTitle(caption);
     setModal(true);
 
-    m_supportedMimeTypes = Kerfuffle::supportedWriteMimeTypes();
-    m_writePlugins = Kerfuffle::supportedWritePlugins();
+    m_supportedMimeTypes = m_pluginManger.supportedWriteMimeTypes();
 
     m_vlayout = new QVBoxLayout();
     setLayout(m_vlayout);
@@ -121,7 +120,7 @@ void CreateDialog::slotFileNameEdited(const QString &fileName)
 void CreateDialog::slotUpdateWidgets(int index)
 {
     const QMimeType mimeType = QMimeDatabase().mimeTypeForName(m_supportedMimeTypes.at(index));
-    const KPluginMetaData metadata = preferredPluginFor(mimeType, m_writePlugins);
+    const KPluginMetaData metadata = m_pluginManger.preferredPluginFor(mimeType)->metaData();
     const ArchiveFormat archiveFormat = ArchiveFormat::fromMetadata(mimeType, metadata);
     Q_ASSERT(archiveFormat.isValid());
 
@@ -229,7 +228,7 @@ void CreateDialog::accept()
 
 void CreateDialog::slotEncryptionToggled()
 {
-    const KPluginMetaData metadata = preferredPluginFor(currentMimeType(), m_writePlugins);
+    const KPluginMetaData metadata = m_pluginManger.preferredPluginFor(currentMimeType())->metaData();
     const ArchiveFormat archiveFormat = ArchiveFormat::fromMetadata(currentMimeType(), metadata);
     Q_ASSERT(archiveFormat.isValid());
 

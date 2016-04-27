@@ -24,7 +24,7 @@
  */
 
 #include "createdialog.h"
-#include "mimetypes.h"
+#include "pluginmanager.h"
 
 #include <KCollapsibleGroupBox>
 
@@ -46,6 +46,9 @@ private Q_SLOTS:
     void testEncryption_data();
     void testEncryption();
     void testHeaderEncryptionTooltip();
+
+private:
+    PluginManager m_pluginManager;
 };
 
 void CreateDialogTest::testBasicWidgets_data()
@@ -61,7 +64,7 @@ void CreateDialogTest::testBasicWidgets_data()
     QTest::newRow("tarlzop") << QStringLiteral("application/x-tzo");
     QTest::newRow("tarlzip") << QStringLiteral("application/x-lzip-compressed-tar");
 
-    const auto writeMimeTypes = supportedWriteMimeTypes();
+    const auto writeMimeTypes = m_pluginManager.supportedWriteMimeTypes();
 
     if (writeMimeTypes.contains(QStringLiteral("application/zip"))) {
         QTest::newRow("zip") << QStringLiteral("application/zip");
@@ -118,19 +121,19 @@ void CreateDialogTest::testEncryption_data()
 
     QTest::newRow("tar") << QStringLiteral("application/x-compressed-tar") << false << false;
 
-    if (Kerfuffle::supportedWriteMimeTypes().contains(QStringLiteral("application/zip"))) {
+    if (m_pluginManager.supportedWriteMimeTypes().contains(QStringLiteral("application/zip"))) {
         QTest::newRow("zip") << QStringLiteral("application/zip") << true << false;
     } else {
         qDebug() << "zip format not available in CreateDialog, skipping test.";
     }
 
-    if (Kerfuffle::supportedWriteMimeTypes().contains(QStringLiteral("application/x-7z-compressed"))) {
+    if (m_pluginManager.supportedWriteMimeTypes().contains(QStringLiteral("application/x-7z-compressed"))) {
         QTest::newRow("7z") << QStringLiteral("application/x-7z-compressed") << true << true;
     } else {
         qDebug() << "7z format not available in CreateDialog, skipping test.";
     }
 
-    if (Kerfuffle::supportedWriteMimeTypes().contains(QStringLiteral("application/x-rar"))) {
+    if (m_pluginManager.supportedWriteMimeTypes().contains(QStringLiteral("application/x-rar"))) {
         QTest::newRow("rar") << QStringLiteral("application/x-rar") << true << true;
     } else {
         qDebug() << "rar format not available in CreateDialog, skipping test.";
@@ -186,7 +189,7 @@ void CreateDialogTest::testEncryption()
 
 void CreateDialogTest::testHeaderEncryptionTooltip()
 {
-    if (!Kerfuffle::supportedWriteMimeTypes().contains(QStringLiteral("application/zip"))) {
+    if (!m_pluginManager.supportedWriteMimeTypes().contains(QStringLiteral("application/zip"))) {
         QSKIP("zip format not available in CreateDialog, skipping test.", SkipSingle);
     }
 

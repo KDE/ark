@@ -24,10 +24,10 @@
 
 #include "mainwindow.h"
 #include "ark_debug.h"
-#include "kerfuffle/archive_kerfuffle.h"
-#include "kerfuffle/createdialog.h"
-#include "kerfuffle/settingspage.h"
-#include "mimetypes.h"
+#include "archive_kerfuffle.h"
+#include "createdialog.h"
+#include "settingspage.h"
+#include "pluginmanager.h"
 #include "part/interface.h"
 
 #include <KPluginFactory>
@@ -223,9 +223,9 @@ void MainWindow::openArchive()
     Q_ASSERT(iface);
     Q_UNUSED(iface);
 
+    Kerfuffle::PluginManager pluginManager;
     QPointer<QFileDialog> dlg = new QFileDialog(this, i18nc("to open an archive", "Open Archive"));
-
-    dlg->setMimeTypeFilters(Kerfuffle::supportedMimeTypes());
+    dlg->setMimeTypeFilters(pluginManager.supportedMimeTypes());
 
     dlg->setFileMode(QFileDialog::ExistingFile);
     dlg->setAcceptMode(QFileDialog::AcceptOpen);

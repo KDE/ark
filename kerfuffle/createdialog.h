@@ -32,9 +32,9 @@
 #define CREATEDIALOG_H
 
 #include "kerfuffle_export.h"
+#include "pluginmanager.h"
 
 #include <KConfigGroup>
-#include <KPluginMetaData>
 
 #include <QDialog>
 #include <QMimeType>
@@ -89,7 +89,7 @@ private:
     QVBoxLayout *m_vlayout;
     KConfigGroup m_config;
     QStringList m_supportedMimeTypes;
-    QVector<KPluginMetaData> m_writePlugins;
+    PluginManager m_pluginManger;
 
 private slots:
     void slotFileNameEdited(const QString &text);

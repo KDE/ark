@@ -28,43 +28,11 @@
 
 #include "kerfuffle_export.h"
 
-#include <KPluginMetaData>
-
-#include <QJsonArray>
 #include <QMimeType>
-#include <QSet>
 
 namespace Kerfuffle
 {
     KERFUFFLE_EXPORT QMimeType determineMimeType(const QString& filename);
-    KERFUFFLE_EXPORT QStringList supportedMimeTypes();
-    KERFUFFLE_EXPORT QStringList supportedWriteMimeTypes();
-
-    /**
-     * @return The list of available read-write plugins.
-     */
-    KERFUFFLE_EXPORT QVector<KPluginMetaData> supportedWritePlugins();
-
-    /**
-     * @return The preferred plugin to handle @p mimeType, out of the given list of @p plugins.
-     */
-    KERFUFFLE_EXPORT KPluginMetaData preferredPluginFor(const QMimeType& mimeType, const QVector<KPluginMetaData>& plugins);
-
-    /**
-     * @return A list with the supported read-only mimetypes, alphabetically sorted according to their comment.
-     */
-    QStringList sortByComment(const QSet<QString> &mimeTypeSet);
-
-    /**
-     * @return Whether all the @p executables are available in the system PATH.
-     */
-    bool findExecutables(const QJsonArray& executables);
-
-    /**
-     * @return Whether @p p1 has higher priority than @p p2.
-     */
-    bool comparePlugins(const KPluginMetaData& p1, const KPluginMetaData& p2);
-
-} // namespace Kerfuffle
+}
 
 #endif // MIMETYPES_H

@@ -23,7 +23,7 @@
 #include "ark_debug.h"
 #include "batchextract.h"
 #include "kerfuffle/archive_kerfuffle.h"
-#include "mimetypes.h"
+#include "pluginmanager.h"
 
 #include <QAction>
 #include <QDebug>
@@ -64,7 +64,8 @@ QList<QAction *> ExtractHereDndPlugin::setup(const KFileItemListProperties& popu
 
     const QString extractHereMessage = i18nc("@action:inmenu Context menu shown when an archive is being drag'n'dropped", "Extract here");
 
-    if (!Kerfuffle::supportedMimeTypes().contains(popupMenuInfo.mimeType())) {
+    Kerfuffle::PluginManager pluginManager;
+    if (!pluginManager.supportedMimeTypes().contains(popupMenuInfo.mimeType())) {
         qCWarning(ARK) << popupMenuInfo.mimeType() << "is not a supported mimetype";
         return actionList;
     }
