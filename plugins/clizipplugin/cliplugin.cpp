@@ -49,6 +49,7 @@ CliPlugin::~CliPlugin()
 void CliPlugin::resetParsing()
 {
     m_parseState = ParseStateHeader;
+    m_tempComment.clear();
     m_comment.clear();
 }
 
@@ -145,13 +146,13 @@ bool CliPlugin::readListLine(const QString &line)
     case ParseStateComment:
         if (commentEndPattern.match(line).hasMatch()) {
             m_parseState = ParseStateEntry;
-            if (!m_comment.trimmed().isEmpty()) {
-                m_comment = m_comment.trimmed();
+            if (!m_tempComment.trimmed().isEmpty()) {
+                m_comment = m_tempComment.trimmed();
                 m_linesComment = m_comment.count(QLatin1Char('\n')) + 1;
                 qCDebug(ARK) << "Found a comment with" << m_linesComment << "lines";
             }
         } else {
-            m_comment.append(line + QLatin1Char('\n'));
+            m_tempComment.append(line + QLatin1Char('\n'));
         }
     case ParseStateEntry:
         QRegularExpressionMatch rxMatch = entryPattern.match(line);
