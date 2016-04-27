@@ -70,12 +70,6 @@ bool ReadOnlyArchiveInterface::isCliBased() const
     return false;
 }
 
-bool ReadOnlyArchiveInterface::findExecutables(bool isReadWrite)
-{
-    Q_UNUSED(isReadWrite)
-    return true;
-}
-
 bool ReadOnlyArchiveInterface::open()
 {
     return true;

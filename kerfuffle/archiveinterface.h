@@ -104,7 +104,6 @@ public:
     virtual bool doResume();
 
     virtual bool isCliBased() const;
-    virtual bool findExecutables(bool isReadWrite);
 
     bool isHeaderEncryptionEnabled() const;
 

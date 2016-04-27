@@ -30,42 +30,20 @@
 #include "archiveinterface.h"
 #include "jobs.h"
 #include "mimetypes.h"
+#include "pluginmanager.h"
 
 #include <QByteArray>
 #include <QDebug>
 #include <QEventLoop>
 #include <QFile>
 #include <QFileInfo>
+#include <QMimeDatabase>
 
 #include <KPluginFactory>
 #include <KPluginLoader>
 
 namespace Kerfuffle
 {
-
-bool Archive::comparePlugins(const KPluginMetaData &p1, const KPluginMetaData &p2)
-{
-    return (p1.rawData()[QStringLiteral("X-KDE-Priority")].toInt()) > (p2.rawData()[QStringLiteral("X-KDE-Priority")].toInt());
-}
-
-QVector<KPluginMetaData> Archive::findPluginOffers(const QString& filename, const QString& fixedMimeType)
-{
-    qCDebug(ARK) << "Find plugin offers for" << filename << "with mime" << fixedMimeType;
-
-    const QString mimeType = fixedMimeType.isEmpty() ? determineMimeType(filename).name() : fixedMimeType;
-
-    qCDebug(ARK) << "Detected mime" << mimeType;
-
-    QVector<KPluginMetaData> offers = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"), [mimeType](const KPluginMetaData& metaData) {
-        return metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin")) &&
-               metaData.mimeTypes().contains(mimeType);
-    });
-
-    qSort(offers.begin(), offers.end(), comparePlugins);
-    qCDebug(ARK) << "Have" << offers.size() << "offers";
-
-    return offers;
-}
 
 QDebug operator<<(QDebug d, const fileRootNodePair &pair)
 {
@@ -84,15 +62,18 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
 
     qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 
-    const QVector<KPluginMetaData> offers = findPluginOffers(fileName, fixedMimeType);
+    PluginManager pluginManager;
+    const QMimeType mimeType = fixedMimeType.isEmpty() ? determineMimeType(fileName) : QMimeDatabase().mimeTypeForName(fixedMimeType);
+
+    const QVector<Plugin*> offers = pluginManager.preferredPluginsFor(mimeType);
     if (offers.isEmpty()) {
         qCCritical(ARK) << "Could not find a plugin to handle" << fileName;
         return new Archive(NoPlugin, parent);
     }
 
     Archive *archive;
-    foreach (const KPluginMetaData& pluginMetadata, offers) {
-        archive = create(fileName, pluginMetadata, parent);
+    foreach (Plugin *plugin, offers) {
+        archive = create(fileName, plugin, parent);
         // Use the first valid plugin, according to the priority sorting.
         if (archive->isValid()) {
             return archive;
@@ -103,42 +84,32 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     return archive;
 }
 
-Archive *Archive::create(const QString &fileName, const KPluginMetaData &pluginMetadata, QObject *parent)
+Archive *Archive::create(const QString &fileName, Plugin *plugin, QObject *parent)
 {
-    const bool isReadOnly = !pluginMetadata.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWrite")].toBool();
-    qCDebug(ARK) << "Loading plugin" << pluginMetadata.pluginId();
+    Q_ASSERT(plugin);
 
-    KPluginFactory *factory = KPluginLoader(pluginMetadata.fileName()).factory();
+    qCDebug(ARK) << "Checking plugin" << plugin->metaData().pluginId();
+
+    KPluginFactory *factory = KPluginLoader(plugin->metaData().fileName()).factory();
     if (!factory) {
-        qCWarning(ARK) << "Invalid plugin factory for" << pluginMetadata.pluginId();
+        qCWarning(ARK) << "Invalid plugin factory for" << plugin->metaData().pluginId();
         return new Archive(FailedPlugin, parent);
     }
 
     const QVariantList args = {QVariant(QFileInfo(fileName).absoluteFilePath())};
     ReadOnlyArchiveInterface *iface = factory->create<ReadOnlyArchiveInterface>(Q_NULLPTR, args);
     if (!iface) {
-        qCWarning(ARK) << "Could not create plugin instance" << pluginMetadata.pluginId();
+        qCWarning(ARK) << "Could not create plugin instance" << plugin->metaData().pluginId();
         return new Archive(FailedPlugin, parent);
     }
 
-    // Not CliBased plugin, don't search for executables.
-    if (!iface->isCliBased()) {
-        return new Archive(iface, isReadOnly, parent);
+    if (!plugin->isValid()) {
+        qCDebug(ARK) << "Cannot use plugin" << plugin->metaData().pluginId() << "- check whether" << plugin->readOnlyExecutables() << "are installed.";
+        return new Archive(FailedPlugin, parent);
     }
 
-    qCDebug(ARK) << "Finding executables for plugin" << pluginMetadata.pluginId();
-
-    if (iface->findExecutables(!isReadOnly)) {
-        return new Archive(iface, isReadOnly, parent);
-    }
-
-    if (!isReadOnly && iface->findExecutables(false)) {
-        qCWarning(ARK) << "Failed to find read-write executables: falling back to read-only mode for read-write plugin" << pluginMetadata.pluginId();
-        return new Archive(iface, true, parent);
-    }
-
-    qCWarning(ARK) << "Failed to find needed executables for plugin" << pluginMetadata.pluginId();
-    return new Archive(FailedPlugin, parent);
+    qCDebug(ARK) << "Successfully loaded plugin" << plugin->metaData().pluginId();
+    return new Archive(iface, !plugin->isReadWrite(), parent);
 }
 
 Archive::Archive(ArchiveError errorCode, QObject *parent)

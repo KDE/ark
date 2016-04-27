@@ -282,7 +282,6 @@ public:
     bool doKill() Q_DECL_OVERRIDE;
     bool doSuspend() Q_DECL_OVERRIDE;
     bool doResume() Q_DECL_OVERRIDE;
-    bool findExecutables(bool isReadWrite) Q_DECL_OVERRIDE;
     bool isCliBased() const Q_DECL_OVERRIDE;
 
     /**

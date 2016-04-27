@@ -18,7 +18,7 @@
  */
 
 #include "cliunarchivertest.h"
-#include "kerfuffle/jobs.h"
+#include "jobs.h"
 
 #include <QDirIterator>
 #include <QFile>
@@ -36,9 +36,11 @@ void CliUnarchiverTest::initTestCase()
 {
     qRegisterMetaType<ArchiveEntry>();
 
-    const auto plugins = KPluginLoader::findPluginsById(QStringLiteral("kerfuffle"), QStringLiteral("kerfuffle_cliunarchiver"));
-    if (plugins.size() == 1) {
-        m_pluginMetadata = plugins.at(0);
+    m_plugin = new Plugin(this);
+    foreach (Plugin *plugin, m_pluginManger.availablePlugins()) {
+        if (plugin->metaData().pluginId() == QStringLiteral("kerfuffle_cliunarchiver")) {
+            m_plugin = plugin;
+        }
     }
 }
 
@@ -76,12 +78,12 @@ void CliUnarchiverTest::testArchive_data()
 
 void CliUnarchiverTest::testArchive()
 {
-    if (!m_pluginMetadata.isValid()) {
-        QSKIP("Could not find the cliunarchiver plugin. Skipping test.", SkipSingle);
+    if (!m_plugin->isValid()) {
+        QSKIP("cliunarchiver plugin not available. Skipping test.", SkipSingle);
     }
 
     QFETCH(QString, archivePath);
-    Archive *archive = Archive::create(archivePath, m_pluginMetadata, this);
+    Archive *archive = Archive::create(archivePath, m_plugin, this);
     QVERIFY(archive);
 
     if (!archive->isValid()) {
@@ -279,12 +281,12 @@ void CliUnarchiverTest::testExtraction_data()
 // if we ever ends up using a temp dir for any cliplugin, instead of only for cliunarchiver.
 void CliUnarchiverTest::testExtraction()
 {
-    if (!m_pluginMetadata.isValid()) {
-        QSKIP("Could not find the cliunarchiver plugin. Skipping test.", SkipSingle);
+    if (!m_plugin->isValid()) {
+        QSKIP("cliunarchiver plugin not available. Skipping test.", SkipSingle);
     }
 
     QFETCH(QString, archivePath);
-    Archive *archive = Archive::create(archivePath, m_pluginMetadata, this);
+    Archive *archive = Archive::create(archivePath, m_plugin, this);
     QVERIFY(archive);
 
     if (!archive->isValid()) {

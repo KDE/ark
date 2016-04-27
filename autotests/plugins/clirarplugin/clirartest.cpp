@@ -41,9 +41,11 @@ void CliRarTest::initTestCase()
 {
     qRegisterMetaType<ArchiveEntry>();
 
-    const auto plugins = KPluginLoader::findPluginsById(QStringLiteral("kerfuffle"), QStringLiteral("kerfuffle_clirar"));
-    if (plugins.size() == 1) {
-        m_pluginMetadata = plugins.at(0);
+    m_plugin = new Plugin(this);
+    foreach (Plugin *plugin, m_pluginManger.availablePlugins()) {
+        if (plugin->metaData().pluginId() == QStringLiteral("kerfuffle_clirar")) {
+            m_plugin = plugin;
+        }
     }
 }
 
@@ -66,12 +68,12 @@ void CliRarTest::testArchive_data()
 
 void CliRarTest::testArchive()
 {
-    if (!m_pluginMetadata.isValid()) {
-        QSKIP("Could not find the clirar plugin. Skipping test.", SkipSingle);
+    if (!m_plugin->isValid()) {
+        QSKIP("clirar plugin not available. Skipping test.", SkipSingle);
     }
 
     QFETCH(QString, archivePath);
-    Archive *archive = Archive::create(archivePath, m_pluginMetadata, this);
+    Archive *archive = Archive::create(archivePath, m_plugin, this);
     QVERIFY(archive);
 
     if (!archive->isValid()) {

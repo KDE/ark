@@ -40,9 +40,11 @@ void Cli7zTest::initTestCase()
 {
     qRegisterMetaType<ArchiveEntry>();
 
-    const auto plugins = KPluginLoader::findPluginsById(QStringLiteral("kerfuffle"), QStringLiteral("kerfuffle_cli7z"));
-    if (plugins.size() == 1) {
-        m_pluginMetadata = plugins.at(0);
+    m_plugin = new Plugin(this);
+    foreach (Plugin *plugin, m_pluginManger.availablePlugins()) {
+        if (plugin->metaData().pluginId() == QStringLiteral("kerfuffle_cli7z")) {
+            m_plugin = plugin;
+        }
     }
 }
 
@@ -65,12 +67,12 @@ void Cli7zTest::testArchive_data()
 
 void Cli7zTest::testArchive()
 {
-    if (!m_pluginMetadata.isValid()) {
-        QSKIP("Could not find the cli7z plugin. Skipping test.", SkipSingle);
+    if (!m_plugin->isValid()) {
+        QSKIP("cli7z plugin not available. Skipping test.", SkipSingle);
     }
 
     QFETCH(QString, archivePath);
-    Archive *archive = Archive::create(archivePath, m_pluginMetadata, this);
+    Archive *archive = Archive::create(archivePath, m_plugin, this);
     QVERIFY(archive);
 
     if (!archive->isValid()) {

@@ -21,7 +21,7 @@
 #define CLIUNARCHIVERTEST_H
 
 #include "cliplugin.h"
-#include <QObject>
+#include "pluginmanager.h"
 
 using namespace Kerfuffle;
 
@@ -45,7 +45,8 @@ private Q_SLOTS:
 
 private:
 
-    KPluginMetaData m_pluginMetadata;
+    PluginManager m_pluginManger;
+    Plugin *m_plugin;
 };
 
 Q_DECLARE_METATYPE(ArchiveEntry)

@@ -90,32 +90,6 @@ bool CliInterface::isCliBased() const
     return true;
 }
 
-bool CliInterface::findExecutables(bool isReadWrite)
-{
-    cacheParameterList();
-
-    QList<int> execTypes = QList<int>() << ListProgram << ExtractProgram;
-    if (isReadWrite) {
-        execTypes << AddProgram << DeleteProgram;
-    }
-
-    foreach (const int execType, execTypes) {
-        bool execTypeFound = false;
-        foreach (const QString &program, m_param.value(execType).toStringList()) {
-            if (!QStandardPaths::findExecutable(program).isEmpty()) {
-                qCDebug(ARK) << "Found executable type" << execType << ":" << program;
-                execTypeFound = true;
-                break;
-            }
-        }
-        if (!execTypeFound) {
-            return false;
-        }
-    }
-    return true;
-}
-
-
 void CliInterface::setListEmptyLines(bool emptyLines)
 {
     m_listEmptyLines = emptyLines;
