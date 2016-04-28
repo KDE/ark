@@ -310,7 +310,7 @@ public:
 
     /**
      * Move all files from @p tmpDir to @p destDir, preserving paths if @p preservePaths is true.
-     * @return Whether the operation has been successfull.
+     * @return Whether the operation has been successful.
      */
     bool moveToDestination(const QDir &tempDir, const QDir &destDir, bool preservePaths);
 
