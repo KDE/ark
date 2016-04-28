@@ -305,7 +305,7 @@ void CliUnarchiverTest::testExtraction()
     QEventLoop eventLoop(this);
     connect(extractionJob, &KJob::result, &eventLoop, &QEventLoop::quit);
     extractionJob->start();
-    eventLoop.exec();
+    eventLoop.exec(); // krazy:exclude=crashy
 
     QFETCH(int, expectedExtractedEntriesCount);
     int extractedEntriesCount = 0;

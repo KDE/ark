@@ -113,7 +113,7 @@ void AddToArchiveTest::testCompressHere()
     QEventLoop eventLoop(this);
     connect(addToArchiveJob, &KJob::result, &eventLoop, &QEventLoop::quit);
     addToArchiveJob->start();
-    eventLoop.exec();
+    eventLoop.exec(); // krazy:exclude=crashy
 
     // Check the properties of the generated test archive, then remove it.
     QFETCH(QString, expectedArchiveName);
