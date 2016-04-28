@@ -275,7 +275,6 @@ ListJob* Archive::list()
     qCDebug(ARK) << "Going to list files";
 
     ListJob *job = new ListJob(m_iface, this);
-    job->setAutoDelete(false);
 
     //if this job has not been listed before, we grab the opportunity to
     //collect some information about the archive

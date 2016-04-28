@@ -44,6 +44,7 @@ private:
     } m_parseState;
 
     int m_linesComment;
+    QString m_tempComment;
 };
 
 #endif // CLIPLUGIN_H
