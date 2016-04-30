@@ -103,7 +103,7 @@ QList<ArchiveEntry> JobsTest::listEntries(JSONArchiveInterface *iface)
 {
     m_entries.clear();
 
-    ListJob *listJob = new ListJob(iface, this);
+    ListJob *listJob = new ListJob(iface);
     connect(listJob, &Job::newEntry,
             this, &JobsTest::slotNewEntry);
 
@@ -189,7 +189,7 @@ void JobsTest::testListJob()
     JSONArchiveInterface *iface = createArchiveInterface(jsonArchive);
     QVERIFY(iface);
 
-    ListJob *listJob = new ListJob(iface, this);
+    ListJob *listJob = new ListJob(iface);
     listJob->setAutoDelete(false);
     startAndWaitForResult(listJob);
 
@@ -217,7 +217,7 @@ void JobsTest::testListJob()
 void JobsTest::testExtractJobAccessors()
 {
     JSONArchiveInterface *iface = createArchiveInterface(QFINDTESTDATA("data/archive001.json"));
-    ExtractJob *job = new ExtractJob(QVariantList(), QStringLiteral("/tmp/some-dir"), ExtractionOptions(), iface, this);
+    ExtractJob *job = new ExtractJob(QVariantList(), QStringLiteral("/tmp/some-dir"), ExtractionOptions(), iface);
     ExtractionOptions defaultOptions;
     defaultOptions[QStringLiteral("PreservePaths")] = false;
 
@@ -229,13 +229,14 @@ void JobsTest::testExtractJobAccessors()
 
     QCOMPARE(job->destinationDirectory(), QLatin1String("/tmp/some-dir"));
     QCOMPARE(job->extractionOptions(), defaultOptions);
+    delete job;
 
     ExtractionOptions options;
     options[QStringLiteral("PreservePaths")] = true;
     options[QStringLiteral("foo")] = QLatin1String("bar");
     options[QStringLiteral("pi")] = 3.14f;
 
-    job = new ExtractJob(QVariantList(), QStringLiteral("/root"), options, iface, this);
+    job = new ExtractJob(QVariantList(), QStringLiteral("/root"), options, iface);
 
     QCOMPARE(job->destinationDirectory(), QLatin1String("/root"));
     QCOMPARE(job->extractionOptions(), options);
@@ -245,6 +246,7 @@ void JobsTest::testExtractJobAccessors()
 
     QCOMPARE(job->destinationDirectory(), QLatin1String("/root"));
     QCOMPARE(job->extractionOptions(), options);
+    delete job;
 }
 
 void JobsTest::testRemoveEntries_data()
@@ -283,7 +285,7 @@ void JobsTest::testRemoveEntries()
         }
     }
 
-    DeleteJob *deleteJob = new DeleteJob(entriesToDelete, iface, this);
+    DeleteJob *deleteJob = new DeleteJob(entriesToDelete, iface);
     startAndWaitForResult(deleteJob);
 
     auto remainingEntries = listEntries(iface);
@@ -327,7 +329,7 @@ void JobsTest::testAddEntries()
     QCOMPARE(currentEntries.size(), originalEntries.size());
 
     QFETCH(QStringList, entriesToAdd);
-    AddJob *addJob = new AddJob(entriesToAdd, CompressionOptions(), iface, this);
+    AddJob *addJob = new AddJob(entriesToAdd, CompressionOptions(), iface);
     startAndWaitForResult(addJob);
 
     currentEntries = listEntries(iface);

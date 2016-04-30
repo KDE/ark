@@ -52,7 +52,7 @@ public:
     bool isRunning() const;
 
 protected:
-    Job(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
+    Job(ReadOnlyArchiveInterface *interface);
     virtual ~Job();
     virtual bool doKill();
     virtual void emitResult();
@@ -95,7 +95,7 @@ class KERFUFFLE_EXPORT ListJob : public Job
     Q_OBJECT
 
 public:
-    explicit ListJob(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
+    explicit ListJob(ReadOnlyArchiveInterface *interface);
 
     qlonglong extractedFilesSize() const;
     bool isPasswordProtected() const;
@@ -123,7 +123,7 @@ class KERFUFFLE_EXPORT ExtractJob : public Job
     Q_OBJECT
 
 public:
-    ExtractJob(const QVariantList& files, const QString& destinationDir, const ExtractionOptions& options, ReadOnlyArchiveInterface *interface, QObject *parent = 0);
+    ExtractJob(const QVariantList& files, const QString& destinationDir, const ExtractionOptions& options, ReadOnlyArchiveInterface *interface);
 
     QString destinationDirectory() const;
     ExtractionOptions extractionOptions() const;
@@ -145,7 +145,7 @@ class KERFUFFLE_EXPORT AddJob : public Job
     Q_OBJECT
 
 public:
-    AddJob(const QStringList& files, const CompressionOptions& options, ReadWriteArchiveInterface *interface, QObject *parent = 0);
+    AddJob(const QStringList& files, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
 
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
@@ -164,7 +164,7 @@ class KERFUFFLE_EXPORT DeleteJob : public Job
     Q_OBJECT
 
 public:
-    DeleteJob(const QVariantList& files, ReadWriteArchiveInterface *interface, QObject *parent = 0);
+    DeleteJob(const QVariantList& files, ReadWriteArchiveInterface *interface);
 
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
@@ -178,7 +178,7 @@ class KERFUFFLE_EXPORT CommentJob : public Job
     Q_OBJECT
 
 public:
-    CommentJob(const QString& comment, ReadWriteArchiveInterface *interface, QObject *parent = 0);
+    CommentJob(const QString& comment, ReadWriteArchiveInterface *interface);
 
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
@@ -192,7 +192,7 @@ class KERFUFFLE_EXPORT TestJob : public Job
     Q_OBJECT
 
 public:
-    TestJob(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
+    TestJob(ReadOnlyArchiveInterface *interface);
     bool testSucceeded();
 
 public slots:

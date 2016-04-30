@@ -177,7 +177,7 @@ CommentJob* Archive::addComment(const QString &comment)
 
     qCDebug(ARK) << "Going to add comment:" << comment;
     Q_ASSERT(!isReadOnly());
-    CommentJob *job = new CommentJob(comment, static_cast<ReadWriteArchiveInterface*>(m_iface), this);
+    CommentJob *job = new CommentJob(comment, static_cast<ReadWriteArchiveInterface*>(m_iface));
     return job;
 }
 
@@ -189,7 +189,7 @@ TestJob* Archive::testArchive()
 
     qCDebug(ARK) << "Going to test archive";
 
-    TestJob *job = new TestJob(m_iface, this);
+    TestJob *job = new TestJob(m_iface);
     return job;
 }
 
@@ -298,7 +298,7 @@ ListJob* Archive::list()
 
     qCDebug(ARK) << "Going to list files";
 
-    ListJob *job = new ListJob(m_iface, this);
+    ListJob *job = new ListJob(m_iface);
 
     //if this job has not been listed before, we grab the opportunity to
     //collect some information about the archive
@@ -319,7 +319,7 @@ DeleteJob* Archive::deleteFiles(const QList<QVariant> & files)
     if (m_iface->isReadOnly()) {
         return 0;
     }
-    DeleteJob *newJob = new DeleteJob(files, static_cast<ReadWriteArchiveInterface*>(m_iface), this);
+    DeleteJob *newJob = new DeleteJob(files, static_cast<ReadWriteArchiveInterface*>(m_iface));
 
     return newJob;
 }
@@ -337,7 +337,8 @@ AddJob* Archive::addFiles(const QStringList & files, const CompressionOptions& o
 
     qCDebug(ARK) << "Going to add files" << files << "with options" << newOptions;
     Q_ASSERT(!m_iface->isReadOnly());
-    AddJob *newJob = new AddJob(files, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface), this);
+
+    AddJob *newJob = new AddJob(files, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
     connect(newJob, &AddJob::result, this, &Archive::onAddFinished);
     return newJob;
 }
@@ -353,7 +354,7 @@ ExtractJob* Archive::copyFiles(const QList<QVariant>& files, const QString& dest
         newOptions[QStringLiteral( "PasswordProtectedHint" )] = true;
     }
 
-    ExtractJob *newJob = new ExtractJob(files, destinationDir, newOptions, m_iface, this);
+    ExtractJob *newJob = new ExtractJob(files, destinationDir, newOptions, m_iface);
     return newJob;
 }
 

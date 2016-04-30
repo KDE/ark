@@ -70,8 +70,8 @@ void Job::Private::run()
 #endif
 }
 
-Job::Job(ReadOnlyArchiveInterface *interface, QObject *parent)
-    : KJob(parent)
+Job::Job(ReadOnlyArchiveInterface *interface)
+    : KJob()
     , m_archiveInterface(interface)
     , m_isRunning(false)
     , d(new Private(this))
@@ -192,8 +192,8 @@ bool Job::doKill()
     return ret;
 }
 
-ListJob::ListJob(ReadOnlyArchiveInterface *interface, QObject *parent)
-    : Job(interface, parent)
+ListJob::ListJob(ReadOnlyArchiveInterface *interface)
+    : Job(interface)
     , m_isSingleFolderArchive(true)
     , m_isPasswordProtected(false)
     , m_extractedFilesSize(0)
@@ -271,8 +271,8 @@ QString ListJob::subfolderName() const
     return m_subfolderName;
 }
 
-ExtractJob::ExtractJob(const QVariantList& files, const QString& destinationDir, const ExtractionOptions& options, ReadOnlyArchiveInterface *interface, QObject *parent)
-    : Job(interface, parent)
+ExtractJob::ExtractJob(const QVariantList& files, const QString& destinationDir, const ExtractionOptions& options, ReadOnlyArchiveInterface *interface)
+    : Job(interface)
     , m_files(files)
     , m_destinationDir(destinationDir)
     , m_options(options)
@@ -336,8 +336,8 @@ ExtractionOptions ExtractJob::extractionOptions() const
     return m_options;
 }
 
-AddJob::AddJob(const QStringList& files, const CompressionOptions& options , ReadWriteArchiveInterface *interface, QObject *parent)
-    : Job(interface, parent)
+AddJob::AddJob(const QStringList& files, const CompressionOptions& options , ReadWriteArchiveInterface *interface)
+    : Job(interface)
     , m_files(files)
     , m_options(options)
 {
@@ -394,8 +394,8 @@ void AddJob::onFinished(bool result)
     Job::onFinished(result);
 }
 
-DeleteJob::DeleteJob(const QVariantList& files, ReadWriteArchiveInterface *interface, QObject *parent)
-    : Job(interface, parent)
+DeleteJob::DeleteJob(const QVariantList& files, ReadWriteArchiveInterface *interface)
+    : Job(interface)
     , m_files(files)
 {
 }
@@ -417,8 +417,8 @@ void DeleteJob::doWork()
     }
 }
 
-CommentJob::CommentJob(const QString& comment, ReadWriteArchiveInterface *interface, QObject *parent)
-    : Job(interface, parent)
+CommentJob::CommentJob(const QString& comment, ReadWriteArchiveInterface *interface)
+    : Job(interface)
     , m_comment(comment)
 {
 }
@@ -440,8 +440,8 @@ void CommentJob::doWork()
     }
 }
 
-TestJob::TestJob(ReadOnlyArchiveInterface *interface, QObject *parent)
-    : Job(interface, parent)
+TestJob::TestJob(ReadOnlyArchiveInterface *interface)
+    : Job(interface)
 {
     m_testSuccess = false;
 }
