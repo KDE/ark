@@ -76,7 +76,6 @@ bool CliPlugin::list()
         }
     }
 
-    emit finished(true);
     return true;
 }
 

@@ -60,7 +60,8 @@ CliInterface::CliInterface(QObject *parent, const QVariantList & args)
         : ReadWriteArchiveInterface(parent, args),
         m_process(0),
         m_listEmptyLines(false),
-        m_abortingOperation(false)
+        m_abortingOperation(false),
+        m_extractTempDir(Q_NULLPTR)
 {
     //because this interface uses the event loop
     setWaitForFinishedSignal(true);
@@ -108,7 +109,6 @@ bool CliInterface::list()
         return false;
     }
 
-    emit finished(true);
     return true;
 }
 
@@ -118,6 +118,9 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
 
     cacheParameterList();
     m_operationMode = Copy;
+    m_compressionOptions = options;
+    m_copiedFiles = files;
+    m_extractDestDir = destinationDirectory;
     const QStringList extractArgs = m_param.value(ExtractArgs).toStringList();
 
     if (extractArgs.contains(QStringLiteral("$PasswordSwitch")) &&
@@ -139,20 +142,23 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
     QUrl destDir = QUrl(destinationDirectory);
     QDir::setCurrent(destDir.adjusted(QUrl::RemoveScheme).url());
 
-    QString oldCurrentDir;
     bool useTmpExtractDir = options.value(QStringLiteral("DragAndDrop")).toBool() ||
                             options.value(QStringLiteral("AlwaysUseTmpDir")).toBool();
-    QTemporaryDir tmpExtractDir(QApplication::applicationName() + QLatin1Char('-'));
 
     if (useTmpExtractDir) {
-        qCDebug(ARK) << "Using temporary extraction dir:" << tmpExtractDir.path();
-        if (!tmpExtractDir.isValid()) {
+
+        Q_ASSERT(!m_extractTempDir);
+        m_extractTempDir = new QTemporaryDir(QApplication::applicationName() + QLatin1Char('-'));
+
+        qCDebug(ARK) << "Using temporary extraction dir:" << m_extractTempDir->path();
+        if (!m_extractTempDir->isValid()) {
             qCDebug(ARK) << "Creation of temporary directory failed.";
             failOperation();
+            emit finished(false);
             return false;
         }
-        oldCurrentDir = QDir::currentPath();
-        destDir = QUrl(tmpExtractDir.path());
+        m_oldWorkingDir = QDir::currentPath();
+        destDir = QUrl(m_extractTempDir->path());
         QDir::setCurrent(destDir.adjusted(QUrl::RemoveScheme).url());
     }
 
@@ -161,55 +167,6 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
         return false;
     }
 
-    if (options.value(QStringLiteral("AlwaysUseTmpDir")).toBool()) {
-        // unar exits with code 1 if extraction fails.
-        // This happens at least with wrong passwords or not enough space in the destination folder.
-        if (m_exitCode == 1) {
-            if (password().isEmpty()) {
-                qCWarning(ARK) << "Extraction aborted, destination folder might not have enough space.";
-                emit error(i18n("Extraction failed. Make sure that enough space is available."));
-            } else {
-                qCWarning(ARK) << "Extraction aborted, either the password is wrong or the destination folder doesn't have enough space.";
-                emit error(i18n("Extraction failed. Make sure you provided the correct password and that enough space is available."));
-                setPassword(QString());
-            }
-
-            emit finished(false);
-            failOperation();
-            // If we don't do this, the temporary directory will not autodelete itself upon destruction.
-            QDir::setCurrent(oldCurrentDir);
-
-            return false;
-        }
-
-        if (!options.value(QStringLiteral("DragAndDrop")).toBool()) {
-            if (!moveToDestination(QDir::current(), QDir(destinationDirectory), options[QStringLiteral("PreservePaths")].toBool())) {
-                emit error(i18ncp("@info",
-                                  "Could not move the extracted file to the destination directory.",
-                                  "Could not move the extracted files to the destination directory.",
-                                  files.size()));
-                emit finished(false);
-                return false;
-            }
-            // If we don't do this, the temporary directory will not autodelete itself upon destruction.
-            QDir::setCurrent(oldCurrentDir);
-        }
-    }
-
-    if (options.value(QStringLiteral("DragAndDrop")).toBool()) {
-        if (!moveDroppedFilesToDest(files, destinationDirectory)) {
-            emit error(i18ncp("@info",
-                              "Could not move the extracted file to the destination directory.",
-                              "Could not move the extracted files to the destination directory.",
-                              files.size()));
-            emit finished(false);
-            return false;
-        }
-        // If we don't do this, the temporary directory will not autodelete itself upon destruction.
-        QDir::setCurrent(oldCurrentDir);
-    }
-
-    emit finished(true);
     return true;
 }
 
@@ -231,7 +188,7 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
         failOperation();
         return false;
     }
-    emit finished(true);
+
     return true;
 }
 
@@ -266,12 +223,14 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
         failOperation();
         return false;
     }
-    emit finished(true);
+
     return true;
 }
 
 bool CliInterface::runProcess(const QStringList& programNames, const QStringList& arguments)
 {
+    Q_ASSERT(!m_process);
+
     QString programPath;
     for (int i = 0; i < programNames.count(); i++) {
         programPath = QStandardPaths::findExecutable(programNames.at(i));
@@ -288,18 +247,11 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
 
     qCDebug(ARK) << "Executing" << programPath << arguments << "within directory" << QDir::currentPath();
 
-    if (m_process) {
-        m_process->waitForFinished();
-        delete m_process;
-    }
-
 #ifdef Q_OS_WIN
     m_process = new KProcess;
 #else
     m_process = new KPtyProcess;
     m_process->setPtyChannels(KPtyProcess::StdinChannel);
-    QEventLoop loop;
-    connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), &loop, &QEventLoop::quit, Qt::DirectConnection);
 #endif
 
     m_process->setOutputChannelMode(KProcess::MergedChannels);
@@ -307,21 +259,19 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
     m_process->setProgram(programPath, arguments);
 
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
-    connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::processFinished, Qt::DirectConnection);
+
+    if (m_operationMode == Copy) {
+        // Extraction jobs need a dedicated post-processing function.
+        connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::copyProcessFinished, Qt::DirectConnection);
+    } else {
+        connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::processFinished, Qt::DirectConnection);
+    }
 
     m_stdOutData.clear();
 
     m_process->start();
 
-#ifdef Q_OS_WIN
-    bool ret = m_process->waitForFinished(-1);
-#else
-    bool ret = (loop.exec(QEventLoop::WaitForMoreEvents | QEventLoop::ExcludeUserInputEvents) == 0);
-#endif
-
-    Q_ASSERT(!m_process);
-
-    return ret;
+    return true;
 }
 
 void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
@@ -329,9 +279,17 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     m_exitCode = exitCode;
     qCDebug(ARK) << "Process finished, exitcode:" << exitCode << "exitstatus:" << exitStatus;
 
-    //if the m_process pointer is gone, then there is nothing to worry
-    //about here
-    if (!m_process) {
+    if (m_process) {
+        //handle all the remaining data in the process
+        readStdout(true);
+
+        delete m_process;
+        m_process = Q_NULLPTR;
+    }
+
+    // #193908 - #222392
+    // Don't emit finished() if the job was killed quietly.
+    if (m_abortingOperation) {
         return;
     }
 
@@ -341,18 +299,78 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         }
     }
 
-    //handle all the remaining data in the process
-    readStdout(true);
-
-    delete m_process;
-    m_process = 0;
-
     emit progress(1.0);
 
     if (m_operationMode == Add) {
         list();
-        return;
+    } else {
+        emit finished(true);
     }
+}
+
+void CliInterface::copyProcessFinished(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    Q_ASSERT(m_operationMode == Copy);
+
+    m_exitCode = exitCode;
+    qCDebug(ARK) << "Extraction process finished, exitcode:" << exitCode << "exitstatus:" << exitStatus;
+
+    if (m_process) {
+        // Handle all the remaining data in the process.
+        readStdout(true);
+
+        delete m_process;
+        m_process = Q_NULLPTR;
+    }
+
+    if (m_compressionOptions.value(QStringLiteral("AlwaysUseTmpDir")).toBool()) {
+        // unar exits with code 1 if extraction fails.
+        // This happens at least with wrong passwords or not enough space in the destination folder.
+        if (m_exitCode == 1) {
+            if (password().isEmpty()) {
+                qCWarning(ARK) << "Extraction aborted, destination folder might not have enough space.";
+                emit error(i18n("Extraction failed. Make sure that enough space is available."));
+            } else {
+                qCWarning(ARK) << "Extraction aborted, either the password is wrong or the destination folder doesn't have enough space.";
+                emit error(i18n("Extraction failed. Make sure you provided the correct password and that enough space is available."));
+                setPassword(QString());
+            }
+            copyProcessCleanup();
+            emit finished(false);
+            return;
+        }
+
+        if (!m_compressionOptions.value(QStringLiteral("DragAndDrop")).toBool()) {
+            if (!moveToDestination(QDir::current(), QDir(m_extractDestDir), m_compressionOptions[QStringLiteral("PreservePaths")].toBool())) {
+                emit error(i18ncp("@info",
+                                  "Could not move the extracted file to the destination directory.",
+                                  "Could not move the extracted files to the destination directory.",
+                                  m_copiedFiles.size()));
+                copyProcessCleanup();
+                emit finished(false);
+                return;
+            }
+
+            copyProcessCleanup();
+        }
+    }
+
+    if (m_compressionOptions.value(QStringLiteral("DragAndDrop")).toBool()) {
+        if (!moveDroppedFilesToDest(m_copiedFiles, m_extractDestDir)) {
+            emit error(i18ncp("@info",
+                              "Could not move the extracted file to the destination directory.",
+                              "Could not move the extracted files to the destination directory.",
+                              m_copiedFiles.size()));
+            copyProcessCleanup();
+            emit finished(false);
+            return;
+        }
+
+        copyProcessCleanup();
+    }
+
+    emit progress(1.0);
+    emit finished(true);
 }
 
 bool CliInterface::moveDroppedFilesToDest(const QVariantList &files, const QString &finalDest)
@@ -443,6 +461,18 @@ bool CliInterface::isEmptyDir(const QDir &dir)
     d.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot);
 
     return d.count() == 0;
+}
+
+void CliInterface::copyProcessCleanup()
+{
+    if (!m_oldWorkingDir.isEmpty()) {
+        QDir::setCurrent(m_oldWorkingDir);
+    }
+
+    if (m_extractTempDir) {
+        delete m_extractTempDir;
+        m_extractTempDir = Q_NULLPTR;
+    }
 }
 
 bool CliInterface::moveToDestination(const QDir &tempDir, const QDir &destDir, bool preservePaths)

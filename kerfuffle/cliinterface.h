@@ -38,6 +38,7 @@ class KProcess;
 class KPtyProcess;
 
 class QDir;
+class QTemporaryDir;
 
 namespace Kerfuffle
 {
@@ -355,13 +356,12 @@ protected:
 
     /**
      * Run @p programName with the given @p arguments.
-     * The method waits until @p programName is finished to exit.
      *
      * @param programName The program that will be run (not the whole path).
      * @param arguments A list of arguments that will be passed to the program.
      *
-     * @return @c true if the program was found and the process ran correctly,
-     *         @c false otherwise.
+     * @return @c true if the program was found and the process was started correctly,
+     *         @c false otherwise (in which case finished(false) is emitted).
      */
     bool runProcess(const QStringList& programNames, const QStringList& arguments);
 
@@ -421,6 +421,8 @@ private:
      */
     bool isEmptyDir(const QDir &dir);
 
+    void copyProcessCleanup();
+
     QByteArray m_stdOutData;
     QRegularExpression m_passwordPromptPattern;
     QHash<int, QList<QRegularExpression> > m_patternCache;
@@ -436,8 +438,16 @@ private:
     bool m_abortingOperation;
     QString m_storedFileName;
 
+    CompressionOptions m_compressionOptions;
+    QString m_oldWorkingDir;
+    QString m_extractDestDir;
+    QTemporaryDir *m_extractTempDir;
+    QVariantList m_copiedFiles;
+
 private slots:
     void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void copyProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
+
 };
 }
 

@@ -42,7 +42,6 @@ JobTracker::~JobTracker()
 {
     foreach(KJob *job, m_jobs) {
         job->kill();
-        delete job;
     }
 }
 
