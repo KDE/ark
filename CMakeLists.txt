@@ -35,6 +35,7 @@ ecm_setup_version(${ARK_VERSION}
                   SOVERSION ${ARK_VERSION_MAJOR})
 
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
+    Concurrent
     Core
     Gui
     Widgets)

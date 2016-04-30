@@ -45,10 +45,10 @@ PUBLIC
     KF5::I18n
     KF5::WidgetsAddons
 PRIVATE
+    Qt5::Concurrent
     KF5::KIOCore
     KF5::KIOWidgets
     KF5::KIOFileWidgets
-
 )
 
 set_target_properties(kerfuffle PROPERTIES VERSION ${KERFUFFLE_VERSION_STRING} SOVERSION ${KERFUFFLE_SOVERSION})

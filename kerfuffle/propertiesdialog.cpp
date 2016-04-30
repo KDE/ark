@@ -29,7 +29,7 @@
 #include "ark_debug.h"
 #include "ui_propertiesdialog.h"
 
-#include <QtConcurrent/QtConcurrentRun>
+#include <QtConcurrentRun>
 #include <QDateTime>
 #include <QFileInfo>
 #include <QFontDatabase>
