@@ -176,6 +176,17 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
 
     m_operationMode = Add;
 
+    const QStringList addArgs = m_param.value(AddArgs).toStringList();
+
+    if (addArgs.contains(QStringLiteral("$PasswordSwitch")) &&
+        options.value(QStringLiteral("PasswordProtectedHint")).toBool() &&
+        password().isEmpty()) {
+        qCDebug(ARK) << "Password hint enabled, querying user";
+        if (!passwordQuery()) {
+            return false;
+        }
+    }
+
     int compLevel = options.value(QStringLiteral("CompressionLevel"), -1).toInt();
 
     const auto args = substituteAddVariables(m_param.value(AddArgs).toStringList(),

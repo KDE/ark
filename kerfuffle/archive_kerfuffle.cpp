@@ -306,9 +306,14 @@ AddJob* Archive::addFiles(const QStringList & files, const CompressionOptions& o
         return Q_NULLPTR;
     }
 
-    qCDebug(ARK) << "Going to add files" << files << "with options" << options;
+    CompressionOptions newOptions = options;
+    if (encryptionType() != Unencrypted) {
+        newOptions[QStringLiteral("PasswordProtectedHint")] = true;
+    }
+
+    qCDebug(ARK) << "Going to add files" << files << "with options" << newOptions;
     Q_ASSERT(!m_iface->isReadOnly());
-    AddJob *newJob = new AddJob(files, options, static_cast<ReadWriteArchiveInterface*>(m_iface), this);
+    AddJob *newJob = new AddJob(files, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface), this);
     connect(newJob, &AddJob::result, this, &Archive::onAddFinished);
     return newJob;
 }
