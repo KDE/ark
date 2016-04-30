@@ -103,4 +103,8 @@ bool JSONArchiveInterface::deleteFiles(const QList<QVariant>& files)
     return true;
 }
 
-
+bool JSONArchiveInterface::addComment(const QString& comment)
+{
+    Q_UNUSED(comment)
+    return true;
+}

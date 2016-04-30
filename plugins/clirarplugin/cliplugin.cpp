@@ -122,6 +122,10 @@ ParameterList CliPlugin::parameterList() const
         p[CorruptArchivePatterns] = QStringList() << QStringLiteral("Unexpected end of archive")
                                                   << QStringLiteral("the file header is corrupt");
         p[DiskFullPatterns] = QStringList() << QStringLiteral("No space left on device");
+        p[CommentArgs] = QStringList() << QStringLiteral("c")
+                                       << QStringLiteral("$CommentSwitch")
+                                       << QStringLiteral("$Archive");
+        p[CommentSwitch] = QStringLiteral("-z$CommentFile");
     }
 
     return p;

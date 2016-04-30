@@ -169,6 +169,18 @@ QString Archive::comment() const
     return isValid() ? m_iface->comment() : QString();
 }
 
+CommentJob* Archive::addComment(const QString &comment)
+{
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
+    qCDebug(ARK) << "Going to add comment:" << comment;
+    Q_ASSERT(!isReadOnly());
+    CommentJob *job = new CommentJob(comment, static_cast<ReadWriteArchiveInterface*>(m_iface), this);
+    return job;
+}
+
 QMimeType Archive::mimeType() const
 {
     return isValid() ? determineMimeType(fileName()) : QMimeType();

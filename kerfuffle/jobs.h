@@ -173,6 +173,22 @@ private:
     QVariantList m_files;
 };
 
+class KERFUFFLE_EXPORT CommentJob : public Job
+{
+    Q_OBJECT
+
+public:
+    CommentJob(const QString& comment, ReadWriteArchiveInterface *interface, QObject *parent = 0);
+
+public slots:
+    virtual void doWork() Q_DECL_OVERRIDE;
+
+private:
+    QString m_comment;
+};
+
+
+
 } // namespace Kerfuffle
 
 #endif // JOBS_H

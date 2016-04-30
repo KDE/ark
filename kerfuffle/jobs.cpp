@@ -417,6 +417,29 @@ void DeleteJob::doWork()
     }
 }
 
+CommentJob::CommentJob(const QString& comment, ReadWriteArchiveInterface *interface, QObject *parent)
+    : Job(interface, parent)
+    , m_comment(comment)
+{
+}
+
+void CommentJob::doWork()
+{
+    emit description(this, i18n("Adding comment"));
+
+    ReadWriteArchiveInterface *m_writeInterface =
+        qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
+
+    Q_ASSERT(m_writeInterface);
+
+    connectToArchiveInterfaceSignals();
+    bool ret = m_writeInterface->addComment(m_comment);
+
+    if (!archiveInterface()->waitForFinishedSignal()) {
+        onFinished(ret);
+    }
+}
+
 } // namespace Kerfuffle
 
 

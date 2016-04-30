@@ -45,6 +45,7 @@ class ListJob;
 class ExtractJob;
 class DeleteJob;
 class AddJob;
+class CommentJob;
 class Plugin;
 class Query;
 class ReadOnlyArchiveInterface;
@@ -198,6 +199,7 @@ public:
     ListJob* list();
 
     DeleteJob* deleteFiles(const QList<QVariant> & files);
+    CommentJob* addComment(const QString &comment);
 
     /**
      * Compression options that should be handled by all interfaces:

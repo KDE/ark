@@ -62,7 +62,8 @@
     "application/x-rar": {
         "CompressionLevelDefault": 3, 
         "CompressionLevelMax": 5, 
-        "CompressionLevelMin": 0, 
+        "CompressionLevelMin": 0,
+        "SupportsWriteComment": true,
         "HeaderEncryption": true
     }
 }

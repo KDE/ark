@@ -39,6 +39,7 @@ class KPtyProcess;
 
 class QDir;
 class QTemporaryDir;
+class QTemporaryFile;
 
 namespace Kerfuffle
 {
@@ -255,6 +256,22 @@ enum CliInterfaceParameters {
      * Example (rar plugin): ("-hp$Password")
      */
     PasswordHeaderSwitch,
+
+    ///////////////[ COMMENT ]/////////////
+
+    /**
+     * QStringList
+     * The arguments that are passed to AddProgram when adding
+     * a comment.
+     */
+    CommentArgs,
+    /**
+     * QString
+     * The variable $CommentFile will be substituted for the file
+     * containing the comment.
+     * Example (rar plugin): -z$CommentFile
+     */
+    CommentSwitch
 };
 
 typedef QHash<int, QVariant> ParameterList;
@@ -265,7 +282,7 @@ class KERFUFFLE_EXPORT CliInterface : public ReadWriteArchiveInterface
 
 public:
     enum OperationMode  {
-        List, Copy, Add, Delete
+        List, Copy, Add, Delete, Comment
     };
     OperationMode m_operationMode;
 
@@ -276,6 +293,7 @@ public:
     virtual bool copyFiles(const QList<QVariant>& files, const QString& destinationDirectory, const ExtractionOptions& options) Q_DECL_OVERRIDE;
     virtual bool addFiles(const QStringList & files, const CompressionOptions& options) Q_DECL_OVERRIDE;
     virtual bool deleteFiles(const QList<QVariant> & files) Q_DECL_OVERRIDE;
+    virtual bool addComment(const QString &comment) Q_DECL_OVERRIDE;
 
     virtual void resetParsing() = 0;
     virtual ParameterList parameterList() const = 0;
@@ -318,6 +336,7 @@ public:
     QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
     QStringList substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password, const QString &rootNode);
     QStringList substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel);
+    QStringList substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile);
 
     /**
      * @return The preserve path switch, according to the @p preservePaths extraction option.
@@ -442,6 +461,7 @@ private:
     QString m_oldWorkingDir;
     QString m_extractDestDir;
     QTemporaryDir *m_extractTempDir;
+    QTemporaryFile *m_commentTempFile;
     QVariantList m_copiedFiles;
 
 private slots:

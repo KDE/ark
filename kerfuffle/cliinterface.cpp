@@ -50,6 +50,7 @@
 #include <QRegularExpression>
 #include <QStandardPaths>
 #include <QTemporaryDir>
+#include <QTemporaryFile>
 #include <QThread>
 #include <QTimer>
 #include <QUrl>
@@ -61,7 +62,8 @@ CliInterface::CliInterface(QObject *parent, const QVariantList & args)
         m_process(0),
         m_listEmptyLines(false),
         m_abortingOperation(false),
-        m_extractTempDir(Q_NULLPTR)
+        m_extractTempDir(Q_NULLPTR),
+        m_commentTempFile(Q_NULLPTR)
 {
     //because this interface uses the event loop
     setWaitForFinishedSignal(true);
@@ -84,6 +86,7 @@ void CliInterface::cacheParameterList()
 CliInterface::~CliInterface()
 {
     Q_ASSERT(!m_process);
+    delete m_commentTempFile;
 }
 
 bool CliInterface::isCliBased() const
@@ -676,6 +679,36 @@ QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, con
     return args;
 }
 
+QStringList CliInterface::substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile)
+{
+    // Required if we call this function from unit tests.
+    cacheParameterList();
+
+    QStringList args;
+    foreach (const QString& arg, commentArgs) {
+        qCDebug(ARK) << "Processing argument " << arg;
+
+        if (arg == QLatin1String("$Archive")) {
+            args << filename();
+            continue;
+        }
+
+        if (arg == QLatin1String("$CommentSwitch")) {
+            QString commentSwitch = m_param.value(CommentSwitch).toString();
+            commentSwitch.replace(QStringLiteral("$CommentFile"), commentFile);
+            args << commentSwitch;
+            continue;
+        }
+
+        args << arg;
+    }
+
+    // Remove empty strings, if any.
+    args.removeAll(QString());
+
+    return args;
+}
+
 QString CliInterface::preservePathSwitch(bool preservePaths) const
 {
     Q_ASSERT(m_param.contains(PreservePathSwitch));
@@ -1138,6 +1171,33 @@ void CliInterface::writeToProcess(const QByteArray& data)
 #endif
 }
 
+bool CliInterface::addComment(const QString &comment)
+{
+    cacheParameterList();
+
+    m_operationMode = Comment;
+
+    m_commentTempFile = new QTemporaryFile;
+    if (!m_commentTempFile->open()) {
+        qCWarning(ARK) << "Failed to create temporary file for comment";
+        failOperation();
+        emit finished(false);
+        return false;
+    }
+
+    QTextStream stream(m_commentTempFile);
+    stream << comment << endl;
+    m_commentTempFile->close();
+
+    const auto args = substituteCommentVariables(m_param.value(CommentArgs).toStringList(),
+                                                 m_commentTempFile->fileName());
+
+    if (!runProcess(m_param.value(AddProgram).toStringList(), args)) {
+        failOperation();
+        return false;
+    }
+    m_comment = comment;
+    return true;
 }
 
-
+}

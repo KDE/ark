@@ -121,6 +121,9 @@ private slots:
     void setReadyGui();
     void setFileNameFromArchive();
     void slotWatchedFileModified(const QString& file);
+    void slotShowComment();
+    void slotAddComment();
+    void slotCommentChanged();
 
 signals:
     void busy();
@@ -150,6 +153,7 @@ private:
     QAction *m_deleteFilesAction;
     QAction *m_saveAsAction;
     QAction *m_propertiesAction;
+    QAction *m_editCommentAction;
     KToggleAction *m_showInfoPanelAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
@@ -165,6 +169,7 @@ private:
     QSplitter *m_commentSplitter;
     QGroupBox *m_commentBox;
     QPlainTextEdit *m_commentView;
+    KMessageWidget *m_commentMsgWidget;
 };
 
 } // namespace Ark

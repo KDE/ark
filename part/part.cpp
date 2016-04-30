@@ -23,6 +23,7 @@
 
 #include "part.h"
 #include "ark_debug.h"
+#include "archiveformat.h"
 #include "archivemodel.h"
 #include "archiveview.h"
 #include "arkviewer.h"
@@ -36,6 +37,7 @@
 #include "kerfuffle/settings.h"
 #include "kerfuffle/previewsettingspage.h"
 #include "kerfuffle/propertiesdialog.h"
+#include "pluginmanager.h"
 
 #include <KAboutData>
 #include <KActionCollection>
@@ -114,6 +116,20 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     vbox->addWidget(m_commentView);
     m_commentBox->setLayout(vbox);
 
+    m_commentMsgWidget = new KMessageWidget();
+    m_commentMsgWidget->setText(i18n("Comment has been modified."));
+    m_commentMsgWidget->setMessageType(KMessageWidget::Information);
+    m_commentMsgWidget->setCloseButtonVisible(false);
+    m_commentMsgWidget->hide();
+
+    QAction *saveAction = new QAction(i18n("Save"), m_commentMsgWidget);
+    m_commentMsgWidget->addAction(saveAction);
+    connect(saveAction, &QAction::triggered, this, &Part::slotAddComment);
+
+    m_commentBox->layout()->addWidget(m_commentMsgWidget);
+
+    connect(m_commentView, &QPlainTextEdit::textChanged, this, &Part::slotCommentChanged);
+
     setWidget(mainWidget);
     mainWidget->setLayout(m_vlayout);
 
@@ -177,6 +193,15 @@ Part::~Part()
 
     m_extractArchiveAction->menu()->deleteLater();
     m_extractAction->menu()->deleteLater();
+}
+
+void Part::slotCommentChanged()
+{
+    if (m_commentMsgWidget->isHidden() && m_commentView->toPlainText() != m_model->archive()->comment()) {
+        m_commentMsgWidget->animatedShow();
+    } else if (m_commentMsgWidget->isVisible() && m_commentView->toPlainText() == m_model->archive()->comment()) {
+        m_commentMsgWidget->hide();
+    }
 }
 
 KAboutData *Part::createAboutData()
@@ -359,6 +384,13 @@ void Part::setupActions()
     connect(m_propertiesAction, &QAction::triggered,
             this, &Part::slotShowProperties);
 
+    m_editCommentAction = actionCollection()->addAction(QStringLiteral("edit_comment"));
+    m_editCommentAction->setIcon(QIcon::fromTheme(QStringLiteral("document-edit")));
+    m_editCommentAction->setText(i18nc("@action:inmenu", "&Edit Comment"));
+    actionCollection()->setDefaultShortcut(m_editCommentAction, Qt::ALT + Qt::Key_C);
+    m_editCommentAction->setToolTip(i18nc("@info:tooltip", "Click to add or edit comment"));
+    connect(m_editCommentAction, &QAction::triggered, this, &Part::slotShowComment);
+
     connect(m_signalMapper, SIGNAL(mapped(int)), this, SLOT(slotOpenEntry(int)));
 
     updateActions();
@@ -405,6 +437,44 @@ void Part::updateActions()
                                      (selectedEntriesCount == 1));
     m_propertiesAction->setEnabled(!isBusy() &&
                                    m_model->archive());
+
+    m_commentView->setEnabled(!isBusy());
+    m_commentMsgWidget->setEnabled(!isBusy());
+
+    if (m_model->archive()) {
+        const KPluginMetaData metadata = PluginManager().preferredPluginFor(m_model->archive()->mimeType())->metaData();
+        bool supportsWriteComment = ArchiveFormat::fromMetadata(m_model->archive()->mimeType(), metadata).supportsWriteComment();
+        m_editCommentAction->setEnabled(!isBusy() &&
+                                        supportsWriteComment);
+        m_commentView->setReadOnly(!supportsWriteComment);
+        m_model->archive()->comment().isEmpty() ? m_editCommentAction->setText(i18nc("@action:inmenu", "Add &Comment")) : m_editCommentAction->setText(i18nc("@action:inmenu", "Edit &Comment"));
+    } else {
+        m_editCommentAction->setEnabled(false);
+        m_commentView->setReadOnly(true);
+    }
+}
+
+void Part::slotShowComment()
+{
+    if (!m_commentBox->isVisible()) {
+        m_commentBox->show();
+        m_commentSplitter->setSizes(QList<int>() << m_view->height() * 0.6 << 1);
+    }
+    m_commentView->setFocus();
+}
+
+void Part::slotAddComment()
+{
+    CommentJob *job = m_model->archive()->addComment(m_commentView->toPlainText());
+    if (!job) {
+        return;
+    }
+    registerJob(job);
+    job->start();
+    m_commentMsgWidget->hide();
+    if (m_commentView->toPlainText().isEmpty()) {
+        m_commentBox->hide();
+    }
 }
 
 void Part::updateQuickExtractMenu(QAction *extractAction)
@@ -675,8 +745,7 @@ void Part::slotLoadingFinished(KJob *job)
 
     if (!m_model->archive()->comment().isEmpty()) {
         m_commentView->setPlainText(m_model->archive()->comment());
-        m_commentBox->show();
-        m_commentSplitter->setSizes(QList<int>() << m_view->height() * 0.6 << 1);
+        slotShowComment();
     } else {
         m_commentView->clear();
         m_commentBox->hide();

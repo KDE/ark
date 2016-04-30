@@ -129,6 +129,12 @@ bool LibarchivePlugin::deleteFiles(const QList<QVariant> &files)
     return false;
 }
 
+bool LibarchivePlugin::addComment(const QString& comment)
+{
+    Q_UNUSED(comment)
+    return false;
+}
+
 bool LibarchivePlugin::doKill()
 {
     m_abortOperation = true;

@@ -148,6 +148,7 @@ public:
     //contain
     virtual bool addFiles(const QStringList & files, const CompressionOptions& options) = 0;
     virtual bool deleteFiles(const QList<QVariant> & files) = 0;
+    virtual bool addComment(const QString &comment) = 0;
 };
 
 } // namespace Kerfuffle
