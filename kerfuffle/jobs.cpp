@@ -109,7 +109,7 @@ void Job::start()
     jobTimer.start();
     m_isRunning = true;
 
-    if (archiveInterface()->isCliBased()) {
+    if (archiveInterface()->waitForFinishedSignal()) {
         // CLI-based interfaces run a QProcess, no need to use threads.
         QTimer::singleShot(0, this, &Job::doWork);
     } else {

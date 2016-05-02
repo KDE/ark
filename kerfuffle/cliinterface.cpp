@@ -89,11 +89,6 @@ CliInterface::~CliInterface()
     delete m_commentTempFile;
 }
 
-bool CliInterface::isCliBased() const
-{
-    return true;
-}
-
 void CliInterface::setListEmptyLines(bool emptyLines)
 {
     m_listEmptyLines = emptyLines;

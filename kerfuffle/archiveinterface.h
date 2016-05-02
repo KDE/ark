@@ -101,8 +101,6 @@ public:
     virtual bool doSuspend();
     virtual bool doResume();
 
-    virtual bool isCliBased() const;
-
     bool isHeaderEncryptionEnabled() const;
 
 signals:

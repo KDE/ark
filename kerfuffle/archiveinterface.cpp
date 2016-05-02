@@ -65,11 +65,6 @@ bool ReadOnlyArchiveInterface::isReadOnly() const
     return true;
 }
 
-bool ReadOnlyArchiveInterface::isCliBased() const
-{
-    return false;
-}
-
 bool ReadOnlyArchiveInterface::open()
 {
     return true;
