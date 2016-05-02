@@ -44,6 +44,7 @@ void Cli7zTest::initTestCase()
     foreach (Plugin *plugin, m_pluginManger.availablePlugins()) {
         if (plugin->metaData().pluginId() == QStringLiteral("kerfuffle_cli7z")) {
             m_plugin = plugin;
+            return;
         }
     }
 }

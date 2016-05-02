@@ -40,6 +40,7 @@ void CliUnarchiverTest::initTestCase()
     foreach (Plugin *plugin, m_pluginManger.availablePlugins()) {
         if (plugin->metaData().pluginId() == QStringLiteral("kerfuffle_cliunarchiver")) {
             m_plugin = plugin;
+            return;
         }
     }
 }
