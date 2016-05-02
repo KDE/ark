@@ -303,23 +303,6 @@ public:
     bool doResume() Q_DECL_OVERRIDE;
 
     /**
-     * Returns the list of characters which are preceded by a
-     * backslash when a file name in an archive is passed to
-     * a program.
-     *
-     * @see setEscapedCharacters().
-     */
-    QString escapedCharacters(); // FIXME not implemented?
-
-    /**
-     * Sets which characters will be preceded by a backslash when
-     * a file name in an archive is passed to a program.
-     *
-     * @see escapedCharacters().
-     */
-    void setEscapedCharacters(const QString& characters); // FIXME not implemented?
-
-    /**
      * Sets if the listing should include empty lines.
      *
      * The default value is false.
