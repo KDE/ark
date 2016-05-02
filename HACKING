@@ -2,19 +2,16 @@
 Ark follows the kdelibs/Qt coding style. For more information about them,
 please see:
 
- - http://techbase.kde.org/Policies/Kdelibs_Coding_Style
- - http://wiki.qt-project.org/Coding_Style
- - http://wiki.qt-project.org/Coding_Conventions
+ - https://community.kde.org/Policies/Kdelibs_Coding_Style
+ - http://wiki.qt.io/Qt_Coding_Style
+ - http://wiki.qt.io/Coding_Conventions
 
 == Sending patches ==
 To send patches for Ark, you can choose one of the following:
 
 1. Use KDE's Phabricator at <https://phabricator.kde.org>.
    The diff should be created against the Ark repository.
-2. Use KDE's ReviewBoard tool in <https://git.reviewboard.kde.org>.
-   The review should be sent for the Ark product, and the `kdeutils' group should be
-   added to the review request.
-3. Use git's send-email command and send
+2. Use git's send-email command and send
    it to the kde-utils-devel@kde.org mailing list.
 
 If you already have a KDE commit account, it is still preferrable to contact
@@ -33,14 +30,14 @@ New features are committed to the `master' branch, respecting KDE's Release
 Schedule policies.  This means the soft and hard freeze periods must be
 respected, as well as the string freeze policy.
 
-Bug fixes are committed to the latest stable branch (for example, KDE/4.8),
+Bug fixes are committed to the latest stable branch (for example, Applications/16.04),
 which is then merged into the `master' branch.  Do *NOT* cherry-pick commits
 into multiple branches! It makes following history unnecessarily harder for no
 reason.
 
 To merge the stable branch into `master', the following steps can be followed:
 
-   $ git checkout KDE/4.8 # Whatever the stable branch is
+   $ git checkout Applications/16.04 # Whatever the stable branch is
    $ # hack, hack, hack
    $ # commit
    $ git checkout master
@@ -51,6 +48,8 @@ translation infrastructure) are also merged: translation commits are
 automatically reverted when needed, and other commits being merged should be
 bug fixes by definition.
 
-When committing your changes, do *NOT* create unnecessary merge commits with
+When you are ready to push your commits to the remote repository,
+you may need to update your local branch first.
+Do *NOT* create unnecessary merge commits with
 `git pull', as these commits are completely avoidable and make following
-history harder.  If you are committing your changes, *rebase* first.
+history harder. Instead, you should *rebase* first (git pull --rebase).
