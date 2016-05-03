@@ -53,7 +53,6 @@ bool CliPlugin::list()
     const auto args = substituteListVariables(m_param.value(ListArgs).toStringList(), password());
 
     if (!runProcess(m_param.value(ListProgram).toStringList(), args)) {
-        failOperation();
         return false;
     }
 
@@ -64,7 +63,7 @@ bool CliPlugin::list()
             qCWarning(ARK) << "Wrong password, list() aborted";
             emit error(i18n("Wrong password."));
             emit finished(false);
-            failOperation();
+            killProcess();
             setPassword(QString());
             return false;
         }

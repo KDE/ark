@@ -103,7 +103,6 @@ bool CliInterface::list()
     const auto args = substituteListVariables(m_param.value(ListArgs).toStringList(), password());
 
     if (!runProcess(m_param.value(ListProgram).toStringList(), args)) {
-        failOperation();
         return false;
     }
 
@@ -151,7 +150,6 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
         qCDebug(ARK) << "Using temporary extraction dir:" << m_extractTempDir->path();
         if (!m_extractTempDir->isValid()) {
             qCDebug(ARK) << "Creation of temporary directory failed.";
-            failOperation();
             emit finished(false);
             return false;
         }
@@ -161,7 +159,6 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
     }
 
     if (!runProcess(m_param.value(ExtractProgram).toStringList(), args)) {
-        failOperation();
         return false;
     }
 
@@ -194,7 +191,6 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
                                              compLevel);
 
     if (!runProcess(m_param.value(AddProgram).toStringList(), args)) {
-        failOperation();
         return false;
     }
 
@@ -229,7 +225,6 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
     m_removedFiles = files;
 
     if (!runProcess(m_param.value(DeleteProgram).toStringList(), args)) {
-        failOperation();
         return false;
     }
 
@@ -245,7 +240,6 @@ bool CliInterface::testArchive()
     const auto args = substituteTestVariables(m_param.value(TestArgs).toStringList());
 
     if (!runProcess(m_param.value(TestProgram).toStringList(), args)) {
-        failOperation();
         return false;
     }
 
@@ -838,10 +832,25 @@ QStringList CliInterface::copyFilesList(const QVariantList& files) const
     return filesList;
 }
 
-void CliInterface::failOperation()
+void CliInterface::killProcess(bool emitFinished)
 {
     // TODO: Would be good to unit test #304764/#304178.
-    doKill();
+
+    if (!m_process) {
+        return;
+    }
+
+    m_abortingOperation = !emitFinished;
+
+    // Give some time for the application to finish gracefully
+    if (!m_process->waitForFinished(5)) {
+        m_process->kill();
+
+        // It takes a few hundred ms for the process to be killed.
+        m_process->waitForFinished(1000);
+    }
+
+    m_abortingOperation = false;
 }
 
 bool CliInterface::passwordQuery()
@@ -854,7 +863,6 @@ bool CliInterface::passwordQuery()
         emit cancelled();
         // There is no process running, so finished() must be emitted manually.
         emit finished(false);
-        failOperation();
         return false;
     }
 
@@ -964,7 +972,7 @@ void CliInterface::handleLine(const QString& line)
 
             if (query.responseCancelled()) {
                 emit cancelled();
-                failOperation();
+                killProcess();
                 return;
             }
 
@@ -979,7 +987,7 @@ void CliInterface::handleLine(const QString& line)
         if (checkForErrorMessage(line, DiskFullPatterns)) {
             qCWarning(ARK) << "Found disk full message:" << line;
             emit error(i18nc("@info", "Extraction failed because the disk is full."));
-            failOperation();
+            killProcess();
             return;
         }
 
@@ -987,14 +995,14 @@ void CliInterface::handleLine(const QString& line)
             qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
             emit error(i18nc("@info", "Extraction failed: Incorrect password"));
-            failOperation();
+            killProcess();
             return;
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
             qCWarning(ARK) << "Error in extraction:" << line;
             emit error(i18n("Extraction failed because of an unexpected error."));
-            failOperation();
+            killProcess();
             return;
         }
 
@@ -1013,7 +1021,7 @@ void CliInterface::handleLine(const QString& line)
 
             if (query.responseCancelled()) {
                 emit cancelled();
-                failOperation();
+                killProcess();
                 return;
             }
 
@@ -1029,14 +1037,14 @@ void CliInterface::handleLine(const QString& line)
             qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
             emit error(i18n("Incorrect password."));
-            failOperation();
+            killProcess();
             return;
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
             qCWarning(ARK) << "Error in extraction!!";
             emit error(i18n("Extraction failed because of an unexpected error."));
-            failOperation();
+            killProcess();
             return;
         }
 
@@ -1048,7 +1056,7 @@ void CliInterface::handleLine(const QString& line)
             query.waitForResponse();
             if (!query.responseYes()) {
                 emit cancelled();
-                failOperation();
+                killProcess();
                 return;
             }
         }
@@ -1067,8 +1075,7 @@ void CliInterface::handleLine(const QString& line)
             qCDebug(ARK) << "Found a password prompt";
 
             emit error(i18n("Ark does not currently support testing password-protected archives."));
-            emit finished(true);
-            failOperation();
+            killProcess();
             return;
         }
 
@@ -1188,16 +1195,7 @@ bool CliInterface::checkForTestSuccessMessage(const QString& line)
 bool CliInterface::doKill()
 {
     if (m_process) {
-        // Give some time for the application to finish gracefully
-        m_abortingOperation = true;
-        if (!m_process->waitForFinished(5)) {
-            m_process->kill();
-
-            // It takes a few hundred ms for the process to be killed.
-            m_process->waitForFinished(1000);
-        }
-        m_abortingOperation = false;
-
+        killProcess(false);
         return true;
     }
 
@@ -1242,7 +1240,6 @@ bool CliInterface::addComment(const QString &comment)
     m_commentTempFile = new QTemporaryFile;
     if (!m_commentTempFile->open()) {
         qCWarning(ARK) << "Failed to create temporary file for comment";
-        failOperation();
         emit finished(false);
         return false;
     }
@@ -1255,7 +1252,6 @@ bool CliInterface::addComment(const QString &comment)
                                                  m_commentTempFile->fileName());
 
     if (!runProcess(m_param.value(AddProgram).toStringList(), args)) {
-        failOperation();
         return false;
     }
     m_comment = comment;

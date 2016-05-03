@@ -371,7 +371,10 @@ protected:
      */
     bool runProcess(const QStringList& programNames, const QStringList& arguments);
 
-    void failOperation();
+    /**
+     * Kill the running process. The finished signal is emitted according to @p emitFinished.
+     */
+    void killProcess(bool emitFinished = true);
 
     /**
      * Ask the password *before* running any process.
