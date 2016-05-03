@@ -99,6 +99,7 @@ ParameterList CliPlugin::parameterList() const
         p[PasswordHeaderSwitch] = QStringList() << QStringLiteral("-hp$Password");
         p[CompressionLevelSwitch] = QStringLiteral("-m$CompressionLevel");
         p[DeleteArgs] = QStringList() << QStringLiteral( "d" )
+                                      << QStringLiteral( "$PasswordSwitch" )
                                       << QStringLiteral( "$Archive" )
                                       << QStringLiteral( "$Files" );
         p[FileExistsExpression] = QStringList()

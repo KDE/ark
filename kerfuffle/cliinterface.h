@@ -322,6 +322,7 @@ public:
     QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
     QStringList substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password, const QString &rootNode);
     QStringList substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel);
+    QStringList substituteDeleteVariables(const QStringList &deleteArgs, const QVariantList &files, const QString &password);
     QStringList substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile);
     QStringList substituteTestVariables(const QStringList &testArgs);
 

@@ -202,27 +202,13 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
     cacheParameterList();
     m_operationMode = Delete;
 
-    //start preparing the argument list
-    QStringList args = m_param.value(DeleteArgs).toStringList();
-
-    //now replace the various elements in the list
-    for (int i = 0; i < args.size(); ++i) {
-        QString argument = args.at(i);
-        qCDebug(ARK) << "Processing argument " << argument;
-
-        if (argument == QLatin1String( "$Archive" )) {
-            args[i] = filename();
-        } else if (argument == QLatin1String( "$Files" )) {
-            args.removeAt(i);
-            for (int j = 0; j < files.count(); ++j) {
-                args.insert(i + j, escapeFileName(files.at(j).toString()));
-                ++i;
-            }
-            --i;
-        }
-    }
-
     m_removedFiles = files;
+
+    const auto deleteArgs = m_param.value(DeleteArgs).toStringList();
+
+    const auto args = substituteDeleteVariables(deleteArgs,
+                                                files,
+                                                password());
 
     if (!runProcess(m_param.value(DeleteProgram).toStringList(), args)) {
         return false;
@@ -675,6 +661,41 @@ QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, con
         }
 
         // Simple argument (e.g. a in 7z), nothing to substitute, just add it to the list.
+        args << arg;
+    }
+
+    // Remove empty strings, if any.
+    args.removeAll(QString());
+
+    return args;
+}
+
+QStringList CliInterface::substituteDeleteVariables(const QStringList &deleteArgs, const QVariantList &files, const QString &password)
+{
+    cacheParameterList();
+
+    QStringList args;
+    foreach (const QString& arg, deleteArgs) {
+        qCDebug(ARK) << "Processing argument" << arg;
+
+        if (arg == QLatin1String("$Archive")) {
+            args << filename();
+            continue;
+        }
+
+        if (arg == QLatin1String("$PasswordSwitch")) {
+            args << passwordSwitch(password);
+            continue;
+        }
+
+        if (arg == QLatin1String("$Files")) {
+            foreach (const QVariant& file, files) {
+                args << escapeFileName(file.toString());
+            }
+            continue;
+        }
+
+        // Simple argument (e.g. d in rar), nothing to substitute, just add it to the list.
         args << arg;
     }
 
