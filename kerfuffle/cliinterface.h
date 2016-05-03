@@ -271,7 +271,10 @@ enum CliInterfaceParameters {
      * containing the comment.
      * Example (rar plugin): -z$CommentFile
      */
-    CommentSwitch
+    CommentSwitch,
+    TestProgram,
+    TestArgs,
+    TestPassedPattern
 };
 
 typedef QHash<int, QVariant> ParameterList;
@@ -282,7 +285,7 @@ class KERFUFFLE_EXPORT CliInterface : public ReadWriteArchiveInterface
 
 public:
     enum OperationMode  {
-        List, Copy, Add, Delete, Comment
+        List, Copy, Add, Delete, Comment, Test
     };
     OperationMode m_operationMode;
 
@@ -294,6 +297,7 @@ public:
     virtual bool addFiles(const QStringList & files, const CompressionOptions& options) Q_DECL_OVERRIDE;
     virtual bool deleteFiles(const QList<QVariant> & files) Q_DECL_OVERRIDE;
     virtual bool addComment(const QString &comment) Q_DECL_OVERRIDE;
+    virtual bool testArchive() Q_DECL_OVERRIDE;
 
     virtual void resetParsing() = 0;
     virtual ParameterList parameterList() const = 0;
@@ -319,6 +323,7 @@ public:
     QStringList substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password, const QString &rootNode);
     QStringList substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel);
     QStringList substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile);
+    QStringList substituteTestVariables(const QStringList &testArgs);
 
     /**
      * @return The preserve path switch, according to the @p preservePaths extraction option.
@@ -398,6 +403,7 @@ private:
 
     bool handleFileExistsMessage(const QString& filename);
     bool checkForErrorMessage(const QString& line, int parameterIndex);
+    bool checkForTestSuccessMessage(const QString& line);
 
     /**
      * Performs any additional escaping and processing on @p fileName

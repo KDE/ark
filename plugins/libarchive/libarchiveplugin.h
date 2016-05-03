@@ -50,6 +50,7 @@ public:
     virtual bool addFiles(const QStringList& files, const CompressionOptions& options) Q_DECL_OVERRIDE;
     virtual bool deleteFiles(const QList<QVariant>& files) Q_DECL_OVERRIDE;
     virtual bool addComment(const QString& comment) Q_DECL_OVERRIDE;
+    virtual bool testArchive() Q_DECL_OVERRIDE;
 
 protected:
     void emitEntryFromArchiveEntry(struct archive_entry *entry);

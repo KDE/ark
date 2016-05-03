@@ -108,3 +108,8 @@ bool JSONArchiveInterface::addComment(const QString& comment)
     Q_UNUSED(comment)
     return true;
 }
+
+bool JSONArchiveInterface::testArchive()
+{
+    return true;
+}

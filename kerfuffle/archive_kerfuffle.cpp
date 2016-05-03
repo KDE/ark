@@ -181,6 +181,18 @@ CommentJob* Archive::addComment(const QString &comment)
     return job;
 }
 
+TestJob* Archive::testArchive()
+{
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
+    qCDebug(ARK) << "Going to test archive";
+
+    TestJob *job = new TestJob(m_iface, this);
+    return job;
+}
+
 QMimeType Archive::mimeType() const
 {
     return isValid() ? determineMimeType(fileName()) : QMimeType();

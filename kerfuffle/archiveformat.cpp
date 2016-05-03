@@ -38,13 +38,15 @@ ArchiveFormat::ArchiveFormat(const QMimeType& mimeType,
                              int minCompLevel,
                              int maxCompLevel,
                              int defaultCompLevel,
-                             bool supportsWriteComment) :
+                             bool supportsWriteComment,
+                             bool supportsTesting) :
     m_mimeType(mimeType),
     m_encryptionType(encryptionType),
     m_minCompressionLevel(minCompLevel),
     m_maxCompressionLevel(maxCompLevel),
     m_defaultCompressionLevel(defaultCompLevel),
-    m_supportsWriteComment(supportsWriteComment)
+    m_supportsWriteComment(supportsWriteComment),
+    m_supportsTesting(supportsTesting)
 {
 }
 
@@ -63,6 +65,7 @@ ArchiveFormat ArchiveFormat::fromMetadata(const QMimeType& mimeType, const KPlug
         int defaultCompLevel = formatProps[QStringLiteral("CompressionLevelDefault")].toInt();
 
         bool supportsWriteComment = formatProps[QStringLiteral("SupportsWriteComment")].toBool();
+        bool supportsTesting = formatProps[QStringLiteral("SupportsTesting")].toBool();
 
         Archive::EncryptionType encType = Archive::Unencrypted;
         if (formatProps[QStringLiteral("HeaderEncryption")].toBool()) {
@@ -71,7 +74,7 @@ ArchiveFormat ArchiveFormat::fromMetadata(const QMimeType& mimeType, const KPlug
             encType = Archive::Encrypted;
         }
 
-        return ArchiveFormat(mimeType, encType, minCompLevel, maxCompLevel, defaultCompLevel, supportsWriteComment);
+        return ArchiveFormat(mimeType, encType, minCompLevel, maxCompLevel, defaultCompLevel, supportsWriteComment, supportsTesting);
     }
 
     return ArchiveFormat();
@@ -105,6 +108,11 @@ int ArchiveFormat::defaultCompressionLevel() const
 bool ArchiveFormat::supportsWriteComment() const
 {
     return m_supportsWriteComment;
+}
+
+bool ArchiveFormat::supportsTesting() const
+{
+    return m_supportsTesting;
 }
 
 }

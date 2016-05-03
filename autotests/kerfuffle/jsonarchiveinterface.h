@@ -59,6 +59,7 @@ public:
     virtual bool copyFiles(const QList<QVariant>& files, const QString& destinationDirectory, const Kerfuffle::ExtractionOptions& options) Q_DECL_OVERRIDE;
     virtual bool deleteFiles(const QList<QVariant>& files) Q_DECL_OVERRIDE;
     virtual bool addComment(const QString& comment) Q_DECL_OVERRIDE;
+    virtual bool testArchive() Q_DECL_OVERRIDE;
 
 private:
     JSONParser::JSONArchive m_archive;

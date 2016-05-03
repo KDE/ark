@@ -81,6 +81,7 @@ public:
      * the user of the error condition.
      */
     virtual bool list() = 0;
+    virtual bool testArchive() = 0;
     void setPassword(const QString &password);
     void setHeaderEncryptionEnabled(bool enabled);
 
@@ -112,6 +113,7 @@ signals:
     void info(const QString &info);
     void finished(bool result);
     void userQuery(Query *query);
+    void testSuccess();
 
 protected:
 

@@ -61,13 +61,15 @@
     "application/x-java-archive": {
         "CompressionLevelDefault": 6, 
         "CompressionLevelMax": 9, 
-        "CompressionLevelMin": 0, 
+        "CompressionLevelMin": 0,
+        "SupportsTesting": true,
         "Encryption": true
     }, 
     "application/zip": {
         "CompressionLevelDefault": 6, 
         "CompressionLevelMax": 9, 
-        "CompressionLevelMin": 0, 
+        "CompressionLevelMin": 0,
+        "SupportsTesting": true,
         "Encryption": true
     }
 }

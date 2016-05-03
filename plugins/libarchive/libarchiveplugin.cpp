@@ -135,6 +135,11 @@ bool LibarchivePlugin::addComment(const QString& comment)
     return false;
 }
 
+bool LibarchivePlugin::testArchive()
+{
+    return false;
+}
+
 bool LibarchivePlugin::doKill()
 {
     m_abortOperation = true;

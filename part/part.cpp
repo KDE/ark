@@ -391,6 +391,13 @@ void Part::setupActions()
     m_editCommentAction->setToolTip(i18nc("@info:tooltip", "Click to add or edit comment"));
     connect(m_editCommentAction, &QAction::triggered, this, &Part::slotShowComment);
 
+    m_testArchiveAction = actionCollection()->addAction(QStringLiteral("test_archive"));
+    m_testArchiveAction->setIcon(QIcon::fromTheme(QStringLiteral("checkmark")));
+    m_testArchiveAction->setText(i18nc("@action:inmenu", "&Test Integrity"));
+    actionCollection()->setDefaultShortcut(m_testArchiveAction, Qt::ALT + Qt::Key_T);
+    m_testArchiveAction->setToolTip(i18nc("@info:tooltip", "Click to test the archive for integrity"));
+    connect(m_testArchiveAction, &QAction::triggered, this, &Part::slotTestArchive);
+
     connect(m_signalMapper, SIGNAL(mapped(int)), this, SLOT(slotOpenEntry(int)));
 
     updateActions();
@@ -441,6 +448,9 @@ void Part::updateActions()
     m_commentView->setEnabled(!isBusy());
     m_commentMsgWidget->setEnabled(!isBusy());
 
+    m_editCommentAction->setEnabled(false);
+    m_testArchiveAction->setEnabled(false);
+
     if (m_model->archive()) {
         const KPluginMetaData metadata = PluginManager().preferredPluginFor(m_model->archive()->mimeType())->metaData();
         bool supportsWriteComment = ArchiveFormat::fromMetadata(m_model->archive()->mimeType(), metadata).supportsWriteComment();
@@ -448,8 +458,11 @@ void Part::updateActions()
                                         supportsWriteComment);
         m_commentView->setReadOnly(!supportsWriteComment);
         m_model->archive()->comment().isEmpty() ? m_editCommentAction->setText(i18nc("@action:inmenu", "Add &Comment")) : m_editCommentAction->setText(i18nc("@action:inmenu", "Edit &Comment"));
+
+        bool supportsTesting = ArchiveFormat::fromMetadata(m_model->archive()->mimeType(), metadata).supportsTesting();
+        m_testArchiveAction->setEnabled(!isBusy() &&
+                                        supportsTesting);
     } else {
-        m_editCommentAction->setEnabled(false);
         m_commentView->setReadOnly(true);
     }
 }
@@ -474,6 +487,28 @@ void Part::slotAddComment()
     m_commentMsgWidget->hide();
     if (m_commentView->toPlainText().isEmpty()) {
         m_commentBox->hide();
+    }
+}
+
+void Part::slotTestArchive()
+{
+    TestJob *job = m_model->archive()->testArchive();
+    if (!job) {
+        return;
+    }
+    registerJob(job);
+    connect(job, &KJob::result, this, &Part::slotTestingDone);
+    job->start();
+}
+
+void Part::slotTestingDone(KJob* job)
+{
+    if (job->error() && job->error() != KJob::KilledJobError) {
+        KMessageBox::error(widget(), job->errorString());
+    } else if (static_cast<TestJob*>(job)->testSucceeded()) {
+        KMessageBox::information(widget(), i18n("The archive passed the integrity test."), i18n("Test Results"));
+    } else {
+        KMessageBox::error(widget(), i18n("The archive failed the integrity test."), i18n("Test Results"));
     }
 }
 

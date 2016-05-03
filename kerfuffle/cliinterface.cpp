@@ -236,6 +236,22 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
     return true;
 }
 
+bool CliInterface::testArchive()
+{
+    resetParsing();
+    cacheParameterList();
+    m_operationMode = Test;
+
+    const auto args = substituteTestVariables(m_param.value(TestArgs).toStringList());
+
+    if (!runProcess(m_param.value(TestProgram).toStringList(), args)) {
+        failOperation();
+        return false;
+    }
+
+    return true;
+}
+
 bool CliInterface::runProcess(const QStringList& programNames, const QStringList& arguments)
 {
     Q_ASSERT(!m_process);
@@ -704,6 +720,29 @@ QStringList CliInterface::substituteCommentVariables(const QStringList &commentA
     return args;
 }
 
+QStringList CliInterface::substituteTestVariables(const QStringList &testArgs)
+{
+    // Required if we call this function from unit tests.
+    cacheParameterList();
+
+    QStringList args;
+    foreach (const QString& arg, testArgs) {
+        qCDebug(ARK) << "Processing argument " << arg;
+
+        if (arg == QLatin1String("$Archive")) {
+            args << filename();
+            continue;
+        }
+
+        args << arg;
+    }
+
+    // Remove empty strings, if any.
+    args.removeAll(QString());
+
+    return args;
+}
+
 QString CliInterface::preservePathSwitch(bool preservePaths) const
 {
     Q_ASSERT(m_param.contains(PreservePathSwitch));
@@ -1021,6 +1060,24 @@ void CliInterface::handleLine(const QString& line)
         readListLine(line);
         return;
     }
+
+    if (m_operationMode == Test) {
+
+        if (checkForPasswordPromptMessage(line)) {
+            qCDebug(ARK) << "Found a password prompt";
+
+            emit error(i18n("Ark does not currently support testing password-protected archives."));
+            emit finished(true);
+            failOperation();
+            return;
+        }
+
+        if (checkForTestSuccessMessage(line)) {
+            qCDebug(ARK) << "Test successful";
+            emit testSuccess();
+            return;
+        }
+    }
 }
 
 bool CliInterface::checkForPasswordPromptMessage(const QString& line)
@@ -1114,6 +1171,16 @@ bool CliInterface::checkForErrorMessage(const QString& line, int parameterIndex)
         if (pattern.match(line).hasMatch()) {
             return true;
         }
+    }
+    return false;
+}
+
+bool CliInterface::checkForTestSuccessMessage(const QString& line)
+{
+    const QRegularExpression rx(m_param.value(TestPassedPattern).toString());
+    const QRegularExpressionMatch rxMatch = rx.match(line);
+    if (rxMatch.hasMatch()) {
+        return true;
     }
     return false;
 }

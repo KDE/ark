@@ -64,6 +64,7 @@
         "CompressionLevelMax": 5, 
         "CompressionLevelMin": 0,
         "SupportsWriteComment": true,
+        "SupportsTesting": true,
         "HeaderEncryption": true
     }
 }

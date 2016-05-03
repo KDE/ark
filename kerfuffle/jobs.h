@@ -187,7 +187,24 @@ private:
     QString m_comment;
 };
 
+class KERFUFFLE_EXPORT TestJob : public Job
+{
+    Q_OBJECT
 
+public:
+    TestJob(ReadOnlyArchiveInterface *interface, QObject *parent = 0);
+    bool testSucceeded();
+
+public slots:
+    virtual void doWork() Q_DECL_OVERRIDE;
+
+private slots:
+    virtual void onTestSuccess();
+
+private:
+    bool m_testSuccess;
+
+};
 
 } // namespace Kerfuffle
 

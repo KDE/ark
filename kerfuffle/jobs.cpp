@@ -440,6 +440,37 @@ void CommentJob::doWork()
     }
 }
 
+TestJob::TestJob(ReadOnlyArchiveInterface *interface, QObject *parent)
+    : Job(interface, parent)
+{
+    m_testSuccess = false;
+}
+
+void TestJob::doWork()
+{
+    qCDebug(ARK) << "TestJob started";
+
+    emit description(this, i18n("Testing archive"));
+    connectToArchiveInterfaceSignals();
+    connect(archiveInterface(), &ReadOnlyArchiveInterface::testSuccess, this, &TestJob::onTestSuccess);
+
+    bool ret = archiveInterface()->testArchive();
+
+    if (!archiveInterface()->waitForFinishedSignal()) {
+        onFinished(ret);
+    }
+}
+
+void TestJob::onTestSuccess()
+{
+    m_testSuccess = true;
+}
+
+bool TestJob::testSucceeded()
+{
+    return m_testSuccess;
+}
+
 } // namespace Kerfuffle
 
 

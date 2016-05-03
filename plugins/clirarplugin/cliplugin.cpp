@@ -78,7 +78,7 @@ ParameterList CliPlugin::parameterList() const
 
     if (p.isEmpty()) {
         p[CaptureProgress] = true;
-        p[ListProgram] = p[ExtractProgram] = QStringList() << QStringLiteral( "unrar" );
+        p[ListProgram] = p[ExtractProgram] = p[TestProgram] = QStringList() << QStringLiteral( "unrar" );
         p[DeleteProgram] = p[AddProgram] = QStringList() << QStringLiteral( "rar" );
 
         p[ListArgs] = QStringList() << QStringLiteral("vt")
@@ -126,6 +126,9 @@ ParameterList CliPlugin::parameterList() const
                                        << QStringLiteral("$CommentSwitch")
                                        << QStringLiteral("$Archive");
         p[CommentSwitch] = QStringLiteral("-z$CommentFile");
+        p[TestArgs] = QStringList() << QStringLiteral("t")
+                                    << QStringLiteral("$Archive");
+        p[TestPassedPattern] = QStringLiteral("^All OK$");
     }
 
     return p;

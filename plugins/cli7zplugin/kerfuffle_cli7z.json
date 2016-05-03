@@ -60,13 +60,15 @@
     "application/x-7z-compressed": {
         "CompressionLevelDefault": 5, 
         "CompressionLevelMax": 9, 
-        "CompressionLevelMin": 0, 
+        "CompressionLevelMin": 0,
+        "SupportsTesting": true,
         "HeaderEncryption": true
     }, 
     "application/zip": {
         "CompressionLevelDefault": 5, 
         "CompressionLevelMax": 9, 
         "CompressionLevelMin": 0, 
+        "SupportsTesting": true,
         "Encryption": true
     }
 }

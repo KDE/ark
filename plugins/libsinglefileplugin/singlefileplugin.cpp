@@ -164,3 +164,8 @@ const QString LibSingleFileInterface::uncompressedFileName() const
     return uncompressedName + QStringLiteral( ".uncompressed" );
 }
 
+bool LibSingleFileInterface::testArchive()
+{
+    return false;
+}
+
