@@ -319,6 +319,8 @@ public:
 
     QStringList substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password, const QString &rootNode);
 
+    QStringList substituteDeleteVariables(const QStringList &deleteArgs, const QVariantList &files, const QString &password);
+
     /**
      * @return The preserve path switch, according to the @p preservePaths extraction option.
      */

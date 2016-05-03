@@ -80,6 +80,7 @@ ParameterList CliPlugin::parameterList() const
                                    << QStringLiteral("$PasswordSwitch")
                                    << QStringLiteral("$Files");
         p[DeleteArgs] = QStringList() << QStringLiteral("d")
+                                      << QStringLiteral("$PasswordSwitch")
                                       << QStringLiteral("$Archive")
                                       << QStringLiteral("$Files");
 
