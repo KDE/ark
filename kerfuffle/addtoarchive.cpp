@@ -41,6 +41,7 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QDir>
+#include <QMimeDatabase>
 #include <QTimer>
 #include <QPointer>
 
@@ -249,8 +250,12 @@ QString AddToArchive::detectBaseName(const QStringList &paths) const
             base += parentDir.dirName();
         }
     } else {
-        // Strip filename of its extension.
-        base += fileInfo.completeBaseName();
+        // Strip filename of its extension, but only if present (see #362690).
+        if (!QMimeDatabase().mimeTypeForFile(fileInfo.fileName(), QMimeDatabase::MatchExtension).isDefault()) {
+            base += fileInfo.completeBaseName();
+        } else {
+            base += fileInfo.fileName();
+        }
     }
 
     // Special case for compressed tar archives.
