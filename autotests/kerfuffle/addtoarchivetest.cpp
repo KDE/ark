@@ -70,6 +70,12 @@ void AddToArchiveTest::testCompressHere_data()
         << QStringLiteral("data.tar.gz")
         << 3ULL;
 
+    QTest::newRow("compress here (as TAR) - bug #362690")
+        << QStringLiteral("tar.gz")
+        << QStringList {QFINDTESTDATA("data/test-3.4.0")}
+        << QStringLiteral("test-3.4.0.tar.gz")
+        << 1ULL;
+
     if (!QStandardPaths::findExecutable(QStringLiteral("zip")).isEmpty()) {
         QTest::newRow("compress here (as ZIP) - whole folder")
             << QStringLiteral("zip")
