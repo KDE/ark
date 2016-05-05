@@ -45,8 +45,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2016-03-19</date>
-<releaseinfo>Applications 16.04</releaseinfo>
+<date>2016-05-05</date>
+<releaseinfo>Applications 16.08</releaseinfo>
 
 <abstract>
 <para>&ark; is an archive manager for &kde;.</para>
@@ -122,6 +122,36 @@ Archive properties such as type, size and MD5 hash can be viewed using the
 <guimenuitem>Properties</guimenuitem> item.</para>
 
 </sect2>
+
+<sect2 id="ark-archive-comments">
+<title>Archive Comments</title>
+
+<para>&ark; can handle comments embedded in <literal role="extension">zip</literal> and <literal role="extension">rar</literal> archives.</para>
+
+<para>Comments embedded in <literal role="extension">zip</literal> archives are automatically displayed.</para>
+
+<para>Using <literal role="extension">rar</literal> archives you can modify a comment with the actions 
+<guimenuitem>Add Comment</guimenuitem> or <guimenuitem>Edit comment</guimenuitem> 
+(<keycombo action="simul">&Alt;<keycap>C</keycap></keycombo>) from the <guimenu>Archive</guimenu> menu.
+</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-comment.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Editing a comment</phrase>
+</textobject>
+</mediaobject>
+
+<note><para>The comment menu item is enabled only for <literal role="extension">rar</literal> archives.
+</para></note>
+
+<para>To remove a comment from a <literal role="extension">rar</literal> archive delete the text in 
+the comment window.</para>
+
+</sect2>
+
 </sect1>
 
 <sect1 id="ark-work-files">
