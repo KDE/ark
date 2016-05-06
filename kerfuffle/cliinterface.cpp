@@ -975,7 +975,7 @@ void CliInterface::handleLine(const QString& line)
     if ((m_operationMode == Copy || m_operationMode == Add) && m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool()) {
         //read the percentage
         int pos = line.indexOf(QLatin1Char( '%' ));
-        if (pos != -1 && pos > 1) {
+        if (pos > 1) {
             int percentage = line.midRef(pos - 2, 2).toInt();
             emit progress(float(percentage) / 100);
             return;
