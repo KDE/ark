@@ -497,9 +497,6 @@ int ArchiveModel::rowCount(const QModelIndex &parent) const
 int ArchiveModel::columnCount(const QModelIndex &parent) const
 {
     return m_showColumns.size();
-    if (parent.isValid()) {
-        return static_cast<ArchiveNode*>(parent.internalPointer())->entry().size();
-    }
 }
 
 void ArchiveModel::sort(int column, Qt::SortOrder order)
