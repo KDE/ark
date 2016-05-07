@@ -58,6 +58,7 @@ void MimeTypeTest::testMimeTypeDetection_data()
     const QString compressedLrzipTarMime = QStringLiteral("application/x-lrzip-compressed-tar");
     const QString isoMimeType = QStringLiteral("application/x-cd-image");
     const QString debMimeType = QMimeDatabase().mimeTypeForFile(QStringLiteral("dummy.deb"), QMimeDatabase::MatchExtension).name();
+    const QString xarMimeType = QStringLiteral("application/x-xar");
 
     QTest::newRow("empty name") << QString() << QStringLiteral("application/octet-stream");
     QTest::newRow("tar.gz") << QFINDTESTDATA("data/simplearchive.tar.gz") << compressedGzipTarMime;
@@ -69,6 +70,7 @@ void MimeTypeTest::testMimeTypeDetection_data()
     QTest::newRow("tar.lzo") << QFINDTESTDATA("data/simplearchive.tar.lzo") << compressedLzopTarMime;
     QTest::newRow("tar.lrz") << QFINDTESTDATA("data/simplearchive.tar.lrz") << compressedLrzipTarMime;
     QTest::newRow("deb") << QFINDTESTDATA("data/smallarchive.deb") << debMimeType;
+    QTest::newRow("xar") << QFINDTESTDATA("data/simplearchive.xar") << xarMimeType;
 
     QTest::newRow("zip with wrong extension") << QFINDTESTDATA("data/zip_with_wrong_extension.rar") << QStringLiteral("application/zip");
     QTest::newRow("tar with special char in the extension") << QStringLiteral("foo.tar~1.gz") << compressedGzipTarMime;

@@ -24,7 +24,8 @@
             "application/x-rpm", 
             "application/x-source-rpm", 
             "application/vnd.debian.binary-package",
-            "application/vnd.ms-cab-compressed"
+            "application/vnd.ms-cab-compressed",
+            "application/x-xar"
         ], 
         "Name": "kerfuffle_libarchive_readonly", 
         "Name[sv]": "Kerfuffle LibArchive skrivskyddat", 

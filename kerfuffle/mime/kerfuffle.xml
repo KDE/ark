@@ -5,4 +5,12 @@
       <comment xml:lang="en">Tar archive (lzip-compressed)</comment>
       <glob pattern="*.tar.lz"/>
    </mime-type>
+   <mime-type type="application/x-xar">
+      <comment>XAR archive</comment>
+      <acronym>XAR</acronym>
+      <expanded-acronym>eXtensible ARchive</expanded-acronym>
+      <generic-icon name="package-x-generic"/>
+      <glob pattern="*.xar"/>
+      <glob pattern="*.pkg"/>
+   </mime-type>
 </mime-info>

@@ -148,6 +148,12 @@ void ArchiveTest::testProperties_data()
     } else {
         qDebug() << "lrzip executable not found in path. Skipping lrzip test.";
     }
+
+    QTest::newRow("xar archive")
+            << QFINDTESTDATA("data/simplearchive.xar")
+            << QStringLiteral("simplearchive")
+            << true << false << false << Archive::Unencrypted
+            << QStringLiteral("simplearchive");
 }
 
 void ArchiveTest::testProperties()
@@ -448,6 +454,23 @@ void ArchiveTest::testExtraction_data()
     } else {
         qDebug() << "lrzip executable not found in path. Skipping lrzip test.";
     }
+
+    archivePath = QFINDTESTDATA("data/simplearchive.xar");
+    QTest::newRow("extract selected entries from a xar archive without path")
+            << archivePath
+            << QVariantList {
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("dir1/file11.txt"), QString())),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("file4.txt"), QString()))
+               }
+            << ExtractionOptions()
+            << 2;
+
+    archivePath = QFINDTESTDATA("data/simplearchive.xar");
+    QTest::newRow("extract all entries from a xar archive with path")
+            << archivePath
+            << QVariantList()
+            << optionsPreservePaths
+            << 6;
 }
 
 void ArchiveTest::testExtraction()
