@@ -304,12 +304,22 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         }
     }
 
-    emit progress(1.0);
-
     if (m_operationMode == Add) {
         list();
-    } else {
+    } else if (!isCorrupt()) {
+        emit progress(1.0);
         emit finished(true);
+    } else {
+        Kerfuffle::LoadCorruptQuery query(filename());
+        emit userQuery(&query);
+        query.waitForResponse();
+        if (!query.responseYes()) {
+            emit cancelled();
+            emit finished(false);
+        } else {
+            emit progress(1.0);
+            emit finished(true);
+        }
     }
 }
 
@@ -1072,14 +1082,6 @@ void CliInterface::handleLine(const QString& line)
         if (checkForErrorMessage(line, CorruptArchivePatterns)) {
             qCWarning(ARK) << "Archive corrupt";
             setCorrupt(true);
-            Kerfuffle::LoadCorruptQuery query(filename());
-            emit userQuery(&query);
-            query.waitForResponse();
-            if (!query.responseYes()) {
-                emit cancelled();
-                killProcess();
-                return;
-            }
         }
 
         if (handleFileExistsMessage(line)) {
