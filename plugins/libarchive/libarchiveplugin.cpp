@@ -85,7 +85,7 @@ bool LibarchivePlugin::list()
     m_extractedFilesSize = 0;
 
     struct archive_entry *aentry;
-    int result;
+    int result = ARCHIVE_RETRY;
 
     bool firstEntry = true;
     while (!m_abortOperation && (result = archive_read_next_header(arch_reader.data(), &aentry)) == ARCHIVE_OK) {
@@ -234,7 +234,7 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
         }
 
         fileBeingRenamed.clear();
-        int index;
+        int index = -1;
 
         // Retry with renamed entry, fire an overwrite query again
         // if the new entry also exists.
