@@ -386,7 +386,6 @@ void Part::setupActions()
 
     m_editCommentAction = actionCollection()->addAction(QStringLiteral("edit_comment"));
     m_editCommentAction->setIcon(QIcon::fromTheme(QStringLiteral("document-edit")));
-    m_editCommentAction->setText(i18nc("@action:inmenu", "&Edit Comment"));
     actionCollection()->setDefaultShortcut(m_editCommentAction, Qt::ALT + Qt::Key_C);
     m_editCommentAction->setToolTip(i18nc("@info:tooltip", "Click to add or edit comment"));
     connect(m_editCommentAction, &QAction::triggered, this, &Part::slotShowComment);
@@ -457,13 +456,15 @@ void Part::updateActions()
         m_editCommentAction->setEnabled(!isBusy() &&
                                         supportsWriteComment);
         m_commentView->setReadOnly(!supportsWriteComment);
-        m_model->archive()->comment().isEmpty() ? m_editCommentAction->setText(i18nc("@action:inmenu", "Add &Comment")) : m_editCommentAction->setText(i18nc("@action:inmenu", "Edit &Comment"));
+        m_editCommentAction->setText(m_model->archive()->hasComment() ? i18nc("@action:inmenu mutually exclusive with Add &Comment", "Edit &Comment") :
+                                                                        i18nc("@action:inmenu mutually exclusive with Edit &Comment", "Add &Comment"));
 
         bool supportsTesting = ArchiveFormat::fromMetadata(m_model->archive()->mimeType(), metadata).supportsTesting();
         m_testArchiveAction->setEnabled(!isBusy() &&
                                         supportsTesting);
     } else {
         m_commentView->setReadOnly(true);
+        m_editCommentAction->setText(i18nc("@action:inmenu mutually exclusive with Edit &Comment", "Add &Comment"));
     }
 }
 
