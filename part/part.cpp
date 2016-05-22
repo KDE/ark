@@ -612,7 +612,8 @@ bool Part::openFile()
         return false;
     }
 
-    QScopedPointer<Kerfuffle::Archive> archive(Kerfuffle::Archive::create(localFilePath(), m_model));
+    const QString fixedMimeType = arguments().metaData()[QStringLiteral("fixedMimeType")];
+    QScopedPointer<Kerfuffle::Archive> archive(Kerfuffle::Archive::create(localFilePath(), fixedMimeType, m_model));
     Q_ASSERT(archive);
 
     if (archive->error() == NoPlugin) {
