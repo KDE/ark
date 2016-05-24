@@ -53,6 +53,6 @@ private:
     Plugin *m_plugin;
 };
 
-Q_DECLARE_METATYPE(ArchiveEntry)
+Q_DECLARE_METATYPE(EntryMetaData)
 
 #endif

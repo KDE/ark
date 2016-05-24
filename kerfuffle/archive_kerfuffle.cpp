@@ -60,7 +60,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
 {
     qCDebug(ARK) << "Going to create archive" << fileName;
 
-    qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
+    qRegisterMetaType<EntryMetaData>("EntryMetaData");
 
     PluginManager pluginManager;
     const QMimeType mimeType = fixedMimeType.isEmpty() ? determineMimeType(fileName) : QMimeDatabase().mimeTypeForName(fixedMimeType);
@@ -263,9 +263,9 @@ QString Archive::subfolderName()
     return m_subfolderName;
 }
 
-void Archive::onNewEntry(const ArchiveEntry &entry)
+void Archive::onNewEntry(const EntryMetaData &metaData)
 {
-    if (!entry[IsDirectory].toBool()) {
+    if (!metaData[IsDirectory].toBool()) {
         m_numberOfFiles++;
     }
 }

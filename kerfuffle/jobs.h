@@ -68,7 +68,7 @@ protected slots:
     virtual void onCancelled();
     virtual void onError(const QString &message, const QString &details);
     virtual void onInfo(const QString &info);
-    virtual void onEntry(const ArchiveEntry &archiveEntry);
+    virtual void onEntry(const EntryMetaData &metaData);
     virtual void onProgress(double progress);
     virtual void onEntryRemoved(const QString &path);
     virtual void onFinished(bool result);
@@ -77,7 +77,7 @@ protected slots:
 signals:
     void entryRemoved(const QString & entry);
     void error(const QString& errorMessage, const QString& details);
-    void newEntry(const ArchiveEntry &);
+    void newEntry(const EntryMetaData &);
     void userQuery(Kerfuffle::Query*);
 
 private:
@@ -115,7 +115,7 @@ private:
     qlonglong m_filesCount;
 
 private slots:
-    void onNewEntry(const ArchiveEntry&);
+    void onNewEntry(const EntryMetaData&);
 };
 
 class KERFUFFLE_EXPORT ExtractJob : public Job

@@ -28,15 +28,14 @@
 #include <kjobtrackerinterface.h>
 #include "kerfuffle/archive_kerfuffle.h"
 
-using Kerfuffle::ArchiveEntry;
+using Kerfuffle::EntryMetaData;
 
 namespace Kerfuffle
 {
     class Query;
 }
 
-class ArchiveNode;
-class ArchiveDirNode;
+class ArchiveEntry;
 
 class ArchiveModel: public QAbstractItemModel
 {
@@ -66,7 +65,7 @@ public:
     KJob* setArchive(Kerfuffle::Archive *archive);
     Kerfuffle::Archive *archive() const;
 
-    Kerfuffle::ArchiveEntry entryForIndex(const QModelIndex &index);
+    Kerfuffle::EntryMetaData metaDataForIndex(const QModelIndex &index);
     int childCount(const QModelIndex &index, int &dirs, int &files) const;
 
     Kerfuffle::ExtractJob* extractFile(const QVariant& fileName, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
@@ -89,8 +88,8 @@ signals:
     void droppedFiles(const QStringList& files, const QString& path = QString());
 
 private slots:
-    void slotNewEntryFromSetArchive(const ArchiveEntry& entry);
-    void slotNewEntry(const ArchiveEntry& entry);
+    void slotNewEntryFromSetArchive(const EntryMetaData& entry);
+    void slotNewEntry(const EntryMetaData& entry);
     void slotLoadingFinished(KJob *job);
     void slotEntryRemoved(const QString & path);
     void slotUserQuery(Kerfuffle::Query *query);
@@ -108,8 +107,8 @@ private:
      */
     QString cleanFileName(const QString& fileName);
 
-    ArchiveDirNode* parentFor(const Kerfuffle::ArchiveEntry& entry);
-    QModelIndex indexForNode(ArchiveNode *node);
+    ArchiveEntry* parentFor(const Kerfuffle::EntryMetaData& metaData);
+    QModelIndex indexForEntry(ArchiveEntry *entry);
     static bool compareAscending(const QModelIndex& a, const QModelIndex& b);
     static bool compareDescending(const QModelIndex& a, const QModelIndex& b);
     /**
@@ -117,13 +116,13 @@ private:
      * of the change.
      */
     enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
-    void insertNode(ArchiveNode *node, InsertBehaviour behaviour = NotifyViews);
-    void newEntry(const Kerfuffle::ArchiveEntry& entry, InsertBehaviour behaviour);
+    void insertEntry(ArchiveEntry *entry, InsertBehaviour behaviour = NotifyViews);
+    void newEntry(const Kerfuffle::EntryMetaData& receivedMetaData, InsertBehaviour behaviour);
 
-    QList<Kerfuffle::ArchiveEntry> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
+    QList<Kerfuffle::EntryMetaData> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
     QList<int> m_showColumns;
     QScopedPointer<Kerfuffle::Archive> m_archive;
-    ArchiveDirNode *m_rootNode;
+    ArchiveEntry *m_rootEntry;
 
     QString m_dbusPathName;
 };

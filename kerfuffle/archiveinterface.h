@@ -107,7 +107,7 @@ public:
 signals:
     void cancelled();
     void error(const QString &message, const QString &details = QString());
-    void entry(const ArchiveEntry &archiveEntry);
+    void entry(const EntryMetaData &archiveEntry);
     void entryRemoved(const QString &path);
     void progress(double progress);
     void info(const QString &info);

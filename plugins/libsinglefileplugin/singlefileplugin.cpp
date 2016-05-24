@@ -109,7 +109,7 @@ bool LibSingleFileInterface::list()
 
     const QString filename = uncompressedFileName();
 
-    Kerfuffle::ArchiveEntry e;
+    Kerfuffle::EntryMetaData e;
 
     e[Kerfuffle::FileName] = filename;
     e[Kerfuffle::InternalID] = filename;

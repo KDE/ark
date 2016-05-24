@@ -99,7 +99,7 @@ void InfoPanel::setIndex(const QModelIndex& index)
     if (!index.isValid()) {
         updateWithDefaults();
     } else {
-        const ArchiveEntry& entry = m_model->entryForIndex(index);
+        const EntryMetaData& entry = m_model->metaDataForIndex(index);
 
         QMimeDatabase db;
         QMimeType mimeType;
@@ -146,7 +146,7 @@ void InfoPanel::setIndexes(const QModelIndexList &list)
         fileName->setText(i18np("One file selected", "%1 files selected", list.size()));
         quint64 totalSize = 0;
         foreach(const QModelIndex& index, list) {
-            const ArchiveEntry& entry = m_model->entryForIndex(index);
+            const EntryMetaData& entry = m_model->metaDataForIndex(index);
             totalSize += entry[ Size ].toULongLong();
         }
         additionalInfo->setText(KIO::convertSize(totalSize));
@@ -180,7 +180,7 @@ void InfoPanel::hideActions()
 
 QString InfoPanel::metadataTextFor(const QModelIndex &index)
 {
-    const ArchiveEntry& entry = m_model->entryForIndex(index);
+    const EntryMetaData& entry = m_model->metaDataForIndex(index);
     QString text;
 
     QMimeDatabase db;

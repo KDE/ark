@@ -42,7 +42,7 @@ public:
 
 protected Q_SLOTS:
     void init();
-    void slotNewEntry(const ArchiveEntry& entry);
+    void slotNewEntry(const EntryMetaData& entry);
 
 private Q_SLOTS:
     // ListJob-related tests
@@ -62,10 +62,10 @@ private Q_SLOTS:
 
 private:
     JSONArchiveInterface *createArchiveInterface(const QString& filePath);
-    QList<ArchiveEntry> listEntries(JSONArchiveInterface *iface);
+    QList<EntryMetaData> listEntries(JSONArchiveInterface *iface);
     void startAndWaitForResult(KJob *job);
 
-    QList<ArchiveEntry> m_entries;
+    QList<EntryMetaData> m_entries;
     QEventLoop m_eventLoop;
 };
 
@@ -75,7 +75,7 @@ JobsTest::JobsTest()
     : QObject(Q_NULLPTR)
     , m_eventLoop(this)
 {
-    qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
+    qRegisterMetaType<EntryMetaData>("EntryMetaData");
 }
 
 void JobsTest::init()
@@ -83,7 +83,7 @@ void JobsTest::init()
     m_entries.clear();
 }
 
-void JobsTest::slotNewEntry(const ArchiveEntry& entry)
+void JobsTest::slotNewEntry(const EntryMetaData& entry)
 {
     m_entries.append(entry);
 }
@@ -99,7 +99,7 @@ JSONArchiveInterface *JobsTest::createArchiveInterface(const QString& filePath)
     return iface;
 }
 
-QList<ArchiveEntry> JobsTest::listEntries(JSONArchiveInterface *iface)
+QList<EntryMetaData> JobsTest::listEntries(JSONArchiveInterface *iface)
 {
     m_entries.clear();
 

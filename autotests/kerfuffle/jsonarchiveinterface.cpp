@@ -72,7 +72,7 @@ bool JSONArchiveInterface::addFiles(const QStringList& files, const Kerfuffle::C
             return false;
         }
 
-        Kerfuffle::ArchiveEntry e;
+        Kerfuffle::EntryMetaData e;
         e[Kerfuffle::FileName] = file;
 
         m_archive[file] = e;

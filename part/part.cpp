@@ -407,13 +407,13 @@ void Part::setupActions()
 void Part::updateActions()
 {
     bool isWritable = m_model->archive() && !m_model->archive()->isReadOnly();
-    bool isDirectory = m_model->entryForIndex(m_view->selectionModel()->currentIndex())[IsDirectory].toBool();
+    bool isDirectory = m_model->metaDataForIndex(m_view->selectionModel()->currentIndex())[IsDirectory].toBool();
     int selectedEntriesCount = m_view->selectionModel()->selectedRows().count();
 
     // Figure out if entry size is larger than preview size limit.
     const int maxPreviewSize = ArkSettings::previewFileSizeLimit() * 1024 * 1024;
     const bool limit = ArkSettings::limitPreviewFileSize();
-    const qlonglong size = m_model->entryForIndex(m_view->selectionModel()->currentIndex())[Size].toLongLong();
+    const qlonglong size = m_model->metaDataForIndex(m_view->selectionModel()->currentIndex())[Size].toLongLong();
     bool isPreviewable = (!limit || (limit && size < maxPreviewSize));
 
     m_previewAction->setEnabled(!isBusy() &&
@@ -793,7 +793,7 @@ void Part::slotLoadingFinished(KJob *job)
         displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "The archive is empty or Ark could not open its content."));
     } else if (m_model->rowCount() == 1) {
         if (m_model->archive()->mimeType().inherits(QStringLiteral("application/x-cd-image")) &&
-            m_model->entryForIndex(m_model->index(0, 0))[FileName].toString() == QLatin1String("README.TXT")) {
+            m_model->metaDataForIndex(m_model->index(0, 0))[FileName].toString() == QLatin1String("README.TXT")) {
             qCWarning(ARK) << "Detected ISO image with UDF filesystem";
             displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "Ark does not currently support ISO files with UDF filesystem."));
         }
@@ -841,7 +841,7 @@ void Part::slotOpenEntry(int mode)
     qCDebug(ARK) << "Opening with mode" << mode;
 
     QModelIndex index = m_view->selectionModel()->currentIndex();
-    const ArchiveEntry& entry =  m_model->entryForIndex(index);
+    const EntryMetaData& entry = m_model->metaDataForIndex(index);
 
     // Don't open directories.
     if (entry[IsDirectory].toBool()) {
@@ -876,8 +876,8 @@ void Part::slotOpenExtractedEntry(KJob *job)
     //        if there's an error or an overwrite dialog,
     //        the preview dialog will be launched anyway
     if (!job->error()) {
-        const ArchiveEntry& entry =
-            m_model->entryForIndex(m_view->selectionModel()->currentIndex());
+        const EntryMetaData& entry =
+            m_model->metaDataForIndex(m_view->selectionModel()->currentIndex());
 
         ExtractJob *extractJob = qobject_cast<ExtractJob*>(job);
         Q_ASSERT(extractJob);
@@ -1090,7 +1090,7 @@ QList<QVariant> Part::filesForIndexes(const QModelIndexList& list) const
     QVariantList ret;
 
     foreach(const QModelIndex& index, list) {
-        const ArchiveEntry& entry = m_model->entryForIndex(index);
+        const EntryMetaData& entry = m_model->metaDataForIndex(index);
         ret << entry[InternalID].toString();
     }
 
@@ -1116,7 +1116,7 @@ QList<QVariant> Part::filesAndRootNodesForIndexes(const QModelIndexList& list) c
 
         // Fetch the root node for the unselected parent.
         const QString rootInternalID =
-            m_model->entryForIndex(selectionRoot).value(InternalID).toString();
+            m_model->metaDataForIndex(selectionRoot).value(InternalID).toString();
 
 
         // Append index with root node to fileList.

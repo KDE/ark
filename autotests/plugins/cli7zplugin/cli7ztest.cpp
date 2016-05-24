@@ -38,7 +38,7 @@ using namespace Kerfuffle;
 
 void Cli7zTest::initTestCase()
 {
-    qRegisterMetaType<ArchiveEntry>();
+    qRegisterMetaType<EntryMetaData>();
 
     m_plugin = new Plugin(this);
     foreach (Plugin *plugin, m_pluginManger.availablePlugins()) {
@@ -161,22 +161,22 @@ void Cli7zTest::testList()
 
     QFETCH(int, someEntryIndex);
     QVERIFY(someEntryIndex < signalSpy.count());
-    ArchiveEntry entry = qvariant_cast<ArchiveEntry>(signalSpy.at(someEntryIndex).at(0));
+    EntryMetaData entryMetaData = qvariant_cast<EntryMetaData>(signalSpy.at(someEntryIndex).at(0));
 
     QFETCH(QString, expectedName);
-    QCOMPARE(entry[FileName].toString(), expectedName);
+    QCOMPARE(entryMetaData[FileName].toString(), expectedName);
 
     QFETCH(bool, isDirectory);
-    QCOMPARE(entry[IsDirectory].toBool(), isDirectory);
+    QCOMPARE(entryMetaData[IsDirectory].toBool(), isDirectory);
 
     QFETCH(bool, isPasswordProtected);
-    QCOMPARE(entry[IsPasswordProtected].toBool(), isPasswordProtected);
+    QCOMPARE(entryMetaData[IsPasswordProtected].toBool(), isPasswordProtected);
 
     QFETCH(qulonglong, expectedSize);
-    QCOMPARE(entry[Size].toULongLong(), expectedSize);
+    QCOMPARE(entryMetaData[Size].toULongLong(), expectedSize);
 
     QFETCH(QString, expectedTimestamp);
-    QCOMPARE(entry[Timestamp].toString(), expectedTimestamp);
+    QCOMPARE(entryMetaData[Timestamp].toString(), expectedTimestamp);
 
     plugin->deleteLater();
 }

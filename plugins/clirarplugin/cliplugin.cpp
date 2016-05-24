@@ -253,7 +253,7 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
 
 void CliPlugin::handleUnrar5Entry() {
 
-    ArchiveEntry e;
+    EntryMetaData e;
 
     QString compressionRatio = m_unrar5Details.value(QStringLiteral("ratio"));
     compressionRatio.chop(1); // Remove the '%'
@@ -456,7 +456,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
 
 void CliPlugin::handleUnrar4Entry() {
 
-    ArchiveEntry e;
+    EntryMetaData e;
 
     QDateTime ts = QDateTime::fromString(QString(m_unrar4Details.at(4) + QLatin1Char(' ') + m_unrar4Details.at(5)),
                                          QStringLiteral("dd-MM-yy hh:mm"));

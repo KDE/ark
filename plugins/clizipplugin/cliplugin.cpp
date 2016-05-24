@@ -161,7 +161,7 @@ bool CliPlugin::readListLine(const QString &line)
     case ParseStateEntry:
         QRegularExpressionMatch rxMatch = entryPattern.match(line);
         if (rxMatch.hasMatch()) {
-            ArchiveEntry e;
+            EntryMetaData e;
             e[Permissions] = rxMatch.captured(1);
 
             // #280354: infozip may not show the right attributes for a given directory, so an entry

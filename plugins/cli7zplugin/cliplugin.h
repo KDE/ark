@@ -63,7 +63,7 @@ private:
     } m_parseState;
 
     int m_linesComment;
-    Kerfuffle::ArchiveEntry m_currentArchiveEntry;
+    Kerfuffle::EntryMetaData m_currentArchiveEntry;
 };
 
 #endif // CLIPLUGIN_H

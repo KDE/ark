@@ -151,9 +151,9 @@ void Job::onError(const QString & message, const QString & details)
     setErrorText(message);
 }
 
-void Job::onEntry(const ArchiveEntry & archiveEntry)
+void Job::onEntry(const EntryMetaData & metaData)
 {
-    emit newEntry(archiveEntry);
+    emit newEntry(metaData);
 }
 
 void Job::onProgress(double value)
@@ -234,12 +234,12 @@ bool ListJob::isSingleFolderArchive() const
     return m_isSingleFolderArchive;
 }
 
-void ListJob::onNewEntry(const ArchiveEntry& entry)
+void ListJob::onNewEntry(const EntryMetaData& metaData)
 {
-    m_extractedFilesSize += entry[ Size ].toLongLong();
-    m_isPasswordProtected |= entry [ IsPasswordProtected ].toBool();
+    m_extractedFilesSize += metaData[ Size ].toLongLong();
+    m_isPasswordProtected |= metaData [ IsPasswordProtected ].toBool();
 
-    if (entry[IsDirectory].toBool()) {
+    if (metaData[IsDirectory].toBool()) {
         m_dirCount++;
     } else {
         m_filesCount++;
@@ -247,7 +247,7 @@ void ListJob::onNewEntry(const ArchiveEntry& entry)
 
     if (m_isSingleFolderArchive) {
         // RPM filenames have the ./ prefix, and "." would be detected as the subfolder name, so we remove it.
-        const QString fileName = entry[FileName].toString().replace(QRegularExpression(QStringLiteral("^\\./")), QString());
+        const QString fileName = metaData[FileName].toString().replace(QRegularExpression(QStringLiteral("^\\./")), QString());
         const QString basePath = fileName.split(QLatin1Char('/')).at(0);
 
         if (m_basePath.isEmpty()) {

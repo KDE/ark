@@ -56,7 +56,7 @@ private:
 
     void readJsonOutput();
 
-    Kerfuffle::ArchiveEntry m_currentEntry;
+    Kerfuffle::EntryMetaData m_currentEntry;
     QString m_jsonOutput;
 };
 

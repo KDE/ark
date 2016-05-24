@@ -94,19 +94,19 @@ JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
             continue;
         }
 
-        Kerfuffle::ArchiveEntry archiveEntry;
+        Kerfuffle::EntryMetaData entryMetaData;
 
         QVariantMap::const_iterator entryIterator = entryMap.constBegin();
         for (; entryIterator != entryMap.constEnd(); ++entryIterator) {
             if (properties.contains(entryIterator.key())) {
-                archiveEntry[properties[entryIterator.key()]] = entryIterator.value();
+                entryMetaData[properties[entryIterator.key()]] = entryIterator.value();
             } else {
                 qDebug() << entryIterator.key() << "is not a valid entry key";
             }
         }
 
         const QString fileName = entryMap[QStringLiteral("FileName")].toString();
-        archive[fileName] = archiveEntry;
+        archive[fileName] = entryMetaData;
     }
 
     return archive;

@@ -87,7 +87,7 @@ enum ArchiveError {
     FailedPlugin
 };
 
-typedef QHash<int, QVariant> ArchiveEntry;
+typedef QHash<int, QVariant> EntryMetaData;
 
 /**
 These are the extra options for doing the compression. Naming convention
@@ -229,7 +229,7 @@ private slots:
     void onListFinished(KJob*);
     void onAddFinished(KJob*);
     void onUserQuery(Kerfuffle::Query*);
-    void onNewEntry(const ArchiveEntry &entry);
+    void onNewEntry(const EntryMetaData &metaData);
 
 private:
     Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent = 0);
