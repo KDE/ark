@@ -30,7 +30,7 @@
 #include "dnddbusinterfaceadaptor.h"
 #include "infopanel.h"
 #include "jobtracker.h"
-#include "kerfuffle/archive_kerfuffle.h"
+#include "kerfuffle/archiveentry.h"
 #include "kerfuffle/extractiondialog.h"
 #include "kerfuffle/extractionsettingspage.h"
 #include "kerfuffle/jobs.h"
@@ -408,18 +408,17 @@ void Part::setupActions()
 void Part::updateActions()
 {
     bool isWritable = m_model->archive() && !m_model->archive()->isReadOnly();
-    bool isDirectory = m_model->entryForIndex(m_view->selectionModel()->currentIndex())[IsDirectory].toBool();
+    const Archive::Entry *entry = m_model->entryForIndex(m_view->selectionModel()->currentIndex());
     int selectedEntriesCount = m_view->selectionModel()->selectedRows().count();
 
     // Figure out if entry size is larger than preview size limit.
     const int maxPreviewSize = ArkSettings::previewFileSizeLimit() * 1024 * 1024;
     const bool limit = ArkSettings::limitPreviewFileSize();
-    const qlonglong size = m_model->entryForIndex(m_view->selectionModel()->currentIndex())[Size].toLongLong();
-    bool isPreviewable = (!limit || (limit && size < maxPreviewSize));
+    bool isPreviewable = (!limit || (limit && entry != Q_NULLPTR && entry->property("size").toLongLong() < maxPreviewSize));
 
     m_previewAction->setEnabled(!isBusy() &&
                                 isPreviewable &&
-                                !isDirectory &&
+                                !entry->isDir() &&
                                 (selectedEntriesCount == 1));
     m_extractArchiveAction->setEnabled(!isBusy() &&
                                        (m_model->rowCount() > 0));
@@ -436,11 +435,11 @@ void Part::updateActions()
                                     (selectedEntriesCount > 0));
     m_openFileAction->setEnabled(!isBusy() &&
                                  isPreviewable &&
-                                 !isDirectory &&
+                                 !entry->isDir() &&
                                  (selectedEntriesCount == 1));
     m_openFileWithAction->setEnabled(!isBusy() &&
                                      isPreviewable &&
-                                     !isDirectory &&
+                                     !entry->isDir() &&
                                      (selectedEntriesCount == 1));
     m_propertiesAction->setEnabled(!isBusy() &&
                                    m_model->archive());
@@ -794,7 +793,7 @@ void Part::slotLoadingFinished(KJob *job)
         displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "The archive is empty or Ark could not open its content."));
     } else if (m_model->rowCount() == 1) {
         if (m_model->archive()->mimeType().inherits(QStringLiteral("application/x-cd-image")) &&
-            m_model->entryForIndex(m_model->index(0, 0))[FileName].toString() == QLatin1String("README.TXT")) {
+            m_model->entryForIndex(m_model->index(0, 0))->property("fileName").toString() == QLatin1String("README.TXT")) {
             qCWarning(ARK) << "Detected ISO image with UDF filesystem";
             displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "Ark does not currently support ISO files with UDF filesystem."));
         }
@@ -842,30 +841,30 @@ void Part::slotOpenEntry(int mode)
     qCDebug(ARK) << "Opening with mode" << mode;
 
     QModelIndex index = m_view->selectionModel()->currentIndex();
-    const ArchiveEntry& entry =  m_model->entryForIndex(index);
+    const Archive::Entry *entry = m_model->entryForIndex(index);
 
     // Don't open directories.
-    if (entry[IsDirectory].toBool()) {
+    if (entry->isDir()) {
         return;
     }
 
     // We don't support opening symlinks.
-    if (entry[Link].toBool()) {
+    if (!entry->property("link").toString().isEmpty()) {
         displayMsgWidget(KMessageWidget::Information, i18n("Ark cannot open symlinks."));
         return;
     }
 
     // Extract the entry.
-    if (!entry.isEmpty()) {
+    if (!entry->property("fileName").toString().isEmpty()) {
 
         m_openFileMode = static_cast<OpenFileMode>(mode);
         KJob *job = Q_NULLPTR;
 
         if (m_openFileMode == Preview) {
-            job = m_model->preview(entry[InternalID].toString());
+            job = m_model->preview(entry->property("fileName").toString());
             connect(job, &KJob::result, this, &Part::slotPreviewExtractedEntry);
         } else {
-            const QString file = entry[InternalID].toString();
+            const QString file = entry->property("fileName").toString();
             job = (m_openFileMode == OpenFile) ? m_model->open(file) : m_model->openWith(file);
             connect(job, &KJob::result, this, &Part::slotOpenExtractedEntry);
         }
@@ -1084,8 +1083,8 @@ QList<QVariant> Part::filesForIndexes(const QModelIndexList& list) const
     QVariantList ret;
 
     foreach(const QModelIndex& index, list) {
-        const ArchiveEntry& entry = m_model->entryForIndex(index);
-        ret << entry[InternalID].toString();
+        const Archive::Entry *entry = m_model->entryForIndex(index);
+        ret << entry->property("fileName").toString();
     }
 
     return ret;
@@ -1109,14 +1108,14 @@ QList<QVariant> Part::filesAndRootNodesForIndexes(const QModelIndexList& list) c
         }
 
         // Fetch the root node for the unselected parent.
-        const QString rootInternalID =
-            m_model->entryForIndex(selectionRoot).value(InternalID).toString();
+        const QString rootFileName =
+            m_model->entryForIndex(selectionRoot)->property("fileName").toString();
 
 
         // Append index with root node to fileList.
         QModelIndexList alist = QModelIndexList() << index;
         foreach (const QVariant &file, filesForIndexes(alist)) {
-            QVariant v = QVariant::fromValue(fileRootNodePair(file.toString(), rootInternalID));
+            QVariant v = QVariant::fromValue(fileRootNodePair(file.toString(), rootFileName));
             if (!fileList.contains(v)) {
                 fileList.append(v);
             }

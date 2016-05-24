@@ -28,6 +28,7 @@
 #include "libarchiveplugin.h"
 #include "ark_debug.h"
 #include "kerfuffle/kerfuffle_export.h"
+#include "kerfuffle/archiveentry.h"
 #include "kerfuffle/queries.h"
 
 #include <archive_entry.h>
@@ -415,33 +416,33 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
 
 void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 {
-    ArchiveEntry e;
+    Archive::Entry *e = new Archive::Entry(NULL);
 
 #ifdef _MSC_VER
-    e[FileName] = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry)));
+    e->fileName = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry)));
 #else
-    e[FileName] = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry)));
+    e->setProperty("fileName", QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry))));
 #endif
-    e[InternalID] = e[FileName];
 
     const QString owner = QString::fromLatin1(archive_entry_uname(aentry));
     if (!owner.isEmpty()) {
-        e[Owner] = owner;
+        e->setProperty("owner", owner);
     }
 
     const QString group = QString::fromLatin1(archive_entry_gname(aentry));
     if (!group.isEmpty()) {
-        e[Group] = group;
+        e->setProperty("group", group);
     }
 
-    e[Size] = (qlonglong)archive_entry_size(aentry);
-    e[IsDirectory] = S_ISDIR(archive_entry_mode(aentry));
+    e->compressedSizeIsSet = false;
+    e->setProperty("size", (qlonglong)archive_entry_size(aentry));
+    e->setProperty("isDirectory", S_ISDIR(archive_entry_mode(aentry)));
 
     if (archive_entry_symlink(aentry)) {
-        e[Link] = QLatin1String( archive_entry_symlink(aentry) );
+        e->setProperty("link", QLatin1String( archive_entry_symlink(aentry) ));
     }
 
-    e[Timestamp] = QDateTime::fromTime_t(archive_entry_mtime(aentry));
+    e->setProperty("timestamp", QDateTime::fromTime_t(archive_entry_mtime(aentry)));
 
     emit entry(e);
 }

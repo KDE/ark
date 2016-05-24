@@ -26,6 +26,7 @@
 #include "jsonarchiveinterface.h"
 
 #include <qfile.h>
+#include "kerfuffle/archiveentry.h"
 
 JSONArchiveInterface::JSONArchiveInterface(QObject *parent, const QVariantList& args)
     : Kerfuffle::ReadWriteArchiveInterface(parent, args)
@@ -72,8 +73,8 @@ bool JSONArchiveInterface::addFiles(const QStringList& files, const Kerfuffle::C
             return false;
         }
 
-        Kerfuffle::ArchiveEntry e;
-        e[Kerfuffle::FileName] = file;
+        Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry(NULL);
+        e->setProperty("fileName", file);
 
         m_archive[file] = e;
     }

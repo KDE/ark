@@ -1,16 +1,16 @@
 [
     {
-        "FileName": "aDir/",
-        "IsDirectory": true
+        "fileName": "aDir/",
+        "isDirectory": true
     },
     {
-        "FileName": "aDir/b.txt"
+        "fileName": "aDir/b.txt"
     },
     {
-        "FileName": "anotherDir/",
-        "IsDirectory": true
+        "fileName": "anotherDir/",
+        "isDirectory": true
     },
     {
-        "FileName": "anotherDir/file.txt"
+        "fileName": "anotherDir/file.txt"
     }
 ]

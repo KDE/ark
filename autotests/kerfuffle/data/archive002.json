@@ -1,18 +1,18 @@
 [
     {
-        "FileName": "a.txt",
-        "Size": 5
+        "fileName": "a.txt",
+        "size": 5
     },
     {
-        "FileName": "aDir/",
-        "IsDirectory": true
+        "fileName": "aDir/",
+        "isDirectory": true
     },
     {
-        "FileName": "aDir/b.txt",
-        "Size": 954
+        "fileName": "aDir/b.txt",
+        "size": 954
     },
     {
-        "FileName": "c.txt",
-        "Size": 45000
+        "fileName": "c.txt",
+        "size": 45000
     }
 ]

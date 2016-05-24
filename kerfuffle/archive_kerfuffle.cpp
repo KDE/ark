@@ -26,6 +26,7 @@
  */
 
 #include "archive_kerfuffle.h"
+#include "archiveentry.h"
 #include "ark_debug.h"
 #include "archiveinterface.h"
 #include "jobs.h"
@@ -59,8 +60,6 @@ Archive *Archive::create(const QString &fileName, QObject *parent)
 Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, QObject *parent)
 {
     qCDebug(ARK) << "Going to create archive" << fileName;
-
-    qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 
     PluginManager pluginManager;
     const QMimeType mimeType = fixedMimeType.isEmpty() ? determineMimeType(fileName) : QMimeDatabase().mimeTypeForName(fixedMimeType);
@@ -271,9 +270,9 @@ QString Archive::subfolderName()
     return m_subfolderName;
 }
 
-void Archive::onNewEntry(const ArchiveEntry &entry)
+void Archive::onNewEntry(const Archive::Entry *entry)
 {
-    if (!entry[IsDirectory].toBool()) {
+    if (!entry->isDir()) {
         m_numberOfFiles++;
     }
 }

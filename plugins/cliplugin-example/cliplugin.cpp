@@ -22,6 +22,7 @@
 
 #include "cliplugin.h"
 #include "ark_debug.h"
+#include "kerfuffle/archiveentry.h"
 #include "kerfuffle/kerfuffle_export.h"
 
 #include <QDebug>
@@ -97,11 +98,11 @@ bool CliPlugin::readListLine(const QString &line)
 
     // rar gives one line for the filename and a line after it with some file properties
     if (m_isFirstLine) {
-        m_internalId = line.trimmed();
+        m_entryFilename = line.trimmed();
         //m_entryFilename.chop(1); // handle newline
-        if (!m_internalId.isEmpty() && m_internalId.at(0) == QLatin1Char('*')) {
+        if (!m_entryFilename.isEmpty() && m_entryFilename.at(0) == QLatin1Char('*')) {
             m_isPasswordProtected = true;
-            m_internalId.remove(0, 1);   // and the spaces in front
+            m_entryFilename.remove(0, 1);   // and the spaces in front
         } else
             m_isPasswordProtected = false;
 
@@ -110,7 +111,7 @@ bool CliPlugin::readListLine(const QString &line)
     }
 
     QStringList fileprops = line.split(QLatin1Char(' '), QString::SkipEmptyParts);
-    m_internalId = QDir::fromNativeSeparators(m_internalId);
+    m_entryFilename = QDir::fromNativeSeparators(m_entryFilename);
     bool isDirectory = (bool)(fileprops[ 5 ].contains(QLatin1Char('d'), Qt::CaseInsensitive));
 
     QDateTime ts(QDate::fromString(fileprops[ 3 ], QLatin1String("dd-MM-yy")),
@@ -121,25 +122,23 @@ bool CliPlugin::readListLine(const QString &line)
         ts = ts.addYears(100);
     }
 
-    m_entryFilename = m_internalId;
-    if (isDirectory && !m_internalId.endsWith(QLatin1Char('/'))) {
+    if (isDirectory && !m_entryFilename.endsWith(QLatin1Char('/'))) {
         m_entryFilename += QLatin1Char('/');
     }
 
     qCDebug(ARK) << m_entryFilename << " : " << fileprops;
-    ArchiveEntry e;
-    e[ FileName ] = m_entryFilename;
-    e[ InternalID ] = m_internalId;
-    e[ Size ] = fileprops[ 0 ];
-    e[ CompressedSize] = fileprops[ 1 ];
-    e[ Ratio ] = fileprops[ 2 ];
-    e[ Timestamp ] = ts;
-    e[ IsDirectory ] = isDirectory;
-    e[ Permissions ] = fileprops[ 5 ].remove(0, 1);
-    e[ CRC ] = fileprops[ 6 ];
-    e[ Method ] = fileprops[ 7 ];
-    e[ Version ] = fileprops[ 8 ];
-    e[ IsPasswordProtected] = m_isPasswordProtected;
+    Archive::Entry *e = new Archive::Entry(Q_NULLPTR);
+    e->setProperty("fileName", m_entryFilename);
+    e->setProperty("size", fileprops[ 0 ]);
+    e->setProperty("compressedSize", fileprops[ 1 ]);
+    e->setProperty("ratio", fileprops[ 2 ]);
+    e->setProperty("timestamp", ts);
+    e->setProperty("isDirectory", isDirectory);
+    e->setProperty("permissions", fileprops[ 5 ].remove(0, 1));
+    e->setProperty("CRC", fileprops[ 6 ]);
+    e->setProperty("method", fileprops[ 7 ]);
+    e->setProperty("version", fileprops[ 8 ]);
+    e->setProperty("ssPasswordProtected", m_isPasswordProtected);
     qCDebug(ARK) << "Added entry: " << e;
 
     emit entry(e);
