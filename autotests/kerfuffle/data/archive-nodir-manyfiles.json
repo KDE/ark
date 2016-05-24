@@ -1,8 +1,8 @@
 [
     {
-        "FileName": "a.txt"
+        "fileName": "a.txt"
     },
     {
-        "FileName": "file.txt"
+        "fileName": "file.txt"
     }
 ]

@@ -17,6 +17,8 @@ set(kerfuffle_SRCS
     mimetypes.cpp
     plugin.cpp
     pluginmanager.cpp
+    archiveentry.cpp
+    archiveentry.h
 )
 
 kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)

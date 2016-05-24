@@ -23,6 +23,7 @@
 #include "ark_debug.h"
 #include "kerfuffle/cliinterface.h"
 #include "kerfuffle/kerfuffle_export.h"
+#include "kerfuffle/archiveentry.h"
 
 #include <KPluginFactory>
 
@@ -161,25 +162,25 @@ bool CliPlugin::readListLine(const QString &line)
     case ParseStateEntry:
         QRegularExpressionMatch rxMatch = entryPattern.match(line);
         if (rxMatch.hasMatch()) {
-            ArchiveEntry e;
-            e[Permissions] = rxMatch.captured(1);
+            Archive::Entry *e = new Archive::Entry(Q_NULLPTR);
+            e->setProperty("permissions", rxMatch.captured(1));
 
             // #280354: infozip may not show the right attributes for a given directory, so an entry
             //          ending with '/' is actually more reliable than 'd' bein in the attributes.
-            e[IsDirectory] = rxMatch.captured(10).endsWith(QLatin1Char('/'));
+            e->setProperty("isDirectory", rxMatch.captured(10).endsWith(QLatin1Char('/')));
 
-            e[Size] = rxMatch.captured(4);
+            e->setProperty("size", rxMatch.captured(4));
             QString status = rxMatch.captured(5);
             if (status[0].isUpper()) {
-                e[IsPasswordProtected] = true;
+                e->setProperty("isPasswordProtected", true);
             }
-            e[CompressedSize] = rxMatch.captured(6).toInt();
+            e->setProperty("compressedSize", rxMatch.captured(6).toInt());
 
             const QDateTime ts(QDate::fromString(rxMatch.captured(8), QStringLiteral("yyyyMMdd")),
                                QTime::fromString(rxMatch.captured(9), QStringLiteral("hhmmss")));
-            e[Timestamp] = ts;
+            e->setProperty("timestamp", ts);
 
-            e[FileName] = e[InternalID] = rxMatch.captured(10);
+            e->setProperty("fileName", rxMatch.captured(10));
             emit entry(e);
         }
         break;

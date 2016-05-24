@@ -28,15 +28,12 @@
 #include <kjobtrackerinterface.h>
 #include "kerfuffle/archive_kerfuffle.h"
 
-using Kerfuffle::ArchiveEntry;
+using Kerfuffle::Archive;
 
 namespace Kerfuffle
 {
     class Query;
 }
-
-class ArchiveNode;
-class ArchiveDirNode;
 
 class ArchiveModel: public QAbstractItemModel
 {
@@ -60,13 +57,13 @@ public:
     //drag and drop related
     Qt::DropActions supportedDropActions() const Q_DECL_OVERRIDE;
     QStringList mimeTypes() const Q_DECL_OVERRIDE;
-    QMimeData * mimeData(const QModelIndexList & indexes) const Q_DECL_OVERRIDE;
+    QMimeData *mimeData(const QModelIndexList & indexes) const Q_DECL_OVERRIDE;
     bool dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent) Q_DECL_OVERRIDE;
 
     KJob* setArchive(Kerfuffle::Archive *archive);
     Kerfuffle::Archive *archive() const;
 
-    Kerfuffle::ArchiveEntry entryForIndex(const QModelIndex &index);
+    Archive::Entry *entryForIndex(const QModelIndex &index);
     int childCount(const QModelIndex &index, int &dirs, int &files) const;
 
     Kerfuffle::ExtractJob* extractFile(const QVariant& fileName, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
@@ -89,8 +86,8 @@ signals:
     void droppedFiles(const QStringList& files, const QString& path = QString());
 
 private slots:
-    void slotNewEntryFromSetArchive(const ArchiveEntry& entry);
-    void slotNewEntry(const ArchiveEntry& entry);
+    void slotNewEntryFromSetArchive(Archive::Entry *entry);
+    void slotNewEntry(Archive::Entry *entry);
     void slotLoadingFinished(KJob *job);
     void slotEntryRemoved(const QString & path);
     void slotUserQuery(Kerfuffle::Query *query);
@@ -108,8 +105,8 @@ private:
      */
     QString cleanFileName(const QString& fileName);
 
-    ArchiveDirNode* parentFor(const Kerfuffle::ArchiveEntry& entry);
-    QModelIndex indexForNode(ArchiveNode *node);
+    Archive::Entry *parentFor(const Kerfuffle::Archive::Entry *entry);
+    QModelIndex indexForEntry(Archive::Entry *entry);
     static bool compareAscending(const QModelIndex& a, const QModelIndex& b);
     static bool compareDescending(const QModelIndex& a, const QModelIndex& b);
     /**
@@ -117,13 +114,14 @@ private:
      * of the change.
      */
     enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
-    void insertNode(ArchiveNode *node, InsertBehaviour behaviour = NotifyViews);
-    void newEntry(const Kerfuffle::ArchiveEntry& entry, InsertBehaviour behaviour);
+    void copyEntryMetaData(Archive::Entry *destinationEntry, const Archive::Entry *sourceEntry);
+    void insertEntry(Archive::Entry *entry, InsertBehaviour behaviour = NotifyViews);
+    void newEntry(Kerfuffle::Archive::Entry *receivedEntry, InsertBehaviour behaviour);
 
-    QList<Kerfuffle::ArchiveEntry> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
+    QList<Kerfuffle::Archive::Entry*> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
     QList<int> m_showColumns;
     QScopedPointer<Kerfuffle::Archive> m_archive;
-    ArchiveDirNode *m_rootNode;
+    Archive::Entry *m_rootEntry;
 
     QString m_dbusPathName;
 };
