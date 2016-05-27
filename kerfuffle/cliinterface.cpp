@@ -1082,6 +1082,7 @@ void CliInterface::handleLine(const QString& line)
         if (checkForErrorMessage(line, CorruptArchivePatterns)) {
             qCWarning(ARK) << "Archive corrupt";
             setCorrupt(true);
+            return;
         }
 
         if (handleFileExistsMessage(line)) {
