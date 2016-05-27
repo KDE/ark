@@ -306,10 +306,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
 
     if (m_operationMode == Add) {
         list();
-    } else if (!isCorrupt()) {
-        emit progress(1.0);
-        emit finished(true);
-    } else {
+    } else if (m_operationMode == List && isCorrupt()) {
         Kerfuffle::LoadCorruptQuery query(filename());
         emit userQuery(&query);
         query.waitForResponse();
@@ -320,6 +317,9 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
             emit progress(1.0);
             emit finished(true);
         }
+    } else  {
+        emit progress(1.0);
+        emit finished(true);
     }
 }
 
