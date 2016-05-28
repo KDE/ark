@@ -26,6 +26,7 @@
 
 #include "jsonarchiveinterface.h"
 #include "kerfuffle/jobs.h"
+#include "kerfuffle/archiveentry.h"
 
 #include <QDebug>
 #include <QEventLoop>
@@ -42,7 +43,7 @@ public:
 
 protected Q_SLOTS:
     void init();
-    void slotNewEntry(const EntryMetaData& entry);
+    void slotNewEntry(Archive::Entry* entry);
 
 private Q_SLOTS:
     // ListJob-related tests
@@ -62,10 +63,10 @@ private Q_SLOTS:
 
 private:
     JSONArchiveInterface *createArchiveInterface(const QString& filePath);
-    QList<EntryMetaData> listEntries(JSONArchiveInterface *iface);
+    QList<Archive::Entry*> listEntries(JSONArchiveInterface *iface);
     void startAndWaitForResult(KJob *job);
 
-    QList<EntryMetaData> m_entries;
+    QList<Archive::Entry*> m_entries;
     QEventLoop m_eventLoop;
 };
 
@@ -75,7 +76,6 @@ JobsTest::JobsTest()
     : QObject(Q_NULLPTR)
     , m_eventLoop(this)
 {
-    qRegisterMetaType<EntryMetaData>("EntryMetaData");
 }
 
 void JobsTest::init()
@@ -83,7 +83,7 @@ void JobsTest::init()
     m_entries.clear();
 }
 
-void JobsTest::slotNewEntry(const EntryMetaData& entry)
+void JobsTest::slotNewEntry(Archive::Entry* entry)
 {
     m_entries.append(entry);
 }
@@ -99,7 +99,7 @@ JSONArchiveInterface *JobsTest::createArchiveInterface(const QString& filePath)
     return iface;
 }
 
-QList<EntryMetaData> JobsTest::listEntries(JSONArchiveInterface *iface)
+QList<Archive::Entry*> JobsTest::listEntries(JSONArchiveInterface *iface)
 {
     m_entries.clear();
 
@@ -208,7 +208,7 @@ void JobsTest::testListJob()
     QCOMPARE(archiveEntries.size(), expectedEntryNames.size());
 
     for (int i = 0; i < archiveEntries.size(); i++) {
-        QCOMPARE(archiveEntries.at(i)[FileName].toString(), expectedEntryNames.at(i));
+        QCOMPARE(archiveEntries.at(i)->fileName.toString(), expectedEntryNames.at(i));
     }
 
     listJob->deleteLater();
@@ -292,7 +292,7 @@ void JobsTest::testRemoveEntries()
     QCOMPARE(remainingEntries.size(), expectedRemainingEntries.size());
 
     for (int i = 0; i < remainingEntries.size(); i++) {
-        QCOMPARE(remainingEntries.at(i)[FileName].toString(), expectedRemainingEntries.at(i));
+        QCOMPARE(remainingEntries.at(i)->fileName.toString(), expectedRemainingEntries.at(i));
     }
 
     iface->deleteLater();

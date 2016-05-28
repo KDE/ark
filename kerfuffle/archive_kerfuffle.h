@@ -63,7 +63,6 @@ class ReadOnlyArchiveInterface;
  */
 enum EntryMetaDataType {
     FileName = 0,        /**< The entry's file name */
-    InternalID,          /**< The entry's ID for Ark's internal manipulation */
     Permissions,         /**< The entry's permissions */
     Owner,               /**< The user the entry belongs to */
     Group,               /**< The user group the entry belongs to */
@@ -86,8 +85,6 @@ enum ArchiveError {
     NoPlugin,
     FailedPlugin
 };
-
-typedef QHash<int, QVariant> EntryMetaData;
 
 /**
 These are the extra options for doing the compression. Naming convention
@@ -163,6 +160,8 @@ public:
         HeaderEncrypted
     };
 
+    class Entry;
+
     QString completeBaseName() const;
     QString fileName() const;
     QString comment() const;
@@ -229,7 +228,7 @@ private slots:
     void onListFinished(KJob*);
     void onAddFinished(KJob*);
     void onUserQuery(Kerfuffle::Query*);
-    void onNewEntry(const EntryMetaData &metaData);
+    void onNewEntry(const Archive::Entry* entry);
 
 private:
     Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent = 0);

@@ -25,6 +25,7 @@
 
 #include "jsonparser.h"
 #include "kerfuffle/archiveinterface.h"
+#include "kerfuffle/archiveentry.h"
 
 #include <QDebug>
 #include <QJsonDocument>
@@ -41,7 +42,6 @@ static ArchiveProperties archiveProperties()
     }
 
     properties[QStringLiteral("FileName")]            = Kerfuffle::FileName;
-    properties[QStringLiteral("InternalID")]          = Kerfuffle::InternalID;
     properties[QStringLiteral("Permissions")]         = Kerfuffle::Permissions;
     properties[QStringLiteral("Owner")]               = Kerfuffle::Owner;
     properties[QStringLiteral("Group")]               = Kerfuffle::Group;
@@ -94,19 +94,19 @@ JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
             continue;
         }
 
-        Kerfuffle::EntryMetaData entryMetaData;
+        Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry(NULL);
 
         QVariantMap::const_iterator entryIterator = entryMap.constBegin();
         for (; entryIterator != entryMap.constEnd(); ++entryIterator) {
             if (properties.contains(entryIterator.key())) {
-                entryMetaData[properties[entryIterator.key()]] = entryIterator.value();
+                e->setPropertyByColumn(properties[entryIterator.key()], entryIterator.value());
             } else {
                 qDebug() << entryIterator.key() << "is not a valid entry key";
             }
         }
 
         const QString fileName = entryMap[QStringLiteral("FileName")].toString();
-        archive[fileName] = entryMetaData;
+        archive[fileName] = e;
     }
 
     return archive;

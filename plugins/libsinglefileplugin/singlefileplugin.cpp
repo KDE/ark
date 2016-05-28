@@ -25,13 +25,11 @@
 
 #include "singlefileplugin.h"
 #include "ark_debug.h"
-#include "kerfuffle/kerfuffle_export.h"
+#include "kerfuffle/archiveentry.h"
 #include "kerfuffle/queries.h"
 
-#include <QByteArray>
 #include <QFile>
 #include <QFileInfo>
-#include <QString>
 
 #include <KFilterDev>
 #include <KLocalizedString>
@@ -107,13 +105,8 @@ bool LibSingleFileInterface::list()
 {
     qCDebug(ARK) << "Listing archive contents";
 
-    const QString filename = uncompressedFileName();
-
-    Kerfuffle::EntryMetaData e;
-
-    e[Kerfuffle::FileName] = filename;
-    e[Kerfuffle::InternalID] = filename;
-
+    Kerfuffle::Archive::Entry* e = new Kerfuffle::Archive::Entry(NULL);
+    e->fileName = uncompressedFileName();
     emit entry(e);
 
     return true;

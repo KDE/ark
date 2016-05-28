@@ -25,6 +25,7 @@
 #define CLIPLUGIN_H
 
 #include "kerfuffle/cliinterface.h"
+#include "kerfuffle/archiveentry.h"
 
 class CliPlugin : public Kerfuffle::CliInterface
 {
@@ -63,7 +64,7 @@ private:
     } m_parseState;
 
     int m_linesComment;
-    Kerfuffle::EntryMetaData m_currentArchiveEntry;
+    Kerfuffle::Archive::Entry* m_currentArchiveEntry;
 };
 
 #endif // CLIPLUGIN_H

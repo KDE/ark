@@ -23,6 +23,7 @@
 #ifndef CLIPLUGIN_H
 #define CLIPLUGIN_H
 
+#include "kerfuffle/archiveentry.h"
 #include "kerfuffle/cliinterface.h"
 
 class CliPlugin : public Kerfuffle::CliInterface
@@ -56,7 +57,7 @@ private:
 
     void readJsonOutput();
 
-    Kerfuffle::EntryMetaData m_currentEntry;
+    Kerfuffle::Archive::Entry* m_currentEntry;
     QString m_jsonOutput;
 };
 

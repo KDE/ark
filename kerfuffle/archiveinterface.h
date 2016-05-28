@@ -29,6 +29,7 @@
 #define ARCHIVEINTERFACE_H
 
 #include "archive_kerfuffle.h"
+#include "archive_entry.h"
 #include "kerfuffle_export.h"
 
 #include <QObject>
@@ -107,7 +108,7 @@ public:
 signals:
     void cancelled();
     void error(const QString &message, const QString &details = QString());
-    void entry(const EntryMetaData &archiveEntry);
+    void entry(Archive::Entry* archiveEntry);
     void entryRemoved(const QString &path);
     void progress(double progress);
     void info(const QString &info);

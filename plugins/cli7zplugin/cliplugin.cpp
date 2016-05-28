@@ -40,6 +40,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
         , m_archiveType(ArchiveType7z)
         , m_parseState(ParseStateTitle)
         , m_linesComment(0)
+        , m_currentArchiveEntry(NULL)
 {
     qCDebug(ARK) << "Loaded cli_7z plugin";
 }
@@ -188,49 +189,46 @@ bool CliPlugin::readListLine(const QString& line)
         if (line.startsWith(QStringLiteral("Path = "))) {
             const QString entryFilename =
                 QDir::fromNativeSeparators(line.mid(7).trimmed());
-            m_currentArchiveEntry.clear();
-            m_currentArchiveEntry[FileName] = entryFilename;
-            m_currentArchiveEntry[InternalID] = entryFilename;
+            m_currentArchiveEntry->clearMetaData();
+            m_currentArchiveEntry->fileName = entryFilename;
         } else if (line.startsWith(QStringLiteral("Size = "))) {
-            m_currentArchiveEntry[ Size ] = line.mid(7).trimmed();
+            m_currentArchiveEntry->size = line.mid(7).trimmed();
         } else if (line.startsWith(QStringLiteral("Packed Size = "))) {
             // #236696: 7z files only show a single Packed Size value
             //          corresponding to the whole archive.
             if (m_archiveType != ArchiveType7z) {
-                m_currentArchiveEntry[CompressedSize] = line.mid(14).trimmed();
+                m_currentArchiveEntry->compressedSize = line.mid(14).trimmed();
             }
         } else if (line.startsWith(QStringLiteral("Modified = "))) {
-            m_currentArchiveEntry[ Timestamp ] =
+            m_currentArchiveEntry->timestamp =
                 QDateTime::fromString(line.mid(11).trimmed(),
                                       QStringLiteral("yyyy-MM-dd hh:mm:ss"));
         } else if (line.startsWith(QStringLiteral("Attributes = "))) {
             const QString attributes = line.mid(13).trimmed();
 
             const bool isDirectory = attributes.startsWith(QLatin1Char('D'));
-            m_currentArchiveEntry[ IsDirectory ] = isDirectory;
+            m_currentArchiveEntry->isDirectory = isDirectory;
             if (isDirectory) {
                 const QString directoryName =
-                    m_currentArchiveEntry[FileName].toString();
+                    m_currentArchiveEntry->fileName.toString();
                 if (!directoryName.endsWith(QLatin1Char('/'))) {
                     const bool isPasswordProtected = (line.at(12) == QLatin1Char('+'));
-                    m_currentArchiveEntry[FileName] =
-                        m_currentArchiveEntry[InternalID] = QString(directoryName + QLatin1Char('/'));
-                    m_currentArchiveEntry[ IsPasswordProtected ] =
-                        isPasswordProtected;
+                    m_currentArchiveEntry->fileName = QString(directoryName + QLatin1Char('/'));
+                    m_currentArchiveEntry->isPasswordProtected = isPasswordProtected;
                 }
             }
 
-            m_currentArchiveEntry[ Permissions ] = attributes.mid(1);
+            m_currentArchiveEntry->permissions = attributes.mid(1);
         } else if (line.startsWith(QStringLiteral("CRC = "))) {
-            m_currentArchiveEntry[ CRC ] = line.mid(6).trimmed();
+            m_currentArchiveEntry->CRC = line.mid(6).trimmed();
         } else if (line.startsWith(QStringLiteral("Method = "))) {
-            m_currentArchiveEntry[ Method ] = line.mid(9).trimmed();
+            m_currentArchiveEntry->method = line.mid(9).trimmed();
         } else if (line.startsWith(QStringLiteral("Encrypted = ")) &&
                    line.size() >= 13) {
-            m_currentArchiveEntry[ IsPasswordProtected ] = (line.at(12) == QLatin1Char('+'));
+            m_currentArchiveEntry->isPasswordProtected = (line.at(12) == QLatin1Char('+'));
         } else if (line.startsWith(QStringLiteral("Block = ")) ||
                    line.startsWith(QStringLiteral("Version = "))) {
-            if (m_currentArchiveEntry.contains(FileName)) {
+            if (!m_currentArchiveEntry->fileName.isNull()) {
                 emit entry(m_currentArchiveEntry);
             }
         }
