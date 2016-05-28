@@ -980,8 +980,8 @@ void CliInterface::handleLine(const QString& line)
             if (!query.responseYes()) {
                 emit cancelled();
                 failOperation();
-                return;
             }
+            return;
         }
 
         if (handleFileExistsMessage(line)) {
