@@ -16,8 +16,10 @@ ecm_qt_declare_logging_category(arkpart_PART_SRCS
 
 qt5_add_dbus_adaptor(arkpart_PART_SRCS dnddbusinterface.xml part.h Ark::Part)
 
-ki18n_wrap_ui(arkpart_PART_SRCS infopanel.ui)
-ki18n_wrap_ui(arkpart_PART_SRCS jobtracker.ui)
+ki18n_wrap_ui(arkpart_PART_SRCS
+    arkviewer.ui
+    infopanel.ui
+    jobtracker.ui)
 
 add_library(arkpart MODULE ${arkpart_PART_SRCS})
 
