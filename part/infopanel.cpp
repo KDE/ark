@@ -74,7 +74,6 @@ void InfoPanel::updateWithDefaults()
 
     additionalInfo->setText(QString());
     hideMetaData();
-    hideActions();
 }
 
 QString InfoPanel::prettyFileName() const
@@ -156,26 +155,14 @@ void InfoPanel::setIndexes(const QModelIndexList &list)
 
 void InfoPanel::showMetaData()
 {
-    firstSeparator->show();
+    m_separator->show();
     metadataLabel->show();
 }
 
 void InfoPanel::hideMetaData()
 {
-    firstSeparator->hide();
+    m_separator->hide();
     metadataLabel->hide();
-}
-
-void InfoPanel::showActions()
-{
-    secondSeparator->show();
-    actionsLabel->show();
-}
-
-void InfoPanel::hideActions()
-{
-    secondSeparator->hide();
-    actionsLabel->hide();
 }
 
 QString InfoPanel::metadataTextFor(const QModelIndex &index)

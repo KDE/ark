@@ -72,7 +72,7 @@
     </widget>
    </item>
    <item>
-    <widget class="Line" name="firstSeparator">
+    <widget class="Line" name="m_separator">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -88,26 +88,6 @@
      </property>
      <property name="indent">
       <number>20</number>
-     </property>
-     <property name="textInteractionFlags">
-      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="Line" name="secondSeparator">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="actionsLabel">
-     <property name="text">
-      <string>ActionsLabel</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
      </property>
      <property name="textInteractionFlags">
       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
