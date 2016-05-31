@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>InformationPanel</class>
- <widget class="QWidget" name="InformationPanel" >
-  <property name="geometry" >
+ <widget class="QWidget" name="InformationPanel">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>118</width>
+    <width>140</width>
     <height>300</height>
    </rect>
   </property>
-  <property name="sizePolicy" >
-   <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Information Panel</string>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QLabel" name="iconLabel" >
-     <property name="text" >
+    <widget class="QLabel" name="iconLabel">
+     <property name="text">
       <string/>
      </property>
-     <property name="alignment" >
+     <property name="alignment">
       <set>Qt::AlignCenter</set>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
@@ -47,64 +50,76 @@
      <property name="wordWrap">
       <bool>true</bool>
      </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+     </property>
      <property name="textElideMode">
       <enum>Qt::ElideRight</enum>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="additionalInfo" >
-     <property name="text" >
+    <widget class="QLabel" name="additionalInfo">
+     <property name="text">
       <string>Unknown file type</string>
      </property>
-     <property name="alignment" >
+     <property name="alignment">
       <set>Qt::AlignCenter</set>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="Line" name="firstSeparator" >
-     <property name="orientation" >
+    <widget class="Line" name="firstSeparator">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="metadataLabel" >
-     <property name="text" >
+    <widget class="QLabel" name="metadataLabel">
+     <property name="text">
       <string>Metadata Label</string>
      </property>
-     <property name="margin" >
+     <property name="margin">
       <number>10</number>
      </property>
-     <property name="indent" >
+     <property name="indent">
       <number>20</number>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="Line" name="secondSeparator" >
-     <property name="orientation" >
+    <widget class="Line" name="secondSeparator">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="actionsLabel" >
-     <property name="text" >
+    <widget class="QLabel" name="actionsLabel">
+     <property name="text">
       <string>ActionsLabel</string>
      </property>
-     <property name="alignment" >
+     <property name="alignment">
       <set>Qt::AlignCenter</set>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
    <item>
     <spacer>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
        <height>40</height>
