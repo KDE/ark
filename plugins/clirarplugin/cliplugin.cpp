@@ -89,7 +89,6 @@ ParameterList CliPlugin::parameterList() const
                                        << QStringLiteral( "-p-" )
                                        << QStringLiteral( "$PreservePathSwitch" )
                                        << QStringLiteral( "$PasswordSwitch" )
-                                       << QStringLiteral( "$RootNodeSwitch" )
                                        << QStringLiteral( "$Archive" )
                                        << QStringLiteral( "$Files" );
         p[PreservePathSwitch] = QStringList() << QStringLiteral( "x" )

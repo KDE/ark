@@ -100,9 +100,6 @@ enum CliInterfaceParameters {
      * $Archive - the path of the archive
      * $Files - the files selected to be extracted, if any
      * $PreservePathSwitch - the flag for extracting with full paths
-     * $RootNodeSwitch - the internal work dir in the archive (for example
-     * when the user has dragged a folder from the archive and wants it
-     * extracted relative to it)
      * $PasswordSwitch - the switch setting the password. Note that this
      * will not be inserted unless the listing function has emitted an
      * entry with the IsPasswordProtected property set to true.
