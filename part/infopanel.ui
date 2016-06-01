@@ -79,19 +79,44 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="metadataLabel">
-     <property name="text">
-      <string>Metadata Label</string>
-     </property>
-     <property name="margin">
-      <number>10</number>
-     </property>
-     <property name="indent">
-      <number>20</number>
-     </property>
-     <property name="textInteractionFlags">
-      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-     </property>
+    <widget class="QWidget" name="m_metaDataWidget" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="m_typeLabel">
+        <property name="text">
+         <string notr="true">Type</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="m_ownerLabel">
+        <property name="text">
+         <string notr="true">Owner</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="m_groupLabel">
+        <property name="text">
+         <string notr="true">Group</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="KSqueezedTextLabel" name="m_targetLabel">
+        <property name="text">
+         <string notr="true">Target</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="m_passwordLabel">
+        <property name="text">
+         <string notr="true">Password</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
