@@ -132,14 +132,6 @@ enum CliInterfaceParameters {
     PreservePathSwitch,
     /**
      * QStringList (default empty)
-     * The format of the root node switch. The variable $Path will be
-     * substituted for the path string.
-     * Example: ("--internalPath=$Path)
-     * or ("--path", "$Path")
-     */
-    RootNodeSwitch,
-    /**
-     * QStringList (default empty)
      * The format of the root node switch. The variable $Password will be
      * substituted for the password string. NOTE: supplying passwords
      * through a virtual terminal is not supported (yet?), because this
@@ -320,7 +312,7 @@ public:
     bool moveToDestination(const QDir &tempDir, const QDir &destDir, bool preservePaths);
 
     QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
-    QStringList substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password, const QString &rootNode);
+    QStringList substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password);
     QStringList substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel);
     QStringList substituteDeleteVariables(const QStringList &deleteArgs, const QVariantList &files, const QString &password);
     QStringList substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile);
@@ -345,11 +337,6 @@ public:
      * @return The compression level switch with the given @p level.
      */
     QString compressionLevelSwitch(int level) const;
-
-    /**
-     * @return The root node switch with the given @p rootNode.
-     */
-    QStringList rootNodeSwitch(const QString& rootNode) const;
 
     /**
      * @return The list of selected files to extract.

@@ -194,7 +194,7 @@ void CliZipTest::testExtractArgs()
     QFETCH(bool, preservePaths);
     QFETCH(QString, password);
 
-    QStringList replacedArgs = plugin->substituteCopyVariables(extractArgs, files, preservePaths, password, QString());
+    QStringList replacedArgs = plugin->substituteCopyVariables(extractArgs, files, preservePaths, password);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);

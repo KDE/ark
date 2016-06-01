@@ -133,8 +133,7 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
     const QStringList args = substituteCopyVariables(extractArgs,
                                                      files,
                                                      options.value(QStringLiteral("PreservePaths")).toBool(),
-                                                     password(),
-                                                     options.value(QStringLiteral("RootNode"), QString()).toString());
+                                                     password());
 
     QUrl destDir = QUrl(destinationDirectory);
     QDir::setCurrent(destDir.adjusted(QUrl::RemoveScheme).url());
@@ -597,7 +596,7 @@ QStringList CliInterface::substituteListVariables(const QStringList &listArgs, c
     return args;
 }
 
-QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password, const QString &rootNode)
+QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password)
 {
     // Required if we call this function from unit tests.
     cacheParameterList();
@@ -618,11 +617,6 @@ QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs
 
         if (arg == QLatin1String("$PasswordSwitch")) {
             args << passwordSwitch(password);
-            continue;
-        }
-
-        if (arg == QLatin1String("$RootNodeSwitch")) {
-            args << rootNodeSwitch(rootNode);
             continue;
         }
 
@@ -831,26 +825,6 @@ QString CliInterface::compressionLevelSwitch(int level) const
     compLevelSwitch.replace(QLatin1String("$CompressionLevel"), QString::number(level));
 
     return compLevelSwitch;
-}
-
-QStringList CliInterface::rootNodeSwitch(const QString &rootNode) const
-{
-    if (rootNode.isEmpty()) {
-        return QStringList();
-    }
-
-    Q_ASSERT(m_param.contains(RootNodeSwitch));
-
-    QStringList rootNodeSwitch = m_param.value(RootNodeSwitch).toStringList();
-    Q_ASSERT(!rootNodeSwitch.isEmpty() && rootNodeSwitch.size() <= 2);
-
-    if (rootNodeSwitch.size() == 1) {
-        rootNodeSwitch[0].replace(QLatin1String("$Path"), rootNode);
-    } else {
-        rootNodeSwitch[1] = rootNode;
-    }
-
-    return rootNodeSwitch;
 }
 
 QStringList CliInterface::copyFilesList(const QVariantList& files) const

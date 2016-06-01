@@ -372,7 +372,7 @@ void Cli7zTest::testExtractArgs()
     QFETCH(bool, preservePaths);
     QFETCH(QString, password);
 
-    QStringList replacedArgs = plugin->substituteCopyVariables(extractArgs, files, preservePaths, password, QString());
+    QStringList replacedArgs = plugin->substituteCopyVariables(extractArgs, files, preservePaths, password);
     QVERIFY(replacedArgs.size() >= extractArgs.size());
 
     QFETCH(QStringList, expectedArgs);

@@ -94,7 +94,6 @@ ParameterList CliPlugin::parameterList() const
                                        << QStringLiteral( "$Files" );
         p[PreservePathSwitch] = QStringList() << QStringLiteral( "x" )
                                               << QStringLiteral( "e" );
-        p[RootNodeSwitch] = QStringList() << QStringLiteral( "-ap$Path" );
         p[PasswordSwitch] = QStringList() << QStringLiteral( "-p$Password" );
         p[PasswordHeaderSwitch] = QStringList() << QStringLiteral("-hp$Password");
         p[CompressionLevelSwitch] = QStringLiteral("-m$CompressionLevel");
