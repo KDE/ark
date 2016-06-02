@@ -922,7 +922,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
             list.append(QUrl::fromUserInput(fullName,
                                             QString(),
                                             QUrl::AssumeLocalFile));
-            KRun::displayOpenWithDialog(list, widget(), true);
+            KRun::displayOpenWithDialog(list, widget(), false);
 
             break;
         }
