@@ -193,9 +193,17 @@ TestJob* Archive::testArchive()
     return job;
 }
 
-QMimeType Archive::mimeType() const
+QMimeType Archive::mimeType()
 {
-    return isValid() ? determineMimeType(fileName()) : QMimeType();
+    if (!isValid()) {
+        return QMimeType();
+    }
+
+    if (!m_mimeType.isValid()) {
+        m_mimeType = determineMimeType(fileName());
+    }
+
+    return m_mimeType;
 }
 
 bool Archive::isReadOnly() const

@@ -166,7 +166,7 @@ public:
     QString completeBaseName() const;
     QString fileName() const;
     QString comment() const;
-    QMimeType mimeType() const;
+    QMimeType mimeType();
     bool isReadOnly() const;
     bool isSingleFolderArchive();
     bool hasComment() const;
@@ -246,6 +246,7 @@ private:
     ArchiveError m_error;
     EncryptionType m_encryptionType;
     qulonglong m_numberOfFiles;
+    QMimeType m_mimeType;
 };
 
 } // namespace Kerfuffle
