@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Icon": "ark",
+        "MimeTypes": [
+            "application/octet-stream",
+            "inode/directory"
+        ],
+        "Name": "'Compress' service menu",
+        "ServiceTypes": [
+            "KFileItemAction/Plugin"
+        ]
+    },
+    "MimeType": "application/octet-stream;inode/directory;",
+    "X-KDE-Require": "Write"
+}
