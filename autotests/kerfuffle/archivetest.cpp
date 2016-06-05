@@ -154,6 +154,12 @@ void ArchiveTest::testProperties_data()
             << QStringLiteral("simplearchive")
             << true << false << false << Archive::Unencrypted
             << QStringLiteral("simplearchive");
+
+    QTest::newRow("mimetype child of application/zip")
+            << QFINDTESTDATA("data/test.odt")
+            << QStringLiteral("test")
+            << false << true << false << Archive::Unencrypted
+            << QStringLiteral("test");
 }
 
 void ArchiveTest::testProperties()

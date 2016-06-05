@@ -137,11 +137,19 @@ QStringList PluginManager::supportedWriteMimeTypes() const
     return sortByComment(supported);
 }
 
-QVector<Plugin*> PluginManager::filterBy(const QVector<Plugin*> &plugins, const QMimeType &mimeType)
+QVector<Plugin*> PluginManager::filterBy(const QVector<Plugin*> &plugins, const QMimeType &mimeType) const
 {
+    const bool supportedMime = supportedMimeTypes().contains(mimeType.name());
     QVector<Plugin*> filteredPlugins;
     foreach (Plugin *plugin, plugins) {
-        if (plugin->metaData().mimeTypes().contains(mimeType.name())) {
+        if (!supportedMime) {
+            // Check whether the mimetype inherits from a supported mimetype.
+            foreach (const QString &mime, plugin->metaData().mimeTypes()) {
+                if (mimeType.inherits(mime)) {
+                    filteredPlugins << plugin;
+                }
+            }
+        } else if (plugin->metaData().mimeTypes().contains(mimeType.name())) {
             filteredPlugins << plugin;
         }
     }
