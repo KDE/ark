@@ -161,6 +161,12 @@ void ArchiveTest::testProperties_data()
     } else {
         qDebug() << "lrzip executable not found in path. Skipping lrzip test.";
     }
+
+    QTest::newRow("mimetype child of application/zip")
+            << QFINDTESTDATA("data/test.odt")
+            << QStringLiteral("test")
+            << false << true << false << Archive::Unencrypted
+            << QStringLiteral("test");
 }
 
 void ArchiveTest::testProperties()

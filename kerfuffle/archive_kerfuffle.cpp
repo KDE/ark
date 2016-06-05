@@ -36,6 +36,7 @@
 #include <QEventLoop>
 #include <QFile>
 #include <QFileInfo>
+#include <QMimeDatabase>
 
 #include <KPluginFactory>
 #include <KPluginLoader>
@@ -57,8 +58,24 @@ QVector<KPluginMetaData> Archive::findPluginOffers(const QString& filename, cons
     qCDebug(ARK) << "Detected mime" << mimeType;
 
     QVector<KPluginMetaData> offers = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"), [mimeType](const KPluginMetaData& metaData) {
-        return metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin")) &&
-               metaData.mimeTypes().contains(mimeType);
+        if (!metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin"))) {
+            return false;
+        }
+
+        if (metaData.mimeTypes().contains(mimeType)) {
+            return true;
+        }
+
+        // The mimetype is not directly supported, but it could inherit from a supported one.
+        if (!supportedMimeTypes().contains(mimeType)) {
+            foreach (const QString &mime, metaData.mimeTypes()) {
+                if (QMimeDatabase().mimeTypeForName(mimeType).inherits(mime)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     });
 
     qSort(offers.begin(), offers.end(), comparePlugins);
