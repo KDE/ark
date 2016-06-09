@@ -224,15 +224,20 @@ void MainWindow::openArchive()
     Q_UNUSED(iface);
 
     Kerfuffle::PluginManager pluginManager;
-    QPointer<QFileDialog> dlg = new QFileDialog(this, i18nc("to open an archive", "Open Archive"));
-    dlg->setMimeTypeFilters(pluginManager.supportedMimeTypes());
+    auto dlg = new QFileDialog(this, i18nc("to open an archive", "Open Archive"));
 
+    dlg->setMimeTypeFilters(pluginManager.supportedMimeTypes());
     dlg->setFileMode(QFileDialog::ExistingFile);
     dlg->setAcceptMode(QFileDialog::AcceptOpen);
-    if (dlg->exec() == QDialog::Accepted) {
-        openUrl(dlg->selectedUrls().first());
-    }
-    delete dlg;
+
+    connect(dlg, &QDialog::finished, this, [this, dlg](int result) {
+        if (result == QDialog::Accepted) {
+            openUrl(dlg->selectedUrls().first());
+        }
+        dlg->deleteLater();
+    });
+
+    dlg->open();
 }
 
 void MainWindow::openUrl(const QUrl& url)
