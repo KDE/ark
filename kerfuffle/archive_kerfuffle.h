@@ -47,7 +47,10 @@ class DeleteJob;
 class AddJob;
 class CommentJob;
 class TestJob;
+class OpenJob;
+class OpenWithJob;
 class Plugin;
+class PreviewJob;
 class Query;
 class ReadOnlyArchiveInterface;
 
@@ -218,6 +221,10 @@ public:
     AddJob* addFiles(const QStringList & files, const CompressionOptions& options = CompressionOptions());
 
     ExtractJob* copyFiles(const QList<QVariant> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
+
+    PreviewJob* preview(const QString &file);
+    OpenJob* open(const QString &file);
+    OpenWithJob* openWith(const QString &file);
 
     /**
      * @param password The password to encrypt the archive with.

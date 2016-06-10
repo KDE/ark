@@ -51,6 +51,7 @@ private Q_SLOTS:
 
     // ExtractJob-related tests
     void testExtractJobAccessors();
+    void testTempExtractJob();
 
     // DeleteJob-related tests
     void testRemoveEntries_data();
@@ -246,6 +247,23 @@ void JobsTest::testExtractJobAccessors()
 
     QCOMPARE(job->destinationDirectory(), QLatin1String("/root"));
     QCOMPARE(job->extractionOptions(), options);
+    delete job;
+}
+
+void JobsTest::testTempExtractJob()
+{
+    JSONArchiveInterface *iface = createArchiveInterface(QFINDTESTDATA("data/archive-malicious.json"));
+    PreviewJob *job = new PreviewJob(QStringLiteral("anotherDir/../../file.txt"), false, iface);
+
+    QVERIFY(job->validatedFilePath().endsWith(QLatin1String("anotherDir/file.txt")));
+    QVERIFY(job->extractionOptions()[QStringLiteral("PreservePaths")].toBool());
+
+    job->setAutoDelete(false);
+    startAndWaitForResult(job);
+
+    QVERIFY(job->validatedFilePath().endsWith(QLatin1String("anotherDir/file.txt")));
+    QVERIFY(job->extractionOptions()[QStringLiteral("PreservePaths")].toBool());
+
     delete job;
 }
 

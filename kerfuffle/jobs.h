@@ -34,10 +34,9 @@
 #include "queries.h"
 
 #include <KJob>
-#include <QList>
-#include <QVariant>
-#include <QString>
+
 #include <QElapsedTimer>
+#include <QTemporaryDir>
 
 namespace Kerfuffle
 {
@@ -138,6 +137,84 @@ private:
     QVariantList m_files;
     QString m_destinationDir;
     ExtractionOptions m_options;
+};
+
+/**
+ * Abstract base class for jobs that extract a single file to a temporary dir.
+ * It's not possible to pass extraction options and paths will be always preserved.
+ * The only option that the job needs to know is whether the file is password protected.
+ */
+class KERFUFFLE_EXPORT TempExtractJob : public Job
+{
+    Q_OBJECT
+
+public:
+    TempExtractJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface);
+
+    /**
+     * @return The absolute path of the extracted file.
+     * The path is validated in order to prevent directory traversal attacks.
+     */
+    QString validatedFilePath() const;
+
+    ExtractionOptions extractionOptions() const;
+
+public slots:
+    virtual void doWork() Q_DECL_OVERRIDE;
+
+private:
+    virtual QString extractionDir() const = 0;
+
+    QString m_file;
+    bool m_passwordProtectedHint;
+};
+
+/**
+ * This TempExtractJob can be used to preview a file.
+ * The temporary extraction directory will be deleted upon job's completion.
+ */
+class KERFUFFLE_EXPORT PreviewJob : public TempExtractJob
+{
+    Q_OBJECT
+
+public:
+    PreviewJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface);
+
+private:
+    QString extractionDir() const Q_DECL_OVERRIDE;
+
+    QTemporaryDir m_tmpExtractDir;
+};
+
+/**
+ * This TempExtractJob can be used to open a file in its dedicated application.
+ * For this reason, the temporary extraction directory will NOT be deleted upon job's completion.
+ */
+class KERFUFFLE_EXPORT OpenJob : public TempExtractJob
+{
+    Q_OBJECT
+
+public:
+    OpenJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface);
+
+    /**
+     * @return The temporary dir used for the extraction.
+     * It is safe to delete this pointer in order to remove the directory.
+     */
+    QTemporaryDir *tempDir() const;
+
+private:
+    QString extractionDir() const Q_DECL_OVERRIDE;
+
+    QTemporaryDir *m_tmpExtractDir;
+};
+
+class KERFUFFLE_EXPORT OpenWithJob : public OpenJob
+{
+    Q_OBJECT
+
+public:
+    OpenWithJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface);
 };
 
 class KERFUFFLE_EXPORT AddJob : public Job

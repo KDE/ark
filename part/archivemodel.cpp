@@ -909,6 +909,30 @@ ExtractJob* ArchiveModel::extractFiles(const QList<QVariant>& files, const QStri
     return newJob;
 }
 
+Kerfuffle::PreviewJob *ArchiveModel::preview(const QString& file) const
+{
+    Q_ASSERT(m_archive);
+    PreviewJob *job = m_archive->preview(file);
+    connect(job, &Job::userQuery, this, &ArchiveModel::slotUserQuery);
+    return job;
+}
+
+OpenJob *ArchiveModel::open(const QString& file) const
+{
+    Q_ASSERT(m_archive);
+    OpenJob *job = m_archive->open(file);
+    connect(job, &Job::userQuery, this, &ArchiveModel::slotUserQuery);
+    return job;
+}
+
+OpenWithJob *ArchiveModel::openWith(const QString& file) const
+{
+    Q_ASSERT(m_archive);
+    OpenWithJob *job = m_archive->openWith(file);
+    connect(job, &Job::userQuery, this, &ArchiveModel::slotUserQuery);
+    return job;
+}
+
 AddJob* ArchiveModel::addFiles(const QStringList & filenames, const CompressionOptions& options)
 {
     if (!m_archive) {

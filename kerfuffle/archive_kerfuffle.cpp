@@ -366,6 +366,36 @@ ExtractJob* Archive::copyFiles(const QList<QVariant>& files, const QString& dest
     return newJob;
 }
 
+PreviewJob *Archive::preview(const QString &file)
+{
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
+    PreviewJob *job = new PreviewJob(file, (encryptionType() != Unencrypted), m_iface);
+    return job;
+}
+
+OpenJob *Archive::open(const QString &file)
+{
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
+    OpenJob *job = new OpenJob(file, (encryptionType() != Unencrypted), m_iface);
+    return job;
+}
+
+OpenWithJob *Archive::openWith(const QString &file)
+{
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
+    OpenWithJob *job = new OpenWithJob(file, (encryptionType() != Unencrypted), m_iface);
+    return job;
+}
+
 void Archive::encrypt(const QString &password, bool encryptHeader)
 {
     if (!isValid()) {
