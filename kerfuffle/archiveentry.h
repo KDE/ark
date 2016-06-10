@@ -52,17 +52,18 @@ public:
     ~Entry();
 
     QList<Entry*> entries();
-    void setEntryAt(int index, Entry* value);
-    void appendEntry(Entry* entry);
+    void setEntryAt(int index, Entry *value);
+    void appendEntry(Entry *entry);
     void removeEntryAt(int index);
     Entry *getParent() const;
-    void setParent(Entry* parent);
+    void setParent(Entry *parent);
     int row() const;
     bool isDir() const;
+    void processNameAndIcon();
     QPixmap icon() const;
     QString name() const;
-    Entry* find(const QString & name);
-    Entry* findByPath(const QStringList & pieces, int index = 0);
+    Entry *find(const QString & name);
+    Entry *findByPath(const QStringList & pieces, int index = 0);
     const QVariant &getPropertyByColumn(EntryMetaDataType column) const;
     void setPropertyByColumn(EntryMetaDataType column, const QVariant &value);
     void clearMetaData();

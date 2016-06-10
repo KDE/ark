@@ -73,7 +73,7 @@ bool JSONArchiveInterface::addFiles(const QStringList& files, const Kerfuffle::C
             return false;
         }
 
-        Kerfuffle::Archive::Entry* e = new Kerfuffle::Archive::Entry(NULL);
+        Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry(NULL);
         e->fileName = file;
 
         m_archive[file] = e;

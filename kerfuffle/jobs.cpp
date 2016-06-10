@@ -152,7 +152,7 @@ void Job::onError(const QString & message, const QString & details)
     setErrorText(message);
 }
 
-void Job::onEntry(Archive::Entry* entry)
+void Job::onEntry(Archive::Entry *entry)
 {
     emit newEntry(entry);
 }
@@ -235,7 +235,7 @@ bool ListJob::isSingleFolderArchive() const
     return m_isSingleFolderArchive;
 }
 
-void ListJob::onNewEntry(const Archive::Entry* entry)
+void ListJob::onNewEntry(const Archive::Entry *entry)
 {
     m_extractedFilesSize += entry->size.toLongLong();
     m_isPasswordProtected |= entry->isPasswordProtected.toBool();

@@ -94,11 +94,11 @@ void InfoPanel::setIndex(const QModelIndex& index)
     if (!index.isValid()) {
         updateWithDefaults();
     } else {
-        const Archive::Entry* entry = m_model->entryForIndex(index);
+        const Archive::Entry *entry = m_model->entryForIndex(index);
 
         QMimeDatabase db;
         QMimeType mimeType;
-        if (entry) {
+        if (entry->isDir()) {
             mimeType = db.mimeTypeForName(QStringLiteral("inode/directory"));
         } else {
             mimeType = db.mimeTypeForFile(entry->fileName.toString(), QMimeDatabase::MatchExtension);
@@ -141,7 +141,7 @@ void InfoPanel::setIndexes(const QModelIndexList &list)
         fileName->setText(i18np("One file selected", "%1 files selected", list.size()));
         quint64 totalSize = 0;
         foreach(const QModelIndex& index, list) {
-            const Archive::Entry* entry = m_model->entryForIndex(index);
+            const Archive::Entry *entry = m_model->entryForIndex(index);
             totalSize += entry->size.toULongLong();
         }
         additionalInfo->setText(KIO::convertSize(totalSize));
@@ -175,7 +175,7 @@ void InfoPanel::hideActions()
 
 QString InfoPanel::metadataTextFor(const QModelIndex &index)
 {
-    const Archive::Entry* entry = m_model->entryForIndex(index);
+    const Archive::Entry *entry = m_model->entryForIndex(index);
     QString text;
 
     QMimeDatabase db;

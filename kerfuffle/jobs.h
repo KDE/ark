@@ -68,7 +68,7 @@ protected slots:
     virtual void onCancelled();
     virtual void onError(const QString &message, const QString &details);
     virtual void onInfo(const QString &info);
-    virtual void onEntry(Archive::Entry* entry);
+    virtual void onEntry(Archive::Entry *entry);
     virtual void onProgress(double progress);
     virtual void onEntryRemoved(const QString &path);
     virtual void onFinished(bool result);

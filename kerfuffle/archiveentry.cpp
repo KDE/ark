@@ -21,13 +21,13 @@ QList<Archive::Entry*> Archive::Entry::entries()
     return m_entries;
 }
 
-void Archive::Entry::setEntryAt(int index, Entry* value)
+void Archive::Entry::setEntryAt(int index, Entry *value)
 {
     Q_ASSERT(isDir());
     m_entries[index] = value;
 }
 
-void Archive::Entry::appendEntry(Entry* entry)
+void Archive::Entry::appendEntry(Entry *entry)
 {
     Q_ASSERT(isDir());
     m_entries.append(entry);
@@ -39,7 +39,7 @@ void Archive::Entry::removeEntryAt(int index)
     delete m_entries.takeAt(index);
 }
 
-Archive::Entry* Archive::Entry::getParent() const
+Archive::Entry *Archive::Entry::getParent() const
 {
     return m_parent;
 }
@@ -62,6 +62,21 @@ bool Archive::Entry::isDir() const
     return isDirectory.toBool();
 }
 
+void Archive::Entry::processNameAndIcon()
+{
+    const QStringList pieces = fileName.toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
+    m_name = pieces.isEmpty() ? QString() : pieces.last();
+
+    QMimeDatabase db;
+    if (isDir()) {
+        m_icon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
+                                                                                                           IconSize(KIconLoader::Small));
+    } else {
+        m_icon = QIcon::fromTheme(db.mimeTypeForFile(fileName.toString()).iconName()).pixmap(IconSize(KIconLoader::Small),
+                                                                                                      IconSize(KIconLoader::Small));
+    }
+}
+
 QPixmap Archive::Entry::icon() const
 {
     return m_icon;
@@ -72,17 +87,17 @@ QString Archive::Entry::name() const
     return m_name;
 }
 
-Archive::Entry* Archive::Entry::find(const QString & name)
+Archive::Entry *Archive::Entry::find(const QString & name)
 {
-        foreach(Entry *entry, m_entries) {
-            if (entry && (entry->name() == name)) {
-                return entry;
-            }
+    foreach(Entry *entry, m_entries) {
+        if (entry && (entry->name() == name)) {
+            return entry;
         }
+    }
     return 0;
 }
 
-Archive::Entry* Archive::Entry::findByPath(const QStringList & pieces, int index)
+Archive::Entry *Archive::Entry::findByPath(const QStringList & pieces, int index)
 {
     if (index == pieces.count()) {
         return 0;

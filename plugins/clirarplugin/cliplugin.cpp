@@ -252,7 +252,7 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
 
 void CliPlugin::handleUnrar5Entry() {
 
-    Archive::Entry* e = new Archive::Entry(NULL);
+    Archive::Entry *e = new Archive::Entry(Q_NULLPTR);
 
     QString compressionRatio = m_unrar5Details.value(QStringLiteral("ratio"));
     compressionRatio.chop(1); // Remove the '%'

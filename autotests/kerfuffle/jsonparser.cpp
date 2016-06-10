@@ -94,7 +94,7 @@ JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
             continue;
         }
 
-        Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry(NULL);
+        Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry(Q_NULLPTR);
 
         QVariantMap::const_iterator entryIterator = entryMap.constBegin();
         for (; entryIterator != entryMap.constEnd(); ++entryIterator) {

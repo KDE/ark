@@ -433,7 +433,7 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
 
 void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 {
-    Archive::Entry* e = new Archive::Entry(NULL);
+    Archive::Entry *e = new Archive::Entry(NULL);
 
 #ifdef _MSC_VER
     e->fileName = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry)));

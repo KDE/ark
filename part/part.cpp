@@ -413,7 +413,7 @@ void Part::updateActions()
     // Figure out if entry size is larger than preview size limit.
     const int maxPreviewSize = ArkSettings::previewFileSizeLimit() * 1024 * 1024;
     const bool limit = ArkSettings::limitPreviewFileSize();
-    bool isPreviewable = (!limit || (limit && entry->size.toLongLong() < maxPreviewSize));
+    bool isPreviewable = (!limit || (limit && entry != Q_NULLPTR && entry->size.toLongLong() < maxPreviewSize));
 
     m_previewAction->setEnabled(!isBusy() &&
                                 isPreviewable &&
@@ -840,7 +840,7 @@ void Part::slotOpenEntry(int mode)
     qCDebug(ARK) << "Opening with mode" << mode;
 
     QModelIndex index = m_view->selectionModel()->currentIndex();
-    const Archive::Entry* entry = m_model->entryForIndex(index);
+    const Archive::Entry *entry = m_model->entryForIndex(index);
 
     // Don't open directories.
     if (entry->isDir()) {
@@ -875,7 +875,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
     //        if there's an error or an overwrite dialog,
     //        the preview dialog will be launched anyway
     if (!job->error()) {
-        const Archive::Entry* entry = m_model->entryForIndex(m_view->selectionModel()->currentIndex());
+        const Archive::Entry *entry = m_model->entryForIndex(m_view->selectionModel()->currentIndex());
 
         ExtractJob *extractJob = qobject_cast<ExtractJob*>(job);
         Q_ASSERT(extractJob);
@@ -1088,7 +1088,7 @@ QList<QVariant> Part::filesForIndexes(const QModelIndexList& list) const
     QVariantList ret;
 
     foreach(const QModelIndex& index, list) {
-        const Archive::Entry* entry = m_model->entryForIndex(index);
+        const Archive::Entry *entry = m_model->entryForIndex(index);
         ret << entry->fileName.toString();
     }
 

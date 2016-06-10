@@ -57,13 +57,13 @@ public:
     //drag and drop related
     Qt::DropActions supportedDropActions() const Q_DECL_OVERRIDE;
     QStringList mimeTypes() const Q_DECL_OVERRIDE;
-    QMimeData * mimeData(const QModelIndexList & indexes) const Q_DECL_OVERRIDE;
+    QMimeData *mimeData(const QModelIndexList & indexes) const Q_DECL_OVERRIDE;
     bool dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent) Q_DECL_OVERRIDE;
 
     KJob* setArchive(Kerfuffle::Archive *archive);
     Kerfuffle::Archive *archive() const;
 
-    Archive::Entry* entryForIndex(const QModelIndex &index);
+    Archive::Entry *entryForIndex(const QModelIndex &index);
     int childCount(const QModelIndex &index, int &dirs, int &files) const;
 
     Kerfuffle::ExtractJob* extractFile(const QVariant& fileName, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
@@ -86,8 +86,8 @@ signals:
     void droppedFiles(const QStringList& files, const QString& path = QString());
 
 private slots:
-    void slotNewEntryFromSetArchive(Archive::Entry* entry);
-    void slotNewEntry(Archive::Entry* entry);
+    void slotNewEntryFromSetArchive(Archive::Entry *entry);
+    void slotNewEntry(Archive::Entry *entry);
     void slotLoadingFinished(KJob *job);
     void slotEntryRemoved(const QString & path);
     void slotUserQuery(Kerfuffle::Query *query);
@@ -105,7 +105,7 @@ private:
      */
     QString cleanFileName(const QString& fileName);
 
-    Archive::Entry* parentFor(const Kerfuffle::Archive::Entry *entry);
+    Archive::Entry *parentFor(const Kerfuffle::Archive::Entry *entry);
     QModelIndex indexForEntry(Archive::Entry *entry);
     static bool compareAscending(const QModelIndex& a, const QModelIndex& b);
     static bool compareDescending(const QModelIndex& a, const QModelIndex& b);
@@ -115,7 +115,7 @@ private:
      */
     enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
     void insertEntry(Archive::Entry *entry, InsertBehaviour behaviour = NotifyViews);
-    void newEntry(Kerfuffle::Archive::Entry* receivedEntry, InsertBehaviour behaviour);
+    void newEntry(Kerfuffle::Archive::Entry *receivedEntry, InsertBehaviour behaviour);
 
     QList<Kerfuffle::Archive::Entry*> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
     QList<int> m_showColumns;

@@ -43,7 +43,7 @@ public:
 
 protected Q_SLOTS:
     void init();
-    void slotNewEntry(Archive::Entry* entry);
+    void slotNewEntry(Archive::Entry *entry);
 
 private Q_SLOTS:
     // ListJob-related tests
@@ -83,7 +83,7 @@ void JobsTest::init()
     m_entries.clear();
 }
 
-void JobsTest::slotNewEntry(Archive::Entry* entry)
+void JobsTest::slotNewEntry(Archive::Entry *entry)
 {
     m_entries.append(entry);
 }

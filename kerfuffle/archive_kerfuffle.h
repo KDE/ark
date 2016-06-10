@@ -62,7 +62,7 @@ class ReadOnlyArchiveInterface;
  * below, so set those that are available.
  */
 enum EntryMetaDataType {
-    FileName = 0,        /**< The entry's file name */
+    FileName = 0,            /**< The entry's file name */
     Permissions,         /**< The entry's permissions */
     Owner,               /**< The user the entry belongs to */
     Group,               /**< The user group the entry belongs to */
@@ -228,7 +228,7 @@ private slots:
     void onListFinished(KJob*);
     void onAddFinished(KJob*);
     void onUserQuery(Kerfuffle::Query*);
-    void onNewEntry(const Archive::Entry* entry);
+    void onNewEntry(const Archive::Entry *entry);
 
 private:
     Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent = 0);

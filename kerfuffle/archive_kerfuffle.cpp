@@ -262,7 +262,7 @@ QString Archive::subfolderName()
     return m_subfolderName;
 }
 
-void Archive::onNewEntry(const Archive::Entry* entry)
+void Archive::onNewEntry(const Archive::Entry *entry)
 {
     if (!entry->isDir()) {
         m_numberOfFiles++;

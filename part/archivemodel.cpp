@@ -37,7 +37,7 @@
 using namespace Kerfuffle;
 
 //used to speed up the loading of large archives
-static Archive::Entry* s_previousMatch = Q_NULLPTR;
+static Archive::Entry *s_previousMatch = Q_NULLPTR;
 Q_GLOBAL_STATIC(QStringList, s_previousPieces)
 
 
@@ -109,7 +109,7 @@ private:
 
 ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     : QAbstractItemModel(parent)
-    , m_rootEntry(new Archive::Entry(0))
+    , m_rootEntry(new Archive::Entry(Q_NULLPTR))
     , m_dbusPathName(dbusPathName)
 {
     m_rootEntry->isDirectory = true;
@@ -279,7 +279,7 @@ QModelIndex ArchiveModel::parent(const QModelIndex &index) const
     return QModelIndex();
 }
 
-Archive::Entry* ArchiveModel::entryForIndex(const QModelIndex &index)
+Archive::Entry *ArchiveModel::entryForIndex(const QModelIndex &index)
 {
     if (index.isValid()) {
         Archive::Entry *item = static_cast<Archive::Entry*>(index.internalPointer());
@@ -342,7 +342,7 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
 
     const ArchiveModelSorter modelSorter(m_showColumns.at(column), order);
 
-    foreach(Archive::Entry* dir, dirEntries) {
+    foreach(Archive::Entry *dir, dirEntries) {
         QVector < QPair<Archive::Entry*,int> > sorting(dir->entries().count());
         for (int i = 0; i < dir->entries().count(); ++i) {
             Archive::Entry *item = dir->entries().at(i);
@@ -432,7 +432,7 @@ bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, i
             qCDebug(ARK) << "Using entry";
             path = entry->fileName.toString();
         } else {
-            path = entryForIndex(parent)->isDir().toString();
+            path = entryForIndex(parent)->fileName.toString();
         }
     }
 
@@ -462,7 +462,7 @@ QString ArchiveModel::cleanFileName(const QString& fileName)
     return fileName;
 }
 
-Archive::Entry* ArchiveModel::parentFor(const Archive::Entry *entry)
+Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
 {
     QStringList pieces = entry->fileName.toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
     if (pieces.isEmpty()) {
@@ -557,7 +557,7 @@ void ArchiveModel::slotUserQuery(Kerfuffle::Query *query)
     query->execute();
 }
 
-void ArchiveModel::slotNewEntryFromSetArchive(Archive::Entry* entry)
+void ArchiveModel::slotNewEntryFromSetArchive(Archive::Entry *entry)
 {
     // we cache all entries that appear when opening a new archive
     // so we can all them together once it's done, this is a huge
@@ -566,12 +566,12 @@ void ArchiveModel::slotNewEntryFromSetArchive(Archive::Entry* entry)
     m_newArchiveEntries.push_back(entry);
 }
 
-void ArchiveModel::slotNewEntry(Archive::Entry* entry)
+void ArchiveModel::slotNewEntry(Archive::Entry *entry)
 {
     newEntry(entry, NotifyViews);
 }
 
-void ArchiveModel::newEntry(Archive::Entry* receivedEntry, InsertBehaviour behaviour)
+void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behaviour)
 {
     if (receivedEntry->fileName.isNull()) {
         qCDebug(ARK) << "Weird, received empty entry (no filename) - skipping";
@@ -631,6 +631,7 @@ void ArchiveModel::newEntry(Archive::Entry* receivedEntry, InsertBehaviour behav
             // In that case, we need to sum the compressed size for each volume
             qulonglong currentCompressedSize = existing->compressedSize.toULongLong();
             existing->compressedSize = currentCompressedSize + receivedEntry->compressedSize.toULongLong();
+            existing->processNameAndIcon();
             return;
         }
     }
@@ -644,16 +645,18 @@ void ArchiveModel::newEntry(Archive::Entry* receivedEntry, InsertBehaviour behav
     Archive::Entry *entry = parent->find(name);
     if (entry) {
         entry->fileName = entryFileName;
+        entry->processNameAndIcon();
     } else {
         receivedEntry->setParent(parent);
-        insertEntry(entry, behaviour);
+        receivedEntry->processNameAndIcon();
+        insertEntry(receivedEntry, behaviour);
     }
 }
 
 void ArchiveModel::slotLoadingFinished(KJob *job)
 {
     int i = 0;
-    foreach(Archive::Entry* entry, m_newArchiveEntries) {
+    foreach(Archive::Entry *entry, m_newArchiveEntries) {
         newEntry(entry, DoNotNotifyViews);
         i++;
     }

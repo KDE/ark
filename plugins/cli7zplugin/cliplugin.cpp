@@ -40,7 +40,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
         , m_archiveType(ArchiveType7z)
         , m_parseState(ParseStateTitle)
         , m_linesComment(0)
-        , m_currentArchiveEntry(NULL)
+        , m_isFirstInformationEntry(true)
 {
     qCDebug(ARK) << "Loaded cli_7z plugin";
 }
@@ -186,10 +186,13 @@ bool CliPlugin::readListLine(const QString& line)
 
     } else if (m_parseState == ParseStateEntryInformation) {
 
+        if (m_isFirstInformationEntry) {
+            m_isFirstInformationEntry = false;
+            m_currentArchiveEntry = new Archive::Entry(Q_NULLPTR);
+        }
         if (line.startsWith(QStringLiteral("Path = "))) {
             const QString entryFilename =
                 QDir::fromNativeSeparators(line.mid(7).trimmed());
-            m_currentArchiveEntry->clearMetaData();
             m_currentArchiveEntry->fileName = entryFilename;
         } else if (line.startsWith(QStringLiteral("Size = "))) {
             m_currentArchiveEntry->size = line.mid(7).trimmed();
@@ -228,9 +231,14 @@ bool CliPlugin::readListLine(const QString& line)
             m_currentArchiveEntry->isPasswordProtected = (line.at(12) == QLatin1Char('+'));
         } else if (line.startsWith(QStringLiteral("Block = ")) ||
                    line.startsWith(QStringLiteral("Version = "))) {
+            m_isFirstInformationEntry = true;
             if (!m_currentArchiveEntry->fileName.isNull()) {
                 emit entry(m_currentArchiveEntry);
             }
+            else {
+                delete m_currentArchiveEntry;
+            }
+            m_currentArchiveEntry = Q_NULLPTR;
         }
     }
 
