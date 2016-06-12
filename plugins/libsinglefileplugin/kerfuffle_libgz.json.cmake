@@ -1,16 +1,5 @@
 {
     "KPlugin": {
-        "Authors": [
-            {
-                "Email": "haraldhv@stud.ntnu.no",
-                "Name": "Harald Hvaal",
-                "Name[sr@ijekavian]": "Харалд Вол",
-                "Name[sr@ijekavianlatin]": "Harald Vol",
-                "Name[sr@latin]": "Harald Vol",
-                "Name[sr]": "Харалд Вол",
-                "Name[x-test]": "xxHarald Hvaalxx"
-            }
-        ],
         "Description": "libgz plugin for Kerfuffle",
         "Description[ca@valencia]": "Connector del libgz pel Kerfuffle",
         "Description[ca]": "Connector del libgz pel Kerfuffle",
@@ -37,7 +26,6 @@
         "Description[zh_CN]": "Kerfuffle 的 libgz 插件",
         "Description[zh_TW]": "Kerfuffle 的 libgz 外掛程式",
         "Id": "kerfuffle_libgz",
-        "License": "BSD",
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
         ],
@@ -47,9 +35,7 @@
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ],
-        "Version": "0.0.1",
-        "Website": "http://www.kde.org"
+        "Version": "@KDE_APPLICATIONS_VERSION@"
     },
-    "X-KDE-Kerfuffle-APIRevision": 1,
     "X-KDE-Priority": 100
 }

@@ -1,18 +1,6 @@
 {
     "KPlugin": {
-        "Authors": [
-            {
-                "Email": "elvis.angelaccio@kdemail.net",
-                "Name": "Elvis Angelaccio",
-                "Name[sr@ijekavian]": "Елвис Ангелачо",
-                "Name[sr@ijekavianlatin]": "Elvis Angelačo",
-                "Name[sr@latin]": "Elvis Angelačo",
-                "Name[sr]": "Елвис Ангелачо",
-                "Name[x-test]": "xxElvis Angelaccioxx"
-            }
-        ],
         "Id": "kerfuffle_cliunarchiver",
-        "License": "GPLv2+",
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
         ],
@@ -43,10 +31,8 @@
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ],
-        "Version": "0.0.1",
-        "Website": "http://www.kde.org"
+        "Version": "@KDE_APPLICATIONS_VERSION@"
     },
-    "X-KDE-Kerfuffle-APIRevision": 1,
     "X-KDE-Kerfuffle-ReadOnlyExecutables": [
         "lsar",
         "unar"

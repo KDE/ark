@@ -1,18 +1,6 @@
 {
     "KPlugin": {
-        "Authors": [
-            {
-                "Email": "haraldhv@stud.ntnu.no",
-                "Name": "Harald Hvaal",
-                "Name[sr@ijekavian]": "Харалд Вол",
-                "Name[sr@ijekavianlatin]": "Harald Vol",
-                "Name[sr@latin]": "Harald Vol",
-                "Name[sr]": "Харалд Вол",
-                "Name[x-test]": "xxHarald Hvaalxx"
-            }
-        ],
         "Id": "kerfuffle_cli7z",
-        "License": "GPLv2+",
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
         ],
@@ -44,10 +32,8 @@
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ],
-        "Version": "0.0.1",
-        "Website": "http://www.kde.org"
+        "Version": "@KDE_APPLICATIONS_VERSION@"
     },
-    "X-KDE-Kerfuffle-APIRevision": 1,
     "X-KDE-Kerfuffle-ReadOnlyExecutables": [
         "7z"
     ],

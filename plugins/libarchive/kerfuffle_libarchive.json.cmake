@@ -1,16 +1,5 @@
 {
     "KPlugin": {
-        "Authors": [
-            {
-                "Email": "henrique.pinto@kdemail.net",
-                "Name": "Henrique Pinto",
-                "Name[sr@ijekavian]": "Енрике Пинто",
-                "Name[sr@ijekavianlatin]": "Enrike Pinto",
-                "Name[sr@latin]": "Enrike Pinto",
-                "Name[sr]": "Енрике Пинто",
-                "Name[x-test]": "xxHenrique Pintoxx"
-            }
-        ],
         "Description": "LibArchive Plugin for Kerfuffle",
         "Description[ca@valencia]": "Connector del LibArchive pel Kerfuffle",
         "Description[ca]": "Connector del LibArchive pel Kerfuffle",
@@ -34,7 +23,6 @@
         "Description[x-test]": "xxLibArchive Plugin for Kerfufflexx",
         "Description[zh_CN]": "Kerfuffle 的 LibArchive 插件",
         "Id": "kerfuffle_libarchive",
-        "License": "BSD",
         "MimeTypes": [
             "@SUPPORTED_READWRITE_MIMETYPES@"
         ],
@@ -44,10 +32,8 @@
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ],
-        "Version": "0.0.1",
-        "Website": "http://www.kde.org"
+        "Version": "@KDE_APPLICATIONS_VERSION@"
     },
-    "X-KDE-Kerfuffle-APIRevision": 1,
     "X-KDE-Kerfuffle-ReadWrite": true,
     "X-KDE-Priority": 100,
     "application/x-bzip-compressed-tar": {

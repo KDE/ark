@@ -1,16 +1,5 @@
 {
     "KPlugin": {
-        "Authors": [
-            {
-                "Email": "rakuco@FreeBSD.org",
-                "Name": "Raphael Kubo da Costa",
-                "Name[sr@ijekavian]": "Рафаел Куба да Коста",
-                "Name[sr@ijekavianlatin]": "Rafael Kuba da Kosta",
-                "Name[sr@latin]": "Rafael Kuba da Kosta",
-                "Name[sr]": "Рафаел Куба да Коста",
-                "Name[x-test]": "xxRaphael Kubo da Costaxx"
-            }
-        ],
         "Description": "libbz2 plugin for Kerfuffle",
         "Description[ca@valencia]": "Connector del libbz2 pel Kerfuffle",
         "Description[ca]": "Connector del libbz2 pel Kerfuffle",
@@ -37,7 +26,6 @@
         "Description[zh_CN]": "Kerfuffle 的 libbz2 插件",
         "Description[zh_TW]": "Kerfuffle 的 libbz2 外掛程式",
         "Id": "kerfuffle_libbz2",
-        "License": "BSD",
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
         ],
@@ -47,9 +35,7 @@
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ],
-        "Version": "0.0.1",
-        "Website": "http://www.kde.org"
+        "Version": "@KDE_APPLICATIONS_VERSION@"
     },
-    "X-KDE-Kerfuffle-APIRevision": 1,
     "X-KDE-Priority": 100
 }
