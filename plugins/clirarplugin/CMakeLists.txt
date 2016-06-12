@@ -9,6 +9,13 @@ ecm_qt_declare_logging_category(kerfuffle_clirar_SRCS
                                 IDENTIFIER ARK
                                 CATEGORY_NAME ark.clirar)
 
+
+set(SUPPORTED_MIMETYPES "application/x-rar")
+
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_clirar.json.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_clirar.json)
+
 add_library(kerfuffle_clirar MODULE ${kerfuffle_clirar_SRCS})
 
 target_link_libraries(kerfuffle_clirar kerfuffle)

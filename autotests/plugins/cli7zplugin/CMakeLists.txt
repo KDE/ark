@@ -2,7 +2,7 @@ set(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 include_directories(${CMAKE_SOURCE_DIR}/plugins/cli7zplugin/)
 
-file(COPY ${CMAKE_SOURCE_DIR}/plugins/cli7zplugin/kerfuffle_cli7z.json
+file(COPY ${CMAKE_BINARY_DIR}/plugins/cli7zplugin/kerfuffle_cli7z.json
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 ecm_add_test(

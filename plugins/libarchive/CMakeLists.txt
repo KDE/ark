@@ -17,6 +17,43 @@ ecm_qt_declare_logging_category(kerfuffle_libarchive_SRCS
                                 IDENTIFIER ARK
                                 CATEGORY_NAME ark.libarchive)
 
+# NOTE: the first double-quotes of the first mime and the last
+# double-quotes of the last mime must NOT be escaped.
+set(SUPPORTED_READONLY_MIMETYPES
+    "application/x-deb\",
+    \"application/x-cd-image\",
+    \"application/x-bcpio\",
+    \"application/x-cpio\",
+    \"application/x-cpio-compressed\",
+    \"application/x-sv4cpio\",
+    \"application/x-sv4crc\",
+    \"application/x-rpm\",
+    \"application/x-source-rpm\",
+    \"application/vnd.debian.binary-package\",
+    \"application/vnd.ms-cab-compressed\",
+    \"application/x-xar")
+
+# NOTE: the first double-quotes of the first mime and the last
+# double-quotes of the last mime must NOT be escaped.
+set(SUPPORTED_READWRITE_MIMETYPES
+    "application/x-tar\",
+    \"application/x-compressed-tar\",
+    \"application/x-bzip-compressed-tar\",
+    \"application/x-tarz\",
+    \"application/x-xz-compressed-tar\",
+    \"application/x-lzma-compressed-tar\",
+    \"application/x-lzip-compressed-tar\",
+    \"application/x-tzo\",
+    \"application/x-lrzip-compressed-tar")
+
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libarchive_readonly.json.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive_readonly.json)
+
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libarchive.json.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive.json)
+
 add_library(kerfuffle_libarchive_readonly MODULE ${kerfuffle_libarchive_readonly_SRCS})
 add_library(kerfuffle_libarchive MODULE ${kerfuffle_libarchive_readwrite_SRCS})
 
