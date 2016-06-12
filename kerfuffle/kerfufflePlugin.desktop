@@ -63,10 +63,6 @@ Comment[zh_TW]=處理 Kerfuffle 函式庫壓縮格式的外掛程式
 [PropertyDef::X-KDE-Priority]
 Type=int
 
-# Revision of the plugin API.
-[PropertyDef::X-KDE-Kerfuffle-APIRevision]
-Type=int
-
 # Is the plugin read-write or not? (i.e., can it create archives?)
 [PropertyDef::X-KDE-Kerfuffle-ReadWrite]
 Type=bool
