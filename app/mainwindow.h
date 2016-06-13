@@ -55,9 +55,6 @@ private slots:
     void showSettings();
     void writeSettings();
 
-    void editKeyBindings();
-    void editToolbars();
-
 private:
     void setupActions();
 

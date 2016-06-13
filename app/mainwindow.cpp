@@ -63,14 +63,7 @@ static bool isValidArchiveDrag(const QMimeData *data)
 MainWindow::MainWindow(QWidget *)
         : KParts::MainWindow()
 {
-    setXMLFile(QStringLiteral("arkui.rc"));
-
     setupActions();
-
-    resize(640, 480);
-
-    setAutoSaveSettings(QStringLiteral("MainWindow"));
-
     setAcceptDrops(true);
 }
 
@@ -153,7 +146,10 @@ bool MainWindow::loadPart()
 
     m_part->setObjectName(QStringLiteral("ArkPart"));
     setCentralWidget(m_part->widget());
+
+    setupGUI(ToolBar | Keys | Save | Create, QStringLiteral("arkui.rc"));
     createGUI(m_part);
+
     statusBar()->hide();
 
     connect(m_part, SIGNAL(busy()), this, SLOT(updateActions()));
@@ -180,8 +176,6 @@ void MainWindow::setupActions()
     connect(m_recentFilesAction, SIGNAL(triggered()),
             this, SLOT(openArchive()));
 
-    KStandardAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
-    KStandardAction::keyBindings(this, SLOT(editKeyBindings()), actionCollection());
     KStandardAction::preferences(this, SLOT(showSettings()), actionCollection());
 }
 
@@ -191,30 +185,6 @@ void MainWindow::updateActions()
     m_newAction->setEnabled(!iface->isBusy());
     m_openAction->setEnabled(!iface->isBusy());
     m_recentFilesAction->setEnabled(!iface->isBusy());
-}
-
-void MainWindow::editKeyBindings()
-{
-    KShortcutsDialog dlg(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
-    dlg.addCollection(actionCollection());
-    dlg.addCollection(m_part->actionCollection());
-
-    dlg.configure();
-}
-
-void MainWindow::editToolbars()
-{
-    KConfigGroup cfg(KSharedConfig::openConfig(), "MainWindow");
-    saveMainWindowSettings(cfg);
-
-    QPointer<KEditToolBar> dlg = new KEditToolBar(factory(), this);
-    dlg.data()->exec();
-
-    createGUI(m_part);
-
-    applyMainWindowSettings(KSharedConfig::openConfig()->group(QStringLiteral("MainWindow")));
-
-    delete dlg.data();
 }
 
 void MainWindow::openArchive()
