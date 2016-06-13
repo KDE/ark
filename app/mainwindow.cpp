@@ -173,8 +173,6 @@ void MainWindow::setupActions()
     m_recentFilesAction->setIconText(i18nc("action, to open an archive", "Open"));
     m_recentFilesAction->setToolTip(i18n("Open an archive"));
     m_recentFilesAction->loadEntries(KSharedConfig::openConfig()->group("Recent Files"));
-    connect(m_recentFilesAction, SIGNAL(triggered()),
-            this, SLOT(openArchive()));
 
     KStandardAction::preferences(this, SLOT(showSettings()), actionCollection());
 }
