@@ -162,8 +162,8 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, &Part::slotLoadingStarted);
     connect(m_model, &ArchiveModel::loadingFinished,
             this, &Part::slotLoadingFinished);
-    connect(m_model, SIGNAL(droppedFiles(QStringList,QString)),
-            this, SLOT(slotAddFiles(QStringList,QString)));
+    connect(m_model, &ArchiveModel::droppedFiles,
+            this, static_cast<void (Part::*)(const QStringList&, const QString&)>(&Part::slotAddFiles));
     connect(m_model, &ArchiveModel::error,
             this, &Part::slotError);
 
@@ -171,8 +171,8 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, &Part::setBusyGui);
     connect(this, &Part::ready,
             this, &Part::setReadyGui);
-    connect(this, SIGNAL(completed()),
-            this, SLOT(setFileNameFromArchive()));
+    connect(this, static_cast<void (KParts::ReadOnlyPart::*)()>(&KParts::ReadOnlyPart::completed),
+            this, &Part::setFileNameFromArchive);
 
     m_statusBarExtension = new KParts::StatusBarExtension(this);
 
@@ -397,7 +397,8 @@ void Part::setupActions()
     m_testArchiveAction->setToolTip(i18nc("@info:tooltip", "Click to test the archive for integrity"));
     connect(m_testArchiveAction, &QAction::triggered, this, &Part::slotTestArchive);
 
-    connect(m_signalMapper, SIGNAL(mapped(int)), this, SLOT(slotOpenEntry(int)));
+    connect(m_signalMapper, static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
+            this, &Part::slotOpenEntry);
 
     updateActions();
     updateQuickExtractMenu(m_extractArchiveAction);
