@@ -30,14 +30,13 @@
 #include "pluginmanager.h"
 #include "part/interface.h"
 
+#include <KParts/ReadWritePart>
 #include <KPluginFactory>
 #include <KMessageBox>
 #include <KLocalizedString>
 #include <KActionCollection>
 #include <KStandardAction>
 #include <KRecentFilesAction>
-#include <KEditToolBar>
-#include <KShortcutsDialog>
 #include <KService>
 #include <KSharedConfig>
 #include <KConfigDialog>
@@ -46,7 +45,6 @@
 #include <KXMLGUIFactory>
 
 #include <QApplication>
-#include <QDebug>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QFileDialog>

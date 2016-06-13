@@ -24,7 +24,11 @@
 
 #include <KParts/MainWindow>
 #include <KParts/OpenUrlArguments>
-#include <KParts/ReadWritePart>
+
+namespace KParts
+{
+class ReadWritePart;
+}
 
 class KRecentFilesAction;
 
