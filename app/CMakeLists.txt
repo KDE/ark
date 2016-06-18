@@ -56,22 +56,24 @@ install(TARGETS extracthere DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf5/kio_dnd)
 
 # compressfileitemaction plugin
 
-add_library(compressfileitemaction MODULE compressfileitemaction.cpp)
+kcoreaddons_add_plugin(compressfileitemaction
+    SOURCES compressfileitemaction.cpp
+    JSON compressfileitemaction.json
+    INSTALL_NAMESPACE "kf5/kfileitemaction")
 
 target_link_libraries(compressfileitemaction
     kerfuffle
     KF5::I18n
     KF5::KIOWidgets)
 
-install(TARGETS compressfileitemaction DESTINATION ${KDE_INSTALL_PLUGINDIR})
-
 # extractfileitemaction plugin
 
-add_library(extractfileitemaction MODULE extractfileitemaction.cpp)
+kcoreaddons_add_plugin(extractfileitemaction
+    SOURCES extractfileitemaction.cpp
+    JSON extractfileitemaction.json
+    INSTALL_NAMESPACE "kf5/kfileitemaction")
 
 target_link_libraries(extractfileitemaction
     kerfuffle
     KF5::I18n
     KF5::KIOWidgets)
-
-install(TARGETS extractfileitemaction DESTINATION ${KDE_INSTALL_PLUGINDIR})
