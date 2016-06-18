@@ -191,25 +191,25 @@ void CliRarTest::testList()
     Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry *>();
 
     QFETCH(QString, expectedName);
-    QCOMPARE(entry->fileName.toString(), expectedName);
+    QCOMPARE(entry->property("fileName").toString(), expectedName);
 
     QFETCH(bool, isDirectory);
     QCOMPARE(entry->isDir(), isDirectory);
 
     QFETCH(bool, isPasswordProtected);
-    QCOMPARE(entry->isPasswordProtected.toBool(), isPasswordProtected);
+    QCOMPARE(entry->property("isPasswordProtected").toBool(), isPasswordProtected);
 
     QFETCH(QString, symlinkTarget);
-    QCOMPARE(entry->link.toString(), symlinkTarget);
+    QCOMPARE(entry->property("link").toString(), symlinkTarget);
 
     QFETCH(qulonglong, expectedSize);
-    QCOMPARE(entry->size.toULongLong(), expectedSize);
+    QCOMPARE(entry->property("size").toULongLong(), expectedSize);
 
     QFETCH(qulonglong, expectedCompressedSize);
-    QCOMPARE(entry->compressedSize.toULongLong(), expectedCompressedSize);
+    QCOMPARE(entry->property("compressedSize").toULongLong(), expectedCompressedSize);
 
     QFETCH(QString, expectedTimestamp);
-    QCOMPARE(entry->timestamp.toString(), expectedTimestamp);
+    QCOMPARE(entry->property("timestamp").toString(), expectedTimestamp);
 
     rarPlugin->deleteLater();
 }

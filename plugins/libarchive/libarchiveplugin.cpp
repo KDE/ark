@@ -438,27 +438,27 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 #ifdef _MSC_VER
     e->fileName = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry)));
 #else
-    e->fileName = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry)));
+    e->setProperty("fileName", QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry))));
 #endif
 
     const QString owner = QString::fromLatin1(archive_entry_uname(aentry));
     if (!owner.isEmpty()) {
-        e->owner = owner;
+        e->setProperty("owner", owner);
     }
 
     const QString group = QString::fromLatin1(archive_entry_gname(aentry));
     if (!group.isEmpty()) {
-        e->group = group;
+        e->setProperty("group", group);
     }
 
-    e->size = (qlonglong)archive_entry_size(aentry);
-    e->isDirectory = S_ISDIR(archive_entry_mode(aentry));
+    e->setProperty("size", (qlonglong)archive_entry_size(aentry));
+    e->setProperty("isDirectory", S_ISDIR(archive_entry_mode(aentry)));
 
     if (archive_entry_symlink(aentry)) {
-        e->link = QLatin1String( archive_entry_symlink(aentry) );
+        e->setProperty("link", QLatin1String( archive_entry_symlink(aentry) ));
     }
 
-    e->timestamp = QDateTime::fromTime_t(archive_entry_mtime(aentry));
+    e->setProperty("timestamp", QDateTime::fromTime_t(archive_entry_mtime(aentry)));
 
     emit entry(e);
 }

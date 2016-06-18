@@ -208,7 +208,7 @@ void JobsTest::testListJob()
     QCOMPARE(archiveEntries.size(), expectedEntryNames.size());
 
     for (int i = 0; i < archiveEntries.size(); i++) {
-        QCOMPARE(archiveEntries.at(i)->fileName.toString(), expectedEntryNames.at(i));
+        QCOMPARE(archiveEntries.at(i)->property("fileName").toString(), expectedEntryNames.at(i));
     }
 
     listJob->deleteLater();
@@ -292,7 +292,7 @@ void JobsTest::testRemoveEntries()
     QCOMPARE(remainingEntries.size(), expectedRemainingEntries.size());
 
     for (int i = 0; i < remainingEntries.size(); i++) {
-        QCOMPARE(remainingEntries.at(i)->fileName.toString(), expectedRemainingEntries.at(i));
+        QCOMPARE(remainingEntries.at(i)->property("fileName").toString(), expectedRemainingEntries.at(i));
     }
 
     iface->deleteLater();

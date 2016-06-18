@@ -413,7 +413,7 @@ void Part::updateActions()
     // Figure out if entry size is larger than preview size limit.
     const int maxPreviewSize = ArkSettings::previewFileSizeLimit() * 1024 * 1024;
     const bool limit = ArkSettings::limitPreviewFileSize();
-    bool isPreviewable = (!limit || (limit && entry != Q_NULLPTR && entry->size.toLongLong() < maxPreviewSize));
+    bool isPreviewable = (!limit || (limit && entry != Q_NULLPTR && entry->property("size").toLongLong() < maxPreviewSize));
 
     m_previewAction->setEnabled(!isBusy() &&
                                 isPreviewable &&
@@ -792,7 +792,7 @@ void Part::slotLoadingFinished(KJob *job)
         displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "The archive is empty or Ark could not open its content."));
     } else if (m_model->rowCount() == 1) {
         if (m_model->archive()->mimeType().inherits(QStringLiteral("application/x-cd-image")) &&
-            m_model->entryForIndex(m_model->index(0, 0))->fileName.toString() == QLatin1String("README.TXT")) {
+            m_model->entryForIndex(m_model->index(0, 0))->property("fileName").toString() == QLatin1String("README.TXT")) {
             qCWarning(ARK) << "Detected ISO image with UDF filesystem";
             displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "Ark does not currently support ISO files with UDF filesystem."));
         }
@@ -848,19 +848,19 @@ void Part::slotOpenEntry(int mode)
     }
 
     // We don't support opening symlinks.
-    if (!entry->link.isNull()) {
+    if (!entry->property("link").isNull()) {
         displayMsgWidget(KMessageWidget::Information, i18n("Ark cannot open symlinks."));
         return;
     }
 
     // Extract the entry.
-    if (!entry->fileName.isNull()) {
+    if (!entry->property("fileName").isNull()) {
         Kerfuffle::ExtractionOptions options;
         options[QStringLiteral("PreservePaths")] = true;
 
         m_tmpOpenDirList.append(new QTemporaryDir);
         m_openFileMode = static_cast<OpenFileMode>(mode);
-        ExtractJob *job = m_model->extractFile(entry->fileName, m_tmpOpenDirList.last()->path(), options);
+        ExtractJob *job = m_model->extractFile(entry->property("fileName"), m_tmpOpenDirList.last()->path(), options);
 
         registerJob(job);
         connect(job, &KJob::result,
@@ -879,7 +879,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
 
         ExtractJob *extractJob = qobject_cast<ExtractJob*>(job);
         Q_ASSERT(extractJob);
-        QString fullName = extractJob->destinationDirectory() + QLatin1Char('/') + entry->fileName.toString();
+        QString fullName = extractJob->destinationDirectory() + QLatin1Char('/') + entry->property("fileName").toString();
 
         // Make sure a maliciously crafted archive with parent folders named ".." do
         // not cause the previewed file path to be located outside the temporary
@@ -1089,7 +1089,7 @@ QList<QVariant> Part::filesForIndexes(const QModelIndexList& list) const
 
     foreach(const QModelIndex& index, list) {
         const Archive::Entry *entry = m_model->entryForIndex(index);
-        ret << entry->fileName.toString();
+        ret << entry->property("fileName").toString();
     }
 
     return ret;
@@ -1114,7 +1114,7 @@ QList<QVariant> Part::filesAndRootNodesForIndexes(const QModelIndexList& list) c
 
         // Fetch the root node for the unselected parent.
         const QString rootFileName =
-            m_model->entryForIndex(selectionRoot)->fileName.toString();
+            m_model->entryForIndex(selectionRoot)->property("fileName").toString();
 
 
         // Append index with root node to fileList.

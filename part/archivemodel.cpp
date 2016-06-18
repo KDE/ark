@@ -40,6 +40,19 @@ using namespace Kerfuffle;
 static Archive::Entry *s_previousMatch = Q_NULLPTR;
 Q_GLOBAL_STATIC(QStringList, s_previousPieces)
 
+static QVector<QString> propertiesList = QVector<QString>()
+    << QStringLiteral("fileName")
+    << QStringLiteral("permissions")
+    << QStringLiteral("owner")
+    << QStringLiteral("group")
+    << QStringLiteral("size")
+    << QStringLiteral("compressedSize")
+    << QStringLiteral("ratio")
+    << QStringLiteral("CRC")
+    << QStringLiteral("method")
+    << QStringLiteral("version")
+    << QStringLiteral("timestamp")
+    << QStringLiteral("comment");
 
 /**
  * Helper functor used by qStableSort.
@@ -84,8 +97,8 @@ protected:
         }
 
         EntryMetaDataType column = static_cast<EntryMetaDataType>(m_sortColumn);
-        const QVariant &leftEntryMetaData = leftEntry->getPropertyByColumn(column);
-        const QVariant &rightEntryMetaData = rightEntry->getPropertyByColumn(column);
+        const QVariant &leftEntryMetaData = leftEntry->property(propertiesList[column].toStdString().c_str());
+        const QVariant &rightEntryMetaData = rightEntry->property(propertiesList[column].toStdString().c_str());
 
         switch (m_sortColumn) {
         case FileName:
@@ -112,7 +125,7 @@ ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     , m_rootEntry(new Archive::Entry(Q_NULLPTR))
     , m_dbusPathName(dbusPathName)
 {
-    m_rootEntry->isDirectory = true;
+    m_rootEntry->setProperty("isDirectory", true);
 }
 
 ArchiveModel::~ArchiveModel()
@@ -128,8 +141,8 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
         switch (role) {
         case Qt::DisplayRole: {
             //TODO: complete the columns
-            int columnId = m_showColumns.at(index.column());
-            switch (columnId) {
+            int column = m_showColumns.at(index.column());
+            switch (column) {
             case FileName:
                 return entry->name();
             case Size:
@@ -138,16 +151,16 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
                     int files;
                     const int children = childCount(index, dirs, files);
                     return KIO::itemsSummaryString(children, files, dirs, 0, false);
-                } else if (!entry->link.isNull()) {
+                } else if (!entry->property("link").isNull()) {
                     return QVariant();
                 } else {
-                    return KIO::convertSize(entry->size.toULongLong());
+                    return KIO::convertSize(entry->property("size").toULongLong());
                 }
             case CompressedSize:
-                if (entry->isDir() || !entry->link.isNull()) {
+                if (entry->isDir() || !entry->property("link").isNull()) {
                     return QVariant();
                 } else {
-                    qulonglong compressedSize = entry->compressedSize.toULongLong();
+                    qulonglong compressedSize = entry->property("compressedSize").toULongLong();
                     if (compressedSize != 0) {
                         return KIO::convertSize(compressedSize);
                     } else {
@@ -155,11 +168,11 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
                     }
                 }
             case Ratio: // TODO: Use entry->metaData()[Ratio] when available
-                if (entry->isDir() || !entry->link.isNull()) {
+                if (entry->isDir() || !entry->property("link").isNull()) {
                     return QVariant();
                 } else {
-                    qulonglong compressedSize = entry->compressedSize.toULongLong();
-                    qulonglong size = entry->size.toULongLong();
+                    qulonglong compressedSize = entry->property("compressedSize").toULongLong();
+                    qulonglong size = entry->property("size").toULongLong();
                     if (compressedSize == 0 || size == 0) {
                         return QVariant();
                     } else {
@@ -169,12 +182,12 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
                 }
 
             case Timestamp: {
-                const QDateTime timeStamp = entry->timestamp.toDateTime();
+                const QDateTime timeStamp = entry->property("timestamp").toDateTime();
                 return QLocale().toString(timeStamp, QLocale::ShortFormat);
             }
 
             default:
-                return entry->getPropertyByColumn(static_cast<EntryMetaDataType>(columnId));
+                return entry->property(propertiesList[column].toStdString().c_str());
             }
             break;
         }
@@ -185,7 +198,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
             return QVariant();
         case Qt::FontRole: {
             QFont f;
-            f.setItalic(entry->isPasswordProtected.toBool());
+            f.setItalic(entry->property("isPasswordProtected").toBool());
             return f;
         }
         default:
@@ -464,7 +477,7 @@ QString ArchiveModel::cleanFileName(const QString& fileName)
 
 Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
 {
-    QStringList pieces = entry->fileName.toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
+    QStringList pieces = entry->property("fileName").toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
     if (pieces.isEmpty()) {
         return Q_NULLPTR;
     }
@@ -498,8 +511,8 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
         if (!entry) {
             entry = new Archive::Entry(parent);
 
-            entry->fileName = (parent == m_rootEntry) ? piece : parent->fileName.toString() + QLatin1Char( '/' ) + piece;
-            entry->isDirectory = true;
+            entry->setProperty("fileName", (parent == m_rootEntry) ? piece : parent->property("fileName").toString() + QLatin1Char( '/' ) + piece);
+            entry->setProperty("isDirectory", true);
             insertEntry(entry);
         }
         if (!entry->isDir()) {
@@ -573,7 +586,7 @@ void ArchiveModel::slotNewEntry(Archive::Entry *entry)
 
 void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behaviour)
 {
-    if (receivedEntry->fileName.isNull()) {
+    if (receivedEntry->property("fileName").isNull()) {
         qCDebug(ARK) << "Weird, received empty entry (no filename) - skipping";
         return;
     }
@@ -581,28 +594,15 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     //if there are no addidional columns registered, then have a look at the
     //entry and populate some
     if (m_showColumns.isEmpty()) {
-        //these are the columns we are interested in showing in the display
-        static const QList<EntryMetaDataType> columnsForDisplay =
-            QList<EntryMetaDataType>()
-            << FileName
-            << Size
-            << CompressedSize
-            << Permissions
-            << Owner
-            << Group
-            << Ratio
-            << CRC
-            << Method
-            << Version
-            << Timestamp
-            << Comment;
-
         QList<int> toInsert;
 
-        foreach(EntryMetaDataType column, columnsForDisplay) {
-            if (!receivedEntry->getPropertyByColumn(column).isNull()) {
-                toInsert << column;
+        int i = 0;
+        foreach (QString property, propertiesList) {
+            if (!receivedEntry->property(property.toStdString().c_str()).isNull()) {
+                toInsert << i;
+                qCDebug(ARK) << property << ":" << receivedEntry->property(property.toStdString().c_str());
             }
+            i++;
         }
         beginInsertColumns(QModelIndex(), 0, toInsert.size() - 1);
         m_showColumns << toInsert;
@@ -614,11 +614,11 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     //#194241: Filenames such as "./file" should be displayed as "file"
     //#241967: Entries called "/" should be ignored
     //#355839: Entries called "//" should be ignored
-    QString entryFileName = cleanFileName(receivedEntry->fileName.toString());
+    QString entryFileName = cleanFileName(receivedEntry->property("fileName").toString());
     if (entryFileName.isEmpty()) { // The entry contains only "." or "./"
         return;
     }
-    receivedEntry->fileName = entryFileName;
+    receivedEntry->setProperty("fileName", entryFileName);
 
     /// 1. Skip already created entries
     if (m_rootEntry) {
@@ -626,11 +626,11 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
         if (existing) {
             qCDebug(ARK) << "Refreshing entry for" << entryFileName;
 
-            existing->fileName = entryFileName;
+            existing->setProperty("fileName", entryFileName);
             // Multi-volume files are repeated at least in RAR archives.
             // In that case, we need to sum the compressed size for each volume
-            qulonglong currentCompressedSize = existing->compressedSize.toULongLong();
-            existing->compressedSize = currentCompressedSize + receivedEntry->compressedSize.toULongLong();
+            qulonglong currentCompressedSize = existing->property("compressedSize").toULongLong();
+            existing->setProperty("compressedSize", currentCompressedSize + receivedEntry->property("compressedSize").toULongLong());
             existing->processNameAndIcon();
             return;
         }
@@ -644,7 +644,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     const QString name = path.last();
     Archive::Entry *entry = parent->find(name);
     if (entry) {
-        entry->fileName = entryFileName;
+        entry->setProperty("fileName", entryFileName);
         entry->processNameAndIcon();
     } else {
         receivedEntry->setParent(parent);
@@ -789,7 +789,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
         Archive::Entry *entry = entryForIndex(node);
 
         if (!hasChildren(node)) {
-            if (!entry->fileName.isNull()) {
+            if (!entry->property("fileName").isNull()) {
                 nodesToDelete << node;
             }
         } else {

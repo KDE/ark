@@ -59,12 +59,12 @@ int Archive::Entry::row() const
 
 bool Archive::Entry::isDir() const
 {
-    return isDirectory.toBool();
+    return m_isDirectory;
 }
 
 void Archive::Entry::processNameAndIcon()
 {
-    const QStringList pieces = fileName.toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
+    const QStringList pieces = m_fileName.split(QLatin1Char( '/' ), QString::SkipEmptyParts);
     m_name = pieces.isEmpty() ? QString() : pieces.last();
 
     QMimeDatabase db;
@@ -72,7 +72,7 @@ void Archive::Entry::processNameAndIcon()
         m_icon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
                                                                                                            IconSize(KIconLoader::Small));
     } else {
-        m_icon = QIcon::fromTheme(db.mimeTypeForFile(fileName.toString()).iconName()).pixmap(IconSize(KIconLoader::Small),
+        m_icon = QIcon::fromTheme(db.mimeTypeForFile(m_fileName).iconName()).pixmap(IconSize(KIconLoader::Small),
                                                                                                       IconSize(KIconLoader::Small));
     }
 }
@@ -114,103 +114,23 @@ Archive::Entry *Archive::Entry::findByPath(const QStringList & pieces, int index
     return 0;
 }
 
-const QVariant &Archive::Entry::getPropertyByColumn(EntryMetaDataType column) const
-{
-    switch (column) {
-        case FileName:
-            return fileName;
-        case Permissions:
-            return permissions;
-        case Owner:
-            return owner;
-        case Group:
-            return group;
-        case Size:
-            return size;
-        case CompressedSize:
-            return compressedSize;
-        case Link:
-            return link;
-        case Ratio:
-            return ratio;
-        case EntryMetaDataType::CRC:
-            return this->CRC;
-        case Method:
-            return method;
-        case Version:
-            return version;
-        case Timestamp:
-            return timestamp;
-        case IsDirectory:
-            return isDirectory;
-        case Comment:
-            return comment;
-        case IsPasswordProtected:
-            return isPasswordProtected;
-
-        default:
-            qCDebug(ARK) << "Weird, trying to get a nonexistent column";
-            static QVariant nullProperty = 0;
-            return nullProperty;
-    }
-}
-
-void Archive::Entry::setPropertyByColumn(EntryMetaDataType column, const QVariant &value)
-{
-    switch (column) {
-        case FileName:
-            fileName = value;
-        case Permissions:
-            permissions = value;
-        case Owner:
-            owner = value;
-        case Group:
-            group = value;
-        case Size:
-            size = value;
-        case CompressedSize:
-            compressedSize = value;
-        case Link:
-            link = value;
-        case Ratio:
-            ratio = value;
-        case EntryMetaDataType::CRC:
-            this->CRC = value;
-        case Method:
-            method = value;
-        case Version:
-            version = value;
-        case Timestamp:
-            timestamp = value;
-        case IsDirectory:
-            isDirectory = value;
-        case Comment:
-            comment = value;
-        case IsPasswordProtected:
-            isPasswordProtected = value;
-
-        default:
-            qCDebug(ARK) << "Weird, trying to set a nonexistent column";
-    }
-}
-
 void Archive::Entry::clearMetaData()
 {
-    fileName.clear();
-    permissions.clear();
-    owner.clear();
-    group.clear();
-    size.clear();
-    compressedSize.clear();
-    link.clear();
-    ratio.clear();
-    CRC.clear();
-    method.clear();
-    version.clear();
-    timestamp.clear();
-    isDirectory.clear();
-    comment.clear();
-    isPasswordProtected.clear();
+    m_fileName.clear();
+    m_permissions.clear();
+    m_owner.clear();
+    m_group.clear();
+    m_size = 0;
+    m_compressedSize = 0;
+    m_link.clear();
+    m_ratio.clear();
+    m_CRC.clear();
+    m_method.clear();
+    m_version.clear();
+    m_timestamp = QDateTime();
+    m_isDirectory = false;
+    m_comment.clear();
+    m_isPasswordProtected = false;
 }
 
 void Archive::Entry::returnDirEntries(QList<Entry *> *store)

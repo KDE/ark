@@ -101,7 +101,7 @@ void InfoPanel::setIndex(const QModelIndex& index)
         if (entry->isDir()) {
             mimeType = db.mimeTypeForName(QStringLiteral("inode/directory"));
         } else {
-            mimeType = db.mimeTypeForFile(entry->fileName.toString(), QMimeDatabase::MatchExtension);
+            mimeType = db.mimeTypeForFile(entry->property("fileName").toString(), QMimeDatabase::MatchExtension);
         }
 
         iconLabel->setPixmap(getDesktopIconForName(mimeType.iconName()));
@@ -110,19 +110,19 @@ void InfoPanel::setIndex(const QModelIndex& index)
             int files;
             const int children = m_model->childCount(index, dirs, files);
             additionalInfo->setText(KIO::itemsSummaryString(children, files, dirs, 0, false));
-        } else if (!entry->link.isNull()) {
+        } else if (!entry->property("link").isNull()) {
             additionalInfo->setText(i18n("Symbolic Link"));
         } else {
-            if (!entry->size.isNull()) {
-                additionalInfo->setText(KIO::convertSize(entry->size.toULongLong()));
+            if (!entry->property("size").isNull()) {
+                additionalInfo->setText(KIO::convertSize(entry->property("size").toULongLong()));
             } else {
                 additionalInfo->setText(i18n("Unknown size"));
 
             }
         }
 
-        const QStringList nameParts = entry->fileName.toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
-        const QString name = (nameParts.count() > 0) ? nameParts.last() : entry->fileName.toString();
+        const QStringList nameParts = entry->property("fileName").toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
+        const QString name = (nameParts.count() > 0) ? nameParts.last() : entry->property("fileName").toString();
         fileName->setText(name);
 
         metadataLabel->setText(metadataTextFor(index));
@@ -142,7 +142,7 @@ void InfoPanel::setIndexes(const QModelIndexList &list)
         quint64 totalSize = 0;
         foreach(const QModelIndex& index, list) {
             const Archive::Entry *entry = m_model->entryForIndex(index);
-            totalSize += entry->size.toULongLong();
+            totalSize += entry->property("size").toULongLong();
         }
         additionalInfo->setText(KIO::convertSize(totalSize));
         hideMetaData();
@@ -184,24 +184,24 @@ QString InfoPanel::metadataTextFor(const QModelIndex &index)
     if (entry->isDir()) {
         mimeType = db.mimeTypeForName(QStringLiteral("inode/directory"));
     } else {
-        mimeType = db.mimeTypeForFile(entry->fileName.toString(), QMimeDatabase::MatchExtension);
+        mimeType = db.mimeTypeForFile(entry->property("fileName").toString(), QMimeDatabase::MatchExtension);
     }
 
     text += i18n("<b>Type:</b> %1<br/>",  mimeType.comment());
 
-    if (!entry->owner.isNull()) {
-        text += i18n("<b>Owner:</b> %1<br/>", entry->owner.toString());
+    if (!entry->property("owner").isNull()) {
+        text += i18n("<b>Owner:</b> %1<br/>", entry->property("owner").toString());
     }
 
-    if (!entry->group.isNull()) {
-        text += i18n("<b>Group:</b> %1<br/>", entry->group.toString());
+    if (!entry->property("group").isNull()) {
+        text += i18n("<b>Group:</b> %1<br/>", entry->property("group").toString());
     }
 
-    if (!entry->link.isNull()) {
-        text += i18n("<b>Target:</b> %1<br/>", entry->link.toString());
+    if (!entry->property("link").isNull()) {
+        text += i18n("<b>Target:</b> %1<br/>", entry->property("link").toString());
     }
 
-    if (entry->isPasswordProtected.toBool()) {
+    if (entry->property("isPasswordProtected").toBool()) {
         text += i18n("<b>Password protected:</b> Yes<br/>");
     }
 

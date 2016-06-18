@@ -129,17 +129,17 @@ bool CliPlugin::readListLine(const QString &line)
 
     qCDebug(ARK) << m_entryFilename << " : " << fileprops;
     Archive::Entry *e = new Archive::Entry(Q_NULLPTR);
-    e->fileName = m_entryFilename;
-    e->size = fileprops[ 0 ];
-    e->compressedSize = fileprops[ 1 ];
-    e->ratio = fileprops[ 2 ];
-    e->timestamp = ts;
-    e->isDirectory = isDirectory;
-    e->permissions = fileprops[ 5 ].remove(0, 1);
-    e->CRC = fileprops[ 6 ];
-    e->method = fileprops[ 7 ];
-    e->version = fileprops[ 8 ];
-    e->isPasswordProtected = m_isPasswordProtected;
+    e->setProperty("fileName", m_entryFilename);
+    e->setProperty("size", fileprops[ 0 ]);
+    e->setProperty("compressedSize", fileprops[ 1 ]);
+    e->setProperty("ratio", fileprops[ 2 ]);
+    e->setProperty("timestamp", ts);
+    e->setProperty("isDirectory", isDirectory);
+    e->setProperty("permissions", fileprops[ 5 ].remove(0, 1));
+    e->setProperty("CRC", fileprops[ 6 ]);
+    e->setProperty("method", fileprops[ 7 ]);
+    e->setProperty("version", fileprops[ 8 ]);
+    e->setProperty("ssPasswordProtected", m_isPasswordProtected);
     qCDebug(ARK) << "Added entry: " << e;
 
     emit entry(e);

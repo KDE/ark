@@ -256,14 +256,14 @@ void CliPlugin::handleUnrar5Entry() {
 
     QString compressionRatio = m_unrar5Details.value(QStringLiteral("ratio"));
     compressionRatio.chop(1); // Remove the '%'
-    e->ratio = compressionRatio;
+    e->setProperty("ratio", compressionRatio);
 
     QString time = m_unrar5Details.value(QStringLiteral("mtime"));
     QDateTime ts = QDateTime::fromString(time, QStringLiteral("yyyy-MM-dd HH:mm:ss,zzz"));
-    e->timestamp = ts;
+    e->setProperty("timestamp", ts);
 
     bool isDirectory = (m_unrar5Details.value(QStringLiteral("type")) == QLatin1String("Directory"));
-    e->isDirectory = isDirectory;
+    e->setProperty("isDirectory", isDirectory);
 
     if (isDirectory && !m_unrar5Details.value(QStringLiteral("name")).endsWith(QLatin1Char('/'))) {
         m_unrar5Details[QStringLiteral("name")] += QLatin1Char('/');
@@ -272,25 +272,25 @@ void CliPlugin::handleUnrar5Entry() {
     QString compression = m_unrar5Details.value(QStringLiteral("compression"));
     int optionPos = compression.indexOf(QLatin1Char('-'));
     if (optionPos != -1) {
-        e->method = compression.mid(optionPos);
-        e->version = compression.left(optionPos).trimmed();
+        e->setProperty("method", compression.mid(optionPos));
+        e->setProperty("version", compression.left(optionPos).trimmed());
     } else {
         // No method specified.
-        e->method.clear();
-        e->version = compression;
+        e->setProperty("method", QStringLiteral(""));
+        e->setProperty("version", compression);
     }
 
     m_isPasswordProtected = m_unrar5Details.value(QStringLiteral("flags")).contains(QStringLiteral("encrypted"));
-    e->isPasswordProtected = m_isPasswordProtected;
+    e->setProperty("isPasswordProtected", m_isPasswordProtected);
 
-    e->fileName = m_unrar5Details.value(QStringLiteral("name"));
-    e->size = m_unrar5Details.value(QStringLiteral("size"));
-    e->compressedSize = m_unrar5Details.value(QStringLiteral("packed size"));
-    e->permissions = m_unrar5Details.value(QStringLiteral("attributes"));
-    e->CRC = m_unrar5Details.value(QStringLiteral("crc32"));
+    e->setProperty("fileName", m_unrar5Details.value(QStringLiteral("name")));
+    e->setProperty("size", m_unrar5Details.value(QStringLiteral("size")));
+    e->setProperty("compressedSize", m_unrar5Details.value(QStringLiteral("packed size")));
+    e->setProperty("permissions", m_unrar5Details.value(QStringLiteral("attributes")));
+    e->setProperty("CRC", m_unrar5Details.value(QStringLiteral("crc32")));
 
-    if (e->permissions.toString().startsWith(QLatin1Char('l'))) {
-        e->link = m_unrar5Details.value(QStringLiteral("target"));
+    if (e->property("permissions").toString().startsWith(QLatin1Char('l'))) {
+        e->setProperty("link", m_unrar5Details.value(QStringLiteral("target")));
     }
 
     m_unrar5Details.clear();
@@ -463,11 +463,11 @@ void CliPlugin::handleUnrar4Entry() {
     if (ts.date().year() < 1950) {
         ts = ts.addYears(100);
     }
-    e->timestamp = ts;
+    e->setProperty("timestamp", ts);
 
     bool isDirectory = ((m_unrar4Details.at(6).at(0) == QLatin1Char('d')) ||
                         (m_unrar4Details.at(6).at(1) == QLatin1Char('D')));
-    e->isDirectory = isDirectory;
+    e->setProperty("isDirectory", isDirectory);
 
     if (isDirectory && !m_unrar4Details.at(0).endsWith(QLatin1Char('/'))) {
         m_unrar4Details[0] += QLatin1Char('/');
@@ -486,22 +486,22 @@ void CliPlugin::handleUnrar4Entry() {
     } else {
         compressionRatio.chop(1); // Remove the '%'
     }
-    e->ratio = compressionRatio;
+    e->setProperty("ratio", compressionRatio);
 
     // TODO:
     // - Permissions differ depending on the system the entry was added
     //   to the archive.
-    e->fileName = m_unrar4Details.at(0);
-    e->size = m_unrar4Details.at(1);
-    e->compressedSize = m_unrar4Details.at(2);
-    e->permissions = m_unrar4Details.at(6);
-    e->CRC = m_unrar4Details.at(7);
-    e->method = m_unrar4Details.at(8);
-    e->version = m_unrar4Details.at(9);
-    e->isPasswordProtected = m_isPasswordProtected;
+    e->setProperty("fileName", m_unrar4Details.at(0));
+    e->setProperty("size", m_unrar4Details.at(1));
+    e->setProperty("compressedSize", m_unrar4Details.at(2));
+    e->setProperty("permissions", m_unrar4Details.at(6));
+    e->setProperty("CRC", m_unrar4Details.at(7));
+    e->setProperty("method", m_unrar4Details.at(8));
+    e->setProperty("version", m_unrar4Details.at(9));
+    e->setProperty("isPasswordProtected", m_isPasswordProtected);
 
-    if (e->permissions.toString().startsWith(QLatin1Char('l'))) {
-        e->link = m_unrar4Details.at(10);
+    if (e->property("permissions").toString().startsWith(QLatin1Char('l'))) {
+        e->setProperty("link", m_unrar4Details.at(10));
     }
 
     m_unrar4Details.clear();

@@ -163,24 +163,24 @@ bool CliPlugin::readListLine(const QString &line)
         QRegularExpressionMatch rxMatch = entryPattern.match(line);
         if (rxMatch.hasMatch()) {
             Archive::Entry *e = new Archive::Entry(Q_NULLPTR);
-            e->permissions = rxMatch.captured(1);
+            e->setProperty("permissions", rxMatch.captured(1));
 
             // #280354: infozip may not show the right attributes for a given directory, so an entry
             //          ending with '/' is actually more reliable than 'd' bein in the attributes.
-            e->isDirectory = rxMatch.captured(10).endsWith(QLatin1Char('/'));
+            e->setProperty("isDirectory", rxMatch.captured(10).endsWith(QLatin1Char('/')));
 
-            e->size = rxMatch.captured(4);
+            e->setProperty("size", rxMatch.captured(4));
             QString status = rxMatch.captured(5);
             if (status[0].isUpper()) {
-                e->isPasswordProtected = true;
+                e->setProperty("isPasswordProtected", true);
             }
-            e->compressedSize = rxMatch.captured(6).toInt();
+            e->setProperty("compressedSize", rxMatch.captured(6).toInt());
 
             const QDateTime ts(QDate::fromString(rxMatch.captured(8), QStringLiteral("yyyyMMdd")),
                                QTime::fromString(rxMatch.captured(9), QStringLiteral("hhmmss")));
-            e->timestamp = ts;
+            e->setProperty("timestamp", ts);
 
-            e->fileName = rxMatch.captured(10);
+            e->setProperty("fileName", rxMatch.captured(10));
             emit entry(e);
         }
         break;

@@ -30,21 +30,21 @@ class Archive::Entry : public QObject
      * Please notice that not all archive formats support all the properties
      * below, so set those that are available.
      */
-    Q_PROPERTY(QVariant fileName MEMBER fileName)
-    Q_PROPERTY(QVariant permissions MEMBER permissions)
-    Q_PROPERTY(QVariant owner MEMBER owner)
-    Q_PROPERTY(QVariant group MEMBER group)
-    Q_PROPERTY(QVariant size MEMBER size)
-    Q_PROPERTY(QVariant compressedSize MEMBER compressedSize)
-    Q_PROPERTY(QVariant link MEMBER link)
-    Q_PROPERTY(QVariant ratio MEMBER ratio)
-    Q_PROPERTY(QVariant CRC MEMBER CRC)
-    Q_PROPERTY(QVariant method MEMBER method)
-    Q_PROPERTY(QVariant version MEMBER version)
-    Q_PROPERTY(QVariant timestamp MEMBER timestamp)
-    Q_PROPERTY(QVariant isDirectory MEMBER isDirectory)
-    Q_PROPERTY(QVariant comment MEMBER comment)
-    Q_PROPERTY(QVariant isPasswordProtected MEMBER isPasswordProtected)
+    Q_PROPERTY(QString fileName MEMBER m_fileName)
+    Q_PROPERTY(QString permissions MEMBER m_permissions)
+    Q_PROPERTY(QString owner MEMBER m_owner)
+    Q_PROPERTY(QString group MEMBER m_group)
+    Q_PROPERTY(qulonglong size MEMBER m_size)
+    Q_PROPERTY(qulonglong compressedSize MEMBER m_compressedSize)
+    Q_PROPERTY(QString link MEMBER m_link)
+    Q_PROPERTY(QString ratio MEMBER m_ratio)
+    Q_PROPERTY(QString CRC MEMBER m_CRC)
+    Q_PROPERTY(QString method MEMBER m_method)
+    Q_PROPERTY(QString version MEMBER m_version)
+    Q_PROPERTY(QDateTime timestamp MEMBER m_timestamp)
+    Q_PROPERTY(bool isDirectory MEMBER m_isDirectory)
+    Q_PROPERTY(QString comment MEMBER m_comment)
+    Q_PROPERTY(bool isPasswordProtected MEMBER m_isPasswordProtected)
 
 public:
 
@@ -64,8 +64,6 @@ public:
     QString name() const;
     Entry *find(const QString & name);
     Entry *findByPath(const QStringList & pieces, int index = 0);
-    const QVariant &getPropertyByColumn(EntryMetaDataType column) const;
-    void setPropertyByColumn(EntryMetaDataType column, const QVariant &value);
     void clearMetaData();
     void returnDirEntries(QList<Entry *> *store);
     void clear();
@@ -76,22 +74,21 @@ private:
     QString         m_name;
     Entry           *m_parent;
 
-public:
-    QVariant fileName;
-    QVariant permissions;
-    QVariant owner;
-    QVariant group;
-    QVariant size;
-    QVariant compressedSize;
-    QVariant link;
-    QVariant ratio;
-    QVariant CRC;
-    QVariant method;
-    QVariant version;
-    QVariant timestamp;
-    QVariant isDirectory;
-    QVariant comment;
-    QVariant isPasswordProtected;
+    QString m_fileName;
+    QString m_permissions;
+    QString m_owner;
+    QString m_group;
+    qulonglong m_size;
+    qulonglong m_compressedSize;
+    QString m_link;
+    QString m_ratio;
+    QString m_CRC;
+    QString m_method;
+    QString m_version;
+    QDateTime m_timestamp;
+    bool m_isDirectory;
+    QString m_comment;
+    bool m_isPasswordProtected;
 };
 
 }

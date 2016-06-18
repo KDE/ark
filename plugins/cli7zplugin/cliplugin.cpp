@@ -193,46 +193,45 @@ bool CliPlugin::readListLine(const QString& line)
         if (line.startsWith(QStringLiteral("Path = "))) {
             const QString entryFilename =
                 QDir::fromNativeSeparators(line.mid(7).trimmed());
-            m_currentArchiveEntry->fileName = entryFilename;
+            m_currentArchiveEntry->setProperty("fileName", entryFilename);
         } else if (line.startsWith(QStringLiteral("Size = "))) {
-            m_currentArchiveEntry->size = line.mid(7).trimmed();
+            m_currentArchiveEntry->setProperty("size", line.mid(7).trimmed());
         } else if (line.startsWith(QStringLiteral("Packed Size = "))) {
             // #236696: 7z files only show a single Packed Size value
             //          corresponding to the whole archive.
             if (m_archiveType != ArchiveType7z) {
-                m_currentArchiveEntry->compressedSize = line.mid(14).trimmed();
+                m_currentArchiveEntry->setProperty("compressedSize", line.mid(14).trimmed());
             }
         } else if (line.startsWith(QStringLiteral("Modified = "))) {
-            m_currentArchiveEntry->timestamp =
-                QDateTime::fromString(line.mid(11).trimmed(),
-                                      QStringLiteral("yyyy-MM-dd hh:mm:ss"));
+            m_currentArchiveEntry->setProperty("timestamp", QDateTime::fromString(line.mid(11).trimmed(),
+                                                                                  QStringLiteral("yyyy-MM-dd hh:mm:ss")));
         } else if (line.startsWith(QStringLiteral("Attributes = "))) {
             const QString attributes = line.mid(13).trimmed();
 
             const bool isDirectory = attributes.startsWith(QLatin1Char('D'));
-            m_currentArchiveEntry->isDirectory = isDirectory;
+            m_currentArchiveEntry->setProperty("isDirectory", isDirectory);
             if (isDirectory) {
                 const QString directoryName =
-                    m_currentArchiveEntry->fileName.toString();
+                    m_currentArchiveEntry->property("fileName").toString();
                 if (!directoryName.endsWith(QLatin1Char('/'))) {
                     const bool isPasswordProtected = (line.at(12) == QLatin1Char('+'));
-                    m_currentArchiveEntry->fileName = QString(directoryName + QLatin1Char('/'));
-                    m_currentArchiveEntry->isPasswordProtected = isPasswordProtected;
+                    m_currentArchiveEntry->setProperty("fileName", QString(directoryName + QLatin1Char('/')));
+                    m_currentArchiveEntry->setProperty("isPasswordProtected", isPasswordProtected);
                 }
             }
 
-            m_currentArchiveEntry->permissions = attributes.mid(1);
+            m_currentArchiveEntry->setProperty("permissions", attributes.mid(1));
         } else if (line.startsWith(QStringLiteral("CRC = "))) {
-            m_currentArchiveEntry->CRC = line.mid(6).trimmed();
+            m_currentArchiveEntry->setProperty("CRC", line.mid(6).trimmed());
         } else if (line.startsWith(QStringLiteral("Method = "))) {
-            m_currentArchiveEntry->method = line.mid(9).trimmed();
+            m_currentArchiveEntry->setProperty("method", line.mid(9).trimmed());
         } else if (line.startsWith(QStringLiteral("Encrypted = ")) &&
                    line.size() >= 13) {
-            m_currentArchiveEntry->isPasswordProtected = (line.at(12) == QLatin1Char('+'));
+            m_currentArchiveEntry->setProperty("isPasswordProtected", line.at(12) == QLatin1Char('+'));
         } else if (line.startsWith(QStringLiteral("Block = ")) ||
                    line.startsWith(QStringLiteral("Version = "))) {
             m_isFirstInformationEntry = true;
-            if (!m_currentArchiveEntry->fileName.isNull()) {
+            if (!m_currentArchiveEntry->property("fileName").toString().isNull()) {
                 emit entry(m_currentArchiveEntry);
             }
             else {

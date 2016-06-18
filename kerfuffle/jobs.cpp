@@ -237,8 +237,8 @@ bool ListJob::isSingleFolderArchive() const
 
 void ListJob::onNewEntry(const Archive::Entry *entry)
 {
-    m_extractedFilesSize += entry->size.toLongLong();
-    m_isPasswordProtected |= entry->isPasswordProtected.toBool();
+    m_extractedFilesSize += entry->property("size").toLongLong();
+    m_isPasswordProtected |= entry->property("isPasswordProtected").toBool();
 
     if (entry->isDir()) {
         m_dirCount++;
@@ -248,7 +248,7 @@ void ListJob::onNewEntry(const Archive::Entry *entry)
 
     if (m_isSingleFolderArchive) {
         // RPM filenames have the ./ prefix, and "." would be detected as the subfolder name, so we remove it.
-        const QString fileName = entry->fileName.toString().replace(QRegularExpression(QStringLiteral("^\\./")), QString());
+        const QString fileName = entry->property("fileName").toString().replace(QRegularExpression(QStringLiteral("^\\./")), QString());
         const QString basePath = fileName.split(QLatin1Char('/')).at(0);
 
         if (m_basePath.isEmpty()) {
