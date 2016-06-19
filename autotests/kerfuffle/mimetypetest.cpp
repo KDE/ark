@@ -56,6 +56,7 @@ void MimeTypeTest::testMimeTypeDetection_data()
     const QString compressedLzipTarMime = QStringLiteral("application/x-lzip-compressed-tar");
     const QString compressedLzopTarMime = QStringLiteral("application/x-tzo");
     const QString compressedLrzipTarMime = QStringLiteral("application/x-lrzip-compressed-tar");
+    const QString compressedLz4TarMime = QStringLiteral("application/x-lz4-compressed-tar");
     const QString isoMimeType = QStringLiteral("application/x-cd-image");
     const QString debMimeType = QMimeDatabase().mimeTypeForFile(QStringLiteral("dummy.deb"), QMimeDatabase::MatchExtension).name();
     const QString xarMimeType = QStringLiteral("application/x-xar");
@@ -69,6 +70,7 @@ void MimeTypeTest::testMimeTypeDetection_data()
     QTest::newRow("tar.lz") << QFINDTESTDATA("data/simplearchive.tar.lz") << compressedLzipTarMime;
     QTest::newRow("tar.lzo") << QFINDTESTDATA("data/simplearchive.tar.lzo") << compressedLzopTarMime;
     QTest::newRow("tar.lrz") << QFINDTESTDATA("data/simplearchive.tar.lrz") << compressedLrzipTarMime;
+    QTest::newRow("tar.lz4") << QFINDTESTDATA("data/simplearchive.tar.lz4") << compressedLz4TarMime;
     QTest::newRow("deb") << QFINDTESTDATA("data/smallarchive.deb") << debMimeType;
     QTest::newRow("xar") << QFINDTESTDATA("data/simplearchive.xar") << xarMimeType;
 

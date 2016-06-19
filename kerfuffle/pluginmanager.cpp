@@ -119,6 +119,11 @@ QStringList PluginManager::supportedMimeTypes() const
         supported.remove(QStringLiteral("application/x-lrzip-compressed-tar"));
     }
 
+    // Remove entry for lz4-compressed tar if lz4 executable not found in path.
+    if (QStandardPaths::findExecutable(QStringLiteral("lz4")).isEmpty()) {
+        supported.remove(QStringLiteral("application/x-lz4-compressed-tar"));
+    }
+
     return sortByComment(supported);
 }
 
@@ -132,6 +137,11 @@ QStringList PluginManager::supportedWriteMimeTypes() const
     // Remove entry for lrzipped tar if lrzip executable not found in path.
     if (QStandardPaths::findExecutable(QStringLiteral("lrzip")).isEmpty()) {
         supported.remove(QStringLiteral("application/x-lrzip-compressed-tar"));
+    }
+
+    // Remove entry for lz4-compressed tar if lz4 executable not found in path.
+    if (QStandardPaths::findExecutable(QStringLiteral("lz4")).isEmpty()) {
+        supported.remove(QStringLiteral("application/x-lz4-compressed-tar"));
     }
 
     return sortByComment(supported);

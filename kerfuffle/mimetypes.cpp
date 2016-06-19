@@ -47,13 +47,36 @@ QMimeType determineMimeType(const QString& filename)
     // we cannot rely on it when the archive extension is wrong; we need to validate by hand.
     if (fileinfo.completeSuffix().toLower().remove(QRegularExpression(QStringLiteral("[^a-z\\.]"))).contains(QStringLiteral("tar."))) {
         inputFile.chop(fileinfo.completeSuffix().length());
+        QString cleanExtension(fileinfo.completeSuffix().toLower());
+
+        // tar.bz2 and tar.lz4 need special treatment since they contain numbers.
+        bool isBZ2 = false;
+        bool isLZ4 = false;
+        if (fileinfo.completeSuffix().toLower().contains(QStringLiteral("bz2"))) {
+            cleanExtension.remove(QStringLiteral("bz2"));
+            isBZ2 = true;
+        }
+        if (fileinfo.completeSuffix().toLower().contains(QStringLiteral("lz4"))) {
+            cleanExtension.remove(QStringLiteral("lz4"));
+            isLZ4 = true;
+        }
+
         // We remove non-alpha chars from the filename extension, but not periods.
         // If the filename is e.g. "foo.tar.gz.1", we get the "foo.tar.gz." string,
         // so we need to manually drop the last period character from it.
-        QString cleanExtension = fileinfo.completeSuffix().toLower().remove(QRegularExpression(QStringLiteral("[^a-z\\.]")));
+        cleanExtension.remove(QRegularExpression(QStringLiteral("[^a-z\\.]")));
         if (cleanExtension.endsWith(QLatin1Char('.'))) {
             cleanExtension.chop(1);
         }
+
+        // Re-add extension for tar.bz2 and tar.lz4.
+        if (isBZ2) {
+            cleanExtension.append(QStringLiteral(".bz2"));
+        }
+        if (isLZ4) {
+            cleanExtension.append(QStringLiteral(".lz4"));
+        }
+
         inputFile += cleanExtension;
         qCDebug(ARK) << "Validated filename of compressed tar" << filename << "into filename" << inputFile;
     }
@@ -83,7 +106,9 @@ QMimeType determineMimeType(const QString& filename)
         (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-lzip-compressed-tar")) &&
          mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzip"))) ||
         (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-lrzip-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lrzip")))) {
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lrzip"))) ||
+        (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-lz4-compressed-tar")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lz4")))) {
         return mimeFromExtension;
     }
 

@@ -149,6 +149,17 @@ void ArchiveTest::testProperties_data()
         qDebug() << "lrzip executable not found in path. Skipping lrzip test.";
     }
 
+    // Only run test for lz4-compressed tar if lz4 executable is found in path.
+    if (!QStandardPaths::findExecutable(QStringLiteral("lz4")).isEmpty()) {
+        QTest::newRow("lz4-compressed tarball")
+                << QFINDTESTDATA("data/simplearchive.tar.lz4")
+                << QStringLiteral("simplearchive")
+                << false << false << false << Archive::Unencrypted
+                << QStringLiteral("simplearchive");
+    } else {
+        qDebug() << "lz4 executable not found in path. Skipping lz4 test.";
+    }
+
     QTest::newRow("xar archive")
             << QFINDTESTDATA("data/simplearchive.xar")
             << QStringLiteral("simplearchive")
@@ -459,6 +470,28 @@ void ArchiveTest::testExtraction_data()
                 << 7;
     } else {
         qDebug() << "lrzip executable not found in path. Skipping lrzip test.";
+    }
+
+    // Only run test for lz4-compressed tar if lz4 executable is found in path.
+    if (!QStandardPaths::findExecutable(QStringLiteral("lz4")).isEmpty()) {
+        archivePath = QFINDTESTDATA("data/simplearchive.tar.lz4");
+        QTest::newRow("extract selected entries from a lz4-compressed tarball without path")
+                << archivePath
+                << QVariantList {
+                       QVariant::fromValue(fileRootNodePair(QStringLiteral("file3.txt"), QString())),
+                       QVariant::fromValue(fileRootNodePair(QStringLiteral("dir2/file22.txt"), QString()))
+                   }
+                << ExtractionOptions()
+                << 2;
+
+        archivePath = QFINDTESTDATA("data/simplearchive.tar.lz4");
+        QTest::newRow("extract all entries from a lz4-compressed tarball with path")
+                << archivePath
+                << QVariantList()
+                << optionsPreservePaths
+                << 7;
+    } else {
+        qDebug() << "lz4 executable not found in path. Skipping lz4 test.";
     }
 
     archivePath = QFINDTESTDATA("data/simplearchive.xar");

@@ -98,7 +98,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
     archive_write_set_format_pax_restricted(arch_writer.data());
 
     int ret;
-    bool isLrzip = false;
+    bool requiresExecutable = false;
     if (creatingNewFile) {
         if (filename().right(2).toUpper() == QLatin1String("GZ")) {
             qCDebug(ARK) << "Detected gzip compression for new file";
@@ -124,7 +124,13 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
         } else if (filename().right(3).toUpper() == QLatin1String("LRZ")) {
             qCDebug(ARK) << "Detected lrzip compression for new file";
             ret = archive_write_add_filter_lrzip(arch_writer.data());
-            isLrzip = true;
+            requiresExecutable = true;
+#ifdef HAVE_LIBARCHIVE_3_2_0
+        } else if (filename().right(3).toUpper() == QLatin1String("LZ4")) {
+            qCDebug(ARK) << "Detected lz4 compression for new file";
+            ret = archive_write_add_filter_lz4(arch_writer.data());
+            requiresExecutable = true;
+#endif
         } else if (filename().right(3).toUpper() == QLatin1String("TAR")) {
             qCDebug(ARK) << "Detected no compression for new file (pure tar)";
             ret = archive_write_add_filter_none(arch_writer.data());
@@ -134,8 +140,8 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
         }
 
         // Libarchive emits a warning for lrzip due to using external executable.
-        if ((isLrzip && ret != ARCHIVE_WARN) ||
-            (!isLrzip && ret != ARCHIVE_OK)) {
+        if ((requiresExecutable && ret != ARCHIVE_WARN) ||
+            (!requiresExecutable && ret != ARCHIVE_OK)) {
             emit error(xi18nc("@info", "Setting the compression method failed with the following error:<nl/><message>%1</message>",
                               QLatin1String(archive_error_string(arch_writer.data()))));
             return false;
@@ -178,8 +184,14 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
             break;
         case ARCHIVE_FILTER_LRZIP:
             ret = archive_write_add_filter_lrzip(arch_writer.data());
-            isLrzip = true;
+            requiresExecutable = true;
             break;
+#ifdef HAVE_LIBARCHIVE_3_2_0
+        case ARCHIVE_FILTER_LZ4:
+            ret = archive_write_add_filter_lz4(arch_writer.data());
+            requiresExecutable = true;
+            break;
+#endif
         case ARCHIVE_FILTER_NONE:
             ret = archive_write_add_filter_none(arch_writer.data());
             break;
@@ -190,8 +202,8 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
         }
 
         // Libarchive emits a warning for lrzip due to using external executable.
-        if ((isLrzip && ret != ARCHIVE_WARN) ||
-            (!isLrzip && ret != ARCHIVE_OK)) {
+        if ((requiresExecutable && ret != ARCHIVE_WARN) ||
+            (!requiresExecutable && ret != ARCHIVE_OK)) {
             emit error(xi18nc("@info", "Setting the compression method failed with the following error:<nl/><message>%1</message>",
                               QLatin1String(archive_error_string(arch_writer.data()))));
             return false;

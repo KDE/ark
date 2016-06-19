@@ -6,6 +6,11 @@ set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "${SUPPORTED_LIBARCHIVE_READWRITE_M
 set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "application/vnd.debian.binary-package;application/x-deb;application/x-cd-image;application/x-bcpio;application/x-cpio;application/x-cpio-compressed;application/x-sv4cpio;application/x-sv4crc;")
 set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}application/x-rpm;application/x-source-rpm;application/vnd.ms-cab-compressed;application/x-xar;")
 
+if(LibArchive_VERSION VERSION_EQUAL "3.2.0" OR
+   LibArchive_VERSION VERSION_GREATER "3.2.0")
+  set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "${SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES}application/x-lz4-compressed-tar;")
+endif()
+
 set(INSTALLED_LIBARCHIVE_PLUGINS "")
 
 set(kerfuffle_libarchive_readonly_SRCS libarchiveplugin.cpp readonlylibarchiveplugin.cpp ark_debug.cpp)
@@ -46,6 +51,13 @@ set(SUPPORTED_READWRITE_MIMETYPES
     \"application/x-tzo\",
     \"application/x-lrzip-compressed-tar")
 
+if(LibArchive_VERSION VERSION_EQUAL "3.2.0" OR
+   LibArchive_VERSION VERSION_GREATER "3.2.0")
+  set(SUPPORTED_READWRITE_MIMETYPES
+      "${SUPPORTED_READWRITE_MIMETYPES}\",
+      \"application/x-lz4-compressed-tar")
+endif()
+
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libarchive_readonly.json.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive_readonly.json)
@@ -56,6 +68,11 @@ configure_file(
 
 add_library(kerfuffle_libarchive_readonly MODULE ${kerfuffle_libarchive_readonly_SRCS})
 add_library(kerfuffle_libarchive MODULE ${kerfuffle_libarchive_readwrite_SRCS})
+
+if(LibArchive_VERSION VERSION_EQUAL "3.2.0" OR
+   LibArchive_VERSION VERSION_GREATER "3.2.0")
+  target_compile_definitions(kerfuffle_libarchive PRIVATE -DHAVE_LIBARCHIVE_3_2_0)
+endif()
 
 target_link_libraries(kerfuffle_libarchive_readonly KF5::KIOCore ${LibArchive_LIBRARIES} kerfuffle)
 target_link_libraries(kerfuffle_libarchive KF5::KIOCore ${LibArchive_LIBRARIES} kerfuffle)
