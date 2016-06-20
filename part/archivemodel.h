@@ -122,7 +122,6 @@ private:
     QList<int> m_showColumns;
     QScopedPointer<Kerfuffle::Archive> m_archive;
     Archive::Entry *m_rootEntry;
-    QList<Archive::Entry*> m_duplicatedEntries;
 
     QString m_dbusPathName;
 };

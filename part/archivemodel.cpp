@@ -152,7 +152,6 @@ ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     : QAbstractItemModel(parent)
     , m_rootEntry(new Archive::Entry(Q_NULLPTR))
     , m_dbusPathName(dbusPathName)
-    , m_duplicatedEntries(QList<Archive::Entry*>())
 {
     m_rootEntry->setProperty("isDirectory", true);
 }
