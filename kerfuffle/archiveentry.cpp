@@ -6,8 +6,10 @@
 
 namespace Kerfuffle {
 Archive::Entry::Entry(Entry *parent)
-    : m_parent(parent)
+    : compressedSizeIsSet(true)
+    , m_parent(parent)
 {
+    clearMetaData();
 }
 
 Archive::Entry::~Entry()

@@ -51,35 +51,6 @@ class Plugin;
 class Query;
 class ReadOnlyArchiveInterface;
 
-/**
- * Meta data related to one entry in a compressed archive.
- *
- * When creating a plugin, information about every single entry in
- * an archive is contained in an ArchiveEntry, and metadata
- * is set with the entries in this enum.
- *
- * Please notice that not all archive formats support all the properties
- * below, so set those that are available.
- */
-enum EntryMetaDataType {
-    FileName = 0,            /**< The entry's file name */
-    Permissions,         /**< The entry's permissions */
-    Owner,               /**< The user the entry belongs to */
-    Group,               /**< The user group the entry belongs to */
-    Size,                /**< The entry's original size */
-    CompressedSize,      /**< The compressed size for the entry */
-    Link,                /**< The entry is a symbolic link */
-    Ratio,               /**< The compression ratio for the entry */
-    CRC,                 /**< The entry's CRC */
-    Method,              /**< The compression method used on the entry */
-    Version,             /**< The archiver version needed to extract the entry */
-    Timestamp,           /**< The timestamp for the current entry */
-    IsDirectory,         /**< The entry is a directory */
-    Comment,
-    IsPasswordProtected, /**< The entry is password-protected */
-    Custom = 1048576
-};
-
 enum ArchiveError {
     NoError = 0,
     NoPlugin,

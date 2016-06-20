@@ -451,6 +451,7 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
         e->setProperty("group", group);
     }
 
+    e->compressedSizeIsSet = false;
     e->setProperty("size", (qlonglong)archive_entry_size(aentry));
     e->setProperty("isDirectory", S_ISDIR(archive_entry_mode(aentry)));
 

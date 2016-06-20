@@ -189,6 +189,7 @@ bool CliPlugin::readListLine(const QString& line)
         if (m_isFirstInformationEntry) {
             m_isFirstInformationEntry = false;
             m_currentArchiveEntry = new Archive::Entry(Q_NULLPTR);
+            m_currentArchiveEntry->compressedSizeIsSet = false;
         }
         if (line.startsWith(QStringLiteral("Path = "))) {
             const QString entryFilename =
@@ -200,6 +201,7 @@ bool CliPlugin::readListLine(const QString& line)
             // #236696: 7z files only show a single Packed Size value
             //          corresponding to the whole archive.
             if (m_archiveType != ArchiveType7z) {
+                m_currentArchiveEntry->compressedSizeIsSet = true;
                 m_currentArchiveEntry->setProperty("compressedSize", line.mid(14).trimmed());
             }
         } else if (line.startsWith(QStringLiteral("Modified = "))) {

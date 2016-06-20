@@ -105,7 +105,7 @@ bool LibSingleFileInterface::list()
 {
     qCDebug(ARK) << "Listing archive contents";
 
-    Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry(NULL);
+    Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry(Q_NULLPTR);
     e->setProperty("fileName", uncompressedFileName());
     emit entry(e);
 

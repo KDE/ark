@@ -40,19 +40,47 @@ using namespace Kerfuffle;
 static Archive::Entry *s_previousMatch = Q_NULLPTR;
 Q_GLOBAL_STATIC(QStringList, s_previousPieces)
 
-static QVector<QString> propertiesList = QVector<QString>()
-    << QStringLiteral("fileName")
-    << QStringLiteral("permissions")
-    << QStringLiteral("owner")
-    << QStringLiteral("group")
-    << QStringLiteral("size")
-    << QStringLiteral("compressedSize")
-    << QStringLiteral("ratio")
-    << QStringLiteral("CRC")
-    << QStringLiteral("method")
-    << QStringLiteral("version")
-    << QStringLiteral("timestamp")
-    << QStringLiteral("comment");
+/**
+ * Meta data related to one entry in a compressed archive.
+ *
+ * This is used for indexing entry properties as numbers
+ * and for determining data displaying order in part's view.
+ */
+enum EntryMetaDataType {
+    FileName,            /**< The entry's file name */
+    Size,                /**< The entry's original size */
+    CompressedSize,      /**< The compressed size for the entry */
+    Permissions,         /**< The entry's permissions */
+    Owner,               /**< The user the entry belongs to */
+    Group,               /**< The user group the entry belongs to */
+    Ratio,               /**< The compression ratio for the entry */
+    CRC,                 /**< The entry's CRC */
+    Method,              /**< The compression method used on the entry */
+    Version,             /**< The archiver version needed to extract the entry */
+    Timestamp,           /**< The timestamp for the current entry */
+    Comment,
+};
+
+/**
+ * Mappings between column indexes and entry properties.
+ */
+static QMap<int, QString> initializePropertiesList() {
+    QMap<int, QString> propertiesList = QMap<int, QString>();
+    propertiesList.insert(FileName, QStringLiteral("fileName"));
+    propertiesList.insert(Size, QStringLiteral("size"));
+    propertiesList.insert(CompressedSize, QStringLiteral("compressedSize"));
+    propertiesList.insert(Permissions, QStringLiteral("permissions"));
+    propertiesList.insert(Owner, QStringLiteral("owner"));
+    propertiesList.insert(Group, QStringLiteral("group"));
+    propertiesList.insert(Ratio, QStringLiteral("ratio"));
+    propertiesList.insert(CRC, QStringLiteral("CRC"));
+    propertiesList.insert(Method, QStringLiteral("method"));
+    propertiesList.insert(Version, QStringLiteral("version"));
+    propertiesList.insert(Timestamp, QStringLiteral("timestamp"));
+    propertiesList.insert(Comment, QStringLiteral("comment"));
+    return propertiesList;
+}
+static const QMap<int, QString> propertiesList = initializePropertiesList();
 
 /**
  * Helper functor used by qStableSort.
@@ -124,6 +152,7 @@ ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     : QAbstractItemModel(parent)
     , m_rootEntry(new Archive::Entry(Q_NULLPTR))
     , m_dbusPathName(dbusPathName)
+    , m_duplicatedEntries(QList<Archive::Entry*>())
 {
     m_rootEntry->setProperty("isDirectory", true);
 }
@@ -189,7 +218,6 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
             default:
                 return entry->property(propertiesList[column].toStdString().c_str());
             }
-            break;
         }
         case Qt::DecorationRole:
             if (index.column() == 0) {
@@ -509,18 +537,25 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
     foreach(const QString &piece, pieces) {
         Archive::Entry *entry = parent->find(piece);
         if (!entry) {
+            // Directory entry will be traversed later (that happens for some archive formats, 7z for instance).
+            // We have to create one before, in order to construct tree from its children,
+            // and then delete the existing one (see ArchiveModel::newEntry).
             entry = new Archive::Entry(parent);
 
-            entry->setProperty("fileName", (parent == m_rootEntry) ? piece : parent->property("fileName").toString() + QLatin1Char( '/' ) + piece);
+            entry->setProperty("fileName", (parent == m_rootEntry)
+                                           ? piece
+                                           : parent->property("fileName").toString() + QLatin1Char( '/' ) + piece);
             entry->setProperty("isDirectory", true);
+            entry->processNameAndIcon();
             insertEntry(entry);
         }
         if (!entry->isDir()) {
-            //EntryMetaData e(entry->metaData());
-            //*entry = new Archive::Entry(parent, e); TODO: What about copying meta data?
-            //Maybe we have both a file and a directory of the same name
-            // We avoid removing previous entries unless necessary
-            insertEntry(entry);
+            Archive::Entry *e = new Archive::Entry(parent);
+            copyEntryMetaData(e, entry);
+            e->processNameAndIcon();
+            // Maybe we have both a file and a directory of the same name.
+            // We avoid removing previous entries unless necessary.
+            insertEntry(e);
         }
         parent = entry;
     }
@@ -596,13 +631,14 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     if (m_showColumns.isEmpty()) {
         QList<int> toInsert;
 
-        int i = 0;
-        foreach (QString property, propertiesList) {
-            if (!receivedEntry->property(property.toStdString().c_str()).isNull()) {
-                toInsert << i;
-                qCDebug(ARK) << property << ":" << receivedEntry->property(property.toStdString().c_str());
+        QMap<int, QString>::const_iterator i = propertiesList.begin();
+        while (i != propertiesList.end()) {
+            if (!receivedEntry->property(i.value().toStdString().c_str()).isNull()) {
+                if (i.key() != CompressedSize || receivedEntry->compressedSizeIsSet) {
+                    toInsert << i.key();
+                }
             }
-            i++;
+            ++i;
         }
         beginInsertColumns(QModelIndex(), 0, toInsert.size() - 1);
         m_showColumns << toInsert;
@@ -644,8 +680,10 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     const QString name = path.last();
     Archive::Entry *entry = parent->find(name);
     if (entry) {
+        copyEntryMetaData(entry, receivedEntry);
         entry->setProperty("fileName", entryFileName);
         entry->processNameAndIcon();
+        delete receivedEntry;
     } else {
         receivedEntry->setParent(parent);
         receivedEntry->processNameAndIcon();
@@ -667,6 +705,25 @@ void ArchiveModel::slotLoadingFinished(KJob *job)
     qCDebug(ARK) << "Added" << i << "entries to model";
 
     emit loadingFinished(job);
+}
+
+void ArchiveModel::copyEntryMetaData(Archive::Entry *destinationEntry, const Archive::Entry *sourceEntry)
+{
+    destinationEntry->setProperty("fileName", sourceEntry->property("fileName"));
+    destinationEntry->setProperty("permissions", sourceEntry->property("permissions"));
+    destinationEntry->setProperty("owner", sourceEntry->property("owner"));
+    destinationEntry->setProperty("group", sourceEntry->property("group"));
+    destinationEntry->setProperty("size", sourceEntry->property("size"));
+    destinationEntry->setProperty("compressedSize", sourceEntry->property("compressedSize"));
+    destinationEntry->setProperty("link", sourceEntry->property("link"));
+    destinationEntry->setProperty("ratio", sourceEntry->property("ratio"));
+    destinationEntry->setProperty("CRC", sourceEntry->property("CRC"));
+    destinationEntry->setProperty("method", sourceEntry->property("method"));
+    destinationEntry->setProperty("version", sourceEntry->property("version"));
+    destinationEntry->setProperty("timestamp", sourceEntry->property("timestamp").toDateTime());
+    destinationEntry->setProperty("isDirectory", sourceEntry->property("isDirectory"));
+    destinationEntry->setProperty("comment", sourceEntry->property("comment"));
+    destinationEntry->setProperty("isPasswordProtected", sourceEntry->property("isPasswordProtected"));
 }
 
 void ArchiveModel::insertEntry(Archive::Entry *entry, InsertBehaviour behaviour)

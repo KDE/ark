@@ -31,8 +31,6 @@
 #include <QJsonDocument>
 #include <QLatin1String>
 
-typedef QMap<QString, Kerfuffle::EntryMetaDataType> ArchiveProperties;
-
 JSONParser::JSONParser()
 {
 }

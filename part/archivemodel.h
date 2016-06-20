@@ -114,6 +114,7 @@ private:
      * of the change.
      */
     enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
+    void copyEntryMetaData(Archive::Entry *destinationEntry, const Archive::Entry *sourceEntry);
     void insertEntry(Archive::Entry *entry, InsertBehaviour behaviour = NotifyViews);
     void newEntry(Kerfuffle::Archive::Entry *receivedEntry, InsertBehaviour behaviour);
 
@@ -121,6 +122,7 @@ private:
     QList<int> m_showColumns;
     QScopedPointer<Kerfuffle::Archive> m_archive;
     Archive::Entry *m_rootEntry;
+    QList<Archive::Entry*> m_duplicatedEntries;
 
     QString m_dbusPathName;
 };

@@ -68,6 +68,9 @@ public:
     void returnDirEntries(QList<Entry *> *store);
     void clear();
 
+public:
+    bool compressedSizeIsSet;
+
 private:
     QList<Entry*>   m_entries;
     QPixmap         m_icon;
