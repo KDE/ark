@@ -21,6 +21,7 @@ Name[fi]=Ark – Pura tähän
 Name[fr]=Extraire un fichier « Ark » ici
 Name[ga]=Bain an chartlann Ark amach agus cuir é anseo
 Name[gl]=Extraer aquí con Ark
+Name[he]=חלץ בעזרת ארק לכאן
 Name[hr]=Ovdje Ark-otpakiraj
 Name[hu]=Kibontás ide
 Name[ia]=Ark Extrahe hic

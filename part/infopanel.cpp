@@ -69,7 +69,6 @@ void InfoPanel::updateWithDefaults()
 
     additionalInfo->setText(QString());
     hideMetaData();
-    hideActions();
 }
 
 QString InfoPanel::prettyFileName() const
@@ -110,10 +109,10 @@ void InfoPanel::setIndex(const QModelIndex& index)
             int files;
             const int children = m_model->childCount(index, dirs, files);
             additionalInfo->setText(KIO::itemsSummaryString(children, files, dirs, 0, false));
-        } else if (!entry->property("link").isNull()) {
+        } else if (!entry->property("link").toString().isEmpty()) {
             additionalInfo->setText(i18n("Symbolic Link"));
         } else {
-            if (!entry->property("size").isNull()) {
+            if (entry->property("size") != 0) {
                 additionalInfo->setText(KIO::convertSize(entry->property("size").toULongLong()));
             } else {
                 additionalInfo->setText(i18n("Unknown size"));
@@ -125,8 +124,7 @@ void InfoPanel::setIndex(const QModelIndex& index)
         const QString name = (nameParts.count() > 0) ? nameParts.last() : entry->property("fileName").toString();
         fileName->setText(name);
 
-        metadataLabel->setText(metadataTextFor(index));
-        showMetaData();
+        showMetaDataFor(index);
     }
 }
 
@@ -151,32 +149,21 @@ void InfoPanel::setIndexes(const QModelIndexList &list)
 
 void InfoPanel::showMetaData()
 {
-    firstSeparator->show();
-    metadataLabel->show();
+    m_separator->show();
+    m_metaDataWidget->show();
 }
 
 void InfoPanel::hideMetaData()
 {
-    firstSeparator->hide();
-    metadataLabel->hide();
+    m_separator->hide();
+    m_metaDataWidget->hide();
 }
 
-void InfoPanel::showActions()
+void InfoPanel::showMetaDataFor(const QModelIndex &index)
 {
-    secondSeparator->show();
-    actionsLabel->show();
-}
+    showMetaData();
 
-void InfoPanel::hideActions()
-{
-    secondSeparator->hide();
-    actionsLabel->hide();
-}
-
-QString InfoPanel::metadataTextFor(const QModelIndex &index)
-{
     const Archive::Entry *entry = m_model->entryForIndex(index);
-    QString text;
 
     QMimeDatabase db;
     QMimeType mimeType;
@@ -187,23 +174,33 @@ QString InfoPanel::metadataTextFor(const QModelIndex &index)
         mimeType = db.mimeTypeForFile(entry->property("fileName").toString(), QMimeDatabase::MatchExtension);
     }
 
-    text += i18n("<b>Type:</b> %1<br/>",  mimeType.comment());
+    m_typeLabel->setText(i18n("<b>Type:</b> %1",  mimeType.comment()));
 
-    if (!entry->property("owner").isNull()) {
-        text += i18n("<b>Owner:</b> %1<br/>", entry->property("owner").toString());
+    if (!entry->property("owner").toString().isEmpty()) {
+        m_ownerLabel->show();
+        m_ownerLabel->setText(i18n("<b>Owner:</b> %1", entry->property("owner").toString()));
+    } else {
+        m_ownerLabel->hide();
     }
 
-    if (!entry->property("group").isNull()) {
-        text += i18n("<b>Group:</b> %1<br/>", entry->property("group").toString());
+    if (!entry->property("group").toString().isEmpty()) {
+        m_groupLabel->show();
+        m_groupLabel->setText(i18n("<b>Group:</b> %1", entry->property("group").toString()));
+    } else {
+        m_groupLabel->hide();
     }
 
-    if (!entry->property("link").isNull()) {
-        text += i18n("<b>Target:</b> %1<br/>", entry->property("link").toString());
+    if (!entry->property("link").toString().isEmpty()) {
+        m_targetLabel->show();
+        m_targetLabel->setText(i18n("<b>Target:</b> %1", entry->property("link").toString()));
+    } else {
+        m_targetLabel->hide();
     }
 
     if (entry->property("isPasswordProtected").toBool()) {
-        text += i18n("<b>Password protected:</b> Yes<br/>");
+        m_passwordLabel->show();
+        m_passwordLabel->setText(i18n("<b>Password protected:</b> Yes"));
+    } else {
+        m_passwordLabel->hide();
     }
-
-    return text;
 }

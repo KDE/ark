@@ -179,13 +179,13 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
                     int files;
                     const int children = childCount(index, dirs, files);
                     return KIO::itemsSummaryString(children, files, dirs, 0, false);
-                } else if (!entry->property("link").isNull()) {
+                } else if (!entry->property("link").toString().isEmpty()) {
                     return QVariant();
                 } else {
                     return KIO::convertSize(entry->property("size").toULongLong());
                 }
             case CompressedSize:
-                if (entry->isDir() || !entry->property("link").isNull()) {
+                if (entry->isDir() || !entry->property("link").toString().isEmpty()) {
                     return QVariant();
                 } else {
                     qulonglong compressedSize = entry->property("compressedSize").toULongLong();
@@ -196,7 +196,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
                     }
                 }
             case Ratio: // TODO: Use entry->metaData()[Ratio] when available
-                if (entry->isDir() || !entry->property("link").isNull()) {
+                if (entry->isDir() || !entry->property("link").toString().isEmpty()) {
                     return QVariant();
                 } else {
                     qulonglong compressedSize = entry->property("compressedSize").toULongLong();
@@ -620,7 +620,7 @@ void ArchiveModel::slotNewEntry(Archive::Entry *entry)
 
 void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behaviour)
 {
-    if (receivedEntry->property("fileName").isNull()) {
+    if (receivedEntry->property("fileName").toString().isEmpty()) {
         qCDebug(ARK) << "Weird, received empty entry (no filename) - skipping";
         return;
     }
@@ -632,7 +632,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
 
         QMap<int, QString>::const_iterator i = propertiesList.begin();
         while (i != propertiesList.end()) {
-            if (!receivedEntry->property(i.value().toStdString().c_str()).isNull()) {
+            if (!receivedEntry->property(i.value().toStdString().c_str()).toString().isEmpty()) {
                 if (i.key() != CompressedSize || receivedEntry->compressedSizeIsSet) {
                     toInsert << i.key();
                 }
@@ -788,6 +788,30 @@ ExtractJob* ArchiveModel::extractFiles(const QList<QVariant>& files, const QStri
     return newJob;
 }
 
+Kerfuffle::PreviewJob *ArchiveModel::preview(const QString& file) const
+{
+    Q_ASSERT(m_archive);
+    PreviewJob *job = m_archive->preview(file);
+    connect(job, &Job::userQuery, this, &ArchiveModel::slotUserQuery);
+    return job;
+}
+
+OpenJob *ArchiveModel::open(const QString& file) const
+{
+    Q_ASSERT(m_archive);
+    OpenJob *job = m_archive->open(file);
+    connect(job, &Job::userQuery, this, &ArchiveModel::slotUserQuery);
+    return job;
+}
+
+OpenWithJob *ArchiveModel::openWith(const QString& file) const
+{
+    Q_ASSERT(m_archive);
+    OpenWithJob *job = m_archive->openWith(file);
+    connect(job, &Job::userQuery, this, &ArchiveModel::slotUserQuery);
+    return job;
+}
+
 AddJob* ArchiveModel::addFiles(const QStringList & filenames, const CompressionOptions& options)
 {
     if (!m_archive) {
@@ -845,7 +869,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
         Archive::Entry *entry = entryForIndex(node);
 
         if (!hasChildren(node)) {
-            if (!entry->property("fileName").isNull()) {
+            if (!entry->property("fileName").toString().isEmpty()) {
                 nodesToDelete << node;
             }
         } else {

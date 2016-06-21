@@ -96,6 +96,7 @@ private slots:
     void slotLoadingStarted();
     void slotLoadingFinished(KJob *job);
     void slotOpenExtractedEntry(KJob*);
+    void slotPreviewExtractedEntry(KJob* job);
     void slotOpenEntry(int mode);
     void slotError(const QString& errorMessage, const QString& details);
     void slotExtractArchive();

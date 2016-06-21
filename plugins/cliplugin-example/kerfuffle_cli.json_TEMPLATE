@@ -1,24 +1,15 @@
 {
     "KPlugin": {
-        "Authors": [
-            {
-                "Email": "TODO Your email", 
-                "Name": "TODO Your name"
-            }
-        ], 
-        "Id": "TODO kerfuffle_cli", 
-        "License": "GPLv2+", 
+        "Id": "TODO kerfuffle_cli",
         "MimeTypes": [
             "TODO"
-        ], 
-        "Name": "TODO archive plugin", 
+        ],
+        "Name": "TODO archive plugin",
         "ServiceTypes": [
             "Kerfuffle/Plugin"
-        ], 
-        "Version": "0.0.1", 
-        "Website": "http://www.kde.org"
-    }, 
-    "X-KDE-Kerfuffle-APIRevision": 1, 
-    "X-KDE-Kerfuffle-ReadWrite": true, 
+        ],
+        "Version": "@KDE_APPLICATIONS_VERSION@"
+    },
+    "X-KDE-Kerfuffle-ReadWrite": true,
     "X-KDE-Priority": 100
 }

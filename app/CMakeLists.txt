@@ -39,13 +39,7 @@ configure_file(
             ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop
 )
 
-configure_file(
-            ${CMAKE_CURRENT_SOURCE_DIR}/ark_servicemenu.desktop.cmake
-            ${CMAKE_CURRENT_BINARY_DIR}/ark_servicemenu.desktop
-)
-
 install(TARGETS ark  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
-install(FILES ark_addtoservicemenu.desktop ${CMAKE_CURRENT_BINARY_DIR}/ark_servicemenu.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR}/ServiceMenus)
 install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.ark.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.ark.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 install(FILES arkui.rc    DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/ark)
@@ -59,3 +53,27 @@ kcoreaddons_desktop_to_json(extracthere ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextra
 
 target_link_libraries(extracthere kerfuffle KF5::Parts KF5::KIOWidgets KF5::KIOFileWidgets)
 install(TARGETS extracthere DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf5/kio_dnd)
+
+# compressfileitemaction plugin
+
+kcoreaddons_add_plugin(compressfileitemaction
+    SOURCES compressfileitemaction.cpp
+    JSON compressfileitemaction.json
+    INSTALL_NAMESPACE "kf5/kfileitemaction")
+
+target_link_libraries(compressfileitemaction
+    kerfuffle
+    KF5::I18n
+    KF5::KIOWidgets)
+
+# extractfileitemaction plugin
+
+kcoreaddons_add_plugin(extractfileitemaction
+    SOURCES extractfileitemaction.cpp
+    JSON extractfileitemaction.json
+    INSTALL_NAMESPACE "kf5/kfileitemaction")
+
+target_link_libraries(extractfileitemaction
+    kerfuffle
+    KF5::I18n
+    KF5::KIOWidgets)

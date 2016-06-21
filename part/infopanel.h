@@ -64,10 +64,7 @@ private:
     void showMetaData();
     void hideMetaData();
 
-    void showActions();
-    void hideActions();
-
-    QString metadataTextFor(const QModelIndex &);
+    void showMetaDataFor(const QModelIndex &index);
 
     ArchiveModel *m_model;
     QString m_prettyFileName;

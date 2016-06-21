@@ -162,8 +162,8 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, &Part::slotLoadingStarted);
     connect(m_model, &ArchiveModel::loadingFinished,
             this, &Part::slotLoadingFinished);
-    connect(m_model, SIGNAL(droppedFiles(QStringList,QString)),
-            this, SLOT(slotAddFiles(QStringList,QString)));
+    connect(m_model, &ArchiveModel::droppedFiles,
+            this, static_cast<void (Part::*)(const QStringList&, const QString&)>(&Part::slotAddFiles));
     connect(m_model, &ArchiveModel::error,
             this, &Part::slotError);
 
@@ -171,8 +171,8 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, &Part::setBusyGui);
     connect(this, &Part::ready,
             this, &Part::setReadyGui);
-    connect(this, SIGNAL(completed()),
-            this, SLOT(setFileNameFromArchive()));
+    connect(this, static_cast<void (KParts::ReadOnlyPart::*)()>(&KParts::ReadOnlyPart::completed),
+            this, &Part::setFileNameFromArchive);
 
     m_statusBarExtension = new KParts::StatusBarExtension(this);
 
@@ -397,7 +397,8 @@ void Part::setupActions()
     m_testArchiveAction->setToolTip(i18nc("@info:tooltip", "Click to test the archive for integrity"));
     connect(m_testArchiveAction, &QAction::triggered, this, &Part::slotTestArchive);
 
-    connect(m_signalMapper, SIGNAL(mapped(int)), this, SLOT(slotOpenEntry(int)));
+    connect(m_signalMapper, static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
+            this, &Part::slotOpenEntry);
 
     updateActions();
     updateQuickExtractMenu(m_extractArchiveAction);
@@ -848,43 +849,43 @@ void Part::slotOpenEntry(int mode)
     }
 
     // We don't support opening symlinks.
-    if (!entry->property("link").isNull()) {
+    if (!entry->property("link").toString().isEmpty()) {
         displayMsgWidget(KMessageWidget::Information, i18n("Ark cannot open symlinks."));
         return;
     }
 
     // Extract the entry.
-    if (!entry->property("fileName").isNull()) {
-        Kerfuffle::ExtractionOptions options;
-        options[QStringLiteral("PreservePaths")] = true;
+    if (!entry->property("fileName").toString().isEmpty()) {
 
-        m_tmpOpenDirList.append(new QTemporaryDir);
         m_openFileMode = static_cast<OpenFileMode>(mode);
-        ExtractJob *job = m_model->extractFile(entry->property("fileName"), m_tmpOpenDirList.last()->path(), options);
+        KJob *job = Q_NULLPTR;
+
+        if (m_openFileMode == Preview) {
+            job = m_model->preview(entry->property("fileName").toString());
+            connect(job, &KJob::result, this, &Part::slotPreviewExtractedEntry);
+        } else {
+            const QString file = entry->property("fileName").toString();
+            job = (m_openFileMode == OpenFile) ? m_model->open(file) : m_model->openWith(file);
+            connect(job, &KJob::result, this, &Part::slotOpenExtractedEntry);
+        }
 
         registerJob(job);
-        connect(job, &KJob::result,
-                this, &Part::slotOpenExtractedEntry);
         job->start();
     }
 }
 
 void Part::slotOpenExtractedEntry(KJob *job)
 {
-    // FIXME: the error checking here isn't really working
-    //        if there's an error or an overwrite dialog,
-    //        the preview dialog will be launched anyway
     if (!job->error()) {
-        const Archive::Entry *entry = m_model->entryForIndex(m_view->selectionModel()->currentIndex());
 
-        ExtractJob *extractJob = qobject_cast<ExtractJob*>(job);
-        Q_ASSERT(extractJob);
-        QString fullName = extractJob->destinationDirectory() + QLatin1Char('/') + entry->property("fileName").toString();
+        OpenJob *openJob = qobject_cast<OpenJob*>(job);
+        Q_ASSERT(openJob);
 
-        // Make sure a maliciously crafted archive with parent folders named ".." do
-        // not cause the previewed file path to be located outside the temporary
-        // directory, resulting in a directory traversal issue.
-        fullName.remove(QStringLiteral("../"));
+        // Since the user could modify the file (unlike the Preview case),
+        // we'll need to manually delete the temp dir in the Part destructor.
+        m_tmpOpenDirList << openJob->tempDir();
+
+        const QString fullName = openJob->validatedFilePath();
 
         bool isWritable = m_model->archive() && !m_model->archive()->isReadOnly();
 
@@ -894,39 +895,33 @@ void Part::slotOpenExtractedEntry(KJob *job)
             QFile::setPermissions(fullName, QFileDevice::ReadOwner | QFileDevice::ReadGroup | QFileDevice::ReadOther);
         }
 
-        // TODO: get rid of m_openFileMode by extending ExtractJob with a
-        // Preview/OpenJob. This would prevent race conditions if we ever stop
-        // disabling the whole UI while extracting a file to preview it.
-        if (m_openFileMode != Preview && isWritable) {
+        if (isWritable) {
             m_fileWatcher = new QFileSystemWatcher;
             connect(m_fileWatcher, &QFileSystemWatcher::fileChanged, this, &Part::slotWatchedFileModified);
-        }
-
-        QMimeDatabase db;
-        switch (m_openFileMode) {
-
-        case Preview:
-            ArkViewer::view(fullName);
-            break;
-        case OpenFile:
-            KRun::runUrl(QUrl::fromUserInput(fullName,
-                                             QString(),
-                                             QUrl::AssumeLocalFile),
-                         db.mimeTypeForFile(fullName).name(),
-                         widget());
-            break;
-        case OpenFileWith:
-            QList<QUrl> list;
-            list.append(QUrl::fromUserInput(fullName,
-                                            QString(),
-                                            QUrl::AssumeLocalFile));
-            KRun::displayOpenWithDialog(list, widget(), true);
-
-            break;
-        }
-        if (m_openFileMode != Preview && isWritable) {
             m_fileWatcher->addPath(fullName);
         }
+
+        if (qobject_cast<OpenWithJob*>(job)) {
+            const QList<QUrl> urls = {QUrl::fromUserInput(fullName, QString(), QUrl::AssumeLocalFile)};
+            KRun::displayOpenWithDialog(urls, widget());
+        } else {
+            KRun::runUrl(QUrl::fromUserInput(fullName, QString(), QUrl::AssumeLocalFile),
+                         QMimeDatabase().mimeTypeForFile(fullName).name(),
+                         widget());
+        }
+    } else if (job->error() != KJob::KilledJobError) {
+        KMessageBox::error(widget(), job->errorString());
+    }
+    setReadyGui();
+}
+
+void Part::slotPreviewExtractedEntry(KJob *job)
+{
+    if (!job->error()) {
+        PreviewJob *previewJob = qobject_cast<PreviewJob*>(job);
+        Q_ASSERT(previewJob);
+
+        ArkViewer::view(previewJob->validatedFilePath());
 
     } else if (job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());

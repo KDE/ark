@@ -9,6 +9,16 @@ ecm_qt_declare_logging_category(kerfuffle_clizip_SRCS
                                 IDENTIFIER ARK
                                 CATEGORY_NAME ark.clizip)
 
+# NOTE: the first double-quotes of the first mime and the last
+# double-quotes of the last mime must NOT be escaped.
+set(SUPPORTED_MIMETYPES
+    "application/x-java-archive\",
+    \"application/zip")
+
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_clizip.json.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_clizip.json)
+
 add_library(kerfuffle_clizip MODULE ${kerfuffle_clizip_SRCS})
 
 target_link_libraries(kerfuffle_clizip kerfuffle )

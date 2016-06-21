@@ -373,7 +373,7 @@ void CliUnarchiverTest::testExtractArgs()
     QFETCH(QVariantList, files);
     QFETCH(QString, password);
 
-    QStringList replacedArgs = plugin->substituteCopyVariables(extractArgs, files, false, password, QString());
+    QStringList replacedArgs = plugin->substituteCopyVariables(extractArgs, files, false, password);
     QVERIFY(replacedArgs.size() >= extractArgs.size());
 
     QFETCH(QStringList, expectedArgs);

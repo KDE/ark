@@ -22,6 +22,8 @@
 #ifndef ARKVIEWER_H
 #define ARKVIEWER_H
 
+#include "ui_arkviewer.h"
+
 #include <KParts/BrowserExtension>
 #include <KParts/ReadOnlyPart>
 #include <KService>
@@ -29,15 +31,13 @@
 #include <QDialog>
 #include <QWeakPointer>
 #include <QMimeType>
-#include <QVBoxLayout>
 
-class ArkViewer : public QDialog
+class ArkViewer : public QDialog, public Ui::ArkViewer
 {
     Q_OBJECT
 
 public:
     virtual ~ArkViewer();
-    QSize sizeHint() const Q_DECL_OVERRIDE;
 
     static void view(const QString& fileName);
 
@@ -51,7 +51,6 @@ private:
     bool viewInInternalViewer(const QString& fileName, const QMimeType& mimeType);
 
     QPointer<KParts::ReadOnlyPart> m_part;
-    QVBoxLayout *m_mainLayout;
 };
 
 #endif // ARKVIEWER_H

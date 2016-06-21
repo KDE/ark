@@ -233,7 +233,7 @@ bool CliPlugin::readListLine(const QString& line)
         } else if (line.startsWith(QStringLiteral("Block = ")) ||
                    line.startsWith(QStringLiteral("Version = "))) {
             m_isFirstInformationEntry = true;
-            if (!m_currentArchiveEntry->property("fileName").toString().isNull()) {
+            if (!m_currentArchiveEntry->property("fileName").toString().isEmpty()) {
                 emit entry(m_currentArchiveEntry);
             }
             else {

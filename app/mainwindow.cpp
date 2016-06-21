@@ -30,14 +30,13 @@
 #include "pluginmanager.h"
 #include "part/interface.h"
 
+#include <KParts/ReadWritePart>
 #include <KPluginFactory>
 #include <KMessageBox>
 #include <KLocalizedString>
 #include <KActionCollection>
 #include <KStandardAction>
 #include <KRecentFilesAction>
-#include <KEditToolBar>
-#include <KShortcutsDialog>
 #include <KService>
 #include <KSharedConfig>
 #include <KConfigDialog>
@@ -46,7 +45,6 @@
 #include <KXMLGUIFactory>
 
 #include <QApplication>
-#include <QDebug>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QFileDialog>
@@ -63,14 +61,7 @@ static bool isValidArchiveDrag(const QMimeData *data)
 MainWindow::MainWindow(QWidget *)
         : KParts::MainWindow()
 {
-    setXMLFile(QStringLiteral("arkui.rc"));
-
     setupActions();
-
-    resize(640, 480);
-
-    setAutoSaveSettings(QStringLiteral("MainWindow"));
-
     setAcceptDrops(true);
 }
 
@@ -153,7 +144,10 @@ bool MainWindow::loadPart()
 
     m_part->setObjectName(QStringLiteral("ArkPart"));
     setCentralWidget(m_part->widget());
+
+    setupGUI(ToolBar | Keys | Save, QStringLiteral("arkui.rc"));
     createGUI(m_part);
+
     statusBar()->hide();
 
     connect(m_part, SIGNAL(busy()), this, SLOT(updateActions()));
@@ -177,11 +171,7 @@ void MainWindow::setupActions()
     m_recentFilesAction->setIconText(i18nc("action, to open an archive", "Open"));
     m_recentFilesAction->setToolTip(i18n("Open an archive"));
     m_recentFilesAction->loadEntries(KSharedConfig::openConfig()->group("Recent Files"));
-    connect(m_recentFilesAction, SIGNAL(triggered()),
-            this, SLOT(openArchive()));
 
-    KStandardAction::configureToolbars(this, SLOT(editToolbars()), actionCollection());
-    KStandardAction::keyBindings(this, SLOT(editKeyBindings()), actionCollection());
     KStandardAction::preferences(this, SLOT(showSettings()), actionCollection());
 }
 
@@ -193,30 +183,6 @@ void MainWindow::updateActions()
     m_recentFilesAction->setEnabled(!iface->isBusy());
 }
 
-void MainWindow::editKeyBindings()
-{
-    KShortcutsDialog dlg(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
-    dlg.addCollection(actionCollection());
-    dlg.addCollection(m_part->actionCollection());
-
-    dlg.configure();
-}
-
-void MainWindow::editToolbars()
-{
-    KConfigGroup cfg(KSharedConfig::openConfig(), "MainWindow");
-    saveMainWindowSettings(cfg);
-
-    QPointer<KEditToolBar> dlg = new KEditToolBar(factory(), this);
-    dlg.data()->exec();
-
-    createGUI(m_part);
-
-    applyMainWindowSettings(KSharedConfig::openConfig()->group(QStringLiteral("MainWindow")));
-
-    delete dlg.data();
-}
-
 void MainWindow::openArchive()
 {
     Interface *iface = qobject_cast<Interface*>(m_part);
@@ -224,15 +190,20 @@ void MainWindow::openArchive()
     Q_UNUSED(iface);
 
     Kerfuffle::PluginManager pluginManager;
-    QPointer<QFileDialog> dlg = new QFileDialog(this, i18nc("to open an archive", "Open Archive"));
-    dlg->setMimeTypeFilters(pluginManager.supportedMimeTypes());
+    auto dlg = new QFileDialog(this, i18nc("to open an archive", "Open Archive"));
 
+    dlg->setMimeTypeFilters(pluginManager.supportedMimeTypes());
     dlg->setFileMode(QFileDialog::ExistingFile);
     dlg->setAcceptMode(QFileDialog::AcceptOpen);
-    if (dlg->exec() == QDialog::Accepted) {
-        openUrl(dlg->selectedUrls().first());
-    }
-    delete dlg;
+
+    connect(dlg, &QDialog::finished, this, [this, dlg](int result) {
+        if (result == QDialog::Accepted) {
+            openUrl(dlg->selectedUrls().first());
+        }
+        dlg->deleteLater();
+    });
+
+    dlg->open();
 }
 
 void MainWindow::openUrl(const QUrl& url)

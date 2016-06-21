@@ -1,0 +1,13 @@
+{
+    "KPlugin": {
+        "Icon": "ark",
+        "MimeTypes": [
+            "application/octet-stream"
+        ],
+        "Name": "'Extract' service menu",
+        "ServiceTypes": [
+            "KFileItemAction/Plugin"
+        ]
+    },
+    "MimeType": "application/octet-stream;"
+}

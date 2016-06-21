@@ -32,12 +32,7 @@
 
 #include <QProgressDialog>
 #include <QDebug>
-#include <QHBoxLayout>
 #include <QFile>
-#include <QFrame>
-#include <QLabel>
-#include <QKeyEvent>
-#include <QPushButton>
 #include <QMimeDatabase>
 
 ArkViewer::ArkViewer()
@@ -47,17 +42,9 @@ ArkViewer::ArkViewer()
 
     setAttribute(Qt::WA_DeleteOnClose);
 
-    // Set a QVBoxLayout as main layout of dialog
-    m_mainLayout = new QVBoxLayout(this);
-    setLayout(m_mainLayout);
+    setupUi(this);
 
-    // Add a close button
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-    m_mainLayout->addWidget(buttonBox);
-    buttonBox->button(QDialogButtonBox::Close)->setDefault(true);
-    buttonBox->button(QDialogButtonBox::Close)->setShortcut(Qt::CTRL | Qt::Key_Return);
-    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-
+    connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     connect(this, &ArkViewer::finished, this, &ArkViewer::dialogClosed);
 }
 
@@ -183,14 +170,6 @@ void ArkViewer::view(const QString& fileName)
     QFile::remove(fileName);
 }
 
-// This sets the default size of the dialog.  It will only take effect in the case
-// where there is no saved size in the config file - it sets the default values
-// for KDialog::restoreDialogSize().
-QSize ArkViewer::sizeHint() const
-{
-    return QSize(560, 400);
-}
-
 bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &mimeType)
 {
     setWindowFilePath(fileName);
@@ -199,26 +178,10 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
     KConfigGroup group(KSharedConfig::openConfig(), "Viewer");
     KWindowConfig::restoreWindowSize(windowHandle(), group);
 
-    // Create a QFrame for the header
-    QFrame *header = new QFrame();
-    QHBoxLayout *headerHLayout = new QHBoxLayout(header);
 
-    // Add an icon representing the mimetype to header
-    QLabel *iconLabel = new QLabel(header);
-    headerHLayout->addWidget(iconLabel);
-    iconLabel->setPixmap(QIcon::fromTheme(mimeType.iconName()).pixmap(IconSize(KIconLoader::Desktop), IconSize(KIconLoader::Desktop)));
-    iconLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
-
-    // Add file name and mimetype to header
-    QVBoxLayout *headerVLayout = new QVBoxLayout();
-    headerVLayout->setSpacing(0);
-    headerVLayout->addWidget(new QLabel(QStringLiteral("<qt><b>%1</b></qt>").arg(fileName)));
-    headerVLayout->addWidget(new QLabel(mimeType.comment()));
-    headerHLayout->addLayout(headerVLayout);
-
-    header->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
-
-    m_mainLayout->insertWidget(0, header);
+    // Set icon and comment for the mimetype.
+    m_iconLabel->setPixmap(QIcon::fromTheme(mimeType.iconName()).pixmap(IconSize(KIconLoader::Desktop), IconSize(KIconLoader::Desktop)));
+    m_commentLabel->setText(mimeType.comment());
 
     // Create the ReadOnlyPart instance.
     m_part = KMimeTypeTrader::self()->createPartInstanceFromQuery<KParts::ReadOnlyPart>(mimeType.name(), this, this);
@@ -237,8 +200,8 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
         return false;
     }
 
-    // Insert the KPart into the main layout.
-    m_mainLayout->insertWidget(1, m_part.data()->widget());
+    // Insert the KPart into its placeholder.
+    layout()->replaceWidget(m_partPlaceholder, m_part.data()->widget());
 
     m_part.data()->openUrl(QUrl::fromLocalFile(fileName));
 

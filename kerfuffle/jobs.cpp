@@ -337,6 +337,88 @@ ExtractionOptions ExtractJob::extractionOptions() const
     return m_options;
 }
 
+TempExtractJob::TempExtractJob(const QString &file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
+    : Job(interface)
+    , m_file(file)
+    , m_passwordProtectedHint(passwordProtectedHint)
+{
+}
+
+
+QString TempExtractJob::validatedFilePath() const
+{
+    QString path = extractionDir() + QLatin1Char('/') + m_file;
+
+    // Make sure a maliciously crafted archive with parent folders named ".." do
+    // not cause the previewed file path to be located outside the temporary
+    // directory, resulting in a directory traversal issue.
+    path.remove(QStringLiteral("../"));
+
+    return path;
+}
+
+ExtractionOptions TempExtractJob::extractionOptions() const
+{
+    ExtractionOptions options;
+    options[QStringLiteral("PreservePaths")] = true;
+
+    if (m_passwordProtectedHint) {
+        options[QStringLiteral("PasswordProtectedHint")] = true;
+    }
+
+    return options;
+}
+
+void TempExtractJob::doWork()
+{
+    emit description(this, i18n("Extracting one file"));
+
+    connectToArchiveInterfaceSignals();
+
+    qCDebug(ARK) << "Extracting:" << m_file;
+
+    bool ret = archiveInterface()->copyFiles({ QVariant::fromValue(fileRootNodePair(m_file)) }, extractionDir(), extractionOptions());
+
+    if (!archiveInterface()->waitForFinishedSignal()) {
+        onFinished(ret);
+    }
+}
+
+PreviewJob::PreviewJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
+    : TempExtractJob(file, passwordProtectedHint, interface)
+{
+    qCDebug(ARK) << "PreviewJob started";
+}
+
+QString PreviewJob::extractionDir() const
+{
+    return m_tmpExtractDir.path();
+}
+
+OpenJob::OpenJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
+    : TempExtractJob(file, passwordProtectedHint, interface)
+{
+    qCDebug(ARK) << "OpenJob started";
+
+    m_tmpExtractDir = new QTemporaryDir();
+}
+
+QTemporaryDir *OpenJob::tempDir() const
+{
+    return m_tmpExtractDir;
+}
+
+QString OpenJob::extractionDir() const
+{
+    return m_tmpExtractDir->path();
+}
+
+OpenWithJob::OpenWithJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
+    : OpenJob(file, passwordProtectedHint, interface)
+{
+    qCDebug(ARK) << "OpenWithJob started";
+}
+
 AddJob::AddJob(const QStringList& files, const CompressionOptions& options , ReadWriteArchiveInterface *interface)
     : Job(interface)
     , m_files(files)

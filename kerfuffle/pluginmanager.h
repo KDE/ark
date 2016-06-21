@@ -101,9 +101,9 @@ public:
     QStringList supportedWriteMimeTypes() const;
 
     /**
-     * @return The given list of @p plugins filtered by @p mimeType.
+     * @return The subset of @p plugins that support either @p mimetype or a parent of @p mimetype.
      */
-    static QVector<Plugin*> filterBy(const QVector<Plugin*> &plugins, const QMimeType &mimeType);
+    QVector<Plugin*> filterBy(const QVector<Plugin*> &plugins, const QMimeType &mimeType) const;
 
 private:
 

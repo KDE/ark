@@ -69,6 +69,10 @@ public:
     Kerfuffle::ExtractJob* extractFile(const QVariant& fileName, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
     Kerfuffle::ExtractJob* extractFiles(const QList<QVariant>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
 
+    Kerfuffle::PreviewJob* preview(const QString& file) const;
+    Kerfuffle::OpenJob* open(const QString& file) const;
+    Kerfuffle::OpenWithJob* openWith(const QString& file) const;
+
     Kerfuffle::AddJob* addFiles(const QStringList & paths, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
     Kerfuffle::DeleteJob* deleteFiles(const QList<QVariant> & files);
 

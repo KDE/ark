@@ -24,7 +24,11 @@
 
 #include <KParts/MainWindow>
 #include <KParts/OpenUrlArguments>
-#include <KParts/ReadWritePart>
+
+namespace KParts
+{
+class ReadWritePart;
+}
 
 class KRecentFilesAction;
 
@@ -54,9 +58,6 @@ private slots:
     void quit();
     void showSettings();
     void writeSettings();
-
-    void editKeyBindings();
-    void editToolbars();
 
 private:
     void setupActions();

@@ -119,6 +119,11 @@ QStringList PluginManager::supportedMimeTypes() const
         supported.remove(QStringLiteral("application/x-lrzip-compressed-tar"));
     }
 
+    // Remove entry for lz4-compressed tar if lz4 executable not found in path.
+    if (QStandardPaths::findExecutable(QStringLiteral("lz4")).isEmpty()) {
+        supported.remove(QStringLiteral("application/x-lz4-compressed-tar"));
+    }
+
     return sortByComment(supported);
 }
 
@@ -134,14 +139,27 @@ QStringList PluginManager::supportedWriteMimeTypes() const
         supported.remove(QStringLiteral("application/x-lrzip-compressed-tar"));
     }
 
+    // Remove entry for lz4-compressed tar if lz4 executable not found in path.
+    if (QStandardPaths::findExecutable(QStringLiteral("lz4")).isEmpty()) {
+        supported.remove(QStringLiteral("application/x-lz4-compressed-tar"));
+    }
+
     return sortByComment(supported);
 }
 
-QVector<Plugin*> PluginManager::filterBy(const QVector<Plugin*> &plugins, const QMimeType &mimeType)
+QVector<Plugin*> PluginManager::filterBy(const QVector<Plugin*> &plugins, const QMimeType &mimeType) const
 {
+    const bool supportedMime = supportedMimeTypes().contains(mimeType.name());
     QVector<Plugin*> filteredPlugins;
     foreach (Plugin *plugin, plugins) {
-        if (plugin->metaData().mimeTypes().contains(mimeType.name())) {
+        if (!supportedMime) {
+            // Check whether the mimetype inherits from a supported mimetype.
+            foreach (const QString &mime, plugin->metaData().mimeTypes()) {
+                if (mimeType.inherits(mime)) {
+                    filteredPlugins << plugin;
+                }
+            }
+        } else if (plugin->metaData().mimeTypes().contains(mimeType.name())) {
             filteredPlugins << plugin;
         }
     }

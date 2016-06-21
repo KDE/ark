@@ -13,4 +13,9 @@
       <glob pattern="*.xar"/>
       <glob pattern="*.pkg"/>
    </mime-type>
+   <mime-type type="application/x-lz4-compressed-tar">
+      <comment>Tar archive (LZ4-compressed)</comment>
+      <comment xml:lang="en">Tar archive (LZ4-compressed)</comment>
+      <glob pattern="*.tar.lz4"/>
+   </mime-type>
 </mime-info>

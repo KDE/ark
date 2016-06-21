@@ -26,6 +26,12 @@ if (ZLIB_FOUND)
 	set(kerfuffle_libgz_SRCS gzplugin.cpp ${kerfuffle_singlefile_SRCS})
         set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "${SUPPORTED_LIBSINGLEFILE_MIMETYPES}application/gzip;")
 
+    set(SUPPORTED_MIMETYPES "application/gzip")
+
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libgz.json.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libgz.json)
+
 	add_library(kerfuffle_libgz MODULE ${kerfuffle_libgz_SRCS})
 
 	target_link_libraries(kerfuffle_libgz KF5::Archive KF5::KIOCore kerfuffle)
@@ -45,7 +51,13 @@ set_package_properties(BZip2 PROPERTIES
 
 if (BZIP2_FOUND)
 	set(kerfuffle_libbz2_SRCS bz2plugin.cpp ${kerfuffle_singlefile_SRCS})
-	set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "${SUPPORTED_LIBSINGLEFILE_MIMETYPES}application/x-bzip;application/x-bzip2;")
+	set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "${SUPPORTED_LIBSINGLEFILE_MIMETYPES}application/x-bzip;")
+
+    set(SUPPORTED_MIMETYPES "application/x-bzip")
+
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libbz2.json.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libbz2.json)
 
 	add_library(kerfuffle_libbz2 MODULE ${kerfuffle_libbz2_SRCS})
 
@@ -67,6 +79,16 @@ set_package_properties(LibLZMA PROPERTIES
 if (LIBLZMA_FOUND)
 	set(kerfuffle_libxz_SRCS xzplugin.cpp ${kerfuffle_singlefile_SRCS})
 	set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "${SUPPORTED_LIBSINGLEFILE_MIMETYPES}application/x-lzma;application/x-xz;")
+
+    # NOTE: the first double-quotes of the first mime and the last
+    # double-quotes of the last mime must NOT be escaped.
+    set(SUPPORTED_MIMETYPES
+        "application/x-lzma\",
+        \"application/x-xz")
+
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libxz.json.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libxz.json)
 
 	add_library(kerfuffle_libxz MODULE ${kerfuffle_libxz_SRCS})
 

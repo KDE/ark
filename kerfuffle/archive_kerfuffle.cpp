@@ -192,9 +192,17 @@ TestJob* Archive::testArchive()
     return job;
 }
 
-QMimeType Archive::mimeType() const
+QMimeType Archive::mimeType()
 {
-    return isValid() ? determineMimeType(fileName()) : QMimeType();
+    if (!isValid()) {
+        return QMimeType();
+    }
+
+    if (!m_mimeType.isValid()) {
+        m_mimeType = determineMimeType(fileName());
+    }
+
+    return m_mimeType;
 }
 
 bool Archive::isReadOnly() const
@@ -355,6 +363,36 @@ ExtractJob* Archive::copyFiles(const QList<QVariant>& files, const QString& dest
 
     ExtractJob *newJob = new ExtractJob(files, destinationDir, newOptions, m_iface);
     return newJob;
+}
+
+PreviewJob *Archive::preview(const QString &file)
+{
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
+    PreviewJob *job = new PreviewJob(file, (encryptionType() != Unencrypted), m_iface);
+    return job;
+}
+
+OpenJob *Archive::open(const QString &file)
+{
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
+    OpenJob *job = new OpenJob(file, (encryptionType() != Unencrypted), m_iface);
+    return job;
+}
+
+OpenWithJob *Archive::openWith(const QString &file)
+{
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
+    OpenWithJob *job = new OpenWithJob(file, (encryptionType() != Unencrypted), m_iface);
+    return job;
 }
 
 void Archive::encrypt(const QString &password, bool encryptHeader)
