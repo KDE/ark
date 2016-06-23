@@ -22,8 +22,6 @@
  */
 
 #include "archivemodel.h"
-#include "ark_debug.h"
-#include "kerfuffle/archiveentry.h"
 #include "kerfuffle/jobs.h"
 
 #include <KLocalizedString>
@@ -150,16 +148,14 @@ private:
 
 ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     : QAbstractItemModel(parent)
-    , m_rootEntry(new Archive::Entry(Q_NULLPTR))
+    , m_rootEntry(Q_NULLPTR)
     , m_dbusPathName(dbusPathName)
 {
-    m_rootEntry->setProperty("isDirectory", true);
+    m_rootEntry.setProperty("isDirectory", true);
 }
 
 ArchiveModel::~ArchiveModel()
 {
-    delete m_rootEntry;
-    m_rootEntry = 0;
 }
 
 QVariant ArchiveModel::data(const QModelIndex &index, int role) const
@@ -294,13 +290,15 @@ QVariant ArchiveModel::headerData(int section, Qt::Orientation, int role) const
 QModelIndex ArchiveModel::index(int row, int column, const QModelIndex &parent) const
 {
     if (hasIndex(row, column, parent)) {
-        Archive::Entry *parentEntry = parent.isValid() ? static_cast<Archive::Entry*>(parent.internalPointer()) : m_rootEntry;
+        const Archive::Entry *parentEntry = parent.isValid()
+                                            ? static_cast<Archive::Entry*>(parent.internalPointer())
+                                            : &m_rootEntry;
 
         Q_ASSERT(parentEntry->isDir());
 
-        Archive::Entry *item = parentEntry->entries().value(row, 0);
-        if (item) {
-            return createIndex(row, column, item);
+        const Archive::Entry *item = parentEntry->entries().value(row, Q_NULLPTR);
+        if (item != Q_NULLPTR) {
+            return createIndex(row, column, const_cast<Archive::Entry*>(item));
         }
     }
 
@@ -312,7 +310,7 @@ QModelIndex ArchiveModel::parent(const QModelIndex &index) const
     if (index.isValid()) {
         Archive::Entry *item = static_cast<Archive::Entry*>(index.internalPointer());
         Q_ASSERT(item);
-        if (item->getParent() && (item->getParent() != m_rootEntry)) {
+        if (item->getParent() && (item->getParent() != &m_rootEntry)) {
             return createIndex(item->getParent()->row(), 0, item->getParent());
         }
     }
@@ -354,10 +352,12 @@ int ArchiveModel::childCount(const QModelIndex &index, int &dirs, int &files) co
 int ArchiveModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.column() <= 0) {
-        Archive::Entry *parentEntry = parent.isValid() ? static_cast<Archive::Entry*>(parent.internalPointer()) : m_rootEntry;
+        const Archive::Entry *parentEntry = parent.isValid()
+                                            ? static_cast<Archive::Entry*>(parent.internalPointer())
+                                            : &m_rootEntry;
 
         if (parentEntry && parentEntry->isDir()) {
-            return static_cast<Archive::Entry*>(parentEntry)->entries().count();
+            return parentEntry->entries().count();
         }
     }
     return 0;
@@ -377,8 +377,8 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
     emit layoutAboutToBeChanged();
 
     QList<Archive::Entry*> dirEntries;
-    m_rootEntry->returnDirEntries(&dirEntries);
-    dirEntries.append(m_rootEntry);
+    m_rootEntry.returnDirEntries(&dirEntries);
+    dirEntries.append(&m_rootEntry);
 
     const ArchiveModelSorter modelSorter(m_showColumns.at(column), order);
 
@@ -531,7 +531,7 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
         }
     }
 
-    Archive::Entry *parent = m_rootEntry;
+    Archive::Entry *parent = &m_rootEntry;
 
     foreach(const QString &piece, pieces) {
         Archive::Entry *entry = parent->find(piece);
@@ -541,7 +541,7 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
             // and then delete the existing one (see ArchiveModel::newEntry).
             entry = new Archive::Entry(parent);
 
-            entry->setProperty("fileName", (parent == m_rootEntry)
+            entry->setProperty("fileName", (parent == &m_rootEntry)
                                            ? piece
                                            : parent->property("fileName").toString() + QLatin1Char( '/' ) + piece);
             entry->setProperty("isDirectory", true);
@@ -568,7 +568,7 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
 QModelIndex ArchiveModel::indexForEntry(Archive::Entry *entry)
 {
     Q_ASSERT(entry);
-    if (entry != m_rootEntry) {
+    if (entry != &m_rootEntry) {
         Q_ASSERT(entry->getParent());
         Q_ASSERT(entry->getParent()->isDir());
         return createIndex(entry->row(), 0, entry);
@@ -583,7 +583,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
         return;
     }
 
-    Archive::Entry *entry = m_rootEntry->findByPath(entryFileName.split(QLatin1Char( '/' ), QString::SkipEmptyParts));
+    Archive::Entry *entry = m_rootEntry.findByPath(entryFileName.split(QLatin1Char( '/' ), QString::SkipEmptyParts));
     if (entry) {
         Archive::Entry *parent = entry->getParent();
         QModelIndex index = indexForEntry(entry);
@@ -656,19 +656,17 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     receivedEntry->setProperty("fileName", entryFileName);
 
     /// 1. Skip already created entries
-    if (m_rootEntry) {
-        Archive::Entry *existing = m_rootEntry->findByPath(entryFileName.split(QLatin1Char( '/' )));
-        if (existing) {
-            qCDebug(ARK) << "Refreshing entry for" << entryFileName;
+    Archive::Entry *existing = m_rootEntry.findByPath(entryFileName.split(QLatin1Char( '/' )));
+    if (existing) {
+        qCDebug(ARK) << "Refreshing entry for" << entryFileName;
 
-            existing->setProperty("fileName", entryFileName);
-            // Multi-volume files are repeated at least in RAR archives.
-            // In that case, we need to sum the compressed size for each volume
-            qulonglong currentCompressedSize = existing->property("compressedSize").toULongLong();
-            existing->setProperty("compressedSize", currentCompressedSize + receivedEntry->property("compressedSize").toULongLong());
-            existing->processNameAndIcon();
-            return;
-        }
+        existing->setProperty("fileName", entryFileName);
+        // Multi-volume files are repeated at least in RAR archives.
+        // In that case, we need to sum the compressed size for each volume
+        qulonglong currentCompressedSize = existing->property("compressedSize").toULongLong();
+        existing->setProperty("compressedSize", currentCompressedSize + receivedEntry->property("compressedSize").toULongLong());
+        existing->processNameAndIcon();
+        return;
     }
 
     /// 2. Find Parent Entry, creating missing direcotry ArchiveEntries in the process
@@ -748,7 +746,7 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
 {
     m_archive.reset(archive);
 
-    m_rootEntry->clear();
+    m_rootEntry.clear();
     s_previousMatch = Q_NULLPTR;
     s_previousPieces->clear();
 
