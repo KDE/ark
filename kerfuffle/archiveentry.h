@@ -52,6 +52,7 @@ public:
     ~Entry();
 
     QList<Entry*> entries();
+    const QList<Entry*> entries() const;
     void setEntryAt(int index, Entry *value);
     void appendEntry(Entry *entry);
     void removeEntryAt(int index);

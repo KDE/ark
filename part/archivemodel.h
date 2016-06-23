@@ -26,7 +26,7 @@
 #include <QScopedPointer>
 
 #include <kjobtrackerinterface.h>
-#include "kerfuffle/archive_kerfuffle.h"
+#include "kerfuffle/archiveentry.h"
 
 using Kerfuffle::Archive;
 
@@ -125,7 +125,7 @@ private:
     QList<Kerfuffle::Archive::Entry*> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
     QList<int> m_showColumns;
     QScopedPointer<Kerfuffle::Archive> m_archive;
-    Archive::Entry *m_rootEntry;
+    Archive::Entry m_rootEntry;
 
     QString m_dbusPathName;
 };

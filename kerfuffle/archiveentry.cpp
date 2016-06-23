@@ -6,7 +6,8 @@
 
 namespace Kerfuffle {
 Archive::Entry::Entry(Entry *parent)
-    : compressedSizeIsSet(true)
+    : QObject(parent)
+    , compressedSizeIsSet(true)
     , m_parent(parent)
 {
     clearMetaData();
@@ -19,6 +20,11 @@ Archive::Entry::~Entry()
 
 QList<Archive::Entry*> Archive::Entry::entries()
 {
+    Q_ASSERT(isDir());
+    return m_entries;
+}
+
+const QList<Archive::Entry*> Archive::Entry::entries() const {
     Q_ASSERT(isDir());
     return m_entries;
 }
