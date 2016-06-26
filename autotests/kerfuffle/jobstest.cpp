@@ -209,7 +209,7 @@ void JobsTest::testListJob()
     QCOMPARE(archiveEntries.size(), expectedEntryNames.size());
 
     for (int i = 0; i < archiveEntries.size(); i++) {
-        QCOMPARE(archiveEntries.at(i)->property("fileName").toString(), expectedEntryNames.at(i));
+        QCOMPARE(archiveEntries.at(i)->property("fullPath").toString(), expectedEntryNames.at(i));
     }
 
     listJob->deleteLater();
@@ -218,7 +218,7 @@ void JobsTest::testListJob()
 void JobsTest::testExtractJobAccessors()
 {
     JSONArchiveInterface *iface = createArchiveInterface(QFINDTESTDATA("data/archive001.json"));
-    ExtractJob *job = new ExtractJob(QVariantList(), QStringLiteral("/tmp/some-dir"), ExtractionOptions(), iface);
+    ExtractJob *job = new ExtractJob(QList<Archive::Entry*>(), QStringLiteral("/tmp/some-dir"), ExtractionOptions(), iface);
     ExtractionOptions defaultOptions;
     defaultOptions[QStringLiteral("PreservePaths")] = false;
 
@@ -237,7 +237,7 @@ void JobsTest::testExtractJobAccessors()
     options[QStringLiteral("foo")] = QLatin1String("bar");
     options[QStringLiteral("pi")] = 3.14f;
 
-    job = new ExtractJob(QVariantList(), QStringLiteral("/root"), options, iface);
+    job = new ExtractJob(QList<Archive::Entry*>(), QStringLiteral("/root"), options, iface);
 
     QCOMPARE(job->destinationDirectory(), QLatin1String("/root"));
     QCOMPARE(job->extractionOptions(), options);
@@ -253,7 +253,7 @@ void JobsTest::testExtractJobAccessors()
 void JobsTest::testTempExtractJob()
 {
     JSONArchiveInterface *iface = createArchiveInterface(QFINDTESTDATA("data/archive-malicious.json"));
-    PreviewJob *job = new PreviewJob(QStringLiteral("anotherDir/../../file.txt"), false, iface);
+    PreviewJob *job = new PreviewJob(new Archive::Entry(Q_NULLPTR, QStringLiteral("anotherDir/../../file.txt")), false, iface);
 
     QVERIFY(job->validatedFilePath().endsWith(QLatin1String("anotherDir/file.txt")));
     QVERIFY(job->extractionOptions()[QStringLiteral("PreservePaths")].toBool());
@@ -270,21 +270,39 @@ void JobsTest::testTempExtractJob()
 void JobsTest::testRemoveEntries_data()
 {
     QTest::addColumn<QString>("jsonArchive");
-    QTest::addColumn<QStringList>("entries");
-    QTest::addColumn<QVariantList>("entriesToDelete");
+    QTest::addColumn<QList<Archive::Entry*>>("entries");
+    QTest::addColumn<QList<Archive::Entry*>>("entriesToDelete");
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-            << QStringList {QStringLiteral("a.txt"), QStringLiteral("aDir/"), QStringLiteral("aDir/b.txt"), QStringLiteral("c.txt")}
-            << QVariantList {QStringLiteral("c.txt")};
+            << QList<Archive::Entry*> {
+                new Archive::Entry(Q_NULLPTR, QStringLiteral("a.txt")),
+                new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/")),
+                new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/b.txt")),
+                new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"))
+            }
+            << QList<Archive::Entry*> {new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"))};
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-            << QStringList {QStringLiteral("a.txt"), QStringLiteral("aDir/"), QStringLiteral("aDir/b.txt"), QStringLiteral("c.txt")}
-            << QVariantList {QStringLiteral("a.txt"), QStringLiteral("c.txt")};
+            << QList<Archive::Entry*> {
+                new Archive::Entry(Q_NULLPTR, QStringLiteral("a.txt")),
+                new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/")),
+                new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/b.txt")),
+                new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"))
+            }
+            << QList<Archive::Entry*> {
+                new Archive::Entry(Q_NULLPTR, QStringLiteral("a.txt")),
+                new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"))
+            };
 
     // Error test: if we delete non-existent entries, the archive must not change.
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-            << QStringList {QStringLiteral("a.txt"), QStringLiteral("aDir/"), QStringLiteral("aDir/b.txt"), QStringLiteral("c.txt")}
-            << QVariantList {QStringLiteral("foo.txt")};
+            << QList<Archive::Entry*> {
+                new Archive::Entry(Q_NULLPTR, QStringLiteral("a.txt")),
+                new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/")),
+                new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/b.txt")),
+                new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"))
+            }
+            << QList<Archive::Entry*> {new Archive::Entry(Q_NULLPTR, QStringLiteral("foo.txt"))};
 }
 
 void JobsTest::testRemoveEntries()
@@ -293,11 +311,11 @@ void JobsTest::testRemoveEntries()
     JSONArchiveInterface *iface = createArchiveInterface(jsonArchive);
     QVERIFY(iface);
 
-    QFETCH(QStringList, entries);
-    QFETCH(QVariantList, entriesToDelete);
+    QFETCH(QList<Archive::Entry*>, entries);
+    QFETCH(QList<Archive::Entry*>, entriesToDelete);
 
-    QStringList expectedRemainingEntries;
-    Q_FOREACH (const QString& entry, entries) {
+    QList<Archive::Entry*> expectedRemainingEntries;
+    Q_FOREACH (Archive::Entry *entry, entries) {
         if (!entriesToDelete.contains(entry)) {
             expectedRemainingEntries.append(entry);
         }
@@ -310,7 +328,7 @@ void JobsTest::testRemoveEntries()
     QCOMPARE(remainingEntries.size(), expectedRemainingEntries.size());
 
     for (int i = 0; i < remainingEntries.size(); i++) {
-        QCOMPARE(remainingEntries.at(i)->property("fileName").toString(), expectedRemainingEntries.at(i));
+        QCOMPARE(remainingEntries.at(i), expectedRemainingEntries.at(i));
     }
 
     iface->deleteLater();
@@ -342,18 +360,18 @@ void JobsTest::testAddEntries()
     JSONArchiveInterface *iface = createArchiveInterface(jsonArchive);
     QVERIFY(iface);
 
-    QFETCH(QStringList, originalEntries);
+    QFETCH(QList<Archive::Entry*>, originalEntries);
     auto currentEntries = listEntries(iface);
     QCOMPARE(currentEntries.size(), originalEntries.size());
 
-    QFETCH(QStringList, entriesToAdd);
+    QFETCH(QList<Archive::Entry*>, entriesToAdd);
     AddJob *addJob = new AddJob(entriesToAdd, CompressionOptions(), iface);
     startAndWaitForResult(addJob);
 
     currentEntries = listEntries(iface);
 
     int expectedEntriesCount = originalEntries.size();
-    Q_FOREACH (const QString& entry, entriesToAdd) {
+    Q_FOREACH (Archive::Entry *entry, entriesToAdd) {
         if (!originalEntries.contains(entry)) {
             expectedEntriesCount++;
         }

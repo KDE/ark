@@ -180,7 +180,7 @@ bool CliPlugin::readListLine(const QString &line)
                                QTime::fromString(rxMatch.captured(9), QStringLiteral("hhmmss")));
             e->setProperty("timestamp", ts);
 
-            e->setProperty("fileName", rxMatch.captured(10));
+            e->setProperty("fullPath", rxMatch.captured(10));
             emit entry(e);
         }
         break;

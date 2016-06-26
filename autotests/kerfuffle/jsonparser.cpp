@@ -59,7 +59,7 @@ JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
     foreach (const QVariant &entry, json.toList()) {
         const QVariantMap entryMap = entry.toMap();
 
-        if (!entryMap.contains(QStringLiteral("fileName"))) {
+        if (!entryMap.contains(QStringLiteral("fullPath"))) {
             continue;
         }
 
@@ -75,8 +75,8 @@ JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
             }
         }
 
-        const QString fileName = entryMap[QStringLiteral("fileName")].toString();
-        archive[fileName] = e;
+        const QString fullPath = entryMap[QStringLiteral("fullPath")].toString();
+        archive[fullPath] = e;
     }
 
     return archive;

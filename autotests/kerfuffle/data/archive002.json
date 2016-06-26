@@ -1,18 +1,18 @@
 [
     {
-        "fileName": "a.txt",
+        "fullPath": "a.txt",
         "size": 5
     },
     {
-        "fileName": "aDir/",
+        "fullPath": "aDir/",
         "isDirectory": true
     },
     {
-        "fileName": "aDir/b.txt",
+        "fullPath": "aDir/b.txt",
         "size": 954
     },
     {
-        "fileName": "c.txt",
+        "fullPath": "c.txt",
         "size": 45000
     }
 ]

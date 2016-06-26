@@ -5,12 +5,15 @@
 #include "archiveentry.h"
 
 namespace Kerfuffle {
-Archive::Entry::Entry(Entry *parent)
+Archive::Entry::Entry(Entry *parent, QString fullPath, QString rootNode)
     : QObject(parent)
+    , rootNode(rootNode)
     , compressedSizeIsSet(true)
     , m_parent(parent)
 {
     clearMetaData();
+    if (!fullPath.isEmpty())
+        setFullPath(fullPath);
 }
 
 Archive::Entry::~Entry()
@@ -57,6 +60,18 @@ void Archive::Entry::setParent(Archive::Entry *parent)
     m_parent = parent;
 }
 
+void Archive::Entry::setFullPath(const QString &fullPath)
+{
+    m_fullPath = fullPath;
+    processNameAndIcon();
+}
+
+void Archive::Entry::setIsDirectory(const bool isDirectory)
+{
+    m_isDirectory = isDirectory;
+    processNameAndIcon();
+}
+
 int Archive::Entry::row() const
 {
     if (getParent()) {
@@ -72,7 +87,7 @@ bool Archive::Entry::isDir() const
 
 void Archive::Entry::processNameAndIcon()
 {
-    const QStringList pieces = m_fileName.split(QLatin1Char( '/' ), QString::SkipEmptyParts);
+    const QStringList pieces = m_fullPath.split(QLatin1Char( '/' ), QString::SkipEmptyParts);
     m_name = pieces.isEmpty() ? QString() : pieces.last();
 
     QMimeDatabase db;
@@ -80,7 +95,7 @@ void Archive::Entry::processNameAndIcon()
         m_icon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
                                                                                                            IconSize(KIconLoader::Small));
     } else {
-        m_icon = QIcon::fromTheme(db.mimeTypeForFile(m_fileName).iconName()).pixmap(IconSize(KIconLoader::Small),
+        m_icon = QIcon::fromTheme(db.mimeTypeForFile(m_fullPath).iconName()).pixmap(IconSize(KIconLoader::Small),
                                                                                                       IconSize(KIconLoader::Small));
     }
 }
@@ -124,7 +139,7 @@ Archive::Entry *Archive::Entry::findByPath(const QStringList & pieces, int index
 
 void Archive::Entry::clearMetaData()
 {
-    m_fileName.clear();
+    m_fullPath.clear();
     m_permissions.clear();
     m_owner.clear();
     m_group.clear();
@@ -157,6 +172,11 @@ void Archive::Entry::clear()
         qDeleteAll(m_entries);
         m_entries.clear();
     }
+}
+
+bool Archive::Entry::operator==(const Archive::Entry *right) const
+{
+    return m_fullPath == right->m_fullPath;
 }
 
 }

@@ -109,7 +109,7 @@ bool CliInterface::list()
     return true;
 }
 
-bool CliInterface::copyFiles(const QVariantList &files, const QString &destinationDirectory, const ExtractionOptions &options)
+bool CliInterface::copyFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     qCDebug(ARK) << Q_FUNC_INFO << "to" << destinationDirectory;
 
@@ -164,7 +164,7 @@ bool CliInterface::copyFiles(const QVariantList &files, const QString &destinati
     return true;
 }
 
-bool CliInterface::addFiles(const QStringList & files, const CompressionOptions& options)
+bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const CompressionOptions& options)
 {
     cacheParameterList();
 
@@ -189,14 +189,10 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
                                              isHeaderEncryptionEnabled(),
                                              compLevel);
 
-    if (!runProcess(m_param.value(AddProgram).toStringList(), args)) {
-        return false;
-    }
-
-    return true;
+    return runProcess(m_param.value(AddProgram).toStringList(), args);
 }
 
-bool CliInterface::deleteFiles(const QList<QVariant> & files)
+bool CliInterface::deleteFiles(const QList<Archive::Entry*> &files)
 {
     cacheParameterList();
     m_operationMode = Delete;
@@ -209,11 +205,7 @@ bool CliInterface::deleteFiles(const QList<QVariant> & files)
                                                 files,
                                                 password());
 
-    if (!runProcess(m_param.value(DeleteProgram).toStringList(), args)) {
-        return false;
-    }
-
-    return true;
+    return runProcess(m_param.value(DeleteProgram).toStringList(), args);
 }
 
 bool CliInterface::testArchive()
@@ -224,11 +216,7 @@ bool CliInterface::testArchive()
 
     const auto args = substituteTestVariables(m_param.value(TestArgs).toStringList());
 
-    if (!runProcess(m_param.value(TestProgram).toStringList(), args)) {
-        return false;
-    }
-
-    return true;
+    return runProcess(m_param.value(TestProgram).toStringList(), args);
 }
 
 bool CliInterface::runProcess(const QStringList& programNames, const QStringList& arguments)
@@ -298,8 +286,8 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     }
 
     if (m_operationMode == Delete) {
-        foreach(const QVariant& v, m_removedFiles) {
-            emit entryRemoved(v.toString());
+        foreach(const Archive::Entry *e, m_removedFiles) {
+            emit entryRemoved(e->property("fullPath").toString());
         }
     }
 
@@ -387,7 +375,7 @@ void CliInterface::copyProcessFinished(int exitCode, QProcess::ExitStatus exitSt
     emit finished(true);
 }
 
-bool CliInterface::moveDroppedFilesToDest(const QVariantList &files, const QString &finalDest)
+bool CliInterface::moveDroppedFilesToDest(const QList<Archive::Entry*> &files, const QString &finalDest)
 {
     // Move extracted files from a QTemporaryDir to the final destination.
 
@@ -397,10 +385,11 @@ bool CliInterface::moveDroppedFilesToDest(const QVariantList &files, const QStri
     bool overwriteAll = false;
     bool skipAll = false;
 
-    foreach (const QVariant& file, files) {
+    foreach (const Archive::Entry *file, files) {
 
-        QFileInfo relEntry(file.value<fileRootNodePair>().file.remove(file.value<fileRootNodePair>().rootNode));
-        QFileInfo absSourceEntry(QDir::current().absolutePath() + QLatin1Char('/') + file.value<fileRootNodePair>().file);
+        QString fullPath = file->property("fullPath").toString();
+        QFileInfo relEntry(fullPath.remove(file->rootNode));
+        QFileInfo absSourceEntry(QDir::current().absolutePath() + QLatin1Char('/') + fullPath);
         QFileInfo absDestEntry(finalDestDir.path() + QLatin1Char('/') + relEntry.filePath());
 
         if (absSourceEntry.isDir()) {
@@ -596,7 +585,7 @@ QStringList CliInterface::substituteListVariables(const QStringList &listArgs, c
     return args;
 }
 
-QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password)
+QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs, const QList<Archive::Entry*> &entries, bool preservePaths, const QString &password)
 {
     // Required if we call this function from unit tests.
     cacheParameterList();
@@ -621,7 +610,7 @@ QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs
         }
 
         if (arg == QLatin1String("$Files")) {
-            args << copyFilesList(files);
+            args << copyFilesList(entries);
             continue;
         }
 
@@ -635,7 +624,7 @@ QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs
     return args;
 }
 
-QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel)
+QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, const QList<Archive::Entry*> &entries, const QString &password, bool encryptHeader, int compLevel)
 {
     // Required if we call this function from unit tests.
     cacheParameterList();
@@ -660,7 +649,7 @@ QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, con
         }
 
         if (arg == QLatin1String("$Files")) {
-            args << files;
+            args << entryFileNames(entries);
             continue;
         }
 
@@ -674,7 +663,7 @@ QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, con
     return args;
 }
 
-QStringList CliInterface::substituteDeleteVariables(const QStringList &deleteArgs, const QVariantList &files, const QString &password)
+QStringList CliInterface::substituteDeleteVariables(const QStringList &deleteArgs, const QList<Archive::Entry*> &entries, const QString &password)
 {
     cacheParameterList();
 
@@ -693,8 +682,8 @@ QStringList CliInterface::substituteDeleteVariables(const QStringList &deleteArg
         }
 
         if (arg == QLatin1String("$Files")) {
-            foreach (const QVariant& file, files) {
-                args << escapeFileName(file.toString());
+            foreach (const Archive::Entry *e, entries) {
+                args << escapeFileName(e->property("fileName").toString());
             }
             continue;
         }
@@ -827,12 +816,22 @@ QString CliInterface::compressionLevelSwitch(int level) const
     return compLevelSwitch;
 }
 
-QStringList CliInterface::copyFilesList(const QVariantList& files) const
+QStringList CliInterface::copyFilesList(const QList<Archive::Entry*> &entries) const
 {
     QStringList filesList;
-    foreach (const QVariant& f, files) {
-        filesList << escapeFileName(f.value<fileRootNodePair>().file);
+    foreach (const Archive::Entry *e, entries) {
+        filesList << escapeFileName(e->property("fullName").toString());
     }
+
+    return filesList;
+}
+
+QStringList CliInterface::entryFileNames(const QList<Archive::Entry*> &entries) const
+{
+    QStringList filesList;
+        foreach (const Archive::Entry *file, entries) {
+            filesList << file->property("fullPath").toString();
+        }
 
     return filesList;
 }

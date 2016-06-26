@@ -88,6 +88,9 @@ Job::Job(ReadOnlyArchiveInterface *interface)
 
 Job::~Job()
 {
+    qDeleteAll(m_archiveEntries);
+    m_archiveEntries.clear();
+
     if (d->isRunning()) {
         d->wait();
     }
@@ -248,8 +251,8 @@ void ListJob::onNewEntry(const Archive::Entry *entry)
 
     if (m_isSingleFolderArchive) {
         // RPM filenames have the ./ prefix, and "." would be detected as the subfolder name, so we remove it.
-        const QString fileName = entry->property("fileName").toString().replace(QRegularExpression(QStringLiteral("^\\./")), QString());
-        const QString basePath = fileName.split(QLatin1Char('/')).at(0);
+        const QString fullPath = entry->property("fullPath").toString().replace(QRegularExpression(QStringLiteral("^\\./")), QString());
+        const QString basePath = fullPath.split(QLatin1Char('/')).at(0);
 
         if (m_basePath.isEmpty()) {
             m_basePath = basePath;
@@ -272,9 +275,9 @@ QString ListJob::subfolderName() const
     return m_subfolderName;
 }
 
-ExtractJob::ExtractJob(const QVariantList& files, const QString& destinationDir, const ExtractionOptions& options, ReadOnlyArchiveInterface *interface)
+ExtractJob::ExtractJob(const QList<Archive::Entry*> &entries, const QString &destinationDir, const ExtractionOptions &options, ReadOnlyArchiveInterface *interface)
     : Job(interface)
-    , m_files(files)
+    , m_entries(entries)
     , m_destinationDir(destinationDir)
     , m_options(options)
 {
@@ -285,10 +288,10 @@ ExtractJob::ExtractJob(const QVariantList& files, const QString& destinationDir,
 void ExtractJob::doWork()
 {
     QString desc;
-    if (m_files.count() == 0) {
+    if (m_entries.count() == 0) {
         desc = i18n("Extracting all files");
     } else {
-        desc = i18np("Extracting one file", "Extracting %1 files", m_files.count());
+        desc = i18np("Extracting one file", "Extracting %1 files", m_entries.count());
     }
     emit description(this, desc);
 
@@ -302,11 +305,11 @@ void ExtractJob::doWork()
     connectToArchiveInterfaceSignals();
 
     qCDebug(ARK) << "Starting extraction with selected files:"
-             << m_files
+             << m_entries
              << "Destination dir:" << m_destinationDir
              << "Options:" << m_options;
 
-    bool ret = archiveInterface()->copyFiles(m_files, m_destinationDir, m_options);
+    bool ret = archiveInterface()->copyFiles(m_entries, m_destinationDir, m_options);
 
     if (!archiveInterface()->waitForFinishedSignal()) {
         onFinished(ret);
@@ -337,9 +340,9 @@ ExtractionOptions ExtractJob::extractionOptions() const
     return m_options;
 }
 
-TempExtractJob::TempExtractJob(const QString &file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
+TempExtractJob::TempExtractJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
     : Job(interface)
-    , m_file(file)
+    , m_entry(entry)
     , m_passwordProtectedHint(passwordProtectedHint)
 {
 }
@@ -347,7 +350,7 @@ TempExtractJob::TempExtractJob(const QString &file, bool passwordProtectedHint, 
 
 QString TempExtractJob::validatedFilePath() const
 {
-    QString path = extractionDir() + QLatin1Char('/') + m_file;
+    QString path = extractionDir() + QLatin1Char('/') + m_entry->property("fullPath").toString();
 
     // Make sure a maliciously crafted archive with parent folders named ".." do
     // not cause the previewed file path to be located outside the temporary
@@ -375,17 +378,17 @@ void TempExtractJob::doWork()
 
     connectToArchiveInterfaceSignals();
 
-    qCDebug(ARK) << "Extracting:" << m_file;
+    qCDebug(ARK) << "Extracting:" << m_entry;
 
-    bool ret = archiveInterface()->copyFiles({ QVariant::fromValue(fileRootNodePair(m_file)) }, extractionDir(), extractionOptions());
+    bool ret = archiveInterface()->copyFiles({ m_entry }, extractionDir(), extractionOptions());
 
     if (!archiveInterface()->waitForFinishedSignal()) {
         onFinished(ret);
     }
 }
 
-PreviewJob::PreviewJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
-    : TempExtractJob(file, passwordProtectedHint, interface)
+PreviewJob::PreviewJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
+    : TempExtractJob(entry, passwordProtectedHint, interface)
 {
     qCDebug(ARK) << "PreviewJob started";
 }
@@ -395,8 +398,8 @@ QString PreviewJob::extractionDir() const
     return m_tmpExtractDir.path();
 }
 
-OpenJob::OpenJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
-    : TempExtractJob(file, passwordProtectedHint, interface)
+OpenJob::OpenJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
+    : TempExtractJob(entry, passwordProtectedHint, interface)
 {
     qCDebug(ARK) << "OpenJob started";
 
@@ -413,15 +416,15 @@ QString OpenJob::extractionDir() const
     return m_tmpExtractDir->path();
 }
 
-OpenWithJob::OpenWithJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
-    : OpenJob(file, passwordProtectedHint, interface)
+OpenWithJob::OpenWithJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
+    : OpenJob(entry, passwordProtectedHint, interface)
 {
     qCDebug(ARK) << "OpenWithJob started";
 }
 
-AddJob::AddJob(const QStringList& files, const CompressionOptions& options , ReadWriteArchiveInterface *interface)
+AddJob::AddJob(QList<Archive::Entry*> &entries, const CompressionOptions& options , ReadWriteArchiveInterface *interface)
     : Job(interface)
-    , m_files(files)
+    , m_entries(entries)
     , m_options(options)
 {
     qCDebug(ARK) << "AddJob started";
@@ -429,9 +432,9 @@ AddJob::AddJob(const QStringList& files, const CompressionOptions& options , Rea
 
 void AddJob::doWork()
 {
-    qCDebug(ARK) << "AddJob: going to add" << m_files.count() << "file(s)";
+    qCDebug(ARK) << "AddJob: going to add" << m_entries.count() << "file(s)";
 
-    emit description(this, i18np("Adding a file", "Adding %1 files", m_files.count()));
+    emit description(this, i18np("Adding a file", "Adding %1 files", m_entries.count()));
 
     ReadWriteArchiveInterface *m_writeInterface =
         qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
@@ -448,12 +451,13 @@ void AddJob::doWork()
 
     // The file paths must be relative to GlobalWorkDir.
     QStringList relativeFiles;
-    foreach (const QString& file, m_files) {
+    foreach (const Archive::Entry *entry, m_entries) {
         // #191821: workDir must be used instead of QDir::current()
         //          so that symlinks aren't resolved automatically
-        QString relativePath = workDir.relativeFilePath(file);
+        const QString &fullPath = entry->property("fullPath").toString();
+        QString relativePath = workDir.relativeFilePath(fullPath);
 
-        if (file.endsWith(QLatin1Char('/'))) {
+        if (fullPath.endsWith(QLatin1Char('/'))) {
             relativePath += QLatin1Char('/');
         }
 
@@ -461,7 +465,7 @@ void AddJob::doWork()
     }
 
     connectToArchiveInterfaceSignals();
-    bool ret = m_writeInterface->addFiles(relativeFiles, m_options);
+    bool ret = m_writeInterface->addFiles(m_entries, m_options);
 
     if (!archiveInterface()->waitForFinishedSignal()) {
         onFinished(ret);
@@ -477,15 +481,15 @@ void AddJob::onFinished(bool result)
     Job::onFinished(result);
 }
 
-DeleteJob::DeleteJob(const QVariantList& files, ReadWriteArchiveInterface *interface)
+DeleteJob::DeleteJob(QList<Archive::Entry*> &entries, ReadWriteArchiveInterface *interface)
     : Job(interface)
-    , m_files(files)
+    , m_entries(entries)
 {
 }
 
 void DeleteJob::doWork()
 {
-    emit description(this, i18np("Deleting a file from the archive", "Deleting %1 files", m_files.count()));
+    emit description(this, i18np("Deleting a file from the archive", "Deleting %1 files", m_entries.count()));
 
     ReadWriteArchiveInterface *m_writeInterface =
         qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
@@ -493,7 +497,7 @@ void DeleteJob::doWork()
     Q_ASSERT(m_writeInterface);
 
     connectToArchiveInterfaceSignals();
-    bool ret = m_writeInterface->deleteFiles(m_files);
+    bool ret = m_writeInterface->deleteFiles(m_entries);
 
     if (!archiveInterface()->waitForFinishedSignal()) {
         onFinished(ret);

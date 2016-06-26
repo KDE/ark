@@ -30,7 +30,8 @@ class Archive::Entry : public QObject
      * Please notice that not all archive formats support all the properties
      * below, so set those that are available.
      */
-    Q_PROPERTY(QString fileName MEMBER m_fileName)
+    Q_PROPERTY(QString fullPath MEMBER m_fullPath WRITE setFullPath)
+    Q_PROPERTY(QString name READ name)
     Q_PROPERTY(QString permissions MEMBER m_permissions)
     Q_PROPERTY(QString owner MEMBER m_owner)
     Q_PROPERTY(QString group MEMBER m_group)
@@ -42,13 +43,13 @@ class Archive::Entry : public QObject
     Q_PROPERTY(QString method MEMBER m_method)
     Q_PROPERTY(QString version MEMBER m_version)
     Q_PROPERTY(QDateTime timestamp MEMBER m_timestamp)
-    Q_PROPERTY(bool isDirectory MEMBER m_isDirectory)
+    Q_PROPERTY(bool isDirectory MEMBER m_isDirectory WRITE setIsDirectory)
     Q_PROPERTY(QString comment MEMBER m_comment)
     Q_PROPERTY(bool isPasswordProtected MEMBER m_isPasswordProtected)
 
 public:
 
-    Entry(Entry *parent);
+    Entry(Entry *parent, QString fullPath = QString(), QString rootNode = QString());
     ~Entry();
 
     QList<Entry*> entries();
@@ -58,9 +59,10 @@ public:
     void removeEntryAt(int index);
     Entry *getParent() const;
     void setParent(Entry *parent);
+    void setFullPath(const QString &fullPath);
+    void setIsDirectory(const bool isDirectory);
     int row() const;
     bool isDir() const;
-    void processNameAndIcon();
     QPixmap icon() const;
     QString name() const;
     Entry *find(const QString & name);
@@ -69,7 +71,13 @@ public:
     void returnDirEntries(QList<Entry *> *store);
     void clear();
 
+    bool operator==(const Archive::Entry *right) const;
+
+private:
+    void processNameAndIcon();
+
 public:
+    QString rootNode;
     bool compressedSizeIsSet;
 
 private:
@@ -78,7 +86,7 @@ private:
     QString         m_name;
     Entry           *m_parent;
 
-    QString m_fileName;
+    QString m_fullPath;
     QString m_permissions;
     QString m_owner;
     QString m_group;

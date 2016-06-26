@@ -21,8 +21,6 @@
  */
 
 #include "cliplugin.h"
-#include "ark_debug.h"
-#include "kerfuffle/kerfuffle_export.h"
 
 #include <QJsonArray>
 #include <QJsonParseError>
@@ -78,7 +76,7 @@ bool CliPlugin::list()
     return true;
 }
 
-bool CliPlugin::copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, const ExtractionOptions &options)
+bool CliPlugin::copyFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     ExtractionOptions newOptions = options;
 
@@ -198,7 +196,7 @@ void CliPlugin::readJsonOutput()
             filename += QLatin1Char('/');
         }
 
-        m_currentEntry->setProperty("fileName", filename);
+        m_currentEntry->setProperty("fullPath", filename);
 
         // FIXME: archives created from OSX (i.e. with the __MACOSX folder) list each entry twice, the 2nd time with size 0
         m_currentEntry->setProperty("size", currentEntry.value(QStringLiteral("XADFileSize")));

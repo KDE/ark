@@ -30,7 +30,6 @@
 #include "dnddbusinterfaceadaptor.h"
 #include "infopanel.h"
 #include "jobtracker.h"
-#include "kerfuffle/archiveentry.h"
 #include "kerfuffle/extractiondialog.h"
 #include "kerfuffle/extractionsettingspage.h"
 #include "kerfuffle/jobs.h"
@@ -588,7 +587,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 
         Kerfuffle::ExtractionOptions options;
         options[QStringLiteral("PreservePaths")] = true;
-        QList<QVariant> files = filesAndRootNodesForIndexes(m_view->selectionModel()->selectedRows());
+        QList<Archive::Entry*> files = filesAndRootNodesForIndexes(m_view->selectionModel()->selectedRows());
         ExtractJob *job = m_model->extractFiles(files, finalDestinationDirectory, options);
         registerJob(job);
 
@@ -793,7 +792,7 @@ void Part::slotLoadingFinished(KJob *job)
         displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "The archive is empty or Ark could not open its content."));
     } else if (m_model->rowCount() == 1) {
         if (m_model->archive()->mimeType().inherits(QStringLiteral("application/x-cd-image")) &&
-            m_model->entryForIndex(m_model->index(0, 0))->property("fileName").toString() == QLatin1String("README.TXT")) {
+            m_model->entryForIndex(m_model->index(0, 0))->property("fullPath").toString() == QLatin1String("README.TXT")) {
             qCWarning(ARK) << "Detected ISO image with UDF filesystem";
             displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "Ark does not currently support ISO files with UDF filesystem."));
         }
@@ -841,7 +840,7 @@ void Part::slotOpenEntry(int mode)
     qCDebug(ARK) << "Opening with mode" << mode;
 
     QModelIndex index = m_view->selectionModel()->currentIndex();
-    const Archive::Entry *entry = m_model->entryForIndex(index);
+    Archive::Entry *entry = m_model->entryForIndex(index);
 
     // Don't open directories.
     if (entry->isDir()) {
@@ -861,11 +860,10 @@ void Part::slotOpenEntry(int mode)
         KJob *job = Q_NULLPTR;
 
         if (m_openFileMode == Preview) {
-            job = m_model->preview(entry->property("fileName").toString());
+            job = m_model->preview(entry);
             connect(job, &KJob::result, this, &Part::slotPreviewExtractedEntry);
         } else {
-            const QString file = entry->property("fileName").toString();
-            job = (m_openFileMode == OpenFile) ? m_model->open(file) : m_model->openWith(file);
+            job = (m_openFileMode == OpenFile) ? m_model->open(entry) : m_model->openWith(entry);
             connect(job, &KJob::result, this, &Part::slotOpenExtractedEntry);
         }
 
@@ -1027,7 +1025,7 @@ void Part::slotShowExtractionDialog()
         updateQuickExtractMenu(m_extractArchiveAction);
         updateQuickExtractMenu(m_extractAction);
 
-        QVariantList files;
+        QList<Archive::Entry*> files;
 
         // If the user has chosen to extract only selected entries, fetch these
         // from the QTreeView.
@@ -1078,21 +1076,20 @@ QModelIndexList Part::addChildren(const QModelIndexList &list) const
     return ret;
 }
 
-QList<QVariant> Part::filesForIndexes(const QModelIndexList& list) const
+QList<Archive::Entry*> Part::filesForIndexes(const QModelIndexList& list) const
 {
-    QVariantList ret;
+    QList<Archive::Entry*> ret;
 
     foreach(const QModelIndex& index, list) {
-        const Archive::Entry *entry = m_model->entryForIndex(index);
-        ret << entry->property("fileName").toString();
+        ret << m_model->entryForIndex(index);
     }
 
     return ret;
 }
 
-QList<QVariant> Part::filesAndRootNodesForIndexes(const QModelIndexList& list) const
+QList<Kerfuffle::Archive::Entry*> Part::filesAndRootNodesForIndexes(const QModelIndexList& list) const
 {
-    QVariantList fileList;
+    QList<Kerfuffle::Archive::Entry*> fileList;
 
     foreach (const QModelIndex& index, list) {
 
@@ -1109,15 +1106,15 @@ QList<QVariant> Part::filesAndRootNodesForIndexes(const QModelIndexList& list) c
 
         // Fetch the root node for the unselected parent.
         const QString rootFileName =
-            m_model->entryForIndex(selectionRoot)->property("fileName").toString();
+            m_model->entryForIndex(selectionRoot)->property("fullPath").toString();
 
 
         // Append index with root node to fileList.
         QModelIndexList alist = QModelIndexList() << index;
-        foreach (const QVariant &file, filesForIndexes(alist)) {
-            QVariant v = QVariant::fromValue(fileRootNodePair(file.toString(), rootFileName));
-            if (!fileList.contains(v)) {
-                fileList.append(v);
+        foreach (Archive::Entry *entry, filesForIndexes(alist)) {
+            if (!fileList.contains(entry)) {
+                entry->rootNode = rootFileName;
+                fileList.append(entry);
             }
         }
     }
@@ -1207,7 +1204,10 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
         options[QStringLiteral("CompressionLevel")] = arguments().metaData()[QStringLiteral("compressionLevel")];
     }
 
-    AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
+    foreach (const QString& file, cleanFilesToAdd) {
+        m_jobTempEntries.push_back(new Archive::Entry(Q_NULLPTR, file));
+    }
+    AddJob *job = m_model->addFiles(m_jobTempEntries, options);
     if (!job) {
         return;
     }
@@ -1246,6 +1246,8 @@ void Part::slotAddDir()
 
 void Part::slotAddFilesDone(KJob* job)
 {
+    qDeleteAll(m_jobTempEntries);
+    m_jobTempEntries.clear();
     if (job->error() && job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
     }

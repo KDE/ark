@@ -100,7 +100,7 @@ void InfoPanel::setIndex(const QModelIndex& index)
         if (entry->isDir()) {
             mimeType = db.mimeTypeForName(QStringLiteral("inode/directory"));
         } else {
-            mimeType = db.mimeTypeForFile(entry->property("fileName").toString(), QMimeDatabase::MatchExtension);
+            mimeType = db.mimeTypeForFile(entry->property("fullPath").toString(), QMimeDatabase::MatchExtension);
         }
 
         iconLabel->setPixmap(getDesktopIconForName(mimeType.iconName()));
@@ -120,8 +120,8 @@ void InfoPanel::setIndex(const QModelIndex& index)
             }
         }
 
-        const QStringList nameParts = entry->property("fileName").toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
-        const QString name = (nameParts.count() > 0) ? nameParts.last() : entry->property("fileName").toString();
+        const QStringList nameParts = entry->property("fullPath").toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
+        const QString name = (nameParts.count() > 0) ? nameParts.last() : entry->property("fullPath").toString();
         fileName->setText(name);
 
         showMetaDataFor(index);
@@ -171,7 +171,7 @@ void InfoPanel::showMetaDataFor(const QModelIndex &index)
     if (entry->isDir()) {
         mimeType = db.mimeTypeForName(QStringLiteral("inode/directory"));
     } else {
-        mimeType = db.mimeTypeForFile(entry->property("fileName").toString(), QMimeDatabase::MatchExtension);
+        mimeType = db.mimeTypeForFile(entry->property("fullPath").toString(), QMimeDatabase::MatchExtension);
     }
 
     m_typeLabel->setText(i18n("<b>Type:</b> %1",  mimeType.comment()));

@@ -26,20 +26,11 @@
  */
 
 #include "libarchiveplugin.h"
-#include "ark_debug.h"
-#include "kerfuffle/kerfuffle_export.h"
-#include "kerfuffle/archiveentry.h"
 #include "kerfuffle/queries.h"
-
-#include <archive_entry.h>
 
 #include <KLocalizedString>
 
-#include <QDateTime>
 #include <QDirIterator>
-#include <QFile>
-#include <QList>
-#include <QSaveFile>
 
 LibarchivePlugin::LibarchivePlugin(QObject *parent, const QVariantList & args)
     : ReadWriteArchiveInterface(parent, args)
@@ -117,14 +108,14 @@ bool LibarchivePlugin::list()
     return archive_read_close(arch_reader.data()) == ARCHIVE_OK;
 }
 
-bool LibarchivePlugin::addFiles(const QStringList &files, const CompressionOptions &options)
+bool LibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, const CompressionOptions &options)
 {
     Q_UNUSED(files)
     Q_UNUSED(options)
     return false;
 }
 
-bool LibarchivePlugin::deleteFiles(const QList<QVariant> &files)
+bool LibarchivePlugin::deleteFiles(const QList<Archive::Entry*> &files)
 {
     Q_UNUSED(files)
     return false;
@@ -147,7 +138,7 @@ bool LibarchivePlugin::doKill()
     return true;
 }
 
-bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& destinationDirectory, const ExtractionOptions& options)
+bool LibarchivePlugin::copyFiles(const QList<Archive::Entry*>& files, const QString& destinationDirectory, const ExtractionOptions& options)
 {
     qCDebug(ARK) << "Changing current directory to " << destinationDirectory;
     QDir::setCurrent(destinationDirectory);
@@ -159,7 +150,7 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
     // To avoid traversing the entire archive when extracting a limited set of
     // entries, we maintain a list of remaining entries and stop when it's
     // empty.
-    QVariantList remainingFiles = files;
+    QList<Archive::Entry*> remainingFiles = files;
 
     ArchiveRead arch(archive_read_new());
 
@@ -254,14 +245,17 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
             return false;
         }
 
+        Archive::Entry e(Q_NULLPTR);
+        e.setFullPath(entryName);
+
         // Should the entry be extracted?
         if (extractAll ||
-            remainingFiles.contains(QVariant::fromValue(fileRootNodePair(entryName))) ||
+            remainingFiles.contains(&e) ||
             entryName == fileBeingRenamed) {
 
             // Find the index of entry.
             if (entryName != fileBeingRenamed) {
-                index = files.indexOf(QVariant::fromValue(fileRootNodePair(entryName)));
+                index = files.indexOf(&e);
             }
             if (!extractAll && index == -1) {
                 // If entry is not found in files, skip entry.
@@ -286,14 +280,15 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
                 entryFI = QFileInfo(fileWithoutPath);
 
             // OR, if the file has a rootNode attached, remove it from file path.
-            } else if (!extractAll && removeRootNode && entryName != fileBeingRenamed &&
-                       !files.at(index).value<fileRootNodePair>().rootNode.isEmpty()) {
+            } else if (!extractAll && removeRootNode && entryName != fileBeingRenamed) {
+                const QString &rootNode = files.at(index)->rootNode;
+                if (rootNode.isEmpty()) {
+                    //qCDebug(ARK) << "Removing" << files.at(index).value<fileRootNodePair>().rootNode << "from" << entryName;
 
-                //qCDebug(ARK) << "Removing" << files.at(index).value<fileRootNodePair>().rootNode << "from" << entryName;
-
-                const QString truncatedFilename(entryName.remove(0, files.at(index).value<fileRootNodePair>().rootNode.size()));
-                archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
-                entryFI = QFileInfo(truncatedFilename);
+                    const QString truncatedFilename(entryName.remove(0, rootNode.size()));
+                    archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
+                    entryFI = QFileInfo(truncatedFilename);
+                }
             }
 
             // Check if the file about to be written already exists.
@@ -396,7 +391,9 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
             archive_entry_clear(entry);
             no_entries++;
 
-            remainingFiles.removeOne(QVariant::fromValue(fileRootNodePair(entryName)));
+            Archive::Entry e(Q_NULLPTR);
+            e.setFullPath(entryName);
+            remainingFiles.removeOne(&e);
 
         } else {
 
@@ -419,9 +416,9 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
     Archive::Entry *e = new Archive::Entry(NULL);
 
 #ifdef _MSC_VER
-    e->fileName = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry)));
+    e->setProperty("fullPath", QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry))));
 #else
-    e->setProperty("fileName", QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry))));
+    e->setProperty("fullPath", QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry))));
 #endif
 
     const QString owner = QString::fromLatin1(archive_entry_uname(aentry));

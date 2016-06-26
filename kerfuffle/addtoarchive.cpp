@@ -113,7 +113,9 @@ bool AddToArchive::showAddDialog()
 
 bool AddToArchive::addInput(const QUrl &url)
 {
-    m_inputs << url.toDisplayString(QUrl::PreferLocalFile);
+    Archive::Entry *entry = new Archive::Entry(Q_NULLPTR);
+    entry->setFullPath(url.toDisplayString(QUrl::PreferLocalFile));
+    m_entries << entry;
 
     if (m_firstPath.isEmpty()) {
         QString firstEntry = url.toDisplayString(QUrl::PreferLocalFile);
@@ -134,7 +136,7 @@ void AddToArchive::slotStartJob()
 {
     Kerfuffle::CompressionOptions options;
 
-    if (m_inputs.isEmpty()) {
+    if (m_entries.isEmpty()) {
         KMessageBox::error(NULL, i18n("No input files were given."));
         emitResult();
         return;
@@ -157,7 +159,7 @@ void AddToArchive::slotStartJob()
             return;
         }
 
-        const QString base = detectBaseName(m_inputs);
+        const QString base = detectBaseName(m_entries);
 
         QString finalName = base + QLatin1Char( '.' ) + m_autoFilenameSuffix;
 
@@ -205,17 +207,16 @@ void AddToArchive::slotStartJob()
 
         const QDir stripDir(m_firstPath);
 
-        for (int i = 0; i < m_inputs.size(); ++i) {
-            m_inputs[i] = stripDir.absoluteFilePath(m_inputs.at(i));
+        foreach (Archive::Entry *entry, m_entries) {
+            entry->setFullPath(stripDir.absoluteFilePath(entry->property("fullPath").toString()));
         }
-
 
         options[QStringLiteral( "GlobalWorkDir" )] = stripDir.path();
         qCDebug(ARK) << "Setting GlobalWorkDir to " << stripDir.path();
     }
 
     Kerfuffle::AddJob *job =
-        archive->addFiles(m_inputs, options);
+        archive->addFiles(m_entries, options);
 
     KIO::getJobTracker()->registerJob(job);
 
@@ -235,13 +236,13 @@ void AddToArchive::slotFinished(KJob *job)
     emitResult();
 }
 
-QString AddToArchive::detectBaseName(const QStringList &paths) const
+QString AddToArchive::detectBaseName(const QList<Archive::Entry*> &entries) const
 {
-    QFileInfo fileInfo = QFileInfo(paths.first());
+    QFileInfo fileInfo = QFileInfo(entries.first()->property("fullPath").toString());
     QDir parentDir = fileInfo.dir();
     QString base = parentDir.absolutePath() + QLatin1Char('/');
 
-    if (paths.size() > 1) {
+    if (entries.size() > 1) {
         if (!parentDir.isRoot()) {
             // Use directory name for the new archive.
             base += parentDir.dirName();
