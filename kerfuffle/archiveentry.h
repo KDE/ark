@@ -103,6 +103,8 @@ private:
     bool m_isPasswordProtected;
 };
 
+QDebug operator<<(QDebug d, Archive::Entry *entry);
+
 }
 
 
