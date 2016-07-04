@@ -231,7 +231,6 @@ void ArchiveTest::testExtraction_data()
             << optionsPreservePaths
             << 4;
 
-    Archive::Entry *e1 = new Archive::Entry(Q_NULLPTR);
     archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
     QTest::newRow("extract selected entries from a tar.gz, without paths")
             << archivePath
