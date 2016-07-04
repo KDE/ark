@@ -103,7 +103,16 @@ private:
     bool m_isPasswordProtected;
 };
 
-QDebug operator<<(QDebug d, Archive::Entry *entry);
+QDebug operator<<(QDebug d, const Archive::Entry &entry);
+//QDebug operator<<(QDebug d, const QList<Archive::Entry*> &list);
+
+/*QDebug operator<<(QDebug d, const QList<Archive::Entry*> &list)
+{
+        foreach (Archive::Entry *entry, list) {
+            d.nospace() << entry;
+        }
+    return d.space();
+}*/
 
 }
 

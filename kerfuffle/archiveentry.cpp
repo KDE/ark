@@ -179,11 +179,11 @@ bool Archive::Entry::operator==(const Archive::Entry *right) const
     return m_fullPath == right->m_fullPath;
 }
 
-QDebug operator<<(QDebug d, Archive::Entry *entry)
+QDebug operator<<(QDebug d, const Archive::Entry &entry)
 {
-    d.nospace() << "Entry(" << entry->property("fullPath");
-    if (!entry->rootNode.isEmpty()) {
-        d.nospace() << "," << entry->rootNode;
+    d.nospace() << "Entry(" << entry.property("fullPath");
+    if (!entry.rootNode.isEmpty()) {
+        d.nospace() << "," << entry.rootNode;
     }
     d.nospace() << ")";
     return d.space();
