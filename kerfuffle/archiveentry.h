@@ -103,16 +103,8 @@ private:
     bool m_isPasswordProtected;
 };
 
-QDebug operator<<(QDebug d, const Archive::Entry &entry);
-//QDebug operator<<(QDebug d, const QList<Archive::Entry*> &list);
-
-/*QDebug operator<<(QDebug d, const QList<Archive::Entry*> &list)
-{
-        foreach (Archive::Entry *entry, list) {
-            d.nospace() << entry;
-        }
-    return d.space();
-}*/
+QDebug KERFUFFLE_EXPORT operator<<(QDebug d, const Kerfuffle::Archive::Entry &entry);
+QDebug KERFUFFLE_EXPORT operator<<(QDebug d, const Kerfuffle::Archive::Entry *entry);
 
 }
 
