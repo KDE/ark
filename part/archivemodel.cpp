@@ -842,16 +842,18 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
 
 void ArchiveModel::slotLoadingFinished(KJob *job)
 {
-    int i = 0;
-    foreach(const ArchiveEntry &entry, m_newArchiveEntries) {
-        newEntry(entry, DoNotNotifyViews);
-        i++;
-    }
-    beginResetModel();
-    endResetModel();
-    m_newArchiveEntries.clear();
+    if (!job->error()) {
+        int i = 0;
+        foreach(const ArchiveEntry &entry, m_newArchiveEntries) {
+            newEntry(entry, DoNotNotifyViews);
+            i++;
+        }
+        beginResetModel();
+        endResetModel();
+        m_newArchiveEntries.clear();
 
-    qCDebug(ARK) << "Added" << i << "entries to model";
+        qCDebug(ARK) << "Added" << i << "entries to model";
+    }
 
     emit loadingFinished(job);
 }
