@@ -862,7 +862,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
         Archive::Entry *entry = entryForIndex(node);
 
         if (!hasChildren(node)) {
-            if (!entry->property("fullPath").toString().isEmpty()) {
+            if (entry->property("fullPath").toString().isEmpty()) {
                 nodesToDelete << node;
             }
         } else {
