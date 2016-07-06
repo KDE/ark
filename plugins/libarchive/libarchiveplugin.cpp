@@ -282,7 +282,7 @@ bool LibarchivePlugin::copyFiles(const QList<Archive::Entry*>& files, const QStr
             // OR, if the file has a rootNode attached, remove it from file path.
             } else if (!extractAll && removeRootNode && entryName != fileBeingRenamed) {
                 const QString &rootNode = files.at(index)->rootNode;
-                if (rootNode.isEmpty()) {
+                if (!rootNode.isEmpty()) {
                     //qCDebug(ARK) << "Removing" << files.at(index).value<fileRootNodePair>().rootNode << "from" << entryName;
 
                     const QString truncatedFilename(entryName.remove(0, rootNode.size()));
