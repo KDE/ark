@@ -450,8 +450,7 @@ void AddJob::doWork()
     }
 
     // The file paths must be relative to GlobalWorkDir.
-    QStringList relativeFiles;
-    foreach (const Archive::Entry *entry, m_entries) {
+    foreach (Archive::Entry *entry, m_entries) {
         // #191821: workDir must be used instead of QDir::current()
         //          so that symlinks aren't resolved automatically
         const QString &fullPath = entry->property("fullPath").toString();
@@ -461,7 +460,7 @@ void AddJob::doWork()
             relativePath += QLatin1Char('/');
         }
 
-        relativeFiles << relativePath;
+        entry->setFullPath(relativePath);
     }
 
     connectToArchiveInterfaceSignals();
