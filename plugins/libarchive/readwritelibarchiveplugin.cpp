@@ -403,11 +403,11 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QList<Archive::Entry*>& files)
     int no_entries = 0;
     while (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK) {
 
-        Archive::Entry *e = new Archive::Entry(Q_NULLPTR, QFile::decodeName(archive_entry_pathname(entry)));
+        Archive::Entry e(Q_NULLPTR, QFile::decodeName(archive_entry_pathname(entry)));
 
-        if (files.contains(e)) {
+        if (files.contains(&e)) {
             archive_read_data_skip(arch_reader.data());
-            emit entryRemoved(e->property("fullPath").toString());
+            emit entryRemoved(e.property("fullPath").toString());
             no_entries++;
             continue;
         }
@@ -425,7 +425,7 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QList<Archive::Entry*>& files)
             qCCritical(ARK) << "archive_write_header() has returned" << returnCode
                             << "with errno" << archive_errno(arch_writer.data());
             emit error(xi18nc("@info", "Compression failed while processing:<nl/>"
-                              "<filename>%1</filename><nl/><nl/>Operation aborted.", e->property("fullPath").toString()));
+                              "<filename>%1</filename><nl/><nl/>Operation aborted.", e.property("fullPath").toString()));
             return false;
         default:
             qCDebug(ARK) << "archive_writer_header() has returned" << returnCode
