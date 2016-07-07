@@ -127,7 +127,7 @@ bool CliPlugin::readListLine(const QString &line)
     }
 
     qCDebug(ARK) << m_entryFilename << " : " << fileprops;
-    Archive::Entry *e = new Archive::Entry(Q_NULLPTR);
+    Archive::Entry *e = new Archive::Entry();
     e->setProperty("fullPath", m_entryFilename);
     e->setProperty("size", fileprops[ 0 ]);
     e->setProperty("compressedSize", fileprops[ 1 ]);

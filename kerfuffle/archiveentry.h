@@ -49,7 +49,7 @@ class Archive::Entry : public QObject
 
 public:
 
-    Entry(Entry *parent, QString fullPath = QString(), QString rootNode = QString());
+    explicit Entry(QObject *parent = Q_NULLPTR, QString fullPath = QString(), QString rootNode = QString());
     ~Entry();
 
     QList<Entry*> entries();

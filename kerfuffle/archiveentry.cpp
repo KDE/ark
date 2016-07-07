@@ -5,11 +5,11 @@
 #include "archiveentry.h"
 
 namespace Kerfuffle {
-Archive::Entry::Entry(Entry *parent, QString fullPath, QString rootNode)
+Archive::Entry::Entry(QObject *parent, QString fullPath, QString rootNode)
     : QObject(parent)
     , rootNode(rootNode)
     , compressedSizeIsSet(true)
-    , m_parent(parent)
+    , m_parent(qobject_cast<Entry*>(parent))
 {
     clearMetaData();
     if (!fullPath.isEmpty())

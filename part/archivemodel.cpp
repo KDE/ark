@@ -148,7 +148,7 @@ private:
 
 ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     : QAbstractItemModel(parent)
-    , m_rootEntry(Q_NULLPTR)
+    , m_rootEntry()
     , m_dbusPathName(dbusPathName)
 {
     m_rootEntry.setProperty("isDirectory", true);

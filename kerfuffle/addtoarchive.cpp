@@ -113,7 +113,7 @@ bool AddToArchive::showAddDialog()
 
 bool AddToArchive::addInput(const QUrl &url)
 {
-    Archive::Entry *entry = new Archive::Entry(Q_NULLPTR);
+    Archive::Entry *entry = new Archive::Entry();
     entry->setFullPath(url.toDisplayString(QUrl::PreferLocalFile));
     m_entries << entry;
 
