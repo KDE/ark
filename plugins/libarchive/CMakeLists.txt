@@ -66,21 +66,18 @@ configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libarchive.json.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive.json)
 
-add_library(kerfuffle_libarchive_readonly MODULE ${kerfuffle_libarchive_readonly_SRCS})
-add_library(kerfuffle_libarchive MODULE ${kerfuffle_libarchive_readwrite_SRCS})
+kerfuffle_add_plugin(kerfuffle_libarchive_readonly ${kerfuffle_libarchive_readonly_SRCS})
+kerfuffle_add_plugin(kerfuffle_libarchive ${kerfuffle_libarchive_readwrite_SRCS})
 
 if(LibArchive_VERSION VERSION_EQUAL "3.2.0" OR
    LibArchive_VERSION VERSION_GREATER "3.2.0")
   target_compile_definitions(kerfuffle_libarchive PRIVATE -DHAVE_LIBARCHIVE_3_2_0)
 endif()
 
-target_link_libraries(kerfuffle_libarchive_readonly KF5::KIOCore ${LibArchive_LIBRARIES} kerfuffle)
-target_link_libraries(kerfuffle_libarchive KF5::KIOCore ${LibArchive_LIBRARIES} kerfuffle)
+target_link_libraries(kerfuffle_libarchive_readonly ${LibArchive_LIBRARIES})
+target_link_libraries(kerfuffle_libarchive ${LibArchive_LIBRARIES})
 
-install(TARGETS kerfuffle_libarchive_readonly DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
 set(INSTALLED_LIBARCHIVE_PLUGINS "${INSTALLED_LIBARCHIVE_PLUGINS}kerfuffle_libarchive_readonly;")
-
-install(TARGETS kerfuffle_libarchive DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
 set(INSTALLED_LIBARCHIVE_PLUGINS "${INSTALLED_LIBARCHIVE_PLUGINS}kerfuffle_libarchive;")
 
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES}${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}" PARENT_SCOPE)

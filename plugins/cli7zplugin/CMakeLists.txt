@@ -9,7 +9,6 @@ ecm_qt_declare_logging_category(kerfuffle_cli7z_SRCS
                                 IDENTIFIER ARK
                                 CATEGORY_NAME ark.cli7z)
 
-
 # NOTE: the first double-quotes of the first mime and the last
 # double-quotes of the last mime must NOT be escaped.
 set(SUPPORTED_MIMETYPES
@@ -20,13 +19,7 @@ configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_cli7z.json.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_cli7z.json)
 
-add_library(kerfuffle_cli7z MODULE ${kerfuffle_cli7z_SRCS})
-
-target_link_libraries(kerfuffle_cli7z kerfuffle)
-
-########### install files ###############
-
-install(TARGETS kerfuffle_cli7z  DESTINATION ${KDE_INSTALL_PLUGINDIR}/kerfuffle)
+kerfuffle_add_plugin(kerfuffle_cli7z ${kerfuffle_cli7z_SRCS})
 
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_CLI7Z_MIMETYPES}" PARENT_SCOPE)
 set(INSTALLED_KERFUFFLE_PLUGINS "${INSTALLED_KERFUFFLE_PLUGINS}kerfuffle_cli7z;" PARENT_SCOPE)
