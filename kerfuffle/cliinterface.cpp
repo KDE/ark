@@ -286,7 +286,27 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     }
 
     if (m_operationMode == Delete) {
-        foreach(const Archive::Entry *e, m_removedFiles) {
+        // TODO: would be good to wrap this into a method and unit test it.
+        // Extract root entries which will be deleted.
+        // We can't pass every entry, because Archive::Entry deletes all its children in destructor now,
+        // which is called by emitting entryRemoved signal.
+        QList<const Archive::Entry*> removedRootEntries;
+        foreach (const Archive::Entry *e, m_removedFiles) {
+            bool parentIsDeleted;
+            do {
+                parentIsDeleted = false;
+                Archive::Entry *parent = e->getParent();
+                if (parent != Q_NULLPTR && m_removedFiles.contains(parent)) {
+                    parentIsDeleted = true;
+                    e = parent;
+                }
+            } while (parentIsDeleted);
+            if (!removedRootEntries.contains(e)) {
+                removedRootEntries.push_back(e);
+            }
+        }
+
+        foreach (const Archive::Entry *e, removedRootEntries) {
             emit entryRemoved(e->property("fullPath").toString());
         }
     }
