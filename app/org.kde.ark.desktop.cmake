@@ -154,7 +154,6 @@ Type=Application
 Terminal=false
 X-DBUS-StartupType=Multi
 X-DBUS-ServiceName=org.kde.ark
-X-KDE-HasTempFileOption=true
 Categories=Qt;KDE;Utility;Archiving;Compression;X-KDE-Utilities-File;
 InitialPreference=3
 Comment=Work with file archives
