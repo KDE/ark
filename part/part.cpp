@@ -197,6 +197,10 @@ Part::~Part()
 
 void Part::slotCommentChanged()
 {
+    if (!m_model->archive()) {
+        return;
+    }
+
     if (m_commentMsgWidget->isHidden() && m_commentView->toPlainText() != m_model->archive()->comment()) {
         m_commentMsgWidget->animatedShow();
     } else if (m_commentMsgWidget->isVisible() && m_commentView->toPlainText() == m_model->archive()->comment()) {
@@ -608,6 +612,9 @@ void Part::selectionChanged()
 bool Part::openFile()
 {
     qCDebug(ARK) << "Attempting to open archive" << localFilePath();
+
+    m_commentView->clear();
+    m_commentBox->hide();
 
     if (!isLocalFileValid()) {
         return false;
