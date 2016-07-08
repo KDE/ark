@@ -147,18 +147,6 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
             return false;
         }
 
-        // Set compression level if passed in CompressionOptions.
-        if (options.contains(QStringLiteral("CompressionLevel"))) {
-            qCDebug(ARK) << "Using compression level:" << options.value(QStringLiteral("CompressionLevel")).toString();
-            ret = archive_write_set_filter_option(arch_writer.data(), NULL, "compression-level", options.value(QStringLiteral("CompressionLevel")).toString().toUtf8());
-            if (ret != ARCHIVE_OK) {
-                qCWarning(ARK) << "Failed to set compression level";
-                emit error(xi18nc("@info", "Setting the compression level failed with the following error:<nl/><message>%1</message>",
-                                  QLatin1String(archive_error_string(arch_writer.data()))));
-                return false;
-            }
-        }
-
     } else {
         switch (archive_filter_code(arch_reader.data(), 0)) {
         case ARCHIVE_FILTER_GZIP:
@@ -205,6 +193,18 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
         if ((requiresExecutable && ret != ARCHIVE_WARN) ||
             (!requiresExecutable && ret != ARCHIVE_OK)) {
             emit error(xi18nc("@info", "Setting the compression method failed with the following error:<nl/><message>%1</message>",
+                              QLatin1String(archive_error_string(arch_writer.data()))));
+            return false;
+        }
+    }
+
+    // Set compression level if passed in CompressionOptions.
+    if (options.contains(QStringLiteral("CompressionLevel"))) {
+        qCDebug(ARK) << "Using compression level:" << options.value(QStringLiteral("CompressionLevel")).toString();
+        ret = archive_write_set_filter_option(arch_writer.data(), NULL, "compression-level", options.value(QStringLiteral("CompressionLevel")).toString().toUtf8());
+        if (ret != ARCHIVE_OK) {
+            qCWarning(ARK) << "Failed to set compression level";
+            emit error(xi18nc("@info", "Setting the compression level failed with the following error:<nl/><message>%1</message>",
                               QLatin1String(archive_error_string(arch_writer.data()))));
             return false;
         }
