@@ -496,6 +496,7 @@ int ArchiveModel::rowCount(const QModelIndex &parent) const
 
 int ArchiveModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_showColumns.size();
 }
 
