@@ -35,6 +35,7 @@ const QVector<Archive::Entry*> Archive::Entry::entries() const {
 void Archive::Entry::setEntryAt(int index, Entry *value)
 {
     Q_ASSERT(isDir());
+    Q_ASSERT(index < m_entries.count());
     m_entries[index] = value;
 }
 
@@ -47,6 +48,7 @@ void Archive::Entry::appendEntry(Entry *entry)
 void Archive::Entry::removeEntryAt(int index)
 {
     Q_ASSERT(isDir());
+    Q_ASSERT(index < m_entries.count());
     delete m_entries.takeAt(index);
 }
 
