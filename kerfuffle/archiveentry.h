@@ -52,8 +52,8 @@ public:
     explicit Entry(QObject *parent = Q_NULLPTR, QString fullPath = QString(), QString rootNode = QString());
     ~Entry();
 
-    QList<Entry*> entries();
-    const QList<Entry*> entries() const;
+    QVector<Entry*> entries();
+    const QVector<Entry*> entries() const;
     void setEntryAt(int index, Entry *value);
     void appendEntry(Entry *entry);
     void removeEntryAt(int index);
@@ -81,7 +81,7 @@ public:
     bool compressedSizeIsSet;
 
 private:
-    QList<Entry*>   m_entries;
+    QVector<Entry*> m_entries;
     QPixmap         m_icon;
     QString         m_name;
     Entry           *m_parent;

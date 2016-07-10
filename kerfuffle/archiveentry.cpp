@@ -21,13 +21,13 @@ Archive::Entry::~Entry()
     clear();
 }
 
-QList<Archive::Entry*> Archive::Entry::entries()
+QVector<Archive::Entry*> Archive::Entry::entries()
 {
     Q_ASSERT(isDir());
     return m_entries;
 }
 
-const QList<Archive::Entry*> Archive::Entry::entries() const {
+const QVector<Archive::Entry*> Archive::Entry::entries() const {
     Q_ASSERT(isDir());
     return m_entries;
 }

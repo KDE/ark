@@ -334,7 +334,7 @@ int ArchiveModel::childCount(const QModelIndex &index, int &dirs, int &files) co
         Archive::Entry *item = static_cast<Archive::Entry*>(index.internalPointer());
         Q_ASSERT(item);
         if (item->isDir()) {
-            const QList<Archive::Entry*> entries = static_cast<Archive::Entry*>(item)->entries();
+            const QVector<Archive::Entry*> entries = item->entries();
             foreach(const Archive::Entry *entry, entries) {
                 if (entry->isDir()) {
                     dirs++;
