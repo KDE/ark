@@ -40,9 +40,16 @@ class AddToArchiveTest : public QObject
 
 private Q_SLOTS:
 
+    void init();
     void testCompressHere_data();
     void testCompressHere();
 };
+
+void AddToArchiveTest::init()
+{
+    // The test needs an empty subfolder, but git doesn't support tracking of empty directories.
+    QDir(QFINDTESTDATA("data/testdirwithemptysubdir")).mkdir(QStringLiteral("emptydir"));
+}
 
 void AddToArchiveTest::testCompressHere_data()
 {
