@@ -68,42 +68,6 @@ Rar, etc), followed by the property name used
 typedef QHash<QString, QVariant> CompressionOptions;
 typedef QHash<QString, QVariant> ExtractionOptions;
 
-/**
- * Stores a filename and rootnode pair. This is used to cut an individual
- * rootnode from the path of each file, e.g. when drag'n'drop extracting a
- * selection of files.
- */
-struct fileRootNodePair_
-{
-    QString file;
-    QString rootNode;
-
-    fileRootNodePair_()
-    {}
-
-    fileRootNodePair_(const QString &f)
-        : file(f)
-    {}
-
-    fileRootNodePair_(const QString &f, const QString &n)
-        : file(f),
-          rootNode(n)
-    {}
-
-    // Required to compare QVariants with this type.
-    bool operator==(const fileRootNodePair_ &right) const
-    {
-        if (file == right.file)
-            return true;
-        else
-            return false;
-    }
-    bool operator<(const fileRootNodePair_ &) const
-    {
-        return false;
-    }
-};
-
 class KERFUFFLE_EXPORT Archive : public QObject
 {
     Q_OBJECT
