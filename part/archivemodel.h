@@ -85,6 +85,11 @@ public:
      */
     void encryptArchive(const QString &password, bool encryptHeader);
 
+    void countEntriesAndSize();
+    qulonglong numberOfFiles() const;
+    qulonglong numberOfFolders() const;
+    qulonglong uncompressedSize() const;
+
 signals:
     void loadingStarted();
     void loadingFinished(KJob *);
@@ -124,12 +129,18 @@ private:
     void insertNode(ArchiveNode *node, InsertBehaviour behaviour = NotifyViews);
     void newEntry(const Kerfuffle::ArchiveEntry& entry, InsertBehaviour behaviour);
 
+    void traverseAndCountDirNode(ArchiveDirNode *dir);
+
     QList<Kerfuffle::ArchiveEntry> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
     QList<int> m_showColumns;
     QScopedPointer<Kerfuffle::Archive> m_archive;
     ArchiveDirNode *m_rootNode;
 
     QString m_dbusPathName;
+
+    qulonglong m_numberOfFiles;
+    qulonglong m_numberOfFolders;
+    qulonglong m_uncompressedSize;
 };
 
 #endif // ARCHIVEMODEL_H

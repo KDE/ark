@@ -130,6 +130,7 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
         , m_error(NoError)
         , m_encryptionType(Unencrypted)
         , m_numberOfFiles(0)
+        , m_numberOfFolders(0)
 {
     qCDebug(ARK) << "Created archive instance";
 
@@ -246,6 +247,16 @@ qulonglong Archive::numberOfFiles()
     return m_numberOfFiles;
 }
 
+qulonglong Archive::numberOfFolders()
+{
+    if (!isValid()) {
+        return 0;
+    }
+
+    listIfNotListed();
+    return m_numberOfFolders;
+}
+
 qulonglong Archive::unpackedSize()
 {
     if (!isValid()) {
@@ -273,9 +284,7 @@ QString Archive::subfolderName()
 
 void Archive::onNewEntry(const ArchiveEntry &entry)
 {
-    if (!entry[IsDirectory].toBool()) {
-        m_numberOfFiles++;
-    }
+    entry[IsDirectory].toBool() ? m_numberOfFolders++ : m_numberOfFiles++;
 }
 
 bool Archive::isValid() const

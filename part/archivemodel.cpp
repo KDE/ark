@@ -32,6 +32,7 @@
 
 #include <QDateTime>
 #include <QDBusConnection>
+#include <QElapsedTimer>
 #include <QMimeData>
 #include <QMimeDatabase>
 #include <QPersistentModelIndex>
@@ -283,6 +284,8 @@ ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     : QAbstractItemModel(parent)
     , m_rootNode(new ArchiveDirNode(0, ArchiveEntry()))
     , m_dbusPathName(dbusPathName)
+    , m_numberOfFiles(0)
+    , m_numberOfFolders(0)
 {
 }
 
@@ -1012,4 +1015,51 @@ void ArchiveModel::slotCleanupEmptyDirs()
     }
 }
 
+void ArchiveModel::countEntriesAndSize() {
 
+    // This function is used to count the number of folders/files and
+    // the total compressed size. This is needed for PropertiesDialog
+    // to update the corresponding values after adding/deleting files.
+
+    // When ArchiveModel has been properly fixed, this code can likely
+    // be removed.
+
+    m_numberOfFiles = 0;
+    m_numberOfFolders = 0;
+    m_uncompressedSize = 0;
+
+    QElapsedTimer timer;
+    timer.start();
+
+    traverseAndCountDirNode(m_rootNode);
+
+    qCDebug(ARK) << "Time to count entries and size:" << timer.elapsed() << "ms";
+}
+
+void ArchiveModel::traverseAndCountDirNode(ArchiveDirNode *dir)
+{
+    foreach(ArchiveNode *node, dir->entries()) {
+        if (node->isDir()) {
+            traverseAndCountDirNode(dynamic_cast<ArchiveDirNode*>(node));
+            m_numberOfFolders++;
+        } else {
+            m_numberOfFiles++;
+            m_uncompressedSize += node->entry()[Size].toULongLong();
+        }
+    }
+}
+
+qulonglong ArchiveModel::numberOfFiles() const
+{
+    return m_numberOfFiles;
+}
+
+qulonglong ArchiveModel::numberOfFolders() const
+{
+    return m_numberOfFolders;
+}
+
+qulonglong ArchiveModel::uncompressedSize() const
+{
+    return m_uncompressedSize;
+}

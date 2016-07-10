@@ -49,7 +49,7 @@ public:
     }
 };
 
-PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive)
+PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive, qulonglong numberOfFiles, qulonglong numberOfFolders, qulonglong size)
         : QDialog(parent, Qt::Dialog)
 {
     qCDebug(ARK) << "PropertiesDialog loaded";
@@ -65,8 +65,9 @@ PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive)
     m_ui->lblMimetype->setText(archive->mimeType().name());
     m_ui->lblReadOnly->setText(archive->isReadOnly() ?  i18n("yes") : i18n("no"));
     m_ui->lblHasComment->setText(archive->hasComment() ?  i18n("yes") : i18n("no"));
-    m_ui->lblNumberOfFiles->setText(QString::number(archive->numberOfFiles()));
-    m_ui->lblUnpackedSize->setText(KIO::convertSize(archive->unpackedSize()));
+    m_ui->lblNumberOfEntries->setText(i18np("%1 file", "%1 files", numberOfFiles) +
+                                      i18np(", %1 folder", ", %1 folders", numberOfFolders));
+    m_ui->lblUnpackedSize->setText(KIO::convertSize(size));
     m_ui->lblPackedSize->setText(KIO::convertSize(archive->packedSize()));
     m_ui->lblCompressionRatio->setText(QString::number(float(archive->unpackedSize()) / float(archive->packedSize()), 'f', 1));
     m_ui->lblLastModified->setText(fi.lastModified().toString(QStringLiteral("yyyy-MM-dd HH:mm")));

@@ -153,6 +153,7 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_PROPERTY(bool isSingleFolderArchive READ isSingleFolderArchive)
     Q_PROPERTY(EncryptionType encryptionType READ encryptionType)
     Q_PROPERTY(qulonglong numberOfFiles READ numberOfFiles)
+    Q_PROPERTY(qulonglong numberOfFolders READ numberOfFolders)
     Q_PROPERTY(qulonglong unpackedSize READ unpackedSize)
     Q_PROPERTY(qulonglong packedSize READ packedSize)
     Q_PROPERTY(QString subfolderName READ subfolderName)
@@ -175,6 +176,7 @@ public:
     bool hasComment() const;
     EncryptionType encryptionType();
     qulonglong numberOfFiles();
+    qulonglong numberOfFolders();
     qulonglong unpackedSize();
     qulonglong packedSize() const;
     QString subfolderName();
@@ -253,6 +255,7 @@ private:
     ArchiveError m_error;
     EncryptionType m_encryptionType;
     qulonglong m_numberOfFiles;
+    qulonglong m_numberOfFolders;
     QMimeType m_mimeType;
 };
 

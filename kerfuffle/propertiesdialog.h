@@ -42,7 +42,7 @@ class KERFUFFLE_EXPORT PropertiesDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit PropertiesDialog(QWidget *parent, Archive *archive);
+    explicit PropertiesDialog(QWidget *parent, Archive *archive, qulonglong numberOfFiles, qulonglong numberOfFolders, qulonglong size);
 
 private:
     QString calcHash(QCryptographicHash::Algorithm algorithm, const QString &path);
