@@ -67,7 +67,6 @@ public:
     QString name() const;
     Entry *find(const QString & name);
     Entry *findByPath(const QStringList & pieces, int index = 0);
-    void clearMetaData();
     void returnDirEntries(QList<Entry *> *store);
     void clear();
 

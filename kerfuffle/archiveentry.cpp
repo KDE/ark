@@ -10,8 +10,11 @@ Archive::Entry::Entry(QObject *parent, QString fullPath, QString rootNode)
     , rootNode(rootNode)
     , compressedSizeIsSet(true)
     , m_parent(qobject_cast<Entry*>(parent))
+    , m_size(0)
+    , m_compressedSize(0)
+    , m_isDirectory(false)
+    , m_isPasswordProtected(false)
 {
-    clearMetaData();
     if (!fullPath.isEmpty())
         setFullPath(fullPath);
 }
@@ -142,25 +145,6 @@ Archive::Entry *Archive::Entry::findByPath(const QStringList & pieces, int index
         return next->findByPath(pieces, index + 1);
     }
     return 0;
-}
-
-void Archive::Entry::clearMetaData()
-{
-    m_fullPath.clear();
-    m_permissions.clear();
-    m_owner.clear();
-    m_group.clear();
-    m_size = 0;
-    m_compressedSize = 0;
-    m_link.clear();
-    m_ratio.clear();
-    m_CRC.clear();
-    m_method.clear();
-    m_version.clear();
-    m_timestamp = QDateTime();
-    m_isDirectory = false;
-    m_comment.clear();
-    m_isPasswordProtected = false;
 }
 
 void Archive::Entry::returnDirEntries(QList<Entry *> *store)
