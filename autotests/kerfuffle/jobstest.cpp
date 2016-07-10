@@ -253,7 +253,7 @@ void JobsTest::testExtractJobAccessors()
 void JobsTest::testTempExtractJob()
 {
     JSONArchiveInterface *iface = createArchiveInterface(QFINDTESTDATA("data/archive-malicious.json"));
-    PreviewJob *job = new PreviewJob(new Archive::Entry(Q_NULLPTR, QStringLiteral("anotherDir/../../file.txt")), false, iface);
+    PreviewJob *job = new PreviewJob(new Archive::Entry(this, QStringLiteral("anotherDir/../../file.txt")), false, iface);
 
     QVERIFY(job->validatedFilePath().endsWith(QLatin1String("anotherDir/file.txt")));
     QVERIFY(job->extractionOptions()[QStringLiteral("PreservePaths")].toBool());
@@ -275,34 +275,34 @@ void JobsTest::testRemoveEntries_data()
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
             << QList<Archive::Entry*> {
-                new Archive::Entry(Q_NULLPTR, QStringLiteral("a.txt")),
-                new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/")),
-                new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/b.txt")),
-                new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"))
+                new Archive::Entry(this, QStringLiteral("a.txt")),
+                new Archive::Entry(this, QStringLiteral("aDir/")),
+                new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
+                new Archive::Entry(this, QStringLiteral("c.txt"))
             }
-            << QList<Archive::Entry*> {new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"))};
+            << QList<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("c.txt"))};
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
             << QList<Archive::Entry*> {
-                new Archive::Entry(Q_NULLPTR, QStringLiteral("a.txt")),
-                new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/")),
-                new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/b.txt")),
-                new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"))
+                new Archive::Entry(this, QStringLiteral("a.txt")),
+                new Archive::Entry(this, QStringLiteral("aDir/")),
+                new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
+                new Archive::Entry(this, QStringLiteral("c.txt"))
             }
             << QList<Archive::Entry*> {
-                new Archive::Entry(Q_NULLPTR, QStringLiteral("a.txt")),
-                new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"))
+                new Archive::Entry(this, QStringLiteral("a.txt")),
+                new Archive::Entry(this, QStringLiteral("c.txt"))
             };
 
     // Error test: if we delete non-existent entries, the archive must not change.
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
             << QList<Archive::Entry*> {
-                new Archive::Entry(Q_NULLPTR, QStringLiteral("a.txt")),
-                new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/")),
-                new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/b.txt")),
-                new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"))
+                new Archive::Entry(this, QStringLiteral("a.txt")),
+                new Archive::Entry(this, QStringLiteral("aDir/")),
+                new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
+                new Archive::Entry(this, QStringLiteral("c.txt"))
             }
-            << QList<Archive::Entry*> {new Archive::Entry(Q_NULLPTR, QStringLiteral("foo.txt"))};
+            << QList<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("foo.txt"))};
 }
 
 void JobsTest::testRemoveEntries()

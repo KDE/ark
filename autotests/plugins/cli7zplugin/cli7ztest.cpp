@@ -299,8 +299,8 @@ void Cli7zTest::testExtractArgs_data()
     QTest::newRow("preserve paths, encrypted")
             << QStringLiteral("/tmp/foo.7z")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"), QString())
+                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QStringLiteral("1234")
             << QStringList {
@@ -314,8 +314,8 @@ void Cli7zTest::testExtractArgs_data()
     QTest::newRow("preserve paths, unencrypted")
             << QStringLiteral("/tmp/foo.7z")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"), QString())
+                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QString()
             << QStringList {
@@ -328,8 +328,8 @@ void Cli7zTest::testExtractArgs_data()
     QTest::newRow("without paths, encrypted")
             << QStringLiteral("/tmp/foo.7z")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"), QString())
+                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QStringLiteral("1234")
             << QStringList {
@@ -343,8 +343,8 @@ void Cli7zTest::testExtractArgs_data()
     QTest::newRow("without paths, unencrypted")
             << QStringLiteral("/tmp/foo.7z")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"), QString())
+                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QString()
             << QStringList {

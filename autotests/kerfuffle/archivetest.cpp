@@ -235,8 +235,8 @@ void ArchiveTest::testExtraction_data()
     QTest::newRow("extract selected entries from a tar.gz, without paths")
             << archivePath
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"), QString())
+                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << ExtractionOptions()
             << 2;
@@ -245,8 +245,8 @@ void ArchiveTest::testExtraction_data()
     QTest::newRow("extract selected entries from a tar.gz, preserve paths")
             << archivePath
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"), QString())
+                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << optionsPreservePaths
             << 3;
@@ -255,8 +255,8 @@ void ArchiveTest::testExtraction_data()
     QTest::newRow("extract selected entries from a tar.gz, drag-and-drop")
             << archivePath
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"), QString()),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir/"))
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString()),
+                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir/"))
                }
             << dragAndDropOptions
             << 2;
@@ -272,8 +272,8 @@ void ArchiveTest::testExtraction_data()
     QTest::newRow("extract selected entries from a zip, without paths")
             << archivePath
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
+                   new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
+                   new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
                }
             << ExtractionOptions()
             << 2;
@@ -282,8 +282,8 @@ void ArchiveTest::testExtraction_data()
     QTest::newRow("extract selected entries from a zip, preserve paths")
             << archivePath
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
+                   new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
+                   new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
                }
             << optionsPreservePaths
             << 4;
@@ -292,10 +292,10 @@ void ArchiveTest::testExtraction_data()
     QTest::newRow("extract selected entries from a zip, drag-and-drop")
             << archivePath
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/test2.txt"), QStringLiteral("A/")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/B/C/"), QStringLiteral("A/B/")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/B/C/test2.txt"), QStringLiteral("A/B/"))
+                   new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A/")),
+                   new Archive::Entry(this, QStringLiteral("A/B/C/"), QStringLiteral("A/B/")),
+                   new Archive::Entry(this, QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/")),
+                   new Archive::Entry(this, QStringLiteral("A/B/C/test2.txt"), QStringLiteral("A/B/"))
                }
             << dragAndDropOptions
             << 4;
@@ -311,8 +311,8 @@ void ArchiveTest::testExtraction_data()
     QTest::newRow("extract selected entries from a 7z, without paths")
             << archivePath
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
+                   new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
+                   new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
                }
             << ExtractionOptions()
             << 2;
@@ -321,8 +321,8 @@ void ArchiveTest::testExtraction_data()
     QTest::newRow("extract selected entries from a 7z, preserve paths")
             << archivePath
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
+                   new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
+                   new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
                }
             << optionsPreservePaths
             << 4;
@@ -330,7 +330,7 @@ void ArchiveTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/one_toplevel_folder.7z");
     QTest::newRow("extract selected entries from a 7z, drag-and-drop")
             << archivePath
-            << QList<Archive::Entry*> {new Archive::Entry(Q_NULLPTR, QStringLiteral("A/B/test2.txt"), QStringLiteral("A/B/"))}
+            << QList<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("A/B/test2.txt"), QStringLiteral("A/B/"))}
             << dragAndDropOptions
             << 1;
 
@@ -352,8 +352,8 @@ void ArchiveTest::testExtraction_data()
     QTest::newRow("extract selected entries from a bzip2-compressed tarball without path")
             << archivePath
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("file3.txt"), QString()),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("dir2/file22.txt"), QString())
+                   new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
+                   new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                }
             << ExtractionOptions()
             << 2;
@@ -369,8 +369,8 @@ void ArchiveTest::testExtraction_data()
     QTest::newRow("extract selected entries from a xz-compressed tarball without path")
             << archivePath
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("file3.txt"), QString()),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("dir2/file22.txt"), QString())
+                   new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
+                   new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                }
             << ExtractionOptions()
             << 2;
@@ -386,8 +386,8 @@ void ArchiveTest::testExtraction_data()
     QTest::newRow("extract selected entries from a lzma-compressed tarball without path")
             << archivePath
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("file3.txt"), QString()),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("dir2/file22.txt"), QString())
+                   new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
+                   new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                }
             << ExtractionOptions()
             << 2;
@@ -403,8 +403,8 @@ void ArchiveTest::testExtraction_data()
     QTest::newRow("extract selected entries from a compress (.Z)-compressed tarball without path")
             << archivePath
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("file3.txt"), QString()),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("dir2/file22.txt"), QString())
+                   new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
+                   new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                }
             << ExtractionOptions()
             << 2;
@@ -420,8 +420,8 @@ void ArchiveTest::testExtraction_data()
     QTest::newRow("extract selected entries from a lzipped tarball without path")
             << archivePath
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("file3.txt"), QString()),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("dir2/file22.txt"), QString())
+                   new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
+                   new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                }
             << ExtractionOptions()
             << 2;
@@ -437,8 +437,8 @@ void ArchiveTest::testExtraction_data()
     QTest::newRow("extract selected entries from a lzop-compressed tarball without path")
             << archivePath
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("file3.txt"), QString()),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("dir2/file22.txt"), QString())
+                   new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
+                   new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                }
             << ExtractionOptions()
             << 2;
@@ -456,8 +456,8 @@ void ArchiveTest::testExtraction_data()
         QTest::newRow("extract selected entries from a lrzip-compressed tarball without path")
                 << archivePath
                 << QList<Archive::Entry*> {
-                       new Archive::Entry(Q_NULLPTR, QStringLiteral("file3.txt"), QString()),
-                       new Archive::Entry(Q_NULLPTR, QStringLiteral("dir2/file22.txt"), QString())
+                       new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
+                       new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                    }
                 << ExtractionOptions()
                 << 2;
@@ -478,8 +478,8 @@ void ArchiveTest::testExtraction_data()
         QTest::newRow("extract selected entries from a lz4-compressed tarball without path")
                 << archivePath
                 << QList<Archive::Entry*> {
-                       new Archive::Entry(Q_NULLPTR, QStringLiteral("file3.txt"), QString()),
-                       new Archive::Entry(Q_NULLPTR, QStringLiteral("dir2/file22.txt"), QString())
+                       new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
+                       new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                    }
                 << ExtractionOptions()
                 << 2;
@@ -498,8 +498,8 @@ void ArchiveTest::testExtraction_data()
     QTest::newRow("extract selected entries from a xar archive without path")
             << archivePath
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("dir1/file11.txt"), QString()),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("file4.txt"), QString())
+                   new Archive::Entry(this, QStringLiteral("dir1/file11.txt"), QString()),
+                   new Archive::Entry(this, QStringLiteral("file4.txt"), QString())
                }
             << ExtractionOptions()
             << 2;

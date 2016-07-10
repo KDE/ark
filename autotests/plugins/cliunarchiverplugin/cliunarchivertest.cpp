@@ -244,8 +244,8 @@ void CliUnarchiverTest::testExtraction_data()
     QTest::newRow("extract selected entries from a rar, without paths")
             << QFINDTESTDATA("data/one_toplevel_folder.rar")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
+                   new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
+                   new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
                }
             << options
             << 2;
@@ -253,8 +253,8 @@ void CliUnarchiverTest::testExtraction_data()
     QTest::newRow("extract selected entries from a rar, preserve paths")
             << QFINDTESTDATA("data/one_toplevel_folder.rar")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
+                   new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
+                   new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
                }
             << optionsPreservePaths
             << 4;
@@ -262,10 +262,10 @@ void CliUnarchiverTest::testExtraction_data()
     QTest::newRow("extract selected entries from a rar, drag-and-drop")
             << QFINDTESTDATA("data/one_toplevel_folder.rar")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/B/C/"), QStringLiteral("A/B/")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/test2.txt"), QStringLiteral("A/")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("A/B/C/test2.txt"), QStringLiteral("A/B/"))
+                   new Archive::Entry(this, QStringLiteral("A/B/C/"), QStringLiteral("A/B/")),
+                   new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A/")),
+                   new Archive::Entry(this, QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/")),
+                   new Archive::Entry(this, QStringLiteral("A/B/C/test2.txt"), QStringLiteral("A/B/"))
                }
             << dragAndDropOptions
             << 4;
@@ -331,8 +331,8 @@ void CliUnarchiverTest::testExtractArgs_data()
     QTest::newRow("encrypted, multiple files")
             << QStringLiteral("/tmp/foo.rar")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"), QString())
+                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << QStringLiteral("1234")
             << QStringList {
@@ -347,8 +347,8 @@ void CliUnarchiverTest::testExtractArgs_data()
     QTest::newRow("unencrypted, multiple files")
             << QStringLiteral("/tmp/foo.rar")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
-                   new Archive::Entry(Q_NULLPTR, QStringLiteral("c.txt"), QString())
+                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << QString()
             << QStringList {
