@@ -74,7 +74,8 @@ public:
     bool operator==(const Archive::Entry *right) const;
 
 private:
-    void processNameAndIcon();
+    void processName();
+    void processIcon();
 
 public:
     QString rootNode;
