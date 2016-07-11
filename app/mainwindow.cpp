@@ -127,14 +127,19 @@ void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 
 bool MainWindow::loadPart()
 {
-    KPluginFactory *factory = 0;
-    KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("ark_part"));
+    KPluginFactory *factory = Q_NULLPTR;
 
-    if (service) {
-        factory = KPluginLoader(service->library()).factory();
+    const auto plugins = KPluginLoader::findPlugins(QString(), [](const KPluginMetaData& metaData) {
+        return metaData.pluginId() == QStringLiteral("arkpart") &&
+               metaData.serviceTypes().contains(QStringLiteral("KParts/ReadOnlyPart")) &&
+               metaData.serviceTypes().contains(QStringLiteral("Browser/View"));
+    });
+
+    if (plugins.size() == 1) {
+        factory = KPluginLoader(plugins.first().fileName()).factory();
     }
 
-    m_part = factory ? static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this)) : 0;
+    m_part = factory ? static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this)) : Q_NULLPTR;
 
     if (!m_part) {
         KMessageBox::error(this, i18n("Unable to find Ark's KPart component, please check your installation."));

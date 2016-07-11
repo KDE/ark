@@ -30,6 +30,8 @@ configure_file(
             ${CMAKE_CURRENT_BINARY_DIR}/ark_part.desktop
 )
 
+kcoreaddons_desktop_to_json(arkpart ${CMAKE_CURRENT_BINARY_DIR}/ark_part.desktop SERVICES_TYPES kpart.desktop browserview.desktop)
+
 install(TARGETS arkpart DESTINATION ${KDE_INSTALL_PLUGINDIR})
 
 ########### install files ###############
