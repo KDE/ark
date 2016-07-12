@@ -854,7 +854,7 @@ void Part::slotOpenEntry(int mode)
     }
 
     // Extract the entry.
-    if (!entry->property("fileName").toString().isEmpty()) {
+    if (!entry->property("fullPath").toString().isEmpty()) {
 
         m_openFileMode = static_cast<OpenFileMode>(mode);
         KJob *job = Q_NULLPTR;

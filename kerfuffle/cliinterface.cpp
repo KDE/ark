@@ -703,7 +703,7 @@ QStringList CliInterface::substituteDeleteVariables(const QStringList &deleteArg
 
         if (arg == QLatin1String("$Files")) {
             foreach (const Archive::Entry *e, entries) {
-                args << escapeFileName(e->property("fileName").toString());
+                args << escapeFileName(e->property("fullPath").toString());
             }
             continue;
         }
