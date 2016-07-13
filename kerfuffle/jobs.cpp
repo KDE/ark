@@ -460,6 +460,7 @@ void AddJob::doWork()
             relativePath += QLatin1Char('/');
         }
 
+        qCDebug(ARK) << entry->property("fullPath") << entry->isDir() << relativePath;
         entry->setFullPath(relativePath);
     }
 

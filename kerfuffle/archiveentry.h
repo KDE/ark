@@ -70,7 +70,7 @@ public:
     void returnDirEntries(QList<Entry *> *store);
     void clear();
 
-    bool operator==(const Archive::Entry *right) const;
+    bool operator==(const Archive::Entry &right) const;
 
 private:
     void processName();

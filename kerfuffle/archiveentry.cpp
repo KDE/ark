@@ -165,9 +165,9 @@ void Archive::Entry::clear()
     }
 }
 
-bool Archive::Entry::operator==(const Archive::Entry *right) const
+bool Archive::Entry::operator==(const Archive::Entry &right) const
 {
-    return m_fullPath == right->m_fullPath;
+    return m_fullPath == right.m_fullPath;
 }
 
 QDebug operator<<(QDebug d, const Kerfuffle::Archive::Entry &entry)
