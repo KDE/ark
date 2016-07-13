@@ -216,7 +216,7 @@ void AddToArchive::slotStartJob()
     }
 
     Kerfuffle::AddJob *job =
-        archive->addFiles(m_entries, Q_NULLPTR, options);
+        archive->addFiles(m_entries, options);
 
     KIO::getJobTracker()->registerJob(job);
 

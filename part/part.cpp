@@ -1207,7 +1207,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
     foreach (const QString& file, cleanFilesToAdd) {
         m_jobTempEntries.push_back(new Archive::Entry(Q_NULLPTR, file));
     }
-    AddJob *job = m_model->addFiles(m_jobTempEntries, Q_NULLPTR, options);
+    AddJob *job = m_model->addFiles(m_jobTempEntries, options);
     if (!job) {
         return;
     }

@@ -316,7 +316,7 @@ DeleteJob* Archive::deleteFiles(QList<Archive::Entry*> &entries)
     return newJob;
 }
 
-AddJob* Archive::addFiles(QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options)
+AddJob* Archive::addFiles(QList<Archive::Entry*> &files, const CompressionOptions& options)
 {
     if (!isValid()) {
         return Q_NULLPTR;
@@ -330,7 +330,7 @@ AddJob* Archive::addFiles(QList<Archive::Entry*> &files, const Archive::Entry *d
     qCDebug(ARK) << "Going to add files" << files << "with options" << newOptions;
     Q_ASSERT(!m_iface->isReadOnly());
 
-    AddJob *newJob = new AddJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
+    AddJob *newJob = new AddJob(files, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
     connect(newJob, &AddJob::result, this, &Archive::onAddFinished);
     return newJob;
 }
