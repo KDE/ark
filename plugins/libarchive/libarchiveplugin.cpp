@@ -413,7 +413,7 @@ bool LibarchivePlugin::copyFiles(const QList<Archive::Entry*>& files, const QStr
 
 void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 {
-    Archive::Entry *e = new Archive::Entry(NULL);
+    Archive::Entry *e = new Archive::Entry(Q_NULLPTR);
 
 #ifdef _MSC_VER
     e->setProperty("fullPath", QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry))));

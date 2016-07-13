@@ -74,7 +74,7 @@ bool JSONArchiveInterface::addFiles(const QList<Kerfuffle::Archive::Entry*> &fil
             return false;
         }
 
-        Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry(NULL);
+        Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry(Q_NULLPTR);
         e->setProperty("fullPath", path);
 
         m_archive[path] = e;

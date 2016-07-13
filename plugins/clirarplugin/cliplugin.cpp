@@ -452,7 +452,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
 
 void CliPlugin::handleUnrar4Entry() {
 
-    Archive::Entry *e = new Archive::Entry(NULL);
+    Archive::Entry *e = new Archive::Entry(Q_NULLPTR);
 
     QDateTime ts = QDateTime::fromString(QString(m_unrar4Details.at(4) + QLatin1Char(' ') + m_unrar4Details.at(5)),
                                          QStringLiteral("dd-MM-yy hh:mm"));
