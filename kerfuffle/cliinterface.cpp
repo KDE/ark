@@ -840,7 +840,7 @@ QStringList CliInterface::copyFilesList(const QList<Archive::Entry*> &entries) c
 {
     QStringList filesList;
     foreach (const Archive::Entry *e, entries) {
-        filesList << escapeFileName(e->property("fullName").toString());
+        filesList << escapeFileName(e->property("fullPath").toString());
     }
 
     return filesList;
@@ -849,9 +849,9 @@ QStringList CliInterface::copyFilesList(const QList<Archive::Entry*> &entries) c
 QStringList CliInterface::entryFileNames(const QList<Archive::Entry*> &entries) const
 {
     QStringList filesList;
-        foreach (const Archive::Entry *file, entries) {
-            filesList << file->property("fullPath").toString();
-        }
+    foreach (const Archive::Entry *file, entries) {
+        filesList << file->property("fullPath").toString();
+    }
 
     return filesList;
 }
