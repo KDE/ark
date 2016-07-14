@@ -68,15 +68,13 @@ void Archive::Entry::setParent(Archive::Entry *parent)
 void Archive::Entry::setFullPath(const QString &fullPath)
 {
     m_fullPath = fullPath;
-    processName();
-    processIcon();
+    const QStringList pieces = m_fullPath.split(QLatin1Char( '/' ), QString::SkipEmptyParts);
+    m_name = pieces.isEmpty() ? QString() : pieces.last();
 }
 
 void Archive::Entry::setIsDirectory(const bool isDirectory)
 {
     m_isDirectory = isDirectory;
-    processName();
-    processIcon();
 }
 
 int Archive::Entry::row() const
@@ -90,29 +88,6 @@ int Archive::Entry::row() const
 bool Archive::Entry::isDir() const
 {
     return m_isDirectory;
-}
-
-void Archive::Entry::processName()
-{
-    const QStringList pieces = m_fullPath.split(QLatin1Char( '/' ), QString::SkipEmptyParts);
-    m_name = pieces.isEmpty() ? QString() : pieces.last();
-}
-
-void Archive::Entry::processIcon()
-{
-    QMimeDatabase db;
-    if (isDir()) {
-        m_icon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
-                                                                                                           IconSize(KIconLoader::Small));
-    } else {
-        m_icon = QIcon::fromTheme(db.mimeTypeForFile(m_fullPath).iconName()).pixmap(IconSize(KIconLoader::Small),
-                                                                                    IconSize(KIconLoader::Small));
-    }
-}
-
-QPixmap Archive::Entry::icon() const
-{
-    return m_icon;
 }
 
 QString Archive::Entry::name() const

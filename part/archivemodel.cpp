@@ -216,7 +216,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
         }
         case Qt::DecorationRole:
             if (index.column() == 0) {
-                return entry->icon();
+                return *m_entryIcons.value(entry->property("fullPath").toString());
             }
             return QVariant();
         case Qt::FontRole: {
@@ -588,11 +588,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
         Q_UNUSED(index);
 
         beginRemoveRows(indexForEntry(parent), entry->row(), entry->row());
-
-        //delete parent->entries()[ metaData->row() ];
-        //parent->entries()[ metaData->row() ] = 0;
-        parent->removeEntryAt(entry->row());
-
+        removeChildEntryAt(parent, entry->row());
         endRemoveRows();
     }
 }
@@ -699,6 +695,15 @@ void ArchiveModel::slotLoadingFinished(KJob *job)
     emit loadingFinished(job);
 }
 
+void ArchiveModel::removeChildEntryAt(const Archive::Entry *parent, int index)
+{
+    Q_ASSERT(parent->isDir());
+    Q_ASSERT(index < parent->entries().count());
+    const Archive::Entry *entry = parent->entries().at(index);
+    delete m_entryIcons.take(entry->property("fullPath").toString());
+    delete entry;
+}
+
 void ArchiveModel::copyEntryMetaData(Archive::Entry *destinationEntry, const Archive::Entry *sourceEntry)
 {
     destinationEntry->setProperty("fullPath", sourceEntry->property("fullPath"));
@@ -730,6 +735,18 @@ void ArchiveModel::insertEntry(Archive::Entry *entry, InsertBehaviour behaviour)
     if (behaviour == NotifyViews) {
         endInsertRows();
     }
+
+    // Save an icon for each newly added entry.
+    QMimeDatabase db;
+    const QPixmap *pixmap;
+    if (entry->isDir()) {
+        pixmap = new QPixmap(QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
+                                                                                                           IconSize(KIconLoader::Small)));
+    } else {
+        pixmap = new QPixmap(QIcon::fromTheme(db.mimeTypeForFile(entry->property("fullPath").toString()).iconName()).pixmap(IconSize(KIconLoader::Small),
+                                                                                    IconSize(KIconLoader::Small)));
+    }
+    m_entryIcons.insert(entry->property("fullPath").toString(), pixmap);
 }
 
 Kerfuffle::Archive* ArchiveModel::archive() const
@@ -876,7 +893,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
         Archive::Entry *rawEntry = static_cast<Archive::Entry*>(node.internalPointer());
         qCDebug(ARK) << "Delete with parent entries " << rawEntry->getParent()->entries() << " and row " << rawEntry->row();
         beginRemoveRows(parent(node), rawEntry->row(), rawEntry->row());
-            rawEntry->getParent()->removeEntryAt(rawEntry->row());
+        removeChildEntryAt(rawEntry->getParent(), rawEntry->row());
         endRemoveRows();
     }
 }

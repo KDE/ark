@@ -63,7 +63,6 @@ public:
     void setIsDirectory(const bool isDirectory);
     int row() const;
     bool isDir() const;
-    QPixmap icon() const;
     QString name() const;
     Entry *find(const QString & name);
     Entry *findByPath(const QStringList & pieces, int index = 0);
@@ -72,17 +71,12 @@ public:
 
     bool operator==(const Archive::Entry &right) const;
 
-private:
-    void processName();
-    void processIcon();
-
 public:
     QString rootNode;
     bool compressedSizeIsSet;
 
 private:
     QVector<Entry*> m_entries;
-    QPixmap         m_icon;
     QString         m_name;
     Entry           *m_parent;
 
