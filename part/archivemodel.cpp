@@ -588,7 +588,8 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
         Q_UNUSED(index);
 
         beginRemoveRows(indexForEntry(parent), entry->row(), entry->row());
-        removeChildEntryAt(parent, entry->row());
+        delete m_entryIcons.take(parent->entries().at(entry->row())->property("fullPath").toString());
+        parent->removeEntryAt(entry->row());
         endRemoveRows();
     }
 }
@@ -693,15 +694,6 @@ void ArchiveModel::slotLoadingFinished(KJob *job)
     qCDebug(ARK) << "Added" << i << "entries to model";
 
     emit loadingFinished(job);
-}
-
-void ArchiveModel::removeChildEntryAt(const Archive::Entry *parent, int index)
-{
-    Q_ASSERT(parent->isDir());
-    Q_ASSERT(index < parent->entries().count());
-    const Archive::Entry *entry = parent->entries().at(index);
-    delete m_entryIcons.take(entry->property("fullPath").toString());
-    delete entry;
 }
 
 void ArchiveModel::copyEntryMetaData(Archive::Entry *destinationEntry, const Archive::Entry *sourceEntry)
@@ -893,7 +885,8 @@ void ArchiveModel::slotCleanupEmptyDirs()
         Archive::Entry *rawEntry = static_cast<Archive::Entry*>(node.internalPointer());
         qCDebug(ARK) << "Delete with parent entries " << rawEntry->getParent()->entries() << " and row " << rawEntry->row();
         beginRemoveRows(parent(node), rawEntry->row(), rawEntry->row());
-        removeChildEntryAt(rawEntry->getParent(), rawEntry->row());
+        delete m_entryIcons.take(rawEntry->getParent()->entries().at(rawEntry->row())->property("fullPath").toString());
+        rawEntry->getParent()->removeEntryAt(rawEntry->row());
         endRemoveRows();
     }
 }
