@@ -133,6 +133,15 @@ void ReadOnlyArchiveInterface::setWaitForFinishedSignal(bool value)
     m_waitForFinishedSignal = value;
 }
 
+QStringList ReadOnlyArchiveInterface::entryFullPaths(const QList<Archive::Entry *> &entries) const
+{
+    QStringList filesList;
+    foreach (const Archive::Entry *file, entries) {
+        filesList << file->property("fullPath").toString();
+    }
+    return filesList;
+}
+
 bool ReadOnlyArchiveInterface::isHeaderEncryptionEnabled() const
 {
     return m_isHeaderEncryptionEnabled;

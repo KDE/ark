@@ -313,10 +313,11 @@ void JobsTest::testRemoveEntries()
 
     QFETCH(QList<Archive::Entry*>, entries);
     QFETCH(QList<Archive::Entry*>, entriesToDelete);
+    QStringList fullPathsToDelete = iface->entryFullPaths(entriesToDelete);
 
     QList<Archive::Entry*> expectedRemainingEntries;
     Q_FOREACH (Archive::Entry *entry, entries) {
-        if (!entriesToDelete.contains(entry)) {
+        if (!fullPathsToDelete.contains(entry->property("fullPath").toString())) {
             expectedRemainingEntries.append(entry);
         }
     }
@@ -381,6 +382,10 @@ void JobsTest::testAddEntries()
     QVERIFY(iface);
 
     QFETCH(QList<Archive::Entry*>, originalEntries);
+    QStringList originalFullPaths = QStringList();
+    Q_FOREACH (Archive::Entry *entry, originalEntries) {
+        originalFullPaths.append(entry->property("fullPath").toString());
+    }
     auto currentEntries = listEntries(iface);
     QCOMPARE(currentEntries.size(), originalEntries.size());
 
@@ -392,7 +397,7 @@ void JobsTest::testAddEntries()
 
     int expectedEntriesCount = originalEntries.size();
     Q_FOREACH (Archive::Entry *entry, entriesToAdd) {
-        if (!originalEntries.contains(entry)) {
+        if (!originalFullPaths.contains(entry->property("fullPath").toString())) {
             expectedEntriesCount++;
         }
     }

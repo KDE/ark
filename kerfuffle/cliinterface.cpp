@@ -286,28 +286,9 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     }
 
     if (m_operationMode == Delete) {
-        // TODO: would be good to wrap this into a method and unit test it.
-        // Extract root entries which will be deleted.
-        // We can't pass every entry, because Archive::Entry deletes all its children in destructor now,
-        // which is called by emitting entryRemoved signal.
-        QList<const Archive::Entry*> removedRootEntries;
-        foreach (const Archive::Entry *e, m_removedFiles) {
-            bool parentIsDeleted;
-            do {
-                parentIsDeleted = false;
-                Archive::Entry *parent = e->getParent();
-                if (parent != Q_NULLPTR && m_removedFiles.contains(parent)) {
-                    parentIsDeleted = true;
-                    e = parent;
-                }
-            } while (parentIsDeleted);
-            if (!removedRootEntries.contains(e)) {
-                removedRootEntries.push_back(e);
-            }
-        }
-
-        foreach (const Archive::Entry *e, removedRootEntries) {
-            emit entryRemoved(e->property("fullPath").toString());
+        QStringList removedFullPaths = entryFullPaths(m_removedFiles);
+        foreach (const QString &fullPath, removedFullPaths) {
+            emit entryRemoved(fullPath);
         }
     }
 
@@ -669,7 +650,7 @@ QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, con
         }
 
         if (arg == QLatin1String("$Files")) {
-            args << entryFileNames(entries);
+            args << entryFullPaths(entries);
             continue;
         }
 
@@ -841,16 +822,6 @@ QStringList CliInterface::copyFilesList(const QList<Archive::Entry*> &entries) c
     QStringList filesList;
     foreach (const Archive::Entry *e, entries) {
         filesList << escapeFileName(e->property("fullPath").toString());
-    }
-
-    return filesList;
-}
-
-QStringList CliInterface::entryFileNames(const QList<Archive::Entry*> &entries) const
-{
-    QStringList filesList;
-    foreach (const Archive::Entry *file, entries) {
-        filesList << file->property("fullPath").toString();
     }
 
     return filesList;

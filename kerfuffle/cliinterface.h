@@ -341,11 +341,6 @@ public:
      */
     QStringList copyFilesList(const QList<Archive::Entry*> &files) const;
 
-    /**
-     * @return The list of filenames retrieved from the list of entries.
-     */
-    QStringList entryFileNames(const QList<Archive::Entry*> &entries) const;
-
 protected:
 
     virtual void handleLine(const QString& line);

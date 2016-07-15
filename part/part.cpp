@@ -1090,6 +1090,7 @@ QList<Archive::Entry*> Part::filesForIndexes(const QModelIndexList& list) const
 QList<Kerfuffle::Archive::Entry*> Part::filesAndRootNodesForIndexes(const QModelIndexList& list) const
 {
     QList<Kerfuffle::Archive::Entry*> fileList;
+    QStringList fullPathsList;
 
     foreach (const QModelIndex& index, list) {
 
@@ -1112,9 +1113,11 @@ QList<Kerfuffle::Archive::Entry*> Part::filesAndRootNodesForIndexes(const QModel
         // Append index with root node to fileList.
         QModelIndexList alist = QModelIndexList() << index;
         foreach (Archive::Entry *entry, filesForIndexes(alist)) {
-            if (!fileList.contains(entry)) {
+            const QString fullPath = entry->property("fullPath").toString();
+            if (!fullPathsList.contains(fullPath)) {
                 entry->rootNode = rootFileName;
                 fileList.append(entry);
+                fullPathsList.append(fullPath);
             }
         }
     }

@@ -31,6 +31,7 @@
 #include "archive_kerfuffle.h"
 #include "archive_entry.h"
 #include "kerfuffle_export.h"
+#include "kerfuffle/archiveentry.h"
 
 #include <QObject>
 #include <QStringList>
@@ -98,6 +99,11 @@ public:
      */
     virtual bool copyFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) = 0;
     bool waitForFinishedSignal();
+
+    /**
+     * @return The list of filenames retrieved from the list of entries.
+     */
+    QStringList entryFullPaths(const QList<Archive::Entry *> &entries) const;
 
     virtual bool doKill();
     virtual bool doSuspend();

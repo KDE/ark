@@ -150,7 +150,8 @@ bool LibarchivePlugin::copyFiles(const QList<Archive::Entry*>& files, const QStr
     // To avoid traversing the entire archive when extracting a limited set of
     // entries, we maintain a list of remaining entries and stop when it's
     // empty.
-    QList<Archive::Entry*> remainingFiles = files;
+    QStringList fullPaths = entryFullPaths(files);
+    QStringList remainingFiles = entryFullPaths(files);
 
     ArchiveRead arch(archive_read_new());
 
@@ -245,17 +246,14 @@ bool LibarchivePlugin::copyFiles(const QList<Archive::Entry*>& files, const QStr
             return false;
         }
 
-        Archive::Entry e(Q_NULLPTR);
-        e.setFullPath(entryName);
-
         // Should the entry be extracted?
         if (extractAll ||
-            remainingFiles.contains(&e) ||
+            remainingFiles.contains(entryName) ||
             entryName == fileBeingRenamed) {
 
             // Find the index of entry.
             if (entryName != fileBeingRenamed) {
-                index = files.indexOf(&e);
+                index = fullPaths.indexOf(entryName);
             }
             if (!extractAll && index == -1) {
                 // If entry is not found in files, skip entry.
@@ -391,9 +389,7 @@ bool LibarchivePlugin::copyFiles(const QList<Archive::Entry*>& files, const QStr
             archive_entry_clear(entry);
             no_entries++;
 
-            Archive::Entry e(Q_NULLPTR);
-            e.setFullPath(entryName);
-            remainingFiles.removeOne(&e);
+            remainingFiles.removeOne(entryName);
 
         } else {
 
