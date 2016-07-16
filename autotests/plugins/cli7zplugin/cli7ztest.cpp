@@ -140,8 +140,9 @@ void Cli7zTest::testList_data()
 
 void Cli7zTest::testList()
 {
+    qRegisterMetaType<Archive::Entry*>("Archive::Entry*");
     CliPlugin *plugin = new CliPlugin(this, {QStringLiteral("dummy.7z")});
-    QSignalSpy signalSpy(plugin, SIGNAL(entry(ArchiveEntry)));
+    QSignalSpy signalSpy(plugin, &CliPlugin::entry);
 
     QFETCH(QString, outputTextFile);
     QFETCH(int, expectedEntriesCount);
@@ -159,7 +160,7 @@ void Cli7zTest::testList()
 
     QFETCH(int, someEntryIndex);
     QVERIFY(someEntryIndex < signalSpy.count());
-    Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry *>();
+    Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry*>();
 
     QFETCH(QString, expectedName);
     QCOMPARE(entry->property("fullPath").toString(), expectedName);

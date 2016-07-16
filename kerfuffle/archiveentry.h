@@ -102,5 +102,6 @@ QDebug KERFUFFLE_EXPORT operator<<(QDebug d, const Kerfuffle::Archive::Entry *en
 
 }
 
+Q_DECLARE_METATYPE(Kerfuffle::Archive::Entry*)
 
 #endif //ARK_ENTRY_H

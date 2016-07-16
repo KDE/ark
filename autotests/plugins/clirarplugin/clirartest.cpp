@@ -169,8 +169,9 @@ void CliRarTest::testList_data()
 
 void CliRarTest::testList()
 {
+    qRegisterMetaType<Archive::Entry*>("Archive::Entry*");
     CliPlugin *rarPlugin = new CliPlugin(this, {QStringLiteral("dummy.rar")});
-    QSignalSpy signalSpy(rarPlugin, SIGNAL(entry(ArchiveEntry)));
+    QSignalSpy signalSpy(rarPlugin, &CliPlugin::entry);
 
     QFETCH(QString, outputTextFile);
     QFETCH(int, expectedEntriesCount);
@@ -188,7 +189,7 @@ void CliRarTest::testList()
 
     QFETCH(int, someEntryIndex);
     QVERIFY(someEntryIndex < signalSpy.count());
-    Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry *>();
+    Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry*>();
 
     QFETCH(QString, expectedName);
     QCOMPARE(entry->property("fullPath").toString(), expectedName);

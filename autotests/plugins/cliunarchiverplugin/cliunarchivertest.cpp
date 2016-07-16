@@ -136,8 +136,9 @@ void CliUnarchiverTest::testList_data()
 
 void CliUnarchiverTest::testList()
 {
+    qRegisterMetaType<Archive::Entry*>("Archive::Entry*");
     CliPlugin *unarPlugin = new CliPlugin(this, {QStringLiteral("dummy.rar")});
-    QSignalSpy signalSpy(unarPlugin, SIGNAL(entry(ArchiveEntry)));
+    QSignalSpy signalSpy(unarPlugin, &CliPlugin::entry);
 
     QFETCH(QString, jsonFilePath);
     QFETCH(int, expectedEntriesCount);
@@ -152,7 +153,7 @@ void CliUnarchiverTest::testList()
 
     QFETCH(int, someEntryIndex);
     QVERIFY(someEntryIndex < signalSpy.count());
-    Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry *>();
+    Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry*>();
 
     QFETCH(QString, expectedName);
     QCOMPARE(entry->property("fullPath").toString(), expectedName);
