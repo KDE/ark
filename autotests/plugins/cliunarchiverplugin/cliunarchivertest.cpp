@@ -137,7 +137,18 @@ void CliUnarchiverTest::testList_data()
 void CliUnarchiverTest::testList()
 {
     CliPlugin *unarPlugin = new CliPlugin(this, {QStringLiteral("dummy.rar")});
-    QSignalSpy signalSpy(unarPlugin, SIGNAL(entry(ArchiveEntry)));
+
+    int signalCount = 0;
+    QFETCH(int, someEntryIndex);
+    const Archive::Entry *someEntry;
+    QObject::connect(unarPlugin, &CliPlugin::entry,
+                     [&](Archive::Entry *value)
+                     {
+                         if (signalCount == someEntryIndex) {
+                             someEntry = value;
+                         }
+                         signalCount++;
+                     });
 
     QFETCH(QString, jsonFilePath);
     QFETCH(int, expectedEntriesCount);
@@ -148,29 +159,27 @@ void CliUnarchiverTest::testList()
     QTextStream stream(&jsonFile);
     unarPlugin->setJsonOutput(stream.readAll());
 
-    QCOMPARE(signalSpy.count(), expectedEntriesCount);
+    QCOMPARE(signalCount, expectedEntriesCount);
 
-    QFETCH(int, someEntryIndex);
-    QVERIFY(someEntryIndex < signalSpy.count());
-    Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry *>();
+    QVERIFY(someEntryIndex < signalCount);
 
     QFETCH(QString, expectedName);
-    QCOMPARE(entry->property("fullPath").toString(), expectedName);
+    QCOMPARE(someEntry->property("fullPath").toString(), expectedName);
 
     QFETCH(bool, isDirectory);
-    QCOMPARE(entry->isDir(), isDirectory);
+    QCOMPARE(someEntry->isDir(), isDirectory);
 
     QFETCH(bool, isPasswordProtected);
-    QCOMPARE(entry->property("isPasswordProtected").toBool(), isPasswordProtected);
+    QCOMPARE(someEntry->property("isPasswordProtected").toBool(), isPasswordProtected);
 
     QFETCH(qulonglong, expectedSize);
-    QCOMPARE(entry->property("size").toULongLong(), expectedSize);
+    QCOMPARE(someEntry->property("size").toULongLong(), expectedSize);
 
     QFETCH(qulonglong, expectedCompressedSize);
-    QCOMPARE(entry->property("compressedSize").toULongLong(), expectedCompressedSize);
+    QCOMPARE(someEntry->property("compressedSize").toULongLong(), expectedCompressedSize);
 
     QFETCH(QString, expectedTimestamp);
-    QCOMPARE(entry->property("timestamp").toString(), expectedTimestamp);
+    QCOMPARE(someEntry->property("timestamp").toString(), expectedTimestamp);
 
     unarPlugin->deleteLater();
 }

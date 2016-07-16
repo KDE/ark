@@ -141,7 +141,18 @@ void Cli7zTest::testList_data()
 void Cli7zTest::testList()
 {
     CliPlugin *plugin = new CliPlugin(this, {QStringLiteral("dummy.7z")});
-    QSignalSpy signalSpy(plugin, SIGNAL(entry(ArchiveEntry)));
+
+    int signalCount = 0;
+    QFETCH(int, someEntryIndex);
+    const Archive::Entry *someEntry;
+    QObject::connect(plugin, &CliPlugin::entry,
+                     [&](Archive::Entry *value)
+                     {
+                         if (signalCount == someEntryIndex) {
+                             someEntry = value;
+                         }
+                         signalCount++;
+                     });
 
     QFETCH(QString, outputTextFile);
     QFETCH(int, expectedEntriesCount);
@@ -155,26 +166,24 @@ void Cli7zTest::testList()
         QVERIFY(plugin->readListLine(line));
     }
 
-    QCOMPARE(signalSpy.count(), expectedEntriesCount);
+    QCOMPARE(signalCount, expectedEntriesCount);
 
-    QFETCH(int, someEntryIndex);
-    QVERIFY(someEntryIndex < signalSpy.count());
-    Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry *>();
+    QVERIFY(someEntryIndex < signalCount);
 
     QFETCH(QString, expectedName);
-    QCOMPARE(entry->property("fullPath").toString(), expectedName);
+    QCOMPARE(someEntry->property("fullPath").toString(), expectedName);
 
     QFETCH(bool, isDirectory);
-    QCOMPARE(entry->isDir(), isDirectory);
+    QCOMPARE(someEntry->isDir(), isDirectory);
 
     QFETCH(bool, isPasswordProtected);
-    QCOMPARE(entry->property("isPasswordProtected").toBool(), isPasswordProtected);
+    QCOMPARE(someEntry->property("isPasswordProtected").toBool(), isPasswordProtected);
 
     QFETCH(qulonglong, expectedSize);
-    QCOMPARE(entry->property("size").toULongLong(), expectedSize);
+    QCOMPARE(someEntry->property("size").toULongLong(), expectedSize);
 
     QFETCH(QString, expectedTimestamp);
-    QCOMPARE(entry->property("timestamp").toString(), expectedTimestamp);
+    QCOMPARE(someEntry->property("timestamp").toString(), expectedTimestamp);
 
     plugin->deleteLater();
 }
