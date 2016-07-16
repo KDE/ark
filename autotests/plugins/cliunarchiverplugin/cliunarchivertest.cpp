@@ -122,16 +122,16 @@ void CliUnarchiverTest::testList_data()
 
     QTest::newRow("archive with one top-level folder")
             << QFINDTESTDATA("data/one_toplevel_folder.json") << 9
-            << 6 << QStringLiteral("A/B/C/") << true << false << (qulonglong) 0 << (qulonglong) 0 << QStringLiteral("2015-12-21 16:57:20 +0100");
+            << 6 << QStringLiteral("A/B/C/") << true << false << (qulonglong) 0 << (qulonglong) 0 << QStringLiteral("2015-12-21T16:57:20+01:00");
     QTest::newRow("archive with multiple top-level entries")
             << QFINDTESTDATA("data/multiple_toplevel_entries.json") << 12
-            << 4 << QStringLiteral("data/A/B/test1.txt") << false << false << (qulonglong) 7 << (qulonglong) 7 << QStringLiteral("2015-12-21 16:56:28 +0100");
+            << 4 << QStringLiteral("data/A/B/test1.txt") << false << false << (qulonglong) 7 << (qulonglong) 7 << QStringLiteral("2015-12-21T16:56:28+01:00");
     QTest::newRow("archive with encrypted entries")
             << QFINDTESTDATA("data/encrypted_entries.json") << 9
-            << 5 << QStringLiteral("A/test1.txt") << false << true << (qulonglong) 7 << (qulonglong) 32 << QStringLiteral("2015-12-21 16:56:28 +0100");
+            << 5 << QStringLiteral("A/test1.txt") << false << true << (qulonglong) 7 << (qulonglong) 32 << QStringLiteral("2015-12-21T16:56:28+01:00");
     QTest::newRow("huge archive")
             << QFINDTESTDATA("data/huge_archive.json") << 250
-            << 8 << QStringLiteral("PsycOPacK/Base Dictionnaries/att800") << false << false << (qulonglong) 593687 << (qulonglong) 225219 << QStringLiteral("2011-08-14 03:10:10 +0200");
+            << 8 << QStringLiteral("PsycOPacK/Base Dictionnaries/att800") << false << false << (qulonglong) 593687 << (qulonglong) 225219 << QStringLiteral("2011-08-14T03:10:10+02:00");
 }
 
 void CliUnarchiverTest::testList()
