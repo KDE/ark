@@ -170,18 +170,7 @@ void CliRarTest::testList_data()
 void CliRarTest::testList()
 {
     CliPlugin *rarPlugin = new CliPlugin(this, {QStringLiteral("dummy.rar")});
-
-    int signalCount = 0;
-    QFETCH(int, someEntryIndex);
-    const Archive::Entry *someEntry;
-    QObject::connect(rarPlugin, &CliPlugin::entry,
-                     [&](Archive::Entry *value)
-                     {
-                         if (signalCount == someEntryIndex) {
-                             someEntry = value;
-                         }
-                         signalCount++;
-                     });
+    QSignalSpy signalSpy(rarPlugin, SIGNAL(entry(ArchiveEntry)));
 
     QFETCH(QString, outputTextFile);
     QFETCH(int, expectedEntriesCount);
@@ -195,30 +184,32 @@ void CliRarTest::testList()
         QVERIFY(rarPlugin->readListLine(line));
     }
 
-    QCOMPARE(signalCount, expectedEntriesCount);
+    QCOMPARE(signalSpy.count(), expectedEntriesCount);
 
-    QVERIFY(someEntryIndex < signalCount);
+    QFETCH(int, someEntryIndex);
+    QVERIFY(someEntryIndex < signalSpy.count());
+    Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry *>();
 
     QFETCH(QString, expectedName);
-    QCOMPARE(someEntry->property("fullPath").toString(), expectedName);
+    QCOMPARE(entry->property("fullPath").toString(), expectedName);
 
     QFETCH(bool, isDirectory);
-    QCOMPARE(someEntry->isDir(), isDirectory);
+    QCOMPARE(entry->isDir(), isDirectory);
 
     QFETCH(bool, isPasswordProtected);
-    QCOMPARE(someEntry->property("isPasswordProtected").toBool(), isPasswordProtected);
+    QCOMPARE(entry->property("isPasswordProtected").toBool(), isPasswordProtected);
 
     QFETCH(QString, symlinkTarget);
-    QCOMPARE(someEntry->property("link").toString(), symlinkTarget);
+    QCOMPARE(entry->property("link").toString(), symlinkTarget);
 
     QFETCH(qulonglong, expectedSize);
-    QCOMPARE(someEntry->property("size").toULongLong(), expectedSize);
+    QCOMPARE(entry->property("size").toULongLong(), expectedSize);
 
     QFETCH(qulonglong, expectedCompressedSize);
-    QCOMPARE(someEntry->property("compressedSize").toULongLong(), expectedCompressedSize);
+    QCOMPARE(entry->property("compressedSize").toULongLong(), expectedCompressedSize);
 
     QFETCH(QString, expectedTimestamp);
-    QCOMPARE(someEntry->property("timestamp").toString(), expectedTimestamp);
+    QCOMPARE(entry->property("timestamp").toString(), expectedTimestamp);
 
     rarPlugin->deleteLater();
 }
