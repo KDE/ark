@@ -388,9 +388,8 @@ bool CliInterface::moveDroppedFilesToDest(const QList<Archive::Entry*> &files, c
 
     foreach (const Archive::Entry *file, files) {
 
-        QString fullPath = file->property("fullPath").toString();
-        QFileInfo relEntry(fullPath.remove(file->rootNode));
-        QFileInfo absSourceEntry(QDir::current().absolutePath() + QLatin1Char('/') + fullPath);
+        QFileInfo relEntry(file->property("fullPath").toString().remove(file->rootNode));
+        QFileInfo absSourceEntry(QDir::current().absolutePath() + QLatin1Char('/') + file->property("fullPath").toString());
         QFileInfo absDestEntry(finalDestDir.path() + QLatin1Char('/') + relEntry.filePath());
 
         if (absSourceEntry.isDir()) {
