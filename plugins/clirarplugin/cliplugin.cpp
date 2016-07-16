@@ -38,7 +38,6 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
         , m_parseState(ParseStateTitle)
         , m_isUnrar5(false)
         , m_isPasswordProtected(false)
-        , m_isMultiVolume(false)
         , m_isSolid(false)
         , m_remainingIgnoreLines(1) //The first line of UNRAR output is empty.
         , m_linesComment(0)
@@ -206,9 +205,12 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
         // "Details: " indicates end of header.
         if (line.startsWith(QStringLiteral("Details: "))) {
             ignoreLines(1, ParseStateEntryDetails);
-            if (line.contains(QLatin1String("volume")) && !m_isMultiVolume) {
-                m_isMultiVolume = true;
-                qCDebug(ARK) << "Multi-volume archive detected";
+            if (line.contains(QLatin1String("volume"))) {
+                m_numberOfVolumes++;
+                if (!m_isMultiVolume) {
+                    m_isMultiVolume = true;
+                    qCDebug(ARK) << "Multi-volume archive detected";
+                }
             }
             if (line.contains(QLatin1String("solid")) && !m_isSolid) {
                 m_isSolid = true;
@@ -309,8 +311,11 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
         if (rxCommentEnd.match(line).hasMatch()) {
 
             if (line.startsWith(QLatin1String("Volume")) && !m_isMultiVolume) {
-                m_isMultiVolume = true;
-                qCDebug(ARK) << "Multi-volume archive detected";
+                m_numberOfVolumes++;
+                if (!m_isMultiVolume) {
+                    m_isMultiVolume = true;
+                    qCDebug(ARK) << "Multi-volume archive detected";
+                }
             }
             if (line.startsWith(QLatin1String("Solid archive")) && !m_isSolid) {
                 m_isSolid = true;

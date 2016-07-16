@@ -62,6 +62,9 @@ public:
      */
     QString password() const;
 
+    bool isMultiVolume() const;
+    int numberOfVolumes() const;
+
     /**
      * Returns whether the file can only be read.
      *
@@ -126,6 +129,8 @@ protected:
     void setCorrupt(bool isCorrupt);
     bool isCorrupt() const;
     QString m_comment;
+    bool m_isMultiVolume;
+    int m_numberOfVolumes;
 
 private:
     QString m_filename;

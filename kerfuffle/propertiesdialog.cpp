@@ -64,6 +64,7 @@ PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive, qulonglong
     m_ui->lblArchiveType->setText(archive->mimeType().comment());
     m_ui->lblMimetype->setText(archive->mimeType().name());
     m_ui->lblReadOnly->setText(archive->isReadOnly() ?  i18n("yes") : i18n("no"));
+    m_ui->lblMultiVolume->setText(archive->isMultiVolume() ? i18n("yes (%1 volumes)", archive->numberOfVolumes()) : i18n("no"));
     m_ui->lblHasComment->setText(archive->hasComment() ?  i18n("yes") : i18n("no"));
     m_ui->lblNumberOfEntries->setText(i18np("%1 file", "%1 files", numberOfFiles) +
                                       i18np(", %1 folder", ", %1 folders", numberOfFolders));

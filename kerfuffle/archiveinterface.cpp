@@ -41,6 +41,8 @@ ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVaria
         , m_waitForFinishedSignal(false)
         , m_isHeaderEncryptionEnabled(false)
         , m_isCorrupt(false)
+        , m_isMultiVolume(false)
+        , m_numberOfVolumes(0)
 {
     qCDebug(ARK) << "Created read-only interface for" << args.first().toString();
     m_filename = args.first().toString();
@@ -111,6 +113,16 @@ void ReadOnlyArchiveInterface::setCorrupt(bool isCorrupt)
 bool ReadOnlyArchiveInterface::isCorrupt() const
 {
     return m_isCorrupt;
+}
+
+bool ReadOnlyArchiveInterface::isMultiVolume() const
+{
+    return m_isMultiVolume;
+}
+
+int ReadOnlyArchiveInterface::numberOfVolumes() const
+{
+    return m_numberOfVolumes;
 }
 
 ReadWriteArchiveInterface::ReadWriteArchiveInterface(QObject *parent, const QVariantList & args)

@@ -227,6 +227,16 @@ bool Archive::hasComment() const
     return isValid() ? !comment().isEmpty() : false;
 }
 
+bool Archive::isMultiVolume() const
+{
+    return m_iface->isMultiVolume();
+}
+
+int Archive::numberOfVolumes() const
+{
+    return m_iface->numberOfVolumes();
+}
+
 Archive::EncryptionType Archive::encryptionType()
 {
     if (!isValid()) {

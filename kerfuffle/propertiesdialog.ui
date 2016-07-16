@@ -101,98 +101,98 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="0">
+        <item row="6" column="0">
          <widget class="QLabel" name="label_10">
           <property name="text">
            <string>Has comment:</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="1">
+        <item row="6" column="1">
          <widget class="QLabel" name="lblHasComment">
           <property name="text">
            <string/>
           </property>
          </widget>
         </item>
-        <item row="6" column="0">
+        <item row="7" column="0">
          <widget class="QLabel" name="label_3">
           <property name="text">
            <string>Number of entries:</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="1">
+        <item row="7" column="1">
          <widget class="QLabel" name="lblNumberOfEntries">
           <property name="text">
            <string/>
           </property>
          </widget>
         </item>
-        <item row="7" column="0">
+        <item row="8" column="0">
          <widget class="QLabel" name="label_5">
           <property name="text">
            <string>Unpacked size:</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="1">
+        <item row="8" column="1">
          <widget class="QLabel" name="lblUnpackedSize">
           <property name="text">
            <string/>
           </property>
          </widget>
         </item>
-        <item row="8" column="0">
+        <item row="9" column="0">
          <widget class="QLabel" name="label_7">
           <property name="text">
            <string>Packed size:</string>
           </property>
          </widget>
         </item>
-        <item row="8" column="1">
+        <item row="9" column="1">
          <widget class="QLabel" name="lblPackedSize">
           <property name="text">
            <string/>
           </property>
          </widget>
         </item>
-        <item row="9" column="0">
+        <item row="10" column="0">
          <widget class="QLabel" name="label_9">
           <property name="text">
            <string>Compression ratio:</string>
           </property>
          </widget>
         </item>
-        <item row="9" column="1">
+        <item row="10" column="1">
          <widget class="QLabel" name="lblCompressionRatio">
           <property name="text">
            <string/>
           </property>
          </widget>
         </item>
-        <item row="10" column="0">
+        <item row="11" column="0">
          <widget class="QLabel" name="label_6">
           <property name="text">
            <string>Last modified:</string>
           </property>
          </widget>
         </item>
-        <item row="10" column="1">
+        <item row="11" column="1">
          <widget class="QLabel" name="lblLastModified">
           <property name="text">
            <string/>
           </property>
          </widget>
         </item>
-        <item row="11" column="0">
+        <item row="12" column="0">
          <widget class="QLabel" name="label_12">
           <property name="text">
            <string>MD5 hash:</string>
           </property>
          </widget>
         </item>
-        <item row="11" column="1">
+        <item row="12" column="1">
          <widget class="QLabel" name="lblMD5">
           <property name="text">
            <string/>
@@ -205,14 +205,14 @@
           </property>
          </widget>
         </item>
-        <item row="12" column="0">
+        <item row="13" column="0">
          <widget class="QLabel" name="label_13">
           <property name="text">
            <string>SHA-1 hash:</string>
           </property>
          </widget>
         </item>
-        <item row="12" column="1">
+        <item row="13" column="1">
          <widget class="QLabel" name="lblSHA1">
           <property name="text">
            <string/>
@@ -222,20 +222,34 @@
           </property>
          </widget>
         </item>
-        <item row="13" column="0">
+        <item row="14" column="0">
          <widget class="QLabel" name="label_14">
           <property name="text">
            <string>SHA-256 hash:</string>
           </property>
          </widget>
         </item>
-        <item row="13" column="1">
+        <item row="14" column="1">
          <widget class="QLabel" name="lblSHA256">
           <property name="text">
            <string notr="true">nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn</string>
           </property>
           <property name="textInteractionFlags">
            <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_15">
+          <property name="text">
+           <string>Multi-volume:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLabel" name="lblMultiVolume">
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>

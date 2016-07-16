@@ -159,6 +159,8 @@ bool CliPlugin::readListLine(const QString& line)
                 m_archiveType = ArchiveTypeZip;
             } else if (type == QLatin1String("Rar")) {
                 m_archiveType = ArchiveTypeRar;
+            } else if (type == QLatin1String("Split")) {
+                m_isMultiVolume = true;
             } else {
                 // Should not happen
                 qCWarning(ARK) << "Unsupported archive type";
