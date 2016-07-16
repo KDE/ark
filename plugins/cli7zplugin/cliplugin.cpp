@@ -166,7 +166,8 @@ bool CliPlugin::readListLine(const QString& line)
                 qCWarning(ARK) << "Unsupported archive type";
                 return false;
             }
-
+        } else if (line.startsWith(QStringLiteral("Volumes = "))) {
+            m_numberOfVolumes = line.section(QLatin1Char('='), 1).trimmed().toInt();
         } else if (rxComment.match(line).hasMatch()) {
             m_parseState = ParseStateComment;
             m_comment.append(line.section(QLatin1Char('='), 1) + QLatin1Char('\n'));
