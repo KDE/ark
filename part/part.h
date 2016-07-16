@@ -105,7 +105,6 @@ private slots:
     void slotQuickExtractFiles(QAction*);
     void slotAddFiles();
     void slotAddFiles(const QStringList& files, const QString& path = QString());
-    void slotAddDir();
     void slotAddFilesDone(KJob*);
     void slotTestingDone(KJob*);
     void slotDeleteFiles();
@@ -153,7 +152,6 @@ private:
     QAction *m_extractArchiveAction;
     QAction *m_extractAction;
     QAction *m_addFilesAction;
-    QAction *m_addDirAction;
     QAction *m_deleteFilesAction;
     QAction *m_saveAsAction;
     QAction *m_propertiesAction;
@@ -165,6 +163,7 @@ private:
     QList<QTemporaryDir*>      m_tmpOpenDirList;
     bool                  m_busy;
     OpenFileMode m_openFileMode;
+    QUrl m_lastUsedAddPath;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;

@@ -180,6 +180,8 @@ public:
     qulonglong unpackedSize();
     qulonglong packedSize() const;
     QString subfolderName();
+    void setCompressionOptions(const CompressionOptions &opts);
+    CompressionOptions compressionOptions() const;
 
     static Archive *create(const QString &fileName, QObject *parent = 0);
     static Archive *create(const QString &fileName, const QString &fixedMimeType, QObject *parent = 0);
@@ -256,6 +258,7 @@ private:
     EncryptionType m_encryptionType;
     qulonglong m_numberOfFiles;
     qulonglong m_numberOfFolders;
+    CompressionOptions m_compOptions;
     QMimeType m_mimeType;
 };
 

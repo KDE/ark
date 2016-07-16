@@ -470,4 +470,14 @@ void Archive::onUserQuery(Query* query)
     query->execute();
 }
 
+void Archive::setCompressionOptions(const CompressionOptions &opts)
+{
+    m_compOptions = opts;
+}
+
+CompressionOptions Archive::compressionOptions() const
+{
+    return m_compOptions;
+}
+
 } // namespace Kerfuffle
