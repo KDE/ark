@@ -814,14 +814,18 @@ OpenWithJob *ArchiveModel::openWith(Archive::Entry *file) const
     return job;
 }
 
-AddJob* ArchiveModel::addFiles(QList<Archive::Entry*> &entries, const CompressionOptions& options)
+AddJob* ArchiveModel::addFiles(QList<Archive::Entry*> &entries, const Archive::Entry *destination, const CompressionOptions& options)
 {
     if (!m_archive) {
         return Q_NULLPTR;
     }
 
+    if (destination == Q_NULLPTR) {
+        destination = &m_rootEntry;
+    }
+
     if (!m_archive->isReadOnly()) {
-        AddJob *job = m_archive->addFiles(entries, options);
+        AddJob *job = m_archive->addFiles(entries, destination, options);
         connect(job, &AddJob::newEntry, this, &ArchiveModel::slotNewEntry);
         connect(job, &AddJob::userQuery, this, &ArchiveModel::slotUserQuery);
 

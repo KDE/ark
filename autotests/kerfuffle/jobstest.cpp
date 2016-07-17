@@ -390,7 +390,8 @@ void JobsTest::testAddEntries()
     QCOMPARE(currentEntries.size(), originalEntries.size());
 
     QFETCH(QList<Archive::Entry*>, entriesToAdd);
-    AddJob *addJob = new AddJob(entriesToAdd, CompressionOptions(), iface);
+    const Archive::Entry rootEntry;
+    AddJob *addJob = new AddJob(entriesToAdd, &rootEntry, CompressionOptions(), iface);
     startAndWaitForResult(addJob);
 
     currentEntries = listEntries(iface);

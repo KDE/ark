@@ -73,7 +73,7 @@ public:
     Kerfuffle::OpenJob* open(Archive::Entry *file) const;
     Kerfuffle::OpenWithJob* openWith(Archive::Entry *file) const;
 
-    Kerfuffle::AddJob* addFiles(QList<Archive::Entry*> &entries, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
+    Kerfuffle::AddJob* addFiles(QList<Archive::Entry*> &entries, const Archive::Entry *destination, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
     Kerfuffle::DeleteJob* deleteFiles(QList<Archive::Entry*> entries);
 
     /**
