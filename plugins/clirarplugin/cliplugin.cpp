@@ -310,7 +310,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
 
         if (rxCommentEnd.match(line).hasMatch()) {
 
-            if (line.startsWith(QLatin1String("Volume")) && !m_isMultiVolume) {
+            if (line.startsWith(QLatin1String("Volume"))) {
                 m_numberOfVolumes++;
                 if (!m_isMultiVolume) {
                     m_isMultiVolume = true;
