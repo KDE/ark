@@ -1,16 +1,16 @@
 [
     {
-        "fileName": "aDir/",
+        "fullPath": "aDir/",
         "isDirectory": true
     },
     {
-        "fileName": "aDir/b.txt"
+        "fullPath": "aDir/b.txt"
     },
     {
-        "fileName": "anotherDir/",
+        "fullPath": "anotherDir/",
         "isDirectory": true
     },
     {
-        "fileName": "anotherDir/file.txt"
+        "fullPath": "anotherDir/file.txt"
     }
 ]

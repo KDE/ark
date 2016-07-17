@@ -140,8 +140,9 @@ void Cli7zTest::testList_data()
 
 void Cli7zTest::testList()
 {
+    qRegisterMetaType<Archive::Entry*>("Archive::Entry*");
     CliPlugin *plugin = new CliPlugin(this, {QStringLiteral("dummy.7z")});
-    QSignalSpy signalSpy(plugin, SIGNAL(entry(ArchiveEntry)));
+    QSignalSpy signalSpy(plugin, &CliPlugin::entry);
 
     QFETCH(QString, outputTextFile);
     QFETCH(int, expectedEntriesCount);
@@ -159,10 +160,10 @@ void Cli7zTest::testList()
 
     QFETCH(int, someEntryIndex);
     QVERIFY(someEntryIndex < signalSpy.count());
-    Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry *>();
+    Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry*>();
 
     QFETCH(QString, expectedName);
-    QCOMPARE(entry->property("fileName").toString(), expectedName);
+    QCOMPARE(entry->property("fullPath").toString(), expectedName);
 
     QFETCH(bool, isDirectory);
     QCOMPARE(entry->isDir(), isDirectory);
@@ -291,16 +292,16 @@ void Cli7zTest::testAddArgs()
 void Cli7zTest::testExtractArgs_data()
 {
     QTest::addColumn<QString>("archiveName");
-    QTest::addColumn<QVariantList>("files");
+    QTest::addColumn<QList<Archive::Entry*>>("files");
     QTest::addColumn<bool>("preservePaths");
     QTest::addColumn<QString>("password");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("preserve paths, encrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+            << QList<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QStringLiteral("1234")
             << QStringList {
@@ -313,9 +314,9 @@ void Cli7zTest::testExtractArgs_data()
 
     QTest::newRow("preserve paths, unencrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+            << QList<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QString()
             << QStringList {
@@ -327,9 +328,9 @@ void Cli7zTest::testExtractArgs_data()
 
     QTest::newRow("without paths, encrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+            << QList<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QStringLiteral("1234")
             << QStringList {
@@ -342,9 +343,9 @@ void Cli7zTest::testExtractArgs_data()
 
     QTest::newRow("without paths, unencrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+            << QList<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QString()
             << QStringList {
@@ -366,7 +367,7 @@ void Cli7zTest::testExtractArgs()
                                       QStringLiteral("$Archive"),
                                       QStringLiteral("$Files") };
 
-    QFETCH(QVariantList, files);
+    QFETCH(QList<Archive::Entry*>, files);
     QFETCH(bool, preservePaths);
     QFETCH(QString, password);
 

@@ -24,6 +24,7 @@
 #define PART_H
 
 #include "interface.h"
+#include "kerfuffle/archiveentry.h"
 
 #include <KParts/Part>
 #include <KParts/ReadWritePart>
@@ -138,8 +139,8 @@ private:
     void setupActions();
     bool isSingleFolderArchive() const;
     QString detectSubfolder() const;
-    QList<QVariant> filesForIndexes(const QModelIndexList& list) const;
-    QList<QVariant> filesAndRootNodesForIndexes(const QModelIndexList& list) const;
+    QList<Kerfuffle::Archive::Entry*> filesForIndexes(const QModelIndexList& list) const;
+    QList<Kerfuffle::Archive::Entry*> filesAndRootNodesForIndexes(const QModelIndexList& list) const;
     QModelIndexList addChildren(const QModelIndexList &list) const;
     void registerJob(KJob *job);
     void displayMsgWidget(KMessageWidget::MessageType type, const QString& msg);
@@ -164,6 +165,7 @@ private:
     QList<QTemporaryDir*>      m_tmpOpenDirList;
     bool                  m_busy;
     OpenFileMode m_openFileMode;
+    QList<Kerfuffle::Archive::Entry*> m_jobTempEntries;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;

@@ -68,43 +68,6 @@ Rar, etc), followed by the property name used
 typedef QHash<QString, QVariant> CompressionOptions;
 typedef QHash<QString, QVariant> ExtractionOptions;
 
-/**
- * Stores a filename and rootnode pair. This is used to cut an individual
- * rootnode from the path of each file, e.g. when drag'n'drop extracting a
- * selection of files.
- */
-struct fileRootNodePair
-{
-    QString file;
-    QString rootNode;
-
-    fileRootNodePair()
-    {}
-
-    fileRootNodePair(const QString &f)
-        : file(f)
-    {}
-
-    fileRootNodePair(const QString &f, const QString &n)
-        : file(f),
-          rootNode(n)
-    {}
-
-    // Required to compare QVariants with this type.
-    bool operator==(const fileRootNodePair &right) const
-    {
-        if (file == right.file)
-            return true;
-        else
-            return false;
-    }
-    bool operator<(const fileRootNodePair &) const
-    {
-        return false;
-    }
-};
-QDebug operator<<(QDebug d, const fileRootNodePair &pair);
-
 class KERFUFFLE_EXPORT Archive : public QObject
 {
     Q_OBJECT
@@ -172,7 +135,7 @@ public:
      */
     ListJob* list();
 
-    DeleteJob* deleteFiles(const QList<QVariant> & files);
+    DeleteJob* deleteFiles(QList<Archive::Entry*> &entries);
     CommentJob* addComment(const QString &comment);
     TestJob* testArchive();
 
@@ -188,13 +151,13 @@ public:
      * archive root where the files will be added under
      *
      */
-    AddJob* addFiles(const QStringList & files, const CompressionOptions& options = CompressionOptions());
+    AddJob* addFiles(QList<Archive::Entry*> &files, const CompressionOptions& options = CompressionOptions());
 
-    ExtractJob* copyFiles(const QList<QVariant> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
+    ExtractJob* copyFiles(const QList<Archive::Entry*> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
 
-    PreviewJob* preview(const QString &file);
-    OpenJob* open(const QString &file);
-    OpenWithJob* openWith(const QString &file);
+    PreviewJob* preview(Archive::Entry *entry);
+    OpenJob* open(Archive::Entry *entry);
+    OpenWithJob* openWith(Archive::Entry *entry);
 
     /**
      * @param password The password to encrypt the archive with.
@@ -229,6 +192,5 @@ private:
 } // namespace Kerfuffle
 
 Q_DECLARE_METATYPE(Kerfuffle::Archive::EncryptionType)
-Q_DECLARE_METATYPE(Kerfuffle::fileRootNodePair)
 
 #endif // ARCHIVE_H

@@ -44,7 +44,7 @@ LibSingleFileInterface::~LibSingleFileInterface()
 {
 }
 
-bool LibSingleFileInterface::copyFiles(const QList<QVariant>& files, const QString& destinationDirectory, const Kerfuffle::ExtractionOptions& options)
+bool LibSingleFileInterface::copyFiles(const QList<Kerfuffle::Archive::Entry*> &files, const QString& destinationDirectory, const Kerfuffle::ExtractionOptions& options)
 {
     Q_UNUSED(files)
     Q_UNUSED(options)
@@ -105,8 +105,8 @@ bool LibSingleFileInterface::list()
 {
     qCDebug(ARK) << "Listing archive contents";
 
-    Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry(Q_NULLPTR);
-    e->setProperty("fileName", uncompressedFileName());
+    Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry();
+    e->setProperty("fullPath", uncompressedFileName());
     emit entry(e);
 
     return true;

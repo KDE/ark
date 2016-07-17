@@ -162,7 +162,7 @@ bool CliPlugin::readListLine(const QString &line)
     case ParseStateEntry:
         QRegularExpressionMatch rxMatch = entryPattern.match(line);
         if (rxMatch.hasMatch()) {
-            Archive::Entry *e = new Archive::Entry(Q_NULLPTR);
+            Archive::Entry *e = new Archive::Entry();
             e->setProperty("permissions", rxMatch.captured(1));
 
             // #280354: infozip may not show the right attributes for a given directory, so an entry
@@ -180,7 +180,7 @@ bool CliPlugin::readListLine(const QString &line)
                                QTime::fromString(rxMatch.captured(9), QStringLiteral("hhmmss")));
             e->setProperty("timestamp", ts);
 
-            e->setProperty("fileName", rxMatch.captured(10));
+            e->setProperty("fullPath", rxMatch.captured(10));
             emit entry(e);
         }
         break;

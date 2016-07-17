@@ -1,20 +1,20 @@
 [
     {
-        "fileName": "aDir/",
+        "fullPath": "aDir/",
         "isDirectory": true
     },
     {
-        "fileName": "aDir/b.txt"
+        "fullPath": "aDir/b.txt"
     },
     {
-        "fileName": "aDir/aDirInside/",
+        "fullPath": "aDir/aDirInside/",
         "isDirectory": true
     },
     {
-        "fileName": "aDir/aDirInside/anotherDir/",
+        "fullPath": "aDir/aDirInside/anotherDir/",
         "isDirectory": true
     },
     {
-        "fileName": "aDir/aDirInside/anotherDir/file.txt"
+        "fullPath": "aDir/aDirInside/anotherDir/file.txt"
     }
 ]

@@ -188,13 +188,13 @@ bool CliPlugin::readListLine(const QString& line)
 
         if (m_isFirstInformationEntry) {
             m_isFirstInformationEntry = false;
-            m_currentArchiveEntry = new Archive::Entry(Q_NULLPTR);
+            m_currentArchiveEntry = new Archive::Entry();
             m_currentArchiveEntry->compressedSizeIsSet = false;
         }
         if (line.startsWith(QStringLiteral("Path = "))) {
             const QString entryFilename =
                 QDir::fromNativeSeparators(line.mid(7).trimmed());
-            m_currentArchiveEntry->setProperty("fileName", entryFilename);
+            m_currentArchiveEntry->setProperty("fullPath", entryFilename);
         } else if (line.startsWith(QStringLiteral("Size = "))) {
             m_currentArchiveEntry->setProperty("size", line.mid(7).trimmed());
         } else if (line.startsWith(QStringLiteral("Packed Size = "))) {
@@ -214,10 +214,10 @@ bool CliPlugin::readListLine(const QString& line)
             m_currentArchiveEntry->setProperty("isDirectory", isDirectory);
             if (isDirectory) {
                 const QString directoryName =
-                    m_currentArchiveEntry->property("fileName").toString();
+                    m_currentArchiveEntry->property("fullPath").toString();
                 if (!directoryName.endsWith(QLatin1Char('/'))) {
                     const bool isPasswordProtected = (line.at(12) == QLatin1Char('+'));
-                    m_currentArchiveEntry->setProperty("fileName", QString(directoryName + QLatin1Char('/')));
+                    m_currentArchiveEntry->setProperty("fullPath", QString(directoryName + QLatin1Char('/')));
                     m_currentArchiveEntry->setProperty("isPasswordProtected", isPasswordProtected);
                 }
             }
@@ -233,7 +233,7 @@ bool CliPlugin::readListLine(const QString& line)
         } else if (line.startsWith(QStringLiteral("Block = ")) ||
                    line.startsWith(QStringLiteral("Version = "))) {
             m_isFirstInformationEntry = true;
-            if (!m_currentArchiveEntry->property("fileName").toString().isEmpty()) {
+            if (!m_currentArchiveEntry->property("fullPath").toString().isEmpty()) {
                 emit entry(m_currentArchiveEntry);
             }
             else {

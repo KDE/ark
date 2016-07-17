@@ -26,7 +26,7 @@
 #include <QScopedPointer>
 
 #include <kjobtrackerinterface.h>
-#include "kerfuffle/archive_kerfuffle.h"
+#include "kerfuffle/archiveentry.h"
 
 using Kerfuffle::Archive;
 
@@ -66,15 +66,15 @@ public:
     Archive::Entry *entryForIndex(const QModelIndex &index);
     int childCount(const QModelIndex &index, int &dirs, int &files) const;
 
-    Kerfuffle::ExtractJob* extractFile(const QVariant& fileName, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
-    Kerfuffle::ExtractJob* extractFiles(const QList<QVariant>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
+    Kerfuffle::ExtractJob* extractFile(Archive::Entry *file, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
+    Kerfuffle::ExtractJob* extractFiles(const QList<Archive::Entry*>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
 
-    Kerfuffle::PreviewJob* preview(const QString& file) const;
-    Kerfuffle::OpenJob* open(const QString& file) const;
-    Kerfuffle::OpenWithJob* openWith(const QString& file) const;
+    Kerfuffle::PreviewJob* preview(Archive::Entry *file) const;
+    Kerfuffle::OpenJob* open(Archive::Entry *file) const;
+    Kerfuffle::OpenWithJob* openWith(Archive::Entry *file) const;
 
-    Kerfuffle::AddJob* addFiles(const QStringList & paths, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
-    Kerfuffle::DeleteJob* deleteFiles(const QList<QVariant> & files);
+    Kerfuffle::AddJob* addFiles(QList<Archive::Entry*> &entries, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
+    Kerfuffle::DeleteJob* deleteFiles(QList<Archive::Entry*> entries);
 
     /**
      * @param password The password to encrypt the archive with.
@@ -125,7 +125,8 @@ private:
     QList<Kerfuffle::Archive::Entry*> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
     QList<int> m_showColumns;
     QScopedPointer<Kerfuffle::Archive> m_archive;
-    Archive::Entry *m_rootEntry;
+    Archive::Entry m_rootEntry;
+    QHash<QString, const QPixmap*> m_entryIcons;
 
     QString m_dbusPathName;
 };

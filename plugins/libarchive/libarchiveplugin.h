@@ -28,6 +28,7 @@
 #define LIBARCHIVEPLUGIN_H
 
 #include "kerfuffle/archiveinterface.h"
+#include "kerfuffle/archiveentry.h"
 
 #include <archive.h>
 
@@ -45,10 +46,10 @@ public:
 
     virtual bool list() Q_DECL_OVERRIDE;
     virtual bool doKill() Q_DECL_OVERRIDE;
-    virtual bool copyFiles(const QVariantList& files, const QString& destinationDirectory, const ExtractionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool copyFiles(const QList<Archive::Entry*>& files, const QString& destinationDirectory, const ExtractionOptions& options) Q_DECL_OVERRIDE;
 
-    virtual bool addFiles(const QStringList& files, const CompressionOptions& options) Q_DECL_OVERRIDE;
-    virtual bool deleteFiles(const QList<QVariant>& files) Q_DECL_OVERRIDE;
+    virtual bool addFiles(const QList<Archive::Entry*>& files, const CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool deleteFiles(const QList<Archive::Entry*>& files) Q_DECL_OVERRIDE;
     virtual bool addComment(const QString& comment) Q_DECL_OVERRIDE;
     virtual bool testArchive() Q_DECL_OVERRIDE;
 

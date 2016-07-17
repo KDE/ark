@@ -26,9 +26,6 @@
  */
 
 #include "readwritelibarchiveplugin.h"
-#include "ark_debug.h"
-
-#include <archive_entry.h>
 
 #include <KLocalizedString>
 #include <KPluginFactory>
@@ -48,7 +45,7 @@ ReadWriteLibarchivePlugin::~ReadWriteLibarchivePlugin()
 {
 }
 
-bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const CompressionOptions& options)
+bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*>& files, const CompressionOptions& options)
 {
     qCDebug(ARK) << "Adding" << files.size() << "entries with CompressionOptions" << options;
 
@@ -220,20 +217,21 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
     // First write the new files.
     qCDebug(ARK) << "Writing new entries";
     int no_entries = 0;
-    foreach(const QString& selectedFile, files) {
+    foreach(Archive::Entry *selectedFile, files) {
 
         if (m_abortOperation) {
             break;
         }
 
-        if (!writeFile(selectedFile, arch_writer.data())) {
+        if (!writeFile(selectedFile->property("fullPath").toString(), arch_writer.data())) {
             return false;
         }
         no_entries++;
 
         // For directories, write all subfiles/folders.
-        if (QFileInfo(selectedFile).isDir()) {
-            QDirIterator it(selectedFile,
+        const QString &fullPath = selectedFile->property("fullPath").toString();
+        if (QFileInfo(fullPath).isDir()) {
+            QDirIterator it(fullPath,
                             QDir::AllEntries | QDir::Readable |
                             QDir::Hidden | QDir::NoDotAndDotDot,
                             QDirIterator::Subdirectories);
@@ -320,7 +318,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
     return true;
 }
 
-bool ReadWriteLibarchivePlugin::deleteFiles(const QVariantList& files)
+bool ReadWriteLibarchivePlugin::deleteFiles(const QList<Archive::Entry*>& files)
 {
    qCDebug(ARK) << "Deleting" << files.size() << "entries";
 
@@ -403,13 +401,14 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVariantList& files)
 
     // Copy old elements from previous archive to new archive.
     int no_entries = 0;
+    QStringList filePaths = entryFullPaths(files);
     while (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK) {
 
-        const QString entryName = QFile::decodeName(archive_entry_pathname(entry));
+        QString file = QFile::decodeName(archive_entry_pathname(entry));
 
-        if (files.contains(entryName)) {
+        if (filePaths.contains(file)) {
             archive_read_data_skip(arch_reader.data());
-            emit entryRemoved(entryName);
+            emit entryRemoved(file);
             no_entries++;
             continue;
         }
@@ -427,7 +426,7 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVariantList& files)
             qCCritical(ARK) << "archive_write_header() has returned" << returnCode
                             << "with errno" << archive_errno(arch_writer.data());
             emit error(xi18nc("@info", "Compression failed while processing:<nl/>"
-                              "<filename>%1</filename><nl/><nl/>Operation aborted.", entryName));
+                              "<filename>%1</filename><nl/><nl/>Operation aborted.", file));
             return false;
         default:
             qCDebug(ARK) << "archive_writer_header() has returned" << returnCode

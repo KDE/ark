@@ -250,7 +250,7 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
 
 void CliPlugin::handleUnrar5Entry() {
 
-    Archive::Entry *e = new Archive::Entry(Q_NULLPTR);
+    Archive::Entry *e = new Archive::Entry();
 
     QString compressionRatio = m_unrar5Details.value(QStringLiteral("ratio"));
     compressionRatio.chop(1); // Remove the '%'
@@ -281,7 +281,7 @@ void CliPlugin::handleUnrar5Entry() {
     m_isPasswordProtected = m_unrar5Details.value(QStringLiteral("flags")).contains(QStringLiteral("encrypted"));
     e->setProperty("isPasswordProtected", m_isPasswordProtected);
 
-    e->setProperty("fileName", m_unrar5Details.value(QStringLiteral("name")));
+    e->setProperty("fullPath", m_unrar5Details.value(QStringLiteral("name")));
     e->setProperty("size", m_unrar5Details.value(QStringLiteral("size")));
     e->setProperty("compressedSize", m_unrar5Details.value(QStringLiteral("packed size")));
     e->setProperty("permissions", m_unrar5Details.value(QStringLiteral("attributes")));
@@ -452,7 +452,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
 
 void CliPlugin::handleUnrar4Entry() {
 
-    Archive::Entry *e = new Archive::Entry(NULL);
+    Archive::Entry *e = new Archive::Entry(Q_NULLPTR);
 
     QDateTime ts = QDateTime::fromString(QString(m_unrar4Details.at(4) + QLatin1Char(' ') + m_unrar4Details.at(5)),
                                          QStringLiteral("dd-MM-yy hh:mm"));
@@ -489,7 +489,7 @@ void CliPlugin::handleUnrar4Entry() {
     // TODO:
     // - Permissions differ depending on the system the entry was added
     //   to the archive.
-    e->setProperty("fileName", m_unrar4Details.at(0));
+    e->setProperty("fullPath", m_unrar4Details.at(0));
     e->setProperty("size", m_unrar4Details.at(1));
     e->setProperty("compressedSize", m_unrar4Details.at(2));
     e->setProperty("permissions", m_unrar4Details.at(6));

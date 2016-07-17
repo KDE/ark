@@ -31,6 +31,7 @@
 #include "archive_kerfuffle.h"
 #include "archive_entry.h"
 #include "kerfuffle_export.h"
+#include "kerfuffle/archiveentry.h"
 
 #include <QObject>
 #include <QStringList>
@@ -96,8 +97,13 @@ public:
      * @note If returning false, make sure to emit the error() signal beforewards to notify
      * the user of the error condition.
      */
-    virtual bool copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, const ExtractionOptions &options) = 0;
+    virtual bool copyFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) = 0;
     bool waitForFinishedSignal();
+
+    /**
+     * @return The list of filenames retrieved from the list of entries.
+     */
+    QStringList entryFullPaths(const QList<Archive::Entry *> &entries) const;
 
     virtual bool doKill();
     virtual bool doSuspend();
@@ -147,8 +153,8 @@ public:
 
     //see archive.h for a list of what the compressionoptions might
     //contain
-    virtual bool addFiles(const QStringList & files, const CompressionOptions& options) = 0;
-    virtual bool deleteFiles(const QList<QVariant> & files) = 0;
+    virtual bool addFiles(const QList<Archive::Entry*> &files, const CompressionOptions& options) = 0;
+    virtual bool deleteFiles(const QList<Archive::Entry*> &files) = 0;
     virtual bool addComment(const QString &comment) = 0;
 };
 
