@@ -1165,24 +1165,13 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 
     qCDebug(ARK) << "Adding " << filesToAdd << " to " << path;
 
-    // Add a trailing slash to directories.
-    QStringList cleanFilesToAdd(filesToAdd);
-    for (int i = 0; i < cleanFilesToAdd.size(); ++i) {
-        QString& file = cleanFilesToAdd[i];
-        if (QFileInfo(file).isDir()) {
-            if (!file.endsWith(QLatin1Char( '/' ))) {
-                file += QLatin1Char( '/' );
-            }
-        }
-    }
-
     // GlobalWorkDir is used by AddJob and should contain the part of the
     // absolute path of files to be added that should NOT be included in the
     // directory structure within the archive.
     // Example: We add file "/home/user/somedir/somefile.txt" and want the file
     // to have the relative path within the archive "somedir/somefile.txt".
     // GlobalWorkDir is then: "/home/user"
-    QString globalWorkDir = cleanFilesToAdd.first();
+    QString globalWorkDir = filesToAdd.first();
 
     // path represents the path of the file within the archive. This needs to
     // be removed from globalWorkDir, otherwise the files will be added to the
@@ -1207,7 +1196,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
         options[QStringLiteral("CompressionLevel")] = arguments().metaData()[QStringLiteral("compressionLevel")];
     }
 
-    foreach (const QString& file, cleanFilesToAdd) {
+    foreach (const QString& file, filesToAdd) {
         m_jobTempEntries.push_back(new Archive::Entry(Q_NULLPTR, file));
     }
     AddJob *job = m_model->addFiles(m_jobTempEntries, Q_NULLPTR, options);
