@@ -413,6 +413,22 @@ void Part::updateActions()
     bool isDirectory = m_model->entryForIndex(m_view->selectionModel()->currentIndex())[IsDirectory].toBool();
     int selectedEntriesCount = m_view->selectionModel()->selectedRows().count();
 
+    // We disable adding files if the archive is encrypted but the password is
+    // unknown (this happens when opening existing non-he password-protected
+    // archives). If we added files they would not get encrypted resulting in an
+    // archive with a mixture of encrypted and unencrypted files.
+    const bool isEncryptedButUnknownPassword = m_model->archive() &&
+                                               m_model->archive()->encryptionType() != Archive::Unencrypted &&
+                                               m_model->archive()->password().isEmpty();
+
+    if (isEncryptedButUnknownPassword) {
+        m_addFilesAction->setToolTip(xi18nc("@info:tooltip",
+                                            "Adding files to existing password-protected archives with no header-encryption is currently not supported."
+                                            "<nl/><nl/>Extract the files and create a new archive if you want to add files."));
+    } else {
+        m_addFilesAction->setToolTip(i18nc("@info:tooltip", "Click to add files to the archive"));
+    }
+
     // Figure out if entry size is larger than preview size limit.
     const int maxPreviewSize = ArkSettings::previewFileSizeLimit() * 1024 * 1024;
     const bool limit = ArkSettings::limitPreviewFileSize();
@@ -430,7 +446,8 @@ void Part::updateActions()
     m_saveAsAction->setEnabled(!isBusy() &&
                                m_model->rowCount() > 0);
     m_addFilesAction->setEnabled(!isBusy() &&
-                                 isWritable);
+                                 isWritable &&
+                                 !isEncryptedButUnknownPassword);
     m_deleteFilesAction->setEnabled(!isBusy() &&
                                     isWritable &&
                                     (selectedEntriesCount > 0));

@@ -159,6 +159,7 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_PROPERTY(qulonglong unpackedSize READ unpackedSize)
     Q_PROPERTY(qulonglong packedSize READ packedSize)
     Q_PROPERTY(QString subfolderName READ subfolderName)
+    Q_PROPERTY(QString password READ password)
 
 public:
 
@@ -179,6 +180,7 @@ public:
     bool isMultiVolume() const;
     int numberOfVolumes() const;
     EncryptionType encryptionType();
+    QString password() const;
     qulonglong numberOfFiles();
     qulonglong numberOfFolders();
     qulonglong unpackedSize();

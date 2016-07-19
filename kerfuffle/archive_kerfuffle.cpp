@@ -247,6 +247,11 @@ Archive::EncryptionType Archive::encryptionType()
     return m_encryptionType;
 }
 
+QString Archive::password() const
+{
+    return m_iface->password();
+}
+
 qulonglong Archive::numberOfFiles()
 {
     if (!isValid()) {
