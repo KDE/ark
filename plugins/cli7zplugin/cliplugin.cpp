@@ -85,7 +85,8 @@ ParameterList CliPlugin::parameterList() const
                                       << QStringLiteral("$Archive")
                                       << QStringLiteral("$Files");
         p[TestArgs] = QStringList() << QStringLiteral("t")
-                                    << QStringLiteral("$Archive");
+                                    << QStringLiteral("$Archive")
+                                    << QStringLiteral("$PasswordSwitch");
         p[TestPassedPattern] = QStringLiteral("^Everything is Ok$");
 
         p[FileExistsExpression] = QStringList()

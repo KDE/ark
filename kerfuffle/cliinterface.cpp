@@ -222,7 +222,7 @@ bool CliInterface::testArchive()
     cacheParameterList();
     m_operationMode = Test;
 
-    const auto args = substituteTestVariables(m_param.value(TestArgs).toStringList());
+    const auto args = substituteTestVariables(m_param.value(TestArgs).toStringList(), password());
 
     if (!runProcess(m_param.value(TestProgram).toStringList(), args)) {
         return false;
@@ -739,7 +739,7 @@ QStringList CliInterface::substituteCommentVariables(const QStringList &commentA
     return args;
 }
 
-QStringList CliInterface::substituteTestVariables(const QStringList &testArgs)
+QStringList CliInterface::substituteTestVariables(const QStringList &testArgs, const QString &password)
 {
     // Required if we call this function from unit tests.
     cacheParameterList();
@@ -750,6 +750,11 @@ QStringList CliInterface::substituteTestVariables(const QStringList &testArgs)
 
         if (arg == QLatin1String("$Archive")) {
             args << filename();
+            continue;
+        }
+
+        if (arg == QLatin1String("$PasswordSwitch")) {
+            args << passwordSwitch(password);
             continue;
         }
 
@@ -1072,7 +1077,7 @@ void CliInterface::handleLine(const QString& line)
         if (checkForPasswordPromptMessage(line)) {
             qCDebug(ARK) << "Found a password prompt";
 
-            emit error(i18n("Ark does not currently support testing password-protected archives."));
+            emit error(i18n("Ark does not currently support testing this archive."));
             killProcess();
             return;
         }

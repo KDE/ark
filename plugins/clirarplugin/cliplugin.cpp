@@ -125,7 +125,8 @@ ParameterList CliPlugin::parameterList() const
                                        << QStringLiteral("$Archive");
         p[CommentSwitch] = QStringLiteral("-z$CommentFile");
         p[TestArgs] = QStringList() << QStringLiteral("t")
-                                    << QStringLiteral("$Archive");
+                                    << QStringLiteral("$Archive")
+                                    << QStringLiteral("$PasswordSwitch");
         p[TestPassedPattern] = QStringLiteral("^All OK$");
     }
 

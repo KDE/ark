@@ -425,8 +425,11 @@ void Part::updateActions()
         m_addFilesAction->setToolTip(xi18nc("@info:tooltip",
                                             "Adding files to existing password-protected archives with no header-encryption is currently not supported."
                                             "<nl/><nl/>Extract the files and create a new archive if you want to add files."));
+        m_testArchiveAction->setToolTip(xi18nc("@info:tooltip",
+                                               "Testing password-protected archives with no header-encryption is currently not supported."));
     } else {
         m_addFilesAction->setToolTip(i18nc("@info:tooltip", "Click to add files to the archive"));
+        m_testArchiveAction->setToolTip(i18nc("@info:tooltip", "Click to test the archive for integrity"));
     }
 
     // Figure out if entry size is larger than preview size limit.
@@ -479,7 +482,8 @@ void Part::updateActions()
 
         bool supportsTesting = ArchiveFormat::fromMetadata(m_model->archive()->mimeType(), metadata).supportsTesting();
         m_testArchiveAction->setEnabled(!isBusy() &&
-                                        supportsTesting);
+                                        supportsTesting &&
+                                        !isEncryptedButUnknownPassword);
     } else {
         m_commentView->setReadOnly(true);
         m_editCommentAction->setText(i18nc("@action:inmenu mutually exclusive with Edit &Comment", "Add &Comment"));

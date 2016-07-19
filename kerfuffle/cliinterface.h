@@ -313,7 +313,7 @@ public:
     QStringList substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel);
     QStringList substituteDeleteVariables(const QStringList &deleteArgs, const QVariantList &files, const QString &password);
     QStringList substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile);
-    QStringList substituteTestVariables(const QStringList &testArgs);
+    QStringList substituteTestVariables(const QStringList &testArgs, const QString &password);
 
     /**
      * @return The preserve path switch, according to the @p preservePaths extraction option.
