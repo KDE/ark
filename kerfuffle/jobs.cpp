@@ -132,7 +132,7 @@ void Job::connectToArchiveInterfaceSignals()
     connect(archiveInterface(), &ReadOnlyArchiveInterface::entryRemoved, this, &Job::onEntryRemoved);
     connect(archiveInterface(), &ReadOnlyArchiveInterface::progress, this, &Job::onProgress);
     connect(archiveInterface(), &ReadOnlyArchiveInterface::info, this, &Job::onInfo);
-    connect(archiveInterface(), &ReadOnlyArchiveInterface::finished, this, &Job::onFinished, Qt::DirectConnection);
+    connect(archiveInterface(), &ReadOnlyArchiveInterface::finished, this, &Job::onFinished);
     connect(archiveInterface(), &ReadOnlyArchiveInterface::userQuery, this, &Job::onUserQuery);
 }
 

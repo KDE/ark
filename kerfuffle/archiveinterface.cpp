@@ -38,11 +38,11 @@ namespace Kerfuffle
 {
 ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVariantList & args)
         : QObject(parent)
+        , m_isMultiVolume(false)
+        , m_numberOfVolumes(0)
         , m_waitForFinishedSignal(false)
         , m_isHeaderEncryptionEnabled(false)
         , m_isCorrupt(false)
-        , m_isMultiVolume(false)
-        , m_numberOfVolumes(0)
 {
     qCDebug(ARK) << "Created read-only interface for" << args.first().toString();
     m_filename = args.first().toString();

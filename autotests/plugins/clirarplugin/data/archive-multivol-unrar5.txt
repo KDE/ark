@@ -1,0 +1,84 @@
+
+UNRAR 5.40 beta 2 freeware      Copyright (c) 1993-2016 Alexander Roshal
+
+Archive: testmultivol.part1.rar
+Details: RAR 4, volume
+
+        Name: largefile1
+        Type: File
+        Size: 2097152
+ Packed size: 1048494
+       Ratio: -->
+       mtime: 2016-07-17 11:25:56,000
+  Attributes: -rw-rw-r--
+  Pack-CRC32: D1D888DB
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=4M
+
+Archive: testmultivol.part2.rar
+Details: RAR 4, volume
+
+        Name: largefile1
+        Type: File
+        Size: 2097152
+ Packed size: 1048494
+       Ratio: <->
+       mtime: 2016-07-17 11:25:56,000
+  Attributes: -rw-rw-r--
+  Pack-CRC32: 034C76D1
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=4M
+
+Archive: testmultivol.part3.rar
+Details: RAR 4, volume
+
+        Name: largefile1
+        Type: File
+        Size: 2097152
+ Packed size: 5613
+       Ratio: <--
+       mtime: 2016-07-17 11:25:56,000
+  Attributes: -rw-rw-r--
+       CRC32: 147E8FFD
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=4M
+
+        Name: largefile2
+        Type: File
+        Size: 2097152
+ Packed size: 1042837
+       Ratio: -->
+       mtime: 2016-07-17 11:26:19,000
+  Attributes: -rw-rw-r--
+  Pack-CRC32: 0B319F93
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=4M
+
+Archive: testmultivol.part4.rar
+Details: RAR 4, volume
+
+        Name: largefile2
+        Type: File
+        Size: 2097152
+ Packed size: 1048492
+       Ratio: <->
+       mtime: 2016-07-17 11:26:19,000
+  Attributes: -rw-rw-r--
+  Pack-CRC32: BE13353A
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=4M
+
+Archive: testmultivol.part5.rar
+Details: RAR 4, volume
+
+        Name: largefile2
+        Type: File
+        Size: 2097152
+ Packed size: 11231
+       Ratio: <--
+       mtime: 2016-07-17 11:26:19,000
+  Attributes: -rw-rw-r--
+       CRC32: 934DAE71
+     Host OS: Unix
+ Compression: RAR 3.0(v29) -m3 -md=4M
+

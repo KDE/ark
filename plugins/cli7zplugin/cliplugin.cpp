@@ -85,7 +85,8 @@ ParameterList CliPlugin::parameterList() const
                                       << QStringLiteral("$Archive")
                                       << QStringLiteral("$Files");
         p[TestArgs] = QStringList() << QStringLiteral("t")
-                                    << QStringLiteral("$Archive");
+                                    << QStringLiteral("$Archive")
+                                    << QStringLiteral("$PasswordSwitch");
         p[TestPassedPattern] = QStringLiteral("^Everything is Ok$");
 
         p[FileExistsExpression] = QStringList()
@@ -166,7 +167,8 @@ bool CliPlugin::readListLine(const QString& line)
                 qCWarning(ARK) << "Unsupported archive type";
                 return false;
             }
-
+        } else if (line.startsWith(QStringLiteral("Volumes = "))) {
+            m_numberOfVolumes = line.section(QLatin1Char('='), 1).trimmed().toInt();
         } else if (rxComment.match(line).hasMatch()) {
             m_parseState = ParseStateComment;
             m_comment.append(line.section(QLatin1Char('='), 1) + QLatin1Char('\n'));

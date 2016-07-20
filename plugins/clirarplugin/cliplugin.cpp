@@ -125,7 +125,8 @@ ParameterList CliPlugin::parameterList() const
                                        << QStringLiteral("$Archive");
         p[CommentSwitch] = QStringLiteral("-z$CommentFile");
         p[TestArgs] = QStringList() << QStringLiteral("t")
-                                    << QStringLiteral("$Archive");
+                                    << QStringLiteral("$Archive")
+                                    << QStringLiteral("$PasswordSwitch");
         p[TestPassedPattern] = QStringLiteral("^All OK$");
     }
 
@@ -310,7 +311,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
 
         if (rxCommentEnd.match(line).hasMatch()) {
 
-            if (line.startsWith(QLatin1String("Volume")) && !m_isMultiVolume) {
+            if (line.startsWith(QLatin1String("Volume "))) {
                 m_numberOfVolumes++;
                 if (!m_isMultiVolume) {
                     m_isMultiVolume = true;
@@ -343,6 +344,8 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
         // Horizontal line indicates end of header.
         if (line.startsWith(QStringLiteral("--------------------"))) {
             m_parseState = ParseStateEntryFileName;
+        } else if (line.startsWith(QLatin1String("Volume "))) {
+            m_numberOfVolumes++;
         }
         return;
     }

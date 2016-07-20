@@ -1,0 +1,48 @@
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,64 bits,8 CPUs x64)
+
+Scanning the drive for archives:
+1 file, 1048576 bytes (1024 KiB)
+
+Listing archive: testmultivol.7z.001
+
+--
+Path = testmultivol.7z.001
+Type = Split
+Physical Size = 1048576
+Volumes = 5
+Total Physical Size = 4194711
+----
+Path = testmultivol.7z
+Size = 4194711
+--
+Path = testmultivol.7z
+Type = 7z
+Physical Size = 4194711
+Headers Size = 181
+Method = LZMA2:22
+Solid = +
+Blocks = 1
+
+----------
+Path = largefile1
+Size = 2097152
+Packed Size = 4194530
+Modified = 2016-07-17 11:25:56
+Attributes = A_ -rw-rw-r--
+CRC = 147E8FFD
+Encrypted = -
+Method = LZMA2:22
+Block = 0
+
+Path = largefile2
+Size = 2097152
+Packed Size = 
+Modified = 2016-07-17 11:26:19
+Attributes = A_ -rw-rw-r--
+CRC = 934DAE71
+Encrypted = -
+Method = LZMA2:22
+Block = 0
+

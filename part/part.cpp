@@ -413,6 +413,25 @@ void Part::updateActions()
     bool isDirectory = m_model->entryForIndex(m_view->selectionModel()->currentIndex())[IsDirectory].toBool();
     int selectedEntriesCount = m_view->selectionModel()->selectedRows().count();
 
+    // We disable adding files if the archive is encrypted but the password is
+    // unknown (this happens when opening existing non-he password-protected
+    // archives). If we added files they would not get encrypted resulting in an
+    // archive with a mixture of encrypted and unencrypted files.
+    const bool isEncryptedButUnknownPassword = m_model->archive() &&
+                                               m_model->archive()->encryptionType() != Archive::Unencrypted &&
+                                               m_model->archive()->password().isEmpty();
+
+    if (isEncryptedButUnknownPassword) {
+        m_addFilesAction->setToolTip(xi18nc("@info:tooltip",
+                                            "Adding files to existing password-protected archives with no header-encryption is currently not supported."
+                                            "<nl/><nl/>Extract the files and create a new archive if you want to add files."));
+        m_testArchiveAction->setToolTip(xi18nc("@info:tooltip",
+                                               "Testing password-protected archives with no header-encryption is currently not supported."));
+    } else {
+        m_addFilesAction->setToolTip(i18nc("@info:tooltip", "Click to add files to the archive"));
+        m_testArchiveAction->setToolTip(i18nc("@info:tooltip", "Click to test the archive for integrity"));
+    }
+
     // Figure out if entry size is larger than preview size limit.
     const int maxPreviewSize = ArkSettings::previewFileSizeLimit() * 1024 * 1024;
     const bool limit = ArkSettings::limitPreviewFileSize();
@@ -430,7 +449,8 @@ void Part::updateActions()
     m_saveAsAction->setEnabled(!isBusy() &&
                                m_model->rowCount() > 0);
     m_addFilesAction->setEnabled(!isBusy() &&
-                                 isWritable);
+                                 isWritable &&
+                                 !isEncryptedButUnknownPassword);
     m_deleteFilesAction->setEnabled(!isBusy() &&
                                     isWritable &&
                                     (selectedEntriesCount > 0));
@@ -462,7 +482,8 @@ void Part::updateActions()
 
         bool supportsTesting = ArchiveFormat::fromMetadata(m_model->archive()->mimeType(), metadata).supportsTesting();
         m_testArchiveAction->setEnabled(!isBusy() &&
-                                        supportsTesting);
+                                        supportsTesting &&
+                                        !isEncryptedButUnknownPassword);
     } else {
         m_commentView->setReadOnly(true);
         m_editCommentAction->setText(i18nc("@action:inmenu mutually exclusive with Edit &Comment", "Add &Comment"));
@@ -1175,24 +1196,13 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 
     qCDebug(ARK) << "Adding " << filesToAdd << " to " << path;
 
-    // Add a trailing slash to directories.
-    QStringList cleanFilesToAdd(filesToAdd);
-    for (int i = 0; i < cleanFilesToAdd.size(); ++i) {
-        QString& file = cleanFilesToAdd[i];
-        if (QFileInfo(file).isDir()) {
-            if (!file.endsWith(QLatin1Char( '/' ))) {
-                file += QLatin1Char( '/' );
-            }
-        }
-    }
-
     // GlobalWorkDir is used by AddJob and should contain the part of the
     // absolute path of files to be added that should NOT be included in the
     // directory structure within the archive.
     // Example: We add file "/home/user/somedir/somefile.txt" and want the file
     // to have the relative path within the archive "somedir/somefile.txt".
     // GlobalWorkDir is then: "/home/user"
-    QString globalWorkDir = cleanFilesToAdd.first();
+    QString globalWorkDir = filesToAdd.first();
 
     // path represents the path of the file within the archive. This needs to
     // be removed from globalWorkDir, otherwise the files will be added to the
@@ -1214,7 +1224,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
     qCDebug(ARK) << "Detected GlobalWorkDir to be " << globalWorkDir;
     options[QStringLiteral("GlobalWorkDir")] = globalWorkDir;
 
-    AddJob *job = m_model->addFiles(cleanFilesToAdd, options);
+    AddJob *job = m_model->addFiles(filesToAdd, options);
     if (!job) {
         return;
     }
