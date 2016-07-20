@@ -164,13 +164,35 @@ bool CliInterface::copyFiles(const QList<Archive::Entry*> &files, const QString 
     return true;
 }
 
-bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const CompressionOptions& options)
+bool CliInterface::addFiles(QList<Archive::Entry*> &files, const Archive::Entry *destination, const QString &tempDirPath, const CompressionOptions& options)
 {
     cacheParameterList();
 
     m_operationMode = Add;
 
     const QStringList addArgs = m_param.value(AddArgs).toStringList();
+
+    // If destination path is specified, we have recreate its structure inside the temp directory
+    // and then place symlinks of targeted files there.
+    const QString destinationPath = destination->property("fullPath").toString();
+    if (!destinationPath.isEmpty()) {
+        const QString absoluteDestinationPath = tempDirPath + QLatin1Char('/') + destinationPath;
+
+        QDir qDir;
+        qDir.mkpath(absoluteDestinationPath);
+
+        foreach (Archive::Entry *file, files) {
+            const QString filePath = file->property("fullPath").toString();
+            const QString newFilePath = absoluteDestinationPath + filePath;
+            if (symlink(filePath.toStdString().c_str(), newFilePath.toStdString().c_str()) != 0) {
+                return false;
+            }
+        }
+
+        qDeleteAll(files);
+        files.clear();
+        files.push_back(new Archive::Entry(Q_NULLPTR, absoluteDestinationPath));
+    }
 
     if (addArgs.contains(QStringLiteral("$PasswordSwitch")) &&
         options.value(QStringLiteral("PasswordProtectedHint")).toBool() &&
@@ -240,6 +262,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
     qCDebug(ARK) << "Executing" << programPath << arguments << "within directory" << QDir::currentPath();
 
 #ifdef Q_OS_WIN
+
     m_process = new KProcess;
 #else
     m_process = new KPtyProcess;

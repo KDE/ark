@@ -233,6 +233,7 @@ protected slots:
     virtual void onFinished(bool result) Q_DECL_OVERRIDE;
 
 private:
+    QTemporaryDir m_tmpExtractDir;
     QString m_oldWorkingDir;
     QList<Archive::Entry*> m_entries;
     const Archive::Entry *m_destination;

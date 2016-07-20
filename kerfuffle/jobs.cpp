@@ -466,7 +466,7 @@ void AddJob::doWork()
     }
 
     connectToArchiveInterfaceSignals();
-    bool ret = m_writeInterface->addFiles(m_entries, m_options);
+    bool ret = m_writeInterface->addFiles(m_entries, m_destination, m_tmpExtractDir.path(), m_options);
 
     if (!archiveInterface()->waitForFinishedSignal()) {
         onFinished(ret);

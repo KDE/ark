@@ -64,12 +64,13 @@ bool JSONArchiveInterface::open()
     return !m_archive.isEmpty();
 }
 
-bool JSONArchiveInterface::addFiles(const QList<Kerfuffle::Archive::Entry*> &files, const Kerfuffle::CompressionOptions& options)
+bool JSONArchiveInterface::addFiles(QList<Kerfuffle::Archive::Entry*> &files, const Kerfuffle::Archive::Entry *destination, const QString &tempDirPath, const Kerfuffle::CompressionOptions& options)
 {
+    Q_UNUSED(tempDirPath)
     Q_UNUSED(options)
 
     foreach (const Kerfuffle::Archive::Entry *entry, files) {
-        const QString &path = entry->property("fullPath").toString();
+        const QString &path = destination->property("fullPath").toString() + entry->property("fullPath").toString();
         if (m_archive.contains(path)) {
             return false;
         }

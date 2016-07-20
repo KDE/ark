@@ -48,7 +48,7 @@ public:
     virtual bool doKill() Q_DECL_OVERRIDE;
     virtual bool copyFiles(const QList<Archive::Entry*>& files, const QString& destinationDirectory, const ExtractionOptions& options) Q_DECL_OVERRIDE;
 
-    virtual bool addFiles(const QList<Archive::Entry*>& files, const CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool addFiles(QList<Archive::Entry*> &files, const Archive::Entry *destination, const QString &tempDirPath, const CompressionOptions& options) Q_DECL_OVERRIDE;
     virtual bool deleteFiles(const QList<Archive::Entry*>& files) Q_DECL_OVERRIDE;
     virtual bool addComment(const QString& comment) Q_DECL_OVERRIDE;
     virtual bool testArchive() Q_DECL_OVERRIDE;
