@@ -18,4 +18,21 @@
       <comment xml:lang="en">Tar archive (LZ4-compressed)</comment>
       <glob pattern="*.tar.lz4"/>
    </mime-type>
+   <mime-type type="application/x-iso9660-appimage">
+      <comment>AppImage application bundle</comment>
+      <sub-class-of type="application/x-executable"/>
+      <sub-class-of type="application/x-iso9660-image"/>
+      <generic-icon name="application-x-executable"/>
+      <magic priority="50">
+         <match value="ELF" type="string" offset="1" >
+            <match value="0x41" type="byte" offset="8">
+               <match value="0x49" type="byte" offset="9">
+                  <match value="0x01" type="byte" offset="10"/>
+               </match>
+            </match>
+         </match>
+      </magic>
+      <glob pattern="*.AppImage"/>
+   </mime-type>
 </mime-info>
+

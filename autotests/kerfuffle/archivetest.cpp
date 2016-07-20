@@ -171,6 +171,12 @@ void ArchiveTest::testProperties_data()
             << QStringLiteral("test")
             << false << true << false << Archive::Unencrypted
             << QStringLiteral("test");
+
+    QTest::newRow("AppImage")
+            << QFINDTESTDATA("data/hello-2.8-x86_64.AppImage")
+            << QStringLiteral("hello-2.8-x86_64")
+            << true << false << false << Archive::Unencrypted
+            << QStringLiteral("hello-2.8-x86_64");
 }
 
 void ArchiveTest::testProperties()
@@ -510,6 +516,13 @@ void ArchiveTest::testExtraction_data()
             << QVariantList()
             << optionsPreservePaths
             << 6;
+
+    archivePath = QFINDTESTDATA("data/hello-2.8-x86_64.AppImage");
+    QTest::newRow("extract all entries from an AppImage with path")
+            << archivePath
+            << QVariantList()
+            << optionsPreservePaths
+            << 7;
 }
 
 void ArchiveTest::testExtraction()
@@ -539,7 +552,7 @@ void ArchiveTest::testExtraction()
     QFETCH(int, expectedExtractedEntriesCount);
     int extractedEntriesCount = 0;
 
-    QDirIterator dirIt(destDir.path(), QDir::AllEntries | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+    QDirIterator dirIt(destDir.path(), QDir::AllEntries | QDir::Hidden | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
     while (dirIt.hasNext()) {
         extractedEntriesCount++;
         dirIt.next();
