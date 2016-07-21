@@ -120,9 +120,19 @@ bool ReadOnlyArchiveInterface::isMultiVolume() const
     return m_isMultiVolume;
 }
 
+void ReadOnlyArchiveInterface::setMultiVolume(bool value)
+{
+    m_isMultiVolume = value;
+}
+
 int ReadOnlyArchiveInterface::numberOfVolumes() const
 {
     return m_numberOfVolumes;
+}
+
+QString ReadOnlyArchiveInterface::multiVolumeName() const
+{
+    return filename();
 }
 
 ReadWriteArchiveInterface::ReadWriteArchiveInterface(QObject *parent, const QVariantList & args)

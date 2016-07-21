@@ -47,12 +47,24 @@ CompressionOptionsWidget::CompressionOptionsWidget(QWidget *parent,
     KColorScheme colorScheme(QPalette::Active, KColorScheme::View);
     pwdWidget->setBackgroundWarningColor(colorScheme.background(KColorScheme::NegativeBackground).color());
     pwdWidget->setPasswordStrengthMeterVisible(false);
+
+    connect(multiVolumeCheckbox, &QCheckBox::stateChanged, this, &CompressionOptionsWidget::slotMultiVolumeChecked);
+
+    if (m_opts.contains(QStringLiteral("VolumeSize"))) {
+        multiVolumeCheckbox->setChecked(true);
+        // Convert from kilobytes.
+        volumeSizeSpinbox->setValue(m_opts.value(QStringLiteral("VolumeSize")).toDouble() / 1024);
+    }
 }
 
 CompressionOptions CompressionOptionsWidget::commpressionOptions() const
 {
     CompressionOptions opts;
     opts[QStringLiteral("CompressionLevel")] = compLevelSlider->value();
+    if (multiVolumeCheckbox->isChecked()) {
+        // Convert to kilobytes.
+        opts[QStringLiteral("VolumeSize")] = QString::number(volumeSize());
+    }
 
     return opts;
 }
@@ -60,6 +72,16 @@ CompressionOptions CompressionOptionsWidget::commpressionOptions() const
 int CompressionOptionsWidget::compressionLevel() const
 {
     return compLevelSlider->value();
+}
+
+ulong CompressionOptionsWidget::volumeSize() const
+{
+    if (collapsibleMultiVolume->isEnabled() && multiVolumeCheckbox->isChecked()) {
+        // Convert to kilobytes.
+        return volumeSizeSpinbox->value() * 1024;
+    } else {
+        return 0;
+    }
 }
 
 void CompressionOptionsWidget::setEncryptionVisible(bool visible)
@@ -122,6 +144,15 @@ void CompressionOptionsWidget::updateWidgets()
             compLevelSlider->setValue(archiveFormat.defaultCompressionLevel());
         }
     }
+
+    if (archiveFormat.supportsMultiVolume()) {
+        collapsibleMultiVolume->setEnabled(true);
+        collapsibleMultiVolume->setToolTip(QString());
+    } else {
+        collapsibleMultiVolume->setEnabled(false);
+        collapsibleMultiVolume->setToolTip(i18n("The %1 format does not support multi-volume archives.",
+                                                m_mimetype.comment()));
+    }
 }
 
 void CompressionOptionsWidget::setMimeType(const QMimeType &mimeType)
@@ -153,6 +184,17 @@ bool CompressionOptionsWidget::isHeaderEncryptionEnabled() const
 KNewPasswordWidget::PasswordStatus CompressionOptionsWidget::passwordStatus() const
 {
     return pwdWidget->passwordStatus();
+}
+
+void CompressionOptionsWidget::slotMultiVolumeChecked(int state)
+{
+    if (state == Qt::Checked) {
+        lblVolumeSize->setEnabled(true);
+        volumeSizeSpinbox->setEnabled(true);
+    } else {
+        lblVolumeSize->setEnabled(false);
+        volumeSizeSpinbox->setEnabled(false);
+    }
 }
 
 }

@@ -151,7 +151,7 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_PROPERTY(QMimeType mimeType READ mimeType CONSTANT)
     Q_PROPERTY(bool isReadOnly READ isReadOnly CONSTANT)
     Q_PROPERTY(bool isSingleFolderArchive READ isSingleFolderArchive)
-    Q_PROPERTY(bool isMultiVolume READ isMultiVolume)
+    Q_PROPERTY(bool isMultiVolume READ isMultiVolume WRITE setMultiVolume)
     Q_PROPERTY(bool numberOfVolumes READ numberOfVolumes)
     Q_PROPERTY(EncryptionType encryptionType READ encryptionType)
     Q_PROPERTY(qulonglong numberOfFiles READ numberOfFiles)
@@ -176,8 +176,9 @@ public:
     QMimeType mimeType();
     bool isReadOnly() const;
     bool isSingleFolderArchive();
-    bool hasComment() const;
     bool isMultiVolume() const;
+    void setMultiVolume(bool value);
+    bool hasComment() const;
     int numberOfVolumes() const;
     EncryptionType encryptionType();
     QString password() const;
@@ -188,6 +189,7 @@ public:
     QString subfolderName();
     void setCompressionOptions(const CompressionOptions &opts);
     CompressionOptions compressionOptions() const;
+    QString multiVolumeName() const;
 
     static Archive *create(const QString &fileName, QObject *parent = 0);
     static Archive *create(const QString &fileName, const QString &fixedMimeType, QObject *parent = 0);
@@ -257,6 +259,7 @@ private:
     bool m_hasBeenListed;
     bool m_isReadOnly;
     bool m_isSingleFolderArchive;
+    bool m_isMultiVolume;
 
     QString m_subfolderName;
     qulonglong m_extractedFilesSize;

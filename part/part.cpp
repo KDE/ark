@@ -409,7 +409,8 @@ void Part::setupActions()
 
 void Part::updateActions()
 {
-    bool isWritable = m_model->archive() && !m_model->archive()->isReadOnly();
+    bool isWritable = m_model->archive() && !m_model->archive()->isReadOnly() &&
+                      !(m_model->rowCount() > 0 && m_model->archive()->isMultiVolume());
     bool isDirectory = m_model->entryForIndex(m_view->selectionModel()->currentIndex())[IsDirectory].toBool();
     int selectedEntriesCount = m_view->selectionModel()->selectedRows().count();
 
@@ -662,6 +663,10 @@ bool Part::openFile()
     }
 
     Q_ASSERT(archive->isValid());
+
+    if (arguments().metaData().contains(QStringLiteral("volumeSize"))) {
+        archive.data()->setMultiVolume(true);
+    }
 
     // Plugin loaded successfully.
     KJob *job = m_model->setArchive(archive.take());
@@ -1243,6 +1248,9 @@ void Part::slotAddFiles()
         if (arguments().metaData().contains(QStringLiteral("compressionLevel"))) {
             opts[QStringLiteral("CompressionLevel")] = arguments().metaData()[QStringLiteral("compressionLevel")];
         }
+        if (arguments().metaData().contains(QStringLiteral("volumeSize"))) {
+            opts[QStringLiteral("VolumeSize")] = arguments().metaData()[QStringLiteral("volumeSize")];
+        }
         m_model->archive()->setCompressionOptions(opts);
     } else {
         opts = m_model->archive()->compressionOptions();
@@ -1282,6 +1290,17 @@ void Part::slotAddFilesDone(KJob* job)
     } else {
         // Hide the "archive will be created as soon as you add a file" message.
         m_messageWidget->hide();
+
+        // For multi-volume archive, we need to re-open the archive after adding files
+        // because the name changes from e.g name.rar to name.part1.rar.
+        if (m_model->archive()->isMultiVolume()) {
+            qCDebug(ARK) << "Multi-volume archive detected, re-opening...";
+            KParts::OpenUrlArguments args = arguments();
+            args.metaData()[QStringLiteral("createNewArchive")] = QStringLiteral("false");
+            setArguments(args);
+
+            openUrl(QUrl::fromLocalFile(m_model->archive()->multiVolumeName()));
+        }
     }
 }
 

@@ -300,6 +300,10 @@ void MainWindow::newArchive()
         if (dialog.data()->compressionLevel() > -1) {
             m_openArgs.metaData()[QStringLiteral("compressionLevel")] = QString::number(dialog.data()->compressionLevel());
         }
+        if (dialog.data()->volumeSize() > 0) {
+            qCDebug(ARK) << "Setting volume size:" << QString::number(dialog.data()->volumeSize());
+            m_openArgs.metaData()[QStringLiteral("volumeSize")] = QString::number(dialog.data()->volumeSize());
+        }
         m_openArgs.metaData()[QStringLiteral("encryptionPassword")] = password;
 
         if (dialog.data()->isHeaderEncryptionEnabled()) {

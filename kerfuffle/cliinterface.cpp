@@ -46,6 +46,7 @@
 #include <QDirIterator>
 #include <QEventLoop>
 #include <QFile>
+#include <QMimeDatabase>
 #include <QProcess>
 #include <QRegularExpression>
 #include <QStandardPaths>
@@ -182,12 +183,14 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
     }
 
     int compLevel = options.value(QStringLiteral("CompressionLevel"), -1).toInt();
+    ulong volumeSize = options.value(QStringLiteral("VolumeSize"), 0).toULongLong();
 
     const auto args = substituteAddVariables(m_param.value(AddArgs).toStringList(),
                                              files,
                                              password(),
                                              isHeaderEncryptionEnabled(),
-                                             compLevel);
+                                             compLevel,
+                                             volumeSize);
 
     if (!runProcess(m_param.value(AddProgram).toStringList(), args)) {
         return false;
@@ -303,7 +306,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         }
     }
 
-    if (m_operationMode == Add) {
+    if (m_operationMode == Add && !isMultiVolume()) {
         list();
     } else if (m_operationMode == List && isCorrupt()) {
         Kerfuffle::LoadCorruptQuery query(filename());
@@ -635,7 +638,7 @@ QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs
     return args;
 }
 
-QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel)
+QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel, ulong volumeSize)
 {
     // Required if we call this function from unit tests.
     cacheParameterList();
@@ -656,6 +659,11 @@ QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, con
 
         if (arg == QLatin1String("$CompressionLevelSwitch")) {
             args << compressionLevelSwitch(compLevel);
+            continue;
+        }
+
+        if (arg == QLatin1String("$MultiVolumeSwitch")) {
+            args << multiVolumeSwitch(volumeSize);
             continue;
         }
 
@@ -830,6 +838,24 @@ QString CliInterface::compressionLevelSwitch(int level) const
     compLevelSwitch.replace(QLatin1String("$CompressionLevel"), QString::number(level));
 
     return compLevelSwitch;
+}
+
+QString CliInterface::multiVolumeSwitch(ulong volumeSize) const
+{
+    // The maximum value we allow in the QDoubleSpinBox is 1000MB. Converted to
+    // KB this is 1024000.
+    if (volumeSize <= 0 || volumeSize > 1024000) {
+        return QString();
+    }
+
+    Q_ASSERT(m_param.contains(MultiVolumeSwitch));
+
+    QString multiVolumeSwitch = m_param.value(MultiVolumeSwitch).toString();
+    Q_ASSERT(!multiVolumeSwitch.isEmpty());
+
+    multiVolumeSwitch.replace(QLatin1String("$VolumeSize"), QString::number(volumeSize));
+
+    return multiVolumeSwitch;
 }
 
 QStringList CliInterface::copyFilesList(const QVariantList& files) const
@@ -1259,6 +1285,22 @@ bool CliInterface::addComment(const QString &comment)
     }
     m_comment = comment;
     return true;
+}
+
+QString CliInterface::multiVolumeName() const
+{
+    QString oldSuffix = QMimeDatabase().suffixForFileName(filename());
+    QString name;
+
+    foreach (const QString &multiSuffix, m_param.value(MultiVolumeSuffix).toStringList()) {
+        QString newSuffix = multiSuffix;
+        newSuffix.replace(QStringLiteral("$Suffix"), oldSuffix);
+        name = filename().remove(oldSuffix).append(newSuffix);
+        if (QFileInfo(name).exists()) {
+            break;
+        }
+    }
+    return name;
 }
 
 }

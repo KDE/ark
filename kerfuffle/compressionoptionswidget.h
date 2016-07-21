@@ -45,6 +45,7 @@ public:
     explicit CompressionOptionsWidget(QWidget *parent = Q_NULLPTR,
                                       const CompressionOptions &opts = QHash<QString, QVariant>());
     int compressionLevel() const;
+    ulong volumeSize() const;
     QString password() const;
     CompressionOptions commpressionOptions() const;
     bool isEncryptionAvailable() const;
@@ -61,6 +62,9 @@ private:
 
     QMimeType m_mimetype;
     CompressionOptions m_opts;
+
+private slots:
+    void slotMultiVolumeChecked(int state);
 };
 }
 

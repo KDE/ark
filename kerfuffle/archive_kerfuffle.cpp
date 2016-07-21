@@ -126,6 +126,7 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
         , m_hasBeenListed(false)
         , m_isReadOnly(isReadOnly)
         , m_isSingleFolderArchive(false)
+        , m_isMultiVolume(false)
         , m_extractedFilesSize(0)
         , m_error(NoError)
         , m_encryptionType(Unencrypted)
@@ -230,6 +231,11 @@ bool Archive::hasComment() const
 bool Archive::isMultiVolume() const
 {
     return m_iface->isMultiVolume();
+}
+
+void Archive::setMultiVolume(bool value)
+{
+    m_iface->setMultiVolume(value);
 }
 
 int Archive::numberOfVolumes() const
@@ -493,6 +499,11 @@ void Archive::setCompressionOptions(const CompressionOptions &opts)
 CompressionOptions Archive::compressionOptions() const
 {
     return m_compOptions;
+}
+
+QString Archive::multiVolumeName() const
+{
+    return m_iface->multiVolumeName();
 }
 
 } // namespace Kerfuffle

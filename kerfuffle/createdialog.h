@@ -59,6 +59,7 @@ public:
     QMimeType currentMimeType() const;
     bool setMimeType(const QString &mimeTypeName);
     int compressionLevel() const;
+    ulong volumeSize() const;
 
     /**
      * @return Whether the user can encrypt the new archive.

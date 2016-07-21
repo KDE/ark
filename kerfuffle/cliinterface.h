@@ -263,7 +263,9 @@ enum CliInterfaceParameters {
     CommentSwitch,
     TestProgram,
     TestArgs,
-    TestPassedPattern
+    TestPassedPattern,
+    MultiVolumeSwitch,
+    MultiVolumeSuffix
 };
 
 typedef QHash<int, QVariant> ParameterList;
@@ -310,7 +312,7 @@ public:
 
     QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
     QStringList substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password);
-    QStringList substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel);
+    QStringList substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel, ulong volumeSize);
     QStringList substituteDeleteVariables(const QStringList &deleteArgs, const QVariantList &files, const QString &password);
     QStringList substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile);
     QStringList substituteTestVariables(const QStringList &testArgs, const QString &password);
@@ -335,10 +337,14 @@ public:
      */
     QString compressionLevelSwitch(int level) const;
 
+    QString multiVolumeSwitch(ulong volumeSize) const;
+
     /**
      * @return The list of selected files to extract.
      */
     QStringList copyFilesList(const QVariantList& files) const;
+
+    QString multiVolumeName() const;
 
 protected:
 

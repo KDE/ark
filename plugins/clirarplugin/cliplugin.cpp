@@ -95,6 +95,7 @@ ParameterList CliPlugin::parameterList() const
         p[PasswordSwitch] = QStringList() << QStringLiteral( "-p$Password" );
         p[PasswordHeaderSwitch] = QStringList() << QStringLiteral("-hp$Password");
         p[CompressionLevelSwitch] = QStringLiteral("-m$CompressionLevel");
+        p[MultiVolumeSwitch] = QStringLiteral("-v$VolumeSizek");
         p[DeleteArgs] = QStringList() << QStringLiteral( "d" )
                                       << QStringLiteral( "$PasswordSwitch" )
                                       << QStringLiteral( "$Archive" )
@@ -112,6 +113,7 @@ ParameterList CliPlugin::parameterList() const
                                    << QStringLiteral( "$Archive" )
                                    << QStringLiteral("$PasswordSwitch")
                                    << QStringLiteral("$CompressionLevelSwitch")
+                                   << QStringLiteral("$MultiVolumeSwitch")
                                    << QStringLiteral( "$Files" );
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) for");
         p[WrongPasswordPatterns] = QStringList() << QStringLiteral("password incorrect") << QStringLiteral("wrong password");
@@ -128,6 +130,10 @@ ParameterList CliPlugin::parameterList() const
                                     << QStringLiteral("$Archive")
                                     << QStringLiteral("$PasswordSwitch");
         p[TestPassedPattern] = QStringLiteral("^All OK$");
+        // rar will sometimes create multi-volume archives where first volume is
+        // called name.part1.rar and other times name.part01.rar.
+        p[MultiVolumeSuffix] = QStringList() << QStringLiteral("part01.$Suffix")
+                                             << QStringLiteral("part1.$Suffix");
     }
 
     return p;
@@ -208,8 +214,8 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
             ignoreLines(1, ParseStateEntryDetails);
             if (line.contains(QLatin1String("volume"))) {
                 m_numberOfVolumes++;
-                if (!m_isMultiVolume) {
-                    m_isMultiVolume = true;
+                if (!isMultiVolume()) {
+                    setMultiVolume(true);
                     qCDebug(ARK) << "Multi-volume archive detected";
                 }
             }
@@ -313,8 +319,8 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
 
             if (line.startsWith(QLatin1String("Volume "))) {
                 m_numberOfVolumes++;
-                if (!m_isMultiVolume) {
-                    m_isMultiVolume = true;
+                if (!isMultiVolume()) {
+                    setMultiVolume(true);
                     qCDebug(ARK) << "Multi-volume archive detected";
                 }
             }

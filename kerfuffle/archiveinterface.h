@@ -106,6 +106,8 @@ public:
     virtual bool doResume();
 
     bool isHeaderEncryptionEnabled() const;
+    virtual QString multiVolumeName() const;
+    void setMultiVolume(bool value);
 
 signals:
     void cancelled();
@@ -129,7 +131,6 @@ protected:
     void setCorrupt(bool isCorrupt);
     bool isCorrupt() const;
     QString m_comment;
-    bool m_isMultiVolume;
     int m_numberOfVolumes;
 
 private:
@@ -138,6 +139,7 @@ private:
     bool m_waitForFinishedSignal;
     bool m_isHeaderEncryptionEnabled;
     bool m_isCorrupt;
+    bool m_isMultiVolume;
 };
 
 class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterface
