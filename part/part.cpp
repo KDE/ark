@@ -1075,7 +1075,7 @@ void Part::slotShowExtractionDialog()
         }
         options[QStringLiteral("FollowExtractionDialogSettings")] = true;
 
-        const QString destinationDirectory = dialog.data()->destinationDirectory().toDisplayString(QUrl::PreferLocalFile);
+        const QString destinationDirectory = dialog.data()->destinationDirectory().toLocalFile();
         ExtractJob *job = m_model->extractFiles(files, destinationDirectory, options);
         registerJob(job);
 
