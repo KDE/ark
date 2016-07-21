@@ -317,7 +317,7 @@ void Part::setupActions()
     // pass the OpenFileMode as argument to the slot.
     m_signalMapper = new QSignalMapper;
 
-    m_showInfoPanelAction = new KToggleAction(i18nc("@action:inmenu", "Show information panel"), this);
+    m_showInfoPanelAction = new KToggleAction(i18nc("@action:inmenu", "Show Information Panel"), this);
     actionCollection()->addAction(QStringLiteral( "show-infopanel" ), m_showInfoPanelAction);
     m_showInfoPanelAction->setChecked(ArkSettings::showInfoPanel());
     connect(m_showInfoPanelAction, &QAction::triggered,
