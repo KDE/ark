@@ -2,7 +2,6 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
    <mime-type type="application/x-lzip-compressed-tar">
       <comment>Tar archive (lzip-compressed)</comment>
-      <comment xml:lang="en">Tar archive (lzip-compressed)</comment>
       <glob pattern="*.tar.lz"/>
    </mime-type>
    <mime-type type="application/x-xar">
@@ -15,7 +14,6 @@
    </mime-type>
    <mime-type type="application/x-lz4-compressed-tar">
       <comment>Tar archive (LZ4-compressed)</comment>
-      <comment xml:lang="en">Tar archive (LZ4-compressed)</comment>
       <glob pattern="*.tar.lz4"/>
    </mime-type>
 </mime-info>
