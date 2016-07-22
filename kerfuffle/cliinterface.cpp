@@ -190,13 +190,24 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
                 preservedParent = file->parent();
             }
 
-            const QString filePath = file->property("fullPath").toString();
-            const QString newFilePath = absoluteDestinationPath + filePath;
+            const QString filePath = QDir::currentPath() + QLatin1Char('/') + file->property("fullPath").toString();
+            QString newFilePath = absoluteDestinationPath + file->property("fullPath").toString();
+            // Symlink function can't accept the second argument as a path with trailing slash.
+            if (newFilePath[newFilePath.count() - 1] == QLatin1Char('/')) {
+                newFilePath.remove(newFilePath.count() - 1, 1);
+            }
             if (symlink(filePath.toStdString().c_str(), newFilePath.toStdString().c_str()) != 0) {
                 qCDebug(ARK) << "Can't create symlink" << filePath << newFilePath;
                 return false;
             }
+            else {
+                qCDebug(ARK) << "Symlink's created:" << filePath << newFilePath;
+            }
         }
+
+        qCDebug(ARK) << "Changing working dir again to " << tempDirPath;
+        QDir::setCurrent(tempDirPath);
+
         filesToPass.push_back(new Archive::Entry(preservedParent, destinationPath));
     }
     else {
