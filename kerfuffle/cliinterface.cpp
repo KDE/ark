@@ -164,7 +164,7 @@ bool CliInterface::copyFiles(const QList<Archive::Entry*> &files, const QString 
     return true;
 }
 
-bool CliInterface::addFiles(QList<Archive::Entry*> &files, const Archive::Entry *destination, const QString &tempDirPath, const CompressionOptions& options)
+bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const QString &tempDirPath, const CompressionOptions& options)
 {
     cacheParameterList();
 
@@ -172,6 +172,7 @@ bool CliInterface::addFiles(QList<Archive::Entry*> &files, const Archive::Entry 
 
     const QStringList addArgs = m_param.value(AddArgs).toStringList();
 
+    QList<Archive::Entry*> filesToPass = QList<Archive::Entry*>();
     // If destination path is specified, we have recreate its structure inside the temp directory
     // and then place symlinks of targeted files there.
     const QString destinationPath = destination->property("fullPath").toString();
@@ -192,13 +193,14 @@ bool CliInterface::addFiles(QList<Archive::Entry*> &files, const Archive::Entry 
             const QString filePath = file->property("fullPath").toString();
             const QString newFilePath = absoluteDestinationPath + filePath;
             if (symlink(filePath.toStdString().c_str(), newFilePath.toStdString().c_str()) != 0) {
+                qCDebug(ARK) << "Can't create symlink" << filePath << newFilePath;
                 return false;
             }
         }
-
-        qDeleteAll(files);
-        files.clear();
-        files.push_back(new Archive::Entry(preservedParent, absoluteDestinationPath));
+        filesToPass.push_back(new Archive::Entry(preservedParent, destinationPath));
+    }
+    else {
+        filesToPass = files;
     }
 
     if (addArgs.contains(QStringLiteral("$PasswordSwitch")) &&
@@ -213,7 +215,7 @@ bool CliInterface::addFiles(QList<Archive::Entry*> &files, const Archive::Entry 
     int compLevel = options.value(QStringLiteral("CompressionLevel"), -1).toInt();
 
     const auto args = substituteAddVariables(m_param.value(AddArgs).toStringList(),
-                                             files,
+                                             filesToPass,
                                              password(),
                                              isHeaderEncryptionEnabled(),
                                              compLevel);

@@ -108,7 +108,7 @@ bool LibarchivePlugin::list()
     return archive_read_close(arch_reader.data()) == ARCHIVE_OK;
 }
 
-bool LibarchivePlugin::addFiles(QList<Archive::Entry*> &files, const Archive::Entry *destination, const QString &tempDirPath, const CompressionOptions& options)
+bool LibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const QString &tempDirPath, const CompressionOptions& options)
 {
     Q_UNUSED(files)
     Q_UNUSED(options)

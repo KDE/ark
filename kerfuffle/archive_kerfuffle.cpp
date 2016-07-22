@@ -316,7 +316,7 @@ DeleteJob* Archive::deleteFiles(QList<Archive::Entry*> &entries)
     return newJob;
 }
 
-AddJob* Archive::addFiles(QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options)
+AddJob* Archive::addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options)
 {
     if (!isValid()) {
         return Q_NULLPTR;
