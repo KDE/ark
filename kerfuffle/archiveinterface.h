@@ -103,7 +103,7 @@ public:
     /**
      * @return The list of filenames retrieved from the list of entries.
      */
-    QStringList entryFullPaths(const QList<Archive::Entry *> &entries) const;
+    static QStringList entryFullPaths(const QList<Archive::Entry*> &entries);
 
     virtual bool doKill();
     virtual bool doSuspend();

@@ -133,7 +133,7 @@ void ReadOnlyArchiveInterface::setWaitForFinishedSignal(bool value)
     m_waitForFinishedSignal = value;
 }
 
-QStringList ReadOnlyArchiveInterface::entryFullPaths(const QList<Archive::Entry *> &entries) const
+QStringList ReadOnlyArchiveInterface::entryFullPaths(const QList<Archive::Entry*> &entries)
 {
     QStringList filesList;
     foreach (const Archive::Entry *file, entries) {
