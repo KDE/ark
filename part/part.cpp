@@ -186,7 +186,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
 Part::~Part()
 {
-    qDeleteAll(m_tmpOpenDirList);
+    qDeleteAll(m_tmpExtractDirList);
 
     // Only save splitterSizes if infopanel is visible,
     // because we don't want to store zero size for infopanel.
@@ -919,7 +919,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
 
         // Since the user could modify the file (unlike the Preview case),
         // we'll need to manually delete the temp dir in the Part destructor.
-        m_tmpOpenDirList << openJob->tempDir();
+        m_tmpExtractDirList << openJob->tempDir();
 
         const QString fullName = openJob->validatedFilePath();
 
@@ -957,6 +957,7 @@ void Part::slotPreviewExtractedEntry(KJob *job)
         PreviewJob *previewJob = qobject_cast<PreviewJob*>(job);
         Q_ASSERT(previewJob);
 
+        m_tmpExtractDirList << previewJob->tempDir();
         ArkViewer::view(previewJob->validatedFilePath());
 
     } else if (job->error() != KJob::KilledJobError) {
@@ -971,7 +972,7 @@ void Part::slotWatchedFileModified(const QString& file)
 
     // Find the relative path of the file within the archive.
     QString relPath = file;
-    foreach (QTemporaryDir *tmpDir, m_tmpOpenDirList) {
+    foreach (QTemporaryDir *tmpDir, m_tmpExtractDirList) {
         relPath.remove(tmpDir->path()); //Remove tmpDir.
     }
     relPath = relPath.mid(1); //Remove leading slash.

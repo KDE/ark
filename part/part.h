@@ -160,7 +160,7 @@ private:
     KToggleAction *m_showInfoPanelAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
-    QList<QTemporaryDir*>      m_tmpOpenDirList;
+    QList<QTemporaryDir*>      m_tmpExtractDirList;
     bool                  m_busy;
     OpenFileMode m_openFileMode;
     QUrl m_lastUsedAddPath;

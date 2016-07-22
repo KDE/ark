@@ -341,8 +341,8 @@ TempExtractJob::TempExtractJob(const QString &file, bool passwordProtectedHint, 
     , m_file(file)
     , m_passwordProtectedHint(passwordProtectedHint)
 {
+    m_tmpExtractDir = new QTemporaryDir();
 }
-
 
 QString TempExtractJob::validatedFilePath() const
 {
@@ -368,6 +368,11 @@ ExtractionOptions TempExtractJob::extractionOptions() const
     return options;
 }
 
+QTemporaryDir *TempExtractJob::tempDir() const
+{
+    return m_tmpExtractDir;
+}
+
 void TempExtractJob::doWork()
 {
     emit description(this, i18n("Extracting one file"));
@@ -383,33 +388,21 @@ void TempExtractJob::doWork()
     }
 }
 
+QString TempExtractJob::extractionDir() const
+{
+    return m_tmpExtractDir->path();
+}
+
 PreviewJob::PreviewJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
     : TempExtractJob(file, passwordProtectedHint, interface)
 {
     qCDebug(ARK) << "PreviewJob started";
 }
 
-QString PreviewJob::extractionDir() const
-{
-    return m_tmpExtractDir.path();
-}
-
 OpenJob::OpenJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
     : TempExtractJob(file, passwordProtectedHint, interface)
 {
     qCDebug(ARK) << "OpenJob started";
-
-    m_tmpExtractDir = new QTemporaryDir();
-}
-
-QTemporaryDir *OpenJob::tempDir() const
-{
-    return m_tmpExtractDir;
-}
-
-QString OpenJob::extractionDir() const
-{
-    return m_tmpExtractDir->path();
 }
 
 OpenWithJob::OpenWithJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
