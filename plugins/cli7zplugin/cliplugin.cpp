@@ -77,6 +77,7 @@ ParameterList CliPlugin::parameterList() const
         p[WrongPasswordPatterns] = QStringList() << QStringLiteral("Wrong password");
         p[CompressionLevelSwitch] = QStringLiteral("-mx=$CompressionLevel");
         p[AddArgs] = QStringList() << QStringLiteral("a")
+                                   << QStringLiteral("-l")
                                    << QStringLiteral("$Archive")
                                    << QStringLiteral("$PasswordSwitch")
                                    << QStringLiteral("$CompressionLevelSwitch")
