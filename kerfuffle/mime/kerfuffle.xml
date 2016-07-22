@@ -2,10 +2,20 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
    <mime-type type="application/x-lzip-compressed-tar">
       <comment>Tar archive (lzip-compressed)</comment>
+      <comment xml:lang="ca">Arxiu tar (comprimit amb LZIP)</comment>
+      <comment xml:lang="nl">Tar-archief (lzip-gecomprimeerd)</comment>
+      <comment xml:lang="pt">Pacote TAR (comprimido com Lzip)</comment>
+      <comment xml:lang="sl">Arhiv tar (stisnjen z lzip)</comment>
+      <comment xml:lang="sv">Tar-arkiv (lzip-komprimerat)</comment>
       <glob pattern="*.tar.lz"/>
    </mime-type>
    <mime-type type="application/x-xar">
       <comment>XAR archive</comment>
+      <comment xml:lang="ca">Arxiu XAR</comment>
+      <comment xml:lang="nl">XAR-archief</comment>
+      <comment xml:lang="pt">Pacote XAR</comment>
+      <comment xml:lang="sl">Arhiv XAR</comment>
+      <comment xml:lang="sv">XAR-arkiv</comment>
       <acronym>XAR</acronym>
       <expanded-acronym>eXtensible ARchive</expanded-acronym>
       <generic-icon name="package-x-generic"/>
@@ -14,10 +24,20 @@
    </mime-type>
    <mime-type type="application/x-lz4-compressed-tar">
       <comment>Tar archive (LZ4-compressed)</comment>
+      <comment xml:lang="ca">Arxiu tar (comprimit amb LZ4)</comment>
+      <comment xml:lang="nl">Tar-archief (lz4-gecomprimeerd)</comment>
+      <comment xml:lang="pt">Pacote TAR (comprimido com LZ4)</comment>
+      <comment xml:lang="sl">Arhiv tar (stisnjen z LZ4)</comment>
+      <comment xml:lang="sv">Tar-arkiv (LZ4-komprimerat)</comment>
       <glob pattern="*.tar.lz4"/>
    </mime-type>
    <mime-type type="application/x-iso9660-appimage">
       <comment>AppImage application bundle</comment>
+      <comment xml:lang="ca">Paquet d'aplicació «AppImage»</comment>
+      <comment xml:lang="nl">Toepassingsbundel AppImage</comment>
+      <comment xml:lang="pt">Pacote de aplicações do AppImage</comment>
+      <comment xml:lang="sl">Zbirka programov AppImage</comment>
+      <comment xml:lang="sv">AppImage-programsamling</comment>
       <sub-class-of type="application/x-executable"/>
       <sub-class-of type="application/x-iso9660-image"/>
       <generic-icon name="application-x-executable"/>
