@@ -135,7 +135,7 @@ bool MainWindow::loadPart()
                metaData.serviceTypes().contains(QStringLiteral("Browser/View"));
     });
 
-    if (plugins.size() == 1) {
+    if (!plugins.isEmpty()) {
         factory = KPluginLoader(plugins.first().fileName()).factory();
     }
 
