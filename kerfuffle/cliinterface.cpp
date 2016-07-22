@@ -181,7 +181,14 @@ bool CliInterface::addFiles(QList<Archive::Entry*> &files, const Archive::Entry 
         QDir qDir;
         qDir.mkpath(absoluteDestinationPath);
 
+        QObject *preservedParent = Q_NULLPTR;
         foreach (Archive::Entry *file, files) {
+            // The entries may have parent. We have to save and apply it to our new entry in order to prevent memory
+            // leaks.
+            if (preservedParent == Q_NULLPTR) {
+                preservedParent = file->parent();
+            }
+
             const QString filePath = file->property("fullPath").toString();
             const QString newFilePath = absoluteDestinationPath + filePath;
             if (symlink(filePath.toStdString().c_str(), newFilePath.toStdString().c_str()) != 0) {
@@ -191,7 +198,7 @@ bool CliInterface::addFiles(QList<Archive::Entry*> &files, const Archive::Entry 
 
         qDeleteAll(files);
         files.clear();
-        files.push_back(new Archive::Entry(Q_NULLPTR, absoluteDestinationPath));
+        files.push_back(new Archive::Entry(preservedParent, absoluteDestinationPath));
     }
 
     if (addArgs.contains(QStringLiteral("$PasswordSwitch")) &&
