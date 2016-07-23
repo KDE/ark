@@ -1296,7 +1296,7 @@ QString CliInterface::multiVolumeName() const
         QString newSuffix = multiSuffix;
         newSuffix.replace(QStringLiteral("$Suffix"), oldSuffix);
         name = filename().remove(oldSuffix).append(newSuffix);
-        if (QFileInfo(name).exists()) {
+        if (QFileInfo::exists(name)) {
             break;
         }
     }
