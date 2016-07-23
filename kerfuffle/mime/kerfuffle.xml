@@ -4,6 +4,7 @@
       <comment>Tar archive (lzip-compressed)</comment>
       <comment xml:lang="ca">Arxiu tar (comprimit amb LZIP)</comment>
       <comment xml:lang="es">Archivo comprimido Tar (comprimido con lzip)</comment>
+      <comment xml:lang="pl">Archiwum Tar (kompresja lzip)</comment>
       <comment xml:lang="pt">Pacote TAR (comprimido com Lzip)</comment>
       <comment xml:lang="sl">Arhiv tar (stisnjen z lzip)</comment>
       <comment xml:lang="sv">Tar-arkiv (lzip-komprimerat)</comment>
@@ -13,6 +14,7 @@
       <comment>XAR archive</comment>
       <comment xml:lang="ca">Arxiu XAR</comment>
       <comment xml:lang="es">Archivo comprimido XAR</comment>
+      <comment xml:lang="pl">Archiwum XAR</comment>
       <comment xml:lang="pt">Pacote XAR</comment>
       <comment xml:lang="sl">Arhiv XAR</comment>
       <comment xml:lang="sv">XAR-arkiv</comment>
@@ -26,6 +28,7 @@
       <comment>Tar archive (LZ4-compressed)</comment>
       <comment xml:lang="ca">Arxiu tar (comprimit amb LZ4)</comment>
       <comment xml:lang="es">Archivo comprimido Tar (comprimido con LZ4)</comment>
+      <comment xml:lang="pl">Archiwum Tar (kompresja LZ4)</comment>
       <comment xml:lang="pt">Pacote TAR (comprimido com LZ4)</comment>
       <comment xml:lang="sl">Arhiv tar (stisnjen z LZ4)</comment>
       <comment xml:lang="sv">Tar-arkiv (LZ4-komprimerat)</comment>
