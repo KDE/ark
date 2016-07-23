@@ -217,13 +217,25 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
     // First write the new files.
     qCDebug(ARK) << "Writing new entries";
     int no_entries = 0;
+    // Recreate destination directory structure.
+    const QString destinationPath = destination->property("fullPath").toString();
+    qCDebug(ARK) << destinationPath.split(QLatin1Char('/'));
+    foreach(const QString& directory, destinationPath.split(QLatin1Char('/'))) {
+        if (!directory.isEmpty()) {
+            qCDebug(ARK) << directory;
+            if (!writeFile(directory, QString(), arch_writer.data())) {
+                return false;
+            }
+            no_entries++;
+        }
+    }
     foreach(Archive::Entry *selectedFile, files) {
 
         if (m_abortOperation) {
             break;
         }
 
-        if (!writeFile(selectedFile->property("fullPath").toString(), arch_writer.data())) {
+        if (!writeFile(selectedFile->property("fullPath").toString(), destinationPath, arch_writer.data())) {
             return false;
         }
         no_entries++;
@@ -250,7 +262,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
                     path.append(QLatin1Char('/'));
                 }
 
-                if (!writeFile(path, arch_writer.data())) {
+                if (!writeFile(path, destinationPath, arch_writer.data())) {
                     return false;
                 }
                 no_entries++;
@@ -451,10 +463,11 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QList<Archive::Entry*>& files)
 
 // TODO: if we merge this with copyData(), we can pass more data
 //       such as an fd to archive_read_disk_entry_from_file()
-bool ReadWriteLibarchivePlugin::writeFile(const QString& relativeName, struct archive* arch_writer)
+bool ReadWriteLibarchivePlugin::writeFile(const QString& relativeName, const QString& destination, struct archive* arch_writer)
 {
     int header_response;
     const QString absoluteFilename = QFileInfo(relativeName).absoluteFilePath();
+    const QString destinationFilename = destination + relativeName;
 
     // #253059: Even if we use archive_read_disk_entry_from_file,
     //          libarchive may have been compiled without HAVE_LSTAT,
@@ -465,7 +478,7 @@ bool ReadWriteLibarchivePlugin::writeFile(const QString& relativeName, struct ar
     lstat(QFile::encodeName(absoluteFilename).constData(), &st);
 
     struct archive_entry *entry = archive_entry_new();
-    archive_entry_set_pathname(entry, QFile::encodeName(relativeName).constData());
+    archive_entry_set_pathname(entry, QFile::encodeName(destinationFilename).constData());
     archive_entry_copy_sourcepath(entry, QFile::encodeName(absoluteFilename).constData());
     archive_read_disk_entry_from_file(m_archiveReadDisk.data(), entry, -1, &st);
 
@@ -487,7 +500,7 @@ bool ReadWriteLibarchivePlugin::writeFile(const QString& relativeName, struct ar
         return false;
     }
 
-    m_writtenFiles.push_back(relativeName);
+    m_writtenFiles.push_back(destinationFilename);
 
     emitEntryFromArchiveEntry(entry);
 
