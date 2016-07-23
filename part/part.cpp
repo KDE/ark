@@ -1106,8 +1106,9 @@ QList<Kerfuffle::Archive::Entry*> Part::filesAndRootNodesForIndexes(const QModel
         }
 
         // Fetch the root node for the unselected parent.
-        const QString rootFileName =
-            m_model->entryForIndex(selectionRoot)->property("fullPath").toString();
+        const QString rootFileName = selectionRoot.isValid()
+            ? m_model->entryForIndex(selectionRoot)->property("fullPath").toString()
+            : QString();
 
 
         // Append index with root node to fileList.
