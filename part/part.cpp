@@ -620,8 +620,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 
         Kerfuffle::ExtractionOptions options;
         options[QStringLiteral("PreservePaths")] = true;
-        QList<QVariant> files = filesAndRootNodesForIndexes(m_view->selectionModel()->selectedRows());
-        ExtractJob *job = m_model->extractFiles(files, finalDestinationDirectory, options);
+        ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows())), finalDestinationDirectory, options);
         registerJob(job);
 
         connect(job, &KJob::result,
