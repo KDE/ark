@@ -344,7 +344,7 @@ public:
      */
     QStringList copyFilesList(const QVariantList& files) const;
 
-    QString multiVolumeName() const;
+    QString multiVolumeName() const Q_DECL_OVERRIDE;
 
 protected:
 
