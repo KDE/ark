@@ -126,6 +126,7 @@ private slots:
     void slotAddComment();
     void slotCommentChanged();
     void slotTestArchive();
+    void displayMsgWidget(KMessageWidget::MessageType type, const QString& msg);
 
 signals:
     void busy();
@@ -142,7 +143,6 @@ private:
     QList<QVariant> filesAndRootNodesForIndexes(const QModelIndexList& list) const;
     QModelIndexList addChildren(const QModelIndexList &list) const;
     void registerJob(KJob *job);
-    void displayMsgWidget(KMessageWidget::MessageType type, const QString& msg);
 
     ArchiveModel         *m_model;
     QTreeView            *m_view;

@@ -171,6 +171,8 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, static_cast<void (Part::*)(const QStringList&, const QString&)>(&Part::slotAddFiles));
     connect(m_model, &ArchiveModel::error,
             this, &Part::slotError);
+    connect(m_model, &ArchiveModel::messageWidget,
+            this, &Part::displayMsgWidget);
 
     connect(this, &Part::busy,
             this, &Part::setBusyGui);
@@ -409,8 +411,7 @@ void Part::setupActions()
 
 void Part::updateActions()
 {
-    bool isWritable = m_model->archive() && !m_model->archive()->isReadOnly() &&
-                      !(m_model->rowCount() > 0 && m_model->archive()->isMultiVolume());
+    bool isWritable = m_model->archive() && !m_model->archive()->isReadOnly();
     bool isDirectory = m_model->entryForIndex(m_view->selectionModel()->currentIndex())[IsDirectory].toBool();
     int selectedEntriesCount = m_view->selectionModel()->selectedRows().count();
 

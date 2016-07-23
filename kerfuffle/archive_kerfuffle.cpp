@@ -210,7 +210,8 @@ QMimeType Archive::mimeType()
 
 bool Archive::isReadOnly() const
 {
-    return isValid() ? (m_iface->isReadOnly() || m_isReadOnly) : false;
+    return isValid() ? (m_iface->isReadOnly() || m_isReadOnly ||
+                        (isMultiVolume() && (m_numberOfFiles > 0 || m_numberOfFolders > 0))) : false;
 }
 
 bool Archive::isSingleFolderArchive()
