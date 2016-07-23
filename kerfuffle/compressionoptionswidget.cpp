@@ -71,7 +71,11 @@ CompressionOptions CompressionOptionsWidget::commpressionOptions() const
 
 int CompressionOptionsWidget::compressionLevel() const
 {
-    return compLevelSlider->value();
+    if (compLevelSlider->isEnabled()) {
+        return compLevelSlider->value();
+    } else {
+        return -1;
+    }
 }
 
 ulong CompressionOptionsWidget::volumeSize() const
