@@ -23,29 +23,28 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CLIZIPTEST_H
-#define CLIZIPTEST_H
+#ifndef LIBARCHIVETEST_H
+#define LIBARCHIVETEST_H
 
-#include "cliplugin.h"
+#include "readwritelibarchiveplugin.h"
+#include "pluginmanager.h"
 #include "autotests/testhelper/testhelper.h"
 #include "kerfuffle/jobs.h"
 
 using namespace Kerfuffle;
 
-class CliZipTest : public QObject
+class LibarchiveTest : public QObject
 {
     Q_OBJECT
 
 private Q_SLOTS:
-
-    void testListArgs_data();
-    void testListArgs();
-    void testAddArgs_data();
-    void testAddArgs();
-    void testExtractArgs_data();
-    void testExtractArgs();
+    void initTestCase();
     void testAdd_data();
     void testAdd();
+
+private:
+    PluginManager m_pluginManger;
+    Plugin *m_plugin;
 };
 
-#endif
+#endif //LIBARCHIVETEST_H

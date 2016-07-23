@@ -29,6 +29,8 @@
 
 #include "cliplugin.h"
 #include "pluginmanager.h"
+#include "autotests/testhelper/testhelper.h"
+#include "kerfuffle/jobs.h"
 
 using namespace Kerfuffle;
 
@@ -48,6 +50,8 @@ private Q_SLOTS:
     void testAddArgs();
     void testExtractArgs_data();
     void testExtractArgs();
+    void testAdd_data();
+    void testAdd();
 
 private:
     PluginManager m_pluginManger;

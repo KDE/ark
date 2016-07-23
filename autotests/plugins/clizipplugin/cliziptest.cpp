@@ -201,3 +201,55 @@ void CliZipTest::testExtractArgs()
 
     plugin->deleteLater();
 }
+
+void CliZipTest::testAdd_data()
+{
+    QTest::addColumn<QString>("archiveName");
+    QTest::addColumn<QList<Archive::Entry*>>("files");
+    QTest::addColumn<Archive::Entry*>("destination");
+
+    QTest::newRow("without destination")
+        << QStringLiteral("test.zip")
+        << QList<Archive::Entry*> {
+            new Archive::Entry(this, QStringLiteral("a.txt")),
+            new Archive::Entry(this, QStringLiteral("b.txt")),
+        }
+        << new Archive::Entry(this);
+
+    QTest::newRow("with destination, files")
+        << QStringLiteral("test.zip")
+        << QList<Archive::Entry*> {
+            new Archive::Entry(this, QStringLiteral("a.txt")),
+            new Archive::Entry(this, QStringLiteral("b.txt")),
+        }
+        << new Archive::Entry(this, QStringLiteral("dir/"));
+
+    QTest::newRow("with destination, directory")
+        << QStringLiteral("test.zip")
+        << QList<Archive::Entry*> {
+            new Archive::Entry(this, QStringLiteral("dir/")),
+        }
+        << new Archive::Entry(this, QStringLiteral("dir/"));
+}
+
+void CliZipTest::testAdd()
+{
+    QTemporaryDir temporaryDir;
+
+    QFETCH(QString, archiveName);
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(temporaryDir.path() + QLatin1Char('/') + archiveName)});
+    QVERIFY(plugin);
+
+    QFETCH(QList<Archive::Entry*>, files);
+    QFETCH(Archive::Entry*, destination);
+
+    CompressionOptions options = CompressionOptions();
+    options.insert(QStringLiteral("GlobalWorkDir"), QFINDTESTDATA("data"));
+    AddJob *addJob = new AddJob(files, destination, options, plugin);
+    TestHelper::startAndWaitForResult(addJob);
+
+    QList<Archive::Entry*> resultedEntries = TestHelper::getEntryList(plugin);
+    TestHelper::verifyEntriesWithDestination(files, destination, resultedEntries);
+
+    plugin->deleteLater();
+}
