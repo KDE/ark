@@ -208,7 +208,8 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
         qCDebug(ARK) << "Changing working dir again to " << tempDirPath;
         QDir::setCurrent(tempDirPath);
 
-        filesToPass.push_back(new Archive::Entry(preservedParent, destinationPath));
+        // Pass the entry without trailing slash for RAR compatibility.
+        filesToPass.push_back(new Archive::Entry(preservedParent, destinationPath.left(destinationPath.count() - 1)));
     }
     else {
         filesToPass = files;
