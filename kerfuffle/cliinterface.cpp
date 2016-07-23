@@ -196,7 +196,7 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
             if (newFilePath[newFilePath.count() - 1] == QLatin1Char('/')) {
                 newFilePath.remove(newFilePath.count() - 1, 1);
             }
-            if (symlink(filePath.toStdString().c_str(), newFilePath.toStdString().c_str()) != 0) {
+            if (!QFile::link(filePath, newFilePath)) {
                 qCDebug(ARK) << "Can't create symlink" << filePath << newFilePath;
                 return false;
             }
