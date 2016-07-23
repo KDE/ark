@@ -365,7 +365,7 @@ void JobsTest::testAddEntries_data()
                 new Archive::Entry(this, QStringLiteral("foo.txt")),
                 new Archive::Entry(this, QStringLiteral("bar.txt"))
             }
-            << new Archive::Entry(this);;
+            << new Archive::Entry(this);
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
              << QList<Archive::Entry*> {
@@ -378,7 +378,7 @@ void JobsTest::testAddEntries_data()
                  new Archive::Entry(this, QStringLiteral("foo.txt")),
                  new Archive::Entry(this, QStringLiteral("bar.txt"))
              }
-             << new Archive::Entry(this, QStringLiteral("aDir/"));;
+             << new Archive::Entry(this, QStringLiteral("aDir/"));
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
              << QList<Archive::Entry*> {
@@ -388,7 +388,7 @@ void JobsTest::testAddEntries_data()
                  new Archive::Entry(this, QStringLiteral("c.txt"))
              }
              << QList<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("c.txt"))}
-             << new Archive::Entry(this, QStringLiteral("aDir/"));;
+             << new Archive::Entry(this, QStringLiteral("aDir/"));
 
     // Error test: if we add an already existent entry, the archive must not change.
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
@@ -399,7 +399,7 @@ void JobsTest::testAddEntries_data()
                 new Archive::Entry(this, QStringLiteral("c.txt"))
             }
             << QList<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("c.txt"))}
-            << new Archive::Entry(this);;
+            << new Archive::Entry(this);
 }
 
 void JobsTest::testAddEntries()
