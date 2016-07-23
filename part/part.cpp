@@ -419,6 +419,7 @@ void Part::updateActions()
     // archives). If we added files they would not get encrypted resulting in an
     // archive with a mixture of encrypted and unencrypted files.
     const bool isEncryptedButUnknownPassword = m_model->archive() &&
+                                               m_model->archive()->hasBeenListed() &&
                                                m_model->archive()->encryptionType() != Archive::Unencrypted &&
                                                m_model->archive()->password().isEmpty();
 
@@ -671,6 +672,7 @@ bool Part::openFile()
     // Plugin loaded successfully.
     KJob *job = m_model->setArchive(archive.take());
     if (job) {
+        connect(archive.data(), &Archive::loadingFinished, this, &Part::updateActions);
         registerJob(job);
         job->start();
     } else {

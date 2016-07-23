@@ -190,6 +190,8 @@ public:
     void setCompressionOptions(const CompressionOptions &opts);
     CompressionOptions compressionOptions() const;
     QString multiVolumeName() const;
+    // FIXME: this is only a temporary workaround. See T3300 for a proper fix.
+    bool hasBeenListed() const;
 
     static Archive *create(const QString &fileName, QObject *parent = 0);
     static Archive *create(const QString &fileName, const QString &fixedMimeType, QObject *parent = 0);
@@ -243,6 +245,9 @@ public:
      * @param encryptHeader Whether to encrypt also the list of files.
      */
     void encrypt(const QString &password, bool encryptHeader);
+
+signals:
+    void loadingFinished();
 
 private slots:
     void onListFinished(KJob*);
