@@ -19,7 +19,6 @@ QList<Archive::Entry*> TestHelper::getEntryList(ReadOnlyArchiveInterface *iface)
     ListJob *listJob = new ListJob(iface);
     QObject::connect(listJob, &Job::newEntry, [&list](Archive::Entry* entry) { list << entry; });
     startAndWaitForResult(listJob);
-    delete listJob;
     return list;
 }
 

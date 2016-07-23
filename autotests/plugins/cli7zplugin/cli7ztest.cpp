@@ -426,7 +426,6 @@ void Cli7zTest::testAdd()
     options.insert(QStringLiteral("GlobalWorkDir"), QFINDTESTDATA("data"));
     AddJob *addJob = new AddJob(files, destination, options, plugin);
     TestHelper::startAndWaitForResult(addJob);
-    delete addJob;
 
     QList<Archive::Entry*> resultedEntries = TestHelper::getEntryList(plugin);
     TestHelper::verifyEntriesWithDestination(files, destination, resultedEntries);
