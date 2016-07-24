@@ -177,8 +177,8 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
     // and then place symlinks of targeted files there.
     const QString destinationPath = destination->property("fullPath").toString();
     if (!destinationPath.isEmpty()) {
-        const QTemporaryDir tempDir;
-        const QString absoluteDestinationPath = tempDir.path() + QLatin1Char('/') + destinationPath;
+        m_extractTempDir = new QTemporaryDir();
+        const QString absoluteDestinationPath = m_extractTempDir->path() + QLatin1Char('/') + destinationPath;
 
         QDir qDir;
         qDir.mkpath(absoluteDestinationPath);
@@ -199,6 +199,8 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
             }
             if (!QFile::link(filePath, newFilePath)) {
                 qCDebug(ARK) << "Can't create symlink" << filePath << newFilePath;
+                delete m_extractTempDir;
+                m_extractTempDir = Q_NULLPTR;
                 return false;
             }
             else {
@@ -206,8 +208,8 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
             }
         }
 
-        qCDebug(ARK) << "Changing working dir again to " << tempDir.path();
-        QDir::setCurrent(tempDir.path());
+        qCDebug(ARK) << "Changing working dir again to " << m_extractTempDir->path();
+        QDir::setCurrent(m_extractTempDir->path());
 
         // Pass the entry without trailing slash for RAR compatibility.
         filesToPass.push_back(new Archive::Entry(preservedParent, destinationPath.left(destinationPath.count() - 1)));
@@ -345,6 +347,10 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     }
 
     if (m_operationMode == Add) {
+        if (m_extractTempDir) {
+            delete m_extractTempDir;
+            m_extractTempDir = Q_NULLPTR;
+        }
         list();
     } else if (m_operationMode == List && isCorrupt()) {
         Kerfuffle::LoadCorruptQuery query(filename());
