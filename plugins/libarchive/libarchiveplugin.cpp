@@ -380,7 +380,7 @@ bool LibarchivePlugin::copyFiles(const QList<Archive::Entry*>& files, const QStr
     return archive_read_close(arch.data()) == ARCHIVE_OK;
 }
 
-bool LibarchivePlugin::initializeReader(const ArchiveRead &archiveRead)
+bool LibarchivePlugin::initializeReader(const LibarchivePlugin::ArchiveRead &archiveRead)
 {
     if (!(archiveRead.data())) {
         emit error(i18n("The archive reader could not be initialized."));
