@@ -42,7 +42,8 @@ public:
     explicit ReadWriteLibarchivePlugin(QObject *parent, const QVariantList& args);
     ~ReadWriteLibarchivePlugin();
 
-    bool addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const QString &tempDirPath, const CompressionOptions& options) Q_DECL_OVERRIDE;
+    bool addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
+    bool moveFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
     bool deleteFiles(const QList<Archive::Entry*>& files) Q_DECL_OVERRIDE;
 
 private:

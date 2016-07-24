@@ -95,11 +95,20 @@ bool LibarchivePlugin::list()
     return archive_read_close(arch_reader.data()) == ARCHIVE_OK;
 }
 
-bool LibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const QString &tempDirPath, const CompressionOptions& options)
+bool LibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options)
 {
     Q_UNUSED(files)
     Q_UNUSED(destination)
-    Q_UNUSED(tempDirPath)
+    Q_UNUSED(options)
+    return false;
+}
+
+bool LibarchivePlugin::moveFiles(const QList<Archive::Entry *> &files,
+                                 const Archive::Entry *destination,
+                                 const CompressionOptions &options)
+{
+    Q_UNUSED(files)
+    Q_UNUSED(destination)
     Q_UNUSED(options)
     return false;
 }

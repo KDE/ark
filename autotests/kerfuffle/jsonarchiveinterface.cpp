@@ -64,9 +64,8 @@ bool JSONArchiveInterface::open()
     return !m_archive.isEmpty();
 }
 
-bool JSONArchiveInterface::addFiles(const QList<Kerfuffle::Archive::Entry*> &files, const Kerfuffle::Archive::Entry *destination, const QString &tempDirPath, const Kerfuffle::CompressionOptions& options)
+bool JSONArchiveInterface::addFiles(const QList<Kerfuffle::Archive::Entry*>& files, const Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options)
 {
-    Q_UNUSED(tempDirPath)
     Q_UNUSED(options)
 
     foreach (const Kerfuffle::Archive::Entry *entry, files) {
@@ -80,6 +79,15 @@ bool JSONArchiveInterface::addFiles(const QList<Kerfuffle::Archive::Entry*> &fil
 
         m_archive[path] = e;
     }
+
+    return true;
+}
+
+bool JSONArchiveInterface::moveFiles(const QList<Kerfuffle::Archive::Entry*>& files, const Kerfuffle::Archive::Entry *destination, const Kerfuffle::ExtractionOptions& options)
+{
+    Q_UNUSED(files)
+    Q_UNUSED(destination)
+    Q_UNUSED(options)
 
     return true;
 }

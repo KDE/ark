@@ -45,7 +45,7 @@ ReadWriteLibarchivePlugin::~ReadWriteLibarchivePlugin()
 {
 }
 
-bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const QString &tempDirPath, const CompressionOptions& options)
+bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options)
 {
     qCDebug(ARK) << "Adding" << files.size() << "entries with CompressionOptions" << options;
 
@@ -176,6 +176,13 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
     tempFile.commit();
 
     return true;
+}
+
+bool ReadWriteLibarchivePlugin::moveFiles(const QList<Archive::Entry *> &files,
+                                          const Archive::Entry *destination,
+                                          const CompressionOptions &options)
+{
+    return false;
 }
 
 bool ReadWriteLibarchivePlugin::deleteFiles(const QList<Archive::Entry*>& files)

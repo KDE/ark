@@ -466,7 +466,7 @@ void AddJob::doWork()
     }
 
     connectToArchiveInterfaceSignals();
-    bool ret = m_writeInterface->addFiles(m_entries, m_destination, m_tmpExtractDir.path(), m_options);
+    bool ret = m_writeInterface->addFiles(m_entries, m_destination, m_options);
 
     if (!archiveInterface()->waitForFinishedSignal()) {
         onFinished(ret);
@@ -474,6 +474,43 @@ void AddJob::doWork()
 }
 
 void AddJob::onFinished(bool result)
+{
+    if (!m_oldWorkingDir.isEmpty()) {
+        QDir::setCurrent(m_oldWorkingDir);
+    }
+
+    Job::onFinished(result);
+}
+
+MoveJob::MoveJob(const QList<Archive::Entry*> &entries, const Archive::Entry *destination, const CompressionOptions& options , ReadWriteArchiveInterface *interface)
+    : Job(interface)
+    , m_entries(entries)
+    , m_destination(destination)
+    , m_options(options)
+{
+    qCDebug(ARK) << "MoveJob started";
+}
+
+void MoveJob::doWork()
+{
+    qCDebug(ARK) << "MoveJob: going to move" << m_entries.count() << "file(s)";
+
+    emit description(this, i18np("Moving a file", "Moving %1 files", m_entries.count()));
+
+    ReadWriteArchiveInterface *m_writeInterface =
+        qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
+
+    Q_ASSERT(m_writeInterface);
+
+    connectToArchiveInterfaceSignals();
+    bool ret = m_writeInterface->moveFiles(m_entries, m_destination, m_options);
+
+    if (!archiveInterface()->waitForFinishedSignal()) {
+        onFinished(ret);
+    }
+}
+
+void MoveJob::onFinished(bool result)
 {
     if (!m_oldWorkingDir.isEmpty()) {
         QDir::setCurrent(m_oldWorkingDir);

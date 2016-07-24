@@ -164,7 +164,7 @@ bool CliInterface::copyFiles(const QList<Archive::Entry*> &files, const QString 
     return true;
 }
 
-bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const QString &tempDirPath, const CompressionOptions& options)
+bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options)
 {
     cacheParameterList();
 
@@ -177,7 +177,8 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
     // and then place symlinks of targeted files there.
     const QString destinationPath = destination->property("fullPath").toString();
     if (!destinationPath.isEmpty()) {
-        const QString absoluteDestinationPath = tempDirPath + QLatin1Char('/') + destinationPath;
+        const QTemporaryDir tempDir;
+        const QString absoluteDestinationPath = tempDir.path() + QLatin1Char('/') + destinationPath;
 
         QDir qDir;
         qDir.mkpath(absoluteDestinationPath);
@@ -205,8 +206,8 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
             }
         }
 
-        qCDebug(ARK) << "Changing working dir again to " << tempDirPath;
-        QDir::setCurrent(tempDirPath);
+        qCDebug(ARK) << "Changing working dir again to " << tempDir.path();
+        QDir::setCurrent(tempDir.path());
 
         // Pass the entry without trailing slash for RAR compatibility.
         filesToPass.push_back(new Archive::Entry(preservedParent, destinationPath.left(destinationPath.count() - 1)));
@@ -233,6 +234,13 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
                                              compLevel);
 
     return runProcess(m_param.value(AddProgram).toStringList(), args);
+}
+
+bool CliInterface::moveFiles(const QList<Archive::Entry *> &files,
+                             const Archive::Entry *destination,
+                             const CompressionOptions &options)
+{
+    return false;
 }
 
 bool CliInterface::deleteFiles(const QList<Archive::Entry*> &files)
