@@ -129,7 +129,6 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
         } else if (filename().right(3).toUpper() == QLatin1String("LZ4")) {
             qCDebug(ARK) << "Detected lz4 compression for new file";
             ret = archive_write_add_filter_lz4(arch_writer.data());
-            requiresExecutable = true;
 #endif
         } else if (filename().right(3).toUpper() == QLatin1String("TAR")) {
             qCDebug(ARK) << "Detected no compression for new file (pure tar)";
@@ -177,7 +176,6 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
 #ifdef HAVE_LIBARCHIVE_3_2_0
         case ARCHIVE_FILTER_LZ4:
             ret = archive_write_add_filter_lz4(arch_writer.data());
-            requiresExecutable = true;
             break;
 #endif
         case ARCHIVE_FILTER_NONE:
@@ -363,6 +361,7 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVariantList& files)
     archive_write_set_format_pax_restricted(arch_writer.data());
 
     int ret;
+    bool requiresExecutable = false;
     switch (archive_filter_code(arch_reader.data(), 0)) {
     case ARCHIVE_FILTER_GZIP:
         ret = archive_write_add_filter_gzip(arch_writer.data());
@@ -376,6 +375,24 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVariantList& files)
     case ARCHIVE_FILTER_LZMA:
         ret = archive_write_add_filter_lzma(arch_writer.data());
         break;
+    case ARCHIVE_FILTER_COMPRESS:
+        ret = archive_write_add_filter_compress(arch_writer.data());
+        break;
+    case ARCHIVE_FILTER_LZIP:
+        ret = archive_write_add_filter_lzip(arch_writer.data());
+        break;
+    case ARCHIVE_FILTER_LZOP:
+        ret = archive_write_add_filter_lzop(arch_writer.data());
+        break;
+    case ARCHIVE_FILTER_LRZIP:
+        ret = archive_write_add_filter_lrzip(arch_writer.data());
+        requiresExecutable = true;
+        break;
+#ifdef HAVE_LIBARCHIVE_3_2_0
+    case ARCHIVE_FILTER_LZ4:
+        ret = archive_write_add_filter_lz4(arch_writer.data());
+        break;
+#endif
     case ARCHIVE_FILTER_NONE:
         ret = archive_write_add_filter_none(arch_writer.data());
         break;
@@ -384,9 +401,11 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVariantList& files)
         return false;
     }
 
-    if (ret != ARCHIVE_OK) {
-        emit error(xi18nc("@info", "Setting the compression method failed with the following error:"
-                          "<nl/><message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
+    // Libarchive emits a warning for lrzip due to using external executable.
+    if ((requiresExecutable && ret != ARCHIVE_WARN) ||
+        (!requiresExecutable && ret != ARCHIVE_OK)) {
+        emit error(xi18nc("@info", "Setting the compression method failed with the following error:<nl/><message>%1</message>",
+                          QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
     }
 
