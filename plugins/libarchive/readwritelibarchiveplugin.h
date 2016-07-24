@@ -46,6 +46,9 @@ public:
     bool deleteFiles(const QList<Archive::Entry*>& files) Q_DECL_OVERRIDE;
 
 private:
+    bool initializeNewFileWriter(const ArchiveWrite &archiveWrite, const CompressionOptions &options);
+    bool initializeWriter(const ArchiveWrite &archiveWrite, const ArchiveRead &archiveRead);
+    bool copyOldEntries(const ArchiveWrite &archiveWrite, const ArchiveRead &archiveRead, const QStringList &filePaths, int &entriesCounter, bool deleteMode = false);
     bool writeFile(const QString& relativeName, const QString& destination, struct archive* arch);
 
     QStringList m_writtenFiles;

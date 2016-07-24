@@ -54,20 +54,7 @@ bool LibarchivePlugin::list()
 
     ArchiveRead arch_reader(archive_read_new());
 
-    if (!(arch_reader.data())) {
-        return false;
-    }
-
-    if (archive_read_support_filter_all(arch_reader.data()) != ARCHIVE_OK) {
-        return false;
-    }
-
-    if (archive_read_support_format_all(arch_reader.data()) != ARCHIVE_OK) {
-        return false;
-    }
-
-    if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        emit error(i18nc("@info", "Could not open the archive."));
+    if (!initializeReader(arch_reader)) {
         return false;
     }
 
@@ -111,6 +98,8 @@ bool LibarchivePlugin::list()
 bool LibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const QString &tempDirPath, const CompressionOptions& options)
 {
     Q_UNUSED(files)
+    Q_UNUSED(destination)
+    Q_UNUSED(tempDirPath)
     Q_UNUSED(options)
     return false;
 }
@@ -155,23 +144,7 @@ bool LibarchivePlugin::copyFiles(const QList<Archive::Entry*>& files, const QStr
 
     ArchiveRead arch(archive_read_new());
 
-    if (!(arch.data())) {
-        return false;
-    }
-
-    if (archive_read_support_filter_all(arch.data()) != ARCHIVE_OK) {
-        return false;
-    }
-
-    if (archive_read_support_format_all(arch.data()) != ARCHIVE_OK) {
-        return false;
-    }
-
-    if (archive_read_open_filename(arch.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        // This error might be shown outside of a running Ark part (e.g. from a batch job).
-        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename>.<nl/>"
-                                   "Check whether you have sufficient permissions.",
-                          filename()));
+    if (!initializeReader(arch)) {
         return false;
     }
 
@@ -405,6 +378,31 @@ bool LibarchivePlugin::copyFiles(const QList<Archive::Entry*>& files, const QStr
     qCDebug(ARK) << "Extracted" << no_entries << "entries";
 
     return archive_read_close(arch.data()) == ARCHIVE_OK;
+}
+
+bool LibarchivePlugin::initializeReader(const ArchiveRead &archiveRead)
+{
+    if (!(archiveRead.data())) {
+        emit error(i18n("The archive reader could not be initialized."));
+        return false;
+    }
+
+    if (archive_read_support_filter_all(archiveRead.data()) != ARCHIVE_OK) {
+        return false;
+    }
+
+    if (archive_read_support_format_all(archiveRead.data()) != ARCHIVE_OK) {
+        return false;
+    }
+
+    if (archive_read_open_filename(archiveRead.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
+        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename>.<nl/>"
+            "Check whether you have sufficient permissions.",
+                          filename()));
+        return false;
+    }
+
+    return true;
 }
 
 void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)

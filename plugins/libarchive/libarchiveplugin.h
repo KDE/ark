@@ -54,6 +54,7 @@ public:
     virtual bool testArchive() Q_DECL_OVERRIDE;
 
 protected:
+    bool initializeReader(const ArchiveRead &archiveRead);
     void emitEntryFromArchiveEntry(struct archive_entry *entry);
     void copyData(const QString& filename, struct archive *dest, bool partialprogress = true);
     void copyData(const QString& filename, struct archive *source, struct archive *dest, bool partialprogress = true);

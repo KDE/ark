@@ -56,21 +56,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
     ArchiveRead arch_reader;
     if (!creatingNewFile) {
         arch_reader.reset(archive_read_new());
-        if (!arch_reader.data()) {
-            emit error(i18n("The archive reader could not be initialized."));
-            return false;
-        }
-
-        if (archive_read_support_filter_all(arch_reader.data()) != ARCHIVE_OK) {
-            return false;
-        }
-
-        if (archive_read_support_format_all(arch_reader.data()) != ARCHIVE_OK) {
-            return false;
-        }
-
-        if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-            emit error(i18n("The source file could not be read."));
+        if (!initializeReader(arch_reader)) {
             return false;
         }
     }
@@ -94,121 +80,17 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
     // pax_restricted is the libarchive default, let's go with that.
     archive_write_set_format_pax_restricted(arch_writer.data());
 
-    int ret;
-    bool requiresExecutable = false;
     if (creatingNewFile) {
-        if (filename().right(2).toUpper() == QLatin1String("GZ")) {
-            qCDebug(ARK) << "Detected gzip compression for new file";
-            ret = archive_write_add_filter_gzip(arch_writer.data());
-        } else if (filename().right(3).toUpper() == QLatin1String("BZ2")) {
-            qCDebug(ARK) << "Detected bzip2 compression for new file";
-            ret = archive_write_add_filter_bzip2(arch_writer.data());
-        } else if (filename().right(2).toUpper() == QLatin1String("XZ")) {
-            qCDebug(ARK) << "Detected xz compression for new file";
-            ret = archive_write_add_filter_xz(arch_writer.data());
-        } else if (filename().right(4).toUpper() == QLatin1String("LZMA")) {
-            qCDebug(ARK) << "Detected lzma compression for new file";
-            ret = archive_write_add_filter_lzma(arch_writer.data());
-        } else if (filename().right(2).toUpper() == QLatin1String(".Z")) {
-            qCDebug(ARK) << "Detected compress (.Z) compression for new file";
-            ret = archive_write_add_filter_compress(arch_writer.data());
-        } else if (filename().right(2).toUpper() == QLatin1String("LZ")) {
-            qCDebug(ARK) << "Detected lzip compression for new file";
-            ret = archive_write_add_filter_lzip(arch_writer.data());
-        } else if (filename().right(3).toUpper() == QLatin1String("LZO")) {
-            qCDebug(ARK) << "Detected lzop compression for new file";
-            ret = archive_write_add_filter_lzop(arch_writer.data());
-        } else if (filename().right(3).toUpper() == QLatin1String("LRZ")) {
-            qCDebug(ARK) << "Detected lrzip compression for new file";
-            ret = archive_write_add_filter_lrzip(arch_writer.data());
-            requiresExecutable = true;
-#ifdef HAVE_LIBARCHIVE_3_2_0
-        } else if (filename().right(3).toUpper() == QLatin1String("LZ4")) {
-            qCDebug(ARK) << "Detected lz4 compression for new file";
-            ret = archive_write_add_filter_lz4(arch_writer.data());
-            requiresExecutable = true;
-#endif
-        } else if (filename().right(3).toUpper() == QLatin1String("TAR")) {
-            qCDebug(ARK) << "Detected no compression for new file (pure tar)";
-            ret = archive_write_add_filter_none(arch_writer.data());
-        } else {
-            qCDebug(ARK) << "Falling back to gzip";
-            ret = archive_write_add_filter_gzip(arch_writer.data());
-        }
-
-        // Libarchive emits a warning for lrzip due to using external executable.
-        if ((requiresExecutable && ret != ARCHIVE_WARN) ||
-            (!requiresExecutable && ret != ARCHIVE_OK)) {
-            emit error(xi18nc("@info", "Setting the compression method failed with the following error:<nl/><message>%1</message>",
-                              QLatin1String(archive_error_string(arch_writer.data()))));
+        if (!initializeNewFileWriter(arch_writer, options)) {
             return false;
         }
-
-        // Set compression level if passed in CompressionOptions.
-        if (options.contains(QStringLiteral("CompressionLevel"))) {
-            qCDebug(ARK) << "Using compression level:" << options.value(QStringLiteral("CompressionLevel")).toString();
-            ret = archive_write_set_filter_option(arch_writer.data(), NULL, "compression-level", options.value(QStringLiteral("CompressionLevel")).toString().toUtf8());
-            if (ret != ARCHIVE_OK) {
-                qCWarning(ARK) << "Failed to set compression level";
-                emit error(xi18nc("@info", "Setting the compression level failed with the following error:<nl/><message>%1</message>",
-                                  QLatin1String(archive_error_string(arch_writer.data()))));
-                return false;
-            }
-        }
-
     } else {
-        switch (archive_filter_code(arch_reader.data(), 0)) {
-        case ARCHIVE_FILTER_GZIP:
-            ret = archive_write_add_filter_gzip(arch_writer.data());
-            break;
-        case ARCHIVE_FILTER_BZIP2:
-            ret = archive_write_add_filter_bzip2(arch_writer.data());
-            break;
-        case ARCHIVE_FILTER_XZ:
-            ret = archive_write_add_filter_xz(arch_writer.data());
-            break;
-        case ARCHIVE_FILTER_LZMA:
-            ret = archive_write_add_filter_lzma(arch_writer.data());
-            break;
-        case ARCHIVE_FILTER_COMPRESS:
-            ret = archive_write_add_filter_compress(arch_writer.data());
-            break;
-        case ARCHIVE_FILTER_LZIP:
-            ret = archive_write_add_filter_lzip(arch_writer.data());
-            break;
-        case ARCHIVE_FILTER_LZOP:
-            ret = archive_write_add_filter_lzop(arch_writer.data());
-            break;
-        case ARCHIVE_FILTER_LRZIP:
-            ret = archive_write_add_filter_lrzip(arch_writer.data());
-            requiresExecutable = true;
-            break;
-#ifdef HAVE_LIBARCHIVE_3_2_0
-        case ARCHIVE_FILTER_LZ4:
-            ret = archive_write_add_filter_lz4(arch_writer.data());
-            requiresExecutable = true;
-            break;
-#endif
-        case ARCHIVE_FILTER_NONE:
-            ret = archive_write_add_filter_none(arch_writer.data());
-            break;
-        default:
-            emit error(i18n("The compression type '%1' is not supported by Ark.",
-                            QLatin1String(archive_filter_name(arch_reader.data(), 0))));
-            return false;
-        }
-
-        // Libarchive emits a warning for lrzip due to using external executable.
-        if ((requiresExecutable && ret != ARCHIVE_WARN) ||
-            (!requiresExecutable && ret != ARCHIVE_OK)) {
-            emit error(xi18nc("@info", "Setting the compression method failed with the following error:<nl/><message>%1</message>",
-                              QLatin1String(archive_error_string(arch_writer.data()))));
+        if (!initializeWriter(arch_writer, arch_reader)) {
             return false;
         }
     }
 
-    ret = archive_write_open_fd(arch_writer.data(), tempFile.handle());
-    if (ret != ARCHIVE_OK) {
+    if (archive_write_open_fd(arch_writer.data(), tempFile.handle()) != ARCHIVE_OK) {
         emit error(xi18nc("@info", "Opening the archive for writing failed with the following error:<nl/><message>%1</message>",
                           QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
@@ -271,49 +153,15 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
     }
     qCDebug(ARK) << "Added" << no_entries << "new entries to archive";
 
-    struct archive_entry *entry;
-
     // If we have old archive entries.
     if (!creatingNewFile) {
 
         qCDebug(ARK) << "Copying any old entries";
-        no_entries = 0;
-
-        // Copy old entries from previous archive to new archive.
-        while (!m_abortOperation && (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK)) {
-
-            const QString entryName = QFile::decodeName(archive_entry_pathname(entry));
-
-            if (m_writtenFiles.contains(entryName)) {
-                archive_read_data_skip(arch_reader.data());
-                qCDebug(ARK) << entryName << "is already present in the new archive, skipping.";
-                continue;
-            }
-
-            const int returnCode = archive_write_header(arch_writer.data(), entry);
-
-            switch (returnCode) {
-            case ARCHIVE_OK:
-                // If the whole archive is extracted and the total filesize is
-                // available, we use partial progress.
-                copyData(QLatin1String(archive_entry_pathname(entry)), arch_reader.data(), arch_writer.data(), false);
-                no_entries++;
-                break;
-            case ARCHIVE_FAILED:
-            case ARCHIVE_FATAL:
-                qCCritical(ARK) << "archive_write_header() has returned" << returnCode
-                                << "with errno" << archive_errno(arch_writer.data());
-                emit error(xi18nc("@info", "Compression failed while processing:<nl/>"
-                                  "<filename>%1</filename><nl/><nl/>Operation aborted.", entryName));
-                QFile::remove(tempFile.fileName());
-                return false;
-            default:
-                qCWarning(ARK) << "archive_writer_header() has returned" << returnCode
-                               << "which will be ignored.";
-                break;
-            }
-            archive_entry_clear(entry);
+        if (!copyOldEntries(arch_writer, arch_reader, m_writtenFiles, no_entries)) {
+            QFile::remove(tempFile.fileName());
+            return false;
         }
+
         qCDebug(ARK) << "Added" << no_entries << "old entries to archive";
     }
 
@@ -335,21 +183,7 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QList<Archive::Entry*>& files)
    qCDebug(ARK) << "Deleting" << files.size() << "entries";
 
     ArchiveRead arch_reader(archive_read_new());
-    if (!(arch_reader.data())) {
-        emit error(i18n("The archive reader could not be initialized."));
-        return false;
-    }
-
-    if (archive_read_support_filter_all(arch_reader.data()) != ARCHIVE_OK) {
-        return false;
-    }
-
-    if (archive_read_support_format_all(arch_reader.data()) != ARCHIVE_OK) {
-        return false;
-    }
-
-    if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        emit error(i18n("The source file could not be read."));
+    if (!initializeReader(arch_reader)) {
         return false;
     }
 
@@ -372,83 +206,21 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QList<Archive::Entry*>& files)
     // pax_restricted is the libarchive default, let's go with that.
     archive_write_set_format_pax_restricted(arch_writer.data());
 
-    int ret;
-    switch (archive_filter_code(arch_reader.data(), 0)) {
-    case ARCHIVE_FILTER_GZIP:
-        ret = archive_write_add_filter_gzip(arch_writer.data());
-        break;
-    case ARCHIVE_FILTER_BZIP2:
-        ret = archive_write_add_filter_bzip2(arch_writer.data());
-        break;
-    case ARCHIVE_FILTER_XZ:
-        ret = archive_write_add_filter_xz(arch_writer.data());
-        break;
-    case ARCHIVE_FILTER_LZMA:
-        ret = archive_write_add_filter_lzma(arch_writer.data());
-        break;
-    case ARCHIVE_FILTER_NONE:
-        ret = archive_write_add_filter_none(arch_writer.data());
-        break;
-    default:
-        emit error(i18n("The compression type '%1' is not supported by Ark.", QLatin1String(archive_filter_name(arch_reader.data(), 0))));
+    if (!initializeWriter(arch_writer, arch_reader)) {
         return false;
     }
 
-    if (ret != ARCHIVE_OK) {
-        emit error(xi18nc("@info", "Setting the compression method failed with the following error:"
-                          "<nl/><message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
-        return false;
-    }
-
-    ret = archive_write_open_fd(arch_writer.data(), tempFile.handle());
-    if (ret != ARCHIVE_OK) {
+    if (archive_write_open_fd(arch_writer.data(), tempFile.handle()) != ARCHIVE_OK) {
         emit error(xi18nc("@info", "Opening the archive for writing failed with the following error:"
                           "<nl/><message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
         return false;
     }
 
-    struct archive_entry *entry;
-
-
-
     // Copy old elements from previous archive to new archive.
     int no_entries = 0;
     QStringList filePaths = entryFullPaths(files);
-    while (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK) {
-
-        QString file = QFile::decodeName(archive_entry_pathname(entry));
-
-        if (filePaths.contains(file)) {
-            archive_read_data_skip(arch_reader.data());
-            emit entryRemoved(file);
-            no_entries++;
-            continue;
-        }
-
-        const int returnCode = archive_write_header(arch_writer.data(), entry);
-
-        switch (returnCode) {
-        case ARCHIVE_OK:
-            // If the whole archive is extracted and the total filesize is
-            // available, we use partial progress.
-            copyData(QLatin1String(archive_entry_pathname(entry)), arch_reader.data(), arch_writer.data(), false);
-            break;
-        case ARCHIVE_FAILED:
-        case ARCHIVE_FATAL:
-            qCCritical(ARK) << "archive_write_header() has returned" << returnCode
-                            << "with errno" << archive_errno(arch_writer.data());
-            emit error(xi18nc("@info", "Compression failed while processing:<nl/>"
-                              "<filename>%1</filename><nl/><nl/>Operation aborted.", file));
-            return false;
-        default:
-            qCDebug(ARK) << "archive_writer_header() has returned" << returnCode
-                         << "which will be ignored.";
-            break;
-        }
-    }
+    copyOldEntries(arch_writer, arch_reader, filePaths, no_entries, true);
     qCDebug(ARK) << "Removed" << no_entries << "entries from archive";
-
-    m_abortOperation = false;
 
     // In the success case, we need to manually close the archive_writer before
     // calling QSaveFile::commit(), otherwise the latter will close() the
@@ -457,6 +229,182 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QList<Archive::Entry*>& files)
     // object that manages both QSaveFile and ArchiveWriter.
     archive_write_close(arch_writer.data());
     tempFile.commit();
+
+    return true;
+}
+
+bool ReadWriteLibarchivePlugin::initializeNewFileWriter(const LibarchivePlugin::ArchiveWrite &archiveWrite, const CompressionOptions &options)
+{
+    int ret;
+    bool requiresExecutable = false;
+    if (filename().right(2).toUpper() == QLatin1String("GZ")) {
+        qCDebug(ARK) << "Detected gzip compression for new file";
+        ret = archive_write_add_filter_gzip(archiveWrite.data());
+    } else if (filename().right(3).toUpper() == QLatin1String("BZ2")) {
+        qCDebug(ARK) << "Detected bzip2 compression for new file";
+        ret = archive_write_add_filter_bzip2(archiveWrite.data());
+    } else if (filename().right(2).toUpper() == QLatin1String("XZ")) {
+        qCDebug(ARK) << "Detected xz compression for new file";
+        ret = archive_write_add_filter_xz(archiveWrite.data());
+    } else if (filename().right(4).toUpper() == QLatin1String("LZMA")) {
+        qCDebug(ARK) << "Detected lzma compression for new file";
+        ret = archive_write_add_filter_lzma(archiveWrite.data());
+    } else if (filename().right(2).toUpper() == QLatin1String(".Z")) {
+        qCDebug(ARK) << "Detected compress (.Z) compression for new file";
+        ret = archive_write_add_filter_compress(archiveWrite.data());
+    } else if (filename().right(2).toUpper() == QLatin1String("LZ")) {
+        qCDebug(ARK) << "Detected lzip compression for new file";
+        ret = archive_write_add_filter_lzip(archiveWrite.data());
+    } else if (filename().right(3).toUpper() == QLatin1String("LZO")) {
+        qCDebug(ARK) << "Detected lzop compression for new file";
+        ret = archive_write_add_filter_lzop(archiveWrite.data());
+    } else if (filename().right(3).toUpper() == QLatin1String("LRZ")) {
+        qCDebug(ARK) << "Detected lrzip compression for new file";
+        ret = archive_write_add_filter_lrzip(archiveWrite.data());
+        requiresExecutable = true;
+#ifdef HAVE_LIBARCHIVE_3_2_0
+        } else if (filename().right(3).toUpper() == QLatin1String("LZ4")) {
+            qCDebug(ARK) << "Detected lz4 compression for new file";
+            ret = archive_write_add_filter_lz4(archiveWrite.data());
+#endif
+    } else if (filename().right(3).toUpper() == QLatin1String("TAR")) {
+        qCDebug(ARK) << "Detected no compression for new file (pure tar)";
+        ret = archive_write_add_filter_none(archiveWrite.data());
+    } else {
+        qCDebug(ARK) << "Falling back to gzip";
+        ret = archive_write_add_filter_gzip(archiveWrite.data());
+    }
+
+    // Libarchive emits a warning for lrzip due to using external executable.
+    if ((requiresExecutable && ret != ARCHIVE_WARN) ||
+        (!requiresExecutable && ret != ARCHIVE_OK)) {
+        emit error(xi18nc("@info", "Setting the compression method failed with the following error:<nl/><message>%1</message>",
+                          QLatin1String(archive_error_string(archiveWrite.data()))));
+        return false;
+    }
+
+    // Set compression level if passed in CompressionOptions.
+    if (options.contains(QStringLiteral("CompressionLevel"))) {
+        qCDebug(ARK) << "Using compression level:" << options.value(QStringLiteral("CompressionLevel")).toString();
+        ret = archive_write_set_filter_option(archiveWrite.data(), NULL, "compression-level", options.value(QStringLiteral("CompressionLevel")).toString().toUtf8());
+        if (ret != ARCHIVE_OK) {
+            qCWarning(ARK) << "Failed to set compression level";
+            emit error(xi18nc("@info", "Setting the compression level failed with the following error:<nl/><message>%1</message>",
+                              QLatin1String(archive_error_string(archiveWrite.data()))));
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool ReadWriteLibarchivePlugin::initializeWriter(const ArchiveWrite &archiveWrite, const ArchiveRead &archiveRead)
+{
+    int ret;
+    bool requiresExecutable = false;
+    switch (archive_filter_code(archiveRead.data(), 0)) {
+        case ARCHIVE_FILTER_GZIP:
+            ret = archive_write_add_filter_gzip(archiveWrite.data());
+            break;
+        case ARCHIVE_FILTER_BZIP2:
+            ret = archive_write_add_filter_bzip2(archiveWrite.data());
+            break;
+        case ARCHIVE_FILTER_XZ:
+            ret = archive_write_add_filter_xz(archiveWrite.data());
+            break;
+        case ARCHIVE_FILTER_LZMA:
+            ret = archive_write_add_filter_lzma(archiveWrite.data());
+            break;
+        case ARCHIVE_FILTER_COMPRESS:
+            ret = archive_write_add_filter_compress(archiveWrite.data());
+            break;
+        case ARCHIVE_FILTER_LZIP:
+            ret = archive_write_add_filter_lzip(archiveWrite.data());
+            break;
+        case ARCHIVE_FILTER_LZOP:
+            ret = archive_write_add_filter_lzop(archiveWrite.data());
+            break;
+        case ARCHIVE_FILTER_LRZIP:
+            ret = archive_write_add_filter_lrzip(archiveWrite.data());
+            requiresExecutable = true;
+            break;
+#ifdef HAVE_LIBARCHIVE_3_2_0
+        case ARCHIVE_FILTER_LZ4:
+            ret = archive_write_add_filter_lz4(archiveWrite.data());
+            break;
+#endif
+        case ARCHIVE_FILTER_NONE:
+            ret = archive_write_add_filter_none(archiveWrite.data());
+            break;
+        default:
+            emit error(i18n("The compression type '%1' is not supported by Ark.",
+                            QLatin1String(archive_filter_name(archiveRead.data(), 0))));
+            return false;
+    }
+
+    // Libarchive emits a warning for lrzip due to using external executable.
+    if ((requiresExecutable && ret != ARCHIVE_WARN) ||
+        (!requiresExecutable && ret != ARCHIVE_OK)) {
+        emit error(xi18nc("@info", "Setting the compression method failed with the following error:<nl/><message>%1</message>",
+                          QLatin1String(archive_error_string(archiveWrite.data()))));
+        return false;
+    }
+
+    return true;
+}
+
+bool ReadWriteLibarchivePlugin::copyOldEntries(const LibarchivePlugin::ArchiveWrite &archiveWrite,
+                                               const LibarchivePlugin::ArchiveRead &archiveRead,
+                                               const QStringList &filePaths,
+                                               int &entriesCounter,
+                                               bool deleteMode)
+{
+    struct archive_entry *entry;
+
+    entriesCounter = 0;
+    while ((deleteMode || !m_abortOperation) && archive_read_next_header(archiveRead.data(), &entry) == ARCHIVE_OK) {
+
+        QString file = QFile::decodeName(archive_entry_pathname(entry));
+
+        if (filePaths.contains(file)) {
+            archive_read_data_skip(archiveRead.data());
+            if (deleteMode) {
+                emit entryRemoved(file);
+                entriesCounter++;
+            }
+            else {
+                qCDebug(ARK) << file << "is already present in the new archive, skipping.";
+            }
+            continue;
+        }
+
+        const int returnCode = archive_write_header(archiveWrite.data(), entry);
+
+        switch (returnCode) {
+            case ARCHIVE_OK:
+                // If the whole archive is extracted and the total filesize is
+                // available, we use partial progress.
+                copyData(QLatin1String(archive_entry_pathname(entry)), archiveRead.data(), archiveWrite.data(), false);
+                if (!deleteMode) {
+                    entriesCounter++;
+                }
+                break;
+            case ARCHIVE_FAILED:
+            case ARCHIVE_FATAL:
+                qCCritical(ARK) << "archive_write_header() has returned" << returnCode
+                                << "with errno" << archive_errno(archiveWrite.data());
+                emit error(xi18nc("@info", "Compression failed while processing:<nl/>"
+            "<filename>%1</filename><nl/><nl/>Operation aborted.", file));
+                return false;
+            default:
+                qCDebug(ARK) << "archive_writer_header() has returned" << returnCode
+                             << "which will be ignored.";
+                break;
+        }
+        if (!deleteMode) {
+            archive_entry_clear(entry);
+        }
+    }
 
     return true;
 }
