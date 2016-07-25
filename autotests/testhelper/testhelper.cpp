@@ -31,11 +31,26 @@ QStringList TestHelper::getExpectedEntryPaths(const QList<Archive::Entry*> &entr
     return expectedPaths;
 }
 
-void TestHelper::verifyEntriesWithDestination(const QList<Archive::Entry*> &oldEntries, const Archive::Entry *destination, const QList<Archive::Entry*> &newEntries)
+void TestHelper::verifyAddedEntriesWithDestination(const QList<Archive::Entry *> &argumentEntries,
+                                                   const Archive::Entry *destination,
+                                                   const QList<Archive::Entry *> &newEntries)
 {
-    QStringList expectedPaths = getExpectedEntryPaths(oldEntries, destination);
+    QStringList expectedPaths = getExpectedEntryPaths(argumentEntries, destination);
     QStringList actualPaths = ReadOnlyArchiveInterface::entryFullPaths(newEntries);
     foreach (const QString &path, expectedPaths) {
         QVERIFY2(actualPaths.contains(path), (QStringLiteral("No ") + path + QStringLiteral(" inside the archive")).toStdString().c_str());
+    }
+}
+
+void TestHelper::verifyMovedEntriesWithDestination(const QList<Archive::Entry *> &argumentEntries,
+                                                   const Archive::Entry *destination,
+                                                   const QList<Archive::Entry *> &newEntries)
+{
+    QStringList oldPaths = ReadOnlyArchiveInterface::entryFullPaths(argumentEntries);
+    QStringList expectedPaths = getExpectedEntryPaths(argumentEntries, destination);
+    QStringList actualPaths = ReadOnlyArchiveInterface::entryFullPaths(newEntries);
+    foreach (const QString &path, expectedPaths) {
+        QVERIFY2(actualPaths.contains(path), (QStringLiteral("No ") + path + QStringLiteral(" inside the archive")).toStdString().c_str());
+        QVERIFY2(!oldPaths.contains(path), (QStringLiteral("Entry ") + path + QStringLiteral(" is still inside the archive, when it shouldn't be")).toStdString().c_str());
     }
 }

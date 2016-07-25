@@ -41,6 +41,8 @@ private Q_SLOTS:
     void initTestCase();
     void testAdd_data();
     void testAdd();
+    void testMove_data();
+    void testMove();
 
 private:
     PluginManager m_pluginManger;

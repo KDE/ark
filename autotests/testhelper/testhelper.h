@@ -42,7 +42,12 @@ public:
     static void startAndWaitForResult(KJob *job);
     static QList<Archive::Entry*> getEntryList(ReadOnlyArchiveInterface *iface);
     static QStringList getExpectedEntryPaths(const QList<Archive::Entry*> &entryList, const Archive::Entry* destination);
-    static void verifyEntriesWithDestination(const QList<Archive::Entry*> &oldEntries, const Archive::Entry *destination, const QList<Archive::Entry*> &newEntries);
+    static void verifyAddedEntriesWithDestination(const QList<Archive::Entry *> &argumentEntries,
+                                                  const Archive::Entry *destination,
+                                                  const QList<Archive::Entry *> &newEntries);
+    static void verifyMovedEntriesWithDestination(const QList<Archive::Entry *> &argumentEntries,
+                                                  const Archive::Entry *destination,
+                                                  const QList<Archive::Entry *> &newEntries);
 
 private:
     TestHelper() {}

@@ -91,7 +91,61 @@ void LibarchiveTest::testAdd()
     TestHelper::startAndWaitForResult(addJob);
 
     QList<Archive::Entry*> resultedEntries = TestHelper::getEntryList(plugin);
-    TestHelper::verifyEntriesWithDestination(files, destination, resultedEntries);
+    TestHelper::verifyAddedEntriesWithDestination(files, destination, resultedEntries);
+
+    plugin->deleteLater();
+}
+
+void LibarchiveTest::testMove_data()
+{
+    QTest::addColumn<QString>("archiveName");
+    QTest::addColumn<QList<Archive::Entry*>>("files");
+    QTest::addColumn<Archive::Entry*>("destination");
+
+    QTest::newRow("replace a file")
+        << QStringLiteral("test.rar")
+        << QList<Archive::Entry*> {
+            new Archive::Entry(this, QStringLiteral("a.txt")),
+        }
+        << new Archive::Entry(this, QStringLiteral("empty_dir/"));
+
+    QTest::newRow("replace several files")
+        << QStringLiteral("test.rar")
+        << QList<Archive::Entry*> {
+            new Archive::Entry(this, QStringLiteral("a.txt")),
+            new Archive::Entry(this, QStringLiteral("b.txt")),
+        }
+        << new Archive::Entry(this, QStringLiteral("empty_dir/"));
+
+    QTest::newRow("replace a directory")
+        << QStringLiteral("test.rar")
+        << QList<Archive::Entry*> {
+            new Archive::Entry(this, QStringLiteral("dir/")),
+        }
+        << new Archive::Entry(this, QStringLiteral("empty_dir/"));
+}
+
+void LibarchiveTest::testMove()
+{
+    QTemporaryDir temporaryDir;
+
+    QFETCH(QString, archiveName);
+    const QString archivePath = temporaryDir.path() + QLatin1Char('/') + archiveName;
+    Q_ASSERT(QFile::copy(QFINDTESTDATA(QStringLiteral("data/") + archiveName), archivePath));
+
+    ReadWriteLibarchivePlugin *plugin = new ReadWriteLibarchivePlugin(this, {QVariant(archivePath)});
+    QVERIFY(plugin);
+
+    QFETCH(QList<Archive::Entry*>, files);
+    QFETCH(Archive::Entry*, destination);
+
+    CompressionOptions options = CompressionOptions();
+    options.insert(QStringLiteral("GlobalWorkDir"), QFINDTESTDATA("data"));
+    MoveJob *moveJob = new MoveJob(files, destination, options, plugin);
+    TestHelper::startAndWaitForResult(moveJob);
+
+    QList<Archive::Entry*> resultedEntries = TestHelper::getEntryList(plugin);
+    TestHelper::verifyMovedEntriesWithDestination(files, destination, resultedEntries);
 
     plugin->deleteLater();
 }
