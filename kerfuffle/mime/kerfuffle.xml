@@ -3,10 +3,12 @@
    <mime-type type="application/x-lzip-compressed-tar">
       <comment>Tar archive (lzip-compressed)</comment>
       <comment xml:lang="ca">Arxiu tar (comprimit amb LZIP)</comment>
+      <comment xml:lang="ca@valencia">Arxiu tar (comprimit amb LZIP)</comment>
       <comment xml:lang="es">Archivo comprimido Tar (comprimido con lzip)</comment>
       <comment xml:lang="nl">Tar-archief (lzip-gecomprimeerd)</comment>
       <comment xml:lang="pl">Archiwum Tar (kompresja lzip)</comment>
       <comment xml:lang="pt">Pacote TAR (comprimido com Lzip)</comment>
+      <comment xml:lang="sk">Tar archív (lzip komprimovaný)</comment>
       <comment xml:lang="sl">Arhiv tar (stisnjen z lzip)</comment>
       <comment xml:lang="sv">Tar-arkiv (lzip-komprimerat)</comment>
       <glob pattern="*.tar.lz"/>
@@ -14,10 +16,12 @@
    <mime-type type="application/x-xar">
       <comment>XAR archive</comment>
       <comment xml:lang="ca">Arxiu XAR</comment>
+      <comment xml:lang="ca@valencia">Arxiu XAR</comment>
       <comment xml:lang="es">Archivo comprimido XAR</comment>
       <comment xml:lang="nl">XAR-archief</comment>
       <comment xml:lang="pl">Archiwum XAR</comment>
       <comment xml:lang="pt">Pacote XAR</comment>
+      <comment xml:lang="sk">XAR archív</comment>
       <comment xml:lang="sl">Arhiv XAR</comment>
       <comment xml:lang="sv">XAR-arkiv</comment>
       <acronym>XAR</acronym>
@@ -29,10 +33,12 @@
    <mime-type type="application/x-lz4-compressed-tar">
       <comment>Tar archive (LZ4-compressed)</comment>
       <comment xml:lang="ca">Arxiu tar (comprimit amb LZ4)</comment>
+      <comment xml:lang="ca@valencia">Arxiu tar (comprimit amb LZ4)</comment>
       <comment xml:lang="es">Archivo comprimido Tar (comprimido con LZ4)</comment>
       <comment xml:lang="nl">Tar-archief (lz4-gecomprimeerd)</comment>
       <comment xml:lang="pl">Archiwum Tar (kompresja LZ4)</comment>
       <comment xml:lang="pt">Pacote TAR (comprimido com LZ4)</comment>
+      <comment xml:lang="sk">Tar archív (LZ4 komprimovaný)</comment>
       <comment xml:lang="sl">Arhiv tar (stisnjen z LZ4)</comment>
       <comment xml:lang="sv">Tar-arkiv (LZ4-komprimerat)</comment>
       <glob pattern="*.tar.lz4"/>
@@ -40,10 +46,12 @@
    <mime-type type="application/x-iso9660-appimage">
       <comment>AppImage application bundle</comment>
       <comment xml:lang="ca">Paquet d'aplicació «AppImage»</comment>
+      <comment xml:lang="ca@valencia">Paquet d'aplicació «AppImage»</comment>
       <comment xml:lang="es">Paquete de aplicación AppImage</comment>
       <comment xml:lang="nl">Toepassingsbundel AppImage</comment>
       <comment xml:lang="pl">Pęk aplikacji AppImage</comment>
       <comment xml:lang="pt">Pacote de aplicações do AppImage</comment>
+      <comment xml:lang="sk">Balík aplikácie AppImage</comment>
       <comment xml:lang="sl">Zbirka programov AppImage</comment>
       <comment xml:lang="sv">AppImage-programsamling</comment>
       <sub-class-of type="application/x-executable"/>
