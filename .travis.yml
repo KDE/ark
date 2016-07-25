@@ -1,0 +1,35 @@
+sudo: required
+
+language: cpp
+
+compiler:
+  - gcc
+  - clang
+
+arch:
+  packages:
+    - extra-cmake-modules
+    - kdoctools
+    - python
+    - kparts
+    - kpty
+    - libarchive
+    - hicolor-icon-theme
+    - p7zip
+    - unzip
+    - zip
+    - lrzip
+    # for GUI tests
+    - xorg-server-xvfb
+    # from AUR:
+    - rar
+    - unarchiver
+  script:
+    - "cmake -DCMAKE_BUILD_TYPE=Debug -DKDE_INSTALL_LIBDIR=lib -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DCMAKE_INSTALL_PREFIX=/usr ."
+    - "make"
+    - "sudo make install"
+    # run the tests using the xvfb-run wrapper
+    - "xvfb-run --auto-servernum ctest --output-on-failure"
+
+script:
+  - "curl -s https://raw.githubusercontent.com/mikkeloscar/arch-travis/master/arch-travis.sh | bash"
