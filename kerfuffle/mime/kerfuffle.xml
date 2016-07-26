@@ -10,6 +10,10 @@
       <comment xml:lang="pt">Pacote TAR (comprimido com Lzip)</comment>
       <comment xml:lang="sk">Tar archív (lzip komprimovaný)</comment>
       <comment xml:lang="sl">Arhiv tar (stisnjen z lzip)</comment>
+      <comment xml:lang="sr">тар архива (ЛЗИП‑компресована)</comment>
+      <comment xml:lang="sr@ijekavian">тар архива (ЛЗИП‑компресована)</comment>
+      <comment xml:lang="sr@ijekavianlatin">tar arhiva (LZIP-kompresovana)</comment>
+      <comment xml:lang="sr@latin">tar arhiva (LZIP-kompresovana)</comment>
       <comment xml:lang="sv">Tar-arkiv (lzip-komprimerat)</comment>
       <glob pattern="*.tar.lz"/>
    </mime-type>
@@ -23,6 +27,10 @@
       <comment xml:lang="pt">Pacote XAR</comment>
       <comment xml:lang="sk">XAR archív</comment>
       <comment xml:lang="sl">Arhiv XAR</comment>
+      <comment xml:lang="sr">КСАР архива</comment>
+      <comment xml:lang="sr@ijekavian">КСАР архива</comment>
+      <comment xml:lang="sr@ijekavianlatin">XAR arhiva</comment>
+      <comment xml:lang="sr@latin">XAR arhiva</comment>
       <comment xml:lang="sv">XAR-arkiv</comment>
       <acronym>XAR</acronym>
       <expanded-acronym>eXtensible ARchive</expanded-acronym>
@@ -40,6 +48,10 @@
       <comment xml:lang="pt">Pacote TAR (comprimido com LZ4)</comment>
       <comment xml:lang="sk">Tar archív (LZ4 komprimovaný)</comment>
       <comment xml:lang="sl">Arhiv tar (stisnjen z LZ4)</comment>
+      <comment xml:lang="sr">тар архива (ЛЗ4‑компресована)</comment>
+      <comment xml:lang="sr@ijekavian">тар архива (ЛЗ4‑компресована)</comment>
+      <comment xml:lang="sr@ijekavianlatin">tar arhiva (LZ4-kompresovana)</comment>
+      <comment xml:lang="sr@latin">tar arhiva (LZ4-kompresovana)</comment>
       <comment xml:lang="sv">Tar-arkiv (LZ4-komprimerat)</comment>
       <glob pattern="*.tar.lz4"/>
    </mime-type>
@@ -53,6 +65,10 @@
       <comment xml:lang="pt">Pacote de aplicações do AppImage</comment>
       <comment xml:lang="sk">Balík aplikácie AppImage</comment>
       <comment xml:lang="sl">Zbirka programov AppImage</comment>
+      <comment xml:lang="sr">ап‑имејџ пакет програма</comment>
+      <comment xml:lang="sr@ijekavian">ап‑имејџ пакет програма</comment>
+      <comment xml:lang="sr@ijekavianlatin">AppImage paket programa</comment>
+      <comment xml:lang="sr@latin">AppImage paket programa</comment>
       <comment xml:lang="sv">AppImage-programsamling</comment>
       <sub-class-of type="application/x-executable"/>
       <sub-class-of type="application/x-iso9660-image"/>
