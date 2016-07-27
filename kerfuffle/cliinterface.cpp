@@ -499,7 +499,7 @@ bool CliInterface::moveToDestination(const QDir &tempDir, const QDir &destDir, b
     bool overwriteAll = false;
     bool skipAll = false;
 
-    QDirIterator dirIt(tempDir.path(), QDir::AllEntries | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+    QDirIterator dirIt(tempDir.path(), QDir::AllEntries | QDir::Hidden | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
     while (dirIt.hasNext()) {
         dirIt.next();
 
