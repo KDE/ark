@@ -230,6 +230,15 @@ void CliPlugin::readJsonOutput()
     }
 
     const QJsonObject json = jsonDoc.object();
+
+    const QJsonObject properties = json.value(QStringLiteral("lsarProperties")).toObject();
+    const QJsonArray volumes = properties.value(QStringLiteral("XADVolumes")).toArray();
+    if (volumes.count() > 1) {
+        qCDebug(ARK) << "Detected multivolume archive";
+        m_numberOfVolumes = volumes.count();
+        setMultiVolume(true);
+    }
+
     const QJsonArray entries = json.value(QStringLiteral("lsarContents")).toArray();
 
     foreach (const QJsonValue& value, entries) {
