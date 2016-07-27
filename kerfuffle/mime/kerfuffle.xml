@@ -16,6 +16,7 @@
       <comment xml:lang="sr@ijekavianlatin">tar arhiva (LZIP-kompresovana)</comment>
       <comment xml:lang="sr@latin">tar arhiva (LZIP-kompresovana)</comment>
       <comment xml:lang="sv">Tar-arkiv (lzip-komprimerat)</comment>
+      <comment xml:lang="uk">архів Tar (стиснутий lzip)</comment>
       <glob pattern="*.tar.lz"/>
    </mime-type>
    <mime-type type="application/x-xar">
@@ -34,6 +35,7 @@
       <comment xml:lang="sr@ijekavianlatin">XAR arhiva</comment>
       <comment xml:lang="sr@latin">XAR arhiva</comment>
       <comment xml:lang="sv">XAR-arkiv</comment>
+      <comment xml:lang="uk">архів XAR</comment>
       <acronym>XAR</acronym>
       <expanded-acronym>eXtensible ARchive</expanded-acronym>
       <generic-icon name="package-x-generic"/>
@@ -56,6 +58,7 @@
       <comment xml:lang="sr@ijekavianlatin">tar arhiva (LZ4-kompresovana)</comment>
       <comment xml:lang="sr@latin">tar arhiva (LZ4-kompresovana)</comment>
       <comment xml:lang="sv">Tar-arkiv (LZ4-komprimerat)</comment>
+      <comment xml:lang="uk">архів Tar (стиснутий LZ4)</comment>
       <glob pattern="*.tar.lz4"/>
    </mime-type>
 </mime-info>
