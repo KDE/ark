@@ -373,14 +373,6 @@ protected:
      */
     bool passwordQuery();
 
-    ParameterList m_param;
-    int m_exitCode;
-
-protected slots:
-    virtual void readStdout(bool handleAll = false);
-
-private:
-
     /**
      * Checks whether a line of the program's output is a password prompt.
      *
@@ -394,9 +386,26 @@ private:
      */
 
     bool checkForPasswordPromptMessage(const QString& line);
+    bool checkForErrorMessage(const QString& line, int parameterIndex);
+
+
+    ParameterList m_param;
+
+#ifdef Q_OS_WIN
+    KProcess *m_process;
+#else
+    KPtyProcess *m_process;
+#endif
+
+    bool m_abortingOperation;
+
+
+protected slots:
+    virtual void readStdout(bool handleAll = false);
+
+private:
 
     bool handleFileExistsMessage(const QString& filename);
-    bool checkForErrorMessage(const QString& line, int parameterIndex);
     bool checkForTestSuccessMessage(const QString& line);
 
     /**
@@ -428,15 +437,9 @@ private:
     QRegularExpression m_passwordPromptPattern;
     QHash<int, QList<QRegularExpression> > m_patternCache;
 
-#ifdef Q_OS_WIN
-    KProcess *m_process;
-#else
-    KPtyProcess *m_process;
-#endif
-
     QVariantList m_removedFiles;
+    int m_exitCode;
     bool m_listEmptyLines;
-    bool m_abortingOperation;
     QString m_storedFileName;
 
     CompressionOptions m_compressionOptions;
@@ -447,7 +450,7 @@ private:
     QVariantList m_copiedFiles;
 
 private slots:
-    void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    virtual void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void copyProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 };

@@ -22,13 +22,15 @@
 
 #include "cliplugin.h"
 #include "ark_debug.h"
-#include "kerfuffle/kerfuffle_export.h"
+#include "kerfuffle_export.h"
+#include "queries.h"
 
 #include <QJsonArray>
 #include <QJsonParseError>
 
 #include <KLocalizedString>
 #include <KPluginFactory>
+#include <KPtyProcess>
 
 using namespace Kerfuffle;
 
@@ -51,31 +53,7 @@ bool CliPlugin::list()
     m_operationMode = List;
 
     const auto args = substituteListVariables(m_param.value(ListArgs).toStringList(), password());
-
-    if (!runProcess(m_param.value(ListProgram).toStringList(), args)) {
-        return false;
-    }
-
-    if (!password().isEmpty()) {
-
-        // lsar -json exits with error code 1 if the archive is header-encrypted and the password is wrong.
-        if (m_exitCode == 1) {
-            qCWarning(ARK) << "Wrong password, list() aborted";
-            emit error(i18n("Wrong password."));
-            emit finished(false);
-            killProcess();
-            setPassword(QString());
-            return false;
-        }
-
-        // lsar -json exits with error code 2 if the archive is header-encrypted and no password is given as argument.
-        // At this point we have already asked a password to the user, so we can just list() again.
-        if (m_exitCode == 2) {
-            return CliPlugin::list();
-        }
-    }
-
-    return true;
+    return runProcess(m_param.value(ListProgram).toStringList(), args);
 }
 
 bool CliPlugin::copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, const ExtractionOptions &options)
@@ -170,7 +148,75 @@ void CliPlugin::handleLine(const QString& line)
         m_jsonOutput += line + QLatin1Char('\n');
     }
 
-    CliInterface::handleLine(line);
+    // TODO: is this check really needed?
+    if (m_operationMode == Copy) {
+        if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
+            qCWarning(ARK) << "Error in extraction:" << line;
+            emit error(i18n("Extraction failed because of an unexpected error."));
+            killProcess();
+            return;
+        }
+    }
+
+    if (m_operationMode == List) {
+        // This can only be an header-encrypted archive.
+        if (checkForPasswordPromptMessage(line)) {
+            qCDebug(ARK) << "Detected header-encrypted RAR archive";
+
+            Kerfuffle::PasswordNeededQuery query(filename());
+            emit userQuery(&query);
+            query.waitForResponse();
+
+            if (query.responseCancelled()) {
+                emit cancelled();
+                // Process is gone, so we emit finished() manually.
+                emit finished(false);
+            } else {
+                setPassword(query.password());
+                CliPlugin::list();
+            }
+        }
+    }
+}
+
+void CliPlugin::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    qCDebug(ARK) << "Process finished, exitcode:" << exitCode << "exitstatus:" << exitStatus;
+
+    if (m_process) {
+        //handle all the remaining data in the process
+        readStdout(true);
+
+        delete m_process;
+        m_process = Q_NULLPTR;
+    }
+
+    // #193908 - #222392
+    // Don't emit finished() if the job was killed quietly.
+    if (m_abortingOperation) {
+        return;
+    }
+
+    if (!password().isEmpty()) {
+
+        // lsar -json exits with error code 1 if the archive is header-encrypted and the password is wrong.
+        if (exitCode == 1) {
+            qCWarning(ARK) << "Wrong password, list() aborted";
+            emit error(i18n("Wrong password."));
+            emit finished(false);
+            setPassword(QString());
+            return;
+        }
+    }
+
+    // lsar -json exits with error code 2 if the archive is header-encrypted and no password is given as argument.
+    // At this point we are asking a password to the user and we are going to list() again after we get one.
+    // This means that we cannot emit finished here.
+    if (exitCode == 2) {
+        return;
+    }
+
+    emit finished(true);
 }
 
 void CliPlugin::readJsonOutput()
