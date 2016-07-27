@@ -672,7 +672,7 @@ bool Part::openFile()
     // Plugin loaded successfully.
     KJob *job = m_model->setArchive(archive.take());
     if (job) {
-        connect(archive.data(), &Archive::loadingFinished, this, &Part::updateActions);
+        connect(m_model->archive(), &Archive::loadingFinished, this, &Part::updateActions);
         registerJob(job);
         job->start();
     } else {
