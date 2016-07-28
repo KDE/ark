@@ -978,12 +978,15 @@ void CliInterface::readStdout(bool handleAll)
 
     foreach(const QByteArray& line, lines) {
         if (!line.isEmpty() || (m_listEmptyLines && m_operationMode == List)) {
-            handleLine(QString::fromLocal8Bit(line));
+            if (!handleLine(QString::fromLocal8Bit(line))) {
+                killProcess();
+                return;
+            }
         }
     }
 }
 
-void CliInterface::handleLine(const QString& line)
+bool CliInterface::handleLine(const QString& line)
 {
     // TODO: This should be implemented by each plugin; the way progress is
     //       shown by each CLI application is subject to a lot of variation.
@@ -993,7 +996,7 @@ void CliInterface::handleLine(const QString& line)
         if (pos > 1) {
             int percentage = line.midRef(pos - 2, 2).toInt();
             emit progress(float(percentage) / 100);
-            return;
+            return true;
         }
     }
 
@@ -1008,8 +1011,7 @@ void CliInterface::handleLine(const QString& line)
 
             if (query.responseCancelled()) {
                 emit cancelled();
-                killProcess();
-                return;
+                return false;
             }
 
             setPassword(query.password());
@@ -1017,33 +1019,30 @@ void CliInterface::handleLine(const QString& line)
             const QString response(password() + QLatin1Char('\n'));
             writeToProcess(response.toLocal8Bit());
 
-            return;
+            return true;
         }
 
         if (checkForErrorMessage(line, DiskFullPatterns)) {
             qCWarning(ARK) << "Found disk full message:" << line;
             emit error(i18nc("@info", "Extraction failed because the disk is full."));
-            killProcess();
-            return;
+            return false;
         }
 
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
             emit error(i18nc("@info", "Extraction failed: Incorrect password"));
-            killProcess();
-            return;
+            return false;
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
             qCWarning(ARK) << "Error in extraction:" << line;
             emit error(i18n("Extraction failed because of an unexpected error."));
-            killProcess();
-            return;
+            return false;
         }
 
         if (handleFileExistsMessage(line)) {
-            return;
+            return true;
         }
     }
 
@@ -1057,8 +1056,7 @@ void CliInterface::handleLine(const QString& line)
 
             if (query.responseCancelled()) {
                 emit cancelled();
-                killProcess();
-                return;
+                return false;
             }
 
             setPassword(query.password());
@@ -1066,36 +1064,35 @@ void CliInterface::handleLine(const QString& line)
             const QString response(password() + QLatin1Char('\n'));
             writeToProcess(response.toLocal8Bit());
 
-            return;
+            return true;
         }
 
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
             emit error(i18n("Incorrect password."));
-            killProcess();
-            return;
+            return false;
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
             qCWarning(ARK) << "Error in extraction!!";
             emit error(i18n("Extraction failed because of an unexpected error."));
-            killProcess();
-            return;
+            return false;
         }
 
         if (checkForErrorMessage(line, CorruptArchivePatterns)) {
             qCWarning(ARK) << "Archive corrupt";
             setCorrupt(true);
-            return;
+            // Special case: corrupt is not a "fatal" error so we return true here.
+            return true;
         }
 
         if (handleFileExistsMessage(line)) {
-            return;
+            return true;
         }
 
         readListLine(line);
-        return;
+        return true;
     }
 
     if (m_operationMode == Test) {
@@ -1104,16 +1101,17 @@ void CliInterface::handleLine(const QString& line)
             qCDebug(ARK) << "Found a password prompt";
 
             emit error(i18n("Ark does not currently support testing this archive."));
-            killProcess();
-            return;
+            return false;
         }
 
         if (checkForTestSuccessMessage(line)) {
             qCDebug(ARK) << "Test successful";
             emit testSuccess();
-            return;
+            return true;
         }
     }
+
+    return true;
 }
 
 bool CliInterface::checkForPasswordPromptMessage(const QString& line)

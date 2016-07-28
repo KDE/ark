@@ -101,7 +101,7 @@ ParameterList CliPlugin::parameterList() const
                                            << QStringLiteral("S")  //autoskip
                                            << QStringLiteral("Q"); //cancel
         p[PasswordPromptPattern] = QStringLiteral("Enter password \\(will not be echoed\\)");
-        p[ExtractionFailedPatterns] = QStringList() << QStringLiteral("ERROR: E_FAIL");
+        p[ExtractionFailedPatterns] = QStringList() << QStringLiteral("ERROR: E_FAIL") << QStringLiteral("Open ERROR: Can not open the file as \\[7z\\] archive");
         p[CorruptArchivePatterns] = QStringList() << QStringLiteral("Unexpected end of archive")
                                                   << QStringLiteral("Headers Error");
         p[DiskFullPatterns] = QStringList() << QStringLiteral("No space left on device");

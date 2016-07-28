@@ -50,7 +50,7 @@ protected slots:
 protected:
 
     void cacheParameterList() Q_DECL_OVERRIDE;
-    void handleLine(const QString& line) Q_DECL_OVERRIDE;
+    bool handleLine(const QString& line) Q_DECL_OVERRIDE;
 
 private slots:
     void processFinished(int exitCode, QProcess::ExitStatus exitStatus) Q_DECL_OVERRIDE;

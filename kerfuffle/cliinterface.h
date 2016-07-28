@@ -348,7 +348,13 @@ public:
 
 protected:
 
-    virtual void handleLine(const QString& line);
+    /**
+     * Handles the given @p line.
+     * @return True if the line is ok. False if the line contains/triggers a "fatal" error
+     * or a canceled user query. If false is returned, the caller is supposed to call killProcess().
+     */
+    virtual bool handleLine(const QString& line);
+
     virtual void cacheParameterList();
 
     /**

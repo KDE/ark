@@ -141,7 +141,7 @@ void CliPlugin::cacheParameterList()
     Q_ASSERT(m_param.contains(ListProgram));
 }
 
-void CliPlugin::handleLine(const QString& line)
+bool CliPlugin::handleLine(const QString& line)
 {
     // Collect the json output line by line.
     if (m_operationMode == List) {
@@ -153,8 +153,7 @@ void CliPlugin::handleLine(const QString& line)
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
             qCWarning(ARK) << "Error in extraction:" << line;
             emit error(i18n("Extraction failed because of an unexpected error."));
-            killProcess();
-            return;
+            return false;
         }
     }
 
@@ -169,14 +168,17 @@ void CliPlugin::handleLine(const QString& line)
 
             if (query.responseCancelled()) {
                 emit cancelled();
-                // Process is gone, so we emit finished() manually.
+                // Process is gone, so we emit finished() manually and we return true.
                 emit finished(false);
-            } else {
-                setPassword(query.password());
-                CliPlugin::list();
+                return true;
             }
+
+            setPassword(query.password());
+            CliPlugin::list();
         }
     }
+
+    return true;
 }
 
 void CliPlugin::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
