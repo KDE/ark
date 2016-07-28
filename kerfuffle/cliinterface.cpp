@@ -265,13 +265,13 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
     m_process->setNextOpenMode(QIODevice::ReadWrite | QIODevice::Unbuffered | QIODevice::Text);
     m_process->setProgram(programPath, arguments);
 
-    connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
+    connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()));
 
     if (m_operationMode == Copy) {
         // Extraction jobs need a dedicated post-processing function.
-        connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::copyProcessFinished, Qt::DirectConnection);
+        connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::copyProcessFinished);
     } else {
-        connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::processFinished, Qt::DirectConnection);
+        connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::processFinished);
     }
 
     m_stdOutData.clear();
