@@ -265,7 +265,7 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
     m_process->setNextOpenMode(QIODevice::ReadWrite | QIODevice::Unbuffered | QIODevice::Text);
     m_process->setProgram(programPath, arguments);
 
-    connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()));
+    connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(readStdout()));
 
     if (m_operationMode == Copy) {
         // Extraction jobs need a dedicated post-processing function.
