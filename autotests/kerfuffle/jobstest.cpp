@@ -209,7 +209,7 @@ void JobsTest::testListJob()
     QCOMPARE(archiveEntries.size(), expectedEntryNames.size());
 
     for (int i = 0; i < archiveEntries.size(); i++) {
-        QCOMPARE(archiveEntries.at(i)->property("fullPath").toString(), expectedEntryNames.at(i));
+        QCOMPARE(archiveEntries.at(i)->fullPath(), expectedEntryNames.at(i));
     }
 
     listJob->deleteLater();
@@ -317,7 +317,7 @@ void JobsTest::testRemoveEntries()
 
     QList<Archive::Entry*> expectedRemainingEntries;
     Q_FOREACH (Archive::Entry *entry, entries) {
-        if (!fullPathsToDelete.contains(entry->property("fullPath").toString())) {
+        if (!fullPathsToDelete.contains(entry->fullPath())) {
             expectedRemainingEntries.append(entry);
         }
     }
@@ -411,7 +411,7 @@ void JobsTest::testAddEntries()
     QFETCH(QList<Archive::Entry*>, originalEntries);
     QStringList originalFullPaths = QStringList();
     Q_FOREACH (const Archive::Entry *entry, originalEntries) {
-        originalFullPaths.append(entry->property("fullPath").toString());
+        originalFullPaths.append(entry->fullPath());
     }
     auto currentEntries = listEntries(iface);
     QCOMPARE(currentEntries.size(), originalEntries.size());
@@ -422,13 +422,13 @@ void JobsTest::testAddEntries()
     startAndWaitForResult(addJob);
 
     QStringList expectedAddedFullPaths = QStringList();
-    const QString destinationPath = destinationEntry->property("fullPath").toString();
+    const QString destinationPath = destinationEntry->fullPath();
     int expectedEntriesCount = originalEntries.size();
     Q_FOREACH (const Archive::Entry *entry, entriesToAdd) {
-        const QString fullPath = destinationPath + entry->property("fullPath").toString();
+        const QString fullPath = destinationPath + entry->fullPath();
         if (!originalFullPaths.contains(fullPath)) {
             expectedEntriesCount++;
-            expectedAddedFullPaths << destinationPath + entry->property("fullPath").toString();
+            expectedAddedFullPaths << destinationPath + entry->fullPath();
         }
     }
 
@@ -437,7 +437,7 @@ void JobsTest::testAddEntries()
 
     QStringList currentFullPaths = QStringList();
     Q_FOREACH (const Archive::Entry* entry, currentEntries) {
-        currentFullPaths << entry->property("fullPath").toString();
+        currentFullPaths << entry->fullPath();
     }
 
     Q_FOREACH (const QString fullPath, expectedAddedFullPaths) {

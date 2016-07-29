@@ -177,7 +177,7 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
     // and then place symlinks of targeted files there.
     const QString destinationPath = (destination == Q_NULLPTR)
                                     ? QString()
-                                    : destination->property("fullPath").toString();
+                                    : destination->fullPath();
     if (!destinationPath.isEmpty()) {
         m_extractTempDir = new QTemporaryDir();
         const QString absoluteDestinationPath = m_extractTempDir->path() + QLatin1Char('/') + destinationPath;
@@ -193,20 +193,16 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
                 preservedParent = file->parent();
             }
 
-            const QString filePath = QDir::currentPath() + QLatin1Char('/') + file->property("fullPath").toString();
-            QString newFilePath = absoluteDestinationPath + file->property("fullPath").toString();
-            // Symlink function can't accept the second argument as a path with trailing slash.
-            if (newFilePath[newFilePath.count() - 1] == QLatin1Char('/')) {
-                newFilePath.remove(newFilePath.count() - 1, 1);
+            const QString filePath = QDir::currentPath() + QLatin1Char('/') + file->fullPath(true);
+            const QString newFilePath = absoluteDestinationPath + file->fullPath(true);
+            if (QFile::link(filePath, newFilePath)) {
+                qCDebug(ARK) << "Symlink's created:" << filePath << newFilePath;
             }
-            if (!QFile::link(filePath, newFilePath)) {
+            else {
                 qCDebug(ARK) << "Can't create symlink" << filePath << newFilePath;
                 delete m_extractTempDir;
                 m_extractTempDir = Q_NULLPTR;
                 return false;
-            }
-            else {
-                qCDebug(ARK) << "Symlink's created:" << filePath << newFilePath;
             }
         }
 
@@ -454,8 +450,8 @@ bool CliInterface::moveDroppedFilesToDest(const QList<Archive::Entry*> &files, c
 
     foreach (const Archive::Entry *file, files) {
 
-        QFileInfo relEntry(file->property("fullPath").toString().remove(file->rootNode));
-        QFileInfo absSourceEntry(QDir::current().absolutePath() + QLatin1Char('/') + file->property("fullPath").toString());
+        QFileInfo relEntry(file->fullPath().remove(file->rootNode));
+        QFileInfo absSourceEntry(QDir::current().absolutePath() + QLatin1Char('/') + file->fullPath());
         QFileInfo absDestEntry(finalDestDir.path() + QLatin1Char('/') + relEntry.filePath());
 
         if (absSourceEntry.isDir()) {
@@ -783,7 +779,7 @@ QStringList CliInterface::substituteDeleteVariables(const QStringList &deleteArg
 
         if (arg == QLatin1String("$Files")) {
             foreach (const Archive::Entry *e, entries) {
-                args << escapeFileName(e->property("fullPath").toString());
+                args << escapeFileName(e->fullPath(true));
             }
             continue;
         }
@@ -920,7 +916,7 @@ QStringList CliInterface::copyFilesList(const QList<Archive::Entry*> &entries) c
 {
     QStringList filesList;
     foreach (const Archive::Entry *e, entries) {
-        filesList << escapeFileName(e->property("fullPath").toString());
+        filesList << escapeFileName(e->fullPath(true));
     }
 
     return filesList;
@@ -1309,20 +1305,11 @@ QStringList CliInterface::entryPathDestinationPairs(const QList<Archive::Entry*>
     QStringList pairList;
     if (entries.count() > 1) {
         foreach (const Archive::Entry *file, entries) {
-            pairList << file->property("fullPath").toString() << destination->property("fullPath").toString() + file->name();
+            pairList << file->fullPath() << destination->fullPath() + file->name();
         }
     }
     else {
-        // Get rid of trailing slashes for RAR compatibility.
-        QString oldPath = entries.at(0)->property("fullPath").toString();
-        if (oldPath.right(1) == QLatin1String("/")) {
-            oldPath.chop(1);
-        }
-        QString newPath = destination->property("fullPath").toString();
-        if (newPath.right(1) == QLatin1String("/")) {
-            newPath.chop(1);
-        }
-        pairList << oldPath << newPath;
+        pairList << entries.at(0)->fullPath(true) << destination->fullPath(true);
     }
     return pairList;
 }

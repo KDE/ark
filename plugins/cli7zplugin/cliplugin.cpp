@@ -219,7 +219,7 @@ bool CliPlugin::readListLine(const QString& line)
             m_currentArchiveEntry->setProperty("isDirectory", isDirectory);
             if (isDirectory) {
                 const QString directoryName =
-                    m_currentArchiveEntry->property("fullPath").toString();
+                    m_currentArchiveEntry->fullPath();
                 if (!directoryName.endsWith(QLatin1Char('/'))) {
                     const bool isPasswordProtected = (line.at(12) == QLatin1Char('+'));
                     m_currentArchiveEntry->setProperty("fullPath", QString(directoryName + QLatin1Char('/')));
@@ -238,7 +238,7 @@ bool CliPlugin::readListLine(const QString& line)
         } else if (line.startsWith(QStringLiteral("Block = ")) ||
                    line.startsWith(QStringLiteral("Version = "))) {
             m_isFirstInformationEntry = true;
-            if (!m_currentArchiveEntry->property("fullPath").toString().isEmpty()) {
+            if (!m_currentArchiveEntry->fullPath().isEmpty()) {
                 emit entry(m_currentArchiveEntry);
             }
             else {

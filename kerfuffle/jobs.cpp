@@ -251,7 +251,7 @@ void ListJob::onNewEntry(const Archive::Entry *entry)
 
     if (m_isSingleFolderArchive) {
         // RPM filenames have the ./ prefix, and "." would be detected as the subfolder name, so we remove it.
-        const QString fullPath = entry->property("fullPath").toString().replace(QRegularExpression(QStringLiteral("^\\./")), QString());
+        const QString fullPath = entry->fullPath().replace(QRegularExpression(QStringLiteral("^\\./")), QString());
         const QString basePath = fullPath.split(QLatin1Char('/')).at(0);
 
         if (m_basePath.isEmpty()) {
@@ -350,7 +350,7 @@ TempExtractJob::TempExtractJob(Archive::Entry *entry, bool passwordProtectedHint
 
 QString TempExtractJob::validatedFilePath() const
 {
-    QString path = extractionDir() + QLatin1Char('/') + m_entry->property("fullPath").toString();
+    QString path = extractionDir() + QLatin1Char('/') + m_entry->fullPath();
 
     // Make sure a maliciously crafted archive with parent folders named ".." do
     // not cause the previewed file path to be located outside the temporary
@@ -454,7 +454,7 @@ void AddJob::doWork()
     foreach (Archive::Entry *entry, m_entries) {
         // #191821: workDir must be used instead of QDir::current()
         //          so that symlinks aren't resolved automatically
-        const QString &fullPath = entry->property("fullPath").toString();
+        const QString &fullPath = entry->fullPath();
         QString relativePath = workDir.relativeFilePath(fullPath);
 
         if (fullPath.endsWith(QLatin1Char('/'))) {

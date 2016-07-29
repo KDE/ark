@@ -141,7 +141,7 @@ QStringList ReadOnlyArchiveInterface::entryFullPaths(const QList<Archive::Entry*
 {
     QStringList filesList;
     foreach (const Archive::Entry *file, entries) {
-        filesList << file->property("fullPath").toString();
+        filesList << file->fullPath();
     }
     return filesList;
 }

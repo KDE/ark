@@ -60,10 +60,11 @@ public:
     Entry *getParent() const;
     void setParent(Entry *parent);
     void setFullPath(const QString &fullPath);
-    void setIsDirectory(const bool isDirectory);
-    int row() const;
-    bool isDir() const;
+    QString fullPath(bool withoutTrailingSlash = false) const;
     QString name() const;
+    void setIsDirectory(const bool isDirectory);
+    bool isDir() const;
+    int row() const;
     Entry *find(const QString & name);
     Entry *findByPath(const QStringList & pieces, int index = 0);
     void returnDirEntries(QList<Entry *> *store);
@@ -81,6 +82,7 @@ private:
     Entry           *m_parent;
 
     QString m_fullPath;
+    QString m_fullPathWithoutTrailingSlash;
     QString m_permissions;
     QString m_owner;
     QString m_group;

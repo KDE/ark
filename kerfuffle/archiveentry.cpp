@@ -68,13 +68,32 @@ void Archive::Entry::setParent(Archive::Entry *parent)
 void Archive::Entry::setFullPath(const QString &fullPath)
 {
     m_fullPath = fullPath;
+    m_fullPathWithoutTrailingSlash = fullPath;
+    if (m_fullPathWithoutTrailingSlash.right(1) == QLatin1String("/")) {
+        m_fullPathWithoutTrailingSlash.chop(1);
+    }
     const QStringList pieces = m_fullPath.split(QLatin1Char( '/' ), QString::SkipEmptyParts);
     m_name = pieces.isEmpty() ? QString() : pieces.last();
+}
+
+QString Archive::Entry::fullPath(bool withoutTrailingSlash) const
+{
+    return (withoutTrailingSlash) ? m_fullPathWithoutTrailingSlash : m_fullPath;
+}
+
+QString Archive::Entry::name() const
+{
+    return m_name;
 }
 
 void Archive::Entry::setIsDirectory(const bool isDirectory)
 {
     m_isDirectory = isDirectory;
+}
+
+bool Archive::Entry::isDir() const
+{
+    return m_isDirectory;
 }
 
 int Archive::Entry::row() const
@@ -83,16 +102,6 @@ int Archive::Entry::row() const
         return getParent()->entries().indexOf(const_cast<Archive::Entry*>(this));
     }
     return 0;
-}
-
-bool Archive::Entry::isDir() const
-{
-    return m_isDirectory;
-}
-
-QString Archive::Entry::name() const
-{
-    return m_name;
 }
 
 Archive::Entry *Archive::Entry::find(const QString & name)

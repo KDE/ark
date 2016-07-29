@@ -69,7 +69,7 @@ bool JSONArchiveInterface::addFiles(const QList<Kerfuffle::Archive::Entry*>& fil
     Q_UNUSED(options)
 
     foreach (const Kerfuffle::Archive::Entry *entry, files) {
-        const QString &path = destination->property("fullPath").toString() + entry->property("fullPath").toString();
+        const QString &path = destination->fullPath() + entry->fullPath();
         if (m_archive.contains(path)) {
             return false;
         }
@@ -104,7 +104,7 @@ bool JSONArchiveInterface::copyFiles(const QList<Kerfuffle::Archive::Entry*>& fi
 bool JSONArchiveInterface::deleteFiles(const QList<Kerfuffle::Archive::Entry*>& files)
 {
     foreach (const Kerfuffle::Archive::Entry *file, files) {
-        const QString &fileName = file->property("fullPath").toString();
+        const QString &fileName = file->fullPath();
         if (m_archive.contains(fileName)) {
             m_archive.remove(fileName);
             emit entryRemoved(fileName);

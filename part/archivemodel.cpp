@@ -216,7 +216,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
         }
         case Qt::DecorationRole:
             if (index.column() == 0) {
-                return *m_entryIcons.value(entry->property("fullPath").toString());
+                return *m_entryIcons.value(entry->fullPath());
             }
             return QVariant();
         case Qt::FontRole: {
@@ -504,7 +504,7 @@ QString ArchiveModel::cleanFileName(const QString& fileName)
 
 Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
 {
-    QStringList pieces = entry->property("fullPath").toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
+    QStringList pieces = entry->fullPath().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
     if (pieces.isEmpty()) {
         return Q_NULLPTR;
     }
@@ -543,7 +543,7 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
 
             entry->setProperty("fullPath", (parent == &m_rootEntry)
                                            ? piece
-                                           : parent->property("fullPath").toString() + QLatin1Char( '/' ) + piece);
+                                           : parent->fullPath() + QLatin1Char( '/' ) + piece);
             entry->setProperty("isDirectory", true);
             insertEntry(entry);
         }
@@ -588,7 +588,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
         Q_UNUSED(index);
 
         beginRemoveRows(indexForEntry(parent), entry->row(), entry->row());
-        delete m_entryIcons.take(parent->entries().at(entry->row())->property("fullPath").toString());
+        delete m_entryIcons.take(parent->entries().at(entry->row())->fullPath());
         parent->removeEntryAt(entry->row());
         endRemoveRows();
     }
@@ -615,7 +615,7 @@ void ArchiveModel::slotNewEntry(Archive::Entry *entry)
 
 void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behaviour)
 {
-    if (receivedEntry->property("fullPath").toString().isEmpty()) {
+    if (receivedEntry->fullPath().isEmpty()) {
         qCDebug(ARK) << "Weird, received empty entry (no filename) - skipping";
         return;
     }
@@ -644,7 +644,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     //#194241: Filenames such as "./file" should be displayed as "file"
     //#241967: Entries called "/" should be ignored
     //#355839: Entries called "//" should be ignored
-    QString entryFileName = cleanFileName(receivedEntry->property("fullPath").toString());
+    QString entryFileName = cleanFileName(receivedEntry->fullPath());
     if (entryFileName.isEmpty()) { // The entry contains only "." or "./"
         return;
     }
@@ -735,10 +735,10 @@ void ArchiveModel::insertEntry(Archive::Entry *entry, InsertBehaviour behaviour)
         pixmap = new QPixmap(QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
                                                                                                            IconSize(KIconLoader::Small)));
     } else {
-        pixmap = new QPixmap(QIcon::fromTheme(db.mimeTypeForFile(entry->property("fullPath").toString()).iconName()).pixmap(IconSize(KIconLoader::Small),
+        pixmap = new QPixmap(QIcon::fromTheme(db.mimeTypeForFile(entry->fullPath()).iconName()).pixmap(IconSize(KIconLoader::Small),
                                                                                     IconSize(KIconLoader::Small)));
     }
-    m_entryIcons.insert(entry->property("fullPath").toString(), pixmap);
+    m_entryIcons.insert(entry->fullPath(), pixmap);
 }
 
 Kerfuffle::Archive* ArchiveModel::archive() const
@@ -871,7 +871,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
         Archive::Entry *entry = entryForIndex(node);
 
         if (!hasChildren(node)) {
-            if (entry->property("fullPath").toString().isEmpty()) {
+            if (entry->fullPath().isEmpty()) {
                 nodesToDelete << node;
             }
         } else {
@@ -885,7 +885,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
         Archive::Entry *rawEntry = static_cast<Archive::Entry*>(node.internalPointer());
         qCDebug(ARK) << "Delete with parent entries " << rawEntry->getParent()->entries() << " and row " << rawEntry->row();
         beginRemoveRows(parent(node), rawEntry->row(), rawEntry->row());
-        delete m_entryIcons.take(rawEntry->getParent()->entries().at(rawEntry->row())->property("fullPath").toString());
+        delete m_entryIcons.take(rawEntry->getParent()->entries().at(rawEntry->row())->fullPath());
         rawEntry->getParent()->removeEntryAt(rawEntry->row());
         endRemoveRows();
     }

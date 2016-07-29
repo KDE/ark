@@ -208,7 +208,7 @@ void AddToArchive::slotStartJob()
         const QDir stripDir(m_firstPath);
 
         foreach (Archive::Entry *entry, m_entries) {
-            entry->setFullPath(stripDir.absoluteFilePath(entry->property("fullPath").toString()));
+            entry->setFullPath(stripDir.absoluteFilePath(entry->fullPath()));
         }
 
         options[QStringLiteral( "GlobalWorkDir" )] = stripDir.path();
@@ -238,7 +238,7 @@ void AddToArchive::slotFinished(KJob *job)
 
 QString AddToArchive::detectBaseName(const QList<Archive::Entry*> &entries) const
 {
-    QFileInfo fileInfo = QFileInfo(entries.first()->property("fullPath").toString());
+    QFileInfo fileInfo = QFileInfo(entries.first()->fullPath());
     QDir parentDir = fileInfo.dir();
     QString base = parentDir.absolutePath() + QLatin1Char('/');
 

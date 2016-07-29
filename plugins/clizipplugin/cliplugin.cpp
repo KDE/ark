@@ -247,7 +247,7 @@ void CliPlugin::setAddedFiles()
     // otherwise it's new entry full path.
     if (m_movedFiles.count() > 1) {
         foreach (const Archive::Entry *file, m_movedFiles) {
-            QString oldPath = m_moveExtractedDir->path() + QLatin1Char('/') + file->property("fullPath").toString();
+            QString oldPath = m_moveExtractedDir->path() + QLatin1Char('/') + file->fullPath();
             // Move function can't accept the second argument as a path with trailing slash.
             if (oldPath[oldPath.count() - 1] == QLatin1Char('/')) {
                 oldPath.remove(oldPath.count() - 1, 1);
@@ -259,17 +259,13 @@ void CliPlugin::setAddedFiles()
     }
     else {
         const Archive::Entry *file = m_movedFiles.at(0);
-        QString oldPath = m_moveExtractedDir->path() + QLatin1Char('/') + file->property("fullPath").toString();
-        // Move function can't accept the second argument as a path with trailing slash.
-        if (oldPath[oldPath.count() - 1] == QLatin1Char('/')) {
-            oldPath.remove(oldPath.count() - 1, 1);
-        }
+        const QString oldPath = m_moveExtractedDir->path() + QLatin1Char('/') + file->fullPath(true);
         QString newPath = m_moveAddedDir->path() + QLatin1Char('/') + m_moveDestination->name();
         QFile::rename(oldPath, newPath);
         m_moveAddedFiles << new Archive::Entry(Q_NULLPTR, m_moveDestination->name());
 
         // We have to exclude file name from destination path in order to pass it to addFiles method.
-        const QString destinationPath = m_moveDestination->property("fullPath").toString();
+        const QString destinationPath = m_moveDestination->fullPath();
         int destinationLength = destinationPath.count();
         bool iteratedChar = false;
         do {

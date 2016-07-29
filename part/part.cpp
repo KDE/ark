@@ -792,7 +792,7 @@ void Part::slotLoadingFinished(KJob *job)
         displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "The archive is empty or Ark could not open its content."));
     } else if (m_model->rowCount() == 1) {
         if (m_model->archive()->mimeType().inherits(QStringLiteral("application/x-cd-image")) &&
-            m_model->entryForIndex(m_model->index(0, 0))->property("fullPath").toString() == QLatin1String("README.TXT")) {
+            m_model->entryForIndex(m_model->index(0, 0))->fullPath() == QLatin1String("README.TXT")) {
             qCWarning(ARK) << "Detected ISO image with UDF filesystem";
             displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "Ark does not currently support ISO files with UDF filesystem."));
         }
@@ -854,7 +854,7 @@ void Part::slotOpenEntry(int mode)
     }
 
     // Extract the entry.
-    if (!entry->property("fullPath").toString().isEmpty()) {
+    if (!entry->fullPath().isEmpty()) {
 
         m_openFileMode = static_cast<OpenFileMode>(mode);
         KJob *job = Q_NULLPTR;
@@ -1107,14 +1107,14 @@ QList<Kerfuffle::Archive::Entry*> Part::filesAndRootNodesForIndexes(const QModel
 
         // Fetch the root node for the unselected parent.
         const QString rootFileName = selectionRoot.isValid()
-            ? m_model->entryForIndex(selectionRoot)->property("fullPath").toString()
+            ? m_model->entryForIndex(selectionRoot)->fullPath()
             : QString();
 
 
         // Append index with root node to fileList.
         QModelIndexList alist = QModelIndexList() << index;
         foreach (Archive::Entry *entry, filesForIndexes(alist)) {
-            const QString fullPath = entry->property("fullPath").toString();
+            const QString fullPath = entry->fullPath();
             if (!fullPathsList.contains(fullPath)) {
                 entry->rootNode = rootFileName;
                 fileList.append(entry);

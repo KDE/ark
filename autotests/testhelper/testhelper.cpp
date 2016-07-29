@@ -27,11 +27,11 @@ QStringList TestHelper::getExpectedEntryPaths(const QList<Archive::Entry*> &entr
     QStringList expectedPaths = QStringList();
     if (entryList.count() > 1) {
         foreach (const Archive::Entry *entry, entryList) {
-            expectedPaths << destination->property("fullPath").toString() + entry->property("fullPath").toString();
+            expectedPaths << destination->fullPath() + entry->fullPath();
         }
     }
     else {
-        expectedPaths << destination->property("fullPath").toString();
+        expectedPaths << destination->fullPath();
     }
     return expectedPaths;
 }

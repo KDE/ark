@@ -100,7 +100,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
     qCDebug(ARK) << "Writing new entries";
     int no_entries = 0;
     // Recreate destination directory structure.
-    const QString destinationPath = destination->property("fullPath").toString();
+    const QString destinationPath = destination->fullPath();
 
     foreach(Archive::Entry *selectedFile, files) {
 
@@ -108,13 +108,13 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
             break;
         }
 
-        if (!writeFile(selectedFile->property("fullPath").toString(), destinationPath, arch_writer.data())) {
+        if (!writeFile(selectedFile->fullPath(), destinationPath, arch_writer.data())) {
             return false;
         }
         no_entries++;
 
         // For directories, write all subfiles/folders.
-        const QString &fullPath = selectedFile->property("fullPath").toString();
+        const QString &fullPath = selectedFile->fullPath();
         if (QFileInfo(fullPath).isDir()) {
             QDirIterator it(fullPath,
                             QDir::AllEntries | QDir::Readable |
@@ -415,15 +415,15 @@ bool ReadWriteLibarchivePlugin::processOldEntries(const LibarchivePlugin::Archiv
             QString destination;
             if (m_lastMovedFolder.count() > 0 && file.startsWith(m_lastMovedFolder)) {
                 destination = file;
-                destination.replace(0, m_lastMovedFolder.count(), m_destination->property("fullPath").toString());
+                destination.replace(0, m_lastMovedFolder.count(), m_destination->fullPath());
             }
             else if (m_filePaths.contains(file)) {
-                destination = m_destination->property("fullPath").toString();
+                destination = m_destination->fullPath();
                 if (m_filePaths.count() > 1) {
                     destination = destination + file.split(QLatin1Char('/'), QString::SkipEmptyParts).last();
                 }
                 else {
-                    destination = m_destination->property("fullPath").toString();
+                    destination = m_destination->fullPath();
                     if (destination[destination.count() - 1] == QLatin1Char('/')) {
                         destination.remove(destination.count() - 1, 1);
                         m_lastMovedFolder = destination;
