@@ -57,6 +57,7 @@ void CliPlugin::resetParsing()
     m_parseState = ParseStateTitle;
     m_remainingIgnoreLines = 1;
     m_comment.clear();
+    m_numberOfVolumes = 0;
 }
 
 // #272281: the proprietary unrar program does not like trailing '/'s

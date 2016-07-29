@@ -38,6 +38,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QMimeDatabase>
+#include <QRegularExpression>
 
 #include <KPluginFactory>
 #include <KPluginLoader>
@@ -151,11 +152,24 @@ Archive::~Archive()
 
 QString Archive::completeBaseName() const
 {
+    const QString suffix = QFileInfo(fileName()).suffix();
     QString base = QFileInfo(fileName()).completeBaseName();
 
     // Special case for compressed tar archives.
     if (base.right(4).toUpper() == QLatin1String(".TAR")) {
         base.chop(4);
+
+    // Multi-volume 7z's are named name.7z.001.
+    } else if (base.right(3).toUpper() == QLatin1String(".7Z")) {
+        base.chop(3);
+
+    // Multi-volume zip's are named name.zip.001.
+    } else if (base.right(4).toUpper() == QLatin1String(".ZIP")) {
+        base.chop(4);
+
+    // For multivolume rar's we want to remove the ".partNNN" suffix.
+    } else if (suffix.toUpper() == QLatin1String("RAR")) {
+        base.remove(QRegularExpression(QStringLiteral("\\.part[0-9]{1,3}$")));
     }
 
     return base;
@@ -208,7 +222,7 @@ QMimeType Archive::mimeType()
     return m_mimeType;
 }
 
-bool Archive::isReadOnly() const
+bool Archive::isReadOnly()
 {
     return isValid() ? (m_iface->isReadOnly() || m_isReadOnly ||
                         (isMultiVolume() && (m_numberOfFiles > 0 || m_numberOfFolders > 0))) : false;
@@ -229,8 +243,12 @@ bool Archive::hasComment() const
     return isValid() ? !comment().isEmpty() : false;
 }
 
-bool Archive::isMultiVolume() const
+bool Archive::isMultiVolume()
 {
+    if (!isValid()) {
+        return false;
+    }
+    listIfNotListed();
     return m_iface->isMultiVolume();
 }
 

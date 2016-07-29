@@ -76,6 +76,7 @@ bool CliPlugin::copyFiles(const QList<QVariant> &files, const QString &destinati
 void CliPlugin::resetParsing()
 {
     m_jsonOutput.clear();
+    m_numberOfVolumes = 0;
 }
 
 ParameterList CliPlugin::parameterList() const

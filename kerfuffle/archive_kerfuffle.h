@@ -174,9 +174,9 @@ public:
     QString fileName() const;
     QString comment() const;
     QMimeType mimeType();
-    bool isReadOnly() const;
+    bool isReadOnly();
     bool isSingleFolderArchive();
-    bool isMultiVolume() const;
+    bool isMultiVolume();
     void setMultiVolume(bool value);
     bool hasComment() const;
     int numberOfVolumes() const;

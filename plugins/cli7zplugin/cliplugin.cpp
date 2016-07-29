@@ -52,6 +52,7 @@ void CliPlugin::resetParsing()
 {
     m_parseState = ParseStateTitle;
     m_comment.clear();
+    m_numberOfVolumes = 0;
 }
 
 ParameterList CliPlugin::parameterList() const
