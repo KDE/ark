@@ -103,9 +103,7 @@ bool LibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, const Archi
     return false;
 }
 
-bool LibarchivePlugin::moveFiles(const QList<Archive::Entry *> &files,
-                                 const Archive::Entry *destination,
-                                 const CompressionOptions &options)
+bool LibarchivePlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(files)
     Q_UNUSED(destination)

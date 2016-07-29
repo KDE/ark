@@ -61,7 +61,7 @@ ParameterList CliPlugin::parameterList() const
 
     if (p.isEmpty()) {
         //p[CaptureProgress] = true;
-        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = p[TestProgram] = QStringList() << QStringLiteral("7z");
+        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[MoveProgram] = p[AddProgram] = p[TestProgram] = QStringList() << QStringLiteral("7z");
         p[ListArgs] = QStringList() << QStringLiteral("l")
                                     << QStringLiteral("-slt")
                                     << QStringLiteral("$PasswordSwitch")
@@ -82,6 +82,10 @@ ParameterList CliPlugin::parameterList() const
                                    << QStringLiteral("$PasswordSwitch")
                                    << QStringLiteral("$CompressionLevelSwitch")
                                    << QStringLiteral("$Files");
+        p[MoveArgs] = QStringList() << QStringLiteral("rn")
+                                    << QStringLiteral("$PasswordSwitch")
+                                    << QStringLiteral("$Archive")
+                                    << QStringLiteral("$PathPairs");
         p[DeleteArgs] = QStringList() << QStringLiteral("d")
                                       << QStringLiteral("$PasswordSwitch")
                                       << QStringLiteral("$Archive")

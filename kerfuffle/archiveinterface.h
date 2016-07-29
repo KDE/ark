@@ -100,6 +100,8 @@ public:
     virtual bool copyFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) = 0;
     bool waitForFinishedSignal();
 
+    virtual int moveRequiredSignals() const;
+
     /**
      * @return The list of filenames retrieved from the list of entries.
      */
@@ -146,6 +148,10 @@ class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterfac
 {
     Q_OBJECT
 public:
+    enum OperationMode  {
+        List, Copy, Add, Move, Delete, Comment, Test
+    };
+
     explicit ReadWriteArchiveInterface(QObject *parent, const QVariantList & args);
     virtual ~ReadWriteArchiveInterface();
 
@@ -154,7 +160,7 @@ public:
     //see archive.h for a list of what the compressionoptions might
     //contain
     virtual bool addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options) = 0;
-    virtual bool moveFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options) = 0;
+    virtual bool moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) = 0;
     virtual bool deleteFiles(const QList<Archive::Entry*> &files) = 0;
     virtual bool addComment(const QString &comment) = 0;
 };

@@ -244,7 +244,7 @@ class KERFUFFLE_EXPORT MoveJob : public Job
 Q_OBJECT
 
 public:
-    MoveJob(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
+    MoveJob(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
 
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
@@ -253,10 +253,9 @@ protected slots:
     virtual void onFinished(bool result) Q_DECL_OVERRIDE;
 
 private:
-    QTemporaryDir m_tmpExtractDir;
-    QString m_oldWorkingDir;
+    int m_finishedSignalsCount;
     const QList<Archive::Entry*> m_entries;
-    const Archive::Entry *m_destination;
+    Archive::Entry *m_destination;
     CompressionOptions m_options;
 };
 

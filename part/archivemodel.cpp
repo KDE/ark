@@ -820,10 +820,6 @@ AddJob* ArchiveModel::addFiles(QList<Archive::Entry*> &entries, const Archive::E
         return Q_NULLPTR;
     }
 
-    if (destination == Q_NULLPTR) {
-        destination = &m_rootEntry;
-    }
-
     if (!m_archive->isReadOnly()) {
         AddJob *job = m_archive->addFiles(entries, destination, options);
         connect(job, &AddJob::newEntry, this, &ArchiveModel::slotNewEntry);

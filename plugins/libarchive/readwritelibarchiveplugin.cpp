@@ -101,16 +101,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
     int no_entries = 0;
     // Recreate destination directory structure.
     const QString destinationPath = destination->property("fullPath").toString();
-    qCDebug(ARK) << destinationPath.split(QLatin1Char('/'));
-    foreach(const QString& directory, destinationPath.split(QLatin1Char('/'))) {
-        if (!directory.isEmpty()) {
-            qCDebug(ARK) << directory;
-            if (!writeFile(directory, QString(), arch_writer.data())) {
-                return false;
-            }
-            no_entries++;
-        }
-    }
+
     foreach(Archive::Entry *selectedFile, files) {
 
         if (m_abortOperation) {
@@ -157,7 +148,8 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
     if (!creatingNewFile) {
 
         qCDebug(ARK) << "Copying any old entries";
-        if (!copyOldEntries(arch_writer, arch_reader, m_writtenFiles, no_entries)) {
+        m_filePaths = m_writtenFiles;
+        if (!processOldEntries(arch_reader, arch_writer, no_entries, Add)) {
             QFile::remove(tempFile.fileName());
             return false;
         }
@@ -178,16 +170,65 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
     return true;
 }
 
-bool ReadWriteLibarchivePlugin::moveFiles(const QList<Archive::Entry *> &files,
-                                          const Archive::Entry *destination,
-                                          const CompressionOptions &options)
+bool ReadWriteLibarchivePlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
-    return false;
+    qCDebug(ARK) << "Moving" << files.size() << "entries";
+
+    ArchiveRead arch_reader(archive_read_new());
+    if (!initializeReader(arch_reader)) {
+        return false;
+    }
+
+    // |tempFile| needs to be created before |arch_writer| so that when we go
+    // out of scope in a `return false' case ArchiveWriteCustomDeleter is
+    // called before destructor of QSaveFile (ie. we call archive_write_close()
+    // before close()'ing the file descriptor).
+    QSaveFile tempFile(filename());
+    if (!tempFile.open(QIODevice::WriteOnly | QIODevice::Unbuffered)) {
+        emit error(i18nc("@info", "Failed to create a temporary file."));
+        return false;
+    }
+
+    ArchiveWrite arch_writer(archive_write_new());
+    if (!(arch_writer.data())) {
+        emit error(i18n("The archive writer could not be initialized."));
+        return false;
+    }
+
+    // pax_restricted is the libarchive default, let's go with that.
+    archive_write_set_format_pax_restricted(arch_writer.data());
+
+    if (!initializeWriter(arch_writer, arch_reader)) {
+        return false;
+    }
+
+    if (archive_write_open_fd(arch_writer.data(), tempFile.handle()) != ARCHIVE_OK) {
+        emit error(xi18nc("@info", "Opening the archive for writing failed with the following error:"
+            "<nl/><message>%1</message>", QLatin1String(archive_error_string(arch_writer.data()))));
+        return false;
+    }
+
+    // Copy old elements from previous archive to new archive.
+    int no_entries = 0;
+    m_filePaths = entryFullPaths(files);
+    m_destination = destination;
+    processOldEntries(arch_reader, arch_writer, no_entries, Move);
+    qCDebug(ARK) << "Removed" << no_entries << "entries from archive";
+
+    // In the success case, we need to manually close the archive_writer before
+    // calling QSaveFile::commit(), otherwise the latter will close() the
+    // file descriptor archive_writer is still working on.
+    // TODO: We need to abstract this code better so that we only deal with one
+    // object that manages both QSaveFile and ArchiveWriter.
+    archive_write_close(arch_writer.data());
+    tempFile.commit();
+
+    return true;
 }
 
 bool ReadWriteLibarchivePlugin::deleteFiles(const QList<Archive::Entry*>& files)
 {
-   qCDebug(ARK) << "Deleting" << files.size() << "entries";
+    qCDebug(ARK) << "Deleting" << files.size() << "entries";
 
     ArchiveRead arch_reader(archive_read_new());
     if (!initializeReader(arch_reader)) {
@@ -225,8 +266,8 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QList<Archive::Entry*>& files)
 
     // Copy old elements from previous archive to new archive.
     int no_entries = 0;
-    QStringList filePaths = entryFullPaths(files);
-    copyOldEntries(arch_writer, arch_reader, filePaths, no_entries, true);
+    m_filePaths = entryFullPaths(files);
+    processOldEntries(arch_reader, arch_writer, no_entries, Delete);
     qCDebug(ARK) << "Removed" << no_entries << "entries from archive";
 
     // In the success case, we need to manually close the archive_writer before
@@ -360,57 +401,88 @@ bool ReadWriteLibarchivePlugin::initializeWriter(const ArchiveWrite &archiveWrit
     return true;
 }
 
-bool ReadWriteLibarchivePlugin::copyOldEntries(const LibarchivePlugin::ArchiveWrite &archiveWrite,
-                                               const LibarchivePlugin::ArchiveRead &archiveRead,
-                                               const QStringList &filePaths,
-                                               int &entriesCounter,
-                                               bool deleteMode)
+bool ReadWriteLibarchivePlugin::processOldEntries(const LibarchivePlugin::ArchiveRead &archiveRead, const LibarchivePlugin::ArchiveWrite &archiveWrite, int &entriesCounter, OperationMode mode)
 {
     struct archive_entry *entry;
 
+    m_lastMovedFolder = QString();
     entriesCounter = 0;
-    while ((deleteMode || !m_abortOperation) && archive_read_next_header(archiveRead.data(), &entry) == ARCHIVE_OK) {
+    while ((mode != Add || !m_abortOperation) && archive_read_next_header(archiveRead.data(), &entry) == ARCHIVE_OK) {
 
-        QString file = QFile::decodeName(archive_entry_pathname(entry));
+        const QString file = QFile::decodeName(archive_entry_pathname(entry));
 
-        if (filePaths.contains(file)) {
-            archive_read_data_skip(archiveRead.data());
-            if (deleteMode) {
-                emit entryRemoved(file);
-                entriesCounter++;
+        if (mode == Move) {
+            QString destination;
+            if (m_lastMovedFolder.count() > 0 && file.startsWith(m_lastMovedFolder)) {
+                destination = file;
+                destination.replace(0, m_lastMovedFolder.count(), m_destination->property("fullPath").toString());
             }
-            else {
-                qCDebug(ARK) << file << "is already present in the new archive, skipping.";
+            else if (m_filePaths.contains(file)) {
+                destination = m_destination->property("fullPath").toString();
+                if (m_filePaths.count() > 1) {
+                    destination = destination + file.split(QLatin1Char('/'), QString::SkipEmptyParts).last();
+                }
+                else {
+                    destination = m_destination->property("fullPath").toString();
+                    if (destination[destination.count() - 1] == QLatin1Char('/')) {
+                        destination.remove(destination.count() - 1, 1);
+                        m_lastMovedFolder = destination;
+                    }
+                }
+            }
+            archive_entry_set_pathname(entry, destination.toStdString().c_str());
+            emit entryRemoved(file);
+        }
+        else if (m_filePaths.contains(file)) {
+            archive_read_data_skip(archiveRead.data());
+            switch (mode) {
+                case Delete:
+                    entriesCounter++;
+                    emit entryRemoved(file);
+                    break;
+
+                case Add:
+                    qCDebug(ARK) << file << "is already present in the new archive, skipping.";
+                    break;
             }
             continue;
         }
 
-        const int returnCode = archive_write_header(archiveWrite.data(), entry);
-
-        switch (returnCode) {
-            case ARCHIVE_OK:
-                // If the whole archive is extracted and the total filesize is
-                // available, we use partial progress.
-                copyData(QLatin1String(archive_entry_pathname(entry)), archiveRead.data(), archiveWrite.data(), false);
-                if (!deleteMode) {
-                    entriesCounter++;
-                }
-                break;
-            case ARCHIVE_FAILED:
-            case ARCHIVE_FATAL:
-                qCCritical(ARK) << "archive_write_header() has returned" << returnCode
-                                << "with errno" << archive_errno(archiveWrite.data());
-                emit error(xi18nc("@info", "Compression failed while processing:<nl/>"
-            "<filename>%1</filename><nl/><nl/>Operation aborted.", file));
-                return false;
-            default:
-                qCDebug(ARK) << "archive_writer_header() has returned" << returnCode
-                             << "which will be ignored.";
-                break;
-        }
-        if (!deleteMode) {
+        if (writeEntry(archiveRead, archiveWrite, entry)) {
+            if (mode == Add) {
+                entriesCounter++;
+            }
             archive_entry_clear(entry);
         }
+        else {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool ReadWriteLibarchivePlugin::writeEntry(const LibarchivePlugin::ArchiveRead &archiveRead, const LibarchivePlugin::ArchiveWrite &archiveWrite, struct archive_entry *entry) {
+    const int returnCode = archive_write_header(archiveWrite.data(), entry);
+    const QString file = QFile::decodeName(archive_entry_pathname(entry));
+
+    switch (returnCode) {
+        case ARCHIVE_OK:
+            // If the whole archive is extracted and the total filesize is
+            // available, we use partial progress.
+            copyData(QLatin1String(archive_entry_pathname(entry)), archiveRead.data(), archiveWrite.data(), false);
+            break;
+        case ARCHIVE_FAILED:
+        case ARCHIVE_FATAL:
+            qCCritical(ARK) << "archive_write_header() has returned" << returnCode
+                            << "with errno" << archive_errno(archiveWrite.data());
+            emit error(xi18nc("@info", "Compression failed while processing:<nl/>"
+        "<filename>%1</filename><nl/><nl/>Operation aborted.", file));
+            return false;
+        default:
+            qCDebug(ARK) << "archive_writer_header() has returned" << returnCode
+                         << "which will be ignored.";
+            break;
     }
 
     return true;

@@ -175,7 +175,9 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
     QList<Archive::Entry*> filesToPass = QList<Archive::Entry*>();
     // If destination path is specified, we have recreate its structure inside the temp directory
     // and then place symlinks of targeted files there.
-    const QString destinationPath = destination->property("fullPath").toString();
+    const QString destinationPath = (destination == Q_NULLPTR)
+                                    ? QString()
+                                    : destination->property("fullPath").toString();
     if (!destinationPath.isEmpty()) {
         m_extractTempDir = new QTemporaryDir();
         const QString absoluteDestinationPath = m_extractTempDir->path() + QLatin1Char('/') + destinationPath;
@@ -211,8 +213,7 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
         qCDebug(ARK) << "Changing working dir again to " << m_extractTempDir->path();
         QDir::setCurrent(m_extractTempDir->path());
 
-        // Pass the entry without trailing slash for RAR compatibility.
-        filesToPass.push_back(new Archive::Entry(preservedParent, destinationPath.left(destinationPath.count() - 1)));
+        filesToPass.push_back(new Archive::Entry(preservedParent, destinationPath.split(QLatin1Char('/'), QString::SkipEmptyParts).at(0)));
     }
     else {
         filesToPass = files;
@@ -238,11 +239,18 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
     return runProcess(m_param.value(AddProgram).toStringList(), args);
 }
 
-bool CliInterface::moveFiles(const QList<Archive::Entry *> &files,
-                             const Archive::Entry *destination,
-                             const CompressionOptions &options)
+bool CliInterface::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
-    return false;
+    cacheParameterList();
+    m_operationMode = Move;
+
+    m_removedFiles = files;
+
+    const auto moveArgs = m_param.value(MoveArgs).toStringList();
+
+    const auto args = substituteMoveVariables(moveArgs, files, destination, password());
+
+    return runProcess(m_param.value(MoveProgram).toStringList(), args);
 }
 
 bool CliInterface::deleteFiles(const QList<Archive::Entry*> &files)
@@ -339,7 +347,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         return;
     }
 
-    if (m_operationMode == Delete) {
+    if (m_operationMode == Delete || m_operationMode == Move) {
         QStringList removedFullPaths = entryFullPaths(m_removedFiles);
         foreach (const QString &fullPath, removedFullPaths) {
             emit entryRemoved(fullPath);
@@ -714,6 +722,40 @@ QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, con
         // Simple argument (e.g. a in 7z), nothing to substitute, just add it to the list.
         args << arg;
     }
+
+    // Remove empty strings, if any.
+    args.removeAll(QString());
+
+    return args;
+}
+
+QStringList CliInterface::substituteMoveVariables(const QStringList &moveArgs, const QList<Archive::Entry*> &entries, const Archive::Entry *destination, const QString &password)
+{
+    // Required if we call this function from unit tests.
+    cacheParameterList();
+
+    QStringList args;
+        foreach (const QString& arg, moveArgs) {
+            qCDebug(ARK) << "Processing argument " << arg;
+
+            if (arg == QLatin1String("$Archive")) {
+                args << filename();
+                continue;
+            }
+
+            if (arg == QLatin1String("$PasswordSwitch")) {
+                args << passwordSwitch(password);
+                continue;
+            }
+
+            if (arg == QLatin1String("$PathPairs")) {
+                args << entryPathDestinationPairs(entries, destination);
+                continue;
+            }
+
+            // Simple argument (e.g. a in 7z), nothing to substitute, just add it to the list.
+            args << arg;
+        }
 
     // Remove empty strings, if any.
     args.removeAll(QString());
@@ -1260,6 +1302,29 @@ bool CliInterface::doResume()
 QString CliInterface::escapeFileName(const QString& fileName) const
 {
     return fileName;
+}
+
+QStringList CliInterface::entryPathDestinationPairs(const QList<Archive::Entry*> &entries, const Archive::Entry *destination)
+{
+    QStringList pairList;
+    if (entries.count() > 1) {
+        foreach (const Archive::Entry *file, entries) {
+            pairList << file->property("fullPath").toString() << destination->property("fullPath").toString() + file->name();
+        }
+    }
+    else {
+        // Get rid of trailing slashes for RAR compatibility.
+        QString oldPath = entries.at(0)->property("fullPath").toString();
+        if (oldPath.right(1) == QLatin1String("/")) {
+            oldPath.chop(1);
+        }
+        QString newPath = destination->property("fullPath").toString();
+        if (newPath.right(1) == QLatin1String("/")) {
+            newPath.chop(1);
+        }
+        pairList << oldPath << newPath;
+    }
+    return pairList;
 }
 
 void CliInterface::writeToProcess(const QByteArray& data)

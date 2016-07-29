@@ -43,16 +43,22 @@ public:
     ~ReadWriteLibarchivePlugin();
 
     bool addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
-    bool moveFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
+    bool moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
     bool deleteFiles(const QList<Archive::Entry*>& files) Q_DECL_OVERRIDE;
 
 private:
     bool initializeNewFileWriter(const ArchiveWrite &archiveWrite, const CompressionOptions &options);
     bool initializeWriter(const ArchiveWrite &archiveWrite, const ArchiveRead &archiveRead);
-    bool copyOldEntries(const ArchiveWrite &archiveWrite, const ArchiveRead &archiveRead, const QStringList &filePaths, int &entriesCounter, bool deleteMode = false);
+    bool processOldEntries(const ArchiveRead &archiveRead, const ArchiveWrite &archiveWrite, int &entriesCounter, OperationMode mode);
+    bool writeEntry(const LibarchivePlugin::ArchiveRead &archiveRead, const LibarchivePlugin::ArchiveWrite &archiveWrite, struct archive_entry *entry);
     bool writeFile(const QString& relativeName, const QString& destination, struct archive* arch);
 
     QStringList m_writtenFiles;
+
+    // Passed argument from job which is used by processOldEntries method.
+    QStringList m_filePaths;
+    const Archive::Entry *m_destination;
+    QString m_lastMovedFolder;
 };
 
 #endif // READWRITELIBARCHIVEPLUGIN_H

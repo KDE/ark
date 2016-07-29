@@ -237,6 +237,25 @@ enum CliInterfaceParameters {
      */
     AddArgs,
 
+    ///////////////[ MOVE ]/////////////
+
+    /**
+     * QStringList
+     * The names to the program that will handle adding in this
+     * archive format (eg "rar"). Will be searched for in PATH
+     */
+    MoveProgram,
+    /**
+     * QStringList
+     * The arguments that are passed to the program above for
+     * moving inside the archive. Special strings that will be
+     * substituted:
+     * $Archive - the path of the archive
+     * $Files - the files selected to be moved
+     * $Destinations - new path of each file selected to be moved
+     */
+    MoveArgs,
+
     ///////////////[ ENCRYPT ]/////////////
 
     /**
@@ -274,9 +293,6 @@ class KERFUFFLE_EXPORT CliInterface : public ReadWriteArchiveInterface
     Q_OBJECT
 
 public:
-    enum OperationMode  {
-        List, Copy, Add, Delete, Comment, Test
-    };
     OperationMode m_operationMode;
 
     explicit CliInterface(QObject *parent, const QVariantList & args);
@@ -285,7 +301,7 @@ public:
     virtual bool list() Q_DECL_OVERRIDE;
     virtual bool copyFiles(const QList<Archive::Entry*> &files, const QString& destinationDirectory, const ExtractionOptions& options) Q_DECL_OVERRIDE;
     virtual bool addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
-    virtual bool moveFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
     virtual bool deleteFiles(const QList<Archive::Entry*> &files) Q_DECL_OVERRIDE;
     virtual bool addComment(const QString &comment) Q_DECL_OVERRIDE;
     virtual bool testArchive() Q_DECL_OVERRIDE;
@@ -313,6 +329,7 @@ public:
     QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
     QStringList substituteCopyVariables(const QStringList &extractArgs, const QList<Archive::Entry*> &entries, bool preservePaths, const QString &password);
     QStringList substituteAddVariables(const QStringList &addArgs, const QList<Archive::Entry*> &entries, const QString &password, bool encryptHeader, int compLevel);
+    QStringList substituteMoveVariables(const QStringList &moveArgs, const QList<Archive::Entry*> &entries, const Archive::Entry *destination, const QString &password);
     QStringList substituteDeleteVariables(const QStringList &deleteArgs, const QList<Archive::Entry*> &entries, const QString &password);
     QStringList substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile);
     QStringList substituteTestVariables(const QStringList &testArgs);
@@ -369,6 +386,7 @@ protected:
      */
     bool passwordQuery();
 
+    QString m_oldWorkingDir;
     ParameterList m_param;
     int m_exitCode;
 
@@ -406,6 +424,15 @@ private:
     virtual QString escapeFileName(const QString &fileName) const;
 
     /**
+     * Constructs a list of path pairs which will be supplied to rn command.
+     * <src_file_1> <dest_file_1> [ <src_file_2> <dest_file_2> ... ]
+     *
+     * @param entries List of archive entries
+     * @param destination Must be a directory entry if QList contains more that one entry
+     */
+    virtual QStringList entryPathDestinationPairs(const QList<Archive::Entry*> &entries, const Archive::Entry *destination);
+
+    /**
      * Wrapper around KProcess::write() or KPtyDevice::write(), depending on
      * the platform.
      */
@@ -436,14 +463,15 @@ private:
     QString m_storedFileName;
 
     CompressionOptions m_compressionOptions;
-    QString m_oldWorkingDir;
     QString m_extractDestDir;
     QTemporaryDir *m_extractTempDir;
     QTemporaryFile *m_commentTempFile;
     QList<Archive::Entry*> m_copiedFiles;
 
+protected slots:
+    virtual void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
+
 private slots:
-    void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void copyProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 };

@@ -78,7 +78,7 @@ ParameterList CliPlugin::parameterList() const
     if (p.isEmpty()) {
         p[CaptureProgress] = true;
         p[ListProgram] = p[ExtractProgram] = p[TestProgram] = QStringList() << QStringLiteral( "unrar" );
-        p[DeleteProgram] = p[AddProgram] = QStringList() << QStringLiteral( "rar" );
+        p[DeleteProgram] = p[MoveProgram] = p[AddProgram] = QStringList() << QStringLiteral( "rar" );
 
         p[ListArgs] = QStringList() << QStringLiteral("vt")
                                     << QStringLiteral("-v")
@@ -113,6 +113,10 @@ ParameterList CliPlugin::parameterList() const
                                    << QStringLiteral("$PasswordSwitch")
                                    << QStringLiteral("$CompressionLevelSwitch")
                                    << QStringLiteral( "$Files" );
+        p[MoveArgs] = QStringList() << QStringLiteral( "rn" )
+                                    << QStringLiteral( "$PasswordSwitch" )
+                                    << QStringLiteral( "$Archive" )
+                                    << QStringLiteral( "$PathPairs" );
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) for");
         p[WrongPasswordPatterns] = QStringList() << QStringLiteral("password incorrect") << QStringLiteral("wrong password");
         p[ExtractionFailedPatterns] = QStringList() << QStringLiteral( "CRC failed" )

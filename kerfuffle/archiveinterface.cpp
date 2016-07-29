@@ -128,6 +128,10 @@ bool ReadOnlyArchiveInterface::waitForFinishedSignal()
     return m_waitForFinishedSignal;
 }
 
+int ReadOnlyArchiveInterface::moveRequiredSignals() const {
+    return 1;
+}
+
 void ReadOnlyArchiveInterface::setWaitForFinishedSignal(bool value)
 {
     m_waitForFinishedSignal = value;
