@@ -25,8 +25,13 @@ QList<Archive::Entry*> TestHelper::getEntryList(ReadOnlyArchiveInterface *iface)
 QStringList TestHelper::getExpectedEntryPaths(const QList<Archive::Entry*> &entryList, const Archive::Entry *destination)
 {
     QStringList expectedPaths = QStringList();
-    foreach (const Archive::Entry *entry, entryList) {
-        expectedPaths << destination->property("fullPath").toString() + entry->property("fullPath").toString();
+    if (entryList.count() > 1) {
+        foreach (const Archive::Entry *entry, entryList) {
+            expectedPaths << destination->property("fullPath").toString() + entry->property("fullPath").toString();
+        }
+    }
+    else {
+        expectedPaths << destination->property("fullPath").toString();
     }
     return expectedPaths;
 }

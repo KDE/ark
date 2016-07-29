@@ -444,7 +444,7 @@ void Cli7zTest::testMove_data()
         << QList<Archive::Entry*> {
             new Archive::Entry(this, QStringLiteral("a.txt")),
         }
-        << new Archive::Entry(this, QStringLiteral("empty_dir/"));
+        << new Archive::Entry(this, QStringLiteral("empty_dir/a.txt"));
 
     QTest::newRow("replace several files")
         << QStringLiteral("test.7z")
@@ -459,7 +459,7 @@ void Cli7zTest::testMove_data()
         << QList<Archive::Entry*> {
             new Archive::Entry(this, QStringLiteral("dir/")),
         }
-        << new Archive::Entry(this, QStringLiteral("empty_dir/"));
+        << new Archive::Entry(this, QStringLiteral("empty_dir/dir/"));
 }
 
 void Cli7zTest::testMove()

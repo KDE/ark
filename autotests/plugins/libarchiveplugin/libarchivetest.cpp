@@ -103,14 +103,14 @@ void LibarchiveTest::testMove_data()
     QTest::addColumn<Archive::Entry*>("destination");
 
     QTest::newRow("replace a file")
-        << QStringLiteral("test.rar")
+        << QStringLiteral("test.tar.bz2")
         << QList<Archive::Entry*> {
             new Archive::Entry(this, QStringLiteral("a.txt")),
         }
-        << new Archive::Entry(this, QStringLiteral("empty_dir/"));
+        << new Archive::Entry(this, QStringLiteral("empty_dir/a.txt"));
 
     QTest::newRow("replace several files")
-        << QStringLiteral("test.rar")
+        << QStringLiteral("test.tar.bz2")
         << QList<Archive::Entry*> {
             new Archive::Entry(this, QStringLiteral("a.txt")),
             new Archive::Entry(this, QStringLiteral("b.txt")),
@@ -118,11 +118,11 @@ void LibarchiveTest::testMove_data()
         << new Archive::Entry(this, QStringLiteral("empty_dir/"));
 
     QTest::newRow("replace a directory")
-        << QStringLiteral("test.rar")
+        << QStringLiteral("test.tar.bz2")
         << QList<Archive::Entry*> {
             new Archive::Entry(this, QStringLiteral("dir/")),
         }
-        << new Archive::Entry(this, QStringLiteral("empty_dir/"));
+        << new Archive::Entry(this, QStringLiteral("empty_dir/dir/"));
 }
 
 void LibarchiveTest::testMove()

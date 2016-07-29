@@ -261,14 +261,14 @@ void CliZipTest::testMove_data()
     QTest::addColumn<Archive::Entry*>("destination");
 
     QTest::newRow("replace a file")
-        << QStringLiteral("test.rar")
+        << QStringLiteral("test.zip")
         << QList<Archive::Entry*> {
             new Archive::Entry(this, QStringLiteral("a.txt")),
         }
-        << new Archive::Entry(this, QStringLiteral("empty_dir/"));
+        << new Archive::Entry(this, QStringLiteral("empty_dir/a.txt"));
 
     QTest::newRow("replace several files")
-        << QStringLiteral("test.rar")
+        << QStringLiteral("test.zip")
         << QList<Archive::Entry*> {
             new Archive::Entry(this, QStringLiteral("a.txt")),
             new Archive::Entry(this, QStringLiteral("b.txt")),
@@ -276,11 +276,11 @@ void CliZipTest::testMove_data()
         << new Archive::Entry(this, QStringLiteral("empty_dir/"));
 
     QTest::newRow("replace a directory")
-        << QStringLiteral("test.rar")
+        << QStringLiteral("test.zip")
         << QList<Archive::Entry*> {
             new Archive::Entry(this, QStringLiteral("dir/")),
         }
-        << new Archive::Entry(this, QStringLiteral("empty_dir/"));
+        << new Archive::Entry(this, QStringLiteral("empty_dir/dir/"));
 }
 
 void CliZipTest::testMove()
@@ -297,9 +297,7 @@ void CliZipTest::testMove()
     QFETCH(QList<Archive::Entry*>, files);
     QFETCH(Archive::Entry*, destination);
 
-    CompressionOptions options = CompressionOptions();
-    options.insert(QStringLiteral("GlobalWorkDir"), QFINDTESTDATA("data"));
-    MoveJob *moveJob = new MoveJob(files, destination, options, plugin);
+    MoveJob *moveJob = new MoveJob(files, destination, CompressionOptions(), plugin);
     TestHelper::startAndWaitForResult(moveJob);
 
     QList<Archive::Entry*> resultedEntries = TestHelper::getEntryList(plugin);
