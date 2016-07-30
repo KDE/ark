@@ -25,6 +25,7 @@
 #include <QAbstractItemModel>
 #include <QScopedPointer>
 
+#include <KMessageWidget>
 #include <kjobtrackerinterface.h>
 #include "kerfuffle/archive_kerfuffle.h"
 
@@ -96,6 +97,7 @@ signals:
     void extractionFinished(bool success);
     void error(const QString& error, const QString& details);
     void droppedFiles(const QStringList& files, const QString& path = QString());
+    void messageWidget(KMessageWidget::MessageType type, const QString& msg);
 
 private slots:
     void slotNewEntryFromSetArchive(const ArchiveEntry& entry);

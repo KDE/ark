@@ -88,6 +88,7 @@ QStringList AddDialog::selectedFiles() const
 
 CompressionOptions AddDialog::compressionOptions() const
 {
+    qCDebug(ARK) << "Returning with options:" << m_compOptions;
     return m_compOptions;
 }
 
@@ -100,6 +101,7 @@ void AddDialog::slotOpenOptions()
     CompressionOptionsWidget *optionsWidget = new CompressionOptionsWidget(optionsDialog, m_compOptions);
     optionsWidget->setMimeType(m_mimeType);
     optionsWidget->setEncryptionVisible(false);
+    optionsWidget->collapsibleMultiVolume->setVisible(false);
     optionsWidget->collapsibleCompression->expand();
     vlayout->addWidget(optionsWidget);
 

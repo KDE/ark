@@ -46,6 +46,7 @@
 #include <QDirIterator>
 #include <QEventLoop>
 #include <QFile>
+#include <QMimeDatabase>
 #include <QProcess>
 #include <QRegularExpression>
 #include <QStandardPaths>
@@ -60,8 +61,8 @@ namespace Kerfuffle
 CliInterface::CliInterface(QObject *parent, const QVariantList & args)
         : ReadWriteArchiveInterface(parent, args),
         m_process(0),
-        m_listEmptyLines(false),
         m_abortingOperation(false),
+        m_listEmptyLines(false),
         m_extractTempDir(Q_NULLPTR),
         m_commentTempFile(Q_NULLPTR)
 {
@@ -182,12 +183,14 @@ bool CliInterface::addFiles(const QStringList & files, const CompressionOptions&
     }
 
     int compLevel = options.value(QStringLiteral("CompressionLevel"), -1).toInt();
+    ulong volumeSize = options.value(QStringLiteral("VolumeSize"), 0).toULongLong();
 
     const auto args = substituteAddVariables(m_param.value(AddArgs).toStringList(),
                                              files,
                                              password(),
                                              isHeaderEncryptionEnabled(),
-                                             compLevel);
+                                             compLevel,
+                                             volumeSize);
 
     if (!runProcess(m_param.value(AddProgram).toStringList(), args)) {
         return false;
@@ -262,13 +265,13 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
     m_process->setNextOpenMode(QIODevice::ReadWrite | QIODevice::Unbuffered | QIODevice::Text);
     m_process->setProgram(programPath, arguments);
 
-    connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
+    connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(readStdout()));
 
     if (m_operationMode == Copy) {
         // Extraction jobs need a dedicated post-processing function.
-        connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::copyProcessFinished, Qt::DirectConnection);
+        connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::copyProcessFinished);
     } else {
-        connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::processFinished, Qt::DirectConnection);
+        connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::processFinished);
     }
 
     m_stdOutData.clear();
@@ -303,7 +306,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         }
     }
 
-    if (m_operationMode == Add) {
+    if (m_operationMode == Add && !isMultiVolume()) {
         list();
     } else if (m_operationMode == List && isCorrupt()) {
         Kerfuffle::LoadCorruptQuery query(filename());
@@ -496,7 +499,7 @@ bool CliInterface::moveToDestination(const QDir &tempDir, const QDir &destDir, b
     bool overwriteAll = false;
     bool skipAll = false;
 
-    QDirIterator dirIt(tempDir.path(), QDir::AllEntries | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+    QDirIterator dirIt(tempDir.path(), QDir::AllEntries | QDir::Hidden | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
     while (dirIt.hasNext()) {
         dirIt.next();
 
@@ -635,7 +638,7 @@ QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs
     return args;
 }
 
-QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel)
+QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel, ulong volumeSize)
 {
     // Required if we call this function from unit tests.
     cacheParameterList();
@@ -656,6 +659,11 @@ QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, con
 
         if (arg == QLatin1String("$CompressionLevelSwitch")) {
             args << compressionLevelSwitch(compLevel);
+            continue;
+        }
+
+        if (arg == QLatin1String("$MultiVolumeSwitch")) {
+            args << multiVolumeSwitch(volumeSize);
             continue;
         }
 
@@ -832,6 +840,24 @@ QString CliInterface::compressionLevelSwitch(int level) const
     return compLevelSwitch;
 }
 
+QString CliInterface::multiVolumeSwitch(ulong volumeSize) const
+{
+    // The maximum value we allow in the QDoubleSpinBox is 1000MB. Converted to
+    // KB this is 1024000.
+    if (volumeSize <= 0 || volumeSize > 1024000) {
+        return QString();
+    }
+
+    Q_ASSERT(m_param.contains(MultiVolumeSwitch));
+
+    QString multiVolumeSwitch = m_param.value(MultiVolumeSwitch).toString();
+    Q_ASSERT(!multiVolumeSwitch.isEmpty());
+
+    multiVolumeSwitch.replace(QLatin1String("$VolumeSize"), QString::number(volumeSize));
+
+    return multiVolumeSwitch;
+}
+
 QStringList CliInterface::copyFilesList(const QVariantList& files) const
 {
     QStringList filesList;
@@ -952,12 +978,15 @@ void CliInterface::readStdout(bool handleAll)
 
     foreach(const QByteArray& line, lines) {
         if (!line.isEmpty() || (m_listEmptyLines && m_operationMode == List)) {
-            handleLine(QString::fromLocal8Bit(line));
+            if (!handleLine(QString::fromLocal8Bit(line))) {
+                killProcess();
+                return;
+            }
         }
     }
 }
 
-void CliInterface::handleLine(const QString& line)
+bool CliInterface::handleLine(const QString& line)
 {
     // TODO: This should be implemented by each plugin; the way progress is
     //       shown by each CLI application is subject to a lot of variation.
@@ -967,7 +996,7 @@ void CliInterface::handleLine(const QString& line)
         if (pos > 1) {
             int percentage = line.midRef(pos - 2, 2).toInt();
             emit progress(float(percentage) / 100);
-            return;
+            return true;
         }
     }
 
@@ -982,8 +1011,7 @@ void CliInterface::handleLine(const QString& line)
 
             if (query.responseCancelled()) {
                 emit cancelled();
-                killProcess();
-                return;
+                return false;
             }
 
             setPassword(query.password());
@@ -991,33 +1019,30 @@ void CliInterface::handleLine(const QString& line)
             const QString response(password() + QLatin1Char('\n'));
             writeToProcess(response.toLocal8Bit());
 
-            return;
+            return true;
         }
 
         if (checkForErrorMessage(line, DiskFullPatterns)) {
             qCWarning(ARK) << "Found disk full message:" << line;
             emit error(i18nc("@info", "Extraction failed because the disk is full."));
-            killProcess();
-            return;
+            return false;
         }
 
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
             emit error(i18nc("@info", "Extraction failed: Incorrect password"));
-            killProcess();
-            return;
+            return false;
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
             qCWarning(ARK) << "Error in extraction:" << line;
             emit error(i18n("Extraction failed because of an unexpected error."));
-            killProcess();
-            return;
+            return false;
         }
 
         if (handleFileExistsMessage(line)) {
-            return;
+            return true;
         }
     }
 
@@ -1031,8 +1056,7 @@ void CliInterface::handleLine(const QString& line)
 
             if (query.responseCancelled()) {
                 emit cancelled();
-                killProcess();
-                return;
+                return false;
             }
 
             setPassword(query.password());
@@ -1040,36 +1064,35 @@ void CliInterface::handleLine(const QString& line)
             const QString response(password() + QLatin1Char('\n'));
             writeToProcess(response.toLocal8Bit());
 
-            return;
+            return true;
         }
 
         if (checkForErrorMessage(line, WrongPasswordPatterns)) {
             qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
             emit error(i18n("Incorrect password."));
-            killProcess();
-            return;
+            return false;
         }
 
         if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
             qCWarning(ARK) << "Error in extraction!!";
             emit error(i18n("Extraction failed because of an unexpected error."));
-            killProcess();
-            return;
+            return false;
         }
 
         if (checkForErrorMessage(line, CorruptArchivePatterns)) {
             qCWarning(ARK) << "Archive corrupt";
             setCorrupt(true);
-            return;
+            // Special case: corrupt is not a "fatal" error so we return true here.
+            return true;
         }
 
         if (handleFileExistsMessage(line)) {
-            return;
+            return true;
         }
 
         readListLine(line);
-        return;
+        return true;
     }
 
     if (m_operationMode == Test) {
@@ -1078,16 +1101,17 @@ void CliInterface::handleLine(const QString& line)
             qCDebug(ARK) << "Found a password prompt";
 
             emit error(i18n("Ark does not currently support testing this archive."));
-            killProcess();
-            return;
+            return false;
         }
 
         if (checkForTestSuccessMessage(line)) {
             qCDebug(ARK) << "Test successful";
             emit testSuccess();
-            return;
+            return true;
         }
     }
+
+    return true;
 }
 
 bool CliInterface::checkForPasswordPromptMessage(const QString& line)
@@ -1259,6 +1283,22 @@ bool CliInterface::addComment(const QString &comment)
     }
     m_comment = comment;
     return true;
+}
+
+QString CliInterface::multiVolumeName() const
+{
+    QString oldSuffix = QMimeDatabase().suffixForFileName(filename());
+    QString name;
+
+    foreach (const QString &multiSuffix, m_param.value(MultiVolumeSuffix).toStringList()) {
+        QString newSuffix = multiSuffix;
+        newSuffix.replace(QStringLiteral("$Suffix"), oldSuffix);
+        name = filename().remove(oldSuffix).append(newSuffix);
+        if (QFileInfo::exists(name)) {
+            break;
+        }
+    }
+    return name;
 }
 
 }

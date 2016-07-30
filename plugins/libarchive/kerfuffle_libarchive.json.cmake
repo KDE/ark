@@ -70,5 +70,10 @@
         "CompressionLevelDefault": 6,
         "CompressionLevelMax": 9,
         "CompressionLevelMin": 0
+    },
+    "application/x-lz4-compressed-tar": {
+        "CompressionLevelDefault": 1,
+        "CompressionLevelMax": 9,
+        "CompressionLevelMin": 1
     }
 }

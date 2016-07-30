@@ -68,7 +68,7 @@ void AddToArchive::setChangeToFirstPath(bool value)
 
 void AddToArchive::setFilename(const QUrl &path)
 {
-    m_filename = path.toDisplayString(QUrl::PreferLocalFile);
+    m_filename = path.toLocalFile();
 }
 
 void AddToArchive::setMimeType(const QString & mimeType)
@@ -113,10 +113,10 @@ bool AddToArchive::showAddDialog()
 
 bool AddToArchive::addInput(const QUrl &url)
 {
-    m_inputs << url.toDisplayString(QUrl::PreferLocalFile);
+    m_inputs << url.toLocalFile();
 
     if (m_firstPath.isEmpty()) {
-        QString firstEntry = url.toDisplayString(QUrl::PreferLocalFile);
+        QString firstEntry = url.toLocalFile();
         m_firstPath = QFileInfo(firstEntry).dir().absolutePath();
     }
 

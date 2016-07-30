@@ -135,7 +135,7 @@ bool MainWindow::loadPart()
                metaData.serviceTypes().contains(QStringLiteral("Browser/View"));
     });
 
-    if (plugins.size() == 1) {
+    if (!plugins.isEmpty()) {
         factory = KPluginLoader(plugins.first().fileName()).factory();
     }
 
@@ -299,6 +299,10 @@ void MainWindow::newArchive()
         m_openArgs.metaData()[QStringLiteral("fixedMimeType")] = fixedMimeType;
         if (dialog.data()->compressionLevel() > -1) {
             m_openArgs.metaData()[QStringLiteral("compressionLevel")] = QString::number(dialog.data()->compressionLevel());
+        }
+        if (dialog.data()->volumeSize() > 0) {
+            qCDebug(ARK) << "Setting volume size:" << QString::number(dialog.data()->volumeSize());
+            m_openArgs.metaData()[QStringLiteral("volumeSize")] = QString::number(dialog.data()->volumeSize());
         }
         m_openArgs.metaData()[QStringLiteral("encryptionPassword")] = password;
 

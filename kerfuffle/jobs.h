@@ -159,13 +159,20 @@ public:
 
     ExtractionOptions extractionOptions() const;
 
+    /**
+     * @return The temporary dir used for the extraction.
+     * It is safe to delete this pointer in order to remove the directory.
+     */
+    QTemporaryDir *tempDir() const;
+
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
 
 private:
-    virtual QString extractionDir() const = 0;
+    QString extractionDir() const;
 
     QString m_file;
+    QTemporaryDir *m_tmpExtractDir;
     bool m_passwordProtectedHint;
 };
 
@@ -179,11 +186,6 @@ class KERFUFFLE_EXPORT PreviewJob : public TempExtractJob
 
 public:
     PreviewJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface);
-
-private:
-    QString extractionDir() const Q_DECL_OVERRIDE;
-
-    QTemporaryDir m_tmpExtractDir;
 };
 
 /**
@@ -196,17 +198,6 @@ class KERFUFFLE_EXPORT OpenJob : public TempExtractJob
 
 public:
     OpenJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface);
-
-    /**
-     * @return The temporary dir used for the extraction.
-     * It is safe to delete this pointer in order to remove the directory.
-     */
-    QTemporaryDir *tempDir() const;
-
-private:
-    QString extractionDir() const Q_DECL_OVERRIDE;
-
-    QTemporaryDir *m_tmpExtractDir;
 };
 
 class KERFUFFLE_EXPORT OpenWithJob : public OpenJob

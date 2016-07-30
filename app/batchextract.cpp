@@ -213,12 +213,12 @@ void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
 
 bool BatchExtract::addInput(const QUrl& url)
 {
-    qCDebug(ARK) << "Adding archive" << url.toDisplayString(QUrl::PreferLocalFile);
+    qCDebug(ARK) << "Adding archive" << url.toLocalFile();
 
-    Kerfuffle::Archive *archive = Kerfuffle::Archive::create(url.toDisplayString(QUrl::PreferLocalFile), this);
+    Kerfuffle::Archive *archive = Kerfuffle::Archive::create(url.toLocalFile(), this);
     Q_ASSERT(archive);
 
-    if (!QFileInfo::exists(url.toDisplayString(QUrl::PreferLocalFile))) {
+    if (!QFileInfo::exists(url.toLocalFile())) {
         m_failedFiles.append(url.fileName());
         return false;
     }

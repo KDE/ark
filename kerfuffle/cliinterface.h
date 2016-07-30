@@ -263,7 +263,9 @@ enum CliInterfaceParameters {
     CommentSwitch,
     TestProgram,
     TestArgs,
-    TestPassedPattern
+    TestPassedPattern,
+    MultiVolumeSwitch,
+    MultiVolumeSuffix
 };
 
 typedef QHash<int, QVariant> ParameterList;
@@ -310,7 +312,7 @@ public:
 
     QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
     QStringList substituteCopyVariables(const QStringList &extractArgs, const QVariantList &files, bool preservePaths, const QString &password);
-    QStringList substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel);
+    QStringList substituteAddVariables(const QStringList &addArgs, const QStringList &files, const QString &password, bool encryptHeader, int compLevel, ulong volumeSize);
     QStringList substituteDeleteVariables(const QStringList &deleteArgs, const QVariantList &files, const QString &password);
     QStringList substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile);
     QStringList substituteTestVariables(const QStringList &testArgs, const QString &password);
@@ -335,14 +337,24 @@ public:
      */
     QString compressionLevelSwitch(int level) const;
 
+    QString multiVolumeSwitch(ulong volumeSize) const;
+
     /**
      * @return The list of selected files to extract.
      */
     QStringList copyFilesList(const QVariantList& files) const;
 
+    QString multiVolumeName() const Q_DECL_OVERRIDE;
+
 protected:
 
-    virtual void handleLine(const QString& line);
+    /**
+     * Handles the given @p line.
+     * @return True if the line is ok. False if the line contains/triggers a "fatal" error
+     * or a canceled user query. If false is returned, the caller is supposed to call killProcess().
+     */
+    virtual bool handleLine(const QString& line);
+
     virtual void cacheParameterList();
 
     /**
@@ -367,14 +379,6 @@ protected:
      */
     bool passwordQuery();
 
-    ParameterList m_param;
-    int m_exitCode;
-
-protected slots:
-    virtual void readStdout(bool handleAll = false);
-
-private:
-
     /**
      * Checks whether a line of the program's output is a password prompt.
      *
@@ -388,9 +392,26 @@ private:
      */
 
     bool checkForPasswordPromptMessage(const QString& line);
+    bool checkForErrorMessage(const QString& line, int parameterIndex);
+
+
+    ParameterList m_param;
+
+#ifdef Q_OS_WIN
+    KProcess *m_process;
+#else
+    KPtyProcess *m_process;
+#endif
+
+    bool m_abortingOperation;
+
+
+protected slots:
+    virtual void readStdout(bool handleAll = false);
+
+private:
 
     bool handleFileExistsMessage(const QString& filename);
-    bool checkForErrorMessage(const QString& line, int parameterIndex);
     bool checkForTestSuccessMessage(const QString& line);
 
     /**
@@ -422,15 +443,9 @@ private:
     QRegularExpression m_passwordPromptPattern;
     QHash<int, QList<QRegularExpression> > m_patternCache;
 
-#ifdef Q_OS_WIN
-    KProcess *m_process;
-#else
-    KPtyProcess *m_process;
-#endif
-
     QVariantList m_removedFiles;
+    int m_exitCode;
     bool m_listEmptyLines;
-    bool m_abortingOperation;
     QString m_storedFileName;
 
     CompressionOptions m_compressionOptions;
@@ -441,7 +456,7 @@ private:
     QVariantList m_copiedFiles;
 
 private slots:
-    void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    virtual void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void copyProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 };

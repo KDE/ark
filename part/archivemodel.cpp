@@ -591,6 +591,13 @@ bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, i
         return false;
     }
 
+    if (archive()->isReadOnly() ||
+        (archive()->encryptionType() != Archive::Unencrypted &&
+         archive()->password().isEmpty())) {
+        emit messageWidget(KMessageWidget::Error, i18n("Adding files is not supported for this archive."));
+        return false;
+    }
+
     QStringList paths;
     foreach(const QUrl &url, data->urls()) {
         paths << url.toLocalFile();

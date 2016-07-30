@@ -142,6 +142,13 @@ void AddToArchiveTest::testCompressHere_data()
             << QStringLiteral("data.zip")
             << 3ULL
             << 1ULL;
+
+        QTest::newRow("compress here (as TAR) - dir with special name (see #365798)")
+            << QStringLiteral("tar.gz")
+            << QStringList {QFINDTESTDATA("data/test%dir")}
+            << QStringLiteral("test%dir.tar.gz")
+            << 2ULL
+            << 1ULL;
     } else {
         qDebug() << "7z/zip executable not found in path. Skipping compress-here-(ZIP) tests.";
     }

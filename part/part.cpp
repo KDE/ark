@@ -171,6 +171,8 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, static_cast<void (Part::*)(const QStringList&, const QString&)>(&Part::slotAddFiles));
     connect(m_model, &ArchiveModel::error,
             this, &Part::slotError);
+    connect(m_model, &ArchiveModel::messageWidget,
+            this, &Part::displayMsgWidget);
 
     connect(this, &Part::busy,
             this, &Part::setBusyGui);
@@ -186,7 +188,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
 Part::~Part()
 {
-    qDeleteAll(m_tmpOpenDirList);
+    qDeleteAll(m_tmpExtractDirList);
 
     // Only save splitterSizes if infopanel is visible,
     // because we don't want to store zero size for infopanel.
@@ -317,7 +319,7 @@ void Part::setupActions()
     // pass the OpenFileMode as argument to the slot.
     m_signalMapper = new QSignalMapper;
 
-    m_showInfoPanelAction = new KToggleAction(i18nc("@action:inmenu", "Show information panel"), this);
+    m_showInfoPanelAction = new KToggleAction(i18nc("@action:inmenu", "Show Information Panel"), this);
     actionCollection()->addAction(QStringLiteral( "show-infopanel" ), m_showInfoPanelAction);
     m_showInfoPanelAction->setChecked(ArkSettings::showInfoPanel());
     connect(m_showInfoPanelAction, &QAction::triggered,
@@ -418,6 +420,7 @@ void Part::updateActions()
     // archives). If we added files they would not get encrypted resulting in an
     // archive with a mixture of encrypted and unencrypted files.
     const bool isEncryptedButUnknownPassword = m_model->archive() &&
+                                               m_model->archive()->hasBeenListed() &&
                                                m_model->archive()->encryptionType() != Archive::Unencrypted &&
                                                m_model->archive()->password().isEmpty();
 
@@ -617,8 +620,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 
         Kerfuffle::ExtractionOptions options;
         options[QStringLiteral("PreservePaths")] = true;
-        QList<QVariant> files = filesAndRootNodesForIndexes(m_view->selectionModel()->selectedRows());
-        ExtractJob *job = m_model->extractFiles(files, finalDestinationDirectory, options);
+        ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows())), finalDestinationDirectory, options);
         registerJob(job);
 
         connect(job, &KJob::result,
@@ -663,9 +665,14 @@ bool Part::openFile()
 
     Q_ASSERT(archive->isValid());
 
+    if (arguments().metaData().contains(QStringLiteral("volumeSize"))) {
+        archive.data()->setMultiVolume(true);
+    }
+
     // Plugin loaded successfully.
     KJob *job = m_model->setArchive(archive.take());
     if (job) {
+        connect(m_model->archive(), &Archive::loadingFinished, this, &Part::updateActions);
         registerJob(job);
         job->start();
     } else {
@@ -914,7 +921,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
 
         // Since the user could modify the file (unlike the Preview case),
         // we'll need to manually delete the temp dir in the Part destructor.
-        m_tmpOpenDirList << openJob->tempDir();
+        m_tmpExtractDirList << openJob->tempDir();
 
         const QString fullName = openJob->validatedFilePath();
 
@@ -952,6 +959,7 @@ void Part::slotPreviewExtractedEntry(KJob *job)
         PreviewJob *previewJob = qobject_cast<PreviewJob*>(job);
         Q_ASSERT(previewJob);
 
+        m_tmpExtractDirList << previewJob->tempDir();
         ArkViewer::view(previewJob->validatedFilePath());
 
     } else if (job->error() != KJob::KilledJobError) {
@@ -966,7 +974,7 @@ void Part::slotWatchedFileModified(const QString& file)
 
     // Find the relative path of the file within the archive.
     QString relPath = file;
-    foreach (QTemporaryDir *tmpDir, m_tmpOpenDirList) {
+    foreach (QTemporaryDir *tmpDir, m_tmpExtractDirList) {
         relPath.remove(tmpDir->path()); //Remove tmpDir.
     }
     relPath = relPath.mid(1); //Remove leading slash.
@@ -1075,7 +1083,7 @@ void Part::slotShowExtractionDialog()
         }
         options[QStringLiteral("FollowExtractionDialogSettings")] = true;
 
-        const QString destinationDirectory = dialog.data()->destinationDirectory().toDisplayString(QUrl::PreferLocalFile);
+        const QString destinationDirectory = dialog.data()->destinationDirectory().toLocalFile();
         ExtractJob *job = m_model->extractFiles(files, destinationDirectory, options);
         registerJob(job);
 
@@ -1243,6 +1251,9 @@ void Part::slotAddFiles()
         if (arguments().metaData().contains(QStringLiteral("compressionLevel"))) {
             opts[QStringLiteral("CompressionLevel")] = arguments().metaData()[QStringLiteral("compressionLevel")];
         }
+        if (arguments().metaData().contains(QStringLiteral("volumeSize"))) {
+            opts[QStringLiteral("VolumeSize")] = arguments().metaData()[QStringLiteral("volumeSize")];
+        }
         m_model->archive()->setCompressionOptions(opts);
     } else {
         opts = m_model->archive()->compressionOptions();
@@ -1282,6 +1293,17 @@ void Part::slotAddFilesDone(KJob* job)
     } else {
         // Hide the "archive will be created as soon as you add a file" message.
         m_messageWidget->hide();
+
+        // For multi-volume archive, we need to re-open the archive after adding files
+        // because the name changes from e.g name.rar to name.part1.rar.
+        if (m_model->archive()->isMultiVolume()) {
+            qCDebug(ARK) << "Multi-volume archive detected, re-opening...";
+            KParts::OpenUrlArguments args = arguments();
+            args.metaData()[QStringLiteral("createNewArchive")] = QStringLiteral("false");
+            setArguments(args);
+
+            openUrl(QUrl::fromLocalFile(m_model->archive()->multiVolumeName()));
+        }
     }
 }
 
