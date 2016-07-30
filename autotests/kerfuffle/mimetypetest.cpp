@@ -74,7 +74,7 @@ void MimeTypeTest::testMimeTypeDetection_data()
     QTest::newRow("tar.lz4") << QFINDTESTDATA("data/simplearchive.tar.lz4") << compressedLz4TarMime;
     QTest::newRow("deb") << QFINDTESTDATA("data/smallarchive.deb") << debMimeType;
     QTest::newRow("xar") << QFINDTESTDATA("data/simplearchive.xar") << xarMimeType;
-    QTest::newRow("AppImage") << QFINDTESTDATA("data/hello-2.8-x86_64.AppImage") << appImageMimeType;
+    QTest::newRow("AppImage") << QFINDTESTDATA("data/hello-1.0-x86_64.AppImage") << appImageMimeType;
 
     QTest::newRow("zip with wrong extension") << QFINDTESTDATA("data/zip_with_wrong_extension.rar") << QStringLiteral("application/zip");
     QTest::newRow("tar with special char in the extension") << QStringLiteral("foo.tar~1.gz") << compressedGzipTarMime;

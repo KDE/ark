@@ -175,10 +175,10 @@ void ArchiveTest::testProperties_data()
             << QStringLiteral("test");
 
     QTest::newRow("AppImage")
-            << QFINDTESTDATA("data/hello-2.8-x86_64.AppImage")
-            << QStringLiteral("hello-2.8-x86_64")
+            << QFINDTESTDATA("data/hello-1.0-x86_64.AppImage")
+            << QStringLiteral("hello-1.0-x86_64")
             << true << false << false << false << 0 << Archive::Unencrypted
-            << QStringLiteral("hello-2.8-x86_64");
+            << QStringLiteral("hello-1.0-x86_64");
 
     QTest::newRow("7z multivolume")
             << QFINDTESTDATA("data/archive-multivolume.7z.001")
