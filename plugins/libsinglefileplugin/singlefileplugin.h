@@ -39,7 +39,7 @@ public:
 
     virtual bool list() Q_DECL_OVERRIDE;
     virtual bool testArchive() Q_DECL_OVERRIDE;
-    virtual bool copyFiles(const QList<Kerfuffle::Archive::Entry*> &files, const QString& destinationDirectory, const Kerfuffle::ExtractionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool extractFiles(const QList<Kerfuffle::Archive::Entry*> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) Q_DECL_OVERRIDE;
 
 protected:
     const QString uncompressedFileName() const;

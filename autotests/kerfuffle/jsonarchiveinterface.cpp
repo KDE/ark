@@ -92,7 +92,16 @@ bool JSONArchiveInterface::moveFiles(const QList<Kerfuffle::Archive::Entry*>& fi
     return true;
 }
 
-bool JSONArchiveInterface::copyFiles(const QList<Kerfuffle::Archive::Entry*>& files, const QString& destinationDirectory, const Kerfuffle::ExtractionOptions& options)
+bool JSONArchiveInterface::copyFiles(const QList<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options)
+{
+    Q_UNUSED(files)
+    Q_UNUSED(destination)
+    Q_UNUSED(options)
+
+    return false;
+}
+
+bool JSONArchiveInterface::extractFiles(const QList<Kerfuffle::Archive::Entry*>& files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions& options)
 {
     Q_UNUSED(files)
     Q_UNUSED(destinationDirectory)

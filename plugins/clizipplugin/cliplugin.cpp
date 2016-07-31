@@ -199,10 +199,10 @@ bool CliPlugin::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *d
     m_moveDestination = destination;
     m_moveCompressionOptions = options;
 
-    m_moveSubOperation = Copy;
+    m_moveSubOperation = Extract;
     connect(this, &CliPlugin::finished, this, &CliPlugin::continueMoving);
 
-    return copyFiles(files, QDir::currentPath(), options);
+    return extractFiles(files, QDir::currentPath(), options);
 }
 
 int CliPlugin::moveRequiredSignals() const {
@@ -218,7 +218,7 @@ void CliPlugin::continueMoving(bool result)
     }
 
     switch (m_moveSubOperation) {
-        case Copy:
+        case Extract:
             m_moveSubOperation = Delete;
             deleteFiles(m_movedFiles);
             break;

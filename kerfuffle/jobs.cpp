@@ -309,7 +309,7 @@ void ExtractJob::doWork()
              << "Destination dir:" << m_destinationDir
              << "Options:" << m_options;
 
-    bool ret = archiveInterface()->copyFiles(m_entries, m_destinationDir, m_options);
+    bool ret = archiveInterface()->extractFiles(m_entries, m_destinationDir, m_options);
 
     if (!archiveInterface()->waitForFinishedSignal()) {
         onFinished(ret);
@@ -380,7 +380,7 @@ void TempExtractJob::doWork()
 
     qCDebug(ARK) << "Extracting:" << m_entry;
 
-    bool ret = archiveInterface()->copyFiles({m_entry}, extractionDir(), extractionOptions());
+    bool ret = archiveInterface()->extractFiles({m_entry}, extractionDir(), extractionOptions());
 
     if (!archiveInterface()->waitForFinishedSignal()) {
         onFinished(ret);
@@ -517,6 +517,22 @@ void MoveJob::onFinished(bool result)
     if (m_finishedSignalsCount == archiveInterface()->moveRequiredSignals()) {
         Job::onFinished(result);
     }
+}
+
+CopyJob::CopyJob(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options, ReadWriteArchiveInterface *interface)
+    : Job(interface)
+{
+
+}
+
+void CopyJob::doWork()
+{
+    onFinished(false);
+}
+
+void CopyJob::onFinished(bool result)
+{
+    Job::onFinished(result);
 }
 
 DeleteJob::DeleteJob(const QList<Archive::Entry*> &entries, ReadWriteArchiveInterface *interface)

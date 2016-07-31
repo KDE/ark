@@ -76,7 +76,7 @@ bool CliPlugin::list()
     return true;
 }
 
-bool CliPlugin::copyFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
+bool CliPlugin::extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     ExtractionOptions newOptions = options;
 
@@ -90,7 +90,7 @@ bool CliPlugin::copyFiles(const QList<Archive::Entry*> &files, const QString &de
     qCDebug(ARK) << "Enabling extraction to temporary directory.";
     newOptions[QStringLiteral("AlwaysUseTmpDir")] = true;
 
-    return CliInterface::copyFiles(files, destinationDirectory, newOptions);
+    return CliInterface::extractFiles(files, destinationDirectory, newOptions);
 }
 
 void CliPlugin::resetParsing()

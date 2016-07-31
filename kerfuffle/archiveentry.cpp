@@ -131,7 +131,7 @@ Archive::Entry *Archive::Entry::findByPath(const QStringList & pieces, int index
     return 0;
 }
 
-void Archive::Entry::returnDirEntries(QList<Entry *> *store)
+void Archive::Entry::returnDirEntries(QList<Entry*> *store)
 {
         foreach(Entry *entry, m_entries) {
             if (entry->isDir()) {

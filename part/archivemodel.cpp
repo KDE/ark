@@ -785,7 +785,7 @@ ExtractJob* ArchiveModel::extractFile(Archive::Entry *file, const QString& desti
 ExtractJob* ArchiveModel::extractFiles(const QList<Archive::Entry*>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options) const
 {
     Q_ASSERT(m_archive);
-    ExtractJob *newJob = m_archive->copyFiles(files, destinationDir, options);
+    ExtractJob *newJob = m_archive->extractFiles(files, destinationDir, options);
     connect(newJob, &ExtractJob::userQuery, this, &ArchiveModel::slotUserQuery);
     return newJob;
 }

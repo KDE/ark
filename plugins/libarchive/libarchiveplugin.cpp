@@ -32,7 +32,7 @@
 
 #include <QDirIterator>
 
-LibarchivePlugin::LibarchivePlugin(QObject *parent, const QVariantList & args)
+LibarchivePlugin::LibarchivePlugin(QObject *parent, const QVariantList &args)
     : ReadWriteArchiveInterface(parent, args)
     , m_archiveReadDisk(archive_read_disk_new())
     , m_abortOperation(false)
@@ -93,7 +93,7 @@ bool LibarchivePlugin::list()
     return archive_read_close(m_archiveReader.data()) == ARCHIVE_OK;
 }
 
-bool LibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options)
+bool LibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(files)
     Q_UNUSED(destination)
@@ -101,7 +101,15 @@ bool LibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, const Archi
     return false;
 }
 
-bool LibarchivePlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool LibarchivePlugin::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+{
+    Q_UNUSED(files)
+    Q_UNUSED(destination)
+    Q_UNUSED(options)
+    return false;
+}
+
+bool LibarchivePlugin::copyFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(files)
     Q_UNUSED(destination)
@@ -115,7 +123,7 @@ bool LibarchivePlugin::deleteFiles(const QList<Archive::Entry*> &files)
     return false;
 }
 
-bool LibarchivePlugin::addComment(const QString& comment)
+bool LibarchivePlugin::addComment(const QString &comment)
 {
     Q_UNUSED(comment)
     return false;
@@ -132,7 +140,7 @@ bool LibarchivePlugin::doKill()
     return true;
 }
 
-bool LibarchivePlugin::copyFiles(const QList<Archive::Entry*>& files, const QString& destinationDirectory, const ExtractionOptions& options)
+bool LibarchivePlugin::extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     qCDebug(ARK) << "Changing current directory to " << destinationDirectory;
     QDir::setCurrent(destinationDirectory);

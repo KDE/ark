@@ -97,7 +97,7 @@ public:
      * @note If returning false, make sure to emit the error() signal beforewards to notify
      * the user of the error condition.
      */
-    virtual bool copyFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) = 0;
+    virtual bool extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) = 0;
     bool waitForFinishedSignal();
 
     virtual int moveRequiredSignals() const;
@@ -149,7 +149,7 @@ class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterfac
     Q_OBJECT
 public:
     enum OperationMode  {
-        List, Copy, Add, Move, Delete, Comment, Test
+        List, Extract, Add, Move, Delete, Comment, Test
     };
 
     explicit ReadWriteArchiveInterface(QObject *parent, const QVariantList & args);
@@ -161,6 +161,7 @@ public:
     //contain
     virtual bool addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options) = 0;
     virtual bool moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) = 0;
+    virtual bool copyFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) = 0;
     virtual bool deleteFiles(const QList<Archive::Entry*> &files) = 0;
     virtual bool addComment(const QString &comment) = 0;
 };

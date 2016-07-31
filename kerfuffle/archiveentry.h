@@ -67,7 +67,7 @@ public:
     int row() const;
     Entry *find(const QString & name);
     Entry *findByPath(const QStringList & pieces, int index = 0);
-    void returnDirEntries(QList<Entry *> *store);
+    void returnDirEntries(QList<Entry*> *store);
     void clear();
 
     bool operator==(const Archive::Entry &right) const;

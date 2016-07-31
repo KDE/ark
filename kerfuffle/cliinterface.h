@@ -299,9 +299,10 @@ public:
     virtual ~CliInterface();
 
     virtual bool list() Q_DECL_OVERRIDE;
-    virtual bool copyFiles(const QList<Archive::Entry*> &files, const QString& destinationDirectory, const ExtractionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) Q_DECL_OVERRIDE;
     virtual bool addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
     virtual bool moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool copyFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
     virtual bool deleteFiles(const QList<Archive::Entry*> &files) Q_DECL_OVERRIDE;
     virtual bool addComment(const QString &comment) Q_DECL_OVERRIDE;
     virtual bool testArchive() Q_DECL_OVERRIDE;
@@ -327,9 +328,10 @@ public:
     bool moveToDestination(const QDir &tempDir, const QDir &destDir, bool preservePaths);
 
     QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
-    QStringList substituteCopyVariables(const QStringList &extractArgs, const QList<Archive::Entry*> &entries, bool preservePaths, const QString &password);
+    QStringList substituteExtractVariables(const QStringList &extractArgs, const QList<Archive::Entry*> &entries, bool preservePaths, const QString &password);
     QStringList substituteAddVariables(const QStringList &addArgs, const QList<Archive::Entry*> &entries, const QString &password, bool encryptHeader, int compLevel);
     QStringList substituteMoveVariables(const QStringList &moveArgs, const QList<Archive::Entry*> &entries, const Archive::Entry *destination, const QString &password);
+    QStringList substituteCopyVariables(const QStringList &moveArgs, const QList<Archive::Entry*> &entries, const Archive::Entry *destination, const QString &password);
     QStringList substituteDeleteVariables(const QStringList &deleteArgs, const QList<Archive::Entry*> &entries, const QString &password);
     QStringList substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile);
     QStringList substituteTestVariables(const QStringList &testArgs);
@@ -357,7 +359,7 @@ public:
     /**
      * @return The list of selected files to extract.
      */
-    QStringList copyFilesList(const QList<Archive::Entry*> &files) const;
+    QStringList extractFilesList(const QList<Archive::Entry*> &files) const;
 
 protected:
 
@@ -472,7 +474,7 @@ protected slots:
     virtual void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 private slots:
-    void copyProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void extractProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 };
 }

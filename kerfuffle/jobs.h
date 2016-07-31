@@ -259,6 +259,26 @@ private:
     CompressionOptions m_options;
 };
 
+class KERFUFFLE_EXPORT CopyJob : public Job
+{
+Q_OBJECT
+
+public:
+    CopyJob(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
+
+public slots:
+    virtual void doWork() Q_DECL_OVERRIDE;
+
+protected slots:
+    virtual void onFinished(bool result) Q_DECL_OVERRIDE;
+
+private:
+    int m_finishedSignalsCount;
+    const QList<Archive::Entry*> m_entries;
+    Archive::Entry *m_destination;
+    CompressionOptions m_options;
+};
+
 class KERFUFFLE_EXPORT DeleteJob : public Job
 {
     Q_OBJECT

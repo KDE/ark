@@ -130,7 +130,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
     return isSuccessful;
 }
 
-bool ReadWriteLibarchivePlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool ReadWriteLibarchivePlugin::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(options);
 

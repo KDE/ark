@@ -46,6 +46,7 @@ class ExtractJob;
 class DeleteJob;
 class AddJob;
 class MoveJob;
+class CopyJob;
 class CommentJob;
 class TestJob;
 class OpenJob;
@@ -145,18 +146,14 @@ public:
      *
      * GlobalWorkDir - Change to this dir before adding the new files.
      * The path names should then be added relative to this directory.
-     *
-     * TODO: find a way to actually add files to specific locations in
-     * the archive
-     * (not supported yet) GlobalPathInArchive - a path relative to the
-     * archive root where the files will be added under
-     *
      */
     AddJob* addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
 
     MoveJob* moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
 
-    ExtractJob* copyFiles(const QList<Archive::Entry*> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
+    CopyJob* copyFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
+
+    ExtractJob* extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
 
     PreviewJob* preview(Archive::Entry *entry);
     OpenJob* open(Archive::Entry *entry);

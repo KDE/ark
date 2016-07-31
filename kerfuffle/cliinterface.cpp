@@ -109,12 +109,12 @@ bool CliInterface::list()
     return true;
 }
 
-bool CliInterface::copyFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
+bool CliInterface::extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     qCDebug(ARK) << Q_FUNC_INFO << "to" << destinationDirectory;
 
     cacheParameterList();
-    m_operationMode = Copy;
+    m_operationMode = Extract;
     m_compressionOptions = options;
     m_copiedFiles = files;
     m_extractDestDir = destinationDirectory;
@@ -130,10 +130,10 @@ bool CliInterface::copyFiles(const QList<Archive::Entry*> &files, const QString 
     }
 
     // Populate the argument list.
-    const QStringList args = substituteCopyVariables(extractArgs,
-                                                     files,
-                                                     options.value(QStringLiteral("PreservePaths")).toBool(),
-                                                     password());
+    const QStringList args = substituteExtractVariables(extractArgs,
+                                                        files,
+                                                        options.value(QStringLiteral("PreservePaths")).toBool(),
+                                                        password());
 
     QUrl destDir = QUrl(destinationDirectory);
     QDir::setCurrent(destDir.adjusted(QUrl::RemoveScheme).url());
@@ -249,6 +249,11 @@ bool CliInterface::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry
     return runProcess(m_param.value(MoveProgram).toStringList(), args);
 }
 
+bool CliInterface::copyFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+{
+    return false;
+}
+
 bool CliInterface::deleteFiles(const QList<Archive::Entry*> &files)
 {
     cacheParameterList();
@@ -310,9 +315,13 @@ bool CliInterface::runProcess(const QStringList& programNames, const QStringList
 
     connect(m_process, SIGNAL(readyReadStandardOutput()), SLOT(readStdout()), Qt::DirectConnection);
 
-    if (m_operationMode == Copy) {
+    if (m_operationMode == Extract) {
         // Extraction jobs need a dedicated post-processing function.
-        connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::copyProcessFinished, Qt::DirectConnection);
+        connect(m_process,
+                static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished),
+                this,
+                &CliInterface::extractProcessFinished,
+                Qt::DirectConnection);
     } else {
         connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::processFinished, Qt::DirectConnection);
     }
@@ -373,9 +382,9 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     }
 }
 
-void CliInterface::copyProcessFinished(int exitCode, QProcess::ExitStatus exitStatus)
+void CliInterface::extractProcessFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    Q_ASSERT(m_operationMode == Copy);
+    Q_ASSERT(m_operationMode == Extract);
 
     m_exitCode = exitCode;
     qCDebug(ARK) << "Extraction process finished, exitcode:" << exitCode << "exitstatus:" << exitStatus;
@@ -647,7 +656,7 @@ QStringList CliInterface::substituteListVariables(const QStringList &listArgs, c
     return args;
 }
 
-QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs, const QList<Archive::Entry*> &entries, bool preservePaths, const QString &password)
+QStringList CliInterface::substituteExtractVariables(const QStringList &extractArgs, const QList<Archive::Entry*> &entries, bool preservePaths, const QString &password)
 {
     // Required if we call this function from unit tests.
     cacheParameterList();
@@ -672,7 +681,7 @@ QStringList CliInterface::substituteCopyVariables(const QStringList &extractArgs
         }
 
         if (arg == QLatin1String("$Files")) {
-            args << copyFilesList(entries);
+            args << extractFilesList(entries);
             continue;
         }
 
@@ -757,6 +766,11 @@ QStringList CliInterface::substituteMoveVariables(const QStringList &moveArgs, c
     args.removeAll(QString());
 
     return args;
+}
+
+QStringList CliInterface::substituteCopyVariables(const QStringList &moveArgs, const QList<Archive::Entry *> &entries, const Archive::Entry *destination, const QString &password)
+{
+    return QStringList();
 }
 
 QStringList CliInterface::substituteDeleteVariables(const QStringList &deleteArgs, const QList<Archive::Entry*> &entries, const QString &password)
@@ -912,7 +926,7 @@ QString CliInterface::compressionLevelSwitch(int level) const
     return compLevelSwitch;
 }
 
-QStringList CliInterface::copyFilesList(const QList<Archive::Entry*> &entries) const
+QStringList CliInterface::extractFilesList(const QList<Archive::Entry*> &entries) const
 {
     QStringList filesList;
     foreach (const Archive::Entry *e, entries) {
@@ -1041,7 +1055,7 @@ void CliInterface::handleLine(const QString& line)
 {
     // TODO: This should be implemented by each plugin; the way progress is
     //       shown by each CLI application is subject to a lot of variation.
-    if ((m_operationMode == Copy || m_operationMode == Add) && m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool()) {
+    if ((m_operationMode == Extract || m_operationMode == Add) && m_param.contains(CaptureProgress) && m_param.value(CaptureProgress).toBool()) {
         //read the percentage
         int pos = line.indexOf(QLatin1Char( '%' ));
         if (pos > 1) {
@@ -1051,7 +1065,7 @@ void CliInterface::handleLine(const QString& line)
         }
     }
 
-    if (m_operationMode == Copy) {
+    if (m_operationMode == Extract) {
 
         if (checkForPasswordPromptMessage(line)) {
             qCDebug(ARK) << "Found a password prompt";

@@ -346,14 +346,32 @@ MoveJob* Archive::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry 
         newOptions[QStringLiteral("PasswordProtectedHint")] = true;
     }
 
-    qCDebug(ARK) << "Going to add files" << files << "with options" << newOptions;
+    qCDebug(ARK) << "Going to move files" << files << "with options" << newOptions;
     Q_ASSERT(!m_iface->isReadOnly());
 
     MoveJob *newJob = new MoveJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
     return newJob;
 }
 
-ExtractJob* Archive::copyFiles(const QList<Archive::Entry*> &files, const QString& destinationDir, const ExtractionOptions& options)
+CopyJob* Archive::copyFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
+{
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
+    CompressionOptions newOptions = options;
+    if (encryptionType() != Unencrypted) {
+        newOptions[QStringLiteral("PasswordProtectedHint")] = true;
+    }
+
+    qCDebug(ARK) << "Going to copy files" << files << "with options" << newOptions;
+    Q_ASSERT(!m_iface->isReadOnly());
+
+    CopyJob *newJob = new CopyJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
+    return newJob;
+}
+
+ExtractJob* Archive::extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDir, const ExtractionOptions &options)
 {
     if (!isValid()) {
         return Q_NULLPTR;
