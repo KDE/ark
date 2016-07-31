@@ -415,7 +415,7 @@ void CliRarTest::testExtractArgs()
     QFETCH(bool, preservePaths);
     QFETCH(QString, password);
 
-    QStringList replacedArgs = rarPlugin->substituteCopyVariables(extractArgs, files, preservePaths, password);
+    QStringList replacedArgs = rarPlugin->substituteExtractVariables(extractArgs, files, preservePaths, password);
     QVERIFY(replacedArgs.size() >= extractArgs.size());
 
     QFETCH(QStringList, expectedArgs);

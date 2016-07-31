@@ -28,7 +28,7 @@
 
 using namespace Kerfuffle;
 
-class MoveTest : public QObject
+class CopyTest : public QObject
 {
 Q_OBJECT
 
@@ -50,26 +50,26 @@ private:
     }
 
 private Q_SLOTS:
-    void testMoving_data();
-    void testMoving();
+    void testCopying_data();
+    void testCopying();
 };
 
-QTEST_GUILESS_MAIN(MoveTest)
+QTEST_GUILESS_MAIN(CopyTest)
 
-void MoveTest::testMoving_data()
+void CopyTest::testCopying_data()
 {
     QTest::addColumn<QString>("archiveName");
     QTest::addColumn<QList<Archive::Entry*>>("files");
     QTest::addColumn<Archive::Entry*>("destination");
 
-    addAllFormatsRows(QStringLiteral("replace a single file"),
+    addAllFormatsRows(QStringLiteral("copy a single file"),
                       QStringLiteral("test"),
                       QList<Archive::Entry*> {
                           new Archive::Entry(this, QStringLiteral("a.txt")),
                       },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/a.txt")));
+                      new Archive::Entry(this, QStringLiteral("empty_dir/")));
 
-    addAllFormatsRows(QStringLiteral("replace several files"),
+    addAllFormatsRows(QStringLiteral("copy several files"),
                       QStringLiteral("test"),
                       QList<Archive::Entry*> {
                           new Archive::Entry(this, QStringLiteral("a.txt")),
@@ -77,15 +77,15 @@ void MoveTest::testMoving_data()
                       },
                       new Archive::Entry(this, QStringLiteral("empty_dir/")));
 
-    addAllFormatsRows(QStringLiteral("replace a directory"),
+    addAllFormatsRows(QStringLiteral("copy a directory"),
                       QStringLiteral("test"),
                       QList<Archive::Entry*> {
                           new Archive::Entry(this, QStringLiteral("dir/")),
                       },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/dir/")));
+                      new Archive::Entry(this, QStringLiteral("empty_dir/")));
 }
 
-void MoveTest::testMoving()
+void CopyTest::testCopying()
 {
     QTemporaryDir temporaryDir;
 
@@ -102,15 +102,17 @@ void MoveTest::testMoving()
     QFETCH(QList<Archive::Entry*>, files);
     QFETCH(Archive::Entry*, destination);
 
+    const QList<Archive::Entry*> oldEntries = TestHelper::getEntryList(archive);
+
     CompressionOptions options = CompressionOptions();
     options.insert(QStringLiteral("GlobalWorkDir"), QFINDTESTDATA("data"));
-    MoveJob *moveJob = archive->moveFiles(files, destination, options);
-    TestHelper::startAndWaitForResult(moveJob);
+    CopyJob *copyJob = archive->copyFiles(files, destination, options);
+    TestHelper::startAndWaitForResult(copyJob);
 
     QList<Archive::Entry*> resultedEntries = TestHelper::getEntryList(archive);
-    TestHelper::verifyMovedEntriesWithDestination(files, destination, resultedEntries);
+    TestHelper::verifyCopiedEntriesWithDestination(files, destination, oldEntries, resultedEntries);
 
     archive->deleteLater();
 }
 
-#include "movetest.moc"
+#include "copytest.moc"

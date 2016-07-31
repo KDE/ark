@@ -528,7 +528,7 @@ void ExtractTest::testExtraction()
 
     QFETCH(QList<Archive::Entry*>, entriesToExtract);
     QFETCH(ExtractionOptions, extractionOptions);
-    auto extractionJob = archive->copyFiles(entriesToExtract, destDir.path(), extractionOptions);
+    auto extractionJob = archive->extractFiles(entriesToExtract, destDir.path(), extractionOptions);
 
     QEventLoop eventLoop(this);
     connect(extractionJob, &KJob::result, &eventLoop, &QEventLoop::quit);

@@ -301,7 +301,7 @@ void CliUnarchiverTest::testExtraction()
 
     QFETCH(QList<Archive::Entry*>, entriesToExtract);
     QFETCH(ExtractionOptions, extractionOptions);
-    auto extractionJob = archive->copyFiles(entriesToExtract, destDir.path(), extractionOptions);
+    auto extractionJob = archive->extractFiles(entriesToExtract, destDir.path(), extractionOptions);
 
     QEventLoop eventLoop(this);
     connect(extractionJob, &KJob::result, &eventLoop, &QEventLoop::quit);
@@ -374,7 +374,7 @@ void CliUnarchiverTest::testExtractArgs()
     QFETCH(QList<Archive::Entry*>, files);
     QFETCH(QString, password);
 
-    QStringList replacedArgs = plugin->substituteCopyVariables(extractArgs, files, false, password);
+    QStringList replacedArgs = plugin->substituteExtractVariables(extractArgs, files, false, password);
     QVERIFY(replacedArgs.size() >= extractArgs.size());
 
     QFETCH(QStringList, expectedArgs);

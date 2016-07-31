@@ -12,6 +12,7 @@ ecm_add_tests(
     extracttest.cpp
     addtest.cpp
     movetest.cpp
+    copytest.cpp
     createdialogtest.cpp
     metadatatest.cpp
     mimetypetest.cpp
