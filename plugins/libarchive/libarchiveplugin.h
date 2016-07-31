@@ -78,11 +78,12 @@ protected:
     typedef QScopedPointer<struct archive, ArchiveReadCustomDeleter> ArchiveRead;
     typedef QScopedPointer<struct archive, ArchiveWriteCustomDeleter> ArchiveWrite;
 
-    bool initializeReader(const LibarchivePlugin::ArchiveRead &archiveRead);
+    bool initializeReader();
     void emitEntryFromArchiveEntry(struct archive_entry *entry);
     void copyData(const QString& filename, struct archive *dest, bool partialprogress = true);
     void copyData(const QString& filename, struct archive *source, struct archive *dest, bool partialprogress = true);
 
+    ArchiveRead m_archiveReader;
     ArchiveRead m_archiveReadDisk;
     bool m_abortOperation;
 
