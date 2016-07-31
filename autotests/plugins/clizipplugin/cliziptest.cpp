@@ -125,34 +125,34 @@ void CliZipTest::testExtractArgs_data()
     QTest::newRow("preserve paths, encrypted")
             << QStringLiteral("/tmp/foo.zip")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QStringLiteral("1234")
             << QStringList {
                    QStringLiteral("-P1234"),
                    QStringLiteral("/tmp/foo.zip"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("preserve paths, unencrypted")
             << QStringLiteral("/tmp/foo.zip")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QString()
             << QStringList {
                    QStringLiteral("/tmp/foo.zip"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("without paths, encrypted")
             << QStringLiteral("/tmp/foo.zip")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QStringLiteral("1234")
@@ -160,21 +160,21 @@ void CliZipTest::testExtractArgs_data()
                    QStringLiteral("-j"),
                    QStringLiteral("-P1234"),
                    QStringLiteral("/tmp/foo.zip"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("without paths, unencrypted")
             << QStringLiteral("/tmp/foo.zip")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QString()
             << QStringList {
                    QStringLiteral("-j"),
                    QStringLiteral("/tmp/foo.zip"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 }
@@ -198,110 +198,6 @@ void CliZipTest::testExtractArgs()
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
-
-    plugin->deleteLater();
-}
-
-void CliZipTest::testAdd_data()
-{
-    QTest::addColumn<QString>("archiveName");
-    QTest::addColumn<QList<Archive::Entry*>>("files");
-    QTest::addColumn<Archive::Entry*>("destination");
-
-    QTest::newRow("without destination")
-        << QStringLiteral("test.zip")
-        << QList<Archive::Entry*> {
-            new Archive::Entry(this, QStringLiteral("a.txt")),
-            new Archive::Entry(this, QStringLiteral("b.txt")),
-        }
-        << new Archive::Entry(this);
-
-    QTest::newRow("with destination, files")
-        << QStringLiteral("test.zip")
-        << QList<Archive::Entry*> {
-            new Archive::Entry(this, QStringLiteral("a.txt")),
-            new Archive::Entry(this, QStringLiteral("b.txt")),
-        }
-        << new Archive::Entry(this, QStringLiteral("dir/"));
-
-    QTest::newRow("with destination, directory")
-        << QStringLiteral("test.zip")
-        << QList<Archive::Entry*> {
-            new Archive::Entry(this, QStringLiteral("dir/")),
-        }
-        << new Archive::Entry(this, QStringLiteral("dir/"));
-}
-
-void CliZipTest::testAdd()
-{
-    QTemporaryDir temporaryDir;
-
-    QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(temporaryDir.path() + QLatin1Char('/') + archiveName)});
-    QVERIFY(plugin);
-
-    QFETCH(QList<Archive::Entry*>, files);
-    QFETCH(Archive::Entry*, destination);
-
-    CompressionOptions options = CompressionOptions();
-    options.insert(QStringLiteral("GlobalWorkDir"), QFINDTESTDATA("data"));
-    AddJob *addJob = new AddJob(files, destination, options, plugin);
-    TestHelper::startAndWaitForResult(addJob);
-
-    QList<Archive::Entry*> resultedEntries = TestHelper::getEntryList(plugin);
-    TestHelper::verifyAddedEntriesWithDestination(files, destination, resultedEntries);
-
-    plugin->deleteLater();
-}
-
-void CliZipTest::testMove_data()
-{
-    QTest::addColumn<QString>("archiveName");
-    QTest::addColumn<QList<Archive::Entry*>>("files");
-    QTest::addColumn<Archive::Entry*>("destination");
-
-    QTest::newRow("replace a file")
-        << QStringLiteral("test.zip")
-        << QList<Archive::Entry*> {
-            new Archive::Entry(this, QStringLiteral("a.txt")),
-        }
-        << new Archive::Entry(this, QStringLiteral("empty_dir/a.txt"));
-
-    QTest::newRow("replace several files")
-        << QStringLiteral("test.zip")
-        << QList<Archive::Entry*> {
-            new Archive::Entry(this, QStringLiteral("a.txt")),
-            new Archive::Entry(this, QStringLiteral("b.txt")),
-        }
-        << new Archive::Entry(this, QStringLiteral("empty_dir/"));
-
-    QTest::newRow("replace a directory")
-        << QStringLiteral("test.zip")
-        << QList<Archive::Entry*> {
-            new Archive::Entry(this, QStringLiteral("dir/")),
-        }
-        << new Archive::Entry(this, QStringLiteral("empty_dir/dir/"));
-}
-
-void CliZipTest::testMove()
-{
-    QTemporaryDir temporaryDir;
-
-    QFETCH(QString, archiveName);
-    const QString archivePath = temporaryDir.path() + QLatin1Char('/') + archiveName;
-    Q_ASSERT(QFile::copy(QFINDTESTDATA(QStringLiteral("data/") + archiveName), archivePath));
-
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archivePath)});
-    QVERIFY(plugin);
-
-    QFETCH(QList<Archive::Entry*>, files);
-    QFETCH(Archive::Entry*, destination);
-
-    MoveJob *moveJob = new MoveJob(files, destination, CompressionOptions(), plugin);
-    TestHelper::startAndWaitForResult(moveJob);
-
-    QList<Archive::Entry*> resultedEntries = TestHelper::getEntryList(plugin);
-    TestHelper::verifyMovedEntriesWithDestination(files, destination, resultedEntries);
 
     plugin->deleteLater();
 }

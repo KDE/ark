@@ -40,7 +40,7 @@ class TestHelper
 public:
 
     static void startAndWaitForResult(KJob *job);
-    static QList<Archive::Entry*> getEntryList(ReadOnlyArchiveInterface *iface);
+    static QList<Archive::Entry*> getEntryList(Archive *archive);
     static QStringList getExpectedEntryPaths(const QList<Archive::Entry*> &entryList, const Archive::Entry* destination);
     static void verifyAddedEntriesWithDestination(const QList<Archive::Entry *> &argumentEntries,
                                                   const Archive::Entry *destination,

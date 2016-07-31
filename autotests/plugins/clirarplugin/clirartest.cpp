@@ -334,7 +334,7 @@ void CliRarTest::testExtractArgs_data()
     QTest::newRow("preserve paths, encrypted")
             << QStringLiteral("/tmp/foo.rar")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QStringLiteral("1234")
@@ -344,14 +344,14 @@ void CliRarTest::testExtractArgs_data()
                    QStringLiteral("x"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("/tmp/foo.rar"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("preserve paths, unencrypted")
             << QStringLiteral("/tmp/foo.rar")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QString()
@@ -360,14 +360,14 @@ void CliRarTest::testExtractArgs_data()
                    QStringLiteral("-p-"),
                    QStringLiteral("x"),
                    QStringLiteral("/tmp/foo.rar"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("without paths, encrypted")
             << QStringLiteral("/tmp/foo.rar")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QStringLiteral("1234")
@@ -377,14 +377,14 @@ void CliRarTest::testExtractArgs_data()
                    QStringLiteral("e"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("/tmp/foo.rar"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("without paths, unencrypted")
             << QStringLiteral("/tmp/foo.rar")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QString()
@@ -393,7 +393,7 @@ void CliRarTest::testExtractArgs_data()
                    QStringLiteral("-p-"),
                    QStringLiteral("e"),
                    QStringLiteral("/tmp/foo.rar"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 }
@@ -422,110 +422,4 @@ void CliRarTest::testExtractArgs()
     QCOMPARE(replacedArgs, expectedArgs);
 
     rarPlugin->deleteLater();
-}
-
-void CliRarTest::testAdd_data()
-{
-    QTest::addColumn<QString>("archiveName");
-    QTest::addColumn<QList<Archive::Entry*>>("files");
-    QTest::addColumn<Archive::Entry*>("destination");
-
-    QTest::newRow("without destination")
-        << QStringLiteral("test.rar")
-        << QList<Archive::Entry*> {
-            new Archive::Entry(this, QStringLiteral("a.txt")),
-            new Archive::Entry(this, QStringLiteral("b.txt")),
-        }
-        << new Archive::Entry(this);
-
-    QTest::newRow("with destination, files")
-        << QStringLiteral("test.rar")
-        << QList<Archive::Entry*> {
-            new Archive::Entry(this, QStringLiteral("a.txt")),
-            new Archive::Entry(this, QStringLiteral("b.txt")),
-        }
-        << new Archive::Entry(this, QStringLiteral("dir/"));
-
-    QTest::newRow("with destination, directory")
-        << QStringLiteral("test.rar")
-        << QList<Archive::Entry*> {
-            new Archive::Entry(this, QStringLiteral("dir/")),
-        }
-        << new Archive::Entry(this, QStringLiteral("dir/"));
-}
-
-void CliRarTest::testAdd()
-{
-    QTemporaryDir temporaryDir;
-
-    QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(temporaryDir.path() + QLatin1Char('/') + archiveName)});
-    QVERIFY(plugin);
-
-    QFETCH(QList<Archive::Entry*>, files);
-    QFETCH(Archive::Entry*, destination);
-
-    CompressionOptions options = CompressionOptions();
-    options.insert(QStringLiteral("GlobalWorkDir"), QFINDTESTDATA("data"));
-    AddJob *addJob = new AddJob(files, destination, options, plugin);
-    TestHelper::startAndWaitForResult(addJob);
-
-    QList<Archive::Entry*> resultedEntries = TestHelper::getEntryList(plugin);
-    TestHelper::verifyAddedEntriesWithDestination(files, destination, resultedEntries);
-
-    plugin->deleteLater();
-}
-
-void CliRarTest::testMove_data()
-{
-    QTest::addColumn<QString>("archiveName");
-    QTest::addColumn<QList<Archive::Entry*>>("files");
-    QTest::addColumn<Archive::Entry*>("destination");
-
-    QTest::newRow("replace a file")
-        << QStringLiteral("test.rar")
-        << QList<Archive::Entry*> {
-            new Archive::Entry(this, QStringLiteral("a.txt")),
-        }
-        << new Archive::Entry(this, QStringLiteral("empty_dir/a.txt"));
-
-    QTest::newRow("replace several files")
-        << QStringLiteral("test.rar")
-        << QList<Archive::Entry*> {
-            new Archive::Entry(this, QStringLiteral("a.txt")),
-            new Archive::Entry(this, QStringLiteral("b.txt")),
-        }
-        << new Archive::Entry(this, QStringLiteral("empty_dir/"));
-
-    QTest::newRow("replace a directory")
-        << QStringLiteral("test.rar")
-        << QList<Archive::Entry*> {
-            new Archive::Entry(this, QStringLiteral("dir/")),
-        }
-        << new Archive::Entry(this, QStringLiteral("empty_dir/dir/"));
-}
-
-void CliRarTest::testMove()
-{
-    QTemporaryDir temporaryDir;
-
-    QFETCH(QString, archiveName);
-    const QString archivePath = temporaryDir.path() + QLatin1Char('/') + archiveName;
-    Q_ASSERT(QFile::copy(QFINDTESTDATA(QStringLiteral("data/") + archiveName), archivePath));
-
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archivePath)});
-    QVERIFY(plugin);
-
-    QFETCH(QList<Archive::Entry*>, files);
-    QFETCH(Archive::Entry*, destination);
-
-    CompressionOptions options = CompressionOptions();
-    options.insert(QStringLiteral("GlobalWorkDir"), QFINDTESTDATA("data"));
-    MoveJob *moveJob = new MoveJob(files, destination, options, plugin);
-    TestHelper::startAndWaitForResult(moveJob);
-
-    QList<Archive::Entry*> resultedEntries = TestHelper::getEntryList(plugin);
-    TestHelper::verifyMovedEntriesWithDestination(files, destination, resultedEntries);
-
-    plugin->deleteLater();
 }

@@ -45,6 +45,7 @@ class ListJob;
 class ExtractJob;
 class DeleteJob;
 class AddJob;
+class MoveJob;
 class CommentJob;
 class TestJob;
 class OpenJob;
@@ -152,6 +153,8 @@ public:
      *
      */
     AddJob* addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
+
+    MoveJob* moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
 
     ExtractJob* copyFiles(const QList<Archive::Entry*> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
 

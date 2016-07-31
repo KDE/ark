@@ -13,10 +13,10 @@ void TestHelper::startAndWaitForResult(KJob *job)
     m_eventLoop.exec();
 }
 
-QList<Archive::Entry*> TestHelper::getEntryList(ReadOnlyArchiveInterface *iface)
+QList<Archive::Entry*> TestHelper::getEntryList(Archive *archive)
 {
     QList<Archive::Entry*> list = QList<Archive::Entry*>();
-    ListJob *listJob = new ListJob(iface);
+    ListJob *listJob = archive->list();
     QObject::connect(listJob, &Job::newEntry, [&list](Archive::Entry* entry) { list << entry; });
     startAndWaitForResult(listJob);
     return list;
