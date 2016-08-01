@@ -485,7 +485,6 @@ void Archive::onListFinished(KJob* job)
     }
 
     m_hasBeenListed = true;
-    emit loadingFinished();
 }
 
 void Archive::listIfNotListed()
@@ -524,11 +523,6 @@ CompressionOptions Archive::compressionOptions() const
 QString Archive::multiVolumeName() const
 {
     return m_iface->multiVolumeName();
-}
-
-bool Archive::hasBeenListed() const
-{
-    return m_hasBeenListed;
 }
 
 } // namespace Kerfuffle
