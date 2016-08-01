@@ -255,6 +255,8 @@ void JobsTest::testTempExtractJob()
     JSONArchiveInterface *iface = createArchiveInterface(QFINDTESTDATA("data/archive-malicious.json"));
     PreviewJob *job = new PreviewJob(QStringLiteral("anotherDir/../../file.txt"), false, iface);
 
+    const QString tempDirPath = job->tempDir()->path();
+    QVERIFY(QFileInfo::exists(tempDirPath));
     QVERIFY(job->validatedFilePath().endsWith(QLatin1String("anotherDir/file.txt")));
     QVERIFY(job->extractionOptions()[QStringLiteral("PreservePaths")].toBool());
 
@@ -263,6 +265,9 @@ void JobsTest::testTempExtractJob()
 
     QVERIFY(job->validatedFilePath().endsWith(QLatin1String("anotherDir/file.txt")));
     QVERIFY(job->extractionOptions()[QStringLiteral("PreservePaths")].toBool());
+
+    delete job->tempDir();
+    QVERIFY(!QFileInfo::exists(tempDirPath));
 
     delete job;
 }
