@@ -362,6 +362,10 @@ ListJob* Archive::list()
     if (!m_hasBeenListed) {
         connect(job, &ListJob::result, this, &Archive::onListFinished);
     }
+
+    // FIXME: this is only a temporary workaround. See T3300 for a proper fix.
+    m_hasBeenListed = true;
+
     return job;
 }
 
@@ -483,8 +487,6 @@ void Archive::onListFinished(KJob* job)
         // If we already know the password, it means that the archive is header-encrypted.
         m_encryptionType = m_iface->password().isEmpty() ? Encrypted : HeaderEncrypted;
     }
-
-    m_hasBeenListed = true;
 }
 
 void Archive::listIfNotListed()
