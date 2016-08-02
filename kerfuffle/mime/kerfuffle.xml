@@ -78,7 +78,7 @@
       <comment xml:lang="sv">AppImage programpacke</comment>
       <comment xml:lang="uk">пакунок програми AppImage</comment>
       <sub-class-of type="application/x-executable"/>
-      <sub-class-of type="application/x-iso9660-image"/>
+      <sub-class-of type="application/x-cd-image"/>
       <generic-icon name="application-x-executable"/>
       <magic priority="50">
          <match value="ELF" type="string" offset="1" >

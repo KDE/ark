@@ -362,6 +362,10 @@ ListJob* Archive::list()
     if (!m_hasBeenListed) {
         connect(job, &ListJob::result, this, &Archive::onListFinished);
     }
+
+    // FIXME: this is only a temporary workaround. See T3300 for a proper fix.
+    m_hasBeenListed = true;
+
     return job;
 }
 
@@ -483,9 +487,6 @@ void Archive::onListFinished(KJob* job)
         // If we already know the password, it means that the archive is header-encrypted.
         m_encryptionType = m_iface->password().isEmpty() ? Encrypted : HeaderEncrypted;
     }
-
-    m_hasBeenListed = true;
-    emit loadingFinished();
 }
 
 void Archive::listIfNotListed()
@@ -524,11 +525,6 @@ CompressionOptions Archive::compressionOptions() const
 QString Archive::multiVolumeName() const
 {
     return m_iface->multiVolumeName();
-}
-
-bool Archive::hasBeenListed() const
-{
-    return m_hasBeenListed;
 }
 
 } // namespace Kerfuffle

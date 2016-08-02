@@ -369,6 +369,7 @@ void Part::setupActions()
     m_addFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert")));
     m_addFilesAction->setText(i18n("Add &Files..."));
     m_addFilesAction->setToolTip(i18nc("@info:tooltip", "Click to add files to the archive"));
+    actionCollection()->setDefaultShortcut(m_addFilesAction, Qt::ALT + Qt::Key_A);
     connect(m_addFilesAction, SIGNAL(triggered(bool)),
             this, SLOT(slotAddFiles()));
 
@@ -420,7 +421,6 @@ void Part::updateActions()
     // archives). If we added files they would not get encrypted resulting in an
     // archive with a mixture of encrypted and unencrypted files.
     const bool isEncryptedButUnknownPassword = m_model->archive() &&
-                                               m_model->archive()->hasBeenListed() &&
                                                m_model->archive()->encryptionType() != Archive::Unencrypted &&
                                                m_model->archive()->password().isEmpty();
 
@@ -672,7 +672,6 @@ bool Part::openFile()
     // Plugin loaded successfully.
     KJob *job = m_model->setArchive(archive.take());
     if (job) {
-        connect(m_model->archive(), &Archive::loadingFinished, this, &Part::updateActions);
         registerJob(job);
         job->start();
     } else {
