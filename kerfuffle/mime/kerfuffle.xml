@@ -70,6 +70,7 @@
    <mime-type type="application/x-iso9660-appimage">
       <comment>AppImage application bundle</comment>
       <comment xml:lang="ca">Paquet d'aplicació «AppImage»</comment>
+      <comment xml:lang="ca@valencia">Paquet d'aplicació «AppImage»</comment>
       <comment xml:lang="es">Paquete de aplicación AppImage</comment>
       <comment xml:lang="nl">Toepassingsbundel AppImage</comment>
       <comment xml:lang="pt">Pacote de aplicação AppImage</comment>
