@@ -68,9 +68,8 @@ int main(int argc, char **argv)
                          KAboutLicense::GPL,
                          i18n("(c) 1997-2016, The Ark Developers"),
                          QStringLiteral(),
-                         QStringLiteral("http://utils.kde.org/projects/ark"),
-                         QStringLiteral()
-                         );
+                         QStringLiteral("http://utils.kde.org/projects/ark")
+    );
 
     aboutData.setOrganizationDomain("kde.org");
 
