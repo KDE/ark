@@ -41,7 +41,8 @@ void addAllFormatsRows(const QString testName, const QString archiveName, QList<
             << QStringLiteral("zip");
 
     foreach (QString format, formats) {
-        QTest::newRow(testName.toStdString().c_str())
+        const QString testNameWithFormat = testName + QStringLiteral(" (") + format + QStringLiteral(")");
+        QTest::newRow(testNameWithFormat.toStdString().c_str())
             << archiveName + QLatin1Char('.') + format
             << entries
             << destination;
@@ -80,7 +81,21 @@ void AddTest::testAdding_data()
     addAllFormatsRows(QStringLiteral("with destination, directory"),
                       QStringLiteral("test"),
                       QList<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("dir/")),
+                          new Archive::Entry(this, QStringLiteral("testdir/")),
+                      },
+                      new Archive::Entry(this, QStringLiteral("empty_dir/")));
+
+    addAllFormatsRows(QStringLiteral("without destination, directory 2"),
+                      QStringLiteral("test"),
+                      QList<Archive::Entry*> {
+                          new Archive::Entry(this, QStringLiteral("testdir2/")),
+                      },
+                      new Archive::Entry(this));
+
+    addAllFormatsRows(QStringLiteral("with destination, directory 2"),
+                      QStringLiteral("test"),
+                      QList<Archive::Entry*> {
+                          new Archive::Entry(this, QStringLiteral("testdir2/")),
                       },
                       new Archive::Entry(this, QStringLiteral("empty_dir/")));
 }
@@ -102,13 +117,15 @@ void AddTest::testAdding()
     QFETCH(QList<Archive::Entry*>, files);
     QFETCH(Archive::Entry*, destination);
 
+    QList<Archive::Entry*> oldEntries = TestHelper::getEntryList(archive);
+
     CompressionOptions options = CompressionOptions();
     options.insert(QStringLiteral("GlobalWorkDir"), QFINDTESTDATA("data"));
     AddJob *addJob = archive->addFiles(files, destination, options);
     TestHelper::startAndWaitForResult(addJob);
 
     QList<Archive::Entry*> resultedEntries = TestHelper::getEntryList(archive);
-    TestHelper::verifyAddedEntriesWithDestination(files, destination, resultedEntries);
+    TestHelper::verifyAddedEntriesWithDestination(files, destination, oldEntries, resultedEntries);
 
     archive->deleteLater();
 }

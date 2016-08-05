@@ -32,6 +32,7 @@
 
 #include <QTest>
 #include <QEventLoop>
+#include <QDirIterator>
 
 using namespace Kerfuffle;
 
@@ -41,14 +42,23 @@ public:
 
     static void startAndWaitForResult(KJob *job);
     static QList<Archive::Entry*> getEntryList(Archive *archive);
-    static QStringList getExpectedEntryPaths(const QList<Archive::Entry*> &entryList, const Archive::Entry* destination);
-    static QStringList getExpectedMovedEntryPaths(const QList<Archive::Entry*> &entryList, const Archive::Entry* destination);
-    static void verifyAddedEntriesWithDestination(const QList<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QList<Archive::Entry*> &newEntries);
-    static void verifyMovedEntriesWithDestination(const QList<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QList<Archive::Entry*> &newEntries);
+    static void verifyAddedEntriesWithDestination(const QList<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QList<Archive::Entry*> &oldEntries, const QList<Archive::Entry*> &newEntries);
+    static void verifyMovedEntriesWithDestination(const QList<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QList<Archive::Entry*> &oldEntries, const QList<Archive::Entry*> &newEntries);
     static void verifyCopiedEntriesWithDestination(const QList<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QList<Archive::Entry*> &oldEntries, const QList<Archive::Entry*> &newEntries);
 
 private:
     TestHelper() {}
+
+    static QStringList getExpectedNewEntryPaths(const QList<Archive::Entry*> &argumentEntries, const Archive::Entry *destination);
+    static QStringList getExpectedMovedEntryPaths(const QList<Archive::Entry*> &entryList, const QList<Archive::Entry*> &argumentEntries, const Archive::Entry* destination);
+    static QStringList getExpectedCopiedEntryPaths(const QList<Archive::Entry*> &entryList, const QList<Archive::Entry*> &argumentEntries, const Archive::Entry* destination);
+
+    /**
+     * Returns map of entries.
+     *
+     * It's useful when we need a sorted list of entries.
+     */
+    static QMap<QString, Archive::Entry*> getEntryMap(const QList<Archive::Entry*> entries);
 
     static QEventLoop m_eventLoop;
 };

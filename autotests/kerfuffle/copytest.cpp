@@ -77,12 +77,94 @@ void CopyTest::testCopying_data()
                       },
                       new Archive::Entry(this, QStringLiteral("empty_dir/")));
 
+    addAllFormatsRows(QStringLiteral("copy a root directory"),
+                      QStringLiteral("test"),
+                      QList<Archive::Entry*> {
+                          new Archive::Entry(this, QStringLiteral("dir1/")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir1/a.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir1/b.txt")),
+                      },
+                      new Archive::Entry(this, QStringLiteral("empty_dir/")));
+
+    addAllFormatsRows(QStringLiteral("copy a root directory 2"),
+                      QStringLiteral("test"),
+                      QList<Archive::Entry*> {
+                          new Archive::Entry(this, QStringLiteral("dir2/")),
+                          new Archive::Entry(this, QStringLiteral("dir2/dir/")),
+                          new Archive::Entry(this, QStringLiteral("dir2/dir/a.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir2/dir/b.txt")),
+                      },
+                      new Archive::Entry(this, QStringLiteral("empty_dir/")));
+
+    addAllFormatsRows(QStringLiteral("copy a root directory 3"),
+                      QStringLiteral("test"),
+                      QList<Archive::Entry*> {
+                          new Archive::Entry(this, QStringLiteral("dir2/")),
+                          new Archive::Entry(this, QStringLiteral("dir2/dir/")),
+                          new Archive::Entry(this, QStringLiteral("dir2/dir/a.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir2/dir/b.txt")),
+                      },
+                      new Archive::Entry(this, QStringLiteral("dir1/")));
+
     addAllFormatsRows(QStringLiteral("copy a directory"),
                       QStringLiteral("test"),
                       QList<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("dir/")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
                       },
                       new Archive::Entry(this, QStringLiteral("empty_dir/")));
+
+    addAllFormatsRows(QStringLiteral("copy several directories"),
+                      QStringLiteral("test"),
+                      QList<Archive::Entry*> {
+                          new Archive::Entry(this, QStringLiteral("dir1/")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir1/a.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir1/b.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir2/")),
+                          new Archive::Entry(this, QStringLiteral("dir2/dir/")),
+                          new Archive::Entry(this, QStringLiteral("dir2/dir/a.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir2/dir/b.txt")),
+                      },
+                      new Archive::Entry(this, QStringLiteral("empty_dir/")));
+
+    addAllFormatsRows(QStringLiteral("copy several entries"),
+                      QStringLiteral("test"),
+                      QList<Archive::Entry*> {
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir1/a.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir1/b.txt")),
+                      },
+                      new Archive::Entry(this, QStringLiteral("empty_dir/")));
+
+    addAllFormatsRows(QStringLiteral("copy a directory inside itself"),
+                      QStringLiteral("test"),
+                      QList<Archive::Entry*> {
+                          new Archive::Entry(this, QStringLiteral("dir1/")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir1/a.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir1/b.txt")),
+                      },
+                      new Archive::Entry(this, QStringLiteral("dir1/")));
+
+    addAllFormatsRows(QStringLiteral("copy a directory to the root"),
+                      QStringLiteral("test"),
+                      QList<Archive::Entry*> {
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
+                          new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
+                      },
+                      new Archive::Entry(this, QStringLiteral("")));
 }
 
 void CopyTest::testCopying()
