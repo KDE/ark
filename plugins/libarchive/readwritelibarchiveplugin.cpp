@@ -292,7 +292,7 @@ bool ReadWriteLibarchivePlugin::initializeWriterFilters()
             break;
 #ifdef HAVE_LIBARCHIVE_3_2_0
         case ARCHIVE_FILTER_LZ4:
-            ret = archive_write_add_filter_lz4(archiveWrite.data());
+            ret = archive_write_add_filter_lz4(m_archiveWriter.data());
             break;
 #endif
         case ARCHIVE_FILTER_NONE:
